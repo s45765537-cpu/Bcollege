@@ -2360,6 +2360,7 @@ function KDGetRestraintsEligible(enemy, Level, Index, Bypass, Lock, RequireWill,
 
 	if (KinkyDungeonSlowLevel > 0) willPercent = willPercent * (0.6 + 0.4 * Math.min(1, Math.max(0, 1 - KinkyDungeonSlowLevel/3)));
 
+	/** @type {Map<string, boolean>} */
 	let tags = new Map();
 	if (enemy.tags.length) {
 		for (let t of enemy.tags) {
@@ -2476,6 +2477,7 @@ function KinkyDungeonGetRestraint(enemy, Level, Index, Bypass, Lock, RequireWill
 }
 
 function KinkyDungeonUpdateRestraints(delta) {
+	/** @type {Map<string, boolean>} */
 	let playerTags = new Map();
 	for (let inv of KinkyDungeonAllRestraint()) {
 		let group = KDRestraint(inv).Group;

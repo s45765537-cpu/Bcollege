@@ -73,7 +73,12 @@ let KDSavedColorCount = 9;
 let KDSavedColors = [
 
 ];
-if (localStorage.getItem("kdcolorfilters")) KDSavedColors = JSON.parse(localStorage.getItem("kdcolorfilters"));
+if (localStorage.getItem("kdcolorfilters")) {
+	const filters = JSON.parse(localStorage.getItem("kdcolorfilters"));
+	if (CommonIsArray(filters)) {
+		KDSavedColors = filters;
+	}
+}
 for (let i = 0; i < KDSavedColorCount; i++) {
 	KDSavedColors.push(Object.assign({}, KDColorSliders));
 }
@@ -171,7 +176,7 @@ function KDDrawColorSliders(X, Y, C, Model) {
 		navigator.clipboard.readText()
 			.then(text => {
 				let parsed = JSON.parse(text);
-				if (parsed?.red != undefined && parsed.green != undefined && parsed.blue != undefined) {
+				if (CommonIsObject(parsed) && parsed?.red != undefined && parsed.green != undefined && parsed.blue != undefined) {
 					console.log(Object.assign({}, parsed));
 					KDChangeWardrobe(C);
 					if (!Model.Filters) Model.Filters = {};
@@ -803,11 +808,11 @@ function KDSaveOutfitInfo() {
 }
 
 function KDRefreshOutfitInfo() {
-	let loaded = JSON.parse(localStorage.getItem("kdOutfitMeta"));
-	if (!(loaded?.length) || typeof loaded === 'string') {
+	let loaded = /** @type {any[]} */ (JSON.parse(localStorage.getItem("kdOutfitMeta")));
+	if (!CommonIsArray(loaded) || typeof loaded === 'string') {
 		loaded = [];
 	}
-	if (loaded?.length != undefined) {
+	if (loaded.length !== undefined) {
 		KDOutfitInfo = loaded;
 		if (loaded.length < KDMaxOutfits) {
 			for (let i = 1; i <= KDMaxOutfits; i++) {

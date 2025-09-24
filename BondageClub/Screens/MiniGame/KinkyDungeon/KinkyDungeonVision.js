@@ -110,6 +110,7 @@ function KinkyDungeonMakeBrightnessMap(width, height, mapBrightness, Lights, del
 		if (Enemy && Enemy.blockVision || (Enemy.blockVisionWhileStationary && !EE.moved && EE.idle)) // Add
 			KDLightBlockers.set(EE.x + "," + EE.y, true);
 	}
+	/** @type {Map<string, number>} */
 	let LightsTemp = new Map();
 	for (let location of Object.values(KinkyDungeonEffectTiles)) {
 		for (let tile of Object.values(location)) {

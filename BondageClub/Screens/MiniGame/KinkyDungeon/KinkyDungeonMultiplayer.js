@@ -36,11 +36,11 @@ function KinkyDungeonMultiplayerUpdate(Delay) {
 function KinkyDungeonUnpackData(KinkyData) {
 	if (CurrentScreen != "KinkyDungeon" || KinkyDungeonState != "Game" || !KinkyDungeonPlayerCharacter) return;
 	if (KinkyDungeonIsPlayer()) return; // Prevent griefing
-	let data = JSON.parse(LZString.decompressFromBase64(KinkyData));
+	let data = /** @type {any} */ (JSON.parse(LZString.decompressFromBase64(KinkyData)));
 
 	if (!KinkyDungeonGameData) KinkyDungeonGameData = {};
 
-	if (!data) return;
+	if (!CommonIsObject(data)) return;
 
 	if (data.enemies != null) {
 		KinkyDungeonGameData.enemies = data.enemies;
@@ -77,23 +77,27 @@ function KinkyDungeonUpdateFromData() {
 	if (KinkyDungeonGameData.enemies) {
 		KinkyDungeonEntities = [];
 		KDUpdateEnemyCache = true;
-		let enemies = JSON.parse(KinkyDungeonGameData.enemies);
+		let enemies = /** @type {any[]} */ (JSON.parse(KinkyDungeonGameData.enemies));
 
-		for (let N = 0; N < enemies.length; N++) {
-			let enemy = enemies[N].split('/');
-			let i = 1;
-			KDAddEntity({Enemy: {name: enemy[i++]}, stun: enemy[i++], x:enemy[i++], y:enemy[i++]}); // Push the enemy
+		if (CommonIsArray(enemies)) {
+			for (let N = 0; N < enemies.length; N++) {
+				if (typeof enemies[N] !== "string") continue;
+				let enemy = enemies[N].split('/');
+				let i = 1;
+				KDAddEntity({Enemy: {name: enemy[i++]}, stun: enemy[i++], x:enemy[i++], y:enemy[i++]}); // Push the enemy
+			}
 		}
 	}
 	if (KinkyDungeonGameData.inventory) {
 		KDInitInventory();
 		// TODO fix this...
-		let inventory = JSON.parse(KinkyDungeonGameData.inventory);
+		let inventory = /** @type {any[]} */ (JSON.parse(KinkyDungeonGameData.inventory));
 
 		CharacterReleaseTotal(KinkyDungeonPlayer);
 
-		if (typeof inventory !== "string")
+		if (CommonIsArray(inventory)) {
 			for (let N = 0; N < inventory.length; N++) {
+				if (typeof inventory[N] !== "string") continue;
 				let item = inventory[N].split('/');
 				if (item.length > 1) {
 					let i = 1;
@@ -104,30 +108,37 @@ function KinkyDungeonUpdateFromData() {
 						createdrestraint.lock = undefined; // Lock if applicable
 				}
 			}
+		}
 		KinkyDungeonUpdateStats(0);
 		KinkyDungeonDressPlayer();
 	}
 
 	if (KinkyDungeonGameData.bullets) {
 		KinkyDungeonBullets = [];
-		let bullets = JSON.parse(KinkyDungeonGameData.bullets);
+		let bullets = /** @type {any[]} */ (JSON.parse(KinkyDungeonGameData.bullets));
 
-		for (let N = 0; N < bullets.length; N++) {
-			let bullet = bullets[N].split('/');
-			let i = 1;
-			let name = bullet[i++];
-			KinkyDungeonBullets.push({spriteID:name + CommonTime(), x:bullet[i], xx:bullet[i++], y:bullet[i], yy:bullet[i++], vx:bullet[i++], vy:bullet[i++],
-				bullet:{name: name, width:bullet[i++], height:bullet[i++]}});
-		}
+		if (CommonIsArray(bullets)) {
+			for (let N = 0; N < bullets.length; N++) {
+				if (typeof bullets[N] !== "string") continue;
+				let bullet = bullets[N].split('/');
+				let i = 1;
+				let name = bullet[i++];
+				KinkyDungeonBullets.push({spriteID:name + CommonTime(), x:bullet[i], xx:bullet[i++], y:bullet[i], yy:bullet[i++], vx:bullet[i++], vy:bullet[i++],
+					bullet:{name: name, width:bullet[i++], height:bullet[i++]}});
+				}
+			}
 	}
 	if (KinkyDungeonGameData.items) {
 		KinkyDungeonGroundItems = [];
-		let items = JSON.parse(KinkyDungeonGameData.items);
+		let items = /** @type {any[]} */ (JSON.parse(KinkyDungeonGameData.items));
 
-		for (let N = 0; N < items.length; N++) {
-			let item = items[N].split('/');
-			let i = 1;
-			KinkyDungeonGroundItems.push({name:item[i++], x:item[i++], y:item[i++]});
+		if (CommonIsArray(items)) {
+			for (let N = 0; N < items.length; N++) {
+				if (typeof items[N] !== "string") continue;
+				let item = items[N].split('/');
+				let i = 1;
+				KinkyDungeonGroundItems.push({name:item[i++], x:item[i++], y:item[i++]});
+			}
 		}
 	}
 

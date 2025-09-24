@@ -67,13 +67,16 @@ function KinkyDungeonFindPath(startx, starty, endx, endy, blockEnemy, blockPlaye
 	let start = {x: startx, y: starty, g: 0, f: 0, s: ""};
 
 	// We generate a grid based on map size
+	/** @type {Map<string, KDOpenClosedSet>} */
 	let open = new Map();
 	open.set(startx + "," + starty, start);
+	/** @type {Map<string, KDOpenClosedSet>} */
 	let closed = new Map();
 
 	let costBonus = 0;
 	let MapTile = null;
 	let moveCost = 1;
+	/** @type {Map<string, KDOpenClosedSet>} */
 	let succ = new Map();
 
 	while(open.size > 0) {
@@ -82,8 +85,8 @@ function KinkyDungeonFindPath(startx, starty, endx, endy, blockEnemy, blockPlaye
 			console.log("Quit pathfinding");
 			return undefined; // Give up
 		}
-		let lowest = {};
-		lowest = undefined;
+		/** @type {KDOpenClosedSet | undefined} */
+		let lowest = undefined;
 		let lc = 1000000000;
 		// Get the open tile with the lowest weight
 		open.forEach(o => {

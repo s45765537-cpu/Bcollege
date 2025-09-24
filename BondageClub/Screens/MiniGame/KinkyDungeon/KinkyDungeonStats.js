@@ -148,6 +148,7 @@ function KDInitInventory() {
 	}
 }
 
+/** @type {Map<string, boolean>} */
 let KinkyDungeonPlayerTags = new Map();
 
 let KinkyDungeonCurrentDress = "Default";

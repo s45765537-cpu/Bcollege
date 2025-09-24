@@ -3,7 +3,7 @@
 // @ts-ignore
 let StandalonePatched = false;
 
-// @ts-ignore
+/** @type {Map<Character, any>} */
 let KDCurrentModels = new Map();
 
 /** @type {HTMLCanvasElement} */
