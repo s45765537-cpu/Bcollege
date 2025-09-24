@@ -49,13 +49,12 @@ function PreferenceSubscreenGeneralRun() {
 	DrawCheckbox(500, 642, 64, 64, TextGet("OfflineLockedRestrained"), Player.GameplaySettings.OfflineLockedRestrained, onHighDifficulty);
 	if (onHighDifficulty) DrawTextWrap(TextGet("GeneralHardcoreWarning"), 1225, 622, 450, 100, "Red");
 	DrawCheckbox(500, 802, 64, 64, TextGet("ItemsAffectExpressions"), Player.OnlineSharedSettings.ItemsAffectExpressions);
-
-	if (PreferenceSubscreenGeneralColorPicker)
-		ColorPickerDraw(1250, 185, 675, 800, /** @type {HTMLInputElement} */(document.getElementById("InputCharacterLabelColor")));
-	else
-		ColorPickerHide();
-
 	MainCanvas.textAlign = "center";
+
+	// TODO: Move to Resize handler once preference subscreens support those
+	if (PreferenceSubscreenGeneralColorPicker) {
+		ColorPickerResize(false);
+	}
 }
 
 /**
@@ -72,7 +71,42 @@ function PreferenceSubscreenGeneralClick() {
 	}
 
 	// If we must show/hide/use the color picker
-	if (MouseIn(1140, 187, 65, 65)) PreferenceSubscreenGeneralColorPicker = !PreferenceSubscreenGeneralColorPicker;
+	if (MouseIn(1140, 187, 65, 65)) {
+		if (!PreferenceSubscreenGeneralColorPicker) {
+			ColorPickerInit({
+				colorState: {
+					colors: [Player.LabelColor],
+					opacity: [1],
+					editOpacity: false,
+				},
+				heading: TextGet("CharacterLabelColor"),
+				onInput: () => null,
+				onExit: ({ colors }, save) => {
+					if (save) {
+						ElementValue("InputCharacterLabelColor", colors[0]);
+					}
+					PreferenceSubscreenGeneralColorPicker = false;
+					document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", true);
+				},
+			}).then(colorPicker => {
+				if (!document.getElementById("preference-general-color-picker-backdrop")) {
+					ElementCreate({
+						tag: "div",
+						attributes: { id: "preference-general-color-picker-backdrop" },
+						children: [colorPicker],
+						parent: document.body,
+						style: { "background-color": "rgba(0, 0, 0, 0.3)", width: "100%", height: "100%", position: "absolute" },
+					});
+				} else {
+					document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", false);
+				}
+			});
+		} else {
+			ColorPickerHide();
+			document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", true);
+		}
+		PreferenceSubscreenGeneralColorPicker = !PreferenceSubscreenGeneralColorPicker;
+	}
 
 	// Preference check boxes
 	if (MouseIn(500, 402, 64, 64)) Player.VisualSettings.ForceFullHeight = !Player.VisualSettings.ForceFullHeight;
@@ -101,6 +135,8 @@ function PreferenceSubscreenGeneralClick() {
  */
 function PreferenceSubscreenGeneralExit() {
 	if (PreferenceSubscreenGeneralColorPicker) {
+		ColorPickerExit();
+		document.getElementById("preference-general-color-picker-backdrop")?.remove();
 		PreferenceSubscreenGeneralColorPicker = false;
 		return false;
 	}
@@ -129,5 +165,6 @@ function PreferenceSubscreenGeneralUnload() {
 	}
 	PreferenceMessage = "";
 	ElementRemove("InputCharacterLabelColor");
+	ColorPickerExit();
 }
 

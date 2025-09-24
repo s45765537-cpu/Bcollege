@@ -982,7 +982,7 @@ function AppearanceRun() {
 		// Leave the color picker if the item is gone.
 		if (!InventoryGet(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName)) ItemColorCancelAndExit();
 		// Draw the color picker
-		ItemColorDraw(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950, true);
+		ItemColorDraw(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950);
 	}
 
 	// In cloth selection mode
@@ -1333,7 +1333,7 @@ function AppearanceClick() {
 
 	// In item coloring mode
 	else if (CharacterAppearanceMode == "Color") {
-		ItemColorClick(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950, true);
+		ItemColorClick(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950);
 	}
 
 	// Selecting a button in the row at the top
@@ -1889,13 +1889,10 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 	CharacterAppearanceColorPickerGroupName = AssetGroup;
 	CharacterAppearanceColorPickerBackup = CharacterAppearanceGetCurrentValue(C, CharacterAppearanceColorPickerGroupName, "Color");
 	ItemColorLoad(C, Item, 1200, 25, 775, 950, true);
-	ItemColorOnExit(() => {
+	ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 		CharacterAppearanceMode = CurrentMode;
 		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
-			const item = InventoryGet(C, C.FocusGroup.Name);
-			const isDifferentColor = item && CharacterAppearanceColorPickerBackup !== item.Color;
-			const isRemoved = !item && CharacterAppearanceColorPickerBackup !== "None";
-			if (isDifferentColor || isRemoved) {
+			if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
 				AppearancePreviewBuild(C, true);
 			}
 		}

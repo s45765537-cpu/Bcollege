@@ -806,6 +806,9 @@ function DialogLeave(options=null) {
 	DialogSelfMenuSelected = null;
 	Object.values(DialogSelfMenuMapping).forEach(obj => obj.Exit());
 
+	// Destroy the remaining color pickers
+	ColorPickerExit();
+
 	// Go controller, go!
 	ControllerClearAreas();
 
@@ -878,7 +881,6 @@ function DialogMenuBack() {
 		case "colorDefault":
 			ColorPickerHide();
 			DialogColorSelect = null;
-			ElementRemove("InputColor");
 			DialogChangeMode("items");
 			break;
 
@@ -1370,16 +1372,7 @@ function DialogMenuButtonBuild(C) {
 	const IsItemLocked = InventoryItemHasEffect(Item, "Lock", true);
 	const IsGroupBlocked = InventoryGroupIsBlocked(C);
 
-	if (DialogMenuMode === "colorDefault") {
-		DialogMenuButton.push("ColorCancel");
-		DialogMenuButton.push("ColorSelect");
-	}
-
-	else if (DialogMenuMode === "struggle") {
-		// Struggle has no additional buttons
-	}
-
-	else if (DialogMenuMode === "locked") {
+	if (DialogMenuMode === "locked") {
 		// If the item isn't locked, there are no more buttons to add
 		const Lock = InventoryGetLock(Item);
 		if (!IsItemLocked || !Lock) return;
@@ -1411,6 +1404,9 @@ function DialogMenuButtonBuild(C) {
 		|| DialogMenuMode === "layering"
 		|| DialogMenuMode === "activities"
 		|| DialogMenuMode === "locking"
+		|| DialogMenuMode === "colorDefault"
+		|| DialogMenuMode === "colorExpression"
+		|| DialogMenuMode === "colorItem"
 	) {
 		// No buttons there
 	}
@@ -1859,39 +1855,20 @@ function DialogMenuButtonClick() {
 			// Color picker Icon - Select a default color to batch-apply on items
 			else if (button === "ColorDefault") {
 				DialogChangeMode("colorDefault");
-				ElementCreateInput("InputColor", "text", (DialogColorSelect != null) ? DialogColorSelect.toString() : "");
 				return true;
+			}
 
 			// Starts picking colors for the item, keeps the original color and shows it at the bottom
-			} else if (button === "ColorChange" && Item != null) {
-				const originalColor = Item.Color;
+			else if (button === "ColorChange" && Item != null) {
 				DialogChangeMode("colorItem");
 				ItemColorLoad(C, Item, 1300, 25, 675, 950);
-				ItemColorOnExit((save) => {
+				ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 					DialogChangeMode("items");
-					if (save && !CommonColorsEqual(originalColor, Item.Color)) {
+					if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
 						if (C.IsPlayer()) ServerPlayerAppearanceSync();
-						ChatRoomPublishAction(C, "ActionChangeColor", Object.assign({}, Item, { Color: originalColor }), Item);
+						ChatRoomPublishAction(C, "ActionChangeColor", Object.assign({}, Item, { Color: colors }), Item);
 					}
 				});
-				return true;
-			}
-
-			// When the user selects a color, applies it to the item
-			else if (button === "ColorSelect" && CommonIsColor(ElementValue("InputColor"))) {
-				DialogColorSelect = ElementValue("InputColor");
-				ColorPickerHide();
-				ElementRemove("InputColor");
-				DialogChangeMode("items");
-				return true;
-			}
-
-			// When the user cancels out of color picking, we recall the original color
-			else if (button === "ColorCancel") {
-				DialogColorSelect = null;
-				ColorPickerHide();
-				ElementRemove("InputColor");
-				DialogChangeMode("items");
 				return true;
 			}
 
@@ -2099,7 +2076,6 @@ function DialogChangeMode(mode, reset=false) {
 		DialogExpressionPreviousMode = { mode: DialogMenuMode, group: C.FocusGroup };
 	}
 
-	const modeChange = DialogMenuMode !== mode || reset;
 	if (DialogMenuMode !== mode) {
 		DialogMenuMapping[DialogMenuMode]?.Unload();
 		DialogMenuMode = mode;
@@ -2129,12 +2105,25 @@ function DialogChangeMode(mode, reset=false) {
 			}
 			break;
 
-		case "colorItem":
 		case "colorDefault":
+			ColorPickerInit({
+				onInput: () => null,
+				onExit: ({ colors, initialColors }, save) => {
+					if (save && !CommonArraysEqual(colors, initialColors)) {
+						DialogColorSelect = colors[0];
+					}
+					DialogChangeMode("items");
+				},
+				colorState: {
+					opacity: [1],
+					colors: [DialogColorSelect ?? ""],
+					editOpacity: false,
+				},
+				heading: InterfaceTextGet("DialogMenuColorDefault"),
+			});
+			break;
+		case "colorItem":
 		case "colorExpression":
-			DialogInventoryBuild(C, modeChange);
-			DialogMenuButtonBuild(C);
-			DialogBuildActivities(C);
 			break;
 
 		case "extended":
@@ -2189,7 +2178,6 @@ function DialogChangeFocusToGroup(C, Group) {
 		ItemColorCancelAndExit();
 	else if (DialogMenuMode === "colorDefault") {
 		ColorPickerHide();
-		ElementRemove("InputColor");
 	} else if (DialogMenuMode === "layering" && !InventoryGet(C, G?.Name)) {
 		DialogMenuBack();
 	}
@@ -2298,7 +2286,7 @@ function DialogClick(event) {
 		return;
 	} else if (DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") {
 		if (MouseIn(1300, 25, 675, 950) && FocusItem) {
-			ItemColorClick(C, C.FocusGroup.Name, 1200, 25, 775, 950, true);
+			ItemColorClick(C, C.FocusGroup.Name, 1200, 25, 775, 950);
 			return;
 		}
 	}
@@ -4490,16 +4478,20 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
 			_expressionRadioGroupClick(ev) {
+				const colorButton = document.getElementById(`${dialogMenu.ids.menubar}-color`);
 				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([hidden])`)?.toggleAttribute("hidden", true);
 				if (this.getAttribute("aria-checked") === "true") {
-					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
+					colorButton?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
 					const buttonGrid = document.getElementById(this.getAttribute("aria-owns"));
 					if (buttonGrid) {
 						buttonGrid.toggleAttribute("hidden", false);
 						buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
 					}
 				} else {
-					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", "true");
+					colorButton?.setAttribute("aria-disabled", "true");
+				}
+				if (colorButton.getAttribute("aria-disabled") === "true" && ItemColorState) {
+					ItemColorCancelAndExit();
 				}
 			},
 		};
@@ -4518,12 +4510,11 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 
 					const groupName = equippedItem.Asset.Group.Name;
 					DialogChangeMode("colorExpression");
-					const originalColor = equippedItem.Color;
 					Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, groupName));
 					ItemColorLoad(Player, equippedItem, 1200, 25, 775, 950, true);
-					ItemColorOnExit((save) => {
+					ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 						DialogMenuBack();
-						if (save && !CommonColorsEqual(originalColor, equippedItem.Color)) {
+						if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
 							ServerPlayerAppearanceSync();
 							ChatRoomCharacterItemUpdate(Player, groupName);
 						}
@@ -5590,7 +5581,7 @@ function DialogDraw() {
 	const FocusItem = InventoryGet(C, C.FocusGroup?.Name);
 
 	// Draws the top menu text & icons
-	if (!["extended", "tighten", "colorExpression", "colorItem", "layering", "dialog"].includes(DialogMenuMode))
+	if (!["extended", "tighten", "colorDefault", "colorExpression", "colorItem", "layering", "dialog"].includes(DialogMenuMode))
 		DialogDrawTopMenu(C);
 
 	// If the player is struggling or lockpicking
@@ -5645,13 +5636,9 @@ function DialogDraw() {
 			DialogChangeMode("items");
 		}
 	} else if ((DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") && FocusItem) {
-		ItemColorDraw(C, C.FocusGroup.Name, 1200, 25, 775, 950, true);
+		ItemColorDraw(C, C.FocusGroup.Name, 1200, 25, 775, 950);
 		return;
 	} else if (DialogMenuMode === "colorDefault") {
-		ElementPosition("InputColor", 1450, 65, 300);
-		ColorPickerDraw(1300, 145, 675, 830,
-			/** @type {HTMLInputElement} */(document.getElementById("InputColor")),
-			function (Color) { DialogChangeItemColor(C, Color); });
 		return;
 	}
 

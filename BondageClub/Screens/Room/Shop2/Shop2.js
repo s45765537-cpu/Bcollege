@@ -1138,10 +1138,10 @@ var Shop2 = {
 			Coords: [0, 0, 2000, 1000],
 			Mode: new Set(["Color"]),
 			Draw: (...coords) => {
-				ItemColorDraw(Shop2InitVars.Preview, ItemColorItem.Asset.Group.Name, ...Shop2Consts.ItemColorCoords, true);
+				ItemColorDraw(Shop2InitVars.Preview, ItemColorItem.Asset.Group.Name, ...Shop2Consts.ItemColorCoords);
 			},
 			Click: () => {
-				ItemColorClick(Shop2InitVars.Preview, ItemColorItem.Asset.Group.Name, ...Shop2Consts.ItemColorCoords, true);
+				ItemColorClick(Shop2InitVars.Preview, ItemColorItem.Asset.Group.Name, ...Shop2Consts.ItemColorCoords);
 			},
 			Exit: () => ItemColorExitClick(),
 		},
