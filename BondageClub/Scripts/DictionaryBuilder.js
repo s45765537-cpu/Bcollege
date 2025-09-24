@@ -315,7 +315,7 @@ class ConditionalDictionaryBuilder extends DictionaryBuilder {
  * @returns {entry is TaggedDictionaryEntry}
  */
 function IsTaggedDictionaryEntry(entry) {
-	return CommonIsObject(entry) && !!entry.Tag && typeof entry.Tag === "string";
+	return CommonIsObject(entry) && "Tag" in entry && typeof entry.Tag === "string";
 }
 
 /**
@@ -324,11 +324,13 @@ function IsTaggedDictionaryEntry(entry) {
  */
 function IsCharacterReferenceDictionaryEntry(entry) {
 	return CommonIsObject(entry)
+		&& "Tag" in entry
 		&& (entry.Tag === "SourceCharacter"
 			|| entry.Tag === "TargetCharacter"
 			|| entry.Tag === "TargetCharacterName"
 			|| entry.Tag === "DestinationCharacter"
 			|| entry.Tag === "DestinationCharacterName")
+		&& "MemberNumber" in entry
 		&& CommonIsNonNegativeInteger(entry.MemberNumber);
 }
 
@@ -337,7 +339,9 @@ function IsCharacterReferenceDictionaryEntry(entry) {
  * @returns {entry is SourceCharacterDictionaryEntry}
  */
 function IsSourceCharacterDictionaryEntry(entry) {
-	return CommonIsObject(entry) && CommonIsNonNegativeInteger(entry.SourceCharacter);
+	return CommonIsObject(entry)
+		&& "SourceCharacter" in entry
+		&& CommonIsNonNegativeInteger(entry.SourceCharacter);
 }
 
 /**
@@ -346,6 +350,7 @@ function IsSourceCharacterDictionaryEntry(entry) {
  */
 function IsTargetCharacterDictionaryEntry(entry) {
 	return CommonIsObject(entry)
+		&& "TargetCharacter" in entry
 		&& CommonIsNonNegativeInteger(entry.TargetCharacter)
 		&& (entry.Index == null || CommonIsNonNegativeInteger(entry.Index));
 }
@@ -356,8 +361,8 @@ function IsTargetCharacterDictionaryEntry(entry) {
  */
 function IsFocusGroupDictionaryEntry(entry) {
 	return CommonIsObject(entry)
-		&& (!entry.Tag || entry.Tag === "FocusAssetGroup")
-		&& !!entry.FocusGroupName && typeof entry.FocusGroupName === "string";
+		&& (!("Tag" in entry) || entry.Tag === "FocusAssetGroup")
+		&& "FocusGroupName" in entry && typeof entry.FocusGroupName === "string";
 }
 
 /**
@@ -366,8 +371,8 @@ function IsFocusGroupDictionaryEntry(entry) {
  */
 function IsTextDictionaryEntry(entry) {
 	return CommonIsObject(entry)
-		&& !!entry.Tag && typeof entry.Tag === "string"
-		&& !!entry.Text && (typeof entry.Text === "string" || typeof entry.Text === "number");
+		&& "Tag" in entry && typeof entry.Tag === "string"
+		&& "Text" in entry && (typeof entry.Text === "string" || typeof entry.Text === "number");
 }
 
 /**
@@ -376,8 +381,8 @@ function IsTextDictionaryEntry(entry) {
  */
 function IsTextLookupDictionaryEntry(entry) {
 	return CommonIsObject(entry)
-		&& !!entry.Tag && typeof entry.Tag === "string"
-		&& !!entry.TextToLookUp && typeof entry.TextToLookUp === "string";
+		&& "Tag" in entry && typeof entry.Tag === "string"
+		&& "TextToLookUp" in entry && typeof entry.TextToLookUp === "string";
 }
 
 /**
@@ -386,9 +391,9 @@ function IsTextLookupDictionaryEntry(entry) {
  */
 function IsGroupReferenceDictionaryEntry(entry) {
 	return CommonIsObject(entry)
-		&& !!entry.Tag && typeof entry.Tag === "string"
-		&& !!entry.GroupName && typeof entry.GroupName === "string"
-		&& !entry.AssetName;
+		&& "Tag" in entry && typeof entry.Tag === "string"
+		&& "GroupName" in entry && typeof entry.GroupName === "string"
+		&& !("AssetName" in entry);
 }
 
 /**
@@ -398,9 +403,9 @@ function IsGroupReferenceDictionaryEntry(entry) {
 function IsAssetReferenceDictionaryEntry(entry) {
 	return (
 		CommonIsObject(entry)
-		&& !!entry.Tag && typeof entry.Tag === "string"
-		&& !!entry.GroupName && typeof entry.GroupName === "string"
-		&& !!entry.AssetName && typeof entry.AssetName === "string"
+		&& "Tag" in entry && typeof entry.Tag === "string"
+		&& "GroupName" in entry && typeof entry.GroupName === "string"
+		&& "AssetName" in entry && typeof entry.AssetName === "string"
 		&& (
 			entry.CraftName == null
 			|| (!!entry.CraftName && typeof entry.CraftName === "string")
@@ -413,7 +418,7 @@ function IsAssetReferenceDictionaryEntry(entry) {
  * @returns {entry is ShockEventDictionaryEntry}
  */
 function IsShockEventDictionaryEntry(entry) {
-	return CommonIsObject(entry) && typeof entry.ShockIntensity === "number";
+	return CommonIsObject(entry) && "ShockIntensity" in entry && typeof entry.ShockIntensity === "number";
 }
 
 /**
@@ -421,7 +426,7 @@ function IsShockEventDictionaryEntry(entry) {
  * @returns {entry is AutomaticEventDictionaryEntry}
  */
 function IsAutomaticEventDictionaryEntry(entry) {
-	return CommonIsObject(entry) && entry.Automatic === true;
+	return CommonIsObject(entry) && "Automatic" in entry && entry.Automatic === true;
 }
 
 /**
@@ -429,7 +434,7 @@ function IsAutomaticEventDictionaryEntry(entry) {
  * @returns {entry is ActivityCounterDictionaryEntry}
  */
 function IsActivityCounterDictionaryEntry(entry) {
-	return CommonIsObject(entry) && typeof entry.ActivityCounter === "number";
+	return CommonIsObject(entry) && "ActivityCounter" in entry && typeof entry.ActivityCounter === "number";
 }
 
 /**
@@ -439,8 +444,8 @@ function IsActivityCounterDictionaryEntry(entry) {
  */
 function IsAssetGroupNameDictionaryEntry(entry) {
 	return CommonIsObject(entry)
-		&& !!entry.Tag && typeof entry.Tag === "string"
-		&& !!entry.AssetGroupName && typeof entry.AssetGroupName === "string";
+		&& "Tag" in entry && typeof entry.Tag === "string"
+		&& "AssetGroupName" in entry && typeof entry.AssetGroupName === "string";
 }
 
 /**
@@ -449,7 +454,7 @@ function IsAssetGroupNameDictionaryEntry(entry) {
  */
 function IsActivityNameDictionaryEntry(entry) {
 	return CommonIsObject(entry)
-		&& !!entry.ActivityName && typeof entry.ActivityName === "string";
+		&& "ActivityName" in entry && typeof entry.ActivityName === "string";
 }
 
 /**
@@ -458,7 +463,7 @@ function IsActivityNameDictionaryEntry(entry) {
  */
 function IsMessageEffectDictionaryEntry(entry) {
 	return CommonIsObject(entry)
-		&& !!entry.Effects && CommonIsArray(entry.Effects)
+		&& "Effects" in entry && CommonIsArray(entry.Effects)
 		&& (!entry.Original || typeof entry.Original === "string");
 }
 
@@ -467,7 +472,7 @@ function IsMessageEffectDictionaryEntry(entry) {
  * @returns {entry is ReplyIdDictionaryEntry}
  */
 function IsReplyIdDictionaryEntry(entry) {
-	return CommonIsObject(entry) && typeof entry.ReplyId === "string";
+	return CommonIsObject(entry) && "ReplyId" in entry && typeof entry.ReplyId === "string";
 }
 
 /**
@@ -475,7 +480,7 @@ function IsReplyIdDictionaryEntry(entry) {
  * @returns {entry is MsgIdDictionaryEntry}
  */
 function IsMsgIdDictionaryEntry(entry) {
-	return CommonIsObject(entry) && typeof entry.MsgId === "string";
+	return CommonIsObject(entry) && "MsgId" in entry && typeof entry.MsgId === "string";
 }
 
 /**
@@ -483,7 +488,7 @@ function IsMsgIdDictionaryEntry(entry) {
  * @returns {entry is MapViewTeleportEventDictionaryEntry}
  */
 function IsMapViewTeleportEventDictionaryEntry(entry) {
-	return CommonIsObject(entry) && entry.Tag === "MapViewTeleport";
+	return CommonIsObject(entry) && "Tag" in entry && entry.Tag === "MapViewTeleport";
 }
 
 /**
@@ -491,5 +496,7 @@ function IsMapViewTeleportEventDictionaryEntry(entry) {
  * @returns {entry is MapViewChangeKeyEventDictionaryEntry}
  */
 function IsMapViewChangeKeyEventDictionaryEntry(entry) {
-	return CommonIsObject(entry) && entry.Tag === "MapViewChangeKey" && (entry.Key === "bronze" || entry.Key === "silver" || entry.Key === "gold");
+	return CommonIsObject(entry)
+		&& "Tag" in entry && entry.Tag === "MapViewChangeKey"
+		&& "Key" in entry && (entry.Key === "bronze" || entry.Key === "silver" || entry.Key === "gold");
 }

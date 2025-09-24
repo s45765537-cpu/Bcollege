@@ -1190,7 +1190,7 @@ function CommonCensor(S) {
 /**
  * Type guard which checks that a value is a simple object (i.e. a non-null object which is not an array)
  * @param {unknown} value - The value to test
- * @returns {value is Record<string, unknown>}
+ * @returns {value is object}
  */
 function CommonIsObject(value) {
 	return !!value && typeof value === "object" && !Array.isArray(value);
@@ -1488,7 +1488,7 @@ function CommonObjectEqual(rec1, rec2) {
 	if (entries1.length !== keys2.length) {
 		return false;
 	}
-	return entries1.every(([k, v]) => rec2[k] === v);
+	return entries1.every(([k, v]) => /** @type {Record<string, any>} */ (rec2)[k] === v);
 }
 
 /**
@@ -1503,7 +1503,7 @@ function CommonObjectIsSubset(subRec, superRec) {
 		return false;
 	}
 	const entries = Object.entries(subRec);
-	return entries.every(([k, v]) => superRec[k] === v);
+	return entries.every(([k, v]) => /** @type {Record<string, any>} */ (superRec)[k] === v);
 }
 
 /**
@@ -1512,9 +1512,9 @@ function CommonObjectIsSubset(subRec, superRec) {
  */
 function CommonObjectFlip(obj) {
 	return Object.keys(obj).reduce((ret, key) => {
-		ret[obj[key]] = key;
+		ret[/** @type {Record<string, any>} */ (obj)[key]] = key;
 		return ret;
-	  }, {});
+	  }, /** @type {Record<string, any>} */ ({}));
 }
 
 /**
