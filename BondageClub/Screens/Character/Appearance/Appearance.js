@@ -2051,10 +2051,12 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// Tries to get the appearance bundle object
-	/** @type {ClipboardAppearanceBundle} */
+	/** @type {ClipboardAppearanceBundle | null} */
 	let App = null;
 	try {
-		App = JSON.parse(DecompressedData);
+		const json = JSON.parse(DecompressedData);
+		// We're being careful below, so this is okay
+		App = /** @type {ClipboardAppearanceBundle} */(json);
 	} catch {
 		App = null;
 	}

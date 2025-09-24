@@ -5792,6 +5792,7 @@ function ClubCardCreateMapCurrentGameState() {
 		all.push(...player.Deck);
 	}
 
+	/** @type {Map<string, ClubCard>} */
 	const map = new Map();
 	for (const card of all)
 		if (card.UniqueID)

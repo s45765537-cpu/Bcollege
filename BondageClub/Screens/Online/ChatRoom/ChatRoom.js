@@ -6264,7 +6264,8 @@ function ChatRoomConcatenateBanList(IncludesTypes, ExistingList) {
  * @returns {number[]} Complete array of whitelisted members
  */
 function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
-	var Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
+	/** @type {readonly number[]} */
+	let Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
 	IncludesTypes.forEach(Type => {
 		if (Type == "Owner" && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
 		else if (Type == "Lovers") Whitelist = Whitelist.concat(Player.GetLoversNumbers(true));
@@ -6281,7 +6282,8 @@ function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
  * @returns {number[]} Complete array of admin members
  */
 function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
-	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
+	/** @type {readonly number[]} */
+	let AdminList = Array.isArray(ExistingList) ? ExistingList : [];
 	IncludesTypes.forEach(Type => {
 		if (Type == "Owner" && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
 		else if (Type == "Lovers") AdminList = AdminList.concat(Player.GetLoversNumbers(true));
@@ -6322,11 +6324,13 @@ function ChatRoomGetLoadRules(C) {
 /**
  * Handles a response from another player containing the rules that the current player is allowed to read.
  * @param {Character} C - Character to set the rules on
- * @param {readonly LogRecord[]} Rule - An array of rules that the current player can read.
+ * @param {LogRecord[]} Rule - An array of rules that the current player can read.
  * @returns {void} - Nothing
  */
 function ChatRoomSetLoadRules(C, Rule) {
-	if (Array.isArray(Rule)) C.Rule = Rule;
+	if (CommonIsArray(Rule)) {
+		C.Rule = Rule;
+	}
 }
 
 /**

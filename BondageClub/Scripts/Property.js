@@ -385,7 +385,7 @@ function PropertyUnion(output, ...args) {
 					const previousValue = Array.isArray(output[key]) ? [...output[key]] : [];
 					output[key] = [
 						...previousValue,
-						...value.filter(i => !previousValue.some(j => CommonObjectEqual(i, j))),
+						.../** @type {TintDefinition[]} */ (value.filter(i => !previousValue.some(j => CommonObjectEqual(i, j)))),
 					];
 					break;
 				}

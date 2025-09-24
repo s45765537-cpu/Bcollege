@@ -2261,6 +2261,13 @@ function ChatRoomMapViewCopy() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewPaste(Param) {
+	/**
+	 * @param {unknown} type
+	 * @returns {type is ChatRoomMapType}
+	 */
+	function isMapType(type) {
+		return type === "Always" || type === "Hybrid" || type === "Never";
+	}
 
 	// Validates the data first
 	if (typeof Param !== "string" || Param.length === 0) {
@@ -2289,15 +2296,15 @@ function ChatRoomMapViewPaste(Param) {
 	}
 
 	// Tries to get the map data object
+	/** @type {ServerChatRoomMapData} */
 	let MapData = null;
 	try {
-		MapData = JSON.parse(DecompressedData);
+		const data = JSON.parse(DecompressedData);
+		if (!CommonIsObject(data) || !("Tiles" in data) || typeof data.Tiles !== "string" || !("Type" in data) || !isMapType(data.Type)) {
+			throw new Error();
+		}
+		MapData = /** @type {ServerChatRoomMapData} */ (data);
 	} catch {
-		MapData = null;
-	}
-
-	// If the map data is invalid
-	if ((MapData == null) || (MapData.Tiles == null)) {
 		ChatRoomSendLocal(TextGet("MapPasteError"));
 		return;
 	}

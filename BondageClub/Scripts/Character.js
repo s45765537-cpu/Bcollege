@@ -550,6 +550,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsLoverOfMemberNumber: function (memberNumber) {
 			return this.GetLoversNumbers().indexOf(memberNumber) >= 0;
 		},
+		// @ts-expect-error I know you don't like hand-made class object things
 		GetLoversNumbers: function (MembersOnly) {
 			return this.GetLovership(MembersOnly).map(l => l.MemberNumber ? l.MemberNumber : l.Name);
 		},
@@ -2050,14 +2051,16 @@ function CharacterDecompressWardrobe(Wardrobe) {
 		return Wardrobe;
 	}
 
-	/** @type {null | WardrobeItemBundle[][]} */
-	let compressedWardrobe = null;
+	/** @type {WardrobeItemBundle[][]} */
+	let compressedWardrobe;
 	try {
-		compressedWardrobe = JSON.parse(LZString.decompressFromUTF16(Wardrobe));
+		const data = LZString.decompressFromUTF16(Wardrobe);
+		if (!data) throw new Error();
+		const json = JSON.parse(data);
+		if (!Array.isArray(json)) throw new Error();
+		compressedWardrobe = /** @type {WardrobeItemBundle[][]} */ (json);
 	} catch (error) {
 		console.error("Failed to decompress the passed wardrobe", error);
-	}
-	if (!Array.isArray(compressedWardrobe)) {
 		return [];
 	}
 

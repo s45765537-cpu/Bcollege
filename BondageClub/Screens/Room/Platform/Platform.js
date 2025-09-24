@@ -3484,7 +3484,15 @@ function PlatformLoadGame(Slot) {
 	// Gets the saved JSON object and make sure it's valid
 	let LoadStr = localStorage.getItem("BondageBrawlSave" + Slot.toString());
 	if (LoadStr == null) return;
-	let LoadObj = JSON.parse(LoadStr);
+	let LoadObj;
+	try {
+		const data = JSON.parse(LoadStr);
+		if (!CommonIsObject(LoadObj)) throw new Error();
+		LoadObj = /** @type {Platform.SaveData} */ (data);
+	} catch (err) {
+		console.error(`invalid save game in slot ${Slot}`);
+		return;
+	}
 	if (LoadObj.Character == null) return;
 	if (LoadObj.Status == null) return;
 	if (LoadObj.Room == null) return;
@@ -3495,7 +3503,7 @@ function PlatformLoadGame(Slot) {
 		PlatformParty = LoadObj.Party;
 	} else {
 		PlatformParty = [];
-		PlatformPartyAdd(LoadObj);
+		PlatformPartyAdd(/** @type {Platform.PartyMember} */ (/** @type {unknown} */ (LoadObj)));
 	}
 	PlatformInventory = LoadObj.Inventory;
 	if (PlatformInventory == null) PlatformInventory = [];

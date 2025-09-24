@@ -997,7 +997,7 @@ async function CraftingLoad() {
 
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
 	CraftingPreview.Appearance = [...Player.Appearance];
-	CraftingPreview.Crafting = JSON.parse(JSON.stringify(Player.Crafting));
+	CraftingPreview.Crafting = CommonCloneDeep(Player.Crafting);
 
 	// Declare the preview character as being owned/loved by the player so any owner-/lover-related validation checks pass
 	CraftingPreview.Owner = Player.Name;
