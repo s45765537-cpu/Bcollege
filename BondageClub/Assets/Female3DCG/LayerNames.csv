@@ -98,6 +98,10 @@ ClothAccessoryLargeBeltMain,Belt
 ClothAccessoryLargeBeltBuckle1,Upper buckle
 ClothAccessoryLargeBeltBuckle2,Lower buckle
 ClothAccessoryLargeBeltBuckleMetal,Metal detail
+ClothAccessoryLargeBeltClassicBelt,Belt
+ClothAccessoryLargeBeltClassicBuckle1,Upper buckle
+ClothAccessoryLargeBeltClassicBuckle2,Lower buckle
+ClothAccessoryLargeBeltClassicBMetal,Metal detail
 ClothAccessoryLargeNeckFurBack,Back
 ClothAccessoryLargeNeckFurFront,Front
 ClothAccessoryLargeNeckFurShoulders,Shoulders
@@ -292,6 +296,8 @@ ClothLowerPantBootsBoot,Boot
 ClothLowerPantBootsStripe,Stripe
 ClothLowerPleatedSkirtDress,Skirt
 ClothLowerPleatedSkirtStripe,Waistband
+ClothLowerPVCHobbleSkirtSkirt,Skirt
+ClothLowerPVCHobbleSkirtMermaid,Mermaid detail
 ClothLowerSkirt2Color,Skirt
 ClothLowerSkirt2Stripe,Trim
 ClothLowerSkirt3Color,Skirt
@@ -421,11 +427,18 @@ GlassesRoundSunglassesFrame,Frame
 GlassesRoundSunglassesRightLens,Right lens
 GlassesRoundSunglassesLeftLens,Left lens
 GlassesRoundSunglassesNose,Nose
+GlassesShutterSunshadesMain,Frame
+GlassesShutterSunshadesRLens,Right lens
+GlassesShutterSunshadesLLens,Left lens
 GlassesStreetEyewearFrame,Frame
 GlassesStreetEyewearRightLens,Right lens
 GlassesStreetEyewearLeftLens,Left lens
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
+GlassesVintageSunglassesMain,Frame
+GlassesVintageSunglassesNose,Nose
+GlassesVintageSunglassesRLens,Right lens
+GlassesVintageSunglassesLLens,Left lens
 GlovesAnimeGirlGlovesGloves,Gloves
 GlovesAnimeGirlGlovesDetail,Elbow Stripe
 GlovesBikerGlovesHands,Gloves
@@ -1620,6 +1633,11 @@ ItemHandheldUchiwaFan2,Fan paper 3rd color
 ItemHandheldUchiwaBase,Fan base
 ItemHandheldUchiwaEdge,Fan edge
 ItemHandheldUchiwaFanSurface,Fan inner rods
+ItemHandsBalletBootsMittensRight,Right hand
+ItemHandsBalletBootsMittensSRight,Right shine
+ItemHandsBalletBootsMittensLeft,Left hand
+ItemHandsBalletBootsMittensSLeft,Left shine
+ItemHandsBalletBootsMittensPadlocks,Padlocks
 ItemHandsElbowLengthMittensMain,Main
 ItemHandsElbowLengthMittensStraps,Straps
 ItemHandsElbowLengthMittensMetal,Metal
@@ -1877,6 +1895,7 @@ ItemHoodRubberMaskCheeks,Cheeks
 ItemHoodRubberMaskEyelids,Eyelids
 ItemHoodRubberMaskLips,Lips
 ItemHoodRubberMaskWig,Wig
+ItemHoodRubberMaskWigComp,Rear wig
 ItemHoodRubberMaskWigAcc,Wig Accessory
 ItemHoodRubberMaskGag,Gag
 ItemHoodRubberMaskEarplug,Earplug
@@ -1894,6 +1913,9 @@ ItemHoodTechnoHelmet1HelmetMain,Helmet
 ItemHoodTechnoHelmet1HelmetSecondary,Side Pieces
 ItemHoodTechnoHelmet1HypnoSpiral,Hypno Spiral Icon
 ItemHoodTechnoHelmet1TransparentVisor,Visor
+ItemHoodTransparentLatexHoodMain,Hood
+ItemHoodTransparentLatexHoodHDetail,Hole detail
+ItemHoodTransparentLatexHoodHair,Hair
 ItemHoodVacHoodBase, Hood
 ItemHoodVacHoodBase,Hood
 ItemHoodVacHoodClipHose, Clipped Hose
@@ -2618,6 +2640,8 @@ ItemNeckSpikedChokerBase,Base
 ItemNeckSpikedChokerRing,Ring
 ItemNeckSpikedChokerShine,Shine
 ItemNeckSpikedChokerSpikes,Spikes
+ItemNeckSSpikedCollarCollar,Collar
+ItemNeckSSpikedCollarPadlock,Padlock
 ItemNeckTechnoCollarSlenderCollarBase,Collar
 ItemNeckTechnoCollarSlenderCollarSides,Side Plates
 ItemNeckMoonCollarBase,Base
@@ -2626,6 +2650,14 @@ ItemNeckMoonCollarCentermoon,Center Moon
 ItemNeckSunCollarBase,Base
 ItemNeckSunCollarMoons,Moons
 ItemNeckSunCollarCentersun,Center Sun
+ItemNeckSteampunkCollarCollar,Leather parts
+ItemNeckSteampunkCollarCMetal,Metal parts
+ItemNeckSteampunkCollarStLock,Padlocks
+ItemNeckSteampunkCollarGag,Inner gag
+ItemNeckSteampunkCollarGMetal,Gag metal
+ItemNeckSteampunkCollarCover,Cover gag
+ItemNeckSteampunkCollarSpike,Spike collar
+ItemNeckSteampunkCollarRing,Collar main ring
 ItemNipplesChainClampChain,Chain
 ItemNipplesChainClampClamp,Clamps
 ItemNipplesChainClampMetal,Metal
@@ -3123,6 +3155,9 @@ ShoesLatexHeelsBase, Shoe
 ShoesLatexHeelsTrim, Trim
 ShoesMaryShoesMain,Main
 ShoesMaryShoesRear,Rear
+ShoesPumpHighHeelsMain,Shoes
+ShoesPumpHighHeelsStrap,Straps
+ShoesPumpHighHeelsSMetal,Metal buckles
 ShoesSandalsRSSoles,Soles
 ShoesSandalsRSTop,Top
 ShoesSneakers1Front,Front

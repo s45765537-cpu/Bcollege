@@ -1803,6 +1803,48 @@ var AssetFemale3DCGExtended = {
 				Option: "LargeBeltStyle",
 			},
 		}, // LargeBelt
+		LargeBeltClassic: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// b0 - Loose
+							Property: { Effect: [] },
+						},
+						{
+							// b1 - Fit
+							Property: { Effect: [] },
+						},
+						{
+							// b2 - Loose lower
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Position",
+					Key: "p",
+					DrawImages: false,
+					Options: [
+						{
+							// p0 - Classic
+							Property: {},
+						},
+						{
+							// p1 - Under clothes 1
+							Property: { OverridePriority: 30 },
+						},
+						{
+							// p2 - Under clothes 2
+							Property: { OverridePriority: 29 },
+						},
+					],
+				},
+			],
+		}, // LargeBeltClassic
 		LatexApron: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -1986,6 +2028,75 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ElegantSkirt
+		PVCHobbleSkirt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Length",
+					Key: "l",
+					Options: [
+						{}, // l0 - Full size
+						{}, // l1 - Mid legs
+						{}, // l2 - Full size plus mermaid end
+					],
+				},
+				{
+					Name: "Position",
+					Key: "p",
+					DrawImages: false,
+					Options: [
+						{}, // p0 - Normal
+						{
+							// p1 - Over clothes
+							Property: {
+								OverridePriority: {
+									USkirt: 27,
+									Skirt: 28,
+									Mermaid: 28,
+								},
+							},
+						},
+						{
+							// p2 - Under clothes
+							Property: {
+								OverridePriority: {
+									USkirt: 22,
+									Skirt: 25,
+									Mermaid: 27,
+								},
+							},
+						},
+					],
+				},
+				{
+					Name: "Slow",
+					Key: "s",
+					Options: [
+						{
+							// s0 - Normal
+							Property: {
+								AllowActivePose: [
+									"BaseLower",
+									"LegsOpen",
+									"LegsClosed",
+									"Kneel",
+									"Hogtied",
+									"AllFours",
+								],
+							},
+						},
+						{
+							// s1 - Zipper down
+							Property: {
+								SetPose: ["LegsClosed"],
+								AllowActivePose: ["LegsClosed", "Kneel", "Hogtied", "AllFours"],
+								Effect: [E.Slow],
+							},
+						},
+					],
+				},
+			],
+		}, // PVCHobbleSkirt
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
@@ -5181,6 +5292,169 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "LockBodyHeart" }, { Name: "LockBodyPlain" }],
 		}, // ChainCollar
+		SteampunkCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Straps",
+					Key: "t",
+					Options: [
+						{}, // t0 - No straps
+						{
+							// t1 - Straps added
+							Property: { Difficulty: 5 },
+						},
+					],
+				},
+				{
+					Name: "Gag",
+					Key: "g",
+					Options: [
+						{}, // g0 - No gag
+						{
+							// g1 - Ball gag
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagLight, E.BlockMouth],
+							},
+						},
+						{
+							// g2 - Ring gag
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagEasy, E.OpenMouth],
+							},
+						},
+						{
+							// g3 - Pussy gag
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagNormal, E.OpenMouth],
+							},
+						},
+						{
+							// g4 - Inflatable gag - light
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 2,
+								Effect: [E.GagLight, E.BlockMouth],
+							},
+						},
+						{
+							// g5 - Inflatable gag - inflated
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Medium", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagNormal, E.BlockMouth],
+							},
+						},
+						{
+							// g6 - Inflatable gag - bloated
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "High", Group: "Blush", Timer: 15 },
+								{ Name: "DroolHigh", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagHeavy, E.BlockMouth],
+							},
+						},
+					],
+				},
+				{
+					Name: "Spike",
+					Key: "s",
+					Options: [
+						{}, // s0 - No spike collar
+						{
+							// s1 - Spike collar
+							Expression: [{ Name: "Frown", Group: "Mouth", Timer: 15 }],
+							Property: {
+								Difficulty: 6,
+							},
+						},
+						{
+							// s2 - Spike collar higher priority
+							Expression: [{ Name: "Frown", Group: "Mouth", Timer: 15 }],
+							Property: {
+								Difficulty: 6,
+								OverridePriority: { Spike: 41, SLock: 41, Ring: 41 },
+							},
+						},
+					],
+				},
+				{
+					Name: "Cover",
+					Key: "c",
+					Options: [
+						{}, // c0 - No cover
+						{
+							// c1 - Leather cover
+							Expression: [{ Name: "Low", Group: "Blush", Timer: 15 }],
+							Property: {
+								Difficulty: 2,
+								Effect: [E.BlockMouth],
+							},
+						},
+						{
+							// c2 - Spiked semi-sphere cover
+							Expression: [{ Name: "Low", Group: "Blush", Timer: 15 }],
+							Property: {
+								Difficulty: 3,
+								Effect: [E.BlockMouth],
+								AllowActivity: ["RubItem", "Scratch"],
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
+						},
+						{
+							// c3 - Dildo cover
+							Expression: [{ Name: "Low", Group: "Blush", Timer: 15 }],
+							Property: {
+								Difficulty: 3,
+								OverridePriority: { Cover: 46 },
+								Effect: [E.BlockMouth],
+								AllowActivity: [
+									"RubItem",
+									"SpankItem",
+									"MasturbateItem",
+									"PenetrateItem",
+								],
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
+						},
+					],
+				},
+			],
+		}, // SteampunkCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -8973,6 +9247,19 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							// "Wig18"
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -9600,6 +9887,89 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HalloIII
+		TransparentLatexHood: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Type",
+					Key: "t",
+					Options: [
+						{
+							// Nasal and mouth holes
+							Property: {},
+							Expression: [
+								{ Group: "Blush", Name: "Low", Timer: 15 },
+								{ Group: "Eyes", Name: "Angry", Timer: 15 },
+								{ Group: "Eyebrows", Name: "Soft", Timer: 15 },
+								{ Group: "Mouth", Name: "Sad", Timer: 15 },
+							],
+						},
+						{
+							// Mouth hole
+							Property: { Effect: [E.GagEasy] },
+							Expression: [
+								{ Group: "Blush", Name: "Medium", Timer: 15 },
+								{ Group: "Eyes", Name: "Angry", Timer: 15 },
+								{ Group: "Eyebrows", Name: "Soft", Timer: 15 },
+								{ Group: "Mouth", Name: "Sad", Timer: 15 },
+							],
+						},
+						{
+							// Nasal holes
+							Property: {},
+							Expression: [
+								{ Group: "Blush", Name: "Medium", Timer: 15 },
+								{ Group: "Eyes", Name: "Angry", Timer: 15 },
+								{ Group: "Eyebrows", Name: "Soft", Timer: 15 },
+								{ Group: "Mouth", Name: "HalfOpen", Timer: 15 },
+							],
+						},
+						{
+							// Plain hood
+							Property: { Effect: [E.GagEasy] },
+							Expression: [
+								{ Group: "Blush", Name: "ShortBreath", Timer: 15 },
+								{ Group: "Eyes", Name: "Scared", Timer: 15 },
+								{ Group: "Eyebrows", Name: "Raised", Timer: 15 },
+								{ Group: "Mouth", Name: "Open", Timer: 15 },
+							],
+						},
+					],
+				},
+				{
+					Name: "Layer",
+					Key: "l",
+					Options: [
+						{
+							// Over mask
+							Property: {
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemNose",
+									"ItemHead",
+									"ItemEars",
+								],
+								HideItem: [
+									"MaskKigu2Hood",
+									"MaskRubberMask",
+									"MaskDroneMask",
+									"ItemHeadKigu2Hood",
+									"ItemHeadBigMouthHood",
+									"ItemHeadDroneMask",
+								],
+							},
+						},
+						{
+							// Under mask
+							Property: { OverridePriority: 24 },
+						},
+					],
+				},
+			],
+		}, // TransparentLatexHood
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -13749,6 +14119,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ZipperBBoots
+		PumpHighHeels: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Straps",
+					Property: {},
+				},
+				{
+					Name: "None",
+					Property: {},
+				},
+			],
+		}, // PumpHighHeels
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
@@ -16325,6 +16709,18 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// "Wig17"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig18"
 							Property: {
 								Hide: [
 									"HairFront",
@@ -19218,6 +19614,76 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // RoundSunglasses
+		VintageSunglasses: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
+				},
+				{
+					Name: "Faceline",
+					Key: "f",
+					Options: [
+						{
+							// f0 - Eye line
+							Property: {},
+						},
+						{
+							// f1 - Lower line
+							Property: {},
+						},
+					],
+				},
+			],
+		}, // VintageSunglasses
+		ShutterSunshades: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
+				},
+				{
+					Name: "Lenses",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Shutter form
+							Property: {},
+						},
+						{
+							// l1 - Clear lenses
+							Property: {},
+						},
+						{
+							// l2 - Colorful lenses
+							Property: {},
+						},
+					],
+				},
+			],
+		}, // ShutterSunshades
 	}, // Glasses
 	Bracelet: {
 		Band1: {

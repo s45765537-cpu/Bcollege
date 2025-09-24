@@ -7011,6 +7011,7 @@ ItemHoodRubberMaskOptiong14,Wig N
 ItemHoodRubberMaskOptiong15,Wig O
 ItemHoodRubberMaskOptiong16,Wig P
 ItemHoodRubberMaskOptiong17,Wig Q
+ItemHoodRubberMaskOptiong18,Wig R
 ItemHoodRubberMaskModuleEyes,Eyes
 ItemHoodRubberMaskSelectEyes,Eye expression menu
 ItemHoodRubberMaskOptione0,Normal
@@ -7065,6 +7066,7 @@ ItemHoodRubberMaskSetg14,SourceCharacter puts the wig N on the DestinationCharac
 ItemHoodRubberMaskSetg15,SourceCharacter puts the wig O on the DestinationCharacter head.
 ItemHoodRubberMaskSetg16,SourceCharacter puts the wig P on the DestinationCharacter head.
 ItemHoodRubberMaskSetg17,SourceCharacter puts the wig Q on the DestinationCharacter head.
+ItemHoodRubberMaskSetg18,SourceCharacter puts the wig R on the DestinationCharacter head.
 ItemHoodRubberMaskSete0,SourceCharacter chooses a normal eyes in DestinationCharacter mask.
 ItemHoodRubberMaskSete1,SourceCharacter chooses a closed eyes in DestinationCharacter mask.
 ItemHoodRubberMaskSete2,SourceCharacter chooses a wide open eyes in DestinationCharacter mask.
@@ -7107,6 +7109,7 @@ MaskRubberMaskOptiong14,Wig N
 MaskRubberMaskOptiong15,Wig O
 MaskRubberMaskOptiong16,Wig P
 MaskRubberMaskOptiong17,Wig Q
+MaskRubberMaskOptiong18,Wig R
 MaskRubberMaskModuleEyes,Eyes
 MaskRubberMaskSelectEyes,Eye expression menu
 MaskRubberMaskOptione0,Normal
@@ -8351,3 +8354,114 @@ ItemHandheldFoamRollRoll,Keep it as a roll
 ItemHandheldFoamRollMittens,Try it!
 ItemHandheldFoamRollSetRoll,SourceCharacter unwraps the foam tape from TargetPronounPossessive hands and returns this roll to DestinationCharacter to hold.
 ItemHandheldFoamRollSetMittens,SourceCharacter uses this foam roll to wrap DestinationCharacter hands.
+ClothLowerPVCHobbleSkirtSelectBase,PVC Hobble Dress main menu:
+ClothLowerPVCHobbleSkirtModuleLength,Length option
+ClothLowerPVCHobbleSkirtSelectLength,Select a skirt length:
+ClothLowerPVCHobbleSkirtOptionl0,Classic full lenght
+ClothLowerPVCHobbleSkirtOptionl1,Half legs
+ClothLowerPVCHobbleSkirtOptionl2,Full and mermaid end
+ClothLowerPVCHobbleSkirtModulePosition,Layer mode
+ClothLowerPVCHobbleSkirtSelectPosition,Define which layer this skirt will appear on:
+ClothLowerPVCHobbleSkirtOptionp0,Default
+ClothLowerPVCHobbleSkirtOptionp1,Over clothes
+ClothLowerPVCHobbleSkirtOptionp2,Under clothes
+ClothLowerPVCHobbleSkirtModuleSlow,Tightness mode
+ClothLowerPVCHobbleSkirtSelectSlow,Adjust your skirt tightness:
+ClothLowerPVCHobbleSkirtOptions0,Loose mode
+ClothLowerPVCHobbleSkirtOptions1,Zipper down
+ItemHoodTransparentLatexHoodSelectBase,Transparent Latex Hood customization main menu:
+ItemHoodTransparentLatexHoodModuleType,Restriction type
+ItemHoodTransparentLatexHoodSelectType,Choose a latex hood opening model:
+ItemHoodTransparentLatexHoodOptiont0,Nose and mouth
+ItemHoodTransparentLatexHoodOptiont1,Only nose
+ItemHoodTransparentLatexHoodOptiont2,Only mouth
+ItemHoodTransparentLatexHoodOptiont3,Plain hood
+ItemHoodTransparentLatexHoodModuleLayer,Face position
+ItemHoodTransparentLatexHoodSelectLayer,About hood layer option:
+ItemHoodTransparentLatexHoodOptionl0,Over mask
+ItemHoodTransparentLatexHoodOptionl1,Under mask
+ItemHoodTransparentLatexHoodSett0,SourceCharacter covers the DestinationCharacter head with a safety Transparent hood.
+ItemHoodTransparentLatexHoodSett1,SourceCharacter covers the DestinationCharacter head with a Transparent hood with nose openings.
+ItemHoodTransparentLatexHoodSett2,SourceCharacter covers the DestinationCharacter head with a Transparent hood with a mouth opening.
+ItemHoodTransparentLatexHoodSett3,SourceCharacter covers the DestinationCharacter head with a Transparent hood without air opening.
+ItemHoodTransparentLatexHoodSetl0,SourceCharacter puts the Transparent hood on DestinationCharacter previous head items.
+ItemHoodTransparentLatexHoodSetl1,SourceCharacter puts the Transparent hood under DestinationCharacter previous head items.
+ShoesPumpHighHeelsSelect,Select your Pump High Heels style:
+ShoesPumpHighHeelsStraps,With straps
+ShoesPumpHighHeelsNone,No straps
+GlassesVintageSunglassesSelectBase,Customize your Vintage Sungalsses:
+GlassesVintageSunglassesModulePosition,Layer position
+GlassesVintageSunglassesSelectPosition,Layer position adjustment menu:
+GlassesVintageSunglassesOptionp0,Under hair front
+GlassesVintageSunglassesOptionp1,Over hair front
+GlassesVintageSunglassesModuleFaceline,Face position
+GlassesVintageSunglassesSelectFaceline,Face position adjustment menu:
+GlassesVintageSunglassesOptionf0,Normal
+GlassesVintageSunglassesOptionf1,Dropped
+GlassesShutterSunshadesSelectBase,Customize your Shutter Sunshades:
+GlassesShutterSunshadesModulePosition,Layer position
+GlassesShutterSunshadesSelectPosition,Layer position adjustment menu:
+GlassesShutterSunshadesOptionp0,Under hair front
+GlassesShutterSunshadesOptionp1,Over hair front
+GlassesShutterSunshadesModuleLenses,Lenses type
+GlassesShutterSunshadesSelectLenses,Choose a pair of lenses:
+GlassesShutterSunshadesOptionl0,Shutter type
+GlassesShutterSunshadesOptionl1,Clear lenses
+GlassesShutterSunshadesOptionl2,Colorful lenses
+ClothAccessoryLargeBeltClassicSelectBase,Welcome to classic large belt main menu
+ClothAccessoryLargeBeltClassicModuleBelt,Belt mode
+ClothAccessoryLargeBeltClassicSelectBelt,Choose your belt style:
+ClothAccessoryLargeBeltClassicOptionb0,Loose
+ClothAccessoryLargeBeltClassicOptionb1,Fit
+ClothAccessoryLargeBeltClassicOptionb2,Lower loose
+ClothAccessoryLargeBeltClassicModulePosition,Layer position
+ClothAccessoryLargeBeltClassicSelectPosition,Layer position adjustment menu:
+ClothAccessoryLargeBeltClassicOptionp0,Classic layer
+ClothAccessoryLargeBeltClassicOptionp1,lower priority
+ClothAccessoryLargeBeltClassicOptionp2,lowest priority
+ClothAccessoryLargeBeltClassicModuleBelt,Belt mode
+ClothAccessoryLargeBeltClassicSelectBelt,Choose your belt style:
+ClothAccessoryLargeBeltClassicOptionb0,Loose
+ClothAccessoryLargeBeltClassicOptionb1,Fit
+ClothAccessoryLargeBeltClassicOptionb2,Lower loose
+ItemNeckSteampunkCollarSelectBase,Steampunk collar customization menu:
+ItemNeckSteampunkCollarModuleStraps,Extra Straps
+ItemNeckSteampunkCollarSelectStraps,Extra straps options:
+ItemNeckSteampunkCollarOptiont0,Standard collar
+ItemNeckSteampunkCollarOptiont1,Straps added
+ItemNeckSteampunkCollarModuleGag,Inner gag
+ItemNeckSteampunkCollarSelectGag,Gag options:
+ItemNeckSteampunkCollarOptiong0,No gag applied
+ItemNeckSteampunkCollarOptiong1,Ball gag
+ItemNeckSteampunkCollarOptiong2,Ring gag
+ItemNeckSteampunkCollarOptiong3,Pussy gag
+ItemNeckSteampunkCollarOptiong4,Infl.gag Light
+ItemNeckSteampunkCollarOptiong5,Infl.gag Inflated
+ItemNeckSteampunkCollarOptiong6,Infl.gag Bloated
+ItemNeckSteampunkCollarModuleSpike,Spiked collar
+ItemNeckSteampunkCollarSelectSpike,Spiked collar accessory options:
+ItemNeckSteampunkCollarOptions0,Without collar
+ItemNeckSteampunkCollarOptions1,Collar installed
+ItemNeckSteampunkCollarOptions2,Higher layer collar
+ItemNeckSteampunkCollarModuleCover,Over mouth cover
+ItemNeckSteampunkCollarSelectCover,Over mouth cover options:
+ItemNeckSteampunkCollarOptionc0,No cover
+ItemNeckSteampunkCollarOptionc1,Perforated leather
+ItemNeckSteampunkCollarOptionc2,Spiked semi-sphere
+ItemNeckSteampunkCollarOptionc3,Rubber dildo
+ItemNeckSteampunkCollarSett0,SourceCharacter removes the additional straps from DestinationCharacter head.
+ItemNeckSteampunkCollarSett1,SourceCharacter reinforces the collar with straps on DestinationCharacter head.
+ItemNeckSteampunkCollarSetg0,SourceCharacter removes any gag from DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg1,SourceCharacter puts a ball gag in the DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg2,SourceCharacter puts a ring gag in the DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg3,SourceCharacter installs a pussy lips gag in the DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg4,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and leaves it empty.
+ItemNeckSteampunkCollarSetg5,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the half size.
+ItemNeckSteampunkCollarSetg6,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the limit.
+ItemNeckSteampunkCollarSets0,SourceCharacter removes the steel spiked collar from DestinationCharacter neck.
+ItemNeckSteampunkCollarSets1,SourceCharacter just installs a steel spiked collar on DestinationCharacter neck.
+ItemNeckSteampunkCollarSets2,SourceCharacter installs a higher layer steel spiked collar on DestinationCharacter neck.
+ItemNeckSteampunkCollarSetc0,SourceCharacter removes any mouth cover from DestinationCharacter collar.
+ItemNeckSteampunkCollarSetc1,SourceCharacter covers the DestinationCharacter mouth with a perforated leather device.
+ItemNeckSteampunkCollarSetc2,SourceCharacter covers the DestinationCharacter mouth with a spiked half-sphere metal object.
+ItemNeckSteampunkCollarSetc3,SourceCharacter covers the DestinationCharacter mouth with a rubber dildo device.

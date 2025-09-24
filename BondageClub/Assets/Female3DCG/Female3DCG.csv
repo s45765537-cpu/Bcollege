@@ -208,6 +208,7 @@ ClothAccessory,JewelrySet,Piercing Set
 ClothAccessory,Kissmark,Lipstick Marks
 ClothAccessory,KissmarkDummy,Smoochy Lipstick
 ClothAccessory,LargeBelt,Large Belt
+ClothAccessory,LargeBeltClassic,Large Belt Classic
 ClothAccessory,LatexApron,Latex Apron
 ClothAccessory,LeatherBeltCloth,Leather Waist Belt
 ClothAccessory,LeatherStraps,Leather Straps
@@ -263,6 +264,7 @@ ClothLower,Pajama1,Pajama
 ClothLower,PantBoots,Long Latex Pants
 ClothLower,PencilSkirt,Pencil Skirt
 ClothLower,PleatedSkirt,Pleated Skirt
+ClothLower,PVCHobbleSkirt,PVC Hobble Skirt
 ClothLower,RuffledSkirt,Ruffled Skirt
 ClothLower,SatinSkirt,Satin Skirt
 ClothLower,ShortPencilSkirt,Short Pencil Skirt
@@ -421,11 +423,13 @@ Glasses,GradientSunglasses,Gradient Sunglasses
 Glasses,JokeGlasses,Inconspicious Glasses
 Glasses,Pincenez,Pince-nez
 Glasses,RoundSunglasses,Round Sunglasses
+Glasses,ShutterSunshades,Shutter Sunshades
 Glasses,StreetEyewear,Street Eyewear
 Glasses,SunGlasses1,Sunglasses 1
 Glasses,SunGlasses2,Sunglasses 2
 Glasses,SunGlassesClear,Clear Sunglasses
 Glasses,VGlasses,V Glasses
+Glasses,VintageSunglasses,Vintage Sunglasses
 Gloves,,Gloves
 Gloves,AnimeGirlGloves,Cosplay Girl Gloves
 Gloves,BikerGloves,Biker Gloves
@@ -1156,6 +1160,7 @@ ItemHandheld,WartenbergWheel,Wartenberg Wheel
 ItemHandheld,Whip,Whip
 ItemHandheld,WhipPaddle,Whip Paddle
 ItemHands,,Hands
+ItemHands,BalletBootsMittens,Ballet Boots Mittens
 ItemHands,CheerleaderPomPoms,Pom Pom Mitts
 ItemHands,DuctTape,Duct Tape
 ItemHands,ElbowLengthMittens,Long Leather Paw Mittens
@@ -1266,6 +1271,7 @@ ItemHood,SensoryDeprivationHood,Sensory Hood
 ItemHood,Slime,Slime
 ItemHood,SpaceMask,Space-Style Mask
 ItemHood,TechnoHelmet1,Techno Helmet
+ItemHood,TransparentLatexHood,Transparent Latex Hood
 ItemHood,VacHood, Vac Hood
 ItemHood,ZipperHood,Zipper Hood
 ItemLegs,,Legs
@@ -1480,11 +1486,13 @@ ItemNeck,SlaveCollar,Slave Collar
 ItemNeck,SlenderSteelCollar,Slender Steel Collar
 ItemNeck,SpikeCollar,Spike Collar
 ItemNeck,SpikedChoker,Spiked Choker
+ItemNeck,SSpikedCollar,Steampunk Spiked Collar
 ItemNeck,SteelPostureCollar,Steel Collar
 ItemNeck,StrictPostureCollar,Strict Posture Collar
 ItemNeck,TechnoCollar,Techno Collar
 ItemNeck,MoonCollar,Moon Collar
 ItemNeck,SunCollar,Sun Collar
+ItemNeck,SteampunkCollar,Steampunk Collar
 ItemNeckAccessories,,Collar
 ItemNeckAccessories,CollarAutoShockUnit,Automatic Shock Unit
 ItemNeckAccessories,CollarBell,Bell
@@ -1824,6 +1832,7 @@ Shoes,MaryShoes,Mary Special
 Shoes,MistressBoots,Mistress Boots
 Shoes,PawBoots,Paw Boots
 Shoes,PonyBoots,Pony Boots
+Shoes,PumpHighHeels,Pump High Heels
 Shoes,Sandals,Strap Sandals
 Shoes,SandalsRS,Rhinestone Sandals
 Shoes,Shoes1,Style 1
