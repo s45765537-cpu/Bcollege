@@ -276,7 +276,8 @@ interface ServerChatRoomCustomData {
 	ImageURL?: string;
 	ImageFilter?: string;
 	MusicURL?: string;
-	SizeMode?: number
+	SizeMode?: number;
+	MusicStart?: number;
 }
 
 /**
