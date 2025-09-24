@@ -1427,7 +1427,6 @@ ItemMouth,ShoeGag,Shoe Gag
 ItemMouth,Slime,Slime
 ItemMouth,SockStuffing,Sock Stuffing
 ItemMouth,SpiderGag,Spider Gag
-ItemMouth,SteampunkCollar,Steampunk Collar
 ItemMouth,SteelMuzzleGag,Steel Muzzle Gag
 ItemMouth,StitchedMuzzleGag,Stitched Muzzle Gag
 ItemMouth,Stitches,Stitches
@@ -1493,6 +1492,7 @@ ItemNeck,StrictPostureCollar,Strict Posture Collar
 ItemNeck,TechnoCollar,Techno Collar
 ItemNeck,MoonCollar,Moon Collar
 ItemNeck,SunCollar,Sun Collar
+ItemNeck,SteampunkCollar,Steampunk Collar
 ItemNeckAccessories,,Collar
 ItemNeckAccessories,CollarAutoShockUnit,Automatic Shock Unit
 ItemNeckAccessories,CollarBell,Bell

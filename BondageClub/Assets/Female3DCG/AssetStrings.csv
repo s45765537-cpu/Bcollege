@@ -8354,88 +8354,6 @@ ItemHandheldFoamRollRoll,Keep it as a roll
 ItemHandheldFoamRollMittens,Try it!
 ItemHandheldFoamRollSetRoll,SourceCharacter unwraps the foam tape from TargetPronounPossessive hands and returns this roll to DestinationCharacter to hold.
 ItemHandheldFoamRollSetMittens,SourceCharacter uses this foam roll to wrap DestinationCharacter hands.
-ItemMouthSteampunkCollarSelectBase,Steampunk collar customization menu:
-ItemMouthSteampunkCollarModuleStraps,Extra Straps
-ItemMouthSteampunkCollarSelectStraps,Extra straps options:
-ItemMouthSteampunkCollarOptiont0,Standard collar
-ItemMouthSteampunkCollarOptiont1,Straps added
-ItemMouthSteampunkCollarModuleGag,Inner gag
-ItemMouthSteampunkCollarSelectGag,Gag options:
-ItemMouthSteampunkCollarOptiong0,No gag applied
-ItemMouthSteampunkCollarOptiong1,Ball gag
-ItemMouthSteampunkCollarOptiong2,Ring gag
-ItemMouthSteampunkCollarOptiong3,Pussy gag
-ItemMouthSteampunkCollarOptiong4,Infl.gag Light
-ItemMouthSteampunkCollarOptiong5,Infl.gag Inflated
-ItemMouthSteampunkCollarOptiong6,Infl.gag Bloated
-ItemMouthSteampunkCollarModuleSpike,Spiked collar
-ItemMouthSteampunkCollarSelectSpike,Spiked collar accessory options:
-ItemMouthSteampunkCollarOptions0,Without collar
-ItemMouthSteampunkCollarOptions1,Collar installed
-ItemMouthSteampunkCollarOptions2,Higher layer collar
-ItemMouthSteampunkCollarModuleCover,Over mouth cover
-ItemMouthSteampunkCollarSelectCover,Over mouth cover options:
-ItemMouthSteampunkCollarOptionc0,No cover
-ItemMouthSteampunkCollarOptionc1,Perforated leather
-ItemMouthSteampunkCollarOptionc2,Spiked semi-sphere
-ItemMouthSteampunkCollarOptionc3,Rubber dildo
-ItemMouthSteampunkCollarSett0,SourceCharacter removes the additional straps from DestinationCharacter head.
-ItemMouthSteampunkCollarSett1,SourceCharacter reinforces the collar with straps on DestinationCharacter head.
-ItemMouthSteampunkCollarSetg0,SourceCharacter removes any gag from DestinationCharacter mouth.
-ItemMouthSteampunkCollarSetg1,SourceCharacter puts a ball gag in the DestinationCharacter mouth.
-ItemMouthSteampunkCollarSetg2,SourceCharacter puts a ring gag in the DestinationCharacter mouth.
-ItemMouthSteampunkCollarSetg3,SourceCharacter installs a pussy lips gag in the DestinationCharacter mouth.
-ItemMouthSteampunkCollarSetg4,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and leaves it empty.
-ItemMouthSteampunkCollarSetg5,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the half size.
-ItemMouthSteampunkCollarSetg6,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the limit.
-ItemMouthSteampunkCollarSets0,SourceCharacter removes the steel spiked collar from DestinationCharacter neck.
-ItemMouthSteampunkCollarSets1,SourceCharacter just installs a steel spiked collar on DestinationCharacter neck.
-ItemMouthSteampunkCollarSets2,SourceCharacter installs a higher layer steel spiked collar on DestinationCharacter neck.
-ItemMouthSteampunkCollarSetc0,SourceCharacter removes any mouth cover from DestinationCharacter collar.
-ItemMouthSteampunkCollarSetc1,SourceCharacter covers the DestinationCharacter mouth with a perforated leather device.
-ItemMouthSteampunkCollarSetc2,SourceCharacter covers the DestinationCharacter mouth with a spiked half-sphere metal object.
-ItemMouth2SteampunkCollarSetc3,SourceCharacter covers the DestinationCharacter mouth with a rubber dildo device.
-ItemMouth2SteampunkCollarSelectBase,Steampunk collar customization menu:
-ItemMouth2SteampunkCollarModuleStraps,Extra Straps
-ItemMouth2SteampunkCollarSelectStraps,Extra straps options:
-ItemMouth2SteampunkCollarOptiont0,Standard collar
-ItemMouth2SteampunkCollarOptiont1,Straps added
-ItemMouth2SteampunkCollarModuleGag,Inner gag
-ItemMouth2SteampunkCollarSelectGag,Gag options:
-ItemMouth2SteampunkCollarOptiong0,No gag applied
-ItemMouth2SteampunkCollarOptiong1,Ball gag
-ItemMouth2SteampunkCollarOptiong2,Ring gag
-ItemMouth2SteampunkCollarOptiong3,Pussy gag
-ItemMouth2SteampunkCollarOptiong4,Infl.gag Light
-ItemMouth2SteampunkCollarOptiong5,Infl.gag Inflated
-ItemMouth2SteampunkCollarOptiong6,Infl.gag Bloated
-ItemMouth2SteampunkCollarModuleSpike,Spiked collar
-ItemMouth2SteampunkCollarSelectSpike,Spiked collar accessory options:
-ItemMouth2SteampunkCollarOptions0,Without collar
-ItemMouth2SteampunkCollarOptions1,Collar installed
-ItemMouth2SteampunkCollarOptions2,Higher layer collar
-ItemMouth2SteampunkCollarModuleCover,Over mouth cover
-ItemMouth2SteampunkCollarSelectCover,Over mouth cover options:
-ItemMouth2SteampunkCollarOptionc0,No cover
-ItemMouth2SteampunkCollarOptionc1,Perforated leather
-ItemMouth2SteampunkCollarOptionc2,Spiked semi-sphere
-ItemMouth2SteampunkCollarOptionc3,Rubber dildo
-ItemMouth2SteampunkCollarSett0,SourceCharacter removes the additional straps from DestinationCharacter head.
-ItemMouth2SteampunkCollarSett1,SourceCharacter reinforces the collar with straps on DestinationCharacter head.
-ItemMouth2SteampunkCollarSetg0,SourceCharacter removes any gag from DestinationCharacter mouth.
-ItemMouth2SteampunkCollarSetg1,SourceCharacter puts a ball gag in the DestinationCharacter mouth.
-ItemMouth2SteampunkCollarSetg2,SourceCharacter puts a ring gag in the DestinationCharacter mouth.
-ItemMouth2SteampunkCollarSetg3,SourceCharacter installs a pussy lips gag in the DestinationCharacter mouth.
-ItemMouth2SteampunkCollarSetg4,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and leaves it empty.
-ItemMouth2SteampunkCollarSetg5,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the half size.
-ItemMouth2SteampunkCollarSetg6,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the limit.
-ItemMouth2SteampunkCollarSets0,SourceCharacter removes the steel spiked collar from DestinationCharacter neck.
-ItemMouth2SteampunkCollarSets1,SourceCharacter just installs a steel spiked collar on DestinationCharacter neck.
-ItemMouth2SteampunkCollarSets2,SourceCharacter installs a higher layer steel spiked collar on DestinationCharacter neck.
-ItemMouth2SteampunkCollarSetc0,SourceCharacter removes any mouth cover from DestinationCharacter collar.
-ItemMouth2SteampunkCollarSetc1,SourceCharacter covers the DestinationCharacter mouth with a perforated leather device.
-ItemMouth2SteampunkCollarSetc2,SourceCharacter covers the DestinationCharacter mouth with a spiked half-sphere metal object.
-ItemMouth2SteampunkCollarSetc3,SourceCharacter covers the DestinationCharacter mouth with a rubber dildo device.
 ClothLowerPVCHobbleSkirtSelectBase,PVC Hobble Dress main menu:
 ClothLowerPVCHobbleSkirtModuleLength,Length option
 ClothLowerPVCHobbleSkirtSelectLength,Select a skirt length:
@@ -8506,3 +8424,44 @@ ClothAccessoryLargeBeltClassicSelectBelt,Choose your belt style:
 ClothAccessoryLargeBeltClassicOptionb0,Loose
 ClothAccessoryLargeBeltClassicOptionb1,Fit
 ClothAccessoryLargeBeltClassicOptionb2,Lower loose
+ItemNeckSteampunkCollarSelectBase,Steampunk collar customization menu:
+ItemNeckSteampunkCollarModuleStraps,Extra Straps
+ItemNeckSteampunkCollarSelectStraps,Extra straps options:
+ItemNeckSteampunkCollarOptiont0,Standard collar
+ItemNeckSteampunkCollarOptiont1,Straps added
+ItemNeckSteampunkCollarModuleGag,Inner gag
+ItemNeckSteampunkCollarSelectGag,Gag options:
+ItemNeckSteampunkCollarOptiong0,No gag applied
+ItemNeckSteampunkCollarOptiong1,Ball gag
+ItemNeckSteampunkCollarOptiong2,Ring gag
+ItemNeckSteampunkCollarOptiong3,Pussy gag
+ItemNeckSteampunkCollarOptiong4,Infl.gag Light
+ItemNeckSteampunkCollarOptiong5,Infl.gag Inflated
+ItemNeckSteampunkCollarOptiong6,Infl.gag Bloated
+ItemNeckSteampunkCollarModuleSpike,Spiked collar
+ItemNeckSteampunkCollarSelectSpike,Spiked collar accessory options:
+ItemNeckSteampunkCollarOptions0,Without collar
+ItemNeckSteampunkCollarOptions1,Collar installed
+ItemNeckSteampunkCollarOptions2,Higher layer collar
+ItemNeckSteampunkCollarModuleCover,Over mouth cover
+ItemNeckSteampunkCollarSelectCover,Over mouth cover options:
+ItemNeckSteampunkCollarOptionc0,No cover
+ItemNeckSteampunkCollarOptionc1,Perforated leather
+ItemNeckSteampunkCollarOptionc2,Spiked semi-sphere
+ItemNeckSteampunkCollarOptionc3,Rubber dildo
+ItemNeckSteampunkCollarSett0,SourceCharacter removes the additional straps from DestinationCharacter head.
+ItemNeckSteampunkCollarSett1,SourceCharacter reinforces the collar with straps on DestinationCharacter head.
+ItemNeckSteampunkCollarSetg0,SourceCharacter removes any gag from DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg1,SourceCharacter puts a ball gag in the DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg2,SourceCharacter puts a ring gag in the DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg3,SourceCharacter installs a pussy lips gag in the DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg4,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and leaves it empty.
+ItemNeckSteampunkCollarSetg5,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the half size.
+ItemNeckSteampunkCollarSetg6,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the limit.
+ItemNeckSteampunkCollarSets0,SourceCharacter removes the steel spiked collar from DestinationCharacter neck.
+ItemNeckSteampunkCollarSets1,SourceCharacter just installs a steel spiked collar on DestinationCharacter neck.
+ItemNeckSteampunkCollarSets2,SourceCharacter installs a higher layer steel spiked collar on DestinationCharacter neck.
+ItemNeckSteampunkCollarSetc0,SourceCharacter removes any mouth cover from DestinationCharacter collar.
+ItemNeckSteampunkCollarSetc1,SourceCharacter covers the DestinationCharacter mouth with a perforated leather device.
+ItemNeckSteampunkCollarSetc2,SourceCharacter covers the DestinationCharacter mouth with a spiked half-sphere metal object.
+ItemNeckSteampunkCollarSetc3,SourceCharacter covers the DestinationCharacter mouth with a rubber dildo device.

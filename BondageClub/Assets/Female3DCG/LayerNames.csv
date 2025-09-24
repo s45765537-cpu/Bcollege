@@ -2487,14 +2487,6 @@ ItemMouthQualityHarnessGagStraps,Straps
 ItemMouthQualityHarnessGagMetal,Metal
 ItemMouthShoeGagShoe,Shoe
 ItemMouthShoeGagStrap,Strap
-ItemMouthSteampunkCollarCollar,Leather parts
-ItemMouthSteampunkCollarCMetal,Metal parts
-ItemMouthSteampunkCollarStLock,Padlocks
-ItemMouthSteampunkCollarGag,Inner gag
-ItemMouthSteampunkCollarGMetal,Gag metal
-ItemMouthSteampunkCollarCover,Cover gag
-ItemMouthSteampunkCollarSpike,Spike collar
-ItemMouthSteampunkCollarRing,Collar main ring
 ItemMouthStitchesFakeMouth,Lips
 ItemMouthStitchesStraight,Thread
 ItemMouthTechnoGagBase,Base
@@ -2658,6 +2650,14 @@ ItemNeckMoonCollarCentermoon,Center Moon
 ItemNeckSunCollarBase,Base
 ItemNeckSunCollarMoons,Moons
 ItemNeckSunCollarCentersun,Center Sun
+ItemNeckSteampunkCollarCollar,Leather parts
+ItemNeckSteampunkCollarCMetal,Metal parts
+ItemNeckSteampunkCollarStLock,Padlocks
+ItemNeckSteampunkCollarGag,Inner gag
+ItemNeckSteampunkCollarGMetal,Gag metal
+ItemNeckSteampunkCollarCover,Cover gag
+ItemNeckSteampunkCollarSpike,Spike collar
+ItemNeckSteampunkCollarRing,Collar main ring
 ItemNipplesChainClampChain,Chain
 ItemNipplesChainClampClamp,Clamps
 ItemNipplesChainClampMetal,Metal

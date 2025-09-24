@@ -2035,18 +2035,9 @@ var AssetFemale3DCGExtended = {
 					Name: "Length",
 					Key: "l",
 					Options: [
-						{
-							// l0 - Full size
-							Property: { Effect: [] },
-						},
-						{
-							// l1 - Mid legs
-							Property: { Effect: [] },
-						},
-						{
-							// l2 - Full size plus mermaid end
-							Property: { Effect: [] },
-						},
+						{}, // l0 - Full size
+						{}, // l1 - Mid legs
+						{}, // l2 - Full size plus mermaid end
 					],
 				},
 				{
@@ -2054,10 +2045,7 @@ var AssetFemale3DCGExtended = {
 					Key: "p",
 					DrawImages: false,
 					Options: [
-						{
-							// p0 - Normal
-							Property: {},
-						},
+						{}, // p0 - Normal
 						{
 							// p1 - Over clothes
 							Property: {
@@ -2088,25 +2076,21 @@ var AssetFemale3DCGExtended = {
 							// s0 - Normal
 							Property: {
 								AllowActivePose: [
+									"BaseLower",
 									"LegsOpen",
 									"LegsClosed",
 									"Kneel",
 									"Hogtied",
 									"AllFours",
 								],
-								Effect: [],
 							},
 						},
 						{
 							// s1 - Zipper down
 							Property: {
 								SetPose: ["LegsClosed"],
-								AllowActivePose: [
-									"LegsClosed",
-									"Kneel",
-									"Hogtied",
-								],
-								Effect: [E.Slow]
+								AllowActivePose: ["LegsClosed", "Kneel", "Hogtied", "AllFours"],
+								Effect: [E.Slow],
 							},
 						},
 					],
@@ -5308,6 +5292,169 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "LockBodyHeart" }, { Name: "LockBodyPlain" }],
 		}, // ChainCollar
+		SteampunkCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Straps",
+					Key: "t",
+					Options: [
+						{}, // t0 - No straps
+						{
+							// t1 - Straps added
+							Property: { Difficulty: 5 },
+						},
+					],
+				},
+				{
+					Name: "Gag",
+					Key: "g",
+					Options: [
+						{}, // g0 - No gag
+						{
+							// g1 - Ball gag
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagLight, E.BlockMouth],
+							},
+						},
+						{
+							// g2 - Ring gag
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagEasy, E.OpenMouth],
+							},
+						},
+						{
+							// g3 - Pussy gag
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagNormal, E.OpenMouth],
+							},
+						},
+						{
+							// g4 - Inflatable gag - light
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Low", Group: "Blush", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 2,
+								Effect: [E.GagLight, E.BlockMouth],
+							},
+						},
+						{
+							// g5 - Inflatable gag - inflated
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "Medium", Group: "Blush", Timer: 15 },
+								{ Name: "DroolLow", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagNormal, E.BlockMouth],
+							},
+						},
+						{
+							// g6 - Inflatable gag - bloated
+							Prerequisite: ["GagUnique", "AccessMouth"],
+							Expression: [
+								{ Name: "Open", Group: "Mouth", Timer: 15 },
+								{ Name: "High", Group: "Blush", Timer: 15 },
+								{ Name: "DroolHigh", Group: "Fluids", Timer: 15 },
+							],
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagHeavy, E.BlockMouth],
+							},
+						},
+					],
+				},
+				{
+					Name: "Spike",
+					Key: "s",
+					Options: [
+						{}, // s0 - No spike collar
+						{
+							// s1 - Spike collar
+							Expression: [{ Name: "Frown", Group: "Mouth", Timer: 15 }],
+							Property: {
+								Difficulty: 6,
+							},
+						},
+						{
+							// s2 - Spike collar higher priority
+							Expression: [{ Name: "Frown", Group: "Mouth", Timer: 15 }],
+							Property: {
+								Difficulty: 6,
+								OverridePriority: { Spike: 41, SLock: 41, Ring: 41 },
+							},
+						},
+					],
+				},
+				{
+					Name: "Cover",
+					Key: "c",
+					Options: [
+						{}, // c0 - No cover
+						{
+							// c1 - Leather cover
+							Expression: [{ Name: "Low", Group: "Blush", Timer: 15 }],
+							Property: {
+								Difficulty: 2,
+								Effect: [E.BlockMouth],
+							},
+						},
+						{
+							// c2 - Spiked semi-sphere cover
+							Expression: [{ Name: "Low", Group: "Blush", Timer: 15 }],
+							Property: {
+								Difficulty: 3,
+								Effect: [E.BlockMouth],
+								AllowActivity: ["RubItem", "Scratch"],
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
+						},
+						{
+							// c3 - Dildo cover
+							Expression: [{ Name: "Low", Group: "Blush", Timer: 15 }],
+							Property: {
+								Difficulty: 3,
+								OverridePriority: { Cover: 46 },
+								Effect: [E.BlockMouth],
+								AllowActivity: [
+									"RubItem",
+									"SpankItem",
+									"MasturbateItem",
+									"PenetrateItem",
+								],
+								Block: ["ItemMouth", "ItemMouth2", "ItemMouth3"],
+							},
+						},
+					],
+				},
+			],
+		}, // SteampunkCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -15636,169 +15783,6 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // CompGag
-		SteampunkCollar: {
-			Archetype: ExtendedArchetype.MODULAR,
-			Modules: [
-				{
-					Name: "Straps",
-					Key: "t",
-					Options: [
-						{}, // t0 - No straps
-						{
-							// t1 - Straps added
-							Property: { Difficulty: 5 },
-						},
-					],
-				},
-				{
-					Name: "Gag",
-					Key: "g",
-					Options: [
-						{}, // g0 - No gag
-						{
-							// g1 - Ball gag
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagLight,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g2 - Ring gag
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagEasy,E.OpenMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g3 - Pussy gag
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagNormal,E.OpenMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g4 - Inflatable gag - light
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 2,
-								Effect: [E.GagLight,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-								],
-							},
-						},
-						{
-							// g5 - Inflatable gag - inflated
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagNormal,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Medium", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g6 - Inflatable gag - bloated
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagHeavy,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "High", Group: "Blush", Timer: 15 },
-									{ Name: "DrollHigh", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-					],
-				},
-				{
-					Name: "Spike",
-					Key: "s",
-					Options: [
-						{}, // s0 - No spike collar
-						{
-							// s1 - Spike collar
-							Property: {
-								Difficulty: 6,
-								ExpressionTrigger: [ { Name: "Frown", Group: "Mouth", Timer: 15 } ],
-							},
-						},
-						{
-							// s2 - Spike collar higher priority
-							Property: {
-								Difficulty: 6,
-								OverridePriority: { "Spike": 41, "SLock": 41, "Ring": 41 },
-								ExpressionTrigger: [ { Name: "Frown", Group: "Mouth", Timer: 15 } ],
-							},
-						},
-					],
-				},
-				{
-					Name: "Cover",
-					Key: "c",
-					Options: [
-						{}, // c0 - No cover
-						{
-							// c1 - Leather cover
-							Property: {
-								Difficulty: 2,
-								Effect: [E.BlockMouth],
-								ExpressionTrigger: [ { Name: "Low", Group: "Blush", Timer: 15 } ],
-							},
-						},
-						{
-							// c2 - Spiked semi-sphere cover
-							Property: {
-								Difficulty: 3,
-								Effect: [E.BlockMouth],
-								AllowActivity: ["RubItem","Scratch"],
-								Block: ["ItemMouth2", "ItemMouth3"],
-								ExpressionTrigger: [ { Name: "Low", Group: "Blush", Timer: 15 } ],
-							},
-						},
-						{
-							// c3 - Dildo cover
-							Property: {
-								Difficulty: 3,
-								OverridePriority: { "Cover": 46 },
-								Effect: [E.BlockMouth],
-								AllowActivity: [
-									"RubItem",
-									"SpankItem",
-									"MasturbateItem",
-									"PenetrateItem",
-								],
-								Block: ["ItemMouth2", "ItemMouth3"],
-								ExpressionTrigger: [ { Name: "Low", Group: "Blush", Timer: 15 } ],
-							},
-						},
-					],
-				},
-			],
-		}, // SteampunkCollar
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -15986,169 +15970,6 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "CompGag" },
 		}, // CompGag
-		SteampunkCollar: {
-			Archetype: ExtendedArchetype.MODULAR,
-			Modules: [
-				{
-					Name: "Straps",
-					Key: "t",
-					Options: [
-						{}, // t0 - No straps
-						{
-							// t1 - Straps added
-							Property: { Difficulty: 5 },
-						},
-					],
-				},
-				{
-					Name: "Gag",
-					Key: "g",
-					Options: [
-						{}, // g0 - No gag
-						{
-							// g1 - Ball gag
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagLight,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g2 - Ring gag
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagEasy,E.OpenMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g3 - Pussy gag
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagNormal,E.OpenMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g4 - Inflatable gag - light
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 2,
-								Effect: [E.GagLight,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-								],
-							},
-						},
-						{
-							// g5 - Inflatable gag - inflated
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagNormal,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Medium", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-						{
-							// g6 - Inflatable gag - bloated
-							Prerequisite: ["GagUnique", "AccessMouth"],
-							Property: {
-								Difficulty: 4,
-								Effect: [E.GagHeavy,E.BlockMouth],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "High", Group: "Blush", Timer: 15 },
-									{ Name: "DrollHigh", Group: "Fluid", Timer: 15},
-								],
-							},
-						},
-					],
-				},
-				{
-					Name: "Spike",
-					Key: "s",
-					Options: [
-						{}, // s0 - No spike collar
-						{
-							// s1 - Spike collar
-							Property: {
-								Difficulty: 6,
-								ExpressionTrigger: [ { Name: "Frown", Group: "Mouth", Timer: 15 } ],
-							},
-						},
-						{
-							// s2 - Spike collar higher priority
-							Property: {
-								Difficulty: 6,
-								OverridePriority: { "Spike": 41, "SLock": 41, "Ring": 41 },
-								ExpressionTrigger: [ { Name: "Frown", Group: "Mouth", Timer: 15 } ],
-							},
-						},
-					],
-				},
-				{
-					Name: "Cover",
-					Key: "c",
-					Options: [
-						{}, // c0 - No cover
-						{
-							// c1 - Leather cover
-							Property: {
-								Difficulty: 2,
-								Effect: [E.BlockMouth],
-								ExpressionTrigger: [ { Name: "Low", Group: "Blush", Timer: 15 } ],
-							},
-						},
-						{
-							// c2 - Spiked semi-sphere cover
-							Property: {
-								Difficulty: 3,
-								Effect: [E.BlockMouth],
-								AllowActivity: ["RubItem","Scratch"],
-								Block: ["ItemMouth3"],
-								ExpressionTrigger: [ { Name: "Low", Group: "Blush", Timer: 15 } ],
-							},
-						},
-						{
-							// c3 - Dildo cover
-							Property: {
-								Difficulty: 3,
-								OverridePriority: { "Cover": 46 },
-								Effect: [E.BlockMouth],
-								AllowActivity: [
-									"RubItem",
-									"SpankItem",
-									"MasturbateItem",
-									"PenetrateItem",
-								],
-								Block: ["ItemMouth3"],
-								ExpressionTrigger: [ { Name: "Low", Group: "Blush", Timer: 15 } ],
-							},
-						},
-					],
-				},
-			],
-		}, // SteampunkCollar
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
