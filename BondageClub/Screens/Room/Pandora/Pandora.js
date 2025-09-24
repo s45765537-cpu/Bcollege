@@ -1249,7 +1249,7 @@ function PandoraPenitentiaryResult(Result) {
 
 		// Since we did not found any prison, we Setup the parameters for a new one
 		ChatRoomSpace = ChatRoomSpaceType.MIXED;
-		ChatSearchReturnToScreen = null;
+		ChatSearchReturnScreen = ["Online", "ChatSearch"];
 		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
 
 		// Creates the prison chat room

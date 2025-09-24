@@ -243,7 +243,7 @@ function AsylumGGTSBuildPrivate() {
 	AsylumGGTSTimer = 0;
 	AsylumGGTSTask = null;
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
-	ChatSearchReturnToScreen = "AsylumGGTS";
+	ChatSearchReturnScreen = ["Room", "AsylumGGTS"];
 	/** @type {ChatRoomSettings} */
 	const NewRoom = {
 		Name: "GGTS" + Math.round(CurrentTime).toString() + Math.round(Math.random() * 1000).toString(),
