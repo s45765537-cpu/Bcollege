@@ -202,8 +202,6 @@ Quand excité & En portant un vibrateur
 - Préférences d'objets -
 - Online Preferences -
 - Préférences en ligne -
-Display full chatrooms
-Afficher les salles complètes
 Order rooms by number of friends
 Ordonner les salles par nombres d'amies
 Disable scripted assets on others

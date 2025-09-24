@@ -910,14 +910,15 @@ var PreferenceOnlineSettingsDefault = {
 	AutoBanBlackList: false,
 	AutoBanGhostList: true,
 	DisableAnimations: false,
-	SearchShowsFullRooms: true,
 	SearchFriendsFirst: false,
 	EnableAfkTimer: true,
 	ShowStatus: true,
 	SendStatus: true,
 	FriendListAutoRefresh: true,
 	ShowRoomCustomization: 1,
-	DefaultChatRoomBackground: "CosyChalet"
+	DefaultChatRoomBackground: "CosyChalet",
+	// @ts-expect-error Deprecated
+	SearchShowsFullRooms: undefined,
 };
 
 /**
@@ -929,7 +930,6 @@ var PreferenceOnlineSettingsValidate = {
 	AutoBanBlackList: isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
 	AutoBanGhostList: isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
 	DisableAnimations: isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
-	SearchShowsFullRooms: isBool(PreferenceOnlineSettingsDefault.SearchShowsFullRooms),
 	SearchFriendsFirst: isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
 	EnableAfkTimer: isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
 	ShowStatus: isBool(PreferenceOnlineSettingsDefault.ShowStatus),
@@ -939,6 +939,8 @@ var PreferenceOnlineSettingsValidate = {
 	DefaultChatRoomBackground: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceOnlineSettingsDefault.DefaultChatRoomBackground;
 	},
+	// @ts-expect-error Deprecated
+	SearchShowsFullRooms: (arg) => undefined,
 };
 
 /**

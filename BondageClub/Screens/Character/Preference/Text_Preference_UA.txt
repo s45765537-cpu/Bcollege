@@ -216,8 +216,6 @@ Ban blacklist when creating a room
 Ban blacklist when creating a room
 Ban ghostlist when creating a room
 Ban ghostlist when creating a room
-Display full chatrooms
-Display full chatrooms
 Order rooms by number of friends
 Order rooms by number of friends
 Disable scripted assets on others

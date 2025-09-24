@@ -2453,7 +2453,6 @@ interface PlayerOnlineSettings {
 	AutoBanBlackList: boolean;
 	AutoBanGhostList: boolean;
 	DisableAnimations: boolean;
-	SearchShowsFullRooms: boolean;
 	SearchFriendsFirst: boolean;
 	SendStatus: boolean;
 	ShowStatus: boolean;
@@ -2461,6 +2460,10 @@ interface PlayerOnlineSettings {
 	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 	FriendListAutoRefresh: boolean;
 	DefaultChatRoomBackground: string;
+	/**
+	 * @deprecated
+	 */
+	SearchShowsFullRooms: never;
 }
 
 /** Pandora Player extension */
