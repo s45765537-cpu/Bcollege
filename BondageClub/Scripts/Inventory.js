@@ -1755,16 +1755,13 @@ function InventoryStringify(C) {
 }
 
 /**
- * Returns TRUE if the inventory category is blocked in the current chat room
+ * Returns TRUE if all of the asset categories are allowed in the current chat room
  * @param {readonly AssetCategory[]} Category - An array of string containing all the categories to validate
- * @return {boolean} - TRUE if it's blocked
+ * @return {boolean} - TRUE if it's allowed
  */
 function InventoryChatRoomAllow(Category) {
-	if ((CurrentScreen == "ChatRoom") && (Category != null) && (Category.length > 0) && (ChatRoomData != null) && (ChatRoomData.BlockCategory != null) && (ChatRoomData.BlockCategory.length > 0))
-		for (let C = 0; C < Category.length; C++)
-			if (ChatRoomData.BlockCategory.indexOf(Category[C]) >= 0)
-				return false;
-	return true;
+	if (CurrentScreen !== "ChatRoom" || !ChatRoomData || !Category) return true;
+	return !ChatRoomData.BlockCategory.some(c => (Category ?? []).some(t => c === t));
 }
 
 /**

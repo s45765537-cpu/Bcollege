@@ -78,6 +78,7 @@ Search,Search
 SearchDescription,Search description:
 ShowLockedRooms,Show locked rooms:
 ShowFullRooms,Show full rooms:
+Smoking,Smoking
 RoomType,Room Type:
 SearchMenuButton,Search Menu
 ShowRoomPage,Show Room Page
@@ -91,6 +92,7 @@ PhotosBlockDescription,Photographs are not allowed in this room.
 ArousalBlockDescription,Arousal activities are not allowed in this room.
 SciFiBlockDescription,Sci-Fi items are not allowed in this room.
 LeashingBlockDescription,Player Leashing is not allowed in this room.
+SmokingBlockDescription,Smoking is not allowed in this room.
 SpaceDescription,Only female characters are allowed in this room.
 MSpaceDescription,Only male characters are allowed in this room.
 XSpaceDescription,Mixed gender characters are allowed in this room.

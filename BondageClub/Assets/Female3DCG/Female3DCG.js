@@ -43234,6 +43234,7 @@ var AssetFemale3DCG = [
 				Name: "Cigarette",
 				InventoryID: 1255,
 				ParentGroup: "",
+				Category: ["Smoking"],
 				Value: 10,
 				Left: 0,
 				Top: {
@@ -48304,6 +48305,7 @@ var AssetFemale3DCG = [
 				Name: "Cigarette",
 				InventoryID: 1259,
 				ParentGroup: "",
+				Category: ["Smoking"],
 				Value: 10,
 				Left: 0,
 				Priority: 46,
