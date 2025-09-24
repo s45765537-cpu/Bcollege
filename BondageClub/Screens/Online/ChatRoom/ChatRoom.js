@@ -148,14 +148,13 @@ var ChatRoomCustomSizeMode = null;
 
 /**
  * The list of chat room views
- * @type {Record<string, ChatRoomView>}
+ * @type {Record<"Character"|"Map", ChatRoomView>}
  */
 var ChatRoomViews = {
 	Character: {
 		Run: ChatRoomCharacterViewRun,
 		Draw: ChatRoomCharacterViewDraw,
 		DrawUi: ChatRoomCharacterViewDrawUi,
-		DisplayMessage: ChatRoomCharacterViewDisplayMessage,
 		Click: ChatRoomCharacterViewClick,
 		KeyDown: ChatRoomCharacterViewKeyDown,
 		CanLeave: ChatRoomCharacterViewCanLeave,
@@ -167,7 +166,6 @@ var ChatRoomViews = {
 		Run: ChatRoomMapViewRun,
 		Draw: ChatRoomMapViewDraw,
 		DrawUi: ChatRoomMapViewDrawUi,
-		DisplayMessage: ChatRoomMapViewDisplayMessage,
 		Click: ChatRoomMapViewClick,
 		MouseDown: ChatRoomMapViewMouseDown,
 		MouseUp: ChatRoomMapViewMouseUp,
@@ -357,7 +355,7 @@ function ChatRoomActivateView(viewName)
 
 /**
  * Indicates if the chat room view with the passed name is active or not
- * @param {string} viewName - The name of the view to check
+ * @param {keyof typeof ChatRoomViews} viewName - The name of the view to check
  * @returns {boolean} - TRUE if the chat room character view is active, false if not
  */
 function ChatRoomIsViewActive(viewName)
@@ -3215,8 +3213,9 @@ function ChatRoomSendChat() {
  * @return {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg, replyId) {
-	/** @type {ChatMessageDictionary} */
-	const Dictionary = [];
+	const Dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.build();
 	if (type === "Chat" || type === "Whisper") {
 		// Ensure the last OOC content range is closed with a )
 		const lastRange = SpeechGetOOCRanges(msg).pop();
@@ -3273,7 +3272,7 @@ function ChatRoomSendWhisper(targetNumber, msg) {
 	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber === targetNumber);
 	if (!targetChar) return "target-gone";
 
-	if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterOnWhisperRange(targetChar)) {
+	if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterOnWhisperRange(targetChar) && !ChatRoomMapViewHasSuperPowers()) {
 		return "target-out-of-range";
 	}
 
@@ -3818,6 +3817,49 @@ var ChatRoomMessageHandlers = [
 		}
 	},
 	{
+		Description: "Map room hearing distances",
+		Priority: 310,
+		Callback: (data, sender, msg, metadata) => {
+			if (!ChatRoomIsViewActive(ChatRoomMapViewName)) return false;
+
+			// Active super powers let you experience everything
+			if (ChatRoomMapViewHasSuperPowers() || metadata.HasSuperPowers) return false;
+
+			let inRange;
+			switch (data.Type) {
+				case "Action":
+				case "Emote":
+				case "Activity":
+					// We only show interaction messages from characters that are visible
+					inRange = ChatRoomMapViewCharacterIsVisible(sender);
+					break;
+
+				case "Chat":
+					inRange = ChatRoomMapViewCharacterIsHearable(sender);
+					break;
+				case "Whisper":
+					inRange = ChatRoomMapViewCharacterOnWhisperRange(sender);
+					break;
+				default:
+					// We're okay with everything else
+					return false;
+			}
+
+			if (inRange) {
+				// We're in perception range, let through
+				return false;
+			}
+
+			// The sender out of range, strip everything that's not OOC
+			const oocRanges = SpeechGetOOCRanges(msg);
+			let newMessage = "";
+			for (let range of oocRanges) {
+				newMessage += msg.substring(range.start, range.start+range.length);
+			}
+			return newMessage.length ? { msg: newMessage } : true;
+		}
+	},
+	{
 		Description: "Audio system hook for sound effects",
 		Priority: 500,
 		Callback: (data, sender, msg, metadata) => AudioPlaySoundForChatMessage(data, sender, msg, metadata),
@@ -4011,6 +4053,9 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			const C = Character.find((c) => c.MemberNumber === SourceCharacter);
 			if (C) {
 				meta.SourceCharacter = C;
+				if (ChatRoomData.Admin.includes(C.MemberNumber)) {
+					meta.HasSuperPowers = entry.HasSuperPowers ?? false;
+				}
 			}
 		} else if (IsTargetCharacterDictionaryEntry(entry)) {
 			const {TargetCharacter, Index} = entry;
@@ -4583,7 +4628,7 @@ function ChatRoomScrollToReplyID(msg) {
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
-	const displayMessage = CommonCensor(ChatRoomActiveView.DisplayMessage(data, msg, SenderCharacter, metadata) ?? "¶¶¶");
+	const displayMessage = CommonCensor(msg);
 	if (displayMessage == "¶¶¶") return;
 
 	// Prepares the HTML tags

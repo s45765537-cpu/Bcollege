@@ -20,7 +20,7 @@ const ChatRoomCharacterViewCharactersPerRow = 5;
 
 /**
  * The name of the chat room character view.
- * @type {string}
+ * @type {"Character"}
  */
 const ChatRoomCharacterViewName = "Character";
 
@@ -36,18 +36,6 @@ function ChatRoomCharacterViewIsActive() {
  * Run handler for the chat room character view
  */
 function ChatRoomCharacterViewRun() {
-}
-
-/**
- * Alter the received message to what will be displayed in the chat log
- * @param {ServerChatRoomMessage} data
- * @param {string} msg
- * @param {Character} SenderCharacter
- * @param {IChatRoomMessageMetadata} metadata
- * @returns {string|null} - The string to display or null if the message should be hidden
- */
-function ChatRoomCharacterViewDisplayMessage(data, msg, SenderCharacter, metadata) {
-	return msg;
 }
 
 /**

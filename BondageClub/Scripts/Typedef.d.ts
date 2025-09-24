@@ -907,8 +907,8 @@ interface IChatRoomMessageMetadata {
 	ReplyId?: string;
 	/** The ID of the message */
 	MsgId?: string;
-
-
+	/** Whether the sender has super powers active (only in map view) */
+	HasSuperPowers?: boolean;
 }
 
 /**
@@ -4928,7 +4928,6 @@ interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "Mous
 	Deactivate?: () => void;
 	Draw: () => void;
 	DrawUi: () => void;
-	DisplayMessage: (data: ServerChatRoomMessage, msg: string, SenderCharacter: Character, metadata: IChatRoomMessageMetadata) => string|null;
 	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;
