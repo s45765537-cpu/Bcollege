@@ -1264,23 +1264,22 @@ function CommonIsArray(arg) {
 
 /**
  * A {@link Object.keys} variant annotated to return respect literal key types
- * @template {string} T
- * @param {Partial<Record<T, unknown>>} record A record with string-based keys
- * @returns {T[]} The keys in the passed record
+ * @template {object} T
+ * @param {T} obj A record with string-based keys
+ * @returns {(keyof T)[]} The keys in the passed record
  */
-function CommonKeys(record) {
-	return /** @type {T[]} */(Object.keys(record));
+function CommonKeys(obj) {
+	return /** @type {(keyof T)[]} */(Object.keys(obj));
 }
 
 /**
  * A {@link Object.entries} variant annotated to return respect literal key types
- * @template {string} KT
- * @template VT
- * @param {Partial<Record<KT, VT>>} record A record with string-based keys
- * @returns {[KT, VT][]} The key/value pairs in the passed record
+ * @template {{}} T
+ * @param {T} obj A record with string-based keys
+ * @returns {[keyof T, T[keyof T]][]} The key/value pairs in the passed record
  */
-function CommonEntries(record) {
-	return /** @type {[KT, VT][]} */(Object.entries(record));
+function CommonEntries(obj) {
+	return /** @type {[keyof T, T[keyof T]][]} */(Object.entries(obj));
 }
 
 /**

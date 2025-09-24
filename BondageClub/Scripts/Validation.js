@@ -1284,11 +1284,12 @@ function ValidationApplyRecord(arg, C, validators, allowExtraKeys=false) {
 		arg = {};
 	}
 
-	const ret = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(CommonEntries(validators).map(([name, validate]) => {
+	const validated = /** @type {[string, any][]} */ (CommonEntries(validators).map(([name, validate]) => {
 		/** @type {any} */
 		const value = validate(arg[name], C);
 		return [name, value];
-	})));
+	}));
+	const ret = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(validated));
 
 	if (allowExtraKeys) {
 		const extraKeys = CommonKeys(arg).filter(i => !(i in ret));
