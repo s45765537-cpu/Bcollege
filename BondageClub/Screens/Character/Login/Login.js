@@ -1138,7 +1138,7 @@ function LoginSetupPlayer(C) {
 	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 	CharacterAppearanceValidate(Player);
 	ChatRoomCustomized = Player.OnlineSettings.ShowRoomCustomization >= 2;
-	if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
+	if (Player.Crafting.length > 200) Player.Crafting = Player.Crafting.slice(0, 200);
 }
 
 /**

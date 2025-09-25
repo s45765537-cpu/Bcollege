@@ -1361,9 +1361,9 @@ function CraftingRun() {
 		} else if (CraftingReorderMode == "Place") {
 			DrawText(`${TextGet("ReorderPlace")} ${CraftingReorderList.length}`, 737, 60, "White", "Black");
 		} else if (CraftingDestroy) {
-			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 737, 60, "White", "Black");
+			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${200 / 20}.`, 737, 60, "White", "Black");
 		} else {
-			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${80 / 20}.`, 737, 60, "White", "Black");
+			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${200 / 20}.`, 737, 60, "White", "Black");
 			TrashCancel = true;
 		}
 		if (TrashCancel) {
@@ -1713,7 +1713,7 @@ function CraftingLoadServer(Packet) {
 		}
 
 		// Too many items, skip the rest
-		if (Player.Crafting.length >= 80) break;
+		if (Player.Crafting.length >= 200) break;
 	}
 
 	/**
@@ -1787,10 +1787,10 @@ function CraftingClick(event) {
 		// Four-ish pages of slots
 		if (MouseIn(1475, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset - 20;
-			if (CraftingOffset < 0) CraftingOffset = 80 - 20;
+			if (CraftingOffset < 0) CraftingOffset = 200 - 20;
 		} else if (MouseIn(1580, 15, 90, 90)) {
 			CraftingOffset = CraftingOffset + 20;
-			if (CraftingOffset >= 80) CraftingOffset = 0;
+			if (CraftingOffset >= 200) CraftingOffset = 0;
 		}
 
 		if (CraftingReorderMode == "None") {
