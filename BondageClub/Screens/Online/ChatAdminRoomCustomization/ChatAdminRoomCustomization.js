@@ -106,7 +106,7 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 async function ChatAdminRoomCustomizationLoad() {
 	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
-	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: "", MusicStart: ""};
+	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: "", MusicStart: "", SizeMode: DrawingResizeMode.Fill };
 	const imageInput = ElementCreateInput("InputImageURL", "text", data.ImageURL, "250");
 	const filterInput = ElementCreateInput("InputImageFilter", "text", data.ImageFilter, "10");
 	const musicInput = ElementCreateInput("InputMusicURL", "text", data.MusicURL, "250");
@@ -118,7 +118,7 @@ async function ChatAdminRoomCustomizationLoad() {
 		filterInput.setAttribute("disabled", "disabled");
 		musicInput.setAttribute("disabled", "disabled");
 	}
-	ChatAdminRoomCustomizationSizeMode = data?.SizeMode ?? DrawingResizeMode.Fill;
+	ChatAdminRoomCustomizationSizeMode = data.SizeMode;
 }
 
 function ChatAdminRoomCustomizationUnload() {
@@ -158,7 +158,7 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 			if (Date.now() - ChatRoomData.Custom.MusicStart > 5000) {
 				ChatAdminRoomCustomizationMusic.addEventListener('loadedmetadata', function () {
 					ChatAdminRoomCustomizationMusic.currentTime = (((Date.now() - ChatRoomData.Custom.MusicStart)/1000)%ChatAdminRoomCustomizationMusic.duration);
-				}, false)
+				}, false);
 			}
 			ChatAdminRoomCustomizationMusic.play();
 			ChatAdminRoomCustomizationMusic.addEventListener('ended', function() {
