@@ -150,7 +150,7 @@ async function ChatAdminLoad() {
 	sizeInput.setAttribute("max", "20");
 	sizeInput.setAttribute("autocomplete", "off");
 	const descInput = ElementCreateTextArea("InputDescription");
-	descInput.setAttribute("maxLength", 300);
+	descInput.setAttribute("maxLength", ServerChatRoomDescriptionMaxLength);
 	descInput.setAttribute("autocomplete", "off");
 	descInput.setAttribute("placeholder", TextGet("InputDescriptionPlaceholder"));
 	ElementValue("InputDescription", ChatAdminData.Description);

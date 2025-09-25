@@ -18,7 +18,8 @@ var ServerAccountPasswordRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountResetNumberRegex = /^[0-9]{1,20}$/;
 var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
 var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
-var ServerChatMessageMaxLength = 1000;
+var ServerChatMessageMaxLength = 2000;
+var ServerChatRoomDescriptionMaxLength = 300;
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
