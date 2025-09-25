@@ -47,38 +47,38 @@ TrainingEnd,,,"(A maid comes to inform you that the training session is over, an
 1000,1200,(Do a pain training.),(She takes a deep breath as you get closer to start a pain training.),SlaveMarketTrainingStart(1),Player.CanInteract()
 1000,1300,(Do a sexual training.),(She blushes red as you get closer to start a sexual training.),SlaveMarketTrainingStart(2),Player.CanInteract()
 1000,0,(Give up and go back.),,"SlaveMarketTrainingEnd(""Fail"")",
-1100,,(Check on her well-being.),(She seems to be very calm and relax.  She doesn't struggle at all.),,"SlaveMarketTrainingLevelIs(""Lowest"")"
-1100,,(Check on her well-being.),(She barely struggles and seems to be in control.),,"SlaveMarketTrainingLevelIs(""Low"")"
-1100,,(Check on her well-being.),"(She struggles a little and seems to be in a good learning mood, both in control and on the edge at the same time.)",,"SlaveMarketTrainingLevelIs(""Perfect"")"
-1100,,(Check on her well-being.),(She struggles a lot and seems to be panicking.),,"SlaveMarketTrainingLevelIs(""High"")"
-1100,,(Check on her well-being.),"(She struggles frantically, cries and begs for freedom like an animal.)",,"SlaveMarketTrainingLevelIs(""Highest"")"
-1100,,(Loosen her restraints.),(She seems comforted as you loosen her restraints.),SlaveMarketTrainingProgress(-1),
-1100,,(Tease and grope her.),(She moans silently as you slowly tease and grope her.),SlaveMarketTrainingProgress(1),
-1100,,(Tighten her restraints.),(She whimpers a little as you tighten her restrains.),SlaveMarketTrainingProgress(3),
-1100,,(Slap her.),"(She cowers as you slap her hard, trembling from her helpless pain.)",SlaveMarketTrainingProgress(5),
-1100,,(Tighten to stop her blood circulation.),"(She struggles and screams in the gag as her bondage gets really tight and cuts her blood flow, making her dizzy.)",SlaveMarketTrainingProgress(7),
+1100,1100,(Check on her well-being.),(She seems to be very calm and relax.  She doesn't struggle at all.),,"SlaveMarketTrainingLevelIs(""Lowest"")"
+1100,1100,(Check on her well-being.),(She barely struggles and seems to be in control.),,"SlaveMarketTrainingLevelIs(""Low"")"
+1100,1100,(Check on her well-being.),"(She struggles a little and seems to be in a good learning mood, both in control and on the edge at the same time.)",,"SlaveMarketTrainingLevelIs(""Perfect"")"
+1100,1100,(Check on her well-being.),(She struggles a lot and seems to be panicking.),,"SlaveMarketTrainingLevelIs(""High"")"
+1100,1100,(Check on her well-being.),"(She struggles frantically, cries and begs for freedom like an animal.)",,"SlaveMarketTrainingLevelIs(""Highest"")"
+1100,1100,(Loosen her restraints.),(She seems comforted as you loosen her restraints.),SlaveMarketTrainingProgress(-1),
+1100,1100,(Tease and grope her.),(She moans silently as you slowly tease and grope her.),SlaveMarketTrainingProgress(1),
+1100,1100,(Tighten her restraints.),(She whimpers a little as you tighten her restrains.),SlaveMarketTrainingProgress(3),
+1100,1100,(Slap her.),"(She cowers as you slap her hard, trembling from her helpless pain.)",SlaveMarketTrainingProgress(5),
+1100,1100,(Tighten to stop her blood circulation.),"(She struggles and screams in the gag as her bondage gets really tight and cuts her blood flow, making her dizzy.)",SlaveMarketTrainingProgress(7),
 1100,,(Give up and go back.),,"SlaveMarketTrainingEnd(""Fail"")",
-1200,,(Check on her pain threshold.),(She looks happy and doesn't seem to be in pain at all.),,"SlaveMarketTrainingLevelIs(""Lowest"")"
-1200,,(Check on her pain threshold.),(She looks like in a little bit of pain but nothing extreme.),,"SlaveMarketTrainingLevelIs(""Low"")"
-1200,,(Check on her pain threshold.),(She breathes fast and aches from the pain but seems to be well-focused on your training.),,"SlaveMarketTrainingLevelIs(""Perfect"")"
-1200,,(Check on her pain threshold.),"(She cries from the intense pain and cowers at your every move, in a state of panic.)",,"SlaveMarketTrainingLevelIs(""High"")"
-1200,,(Check on her pain threshold.),(She has large marks on her skin and is almost passed-out.  The intense pain makes her barely conscious.),,"SlaveMarketTrainingLevelIs(""Highest"")"
-1200,,(Take time to comfort her.),(She seems comforted as you take time to calm her down.),SlaveMarketTrainingProgress(-1),
-1200,,(Spank her.),(You spank her a few times as her eyes widen a little with each swing.),SlaveMarketTrainingProgress(1),
-1200,,(Crop her.),(She whimpers and jumps with each crop swing.),SlaveMarketTrainingProgress(3),"DialogInventoryAvailable(""Crop"", ""ItemHandheld"")"
-1200,,(Strangle her lightly.),(You strangle her lightly as she struggles for air and against the pain.),SlaveMarketTrainingProgress(5),
-1200,,(Whip her.),"(She cries with each whip lashes, trying to endure the pain and getting a strong adrenaline rush.)",SlaveMarketTrainingProgress(7),"DialogInventoryAvailable(""Whip"", ""ItemHandheld"")"
+1200,1200,(Check on her pain threshold.),(She looks happy and doesn't seem to be in pain at all.),,"SlaveMarketTrainingLevelIs(""Lowest"")"
+1200,1200,(Check on her pain threshold.),(She looks like in a little bit of pain but nothing extreme.),,"SlaveMarketTrainingLevelIs(""Low"")"
+1200,1200,(Check on her pain threshold.),(She breathes fast and aches from the pain but seems to be well-focused on your training.),,"SlaveMarketTrainingLevelIs(""Perfect"")"
+1200,1200,(Check on her pain threshold.),"(She cries from the intense pain and cowers at your every move, in a state of panic.)",,"SlaveMarketTrainingLevelIs(""High"")"
+1200,1200,(Check on her pain threshold.),(She has large marks on her skin and is almost passed-out.  The intense pain makes her barely conscious.),,"SlaveMarketTrainingLevelIs(""Highest"")"
+1200,1200,(Take time to comfort her.),(She seems comforted as you take time to calm her down.),SlaveMarketTrainingProgress(-1),
+1200,1200,(Spank her.),(You spank her a few times as her eyes widen a little with each swing.),SlaveMarketTrainingProgress(1),
+1200,1200,(Crop her.),(She whimpers and jumps with each crop swing.),SlaveMarketTrainingProgress(3),"DialogInventoryAvailable(""Crop"", ""ItemHandheld"")"
+1200,1200,(Strangle her lightly.),(You strangle her lightly as she struggles for air and against the pain.),SlaveMarketTrainingProgress(5),
+1200,1200,(Whip her.),"(She cries with each whip lashes, trying to endure the pain and getting a strong adrenaline rush.)",SlaveMarketTrainingProgress(7),"DialogInventoryAvailable(""Whip"", ""ItemHandheld"")"
 1200,,(Give up and go back.),,"SlaveMarketTrainingEnd(""Fail"")",
-1300,,(Check on her arousal.),(She doesn't seem turned on at all.),,"SlaveMarketTrainingLevelIs(""Lowest"")"
-1300,,(Check on her arousal.),(She looks a little wet and seems to be enjoying herself.),,"SlaveMarketTrainingLevelIs(""Low"")"
-1300,,(Check on her arousal.),"(She's on the edge of an orgasm, trembling and begging you to let her climax.)",,"SlaveMarketTrainingLevelIs(""Perfect"")"
-1300,,(Check on her arousal.),(She shakes a lot and tries to hide the fact that she had an unapproved orgasm.),,"SlaveMarketTrainingLevelIs(""High"")"
-1300,,(Check on her arousal.),(She's moaning loudly and dripping in her own juices.  She cannot hide her unapproved orgasm.),,"SlaveMarketTrainingLevelIs(""Highest"")"
-1300,,(Let her cool down.),(You let her relax and cool down for a little while.),SlaveMarketTrainingProgress(-1),
-1300,,(Kiss her.),(You kiss her lovingly to keep her in the mood.),SlaveMarketTrainingProgress(1),CurrentCharacter.CanTalk()
-1300,,(Massage her breast.),(You massage her breast slowly as she moans from the pleasure.),SlaveMarketTrainingProgress(3),!CurrentCharacter.IsBreastChaste()
-1300,,(Masturbate her.),(You masturbate her skillfully as she moans loudly from the pleasure.),SlaveMarketTrainingProgress(5),!CurrentCharacter.IsVulvaChaste()
-1300,,(Eat her.),(She screams from the uncontrollable pleasure as you eat her pussy with delight.),SlaveMarketTrainingProgress(7),!CurrentCharacter.IsVulvaChaste()
+1300,1300,(Check on her arousal.),(She doesn't seem turned on at all.),,"SlaveMarketTrainingLevelIs(""Lowest"")"
+1300,1300,(Check on her arousal.),(She looks a little wet and seems to be enjoying herself.),,"SlaveMarketTrainingLevelIs(""Low"")"
+1300,1300,(Check on her arousal.),"(She's on the edge of an orgasm, trembling and begging you to let her climax.)",,"SlaveMarketTrainingLevelIs(""Perfect"")"
+1300,1300,(Check on her arousal.),(She shakes a lot and tries to hide the fact that she had an unapproved orgasm.),,"SlaveMarketTrainingLevelIs(""High"")"
+1300,1300,(Check on her arousal.),(She's moaning loudly and dripping in her own juices.  She cannot hide her unapproved orgasm.),,"SlaveMarketTrainingLevelIs(""Highest"")"
+1300,1300,(Let her cool down.),(You let her relax and cool down for a little while.),SlaveMarketTrainingProgress(-1),
+1300,1300,(Kiss her.),(You kiss her lovingly to keep her in the mood.),SlaveMarketTrainingProgress(1),CurrentCharacter.CanTalk()
+1300,1300,(Massage her breast.),(You massage her breast slowly as she moans from the pleasure.),SlaveMarketTrainingProgress(3),!CurrentCharacter.IsBreastChaste()
+1300,1300,(Masturbate her.),(You masturbate her skillfully as she moans loudly from the pleasure.),SlaveMarketTrainingProgress(5),!CurrentCharacter.IsVulvaChaste()
+1300,1300,(Eat her.),(She screams from the uncontrollable pleasure as you eat her pussy with delight.),SlaveMarketTrainingProgress(7),!CurrentCharacter.IsVulvaChaste()
 1300,,(Give up and go back.),,"SlaveMarketTrainingEnd(""Fail"")",
 1900,1901,Your training is done.,(She nods happily and seems to have learned from you.  Your training had positive effects.),,CurrentCharacter.CanTalk()
 1900,1901,Next time it will be harsher.,(She gulps but seems to have learned from you.  Your training had positive effects.),"DialogChangeReputation(""Dominant"", 3)",CurrentCharacter.CanTalk()

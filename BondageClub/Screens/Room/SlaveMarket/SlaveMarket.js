@@ -165,7 +165,12 @@ function SlaveMarketTrainingStart() {
 	EmptyCharacter.push(SlaveMarketSlaveToTrain);
 	CommonSetScreen("Room", "Empty").then(() => {
 		// Force rebuild the dialog after one second to make sure the functions are loaded properly for the "Empty" room
-		CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty");
+		function delay(time) {
+			return new Promise(resolve => setTimeout(resolve, time));
+		}
+		delay(1000).then(() => 
+			CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty")
+		);
 	});
 }
 
