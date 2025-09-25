@@ -896,7 +896,6 @@ function PrivateClickCharacter() {
 				if (!PrivateCharacter[C].IsPlayer()) {
 					PrivateCharacterShouldSync = true;
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwner()) PrivateCharacter[C].Stage = "1000";
-					if ((PrivateCharacter[C].Stage == "0") && NPCEventGet(PrivateCharacter[C], "EndSubTrial")) PrivateCharacter[C].Stage = "1000";
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwnedByPlayer()) PrivateCharacter[C].Stage = "2000";
 					NPCTraitDialog(PrivateCharacter[C]);
 				}
