@@ -205,12 +205,12 @@ function ManagementCannotBeReleasedExtreme() { return Player.IsOwned() === "npc"
  * Checks if the player can be owned by the mistress.
  * @returns {boolean} - TRUE if the player is fully submissive, the player is not owned, the mistress has not been angered and the mistress can enter the private room.
  */
-function ManagementWillOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
+function ManagementWillOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && PrivateHasEmptySlot() && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the mistress is not willing to own the player.
  * @returns {boolean} - TRUE if the player can be owned, but is not submissive enough.
  */
-function ManagementWontOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
+function ManagementWontOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && PrivateHasEmptySlot() && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the player has at least one lover who is a NPC from bondage college.
  * @returns {boolean} - TRUE if the player has at least one lover who is a NPC from bondage college.
