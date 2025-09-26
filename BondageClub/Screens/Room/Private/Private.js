@@ -1205,10 +1205,10 @@ function PrivateKickOutOwner() {
  * @returns {void} - Nothing.
  */
 function PrivateKickCharacterOut(C) {
-	let DeleteCharIndex = PrivateCharacter.findIndex(c => c.Name === C.Name);
+	let DeleteCharIndex = PrivateCharacter.findIndex(c => c.CharacterID === C.CharacterID);
 	if (DeleteCharIndex < 0) return;
-	CharacterDelete(C);
 	PrivateCharacter.splice(DeleteCharIndex, 1);
+	CharacterDelete(C);
 	let OtherCharIndex = 0;
 	for (let Char of PrivateCharacter) {
 		if (OtherCharIndex >= DeleteCharIndex) Char.CharacterID = "NPC_Private_Custom_" + OtherCharIndex.toString();
