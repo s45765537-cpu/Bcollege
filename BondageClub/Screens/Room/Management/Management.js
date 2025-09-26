@@ -367,10 +367,11 @@ function ManagementCannotPlayWithSubLock() { return (ReputationGet("Dominant") <
  * @returns {boolean} - TRUE if there's no other Mistress in the player private room
  */
 function ManagementNoMistressInPrivateRoom() {
-	if (PrivateCharacter.length <= 1) return true;
-	for (let C = 1; C < PrivateCharacter.length; C++)
-		if ((PrivateCharacter[C].Title != null) && (PrivateCharacter[C].Title == "Mistress"))
+	for (const char of PrivateCharacter) {
+		if (char.IsNpc() && char.Title === "Mistress") {
 			return false;
+		}
+	}
 	return true;
 }
 
@@ -379,9 +380,11 @@ function ManagementNoMistressInPrivateRoom() {
  * @returns {boolean} - TRUE if any NPC in the private room is chaste.
  */
 function ManagementFriendIsChaste() {
-	for (let C = 1; C < PrivateCharacter.length; C++)
-		if ((PrivateCharacter[C].AccountName != null) && PrivateCharacter[C].IsChaste())
+	for (const char of PrivateCharacter) {
+		if (char.IsNpc() && char.IsChaste()) {
 			return true;
+		}
+	}
 	return false;
 }
 

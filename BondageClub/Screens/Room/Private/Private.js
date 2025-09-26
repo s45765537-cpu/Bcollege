@@ -525,15 +525,16 @@ async function PrivateLoad() {
 	if (MustSync) ServerPrivateCharacterSync();
 
 	// There's a 20% odds that the owner will interecpt the player as soon as she enters the room
-	if ((Math.random() < 0.2) && PrivateEntryEvent && Player.IsOwned() && !LogQuery("OwnerBeepActive", "PrivateRoom"))
-		for (let C = 1; C < PrivateCharacter.length; C++)
-			if (PrivateCharacter[C].IsOwner()) {
-				PoseSetActive(Player, "Kneel", true);
-				NPCTraitDialog(PrivateCharacter[C]);
-				CharacterSetCurrent(PrivateCharacter[C]);
-				PrivateCharacter[C].CurrentDialog = DialogFind(CurrentCharacter, "1060");
-				PrivateCharacter[C].Stage = "1061";
-			}
+	if ((Math.random() < 0.2) && PrivateEntryEvent && Player.IsOwned() && !LogQuery("OwnerBeepActive", "PrivateRoom")) {
+		const npcOwner = PrivateCharacter.find(c => c.IsOwner());
+		if (npcOwner) {
+			PoseSetActive(Player, "Kneel", true);
+			NPCTraitDialog(npcOwner);
+			npcOwner.CurrentDialog = DialogFind(npcOwner, "1060");
+			npcOwner.Stage = "1061";
+			CharacterSetCurrent(npcOwner);
+		}
+	}
 
 	// NPCs can change clothes everyday
 	for (let C = 1; C < PrivateCharacter.length; C++)
