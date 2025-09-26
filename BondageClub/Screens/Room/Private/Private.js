@@ -513,9 +513,11 @@ async function PrivateLoad() {
 	PrivateBackground = Player.VisualSettings.PrivateRoomBackground ?? "Private";
 
 	// Loads the vendor and NPCs, also check for relationship decay
-	PrivateVendor = CharacterLoadNPC("NPC_Private_Vendor");
-	PrivateVendor.AllowItem = false;
-	NPCTraitDialog(PrivateVendor);
+	if (!PrivateVendor) {
+		PrivateVendor = CharacterLoadNPC("NPC_Private_Vendor");
+		PrivateVendor.AllowItem = false;
+		NPCTraitDialog(PrivateVendor);
+	}
 
 	Player.ArousalSettings.OrgasmCount = 0;
 
