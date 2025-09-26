@@ -66,19 +66,11 @@ function CollegeTeacherMildredClothes(C) {
 async function CollegeTeacherLoad() {
 
 	// Generates a full Mildred model based on the Bondage College template
-	if (CollegeTeacherMildred == null) {
-
-		// Do not generate her if she's already in the private room
-		if (PrivateCharacter.length > 1)
-			for (let P = 1; P < PrivateCharacter.length; P++)
-				if (PrivateCharacter[P].Name == "Mildred")
-					return;
-
+	if (!CollegeTeacherMildred && PrivateCharacterIsInRoom("Mildred")) {
 		// Generates the model
 		CollegeTeacherMildred = CharacterLoadNPC("NPC_CollegeTeacher_Mildred");
 		CollegeTeacherMildred.AllowItem = false;
 		CollegeTeacherMildred.Name = "Mildred";
-		CollegeTeacherMildred.GoneAway = false;
 		CollegeTeacherMildredClothes(CollegeTeacherMildred);
 		CharacterRefresh(CollegeTeacherMildred);
 
@@ -92,7 +84,7 @@ async function CollegeTeacherLoad() {
  */
 function CollegeTeacherRun() {
 	DrawCharacter(Player, 0, 0, 1);
-	if ((CollegeTeacherMildred != null) && !CollegeTeacherMildred.GoneAway) DrawCharacter(CollegeTeacherMildred, 500, 0, 1);
+	if (CollegeTeacherMildred) DrawCharacter(CollegeTeacherMildred, 500, 0, 1);
 	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 }
@@ -102,7 +94,7 @@ function CollegeTeacherRun() {
  * @returns {void} - Nothing
  */
 function CollegeTeacherClick() {
-	if (MouseIn(500, 0, 500, 1000) && (CollegeTeacherMildred != null) && !CollegeTeacherMildred.GoneAway) CharacterSetCurrent(CollegeTeacherMildred);
+	if (MouseIn(500, 0, 500, 1000) && CollegeTeacherMildred) CharacterSetCurrent(CollegeTeacherMildred);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "CollegeEntrance");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 }
@@ -186,6 +178,8 @@ function CollegeTeacherInviteToPrivateRoom(Role="None") {
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();
-	CollegeTeacherMildred.GoneAway = true;
+	CharacterDelete(CollegeTeacherMildred);
+	CollegeTeacherMildred = null;
+
 	CommonSetScreen("Room", "Private");
 }

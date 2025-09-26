@@ -2514,3 +2514,11 @@ function PrivateOwnerHallParadeEnd(Action) {
 		PrivateBlockChange(15);
 	}
 }
+
+/**
+ * Check whether the Private room has an NPC with that name in it
+ * @param {string} name
+ */
+function PrivateCharacterIsInRoom(name) {
+	return PrivateCharacter.some(c => c.IsNpc() && c.Name === name);
+}

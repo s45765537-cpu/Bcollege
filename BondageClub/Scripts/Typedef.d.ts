@@ -2172,11 +2172,6 @@ interface NPCCharacter extends Character {
 	Domination?: number;
 }
 
-/** College & Asylum */
-interface NPCCharacter {
-	GoneAway?: boolean;
-}
-
 /** Movie Studio */
 interface NPCCharacter {
 	TrialDone?: boolean;

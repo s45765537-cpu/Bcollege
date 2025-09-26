@@ -2,6 +2,7 @@
 var AsylumMeetingBackground = "AsylumMeeting";
 /** @type {null | NPCCharacter} */
 var AsylumMeetingPatientLeft = null;
+var AsylumMeetingPatientFled = false;
 /** @type {null | NPCCharacter} */
 var AsylumMeetingPatientRight = null;
 
@@ -40,11 +41,10 @@ function AsylumMeetingCanPlayClubCard() { return (!Player.IsRestrained() && !Cur
 async function AsylumMeetingLoad() {
 
 	// Dress the left patient (dealer)
-	if (AsylumMeetingPatientLeft == null) {
+	if (!AsylumMeetingPatientLeft && !AsylumMeetingPatientFled) {
 		AsylumMeetingPatientLeft = CharacterLoadNPC("NPC_AsylumMeeting_PatientLeft");
 		AsylumEntranceWearPatientClothes(AsylumMeetingPatientLeft);
 		AsylumMeetingPatientLeft.AllowItem = false;
-		AsylumMeetingPatientLeft.GoneAway = false;
 		InventoryWear(AsylumMeetingPatientLeft, "Beret1", "Hat", "#BB0000");
 	}
 
@@ -104,7 +104,7 @@ async function AsylumMeetingLoad() {
  * @returns {void} - Nothing
  */
 function AsylumMeetingRun() {
-	if (!AsylumMeetingPatientLeft.GoneAway) DrawCharacter(AsylumMeetingPatientLeft, 250, 0, 1);
+	if (AsylumMeetingPatientLeft) DrawCharacter(AsylumMeetingPatientLeft, 250, 0, 1);
 	DrawCharacter(Player, 750, 0, 1);
 	DrawCharacter(AsylumMeetingPatientRight, 1250, 0, 1);
 	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
@@ -116,7 +116,7 @@ function AsylumMeetingRun() {
  * @returns {void} - Nothing
  */
 function AsylumMeetingClick() {
-	if (MouseIn(250, 0, 500, 1000) && !AsylumMeetingPatientLeft.GoneAway) CharacterSetCurrent(AsylumMeetingPatientLeft);
+	if (MouseIn(250, 0, 500, 1000) && AsylumMeetingPatientLeft) CharacterSetCurrent(AsylumMeetingPatientLeft);
 	if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(1250, 0, 500, 1000)) CharacterSetCurrent(AsylumMeetingPatientRight);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "AsylumEntrance");
@@ -173,7 +173,9 @@ function AsylumMeetingReleaseForMoney() {
 function AsylumMeetingRunAway(RepChange) {
 	DialogChangeReputation("Asylum", RepChange);
 	DialogLeave();
-	AsylumMeetingPatientLeft.GoneAway = true;
+	AsylumMeetingPatientFled = true;
+	CharacterDelete(AsylumMeetingPatientLeft);
+	AsylumMeetingPatientLeft = null;
 }
 
 /**
