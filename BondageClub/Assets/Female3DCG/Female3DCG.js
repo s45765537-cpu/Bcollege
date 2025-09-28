@@ -30844,7 +30844,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "ModularChastityBelt",  // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				Name: "ModularChastityBelt", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
 				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 673,
 				StyleOverride: ["EchoV2"],
@@ -35741,7 +35741,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: " ",
+				Name: "OrnateCuffs",
 				InventoryID: 730,
 				Fetish: ["Metal"],
 				Priority: 29,
@@ -57638,7 +57638,7 @@ var AssetFemale3DCG = [
 						Name: "Base",
 						StyleOverride: ["EchoV2"],
 						Top: 48,
-						Left: 134
+						Left: 134,
 					},
 					{ Name: "Tube", Top: 48, Left: 134 },
 					{ Name: "HandPump", Top: 48, Left: 134, AllowTypes: { bp: 1 } },
@@ -57688,7 +57688,11 @@ var AssetFemale3DCG = [
 				],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				DefaultColor: [],
-				Layer: [{ Name: "Base", StyleOverride: ["EchoV2"] }, { Name: "EarCover" }, { Name: "Lips" }],
+				Layer: [
+					{ Name: "Base", StyleOverride: ["EchoV2"] },
+					{ Name: "EarCover" },
+					{ Name: "Lips" },
+				],
 			},
 			{
 				Name: "CorsetHood",

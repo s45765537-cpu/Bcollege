@@ -168,7 +168,7 @@ function SlaveMarketTrainingStart() {
 		function delay(time) {
 			return new Promise(resolve => setTimeout(resolve, time));
 		}
-		delay(1000).then(() => 
+		delay(1000).then(() =>
 			CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty")
 		);
 	});
