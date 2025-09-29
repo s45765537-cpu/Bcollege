@@ -13,8 +13,6 @@ function PreferenceSubscreenDifficultyRun() {
 	// Draw the character and the controls
 	MainCanvas.textAlign = "left";
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	DrawText(TextGet("DifficultyPreferences"), 500, 125, "Black", "Gray");
 
 	// When no level is selected, we allow to select one
 	if (PreferenceDifficultyLevel == null) {
@@ -65,15 +63,13 @@ function PreferenceSubscreenDifficultyClick() {
 	// When no level is selected, the user can pick one to go into details
 	if (PreferenceDifficultyLevel == null) {
 		PreferenceDifficultyAccept = false;
-		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 		for (let D = 0; D <= 3; D++)
 			if (MouseIn(500, 320 + 150 * D, 300, 64))
 				PreferenceDifficultyLevel = /** @type {DifficultyLevel} */ (D);
 	} else {
 
 		// If a level is selected, the user must check to confirm
-		if (MouseIn(1815, 75, 90, 90)) PreferenceDifficultyLevel = null;
-		else if (PreferenceDifficultyLevel !== Player.GetDifficulty()) {
+		if (PreferenceDifficultyLevel !== Player.GetDifficulty()) {
 			var LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
 			if ((PreferenceDifficultyLevel <= 1) || (LastChange + 604800000 < CurrentTime)) {
 				if (MouseIn(500, 700, 64, 64)) PreferenceDifficultyAccept = !PreferenceDifficultyAccept;
@@ -86,5 +82,17 @@ function PreferenceSubscreenDifficultyClick() {
 				}
 			}
 		}
+	}
+}
+
+function PreferenceSubscreenDifficultyExit() {
+	// When no level is selected, we are exiting the subscreen
+	if (PreferenceDifficultyLevel == null) {
+		PreferenceDifficultyAccept = false;
+		return true;
+	} else {
+		// If a level is selected, we are returning to list of levels
+		PreferenceDifficultyLevel = null;
+		return false;
 	}
 }

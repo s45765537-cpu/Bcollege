@@ -17,11 +17,11 @@ function PreferenceSubscreenGeneralLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGeneralRun() {
+	DrawCharacter(Player, 50, 50, 0.9);
 
 	// Draw the online preferences
 	MainCanvas.textAlign = "left";
-	DrawText(TextGet("GeneralPreferences"), 500, 125, "Black", "Gray");
-	if (PreferenceMessage != "") DrawText(TextGet(PreferenceMessage), 865, 125, "Red", "Black");
+	if (PreferenceMessage != "") DrawText(TextGet(PreferenceMessage), 920, 125, "Red", "Black");
 	DrawText(TextGet("CharacterLabelColor"), 500, 225, "Black", "Gray");
 	ElementPosition("InputCharacterLabelColor", 990, 212, 250);
 
@@ -50,9 +50,6 @@ function PreferenceSubscreenGeneralRun() {
 	if (onHighDifficulty) DrawTextWrap(TextGet("GeneralHardcoreWarning"), 1225, 622, 450, 100, "Red");
 	DrawCheckbox(500, 802, 64, 64, TextGet("ItemsAffectExpressions"), Player.OnlineSharedSettings.ItemsAffectExpressions);
 
-	// Draw the player & controls
-	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 	if (PreferenceSubscreenGeneralColorPicker)
 		ColorPickerDraw(1250, 185, 675, 800, /** @type {HTMLInputElement} */(document.getElementById("InputCharacterLabelColor")));
 	else
@@ -67,9 +64,6 @@ function PreferenceSubscreenGeneralRun() {
  */
 function PreferenceSubscreenGeneralClick() {
 
-	// If the user clicks on "Exit"
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
-
 	// If we must change the restrain permission level
 	if (MouseIn(500, 280, 90, 90)) {
 		Player.AllowedInteractions++;
@@ -78,8 +72,7 @@ function PreferenceSubscreenGeneralClick() {
 	}
 
 	// If we must show/hide/use the color picker
-	if (MouseIn(1140, 187, 65, 65) && !PreferenceSubscreenGeneralColorPicker) PreferenceSubscreenGeneralColorPicker = true;
-	if (MouseIn(1815, 75, 90, 90) && (PreferenceSubscreenGeneralColorPicker)) PreferenceSubscreenGeneralColorPicker = false;
+	if (MouseIn(1140, 187, 65, 65)) PreferenceSubscreenGeneralColorPicker = !PreferenceSubscreenGeneralColorPicker;
 
 	// Preference check boxes
 	if (MouseIn(500, 402, 64, 64)) Player.VisualSettings.ForceFullHeight = !Player.VisualSettings.ForceFullHeight;
@@ -107,7 +100,10 @@ function PreferenceSubscreenGeneralClick() {
  * @returns {boolean} - Returns false if the color picker is active and input is not valid
  */
 function PreferenceSubscreenGeneralExit() {
-	if (PreferenceSubscreenGeneralColorPicker) return false;
+	if (PreferenceSubscreenGeneralColorPicker) {
+		PreferenceSubscreenGeneralColorPicker = false;
+		return false;
+	}
 
 	const color = ElementValue("InputCharacterLabelColor");
 	if (!CommonIsColor(color)) {

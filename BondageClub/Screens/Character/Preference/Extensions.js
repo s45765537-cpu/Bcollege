@@ -5,6 +5,11 @@ let PreferenceExtensionsDisplay = [];
 /** @type {PreferenceExtensionsSettingItem | null}*/
 let PreferenceExtensionsCurrent = null;
 
+const PreferenceExtensionsIDs = Object.freeze({
+	grid: 'preference-extensions-grid',
+	noExtensionLabel: 'preference-no-extensions-label',
+});
+
 /**
  * Handles the loading of the preference subscreen for extensions
  * @returns {void} - Nothing
@@ -18,8 +23,38 @@ function PreferenceSubscreenExtensionsLoad() {
 				click: () => {
 					PreferenceExtensionsCurrent = s;
 					s?.load();
+					ElementWrap(PreferenceIDs.subscreen).hidden = true;
 				}
 			}))(PreferenceExtensionsSettings[k]));
+
+	if (PreferenceExtensionsDisplay.length === 0) {
+		const noExtensionLabel = ElementCreate({
+			tag: "span",
+			attributes: { id: PreferenceExtensionsIDs.noExtensionLabel },
+			children: [TextGet("ExtensionsNotFound")],
+		});
+		ElementWrap(PreferenceIDs.subscreen).append(noExtensionLabel);
+	} else {
+		ElementWrap(PreferenceExtensionsIDs.grid)?.remove();
+		const buttonsGrid = ElementCreate({
+			tag: "div",
+			classList: ["preference-button-grid", "scroll-box"],
+			attributes: { id: PreferenceExtensionsIDs.grid },
+			children:
+			PreferenceExtensionsDisplay.map((item) => {
+				return ElementButton.Create(`preference-main-${item.Button}`,
+					() => {
+						item.click();
+					},
+					{
+						image: item.Image,
+						label: item.Button,
+						labelPosition: "right",
+					});
+			}),
+		});
+		ElementWrap(PreferenceIDs.subscreen).append(buttonsGrid);
+	}
 }
 
 /**
@@ -33,18 +68,6 @@ function PreferenceSubscreenExtensionsRun() {
 	}
 
 	DrawCharacter(Player, 50, 50, 0.9);
-
-	MainCanvas.textAlign = "left";
-	DrawText(TextGet("ExtensionsPreferences"), 500, 125, "Black", "Gray");
-
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-
-	MainCanvas.textAlign = "center";
-	CommonGenerateGrid(PreferenceExtensionsDisplay, 0, PreferenceSubscreenMainGrid, (item, x, y, w, h) => {
-		DrawButton(x, y, 400, 90, "", "White", item.Image || null);
-		DrawTextFit(item.Button, x + 245, y + 45, 310, "Black");
-		return false;
-	});
 }
 
 /**
@@ -53,42 +76,34 @@ function PreferenceSubscreenExtensionsRun() {
  */
 function PreferenceSubscreenExtensionsClick() {
 	if (PreferenceExtensionsCurrent) {
-
 		PreferenceExtensionsCurrent.click();
 		return;
 	}
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
-
-	CommonGenerateGrid(PreferenceExtensionsDisplay, 0, PreferenceSubscreenMainGrid, (item, x, y, w, h) => {
-		if (MouseIn(x, y, w, h)) {
-			item.click();
-			return true;
-		}
-		return false;
-	});
-
 }
-function PreferenceSubscreenExtensionsExit() {
+
+async function PreferenceSubscreenExtensionsExit() {
 	if (PreferenceExtensionsCurrent) {
 		const validExit = PreferenceExtensionsCurrent.exit();
 		if (validExit === false) return false;
-		PreferenceSubscreenExtensionsClear();
+		await PreferenceSubscreenExtensionsClear();
 		return false;
 	}
+
 	return true;
 }
 
 /**
  * Exit the preference subscreen for extensions, should be called when
  * leaving custom menu of extensions if the extension exits the menu from itself.
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function PreferenceSubscreenExtensionsClear() {
+async function PreferenceSubscreenExtensionsClear() {
 	if (PreferenceExtensionsCurrent === null) return;
 	PreferenceExtensionsCurrent.unload?.();
 	PreferenceExtensionsCurrent = null;
 	// Reload the extension settings
-	PreferenceSubscreenExtensionsLoad();
+	ElementWrap(PreferenceIDs.subscreen).hidden = false;
+	await PreferenceOpenSubscreen("Extensions");
 }
 
 /**
@@ -100,3 +115,35 @@ function PreferenceSubscreenExtensionsUnload() {
 	PreferenceExtensionsCurrent = null;
 }
 
+function PreferenceSubscreenExtensionsResize(onLoad) {
+	const { x, y } = PreferenceSubscreenMainGrid;
+
+	const grid = ElementWrap(PreferenceExtensionsIDs.grid);
+	if (grid) ElementSetPosition(grid, x, y);
+
+	const label = ElementWrap(PreferenceExtensionsIDs.noExtensionLabel);
+	if (label) ElementPosition(label, 1000, 500, 1000);
+
+	PreferenceExtensionsCurrent?.resize?.(onLoad);
+}
+
+/**
+ * @param {string} screenIdentifier
+ * @param {ScreenSpecifier} returnScreen
+ */
+async function PreferenceSubscreenExtensionsOpen(screenIdentifier, returnScreen) {
+	if (PreferenceSubscreen?.name !== "Extensions") {
+		const currentScreen = CommonGetScreen();
+		await PreferenceOpenSubscreen("Extensions");
+		InformationSheetReturnScreen = returnScreen ?? currentScreen;
+	}
+	if (PreferenceExtensionsCurrent?.Identifier === screenIdentifier) return;
+	if (PreferenceExtensionsCurrent) await PreferenceSubscreenExtensionsExit();
+
+	const screen = PreferenceExtensionsSettings[screenIdentifier];
+	if (!screen) return;
+
+	PreferenceExtensionsCurrent = screen;
+	screen.load();
+	ElementWrap(PreferenceIDs.subscreen).hidden = true;
+}

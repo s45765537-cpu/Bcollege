@@ -2,18 +2,100 @@
 
 /** @type {string[]} */
 var PreferenceCensoredWordsList = [];
-var PreferenceCensoredWordsOffset = 0;
+
+const PreferenceCensoredWordsIDs = Object.freeze({
+	grid: 'preference-censored-words-grid',
+	subtitle: 'preference-censored-words-subtitle',
+	censorshipOption: 'preference-censored-words-censorship-group',
+	wordInput: 'InputWord',
+	wordInputGroup: "preference-censored-words-word-input-group",
+	add: 'preference-censored-words-add-button',
+});
 
 /**
  * Loads the preference censored words screen.
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenCensoredWordsLoad() {
-	PreferenceCensoredWordsOffset = 0;
 	PreferenceCensoredWordsList = [];
 	if ((Player.ChatSettings.CensoredWordsList != null) && (Player.ChatSettings.CensoredWordsList != ""))
 		PreferenceCensoredWordsList = Player.ChatSettings.CensoredWordsList.split("|");
-	ElementCreateInput("InputWord", "text", "", "50");
+
+	const subtitle = ElementCreate({
+		tag: "span",
+		classList: ["subscreen-title"],
+		attributes: { id: PreferenceCensoredWordsIDs.subtitle },
+		children: [TextGet("CensorTitle")],
+	});
+	ElementWrap(PreferenceIDs.subscreen).prepend(subtitle);
+
+	const censorshipOption = ElementCreate({
+		tag: "div",
+		classList: ["preference-settings-dropdown"],
+		attributes: {
+			id: PreferenceCensoredWordsIDs.censorshipOption,
+		},
+		children: [
+			{
+				tag: "span",
+				classList: ["label"],
+				children: [TextGet("CensorLevel")],
+			},
+			ElementCreateDropdown(
+				"CensoredWordsLevel",
+				[
+					{ attributes: { value: "0", label: TextGet("CensorLevel0") } },
+					{ attributes: { value: "1", label: TextGet("CensorLevel1") } },
+					{ attributes: { value: "2", label: TextGet("CensorLevel2") } },
+				],
+				function (ev) {
+					ev.preventDefault();
+					Player.ChatSettings.CensoredWordsLevel = parseInt(this.value);
+				}
+			),
+		],
+	});
+	ElementWrap(PreferenceIDs.subscreen).append(censorshipOption);
+
+	const wordInputGroup = ElementCreate({
+		tag: "div",
+		classList: ["preference-censored-words-word-input-group"],
+		attributes: { id: PreferenceCensoredWordsIDs.wordInputGroup },
+		children: [
+			{
+				tag: "span",
+				classList: ["label"],
+				children: [TextGet("CensorWord")],
+			},
+			ElementCreateInput("InputWord", "text", "", "50")
+		]
+	});
+	ElementWrap(PreferenceIDs.subscreen).append(wordInputGroup);
+
+	const addButton = ElementButton.Create(PreferenceCensoredWordsIDs.add,
+		() => {
+			let Word = ElementValue("InputWord").trim().toUpperCase().replace("|", "");
+			if ((Word != "") && (PreferenceCensoredWordsList.indexOf(Word) < 0)) {
+				PreferenceCensoredWordsList.push(Word);
+				PreferenceCensoredWordsList.sort();
+				ElementValue("InputWord", "");
+				PreferenceSubscreenCensoredWordsBuildWords();
+			}
+		},
+		{
+			image: "Icons/Plus.png",
+			tooltip: TextGet("CensorAdd"),
+		});
+	ElementWrap(PreferenceIDs.subscreen).append(addButton);
+
+	const wordsGrid = ElementCreate({
+		tag: "div",
+		classList: ["preference-censored-words-grid", "scroll-box"],
+		attributes: { id: PreferenceCensoredWordsIDs.grid },
+	});
+	ElementWrap(PreferenceIDs.subscreen).append(wordsGrid);
+
+	PreferenceSubscreenCensoredWordsBuildWords();
 }
 
 /**
@@ -21,26 +103,7 @@ function PreferenceSubscreenCensoredWordsLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenCensoredWordsRun() {
-
-	// Draw the header
-	DrawText(TextGet("CensorTitle"), 930, 105, "Black", "Silver");
-	DrawButton(1830, 60, 90, 90, "", "White", "Icons/Exit.png", TextGet("CensorExit"));
-	DrawText(TextGet("CensorLevel"), 200, 205, "Black", "Silver");
-	DrawButton(350, 175, 550, 60, TextGet("CensorLevel" + Player.ChatSettings.CensoredWordsLevel), "White");
-	DrawText(TextGet("CensorWord"), 1080, 205, "Black", "Silver");
-	ElementPosition("InputWord", 1385, 200, 300);
-	DrawButton(1550, 175, 180, 60, TextGet("CensorAdd"), "White");
-	if (PreferenceCensoredWordsList.length > 32) DrawButton(1830, 175, 90, 90, "", "White", "Icons/Next.png");
-
-	// List all words with a delete button
-	MainCanvas.textAlign = "left";
-	for (let O = PreferenceCensoredWordsOffset; O < PreferenceCensoredWordsList.length && O < PreferenceCensoredWordsOffset + 32; O++) {
-		let X = 100 + Math.floor((O - PreferenceCensoredWordsOffset)/ 8) * 450;
-		let Y = 270 + ((O % 8) * 84);
-		DrawButton(X, Y, 60, 60, "", "White", "Icons/Small/Remove.png");
-		DrawText(PreferenceCensoredWordsList[O], X + 100, Y + 30, "Black", "Gray");
-	}
-	MainCanvas.textAlign = "center";
+	DrawCharacter(Player, 50, 50, 0.9);
 }
 
 /**
@@ -48,41 +111,7 @@ function PreferenceSubscreenCensoredWordsRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenCensoredWordsClick() {
-
-	// When the user clicks on the header buttons
-	if (MouseIn(1830, 60, 250, 65)) PreferenceSubscreenExit();
-	if (MouseIn(1550, 175, 180, 60)) {
-		let Word = ElementValue("InputWord").trim().toUpperCase().replace("|", "");
-		if ((Word != "") && (PreferenceCensoredWordsList.indexOf(Word) < 0)) {
-			PreferenceCensoredWordsList.push(Word);
-			PreferenceCensoredWordsList.sort();
-			ElementValue("InputWord", "");
-		}
-		return;
-	}
-	if (MouseIn(350, 175, 550, 60)) {
-		Player.ChatSettings.CensoredWordsLevel++;
-		if (Player.ChatSettings.CensoredWordsLevel > 2) Player.ChatSettings.CensoredWordsLevel = 0;
-		return;
-	}
-	if (MouseIn(1830, 175, 250, 65)) {
-		PreferenceCensoredWordsOffset = PreferenceCensoredWordsOffset + 32;
-		if (PreferenceCensoredWordsOffset >= PreferenceCensoredWordsList.length) PreferenceCensoredWordsOffset = 0;
-		return;
-	}
-
-	// When the user clicks to delete one of the words
-	for (let O = PreferenceCensoredWordsOffset; O < PreferenceCensoredWordsList.length && O < PreferenceCensoredWordsOffset + 32; O++) {
-		let X = 100 + Math.floor((O - PreferenceCensoredWordsOffset)/ 8) * 450;
-		let Y = 270 + ((O % 8) * 84);
-		if (MouseIn(X, Y, 60, 60)) {
-			PreferenceCensoredWordsList.splice(O, 1);
-			if (PreferenceCensoredWordsOffset >= PreferenceCensoredWordsList.length) PreferenceCensoredWordsOffset = 0;
-			return;
-		}
-	}
 }
-
 
 /**
  * Exits the preference screen
@@ -92,6 +121,47 @@ function PreferenceSubscreenCensoredWordsExit() {
 }
 
 function PreferenceSubscreenCensoredWordsUnload() {
-	ElementRemove("InputWord");
 	Player.ChatSettings.CensoredWordsList = PreferenceCensoredWordsList.join("|");
+}
+
+function PreferenceSubscreenCensoredWordsResize() {
+	ElementSetPosition(PreferenceCensoredWordsIDs.grid, 500, 400);
+	ElementPositionFix(PreferenceCensoredWordsIDs.subtitle, 26, 500, 160, 1300, 60);
+	ElementPositionFixed(PreferenceCensoredWordsIDs.censorshipOption, 500, 210, 1000, 60);
+	ElementPositionFixed(PreferenceCensoredWordsIDs.wordInputGroup, 500, 290, 1000, 60);
+	ElementPositionFixed(PreferenceCensoredWordsIDs.add, 1520, 235, 90, 90);
+}
+
+function PreferenceSubscreenCensoredWordsBuildWords() {
+	const words = PreferenceCensoredWordsList.map((word, index) => {
+		return ElementCreate({
+			tag: "div",
+			classList: ["preference-settings-word-pair"],
+			attributes: {
+				id: `preference-censored-words-word-pair-${word}-${index}`,
+			},
+			children: [
+				ElementButton.Create(`preference-censored-words-word-delete-${word}-${index}`, () => {
+					PreferenceCensoredWordsList.splice(index, 1);
+					PreferenceSubscreenCensoredWordsBuildWords();
+				},
+				{
+					image: "Icons/Small/Remove.png",
+					noStyling: true
+				},
+				{
+					button: {
+						classList: ["preference-settings-word-delete"],
+					}
+				}),
+				{
+					tag: "span",
+					classList: ["preference-settings-word"],
+					children: [word],
+				},
+			],
+		});
+	});
+
+	ElementWrap(PreferenceCensoredWordsIDs.grid)?.replaceChildren(...words);
 }

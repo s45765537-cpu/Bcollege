@@ -7,7 +7,7 @@ AudioPreferences,- Audio Preferences -
 ArousalPreferences,- Arousal Meter & Sexual Activities Preferences -
 SecurityPreferences,- Security Preferences -
 VisibilityPreferences,- Item Preferences -
-VFXPreferences,- Graphical Preferences -
+GraphicsPreferences,- Graphical Preferences -
 OnlinePreferences,- Online Preferences -
 ImmersionPreferences,- Immersion Preferences -
 ControllerPreferences,- Controller Preferences -
@@ -15,6 +15,7 @@ NotificationsPreferences,- Notification Preferences -
 GenderPreferences,- Gender Preferences -
 ScriptsPreferences,- Script Permission Preferences -
 ExtensionsPreferences,- Extensions Preferences -
+CensoredWordsPreferences,- Censorship Settings -
 HomepageGeneral,General
 HomepageDifficulty,Difficulty
 HomepageRestriction,Restriction
@@ -381,3 +382,4 @@ MaxFPS30,30 FPS
 MaxFPS60,60 FPS
 OOCAutoClose,Auto-close OOC messages
 ShowUngarbledMessages,Show ungarbled contents of messages if available
+ExtensionsNotFound,No Extensions Found

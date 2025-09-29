@@ -868,6 +868,8 @@ var ElementButton = {
 		top: "button-label-top",
 		center: "button-label-center",
 		bottom: "button-label-bottom",
+		left: "button-label-left",
+		right: "button-label-right",
 	}),
 
 	/**
@@ -1270,14 +1272,14 @@ var ElementButton = {
 	 * @private
 	 * @param {string} id
 	 * @param {ElementButton.StaticNode} [label]
-	 * @param {"top" | "center" | "bottom"} [position]
+	 * @param {"top" | "center" | "bottom" | "left" | "right"} [position]
 	 * @param {Omit<HTMLOptions<"span">, "tag">} [options]
-	 * @returns {HTMLSpanElement}
+	 * @returns {null | HTMLSpanElement}
 	 */
 	_ParseLabel: function _ParseLabel(id, label, position, options) {
 		label = (CommonIsArray(label) ? label : [label]).filter(i => i != null);
 		if (label.length === 0) {
-			return;
+			return null;
 		}
 
 		options ??= {};
@@ -1429,6 +1431,15 @@ var ElementButton = {
 		protoTooltip.push(...(tooltipOptions.children ?? []));
 		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);
 
+		const classList = [
+			"blank-button",
+			"button",
+			options.noStyling ? null : "button-styling",
+			(label?.classList.contains(ElementButton._LabelPositions.left) || label?.classList.contains(ElementButton._LabelPositions.right)) ? "button-horizontal" : null,
+			"HideOnPopup",
+			...(buttonOptions.classList ?? []),
+		];
+
 		/** @type {null | "aria-labelledby" | "aria-describedby"} */
 		let tooltipRoleAttribute = null;
 		switch (options.tooltipRole ?? null) {
@@ -1455,7 +1466,7 @@ var ElementButton = {
 				type: "button",
 				...(buttonOptions.attributes ?? {}),
 			},
-			classList: ["blank-button", "button", options.noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
+			classList,
 			eventListeners: {
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
@@ -2042,7 +2053,7 @@ var ElementCheckbox = {
 	},
 
 	/**
-	 * Construct an return a DOM checkbox element (`<input type="checkbox">`)
+	 * Construct and return a DOM checkbox element (`<input type="checkbox">`)
 	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.Options} options - High level options for the to-be created checkbox
@@ -2085,6 +2096,56 @@ var ElementCheckbox = {
 			},
 		});
 	},
+
+	/**
+	 * Construct and return a DOM pair of checkbox and label elements
+	 * @example
+	 * <label class="checkbox-pair">
+	 *   <input type="checkbox" id="checkbox" class="checkbox">
+	 *   <span id="checkbox-label" for="checkbox">Label</label>
+	 * </div>
+	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
+	 * @param {string | Node | HTMLOptions<keyof HTMLElementTagNameMap>} label - The label of the checkbox
+	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
+	 * @param {null | ElementCheckbox.LabelOptions} options - High level options for the to-be created checkbox
+	 * @param {null | Partial<Record<"checkbox" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 */
+	CreateLabelled: function CreateLabelled(id=null, label, onChange=null, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
+		const checkbox = document.getElementById(id);
+		if (checkbox) {
+			console.error(`Element "${id}" already exists`);
+			return checkbox;
+		}
+
+		if (!label) {
+			console.error(`Missing label for checkbox "${id}"`);
+			return;
+		}
+
+		options ??= {};
+		const labelOptions = htmlOptions?.label ?? {};
+		const orientation = options.orientation ?? "horizontal";
+
+		return ElementCreate({
+			tag: "label",
+			classList: ["checkbox-pair", `checkbox-pair-${orientation}`],
+			attributes: { id: `checkbox-pair-${id}` },
+			children: [
+				this.Create(id, onChange, options, htmlOptions),
+				{
+					...labelOptions,
+					tag: "span",
+					attributes: {
+						id: `${id}-label`,
+						...labelOptions.attributes
+					},
+					classList: ["checkbox-label", ...(labelOptions.classList ?? [])],
+					children: [label, ...(labelOptions.children ?? [])],
+				}
+			],
+		});
+	}
 };
 
 /**
@@ -2160,8 +2221,8 @@ function ElementCanvasScaledWidth(width) {
 function ElementCanvasScaledY(yPos, anchorPosition = 'top') {
 	const scaleY = MainCanvas.canvas.clientHeight / MainCanvasHeight;
 	return anchorPosition === 'top'
-    ? MainCanvas.canvas.offsetTop + yPos * scaleY
-    : MainCanvas.canvas.offsetTop + MainCanvas.canvas.clientHeight - yPos * scaleY;
+		? MainCanvas.canvas.offsetTop + yPos * scaleY
+		: MainCanvas.canvas.offsetTop + MainCanvas.canvas.clientHeight - yPos * scaleY;
 }
 
 /**
@@ -2173,8 +2234,8 @@ function ElementCanvasScaledY(yPos, anchorPosition = 'top') {
 function ElementCanvasScaledX(xPos, anchorPosition = 'left') {
 	const scaleX = MainCanvas.canvas.clientWidth / MainCanvasWidth;
 	return anchorPosition === 'left'
-    ? MainCanvas.canvas.offsetLeft + xPos * scaleX
-    : MainCanvas.canvas.offsetLeft + MainCanvas.canvas.clientWidth - xPos * scaleX;
+		? MainCanvas.canvas.offsetLeft + xPos * scaleX
+		: MainCanvas.canvas.offsetLeft + MainCanvas.canvas.clientWidth - xPos * scaleX;
 }
 
 /**

@@ -69,7 +69,6 @@ function PreferenceSubscreenArousalRun() {
 	// Draws the main labels and player
 	DrawCharacter(Player, 50, 50, 0.9, false);
 	MainCanvas.textAlign = "left";
-	DrawText(TextGet("ArousalPreferences"), 550, 125, "Black", "Gray");
 	DrawText(TextGet("ArousalActive"), 550, 225, "Black", "Gray");
 	DrawText(TextGet("ArousalStutter"), 550, 460, "Black", "Gray");
 	DrawCheckbox(550, 276, 64, 64, TextGet("ArousalShowOtherMeter"), Player.ArousalSettings.ShowOtherMeter);
@@ -116,8 +115,6 @@ function PreferenceSubscreenArousalRun() {
 	// We always draw the active & stutter control
 	DrawBackNextButton(750, 193, 450, 64, TextGet("ArousalActive" + PreferenceArousalActiveList[PreferenceArousalActiveIndex]), "White", "", () => "", () => "");
 	DrawBackNextButton(900, 428, 500, 64, TextGet("ArousalStutter" + PreferenceArousalAffectStutterList[PreferenceArousalAffectStutterIndex]), "White", "", () => "", () => "");
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-
 }
 
 /**
@@ -138,9 +135,6 @@ function PreferenceGetFactorColor(Factor) {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenArousalClick() {
-
-	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	// Arousal active control
 	if (MouseIn(750, 193, 450, 64)) {

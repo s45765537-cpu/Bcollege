@@ -18,11 +18,9 @@ function PreferenceSubscreenControllerLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenControllerRun() {
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 	if (!ControllerIsCalibrating()) {
 		DrawCharacter(Player, 50, 50, 0.9);
 		MainCanvas.textAlign = "left";
-		DrawText(TextGet("ControllerPreferences"), 500, 125, "Black", "Gray");
 		DrawText(TextGet("Sensitivity"), 800, 225, "Black", "Gray");
 		DrawText(TextGet("DeadZone"), 800, 625, "Black", "Gray");
 		DrawCheckbox(500, 272, 64, 64, TextGet("ControllerActive"), ControllerIsEnabled());
@@ -51,7 +49,6 @@ function PreferenceSubscreenControllerRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenControllerClick() {
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 	if (MouseIn(1815, 178, 90, 90)) ControllerCalibrationNextStage(true);
 
 	if (!ControllerIsCalibrating()) {

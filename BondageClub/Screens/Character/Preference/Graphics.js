@@ -45,16 +45,12 @@ function PreferenceSubscreenGraphicsLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGraphicsRun() {
-
-	// Character and exit button
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 
 	MainCanvas.textAlign = "center";
 	PreferencePageChangeDraw(1595, 75, 2); // Uncomment when adding a 2nd page
 
 	MainCanvas.textAlign = "left";
-	DrawText(TextGet("VFXPreferences"), 500, 125, "Black", "Gray");
 
 	if (PreferencePageCurrent === 1) {
 		DrawText(TextGet("VFX"), 800, 216, "Black", "Gray");
@@ -140,8 +136,6 @@ function PreferenceSubscreenGraphicsRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGraphicsClick() {
-	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
 	// Change page
 	PreferencePageChangeClick(1595, 75, 2); // Uncomment when adding a 2nd page
