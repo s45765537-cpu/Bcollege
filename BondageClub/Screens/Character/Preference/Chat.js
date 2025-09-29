@@ -2,28 +2,14 @@
 
 /** @type {ChatColorThemeType[]} */
 var PreferenceChatColorThemeList = ["Light", "Dark", "Light2", "Dark2"];
-var PreferenceChatColorThemeIndex = 0;
 /** @type {ChatEnterLeaveType[]} */
 var PreferenceChatEnterLeaveList = ["Normal", "Smaller", "Hidden"];
-var PreferenceChatEnterLeaveIndex = 0;
 /** @type {ChatMemberNumbersType[]} */
 var PreferenceChatMemberNumbersList = ["Always", "Never", "OnMouseover"];
-var PreferenceChatMemberNumbersIndex = 0;
 /** @type {ChatFontSizeType[]} */
 var PreferenceChatFontSizeList = ["Small", "Medium", "Large"];
-var PreferenceChatFontSizeIndex = 1;
-var PreferenceChatPageIndex = 0;
-var PreferenceChatPageList = [0, 1];
 
-function PreferenceSubscreenChatLoad() {
-	PreferenceChatColorThemeIndex = (PreferenceChatColorThemeList.indexOf(Player.ChatSettings.ColorTheme) < 0) ? 0 : PreferenceChatColorThemeList.indexOf(Player.ChatSettings.ColorTheme);
-	PreferenceChatEnterLeaveIndex = (PreferenceChatEnterLeaveList.indexOf(Player.ChatSettings.EnterLeave) < 0) ? 0 : PreferenceChatEnterLeaveList.indexOf(Player.ChatSettings.EnterLeave);
-	PreferenceChatMemberNumbersIndex = (PreferenceChatMemberNumbersList.indexOf(Player.ChatSettings.MemberNumbers) < 0) ? 0 : PreferenceChatMemberNumbersList.indexOf(Player.ChatSettings.MemberNumbers);
-	PreferenceChatFontSizeIndex = (PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize)) < 0 ? 1 : PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize);
-}
-
-
-/** @type {{label: string, check: () => boolean, click: () => void}[]} */
+/** @type {PreferenceChatCheckboxOption[]} */
 const PreferenceSubscreenChatCheckboxes = [
 	{ label: "ColorNames", check: () => Player.ChatSettings.ColorNames, click: () => Player.ChatSettings.ColorNames = !Player.ChatSettings.ColorNames },
 	{ label: "ColorActions", check: () => Player.ChatSettings.ColorActions, click: () => Player.ChatSettings.ColorActions = !Player.ChatSettings.ColorActions },
@@ -52,17 +38,88 @@ const PreferenceSubscreenChatCheckboxes = [
 	{ label: "DisableReplies", check: () => Player.ChatSettings.DisableReplies, click: () => Player.ChatSettings.DisableReplies = !Player.ChatSettings.DisableReplies },
 ];
 
-/** @type {CommonGenerateGridParameters} */
-const PreferenceSubscreenChatCheckboxGrid = {
-	x: 500,
-	y: 360,
-	width: 1400,
-	height: 500,
-	itemWidth: 700,
-	itemHeight: 64,
-	itemMarginY: 8,
-	direction: "vertical",
+/** @type {Record<string, PreferenceChatDropdownOption>} */
+const PreferenceSubscreenChatDropdowns = {
+	ColorTheme: {
+		list: [...PreferenceChatColorThemeList],
+		onChange: (value) => {
+			Player.ChatSettings.ColorTheme = /** @type {ChatColorThemeType} */ (value);
+		},
+	},
+	EnterLeaveStyle: {
+		list: [...PreferenceChatEnterLeaveList],
+		onChange: (value) => {
+			Player.ChatSettings.EnterLeave = /** @type {ChatEnterLeaveType} */ (value);
+		},
+	},
+	DisplayMemberNumbers: {
+		list: [...PreferenceChatMemberNumbersList],
+		onChange: (value) => {
+			Player.ChatSettings.MemberNumbers = /** @type {ChatMemberNumbersType} */ (value);
+		},
+	},
+	FontSize: {
+		list: [...PreferenceChatFontSizeList],
+		onChange: (value) => {
+			Player.ChatSettings.FontSize = /** @type {ChatFontSizeType} */ (value);
+			ChatRoomRefreshFontSize();
+		},
+	}
 };
+
+const PreferenceSubscreenChatIDs = Object.freeze({
+	grid: 'preference-chat-grid',
+});
+
+function PreferenceSubscreenChatLoad() {
+	const dropdownElements = Object.entries(PreferenceSubscreenChatDropdowns).map(([key, dropdown]) => {
+		const currentValue = Player.ChatSettings[key];
+		const options = dropdown.list.map((/** @type {string} */ e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */ ({attributes: { value: e, label: TextGet(e), selected: e === currentValue }}));
+		return ElementCreate({
+			tag: "div",
+			classList: ["preference-settings-dropdown"],
+			attributes: {
+				id: `${key}-dropdown-container`
+			},
+			children: [
+				{
+					tag: "span",
+					classList: ["label"],
+					children: [TextGet(key)]
+				},
+				ElementCreateDropdown(`${key}-dropdown`, options,
+					(ev) => {
+						ev.preventDefault();
+						const value = /** @type {HTMLSelectElement} */ (ev.target).value;
+						if (!value) return;
+						if (!dropdown.list.includes(value)) return;
+						dropdown.onChange(value);
+					})
+			]
+		});
+	});
+
+	const checkboxElements = PreferenceSubscreenChatCheckboxes.map((checkbox) => {
+		const checked = checkbox.check();
+		const label = TextGet(checkbox.label);
+
+		return ElementCheckbox.CreateLabelled(`${checkbox.label}-checkbox`, label, checkbox.click, {
+			checked
+		});
+	});
+
+	const grid = ElementCreate({
+		tag: "div",
+		classList: ["preference-settings-grid", "scroll-box"],
+		attributes: { id: PreferenceSubscreenChatIDs.grid },
+		children: [
+			...dropdownElements,
+			...checkboxElements
+		]
+	});
+
+	ElementWrap(PreferenceIDs.subscreen).append(grid);
+}
 
 /**
  * Sets the chat preferences for the player. Redirected to from the main Run function if the player is in the chat
@@ -70,36 +127,6 @@ const PreferenceSubscreenChatCheckboxGrid = {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenChatRun() {
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-
-	MainCanvas.textAlign = "center";
-	PreferencePageChangeDraw(1595, 75, 2);
-
-	MainCanvas.textAlign = "left";
-	DrawText(TextGet("ChatPreferences"), 500, 125, "Black", "Gray");
-
-	DrawText(TextGet("ColorTheme"), 500, 210, "Black", "Gray");
-	PreferenceDrawBackNextButton(680, 180, 350, 60, PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
-	DrawText(TextGet("FontSize"), 500, 300, "Black", "Gray");
-	PreferenceDrawBackNextButton(680, 270, 350, 60, PreferenceChatFontSizeList, PreferenceChatFontSizeIndex);
-
-	DrawText(TextGet("EnterLeaveStyle"), 1090, 210, "Black", "Gray");
-	PreferenceDrawBackNextButton(1550, 180, 350, 60, PreferenceChatEnterLeaveList, PreferenceChatEnterLeaveIndex);
-	DrawText(TextGet("DisplayMemberNumbers"), 1090, 300, "Black", "Gray");
-	PreferenceDrawBackNextButton(1550, 270, 350, 60, PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
-	if (PreferencePageCurrent === 1) {
-		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(0, 14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y) => {
-			const { label, check } = item;
-			DrawCheckbox(x, y, 64, 64, TextGet(label), check());
-			return false;
-		});
-	} else if (PreferencePageCurrent === 2) {
-		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y) => {
-			const { label, check } = item;
-			DrawCheckbox(x, y, 64, 64, TextGet(label), check());
-			return false;
-		});
-	}
 	DrawCharacter(Player, 50, 50, 0.9);
 }
 
@@ -108,51 +135,6 @@ function PreferenceSubscreenChatRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenChatClick() {
-	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
-
-	PreferencePageChangeClick(1595, 75, 2);
-
-	if (MouseIn(680, 180, 350, 60)) {
-		if (MouseX <= 680 + 350 / 2) PreferenceChatColorThemeIndex = PreferenceGetPreviousIndex(PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
-		else PreferenceChatColorThemeIndex = PreferenceGetNextIndex(PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
-		Player.ChatSettings.ColorTheme = PreferenceChatColorThemeList[PreferenceChatColorThemeIndex];
-	}
-	if (MouseIn(680, 270, 350, 60)) {
-		if (MouseX <= 680 + 350 / 2) PreferenceChatFontSizeIndex = PreferenceGetPreviousIndex(PreferenceChatFontSizeList, PreferenceChatFontSizeIndex);
-		else PreferenceChatFontSizeIndex = PreferenceGetNextIndex(PreferenceChatFontSizeList, PreferenceChatFontSizeIndex);
-		Player.ChatSettings.FontSize = PreferenceChatFontSizeList[PreferenceChatFontSizeIndex];
-		ChatRoomRefreshFontSize();
-	}
-	if (MouseIn(1550, 180, 350, 60)) {
-		if (MouseX <= 1550 + 350 / 2) PreferenceChatEnterLeaveIndex = PreferenceGetPreviousIndex(PreferenceChatEnterLeaveList, PreferenceChatEnterLeaveIndex);
-		else PreferenceChatEnterLeaveIndex = PreferenceGetNextIndex(PreferenceChatEnterLeaveList, PreferenceChatEnterLeaveIndex);
-		Player.ChatSettings.EnterLeave = PreferenceChatEnterLeaveList[PreferenceChatEnterLeaveIndex];
-	}
-	if (MouseIn(1550, 270, 350, 60)) {
-		if (MouseX <= 1550 + 350 / 2) PreferenceChatMemberNumbersIndex = PreferenceGetPreviousIndex(PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
-		else PreferenceChatMemberNumbersIndex = PreferenceGetNextIndex(PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
-		Player.ChatSettings.MemberNumbers = PreferenceChatMemberNumbersList[PreferenceChatMemberNumbersIndex];
-	}
-	if (PreferencePageCurrent === 1) {
-		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(0, 14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y, w, h) => {
-			const { click } = item;
-			if (MouseIn(x, y, w, h)) {
-				click();
-				return true;
-			}
-			return false;
-		});
-	} else if (PreferencePageCurrent === 2) {
-		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y, w, h) => {
-			const { click } = item;
-			if (MouseIn(x, y, w, h)) {
-				click();
-				return true;
-			}
-			return false;
-		});
-	}
 }
 
 /**
@@ -160,4 +142,9 @@ function PreferenceSubscreenChatClick() {
  */
 function PreferenceSubscreenChatExit() {
 	return true;
+}
+
+function PreferenceSubscreenChatResize(onLoad) {
+	const { x, y } = PreferenceSubscreenMainGrid;
+	ElementSetPosition(PreferenceSubscreenChatIDs.grid, x, y);
 }

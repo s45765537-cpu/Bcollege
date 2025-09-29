@@ -481,8 +481,7 @@ function PreferenceInitPlayer(C, data) {
 
 	// Difficulty: Extreme settings
 	if (C.GetDifficulty() >= Difficulty.EXTREME) {
-		PreferenceSettingsSensDepIndex = PreferenceSettingsSensDepList.length - 1;
-		C.GameplaySettings.SensDepChatLog = PreferenceSettingsSensDepList[PreferenceSettingsSensDepIndex];
+		C.GameplaySettings.SensDepChatLog = "SensDepExtreme";
 		C.GameplaySettings.BlindDisableExamine = true;
 		C.GameplaySettings.DisableAutoRemoveLogin = true;
 		C.ArousalSettings.DisableAdvancedVibes = false;

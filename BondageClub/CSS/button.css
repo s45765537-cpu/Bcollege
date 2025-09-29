@@ -26,6 +26,34 @@
 	user-select: none;
 }
 
+.button-horizontal {
+	display: grid;
+	overflow: hidden;
+	align-items: center;
+	justify-items: center;
+	column-gap: 0.3em;
+	grid-template-rows: auto;
+	grid-template-columns: min-content auto;
+	grid-template-areas: "image label"; /* fallback for browsers that lack `:has()` support */
+}
+
+.button:has(.button-label-right) {
+	grid-template-areas: "image label";
+}
+
+.button:has(.button-label-left) {
+	grid-template-areas: "label image";
+}
+
+.button-horizontal .button-image {
+	position: static;
+	transform: unset;
+	width: 96%;
+	height: 96%;
+	max-height: 221px;
+	max-width: 221px;
+}
+
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
 .button-styling {
 	background-color: var(--button-color);
@@ -64,6 +92,7 @@
 }
 
 .button-image {
+	grid-area: image;
 	position: absolute;
 	pointer-events: none;
 	top: 2%;
@@ -107,6 +136,7 @@
 }
 
 .button-label {
+	grid-area: label;
 	position: absolute;
 	left: 2%;
 	width: 96%;
@@ -186,6 +216,13 @@
 .button-label-center {
 	top: 50%;
 	transform: translateY(-50%);
+}
+
+.button-label-left,
+.button-label-right {
+	position: static;
+	width: unset;
+	left: unset;
 }
 
 .button-label-bottom {

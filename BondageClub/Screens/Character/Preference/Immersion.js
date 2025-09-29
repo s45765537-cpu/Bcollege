@@ -2,10 +2,188 @@
 
 /** @type {SettingsSensDepName[]} */
 var PreferenceSettingsSensDepList = ["SensDepLight", "Normal", "SensDepNames", "SensDepTotal", "SensDepExtreme"];
-var PreferenceSettingsSensDepIndex = 0;
+
+/** @type {{label: string, check: () => boolean, click: (value: boolean) => void, disabled?: (disableButtons: boolean) => boolean}[]} */
+const PreferenceSubscreenImmersionCheckboxes = [
+	{
+		label: "BlindDisableExamine",
+		check: () => (Player.GameplaySettings.BlindDisableExamine && Player.GameplaySettings.SensDepChatLog !== "SensDepLight") || Player.GameplaySettings.SensDepChatLog === "SensDepExtreme",
+		click: (value) => Player.GameplaySettings.BlindDisableExamine = value,
+		disabled: (disableButtons) => disableButtons || Player.GameplaySettings.SensDepChatLog === "SensDepLight" || Player.GameplaySettings.SensDepChatLog === "SensDepExtreme"
+	},
+	{
+		label: "BlindAdjacent",
+		check: () => Player.ImmersionSettings.BlindAdjacent,
+		click: (value) => Player.ImmersionSettings.BlindAdjacent = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "ChatRoomMuffle",
+		check: () => Player.ImmersionSettings.ChatRoomMuffle,
+		click: (value) => Player.ImmersionSettings.ChatRoomMuffle = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "DisableAutoRemoveLogin",
+		check: () => Player.GameplaySettings.DisableAutoRemoveLogin,
+		click: (value) => Player.GameplaySettings.DisableAutoRemoveLogin = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "AllowPlayerLeashing",
+		check: () => Player.OnlineSharedSettings.AllowPlayerLeashing,
+		click: (value) => Player.OnlineSharedSettings.AllowPlayerLeashing = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "ReturnToChatRoom",
+		check: () => Player.ImmersionSettings.ReturnToChatRoom,
+		click: (value) => Player.ImmersionSettings.ReturnToChatRoom = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "ReturnToChatRoomAdmin",
+		check: () => Player.ImmersionSettings.ReturnToChatRoom && Player.ImmersionSettings.ReturnToChatRoomAdmin,
+		click: (value) => Player.ImmersionSettings.ReturnToChatRoomAdmin = value,
+		disabled: (disableButtons) => !Player.ImmersionSettings.ReturnToChatRoom || disableButtons
+	},
+	{
+		label: "SenseDepMessages",
+		check: () => Player.GameplaySettings.SensDepChatLog !== "SensDepLight" && Player.ImmersionSettings.SenseDepMessages,
+		click: (value) => Player.ImmersionSettings.SenseDepMessages = value,
+		disabled: (disableButtons) => Player.GameplaySettings.SensDepChatLog === "SensDepLight" || disableButtons
+	},
+	{
+		label: "StimulationEvents",
+		check: () => Player.ImmersionSettings.StimulationEvents,
+		click: (value) => Player.ImmersionSettings.StimulationEvents = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "AllowTints",
+		check: () => Player.ImmersionSettings.AllowTints,
+		click: (value) => Player.ImmersionSettings.AllowTints = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "ChatRoomMapLeaveOnExit",
+		check: () => Player.ImmersionSettings.ChatRoomMapLeaveOnExit,
+		click: (value) => Player.ImmersionSettings.ChatRoomMapLeaveOnExit = value,
+		disabled: (disableButtons) => disableButtons
+	},
+	{
+		label: "AllowRename",
+		check: () => Player.OnlineSharedSettings.AllowRename,
+		click: (value) => Player.OnlineSharedSettings.AllowRename = value,
+		disabled: (disableButtons) => disableButtons || !CharacterCanChangeNickname(Player)
+	},
+	{
+		label: "ShowUngarbledMessages",
+		check: () => Player.ImmersionSettings.ShowUngarbledMessages,
+		click: (value) => Player.ImmersionSettings.ShowUngarbledMessages = value,
+		disabled: (disableButtons) => disableButtons
+	},
+];
+
+const PreferenceSubscreenImmersionIDs = Object.freeze({
+	wrapper: "preference-immersion-wrapper",
+	grid: "preference-immersion-grid",
+	header: "preference-immersion-header",
+	lockCheckbox: "preference-ImmersionLockSetting"
+});
 
 function PreferenceSubscreenImmersionLoad() {
-	PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog) < 0) ? 0 : PreferenceSettingsSensDepList.indexOf(Player.GameplaySettings.SensDepChatLog);
+	const disableButtons = Player.GetDifficulty() > 2 || (Player.GameplaySettings.ImmersionLockSetting && Player.IsRestrained());
+
+	const disableCheckbox = ElementCheckbox.CreateLabelled(
+		PreferenceSubscreenImmersionIDs.lockCheckbox,
+		TextGet("ImmersionLockSetting"),
+		function () {
+			const value = this.checked;
+			Player.GameplaySettings.ImmersionLockSetting = value;
+			PreferenceSubscreenImmersionCheckStates(disableButtons);
+		},
+		{
+			checked: Player.GameplaySettings.ImmersionLockSetting,
+			disabled: disableButtons,
+		}
+	);
+
+	const immersionLockedText = ElementCreate({
+		tag: "span",
+		classList: ["label"],
+		children: [TextGet("ImmersionLocked")]
+	});
+
+	const options = PreferenceSettingsSensDepList.map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({ attributes: { value: e, label: TextGet(e), selected: e === Player.GameplaySettings.SensDepChatLog } }));
+
+	const sensDepDropdown = ElementCreate({
+		tag: "div",
+		classList: ["preference-settings-dropdown"],
+		attributes: {
+			id: `SensDepSetting-dropdown-container`
+		},
+		children: [
+			{
+				tag: "span",
+				classList: ["label"],
+				children: [TextGet("SensDepSetting")]
+			},
+			ElementCreateDropdown(`SensDepSetting-dropdown`, options,
+				function () {
+					const value = /** @type {SettingsSensDepName} */ (this.value);
+					if (!value) return;
+					if (!PreferenceSettingsSensDepList.includes(value)) return;
+					Player.GameplaySettings.SensDepChatLog = value;
+					if (Player.GameplaySettings.SensDepChatLog === "SensDepExtreme") ChatRoomSetTarget(-1);
+					PreferenceSubscreenImmersionCheckStates(disableButtons);
+				},
+				{
+					disabled: disableButtons
+				})
+		]
+	});
+
+	const otherCheckboxes = PreferenceSubscreenImmersionCheckboxes.map((checkbox) => {
+		return ElementCheckbox.CreateLabelled(
+			`preference-immersion-${checkbox.label}`,
+			TextGet(checkbox.label),
+			function () {
+				const value = this.checked;
+				checkbox.click(value);
+				PreferenceSubscreenImmersionCheckStates(disableButtons);
+			},
+			{
+				checked: checkbox.check(),
+				disabled: checkbox.disabled(disableButtons)
+			});
+	});
+
+	ElementCreate({
+		tag: "div",
+		attributes: {
+			id: PreferenceSubscreenImmersionIDs.wrapper
+		},
+		children: [
+			Player.GetDifficulty() <= 2 ? disableCheckbox : immersionLockedText,
+			{
+				tag: "hr",
+				classList: ["preference-settings-divider"]
+			},
+			{
+				tag: "div",
+				classList: ["preference-settings-grid", "scroll-box"],
+				attributes: {
+					id: PreferenceSubscreenImmersionIDs.grid
+				},
+				children: [
+					sensDepDropdown,
+					...otherCheckboxes
+				],
+			}
+		],
+		parent: ElementWrap(PreferenceIDs.subscreen)
+	});
 }
 
 /**
@@ -13,59 +191,7 @@ function PreferenceSubscreenImmersionLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenImmersionRun() {
-
-	// Draw the player & base controls
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	if (PreferenceMessage != "") DrawText(TextGet(PreferenceMessage), 865, 125, "Red", "Black");
-	PreferencePageChangeDraw(1595, 75, 2); // Uncomment when adding a 2nd page
-	MainCanvas.textAlign = "left";
-	DrawText(TextGet("ImmersionPreferences"), 500, 125, "Black", "Gray");
-
-	const disableButtons = Player.GetDifficulty() > 2 || (Player.GameplaySettings.ImmersionLockSetting && Player.IsRestrained());
-	if (Player.GetDifficulty() <= 2) {
-		let CheckImage = disableButtons ? "Icons/CheckLocked.png" : "Icons/CheckUnlocked.png";
-		DrawCheckbox(500, 172, 64, 64, TextGet("ImmersionLockSetting"), Player.GameplaySettings.ImmersionLockSetting, disableButtons, "Black", CheckImage);
-	} else {
-		// Cannot change any value under the Extreme difficulty mode
-		DrawText(TextGet("ImmersionLocked"), 500, 205, "Red", "Gray");
-	}
-
-
-	DrawEmptyRect(500, 255, 1400, 0, "Black", 1);
-
-	let CheckHeight = 272;
-	let CheckSpacing = 80;
-
-	if (PreferencePageCurrent === 1) {
-		DrawText(TextGet("SensDepSetting"), 800, 308, "Black", "Gray"); CheckHeight += CheckSpacing;
-		// Disable the BlindDisableExamine checkbox when the SensDep setting overrides its behaviour
-		const bdeForceOff = PreferenceSettingsSensDepIndex === PreferenceSettingsSensDepList.indexOf("SensDepLight");
-		const bdeForceOn = PreferenceSettingsSensDepIndex === PreferenceSettingsSensDepList.indexOf("SensDepExtreme");
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("BlindDisableExamine"), (Player.GameplaySettings.BlindDisableExamine && !bdeForceOff) || bdeForceOn, disableButtons || bdeForceOff || bdeForceOn);
-		CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("BlindAdjacent"), Player.ImmersionSettings.BlindAdjacent, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ChatRoomMuffle"), Player.ImmersionSettings.ChatRoomMuffle, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("DisableAutoRemoveLogin"), Player.GameplaySettings.DisableAutoRemoveLogin, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowPlayerLeashing"), Player.OnlineSharedSettings.AllowPlayerLeashing, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ReturnToChatRoom"), Player.ImmersionSettings.ReturnToChatRoom, disableButtons);
-		const returnToRoomEnabled = Player.ImmersionSettings.ReturnToChatRoom;
-		DrawCheckbox(1300, CheckHeight, 64, 64, TextGet("ReturnToChatRoomAdmin"), returnToRoomEnabled && Player.ImmersionSettings.ReturnToChatRoomAdmin, !returnToRoomEnabled || disableButtons);
-		CheckHeight += CheckSpacing;
-		const canHideMessages = Player.GameplaySettings.SensDepChatLog !== "SensDepLight";
-		DrawCheckbox(1300, 272, 64, 64, TextGet("SenseDepMessages"), canHideMessages && Player.ImmersionSettings.SenseDepMessages, !canHideMessages || disableButtons);
-		DrawBackNextButton(500, 272, 250, 64, TextGet(Player.GameplaySettings.SensDepChatLog), "White", "",
-			() => disableButtons ? "" : TextGet(PreferenceSettingsSensDepList[(PreferenceSettingsSensDepIndex + PreferenceSettingsSensDepList.length - 1) % PreferenceSettingsSensDepList.length]),
-			() => disableButtons ? "" : TextGet(PreferenceSettingsSensDepList[(PreferenceSettingsSensDepIndex + 1) % PreferenceSettingsSensDepList.length]));
-	}
-	else if (PreferencePageCurrent === 2) {
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("StimulationEvents"), Player.ImmersionSettings.StimulationEvents, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowTints"), Player.ImmersionSettings.AllowTints, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ChatRoomMapLeaveOnExit"), Player.ImmersionSettings.ChatRoomMapLeaveOnExit, disableButtons); CheckHeight += CheckSpacing;
-		const canChangeNickname = CharacterCanChangeNickname(Player);
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowRename"), Player.OnlineSharedSettings.AllowRename, disableButtons || !canChangeNickname); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ShowUngarbledMessages"), Player.ImmersionSettings.ShowUngarbledMessages, disableButtons); CheckHeight += CheckSpacing;
-	}
 }
 
 /**
@@ -73,63 +199,43 @@ function PreferenceSubscreenImmersionRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenImmersionClick() {
+}
 
-	// If the user clicks on "Exit"
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
-	// Change page
-	PreferencePageChangeClick(1595, 75, 2);
+function PreferenceSubscreenImmersionResize(onLoad) {
+	ElementSetPosition(PreferenceSubscreenImmersionIDs.wrapper, 500, 160);
+}
 
-	// Cannot change any value under the Extreme difficulty mode
-	if (Player.GetDifficulty() <= 2 && (!Player.GameplaySettings.ImmersionLockSetting || (!Player.IsRestrained()))) {
-		let CheckHeight = 272;
-		let CheckSpacing = 80;
+/**
+ * @param {boolean} disableButtons
+ */
+function PreferenceSubscreenImmersionCheckStates(disableButtons) {
+	const lockCheckbox = /** @type {HTMLInputElement} */ (ElementWrap(PreferenceSubscreenImmersionIDs.lockCheckbox));
 
-		// Preference check boxes
-		if (MouseIn(500, 172, 64, 64)) Player.GameplaySettings.ImmersionLockSetting = !Player.GameplaySettings.ImmersionLockSetting;
-
-		if (PreferencePageCurrent === 1) {
-			// If we must change sens dep settings
-			if (MouseIn(500, CheckHeight, 250, 64)) {
-				if (MouseX <= 625) PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepList.length + PreferenceSettingsSensDepIndex - 1) % PreferenceSettingsSensDepList.length;
-				else PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepIndex + 1) % PreferenceSettingsSensDepList.length;
-				Player.GameplaySettings.SensDepChatLog = PreferenceSettingsSensDepList[PreferenceSettingsSensDepIndex];
-				if (Player.GameplaySettings.SensDepChatLog == "SensDepExtreme") ChatRoomSetTarget(-1);
-			}
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64) && ![PreferenceSettingsSensDepList.indexOf("SensDepLight"), PreferenceSettingsSensDepList.indexOf("SensDepExtreme")].includes(PreferenceSettingsSensDepIndex))
-				Player.GameplaySettings.BlindDisableExamine = !Player.GameplaySettings.BlindDisableExamine;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.BlindAdjacent = !Player.ImmersionSettings.BlindAdjacent;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ChatRoomMuffle = !Player.ImmersionSettings.ChatRoomMuffle;
-			CheckHeight += CheckSpacing;
-
-			// Room control
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.GameplaySettings.DisableAutoRemoveLogin = !Player.GameplaySettings.DisableAutoRemoveLogin;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.OnlineSharedSettings.AllowPlayerLeashing = !Player.OnlineSharedSettings.AllowPlayerLeashing;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ReturnToChatRoom = !Player.ImmersionSettings.ReturnToChatRoom;
-			if (MouseIn(1300, CheckHeight, 64, 64) && Player.ImmersionSettings.ReturnToChatRoom)
-				Player.ImmersionSettings.ReturnToChatRoomAdmin = !Player.ImmersionSettings.ReturnToChatRoomAdmin;
-			CheckHeight += CheckSpacing;
-
-			if (MouseIn(1300, 272, 64, 64) && Player.GameplaySettings.SensDepChatLog !== "SensDepLight")
-				Player.ImmersionSettings.SenseDepMessages = !Player.ImmersionSettings.SenseDepMessages;
-
-		}
-		else if (PreferencePageCurrent === 2) {
-			// Stimulation
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.StimulationEvents = !Player.ImmersionSettings.StimulationEvents;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.AllowTints = !Player.ImmersionSettings.AllowTints;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ChatRoomMapLeaveOnExit = !Player.ImmersionSettings.ChatRoomMapLeaveOnExit;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64) && CharacterCanChangeNickname(Player)) Player.OnlineSharedSettings.AllowRename = !Player.OnlineSharedSettings.AllowRename;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ShowUngarbledMessages = !Player.ImmersionSettings.ShowUngarbledMessages;
-			CheckHeight += CheckSpacing;
-		}
+	if (lockCheckbox) {
+		lockCheckbox.toggleAttribute("disabled", disableButtons);
 	}
+
+	const sensDepDropdown = /** @type {HTMLSelectElement} */ (ElementWrap(`SensDepSetting-dropdown`));
+
+	if (sensDepDropdown) {
+		sensDepDropdown.toggleAttribute("disabled", disableButtons);
+	}
+
+	PreferenceSubscreenImmersionCheckboxes.forEach((checkbox) => {
+		const disabled = checkbox.disabled(disableButtons);
+		const checked = checkbox.check();
+
+		const checkboxElement = /** @type {HTMLInputElement} */ (ElementWrap(`preference-immersion-${checkbox.label}`));
+
+		if (!checkboxElement) return;
+
+		if (disabled !== checkboxElement.disabled) {
+			checkboxElement.toggleAttribute("disabled", disabled);
+		}
+
+		if (checked !== checkboxElement.checked) {
+			checkboxElement.checked = checked;
+			checkbox.click(checked);
+		}
+	});
 }

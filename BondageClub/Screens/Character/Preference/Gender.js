@@ -6,13 +6,10 @@
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGenderRun() {
-	// Character and exit buttons
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 
 	MainCanvas.textAlign = "left";
 
-	DrawText(TextGet("GenderPreferences"), 500, 125, "Black", "Gray");
 	DrawText(TextGet("GenderFemales"), 1410, 160, "Black", "Gray");
 	DrawText(TextGet("GenderMales"), 1590, 160, "Black", "Gray");
 
@@ -42,8 +39,6 @@ function PreferenceGenderDrawSetting(Left, Top, Text, Setting) {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGenderClick() {
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
-
 	PreferenceGenderClickSetting(1450, 225, Player.GenderSettings.AutoJoinSearch, false);
 	PreferenceGenderClickSetting(1450, 305, Player.GenderSettings.HideShopItems, false);
 	PreferenceGenderClickSetting(1450, 385, Player.GenderSettings.HideTitles, false);

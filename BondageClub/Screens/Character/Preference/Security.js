@@ -1,12 +1,78 @@
 "use strict";
 
+const PreferenceSubscreenSecurityIDs = Object.freeze({
+	grid: "preference-security-grid",
+	emailOld: "InputEmailOld",
+	emailNew: "InputEmailNew",
+	hint: "preference-security-hint",
+	update: "preference-security-update-button",
+});
+
 /**
  * Loads the preference security screen.
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenSecurityLoad() {
-	ElementCreateInput("InputEmailOld", "text", "", "100");
-	ElementCreateInput("InputEmailNew", "text", "", "100");
+
+	const hint = ElementCreate({
+		tag: "span",
+		classList: ["subscreen-title"],
+		attributes: { id: PreferenceSubscreenSecurityIDs.hint },
+		children: [TextGet("UpdateEmailDescription")],
+	});
+
+	const emailOldElm = ElementCreate({
+		tag: "div",
+		classList: ["preference-labelled-input"],
+		children: [
+			{
+				tag: "span",
+				classList: ["label"],
+				children: [TextGet("UpdateEmailOld")],
+			},
+			ElementCreateInput(PreferenceSubscreenSecurityIDs.emailOld, "text", "", "100"),
+		],
+	});
+
+	const emailNewElm = ElementCreate({
+		tag: "div",
+		classList: ["preference-labelled-input"],
+		children: [
+			{
+				tag: "span",
+				classList: ["label"],
+				children: [TextGet("UpdateEmailNew")],
+			},
+			ElementCreateInput(PreferenceSubscreenSecurityIDs.emailNew, "text", "", "100"),
+		],
+	});
+
+	const updateEmailButton = ElementButton.Create(PreferenceSubscreenSecurityIDs.update, () => {
+		const emailOld = ElementValue("InputEmailOld");
+		const emailNew = ElementValue("InputEmailNew");
+
+		if ((emailOld == "" || CommonEmailIsValid(emailOld)) && (emailNew == "" || CommonEmailIsValid(emailNew)))
+			ServerSend("AccountUpdateEmail", { EmailOld: emailOld, EmailNew: emailNew });
+		else
+			ToastManager.error(TextGet("UpdateEmailInvalid"));
+	},
+	{
+		label: TextGet("UpdateEmail"),
+	});
+
+	ElementCreate({
+		tag: "div",
+		classList: ["preference-settings-grid", "scroll-box"],
+		attributes: { id: PreferenceSubscreenSecurityIDs.grid },
+		children: [
+			hint,
+			emailOldElm,
+			emailNewElm,
+			updateEmailButton
+		],
+		parent: ElementWrap(PreferenceIDs.subscreen),
+	});
+
 	ServerSend("AccountQuery", { Query: "EmailStatus" });
 }
 
@@ -17,16 +83,6 @@ function PreferenceSubscreenSecurityLoad() {
  */
 function PreferenceSubscreenSecurityRun() {
 	DrawCharacter(Player, 50, 50, 0.9);
-	MainCanvas.textAlign = "left";
-	DrawText(TextGet("SecurityPreferences"), 500, 125, "Black", "Gray");
-	DrawText(TextGet("UpdateEmailOld"), 500, 225, "Black", "Gray");
-	DrawText(TextGet("UpdateEmailNew"), 500, 305, "Black", "Gray");
-	ElementPosition("InputEmailOld", 1200, 225, 800);
-	ElementPosition("InputEmailNew", 1200, 305, 800);
-	DrawText(TextGet("UpdateEmailDescription"), 800, 397, "Black", "Gray");
-	MainCanvas.textAlign = "center";
-	DrawButton(500, 365, 250, 64, TextGet("UpdateEmail"), "White", "");
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 }
 
 /**
@@ -34,20 +90,6 @@ function PreferenceSubscreenSecurityRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenSecurityClick() {
-
-	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
-
-	// If we must update the email
-	if (MouseIn(500, 365, 250, 50)) {
-		var EmailOld = ElementValue("InputEmailOld");
-		var EmailNew = ElementValue("InputEmailNew");
-
-		if ((EmailOld == "" || CommonEmailIsValid(EmailOld)) && (EmailNew == "" || CommonEmailIsValid(EmailNew)))
-			ServerSend("AccountUpdateEmail", { EmailOld: EmailOld, EmailNew: EmailNew });
-		else
-			ElementValue("InputEmailNew", TextGet("UpdateEmailInvalid"));
-	}
 }
 
 /**
@@ -58,6 +100,40 @@ function PreferenceSubscreenSecurityExit() {
 }
 
 function PreferenceSubscreenSecurityUnload() {
-	ElementRemove("InputEmailOld");
-	ElementRemove("InputEmailNew");
+}
+
+function PreferenceSubscreenSecurityResize() {
+	const { x, y } = PreferenceSubscreenMainGrid;
+
+	ElementSetPosition(PreferenceSubscreenSecurityIDs.grid, x, y);
+}
+
+/**
+ * Updates the placeholder of the "New Email" input based on the result of an email update operation.
+ * @param {ServerAccountQueryEmailStatus} data - Server response containing the result of the email update.
+ * @returns {void}
+ */
+function SecurityEmailUpdate(data) {
+	const result = data.Result ? "UpdateEmailSuccess" : "UpdateEmailFailure";
+	const text = TextGet(result);
+
+	if (result === "UpdateEmailSuccess") {
+		ElementValue(PreferenceSubscreenSecurityIDs.emailNew, "");
+		ElementValue(PreferenceSubscreenSecurityIDs.emailOld, "");
+		ToastManager.success(text);
+	} else {
+		ToastManager.success(text);
+	}
+}
+
+/**
+ * Updates the email input placeholder based on whether an email is linked to the account.
+ * @param {ServerAccountQueryEmailStatus} data - Server response containing the email status.
+ * @returns {void}
+ */
+function SecurityEmailStatus(data) {
+	const placeholder = TextGet(data.Result ? "UpdateEmailLinked" : "UpdateEmailEmpty");
+	const inputId = PreferenceSubscreenSecurityIDs[data.Result ? "emailOld" : "emailNew"];
+
+	ElementWrap(inputId)?.setAttribute("placeholder", placeholder);
 }

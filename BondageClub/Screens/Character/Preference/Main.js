@@ -13,37 +13,55 @@ const PreferenceSubscreenMainGrid = {
 	direction: "vertical",
 };
 
+const MainSubscreenIDs = Object.freeze({
+	grid: 'preference-main-grid',
+});
+
 function PreferenceSubscreenMainLoad() {
-	const exts = PreferenceSubscreens.find(s => s.name === "Extensions");
-	exts.hidden = Object.keys(PreferenceExtensionsSettings).length === 0;
+	const subscreenButtons = PreferenceSubscreens.filter(s => !s.hidden);
+
+	const buttons = ElementCreate({
+		tag: "div",
+		classList: ["preference-button-grid", "scroll-box"],
+		attributes: { id: MainSubscreenIDs.grid },
+		children:
+			subscreenButtons.map((screen) => {
+				return ElementButton.Create(`preference-main-${screen.name}`,
+					() => {
+						PreferenceOpenSubscreen(screen.name);
+					},
+					{
+						image: screen.icon || `Icons/${screen.name}.png`,
+						label: screen.description || TextGet(`Homepage${screen.name}`),
+						labelPosition: "right",
+					});
+			}),
+	});
+	ElementWrap(PreferenceIDs.subscreen).append(buttons);
 }
 
 function PreferenceSubscreenMainRun() {
 	// Draw the player & controls
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	MainCanvas.textAlign = "left";
-	DrawText(TextGet("Preferences"), 500, 125, "Black", "Gray");
-	MainCanvas.textAlign = "center";
-
-	// Draw all the buttons to access the submenus
-	CommonGenerateGrid(PreferenceSubscreens.filter(s => !s.hidden), 0, PreferenceSubscreenMainGrid, (screen, x, y, w, h) => {
-		const icon = screen.icon || "Icons/" + screen.name + ".png";
-		DrawButton(x, y, w, h, "", "White", icon);
-		const desc = screen.description || TextGet("Homepage" + screen.name);
-		DrawTextFit(desc, x + 245, y + 46, 310, "Black");
-		return false;
-	});
 }
 
 function PreferenceSubscreenMainClick() {
-	// Exit button
-	if (MouseIn(1815, 75, 90, 90)) PreferenceExit();
-
-	// Open the selected subscreen
-	CommonGenerateGrid(PreferenceSubscreens.filter(s => !s.hidden), 0, PreferenceSubscreenMainGrid, (screen, x, y, w, h) => {
-		if (!MouseIn(x, y, w, h)) return false;
-		PreferenceOpenSubscreen(screen.name);
-		return true;
-	});
 }
+
+function PreferenceSubscreenMainResize(onLoad) {
+	const { x, y } = PreferenceSubscreenMainGrid;
+	ElementSetPosition(MainSubscreenIDs.grid, x, y);
+}
+
+function PreferenceSubscreenMainExit() {
+	PreferenceExit();
+	// We return false here because we want `PreferenceSubscreenExit()` to stop;
+	// `PreferenceExit` will handle saving and switching us out.
+	return false;
+}
+
+function PreferenceSubscreenMainUnload() {
+}
+
+
+

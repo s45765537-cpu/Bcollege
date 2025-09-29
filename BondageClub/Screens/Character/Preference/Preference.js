@@ -28,6 +28,9 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenMainLoad(),
 		run: () => PreferenceSubscreenMainRun(),
 		click: () => PreferenceSubscreenMainClick(),
+		resize: () => PreferenceSubscreenMainResize(),
+		unload: () => PreferenceSubscreenMainUnload(),
+		exit: () => PreferenceSubscreenMainExit(),
 	},
 	{
 		name: "General",
@@ -41,11 +44,14 @@ const PreferenceSubscreens = [
 		name: "Difficulty",
 		run: () => PreferenceSubscreenDifficultyRun(),
 		click: () => PreferenceSubscreenDifficultyClick(),
+		exit: () => PreferenceSubscreenDifficultyExit(),
 	},
 	{
 		name: "Restriction",
+		load: () => PreferenceSubscreenRestrictionLoad(),
 		run: () => PreferenceSubscreenRestrictionRun(),
 		click: () => PreferenceSubscreenRestrictionClick(),
+		resize: () => PreferenceSubscreenRestrictionResize(),
 	},
 	{
 		name: "Chat",
@@ -53,6 +59,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenChatRun(),
 		click: () => PreferenceSubscreenChatClick(),
 		exit: () => PreferenceSubscreenChatExit(),
+		resize: () => PreferenceSubscreenChatResize(),
 	},
 	{
 		name: "CensoredWords",
@@ -61,6 +68,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenCensoredWordsClick(),
 		exit: () => PreferenceSubscreenCensoredWordsExit(),
 		unload: () => PreferenceSubscreenCensoredWordsUnload(),
+		resize: () => PreferenceSubscreenCensoredWordsResize(),
 	},
 	{
 		name: "Audio",
@@ -69,6 +77,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenAudioClick(),
 		exit: () => PreferenceSubscreenAudioExit(),
 		unload: () => PreferenceSubscreenAudioUnload(),
+		resize: () => PreferenceSubscreenAudioResize(),
 	},
 	{
 		name: "Arousal",
@@ -85,12 +94,14 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenSecurityClick(),
 		exit: () => PreferenceSubscreenSecurityExit(),
 		unload: () => PreferenceSubscreenSecurityUnload(),
+		resize: () => PreferenceSubscreenSecurityResize(),
 	},
 	{
 		name: "Online",
 		load: () => PreferenceSubscreenOnlineLoad(),
 		run: () => PreferenceSubscreenOnlineRun(),
 		click: () => PreferenceSubscreenOnlineClick(),
+		resize: () => PreferenceSubscreenOnlineResize(),
 	},
 	{
 		name: "Visibility",
@@ -105,6 +116,7 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenImmersionLoad(),
 		run: () => PreferenceSubscreenImmersionRun(),
 		click: () => PreferenceSubscreenImmersionClick(),
+		resize: () => PreferenceSubscreenImmersionResize(),
 	},
 	{
 		name: "Graphics",
@@ -150,6 +162,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenExtensionsClick(),
 		exit: () => PreferenceSubscreenExtensionsExit(),
 		unload: () => PreferenceSubscreenExtensionsUnload(),
+		resize: () => PreferenceSubscreenExtensionsResize(),
 	},
 ];
 
@@ -170,16 +183,27 @@ let PreferenceExtensionsSettings = {};
  */
 async function PreferenceOpenSubscreen(subscreen, page = 1) {
 	if (CurrentModule !== "Character" || CurrentScreen !== "Preference") {
+		InformationSheetLoadCharacter(Player);
 		await CommonSetScreen("Character", "Preference");
 	}
-	PreferenceSubscreen?.unload?.();
+	PreferenceSubscreenUnload();
 
 	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === subscreen) ?? null;
 	if (!CommonIsNonNegativeInteger(page)) page = 1;
 	PreferencePageCurrent = page;
 	PreferenceMessage = "";
-	PreferenceSubscreen?.load?.();
+	const subscreenTitle = subscreen === "Main" ? "Preferences" : `${subscreen}Preferences`;
+
+	PreferenceSubscreenCreateSubscreen(TextGet(subscreenTitle));
+	await PreferenceSubscreen?.load?.();
+	PreferenceResize(true);
 }
+
+const PreferenceIDs = Object.freeze({
+	subscreen: 'preference-subscreen',
+	exit: 'preference-exit',
+	title: 'preference-subscreen-hgroup',
+});
 
 /**
  * Loads the preference screen. This function is called dynamically, when the character enters the preference screen
@@ -213,7 +237,7 @@ function PreferenceClick() {
 	if (ControllerIsActive()) {
 		ControllerClearAreas();
 	}
-	PreferenceSubscreen.click();
+	PreferenceSubscreen?.click();
 }
 
 /**
@@ -221,12 +245,13 @@ function PreferenceClick() {
  * If the player is in a subscreen, they exit to the main preferences menu instead.
  * @type {ScreenExitHandler}
  */
-function PreferenceExit() {
+async function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {
 		// If we are in a subscreen, the only exit is to the main preference screen
-		PreferenceSubscreenExit();
+		await PreferenceSubscreenExit();
 		return;
 	}
+
 
 	// Exit the preference menus
 	// Only a normal exit triggers an update to server. so we don't send data in unload function,
@@ -251,8 +276,7 @@ function PreferenceExit() {
 		...ServerPackItemPermissions(Player.PermissionItems),
 	};
 	ServerAccountUpdate.QueueData(P);
-	PreferenceMessage = "";
-	CommonSetScreen("Character", "InformationSheet");
+	await CommonSetScreen("Character", "InformationSheet");
 }
 
 /**
@@ -260,22 +284,55 @@ function PreferenceExit() {
  * We don't do this in exit function for disconnects do not trigger the exit function
  */
 function PreferenceUnload() {
-	if (PreferenceSubscreen.name !== "Main") {
-		PreferenceSubscreen.unload?.();
-	}
+	PreferenceSubscreenUnload();
+}
+
+function PreferenceResize(onLoad) {
+	PreferenceSubscreenResize?.(onLoad);
+	PreferenceSubscreen.resize?.(onLoad);
+}
+
+/**
+ * @param {string} subscreenName
+ * @returns
+ */
+function PreferenceSubscreenCreateSubscreen(subscreenName) {
+	const subscreen = ElementDOMScreen.getTemplate(
+		PreferenceIDs.subscreen,
+		{
+			menubarButtons: [ElementButton.Create(PreferenceIDs.exit, PreferenceSubscreenExit, { image: "Icons/Exit.png" })],
+			header: subscreenName,
+			parent: document.body,
+
+		},
+	);
+
+	return subscreen;
+}
+
+function PreferenceSubscreenResize(onLoad) {
+	ElementPositionFixed(PreferenceIDs.subscreen, 0, 0, 2000, 1000);
+	ElementPositionFixed(PreferenceIDs.exit, 1815, 75, 90, 90);
+	ElementPositionFixed(PreferenceIDs.title, 500, 100, 1000, 45);
 }
 
 /**
  * Exit from a specific subscreen by running its handler and checking its validity
  */
-function PreferenceSubscreenExit() {
-	const validExit = PreferenceSubscreen.exit?.();
+async function PreferenceSubscreenExit() {
+	const validExit = await PreferenceSubscreen.exit?.();
 
 	// Only when the results is false (not undefined)
 	// The exit is just a exit of the subscreen's substate, return to block more exit.
 	if (validExit === false) return;
 
-	PreferenceOpenSubscreen("Main");
+	// The exit is a full exit of the subscreen, unload resources
+	await PreferenceOpenSubscreen("Main");
+}
+
+function PreferenceSubscreenUnload() {
+	PreferenceSubscreen?.unload?.();
+	ElementRemove(PreferenceIDs.subscreen);
 }
 
 /**

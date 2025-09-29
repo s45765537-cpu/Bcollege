@@ -18,6 +18,7 @@ var PreferenceVisibilityRecord = {};
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenVisibilityLoad() {
+	ElementWrap(PreferenceIDs.exit).hidden = true;
 	PreferenceVisibilityRecord = { ...Player.PermissionItems };
 	PreferenceVisibilityGroupList = [];
 	const hideableGroups = AssetGroup.filter(g => AssetGroupIsHideable(g));
@@ -58,7 +59,6 @@ function PreferenceSubscreenVisibilityRun() {
 	DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
 	DrawButton(1820, 60, 90, 90, "", "White", "Icons/Cancel.png", TextGet("LeaveNoSave"));
 	MainCanvas.textAlign = "left";
-	DrawText(TextGet("VisibilityPreferences"), 500, 125, "Black", "Gray");
 
 	// Not available in Extreme mode
 	if (Player.GetDifficulty() <= 2) {

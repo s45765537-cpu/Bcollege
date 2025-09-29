@@ -30,17 +30,13 @@ function PreferenceNotificationsCheckSetting(setting) {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenNotificationsRun() {
-
-	// Character and exit button
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 	//PreferencePageChangeDraw(1705, 185, 2); // Uncomment when adding a 2nd page
 
 	// Left-aligned text controls
 	MainCanvas.textAlign = "left";
 	const NS = Player.NotificationSettings;
 
-	DrawText(TextGet("NotificationsPreferences"), 500, 125, "Black", "Gray");
 	DrawText(TextGet("NotificationsExplanation"), 500, 190, "Black", "Gray");
 	DrawEmptyRect(1140, 92, 510, 125, "Black", 2);
 	DrawImage("Icons/Audio1.png", 1152, 97);
@@ -106,9 +102,6 @@ function PreferenceNotificationsDrawSetting(Left, Top, Text, Setting) {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenNotificationsClick() {
-
-	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 	// Change pages
 	//PreferencePageChangeClick(1705, 185, 2); // Uncomment when adding a 2nd page
 

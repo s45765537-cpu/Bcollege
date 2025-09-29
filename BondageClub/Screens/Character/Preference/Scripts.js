@@ -46,11 +46,8 @@ function PreferenceSubscreenScriptsRun() {
 
 	// Character, exit & help buttons
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 
 	MainCanvas.textAlign = "left";
-
-	DrawText(TextGet("ScriptsPreferences"), 500, 125, "Black", "Gray");
 
 	if (!PreferenceScriptWarningAccepted) {
 		PreferenceScriptsDrawWarningScreen();
@@ -130,11 +127,6 @@ function PreferenceScriptsDrawWarningScreen() {
 }
 
 function PreferenceSubscreenScriptsClick() {
-	if (MouseIn(1815, 75, 90, 90)) {
-		PreferenceSubscreenExit();
-		return;
-	}
-
 	if (!PreferenceScriptWarningAccepted) {
 		PreferenceSubscreenScriptsWarningClick();
 		return;
