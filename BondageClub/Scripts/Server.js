@@ -431,7 +431,7 @@ function ServerUnPackItemPermissions(data, onExtreme) {
 		}
 
 		// For the sake of convenience, convert the object-style permissions into array-style
-		if (CommonIsObject(permissionObj)) {
+		if (CommonIsObject(permissionObj) && !CommonIsArray(permissionObj)) {
 			/** @type {ServerItemPermissions[]} */
 			const permissionArray = [];
 			for (const [Group, groupPermissions] of CommonEntries(permissionObj ?? {})) {

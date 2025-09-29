@@ -1190,7 +1190,7 @@ function CommonCensor(S) {
 /**
  * Type guard which checks that a value is a simple object (i.e. a non-null object which is not an array)
  * @param {unknown} value - The value to test
- * @returns {value is Record<string, unknown>}
+ * @returns {value is object}
  */
 function CommonIsObject(value) {
 	return !!value && typeof value === "object" && !Array.isArray(value);
@@ -1264,23 +1264,22 @@ function CommonIsArray(arg) {
 
 /**
  * A {@link Object.keys} variant annotated to return respect literal key types
- * @template {string} T
- * @param {Partial<Record<T, unknown>>} record A record with string-based keys
- * @returns {T[]} The keys in the passed record
+ * @template {object} T
+ * @param {T} obj A record with string-based keys
+ * @returns {(keyof T)[]} The keys in the passed record
  */
-function CommonKeys(record) {
-	return /** @type {T[]} */(Object.keys(record));
+function CommonKeys(obj) {
+	return /** @type {(keyof T)[]} */(Object.keys(obj));
 }
 
 /**
  * A {@link Object.entries} variant annotated to return respect literal key types
- * @template {string} KT
- * @template VT
- * @param {Partial<Record<KT, VT>>} record A record with string-based keys
- * @returns {[KT, VT][]} The key/value pairs in the passed record
+ * @template {{}} T
+ * @param {T} obj A record with string-based keys
+ * @returns {[keyof T, T[keyof T]][]} The key/value pairs in the passed record
  */
-function CommonEntries(record) {
-	return /** @type {[KT, VT][]} */(Object.entries(record));
+function CommonEntries(obj) {
+	return /** @type {[keyof T, T[keyof T]][]} */(Object.entries(obj));
 }
 
 /**
@@ -1488,7 +1487,7 @@ function CommonObjectEqual(rec1, rec2) {
 	if (entries1.length !== keys2.length) {
 		return false;
 	}
-	return entries1.every(([k, v]) => rec2[k] === v);
+	return entries1.every(([k, v]) => /** @type {Record<string, any>} */ (rec2)[k] === v);
 }
 
 /**
@@ -1503,7 +1502,7 @@ function CommonObjectIsSubset(subRec, superRec) {
 		return false;
 	}
 	const entries = Object.entries(subRec);
-	return entries.every(([k, v]) => superRec[k] === v);
+	return entries.every(([k, v]) => /** @type {Record<string, any>} */ (superRec)[k] === v);
 }
 
 /**
@@ -1512,9 +1511,9 @@ function CommonObjectIsSubset(subRec, superRec) {
  */
 function CommonObjectFlip(obj) {
 	return Object.keys(obj).reduce((ret, key) => {
-		ret[obj[key]] = key;
+		ret[/** @type {Record<string, any>} */ (obj)[key]] = key;
 		return ret;
-	  }, {});
+	  }, /** @type {Record<string, any>} */ ({}));
 }
 
 /**
