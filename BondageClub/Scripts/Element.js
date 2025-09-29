@@ -2712,7 +2712,88 @@ class HTMLColorTintElement extends HTMLElement {
 			document.dispatchEvent(new PointerEvent("pointermove", ev));
 		}
 
+		/** @type {(this: HTMLColorTintElement, ev: KeyboardEvent) => void} */
+		function keydown(ev) {
+			let keyModified = ev.key;
+			const modifiers = CommonKey.GetModifiers(ev);
+			if (modifiers === CommonKey.SHIFT) {
+				switch (keyModified) {
+					case "PageUp":
+					case "PageDown":
+					case "Home":
+					case "End":
+						keyModified += "Shift";
+						break;
+					default:
+						return;
+				}
+			} else if (modifiers) {
+				return;
+			}
+
+			let increment = 1 / (255 / 100);
+			switch (ev.key) {
+				case "PageUp":
+				case "PageDown":
+					increment *= 8;
+					break;
+				case "Home":
+				case "End":
+					increment = 100;
+					break;
+			}
+
+			const { top, left } = tintPicker._getKnobPosition();
+			let [topNew, leftNew] = [top, left];
+			switch (keyModified) {
+				case "EndShift":
+				case "PageDownShift":
+				case "ArrowLeft":
+					leftNew = CommonClamp(left - increment, 0, 100);
+					break;
+				case "HomeShift":
+				case "PageUpShift":
+				case "ArrowRight":
+					leftNew = CommonClamp(left + increment, 0, 100);
+					break;
+				case "Home":
+				case "PageUp":
+				case "ArrowUp":
+					topNew = CommonClamp(top - increment, 0, 100);
+					break;
+				case "End":
+				case "PageDown":
+				case "ArrowDown":
+					topNew = CommonClamp(top + increment, 0, 100);
+					break;
+				default:
+					return;
+			}
+
+			ev.stopPropagation();
+			ev.preventDefault();
+			if (leftNew === left && topNew === top) {
+				return;
+			}
+			if (!ev.repeat) {
+				tintPicker._pressedOldValue = this.value;
+			}
+
+			tintPicker._setKnobPosition(leftNew, topNew);
+			tintPicker.brightness = (100 - topNew) * (255 / 100);
+			tintPicker.saturation = leftNew * (255 / 100);
+			tintPicker.dispatchEvent(new InputEvent("input"));
+		}
+
+		/** @type {(this: HTMLColorTintElement, ev: FocusEvent | KeyboardEvent) => void} */
+		function keyup(ev) {
+			tintPicker._pressedOldValue = null;
+		}
+
 		this.addEventListener("pointerdown", pointerdown);
+		this.addEventListener("keydown", keydown);
+		this.addEventListener("keyup", keyup);
+		this.addEventListener("blur", keyup);
 	}
 
 	/**
@@ -2912,6 +2993,19 @@ class HTMLColorTintElement extends HTMLElement {
 		}
 		knob.style.left = `${left}%`;
 		knob.style.top = `${top}%`;
+	}
+
+	/**
+	 * Get the position the knob
+	 * @private
+	 * @returns {{ left: number, top: number }} - The position of the knob on a scale of 0-100
+	 */
+	_getKnobPosition() {
+		/** @type {null | HTMLElement} */
+		const knob = this.shadowRoot?.querySelector(".knob");
+		const left = Number.parseFloat(knob ? (knob.style.left || getComputedStyle(knob).left) : "0%");
+		const top = Number.parseFloat(knob ? (knob.style.top || getComputedStyle(knob).top) : "0%");
+		return { left, top };
 	}
 }
 
