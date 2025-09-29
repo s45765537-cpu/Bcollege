@@ -52,10 +52,18 @@ var ChatRoomPlayerCanJoin = false;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
-/** @type {ServerChatRoomSpace} */
+/**
+ * @deprecated Use {@link ChatSearchGetSpace()}
+ * @todo Remove after R121
+ * @type {ServerChatRoomSpace}
+ */
 var ChatRoomSpace = ChatRoomSpaceType.MIXED;
-/** @type {ServerChatRoomGame} */
-var ChatRoomGame = "";
+/**
+ * @deprecated Use {@link ChatRoomGetGame()}
+ * @todo Remove after R121
+ * @type {ServerChatRoomGame}
+ */
+var ChatRoomGame;
 var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
@@ -1400,8 +1408,9 @@ function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, Backgroun
 		ChatSearchReturnScreen = /** @type {ScreenSpecifier} */([LeaveSpace, LeaveRoom]);
 	}
 
+	ChatSearchSpace = Space;
 	ChatRoomSpace = Space;
-	ChatRoomGame = Game;
+	ChatSearchGame = Game;
 	ChatSearchBackground = Background;
 	ChatSearchBackgroundTagList = BackgroundTagList;
 	ChatSearchQueryString = "";
@@ -1442,7 +1451,7 @@ function ChatRoomMenuBuild() {
 	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
 	ChatRoomMenuButtons.push("Dress");
 	ChatRoomMenuButtons.push("Profile");
-	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS") && (ChatRoomGame !== "Prison")) ChatRoomMenuButtons.push("GameOption");
+	if (OnlineGameHasOptions()) ChatRoomMenuButtons.push("GameOption");
 	ChatRoomMenuButtons.push("RoomAdmin");
 }
 
@@ -2691,7 +2700,7 @@ function ChatRoomMenuClick(event) {
 				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
-					CommonSetScreen("Online", /** @type {ModuleScreens["Online"]} */("Game" + ChatRoomGame));
+					CommonSetScreen("Online", /** @type {ModuleScreens["Online"]} */("Game" + ChatRoomData.Game));
 					break;
 				case "Kneel":
 					ChatRoomToggleKneel();
@@ -2984,12 +2993,13 @@ function ChatRoomProcessSlowLeave() {
  */
 function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomCustomizationClear();
+	OnlineGameReset();
+	ChatRoomGame = "";
 	ChatRoomSlowtimer = 0;
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomData = null;
 	Player.MapData = null;
-	ChatRoomGame = "";
 	ChatRoomCharacter = [];
 	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
@@ -5079,7 +5089,9 @@ function ChatRoomSyncRoomProperties(data) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
 	}
 
-	if (ChatRoomData.Game != null) ChatRoomGame = ChatRoomData.Game;
+	if (ChatRoomData.Game != null) {
+		ChatRoomGame = ChatRoomData.Game;
+	}
 
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();
@@ -6141,9 +6153,9 @@ function ChatRoomGameResponse(data) {
 		}
 	} else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty)
 		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
-	else if (ChatRoomGame == "LARP") GameLARPProcess(data);
-	else if (ChatRoomGame == "MagicBattle") GameMagicBattleProcess(data);
-	else if (ChatRoomGame == "ClubCard") GameClubCardProcess(data);
+	else if (ChatRoomData.Game == "LARP") GameLARPProcess(data);
+	else if (ChatRoomData.Game == "MagicBattle") GameMagicBattleProcess(data);
+	else if (ChatRoomData.Game == "ClubCard") GameClubCardProcess(data);
 }
 
 /**
@@ -6649,4 +6661,11 @@ function ChatRoomGetCharacter(spec) {
 	const nameMatches = ChatRoomCharacter.filter(c => c.Name.toLocaleLowerCase() === spec.toLocaleLowerCase() || c.Nickname?.toLocaleLowerCase() === spec.toLocaleLowerCase());
 	if (nameMatches.length > 1) return null;
 	return nameMatches[0] ?? null;
+}
+
+/**
+ * Returns the currently running game in the room
+ */
+function ChatRoomGetGame() {
+	return ChatRoomData?.Game ?? null;
 }

@@ -661,7 +661,7 @@ function FriendListLoadFriendList(data) {
 			const originalChatRoomName = friend.ChatRoomName || '';
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${friend.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
-			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (friend.ChatRoomSpace || '');
+			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (friend.ChatRoomSpace || '');
 			const canBeep = true;
 
 			friendRawData.push({
@@ -689,7 +689,7 @@ function FriendListLoadFriendList(data) {
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${beepData.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
 			let beepCaption = '';
-			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (beepData.ChatRoomSpace || '');
+			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (beepData.ChatRoomSpace || '');
 
 			const rawBeepCaption = [];
 			if (beepData.Sent) {

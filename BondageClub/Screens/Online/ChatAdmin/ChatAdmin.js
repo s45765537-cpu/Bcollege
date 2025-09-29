@@ -92,7 +92,7 @@ function ChatAdminStart(mode, roomData = undefined) {
 			Access: ChatRoomAccessMode.PUBLIC,
 			BlockCategory: [],
 			Language: ChatAdminDefaultLanguage,
-			Space: ChatRoomSpace,
+			Space: ChatSearchGetSpace(),
 			MapData: { Type: "Never" },
 			// Custom: {},
 		};

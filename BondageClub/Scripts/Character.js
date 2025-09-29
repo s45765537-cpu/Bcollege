@@ -2354,11 +2354,14 @@ function CharacterClearOwnership(C, push=true) {
  * @returns {string} - The nickname to return
  */
 function CharacterNickname(C) {
+	if (AsylumGGTSIsEnabled()) {
+		return AsylumGGTSCharacterName(C);
+	}
 	let Nick = C.Nickname;
 	if (Nick == null) Nick = "";
 	Nick = Nick.trim().substring(0, 20);
 	if ((Nick == "") || !ServerCharacterNicknameRegex.test(Nick)) Nick = C.Name;
-	return AsylumGGTSCharacterName(C, Nick);
+	return Nick;
 }
 
 /**
@@ -2370,7 +2373,7 @@ function CharacterNickname(C) {
  */
 function CharacterPronoun(C, DialogKey, HideIdentity) {
 	let pronounName;
-	if (HideIdentity && ChatRoomSpace == ChatRoomSpaceType.MIXED || C == null) {
+	if (HideIdentity && ChatSearchGetSpace() == ChatRoomSpaceType.MIXED || C == null) {
 		pronounName = "TheyThem";
 	} else {
 		pronounName = C.GetPronouns();
