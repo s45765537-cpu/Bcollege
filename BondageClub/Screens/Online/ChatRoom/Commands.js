@@ -280,8 +280,13 @@ function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
 		}
 	}
 
+	if (!current.Subcommands && !current.Arguments && remaining.length === 0) {
+		complete = true;
+	}
+
 	if (current.AutoComplete) {
 		current.AutoComplete(remaining, low, msg);
+		complete = true;
 	}
 
 	if (complete) {
