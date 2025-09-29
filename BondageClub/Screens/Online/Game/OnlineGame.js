@@ -63,7 +63,7 @@ function OnlineGameTranslate(CachePath) {
  */
 function OnlineGameDictionaryText(KeyWord) {
 	for (let D = 0; D < OnlineGameDictionary.length; D++)
-		if (OnlineGameDictionary[D][0] == ChatRoomData.Game + KeyWord)
+		if (OnlineGameDictionary[D][0] === ChatRoomGetGame() + KeyWord)
 			return OnlineGameDictionary[D][1].trim();
 	return "MISSING ONLINE GAME DESCRIPTION FOR KEYWORD " + KeyWord;
 }
@@ -74,8 +74,8 @@ function OnlineGameDictionaryText(KeyWord) {
  * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClickCharacter(C) {
-	if ((ChatRoomData.Game == "LARP") && (GameLARPGetStatus() != "")) return GameLARPCharacterClick(C);
-	if ((ChatRoomData.Game == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return GameMagicBattleCharacterClick(C);
+	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return GameLARPCharacterClick(C);
+	if ((ChatRoomGetGame() === "MagicBattle") && (GameMagicBattleGetStatus() != "")) return GameMagicBattleCharacterClick(C);
 	return false;
 }
 
@@ -84,8 +84,8 @@ function OnlineGameClickCharacter(C) {
  * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClick() {
-	if ((ChatRoomData.Game == "LARP") && (GameLARPGetStatus() != "")) return GameLARPClickProcess();
-	if ((ChatRoomData.Game == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return GameMagicBattleClickProcess();
+	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return GameLARPClickProcess();
+	if ((ChatRoomGetGame() === "MagicBattle") && (GameMagicBattleGetStatus() != "")) return GameMagicBattleClickProcess();
 	return false;
 }
 
@@ -96,8 +96,8 @@ function OnlineGameClick() {
 function OnlineGameRun() {
 
 	// In LARP, the player turn can be skipped by an administrator after 20 seconds
-	if (ChatRoomData.Game == "LARP") GameLARPRunProcess();
-	if (ChatRoomData.Game == "MagicBattle") GameMagicBattleRunProcess();
+	if (ChatRoomGetGame() === "LARP") GameLARPRunProcess();
+	if (ChatRoomGetGame() === "MagicBattle") GameMagicBattleRunProcess();
 
 }
 
@@ -106,8 +106,8 @@ function OnlineGameRun() {
  * @returns {boolean} - Returns TRUE if there's no online game that currently blocks changing
  */
 function OnlineGameAllowChange() {
-	if ((ChatRoomData.Game == "LARP") && (GameLARPGetStatus() != "")) return false;
-	if ((ChatRoomData.Game == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return false;
+	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return false;
+	if ((ChatRoomGetGame() === "MagicBattle") && (GameMagicBattleGetStatus() != "")) return false;
 	return true;
 }
 
@@ -116,8 +116,8 @@ function OnlineGameAllowChange() {
  * @returns {boolean} - Returns TRUE if the online game allows you to block items
  */
 function OnlineGameAllowBlockItems() {
-	if ((ChatRoomData.Game == "LARP") && (GameLARPGetStatus() != "")) return false;
-	if ((ChatRoomData.Game == "MagicBattle") && (GameMagicBattleGetStatus() != "")) return false;
+	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return false;
+	if ((ChatRoomGetGame() === "MagicBattle") && (GameMagicBattleGetStatus() != "")) return false;
 	return true;
 }
 
@@ -126,9 +126,9 @@ function OnlineGameAllowBlockItems() {
  * @returns {void} - Nothing
  */
 function OnlineGameLoadStatus() {
-	if (ChatRoomData.Game == "ClubCard") GameClubCardLoadStatus();
-	if (ChatRoomData.Game == "LARP") GameLARPLoadStatus();
-	if (ChatRoomData.Game == "MagicBattle") GameMagicBattleLoadStatus();
+	if (ChatRoomGetGame() === "ClubCard") GameClubCardLoadStatus();
+	if (ChatRoomGetGame() === "LARP") GameLARPLoadStatus();
+	if (ChatRoomGetGame() === "MagicBattle") GameMagicBattleLoadStatus();
 }
 
 /**
@@ -136,7 +136,7 @@ function OnlineGameLoadStatus() {
  * @returns {void} - Nothing
  */
 function OnlineGameReset() {
-	switch (ChatRoomData.Game) {
+	switch (ChatRoomGetGame()) {
 		case "ClubCard":
 			GameClubCardReset();
 			break;
@@ -173,17 +173,17 @@ function OnlineGameCharacterInChatRoom(MemberNumber) {
  * @returns {void} - Nothing
  */
 function OnlineGameDrawCharacter(C, X, Y, Zoom) {
-	if (ChatRoomData.Game === "GGTS") AsylumGGTSDrawCharacter(C, X, Y, Zoom);
-	if (ChatRoomData.Game === "ClubCard") GameClubCardDrawCharacter(C, X, Y, Zoom);
-	if (ChatRoomData.Game === "LARP") GameLARPDrawCharacter(C, X, Y, Zoom);
-	if (ChatRoomData.Game === "MagicBattle") GameMagicBattleDrawCharacter(C, X, Y, Zoom);
+	if (ChatRoomGetGame() === "GGTS") AsylumGGTSDrawCharacter(C, X, Y, Zoom);
+	if (ChatRoomGetGame() === "ClubCard") GameClubCardDrawCharacter(C, X, Y, Zoom);
+	if (ChatRoomGetGame() === "LARP") GameLARPDrawCharacter(C, X, Y, Zoom);
+	if (ChatRoomGetGame() === "MagicBattle") GameMagicBattleDrawCharacter(C, X, Y, Zoom);
 }
 
 /**
  * Returns whether the room's current game has a specific option screen
  */
 function OnlineGameHasOptions() {
-	switch (ChatRoomData.Game) {
+	switch (ChatRoomGetGame()) {
 		case "ClubCard":
 			return true;
 		case "LARP":
