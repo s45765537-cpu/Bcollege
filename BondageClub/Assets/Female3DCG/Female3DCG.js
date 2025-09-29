@@ -5391,6 +5391,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Top: 0,
 				ParentGroup: "",
+				Audio: "PolyesterWoosh2",
 			},
 			{
 				Name: "ElegantHeartNecklace",
@@ -5429,6 +5430,7 @@ var AssetFemale3DCG = [
 				Top: 200,
 				DefaultColor: "#956B1C",
 				BuyGroup: "HempRope",
+				Audio: "RopeShort",
 				ParentGroup: "",
 				Extended: true,
 				CreateLayerTypes: ["typed"],
@@ -8413,6 +8415,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapBra1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 276,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -8453,6 +8456,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StuddedHarness",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 280,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -8496,6 +8500,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBreastBinder",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 283,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -9229,6 +9234,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ClassicLatexCorset",
+				Audio: "LeatherCreak",
 				InventoryID: 300,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -9355,6 +9361,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1231,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -9681,6 +9688,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BulkyDiaper",
+				Audio: "SoftCloth1",
 				InventoryID: 310,
 				BuyGroup: "BulkyDiapers",
 				Priority: 25,
@@ -9722,6 +9730,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PoofyDiaper",
 				InventoryID: 311,
+				Audio: "SoftCloth1",
 				BuyGroup: "PoofyDiapers",
 				Priority: 25,
 				Category: ["ABDL"],
@@ -9777,6 +9786,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexDiaper",
 				InventoryID: 1240,
+				Audio: "SoftCloth1",
 				Left: 49,
 				Value: 40,
 				BuyGroup: "LatexDiapers",
@@ -10022,6 +10032,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPanties1",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 322,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
@@ -10041,6 +10052,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPanties2",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 323,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
@@ -10137,6 +10149,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapPanties1",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 329,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
@@ -10332,6 +10345,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HipHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1162,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
@@ -10405,6 +10419,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WaistLegHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1191,
 				Gender: "F",
 				StyleOverride: ["EchoV2"],
@@ -10528,6 +10543,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FemPelvisHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1220,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
@@ -10539,7 +10555,6 @@ var AssetFemale3DCG = [
 				BuyGroup: "FemPelvisHarness",
 				ParentItem: "ItemPelvisFemPelvisHarness",
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-				Audio: "Buckle",
 				DefaultColor: ["#454545", "#909090"],
 				Layer: [
 					{
@@ -11952,6 +11967,7 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Left: 0,
 				Value: 250,
@@ -11987,6 +12003,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HipHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1162,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
@@ -12059,6 +12076,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WaistLegHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1191,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -12265,7 +12283,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "FemPelvisHarness",
 				ParentItem: "ItemPelvisFemPelvisHarness",
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-				Audio: "Buckle",
+				Audio: "LeatherStretchingWithMetal",
 				DefaultColor: ["#454545", "#909090"],
 				Layer: [
 					{
@@ -12586,6 +12604,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PonyBoots",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 357,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Pony"],
@@ -12692,6 +12711,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ThighHighLatexHeels",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 362,
 				Fetish: ["Latex"],
 				Value: 80,
@@ -14068,6 +14088,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HoofBoots",
+				Audio: "LeatherCreakWithMetal",
 				Fetish: ["Leather"],
 				InventoryID: 1226,
 				Left: 60,
@@ -14079,7 +14100,6 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#413A2B", "#252525", "#A18F55", "#877C66"],
 				Random: true,
 				Extended: true,
-				Audio: "Buckle",
 				Alpha: [
 					{
 						Group: [
@@ -14220,6 +14240,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ZipperBBoots",
+				Audio: "Zipper1",
 				Fetish: ["Leather"],
 				InventoryID: 1263,
 				Left: {
@@ -15130,6 +15151,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexHabit",
+				Audio: "TightLeatherStretch",
 				InventoryID: 409,
 				Fetish: ["Latex"],
 				BuyGroup: "LatexHabit",
@@ -20021,6 +20043,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OpenFaceHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 491,
 				Fetish: ["Latex"],
 				Value: -1,
@@ -20227,6 +20250,7 @@ var AssetFemale3DCG = [
 			}, //HeadHarness
 			{
 				Name: "FestivalFoxMask",
+				Audio: "TightLeatherStretch",
 				InventoryID: 495,
 				Fetish: ["Pet"],
 				BuyGroup: "FestivalFoxMask",
@@ -20700,6 +20724,7 @@ var AssetFemale3DCG = [
 				InventoryID: 497,
 				Value: -1,
 				BuyGroup: "MedicalMask",
+				Audio: "PolyesterWoosh1",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Priority: 37,
@@ -21028,6 +21053,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Kigu2Hood",
+				Audio: "LeatherCreak",
 				InventoryID: 1204,
 				Fetish: ["Latex"],
 				Left: 150,
@@ -21338,6 +21364,7 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: 250,
 				Top: 0,
@@ -25486,6 +25513,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBelt",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 537,
 				Fetish: ["Leather"],
 				Value: 25,
@@ -25499,6 +25527,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SturdyLeatherBelts",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 538,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -25511,7 +25540,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Extended: true,
 				AllowActivePose: ["Kneel"],
-				Audio: "Buckle",
 				DefaultColor: [
 					"#11161B",
 					"#403E40",
@@ -25839,6 +25867,7 @@ var AssetFemale3DCG = [
 				InventoryID: 551,
 				Fetish: ["Metal"],
 				Priority: 24,
+				Audio: "MetalShut",
 				Value: 50,
 				Difficulty: 7,
 				Time: 10,
@@ -25887,6 +25916,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlasticWrap",
+				Audio: "PlasticRustle",
 				InventoryID: 554,
 				StyleOverride: ["EchoV2"],
 				Value: 100,
@@ -25995,6 +26025,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MedicalBedRestraints",
+				Audio: "PolyesterWooshWithMetal3",
 				InventoryID: 560,
 				Value: -1,
 				Difficulty: 5,
@@ -26039,6 +26070,7 @@ var AssetFemale3DCG = [
 				InventoryID: 355,
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: 250,
 				Difficulty: 6,
@@ -26079,6 +26111,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e", "#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -26470,6 +26503,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBelt",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 537,
 				Fetish: ["Leather"],
 				Value: 25,
@@ -26483,6 +26517,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SturdyLeatherBelts",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 538,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -26494,7 +26529,6 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Extended: true,
 				AllowActivePose: ["Kneel"],
-				Audio: "Buckle",
 				DefaultColor: ["#11161B", "#403E40", "#11161B", "#403E40"],
 				Layer: [
 					{
@@ -26550,6 +26584,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherLegCuffs",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 563,
 				Fetish: ["Leather"],
 				Priority: 24,
@@ -26575,6 +26610,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherDeluxeLegCuffs",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 564,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather"],
@@ -26664,6 +26700,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LegBinder",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 567,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -26705,6 +26742,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShinyLegBinder",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 568,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -26838,6 +26876,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HobbleSkirt",
+				Audio: "TightLeatherStretch",
 				InventoryID: 569,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -26885,6 +26924,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SeamlessLegBinder",
+				Audio: "TightLeatherStretch",
 				InventoryID: 570,
 				StyleOverride: ["EchoV2"],
 				Value: 80,
@@ -26919,6 +26959,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SeamlessHobbleSkirt",
+				Audio: "TightLeatherStretch",
 				InventoryID: 571,
 				StyleOverride: ["EchoV2"],
 				Value: 125,
@@ -26999,6 +27040,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlasticWrap",
+				Audio: "PlasticRustle",
 				InventoryID: 554,
 				StyleOverride: ["EchoV2"],
 				Value: 100,
@@ -27012,6 +27054,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FrogtieStraps",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 572,
 				Fetish: ["Leather"],
 				Value: 25,
@@ -27137,6 +27180,7 @@ var AssetFemale3DCG = [
 				InventoryID: 355,
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: 250,
 				Difficulty: 6,
@@ -27162,6 +27206,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e", "#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -27215,6 +27260,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Random: false,
 				AllowLock: true,
+				Audio: "ChainLong",
 				SetPose: ["Kneel"],
 				PoseMapping: {
 					...AssetPoseMapping.ItemLegs,
@@ -27519,6 +27565,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrappedPetsuitLegs",
+				Audio: "TightLeatherStretch",
 				BuyGroup: "StrappedPetsuit",
 				InventoryID: 1256,
 				Fetish: ["Latex", "Pet"],
@@ -27566,6 +27613,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PawPaddedPetsuitLegs",
+				Audio: "LeatherCreakWithMetal",
 				BuyGroup: "PawPaddedPetsuit",
 				InventoryID: 1258,
 				Fetish: ["Latex", "Pet"],
@@ -27693,6 +27741,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WandBelt",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 578,
 				Gender: "F",
 				Priority: 24,
@@ -27708,6 +27757,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PenisDildo",
+				Audio: "LeatherCreak",
 				InventoryID: 579,
 				Gender: "F",
 				Priority: 11,
@@ -27781,6 +27831,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatableVibeDildo",
+				Audio: "LeatherCreak",
 				InventoryID: 583,
 				Gender: "F",
 				Priority: 11,
@@ -27794,6 +27845,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatableVibratingPanties",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 584,
 				Gender: "F",
 				ParentGroup: "BodyLower",
@@ -27855,6 +27907,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TapeStrips",
 				InventoryID: 587,
+				Audio: "DuctTape",
 				Gender: "F",
 				Fetish: ["Tape"],
 				Value: 10,
@@ -27889,6 +27942,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FullLatexSuitWand",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 590,
 				Gender: "F",
 				Fetish: ["Latex"],
@@ -27904,6 +27958,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ClitAndDildoVibratorbelt",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 591,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -28584,6 +28639,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighSecurityVulvaShield",
+				Audio: "MetalStraps",
 				InventoryID: 612,
 				Gender: "F",
 				Fetish: ["Metal"],
@@ -28680,6 +28736,7 @@ var AssetFemale3DCG = [
 				Name: "TapedClitEgg",
 				InventoryID: 617,
 				Gender: "F",
+				Audio: "DuctTape",
 				Fetish: ["Tape"],
 				Value: 25,
 				Time: 5,
@@ -28742,6 +28799,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CockRingLeash",
+				Audio: "MetalClip",
 				InventoryID: 620,
 				Gender: "M",
 				Value: 10,
@@ -28824,6 +28882,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "BlackButtPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 621,
 				Value: 15,
 				Time: 10,
@@ -28834,6 +28893,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PenisPlug",
+				Audio: "LeatherCreak",
 				InventoryID: 579,
 				Value: 20,
 				Time: 10,
@@ -28857,6 +28917,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HorsetailPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 623,
 				Fetish: ["Pony"],
 				Value: 30,
@@ -28870,6 +28931,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HorsetailPlug1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 624,
 				Fetish: ["Pony"],
 				Value: 40,
@@ -28883,6 +28945,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PuppyTailPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 625,
 				Fetish: ["Pet"],
 				Value: 25,
@@ -28897,6 +28960,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PuppyTailPlug1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 626,
 				Fetish: ["Pet"],
 				Value: 30,
@@ -28908,6 +28972,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SuccubusButtPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 627,
 				Fetish: ["Pet"],
 				Value: 15,
@@ -28922,6 +28987,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SuccubusHeartButtPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 628,
 				Fetish: ["Pet"],
 				Value: 25,
@@ -28947,6 +29013,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RaccoonButtPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 630,
 				Fetish: ["Pet"],
 				Value: 40,
@@ -28958,6 +29025,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RaccoonTailPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 631,
 				Fetish: ["Pet"],
 				Priority: 2,
@@ -28970,6 +29038,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AnalBeads",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 632,
 				Value: 20,
 				Time: 10,
@@ -28993,6 +29062,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ButtPump",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 634,
 				Value: 35,
 				Time: 10,
@@ -29004,6 +29074,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VibratingButtplug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 635,
 				Value: 60,
 				Time: 10,
@@ -29014,6 +29085,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflVibeButtPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 636,
 				Value: 90,
 				Time: 10,
@@ -29025,6 +29097,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AnalHook",
+				Audio: "MetalClip",
 				InventoryID: 637,
 				Fetish: ["Metal"],
 				Value: 20,
@@ -29038,6 +29111,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ButtPlugLock",
+				Audio: "MetalStraps",
 				InventoryID: 638,
 				Fetish: ["Metal"],
 				Value: 75,
@@ -29196,6 +29270,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BunnyTailPlug1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 649,
 				Fetish: ["Pet"],
 				Value: 1,
@@ -29207,6 +29282,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BunnyTailPlug2",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 650,
 				Fetish: ["Pet"],
 				Value: 1,
@@ -29218,6 +29294,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BunnyTailVibePlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 651,
 				Fetish: ["Pet"],
 				Effect: [E.IsPlugged, E.UseRemote],
@@ -29253,6 +29330,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShockPlug",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 654,
 				Fetish: ["Masochism"],
 				Value: 60,
@@ -29283,6 +29361,7 @@ var AssetFemale3DCG = [
 				Name: "HollowButtPlug",
 				InventoryID: 655,
 				Value: 15,
+				Audio: "Slime",
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
@@ -29294,6 +29373,7 @@ var AssetFemale3DCG = [
 				InventoryID: 355,
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: 250,
 				Time: 10,
@@ -29378,6 +29458,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "StraponPanties",
 				InventoryID: 656,
+				Audio: "LeatherStretchingShort",
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Fetish: ["Latex"],
@@ -29403,6 +29484,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherChastityBelt",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 657,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -29434,6 +29516,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SleekLeatherChastityBelt",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 658,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -29986,7 +30069,7 @@ var AssetFemale3DCG = [
 				Time: 50,
 				RemoveTime: 60,
 				AllowLock: true,
-				Audio: "CuffsMetal",
+				Audio: "MetalStraps",
 				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
 				Hide: ["ItemVulva", "ItemVulvaPiercings"],
 				Effect: [E.Chaste],
@@ -30047,6 +30130,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapPanties1",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 329,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -30080,6 +30164,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LoveChastityBelt",
+				Audio: "MetalStraps",
 				InventoryID: 666,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -30103,7 +30188,6 @@ var AssetFemale3DCG = [
 				],
 				Effect: ["Lock"],
 				ArousalZone: "ItemVulva",
-				Audio: "CuffsMetal",
 				Extended: true,
 				Layer: [
 					{
@@ -30165,6 +30249,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DiaperHarness",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 667,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -30186,6 +30271,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PelvisChainLeash",
+				Audio: "MetalClip",
 				InventoryID: 668,
 				Priority: 27,
 				Fetish: ["Metal"],
@@ -30214,6 +30300,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "BulkyDiaper",
 				InventoryID: 310,
+				Audio: "SoftCloth1",
 				BuyGroup: "BulkyDiapers",
 				Priority: 25,
 				Category: ["ABDL"],
@@ -30267,6 +30354,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PoofyDiaper",
 				InventoryID: 311,
+				Audio: "SoftCloth1",
 				BuyGroup: "PoofyDiapers",
 				Priority: 25,
 				Category: ["ABDL"],
@@ -30354,6 +30442,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HybridChastityBelt",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 669,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -30445,6 +30534,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PortalPanties",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 671,
 				StyleOverride: ["EchoV2"],
 				Category: ["SciFi"],
@@ -30752,7 +30842,8 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "ModularChastityBelt", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				Name: "ModularChastityBelt",  // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 673,
 				StyleOverride: ["EchoV2"],
 				Attribute: ["GenitaliaCover"],
@@ -30772,7 +30863,6 @@ var AssetFemale3DCG = [
 					"#9A862D", //Lock Body
 					"#BABABA", //Lock Shackle
 				],
-				Audio: "CuffsMetal",
 				Prerequisite: ["AccessCrotch"],
 				HideItem: [],
 				Effect: ["UseRemote", E.CanEdge],
@@ -30888,6 +30978,7 @@ var AssetFemale3DCG = [
 			}, // ModularChastityBelt
 			{
 				Name: "HipHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1162,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -30981,6 +31072,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WaistLegHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1191,
 				Gender: "F",
 				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
@@ -30993,7 +31085,6 @@ var AssetFemale3DCG = [
 				Difficulty: 30,
 				Time: 10,
 				RemoveTime: 10,
-				Audio: "Buckle",
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
@@ -31480,7 +31571,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				AllowTighten: true,
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-				Audio: "Buckle",
+				Audio: "LeatherStretchingWithMetal",
 				DefaultColor: ["#454545", "#909090", "Default"],
 				Layer: [
 					{
@@ -31625,6 +31716,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHarness",
+				Audio: "TightLeatherStretch",
 				InventoryID: 674,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -31639,6 +31731,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 675,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -31660,6 +31753,7 @@ var AssetFemale3DCG = [
 				Category: ["ABDL"],
 				Fetish: ["Leather", "ABDL"],
 				BuyGroup: "AdultBabyHarness",
+				Audio: "AdultBabyHarness",
 				Priority: 33,
 				Value: 50,
 				Difficulty: 3,
@@ -31675,6 +31769,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBra1",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 263,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -31694,6 +31789,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBra2",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 264,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -31906,6 +32002,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBreastBinder",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 283,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -31950,6 +32047,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapBra1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 276,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -31992,6 +32090,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StuddedHarness",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 280,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -32023,6 +32122,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeavyLatexCorset",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1194,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Lingerie", "Latex"],
@@ -32046,6 +32146,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ClassicLatexCorset",
+				Audio: "LeatherCreak",
 				InventoryID: 300,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -32087,6 +32188,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ThinLeatherStraps",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 679,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -32115,6 +32217,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingSwimsuit",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 680,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -32135,6 +32238,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingSwimsuit2",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 681,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -32175,6 +32279,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HipHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1162,
 				Gender: "F",
 				Prerequisite: ["HasVagina", "AccessTorso"],
@@ -32365,7 +32470,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				DefaultColor: ["#454545", "#909090", "Default"],
-				Audio: "Buckle",
+				Audio: "LeatherStretchingWithMetal",
 				Layer: [
 					{
 						Name: "Main",
@@ -32435,6 +32540,7 @@ var AssetFemale3DCG = [
 			//Flat Chest Compatible Items
 			{
 				Name: "LeatherChestHarness1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 682,
 				Gender: "M",
 				Prerequisite: ["AccessTorso", "HasFlatChest"],
@@ -32508,6 +32614,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShinyLeotardLock",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1217,
 				Gender: "F",
 				Left: 0,
@@ -32632,6 +32739,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1231,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
@@ -33008,6 +33116,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 675,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -33024,6 +33133,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHarness",
+				Audio: "TightLeatherStretch",
 				InventoryID: 674,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -33358,6 +33468,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBreastBinder",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 283,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -33371,6 +33482,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapBra1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 276,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -33413,6 +33525,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StuddedHarness",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 280,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -33444,6 +33557,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeavyLatexCorset",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1194,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Lingerie", "Latex"],
@@ -33467,6 +33581,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ClassicLatexCorset",
+				Audio: "LeatherCreak",
 				InventoryID: 300,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
@@ -33507,6 +33622,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ThinLeatherStraps",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 679,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -33553,6 +33669,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherChestHarness1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 682,
 				Gender: "M",
 				Prerequisite: ["AccessTorso", "HasFlatChest"],
@@ -33622,6 +33739,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HipHarness",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1162,
 				Gender: "F",
 				Prerequisite: ["HasVagina", "AccessTorso"],
@@ -33838,7 +33956,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				DefaultColor: ["#454545", "#909090", "Default"],
-				Audio: "Buckle",
+				Audio: "LeatherStretchingWithMetal",
 				Layer: [
 					{
 						Name: "Main",
@@ -34353,6 +34471,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "NippleClamp",
 				InventoryID: 684,
+				Audio: "MetalClip",
 				Fetish: ["Metal", "Masochism"],
 				Value: 25,
 				Time: 10,
@@ -34386,6 +34505,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChainClamp",
+				Audio: "MetalClip",
 				InventoryID: 686,
 				Fetish: ["Metal", "Masochism"],
 				Value: 25,
@@ -34413,6 +34533,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ScrewClamps",
+				Audio: "MetalStraps",
 				InventoryID: 687,
 				Fetish: ["Metal", "Masochism"],
 				Value: 35,
@@ -34445,6 +34566,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TapedVibeEggs",
 				InventoryID: 690,
+				Audio: "DuctTape",
 				Fetish: ["Tape"],
 				Value: 30,
 				Time: 5,
@@ -34474,6 +34596,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "NippleTape",
 				InventoryID: 692,
+				Audio: "DuctTape",
 				Fetish: ["Tape"],
 				Value: 10,
 				Time: 5,
@@ -34519,6 +34642,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NippleWeightClamps",
+				Audio: "MetalClip",
 				InventoryID: 696,
 				Fetish: ["Metal", "Masochism"],
 				Value: 35,
@@ -35094,6 +35218,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBreastBinder",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 283,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -35299,7 +35424,6 @@ var AssetFemale3DCG = [
 				Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 				Extended: true,
 				SelfUnlock: false,
-				Audio: "Buckle",
 				HideItem: [
 					"ClothBabydollDress1",
 					"ClothAdultBabyDress1",
@@ -35364,6 +35488,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherArmbinder",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 723,
 				Gender: "F",
 				Fetish: ["Leather"],
@@ -35410,6 +35535,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ArmbinderJacket",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 724,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -35449,6 +35575,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCuffs",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 725,
 				Fetish: ["Leather"],
 				Priority: 29,
@@ -35478,6 +35605,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherDeluxeCuffs",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 726,
 				Fetish: ["Leather"],
 				Priority: 29,
@@ -35611,7 +35739,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "OrnateCuffs",
+				Name: " ",
 				InventoryID: 730,
 				Fetish: ["Metal"],
 				Priority: 29,
@@ -35735,6 +35863,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StraitLeotard",
+				Audio: "TightLeatherStretch",
 				InventoryID: 736,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -35844,6 +35973,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StraitJacket",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 738,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -35873,6 +36003,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarCuffs",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 739,
 				Fetish: ["Leather"],
 				Value: 60,
@@ -35893,6 +36024,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStraitJacket",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 740,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -35924,6 +36056,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FurStraitJacket",
+				Audio: "SoftClothWithMetal2",
 				InventoryID: 741,
 				Value: 150,
 				Difficulty: 6,
@@ -35952,6 +36085,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Bolero",
+				Audio: "TightLeatherStretch",
 				InventoryID: 742,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -36017,6 +36151,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BitchSuit",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 743,
 				Gender: "F",
 				Fetish: ["Latex", "Pet"],
@@ -36119,6 +36254,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShinyPetSuit",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 744,
 				Gender: "F",
 				Fetish: ["Latex", "Pet"],
@@ -36274,6 +36410,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShinyStraitjacket",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 745,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -36460,6 +36597,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StraitDress",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 746,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -36536,6 +36674,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StraitDressOpen",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 746,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -36611,6 +36750,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SeamlessStraitDress",
+				Audio: "TightLeatherStretch",
 				InventoryID: 747,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -36686,6 +36826,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SeamlessStraitDressOpen",
+				Audio: "TightLeatherStretch",
 				InventoryID: 747,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -36760,6 +36901,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Yoke",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 748,
 				Fetish: ["Metal", "Leather"],
 				Priority: 39,
@@ -36777,6 +36919,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeavyYoke",
+				Audio: "MetalShut",
 				InventoryID: 749,
 				Fetish: ["Metal"],
 				Priority: 39,
@@ -36813,6 +36956,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FullLatexSuit",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 751,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -36910,6 +37054,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BoxTieArmbinder",
+				Audio: "TightLeatherStretch",
 				InventoryID: 752,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -36957,7 +37102,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				Random: false,
 				AllowLock: true,
-				Audio: "CuffsMetal",
+				Audio: "BondageBouquet",
 				BuyGroup: "Bouquet",
 				Effect: [E.BlockWardrobe],
 				SetPose: ["BaseUpper"],
@@ -36998,6 +37143,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetCrawler",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 753,
 				Gender: "F",
 				Priority: 36,
@@ -37031,6 +37177,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MermaidSuit",
+				Audio: "TightLeatherStretch",
 				InventoryID: 754,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -37113,6 +37260,7 @@ var AssetFemale3DCG = [
 				Name: "Web",
 				InventoryID: 755,
 				Gender: "F",
+				Audio: "SoftCloth1",
 				Category: ["Fantasy"],
 				Fetish: ["Tape"],
 				Priority: 35,
@@ -37148,6 +37296,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexArmbinder",
+				Audio: "TightLeatherStretch",
 				InventoryID: 756,
 				Gender: "F",
 				Fetish: ["Latex"],
@@ -37240,6 +37389,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShinyArmbinder",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 758,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -37435,6 +37585,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SeamlessLatexArmbinder",
+				Audio: "TightLeatherStretch",
 				InventoryID: 759,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -37454,6 +37605,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FullBodyLeatherHarness",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 760,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -37502,6 +37654,7 @@ var AssetFemale3DCG = [
 				Name: "UnderBedBondageCuffs",
 				InventoryID: 761,
 				Gender: "F",
+				Audio: "SoftCloth1",
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 9,
@@ -37522,6 +37675,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TightJacket",
 				InventoryID: 762,
+				Audio: "SoftCloth1",
 				Gender: "F",
 				Fetish: ["Leather"],
 				DefaultColor: "#FFFFFF",
@@ -37575,6 +37729,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexSleevelessLeotard",
+				Audio: "TightLeatherStretch",
 				InventoryID: 763,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -37631,6 +37786,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBoxtieLeotard",
+				Audio: "TightLeatherStretch",
 				InventoryID: 763,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -37686,6 +37842,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexButterflyLeotard",
+				Audio: "TightLeatherStretch",
 				InventoryID: 764,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -37745,6 +37902,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PrisonLockdownSuit",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 765,
 				Gender: "F",
 				Value: 125,
@@ -37838,6 +37996,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherArmSplints",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 766,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -37857,6 +38016,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TightJacketCrotch",
 				InventoryID: 762,
+				Audio: "SoftCloth1",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Leather"],
@@ -37909,6 +38069,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighSecurityStraitJacket",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 767,
 				Value: 220,
 				Priority: 25,
@@ -38278,6 +38439,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatableStraightLeotard",
+				Audio: "TightLeatherStretch",
 				InventoryID: 769,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -38336,6 +38498,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictLeatherPetCrawler",
+				Audio: "TightLeatherStretch",
 				InventoryID: 770,
 				ParentGroup: "",
 				Fetish: ["Leather", "Pet"],
@@ -38476,6 +38639,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TransportJacket",
+				Audio: "TightLeatherStretch",
 				InventoryID: 771,
 				Gender: "F",
 				Value: 100,
@@ -38594,6 +38758,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlasticWrap",
+				Audio: "PlasticRustle",
 				InventoryID: 554,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -38622,6 +38787,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WrappedBlanket",
+				Audio: "SoftCloth1",
 				InventoryID: 761,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -38707,6 +38873,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ThinLeatherStraps",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 679,
 				Fetish: ["Leather"],
 				Value: 70,
@@ -38741,6 +38908,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: 250,
 				Difficulty: 8,
@@ -38774,6 +38942,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e", "#57ab5e", "#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -38868,6 +39037,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BondageBra",
+				Audio: "TightLeatherStretch",
 				InventoryID: 772,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -38886,6 +39056,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SleepSac",
+				Audio: "TightLeatherStretch",
 				InventoryID: 773,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -38957,6 +39128,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PrisonSJ",
+				Audio: "TightLeatherStretch",
 				InventoryID: 774,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -39111,6 +39283,7 @@ var AssetFemale3DCG = [
 			// Flat Chest Compatible Items
 			{
 				Name: "SmoothLeatherArmbinder1",
+				Audio: "TightLeatherStretch",
 				InventoryID: 775,
 				Fetish: ["Leather"],
 				Priority: 6,
@@ -39212,6 +39385,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CanvasStraitjacket1",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 776,
 				Gender: "M",
 				Prerequisite: ["HasFlatChest"],
@@ -39244,6 +39418,7 @@ var AssetFemale3DCG = [
 				Visible: false,
 				Random: false,
 				AllowLock: true,
+				Audio: "ChainLong",
 				Prerequisite: ["Collared"],
 				SetPose: ["BackBoxTie"],
 				Effect: [E.Block, E.BlockWardrobe],
@@ -39785,6 +39960,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PawPaddedPetsuitArms",
+				Audio: "TightLeatherStretch",
 				BuyGroup: "PawPaddedPetsuit",
 				InventoryID: 1258,
 				Fetish: ["Latex", "Pet"],
@@ -39890,6 +40066,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrappedPetsuitArms",
+				Audio: "TightLeatherStretchWithMetalLong",
 				BuyGroup: "StrappedPetsuit",
 				InventoryID: 1256,
 				Fetish: ["Latex", "Pet"],
@@ -40097,6 +40274,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "PaddedMittens",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 778,
 				Fetish: ["ABDL"],
 				Value: 40,
@@ -40128,6 +40306,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PawMittens",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 779,
 				Fetish: ["ABDL", "Pet"],
 				Value: 50,
@@ -40160,6 +40339,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherMittens",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 780,
 				Fetish: ["Leather"],
 				Gender: "F",
@@ -40218,6 +40398,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaddedLeatherMittens",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 782,
 				Fetish: ["Leather"],
 				Gender: "F",
@@ -40295,6 +40476,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HoofMittens",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 784,
 				Fetish: ["Pony"],
 				Gender: "F",
@@ -40320,6 +40502,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SmoothLeatherMittens1",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 785,
 				Fetish: ["Leather"],
 				Value: 20,
@@ -40683,6 +40866,7 @@ var AssetFemale3DCG = [
 			}, //PonyMittensBinder
 			{
 				Name: "ElbowLengthMittens",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 787,
 				Fetish: ["Leather", "Pet"],
 				Value: 70,
@@ -40890,6 +41074,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GlueMittens",
+				Audio: "Slime",
 				InventoryID: 1151,
 				Value: -1,
 				BuyGroup: "GlueTube",
@@ -40920,6 +41105,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "HempRope",
 				Top: 200,
 				Left: 50,
+				Audio: "RopeShort",
 				DefaultColor: "#956B1C",
 				PoseMapping: {
 					...AssetPoseMapping.ItemHands,
@@ -40939,6 +41125,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FullMittens",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1183,
 				Fetish: ["Leather"],
 				Top: -130,
@@ -41177,6 +41364,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBondageMitts",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1193,
 				Fetish: ["Latex"],
 				Value: 40,
@@ -41965,7 +42153,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Fetish: ["Sadism"],
 				AllowActivity: ["SpankItem", "RubItem"],
-				ActivityAudio: ["SmackCrop"],
+				ActivityAudio: ["Flogger"],
 			},
 			{
 				Name: "Cane",
@@ -42232,6 +42420,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LargeDildo",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 810,
 				ParentGroup: "",
 				Priority: 46,
@@ -42417,6 +42606,7 @@ var AssetFemale3DCG = [
 				ParentGroup: "",
 				Priority: 46,
 				Value: 60,
+				Audio: "RopeShort",
 				Random: false,
 				Fetish: ["Rope"],
 				DefaultColor: "#956B1C",
@@ -42427,6 +42617,7 @@ var AssetFemale3DCG = [
 				Name: "RopeCoilShort",
 				InventoryID: 200,
 				ParentGroup: "",
+				Audio: "RopeShort",
 				Priority: 46,
 				Value: 60,
 				Random: false,
@@ -42544,6 +42735,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlasticWrap",
+				Audio: "PlasticRustle",
 				InventoryID: 554,
 				ParentGroup: "",
 				Priority: 46,
@@ -43422,6 +43614,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "LeatherCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 844,
 				Fetish: ["Leather"],
 				DefaultColor: ["#000000", "Default"],
@@ -43433,6 +43626,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCollarBell",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 845,
 				Fetish: ["Leather"],
 				Value: 30,
@@ -43442,6 +43636,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCollarBow",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 846,
 				Fetish: ["Leather"],
 				Value: 25,
@@ -43451,6 +43646,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SlaveCollar",
+				Audio: "LeatherStretchingWithMetal",
 				Value: -1,
 				Difficulty: 50,
 				Time: 5,
@@ -43464,6 +43660,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ClubSlaveCollar",
+				Audio: "LeatherStretchingWithMetal",
 				Value: -1,
 				Difficulty: 50,
 				Time: 5,
@@ -43474,6 +43671,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShockCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 822,
 				Fetish: ["Leather", "Masochism"],
 				Value: 80,
@@ -43492,6 +43690,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AutoShockCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 822,
 				Fetish: ["Leather", "Masochism"],
 				Value: -1,
@@ -43510,6 +43709,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetSuitShockCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 822,
 				Fetish: ["Leather", "Masochism"],
 				Value: 15,
@@ -43535,6 +43735,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BatCollar",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 847,
 				Fetish: ["Leather"],
 				Value: 25,
@@ -43544,6 +43745,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PostureCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 848,
 				Fetish: ["Leather"],
 				Effect: [E.FixedHead],
@@ -43572,6 +43774,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DogCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 850,
 				Fetish: ["Leather", "Pet"],
 				Value: 20,
@@ -43582,6 +43785,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpikeCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 851,
 				Fetish: ["Leather", "Metal", "Pet"],
 				Value: 40,
@@ -43591,6 +43795,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighCollar",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 852,
 				Fetish: ["Leather", "Metal"],
 				Value: 50,
@@ -43627,6 +43832,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherChoker",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 854,
 				Fetish: ["Leather"],
 				DefaultColor: ["Default", "#000000"],
@@ -43638,6 +43844,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherDeluxeCollar",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 855,
 				Fetish: ["Leather"],
 				DefaultColor: ["Default", "#612C2C", "Default"],
@@ -43655,6 +43862,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetCollar",
+				Audio: "PolyesterWooshWithMetal2",
 				InventoryID: 856,
 				Fetish: ["Leather", "Pet"],
 				Value: -1,
@@ -43675,6 +43883,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BordelleCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 858,
 				Fetish: ["Leather"],
 				Value: 30,
@@ -43684,6 +43893,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LoveLeatherCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 859,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -43695,6 +43905,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NobleCorsetCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 860,
 				Fetish: ["Leather"],
 				Value: 45,
@@ -43704,6 +43915,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictPostureCollar",
+				Audio: "TightLeatherStretch",
 				InventoryID: 861,
 				Effect: [E.FixedHead],
 				Fetish: ["Leather"],
@@ -43716,6 +43928,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeartCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 862,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -43737,6 +43950,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#404040",
 				BuyGroup: "LeatherCorsetCollar",
+				Audio: "LeatherCreak",
 				Effect: [E.GagNormal],
 			},
 			{
@@ -43752,6 +43966,7 @@ var AssetFemale3DCG = [
 				IsRestraint: true,
 				AllowLock: true,
 				BuyGroup: "LatexPostureCollar",
+				Audio: "LeatherCreak",
 				Effect: [E.GagNormal, E.FixedHead],
 			},
 			{
@@ -43812,6 +44027,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeartLinkChoker",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 870,
 				Fetish: ["Leather"],
 				Value: 15,
@@ -43840,6 +44056,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NylonCollar",
+				Audio: "PolyesterWooshWithMetal2",
 				InventoryID: 871,
 				Value: 45,
 				Difficulty: 50,
@@ -43849,6 +44066,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GothicCollar",
 				InventoryID: 872,
+				Audio: "LeatherStretchingShort",
 				Priority: 29,
 				Value: 85,
 				Difficulty: 50,
@@ -43865,6 +44083,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexCollar1",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 873,
 				Fetish: ["Latex"],
 				Value: 40,
@@ -43874,6 +44093,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexCollar2",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 874,
 				Fetish: ["Latex"],
 				Value: 40,
@@ -43971,6 +44191,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ComboHarness",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 876,
 				Top: 0,
 				Left: 150,
@@ -43996,6 +44217,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BonedNeckCorset",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 877,
 				Fetish: ["Latex"],
 				Time: 7,
@@ -44026,6 +44248,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtendablePostureCollar",
+				Audio: "TightLeatherStretch",
 				InventoryID: 878,
 				Time: 5,
 				RemoveTime: 5,
@@ -44160,6 +44383,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexRingCollar",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 879,
 				Fetish: ["Latex"],
 				Value: 35,
@@ -44189,6 +44413,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpikedChoker",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 880,
 				Fetish: ["Leather"],
 				Value: 30,
@@ -44214,6 +44439,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaddedBeltCollar",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 881,
 				Fetish: ["Leather"],
 				Value: 40,
@@ -44286,6 +44512,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SunCollar",
+				Audio: "MetalStraps",
 				InventoryID: 1187,
 				Fetish: ["Metal"],
 				Value: 30,
@@ -44578,6 +44805,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarBow",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 885,
 				Fetish: ["Lingerie"],
 				Value: 5,
@@ -44588,6 +44816,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarShockUnit",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 822,
 				Fetish: ["Masochism"],
 				Value: 80,
@@ -44637,6 +44866,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTag",
+				Audio: "MetalClip",
 				InventoryID: 887,
 				Value: 50,
 				Difficulty: 20,
@@ -44651,6 +44881,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagOval",
+				Audio: "MetalClip",
 				InventoryID: 888,
 				Value: 50,
 				Difficulty: 20,
@@ -44665,6 +44896,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagPet",
+				Audio: "MetalClip",
 				InventoryID: 889,
 				Fetish: ["Pet"],
 				Value: 50,
@@ -44680,6 +44912,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagLover",
+				Audio: "MetalClip",
 				InventoryID: 890,
 				Value: -1,
 				Difficulty: 20,
@@ -44694,6 +44927,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagLivestock",
+				Audio: "MetalClip",
 				InventoryID: 891,
 				Fetish: ["Pet"],
 				Value: 50,
@@ -44708,6 +44942,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarMoon",
+				Audio: "MetalClip",
 				InventoryID: 892,
 				Value: 5,
 				Difficulty: 3,
@@ -44718,6 +44953,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarSun",
+				Audio: "MetalClip",
 				InventoryID: 893,
 				Value: 10,
 				Difficulty: 3,
@@ -44729,6 +44965,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarLapis",
+				Audio: "MetalClip",
 				InventoryID: 894,
 				Value: 10,
 				Difficulty: 3,
@@ -44740,6 +44977,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarButterfly",
+				Audio: "MetalClip",
 				InventoryID: 198,
 				Value: 50,
 				Difficulty: 3,
@@ -44753,6 +44991,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarPentagram",
+				Audio: "MetalClip",
 				InventoryID: 895,
 				Value: 10,
 				Difficulty: 3,
@@ -44764,6 +45003,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarFlower",
+				Audio: "MetalClip",
 				InventoryID: 896,
 				Value: 5,
 				Difficulty: 1,
@@ -44786,6 +45026,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarCowBell",
+				Audio: "MetalClip",
 				InventoryID: 898,
 				Fetish: ["Pet"],
 				Value: 15,
@@ -44797,6 +45038,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarPupBone",
+				Audio: "MetalClip",
 				InventoryID: 899,
 				Fetish: ["Pet"],
 				Value: 25,
@@ -44809,6 +45051,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarRoseAmulet",
+				Audio: "MetalClip",
 				InventoryID: 1252,
 				Fetish: ["Metal"],
 				Value: 25,
@@ -44931,6 +45174,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarLeash",
+				Audio: "MetalClip",
 				InventoryID: 902,
 				Fetish: ["Leather"],
 				Value: 20,
@@ -44938,7 +45182,6 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Random: false,
 				AllowLock: true,
-				Audio: "LockSmall",
 				Prerequisite: "Collared",
 				PoseMapping: {
 					Hogtied: "Hogtied",
@@ -44959,7 +45202,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Random: false,
 				AllowLock: true,
-				Audio: "LockSmall",
+				Audio: "MetalClip",
 				Prerequisite: "Collared",
 				PoseMapping: {
 					Hogtied: "Hogtied",
@@ -45001,6 +45244,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Random: false,
 				DefaultColor: "#956B1C",
+				Audio: "RopeShort",
 				BuyGroup: "CollarRope",
 				Prerequisite: ["Collared", "NotSuspended"],
 				PoseMapping: {
@@ -45020,6 +45264,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Rope"],
 				Value: -1,
 				Difficulty: 5,
+				Audio: "RopeShort",
 				Time: 5,
 				Random: false,
 				DefaultColor: "#956B1C",
@@ -45043,6 +45288,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Difficulty: 6,
 				Time: 5,
+				Audio: "RopeShort",
 				Random: false,
 				DefaultColor: "#956B1C",
 				BuyGroup: "CollarRope",
@@ -45449,6 +45695,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "WiffleGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagNormal],
@@ -45470,6 +45717,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessBallGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -45507,6 +45755,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "HarnessPanelGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
@@ -45523,6 +45772,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "RingGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
@@ -45577,6 +45827,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessPacifierGag",
+				Audio: "PolyesterWooshWithMetal2",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagLight],
@@ -45603,6 +45854,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "DusterGag",
+				Audio: "LeatherCreakWithMetal",
 				Bonus: "KidnapBruteForce",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
@@ -45622,6 +45874,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "CupholderGag",
+				Audio: "LeatherStretchingWithMetal",
 				Hide: ["Mouth"],
 				Extended: true,
 				AlwaysExtend: true,
@@ -45645,6 +45898,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessPonyBits",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Extended: true,
 				AlwaysExtend: true,
@@ -45667,6 +45921,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: "#404040",
+				Audio: "LeatherCreak",
 				Prerequisite: ["GagUnique", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
@@ -45683,6 +45938,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "KittyGag",
+				Audio: "PolyesterWoosh1",
 				DefaultColor: ["#FFFFFF", "#000000", "#E496E7"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
@@ -45701,6 +45957,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyHarnessPanelGag",
+				Audio: "PolyesterWooshWithMetal1",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [
@@ -45724,6 +45981,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyMuzzleGag",
+				Audio: "PolyesterWoosh2",
 				Hide: ["Mouth"],
 				Layer: [
 					{ Name: "Muzzle" },
@@ -45744,6 +46002,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "CarrotGag",
 				Prerequisite: "GagUnique",
+				Audio: "LeatherStretchingShort",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -45760,6 +46019,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "MuzzleGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Layer: [{ Name: "Muzzle" }, { Name: "Straps" }],
@@ -45943,6 +46203,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				Random: false,
 				BuyGroup: "PantiesMask",
+				Audio: "PolyesterWoosh2",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagVeryLight],
 				HideItem: ["ItemNoseNoseRing"],
@@ -45959,6 +46220,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "PlugGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				Extended: true,
 				Effect: [],
@@ -46008,6 +46270,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BoneGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -46033,6 +46296,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BambooGag",
+				Audio: "RopeShort",
 				InventoryID: 931,
 				Fetish: ["Rope"],
 				Value: 30,
@@ -46056,6 +46320,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessBallGag1",
+				Audio: "PolyesterWooshWithMetal2",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Extended: true,
@@ -46078,6 +46343,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "PumpkinGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
@@ -46095,6 +46361,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LipGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "AccessMouth",
 				Hide: ["Mouth"],
 				Effect: [E.GagLight, E.OpenMouth],
@@ -46116,6 +46383,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "SpiderGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
@@ -46133,6 +46401,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Random: false,
 				Hide: ["Mouth"],
+				Audio: "PolyesterWoosh2",
 				Prerequisite: "AccessMouth",
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [{ Name: "Cheeks", AllowColorize: false }, { Name: "Cloth" }],
@@ -46145,6 +46414,7 @@ var AssetFemale3DCG = [
 				Difficulty: -20,
 				Time: 5,
 				Random: false,
+				Audio: "PolyesterWoosh2",
 				DefaultColor: "#900000",
 				Hide: ["Mouth"],
 				Prerequisite: "AccessMouth",
@@ -46153,6 +46423,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LargeDildo",
+				Audio: "LeatherCreak",
 				InventoryID: 579,
 				Value: 20,
 				Difficulty: -20,
@@ -46203,6 +46474,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "LewdGag",
+				Audio: "PolyesterWoosh1",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
@@ -46224,6 +46496,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				Prerequisite: ["GagUnique", "AccessMouth"],
+				Audio: "LeatherStretchingWithMetal",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagHeavy],
 				ExpressionTrigger: [{ Name: "Raised", Group: "Eyebrows", Timer: 10 }],
@@ -46240,6 +46513,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#404040",
 				BuyGroup: "LeatherCorsetCollar",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagCorset",
 				Hide: ["Mouth"],
 				Block: ["ItemNeck"],
@@ -46256,6 +46530,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "LatexPostureCollar",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagCorset",
 				Hide: ["Mouth"],
 				Block: ["ItemNeck"],
@@ -46270,6 +46545,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BitGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Effect: [E.BlockMouth, E.GagNormal],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -46286,6 +46562,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "XLBoneGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Effect: [E.BlockMouth, E.GagNormal],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -46302,6 +46579,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Prerequisite: "GagUnique",
+				Audio: "LeatherCreakWithMetal",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Block: ["ItemMouth2", "ItemMouth3"],
@@ -46322,6 +46600,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Effect: [E.BlockMouth, E.GagEasy],
 				BuyGroup: "FoxyHarnessPanelGag",
+				Audio: "LeatherStretchingWithMetal",
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }],
 			},
 			{
@@ -46334,6 +46613,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BallGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -46354,6 +46634,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Prerequisite: ["GagUnique", "AccessMouth"],
+				Audio: "LeatherStretchingWithMetal",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -46372,6 +46653,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BallGagMask",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -46392,6 +46674,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Prerequisite: ["GagFlat", "AccessMouth"],
+				Audio: "LeatherCreak",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -46414,6 +46697,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Extended: true,
 				Effect: [],
+				Audio: "LeatherStretchingShort",
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Strap" },
@@ -46444,6 +46728,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StitchedMuzzleGag",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 948,
 				Fetish: ["Leather"],
 				Value: 60,
@@ -46466,6 +46751,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LatexBallMuzzleGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -46478,6 +46764,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DefaultColor: "#FFFFFF",
 				Prerequisite: "AccessMouth",
+				Audio: "PolyesterWoosh2",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [{ Name: "Lips", AllowColorize: false }, { Name: "Cloth" }],
@@ -46504,6 +46791,7 @@ var AssetFemale3DCG = [
 				Name: "WebGag",
 				InventoryID: 952,
 				Category: ["Fantasy"],
+				Audio: "SoftCloth1",
 				Fetish: ["Tape"],
 				Value: 30,
 				Difficulty: 3,
@@ -46583,6 +46871,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "MedicalMask",
+				Audio: "PolyesterWoosh1",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
 				HideItem: ["ItemNoseNoseRing"],
@@ -46611,6 +46900,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				AllowLock: true,
 				BuyGroup: "PrisonLockdownSuit",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
@@ -46628,6 +46918,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#000000"],
 				Random: false,
 				BuyGroup: "ShoeGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
@@ -46646,6 +46937,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				Random: false,
 				Prerequisite: "GagUnique",
+				Audio: "LeatherCreakWithMetal",
 				Extended: true,
 				Hide: ["Mouth"],
 				Effect: [E.GagMedium],
@@ -46663,6 +46955,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlasticWrap",
+				Audio: "PlasticRustle",
 				InventoryID: 554,
 				Value: 100,
 				Difficulty: 4,
@@ -46733,6 +47026,7 @@ var AssetFemale3DCG = [
 				Difficulty: 4,
 				Time: 20,
 				BuyGroup: "CageMuzzle",
+				Audio: "LeatherCreakWithMetal",
 				Random: false,
 				AllowLock: true,
 				Effect: [E.BlockMouth, E.ProtrudingMouth],
@@ -46748,6 +47042,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				Random: false,
 				AllowLock: true,
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: ["GagUnique"],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Extended: true,
@@ -46820,6 +47115,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "Pacigag",
+				Audio: "PolyesterWooshWithMetal2",
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -46837,6 +47133,7 @@ var AssetFemale3DCG = [
 				InventoryID: 355,
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: 250,
 				Difficulty: 6,
@@ -46859,6 +47156,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Extended: true,
 				DefaultColor: ["#665D5D", "#514D57", "#979595"],
+				Audio: "LeatherCreak",
 				Hide: ["Mouth"],
 				Effect: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -46890,6 +47188,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TechnoGag",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 962,
 				Prerequisite: ["GagUnique"],
 				Value: 20,
@@ -46943,6 +47242,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				BuyGroup: "PonyGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				DefaultColor: [
 					"Default",
@@ -47278,6 +47578,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -47297,6 +47598,7 @@ var AssetFemale3DCG = [
 				Difficulty: 3,
 				Random: false,
 				AllowTighten: true,
+				Audio: "PolyesterWoosh2",
 				BuyGroup: "FurScarf",
 				Effect: [E.BlockMouth, E.GagLight],
 			},
@@ -47311,6 +47613,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				AllowTighten: true,
 				BuyGroup: "LatexMuzzleMask",
+				Audio: "LeatherCreak",
 				Extended: true,
 				Top: 0,
 				Left: 0,
@@ -47360,6 +47663,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ModularGag", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 965,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -47625,6 +47929,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Hide: ["Mouth"],
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: ["GagUnique", "AccessMouth"],
 				Effect: [E.GagNormal, E.OpenMouth, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
@@ -47778,6 +48083,7 @@ var AssetFemale3DCG = [
 				Top: 141,
 				DefaultColor: ["#EEEEEE", "#222222", "#FF59B5"],
 				Prerequisite: ["GagFlat"],
+				Audio: "PolyesterWoosh2",
 				Effect: [E.BlockMouth],
 				Layer: [
 					{ Name: "TrimThin", AllowTypes: { t: 0 } },
@@ -47807,6 +48113,7 @@ var AssetFemale3DCG = [
 				Difficulty: 5,
 				Prerequisite: ["GagUnique", "AccessMouth"],
 				DefaultColor: ["#222222", "#444444", "#CC2222", "#CC2222"],
+				Audio: "LeatherCreakWithMetal",
 				Top: 22,
 				Time: 5,
 				RemoveTime: 7,
@@ -47865,6 +48172,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Random: false,
 				Top: 20,
+				Audio: "LeatherCreak",
 				Prerequisite: ["GagFlat"],
 				Block: ["ItemNose"],
 				Effect: [],
@@ -47986,6 +48294,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Prerequisite: "GagUnique",
+				Audio: "LeatherStretchingWithMetal",
 				Hide: ["Mouth"],
 				Effect: [E.GagMedium],
 				DefaultColor: ["#8E0000", "Default", "#121212", "#242424", "#D7D7D7"],
@@ -48025,6 +48334,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 20,
 				DefaultColor: ["Default", "Default", "#202020", "#505050"],
+				Audio: "LeatherCreak",
 				Random: false,
 				Extended: true,
 				AllowLock: true,
@@ -48072,6 +48382,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				AllowTighten: true,
 				BuyGroup: "PremiumMuzzle",
+				Audio: "LeatherCreakWithMetal",
 				Extended: true,
 				Top: 0,
 				Left: 0,
@@ -48126,6 +48437,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1181,
 				Value: 50,
 				Time: 20,
+				Audio: "DuctTapeRollShort",
 				Random: false,
 				AllowLock: false,
 				AllowTighten: true,
@@ -48313,7 +48625,7 @@ var AssetFemale3DCG = [
 				AllowLock: false,
 				AllowTighten: false,
 				Random: false,
-				Audio: "Bag",
+				Audio: "Cigarette",
 				AllowActivity: ["RubItem"],
 				Effect: [],
 				DefaultColor: ["Default", "Default", "#A16000", "Default"],
@@ -48334,6 +48646,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CompGag",
+				Audio: "PlasticRustle",
 				InventoryID: 1264,
 				Value: 25,
 				Time: 10,
@@ -48490,6 +48803,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "WiffleGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagNormal],
@@ -48512,6 +48826,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessBallGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -48535,6 +48850,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "HarnessPanelGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
@@ -48550,6 +48866,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#404040",
 				BuyGroup: "RingGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy],
@@ -48588,6 +48905,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessPacifierGag",
+				Audio: "PolyesterWooshWithMetal2",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagLight],
@@ -48614,6 +48932,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "DusterGag",
+				Audio: "LeatherCreakWithMetal",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
 				Block: ["ItemMouth", "ItemMouth3"],
@@ -48632,6 +48951,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "CupholderGag",
+				Audio: "LeatherStretchingWithMetal",
 				Hide: ["Mouth"],
 				Extended: true,
 				AlwaysExtend: true,
@@ -48656,6 +48976,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Effect: [],
 				BuyGroup: "HarnessPonyBits",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Extended: true,
 				Layer: [
@@ -48674,6 +48995,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "KittyGag",
+				Audio: "PolyesterWoosh1",
 				DefaultColor: ["#FFFFFF", "#000000", "#E496E7"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
@@ -48692,6 +49014,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyHarnessPanelGag",
+				Audio: "PolyesterWooshWithMetal1",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [
@@ -48715,6 +49038,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyMuzzleGag",
+				Audio: "PolyesterWoosh2",
 				Hide: ["Mouth"],
 				Layer: [
 					{ Name: "Muzzle" },
@@ -48734,6 +49058,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "CarrotGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -48752,6 +49077,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "MuzzleGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Layer: [{ Name: "Muzzle" }, { Name: "Straps" }],
@@ -48764,6 +49090,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				Random: false,
 				BuyGroup: "PantiesMask",
+				Audio: "PolyesterWoosh2",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Effect: [E.BlockMouth, E.GagVeryLight],
@@ -48781,6 +49108,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "DildoGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagFlat",
 				AllowActivity: ["PenetrateItem"],
 				Hide: ["Mouth"],
@@ -48800,6 +49128,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BoneGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -48815,6 +49144,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessBallGag1",
+				Audio: "PolyesterWooshWithMetal2",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Extended: true,
@@ -48837,6 +49167,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "PumpkinGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
@@ -48855,6 +49186,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LipGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagLight, E.OpenMouth],
@@ -48877,6 +49209,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "SpiderGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
@@ -48927,6 +49260,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "LewdGag",
+				Audio: "PolyesterWoosh1",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
@@ -48948,6 +49282,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#404040",
 				BuyGroup: "LeatherCorsetCollar",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagCorset",
 				Hide: ["Mouth"],
 				Block: ["ItemNeck", "ItemMouth"],
@@ -48964,6 +49299,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "LatexPostureCollar",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagCorset",
 				Hide: ["Mouth"],
 				Block: ["ItemNeck", "ItemMouth"],
@@ -48979,6 +49315,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BitGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bit" }, { Name: "Straps" }],
@@ -48994,6 +49331,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "XLBoneGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bone" }, { Name: "Straps" }],
@@ -49013,6 +49351,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Effect: [E.BlockMouth, E.GagEasy],
 				BuyGroup: "FoxyHarnessPanelGag",
+				Audio: "LeatherStretchingWithMetal",
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }],
 			},
 			{
@@ -49025,6 +49364,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BallGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -49045,6 +49385,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BallGagMask",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -49071,6 +49412,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StitchedMuzzleGag",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 948,
 				Fetish: ["Leather"],
 				Value: -1,
@@ -49093,6 +49435,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LatexBallMuzzleGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -49175,6 +49518,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "MedicalMask",
+				Audio: "PolyesterWoosh1",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
 				HideItem: ["ItemNoseNoseRing"],
@@ -49203,6 +49547,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				AllowLock: true,
 				BuyGroup: "PrisonLockdownSuit",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
@@ -49220,6 +49565,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#000000"],
 				Random: false,
 				BuyGroup: "ShoeGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
@@ -49232,6 +49578,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlasticWrap",
+				Audio: "PlasticRustle",
 				InventoryID: 554,
 				Value: 100,
 				Difficulty: 4,
@@ -49449,6 +49796,7 @@ var AssetFemale3DCG = [
 				Difficulty: 4,
 				Time: 20,
 				BuyGroup: "CageMuzzle",
+				Audio: "LeatherCreakWithMetal",
 				Random: false,
 				AllowLock: true,
 				Effect: [E.BlockMouth, E.ProtrudingMouth],
@@ -49481,6 +49829,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "Pacigag",
+				Audio: "PolyesterWooshWithMetal2",
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -49498,6 +49847,7 @@ var AssetFemale3DCG = [
 				InventoryID: 355,
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: -1,
 				Difficulty: 6,
@@ -49521,6 +49871,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				BuyGroup: "PonyGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				DefaultColor: [
 					"Default",
@@ -49828,6 +50179,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -49847,6 +50199,7 @@ var AssetFemale3DCG = [
 				Difficulty: 3,
 				Random: false,
 				AllowTighten: true,
+				Audio: "PolyesterWoosh2",
 				BuyGroup: "FurScarf",
 				Effect: [E.BlockMouth, E.GagLight],
 			},
@@ -49861,6 +50214,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				AllowTighten: true,
 				BuyGroup: "LatexMuzzleMask",
+				Audio: "LeatherCreak",
 				Extended: true,
 				Top: 0,
 				Left: 0,
@@ -49910,6 +50264,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ModularGag", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 965,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -50562,6 +50917,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "WiffleGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagNormal],
@@ -50584,6 +50940,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessBallGag",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -50607,6 +50964,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "HarnessPanelGag",
+				Audio: "LeatherCreakWithMetal",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }, { Name: "Metal" }],
@@ -50623,6 +50981,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "RingGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy],
@@ -50660,6 +51019,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessPacifierGag",
+				Audio: "PolyesterWooshWithMetal2",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagLight],
@@ -50686,6 +51046,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "DusterGag",
+				Audio: "LeatherCreakWithMetal",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
 				AllowActivity: ["TickleItem"],
@@ -50703,6 +51064,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "CupholderGag",
+				Audio: "LeatherStretchingWithMetal",
 				Hide: ["Mouth"],
 				Extended: true,
 				AlwaysExtend: true,
@@ -50725,6 +51087,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "HarnessPonyBits",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Extended: true,
 				Effect: [],
@@ -50744,6 +51107,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "KittyGag",
+				Audio: "PolyesterWoosh1",
 				DefaultColor: ["#FFFFFF", "#000000", "#E496E7"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
@@ -50762,6 +51126,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyHarnessPanelGag",
+				Audio: "PolyesterWooshWithMetal1",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
 				Layer: [
@@ -50785,6 +51150,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["#FFFFFF", "#FFFFFF", "#000000", "#E496E7"],
 				BuyGroup: "KittyMuzzleGag",
+				Audio: "PolyesterWoosh2",
 				Hide: ["Mouth"],
 				Layer: [
 					{ Name: "Muzzle" },
@@ -50805,6 +51171,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "CarrotGag",
 				Prerequisite: "GagUnique",
+				Audio: "LeatherStretchingShort",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -50822,6 +51189,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: "#404040",
 				BuyGroup: "MuzzleGag",
+				Audio: "LeatherCreakWithMetal",
 				Hide: ["Mouth"],
 				Layer: [{ Name: "Muzzle" }, { Name: "Straps" }],
 			},
@@ -50833,6 +51201,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				Random: false,
 				BuyGroup: "PantiesMask",
+				Audio: "PolyesterWoosh2",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Effect: [E.BlockMouth, E.GagVeryLight],
@@ -50868,6 +51237,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BoneGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Effect: [E.BlockMouth, E.GagLight],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -50881,6 +51251,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				AllowLock: true,
 				BuyGroup: "HarnessBallGag1",
+				Audio: "PolyesterWooshWithMetal2",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagHeavy],
@@ -50903,6 +51274,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "PumpkinGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagEasy],
@@ -50921,6 +51293,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LipGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagLight, E.OpenMouth],
@@ -50943,6 +51316,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "SpiderGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
@@ -50992,6 +51366,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "LewdGag",
+				Audio: "PolyesterWoosh1",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Effect: [E.BlockMouth, E.GagLight],
@@ -51012,6 +51387,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#404040",
 				BuyGroup: "LeatherCorsetCollar",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagCorset",
 				Hide: ["Mouth"],
 				Block: ["ItemNeck", "ItemMouth", "ItemMouth2"],
@@ -51028,6 +51404,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				BuyGroup: "LatexPostureCollar",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagCorset",
 				Hide: ["Mouth"],
 				Block: ["ItemNeck", "ItemMouth", "ItemMouth2"],
@@ -51043,6 +51420,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BitGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagUnique",
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bit" }, { Name: "Straps" }],
@@ -51058,6 +51436,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "XLBoneGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [{ Name: "Bone" }, { Name: "Straps" }],
@@ -51077,6 +51456,7 @@ var AssetFemale3DCG = [
 				Prerequisite: "GagFlat",
 				Effect: [E.BlockMouth, E.GagEasy],
 				BuyGroup: "FoxyHarnessPanelGag",
+				Audio: "LeatherStretchingWithMetal",
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }],
 			},
 			{
@@ -51089,6 +51469,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BallGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -51109,6 +51490,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "BallGagMask",
+				Audio: "LeatherCreak",
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -51135,6 +51517,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StitchedMuzzleGag",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 948,
 				Fetish: ["Leather"],
 				Value: -1,
@@ -51157,6 +51540,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LatexBallMuzzleGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium],
@@ -51239,6 +51623,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "MedicalMask",
+				Audio: "PolyesterWoosh1",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
 				HideItem: ["ItemNoseNoseRing"],
@@ -51267,6 +51652,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				AllowLock: true,
 				BuyGroup: "PrisonLockdownSuit",
+				Audio: "LeatherCreakWithMetal",
 				Prerequisite: "GagFlat",
 				DefaultColor: ["#8c4309", "Default"],
 				Hide: ["Mouth"],
@@ -51284,6 +51670,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#000000"],
 				Random: false,
 				BuyGroup: "ShoeGag",
+				Audio: "LeatherStretchingShort",
 				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagMedium, E.ProtrudingMouth],
@@ -51340,6 +51727,7 @@ var AssetFemale3DCG = [
 				Difficulty: 4,
 				Time: 20,
 				BuyGroup: "CageMuzzle",
+				Audio: "LeatherCreakWithMetal",
 				Random: false,
 				AllowLock: true,
 				Effect: [E.BlockMouth, E.ProtrudingMouth],
@@ -51347,6 +51735,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlasticWrap",
+				Audio: "PlasticRustle",
 				InventoryID: 554,
 				Value: 100,
 				Difficulty: 4,
@@ -51381,6 +51770,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Random: false,
 				BuyGroup: "Pacigag",
+				Audio: "PolyesterWooshWithMetal2",
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -51398,6 +51788,7 @@ var AssetFemale3DCG = [
 				InventoryID: 355,
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: -1,
 				Difficulty: 6,
@@ -51421,6 +51812,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				BuyGroup: "PonyGag",
+				Audio: "LeatherStretchingWithMetal",
 				Prerequisite: "GagUnique",
 				DefaultColor: [
 					"Default",
@@ -51735,6 +52127,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -51754,6 +52147,7 @@ var AssetFemale3DCG = [
 				Difficulty: 3,
 				Random: false,
 				AllowTighten: true,
+				Audio: "PolyesterWoosh2",
 				BuyGroup: "FurScarf",
 				Effect: [E.BlockMouth, E.GagLight],
 			},
@@ -51794,6 +52188,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				AllowTighten: true,
 				BuyGroup: "LatexMuzzleMask",
+				Audio: "LeatherCreak",
 				Extended: true,
 				Top: 0,
 				Left: 0,
@@ -51843,6 +52238,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ModularGag", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 965,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -53230,6 +53626,7 @@ var AssetFemale3DCG = [
 				InventoryID: 355,
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
+				Audio: "Slime",
 				Random: false,
 				Value: 250,
 				Difficulty: 6,
@@ -53685,6 +54082,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -53701,6 +54099,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Difficulty: 3,
 				Random: false,
+				Audio: "PolyesterWoosh2",
 				AllowTighten: true,
 				Effect: [E.BlindLight, E.BlockWardrobe],
 			},
@@ -53813,6 +54212,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BigMouthHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 990,
 				Fetish: ["Latex"],
 				Value: -1,
@@ -53863,6 +54263,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Kigu2Hood",
+				Audio: "LeatherCreak",
 				InventoryID: 1204,
 				Fetish: ["Latex"],
 				Value: -1,
@@ -53986,6 +54387,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NoseHook",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 992,
 				Fetish: ["Metal"],
 				Priority: 26,
@@ -54000,6 +54402,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PigNose",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 993,
 				Fetish: ["Pet"],
 				Top: 18,
@@ -54065,6 +54468,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PigNoseHook",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 992,
 				Fetish: ["Metal"],
 				Priority: 26,
@@ -54082,6 +54486,7 @@ var AssetFemale3DCG = [
 				Name: "GlueNose",
 				InventoryID: 1151,
 				Value: -1,
+				Audio: "Slime",
 				BuyGroup: "GlueTube",
 				Random: false,
 				Difficulty: 4,
@@ -54147,6 +54552,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "LeatherHoodSealed",
+				Audio: "TightLeatherStretch",
 				InventoryID: 997,
 				Fetish: ["Leather"],
 				Value: 70,
@@ -54289,6 +54695,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatedBallHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1002,
 				Fetish: ["Latex"],
 				Value: 65,
@@ -54326,6 +54733,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OldGasMask",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1003,
 				Fetish: ["Leather"],
 				Value: 85,
@@ -54414,6 +54822,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KirugumiMask",
+				Audio: "LeatherCreak",
 				InventoryID: 1004,
 				Fetish: ["Latex"],
 				Value: 50,
@@ -54610,6 +55019,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHoodSensDep",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1007,
 				Fetish: ["Leather"],
 				Value: 100,
@@ -54653,6 +55063,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexHoodOpenHair",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1008,
 				Fetish: ["Latex"],
 				Value: 45,
@@ -54690,6 +55101,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHood",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1009,
 				Fetish: ["Leather"],
 				Value: 60,
@@ -54738,6 +55150,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHoodOpenEyes",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1010,
 				Fetish: ["Leather"],
 				Value: 40,
@@ -54787,6 +55200,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GasMask",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1011,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -54874,6 +55288,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FoxyMask",
 				InventoryID: 1013,
+				Audio: "LeatherStretchingShort",
 				Fetish: ["Pet"],
 				Value: 50,
 				Difficulty: 2,
@@ -54901,6 +55316,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PonyHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1014,
 				Fetish: ["Pony"],
 				Value: -1,
@@ -54937,6 +55353,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHoodOpenMouth",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1015,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -55149,6 +55566,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OpenFaceHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 491,
 				Fetish: ["Latex"],
 				Value: 35,
@@ -55166,6 +55584,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GwenHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1019,
 				Fetish: ["Leather"],
 				Value: 35,
@@ -55200,6 +55619,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DobermanMask",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1020,
 				Fetish: ["Leather"],
 				Value: 10,
@@ -55453,6 +55873,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AccentHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1025,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -55485,6 +55906,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1026,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -55520,6 +55942,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ZipperHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1027,
 				Fetish: ["Latex"],
 				Value: 20,
@@ -55561,6 +55984,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexHabit",
+				Audio: "TightLeatherStretch",
 				InventoryID: 409,
 				Fetish: ["Latex"],
 				BuyGroup: "LatexHabit",
@@ -55622,6 +56046,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CowHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1028,
 				Fetish: ["Pet", "Latex"],
 				Value: 30,
@@ -55664,6 +56089,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeadboxSeethrough",
+				Audio: "WoodFurniture",
 				InventoryID: 1029,
 				Value: 80,
 				Priority: 54,
@@ -55721,6 +56147,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e", "#57ab5e"],
 				Random: false,
 				Value: 200,
@@ -55765,6 +56192,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1030,
 				Fetish: ["Pet"],
 				Random: false,
@@ -55919,6 +56347,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexDogHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1031,
 				Fetish: ["Latex", "Pet"],
 				Random: false,
@@ -55970,6 +56399,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OpenMouthPlugHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1032,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -56426,6 +56856,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomLatexHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1033,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -56901,6 +57332,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessCatMask",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1034,
 				Fetish: ["Pet"],
 				Random: false,
@@ -56929,6 +57361,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FestivalFoxMask",
+				Audio: "TightLeatherStretch",
 				InventoryID: 495,
 				Fetish: ["Pet"],
 				BuyGroup: "FestivalFoxMask",
@@ -56955,6 +57388,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatableGagMask",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1035,
 				Fetish: ["Latex"],
 				Value: 80,
@@ -57001,6 +57435,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexDogMask",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1036,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex", "Pet"],
@@ -57069,6 +57504,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBunny",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1037,
 				Fetish: ["Latex", "Pet"],
 				Random: false,
@@ -57102,6 +57538,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoxHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1038,
 				Fetish: ["Latex", "Pet"],
 				Random: false,
@@ -57153,6 +57590,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VacHood",
+				Audio: "LeatherCreak",
 				InventoryID: 1039,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -57205,6 +57643,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SensoryDeprivationHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1040,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
@@ -57275,6 +57714,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpaceMask",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1042,
 				Category: ["SciFi"],
 				Fetish: ["Latex"],
@@ -57401,6 +57841,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BigMouthHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 990,
 				Fetish: ["Latex"],
 				Value: 55,
@@ -57576,6 +58017,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomBallHood",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1196,
 				Fetish: ["Latex"],
 				Value: 80,
@@ -57902,6 +58344,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Kigu2Hood",
+				Audio: "LeatherCreak",
 				InventoryID: 1204,
 				Fetish: ["Latex"],
 				Value: 75,
@@ -59068,7 +59511,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Audio: "LockLarge",
+				Audio: "WoodFurniture",
 				RemoveAtLogin: true,
 				DefaultColor: ["Default", "#600"],
 				SetPose: ["BaseLower"],
@@ -59113,7 +59556,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Audio: "LockLarge",
+				Audio: "WoodFurniture",
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
 				Effect: [
@@ -59192,7 +59635,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Audio: "LockLarge",
+				Audio: "SofterCageClose",
 				RemoveAtLogin: true,
 				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
 				HideItem: ["ShoesFlippers"],
@@ -59223,7 +59666,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Audio: "LockLarge",
+				Audio: "SofterCageClose",
 				Block: ["ItemAddon"],
 				SetPose: ["Kneel"],
 				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
@@ -59263,7 +59706,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 4,
 				Time: 15,
 				RemoveTime: 6,
-				Audio: "Bag",
+				Audio: "SoftCloth1",
 				Hide: [
 					"Cloth",
 					"ClothLower",
@@ -59389,6 +59832,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FurBlanketWrap",
+				Audio: "SoftClothWithMetal2",
 				InventoryID: 1084,
 				Priority: 31,
 				Value: 225,
@@ -59467,6 +59911,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BondageBench",
+				Audio: "WoodFurniture",
 				InventoryID: 1085,
 				Fetish: ["Leather"],
 				Priority: 1,
@@ -59583,7 +60028,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				AllowLock: true,
 				DrawLocks: false,
-				Audio: "LockLarge",
+				Audio: "WoodFurniture",
 				Block: ["ItemAddon"],
 				SetPose: ["LegsClosed"],
 				HideItem: ["ShoesFlippers"],
@@ -59891,6 +60336,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrapOnSmooth",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1097,
 				Fetish: ["Leather"],
 				Priority: 34,
@@ -59906,6 +60352,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrapOnStuds",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1098,
 				Fetish: ["Leather"],
 				Priority: 34,
@@ -60199,7 +60646,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Audio: "LockLarge",
+				Audio: "WoodFurniture",
 				Hide: ["Wings"],
 				Effect: [E.BlockWardrobe, E.Freeze, E.Block],
 				HideItem: ["ShoesFlippers"],
@@ -60245,7 +60692,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Audio: "LockLarge",
+				Audio: "WoodFurniture",
 				Hide: ["Wings"],
 				SetPose: ["Kneel"],
 				Effect: [E.BlockWardrobe, E.Freeze, E.Block],
@@ -60283,6 +60730,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WoodenStocks",
+				Audio: "WoodFurniture",
 				InventoryID: 1105,
 				Value: 150,
 				Difficulty: 50,
@@ -60299,6 +60747,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Vacbed",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1106,
 				Gender: "F",
 				Fetish: ["Latex"],
@@ -60385,6 +60834,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VacBedDeluxe",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1107,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
@@ -60522,6 +60972,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VacbedClear",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1106,
 				Gender: "F",
 				Fetish: ["Latex"],
@@ -60605,6 +61056,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Crib",
 				InventoryID: 1109,
+				Audio: "SoftFurniture",
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Priority: 1,
@@ -60647,6 +61099,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Bed",
+				Audio: "SoftCloth2",
 				InventoryID: 761,
 				Value: 100,
 				Priority: 1,
@@ -60685,6 +61138,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "X-Cross",
+				Audio: "WoodFurniture",
 				InventoryID: 1110,
 				Priority: 1,
 				Value: 200,
@@ -60710,6 +61164,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChangingTable",
+				Audio: "SoftFurniture",
 				InventoryID: 1111,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
@@ -60737,6 +61192,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				Top: 0,
+				Audio: "LockerClose",
 				AllowLock: true,
 				Extended: true,
 				RemoveAtLogin: true,
@@ -60784,6 +61240,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 5,
 				Time: 15,
 				RemoveTime: 10,
+				Audio: "LockerClose",
 				Top: 0,
 				AllowLock: true,
 				Extended: true,
@@ -60923,6 +61380,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetBed",
+				Audio: "SoftCloth1",
 				InventoryID: 1108,
 				Fetish: ["Pet"],
 				Value: 50,
@@ -60981,7 +61439,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Audio: "LockLarge",
+				Audio: "WoodFurniture",
 				DefaultColor: ["Default", "Default", "Default", "#600"],
 				Extended: true,
 				RemoveAtLogin: true,
@@ -61124,6 +61582,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetBowl",
+				Audio: "PlaceBowl",
 				InventoryID: 1118,
 				Value: 20,
 				Time: 5,
@@ -61153,6 +61612,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Cushion",
 				InventoryID: 1120,
+				Audio: "SoftCloth1",
 				Priority: 34,
 				Value: 4,
 				Difficulty: -10,
@@ -61370,6 +61830,7 @@ var AssetFemale3DCG = [
 				Value: 180,
 				Priority: 1,
 				Difficulty: 0,
+				Audio: "WoodFurniture",
 				RemoveTime: 5,
 				Time: 5,
 				SelfBondage: 0,
@@ -61488,6 +61949,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1125,
 				Priority: 34,
 				Value: 200,
+				Audio: "WoodFurniture",
 				Difficulty: 2,
 				Time: 10,
 				Top: 488,
@@ -61603,6 +62065,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoldingScreen",
+				Audio: "WoodFurniture",
 				InventoryID: 1128,
 				Value: 100,
 				Difficulty: -5,
@@ -62006,6 +62469,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GlueFloor",
 				InventoryID: 1151,
+				Audio: "Slime",
 				Value: -1,
 				BuyGroup: "GlueTube",
 				Random: false,
@@ -62653,6 +63117,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SingleBalletBoot",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 1263,
 				Fetish: ["Leather"],
 				Top: 480,
@@ -62683,7 +63148,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
-				Audio: "Buckle",
 				Extended: true,
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel", "Hogtied"],
@@ -63116,6 +63580,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "Covers",
+				Audio: "SoftCloth2",
 				InventoryID: 761,
 				Value: -1,
 				Difficulty: 1,
@@ -63143,6 +63608,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BedStraps",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 761,
 				Fetish: ["Leather"],
 				Value: -1,
@@ -63158,6 +63624,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "BedTape",
 				InventoryID: 761,
+				Audio: "DuctTapeRoll",
 				Fetish: ["Tape"],
 				Value: -1,
 				Difficulty: 6,
@@ -63289,6 +63756,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "PonyBoots",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1131,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather", "Pony"],
@@ -63320,6 +63788,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BalletHeels",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1132,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather"],
@@ -63418,6 +63887,7 @@ var AssetFemale3DCG = [
 				Effect: [E.Slow],
 				AllowLock: true,
 				AllowTighten: true,
+				Audio: "MetalStraps",
 				PoseMapping: {
 					...AssetPoseMapping.ItemBoots,
 					Hogtied: "Hogtied",
@@ -63463,6 +63933,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TormentHeels",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1134,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather"],
@@ -63477,7 +63948,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
-				Audio: "Buckle",
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
@@ -63578,6 +64048,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BalletWedges",
+				Audio: "TightLeatherStretch",
 				InventoryID: 1135,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather"],
@@ -63631,6 +64102,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherToeCuffs",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1137,
 				Fetish: ["Leather"],
 				Value: 50,
@@ -63674,6 +64146,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ThighHighLatexHeels",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 362,
 				Fetish: ["Latex"],
 				Value: -1,
@@ -63889,6 +64362,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingBoots1",
+				Audio: "LeatherStretchingWithMetal",
 				InventoryID: 1143,
 				StyleOverride: ["EchoV2"],
 				Value: 30,
@@ -63906,6 +64380,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherFootMitts1",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1144,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather"],
@@ -63966,6 +64441,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighThighBoots",
+				Audio: "LeatherStretchingShort",
 				InventoryID: 1145,
 				StyleOverride: ["EchoV2"],
 				Value: 100,
@@ -64010,6 +64486,7 @@ var AssetFemale3DCG = [
 				InventoryID: 562,
 				Category: ["Fantasy"],
 				BuyGroup: "Slime",
+				Audio: "Slime",
 				DefaultColor: ["#57ab5e", "#57ab5e"],
 				Priority: 28,
 				Random: false,
@@ -64088,6 +64565,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShortPonyBoots",
+				Audio: "LeatherCreak",
 				InventoryID: 1147,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather", "Pony"],
@@ -64126,6 +64604,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictPonyBoots",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 971,
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex", "Leather", "Pony"],
@@ -64270,6 +64749,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BalletMittens",
+				Audio: "LeatherCreakWithMetal",
 				InventoryID: 1206,
 				Fetish: ["Latex"],
 				Left: 115,
@@ -64284,7 +64764,6 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Extended: true,
-				Audio: "Buckle",
 				DefaultColor: [
 					"#505050",
 					"#606060",
@@ -64672,6 +65151,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HoofBoots",
+				Audio: "LeatherCreakWithMetal",
 				Fetish: ["Leather"],
 				InventoryID: 1226,
 				Left: 60,
@@ -64687,7 +65167,6 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Extended: true,
-				Audio: "Buckle",
 				Alpha: [
 					{
 						Group: [
@@ -64997,6 +65476,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SingleBalletBoot",
+				Audio: "TightLeatherStretchWithMetalLong",
 				InventoryID: 1263,
 				Fetish: ["Leather"],
 				Top: 480,
@@ -65022,7 +65502,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
-				Audio: "Buckle",
 				Extended: true,
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel", "Hogtied"],
