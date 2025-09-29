@@ -249,7 +249,7 @@ var CraftingJSON = {
 					status,
 					craft: status === CraftingStatusType.CRITICAL_ERROR ? null : craft,
 				};
-			}).slice(0, 80);
+			}).slice(0, 200);
 
 			const statusMsg = crafts.status === CraftingStatusType.ERROR ? `(failed to parse ${crafts.errors.size.toString().padStart(2, " ")} craft(s))` : "";
 			dialog.querySelector("[role='menuitem'][name='accept']")?.setAttribute("aria-disabled", "false");
@@ -392,7 +392,7 @@ var CraftingJSON = {
 		const data = [];
 
 		let i = 0;
-		const max = Math.max(80, crafts.length);
+		const max = Math.max(200, crafts.length);
 		while (i < max) {
 			const craft = crafts[i++] ?? null;
 			data.push(craft == null ? null : LZString.compressToBase64(JSON.stringify(craft)));
@@ -507,7 +507,7 @@ var CraftingJSON = {
 	 */
 	createRadioGroups: function createRadioGroups(items, tooltipContainer) {
 		const dragListeners = CraftingJSON.getDragListeners();
-		const crafts = Player.Crafting.length < 80 ? Array(80).fill(null).map((_, i) => Player.Crafting[i] ?? null) : Player.Crafting;
+		const crafts = Player.Crafting.length < 200 ? Array(200).fill(null).map((_, i) => Player.Crafting[i] ?? null) : Player.Crafting;
 		return crafts.map((oldCraft, i) => {
 			const newCraft = items[i] ?? { name: "<empty>", craft: null, status: CraftingStatusType.OK };
 			const newChecked = newCraft.craft != null && newCraft.status !== CraftingStatusType.CRITICAL_ERROR;
