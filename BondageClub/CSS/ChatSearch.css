@@ -118,6 +118,10 @@
     height: 100%;
     aspect-ratio: 1;
 }
+.chat-search-room-button[aria-checked=true]::before {
+    background-color: lime;
+    border: none;
+}
 #chat-search-page-count {
     user-select: none;
     position: relative;
@@ -437,3 +441,70 @@
     margin: auto;
 }
 /*#endregion chat search filter unhide confirm */
+/*#region chat search filter unhide confirm */
+#chat-search-filter-unhide-confirm {
+    background-color: #ffffff;
+    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    padding: 0.5em;
+    align-content: center;
+}
+#chat-search-filter-unhide-confirm p {
+    margin-top: 10px;
+}
+.chat-search-filter-unhide-confirm-buttons {
+    gap: 1em;
+    display: flex;
+    justify-content: center;
+}
+#chat-search-filter-unhide-confirm button {
+    margin-top: 10px;
+    width: 5em;
+    padding: 0.5em;
+    font-weight: bold;
+
+}
+#chat-search-filter-unhide-confirm-cancel {
+    background-color: rgb(255, 84, 84);
+    color: white;
+}
+#chat-search-filter-unhide-confirm-confirm {
+    background-color: rgb(67, 255, 67);
+    color: rgb(32, 71, 34);
+}
+.chat-search-filter-unhide-confirm-container {
+    width: fit-content;
+    margin: auto;
+}
+.chat-search-filter-unhide-confirm-end {
+    width: fit-content;
+    margin: auto;
+}
+/*#endregion chat search filter unhide confirm */
+/*#region chat search filter help screen */
+#chat-search-filter-help-screen:open {
+    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    justify-content: center;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5em;
+    margin: 0;
+    user-select: none;
+}
+.chat-search-filter-help-screen-content li {
+    margin-top: 0.5em;
+    font-size: 0.85em;
+}
+.chat-search-filter-help-screen-content {
+    padding: 0.25em 2em 0 2em;
+}
+#chat-search-filter-help-screen-close {
+    padding: 0.25em;
+    width: fit-content;
+}
+#chat-search-filter-help-screen::backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/*#endregion chat search filter help screen */
