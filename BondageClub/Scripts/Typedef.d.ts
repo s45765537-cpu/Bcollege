@@ -4715,6 +4715,7 @@ type PreferenceExtensionsMenuButtonInfo = {
 
 interface PreferenceChatDropdownOption {
 	list: string[];
+	current: () => string;
 	onChange: (value: string) => void;
 }
 
