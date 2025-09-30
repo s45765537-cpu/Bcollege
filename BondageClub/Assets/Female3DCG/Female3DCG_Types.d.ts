@@ -31,9 +31,9 @@ declare namespace TopLeft {
 	 */
 	type Definition = number | Partial<Record<AssetPoseName | PoseTypeDefault, number>>;
 	/** See {@link ItemProperties["DrawingTop"]} */
-	type ItemData = { [key in AssetOverride]?: TopLeft.DataMutable } & { [layerName: LayerName]: undefined | TopLeft.DataMutable };
+	type ItemData = Partial<Record<AssetOverride | LayerName, TopLeft.DataMutable>>;
 	/** See {@link ItemPropertiesConfig["DrawingTop"]} */
-	type ItemDefinition = { [key in AssetOverride]?: TopLeft.Definition } & { [layerName: LayerName]: undefined | TopLeft.Definition };
+	type ItemDefinition = Partial<Record<AssetOverride | LayerName, TopLeft.Definition>>;
 }
 
 /** Types for objects defining a group of alpha masks to be applied when drawing an asset layer. */

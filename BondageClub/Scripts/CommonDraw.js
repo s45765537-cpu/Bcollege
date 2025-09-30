@@ -617,22 +617,11 @@ function CommonDrawResolveLayerExpression(C, item, layer) {
  * @param {null | ItemProperties} properties
  */
 function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName, properties=null) {
-	properties ??= {};
-	const poseX = C.DrawPose.find((p) => layer.DrawingLeft[p] != null) ?? PoseType.DEFAULT;
-	const poseY = C.DrawPose.find((p) => layer.DrawingTop[p] != null) ?? PoseType.DEFAULT;
-	let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
-
-	// When an asset-level override is performed set the effective 0 point to the previous asset-level value, thus making it relative rather than absolute
-	// This is important in particular when layers with different default values are used to preserve their relative position w.r.t. each other
-	/** @type {null | number} */
-	let XAssetOverride = (properties.DrawingLeft?.[AssetOverride]?.[poseX] ?? NaN) + layer.DrawingLeft[poseX];
-	if (Number.isNaN(XAssetOverride)) { XAssetOverride = null; }
-	/** @type {null | number} */
-	let YAssetOverride = (properties.DrawingTop?.[AssetOverride]?.[poseY] ?? NaN) + layer.DrawingTop[poseY];
-	if (Number.isNaN(YAssetOverride)) { YAssetOverride = null; }
-
-	let X = properties.DrawingLeft?.[layer.Name ?? ""]?.[poseX] ?? XAssetOverride ?? layer.DrawingLeft[poseX];
-	let Y = properties.DrawingTop?.[layer.Name ?? ""]?.[poseY] ?? YAssetOverride ?? layer.DrawingTop[poseY];
+	const bodyStyle = InventoryGet(C, "BodyStyle").Asset;
+	const originX = PropertyLayerOrigin.resolveLayer(layer, "DrawingLeft", properties);
+	const originY = PropertyLayerOrigin.resolveLayer(layer, "DrawingTop", properties);
+	let X = originX[C.DrawPose.find((p) => originX[p] != null) ?? PoseType.DEFAULT];
+	let Y = originY[C.DrawPose.find((p) => originY[p] != null) ?? PoseType.DEFAULT];
 	for (const drawPose of C.DrawPose) {
 		const PoseDef = PoseRecord[drawPose];
 		if (PoseDef && PoseDef.MovePosition) {
