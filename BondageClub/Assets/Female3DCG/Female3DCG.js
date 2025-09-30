@@ -54238,6 +54238,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
+						StyleOverride: ["EchoV2"],
 						Priority: 33,
 						Alpha: [{ Masks: [[0, 160, 400, 200]], Group: ["Head"] }],
 					},
@@ -56401,7 +56402,6 @@ var AssetFemale3DCG = [
 				Name: "OpenMouthPlugHood",
 				Audio: "TightLeatherStretch",
 				InventoryID: 1032,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
 				Random: false,
 				Value: 40,
@@ -56447,6 +56447,7 @@ var AssetFemale3DCG = [
 						Name: "HoodThin",
 						Top: 24,
 						Left: 122,
+						StyleOverride: ["EchoV2"],
 						AllowTypes: { t: 1 },
 						CopyLayerColor: "Hood",
 						Alpha: [
@@ -56858,7 +56859,6 @@ var AssetFemale3DCG = [
 				Name: "CustomLatexHood",
 				Audio: "TightLeatherStretch",
 				InventoryID: 1033,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
 				Value: 100,
 				Difficulty: 5,
@@ -56891,6 +56891,7 @@ var AssetFemale3DCG = [
 					// Head Panel Parts
 					{
 						Name: "HairUnder",
+						StyleOverride: ["EchoV2"],
 						Priority: 8,
 						AllowTypes: [{ x: 1, h: [1, 2, 3] }, { z: [1, 2, 3, 4] }],
 						InheritColor: "HairFront",
@@ -56899,30 +56900,35 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PanelHead",
+						StyleOverride: ["EchoV2"],
 						AllowTypes: { x: 0 },
 						ColorGroup: "Panels",
 						HideForAttribute: ["NoEars", "SmallEars"],
 					},
 					{
 						Name: "PanelHeadTransparent",
+						StyleOverride: ["EchoV2"],
 						AllowTypes: { x: 1 },
 						CopyLayerColor: "PanelHead",
 						HideForAttribute: ["NoEars", "SmallEars"],
 					},
 					{
 						Name: "PanelHeadHighlight",
+						StyleOverride: ["EchoV2"],
 						HideColoring: false,
 						HideForAttribute: ["NoEars", "SmallEars"],
 						ColorGroup: "Shine",
 					}, // master colour for highlighting
 					{
 						Name: "PanelHeadS",
+						StyleOverride: ["EchoV2"],
 						AllowTypes: { x: 0 },
 						CopyLayerColor: "PanelHead",
 						ShowForAttribute: ["SmallEars"],
 					},
 					{
 						Name: "PanelHeadTransparentS",
+						StyleOverride: ["EchoV2"],
 						AllowTypes: { x: 1 },
 						CopyLayerColor: "PanelHead",
 						ShowForAttribute: ["SmallEars"],
@@ -56935,18 +56941,21 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PanelHeadN",
+						StyleOverride: ["EchoV2"],
 						AllowTypes: { x: 0 },
 						CopyLayerColor: "PanelHead",
 						ShowForAttribute: ["NoEars"],
 					},
 					{
 						Name: "PanelHeadTransparentN",
+						StyleOverride: ["EchoV2"],
 						AllowTypes: { x: 1 },
 						CopyLayerColor: "PanelHead",
 						ShowForAttribute: ["NoEars"],
 					},
 					{
 						Name: "PanelHeadHighlightN",
+						StyleOverride: ["EchoV2"],
 						HideColoring: false,
 						CopyLayerColor: "PanelHeadHighlight",
 						ShowForAttribute: ["NoEars"],
@@ -57282,48 +57291,56 @@ var AssetFemale3DCG = [
 					// Hood Cover
 					{
 						Name: "ZipperHoodOpen",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: 1 },
 						ColorGroup: "HoodCoverParts",
 					}, // master colour for hood cover
 					{
 						Name: "ZipperHoodClosed",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: 2 },
 						CopyLayerColor: "ZipperHoodOpen",
 					},
 					{
 						Name: "ZipperHoodOpenTransparent",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: 3 },
 						CopyLayerColor: "ZipperHoodOpen",
 					},
 					{
 						Name: "ZipperHoodClosedTransparent",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: 4 },
 						CopyLayerColor: "ZipperHoodOpen",
 					},
 					{
 						Name: "ZipperHoodOpenHighlight",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: [1, 3] },
 						CopyLayerColor: "PanelHeadHighlight",
 					},
 					{
 						Name: "ZipperHoodClosedHighlight",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: [2, 4] },
 						CopyLayerColor: "PanelHeadHighlight",
 					},
 					{
 						Name: "ZipperHoodOpenZipper",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: [1, 3] },
 						ColorGroup: "HoodCoverParts",
 					}, // master colour for hood cover zipper
 					{
 						Name: "ZipperHoodClosedZipper",
+						StyleOverride: ["EchoV2"],
 						Priority: 50,
 						AllowTypes: { z: [2, 4] },
 						CopyLayerColor: "ZipperHoodOpenZipper",
@@ -57437,7 +57454,6 @@ var AssetFemale3DCG = [
 				Name: "LatexDogMask",
 				Audio: "TightLeatherStretch",
 				InventoryID: 1036,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex", "Pet"],
 				Random: false,
 				Value: 10,
@@ -57475,6 +57491,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Base",
+						StyleOverride: ["EchoV2"],
 						Alpha: [
 							{
 								Group: ["Head"],
@@ -57592,7 +57609,6 @@ var AssetFemale3DCG = [
 				Name: "VacHood",
 				Audio: "LeatherCreak",
 				InventoryID: 1039,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
 				Random: false,
 				Value: 10,
@@ -57616,7 +57632,12 @@ var AssetFemale3DCG = [
 				DefaultColor: [],
 				Layer: [
 					{ Name: "Lenses", Top: 60, Left: 132 },
-					{ Name: "Base", Top: 48, Left: 134 },
+					{
+						Name: "Base",
+						StyleOverride: ["EchoV2"],
+						Top: 48,
+						Left: 134
+					},
 					{ Name: "Tube", Top: 48, Left: 134 },
 					{ Name: "HandPump", Top: 48, Left: 134, AllowTypes: { bp: 1 } },
 					{
@@ -57645,7 +57666,6 @@ var AssetFemale3DCG = [
 				Name: "SensoryDeprivationHood",
 				Audio: "TightLeatherStretch",
 				InventoryID: 1040,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
 				Value: 20,
 				Difficulty: 8,
@@ -57666,12 +57686,11 @@ var AssetFemale3DCG = [
 				],
 				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				DefaultColor: [],
-				Layer: [{ Name: "Base" }, { Name: "EarCover" }, { Name: "Lips" }],
+				Layer: [{ Name: "Base", StyleOverride: ["EchoV2"] }, { Name: "EarCover" }, { Name: "Lips" }],
 			},
 			{
 				Name: "CorsetHood",
 				InventoryID: 1041,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
 				Value: 10,
 				Difficulty: 5,
@@ -57696,6 +57715,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Latex",
+						StyleOverride: ["EchoV2"],
 						Alpha: [
 							{
 								Group: ["Head"],
@@ -57709,7 +57729,10 @@ var AssetFemale3DCG = [
 						],
 					},
 					{ Name: "Lace" },
-					{ Name: "Lines" },
+					{
+						Name: "Lines",
+						StyleOverride: ["EchoV2"],
+					},
 				],
 			},
 			{
@@ -58399,7 +58422,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "CreepyIronMask",
 				InventoryID: 1218,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Metal"],
 				Value: 65,
 				Difficulty: 7,
@@ -58428,6 +58450,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
+						StyleOverride: ["EchoV2"],
 						Priority: 51,
 					},
 					{
