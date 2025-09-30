@@ -2018,3 +2018,28 @@ function CommonTokenize(input, options = {
 
 	return tokens;
 }
+
+/**
+ * Formats a duration in ms to a human readable string of days, months, and years
+ * @param {number} ms
+ * @returns
+ */
+function CommmonFormatDuration(ms) {
+	const dayMs = 86400000;
+	const yearDays = 365;
+	const monthDays = 30;
+
+	let days = Math.floor(ms / dayMs);
+	const years = Math.floor(days / yearDays);
+	days -= years * yearDays;
+
+	const months = Math.floor(days / monthDays);
+	days -= months * monthDays;
+
+	let result = [];
+	if (years > 0) result.push(`${years}y`);
+	if (months > 0) result.push(`${months}m`);
+	if (days > 0 || result.length === 0) result.push(`${days}d`);
+
+	return result.join(", ");
+}

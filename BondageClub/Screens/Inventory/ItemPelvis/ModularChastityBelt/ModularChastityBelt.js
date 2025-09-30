@@ -38,8 +38,8 @@ function InventoryItemPelvisModularChastityBeltDrawBase(_offset)
 	DrawText(AssetTextGet("ModularChastityBeltTimeWorn") + ":", 1320, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(AssetTextGet("ModularChastityBeltTimeSinceLastOrgasm") + ":", 1320, 550 + 1*75 + _offset, "White", "Gray");
 
-	DrawText(`${Math.floor((CommonTime() - DialogFocusItem.Property.TimeWorn)/86400000)}`, 1655, 550 + 0*75 + _offset, "White", "Gray");
-	DrawText(`${Math.floor((CommonTime() - DialogFocusItem.Property.TimeSinceLastOrgasm)/86400000)}`, 1655, 550 + 1*75 + _offset, "White", "Gray");
+	DrawText(`${CommmonFormatDuration(CommonTime() - DialogFocusItem.Property.TimeWorn)}`, 1655, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(`${CommmonFormatDuration(CommonTime() - DialogFocusItem.Property.TimeSinceLastOrgasm)}`, 1655, 550 + 1*75 + _offset, "White", "Gray");
 
 	MainCanvas.textAlign = "center";
 }
