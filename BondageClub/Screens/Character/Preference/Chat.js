@@ -42,24 +42,28 @@ const PreferenceSubscreenChatCheckboxes = [
 const PreferenceSubscreenChatDropdowns = {
 	ColorTheme: {
 		list: [...PreferenceChatColorThemeList],
+		current: () => Player.ChatSettings.ColorTheme,
 		onChange: (value) => {
 			Player.ChatSettings.ColorTheme = /** @type {ChatColorThemeType} */ (value);
 		},
 	},
 	EnterLeaveStyle: {
 		list: [...PreferenceChatEnterLeaveList],
+		current: () => Player.ChatSettings.EnterLeave,
 		onChange: (value) => {
 			Player.ChatSettings.EnterLeave = /** @type {ChatEnterLeaveType} */ (value);
 		},
 	},
 	DisplayMemberNumbers: {
 		list: [...PreferenceChatMemberNumbersList],
+		current: () => Player.ChatSettings.MemberNumbers,
 		onChange: (value) => {
 			Player.ChatSettings.MemberNumbers = /** @type {ChatMemberNumbersType} */ (value);
 		},
 	},
 	FontSize: {
 		list: [...PreferenceChatFontSizeList],
+		current: () => Player.ChatSettings.FontSize,
 		onChange: (value) => {
 			Player.ChatSettings.FontSize = /** @type {ChatFontSizeType} */ (value);
 			ChatRoomRefreshFontSize();
@@ -73,7 +77,7 @@ const PreferenceSubscreenChatIDs = Object.freeze({
 
 function PreferenceSubscreenChatLoad() {
 	const dropdownElements = Object.entries(PreferenceSubscreenChatDropdowns).map(([key, dropdown]) => {
-		const currentValue = Player.ChatSettings[key];
+		const currentValue = dropdown.current();
 		const options = dropdown.list.map((/** @type {string} */ e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */ ({attributes: { value: e, label: TextGet(e), selected: e === currentValue }}));
 		return ElementCreate({
 			tag: "div",

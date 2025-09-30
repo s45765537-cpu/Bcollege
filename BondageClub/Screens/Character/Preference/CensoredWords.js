@@ -133,6 +133,7 @@ function PreferenceSubscreenCensoredWordsResize() {
 }
 
 function PreferenceSubscreenCensoredWordsBuildWords() {
+	ElementWrap(PreferenceCensoredWordsIDs.grid)?.replaceChildren();
 	const words = PreferenceCensoredWordsList.map((word, index) => {
 		return ElementCreate({
 			tag: "div",
