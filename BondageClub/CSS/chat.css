@@ -2,8 +2,8 @@
 
 .chat-room-sep {
   padding-left: 3px !important;
-  border-bottom: min(0.4vh, 0.2vw) black solid !important;
-  border-top: min(0.4vh, 0.2vw) black solid !important;
+  border-bottom: var(--border-width) solid black !important;
+  border-top: var(--border-width) solid black !important;
   position: sticky !important;
   overflow: visible !important;
   top: 0%;
@@ -91,7 +91,7 @@
     "chat-input chat-buttons-div chat-buttons-collapse chat-length" min-content
     "chat-input chat-buttons-div chat-buttons-collapse chat-buttons" min-content
     / auto min-content min-content min-content;
-  border: min(0.2vh, 0.1vw) inset black;
+  border: var(--border-width) inset black;
   background-color: white;
   column-gap: min(0.4vh, 0.2vw);
 }
@@ -109,7 +109,7 @@
 #chat-room-buttons-div {
   grid-area: chat-buttons-div;
   width: 0;
-  border-left: min(0.2vh, 0.1vw) inset black;
+  border-left: var(--border-width) inset black;
   justify-self: center;
 }
 
@@ -329,8 +329,7 @@
 
 #TextAreaChatLog[data-colortheme="dark"]~#chat-room-buttons-div,
 #TextAreaChatLog[data-colortheme="dark2"]~#chat-room-buttons-div {
-
-  border-left: min(0.2vh, 0.1vw) inset rgba(0, 0, 0, 0.25);
+  border-left: var(--border-width) inset rgba(0, 0, 0, 0.25);
 }
 
 @media (hover: hover) {
@@ -447,11 +446,11 @@
 }
 
 #TextAreaChatLog[data-colortheme="light2"] .ChatMessage {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  border-bottom: var(--border-width) solid rgba(0, 0, 0, 0.25);
 }
 
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessage {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: var(--border-width) solid rgba(255, 255, 255, 0.4);
 }
 
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageEmote,

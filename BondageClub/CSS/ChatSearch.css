@@ -29,7 +29,7 @@
 /*#region chat search menu */
 #chat-search-search-menu{
     background-color: #fffffff6;
-    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    border: var(--border-width) solid black;
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -60,7 +60,7 @@
     user-select: none;
 }
 .chat-search-room-size-input {
-    border: min(0.2vh, 0.1vw) solid black;
+    border: var(--border-width) solid black;
 }
 
 #chat-search-search-menu-search-button {
@@ -101,7 +101,7 @@
 #chat-search-input-search {
     display: flex;
     position: relative;
-    border: min(0.2vh, 0.1vw) solid black;
+    border: var(--border-width) solid black;
 }
 .chat-search-input-search-box {
     height: 100%;
@@ -233,7 +233,7 @@
 }
 
 .chat-search-room-tooltip-entry {
-    border: min(0.2vh, 0.1vw) solid black;
+    border: var(--border-width) solid black;
     box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
     padding: 0.3em 0.6em;
     width: calc(100% - 1.2em);
@@ -285,7 +285,7 @@
 }
 #chat-search-room-page {
     background-color: #ffffff;
-    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    border: var(--border-width) solid black;
     height: 100%;
     padding: 0.5em;
     position: relative;
@@ -385,7 +385,7 @@
 .chat-search-room-page-member-count {
     padding: 0.25em 0.5em;
     background-color: #f1f1f1;
-    border: min(0.2vh, 0.1vw) solid #f1f1f1;
+    border: var(--border-width) solid #f1f1f1;
     user-select: none;
 }
 
@@ -405,7 +405,7 @@
 /*#region chat search filter unhide confirm */
 #chat-search-filter-unhide-confirm {
     background-color: #ffffff;
-    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    border: var(--border-width) solid rgb(0, 0, 0);
     padding: 0.5em;
     align-content: center;
 }
@@ -441,10 +441,11 @@
     margin: auto;
 }
 /*#endregion chat search filter unhide confirm */
+
 /*#region chat search filter unhide confirm */
 #chat-search-filter-unhide-confirm {
     background-color: #ffffff;
-    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    border: var(--border-width) solid rgb(0, 0, 0);
     padding: 0.5em;
     align-content: center;
 }
@@ -482,7 +483,7 @@
 /*#endregion chat search filter unhide confirm */
 /*#region chat search filter help screen */
 #chat-search-filter-help-screen:open {
-    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    border: var(--border-width) solid rgb(0, 0, 0);
     justify-content: center;
     display: flex;
     align-content: center;

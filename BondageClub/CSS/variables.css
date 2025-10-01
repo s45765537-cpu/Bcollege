@@ -1,0 +1,4 @@
+:root {
+	--border-width: min(0.2vh, 0.1vw);
+	--border-width: min(0.2dvh, 0.1dvw);
+}
