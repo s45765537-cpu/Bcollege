@@ -108,6 +108,7 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 				asset,
 				layer,
 				groupName,
+				item.Property,
 			);
 
 			// Check if we need to draw a different variation (from type property)
@@ -263,6 +264,7 @@ function CommonDrawAppearanceBuild(
 			asset,
 			layer,
 			groupName,
+			item.Property,
 		);
 
 		CommonDrawApplyLayerAlphaMasks(
@@ -612,19 +614,14 @@ function CommonDrawResolveLayerExpression(C, item, layer) {
  * @param {Asset} asset
  * @param {AssetLayer} layer
  * @param {AssetGroupName} groupName
+ * @param {null | ItemProperties} properties
  */
-function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName) {
-	const poseX = C.DrawPose.find((p) => layer.DrawingLeft[p] != null);
-	const poseY = C.DrawPose.find((p) => layer.DrawingTop[p] != null);
-	let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
-	let X =
-		poseX === undefined
-			? layer.DrawingLeft[PoseType.DEFAULT]
-			: layer.DrawingLeft[poseX];
-	let Y =
-		poseY === undefined
-			? layer.DrawingTop[PoseType.DEFAULT]
-			: layer.DrawingTop[poseY];
+function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName, properties=null) {
+	const bodyStyle = InventoryGet(C, "BodyStyle").Asset;
+	const originX = PropertyLayerOrigin.resolveLayer(layer, "DrawingLeft", properties);
+	const originY = PropertyLayerOrigin.resolveLayer(layer, "DrawingTop", properties);
+	let X = originX[C.DrawPose.find((p) => originX[p] != null) ?? PoseType.DEFAULT];
+	let Y = originY[C.DrawPose.find((p) => originY[p] != null) ?? PoseType.DEFAULT];
 	for (const drawPose of C.DrawPose) {
 		const PoseDef = PoseRecord[drawPose];
 		if (PoseDef && PoseDef.MovePosition) {

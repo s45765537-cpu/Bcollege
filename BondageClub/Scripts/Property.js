@@ -467,3 +467,60 @@ function PropertyDifference(output, ...args) {
 function PropertyTypeRecordToStrings(typeRecord) {
 	return Object.entries(typeRecord).map(([i, j]) => `${i}${j}`);
 }
+
+/**
+ * @namespace
+ * Namespace with helper functions for managing {@link ItemProperties["DrawingLeft"]}/{@link ItemProperties["DrawignTop"]} data.
+ */
+var PropertyLayerOrigin = {
+	/**
+	 * Resolve the `Left/Top` data for the specified item, including any {@link ItemProperties}-based corrections.
+	 * @param {Item} item
+	 * @param {"DrawingTop" | "DrawingLeft"} fieldName
+	 * @returns {Partial<Record<LayerName, Mutable<TopLeft.Data>>>}
+	 */
+	resolveItem: function resolveItem(item, fieldName) {
+		return Object.fromEntries(item.Asset.Layer.map(l => [l.Name ?? "", PropertyLayerOrigin.resolveLayer(l, fieldName, item.Property)]));
+	},
+
+	/**
+	 * Resolve the `Left/Top` data for the specified layer, including any {@link ItemProperties}-based corrections.
+	 * @param {AssetLayer} layer
+	 * @param {"DrawingTop" | "DrawingLeft"} fieldName
+	 * @param {null | ItemProperties} properties
+	 * @returns {Mutable<TopLeft.Data>}
+	 */
+	resolveLayer: function resolveLayer(layer, fieldName, properties=null) {
+		const layerName = layer.Name ?? "";
+		/** @type {Mutable<TopLeft.Data>} */
+		const ret = { ...layer[fieldName] };
+
+		const extendedData = properties?.[fieldName];
+		const extendedOverride = extendedData?.[AssetOverride];
+		if (extendedData) {
+			if (extendedData[layerName]) {
+				Object.assign(ret, extendedData[layerName]);
+			} else if (extendedOverride) {
+				CommonKeys(ret).forEach((poseName) => ret[poseName] += (extendedOverride[poseName] ?? 0));
+			}
+		}
+		return ret;
+	},
+
+	/**
+	 * Get the item's original `Left/Top` data as determined by its layer- and extended item data; any user-made alterations are removed.
+	 * @param {Item} item
+	 * @param {"DrawingTop" | "DrawingLeft"} fieldName
+	 * @returns {Partial<Record<LayerName, Mutable<TopLeft.Data>>>}
+	 */
+	getOriginal: function getOriginal(item, fieldName) {
+		if (item.Asset.Extended && item.Property.TypeRecord) {
+			/** @type {Item} */
+			const itemOriginal = { Asset: item.Asset, Property: {} };
+			ExtendedItemSetOptionByRecord(Player, itemOriginal, { ...item.Property.TypeRecord }, { refresh: false });
+			return PropertyLayerOrigin.resolveItem(itemOriginal, fieldName);
+		} else {
+			return PropertyLayerOrigin.resolveItem(item, fieldName);
+		}
+	},
+};
