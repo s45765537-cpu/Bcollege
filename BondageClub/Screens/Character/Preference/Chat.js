@@ -87,9 +87,9 @@ function PreferenceSubscreenChatLoad() {
 			},
 			children: [
 				{
-					tag: "span",
-					classList: ["label"],
-					children: [TextGet(key)]
+					tag: "label",
+					children: [TextGet(key)],
+					attributes: { for: `${key}-dropdown` },
 				},
 				ElementCreateDropdown(`${key}-dropdown`, options,
 					(ev) => {

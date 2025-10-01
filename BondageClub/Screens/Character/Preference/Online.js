@@ -52,9 +52,9 @@ function PreferenceSubscreenOnlineLoad() {
 		},
 		children: [
 			{
-				tag: "span",
-				classList: ["label"],
-				children: [TextGet("RoomCustomizationLabel")]
+				tag: "label",
+				children: [TextGet("RoomCustomizationLabel")],
+				attributes: { for: "RoomCustomizationLevel" },
 			},
 			ElementCreateDropdown("RoomCustomizationLevel", dropdownOptions, (ev) => {
 				ev.preventDefault();
@@ -77,9 +77,9 @@ function PreferenceSubscreenOnlineLoad() {
 	ElementWrap(PreferenceIDs.subscreen).append(grid);
 
 	const subtitle = ElementCreate({
-		tag: "span",
-		attributes: { id: PreferenceSubscreenOnlineIDs.subtitle },
-		children: [TextGet("DefaultChatRoomBackground")]
+		tag: "label",
+		attributes: { id: PreferenceSubscreenOnlineIDs.subtitle, for: PreferenceSubscreenOnlineIDs.selection },
+		children: [TextGet("DefaultChatRoomBackground")],
 	});
 
 	const selection = ElementButton.Create(PreferenceSubscreenOnlineIDs.selection, () => {

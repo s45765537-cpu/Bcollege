@@ -125,9 +125,9 @@ function PreferenceSubscreenImmersionLoad() {
 		},
 		children: [
 			{
-				tag: "span",
-				classList: ["label"],
-				children: [TextGet("SensDepSetting")]
+				tag: "label",
+				children: [TextGet("SensDepSetting")],
+				attributes: { for: "SensDepSetting-dropdown" },
 			},
 			ElementCreateDropdown(`SensDepSetting-dropdown`, options,
 				function () {
