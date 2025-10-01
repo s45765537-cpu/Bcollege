@@ -144,8 +144,11 @@ function ServerSetConnected(connected, errorMessage) {
 	}
 }
 
+/**
+ * Returns whether the player has successfully logged into the game
+ */
 function ServerIsLoggedIn() {
-	return Player.CharacterID !== "";
+	return Player && Player.CharacterID !== "";
 }
 
 /**
