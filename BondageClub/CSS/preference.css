@@ -97,6 +97,8 @@
   grid-auto-rows: max-content;
   max-height: min(75vh, 37.5vw);
   max-height: min(75dvh, 37.5dvw);
+  padding-block: 3px;
+  padding-left: 3px;
 }
 
 /* #endregion Main */
