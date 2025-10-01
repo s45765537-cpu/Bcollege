@@ -30,7 +30,7 @@ function PreferenceSubscreenSecurityLoad() {
 				children: [TextGet("UpdateEmailOld")],
 				attributes: { for: PreferenceSubscreenSecurityIDs.emailOld },
 			},
-			ElementCreateInput(PreferenceSubscreenSecurityIDs.emailOld, "text", "", "100"),
+			ElementCreateInput(PreferenceSubscreenSecurityIDs.emailOld, "email", "", "100"),
 		],
 	});
 
@@ -43,7 +43,7 @@ function PreferenceSubscreenSecurityLoad() {
 				children: [TextGet("UpdateEmailNew")],
 				attributes: { for: PreferenceSubscreenSecurityIDs.emailNew },
 			},
-			ElementCreateInput(PreferenceSubscreenSecurityIDs.emailNew, "text", "", "100"),
+			ElementCreateInput(PreferenceSubscreenSecurityIDs.emailNew, "email", "", "100"),
 		],
 	});
 
