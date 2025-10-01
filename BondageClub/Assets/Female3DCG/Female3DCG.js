@@ -5597,6 +5597,117 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "BeadNecklace",
+				InventoryID: 1270,
+				Value: 100,
+				ParentGroup: {},
+				DefaultColor: [
+					"#A99EA0", // Link Base
+					"#F3F3F3", // Link Shine
+					"#887F7F", // Beads
+					"#E6E6E6", // Bead Shine
+					"#9E1515", // Orb
+					"#E6E6E6", // Orb Shine
+					"#E5E5E5", // Eye Bottom
+					"#249CCD", // Eye Middle
+					"#051318", // Eye Front
+					"#CBBDA1", // Pendant Shine
+					"#988766", // Pendant
+				],
+				Extended: true,
+				Layer: [
+					{
+						Name: "LinkBase",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5, 6, 7] },
+						Top: 224,
+						Left: 213,
+					},
+					{
+						Name: "LinkShine",
+						ColorGroup: "Shine",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [0, 1 ,2, 3, 4, 5, 6, 7] },
+						Top: 224,
+						Left: 213,
+					},
+					{
+						Name: "BeadChain",
+						Left: 185,
+						Top: 200,
+					},
+					{
+						Name: "BeadChainShine",
+						ColorGroup: "Shine",
+						Left: 185,
+						Top: 200,
+					},
+					{
+						Name: "OrbBase",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [6] },
+						Top: 208,
+						Left: 191,
+					},
+					{
+						Name: "OrbShine",
+						ColorGroup: "Shine",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [6] },
+						Top: 208,
+						Left: 191,
+					},
+					{
+						Name: "EyeBottom",
+						ColorGroup: "CursedEye",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [7] },
+						Top: 204,
+						Left: 196,
+					},
+					{
+						Name: "EyeMiddle",
+						ColorGroup: "CursedEye",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [7] },
+						Top: 204,
+						Left: 196,
+					},
+					{
+						Name: "EyeFront",
+						ColorGroup: "CursedEye",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [7] },
+						Top: 204,
+						Left: 196,
+					},
+					{
+						Name: "EyeShine",
+						ColorGroup: "Shine",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [7] },
+						Top: 204,
+						Left: 196,
+					},
+					{
+						Name: "Shine",
+						Priority: 32,
+						ColorGroup: "Shine",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 6, 7] },
+						Top: 246,
+						Left: 203,
+					},
+					{
+						Name: "Base",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5, 6, 7] },
+						Top: 246,
+						Left: 203,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
