@@ -57,7 +57,7 @@
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
 .button-styling {
 	background-color: var(--button-color);
-	border: min(0.2vh, 0.1vw) solid black;
+	border: var(--border-width) solid black;
 }
 
 .button-tooltip {
@@ -66,7 +66,7 @@
 	cursor: auto;
 	background-color: #FFFF88;
 	color: black;
-	border: min(0.2vh, 0.1vw) solid black;
+	border: var(--border-width) solid black;
 	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
 	box-sizing: border-box;
 	padding: 0.3em 0.6em 0.3em 0.6em;

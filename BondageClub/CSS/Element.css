@@ -1,5 +1,5 @@
 .element-input {
-    border: min(0.2vh, 0.1vw) solid black;
+    border: var(--border-width) solid black;
 }
 
 .element-settings-label-top {
@@ -20,7 +20,7 @@
 }
 
 .element-button-group {
-    border: min(0.2vh, 0.1vw) solid black;
+    border: var(--border-width) solid black;
     width: fit-content;
     height: 1.5em;
     height: fit-content;
@@ -39,14 +39,14 @@
 }
 .element-button-group-button[aria-checked="true"] {
     background-color: white;
-    border-left: min(0.2vh, 0.1vw) solid black;
-    border-right: min(0.2vh, 0.1vw) solid black;
+    border-left: var(--border-width) solid black;
+    border-right: var(--border-width) solid black;
 }
 
 .element-button-group-button[aria-checked="true"]:last-child {
-    border-right: min(0.2vh, 0.1vw) solid transparent;
+    border-right: var(--border-width) solid transparent;
 }
 
 .element-button-group-button[aria-checked="true"]:first-child {
-    border-left: min(0.2vh, 0.1vw) solid transparent;
+    border-left: var(--border-width) solid transparent;
 }

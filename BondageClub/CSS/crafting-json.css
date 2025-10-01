@@ -94,7 +94,7 @@ fieldset[name="import"] > output {
 	overflow: hidden;
 	display: grid;
 	margin-top: var(--gap);
-	border: min(0.2vh, 0.1vw) solid black;
+	border: var(--border-width) solid black;
 	border-radius: 1.15em 1.15em 0px 0px;
 	grid-template:
 		"new old" min-content
@@ -107,7 +107,7 @@ fieldset[name="import"] > output > .tooltip-container {
 }
 
 .tooltip-container {
-	border-top: min(0.2vh, 0.1vw) solid black;
+	border-top: var(--border-width) solid black;
 	width: 100%;
 	font-size: 0.65em;
 	height: calc(5 * 1.15em + 2 * 0.3em);
@@ -135,7 +135,7 @@ fieldset[name="import"] > output > .tooltip-container {
 
 fieldset[name="import"] > output > button {
 	border: unset;
-	border-bottom: min(0.2vh, 0.1vw) solid black;
+	border-bottom: var(--border-width) solid black;
 	width: 100%;
 	height: calc(1.35em + 6px);
 }
@@ -146,7 +146,7 @@ fieldset[name="import"] > output > button .button-label {
 
 fieldset[name="import"] > output > button[name="select-old"] {
 	grid-area: old;
-	border-left: min(0.2vh, 0.1vw) solid black;
+	border-left: var(--border-width) solid black;
 }
 
 fieldset[name="import"] > output > button[name="select-old"],

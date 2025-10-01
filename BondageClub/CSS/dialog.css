@@ -318,12 +318,12 @@
 	position: relative;
 	width: 100%;
 	height: 100%;
-	border: min(0.3vh, 0.15vw) solid #80808040;
+	border: var(--border-width) solid #80808040;
 }
 
 .dialog-focus-grid [role="radio"] {
 	position: absolute;
-	border: min(0.3vh, 0.15vw) solid #80808040;
+	border: var(--border-width) solid #80808040;
 }
 
 .dialog-focus-grid [role="radio"][data-blocked] {
@@ -511,11 +511,11 @@
 	}
 
 	.dialog-focus-grid [role="radiogroup"] {
-		border-width: min(0.3dvh, 0.15dvw);
+		border-width: var(--border-width);
 	}
 
 	.dialog-focus-grid [role="radio"] {
-		border-width: min(0.3dvh, 0.15dvw);
+		border-width: var(--border-width);
 	}
 
 	.dialog-focus-grid [role="radio"][aria-checked="true"] {
