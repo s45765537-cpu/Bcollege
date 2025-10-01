@@ -20063,6 +20063,59 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //SatinScarf
+		BeadNecklace: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Gemstone",
+					Property: {
+						DefaultColor: "#119977",
+					},
+				},
+				{
+					Name: "IceSickle",
+					Property: {
+						DefaultColor: "#94E8F8",
+					},
+				},
+				{
+					Name: "PawPad",
+					Property: {
+						DefaultColor: "#778486",
+					},
+				},
+				{
+					Name: "Razor",
+					Property: {
+						DefaultColor: "#919C9E",
+					},
+				},
+				{
+					Name: "Shuriken",
+					Property: {
+						DefaultColor: "#737677",
+					},
+				},
+				{
+					Name: "Teeth",
+					Property: {
+						DefaultColor: "#B9B384",
+					},
+				},
+				{
+					Name: "Dragon",
+					Property: {
+						DefaultColor: "#56AB4E",
+					},
+				},
+				{
+					Name: "CursedEye",
+					Property: {
+						DefaultColor: "#AB9B4E",
+					},
+				},
+			],
+		}, //BeadNecklace
 		RuffledCollar: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ClothAccessory", AssetName: "RuffledCollar" },
