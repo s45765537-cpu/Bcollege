@@ -602,6 +602,12 @@ function ServerPlayerReputationSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerSkillSync() {
+	Player.Skill.forEach(s => {
+		if (s.ModifierTimeout <= CurrentTime) {
+			delete s.ModifierLevel;
+			delete s.ModifierTimeout;
+		}
+	});
 	ServerAccountUpdate.QueueData({ Skill: Player.Skill });
 }
 
