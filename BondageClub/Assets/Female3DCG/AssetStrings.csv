@@ -7799,11 +7799,11 @@ ItemHandheldPlushieSetLatexLab7,SourceCharacter places a cute Elora plushie in D
 ItemHandheldPlushieOptionLatexLab8,Lisa
 ItemHandheldPlushieSetLatexLab8,SourceCharacter places a cute Lisa plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionLatexLab9,Melanie
-ItemHandheldPlushieSetLatexLab10,SourceCharacter places a cute Melanie plushie in DestinationCharacter hands.
+ItemHandheldPlushieSetLatexLab9,SourceCharacter places a cute Melanie plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionLatexLab10,Iris
-ItemHandheldPlushieSetLatexLab11,SourceCharacter places a cute Iris plushie in DestinationCharacter hands.
+ItemHandheldPlushieSetLatexLab10,SourceCharacter places a cute Iris plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionLatexLab11,Kelsey
-ItemHandheldPlushieSetLatexLab9,SourceCharacter places a cute Kelsey plushie in DestinationCharacter hands.
+ItemHandheldPlushieSetLatexLab11,SourceCharacter places a cute Kelsey plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectVoidOrder,Void Order
 ItemHandheldPlushieModuleVoidOrder,Void Order
 ItemHandheldPlushieOptionVoidOrder0,None
@@ -7828,6 +7828,20 @@ ItemHandheldPlushieOptionVoidOrder9,Sneaki
 ItemHandheldPlushieSetVoidOrder9,SourceCharacter places a cute Sneaki plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVoidOrder10,Mai
 ItemHandheldPlushieSetVoidOrder10,SourceCharacter places a cute Mai plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder11,Tachi
+ItemHandheldPlushieSetVoidOrder11,SourceCharacter places a cute Tachi plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder12,Carol
+ItemHandheldPlushieSetVoidOrder12,SourceCharacter places a cute Carol plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder13,Jakkie
+ItemHandheldPlushieSetVoidOrder13,SourceCharacter places a cute Jakkie plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder14,Void Inquisitor
+ItemHandheldPlushieSetVoidOrder14,SourceCharacter places a cute Void Inquisitor plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder15,Void Maid
+ItemHandheldPlushieSetVoidOrder15,SourceCharacter places a cute Void Maid plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder16,Void Priestess
+ItemHandheldPlushieSetVoidOrder16,SourceCharacter places a cute Void Priestess plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder17,Void Psyker
+ItemHandheldPlushieSetVoidOrder17,SourceCharacter places a cute Void Psyker plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectEnsLivingRoom,En's Living Room
 ItemHandheldPlushieModuleEnsLivingRoom,En's Living Room
 ItemHandheldPlushieOptionEnsLivingRoom0,None
