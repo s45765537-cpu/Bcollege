@@ -6424,7 +6424,7 @@ function ChatRoomNotificationRaiseChatJoin(C) {
  */
 function ChatRoomRecreate() {
 	if (CurrentTime > ChatRoomNewRoomToUpdateTimer && ChatRoomNewRoomToUpdate && Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoomAdmin &&
-		Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom.Admin) {
+		Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom?.Admin) {
 		// Add the player if they are not an admin
 		if (!Player.LastChatRoom.Admin.includes(Player.MemberNumber) && ChatRoomDataIsPrivate(Player.LastChatRoom)) {
 			Player.LastChatRoom.Admin.push(Player.MemberNumber);
