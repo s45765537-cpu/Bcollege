@@ -5628,7 +5628,7 @@ var AssetFemale3DCG = [
 						Name: "LinkShine",
 						ColorGroup: "Shine",
 						CreateLayerTypes: ["typed"],
-						AllowTypes: { typed: [0, 1 ,2, 3, 4, 5, 6, 7] },
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5, 6, 7] },
 						Top: 224,
 						Left: 213,
 					},
