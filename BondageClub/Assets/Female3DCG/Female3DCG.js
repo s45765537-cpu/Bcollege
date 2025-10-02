@@ -43454,6 +43454,34 @@ var AssetFemale3DCG = [
 						AllowTypes: { VoidOrder: 10 },
 					},
 					{
+						Name: "Tachi",
+						AllowTypes: { VoidOrder: 11 },
+					},
+					{
+						Name: "Carol2",
+						AllowTypes: { VoidOrder: 12 },
+					},
+					{
+						Name: "Jakkie",
+						AllowTypes: { VoidOrder: 13 },
+					},
+					{
+						Name: "VoidInquisitor",
+						AllowTypes: { VoidOrder: 14 },
+					},
+					{
+						Name: "VoidMaid",
+						AllowTypes: { VoidOrder: 15 },
+					},
+					{
+						Name: "VoidPriestess",
+						AllowTypes: { VoidOrder: 16 },
+					},
+					{
+						Name: "VoidPsyker",
+						AllowTypes: { VoidOrder: 17 },
+					},
+					{
 						Name: "Alunra",
 						AllowTypes: { EnsLivingRoom: 1 },
 					},

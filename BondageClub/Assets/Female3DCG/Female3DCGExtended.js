@@ -21703,30 +21703,34 @@ var AssetFemale3DCGExtended = {
 						{}, // Robin
 						{}, // Sneaki
 						{}, // Mai
+						{}, // Tachi
+						{}, // Carol2
+						{}, // Jakkie
+						{}, // Inquisitor
+						{}, // Maid
+						{}, // Priestess
+						{}, // Psyker
 					],
 					DrawData: {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
-							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Magdalena.png",
-							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Magdalena.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sonic.png" },
-							{
-								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Jagodka.png",
-							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Jagodka.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Shade.png" },
-							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_VoidPaladin.png",
-							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_VoidPaladin.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Hazel.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lisa2.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Robin.png" },
-							{
-								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sneaki.png",
-							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sneaki.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mai.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Tachi.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Carol2.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Jakkie.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_VoidInquisitor.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_VoidMaid.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_VoidPriestess.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_VoidPsyker.png" },
 						],
 					},
 				},
