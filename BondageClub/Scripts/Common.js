@@ -2024,7 +2024,7 @@ function CommonTokenize(input, options = {
  * @param {number} ms
  * @returns
  */
-function CommmonFormatDuration(ms) {
+function CommonFormatDuration(ms) {
 	const dayMs = 86400000;
 	const yearDays = 365;
 	const monthDays = 30;
