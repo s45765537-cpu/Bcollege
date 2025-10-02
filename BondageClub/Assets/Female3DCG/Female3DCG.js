@@ -35020,7 +35020,6 @@ var AssetFemale3DCG = [
 				Difficulty: 10,
 				Time: 15,
 				AllowLock: true,
-				StyleOverride: ["EchoV2"],
 				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"],
 				ExpressionTrigger: [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -35064,7 +35063,6 @@ var AssetFemale3DCG = [
 				Time: 10,
 				AllowLock: true,
 				BuyGroup: "VibeHeart",
-				StyleOverride: ["EchoV2"],
 				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"],
 				Effect: [E.UseRemote, E.Wiggling],
 				ExpressionTrigger: [
