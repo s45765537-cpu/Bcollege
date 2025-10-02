@@ -50,7 +50,8 @@ function ServerInit() {
 	ServerSocket.on("CreationResponse", function (data) { CreationResponse(data); });
 	ServerIsLoggedInPromise = new Promise((resolve) => {
 		ServerSocket.on("LoginResponse", (data) => {
-			ServerIsLoggedIn = LoginResponse(data);
+			LoginResponse(data);
+			ServerIsLoggedIn = !!LoginErrorMessage;
 			if (ServerIsLoggedIn) {
 				resolve();
 			}

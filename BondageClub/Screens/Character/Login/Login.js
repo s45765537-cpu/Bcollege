@@ -1145,14 +1145,14 @@ function LoginSetupPlayer(C) {
  * Handles player login response data
  * @param {ServerLoginResponse} C - The Login response data - this will either be the player's character data if the
  * login was successful, or a string error message if the login failed.
- * @returns {boolean} - Whether the logging in succeeded
+ * @returns {void} Nothing
  */
 function LoginResponse(C) {
 	LoginCheckES2020();
 
 	if (typeof C === "string") {
 		LoginSetStatus(C, true);
-		return false;
+		return;
 	}
 
 	// The response must contain a name, an ID and an account name
@@ -1161,7 +1161,7 @@ function LoginResponse(C) {
 		&& typeof C.Name === "string" && !!C.Name.length
 		&& typeof C.ID === "string" && !!C.ID.length)) {
 		LoginSetStatus("ErrorLoadingCharacterData", true);
-		return false;
+		return;
 	}
 
 	// In relog mode, we jump back to the previous screen, keeping the current game flow
@@ -1177,7 +1177,7 @@ function LoginResponse(C) {
 			const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
 			CommonSetScreen(...screen);
 		}
-		return true;
+		return;
 	}
 
 	CharacterCreatePlayer();
@@ -1223,7 +1223,6 @@ function LoginResponse(C) {
 	} else {
 		CommonSetScreen("Room", "MainHall");
 	}
-	return true;
 }
 
 /** Check if the player's browser has ES2020 support */
