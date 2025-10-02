@@ -29340,7 +29340,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "DemonPlug",
 				InventoryID: 646,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				Value: 35,
 				Time: 10,
