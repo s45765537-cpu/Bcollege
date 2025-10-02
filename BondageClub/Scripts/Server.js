@@ -20,6 +20,18 @@ var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
 var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
 var ServerChatMessageMaxLength = 2000;
 var ServerChatRoomDescriptionMaxLength = 300;
+/**
+ * Whether the player is logged as determined by a successful `LoginResponse` event response.
+ * See {@link ServerIsLoggedInPromise} for the asynchronous `Promise`-based variant of this variable.
+ * @type {boolean}
+ */
+var ServerIsLoggedIn = false;
+/**
+ * A promise that resolves upon a successful `LoginResponse` event response.
+ * See {@link ServerIsLoggedIn} for the synchronous `boolean`-based variant of this variable.
+ * @type {Promise<void>}
+ */
+var ServerIsLoggedInPromise;
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
@@ -36,7 +48,15 @@ function ServerInit() {
 	ServerSocket.io.on("reconnect_attempt", ServerReconnecting);
 	ServerSocket.on("ServerInfo", function (data) { ServerInfo(data); });
 	ServerSocket.on("CreationResponse", function (data) { CreationResponse(data); });
-	ServerSocket.on("LoginResponse", function (data) { LoginResponse(data); });
+	ServerIsLoggedInPromise = new Promise((resolve) => {
+		ServerSocket.on("LoginResponse", (data) => {
+			LoginResponse(data);
+			ServerIsLoggedIn = !!LoginErrorMessage;
+			if (ServerIsLoggedIn) {
+				resolve();
+			}
+		});
+	});
 	ServerSocket.on("LoginQueue", function (data) { LoginQueue(data); });
 	ServerSocket.on("ForceDisconnect", function (data) { ServerDisconnect(data, true); });
 	ServerSocket.on("ChatRoomSearchResult", function (data) { ChatSearchResultResponse(data); });
@@ -107,7 +127,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	 * @param {boolean} [Force] - force immediate sync to server
 	 */
 	QueueData(Data, Force=false) {
-		if (!ServerIsLoggedIn()) return; // We're not logged in
+		if (!ServerIsLoggedIn) return; // We're not logged in
 
 		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
@@ -142,13 +162,6 @@ function ServerSetConnected(connected, errorMessage) {
 	} else {
 		LoginSetStatus(errorMessage, true);
 	}
-}
-
-/**
- * Returns whether the player has successfully logged into the game
- */
-function ServerIsLoggedIn() {
-	return Player && Player.CharacterID !== "";
 }
 
 /**
@@ -308,7 +321,7 @@ let ServerSendRateLimitTimes = [];
  * ) => void}
  */
 function ServerSend(Message, ...args) {
-	if (!ServerIsLoggedIn() && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
+	if (!ServerIsLoggedIn && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
 	const queueItem = /** @type {SendRateLimitQueueItem} */({ Message, args });
 	ServerSendRateLimitQueue.push(queueItem);
 
