@@ -603,17 +603,17 @@ function ChatSearchLoad() {
 							"chat-search-search-menu-room-game-dropdown",
 							[
 								...[...ChatAdminGameList, "Prison"].map(game => (
-									{children: [TextGet(`Game${game === "" ? "AllRooms" : game}`)], attributes: {value: game, selected: Player.ChatSearchSettings.Game == game}}
+									{children: [TextGet(`Game${game === "" ? "AllRooms" : game}`)], attributes: {value: game, selected: ChatSearchGame == game}}
 								)),
 							],
 							function (ev) {
-								Player.ChatSearchSettings.Game = /** @type {ServerChatRoomGame} */ (this.value);
+								ChatSearchGame = Player.ChatSearchSettings.Game = /** @type {ServerChatRoomGame} */ (this.value);
 								ChatSearchUpdateSearchSettings();
 							},
 							null,
 							{ select: {
 								attributes: {
-									value: Player.ChatSearchSettings.Game,
+									value: ChatSearchGame,
 								}
 							}}
 						),
