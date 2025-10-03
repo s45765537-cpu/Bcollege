@@ -35,7 +35,7 @@
     border: transparent solid min(0.2vh, 0.1vw);
 }
 .element-button-group-button:disabled {
-    display: none;
+	background: gray;
 }
 .element-button-group-button[aria-checked="true"] {
     background-color: white;
