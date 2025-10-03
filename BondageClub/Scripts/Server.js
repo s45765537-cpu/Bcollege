@@ -21,13 +21,10 @@ var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
 var ServerChatMessageMaxLength = 2000;
 var ServerChatRoomDescriptionMaxLength = 300;
 /**
- * Whether the player is logged as determined by a successful `LoginResponse` event response.
- * See {@link ServerIsLoggedInPromise} for the asynchronous `Promise`-based variant of this variable.
- * @type {boolean}
- */
-var ServerIsLoggedIn = false;
-/**
- * A promise that resolves upon a successful `LoginResponse` event response.
+ * A promise that resolves upon an account logging in.
+ *
+ * Note that you will have to also wait for the DOMContentLoaded event, to ensure the game engine
+ * itself has finished initializing.
  * See {@link ServerIsLoggedIn} for the synchronous `boolean`-based variant of this variable.
  * @type {Promise<void>}
  */
@@ -51,8 +48,7 @@ function ServerInit() {
 	ServerIsLoggedInPromise = new Promise((resolve) => {
 		ServerSocket.on("LoginResponse", (data) => {
 			LoginResponse(data);
-			ServerIsLoggedIn = !!LoginErrorMessage;
-			if (ServerIsLoggedIn) {
+			if (ServerIsLoggedIn()) {
 				resolve();
 			}
 		});
@@ -127,7 +123,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	 * @param {boolean} [Force] - force immediate sync to server
 	 */
 	QueueData(Data, Force=false) {
-		if (!ServerIsLoggedIn) return; // We're not logged in
+		if (!ServerIsLoggedIn()) return; // We're not logged in
 
 		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
@@ -162,6 +158,19 @@ function ServerSetConnected(connected, errorMessage) {
 	} else {
 		LoginSetStatus(errorMessage, true);
 	}
+}
+
+/**
+ * @private Use the {@link ServerIsLoggedIn} function instead.
+ * @type {boolean}
+ */
+let ServerIsLoggedIn_ = false;
+
+/**
+ * Returns whether the player has successfully logged into the game
+ */
+function ServerIsLoggedIn() {
+	return ServerIsLoggedIn_;
 }
 
 /**
@@ -321,7 +330,7 @@ let ServerSendRateLimitTimes = [];
  * ) => void}
  */
 function ServerSend(Message, ...args) {
-	if (!ServerIsLoggedIn && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
+	if (!ServerIsLoggedIn() && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
 	const queueItem = /** @type {SendRateLimitQueueItem} */({ Message, args });
 	ServerSendRateLimitQueue.push(queueItem);
 
