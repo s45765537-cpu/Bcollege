@@ -13625,6 +13625,14 @@ var AssetFemale3DCGExtended = {
 						Attribute: ["IsHipHarness"],
 					},
 				},
+				{
+					Name: "Hishi",
+					BondageLevel: 1,
+					Property: {
+						Difficulty: 1,
+						Attribute: ["IsHipHarness"],
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectRopeBondage",

@@ -6435,6 +6435,7 @@ RopeBondageCrossed,Crossed Tie
 RopeBondageCrossedBoxtie,Crossed Boxtie
 RopeBondageCrotch,Crotch Rope
 RopeBondageDiamond,Diamond Tie
+RopeBondageHishi,Hishi Tie
 RopeBondageFrogtie,Frogtie Tie
 RopeBondageFullBinding,Full Binding Tie
 RopeBondageHarness,Body Harness
@@ -6464,6 +6465,7 @@ RopeBondageWristElbowTie,Wrist and Elbow Tie
 RopeBondageWristTie,Wrist Tie
 RopeHarnessSetCrotch,SourceCharacter uses the rope on TargetCharacter to do a crotch rope tie.
 RopeHarnessSetDiamond,SourceCharacter uses the rope on TargetCharacter to do a diamond style harness.
+RopeHarnessSetHishi,SourceCharacter uses the rope on TargetCharacter to do a Hishi style harness.
 RopeHarnessSetHarness,SourceCharacter uses the rope on TargetCharacter to do a body harness.
 RopeHarnessSetStar,SourceCharacter uses the rope on TargetCharacter to tie a star harness.
 RopeHarnessSetWaist,SourceCharacter uses the rope on TargetCharacter to tie a waist rope on TargetPronounObject.
