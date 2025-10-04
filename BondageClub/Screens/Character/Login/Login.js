@@ -1212,6 +1212,7 @@ function LoginResponse(C) {
 	} else {
 		CommonSetScreen("Room", "MainHall");
 	}
+	ServerIsLoggedIn_ = true;
 }
 
 /** Check if the player's browser has ES2020 support */
