@@ -5708,6 +5708,40 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "EldritchNecklace",
+				InventoryID: 1279,
+				Value: 100,
+				Top: 208,
+				Left: 199,
+				DefaultColor: [
+					"#802684",
+					"#884A9D",
+				],
+				ParentGroup: {},
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Eye" },
+				],
+			},
+			{
+				Name: "PlantNecklace",
+				InventoryID: 1280,
+				Value: 100,
+				Top: 209,
+				Left: 191,
+				DefaultColor: [
+					"#149013",
+					"#09770B",
+					"#C42CD0",
+				],
+				ParentGroup: {},
+				Layer: [
+					{ Name: "Vines" },
+					{ Name: "Leaf" },
+					{ Name: "Bud" },
+				],
+			},
 		],
 		Color: [
 			"Default",
