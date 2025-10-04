@@ -203,6 +203,7 @@ ClothAccessory,ComboBelt,Combo Boots Belt
 ClothAccessory,FacePaint, Face Paint
 ClothAccessory,FrillyApron,Frilly Apron
 ClothAccessory,FurBolero,Fur Bolero
+ClothAccessory,FuzzyScarf,Fuzzy Scarf
 ClothAccessory,Glitter,Glitter
 ClothAccessory,JewelrySet,Piercing Set
 ClothAccessory,Kissmark,Lipstick Marks
@@ -225,10 +226,15 @@ ClothAccessory,LargeNeckFur,Large Neck Fur
 ClothAccessory,SpikyNeckFur,Spiky Neck Fur
 ClothAccessory,HoodedCloak,Hooded Cloak
 ClothAccessory,SideRuffles,Side Ruffles
-ClothLower,,Bottom
+ClothAccessory,VampiricCloak,Vampiric Cloak
+ClothAccessory,WitchShawl,Witch's Shawl
+ClothAccessory,XmasShortShawl,Short Christmas Shawl
+ClothAccessory,XmasLongShawl,Long Christmas Shawl
+ClothLower,,Cloth Lower
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
+ClothLower,BaggyJeans,Baggy Jeans
 ClothLower,BondageSkirt,Bondage Skirt
 ClothLower,BusinessSkirt,Business Skirt
 ClothLower,BusinessTrousers,Business Trousers
@@ -259,7 +265,9 @@ ClothLower,LongPleatedSkirt,Long Pleated Skirt
 ClothLower,LongSkirt1,Long Skirt
 ClothLower,MageSkirt,Witch's Skirt
 ClothLower,MidLegSkirt,Mid Leg Skirt
+ClothLower,MiniDenimHotPants,Hot Pants
 ClothLower,MistressBottom,Mistress Bottom
+ClothLower,OpenLeatherSkirt,Open Leather Skirt
 ClothLower,Pajama1,Pajama
 ClothLower,PantBoots,Long Latex Pants
 ClothLower,PencilSkirt,Pencil Skirt
@@ -280,6 +288,7 @@ ClothLower,UtilityKilt,Utility Kilt
 ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
+ClothLower,YogaPants,Yoga Pants
 ClothOuter,,Cloth Outer
 ClothOuter,LeatherJacket,Leather Jacket
 ClothOuter,JacketHoodie,Jacket Hoodie
@@ -420,7 +429,9 @@ Glasses,Glasses5,Style 5
 Glasses,Glasses6,Style 6
 Glasses,Goggles,Goggles
 Glasses,GradientSunglasses,Gradient Sunglasses
+Glasses,HalfRimGlasses,Half Rim Glasses
 Glasses,JokeGlasses,Inconspicious Glasses
+Glasses,Monocle,Monocle
 Glasses,Pincenez,Pince-nez
 Glasses,RoundSunglasses,Round Sunglasses
 Glasses,ShutterSunshades,Shutter Sunshades

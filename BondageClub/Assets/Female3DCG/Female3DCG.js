@@ -5283,6 +5283,170 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "FuzzyScarf",
+				InventoryID: 1287,
+				Value: 10,
+				DefaultColor: ["#1E1E1E"],
+				Left: 3,
+				Top: 25,
+				BuyGroup: "Scarf",
+			},
+			{
+				Name: "VampiricCloak",
+				InventoryID: 1288,
+				Value: 10,
+				DefaultColor: ["#4f0000", "#4f1E1E", "#E2C1BC"],
+				Left: 0,
+				Top: 0,
+				PoseMapping: {
+					BackBoxTie: "BackCuffs",
+					BackCuffs: "BackCuffs",
+					BackElbowTouch: "BackElbowTouch",
+					OverTheHead: "OverTheHead",
+					TapedHands: "BackBoxTie",
+					Yoked: "Yoked",
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+				},
+				ParentGroup: "BodyUpper",
+				BuyGroup: "Cloak",
+				Layer: [
+					{
+						Name: "ShawlBack",
+						Priority: 6,
+						PoseMapping: {
+							OverTheHead: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "Shawl",
+					},
+					{
+						Name: "Button",
+						PoseMapping: {
+							OverTheHead: PoseType.DEFAULT,
+						},
+					},
+				],
+			},
+			{
+				Name: "WitchShawl",
+				InventoryID: 1289,
+				Value: 10,
+				Left: 100,
+				Top: 180,
+				PoseMapping: {
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+				},
+				ParentGroup: {},
+				BuyGroup: "Cloak",
+				Layer: [
+					{
+						Name: "Back",
+						Priority: 6,
+					},
+					{
+						Name: "UpperHalfBase",
+						ColorGroup: "Base",
+					},
+					{
+						Name: "UpperHalfShadow",
+						ColorGroup: "Shadow",
+					},
+					{
+						Name: "LowerHalfBase",
+						ColorGroup: "Base",
+					},
+					{
+						Name: "LowerHalfPattern",
+					},
+					{
+						Name: "LowerHalfShadow",
+						ColorGroup: "Shadow",
+					},
+					{
+						Name: "Ring",
+					},
+				],
+			},
+			{
+				Name: "XmasShortShawl",
+				Left: 0,
+				Top: 0,
+				DefaultColor: [
+					"#490707",
+					"#490707",
+					"#F0F0F0",
+					"#F0F0F0",
+				],
+				PoseMapping: {
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+				},
+				ParentGroup: "BodyUpper",
+				BuyGroup: "Cloak",
+				Layer: [
+					{
+						Name: "ClothesLeft",
+						ColorGroup: "Cloth",
+					},
+					{
+						Name: "ClothesRight",
+						ColorGroup: "Cloth",
+					},
+					{
+						Name: "VelvetLeft",
+						ColorGroup: "Velvet",
+					},
+					{
+						Name: "VelvetRight",
+						ColorGroup: "Velvet",
+					},
+				],
+			},
+			{
+				Name: "XmasLongShawl",
+				Left: 0,
+				Top: 0,
+				DefaultColor: [
+					"#490707",
+					"#490707",
+					"#F0F0F0",
+					"#F0F0F0",
+				],
+				PoseMapping: {
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+				},
+				ParentGroup: "BodyUpper",
+				BuyGroup: "Cloak",
+				Layer: [
+					{
+						Name: "ClothesLeft",
+						ColorGroup: "Cloth",
+					},
+					{
+						Name: "ClothesRight",
+						ColorGroup: "Cloth",
+					},
+					{
+						Name: "VelvetLeft",
+						ColorGroup: "Velvet",
+					},
+					{
+						Name: "VelvetRight",
+						ColorGroup: "Velvet",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -6716,6 +6880,19 @@ var AssetFemale3DCG = [
 					Hogtied: 125,
 				},
 			},
+			{
+				Name: "YogaPants",
+				DynamicGroupName: "ClothLower",
+				Left: 0,
+				Top: 0,
+				Gender: "F",
+				StyleOverride: ["EchoV2"],
+				CopyConfig: {
+					GroupName: "ClothLower",
+					AssetName: "YogaPants",
+					BuyGroup: true,
+				},
+			},
 		],
 
 		Color: [
@@ -8061,6 +8238,138 @@ var AssetFemale3DCG = [
 							Hogtied: "Hogtied",
 						},
 						CopyLayerColor: "Skirt",
+					},
+				],
+			},
+			{
+				Name: "BaggyJeans",
+				InventoryID: 1282,
+				Left: 0,
+				Top: 0,
+				Value: 22,
+				Hide: ["Pussy"],
+				StyleOverride: ["EchoV2"],
+				PoseMapping: {
+					...AssetPoseMapping.ClothLower,
+				},
+				Layer: [
+					{
+						Name: "Pants",
+						Left: {
+							KneelingSpread: 89,
+						},
+					},
+					{
+						Name: "Button",
+						Left: {
+							KneelingSpread: 89,
+						},
+						PoseMapping: {
+							Kneel: PoseType.DEFAULT,
+							KneelingSpread: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "PantsInner",
+						Priority: 7,
+						PoseMapping: {
+							Kneel: PoseType.DEFAULT,
+							KneelingSpread: PoseType.DEFAULT,
+						},
+					},
+				],
+			},
+			{
+				Name: "OpenLeatherSkirt",
+				InventoryID: 1284,
+				Left: 0,
+				Top: 0,
+				Value: 100,
+				ParentGroup: {},
+				PoseMapping: {
+					Kneel: PoseType.DEFAULT,
+					KneelingSpread: PoseType.DEFAULT,
+				},
+				Layer: [
+					{
+						Name: "Bottom",
+						Left: {
+							KneelingSpread: 89,
+						},
+						PoseMapping: {
+							LegsClosed: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+							KneelingSpread: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "Reflective",
+						Left: {
+							KneelingSpread: 89,
+						},
+					},
+				],
+			},
+			{
+				Name: "YogaPants",
+				InventoryID: 1283,
+				Left: 0,
+				Top: 0,
+				Value: 100,
+				StyleOverride: ["EchoV2"],
+				PoseMapping: {
+					...AssetPoseMapping.ClothLower,
+				},
+				Hide: ["Pussy"],
+				Layer: [
+					{
+						Name: "Waist",
+						Left: {
+							KneelingSpread: 89,
+						},
+						PoseMapping: {
+							LegsClosed: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+							KneelingSpread: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "Leggings",
+						Left: {
+							KneelingSpread: 89,
+						},
+					},
+				],
+			},
+			{
+				Name: "MiniDenimHotPants",
+				InventoryID: 1290,
+				Left: 100,
+				Top: 395,
+				Value: 100,
+				StyleOverride: ["EchoV2"],
+				Hide: ["Pussy"],
+				PoseMapping: {
+					//...AssetPoseMapping.ClothLower,
+					KneelingSpread: "KneelingSpread",
+					LegsClosed: PoseType.DEFAULT,
+					Kneel: PoseType.DEFAULT,
+				},
+				Layer: [
+					{
+						Name: "Pants",
+						Left: {
+							KneelingSpread: 191,
+						},
+						Top: {
+							KneelingSpread: 395,
+						},
+					},
+					{
+						Name: "Shadow",
+						Left: {
+							KneelingSpread: 191,
+						},
 					},
 				],
 			},
@@ -19768,6 +20077,32 @@ var AssetFemale3DCG = [
 					{ Name: "Main", AllowColorize: true },
 				],
 			},
+			{
+				Name: "Monocle",
+				InventoryID: 1285,
+				Value: 10,
+				Left: 0,
+				Top: 0,
+				Extended: true,
+				//DefaultColor: ["#FF587E", "#FF587E"],
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HalfRimGlasses",
+				InventoryID: 1286,
+				Value: 10,
+				Left: 0,
+				Top: 0,
+			},
 		],
 		Color: [
 			"Default",
@@ -19968,11 +20303,6 @@ var AssetFemale3DCG = [
 						Name: "FaceMonroeLeft",
 						CopyLayerColor: "FaceDermalLeft",
 						AllowTypes: { f: 6 },
-					},
-					{
-						Name: "FaceCheeks",
-						CopyLayerColor: "FaceDermalLeft",
-						AllowTypes: { f: [7, 8, 10, 11] },
 					},
 				],
 			},
