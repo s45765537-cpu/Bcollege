@@ -805,10 +805,10 @@ interface ModuleScreens {
 type RoomName = ModuleScreens[ModuleType];
 
 interface RelogDataBase<T extends ModuleType> {
-		Screen: ModuleScreens[T],
-		Module: T,
-		Character: Character,
-		ChatRoomName: string | null,
+	Screen: ModuleScreens[T],
+	Module: T,
+	Character: Character | null,
+	ChatRoomName: string | null,
 }
 
 type _RelogDataMap<T> = T extends ModuleType ? RelogDataBase<T> : never;
@@ -837,6 +837,15 @@ type ChatRoomSettings = ServerChatRoomSettings;
 
 /** ChatRoom results once received by the client */
 type ChatRoomSearchResult = (ServerChatRoomSearchData & { DisplayName: string, Order: number });
+
+interface ChatSearchLobbyOptions {
+	/** Name of the chatroom game to play */
+	Game?: ServerChatRoomGame;
+	/** Name of the background to use in the lobby */
+	Background?: string;
+	/** Tags of allowed backgrounds when creating a room */
+	BackgroundTagList?: BackgroundTag[];
+}
 
 type StimulationAction = "Kneel" | "Walk" | "Struggle" | "StruggleFail" | "Talk";
 

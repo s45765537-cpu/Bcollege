@@ -230,8 +230,11 @@ function MainHallRun() {
 		// We return to the last online chat room if possible
 		if (MainHallFirstFrame) {
 			if (Player.LastChatRoom && AsylumGGTSGetLevel(Player) <= 5 && (!MainHallMaid || MainHallMaid.Stage === "0")) {
-				if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom) {
-					ChatRoomStart(Player.LastChatRoom.Space, "", null, null, "Introduction", BackgroundsTagList);
+				if (Player.ImmersionSettings?.ReturnToChatRoom) {
+					const { Female, Male } = Player.GenderSettings.AutoJoinSearch;
+					/** @type {ScreenSpecifier} */
+					const screen = Female || Male ? ["Room", "MainHall"] : ["Online", "ChatSelect"];
+					ChatSearchStart(Player.LastChatRoom.Space, screen);
 					return;
 				} else {
 					ChatRoomSetLastChatRoom(null);

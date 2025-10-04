@@ -88,7 +88,10 @@ async function ChatSelectLoad() {
  * @param {ServerChatRoomSpace} space - The space to join
  */
 function ChatSelectStartSearch(space) {
-	ChatRoomStart(space, "", null, null, "Introduction", BackgroundsTagList);
+	const { Female, Male } = Player.GenderSettings.AutoJoinSearch;
+	/** @type {ScreenSpecifier} */
+	const screen = Female || Male ? ["Room", "MainHall"] : ["Online", "ChatSelect"];
+	ChatSearchStart(space, screen);
 }
 
 function ChatSelectExit() {

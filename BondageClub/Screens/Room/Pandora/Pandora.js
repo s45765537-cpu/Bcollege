@@ -1177,7 +1177,7 @@ function PandoraPenitentiaryStart(Minutes, Role) {
  * @returns {boolean} - TRUE if sentence is active and role is inmate
  */
 function PandoraPenitentiaryIsInmate(C) {
-	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime) && ((C.Game.Prison.Role == null) || (C.Game.Prison.Role === "I"));
+	return (C.Game?.Prison?.Timer ?? 0) > CurrentTime && C.Game?.Prison?.Role === "I";
 }
 
 /**
@@ -1186,7 +1186,7 @@ function PandoraPenitentiaryIsInmate(C) {
  * @returns {boolean} - TRUE if shift is active and role is guard
  */
 function PandoraPenitentiaryIsGuard(C) {
-	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime) && (C.Game.Prison.Role === "G");
+	return (C.Game?.Prison?.Timer ?? 0) > CurrentTime && C.Game?.Prison?.Role === "G";
 }
 
 /**
@@ -1197,7 +1197,6 @@ function PandoraPenitentiaryCreate() {
 
 	// Exits right away if the prison should not be loaded, there's a 10 seconds delay between each retry
 	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || (CurrentCharacter != null) || (CurrentScreen == "ChatRoom")) return;
-	if (!PandoraPenitentiaryIsInmate(Player) && !PandoraPenitentiaryIsGuard(Player)) return;
 
 	// The guard can be assigned to create a new prison cell
 	if (PandoraPenitentiaryIsGuard(Player)) {
@@ -1205,22 +1204,13 @@ function PandoraPenitentiaryCreate() {
 			PandoraPenitentiaryResult([]);
 			PandoraPenitentiaryStartNewRoom = false;
 		}
-	} else {
-
-		// The inmate first search for a prison that already exists
-		/** @type {ServerChatRoomGame} */
-		let Game = "Prison";
-		/** @type {ServerChatRoomSearchRequest} */
-		const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
-		ChatAdminBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
-		ChatSearchLastQuerySearchTime = CommonTime();
-		ChatSearchResult = [];
+	} else if (PandoraPenitentiaryIsInmate(Player)) {
 		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
 		PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
-		ServerSend("ChatRoomSearch", SearchData);
 
+		// The inmate first search for a prison that already exists
+		ChatSearchStart(ChatRoomSpaceType.MIXED, ["Online", "ChatSearch"], { BackgroundTagList: [BackgroundsTagPandora] });
 	}
-
 }
 
 /**
