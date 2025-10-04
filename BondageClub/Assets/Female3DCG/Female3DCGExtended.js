@@ -19684,6 +19684,21 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ShutterSunshades
+		Monocle: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Left",
+				},
+				{
+					Name: "Both",
+				},
+				{
+					Name: "Right",
+				},
+			],
+			DrawImages: false,
+		}, // Monocle
 	}, // Glasses
 	Bracelet: {
 		Band1: {

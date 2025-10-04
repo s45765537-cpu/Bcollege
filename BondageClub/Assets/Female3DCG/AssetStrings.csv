@@ -6602,6 +6602,10 @@ StandUp,SourceCharacter stands up
 StandUpFail,SourceCharacter tries to stand up but loses PronounPossessive balance and falls!
 StandUpPass,SourceCharacter manages to get to PronounPossessive feet.
 StopHoldLeash,SourceCharacter releases the leash of TargetCharacter.
+GlassesMonocleSelect,Choose Style
+GlassesMonocleLeft,Left
+GlassesMonocleBoth,Both
+GlassesMonocleRight,Right
 GlassesStreetEyewearSelectBase,Street Eyewear Glasses custom menu:
 GlassesStreetEyewearModulePosition,Hair position
 GlassesStreetEyewearSelectPosition,Glasses position options:

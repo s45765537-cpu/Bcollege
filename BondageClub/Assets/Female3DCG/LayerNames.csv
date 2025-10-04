@@ -121,6 +121,25 @@ ClothAccessoryHoodedCloakLace,Lace
 ClothAccessoryHoodedCloakCollar,Collar
 ClothAccessoryHoodedCloakShoulder,Shoulder
 ClothAccessorySideRufflesFrontLayer,Ruffles
+ClothAccessoryVampiricCloakShawl,Shawl
+ClothAccessoryVampiricCloakShawlBack,Cape
+ClothAccessoryVampiricCloakButton,Button
+ClothAccessoryWitchShawlBack,Back
+ClothAccessoryWitchShawlLowerHalfBase,Lower
+ClothAccessoryWitchShawlUpperHalfBase,Upper
+ClothAccessoryWitchShawlLowerHalfPattern,Pattern
+ClothAccessoryWitchShawlLowerHalfShadow,Lower 
+ClothAccessoryWitchShawlUpperHalfShadow,Upper
+ClothAccessoryWitchShawlRing,Ring
+ClothAccessoryXmasShortShawlClothesLeft,Left
+ClothAccessoryXmasShortShawlClothesRight,Right
+ClothAccessoryXmasShortShawlVelvetLeft,Left
+ClothAccessoryXmasShortShawlVelvetRight,Right
+ClothAccessoryXmasLongShawlClothesLeft,Left
+ClothAccessoryXmasLongShawlClothesRight,Right
+ClothAccessoryXmasLongShawlVelvetLeft,Left
+ClothAccessoryXmasLongShawlVelvetRight,Right
+ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopShirt,Shirt
 ClothAdmiralTopTrim,Trim
@@ -243,6 +262,9 @@ ClothLaurelDesign,Design
 ClothLaurelLace,Lace
 ClothLowerAdmiralSkirtCloth,Skirt
 ClothLowerAdmiralSkirtStripe,Trim
+ClothLowerBaggyJeansPants,Pants
+ClothLowerBaggyJeansPantsInner,Pants Inner
+ClothLowerBaggyJeansButton,Button
 ClothLowerBondageSkirtFrill,Frill
 ClothLowerBondageSkirtSkirt,Skirt
 ClothLowerBondageSkirtStraps,Straps
@@ -289,6 +311,10 @@ ClothLowerLeggings2Cloth,Cloth
 ClothLowerLeggings2Stripe,Stripe
 ClothLowerMageSkirtSkirt,Skirt
 ClothLowerMageSkirtWaist,Waistband
+ClothLowerMiniDenimHotPantsPants,Pants
+ClothLowerMiniDenimHotPantsShadow,Shadow
+ClothLowerOpenLeatherSkirtBottom,Skirt
+ClothLowerOpenLeatherSkirtReflective,Shine
 ClothLowerPajama1Cloth, Pants
 ClothLowerPajama1Stripe, Trim
 ClothLowerPantBootsBase,Latex
@@ -323,6 +349,8 @@ ClothLowerUtilityKiltSidebelts,Side Belts
 ClothLowerUtilityKiltFront,Front Panel
 ClothLowerUtilityKiltLeftPanel,Left Panel
 ClothLowerUtilityKiltRightPanel,Right Panel
+ClothLowerYogaPantsWaist,Waist
+ClothLowerYogaPantsLeggings,Leggings
 ClothMaidLatexApron,Apron
 ClothMaidLatexDress,Dress
 ClothMaidLatexTie,Tie
@@ -423,6 +451,8 @@ GlassesPincenezFrame,Frame
 GlassesPincenezRightLens,Right lens
 GlassesPincenezLeftLens,Left lens
 GlassesPincenezAcc,Accessory
+GlassesMonocleLeft,Left
+GlassesMonocleRight,Right
 GlassesRoundSunglassesFrame,Frame
 GlassesRoundSunglassesRightLens,Right lens
 GlassesRoundSunglassesLeftLens,Left lens
