@@ -13627,9 +13627,10 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Hishi",
-					BondageLevel: 1,
+					BondageLevel: 4,
 					Property: {
-						Difficulty: 1,
+						Difficulty: 4,
+						Effect: [E.CrotchRope],
 						Attribute: ["IsHipHarness"],
 					},
 				},
