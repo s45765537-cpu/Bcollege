@@ -5310,7 +5310,6 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 				},
 				ParentGroup: "BodyUpper",
-				BuyGroup: "Cloak",
 				Layer: [
 					{
 						Name: "ShawlBack",
@@ -5343,7 +5342,7 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 				},
 				ParentGroup: {},
-				BuyGroup: "Cloak",
+				BuyGroup: "Shawl",
 				Layer: [
 					{
 						Name: "Back",
@@ -5390,7 +5389,7 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 				},
 				ParentGroup: "BodyUpper",
-				BuyGroup: "Cloak",
+				BuyGroup: "Shawl",
 				Layer: [
 					{
 						Name: "ClothesLeft",
@@ -5427,7 +5426,7 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 				},
 				ParentGroup: "BodyUpper",
-				BuyGroup: "Cloak",
+				BuyGroup: "Shawl",
 				Layer: [
 					{
 						Name: "ClothesLeft",
@@ -8083,7 +8082,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RuffledMiniskirt",
-				InventoryID: 1270,
+				InventoryID: 1292,
 				Value: 20,
 				Left: {
 					[PoseType.DEFAULT]: 120,
@@ -64053,7 +64052,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Microphone",
-				InventoryID: 1600,
+				InventoryID: 1291,
 				Priority: 58,
 				Left: 10,
 				Top: -5,
