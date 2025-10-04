@@ -93,11 +93,11 @@ const PreferenceSubscreenImmersionIDs = Object.freeze({
 });
 
 function PreferenceSubscreenImmersionLoad() {
-	const disableButtons = Player.GetDifficulty() > 2 || (Player.GameplaySettings.ImmersionLockSetting && Player.IsRestrained());
-
+	const difficultyTooHigh = Player.GetDifficulty() > 2;
+	const disableButtons = difficultyTooHigh || (Player.GameplaySettings.ImmersionLockSetting && Player.IsRestrained());
 	const disableCheckbox = ElementCheckbox.CreateLabelled(
 		PreferenceSubscreenImmersionIDs.lockCheckbox,
-		TextGet("ImmersionLockSetting"),
+		difficultyTooHigh ? TextGet("ImmersionLocked") : TextGet("ImmersionLockSetting"),
 		function () {
 			const value = this.checked;
 			Player.GameplaySettings.ImmersionLockSetting = value;
@@ -109,12 +109,6 @@ function PreferenceSubscreenImmersionLoad() {
 		}
 	);
 
-	const immersionLockedText = ElementCreate({
-		tag: "span",
-		classList: ["label"],
-		children: [TextGet("ImmersionLocked")]
-	});
-
 	const options = PreferenceSettingsSensDepList.map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({ attributes: { value: e, label: TextGet(e), selected: e === Player.GameplaySettings.SensDepChatLog } }));
 
 	const sensDepDropdown = ElementCreate({
@@ -125,9 +119,9 @@ function PreferenceSubscreenImmersionLoad() {
 		},
 		children: [
 			{
-				tag: "span",
-				classList: ["label"],
-				children: [TextGet("SensDepSetting")]
+				tag: "label",
+				children: [TextGet("SensDepSetting")],
+				attributes: { for: "SensDepSetting-dropdown" },
 			},
 			ElementCreateDropdown(`SensDepSetting-dropdown`, options,
 				function () {
@@ -165,7 +159,7 @@ function PreferenceSubscreenImmersionLoad() {
 			id: PreferenceSubscreenImmersionIDs.wrapper
 		},
 		children: [
-			Player.GetDifficulty() <= 2 ? disableCheckbox : immersionLockedText,
+			disableCheckbox,
 			{
 				tag: "hr",
 				classList: ["preference-settings-divider"]

@@ -37,9 +37,9 @@ function PreferenceSubscreenCensoredWordsLoad() {
 		},
 		children: [
 			{
-				tag: "span",
-				classList: ["label"],
+				tag: "label",
 				children: [TextGet("CensorLevel")],
+				attributes: { for: "CensoredWordsLevel" },
 			},
 			ElementCreateDropdown(
 				"CensoredWordsLevel",
@@ -63,9 +63,9 @@ function PreferenceSubscreenCensoredWordsLoad() {
 		attributes: { id: PreferenceCensoredWordsIDs.wordInputGroup },
 		children: [
 			{
-				tag: "span",
-				classList: ["label"],
+				tag: "label",
 				children: [TextGet("CensorWord")],
+				attributes: { for: "InputWord" },
 			},
 			ElementCreateInput("InputWord", "text", "", "50")
 		]

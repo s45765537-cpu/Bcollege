@@ -2,13 +2,14 @@
 #preference-subscreen-header *,
 #preference-subscreen-hgroup *,
 #preference-subscreen-main * {
-  pointer-events: all;
+  pointer-events: auto;
 }
 
 #preference-subscreen,
 #preference-subscreen-header,
 #preference-subscreen-hgroup,
-#preference-subscreen-main {
+#preference-subscreen-main,
+#preference-subscreen .button > * {
   pointer-events: none;
 }
 
@@ -96,6 +97,8 @@
   grid-auto-rows: max-content;
   max-height: min(75vh, 37.5vw);
   max-height: min(75dvh, 37.5dvw);
+  padding-block: 3px;
+  padding-left: 3px;
 }
 
 /* #endregion Main */
@@ -197,6 +200,7 @@
 #preference-immersion-grid {
   height: min(60vh, 30vw);
   height: min(60dvh, 30dvw);
+  padding-right: var(--scrollbar-gutter);
 }
 
 #SensDepSetting-dropdown-container {

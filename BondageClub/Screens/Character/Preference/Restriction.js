@@ -18,7 +18,6 @@ function PreferenceSubscreenRestrictionLoad() {
 
 	const hintLabel = ElementCreate({
 		tag: "span",
-		classList: ["label"],
 		attributes: { id: PreferenceSubscreenRestrictionIDs.hint },
 		children: [hintText]
 	});
