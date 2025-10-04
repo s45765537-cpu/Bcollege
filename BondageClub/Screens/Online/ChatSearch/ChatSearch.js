@@ -498,7 +498,7 @@ function ChatSearchLoad() {
 					],
 				},
 				// Lobby
-				ChatSearchGetSpace() !== "Asylum" && {
+				{
 					tag: "div",
 					attributes: {
 						id:"chat-search-search-menu-room-lobby",
@@ -525,6 +525,10 @@ function ChatSearchLoad() {
 								Player.GetGenders().includes("M") && {
 									options: {image: "Icons/Male.svg", tooltip: TextGet("Male")},
 									htmlOptions: {button: {attributes: {value: "M"}}}
+								},
+								ChatSearchGetSpace() === "Asylum" && {
+									options: {image: "Icons/Asylum.png", tooltip: TextGet("Asylum")},
+									htmlOptions: {button: {attributes: {value: "Asylum"}}}
 								},
 							].filter(Boolean),
 						),
@@ -692,6 +696,10 @@ function ChatSearchLoad() {
 			],
 			parent: document.body,
 		});
+
+	if (ChatSearchGetSpace() === "Asylum") {
+		ElementWrap("chat-search-search-menu-room-lobby-radio-group")?.toggleAttribute("disabled", true);
+	}
 
 	ChatSearchRoomGrid = ElementCreateDiv("chat-search-room-grid");
 	ChatSearchFilterHelpScreenElement = ElementCreate({
