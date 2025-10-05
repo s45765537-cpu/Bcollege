@@ -178,6 +178,9 @@
 	position: relative;
 	left: var(--button-size);
 	width: calc(100% - var(--button-size));
+	height: calc(100% - var(--row-height));
+	display: grid;
+	grid-template-rows: min-content min-content auto;
 }
 
 #friend-list-table th {
