@@ -22,9 +22,9 @@ function PreferenceSubscreenExtensionsLoad() {
 				Image: s.Image && (typeof s.Image === "function" ? s.Image() : s.Image),
 				click: () => {
 					PreferenceExtensionsCurrent = s;
-					s?.load();
 					ElementWrap(PreferenceIDs.subscreen).hidden = true;
-				}
+					s?.load();
+				},
 			}))(PreferenceExtensionsSettings[k]));
 
 	if (PreferenceExtensionsDisplay.length === 0) {
