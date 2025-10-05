@@ -1,6 +1,5 @@
 /* #region SUBSCREEN */
 #friend-list-subscreen {
-	--border-width: var(--border-width);
 	--border-color: white;
 	--border-style: solid;
 	--button-size: min(7dvh, 3.5dvw);
