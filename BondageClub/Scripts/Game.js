@@ -67,8 +67,27 @@ function GameStart() {
 	GameWorker.onmessage = GameFallbackTimer;
 }
 
-// When the code is loaded, we start the game engine
-window.addEventListener("load", GameStart);
+/** Promises that resolve upon reaching specific stages of the BC loading and login process. */
+const GameReadyState = {
+	/**
+	 * Promise that resolves upon fully loading BC (but before logging in).
+	 * This promise can safely be accessed starting from the `interactive` document ready state.
+	 * @readonly
+	 * @type {Promise<void>}
+	 */
+	load: new Promise(resolve => window.addEventListener("load", () => {
+		// When the code is loaded, we start the game engine
+		GameStart();
+		resolve();
+	})),
+	/**
+	 * @private
+	 * Promise that resolves upon succesfully logging in.
+	 * Should not be called directly; use {@link ServerIsLoggedInAsync} instead.
+	 * @type {undefined | Promise<void>}
+	 */
+	login: undefined,
+};
 
 function GameHandleError() {
 	if (GameAnimationFrameId != null) {

@@ -20,15 +20,6 @@ var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
 var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
 var ServerChatMessageMaxLength = 2000;
 var ServerChatRoomDescriptionMaxLength = 300;
-/**
- * A promise that resolves upon an account logging in.
- *
- * Note that you will have to also wait for the DOMContentLoaded event, to ensure the game engine
- * itself has finished initializing.
- * See {@link ServerIsLoggedIn} for the synchronous `boolean`-based variant of this variable.
- * @type {Promise<void>}
- */
-var ServerIsLoggedInPromise;
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
@@ -45,14 +36,12 @@ function ServerInit() {
 	ServerSocket.io.on("reconnect_attempt", ServerReconnecting);
 	ServerSocket.on("ServerInfo", function (data) { ServerInfo(data); });
 	ServerSocket.on("CreationResponse", function (data) { CreationResponse(data); });
-	ServerIsLoggedInPromise = new Promise((resolve) => {
-		ServerSocket.on("LoginResponse", (data) => {
-			LoginResponse(data);
-			if (ServerIsLoggedIn()) {
-				resolve();
-			}
-		});
-	});
+	GameReadyState.login = new Promise((resolve) => ServerSocket.on("LoginResponse", (data) => {
+		LoginResponse(data);
+		if (ServerIsLoggedIn()) {
+			resolve();
+		}
+	}));
 	ServerSocket.on("LoginQueue", function (data) { LoginQueue(data); });
 	ServerSocket.on("ForceDisconnect", function (data) { ServerDisconnect(data, true); });
 	ServerSocket.on("ChatRoomSearchResult", function (data) { ChatSearchResultResponse(data); });
@@ -167,10 +156,27 @@ function ServerSetConnected(connected, errorMessage) {
 let ServerIsLoggedIn_ = false;
 
 /**
- * Returns whether the player has successfully logged into the game
+ * Returns whether the player has successfully logged into the game.
+ *
+ * See {@link ServerIsLoggedInAsync} for an asynchronous variant of this function.
  */
 function ServerIsLoggedIn() {
 	return ServerIsLoggedIn_;
+}
+
+/**
+ * Resolve upon successfully logging into the game.
+ *
+ * See {@link ServerIsLoggedIn} for a synchronous variant of this function.
+ */
+async function ServerIsLoggedInAsync() {
+	await GameReadyState.load;
+	if (!GameReadyState.login) {
+		// An unreachable path under normal circumstances as the property is
+		// assigned via `GameStart()` -> `ServerInit()` in synchronous fashion
+		throw new Error("GameReadyState.login is undefined");
+	}
+	await GameReadyState.login;
 }
 
 /**
