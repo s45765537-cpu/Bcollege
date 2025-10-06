@@ -5290,9 +5290,6 @@ function ChatRoomSyncItem(data) {
 					valid = false;
 					break item;
 				}
-				if (item.Craft && CraftingValidate(item.Craft, item.Asset, false, false)) {
-					wornItem.Craft = item.Craft;
-				}
 				wornItem.Property = item.Property;
 
 				/** @type {AppearanceDiffMap} */

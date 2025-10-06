@@ -746,6 +746,19 @@ function ValidationSanitizeProperties(C, item) {
 		});
 	}
 
+	if (item.Craft) {
+		const craftState = CraftingValidate(item.Craft, item.Asset, false, false);
+		switch (craftState) {
+			case CraftingStatusType.CRITICAL_ERROR:
+				delete item.Craft;
+				changed = true;
+				break;
+			case CraftingStatusType.ERROR:
+				changed = true;
+				break;
+		}
+	}
+
 	return changed;
 }
 
