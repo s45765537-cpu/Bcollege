@@ -379,6 +379,15 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		Hoodie: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "Cloth", AssetName: "Hoodie" },
+			DialogPrefix: {
+				Header: "ClothHoodieSelect",
+				Module: "ClothHoodieModule",
+				Option: "ClothHoodieOption",
+			},
+		}, // Hoodie
 	},
 	Cloth: {
 		TShirt2: {

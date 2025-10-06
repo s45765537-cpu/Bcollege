@@ -812,6 +812,11 @@ var AssetFemale3DCG = [
 				},
 				DynamicGroupName: "Suit",
 			},
+			{
+				Name: "Hoodie",
+				CopyConfig: { GroupName: "Cloth", AssetName: "Hoodie", BuyGroup: true },
+				DynamicGroupName: "Cloth",
+			},
 		],
 		Color: [
 			"Default",
@@ -3313,6 +3318,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Hoodie",
+				BuyGroup: "Hoodie",
 				InventoryID: 156,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
