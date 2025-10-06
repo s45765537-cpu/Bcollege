@@ -5382,12 +5382,7 @@ var AssetFemale3DCG = [
 				Name: "XmasShortShawl",
 				Left: 0,
 				Top: 0,
-				DefaultColor: [
-					"#490707",
-					"#490707",
-					"#F0F0F0",
-					"#F0F0F0",
-				],
+				DefaultColor: ["#490707", "#490707", "#F0F0F0", "#F0F0F0"],
 				PoseMapping: {
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
@@ -5419,12 +5414,7 @@ var AssetFemale3DCG = [
 				Name: "XmasLongShawl",
 				Left: 0,
 				Top: 0,
-				DefaultColor: [
-					"#490707",
-					"#490707",
-					"#F0F0F0",
-					"#F0F0F0",
-				],
+				DefaultColor: ["#490707", "#490707", "#F0F0F0", "#F0F0F0"],
 				PoseMapping: {
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
@@ -5883,15 +5873,9 @@ var AssetFemale3DCG = [
 				Value: 100,
 				Top: 208,
 				Left: 199,
-				DefaultColor: [
-					"#802684",
-					"#884A9D",
-				],
+				DefaultColor: ["#802684", "#884A9D"],
 				ParentGroup: {},
-				Layer: [
-					{ Name: "Base" },
-					{ Name: "Eye" },
-				],
+				Layer: [{ Name: "Base" }, { Name: "Eye" }],
 			},
 			{
 				Name: "PlantNecklace",
@@ -5899,17 +5883,9 @@ var AssetFemale3DCG = [
 				Value: 100,
 				Top: 209,
 				Left: 191,
-				DefaultColor: [
-					"#149013",
-					"#09770B",
-					"#C42CD0",
-				],
+				DefaultColor: ["#149013", "#09770B", "#C42CD0"],
 				ParentGroup: {},
-				Layer: [
-					{ Name: "Vines" },
-					{ Name: "Leaf" },
-					{ Name: "Bud" },
-				],
+				Layer: [{ Name: "Vines" }, { Name: "Leaf" }, { Name: "Bud" }],
 			},
 		],
 		Color: [
