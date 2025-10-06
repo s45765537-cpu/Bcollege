@@ -43842,6 +43842,10 @@ var AssetFemale3DCG = [
 						AllowTypes: { VoidOrder: 17 },
 					},
 					{
+						Name: "Dante",
+						AllowTypes: { VoidOrder: 18 },
+					},
+					{
 						Name: "Alunra",
 						AllowTypes: { EnsLivingRoom: 1 },
 					},
