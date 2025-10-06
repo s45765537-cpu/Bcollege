@@ -1,6 +1,5 @@
 /* #region SUBSCREEN */
 #friend-list-subscreen {
-	--border-width: var(--border-width);
 	--border-color: white;
 	--border-style: solid;
 	--button-size: min(7dvh, 3.5dvw);
@@ -179,6 +178,9 @@
 	position: relative;
 	left: var(--button-size);
 	width: calc(100% - var(--button-size));
+	height: calc(100% - var(--row-height));
+	display: grid;
+	grid-template-rows: min-content min-content auto;
 }
 
 #friend-list-table th {
