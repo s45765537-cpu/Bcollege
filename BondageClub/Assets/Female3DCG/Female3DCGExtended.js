@@ -21734,6 +21734,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Maid
 						{}, // Priestess
 						{}, // Psyker
+						{}, // Dante
 					],
 					DrawData: {
 						elementData: [
@@ -21780,6 +21781,10 @@ var AssetFemale3DCGExtended = {
 							{
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushie_VoidPsyker.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_VoidDante.png",
 							},
 						],
 					},

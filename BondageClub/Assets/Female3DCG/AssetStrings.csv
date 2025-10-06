@@ -7848,6 +7848,8 @@ ItemHandheldPlushieOptionVoidOrder16,Void Priestess
 ItemHandheldPlushieSetVoidOrder16,SourceCharacter places a cute Void Priestess plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVoidOrder17,Void Psyker
 ItemHandheldPlushieSetVoidOrder17,SourceCharacter places a cute Void Psyker plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder18,Dante
+ItemHandheldPlushieSetVoidOrder18,SourceCharacter places a cute Dante plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectEnsLivingRoom,En's Living Room
 ItemHandheldPlushieModuleEnsLivingRoom,En's Living Room
 ItemHandheldPlushieOptionEnsLivingRoom0,None
