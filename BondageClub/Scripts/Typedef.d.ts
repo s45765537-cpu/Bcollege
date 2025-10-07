@@ -4293,6 +4293,8 @@ interface PandoraBaseRoom {
 
 type CraftingMode = (
 	"Slot"
+	| "Reorder"
+	| "Delete"
 	| "Name"
 	| "Color"
 	| "Extended"
@@ -4300,8 +4302,83 @@ type CraftingMode = (
 	| "OverridePriority"
 );
 
-type CraftingReorderType = "None" | "Select" | "Place";
+/**
+ * A namespace with helper types for implementing custom crafting slot modes; modes that can be added by adding a callback to {@link CraftingSlots.modeData}.
+ */
+declare namespace CraftingSlotsMode {
+	/** The return type of {@link Callback} representing mode-specific heading and mode-accept-button customization */
+	interface Result {
+		/**
+		 * The color of the `mode-accept` button's question mark icon.
+		 * @default "white"
+		 */
+		modeAcceptQuestionColor?: string;
+		/**
+		 * The image source of the `mode-accept` button.
+		 * @default "./Icons/Crafting.png"
+		 */
+		modeAcceptImgSrc?: string;
+		/**
+		 * The tooltip content of the `mode-accept` button.
+		 *
+		 * Should contain a more extensive description of the relevant crafting mode (if so required; see {@link Result.heading}).
+		 * @default TextGet("ModeAcceptSlot")
+		 */
+		modeAcceptTooltip?: string | Node | readonly (string | Node)[];
+		/**
+		 * A click listener for the `mode-accept` button.
+		 *
+		 * If present, the button should serve a "accept all changes" type of role.
+		 *
+		 * If absent, disable the button.
+		 * @default null
+		 */
+		modeAcceptListener?: null | ((this: HTMLButtonElement, ev: PointerEvent) => void);
+		/**
+		 * The content of the main crafting slot heading.
+		 *
+		 * Must contain a 1-line summary of the relevant crafting mode. See {@link Result.modeAcceptTooltip} if a more extensive description is also desired.
+		 */
+		heading: string | Node | readonly (string | Node )[];
+	}
 
+	/** Arguments for {@link Callback} representing a crafting item + button pair */
+	interface Args {
+		/** The crafting item (if any) associated with the button */
+		craft: null | CraftingItem;
+		/** The `.crafting-slot-button` button in question */
+		button: HTMLButtonElement;
+		/** Multi select listeners that can be attached to the button in order to implement `click` and `shift + click` selection behavior */
+		multiSelectListeners: {
+			click: (this: HTMLButtonElement, ev: PointerEvent) => void,
+			focus: (this: HTMLButtonElement, ev: FocusEvent) => void,
+		};
+	}
+
+	/**
+	 * The to-be registered callback
+	 * @param crafts A list of crafting arguments, which most prominently include the crafting items and their respective buttons
+	 * @returns The final mode-specific config
+	 */
+	type Callback = (crafts: readonly Args[]) => Result;
+
+	type Data = {
+		/** The `<select>` label associated with the registered slot mode. If absent, default to the `TextGet(Label${SlotModeName})` output */
+		selectLabel?: string;
+		/** The to-be registered callback used for setting up mode-specific configurations */
+		readonly callback: Callback;
+	}
+}
+
+/** All registered crafting slot modes (see {@link CraftingSlotsMode}) */
+interface CraftingSlotModeData extends Record<Extract<CraftingMode, "Slot" | "Reorder" | "Delete">, CraftingSlotsMode.Data> {
+	Slot: CraftingSlotsMode.Data;
+	Reorder: CraftingSlotsMode.Data;
+	Delete: CraftingSlotsMode.Data;
+}
+
+/** All `Slot`-adjecant crafting modes */
+type CraftingSlotModes = keyof CraftingSlotModeData;
 
 /**
  * A struct with an items crafting-related information.

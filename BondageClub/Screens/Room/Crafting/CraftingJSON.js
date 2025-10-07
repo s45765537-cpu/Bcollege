@@ -203,6 +203,7 @@ var CraftingJSON = {
 
 		clickCancel: function() {
 			CraftingUnload();
+			CraftingModeSet("Slot");
 		},
 
 		clickAccept: function(ev) {
@@ -222,6 +223,7 @@ var CraftingJSON = {
 			});
 			CraftingSaveServer();
 			CraftingUnload();
+			CraftingModeSet("Slot");
 		},
 
 		/** @type {(this: HTMLInputElement) => Promise<void>} */
