@@ -1540,7 +1540,6 @@ var ElementButton = {
 				mousedown: this._MouseDown,
 				bcClickDisabled: options.clickDisabled,
 				...this._GetClickTouchListeners(),
-				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
 				tooltip,
@@ -1597,6 +1596,11 @@ var ElementButton = {
 			}
 		}
 
+		for (const [name, listener] of Object.entries(buttonOptions.eventListeners ?? {})) {
+			if (listener) {
+				elem.addEventListener(name, /** @type {EventListener} */(listener));
+			}
+		}
 		elem.addEventListener("click", onClick);
 
 		if (options.disabled) {
