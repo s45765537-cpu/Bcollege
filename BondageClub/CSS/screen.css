@@ -73,8 +73,8 @@
 }
 
 .screen-header [role="menuitem"] .button-image {
-	max-height: 90px;
-	max-width: 90px;
+	max-height: 86px;
+	max-width: 86px;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
