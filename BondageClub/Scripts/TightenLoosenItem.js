@@ -19,7 +19,7 @@ function TightenLoosenItemLoad() {
 		SkillGetLevel(Player, "Bondage")
 		+ 4
 		+ DialogTightenLoosenItem.Asset.Difficulty
-		+ (DialogTightenLoosenItem.Craft?.Property === "Secure" ? 4 : 0)
+		+ (DialogTightenLoosenItem?.Craft?.Effects.Secure ?? 0) * 4
 	);
 }
 

@@ -117,8 +117,8 @@
 }
 
 #crafting-property-grid {
-	grid-template-columns: min-content;
-	grid-template-rows: repeat(auto-fill, calc(1.5 * var(--menu-button-size)));
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(auto-fill, 2.5em);
 }
 
 #crafting-asset-grid button,
@@ -284,4 +284,76 @@
 	#crafting-property-button {
 		font-size: min(3dvh, 1.5dvw);
 	}
+}
+
+.crafting-property-list-item {
+	display: flex;
+  	height: 2.5em;
+	background-color: white;
+	justify-content: space-between;
+}
+
+.crafting-property-list-item p {
+	margin: 0;
+	font-size: 0.6em;
+	top: -0.6em; 
+	position: relative;
+	user-select: none;
+}
+.crafting-property-name {
+	font-size: 0.75em;
+	top: -0.3em; /* stupid spacing coming from nowhere*/
+	position: relative;
+	width: fit-content;
+	user-select: none;
+}
+.crafting-property-info {
+	width: 100%;
+	padding: 0.2em;
+}
+.crafting-property-value {
+	top: -0.25em; 
+	position: relative;
+	display: inline;
+	margin-left: 0.25em;
+	user-select: none;
+}
+.crafting-property-value input {
+	display: inline;
+	width: 2em;
+	margin-left: 0.25em;
+	font-size: 0.6em;
+	background-color: rgb(245, 245, 245);
+}
+
+.crafting-property-value input::-webkit-outer-spin-button,
+.crafting-property-value input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.crafting-property-value input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.crafting-property-button {
+	aspect-ratio: 1;
+	color: gray;
+}
+.crafting-property-button:disabled {
+	--button-color: #949494;
+	cursor: not-allowed;
+}
+.crafting-property-add {
+	--button-color: #8cff82;
+}
+.crafting-property-add:last-child {
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
+}
+.crafting-property-remove {
+	--button-color: #ff8282;
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
 }

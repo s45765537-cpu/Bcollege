@@ -727,35 +727,29 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 
 	// Update the item's difficulty
 	Item.Difficulty += Craft.DifficultyFactor ?? 0;
+	if (Item.Craft.Effects?.Decoy) {
+		Item.Difficulty = -50;
+	}
+	Item.Difficulty += 4 * (Item.Craft.Effects?.Secure ?? 0);
+	Item.Difficulty -= 4 * (Item.Craft.Effects?.Loose ?? 0);
 
-	// Apply Property-specific effects such as difficulty modifiers and facial expressions
-	switch (Craft.Property) {
-		case "Secure":
-			Item.Difficulty += 4;
-			break;
-		case "Loose":
-			Item.Difficulty -= 4;
-			break;
-		case "Decoy":
-			Item.Difficulty = -50;
-			break;
-		case "Painful":
-			InventoryExpressionTriggerApply(Target, [
-				{ Group: "Blush", Name: "ShortBreath", Timer: 10 },
-				{ Group: "Eyes", Name: "Angry", Timer: 10 },
-				{ Group: "Eyes2", Name: "Angry", Timer: 10 },
-				{ Group: "Eyebrows", Name: "Angry", Timer: 10 },
-			]);
-			Item.Property.Fetish = CommonArrayConcatDedupe(Item.Property.Fetish || [], ["Masochism"]);
-			break;
-		case "Comfy":
-			InventoryExpressionTriggerApply(Target, [
-				{ Group: "Blush", Name: "Low", Timer: 10 },
-				{ Group: "Eyes", Name: "Horny", Timer: 10 },
-				{ Group: "Eyes2", Name: "Horny", Timer: 10 },
-				{ Group: "Eyebrows", Name: "Raised", Timer: 10 },
-			]);
-			break;
+	if (Item.Craft.Effects?.Painful) {
+		InventoryExpressionTriggerApply(Target, [
+			{ Group: "Blush", Name: "ShortBreath", Timer: 10 },
+			{ Group: "Eyes", Name: "Angry", Timer: 10 },
+			{ Group: "Eyes2", Name: "Angry", Timer: 10 },
+			{ Group: "Eyebrows", Name: "Angry", Timer: 10 },
+		]);
+		Item.Property.Fetish = CommonArrayConcatDedupe(Item.Property.Fetish || [], ["Masochism"]);
+	}
+
+	if (Item.Craft.Effects?.Comfy) {
+		InventoryExpressionTriggerApply(Target, [
+			{ Group: "Blush", Name: "Low", Timer: 10 },
+			{ Group: "Eyes", Name: "Horny", Timer: 10 },
+			{ Group: "Eyes2", Name: "Horny", Timer: 10 },
+			{ Group: "Eyebrows", Name: "Raised", Timer: 10 },
+		]);
 	}
 
 	// Refreshes the character if needed
@@ -770,25 +764,18 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 * @param {CraftingPropertyType} Property - The property to count
 * @returns {Number} - The number of times the property is found
 */
-function InventoryCraftCount(C, Property) {
-	let Count = 0;
-	if ((C != null) && (C.Appearance != null))
-		for (let A of C.Appearance)
-			if ((A.Craft != null) && (A.Craft.Property != null) && (A.Craft.Property == Property))
-				Count++;
-	return Count;
+function InventoryCraftCount(C, Property, Stacking = false) {
+	if ((C == null) || (C.Appearance == null)) return 0;
+	if (Stacking) return C.Appearance.reduce((acc, a) => acc + (a?.Craft?.Effects?.[Property] ?? 0), 0);
+	return C.Appearance.filter(a => (a?.Craft?.Effects?.[Property] ?? 0) > 0).length;
 }
 
 /**
-* Returns TRUE if an item as the specified crafted property
-* @param {Item} Item - The item to validate
-* @param {CraftingPropertyType} Property - The property to check
-* @returns {boolean} - TRUE if the property matches
-*/
-function InventoryCraftPropertyIs(Item, Property) {
-	if ((Item == null) || (Item.Craft == null) || (Item.Craft.Property == null) || (Property == null)) return false;
-	return (Item.Craft.Property == Property);
-}
+ * @deprecated - Superseded by {@link CraftingCraftGetEffect}
+ * Returns TRUE if an item as the specified crafted property
+ * @returns {void}
+ */
+function InventoryCraftPropertyIs() {}
 
 /**
 * Sets the craft and type on the item, uses the achetype properties if possible.

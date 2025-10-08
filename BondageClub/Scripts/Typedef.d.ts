@@ -4311,7 +4311,8 @@ interface CraftingItem {
 	/** The custom item description. */
 	Description: string;
 	/** The crafted item propery. */
-	Property: CraftingPropertyType;
+	Effects: Partial<Record<CraftingPropertyType, number>>;
+	Property: CraftingPropertyType
 	/** The comma-separated color(s) of the item. */
 	Color: string;
 	/** The name of the lock or, if absent, an empty string. */
@@ -4382,6 +4383,7 @@ interface CraftingItemSelected {
 	get Asset(): Asset | undefined;
 	/** The crafted item propery. */
 	Property: CraftingPropertyType;
+	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/** The lock as equiped on the item or, if absent, `null`. */
 	Lock: Asset | null;
 	/** Whether the crafted item should be private or not. */

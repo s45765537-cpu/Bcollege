@@ -97,3 +97,6 @@ JSONUpload,Import new crafting inventory
 JSONDownload,Download all crafts
 JSONSelectNew,New crafts (select all)
 JSONSelectOld,Old crafts (select all)
+RemoveProperty,Remove/decrement property
+AddProperty,Add/increment property
+MultipleProperties,Multiple properties
