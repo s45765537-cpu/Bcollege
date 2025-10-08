@@ -273,8 +273,8 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (!eyesOnly) {
 				const effects = CharacterGetEffects(this, ["ItemHead", "ItemHood", "ItemNeck", "ItemDevices"], true);
 				blindLevel += effects.reduce((Start, EffectName) => Start + (CharacterBlindLevels.get(/**@type {BlindEffectName} */(EffectName)) || 0), 0);
-				blindLevel += InventoryCraftCount(this, "Thick");
-				blindLevel -= InventoryCraftCount(this, "Thin");
+				blindLevel += InventoryCraftCount(this, "Thick", true);
+				blindLevel -= InventoryCraftCount(this, "Thin", true);
 			}
 			// Light sensory deprivation setting limits blindness
 			if (this.IsPlayer() && this.GameplaySettings && this.GameplaySettings.SensDepChatLog == "SensDepLight") {
@@ -346,8 +346,8 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			else if (this.IsKneeling()) slowness += 1;
 
 			// Increase the slow level for each "Heavy" item and reduce it for each "Light" item
-			slowness += InventoryCraftCount(this, "Heavy");
-			slowness -= InventoryCraftCount(this, "Light");
+			slowness += InventoryCraftCount(this, "Heavy", true);
+			slowness -= InventoryCraftCount(this, "Light", true);
 
 			// Short-circuit to save on the following checks
 			if (slowness === 0) return 0;
