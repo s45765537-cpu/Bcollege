@@ -7850,6 +7850,8 @@ ItemHandheldPlushieOptionVoidOrder17,Void Psyker
 ItemHandheldPlushieSetVoidOrder17,SourceCharacter places a cute Void Psyker plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVoidOrder18,Dante
 ItemHandheldPlushieSetVoidOrder18,SourceCharacter places a cute Dante plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder19,Sarah Jade Kelly
+ItemHandheldPlushieSetVoidOrder19,SourceCharacter places an unforgetable Sarah Jade Kelly plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectEnsLivingRoom,En's Living Room
 ItemHandheldPlushieModuleEnsLivingRoom,En's Living Room
 ItemHandheldPlushieOptionEnsLivingRoom0,None
