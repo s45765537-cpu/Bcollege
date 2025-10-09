@@ -268,6 +268,7 @@ function InformationSheetExit() {
 	if (InformationSheetReturnScreen) {
 		CommonSetScreen(...InformationSheetReturnScreen);
 	}
+	InformationSheetReturnScreen = null;
 }
 
 /**
@@ -277,6 +278,8 @@ function InformationSheetExit() {
  */
 function InformationSheetLoadCharacter(C) {
 	InformationSheetSelection = C;
-	InformationSheetReturnScreen = CommonGetScreen();
+	if (!InformationSheetReturnScreen) {
+		InformationSheetReturnScreen = CommonGetScreen();
+	}
 	CommonSetScreen("Character", "InformationSheet");
 }
