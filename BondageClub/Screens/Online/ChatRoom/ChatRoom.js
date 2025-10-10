@@ -5602,27 +5602,31 @@ function ChatRoomCurrentTime() {
  * @returns {void} - Nothing
  */
 function ChatRoomListManage(Operation, ListType) {
-	if (CurrentCharacter) {
-		const isAdd = Operation === "Add";
-		if (ListType === "DrawFocusList"){
-			if (isAdd) ChatRoomDrawFocusListAdd([CurrentCharacter]);
-			else ChatRoomDrawFocusListRemove([CurrentCharacter]);
-		} else if (CurrentCharacter.MemberNumber && Array.isArray(Player[ListType])) {
-			ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber);
+	if (!CurrentCharacter) return;
+	if (!CurrentCharacter.IsOnline()) return;
+	const isAdd = Operation === "Add";
+	if (ListType === "DrawFocusList") {
+		if (isAdd) {
+			ChatRoomDrawFocusListAdd([CurrentCharacter]);
+		} else {
+			ChatRoomDrawFocusListRemove([CurrentCharacter]);
 		}
+	} else if (Array.isArray(Player[ListType])) {
+		ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber);
 	}
 }
 
 /**
  * Adds or removes an online member to/from a specific list from a typed message.
- * @param {number[]|null} List - List to add to or remove from.
+ * @param {number[]} List - List to add to or remove from.
  * @param {boolean} Adding - If TRUE adding to the list, if FALSE removing from the list.
  * @param {string} Argument - Member number to add/remove.
+ * @deprecated Use {@link ChatRoomListUpdate}
  * @returns {void} - Nothing
  */
 function ChatRoomListManipulation(List, Adding, Argument) {
 	var C = parseInt(Argument);
-	if (!isNaN(C) && (C > 0) && (C != Player.MemberNumber)) {
+	if (!isNaN(C) && (C >= 0) && (C != Player.MemberNumber)) {
 		ChatRoomListUpdate(List, Adding, C);
 	}
 }
@@ -5635,11 +5639,14 @@ function ChatRoomListManipulation(List, Adding, Argument) {
  * @returns {void} - Nothing
  */
 function ChatRoomListUpdate(list, adding, memberNumber) {
-	if (adding && list.indexOf(memberNumber) < 0) {
+	if (memberNumber === Player.MemberNumber) return;
+	if (!CommonIsNonNegativeInteger(memberNumber)) return;
+	const numIdx = list.indexOf(memberNumber);
+	if (adding && numIdx < 0) {
 		list.push(memberNumber);
 	}
-	else if (!adding && list.indexOf(memberNumber) >= 0) {
-		list.splice(list.indexOf(memberNumber), 1);
+	else if (!adding && numIdx >= 0) {
+		list.splice(numIdx, 1);
 	}
 
 	const triggeredOperations = ChatRoomListOperationTriggers().find(w => w.list == list && w.adding == adding);
@@ -5657,7 +5664,7 @@ function ChatRoomListUpdate(list, adding, memberNumber) {
 	}
 
 	ServerPlayerRelationsSync();
-	setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
+	// The server will take care of pushing out updated character if the blacklist or whitelist was touched
 }
 
 /**

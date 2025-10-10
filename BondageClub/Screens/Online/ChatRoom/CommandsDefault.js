@@ -71,7 +71,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'friendlistadd',
-		Action: args => ChatRoomListManipulation(Player.FriendList, true, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.FriendList, true, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to add to friend list",
@@ -80,7 +84,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'friendlistremove',
-		Action: args => ChatRoomListManipulation(Player.FriendList, false, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.FriendList, false, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to remove from friend list",
@@ -89,7 +97,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'ghostadd',
-		Action: args => ChatRoomListManipulation(Player.GhostList, true, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.GhostList, true, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to add to ghost list",
@@ -98,7 +110,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'ghostremove',
-		Action: args => ChatRoomListManipulation(Player.GhostList, false, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.GhostList, false, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to remove from ghost list",
@@ -107,7 +123,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'whitelistadd',
-		Action: args => ChatRoomListManipulation(Player.WhiteList, true, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.WhiteList, true, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to add to whitelist",
@@ -116,7 +136,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'whitelistremove',
-		Action: args => ChatRoomListManipulation(Player.WhiteList, false, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.WhiteList, false, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to remove from whitelist",
@@ -125,7 +149,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'blacklistadd',
-		Action: args => ChatRoomListManipulation(Player.BlackList, true, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.BlackList, true, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to add to blacklist",
@@ -134,7 +162,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'blacklistremove',
-		Action: args => ChatRoomListManipulation(Player.BlackList, false, args),
+		Action: args => {
+			const number = CommonParseNumber(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.BlackList, false, number);
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "Member number of player to remove from blacklist",
