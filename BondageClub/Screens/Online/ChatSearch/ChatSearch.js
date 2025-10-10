@@ -1737,7 +1737,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 
 /**
  * Handles the reception of the server response when joining a room or when getting banned/kicked
- * @param {ServerChatRoomSearchResponse} data - Response from the server
+ * @param {ServerChatRoomJoinResponse} data - Response from the server
  * @returns {void} - Nothing
  */
 function ChatSearchResponse(data) {
@@ -1752,7 +1752,7 @@ function ChatSearchResponse(data) {
 
 /**
  * Sends a toast message based on the given response type
- * @param {ServerChatRoomSearchResponse} type
+ * @param {ServerChatRoomJoinResponse} type
  */
 function ChatSearchSendToast(type) {
 	ToastManager.dismissByCategory("ChatSearch");

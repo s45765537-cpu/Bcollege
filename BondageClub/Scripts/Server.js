@@ -1440,3 +1440,122 @@ const ServerChatRoomSearchSettingsValidate = {
 	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
 	FilterTerms: ServerValidation.isString(200, ""),
 };
+
+const ServerDefaultTimeout = 1000;
+
+class ServerError extends Error {}
+
+class ServerTimeoutError extends ServerError {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message = undefined) {
+		super(message);
+		this.name = "ServerTimeoutError";
+	}
+}
+
+class ServerInProgressError extends ServerError {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message = undefined) {
+		super(message);
+		this.name = "ServerInProgressError";
+	}
+}
+
+class ServerJoinError extends ServerError {
+	/**
+	 * @type {ServerChatRoomJoinFailedResponse} name
+	 */
+	name;
+	/**
+	 * @param {ServerChatRoomJoinFailedResponse} type
+	 * @param {string} [message]
+	 */
+	constructor(type, message = undefined) {
+		super(message);
+		this.name = type;
+	}
+}
+
+/**
+ * Run a promise along with a timeout
+ *
+ * @template T
+ * @param {number} timeout
+ * @param {((resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void)} executor
+ * @return {Promise<T>}
+ */
+function ServerPromiseWithTimeout(timeout, executor) {
+	const work = new Promise(executor);
+	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(new ServerTimeoutError()), timeout); });
+	return Promise.race([work, timeoutPromise]);
+}
+
+
+let ServerRoomSearchLastQueryTime = 0;
+/** @type {ServerChatRoomSearchRequest | null} */
+let ServerRoomSearchLastQuery = null;
+
+
+/**
+ * Perform a search query against the server
+ * @param {string} queryString
+ * @param {Omit<ServerChatRoomSearchRequest, "Query">} options
+ * @return {Promise<ServerChatRoomSearchResultResponse>}
+ */
+async function ServerRoomSearch(queryString, options) {
+	/** @type {ServerChatRoomSearchRequest} */
+	const request = {
+		Query: queryString.toUpperCase().trim(),
+		...options,
+	};
+
+	if (CommonObjectEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
+		throw new ServerInProgressError("Search query while another query is in progress!");
+	}
+
+	ServerRoomSearchLastQueryTime = CommonTime();
+	ServerRoomSearchLastQuery = CommonCloneDeep(request);
+
+	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
+		ServerSocket.once("ChatRoomSearchResult", (data) => {
+			resolve(data);
+		});
+
+		ServerSend("ChatRoomSearch", request);
+	});
+}
+
+let ServerRoomJoinLastQuery = "";
+let ServerRoomJoinLastQueryTime = 0;
+
+/**
+ * Perform a join query against the server
+ * @param {string} roomName
+ * @return {Promise<string>}
+ */
+async function ServerRoomJoin(roomName) {
+	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + 1000 > CommonTime()) {
+		throw new ServerInProgressError("Join query while another query is in progress!");
+	}
+
+	ServerRoomJoinLastQueryTime = CommonTime();
+	ServerRoomJoinLastQuery = roomName;
+
+	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
+		ServerSocket.once("ChatRoomSearchResponse", (data) => {
+			if (data === "JoinedRoom") {
+				resolve(roomName);
+			} else if (data === "RoomKicked") {
+				// We… shouldn't get that one while joining
+			} else {
+				reject(new ServerJoinError(data));
+			}
+		});
+
+		ServerSend("ChatRoomJoin", { Name: roomName });
+	});
+}
