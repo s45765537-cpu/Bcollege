@@ -3267,8 +3267,16 @@ interface ItemPropertiesCustom {
 
 	/** Asset name of the lock */
 	LockedBy?: AssetLockType;
-	/** The member number of the person that applied the lock */
-	LockMemberNumber?: number | string;
+	/**
+	 * The member number of the person that applied the lock.
+	 * If set to a positive number, LockMemberName is the name of the character that added the lock.
+	 * Otherwise it's either -1 and the name of an NPC, or null and a message.
+	 */
+	LockMemberNumber?: number;
+	/** The member name of the person that applied the lock */
+	LockMemberName?: string;
+	/** A short message describing where the lock comes from. Only used by the Nursery and KD */
+	LockMessage?: string;
 	/** `/^[A-Z]{1,8}$/`, Used by `PasswordPadlock`, `SafewordPadlock` and `TimerPasswordPadlock` lock */
 	Password?: string;
 	/** Comma separated numbers */

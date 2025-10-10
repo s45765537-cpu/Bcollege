@@ -436,9 +436,9 @@ function PandoraDress(C, Type) {
 	if (Type == "Slave") {
 		CharacterNaked(C);
 		InventoryWear(C, "StrictPostureCollar", "ItemNeck", "#FFD700");
-		InventoryLock(C, "ItemNeck", "PandoraPadlock", -1);
+		InventoryLock(C, "ItemNeck", "PandoraPadlock", "Property of the Pandora Club");
 		InventoryWear(C, "MetalChastityBelt", "ItemPelvis", "#FFD700");
-		InventoryLock(C, "ItemPelvis", "PandoraPadlock", -1);
+		InventoryLock(C, "ItemPelvis", "PandoraPadlock", "Property of the Pandora Club");
 		CharacterRefresh(C, false);
 		return;
 	}

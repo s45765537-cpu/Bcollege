@@ -1992,7 +1992,7 @@ function DialogPermissionsClick(ClickItem, CurrentItem=null) {
  * @param {null | Item} CurrentItem
  */
 function DialogLockingClick(ClickedLock, C, CurrentItem=null) {
-	InventoryLock(C, CurrentItem, ClickedLock, Player.MemberNumber);
+	InventoryLock(C, CurrentItem, ClickedLock, Player);
 	IntroductionJobProgress("DomLock", ClickedLock.Asset.Name, true);
 	if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickedLock)) {
 		DialogLeave();

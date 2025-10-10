@@ -119,7 +119,7 @@ function CollegeTeacherMildredLoveChange(LoveChange, Event) {
 	if ((LoveChange != null) && (parseInt(LoveChange) < 0)) CharacterSetFacialExpression(CollegeTeacherMildred, "Eyes", "Dazed", 2);
 	if ((LoveChange != null) && (parseInt(LoveChange) > 0)) CharacterSetFacialExpression(CollegeTeacherMildred, "Blush", "Low", 2);
 	if (Event == "Pillory") InventoryWear(Player, "Pillory", "ItemArms");
-	if (Event == "Lock") InventoryLock(Player, "ItemArms", "IntricatePadlock", -1);
+	if (Event == "Lock") InventoryLock(Player, "ItemArms", "IntricatePadlock", CollegeTeacherMildred);
 	if (Event == "Crop") {
 		InventoryWear(CollegeTeacherMildred, "Crop", "ItemHandheld");
 	}

@@ -770,11 +770,11 @@ function PrisonArrestShackle() {
 	CharacterRelease(Player);
 	if (PrisonBehavior > 0) {
 		InventoryWear(Player, "FullBodyShackles", "ItemArms");
-		InventoryLock(Player, "ItemArms", "MetalPadlock");
+		InventoryLock(Player, "ItemArms", "MetalPadlock", PrisonPolice);
 
 	} else {
 		InventoryWear(Player, "Manacles", "ItemArms");
-		InventoryLock(Player, "ItemArms", "IntricatePadlock");
+		InventoryLock(Player, "ItemArms", "IntricatePadlock", PrisonPolice);
 		InventoryWear(Player, "SpiderGag", "ItemMouth");
 	}
 }

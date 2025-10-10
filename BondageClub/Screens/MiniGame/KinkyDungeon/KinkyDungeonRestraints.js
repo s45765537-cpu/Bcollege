@@ -549,21 +549,21 @@ function KinkyDungeonIsLockable(restraint) {
  * @param {string} lock
  */
 function KinkyDungeonLock(item, lock) {
+	const group = /** @type {AssetGroupItemName} */(KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group);
 	if (lock != "") {
 		if (KinkyDungeonIsLockable(KDRestraint(item))) {
 			item.lock = lock;
 			if (lock == "Gold") item.lockTimer = MiniGameKinkyDungeonLevel + 2;
 			if (!StandalonePatched)
-				InventoryLock(KinkyDungeonPlayer, InventoryGet(KinkyDungeonPlayer, KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group), "IntricatePadlock", Player.MemberNumber, true);
+				InventoryLock(KinkyDungeonPlayer, InventoryGet(KinkyDungeonPlayer, group), "IntricatePadlock", "A kinky lock", true);
 			item.pickProgress = 0;
-			if (ArcadeDeviousChallenge && InventoryGet(KinkyDungeonPlayer,  KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group) && !KinkyDungeonRestraintsLocked.includes(KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group)) {
-				InventoryLock(Player, InventoryGet(Player,  KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group), "IntricatePadlock", null, false);
+			if (ArcadeDeviousChallenge && InventoryGet(KinkyDungeonPlayer, group) && !KinkyDungeonRestraintsLocked.includes(group)) {
+				InventoryLock(Player, InventoryGet(Player, group), "IntricatePadlock", "A deviously kinky lock", false);
 				KinkyDungeonPlayerNeedsRefresh = true;
 			}
 		}
 	} else {
 		item.lock = lock;
-		const group = /** @type {AssetGroupItemName} */ (KDRestraint(item).AssetGroup ? KDRestraint(item).AssetGroup : KDRestraint(item).Group);
 		InventoryUnlock(KinkyDungeonPlayer, group);
 		if (!KinkyDungeonRestraintsLocked.includes(group))
 			InventoryUnlock(Player, group);

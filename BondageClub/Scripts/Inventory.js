@@ -717,7 +717,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 
 	// Applies a lock to the item
 	if (Craft.Lock != "") {
-		InventoryLock(Target, Item, Craft.Lock, Source?.MemberNumber, false);
+		InventoryLock(Target, Item, Craft.Lock, Source, false);
 	}
 
 	// Update the item's difficulty
@@ -1451,10 +1451,10 @@ function InventoryDoesItemAllowLock(item) {
  * @param {Character} C - The character on which the lock must be applied
  * @param {Item|AssetGroupName} Item - The item from appearance to lock
  * @param {Item|AssetLockType} Lock - The asset of the lock or the name of the lock asset
- * @param {null|number|string} [MemberNumber] - The member number to put on the lock, or message to show
+ * @param {null|Character|string} [AppliedBy] - The member number to put on the lock, or message to show
  * @param {boolean} [Update=true] - Whether or not to update the character
  */
-function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
+function InventoryLock(C, Item, Lock, AppliedBy = null, Update = true) {
 	if (typeof Item === 'string') Item = InventoryGet(C, Item);
 	if (typeof Lock === 'string') Lock = { Asset: AssetGet(C.AssetFamily, "ItemMisc", Lock) };
 	if (!Item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(Item)) return;
@@ -1466,9 +1466,22 @@ function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
 	if (Item.Property == null) Item.Property = {};
 	if (Item.Property.Effect == null) Item.Property.Effect = [];
 	if (Item.Property.Effect.indexOf("Lock") < 0) Item.Property.Effect.push("Lock");
-	if (!Item.Property.MemberNumberListKeys && Lock.Asset.Name == "HighSecurityPadlock") Item.Property.MemberNumberListKeys = "" + MemberNumber;
+
 	Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
-	if (MemberNumber != null) Item.Property.LockMemberNumber = MemberNumber;
+
+	if (typeof AppliedBy === "string") {
+		Item.Property.LockMessage = AppliedBy;
+	} else if (CommonIsInteger(AppliedBy) || CommonIsCharacter(AppliedBy)) {
+		const char = CommonIsInteger(AppliedBy) ?
+			Character.find(c => c.MemberNumber === AppliedBy) : AppliedBy;
+		if (char.IsNpc()) {
+			Item.Property.LockMemberNumber = -1;
+			Item.Property.LockMemberName = `${AppliedBy.Title ? AppliedBy.Title + " " : ""}${AppliedBy.Name}`;
+		} else if (char.IsOnline()) {
+			Item.Property.LockMemberNumber = AppliedBy.MemberNumber;
+			Item.Property.LockMemberName = AppliedBy.Name;
+		}
+	}
 
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
 	const args = [C, Item, false, false];
@@ -1496,17 +1509,17 @@ function InventoryUnlock(C, Item, refreshDialog=true) {
 * Applies a random lock on an item
 * @param {Character} C - The character on which the item must be locked
 * @param {Item} Item - The item from appearance to lock
-* @param {Boolean} FromOwner - Set to TRUE if the source is the owner, to apply owner locks
+* @param {Character} AppliedBy - Set to TRUE if the source is the owner, to apply owner locks
 */
-function InventoryLockRandom(C, Item, FromOwner) {
+function InventoryLockRandom(C, Item, AppliedBy) {
 	if (InventoryDoesItemAllowLock(Item)) {
 		var List = [];
 		for (let A = 0; A < Asset.length; A++)
-			if (Asset[A].IsLock && Asset[A].Random && !Asset[A].LoverOnly && !Asset[A].FamilyOnly && (FromOwner || !Asset[A].OwnerOnly))
+			if (Asset[A].IsLock && Asset[A].Random && !Asset[A].LoverOnly && !Asset[A].FamilyOnly && (AppliedBy.IsOwner() || !Asset[A].OwnerOnly))
 				List.push(Asset[A]);
 		if (List.length > 0) {
-			var Lock = { Asset: InventoryGetRandom(C, null, List) };
-			InventoryLock(C, Item, Lock);
+			const Lock = { Asset: InventoryGetRandom(C, null, List) };
+			InventoryLock(C, Item, Lock, AppliedBy);
 		}
 	}
 }
@@ -1514,12 +1527,12 @@ function InventoryLockRandom(C, Item, FromOwner) {
 /**
 * Applies random locks on each character items that can be locked
 * @param {Character} C - The character on which the items must be locked
-* @param {Boolean} FromOwner - Set to TRUE if the source is the owner, to apply owner locks
+* @param {Character} AppliedBy - Set to TRUE if the source is the owner, to apply owner locks
 */
-function InventoryFullLockRandom(C, FromOwner) {
+function InventoryFullLockRandom(C, AppliedBy) {
 	for (let I = 0; I < C.Appearance.length; I++)
 		if (InventoryGetLock(C.Appearance[I]) == null)
-			InventoryLockRandom(C, C.Appearance[I], FromOwner);
+			InventoryLockRandom(C, C.Appearance[I], AppliedBy);
 }
 
 /**
@@ -1527,11 +1540,11 @@ function InventoryFullLockRandom(C, FromOwner) {
 * @param {Character} C - The character on which the items must be locked
 * @param {AssetLockType} LockType - The lock type to apply
 */
-function InventoryFullLock(C, LockType) {
+function InventoryFullLock(C, LockType, AppliedBy) {
 	if ((C != null) && (LockType != null))
 		for (let I = 0; I < C.Appearance.length; I++)
 			if (InventoryDoesItemAllowLock(C.Appearance[I]))
-				InventoryLock(C, C.Appearance[I], LockType, null);
+				InventoryLock(C, C.Appearance[I], LockType, AppliedBy);
 }
 
 /**
