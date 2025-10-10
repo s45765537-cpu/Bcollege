@@ -21793,8 +21793,7 @@ var AssetFemale3DCGExtended = {
 									"Assets/Female3DCG/ItemHandheld/Plushie_VoidPsyker.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Dante.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Dante.png",
 							},
 							{
 								imagePath:
