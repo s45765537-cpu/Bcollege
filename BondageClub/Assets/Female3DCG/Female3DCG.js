@@ -35812,7 +35812,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "HempRope",
 				InventoryID: 200,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Rope"],
 				Value: 60,
 				Difficulty: 3,
@@ -35829,6 +35828,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "",
+						StyleOverride: ["EchoV2"],
 						CreateLayerTypes: ["typed"],
 						StyleOverride: ["EchoV2"],
 						CreateLayerTypesOverride: [1, 2, 3, 6, 7, 9, 12, 13, 15],
