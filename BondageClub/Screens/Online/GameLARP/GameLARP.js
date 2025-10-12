@@ -210,8 +210,21 @@ function GameLARPRunProcess() {
 
 			// Draw all the possible options
 			DrawCharacter(GameLARPTurnFocusCharacter, 500, 0, 1);
-			for (let O = 0; O < GameLARPOption.length; O++)
-				DrawButton(50, 35 + (O * 100), 400, 65, OnlineGameDictionaryText("Option" + GameLARPOption[O].Name).replace("OptionOdds", Math.round(GameLARPOption[O].Odds * 100).toString()), "White");
+
+			for (let O = 0; O < GameLARPOption.length; O++) {
+				const option = GameLARPOption[O];
+
+				// Prepare substitutions for this option using full pronoun substitution
+				const substitutions = GameLARPBuildSubstitutions(Player, GameLARPTurnFocusCharacter, "", null, option.Odds);
+			 	substitutions.push(["OptionOdds", Math.round(option.Odds * 100).toString()]);
+
+				// Get the dictionary text and apply substitutions
+				const buttonText = CommonStringSubstitute(OnlineGameDictionaryText("Option" + option.Name), substitutions);
+
+				// Draw the button
+				DrawButton(50, 35 + (O * 100), 400, 65, buttonText, "White");
+			}
+
 			DrawButton(50, 900, 400, 65, OnlineGameDictionaryText("BackToCharacters"), "White");
 
 			// Draw the timer
@@ -784,31 +797,62 @@ function GameLARPCharacterClick(C) {
 }
 
 /**
+ * Builds a universal substitution array for LARP messages/options.
+ * @param {Character} Source - Source character
+ * @param {Character} Target - Target character
+ * @param {string} Description - Item/team description
+ * @param {number} RNG - Random number
+ * @param {number} Odds - Odds number
+ * @returns {CommonSubtituteSubstitution[]} - Array of placeholder substitutions
+ */
+function GameLARPBuildSubstitutions(Source, Target, Description, RNG, Odds) {
+	/** @type {CommonSubtituteSubstitution[]} */
+	const substitutions = [];
+
+	// Source
+	if (Source) {
+		substitutions.push(["SourceName", Source.Name]);
+		substitutions.push(["SourceNumber", Source.MemberNumber.toString()]);
+		substitutions.push(...ChatRoomPronounSubstitutions(Source, "SourcePronoun", false));
+	}
+
+	// Target
+	if (Target) {
+		substitutions.push(["TargetName", Target.Name]);
+		substitutions.push(["TargetNumber", Target.MemberNumber.toString()]);
+		substitutions.push(...ChatRoomPronounSubstitutions(Target, "TargetPronoun", false));
+	}
+
+	// Other placeholders
+	if (RNG != null) substitutions.push(["ActionRNG", Math.round(RNG * 100).toString()]);
+	if (Odds != null) substitutions.push(["ActionOdds", Math.round(Odds * 100).toString()]);
+	if (Description) {
+		substitutions.push(["ItemDesc", Description]);
+		substitutions.push(["TeamName", Description]);
+	}
+
+	return substitutions;
+}
+
+/**
  * Adds a LARP message to the chat log.
- * @param {string} Msg - Message tag
+ * @param {string} Msg - Message tag from the dictionary
  * @param {Character} Source - Source character of the message
- * @param {Character} Target - Character targetted by the message
- * @param {string} Description - Description of the message (item name, team name, etc.)
- * @param {number} RNG - The number given by RNG.
- * @param {number} Odds - The number required for the move to work.
- * @param {string} [Color] - Color of the message to add.
- * @returns {void} - Nothing
+ * @param {Character} Target - Target character of the message
+ * @param {string} Description - Item, team, or effect description
+ * @param {number} RNG - The RNG roll (0–1 float)
+ * @param {number} Odds - The odds required for the move to work (0–1 float)
+ * @param {string} [Color] - Optional color of the message
+ * @returns {void}
  */
 function GameLARPAddChatLog(Msg, Source, Target, Description, RNG, Odds, Color) {
 
 	// The first message of the game is blue
 	if (GameLARPProgress.length == 0) Color = "#0000B0";
 
-	// Gets the message from the dictionary
+	// Get dictionary text and apply substitutions
 	Msg = OnlineGameDictionaryText(Msg);
-	Msg = Msg.replace("SourceName", Source.Name);
-	Msg = Msg.replace("SourceNumber", Source.MemberNumber.toString());
-	Msg = Msg.replace("TargetName", Target.Name);
-	Msg = Msg.replace("TargetNumber", Target.MemberNumber.toString());
-	Msg = Msg.replace("ActionRNG", Math.round(RNG * 100).toString());
-	Msg = Msg.replace("ActionOdds", Math.round(Odds * 100).toString());
-	Msg = Msg.replace("ItemDesc", Description);
-	Msg = Msg.replace("TeamName", Description);
+	Msg = CommonStringSubstitute(Msg, GameLARPBuildSubstitutions(Source, Target, Description, RNG, Odds));
 
 	// Adds the message and scrolls down unless the user has scrolled up
 	var div = document.createElement("div");
