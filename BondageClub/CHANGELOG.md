@@ -11,21 +11,25 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-10-04
-* Last recorded PR: [#5888](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5888)
-* Last recorded commit hash: `956dc418069685ad638c5f5daf40d00368ad0e5f`
+* Changelog last updated: 2025-10-12
+* Last recorded PR: [#5916](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5916)
+* Last recorded commit hash: `f8af6dd5cee8cb44900af6b8a26cda666349838d`
 
 ## [R121]
 
 ### [Changes]
 
 * gatetrek - Add new Hemp rope harness ([#5897](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5897))
+* gatetrek - Added, Nylon harness ([#5899](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5899))
 * Cleon - Eight new items, LargeBeltClassic, RubberMask minor fixes and more. ([#5863](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5863))
 * NeverNewer - Music Syncing Across Clients ([#5815](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5815))
 * Sin - Added BeadNecklace with custom pendants by Xenodragon20 ([#5877](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5877))
 * Sin - Added several new plushies.. ([#5879](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5879))
 * Sin - Adds Eldritch and Plant necklaces by Xenodragon20 ([#5889](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5889))
 * Sin - Added several new EchoV2 port items to Cloth Accessory, Clorth Lower, Glasses ([#5888](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5888))
+* Sin - Added Sarah Jade Kelly plushie and Fixes Dante plushie. ([#5907](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5907))
+* Sin - Adds a Fall version of the OakTree for map view by @RavenCreative ([#5908](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5908))
+* Sin - Added Dante plushie, Drawn by @RavenCreative ([#5901](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5901))
 * Zoe - Added audio to a large amount of items ([#5867](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5867))
 * Zoe - Refactor chat search help dialog ([#5865](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5865))
 * dDeepLb - Update preference screen to DOM ([#5709](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5709))
@@ -38,6 +42,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Remove the Show Full Rooms settings from the Online settings screen ([#5851](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5851))
 * Estsanatlehi - Tweak the rules around super powers and hearing ranges ([#5843](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5843))
 * Estsanatlehi - Disable the lobby switcher instead of hiding it ([#5892](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5892))
+* Estsanatlehi - Copy the Hoodie to the ClothOuter group ([#5906](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5906))
 * Ben987 - 200 Crafting Slots
 * Ben987 - 300 characters for room description
 * Ben987 - 240 Rooms per search
@@ -49,15 +54,21 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sin - Fixes flower dress for EchoV2 Body ([#5874](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5874))
 * Sin - Fixed nipple items for EchoV2 ([#5882](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5882))
 * Sin - Fixed Demon Butt Plug for EchoV2 Body ([#5887](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5887))
-* dDeepLb - command crash cause by an undefined variable ([#5837](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5837))
-* dDeepLb - refactor timers ([#5838](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5838))
+* Sin - Fixes HempRope suspension and inverted suspension for EchoV2 Body ([#5915](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5915))
+* Sin - Relayers the stand layer so it doesn't overlap the hinges, centers the mic to the character's mouth ([#5916](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5916))
 * Zoe - Fix map movement controls and search UI improvements ([#5836](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5836))
 * Zoe - Remove redundant toasts from chat search ([#5841](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5841))
 * Zoe - Fix hiding rooms in room search ([#5845](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5845))
+* dDeepLb - command crash cause by an undefined variable ([#5837](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5837))
+* dDeepLb - refactor timers ([#5838](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5838))
 * dDeepLb - Fix help keep popping up when it shouldn't ([#5869](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5869))
 * dDeepLb - Cannot read properties of null (reading 'Game') on login page ([#5871](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5871))
 * dDeepLb - Fix preference ([#5872](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5872))
 * Rama - Fix the CraftingJSON functions still using the old max number of crafted items ([#5868](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5868))
+* Rama - Ensure that the crafting properties of incoming items are always validated ([#5902](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5902))
+* Rama - Make `ServerIsLoggedInPromise` safer to use ([#5903](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5903))
+* Rama - Fix a preference extension screen crash upon performing clicks ([#5904](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5904))
+* Rama - Fix border-width being broken in the friend list ([#5905](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5905))
 * Estsanatlehi - Stop clamping the page count to 1 ([#5839](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5839))
 * Estsanatlehi - Fix the appearance previews not refreshing after their load completes ([#5840](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5840))
 * Estsanatlehi - Initialize the map properly when switching modes ([#5833](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5833))
@@ -75,6 +86,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Fix a crash when entering a room without a LastChatRoom set ([#5885](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5885))
 * Estsanatlehi - Remove the extra m from that function ([#5884](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5884))
 * Estsanatlehi - Fix ChatRoomGame not being actually connected to the search ([#5891](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5891))
+* Estsanatlehi - Only set the return screen for the profile screen if it's not already set ([#5909](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5909))
+* Estsanatlehi - Revert "Music Syncing Across Clients" ([#5910](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5910))
 * Ben987 - Fix Slave training crash on second slave + Check status doesn't update
 * Ben987 - Fix Assets BuyGroup and InventoryID
 
@@ -89,7 +102,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - FIX CI ([#5883](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5883))
 * Estsanatlehi - Implement a new method for creating a lobby ([#5894](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5894))
 * Estsanatlehi - Make ServerIsLoggedIn a function again ([#5890](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5890))
-
+* Estsanatlehi - Whitespace ([#5898](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5898))
+* Estsanatlehi - More Whitespace ([#5912](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5912))
 
 ## [R120]
 
