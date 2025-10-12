@@ -848,14 +848,24 @@ var ElementCheckboxDropdown = {
  *     </datalist>
  * </input>
  * @param {string | null} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
- * @param {() => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
+ * @param {(searchInput: HTMLInputElement) => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
  * @param {Object} [options]
  * @param {string} [options.value] - Value of the search input
  * @param {Node} [options.parent] - The parent element of the search input; defaults to {@link document.body}
  * @param {number} [options.maxLength] - Maximum input length of the search input
+ * @param {number} [options.minLength] - Minimum input length of the search input
+ * @param {number} [options.size]
+ * @param {string} [options.placeholder]
+ * @param {string} [options.name]
+ * @param {boolean} [options.disabled]
+ * @param {boolean} [options.spellcheck]
+ * @param {string | RegExp} [options.pattern]
+ * @param {(this: HTMLInputElement, ev: Event) => void} [options.onInput]
+ * @param {(this: HTMLInputElement, ev: KeyboardEvent) => void} [options.onKeydown]
+ * @param {null | Partial<Record<"search", Omit<HTMLOptions<"input">, "tag">>>} htmlOptions
  * @returns {HTMLInputElement} - The newly created search input
  */
-function ElementCreateSearchInput(id, dataCallback, options=undefined) {
+function ElementCreateSearchInput(id, dataCallback, options=undefined, htmlOptions=null) {
 	id ??= ElementGenerateID();
 	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
 	if (elem) {
@@ -864,19 +874,46 @@ function ElementCreateSearchInput(id, dataCallback, options=undefined) {
 	}
 
 	options ??= {};
-	elem = ElementCreateInput(id, "search", options.value, options.maxLength, options.parent);
-	elem.appendChild(ElementCreate({ tag: "datalist", attributes: { id: `${id}-datalist` } }));
-	elem.setAttribute("list", `${id}-datalist`);
-	elem.addEventListener("focus", async function() {
-		if (this.list?.children.length !== 0) {
-			return;
-		}
+	htmlOptions ??= {};
+	htmlOptions.search ??= {};
+	return ElementCreate({
+		...htmlOptions.search,
+		tag: "input",
+		parent: options.parent,
+		attributes: {
+			id,
+			type: "search",
+			size: options.size ?? 0,
+			list: `${id}-datalist`,
+			name: options.name,
+			value: options.value,
+			disabled: options.disabled,
+			minlength: options.minLength,
+			maxlength: options.maxLength,
+			placeholder: options.placeholder,
+			spellcheck: typeof options.spellcheck === "boolean" ? options.spellcheck.toString() : undefined,
+			pattern: options.pattern instanceof RegExp ? options.pattern.source : options.pattern,
+			...(htmlOptions.search.attributes ?? {}),
+		},
+		children: [
+			ElementCreate({ tag: "datalist", attributes: { id: `${id}-datalist` } }),
+			...(htmlOptions.search.children ?? []),
+		],
+		eventListeners: {
+			async focus() {
+				if (this.list?.children.length !== 0) {
+					return;
+				}
 
-		for (const value of dataCallback()) {
-			this.list.appendChild(ElementCreate({ tag: "option", attributes: { value } }));
-		}
+				for (const value of dataCallback(this)) {
+					this.list.appendChild(ElementCreate({ tag: "option", attributes: { value } }));
+				}
+			},
+			input: options.onInput,
+			keydown: options.onKeydown,
+			...(htmlOptions.search.eventListeners ?? {}),
+		},
 	});
-	return elem;
 }
 
 /**

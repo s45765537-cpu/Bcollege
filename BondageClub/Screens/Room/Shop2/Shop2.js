@@ -710,30 +710,35 @@ var Shop2 = {
 				}
 
 				// We've got a caching related race condition going on for `TextGet("InputSearch")`, so hard code the english text as fallback
-				elem = ElementCreateSearchInput("Shop2InputSearch", () => {
-					switch (Shop2Vars.Mode) {
-						case "Preview":
-							return new Set(Shop2Vars.PreviewItems.map(i => i.Asset.Description).sort());
-						case "Buy":
-							return new Set(Shop2Vars.BuyItems.map(i => i.Asset.Description).sort());
-						case "Sell":
-							return new Set(Shop2Vars.SellItems.map(i => i.Asset.Description).sort());
-						default:
-							return new Set();
-					}
-				});
-				elem.placeholder = TextGet("InputSearch");
-				elem.addEventListener("input", () => {
-					if (!elem.value) {
-						delete Shop2Vars.Filters.Keyword;
-					} else {
-						Shop2Vars.Filters.Keyword = (item) => {
-							const description = item.Asset.Description.toUpperCase();
-							return description.includes(elem.value.toUpperCase().trim()) ? ["Buy", "Sell", "Preview"] : [];
-						};
-					}
-					Shop2.ApplyItemFilters(false);
-				});
+				elem = ElementCreateSearchInput(
+					"Shop2InputSearch",
+					() => {
+						switch (Shop2Vars.Mode) {
+							case "Preview":
+								return new Set(Shop2Vars.PreviewItems.map(i => i.Asset.Description).sort());
+							case "Buy":
+								return new Set(Shop2Vars.BuyItems.map(i => i.Asset.Description).sort());
+							case "Sell":
+								return new Set(Shop2Vars.SellItems.map(i => i.Asset.Description).sort());
+							default:
+								return new Set();
+						}
+					},
+					{
+						placeholder: TextGet("InputSearch"),
+						onInput() {
+							if (!this.value) {
+								delete Shop2Vars.Filters.Keyword;
+							} else {
+								Shop2Vars.Filters.Keyword = (item) => {
+									const description = item.Asset.Description.toUpperCase();
+									return description.includes(this.value.toUpperCase().trim()) ? ["Buy", "Sell", "Preview"] : [];
+								};
+							}
+							Shop2.ApplyItemFilters(false);
+						},
+					},
+				);
 			},
 			Draw: (...coords) => {
 				ElementPositionFixed("Shop2InputSearch", ...coords);

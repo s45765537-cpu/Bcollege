@@ -69,7 +69,11 @@ let ClubCardBuilderReturnToChatroom = false;
 function ClubCardBuilderLoadDeck(Deck) {
 	// create the editor's elements
 	ElementCreateDropdown("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), ClubCardBuilderTagChanged);
-	ElementCreateSearchInput("CardsSearchFilter", () => ClubCardList.map(i => ClubCardTextGet(i))).addEventListener("input", ClubCardBuilderInputChanged);
+	ElementCreateSearchInput(
+		"CardsSearchFilter",
+		() => ClubCardList.map(i => ClubCardTextGet(i)),
+		{ onInput: ClubCardBuilderInputChanged },
+	);
 
 	// Loads the default deck if no deck exists or the deck is invalid
 	ClubCardBuilderDeckIndex = Deck;
