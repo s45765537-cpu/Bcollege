@@ -1488,7 +1488,7 @@ var ElementButton = {
 	/**
 	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
-	 * @param {(this: HTMLButtonElement, ev: PointerEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ((this: HTMLButtonElement, ev: PointerEvent) => any)} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
@@ -1638,7 +1638,9 @@ var ElementButton = {
 				elem.addEventListener(name, /** @type {EventListener} */(listener));
 			}
 		}
-		elem.addEventListener("click", onClick);
+		if (onClick) {
+			elem.addEventListener("click", onClick);
+		}
 
 		if (options.disabled) {
 			const menuItemRoles = ["menuitem", "menuitemradio", "menuitemcheckbox"];
@@ -1656,7 +1658,7 @@ var ElementButton = {
 	 * @param {string | null} idPrefix - The ID of the to-be created search button
 	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
 	 * @param {null | Character} C - The character wearing the asset/item (if any)
-	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ((this: HTMLButtonElement, ev: PointerEvent) => any)} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
