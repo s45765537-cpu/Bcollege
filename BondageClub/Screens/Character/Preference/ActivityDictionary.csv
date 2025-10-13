@@ -289,6 +289,7 @@ Label-ChatOther-ItemMouth-GagKiss,Kiss on Gag
 Label-ChatOther-ItemMouth-HandGag,Clamp Hand over Mouth
 Label-ChatOther-ItemMouth-Kiss,Kiss Lips
 Label-ChatOther-ItemMouth-Lick,Lick Lips
+Label-ChatOther-ItemMouth-MasturbateHand,Finger Mouth
 Label-ChatOther-ItemMouth-Nibble,Nibble Lips
 Label-ChatOther-ItemMouth-PenetrateFast,Fast Penetration
 Label-ChatOther-ItemMouth-PenetrateSlow,Slow Penetration
@@ -600,6 +601,7 @@ Label-ChatSelf-ItemMouth-Clean,Clean Mouth
 Label-ChatSelf-ItemMouth-EatItem,Eat
 Label-ChatSelf-ItemMouth-HandGag,Clamp Hand over Mouth
 Label-ChatSelf-ItemMouth-Lick,Lick Lips
+Label-ChatSelf-ItemMouth-MasturbateHand,Finger Mouth
 Label-ChatSelf-ItemMouth-MoanGag,Moan
 Label-ChatSelf-ItemMouth-MoanGagAngry,Scream Furiously
 Label-ChatSelf-ItemMouth-MoanGagGiggle,Giggle
@@ -898,6 +900,7 @@ ChatOther-ItemMouth-GagKiss,SourceCharacter gives TargetCharacter a kiss on Targ
 ChatOther-ItemMouth-HandGag,SourceCharacter clamps PronounPossessive hand over TargetCharacter's mouth.
 ChatOther-ItemMouth-Kiss,SourceCharacter kisses TargetCharacter's lips.
 ChatOther-ItemMouth-Lick,SourceCharacter licks TargetCharacter's lips.
+ChatOther-ItemMouth-MasturbateHand,SourceCharacter shoves PronounPossessive fingers in TargetCharacter's mouth.
 ChatOther-ItemMouth-Nibble,SourceCharacter nibbles TargetCharacter's lips.
 ChatOther-ItemMouth-PenetrateFast,SourceCharacter roughly penetrates TargetCharacter's mouth with PronounPossessive ActivityAsset.
 ChatOther-ItemMouth-PenetrateSlow,SourceCharacter slowly penetrates TargetCharacter's mouth with PronounPossessive ActivityAsset.
@@ -1206,6 +1209,7 @@ ChatSelf-ItemMouth-Clean,SourceCharacter wipes PronounPossessive mouth clean.
 ChatSelf-ItemMouth-EatItem,SourceCharacter eats some ActivityAsset.
 ChatSelf-ItemMouth-HandGag,SourceCharacter clamps PronounPossessive hand over PronounPossessive mouth.
 ChatSelf-ItemMouth-Lick,SourceCharacter licks PronounPossessive lips.
+ChatSelf-ItemMouth-MasturbateHand,SourceCharacter fingers PronounPossessive mouth.
 ChatSelf-ItemMouth-MoanGag,SourceCharacter moans into PronounPossessive gag.
 ChatSelf-ItemMouth-MoanGagAngry,SourceCharacter screams furiously into PronounPossessive gag.
 ChatSelf-ItemMouth-MoanGagGiggle,SourceCharacter giggles into PronounPossessive gag.
