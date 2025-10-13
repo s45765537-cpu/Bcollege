@@ -1785,21 +1785,25 @@ var CommonKey = /** @type {const} */({
 			return false;
 		}
 
+		const ctrl = navigator.userAgent.includes("Mac") ? CommonKey.META : CommonKey.CTRL;
 		const modifiers = CommonKey.GetModifiers(ev);
-		validateKey: if (ev.key.length === 1 && (!modifiers || modifiers === CommonKey.SHIFT)) {
+		if (ev.key.length === 1 && (!modifiers || modifiers === CommonKey.SHIFT)) {
 			if (inputElem.maxLength === -1 || inputElem.value.length < inputElem.maxLength) {
 				inputElem.value += ev.key;
 			}
+			inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
 		} else if (ev.key === "Backspace" && !modifiers) {
 			inputElem.value = inputElem.value.slice(0, -1);
+			inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
 		} else if ((ev.key === "Enter" || ev.key === "Delete" || ev.key === "Insert") && !modifiers) {
-			break validateKey;
+			inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
+		} else if (ev.key === "a" && modifiers === ctrl) {
+			inputElem.setSelectionRange(0, inputElem.value.length);
 		} else {
 			return false;
 		}
 
 		inputElem.focus();
-		inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
 		inputElem.dispatchEvent(new InputEvent("input"));
 		return true;
 	},
