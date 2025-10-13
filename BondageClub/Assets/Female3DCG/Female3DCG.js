@@ -5806,7 +5806,7 @@ var AssetFemale3DCG = [
 						Name: "OrbBase",
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: [6] },
-						Top: 208,
+						Top: 218,
 						Left: 191,
 					},
 					{
@@ -5814,7 +5814,7 @@ var AssetFemale3DCG = [
 						ColorGroup: "Shine",
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: [6] },
-						Top: 208,
+						Top: 218,
 						Left: 191,
 					},
 					{
@@ -5822,7 +5822,7 @@ var AssetFemale3DCG = [
 						ColorGroup: "CursedEye",
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: [7] },
-						Top: 204,
+						Top: 214,
 						Left: 196,
 					},
 					{
@@ -5830,7 +5830,7 @@ var AssetFemale3DCG = [
 						ColorGroup: "CursedEye",
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: [7] },
-						Top: 204,
+						Top: 214,
 						Left: 196,
 					},
 					{
@@ -5838,7 +5838,7 @@ var AssetFemale3DCG = [
 						ColorGroup: "CursedEye",
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: [7] },
-						Top: 204,
+						Top: 214,
 						Left: 196,
 					},
 					{
@@ -5846,7 +5846,7 @@ var AssetFemale3DCG = [
 						ColorGroup: "Shine",
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: [7] },
-						Top: 204,
+						Top: 214,
 						Left: 196,
 					},
 					{
