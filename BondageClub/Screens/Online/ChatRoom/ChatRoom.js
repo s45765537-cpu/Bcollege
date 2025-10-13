@@ -5290,6 +5290,7 @@ function ChatRoomSyncItem(data) {
 					valid = false;
 					break item;
 				}
+				wornItem.Craft = item.Craft;
 				wornItem.Property = item.Property;
 
 				/** @type {AppearanceDiffMap} */
