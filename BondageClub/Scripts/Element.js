@@ -1486,6 +1486,87 @@ var ElementButton = {
 	},
 
 	/**
+	 * Set the `[role]` attribute of the passed button
+	 * @param {HTMLButtonElement} button
+	 * @param {null | ElementButton.Options["role"]} role
+	 */
+	SetRole: function SetRole(button, role) {
+		const oldRole = button.getAttribute("role");
+		if (oldRole === role) {
+			return;
+		}
+
+		switch (oldRole) {
+			case "radio":
+				button.removeEventListener("click", ElementButton._ClickRadio);
+				button.removeEventListener("keydown", ElementButton._KeyDownRadio);
+				break;
+			case "menuitemradio":
+				button.removeEventListener("click", ElementButton._ClickRadio);
+				break;
+			case "combobox":
+			case "switch":
+			case "checkbox":
+			case "menuitemcheckbox":
+				button.removeEventListener("click", ElementButton._ClickCheckbox);
+				break;
+			case "spinbutton": {
+				button.removeEventListener("click", ElementButton._ClickSpin);
+				button.removeEventListener("keydown", ElementButton._KeyDownSpin);
+				break;
+			}
+		}
+
+		if (role == null) {
+			button.removeAttribute("role");
+			return;
+		} else {
+			button.setAttribute("role", role);
+		}
+		switch (role) {
+			case "radio":
+			case "menuitemradio":
+				button.addEventListener("click", ElementButton._ClickRadio);
+				if (!button.getAttribute("aria-checked")) {
+					button.setAttribute("aria-checked", "false");
+				}
+
+				if (role === "radio") {
+					button.addEventListener("keydown", ElementButton._KeyDownRadio);
+					if (button.getAttribute("tabindex") == null) {
+						button.tabIndex = button.getAttribute("aria-checked") === "true" ? 0 : -1;
+					}
+				}
+				break;
+			case "combobox":
+			case "switch":
+			case "checkbox":
+			case "menuitemcheckbox":
+				button.addEventListener("click", ElementButton._ClickCheckbox);
+				if (!button.getAttribute("aria-checked")) {
+					button.setAttribute("aria-checked", "false");
+				}
+				if (role === "combobox" && !button.hasAttribute("aria-expanded")) {
+					button.setAttribute("aria-expanded", "false");
+				}
+				break;
+			case "spinbutton": {
+				if (!button.hasAttribute("aria-valuemin")) {
+					button.setAttribute("aria-valuemin", "0");
+				}
+				if (!button.hasAttribute("aria-valuemax")) {
+					button.setAttribute("aria-valuemax", "100");
+				}
+				if (!button.hasAttribute("aria-valuenow")) {
+					button.setAttribute("aria-valuenow", button.getAttribute("aria-valuemin"));
+				}
+				button.addEventListener("click", ElementButton._ClickSpin);
+				button.addEventListener("keydown", ElementButton._KeyDownSpin);
+			}
+		}
+	},
+
+	/**
 	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {null | ((this: HTMLButtonElement, ev: PointerEvent) => any)} onClick - The click event listener to-be attached to the tooltip
@@ -1561,7 +1642,7 @@ var ElementButton = {
 				name: options.name,
 				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
-				role: options.role,
+				// role: options.role, // Assigned further down below via `ElementButton.SetRole`
 				type: "button",
 				tabindex: options.tabindex,
 				"aria-controls": ariaControls,
@@ -1591,46 +1672,9 @@ var ElementButton = {
 			},
 		});
 
-		const role = buttonOptions.attributes?.role ?? options.role;
-		switch (role) {
-			case "radio":
-			case "menuitemradio":
-				elem.addEventListener("click", this._ClickRadio);
-				if (!elem.getAttribute("aria-checked")) {
-					elem.setAttribute("aria-checked", "false");
-				}
-
-				if (role === "radio") {
-					elem.addEventListener("keydown", this._KeyDownRadio);
-					if (elem.getAttribute("tabindex") == null) {
-						elem.tabIndex = elem.getAttribute("aria-checked") === "true" ? 0 : -1;
-					}
-				}
-				break;
-			case "combobox":
-			case "checkbox":
-			case "menuitemcheckbox":
-				elem.addEventListener("click", this._ClickCheckbox);
-				if (!elem.hasAttribute("aria-checked")) {
-					elem.setAttribute("aria-checked", "false");
-				}
-				if (role === "combobox" && !elem.hasAttribute("aria-expanded")) {
-					elem.setAttribute("aria-expanded", "false");
-				}
-				break;
-			case "spinbutton": {
-				if (!elem.hasAttribute("aria-valuemin")) {
-					elem.setAttribute("aria-valuemin", "0");
-				}
-				if (!elem.hasAttribute("aria-valuemax")) {
-					elem.setAttribute("aria-valuemax", "100");
-				}
-				if (!elem.hasAttribute("aria-valuenow")) {
-					elem.setAttribute("aria-valuenow", elem.getAttribute("aria-valuemin"));
-				}
-				elem.addEventListener("click", this._ClickSpin);
-				elem.addEventListener("keydown", this._KeyDownSpin);
-			}
+		const role = /** @type {ElementButton.Options["role"]} */(buttonOptions.attributes?.role ?? options.role);
+		if (role) {
+			ElementButton.SetRole(elem, role);
 		}
 
 		for (const [name, listener] of Object.entries(buttonOptions.eventListeners ?? {})) {
