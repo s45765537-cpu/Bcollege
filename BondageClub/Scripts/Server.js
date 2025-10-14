@@ -112,7 +112,8 @@ var ServerAccountUpdate = new class AccountUpdater {
 	 * @param {boolean} [Force] - force immediate sync to server
 	 */
 	QueueData(Data, Force=false) {
-		if (!ServerIsLoggedIn()) return; // We're not logged in
+		// Not logged in. Different from `ServerIsLoggedIn()` because we want messages to happen still
+		if (Player.CharacterID === "") return;
 
 		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
@@ -359,7 +360,8 @@ let ServerSendRateLimitTimes = [];
  * ) => void}
  */
 function ServerSend(Message, ...args) {
-	if (!ServerIsLoggedIn() && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
+	// Not logged in. Different from `ServerIsLoggedIn()` because we want messages to happen still
+	if (Player.CharacterID === "" && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
 	const queueItem = /** @type {SendRateLimitQueueItem} */({ Message, args });
 	ServerSendRateLimitQueue.push(queueItem);
 
