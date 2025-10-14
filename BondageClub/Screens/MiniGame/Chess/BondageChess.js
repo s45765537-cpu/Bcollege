@@ -1,5 +1,5 @@
 "use strict";
-var ChessBackground = "CollegeClass";
+var ChessBackground = "CollegeClass1";
 /** @type {null | Character} */
 var ChessCharacterWhite = null;
 /** @type {null | Character} */

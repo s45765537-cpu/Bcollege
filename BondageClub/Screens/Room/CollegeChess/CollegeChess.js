@@ -1,5 +1,5 @@
 "use strict";
-var CollegeChessBackground = "CollegeClass";
+var CollegeChessBackground = "CollegeClass1";
 /** @type {null | NPCCharacter} */
 var CollegeChessOpponent = null;
 var CollegeChessDifficulty = 0;
