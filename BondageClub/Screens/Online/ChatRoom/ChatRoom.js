@@ -1426,12 +1426,12 @@ function ChatRoomMenuBuild() {
 	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
 	ChatRoomMenuButtons.push("Cut");
 	if (ChatRoomMapViewIsActive()) {
-		if (ChatRoomData.MapData?.Type === "Hybrid") {
+		if (ChatRoomData?.MapData?.Type === "Hybrid") {
 			ChatRoomMenuButtons.push("CharacterView");
 		}
 	}
 	if (ChatRoomCharacterViewIsActive()) {
-		if (ChatRoomData.MapData?.Type === "Hybrid") {
+		if (ChatRoomData?.MapData?.Type === "Hybrid") {
 			ChatRoomMenuButtons.push("MapView");
 		}
 		if (ChatRoomCharacterViewCharacterCountTotal > 10) {
