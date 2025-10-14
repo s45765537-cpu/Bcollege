@@ -669,14 +669,7 @@ var PreferenceOnlineSharedSettingsDefault = {
  */
 var PreferenceOnlineSharedSettingsValidate = {
 	GameVersion: (arg, C) => {
-		let version = typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
-		if (C.IsPlayer()) {
-			if (CommonCompareVersion(GameVersion, version ?? "R0") < 0) {
-				CommonVersionUpdated = true;
-			}
-			version = GameVersion;
-		}
-		return version;
+		return typeof arg === "string" ? arg : PreferenceOnlineSharedSettingsDefault.GameVersion;
 	},
 	AllowFullWardrobeAccess: (arg, C) => {
 		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.AllowFullWardrobeAccess;

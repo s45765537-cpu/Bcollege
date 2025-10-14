@@ -1140,6 +1140,13 @@ function LoginSetupPlayer(C) {
 	CharacterAppearanceValidate(Player);
 	ChatRoomCustomized = Player.OnlineSettings.ShowRoomCustomization >= 2;
 	if (Player.Crafting.length > 200) Player.Crafting = Player.Crafting.slice(0, 200);
+
+	// Do the version update check
+	if (CommonCompareVersion(GameVersion, Player.OnlineSharedSettings.GameVersion ?? "R0") < 0) {
+		CommonVersionUpdated = true;
+		Player.OnlineSharedSettings.GameVersion = GameVersion;
+		ServerAccountUpdate.QueueData({ OnlineSharedSettings: Player.OnlineSharedSettings });
+	}
 }
 
 /**

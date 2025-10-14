@@ -35830,7 +35830,6 @@ var AssetFemale3DCG = [
 						Name: "",
 						StyleOverride: ["EchoV2"],
 						CreateLayerTypes: ["typed"],
-						StyleOverride: ["EchoV2"],
 						CreateLayerTypesOverride: [1, 2, 3, 6, 7, 9, 12, 13, 15],
 					},
 					{
