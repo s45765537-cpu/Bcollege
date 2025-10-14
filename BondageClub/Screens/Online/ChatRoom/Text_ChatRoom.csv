@@ -105,3 +105,11 @@ MenuDressRuleBlocked,A rule blocks it
 MenuDressOwnerBlocked,Your owner forbids it
 PonyNotJoin,You have not joined the Ponies
 PonyInvalidActivity,"Invalid Pony activity, type /help to get the list."
+FriendRequestMessage,SourceCharacter has requested to be your friend. {buttons} 
+FriendAcceptMessage,SourceCharacter has accepted your friend request.
+FriendRemoveMessage,SourceCharacter has removed you as a friend.
+FriendAddback,Add back
+FriendAddbackMessage,Added SourceCharacter as a friend.
+FriendGhost,Ghost SourceCharacter
+FriendGhostMessage,SourceCharacter is now Ghosted.
+FriendIgnore,Ignore request

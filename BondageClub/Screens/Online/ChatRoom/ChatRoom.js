@@ -4034,6 +4034,8 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
 	} else if (data.Content == "ChatRoomMapViewChangeKey") {
 		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
+	} else if (data.Content == "ChatRoomFriendRequestAdd") {
+		ChatRoomFriendMessage(SenderCharacter, data);
 	}
 	return true;
 }
@@ -5606,9 +5608,10 @@ function ChatRoomCurrentTime() {
  * Adds or removes an online member to/from a specific list. (From the dialog menu)
  * @param {"Add" | "Remove"} Operation - Operation to perform.
  * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList" | "DrawFocusList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist, drawfocuslist)
+ * @param {string} [notification] - used to send notifications
  * @returns {void} - Nothing
  */
-function ChatRoomListManage(Operation, ListType) {
+function ChatRoomListManage(Operation, ListType, notification) {
 	if (!CurrentCharacter) return;
 	if (!CurrentCharacter.IsOnline()) return;
 	const isAdd = Operation === "Add";
@@ -5619,7 +5622,7 @@ function ChatRoomListManage(Operation, ListType) {
 			ChatRoomDrawFocusListRemove([CurrentCharacter]);
 		}
 	} else if (Array.isArray(Player[ListType])) {
-		ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber);
+		ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber, notification);
 	}
 }
 
@@ -5628,28 +5631,109 @@ function ChatRoomListManage(Operation, ListType) {
  * @param {number[]} List - List to add to or remove from.
  * @param {boolean} Adding - If TRUE adding to the list, if FALSE removing from the list.
  * @param {string} Argument - Member number to add/remove.
+ * @param {string} [notification] - used to send notifications
  * @deprecated Use {@link ChatRoomListUpdate}
  * @returns {void} - Nothing
  */
-function ChatRoomListManipulation(List, Adding, Argument) {
+function ChatRoomListManipulation(List, Adding, Argument, notification) {
 	var C = parseInt(Argument);
 	if (!isNaN(C) && (C >= 0) && (C != Player.MemberNumber)) {
-		ChatRoomListUpdate(List, Adding, C);
+		ChatRoomListUpdate(List, Adding, C, notification);
 	}
 }
+
+/** @type {Map<string, number>} */
+const ChatRoomLastFriendRequest = new Map();
+
+/**
+ * Sends a notification message when a friend request is received.
+ * @param {Character} SenderCharacter - The character who sent the request.
+ * @param {ServerChatRoomMessage} data - The chat message data.
+ * @returns {void} - Nothing
+ */
+
+function ChatRoomFriendMessage(SenderCharacter, data) {
+	if (!Player.ChatSettings.ShowFriendRequestMessages) return;
+	const lastRequest = ChatRoomLastFriendRequest.get(SenderCharacter.MemberNumber+data.Content) ?? -Infinity;
+	if (!(lastRequest < CurrentTime + 5 * 60 * 1000)) return;
+	ChatRoomLastFriendRequest[SenderCharacter.MemberNumber+data.Content] = CurrentTime;
+	/** @type {CommonSubtituteSubstitution[]} this is ass */
+	const substitutions = [
+		["SourceCharacter", CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")"],
+	];
+	if (Player.FriendList.includes(SenderCharacter.MemberNumber)) {
+		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAcceptMessage"),substitutions));
+		return;
+	}
+	let id = CommonGenerateUniqueID();
+	const hide = () => {
+		document.getElementById(id)?.remove();
+	};
+	const addBack = () => {
+		ChatRoomListUpdate(Player.FriendList, true, SenderCharacter.MemberNumber, "FriendRequest");
+		ChatRoomSendLocal(TextGet("FriendAddbackMessage"));
+		hide();
+	};
+	const ghost = () => {
+		ChatRoomSendLocal(TextGet("FriendGhostMessage"));
+		hide();
+	};
+	ChatRoomSendLocal(
+		ElementCreate({
+			tag: "div",
+			children: /** @type {(HTMLElement | string)[]} */(CommonStringPartitionReplace(TextGet("FriendRequestMessage"), {
+				"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
+				"{buttons}": ElementCreate(
+					{
+						tag: "div",
+						classList: ["chat-room-friendrequest-buttons"],
+						attributes: {id},
+						children: [
+							ElementButton.Create(null, null, null, {
+								button: {
+									classList: ["chat-room-friendrequest-add-back"],
+									children: [TextGet("FriendAddback")],
+								}
+							}),
+							ElementButton.Create(null, null, null, {
+								button: {
+									classList: ["chat-room-friendrequest-hide"],
+									children: [TextGet("FriendIgnore")],
+								}
+							}),
+							ElementButton.Create(null, null, null, {
+								button: {
+									classList: ["chat-room-friendrequest-ghost"],
+									children: /** @type {(HTMLElement | string)[]} */(CommonStringPartitionReplace(TextGet("FriendGhost"), {
+										"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
+									})),
+								}
+							}),
+						],
+					})
+			}))
+		}).outerHTML
+	);
+	document.querySelector(`#${id} .chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
+	document.querySelector(`#${id} .chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
+	document.querySelector(`#${id} .chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+}
+
 
 /**
  * Updates character lists for the player and saves the change
  * @param {number[]} list - The array of member numbers to update
  * @param {boolean} adding - If TRUE adding to the list, if FALSE removing from the list
  * @param {number} memberNumber - The member number to add/remove
+ * @param {String} [notification] - used to send notifications
  * @returns {void} - Nothing
  */
-function ChatRoomListUpdate(list, adding, memberNumber) {
+function ChatRoomListUpdate(list, adding, memberNumber, notification) {
 	if (memberNumber === Player.MemberNumber) return;
 	if (!CommonIsNonNegativeInteger(memberNumber)) return;
 	const numIdx = list.indexOf(memberNumber);
 	if (adding && numIdx < 0) {
+		if (notification) ServerSend("ChatRoomChat", { Content: `ChatRoom${notification}Add`, Type: "Hidden", Target: memberNumber});
 		list.push(memberNumber);
 	}
 	else if (!adding && numIdx >= 0) {

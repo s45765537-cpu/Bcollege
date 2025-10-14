@@ -698,6 +698,7 @@ var PreferenceChatSettingsDefault = {
 	PreserveChat: true,
 	OOCAutoClose: true,
 	DisableReplies: false,
+	ShowFriendRequestMessages: true,
 };
 
 /**
@@ -731,6 +732,7 @@ var PreferenceChatSettingsValidate = {
 	PreserveChat: ServerValidation.isBool(PreferenceChatSettingsDefault.PreserveChat),
 	OOCAutoClose: ServerValidation.isBool(PreferenceChatSettingsDefault.OOCAutoClose),
 	DisableReplies: ServerValidation.isBool(PreferenceChatSettingsDefault.DisableReplies),
+	ShowFriendRequestMessages: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowFriendRequestMessages),
 };
 
 /**

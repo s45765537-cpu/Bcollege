@@ -699,6 +699,12 @@
   visibility: visible;
 }
 
+.chat-room-friendrequest-buttons button {
+  padding: 0.2em 0.5em;
+  margin: 0.2em 0.1em;
+  color: black;
+}
+
 .chat-room-metadata {
   user-select: none;
   min-width: 1.3em;
