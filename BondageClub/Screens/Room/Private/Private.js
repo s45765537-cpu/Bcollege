@@ -1442,7 +1442,7 @@ function PrivateActivityRun(LoveFactor) {
 			InventoryAdd(Player, "CollegeOutfit1", "Cloth");
 			InventoryAdd(Player, "CollegeSkirt", "ClothLower");
 			break;
-		case "Locks": InventoryFullLockRandom(Player, true); break;
+		case "Locks": InventoryFullLockRandom(Player, CurrentCharacter); break;
 		case "Unchaste": // The unchaste activity removes all pelvis, breast, vulva and butt items
 			InventoryRemove(Player, "ItemPelvis");
 			InventoryRemove(Player, "ItemBreast");
@@ -1656,7 +1656,10 @@ function PrivateRunPunishment(LoveFactor) {
 		case "Cage": Player.Cage = true; LogAdd("BlockCage", "Rule", CurrentTime + 120000); DialogLeave(); break;
 		case "Bound": PrivateReleaseTimer = CommonTime() + 240000; CharacterFullRandomRestrain(Player, "ALL"); InventoryRemove(Player, "ItemArms"); InventoryWear(Player, "HempRope", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 12); break;
 		case "BoundPet": PrivateReleaseTimer = CommonTime() + 240000; PoseSetActive(Player, "Kneel", true); InventoryWear(Player, "LeatherBelt", "ItemLegs"); InventoryWear(Player, "TailButtPlug", "ItemButt"); InventoryWear(Player, "Ears" + (Math.floor(Math.random() * 2) + 1).toString(), "Hat"); InventoryWear(Player, "LeatherArmbinder", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 15); break;
-		case "ChastityBra": InventoryWear(Player, "MetalChastityBra", "ItemBreast"); InventoryLock(Player, "ItemBreast", (Player.IsOwned() ? "OwnerPadlock" : "ExclusivePadlock"), null); break;
+		case "ChastityBra":
+			InventoryWear(Player, "MetalChastityBra", "ItemBreast");
+			InventoryLock(Player, "ItemBreast", (Player.IsOwned() ? "OwnerPadlock" : "ExclusivePadlock"), CurrentCharacter);
+			break;
 		case "ForceNaked": LogAdd("BlockChange", "Rule", CurrentTime + 1800000); break;
 		case "ConfiscateKey": InventoryConfiscateKey(); break;
 		case "ConfiscateCrop": InventoryDelete(Player, "Crop", "ItemHandheld"); break;
@@ -1671,7 +1674,8 @@ function PrivateRunPunishment(LoveFactor) {
 				if (InventoryGet(Player, "ItemVulva") === null) InventoryWear(Player, "VibratingEgg", "ItemVulva");
 				if (InventoryGet(Player, "ItemButt") === null) InventoryWear(Player, "BlackButtPlug", "ItemButt");
 			}
-			InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true); InventoryLock(Player, "ItemPelvis", (Player.IsOwned() ? "OwnerPadlock" : "ExclusivePadlock"), null);
+			InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
+			InventoryLock(Player, "ItemPelvis", (Player.IsOwned() ? "OwnerPadlock" : "ExclusivePadlock"), CurrentCharacter);
 			break;
 	}
 }
@@ -1931,7 +1935,10 @@ function PrivateLoveYou() {
 				VibratorModeSetOptionByName(Player, item, VibratorMode.LOW);
 				break;
 			}
-			case "LockBelt":  { InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true); InventoryLock(Player, "ItemPelvis", "LoversPadlock", null); } break;
+			case "LockBelt":
+				InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
+				InventoryLock(Player, "ItemPelvis", "LoversPadlock", CurrentCharacter);
+				break;
 			case "UnlockBelt":  InventoryRemove(Player, "ItemPelvis"); break;
 			case "LoverLock":  InventoryFullLock(Player, "LoversPadlock"); break;
 			case "LoverUnlock":  CharacterReleaseFromLock(Player, "LoversPadlock"); break;
@@ -2296,9 +2303,9 @@ function PrivateClubCardDoConsequence(Act, LoveFactor) {
 		case "Chastity": {
 			CharacterNaked(Player);
 			InventoryWear(Player, "MetalChastityBra", "ItemBreast");
-			InventoryLock(Player, "ItemBreast", "ExclusivePadlock");
+			InventoryLock(Player, "ItemBreast", "ExclusivePadlock", CurrentCharacter);
 			InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
-			InventoryLock(Player, "ItemPelvis", "ExclusivePadlock");
+			InventoryLock(Player, "ItemPelvis", "ExclusivePadlock", CurrentCharacter);
 			break;
 		}
 	}

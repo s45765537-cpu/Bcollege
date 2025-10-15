@@ -591,7 +591,7 @@ function PortalLinkProcessMessage(sender, data) {
 	} else {
 		switch (func) {
 			case "PortalLinkFunctionLock": {
-				InventoryLock(Player, item, "PortalLinkPadlock", sender.MemberNumber);
+				InventoryLock(Player, item, "PortalLinkPadlock", sender);
 			}
 				break;
 

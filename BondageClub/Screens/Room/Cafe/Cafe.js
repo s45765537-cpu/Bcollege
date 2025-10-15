@@ -290,7 +290,7 @@ function CafeServiceBound(Style) {
 		InventoryWear(Player, Bondage, "ItemMouth", RandomColor);
 
 		// Locks
-		InventoryFullLockRandom(Player, false);
+		InventoryFullLockRandom(Player, CafeMaid);
 	}
 
 	if (Style == "Latex") {
@@ -393,7 +393,7 @@ function CafeServiceBound(Style) {
 		if (RandomNumber >= 4 && RandomNumber < 8) InventoryWear(Player, Bondage, "ItemHead");
 
 		// Locks
-		InventoryFullLockRandom(Player, false);
+		InventoryFullLockRandom(Player, CafeMaid);
 	}
 
 	CharacterRefresh(Player);

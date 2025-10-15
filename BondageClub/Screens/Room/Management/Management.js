@@ -479,11 +479,11 @@ function ManagementPlayerRandomRestrain() {
 	CharacterFullRandomRestrain(Player, "LOT");
 	if (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis"))) {
 		InventoryWear(Player, "MetalChastityBelt", "ItemPelvis");
-		InventoryLock(Player, "ItemPelvis", "MistressPadlock", -1);
+		InventoryLock(Player, "ItemPelvis", "MistressPadlock", ManagementMistress);
 	}
 	if (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemBreast"))) {
 		InventoryWear(Player, "MetalChastityBra", "ItemBreast");
-		InventoryLock(Player, "ItemBreast", "MistressPadlock", -1);
+		InventoryLock(Player, "ItemBreast", "MistressPadlock", ManagementMistress);
 	}
 	ManagementCanReleaseChastity = false;
 }

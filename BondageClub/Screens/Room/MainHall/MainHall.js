@@ -681,10 +681,10 @@ function MainHallPunishFromChatroomApplyChastity() {
 function MainHallPunishFromChatroomLockChastity() {
 	var I = MainHallPunishmentChoice;
 	if (MainHallPunishmentList[I].ItemPelvis && InventoryGet(Player, "ItemPelvis") == null) {
-		InventoryLock(Player, "ItemPelvis", "TimerPadlock", null);
+		InventoryLock(Player, "ItemPelvis", "TimerPadlock", MainHallMaid);
 	}
 	if (MainHallPunishmentList[I].ItemBreast && InventoryGet(Player, "ItemBreast") == null) {
-		InventoryLock(Player, "ItemBreast", "TimerPadlock", null);
+		InventoryLock(Player, "ItemBreast", "TimerPadlock", MainHallMaid);
 	}
 
 	CharacterRefresh(Player);
@@ -698,7 +698,8 @@ function MainHallPunishFromChatroomGag() {
 	var I = MainHallPunishmentChoice;
 
 	if (MainHallPunishmentList[I].ItemMouth) {
-		InventoryWear(Player, MainHallPunishmentList[I].ItemMouth, "ItemMouth", "Default", Math.floor(Math.random()*10)); InventoryLock(Player, "ItemMouth", "TimerPadlock", null);
+		InventoryWear(Player, MainHallPunishmentList[I].ItemMouth, "ItemMouth", "Default", Math.floor(Math.random()*10));
+		InventoryLock(Player, "ItemMouth", "TimerPadlock", MainHallMaid);
 	}
 	CharacterRefresh(Player);
 }
@@ -730,13 +731,15 @@ function MainHallPunishFromChatroomArms() {
 			if (MainHallPunishmentList[I].ItemArms == "LatexBoxtieLeotard" || MainHallPunishmentList[I].ItemArms == "SeamlessStraitDress" ) {
 				ArmsColor = "#252525";
 			}
-			InventoryWear(Player, MainHallPunishmentList[I].ItemArms, "ItemArms", ArmsColor, Math.floor(Math.random()*10)); InventoryLock(Player, "ItemArms", "TimerPadlock", null);
+			InventoryWear(Player, MainHallPunishmentList[I].ItemArms, "ItemArms", ArmsColor, Math.floor(Math.random()*10));
+			InventoryLock(Player, "ItemArms", "TimerPadlock", MainHallMaid);
 		}
 	}
 
 
 	if (MainHallPunishmentList[I].ItemHands && Math.random() > 0.33) {
-		InventoryWear(Player, MainHallPunishmentList[I].ItemHands, "ItemHands", "Default", Math.floor(Math.random()*10)); InventoryLock(Player, "ItemHands", "TimerPadlock", null);
+		InventoryWear(Player, MainHallPunishmentList[I].ItemHands, "ItemHands", "Default", Math.floor(Math.random()*10));
+		InventoryLock(Player, "ItemHands", "TimerPadlock", MainHallMaid);
 	}
 	CharacterRefresh(Player);
 }
@@ -760,18 +763,22 @@ function MainHallPunishFromChatroomRest() {
 
 
 		if (MainHallPunishmentList[I].ItemLegs) {
-			InventoryWear(Player, MainHallPunishmentList[I].ItemLegs, "ItemLegs", "Default", Math.floor(Math.random()*10)); InventoryLock(Player, "ItemLegs", "TimerPadlock", null);
+			InventoryWear(Player, MainHallPunishmentList[I].ItemLegs, "ItemLegs", "Default", Math.floor(Math.random()*10));
+			InventoryLock(Player, "ItemLegs", "TimerPadlock", MainHallMaid);
 		}
 		if (MainHallPunishmentList[I].ItemFeet) {
-			InventoryWear(Player, MainHallPunishmentList[I].ItemFeet, "ItemFeet", "Default", Math.floor(Math.random()*10)); InventoryLock(Player, "ItemFeet", "TimerPadlock", null);
+			InventoryWear(Player, MainHallPunishmentList[I].ItemFeet, "ItemFeet", "Default", Math.floor(Math.random()*10));
+			InventoryLock(Player, "ItemFeet", "TimerPadlock", MainHallMaid);
 		}
 
 
 		if (MainHallPunishmentList[I].ItemHead && Math.random() > 0.33) {
-			InventoryWear(Player, MainHallPunishmentList[I].ItemHead, "ItemHead", "Default", Math.floor(Math.random()*10)); InventoryLock(Player, "ItemHead", "TimerPadlock", null);
+			InventoryWear(Player, MainHallPunishmentList[I].ItemHead, "ItemHead", "Default", Math.floor(Math.random()*10));
+			InventoryLock(Player, "ItemHead", "TimerPadlock", MainHallMaid);
 		}
 		if (MainHallPunishmentList[I].ItemBoots && Math.random() > 0.33) {
-			InventoryWear(Player, MainHallPunishmentList[I].ItemBoots, "ItemBoots", "Default", Math.floor(Math.random()*10)); InventoryLock(Player, "ItemBoots", "TimerPadlock", null);
+			InventoryWear(Player, MainHallPunishmentList[I].ItemBoots, "ItemBoots", "Default", Math.floor(Math.random()*10));
+			InventoryLock(Player, "ItemBoots", "TimerPadlock", MainHallMaid);
 		}
 	}
 

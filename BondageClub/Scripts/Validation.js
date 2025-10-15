@@ -6,7 +6,7 @@ const ValidationPasswordRegex = /^[A-Z]{1,8}$/;
 const ValidationDefaultCombinationNumber = "0000";
 const ValidationDefaultPassword = "UNLOCK";
 const ValidationRemoveTimerToleranceMs = 5000;
-const ValidationNonModifiableLockProperties = ["LockedBy", "LockMemberNumber"];
+const ValidationNonModifiableLockProperties = ["LockedBy", "LockMemberNumber", "LockMemberName", "LockMessage"];
 const ValidationRestrictedLockProperties = [
 	"EnableRandomInput", "RemoveItem", "ShowTimer", "CombinationNumber", "Password", "Hint", "LockSet", "LockPickSeed",
 ];
@@ -397,7 +397,10 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 			} else {
 				console.warn(`Invalid modification of lock ${ValidationItemWarningMessage(newLock, params)}`);
 			}
-			InventoryLock(C, newItem, previousLock, previousProperty.LockMemberNumber, false);
+			const { LockMemberNumber, LockMemberName } = previousProperty;
+			InventoryLock(C, newItem, previousLock, null, false);
+			previousProperty.LockMemberNumber = LockMemberNumber;
+			previousProperty.LockMemberName = LockMemberName;
 			ValidationCloneLock(previousProperty, newProperty);
 			return false;
 		} else {

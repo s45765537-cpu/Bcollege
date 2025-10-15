@@ -55,7 +55,7 @@ function ImportBondageCollege(C) {
 			// Imports the locked items
 			if ((localStorage.getItem("BondageCollegeExportLockedChastityBelt") != null) && (localStorage.getItem("BondageCollegeExportLockedChastityBelt") == "true")) {
 				DialogWearItem("MetalChastityBelt", "ItemPelvis");
-				InventoryLock(Player, "ItemPelvis", "MistressPadlock", -1);
+				InventoryLock(Player, "ItemPelvis", "MistressPadlock", "Love from Bondage College");
 			}
 			if ((localStorage.getItem("BondageCollegeExportLockedCollar") != null) && (localStorage.getItem("BondageCollegeExportLockedCollar") == "true")) DialogWearItem("SlaveCollar", "ItemNeck");
 			if ((localStorage.getItem("BondageCollegeExportLockedVibratingEgg") != null) && (localStorage.getItem("BondageCollegeExportLockedVibratingEgg") == "true")) DialogWearItem("VibratingEgg", "ItemVulva");

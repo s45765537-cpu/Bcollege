@@ -695,7 +695,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 	// Applies a lock if needed
 	Item = InventoryGet(Player, Group);
 	if ((Minutes != null) && (Minutes > 0) && Item.Asset.AllowLock) {
-		InventoryLock(Player, Item, "TimerPasswordPadlock", null, true);
+		InventoryLock(Player, Item, "TimerPasswordPadlock", null, false);
 		if (Item.Property == null) Item.Property = {};
 		Item.Property.RemoveTimer = CurrentTime + Minutes * 60000;
 		Item.Property.RemoveItem = true;

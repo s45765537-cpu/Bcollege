@@ -1198,6 +1198,15 @@ function CommonIsObject(value) {
 }
 
 /**
+ * Type guard which checks that a value is a character
+ * @param {unknown} value - The value to test
+ * @returns {value is Character}
+ */
+function CommonIsCharacter(value) {
+	return CommonIsObject(value) && (value.Type === "online" || value.Type === "npc" || value.Type === "simple");
+}
+
+/**
  * Deep-clones an object
  * @todo JSON serialization will break things like functions, Sets and Maps.
  * @template T
