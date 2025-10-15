@@ -298,28 +298,31 @@ function PoseRefresh(C) {
 	}
 
 	// Find the intersection between the allowed active poses and the set poses
-	C.PoseMapping = {};
+	/** @type {Partial<Record<AssetPoseCategory, AssetPoseName>>} */
+	const poseMapping = {};
 	const categories = new Set(PoseFemale3DCG.map(p => p.Category));
 	for (const category of categories) {
 		const poses = C.AllowedActivePoseMapping[category];
 		const poseCandidate = activePose[category] && activePose[category].find(p => !poses || poses.includes(p));
 		if (poseCandidate) {
-			C.PoseMapping[category] = poseCandidate;
+			poseMapping[category] = poseCandidate;
 		}
 	}
 
 	// Make the (somewhat arbitrary?) decision to have `BodyFull` take priority over `BodyUpper/Lower`
 	// Only relevant in rare/hypothetical cases wherein both are eligible
-	if (C.PoseMapping.BodyFull) {
-		delete C.PoseMapping.BodyUpper;
-		delete C.PoseMapping.BodyLower;
+	if (poseMapping.BodyFull) {
+		delete poseMapping.BodyUpper;
+		delete poseMapping.BodyLower;
 	} else {
-	    C.PoseMapping.BodyUpper = C.PoseMapping.BodyUpper ?? "BaseUpper";
-	    C.PoseMapping.BodyLower = C.PoseMapping.BodyLower ?? "BaseLower";
+	    poseMapping.BodyUpper ??= C.PoseMapping.BodyUpper ?? "BaseUpper";
+	    poseMapping.BodyLower ??= C.PoseMapping.BodyLower ?? "BaseLower";
 	}
 
 	// The `TapedHands` pose acts like a drop-in replacement for the `BaseUpper` pose
 	if (C.PoseMapping.BodyHands) {
 		delete C.PoseMapping[(!C.PoseMapping.BodyUpper || C.PoseMapping.BodyUpper === "BaseUpper") ? "BodyUpper" : "BodyHands"];
 	}
+
+	C.PoseMapping = poseMapping;
 }
