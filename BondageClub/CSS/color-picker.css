@@ -82,6 +82,7 @@
 .color-picker > *:nth-child(5) select {
 	height: 1.5em;
 	text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+	font-family: monospace;
 }
 
 .color-picker > *:nth-child(6) {
