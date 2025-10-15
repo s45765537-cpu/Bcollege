@@ -194,13 +194,20 @@ function GetDefaultSavedColors() {
 	return SavedColors;
 }
 
-/** Element IDs for the {@link ColorPicker} namespace */
-const ColorPickerIDs = Object.freeze({
-	root: "color-picker",
-});
-
 /** Namespace for constructing and managing color pickers */
 var ColorPicker = {
+	/**
+	 * Element IDs for the {@link ColorPicker} namespace.
+	 * @readonly
+	 */
+	ids: Object.freeze({
+		root: "color-picker",
+	}),
+
+	/**
+	 * @readonly
+	 * @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>}
+	 */
 	eventListeners: {
 		/** @type {(this: HTMLInputElement | HTMLColorTintElement, ev: InputEvent) => void} */
 		inputColor: function (ev) {
@@ -705,13 +712,13 @@ async function ColorPickerInit(options=null) {
 	await ColorPickerLoad();
 	ColorPickerInitOptions = null;
 	ColorPickerResize(true);
-	return ElementWrap(options?.root ?? ColorPickerIDs.root);
+	return ElementWrap(options?.root ?? ColorPicker.ids.root);
 }
 
 /** @type {ScreenLoadHandler} */
 function ColorPickerLoad() {
 	const options = ColorPickerInitOptions ?? {};
-	let root = ElementWrap(options.root ?? ColorPickerIDs.root);
+	let root = ElementWrap(options.root ?? ColorPicker.ids.root);
 	if (root) {
 		root.toggleAttribute("hidden", false);
 		ColorPickerReload(options);
@@ -721,7 +728,7 @@ function ColorPickerLoad() {
 	const colorFieldset = ColorPicker.create(null, { onInput: options.onInput ?? ColorPicker.eventListeners.inputItemColor });
 	colorFieldset.setAttribute("aria-labelledby", "color-picker-header");
 
-	root = ElementDOMScreen.getTemplate(ColorPickerIDs.root, {
+	root = ElementDOMScreen.getTemplate(ColorPicker.ids.root, {
 		menubarButtons: [
 			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickExit,
@@ -752,7 +759,7 @@ function ColorPickerReload(options=null) {
 		return;
 	}
 
-	const root = ElementWrap(options.root ?? ColorPickerIDs.root);
+	const root = ElementWrap(options.root ?? ColorPicker.ids.root);
 	if (!root) {
 		return;
 	}
@@ -863,17 +870,17 @@ function ColorPickerReload(options=null) {
 
 /** @type {ScreenResizeHandler} */
 function ColorPickerResize() {
-	ElementPositionFixed(ColorPickerIDs.root, 1200, 15, 800, 970);
+	ElementPositionFixed(ColorPicker.ids.root, 1200, 15, 800, 970);
 }
 
 /** @type {ScreenUnloadHandler} */
 function ColorPickerUnload() {
-	document.getElementById(ColorPickerIDs.root)?.toggleAttribute("hidden", true);
+	document.getElementById(ColorPicker.ids.root)?.toggleAttribute("hidden", true);
 }
 
 /** @type {ScreenExitHandler} */
 function ColorPickerExit() {
 	ColorPickerExitCallback = null;
 	ColorPickerInputCallback = null;
-	document.getElementById(ColorPickerIDs.root)?.remove();
+	document.getElementById(ColorPicker.ids.root)?.remove();
 }

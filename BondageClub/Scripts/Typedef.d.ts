@@ -4502,7 +4502,7 @@ interface HSVColor {
 }
 
 interface ColorPickerInitOptions {
-	/** The root element or `color-picker` fieldset (or ID thereof) in the color picker subscreen; defaults to {@link ColorPickerIDs.root} */
+	/** The root element or `color-picker` fieldset (or ID thereof) in the color picker subscreen; defaults to {@link ColorPicker.ids.root} */
 	root?: ElementHelp.ElementOrId;
 	/** A custom heading to-be assigned to the color picker's `<h1>` element */
 	heading?: string | Node | readonly (string | Node)[];
