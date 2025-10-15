@@ -261,7 +261,7 @@ var ColorPicker = {
 				outputInput.value = `${rgb}${opacity}`;
 
 				this.style.setProperty("--hue", hueInput.value);
-				tintInput.value = rgb;
+				tintInput.valueAsHSV = hsv;
 				hueInput.valueAsNumber = Math.round(hsv.H * 360);
 			}
 			ColorPickerInputCallback?.(this, ev);
