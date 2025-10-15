@@ -19,6 +19,8 @@
 }
 
 .dialog-menubar-button {
+	--tooltip-gap: var(--gap);
+
 	width: var(--menu-button-size);
 	aspect-ratio: 1 / 1;
 }
@@ -28,10 +30,6 @@
 	height: min(90px, 94%);
 	top: 50%;
 	transform: translate(-50%, -50%);
-}
-
-.dialog-menubar-button > .button-tooltip {
-	--tooltip-gap: var(--gap);
 }
 
 .dialog-paginate {
@@ -44,12 +42,10 @@
 }
 
 .dialog-paginate-button {
+	--tooltip-gap: var(--gap);
+
 	height: var(--menu-button-size);
 	width: var(--menu-button-size);
-}
-
-.dialog-paginate-button > .button-tooltip {
-	--tooltip-gap: var(--gap);
 }
 
 .dialog-icon {
@@ -106,6 +102,8 @@
 }
 
 .dialog-grid-button {
+	--tooltip-gap: var(--gap);
+
 	scroll-snap-align: start;
 	height: var(--button-height);
 	width: min(100%, calc(0.8 * var(--button-height)));
@@ -122,8 +120,6 @@
 }
 
 .dialog-grid-button > .button-tooltip {
-	--tooltip-gap: var(--gap);
-
 	width: calc(400% + 4 * var(--border-width) + 3 * var(--gap));
 	font-size: 0.65em;
 	max-height: calc(2 * var(--button-height) + var(--gap));

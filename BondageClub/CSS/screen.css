@@ -34,12 +34,10 @@
 }
 
 .screen-header [role="menuitem"] {
+	--tooltip-gap: var(--gap);
+
 	height: var(--menu-button-size);
 	width: var(--menu-button-size);
-}
-
-.screen-header [role="menuitem"] .button-tooltip {
-	--tooltip-gap: var(--gap);
 }
 
 .screen-header [role="menuitem"] .button-image {

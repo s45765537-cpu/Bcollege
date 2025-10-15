@@ -15,6 +15,10 @@
 	--disabled-color: grey;
 	/* Background color for hovered and/or active buttons */
 	--hover-color: cyan;
+	/* The gap between the button and its tooltip (`.button-tooltip`) */
+	--tooltip-gap: var(--half-gap);
+	/* The size of the icons within a button's icon grid (`.button-icon-grid`) */
+	--icon-size: min(50px, 5vh, 2.5vw);
 
 	cursor: pointer;
 	position: relative;
@@ -61,8 +65,6 @@
 }
 
 .button-tooltip {
-	--tooltip-gap: min(1vh, 0.5vw);
-
 	cursor: auto;
 	background-color: #FFFF88;
 	color: black;
@@ -155,8 +157,6 @@
 }
 
 .button-icon-grid {
-	--icon-size: min(50px, 5vh, 2.5vw);
-
 	display: grid;
 	position: absolute;
 	pointer-events: none;
@@ -342,13 +342,11 @@
 }
 
 @supports (height: 100dvh) {
-	.button-tooltip {
-		--tooltip-gap: min(1dvh, 0.5dvw);
+	.button {
+		--icon-size: min(50px, 5dvh, 2.5dvw);
 	}
 
 	.button-icon-grid {
-		--icon-size: min(50px, 5dvh, 2.5dvw);
-
 		top: min(0.3dvh, 0.15dvw);
 		left: min(0.3dvh, 0.15dvw);
 	}

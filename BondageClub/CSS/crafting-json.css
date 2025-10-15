@@ -30,12 +30,10 @@ dialog::backdrop {
 }
 
 .aside > [role="menubar"] [role="menuitem"] {
+	--tooltip-gap: var(--gap);
+
 	width: var(--menu-button-size);
 	height: var(--menu-button-size);
-}
-
-.aside > [role="menubar"] [role="tooltip"] {
-	--tooltip-gap: var(--gap);
 }
 
 .aside > .description {
