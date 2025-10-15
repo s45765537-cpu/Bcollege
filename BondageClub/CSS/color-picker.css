@@ -20,6 +20,7 @@
 
 .color-picker label > span {
 	color: white;
+	padding-bottom: 3px;
 }
 
 .color-picker label > * {
