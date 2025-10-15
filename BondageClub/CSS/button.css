@@ -19,6 +19,8 @@
 	--tooltip-gap: var(--half-gap);
 	/* The size of the icons within a button's icon grid (`.button-icon-grid`) */
 	--icon-size: min(50px, 5vh, 2.5vw);
+	/* The size of the inner border that appears whenever a button is clicked upon or toggled to its `checked` state */
+	--inner-border-width: calc(2 * var(--border-width));
 
 	cursor: pointer;
 	position: relative;
@@ -69,7 +71,7 @@
 	background-color: #FFFF88;
 	color: black;
 	border: var(--border-width) solid black;
-	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
+	box-shadow: var(--inner-border-width) var(--inner-border-width) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
 	box-sizing: border-box;
 	padding: 0.3em 0.6em 0.3em 0.6em;
 	position: absolute;
@@ -160,8 +162,8 @@
 	display: grid;
 	position: absolute;
 	pointer-events: none;
-	top: min(0.3vh, 0.15vw);
-	left: min(0.3vh, 0.15vw);
+	top: var(--inner-border-width);
+	left: var(--inner-border-width);
 	grid-template-rows: repeat(4, var(--icon-size));
 	gap: calc(var(--icon-size) / 8);
 }
@@ -244,7 +246,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border: min(0.4vh, 0.2vw) inset black;
+	border: var(--inner-border-width) inset black;
 }
 
 .button-styling:disabled::before,
@@ -253,7 +255,7 @@
 }
 
 .button-styling[aria-checked="true"]::before {
-	border: min(0.4vh, 0.2vw) inset black;
+	border: var(--inner-border-width) inset black;
 }
 
 .button-styling:active,
@@ -344,26 +346,6 @@
 @supports (height: 100dvh) {
 	.button {
 		--icon-size: min(50px, 5dvh, 2.5dvw);
-	}
-
-	.button-icon-grid {
-		top: min(0.3dvh, 0.15dvw);
-		left: min(0.3dvh, 0.15dvw);
-	}
-
-	.button-styling[aria-checked="true"]::before,
-	.button-styling:active::before,
-	.button-styling[data-active]::before {
-		border: min(0.4dvh, 0.2dvw) inset black;
-	}
-
-	.button-styling:disabled::before,
-	.button-styling[aria-disabled="true"]::before {
-		border: unset;
-	}
-
-	.button-styling[aria-checked="true"]::before {
-		border: min(0.4dvh, 0.2dvw) inset black;
 	}
 }
 
