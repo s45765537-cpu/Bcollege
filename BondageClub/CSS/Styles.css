@@ -282,7 +282,7 @@ select:invalid:not(:disabled):not(:read-only) {
 
 .checkbox-pair {
   display: grid;
-  gap: min(2vh, 1vw);
+  gap: var(--gap);
   min-height: min(7vh, 3.5vw);
   height: fit-content;
   align-items: center;

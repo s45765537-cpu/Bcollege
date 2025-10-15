@@ -1,9 +1,4 @@
 dialog {
-	--button-size: min(9dvh, 4.5dvw);
-	--gap: min(2dvh, 1dvw);
-	--half-gap: calc(var(--gap) / 2);
-	--scrollbar-gutter: max(20px, 1.25 * var(--gap));
-
 	height: 100%;
 	width: 95%;
 	gap: var(--gap);
@@ -27,7 +22,7 @@ dialog::backdrop {
 
 .aside > [role="menubar"] {
 	justify-self: end;
-	grid-template-columns: repeat(3, var(--button-size));
+	grid-template-columns: repeat(3, var(--menu-button-size));
 	display: grid;
 	direction: rtl;
 	grid-auto-flow: column;
@@ -35,8 +30,8 @@ dialog::backdrop {
 }
 
 .aside > [role="menubar"] [role="menuitem"] {
-	width: var(--button-size);
-	height: var(--button-size);
+	width: var(--menu-button-size);
+	height: var(--menu-button-size);
 }
 
 .aside > [role="menubar"] [role="tooltip"] {

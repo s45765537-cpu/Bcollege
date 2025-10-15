@@ -18,7 +18,7 @@
 #login-footer {
   display: flex;
   flex-direction: column;
-  gap: min(2vh, 1vw);
+  gap: var(--gap);
   align-items: center;
   justify-content: end;
 }
@@ -37,5 +37,5 @@
 
 #LanguageDropdown {
   font-family: "Twemoji Country Flags", "Arial", sans-serif;
-	border: min(0.2vh, 0.1vw) solid black;
+	border: var(--border-width) solid black;
 }
