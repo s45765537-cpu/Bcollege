@@ -67,6 +67,10 @@
 	min-width: calc(2 * var(--gap) + 3 * var(--menu-button-size));
 }
 
+.color-picker > *:nth-child(4) input::-webkit-calendar-picker-indicator {
+	display: none !important;
+}
+
 .color-picker > *:nth-child(5) {
 	grid-area: menu;
 }
