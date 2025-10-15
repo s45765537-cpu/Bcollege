@@ -183,7 +183,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
+		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */
@@ -203,6 +203,10 @@ declare namespace ElementButton {
 		ariaControls?: string | Element | readonly (string | Element)[];
 		/** The {@link HTMLButtonElement.ariaChecked} of the button */
 		ariaChecked?: boolean | "true" | "false" | "mixed" | "undefined";
+		/** The {@link HTMLButtonElement.ariaExpanded} of the button */
+		ariaExpanded?: boolean | "true" | "false" | "undefined";
+		/** The {@link HTMLButtonElement.ariaHasPopup} of the button */
+		ariaHasPopup?: boolean | "true" | "false" | "menu" | "listbox" | "tree" | "grid" | "dialog";
 	}
 }
 

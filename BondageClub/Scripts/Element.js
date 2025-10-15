@@ -1504,6 +1504,8 @@ var ElementButton = {
 				tabindex: options.tabindex,
 				"aria-controls": ariaControls,
 				"aria-checked": options.ariaChecked == null ? null : options.ariaChecked.toString(),
+				"aria-expanded": options.ariaExpanded == null ? null : options.ariaExpanded.toString(),
+				"aria-haspopup": options.ariaHasPopup == null ? null : options.ariaHasPopup.toString(),
 				...(buttonOptions.attributes ?? {}),
 			},
 			classList,
@@ -1544,11 +1546,15 @@ var ElementButton = {
 					}
 				}
 				break;
+			case "combobox":
 			case "checkbox":
 			case "menuitemcheckbox":
 				elem.addEventListener("click", this._ClickCheckbox);
-				if (!elem.getAttribute("aria-checked")) {
+				if (!elem.hasAttribute("aria-checked")) {
 					elem.setAttribute("aria-checked", "false");
+				}
+				if (role === "combobox" && !elem.hasAttribute("aria-expanded")) {
+					elem.setAttribute("aria-expanded", "false");
 				}
 				break;
 			case "spinbutton": {
