@@ -1211,7 +1211,7 @@ function ChatSearchCreateGridRoom(room, index) {
 				const roomIdx = ChatSearchResult.findIndex(r => r.Name === room.Name);
 				if (roomIdx >= 0) ChatSearchResult.splice(roomIdx, 1);
 				document.getElementById(`chat-search-room-join-button-${room.Order}`).setAttribute("data-temporary-hidden", "true");
-				if (ChatSearchGhostPlayerOnClickActive) return ChatRoomListManipulation(Player.GhostList, true, "" + room.CreatorMemberNumber);
+				if (ChatSearchGhostPlayerOnClickActive) return ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
 
 				ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
 				return;
@@ -1704,7 +1704,7 @@ function ChatSearchClickPermission() {
 			// Do what player has chosen to do when clicking a room to hide it
 			if (ChatSearchGhostPlayerOnClickActive) {
 				// Add the room's creator to ghostlist
-				ChatRoomListManipulation(Player.GhostList, true, "" + room.CreatorMemberNumber);
+				ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
 			} else {
 				// Just temp hide the room
 				ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
@@ -1774,7 +1774,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 	}
 	if (ReasonsHasGhostList) {
 		// Remove creator from ghostlist
-		ChatRoomListManipulation(Player.GhostList, false, "" + Room.CreatorMemberNumber);
+		ChatRoomListUpdate(Player.GhostList, false, Room.CreatorMemberNumber);
 	}
 
 	// Move the room from the hidden result to the normal result
