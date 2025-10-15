@@ -66992,8 +66992,19 @@ var ActivityFemale3DCG = [
 		Name: "MasturbateHand",
 		ActivityID: 29,
 		MaxProgress: 100,
-		Prerequisite: ["ZoneAccessible", "UseHands", "ZoneNaked", "TargetMouthOpen"],
-		Target: ["ItemBreast", "ItemButt", "ItemVulva", "ItemVulvaPiercings", "ItemMouth"],
+		Prerequisite: [
+			"ZoneAccessible",
+			"UseHands",
+			"ZoneNaked",
+			"TargetMouthOpen",
+		],
+		Target: [
+			"ItemBreast",
+			"ItemButt",
+			"ItemVulva",
+			"ItemVulvaPiercings",
+			"ItemMouth",
+		],
 		TargetSelf: true,
 	},
 	{
