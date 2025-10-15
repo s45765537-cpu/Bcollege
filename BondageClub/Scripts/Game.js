@@ -44,6 +44,7 @@ function GameStart() {
 	// them to be made (well, their code, actually), breaking that ability.
 	document.addEventListener("keydown", (e) => GameKeyDown(e));
 	document.addEventListener("keyup", (e) => GameKeyUp(e));
+	document.addEventListener("paste", (e) => GamePaste(e));
 
 	const canvas = document.getElementById("MainCanvas");
 	canvas.tabIndex = 1000;
@@ -247,6 +248,13 @@ function GameKeyUp(event) {
 		event.stopImmediatePropagation();
 	}
 	return handled;
+}
+
+/** @type {ClipboardEventListener} */
+function GamePaste(event) {
+	if (!ScreenIsLoading) {
+		CurrentScreenFunctions.Paste?.(event);
+	}
 }
 
 var GameMouseIsDown = false;
