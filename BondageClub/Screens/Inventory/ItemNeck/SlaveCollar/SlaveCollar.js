@@ -1,7 +1,5 @@
 "use strict";
 var InventoryItemNeckSlaveCollarColorMode = false;
-/** @type {ItemColor} */
-var InventoryItemNeckSlaveCollarColor = "Default";
 var InventoryItemNeckSlaveCollarOffset = 0;
 
 // Defines all the slave collar models
@@ -117,13 +115,7 @@ function InventoryItemNeckSlaveCollarDrawHook(data, originalFunction) {
 	var C = CharacterGetCurrent();
 	if (C && C.IsOwnedByPlayer()) {
 		if (InventoryItemNeckSlaveCollarColorMode) {
-
-			// In color picking mode, we allow the user to change the collar color
-			ElementPosition("InputColor", 1450, 65, 300);
-			ColorPickerDraw(1300, 145, 675, 830, /** @type {HTMLInputElement} */(document.getElementById("InputColor")), function (Color) { DialogChangeItemColor(C, Color); });
-			DrawButton(1665, 25, 90, 90, "", "White", "Icons/ColorSelect.png");
-			DrawButton(1775, 25, 90, 90, "", "White", "Icons/ColorCancel.png");
-
+			ItemColorDraw(C, DialogFocusItem.Asset.Group.Name, 1200, 15, 790, 965);
 		} else {
 			// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
 			originalFunction();
@@ -146,7 +138,6 @@ function InventoryItemNeckSlaveCollarDrawHook(data, originalFunction) {
 function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 	// When the user exits the screen
 	if ((MouseX >= 1885) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 110)) {
-		ElementRemove("InputColor");
 		DialogLeaveFocusItem();
 		return;
 	}
@@ -155,33 +146,7 @@ function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 	var C = CharacterGetCurrent();
 	if (C != null && C.IsOwnedByPlayer()) {
 		if (InventoryItemNeckSlaveCollarColorMode) {
-
-			// In color picking mode, we allow the user to change the collar color
-			if ((MouseX >= 1665) && (MouseX <= 1755) && (MouseY >= 25) && (MouseY <= 110)) {
-				let Color = ElementValue("InputColor");
-				if (CommonIsColor(Color)) {
-					CharacterAppearanceSetColorForGroup(C, Color, "ItemNeck");
-					InventoryItemNeckSlaveCollarColorMode = false;
-					ElementRemove("InputColor");
-					ChatRoomCharacterItemUpdate(C);
-					if (CurrentScreen != "ChatRoom") CharacterRefresh(C);
-					DialogLeaveFocusItem();
-				}
-			}
-			if ((MouseX >= 1775) && (MouseX <= 1865) && (MouseY >= 25) && (MouseY <= 110)) {
-				InventoryItemNeckSlaveCollarColor = "Default";
-				InventoryItemNeckSlaveCollarColorMode = false;
-				CharacterAppearanceSetColorForGroup(C, InventoryItemNeckSlaveCollarColor, "ItemNeck");
-				ElementRemove("InputColor");
-				CharacterLoadCanvas(C);
-			}
-			if ((MouseX >= 1300) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 975)) {
-				let Color = ElementValue("InputColor");
-				CharacterAppearanceSetColorForGroup(C, Color, "ItemNeck");
-				CharacterLoadCanvas(C);
-				ElementValue("InputColor", Color);
-			}
-
+			ItemColorClick(C, DialogFocusItem.Asset.Group.Name, 1200, 15, 790, 965);
 		} else {
 			originalFunction();
 
@@ -192,8 +157,10 @@ function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 			}
 			if ((MouseX >= 1775) && (MouseX <= 1865) && (MouseY >= 25) && (MouseY <= 110)) {
 				InventoryItemNeckSlaveCollarColorMode = true;
-				InventoryItemNeckSlaveCollarColor = DialogFocusItem.Color;
-				ElementCreateInput("InputColor", "text", (DialogColorSelect != null) ? DialogColorSelect.toString() : "");
+				ItemColorLoad(C, DialogFocusItem, 1200, 15, 790, 965, true);
+				ItemColorOnExit(() => {
+					InventoryItemNeckSlaveCollarColorMode = false;
+				});
 			}
 			for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
 				var subType = DialogFocusItem?.Property?.TypeRecord?.noarch ?? 0;

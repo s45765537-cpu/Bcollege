@@ -365,3 +365,29 @@ select:invalid:not(:disabled):not(:read-only) {
 [hidden] {
 	display: none !important;
 }
+
+bc-tint-input {
+	--hue: 0;
+
+	display: inline-block;
+	aspect-ratio: 1 / 0.6;
+	width: 160px;
+	position: relative;
+	border-width: 2px;
+	border-style: inset;
+	border-color: gray;
+	box-sizing: border-box;
+	background-blend-mode: multiply;
+	background:
+		linear-gradient(90deg, white, hsl(var(--hue), 100%, 50%)),
+		linear-gradient(white, black);
+}
+
+bc-tint-input:invalid {
+	background-color: #fbb;
+	box-shadow: 0 0 3px 2px #c22;
+}
+
+bc-tint-input:disabled {
+	border-color: black;
+}

@@ -147,12 +147,13 @@ function CommonGetBrowser() {
 }
 
 /**
- * Parses a string into a number
+ * Parses a string into an integer
  * @param {string} val The string to parse into a number
+ * @param {null | number} radix A value between 2 and 36 that specifies the base of the number in the string. Defaults to 10 if not provided
  * @returns {number | null}
  */
-function CommonParseNumber(val) {
-	const num = parseInt(val, 10);
+function CommonParseInt(val, radix=null) {
+	const num = parseInt(val, radix ?? 10);
 	if (isNaN(num))
 		return null;
 	return num;
@@ -593,15 +594,17 @@ function CommonTime() {
 }
 
 /**
- * Checks if a given value is a valid HEX color code
+ * Checks if a given value is a valid HEX color code (optionally with alpha channel)
  * @param {string | undefined} Value - Potential HEX color code
+ * @param {null | { allowAlpha?: boolean }} [options]
  * @returns {boolean} - Returns TRUE if the string is a valid HEX color
  */
-function CommonIsColor(Value) {
+function CommonIsColor(Value, options=null) {
+	options ??= {};
 	if ((Value == null) || (Value.length < 3)) return false;
 	//convert short hand hex color to standard format
 	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];
-	return /^#[0-9A-F]{6}$/i.test(Value);
+	return options.allowAlpha ? /^#[0-9A-F]{6,8}$/i.test(Value) : /^#[0-9A-F]{6}$/i.test(Value);
 }
 
 /**

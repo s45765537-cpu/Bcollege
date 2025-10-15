@@ -337,9 +337,9 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 /**
  * Construct a `<select>`-based dropdown menu.
  * @param {string | null} id - The name of the select item.
- * @param {readonly (string | Omit<HTMLOptions<"option">, "tag">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+ * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
  * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
- * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number }} [options] - Additional `<select>`-specific properties
+ * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number, name?: string }} [options] - Additional `<select>`-specific properties
  * @param {null | Partial<Record<"select", Omit<HTMLOptions<"select">, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
  * @returns {HTMLSelectElement} - The created element
  */
@@ -353,10 +353,11 @@ function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOpti
 
 	options ??= {};
 	const booleanAttributes = Object.fromEntries(/** @type {const} */([
-		["required", options.required ? "" : undefined],
-		["multiple", options.multiple ? "" : undefined],
-		["disabled", options.disabled ? "" : undefined],
-		["size", options.size != null ? options.size.toString() : undefined],
+		["required", options.required],
+		["multiple", options.multiple],
+		["disabled", options.disabled],
+		["size", options.size],
+		["name", options.name],
 	]).filter(i => i[1] != null));
 
 	const selectOptions = htmlOptions?.select ?? {};
@@ -389,6 +390,8 @@ function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOpti
 			...optionsList.map(content => {
 				if (typeof content === "string") {
 					return { tag: /** @type {const} */("option"), children: [content] };
+				} else if ("tag" in content && content.tag === "hr") {
+					return /** @type {HTMLOptions<"hr">} */(content);
 				} else {
 					return { tag: /** @type {const} */("option"), ...content };
 				}
@@ -1454,6 +1457,16 @@ var ElementButton = {
 				break;
 		}
 
+		/** @type {null | string} */
+		let ariaControls = null;
+		if (options.ariaControls) {
+			/** @type {readonly (string | Element)[]} */
+			const ariaControlsCandidate = CommonIsArray(options.ariaControls) ? options.ariaControls : [options.ariaControls];
+			ariaControls = ariaControlsCandidate.map(idOrElem => {
+				return (typeof idOrElem === "string") ? idOrElem : idOrElem.id ||= ElementGenerateID();
+			}).join(" ");
+		}
+
 		elem = ElementCreate({
 			...buttonOptions,
 			tag: "button",
@@ -1464,6 +1477,9 @@ var ElementButton = {
 				"screen-generated": CurrentScreen,
 				role: options.role,
 				type: "button",
+				tabindex: options.tabindex,
+				"aria-controls": ariaControls,
+				"aria-checked": options.ariaChecked == null ? null : options.ariaChecked.toString(),
 				...(buttonOptions.attributes ?? {}),
 			},
 			classList,
@@ -2594,3 +2610,403 @@ function ElementFitText(el) {
 		if (size < 8) break;
 	}
 }
+
+/**
+ * HTML element for color tint pickers, functioning as some kind of 2D `<input type='range'>` input for selecting the color's saturation and brightness.
+ */
+class HTMLColorTintElement extends HTMLElement {
+	static observedAttributes = ["value", "disabled"];
+	static formAssociated = true;
+
+	/** @type {null | ElementInternals} */
+	internals_ = null;
+
+	/**
+	 * @private
+	 * @type {null | string}
+	 */
+	_pressedOldValue = null;
+
+	constructor() {
+		super();
+		if ("attachInternals" in this && typeof this.attachInternals === "function") {
+			this.internals_ = this.attachInternals();
+		}
+	}
+
+	connectedCallback() {
+		if (this.shadowRoot) {
+			return;
+		}
+		const shadow = this.attachShadow({ mode: "open" });
+
+		shadow.append(
+			ElementCreate({
+				tag: "div",
+				classList: ["knob"],
+				attributes: { "aria-hidden": "true" },
+				children: [{ tag: "div", classList: ["knob-circle"] }],
+			}),
+			ElementCreate({
+				tag: "link",
+				attributes: { rel: "stylesheet", href: "CSS/tint-input.css" },
+			}),
+		);
+
+		this.tabIndex = this.disabled ? -1 : 0;
+		this.defaultValue = this.value = this.getAttribute("value") ?? "#FFFFFF";
+
+		const tintPicker = this;
+
+		/** @type {(this: Document, ev: PointerEvent) => void} */
+		function pointermove(ev) {
+			if (tintPicker._pressedOldValue == null) {
+				return;
+			}
+
+			/** @type {null | HTMLElement} */
+			const knob = tintPicker.shadowRoot.querySelector(".knob");
+			if (!tintPicker || !knob) {
+				ev.stopImmediatePropagation();
+				return;
+			}
+
+			const { top, left, width, height } = tintPicker.getBoundingClientRect();
+			const saturation = CommonClamp((ev.pageX - left) / width, 0, 1);
+			const brightness = CommonClamp((ev.pageY - top) / height, 0, 1);
+			tintPicker._setKnobPosition(100 * saturation, 100 * brightness);
+			tintPicker.brightness = (1 - brightness) * 255;
+			tintPicker.saturation = saturation * 255;
+			tintPicker.dispatchEvent(new InputEvent("input"));
+		}
+
+		/** @type {(this: Document, ev: PointerEvent) => void} */
+		function pointerup(ev) {
+			if (tintPicker._pressedOldValue == null) {
+				return;
+			}
+
+			document.removeEventListener("pointerup", pointerup);
+			document.removeEventListener("pointercancel", pointerup);
+			document.removeEventListener("pointermove", pointermove);
+			if (ev.type !== "pointercancel" && tintPicker._pressedOldValue !== tintPicker.value) {
+				// Round the knob position such to the nearest 1/255 x- & y-coordinate
+				const top = (255 - tintPicker.brightness) / (255 / 100);
+				const left = tintPicker.saturation / (255 / 100);
+				tintPicker._setKnobPosition(left, top);
+				tintPicker.dispatchEvent(new Event("change"));
+			}
+			tintPicker._pressedOldValue = null;
+		}
+
+		/** @type {(this: HTMLColorTintElement, ev: PointerEvent) => void} */
+		function pointerdown(ev) {
+			if (this.disabled || ev.button !== 0) {
+				return;
+			}
+
+			tintPicker._pressedOldValue = this.value;
+			document.addEventListener("pointerup", pointerup);
+			document.addEventListener("pointercancel", pointerup);
+			document.addEventListener("pointermove", pointermove);
+			document.dispatchEvent(new PointerEvent("pointermove", ev));
+		}
+
+		/** @type {(this: HTMLColorTintElement, ev: KeyboardEvent) => void} */
+		function keydown(ev) {
+			let keyModified = ev.key;
+			const modifiers = CommonKey.GetModifiers(ev);
+			if (modifiers === CommonKey.SHIFT) {
+				switch (keyModified) {
+					case "PageUp":
+					case "PageDown":
+					case "Home":
+					case "End":
+						keyModified += "Shift";
+						break;
+					default:
+						return;
+				}
+			} else if (modifiers) {
+				return;
+			}
+
+			let increment = 1 / (255 / 100);
+			switch (ev.key) {
+				case "PageUp":
+				case "PageDown":
+					increment *= 8;
+					break;
+				case "Home":
+				case "End":
+					increment = 100;
+					break;
+			}
+
+			const { top, left } = tintPicker._getKnobPosition();
+			let [topNew, leftNew] = [top, left];
+			switch (keyModified) {
+				case "EndShift":
+				case "PageDownShift":
+				case "ArrowLeft":
+					leftNew = CommonClamp(left - increment, 0, 100);
+					break;
+				case "HomeShift":
+				case "PageUpShift":
+				case "ArrowRight":
+					leftNew = CommonClamp(left + increment, 0, 100);
+					break;
+				case "Home":
+				case "PageUp":
+				case "ArrowUp":
+					topNew = CommonClamp(top - increment, 0, 100);
+					break;
+				case "End":
+				case "PageDown":
+				case "ArrowDown":
+					topNew = CommonClamp(top + increment, 0, 100);
+					break;
+				default:
+					return;
+			}
+
+			ev.stopPropagation();
+			ev.preventDefault();
+			if (leftNew === left && topNew === top) {
+				return;
+			}
+			if (!ev.repeat) {
+				tintPicker._pressedOldValue = this.value;
+			}
+
+			tintPicker._setKnobPosition(leftNew, topNew);
+			tintPicker.brightness = (100 - topNew) * (255 / 100);
+			tintPicker.saturation = leftNew * (255 / 100);
+			tintPicker.dispatchEvent(new InputEvent("input"));
+		}
+
+		/** @type {(this: HTMLColorTintElement, ev: FocusEvent | KeyboardEvent) => void} */
+		function keyup(ev) {
+			tintPicker._pressedOldValue = null;
+		}
+
+		this.addEventListener("pointerdown", pointerdown);
+		this.addEventListener("keydown", keydown);
+		this.addEventListener("keyup", keyup);
+		this.addEventListener("blur", keyup);
+	}
+
+	/**
+	 * @param {string} name
+	 * @param {null | string} oldValue
+	 * @param {null | string} newValue
+	 */
+	attributeChangedCallback(name, oldValue, newValue) {
+		switch (name) {
+			case "value": {
+				if (newValue !== oldValue) {
+					this.defaultValue = this.value = newValue ?? "#FFFFFF";
+				}
+				break;
+			}
+			case "disabled": {
+				this.tabIndex = newValue == null ? 0 : -1;
+				break;
+			}
+		}
+	}
+
+	/**
+	 * See {@link HTMLInputElement.disabled}
+	 * @type {boolean}
+	 */
+	get disabled() {
+		return this.hasAttribute("disabled");
+	}
+	set disabled(value) {
+		this.toggleAttribute("disabled", value);
+	}
+
+	/**
+	 * Get or set the color hue on a scale of 0 to 360.
+	 * @type {number}
+	 */
+	get hue() {
+		return Math.round(this._value.H * 360);
+	}
+	set hue(value) {
+		const hsv = this.valueAsHSV;
+		hsv.H = CommonClamp(value / 360, 0, 1);
+		this.valueAsHSV = hsv;
+	}
+
+	/**
+	 * Get or set the color saturation on a scale of 0 to 255.
+	 * @type {number}
+	 */
+	get saturation() {
+		return Math.round(this._value.S * 255);
+	}
+	set saturation(value) {
+		const hsv = this.valueAsHSV;
+		hsv.S = CommonClamp(value / 255, 0, 1);
+		this.valueAsHSV = hsv;
+	}
+
+	/**
+	 * Get or set the color brightness on a scale of 0 to 255.
+	 * @type {number}
+	 */
+	get brightness() {
+		return Math.round(this._value.V * 255);
+	}
+	set brightness(value) {
+		const hsv = this.valueAsHSV;
+		hsv.V = CommonClamp(value / 255, 0, 1);
+		this.valueAsHSV = hsv;
+	}
+
+	/**
+	 * Returns the error message that would be displayed if the user submits the form, or an empty string if no error message.
+	 * It also triggers the standard error message, such as "this is a required field".
+	 * The result is that the user sees validation messages without actually submitting.
+	 *
+	 * See {@link HTMLInputElement.validationMessage}
+	 * @type {string}
+	 */
+	get validationMessage() {
+		return this.internals_?.validationMessage ?? "";
+	}
+
+	/**
+	 * Returns a ValidityState object that represents the validity states of an element.
+	 *
+	 * See {@link HTMLInputElement.validity}
+	 * @returns {ValidityState}
+	 */
+	get validity() {
+		return this.internals_?.validity ?? Object.freeze({
+			badInput: false,
+			customError: false,
+			patternMismatch: false,
+			rangeOverflow: false,
+			rangeUnderflow: false,
+			stepMismatch: false,
+			tooLong: false,
+			tooShort: false,
+			typeMismatch: false,
+			valid: true,
+			valueMissing: false,
+		});
+	}
+
+	/**
+	 * See {@link HTMLInputElement.reportValidity}
+	 * @returns {boolean}
+	 */
+	reportValidity() {
+		return this.internals_?.reportValidity() ?? true;
+	}
+
+	/**
+	 * Sets or retrieves the initial contents of the object.
+	 *
+	 * See {@link HTMLInputElement.defaultValue}
+	 * @type {string}
+	 */
+	defaultValue = "#FFFFFF";
+
+	/**
+	 * @private
+	 * @type {Readonly<HSVColor>}
+	 */
+	_value = { H: 0, S: 0, V: 1 };
+
+	/**
+	 * Get or set the color {@link value} via an object with [HSV](https://en.wikipedia.org/wiki/HSL_and_HSV) color values.
+	 * All HSV values are expected to be normalized to the `[0, 1]` range.
+	 * @type {HSVColor}
+	 */
+	get valueAsHSV() {
+		return { ...this._value };
+	}
+	set valueAsHSV(value) {
+		if (
+			CommonIsObject(value)
+			&& CommonIsFinite(value.H, 0, 1)
+			&& CommonIsFinite(value.S, 0, 1)
+			&& CommonIsFinite(value.V, 0, 1)
+		) {
+			value = CommonPick(value, ["H", "S", "V"]);
+		} else {
+			value = { H: 0, S: 0, V: 1 };
+		}
+
+		this._value = value;
+		const rgb = ColorPickerHSVToCSS(value);
+		/** @type {null | HTMLElement} */
+		const knob = this.shadowRoot?.querySelector(".knob-circle");
+		knob?.style.setProperty("background-color", rgb);
+		this.style.setProperty("--hue", (value.H * 360).toString());
+		if (this._pressedOldValue == null) {
+			this._setKnobPosition(100 * value.S, 100 * (1 - value.V));
+		}
+	}
+
+	/**
+	 * Sets or retrieves the initial contents of the object.
+	 *
+	 * See {@link HTMLInputElement.value}
+	 * @type {string}
+	 */
+	get value() {
+		return ColorPickerHSVToCSS(this._value);
+	}
+	set value(value) {
+		this.valueAsHSV = ColorPickerCSSToHSV(value);
+	}
+
+	/**
+	 * Sets or retrieves the name of the object.
+	 *
+	 * See {@link HTMLInputElement.name}
+	 * @type {string}
+	 */
+	get name() {
+		return this.getAttribute("name");
+	}
+	set name(value) {
+		this.setAttribute("name", value);
+	}
+
+	/**
+	 * Set the position the knob
+	 * @private
+	 * @param {number} left - The relative left position on a scale of 0-100
+	 * @param {number} top - The relative top position on a scale of 0-100
+	 */
+	_setKnobPosition(left, top) {
+		/** @type {null | HTMLElement} */
+		const knob = this.shadowRoot?.querySelector(".knob");
+		if (!knob) {
+			return;
+		}
+		knob.style.left = `${left}%`;
+		knob.style.top = `${top}%`;
+	}
+
+	/**
+	 * Get the position the knob
+	 * @private
+	 * @returns {{ left: number, top: number }} - The position of the knob on a scale of 0-100
+	 */
+	_getKnobPosition() {
+		/** @type {null | HTMLElement} */
+		const knob = this.shadowRoot?.querySelector(".knob");
+		const left = Number.parseFloat(knob ? (knob.style.left || getComputedStyle(knob).left) : "0%");
+		const top = Number.parseFloat(knob ? (knob.style.top || getComputedStyle(knob).top) : "0%");
+		return { left, top };
+	}
+}
+
+customElements.define("bc-tint-input", HTMLColorTintElement);

@@ -134,6 +134,10 @@ interface HTMLElementEventMap {
 	bcTouchHold: MouseEvent;
 }
 
+interface HTMLElementTagNameMap {
+	"bc-tint-input": HTMLColorTintElement;
+}
+
 declare namespace ElementButton {
 	/** An input type for representing one or more text nodes and/or **non-interactive** DOM elements (_e.g._ `<i>` or `<code>`) */
 	type StaticNode = null | string | Node | HTMLOptions<any> | readonly (null | undefined | string | Node | HTMLOptions<any>)[];
@@ -188,6 +192,12 @@ declare namespace ElementButton {
 		allowRequiredClick?: boolean;
 		/** The {@link HTMLButtonElement.name} of the button */
 		name?: string;
+		/** The {@link HTMLButtonElement.tabIndex} of the button */
+		tabindex?: number;
+		/** The elements (or IDs thereof) controlled by the button; see the `aria-controls` attribute */
+		ariaControls?: string | Element | readonly (string | Element)[];
+		/** The {@link HTMLButtonElement.ariaChecked} of the button */
+		ariaChecked?: boolean | "true" | "false" | "mixed" | "undefined";
 	}
 }
 
@@ -347,7 +357,7 @@ declare namespace ElementDOMScreen {
 		/** Buttons for in the header's menubar (see `.screen-header [role="menubar"]`) */
 		menubarButtons?: readonly HTMLButtonElement[];
 		/** Content for within the main section (see `.screen-main`) */
-		mainContent?: readonly (Node | string)[];
+		mainContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
 		/** Text content for within the heading (see `.screen-hgroup h1`) */
 		header?: string;
 		/**
@@ -1513,6 +1523,17 @@ interface Item {
 	Difficulty?: number;
 	Craft?: CraftingItem;
 	Property?: ItemProperties;
+}
+
+/** An item properties subtype with a guaranteed opacity field. */
+interface ItemColorProperties extends ItemProperties {
+	Opacity: number[];
+}
+
+/** An item subtype with a guaranteed color and opacity field. */
+interface ItemColorItem extends Item {
+	Color: string[];
+	Property: ItemColorProperties;
 }
 
 type FavoriteIcon = "Favorite" | "FavoriteBoth" | "FavoritePlayer";
@@ -4403,33 +4424,52 @@ declare namespace CraftingJSON {
 /** An object defining a group of layers which can be colored together */
 interface ColorGroup {
 	/** The name of the color group */
-	name: string;
+	name: null | string;
 	/** The layers contained within the color group */
 	layers: AssetLayer[];
 	/** The color index for the color group - this is the lowest color index of any of the layers within the color group */
 	colorIndex: number;
 }
 
+/** A fully mutubable subset of {@link ItemColorStateType} */
+interface ItemColorExitState extends Pick<ItemColorStateType, "colors" | "initialColors" | "opacity" | "initialOpacity"> {
+	initialColors: string[];
+	initialOpacity: number[];
+}
+
 /**
  * A callback function that is called when the item color UI exits
  * @param c - The character being colored
- * @param item - The item being colored
+ * @param colorState - The new colors and opacities
  * @param save - Whether the item's appearance changes should be saved
+ * @param root - The root DOM element of the subscreen (if any)
  */
-type itemColorExitListener = (
-	c: Character,
-	item: Item,
+type ItemColorExitListener = (
+	colorState: ItemColorExitState,
 	save: boolean,
+	root: null | HTMLElement,
 ) => void;
 
 interface ItemColorStateType {
 	colorGroups: ColorGroup[];
+	/** The colors of the item */
 	colors: string[];
+	/** The initial colors of the item prior to editing */
+	initialColors: readonly string[];
 	/**
 	 * The underlying assets default colors.
 	 * @see {@link Asset.DefaultColor}
 	 */
 	defaultColors: readonly string[];
+	/** The opacity of the item */
+	opacity: number[];
+	/** The initial opacity of the item prior to editing */
+	initialOpacity: readonly number[];
+	/**
+	 * The underlying assets default opacity.
+	 * @see {@link AssetLayer.Opacity} of the asset's layers
+	 */
+	defaultOpacity: readonly number[];
 	simpleMode: boolean;
 	paginationButtonX: number;
 	cancelButtonX: number;
@@ -4440,13 +4480,8 @@ interface ItemColorStateType {
 	groupButtonWidth: number;
 	pageSize: number;
 	pageCount: number;
-	colorInputWidth: number;
-	colorInputX: number;
-	colorInputY: number;
+	/** Whether the opacity is user-configurable */
 	editOpacity: boolean;
-	exportButtonX: number;
-	importButtonX: number;
-	resetButtonX: number;
 	drawImport: () => Promise<string>;
 	drawExport: (data: string) => Promise<void>;
 }
@@ -4461,8 +4496,21 @@ interface HSVColor {
 	V: number;
 }
 
-/** The color picker callback called when selection completes. */
-type ColorPickerCallbackType = (Color: string) => void;
+interface ColorPickerInitOptions {
+	/** The root element or `color-picker` fieldset (or ID thereof) in the color picker subscreen; defaults to {@link ColorPickerIDs.root} */
+	root?: ElementHelp.ElementOrId;
+	/** A custom heading to-be assigned to the color picker's `<h1>` element */
+	heading?: string | Node | readonly (string | Node)[];
+	/**
+	 * A custom input event listener that will to be triggered by any valid input changes of the underlying interactive elements (hue slider, opacity slider, tint slider or output text).
+	 */
+	onInput?: (elem: HTMLFieldSetElement, ev: CustomEvent<{ source: "hue" | "opacity" | "tint" | "output" }>) => any;
+	/**
+	 * A callback to-be executed upon closing the color picker.
+	 */
+	onExit?: ItemColorExitListener;
+	colorState?: Pick<ItemColorStateType, "editOpacity" | "opacity" | "colors">;
+}
 
 //#end region
 
