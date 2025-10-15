@@ -81,8 +81,14 @@
 
 .color-picker > *:nth-child(5) select {
 	height: 1.5em;
-	text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 	font-family: monospace;
+}
+
+@media (hover: none) {
+	/* For mobile devices (which do not support <option> background colors) always just use "black" as text color */
+	.color-picker > *:nth-child(5) select {
+		color: black !important;
+	}
 }
 
 .color-picker > *:nth-child(6) {

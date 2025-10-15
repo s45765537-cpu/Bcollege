@@ -330,10 +330,12 @@ var ColorPicker = {
 			const select = group?.querySelector("select[name='saved-colors']");
 			const option = select?.selectedOptions[0];
 			if (option?.value) {
+				const hsv = ColorPickerCSSToHSV(rgb);
 				option.style.setProperty("background-color", rgb);
+				option.style.setProperty("color", hsv.V < 0.5 ? "white" : "black");
 				option.label = `${option.index.toString().padStart(2, " ")}: ${rgb}`;
 				option.value = rgb;
-				Player.SavedColors[option.index - 1] = ColorPickerCSSToHSV(rgb);
+				Player.SavedColors[option.index - 1] = hsv;
 			}
 		},
 
@@ -534,11 +536,12 @@ var ColorPicker = {
 								[
 									{ attributes: { value: "", label: "-", selected: true } },
 									{ tag: "hr" },
-									...GetDefaultSavedColors().map((hsv, i) => {
+									...GetDefaultSavedColors().map((hsvBackup, i) => {
+										const hsv = Player.SavedColors[i] ?? hsvBackup;
 										const rgb = ColorPickerHSVToCSS(Player.SavedColors[i] ?? hsv);
 										return {
 											attributes: { value: rgb, label: `${(i + 1).toString().padStart(2, " ")}: ${rgb}` },
-											style: { "background-color": rgb },
+											style: { "background-color": rgb, color: hsv.V < 0.5 ? "white" : "black" },
 										};
 									}),
 								],
@@ -845,7 +848,8 @@ function ColorPickerReload(options=null) {
 			continue;
 		}
 
-		const value = ColorPickerHSVToCSS(Player.SavedColors[option.index - 1]);
+		const hsv = Player.SavedColors[option.index - 1];
+		const value = ColorPickerHSVToCSS(hsv);
 		if (value === option.value) {
 			continue;
 		}
@@ -853,6 +857,7 @@ function ColorPickerReload(options=null) {
 		option.value = value;
 		option.label = `${option.index.toString().padStart(2, " ")}: ${value}`;
 		option.style.setProperty("background-color", value);
+		option.style.setProperty("color", hsv.V < 0.5 ? "white" : "black");
 	}
 }
 
