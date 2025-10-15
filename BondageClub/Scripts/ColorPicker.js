@@ -276,10 +276,11 @@ var ColorPicker = {
 
 		/**
 		 * Load a saved color or revert back to the item's initial color
-		 * @type {(this: HTMLSelectElement, ev: Event) => void}
+		 * @type {(this: HTMLInputElement, ev: Event) => void}
 		 */
-		changeSelect: function (ev) {
-			const group = this.closest("fieldset");
+		changeRadio: function (ev) {
+			/** @type {null | HTMLFieldSetElement} */
+			const group = this.closest("fieldset[name='color-picker']");
 			const outputInput = /** @type {null | HTMLInputElement} */(group?.elements.namedItem("output"));
 			const saveButton = /** @type {null | HTMLButtonElement} */(group?.elements.namedItem("save"));
 			if (!group || !outputInput || !saveButton) {
@@ -315,6 +316,17 @@ var ColorPicker = {
 				}
 				saveButton.disabled = true;
 			}
+
+			// Change the background color of the saved color output element
+			const menu = this.closest("[role='menu']");
+			/** @type {null | HTMLOutputElement} */
+			const output = document.querySelector(`output[for~="${menu?.id}"]`);
+			if (output) {
+				output.replaceChildren(...Array.from(this.labels).map(i => i.textContent.replace(" ", "")));
+				output.style.backgroundColor = this.value;
+			}
+
+			this.blur();
 		},
 
 		/**
@@ -322,9 +334,23 @@ var ColorPicker = {
 		 * @type {(this: HTMLButtonElement, ev: PointerEvent) => void}
 		 */
 		clickSaveColor: function (ev) {
-			const group = this.closest("fieldset");
+			/** @type {null | HTMLFieldSetElement} */
+			const group = this.closest("fieldset[name='color-picker']");
 			const colorInput = /** @type {null | HTMLInputElement} */(group?.elements.namedItem("output"));
-			if (!(colorInput instanceof HTMLInputElement) || !colorInput.validity.valid) {
+			const savedColorOutput = /** @type {null | HTMLOutputElement} */(group?.elements.namedItem("saved-colors-output"));
+			const savedColorGroup = /** @type {null | HTMLFieldSetElement} */(group?.elements.namedItem("saved-colors-group"));
+			const savedColorInput = /** @type {null | HTMLInputElement} */(savedColorGroup?.querySelector("input:checked"));
+			if (
+				!colorInput?.validity.valid
+				|| !savedColorOutput
+				|| !savedColorGroup
+				|| !savedColorInput
+			) {
+				return;
+			}
+
+			const index = Array.from(savedColorGroup.querySelectorAll(`input[name='${savedColorInput.name}']`)).indexOf(savedColorInput);
+			if (index === -1) {
 				return;
 			}
 
@@ -333,17 +359,16 @@ var ColorPicker = {
 			}
 			const rgb = colorInput.value.slice(0, 7);
 
-			/** @type {null | HTMLSelectElement} */
-			const select = group?.querySelector("select[name='saved-colors']");
-			const option = select?.selectedOptions[0];
-			if (option?.value) {
-				const hsv = ColorPickerCSSToHSV(rgb);
-				option.style.setProperty("background-color", rgb);
-				option.style.setProperty("color", hsv.V < 0.5 ? "white" : "black");
-				option.label = `${option.index.toString().padStart(2, " ")}: ${rgb}`;
-				option.value = rgb;
-				Player.SavedColors[option.index - 1] = hsv;
-			}
+			savedColorInput.value = rgb;
+			savedColorInput.labels.forEach(el => {
+				el.style.backgroundColor = rgb;
+				el.querySelector(".checkbox-label").replaceChildren(`${index.toString().padStart(2, " ")}: ${rgb}`);
+			});
+
+			savedColorOutput.style.backgroundColor = rgb;
+			savedColorOutput.replaceChildren(`${index.toString().padStart(2, " ")}:${rgb}`);
+
+			Player.SavedColors[index - 1] = ColorPickerCSSToHSV(rgb);
 		},
 
 		/**
@@ -423,6 +448,102 @@ var ColorPicker = {
 	},
 
 	/**
+	 * @param {null | string} id
+	 * @param {readonly { value: string, label: string }[]} optionList
+	 * @returns {HTMLElement}
+	 */
+	_getDropdownWidget(id, optionList) {
+		id ??= ElementGenerateID();
+		const comboboxID = `${id}-combobox`;
+		return ElementCreate({
+			tag: "div",
+			classList: ["color-picker-dropdown"],
+			attributes: { role: "group" },
+			children: [
+				ElementButton.Create(
+					comboboxID,
+					function (ev) {
+						const hidden = this.getAttribute("aria-expanded") === "false";
+						const elems = this.getAttribute("aria-controls")?.split(" ").map(i => document.getElementById(i)).filter(Boolean) ?? [];
+						if (elems.length === 0) {
+							ev.stopImmediatePropagation();
+							return;
+						}
+
+						elems.forEach(e => e.toggleAttribute("hidden", hidden));
+						if (!hidden) {
+							/** @type {HTMLElement} */
+							const input = (
+								CommonFindMap(elems, (el) => el.querySelector("input:checked"))
+								?? CommonFindMap(elems, (el) => el.querySelector("input"))
+								?? elems[0]
+							);
+							input.focus();
+						}
+					},
+					{ role: "combobox", ariaControls: id, ariaHasPopup: "menu", name: "saved-colors-combobox" },
+				),
+				{
+					tag: "output",
+					attributes: { name: "saved-colors-output", for: id },
+					children: ["-"],
+				},
+				{
+					tag: "div",
+					attributes: { role: "menu", id, hidden: true },
+					children: [
+						{
+							tag: "fieldset",
+							classList: ["scroll-box"],
+							attributes: { name: "saved-colors-group" },
+							eventListeners: {
+								/** @type {(this: HTMLFieldSetElement, ev: FocusEvent) => void} */
+								focusout(ev) {
+									const menuID = this.closest("[role='menu']")?.id;
+									const controller = document.querySelector(`[aria-controls~="${menuID}"]`);
+									if (
+										ev.relatedTarget instanceof Element
+										&& (this.contains(ev.relatedTarget) || ev.relatedTarget === controller)
+									) {
+										return;
+									}
+
+									if (controller instanceof HTMLButtonElement && controller.getAttribute("aria-expanded") === "true") {
+										controller.click();
+									}
+								},
+							},
+							children: [
+								{ tag: "legend", children: ["Saved colors"] },
+								ElementCheckbox.CreateLabelled(
+									null, "-", ColorPicker.eventListeners.changeRadio,
+									{ checked: true, type: "radio", name: "saved-colors", value: "" },
+									{
+										checkbox: { attributes: { role: "menuitemradio" } },
+										label: { style: { "text-align": "center" } },
+										container: { attributes: { tabindex: -1 } },
+									},
+								),
+								{ tag: "hr" },
+								...optionList.map(({ value, label }) => {
+									return ElementCheckbox.CreateLabelled(
+										null, label, ColorPicker.eventListeners.changeRadio,
+										{ type: "radio", name: "saved-colors", value },
+										{
+											checkbox: { attributes: { role: "menuitemradio" }},
+											container: { attributes: { tabindex: -1 }, style: { "background-color": value } },
+										},
+									);
+								}),
+							],
+						},
+					],
+				},
+			],
+		});
+	},
+
+	/**
 	 * Construct a new fieldset with the main color input elements
 	 * @param {null | string} id - The ID of the element
 	 * @param {null | Pick<ColorPickerInitOptions, "colorState" | "onInput">} options
@@ -436,6 +557,12 @@ var ColorPicker = {
 		const outputID = ElementGenerateID();
 		const datalistID = ElementGenerateID();
 		const dropdownID = ElementGenerateID();
+
+		const defaultColors = GetDefaultSavedColors().map((hsvBackup, i) => {
+			const hsv = Player.SavedColors[i] ?? hsvBackup;
+			const rgb = ColorPickerHSVToCSS(hsv);
+			return { value: rgb, label: `${(i + 1).toString().padStart(2, " ")}: ${rgb}` };
+		});
 
 		let ret = /** @type {null | HTMLFieldSetElement} */(document.getElementById(id));
 		if (!ret) {
@@ -538,23 +665,7 @@ var ColorPicker = {
 						tag: "label",
 						children: [
 							{ tag: "span", children: ["Saved colors"] },
-							ElementCreateDropdown(
-								dropdownID,
-								[
-									{ attributes: { value: "", label: "-", selected: true } },
-									{ tag: "hr" },
-									...GetDefaultSavedColors().map((hsvBackup, i) => {
-										const hsv = Player.SavedColors[i] ?? hsvBackup;
-										const rgb = ColorPickerHSVToCSS(Player.SavedColors[i] ?? hsv);
-										return {
-											attributes: { value: rgb, label: `${(i + 1).toString().padStart(2, " ")}: ${rgb}` },
-											style: { "background-color": rgb, color: hsv.V < 0.5 ? "white" : "black" },
-										};
-									}),
-								],
-								ColorPicker.eventListeners.changeSelect,
-								{ name: "saved-colors" },
-							),
+							ColorPicker._getDropdownWidget(dropdownID, defaultColors),
 						],
 					},
 					ElementButton.Create(
@@ -790,13 +901,14 @@ function ColorPickerReload(options=null) {
 
 	// Gather the elements
 	const fieldset = /** @type {null | HTMLFieldSetElement} */(root.matches("fieldset[name='color-picker']") ? root : root.querySelector("fieldset[name='color-picker']"));
-	const select = /** @type {null | HTMLSelectElement} */(fieldset?.elements.namedItem("saved-colors"));
-	const selectSave = /** @type {null | HTMLButtonElement} */(fieldset?.elements.namedItem("save"));
+	const savedColor = /** @type {null | HTMLFieldSetElement} */(fieldset?.elements.namedItem("saved-colors-group"));
+	const savedColorOutput = /** @type {null | HTMLOutputElement} */(fieldset?.elements.namedItem("saved-colors-output"));
+	const savedColorSave = /** @type {null | HTMLButtonElement} */(fieldset?.elements.namedItem("save"));
 	const hueInput = /** @type {null | HTMLInputElement} */(fieldset?.elements.namedItem("hue"));
 	const opacityInput = /** @type {null | HTMLInputElement} */(fieldset?.elements.namedItem("opacity"));
 	const tintInput = /** @type {null | HTMLColorTintElement} */(fieldset?.elements.namedItem("tint"));
 	const outputInput = /** @type {null | HTMLInputElement} */(fieldset?.elements.namedItem("output"));
-	if (!fieldset || !select || !tintInput || !opacityInput || !opacityInput || !selectSave) {
+	if (!fieldset || !savedColor || !tintInput || !opacityInput || !opacityInput || !savedColorOutput || !savedColorSave) {
 		return;
 	}
 
@@ -848,24 +960,25 @@ function ColorPickerReload(options=null) {
 	}));
 
 	// Repopulate the saved colors as based on `Player.SavedColors`
-	selectSave.disabled = true;
-	select.value = "";
-	for (const option of select.options) {
-		if (option.index === 0) {
-			continue;
+	/** @type {NodeListOf<HTMLInputElement>} */
+	const radioInputs = savedColor.querySelectorAll("input[type='radio']");
+	radioInputs.forEach((input, i) => {
+		// The default (valueless) option `-`
+		if (!input.value) {
+			input.checked = true;
+			savedColorOutput.replaceChildren(...Array.from(input.labels).map(el => el.textContent.replace(" ", "")));
+			savedColorOutput.style.removeProperty("background-color");
+			return;
 		}
 
-		const hsv = Player.SavedColors[option.index - 1];
-		const value = ColorPickerHSVToCSS(hsv);
-		if (value === option.value) {
-			continue;
-		}
-
-		option.value = value;
-		option.label = `${option.index.toString().padStart(2, " ")}: ${value}`;
-		option.style.setProperty("background-color", value);
-		option.style.setProperty("color", hsv.V < 0.5 ? "white" : "black");
-	}
+		const hsv = Player.SavedColors[i - 1];
+		const rgb = ColorPickerHSVToCSS(hsv);
+		input.value = rgb;
+		input.labels.forEach(el => {
+			el.querySelector(".checkbox-label")?.replaceChildren(`${i.toString().padStart(2, " ")}: ${rgb}`);
+			el.style.backgroundColor = rgb;
+		});
+	});
 }
 
 /** @type {ScreenResizeHandler} */
@@ -879,7 +992,13 @@ function ColorPickerUnload() {
 }
 
 /** @type {ScreenExitHandler} */
-function ColorPickerExit() {
+function ColorPickerExit(forceExit=false) {
+	/** @type {null | HTMLButtonElement} */
+	const combobox = document.querySelector(`#${ColorPicker.ids.root} button[role='combobox'][aria-expanded='true']`);
+	if (!forceExit && combobox) {
+		combobox.click();
+		return;
+	}
 	ColorPickerExitCallback = null;
 	ColorPickerInputCallback = null;
 	document.getElementById(ColorPicker.ids.root)?.remove();
