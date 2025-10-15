@@ -2143,7 +2143,7 @@ var ElementCheckbox = {
 	 * @param {string | Node | HTMLOptions<keyof HTMLElementTagNameMap>} label - The label of the checkbox
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.LabelOptions} options - High level options for the to-be created checkbox
-	 * @param {null | Partial<Record<"checkbox" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @param {null | Partial<Record<"checkbox" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 */
 	CreateLabelled: function CreateLabelled(id=null, label, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
@@ -2160,12 +2160,14 @@ var ElementCheckbox = {
 
 		options ??= {};
 		const labelOptions = htmlOptions?.label ?? {};
+		const containerOptions = htmlOptions?.container ?? {};
 		const orientation = options.orientation ?? "horizontal";
 
 		return ElementCreate({
+			...containerOptions,
 			tag: "label",
-			classList: ["checkbox-pair", `checkbox-pair-${orientation}`],
-			attributes: { id: `checkbox-pair-${id}` },
+			classList: ["checkbox-pair", `checkbox-pair-${orientation}`, ...(containerOptions.classList ?? [])],
+			attributes: { id: `checkbox-pair-${id}`, ...(containerOptions.attributes ?? {}) },
 			children: [
 				this.Create(id, onChange, options, htmlOptions),
 				{
@@ -2177,7 +2179,8 @@ var ElementCheckbox = {
 					},
 					classList: ["checkbox-label", ...(labelOptions.classList ?? [])],
 					children: [label, ...(labelOptions.children ?? [])],
-				}
+				},
+				...(containerOptions.children ?? []),
 			],
 		});
 	}
