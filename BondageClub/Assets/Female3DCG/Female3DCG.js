@@ -67491,7 +67491,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "DeepThroat",
-		ActivityID: 63,
+		ActivityID: 65,
 		MaxProgress: 80,
 		Prerequisite: [
 			"ZoneAccessible",
