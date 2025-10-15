@@ -116,16 +116,14 @@
 }
 
 .friend-list-icon-container {
+	--tooltip-gap: 0.15em;
+
 	position: relative;
 	height: var(--row-height);
 	width: var(--row-height);
 	max-width: 86px;
 	max-height: 86px;
 	aspect-ratio: 1 / 1;
-}
-
-.friend-list-icon-container > .button-tooltip {
-	--tooltip-gap: 0.15em;
 }
 
 .friend-list-icon {

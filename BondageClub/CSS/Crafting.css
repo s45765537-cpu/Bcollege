@@ -1,18 +1,16 @@
 #crafting-screen {
-	--button-size: min(9vh, 4.5vw);
-
 	display: grid;
 	grid-template:
-		"crafting-top-bar crafting-top-bar crafting-top-bar" var(--button-size)
+		"crafting-top-bar crafting-top-bar crafting-top-bar" var(--menu-button-size)
 		"crafting-left-panel crafting-center-panel crafting-right-panel" auto / 3fr 1.75fr 3fr
 	;
-	gap: calc(var(--button-size) / 6);
+	gap: calc(var(--menu-button-size) / 6);
 }
 
 #crafting-top-bar {
 	display: grid;
 	grid-template-columns: auto min-content;
-	gap: calc(var(--button-size) / 6);
+	gap: calc(var(--menu-button-size) / 6);
 	grid-area: crafting-top-bar;
 }
 
@@ -23,14 +21,14 @@
 	color: white;
 	justify-self: center;
 	align-self: center;
-	padding-left: calc((5 + (4 / 6)) * var(--button-size));
+	padding-left: calc((5 + (4 / 6)) * var(--menu-button-size));
 }
 
 #crafting-menu-bar {
 	display: grid;
 	direction: rtl;
 	grid-auto-flow: column;
-	gap: calc(var(--button-size) / 6);
+	gap: calc(var(--menu-button-size) / 6);
 }
 
 #crafting-accept-button,
@@ -38,8 +36,8 @@
 #crafting-exit-button,
 #crafting-download-button,
 #crafting-upload-button {
-	width: var(--button-size);
-	height: var(--button-size);
+	width: var(--menu-button-size);
+	height: var(--menu-button-size);
 }
 
 #crafting-accept-button {
@@ -74,9 +72,9 @@
 	overflow-y: hidden;
 	height: 100%;
 	grid-template:
-		"crafting-property-button crafting-left-panel-expanded" calc(2.5 * var(--button-size))
-		"crafting-asset-button crafting-left-panel-expanded" calc(2.5 * var(--button-size))
-		"crafting-lock-button crafting-left-panel-expanded" auto / calc(1.8 * var(--button-size)) auto;
+		"crafting-property-button crafting-left-panel-expanded" calc(2.5 * var(--menu-button-size))
+		"crafting-asset-button crafting-left-panel-expanded" calc(2.5 * var(--menu-button-size))
+		"crafting-lock-button crafting-left-panel-expanded" auto / calc(1.8 * var(--menu-button-size)) auto;
 }
 
 #crafting-left-panel input[type="search"] {
@@ -107,7 +105,7 @@
 
 .crafting-grid {
 	display: grid;
-	gap: calc(var(--button-size) / 6);
+	gap: calc(var(--menu-button-size) / 6);
 	margin: 3px;
 	padding: 3px;
 }
@@ -115,12 +113,12 @@
 #crafting-asset-grid,
 #crafting-padlock-grid {
 	grid-template-columns: repeat(3, min-content);
-	grid-template-rows: repeat(auto-fill, calc(2.5 * var(--button-size)));
+	grid-template-rows: repeat(auto-fill, calc(2.5 * var(--menu-button-size)));
 }
 
 #crafting-property-grid {
 	grid-template-columns: min-content;
-	grid-template-rows: repeat(auto-fill, calc(1.5 * var(--button-size)));
+	grid-template-rows: repeat(auto-fill, calc(1.5 * var(--menu-button-size)));
 }
 
 #crafting-asset-grid button,
@@ -128,8 +126,8 @@
 #crafting-property-button,
 #crafting-asset-button,
 #crafting-padlock-button {
-	width: calc(1.8 * var(--button-size));
-	height: calc(2.5 * var(--button-size));
+	width: calc(1.8 * var(--menu-button-size));
+	height: calc(2.5 * var(--menu-button-size));
 }
 
 #crafting-asset-grid button[data-hidden-asset]:not([aria-checked="true"]),
@@ -138,8 +136,8 @@
 }
 
 #crafting-property-grid button {
-	width: calc(5.7 * var(--button-size));
-	height: calc(1.5 * var(--button-size));
+	width: calc(5.7 * var(--menu-button-size));
+	height: calc(1.5 * var(--menu-button-size));
 }
 
 #crafting-property-grid button > .button-label {
@@ -171,14 +169,14 @@
 }
 
 #crafting-undress-button {
-	width: var(--button-size);
-	height: var(--button-size);
+	width: var(--menu-button-size);
+	height: var(--menu-button-size);
 	background-image: url("../Icons/Naked.png");
 }
 
 #crafting-right-panel {
 	grid-area: crafting-right-panel;
-	padding-right: calc(var(--button-size) / 12);
+	padding-right: calc(var(--menu-button-size) / 12);
 }
 
 #crafting-extended-button,
@@ -187,8 +185,8 @@
 #crafting-colors-button,
 #crafting-private-checkbox,
 #crafting-ascii-description-checkbox {
-	height: calc(0.75 * var(--button-size));
-	width: calc(0.75 * var(--button-size));
+	height: calc(0.75 * var(--menu-button-size));
+	width: calc(0.75 * var(--menu-button-size));
 }
 
 #crafting-extended-button {
@@ -206,12 +204,12 @@
 .crafting-label {
 	width: calc(100% - 6px);
 	display: grid;
-	row-gap: calc(var(--button-size) / 12);
-	column-gap: calc(var(--button-size) / 6);
+	row-gap: calc(var(--menu-button-size) / 12);
+	column-gap: calc(var(--menu-button-size) / 6);
 	padding-left: 3px;
 	padding-right: 3px;
-	padding-top: calc(var(--button-size) / 12);
-	padding-bottom: calc(var(--button-size) / 12);
+	padding-top: calc(var(--menu-button-size) / 12);
+	padding-bottom: calc(var(--menu-button-size) / 12);
 	cursor: pointer;
 	color: white;
 	font: inherit;
@@ -250,19 +248,19 @@
 }
 
 #crafting-name-input, #crafting-colors-input {
-	height: calc(0.75 * var(--button-size));
+	height: calc(0.75 * var(--menu-button-size));
 }
 
 #crafting-description-input {
-	height: calc(3 * var(--button-size));
+	height: calc(3 * var(--menu-button-size));
 }
 
 #crafting-layering-label {
-	grid-template-columns: calc(1.5 * var(--button-size)) min-content auto;
+	grid-template-columns: calc(1.5 * var(--menu-button-size)) min-content auto;
 }
 
 #crafting-layering-input {
-	height: calc(0.75 * var(--button-size));
+	height: calc(0.75 * var(--menu-button-size));
 }
 
 #crafting-private-label,
@@ -279,10 +277,6 @@
 }
 
 @supports (height: 100dvh) {
-	#crafting-screen {
-		--button-size: min(9dvh, 4.5dvw);
-	}
-
 	#crafting-header {
 		font-size: min(5dvh, 2.5dvw);
 	}

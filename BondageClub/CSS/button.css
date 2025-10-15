@@ -13,8 +13,18 @@
 	--button-color: white;
 	/* Background color for disabled buttons */
 	--disabled-color: grey;
-	/* Background color for hovered and/or active buttons */
+	/* Background color for hovered buttons */
 	--hover-color: cyan;
+	/* Background color for buttons that are active (_e.g._ currently clicked upon with the mouse) */
+	--active-color: var(--hover-color);
+	/* Background color for toggle buttons ("checkboxes") that are currently checked per their `[aria-checked="true"]` attribute */
+	--checked-color: var(--hover-color);
+	/* The gap between the button and its tooltip (`.button-tooltip`) */
+	--tooltip-gap: var(--half-gap);
+	/* The size of the icons within a button's icon grid (`.button-icon-grid`) */
+	--icon-size: min(50px, 5vh, 2.5vw);
+	/* The size of the inner border that appears whenever a button is clicked upon or toggled to its `checked` state */
+	--inner-border-width: calc(2 * var(--border-width));
 
 	cursor: pointer;
 	position: relative;
@@ -24,6 +34,12 @@
 	mask-size: contain;
 	box-sizing: border-box;
 	user-select: none;
+}
+
+@supports (background-color: color-mix(in srgb, black 50%, transparent)) {
+	.button {
+		--checked-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
+	}
 }
 
 .button-horizontal {
@@ -61,13 +77,11 @@
 }
 
 .button-tooltip {
-	--tooltip-gap: min(1vh, 0.5vw);
-
 	cursor: auto;
 	background-color: #FFFF88;
 	color: black;
 	border: var(--border-width) solid black;
-	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
+	box-shadow: var(--inner-border-width) var(--inner-border-width) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
 	box-sizing: border-box;
 	padding: 0.3em 0.6em 0.3em 0.6em;
 	position: absolute;
@@ -155,13 +169,11 @@
 }
 
 .button-icon-grid {
-	--icon-size: min(50px, 5vh, 2.5vw);
-
 	display: grid;
 	position: absolute;
 	pointer-events: none;
-	top: min(0.3vh, 0.15vw);
-	left: min(0.3vh, 0.15vw);
+	top: var(--inner-border-width);
+	left: var(--inner-border-width);
 	grid-template-rows: repeat(4, var(--icon-size));
 	gap: calc(var(--icon-size) / 8);
 }
@@ -232,7 +244,7 @@
 /* selectors */
 
 .button-styling[aria-checked="true"] {
-	background-color: var(--hover-color);
+	background-color: var(--checked-color);
 }
 
 .button-styling[aria-checked="true"]::before,
@@ -244,7 +256,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border: min(0.4vh, 0.2vw) inset black;
+	border: var(--inner-border-width) inset black;
 }
 
 .button-styling:disabled::before,
@@ -253,12 +265,12 @@
 }
 
 .button-styling[aria-checked="true"]::before {
-	border: min(0.4vh, 0.2vw) inset black;
+	border: var(--inner-border-width) inset black;
 }
 
 .button-styling:active,
 .button-styling[data-active] {
-	background-color: var(--hover-color);
+	background-color: var(--active-color);
 }
 
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
@@ -342,30 +354,8 @@
 }
 
 @supports (height: 100dvh) {
-	.button-tooltip {
-		--tooltip-gap: min(1dvh, 0.5dvw);
-	}
-
-	.button-icon-grid {
+	.button {
 		--icon-size: min(50px, 5dvh, 2.5dvw);
-
-		top: min(0.3dvh, 0.15dvw);
-		left: min(0.3dvh, 0.15dvw);
-	}
-
-	.button-styling[aria-checked="true"]::before,
-	.button-styling:active::before,
-	.button-styling[data-active]::before {
-		border: min(0.4dvh, 0.2dvw) inset black;
-	}
-
-	.button-styling:disabled::before,
-	.button-styling[aria-disabled="true"]::before {
-		border: unset;
-	}
-
-	.button-styling[aria-checked="true"]::before {
-		border: min(0.4dvh, 0.2dvw) inset black;
 	}
 }
 
@@ -374,21 +364,13 @@
 		background-color: color-mix(in srgb, var(--button-color) 50%, transparent);
 	}
 
-	.button-styling[aria-checked="true"] {
-		background-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
-	}
-
 	.button-styling[aria-checked="true"] > .button-label {
-		background-color: color-mix(
-			in srgb,
-			color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%) 50%,
-			transparent
-		);
+		background-color: color-mix(in srgb, var(--checked-color) 50%, transparent);
 	}
 
 	.button-styling:active > .button-label,
 	.button-styling[data-active] > .button-label {
-		background-color: color-mix(in srgb, var(--hover-color) 50%, transparent);
+		background-color: color-mix(in srgb, var(--active-color) 50%, transparent);
 	}
 
 	@media (hover: hover) {
@@ -405,16 +387,15 @@
 	*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
 	*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
 	*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] {
-		background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
+		background-color: color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%) !important;
 	}
 
 	*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
 	*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
 	*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] > .button-label {
-		background-color: var(--disabled-color) !important;
 		background-color: color-mix(
 			in srgb,
-			color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%),
+			color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%),
 			transparent
 		) !important;
 	}

@@ -1,8 +1,5 @@
 .dialog-root {
-	--menu-button-size: min(9vh, 4.5vw);
 	--button-height: calc(min(25vh, 12.5vw) - 2px);
-	--gap: min(2vh, 1vw);
-	--scrollbar-gutter: max(20px, 1.25 * var(--gap));
 
 	display: grid;
 	gap: var(--gap);
@@ -22,6 +19,8 @@
 }
 
 .dialog-menubar-button {
+	--tooltip-gap: var(--gap);
+
 	width: var(--menu-button-size);
 	aspect-ratio: 1 / 1;
 }
@@ -31,10 +30,6 @@
 	height: min(90px, 94%);
 	top: 50%;
 	transform: translate(-50%, -50%);
-}
-
-.dialog-menubar-button > .button-tooltip {
-	--tooltip-gap: var(--gap);
 }
 
 .dialog-paginate {
@@ -47,12 +42,10 @@
 }
 
 .dialog-paginate-button {
+	--tooltip-gap: var(--gap);
+
 	height: var(--menu-button-size);
 	width: var(--menu-button-size);
-}
-
-.dialog-paginate-button > .button-tooltip {
-	--tooltip-gap: var(--gap);
 }
 
 .dialog-icon {
@@ -109,6 +102,8 @@
 }
 
 .dialog-grid-button {
+	--tooltip-gap: var(--gap);
+
 	scroll-snap-align: start;
 	height: var(--button-height);
 	width: min(100%, calc(0.8 * var(--button-height)));
@@ -125,9 +120,7 @@
 }
 
 .dialog-grid-button > .button-tooltip {
-	--tooltip-gap: var(--gap);
-
-	width: calc(400% + 4 * min(0.2vh, 0.1vw) + 3 * var(--gap));
+	width: calc(400% + 4 * var(--border-width) + 3 * var(--gap));
 	font-size: 0.65em;
 	max-height: calc(2 * var(--button-height) + var(--gap));
 	display: -webkit-box;
@@ -335,7 +328,7 @@
 }
 
 .dialog-focus-grid [role="radio"][aria-checked="true"] {
-	border-width: min(0.5vh, 0.25vw);
+	border-width: calc(2.5 * var(--border-width));
 	border-color: cyan;
 }
 
@@ -497,43 +490,25 @@
 
 @supports(height: 100dvh) {
 	.dialog-root {
-		--menu-button-size: min(9dvh, 4.5dvw);
 		--button-height: calc(min(25dvh, 12.5dvw) - 2px);
-		--gap: min(2dvh, 1dvw);
 	}
 
 	#dialog-dialog {
 		--dialog-button-size: min(8dvh, 4dvw);
-	}
-
-	.dialog-grid-button > .button-tooltip {
-		width: calc(400% + 4 * min(0.2dvh, 0.1dvw) + 3 * var(--gap));
-	}
-
-	.dialog-focus-grid [role="radiogroup"] {
-		border-width: var(--border-width);
-	}
-
-	.dialog-focus-grid [role="radio"] {
-		border-width: var(--border-width);
-	}
-
-	.dialog-focus-grid [role="radio"][aria-checked="true"] {
-		border-width: min(0.5dvh, 0.25dvw);
 	}
 }
 
 @supports (background-color: color-mix(in srgb, black 50%, transparent)) {
 	.dialog-grid-button:disabled[aria-checked="true"],
 	.dialog-grid-button[aria-disabled="true"][aria-checked="true"] {
-		background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
+		background-color: color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%) !important;
 	}
 
 	.dialog-grid-button:disabled[aria-checked="true"] > .button-label,
 	.dialog-grid-button[aria-disabled="true"][aria-checked="true"] > .button-label {
 		background-color: color-mix(
 			in srgb,
-			color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) 50%,
+			color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%) 50%,
 			transparent
 		) !important;
 	}

@@ -26,16 +26,14 @@
   display: grid;
   grid-template-columns: min(30vh, 15vw) min(50vh, 25vw) min(10vh, 5vw);
   grid-template-columns: min(30dvh, 15dvw) min(50dvh, 25dvw) min(10dvh, 5dvw);
-  gap: min(2vh, 1vw);
-  gap: min(2dvh, 1dvw);
+  gap: var(--gap);
 }
 
 .preference-settings-dropdown {
   display: grid;
   grid-template-columns: auto min(20vh, 10vw);
   grid-template-columns: auto min(20dvh, 10dvw);
-  gap: min(2vh, 1vw);
-  gap: min(2dvh, 1dvw);
+  gap: var(--gap);
 }
 
 .preference-settings-dropdown span {
@@ -46,23 +44,18 @@
   display: flex;
   flex-direction: column;
   gap: min(1vh, 0.5vw);
-  gap: min(1dvh, 0.5dvw);
 }
 
 .preference-settings-divider {
   color: transparent;
-  border-bottom: min(0.2vh, 0.1vw) solid #000000;
-  border-bottom: min(0.2dvh, 0.1dvw) solid #000000;
-  margin: min(2vh, 1vw) 0;
-  margin: min(2dvh, 1dvw) 0;
+  border-bottom: var(--border-width) solid #000000;
+  margin: var(--gap) 0;
 }
 
 /* #region Main */
 
 .preference-button-grid {
   --button-height: 2.3em; /* 2 lines of text */
-  --gap: min(2vh, 1vw);
-  --gap: min(2dvh, 1dvw);
 
   display: grid;
   gap: var(--gap);
@@ -123,8 +116,7 @@
 #RoomCustomizationLevel-dropdown-container {
   display: grid;
   grid-template-columns: auto auto;
-  gap: min(2vh, 1vw);
-  gap: min(2dvh, 1dvw);
+  gap: var(--gap);
 }
 
 /* #endregion Online */
@@ -136,8 +128,7 @@
   display: grid;
   grid-template-columns: auto min(60vh, 30vw);
   grid-template-columns: auto min(60dvh, 30dvw);
-  gap: min(2vh, 1vw);
-  gap: min(2dvh, 1dvw);
+  gap: var(--gap);
 }
 
 #preference-censored-words-word-input-group span,
@@ -149,8 +140,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: min(2vh, 1vw);
-  gap: min(2dvh, 1dvw);
+  gap: var(--gap);
   max-height: min(50vh, 25vw);
   max-height: min(50dvh, 25dvw);
   width: min(120vh, 60vw);
@@ -160,13 +150,10 @@
 .preference-settings-word-pair {
   display: flex;
   flex-direction: row;
-  gap: min(2vh, 1vw);
-  gap: min(2dvh, 1dvw);
+  gap: var(--gap);
   align-items: center;
-  border: min(0.2vh, 0.1vw) solid #00000080;
-  border: min(0.2dvh, 0.1dvw) solid #00000080;
-  border-radius: min(0.4vh, 0.2vw);
-  border-radius: min(0.4dvh, 0.2dvw);
+  border: var(--border-width) solid #00000080;
+  border-radius: calc(2 * var(--border-width));
   padding: min(1vh, 0.5vw);
   padding: min(1dvh, 0.5dvw);
   background-color: #00000020;
