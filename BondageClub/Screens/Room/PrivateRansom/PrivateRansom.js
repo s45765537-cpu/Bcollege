@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PrivateRansomBackground = "Sheet";
 /** @type {null | NPCCharacter} */

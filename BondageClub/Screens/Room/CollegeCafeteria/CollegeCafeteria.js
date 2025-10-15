@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var CollegeCafeteriaBackground = "CollegeCafeteria";
 /** @type {null | NPCCharacter} */

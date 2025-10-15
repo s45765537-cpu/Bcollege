@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var AppearanceBackground = "Dressing";
 /** Offset for the group view */

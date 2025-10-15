@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ClubCardBuilderBackground = "ClubCardPlayBoard1";
 var ClubCardBuilderDeckIndex = -1;

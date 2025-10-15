@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PlayerMistressBackground = "Management";
 /** @type {null | NPCCharacter} */

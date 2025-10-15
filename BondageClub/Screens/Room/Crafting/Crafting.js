@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // NOTE: Keep as `var` to enable `window`-based lookup

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // Disable interpolation when scaling, will make texture be pixelated

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /** @type {null | string[][]} */
 var ActivityDictionary = null;

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 var AfkTimerTimout = 5 * 60 * 1000; // 5 minutes

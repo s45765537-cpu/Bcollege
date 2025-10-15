@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // How to make your item futuristic!

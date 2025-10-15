@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var GameClubCardBackground = "Sheet";
 var GameClubCardEntryPlayerSlot = 0;

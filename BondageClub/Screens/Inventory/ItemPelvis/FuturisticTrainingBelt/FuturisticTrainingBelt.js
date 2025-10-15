@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 var FuturisticTrainingBeltPermissions = ["Public", "Mistresses", "Locked"];

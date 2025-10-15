@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 'use strict';
 
 /** @typedef {{action: string, id: string, result: string, favorability: number, delay: number,}} KDAS_Result */

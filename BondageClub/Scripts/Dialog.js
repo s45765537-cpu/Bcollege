@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** @deprecated - Superseded by `span.dialog-status`. */

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var WheelFortuneBackground = "Black";
 /** @type {ScreenSpecifier | null} */

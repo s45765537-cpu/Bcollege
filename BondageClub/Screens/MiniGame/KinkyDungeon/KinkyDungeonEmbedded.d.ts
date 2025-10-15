@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 /**
  * This file lists contains Kinky Dungeon defines for things
  * that are unavailable when running inside BC.

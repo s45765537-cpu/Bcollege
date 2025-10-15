@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 let KinkyDungeonGagMumbleChance = 0.02;

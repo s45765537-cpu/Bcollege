@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** No dialogues will trigger when the player dist is higher than this */

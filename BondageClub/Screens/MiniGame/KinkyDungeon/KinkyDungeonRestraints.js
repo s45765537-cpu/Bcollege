@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 // Escape chances
 // Struggle : How difficult it is to struggle out of the item. Shouldn't be below 0.1 as that would be too tedious. Negative values help protect against spells.

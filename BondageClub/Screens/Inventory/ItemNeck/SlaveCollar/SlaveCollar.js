@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var InventoryItemNeckSlaveCollarColorMode = false;
 var InventoryItemNeckSlaveCollarOffset = 0;

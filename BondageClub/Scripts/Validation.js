@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // Regexes for lock combination numbers and passwords

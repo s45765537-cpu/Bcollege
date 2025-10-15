@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 type Named = {
 	name: string,
 }

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 // Main variables
 "use strict";
 /** @type {PlayerCharacter} */

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PrivateBackground = "Private";
 /** @type {null | NPCCharacter} */

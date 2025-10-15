@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 const ChatRoomMapViewName = "Map";
 var ChatRoomMapViewWidth = 40;

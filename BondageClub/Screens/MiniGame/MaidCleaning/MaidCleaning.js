@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var MaidCleaningBackground = "";
 /** @type {null | { X: number, Y: number, T: number }[]} */

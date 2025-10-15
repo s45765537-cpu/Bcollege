@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /**
  * The background to use for the settings screen

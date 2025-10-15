@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 const OwnerTimerChooseList = [1, 2, 4, 8, 16, 24, 48, 72, 96, 120, 144, 168, -144, -72, -48, -24, -8, -4];

@@ -20,7 +20,7 @@
 		"assets:posemapping": "cd Tools/Node && node --unhandled-rejections=strict PoseMapping",
 		"scripts:lint": "eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:lint:fix": "eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
-		"scripts:typecheck": "cd ../ && tsc -p BondageClub/jsconfig.json",
+		"scripts:typecheck": "cd ../ && tsc -p BondageClub/tsconfig.json",
 		"files:case": "cd Tools/Node && node --unhandled-rejections=strict FileCase",
 		"files:sortcsv": "cd Tools/Node && node --unhandled-rejections=strict SortCSV",
 		"test": "echo \\\"Error: no test specified\\\" && exit 1"
@@ -82,7 +82,8 @@
 		"stream-counter": "^1.0.0",
 		"table": "^6.7.3",
 		"through2": "^4.0.2",
-		"typescript": "^5.9.3"
+		"typescript": "^5.9.3",
+		"typescript-strict-plugin": "^2.4.4"
 	},
 	"dependencies": {
 		"csv-writer": "^1.6.0",
