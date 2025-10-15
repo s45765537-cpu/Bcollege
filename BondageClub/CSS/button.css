@@ -13,8 +13,12 @@
 	--button-color: white;
 	/* Background color for disabled buttons */
 	--disabled-color: grey;
-	/* Background color for hovered and/or active buttons */
+	/* Background color for hovered buttons */
 	--hover-color: cyan;
+	/* Background color for buttons that are active (_e.g._ currently clicked upon with the mouse) */
+	--active-color: var(--hover-color);
+	/* Background color for toggle buttons ("checkboxes") that are currently checked per their `[aria-checked="true"]` attribute */
+	--checked-color: var(--hover-color);
 	/* The gap between the button and its tooltip (`.button-tooltip`) */
 	--tooltip-gap: var(--half-gap);
 	/* The size of the icons within a button's icon grid (`.button-icon-grid`) */
@@ -30,6 +34,12 @@
 	mask-size: contain;
 	box-sizing: border-box;
 	user-select: none;
+}
+
+@supports (background-color: color-mix(in srgb, black 50%, transparent)) {
+	.button {
+		--checked-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
+	}
 }
 
 .button-horizontal {
@@ -234,7 +244,7 @@
 /* selectors */
 
 .button-styling[aria-checked="true"] {
-	background-color: var(--hover-color);
+	background-color: var(--checked-color);
 }
 
 .button-styling[aria-checked="true"]::before,
@@ -260,7 +270,7 @@
 
 .button-styling:active,
 .button-styling[data-active] {
-	background-color: var(--hover-color);
+	background-color: var(--active-color);
 }
 
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
@@ -354,21 +364,13 @@
 		background-color: color-mix(in srgb, var(--button-color) 50%, transparent);
 	}
 
-	.button-styling[aria-checked="true"] {
-		background-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
-	}
-
 	.button-styling[aria-checked="true"] > .button-label {
-		background-color: color-mix(
-			in srgb,
-			color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%) 50%,
-			transparent
-		);
+		background-color: color-mix(in srgb, var(--checked-color) 50%, transparent);
 	}
 
 	.button-styling:active > .button-label,
 	.button-styling[data-active] > .button-label {
-		background-color: color-mix(in srgb, var(--hover-color) 50%, transparent);
+		background-color: color-mix(in srgb, var(--active-color) 50%, transparent);
 	}
 
 	@media (hover: hover) {
@@ -385,16 +387,15 @@
 	*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
 	*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
 	*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] {
-		background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
+		background-color: color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%) !important;
 	}
 
 	*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
 	*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
 	*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] > .button-label {
-		background-color: var(--disabled-color) !important;
 		background-color: color-mix(
 			in srgb,
-			color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%),
+			color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%),
 			transparent
 		) !important;
 	}

@@ -501,14 +501,14 @@
 @supports (background-color: color-mix(in srgb, black 50%, transparent)) {
 	.dialog-grid-button:disabled[aria-checked="true"],
 	.dialog-grid-button[aria-disabled="true"][aria-checked="true"] {
-		background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
+		background-color: color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%) !important;
 	}
 
 	.dialog-grid-button:disabled[aria-checked="true"] > .button-label,
 	.dialog-grid-button[aria-disabled="true"][aria-checked="true"] > .button-label {
 		background-color: color-mix(
 			in srgb,
-			color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) 50%,
+			color-mix(in srgb, var(--disabled-color) 34%, var(--checked-color) 66%) 50%,
 			transparent
 		) !important;
 	}
