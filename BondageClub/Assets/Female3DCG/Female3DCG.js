@@ -67351,7 +67351,6 @@ var ActivityFemale3DCG = [
 			"AssEmpty",
 			"Needs-PenetrateItem",
 			"ZoneNaked",
-			"CanUsePenis",
 		],
 		Target: ["ItemButt", "ItemMouth", "ItemVulva"],
 	},
@@ -67366,7 +67365,6 @@ var ActivityFemale3DCG = [
 			"AssEmpty",
 			"Needs-PenetrateItem",
 			"ZoneNaked",
-			"CanUsePenis",
 		],
 		Target: ["ItemButt", "ItemMouth", "ItemVulva"],
 	},
@@ -67479,6 +67477,30 @@ var ActivityFemale3DCG = [
 		Target: ["ItemHead"],
 		TargetSelf: true,
 		ActivityExpression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
+	},
+	{
+		Name: "DeepThroat",
+		ActivityID: 63,
+		MaxProgress: 80,
+		Prerequisite: [
+			"ZoneAccessible",
+			"UseMouth",
+			"ZoneNaked",
+			"TargetNeeds-PenetrateItem",
+		],
+		Target: ["ItemVulva"],
+	},
+	{
+		Name: "SuckPenetrateItem",
+		ActivityID: 64,
+		MaxProgress: 80,
+		Prerequisite: [
+			"ZoneAccessible",
+			"UseMouth",
+			"ZoneNaked",
+			"TargetNeeds-PenetrateItem",
+		],
+		Target: ["ItemVulva"],
 	},
 ];
 

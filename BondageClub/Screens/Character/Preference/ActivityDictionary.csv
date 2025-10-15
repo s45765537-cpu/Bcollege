@@ -66,6 +66,8 @@ ActivityEatItem,Eat
 ActivityScratch,Scratch
 ActivityThrowItem,Throw Item
 ActivityCollarGrab,Grab Collar
+ActivityDeepThroat,Deep Throat
+ActivitySuckPenetrateItem,Suck
 OrgasmFailResist0,"SourceCharacter is tormented by the vibrations, struggling to keep PronounPossessive cool."
 OrgasmFailResist1,"SourceCharacter struggles against the intense vibrations, hardly able to control PronounPossessiveself."
 OrgasmFailResist2,SourceCharacter resists the stimulation until it finally cuts off abruptly.
@@ -394,6 +396,8 @@ Label-ChatOther-ItemPenis-Slap,Slap Penis
 Label-ChatOther-ItemPenis-SpankItem,Spank Penis
 Label-ChatOther-ItemPenis-ReverseSuckItem,Suck On
 Label-ChatOther-ItemPenis-TickleItem,Tickle Penis
+Label-ChatOther-ItemPenis-SuckPenetrateItem,Suck On
+Label-ChatOther-ItemPenis-DeepThroat,Deep Throat
 Label-ChatOther-ItemTorso-Bite,Bite Back
 Label-ChatOther-ItemTorso-Caress,Caress Back
 Label-ChatOther-ItemTorso-GaggedKiss,Gag Kiss Back
@@ -1003,6 +1007,8 @@ ChatOther-ItemPenis-Slap,SourceCharacter slaps TargetCharacter's penis.
 ChatOther-ItemPenis-SpankItem,SourceCharacter hits TargetCharacter's penis with PronounPossessive ActivityAsset.
 ChatOther-ItemPenis-ReverseSuckItem,SourceCharacter eagerly sucks TargetCharacter's ActivityAsset.
 ChatOther-ItemPenis-TickleItem,SourceCharacter tickles TargetCharacter's penis with PronounPossessive ActivityAsset.
+ChatOther-ItemPenis-SuckPenetrateItem,SourceCharacter sucks on TargetCharacter's ActivityAsset.
+ChatOther-ItemPenis-DeepThroat,SourceCharacter deep throats TargetCharacter's ActivityAsset.
 ChatOther-ItemTorso-Bite,SourceCharacter bites TargetCharacter's back.
 ChatOther-ItemTorso-Caress,SourceCharacter caresses TargetCharacter's back.
 ChatOther-ItemTorso-GaggedKiss,SourceCharacter gives a gagged kiss on TargetCharacter's back.

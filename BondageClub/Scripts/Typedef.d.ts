@@ -1456,7 +1456,7 @@ type ActivityNameBasic = "Bite" | "Brush" | "Caress" | "Choke" | "Clean" | "Cudd
 	"MoanGagWhimper" | "Nibble" | "Nod" | "PenetrateFast" |
 	"PenetrateSlow" | "Pet" | "Pinch" | "PoliteKiss" | "Pull" |
 	"RestHead" | "Rub" | "Scratch" | "Sit" | "Slap" | "Spank" | "Step" | "StruggleArms" | "StruggleLegs" |
-	"Suck" | "TakeCare" | "Tickle" | "Whisper" | "Wiggle" |
+	"Suck" | "SuckPenetrateItem" | "DeepThroat" | "TakeCare" | "Tickle" | "Whisper" | "Wiggle" |
 	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab"
 ;
 
@@ -1467,6 +1467,7 @@ type ActivityName = ActivityNameBasic | ActivityNameItem;
 type ActivityPrerequisite =
 	"AssEmpty" | "CantUseArms" | "CantUseFeet" | "CanUsePenis" | "CanUseTongue" | "HasVagina" | "IsGagged" | "MoveHead" |
 	`Needs-${ActivityNameItem}` |
+	`TargetNeeds-${ActivityNameItem}` |
 	"TargetCanUseTongue" | "TargetKneeling" | "TargetMouthBlocked" | "TargetMouthOpen" | "TargetZoneAccessible" | "TargetZoneNaked" |
 	"UseArms" | "UseFeet" | "UseHands" | "UseMouth" | "UseTongue" | "VulvaEmpty" | "ZoneAccessible" | "ZoneNaked" |
 	"Sisters" | "Brothers" | "SiblingsWithDifferentGender" | "Collared"
