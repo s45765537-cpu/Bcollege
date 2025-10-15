@@ -1861,7 +1861,7 @@ function DialogMenuButtonClick() {
 			// Starts picking colors for the item, keeps the original color and shows it at the bottom
 			else if (button === "ColorChange" && Item != null) {
 				DialogChangeMode("colorItem");
-				ItemColorLoad(C, Item, 1300, 25, 675, 950);
+				ItemColorLoad(C, Item, 1200, 25, 775, 950);
 				ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 					DialogChangeMode("items");
 					if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
