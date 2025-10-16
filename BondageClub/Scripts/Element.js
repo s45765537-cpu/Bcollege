@@ -1254,21 +1254,32 @@ var ElementButton = {
 	 * @private
 	 * @param {string} id
 	 * @param {string} [img]
+	 * @param {string} [imgColor]
 	 * @param {Omit<HTMLOptions<"img">, "tag">} [options]
-	 * @returns {HTMLImageElement}
+	 * @returns {HTMLImageElement | HTMLDivElement}
 	 */
-	_ParseImage: function _ParseImage(id, img, options) {
+	_ParseImage: function _ParseImage(id, img=null, imgColor=null, options=null) {
 		if (!img) {
 			return;
 		}
 
 		options ??= {};
-		return ElementCreate({
-			...options,
-			tag: "img",
-			classList: ["button-image", ...(options.classList ?? [])],
-			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
-		});
+		if (imgColor == null) {
+			return ElementCreate({
+				...options,
+				tag: "img",
+				classList: ["button-image", ...(options.classList ?? [])],
+				attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
+			});
+		} else {
+			return ElementCreate({
+				...options,
+				tag: "div",
+				classList: ["button-image", ...(options.classList ?? [])],
+				attributes: { id: `${id}-image`, "aria-hidden": "true", src: img, role: "img", ...(options.attributes ?? {}) },
+				style: { "background-image": `url("./${img}")`, "mask-image": `url("./${img}")`, "background-color": imgColor, ...(options.style ?? {}) },
+			});
+		}
 	},
 
 	/**
@@ -1421,7 +1432,7 @@ var ElementButton = {
 
 		options ??= {};
 		const labelPosition = options.labelPosition ?? (options.image == null ? "center" : "bottom");
-		const image = this._ParseImage(id, options.image, htmlOptions.img);
+		const image = this._ParseImage(id, options.image, options.imageColor, htmlOptions.img);
 		const label = this._ParseLabel(id, options.label, labelPosition, htmlOptions.label);
 		const icons = this._ParseIcons(id, options.icons);
 
