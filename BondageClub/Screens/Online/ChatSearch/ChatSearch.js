@@ -740,32 +740,10 @@ function ChatSearchLoad() {
 			{
 				tag: "ul",
 				classList: ["chat-search-filter-help-screen-content"],
-				children: [
-					{
-						tag: "li",
-						children: [TextGet("HelpText1")],
-					},
-					{
-						tag: "li",
-						children: [TextGet("HelpText2")],
-					},
-					{
-						tag: "li",
-						children: [TextGet("HelpText4")],
-					},
-					{
-						tag: "li",
-						children: [TextGet("HelpText5")],
-					},
-					{
-						tag: "li",
-						children: [TextGet("HelpText6")],
-					},
-					{
-						tag: "li",
-						children: [TextGet("HelpText7")],
-					},
-				],
+				children: CommonRange(1, 6).map(n => ({
+					tag: "li",
+					children: [TextGet(`HelpText${n}`)],
+				})),
 			},
 			ElementButton.Create("chat-search-filter-help-screen-close", function () {
 				ChatSearchFilterHelpScreenElement.close();
