@@ -1176,6 +1176,60 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 	return false;
 }
 
+var ServerValidation = {
+	/**
+	 * Private helper to quickly check boolean settings
+	 * @param {boolean} defaultValue
+	 * @returns {(arg: boolean) => boolean}
+	 */
+	isBool(defaultValue) {
+		return (arg) => {
+			return typeof arg === "boolean" ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check items in lists
+	 * @template T
+	 * @param {T[]} list
+	 * @param {T} defaultValue
+	 * @returns {(arg: unknown) => T}
+	 */
+	isItem(list, defaultValue) {
+		return (arg) => {
+			return CommonIncludes(list, arg) ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check numbers
+	 * @template {number} T
+	 * @param {number} min
+	 * @param {number} max
+	 * @param {T} defaultValue
+	 * @returns {(arg: T) => T}
+	 */
+	isInt(min, max, defaultValue) {
+		return (arg) => {
+			return CommonIsInteger(arg, min, max) ? /** @type {typeof defaultValue} */(arg) : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quick check notification settings
+	 * @param {NotificationSetting} defaultNotif
+	 * @returns {(arg: NotificationSetting) => NotificationSetting}
+	 */
+	isValidNotification(defaultNotif) {
+		return (arg) => {
+			return {
+				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg.Audio)),
+				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg.AlertType)),
+			};
+		};
+	},
+};
+
 /**
  * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
  * @satisfies {{ [k in keyof (ServerAccountDataSynced | Character)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => Character[k] }}
