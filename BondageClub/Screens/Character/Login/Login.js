@@ -935,8 +935,8 @@ function LoginSetupPlayer(C) {
 
 	// Sets the default language when creating or searching for chat rooms
 	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
-	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
-	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
+	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ServerChatRoomSupportedLanguages[0];
+	if (ServerChatRoomSupportedLanguages.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ServerChatRoomSupportedLanguages[0];
 
 	// Migrate SearchSettings
 	if (!C.ChatSearchSettings) {

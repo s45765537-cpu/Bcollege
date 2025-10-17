@@ -5,8 +5,11 @@ var ChatAdminBackgroundIndex = 0;
 var ChatAdminPreviewBackgroundMode = false;
 /** @type {ServerChatRoomGame[]} */
 var ChatAdminGameList = ["", "ClubCard", "LARP", "MagicBattle", "GGTS"];
-/** @type {ServerChatRoomLanguage[]} */
-var ChatAdminLanguageList = ["EN", "DE", "FR", "ES", "CN", "RU", "UA"];
+/**
+ * @deprecated
+ * @type {ServerChatRoomLanguage[]}
+ */
+var ChatAdminLanguageList = ServerChatRoomSupportedLanguages;
 /** @type {null | string[]} */
 var ChatAdminBackgroundList = null;
 /** @type {ServerChatRoomLanguage} */
@@ -135,8 +138,8 @@ async function ChatAdminLoad() {
 	if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
 
 	// Sets the chat room language
-	if (ChatAdminData.Language == null) ChatAdminData.Language = ChatAdminLanguageList[0];
-	if (!ChatAdminLanguageList.includes(ChatAdminData.Language)) ChatAdminData.Language = ChatAdminLanguageList[0];
+	if (ChatAdminData.Language == null) ChatAdminData.Language = ServerChatRoomSupportedLanguages[0];
+	if (!ServerChatRoomSupportedLanguages.includes(ChatAdminData.Language)) ChatAdminData.Language = ServerChatRoomSupportedLanguages[0];
 
 	if (ChatAdminData.MapData == null) ChatAdminData.MapData = { Type: "Never" };
 	if (ChatAdminData.MapData.Type == null) ChatAdminData.MapData.Type = "Never";
@@ -362,9 +365,9 @@ function ChatAdminClick() {
 		}
 
 		if (MouseIn(405, 157, 300, 60)) {
-			let Pos = ChatAdminLanguageList.indexOf(ChatAdminData.Language) + 1;
-			if (Pos >= ChatAdminLanguageList.length) Pos = 0;
-			ChatAdminData.Language = ChatAdminLanguageList[Pos];
+			let Pos = ServerChatRoomSupportedLanguages.indexOf(ChatAdminData.Language) + 1;
+			if (Pos >= ServerChatRoomSupportedLanguages.length) Pos = 0;
+			ChatAdminData.Language = ServerChatRoomSupportedLanguages[Pos];
 			return;
 		}
 

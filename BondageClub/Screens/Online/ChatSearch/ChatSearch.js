@@ -662,7 +662,7 @@ function ChatSearchLoad() {
 						ElementCreateDropdown(
 							"chat-search-search-menu-room-language-dropdown",
 							[
-								.../** @type {ServerChatRoomLanguage[]} */([...ChatAdminLanguageList, ""]).map(lang => (
+								.../** @type {ServerChatRoomLanguage[]} */([...ServerChatRoomSupportedLanguages, ""]).map(lang => (
 									{children: [ChatSearchGetLanguageName(lang)], attributes: {value: lang, selected: Player.ChatSearchSettings.Language == lang}}
 								)),
 							],
@@ -1107,6 +1107,7 @@ function ChatSearchCreateFilterUnhideConfirm(roomLabel, memberLabel, wordsLabel,
  * @param {ServerChatRoomLanguage} languageCode
  */
 function ChatSearchGetLanguageName(languageCode) {
+	/** @type {Record<ServerChatRoomLanguage | "", string>} */
 	const languageDictionary =  {
 		ES: TextGet("LanguageES"),
 		EN: TranslationGetLanguageName("EN", true),
