@@ -930,8 +930,6 @@ function LoginSetupPlayer(C) {
 	if (shouldSync) {
 		ServerPlayerBlockItemsSync();
 	}
-	Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms ?? "";
-
 
 	// Sets the default language when creating or searching for chat rooms
 	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
@@ -939,6 +937,7 @@ function LoginSetupPlayer(C) {
 	if (ServerChatRoomSupportedLanguages.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ServerChatRoomSupportedLanguages[0];
 
 	// Migrate SearchSettings
+	let updateSearchSettings = false;
 	if (!C.ChatSearchSettings) {
 		C.ChatSearchSettings = {
 			Language: "",
@@ -950,15 +949,24 @@ function LoginSetupPlayer(C) {
 			MapTypes: undefined,
 			RoomMinSize: 2,
 			RoomMaxSize: 20,
+			FilterTerms: "",
 		};
 		if (C.RoomSearchLanguage != null) {
 			C.ChatSearchSettings.Language = C.RoomSearchLanguage;
 			C.RoomSearchLanguage = undefined;
 			ServerAccountUpdate.QueueData({ RoomSearchLanguage: null });
 		}
+		updateSearchSettings = true;
+	}
+	if (C.ChatSearchFilterTerms) {
+		C.ChatSearchSettings.FilterTerms = C.ChatSearchFilterTerms;
+		ServerAccountUpdate.QueueData({ ChatSearchFilterTerms: null });
+		updateSearchSettings = true;
+	}
+	Player.ChatSearchSettings = ServerAccountDataSyncedValidate.ChatSearchSettings(C.ChatSearchSettings, Player);
+	if (updateSearchSettings || !CommonObjectEqual(C.ChatSearchSettings, Player.ChatSearchSettings)) {
 		ServerAccountUpdate.QueueData({ ChatSearchSettings: C.ChatSearchSettings });
 	}
-	Player.ChatSearchSettings = C.ChatSearchSettings;
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData ?? undefined;

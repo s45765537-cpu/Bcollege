@@ -1218,6 +1218,30 @@ var ServerValidation = {
 	},
 
 	/**
+	 * Private helper to quickly check strings
+	 * @param {number} maxLength
+	 * @param {string} defaultValue
+	 * @returns {(arg: any) => string}
+	 */
+	isString(maxLength, defaultValue) {
+		return (arg) => {
+			return typeof arg === "string" && arg.length < maxLength ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check strings
+	 * @param {number} maxLength
+	 * @param {string|undefined} defaultValue
+	 * @returns {(arg: any) => string | undefined}
+	 */
+	isStringOrUndefined(maxLength, defaultValue) {
+		return (arg) => {
+			return this.isString(maxLength, defaultValue)(arg) || typeof arg === "undefined" ? arg : defaultValue;
+		};
+	},
+
+	/**
 	 * Private helper to quick check notification settings
 	 * @param {NotificationSetting} defaultNotif
 	 * @returns {(arg: NotificationSetting) => NotificationSetting}
@@ -1377,5 +1401,32 @@ var ServerAccountDataSyncedValidate = {
 			Object.assign(data, copy);
 		}
 		return data;
-	}
+	},
+	/**
+	 * @param {ServerAccountDataSynced["ChatSearchSettings"]} arg
+	 * @param {Character} C
+	 * @returns {ServerAccountDataSynced["ChatSearchSettings"]}
+	 */
+	// @ts-expect-error FIXME: not sure why it's hell-bent on having that key *both* on ServerAccountDataSynced and Character, but… there you go
+	ChatSearchSettings: (arg, C) => {
+		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
+	},
+};
+
+/**
+ * Namespace with default values for {@link ChatRoomSearchSettings} properties.
+ * @type {{ [k in keyof Required<ChatRoomSearchSettings>]: (arg: ChatRoomSearchSettings[k], C: Character) => ChatRoomSearchSettings[k] }}
+ * @namespace
+ */
+const ServerChatRoomSearchSettingsValidate = {
+	Language: ServerValidation.isItem([...ServerChatRoomSupportedLanguages, ""], ""),
+	Space: ServerValidation.isItem([], ""),
+	Game: ServerValidation.isItem([], ""),
+	FullRooms: ServerValidation.isBool(false),
+	ShowLocked: ServerValidation.isBool(true),
+	SearchDescriptions: ServerValidation.isBool(false),
+	MapTypes: ServerValidation.isStringOrUndefined(Infinity, undefined),
+	RoomMinSize: ServerValidation.isInt(2, 20, 2),
+	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
+	FilterTerms: ServerValidation.isString(200, ""),
 };

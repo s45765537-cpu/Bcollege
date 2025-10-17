@@ -2329,7 +2329,8 @@ interface PlayerCharacter extends Character {
 	FriendList: number[];
 	FriendNames: Map<number, string>;
 	SubmissivesList: Set<number>;
-	ChatSearchFilterTerms: string;
+	/** @deprecated */
+	ChatSearchFilterTerms: never;
 	GenderSettings: GenderSettingsType;
 	/** The list of items we got confiscated in the Prison */
 	ConfiscatedItems: { Group: AssetGroupName, Name: string }[];
