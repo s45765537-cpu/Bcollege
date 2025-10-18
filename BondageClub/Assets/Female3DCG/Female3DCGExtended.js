@@ -11058,6 +11058,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //WoodenRack
+		Potty: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Text",
+					Key: "e",
+					Options: [
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 16 },
+								Font: "sans-serif",
+								ScriptHooks: {
+									AfterDraw: (...args) =>
+										TextItem.GenericTextArcDrawHook(...args, {
+											YOffset: 170,
+											XOffset: 185,
+											drawOptions: {
+												fontSize: 20,
+												radius: 60,
+												effect: DynamicDrawTextEffect.BURN,
+											},
+										}),
+								},
+							},
+						},
+					],
+				},
+			],
+		},
 		Sybian: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // Sybian

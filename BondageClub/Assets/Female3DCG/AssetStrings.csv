@@ -3810,6 +3810,11 @@ ItemDevicesHighchairOptionc0,No Stains
 ItemDevicesHighchairSetc0,SourceCharacter removes DestinationCharacter stains
 ItemDevicesHighchairOptionc1,Stains
 ItemDevicesHighchairSetc1,DestinationCharacter makes food stains
+ItemDevicesPottySelectBase,Select an option
+ItemDevicesPottySelectText,Select text
+ItemDevicesPottyModuleText,Text
+ItemDevicesPottyOptione0,Text
+ItemDevicesPottySete0,SourceCharacter writes text on DestinationCharacter's potty.
 ItemFeetSteelAnkleCuffsChained,Chain Attached
 ItemFeetSteelAnkleCuffsClosed,Attached
 ItemFeetSteelAnkleCuffsNone,Detached
