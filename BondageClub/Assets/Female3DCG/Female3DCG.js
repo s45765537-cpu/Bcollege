@@ -927,7 +927,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "StudentOutfit1",
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 560]] },
 				],
@@ -1007,7 +1006,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "BabydollDress1",
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["ABDL"],
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 560]] },
@@ -1088,7 +1086,6 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				//Value: 1,
 				Priority: 22,
-				Prerequisite: ["HasBreasts"],
 				Random: true,
 				Extended: true,
 				DefaultColor: ["#F2AADC", "#F2AADC"],
@@ -1475,7 +1472,6 @@ var AssetFemale3DCG = [
 				Name: "AdultBabyDress2",
 				InventoryID: 107,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["ABDL"],
 				Value: 80,
 				HideItem: [
@@ -1502,7 +1498,6 @@ var AssetFemale3DCG = [
 				Name: "AdultBabyDress3",
 				InventoryID: 108,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["ABDL"],
 				Value: 40,
 				HideItem: [
@@ -1539,7 +1534,6 @@ var AssetFemale3DCG = [
 				Name: "AdultBabyDress4",
 				InventoryID: 109,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["ABDL"],
 				Value: 80,
 				Left: 100,
@@ -1607,7 +1601,6 @@ var AssetFemale3DCG = [
 				Name: "Robe1",
 				InventoryID: 111,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 30,
 				HideItem: [
 					"ClothLowerLatexSkirt1",
@@ -1633,7 +1626,6 @@ var AssetFemale3DCG = [
 				InventoryID: 112,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Lingerie"],
 				Priority: 25,
 				Value: 50,
@@ -1664,7 +1656,6 @@ var AssetFemale3DCG = [
 				Name: "FlowerDress",
 				InventoryID: 114,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 50,
 				HideItem: [
 					"ClothLowerLatexSkirt1",
@@ -1708,7 +1699,6 @@ var AssetFemale3DCG = [
 				InventoryID: 115,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 100,
 				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
 				HideItem: [
@@ -1725,7 +1715,6 @@ var AssetFemale3DCG = [
 				Name: "LaceBabydoll",
 				InventoryID: 116,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Lingerie"],
 				Value: 40,
 				HideItem: ["ItemNipplesLactationPump"],
@@ -1735,7 +1724,6 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				InventoryID: 117,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Lingerie"],
 				Value: 20,
 				DefaultColor: ["#1C1A21"],
@@ -1749,7 +1737,6 @@ var AssetFemale3DCG = [
 				Name: "DressFur",
 				InventoryID: 118,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 70,
 				HideItem: [
 					"ClothLowerTutu",
@@ -1784,7 +1771,6 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					License: "CC BY-SA-NC 4.0",
 				},
-				Prerequisite: ["HasBreasts"],
 				Layer: [
 					{
 						Name: "Bottom",
@@ -2043,7 +2029,6 @@ var AssetFemale3DCG = [
 				Name: "BodyTowel1",
 				InventoryID: 122,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 30,
 				HideItem: [
 					"ClothLowerLatexSkirt1",
@@ -2126,7 +2111,6 @@ var AssetFemale3DCG = [
 				Name: "BondageDress1",
 				InventoryID: 125,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				BuyGroup: "BondageDress1",
 				Value: 90,
 				Hide: ["ClothLower"],
@@ -2148,7 +2132,6 @@ var AssetFemale3DCG = [
 				Name: "BondageDress2",
 				InventoryID: 126,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				BuyGroup: "BondageDress2",
 				Value: 90,
 				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
@@ -2172,7 +2155,6 @@ var AssetFemale3DCG = [
 				InventoryID: 127,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 40,
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
@@ -2356,7 +2338,6 @@ var AssetFemale3DCG = [
 				InventoryID: 133,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 70,
 				Random: false,
 				HideItem: [
@@ -2479,7 +2460,6 @@ var AssetFemale3DCG = [
 				Name: "LatexHobbleDress",
 				InventoryID: 1155,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 105,
 				Random: false,
 				SetPose: ["LegsClosed"],
@@ -2752,7 +2732,6 @@ var AssetFemale3DCG = [
 				Name: "AdmiralTop",
 				InventoryID: 137,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 30,
 				Hide: ["ItemNeck"],
 				HideItem: [
@@ -2871,7 +2850,6 @@ var AssetFemale3DCG = [
 				Name: "BondageBustier1",
 				InventoryID: 125,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				BuyGroup: "BondageDress1",
 				Value: -1,
 				HideItem: [
@@ -2886,7 +2864,6 @@ var AssetFemale3DCG = [
 				Name: "BondageBustier2",
 				InventoryID: 126,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				BuyGroup: "BondageDress2",
 				Value: -1,
 				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
@@ -2952,7 +2929,6 @@ var AssetFemale3DCG = [
 				Name: "Bodice1",
 				InventoryID: 143,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 90,
 				Top: 213,
 				HideItem: [
@@ -2970,7 +2946,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "SummerDress",
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
 				HideItem: [
 					"ClothLowerSkirt2",
@@ -2995,7 +2970,6 @@ var AssetFemale3DCG = [
 				InventoryID: 144,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 90,
 				DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"],
 				PoseMapping: {
@@ -3106,7 +3080,6 @@ var AssetFemale3DCG = [
 				Name: "FurCoat",
 				InventoryID: 148,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 90,
 				Hide: ["Corset", "ClothLower", "Bracelet"],
 				HideItem: [
@@ -3146,7 +3119,6 @@ var AssetFemale3DCG = [
 				Name: "FuzzyDress",
 				InventoryID: 149,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 70,
 				Priority: 32,
 				Top: 0,
@@ -3182,7 +3154,6 @@ var AssetFemale3DCG = [
 				InventoryID: 150,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 40,
 				PoseMapping: {
 					Hogtied: "Hogtied",
@@ -3213,7 +3184,6 @@ var AssetFemale3DCG = [
 				InventoryID: 152,
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 50,
 				Priority: 25,
 				PoseMapping: {
@@ -3321,7 +3291,6 @@ var AssetFemale3DCG = [
 				BuyGroup: "Hoodie",
 				InventoryID: 156,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 40,
 				Priority: 26,
 				Extended: true,
@@ -3580,7 +3549,6 @@ var AssetFemale3DCG = [
 				Name: "FrilledShirt",
 				InventoryID: 159,
 				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 40,
 				Priority: 30,
 				Top: 68,
