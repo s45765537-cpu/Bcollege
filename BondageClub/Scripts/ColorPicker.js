@@ -477,7 +477,7 @@ var ColorPicker = {
 								children: [
 									{
 										tag: "input",
-										attributes: { id: opacityID, type: "range", size: 0, min: 0, max: 255, value: 1, name: "opacity", "aria-label": "opacity" },
+										attributes: { id: opacityID, type: "range", size: 0, min: 0, max: 255, value: 255, name: "opacity", "aria-label": "opacity" },
 										classList: ["opacity-input"],
 										eventListeners: {
 											input: ColorPicker.eventListeners.inputColor,
