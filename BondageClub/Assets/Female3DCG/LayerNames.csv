@@ -1663,6 +1663,11 @@ ItemHandheldUchiwaFan2,Fan paper 3rd color
 ItemHandheldUchiwaBase,Fan base
 ItemHandheldUchiwaEdge,Fan edge
 ItemHandheldUchiwaFanSurface,Fan inner rods
+ItemHandheldBabyPowderBottle,Bottle
+ItemHandheldBabyPowderText,Details
+ItemHandheldWipesPackage,Package
+ItemHandheldWipesInlet,Inlet
+ItemHandheldWipesText,Text
 ItemHandsBalletBootsMittensRight,Right hand
 ItemHandsBalletBootsMittensSRight,Right shine
 ItemHandsBalletBootsMittensLeft,Left hand
