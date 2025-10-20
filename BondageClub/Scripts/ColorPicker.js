@@ -379,13 +379,13 @@ var ColorPicker = {
 			const root = /** @type {null | HTMLElement} */(this.closest(".screen"));
 			const state = root ? ColorPicker.getColor(root) : null;
 			const save = this.name === "Accept";
+			if (!save) {
+				ItemColorRevert("initial");
+			}
 			if (root && state) {
 				ColorPickerExitCallback?.(state, save, root);
 			} else {
 				console.error("uhoh");
-			}
-			if (!save) {
-				ItemColorRevert("initial");
 			}
 			ColorPickerUnload();
 		},
