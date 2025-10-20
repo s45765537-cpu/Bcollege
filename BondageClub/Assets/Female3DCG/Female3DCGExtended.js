@@ -10542,19 +10542,11 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 				{
-					Name: "Kneel",
+					Name: "Sit",
 					Property: {
 						OverrideHeight: { Height: -200, Priority: 21 },
 						OverridePriority: 1,
-						SetPose: ["Kneel"],
-					},
-				},
-				{
-					Name: "KneelingSpread",
-					Property: {
-						OverrideHeight: { Height: -200, Priority: 21 },
-						OverridePriority: 2,
-						SetPose: ["KneelingSpread"],
+						AllowActivePose: ["Kneel", "KneelingSpread", "AllFours"],
 					},
 				},
 			],

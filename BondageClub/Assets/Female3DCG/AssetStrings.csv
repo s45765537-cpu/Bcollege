@@ -1018,8 +1018,7 @@ CupholderGagSetCup,SourceCharacter places a cup on DestinationCharacter cup hold
 CupholderGagSetNoCup,SourceCharacter removes the cup from DestinationCharacter cup holder gag.
 CupholderGagSetTip,SourceCharacter tips over the cup on DestinationCharacter cup holder gag.
 CushionTypeHold,Hold cushion
-CushionTypeKneel,Kneel on cushion
-CushionTypeKneelingSpread,Kneel spreads on cushion
+CushionTypeSit,Sit on cushion
 CustomTagText,Save text
 DecalsDenOfSin,Den of Sin
 Decrease,Decrease
