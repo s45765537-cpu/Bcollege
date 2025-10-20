@@ -2153,3 +2153,29 @@ function CommonRange(start, end, step = 1) {
 	const n = Math.max(Math.ceil((end - start) / step), 0);
 	return Array.from({ length: n }, (_, i) => start + i * step);
 }
+
+/**
+ * Take an array and find the first element that maps to a user-specified value, returning the mapped value.
+ *
+ * Effectively combines {@link array.find} and {@link array.map}.
+ * @template Tinp
+ * @template Tout
+ * @param {readonly Tinp[]} array - The array in question
+ * @param {(value: Tinp, index: number, obj: readonly Tinp[]) => undefined | null | Tout} predicateMapper - A mapping
+ * predicate. The first non-nullish return value will be returned by the outer function.
+ * @param {any} [thisArg] - If provided, it will be used as the this value for each invocation of
+ * predicate. If it is not provided, undefined is used instead.
+ * @returns {undefined | Tout} - The mapped value or `undefined` if no non-nullish value was found
+ */
+function CommonFindMap(array, predicateMapper, thisArg=null) {
+	if (thisArg != null) {
+		predicateMapper = predicateMapper.bind(thisArg);
+	}
+	for (const [i, elem] of array.entries()) {
+		const result = predicateMapper(elem, i, array);
+		if (result != null) {
+			return result;
+		}
+	}
+	return undefined;
+}
