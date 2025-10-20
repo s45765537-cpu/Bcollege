@@ -1777,9 +1777,11 @@ var CommonKey = /** @type {const} */({
 	 * A {@link ScreenFunctions.KeyDown} helper function for automatically forwarding key presses to the passed input element.
 	 * @param {HTMLInputElement | HTMLTextAreaElement} inputElem - The input or textarea element in question
 	 * @param {KeyboardEvent} ev - The keydown event
+	 * @param {null | { allowCtrlA?: boolean }} options
 	 * @returns {boolean} - Whether the keypress was processed
 	 */
-	InputKeyDown: function InputKeyDown(inputElem, ev) {
+	InputKeyDown: function InputKeyDown(inputElem, ev, options=null) {
+		options ??= {};
 		const activeElement = ElementGetRoot(inputElem).activeElement;
 		const noFocus = (
 			activeElement === null
@@ -1809,7 +1811,7 @@ var CommonKey = /** @type {const} */({
 			inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
 		} else if ((ev.key === "Enter" || ev.key === "Delete" || ev.key === "Insert") && !modifiers) {
 			inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
-		} else if (ev.key === "a" && modifiers === ctrl) {
+		} else if (options.allowCtrlA && ev.key === "a" && modifiers === ctrl) {
 			inputElem.setSelectionRange(0, inputElem.value.length);
 		} else {
 			return false;
