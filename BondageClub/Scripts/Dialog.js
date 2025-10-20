@@ -807,7 +807,7 @@ function DialogLeave(options=null) {
 	Object.values(DialogSelfMenuMapping).forEach(obj => obj.Exit());
 
 	// Destroy the remaining color pickers
-	ColorPickerExit();
+	ColorPickerExit(true);
 
 	// Go controller, go!
 	ControllerClearAreas();

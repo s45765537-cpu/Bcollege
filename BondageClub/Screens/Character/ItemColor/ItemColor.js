@@ -745,7 +745,7 @@ function ItemColorFireExit(save) {
 		initialOpacity: [...ItemColorState.initialOpacity],
 	};
 	ItemColorExitListeners.forEach(listener => listener(colorState, save, null));
-	ColorPickerExit();
+	ColorPickerExit(true);
 	ItemColorReset();
 }
 
