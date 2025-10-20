@@ -912,6 +912,8 @@ function ColorPickerReload(options=null) {
 		return;
 	}
 
+	fieldset.disabled = options.disabled ?? false;
+
 	if (options.colorState?.editOpacity ?? ItemColorState.editOpacity) {
 		// Configure the min/max opacity and whether the opacity is configurable in the first place
 		let opacityMin = null;

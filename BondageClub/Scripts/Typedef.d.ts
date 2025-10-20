@@ -4518,7 +4518,13 @@ interface ColorPickerInitOptions {
 	 * A callback to-be executed upon closing the color picker.
 	 */
 	onExit?: ItemColorExitListener;
+	/**
+	 * A custom color state.
+	 * Defaults to {@link ItemColorState} if not provided.
+	 */
 	colorState?: Pick<ItemColorStateType, "editOpacity" | "opacity" | "colors">;
+	/** Whether the color picker should be disabled or not */
+	disabled?: boolean;
 }
 
 //#end region
