@@ -2849,7 +2849,10 @@ class HTMLColorTintElement extends HTMLElement {
 	 * @type {boolean}
 	 */
 	get disabled() {
-		return this.hasAttribute("disabled");
+		return (
+			this.hasAttribute("disabled")
+			|| !!this.closest("fieldset:disabled, form:disabled")
+		);
 	}
 	set disabled(value) {
 		this.toggleAttribute("disabled", value);
