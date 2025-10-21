@@ -715,7 +715,7 @@ var ColorPicker = {
 
 	/**
 	 * Set the color and/or opacity of the passed color picker screen
-	 * @param {HTMLElement | string} root - The color picker screen or its ID
+	 * @param {ElementHelp.ElementOrId} root - The color picker screen or its ID
 	 * @param {{ readonly colorString?: string, readonly hsv?: Readonly<HSVColor>, readonly opacity?: number }} value - The passed color (be it as string or HSV object) and opacity
 	 * @param {null | { overrideEditOpacity?: boolean }} options
 	 */
@@ -792,7 +792,7 @@ var ColorPicker = {
 
 	/**
 	 * Get the color and opacity of the passed color picker screen
-	 * @param {HTMLElement | string} root - The color picker screen or its ID
+	 * @param {ElementHelp.ElementOrId} root - The color picker screen or its ID
 	 * @returns {null | ItemColorExitState}
 	 */
 	getColor(root) {
@@ -846,6 +846,28 @@ var ColorPicker = {
 		}
 		return state;
 	},
+
+	/**
+	 * Toggle the `disabled` state of the passed color picker using {@link Element.toggleAttribute}-like semantics.
+	 * @param {ElementHelp.ElementOrId} root - The color picker screen or its ID
+	 * @param {null | boolean} force - Toggle the `disabled` attributes if unspecified or, if a boolean is passed, force the provided value
+	 * @returns {boolean} - The new `disabled` state
+	 */
+	toggleDisabled(root, force=null) {
+		root = ElementWrap(root);
+		if (!root) {
+			return;
+		}
+
+		const fieldset = /** @type {null | HTMLFieldSetElement} */(root.matches("fieldset[name='color-picker']") ? root : root.querySelector("fieldset[name='color-picker']"));
+		const disabled = force ?? !fieldset.disabled;
+		fieldset.disabled = disabled;
+
+		// Also disable the accept and reset buttons
+		const menubarButtons = root.closest(".screen")?.querySelectorAll("[role='menuitem'][name='reset'], [role='menuitem'][name='accept']");
+		menubarButtons.forEach(button => button.setAttribute("aria-disabled", disabled.toString()));
+		return disabled;
+	},
 };
 
 /**
@@ -878,15 +900,15 @@ function ColorPickerLoad() {
 		menubarButtons: [
 			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickExit,
-				{ image: "./Icons/Accept.png", tooltip: ItemColorText.get("Accept"), name: "Accept", tooltipPosition: "left" },
+				{ image: "./Icons/Accept.png", tooltip: ItemColorText.get("Accept"), name: "accept", tooltipPosition: "left" },
 			),
 			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickExit,
-				{ image: "./Icons/Cancel.png", tooltip: ItemColorText.get("Cancel"), name: "Cancel", tooltipPosition: "left" },
+				{ image: "./Icons/Cancel.png", tooltip: ItemColorText.get("Cancel"), name: "cancel", tooltipPosition: "left" },
 			),
 			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickReset,
-				{ image: "./Icons/Reset.png", tooltip: ItemColorText.get("Reset"), name: "Reset", tooltipPosition: "left" },
+				{ image: "./Icons/Reset.png", tooltip: ItemColorText.get("Reset"), name: "reset", tooltipPosition: "left" },
 			),
 		],
 		mainContent: [colorFieldset],
@@ -946,8 +968,6 @@ function ColorPickerReload(options=null) {
 	if (!fieldset || !savedColor || !tintInput || !opacityInput || !opacityInput || !savedColorOutput || !savedColorSave) {
 		return;
 	}
-
-	fieldset.disabled = options.disabled ?? false;
 
 	if (options.colorState?.editOpacity ?? ItemColorState.editOpacity) {
 		// Configure the min/max opacity and whether the opacity is configurable in the first place
@@ -1016,6 +1036,8 @@ function ColorPickerReload(options=null) {
 			el.style.backgroundColor = rgb;
 		});
 	});
+
+	ColorPicker.toggleDisabled(root, options.disabled ?? false);
 }
 
 /** @type {ScreenResizeHandler} */
