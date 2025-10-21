@@ -445,6 +445,49 @@ var ColorPicker = {
 
 			CharacterLoadCanvas(ItemColorCharacter);
 		},
+
+		/**
+		 * Focusout listener for the saved color menu. Automatically closes the menu upon losing focus.
+		 * @type {(this: HTMLFieldSetElement, ev: FocusEvent) => void}
+		 */
+		focusoutFieldset: function (ev) {
+			const menuID = this.closest("[role='menu']")?.id;
+			const controller = document.querySelector(`[aria-controls~="${menuID}"]`);
+			if (
+				ev.relatedTarget instanceof Element
+				&& (this.contains(ev.relatedTarget) || ev.relatedTarget === controller)
+			) {
+				return;
+			}
+
+			if (controller instanceof HTMLButtonElement && controller.getAttribute("aria-expanded") === "true") {
+				controller.click();
+			}
+		},
+
+		/**
+		 * Click listener for opening the saved color menu.
+		 * @type {(this: HTMLButtonElement, ev: PointerEvent) => void}
+		 */
+		clickComboBox: function (ev) {
+			const hidden = this.getAttribute("aria-expanded") === "false";
+			const elems = this.getAttribute("aria-controls")?.split(" ").map(i => document.getElementById(i)).filter(Boolean) ?? [];
+			if (elems.length === 0) {
+				ev.stopImmediatePropagation();
+				return;
+			}
+
+			elems.forEach(e => e.toggleAttribute("hidden", hidden));
+			if (!hidden) {
+				/** @type {HTMLElement} */
+				const input = (
+					CommonFindMap(elems, (el) => el.querySelector("input:checked"))
+					?? CommonFindMap(elems, (el) => el.querySelector("input"))
+					?? elems[0]
+				);
+				input.focus();
+			}
+		},
 	},
 
 	/**
@@ -462,25 +505,7 @@ var ColorPicker = {
 			children: [
 				ElementButton.Create(
 					comboboxID,
-					function (ev) {
-						const hidden = this.getAttribute("aria-expanded") === "false";
-						const elems = this.getAttribute("aria-controls")?.split(" ").map(i => document.getElementById(i)).filter(Boolean) ?? [];
-						if (elems.length === 0) {
-							ev.stopImmediatePropagation();
-							return;
-						}
-
-						elems.forEach(e => e.toggleAttribute("hidden", hidden));
-						if (!hidden) {
-							/** @type {HTMLElement} */
-							const input = (
-								CommonFindMap(elems, (el) => el.querySelector("input:checked"))
-								?? CommonFindMap(elems, (el) => el.querySelector("input"))
-								?? elems[0]
-							);
-							input.focus();
-						}
-					},
+					ColorPicker.eventListeners.clickComboBox,
 					{ role: "combobox", ariaControls: id, ariaHasPopup: "menu", name: "saved-colors-combobox" },
 				),
 				{
@@ -496,23 +521,7 @@ var ColorPicker = {
 							tag: "fieldset",
 							classList: ["scroll-box"],
 							attributes: { name: "saved-colors-group" },
-							eventListeners: {
-								/** @type {(this: HTMLFieldSetElement, ev: FocusEvent) => void} */
-								focusout(ev) {
-									const menuID = this.closest("[role='menu']")?.id;
-									const controller = document.querySelector(`[aria-controls~="${menuID}"]`);
-									if (
-										ev.relatedTarget instanceof Element
-										&& (this.contains(ev.relatedTarget) || ev.relatedTarget === controller)
-									) {
-										return;
-									}
-
-									if (controller instanceof HTMLButtonElement && controller.getAttribute("aria-expanded") === "true") {
-										controller.click();
-									}
-								},
-							},
+							eventListeners: { focusout: ColorPicker.eventListeners.focusoutFieldset },
 							children: [
 								{ tag: "legend", children: ["Saved colors"] },
 								ElementCheckbox.CreateLabelled(
