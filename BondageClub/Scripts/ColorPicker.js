@@ -920,16 +920,17 @@ function ColorPickerLoad() {
 /**
  * Reload and refresh the color picker based on the current item color data.
  * @param {null | ColorPickerInitOptions} options
+ * @returns {null | HTMLElement} The paseed root element
  */
 function ColorPickerReload(options=null) {
 	options ??= {};
 	if (!options.colorState && !(ItemColorState && ItemColorCharacter)) {
-		return;
+		return null;
 	}
 
 	const root = ElementWrap(options.root ?? ColorPicker.ids.root);
 	if (!root) {
-		return;
+		return null;
 	}
 
 	if (options.onExit) {
@@ -937,7 +938,7 @@ function ColorPickerReload(options=null) {
 	}
 	if (options.heading) {
 		const heading = CommonIsArray(options.heading) ? options.heading : [options.heading];
-		root.querySelector("h1")?.replaceChildren(...heading);
+		root.closest(".screen")?.querySelector("h1")?.replaceChildren(...heading);
 	}
 
 	// Grab all colors and opacity and identify a suitable "singular" value for the inputs
@@ -966,7 +967,7 @@ function ColorPickerReload(options=null) {
 	const tintInput = /** @type {null | HTMLColorTintElement} */(fieldset?.elements.namedItem("tint"));
 	const outputInput = /** @type {null | HTMLInputElement} */(fieldset?.elements.namedItem("output"));
 	if (!fieldset || !savedColor || !tintInput || !opacityInput || !opacityInput || !savedColorOutput || !savedColorSave) {
-		return;
+		return root;
 	}
 
 	if (options.colorState?.editOpacity ?? ItemColorState.editOpacity) {
@@ -1025,7 +1026,7 @@ function ColorPickerReload(options=null) {
 			input.checked = true;
 			savedColorOutput.replaceChildren(...Array.from(input.labels).map(el => el.textContent.replace(" ", "")));
 			savedColorOutput.style.removeProperty("background-color");
-			return;
+			return root;
 		}
 
 		const hsv = Player.SavedColors[i - 1];
@@ -1038,6 +1039,7 @@ function ColorPickerReload(options=null) {
 	});
 
 	ColorPicker.toggleDisabled(root, options.disabled ?? false);
+	return root;
 }
 
 /** @type {ScreenResizeHandler} */
