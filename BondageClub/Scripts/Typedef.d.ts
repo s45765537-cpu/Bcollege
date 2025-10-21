@@ -4511,7 +4511,7 @@ interface ColorPickerInitOptions {
 	/** The root element or `color-picker` fieldset (or ID thereof) in the color picker subscreen; defaults to {@link ColorPicker.ids.root} */
 	root?: ElementHelp.ElementOrId;
 	/** A custom heading to-be assigned to the color picker's `<h1>` element */
-	heading?: string | Node | readonly (string | Node)[];
+	heading?: string | Element | readonly (string | Element)[];
 	/**
 	 * A custom input event listener that will to be triggered by any valid input changes of the underlying interactive elements (hue slider, opacity slider, tint slider or output text).
 	 */

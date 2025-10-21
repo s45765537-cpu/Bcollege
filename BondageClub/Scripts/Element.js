@@ -2622,6 +2622,21 @@ var ElementDOMScreen = {
 		timeoutID = setTimeout(ElementDOMScreen._setStatusTimerHandler, timeout, headingElem, statusElem);
 		ElementDOMScreen._statusIDMap.set(statusElem, timeoutID);
 	},
+
+	/**
+	 * Set the persistent heading of a screen.
+	 * @param {ElementHelp.ElementOrId} root The screen on which the heading is the be set
+	 * @param {string | Element | readonly (string | Element)[]} heading The to-be displayed heading content. Note that headings may only ever contain [flow content](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Content_categories#flow_content)
+	 */
+	setHeading(root, heading) {
+		root = ElementWrap(root)?.closest(".screen");
+		if (!root) {
+			return;
+		}
+
+		const headingArray = CommonIsArray(heading) ? heading : [heading];
+		root.querySelector(`h1`)?.replaceChildren(...headingArray);
+	}
 };
 
 /**

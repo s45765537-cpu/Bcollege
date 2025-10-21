@@ -937,8 +937,7 @@ function ColorPickerReload(options=null) {
 		ColorPickerExitCallback = options.onExit;
 	}
 	if (options.heading) {
-		const heading = CommonIsArray(options.heading) ? options.heading : [options.heading];
-		root.closest(".screen")?.querySelector("h1")?.replaceChildren(...heading);
+		ElementDOMScreen.setHeading(root, options.heading);
 	}
 
 	// Grab all colors and opacity and identify a suitable "singular" value for the inputs
