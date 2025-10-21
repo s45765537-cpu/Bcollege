@@ -523,7 +523,7 @@ var ColorPicker = {
 							attributes: { name: "saved-colors-group" },
 							eventListeners: { focusout: ColorPicker.eventListeners.focusoutFieldset },
 							children: [
-								{ tag: "legend", children: ["Saved colors"] },
+								{ tag: "legend", children: [ItemColorText.get("SavedColors")] },
 								ElementCheckbox.CreateLabelled(
 									null, "-", ColorPicker.eventListeners.changeRadio,
 									{ checked: true, type: "radio", name: "saved-colors", value: "" },
@@ -673,14 +673,14 @@ var ColorPicker = {
 					{
 						tag: "label",
 						children: [
-							{ tag: "span", children: ["Saved colors"] },
+							{ tag: "span", children: [ItemColorText.get("SavedColors")] },
 							ColorPicker._getDropdownWidget(dropdownID, defaultColors),
 						],
 					},
 					ElementButton.Create(
 						null,
 						ColorPicker.eventListeners.clickSaveColor,
-						{ label: "Save color", name: "save", disabled: true, ariaControls: dropdownID },
+						{ label: ItemColorText.get("SaveColor"), name: "save", disabled: true, ariaControls: dropdownID },
 					),
 				],
 			});
@@ -858,15 +858,15 @@ function ColorPickerLoad() {
 		menubarButtons: [
 			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickExit,
-				{ image: "./Icons/Accept.png", tooltip: "Accept", name: "Accept", tooltipPosition: "left" },
+				{ image: "./Icons/Accept.png", tooltip: ItemColorText.get("Accept"), name: "Accept", tooltipPosition: "left" },
 			),
 			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickExit,
-				{ image: "./Icons/Cancel.png", tooltip: "Cancel", name: "Cancel", tooltipPosition: "left" },
+				{ image: "./Icons/Cancel.png", tooltip: ItemColorText.get("Cancel"), name: "Cancel", tooltipPosition: "left" },
 			),
 			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickReset,
-				{ image: "./Icons/Reset.png", tooltip: "Reset", name: "Reset", tooltipPosition: "left" },
+				{ image: "./Icons/Reset.png", tooltip: ItemColorText.get("Reset"), name: "Reset", tooltipPosition: "left" },
 			),
 		],
 		mainContent: [colorFieldset],
