@@ -325,8 +325,25 @@ var ColorPicker = {
 				output.replaceChildren(...Array.from(this.labels).map(i => i.textContent.replace(" ", "")));
 				output.style.backgroundColor = this.value;
 			}
+		},
 
+		/**
+		 * Ensure that mouse clicks close the saved color menu.
+		 * Put this here rather than in `change` in order to prevent keyboard navigation from auto-closing the menu upon triggering a change.
+		 * @type {(this: HTMLInputElement, ev: PointerEvent) => void}
+		 */
+		pointerupRadio: function (ev) {
 			this.blur();
+		},
+
+		/**
+		 * Ensure that `Enter` and `Space` key presses close the saved color menu while focused.
+		 * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
+		 */
+		keydownRadio: function (ev) {
+			if (CommonKey.IsPressed(ev, "Enter") || CommonKey.IsPressed(ev, " ")) {
+				this.blur();
+			}
 		},
 
 		/**
@@ -451,15 +468,12 @@ var ColorPicker = {
 		 * @type {(this: HTMLFieldSetElement, ev: FocusEvent) => void}
 		 */
 		focusoutFieldset: function (ev) {
-			const menuID = this.closest("[role='menu']")?.id;
-			const controller = document.querySelector(`[aria-controls~="${menuID}"]`);
-			if (
-				ev.relatedTarget instanceof Element
-				&& (this.contains(ev.relatedTarget) || ev.relatedTarget === controller)
-			) {
+			if (ev.relatedTarget instanceof Element && this.contains(ev.relatedTarget)) {
 				return;
 			}
 
+			const menuID = this.closest("[role='menu']")?.id;
+			const controller = document.querySelector(`[aria-controls~="${menuID}"]`);
 			if (controller instanceof HTMLButtonElement && controller.getAttribute("aria-expanded") === "true") {
 				controller.click();
 			}
@@ -520,7 +534,7 @@ var ColorPicker = {
 						{
 							tag: "fieldset",
 							classList: ["scroll-box"],
-							attributes: { name: "saved-colors-group" },
+							attributes: { name: "saved-colors-group", role: "radiogroup" },
 							eventListeners: { focusout: ColorPicker.eventListeners.focusoutFieldset },
 							children: [
 								{ tag: "legend", children: [ItemColorText.get("SavedColors")] },
@@ -528,7 +542,10 @@ var ColorPicker = {
 									null, "-", ColorPicker.eventListeners.changeRadio,
 									{ checked: true, type: "radio", name: "saved-colors", value: "" },
 									{
-										checkbox: { attributes: { role: "menuitemradio" } },
+										checkbox: {
+											attributes: { role: "menuitemradio" },
+											eventListeners: { pointerup: ColorPicker.eventListeners.pointerupRadio, keydown: ColorPicker.eventListeners.keydownRadio },
+										},
 										label: { style: { "text-align": "center" } },
 										container: { attributes: { tabindex: -1 } },
 									},
@@ -539,7 +556,10 @@ var ColorPicker = {
 										null, label, ColorPicker.eventListeners.changeRadio,
 										{ type: "radio", name: "saved-colors", value },
 										{
-											checkbox: { attributes: { role: "menuitemradio" }},
+											checkbox: {
+												attributes: { role: "menuitemradio" },
+												eventListeners: { pointerup: ColorPicker.eventListeners.pointerupRadio, keydown: ColorPicker.eventListeners.keydownRadio },
+											},
 											container: { attributes: { tabindex: -1 }, style: { "background-color": value } },
 										},
 									);
