@@ -2720,6 +2720,7 @@ ItemPelvisBulkyDiaperBase,Diaper
 ItemPelvisBulkyDiaperCrotchPiece,Crotch Padding
 ItemPelvisBulkyDiaperTape,Tape
 ItemPelvisBulkyDiaperWaistBand,Waist Band
+ItemPelvisBulkyDiaperGradient,Gradient
 ItemPelvisFemPelvisHarnessMain,Main
 ItemPelvisFemPelvisHarnessMetal,Metal
 ItemPelvisFemPelvisHarnessLock,Lock
@@ -3087,12 +3088,19 @@ PantiesBulkyDiaperBase,Diaper
 PantiesBulkyDiaperCrotchPiece,Crotch Padding
 PantiesBulkyDiaperTape,Tape
 PantiesBulkyDiaperWaistBand,Waist Band
+PantiesBulkyDiaperGradient,Gradient
 PantiesCockSockBase,Cock Sock
 PantiesCockSockBow,Bow
 PantiesCockSockStripes,Stripes
+PantiesDiapers1Base,Diaper
+PantiesDiapers1Gradient,Gradient
 PantiesDiapers2Cover,Plastic Cover
 PantiesDiapers2Diaper,Diaper
+PantiesDiapers2Gradient,Gradient
+PantiesDiapers3Base,Diaper
+PantiesDiapers3Gradient,Gradient
 PantiesDiapers4Diaper,Diaper
+PantiesDiapers4Gradient,Gradient
 PantiesDiapers4Pattern,Pattern
 PantiesDiapers4Tape,Tape
 PantiesFloralPanties2Base,Base
@@ -3117,6 +3125,7 @@ PantiesPoofyDiaperBase,Diaper
 PantiesPoofyDiaperCrotchPatch,Crotch Padding
 PantiesPoofyDiaperFrills,Frills
 PantiesPoofyDiaperTape,Tape
+PantiesPoofyDiaperGradient,Gradient
 PantiesRedBowPantiesBow,Bow
 PantiesRedBowPantiesPanties,Panties
 PantiesWaistLegHarnessBeltsA,Waist belt
@@ -3128,6 +3137,7 @@ PantiesWaistLegHarnessBeltsC,Link belts
 PantiesWaistLegHarnessMetalC,Link metal parts
 PantiesLatexDiaperBase,Latex
 PantiesLatexDiaperShine,Shine
+PantiesLatexDiaperGradient,Gradient
 PantiesUntrainersThinBase,Base
 PantiesUntrainersThinBack,Back
 PantiesUntrainersThinMiddle,Middle
