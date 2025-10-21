@@ -4193,8 +4193,7 @@ class _DialogDialogMenu extends DialogMenu {
 		const { C } = properties;
 		if (options.reset) {
 			menubar.replaceChildren();
-			ElementMenu.AppendButton(
-				menubar,
+			menubar.append(
 				ElementButton.Create(
 					`${this.ids.menubar}-Exit`,
 					this.eventListeners._ClickMenubarExit,
