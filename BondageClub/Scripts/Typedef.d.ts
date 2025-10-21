@@ -4441,9 +4441,11 @@ interface ColorGroup {
 }
 
 /** A fully mutubable subset of {@link ItemColorStateType} */
-interface ItemColorExitState extends Pick<ItemColorStateType, "colors" | "initialColors" | "opacity" | "initialOpacity"> {
+interface ItemColorExitState extends Pick<ItemColorStateType, "colors" | "initialColors" | "defaultColors" | "opacity" | "initialOpacity" | "defaultOpacity" | "editOpacity" > {
 	initialColors: string[];
 	initialOpacity: number[];
+	defaultColors: string[];
+	defaultOpacity: number[];
 }
 
 /**

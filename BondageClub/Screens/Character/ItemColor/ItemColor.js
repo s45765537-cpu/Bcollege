@@ -739,10 +739,13 @@ function ItemColorOnExit(callback) {
  */
 function ItemColorFireExit(save) {
 	const colorState = {
-		colors: ItemColorState.colors,
-		opacity: ItemColorState.opacity,
+		colors: [...ItemColorState.colors],
+		opacity: [...ItemColorState.opacity],
 		initialColors: [...ItemColorState.initialColors],
 		initialOpacity: [...ItemColorState.initialOpacity],
+		defaultColors: [...ItemColorState.defaultColors],
+		defaultOpacity: [...ItemColorState.defaultOpacity],
+		editOpacity: ItemColorState.editOpacity,
 	};
 	ItemColorExitListeners.forEach(listener => listener(colorState, save, null));
 	ColorPickerExit(true);

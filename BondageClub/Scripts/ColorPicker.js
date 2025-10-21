@@ -782,6 +782,9 @@ var ColorPicker = {
 				opacity: layerIndices.map(i => ItemColorState.opacity[i]),
 				initialColors: ItemColorPickerIndices.map(i => ItemColorState.initialColors[i]),
 				initialOpacity: layerIndices.map(i => ItemColorState.initialOpacity[i]),
+				defaultColors: [...ItemColorState.defaultColors],
+				defaultOpacity: [...ItemColorState.defaultOpacity],
+				editOpacity: ItemColorState.editOpacity,
 			};
 		} else {
 			// Plan B: There's no `ItemColorState`; directly extract values and initial values from the input elements
@@ -807,6 +810,9 @@ var ColorPicker = {
 				opacity: [opacity / 255],
 				initialColors: [initialColor],
 				initialOpacity: [initialOpacity / 255],
+				defaultColors: [initialColor],
+				defaultOpacity: [initialOpacity / 255],
+				editOpacity: (opacityInput?.disabled ?? true) == false,
 			};
 		}
 		return state;
