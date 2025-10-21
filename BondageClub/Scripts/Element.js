@@ -2595,11 +2595,12 @@ var ElementDOMScreen = {
 
 	/**
 	 * Set a temporary status message for the screen.
-	 * @param {HTMLElement} root The screen on which the status is the be set; it _must_ contain a single `h1` and `[role='status']` element
-	 * @param {string} status The to-be displayed status message
+	 * @param {ElementHelp.ElementOrId} root The screen on which the status is the be set; it _must_ contain a single `h1` and `[role='status']` element
+	 * @param {string | Element | readonly (string | Element)[]} status The to-be displayed status message
 	 * @param {number} timeout How long the status message should be shown in ms; defaults to 5000 ms
 	 */
 	setStatus(root, status, timeout=5000) {
+		root = ElementWrap(root)?.closest(".screen");
 		if (!root || !Number.isFinite(timeout)) {
 			return;
 		}
@@ -2615,8 +2616,9 @@ var ElementDOMScreen = {
 			clearTimeout(timeoutID);
 		}
 
+		const statusArray = CommonIsArray(status) ? status : [status];
 		headingElem.toggleAttribute("hidden", true);
-		statusElem.replaceChildren(status);
+		statusElem.replaceChildren(...statusArray);
 		timeoutID = setTimeout(ElementDOMScreen._setStatusTimerHandler, timeout, headingElem, statusElem);
 		ElementDOMScreen._statusIDMap.set(statusElem, timeoutID);
 	},
