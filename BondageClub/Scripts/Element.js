@@ -130,19 +130,32 @@ function ElementCreate(options) {
 
 	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
 
+	elem.append(...ElementParseChildren(options.children ?? []));
+	if (options.parent) { options.parent.appendChild(elem); }
+	return elem;
+}
+
+
+/**
+ * Convert the list of passed HTML option children into a list of nodes and/or string
+ * @param {HTMLOptions<any>["children"]} children
+ * @returns {(string | Node)[]}
+ */
+function ElementParseChildren(children) {
+	/** @type {(string | Node)[]} */
+	const ret = [];
 	/** @type {(i: unknown) => i is Node | string} */
 	const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
-	for (const childElem of options.children ?? []) {
+	for (const childElem of children ?? []) {
 		if (childElem != null) {
 			if (isNode(childElem)) {
-				elem.append(childElem);
+				ret.push(childElem);
 			} else {
-				ElementCreate({ ...childElem, parent: elem });
+				ret.push(ElementCreate({ ...childElem }));
 			}
 		}
 	}
-	if (options.parent) { options.parent.appendChild(elem); }
-	return elem;
+	return ret;
 }
 
 /**
