@@ -1220,9 +1220,16 @@ function ChatSearchCreateGridRoom(room, index) {
 		}, {
 			tooltipPosition: "bottom",
 			tooltip: hasTooltip ? ChatSearchCreateGridRoomTooltip(room, index) : undefined,
+			clickDisabled() {
+				// Will result in a toast if the room is still full and will just join as usual if the room happens to receive a new empty spot
+				ServerSend("ChatRoomJoin", { Name: room.Name });
+			},
 		}, {
 			button: {
 				classList: ["chat-search-room-join-button"],
+				attributes: {
+					"aria-disabled": room.MemberCount >= room.MemberLimit ? "true" : "false",
+				},
 				dataAttributes: {
 					locked: !room.CanJoin ? "true" : "false",
 					full: room.MemberCount >= room.MemberLimit ? "true" : "false",
