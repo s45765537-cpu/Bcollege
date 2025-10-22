@@ -166,6 +166,8 @@
     grid-column: 3/3;
     grid-row: 1/1;
     border-style: none;
+    margin-top: var(--inner-border-width);
+    margin-right: var(--inner-border-width);
 }
 
 .chat-search-room-page-button img {
@@ -261,6 +263,8 @@
     flex-direction: column;
     pointer-events: none;
     overflow: hidden;
+    margin-block: calc(2 * var(--border-width));
+    margin-left: calc(2 * var(--border-width));
 }
 .chat-search-room-icons:first-child {
     margin-top: 0.05em;
