@@ -125,10 +125,12 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorStateBuild(c, ItemColorItem, x, y, width, height);
 	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
 	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
+
 	if (ItemColorState.simpleMode) {
-		ItemColorOpenPicker(ItemColorState.colorGroups[0]);
+		await ItemColorOpenPicker(ItemColorState.colorGroups[0]);
 	} else {
-		// Hide the pre-loaded color picker subscreen again
+		// Pre-loaded (and hide) the color picker subscreen again
+		await ColorPickerInit();
 		ColorPickerUnload();
 	}
 }
