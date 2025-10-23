@@ -242,21 +242,22 @@ var ColorPicker = {
 
 			switch (ev.detail.source) {
 				case "output": {
-					if (CommonIsColor(outputInput.value, { allowAlpha: true })) {
-						const rgb = outputInput.value.slice(0, 7);
-						const hsv = ColorPickerCSSToHSV(rgb);
-
-						const opacityMin = CommonParseInt(opacityInput.min, 10) ?? 0;
-						const opacityMax = CommonParseInt(opacityInput.max, 10) ?? 255;
-						const opacity = CommonClamp(CommonParseInt(outputInput.value.slice(7), 16) ?? opacityMax, opacityMin, opacityMax);
-
-						hueInput.valueAsNumber = Math.round(hsv.H * 360);
-						this.style.setProperty("--hue", hueInput.value);
-						if (!opacityInput.disabled) {
-							opacityInput.valueAsNumber = opacity;
-						}
-						tintInput.value = rgb;
+					if (!CommonIsColor(outputInput.value, { allowAlpha: true })) {
+						break;
 					}
+
+					const opacityMin = CommonParseInt(opacityInput.min, 10) ?? 0;
+					const opacityMax = CommonParseInt(opacityInput.max, 10) ?? Infinity;
+					const opacityCandidate = CommonParseInt(outputInput.value.slice(7), 16);
+					if (opacityCandidate != null && !opacityInput.disabled) {
+						opacityInput.valueAsNumber = CommonClamp(opacityCandidate, opacityMin, opacityMax);
+					}
+
+					const rgb = outputInput.value.slice(0, 7);
+					const hsv = ColorPickerCSSToHSV(rgb);
+					hueInput.valueAsNumber = Math.round(hsv.H * 360);
+					this.style.setProperty("--hue", hueInput.value);
+					tintInput.value = rgb;
 					break;
 				}
 				case "opacity":
@@ -271,7 +272,7 @@ var ColorPicker = {
 					// If we're dealing with an `opacity`-triggered input event:
 					// (1 Only modify the output textbox if it is backed by valid hex color (so no `Default`, `White`, etc)
 					// (2 Do not touch the hue or tint inputs, as this could potentially erase aforementioned non-hex colors
-					if (ev.detail.source !== "opacity" || CommonIsColor(outputInput.value, { allowAlpha: true })) {
+					if (ev.detail.source !== "opacity" || CommonIsColor(outputInput.value.slice(0, 7))) {
 						// Simplify RGBA to RGB when fully opaque
 						const opacity = opacityInput.validity.valid && opacityInput.valueAsNumber < 255 ? opacityInput.valueAsNumber.toString(16).toUpperCase().padStart(2, "0") : "";
 						const rgb = ColorPickerHSVToCSS(hsv);
