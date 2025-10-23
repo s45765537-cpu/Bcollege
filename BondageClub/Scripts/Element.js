@@ -1671,7 +1671,7 @@ var ElementButton = {
 									tag: "dfn",
 									children: [propertyKey],
 								},
-								propertyValue > 1 ? `x ${propertyValue} - ` : " - ",
+								propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
 							],
 						}]), []),
 					],

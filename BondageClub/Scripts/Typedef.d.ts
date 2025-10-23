@@ -4310,8 +4310,12 @@ interface CraftingItem {
 	MemberNumber?: number;
 	/** The custom item description. */
 	Description: string;
-	/** The crafted item propery. */
+	/** The crafted item properties mapped to their property strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
+	/** 
+	* The crafted item property.
+	* @deprecated superseded by {@link CraftingItem.Effects}
+	*/
 	Property: CraftingPropertyType
 	/** The comma-separated color(s) of the item. */
 	Color: string;
@@ -4381,8 +4385,12 @@ interface CraftingItemSelected {
 	 * The asset is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
 	 */
 	get Asset(): Asset | undefined;
-	/** The crafted item propery. */
+	/**
+	 * The crafted item property.
+	 * @deprecated superseded by {@link CraftingItemSelected .Effects}
+	 */
 	Property: CraftingPropertyType;
+	/** The crafted item properties mapped to their property strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/** The lock as equiped on the item or, if absent, `null`. */
 	Lock: Asset | null;
