@@ -478,6 +478,7 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 	const asset = ItemColorItem.Asset;
 
 	const layers = colorGroup.name === null ? asset.Layer : colorGroup.layers;
+	ItemColorPickerLayers.clear();
 	for (const layer of layers) {
 		const index = asset.Layer.indexOf(layer);
 		if (index !== -1) {
