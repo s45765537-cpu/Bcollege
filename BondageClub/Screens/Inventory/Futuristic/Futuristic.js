@@ -175,9 +175,7 @@ function InventoryItemFuturisticClickAccessDenied(data) {
 		} else {
 			FuturisticAccessDeniedMessage = AssetTextGet("CantChangeWhileLockedFuturistic");
 			AudioPlayInstantSound("Audio/AccessDenied.mp3");
-			if (CurrentScreen == "ChatRoom") {
-				InventoryItemFuturisticPublishAccessDenied(CharacterGetCurrent());
-			}
+			InventoryItemFuturisticPublishAccessDenied(CharacterGetCurrent());
 		}
 	}
 }

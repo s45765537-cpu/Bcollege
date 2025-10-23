@@ -989,12 +989,12 @@ function ServerAccountBeep(data) {
 				ChatRoomAppendChat(div);
 			}
 		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {
-			if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.AllowPlayerLeashing != false && ( CurrentScreen != "ChatRoom" || !ChatRoomData || (CurrentScreen == "ChatRoom" && ChatRoomData.Name != data.ChatRoomName))) {
+			if (Player.OnlineSharedSettings.AllowPlayerLeashing && (!ServerPlayerIsInChatRoom() || ChatRoomData?.Name !== data.ChatRoomName)) {
 				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player) && ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders())) {
 					ChatRoomJoinLeash = data.ChatRoomName;
 
 					ChatRoomLeave();
-					if (CurrentScreen == "ChatRoom") {
+					if (ServerPlayerIsInChatRoom()) {
 						CommonSetScreen("Online", "ChatSearch");
 					} else {
 						ChatRoomStart(data.ChatRoomSpace, "", null, null, "Introduction", BackgroundsTagList);

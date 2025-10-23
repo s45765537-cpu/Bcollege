@@ -160,7 +160,7 @@ function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) 
 			} else {
 				Update = false;
 			}
-			if (Update && CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(C);
+			if (Update) ChatRoomCharacterItemUpdate(C);
 		}
 	}
 

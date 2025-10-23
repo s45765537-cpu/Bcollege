@@ -682,7 +682,7 @@ function TypedItemClick(data) {
 
 	// Permission toggle button
 	if (MouseIn(1775, 25, 90, 90)) {
-		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom") {
+		if (ExtendedItemPermissionMode) {
 			ChatRoomCharacterUpdate(Player);
 			ExtendedItemRequirementCheckMessageMemo.clearCache();
 		}

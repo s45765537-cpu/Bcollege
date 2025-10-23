@@ -18,7 +18,7 @@ let ActivityTranslateResolve = undefined;
  * @returns {boolean} - Whether or not activities can be done
  */
 function ActivityAllowed() {
-	return (CurrentScreen == "ChatRoom" && !(ChatRoomData && ChatRoomData.BlockCategory && ChatRoomData.BlockCategory.includes("Arousal")))
+	return (ServerPlayerIsInChatRoom() && !(ChatRoomData && ChatRoomData.BlockCategory && ChatRoomData.BlockCategory.includes("Arousal")))
 		|| (((CurrentScreen == "Private") || (CurrentScreen == "PrivateBed")) && LogQuery("RentRoom", "PrivateRoom")); }
 
 /**
@@ -443,7 +443,7 @@ function ActivityEffectFlat(S, C, Amount, Z, Count, Asset) {
  * @return {void} - Nothing
  */
 function ActivityChatRoomArousalSync(C) {
-	if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom"))
+	if (C.IsPlayer() && ServerPlayerIsInChatRoom())
 		ServerSend("ChatRoomCharacterArousalUpdate", { OrgasmTimer: C.ArousalSettings.OrgasmTimer, Progress: C.ArousalSettings.Progress, ProgressTimer: C.ArousalSettings.ProgressTimer, OrgasmCount: C.ArousalSettings.OrgasmCount });
 }
 
@@ -530,29 +530,23 @@ function ActivityOrgasmControl() {
 	if ((ActivityOrgasmGameTimer != null) && (ActivityOrgasmGameTimer > 0) && (CurrentTime < Player.ArousalSettings.OrgasmTimer)) {
 		// Ruin the orgasm
 		if (ActivityOrgasmGameProgress >= ActivityOrgasmGameDifficulty - 1 || CurrentTime > Player.ArousalSettings.OrgasmTimer - 500) {
-			if (CurrentScreen == "ChatRoom") {
+			if (ServerPlayerIsInChatRoom()) {
 				if (CurrentTime > Player.ArousalSettings.OrgasmTimer - 500) {
 					if (Player.ArousalSettings.OrgasmStage == 0) {
-						if ((CurrentScreen == "ChatRoom"))
-							ChatRoomMessage({ Content: "OrgasmFailPassive" + (Math.floor(Math.random() * 3)).toString(), Type: "Action", Sender: Player.MemberNumber });
+						ChatRoomMessage({ Content: "OrgasmFailPassive" + (Math.floor(Math.random() * 3)).toString(), Type: "Action", Sender: Player.MemberNumber });
 					} else {
-						if ((CurrentScreen == "ChatRoom")) {
-							const Dictionary = new DictionaryBuilder()
-								.sourceCharacter(Player)
-								.build();
-							ServerSend("ChatRoomChat", { Content: "OrgasmFailTimeout" + (Math.floor(Math.random() * 3)).toString(), Type: "Activity", Dictionary: Dictionary });
-							ActivityChatRoomArousalSync(Player);
-						}
-					}
-				} else {
-					if ((CurrentScreen == "ChatRoom")) {
-
 						const Dictionary = new DictionaryBuilder()
 							.sourceCharacter(Player)
 							.build();
-						ServerSend("ChatRoomChat", { Content: ("OrgasmFailResist" + (Math.floor(Math.random() * 3))).toString(), Type: "Activity", Dictionary: Dictionary });
+						ServerSend("ChatRoomChat", { Content: "OrgasmFailTimeout" + (Math.floor(Math.random() * 3)).toString(), Type: "Activity", Dictionary: Dictionary });
 						ActivityChatRoomArousalSync(Player);
 					}
+				} else {
+					const Dictionary = new DictionaryBuilder()
+						.sourceCharacter(Player)
+						.build();
+					ServerSend("ChatRoomChat", { Content: ("OrgasmFailResist" + (Math.floor(Math.random() * 3))).toString(), Type: "Activity", Dictionary: Dictionary });
+					ActivityChatRoomArousalSync(Player);
 				}
 			}
 			ActivityOrgasmGameResistCount++;
@@ -590,7 +584,7 @@ function ActivityOrgasmStart(C) {
 			C.ArousalSettings.OrgasmStage = 2;
 			C.ArousalSettings.OrgasmCount = (C.ArousalSettings.OrgasmCount == null) ? 1 : C.ArousalSettings.OrgasmCount + 1;
 			ActivityOrgasmGameTimer = C.ArousalSettings.OrgasmTimer - CurrentTime;
-			if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom")) {
+			if (C.IsPlayer() && ServerPlayerIsInChatRoom()) {
 
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
@@ -600,7 +594,7 @@ function ActivityOrgasmStart(C) {
 			}
 		} else {
 			ActivityOrgasmStop(Player, 65 + Math.ceil(Math.random() * 20));
-			if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom")) {
+			if (C.IsPlayer() && ServerPlayerIsInChatRoom()) {
 				let ChatModifier = C.ArousalSettings.OrgasmStage == 1 ? "Timeout" : "Surrender";
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
@@ -648,7 +642,7 @@ function ActivityOrgasmGameGenerate(Progress) {
 
 	// Runs the game or finish it if the threshold is reached, it can trigger a chatroom message for everyone to see
 	if (Progress >= ActivityOrgasmGameDifficulty) {
-		if (CurrentScreen == "ChatRoom") {
+		if (ServerPlayerIsInChatRoom()) {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)
 				.build();
@@ -884,7 +878,7 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 	ActivityRunSelf(actor, acted, Activity, group, UsedAsset);
 
 	// The text result can be outputted in the chatroom or in the NPC dialog
-	if (CurrentScreen == "ChatRoom" && sendMessage) {
+	if (ServerPlayerIsInChatRoom() && sendMessage) {
 
 		// Publishes the activity to the chatroom
 		const dictionary = new DictionaryBuilder()

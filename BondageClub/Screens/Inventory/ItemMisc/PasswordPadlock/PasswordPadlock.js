@@ -117,15 +117,13 @@ function InventoryItemMiscPasswordPadlockHandleOpenClick() {
 	if (ElementValue("Password").toUpperCase() === Property.Password) {
 		if (DialogFocusSourceItem.Property.RemoveOnUnlock) {
 			InventoryRemove(CurrentCharacter, C.FocusGroup.Name, true);
-			if (CurrentScreen == "ChatRoom") {
-				ChatRoomCharacterUpdate(C);
-			}
+			ChatRoomCharacterUpdate(C);
 		}
 		CommonPadlockUnlock(C, DialogFocusSourceItem);
 	}
 
 	// Send fail message if online
-	else if (CurrentScreen == "ChatRoom") {
+	else if (ServerPlayerIsInChatRoom()) {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.destinationCharacter(C)

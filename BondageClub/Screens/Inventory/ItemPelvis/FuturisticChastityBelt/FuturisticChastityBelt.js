@@ -90,7 +90,7 @@ function AssetsItemPelvisFuturisticChastityBeltScriptUpdatePlayer(data) {
  * @param {boolean} [NoShock]
  */
 function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType, ReplacementWord, NoShock) {
-	if (!(CurrentScreen == "ChatRoom")) {
+	if (!ServerPlayerIsInChatRoom()) {
 		if (!NoShock)
 			AudioPlayInstantSound("Audio/Shocks.mp3");
 	} else {

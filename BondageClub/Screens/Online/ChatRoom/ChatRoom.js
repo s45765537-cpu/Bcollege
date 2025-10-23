@@ -894,7 +894,7 @@ function ChatRoomCanBeLeashedBy(sourceMemberNumber, C) {
  * Checks if the player has waited long enough to be able to call the maids
  * @returns {boolean} - TRUE if the current character has been in the last chat room for more than 30 minutes
  */
-function DialogCanCallMaids() { return (CurrentScreen == "ChatRoom" && (ChatRoomData && ChatRoomData.Game == "" && !(LogValue("Committed", "Asylum") >= CurrentTime)) &&  !Player.CanWalk()) && !MainHallIsMaidsDisabled();}
+function DialogCanCallMaids() { return (ServerPlayerIsInChatRoom() && ChatRoomData?.Game == "" && LogValue("Committed", "Asylum") < CurrentTime && !Player.CanWalk()) && !MainHallIsMaidsDisabled(); }
 
 
 /**
@@ -3305,6 +3305,7 @@ function ChatRoomSendWhisper(targetNumber, msg) {
  * @returns {void} - Nothing
  */
 function ChatRoomSendLocal(Content, Timeout) {
+	if (!ServerPlayerIsInChatRoom()) return;
 	ChatRoomMessage({
 		Sender: Player.MemberNumber,
 		Type: "LocalMessage",
@@ -3417,30 +3418,31 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
  * @returns {void} - Nothing.
  */
 function ChatRoomCharacterItemUpdate(C, Group) {
-	if ((Group == null) && (C.FocusGroup != null)) Group = C.FocusGroup.Name;
-	if ((CurrentScreen == "ChatRoom") && (Group != null)) {
-		// Single item updates aren't sent back to the source member, so update the ChatRoomData accordingly
-		if (ChatRoomData && ChatRoomData.Character) {
-			const characterIndex = ChatRoomData.Character.findIndex((char) => char.MemberNumber === C.MemberNumber);
-			if (characterIndex !== -1) {
-				// @ts-expect-error FIXME: This is mistaking raw server data with unpacked character data
-				ChatRoomData.Character[characterIndex] = C;
-			}
-		}
+	if (!ServerPlayerIsInChatRoom()) return;
+	Group ??= C.FocusGroup.Name;
+	if (!Group) return;
 
-		const Item = InventoryGet(C, Group);
-		/** @type {ServerCharacterItemUpdate} */
-		const P = {
-			Target: C.MemberNumber,
-			Group: Group,
-			Name: (Item != null) ? Item.Asset.Name : undefined,
-			Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
-			Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
-			Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
-			Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
-		};
-		ServerSend("ChatRoomCharacterItemUpdate", P);
+	// Single item updates aren't sent back to the source member, so update the ChatRoomData accordingly
+	if (ChatRoomData && ChatRoomData.Character) {
+		const characterIndex = ChatRoomData.Character.findIndex((char) => char.MemberNumber === C.MemberNumber);
+		if (characterIndex !== -1) {
+			// @ts-expect-error FIXME: This is mistaking raw server data with unpacked character data
+			ChatRoomData.Character[characterIndex] = C;
+		}
 	}
+
+	const Item = InventoryGet(C, Group);
+	/** @type {ServerCharacterItemUpdate} */
+	const P = {
+		Target: C.MemberNumber,
+		Group: Group,
+		Name: (Item != null) ? Item.Asset.Name : undefined,
+		Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
+		Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
+		Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
+		Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
+	};
+	ServerSend("ChatRoomCharacterItemUpdate", P);
 }
 
 /**
@@ -3474,12 +3476,11 @@ function ChatRoomCharacterExpressionUpdate(C, Group) {
  * @returns {void} - Nothing.
  */
 function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
-	if (CurrentScreen == "ChatRoom") {
-		ServerSend("ChatRoomChat", { Content: msg, Type: "Action", Dictionary });
-		const C = CharacterGetCurrent();
-		if (C) ChatRoomCharacterItemUpdate(C);
-		if (LeaveDialog && (C != null)) DialogLeave();
-	}
+	if (!ServerPlayerIsInChatRoom()) return;
+	ServerSend("ChatRoomChat", { Content: msg, Type: "Action", Dictionary });
+	const C = CharacterGetCurrent();
+	if (C) ChatRoomCharacterItemUpdate(C);
+	if (LeaveDialog && (C != null)) DialogLeave();
 }
 
 /**
@@ -3492,6 +3493,7 @@ function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
  * @returns {void} - Nothing.
  */
 function ChatRoomCharacterUpdate(C) {
+	if (!ServerPlayerIsInChatRoom()) return;
 	if (ChatRoomAllowCharacterUpdate) {
 		const data = {
 			ID: C.CharacterID,
@@ -6168,7 +6170,7 @@ function ChatRoomGameResponse(data) {
 function ChatRoomSafewordChatCommand() {
 	if (DialogChatRoomCanSafeword())
 		ChatRoomSafewordRevert();
-	else if (CurrentScreen == "ChatRoom") {
+	else if (ServerPlayerIsInChatRoom()) {
 		/** @type {ServerChatRoomMessage} */
 		var msg = {Sender: Player.MemberNumber, Content: "SafewordDisabled", Type: "Action"};
 		ChatRoomMessage(msg);

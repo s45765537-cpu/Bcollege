@@ -331,7 +331,7 @@ function InventoryItemPelvisFuturisticTrainingBeltUpdateVibeMode(data, C, Persis
 		ExtendedItemSetOption(data, C, Item, newOption, previousOption, true);
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 
-		if (CurrentScreen == "ChatRoom") {
+		if (ServerPlayerIsInChatRoom()) {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(C)
 				.destinationCharacterName(C)
