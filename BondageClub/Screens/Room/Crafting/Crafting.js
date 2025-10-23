@@ -106,22 +106,23 @@ const CraftingPropertyMap = new Map([
 	["Heavy", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 	["Light", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 ]);
-
+const CraftingEffectsDefaultMaximumCount = 5;
+const CraftingEffectsDefaultMaximumEffects = 3;
 /**
  * A record mapping crafting property names to functions that return a boolean indicating whether the property can increase
- * @type {Record<CraftingPropertyType, {max?: number, canIncrease?: (craft: CraftingItem | CraftingItemSelected) => boolean}>}
+ * @type {Record<CraftingPropertyType, {max?: number, isDisabled?: (craft: CraftingItem | CraftingItemSelected) => boolean}>}
  */
 const CraftingEffectsPrerequisite = {
 	Painful: {
 		max: 1,
-		canIncrease(craft) {
-			return craft.Effects?.Comfy == null;
+		isDisabled(craft) {
+			return craft.Effects?.Comfy != null;
 		}
 	},
 	Comfy: {
 		max: 1,
-		canIncrease(craft) {
-			return craft.Effects?.Painful == null;
+		isDisabled(craft) {
+			return craft.Effects?.Painful != null;
 		},
 	},
 	Decoy: {
@@ -129,73 +130,73 @@ const CraftingEffectsPrerequisite = {
 	},
 	Secure: {
 		max: 2,
-		canIncrease(craft) {
-			return craft.Effects?.Loose == null;
+		isDisabled(craft) {
+			return craft.Effects?.Loose != null;
 		},
 	},
 	Loose: {
-		canIncrease(craft) {
-			return craft.Effects?.Secure == null;
+		isDisabled(craft) {
+			return craft.Effects?.Secure != null;
 		},
 	},
 	Arousing: {
-		canIncrease(craft) {
-			return craft.Effects?.Dull == null;
+		isDisabled(craft) {
+			return craft.Effects?.Dull != null;
 		},
 	},
 	Dull: {
-		canIncrease(craft) {
-			return craft.Effects?.Arousing == null;
+		isDisabled(craft) {
+			return craft.Effects?.Arousing != null;
 		},
 	},
 	Heavy: {
-		canIncrease(craft) {
-			return craft.Effects?.Light == null;
+		isDisabled(craft) {
+			return craft.Effects?.Light != null;
 		},
 	},
 	Light: {
-		canIncrease(craft) {
-			return craft.Effects?.Heavy == null;
+		isDisabled(craft) {
+			return craft.Effects?.Heavy != null;
 		},
 	},
 	Large: {
-		canIncrease(craft) {
-			return craft.Effects?.Small == null;
+		isDisabled(craft) {
+			return craft.Effects?.Small != null;
 		},
 	},
 	Small: {
-		canIncrease(craft) {
-			return craft.Effects?.Large == null;
+		isDisabled(craft) {
+			return craft.Effects?.Large != null;
 		},
 	},
 	Thick: {
-		canIncrease(craft) {
-			return craft.Effects?.Thin == null;
+		isDisabled(craft) {
+			return craft.Effects?.Thin != null;
 		},
 	},
 	Thin: {
-		canIncrease(craft) {
-			return craft.Effects?.Thick == null;
+		isDisabled(craft) {
+			return craft.Effects?.Thick != null;
 		},
 	},
 	Malleable: {
-		canIncrease(craft) {
-			return craft.Effects?.Rigid == null;
+		isDisabled(craft) {
+			return craft.Effects?.Rigid != null;
 		},
 	},
 	Rigid: {
-		canIncrease(craft) {
-			return craft.Effects?.Malleable == null;
+		isDisabled(craft) {
+			return craft.Effects?.Malleable != null;
 		},
 	},
 	Simple: {
-		canIncrease(craft) {
-			return craft.Effects?.Puzzling == null;
+		isDisabled(craft) {
+			return craft.Effects?.Puzzling != null;
 		},
 	},
 	Puzzling: {
-		canIncrease(craft) {
-			return craft.Effects?.Simple == null;
+		isDisabled(craft) {
+			return craft.Effects?.Simple != null;
 		},
 	},
 	Edging: {
@@ -215,17 +216,17 @@ const CraftingEffectsPrerequisite = {
 	},
 };
 /**
- * Checks if a prerequisite is met
+ * Checks if a {@link CraftingItem["Effect"]} prerequisite is met
  * @param {CraftingItemSelected | CraftingItem} craft
  * @param {CraftingPropertyType} effect
  */
-function CraftingCheckPrerequisite(craft, effect) {
+function CraftingCheckEffectsPrerequisite(craft, effect) {
 	const prerequisite = CraftingEffectsPrerequisite[effect];
-	if (prerequisite.max && (craft.Effects?.[effect] ?? 0) > prerequisite.max -1) {
-		return false;
-	}
-	if (!prerequisite.canIncrease) return true;
-	return prerequisite.canIncrease(craft);
+	if (craft.Effects?.[effect] == null && !CommonIsInteger(Object.keys(craft.Effects).length, 0, CraftingEffectsDefaultMaximumEffects-1)) return false;
+	if (!CommonIsInteger((craft.Effects?.[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumCount) -1)) return false;
+
+	if (!prerequisite.isDisabled) return true;
+	return !prerequisite.isDisabled(craft);
 }
 
 /**
@@ -234,7 +235,7 @@ function CraftingCheckPrerequisite(craft, effect) {
  */
 function CraftingPropertyUpdateButtons(craft) {
 	for (const name of Array.from(CraftingPropertyMap.keys())) {
-		const disabled = !CraftingCheckPrerequisite(craft, name) || !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
+		const disabled = !CraftingCheckEffectsPrerequisite(craft, name) || !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
 		document.getElementById(`crafting-property-button-${name}-add`)?.toggleAttribute("disabled", disabled);
 	}
 }
@@ -498,11 +499,11 @@ function CraftingUpdatePropertyButton() {
 	}
 	if (entries.length === 1) {
 		const [name, value] = entries[0];
-		document.getElementById(CraftingID.propertyButton).innerText = TextGet(`Property${name}`) + " x" + value + ": " + TextGet(`Description${name}`);
+		document.getElementById(CraftingID.propertyButton).innerText = TextGet(`Property${name}`) + " ×" + value + ": " + TextGet(`Description${name}`);
 		return;
 	}
 	if (entries.length <= 5) {
-		document.getElementById(CraftingID.propertyButton).innerText = entries.map(([name, value]) => TextGet(`Property${name}`) + " x" + value).join(" & ");
+		document.getElementById(CraftingID.propertyButton).innerText = entries.map(([name, value]) => TextGet(`Property${name}`) + " ×" + value).join(" & ");
 		return;
 	}
 	document.getElementById(CraftingID.propertyButton).innerText = TextGet(`MultipleProperties`) + ` (${entries.length})`;
@@ -883,29 +884,13 @@ var CraftingEventListeners = {
 			const propertyType = /** @type {CraftingPropertyType} */(e.getAttribute("name"));
 			const callback = CraftingPropertyMap.get(propertyType);
 			const hidden = (callback && !CraftingSelectedItem.Assets.some(a => callback(a)));
-			const disabled = hidden || !CraftingCheckPrerequisite(CraftingSelectedItem, propertyType);
+			const disabled = hidden || !CraftingCheckEffectsPrerequisite(CraftingSelectedItem, propertyType);
 			e.toggleAttribute("hidden", hidden);
 			e.setAttribute("aria-disabled", disabled ? "true" : "false");
 			// .crafting-property-add
 			e.querySelector(".crafting-property-add").toggleAttribute("disabled", disabled);
 			e.querySelector(".crafting-property-remove").toggleAttribute("hidden", CraftingSelectedItem.Effects?.[propertyType] == null);
 			e.querySelector(".crafting-property-value").toggleAttribute("hidden", CraftingSelectedItem.Effects?.[propertyType] == null);
-			const valueInput = /** @type {HTMLInputElement} */(e.querySelector(".crafting-property-value input"));
-			valueInput.addEventListener("input", function() {
-				const value = Number.parseInt(this.value);
-				if (isNaN(value)) {
-					delete CraftingSelectedItem.Effects[propertyType];
-				}
-				if (!CraftingCheckPrerequisite(CraftingSelectedItem, propertyType)) {
-					return;
-				}
-				CraftingSelectedItem.Effects[propertyType] = Number.parseInt(this.value);
-				CraftingUpdatePropertyButton();
-				CraftingPropertyUpdateButtons(CraftingSelectedItem);
-				if (CraftingSelectedItem.Effects[propertyType] <= 0) {
-					delete CraftingSelectedItem.Effects[propertyType];
-				}
-			});
 			/** @type {HTMLInputElement} */(e.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects?.[propertyType] ?? 0;
 		});
 		CraftingUpdatePropertyButton();
@@ -1173,7 +1158,7 @@ var CraftingElements = {
 
 	/**
 	 * @param {string} id
-	 * @param {string} property
+	 * @param {CraftingPropertyType} property
 	 */
 	_PropertyListItem: function _PropertyListItem(id, property) {
 		return ElementCreate({
@@ -1201,14 +1186,41 @@ var CraftingElements = {
 								hidden: true,
 							},
 							children: [
-								"x", {
+								"×", {
 									tag: "input",
 									attributes: {
 										type: "number",
 										inputmode: "numeric",
+										max: CraftingEffectsPrerequisite[property]?.max ?? CraftingEffectsDefaultMaximumCount,
+										required: true,
+										value: 0,
+										min: 0,
 									},
+									eventListeners: {
+										/** @type {(this: HTMLInputElement, ev: Event) => void} */
+										change: function() {
+											const value = this.valueAsNumber;
+											if (isNaN(value)) return;
+											if (!CraftingCheckEffectsPrerequisite(CraftingSelectedItem, /** @type {CraftingPropertyType} */(property))) {
+												return;
+											}
+											CraftingSelectedItem.Effects[property] = this.valueAsNumber;
+											CraftingUpdatePropertyButton();
+											CraftingPropertyUpdateButtons(CraftingSelectedItem);
+											if (CraftingSelectedItem.Effects[property] <= 0) {
+												delete CraftingSelectedItem.Effects[property];
+											}
+										},
+										/** @type {(this: HTMLInputElement, ev: Event) => void} */
+										blur: function (ev) {
+											if (!this.checkValidity()) {
+												this.value = this.defaultValue;
+												this.dispatchEvent(new Event("change"));
+											}
+										},
+									}
 								}
-							]
+							],
 						},
 						{
 							tag: "p",
@@ -1222,8 +1234,6 @@ var CraftingElements = {
 					`${id}-remove`,
 					CraftingEventListeners._ClickRemoveProperty,
 					{
-						tooltip: TextGet("RemoveProperty"),
-						tooltipPosition: "right",
 						image: "./Icons/decrement.svg",
 					},
 					{ button: {
@@ -1237,8 +1247,6 @@ var CraftingElements = {
 					`${id}-add`,
 					CraftingEventListeners._ClickAddProperty,
 					{
-						tooltip: TextGet("AddProperty"),
-						tooltipPosition: "right",
 						image: "./Icons/increment.svg",
 					},
 					{ button: {
@@ -1373,9 +1381,9 @@ async function CraftingLoad() {
 							],
 						},
 						{
-							tag: "div",
+							tag: "ul",
 							classList: ["crafting-grid", "scroll-box"],
-							attributes: { id: CraftingID.propertyGrid, "aria-required": "true" },
+							attributes: { id: CraftingID.propertyGrid },
 							children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
 								if (property === "Normal") {
 									return;
@@ -1679,7 +1687,7 @@ function CraftingRun() {
 					const effectArray = Object.entries(Craft.Effects);
 					let text;
 					const getEffectText = (effect, count) => {
-						return TextGet(`Property${effect}`) + (count > 1 ? ` x${count}` : "");
+						return TextGet(`Property${effect}`) + (count > 1 ? ` ×${count}` : "");
 					};
 					if (effectArray.length === 0) {
 						text = TextGet("PropertyNormal");
@@ -2605,18 +2613,18 @@ const CraftingValidationRecord = {
 	},
 	Effects: {
 		Validate: function (c, a) {
-			if (c.Effects == null) {
+			if (!CommonIsObject(c.Effects)) {
 				return false;
 			}
 			if (c.Effects?.Normal) return false;
-			if (a == null) return Object.keys(c.Effects).some(effect => {return CraftingPropertyMap.has(/** @type {CraftingPropertyType} */(effect));});
-			return Object.keys(c.Effects).some(effect => {
-				const craftingProperty = CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(effect));
-				return craftingProperty?.(a) && CraftingCheckPrerequisite(c,/** @type {CraftingPropertyType} */(effect));
+			if (a == null) return Object.keys(c.Effects).every(effect => {return CraftingPropertyMap.has(/** @type {CraftingPropertyType} */(effect));});
+			return CommonKeys(c.Effects).every(effect => {
+				const craftingProperty = CraftingPropertyMap.get(effect);
+				return craftingProperty?.(a) && CraftingCheckEffectsPrerequisite(c,effect);
 			});
 		},
 		GetDefault: (c, a) => {
-			if (c.Effects == null && c.Property != null) {
+			if (c.Effects == null && c.Property != null && CraftingPropertyMap.has(c.Property)) {
 				return {[c.Property]: 1};
 			}
 			if (c.Effects.Normal != null) {

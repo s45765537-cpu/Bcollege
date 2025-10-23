@@ -118,7 +118,7 @@
 
 #crafting-property-grid {
 	grid-template-columns: 1fr;
-	grid-template-rows: repeat(auto-fill, 2.5em);
+	grid-template-rows: repeat(auto-fill, 2.7em);
 }
 
 #crafting-asset-grid button,
@@ -132,15 +132,6 @@
 
 #crafting-asset-grid button[data-hidden-asset]:not([aria-checked="true"]),
 #crafting-asset-grid button[data-hidden-group]:not([aria-checked="true"]) {
-	display: none;
-}
-
-#crafting-property-grid button {
-	width: calc(5.7 * var(--menu-button-size));
-	height: calc(1.5 * var(--menu-button-size));
-}
-
-#crafting-property-grid button > .button-label {
 	display: none;
 }
 
@@ -288,41 +279,37 @@
 
 .crafting-property-list-item {
 	display: flex;
-  	height: 2.5em;
+  	height: 2.7em;
 	background-color: white;
 	justify-content: space-between;
+	margin-right: var(--scrollbar-gutter);
 }
 
 .crafting-property-list-item p {
 	margin: 0;
 	font-size: 0.6em;
-	top: -0.6em; 
-	position: relative;
 	user-select: none;
 }
 .crafting-property-name {
 	font-size: 0.75em;
-	top: -0.3em; /* stupid spacing coming from nowhere*/
-	position: relative;
 	width: fit-content;
 	user-select: none;
+	margin-left: 0.15em;
 }
 .crafting-property-info {
 	width: 100%;
-	padding: 0.2em;
+	padding-inline: 0.2em;
 }
 .crafting-property-value {
-	top: -0.25em; 
-	position: relative;
 	display: inline;
 	margin-left: 0.25em;
 	user-select: none;
+	font-size: 0.75em;
 }
 .crafting-property-value input {
 	display: inline;
 	width: 2em;
 	margin-left: 0.25em;
-	font-size: 0.6em;
 	background-color: rgb(245, 245, 245);
 }
 

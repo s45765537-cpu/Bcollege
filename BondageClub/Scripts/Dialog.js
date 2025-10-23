@@ -4006,7 +4006,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 			property.replaceChildren(
 				...Object.entries(item.Craft.Effects).reduce((acc, [propertyKey, propertyValue]) => acc.concat([
 					ElementCreate({ tag: "dfn", children: [propertyKey] }),
-					propertyValue > 1 ? `x ${propertyValue} - ` : " - ",
+					propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
 					textCache.get(`Description${propertyKey}`),
 					{
 						tag: "br",
