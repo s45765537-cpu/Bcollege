@@ -748,6 +748,16 @@ function ItemColorFireExit(save) {
 		editOpacity: ItemColorState.editOpacity,
 	};
 	ItemColorExitListeners.forEach(listener => listener(colorState, save, null));
+
+	// Minify the opacity property if possible
+	/** @type {Item} */
+	const item = ItemColorItem;
+	if (CommonArraysEqual(colorState.opacity, colorState.defaultOpacity)) {
+		delete item.Property.Opacity;
+	} else if (colorState.opacity.every((opacity, i) => opacity === colorState.opacity[i])) {
+		item.Property.Opacity = colorState.opacity[0];
+	}
+
 	ColorPickerExit(true);
 	ItemColorReset();
 }
