@@ -114,9 +114,10 @@ function ItemColorSanitizeProperty(item) {
  * @param {number} width - The width the UI should be drawn at
  * @param {number} height - The height the UI should be drawn at
  * @param {boolean} [includeResetButton] - Whether or not to include the "Reset to default" button
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
+ * @satisfies {ScreenLoadHandler}
  */
-function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
+async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorReset();
 	ItemColorCharacter = c;
 	ItemColorItem = Object.assign(item, { Color: ItemColorSanitizeColor(item), Property: ItemColorSanitizeProperty(item) });
