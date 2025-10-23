@@ -240,36 +240,52 @@ var ColorPicker = {
 				return;
 			}
 
-			if (ev.detail.source === "output") {
-				if (CommonIsColor(outputInput.value, { allowAlpha: true })) {
-					const rgb = outputInput.value.slice(0, 7);
-					const hsv = ColorPickerCSSToHSV(rgb);
+			switch (ev.detail.source) {
+				case "output": {
+					if (CommonIsColor(outputInput.value, { allowAlpha: true })) {
+						const rgb = outputInput.value.slice(0, 7);
+						const hsv = ColorPickerCSSToHSV(rgb);
 
-					const opacityMin = CommonParseInt(opacityInput.min, 10) ?? 0;
-					const opacityMax = CommonParseInt(opacityInput.max, 10) ?? 255;
-					const opacity = CommonClamp(CommonParseInt(outputInput.value.slice(7), 16) ?? opacityMax, opacityMin, opacityMax);
+						const opacityMin = CommonParseInt(opacityInput.min, 10) ?? 0;
+						const opacityMax = CommonParseInt(opacityInput.max, 10) ?? 255;
+						const opacity = CommonClamp(CommonParseInt(outputInput.value.slice(7), 16) ?? opacityMax, opacityMin, opacityMax);
 
-					hueInput.valueAsNumber = Math.round(hsv.H * 360);
-					this.style.setProperty("--hue", hueInput.value);
-					if (!opacityInput.disabled) {
-						opacityInput.valueAsNumber = opacity;
+						hueInput.valueAsNumber = Math.round(hsv.H * 360);
+						this.style.setProperty("--hue", hueInput.value);
+						if (!opacityInput.disabled) {
+							opacityInput.valueAsNumber = opacity;
+						}
+						tintInput.value = rgb;
 					}
-					tintInput.value = rgb;
+					break;
 				}
-			} else {
-				const hsv = {
-					H: hueInput.validity.valid ? hueInput.valueAsNumber / 360 : 0,
-					S: tintInput.validity.valid ? tintInput.saturation / 255 : 0,
-					V: tintInput.validity.valid ? tintInput.brightness / 255 : 1,
-				};
-				// Simplify RGBA to RGB when fully opaque
-				const opacity = opacityInput.validity.valid && opacityInput.valueAsNumber < 255 ? opacityInput.valueAsNumber.toString(16).toUpperCase().padStart(2, "0") : "";
-				const rgb = ColorPickerHSVToCSS(hsv);
-				outputInput.value = `${rgb}${opacity}`;
+				case "opacity":
+				case "tint":
+				case "hue": {
+					const hsv = {
+						H: hueInput.validity.valid ? hueInput.valueAsNumber / 360 : 0,
+						S: tintInput.validity.valid ? tintInput.saturation / 255 : 0,
+						V: tintInput.validity.valid ? tintInput.brightness / 255 : 1,
+					};
 
-				this.style.setProperty("--hue", hueInput.value);
-				tintInput.valueAsHSV = hsv;
-				hueInput.valueAsNumber = Math.round(hsv.H * 360);
+					// If we're dealing with an `opacity`-triggered input event:
+					// (1 Only modify the output textbox if it is backed by valid hex color (so no `Default`, `White`, etc)
+					// (2 Do not touch the hue or tint inputs, as this could potentially erase aforementioned non-hex colors
+					if (ev.detail.source !== "opacity" || CommonIsColor(outputInput.value, { allowAlpha: true })) {
+						// Simplify RGBA to RGB when fully opaque
+						const opacity = opacityInput.validity.valid && opacityInput.valueAsNumber < 255 ? opacityInput.valueAsNumber.toString(16).toUpperCase().padStart(2, "0") : "";
+						const rgb = ColorPickerHSVToCSS(hsv);
+						outputInput.value = `${rgb}${opacity}`;
+						if (ev.detail.source === "opacity") {
+							break;
+						}
+					}
+
+					this.style.setProperty("--hue", hueInput.value);
+					tintInput.valueAsHSV = hsv;
+					hueInput.valueAsNumber = Math.round(hsv.H * 360);
+					break;
+				}
 			}
 			ColorPickerInputCallback?.(this, ev);
 		},
