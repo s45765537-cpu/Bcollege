@@ -144,18 +144,16 @@
     --button-color: var(--friends-color)
 }
 .chat-search-room-join-button[data-full=true] {
-    --button-color: var( --full-room-color);
-    --hover-color: var( --full-room-color);
+    --disabled-color: var(--full-room-color);
     cursor: not-allowed;
 }
 
 .chat-search-room-join-button[data-full=true][data-blocked=true] {
-    --button-color: var(--full-blocked-color);
+    --disabled-color: var(--full-blocked-color);
 }
 
 .chat-search-room-join-button[data-full=true][data-with-friends=true] {
-    --button-color: var(--full-friends-color);
-    --hover-color: var(--full-friends-color);
+    --disabled-color: var(--full-friends-color);
 }
 
 .chat-search-room {
@@ -168,6 +166,8 @@
     grid-column: 3/3;
     grid-row: 1/1;
     border-style: none;
+    margin-top: var(--inner-border-width);
+    margin-right: var(--inner-border-width);
 }
 
 .chat-search-room-page-button img {
@@ -263,6 +263,8 @@
     flex-direction: column;
     pointer-events: none;
     overflow: hidden;
+    margin-block: calc(2 * var(--border-width));
+    margin-left: calc(2 * var(--border-width));
 }
 .chat-search-room-icons:first-child {
     margin-top: 0.05em;
