@@ -1490,7 +1490,7 @@ class ServerJoinError extends ServerError {
  */
 function ServerPromiseWithTimeout(timeout, executor) {
 	const work = new Promise(executor);
-	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(new ServerTimeoutError()), timeout); });
+	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(Result.failure(new ServerTimeoutError())), timeout); });
 	return Promise.race([work, timeoutPromise]);
 }
 
@@ -1504,7 +1504,7 @@ let ServerRoomSearchLastQuery = null;
  * Perform a search query against the server
  * @param {string} queryString
  * @param {Omit<ServerChatRoomSearchRequest, "Query">} options
- * @return {Promise<ServerChatRoomSearchResultResponse>}
+ * @return {Promise<Result<ServerChatRoomSearchResultResponse, ServerError>>}
  */
 async function ServerRoomSearch(queryString, options) {
 	/** @type {ServerChatRoomSearchRequest} */
@@ -1514,7 +1514,7 @@ async function ServerRoomSearch(queryString, options) {
 	};
 
 	if (CommonObjectEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
-		throw new ServerInProgressError("Search query while another query is in progress!");
+		return Result.failure(new ServerInProgressError("Search query while another query is in progress!"));
 	}
 
 	ServerRoomSearchLastQueryTime = CommonTime();
@@ -1522,7 +1522,7 @@ async function ServerRoomSearch(queryString, options) {
 
 	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
 		ServerSocket.once("ChatRoomSearchResult", (data) => {
-			resolve(data);
+			resolve(Result.success(data));
 		});
 
 		ServerSend("ChatRoomSearch", request);
@@ -1535,11 +1535,11 @@ let ServerRoomJoinLastQueryTime = 0;
 /**
  * Perform a join query against the server
  * @param {string} roomName
- * @return {Promise<string>}
+ * @return {Promise<Result<string, ServerError>>}
  */
 async function ServerRoomJoin(roomName) {
 	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + 1000 > CommonTime()) {
-		throw new ServerInProgressError("Join query while another query is in progress!");
+		return Result.failure(new ServerInProgressError("Join query while another query is in progress!"));
 	}
 
 	ServerRoomJoinLastQueryTime = CommonTime();
@@ -1548,11 +1548,11 @@ async function ServerRoomJoin(roomName) {
 	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
 		ServerSocket.once("ChatRoomSearchResponse", (data) => {
 			if (data === "JoinedRoom") {
-				resolve(roomName);
+				resolve(Result.success(roomName));
 			} else if (data === "RoomKicked") {
 				// We… shouldn't get that one while joining
 			} else {
-				reject(new ServerJoinError(data));
+				reject(Result.failure(new ServerJoinError(data)));
 			}
 		});
 
