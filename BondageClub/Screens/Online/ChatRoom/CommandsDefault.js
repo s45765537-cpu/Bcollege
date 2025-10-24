@@ -72,7 +72,7 @@ const CommonCommands = [
 	{
 		Tag: 'friendlistadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.FriendList, true, number);
 		},
@@ -85,7 +85,7 @@ const CommonCommands = [
 	{
 		Tag: 'friendlistremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.FriendList, false, number);
 		},
@@ -98,7 +98,7 @@ const CommonCommands = [
 	{
 		Tag: 'ghostadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.GhostList, true, number);
 		},
@@ -111,7 +111,7 @@ const CommonCommands = [
 	{
 		Tag: 'ghostremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.GhostList, false, number);
 		},
@@ -124,7 +124,7 @@ const CommonCommands = [
 	{
 		Tag: 'whitelistadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.WhiteList, true, number);
 		},
@@ -137,7 +137,7 @@ const CommonCommands = [
 	{
 		Tag: 'whitelistremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.WhiteList, false, number);
 		},
@@ -150,7 +150,7 @@ const CommonCommands = [
 	{
 		Tag: 'blacklistadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.BlackList, true, number);
 		},
@@ -163,7 +163,7 @@ const CommonCommands = [
 	{
 		Tag: 'blacklistremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.BlackList, false, number);
 		},

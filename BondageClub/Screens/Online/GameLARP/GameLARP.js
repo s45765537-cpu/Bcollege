@@ -216,7 +216,7 @@ function GameLARPRunProcess() {
 
 				// Prepare substitutions for this option using full pronoun substitution
 				const substitutions = GameLARPBuildSubstitutions(Player, GameLARPTurnFocusCharacter, "", null, option.Odds);
-			 	substitutions.push(["OptionOdds", Math.round(option.Odds * 100).toString()]);
+				substitutions.push(["OptionOdds", Math.round(option.Odds * 100).toString()]);
 
 				// Get the dictionary text and apply substitutions
 				const buttonText = CommonStringSubstitute(OnlineGameDictionaryText("Option" + option.Name), substitutions);
