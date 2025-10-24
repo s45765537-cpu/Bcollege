@@ -30,11 +30,10 @@ Help,Help
 CloseHelp,Close help
 HelpText1,In filter mode you can remove rooms you do not wish to see.
 HelpText2,"A room will be hidden if it meets one or more of the following criteria: it is not in your selected language, it contains a filtered out word, it has been filtered (see below), or its creator is ghostlisted."
-HelpText3, 
-HelpText4,"Use ""Filter out terms"" to hide all rooms containing those words. Note this only checks the room name, not the description."
-HelpText5,Click on a room in this view to instantly filter that one room (until next login) and/or ghostlist the player who made the room (saved permanently until you remove them from ghostlist).
-HelpText6,"Use ""Show hidden rooms"" to show all the normally hidden rooms in case you want to unhide a particular room. Note that rooms hidden because of the language setting will not show here, but all other hidden rooms will."
-HelpText7,Clicking a hidden room will unhide it. If the room is just filtered it will be unhidden instantly. Otherwise you will be asked to confirm if you want to unghostlist the creator and/or remove some filter words to allow the room to be shown.
+HelpText3,"Use ""Filter out terms"" to hide all rooms containing those words. Note this only checks the room name, not the description."
+HelpText4,"Click on a room in this view to instantly filter that one room (until next login) and/or ghostlist the player who made the room (saved permanently until you remove them from ghostlist). Make sure the room wasn't recreated, or you're gonna ghost some random player."
+HelpText5,"Use ""Show hidden rooms"" to show all the normally hidden rooms in case you want to unhide a particular room. Note that rooms hidden because of the language setting will not show here, but all other hidden rooms will."
+HelpText6,Clicking a hidden room will unhide it. If the room is just filtered it will be unhidden instantly. Otherwise you will be asked to confirm if you want to unghostlist the creator and/or remove some filter words to allow the room to be shown.
 UnhideConfirmRoom,"In order to unhide ""{RoomLabel}"" you are also about to:"
 UnhideConfirmMember,"Remove ""{MemberLabel}"" from your ghostlist"
 UnhideConfirmWords,"Remove ""{WordsLabel}"" from your filtered words"

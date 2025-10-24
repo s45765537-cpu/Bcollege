@@ -2140,3 +2140,16 @@ function CommonFormatDuration(ms) {
 
 	return result.join(", ");
 }
+
+/**
+ * Build and returns a range
+ * @param {number} start If {@link end} is unspecified, then this will be the end of the range, and start will be set to 0
+ * @param {number} [end] End value for the range, inclusive
+ * @param {number} [step=1]
+ * @returns {number[]}
+ */
+function CommonRange(start, end, step = 1) {
+	if (end == null) [start, end] = [0, start];
+	const n = Math.max(Math.ceil((end - start) / step), 0);
+	return Array.from({ length: n }, (_, i) => start + i * step);
+}
