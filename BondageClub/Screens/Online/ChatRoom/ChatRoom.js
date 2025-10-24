@@ -3097,7 +3097,7 @@ function ChatRoomKeyDown(event) {
 
 		if (CommonKey.NavigationKeyDown(chatLog, event, (el) => el.clientHeight * 0.05)) {
 			return true;
-		} else if (CommonKey.InputKeyDown(chatInput, event)) {
+		} else if (CommonKey.InputKeyDown(chatInput, event, { allowCtrlA: false })) {
 			return true;
 		}
 	}
