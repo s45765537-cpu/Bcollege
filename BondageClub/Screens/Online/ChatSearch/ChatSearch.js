@@ -54,8 +54,6 @@ var ChatSearchTempHiddenRooms = [];
 var ChatSearchMode = "";
 var ChatSearchGhostPlayerOnClickActive = false;
 var ChatSearchShowHiddenRoomsActive = false;
-/** @deprecated */
-var ChatSearchFilterHelpActive;
 /** @type {null | { Index: number, RoomLabel: string, MemberLabel: string, WordsLabel: string }} */
 var ChatSearchFilterUnhideConfirm = null;
 var ChatSearchRejoinIncrement = 1;
@@ -212,7 +210,26 @@ function ChatSearchLoad() {
 		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
 		return rooms.map(i => i.DisplayName).sort();
 	}, { maxLength: 200, value: ChatSearchQueryString });
+	ElementSetAttribute("InputSearch", "placeholder", TextGet("SearchRoom"));
 	searchInput.classList.add("chat-search-input-search-box");
+	searchInput.addEventListener("input", function(ev) {
+		clearButton.hidden = this.value.length === 0;
+		ChatSearchQueryString = this.value;
+	});
+	searchInput.addEventListener("keydown", ChatSearchKeyDownListener);
+
+	const filterInput = ElementCreateInput("InputFilter", "text", Player.ChatSearchSettings.FilterTerms);
+	ElementSetAttribute("InputFilter", "placeholder", TextGet("FilterExcludeTerms"));
+	filterInput.toggleAttribute("hidden", true);
+	filterInput.classList.add("chat-search-input-filter-box");
+	filterInput.addEventListener("input", function () {
+		Player.ChatSearchSettings.FilterTerms = this.value;
+	});
+	filterInput.addEventListener("keydown", (event) => {
+		if (event.repeat || !CommonKey.IsPressed(event, "Enter")) return;
+		ChatSearchSaveFilterTerms();
+	});
+
 	const clearButton = ElementButton.Create("chat-search-clear-input-search", function (ev) {
 		ElementValue("InputSearch", "");
 		ChatSearchQueryString = "";
@@ -227,11 +244,6 @@ function ChatSearchLoad() {
 			attributes: { hidden: !ChatSearchQueryString.length },
 		},
 	});
-	searchInput.addEventListener("input", function(ev) {
-		clearButton.hidden = this.value.length === 0;
-		ChatSearchQueryString = this.value;
-	});
-	searchInput.addEventListener("keydown", ChatSearchKeyDownListener);
 	ChatSearchSearchMenuButton = ElementButton.Create(
 		"chat-search-room-open-search-menu",
 		function () {
@@ -277,6 +289,7 @@ function ChatSearchLoad() {
 							attributes: { id: "chat-search-input-search" },
 							children: [
 								searchInput,
+								filterInput,
 								clearButton,
 							],
 						},
@@ -331,11 +344,6 @@ function ChatSearchLoad() {
 						),
 						ElementButton.Create("chat-search-hide-rooms", function () {
 							ChatSearchToggleSearchMode();
-							ChatSearchQuery(ChatSearchQueryString);
-							document.getElementById('chat-search-room-filter-section').hidden = ChatSearchMode != "Filter";
-							document.getElementById('chat-search-room-navigation-section').hidden = ChatSearchMode == "Filter";
-							this.querySelector(".button-tooltip").textContent = TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode");
-							this.dataset.mode = ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode";
 						}, {
 							tooltip: TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode"),
 							tooltipPosition: "bottom",
@@ -802,11 +810,6 @@ function ChatSearchRun() {
 	KidnapLeagueResetOnlineBountyProgress();
 	PandoraPenitentiaryCreate();
 
-	// Draw list of rooms depending on the current view
-	if (ChatSearchMode == "") {
-		ElementSetAttribute("InputSearch", "placeholder", TextGet("EnterName"));
-	}
-
 	// Hidden rooms view only shows a back button
 	if (ChatSearchShowHiddenRoomsActive) {
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/DialogNormalMode.png", TextGet("NormalFilterMode"));
@@ -824,16 +827,7 @@ function ChatSearchClick() {
 		if (MouseIn(1885, 25, 90, 90)) ChatSearchToggleHiddenMode();
 		return;
 	}
-
-	ChatSearchRoomSpaceSelectClick();
 }
-
-/**
- * Draws buttons and text for selection of room space.
- * @deprecated - deprecated after DOM-ification
- * @returns {void} - Nothing
- */
-function ChatSearchRoomSpaceSelectDraw() {}
 
 /**
  * Returns the rooms to be displayed
@@ -887,30 +881,23 @@ function ChatSearchSetPageRelative(offset) {
 }
 
 /**
- * Handles clicks on selection of room space.
- * @deprecated
- * @returns {void} - Nothing
- */
-function ChatSearchRoomSpaceSelectClick() {
-}
-
-/**
  * While in filter view, called when player clicks apply, presses enter, or returns to the normal view.
  * Saves the "temp" options into their normal variables, and sends them to the server.
  * Also refreshes the displayed rooms accordingly.
  * @returns {void} - Nothing
  */
-function ChatSearchSaveLanguageAndFilterTerms() {
+function ChatSearchSaveFilterTerms() {
 	let changed = false;
 
 	// Save Filter Terms option
-	if (Player.ChatSearchFilterTerms != ChatSearchFilterTermsTemp) {
-		Player.ChatSearchFilterTerms = ChatSearchFilterTermsTemp;
-		ServerSend("AccountUpdate", { ChatSearchFilterTerms: Player.ChatSearchFilterTerms });
+	if (Player.ChatSearchSettings.FilterTerms !== ChatSearchFilterTermsTemp) {
+		ChatSearchFilterTermsTemp = Player.ChatSearchSettings.FilterTerms;
+		ChatSearchUpdateSearchSettings();
 		changed = true;
 
 		// Re-apply the filter client side immediately - in case searching doesn't update fast enough
 		ChatSearchResult.unshift(...ChatSearchHiddenResult);
+		ChatSearchQuerySort();
 		ChatSearchApplyFilterTerms();
 	}
 
@@ -920,24 +907,17 @@ function ChatSearchSaveLanguageAndFilterTerms() {
 }
 
 /**
- * While in filter view, calls when player clicks revert.
- * Also called when entering the filter view, so that the values are correct on first load or if they got changed in any other way somehow.
- * Loads the "temp" options from their normal variables, and updates the search box.
- * @returns {void} - Nothing
- */
-function ChatSearchLoadLanguageAndFilterTerms() {
-	// Load options from the saved vars into the temp ones
-	ChatSearchFilterTermsTemp = Player.ChatSearchFilterTerms;
-	ElementValue("InputSearch", ChatSearchFilterTermsTemp);
-}
-
-/**
  * Handles the key presses while in the chat search screen.
  * @type {KeyboardEventListener}
  */
 function ChatSearchKeyDown(event) {
-	const searchInput = document.getElementById("InputSearch");
-	if (searchInput instanceof HTMLInputElement && CommonKey.InputKeyDown(searchInput, event)) {
+	/** @type {HTMLInputElement | null} */
+	const searchInput = document.querySelector("input#InputSearch");
+	/** @type {HTMLInputElement | null} */
+	const filterInput = document.querySelector("input#InputFilter");
+	if (CommonKey.InputKeyDown(searchInput, event)) {
+		return true;
+	} else if (CommonKey.InputKeyDown(filterInput, event)) {
 		return true;
 	}
 	return false;
@@ -958,12 +938,7 @@ function ChatSearchPaste(event) {
  */
 function ChatSearchKeyDownListener(event) {
 	if (event.repeat || !CommonKey.IsPressed(event, "Enter")) return;
-
-	if (ChatSearchMode == "") {
-		ChatSearchQuery(ChatSearchQueryString);
-	} else {
-		ChatSearchSaveLanguageAndFilterTerms();
-	}
+	ChatSearchQuery(ChatSearchQueryString);
 	if (ChatSearchSearchMenuButton.getAttribute("aria-expanded") === "true") {
 		ChatSearchSearchMenuButton.click();
 	}
@@ -1012,13 +987,6 @@ function ChatSearchFilterHelpDraw() {
 	for (let i = 0; i < 7; i++)
 		DrawTextWrap(TextGet("HelpText" + (i + 1)), 70, 135 + i * 100, 1860, 70, "Black", undefined, 2);
 }
-
-/**
- * @deprecated
- * Draws the filter mode unhide confirm screen: just text and confirm/cancel buttons.
- * @returns {void} - Nothing
- */
-function ChatSearchFilterUnhideConfirmDraw() {}
 
 /**
  * Creates the filter mode unhide confirm screen: just text and confirm/cancel buttons.
@@ -1149,13 +1117,6 @@ function ChatSearchGetSpaceName(space) {
 }
 
 /**
- * Draws the list of rooms in normal mode.
- * @deprecated - deprecated after DOM-ification
- * @returns {void} - Nothing
- */
-function ChatSearchNormalDraw() {}
-
-/**
  * Updates the room grid with the given rooms
  * @param {ChatRoomSearchResult[]} rooms
  */
@@ -1175,7 +1136,7 @@ function ChatSearchGridUpdate(rooms) {
  */
 function ChatSearchCreateGridRoom(room, index) {
 	const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
-	const hasTooltip = room.Friends.length > 0 || room.MemberCount >= room.MemberLimit || room.Game != "" || room.BlockCategory.length > 0;
+	const tooltipElement = ChatSearchCreateGridRoomTooltip(room, index);
 
 	const icons = ChatSearchGridRoomGetIcons(room);
 
@@ -1198,7 +1159,7 @@ function ChatSearchCreateGridRoom(room, index) {
 			ServerSend("ChatRoomJoin", { Name: room.Name });
 		}, {
 			tooltipPosition: "bottom",
-			tooltip: hasTooltip ? ChatSearchCreateGridRoomTooltip(room, index) : undefined,
+			tooltip: tooltipElement,
 			clickDisabled() {
 				// Will result in a toast if the room is still full and will just join as usual if the room happens to receive a new empty spot
 				ServerSend("ChatRoomJoin", { Name: room.Name });
@@ -1310,36 +1271,56 @@ function ChatSearchGridRoomCanJoin(room) {
  * Creates the tooltip for the given room
  * @param {ChatRoomSearchResult} room
  * @param {number} index
- * @returns {HTMLDivElement}
+ * @returns {HTMLDivElement | undefined}
  */
 function ChatSearchCreateGridRoomTooltip(room, index) {
+	/** @type {HTMLOptions<keyof HTMLElementTagNameMap>[]} */
+	const children = [];
+	if (room.Friends.length > 0) {
+		children.push({
+			tag: "span",
+			classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-friends"],
+			children: [
+				TextGet("FriendsInRoom") + " " + room.Friends.map(f => `${f.MemberName} (${f.MemberNumber})`).join(", ") ,
+			]
+		});
+	}
+	if (room.Game != "") {
+		children.push({
+			tag: "span",
+			classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-game"],
+			children: [
+				TextGet("GameLabel") + " " + TextGet("Game" + room.Game),
+			],
+		});
+	}
+	if (room.BlockCategory.length > 0) {
+		children.push({
+			tag: "span",
+			classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
+			children: [
+				TextGet("Block") + " " + room.BlockCategory.map(c => TextGet(c)).join(", "),
+			],
+		});
+	}
+	const filterReasons = ChatSearchGetFilterReasons(room);
+	if (filterReasons.length > 0) {
+		// We remove everything, as having a reason means we're filtering
+		children.splice(0, children.length);
+		children.push({
+			tag: "span",
+			classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
+			children: [
+				TextGet("FilteredBecause") + " " + filterReasons.map(r => TextGet(`FilterReason${r}`)),
+			]
+		});
+	}
+	if (!children.length) return undefined;
 	return ElementCreate({
 		tag: "div",
-		attributes: {id: `chat-search-room-tooltip-${index}`},
+		attributes: { id: `chat-search-room-tooltip-${index}` },
 		classList: ["chat-search-room-tooltip"],
-		children: [
-			room.Friends.length > 0 ? {
-				tag: "span",
-				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-friends"],
-				children: [
-					TextGet("FriendsInRoom") + " " + room.Friends.map(f => `${f.MemberName} (${f.MemberNumber})`).join(", ") ,
-				],
-			} : undefined,
-			room.Game != "" ? {
-				tag: "span",
-				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-game"],
-				children: [
-					TextGet("GameLabel") + " " + TextGet("Game" + room.Game),
-				],
-			} : undefined,
-			room.BlockCategory.length > 0 ? {
-				tag: "span",
-				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
-				children: [
-					TextGet("Block") + " " + room.BlockCategory.map(c => TextGet(c)).join(", "),
-				],
-			} : undefined,
-		],
+		children,
 	});
 }
 
@@ -1555,55 +1536,6 @@ function ChatSearchMuffle(Text) {
 }
 
 /**
- * Draws the list of rooms in permission mode.
- * @returns {void} - Nothing
- */
-function ChatSearchPermissionDraw() {
-	if (((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length < 1)) {
-		DrawText(TextGet("NoChatRoomFound"), 1000, 450, "White", "Gray");
-		return;
-	}
-
-	const roomList = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-
-	CommonGenerateGrid(roomList, ChatSearchResultOffset, ChatSearchListParams, (room, x, y, width, height) => {
-		const Hover = MouseIn(x, y, width, height) && !CommonIsMobile;
-		let bgColor;
-		if (ChatSearchShowHiddenRoomsActive) {
-			bgColor = Hover ? "red" : "pink";
-		} else {
-			bgColor = Hover ? "green" : "lime";
-		}
-		// Draw the room rectangle
-		DrawRect(x, y, 630, 85, bgColor);
-		const label = `${ChatSearchMuffle(room.DisplayName)} - ${ChatSearchMuffle(room.Creator)} (${room.CreatorMemberNumber})`;
-		DrawTextFit(label, x + 315, y + 25, 620, "black");
-		DrawTextFit(ChatSearchMuffle(room.Description), x + 315, y + 62, 620, "black");
-
-		if (ChatSearchShowHiddenRoomsActive && MouseIn(x, y, width, height)) {
-			const filterReasons = ChatSearchGetFilterReasons(room);
-
-			// Determine the hover text starting position to ensure there's enough room
-			let hoverHeight = 58;
-			let hoverY = y + ChatSearchListParams.itemHeight + 8;
-
-			let reasons = "";
-			if (filterReasons.length > 0) {
-				reasons += TextGet("FilteredBecause") + " ";
-				reasons += filterReasons.map(r => TextGet(`FilterReason${r}`));
-			}
-
-			if (reasons !== "") {
-				DrawTextWrap(reasons, x, hoverY, width, hoverHeight, "black", "#FFFF88", 1);
-				hoverY += hoverHeight;
-			}
-		}
-
-		return false;
-	});
-}
-
-/**
  * Joins the room with the given name
  * @param {string} RoomName - The name of the room to join
  * @returns {void} - Nothing
@@ -1623,19 +1555,35 @@ function ChatSearchJoin(RoomName) {
 function ChatSearchToggleSearchMode() {
 	switch (ChatSearchMode) {
 		case "":
+			// Switch to filter mode
 			ChatSearchRoomGrid.classList.add("chat-search-filter-search");
-			ElementSetAttribute("InputSearch", "maxlength", "200");
-			ChatSearchLoadLanguageAndFilterTerms();
+			ElementWrap("InputSearch").toggleAttribute("hidden", true);
+			ElementWrap("InputFilter").toggleAttribute("hidden", false);
+
+			// Save the current search query and load the filter string
+			ChatSearchQueryString = ElementValue("InputSearch");
+			ChatSearchFilterTermsTemp = Player.ChatSearchSettings.FilterTerms;
+			ElementValue("InputSearch", ChatSearchFilterTermsTemp);
 			ChatSearchMode = "Filter";
+			ChatSearchQuery("");
+			ChatSearchQuerySort();
 			break;
+
 		case "Filter":
+			// Switch to Normal mode
 			ChatSearchRoomGrid.classList.remove("chat-search-filter-search");
-			ChatSearchSaveLanguageAndFilterTerms();
-			ElementValue("InputSearch", "");
-			ElementSetAttribute("InputSearch", "maxlength", "20");
+			ElementWrap("InputSearch").toggleAttribute("hidden", false);
+			ElementWrap("InputFilter").toggleAttribute("hidden", true);
+			ChatSearchSaveFilterTerms();
 			ChatSearchMode = "";
+			ChatSearchQuery(ChatSearchQueryString);
 			break;
 	}
+	document.getElementById('chat-search-room-filter-section').hidden = ChatSearchMode != "Filter";
+	document.getElementById('chat-search-room-navigation-section').hidden = ChatSearchMode == "Filter";
+	const filterButton = document.getElementById('chat-search-hide-rooms');
+	filterButton.querySelector(".button-tooltip").textContent = TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode");
+	filterButton.dataset.mode = ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode";
 	ChatSearchSetPageRelative(0);
 }
 
@@ -1647,63 +1595,6 @@ function ChatSearchToggleSearchMode() {
 function ChatSearchToggleHiddenMode() {
 	ChatSearchShowHiddenRoomsActive = !ChatSearchShowHiddenRoomsActive;
 	ChatSearchSetPageRelative(0);
-}
-
-/**
- * @deprecated
- * Switch to the Filter Help view or back again.
- * Correctly handles adding/removing the input box as needed.
- * @returns {void} - Nothing
- */
-function ChatSearchToggleHelpMode() {}
-
-/**
- * @deprecated
- * Adds/removes event listeners to the input box when entering/exiting filter view.
- * @returns {void} - Nothing
- */
-function ChatSearchSetFilterChangeHandler() {}
-
-/**
- * Handles the input box being changed in any way, while in filter view.
- * Makes sure the "temp" filter terms variable is kept updated, so the apply/revert buttons will appear/disappear at the correct times.
- * @returns {void} - Nothing
- */
-function ChatSearchFilterChangeHandler() {
-	ChatSearchFilterTermsTemp = ElementValue("InputSearch");
-}
-
-/**
- * Handles the clicks related to the chatroom list when in permission mode
- * @returns {void} - Nothing
- */
-function ChatSearchClickPermission() {
-	// Scans results + hidden rooms
-	const roomList = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-
-	CommonGenerateGrid(roomList, ChatSearchResultOffset, ChatSearchListParams, (room, x, y, width, height) => {
-		if (!MouseIn(x, y, width, height)) return false;
-		// The player clicked on an existing room
-		if (ChatSearchShowHiddenRoomsActive) {
-			ChatSearchClickUnhideRoom(room, false);
-		} else {
-			// Do what player has chosen to do when clicking a room to hide it
-			if (ChatSearchGhostPlayerOnClickActive) {
-				// Add the room's creator to ghostlist
-				ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
-			} else {
-				// Just temp hide the room
-				ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
-			}
-			// Move the room from the normal result to the hidden result
-			ChatSearchHiddenResult.push(room);
-			const roomIdx = ChatSearchResult.findIndex(r => r.Name === room.Name);
-			if (roomIdx >= 0) {
-				ChatSearchResult.splice(roomIdx, 1);
-			}
-		}
-		return true;
-	});
 }
 
 /**
@@ -1731,7 +1622,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 	// If room matches filtered words, calculate the words to be removed/kept
 	let KeepTerms = [], RemoveTerms = [];
 	if (ReasonsHasWord) {
-		let OldTerms = Player.ChatSearchFilterTerms.split(',').filter(s => s);
+		let OldTerms = Player.ChatSearchSettings.FilterTerms.split(',').filter(s => s);
 		for (let Idx = 0; Idx < OldTerms.length; Idx++)
 			if (ChatSearchMatchesTerms(Room, [OldTerms[Idx].toUpperCase()]))
 				RemoveTerms.push(OldTerms[Idx]);
@@ -1748,10 +1639,10 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 
 	if (ReasonsHasWord) {
 		// Remove all filtered terms that this room matches
-		Player.ChatSearchFilterTerms = KeepTerms.join(',');
-		ServerSend("AccountUpdate", { ChatSearchFilterTerms: Player.ChatSearchFilterTerms });
+		Player.ChatSearchSettings.FilterTerms = KeepTerms.join(',');
+		ChatSearchUpdateSearchSettings();
 		// Update the temp var too because we don't reload it when we exit the hidden room list
-		ChatSearchFilterTermsTemp = Player.ChatSearchFilterTerms;
+		ChatSearchFilterTermsTemp = Player.ChatSearchSettings.FilterTerms;
 	}
 	if (ReasonsHasTempHidden) {
 		// Remove from Temp Hidden list
@@ -1837,7 +1728,7 @@ function ChatSearchParseResponse(searchResults) {
 		if (result.MemberLimit < Player.ChatSearchSettings.RoomMinSize || result.MemberLimit > Player.ChatSearchSettings.RoomMaxSize) {
 			continue;
 		}
-		ret.push({ ...result, ...censoredData, Order: i });
+		ret.push(/** @type {ChatRoomSearchResult} */ ({ ...result, ...censoredData, Order: i }));
 		i++;
 	}
 	return ret;
@@ -2015,8 +1906,9 @@ function ChatSearchQuerySort() {
 	ChatSearchResult.sort((R1, R2) => R1.MemberCount >= R1.MemberLimit ? 1 : (R2.MemberCount >= R2.MemberLimit ? -1 : (R1.Order - R2.Order)));
 
 	// Friendlist option overrides basic order, but keeps full rooms at the back for each number of each different total of friends.
-	if (Player.OnlineSettings && Player.OnlineSettings.SearchFriendsFirst)
+	if (Player.OnlineSettings.SearchFriendsFirst) {
 		ChatSearchResult.sort((R1, R2) => R2.Friends.length - R1.Friends.length);
+	}
 }
 
 /**
@@ -2026,7 +1918,6 @@ function ChatSearchQuerySort() {
 function ChatSearchApplyFilterTerms() {
 	ChatSearchHiddenResult = ChatSearchResult.filter(room => { return ChatSearchGetFilterReasons(room).length != 0; });
 	ChatSearchResult = ChatSearchResult.filter(room => { return ChatSearchGetFilterReasons(room).length == 0; });
-	ElementContent("InputSearch-datalist", "");
 }
 
 /**
@@ -2043,7 +1934,7 @@ function ChatSearchGetFilterReasons(Room) {
 		return [];
 
 	// are any words filtered?
-	if (ChatSearchMatchesTerms(Room, Player.ChatSearchFilterTerms.split(',').filter(s => s).map(s => s.toUpperCase())))
+	if (ChatSearchMatchesTerms(Room, Player.ChatSearchSettings.FilterTerms.split(',').filter(s => s).map(s => s.toUpperCase())))
 		Reasons.push("Word");
 
 	// is room temp hidden?

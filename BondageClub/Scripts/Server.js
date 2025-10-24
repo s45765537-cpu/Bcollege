@@ -1258,7 +1258,7 @@ var ServerValidation = {
 
 /**
  * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
- * @satisfies {{ [k in keyof (ServerAccountDataSynced | Character)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => Character[k] }}
+ * @satisfies {{ [k in keyof (ServerAccountDataSynced | PlayerCharacter)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => PlayerCharacter[k] }}
  * @namespace
  */
 var ServerAccountDataSyncedValidate = {
@@ -1407,7 +1407,6 @@ var ServerAccountDataSyncedValidate = {
 	 * @param {Character} C
 	 * @returns {ServerAccountDataSynced["ChatSearchSettings"]}
 	 */
-	// @ts-expect-error FIXME: not sure why it's hell-bent on having that key *both* on ServerAccountDataSynced and Character, but… there you go
 	ChatSearchSettings: (arg, C) => {
 		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
 	},
