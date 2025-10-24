@@ -130,19 +130,32 @@ function ElementCreate(options) {
 
 	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
 
+	elem.append(...ElementParseChildren(options.children ?? []));
+	if (options.parent) { options.parent.appendChild(elem); }
+	return elem;
+}
+
+
+/**
+ * Convert the list of passed HTML option children into a list of nodes and/or string
+ * @param {HTMLOptions<any>["children"]} children
+ * @returns {(string | Node)[]}
+ */
+function ElementParseChildren(children) {
+	/** @type {(string | Node)[]} */
+	const ret = [];
 	/** @type {(i: unknown) => i is Node | string} */
 	const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
-	for (const childElem of options.children ?? []) {
+	for (const childElem of children ?? []) {
 		if (childElem != null) {
 			if (isNode(childElem)) {
-				elem.append(childElem);
+				ret.push(childElem);
 			} else {
-				ElementCreate({ ...childElem, parent: elem });
+				ret.push(ElementCreate({ ...childElem }));
 			}
 		}
 	}
-	if (options.parent) { options.parent.appendChild(elem); }
-	return elem;
+	return ret;
 }
 
 /**
@@ -1773,6 +1786,64 @@ var ElementButton = {
  */
 var ElementMenu = {
 	/**
+	 * @private
+	 * @type {WeakMap<Element, MutationObserver>}
+	 */
+	_observers: new WeakMap,
+
+	/**
+	 * @private
+	 * @type {MutationCallback}
+	 */
+	_osbserverCallback: function _osbserverCallback(mutationList, observer) {
+		const roles = [
+			"menuitem",
+			"menuitemradio",
+			"menuitemcheckbox",
+		];
+		const roleSelector = roles.map(i => `[role='${i}']:not([hidden])`).join(",");
+
+		/** @type {(el: Node) => el is Element} */
+		const nodeFilter = (el) => el instanceof HTMLButtonElement || (el instanceof Element && roles.includes(el.getAttribute("role")));
+
+		for (const mutation of mutationList) {
+			const nodes = Array.from(mutation.addedNodes).filter(nodeFilter);
+			if (!nodes.length) {
+				continue;
+			}
+
+			for (const menuitem of nodes) {
+				let role = menuitem.getAttribute("role");
+				if (menuitem instanceof HTMLButtonElement) {
+					if (menuitem.disabled) {
+						menuitem.disabled = false;
+						menuitem.setAttribute("aria-disabled", "true");
+					}
+					if (!role) {
+						role = "menuitem";
+						menuitem.setAttribute("role", role);
+					}
+				}
+				if (roles.includes(role)) {
+					menuitem.addEventListener("keydown", ElementMenu._KeyDown);
+					menuitem.setAttribute("tabindex", "-1");
+				}
+			}
+
+			// Check whether only the first element still has a tabindex of 0
+			if (mutation.target instanceof Element) {
+				const menuitems = Array.from(mutation.target.querySelectorAll(roleSelector));
+				if (!menuitems.length) {
+					continue;
+				} else if (menuitems[0].getAttribute("tabindex") !== "0") {
+					menuitems.find(el => el.getAttribute("tabindex") === "0")?.setAttribute("tabindex", "-1");
+					menuitems[0]?.setAttribute("tabindex", "0");
+				}
+			}
+		}
+	},
+
+	/**
 	 * KeyDown event listener that implements menubar-style keyboard navigation
 	 * @this {HTMLElement}
 	 * @param {KeyboardEvent} ev
@@ -1938,35 +2009,15 @@ var ElementMenu = {
 			parent: menuOptions.parent ?? document.body,
 			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
 			classList: ["menubar", "HideOnPopup", ...(menuOptions.classList ?? [])],
-			children: [...menuItems, ...(menuOptions.children ?? [])],
 		});
 
-		let first = true;
-		elem.querySelectorAll("button, [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']").forEach((menuitem) => {
-			let role = menuitem.getAttribute("role");
-			if (!role) {
-				role = "menuitem";
-				menuitem.setAttribute("role", "menuitem");
-			}
+		// Attach an observer in order to handle all the menubar-specific attribute juggling
+		const observer = new MutationObserver(ElementMenu._osbserverCallback);
+		ElementMenu._observers.set(elem, observer);
+		observer.observe(elem, { childList: true, subtree: true });
 
-			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
-				return;
-			}
-
-			if (first && !menuitem.hasAttribute("hidden")) {
-				first = false;
-				menuitem.setAttribute("tabindex", "0");
-			} else {
-				menuitem.setAttribute("tabindex", "-1");
-			}
-			menuitem.addEventListener("keydown", this._KeyDown);
-
-			// Ensure that disabled buttons use `aria-disabled` in order to keep them focusable
-			if (menuitem instanceof HTMLButtonElement && menuitem.disabled) {
-				menuitem.disabled = false;
-				menuitem.setAttribute("aria-disabled", "true");
-			}
-		});
+		const children = [...menuItems, ...(menuOptions.children ?? [])];
+		elem.append(...ElementParseChildren(children));
 		return elem;
 	},
 
@@ -1974,32 +2025,11 @@ var ElementMenu = {
 	 * Append a menuitem to the passed menubar
 	 * @param {HTMLElement} menu - The menubar
 	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
+	 * @deprecated - Fully equivalent to {@link HTMLElement.append}
 	 */
 	AppendButton: function AppendButton(menu, ...menuitems) {
 		if (!menu || !menuitems) {
 			return;
-		}
-
-		let i = 0;
-		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
-		for (const elem of menuitems) {
-			let role = elem.getAttribute("role");
-			if (!role) {
-				role = "menuitem";
-				elem.setAttribute("role", "menuitem");
-			}
-
-			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
-				continue;
-			}
-
-			if (i === 0 && !firstMenuItem) {
-				elem.tabIndex = 0;
-			} else {
-				elem.tabIndex = -1;
-			}
-			elem.addEventListener("keydown", this._KeyDown);
-			i++;
 		}
 		menu.append(...menuitems);
 	},
@@ -2008,33 +2038,11 @@ var ElementMenu = {
 	 * Prepend a menuitem to the passed menubar
 	 * @param {HTMLElement} menu - The menubar
 	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
+	 * @deprecated - Fully equivalent to {@link HTMLElement.prepend}
 	 */
 	PrependItem: function PrependButton(menu, ...menuitems) {
 		if (!menu || !menuitems) {
 			return;
-		}
-
-		let i = 0;
-		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
-		for (const elem of menuitems) {
-			let role = elem.getAttribute("role");
-			if (!role) {
-				role = "menuitem";
-				elem.setAttribute("role", "menuitem");
-			}
-
-			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
-				continue;
-			}
-
-			if (i === 0) {
-				firstMenuItem?.setAttribute("tabindex", "-1");
-				elem.tabIndex = 0;
-			} else {
-				elem.tabIndex = -1;
-			}
-			elem.addEventListener("keydown", this._KeyDown);
-			i++;
 		}
 		menu.prepend(...menuitems);
 	},
