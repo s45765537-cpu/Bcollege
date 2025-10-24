@@ -103,6 +103,7 @@ var AudioList = [
 	{ Name: "MetalClip", File: "MetalClip" },
 	{ Name: "SoftFurniture", File: "SoftFurniture" },
 	{ Name: "WoodFurniture", File: "WoodFurniture" },
+	{ Name: "PutDownPlastic", File: "PutDownPlastic" },
 ];
 
 
