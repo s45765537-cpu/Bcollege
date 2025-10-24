@@ -172,6 +172,11 @@ declare namespace ElementButton {
 		/** A background image for the button */
 		image?: string;
 		/**
+		 * Overlay a color on top of the button image.
+		 * Defaults to [`background-blend-mode: multiply`](https://developer.mozilla.org/en-US/docs/Web/CSS/background-blend-mode) for overlaying the color.
+		 */
+		imageColor?: string;
+		/**
 		 * Button icons to-be displayed in the top-left corner of the button.
 		 *
 		 * Alternatively, one can directly pass the icon's {@link HTMLImageElement.src} and its tooltip component.
