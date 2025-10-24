@@ -176,7 +176,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.Pose");
 		},
 
-		ActivePoseMapping: {},
+		ActivePoseMapping: { BodyLower: "BaseLower", BodyUpper: "BaseUpper" },
 		get ActivePose() {
 			return Object.values(this.ActivePoseMapping);
 		},
