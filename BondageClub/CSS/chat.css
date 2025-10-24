@@ -666,6 +666,10 @@
   margin-top: calc(0.15em - 2px);
 }
 
+.chat-room-message-popup .chat-room-sender {
+	user-select: all;
+}
+
 #TextAreaChatLog[data-colortheme="light2"] .chat-room-message-popup > .chat-room-metadata ,
 #TextAreaChatLog[data-colortheme="dark2"] .chat-room-message-popup > .chat-room-metadata  {
   margin-top: calc(0.15em - 4px);
