@@ -42890,6 +42890,95 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "Diaper",
+				ParentGroup: "",
+				InventoryID: 1297,
+				Priority: 26,
+				Value: 3,
+				Top: 355,
+				Left: 170,
+				Random: false,
+				DefaultColor: ["#8D8D8D"],
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "ThumbCover",
+						Priority: 27,
+						CopyLayerColor: "Base",
+					},
+				]
+			},
+			{
+				Name: "BabyPowder",
+				ParentGroup: "",
+				InventoryID: 1298,
+				Priority: 26,
+				Value: 3,
+				Top: 290,
+				Left: 135,
+				Random: false,
+				DefaultColor: ["#937C96", "#B55CC1"],
+				Layer: [
+					{
+						Name: "Bottle",
+					},
+					{
+						Name: "Text",
+					},
+					{
+						Name: "BottleThumbCover",
+						Priority: 27,
+						CopyLayerColor: "Bottle",
+					},
+					{
+						Name: "TextThumbCover",
+						Priority: 27,
+						CopyLayerColor: "Text",
+					},
+					{
+						Name: "Icon",
+						Priority: 27,
+						CopyLayerColor: "Text",
+					},
+
+				]
+			},
+			{
+				Name: "Wipes",
+				ParentGroup: "",
+				InventoryID: 1299,
+				Priority: 26,
+				Value: 3,
+				Top: 325,
+				Left: 150,
+				Random: false,
+				DefaultColor: ["#73949A", "#9CA5A7", "#011418"],
+				Layer: [
+					{
+						Name: "Package",
+					},
+					{
+						Name: "Inlet",
+					},
+					{
+						Name: "PackageThumbCover",
+						Priority: 27,
+						CopyLayerColor: "Package",
+					},
+					{
+						Name: "InletThumbCover",
+						Priority: 27,
+						CopyLayerColor: "Inlet",
+					},
+					{
+						Priority: 27,
+						Name: "Text",
+					},
+				]
+			},
+			{
 				Name: "WartenbergWheel",
 				InventoryID: 806,
 				ParentGroup: "",
