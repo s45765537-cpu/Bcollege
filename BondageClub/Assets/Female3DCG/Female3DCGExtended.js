@@ -497,6 +497,7 @@ var AssetFemale3DCGExtended = {
 						{}, // t22 - BullsEye
 						{}, // t23 - Keys?
 						{}, // t24 - BTeacher
+						{}, // t25 - BunnyCropout
 					],
 				},
 			],

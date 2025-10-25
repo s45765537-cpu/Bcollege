@@ -1364,6 +1364,13 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 24 },
 						CopyLayerColor: "None",
 					},
+					{
+						Name: "BunnyCropout",
+						PoseMapping: {},
+						ParentGroup: "",
+						AllowTypes: { t: 25 },
+						CopyLayerColor: "None",
+					},
 				],
 			},
 			{
@@ -30852,6 +30859,7 @@ var AssetFemale3DCG = [
 					GroupName: "Panties",
 					BuyGroup: true,
 				},
+				DynamicGroupName: "Panties",
 				Difficulty: 50,
 				Time: 5,
 				RemoveTime: 5,
@@ -30923,6 +30931,7 @@ var AssetFemale3DCG = [
 					GroupName: "Panties",
 					BuyGroup: true,
 				},
+				DynamicGroupName: "Panties",
 				Difficulty: 50,
 				Time: 5,
 				RemoveTime: 5,
@@ -42875,7 +42884,7 @@ var AssetFemale3DCG = [
 						Priority: 27,
 						CopyLayerColor: "Base",
 					},
-				]
+				],
 			},
 			{
 				Name: "BabyPowder",
@@ -42909,8 +42918,7 @@ var AssetFemale3DCG = [
 						Priority: 27,
 						CopyLayerColor: "Text",
 					},
-
-				]
+				],
 			},
 			{
 				Name: "Wipes",
@@ -42943,7 +42951,7 @@ var AssetFemale3DCG = [
 						Priority: 27,
 						Name: "Text",
 					},
-				]
+				],
 			},
 			{
 				Name: "WartenbergWheel",
