@@ -18115,6 +18115,18 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemHandheldPlushieSet",
 			},
 		}, //Plushie
+		MiniDolls: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: {
+				GroupName: "ItemHandheld",
+				AssetName: "MiniDolls",
+			},
+			DialogPrefix: {
+				Header: "SelectDollType",
+				Option: "MinidollsItemHandheldType",
+				Chat: "MinidollsItemHandheldSet",
+			},
+		} // Minidolls
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
@@ -21937,5 +21949,30 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FoamRoll
+		MiniDolls: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Haruhi",
+				},
+				{
+					Name: "Mina",
+				},
+				{
+					Name: "Lonely",
+				},
+				{
+					Name: "Salem",
+				},
+				{
+					Name: "Nadine",
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectDollType",
+				Option: "MinidollsItemHandheldType",
+				Chat: "MinidollsItemHandheldSet",
+			},
+		}, // Minidolls
 	}, // ItemHandheld
 };

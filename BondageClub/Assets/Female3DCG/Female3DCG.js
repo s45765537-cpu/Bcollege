@@ -19371,6 +19371,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 		],
@@ -40862,6 +40863,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -40922,6 +40924,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -40945,6 +40948,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -40974,6 +40978,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -41000,6 +41005,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -41029,6 +41035,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				DefaultColor: ["#323232", "#252525", "Default", "Default"],
@@ -41090,6 +41097,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -41598,6 +41606,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -42551,6 +42560,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 			},
 			{
@@ -42579,6 +42589,7 @@ var AssetFemale3DCG = [
 					"ItemHandheldKarl",
 					"ItemHandheldShark",
 					"ItemHandheldPetPotato",
+					"ItemHandheldMiniDolls",
 				],
 				Layer: [
 					{ Name: "Left", AllowColorize: true },
@@ -44192,6 +44203,48 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: [0, 1] },
 					},
 				],
+			},
+			{
+				Name: "MiniDolls",
+				Value: 20,
+				Priority: 44,
+				Left: 125,
+				Top: 220,
+				InventoryID: 1300,
+				Random: false,
+				IsRestraint: false,
+				Extended: true,
+				BuyGroup: "MiniDolls",
+				AllowActivity: ["SqueezeItem"],
+				ActivityAudio: ["Squeak"],
+				ParentGroup: "",
+				PoseMapping: {},
+				Layer: [
+					{
+						Name: "Haruhi",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "Mina",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Haruhi",
+					},
+					{
+						Name: "Lonely",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "Haruhi",
+					},
+					{
+						Name: "Salem",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "Haruhi",
+					},
+					{
+						Name: "Nadine",
+						AllowTypes: { typed: 4 },
+						CopyLayerColor: "Haruhi",
+					},
+				]
 			},
 		],
 		Color: [
@@ -60135,6 +60188,16 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemHandheld",
 					AssetName: "Plushie",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MiniDolls",
+				PoseMapping: {},
+				DynamicGroupName: "ItemHandheld",
+				CopyConfig: {
+					GroupName: "ItemHandheld",
+					AssetName: "MiniDolls",
 					BuyGroup: true,
 				},
 			},

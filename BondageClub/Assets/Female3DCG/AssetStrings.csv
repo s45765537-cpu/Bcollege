@@ -8503,3 +8503,14 @@ ItemNeckSteampunkCollarSetc0,SourceCharacter removes any mouth cover from Destin
 ItemNeckSteampunkCollarSetc1,SourceCharacter covers the DestinationCharacter mouth with a perforated leather device.
 ItemNeckSteampunkCollarSetc2,SourceCharacter covers the DestinationCharacter mouth with a spiked half-sphere metal object.
 ItemNeckSteampunkCollarSetc3,SourceCharacter covers the DestinationCharacter mouth with a rubber dildo device.
+SelectDollType,Select the doll type.
+MinidollsItemHandheldSetHaruhi,SourceCharacter places a charming Ruruplush in DestinationCharacter hands.
+MinidollsItemHandheldSetMina,SourceCharacter places an adorable Minadoll in DestinationCharacter hands.
+MinidollsItemHandheldSetLonely,SourceCharacter places a glossy Lonelytex in DestinationCharacter hands.
+MinidollsItemHandheldSetSalem,SourceCharacter places a cute Pootlem in DestinationCharacter hands.
+MinidollsItemHandheldSetNadine,SourceCharacter places a sexy Plushdine in DestinationCharacter hands.
+MinidollsItemHandheldTypeHaruhi,Haruhi
+MinidollsItemHandheldTypeMina,Mina
+MinidollsItemHandheldTypeLonely,Lonely
+MinidollsItemHandheldTypeSalem,Salem
+MinidollsItemHandheldTypeNadine,Nadine
