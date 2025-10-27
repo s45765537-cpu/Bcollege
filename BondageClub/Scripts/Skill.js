@@ -60,7 +60,7 @@ function SkillChange(C, SkillType, SkillLevel, Progress, Push) {
 			Level: SkillLevel,
 			Progress: Progress
 		};
-		Player.Skill.push(NewSkill);
+		C.Skill.push(NewSkill);
 	}
 
 	if ((Push == null) || Push) {
