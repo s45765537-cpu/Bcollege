@@ -13,6 +13,17 @@ var ActivityOrgasmRuined = false; // If set to true, the orgasm will be ruined r
 /** @type { ()=>void | undefined } */
 let ActivityTranslateResolve = undefined;
 
+let ActivityDebug = false;
+
+/**
+ * Debug logging function for activities
+ */
+function ActivityLog(...args) {
+	if (ActivityDebug) {
+		console.log(...args);
+	}
+}
+
 /**
  * Checks if the current room allows for activities. (They can only be done in certain rooms)
  * @returns {boolean} - Whether or not activities can be done
@@ -256,7 +267,13 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
 		return true;
 
 	const reverse = activity.Reverse;
-	return activity.Prerequisite.every((pre) => ActivityCheckPrerequisite(pre, (!reverse ? acting : acted), (!reverse ? acted : acting), group));
+	return activity.Prerequisite.every((pre) => {
+		const res = ActivityCheckPrerequisite(pre, (!reverse ? acting : acted), (!reverse ? acted : acting), group);
+		if (!res) {
+			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}, act: ${activity.Name}, g: ${group.Name}: Prereq ${pre} failed`);
+		}
+		return res;
+	});
 }
 
 /**
@@ -294,8 +311,10 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 		if (InventoryItemHasEffect(item, "UseRemote")) {
 			// That item actually needs a remote, so handle it separately
 		} else if (reverse && acted.FocusGroup.Name !== item.Asset.Group.Name && !(isStrapon || isPenis)) {
+			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name} but incorrect group`);
 			return activities; // This is a reverse activity, but we're targetting the wrong slot, just skip
 		} else if (!isPenis) {
+			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name}`);
 			activities.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup.MirrorActivitiesFrom ?? targetGroup.Name });
 			return activities;
 		}
@@ -310,6 +329,8 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
  * @return {ItemActivity[]} - The list of allowed activities
  */
 function ActivityAllowedForGroup(character, groupname) {
+	ActivityLog(`${Player.Name} on ${character.Name}: looking up allowed activities for group: ${groupname}`);
+
 	// If we are not within interaction range, don't allow any activities
 	if(InventoryIsBlockedByDistance(character)) return [];
 
@@ -319,21 +340,33 @@ function ActivityAllowedForGroup(character, groupname) {
 	if (!activities || !group) return [];
 
 	// Make sure the target player zone is allowed for an activity
-	if (!ActivityPossibleOnGroup(character, groupname))
+	if (!ActivityPossibleOnGroup(character, groupname)) {
+		ActivityLog(`${Player.Name} on ${character.Name}, group: ${groupname}: not possible`);
 		return [];
+	}
 
 	const targetedItem = InventoryGet(character, groupname);
 
 	/** @type {ItemActivity[]} */
 	let allowed = activities.reduce((allowedActivities, activity) => {
 		// Validate that this activity can be done
-		if (!ActivityHasValidTarget(character, activity, group)) return allowedActivities;
+		if (!ActivityHasValidTarget(character, activity, group)) {
+			ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: Invalid target ${group.Name}`);
+			return allowedActivities;
+		}
+
 		// Make sure all the prerequisites are met, unless chaste and the item is StrapOn because otherwise you can't penetrate with strap on
-		if (!ActivityCheckPrerequisites(activity, Player, character, group)) return allowedActivities;
+		if (!ActivityCheckPrerequisites(activity, Player, character, group)) {
+			ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: Prereq fail`);
+			return allowedActivities;
+		}
 
 		// Ensure this activity is permitted for both actors
 		if (!ActivityCheckPermissions(activity, Player, true)
-			|| !ActivityCheckPermissions(activity, character, false)) return allowedActivities;
+			|| !ActivityCheckPermissions(activity, character, false)) {
+			ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: Perms`);
+			return allowedActivities;
+		}
 
 		// All checks complete, this activity is allowed
 
@@ -342,6 +375,7 @@ function ActivityAllowedForGroup(character, groupname) {
 
 		if (needsItem) {
 			const needsItemActivity = /** @type {ActivityNameItem} */(needsItem.substring(6));
+			ActivityLog(`${Player.Name} on ${character.Name}: needs item ${needsItem}`);
 			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(Player, character, needsItemActivity, activity, group)];
 		}
 		if (targetNeedsItem) {
@@ -351,11 +385,17 @@ function ActivityAllowedForGroup(character, groupname) {
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {
 			let remote = Player.Appearance.find(a => InventoryItemHasEffect(a, "TriggerShock"));
-			if (remote) return allowedActivities.concat({ Activity: activity, Item: remote, Group: group.Name });
+			if (remote) {
+				ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: can trigger shock, adding in`);
+				return allowedActivities.concat({ Activity: activity, Item: remote, Group: group.Name });
+			}
 		}
 
+		ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: not handled by item stuff, adding in`);
 		return allowedActivities.concat({ Activity: activity, Group: group.Name });
 	}, []);
+
+	ActivityLog(`${Player.Name} on ${character.Name}: allowed activities for group ${groupname} lookup complete`, allowed);
 
 	// Sort allowed activities by their group declaration order
 	return allowed.sort((a, b) => Math.sign(ActivityFemale3DCGOrdering.indexOf(a.Activity.Name) - ActivityFemale3DCGOrdering.indexOf(b.Activity.Name)));
@@ -862,6 +902,7 @@ function ActivityBuildChatTag(character, group, activity, is_label = false) {
  * @param {boolean} sendMessage - Whether to send a message to the chat or not
  */
 function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) {
+	ActivityLog(`${actor.Name} on ${acted.Name}: triggering activity on group ${targetGroup.Name}`, ItemActivity);
 	const Activity = ItemActivity.Activity;
 	const UsedAsset = ItemActivity && ItemActivity.Item ? ItemActivity.Item.Asset : null;
 
