@@ -1611,7 +1611,7 @@ var ElementButton = {
 		htmlOptions.button.dataAttributes.vibrating ??= item.Property?.Effect?.includes("Vibrating") ? "" : undefined;
 		htmlOptions.button.children = [
 			...(htmlOptions.button.children ?? []),
-			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", { dataAttributes: { hidden: "" } }),
+			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", null, { dataAttributes: { hidden: "" } }),
 		];
 		htmlOptions.tooltip ??= {};
 		htmlOptions.tooltip.classList ??= [];
