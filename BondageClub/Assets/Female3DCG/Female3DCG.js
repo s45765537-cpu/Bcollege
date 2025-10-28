@@ -6057,7 +6057,6 @@ var AssetFemale3DCG = [
 				Name: "SeamlessCatsuit",
 				InventoryID: 176,
 				Gender: "F",
-				StyleOverride: ["EchoV2"],
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Latex"],
 				Value: -1,
@@ -6066,7 +6065,10 @@ var AssetFemale3DCG = [
 				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
 				Extended: true,
 				Layer: [
-					{ Name: "Suit" },
+					{
+						Name: "Suit",
+						StyleOverride: ["EchoV2"],
+					},
 					{
 						Name: "OpaqueGloves",
 						Priority: 27,
