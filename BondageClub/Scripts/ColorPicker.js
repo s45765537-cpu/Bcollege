@@ -412,7 +412,7 @@ var ColorPicker = {
 		clickExit: function (ev) {
 			const root = /** @type {null | HTMLElement} */(this.closest(".screen"));
 			const state = root ? ColorPicker.getColor(root) : null;
-			const save = this.name === "Accept";
+			const save = this.name === "accept";
 			if (!save) {
 				ItemColorRevert("initial");
 			}
