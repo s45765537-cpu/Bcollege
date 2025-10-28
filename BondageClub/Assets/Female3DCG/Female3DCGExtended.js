@@ -19276,6 +19276,18 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // WaistLegHarness
+		WombTattoos: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "WombTattoos" },
+			DialogPrefix: {
+				Header: "BodyMarkingsWombTattoosSelect",
+				Module: "BodyMarkingsWombTattoosModule",
+				Option: "BodyMarkingsWombTattoosOption",
+				Chat: "BodyMarkingsWombTattoosSet",
+			},
+		}, //WombTattoos
 	}, // ItemPelvis
 	ItemEars: {
 		FuturisticEarphones: {
@@ -19373,6 +19385,90 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "HeadphoneEarPlugs" },
 		}, // BluetoothEarbuds
+		CustomizableFluffyEars1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+			DialogPrefix: {
+				Header: "HairAccessory1CustomizableFluffyEars1Select",
+				Module: "HairAccessory1CustomizableFluffyEars1Module",
+				Option: "HairAccessory1CustomizableFluffyEars1Option",
+				Chat: "HairAccessory1CustomizableFluffyEars1Set",
+			},
+		}, // Customizable Fluffy Ears 1
+		CustomizableFluffyEars2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+			DialogPrefix: {
+				Header: "HairAccessory1CustomizableFluffyEars1Select",
+				Module: "HairAccessory1CustomizableFluffyEars1Module",
+				Option: "HairAccessory1CustomizableFluffyEars1Option",
+				Chat: "HairAccessory1CustomizableFluffyEars1Set",
+			},
+		}, // Customizable Fluffy Ears 2
+		CustomizableFluffyEars3: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+			DialogPrefix: {
+				Header: "HairAccessory1CustomizableFluffyEars1Select",
+				Module: "HairAccessory1CustomizableFluffyEars1Module",
+				Option: "HairAccessory1CustomizableFluffyEars1Option",
+				Chat: "HairAccessory1CustomizableFluffyEars1Set",
+			},
+		}, // Customizable Fluffy Ears 3 
+		CustomizableCatEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+			DialogPrefix: {
+				Header: "HairAccessory1CustomizableFluffyEars1Select",
+				Module: "HairAccessory1CustomizableFluffyEars1Module",
+				Option: "HairAccessory1CustomizableFluffyEars1Option",
+				Chat: "HairAccessory1CustomizableFluffyEars1Set",
+			},
+		}, // Customizable Cat Ears
+		CustomizableElfEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+			DialogPrefix: {
+				Header: "HairAccessory1CustomizableFluffyEars1Select",
+				Module: "HairAccessory1CustomizableFluffyEars1Module",
+				Option: "HairAccessory1CustomizableFluffyEars1Option",
+				Chat: "HairAccessory1CustomizableFluffyEars1Set",
+			},
+		}, // Customizable Elf Ears
+		CustomizableCowEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+			DialogPrefix: {
+				Header: "HairAccessory1CustomizableFluffyEars1Select",
+				Module: "HairAccessory1CustomizableFluffyEars1Module",
+				Option: "HairAccessory1CustomizableFluffyEars1Option",
+				Chat: "HairAccessory1CustomizableFluffyEars1Set",
+			},
+		}, // Customizable Cow Ears
 	}, // ItemEars
 	Bra: {
 		Ribbons: {
