@@ -118,7 +118,7 @@ Cannot be slowed down from leaving a room.
 离开房间时不会被减速
 Skip punishment when calling maids from chat room.
 从聊天室召唤女仆时，无视惩罚。
-Don't garble online chat and whipers when gagged.
+Don't garble online chat and whispers when gagged.
 被塞住嘴时，不混淆在线聊天和悄悄话。
 Character label color:
 角色标签颜色:

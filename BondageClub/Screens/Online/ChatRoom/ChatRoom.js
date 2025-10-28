@@ -3235,14 +3235,16 @@ function ChatRoomGenerateChatRoomChatMessage(type, msg, replyId) {
 			msg += ")";
 		}
 
+		const originalMsg = msg;
 		// Chat messages are always garbled, unless the no speech restriction is lifted
-		const process = SpeechTransformProcess(Player, msg, SpeechTransformSenderEffects);
+		const process = SpeechTransformProcess(Player, originalMsg, SpeechTransformSenderEffects);
 		msg = process.text;
 
 		// We always garble, but if "no speech garbling" is enabled,
 		// we also send down the ungarbled message if it's different
-		const originalMsg = Player.RestrictionSettings.NoSpeechGarble && msg !== process.text ? msg : undefined;
-		Dictionary.push({ Effects: process.effects, Original: originalMsg });
+		if (Player.RestrictionSettings.NoSpeechGarble && msg !== originalMsg) {
+			Dictionary.push({ Effects: process.effects, Original: originalMsg });
+		}
 	}
 
 	if (replyId) {
