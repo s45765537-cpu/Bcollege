@@ -183,7 +183,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
+		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */
@@ -203,6 +203,10 @@ declare namespace ElementButton {
 		ariaControls?: string | Element | readonly (string | Element)[];
 		/** The {@link HTMLButtonElement.ariaChecked} of the button */
 		ariaChecked?: boolean | "true" | "false" | "mixed" | "undefined";
+		/** The {@link HTMLButtonElement.ariaExpanded} of the button */
+		ariaExpanded?: boolean | "true" | "false" | "undefined";
+		/** The {@link HTMLButtonElement.ariaHasPopup} of the button */
+		ariaHasPopup?: boolean | "true" | "false" | "menu" | "listbox" | "tree" | "grid" | "dialog";
 	}
 }
 
@@ -632,7 +636,7 @@ type CraftingPropertyType =
 	;
 
 type AssetAttribute =
-	"Skirt" | "SuitLower" | "UpperLarge" |
+	"Skirt" | "SuitLower" | "UpperLarge" | "Diaper" |
 	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
 	"CanAttachMittens" |
 	"IsChestHarness" | "IsHipHarness" |
@@ -2329,7 +2333,8 @@ interface PlayerCharacter extends Character {
 	FriendList: number[];
 	FriendNames: Map<number, string>;
 	SubmissivesList: Set<number>;
-	ChatSearchFilterTerms: string;
+	/** @deprecated */
+	ChatSearchFilterTerms: never;
 	GenderSettings: GenderSettingsType;
 	/** The list of items we got confiscated in the Prison */
 	ConfiscatedItems: { Group: AssetGroupName, Name: string }[];
@@ -4437,9 +4442,11 @@ interface ColorGroup {
 }
 
 /** A fully mutubable subset of {@link ItemColorStateType} */
-interface ItemColorExitState extends Pick<ItemColorStateType, "colors" | "initialColors" | "opacity" | "initialOpacity"> {
+interface ItemColorExitState extends Pick<ItemColorStateType, "colors" | "initialColors" | "defaultColors" | "opacity" | "initialOpacity" | "defaultOpacity" | "editOpacity" > {
 	initialColors: string[];
 	initialOpacity: number[];
+	defaultColors: string[];
+	defaultOpacity: number[];
 }
 
 /**
@@ -4502,10 +4509,10 @@ interface HSVColor {
 }
 
 interface ColorPickerInitOptions {
-	/** The root element or `color-picker` fieldset (or ID thereof) in the color picker subscreen; defaults to {@link ColorPickerIDs.root} */
+	/** The root element or `color-picker` fieldset (or ID thereof) in the color picker subscreen; defaults to {@link ColorPicker.ids.root} */
 	root?: ElementHelp.ElementOrId;
 	/** A custom heading to-be assigned to the color picker's `<h1>` element */
-	heading?: string | Node | readonly (string | Node)[];
+	heading?: string | Element | readonly (string | Element)[];
 	/**
 	 * A custom input event listener that will to be triggered by any valid input changes of the underlying interactive elements (hue slider, opacity slider, tint slider or output text).
 	 */
@@ -4514,7 +4521,13 @@ interface ColorPickerInitOptions {
 	 * A callback to-be executed upon closing the color picker.
 	 */
 	onExit?: ItemColorExitListener;
+	/**
+	 * A custom color state.
+	 * Defaults to {@link ItemColorState} if not provided.
+	 */
 	colorState?: Pick<ItemColorStateType, "editOpacity" | "opacity" | "colors">;
+	/** Whether the color picker should be disabled or not */
+	disabled?: boolean;
 }
 
 //#end region

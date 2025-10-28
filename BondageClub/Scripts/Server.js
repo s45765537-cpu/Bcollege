@@ -20,6 +20,8 @@ var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
 var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
 var ServerChatMessageMaxLength = 2000;
 var ServerChatRoomDescriptionMaxLength = 300;
+/** @type {ServerChatRoomLanguage[]} */
+const ServerChatRoomSupportedLanguages = ["EN", "DE", "FR", "ES", "CN", "RU", "UA"];
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
@@ -989,12 +991,12 @@ function ServerAccountBeep(data) {
 				ChatRoomAppendChat(div);
 			}
 		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {
-			if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.AllowPlayerLeashing != false && ( CurrentScreen != "ChatRoom" || !ChatRoomData || (CurrentScreen == "ChatRoom" && ChatRoomData.Name != data.ChatRoomName))) {
+			if (Player.OnlineSharedSettings.AllowPlayerLeashing && (!ServerPlayerIsInChatRoom() || ChatRoomData?.Name !== data.ChatRoomName)) {
 				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player) && ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders())) {
 					ChatRoomJoinLeash = data.ChatRoomName;
 
 					ChatRoomLeave();
-					if (CurrentScreen == "ChatRoom") {
+					if (ServerPlayerIsInChatRoom()) {
 						CommonSetScreen("Online", "ChatSearch");
 					} else {
 						ChatRoomStart(data.ChatRoomSpace, "", null, null, "Introduction", BackgroundsTagList);
@@ -1176,9 +1178,87 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 	return false;
 }
 
+var ServerValidation = {
+	/**
+	 * Private helper to quickly check boolean settings
+	 * @param {boolean} defaultValue
+	 * @returns {(arg: boolean) => boolean}
+	 */
+	isBool(defaultValue) {
+		return (arg) => {
+			return typeof arg === "boolean" ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check items in lists
+	 * @template T
+	 * @param {T[]} list
+	 * @param {T} defaultValue
+	 * @returns {(arg: unknown) => T}
+	 */
+	isItem(list, defaultValue) {
+		return (arg) => {
+			return CommonIncludes(list, arg) ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check numbers
+	 * @template {number} T
+	 * @param {number} min
+	 * @param {number} max
+	 * @param {T} defaultValue
+	 * @returns {(arg: T) => T}
+	 */
+	isInt(min, max, defaultValue) {
+		return (arg) => {
+			return CommonIsInteger(arg, min, max) ? /** @type {typeof defaultValue} */(arg) : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check strings
+	 * @param {number} maxLength
+	 * @param {string} defaultValue
+	 * @returns {(arg: any) => string}
+	 */
+	isString(maxLength, defaultValue) {
+		return (arg) => {
+			return typeof arg === "string" && arg.length < maxLength ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check strings
+	 * @param {number} maxLength
+	 * @param {string|undefined} defaultValue
+	 * @returns {(arg: any) => string | undefined}
+	 */
+	isStringOrUndefined(maxLength, defaultValue) {
+		return (arg) => {
+			return this.isString(maxLength, defaultValue)(arg) || typeof arg === "undefined" ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quick check notification settings
+	 * @param {NotificationSetting} defaultNotif
+	 * @returns {(arg: NotificationSetting) => NotificationSetting}
+	 */
+	isValidNotification(defaultNotif) {
+		return (arg) => {
+			return {
+				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg.Audio)),
+				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg.AlertType)),
+			};
+		};
+	},
+};
+
 /**
  * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
- * @satisfies {{ [k in keyof (ServerAccountDataSynced | Character)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => Character[k] }}
+ * @satisfies {{ [k in keyof (ServerAccountDataSynced | PlayerCharacter)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => PlayerCharacter[k] }}
  * @namespace
  */
 var ServerAccountDataSyncedValidate = {
@@ -1321,5 +1401,31 @@ var ServerAccountDataSyncedValidate = {
 			Object.assign(data, copy);
 		}
 		return data;
-	}
+	},
+	/**
+	 * @param {ServerAccountDataSynced["ChatSearchSettings"]} arg
+	 * @param {Character} C
+	 * @returns {ServerAccountDataSynced["ChatSearchSettings"]}
+	 */
+	ChatSearchSettings: (arg, C) => {
+		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
+	},
+};
+
+/**
+ * Namespace with default values for {@link ChatRoomSearchSettings} properties.
+ * @type {{ [k in keyof Required<ChatRoomSearchSettings>]: (arg: ChatRoomSearchSettings[k], C: Character) => ChatRoomSearchSettings[k] }}
+ * @namespace
+ */
+const ServerChatRoomSearchSettingsValidate = {
+	Language: ServerValidation.isItem([...ServerChatRoomSupportedLanguages, ""], ""),
+	Space: ServerValidation.isItem([], ""),
+	Game: ServerValidation.isItem([], ""),
+	FullRooms: ServerValidation.isBool(false),
+	ShowLocked: ServerValidation.isBool(true),
+	SearchDescriptions: ServerValidation.isBool(false),
+	MapTypes: ServerValidation.isStringOrUndefined(Infinity, undefined),
+	RoomMinSize: ServerValidation.isInt(2, 20, 2),
+	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
+	FilterTerms: ServerValidation.isString(200, ""),
 };

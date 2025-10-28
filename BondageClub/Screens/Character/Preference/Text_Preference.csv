@@ -59,7 +59,7 @@ RestrictionNoAccess,Players using the Roleplay difficulty can configure multi-pl
 RestrictionBypassStruggle,Bypass the struggling mini-game.
 RestrictionSlowImmunity,Cannot be slowed down from leaving a room.
 RestrictionBypassNPCPunishments,Skip punishment when calling maids from chat room.
-RestrictionNoSpeechGarble,Don't garble online chat and whipers when gagged.
+RestrictionNoSpeechGarble,Don't garble online chat and whispers when gagged.
 CharacterLabelColor,Character label color:
 AllowedInteractions,Allowed interactions:
 AllowedInteraction0,"Everyone, no exceptions"

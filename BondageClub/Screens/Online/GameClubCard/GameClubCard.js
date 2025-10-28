@@ -68,7 +68,7 @@ function GameClubCardDrawIcon(C, X, Y, Zoom) {
  * @returns {void} - Nothing
  */
 function GameClubCardDrawCharacter(C, X, Y, Zoom) {
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom")) {
+	if (ServerPlayerIsInChatRoom()) {
 		GameClubCardDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, Zoom);
 	}
 }

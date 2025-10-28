@@ -286,7 +286,7 @@ function InventoryItemNeckFuturisticCollarLockdown(C, LockType) {
 
 
 
-	if (CurrentScreen == "ChatRoom") {
+	if (ServerPlayerIsInChatRoom()) {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.destinationCharacterName(C)
@@ -325,7 +325,7 @@ function InventoryItemNeckFuturisticCollarUnlock(C) {
 	ChatRoomCharacterUpdate(C);
 	CharacterRefresh(C, true);
 
-	if (CurrentScreen == "ChatRoom") {
+	if (ServerPlayerIsInChatRoom()) {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.destinationCharacterName(C)
@@ -387,7 +387,7 @@ function InventoryItemNeckFuturisticCollarColor(C, FromItem) {
 	ChatRoomCharacterUpdate(C);
 	CharacterRefresh(C, true);
 
-	if (CurrentScreen == "ChatRoom") {
+	if (ServerPlayerIsInChatRoom()) {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.destinationCharacterName(C)
@@ -417,8 +417,8 @@ function InventoryItemNeckFuturisticCollarTogglePermission(C, Item, Permission) 
 			ChatRoomCharacterUpdate(C);
 			CharacterRefresh(C, true);
 
-			if (CurrentScreen == "ChatRoom") {
-				var Message = "FuturisticCollarSetOpenPermission" + Permission + (Item.Property[property] ? "On" : "Off");
+			if (ServerPlayerIsInChatRoom()) {
+				const Message = "FuturisticCollarSetOpenPermission" + Permission + (Item.Property[property] ? "On" : "Off");
 
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
@@ -466,8 +466,8 @@ function InventoryItemNeckFuturisticCollarToggleRemotes(C, Item) {
 		ChatRoomCharacterUpdate(C);
 		CharacterRefresh(C, true);
 
-		if (CurrentScreen == "ChatRoom") {
-			var Message = "FuturisticCollarSetBlockRemotes" + (Item.Property.BlockRemotes ? "On" : "Off");
+		if (ServerPlayerIsInChatRoom()) {
+			const Message = "FuturisticCollarSetBlockRemotes" + (Item.Property.BlockRemotes ? "On" : "Off");
 
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)

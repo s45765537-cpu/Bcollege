@@ -769,7 +769,7 @@ var CraftingEventListeners = {
 		switch (controlButton.id) {
 			case CraftingID.padlockButton:
 				ElementButton._ParseLabel(controlButton.id, TextGet("NoLock"), "bottom", { parent: controlButton });
-				ElementButton._ParseImage(controlButton.id, "./Icons/NoLock.png", { parent: controlButton });
+				ElementButton._ParseImage(controlButton.id, "./Icons/NoLock.png", null, { parent: controlButton });
 				break;
 			case CraftingID.propertyButton:
 				ElementButton._ParseLabel(controlButton.id, TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`), null, { parent: controlButton });
@@ -2063,7 +2063,7 @@ function CraftingExitResetElements() {
 	const assetControlButton = document.getElementById(CraftingID.assetButton);
 	assetControlButton.innerHTML = "";
 	ElementButton._ParseLabel(assetControlButton.id, TextGet("SelectItem"), "bottom", { parent: assetControlButton });
-	ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", { parent: assetControlButton });
+	ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", null, { parent: assetControlButton });
 	if (assetControlButton.getAttribute("aria-checked") === "false") {
 		assetControlButton.dispatchEvent(new Event("click"));
 	}
@@ -2418,10 +2418,14 @@ const CraftingValidationRecord = {
 	/** @deprecated */
 	Type: {
 		Validate: function (c, a) {
-			return c.Type == null || typeof c.Type === "string";
+			if (a) {
+				return c.Type === undefined;
+			} else {
+				return c.Type == null || typeof c.Type === "string";
+			}
 		},
 		GetDefault: function (c, a) {
-			return null;
+			return undefined;
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	}

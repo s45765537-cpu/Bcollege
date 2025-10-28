@@ -1106,7 +1106,7 @@ function GameLARPLoadStatus() {
 function GameLARPDrawCharacter(C, X, Y, Zoom) {
 
 	// LARP draws the timer if needed and the icon linked to team and class
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom")) {
+	if (ServerPlayerIsInChatRoom()) {
 		GameLARPDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
 		if ((GameLARPPlayer.length > 0) && (C.MemberNumber == GameLARPPlayer[GameLARPTurnPosition].MemberNumber) && (GameLARPGetStatus() == "Running") && (GameLARPTurnFocusCharacter == null)) {
 			MainCanvas.font = CommonGetFont(72);

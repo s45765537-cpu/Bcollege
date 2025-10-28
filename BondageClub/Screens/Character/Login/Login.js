@@ -631,11 +631,9 @@ function LoginValidCollar() {
 		if (item && item.Asset.Name == "SlaveCollar") {
 			InventoryRemove(Player, "ItemNeck");
 			item = null;
-			if (CurrentScreen == "ChatRoom") {
-				ChatRoomCharacterItemUpdate(Player, "ItemNeck");
-				ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
-				ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
-			}
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
 		}
 	}
 
@@ -645,13 +643,13 @@ function LoginValidCollar() {
 			// We're wearing something else, yank that
 			InventoryRemove(Player, "ItemNeck");
 			item = null;
-			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 
 		if (!item) {
 			// Now make sure we're wearing the slave collar
 			InventoryWear(Player, "SlaveCollar", "ItemNeck");
-			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 	}
 
@@ -930,15 +928,14 @@ function LoginSetupPlayer(C) {
 	if (shouldSync) {
 		ServerPlayerBlockItemsSync();
 	}
-	Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms ?? "";
-
 
 	// Sets the default language when creating or searching for chat rooms
 	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
-	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
-	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
+	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ServerChatRoomSupportedLanguages[0];
+	if (ServerChatRoomSupportedLanguages.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ServerChatRoomSupportedLanguages[0];
 
 	// Migrate SearchSettings
+	let updateSearchSettings = false;
 	if (!C.ChatSearchSettings) {
 		C.ChatSearchSettings = {
 			Language: "",
@@ -950,15 +947,24 @@ function LoginSetupPlayer(C) {
 			MapTypes: undefined,
 			RoomMinSize: 2,
 			RoomMaxSize: 20,
+			FilterTerms: "",
 		};
 		if (C.RoomSearchLanguage != null) {
 			C.ChatSearchSettings.Language = C.RoomSearchLanguage;
 			C.RoomSearchLanguage = undefined;
 			ServerAccountUpdate.QueueData({ RoomSearchLanguage: null });
 		}
+		updateSearchSettings = true;
+	}
+	if (C.ChatSearchFilterTerms) {
+		C.ChatSearchSettings.FilterTerms = C.ChatSearchFilterTerms;
+		ServerAccountUpdate.QueueData({ ChatSearchFilterTerms: null });
+		updateSearchSettings = true;
+	}
+	Player.ChatSearchSettings = ServerAccountDataSyncedValidate.ChatSearchSettings(C.ChatSearchSettings, Player);
+	if (updateSearchSettings || !CommonObjectEqual(C.ChatSearchSettings, Player.ChatSearchSettings)) {
 		ServerAccountUpdate.QueueData({ ChatSearchSettings: C.ChatSearchSettings });
 	}
-	Player.ChatSearchSettings = C.ChatSearchSettings;
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData ?? undefined;

@@ -402,44 +402,6 @@ function PreferenceGetNextIndex(List, Index) {
 }
 
 /**
- * Private helper to quickly check boolean settings
- * @param {boolean} defaultValue
- * @returns {(arg: boolean) => boolean}
- */
-const isBool = (defaultValue) => {
-	return (arg) => {
-		return typeof arg === "boolean" ? arg : defaultValue;
-	};
-};
-
-/**
- * Private helper to quickly check items in lists
- * @template T
- * @param {T[]} list
- * @param {T} defaultValue
- * @returns {(arg: unknown) => T}
- */
-const isItem = (list, defaultValue) => {
-	return (arg) => {
-		return CommonIncludes(list, arg) ? arg : defaultValue;
-	};
-};
-
-/**
- * Private helper to quickly check numbers
- * @template {number} T
- * @param {number} min
- * @param {number} max
- * @param {T} defaultValue
- * @returns {(arg: T) => T}
- */
-const isInt = (min, max, defaultValue) => {
-	return (arg) => {
-		return CommonIsInteger(arg, min, max) ? /** @type {typeof defaultValue} */(arg) : defaultValue;
-	};
-};
-
-/**
  * Namespace with default values for {@link ActivityEnjoyment} properties.
  * @satisfies {ActivityEnjoyment}
  * @namespace
@@ -744,31 +706,31 @@ var PreferenceChatSettingsDefault = {
  * @namespace
  */
 var PreferenceChatSettingsValidate = {
-	ColorActions: isBool(PreferenceChatSettingsDefault.ColorActions),
-	ColorActivities: isBool(PreferenceChatSettingsDefault.ColorActivities),
-	ColorEmotes: isBool(PreferenceChatSettingsDefault.ColorEmotes),
-	ColorNames: isBool(PreferenceChatSettingsDefault.ColorNames),
-	ColorTheme: isItem(PreferenceChatColorThemeList, PreferenceChatSettingsDefault.ColorTheme),
-	DisplayTimestamps: isBool(PreferenceChatSettingsDefault.DisplayTimestamps),
-	EnterLeave: isItem(PreferenceChatEnterLeaveList, PreferenceChatSettingsDefault.EnterLeave),
-	FontSize: isItem(PreferenceChatFontSizeList, PreferenceChatSettingsDefault.FontSize),
-	MemberNumbers: isItem(PreferenceChatMemberNumbersList, PreferenceChatSettingsDefault.MemberNumbers),
-	MuStylePoses: isBool(PreferenceChatSettingsDefault.MuStylePoses),
-	ShowActivities: isBool(PreferenceChatSettingsDefault.ShowActivities),
-	ShowAutomaticMessages: isBool(PreferenceChatSettingsDefault.ShowAutomaticMessages),
-	ShowBeepChat: isBool(PreferenceChatSettingsDefault.ShowBeepChat),
-	ShowChatHelp: isBool(PreferenceChatSettingsDefault.ShowChatHelp),
-	ShrinkNonDialogue: isBool(PreferenceChatSettingsDefault.ShrinkNonDialogue),
-	WhiteSpace: isItem(["", "Preserve"], PreferenceChatSettingsDefault.WhiteSpace),
+	ColorActions: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorActions),
+	ColorActivities: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorActivities),
+	ColorEmotes: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorEmotes),
+	ColorNames: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorNames),
+	ColorTheme: ServerValidation.isItem(PreferenceChatColorThemeList, PreferenceChatSettingsDefault.ColorTheme),
+	DisplayTimestamps: ServerValidation.isBool(PreferenceChatSettingsDefault.DisplayTimestamps),
+	EnterLeave: ServerValidation.isItem(PreferenceChatEnterLeaveList, PreferenceChatSettingsDefault.EnterLeave),
+	FontSize: ServerValidation.isItem(PreferenceChatFontSizeList, PreferenceChatSettingsDefault.FontSize),
+	MemberNumbers: ServerValidation.isItem(PreferenceChatMemberNumbersList, PreferenceChatSettingsDefault.MemberNumbers),
+	MuStylePoses: ServerValidation.isBool(PreferenceChatSettingsDefault.MuStylePoses),
+	ShowActivities: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowActivities),
+	ShowAutomaticMessages: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowAutomaticMessages),
+	ShowBeepChat: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowBeepChat),
+	ShowChatHelp: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowChatHelp),
+	ShrinkNonDialogue: ServerValidation.isBool(PreferenceChatSettingsDefault.ShrinkNonDialogue),
+	WhiteSpace: ServerValidation.isItem(["", "Preserve"], PreferenceChatSettingsDefault.WhiteSpace),
 	CensoredWordsList: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceChatSettingsDefault.CensoredWordsList;
 	},
 	CensoredWordsLevel: (arg, C) => {
 		return CommonIsInteger(arg, 0, 2) ? arg : PreferenceChatSettingsDefault.CensoredWordsLevel;
 	},
-	PreserveChat: isBool(PreferenceChatSettingsDefault.PreserveChat),
-	OOCAutoClose: isBool(PreferenceChatSettingsDefault.OOCAutoClose),
-	DisableReplies: isBool(PreferenceChatSettingsDefault.DisableReplies),
+	PreserveChat: ServerValidation.isBool(PreferenceChatSettingsDefault.PreserveChat),
+	OOCAutoClose: ServerValidation.isBool(PreferenceChatSettingsDefault.OOCAutoClose),
+	DisableReplies: ServerValidation.isBool(PreferenceChatSettingsDefault.DisableReplies),
 };
 
 /**
@@ -789,8 +751,8 @@ var PreferenceVisualSettingsDefault = {
  * @namespace
  */
 var PreferenceVisualSettingsValidate = {
-	ForceFullHeight: isBool(PreferenceVisualSettingsDefault.ForceFullHeight),
-	UseCharacterInPreviews: isBool(PreferenceVisualSettingsDefault.UseCharacterInPreviews),
+	ForceFullHeight: ServerValidation.isBool(PreferenceVisualSettingsDefault.ForceFullHeight),
+	UseCharacterInPreviews: ServerValidation.isBool(PreferenceVisualSettingsDefault.UseCharacterInPreviews),
 	MainHallBackground: (arg, C) => {
 		return typeof arg === "string" && arg.length && arg !== "MainHall" ? arg : PreferenceVisualSettingsDefault.MainHallBackground;
 	},
@@ -826,9 +788,9 @@ var PreferenceAudioSettingsValidate = {
 	MusicVolume: (arg) => {
 		return CommonIsFinite(arg, 0, 1) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
 	},
-	PlayItem: isBool(PreferenceAudioSettingsDefault.PlayItem),
-	PlayItemPlayerOnly: isBool(PreferenceAudioSettingsDefault.PlayItemPlayerOnly),
-	Notifications: isBool(PreferenceAudioSettingsDefault.Notifications),
+	PlayItem: ServerValidation.isBool(PreferenceAudioSettingsDefault.PlayItem),
+	PlayItemPlayerOnly: ServerValidation.isBool(PreferenceAudioSettingsDefault.PlayItemPlayerOnly),
+	Notifications: ServerValidation.isBool(PreferenceAudioSettingsDefault.Notifications),
 	// @ts-expect-error deprecated
 	PlayBeeps: (arg) => undefined,
 };
@@ -852,9 +814,9 @@ var PreferenceControllerSettingsDefault = {
  * @namespace
  */
 var PreferenceControllerSettingsValidate = {
-	ControllerActive: isBool(PreferenceControllerSettingsDefault.ControllerActive),
-	ControllerSensitivity: isItem(PreferenceSettingsSensitivityList, PreferenceControllerSettingsDefault.ControllerSensitivity),
-	ControllerDeadZone: isItem(PreferenceSettingsDeadZoneList, PreferenceControllerSettingsDefault.ControllerDeadZone),
+	ControllerActive: ServerValidation.isBool(PreferenceControllerSettingsDefault.ControllerActive),
+	ControllerSensitivity: ServerValidation.isItem(PreferenceSettingsSensitivityList, PreferenceControllerSettingsDefault.ControllerSensitivity),
+	ControllerDeadZone: ServerValidation.isItem(PreferenceSettingsDeadZoneList, PreferenceControllerSettingsDefault.ControllerDeadZone),
 	Buttons: (arg) => { return arg; },
 	Axis: (arg) => { return arg; },
 };
@@ -880,13 +842,13 @@ var PreferenceGameplaySettingsDefault = {
  * @namespace
  */
 var PreferenceGameplaySettingsValidate = {
-	SensDepChatLog: isItem(PreferenceSettingsSensDepList, PreferenceGameplaySettingsDefault.SensDepChatLog),
-	BlindDisableExamine: isBool(PreferenceGameplaySettingsDefault.BlindDisableExamine),
-	DisableAutoRemoveLogin: isBool(PreferenceGameplaySettingsDefault.DisableAutoRemoveLogin),
-	ImmersionLockSetting: isBool(PreferenceGameplaySettingsDefault.ImmersionLockSetting),
-	EnableSafeword: isBool(PreferenceGameplaySettingsDefault.EnableSafeword),
-	DisableAutoMaid: isBool(PreferenceGameplaySettingsDefault.DisableAutoMaid),
-	OfflineLockedRestrained: isBool(PreferenceGameplaySettingsDefault.OfflineLockedRestrained),
+	SensDepChatLog: ServerValidation.isItem(PreferenceSettingsSensDepList, PreferenceGameplaySettingsDefault.SensDepChatLog),
+	BlindDisableExamine: ServerValidation.isBool(PreferenceGameplaySettingsDefault.BlindDisableExamine),
+	DisableAutoRemoveLogin: ServerValidation.isBool(PreferenceGameplaySettingsDefault.DisableAutoRemoveLogin),
+	ImmersionLockSetting: ServerValidation.isBool(PreferenceGameplaySettingsDefault.ImmersionLockSetting),
+	EnableSafeword: ServerValidation.isBool(PreferenceGameplaySettingsDefault.EnableSafeword),
+	DisableAutoMaid: ServerValidation.isBool(PreferenceGameplaySettingsDefault.DisableAutoMaid),
+	OfflineLockedRestrained: ServerValidation.isBool(PreferenceGameplaySettingsDefault.OfflineLockedRestrained),
 };
 
 /**
@@ -914,15 +876,15 @@ var PreferenceImmersionSettingsDefault = {
  * @namespace
  */
 var PreferenceImmersionSettingsValidate = {
-	StimulationEvents: isBool(PreferenceImmersionSettingsDefault.StimulationEvents),
-	ReturnToChatRoom: isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoom),
-	ReturnToChatRoomAdmin: isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoomAdmin),
-	ChatRoomMapLeaveOnExit: isBool(PreferenceImmersionSettingsDefault.ChatRoomMapLeaveOnExit),
-	SenseDepMessages: isBool(PreferenceImmersionSettingsDefault.SenseDepMessages),
-	ChatRoomMuffle: isBool(PreferenceImmersionSettingsDefault.ChatRoomMuffle),
-	BlindAdjacent: isBool(PreferenceImmersionSettingsDefault.BlindAdjacent),
-	AllowTints: isBool(PreferenceImmersionSettingsDefault.AllowTints),
-	ShowUngarbledMessages: isBool(PreferenceImmersionSettingsDefault.ShowUngarbledMessages),
+	StimulationEvents: ServerValidation.isBool(PreferenceImmersionSettingsDefault.StimulationEvents),
+	ReturnToChatRoom: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoom),
+	ReturnToChatRoomAdmin: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoomAdmin),
+	ChatRoomMapLeaveOnExit: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ChatRoomMapLeaveOnExit),
+	SenseDepMessages: ServerValidation.isBool(PreferenceImmersionSettingsDefault.SenseDepMessages),
+	ChatRoomMuffle: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ChatRoomMuffle),
+	BlindAdjacent: ServerValidation.isBool(PreferenceImmersionSettingsDefault.BlindAdjacent),
+	AllowTints: ServerValidation.isBool(PreferenceImmersionSettingsDefault.AllowTints),
+	ShowUngarbledMessages: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ShowUngarbledMessages),
 	// @ts-expect-error deprecated
 	BlockGaggedOOC: (arg) => undefined,
 };
@@ -945,10 +907,10 @@ var PreferenceRestrictionSettingsDefault = {
  * @namespace
  */
 var PreferenceRestrictionSettingsValidate = {
-	BypassStruggle: isBool(PreferenceRestrictionSettingsDefault.BypassStruggle),
-	SlowImmunity: isBool(PreferenceRestrictionSettingsDefault.SlowImmunity),
-	BypassNPCPunishments: isBool(PreferenceRestrictionSettingsDefault.BypassNPCPunishments),
-	NoSpeechGarble: isBool(PreferenceRestrictionSettingsDefault.NoSpeechGarble),
+	BypassStruggle: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.BypassStruggle),
+	SlowImmunity: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.SlowImmunity),
+	BypassNPCPunishments: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.BypassNPCPunishments),
+	NoSpeechGarble: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.NoSpeechGarble),
 };
 
 /**
@@ -977,15 +939,15 @@ var PreferenceOnlineSettingsDefault = {
  * @namespace
  */
 var PreferenceOnlineSettingsValidate = {
-	AutoBanBlackList: isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
-	AutoBanGhostList: isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
-	DisableAnimations: isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
-	SearchFriendsFirst: isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
-	EnableAfkTimer: isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
-	ShowStatus: isBool(PreferenceOnlineSettingsDefault.ShowStatus),
-	SendStatus: isBool(PreferenceOnlineSettingsDefault.SendStatus),
-	FriendListAutoRefresh: isBool(PreferenceOnlineSettingsDefault.FriendListAutoRefresh),
-	ShowRoomCustomization: isInt(0, 4, PreferenceOnlineSettingsDefault.ShowRoomCustomization),
+	AutoBanBlackList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
+	AutoBanGhostList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
+	DisableAnimations: ServerValidation.isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
+	SearchFriendsFirst: ServerValidation.isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
+	EnableAfkTimer: ServerValidation.isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
+	ShowStatus: ServerValidation.isBool(PreferenceOnlineSettingsDefault.ShowStatus),
+	SendStatus: ServerValidation.isBool(PreferenceOnlineSettingsDefault.SendStatus),
+	FriendListAutoRefresh: ServerValidation.isBool(PreferenceOnlineSettingsDefault.FriendListAutoRefresh),
+	ShowRoomCustomization: ServerValidation.isInt(0, 4, PreferenceOnlineSettingsDefault.ShowRoomCustomization),
 	DefaultChatRoomBackground: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceOnlineSettingsDefault.DefaultChatRoomBackground;
 	},
@@ -1018,17 +980,17 @@ var PreferenceGraphicsSettingsDefault = {
  * @namespace
  */
 var PreferenceGraphicsSettingsValidate = {
-	Font: isItem(PreferenceGraphicsFontList, PreferenceGraphicsSettingsDefault.Font),
-	InvertRoom: isBool(PreferenceGraphicsSettingsDefault.InvertRoom),
-	StimulationFlash: isBool(PreferenceGraphicsSettingsDefault.StimulationFlash),
-	DoBlindFlash: isBool(PreferenceGraphicsSettingsDefault.DoBlindFlash),
-	AnimationQuality: isItem(PreferenceGraphicsAnimationQualityList, PreferenceGraphicsSettingsDefault.AnimationQuality),
-	SmoothZoom: isBool(PreferenceGraphicsSettingsDefault.SmoothZoom),
-	CenterChatrooms: isBool(PreferenceGraphicsSettingsDefault.CenterChatrooms),
-	AllowBlur: isBool(PreferenceGraphicsSettingsDefault.AllowBlur),
-	MaxFPS: isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxFPS),
-	MaxUnfocusedFPS: isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxUnfocusedFPS),
-	ShowFPS: isBool(PreferenceGraphicsSettingsDefault.ShowFPS),
+	Font: ServerValidation.isItem(PreferenceGraphicsFontList, PreferenceGraphicsSettingsDefault.Font),
+	InvertRoom: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.InvertRoom),
+	StimulationFlash: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.StimulationFlash),
+	DoBlindFlash: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.DoBlindFlash),
+	AnimationQuality: ServerValidation.isItem(PreferenceGraphicsAnimationQualityList, PreferenceGraphicsSettingsDefault.AnimationQuality),
+	SmoothZoom: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.SmoothZoom),
+	CenterChatrooms: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.CenterChatrooms),
+	AllowBlur: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.AllowBlur),
+	MaxFPS: ServerValidation.isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxFPS),
+	MaxUnfocusedFPS: ServerValidation.isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxUnfocusedFPS),
+	ShowFPS: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.ShowFPS),
 };
 
 /**
@@ -1064,21 +1026,6 @@ var PreferenceGenderSettingsValidate = {
 	HideTitles: hasSameShape(PreferenceGenderSettingsDefault.HideTitles),
 };
 
-
-/**
- * Private helper to quick check notification settings
- * @param {NotificationSetting} defaultNotif
- * @returns {(arg: NotificationSetting) => NotificationSetting}
- */
-const isValidNotification = (defaultNotif) => {
-	return (arg) => {
-		return {
-			Audio: /** @type {NotificationAudioType} */ (isInt(0, 2, defaultNotif.Audio)(arg.Audio)),
-			AlertType: /** @type {NotificationAlertType} */  (isInt(0, 3, defaultNotif.AlertType)(arg.AlertType)),
-		};
-	};
-};
-
 /**
  * Namespace with default values for {@link NotificationSettingsType} properties.
  * @type {Required<NotificationSettingsType>}
@@ -1104,28 +1051,28 @@ var PreferenceNotificationSettingsDefault = {
  * @namespace
  */
 var PreferenceNotificationSettingsValidate = {
-	Beeps: isValidNotification(PreferenceNotificationSettingsDefault.Beeps),
+	Beeps: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Beeps),
 	ChatMessage: (arg) => {
 		return {
-			...isValidNotification(PreferenceNotificationSettingsDefault.ChatMessage)(arg),
-			Normal: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg.Normal),
-			Whisper: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg.Whisper),
-			Activity: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg.Activity),
-			Mention: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg.Mention),
+			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatMessage)(arg),
+			Normal: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg.Normal),
+			Whisper: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg.Whisper),
+			Activity: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg.Activity),
+			Mention: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg.Mention),
 		};
 	},
 	ChatJoin: (arg) => {
 		return {
-			...isValidNotification(PreferenceNotificationSettingsDefault.ChatJoin)(arg),
-			Owner: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg.Owner),
-			Lovers: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg.Lovers),
-			Friendlist: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg.Friendlist),
-			Subs: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg.Subs),
+			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatJoin)(arg),
+			Owner: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg.Owner),
+			Lovers: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg.Lovers),
+			Friendlist: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg.Friendlist),
+			Subs: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg.Subs),
 		};
 	},
-	Disconnect: isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
-	Larp: isValidNotification(PreferenceNotificationSettingsDefault.Larp),
-	Test: isValidNotification(PreferenceNotificationSettingsDefault.Test),
+	Disconnect: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
+	Larp: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Larp),
+	Test: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Test),
 	Audio: () => undefined,
 	Chat: () => undefined,
 	ChatActions: () => undefined,

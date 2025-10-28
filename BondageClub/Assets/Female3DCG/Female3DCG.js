@@ -1364,6 +1364,13 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 24 },
 						CopyLayerColor: "None",
 					},
+					{
+						Name: "BunnyCropout",
+						PoseMapping: {},
+						ParentGroup: "",
+						AllowTypes: { t: 25 },
+						CopyLayerColor: "None",
+					},
 				],
 			},
 			{
@@ -6050,7 +6057,6 @@ var AssetFemale3DCG = [
 				Name: "SeamlessCatsuit",
 				InventoryID: 176,
 				Gender: "F",
-				StyleOverride: ["EchoV2"],
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Latex"],
 				Value: -1,
@@ -6059,7 +6065,10 @@ var AssetFemale3DCG = [
 				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
 				Extended: true,
 				Layer: [
-					{ Name: "Suit" },
+					{
+						Name: "Suit",
+						StyleOverride: ["EchoV2"],
+					},
 					{
 						Name: "OpaqueGloves",
 						Priority: 27,
@@ -10047,6 +10056,7 @@ var AssetFemale3DCG = [
 				InventoryID: 306,
 				Priority: 23,
 				Audio: "SoftCloth1",
+				Attribute: ["Diaper"],
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Random: false,
@@ -10079,6 +10089,7 @@ var AssetFemale3DCG = [
 				InventoryID: 307,
 				Priority: 23,
 				Audio: "SoftCloth1",
+				Attribute: ["Diaper"],
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Random: false,
@@ -10114,6 +10125,7 @@ var AssetFemale3DCG = [
 				InventoryID: 308,
 				Priority: 23,
 				Audio: "SoftCloth1",
+				Attribute: ["Diaper"],
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Random: false,
@@ -10146,6 +10158,7 @@ var AssetFemale3DCG = [
 				InventoryID: 309,
 				Audio: "SoftCloth1",
 				StyleOverride: ["EchoV2"],
+				Attribute: ["Diaper"],
 				Priority: 23,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
@@ -10186,7 +10199,7 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
-				Attribute: ["GenitaliaCover"],
+				Attribute: ["GenitaliaCover", "Diaper"],
 				Random: false,
 				Value: 30,
 				DefaultColor: ["#688599", "#808080", "#8c7384", "#BF3F97", "#C7A623"],
@@ -10242,7 +10255,7 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
-				Attribute: ["GenitaliaCover"],
+				Attribute: ["GenitaliaCover", "Diaper"],
 				Random: false,
 				Value: 30,
 				DefaultColor: ["#9763A6", "#658AA6", "#997391", "#a916cc", "#C7A623"],
@@ -10316,7 +10329,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Latex"],
-				Attribute: ["GenitaliaCover"],
+				Attribute: ["GenitaliaCover", "Diaper"],
 				DefaultColor: ["#9763A6", "#658AA6", "#C7A623"],
 				PoseMapping: {
 					...AssetPoseMapping.Panties,
@@ -10356,7 +10369,7 @@ var AssetFemale3DCG = [
 				Category: ["ABDL"],
 				ParentGroup: "BodyLower",
 				Hide: ["Pussy", "ItemVulva"],
-				Attribute: ["GenitaliaCover"],
+				Attribute: ["GenitaliaCover", "Diaper"],
 				DefaultColor: [
 					"#d6efff",
 					"#7B7B7B",
@@ -30852,6 +30865,7 @@ var AssetFemale3DCG = [
 					GroupName: "Panties",
 					BuyGroup: true,
 				},
+				DynamicGroupName: "Panties",
 				Difficulty: 50,
 				Time: 5,
 				RemoveTime: 5,
@@ -30923,6 +30937,7 @@ var AssetFemale3DCG = [
 					GroupName: "Panties",
 					BuyGroup: true,
 				},
+				DynamicGroupName: "Panties",
 				Difficulty: 50,
 				Time: 5,
 				RemoveTime: 5,
@@ -42910,7 +42925,7 @@ var AssetFemale3DCG = [
 						Priority: 27,
 						CopyLayerColor: "Base",
 					},
-				]
+				],
 			},
 			{
 				Name: "BabyPowder",
@@ -42944,8 +42959,7 @@ var AssetFemale3DCG = [
 						Priority: 27,
 						CopyLayerColor: "Text",
 					},
-
-				]
+				],
 			},
 			{
 				Name: "Wipes",
@@ -42978,7 +42992,7 @@ var AssetFemale3DCG = [
 						Priority: 27,
 						Name: "Text",
 					},
-				]
+				],
 			},
 			{
 				Name: "WartenbergWheel",
@@ -61966,6 +61980,62 @@ var AssetFemale3DCG = [
 						Priority: 54,
 						ParentGroup: "",
 						AllowTypes: { p: 1 },
+					},
+				],
+			},
+			{
+				Name: "Enema",
+				Audio: "EnemaFixture",
+				Priority: 1,
+				FixedPosition: true,
+				Top: 0,
+				Left: 0,
+				MaxOpacity: 1,
+				MinOpacity: 0,
+				EditOpacity: true,
+				DefaultColor: ["#989898", "#646464", "#669DB5"],
+				Category: ["ABDL", "Medical"],
+				Layer: [
+					{
+						Name: "Rack",
+					},
+					{
+						Name: "Foot",
+						CopyLayerColor: "Rack",
+					},
+					{
+						Name: "Bag",
+						Opacity: 0.5,
+						MaxOpacity: 1,
+						MinOpacity: 0,
+						EditOpacity: true,
+					},
+					{
+						Name: "Liquid",
+						Opacity: 0.8,
+						EditOpacity: true,
+						MaxOpacity: 1,
+						MinOpacity: 0,
+					},
+					{
+						Name: "Tube",
+						CopyLayerColor: "Liquid",
+						PoseMapping: {
+							AllFours: "AllFours",
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+						HideForAttribute: ["Diaper"],
+					},
+					{
+						Name: "Tube_Up",
+						CopyLayerColor: "Liquid",
+						PoseMapping: {
+							AllFours: "AllFours",
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+						ShowForAttribute: ["Diaper"],
 					},
 				],
 			},

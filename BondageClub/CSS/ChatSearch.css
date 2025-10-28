@@ -114,6 +114,11 @@
     position: absolute;
     filter:invert(1);
 }
+.chat-search-input-filter-box {
+	height: 100%;
+	width: 14.75em;
+	border: none;
+}
 .chat-search-room-button {
     height: 100%;
     aspect-ratio: 1;

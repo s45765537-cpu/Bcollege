@@ -70,6 +70,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	AssetFamily: "Female3DCG";
 	Infiltration?: InfiltrationType;
 	SavedColors?: HSVColor[];
+	/** @deprecated */
 	ChatSearchFilterTerms?: string;
 	Difficulty?: { Level: DifficultyLevel; LastChange: number };
 	MapData?: ChatRoomMapData;
@@ -469,6 +470,7 @@ type ChatRoomSearchSettings = {
 	MapTypes: string;
 	RoomMinSize: number;
 	RoomMaxSize: number;
+	FilterTerms: string;
 }
 
 interface ServerChatRoomSearchData {

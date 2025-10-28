@@ -20,6 +20,7 @@
 
 .color-picker label > span {
 	color: white;
+	padding-bottom: 3px;
 }
 
 .color-picker label > * {
@@ -67,6 +68,10 @@
 	min-width: calc(2 * var(--gap) + 3 * var(--menu-button-size));
 }
 
+.color-picker > *:nth-child(4) input::-webkit-calendar-picker-indicator {
+	display: none !important;
+}
+
 .color-picker > *:nth-child(5) {
 	grid-area: menu;
 }
@@ -75,9 +80,87 @@
 	width: 100%;
 }
 
-.color-picker > *:nth-child(5) select {
+.color-picker > *:nth-child(5) .color-picker-dropdown {
 	height: 1.5em;
+	display: grid;
+	grid-template-columns: min-content auto;
+}
+
+.color-picker-dropdown > [role="combobox"] {
+	height: 1.5em;
+	width: 1.5em;
+}
+
+.color-picker-dropdown > [role="combobox"]::after {
+	content: "▼";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.color-picker-dropdown > [role="combobox"][aria-expanded="true"]::after {
+	content: "◀";
+}
+
+.color-picker-dropdown > output {
+	height: 1.5em;
+	width: 100%;
+	background-color: white;
 	text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+	color: black;
+	text-wrap: nowrap;
+	border: black solid var(--border-width);
+	border-left: unset;
+	padding-left: 0.15em;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	font-family: monospace;
+}
+
+.color-picker-dropdown > [role="menu"] {
+	position: absolute;
+	background-color: white;
+	z-index: 1;
+	width: calc(100% - 3 * var(--gap) - 3 * var(--menu-button-size) - var(--scrollbar-gutter));
+	top: 50%;
+	transform: translateY(-50%);
+	height: 100vh;
+	height: 100dvh;
+	left: 0;
+	border: solid black var(--border-width);
+	box-sizing: border-box;
+	padding-block: 3px;
+}
+
+.color-picker-dropdown > [role="menu"] fieldset[name="saved-colors-group"] {
+	position: relative;
+	box-sizing: border-box;
+	padding: 3px;
+	height: 100%;
+}
+
+.color-picker-dropdown > [role="menu"] hr {
+	margin-block: 3px;
+}
+
+.color-picker-dropdown > [role="menu"] label {
+	padding-inline: var(--half-gap);
+}
+
+.color-picker-dropdown > [role="menu"] label > span {
+	text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+	color: black;
+	text-wrap: nowrap;
+	font-family: monospace;
+}
+
+@media (hover: none) {
+	/* For mobile devices (which do not support <option> background colors) always just use "black" as text color */
+	.color-picker > *:nth-child(5) select {
+		color: black !important;
+	}
 }
 
 .color-picker > *:nth-child(6) {
@@ -122,8 +205,8 @@
 	height: 100%;
 	background: linear-gradient(
 		90deg,
-		color-mix(in srgb, hsl(var(--hue), 100%, 50%) 20%, transparent 80%),
-		color-mix(in srgb, hsl(var(--hue), 100%, 50%) 90%, transparent 10%),
+		hsl(var(--hue), 100%, 50%, 20%),
+		hsl(var(--hue), 100%, 50%, 90%),
 		hsl(var(--hue), 100%, 50%)
 	);
 }

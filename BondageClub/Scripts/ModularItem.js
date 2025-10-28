@@ -509,7 +509,7 @@ function ModularItemClickCommon(data, { paginate, elementData, itemsPerPage }, e
 		return;
 	} else if (MouseIn(1775, 25, 90, 90)) {
 		// Permission toggle button
-		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom") {
+		if (ExtendedItemPermissionMode) {
 			ChatRoomCharacterUpdate(Player);
 			ExtendedItemRequirementCheckMessageMemo.clearCache();
 		}

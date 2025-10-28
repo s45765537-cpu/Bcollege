@@ -1983,9 +1983,10 @@ function CharacterAppearanceGenderAllowed(asset) {
 /**
  * If the player is in the chat room, we display a local message for him/her
  * @param {string} Msg
+ * @deprecated
  */
 function CharacterAppearanceChatRoomMessage(Msg) {
-	if (CurrentScreen == "ChatRoom") ChatRoomSendLocal(TextGet(Msg));
+	ChatRoomSendLocal(TextGet(Msg));
 }
 
 /**
@@ -2013,7 +2014,7 @@ function CharacterAppearanceCopyToClipboard(C) {
 	let S = JSON.stringify(App);
 	S = LZString.compressToBase64(S);
 	navigator.clipboard.writeText(S);
-	CharacterAppearanceChatRoomMessage("AppCopyDone");
+	ChatRoomSendLocal(TextGet("AppCopyDone"));
 
 }
 
@@ -2027,15 +2028,15 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 
 	// If the data is invalid, we exit right away
 	if ((C == null) || (C.Appearance == null) || !C.IsPlayer())
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// If the player cannot change, we show an error in chat
 	if (!C.CanChangeOwnClothes())
-		return CharacterAppearanceChatRoomMessage("AppPasteBlocked");
+		return ChatRoomSendLocal(TextGet("AppPasteBlocked"));
 
 	// Validates the compressed string first
 	if (typeof CompApp !== "string" || CompApp.length === 0)
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// Try to decompress the data
 	let DecompressedData = null;
@@ -2047,7 +2048,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 
 	// If we failed to decompress
 	if (DecompressedData == null)
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// Tries to get the appearance bundle object
 	/** @type {ClipboardAppearanceBundle} */
@@ -2060,7 +2061,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 
 	// If the loaded data is invalid
 	if ((App == null) || !Array.isArray(App) || (App.length == 0))
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// Restores the appearance rows that are valid
 	let MustRefresh = false;
@@ -2093,9 +2094,9 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	if (MustRefresh) {
 		CharacterRefresh(C, false);
 		if (ChatRoomRefresh) ChatRoomCharacterUpdate(C);
-		CharacterAppearanceChatRoomMessage("AppPasteDone");
+		ChatRoomSendLocal(TextGet("AppPasteDone"));
 	} else {
-		CharacterAppearanceChatRoomMessage("AppPasteError");
+		ChatRoomSendLocal(TextGet("AppPasteError"));
 	}
 
 }

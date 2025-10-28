@@ -124,7 +124,7 @@ Cannot be slowed down from leaving a room.
 Нельзя замедлить выход из комнаты.
 Skip punishment when calling maids from chat room.
 Пропустить наказание при вызове горничных из чата.
-Don't garble online chat and whipers when gagged.
+Don't garble online chat and whispers when gagged.
 Не искажать разговор в онлайн-чате, если вам заткнули рот.
 Character label color:
 Цвет ника персонажа:

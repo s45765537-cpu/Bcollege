@@ -4,7 +4,7 @@
 function InventoryItemDevicesWheelFortuneLoadHook() {
 	WheelFortuneReturnScreen = CommonGetScreen();
 	WheelFortuneBackground = "MainHall";
-	if (CurrentScreen == "ChatRoom") WheelFortuneBackground = ChatRoomBackground;
+	if (ServerPlayerIsInChatRoom()) WheelFortuneBackground = ChatRoomBackground;
 	WheelFortuneCharacter = CharacterGetCurrent();
 	DialogLeave();
 	CommonSetScreen("MiniGame", "WheelFortune");

@@ -114,9 +114,10 @@ function ItemColorSanitizeProperty(item) {
  * @param {number} width - The width the UI should be drawn at
  * @param {number} height - The height the UI should be drawn at
  * @param {boolean} [includeResetButton] - Whether or not to include the "Reset to default" button
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
+ * @satisfies {ScreenLoadHandler}
  */
-function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
+async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorReset();
 	ItemColorCharacter = c;
 	ItemColorItem = Object.assign(item, { Color: ItemColorSanitizeColor(item), Property: ItemColorSanitizeProperty(item) });
@@ -124,10 +125,12 @@ function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorStateBuild(c, ItemColorItem, x, y, width, height);
 	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
 	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
+
 	if (ItemColorState.simpleMode) {
-		ItemColorOpenPicker(ItemColorState.colorGroups[0]);
+		await ItemColorOpenPicker(ItemColorState.colorGroups[0]);
 	} else {
-		// Hide the pre-loaded color picker subscreen again
+		// Pre-loaded (and hide) the color picker subscreen again
+		await ColorPickerInit();
 		ColorPickerUnload();
 	}
 }
@@ -475,6 +478,7 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 	const asset = ItemColorItem.Asset;
 
 	const layers = colorGroup.name === null ? asset.Layer : colorGroup.layers;
+	ItemColorPickerLayers.clear();
 	for (const layer of layers) {
 		const index = asset.Layer.indexOf(layer);
 		if (index !== -1) {
@@ -739,13 +743,26 @@ function ItemColorOnExit(callback) {
  */
 function ItemColorFireExit(save) {
 	const colorState = {
-		colors: ItemColorState.colors,
-		opacity: ItemColorState.opacity,
+		colors: [...ItemColorState.colors],
+		opacity: [...ItemColorState.opacity],
 		initialColors: [...ItemColorState.initialColors],
 		initialOpacity: [...ItemColorState.initialOpacity],
+		defaultColors: [...ItemColorState.defaultColors],
+		defaultOpacity: [...ItemColorState.defaultOpacity],
+		editOpacity: ItemColorState.editOpacity,
 	};
 	ItemColorExitListeners.forEach(listener => listener(colorState, save, null));
-	ColorPickerExit();
+
+	// Minify the opacity property if possible
+	/** @type {Item} */
+	const item = ItemColorItem;
+	if (CommonArraysEqual(colorState.opacity, colorState.defaultOpacity)) {
+		delete item.Property.Opacity;
+	} else if (colorState.opacity.every((opacity, i) => opacity === colorState.opacity[i])) {
+		item.Property.Opacity = colorState.opacity[0];
+	}
+
+	ColorPickerExit(true);
 	ItemColorReset();
 }
 
