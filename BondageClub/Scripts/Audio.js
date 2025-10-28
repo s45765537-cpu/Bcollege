@@ -104,6 +104,7 @@ var AudioList = [
 	{ Name: "SoftFurniture", File: "SoftFurniture" },
 	{ Name: "WoodFurniture", File: "WoodFurniture" },
 	{ Name: "PutDownPlastic", File: "PutDownPlastic" },
+	{ Name: "EnemaFixture", File: "EnemaFixture" },
 ];
 
 
