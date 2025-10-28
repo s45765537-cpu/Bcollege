@@ -1530,6 +1530,15 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	) {
 		CharacterRefreshDialog(C);
 	}
+
+	// Ensure that any color and/or opacity changes that occur while one is wearing `ItemColorItem`
+	// are sanitized, ensuring that aforementioned properties are represented via their array-based variant
+	if (C.Appearance.includes(ItemColorItem)) {
+		ItemColorItem = Object.assign(
+			ItemColorItem,
+			{ Color: ItemColorSanitizeColor(ItemColorItem), Property: ItemColorSanitizeProperty(ItemColorItem) },
+		);
+	}
 }
 
 /**
