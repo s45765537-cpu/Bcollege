@@ -2418,10 +2418,14 @@ const CraftingValidationRecord = {
 	/** @deprecated */
 	Type: {
 		Validate: function (c, a) {
-			return c.Type == null || typeof c.Type === "string";
+			if (a) {
+				return c.Type === undefined;
+			} else {
+				return c.Type == null || typeof c.Type === "string";
+			}
 		},
 		GetDefault: function (c, a) {
-			return null;
+			return undefined;
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	}
