@@ -19275,6 +19275,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // WaistLegHarness
+		WombTattoos: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "WombTattoos" },
+			DialogPrefix: {
+				Header: "BodyMarkingsWombTattoosSelect",
+				Module: "BodyMarkingsWombTattoosModule",
+				Option: "BodyMarkingsWombTattoosOption",
+				Chat: "BodyMarkingsWombTattoosSet",
+			},
+
+		}, //WombTattoos
 	}, // ItemPelvis
 	ItemEars: {
 		FuturisticEarphones: {
