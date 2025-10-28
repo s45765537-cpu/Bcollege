@@ -1670,7 +1670,7 @@ function CraftingDeserialize(craftString) {
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
 		ItemProperty: ItemProperty ? CommonJSONParse(ItemProperty) : {},
-		Type: Type || null,
+		Type: Type || undefined,
 		TypeRecord: TypeRecord ? CommonJSONParse(TypeRecord) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
 	};
