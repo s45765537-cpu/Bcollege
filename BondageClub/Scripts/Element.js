@@ -1504,6 +1504,8 @@ var ElementButton = {
 				tabindex: options.tabindex,
 				"aria-controls": ariaControls,
 				"aria-checked": options.ariaChecked == null ? null : options.ariaChecked.toString(),
+				"aria-expanded": options.ariaExpanded == null ? null : options.ariaExpanded.toString(),
+				"aria-haspopup": options.ariaHasPopup == null ? null : options.ariaHasPopup.toString(),
 				...(buttonOptions.attributes ?? {}),
 			},
 			classList,
@@ -1544,11 +1546,15 @@ var ElementButton = {
 					}
 				}
 				break;
+			case "combobox":
 			case "checkbox":
 			case "menuitemcheckbox":
 				elem.addEventListener("click", this._ClickCheckbox);
-				if (!elem.getAttribute("aria-checked")) {
+				if (!elem.hasAttribute("aria-checked")) {
 					elem.setAttribute("aria-checked", "false");
+				}
+				if (role === "combobox" && !elem.hasAttribute("aria-expanded")) {
+					elem.setAttribute("aria-expanded", "false");
 				}
 				break;
 			case "spinbutton": {
@@ -2143,7 +2149,7 @@ var ElementCheckbox = {
 	 * @param {string | Node | HTMLOptions<keyof HTMLElementTagNameMap>} label - The label of the checkbox
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.LabelOptions} options - High level options for the to-be created checkbox
-	 * @param {null | Partial<Record<"checkbox" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @param {null | Partial<Record<"checkbox" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 */
 	CreateLabelled: function CreateLabelled(id=null, label, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
@@ -2160,12 +2166,14 @@ var ElementCheckbox = {
 
 		options ??= {};
 		const labelOptions = htmlOptions?.label ?? {};
+		const containerOptions = htmlOptions?.container ?? {};
 		const orientation = options.orientation ?? "horizontal";
 
 		return ElementCreate({
+			...containerOptions,
 			tag: "label",
-			classList: ["checkbox-pair", `checkbox-pair-${orientation}`],
-			attributes: { id: `checkbox-pair-${id}` },
+			classList: ["checkbox-pair", `checkbox-pair-${orientation}`, ...(containerOptions.classList ?? [])],
+			attributes: { id: `checkbox-pair-${id}`, ...(containerOptions.attributes ?? {}) },
 			children: [
 				this.Create(id, onChange, options, htmlOptions),
 				{
@@ -2177,7 +2185,8 @@ var ElementCheckbox = {
 					},
 					classList: ["checkbox-label", ...(labelOptions.classList ?? [])],
 					children: [label, ...(labelOptions.children ?? [])],
-				}
+				},
+				...(containerOptions.children ?? []),
 			],
 		});
 	}
@@ -2586,11 +2595,12 @@ var ElementDOMScreen = {
 
 	/**
 	 * Set a temporary status message for the screen.
-	 * @param {HTMLElement} root The screen on which the status is the be set; it _must_ contain a single `h1` and `[role='status']` element
-	 * @param {string} status The to-be displayed status message
+	 * @param {ElementHelp.ElementOrId} root The screen on which the status is the be set; it _must_ contain a single `h1` and `[role='status']` element
+	 * @param {string | Element | readonly (string | Element)[]} status The to-be displayed status message
 	 * @param {number} timeout How long the status message should be shown in ms; defaults to 5000 ms
 	 */
 	setStatus(root, status, timeout=5000) {
+		root = ElementWrap(root)?.closest(".screen");
 		if (!root || !Number.isFinite(timeout)) {
 			return;
 		}
@@ -2606,11 +2616,27 @@ var ElementDOMScreen = {
 			clearTimeout(timeoutID);
 		}
 
+		const statusArray = CommonIsArray(status) ? status : [status];
 		headingElem.toggleAttribute("hidden", true);
-		statusElem.replaceChildren(status);
+		statusElem.replaceChildren(...statusArray);
 		timeoutID = setTimeout(ElementDOMScreen._setStatusTimerHandler, timeout, headingElem, statusElem);
 		ElementDOMScreen._statusIDMap.set(statusElem, timeoutID);
 	},
+
+	/**
+	 * Set the persistent heading of a screen.
+	 * @param {ElementHelp.ElementOrId} root The screen on which the heading is the be set
+	 * @param {string | Element | readonly (string | Element)[]} heading The to-be displayed heading content. Note that headings may only ever contain [flow content](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Content_categories#flow_content)
+	 */
+	setHeading(root, heading) {
+		root = ElementWrap(root)?.closest(".screen");
+		if (!root) {
+			return;
+		}
+
+		const headingArray = CommonIsArray(heading) ? heading : [heading];
+		root.querySelector(`h1`)?.replaceChildren(...headingArray);
+	}
 };
 
 /**
@@ -2840,7 +2866,10 @@ class HTMLColorTintElement extends HTMLElement {
 	 * @type {boolean}
 	 */
 	get disabled() {
-		return this.hasAttribute("disabled");
+		return (
+			this.hasAttribute("disabled")
+			|| !!this.closest("fieldset:disabled, form:disabled")
+		);
 	}
 	set disabled(value) {
 		this.toggleAttribute("disabled", value);

@@ -1,8 +1,11 @@
 Accept,Accept
 Cancel,Cancel
+Reset,Reset to default
 Default,Default
 Many,Many
 Next,Next page
 WholeItem,Whole Item
 All,All
 Heading,Select {item} colors
+SavedColors,Saved colors
+SaveColor,Save color

@@ -135,7 +135,7 @@ function PreferenceSubscreenGeneralClick() {
  */
 function PreferenceSubscreenGeneralExit() {
 	if (PreferenceSubscreenGeneralColorPicker) {
-		ColorPickerExit();
+		ColorPickerExit(true);
 		document.getElementById("preference-general-color-picker-backdrop")?.remove();
 		PreferenceSubscreenGeneralColorPicker = false;
 		return false;
@@ -165,6 +165,6 @@ function PreferenceSubscreenGeneralUnload() {
 	}
 	PreferenceMessage = "";
 	ElementRemove("InputCharacterLabelColor");
-	ColorPickerExit();
+	ColorPickerExit(true);
 }
 
