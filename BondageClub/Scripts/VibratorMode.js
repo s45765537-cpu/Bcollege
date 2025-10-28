@@ -740,7 +740,7 @@ function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
 	const prefix = (typeof chatPrefix === "function") ? chatPrefix(chatData) : chatPrefix;
 	const direction = newIntensity > oldIntensity ? "Increase" : "Decrease";
 
-	if (CurrentScreen == "ChatRoom") {
+	if (ServerPlayerIsInChatRoom()) {
 		ServerSend(
 			"ChatRoomChat",
 			{ Content: `${prefix}${direction}To${newIntensity}`, Type: "Action", Dictionary: dictionary },

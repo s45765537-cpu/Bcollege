@@ -631,11 +631,9 @@ function LoginValidCollar() {
 		if (item && item.Asset.Name == "SlaveCollar") {
 			InventoryRemove(Player, "ItemNeck");
 			item = null;
-			if (CurrentScreen == "ChatRoom") {
-				ChatRoomCharacterItemUpdate(Player, "ItemNeck");
-				ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
-				ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
-			}
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
 		}
 	}
 
@@ -645,13 +643,13 @@ function LoginValidCollar() {
 			// We're wearing something else, yank that
 			InventoryRemove(Player, "ItemNeck");
 			item = null;
-			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 
 		if (!item) {
 			// Now make sure we're wearing the slave collar
 			InventoryWear(Player, "SlaveCollar", "ItemNeck");
-			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 	}
 

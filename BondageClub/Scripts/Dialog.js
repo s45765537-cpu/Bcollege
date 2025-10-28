@@ -474,13 +474,13 @@ function DialogInventoryAvailable(InventoryName, InventoryGroup) { return Invent
  * Checks, if the player is the administrator of the current chat room
  * @returns {boolean} - Returns true, if the player belogs to the group of administrators for the current char room false otherwise
  */
-function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && (CurrentScreen == "ChatRoom")); }
+function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && ServerPlayerIsInChatRoom()); }
 
 /**
  * Checks, if a safe word can be used.
  * @returns {boolean} - Returns true, if the player is currently within a chat room
  */
-function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && !AsylumGGTSIsEnabled() && Player.GameplaySettings.EnableSafeword); }
+function DialogChatRoomCanSafeword() { return ServerPlayerIsInChatRoom() && !AsylumGGTSIsEnabled() && Player.GameplaySettings.EnableSafeword; }
 
 /**
  * Checks if the player is currently owned.
@@ -516,7 +516,7 @@ function DialogGGTSAction(Action, Minute) {
  * @returns {boolean} - TRUE if GGTS can unlock
  */
 function DialogGGTSCanUnlock() {
-	return (ChatRoomPlayerIsAdmin() && (CurrentScreen == "ChatRoom") && AsylumGGTSHasMinutes(30) && ChatRoomIsLocked());
+	return (ChatRoomPlayerIsAdmin() && ServerPlayerIsInChatRoom() && AsylumGGTSHasMinutes(30) && ChatRoomIsLocked());
 }
 
 /**
@@ -1671,7 +1671,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		}
 
 		// Seventh, if the player is using the online map room and is located on an object tile, she can use that object
-		if ((CurrentScreen == "ChatRoom") && ChatRoomMapViewIsActive() && Player.MapData) {
+		if (ServerPlayerIsInChatRoom() && ChatRoomMapViewIsActive() && Player.MapData) {
 			let Obj = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
@@ -1921,7 +1921,7 @@ function DialogMenuButtonClick() {
  */
 function DialogPublishAction(C, Action, ClickItem) {
 	// Publishes the item result
-	if ((CurrentScreen == "ChatRoom") && !InventoryItemHasEffect(ClickItem)) {
+	if (ServerPlayerIsInChatRoom() && !InventoryItemHasEffect(ClickItem)) {
 		if (ChatRoomPublishAction(C, Action, null, ClickItem))
 			DialogLeave();
 	}
@@ -5547,7 +5547,7 @@ function DialogLoad() {
 function DialogDraw() {
 
 	// Customization can be used in dialog if screen is online chat room
-	if ((CurrentScreen == "ChatRoom") && ChatRoomCustomized) {
+	if (ServerPlayerIsInChatRoom() && ChatRoomCustomized) {
 		const drawBGToRect = DrawShowChatRoomCustomBackground() ? { x: 0, y: 0, w: 2000, h: 1000 } : null;
 		ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, drawBGToRect, true);
 	}

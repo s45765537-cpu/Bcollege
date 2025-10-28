@@ -161,7 +161,7 @@ function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
 		}
 
 		// Send fail message if online
-		else if (CurrentScreen == "ChatRoom") {
+		else if (ServerPlayerIsInChatRoom()) {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)
 				.destinationCharacter(C)
@@ -183,7 +183,7 @@ function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
 					if (C.Appearance[A].Asset.Group.Name == C.FocusGroup.Name)
 						C.Appearance[A] = DialogFocusSourceItem;
 				}
-				if (CurrentScreen == "ChatRoom") {
+				if (ServerPlayerIsInChatRoom()) {
 					const Dictionary = new DictionaryBuilder()
 						.sourceCharacter(Player)
 						.destinationCharacter(C)
@@ -196,7 +196,7 @@ function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
 			} else { DialogExtendedMessage = "CombinationErrorInput"; }
 		}
 		// Fails to change
-		else if (CurrentScreen == "ChatRoom") {
+		else if (ServerPlayerIsInChatRoom()) {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)
 				.destinationCharacter(C)

@@ -1196,7 +1196,7 @@ function PandoraPenitentiaryIsGuard(C) {
 function PandoraPenitentiaryCreate() {
 
 	// Exits right away if the prison should not be loaded, there's a 10 seconds delay between each retry
-	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || (CurrentCharacter != null) || (CurrentScreen == "ChatRoom")) return;
+	if (PandoraPenitentiaryCreateTimer > CommonTime() || CurrentCharacter != null || ServerPlayerIsInChatRoom()) return;
 
 	// The guard can be assigned to create a new prison cell
 	if (PandoraPenitentiaryIsGuard(Player)) {
@@ -1221,7 +1221,7 @@ function PandoraPenitentiaryCreate() {
 function PandoraPenitentiaryResult(Result) {
 
 	// Exits right away if already in a chat room
-	if (CurrentScreen == "ChatRoom") return;
+	if (ServerPlayerIsInChatRoom()) return;
 
 	// Prepares a list of all available prisons, do not return in a room where we used a safeword
 	let List = [];

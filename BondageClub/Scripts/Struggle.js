@@ -499,7 +499,7 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 	if ((StruggleProgressAuto < 0) && Player.CanInteract() && (PrevItem != null) && (!InventoryItemHasEffect(PrevItem, "Lock", true) || DialogCanUnlock(C, PrevItem)) && !InventoryItemHasEffect(PrevItem, "Mounted", true)) StruggleProgressAuto = 0;
 
 	// Roleplay users can bypass the struggle mini-game with a toggle
-	if ((CurrentScreen == "ChatRoom") && ((StruggleProgressChallenge <= 6) || (StruggleProgressAuto >= 0)) && Player.RestrictionSettings.BypassStruggle) {
+	if (ServerPlayerIsInChatRoom() && ((StruggleProgressChallenge <= 6) || (StruggleProgressAuto >= 0)) && Player.RestrictionSettings.BypassStruggle) {
 		StruggleProgressAuto = 1;
 		StruggleProgressSkill = 5;
 	}
@@ -799,7 +799,7 @@ function StruggleLoosenHandleEvent(EventType, event) {
 						DialogStrugglePrevItem.Difficulty = DialogStrugglePrevItem.Difficulty - 2;
 					}
 					CharacterRefresh(Player);
-					if (CurrentScreen == "ChatRoom") {
+					if (ServerPlayerIsInChatRoom()) {
 						ChatRoomCharacterUpdate(Player);
 						ChatRoomPublishAction(Player, "ActionLoosenStruggle", DialogStrugglePrevItem, null);
 						DialogLeave();
@@ -921,7 +921,7 @@ function StruggleFlexibilityDraw(C) {
 	for (let RR = 0; RR < StruggleProgressFlexCircles.length; RR++) {
 		let R = StruggleProgressFlexCircles[RR];
 		if (R.Y > StruggleProgressFlexMaxY) {
-			if (!((CurrentScreen == "ChatRoom") && ((StruggleProgressChallenge <= 6) || (StruggleProgressAuto >= 0)) && Player.RestrictionSettings.BypassStruggle))
+			if (!(ServerPlayerIsInChatRoom() && ((StruggleProgressChallenge <= 6) || (StruggleProgressAuto >= 0)) && Player.RestrictionSettings.BypassStruggle))
 				StruggleFlexibilityProcess(true);
 			StruggleProgressFlexCircles.splice(RR,1);
 			break;
@@ -1352,7 +1352,7 @@ function StruggleLockPickDraw(C) {
 				// StruggleLockPickTotalTries is meant to give players a bit of breathing room so they don't get tired right away
 				if (DialogLentLockpicks)  {
 					DialogLentLockpicks = false;
-					if (CurrentScreen == "ChatRoom") {
+					if (ServerPlayerIsInChatRoom()) {
 						const Dictionary = new DictionaryBuilder()
 							.sourceCharacter(Player)
 							.destinationCharacterName(C)

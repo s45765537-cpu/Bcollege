@@ -223,7 +223,7 @@ function InventoryItemPelvisModularChastityBeltVoiceControlClickSet(){
 
 		if (temp != "" && typeof temp === "string") {
 			DialogFocusItem.Property.TriggerValues = temp;
-			if (CurrentScreen == "ChatRoom") {
+			if (ServerPlayerIsInChatRoom()) {
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
 					.destinationCharacter(CurrentCharacter)

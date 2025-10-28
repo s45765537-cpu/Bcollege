@@ -28,7 +28,7 @@ function InventoryItemMiscTimerPadlockClickHook(data, originalFunction) {
 
 	if ((MouseX >= 1100) && (MouseX <= 1164) && (MouseY >= 836) && (MouseY <= 900) && (Player.MemberNumber == DialogFocusSourceItem.Property.LockMemberNumber) && Player.CanInteract()) {
 		DialogFocusSourceItem.Property.RemoveItem = !(DialogFocusSourceItem.Property.RemoveItem);
-		if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(CharacterGetCurrent());
+		ChatRoomCharacterItemUpdate(CharacterGetCurrent());
 	}
 	if ((MouseX >= 1350) && (MouseX <= 1650) && (MouseY >= 910) && (MouseY <= 975) && Player.CanInteract()) {
 		InventoryItemMiscTimerPadlockReset();

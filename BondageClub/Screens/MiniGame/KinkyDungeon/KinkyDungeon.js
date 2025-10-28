@@ -2671,7 +2671,7 @@ function KinkyDungeonExit() {
 		DialogSetReputation("Gaming", KinkyDungeonRep);
 	}
 
-	if (CurrentScreen == "ChatRoom" && KinkyDungeonState != "Menu" && KDLose) {
+	if (ServerPlayerIsInChatRoom() && KinkyDungeonState != "Menu" && KDLose) {
 		let Dictionary = [
 			{ Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
 			{ Tag: "KinkyDungeonLevel", Text: String(MiniGameKinkyDungeonLevel)},
