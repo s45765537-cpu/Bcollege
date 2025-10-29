@@ -44282,7 +44282,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 4 },
 						CopyLayerColor: "Haruhi",
 					},
-				]
+				],
 			},
 		],
 		Color: [

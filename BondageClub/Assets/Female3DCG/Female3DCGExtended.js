@@ -18127,7 +18127,7 @@ var AssetFemale3DCGExtended = {
 				Option: "MinidollsItemHandheldType",
 				Chat: "MinidollsItemHandheldSet",
 			},
-		} // Minidolls
+		}, // Minidolls
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
@@ -19426,7 +19426,7 @@ var AssetFemale3DCGExtended = {
 				Option: "HairAccessory1CustomizableFluffyEars1Option",
 				Chat: "HairAccessory1CustomizableFluffyEars1Set",
 			},
-		}, // Customizable Fluffy Ears 3 
+		}, // Customizable Fluffy Ears 3
 		CustomizableCatEars: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
