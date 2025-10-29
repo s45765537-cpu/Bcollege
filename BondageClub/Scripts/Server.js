@@ -1310,6 +1310,9 @@ var ServerAccountDataSyncedValidate = {
 	Description: (arg, C) => {
 		return typeof arg === "string" ? arg : undefined;
 	},
+	OwnersNotes: (arg, C) => {
+		return typeof arg === "string" ? arg : undefined;
+	},
 	Ownership: (arg, C) => {
 		if (!CommonIsObject(arg)) {
 			return null;

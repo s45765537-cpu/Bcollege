@@ -10,12 +10,12 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-"Abysseia", "Ak1ba", "AlexG", "Asriel", "Baal", "bryce", "Canti", "Christian", "Christoffer", "Cm382714", 
-"Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", "john", 
-"Jonas", "Joseph", "Kim", "Laurie", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", 
-"Nightcore", "Nikita", "PristessSakura", "Robin", "Schrödingers", "Sean", "serenat2023", "shadowhack", 
-"Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", 
-"Troubadix", "Troy", "United_carryツ", "WhiteSniper", "XDWolfie", "Xepherio", 
+"Abysseia", "Ak1ba", "AlexG", "Asriel", "Baal", "bryce", "Canti", "Christian", "Christoffer", "Cm382714",
+"Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", "john",
+"Jonas", "Joseph", "Kim", "Laurie", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox",
+"Nightcore", "Nikita", "PristessSakura", "Robin", "Schrödingers", "Sean", "serenat2023", "shadowhack",
+"Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt",
+"Troubadix", "Troy", "United_carryツ", "WhiteSniper", "XDWolfie", "Xepherio",
 ];
 
 /* eslint-enable */
@@ -914,6 +914,12 @@ function LoginSetupPlayer(C) {
 		Player.Description = desc.substring(0, 10000);
 	} else {
 		Player.Description = "";
+	}
+	if (typeof C.OwnersNotes === "string" && C.OwnersNotes.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+		const desc = LZString.decompressFromUTF16(C.OwnersNotes.substring(1)) ?? "";
+		Player.OwnersNotes = desc.substring(0, 10000);
+	} else {
+		Player.OwnersNotes = "";
 	}
 	Player.Creation = C.Creation;
 	Player.Wardrobe = C.Wardrobe ? CharacterDecompressWardrobe(C.Wardrobe) : [];

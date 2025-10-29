@@ -1,22 +1,65 @@
 "use strict";
+
+/** @type { "Description" | "OwnersNotes" } */
+var OnlineProfileMode = "Description";
+var OnlineProfileText_Desc = "";
+var OnlineProfileText_ON = "";  // Owner's notes
+var OnlineProfileText_ONAvailable = false;
+
 var OnlineProfileBackground = "Sheet";
+
 /**
- * Character used to signal, that description is compressed
+ * Leading character used to signal that description is compressed
  * @readonly
  */
-var ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC = String.fromCharCode(9580);
+const ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC = String.fromCharCode(9580);
+
+
+/**
+ * Loads the text element based on current viewing/editing mode.
+ * @param {HTMLInputElement} element
+ */
+async function OnlineProfileLoadTextArea (element) {
+	switch (OnlineProfileMode) {
+	case "OwnersNotes":
+		element.value = OnlineProfileText_ON;
+		if (InformationSheetSelection.IsOnline()  &&  InformationSheetSelection.IsOwnedByPlayer()) {
+			/*  Editable only by this player's owner.  */
+			element.removeAttribute ("readonly");
+		} else {
+			element.setAttribute ("readonly", "readonly");
+		}
+		break;
+
+	case "Description":
+	default:
+		element.value = OnlineProfileText_Desc;
+		if (InformationSheetSelection.IsPlayer()) {
+			/*  Editable by player.  */
+			element.removeAttribute ("readonly");
+		} else {
+			element.setAttribute ("readonly", "readonly");
+		}
+		break;
+	}
+}
 
 /**
  * Loads the online profile screen by creating its input
  * @type {ScreenLoadHandler}
  */
 async function OnlineProfileLoad() {
+	OnlineProfileMode = "Description";
+	OnlineProfileText_Desc = InformationSheetSelection.Description != null  ? InformationSheetSelection.Description : "";
+	OnlineProfileText_ON = InformationSheetSelection.OwnersNotes != null  ? InformationSheetSelection.OwnersNotes : "";
+	OnlineProfileText_ONAvailable = InformationSheetSelection.IsOwnedByPlayer()  ||  OnlineProfileText_ON != "";
+
 	ElementRemove("DescriptionInput");
 	ElementCreateTextArea("DescriptionInput");
 	const DescriptionInput = /** @type {HTMLInputElement} */ (document.getElementById("DescriptionInput"));
 	DescriptionInput.setAttribute("maxlength", 10000);
-	DescriptionInput.value = (InformationSheetSelection.Description != null) ? InformationSheetSelection.Description : "";
-	if (!InformationSheetSelection.IsPlayer()) DescriptionInput.setAttribute("readonly", "readonly");
+
+	OnlineProfileLoadTextArea (DescriptionInput);
 }
 
 /**
@@ -24,6 +67,8 @@ async function OnlineProfileLoad() {
  */
 function OnlineProfileUnload() {
 	ElementRemove("DescriptionInput");
+	OnlineProfileText_Desc = "";
+	OnlineProfileText_ON = "";
 }
 
 /**
@@ -32,9 +77,32 @@ function OnlineProfileUnload() {
  */
 function OnlineProfileRun() {
 	// Sets the screen controls
-	DrawText(TextGet((InformationSheetSelection.IsPlayer()) ? "EnterDescription" : "ViewDescription").replace("CharacterName", CharacterNickname(InformationSheetSelection)), 910, 105, "Black", "Gray");
+	var legend = "";
+	if (OnlineProfileMode == "Description") {
+		legend = TextGet (InformationSheetSelection.IsPlayer() ? "EnterDescription" : "ViewDescription");
+	} else {
+		legend = TextGet (InformationSheetSelection.IsOwnedByPlayer() ? "EnterOwnersNotes" : "ViewOwnersNotes")
+		       .replace ("OwnerName", InformationSheetSelection.OwnerName);
+	}
+	legend = legend.replace ("CharacterName", CharacterNickname (InformationSheetSelection));
+	DrawText (legend, 910, 105, "Black", "Gray");
+
 	ElementPositionFix("DescriptionInput", 36, 100, 160, 1790, 750);
-	if (InformationSheetSelection.IsPlayer()) DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
+
+	var buttoncolor = "Gray";
+	if (OnlineProfileText_ONAvailable) {
+		buttoncolor = OnlineProfileMode == "OwnersNotes" ? "Red" : "White";
+	}
+	DrawButton(1520, 60, 90, 90, "", buttoncolor, "Icons/Management.png", "Owner's Notes");
+
+	buttoncolor = "Gray";
+	if (    (OnlineProfileMode == "Description"  &&  InformationSheetSelection.IsPlayer())
+	    ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsOwnedByPlayer()))
+	{
+		buttoncolor = "White";
+	}
+	DrawButton(1720, 60, 90, 90, "", buttoncolor, "Icons/Accept.png", TextGet("LeaveSave"));
+
 	DrawButton(1820, 60, 90, 90, "", "White", ((InformationSheetSelection.IsPlayer()) ? "Icons/Cancel.png" : "Icons/Exit.png"), TextGet((InformationSheetSelection.IsPlayer()) ? "LeaveNoSave" : "Leave"));
 
 }
@@ -44,8 +112,24 @@ function OnlineProfileRun() {
  * @returns {void} - Nothing
  */
 function OnlineProfileClick() {
+	if (OnlineProfileText_ONAvailable  &&  MouseIn (1520, 60, 90, 90)) {
+		/*  Toggle between Description and Owner's Notes.  */
+		if (OnlineProfileMode == "Description") {
+			OnlineProfileText_Desc = ElementValue ("DescriptionInput").trim();
+			OnlineProfileMode = "OwnersNotes";
+		} else {
+			OnlineProfileText_ON = ElementValue ("DescriptionInput").trim();
+			OnlineProfileMode = "Description";
+		}
+		OnlineProfileLoadTextArea (/** @type {HTMLInputElement} */ (document.getElementById ("DescriptionInput")));
+	}
+	if (    MouseIn(1720, 60, 90, 90)
+	    &&  (    (OnlineProfileMode == "Description"  &&  InformationSheetSelection.IsPlayer())
+	         ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsOwnedByPlayer())))
+	{
+		OnlineProfileExit (true);
+	}
 	if (MouseIn(1820, 60, 90, 90)) OnlineProfileExit(false);
-	if (InformationSheetSelection.IsPlayer() && MouseIn(1720, 60, 90, 90)) OnlineProfileExit(true);
 }
 
 /**
@@ -53,17 +137,43 @@ function OnlineProfileClick() {
  * @param {boolean} Save - Whether or not we should save the changes
  * @returns {void} - Nothing
  */
-function OnlineProfileExit(Save) {
-	// If the current character is the player, we update the description
-	if ((InformationSheetSelection.IsPlayer()) && (InformationSheetSelection.Description != ElementValue("DescriptionInput").trim()) && Save) {
-		InformationSheetSelection.Description = ElementValue("DescriptionInput").trim().substr(0, 10000);
-		let Description = InformationSheetSelection.Description;
-		const CompressedDescription = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16(Description);
-		if (CompressedDescription.length < Description.length || Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-			Description = CompressedDescription;
+function OnlineProfileExit (Save) {
+	const ev = ElementValue ("DescriptionInput");
+	if (OnlineProfileMode == "Description") {
+		OnlineProfileText_Desc = ev;
+	} else {
+		OnlineProfileText_ON = ev;
+	}
+
+	var props = {};
+
+	if (Save) {
+		// If the current character is the player, we update the description
+		if (InformationSheetSelection.Description != OnlineProfileText_Desc  &&  InformationSheetSelection.IsPlayer()) {
+			InformationSheetSelection.Description = OnlineProfileText_Desc;
+			let val = OnlineProfileText_Desc;
+			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16 (val);
+			if (comp_val.length < val.length  ||  val.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+				val = comp_val;
+			}
+			props["Description"] = val;
 		}
-		ServerAccountUpdate.QueueData({ Description });
-		ChatRoomCharacterUpdate(InformationSheetSelection);
+
+		// If the current character owns this player, update the owner's notes.
+		if (InformationSheetSelection.OwnersNotes != OnlineProfileText_ON  &&  InformationSheetSelection.IsOwnedByPlayer()) {
+			InformationSheetSelection.OwnersNotes = OnlineProfileText_ON;
+			let val = OnlineProfileText_ON;
+			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16 (val);
+			if (comp_val.length < val.length  ||  val.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+				val = comp_val;
+			}
+			props["OwnersNotes"] = val;
+		}
+
+		console.log ("Passing to ServerAccountUpdate: ", props);
+		ServerAccountUpdate.QueueData (props);
+		ChatRoomCharacterUpdate (InformationSheetSelection);
+
 	}
 	CommonSetScreen("Character", "InformationSheet");
 }

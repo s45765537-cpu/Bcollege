@@ -1158,6 +1158,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.LabelColor = ServerAccountDataSyncedValidate.LabelColor(data.LabelColor, Char);
 	Char.Creation = ServerAccountDataSyncedValidate.Creation(data.Creation, Char);
 	Char.Description = ServerAccountDataSyncedValidate.Description(data.Description, Char);
+	Char.OwnersNotes = ServerAccountDataSyncedValidate.Description(data.OwnersNotes, Char);
 	Char.Ownership = ServerAccountDataSyncedValidate.Ownership(data.Ownership, Char);
 	Char.Lovership = ServerAccountDataSyncedValidate.Lovership(data.Lovership, Char);
 	Char.Reputation = ServerAccountDataSyncedValidate.Reputation(data.Reputation, Char);

@@ -2103,6 +2103,7 @@ interface Character {
 	LabelColor?: HexColor;
 	Creation?: number; // technically never as it is Online-only
 	Description?: string; // technically never as it is Online-only
+	OwnersNotes?: string;  // Public note from this character's owner
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;  // technically never as it is Online-only
 	Game?: CharacterGameParameters; // technically never as it is Online-only
 	MapData?: ChatRoomMapData;

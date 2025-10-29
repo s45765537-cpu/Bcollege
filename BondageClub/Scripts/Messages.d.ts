@@ -56,6 +56,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	LabelColor?: string;
 	Appearance?: ServerAppearanceBundle;
 	Description?: string;
+	OwnersNotes?: string;
 	BlockItems?: ServerItemPermissionsPacked | ServerItemPermissions[];
 	LimitedItems?: ServerItemPermissionsPacked | ServerItemPermissions[];
 	FavoriteItems?: ServerItemPermissionsPacked | ServerItemPermissions[];
