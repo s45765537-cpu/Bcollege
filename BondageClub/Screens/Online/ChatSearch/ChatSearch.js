@@ -1156,13 +1156,13 @@ function ChatSearchCreateGridRoom(room, index) {
 				ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
 				return;
 			}
-			ServerSend("ChatRoomJoin", { Name: room.Name });
+			ChatSearchJoin(room.Name);
 		}, {
 			tooltipPosition: "bottom",
 			tooltip: tooltipElement,
 			clickDisabled() {
 				// Will result in a toast if the room is still full and will just join as usual if the room happens to receive a new empty spot
-				ServerSend("ChatRoomJoin", { Name: room.Name });
+				ChatSearchJoin(room.Name);
 			},
 		}, {
 			button: {
@@ -1761,13 +1761,9 @@ function ChatSearchAutoJoinRoom() {
 	if (ChatRoomJoinLeash != "") {
 		// This is a search triggered after entering the lobby while being leashed
 		// Join the room and unset the special leash-to-room flag
-		for (let R = 0; R < ChatSearchResult.length; R++) {
-			if (ChatSearchResult[R].Name == ChatRoomJoinLeash) {
-				ChatSearchLastQueryJoinTime = CommonTime();
-				ChatSearchLastQueryJoin = ChatSearchResult[R].Name;
-				ServerSend("ChatRoomJoin", { Name: ChatSearchResult[R].Name });
-				break;
-			}
+		const leashRoom = ChatSearchResult.find(r => r.Name === ChatRoomJoinLeash);
+		if (leashRoom) {
+			ChatSearchJoin(leashRoom.Name);
 		}
 		ChatRoomJoinLeash = "";
 		return;
@@ -1779,17 +1775,13 @@ function ChatSearchAutoJoinRoom() {
 		let roomIsFull = false;
 		// Try joining our previous room
 		for (let R = 0; R < ChatSearchResult.length; R++) {
-			var room = ChatSearchResult[R];
+			const room = ChatSearchResult[R];
 			if (room.Name === Player.LastChatRoom.Name && room.Game == "") {
 				if (room.MemberCount < room.MemberLimit) {
 					var RoomName = room.Name;
-					if (ChatSearchLastQueryJoin != RoomName || (ChatSearchLastQueryJoin == RoomName && ChatSearchLastQueryJoinTime + 1000 < CommonTime())) {
-						roomFound = true;
-						ChatSearchLastQueryJoinTime = CommonTime();
-						ChatSearchLastQueryJoin = RoomName;
-						ServerSend("ChatRoomJoin", { Name: RoomName });
-						break;
-					}
+					roomFound = true;
+					ChatSearchJoin(RoomName);
+					break;
 				} else {
 					roomIsFull = true;
 					break;
