@@ -313,7 +313,7 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 		} else if (reverse && acted.FocusGroup.Name !== item.Asset.Group.Name && !(isStrapon || isPenis)) {
 			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name} but incorrect group`);
 			return activities; // This is a reverse activity, but we're targetting the wrong slot, just skip
-		} else if (!isPenis) {
+		} else {
 			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name}`);
 			activities.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup.MirrorActivitiesFrom ?? targetGroup.Name });
 			return activities;
