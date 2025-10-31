@@ -84,7 +84,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'friendlistrequest',
-		Action: args => ChatRoomListManipulation(Player.FriendList, true, args, "FriendRequest"),
+		Action: args =>{
+			const number = CommonParseInt(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.FriendList, true, number, "FriendRequest");
+		},
 		Arguments: [{
 			name: "Member number",
 			description: "friendlistadd but with notification",

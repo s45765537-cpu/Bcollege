@@ -5662,7 +5662,7 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 		["SourceCharacter", CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")"],
 	];
 	if (Player.FriendList.includes(SenderCharacter.MemberNumber)) {
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAcceptMessage"),substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAcceptMessage"), substitutions));
 		return;
 	}
 	let id = CommonGenerateUniqueID();
@@ -5671,11 +5671,11 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	};
 	const addBack = () => {
 		ChatRoomListUpdate(Player.FriendList, true, SenderCharacter.MemberNumber, "FriendRequest");
-		ChatRoomSendLocal(TextGet("FriendAddbackMessage"));
+		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAddbackMessage"), substitutions));
 		hide();
 	};
 	const ghost = () => {
-		ChatRoomSendLocal(TextGet("FriendGhostMessage"));
+		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendGhostMessage"), substitutions));
 		hide();
 	};
 	ChatRoomSendLocal(
