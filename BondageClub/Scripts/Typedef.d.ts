@@ -1641,7 +1641,7 @@ type ScreenUnloadHandler = VoidHandler;
 type ScreenDrawHandler = VoidHandler;
 type ScreenRunHandler = (time: number) => void;
 type ScreenResizeHandler = (load: boolean) => void;
-type ScreenExitHandler = VoidHandler | (() => Promise<void>);
+type ScreenExitHandler = VoidHandler;
 
 interface ScreenFunctions {
 	// Required

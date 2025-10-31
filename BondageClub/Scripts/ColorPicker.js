@@ -1068,7 +1068,10 @@ function ColorPickerUnload() {
 	document.getElementById(ColorPicker.ids.root)?.toggleAttribute("hidden", true);
 }
 
-/** @type {ScreenExitHandler} */
+/**
+ * @param {boolean} [forceExit=false]
+ * @satisfies {ScreenExitHandler}
+ */
 function ColorPickerExit(forceExit=false) {
 	/** @type {null | HTMLButtonElement} */
 	const combobox = document.querySelector(`#${ColorPicker.ids.root} button[role='combobox'][aria-expanded='true']`);

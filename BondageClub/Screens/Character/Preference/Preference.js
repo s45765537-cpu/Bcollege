@@ -245,10 +245,10 @@ function PreferenceClick() {
  * If the player is in a subscreen, they exit to the main preferences menu instead.
  * @type {ScreenExitHandler}
  */
-async function PreferenceExit() {
+function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {
 		// If we are in a subscreen, the only exit is to the main preference screen
-		await PreferenceSubscreenExit();
+		PreferenceSubscreenExit();
 		return;
 	}
 
@@ -276,7 +276,7 @@ async function PreferenceExit() {
 		...ServerPackItemPermissions(Player.PermissionItems),
 	};
 	ServerAccountUpdate.QueueData(P);
-	await CommonSetScreen("Character", "InformationSheet");
+	CommonSetScreen("Character", "InformationSheet");
 }
 
 /**
