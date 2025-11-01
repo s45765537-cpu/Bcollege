@@ -912,8 +912,6 @@ function ColorPickerLoad() {
 	}
 
 	const colorFieldset = ColorPicker.create(null, { onInput: options.onInput ?? ColorPicker.eventListeners.inputItemColor });
-	colorFieldset.setAttribute("aria-labelledby", "color-picker-header");
-
 	root = ElementDOMScreen.getTemplate(ColorPicker.ids.root, {
 		menubarButtons: [
 			ElementButton.Create(
@@ -932,6 +930,7 @@ function ColorPickerLoad() {
 		mainContent: [colorFieldset],
 		parent: document.body,
 	});
+	colorFieldset.setAttribute("aria-labelledby", root.querySelector("h1")?.id ?? "");
 	ColorPickerReload(options);
 }
 
