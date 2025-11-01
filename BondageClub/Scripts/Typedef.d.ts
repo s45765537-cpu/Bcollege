@@ -4534,6 +4534,8 @@ interface ColorPickerInitOptions {
 	colorState?: Pick<ItemColorStateType, "editOpacity" | "opacity" | "colors">;
 	/** Whether the color picker should be disabled or not */
 	disabled?: boolean;
+	/** The dimensions of the color picker screen */
+	shape?: Readonly<RectTuple>;
 }
 
 //#end region

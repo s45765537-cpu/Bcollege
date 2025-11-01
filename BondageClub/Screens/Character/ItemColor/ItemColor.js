@@ -126,11 +126,13 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
 	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
 
+	// Add 25 from the width to correct for the hard-coded scrollbar gutter
+	const shape = /** @type {const} */([x, y, width + 25, height]);
 	if (ItemColorState.simpleMode) {
-		await ItemColorOpenPicker(ItemColorState.colorGroups[0]);
+		await ItemColorOpenPicker(ItemColorState.colorGroups[0], { shape });
 	} else {
 		// Pre-loaded (and hide) the color picker subscreen again
-		await ColorPickerInit();
+		await ColorPickerInit({ shape });
 		ColorPickerUnload();
 	}
 }
@@ -286,7 +288,8 @@ function ItemColorClick(c, group, x, y, width, height) {
 		return ItemColorPaginationClick();
 	}
 
-	return ItemColorClickDefault(x, ItemColorState.contentY, width);
+	const shape = /** @type {const} */([x, y, width + 25, height]);
+	return ItemColorClickDefault(x, ItemColorState.contentY, width, shape);
 }
 
 /**
@@ -294,9 +297,10 @@ function ItemColorClick(c, group, x, y, width, height) {
  * @param {number} x - The x-coordinate at which the default UI was drawn
  * @param {number} y - The y-coordinate at which the default UI was drawn
  * @param {number} width - The width with which the default UI was drawn
+ * @param {Readonly<RectTuple>} shape - The shape of the color picker
  * @returns {void} - Nothing
  */
-function ItemColorClickDefault(x, y, width) {
+function ItemColorClickDefault(x, y, width, shape) {
 	const pageStart = ItemColorPage * ItemColorState.pageSize;
 	const colorGroups = ItemColorState.colorGroups.slice(pageStart, pageStart + ItemColorState.pageSize);
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
@@ -316,7 +320,7 @@ function ItemColorClickDefault(x, y, width) {
 		if (MouseYIn(y + i * rowHeight, buttonHeight)) {
 			if (MouseXIn(colorPickerButtonX, colorPickerButtonWidth)) {
 				// Color picker button
-				ItemColorOpenPicker(colorGroup);
+				ItemColorOpenPicker(colorGroup, { shape });
 			} else if (MouseXIn(colorDisplayButtonX, colorDisplayWidth)) {
 				// Cycle through the color schema
 				ItemColorNextColor(colorGroup);

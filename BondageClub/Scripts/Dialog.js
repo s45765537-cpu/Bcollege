@@ -1861,7 +1861,7 @@ function DialogMenuButtonClick() {
 			// Starts picking colors for the item, keeps the original color and shows it at the bottom
 			else if (button === "ColorChange" && Item != null) {
 				DialogChangeMode("colorItem");
-				ItemColorLoad(C, Item, 1200, 25, 775, 950);
+				ItemColorLoad(C, Item, 1200, 15, 775, 970);
 				ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 					DialogChangeMode("items");
 					if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
@@ -2119,6 +2119,7 @@ function DialogChangeMode(mode, reset=false) {
 					colors: [DialogColorSelect ?? ""],
 					editOpacity: false,
 				},
+				shape: [1200, 15, 800, 970],
 				heading: InterfaceTextGet("DialogMenuColorDefault"),
 			});
 			break;
@@ -2286,7 +2287,7 @@ function DialogClick(event) {
 		return;
 	} else if (DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") {
 		if (MouseIn(1300, 25, 675, 950) && FocusItem) {
-			ItemColorClick(C, C.FocusGroup.Name, 1200, 25, 775, 950);
+			ItemColorClick(C, C.FocusGroup.Name, 1200, 15, 775, 970);
 			return;
 		}
 	}
@@ -4513,7 +4514,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 					const groupName = equippedItem.Asset.Group.Name;
 					DialogChangeMode("colorExpression");
 					Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, groupName));
-					ItemColorLoad(Player, equippedItem, 1200, 25, 775, 950, true);
+					ItemColorLoad(Player, equippedItem, 1200, 15, 775, 970, true);
 					ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 						DialogMenuBack();
 						if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
@@ -5638,7 +5639,7 @@ function DialogDraw() {
 			DialogChangeMode("items");
 		}
 	} else if ((DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") && FocusItem) {
-		ItemColorDraw(C, C.FocusGroup.Name, 1200, 25, 775, 950);
+		ItemColorDraw(C, C.FocusGroup.Name, 1200, 15, 775, 970);
 		return;
 	} else if (DialogMenuMode === "colorDefault") {
 		return;

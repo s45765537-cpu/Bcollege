@@ -205,6 +205,21 @@ var ColorPicker = {
 	}),
 
 	/**
+	 * The default shape of the color picker screen
+	 * @readonly
+	 * @type {Readonly<RectTuple>}
+	 */
+	defaultShape: Object.freeze([1200, 15, 800, 970]),
+
+	/**
+	 * A weakmap mapping color picker root elements to their respective {@link ScreenResizeHandler} shape
+	 * @readonly
+	 * @private
+	 * @type {WeakMap<Element, Readonly<RectTuple>>}
+	 */
+	_shapes: new WeakMap,
+
+	/**
 	 * @readonly
 	 * @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>}
 	 */
@@ -1055,12 +1070,19 @@ function ColorPickerReload(options=null) {
 	});
 
 	ColorPicker.toggleDisabled(root, options.disabled ?? false);
+
+	// Set the shape of the screen
+	ColorPicker._shapes.set(root, options.shape ?? ColorPicker.defaultShape);
 	return root;
 }
 
 /** @type {ScreenResizeHandler} */
 function ColorPickerResize() {
-	ElementPositionFixed(ColorPicker.ids.root, 1200, 15, 800, 970);
+	const root = document.getElementById(ColorPicker.ids.root);
+	const shape = ColorPicker._shapes.get(/** @type {HTMLElement} */(root));
+	if (root && shape) {
+		ElementPositionFixed(root, ...shape);
+	}
 }
 
 /** @type {ScreenUnloadHandler} */
