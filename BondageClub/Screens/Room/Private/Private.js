@@ -1117,7 +1117,7 @@ function PrivateLoadCharacter(data) {
 	C.Love = (data.Love == null) ? 0 : parseInt(data.Love);
 
 	NPCTraitDialog(C);
-	NPCArousal(C);
+	PreferenceInit(C);
 	ActivityTimerProgress(C, 0);
 	CharacterRefresh(C);
 
@@ -1125,9 +1125,10 @@ function PrivateLoadCharacter(data) {
 	if (C.CanKneel() && C.IsOwnedByPlayer()) PoseSetActive(C, "Kneel", true);
 
 	// We allow items on NPC if 25+ dominant reputation, not owner or restrained
-	if (C.ArousalSettings == null) NPCArousal(C);
 	C.ArousalSettings.Active = "Automatic";
 	C.ArousalSettings.Visible = "All";
+	C.ArousalSettings.Progress = 0;
+	C.ArousalSettings.ProgressTimer = 0;
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsOwnedByPlayer() || C.IsRestrained() || !C.CanTalk());
 
 	PrivateCharacter.push(C);
@@ -1145,7 +1146,7 @@ function PrivateLoadCharacter(data) {
  * @returns {NPCCharacter} - The new private room character.
  */
 function PrivateAddCharacter(Template, Archetype, CustomData, Module=null, Screen=null) {
-	var C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", Module, Screen);
+	const C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", Module, Screen);
 	C.Name = Template.Name;
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();
@@ -1155,7 +1156,7 @@ function PrivateAddCharacter(Template, Archetype, CustomData, Module=null, Scree
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
 	if ((Archetype === "Submissive") || (Archetype === "Bunny")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
 	if ((CustomData == null) || (CustomData == false)) NPCTraitDialog(C);
-	if (C.ArousalSettings == null) NPCArousal(C);
+	NPCSetupArousal(C);
 	CharacterRefresh(C);
 	PrivateCharacter.push(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);

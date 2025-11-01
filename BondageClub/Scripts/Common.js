@@ -2179,3 +2179,21 @@ function CommonFindMap(array, predicateMapper, thisArg=null) {
 	}
 	return undefined;
 }
+
+/**
+ * Splice a string into a string at a specific index.
+ *
+ * The string will be automatically extended using {@link defaultValue} if the index falls outside its bounds.
+ *
+ * @param {string} string
+ * @param {number} index
+ * @param {string} value
+ * @param {string} defaultValue
+ * @returns
+ */
+function CommonStringSplice(string, index, value, defaultValue) {
+	if (string.length < index) {
+		string = string + defaultValue.repeat(Math.ceil((index - string.length) / defaultValue.length));
+	}
+	return string.substring(0, index) + value + string.substring(index + value.length);
+}

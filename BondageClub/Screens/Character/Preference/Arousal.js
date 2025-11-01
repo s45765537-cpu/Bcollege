@@ -23,18 +23,6 @@ var PreferenceArousalFetishList = null;
 var PreferenceArousalFetishIndex = 0;
 /** @type {ArousalFactor} */
 var PreferenceArousalFetishFactor = 0;
-/**
- * By default on new characters, all activities are neutral on self and others
- * */
-var PreferenceArousalActivityDefaultCompressedString = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
-/**
- * By default on new characters, all zones are of neutral preference and vulva/clit/butt can trigger an orgasm
- */
-var PreferenceArousalZoneDefaultCompressedString = "ffpppfffffffffffff";
-/**
- * By default on new characters, all festishes are of neutral preference
- */
-var PreferenceArousalFetishDefaultCompressedString = "ffffffffffffffffffff";
 
 function PreferenceSubscreenArousalLoad() {
 	CharacterAppearanceForceUpCharacter = Player.MemberNumber;

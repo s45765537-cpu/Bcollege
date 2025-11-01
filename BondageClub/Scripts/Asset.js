@@ -995,6 +995,7 @@ function AssetLoadAll() {
 	Shop2._PopulateBuyGroups();
 	Shop2._PopulateKeysAndRemotes();
 	AssetLoadCheckActivities();
+	PreferenceArousalUpdateValidation();
 }
 
 /**
@@ -1061,6 +1062,27 @@ function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
 			defined.push(a);
 	});
 	return defined;
+}
+
+/**
+ * Gets all fetishes for a family
+ * @param {IAssetFamily} family - The family to search in
+ * @returns {Fetish[]}
+ */
+function AssetAllFetishes(family) {
+	if (family == "Female3DCG")
+		return FetishFemale3DCG;
+	return [];
+}
+
+/**
+ * Gets an activity asset by family and name
+ * @param {IAssetFamily} family - The family to search in
+ * @param {FetishName} name - Name of fetish to search for
+ * @returns {Fetish|null}
+ */
+function AssetGetFetish(family, name) {
+	return AssetAllFetishes(family).find(a => (a.Name === name)) ?? null;
 }
 
 /**
