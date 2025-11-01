@@ -1026,7 +1026,6 @@ function LoginSetupPlayer(C) {
 	Player.AllowedInteractions = C.AllowedInteractions ?? C.ItemPermission ?? AllowedInteractions.OwnerLoversWhitelistAndDomsOnly;
 	Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 	Player.SavedExpressions = C.SavedExpressions ?? [];
-	PreferenceValidateArousalData(Player);
 	if (!Array.isArray(Player.SavedExpressions))
 		Player.SavedExpressions = [];
 	if (Player.SavedExpressions.length < 5)
