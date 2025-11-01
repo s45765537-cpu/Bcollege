@@ -596,6 +596,7 @@ var ColorPicker = {
 	 * @returns {HTMLFieldSetElement} - The newly created color picker fieldset containing all interactive sliders and such
 	 */
 	create(id, options=null) {
+		options ??= {};
 		id ??= ElementGenerateID();
 		const hueID = ElementGenerateID();
 		const opacityID = ElementGenerateID();
