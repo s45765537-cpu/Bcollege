@@ -500,13 +500,21 @@ var ColorPicker = {
 		 * @type {(this: HTMLFieldSetElement, ev: FocusEvent) => void}
 		 */
 		focusoutFieldset: function (ev) {
-			if (ev.relatedTarget instanceof Element && this.contains(ev.relatedTarget)) {
+			const menuID = this.closest("[role='menu']")?.id;
+			/** @type {null | HTMLButtonElement} */
+			const controller = document.querySelector(`button[aria-controls~="${menuID}"]`);
+			if (!controller) {
+				ev.stopImmediatePropagation();
 				return;
 			}
 
-			const menuID = this.closest("[role='menu']")?.id;
-			const controller = document.querySelector(`[aria-controls~="${menuID}"]`);
-			if (controller instanceof HTMLButtonElement && controller.getAttribute("aria-expanded") === "true") {
+			const target = ev.relatedTarget;
+			if (
+				target instanceof Element
+				&& (this.contains(target) || Array.from(controller.labels).some(el => el.contains(target)))
+			) {
+				return;
+			} else if (controller.getAttribute("aria-expanded") === "true") {
 				controller.click();
 			}
 		},
@@ -534,6 +542,16 @@ var ColorPicker = {
 				input.focus();
 			}
 		},
+
+		/**
+		 * Blur the label children upon receiving focus
+		 * @type {(this: HTMLElement, ev: FocusEvent) => void}
+		 */
+		focusComboLabel: function (ev) {
+			// The label children are only able to receive focus due to a technicality in `focusoutFieldset`,
+			// as they otherwise wouldn't appear in `FocusEvent.relatedTarget`
+			this.blur();
+		},
 	},
 
 	/**
@@ -556,8 +574,11 @@ var ColorPicker = {
 				),
 				{
 					tag: "output",
-					attributes: { name: "saved-colors-output", for: id },
+					attributes: { name: "saved-colors-output", for: id, tabindex: -1 },
 					children: ["-"],
+					eventListeners: {
+						focus: ColorPicker.eventListeners.focusComboLabel,
+					},
 				},
 				{
 					tag: "div",
@@ -729,6 +750,10 @@ var ColorPicker = {
 							{ tag: "span", children: [ItemColorText.get("SavedColors")] },
 							ColorPicker._getDropdownWidget(dropdownID, defaultColors),
 						],
+						attributes: { tabindex: -1 },
+						eventListeners: {
+							focus: ColorPicker.eventListeners.focusComboLabel,
+						},
 					},
 					ElementButton.Create(
 						null,
