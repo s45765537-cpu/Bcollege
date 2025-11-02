@@ -879,7 +879,6 @@ function DialogMenuBack() {
 			break;
 
 		case "colorDefault":
-			ColorPickerHide();
 			DialogColorSelect = null;
 			DialogChangeMode("items");
 			break;
@@ -2077,7 +2076,16 @@ function DialogChangeMode(mode, reset=false) {
 	}
 
 	if (DialogMenuMode !== mode) {
-		DialogMenuMapping[DialogMenuMode]?.Unload();
+		switch (DialogMenuMode) {
+			case "colorDefault":
+			case "colorExpression":
+			case "colorItem":
+				ColorPickerUnload();
+				break;
+			default:
+				DialogMenuMapping[DialogMenuMode]?.Unload();
+				break;
+		}
 		DialogMenuMode = mode;
 	}
 
