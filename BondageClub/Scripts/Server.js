@@ -1319,7 +1319,7 @@ var ServerAccountDataSyncedValidate = {
 		if (
 			typeof Name === "string"
 			&& CommonIsInteger(MemberNumber, 0)
-			&& (Notes == undefined  ||  Notes == null  ||  typeof Notes === "string")
+			&& (Notes == undefined || Notes == null || typeof Notes === "string")
 			&& (Stage === 0 || Stage === 1)
 			&& CommonIsInteger(Start, 0, CommonTime())
 		) {

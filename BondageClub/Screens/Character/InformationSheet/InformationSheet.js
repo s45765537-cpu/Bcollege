@@ -256,14 +256,14 @@ function InformationSheetClick() {
 		if (MouseIn(1815, 305, 90, 90)) CommonSetScreen("Character", "Preference");
 		if (MouseIn(1815, 420, 90, 90)) CommonSetScreen("Character", "FriendList");
 		if (MouseIn(1815, 535, 90, 90)) CommonSetScreen("Character", "OnlineProfile");
-		if (MouseIn(1715, 535, 90, 90)  &&  C.HasOwnerNotes()) {
+		if (MouseIn(1715, 535, 90, 90) && C.HasOwnerNotes()) {
 			OnlineProfileMode = "OwnersNotes";
 			CommonSetScreen("Character", "OnlineProfile");
 		}
 		if (MouseIn(1815, 765, 90, 90)) InformationSheetSecondScreen = !InformationSheetSecondScreen;
 	} else if (C.IsOnline()) {
 		if (MouseIn(1815, 190, 90, 90)) CommonSetScreen("Character", "OnlineProfile");
-		if (MouseIn(1715, 190, 90, 90)  &&  C.HasOwnerNotes()) {
+		if (MouseIn(1715, 190, 90, 90) && C.HasOwnerNotes()) {
 			OnlineProfileMode = "OwnersNotes";
 			CommonSetScreen("Character", "OnlineProfile");
 		}

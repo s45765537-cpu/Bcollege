@@ -1013,7 +1013,7 @@ function LoginSetupPlayer(C) {
 		Player.Owner = Player.IsFullyOwned() ? Player.Ownership.Name : "";
 		if (typeof Player.Ownership.Notes === "string") {
 			const desc = LZString.decompressFromUTF16(Player.Ownership.Notes) ?? "";
-			Player.Ownership.Notes = desc.slice (0, 10000);
+			Player.Ownership.Notes = desc.slice(0, 10000);
 		} else {
 			Player.Ownership.Notes = "";
 		}

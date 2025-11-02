@@ -452,7 +452,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		HasOwnerNotes: function () {
-			return typeof this.Ownership?.Notes === "string"  &&  this.Ownership.Notes.length > 0;
+			return typeof this.Ownership?.Notes === "string" && this.Ownership.Notes.length > 0;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
 			return (memberNumber != -1 && this.OwnerNumber() === memberNumber);
@@ -2468,17 +2468,17 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
  * @param {Character} C - The character to receive the updated notes.
  * @param {string} [notes] - String containing the notes.  If undefined, existing notes will be erased.
  */
-function CharacterSetOwnersNotes (C, notes = undefined) {
-	if (C.Ownership !== null  &&  typeof C.Ownership === "object"  &&  C.Ownership.Notes !== notes  &&  C.IsFullyOwnedByPlayer()) {
+function CharacterSetOwnersNotes(C, notes = undefined) {
+	if (C.Ownership !== null && typeof C.Ownership === "object" && C.Ownership.Notes !== notes && C.IsFullyOwnedByPlayer()) {
 		let Notes = undefined;
-		if (typeof notes === "string"  &&  notes.length > 0) {
-			C.Ownership.Notes = notes.slice (0, 10000);
-			Notes = LZString.compressToUTF16 (C.Ownership.Notes);
+		if (typeof notes === "string" && notes.length > 0) {
+			C.Ownership.Notes = notes.slice(0, 10000);
+			Notes = LZString.compressToUTF16(C.Ownership.Notes);
 		} else {
 			C.Ownership.Notes = undefined;
 		}
 
-		ServerSend ("AccountOwnership", { MemberNumber: C.MemberNumber, Action: "UpdateNotes", Notes });
+		ServerSend("AccountOwnership", { MemberNumber: C.MemberNumber, Action: "UpdateNotes", Notes });
 	}
 }
 
