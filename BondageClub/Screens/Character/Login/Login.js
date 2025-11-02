@@ -1010,9 +1010,9 @@ function LoginSetupPlayer(C) {
 	// Loads the ownership data
 	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
 	if (Player.Ownership != null) {
-		Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
-		if (typeof Player.Ownership.Notes === "string"  &&  Player.Ownership.Notes.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-			const desc = LZString.decompressFromUTF16(Player.Ownership.Notes.substring(1)) ?? "";
+		Player.Owner = Player.IsFullyOwned() ? Player.Ownership.Name : "";
+		if (typeof Player.Ownership.Notes === "string") {
+			const desc = LZString.decompressFromUTF16(Player.Ownership.Notes) ?? "";
 			Player.Ownership.Notes = desc.slice (0, 10000);
 		} else {
 			Player.Ownership.Notes = "";

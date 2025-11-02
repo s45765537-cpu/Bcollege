@@ -1967,8 +1967,11 @@ interface Character {
 	OwnerName: () => string;
 	/** The character's owner number. Might be -1 for non-online characters */
 	OwnerNumber: () => number;
+	/** Whether the owner of this character (if any) has left any public notes. */
+	HasOwnerNotes: () => boolean;
 	/** Whether the player owns that character */
 	IsOwnedByPlayer: () => boolean;
+	IsFullyOwnedByPlayer: () => boolean;
 	/** The number of days since the character has been owned (-1 means not owned) */
 	OwnedSince: () => number;
 	/** Whether the given character owns the player */

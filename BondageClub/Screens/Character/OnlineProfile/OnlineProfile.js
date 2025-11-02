@@ -23,7 +23,7 @@ function OnlineProfileLoadTextArea (element) {
 	switch (OnlineProfileMode) {
 	case "OwnersNotes":
 		element.value = OnlineProfileText_ON;
-		if (InformationSheetSelection.IsOnline()  &&  InformationSheetSelection.IsOwnedByPlayer()) {
+		if (InformationSheetSelection.IsOnline()  &&  InformationSheetSelection.IsFullyOwnedByPlayer()) {
 			/*  Editable only by this player's owner.  */
 			element.removeAttribute ("readonly");
 		} else {
@@ -51,7 +51,7 @@ function OnlineProfileLoadTextArea (element) {
 async function OnlineProfileLoad() {
 	OnlineProfileText_Desc = typeof InformationSheetSelection.Description === "string"  ? InformationSheetSelection.Description : "";
 	OnlineProfileText_ON = typeof InformationSheetSelection.Ownership?.Notes === "string"  ? InformationSheetSelection.Ownership.Notes : "";
-	OnlineProfileText_ONAvailable = InformationSheetSelection.IsOwnedByPlayer()  ||  OnlineProfileText_ON != "";
+	OnlineProfileText_ONAvailable = InformationSheetSelection.IsFullyOwnedByPlayer()  ||  OnlineProfileText_ON != "";
 
 	ElementRemove("DescriptionInput");
 	ElementCreateTextArea("DescriptionInput");
@@ -77,11 +77,11 @@ function OnlineProfileUnload() {
  */
 function OnlineProfileRun() {
 	// Sets the screen controls
-	var legend = "";
+	let legend = "";
 	if (OnlineProfileMode == "Description") {
 		legend = TextGet (InformationSheetSelection.IsPlayer() ? "EnterDescription" : "ViewDescription");
 	} else {
-		legend = TextGet (InformationSheetSelection.IsOwnedByPlayer() ? "EnterOwnersNotes" : "ViewOwnersNotes")
+		legend = TextGet (InformationSheetSelection.IsFullyOwnedByPlayer() ? "EnterOwnersNotes" : "ViewOwnersNotes")
 		       .replace ("OwnerName", InformationSheetSelection.OwnerName());
 	}
 	legend = legend.replace ("CharacterName", CharacterNickname (InformationSheetSelection));
@@ -95,7 +95,7 @@ function OnlineProfileRun() {
 	}
 
 	if (    (OnlineProfileMode == "Description"  &&  InformationSheetSelection.IsPlayer())
-	    ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsOwnedByPlayer()))
+	    ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsFullyOwnedByPlayer()))
 	{
 		DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
 		DrawButton(1820, 60, 90, 90, "", "White", "Icons/Cancel.png", TextGet("LeaveNoSave"));
@@ -122,7 +122,7 @@ function OnlineProfileClick() {
 	}
 	if (    MouseIn(1720, 60, 90, 90)
 	    &&  (    (OnlineProfileMode == "Description"  &&  InformationSheetSelection.IsPlayer())
-	         ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsOwnedByPlayer())))
+	         ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsFullyOwnedByPlayer())))
 	{
 		OnlineProfileExit (true);
 	}
@@ -154,18 +154,7 @@ function OnlineProfileExit (Save) {
 			ServerAccountUpdate.QueueData ({ Description });
 		}
 
-		// If the current character owns this player, update the owner's notes.
-		if (InformationSheetSelection.Ownership?.Notes !== OnlineProfileText_ON  &&  InformationSheetSelection.IsOwnedByPlayer()) {
-			InformationSheetSelection.Ownership.Notes = OnlineProfileText_ON;
-			let Notes = OnlineProfileText_ON;
-			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16 (Notes);
-			if (comp_val.length < Notes.length  ||  Notes.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-				Notes = comp_val;
-			}
-			// FIXME: This call should probably should go somewhere else...
-			ServerSend ("AccountOwnership", { MemberNumber: InformationSheetSelection.MemberNumber, Action: "UpdateNotes", Notes });
-		}
-
+		CharacterSetOwnersNotes (InformationSheetSelection, OnlineProfileText_ON);
 		ChatRoomCharacterUpdate (InformationSheetSelection);
 
 	}
