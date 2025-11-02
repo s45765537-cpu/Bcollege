@@ -423,7 +423,7 @@ const CommonCommands = [
 		Tag: 'attempt',
 		Action: (_, msg, parsed) => {
 			if (parsed[0]?.match(/(\d{0,2}|100)%/))
-				ChatRoomSendAttemptEmote(msg);
+				ChatRoomSendEmote(msg);
 		}
 	},
 	{

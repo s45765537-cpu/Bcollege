@@ -3170,11 +3170,7 @@ function ChatRoomSendChat() {
 
 	// Emote parsing
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
-		if (msg.match(/^\*\d*%/)) {
-			ChatRoomSendAttemptEmote(msg);
-		} else {
-			ChatRoomSendEmote(msg);
-		}
+		ChatRoomSendEmote(msg);
 		inputChat.value = "";
 		inputChat.dispatchEvent(new InputEvent("input"));
 		return;
@@ -3323,8 +3319,23 @@ function ChatRoomSendLocal(Content, Timeout) {
 function ChatRoomSendEmote(msg) {
 	// Emotes can be prevented with an owner presence rule
 	if (ChatRoomOwnerPresenceRule("BlockEmote", null)) return;
-	if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) msg = msg.substring(1);
-	else {
+
+	const match = msg.match(/^(\*|\/attempt )(\d{0,2}|100)%(.+)/);
+
+	if (match) {
+		msg = msg.replace(/^(\*|\/attempt )(\d{0,2}|100)%/, "");
+		msg = msg.trim();
+		if (msg == "") return;
+
+		const chance = parseInt(match[2] ? match[2] : 50);
+		const random = parseInt(Math.random() * 100);
+
+		const attemptSucceeded = random <= chance;
+		msg += attemptSucceeded ? ": ✔" : ": ❌";
+		msg += " (" + chance + "%)";
+	} else if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) {
+		msg = msg.substring(1);
+	} else {
 		msg = msg.replace(/^\*/, "").replace(/\*$/, "");
 	}
 	msg = msg.trim();
@@ -3337,33 +3348,11 @@ function ChatRoomSendEmote(msg) {
 /**
  * Sends message as attempt emote. Emote can be failed or succeeded.
  * @param {string} msg - Emote message
+ * @deprecated
  * @returns {void} - Nothing
  */
 function ChatRoomSendAttemptEmote(msg) {
-	// Emotes can be prevented with an owner presence rule
-	if (ChatRoomOwnerPresenceRule("BlockEmote", null)) return;
-	const match = msg.match(/^(\*|\/attempt )(\d{0,2}|100)%(.+)/);
-
-	if (!match) {
-		ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
-		return;
-	}
-
-	msg = msg.replace(/^(\*|\/attempt )(\d{0,2}|100)%/, "");
-	msg = msg.trim();
-	if (msg == "") return;
-
-	const chance = parseInt(match[2] ? match[2] : 50);
-	const random = parseInt(Math.random() * 100);
-
-	const attemptSucceeded = random <= chance;
-	msg += attemptSucceeded ? ": ✔" : ": ❌";
-	msg += " (" + chance + "%)";
-
-	const replyId = ChatRoomMessageGetReplyId();
-	const data = ChatRoomGenerateChatRoomChatMessage("Emote", msg, replyId);
-	ServerSend("ChatRoomChat", data);
-	return;
+	ChatRoomSendEmote(msg);
 }
 
 /**
