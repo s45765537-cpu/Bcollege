@@ -525,11 +525,6 @@ var CommandsHelp = {
 	 * @returns {string}
 	 */
 	_GetDescription(command) {
-		// Game-provided command, get description from cache
-		const desc = CommandText.cache[command.Tag];
-		if (desc)
-			return desc;
-
 		// Externally-added command, check for unlocalized or localized description
 		if (command.Description) {
 			if (typeof command.Description === "string")
@@ -539,16 +534,38 @@ var CommandsHelp = {
 			}
 		}
 
-		return TextGet("CommandHelpMissing");
+		// Game-provided command, get description from cache
+		const desc = CommandText.cache[command.Tag];
+		if (desc)
+			return desc;
 
+		return TextGet("CommandHelpMissing");
 	},
 
 	/**
- * @param {ICommand} command
- * @param {string} setCommand
- * @param {boolean} singleCommand
- * @returns {HTMLOptions<keyof HTMLElementTagNameMap>}
- */
+	 * @param {string | Partial<Record<ServerChatRoomLanguage | "TW", string>>} arg
+	 * @returns {string}
+	 */
+	_GetArgumentTranslated(arg) {
+		if (!arg) return TextGet("CommandHelpMissing");
+
+		if (typeof arg === "string") {
+			const desc = CommandText.cache[arg];
+
+			if (desc) return desc;
+
+			return arg;
+		} else if (arg[TranslationLanguage]) {
+			return arg[TranslationLanguage];
+		}
+	},
+
+	/**
+	* @param {ICommand} command
+	* @param {string} setCommand
+	* @param {boolean} singleCommand
+	* @returns {HTMLOptions<keyof HTMLElementTagNameMap>}
+	*/
 	_BuildCommand(command, setCommand, singleCommand) {
 		const description = this._GetDescription(command);
 		const hasSubcommands = Array.isArray(command.Subcommands) && command.Subcommands.length > 0;
@@ -599,11 +616,11 @@ var CommandsHelp = {
 				buildSectionHeader("Arguments:", command.Arguments.length > 0),
 				...command.Arguments.flatMap(arg =>
 				/** @type {HTMLOptions<keyof HTMLElementTagNameMap>} */
-							 ({
+					({
 						tag: "section",
 						classList: ["commands-command-arguments"],
 						children: [
-							buildSectionHeader(`${arg.name} — ${arg.description}`, args(arg).length > 0),
+							buildSectionHeader(`${this._GetArgumentTranslated(arg.name)} — ${this._GetArgumentTranslated(arg.description)}`, args(arg).length > 0),
 							{
 								tag: "article",
 								classList: ["commands-command-arguments-list"],
@@ -613,7 +630,7 @@ var CommandsHelp = {
 											`commands-command-argument-hint-${setCommand}`,
 											() => CommandSet(`${setCommand} ${hint}`),
 											{
-												label: hint,
+												label: this._GetArgumentTranslated(hint),
 												labelPosition: "center",
 												noStyling: true,
 											},
@@ -685,7 +702,7 @@ var CommandsHelp = {
 
 	/**
 	 * @param {ICommand[]} commands
-   * @param {{ setCommand?: string}} [options]
+	 * @param {{ setCommand?: string}} [options]
 	 * @returns
 	 */
 	_BuildHelp(commands, { setCommand } = {}) {
