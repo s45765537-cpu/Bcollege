@@ -2300,14 +2300,16 @@ function DialogResize(load) {
 	switch (DialogMenuMode) {
 		case "layering":
 			Layering.Resize(load);
-			return;
+			break;
 		case "colorDefault":
 			ColorPickerResize(load);
-			return;
+			break;
+		default:
+			DialogMenuMapping[DialogMenuMode]?.Resize(load);
+			break;
 	}
 
 	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Resize(load);
-	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
 /**
