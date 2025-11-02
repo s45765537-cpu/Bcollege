@@ -243,15 +243,10 @@ function ItemColorDrawDefault(x, y) {
 /**
  * A debounced callback for when the item color picker changes its value. This sets the color for the currently selected set of color
  * indices
+ * @deprecated - Superseded by {@link ColorPicker.eventListeners.inputItemColor}
  * @type {(color: string) => void}
  */
-const ItemColorOnPickerChange = CommonLimitFunction((color) => {
-	if (!ItemColorState) return;
-	const newColors = ItemColorState.colors.slice();
-	ItemColorPickerIndices.forEach(i => newColors[i] = color);
-	ItemColorItem.Color = newColors;
-	CharacterLoadCanvas(ItemColorCharacter);
-});
+const ItemColorOnPickerChange = () => undefined;
 
 /**
  * Click handler for the item color UI according to its current state
