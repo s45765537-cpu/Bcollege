@@ -415,7 +415,7 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'me',
-		Action: (_, msg) => {
+		Action: (msg) => {
 			ChatRoomSendEmote(msg);
 		}
 	},
@@ -428,7 +428,7 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'action',
-		Action: (_, msg) => ChatRoomSendEmote(msg),
+		Action: (msg) => ChatRoomSendEmote(msg),
 	},
 	{
 		Tag: 'pandora',
