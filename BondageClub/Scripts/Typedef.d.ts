@@ -367,15 +367,17 @@ declare namespace ElementDOMScreen {
 		menubarButtons?: readonly HTMLButtonElement[];
 		/** Content for within the main section (see `.screen-main`) */
 		mainContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+		/** Whether an extra `aside.screen-aside-l` section should be added to the left of `.screen-main` */
+		leftContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+		/** Whether an extra `aside.screen-aside-r` section should be added to the right of `.screen-main` */
+		rightContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
 		/** Text content for within the heading (see `.screen-hgroup h1`) */
 		header?: string;
 		/**
-		 * Whether the main section (see `.screen-main`) is a `<main>` or `<aside>` element.
-		 *
-		 * As a rule of thumb: use `"main"` (aka the default) _unless_ another `<main>` element is already visible on the page,
-		 * as the HTML spec demands that only a single non-hidden main element may be present at any time.
+		 * Which section should be marked as `<main>` (if any).
+		 * Defaults to `center` if unspecified.
 		 */
-		mainTag?: "main" | "aside";
+		mainSection?: "left" | "center" | "right" | "none";
 		/**
 		 * Whether to content of the DOM screen root is embedded within a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) or not,
 		 * storing the DOM tree in an isolated namespace with its own set of element IDs and CSS style sheets
@@ -383,6 +385,8 @@ declare namespace ElementDOMScreen {
 		asShadow?: boolean;
 		/** Additional CSS files to load when the `asShadow` option is specified */
 		cssFiles?: readonly string[];
+		/** Whether heading group should be embedded within the header or not, with the alternative placing them below each other */
+		hgroupInHeader?: boolean;
 	}
 }
 

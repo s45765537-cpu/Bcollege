@@ -2494,12 +2494,16 @@ var ElementDOMScreen = {
 	 *         <p role="status" />
 	 *     </hgroup>
 	 *
-	 *     <!--
-	 *         The third and final row: a scrollable section with the main content of the screen.
-	 *         As a rule of thumb, it is recommended to embed the immediate child elements into some sort of
-	 *         grouping element like `<fieldset>`, `<section>` and/or `<article>`.
-	 *     -->
-	 *     <main class="screen-main" />
+	 *     <div class="screen-main-container">
+	 *         <aside class="screen-aside-l" />
+	 *         <!--
+	 *             The third and final row: a scrollable section with the main content of the screen.
+	 *             As a rule of thumb, it is recommended to embed the immediate child elements into some sort of
+	 *             grouping element like `<fieldset>`, `<section>` and/or `<article>`.
+	 *         -->
+	 *         <main class="screen-main" />
+	 *         <aside class="screen-aside-r" />
+	 *     </div>
 	 * </div>
 	 * @param {string} id - The ID of the screen
 	 * @param {null | ElementDOMScreen.TemplateOptions} options - Further customization options
@@ -2507,30 +2511,51 @@ var ElementDOMScreen = {
 	 */
 	getTemplate(id, options=null) {
 		options ??= {};
+		const hgroup = ElementCreate({
+			tag: "hgroup",
+			classList: ["scroll-box", "screen-hgroup"],
+			attributes: { id: `${id}-hgroup` },
+			children: [
+				{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
+				{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
+			],
+		});
+		const mainSection = options.mainSection ?? "center";
 
 		const children = [
 			ElementCreate({
 				tag: "header",
 				classList: ["screen-header"],
-				attributes: { "aria-owns": `${id}-hgroup`, id: `${id}-header` },
+				attributes: { "aria-owns": options.hgroupInHeader ? null : `${id}-hgroup`, id: `${id}-header` },
 				children: [
 					ElementMenu.Create(`${id}-menu`, options.menubarButtons ?? [], { direction: "rtl" }),
+					options.hgroupInHeader ? hgroup : null,
 				],
 			}),
+			options.hgroupInHeader ? null : hgroup,
 			ElementCreate({
-				tag: "hgroup",
-				classList: ["scroll-box", "screen-hgroup"],
-				attributes: { id: `${id}-hgroup` },
+				tag: "div",
+				classList: ["screen-main-container"],
 				children: [
-					{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
-					{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
+					ElementCreate({
+						tag: mainSection === "left" ? "main" : "aside",
+						classList: ["screen-aside-l", mainSection === "left" ? "scroll-box" : null],
+						attributes: { id: `${id}-aside-l` },
+						children: options.leftContent,
+					}),
+					ElementCreate({
+						tag: mainSection === "center" ? "main" : "aside",
+						classList: ["screen-main", mainSection === "center" ? "scroll-box" : null],
+						attributes: { id: `${id}-main` },
+						children: options.mainContent,
+					}),
+					ElementCreate({
+						tag: mainSection === "right" ? "main" : "aside",
+						classList: ["screen-aside-r", mainSection === "right" ? "scroll-box" : null],
+						attributes: { id: `${id}-aside-r` },
+						children: options.rightContent,
+					}),
 				],
-			}),
-			ElementCreate({
-				tag: options.mainTag ?? "main",
-				classList: ["scroll-box", "screen-main"],
-				attributes: { id: `${id}-main` },
-				children: options.mainContent,
 			}),
 		];
 
@@ -2566,7 +2591,7 @@ var ElementDOMScreen = {
 				tag: "div",
 				attributes: { id, "screen-generated": CurrentScreen },
 				parent: options.parent,
-				classList: ["HideOnPopup", "screen"],
+				classList: ["HideOnPopup", "screen", options.hgroupInHeader ? "screen-hgroup-in-header" : null],
 				children,
 			});
 		}
