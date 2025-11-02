@@ -91,17 +91,17 @@ function OnlineProfileRun() {
 
 	if (OnlineProfileText_ONAvailable) {
 		const buttoncolor = OnlineProfileMode == "OwnersNotes" ? "Red" : "White";
-		DrawButton(1520, 60, 90, 90, "", buttoncolor, "Icons/Management.png", TextGet ("OwnersNotes"));
+		DrawButton(1620, 60, 90, 90, "", buttoncolor, "Icons/Management.png", TextGet ("OwnersNotes"));
 	}
 
 	if (    (OnlineProfileMode == "Description"  &&  InformationSheetSelection.IsPlayer())
 	    ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsOwnedByPlayer()))
 	{
 		DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
+		DrawButton(1820, 60, 90, 90, "", "White", "Icons/Cancel.png", TextGet("LeaveNoSave"));
+	} else {
+		DrawButton(1820, 60, 90, 90, "", "White", "Icons/Exit.png", TextGet("Leave"));
 	}
-
-	DrawButton(1820, 60, 90, 90, "", "White", ((InformationSheetSelection.IsPlayer()) ? "Icons/Cancel.png" : "Icons/Exit.png"), TextGet((InformationSheetSelection.IsPlayer()) ? "LeaveNoSave" : "Leave"));
-
 }
 
 /**
@@ -109,7 +109,7 @@ function OnlineProfileRun() {
  * @returns {void} - Nothing
  */
 function OnlineProfileClick() {
-	if (OnlineProfileText_ONAvailable  &&  MouseIn (1520, 60, 90, 90)) {
+	if (OnlineProfileText_ONAvailable  &&  MouseIn (1620, 60, 90, 90)) {
 		/*  Toggle between Description and Owner's Notes.  */
 		if (OnlineProfileMode == "Description") {
 			OnlineProfileText_Desc = ElementValue ("DescriptionInput").trim().slice (0, 10000);
