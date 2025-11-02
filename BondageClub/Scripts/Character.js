@@ -1158,7 +1158,6 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.LabelColor = ServerAccountDataSyncedValidate.LabelColor(data.LabelColor, Char);
 	Char.Creation = ServerAccountDataSyncedValidate.Creation(data.Creation, Char);
 	Char.Description = ServerAccountDataSyncedValidate.Description(data.Description, Char);
-	Char.OwnersNotes = ServerAccountDataSyncedValidate.Description(data.OwnersNotes, Char);
 	Char.Ownership = ServerAccountDataSyncedValidate.Ownership(data.Ownership, Char);
 	Char.Lovership = ServerAccountDataSyncedValidate.Lovership(data.Lovership, Char);
 	Char.Reputation = ServerAccountDataSyncedValidate.Reputation(data.Reputation, Char);
@@ -1214,7 +1213,10 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 
 	// Decompresses data
 	if (typeof data.Description === "string" && data.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-		data.Description = LZString.decompressFromUTF16(data.Description.substr(1));
+		data.Description = LZString.decompressFromUTF16(data.Description.substring(1));
+	}
+	if (typeof data.Ownership?.Notes === "string"  &&  data.Ownership.Notes.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+		data.Ownership.Notes = LZString.decompressFromUTF16 (data.Ownership.Notes.substring (1));
 	}
 	if (Array.isArray(data.WhiteList)) {
 		data.WhiteList.sort((a, b) => a - b);

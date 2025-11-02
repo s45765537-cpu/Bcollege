@@ -1,7 +1,8 @@
 EnterDescription,Enter your online description (10000 characters maximum)
-ViewDescription,CharacterName's online description
-EnterOwnersNotes,Enter notes/rules for CharacterName (10000 chars maximum)
-ViewOwnersNotes,"Notes/Rules from OwnerName, CharacterName's owner"
+ViewDescription,"CharacterName's online description"
+EnterOwnersNotes,Enter public notes for CharacterName (10000 chars maximum)
+ViewOwnersNotes,"Notes from OwnerName, CharacterName's owner"
 Leave,Exit profile
 LeaveSave,Accept changes
 LeaveNoSave,Cancel changes
+OwnersNotes,"Owner's Notes"

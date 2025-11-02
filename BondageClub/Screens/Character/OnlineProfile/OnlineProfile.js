@@ -19,7 +19,7 @@ const ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC = String.fromCharCode(9580);
  * Loads the text element based on current viewing/editing mode.
  * @param {HTMLInputElement} element
  */
-async function OnlineProfileLoadTextArea (element) {
+function OnlineProfileLoadTextArea (element) {
 	switch (OnlineProfileMode) {
 	case "OwnersNotes":
 		element.value = OnlineProfileText_ON;
@@ -49,9 +49,8 @@ async function OnlineProfileLoadTextArea (element) {
  * @type {ScreenLoadHandler}
  */
 async function OnlineProfileLoad() {
-	OnlineProfileMode = "Description";
-	OnlineProfileText_Desc = InformationSheetSelection.Description != null  ? InformationSheetSelection.Description : "";
-	OnlineProfileText_ON = InformationSheetSelection.OwnersNotes != null  ? InformationSheetSelection.OwnersNotes : "";
+	OnlineProfileText_Desc = typeof InformationSheetSelection.Description === "string"  ? InformationSheetSelection.Description : "";
+	OnlineProfileText_ON = typeof InformationSheetSelection.Ownership?.Notes === "string"  ? InformationSheetSelection.Ownership.Notes : "";
 	OnlineProfileText_ONAvailable = InformationSheetSelection.IsOwnedByPlayer()  ||  OnlineProfileText_ON != "";
 
 	ElementRemove("DescriptionInput");
@@ -69,6 +68,7 @@ function OnlineProfileUnload() {
 	ElementRemove("DescriptionInput");
 	OnlineProfileText_Desc = "";
 	OnlineProfileText_ON = "";
+	OnlineProfileMode = "Description";
 }
 
 /**
@@ -82,26 +82,23 @@ function OnlineProfileRun() {
 		legend = TextGet (InformationSheetSelection.IsPlayer() ? "EnterDescription" : "ViewDescription");
 	} else {
 		legend = TextGet (InformationSheetSelection.IsOwnedByPlayer() ? "EnterOwnersNotes" : "ViewOwnersNotes")
-		       .replace ("OwnerName", InformationSheetSelection.OwnerName);
+		       .replace ("OwnerName", InformationSheetSelection.OwnerName());
 	}
 	legend = legend.replace ("CharacterName", CharacterNickname (InformationSheetSelection));
 	DrawText (legend, 910, 105, "Black", "Gray");
 
 	ElementPositionFix("DescriptionInput", 36, 100, 160, 1790, 750);
 
-	var buttoncolor = "Gray";
 	if (OnlineProfileText_ONAvailable) {
-		buttoncolor = OnlineProfileMode == "OwnersNotes" ? "Red" : "White";
+		const buttoncolor = OnlineProfileMode == "OwnersNotes" ? "Red" : "White";
+		DrawButton(1520, 60, 90, 90, "", buttoncolor, "Icons/Management.png", TextGet ("OwnersNotes"));
 	}
-	DrawButton(1520, 60, 90, 90, "", buttoncolor, "Icons/Management.png", "Owner's Notes");
 
-	buttoncolor = "Gray";
 	if (    (OnlineProfileMode == "Description"  &&  InformationSheetSelection.IsPlayer())
 	    ||  (OnlineProfileMode == "OwnersNotes"  &&  InformationSheetSelection.IsOwnedByPlayer()))
 	{
-		buttoncolor = "White";
+		DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
 	}
-	DrawButton(1720, 60, 90, 90, "", buttoncolor, "Icons/Accept.png", TextGet("LeaveSave"));
 
 	DrawButton(1820, 60, 90, 90, "", "White", ((InformationSheetSelection.IsPlayer()) ? "Icons/Cancel.png" : "Icons/Exit.png"), TextGet((InformationSheetSelection.IsPlayer()) ? "LeaveNoSave" : "Leave"));
 
@@ -115,10 +112,10 @@ function OnlineProfileClick() {
 	if (OnlineProfileText_ONAvailable  &&  MouseIn (1520, 60, 90, 90)) {
 		/*  Toggle between Description and Owner's Notes.  */
 		if (OnlineProfileMode == "Description") {
-			OnlineProfileText_Desc = ElementValue ("DescriptionInput").trim();
+			OnlineProfileText_Desc = ElementValue ("DescriptionInput").trim().slice (0, 10000);
 			OnlineProfileMode = "OwnersNotes";
 		} else {
-			OnlineProfileText_ON = ElementValue ("DescriptionInput").trim();
+			OnlineProfileText_ON = ElementValue ("DescriptionInput").trim().slice (0, 10000);
 			OnlineProfileMode = "Description";
 		}
 		OnlineProfileLoadTextArea (/** @type {HTMLInputElement} */ (document.getElementById ("DescriptionInput")));
@@ -138,40 +135,37 @@ function OnlineProfileClick() {
  * @returns {void} - Nothing
  */
 function OnlineProfileExit (Save) {
-	const ev = ElementValue ("DescriptionInput");
+	const ev = ElementValue ("DescriptionInput").trim().slice (0, 10000);
 	if (OnlineProfileMode == "Description") {
 		OnlineProfileText_Desc = ev;
 	} else {
 		OnlineProfileText_ON = ev;
 	}
 
-	var props = {};
-
 	if (Save) {
 		// If the current character is the player, we update the description
 		if (InformationSheetSelection.Description != OnlineProfileText_Desc  &&  InformationSheetSelection.IsPlayer()) {
 			InformationSheetSelection.Description = OnlineProfileText_Desc;
-			let val = OnlineProfileText_Desc;
-			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16 (val);
-			if (comp_val.length < val.length  ||  val.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-				val = comp_val;
+			let Description = OnlineProfileText_Desc;
+			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16 (Description);
+			if (comp_val.length < Description.length  ||  Description.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+				Description = comp_val;
 			}
-			props["Description"] = val;
+			ServerAccountUpdate.QueueData ({ Description });
 		}
 
 		// If the current character owns this player, update the owner's notes.
-		if (InformationSheetSelection.OwnersNotes != OnlineProfileText_ON  &&  InformationSheetSelection.IsOwnedByPlayer()) {
-			InformationSheetSelection.OwnersNotes = OnlineProfileText_ON;
-			let val = OnlineProfileText_ON;
-			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16 (val);
-			if (comp_val.length < val.length  ||  val.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-				val = comp_val;
+		if (InformationSheetSelection.Ownership?.Notes !== OnlineProfileText_ON  &&  InformationSheetSelection.IsOwnedByPlayer()) {
+			InformationSheetSelection.Ownership.Notes = OnlineProfileText_ON;
+			let Notes = OnlineProfileText_ON;
+			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16 (Notes);
+			if (comp_val.length < Notes.length  ||  Notes.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+				Notes = comp_val;
 			}
-			props["OwnersNotes"] = val;
+			// FIXME: This call should probably should go somewhere else...
+			ServerSend ("AccountOwnership", { MemberNumber: InformationSheetSelection.MemberNumber, Action: "UpdateNotes", Notes });
 		}
 
-		console.log ("Passing to ServerAccountUpdate: ", props);
-		ServerAccountUpdate.QueueData (props);
 		ChatRoomCharacterUpdate (InformationSheetSelection);
 
 	}

@@ -1310,22 +1310,20 @@ var ServerAccountDataSyncedValidate = {
 	Description: (arg, C) => {
 		return typeof arg === "string" ? arg : undefined;
 	},
-	OwnersNotes: (arg, C) => {
-		return typeof arg === "string" ? arg : undefined;
-	},
 	Ownership: (arg, C) => {
 		if (!CommonIsObject(arg)) {
 			return null;
 		}
 
-		const { Name, MemberNumber, Stage, Start } = arg;
+		const { Name, MemberNumber, Notes, Stage, Start } = arg;
 		if (
 			typeof Name === "string"
 			&& CommonIsInteger(MemberNumber, 0)
+			&& (Notes == undefined  ||  Notes == null  ||  typeof Notes === "string")
 			&& (Stage === 0 || Stage === 1)
 			&& CommonIsInteger(Start, 0, CommonTime())
 		) {
-			return { Name, MemberNumber, Stage, Start };
+			return { Name, MemberNumber, Notes, Stage, Start };
 		} else {
 			return null;
 		}
