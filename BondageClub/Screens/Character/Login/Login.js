@@ -1008,7 +1008,7 @@ function LoginSetupPlayer(C) {
 	}
 
 	// Loads the ownership data
-	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership);
+	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
 	if (Player.Ownership != null) {
 		Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
 		if (typeof Player.Ownership.Notes === "string"  &&  Player.Ownership.Notes.startsWith (ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {

@@ -1238,7 +1238,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		Char.Name = data.Name;
 		Char.Lover = (data.Lover != null) ? data.Lover : "";
 		Char.Owner = (data.Owner != null) ? data.Owner : "";
-		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title);
+		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title, Char);
 		Char.Nickname = data.Nickname;
 		Char.AccountName = "Online-" + data.ID.toString();
 		Char.MemberNumber = data.MemberNumber;
