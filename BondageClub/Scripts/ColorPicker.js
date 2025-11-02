@@ -429,7 +429,7 @@ var ColorPicker = {
 			const state = root ? ColorPicker.getColor(root) : null;
 			const save = this.name === "accept";
 			if (!save) {
-				ItemColorRevert("initial");
+				ColorPicker.revert("initial");
 			}
 			if (root && state) {
 				ColorPickerExitCallback?.(state, save, root);
@@ -445,7 +445,7 @@ var ColorPicker = {
 		 */
 		clickReset: function (ev) {
 			if (ItemColorState) {
-				ItemColorRevert("default");
+				ColorPicker.revert("default");
 			} else {
 				const root = this.closest(".screen");
 				/** @type {null | HTMLFieldSetElement} */
@@ -926,6 +926,27 @@ var ColorPicker = {
 		menubarButtons.forEach(button => button.setAttribute("aria-disabled", disabled.toString()));
 		return disabled;
 	},
+
+	/**
+	 * Revert the {@link ItemColorItem} colors and opacity to their initial or default value.
+	 * @param {"initial" | "default"} type - The type of revertion: the initial state prior to opening the color picker or the assets default
+	 */
+	revert(type) {
+		const colorField = /** @type {const} */(`${type}Colors`);
+		const opacityField = /** @type {const} */(`${type}Opacity`);
+		if (!ItemColorState) {
+			return;
+		}
+		ItemColorPickerIndices.forEach(i => {
+			ItemColorState.colors[i] = ItemColorState[colorField][i];
+			ItemColorItem.Color[i] = ItemColorState[colorField][i];
+		});
+		for (const i of ItemColorPickerLayers.keys()) {
+			ItemColorState.opacity[i] = ItemColorState[opacityField][i];
+			ItemColorItem.Property.Opacity[i] = ItemColorState[opacityField][i];
+		}
+		CharacterLoadCanvas(ItemColorCharacter);
+	}
 };
 
 /**
