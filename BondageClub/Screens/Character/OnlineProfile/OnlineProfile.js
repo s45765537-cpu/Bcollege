@@ -2,12 +2,12 @@
 
 /** @type { "Description" | "OwnersNotes" } */
 var OnlineProfileMode = "Description";
-var OnlineProfileText_Desc = "";
-var OnlineProfileText_ON = "";  // Owner's notes
-var OnlineProfileText_ONAvailable = false;
+var OnlineProfileTextDesc = "";
+var OnlineProfileTextOwnersNotes = "";
+var OnlineProfileNotesAvailable = false;
 
-const OnlineProfileText_MaxLen_Desc = 10000;
-const OnlineProfileText_MaxLen_ON = 4000;
+const OnlineProfileTextDescMaxLen = 10000;
+const OnlineProfileTextOwnersNotesMaxLen = 4000;
 
 var OnlineProfileBackground = "Sheet";
 
@@ -38,16 +38,16 @@ function OnlineProfileLoadTextArea(element) {
 	case "OwnersNotes":
 		/*  Editable only by this player's owner.  */
 		element.toggleAttribute("readonly", !(InformationSheetSelection.IsOnline() && InformationSheetSelection.IsFullyOwnedByPlayer()));
-		element.setAttribute("maxlength", OnlineProfileText_MaxLen_ON);
-		element.value = OnlineProfileText_ON;
+		element.setAttribute("maxlength", OnlineProfileTextOwnersNotesMaxLen);
+		element.value = OnlineProfileTextOwnersNotes;
 		break;
 
 	case "Description":
 	default:
 		/*  Editable by player.  */
 		element.toggleAttribute("readonly", !InformationSheetSelection.IsPlayer());
-		element.setAttribute("maxlength", OnlineProfileText_MaxLen_Desc);
-		element.value = OnlineProfileText_Desc;
+		element.setAttribute("maxlength", OnlineProfileTextDescMaxLen);
+		element.value = OnlineProfileTextDesc;
 		break;
 	}
 }
@@ -57,9 +57,9 @@ function OnlineProfileLoadTextArea(element) {
  * @type {ScreenLoadHandler}
  */
 async function OnlineProfileLoad() {
-	OnlineProfileText_Desc = typeof InformationSheetSelection.Description === "string"  ? InformationSheetSelection.Description : "";
-	OnlineProfileText_ON = typeof InformationSheetSelection.Ownership?.Notes === "string"  ? InformationSheetSelection.Ownership.Notes : "";
-	OnlineProfileText_ONAvailable = InformationSheetSelection.IsFullyOwnedByPlayer() || OnlineProfileText_ON != "";
+	OnlineProfileTextDesc = typeof InformationSheetSelection.Description === "string"  ? InformationSheetSelection.Description : "";
+	OnlineProfileTextOwnersNotes = typeof InformationSheetSelection.Ownership?.Notes === "string"  ? InformationSheetSelection.Ownership.Notes : "";
+	OnlineProfileNotesAvailable = InformationSheetSelection.IsFullyOwnedByPlayer() || OnlineProfileTextOwnersNotes != "";
 
 	ElementRemove("DescriptionInput");
 	ElementCreateTextArea("DescriptionInput");
@@ -74,8 +74,8 @@ async function OnlineProfileLoad() {
  */
 function OnlineProfileUnload() {
 	ElementRemove("DescriptionInput");
-	OnlineProfileText_Desc = "";
-	OnlineProfileText_ON = "";
+	OnlineProfileTextDesc = "";
+	OnlineProfileTextOwnersNotes = "";
 	OnlineProfileMode = "Description";
 }
 
@@ -89,11 +89,11 @@ function OnlineProfileRun() {
 	let maxlen = 0;
 	if (OnlineProfileMode == "Description") {
 		legend = TextGet(InformationSheetSelection.IsPlayer() ? "EnterDescription" : "ViewDescription");
-		maxlen = OnlineProfileText_MaxLen_Desc;
+		maxlen = OnlineProfileTextDescMaxLen;
 	} else {
 		legend = TextGet(InformationSheetSelection.IsFullyOwnedByPlayer() ? "EnterOwnersNotes" : "ViewOwnersNotes")
 		       .replace("OwnerName", InformationSheetSelection.OwnerName());
-		maxlen = OnlineProfileText_MaxLen_ON;
+		maxlen = OnlineProfileTextOwnersNotesMaxLen;
 	}
 	legend = legend.replace("CharacterName", CharacterNickname(InformationSheetSelection))
 	               .replace("MAXLEN", maxlen.toString());
@@ -101,7 +101,7 @@ function OnlineProfileRun() {
 
 	ElementPositionFix("DescriptionInput", 36, 100, 160, 1790, 750);
 
-	if (OnlineProfileText_ONAvailable) {
+	if (OnlineProfileNotesAvailable) {
 		const buttoncolor = OnlineProfileMode == "OwnersNotes" ? "Red" : "White";
 		DrawButton(1620, 60, 90, 90, "", buttoncolor, "Icons/Management.png", TextGet("OwnersNotes"));
 	}
@@ -121,14 +121,14 @@ function OnlineProfileRun() {
  * @returns {void} - Nothing
  */
 function OnlineProfileClick() {
-	if (OnlineProfileText_ONAvailable && MouseIn(1620, 60, 90, 90)) {
+	if (OnlineProfileNotesAvailable && MouseIn(1620, 60, 90, 90)) {
 		/*  Toggle between Description and Owner's Notes.  */
 		const ev = ElementValue("DescriptionInput").trim();
 		if (OnlineProfileMode == "Description") {
-			OnlineProfileText_Desc = ev.slice(0, OnlineProfileText_MaxLen_Desc);
+			OnlineProfileTextDesc = ev.slice(0, OnlineProfileTextDescMaxLen);
 			OnlineProfileMode = "OwnersNotes";
 		} else {
-			OnlineProfileText_ON = ev.slice(0, OnlineProfileText_MaxLen_ON);
+			OnlineProfileTextOwnersNotes = ev.slice(0, OnlineProfileTextOwnersNotesMaxLen);
 			OnlineProfileMode = "Description";
 		}
 		OnlineProfileLoadTextArea(/** @type {HTMLInputElement} */ (document.getElementById("DescriptionInput")));
@@ -151,15 +151,15 @@ function OnlineProfileExit(Save) {
 	if (Save) {
 		const ev = ElementValue("DescriptionInput").trim();
 		if (OnlineProfileMode == "Description") {
-			OnlineProfileText_Desc = ev.slice(0, OnlineProfileText_MaxLen_Desc);
+			OnlineProfileTextDesc = ev.slice(0, OnlineProfileTextDescMaxLen);
 		} else {
-			OnlineProfileText_ON = ev.slice(0, OnlineProfileText_MaxLen_ON);
+			OnlineProfileTextOwnersNotes = ev.slice(0, OnlineProfileTextOwnersNotesMaxLen);
 		}
 
 		// If the current character is the player, we update the description
-		if (InformationSheetSelection.Description != OnlineProfileText_Desc && InformationSheetSelection.IsPlayer()) {
-			InformationSheetSelection.Description = OnlineProfileText_Desc;
-			let Description = OnlineProfileText_Desc;
+		if (InformationSheetSelection.Description != OnlineProfileTextDesc && InformationSheetSelection.IsPlayer()) {
+			InformationSheetSelection.Description = OnlineProfileTextDesc;
+			let Description = OnlineProfileTextDesc;
 			const comp_val = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16(Description);
 			if (comp_val.length < Description.length || Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 				Description = comp_val;
@@ -167,7 +167,7 @@ function OnlineProfileExit(Save) {
 			ServerAccountUpdate.QueueData({ Description });
 		}
 
-		CharacterSetOwnersNotes(InformationSheetSelection, OnlineProfileText_ON);
+		CharacterSetOwnersNotes(InformationSheetSelection, OnlineProfileTextOwnersNotes);
 	}
 	CommonSetScreen("Character", "InformationSheet");
 }

@@ -2472,7 +2472,7 @@ function CharacterSetOwnersNotes(C, notes = undefined) {
 	if (C.Ownership !== null && typeof C.Ownership === "object" && C.Ownership.Notes !== notes && C.IsFullyOwnedByPlayer()) {
 		let Notes = undefined;
 		if (typeof notes === "string" && notes.length > 0) {
-			C.Ownership.Notes = notes.slice(0, OnlineProfileText_MaxLen_ON);
+			C.Ownership.Notes = notes.slice(0, OnlineProfileTextOwnersNotesMaxLen);
 			Notes = LZString.compressToUTF16(C.Ownership.Notes);
 		} else {
 			C.Ownership.Notes = undefined;
