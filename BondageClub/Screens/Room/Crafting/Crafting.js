@@ -2418,11 +2418,7 @@ const CraftingValidationRecord = {
 	/** @deprecated */
 	Type: {
 		Validate: function (c, a) {
-			if (a) {
-				return c.Type === undefined;
-			} else {
-				return c.Type == null || typeof c.Type === "string";
-			}
+			return c.Type === undefined;
 		},
 		GetDefault: function (c, a) {
 			return undefined;
