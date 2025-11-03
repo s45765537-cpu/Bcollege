@@ -83,6 +83,19 @@ const CommonCommands = [
 		}]
 	},
 	{
+		Tag: 'friendlistrequest',
+		Action: args =>{
+			const number = CommonParseInt(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.FriendList, true, number, "FriendRequest");
+		},
+		Arguments: [{
+			name: "Member number",
+			description: "friendlistadd but with notification",
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsFriend).map(c => c.MemberNumber.toString()),
+		}]
+	},
+	{
 		Tag: 'friendlistremove',
 		Action: args => {
 			const number = CommonParseInt(args);

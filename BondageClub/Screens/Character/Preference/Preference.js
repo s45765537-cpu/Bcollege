@@ -738,6 +738,7 @@ var PreferenceChatSettingsDefault = {
 	PreserveChat: true,
 	OOCAutoClose: true,
 	DisableReplies: false,
+	ShowFriendRequestMessages: true,
 };
 
 /**

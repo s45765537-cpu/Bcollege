@@ -2463,6 +2463,7 @@ interface ChatSettingsType {
 	PreserveChat: boolean;
 	OOCAutoClose: boolean;
 	DisableReplies: boolean;
+	ShowFriendRequestMessages: boolean;
 }
 
 interface GameplaySettingsType {
