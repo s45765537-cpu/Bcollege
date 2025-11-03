@@ -1,5 +1,5 @@
-Enter your online description (10000 characters maximum)
-Введіть свій онлайн-опис (максимум 10000 символів)
+Enter your online description (MAXLEN characters maximum)
+Введіть свій онлайн-опис (максимум MAXLEN символів)
 CharacterName's online description
 Онлайн-опис гравця CharacterName
 Exit profile

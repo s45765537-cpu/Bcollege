@@ -1,5 +1,5 @@
-Enter your online description (10000 characters maximum)
-輸入你的在線描述（限1000字元）
+Enter your online description (MAXLEN characters maximum)
+輸入你的在線描述（限MAXLEN字元）
 CharacterName's online description
 CharacterName的在線描述
 Exit profile
