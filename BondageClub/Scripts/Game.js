@@ -195,7 +195,7 @@ function GameRunBackground(Timestamp) {
  * When the user presses a key, we send the KeyDown event to the current screen if it can accept it
  * @param {KeyboardEvent} event
  */
-async function GameKeyDown(event) {
+function GameKeyDown(event) {
 	KeyPress = event.keyCode || event.which;
 
 	if (ScreenIsLoading) return;
@@ -213,7 +213,7 @@ async function GameKeyDown(event) {
 				handled = true;
 				break handleKeyDown;
 			} else if (CurrentScreenFunctions.Exit) {
-				await CurrentScreenFunctions.Exit();
+				CurrentScreenFunctions.Exit();
 				handled = true;
 				break handleKeyDown;
 			}
