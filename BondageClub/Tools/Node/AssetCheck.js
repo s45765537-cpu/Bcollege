@@ -1354,6 +1354,7 @@ function sanitizeVMOutput(input) {
 		Object: Object,
 		TestingColorLayers: new Set(loadCSV("Assets/Female3DCG/LayerNames.csv", 2).map(i => i[0])),
 		TestingColorGroups: new Set(loadCSV("Assets/Female3DCG/ColorGroups.csv", 2).map(i => i[0])),
+		PreferenceArousalUpdateValidation: () => null,
 		console: {
 			...console,
 			warn: function warn(...args) {

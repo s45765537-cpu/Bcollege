@@ -134,87 +134,62 @@ function NPCTraitDialog(C) {
  * @param {Character} C - NPC to set the arousal stats of
  * @returns {void} - Nothing.
  */
-function NPCArousal(C) {
+function NPCSetupArousal(C) {
+	PreferenceInit(C);
 
-	// Generates new data if there isn't any
-	if (C.ArousalSettings == null) PreferenceInit(C);
+	const Dominant = NPCTraitGet(C, "Dominant");
+	const Horny = NPCTraitGet(C, "Horny");
 
-	// Rebuilds the activtities if needed
-	if ((C.ArousalSettings.Activity == null) || (typeof C.ArousalSettings.Activity !== "string") || (C.ArousalSettings.Activity.length != PreferenceArousalActivityDefaultCompressedString.length)) {
+	// Generates love/hate for all activities
+	C.ArousalSettings.Activity = PreferenceArousalSettingsDefault.Activity;
+	for (let A of ActivityFemale3DCG) {
+		// Picks a random love factor for the activity (highest values have less chances)
+		let LoveSelf = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
 
-		// Resets the activities
-		C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
-		var Dominant = NPCTraitGet(C, "Dominant");
-		var Horny = NPCTraitGet(C, "Horny");
+		// Horny NPC have higher love for sexual activities
+		if (Horny + 125 > Math.random() * 250) LoveSelf += 1;
+		if (Horny + 125 < Math.random() * 250) LoveSelf -= 1;
 
-		// Generates love/hate for all activities
-		for (let A of ActivityFemale3DCG) {
+		// Dominant NPC usually prefer to do activities on others
+		let LoveOther = LoveSelf;
+		if (Dominant + 125 > Math.random() * 250) LoveSelf -= 1;
+		if (Dominant + 125 > Math.random() * 250) LoveOther += 1;
+		if (Dominant + 125 < Math.random() * 250) LoveSelf += 1;
+		if (Dominant + 125 < Math.random() * 250) LoveOther -= 1;
 
-			// Picks a random love factor for the activity (highest values have less chances)
-			var LoveSelf = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
+		// 0 and 4 are the limits
+		LoveSelf = /** @type {ArousalFactor} */ (CommonClamp(LoveSelf, 0, 4));
+		LoveOther = /** @type {ArousalFactor} */ (CommonClamp(LoveOther, 0, 4));
 
-			// Horny NPC have higher love for sexual activities
-			if (Horny + 125 > Math.random() * 250) LoveSelf += 1;
-			if (Horny + 125 < Math.random() * 250) LoveSelf -= 1;
-
-			// Dominant NPC usually prefer to do activities on others
-			var LoveOther = LoveSelf;
-			if (Dominant + 125 > Math.random() * 250) LoveSelf -= 1;
-			if (Dominant + 125 > Math.random() * 250) LoveOther += 1;
-			if (Dominant + 125 < Math.random() * 250) LoveSelf += 1;
-			if (Dominant + 125 < Math.random() * 250) LoveOther -= 1;
-
-			// 0 and 4 are the limits
-			LoveSelf = /** @type {ArousalFactor} */ (CommonClamp(LoveSelf, 0, 4));
-			LoveOther = /** @type {ArousalFactor} */ (CommonClamp(LoveOther, 0, 4));
-
-			// Sets the final values
-			PreferenceSetActivityFactor(C, A.Name, true, LoveSelf);
-			PreferenceSetActivityFactor(C, A.Name, false, LoveOther);
-
-		}
-
+		// Sets the final values
+		PreferenceSetActivityFactor(C, A.Name, true, LoveSelf);
+		PreferenceSetActivityFactor(C, A.Name, false, LoveOther);
 	}
 
-	// Rebuilds the fetishes if needed
-	if ((C.ArousalSettings.Fetish == null) || (typeof C.ArousalSettings.Fetish !== "string") || (C.ArousalSettings.Fetish.length != PreferenceArousalFetishDefaultCompressedString.length))
-		C.ArousalSettings.Fetish = PreferenceArousalFetishDefaultCompressedString;
+	// Picks a random zone that's sure to trigger an orgasm, each girl has a perfect zone
+	const OrgasmZones = ["ItemBreast", "ItemButt"];
+	const Orgasm = CommonRandomItemFromList("", OrgasmZones);
 
-	// Rebuilds the zones if needed
-	if ((C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) {
+	// Go through all zones
+	const zones = /** @type {AssetItemGroup[]} */ (AssetGroup.filter(g => g.IsItem() && g.ArousalZoneID != null));
+	for (let group of zones) {
+		// Gets the current factors for that character
+		let Zone = PreferenceGetArousalZone(C, group.Name);
 
-		// Sets the default zone first
-		C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
-
-		// Picks a random zone that's sure to trigger an orgasm, each girl has a perfect zone
-		var OrgasmZones = ["ItemBreast", "ItemVulva", "ItemVulvaPiercings", "ItemButt"];
-		var Orgasm = CommonRandomItemFromList("", OrgasmZones);
-
-		// Go through all zones
-		for (let Group of AssetGroup)
-			if (Group.IsItem() && Group.ArousalZoneID != null) {
-
-				// Gets the current factors for that charact
-				let Zone = PreferenceGetArousalZone(C, Group.Name);
-
-				// Orgasm zone is always maxed, if not it's randomized
-				if (Zone.Name == Orgasm) {
-					PreferenceSetArousalZone(C, Zone.Name, 4, true);
-				} else {
-					let Factor = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
-					let CanOrgasm = ((Factor > 0) && (OrgasmZones.indexOf(Zone.Name) >= 0) && (Math.random() > 0.5));
-					PreferenceSetArousalZone(C, Zone.Name, Factor, CanOrgasm);
-				}
-
-			}
-
+		// Orgasm zone is always maxed, if not it's randomized
+		if (Zone.Orgasm || Zone.Name == Orgasm) {
+			PreferenceSetArousalZone(C, Zone.Name, 4, true);
+		} else {
+			let Factor = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
+			let CanOrgasm = ((Factor > 0) && (OrgasmZones.indexOf(Zone.Name) >= 0) && (Math.random() > 0.5));
+			PreferenceSetArousalZone(C, Zone.Name, Factor, CanOrgasm);
+		}
 	}
 
 	// Forces the automatic meter and resets it
 	C.ArousalSettings.Active = "Automatic";
 	C.ArousalSettings.Progress = 0;
 	C.ArousalSettings.ProgressTimer = 0;
-
 }
 
 /**
