@@ -655,6 +655,12 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 		drawExport,
 	};
 
+	ItemColorPickerIndices = ItemColorGetColorIndices({ name: null, layers: [], colorIndex: -1 });
+	ItemColorPickerLayers.clear();
+	for (const [index, layer] of ItemColorItem.Asset.Layer.entries()) {
+		ItemColorPickerLayers.set(index, layer);
+	}
+
 	// Add all currently active colors within the item
 	ItemColorState.initialColors.forEach(color => {
 		if (CommonIsColor(color)) {
