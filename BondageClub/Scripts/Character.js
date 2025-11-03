@@ -2463,7 +2463,7 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
 
 /**
  * Update the owners note on the specified character.  The Player must be the owner of this character.
- * Notes will be truncated to max 10000 chars.
+ * Notes will be truncated to max 4000 chars.
  *
  * @param {Character} C - The character to receive the updated notes.
  * @param {string} [notes] - String containing the notes.  If undefined, existing notes will be erased.
@@ -2472,7 +2472,7 @@ function CharacterSetOwnersNotes(C, notes = undefined) {
 	if (C.Ownership !== null && typeof C.Ownership === "object" && C.Ownership.Notes !== notes && C.IsFullyOwnedByPlayer()) {
 		let Notes = undefined;
 		if (typeof notes === "string" && notes.length > 0) {
-			C.Ownership.Notes = notes.slice(0, 10000);
+			C.Ownership.Notes = notes.slice(0, OnlineProfileText_MaxLen_ON);
 			Notes = LZString.compressToUTF16(C.Ownership.Notes);
 		} else {
 			C.Ownership.Notes = undefined;

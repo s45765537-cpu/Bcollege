@@ -911,7 +911,7 @@ function LoginSetupPlayer(C) {
 	Player.Game = CommonIsObject(C.Game) ? C.Game : {};
 	if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 		const desc = LZString.decompressFromUTF16(C.Description.substring(1)) ?? "";
-		Player.Description = desc.substring(0, 10000);
+		Player.Description = desc.substring(0, OnlineProfileText_MaxLen_Desc);
 	} else {
 		Player.Description = "";
 	}
@@ -1013,7 +1013,7 @@ function LoginSetupPlayer(C) {
 		Player.Owner = Player.IsFullyOwned() ? Player.Ownership.Name : "";
 		if (typeof Player.Ownership.Notes === "string") {
 			const desc = LZString.decompressFromUTF16(Player.Ownership.Notes) ?? "";
-			Player.Ownership.Notes = desc.slice(0, 10000);
+			Player.Ownership.Notes = desc.slice(0, OnlineProfileText_MaxLen_ON);
 		} else {
 			Player.Ownership.Notes = "";
 		}
