@@ -20,7 +20,7 @@ const ItemColorMode = /** @type {const} */({
 let ItemColorCharacter = null;
 /** @type {null | ItemColorItem} */
 let ItemColorItem = null;
-/** @type {ItemColorMode} */
+/** @type {null | ItemColorMode} */
 let ItemColorCurrentMode = ItemColorMode.DEFAULT;
 /** @type {null | string} */
 let ItemColorStateKey = null;
@@ -611,6 +611,7 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	const colorableLayers = ItemColorGetColorableLayers(item);
 	const colorGroups = ItemColorGetGroups(item, colorableLayers);
 	const simpleMode = colorableLayers.length === 1;
+	ItemColorCurrentMode = simpleMode ? ItemColorMode.COLOR_PICKER : ItemColorMode.DEFAULT;
 
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
 	const buttonSpacing = ItemColorConfig.buttonSpacing;
@@ -772,7 +773,7 @@ function ItemColorFireExit(save) {
 function ItemColorReset() {
 	ItemColorCharacter = null;
 	ItemColorItem = null;
-	ItemColorCurrentMode = ItemColorMode.DEFAULT;
+	ItemColorCurrentMode = null;
 	ItemColorStateKey = null;
 	ItemColorState = null;
 	ItemColorPage = 0;
