@@ -394,11 +394,32 @@ function ItemColorSaveClick() {
 }
 
 /**
+ * Revert the {@link ItemColorItem} colors and opacity.
+ * @param {"initial" | "default"} type - The type of revertion: the initial state prior to opening the color picker or the assets default
+ */
+function ItemColorRevert(type) {
+	const colorField = /** @type {const} */(`${type}Colors`);
+	const opacityField = /** @type {const} */(`${type}Opacity`);
+	if (!ItemColorState) {
+		return;
+	}
+	ItemColorPickerIndices.forEach(i => {
+		ItemColorState.colors[i] = ItemColorState[colorField][i];
+		ItemColorItem.Color[i] = ItemColorState[colorField][i];
+	});
+	for (const i of ItemColorPickerLayers.keys()) {
+		ItemColorState.opacity[i] = ItemColorState[opacityField][i];
+		ItemColorItem.Property.Opacity[i] = ItemColorState[opacityField][i];
+	}
+	CharacterLoadCanvas(ItemColorCharacter);
+}
+
+/**
  * Handles color picker cancellation clicks when the item color UI is in color picker mode
  * @returns {void} - Nothing
  */
 function ItemColorPickerCancel() {
-	ColorPicker.revert("initial");
+	ItemColorRevert("initial");
 	ItemColorCloseColorPicker(false);
 }
 
