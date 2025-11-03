@@ -4536,6 +4536,11 @@ interface ColorPickerInitOptions {
 	disabled?: boolean;
 	/** The dimensions of the color picker screen */
 	shape?: Readonly<RectTuple>;
+	/**
+	 * Whether omitting an option will keep its currently configured state or reset it to its default whenever an explicit option is absent
+	 * @default false
+	 */
+	reset?: boolean;
 }
 
 //#end region

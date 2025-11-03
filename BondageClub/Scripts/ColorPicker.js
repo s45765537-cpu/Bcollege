@@ -934,11 +934,13 @@ var ColorPicker = {
  * @returns {Promise<HTMLElement>} - The root element of the color picker subscreen
  */
 async function ColorPickerInit(options=null) {
+	options ??= {};
+	options.reset ??= true;
 	ColorPickerInitOptions = options;
 	await ColorPickerLoad();
 	ColorPickerInitOptions = null;
 	ColorPickerResize(true);
-	return ElementWrap(options?.root ?? ColorPicker.ids.root);
+	return ElementWrap(options.root ?? ColorPicker.ids.root);
 }
 
 /** @type {ScreenLoadHandler} */
@@ -992,9 +994,14 @@ function ColorPickerReload(options=null) {
 
 	if (options.onExit) {
 		ColorPickerExitCallback = options.onExit;
+	} else if (options.reset) {
+		ColorPickerExitCallback = null;
 	}
+
 	if (options.heading) {
 		ElementDOMScreen.setHeading(root, options.heading);
+	} else if (options.reset) {
+		ElementDOMScreen.setHeading(root, []);
 	}
 
 	// Grab all colors and opacity and identify a suitable "singular" value for the inputs
@@ -1053,7 +1060,7 @@ function ColorPickerReload(options=null) {
 
 	// Apply the new color and opacity
 	ColorPicker.setColor(fieldset, { colorString: singularColor, opacity: singularOpacity }, { overrideEditOpacity: true });
-	if (!options.colorState) {
+	if (ItemColorCharacter) {
 		CharacterLoadCanvas(ItemColorCharacter);
 	}
 
@@ -1094,10 +1101,18 @@ function ColorPickerReload(options=null) {
 		});
 	});
 
-	ColorPicker.toggleDisabled(root, options.disabled ?? false);
+	if (options.disabled != null) {
+		ColorPicker.toggleDisabled(root, options.disabled);
+	} else if (options.reset) {
+		ColorPicker.toggleDisabled(root, false);
+	}
 
 	// Set the shape of the screen
-	ColorPicker._shapes.set(root, options.shape ?? ColorPicker.defaultShape);
+	if (options.shape) {
+		ColorPicker._shapes.set(root, options.shape);
+	} else if (options.reset || !ColorPicker._shapes.has(root)) {
+		ColorPicker._shapes.set(root, ColorPicker.defaultShape);
+	}
 	return root;
 }
 
