@@ -37933,8 +37933,6 @@ var AssetFemale3DCG = [
 				Name: "ShinyArmbinder",
 				Audio: "LeatherCreakWithMetal",
 				InventoryID: 758,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Latex"],
 				Random: false,
 				Priority: 31,
