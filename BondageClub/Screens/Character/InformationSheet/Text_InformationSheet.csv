@@ -4,7 +4,12 @@ Title,Title:
 TitleNone,None
 TitleMistress,Mistress
 TitleMaster,Master
+TitleQueen,Queen
+TitleKing,King
+TitleGoddess,Goddess
+TitleGod,God
 TitleClubSlave,Club Slave
+TitleFreeUse,Free Use
 TitleHeadMaid,Head Maid
 TitleMaid,Maid
 TitleBondageMaid,Bondage Maid
@@ -59,6 +64,13 @@ TitleSissy,Sissy
 TitleTomboy,Tomboy
 TitleFemboy,Femboy
 TitlePet,Pet
+TitleDragon,Dragon
+TitleVampire,Vampire
+TitleTurtle,Turtle
+TitleThing,Thing
+TitleElf,Elf
+TitleDrow,Drow
+TitlePixie,Pixie
 TitleBrat,Brat
 TitleKitten,Kitten
 TitlePuppy,Puppy
