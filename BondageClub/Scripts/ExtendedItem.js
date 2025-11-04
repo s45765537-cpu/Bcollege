@@ -914,7 +914,6 @@ function ExtendedItemGetData(asset, Archetype, Type=null) {
 			Data = NoArchItemDataLookup[Key];
 			break;
 		default:
-			console.warn(`Unsupported archetype: "${Archetype}"`);
 			return null;
 	}
 
@@ -1245,7 +1244,7 @@ const ExtendedItemGatherOptions = (function () {
 					Name: "NewOption",
 					OptionType: "NoArchItemOption",
 					ParentData: data,
-					Property: Object.fromEntries(CommonKeys(data.baselineProperty ?? {}).map(k => [k, item.Property[k]]))
+					Property: Object.fromEntries(CommonKeys(data.baselineProperty ?? {}).map(k => [k, item.Property?.[k]]))
 				});
 				break;
 			}
@@ -1257,14 +1256,14 @@ const ExtendedItemGatherOptions = (function () {
 				break;
 			case ExtendedArchetype.VIBRATING:
 			case ExtendedArchetype.TYPED:
-				for (const [name, index] of Object.entries(item.Property.TypeRecord)) {
+				for (const [name, index] of Object.entries(item.Property?.TypeRecord ?? [])) {
 					if (data.name === name) {
 						newOptions.push(data.options[index] || data.options[0]);
 					}
 				}
 				break;
 			case ExtendedArchetype.MODULAR:
-				for (const [name, index] of Object.entries(item.Property.TypeRecord)) {
+				for (const [name, index] of Object.entries(item.Property?.TypeRecord ?? [])) {
 					const module = data.modules.find(mod => mod.Key === name);
 					if (module) {
 						newOptions.push(module.Options[index] || module.Options[0]);
@@ -1474,6 +1473,25 @@ function ExtendedItemTypeToRecord(asset, type) {
 		default:
 			return {};
 	}
+}
+
+/**
+ * Collect draw options for an item, given its current configuration
+ * @param {Item} item
+ * @returns {ExtendedItemOptionConfig["DrawOptions"]}
+ */
+function ExtendedItemGetDrawingOptions(item) {
+	// Safety because ExtendedItemGatherOptions crashes if it's missing
+	const options = ExtendedItemGatherOptions(item);
+	/** @type {ExtendedItemOptionConfig["DrawOptions"]} */
+	const init = { Mirror: false, Invert: false };
+	return options.reduce((stack, value) => {
+		if (value.DrawOptions?.Invert)
+			stack.Invert = !stack.Invert;
+		if (value.DrawOptions?.Mirror)
+			stack.Mirror = !stack.Mirror;
+		return stack;
+	}, init);
 }
 
 /**
