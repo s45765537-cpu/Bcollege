@@ -740,7 +740,8 @@ type TitleName =
 	"BondageBaby" | "Switch" | "Princess" |	"Prince" | "Liege" | "Majesty" | "Missy" | "Sissy" | "Tomboy" | "Femboy" | "GoodOne" |
 	"Pet" | "Dragon" |  "Vampire" | "Turtle" | "Thing" | "Elf" | "Drow" | "Pixie" | "Brat" | "Kitten" | "Puppy" | "Foxy" |
 	"Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | "Captain" | "Admiral" | "Succubus" | "Incubus" | "Concubus" |
-	"GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone" | "FreeUse"
+	"GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone" | "FreeUse" |
+	"Archbishop" | "Bishop" | "Archjudge" | "Judge" | "Champion" | "Matron" | "Patriarch" | "Primaris"
 	;
 
 type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
