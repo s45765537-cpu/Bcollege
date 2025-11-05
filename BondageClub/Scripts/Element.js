@@ -1810,9 +1810,10 @@ var ElementMenu = {
 
 	/**
 	 * @private
-	 * @type {MutationCallback}
+	 * @satisfies {MutationCallback}
+	 * @param {readonly { addedNodes: readonly Node[] | NodeList, target: Node }[]} mutationList
 	 */
-	_osbserverCallback: function _osbserverCallback(mutationList, observer) {
+	_osbserverCallback: function _osbserverCallback(mutationList) {
 		const roles = [
 			"menuitem",
 			"menuitemradio",
@@ -2014,6 +2015,10 @@ var ElementMenu = {
 
 		htmlOptions ??= {};
 		const menuOptions = htmlOptions.menu ?? {};
+		const children = ElementParseChildren([
+			...menuItems,
+			...(menuOptions.children ?? [])
+		]).map(el => typeof el === "string" ? document.createTextNode(el) : el);
 		elem = ElementCreate({
 			...menuOptions,
 			tag: "div",
@@ -2026,15 +2031,16 @@ var ElementMenu = {
 			parent: menuOptions.parent ?? document.body,
 			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
 			classList: ["menubar", "HideOnPopup", ...(menuOptions.classList ?? [])],
+			children,
 		});
+
+		// Manually run the observer callback so that the menubar-specific attributes are set in a synchronous manner
+		ElementMenu._osbserverCallback([{ addedNodes: children, target: elem }]);
 
 		// Attach an observer in order to handle all the menubar-specific attribute juggling
 		const observer = new MutationObserver(ElementMenu._osbserverCallback);
 		ElementMenu._observers.set(elem, observer);
 		observer.observe(elem, { childList: true, subtree: true });
-
-		const children = [...menuItems, ...(menuOptions.children ?? [])];
-		elem.append(...ElementParseChildren(children));
 		return elem;
 	},
 

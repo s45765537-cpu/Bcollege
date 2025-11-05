@@ -511,7 +511,7 @@ var CraftingEventListeners = {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
 				CraftingModeSet("Color");
-				ItemColorLoad(CraftingPreview, item, 1200, 25, 775, 950, true);
+				ItemColorLoad(CraftingPreview, item, 1200, 15, 775, 970, true);
 				ItemColorOnExit(({ colors }, save) => {
 					if (save) {
 						CraftingSelectedItem.Color = colors.join(",") || "Default";

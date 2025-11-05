@@ -1,7 +1,6 @@
 .screen {
 	width: 100%;
 	height: 100%;
-	padding-block: min(1.5vh, 0.75vw);
 	user-select: none;
 	box-sizing: border-box;
 	display: grid;

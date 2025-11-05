@@ -204,6 +204,21 @@ var ColorPicker = {
 	}),
 
 	/**
+	 * The default shape of the color picker screen
+	 * @readonly
+	 * @type {Readonly<RectTuple>}
+	 */
+	defaultShape: Object.freeze([1200, 15, 800, 970]),
+
+	/**
+	 * A weakmap mapping color picker root elements to their respective {@link ScreenResizeHandler} shape
+	 * @readonly
+	 * @private
+	 * @type {WeakMap<Element, Readonly<RectTuple>>}
+	 */
+	_shapes: new WeakMap,
+
+	/**
 	 * @readonly
 	 * @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>}
 	 */
@@ -484,13 +499,21 @@ var ColorPicker = {
 		 * @type {(this: HTMLFieldSetElement, ev: FocusEvent) => void}
 		 */
 		focusoutFieldset: function (ev) {
-			if (ev.relatedTarget instanceof Element && this.contains(ev.relatedTarget)) {
+			const menuID = this.closest("[role='menu']")?.id;
+			/** @type {null | HTMLButtonElement} */
+			const controller = document.querySelector(`button[aria-controls~="${menuID}"]`);
+			if (!controller) {
+				ev.stopImmediatePropagation();
 				return;
 			}
 
-			const menuID = this.closest("[role='menu']")?.id;
-			const controller = document.querySelector(`[aria-controls~="${menuID}"]`);
-			if (controller instanceof HTMLButtonElement && controller.getAttribute("aria-expanded") === "true") {
+			const target = ev.relatedTarget;
+			if (
+				target instanceof Element
+				&& (this.contains(target) || Array.from(controller.labels).some(el => el.contains(target)))
+			) {
+				return;
+			} else if (controller.getAttribute("aria-expanded") === "true") {
 				controller.click();
 			}
 		},
@@ -518,6 +541,16 @@ var ColorPicker = {
 				input.focus();
 			}
 		},
+
+		/**
+		 * Blur the label children upon receiving focus
+		 * @type {(this: HTMLElement, ev: FocusEvent) => void}
+		 */
+		focusComboLabel: function (ev) {
+			// The label children are only able to receive focus due to a technicality in `focusoutFieldset`,
+			// as they otherwise wouldn't appear in `FocusEvent.relatedTarget`
+			this.blur();
+		},
 	},
 
 	/**
@@ -540,8 +573,11 @@ var ColorPicker = {
 				),
 				{
 					tag: "output",
-					attributes: { name: "saved-colors-output", for: id },
+					attributes: { name: "saved-colors-output", for: id, tabindex: -1 },
 					children: ["-"],
+					eventListeners: {
+						focus: ColorPicker.eventListeners.focusComboLabel,
+					},
 				},
 				{
 					tag: "div",
@@ -595,6 +631,7 @@ var ColorPicker = {
 	 * @returns {HTMLFieldSetElement} - The newly created color picker fieldset containing all interactive sliders and such
 	 */
 	create(id, options=null) {
+		options ??= {};
 		id ??= ElementGenerateID();
 		const hueID = ElementGenerateID();
 		const opacityID = ElementGenerateID();
@@ -712,6 +749,10 @@ var ColorPicker = {
 							{ tag: "span", children: [ItemColorText.get("SavedColors")] },
 							ColorPicker._getDropdownWidget(dropdownID, defaultColors),
 						],
+						attributes: { tabindex: -1 },
+						eventListeners: {
+							focus: ColorPicker.eventListeners.focusComboLabel,
+						},
 					},
 					ElementButton.Create(
 						null,
@@ -892,11 +933,13 @@ var ColorPicker = {
  * @returns {Promise<HTMLElement>} - The root element of the color picker subscreen
  */
 async function ColorPickerInit(options=null) {
+	options ??= {};
+	options.reset ??= true;
 	ColorPickerInitOptions = options;
 	await ColorPickerLoad();
 	ColorPickerInitOptions = null;
 	ColorPickerResize(true);
-	return ElementWrap(options?.root ?? ColorPicker.ids.root);
+	return ElementWrap(options.root ?? ColorPicker.ids.root);
 }
 
 /** @type {ScreenLoadHandler} */
@@ -910,8 +953,6 @@ function ColorPickerLoad() {
 	}
 
 	const colorFieldset = ColorPicker.create(null, { onInput: options.onInput ?? ColorPicker.eventListeners.inputItemColor });
-	colorFieldset.setAttribute("aria-labelledby", "color-picker-header");
-
 	root = ElementDOMScreen.getTemplate(ColorPicker.ids.root, {
 		menubarButtons: [
 			ElementButton.Create(
@@ -930,6 +971,7 @@ function ColorPickerLoad() {
 		mainContent: [colorFieldset],
 		parent: document.body,
 	});
+	colorFieldset.setAttribute("aria-labelledby", root.querySelector("h1")?.id ?? "");
 	ColorPickerReload(options);
 }
 
@@ -951,9 +993,14 @@ function ColorPickerReload(options=null) {
 
 	if (options.onExit) {
 		ColorPickerExitCallback = options.onExit;
+	} else if (options.reset) {
+		ColorPickerExitCallback = null;
 	}
+
 	if (options.heading) {
 		ElementDOMScreen.setHeading(root, options.heading);
+	} else if (options.reset) {
+		ElementDOMScreen.setHeading(root, []);
 	}
 
 	// Grab all colors and opacity and identify a suitable "singular" value for the inputs
@@ -1012,7 +1059,7 @@ function ColorPickerReload(options=null) {
 
 	// Apply the new color and opacity
 	ColorPicker.setColor(fieldset, { colorString: singularColor, opacity: singularOpacity }, { overrideEditOpacity: true });
-	if (!options.colorState) {
+	if (ItemColorCharacter) {
 		CharacterLoadCanvas(ItemColorCharacter);
 	}
 
@@ -1053,13 +1100,28 @@ function ColorPickerReload(options=null) {
 		});
 	});
 
-	ColorPicker.toggleDisabled(root, options.disabled ?? false);
+	if (options.disabled != null) {
+		ColorPicker.toggleDisabled(root, options.disabled);
+	} else if (options.reset) {
+		ColorPicker.toggleDisabled(root, false);
+	}
+
+	// Set the shape of the screen
+	if (options.shape) {
+		ColorPicker._shapes.set(root, options.shape);
+	} else if (options.reset || !ColorPicker._shapes.has(root)) {
+		ColorPicker._shapes.set(root, ColorPicker.defaultShape);
+	}
 	return root;
 }
 
 /** @type {ScreenResizeHandler} */
 function ColorPickerResize() {
-	ElementPositionFixed(ColorPicker.ids.root, 1200, 15, 800, 970);
+	const root = document.getElementById(ColorPicker.ids.root);
+	const shape = ColorPicker._shapes.get(/** @type {HTMLElement} */(root));
+	if (root && shape) {
+		ElementPositionFixed(root, ...shape);
+	}
 }
 
 /** @type {ScreenUnloadHandler} */

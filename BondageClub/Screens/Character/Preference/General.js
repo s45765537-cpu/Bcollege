@@ -73,6 +73,15 @@ function PreferenceSubscreenGeneralClick() {
 	// If we must show/hide/use the color picker
 	if (MouseIn(1140, 187, 65, 65)) {
 		if (!PreferenceSubscreenGeneralColorPicker) {
+			// See `PreferenceIDs.exit`: [1815, 75, 90, 90]
+			const paddingTop = 75;
+			const paddingRight = 2000 - (1815 + 90);
+			const shape = /** @type {const} */([
+				2000 - ColorPicker.defaultShape[2] - paddingRight + 25,
+				paddingTop,
+				ColorPicker.defaultShape[2],
+				1000 - paddingTop * 2,
+			]);
 			ColorPickerInit({
 				colorState: {
 					colors: [Player.LabelColor],
@@ -80,6 +89,7 @@ function PreferenceSubscreenGeneralClick() {
 					editOpacity: false,
 				},
 				heading: TextGet("CharacterLabelColor"),
+				shape,
 				onInput: () => null,
 				onExit: ({ colors }, save) => {
 					if (save) {
@@ -89,7 +99,8 @@ function PreferenceSubscreenGeneralClick() {
 					document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", true);
 				},
 			}).then(colorPicker => {
-				if (!document.getElementById("preference-general-color-picker-backdrop")) {
+				let backdrop = document.getElementById("preference-general-color-picker-backdrop");
+				if (!backdrop) {
 					ElementCreate({
 						tag: "div",
 						attributes: { id: "preference-general-color-picker-backdrop" },
@@ -98,7 +109,7 @@ function PreferenceSubscreenGeneralClick() {
 						style: { "background-color": "rgba(0, 0, 0, 0.3)", width: "100%", height: "100%", position: "absolute" },
 					});
 				} else {
-					document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", false);
+					backdrop.toggleAttribute("hidden", false);
 				}
 			});
 		} else {
