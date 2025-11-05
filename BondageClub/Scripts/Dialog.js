@@ -5412,7 +5412,7 @@ function DialogFindAutoReplace(C, KeyWord1, KeyWord2, ReturnPrevious) {
  * Draw the up/down arrow to bump a character up and down if they're hidden.
  */
 function DialogDrawRepositionButton() {
-	if (!CurrentCharacter.HeightModifier == null || !CurrentCharacter.FocusGroup) return;
+	if (!CurrentCharacter.FocusGroup) return;
 
 	let drawButton = "";
 	if (CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {

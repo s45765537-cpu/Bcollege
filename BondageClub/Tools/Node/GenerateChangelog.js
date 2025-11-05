@@ -180,7 +180,7 @@ async function fetchMergeRequests(page) {
 		try {
 			const response = await fetch(`https://gitgud.io/api/v4/projects/${GIT_GUD_PROJECT_ID}/merge_requests?page=${page}`);
 			return /** @type {any} */ (await response.json());
-		} catch (error) {
+		} catch {
 			console.warn(`Fetch of merge request page ${page} failed. Retrying...`);
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 		}

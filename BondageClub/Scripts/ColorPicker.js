@@ -37,7 +37,6 @@ let ColorPickerInitOptions = null;
  */
 function isTouchEvent(event) {
 	// Disabled for desktop Safari has no need for touch events
-	// eslint-disable-next-line
 	return window.TouchEvent && event instanceof TouchEvent;
 }
 

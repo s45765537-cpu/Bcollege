@@ -380,7 +380,7 @@ var CraftingJSON = {
 					if (craftString != null) {
 						try {
 							craft = JSON.parse(LZString.decompressFromBase64(craftString));
-						} catch (error) {
+						} catch (_error) {
 							errors.add(i);
 						}
 					}

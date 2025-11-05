@@ -2275,7 +2275,7 @@ function ChatRoomMapViewPaste(Param) {
 	let DecompressedData = null;
 	try {
 		DecompressedData = LZString.decompressFromBase64(Param);
-	} catch(err) {
+	} catch {
 		DecompressedData = null;
 	}
 
@@ -2289,7 +2289,7 @@ function ChatRoomMapViewPaste(Param) {
 	let MapData = null;
 	try {
 		MapData = JSON.parse(DecompressedData);
-	} catch(err) {
+	} catch {
 		MapData = null;
 	}
 

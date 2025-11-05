@@ -1008,7 +1008,7 @@ function LoginSetupPlayer(C) {
 	}
 
 	// Loads the ownership data
-	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership);
+	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
 	if (Player.Ownership != null) {
 		Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
 	}
@@ -1059,7 +1059,7 @@ function LoginSetupPlayer(C) {
 			if (data === null) throw new Error();
 			const json = /** @type {[number, string][]} */(JSON.parse(data));
 			friendNames = new Map(json);
-		} catch (err) {
+		} catch (_err) {
 			console.warn("An error occured while parsing friendnames, entries have been reset.");
 		}
 	}
@@ -1074,7 +1074,7 @@ function LoginSetupPlayer(C) {
 			if (!CommonIsArray(json)) throw new Error();
 			const numbers = /** @type {number[]} */(json.filter(Number));
 			submissivesList = new Set(numbers);
-		} catch (err) {
+		} catch (_err) {
 			console.warn("An error occured while parsing submissives, entries have been reset.");
 		}
 	}

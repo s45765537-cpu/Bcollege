@@ -567,7 +567,7 @@ async function CommonSetScreen(...spec) {
 	TextLoad();
 	try {
 		await TextScreenCache.loadedPromise;
-	} catch (e) {
+	} catch (_e) {
 		console.error(`Failed to load text strings for screen!`);
 	}
 
@@ -1472,7 +1472,7 @@ function CommonURLHasExtension(TestURL, Extension) {
 		for (let Ext of Extension)
 			if (FormatUrl.endsWith(Ext))
 				return true;
-	} catch (err) {
+	} catch (_err) {
 		let FormatUrl = TestURL.trim().toLowerCase();
 		if ((FormatUrl.startsWith("screens/")) || (FormatUrl.startsWith("backgrounds/")))
 			for (let Ext of Extension)
