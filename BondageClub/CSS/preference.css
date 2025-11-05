@@ -1,14 +1,14 @@
 #preference-subscreen *,
 #preference-subscreen-header *,
 #preference-subscreen-hgroup *,
-#preference-subscreen-main * {
+#preference-subscreen .screen-main-container * {
   pointer-events: auto;
 }
 
 #preference-subscreen,
 #preference-subscreen-header,
 #preference-subscreen-hgroup,
-#preference-subscreen-main,
+#preference-subscreen .screen-main-container,
 #preference-subscreen .button > * {
   pointer-events: none;
 }
