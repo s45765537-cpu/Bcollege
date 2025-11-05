@@ -911,7 +911,7 @@ function LoginSetupPlayer(C) {
 	Player.Game = CommonIsObject(C.Game) ? C.Game : {};
 	if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 		const desc = LZString.decompressFromUTF16(C.Description.substring(1)) ?? "";
-		Player.Description = desc.substring(0, 10000);
+		Player.Description = desc.substring(0, OnlineProfileTextDescMaxLen);
 	} else {
 		Player.Description = "";
 	}
@@ -1010,7 +1010,13 @@ function LoginSetupPlayer(C) {
 	// Loads the ownership data
 	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
 	if (Player.Ownership != null) {
-		Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
+		Player.Owner = Player.IsFullyOwned() ? Player.Ownership.Name : "";
+		if (typeof Player.Ownership.Notes === "string") {
+			const desc = LZString.decompressFromUTF16(Player.Ownership.Notes) ?? "";
+			Player.Ownership.Notes = desc.slice(0, OnlineProfileTextOwnersNotesMaxLen);
+		} else {
+			Player.Ownership.Notes = "";
+		}
 	}
 
 	// @ts-expect-error: FIXME: Property 'Name' is optional in type 'ServerLovership' but required in type 'Lovership'

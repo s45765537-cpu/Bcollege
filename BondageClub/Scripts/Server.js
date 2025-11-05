@@ -1096,7 +1096,6 @@ async function ServerOpenFriendList() {
  * @returns {void} - Nothing
  */
 function ServerAccountOwnership(data) {
-
 	// If we get a result for a specific member number, we show that option in the online dialog
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.Result != null) && (typeof data.Result === "string"))
 		if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber == data.MemberNumber))
@@ -1106,6 +1105,9 @@ function ServerAccountOwnership(data) {
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Owner != null) && (typeof data.Owner === "string") && (data.Ownership != null) && (typeof data.Ownership === "object")) {
 		Player.Owner = data.Owner;
 		Player.Ownership = data.Ownership;
+		if (typeof Player.Ownership?.Notes === "string") {
+			data.Ownership.Notes = LZString.decompressFromUTF16 (data.Ownership.Notes);
+		}
 		LoginValidCollar();
 	}
 
@@ -1315,14 +1317,15 @@ var ServerAccountDataSyncedValidate = {
 			return null;
 		}
 
-		const { Name, MemberNumber, Stage, Start } = arg;
+		const { Name, MemberNumber, Notes, Stage, Start } = arg;
 		if (
 			typeof Name === "string"
 			&& CommonIsInteger(MemberNumber, 0)
+			&& (Notes == undefined || Notes == null || typeof Notes === "string")
 			&& (Stage === 0 || Stage === 1)
 			&& CommonIsInteger(Start, 0, CommonTime())
 		) {
-			return { Name, MemberNumber, Stage, Start };
+			return { Name, MemberNumber, Notes, Stage, Start };
 		} else {
 			return null;
 		}

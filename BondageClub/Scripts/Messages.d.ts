@@ -178,6 +178,7 @@ type ServerAccountDataSynced = Omit<ServerAccountData, "Money" | "FriendList" | 
 interface ServerOwnership {
 	MemberNumber?: number;
 	Name?: string;
+	Notes?: string;
 	Stage?: number;
 	Start?: number;
 	StartTrialOfferedByMemberNumber?: number;
@@ -409,10 +410,18 @@ interface ServerAccountLovershipComplete {
 
 type ServerAccountLovershipResponse = ServerAccountLovershipStatus | ServerAccountLovershipInfo | ServerAccountLovershipComplete;
 
-interface ServerAccountOwnershipRequest {
+interface ServerAccountOwnershipAcquisitionRequest {
 	MemberNumber: number;
 	Action?: "Propose" | "Accept" | "Release" | "Break";
 }
+
+interface ServerAccountOwnershipUpdateNotesRequest {
+	MemberNumber: number;
+	Action: "UpdateNotes";
+	Notes?: string;
+}
+
+type ServerAccountOwnershipRequest = ServerAccountOwnershipAcquisitionRequest | ServerAccountOwnershipUpdateNotesRequest;
 
 interface ServerAccountOwnershipStatus {
     MemberNumber: number;

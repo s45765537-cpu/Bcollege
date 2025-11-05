@@ -427,6 +427,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsOwnedByPlayer: function () {
 			return this.IsOwnedByCharacter(Player);
 		},
+		IsFullyOwnedByPlayer: function () {
+			return this.IsOwnedByPlayer() && this.IsFullyOwned();
+		},
 		OwnerName: function () {
 			switch (this.IsOwned()) {
 				case "ggts": return TextGet("OwnerGGTS");
@@ -447,6 +450,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (this.IsOwned() === "online")
 				return this.Ownership.MemberNumber;
 			return -1;
+		},
+		HasOwnerNotes: function () {
+			return typeof this.Ownership?.Notes === "string" && this.Ownership.Notes.length > 0;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
 			return (memberNumber != -1 && this.OwnerNumber() === memberNumber);
@@ -1213,7 +1219,10 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 
 	// Decompresses data
 	if (typeof data.Description === "string" && data.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-		data.Description = LZString.decompressFromUTF16(data.Description.substr(1));
+		data.Description = LZString.decompressFromUTF16(data.Description.substring(1));
+	}
+	if (typeof data.Ownership?.Notes === "string") {
+		data.Ownership.Notes = LZString.decompressFromUTF16 (data.Ownership.Notes);
 	}
 	if (Array.isArray(data.WhiteList)) {
 		data.WhiteList.sort((a, b) => a - b);
@@ -2450,6 +2459,27 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
 	}
 
 	return null;
+}
+
+/**
+ * Update the owners note on the specified character.  The Player must be the owner of this character.
+ * Notes will be truncated to max 4000 chars.
+ *
+ * @param {Character} C - The character to receive the updated notes.
+ * @param {string} [notes] - String containing the notes.  If undefined, existing notes will be erased.
+ */
+function CharacterSetOwnersNotes(C, notes = undefined) {
+	if (C.Ownership !== null && typeof C.Ownership === "object" && C.Ownership.Notes !== notes && C.IsFullyOwnedByPlayer()) {
+		let Notes = undefined;
+		if (typeof notes === "string" && notes.length > 0) {
+			C.Ownership.Notes = notes.slice(0, OnlineProfileTextOwnersNotesMaxLen);
+			Notes = LZString.compressToUTF16(C.Ownership.Notes);
+		} else {
+			C.Ownership.Notes = undefined;
+		}
+
+		ServerSend("AccountOwnership", { MemberNumber: C.MemberNumber, Action: "UpdateNotes", Notes });
+	}
 }
 
 /**

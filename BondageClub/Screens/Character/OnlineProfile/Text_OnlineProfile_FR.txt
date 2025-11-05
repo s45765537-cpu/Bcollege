@@ -1,5 +1,5 @@
-﻿Enter your online description (10000 characters maximum)
-Entrez votre description en ligne (10000 caractères maximum)
+﻿Enter your online description (MAXLEN characters maximum)
+Entrez votre description en ligne (MAXLEN caractères maximum)
 CharacterName's online description
 Description de CharacterName en ligne
 Exit profile
