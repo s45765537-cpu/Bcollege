@@ -1697,7 +1697,7 @@ function CraftingDecompressServerData(Data) {
 	let DecompressedData = null;
 	try {
 		DecompressedData = LZString.decompressFromUTF16(Data);
-	} catch(err) {
+	} catch {
 		DecompressedData = null;
 	}
 	if (DecompressedData == null) {

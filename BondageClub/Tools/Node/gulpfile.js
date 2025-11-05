@@ -6,7 +6,7 @@ import gulpCount from "gulp-count";
 import gulpIf from "gulp-if";
 import gulpSize from "gulp-size";
 import filter from "gulp-filter";
-import imagemin from "gulp-imagemin";
+import imagemin, { optipng, svgo } from "gulp-imagemin";
 import jpegtran from "imagemin-jpegtran";
 import cache from "gulp-cache";
 import through from "through2";
@@ -22,8 +22,8 @@ const SIZE_CONFIG = { showTotal: false };
 
 export const assetMinify = gulp.series(logIntro, analyzeBefore, generateBatches, minifyBatches, analyzeAfter, report);
 
-export function clean(cb) {
-	rimraf(CACHE_DIR, cb);
+export async function clean() {
+	await rimraf(CACHE_DIR);
 }
 
 let files = [];
@@ -43,9 +43,8 @@ const supportedSizes = {
 	},
 };
 
-function logIntro(cb) {
+async function logIntro() {
 	log(c.cyan("Starting image minification. Please be patient, this can take a long time..."));
-	cb();
 }
 
 function analyze(beforeOrAfter, sizePlugins, record = false) {
@@ -196,10 +195,8 @@ function minifyBatch(batch) {
 		))
 		.pipe(sizesAfter)
 		.pipe(filter((file) => {
-			// @ts-expect-error Smuggling size through
-			const sizeBefore = sizesBefore.sizes.get(file.path);
-			// @ts-expect-error Smuggling size through
-			const sizeAfter = sizesAfter.sizes.get(file.path);
+			const sizeBefore = /** @type {number} */ (sizesBefore.sizes.get(file.path));
+			const sizeAfter = /** @type {number} */ (sizesAfter.sizes.get(file.path));
 			if (sizeAfter > sizeBefore) {
 				log(`Omitting file "${c.magenta(file.path)}": size after minification is greater than original size.`);
 			}
@@ -211,16 +208,15 @@ function minifyBatch(batch) {
 function configureImagemin() {
 	return imagemin([
 		jpegtran(),
-		imagemin.optipng({ optimizationLevel: 5 }),
-		imagemin.svgo({
+		optipng({ optimizationLevel: 5 }),
+		svgo({
 			plugins: [
 				{
 					name: "removeViewBox",
-					active: true,
 				},
+				// @ts-expect-error no idea
 				{
 					name: "cleanupIDs",
-					active: true,
 				},
 			],
 		}),
@@ -232,6 +228,7 @@ function sourceFiles() {
 		`${BASE_DIR}/**/*.{jpg,jpeg,png,svg}`,
 		`!${BASE_DIR}/**/Assets/Female3DCG/BodyUpper/3DCGPose/**/*`,
 		`!${BASE_DIR}/Tools/**/*`,
+		`!${BASE_DIR}/node_modules/**/*`
 	], { base: BASE_DIR });
 }
 
@@ -255,10 +252,14 @@ function gulpLog(...messages) {
 	);
 }
 
+/**
+ *
+ * @returns {import("stream").Transform & {sizes: Map<string, number>}}
+ */
 function fileSizes() {
 	const sizes = new Map();
 
-	return through.obj(
+	const obj = through.obj(
 		async function (file, enc, cb) {
 			// @ts-expect-error Smuggling size through
 			if (!this.sizes) {
@@ -284,6 +285,7 @@ function fileSizes() {
 			cb(null, file);
 		},
 	);
+	return /** @type {import("stream").Transform & {sizes: Map<any, any>}} */ (obj);
 }
 
 function getStreamSize(file) {

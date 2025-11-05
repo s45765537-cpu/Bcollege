@@ -145,7 +145,7 @@ function InventoryLoad(Inventory, InventoryData) {
 			for (let I = 0; I < Inv.length; I++) {
 				items.push({ Group: Inv[I][1], Name: Inv[I][0] });
 			}
-		} catch(err) {
+		} catch(_err) {
 			console.log("Error while loading compressed inventory, no inventory loaded.");
 		}
 	}

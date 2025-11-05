@@ -2042,7 +2042,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	let DecompressedData = null;
 	try {
 		DecompressedData = LZString.decompressFromBase64(CompApp);
-	} catch(err) {
+	} catch {
 		DecompressedData = null;
 	}
 
@@ -2055,7 +2055,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	let App = null;
 	try {
 		App = JSON.parse(DecompressedData);
-	} catch(err) {
+	} catch {
 		App = null;
 	}
 
