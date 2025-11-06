@@ -894,6 +894,35 @@ ClothHoodieSetHood,SourceCharacter adjusts the hood of DestinationCharacter hood
 ClothHoodieSetHood,SourceCharacter adjusts the length of DestinationCharacter hoodie.
 ClothHoodieSetp0,SourceCharacter takes DestinationCharacter hands out of the hoodie's pouch.
 ClothHoodieSetp1,SourceCharacter puts DestinationCharacter hands into the hoodie's pouch.
+TailStrapsFoxTailStrapSelect,Select tail position:
+TailStrapsFoxTailStrapTL,Top Left
+TailStrapsFoxTailStrapTR,Top Right
+TailStrapsFoxTailStrapBL,Bottom Left
+TailStrapsFoxTailStrapBR,Bottom Right
+TailStrapsWolfTailStrap3SelectBase,
+TailStrapsWolfTailStrap3SelectRotation,Select position:
+TailStrapsWolfTailStrap3SelectStyle,Select style:
+TailStrapsWolfTailStrap3Optionr0,Top Left
+TailStrapsWolfTailStrap3Optionr1,Top Right
+TailStrapsWolfTailStrap3Optionr2,Bottom Left
+TailStrapsWolfTailStrap3Optionr3,Bottom Right
+TailStrapsWolfTailStrap3Options0,Original Style
+TailStrapsWolfTailStrap3Options1,Flipped Styles
+TailStrapsWolfTailStrap3ModuleStyle,Style
+TailStrapsWolfTailStrap3ModuleRotation,Rotation
+TailStrapsRaccoonTailStrapSelect,Select position:
+TailStrapsRaccoonTailStrapTL,Top Left
+TailStrapsRaccoonTailStrapTR,Top Right
+TailStrapsRaccoonTailStrapBL,Bottom Left
+TailStrapsRaccoonTailStrapBR,Bottom Right
+TailStrapsKittenTailStrap1Select,Select position:
+TailStrapsKittenTailStrap1TL,Top Left
+TailStrapsKittenTailStrap1TR,Top Right
+TailStrapsKittenTailStrap2Select,Select position:
+TailStrapsKittenTailStrap2TL,Top Left
+TailStrapsKittenTailStrap2TR,Top Right
+TailStrapsKittenTailStrap2BL,Bottom Left
+TailStrapsKittenTailStrap2BR,Bottom Right
 ClothOuterJacketHoodieModuleHood,Hood
 ClothOuterJacketHoodieModuleSleeve,Sleeve
 ClothOuterJacketHoodieOptionh0,Hood Down
@@ -3507,6 +3536,55 @@ ItemBreastFuturisticBraTempC,°C
 ItemBreastFuturisticBraTracking,Tracking Signal:
 ItemBreastFuturisticBraTrackingGood,Good
 ItemBreastWhip,(You clumsily whip your own breast and tummy.  It would be more painful if someone else did it.)
+ItemButtWolfTail3SelectBase,
+ItemButtWolfTail3SelectRotation,Select position:
+ItemButtWolfTail3SelectStyle,Select style:
+ItemButtWolfTail3Optionr0,Top Left
+ItemButtWolfTail3Optionr1,Top Right
+ItemButtWolfTail3Optionr2,Bottom Left
+ItemButtWolfTail3Optionr3,Bottom Right
+ItemButtWolfTail3Options0,Original Style
+ItemButtWolfTail3Options1,Flipped Styles
+ItemButtWolfTail3ModuleStyle,Style
+ItemButtWolfTail3ModuleRotation,Rotation
+ItemButtWolfTail3Setr0,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Setr1,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Setr2,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Setr3,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Sets0,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Sets1,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail1Select,Select position:
+ItemButtKittenTail1TL,Top Left
+ItemButtKittenTail1TR,Top Right
+ItemButtKittenTail1SetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail1SetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2Select,Select position:
+ItemButtKittenTail2TL,Top Left
+ItemButtKittenTail2TR,Top Right
+ItemButtKittenTail2BL,Bottom Left
+ItemButtKittenTail2BR,Bottom Right
+ItemButtKittenTail2SetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2SetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2SetBL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2SetBR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSelect,Select position:
+ItemButtRaccoonTailPlugTL,Top Left
+ItemButtRaccoonTailPlugTR,Top Right
+ItemButtRaccoonTailPlugBL,Bottom Left
+ItemButtRaccoonTailPlugBR,Bottom Right
+ItemButtRaccoonTailPlugSetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSetBL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSetBR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSelect,Select tail position:
+ItemButtFoxTailTL,Top Left
+ItemButtFoxTailTR,Top Right
+ItemButtFoxTailBL,Bottom Left
+ItemButtFoxTailBR,Bottom Right
+ItemButtFoxTailSetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSetBL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSetBR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
 ItemButtAnalBeads2Select,Select the number of inserted beads
 ItemButtAnalBeads2Set1Decrease,SourceCharacter pulls a bead from DestinationCharacter butt
 ItemButtAnalBeads2Set1Increase,SourceCharacter inserts a bead in DestinationCharacter butt
