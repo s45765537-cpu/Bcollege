@@ -21760,6 +21760,41 @@ var AssetFemale3DCG = [
 				Fetish: ["Pet"],
 				Priority: 2,
 				Value: 35,
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { typed: 0 },
+						Top: 188,
+						Left: {
+							[PoseType.DEFAULT]: 0,
+							AllFours: 20,
+						},
+					},
+					{
+						Name: "TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "TL",
+						Top: 188,
+						Left: {
+							[PoseType.DEFAULT]: 280,
+							AllFours: 260,
+						},
+					},
+					{
+						Name: "BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "TL",
+						Top: 370,
+						Left: 4,
+					},
+					{
+						Name: "BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "TL",
+						Top: 370,
+						Left: 207,
+					},
+				],
 			},
 			{
 				Name: "PuppyTailStrap1",
@@ -21775,32 +21810,142 @@ var AssetFemale3DCG = [
 				InventoryID: 510,
 				Fetish: ["Pet"],
 				Value: 20,
-				Top: 100,
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { typed: 0 },
+						Top: {
+							[PoseType.DEFAULT]: 118,
+							AllFours: 131,
+						},
+						Left: {
+							[PoseType.DEFAULT]: -45,
+							AllFours: -25,
+						},
+					},
+					{
+						Name: "TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 118,
+							AllFours: 131,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 302,
+							AllFours: 275,
+						},
+					},
+				],
 			},
 			{
 				Name: "KittenTailStrap2",
 				InventoryID: 511,
 				Fetish: ["Pet"],
 				Value: 20,
-				PoseMapping: {
-					AllFours: "AllFours",
-				},
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { typed: 0 },
+						Top: 277,
+						Left: 53,
+					},
+					{
+						Name: "TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "TL",
+						Top: 277,
+						Left: 283,
+					},
+					{
+						Name: "BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "TL",
+						Top: 463,
+						Left: 33,
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+					},
+					{
+						Name: "BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "TL",
+						Top: 463,
+						Left: {
+							[PoseType.DEFAULT]: 303,
+							AllFours: 212,
+							Hogtied: 212,
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+					},
+				],
 			},
 			{
-				Name: "FoxTailStrap1",
-				InventoryID: 512,
-				Fetish: ["Pet"],
-				Value: 20,
-				Top: 170,
-				Layer: [{ Name: "Tip" }, { Name: "Base" }],
-			},
-			{
-				Name: "FoxTailStrap2",
+				Name: "FoxTailStrap",
 				InventoryID: 513,
 				Fetish: ["Pet"],
 				Value: 20,
-				Top: 200,
-				Layer: [{ Name: "Tip" }, { Name: "Base" }],
+				Layer: [
+					{
+						Name: "Base_TL",
+						AllowTypes: { typed: 0 },
+						Top: 269,
+						Left: 0,
+					},
+					{
+						Name: "Tip_TL",
+						AllowTypes: { typed: 0 },
+						Top: 269,
+						Left: 0,
+					},
+					{
+						Name: "Base_TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Base_TL",
+						Top: 269,
+						Left: 285,
+					},
+					{
+						Name: "Tip_TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Tip_TL",
+						Top: 269,
+						Left: 285,
+					},
+					{
+						Name: "Base_BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "Base_TL",
+						Top: 463,
+						Left: 0,
+					},
+					{
+						Name: "Tip_BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "Tip_TL",
+						Top: 463,
+						Left: 0,
+					},
+					{
+						Name: "Base_BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "Base_TL",
+						Top: 463,
+						Left: 285,
+					},
+					{
+						Name: "Tip_BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "Tip_TL",
+						Top: 463,
+						Left: 285,
+					},
+				],
 			},
 			{
 				Name: "WolfTailStrap1",
@@ -21822,10 +21967,119 @@ var AssetFemale3DCG = [
 				InventoryID: 516,
 				Fetish: ["Pet"],
 				Value: 20,
-				Top: 140,
-				PoseMapping: {
-					AllFours: "AllFours",
-				},
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { s: 0, r: 0 },
+						Top: {
+							[PoseType.DEFAULT]: 246,
+							AllFours: 286,
+							Hogtied: 291,
+						},
+						Left: 1,
+					},
+					{
+						Name: "TR",
+						AllowTypes: { s: 0, r: 1 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 246,
+							AllFours: 286,
+							Hogtied: 291,
+						},
+						Left: 301,
+					},
+					{
+						Name: "BL",
+						AllowTypes: { s: 0, r: 2 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 486,
+							AllFours: 466,
+							Hogtied: 471,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 1,
+							AllFours: 51,
+							Hogtied: 51,
+						},
+					},
+					{
+						Name: "BR",
+						AllowTypes: { s: 0, r: 3 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 486,
+							AllFours: 466,
+							Hogtied: 471,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 301,
+							AllFours: 251,
+							Hogtied: 251,
+						},
+					},
+					{
+						Name: "TLs2",
+						AllowTypes: { s: 1, r: 0 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 329,
+							AllFours: 312,
+							Hogtied: 317,
+						},
+						Left: {
+							[PoseType.DEFAULT]: -1,
+							AllFours: 5,
+							Hogtied: 5,
+						},
+					},
+					{
+						Name: "TRs2",
+						AllowTypes: { s: 1, r: 1 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 329,
+							AllFours: 312,
+							Hogtied: 317,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 261,
+							AllFours: 255,
+							Hogtied: 255,
+						},
+					},
+					{
+						Name: "BLs2",
+						AllowTypes: { s: 1, r: 2 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 488,
+							AllFours: 495,
+							Hogtied: 500,
+						},
+						Left: {
+							[PoseType.DEFAULT]: -1,
+							AllFours: 7,
+							Hogtied: 7,
+						},
+					},
+					{
+						Name: "BRs2",
+						AllowTypes: { s: 1, r: 3 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 488,
+							AllFours: 495,
+							Hogtied: 500,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 261,
+							AllFours: 255,
+							Hogtied: 255,
+						},
+					},
+				],
 			},
 			{
 				Name: "DemonPlug",
@@ -21839,7 +22093,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "MouseTailStrap1",
 				InventoryID: 518,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Top: 120,
@@ -21847,14 +22100,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "MouseTailStrap2",
 				InventoryID: 519,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				Value: 20,
 			},
 			{
 				Name: "CowtailStrap",
 				InventoryID: 520,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				BuyGroup: "CowTails",
 				Value: 20,
@@ -21872,7 +22123,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "DragonTailStrap1",
 				InventoryID: 522,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				BuyGroup: "DragonTail",
 				Value: 20,
@@ -21905,7 +22155,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "DragonTailStrap2Left",
 				InventoryID: 522,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				BuyGroup: "DragonTail",
 				Value: 20,
@@ -21924,7 +22173,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Tentacles",
 				InventoryID: 355,
-				StyleOverride: ["EchoV2"],
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
 				Audio: "Slime",
@@ -21944,7 +22192,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LionTailStrap",
 				InventoryID: 523,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Top: 100,
@@ -21953,7 +22200,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexFoxTail",
 				InventoryID: 1177,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				BuyGroup: "LatexFoxTail",
 				DefaultColor: ["#141414"],
@@ -21976,7 +22222,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "SkunkTail",
 				InventoryID: 1178,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				BuyGroup: "SkunkTail",
 				DefaultColor: ["#181818", "#706A3D"],
@@ -21995,7 +22240,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LargeBushyTail",
 				InventoryID: 1232,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Pet"],
 				BuyGroup: "largeBushyTail",
 				DefaultColor: ["#8F5F2D"],
@@ -29593,10 +29837,44 @@ var AssetFemale3DCG = [
 				Priority: 2,
 				Value: 50,
 				Time: 10,
-				Top: 30,
 				Effect: [E.IsPlugged],
 				Prerequisite: ["AccessButt"],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { typed: 0 },
+						Top: 183,
+						Left: {
+							[PoseType.DEFAULT]: 0,
+							AllFours: 20,
+						},
+					},
+					{
+						Name: "TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "TL",
+						Top: 183,
+						Left: {
+							[PoseType.DEFAULT]: 280,
+							AllFours: 260,
+						},
+					},
+					{
+						Name: "BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "TL",
+						Top: 365,
+						Left: 4,
+					},
+					{
+						Name: "BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "TL",
+						Top: 365,
+						Left: 207,
+					},
+				],
 			},
 			{
 				Name: "AnalBeads",
@@ -29704,10 +29982,34 @@ var AssetFemale3DCG = [
 				Top: 100,
 				Prerequisite: ["AccessButt"],
 				Effect: [E.IsPlugged],
-				PoseMapping: {
-					AllFours: "AllFours",
-				},
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { typed: 0 },
+						Top: {
+							[PoseType.DEFAULT]: 118,
+							AllFours: 131,
+						},
+						Left: {
+							[PoseType.DEFAULT]: -45,
+							AllFours: -25,
+						},
+					},
+					{
+						Name: "TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 118,
+							AllFours: 131,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 302,
+							AllFours: 275,
+						},
+					},
+				],
 			},
 			{
 				Name: "KittenTail2",
@@ -29715,37 +30017,116 @@ var AssetFemale3DCG = [
 				Fetish: ["Pet"],
 				Value: 30,
 				Time: 10,
-				Top: 30,
-				Prerequisite: ["AccessButt"],
-				Effect: [E.IsPlugged],
-				PoseMapping: {
-					AllFours: "AllFours",
-				},
-				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
-			},
-			{
-				Name: "FoxTail1",
-				InventoryID: 641,
-				Fetish: ["Pet"],
-				Value: 50,
-				Time: 10,
-				Top: 80,
 				Prerequisite: ["AccessButt"],
 				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
-				Layer: [{ Name: "Base" }, { Name: "Tip" }],
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { typed: 0 },
+						Top: 282,
+						Left: 53,
+					},
+					{
+						Name: "TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "TL",
+						Top: 282,
+						Left: 283,
+					},
+					{
+						Name: "BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "TL",
+						Top: 468,
+						Left: 33,
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+					},
+					{
+						Name: "BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "TL",
+						Top: 468,
+						Left: {
+							[PoseType.DEFAULT]: 303,
+							AllFours: 212,
+							Hogtied: 212,
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+					},
+				],
 			},
 			{
-				Name: "FoxTail2",
+				Name: "FoxTail",
 				InventoryID: 642,
 				Fetish: ["Pet"],
 				Value: 50,
 				Time: 10,
-				Top: 100,
 				Prerequisite: ["AccessButt"],
 				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
-				Layer: [{ Name: "Base" }, { Name: "Tip" }],
+				Layer: [
+					{
+						Name: "Base_TL",
+						AllowTypes: { typed: 0 },
+						Top: 269,
+						Left: 0,
+					},
+					{
+						Name: "Tip_TL",
+						AllowTypes: { typed: 0 },
+						Top: 269,
+						Left: 0,
+					},
+					{
+						Name: "Base_TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Base_TL",
+						Top: 269,
+						Left: 285,
+					},
+					{
+						Name: "Tip_TR",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Tip_TL",
+						Top: 269,
+						Left: 285,
+					},
+					{
+						Name: "Base_BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "Base_TL",
+						Top: 463,
+						Left: 0,
+					},
+					{
+						Name: "Tip_BL",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "Tip_TL",
+						Top: 463,
+						Left: 0,
+					},
+					{
+						Name: "Base_BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "Base_TL",
+						Top: 463,
+						Left: 285,
+					},
+					{
+						Name: "Tip_BR",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "Tip_TL",
+						Top: 463,
+						Left: 285,
+					},
+				],
 			},
 			{
 				Name: "WolfTail1",
@@ -29778,13 +30159,122 @@ var AssetFemale3DCG = [
 				Fetish: ["Pet"],
 				Value: 35,
 				Time: 10,
-				Top: 40,
 				Prerequisite: ["AccessButt"],
 				Effect: [E.IsPlugged],
-				PoseMapping: {
-					AllFours: "AllFours",
-				},
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
+				Layer: [
+					{
+						Name: "TL",
+						AllowTypes: { s: 0, r: 0 },
+						Top: {
+							[PoseType.DEFAULT]: 251,
+							AllFours: 291,
+							Hogtied: 296,
+						},
+						Left: 1,
+					},
+					{
+						Name: "TR",
+						AllowTypes: { s: 0, r: 1 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 251,
+							AllFours: 291,
+							Hogtied: 296,
+						},
+						Left: 301,
+					},
+					{
+						Name: "BL",
+						AllowTypes: { s: 0, r: 2 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 491,
+							AllFours: 471,
+							Hogtied: 476,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 1,
+							AllFours: 51,
+							Hogtied: 51,
+						},
+					},
+					{
+						Name: "BR",
+						AllowTypes: { s: 0, r: 3 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 491,
+							AllFours: 471,
+							Hogtied: 476,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 301,
+							AllFours: 251,
+							Hogtied: 251,
+						},
+					},
+					{
+						Name: "TLs2",
+						AllowTypes: { s: 1, r: 0 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 334,
+							AllFours: 317,
+							Hogtied: 322,
+						},
+						Left: {
+							[PoseType.DEFAULT]: -1,
+							AllFours: 5,
+							Hogtied: 5,
+						},
+					},
+					{
+						Name: "TRs2",
+						AllowTypes: { s: 1, r: 1 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 334,
+							AllFours: 317,
+							Hogtied: 322,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 261,
+							AllFours: 255,
+							Hogtied: 255,
+						},
+					},
+					{
+						Name: "BLs2",
+						AllowTypes: { s: 1, r: 2 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 493,
+							AllFours: 500,
+							Hogtied: 505,
+						},
+						Left: {
+							[PoseType.DEFAULT]: -1,
+							AllFours: 7,
+							Hogtied: 7,
+						},
+					},
+					{
+						Name: "BRs2",
+						AllowTypes: { s: 1, r: 3 },
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 493,
+							AllFours: 500,
+							Hogtied: 505,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 261,
+							AllFours: 255,
+							Hogtied: 255,
+						},
+					},
+				],
 			},
 			{
 				Name: "DemonPlug",

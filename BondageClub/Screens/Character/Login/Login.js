@@ -516,6 +516,10 @@ let LoginInventoryFixups = [
 	{ Old: { Group: "RightAnklet", Name: "*" }, New: { Group: "AnkletRight" }},
 	{ Old: { Group: "LeftHand", Name: "*" }, New: { Group: "HandAccessoryLeft" }},
 	{ Old: { Group: "RightHand", Name: "*" }, New: { Group: "HandAccessoryRight" }},
+	{ Old: {Group: "ItemButt", Name: "FoxTail1"}, New: {Group: "ItemButt", Name: "FoxTail", Option: "BR"}},
+	{ Old: {Group: "ItemButt", Name: "FoxTail2"}, New: {Group: "ItemButt", Name: "FoxTail"} },
+	{ Old: {Group: "TailStraps", Name: "FoxTailStrap1"}, New: {Group: "TailStraps", Name: "FoxTailStrap", Option: "BR"}},
+	{ Old: {Group: "TailStraps", Name: "FoxTailStrap2"}, New: {Group: "TailStraps", Name: "FoxTailStrap"}},
 ];
 
 /**

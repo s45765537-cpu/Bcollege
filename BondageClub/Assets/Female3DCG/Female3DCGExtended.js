@@ -355,6 +355,99 @@ var AssetFemale3DCGExtended = {
 			],
 		},
 	},
+	TailStraps: {
+		RaccoonTailStrap: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
+				},
+			],
+		},
+		FoxTailStrap: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
+				},
+			],
+		},
+		WolfTailStrap3: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "s", //Style
+					DrawImages: false,
+					Options: [
+						{}, //s0 - Style 1 - Original Style
+						{}, //s1 - Style 2 - Flipped Style
+					],
+				},
+				{
+					Name: "Rotation",
+					Key: "r", //Rotation
+					DrawImages: false,
+					Options: [
+						{}, //r0 - TL - Top Left
+						{}, //r1 - TR - Top Right
+						{}, //r2 - BL - Bottom Left
+						{}, //r3 - BR - Bottom Right
+					],
+				},
+			],
+		},
+		KittenTailStrap1: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+			],
+		},
+		KittenTailStrap2: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
+				},
+			],
+		},
+	},
 	ClothOuter: {
 		JacketHoodie: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -13010,6 +13103,97 @@ var AssetFemale3DCGExtended = {
 		}, // UrethralSound
 	}, // ItemVulvaPiercings
 	ItemButt: {
+		WolfTail3: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "s", //Style
+					DrawImages: false,
+					Options: [
+						{}, //s0 - Style 1 - Original Style
+						{}, //s1 - Style 2 - Flipped Style
+					],
+				},
+				{
+					Name: "Rotation",
+					Key: "r", //Rotation
+					DrawImages: false,
+					Options: [
+						{}, //r0 - TL - Top Left
+						{}, //r1 - TR - Top Right
+						{}, //r2 - BL - Bottom Left
+						{}, //r3 - BR - Bottom Right
+					],
+				},
+			],
+		},
+		RaccoonTailPlug: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
+				},
+			],
+		},
+		KittenTail1: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+			],
+		},
+		KittenTail2: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
+				},
+			],
+		},
+		FoxTail: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "TL",
+				},
+				{
+					Name: "TR",
+				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
+				},
+			],
+		},
 		AnalHook: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
