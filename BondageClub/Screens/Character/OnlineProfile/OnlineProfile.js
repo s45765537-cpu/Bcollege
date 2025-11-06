@@ -35,20 +35,20 @@ function OnlineProfileStart(mode) {
  */
 function OnlineProfileLoadTextArea(element) {
 	switch (OnlineProfileMode) {
-	case "OwnersNotes":
-		/*  Editable only by this player's owner.  */
-		element.toggleAttribute("readonly", !(InformationSheetSelection.IsOnline() && InformationSheetSelection.IsFullyOwnedByPlayer()));
-		element.setAttribute("maxlength", OnlineProfileTextOwnersNotesMaxLen);
-		element.value = OnlineProfileTextOwnersNotes;
-		break;
+		case "OwnersNotes":
+			/*  Editable only by this player's owner.  */
+			element.toggleAttribute("readonly", !(InformationSheetSelection.IsOnline() && InformationSheetSelection.IsFullyOwnedByPlayer()));
+			element.setAttribute("maxlength", OnlineProfileTextOwnersNotesMaxLen);
+			element.value = OnlineProfileTextOwnersNotes;
+			break;
 
-	case "Description":
-	default:
-		/*  Editable by player.  */
-		element.toggleAttribute("readonly", !InformationSheetSelection.IsPlayer());
-		element.setAttribute("maxlength", OnlineProfileTextDescMaxLen);
-		element.value = OnlineProfileTextDesc;
-		break;
+		case "Description":
+		default:
+			/*  Editable by player.  */
+			element.toggleAttribute("readonly", !InformationSheetSelection.IsPlayer());
+			element.setAttribute("maxlength", OnlineProfileTextDescMaxLen);
+			element.value = OnlineProfileTextDesc;
+			break;
 	}
 }
 
