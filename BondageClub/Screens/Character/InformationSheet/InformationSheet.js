@@ -136,7 +136,7 @@ function InformationSheetRun() {
 		DrawButton(1815, 765, 90, 90, "", "White", "Icons/Next.png");
 	} else if (C.IsOnline()) {
 		DrawButton(1815, 190, 90, 90, "", "White", "Icons/Introduction.png");
-		if (C.HasOwnerNotes())
+		if (C.HasOwnerNotes() || C.IsOwnedByPlayer())
 			DrawButton(1715, 190, 90, 90, "", "White", "Icons/Management.png");
 		DrawButton(1815, 765, 90, 90, "", "White", "Icons/Next.png");
 	}
@@ -262,7 +262,7 @@ function InformationSheetClick() {
 		if (MouseIn(1815, 765, 90, 90)) InformationSheetSecondScreen = !InformationSheetSecondScreen;
 	} else if (C.IsOnline()) {
 		if (MouseIn(1815, 190, 90, 90)) OnlineProfileStart ("Description");
-		if (MouseIn(1715, 190, 90, 90) && C.HasOwnerNotes()) {
+		if (MouseIn(1715, 190, 90, 90) && (C.HasOwnerNotes() || C.IsOwnedByPlayer())) {
 			OnlineProfileStart ("OwnersNotes");
 		}
 		if (MouseIn(1815, 765, 90, 90)) InformationSheetSecondScreen = !InformationSheetSecondScreen;
