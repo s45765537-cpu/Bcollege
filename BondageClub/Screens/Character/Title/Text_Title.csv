@@ -1,6 +1,7 @@
 SelectTitle,Select your displayed name and title
+SearchTitle,Search for a title name
 CurrentTitle,Current title: TITLE
-Nickname,Nickname (letters and spaces)
+Nickname,Nickname
 NicknameLocked,Nickname locked by your owner
 NicknameTooLong,Nickname is too long (max. 20 characters)
 NicknameInvalidChars,Nickname contains invalid characters
