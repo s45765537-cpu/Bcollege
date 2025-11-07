@@ -84,7 +84,7 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'friendlistrequest',
-		Action: args =>{
+		Action: args => {
 			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.FriendList, true, number, "FriendRequest");
@@ -1040,5 +1040,29 @@ const CommonCommands = [
 
 			return ChatRoomMapViewChangeKey(target, keys, false);
 		}
+	},
+	{
+		Tag: 'clear',
+		Action: () => {
+			const chatLog = document.querySelector("#TextAreaChatLog");
+			const seps = chatLog.querySelectorAll(".chat-room-sep");
+
+			if (seps.length > 0) {
+				const lastSep = seps[seps.length - 1];
+
+				// Remove everything before the last separator
+				while (chatLog.firstChild !== lastSep) {
+					chatLog.removeChild(chatLog.firstChild);
+				}
+
+				// Remove everything after the last separator
+				while (lastSep.nextSibling) {
+					chatLog.removeChild(lastSep.nextSibling);
+				}
+			}
+
+			ElementScrollToEnd("TextAreaChatLog");
+		}
 	}
+
 ];

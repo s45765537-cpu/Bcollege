@@ -58,3 +58,4 @@ shop,Access the shop
 clubcard,: Open the club card editor
 mapgivekey, [MemberNumber] [bronze] [silver] [gold]: Give any map key to a player 
 maptakekey, [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
+clear,Removes all messages from the chat
