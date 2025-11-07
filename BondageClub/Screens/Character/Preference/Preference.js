@@ -39,6 +39,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenGeneralClick(),
 		exit: () => PreferenceSubscreenGeneralExit(),
 		unload: () => PreferenceSubscreenGeneralUnload(),
+		resize: () => PreferenceSubscreenGeneralResize(),
 	},
 	{
 		name: "Difficulty",
