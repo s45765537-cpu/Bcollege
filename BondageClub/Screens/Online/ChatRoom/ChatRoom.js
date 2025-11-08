@@ -2784,7 +2784,7 @@ function ChatRoomAttemptStandMinigameEnd() {
  * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or visibility is not set.
  */
 function ChatRoomDataIsPrivate(room) {
-	return room.Visibility && !CommonArraysEqual(room?.Visibility, ChatRoomVisibilityMode.PUBLIC) || room.Private;
+	return !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
 }
 
 /**
@@ -2801,7 +2801,7 @@ function ChatRoomIsPrivate() {
  * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or access is not set.
  */
 function ChatRoomDataIsLocked(room) {
-	return room.Access && !CommonArraysEqual(room?.Access, ChatRoomAccessMode.PUBLIC) || room.Locked;
+	return !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
 }
 
 /**
