@@ -37449,7 +37449,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["Default", "Default", "#FFFFFF", "Default"],
 				SetPose: ["BackElbowTouch"],
-				AllowActivePose: ["BackElbowTouch"],
+				AllowActivePose: ["BackElbowTouch", "LegsClosed", "Kneel", "BaseLower", "AllFours", "Hogtied"],
 				Effect: [E.Block, E.BlockWardrobe],
 				Block: ["ItemHands", "ItemHandheld"],
 				Attribute: ["HoodieFix"],
