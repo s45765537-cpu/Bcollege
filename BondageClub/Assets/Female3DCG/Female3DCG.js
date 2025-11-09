@@ -5924,14 +5924,12 @@ var AssetFemale3DCG = [
 					{ Name: "Zip" },
 					{
 						Name: "OpaqueGloves",
-						StyleOverride: ["EchoV2"],
 						Priority: 27,
 						AllowTypes: { typed: 1 },
 						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
-						StyleOverride: ["EchoV2"],
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 2 },
@@ -6139,7 +6137,6 @@ var AssetFemale3DCG = [
 				Name: "SeethroughSuit",
 				InventoryID: 203,
 				Gender: "F",
-				StyleOverride: ["EchoV2"],
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Latex"],
 				Value: 100,
@@ -6148,7 +6145,7 @@ var AssetFemale3DCG = [
 				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
 				Extended: true,
 				Layer: [
-					{ Name: "Suit" },
+					{ Name: "Suit", StyleOverride: ["EchoV2"] },
 					{
 						Name: "OpaqueGloves",
 						Priority: 27,
