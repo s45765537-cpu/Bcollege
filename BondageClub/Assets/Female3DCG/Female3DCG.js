@@ -44429,6 +44429,18 @@ var AssetFemale3DCG = [
 						AllowTypes: { LatexLab: 11 },
 					},
 					{
+						Name: "Fae",
+						AllowTypes: { LatexLab: 12 },
+					},
+					{
+						Name: "Maria",
+						AllowTypes: { LatexLab: 13 },
+					},
+					{
+						Name: "Lyko",
+						AllowTypes: { LatexLab: 14 },
+					},
+					{
 						Name: "Magdalena",
 						AllowTypes: { VoidOrder: 1 },
 					},
@@ -44583,6 +44595,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "Carol",
 						AllowTypes: { Vagrants: 10 },
+					},
+					{
+						Name: "Kin",
+						AllowTypes: { DawnsDarlings: 1 },
+					},
+					{
+						Name: "Laura",
+						AllowTypes: { DawnsDarlings: 2 },
 					},
 				],
 			},

@@ -22007,6 +22007,9 @@ var AssetFemale3DCGExtended = {
 						{}, // Melanie
 						{}, // Iris
 						{}, // Kelsey
+						{}, // Fae
+						{}, // Maria
+						{}, // Lyko
 					],
 					DrawData: {
 						elementData: [
@@ -22033,6 +22036,9 @@ var AssetFemale3DCGExtended = {
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Kelsey.png",
 							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Fae.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Maria.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lyko.png" },
 						],
 					},
 				},
@@ -22200,6 +22206,23 @@ var AssetFemale3DCGExtended = {
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Zoi.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Takao.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Carol.png" },
+						],
+					},
+				},
+				{
+					Name: "DawnsDarlings",
+					Key: "DawnsDarlings",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Kin
+						{}, // Laura
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Kin.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Laura.png" },
 						],
 					},
 				},
