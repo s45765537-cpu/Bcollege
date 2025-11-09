@@ -36,6 +36,9 @@ async function InformationSheetLoad() {
 		},
 		style: {
 			display: "grid",
+			"grid-template-rows": "max-content max-content",
+			"grid-template-columns": "auto",
+			"gap": "var(--gap)"
 		},
 		children: [
 			{
