@@ -2790,8 +2790,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "ReverseBunnySuit",
 				InventoryID: 139,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Nylon", "Pet"],
 				DynamicGroupName: "Suit",
 				Value: 100,
@@ -2809,7 +2807,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Suit" },
+					{ Name: "Suit", StyleOverride: ["EchoV2"] },
 					{
 						Name: "OpaqueGloves",
 						Priority: 28,
@@ -6193,9 +6191,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "ReverseBunnySuit",
 				InventoryID: 139,
-				Gender: "F",
-				StyleOverride: ["EchoV2"],
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Latex", "Pet"],
 				Value: 100,
 				BuyGroup: "ReverseBunnySuit",
@@ -6208,7 +6203,7 @@ var AssetFemale3DCG = [
 				],
 				Extended: true,
 				Layer: [
-					{ Name: "Suit" },
+					{ Name: "Suit", StyleOverride: ["EchoV2"] },
 					{
 						Name: "OpaqueGloves",
 						Priority: 27,
