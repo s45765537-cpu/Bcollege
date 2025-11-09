@@ -207,7 +207,7 @@
 /* #region General */
 
 #preference-general-grid {
-	padding-top: var(--padding);
+	padding-top: var(--gap);
 }
 
 label:has(#InputCharacterLabelColor) {
@@ -236,7 +236,7 @@ label:has(#InputCharacterLabelColor) {
 
 #preference-general-hardcore-warning {
 	color: red;
-	margin-top: var(--padding);
+	margin-top: var(--gap);
 }
 
 /* #endregion General */

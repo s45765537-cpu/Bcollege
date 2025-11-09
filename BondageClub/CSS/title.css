@@ -12,7 +12,7 @@
 
 #title-subscreen-status {
 	color: red;
-	margin-left: var(--padding);
+	margin-left: var(--gap);
 }
 
 #title-subscreen-main {
@@ -23,14 +23,15 @@
 }
 
 #title-subscreen-titlebuttons {
-	padding-left: var(--padding);
 	width: 100%;
 	display: grid;
 	gap: var(--gap);
 	justify-items: center;
 	grid-template-columns: repeat(4, 1fr);
 	grid-auto-rows: min-content;
+	box-sizing: border-box;
 }
+
 .title-button > .button-label {
 	display: contents;
 }
