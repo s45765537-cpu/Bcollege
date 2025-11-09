@@ -559,7 +559,8 @@ function PreferenceSubscreenKeybindingsRun() {
 
 function PreferenceSubscreenKeybindingsResize() {
 	ElementPositionFixed(KeyGUI.selec.mainContent, 100, 175, 1800, 775);
-	ElementSetFontSize(KeyGUI.selec.keybindModal, 28);
+	const modal = ElementWrap(KeyGUI.selec.keybindModal);
+	if (modal) ElementSetFontSize(modal, 28);
 }
 
 function PreferenceSubscreenKeybindingsClick() {
@@ -589,7 +590,7 @@ function PreferenceSubscreenKeybindingsKeyUp(e) {
 
 	const code = /** @type {Keybindings.KeyCombo['key']} */ (e.code);
 
-	if (code === 'Escape') {
+	if (CommonKey.IsPressed(e, 'Escape', 0)) {
 		KeyGUI.selectedAction = null;
 		return true;
 	}

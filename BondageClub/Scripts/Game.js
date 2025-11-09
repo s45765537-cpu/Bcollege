@@ -207,7 +207,10 @@ function GameKeyDown(event) {
 			break handleKeyDown;
 		}
 
-		if (CurrentScreen === "Preference" && PreferenceSubscreen.name === "Keybindings" && KeyGUI.selectedAction) return;
+		if (CurrentScreen === "Preference" && PreferenceSubscreen.name === "Keybindings" && KeyGUI.selectedAction) {
+			handled = true;
+			break handleKeyDown;
+		}
 
 		if (KeyManager.handleKeyPress(event)) {
 			handled = true;
