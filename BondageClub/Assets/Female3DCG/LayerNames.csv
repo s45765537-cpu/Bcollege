@@ -1317,10 +1317,8 @@ ItemBreastChastityPlateStraps,Straps
 ItemBreastChastityPlateUnder1,Under layer
 ItemBreastChastityPlateShine1,Plate Shine
 ItemBreastChastityPlateShine2,Under layer shine
-ItemButtFoxTail1Base,Tail
-ItemButtFoxTail1Tip,Tip
-ItemButtFoxTail2Base,Tail
-ItemButtFoxTail2Tip,Tip
+ItemButtFoxTailBase_TL,Tail
+ItemButtFoxTailTip_TL,Tip
 ItemButtFoxTailsBases,Tails
 ItemButtFoxTailsTips,Tips
 ItemButtSuccubusHeartButtPlugHeart,Heart
