@@ -41,3 +41,7 @@
 .center {
   justify-content: center;
 }
+
+[concealed] {
+	visibility: hidden !important;
+}

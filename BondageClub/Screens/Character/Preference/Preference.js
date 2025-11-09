@@ -156,6 +156,15 @@ const PreferenceSubscreens = [
 		unload: () => PreferenceSubscreenScriptsUnload(),
 	},
 	{
+		name: "Keybindings",
+		icon: "Icons/Keyboard.png",
+		load: () => PreferenceSubscreenKeybindingsLoad(),
+		run: () => PreferenceSubscreenKeybindingsRun(),
+		click: () => PreferenceSubscreenKeybindingsClick(),
+		exit: () => PreferenceSubscreenKeybindingsExit(),
+		resize: () => PreferenceSubscreenKeybindingsResize(),
+	},
+	{
 		name: "Extensions",
 		load: () => PreferenceSubscreenExtensionsLoad(),
 		run: () => PreferenceSubscreenExtensionsRun(),
@@ -290,6 +299,10 @@ function PreferenceUnload() {
 function PreferenceResize(onLoad) {
 	PreferenceSubscreenResize?.(onLoad);
 	PreferenceSubscreen.resize?.(onLoad);
+}
+
+function PreferenceKeyUp(event) {
+	PreferenceSubscreen?.keyUp?.(event);
 }
 
 /**

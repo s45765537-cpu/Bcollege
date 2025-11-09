@@ -1,0 +1,50 @@
+CategoryChat,Chat
+CategoryMapChatRoom,Map Chat Room
+CategoryChatRoom,Chat Room
+CategoryNavigation,Navigation
+
+ContextAlways,Always
+ContextInChatRoom,In Chat Room
+ContextOnChatRoomScreen,On Chat Room Screen
+ContextChatFocused,Chat Focused
+ContextChatNotFocused,Chat Not Focused
+ContextNoModifiers,No Modifiers
+ContextCharacterMode,In Chat Room Character Mode
+ContextMapMode,In Chat Room Map Mode
+
+BindScrollToTopName,Scroll to Top
+BindScrollToTopDesc,Scroll to the top of the focused element.
+BindScrollToBottomName,Scroll to Bottom
+BindScrollToBottomDesc,Scroll to the bottom of the focused element.
+BindScrollUpName,Scroll Up
+BindScrollUpDesc,Scroll up the focused element.
+BindScrollDownName,Scroll Down
+BindScrollDownDesc,Scroll down the focused element.
+BindMoveUpName,Move Up
+BindMoveUpDesc,Moves the player up in the map chatroom.
+BindMoveDownName,Move Down
+BindMoveDownDesc,Moves the player down in the map chatroom.
+BindMoveLeftName,Move Left
+BindMoveLeftDesc,Moves the player left in the map chatroom.
+BindMoveRightName,Move Right
+BindMoveRightDesc,Moves the player right in the map chatroom.
+BindAutoCompleteName,Auto Complete
+BindAutoCompleteDesc,Tries to complete the message to a command or print help about it.
+BindSendMessageName,Send Message
+BindSendMessageDesc,Sends the message to the chatroom.
+BindChatHistoryPreviousName,Chat History Previous
+BindChatHistoryPreviousDesc,Navigates to the previous message in the chat history.
+BindChatHistoryNextName,Chat History Next
+BindChatHistoryNextDesc,Navigates to the next message in the chat history.
+BindFocusChangeName,Focus Change
+BindFocusChangeDesc,Toggles the focus between the chat input and the main view.
+BindChatRoomLeaveName,Leave the Chat Room 
+BindChatRoomLeaveDesc,Tries to leave the chat room.
+BindToggleKneelName,Toggle Kneel
+BindToggleKneelDesc,Toggles the kneeling state.
+BindOpenProfileName,Open Your Profile
+BindOpenProfileDesc,Opens your profile.
+BindOpenWardrobeName,Open Your Wardrobe
+BindOpenWardrobeDesc,Opens your wardrobe.
+BindOpenAdminScreenName,Open Admin Screen
+BindOpenAdminScreenDesc,Opens the admin screen.

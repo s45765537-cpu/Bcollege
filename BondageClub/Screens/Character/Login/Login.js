@@ -1114,6 +1114,7 @@ function LoginSetupPlayer(C) {
 	SkillLoad(C.Skill);
 	Player.ConfiscatedItems = C.ConfiscatedItems ?? [];
 	Player.ExtensionSettings = C.ExtensionSettings ?? {};
+	Player.KeybindingSettings = C.KeybindingSettings ?? "";
 
 	PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
 	CharacterRefresh(Player, false);
@@ -1198,6 +1199,7 @@ function LoginResponse(C) {
 	ActivitySetArousal(Player, 0);
 	ActivityTimerProgress(Player, 0);
 	NotificationLoad();
+	KeyManager.deserialize();
 
 	if (ManagementIsClubSlave()) CharacterNaked(Player);
 

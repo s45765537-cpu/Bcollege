@@ -207,6 +207,13 @@ function GameKeyDown(event) {
 			break handleKeyDown;
 		}
 
+		if (CurrentScreen === "Preference" && PreferenceSubscreen.name === "Keybindings" && KeyGUI.selectedAction) return;
+
+		if (KeyManager.handleKeyPress(event)) {
+			handled = true;
+			break handleKeyDown;
+		}
+
 		if (CommonKey.IsPressed(event, "Escape")) {
 			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
 				document.activeElement.blur();
@@ -308,8 +315,7 @@ function GameMouseWheel(event) {
 function GameMouseMove(event, forwardToScreens = true) {
 	MouseX = Math.round(event.offsetX * 2000 / MainCanvas.canvas.clientWidth);
 	MouseY = Math.round(event.offsetY * 1000 / MainCanvas.canvas.clientHeight);
-	if(forwardToScreens)
-	{
+	if (forwardToScreens) {
 		CommonMouseMove(event);
 	}
 }
@@ -349,8 +355,7 @@ function GameTouchMove(event, forwardToScreens = true) {
 	const touch = event.changedTouches[0];
 	MouseX = Math.round((touch.clientX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
 	MouseY = Math.round((touch.clientY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
-	if(forwardToScreens)
-	{
+	if (forwardToScreens) {
 		CommonMouseMove(event);
 	}
 }

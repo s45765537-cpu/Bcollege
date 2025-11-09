@@ -3013,27 +3013,6 @@ function ChatRoomLeave(clearCharacters = false) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomCommonKeyDown(event) {
-	if (CommonKey.IsPressed(event, "Escape")) {
-		// Escape toggles between main view and chat
-		ElementScrollToEnd("TextAreaChatLog");
-		ElementFocus("InputChat");
-		return true;
-	} else if (CommonKey.IsPressed(event, "k", CommonKey.ALT)) {
-		if (!event.repeat) ChatRoomToggleKneel();
-		return true;
-	} else if (CommonKey.IsPressed(event, "i", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave({ reload: false }); }
-		ChatRoomOpenInformationScreen();
-		return true;
-	} else if (CommonKey.IsPressed(event, "b", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave({ reload: false }); }
-		ChatRoomOpenWardrobeScreen();
-		return true;
-	} else if (CommonKey.IsPressed(event, "h", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave({ reload: false }); }
-		ChatRoomOpenAdminScreen();
-		return true;
-	}
 	return false;
 }
 
@@ -3042,46 +3021,10 @@ function ChatRoomCommonKeyDown(event) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomKeyDown(event) {
-	const inputChat = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
-	const chatHasFocus = inputChat && document.activeElement === inputChat;
-	const modifiers = CommonKey.GetModifiers(event);
-
-	if (chatHasFocus) {
-		// Why are these room-level event listeners!?
-		if (!modifiers) {
-			switch (event.key) {
-				case "Tab":
-					// Autocomplete whatever the chat contains
-					if (inputChat.value.length !== 0) {
-						CommandAutoComplete(inputChat.value);
-						return true;
-					}
-					break;
-				case "Enter":
-					// The ENTER key sends the chat.
-					ChatRoomSendChat();
-					return true;
-				case "PageUp":
-				case "PageDown":
-					// On page up/down, we scroll through chat history
-					ChatRoomScrollHistory(event.key === "PageUp");
-					return true;
-				case "Escape":
-					// Escape toggles between main view and chat
-					// FIXME: this actually is never called; the input element's default listener is the one unfocusing itself
-					ElementFocus("MainCanvas");
-					return true;
-			}
-		}
-	} else if (ChatRoomCommonKeyDown(event)) {
+	if (ChatRoomCommonKeyDown(event)) {
 		return true;
 	} else if (ChatRoomActiveView.KeyDown && ChatRoomActiveView.KeyDown(event)) {
 		return true;
-	}
-
-	if (CommonKey.IsPressed(event, "Escape", CommonKey.Shift)) {
-		// Try to leave the room on Shift-Escape
-		ChatRoomAttemptLeave();
 	}
 
 	if (
