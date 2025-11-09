@@ -120,6 +120,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	FriendNames?: string;
 	SubmissivesList?: string;
 	KinkyDungeonExploredLore?: unknown[];
+	KeybindingSettings?: string;
 }
 
 // TODO: Add `Lover` after figuring out why {@link ServerPlayerSync} still passes this field to the server

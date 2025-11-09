@@ -693,7 +693,7 @@ type GraphicsFontName =
 type PreferenceSubscreenName =
 	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
 	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
-	"Gender" | "Scripts" | "Extensions" | "Main"
+	"Gender" | "Scripts" | "Extensions" | "Main" | "Keybindings"
 	;
 
 interface PreferenceSubscreen {
@@ -707,6 +707,7 @@ interface PreferenceSubscreen {
 	exit?: () => boolean | Promise<boolean>;
 	unload?: () => void;
 	resize?: (onLoad: boolean) => void;
+	keyUp?: (event: KeyboardEvent) => void;
 }
 
 interface PreferenceGenderSetting {
@@ -2333,6 +2334,7 @@ interface PlayerCharacter extends Character {
 	ConfiscatedItems: { Group: AssetGroupName, Name: string }[];
 	ExtensionSettings: ExtensionSettings;
 	ChatSearchSettings: ChatRoomSearchSettings;
+	KeybindingSettings: string;
 }
 
 /** A type defining which genders a setting is active for */

@@ -1550,6 +1550,7 @@ function CommonJSONParse(data) {
  *
  * This returns a layout independent u/d/l/r string
  *
+ * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
  * @param {KeyboardEvent} event
  * @returns {"u"|"d"|"l"|"r"|undefined}
  */
@@ -1732,6 +1733,7 @@ var CommonKey = /** @type {const} */({
 
 	/**
 	 * A {@link ScreenFunctions.KeyDown} helper function for implementing the navigation key handling of scrollable elements.
+	 * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
 	 * @param {HTMLElement} scrollableElem - The scrollable element
 	 * @param {KeyboardEvent} event - The `keydown` event
 	 * @param {(scrollableElem: HTMLElement) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
@@ -1859,7 +1861,7 @@ var CommonKey = /** @type {const} */({
  * Partition the string into separate parts using the given replacer keys, replacing them with replacer values
  * @template T
  * @param {string} string
- * @param {Record<string, T>} replacers
+ * @param {Record<string, T>} replacers - An object with replacements. Note that {@link Node} elements are cloned prior to the replacement
  * @returns {(string | T)[]}
  */
 function CommonStringPartitionReplace(string, replacers) {
@@ -1881,7 +1883,8 @@ function CommonStringPartitionReplace(string, replacers) {
 		if (prefix) {
 			ret.push(prefix);
 		}
-		ret.push(replacers[match[0]]);
+		const obj = replacers[match[0]];
+		ret.push(obj instanceof Node ? /** @type {T} */(obj.cloneNode(true)) : obj);
 		i = match.index + match[0].length;
 	}
 
