@@ -7935,6 +7935,12 @@ ItemHandheldPlushieOptionLatexLab10,Iris
 ItemHandheldPlushieSetLatexLab10,SourceCharacter places a cute Iris plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionLatexLab11,Kelsey
 ItemHandheldPlushieSetLatexLab11,SourceCharacter places a cute Kelsey plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionLatexLab12,Fae
+ItemHandheldPlushieSetLatexLab12,SourceCharacter places a cute Fae plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionLatexLab13,Maria
+ItemHandheldPlushieSetLatexLab13,SourceCharacter places a cute Maria plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionLatexLab14,Lyko
+ItemHandheldPlushieSetLatexLab14,SourceCharacter places a cute Lyko plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectVoidOrder,Void Order
 ItemHandheldPlushieModuleVoidOrder,Void Order
 ItemHandheldPlushieOptionVoidOrder0,None
@@ -8001,6 +8007,14 @@ ItemHandheldPlushieOptionEnsLivingRoom9,Arelia
 ItemHandheldPlushieSetEnsLivingRoom9,SourceCharacter places a cute Arelia plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionEnsLivingRoom10,Dawn
 ItemHandheldPlushieSetEnsLivingRoom10,SourceCharacter places a cute Dawn plushie in DestinationCharacter hands.
+ItemHandheldPlushieSelectDawnsDarlings,Dawn's Darlings
+ItemHandheldPlushieModuleDawnsDarlings,Dawn's Darlings
+ItemHandheldPlushieOptionDawnsDarlings0,None
+ItemHandheldPlushieSetDawnsDarlings0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionDawnsDarlings1,Kin
+ItemHandheldPlushieSetDawnsDarlings1,SourceCharacter places a cute Kin plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionDawnsDarlings2,Laura
+ItemHandheldPlushieSetDawnsDarlings2,SourceCharacter places a cute Laura plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectVagrants,Vagrants/Misc
 ItemHandheldPlushieModuleVagrants,Vagrants/Misc
 ItemHandheldPlushieOptionVagrants0,None
