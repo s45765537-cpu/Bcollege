@@ -32863,7 +32863,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticHarness",
 				InventoryID: 677,
-				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Fetish: ["Metal"],
 				Category: ["SciFi"],
@@ -32894,6 +32893,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Band",
+						StyleOverride: ["EchoV2"],
 						Priority: 15,
 						AllowTypes: { typed: [0, 2] },
 					},
