@@ -130,7 +130,7 @@ function RelogRun() {
 	} else if (!status && statusElement) {
 		statusElement.textContent = "";
 	}
-	ElementWrap(RelogIDs.login).toggleAttribute("disabled", !CanLogin);
+	ElementWrap(RelogIDs.login)?.toggleAttribute("disabled", !CanLogin);
 
 	// Reset any disconnect notifications
 	if (document.hasFocus()) NotificationReset(NotificationEventType.DISCONNECT);
