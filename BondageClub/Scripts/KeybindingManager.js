@@ -433,10 +433,9 @@ var KeybindingManager = {
 					/** @type {Set<Keybindings.ModifierKey>} */
 					const modifiers = new Set([...(modifiersString || '')].map(sym => KeybindingManager.ReverseModifierSymbols[sym]));
 
-					/** @type {Keybindings.KeyCombo['key']} */
-					const code = KeybindingManager.ASCIIKeyboardMap[key];
+					if (key in KeybindingManager.ASCIIKeyboardMap === false) return console.error(`Unknown key: ${key}`);
 
-					if (!code) return console.error(`Unknown key: ${key}`);
+					const code = /** @type {Keybindings.KeyCombo['key']} */ (key);
 
 					if (isDefaultKeybinding) {
 						if (this.keybindings.get(kb.actionId)?.readonly) return;

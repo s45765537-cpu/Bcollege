@@ -304,6 +304,8 @@ var KeybindingDefaults = {
 					if (inputChat?.value.length !== 0) {
 						CommandAutoComplete(inputChat.value);
 					}
+
+					return false;
 				},
 				contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
 			},
@@ -321,6 +323,7 @@ var KeybindingDefaults = {
 				action: (event) => {
 					event.preventDefault();
 					ChatRoomSendChat();
+					return true;
 				},
 				contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
 			},
@@ -337,6 +340,7 @@ var KeybindingDefaults = {
 				description: 'BindChatHistoryPreviousDesc',
 				action: () => {
 					ChatRoomScrollHistory(true);
+					return true;
 				},
 				contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
 			},
@@ -353,6 +357,7 @@ var KeybindingDefaults = {
 				description: 'BindChatHistoryNextDesc',
 				action: () => {
 					ChatRoomScrollHistory(false);
+					return true;
 				},
 				contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
 			},
@@ -398,6 +403,7 @@ var KeybindingDefaults = {
 				description: 'BindChatRoomLeaveDesc',
 				action: () => {
 					ChatRoomAttemptLeave();
+					return true;
 				},
 				contextIds: ['isInChatRoom'],
 			},
@@ -414,7 +420,12 @@ var KeybindingDefaults = {
 				name: 'BindToggleKneelName',
 				description: 'BindToggleKneelDesc',
 				action: (event) => {
-					if (!event.repeat) ChatRoomToggleKneel();
+					if (!event.repeat) {
+						ChatRoomToggleKneel();
+						return true;
+					}
+
+					return false;
 				},
 				contextIds: ['isInChatRoom'],
 			},
@@ -433,6 +444,8 @@ var KeybindingDefaults = {
 				action: () => {
 					if (CurrentCharacter) { DialogLeave({ reload: false }); }
 					ChatRoomOpenInformationScreen();
+
+					return true;
 				},
 				contextIds: ['isInChatRoom'],
 			},
@@ -451,6 +464,8 @@ var KeybindingDefaults = {
 				action: () => {
 					if (CurrentCharacter) { DialogLeave({ reload: false }); }
 					ChatRoomOpenWardrobeScreen();
+
+					return true;
 				},
 				contextIds: ['isInChatRoom'],
 			},
@@ -469,6 +484,8 @@ var KeybindingDefaults = {
 				action: () => {
 					if (CurrentCharacter) { DialogLeave({ reload: false }); }
 					ChatRoomOpenAdminScreen();
+
+					return true;
 				},
 				contextIds: ['isInChatRoom'],
 			},
