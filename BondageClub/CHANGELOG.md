@@ -11,9 +11,106 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-10-12
-* Last recorded PR: [#5916](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5916)
-* Last recorded commit hash: `f8af6dd5cee8cb44900af6b8a26cda666349838d`
+* Changelog last updated: 2025-11-09
+* Last recorded PR: [#5995](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5995)
+* Last recorded commit hash: `0ee3cb69a3f06687029558d0089ad7f357d2870b`
+
+## [R122]
+
+### [Changes]
+
+* Raven - Added fingering to mouth~ ([#5924](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5924))
+* Feldob66 - Improvements to some tails & removed unnecessary Echo Override images by Felix, Tifa & Nicole ([#5974](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5974))
+* ewhac - Add Owner's Notes ([#5968](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5968))
+* Haruhi - Added Minidolls item ([#5951](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5951))
+* Haruhi - Updates Customizable Ears to be available in ItemEars and Womb Tattoos in ItemPelvis ([#5955](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5955))
+* dDeepLb - Keybindings Manager ([#5966](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5966))
+* dDeepLb - chat clear command ([#5979](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5979))
+* dDeepLb - preference general subscreen ([#5980](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5980))
+* dDeepLb - title/nickname screen ([#5982](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5982))
+* dDeepLb - add dropdown to change allowed interactions to information sheet ([#5983](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5983))
+* Sin - Realign dragon orb and eye for Bead Necklace ([#5919](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5919))
+* Sin - Added several new plushies by various artists by Sin and Raven ([#5993](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5993))
+* Sin - Added reverse bunny suit top compatibility for males, Fixed EchoV2 bug with Bunny suit gloves. ([#5990](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5990))
+* Sin - Updated ShinyStraitjacket to block poses where art doesn't exist for it. (Kneeling Spread) ([#5989](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5989))
+* Sin - Added override art for male nylon and hemp rope in male arm slot. ([#5988](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5988))
+* Sin - Added several new titles to the game ([#5964](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5964))
+* Sin - Shiny Armbinder male compatibility ([#5963](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5963))
+* Sin - Added several additional titles and adjusted god/goddess and king/queen ([#5970](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5970))
+* Zoe - Added Friend Request Notifications ([#5913](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5913))
+* Zoe - Add DeepThroat and SuckPenetrateItem, fixed chastity issue ([#5927](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5927))
+* Zoe - Add gradient layers to diapers + Male support for Diapers1-4 ([#5943](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5943))
+* Zoe - Added a few ABDL handhelds ([#5936](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5936))
+* Zoe - Added support for more female clothes on males ([#5935](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5935))
+* Zoe - Added Potty and skirt fixes and foot mitten fixes ([#5934](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5934))
+* Zoe - Added Enema fixture item ([#5953](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5953))
+* Zoe - Add BunnyCropout decal to customtshirt and fix ci issues ([#5950](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5950))
+* Rama - Overhaul the color picker ([#5870](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5870))
+* Rama - ENH: Add the option set the button image color when creating a button ([#5932](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5932))
+* Estsanatlehi - Change the cushion's behavior ([#5941](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5941))
+* Estsanatlehi - Make the sender number selectable ([#5937](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5937))
+* Estsanatlehi - Add small note about ghostlisting random players to the room filter mode help ([#5931](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5931))
+* Estsanatlehi - Hide arms on a few assets ([#5985](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5985))
+* Estsanatlehi - Move the StyleOverride to only the Suit layer of the SeamlessCatsuit ([#5948](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5948))
+* Ben987 - Online Rooms - 4 New Backgrounds
+* Ben987 - Online Rooms - 3 Extra Backgrounds
+* Ben987 - Server Update
+* Ben987 - Change Log
+
+### [Fixes]
+
+* Feldob66 - fix: LARP pronouns ([#5917](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5917))
+* dDeepLb - fixes ([#5994](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5994))
+* dDeepLb - keybinding fixes ([#5995](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5995))
+* Zoe - Fixed male member fucking ([#5957](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5957))
+* Sin - Fixes Catsuit opaque/transparent gloves for EchoV2 ([#5992](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5992))
+* Sin - Fixed Futuristic Harness for EchoV2. ([#5991](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5991))
+* ewhac - Owner's Notes - UI Wart ([#5975](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5975))
+* ewhac - Owner's Notes - UI Wart, Round 2 ([#5978](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5978))
+* Rama - Fix crafting data failing to properly sync between players ([#5918](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5918))
+* Rama - Fix `PoseRefresh()` failing to consider `C.PoseMapping` a valid fallback ([#5923](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5923))
+* Rama - Fix the chat search buttons not being properly marked as disabled when full ([#5944](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5944))
+* Rama - Simplify the logic of the `ElementMenu` menu item appending/prepending ([#5942](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5942))
+* Rama - Various color picker changes and fixes ([#5961](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5961))
+* Rama - Fix the preference screen eating canvas clicks ([#5973](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5973))
+* Rama - Various color picker overhaul follow ups and fixes ([#5930](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5930))
+* Rama - Fix the color picker's accept button reverting the color ([#5956](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5956))
+* Rama - Fix crafting `Type` to `TypeRecord` conversion potentially getting stuck in a loop ([#5952](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5952))
+* Rama - BUG: Prevent `CommonKey.InputKeyDown()` from eating chat room `ctrl + A` key presses ([#5940](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5940))
+* Rama - BUG: Ensure that the `Player.ActivePoseMapping` object is not initialized empty ([#5939](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5939))
+* Estsanatlehi - Fix a crash when the server disconnects while in a room ([#5925](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5925))
+* Estsanatlehi - Fix the MainHall Maid being much too eager with showing the changelog ([#5921](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5921))
+* Estsanatlehi - Change some of the `ServerIsLoggedIn()` checks back to doing a CharacterID check ([#5926](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5926))
+* Estsanatlehi - Fix chat search filtering ([#5933](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5933))
+* Estsanatlehi - Fix the speech ungarbling being broken ([#5947](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5947))
+* Ben987 - Fix Chess Background
+
+### [Technical]
+
+* dDeepLb - Allow translation of arguments ([#5967](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5967))
+* Rama - Add support `...Paste()` screen functions and add helpers for managing keypress-to-input behavior ([#5920](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5920))
+* Rama - Expand the number of CSS variables ([#5928](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5928))
+* Rama - Add `ElementDOMScreen` options for side bars and alternative layouts ([#5969](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5969))
+* Estsanatlehi - Split LockMemberNumber into a number, a name, and a message ([#5914](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5914))
+* Estsanatlehi - Fold the odd ChatRoomListManipulation function into the command parsing ([#5911](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5911))
+* Estsanatlehi - Update renamed function and add its original name back as deprecated ([#5929](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5929))
+* Estsanatlehi - Fix skills being set on the wrong object ([#5954](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5954))
+* Estsanatlehi - Debugging code for allowed activities ([#5949](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5949))
+* Estsanatlehi - Add missing optional argument to _ParseImage calls ([#5946](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5946))
+* Estsanatlehi - Replace all of the CurrentScreen == ChatRoom check with ServerPlayerIsInChatRoom() ([#5945](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5945))
+* Estsanatlehi - Fix CI ([#5959](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5959))
+* Estsanatlehi - Use ChatSearchJoin instead of doing a direct RPC call ([#5958](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5958))
+* Estsanatlehi - A couple tweaks to emote-processing ([#5965](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5965))
+* Estsanatlehi - Remove the hardcoded arousal strings ([#5962](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5962))
+* Estsanatlehi - Exit handlers don't need to be awaited on ([#5960](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5960))
+* Estsanatlehi - Struggle improvements ([#5984](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5984))
+* Estsanatlehi - Intercept security error drawing ([#5987](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5987))
+* Estsanatlehi - Remove the deprecated `Private` and `Locked` room properties ([#5981](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5981))
+* Estsanatlehi - Update devtools ([#5972](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5972))
+* Estsanatlehi - Allow passing drawing options from an extended type ([#5895](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5895))
+* Estsanatlehi - Fix remaining TS errors in AssetCheck ([#5976](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5976))
+* Estsanatlehi - Fix indent ([#5977](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5977))
+
 
 ## [R121]
 
