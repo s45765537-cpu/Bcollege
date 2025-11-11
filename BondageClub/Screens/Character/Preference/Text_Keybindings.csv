@@ -42,6 +42,12 @@ BindChatRoomLeaveName,Leave the Chat Room
 BindChatRoomLeaveDesc,Tries to leave the chat room.
 BindToggleKneelName,Toggle Kneel
 BindToggleKneelDesc,Toggles the kneeling state.
+BindMapFocusChatName,Focus Chat
+BindMapFocusChatDesc,Change the focus to the chat input.
+BindMapZoomOutName,Zoom Out
+BindMapZoomOutDesc,Zoom the map view out.
+BindMapZoomInName,Zoom In
+BindMapZoomInDesc,Zoom the map view in.
 BindOpenProfileName,Open Your Profile
 BindOpenProfileDesc,Opens your profile.
 BindOpenWardrobeName,Open Your Wardrobe

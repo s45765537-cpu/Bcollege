@@ -1858,16 +1858,7 @@ function ChatRoomMapViewKeyDown(event) {
 	if (CurrentCharacter != null) return false;
 	if (document.activeElement === ElementWrap("InputChat")) return false;
 
-	if (CommonKey.IsPressed(event, "Enter")) {
-		ElementFocus("InputChat");
-		return true;
-	} else if (CommonKey.IsPressed(event, "=")) {
-		if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
-		return true;
-	} else if (CommonKey.IsPressed(event, "-")) {
-		if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
-		return true;
-	} else if (CommonKey.IsPressed(event, "z", CommonKey.CTRL)) {
+	if (CommonKey.IsPressed(event, "z", CommonKey.CTRL)) {
 		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
 		return true;
 	}

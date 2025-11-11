@@ -292,6 +292,75 @@ var KeybindingDefaults = {
 			readonly: true,
 			categoryId: 'maproom',
 		},
+		{
+			id: 'map_zoom_out',
+			action: {
+				name: "BindMapZoomOutName",
+				description: "BindMapZoomOutDesc",
+				action: () => {
+					if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
+					return true;
+				},
+			},
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+			keyCombo: {
+				key: "Slash",
+			},
+			readonly: true,
+			categoryId: 'maproom',
+		},
+		{
+			id: 'map_zoom_in',
+			action: {
+				name: "BindMapZoomInName",
+				description: "BindMapZoomInDesc",
+				action: () => {
+					if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
+					return true;
+				},
+			},
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+			keyCombo: {
+				key: "Equal",
+			},
+			readonly: true,
+			categoryId: 'maproom',
+		},
+		{
+			id: 'map_focus_chat',
+			action: {
+				name: "BindMapFocusChatName",
+				description: "BindMapFocusChatDesc",
+				action: () => {
+					ElementFocus("InputChat");
+					return true;
+				},
+			},
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+			keyCombo: {
+				key: "Enter",
+			},
+			readonly: true,
+			categoryId: 'maproom',
+		},
+		// {
+		// id: 'map_admin_undo',
+		// action: {
+		// name: "BindMapAdminUndo",
+		// description: "BindMapAdminUndoDesc",
+		// action: () => {
+		// if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
+		// return true;
+		// },
+		// },
+		// contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+		// keyCombo: {
+		// key: "KeyZ", // Can't represent a layout-independent Z here (it's W on AZERTY)
+		// modifiers: new Set(["Ctrl"]),
+		// },
+		// readonly: true,
+		// categoryId: 'maproom',
+		// },
 		// #endregion Map ChatRoom
 		// #region Chat
 		{

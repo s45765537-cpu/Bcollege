@@ -34,7 +34,7 @@ declare namespace Keybindings {
 	 * Contexts allow the same keybinding to behave differently depending
 	 * on active UI states or modes.
 	 */
-	type ContextId = string;
+	type ContextId = Context["id"];
 
 	/**
 	 * Describes an executable action that can be bound to a key combination.
@@ -58,7 +58,7 @@ declare namespace Keybindings {
 	 */
 	type Category = {
 		/** Unique identifier */
-		readonly id: string;
+		readonly id: "chat" | "maproom" | "navigation" | "chatroom" | "unknown";
 
 		/** User-facing label */
 		readonly name: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
@@ -69,7 +69,7 @@ declare namespace Keybindings {
 	 */
 	type Context = {
 		/** Unique identifier */
-		readonly id: ContextId;
+		readonly id: "chat" | "always" | "isInChatRoom" | "isOnChatRoomScreen" | "isChatRoomCharacterMode" | "isChatRoomMapMode" | "isChatRoomChatFocused" | "isChatRoomChatNOTFocused" | "noModifiers";
 
 		/** User-facing label */
 		readonly name: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
@@ -92,7 +92,7 @@ declare namespace Keybindings {
 		readonly action: Action;
 
 		/** Contexts in which the action is valid */
-		readonly contextIds: string[];
+		readonly contextIds: ContextId[];
 
 		/** Currently assigned key combo */
 		keyCombo?: KeyCombo;
