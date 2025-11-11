@@ -40,9 +40,6 @@ declare namespace Keybindings {
 	 * Describes an executable action that can be bound to a key combination.
 	 */
 	type Action = {
-		/** Unique identifier */
-		readonly id: string;
-
 		/** User-facing label */
 		readonly name: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
 
@@ -51,9 +48,6 @@ declare namespace Keybindings {
 		 * Returns `true` if handled, `false` otherwise.
 		 */
 		readonly action: (event: KeyboardEvent) => boolean | void;
-
-		/** Contexts in which the action is valid */
-		readonly contextIds: string[];
 
 		/** Optional description */
 		readonly description?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
@@ -92,7 +86,13 @@ declare namespace Keybindings {
 	 */
 	type Keybinding = {
 		/** Unique identifier */
+		readonly id: string;
+
+		/** Describes an executable action that can be bound to a key combination. */
 		readonly action: Action;
+
+		/** Contexts in which the action is valid */
+		readonly contextIds: string[];
 
 		/** Currently assigned key combo */
 		keyCombo?: KeyCombo;

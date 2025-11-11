@@ -233,16 +233,16 @@ var KeybindingManager = {
 		registerKeybinding(keybinding) {
 			if (!keybinding) return console.error('No keybinding provided.');
 			if (!keybinding.action) return console.error('No keybinding action provided.');
-			if (!keybinding.action.id) return console.error('No keybinding action id provided.');
+			if (!keybinding.id) return console.error('No keybinding action id provided.');
 			if (!keybinding.action.name) return console.error('No keybinding action name provided.');
 			if (!keybinding.action.action) return console.error('No keybinding action function provided.');
 			if (!keybinding.keyCombo && !keybinding.defaultKeyCombo) return console.error('No keybinding keyCombo provided.');
 			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key === undefined) return console.error('No keybinding key provided.');
 			if (keybinding.readonly === undefined) return console.error('No keybinding readonly property provided.');
 
-			const keybindingEntry = this.keybindings.get(keybinding.action.id);
+			const keybindingEntry = this.keybindings.get(keybinding.id);
 			const category = this.categories.get(keybinding.categoryId);
-			const unregisteredContexts = keybinding.action.contextIds?.filter(ctx => !this.contexts.get(ctx));
+			const unregisteredContexts = keybinding.contextIds?.filter(ctx => !this.contexts.get(ctx));
 
 			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key)
 				keybinding.keyCombo = keybinding.defaultKeyCombo;
@@ -251,12 +251,12 @@ var KeybindingManager = {
 				this._finishUninitializedKeybinding(keybinding);
 
 			if (keybindingEntry && !keybindingEntry.uninitialized)
-				return console.error(`Keybinding action with id '${keybinding.action.id}' already registered.`);
+				return console.error(`Keybinding action with id '${keybinding.id}' already registered.`);
 
 			if (keybinding.categoryId && !category && !keybinding.uninitialized)
 				return console.error(`Keybinding category '${keybinding.categoryId}' not found.`);
 
-			if (keybinding.action.contextIds?.length > 0 && unregisteredContexts.length > 0)
+			if (keybinding.contextIds?.length > 0 && unregisteredContexts.length > 0)
 				return console.error(`Keybinding context(s) '${unregisteredContexts.join(', ')}' not found.`);
 
 			if (keybinding.keyCombo?.modifiers?.size > 2) {
@@ -264,7 +264,7 @@ var KeybindingManager = {
 				console.warn(`Keybinding '${keybinding.action.name}' has more than 2 modifiers. Only the first 2 will be used.`);
 			}
 
-			this.keybindings.set(keybinding.action.id, keybinding);
+			this.keybindings.set(keybinding.id, keybinding);
 			this.keybindings = new Map([...this.keybindings.entries()]
 				.sort((a, b) => this.getTranslated(a[1].action.name).localeCompare(this.getTranslated(b[1].action.name))));
 		}
@@ -354,7 +354,7 @@ var KeybindingManager = {
 
 			let handled = false;
 			for (const keybinding of activeKeybindings) {
-				if (keybinding.action.contextIds.every(ctx => this.contexts.get(ctx).prerequisite(event))) {
+				if (keybinding.contextIds.every(ctx => this.contexts.get(ctx).prerequisite(event))) {
 					handled = keybinding.action.action(event) || handled;
 				}
 			}
@@ -388,10 +388,10 @@ var KeybindingManager = {
 			if (!keybinding) return [];
 
 			return [...this.keybindings.values()].filter(kb =>
-				kb.action.id !== keybinding.action.id &&
+				kb.id !== keybinding.id &&
 				kb.keyCombo.key === keybinding.keyCombo.key &&
 				this._areModifiersConflicting(keybinding.keyCombo.modifiers, kb.keyCombo.modifiers) &&
-				this._areContextsConflicting(new Set(keybinding.action.contextIds), new Set(kb.action.contextIds))
+				this._areContextsConflicting(new Set(keybinding.contextIds), new Set(kb.contextIds))
 			);
 		}
 
@@ -403,7 +403,7 @@ var KeybindingManager = {
 			if (!Player) return console.error('Player not initialized.');
 
 			const serialized = [...this.keybindings.values()].filter(kb => !kb.readonly).map(kb => /** @type {Keybindings.KeybindingSerialized} */({
-				actionId: kb.action.id,
+				actionId: kb.id,
 				keyCombo: kb.keyCombo.key + ' ' + (kb.keyCombo.modifiers ? [...kb.keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
 			}));
 			const stringified = LZString.compressToBase64(JSON.stringify(serialized));
@@ -449,12 +449,12 @@ var KeybindingManager = {
 						this.updateKeybinding(kb.actionId, keyCombo);
 					} else {
 						this.registerKeybinding({
+							id: kb.actionId,
 							action: {
-								id: kb.actionId,
 								name: ' ',
-								contextIds: [],
 								action: undefined,
 							},
+							contextIds: [],
 							keyCombo: {
 								key: code,
 								modifiers: modifiers
