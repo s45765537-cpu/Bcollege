@@ -214,7 +214,7 @@ var KeyGUI = {
 		categoryElm?.replaceChildren();
 
 		const allKeybindings = KeyManager.getAllKeybindings()
-			.filter(kb => kb.categoryId === categoryObject.id && !kb.uninitialized);
+			.filter(kb => kb.categoryId === categoryObject.id);
 
 		if (allKeybindings.length === 0) {
 			return;
@@ -266,8 +266,6 @@ var KeyGUI = {
 					return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getTranslated(cat.name)))];
 				case 'keyCombo':
 					return [...new Set(KeyManager.getAllKeybindings().map(kb => {
-						if (kb.uninitialized) return;
-
 						const keyString = KeybindingManager.ASCIIKeyboardMap[kb.keyCombo?.key];
 						const modifiersString = kb.keyCombo?.modifiers ? [...kb.keyCombo.modifiers].join(' + ') : '';
 

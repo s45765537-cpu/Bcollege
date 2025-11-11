@@ -105,9 +105,11 @@ declare namespace Keybindings {
 
 		/** Flag whether the binding cannot be changed by the user */
 		readonly readonly: boolean;
+	};
 
-		/** Flag whether the binding exists in storage but not in defaults at load time. Usually means it was added by mod */
-		uninitialized?: boolean;
+	type UninitializedKeybinding = {
+		id: Keybinding['action']['id'];
+		keyCombo: KeyCombo;
 	};
 
 	/**
