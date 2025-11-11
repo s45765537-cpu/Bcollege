@@ -1,8 +1,6 @@
 'use strict';
 
 var KeybindingManager = {
-	/** @type {TextCache} */
-	TextCache: undefined,
 	/**
 	 * A map from `KeyboardEvent.code` values to their ASCII key label.
 	 *
@@ -135,13 +133,12 @@ var KeybindingManager = {
 		 * Initializes with default categories, contexts, and keybindings.
 		 */
 		constructor() {
-			if (!KeybindingManager.TextCache) {
-				KeybindingManager.TextCache = new TextCache("Screens/Character/Preference/Text_Keybindings.csv");
-			} else KeybindingManager.TextCache.buildCache();
-
-			KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
-			KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
-			KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
+			const cache = TextPrefetchFile(ScreenFileGetTranslation("Character", "Preference", "Keybindings"));
+			cache.loadedPromise.then(() => {
+				KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
+				KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
+				KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
+			});
 		}
 
 		/**
@@ -155,14 +152,13 @@ var KeybindingManager = {
 		registerCategory(category) {
 			if (!category) return console.error('No category provided.');
 			if (!category.id) return console.error('No category id provided.');
-			if (!category.name) return console.error('No category name provided.');
 
 			const cat = this.categories.get(category.id);
 			if (cat) return console.error(`Keybinding category '${category.id}' already registered.`);
 
 			this.categories.set(category.id, category);
 			this.categories = new Map([...this.categories.entries()]
-				.sort((a, b) => this.getTranslated(a[1].id).localeCompare(this.getTranslated(b[1].id))));
+				.sort((a, b) => this.getCategoryLabel(a[1].id).localeCompare(this.getCategoryLabel(b[1].id))));
 		}
 
 		/**
@@ -173,6 +169,20 @@ var KeybindingManager = {
 		 */
 		getCategory(id) {
 			return this.categories.get(id);
+		}
+
+		/**
+		 * Returns the user-visible name of a category
+		 * @param {Keybindings.Category["id"]} id
+		 * @returns {string}
+		 */
+		getCategoryLabel(id) {
+			const cat = this.getCategory(id);
+			if (!cat) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "category:unknown");
+			if (typeof cat.name === "string" || !cat.name) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `category:${cat.id}`);
+			}
+			return cat.name[TranslationLanguage];
 		}
 
 		/**
@@ -194,7 +204,6 @@ var KeybindingManager = {
 		registerContext(context) {
 			if (!context) return console.error('No context provided.');
 			if (!context.id) return console.error('No context id provided.');
-			if (!context.name) return console.error('No context name provided.');
 			if (!context.prerequisite) return console.error('No context prerequisite provided.');
 
 			const ctx = this.contexts.get(context.id);
@@ -202,18 +211,32 @@ var KeybindingManager = {
 
 			this.contexts.set(context.id, context);
 			this.contexts = new Map([...this.contexts.entries()]
-				.sort((a, b) => this.getTranslated(a[1].name).localeCompare(this.getTranslated(b[1].name))));
+				.sort((a, b) => this.getContextLabel(a[1].id).localeCompare(this.getContextLabel(b[1].id))));
 
 		}
 
 		/**
 		 * Returns a context by ID.
 		 *
-		 * @param {string} id
+		 * @param {Keybindings.ContextId} id
 		 * @returns {Keybindings.Context}
 		 */
 		getContext(id) {
 			return this.contexts.get(id);
+		}
+
+		/**
+		 * Returns the user-visible name of a context
+		 * @param {Keybindings.ContextId} id
+		 * @returns {string}
+		 */
+		getContextLabel(id) {
+			const ctx = this.getContext(id);
+			if (!ctx) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "context:unknown");
+			if (typeof ctx.name === "string" || !ctx.name) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `context:${ctx.id}`);
+			}
+			return ctx.name[TranslationLanguage];
 		}
 
 		/**
@@ -241,7 +264,6 @@ var KeybindingManager = {
 			if (!keybinding) return console.error('No keybinding provided.');
 			if (!keybinding.action) return console.error('No keybinding action provided.');
 			if (!keybinding.id) return console.error('No keybinding action id provided.');
-			if (!keybinding.action.name) return console.error('No keybinding action name provided.');
 			if (!keybinding.action.action) return console.error('No keybinding action function provided.');
 			if (!keybinding.keyCombo && !keybinding.defaultKeyCombo) return console.error('No keybinding keyCombo provided.');
 			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key === undefined) return console.error('No keybinding key provided.');
@@ -270,7 +292,7 @@ var KeybindingManager = {
 
 			this.keybindings.set(keybinding.id, keybinding);
 			this.keybindings = new Map([...this.keybindings.entries()]
-				.sort((a, b) => this.getTranslated(a[1].action.name).localeCompare(this.getTranslated(b[1].action.name))));
+				.sort((a, b) => this.getKeybindingActionLabel(a[1].id).localeCompare(this.getKeybindingActionLabel(b[1].id))));
 		}
 
 		/**
@@ -281,6 +303,34 @@ var KeybindingManager = {
 		 */
 		getKeybinding(actionId) {
 			return this.keybindings.get(actionId);
+		}
+
+		/**
+		 * Returns the user-visible name of an action
+		 * @param {string} actionId
+		 * @returns {string}
+		 */
+		getKeybindingActionLabel(actionId) {
+			const act = this.getKeybinding(actionId);
+			if (!act) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "action:unknown:name");
+			if (typeof act.action.name === "string" || !act.action.name) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `action:${actionId}:name`);
+			}
+			return act.action.name[TranslationLanguage];
+		}
+
+		/**
+		 * Returns the user-visible description of an action
+		 * @param {string} actionId
+		 * @returns {string}
+		 */
+		getKeybindingActionDescription(actionId) {
+			const act = this.getKeybinding(actionId);
+			if (!act) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "action:unknown:desc");
+			if (typeof act.action.description === "string" || !act.action.description) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `action:${actionId}:desc`);
+			}
+			return act.action.description[TranslationLanguage];
 		}
 
 		/**
@@ -465,21 +515,6 @@ var KeybindingManager = {
 			} catch (e) {
 				console.error(e);
 				return;
-			}
-		}
-
-		/** @param {string | Partial<Record<ServerChatRoomLanguage | "TW", string>>} raw */
-		getTranslated(raw) {
-			if (!raw) return "";
-
-			if (typeof raw === "string") {
-				const translated = KeybindingManager.TextCache.cache[raw];
-
-				if (translated) return translated;
-
-				return raw;
-			} else if (raw[TranslationLanguage]) {
-				return raw[TranslationLanguage];
 			}
 		}
 

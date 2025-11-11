@@ -41,7 +41,7 @@ declare namespace Keybindings {
 	 */
 	type Action = {
 		/** User-facing label */
-		readonly name: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
+		readonly name?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
 
 		/**
 		 * Function executed when triggered.
@@ -61,7 +61,7 @@ declare namespace Keybindings {
 		readonly id: "chat" | "maproom" | "navigation" | "chatroom" | "unknown";
 
 		/** User-facing label */
-		readonly name: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
+		readonly name?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
 	};
 
 	/**
@@ -72,7 +72,7 @@ declare namespace Keybindings {
 		readonly id: "chat" | "always" | "isInChatRoom" | "isOnChatRoomScreen" | "isChatRoomCharacterMode" | "isChatRoomMapMode" | "isChatRoomChatFocused" | "isChatRoomChatNOTFocused" | "noModifiers";
 
 		/** User-facing label */
-		readonly name: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
+		readonly name?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
 
 		/** Function returning true if this context should be considered active */
 		readonly prerequisite: (event: KeyboardEvent) => boolean;

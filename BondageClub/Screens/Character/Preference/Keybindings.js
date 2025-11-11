@@ -54,11 +54,11 @@ var KeyGUI = {
 	 */
 	buildKeybinding: function (keybinding) {
 		const keyString = KeybindingManager.ASCIIKeyboardMap[keybinding.keyCombo?.key];
-		const contextsString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => KeyManager.getTranslated(KeyManager.getContext(ctx).name)).join(', ');
-		const contextsTooltipString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => `· ${KeyManager.getTranslated(KeyManager.getContext(ctx).name)}`).join('\\n');
+		const contextsString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => KeyManager.getContextLabel(ctx)).join(', ');
+		const contextsTooltipString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => `· ${KeyManager.getContextLabel(ctx)}`).join('\\n');
 		const keybindElm = document.getElementById(KeyGUI.selec.keyId(keybinding.id));
 		const conflicts = KeyManager.getConflictingKeybindings(keybinding.id);
-		const conflictNames = conflicts.map(kb => `· ${KeyManager.getTranslated(KeyManager.getCategory(kb.categoryId).name)} > ${KeyManager.getTranslated(kb.action.name)}`).join('\\n');
+		const conflictNames = conflicts.map(kb => `· ${KeyManager.getCategoryLabel(kb.categoryId)} > ${KeyManager.getKeybindingActionLabel(kb.id)}`).join('\\n');
 
 		/** @type {(string | Node)[]} */
 		let keyComboString;
@@ -97,10 +97,10 @@ var KeyGUI = {
 					id: KeyGUI.selec.keyNameId(keybinding.id)
 				},
 				dataAttributes: {
-					tooltip: KeyManager.getTranslated(keybinding.action.name) + '\\hr' + KeyManager.getTranslated(keybinding.action.description)
+					tooltip: KeyManager.getKeybindingActionLabel(keybinding.id) + '\\hr' + KeyManager.getKeybindingActionDescription(keybinding.id)
 				},
 				classList: [KeyGUI.selec.keybindNameClass, 'truncated-text'],
-				children: [KeyManager.getTranslated(keybinding.action.name)]
+				children: [KeyManager.getKeybindingActionLabel(keybinding.id)]
 			},
 			{
 				tag: 'span',
@@ -234,7 +234,7 @@ var KeyGUI = {
 					tag: 'legend',
 					classList: [KeyGUI.selec.categoryNameClass],
 					children: [
-						KeyManager.getTranslated(categoryObject.name)
+						KeyManager.getCategoryLabel(categoryObject.id)
 					],
 				},
 				{
@@ -261,9 +261,9 @@ var KeyGUI = {
 		const searchInput = ElementCreateSearchInput(KeyGUI.selec.searchInput, () => {
 			switch (KeyGUI.currentSearchingMode) {
 				case 'action':
-					return [...new Set(KeyManager.getAllKeybindings().map(kb => KeyManager.getTranslated(kb.action.name)))];
+					return [...new Set(KeyManager.getAllKeybindings().map(kb => KeyManager.getKeybindingActionLabel(kb.id)))];
 				case 'category':
-					return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getTranslated(cat.name)))];
+					return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getCategoryLabel(cat.id)))];
 				case 'keyCombo':
 					return [...new Set(KeyManager.getAllKeybindings().map(kb => {
 						const keyString = KeybindingManager.ASCIIKeyboardMap[kb.keyCombo?.key];
@@ -508,7 +508,7 @@ var KeyGUI = {
 	showModal() {
 		document.querySelectorAll(`#${KeyGUI.selec.keybindModal}`).forEach(m => m.remove());
 
-		const keybindingName = KeyManager.getTranslated(KeyManager.getKeybinding(KeyGUI.selectedAction).action.name);
+		const keybindingName = KeyManager.getKeybindingActionLabel(KeyManager.getKeybinding(KeyGUI.selectedAction).id);
 		const modal = ElementCreate({
 			tag: 'dialog',
 			attributes: {
