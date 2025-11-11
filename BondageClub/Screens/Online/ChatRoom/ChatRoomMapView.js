@@ -1858,32 +1858,36 @@ function ChatRoomMapViewKeyDown(event) {
 	if (CurrentCharacter != null) return false;
 	if (document.activeElement === ElementWrap("InputChat")) return false;
 
-	const modifiers = CommonKey.GetModifiers(event);
-	switch (event.key) {
-		case "Enter":
-			ElementFocus("InputChat");
-			return true;
-		case "-":
-		case "_":
-			if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
-			return true;
-		case "+":
-		case "=":
-			if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
-			return true;
-		case "z":
-			if (modifiers === CommonKey.CTRL) {
-				if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
-				return true;
-			}
-			return false;
+	if (CommonKey.IsPressed(event, "Enter")) {
+		ElementFocus("InputChat");
+		return true;
+	} else if (CommonKey.IsPressed(event, "=")) {
+		if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
+		return true;
+	} else if (CommonKey.IsPressed(event, "-")) {
+		if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
+		return true;
+	} else if (CommonKey.IsPressed(event, "z", CommonKey.CTRL)) {
+		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
+		return true;
 	}
+
 	const move = CommonKeyMove(event);
 	if (!move) return false;
-	if (!ChatRoomMapViewKeysPressed.u && !ChatRoomMapViewKeysPressed.d && !ChatRoomMapViewKeysPressed.l && !ChatRoomMapViewKeysPressed.r && (
-		move === 'd' || move === 'l' || move === 'r' || move === 'u'
-	)) ChatRoomMapViewStartOfKeyPress = CommonTime();
-	ChatRoomMapViewKeysPressed = {d: move === 'd', l: move === 'l', r: move === 'r', u: move === 'u'};
+
+	const isDirectional = ['u', 'd', 'l', 'r'].includes(move);
+	const noKeyPressed = !Object.values(ChatRoomMapViewKeysPressed).some(Boolean);
+
+	if (noKeyPressed && isDirectional) {
+		ChatRoomMapViewStartOfKeyPress = CommonTime();
+	}
+
+	ChatRoomMapViewKeysPressed = {
+		u: move === 'u',
+		d: move === 'd',
+		l: move === 'l',
+		r: move === 'r',
+	};
 	return true;
 }
 
