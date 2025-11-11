@@ -37,23 +37,6 @@ declare namespace Keybindings {
 	type ContextId = Context["id"];
 
 	/**
-	 * Describes an executable action that can be bound to a key combination.
-	 */
-	type Action = {
-		/** User-facing label */
-		readonly name?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
-
-		/**
-		 * Function executed when triggered.
-		 * Returns `true` if handled, `false` otherwise.
-		 */
-		readonly action: (event: KeyboardEvent) => boolean | void;
-
-		/** Optional description */
-		readonly description?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
-	};
-
-	/**
 	 * Groups related actions for easier navigation in a UI (e.g., "Editing", "Navigation").
 	 */
 	type Category = {
@@ -88,8 +71,17 @@ declare namespace Keybindings {
 		/** Unique identifier */
 		readonly id: string;
 
-		/** Describes an executable action that can be bound to a key combination. */
-		readonly action: Action;
+		/** User-facing label */
+		readonly name?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
+
+		/**
+		 * Function executed when triggered.
+		 * Returns `true` if handled, `false` otherwise.
+		 */
+		readonly action: (event: KeyboardEvent) => boolean | void;
+
+		/** Optional description */
+		readonly description?: string | Partial<Record<ServerChatRoomLanguage | "TW", string>>;
 
 		/** Contexts in which the action is valid */
 		readonly contextIds: ContextId[];

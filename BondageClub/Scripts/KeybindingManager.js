@@ -264,7 +264,7 @@ var KeybindingManager = {
 			if (!keybinding) return console.error('No keybinding provided.');
 			if (!keybinding.action) return console.error('No keybinding action provided.');
 			if (!keybinding.id) return console.error('No keybinding action id provided.');
-			if (!keybinding.action.action) return console.error('No keybinding action function provided.');
+			if (!keybinding.action) return console.error('No keybinding action function provided.');
 			if (!keybinding.keyCombo && !keybinding.defaultKeyCombo) return console.error('No keybinding keyCombo provided.');
 			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key === undefined) return console.error('No keybinding key provided.');
 			if (keybinding.readonly === undefined) return console.error('No keybinding readonly property provided.');
@@ -327,10 +327,10 @@ var KeybindingManager = {
 		getKeybindingActionDescription(actionId) {
 			const act = this.getKeybinding(actionId);
 			if (!act) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "action:unknown:desc");
-			if (typeof act.action.description === "string" || !act.action.description) {
+			if (typeof act.action === "string" || !act.description) {
 				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `action:${actionId}:desc`);
 			}
-			return act.action.description[TranslationLanguage];
+			return act.description[TranslationLanguage];
 		}
 
 		/**
@@ -404,7 +404,7 @@ var KeybindingManager = {
 			let handled = false;
 			for (const keybinding of activeKeybindings) {
 				if (keybinding.contextIds.every(ctx => this.contexts.get(ctx).prerequisite(event))) {
-					handled = keybinding.action.action(event) || handled;
+					handled = keybinding.action(event) || handled;
 				}
 			}
 
