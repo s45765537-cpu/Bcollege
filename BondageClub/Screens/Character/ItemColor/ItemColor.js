@@ -476,7 +476,8 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 	ItemColorPickerIndices = ItemColorGetColorIndices(colorGroup);
 	const asset = ItemColorItem.Asset;
 
-	const layers = colorGroup.name === null ? asset.Layer : colorGroup.layers;
+	const layerPage = ItemColorLayerPages[colorGroup.name];
+	const layers = colorGroup.name === null ? asset.Layer : (layerPage === 0 ? colorGroup.layers : [colorGroup.layers[layerPage - 1]]);
 	ItemColorPickerLayers.clear();
 	for (const layer of layers) {
 		const index = asset.Layer.indexOf(layer);
@@ -497,7 +498,6 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 				nameList.push(ItemColorLayerNames.get(`${asset.DynamicGroupName}${asset.Name}${colorGroup.name}`));
 				break getName;
 			}
-			const layerPage = ItemColorLayerPages[colorGroup.name];
 			if (layerPage !== 0) {
 				// Only add the layer name if we're not in the color group's "All" category
 				const layer = colorGroup.layers[layerPage - 1];
