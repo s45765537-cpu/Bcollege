@@ -53,7 +53,8 @@ var KeyGUI = {
 	 * @param {Keybindings.Keybinding} keybinding
 	 */
 	buildKeybinding: function (keybinding) {
-		const keyString = KeybindingManager.ASCIIKeyboardMap[keybinding.keyCombo?.key];
+		const keyCombo = keybinding.keyCombo;
+		const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo?.key] : keyCombo.char;
 		const contextsString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => KeyManager.getContextLabel(ctx)).join(', ');
 		const contextsTooltipString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => `· ${KeyManager.getContextLabel(ctx)}`).join('\\n');
 		const keybindElm = document.getElementById(KeyGUI.selec.keyId(keybinding.id));
@@ -62,14 +63,16 @@ var KeyGUI = {
 
 		/** @type {(string | Node)[]} */
 		let keyComboString;
-		if (keybinding.keyCombo?.key === null) {
+		if (!("key" in keyCombo) && !("char" in keyCombo)) {
 			keyComboString = [document.createTextNode(TextGet("KeybindNotBound"))];
-		} else if (keybinding.keyCombo.modifiers && keyString) {
-			const keys = [...keybinding.keyCombo.modifiers].flatMap(mod => [ElementCreate({
-				tag: "kbd",
-				classList: ["keybind-modifier"],
-				children: [mod]
-			}), document.createTextNode(" + ")]);
+		} else if (keyString) {
+			const keys = keyCombo.modifiers
+				? [...keyCombo.modifiers].flatMap(mod => [ElementCreate({
+					tag: "kbd",
+					classList: ["keybind-modifier"],
+					children: [mod]
+				}), document.createTextNode(" + ")])
+				: [];
 
 			keys.push(ElementCreate({
 				tag: "kbd",
@@ -77,12 +80,6 @@ var KeyGUI = {
 				children: [keyString]
 			}));
 			keyComboString = keys;
-		} else if (keyString) {
-			keyComboString = [ElementCreate({
-				tag: "kbd",
-				classList: ["keybind-key"],
-				children: [keyString]
-			})];
 		} else {
 			keyComboString = [document.createTextNode(TextGet("KeybindError"))];
 		}
@@ -181,7 +178,7 @@ var KeyGUI = {
 							button: {
 								classList: [KeyGUI.selec.keybindUnbindClass, KeyGUI.selec.navSquareButtonClass],
 								attributes: {
-									disabled: keybinding.readonly || keybinding.keyCombo.key === null
+									disabled: keybinding.readonly || "key" in keyCombo && keyCombo.key === null || "char" in keyCombo && keyCombo.char === null
 								}
 							}
 						}
@@ -266,7 +263,8 @@ var KeyGUI = {
 					return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getCategoryLabel(cat.id)))];
 				case 'keyCombo':
 					return [...new Set(KeyManager.getAllKeybindings().map(kb => {
-						const keyString = KeybindingManager.ASCIIKeyboardMap[kb.keyCombo?.key];
+						const keyCombo = kb.keyCombo;
+						const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : keyCombo.char;
 						const modifiersString = kb.keyCombo?.modifiers ? [...kb.keyCombo.modifiers].join(' + ') : '';
 
 						let keyComboString = TextGet('KeybindNotBound');
@@ -586,7 +584,7 @@ function PreferenceSubscreenKeybindingsKeyUp(e) {
 
 	if (e.code in KeybindingManager.ASCIIKeyboardMap === false) return false;
 
-	const code = /** @type {Keybindings.KeyCombo['key']} */ (e.code);
+	const code = /** @type {Keybindings.KeyCode} */ (e.code);
 
 	if (CommonKey.IsPressed(e, 'Escape', 0)) {
 		KeyGUI.selectedAction = null;

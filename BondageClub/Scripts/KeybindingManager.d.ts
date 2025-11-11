@@ -1,4 +1,7 @@
 declare namespace Keybindings {
+
+	type KeyCode = keyof typeof KeybindingManager.ASCIIKeyboardMap;
+
 	/**
 	 * Represents a combination of a physical key and optional modifier keys.
 	 *
@@ -14,11 +17,22 @@ declare namespace Keybindings {
 		 * This means the value is hardware-position-based, not character-based.
 		 * See: https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
 		 */
-		key: keyof typeof KeybindingManager.ASCIIKeyboardMap | null;
+		key: KeyCode | null;
 
 		/**
 		 * An optional set of additional keys (Shift, Alt, Ctrl)
 	 	 * that must be pressed alongside the primary key.
+		 */
+		modifiers?: Set<ModifierKey>;
+	} | {
+		/**
+		 * A layout-dependent character.
+		 */
+		char: string | null;
+
+		/**
+		 * An optional set of additional keys (Shift, Alt, Ctrl)
+			 * that must be pressed alongside the primary key.
 		 */
 		modifiers?: Set<ModifierKey>;
 	};

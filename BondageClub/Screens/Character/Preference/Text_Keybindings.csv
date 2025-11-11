@@ -24,6 +24,8 @@ action:map_zoom_in:desc,Zoom the map view in.
 action:map_zoom_in:name,Zoom In
 action:map_zoom_out:desc,Zoom the map view out.
 action:map_zoom_out:name,Zoom Out
+action:map_admin_undo:desc,Undo the last map change made.
+action:map_admin_undo:name,Undo
 action:maproom_A:desc,Moves the player left in the map chatroom.
 action:maproom_A:name,Move Left
 action:maproom_arrowdown:desc,Moves the player down in the map chatroom.

@@ -248,6 +248,19 @@ var KeybindingManager = {
 			return Array.from(this.contexts.values());
 		}
 
+
+		/**
+		* @param {Keybindings.KeyCombo} combo
+		* @returns
+		*/
+		_validateKeyCombo(combo) {
+			if ("key" in combo && "char" in combo) return false;
+			if ("key" in combo && !(combo.key in KeybindingManager.ASCIIKeyboardMap)) return false;
+			if ("char" in combo && combo.char.length > 1) return false;
+			if (combo.modifiers && ![...combo.modifiers].every(c => ["Shift", "Alt", "Ctrl"].includes(c))) return false;
+			return true;
+		};
+
 		/**
 		 * Registers a new keybinding.
 		 * Validates category, contexts, and key combo.
@@ -266,14 +279,16 @@ var KeybindingManager = {
 			if (!keybinding.id) return console.error('No keybinding action id provided.');
 			if (!keybinding.action) return console.error('No keybinding action function provided.');
 			if (!keybinding.keyCombo && !keybinding.defaultKeyCombo) return console.error('No keybinding keyCombo provided.');
-			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key === undefined) return console.error('No keybinding key provided.');
+			if (keybinding.keyCombo && !this._validateKeyCombo(keybinding.keyCombo)
+				|| keybinding.defaultKeyCombo && !this._validateKeyCombo(keybinding.defaultKeyCombo))
+				return console.error('No keybinding key provided.');
 			if (keybinding.readonly === undefined) return console.error('No keybinding readonly property provided.');
 
 			const keybindingEntry = this.keybindings.get(keybinding.id);
 			const category = this.categories.get(keybinding.categoryId);
 			const unregisteredContexts = keybinding.contextIds?.filter(ctx => !this.contexts.get(ctx));
 
-			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key)
+			if (!keybinding.keyCombo && keybinding.defaultKeyCombo)
 				keybinding.keyCombo = keybinding.defaultKeyCombo;
 
 			if (keybindingEntry)
@@ -387,18 +402,18 @@ var KeybindingManager = {
 
 			if (event.code in KeybindingManager.ASCIIKeyboardMap === false) return false;
 
-			const code = /** @type {Keybindings.KeyCombo['key']} */ (event.code);
+			const code = /** @type {Keybindings.KeyCode} */ (event.code);
 
 			/** @type {Keybindings.KeyCombo} */
 			const keyCombo = {
 				key: code,
+				char: event.key,
 				modifiers: this.getModifiers(event)
 			};
 
 			/** @type {Keybindings.Keybinding[]} */
 			const activeKeybindings = [...this.keybindings.values()].filter(kb =>
-				kb.keyCombo.key === keyCombo.key &&
-				this._areModifiersConflicting(kb.keyCombo.modifiers, keyCombo.modifiers)
+				this._isKeyComboEqual(kb.keyCombo, keyCombo)
 			);
 
 			let handled = false;
@@ -409,6 +424,17 @@ var KeybindingManager = {
 			}
 
 			return handled;
+		}
+
+		/**
+		 * Returns true if the two keycombos are equal
+		 * @param {Keybindings.KeyCombo} kb1
+		 * @param {Keybindings.KeyCombo} kb2
+		 */
+		_isKeyComboEqual(kb1, kb2) {
+			return ("key" in kb1 && "key" in kb2 && kb1.key === kb2.key
+				|| "char" in kb1 && "char" in kb2 && kb1.char === kb2.char
+			) && this._areModifiersConflicting(kb1.modifiers, kb2.modifiers);
 		}
 
 		/**
@@ -438,7 +464,7 @@ var KeybindingManager = {
 
 			return [...this.keybindings.values()].filter(kb =>
 				kb.id !== keybinding.id &&
-				kb.keyCombo.key === keybinding.keyCombo.key &&
+				this._isKeyComboEqual(kb.keyCombo, keybinding.keyCombo) &&
 				this._areModifiersConflicting(keybinding.keyCombo.modifiers, kb.keyCombo.modifiers) &&
 				this._areContextsConflicting(new Set(keybinding.contextIds), new Set(kb.contextIds))
 			);
@@ -451,15 +477,23 @@ var KeybindingManager = {
 		serialize() {
 			if (!Player) return console.error('Player not initialized.');
 
-			const serialized = [...this.keybindings.values()].filter(kb => !kb.readonly).map(kb => /** @type {Keybindings.KeybindingSerialized} */({
-				actionId: kb.id,
-				keyCombo: kb.keyCombo.key + ' ' + (kb.keyCombo.modifiers ? [...kb.keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
-			}));
+			/**
+			 *
+			 * @param {Keybindings.Keybinding | Keybindings.UninitializedKeybinding} kb
+			 * @returns {Keybindings.KeybindingSerialized}
+			 */
+			const serializeKeybinding = (kb) => {
+				const { id: actionId, keyCombo } = kb;
+				const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : keyCombo.char;
+				return {
+					actionId,
+					keyCombo: keyString + ' ' + (keyCombo.modifiers ? [...keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
+				};
+			};
 
-			serialized.push(...[...this.uninitializedKeybindings.values()].map(kb => /** @type {Keybindings.KeybindingSerialized} */({
-				actionId: kb.id,
-				keyCombo: kb.keyCombo.key + ' ' + (kb.keyCombo.modifiers ? [...kb.keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
-			})));
+			const serialized = [...this.keybindings.values()].filter(kb => !kb.readonly).map(kb => serializeKeybinding(kb));
+
+			serialized.push(...[...this.uninitializedKeybindings.values()].map(kb => serializeKeybinding(kb)));
 
 			const stringified = LZString.compressToBase64(JSON.stringify(serialized));
 			Player.KeybindingSettings = stringified;
@@ -490,7 +524,7 @@ var KeybindingManager = {
 
 					if (key in KeybindingManager.ASCIIKeyboardMap === false) return console.error(`Unknown key: ${key}`);
 
-					const code = /** @type {Keybindings.KeyCombo['key']} */ (key);
+					const code = /** @type {Keybindings.KeyCode} */ (key);
 
 					if (isDefaultKeybinding) {
 						if (this.keybindings.get(kb.actionId)?.readonly) return;
@@ -520,7 +554,7 @@ var KeybindingManager = {
 
 		/** @param {Keybindings.Keybinding} keybinding */
 		isDefaultCombo(keybinding) {
-			return keybinding.defaultKeyCombo.key === keybinding.keyCombo.key && this._areModifiersConflicting(keybinding.defaultKeyCombo.modifiers, keybinding.keyCombo.modifiers);
+			return this._isKeyComboEqual(keybinding.defaultKeyCombo, keybinding.keyCombo);
 		}
 
 		/**
@@ -592,7 +626,7 @@ var KeybindingManager = {
 			if (!keybinding) return console.error('No keybinding provided.');
 			if (!keybinding.id) return console.error('No keybinding action id provided.');
 			if (!keybinding.keyCombo) return console.error('No keybinding keyCombo provided.');
-			if (keybinding.keyCombo?.key === undefined) return console.error('No keybinding key provided.');
+			if (!this._validateKeyCombo(keybinding.keyCombo)) return console.error('No keybinding key provided.');
 
 			this.uninitializedKeybindings.set(keybinding.id, keybinding);
 		}

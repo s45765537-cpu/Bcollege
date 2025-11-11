@@ -271,7 +271,7 @@ var KeybindingDefaults = {
 			},
 			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
-				key: "KeyZ", // Can't represent a layout-independent Z here (it's W on AZERTY)
+				char: "z",
 				modifiers: new Set(["Ctrl"]),
 			},
 			readonly: true,

@@ -1858,11 +1858,6 @@ function ChatRoomMapViewKeyDown(event) {
 	if (CurrentCharacter != null) return false;
 	if (document.activeElement === ElementWrap("InputChat")) return false;
 
-	if (CommonKey.IsPressed(event, "z", CommonKey.CTRL)) {
-		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
-		return true;
-	}
-
 	const move = CommonKeyMove(event);
 	if (!move) return false;
 
