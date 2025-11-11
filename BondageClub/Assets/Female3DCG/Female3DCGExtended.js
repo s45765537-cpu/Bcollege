@@ -915,7 +915,7 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// r1 - Mermaid Type
-							Property: { Effect: [] },
+							Property: { Effect: [E.MapSwim] },
 						},
 					],
 				},
@@ -2140,7 +2140,7 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{}, // l0 - Full size
 						{}, // l1 - Mid legs
-						{}, // l2 - Full size plus mermaid end
+						{ Effect: [E.MapSwim] }, // l2 - Full size plus mermaid end
 					],
 				},
 				{

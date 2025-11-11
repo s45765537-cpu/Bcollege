@@ -80,18 +80,18 @@ const ChatRoomMapViewTileList = [
 	{ ID: 270, Type: "FloorExterior", Style: "ScatteredLeavesDirt" },
 	{ ID: 280, Type: "FloorExterior", Style: "ScatteredLeavesThick" },
 
-	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true },
-	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true },
-	{ ID: 1010, Type: "Wall", Style: "Log", BlockVision: true },
-	{ ID: 1020, Type: "Wall", Style: "Japanese", BlockVision: true },
-	{ ID: 1030, Type: "Wall", Style: "Stone", BlockVision: true },
-	{ ID: 1040, Type: "Wall", Style: "Brick", BlockVision: true },
-	{ ID: 1050, Type: "Wall", Style: "Dungeon", BlockVision: true },
-	{ ID: 1060, Type: "Wall", Style: "Square", BlockVision: true, BlockHearing: true },
-	{ ID: 1070, Type: "Wall", Style: "Steel", BlockVision: true, BlockHearing: true },
-	{ ID: 1080, Type: "Wall", Style: "Padded", BlockVision: true, BlockHearing: true },
-	{ ID: 1090, Type: "Wall", Style: "Tile", BlockVision: true },
-	{ ID: 1100, Type: "Wall", Style: "Lattice", BlockVision: true },
+	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1010, Type: "Wall", Style: "Log", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1020, Type: "Wall", Style: "Japanese", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1030, Type: "Wall", Style: "Stone", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1040, Type: "Wall", Style: "Brick", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1050, Type: "Wall", Style: "Dungeon", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1060, Type: "Wall", Style: "Square", BlockVision: true, BlockHearing: true, CanEnter: () => false, },
+	{ ID: 1070, Type: "Wall", Style: "Steel", BlockVision: true, BlockHearing: true, CanEnter: () => false, },
+	{ ID: 1080, Type: "Wall", Style: "Padded", BlockVision: true, BlockHearing: true, CanEnter: () => false, },
+	{ ID: 1090, Type: "Wall", Style: "Tile", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1100, Type: "Wall", Style: "Lattice", BlockVision: true, CanEnter: () => false, },
 
 	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
@@ -101,7 +101,7 @@ const ChatRoomMapViewTileList = [
 	{ ID: 2040, Type: "Water", Style: "Swamp", Transparency: 0.9, TransparencyCutoutHeight: 0.5 },
 	{ ID: 2050, Type: "Water", Style: "Waves", Transparency: 0.6, TransparencyCutoutHeight: 0.1 },
 	{ ID: 2060, Type: "Water", Style: "Shallow", Transparency: 0.3, TransparencyCutoutHeight: 0.5 },
-	{ ID: 2090, Type: "Water", Style: "Lava", Transparency: 0.9, TransparencyCutoutHeight: 0.3, },
+	{ ID: 2090, Type: "Water", Style: "Lava", Transparency: 0.9, TransparencyCutoutHeight: 0.3, CanEnter: () => Player.Title === "Dragon"},
 ];
 
 /** @type {ChatRoomMapObject[]} */
@@ -161,8 +161,8 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
 	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
 	{ ID: 650, Type: "FloorDecorationCamping", Style: "ChairRed", Top: -0.35 },
-	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1" },
-	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2" },
+	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1", CanEnter: () => !Player.HasEffect("Freeze") },
+	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2", CanEnter: () => !Player.HasEffect("Freeze") && !Player.HasEffect("Slow") },
 	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3" },
 
 	{ ID: 700, Type: "FloorDecorationExpanding", Style: "Blank" },
@@ -471,20 +471,20 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 1308, Type: "FloorIcon", Style: "IconArrowLeft" },
 	{ ID: 1309, Type: "FloorIcon", Style: "IconArrowRight" },
 
-	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
-	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125 },
-	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
-	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
-	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
-	{ ID: 2031, Type: "FloorObstacle", Style: "BarbFence", Top: -1, Height: 2 },
-	{ ID: 2035, Type: "FloorObstacle", Style: "Bush", Top: -0.25, Height: 1 },
-	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
-	{ ID: 2045, Type: "FloorObstacle", Style: "OakTree_Fall", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
-	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
-	{ ID: 2055, Type: "FloorObstacle", Style: "PalmTree", Left: -0.30, Top: -1.5, Width: 1.65, Height: 2.5 },
-	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2 },
-	{ ID: 2070, Type: "FloorObstacle", Style: "Window", Top: -0.5, Height: 1.5 },
-	{ ID: 2080, Type: "FloorObstacle", Style: "TrashCan", Top: -0.25, Height: 1 },
+	{ ID: 2000, Type: "FloorObstacle", Style: "Blank", CanEnter: () => false, },
+	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125, CanEnter: () => false, },
+	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5, CanEnter: () => false, },
+	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2031, Type: "FloorObstacle", Style: "BarbFence", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2035, Type: "FloorObstacle", Style: "Bush", Top: -0.25, Height: 1, CanEnter: () => false, },
+	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5, CanEnter: () => false, },
+	{ ID: 2045, Type: "FloorObstacle", Style: "OakTree_Fall", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5, CanEnter: () => false, },
+	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2055, Type: "FloorObstacle", Style: "PalmTree", Left: -0.30, Top: -1.5, Width: 1.65, Height: 2.5, CanEnter: () => false, },
+	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2070, Type: "FloorObstacle", Style: "Window", Top: -0.5, Height: 1.5, CanEnter: () => false, },
+	{ ID: 2080, Type: "FloorObstacle", Style: "TrashCan", Top: -0.25, Height: 1, CanEnter: () => false, },
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
@@ -988,26 +988,29 @@ function ChatRoomMapViewGetObjectAtPos(X, Y) {
 }
 
 /**
- * Returns TRUE if there's a wall path on the X, Y position that the player can enter
+ * Returns TRUE if a given position cannot be entered
  * @param {number} X - The X position on the map
  * @param {number} Y - The Y position on the map
- * @returns {boolean} - TRUE if we can enter
+ * @returns {boolean} - TRUE if the position is blocked
  */
-function ChatRoomMapViewCanEnterWall(X, Y) {
-	if (ChatRoomData.MapData?.Objects.length !== ChatRoomMapViewWidth * ChatRoomMapViewHeight) return false;
-	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return false;
-	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
-	for (let O of ChatRoomMapViewObjectList)
-		if (O.ID === ObjectID) {
-			if (O.CanEnter == null) return false;
-			/** @type {ChatRoomMapDirection} */
-			let Direction = "";
-			if (Player.MapData.Pos.X < X) Direction = "R";
-			else if (Player.MapData.Pos.X > X) Direction = "L";
-			else if (Player.MapData.Pos.Y < Y) Direction = "D";
-			else if (Player.MapData.Pos.Y > Y) Direction = "U";
-			return O.CanEnter(Direction);
-		}
+function ChatRoomMapViewPositionIsBlocked(X, Y) {
+	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return true;
+	/** @type {ChatRoomMapDirection} */
+	let dir = "";
+	if (Player.MapData.Pos.X < X) dir = "R";
+	else if (Player.MapData.Pos.X > X) dir = "L";
+	else if (Player.MapData.Pos.Y < Y) dir = "D";
+	else if (Player.MapData.Pos.Y > Y) dir = "U";
+	// We do objects first, and always respect their `CanEnter` return;
+	// this is so that an open door on a wall can let you pass
+	const O = ChatRoomMapViewGetObjectAtPos(X, Y);
+	if (O && O.CanEnter) {
+		return !O.CanEnter(dir);
+	}
+	const T = ChatRoomMapViewGetTileAtPos(X, Y);
+	if (T && T.CanEnter) {
+		return !T.CanEnter(dir);
+	}
 	return false;
 }
 
@@ -1783,15 +1786,6 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 		if (CommonTime() - ChatRoomMapViewStartOfKeyPress < 300) return ChatRoomMapViewBaseMovementSpeed;
 		return ChatRoomMapViewBaseMovementSpeed / 10;
 	}
-	if (ChatRoomMapViewIsWall(X, Y) && !ChatRoomMapViewCanEnterWall(X, Y)) return 0;
-
-	// Floor obstacles from 2000 to 3000 cannot be crossed
-	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
-	if ((ObjectID >= 2000) && (ObjectID < 3000)) return 0;
-	// Hurdle 2 cannot be crossed if the Player is Freeze
-	if ((ObjectID == 670) && Player.HasEffect("Freeze")) return 0;
-	// Hurdle 3 cannot be crossed if the Player is Freeze or slow
-	if ((ObjectID == 680) && (Player.HasEffect("Freeze") || Player.HasEffect("Slow"))) return 0;
 
 	// Enclosed or suspended players cannot change tiles
 	if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
@@ -1800,21 +1794,20 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 	if (Player.HasEffect("MapImmobile")) return 0;
 
 	// Cannot enter a tile occupied by another player
-	for (let C of ChatRoomCharacter)
-		if (!C.IsPlayer() && (C.MapData?.Pos != null) && (C.MapData.Pos.X === X) && (C.MapData.Pos.Y === Y))
-			return 0;
+	if (ChatRoomCharacter.some(c => !c.IsPlayer() && c.MapData?.Pos.X === X && c.MapData?.Pos.Y === Y)) return 0;
 
-	// Always full speed in water if wearing mermaid tail
-	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth);
-	if ((TileID == 2090 ) && (Player.Title != "Dragon" && Player.Title != "Demon")) return 0; // if tile is lava, no entry
-	if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapViewBaseMovementSpeed;
+	if (ChatRoomMapViewPositionIsBlocked(X, Y)) return 0;
 
 	// Base movement speed first, water tiles are slower
 	let Speed = ChatRoomMapViewBaseMovementSpeed;
-	if ((TileID >= 2000) && (TileID < 3000)) Speed = Speed * 2.5;
+
+	const Tile = ChatRoomMapViewGetTileAtPos(X, Y);
+	// Slowed down if not under the MapSwim effect
+	if (Tile?.Type === "Water" && Tile?.Style !== "Lava" && !Player.HasEffect("MapSwim"))
+		Speed = Speed * 2.5;
 
 	// The hogtied/bound/slow/plugged modificator
-	if ((Player.Pose != null) && (Player.Pose.indexOf("Hogtied") >= 0)) Speed = Speed * 12;
+	if (Player.Pose?.includes("Hogtied")) Speed = Speed * 12;
 	else if (!Player.CanWalk()) Speed = Speed * 6;
 	else if (Player.GetSlowLevel() > 0) Speed = Speed * Player.GetSlowLevel() * 2;
 	else if (!Player.CanKneel()) Speed = Speed * 1.5;
