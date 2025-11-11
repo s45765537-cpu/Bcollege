@@ -1856,6 +1856,7 @@ function ChatRoomMapViewKeyDown(event) {
 
 	// Nothing to do if a character dialog is open
 	if (CurrentCharacter != null) return false;
+	if (document.activeElement === ElementWrap("InputChat")) return false;
 
 	const modifiers = CommonKey.GetModifiers(event);
 	switch (event.key) {

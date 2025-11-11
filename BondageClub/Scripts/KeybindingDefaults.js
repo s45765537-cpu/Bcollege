@@ -51,7 +51,7 @@ var KeybindingDefaults = {
 		{
 			id: 'isOnChatRoomScreen',
 			name: 'ContextOnChatRoomScreen',
-			prerequisite: () => ServerPlayerIsInChatRoom() && CurrentScreen === "ChatRoom",
+			prerequisite: () => ServerPlayerIsInChatRoom() && CurrentScreen === "ChatRoom" && CurrentCharacter === null,
 			showInUI: true
 		},
 		{
@@ -185,7 +185,7 @@ var KeybindingDefaults = {
 				id: 'maproom_arrowup',
 				name: 'BindMoveUpName',
 				description: 'BindMoveUpDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
@@ -199,7 +199,7 @@ var KeybindingDefaults = {
 				id: 'maproom_W',
 				name: 'BindMoveUpName',
 				description: 'BindMoveUpDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
@@ -213,7 +213,7 @@ var KeybindingDefaults = {
 				id: 'maproom_arrowdown',
 				name: 'BindMoveDownName',
 				description: 'BindMoveDownDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
@@ -227,7 +227,7 @@ var KeybindingDefaults = {
 				id: 'maproom_S',
 				name: 'BindMoveDownName',
 				description: 'BindMoveDownDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
@@ -241,7 +241,7 @@ var KeybindingDefaults = {
 				id: 'maproom_arrowleft',
 				name: 'BindMoveLeftName',
 				description: 'BindMoveLeftDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
@@ -255,7 +255,7 @@ var KeybindingDefaults = {
 				id: 'maproom_A',
 				name: 'BindMoveLeftName',
 				description: 'BindMoveLeftDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
@@ -269,7 +269,7 @@ var KeybindingDefaults = {
 				id: 'maproom_arrowright',
 				name: 'BindMoveRightName',
 				description: 'BindMoveRightDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
@@ -283,7 +283,7 @@ var KeybindingDefaults = {
 				id: 'maproom_D',
 				name: 'BindMoveRightName',
 				description: 'BindMoveRightDesc',
-				action: CommonNoop,
+				action: () => false,
 				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
 			},
 			keyCombo: {
