@@ -14,6 +14,8 @@ var TitleList = [
 	{ Name: "FreeUse", Requirement: function () { return (ReputationGet("Dominant") <= -100); }, Earned: true },
 	{ Name: "Archjudge", Requirement: function () { return (ReputationGet("Dominant") >= 90); }, Earned: true },
 	{ Name: "Judge", Requirement: function () { return (ReputationGet("Dominant") >= 50); }, Earned: true },
+	{ Name: "Archbishop", Requirement: function () { return ((ReputationGet("HouseVincula") >= 75) || (ReputationGet("HouseMaiestas") >= 75) || (ReputationGet("HouseCorporis") >= 75) || (ReputationGet("HouseAmplector") >= 75)); }, Earned: true },
+	{ Name: "Bishop", Requirement: function () { return ((ReputationGet("HouseVincula") >= 25) || (ReputationGet("HouseMaiestas") >= 25) || (ReputationGet("HouseCorporis") >= 25) || (ReputationGet("HouseAmplector") >= 25)); }, Earned: true },
 	{ Name: "Champion", Requirement: function () { return (ReputationGet("LARP") >= 100); }, Earned: true },
 	{ Name: "Matron", Requirement: function () { return (ReputationGet("Maid") >= 50) && (ReputationGet("Dominant") >= 50) && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
 	{ Name: "Patriarch", Requirement: function () { return (ReputationGet("Maid") >= 50) && (ReputationGet("Dominant") >= 50) && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
