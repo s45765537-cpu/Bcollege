@@ -114,7 +114,7 @@ declare namespace Keybindings {
 	};
 
 	type UninitializedKeybinding = {
-		id: Keybinding['action']['id'];
+		id: Keybinding['id'];
 		keyCombo: KeyCombo;
 	};
 
