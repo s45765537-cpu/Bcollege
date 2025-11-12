@@ -66,6 +66,7 @@ const ChatRoomMapViewTileList = [
 	{ ID: 132, Type: "Floor", Style: "CarpetRed" },
 	{ ID: 140, Type: "Floor", Style: "Padded" },
 	{ ID: 150, Type: "Floor", Style: "LatexFloor" },
+	{ ID: 160, Type: "Floor", Style: "Tile" },
 
 	{ ID: 200, Type: "FloorExterior", Style: "Dirt" },
 	{ ID: 210, Type: "FloorExterior", Style: "Grass" },
@@ -75,6 +76,9 @@ const ChatRoomMapViewTileList = [
 	{ ID: 235, Type: "FloorExterior", Style: "Asphalt" },
 	{ ID: 240, Type: "FloorExterior", Style: "Snow" },
 	{ ID: 250, Type: "FloorExterior", Style: "StoneSquareGray" },
+	{ ID: 260, Type: "FloorExterior", Style: "ScatteredLeaves" },
+	{ ID: 270, Type: "FloorExterior", Style: "ScatteredLeavesDirt" },
+	{ ID: 280, Type: "FloorExterior", Style: "ScatteredLeavesThick" },
 
 	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true },
 	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true },
@@ -86,11 +90,18 @@ const ChatRoomMapViewTileList = [
 	{ ID: 1060, Type: "Wall", Style: "Square", BlockVision: true, BlockHearing: true },
 	{ ID: 1070, Type: "Wall", Style: "Steel", BlockVision: true, BlockHearing: true },
 	{ ID: 1080, Type: "Wall", Style: "Padded", BlockVision: true, BlockHearing: true },
+	{ ID: 1090, Type: "Wall", Style: "Tile", BlockVision: true },
+	{ ID: 1100, Type: "Wall", Style: "Lattice", BlockVision: true },
 
 	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2020, Type: "Water", Style: "Ocean", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
 	{ ID: 2025, Type: "Water", Style: "OceanCyan", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
+	{ ID: 2030, Type: "Water", Style: "OceanCalm", Transparency: 0.3, TransparencyCutoutHeight: 0.5 },
+	{ ID: 2040, Type: "Water", Style: "Swamp", Transparency: 0.9, TransparencyCutoutHeight: 0.5 },
+	{ ID: 2050, Type: "Water", Style: "Waves", Transparency: 0.6, TransparencyCutoutHeight: 0.1 },
+	{ ID: 2060, Type: "Water", Style: "Shallow", Transparency: 0.3, TransparencyCutoutHeight: 0.5 },
+	{ ID: 2090, Type: "Water", Style: "Lava", Transparency: 0.9, TransparencyCutoutHeight: 0.3, },
 ];
 
 /** @type {ChatRoomMapObject[]} */
@@ -99,7 +110,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
 	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
 	{ ID: 115, Type: "FloorDecoration", Style: "ExitFlag", Top: -0.125, Exit: true },
-	{ ID: 120, Type: "FloorDecoration", Style: "BedTeal", Top: -0.25 },
+	{ ID: 120, Type: "FloorDecoration", Style: "BedTeal", Top: -0.25, AssetName: "Bed", AssetGroup: "ItemDevices"},
 	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
 	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
 	{ ID: 151, Type: "FloorDecoration", Style: "ChairWood", Top: -0.5, Height: 1.5 },
@@ -108,6 +119,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 162, Type: "FloorDecoration", Style: "KeySilver", OnEnter: function(){ Player.MapData.PrivateState.HasKeySilver = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeySilver; } },
 	{ ID: 164, Type: "FloorDecoration", Style: "KeyGold" , OnEnter: function(){ Player.MapData.PrivateState.HasKeyGold = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyGold; } },
 	{ ID: 165, Type: "FloorDecoration", Style: "VikingChair" , Top: -0.5, Height: 2 },
+	{ ID: 166, Type: "FloorDecoration", Style: "Bed" , Top: -0.82, Left: 0.05, Height: 1.8, Width: 0.90, AssetName: "Bed", AssetGroup: "ItemDevices" },
 
 
 	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
@@ -120,6 +132,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 310, Type: "FloorDecorationThemed", Style: "JapaneseTable", Top: -0.1 },
 	{ ID: 320, Type: "FloorDecorationThemed", Style: "BanzaiTree", Top: -0.1 },
 	{ ID: 350, Type: "FloorDecorationThemed", Style: "MedicalDesk", Top: -0.15 },
+	{ ID: 370, Type: "FloorDecorationThemed", Style: "Toilet", Top: -0.65, Left: 0.05, Height: 1.5, Width: 0.9 },
 
 	{ ID: 500, Type: "FloorDecorationParty", Style: "Blank" },
 	{ ID: 510, Type: "FloorDecorationParty", Style: "BalloonFiveColor", Top: -0.6, Height: 1.5 },
@@ -405,6 +418,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 1070, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
 	{ ID: 1080, Type: "FloorItem", Style: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
 	{ ID: 1090, Type: "FloorItem", Style: "Pole", Top: -0.85, Height: 1.8, AssetName: "Pole", AssetGroup: "ItemDevices" },
+	{ ID: 1095, Type: "FloorItem", Style: "MedicalBed", Top: -0.82, Left: 0.05, Height: 1.8, Width: 0.90, AssetName: "MedicalBed", AssetGroup: "ItemDevices"},
 
 	{ ID: 1100, Type: "FloorNumber", Style: "Blank" },
 	{ ID: 1110, Type: "FloorNumber", Style: "Number0" },
@@ -463,12 +477,14 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
 	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
 	{ ID: 2031, Type: "FloorObstacle", Style: "BarbFence", Top: -1, Height: 2 },
+	{ ID: 2035, Type: "FloorObstacle", Style: "Bush", Top: -0.25, Height: 1 },
 	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
 	{ ID: 2045, Type: "FloorObstacle", Style: "OakTree_Fall", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
 	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
 	{ ID: 2055, Type: "FloorObstacle", Style: "PalmTree", Left: -0.30, Top: -1.5, Width: 1.65, Height: 2.5 },
 	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2 },
 	{ ID: 2070, Type: "FloorObstacle", Style: "Window", Top: -0.5, Height: 1.5 },
+	{ ID: 2080, Type: "FloorObstacle", Style: "TrashCan", Top: -0.25, Height: 1 },
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
@@ -491,6 +507,8 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 3250, Type: "WallDecoration", Style: "FirstAidKit" },
 	{ ID: 3260, Type: "WallDecoration", Style: "EyeTest" },
 	{ ID: 3270, Type: "WallDecoration", Style: "Bookshelf" },
+	{ ID: 3280, Type: "WallDecoration", Style: "ShowerHead" },
+	{ ID: 3290, Type: "WallDecoration", Style: "EnemaHead" },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
@@ -1788,6 +1806,7 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 
 	// Always full speed in water if wearing mermaid tail
 	let TileID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth);
+	if ((TileID == 2090 ) && (Player.Title != "Dragon" && Player.Title != "Demon")) return 0; // if tile is lava, no entry
 	if ((TileID >= 2000) && (TileID < 3000) && InventoryIsWorn(Player, "MermaidTail", "ItemLegs")) return ChatRoomMapViewBaseMovementSpeed;
 
 	// Base movement speed first, water tiles are slower
