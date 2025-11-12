@@ -68,6 +68,7 @@ var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
 var ChatRoomStruggleAssistTimer = 0;
+/** @type {StruggleOnlineData} */
 var ChatRoomStruggleData = null;
 /**
  * The timer started when a slowed player attempts to leave
@@ -3306,8 +3307,8 @@ function ChatRoomSendAttemptEmote(msg) {
  *
  * @param {Character} C - Character on which the action is done.
  * @param {string} Action - Action modifier
- * @param {Item} PrevItem - The item that has been removed.
- * @param {Item} NextItem - The item that has been added.
+ * @param {Item | null} PrevItem - The item that has been removed.
+ * @param {Item | null} NextItem - The item that has been added.
  * @returns {boolean} - whether we published anything to the chat.
  */
 function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
@@ -3320,18 +3321,20 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
 		.destinationCharacter(C)
 		.targetCharacter(C);
 
+	/** @type {AssetGroupName | null} */
+	let groupName = C.FocusGroup?.Name;
 	if (PrevItem != null) {
+		groupName ??= PrevItem.Asset.Group.Name;
 		dictionary.asset(PrevItem.Asset, "PrevAsset", PrevItem.Craft && PrevItem.Craft.Name);
 	}
 	if (NextItem != null) {
+		groupName ??= NextItem.Asset.Group.Name;
 		dictionary.asset(NextItem.Asset, "NextAsset", NextItem.Craft && NextItem.Craft.Name);
 	}
-	if (C.FocusGroup != null) {
-		dictionary.focusGroup(C.FocusGroup.Name);
-	}
+	dictionary.focusGroup(groupName);
 
 	// Prepares the item packet to be sent to other players in the chatroom
-	ChatRoomCharacterItemUpdate(C);
+	ChatRoomCharacterItemUpdate(C, groupName);
 
 	// Sends the result to the server and leaves the dialog if we need to
 	ServerSend("ChatRoomChat", { Content: Action, Type: "Action", Dictionary: dictionary.build() });
@@ -3351,7 +3354,7 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
  */
 function ChatRoomCharacterItemUpdate(C, Group) {
 	if (!ServerPlayerIsInChatRoom()) return;
-	Group ??= C.FocusGroup.Name;
+	Group ??= C.FocusGroup?.Name;
 	if (!Group) return;
 
 	// Single item updates aren't sent back to the source member, so update the ChatRoomData accordingly
