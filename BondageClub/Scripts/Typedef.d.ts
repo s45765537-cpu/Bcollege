@@ -3879,6 +3879,22 @@ interface StruggleCompletionData {
 
 type StruggleCompletionCallback = (character: Character, game: StruggleKnownMinigames, data: StruggleCompletionData) => void;
 
+interface StruggleOnlineData {
+	Timer: number;
+	Start: number;
+	LastRun: number;
+	Progress: number;
+	Difficulty: number;
+	AllowLoosen: boolean;
+	LoosenMode: boolean;
+	Item: Item;
+	NextAnim: number;
+	StartExpressionEyes: ExpressionName; // technically ExpressionNameMap["Eyes"];
+	StartExpressionBlush: ExpressionName;
+	StartExpressionMouth: ExpressionName;
+	StartExpressionEyebrows: ExpressionName;
+}
+
 // #endregion
 
 //#region Poker Minigame
