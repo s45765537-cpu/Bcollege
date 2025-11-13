@@ -67,6 +67,8 @@ const E = /** @type {const} */ ({
 	Enclose: "Enclose",
 	/** If set, this effect will make a player immobile on the map. */
 	MapImmobile: "MapImmobile",
+	/** If set, this effect will make a player move at full speed through water tiles. */
+	MapSwim: "MapSwim",
 	/** Indicates the character can be interacted with but can't interact back. */
 	OneWayEnclose: "OneWayEnclose",
 	/** Enable items that have the OnBed prerequisite to be applied. */
@@ -13328,6 +13330,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 				},
 				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
+				Effect: [E.MapSwim],
 				Left: 84,
 				Random: false,
 				Layer: [{ Name: "Fins" }, { Name: "Shoes", AllowColorize: false }],
@@ -27900,7 +27903,13 @@ var AssetFemale3DCG = [
 					"Garters",
 				],
 				SetPose: ["LegsClosed"],
-				Effect: [E.BlockWardrobe, E.Freeze, E.FillVulva, E.UseRemote],
+				Effect: [
+					E.BlockWardrobe,
+					E.Freeze,
+					E.FillVulva,
+					E.UseRemote,
+					E.MapSwim,
+				],
 				PoseMapping: {
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
@@ -38249,7 +38258,7 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["ItemNipplesLactationPump", "ClothAccessoryPoncho"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
-				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze, E.MapSwim],
 				Block: [
 					"ItemBoots",
 					"ItemPelvis",
