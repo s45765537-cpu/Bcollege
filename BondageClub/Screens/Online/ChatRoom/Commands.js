@@ -188,14 +188,15 @@ function CommandExecute(msg) {
 /**
  * Tries to complete the message to a command or print help about it
  * @param {string} msg - InputChat content
+ * @returns {boolean} - If the message was a command
  */
 function CommandAutoComplete(msg) {
-	if (!msg.startsWith(CommandsKey)) return;
+	if (!msg.startsWith(CommandsKey)) return false;
 
 	const caretPosition = CommandGetChatRoomCaretPosition();
 
 	// If there's a selection, don't do anything
-	if (caretPosition === -1) return;
+	if (caretPosition === -1) return true;
 
 	msg = msg.substring(0, caretPosition);
 
@@ -216,6 +217,8 @@ function CommandAutoComplete(msg) {
 	} else if (candidates.length === 1 || caretPosition > key.length) {
 		CommandHandleSingleCandidate(candidates[0], forward, parts, low, msg);
 	}
+
+	return true;
 }
 // #endregion Commands Main Functions
 

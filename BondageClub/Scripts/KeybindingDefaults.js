@@ -284,7 +284,7 @@ var KeybindingDefaults = {
 			action: () => {
 				const inputChat = /** @type {HTMLTextAreaElement} */ (ElementWrap('InputChat'));
 				if (inputChat?.value.length !== 0) {
-					CommandAutoComplete(inputChat.value);
+					return CommandAutoComplete(inputChat.value);
 				}
 
 				return false;
