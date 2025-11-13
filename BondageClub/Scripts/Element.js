@@ -2756,15 +2756,12 @@ class HTMLColorTintElement extends HTMLElement {
 			tintPicker.dispatchEvent(new InputEvent("input"));
 		}
 
-		/** @type {(this: Document, ev: PointerEvent) => void} */
+		/** @type {(this: HTMLColorTintElement, ev: PointerEvent) => void} */
 		function pointerup(ev) {
 			if (tintPicker._pressedOldValue == null) {
 				return;
 			}
 
-			document.removeEventListener("pointerup", pointerup);
-			document.removeEventListener("pointercancel", pointerup);
-			document.removeEventListener("pointermove", pointermove);
 			if (ev.type !== "pointercancel" && tintPicker._pressedOldValue !== tintPicker.value) {
 				// Round the knob position such to the nearest 1/255 x- & y-coordinate
 				const top = (255 - tintPicker.brightness) / (255 / 100);
@@ -2773,6 +2770,7 @@ class HTMLColorTintElement extends HTMLElement {
 				tintPicker.dispatchEvent(new Event("change"));
 			}
 			tintPicker._pressedOldValue = null;
+			this.releasePointerCapture(ev.pointerId);
 		}
 
 		/** @type {(this: HTMLColorTintElement, ev: PointerEvent) => void} */
@@ -2782,9 +2780,7 @@ class HTMLColorTintElement extends HTMLElement {
 			}
 
 			tintPicker._pressedOldValue = this.value;
-			document.addEventListener("pointerup", pointerup);
-			document.addEventListener("pointercancel", pointerup);
-			document.addEventListener("pointermove", pointermove);
+			this.setPointerCapture(ev.pointerId);
 			document.dispatchEvent(new PointerEvent("pointermove", ev));
 		}
 
@@ -2867,6 +2863,9 @@ class HTMLColorTintElement extends HTMLElement {
 		}
 
 		this.addEventListener("pointerdown", pointerdown);
+		this.addEventListener("pointercancel", pointerup);
+		this.addEventListener("pointerup", pointerup);
+		this.addEventListener("pointermove", pointermove);
 		this.addEventListener("keydown", keydown);
 		this.addEventListener("keyup", keyup);
 		this.addEventListener("blur", keyup);
