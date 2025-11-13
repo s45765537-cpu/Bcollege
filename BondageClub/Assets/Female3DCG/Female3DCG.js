@@ -25467,7 +25467,7 @@ var AssetFemale3DCG = [
 		EditOpacity: true,
 		MinOpacity: 0,
 		MaxOpacity: 1,
-		Underwear: true,
+		BodyCosplay: true,
 		Color: [
 			"#131313",
 			"#542828",
