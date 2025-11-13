@@ -2862,10 +2862,17 @@ class HTMLColorTintElement extends HTMLElement {
 			tintPicker._pressedOldValue = null;
 		}
 
+		/** @type {(this: HTMLColorTintElement, ev: TouchEvent) => void} */
+		function touchstart(ev) {
+			// Prevent the `touchstart` event from interfering with `pointer{x}` events on Chromium via triggering `pointercancel`
+			ev.preventDefault();
+		}
+
 		this.addEventListener("pointerdown", pointerdown);
 		this.addEventListener("pointercancel", pointerup);
 		this.addEventListener("pointerup", pointerup);
 		this.addEventListener("pointermove", pointermove);
+		this.addEventListener("touchstart", touchstart);
 		this.addEventListener("keydown", keydown);
 		this.addEventListener("keyup", keyup);
 		this.addEventListener("blur", keyup);
