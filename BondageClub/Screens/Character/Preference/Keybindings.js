@@ -1,7 +1,7 @@
 'use strict';
 
 var KeyGUI = {
-	/** @type {Keybindings.Keybinding['action']['id'] | null} */
+	/** @type {Keybindings.Keybinding['id'] | null} */
 	selectedAction: null,
 	/** @type {readonly Set<KeybindingScreen.FilteringMode>} */
 	searchingModes: new Set(['keyCombo', 'action', 'category']),
@@ -53,23 +53,26 @@ var KeyGUI = {
 	 * @param {Keybindings.Keybinding} keybinding
 	 */
 	buildKeybinding: function (keybinding) {
-		const keyString = KeybindingManager.ASCIIKeyboardMap[keybinding.keyCombo?.key];
-		const contextsString = keybinding.action.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => KeyManager.getTranslated(KeyManager.getContext(ctx).name)).join(', ');
-		const contextsTooltipString = keybinding.action.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => `· ${KeyManager.getTranslated(KeyManager.getContext(ctx).name)}`).join('\\n');
-		const keybindElm = document.getElementById(KeyGUI.selec.keyId(keybinding.action.id));
-		const conflicts = KeyManager.getConflictingKeybindings(keybinding.action.id);
-		const conflictNames = conflicts.map(kb => `· ${KeyManager.getTranslated(KeyManager.getCategory(kb.categoryId).name)} > ${KeyManager.getTranslated(kb.action.name)}`).join('\\n');
+		const keyCombo = keybinding.keyCombo;
+		const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo?.key] : keyCombo.char;
+		const contextsString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => KeyManager.getContextLabel(ctx)).join(', ');
+		const contextsTooltipString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => `· ${KeyManager.getContextLabel(ctx)}`).join('\\n');
+		const keybindElm = document.getElementById(KeyGUI.selec.keyId(keybinding.id));
+		const conflicts = KeyManager.getConflictingKeybindings(keybinding.id);
+		const conflictNames = conflicts.map(kb => `· ${KeyManager.getCategoryLabel(kb.categoryId)} > ${KeyManager.getKeybindingActionLabel(kb.id)}`).join('\\n');
 
 		/** @type {(string | Node)[]} */
 		let keyComboString;
-		if (keybinding.keyCombo?.key === null) {
+		if (!("key" in keyCombo) && !("char" in keyCombo)) {
 			keyComboString = [document.createTextNode(TextGet("KeybindNotBound"))];
-		} else if (keybinding.keyCombo.modifiers && keyString) {
-			const keys = [...keybinding.keyCombo.modifiers].flatMap(mod => [ElementCreate({
-				tag: "kbd",
-				classList: ["keybind-modifier"],
-				children: [mod]
-			}), document.createTextNode(" + ")]);
+		} else if (keyString) {
+			const keys = keyCombo.modifiers
+				? [...keyCombo.modifiers].flatMap(mod => [ElementCreate({
+					tag: "kbd",
+					classList: ["keybind-modifier"],
+					children: [mod]
+				}), document.createTextNode(" + ")])
+				: [];
 
 			keys.push(ElementCreate({
 				tag: "kbd",
@@ -77,12 +80,6 @@ var KeyGUI = {
 				children: [keyString]
 			}));
 			keyComboString = keys;
-		} else if (keyString) {
-			keyComboString = [ElementCreate({
-				tag: "kbd",
-				classList: ["keybind-key"],
-				children: [keyString]
-			})];
 		} else {
 			keyComboString = [document.createTextNode(TextGet("KeybindError"))];
 		}
@@ -94,19 +91,19 @@ var KeyGUI = {
 			{
 				tag: 'span',
 				attributes: {
-					id: KeyGUI.selec.keyNameId(keybinding.action.id)
+					id: KeyGUI.selec.keyNameId(keybinding.id)
 				},
 				dataAttributes: {
-					tooltip: KeyManager.getTranslated(keybinding.action.name) + '\\hr' + KeyManager.getTranslated(keybinding.action.description)
+					tooltip: KeyManager.getKeybindingActionLabel(keybinding.id) + '\\hr' + KeyManager.getKeybindingActionDescription(keybinding.id)
 				},
 				classList: [KeyGUI.selec.keybindNameClass, 'truncated-text'],
-				children: [KeyManager.getTranslated(keybinding.action.name)]
+				children: [KeyManager.getKeybindingActionLabel(keybinding.id)]
 			},
 			{
 				tag: 'span',
 				attributes: {
-					id: KeyGUI.selec.keyContextsId(keybinding.action.id),
-					concealed: keybinding.action.contextIds.length === 0
+					id: KeyGUI.selec.keyContextsId(keybinding.id),
+					concealed: keybinding.contextIds.length === 0
 				},
 				dataAttributes: {
 					tooltip: CommonStringPartitionReplace(TextGet("KeybindContextsValid"), {
@@ -123,7 +120,7 @@ var KeyGUI = {
 					{
 						tag: 'span',
 						attributes: {
-							id: KeyGUI.selec.keyConflictIndicatorId(keybinding.action.id),
+							id: KeyGUI.selec.keyConflictIndicatorId(keybinding.id),
 						},
 						dataAttributes: {
 							tooltip: CommonStringPartitionReplace(TextGet("KeybindConflictsWith"), {
@@ -134,9 +131,9 @@ var KeyGUI = {
 						children: ["❗"]
 					},
 					ElementButton.Create(
-						KeyGUI.selec.keybuttonId(keybinding.action.id),
+						KeyGUI.selec.keybuttonId(keybinding.id),
 						function () {
-							KeyGUI.selectedAction = keybinding.action.id;
+							KeyGUI.selectedAction = keybinding.id;
 							KeyGUI.showModal();
 						},
 						null,
@@ -151,9 +148,9 @@ var KeyGUI = {
 						}
 					),
 					ElementButton.Create(
-						KeyGUI.selec.comboResetButtonId(keybinding.action.id),
+						KeyGUI.selec.comboResetButtonId(keybinding.id),
 						() => {
-							KeyGUI.updateKeybinding(keybinding.action.id, keybinding.defaultKeyCombo);
+							KeyGUI.updateKeybinding(keybinding.id, keybinding.defaultKeyCombo);
 						},
 						{
 							image: 'Icons/Reset.png',
@@ -169,9 +166,9 @@ var KeyGUI = {
 						}
 					),
 					ElementButton.Create(
-						KeyGUI.selec.comboUnbindButtonId(keybinding.action.id),
+						KeyGUI.selec.comboUnbindButtonId(keybinding.id),
 						() => {
-							KeyGUI.updateKeybinding(keybinding.action.id, { key: null });
+							KeyGUI.updateKeybinding(keybinding.id, { key: null });
 						},
 						{
 							image: 'Icons/Trash.png',
@@ -181,7 +178,7 @@ var KeyGUI = {
 							button: {
 								classList: [KeyGUI.selec.keybindUnbindClass, KeyGUI.selec.navSquareButtonClass],
 								attributes: {
-									disabled: keybinding.readonly || keybinding.keyCombo.key === null
+									disabled: keybinding.readonly || "key" in keyCombo && keyCombo.key === null || "char" in keyCombo && keyCombo.char === null
 								}
 							}
 						}
@@ -194,7 +191,7 @@ var KeyGUI = {
 			tag: 'div',
 			classList: [KeyGUI.selec.keybindClass],
 			attributes: {
-				id: KeyGUI.selec.keyId(keybinding.action.id)
+				id: KeyGUI.selec.keyId(keybinding.id)
 			},
 			dataAttributes: {
 				conflict: conflicts.length > 0
@@ -214,7 +211,7 @@ var KeyGUI = {
 		categoryElm?.replaceChildren();
 
 		const allKeybindings = KeyManager.getAllKeybindings()
-			.filter(kb => kb.categoryId === categoryObject.id && !kb.uninitialized);
+			.filter(kb => kb.categoryId === categoryObject.id);
 
 		if (allKeybindings.length === 0) {
 			return;
@@ -234,7 +231,7 @@ var KeyGUI = {
 					tag: 'legend',
 					classList: [KeyGUI.selec.categoryNameClass],
 					children: [
-						KeyManager.getTranslated(categoryObject.name)
+						KeyManager.getCategoryLabel(categoryObject.id)
 					],
 				},
 				{
@@ -261,14 +258,13 @@ var KeyGUI = {
 		const searchInput = ElementCreateSearchInput(KeyGUI.selec.searchInput, () => {
 			switch (KeyGUI.currentSearchingMode) {
 				case 'action':
-					return [...new Set(KeyManager.getAllKeybindings().map(kb => KeyManager.getTranslated(kb.action.name)))];
+					return [...new Set(KeyManager.getAllKeybindings().map(kb => KeyManager.getKeybindingActionLabel(kb.id)))];
 				case 'category':
-					return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getTranslated(cat.name)))];
+					return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getCategoryLabel(cat.id)))];
 				case 'keyCombo':
 					return [...new Set(KeyManager.getAllKeybindings().map(kb => {
-						if (kb.uninitialized) return;
-
-						const keyString = KeybindingManager.ASCIIKeyboardMap[kb.keyCombo?.key];
+						const keyCombo = kb.keyCombo;
+						const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : keyCombo.char;
 						const modifiersString = kb.keyCombo?.modifiers ? [...kb.keyCombo.modifiers].join(' + ') : '';
 
 						let keyComboString = TextGet('KeybindNotBound');
@@ -510,7 +506,7 @@ var KeyGUI = {
 	showModal() {
 		document.querySelectorAll(`#${KeyGUI.selec.keybindModal}`).forEach(m => m.remove());
 
-		const keybindingName = KeyManager.getTranslated(KeyManager.getKeybinding(KeyGUI.selectedAction).action.name);
+		const keybindingName = KeyManager.getKeybindingActionLabel(KeyManager.getKeybinding(KeyGUI.selectedAction).id);
 		const modal = ElementCreate({
 			tag: 'dialog',
 			attributes: {
@@ -588,7 +584,7 @@ function PreferenceSubscreenKeybindingsKeyUp(e) {
 
 	if (e.code in KeybindingManager.ASCIIKeyboardMap === false) return false;
 
-	const code = /** @type {Keybindings.KeyCombo['key']} */ (e.code);
+	const code = /** @type {Keybindings.KeyCode} */ (e.code);
 
 	if (CommonKey.IsPressed(e, 'Escape', 0)) {
 		KeyGUI.selectedAction = null;

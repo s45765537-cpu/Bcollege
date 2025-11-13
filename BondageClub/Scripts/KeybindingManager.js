@@ -1,8 +1,6 @@
 'use strict';
 
 var KeybindingManager = {
-	/** @type {TextCache} */
-	TextCache: undefined,
 	/**
 	 * A map from `KeyboardEvent.code` values to their ASCII key label.
 	 *
@@ -128,18 +126,19 @@ var KeybindingManager = {
 		categories = new Map();
 		/** @private @type {Map<string, Keybindings.Context>} */
 		contexts = new Map();
+		/** @private @type {Map<string, Keybindings.UninitializedKeybinding>} */
+		uninitializedKeybindings = new Map();
 
 		/**
 		 * Initializes with default categories, contexts, and keybindings.
 		 */
 		constructor() {
-			if (!KeybindingManager.TextCache) {
-				KeybindingManager.TextCache = new TextCache("Screens/Character/Preference/Text_Keybindings.csv");
-			} else KeybindingManager.TextCache.buildCache();
-
-			KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
-			KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
-			KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
+			const cache = TextPrefetchFile(ScreenFileGetTranslation("Character", "Preference", "Keybindings"));
+			cache.loadedPromise.then(() => {
+				KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
+				KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
+				KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
+			});
 		}
 
 		/**
@@ -153,14 +152,13 @@ var KeybindingManager = {
 		registerCategory(category) {
 			if (!category) return console.error('No category provided.');
 			if (!category.id) return console.error('No category id provided.');
-			if (!category.name) return console.error('No category name provided.');
 
 			const cat = this.categories.get(category.id);
 			if (cat) return console.error(`Keybinding category '${category.id}' already registered.`);
 
 			this.categories.set(category.id, category);
 			this.categories = new Map([...this.categories.entries()]
-				.sort((a, b) => this.getTranslated(a[1].id).localeCompare(this.getTranslated(b[1].id))));
+				.sort((a, b) => this.getCategoryLabel(a[1].id).localeCompare(this.getCategoryLabel(b[1].id))));
 		}
 
 		/**
@@ -171,6 +169,20 @@ var KeybindingManager = {
 		 */
 		getCategory(id) {
 			return this.categories.get(id);
+		}
+
+		/**
+		 * Returns the user-visible name of a category
+		 * @param {Keybindings.Category["id"]} id
+		 * @returns {string}
+		 */
+		getCategoryLabel(id) {
+			const cat = this.getCategory(id);
+			if (!cat) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "category:unknown");
+			if (typeof cat.name === "string" || !cat.name) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `category:${cat.id}`);
+			}
+			return cat.name[TranslationLanguage];
 		}
 
 		/**
@@ -192,7 +204,6 @@ var KeybindingManager = {
 		registerContext(context) {
 			if (!context) return console.error('No context provided.');
 			if (!context.id) return console.error('No context id provided.');
-			if (!context.name) return console.error('No context name provided.');
 			if (!context.prerequisite) return console.error('No context prerequisite provided.');
 
 			const ctx = this.contexts.get(context.id);
@@ -200,18 +211,32 @@ var KeybindingManager = {
 
 			this.contexts.set(context.id, context);
 			this.contexts = new Map([...this.contexts.entries()]
-				.sort((a, b) => this.getTranslated(a[1].name).localeCompare(this.getTranslated(b[1].name))));
+				.sort((a, b) => this.getContextLabel(a[1].id).localeCompare(this.getContextLabel(b[1].id))));
 
 		}
 
 		/**
 		 * Returns a context by ID.
 		 *
-		 * @param {string} id
+		 * @param {Keybindings.ContextId} id
 		 * @returns {Keybindings.Context}
 		 */
 		getContext(id) {
 			return this.contexts.get(id);
+		}
+
+		/**
+		 * Returns the user-visible name of a context
+		 * @param {Keybindings.ContextId} id
+		 * @returns {string}
+		 */
+		getContextLabel(id) {
+			const ctx = this.getContext(id);
+			if (!ctx) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "context:unknown");
+			if (typeof ctx.name === "string" || !ctx.name) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `context:${ctx.id}`);
+			}
+			return ctx.name[TranslationLanguage];
 		}
 
 		/**
@@ -223,6 +248,19 @@ var KeybindingManager = {
 			return Array.from(this.contexts.values());
 		}
 
+
+		/**
+		* @param {Keybindings.KeyCombo} combo
+		* @returns
+		*/
+		_validateKeyCombo(combo) {
+			if ("key" in combo && "char" in combo) return false;
+			if ("key" in combo && !(combo.key in KeybindingManager.ASCIIKeyboardMap)) return false;
+			if ("char" in combo && combo.char.length > 1) return false;
+			if (combo.modifiers && ![...combo.modifiers].every(c => ["Shift", "Alt", "Ctrl"].includes(c))) return false;
+			return true;
+		};
+
 		/**
 		 * Registers a new keybinding.
 		 * Validates category, contexts, and key combo.
@@ -231,32 +269,35 @@ var KeybindingManager = {
 		 * @param {Keybindings.Keybinding} keybinding
 		 */
 		registerKeybinding(keybinding) {
+			const isUnitialized = this.uninitializedKeybindings.get(keybinding.id);
+
+			if (isUnitialized)
+				keybinding = this._finishUninitializedKeybinding(keybinding);
+
 			if (!keybinding) return console.error('No keybinding provided.');
 			if (!keybinding.action) return console.error('No keybinding action provided.');
-			if (!keybinding.action.id) return console.error('No keybinding action id provided.');
-			if (!keybinding.action.name) return console.error('No keybinding action name provided.');
-			if (!keybinding.action.action) return console.error('No keybinding action function provided.');
+			if (!keybinding.id) return console.error('No keybinding action id provided.');
+			if (!keybinding.action) return console.error('No keybinding action function provided.');
 			if (!keybinding.keyCombo && !keybinding.defaultKeyCombo) return console.error('No keybinding keyCombo provided.');
-			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key === undefined) return console.error('No keybinding key provided.');
+			if (keybinding.keyCombo && !this._validateKeyCombo(keybinding.keyCombo)
+				|| keybinding.defaultKeyCombo && !this._validateKeyCombo(keybinding.defaultKeyCombo))
+				return console.error('No keybinding key provided.');
 			if (keybinding.readonly === undefined) return console.error('No keybinding readonly property provided.');
 
-			const keybindingEntry = this.keybindings.get(keybinding.action.id);
+			const keybindingEntry = this.keybindings.get(keybinding.id);
 			const category = this.categories.get(keybinding.categoryId);
-			const unregisteredContexts = keybinding.action.contextIds?.filter(ctx => !this.contexts.get(ctx));
+			const unregisteredContexts = keybinding.contextIds?.filter(ctx => !this.contexts.get(ctx));
 
-			if (keybinding.keyCombo?.key === undefined && keybinding.defaultKeyCombo?.key)
+			if (!keybinding.keyCombo && keybinding.defaultKeyCombo)
 				keybinding.keyCombo = keybinding.defaultKeyCombo;
 
-			if (keybindingEntry && keybindingEntry.uninitialized)
-				this._finishUninitializedKeybinding(keybinding);
+			if (keybindingEntry)
+				return console.error(`Keybinding action with id '${keybinding.id}' already registered.`);
 
-			if (keybindingEntry && !keybindingEntry.uninitialized)
-				return console.error(`Keybinding action with id '${keybinding.action.id}' already registered.`);
-
-			if (keybinding.categoryId && !category && !keybinding.uninitialized)
+			if (keybinding.categoryId && !category)
 				return console.error(`Keybinding category '${keybinding.categoryId}' not found.`);
 
-			if (keybinding.action.contextIds?.length > 0 && unregisteredContexts.length > 0)
+			if (keybinding.contextIds?.length > 0 && unregisteredContexts.length > 0)
 				return console.error(`Keybinding context(s) '${unregisteredContexts.join(', ')}' not found.`);
 
 			if (keybinding.keyCombo?.modifiers?.size > 2) {
@@ -264,9 +305,9 @@ var KeybindingManager = {
 				console.warn(`Keybinding '${keybinding.action.name}' has more than 2 modifiers. Only the first 2 will be used.`);
 			}
 
-			this.keybindings.set(keybinding.action.id, keybinding);
+			this.keybindings.set(keybinding.id, keybinding);
 			this.keybindings = new Map([...this.keybindings.entries()]
-				.sort((a, b) => this.getTranslated(a[1].action.name).localeCompare(this.getTranslated(b[1].action.name))));
+				.sort((a, b) => this.getKeybindingActionLabel(a[1].id).localeCompare(this.getKeybindingActionLabel(b[1].id))));
 		}
 
 		/**
@@ -280,23 +321,46 @@ var KeybindingManager = {
 		}
 
 		/**
+		 * Returns the user-visible name of an action
+		 * @param {string} actionId
+		 * @returns {string}
+		 */
+		getKeybindingActionLabel(actionId) {
+			const act = this.getKeybinding(actionId);
+			if (!act) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "action:unknown:name");
+			if (typeof act.action.name === "string" || !act.action.name) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `action:${actionId}:name`);
+			}
+			return act.action.name[TranslationLanguage];
+		}
+
+		/**
+		 * Returns the user-visible description of an action
+		 * @param {string} actionId
+		 * @returns {string}
+		 */
+		getKeybindingActionDescription(actionId) {
+			const act = this.getKeybinding(actionId);
+			if (!act) return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), "action:unknown:desc");
+			if (typeof act.action === "string" || !act.description) {
+				return TextGetInScope(ScreenFileGetTranslation("Character", "Preference", "Keybindings"), `action:${actionId}:desc`);
+			}
+			return act.description[TranslationLanguage];
+		}
+
+		/**
 		 * Returns all keybindings.
 		 * Optionally includes uninitialized ones.
 		 *
-		 * @param {{ showUninitialized: boolean }} [options]
+		 * @param {{}} [options]
 		 * @returns {Keybindings.Keybinding[]}
 		 */
 		getAllKeybindings(options) {
-			if (!options) {
-				options = {
-					showUninitialized: false
-				};
-			}
+			options ??= {};
 
 			const keybindings = Array.from(this.keybindings.values());
-			if (!options?.showUninitialized) return keybindings.filter(kb => !kb.uninitialized);
 
-			return Array.from(this.keybindings.values());
+			return keybindings;
 		}
 
 		/**
@@ -338,28 +402,39 @@ var KeybindingManager = {
 
 			if (event.code in KeybindingManager.ASCIIKeyboardMap === false) return false;
 
-			const code = /** @type {Keybindings.KeyCombo['key']} */ (event.code);
+			const code = /** @type {Keybindings.KeyCode} */ (event.code);
 
 			/** @type {Keybindings.KeyCombo} */
 			const keyCombo = {
 				key: code,
+				char: event.key,
 				modifiers: this.getModifiers(event)
 			};
 
 			/** @type {Keybindings.Keybinding[]} */
 			const activeKeybindings = [...this.keybindings.values()].filter(kb =>
-				kb.keyCombo.key === keyCombo.key &&
-				this._areModifiersConflicting(kb.keyCombo.modifiers, keyCombo.modifiers)
+				this._isKeyComboEqual(kb.keyCombo, keyCombo)
 			);
 
 			let handled = false;
 			for (const keybinding of activeKeybindings) {
-				if (keybinding.action.contextIds.every(ctx => this.contexts.get(ctx).prerequisite(event))) {
-					handled = keybinding.action.action(event) || handled;
+				if (keybinding.contextIds.every(ctx => this.contexts.get(ctx).prerequisite(event))) {
+					handled = keybinding.action(event) || handled;
 				}
 			}
 
 			return handled;
+		}
+
+		/**
+		 * Returns true if the two keycombos are equal
+		 * @param {Keybindings.KeyCombo} kb1
+		 * @param {Keybindings.KeyCombo} kb2
+		 */
+		_isKeyComboEqual(kb1, kb2) {
+			return ("key" in kb1 && "key" in kb2 && kb1.key === kb2.key
+				|| "char" in kb1 && "char" in kb2 && kb1.char === kb2.char
+			) && this._areModifiersConflicting(kb1.modifiers, kb2.modifiers);
 		}
 
 		/**
@@ -388,10 +463,10 @@ var KeybindingManager = {
 			if (!keybinding) return [];
 
 			return [...this.keybindings.values()].filter(kb =>
-				kb.action.id !== keybinding.action.id &&
-				kb.keyCombo.key === keybinding.keyCombo.key &&
+				kb.id !== keybinding.id &&
+				this._isKeyComboEqual(kb.keyCombo, keybinding.keyCombo) &&
 				this._areModifiersConflicting(keybinding.keyCombo.modifiers, kb.keyCombo.modifiers) &&
-				this._areContextsConflicting(new Set(keybinding.action.contextIds), new Set(kb.action.contextIds))
+				this._areContextsConflicting(new Set(keybinding.contextIds), new Set(kb.contextIds))
 			);
 		}
 
@@ -402,10 +477,24 @@ var KeybindingManager = {
 		serialize() {
 			if (!Player) return console.error('Player not initialized.');
 
-			const serialized = [...this.keybindings.values()].filter(kb => !kb.readonly).map(kb => /** @type {Keybindings.KeybindingSerialized} */({
-				actionId: kb.action.id,
-				keyCombo: kb.keyCombo.key + ' ' + (kb.keyCombo.modifiers ? [...kb.keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
-			}));
+			/**
+			 *
+			 * @param {Keybindings.Keybinding | Keybindings.UninitializedKeybinding} kb
+			 * @returns {Keybindings.KeybindingSerialized}
+			 */
+			const serializeKeybinding = (kb) => {
+				const { id: actionId, keyCombo } = kb;
+				const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : keyCombo.char;
+				return {
+					actionId,
+					keyCombo: keyString + ' ' + (keyCombo.modifiers ? [...keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
+				};
+			};
+
+			const serialized = [...this.keybindings.values()].filter(kb => !kb.readonly).map(kb => serializeKeybinding(kb));
+
+			serialized.push(...[...this.uninitializedKeybindings.values()].map(kb => serializeKeybinding(kb)));
+
 			const stringified = LZString.compressToBase64(JSON.stringify(serialized));
 			Player.KeybindingSettings = stringified;
 		}
@@ -435,7 +524,7 @@ var KeybindingManager = {
 
 					if (key in KeybindingManager.ASCIIKeyboardMap === false) return console.error(`Unknown key: ${key}`);
 
-					const code = /** @type {Keybindings.KeyCombo['key']} */ (key);
+					const code = /** @type {Keybindings.KeyCode} */ (key);
 
 					if (isDefaultKeybinding) {
 						if (this.keybindings.get(kb.actionId)?.readonly) return;
@@ -448,20 +537,12 @@ var KeybindingManager = {
 
 						this.updateKeybinding(kb.actionId, keyCombo);
 					} else {
-						this.registerKeybinding({
-							action: {
-								id: kb.actionId,
-								name: ' ',
-								contextIds: [],
-								action: undefined,
-							},
+						this._registerUninitializedKeybinding({
+							id: kb.actionId,
 							keyCombo: {
 								key: code,
 								modifiers: modifiers
 							},
-							categoryId: ' ',
-							readonly: false,
-							uninitialized: true
 						});
 					}
 				});
@@ -471,24 +552,9 @@ var KeybindingManager = {
 			}
 		}
 
-		/** @param {string | Partial<Record<ServerChatRoomLanguage | "TW", string>>} raw */
-		getTranslated(raw) {
-			if (!raw) return "";
-
-			if (typeof raw === "string") {
-				const translated = KeybindingManager.TextCache.cache[raw];
-
-				if (translated) return translated;
-
-				return raw;
-			} else if (raw[TranslationLanguage]) {
-				return raw[TranslationLanguage];
-			}
-		}
-
 		/** @param {Keybindings.Keybinding} keybinding */
 		isDefaultCombo(keybinding) {
-			return keybinding.defaultKeyCombo.key === keybinding.keyCombo.key && this._areModifiersConflicting(keybinding.defaultKeyCombo.modifiers, keybinding.keyCombo.modifiers);
+			return this._isKeyComboEqual(keybinding.defaultKeyCombo, keybinding.keyCombo);
 		}
 
 		/**
@@ -497,26 +563,30 @@ var KeybindingManager = {
 		 *
 		 * @private
 		 * @param {Keybindings.Keybinding} keybinding
+		 * @return {Keybindings.Keybinding}
 		 */
 		_finishUninitializedKeybinding(keybinding) {
-			const keybindingEntry = this.keybindings.get(keybinding.action.id);
+			const keybindingEntry = this.uninitializedKeybindings.get(keybinding.id);
 
-			if (!keybindingEntry)
-				return console.error(`Keybinding action with id '${keybinding.action.id}' not found`);
+			if (!keybindingEntry) {
+				console.error(`Keybinding action with id '${keybinding.id}' not found`);
 
-			const conflictingKeybindings = this.getConflictingKeybindings(keybinding.action.id);
+				return null;
+			}
+
+			const conflictingKeybindings = this.getConflictingKeybindings(keybinding.id);
 			if (conflictingKeybindings.length > 0)
 				console.warn(`Keybinding '${keybinding.action.name}' conflicts with another keybinding(s).`, conflictingKeybindings);
 
-			// @ts-ignore
-			keybindingEntry.action = keybinding.action;
-			// @ts-ignore
-			keybindingEntry.defaultKeyCombo = keybinding.defaultKeyCombo;
-			// @ts-ignore
-			keybindingEntry.categoryId = keybinding.categoryId;
-			// @ts-ignore
-			keybindingEntry.readonly = keybinding.readonly;
-			delete keybindingEntry.uninitialized;
+			/** @type {Keybindings.Keybinding} */
+			const finalized = {
+				...keybinding,
+				...keybindingEntry,
+			};
+
+			this.uninitializedKeybindings.delete(keybinding.id);
+
+			return finalized;
 		}
 
 		/**
@@ -544,6 +614,21 @@ var KeybindingManager = {
 		 */
 		_areContextsConflicting(contexts1, contexts2) {
 			return [...contexts1].every(ctx => contexts2.has(ctx)) && [...contexts2].every(ctx => contexts1.has(ctx));
+		}
+
+		/**
+		 * Registers an uninitialized keybinding.
+		 *
+		 * @private
+		 * @param {Keybindings.UninitializedKeybinding} keybinding
+		 */
+		_registerUninitializedKeybinding(keybinding) {
+			if (!keybinding) return console.error('No keybinding provided.');
+			if (!keybinding.id) return console.error('No keybinding action id provided.');
+			if (!keybinding.keyCombo) return console.error('No keybinding keyCombo provided.');
+			if (!this._validateKeyCombo(keybinding.keyCombo)) return console.error('No keybinding key provided.');
+
+			this.uninitializedKeybindings.set(keybinding.id, keybinding);
 		}
 	}
 };

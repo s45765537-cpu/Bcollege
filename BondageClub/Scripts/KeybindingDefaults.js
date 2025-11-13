@@ -8,20 +8,16 @@ var KeybindingDefaults = {
 	 */
 	DefaultCategories: [
 		{
-			id: "chat",
-			name: "CategoryChat"
+			id: "chat"
 		},
 		{
-			id: "maproom",
-			name: "CategoryMapChatRoom"
+			id: "maproom"
 		},
 		{
-			id: "chatroom",
-			name: "CategoryChatRoom"
+			id: "chatroom"
 		},
 		{
-			id: "navigation",
-			name: "CategoryNavigation"
+			id: "navigation"
 		},
 	],
 
@@ -34,7 +30,6 @@ var KeybindingDefaults = {
 	DefaultContexts: [
 		{
 			id: 'always',
-			name: 'ContextAlways',
 			prerequisite: () =>
 				(document.activeElement === null
 					|| document.activeElement === document.body
@@ -44,43 +39,36 @@ var KeybindingDefaults = {
 		},
 		{
 			id: 'isInChatRoom',
-			name: 'ContextInChatRoom',
 			prerequisite: () => ServerPlayerIsInChatRoom(),
 			showInUI: true
 		},
 		{
 			id: 'isOnChatRoomScreen',
-			name: 'ContextOnChatRoomScreen',
-			prerequisite: () => ServerPlayerIsInChatRoom() && CurrentScreen === "ChatRoom",
+			prerequisite: () => ServerPlayerIsInChatRoom() && CurrentScreen === "ChatRoom" && CurrentCharacter === null,
 			showInUI: true
 		},
 		{
 			id: 'isChatRoomCharacterMode',
-			name: 'ContextCharacterMode',
 			prerequisite: () => ServerPlayerIsInChatRoom() && ChatRoomIsViewActive("Character"),
 			showInUI: true
 		},
 		{
 			id: 'isChatRoomMapMode',
-			name: 'ContextMapMode',
 			prerequisite: () => ServerPlayerIsInChatRoom() && ChatRoomIsViewActive("Map"),
 			showInUI: true
 		},
 		{
 			id: 'isChatRoomChatFocused',
-			name: 'ContextChatFocused',
 			prerequisite: () => document.activeElement === ElementWrap('InputChat'),
 			showInUI: true
 		},
 		{
 			id: 'isChatRoomChatNOTFocused',
-			name: 'ContextChatNotFocused',
 			prerequisite: () => document.activeElement !== ElementWrap('InputChat'),
 			showInUI: true
 		},
 		{
 			id: 'noModifiers',
-			name: 'ContextNoModifiers',
 			prerequisite: (event) => !CommonKey.GetModifiers(event),
 			showInUI: false
 		}
@@ -95,13 +83,9 @@ var KeybindingDefaults = {
 	DefaultKeybindings: [
 		// #region Navigation
 		{
-			action: {
-				id: 'navigation_home',
-				name: 'BindScrollToTopName',
-				description: 'BindScrollToTopDesc',
-				action: CommonNoop,
-				contextIds: []
-			},
+			id: 'navigation_home',
+			action: CommonNoop,
+			contextIds: [],
 			keyCombo: {
 				key: 'Home',
 			},
@@ -109,13 +93,9 @@ var KeybindingDefaults = {
 			categoryId: 'navigation',
 		},
 		{
-			action: {
-				id: 'navigation_end',
-				name: 'BindScrollToBottomName',
-				description: 'BindScrollToBottomDesc',
-				action: CommonNoop,
-				contextIds: []
-			},
+			id: 'navigation_end',
+			action: CommonNoop,
+			contextIds: [],
 			keyCombo: {
 				key: 'End',
 			},
@@ -123,13 +103,9 @@ var KeybindingDefaults = {
 			categoryId: 'navigation',
 		},
 		{
-			action: {
-				id: 'navigation_pageup',
-				name: 'BindScrollUpName',
-				description: 'BindScrollUpDesc',
-				action: CommonNoop,
-				contextIds: []
-			},
+			id: 'navigation_pageup',
+			action: CommonNoop,
+			contextIds: [],
 			keyCombo: {
 				key: 'PageUp',
 			},
@@ -137,13 +113,9 @@ var KeybindingDefaults = {
 			categoryId: 'navigation',
 		},
 		{
-			action: {
-				id: 'navigation_pagedown',
-				name: 'BindScrollDownName',
-				description: 'BindScrollDownDesc',
-				action: CommonNoop,
-				contextIds: []
-			},
+			id: 'navigation_pagedown',
+			action: CommonNoop,
+			contextIds: [],
 			keyCombo: {
 				key: 'PageDown',
 			},
@@ -151,13 +123,9 @@ var KeybindingDefaults = {
 			categoryId: 'navigation',
 		},
 		{
-			action: {
-				id: 'navigation_arrowup',
-				name: 'BindScrollUpName',
-				description: 'BindScrollUpDesc',
-				action: CommonNoop,
-				contextIds: []
-			},
+			id: 'navigation_arrowup',
+			action: CommonNoop,
+			contextIds: [],
 			keyCombo: {
 				key: 'ArrowUp',
 			},
@@ -165,13 +133,9 @@ var KeybindingDefaults = {
 			categoryId: 'navigation',
 		},
 		{
-			action: {
-				id: 'navigation_arrowdown',
-				name: 'BindScrollDownName',
-				description: 'BindScrollDownDesc',
-				action: CommonNoop,
-				contextIds: []
-			},
+			id: 'navigation_arrowdown',
+			action: CommonNoop,
+			contextIds: [],
 			keyCombo: {
 				key: 'ArrowDown',
 			},
@@ -181,13 +145,9 @@ var KeybindingDefaults = {
 		// #endregion Navigation
 		// #region Map Chatroom
 		{
-			action: {
-				id: 'maproom_arrowup',
-				name: 'BindMoveUpName',
-				description: 'BindMoveUpDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_arrowup',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'ArrowUp',
 			},
@@ -195,13 +155,9 @@ var KeybindingDefaults = {
 			categoryId: 'maproom',
 		},
 		{
-			action: {
-				id: 'maproom_W',
-				name: 'BindMoveUpName',
-				description: 'BindMoveUpDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_W',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'KeyW',
 			},
@@ -209,13 +165,9 @@ var KeybindingDefaults = {
 			categoryId: 'maproom',
 		},
 		{
-			action: {
-				id: 'maproom_arrowdown',
-				name: 'BindMoveDownName',
-				description: 'BindMoveDownDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_arrowdown',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'ArrowDown',
 			},
@@ -223,13 +175,9 @@ var KeybindingDefaults = {
 			categoryId: 'maproom',
 		},
 		{
-			action: {
-				id: 'maproom_S',
-				name: 'BindMoveDownName',
-				description: 'BindMoveDownDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_S',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'KeyS',
 			},
@@ -237,13 +185,9 @@ var KeybindingDefaults = {
 			categoryId: 'maproom',
 		},
 		{
-			action: {
-				id: 'maproom_arrowleft',
-				name: 'BindMoveLeftName',
-				description: 'BindMoveLeftDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_arrowleft',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'ArrowLeft',
 			},
@@ -251,13 +195,9 @@ var KeybindingDefaults = {
 			categoryId: 'maproom',
 		},
 		{
-			action: {
-				id: 'maproom_A',
-				name: 'BindMoveLeftName',
-				description: 'BindMoveLeftDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_A',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'KeyA',
 			},
@@ -265,13 +205,9 @@ var KeybindingDefaults = {
 			categoryId: 'maproom',
 		},
 		{
-			action: {
-				id: 'maproom_arrowright',
-				name: 'BindMoveRightName',
-				description: 'BindMoveRightDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_arrowright',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'ArrowRight',
 			},
@@ -279,15 +215,64 @@ var KeybindingDefaults = {
 			categoryId: 'maproom',
 		},
 		{
-			action: {
-				id: 'maproom_D',
-				name: 'BindMoveRightName',
-				description: 'BindMoveRightDesc',
-				action: CommonNoop,
-				contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"]
-			},
+			id: 'maproom_D',
+			action: () => false,
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
 			keyCombo: {
 				key: 'KeyD',
+			},
+			readonly: true,
+			categoryId: 'maproom',
+		},
+		{
+			id: 'map_zoom_out',
+			action: () => {
+				if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
+				return true;
+			},
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+			keyCombo: {
+				key: "Slash",
+			},
+			readonly: true,
+			categoryId: 'maproom',
+		},
+		{
+			id: 'map_zoom_in',
+			action: () => {
+				if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
+				return true;
+			},
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+			keyCombo: {
+				key: "Equal",
+			},
+			readonly: true,
+			categoryId: 'maproom',
+		},
+		{
+			id: 'map_focus_chat',
+			action: () => {
+				ElementFocus("InputChat");
+				return true;
+			},
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+			keyCombo: {
+				key: "Enter",
+			},
+			readonly: true,
+			categoryId: 'maproom',
+		},
+		{
+			id: 'map_admin_undo',
+			action: () => {
+				if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
+				return true;
+			},
+			contextIds: ["isOnChatRoomScreen", "isChatRoomChatNOTFocused", "isChatRoomMapMode"],
+			keyCombo: {
+				char: "z",
+				modifiers: new Set(["Ctrl"]),
 			},
 			readonly: true,
 			categoryId: 'maproom',
@@ -295,20 +280,16 @@ var KeybindingDefaults = {
 		// #endregion Map ChatRoom
 		// #region Chat
 		{
-			action: {
-				id: 'chat_autocomplete',
-				name: 'BindAutoCompleteName',
-				description: 'BindAutoCompleteDesc',
-				action: () => {
-					const inputChat = /** @type {HTMLTextAreaElement} */ (ElementWrap('InputChat'));
-					if (inputChat?.value.length !== 0) {
-						CommandAutoComplete(inputChat.value);
-					}
+			id: 'chat_autocomplete',
+			action: () => {
+				const inputChat = /** @type {HTMLTextAreaElement} */ (ElementWrap('InputChat'));
+				if (inputChat?.value.length !== 0) {
+					CommandAutoComplete(inputChat.value);
+				}
 
-					return false;
-				},
-				contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
+				return false;
 			},
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
 			categoryId: 'chat',
 			readonly: true,
 			defaultKeyCombo: {
@@ -316,17 +297,28 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chat_send_chat',
-				name: 'BindSendMessageName',
-				description: 'BindSendMessageDesc',
-				action: (event) => {
-					event.preventDefault();
-					ChatRoomSendChat();
-					return true;
-				},
-				contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
+			id: "chat_send_chat_mobile",
+			action: (event) => {
+				if (!CommonIsMobile) return false;
+				event.preventDefault();
+				ChatRoomSendChat();
+				return true;
 			},
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
+			categoryId: 'chat',
+			readonly: true,
+			defaultKeyCombo: {
+				key: "Enter",
+			},
+		},
+		{
+			id: 'chat_send_chat',
+			action: (event) => {
+				event.preventDefault();
+				ChatRoomSendChat();
+				return true;
+			},
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
 			categoryId: 'chat',
 			readonly: false,
 			defaultKeyCombo: {
@@ -334,16 +326,12 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chat_history_prev',
-				name: 'BindChatHistoryPreviousName',
-				description: 'BindChatHistoryPreviousDesc',
-				action: () => {
-					ChatRoomScrollHistory(true);
-					return true;
-				},
-				contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
+			id: 'chat_history_prev',
+			action: () => {
+				ChatRoomScrollHistory(true);
+				return true;
 			},
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
 			categoryId: 'chat',
 			readonly: true,
 			defaultKeyCombo: {
@@ -351,16 +339,12 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chat_history_next',
-				name: 'BindChatHistoryNextName',
-				description: 'BindChatHistoryNextDesc',
-				action: () => {
-					ChatRoomScrollHistory(false);
-					return true;
-				},
-				contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
+			id: 'chat_history_next',
+			action: () => {
+				ChatRoomScrollHistory(false);
+				return true;
 			},
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
 			categoryId: 'chat',
 			readonly: true,
 			defaultKeyCombo: {
@@ -368,26 +352,22 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chat_focus_change',
-				name: 'BindFocusChangeName',
-				description: 'BindFocusChangeDesc',
-				action: () => {
-					if (
-						document.activeElement.id === "MainCanvas" ||
-						document.activeElement === null ||
-						document.activeElement === document.body
-					) {
-						ElementScrollToEnd("TextAreaChatLog");
-						ElementFocus("InputChat");
+			id: 'chat_focus_change',
+			action: () => {
+				if (
+					document.activeElement.id === "MainCanvas" ||
+					document.activeElement === null ||
+					document.activeElement === document.body
+				) {
+					ElementScrollToEnd("TextAreaChatLog");
+					ElementFocus("InputChat");
 
-						return true;
-					}
+					return true;
+				}
 
-					return false;
-				},
-				contextIds: ['isOnChatRoomScreen', 'noModifiers'],
+				return false;
 			},
+			contextIds: ['isOnChatRoomScreen', 'noModifiers'],
 			categoryId: 'chat',
 			readonly: true,
 			defaultKeyCombo: {
@@ -397,16 +377,12 @@ var KeybindingDefaults = {
 		// #endregion Chat
 		// #region ChatRoom
 		{
-			action: {
-				id: 'chatroom_leave',
-				name: 'BindChatRoomLeaveName',
-				description: 'BindChatRoomLeaveDesc',
-				action: () => {
-					ChatRoomAttemptLeave();
-					return true;
-				},
-				contextIds: ['isInChatRoom'],
+			id: 'chatroom_leave',
+			action: () => {
+				ChatRoomAttemptLeave();
+				return true;
 			},
+			contextIds: ['isInChatRoom'],
 			categoryId: 'chatroom',
 			readonly: false,
 			defaultKeyCombo: {
@@ -415,20 +391,16 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chatroom_toggle_kneel',
-				name: 'BindToggleKneelName',
-				description: 'BindToggleKneelDesc',
-				action: (event) => {
-					if (!event.repeat) {
-						ChatRoomToggleKneel();
-						return true;
-					}
+			id: 'chatroom_toggle_kneel',
+			action: (event) => {
+				if (!event.repeat) {
+					ChatRoomToggleKneel();
+					return true;
+				}
 
-					return false;
-				},
-				contextIds: ['isInChatRoom'],
+				return false;
 			},
+			contextIds: ['isInChatRoom'],
 			categoryId: 'chatroom',
 			readonly: false,
 			defaultKeyCombo: {
@@ -437,18 +409,14 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chatroom_open_profile',
-				name: 'BindOpenProfileName',
-				description: 'BindOpenProfileDesc',
-				action: () => {
-					if (CurrentCharacter) { DialogLeave({ reload: false }); }
-					ChatRoomOpenInformationScreen();
+			id: 'chatroom_open_profile',
+			action: () => {
+				if (CurrentCharacter) { DialogLeave({ reload: false }); }
+				ChatRoomOpenInformationScreen();
 
-					return true;
-				},
-				contextIds: ['isInChatRoom'],
+				return true;
 			},
+			contextIds: ['isInChatRoom'],
 			categoryId: 'chatroom',
 			readonly: false,
 			defaultKeyCombo: {
@@ -457,18 +425,14 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chatroom_open_wardrobe',
-				name: 'BindOpenWardrobeName',
-				description: 'BindOpenWardrobeDesc',
-				action: () => {
-					if (CurrentCharacter) { DialogLeave({ reload: false }); }
-					ChatRoomOpenWardrobeScreen();
+			id: 'chatroom_open_wardrobe',
+			action: () => {
+				if (CurrentCharacter) { DialogLeave({ reload: false }); }
+				ChatRoomOpenWardrobeScreen();
 
-					return true;
-				},
-				contextIds: ['isInChatRoom'],
+				return true;
 			},
+			contextIds: ['isInChatRoom'],
 			categoryId: 'chatroom',
 			readonly: false,
 			defaultKeyCombo: {
@@ -477,18 +441,14 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			action: {
-				id: 'chatroom_open_admin_screen',
-				name: 'BindOpenAdminScreenName',
-				description: 'BindOpenAdminScreenDesc',
-				action: () => {
-					if (CurrentCharacter) { DialogLeave({ reload: false }); }
-					ChatRoomOpenAdminScreen();
+			id: 'chatroom_open_admin_screen',
+			action: () => {
+				if (CurrentCharacter) { DialogLeave({ reload: false }); }
+				ChatRoomOpenAdminScreen();
 
-					return true;
-				},
-				contextIds: ['isInChatRoom'],
+				return true;
 			},
+			contextIds: ['isInChatRoom'],
 			categoryId: 'chatroom',
 			readonly: false,
 			defaultKeyCombo: {
