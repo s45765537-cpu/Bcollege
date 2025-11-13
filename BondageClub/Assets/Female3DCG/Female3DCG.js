@@ -17078,6 +17078,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "Halo",
 				Top: -100,
 				Left: 0,
+				BodyCosplay: true,
 				DefaultColor: ["#fe6", "#fe6", "#fff"],
 				Extended: true,
 				MinOpacity: 0,
