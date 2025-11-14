@@ -680,7 +680,7 @@ function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 		Opacity: opacity,
 		MinOpacity: minOpacity,
 		MaxOpacity: maxOpacity,
-		BlendingMode: Layer.BlendingMode || "source-over",
+		BlendingMode: Layer.BlendingMode ?? "source-over",
 		TextureMask: Layer.TextureMask,
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
