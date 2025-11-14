@@ -297,21 +297,6 @@ var KeybindingDefaults = {
 			}
 		},
 		{
-			id: "chat_send_chat_mobile",
-			action: (event) => {
-				if (!CommonIsMobile) return false;
-				event.preventDefault();
-				ChatRoomSendChat();
-				return true;
-			},
-			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
-			categoryId: 'chat',
-			readonly: true,
-			defaultKeyCombo: {
-				key: "Enter",
-			},
-		},
-		{
 			id: 'chat_send_chat',
 			action: (event) => {
 				event.preventDefault();
