@@ -1335,6 +1335,7 @@ interface Asset {
 	readonly StyleOverride?: BodyStyle[];
 	readonly SupportedStyles?: BodyStyle[];
 	readonly CreateLayerTypesOverride?: number[];
+	// Only on BodyStyle
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;
 				Asset?: string;

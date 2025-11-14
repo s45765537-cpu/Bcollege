@@ -530,6 +530,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	StyleOverride?: BodyStyle[];
 	CreateLayerTypesOverride?: number[];
 
+	// Only on BodyStyles
 	DrawOffset?: {
 		Group?: AssetGroupName;
 		Asset?: string;
