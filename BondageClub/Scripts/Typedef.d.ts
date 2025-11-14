@@ -1364,7 +1364,6 @@ interface Asset {
 	 * Is represented by a number in the `[0.9, 1.0]` interval.
 	 */
 	readonly ZoomModifier: number;
-	readonly Alpha: null | readonly Alpha.Data[];
 	readonly Prerequisite: readonly AssetPrerequisite[];
 	readonly Extended: boolean;
 	readonly AlwaysExtend: boolean;

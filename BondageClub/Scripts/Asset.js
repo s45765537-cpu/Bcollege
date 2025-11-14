@@ -251,7 +251,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 		MaxTimer: (AssetDef.MaxTimer == null) ? 0 : AssetDef.MaxTimer,
 		HeightModifier: (AssetDef.Height == null) ? 0 : AssetDef.Height,
 		ZoomModifier: CommonClamp(AssetDef.Zoom ?? 1, 0.9, 1.0),
-		Alpha: AssetParseAlpha(AssetDef.Alpha, "Asset.Alpha"),
 		Prerequisite: (typeof AssetDef.Prerequisite === "string" ? [AssetDef.Prerequisite] : Array.isArray(AssetDef.Prerequisite) ? AssetDef.Prerequisite : []),
 		Extended: (AssetDef.Extended == null) ? false : AssetDef.Extended,
 		AlwaysExtend: (AssetDef.AlwaysExtend == null) ? false : AssetDef.AlwaysExtend,
@@ -684,7 +683,7 @@ function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 		ParentGroup: AssetParseParentGroup(Layer.ParentGroup, AssetParseParentGroup(AssetDef.ParentGroup, AssetParseParentGroup(GroupDef.ParentGroup, {}))),
 		Priority: Layer.Priority ?? AssetDef.Priority ?? A.Group.DrawingPriority,
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
-		Alpha: AssetParseLayerAlpha(Layer, A, I),
+		Alpha: AssetParseLayerAlpha(Layer, AssetDef, I),
 		FullAlpha: AssetDef.FullAlpha == null ? true : AssetDef.FullAlpha,
 		Asset: A,
 		DrawingLeft: AssetParseTopLeft(Layer.Left, AssetParseTopLeft(AssetDef.Left, AssetParseTopLeft(GroupDef.Left, 0))),
@@ -830,15 +829,15 @@ function AssetParseAlpha(alphaDef, warningPrefix=null) {
 /**
  * Parse the passed layers alpha mask definitions.
  * @param {AssetLayerDefinition} Layer - The raw layer definition
- * @param {Asset} NewAsset - The raw asset definition
+ * @param {AssetDefinition} NewAsset - The raw asset definition
  * @param {number} I - The index of the layer within its asset
  * @return {Alpha.Data[]} - a list of alpha mask data for the layer
  */
 function AssetParseLayerAlpha(Layer, NewAsset, I) {
-	const Alpha = AssetParseAlpha(Layer.Alpha, "Layer.Alpha") || [];
+	const Alpha = AssetParseAlpha(Layer.Alpha, "Layer.Alpha") ?? [];
 	// If the layer is the first layer for an asset, add the asset's alpha masks
 	if (I === 0 && NewAsset.Alpha) {
-		Alpha.push(...NewAsset.Alpha);
+		Alpha.push(...(AssetParseAlpha(NewAsset.Alpha, "Asset.Alpha") ?? []));
 	}
 	return Alpha;
 }
