@@ -1140,9 +1140,6 @@ interface AssetGroup {
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
 	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
-	readonly EditOpacity: boolean;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly DrawingPriority: number;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
@@ -1387,9 +1384,6 @@ interface Asset {
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
 	 */
 	readonly DefaultColor: readonly BCColor[];
-	readonly Opacity: number;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly EditOpacity: boolean;
 	readonly Audio?: string;
 	readonly Category?: readonly AssetCategory[];

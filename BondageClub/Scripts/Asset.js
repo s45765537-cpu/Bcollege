@@ -88,9 +88,6 @@ function AssetGroupAdd(Family, GroupDef) {
 		Clothing: (GroupDef.Clothing == null) ? false : GroupDef.Clothing,
 		Underwear: (GroupDef.Underwear == null) ? false : GroupDef.Underwear,
 		BodyCosplay: (GroupDef.BodyCosplay == null) ? false : GroupDef.BodyCosplay,
-		EditOpacity: (GroupDef.EditOpacity == null) ? false : GroupDef.EditOpacity,
-		MinOpacity: (GroupDef.MinOpacity == null) ? 1 : GroupDef.MinOpacity,
-		MaxOpacity: (GroupDef.MaxOpacity == null) ? 1 : GroupDef.MaxOpacity,
 		Hide: GroupDef.Hide,
 		Block: GroupDef.Block,
 		Zone: GroupDef.Zone,
@@ -202,11 +199,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
 	const difficulty = AssetDef.Difficulty ?? 0;
 
-	const editOpacity = (typeof AssetDef.EditOpacity === "boolean") ? AssetDef.EditOpacity : (typeof Group.EditOpacity === "boolean") ? Group.EditOpacity : false;
-	let minOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MinOpacity === "number" ? AssetDef.MinOpacity : Group.MinOpacity) : 1;
-	let maxOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MaxOpacity === "number" ? AssetDef.MaxOpacity : Group.MaxOpacity) : 1;
-	const opacity = editOpacity ? AssetParseOpacity(AssetDef.Opacity, minOpacity, maxOpacity) : 1;
-
 	/** @type {Mutable<Asset>} */
 	var A = {
 		Name: AssetDef.Name,
@@ -269,10 +261,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
-		EditOpacity: editOpacity,
-		Opacity: opacity,
-		MinOpacity: minOpacity,
-		MaxOpacity: maxOpacity,
+		EditOpacity: !!(AssetDef.EditOpacity ?? GroupDef.EditOpacity ?? false),
 		Audio: AssetDef.Audio,
 		Category: AssetDef.Category,
 		Fetish: AssetDef.Fetish,
@@ -663,10 +652,9 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
 function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
-	const editOpacity = A.EditOpacity;
-	const minOpacity = editOpacity ? AssetParseOpacity(Layer.MinOpacity ?? A.MinOpacity, 0, 1) : 1;
-	const maxOpacity = editOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? A.MaxOpacity, 0, 1) : 1;
-	const opacity = AssetParseOpacity(Layer.Opacity ?? A.Opacity, minOpacity, maxOpacity);
+	const minOpacity = A.EditOpacity ? AssetParseOpacity(Layer.MinOpacity ?? AssetDef.MinOpacity ?? GroupDef.MinOpacity ?? 1, 0, 1) : 1;
+	const maxOpacity = A.EditOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? AssetDef.MaxOpacity ?? GroupDef.MaxOpacity ?? 1, 0, 1) : 1;
+	const opacity = AssetParseOpacity(Layer.Opacity ?? AssetDef.Opacity, minOpacity, maxOpacity);
 
 	/** @type {AssetLayer} */
 	const L = {
