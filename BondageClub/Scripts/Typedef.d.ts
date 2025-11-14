@@ -1237,6 +1237,7 @@ interface AssetLayer {
 	readonly Priority: number;
 	readonly InheritColor: AssetGroupName | null;
 	readonly Alpha: readonly Alpha.Data[];
+	readonly FullAlpha: boolean;
 	/** The asset that this layer belongs to */
 	readonly Asset: Asset;
 	readonly DrawingLeft: TopLeft.Data;
@@ -1438,7 +1439,6 @@ interface Asset {
 	readonly Gender?: AssetGender;
 	readonly CraftGroup: string;
 	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>>;
-	readonly FullAlpha: boolean;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly AllowColorize: boolean;
 }
