@@ -1144,8 +1144,6 @@ interface AssetGroup {
 	readonly MinOpacity: number;
 	readonly MaxOpacity: number;
 	readonly DrawingPriority: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
@@ -1358,8 +1356,6 @@ interface Asset {
 	readonly RemoveTime: number;
 	readonly RemoveTimer: number;
 	readonly MaxTimer: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
 	/**
 	 * The height of the character as set in the special `Height` appearance group.
