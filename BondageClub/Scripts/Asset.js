@@ -74,7 +74,6 @@ function AssetGroupAdd(Family, GroupDef) {
 		Name: GroupDef.Group,
 		Description: GroupDef.Group,
 		Asset: [],
-		ParentGroup: AssetParseParentGroup(GroupDef.ParentGroup, {}),
 		Category: (GroupDef.Category == null) ? "Appearance" : GroupDef.Category,
 		IsDefault: (GroupDef.Default == null) ? true : GroupDef.Default,
 		IsRestraint: (GroupDef.IsRestraint == null) ? false : GroupDef.IsRestraint,
@@ -217,7 +216,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 		Description: AssetDef.Name,
 		Group: Group,
 		ParentItem: AssetDef.ParentItem,
-		ParentGroup: AssetParseParentGroup(AssetDef.ParentGroup, Group.ParentGroup),
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
 		Visible: (AssetDef.Visible == null) ? true : AssetDef.Visible,
 		StyleOverride: AssetDef.StyleOverride,
@@ -672,7 +670,7 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * @param {Asset} A - The built asset
  * @param {number} I - The index of the layer within the asset
  * @param {AssetDefinition} AssetDef - The definition for the built asset
- * @param {AssetGroupDefinition} AssetDef - The definition for the built asset's group
+ * @param {AssetGroupDefinition} GroupDef - The definition for the built asset's group
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
 function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
@@ -691,7 +689,7 @@ function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 		AllowTypes: Layer.AllowTypes != null ? AssetParseAllowTypes(Layer.AllowTypes) : null,
 		CreateLayerTypes: Array.isArray(Layer.CreateLayerTypes) ? Layer.CreateLayerTypes : A.CreateLayerTypes,
 		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
-		ParentGroup: AssetParseParentGroup(Layer.ParentGroup, A.ParentGroup),
+		ParentGroup: AssetParseParentGroup(Layer.ParentGroup, AssetParseParentGroup(AssetDef.ParentGroup, AssetParseParentGroup(GroupDef.ParentGroup, {}))),
 		Priority: Layer.Priority || A.DrawingPriority || A.Group.DrawingPriority,
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
 		Alpha: AssetParseLayerAlpha(Layer, A, I),
