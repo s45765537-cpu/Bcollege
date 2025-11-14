@@ -194,9 +194,15 @@ function AssetActivityMirrorGroupSet(group) {
  * @param {AssetGroup} Group
  * @param {AssetDefinition} AssetDef
  * @param {ExtendedItemMainConfig} ExtendedConfig
+ * @param {AssetGroupDefinition} GroupDef
  * @returns {void} - Nothing
  */
-function AssetAdd(Group, AssetDef, ExtendedConfig) {
+function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
+	if (!GroupDef) {
+		// Temporary until everyone catches up
+		throw new Error(`Missing group definition object for ${AssetDef.Name}`);
+	}
+
 	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
 	const difficulty = AssetDef.Difficulty ?? 0;
 
@@ -335,7 +341,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	}
 	A.Layer = layers.map((Layer, I) => {
 		Layer.InheritPoseMappingFields ??= AssetDef.InheritPoseMappingFields;
-		return AssetMapLayer(Layer, A, I);
+		return AssetMapLayer(Layer, A, I, AssetDef, GroupDef);
 	});
 	A.Layer.forEach((layer, i) => {
 		// Now that most layer pose mappings are initialized, handle all `Layer.CopyLayerPoseMapping` cases
@@ -665,9 +671,11 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * @param {AssetLayerDefinition} Layer - The raw layer definition
  * @param {Asset} A - The built asset
  * @param {number} I - The index of the layer within the asset
+ * @param {AssetDefinition} AssetDef - The definition for the built asset
+ * @param {AssetGroupDefinition} AssetDef - The definition for the built asset's group
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
-function AssetMapLayer(Layer, A, I) {
+function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 	const editOpacity = A.EditOpacity;
 	const minOpacity = editOpacity ? AssetParseOpacity(Layer.MinOpacity ?? A.MinOpacity, 0, 1) : 1;
 	const maxOpacity = editOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? A.MaxOpacity, 0, 1) : 1;
@@ -975,7 +983,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 	for (const groupDef of Groups) {
 		const G = AssetGroupAdd(Family, groupDef);
 		for (const assetDef of Object.values(assetDefsParsed[G.Name])) {
-			AssetAdd(G, assetDef, ExtendedConfig);
+			AssetAdd(G, assetDef, ExtendedConfig, groupDef);
 		}
 	}
 
