@@ -14395,7 +14395,7 @@ var AssetFemale3DCGExtended = {
 			ScriptHooks: {
 				Init: PropertyOpacityInit,
 				Load: (...args) => PropertyOpacityLoad(...args, "lightbulb"),
-				Draw: (...args) => PropertyOpacityDraw(...args, 0, -50, "Brightness"),
+				Draw: (...args) => PropertyOpacityDraw(...args, 0, 400, "Brightness"),
 				Exit: PropertyOpacityExit,
 			},
 			BaselineProperty: { Opacity: 0 },
