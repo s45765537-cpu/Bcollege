@@ -4134,10 +4134,20 @@ class _DialogDialogMenu extends DialogMenu {
 
 	/**
 	 * @private
+	 * @param {Character} C
 	 * @satisfies {TimerHandler}
 	 */
-	_mobileTimeoutHandler() {
-		document.querySelector(`#${this.ids.menubar} [name='Exit']`)?.removeAttribute("disabled");
+	_mobileTimeoutHandler(C) {
+		const button = document.querySelector(`#${this.ids.menubar} [name='Exit']`)
+		switch (DialogIntro(C)) {
+			case "":
+			case "NOEXIT":
+				button?.setAttribute("aria-disabled", "true");
+				break;
+			default:
+				button?.setAttribute("aria-disabled", "false");
+				break;
+		}
 		this._mobileTimeoutID = null;
 	}
 
@@ -4146,7 +4156,7 @@ class _DialogDialogMenu extends DialogMenu {
 		super.Exit();
 		if (this._mobileTimeoutID != null) {
 			clearTimeout(this._mobileTimeoutID);
-			this._mobileTimeoutHandler();
+			this._mobileTimeoutHandler(this.C);
 		}
 	}
 
@@ -4155,7 +4165,7 @@ class _DialogDialogMenu extends DialogMenu {
 		super.Unload();
 		if (this._mobileTimeoutID != null) {
 			clearTimeout(this._mobileTimeoutID);
-			this._mobileTimeoutHandler();
+			this._mobileTimeoutHandler(this.C);
 		}
 	}
 
@@ -4211,11 +4221,8 @@ class _DialogDialogMenu extends DialogMenu {
 				ElementButton.Create(
 					`${this.ids.menubar}-Exit`,
 					this.eventListeners._ClickMenubarExit,
-					{ image: "./Icons/Exit.png", tooltip: InterfaceTextGet("DialogMenuExit"), tooltipPosition: "left" },
-					{ button: {
-						attributes: { "screen-generated": undefined, name: "Exit", disabled: CommonIsMobile ? "" : undefined },
-						classList: ["dialog-menubar-button"],
-					}},
+					{ image: "./Icons/Exit.png", tooltip: InterfaceTextGet("DialogMenuExit"), tooltipPosition: "left", name: "Exit" },
+					{ button: { classList: ["dialog-menubar-button"], attributes: { "aria-disabled": CommonIsMobile.toString() } }},
 				),
 			);
 
@@ -4225,7 +4232,8 @@ class _DialogDialogMenu extends DialogMenu {
 				if (this._mobileTimeoutID != null) {
 					clearTimeout(this._mobileTimeoutID);
 				}
-				this._mobileTimeoutID = setTimeout(this._mobileTimeoutHandler.bind(this), 150);
+				this._mobileTimeoutID = setTimeout(this._mobileTimeoutHandler.bind(this), 150, this.C);
+				return; // Abort; the mobile timeout handler already takes care of managing the disabled state here
 			}
 		}
 
