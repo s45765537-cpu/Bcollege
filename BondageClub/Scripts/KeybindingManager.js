@@ -522,7 +522,7 @@ var KeybindingManager = {
 					/** @type {Set<Keybindings.ModifierKey>} */
 					const modifiers = new Set([...(modifiersString || '')].map(sym => KeybindingManager.ReverseModifierSymbols[sym]));
 
-					if (key in KeybindingManager.ASCIIKeyboardMap === false) return console.error(`Unknown key: ${key}`);
+					const isCode = (key in KeybindingManager.ASCIIKeyboardMap);
 
 					const code = /** @type {Keybindings.KeyCode} */ (key);
 
@@ -531,7 +531,8 @@ var KeybindingManager = {
 
 						/** @type {Keybindings.KeyCombo} */
 						const keyCombo = {
-							key: code,
+							key: isCode ? code : undefined,
+							char: isCode ? undefined : key,
 							modifiers: modifiers,
 						};
 
@@ -540,7 +541,8 @@ var KeybindingManager = {
 						this._registerUninitializedKeybinding({
 							id: kb.actionId,
 							keyCombo: {
-								key: code,
+								key: isCode ? code : undefined,
+								char: isCode ? undefined : key,
 								modifiers: modifiers
 							},
 						});

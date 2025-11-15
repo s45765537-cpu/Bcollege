@@ -3014,6 +3014,12 @@ function ChatRoomLeave(clearCharacters = false) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomCommonKeyDown(event) {
+	if (CommonIsMobile && CommonKey.IsPressed(event, "Enter", 0)) {
+		event.preventDefault();
+		ChatRoomSendChat();
+		return true;
+	};
+
 	return false;
 }
 
