@@ -230,6 +230,11 @@ var ColorPicker = {
 			}
 		},
 
+		/** @type {(this: HTMLInputElement, ev: FocusEvent) => void} */
+		focusColor: function (ev) {
+			this.setSelectionRange(0, this.value.length);
+		},
+
 		/** @type {(this: HTMLInputElement | HTMLColorTintElement, ev: FocusEvent) => void} */
 		blurColor: function (ev) {
 			this.reportValidity();
@@ -731,6 +736,7 @@ var ColorPicker = {
 											list: datalistID,
 										},
 										eventListeners: {
+											focus: ColorPicker.eventListeners.focusColor,
 											input: ColorPicker.eventListeners.inputColor,
 											blur: ColorPicker.eventListeners.blurColor,
 										},
