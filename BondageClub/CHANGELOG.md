@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-11-09
-* Last recorded PR: [#5995](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5995)
-* Last recorded commit hash: `0ee3cb69a3f06687029558d0089ad7f357d2870b`
+* Changelog last updated: 2025-11-16
+* Last recorded PR: [#6011](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6011)
+* Last recorded commit hash: `5c0a764d2c98c335d434df298c149538093c1541`
 
 ## [R122]
 
@@ -37,6 +37,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sin - Added several new titles to the game ([#5964](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5964))
 * Sin - Shiny Armbinder male compatibility ([#5963](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5963))
 * Sin - Added several additional titles and adjusted god/goddess and king/queen ([#5970](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5970))
+* Sin - Added several tiles and map objects By Sin and @RavenCreative ([#5996](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5996))
+* Sin - Adding Archbishop and Bishop to TitleDefault.js ([#5998](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5998))
 * Zoe - Added Friend Request Notifications ([#5913](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5913))
 * Zoe - Add DeepThroat and SuckPenetrateItem, fixed chastity issue ([#5927](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5927))
 * Zoe - Add gradient layers to diapers + Male support for Diapers1-4 ([#5943](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5943))
@@ -62,6 +64,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Feldob66 - fix: LARP pronouns ([#5917](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5917))
 * dDeepLb - fixes ([#5994](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5994))
 * dDeepLb - keybinding fixes ([#5995](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5995))
+* dDeepLb - Fix for mobile chat ([#6009](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6009))
+* dDeepLb - Fix chat autocompletion ([#6007](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6007))
 * Zoe - Fixed male member fucking ([#5957](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5957))
 * Sin - Fixes Catsuit opaque/transparent gloves for EchoV2 ([#5992](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5992))
 * Sin - Fixed Futuristic Harness for EchoV2. ([#5991](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5991))
@@ -76,13 +80,22 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Various color picker overhaul follow ups and fixes ([#5930](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5930))
 * Rama - Fix the color picker's accept button reverting the color ([#5956](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5956))
 * Rama - Fix crafting `Type` to `TypeRecord` conversion potentially getting stuck in a loop ([#5952](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5952))
-* Rama - BUG: Prevent `CommonKey.InputKeyDown()` from eating chat room `ctrl + A` key presses ([#5940](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5940))
-* Rama - BUG: Ensure that the `Player.ActivePoseMapping` object is not initialized empty ([#5939](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5939))
+* Rama - Prevent `CommonKey.InputKeyDown()` from eating chat room `ctrl + A` key presses ([#5940](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5940))
+* Rama - Ensure that the `Player.ActivePoseMapping` object is not initialized empty ([#5939](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5939))
+* Rama - Fix the color picker failing to select the proper opacity asset layers for color groups ([#6000](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6000))
+* Rama - Fix the menubar observer keeping the dialog exit button stuck in a disabled state on mobile ([#6005](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6005))
+* Rama - Stop `touchstart` events from triggering `touchcancel`s in the color picker on mobile Chromium ([#6004](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6004))
+* Rama - Ensure that focusing the color text input selects the entire color hex code ([#6011](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6011))
 * Estsanatlehi - Fix a crash when the server disconnects while in a room ([#5925](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5925))
 * Estsanatlehi - Fix the MainHall Maid being much too eager with showing the changelog ([#5921](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5921))
 * Estsanatlehi - Change some of the `ServerIsLoggedIn()` checks back to doing a CharacterID check ([#5926](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5926))
 * Estsanatlehi - Fix chat search filtering ([#5933](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5933))
 * Estsanatlehi - Fix the speech ungarbling being broken ([#5947](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5947))
+* Estsanatlehi - Fix a relogging crash ([#5999](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5999))
+* Estsanatlehi - Fix a crash from the online struggle game ([#6002](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6002))
+* Estsanatlehi - Refactor tile/object blocking so that there's no hardcoded cases ([#6001](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6001))
+* Estsanatlehi - Fix issues with the keybind system ([#6003](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6003))
+* Estsanatlehi - Halo and EyeShadow as cosplay and HairAccessory group cleanup ([#6006](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6006))
 * Ben987 - Fix Chess Background
 
 ### [Technical]
