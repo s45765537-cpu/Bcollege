@@ -1238,6 +1238,7 @@ function ColorPickerResize() {
 
 /** @type {ScreenUnloadHandler} */
 function ColorPickerUnload() {
+	ElementDOMScreen.clearStatus(ColorPicker.ids.root);
 	document.getElementById(ColorPicker.ids.root)?.toggleAttribute("hidden", true);
 }
 
