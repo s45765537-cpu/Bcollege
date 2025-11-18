@@ -1203,10 +1203,11 @@ function CommonIsObject(value) {
 /**
  * Type guard which checks that a value is a character
  * @param {unknown} value - The value to test
- * @returns {value is Character}
+ * @returns {value is Character | PlayerCharacter}
  */
 function CommonIsCharacter(value) {
-	return CommonIsObject(value) && (value.Type === "online" || value.Type === "npc" || value.Type === "simple");
+	const char = /** @type {Character} */ (value);
+	return CommonIsObject(char) && (char.Type === "online" || char.Type === "npc" || char.Type === "simple" || char.Type === "player");
 }
 
 /**

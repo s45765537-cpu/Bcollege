@@ -1451,7 +1451,7 @@ function InventoryDoesItemAllowLock(item) {
  * @param {Character} C - The character on which the lock must be applied
  * @param {Item|AssetGroupName} Item - The item from appearance to lock
  * @param {Item|AssetLockType} Lock - The asset of the lock or the name of the lock asset
- * @param {null|Character|string} [AppliedBy] - The member number to put on the lock, or message to show
+ * @param {null|Character|PlayerCharacter|number|string} [AppliedBy] - The member number to put on the lock, or message to show
  * @param {boolean} [Update=true] - Whether or not to update the character
  */
 function InventoryLock(C, Item, Lock, AppliedBy = null, Update = true) {
@@ -1471,15 +1471,20 @@ function InventoryLock(C, Item, Lock, AppliedBy = null, Update = true) {
 
 	if (typeof AppliedBy === "string") {
 		Item.Property.LockMessage = AppliedBy;
-	} else if (CommonIsInteger(AppliedBy) || CommonIsCharacter(AppliedBy)) {
-		const char = CommonIsInteger(AppliedBy) ?
-			Character.find(c => c.MemberNumber === AppliedBy) : AppliedBy;
-		if (char.IsNpc()) {
+	} else {
+		/** @type {Character | undefined} */
+		let char;
+		if (CommonIsInteger(AppliedBy)) {
+			char = Character.find(c => c.MemberNumber === AppliedBy);
+		} else if (CommonIsCharacter(AppliedBy)) {
+			char = AppliedBy;
+		}
+		if (char?.IsNpc()) {
 			Item.Property.LockMemberNumber = -1;
-			Item.Property.LockMemberName = `${AppliedBy.Title ? AppliedBy.Title + " " : ""}${AppliedBy.Name}`;
-		} else if (char.IsOnline()) {
-			Item.Property.LockMemberNumber = AppliedBy.MemberNumber;
-			Item.Property.LockMemberName = AppliedBy.Name;
+			Item.Property.LockMemberName = `${char.Title ? char.Title + " " : ""}${char.Name}`;
+		} else if (char?.IsOnline() || char?.IsPlayer()) {
+			Item.Property.LockMemberNumber = char.MemberNumber;
+			Item.Property.LockMemberName = char.Name;
 		}
 	}
 
