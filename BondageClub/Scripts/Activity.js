@@ -266,11 +266,10 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
 	if (!activity.Prerequisite)
 		return true;
 
-	const reverse = activity.Reverse;
 	return activity.Prerequisite.every((pre) => {
-		const res = ActivityCheckPrerequisite(pre, (!reverse ? acting : acted), (!reverse ? acted : acting), group);
+		const res = ActivityCheckPrerequisite(pre, acting, acted, group);
 		if (!res) {
-			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}, act: ${activity.Name}, g: ${group.Name}: Prereq ${pre} failed`);
+			ActivityLog(`${acting.Name} on ${acted.Name}, act: ${activity.Name}, g: ${group.Name}: Prereq ${pre} failed`);
 		}
 		return res;
 	});
@@ -284,10 +283,9 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  * @param {Activity} activity
  * @param {AssetGroup} targetGroup
  */
-function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup) {
-	const reverse = activity.Reverse;
-	let items = CharacterItemsForActivity(!reverse ? acting : acted, needsItem);
-	if (Player.HasEffect("Chaste")) {
+function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup, useTargetItems = false) {
+	let items = CharacterItemsForActivity(useTargetItems ? acted : acting, needsItem);
+	if ((useTargetItems ? acted : acting).HasEffect("Chaste")) {
 		items = items.filter(item => item.Asset.Name !== "Penis");
 	}
 
@@ -305,16 +303,11 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 		}
 
 		// FIXME: workaround for reverse activities because those are in a non-activity group
-		const isStrapon = item.Asset.Group.Name === "ItemDevices" && ["StrapOnSmooth", "StrapOnStuds"].includes(item.Asset.Name);
-		const isPenis = item.Asset.Group.Name === "Pussy" && item.Asset.Name === "Penis";
 
 		if (InventoryItemHasEffect(item, "UseRemote")) {
 			// That item actually needs a remote, so handle it separately
-		} else if (reverse && acted.FocusGroup.Name !== item.Asset.Group.Name && !(isStrapon || isPenis)) {
-			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name} but incorrect group`);
-			return activities; // This is a reverse activity, but we're targetting the wrong slot, just skip
 		} else {
-			ActivityLog(`${acting.Name} on ${acted.Name}${reverse ? " (reverse)" : ""}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name}`);
+			ActivityLog(`${acting.Name} on ${acted.Name}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name}`);
 			activities.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup.MirrorActivitiesFrom ?? targetGroup.Name });
 			return activities;
 		}
@@ -380,7 +373,7 @@ function ActivityAllowedForGroup(character, groupname) {
 		}
 		if (targetNeedsItem) {
 			const targetNeedsItemActivity = /** @type {ActivityNameItem} */(targetNeedsItem.substring(12));
-			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(character, Player, targetNeedsItemActivity, activity, group)];
+			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(Player, character, targetNeedsItemActivity, activity, group, true)];
 		}
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {

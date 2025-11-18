@@ -1490,8 +1490,6 @@ interface Activity {
 	Prerequisite: ActivityPrerequisite[];
 	Target: AssetGroupItemName[];
 	TargetSelf?: AssetGroupItemName[] | true;
-	/** Whether to reverse the prerequisite checks for that one */
-	Reverse?: true;
 	/** used for setting {@link ExtendedItemAutoPunishHandled} */
 	MakeSound?: boolean;
 	/** An action that trigger when that activity is used */
