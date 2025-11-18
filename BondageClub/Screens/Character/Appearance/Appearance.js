@@ -982,7 +982,7 @@ function AppearanceRun() {
 		// Leave the color picker if the item is gone.
 		if (!InventoryGet(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName)) ItemColorCancelAndExit();
 		// Draw the color picker
-		ItemColorDraw(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950);
+		ItemColorDraw(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1095, 25, 880, 950);
 	}
 
 	// In cloth selection mode
@@ -1333,7 +1333,7 @@ function AppearanceClick() {
 
 	// In item coloring mode
 	else if (CharacterAppearanceMode == "Color") {
-		ItemColorClick(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950);
+		ItemColorClick(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1095, 25, 880, 950);
 	}
 
 	// Selecting a button in the row at the top
@@ -1888,7 +1888,7 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 	CharacterAppearanceMode = "Color";
 	CharacterAppearanceColorPickerGroupName = AssetGroup;
 	CharacterAppearanceColorPickerBackup = CharacterAppearanceGetCurrentValue(C, CharacterAppearanceColorPickerGroupName, "Color");
-	ItemColorLoad(C, Item, 1200, 25, 775, 950, true);
+	ItemColorLoad(C, Item, 1095, 25, 880, 950, true);
 	ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 		CharacterAppearanceMode = CurrentMode;
 		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
