@@ -263,7 +263,6 @@ function ItemColorClick(c, group, x, y, width, height) {
 	if (!item || ItemColorCurrentMode === ItemColorMode.COLOR_PICKER) {
 		return;
 	}
-	ItemColorStateBuild(c, item, x, y, width, height);
 
 	const headerButtonSize = ItemColorConfig.headerButtonSize;
 
