@@ -285,7 +285,7 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  */
 function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup) {
 	let items = CharacterItemsForActivity(acting, needsItem);
-	if (Player.HasEffect("Chaste")) {
+	if (acted.HasEffect("Chaste")) {
 		items = items.filter(item => item.Asset.Name !== "Penis");
 	}
 
