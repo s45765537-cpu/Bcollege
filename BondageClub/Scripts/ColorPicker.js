@@ -464,6 +464,104 @@ var ColorPicker = {
 		},
 
 		/**
+		 * Copy the current color.
+		 * @type {(this: HTMLButtonElement, ev: PointerEvent) => void}
+		 */
+		clickCopy: function (ev) {
+			const root = this.closest(".screen");
+			if (!root) {
+				return;
+			}
+
+			const colorState = ColorPicker.getColor(root);
+			/** @type {string} */
+			let color;
+			let opacity = 1;
+			const allColors = new Set(colorState.colors);
+			const allOpacities = new Set(colorState.opacity);
+			if (allColors.size === 1) {
+				color = allColors.values().next().value;
+			} else {
+				ElementDOMScreen.setStatus(root, CommonStringPartitionReplace(ItemColorText.get("CopyFail"), {
+					"{nColors}": ElementCreate({ tag: "q", children: [allColors.size.toString()] }),
+				}));
+				return;
+			}
+			if (allOpacities.size === 1) {
+				opacity = allOpacities.values().next().value;
+			}
+
+			const isHexColor = CommonIsColor(color);
+			if (opacity !== 1 && isHexColor) {
+				color += opacity.toString(16).padStart(2, "0");
+			}
+
+			navigator.clipboard.writeText(color);
+
+			/** @type {Element} */
+			let colorTextElem;
+			if (isHexColor) {
+				colorTextElem = ElementCreate({ tag: "q", children: [
+					{ tag: "span", children: ["◼ "], style: { "color": color.slice(0, 7) } },
+					{ tag: "span", children: [color], style: { "font-family": "monospace" } },
+				]});
+			} else {
+				colorTextElem = ElementCreate({ tag: "q", children: [color] });
+			}
+			ElementDOMScreen.setStatus(root, CommonStringPartitionReplace(ItemColorText.get("CopySuccess"), {
+				"{color}": colorTextElem,
+			}));
+		},
+
+		/**
+		 * Paste the current color.
+		 * @type {(this: HTMLButtonElement, ev: PointerEvent) => void}
+		 */
+		clickPaste: function (ev) {
+			const root = this.closest(".screen");
+			if (!root) {
+				return;
+			}
+
+			/** @type {Promise<string>} */
+			let promise;
+			try {
+				promise = navigator.clipboard.readText();
+			} catch (error) {
+				ElementDOMScreen.setStatus(root, ItemColorText.get("PasteFailBrowser"));
+				console.error("Browser does not support color pasting", error);
+				return;
+			}
+
+			const colorSchema = ItemColorItem?.Asset.Group.ColorSchema ?? [];
+			promise.then((color) => {
+				/** @type {Element} */
+				let colorTextElem;
+				let statusKey = "";
+				if (CommonIsColor(color, { allowAlpha: true })) {
+					statusKey = "PasteSuccess";
+					colorTextElem = ElementCreate({ tag: "q", children: [
+						{ tag: "span", children: ["◼ "], style: { "color": color.slice(0, 7) } },
+						{ tag: "span", children: [color], style: { "font-family": "monospace" } },
+					]});
+					ColorPicker.setColor(root, { colorString: color });
+				} else if (colorSchema.includes(color)) {
+					statusKey = "PasteSuccess";
+					colorTextElem = ElementCreate({ tag: "q", children: [color] });
+					ColorPicker.setColor(root, { colorString: color });
+				} else {
+					statusKey = "PasteFailInvalid";
+					colorTextElem = ElementCreate({
+						tag: "q", children: [color.length >= 100 ? `${color.slice(0, 100)}…` : color],
+					});
+				}
+				ElementDOMScreen.setStatus(root, CommonStringPartitionReplace(ItemColorText.get(statusKey), {
+					"{color}": colorTextElem,
+				}));
+			});
+		},
+
+		/**
 		 * The default input listener responsible for coupling any slider input changes to the states of `ColorPicker...` variables.
 		 * @type {ColorPickerInitOptions["onInput"]}
 		 */
@@ -970,6 +1068,14 @@ function ColorPickerLoad() {
 				{ image: "./Icons/Cancel.png", tooltip: ItemColorText.get("Cancel"), name: "cancel", tooltipPosition: "left" },
 			),
 			ElementButton.Create(
+				null, ColorPicker.eventListeners.clickPaste,
+				{ image: "./Icons/Paste.svg", tooltip: ItemColorText.get("Paste"), name: "paste", tooltipPosition: "left" },
+			),
+			ElementButton.Create(
+				null, ColorPicker.eventListeners.clickCopy,
+				{ image: "./Icons/Copy.svg", tooltip: ItemColorText.get("Copy"), name: "copy", tooltipPosition: "left" },
+			),
+			ElementButton.Create(
 				null, ColorPicker.eventListeners.clickReset,
 				{ image: "./Icons/Reset.png", tooltip: ItemColorText.get("Reset"), name: "reset", tooltipPosition: "left" },
 			),
@@ -1132,6 +1238,7 @@ function ColorPickerResize() {
 
 /** @type {ScreenUnloadHandler} */
 function ColorPickerUnload() {
+	ElementDOMScreen.clearStatus(ColorPicker.ids.root);
 	document.getElementById(ColorPicker.ids.root)?.toggleAttribute("hidden", true);
 }
 
