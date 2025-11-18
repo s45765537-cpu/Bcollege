@@ -283,9 +283,9 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  * @param {Activity} activity
  * @param {AssetGroup} targetGroup
  */
-function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup) {
-	let items = CharacterItemsForActivity(acting, needsItem);
-	if (acted.HasEffect("Chaste")) {
+function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup, useTargetItems = false) {
+	let items = CharacterItemsForActivity(useTargetItems ? acted : acting, needsItem);
+	if ((useTargetItems ? acted : acting).HasEffect("Chaste")) {
 		items = items.filter(item => item.Asset.Name !== "Penis");
 	}
 
@@ -373,7 +373,7 @@ function ActivityAllowedForGroup(character, groupname) {
 		}
 		if (targetNeedsItem) {
 			const targetNeedsItemActivity = /** @type {ActivityNameItem} */(targetNeedsItem.substring(12));
-			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(character, Player, targetNeedsItemActivity, activity, group)];
+			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(Player, character, targetNeedsItemActivity, activity, group, true)];
 		}
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {
