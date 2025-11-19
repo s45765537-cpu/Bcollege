@@ -336,7 +336,7 @@ function StruggleMinigameDrawCommon(Offset) {
 
 	// Change the operation to "Impossible" if applicable once the player struggled enough, or they're bypassing
 	if ((StruggleProgressStruggleCount >= STRUGGLE_THRESHOLD_REVEAL || StruggleMinigameShouldBypass()) && StruggleMinigameIsImpossible() && (StruggleProgressAuto < 0)) {
-		StruggleProgressOperation = InterfaceTextGet("Impossible");
+		StruggleProgressOperation = InterfaceTextGet("StruggleImpossible");
 	}
 }
 
