@@ -511,7 +511,7 @@ var CraftingEventListeners = {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
 				CraftingModeSet("Color");
-				ItemColorLoad(CraftingPreview, item, 1200, 15, 775, 970, true);
+				ItemColorLoad(CraftingPreview, item, 1100, 15, 875, 970, true);
 				ItemColorOnExit(({ colors }, save) => {
 					if (save) {
 						CraftingSelectedItem.Color = colors.join(",") || "Default";
@@ -1417,7 +1417,7 @@ function CraftingRun() {
 		DrawCharacter(CraftingPreview, -100, 100, 2, false);
 		DrawCharacter(CraftingPreview, 700, 100, 0.9, false);
 		DrawButton(880, 900, 90, 90, "", "white", `Icons/${CraftingNakedPreview ? "Dress" : "Naked"}.png`);
-		ItemColorDraw(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1200, 25, 775, 950);
+		ItemColorDraw(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1100, 15, 875, 970);
 	}
 
 	// Need the `DialogFocusItem` check here as there's a bit of a race condition
@@ -1942,8 +1942,8 @@ function CraftingClick(event) {
 		if (MouseIn(880, 900, 90, 90)) {
 			CraftingNakedPreview = !CraftingNakedPreview;
 			CraftingUpdatePreview();
-		} else if (MouseIn(1200, 25, 775, 950)) {
-			ItemColorClick(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1200, 25, 775, 950);
+		} else if (MouseIn(1100, 15, 875, 970)) {
+			ItemColorClick(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1100, 15, 875, 970);
 		}
 		return;
 	}

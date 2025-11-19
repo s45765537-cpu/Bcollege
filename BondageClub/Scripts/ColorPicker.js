@@ -208,7 +208,7 @@ var ColorPicker = {
 	 * @readonly
 	 * @type {Readonly<RectTuple>}
 	 */
-	defaultShape: Object.freeze([1200, 15, 800, 970]),
+	defaultShape: Object.freeze([1090, 15, 910, 970]),
 
 	/**
 	 * A weakmap mapping color picker root elements to their respective {@link ScreenResizeHandler} shape

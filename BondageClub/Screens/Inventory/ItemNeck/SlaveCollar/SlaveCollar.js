@@ -115,7 +115,7 @@ function InventoryItemNeckSlaveCollarDrawHook(data, originalFunction) {
 	var C = CharacterGetCurrent();
 	if (C && C.IsOwnedByPlayer()) {
 		if (InventoryItemNeckSlaveCollarColorMode) {
-			ItemColorDraw(C, DialogFocusItem.Asset.Group.Name, 1200, 15, 790, 965);
+			ItemColorDraw(C, DialogFocusItem.Asset.Group.Name, 1090, 15, 900, 965);
 		} else {
 			// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
 			originalFunction();
@@ -146,7 +146,7 @@ function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 	var C = CharacterGetCurrent();
 	if (C != null && C.IsOwnedByPlayer()) {
 		if (InventoryItemNeckSlaveCollarColorMode) {
-			ItemColorClick(C, DialogFocusItem.Asset.Group.Name, 1200, 15, 790, 965);
+			ItemColorClick(C, DialogFocusItem.Asset.Group.Name, 1090, 15, 900, 965);
 		} else {
 			originalFunction();
 
@@ -157,7 +157,7 @@ function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 			}
 			if ((MouseX >= 1775) && (MouseX <= 1865) && (MouseY >= 25) && (MouseY <= 110)) {
 				InventoryItemNeckSlaveCollarColorMode = true;
-				ItemColorLoad(C, DialogFocusItem, 1200, 15, 790, 965, true);
+				ItemColorLoad(C, DialogFocusItem, 1090, 15, 900, 965, true);
 				ItemColorOnExit(() => {
 					InventoryItemNeckSlaveCollarColorMode = false;
 				});
