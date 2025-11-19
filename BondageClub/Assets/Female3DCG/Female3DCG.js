@@ -20004,6 +20004,11 @@ var AssetFemale3DCG = [
 						AllowTypes: { f: [1, 2, 9, 10, 11] },
 					},
 					{
+						Name: "FaceCheeks",
+						CopyLayerColor: "FaceDermalLeft",
+						AllowTypes: { f: 7 },
+					},
+					{
 						Name: "FaceBridge",
 						CopyLayerColor: "FaceDermalLeft",
 						AllowTypes: { f: [4, 8, 9, 11] },
