@@ -763,7 +763,7 @@ function ItemColorFireExit(save) {
 	const item = ItemColorItem;
 	if (CommonArraysEqual(colorState.opacity, colorState.defaultOpacity)) {
 		delete item.Property.Opacity;
-	} else if (colorState.opacity.every((opacity, i) => opacity === colorState.opacity[i])) {
+	} else if (colorState.opacity.every(opacity => opacity === colorState.opacity[0])) {
 		item.Property.Opacity = colorState.opacity[0];
 	}
 
