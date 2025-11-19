@@ -63,7 +63,7 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
 	if ((typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) return;
 
 	const activity = AssetGetActivity(C.AssetFamily, Type);
-	if (!activity || CommonIsNonNegativeInteger(activity.ActivityID)) return;
+	if (!activity || !CommonIsNonNegativeInteger(activity.ActivityID)) return;
 
 	// Gets and sets the factors
 	let SelfFactor = PreferenceGetActivityFactor(C, Type, true);

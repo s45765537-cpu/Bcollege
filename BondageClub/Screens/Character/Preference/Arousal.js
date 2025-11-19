@@ -12,17 +12,17 @@ var PreferenceArousalAffectStutterIndex = 0;
 /** @type {null | ActivityName[]} */
 var PreferenceArousalActivityList = null;
 var PreferenceArousalActivityIndex = 0;
-/** @type {ArousalFactor} */
-var PreferenceArousalActivityFactorSelf = 0;
-/** @type {ArousalFactor} */
-var PreferenceArousalActivityFactorOther = 0;
-/** @type {ArousalFactor} */
-var PreferenceArousalZoneFactor = 0;
+/** @type {never} */
+var PreferenceArousalActivityFactorSelf;
+/** @type {never} */
+var PreferenceArousalActivityFactorOther;
+/** @type {never} */
+var PreferenceArousalZoneFactor;
 /** @type {null | FetishName[]} */
 var PreferenceArousalFetishList = null;
 var PreferenceArousalFetishIndex = 0;
-/** @type {ArousalFactor} */
-var PreferenceArousalFetishFactor = 0;
+/** @type {never} */
+var PreferenceArousalFetishFactor;
 
 function PreferenceSubscreenArousalLoad() {
 	CharacterAppearanceForceUpCharacter = Player.MemberNumber;
@@ -36,7 +36,6 @@ function PreferenceSubscreenArousalLoad() {
 		for (let A = 0; A < ActivityFemale3DCG.length; A++)
 			PreferenceArousalActivityList.push(ActivityFemale3DCG[A].Name);
 	PreferenceArousalActivityIndex = 0;
-	PreferenceLoadActivityFactor();
 
 	// Prepares the fetish list
 	PreferenceArousalFetishList = [];
@@ -44,7 +43,6 @@ function PreferenceSubscreenArousalLoad() {
 		for (let A = 0; A < FetishFemale3DCG.length; A++)
 			PreferenceArousalFetishList.push(FetishFemale3DCG[A].Name);
 	PreferenceArousalFetishIndex = 0;
-	PreferenceLoadFetishFactor();
 }
 
 /**
@@ -92,12 +90,15 @@ function PreferenceSubscreenArousalRun() {
 		// Draws the sub-selection controls
 		DrawBackNextButton(1505, 193, 400, 64, TextGet("ArousalVisible" + PreferenceArousalVisibleList[PreferenceArousalVisibleIndex]), "White", "", () => "", () => "");
 		DrawBackNextButton(900, 598, 500, 64, ActivityDictionaryText("Activity" + PreferenceArousalActivityList[PreferenceArousalActivityIndex]), "White", "", () => "", () => "");
-		DrawBackNextButton(900, 683, 300, 64, TextGet("ArousalActivityLove" + PreferenceArousalActivityFactorSelf), PreferenceGetFactorColor(PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], true)), "", () => "", () => "");
-		DrawBackNextButton(1605, 683, 300, 64, TextGet("ArousalActivityLove" + PreferenceArousalActivityFactorOther), PreferenceGetFactorColor(PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], false)), "", () => "", () => "");
+		const selfFactor = PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], true);
+		const otherFactor = PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], false);
+		DrawBackNextButton(900, 683, 300, 64, TextGet("ArousalActivityLove" + selfFactor), PreferenceGetFactorColor(selfFactor), "", () => "", () => "");
+		DrawBackNextButton(1605, 683, 300, 64, TextGet("ArousalActivityLove" + otherFactor), PreferenceGetFactorColor(otherFactor), "", () => "", () => "");
 
 		// Fetish elements
 		DrawBackNextButton(900, 513, 500, 64, TextGet("ArousalFetish" + PreferenceArousalFetishList[PreferenceArousalFetishIndex]), "White", "", () => "", () => "");
-		DrawBackNextButton(1455, 513, 450, 64, TextGet("ArousalFetishLove" + PreferenceArousalFetishFactor), PreferenceGetFactorColor(PreferenceGetFetishFactor(Player, PreferenceArousalFetishList[PreferenceArousalFetishIndex])), "", () => "", () => "");
+		const fetishFactor = PreferenceGetFetishFactor(Player, PreferenceArousalFetishList[PreferenceArousalFetishIndex]);
+		DrawBackNextButton(1455, 513, 450, 64, TextGet("ArousalFetishLove" + fetishFactor), PreferenceGetFactorColor(fetishFactor), "", () => "", () => "");
 	}
 
 	// We always draw the active & stutter control
@@ -164,42 +165,44 @@ function PreferenceSubscreenArousalClick() {
 		if (MouseIn(900, 513, 500, 64)) {
 			if (MouseX <= 1150) PreferenceArousalFetishIndex = (PreferenceArousalFetishList.length + PreferenceArousalFetishIndex - 1) % PreferenceArousalFetishList.length;
 			else PreferenceArousalFetishIndex = (PreferenceArousalFetishIndex + 1) % PreferenceArousalFetishList.length;
-			PreferenceLoadFetishFactor();
 		}
 
 		// Fetish love control
 		if (MouseIn(1455, 513, 450, 64)) {
-			if (MouseX <= 1680) PreferenceArousalFetishFactor = PreferenceDecrementArousalFactor(PreferenceArousalFetishFactor);
-			else PreferenceArousalFetishFactor = PreferenceIncrementArousalFactor(PreferenceArousalFetishFactor);
-			PreferenceSetFetishFactor(Player, PreferenceArousalFetishList[PreferenceArousalFetishIndex], PreferenceArousalFetishFactor);
+			const step = MouseX <= 1680 ? -1 : +1;
+			let factor = PreferenceGetFetishFactor(Player, PreferenceArousalFetishList[PreferenceArousalFetishIndex]);
+			factor = /** @type {ArousalFactor} */ (CommonModulo(factor + step, 5));
+			PreferenceSetFetishFactor(Player, PreferenceArousalFetishList[PreferenceArousalFetishIndex], factor);
 		}
 
 		// Arousal activity control
 		if (MouseIn(900, 598, 500, 64)) {
 			if (MouseX <= 1150) PreferenceArousalActivityIndex = (PreferenceArousalActivityList.length + PreferenceArousalActivityIndex - 1) % PreferenceArousalActivityList.length;
 			else PreferenceArousalActivityIndex = (PreferenceArousalActivityIndex + 1) % PreferenceArousalActivityList.length;
-			PreferenceLoadActivityFactor();
 		}
 
 		// Arousal activity love on self control
 		if (MouseIn(900, 683, 300, 64)) {
-			if (MouseX <= 1050) PreferenceArousalActivityFactorSelf = PreferenceDecrementArousalFactor(PreferenceArousalActivityFactorSelf);
-			else PreferenceArousalActivityFactorSelf = PreferenceIncrementArousalFactor(PreferenceArousalActivityFactorSelf);
-			PreferenceSetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], true, PreferenceArousalActivityFactorSelf);
+			const step = MouseX <= 1050 ? -1 : +1;
+			let factor = PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], true);
+			factor = /** @type {ArousalFactor} */ (CommonModulo(factor + step, 5));
+			PreferenceSetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], true, factor);
 		}
 
 		// Arousal activity love on other control
 		if (MouseIn(1605, 683, 300, 64)) {
-			if (MouseX <= 1755) PreferenceArousalActivityFactorOther = PreferenceDecrementArousalFactor(PreferenceArousalActivityFactorOther);
-			else PreferenceArousalActivityFactorOther = PreferenceIncrementArousalFactor(PreferenceArousalActivityFactorOther);
-			PreferenceSetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], false, PreferenceArousalActivityFactorOther);
+			const step = MouseX <= 1755 ? -1 : +1;
+			let factor = PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], false);
+			factor = /** @type {ArousalFactor} */ (CommonModulo(factor + step, 5));
+			PreferenceSetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], false, factor);
 		}
 
 		// Arousal zone love control
 		if ((Player.FocusGroup != null) && MouseIn(550, 853, 600, 64)) {
-			if (MouseX <= 850) PreferenceArousalZoneFactor = PreferenceDecrementArousalFactor(PreferenceArousalZoneFactor);
-			else PreferenceArousalZoneFactor = PreferenceIncrementArousalFactor(PreferenceArousalZoneFactor);
-			PreferenceSetArousalZone(Player, Player.FocusGroup.Name, PreferenceArousalZoneFactor);
+			const step = MouseX <= 1755 ? -1 : +1;
+			const zone = PreferenceGetArousalZone(Player, Player.FocusGroup.Name);
+			const factor = /** @type {ArousalFactor} */ (CommonModulo(zone.Factor + step, 5));
+			PreferenceSetArousalZone(Player, zone.Name, factor);
 		}
 
 		// Arousal zone orgasm check box
@@ -212,7 +215,6 @@ function PreferenceSubscreenArousalClick() {
 				const Zone = Group.Zone.find(z => DialogClickedInZone(Player, z, 0.9, 50, 50, 1));
 				if (Zone) {
 					Player.FocusGroup = Group;
-					PreferenceArousalZoneFactor = PreferenceGetZoneFactor(Player, Group.Name);
 				}
 			}
 		}
@@ -222,19 +224,16 @@ function PreferenceSubscreenArousalClick() {
 /**
  * Loads the activity factor combo boxes based on the current activity selected
  * @returns {void} - Nothing
+ * @deprecated
  */
-function PreferenceLoadActivityFactor() {
-	PreferenceArousalActivityFactorSelf = PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], true);
-	PreferenceArousalActivityFactorOther = PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], false);
-}
+function PreferenceLoadActivityFactor() {}
 
 /**
  * Loads the fetish factor combo boxes based on the current fetish selected
  * @returns {void} - Nothing
+ * @deprecated
  */
-function PreferenceLoadFetishFactor() {
-	PreferenceArousalFetishFactor = PreferenceGetFetishFactor(Player, PreferenceArousalFetishList[PreferenceArousalFetishIndex]);
-}
+function PreferenceLoadFetishFactor() {}
 
 /**
  * Increment the passed arousal factor.
