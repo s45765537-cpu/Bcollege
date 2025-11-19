@@ -353,6 +353,7 @@ function InformationSheetResize() {
 	const C = InformationSheetSelection;
 	if (C.IsPlayer()) {
 		ElementSetPosition("AllowedInteractions-dropdown-container", 550, 800);
+		ElementSetSize("AllowedInteractions-dropdown", 600);
 		ElementSetFontSize("AllowedInteractions-dropdown-container", "auto");
 	}
 }
