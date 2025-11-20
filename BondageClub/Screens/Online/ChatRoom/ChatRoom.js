@@ -5547,7 +5547,7 @@ function ChatRoomCurrentTime() {
  * Adds or removes an online member to/from a specific list. (From the dialog menu)
  * @param {"Add" | "Remove"} Operation - Operation to perform.
  * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList" | "DrawFocusList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist, drawfocuslist)
- * @param {string} [notification] - used to send notifications
+ * @param {"FriendRequest"} [notification] - used to send notifications
  * @returns {void} - Nothing
  */
 function ChatRoomListManage(Operation, ListType, notification) {
@@ -5561,7 +5561,8 @@ function ChatRoomListManage(Operation, ListType, notification) {
 			ChatRoomDrawFocusListRemove([CurrentCharacter]);
 		}
 	} else if (Array.isArray(Player[ListType])) {
-		ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber, notification);
+		ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber, ListType === "FriendList" ? notification : undefined);
+		CharacterRefreshDialog(CurrentCharacter);
 	}
 }
 
@@ -5570,15 +5571,14 @@ function ChatRoomListManage(Operation, ListType, notification) {
  * @param {number[]} List - List to add to or remove from.
  * @param {boolean} Adding - If TRUE adding to the list, if FALSE removing from the list.
  * @param {string} Argument - Member number to add/remove.
- * @param {string} [notification] - used to send notifications
+ * @param {"FriendRequest"} [notification] - used to send notifications
  * @deprecated Use {@link ChatRoomListUpdate}
  * @returns {void} - Nothing
  */
 function ChatRoomListManipulation(List, Adding, Argument, notification) {
-	var C = parseInt(Argument);
-	if (!isNaN(C) && (C >= 0) && (C != Player.MemberNumber)) {
-		ChatRoomListUpdate(List, Adding, C, notification);
-	}
+	const C = CommonParseInt(Argument);
+	if (C === null || !CommonIsNonNegativeInteger(C) || C === Player.MemberNumber) return;
+	ChatRoomListUpdate(List, Adding, C, notification);
 }
 
 /** @type {Map<string, number>} */
@@ -5664,7 +5664,7 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
  * @param {number[]} list - The array of member numbers to update
  * @param {boolean} adding - If TRUE adding to the list, if FALSE removing from the list
  * @param {number} memberNumber - The member number to add/remove
- * @param {String} [notification] - used to send notifications
+ * @param {"FriendRequest"} [notification] - used to send notifications
  * @returns {void} - Nothing
  */
 function ChatRoomListUpdate(list, adding, memberNumber, notification) {
