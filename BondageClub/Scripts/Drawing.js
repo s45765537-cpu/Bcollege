@@ -330,6 +330,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
 		|| CurrentScreen === "Crafting"
+		|| CurrentScreen === "Wardrobe"
 		|| CurrentScreen === "Shop2"
 		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
@@ -1507,6 +1508,7 @@ function DrawProcess(time) {
 			CurrentModule !== "Character"
 			&& bgName !== "Sheet"
 			&& CurrentScreen !== "Crafting"
+			&& CurrentScreen !== "Wardrobe"
 			&& CurrentScreen !== "Shop2"
 			&& CurrentScreen !== "MaidCleaning" // does it's own darkening
 		);
