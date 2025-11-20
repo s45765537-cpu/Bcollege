@@ -3318,9 +3318,8 @@ function ChatRoomSendAttemptEmote(msg) {
  * @returns {boolean} - whether we published anything to the chat.
  */
 function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
-	// Make sure we're in a chat room
-	if (CurrentScreen !== "ChatRoom")
-		return false;
+	// This can't use ServerPlayerIsInChatRoom because wardrobe changes can cause those to bleed through
+	if (CurrentScreen !== "ChatRoom") return false;
 
 	const dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
@@ -3417,7 +3416,8 @@ function ChatRoomCharacterExpressionUpdate(C, Group) {
  * @returns {void} - Nothing.
  */
 function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
-	if (!ServerPlayerIsInChatRoom()) return;
+	// This can't use ServerPlayerIsInChatRoom because wardrobe changes can cause those to bleed through
+	if (CurrentScreen !== "ChatRoom") return;
 	ServerSend("ChatRoomChat", { Content: msg, Type: "Action", Dictionary });
 	const C = CharacterGetCurrent();
 	if (C) ChatRoomCharacterItemUpdate(C);
