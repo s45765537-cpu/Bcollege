@@ -1130,6 +1130,28 @@ function ChatSearchGridUpdate(rooms) {
 }
 
 /**
+ * Handle clicks on room buttons
+ * @param {ChatRoomSearchResult} room
+ * @returns
+ */
+function ChatSearchClickRoom(room) {
+	if (ChatSearchMode == "Filter") {
+		if (ChatSearchShowHiddenRoomsActive) return ChatSearchClickUnhideRoom(room, false);
+		if (ChatSearchHiddenResult.includes(room)) return ChatSearchClickUnhideRoom(room, false);
+
+		ChatSearchHiddenResult.push(room);
+		const roomIdx = ChatSearchResult.findIndex(r => r.Name === room.Name);
+		if (roomIdx >= 0) ChatSearchResult.splice(roomIdx, 1);
+		document.getElementById(`chat-search-room-join-button-${room.Order}`).setAttribute("data-temporary-hidden", "true");
+		if (ChatSearchGhostPlayerOnClickActive) return ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
+
+		ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
+	} else if (ChatSearchMode === "") {
+		ChatSearchJoin(room.Name);
+	}
+}
+
+/**
  * Creates a grid button for the given room
  * @param {ChatRoomSearchResult} room
  * @param {number} index
@@ -1140,29 +1162,16 @@ function ChatSearchCreateGridRoom(room, index) {
 
 	const icons = ChatSearchGridRoomGetIcons(room);
 
-	/**@type {(null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
+	/** @type {(null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
 	const content = [
 		ElementButton.Create(`chat-search-room-join-button-${room.Order}`, () => {
-			if (ChatSearchMode == "Filter") {
-				if (ChatSearchShowHiddenRoomsActive) return ChatSearchClickUnhideRoom(room, false);
-				if (ChatSearchHiddenResult.includes(room)) return ChatSearchClickUnhideRoom(room, false);
-
-				ChatSearchHiddenResult.push(room);
-				const roomIdx = ChatSearchResult.findIndex(r => r.Name === room.Name);
-				if (roomIdx >= 0) ChatSearchResult.splice(roomIdx, 1);
-				document.getElementById(`chat-search-room-join-button-${room.Order}`).setAttribute("data-temporary-hidden", "true");
-				if (ChatSearchGhostPlayerOnClickActive) return ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
-
-				ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
-				return;
-			}
-			ChatSearchJoin(room.Name);
+			ChatSearchClickRoom(room);
 		}, {
 			tooltipPosition: "bottom",
 			tooltip: tooltipElement,
 			clickDisabled() {
-				// Will result in a toast if the room is still full and will just join as usual if the room happens to receive a new empty spot
-				ChatSearchJoin(room.Name);
+				// We still try to join in case the server state is different
+				ChatSearchClickRoom(room);
 			},
 		}, {
 			button: {
