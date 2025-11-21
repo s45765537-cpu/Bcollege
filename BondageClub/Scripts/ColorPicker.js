@@ -268,8 +268,12 @@ var ColorPicker = {
 					const opacityMin = CommonParseInt(opacityInput.min, 10) ?? 0;
 					const opacityMax = CommonParseInt(opacityInput.max, 10) ?? Infinity;
 					const opacityCandidate = CommonParseInt(outputInput.value.slice(7), 16);
-					if (opacityCandidate != null && !opacityInput.disabled) {
-						opacityInput.valueAsNumber = CommonClamp(opacityCandidate, opacityMin, opacityMax);
+					if (!opacityInput.disabled) {
+						if (opacityCandidate != null) {
+							opacityInput.valueAsNumber = CommonClamp(opacityCandidate, opacityMin, opacityMax);
+						} else {
+							opacityInput.value = opacityInput.max;
+						}
 					}
 
 					const rgb = outputInput.value.slice(0, 7);
