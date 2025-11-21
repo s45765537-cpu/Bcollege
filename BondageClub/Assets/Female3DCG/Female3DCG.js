@@ -60527,11 +60527,12 @@ var AssetFemale3DCG = [
 				DynamicAfterDraw: true,
 				MinOpacity: 0,
 				Opacity: 0,
+				EditOpacity: true,
 				FixedPosition: true,
 				Block: ["ItemAddon"],
 				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
 				Layer: [
-					{ Name: "Back", Priority: 1, MinOpacity: 1 },
+					{ Name: "Back", Priority: 1, MinOpacity: 1, EditOpacity: false },
 					{ Name: "Panel", CopyLayerColor: "Back" },
 					{ Name: "Text", HasImage: false },
 					{
@@ -62549,6 +62550,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				SetPose: ["BaseLower"],
 				AllowActivePose: ["LegsOpen", "LegsClosed"],
+				EditOpacity: true,
 				MinOpacity: 0,
 				Opacity: 0,
 				DynamicAfterDraw: true,
@@ -62556,7 +62558,7 @@ var AssetFemale3DCG = [
 				Block: ["ItemAddon"],
 				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze, E.Leash],
 				Layer: [
-					{ Name: "Back", Priority: 1, MinOpacity: 1 },
+					{ Name: "Back", Priority: 1, MinOpacity: 1, EditOpacity: false },
 					{ Name: "Panel", CopyLayerColor: "Back" },
 					{
 						Name: "Frame",
