@@ -4855,6 +4855,7 @@ type ClubCardTag =
 	| "Pet / Owner"
 	| "Kemonomimi"
 	| "Submissive / Slave"
+	| "Exhibitionist"
 	| "Reward";
 
 interface ClubCard {
@@ -4883,6 +4884,8 @@ interface ClubCard {
 	GlowColor?: string;
 	EffectKey?: number;
 	EffectType?: string;
+	Revealed?: boolean;
+	CanActive?: boolean;
 	//### Animations
 	AnimationState?: string;
 	DelayedAnimationState?: string;
@@ -4923,6 +4926,8 @@ interface ClubCard {
 	StreetsTurnEnd?: (C: ClubCardPlayer) => void;
 	onDiscardCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
 	onCancelNegation?: (C: ClubCardPlayer) => void;
+	WhenDrawn?: (C: ClubCardPlayer) => void;
+	OnActive?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
