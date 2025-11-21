@@ -2318,7 +2318,7 @@ interface PlayerCharacter extends Character {
 	 * Do not manipulate directly. Use {@link ChatRoomListUpdate}
 	 */
 	GhostList: number[];
-	Wardrobe: ItemBundle[][];
+	Wardrobe: (ItemBundle[] | null)[];
 	WardrobeCharacterNames: string[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	SavedColors: HSVColor[];
