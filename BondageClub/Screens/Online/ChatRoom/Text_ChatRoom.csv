@@ -113,3 +113,5 @@ FriendAddbackMessage,Added SourceCharacter as a friend.
 FriendGhost,Ghost SourceCharacter
 FriendGhostMessage,SourceCharacter is now Ghosted.
 FriendIgnore,Ignore request
+InvalidNumber,Invalid number.
+ArousalNotChangeable,Your Arousal "Activation" mode should be set to "Manual" or "Hybrid" to change your arousal.

@@ -1063,6 +1063,22 @@ const CommonCommands = [
 
 			ElementScrollToEnd("TextAreaChatLog");
 		}
-	}
+	},
+	{
+		Tag: 'arousal',
+		Action: (args) => {
+			if (!PreferenceArousalAtLeast(Player, "Manual") || PreferenceArousalAtLeast(Player, "Automatic"))
+				return ChatRoomSendLocal(TextGet("ArousalNotChangeable"));
 
+			const arousal = CommonParseInt(args);
+
+			if (arousal === null) return ChatRoomSendLocal(TextGet("InvalidNumber"));
+
+			const clamped = CommonClamp(arousal, 0, 100);
+
+			ActivitySetArousal(Player, clamped);
+			if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
+			if (Player.ArousalSettings.Progress === 100) ActivityOrgasmPrepare(Player);
+		}
+	}
 ];
