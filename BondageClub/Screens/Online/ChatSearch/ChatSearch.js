@@ -1889,6 +1889,10 @@ function ChatSearchQuery(Query) {
 		SearchDescs: Player.ChatSearchSettings.SearchDescriptions,
 	};
 	const isEqual = CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData);
+
+	// Leashing between language filters
+	if (ChatRoomJoinLeash) SearchData.Language = "";
+
 	// Prevent spam searching the same thing.
 	if (!isEqual || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
 		ChatSearchLastQuerySearchTime = CommonTime();

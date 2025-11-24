@@ -437,15 +437,15 @@ function StruggleMinigameHandleExpression(Decrease) {
 	if (!Decrease && Player.OnlineSharedSettings.ItemsAffectExpressions) {
 		// At 15 hit: Eyes angry
 		if (StruggleProgressCurrentMinigame === "Strength") {
-			if (Count >= 15) CharacterSetFacialExpression(Player, "Eyes", "Angry");
+			if (Count >= 15) CharacterSetFacialExpression(Player, "Eyes", "Angry", 3);
 		}
 		// At 25 hit: Eyes Lewd
 		if (StruggleProgressCurrentMinigame === "Flexibility") {
-			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Lewd");
+			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Lewd", 3);
 		}
 		// At 25 hit: Eyes dazed
 		if (StruggleProgressCurrentMinigame === "Dexterity") {
-			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Dazed");
+			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Dazed", 3);
 		}
 
 		// Each click accelerates ExpressionQueue timers 1 second.
