@@ -514,3 +514,19 @@ WontRemoveItemWithTimer,The item will stay when the lock timer runs out
 ZoneBlocked,This zone is out of reach from another item
 ZoneBlockedOwner,Your owner doesn't allow you to access that zone
 ZoneBlockedRange,You're too far to reach DialogCharacterObject's body and items.
+DurationFormatYear,$value$y
+DurationFormatMonth,$value$m
+DurationFormatWeek,$value$w
+DurationFormatDay,$value$d
+DurationFormatHour,$value$h
+DurationFormatMinute,$value$min
+DurationFormatSecond,$value$s
+DurationFormatYearFull,$value$ year(s)
+DurationFormatMonthFull,$value$ month(s)
+DurationFormatWeekFull,$value$ week(s)
+DurationFormatDayFull,$value$ day(s)
+DurationFormatHourFull,$value$ hour(s)
+DurationFormatMinuteFull,$value$ minute(s)
+DurationFormatSecondFull,$value$ second(s)
+CommaDelimiter,", "
+DurationFormatError,Duration error
