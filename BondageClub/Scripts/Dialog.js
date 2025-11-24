@@ -4138,7 +4138,7 @@ class _DialogDialogMenu extends DialogMenu {
 	 * @satisfies {TimerHandler}
 	 */
 	_mobileTimeoutHandler(C) {
-		const button = document.querySelector(`#${this.ids.menubar} [name='Exit']`)
+		const button = document.querySelector(`#${this.ids.menubar} [name='Exit']`);
 		switch (DialogIntro(C)) {
 			case "":
 			case "NOEXIT":
