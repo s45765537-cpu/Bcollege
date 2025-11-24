@@ -434,11 +434,12 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			switch (this.IsOwned()) {
 				case "ggts": return TextGet("OwnerGGTS");
 				case "npc": {
+					const name = this.Owner.replace("NPC-", "");
 					if (this.IsFullyOwned()) {
-						return this.Owner.replace("NPC-", "");
+						return name;
 					 }
 					 const privateOwner = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
-					 return privateOwner?.Name ?? "";
+					 return privateOwner?.Name ?? name ?? "";
 				}
 				case "online": return this.Ownership.Name;
 				case "player": return CharacterNickname(Player);
@@ -486,6 +487,33 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 						}
 					}
 					return -1;
+				}
+			}
+			return -1;
+		},
+		OwnedSinceMs: function () {
+			switch (this.IsOwned()) {
+				case "online":
+					return this.Ownership.Start;
+				case "player": {
+					let Time = NPCEventGet(this, "NPCCollaring");
+					if (Time > 0) return Time;
+					Time = NPCEventGet(this, "EndDomTrial");
+					if (Time > 0) {
+						return Time || 0;
+					}
+					break;
+				}
+				case "npc": {
+					for (const npc of PrivateCharacter) {
+						let Time = NPCEventGet(npc, "PlayerCollaring");
+						if (Time > 0) return Time;
+						Time = NPCEventGet(npc, "EndSubTrial");
+						if (Time > 0) {
+							return Time || 0;
+						}
+					}
+					break;
 				}
 			}
 			return -1;
@@ -634,10 +662,13 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			ChatRoomMapViewUpdatePlayerFlag();
 		},
 		IsBirthday: function () {
-			if ((this.Creation == null) || (CurrentTime == null)) return false;
-			return ((new Date(this.Creation)).getDate() == (new Date(CurrentTime)).getDate()) &&
-				   ((new Date(this.Creation)).getMonth() == (new Date(CurrentTime)).getMonth()) &&
-				   ((new Date(this.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
+			if ((this.Creation === null) || (CurrentTime === null)) return false;
+			const creation = new Date(this.Creation),
+				current = new Date(CurrentTime);
+
+			return (creation.getUTCDate() === current.getUTCDate()) &&
+				(creation.getUTCMonth() === current.getUTCMonth()) &&
+				(creation.getUTCFullYear() !== current.getUTCFullYear());
 		},
 		IsSiblingOfCharacter: function(C) {
 			return this.IsOwnedByMemberNumber(C.OwnerNumber());

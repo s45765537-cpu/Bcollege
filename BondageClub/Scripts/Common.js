@@ -2121,28 +2121,164 @@ function CommonTokenize(input, options = {
 }
 
 /**
- * Formats a duration in ms to a human readable string of days, months, and years
+ * Formats a duration in ms to a human readable string of days, months, and years.
+ * Defaults to showing days.
  * @param {number} ms
- * @returns
+ * @param {{
+ *   includeYears?: boolean;
+ *   includeMonths?: boolean;
+ *   includeWeeks?: boolean;
+ *   includeDays?: boolean;
+ *   includeHours?: boolean;
+ *   includeMinutes?: boolean;
+ *   includeSeconds?: boolean;
+ *   showFull?: boolean;
+ * }} options
+ * @returns {string}
  */
-function CommonFormatDuration(ms) {
-	const dayMs = 86400000;
-	const yearDays = 365;
-	const monthDays = 30;
+function CommonFormatDuration(ms, options = {}) {
+	const {
+		includeYears = false,
+		includeMonths = false,
+		includeWeeks = false,
+		includeDays = true,
+		includeHours = false,
+		includeMinutes = false,
+		includeSeconds = false,
+		showFull = false
+	} = options;
 
-	let days = Math.floor(ms / dayMs);
-	const years = Math.floor(days / yearDays);
-	days -= years * yearDays;
+	// Update options, because we're passing them to other function
+	options = {
+		...options,
+		includeYears,
+		includeMonths,
+		includeWeeks,
+		includeDays,
+		includeHours,
+		includeMinutes,
+		includeSeconds,
+	};
 
-	const months = Math.floor(days / monthDays);
-	days -= months * monthDays;
+	const {
+		y: years,
+		m: months,
+		d: daysLeft,
+		h: hours,
+		min: minutes,
+		s: seconds,
+	} = CommonGetDateParts(ms, options);
 
-	let result = [];
-	if (years > 0) result.push(`${years}y`);
-	if (months > 0) result.push(`${months}m`);
-	if (days > 0 || result.length === 0) result.push(`${days}d`);
+	// Weeks extracted from remaining days
+	const weeks = includeWeeks ? Math.floor(daysLeft / 7) : 0;
+	const days = includeWeeks ? daysLeft % 7 : daysLeft;
+	const full = showFull ? "Full" : "";
 
-	return result.join(", ");
+	/** @type {[string, boolean, number][]} */
+	const pairs = [
+		[InterfaceTextGet("DurationFormatYear" + full), includeYears, years],
+		[InterfaceTextGet("DurationFormatMonth" + full), includeMonths, months],
+		[InterfaceTextGet("DurationFormatWeek" + full), includeWeeks, weeks],
+		[InterfaceTextGet("DurationFormatDay" + full), includeDays, days],
+		[InterfaceTextGet("DurationFormatHour" + full), includeHours, hours],
+		[InterfaceTextGet("DurationFormatMinute" + full), includeMinutes, minutes],
+		[InterfaceTextGet("DurationFormatSecond" + full), includeSeconds, seconds],
+	]
+		.filter(([, enabled]) => enabled)
+		.map(([label, , value]) => /** @type {[string, boolean, number]} */ ([label, true, value]));
+
+	const result = pairs
+		.filter(([, , value], idx) => value > 0 || idx === pairs.length - 1)
+		.map(([label, , v]) =>
+			CommonStringPartitionReplace(label, { $value$: v }).join('')
+		);
+
+	if (result.length === 0) {
+		return InterfaceTextGet("DurationFormatError");
+	}
+
+	return result.join(InterfaceTextGet("CommaDelimiter"));
+}
+
+/**
+ * Break duration into real-calendar components (y, m, d, h, min, s),
+ * optionally rolling excluded components into the next smaller unit.
+ *
+ * @param {number} ms
+ * @param {{
+ *   includeYears?: boolean,
+ *   includeMonths?: boolean,
+ *   includeDays?: boolean,
+ *   includeHours?: boolean,
+ *   includeMinutes?: boolean,
+ * }} options
+ */
+function CommonGetDateParts(ms, options = {}) {
+	const {
+		includeYears = true,
+		includeMonths = true,
+		includeDays = true,
+		includeHours = true,
+		includeMinutes = true,
+	} = options;
+
+	// Base calendar diff with normalization
+	const start = new Date(1970, 0, 1);
+	const end = new Date(start.getTime() + ms);
+
+	let y = end.getFullYear() - start.getFullYear();
+	let m = end.getMonth() - start.getMonth();
+	let d = end.getDate() - start.getDate();
+	let h = end.getHours() - start.getHours();
+	let min = end.getMinutes() - start.getMinutes();
+	let s = end.getSeconds() - start.getSeconds();
+
+	if (s < 0) { s += 60; min--; }
+	if (min < 0) { min += 60; h--; }
+	if (h < 0) { h += 24; d--; }
+
+	if (d < 0) {
+		const prevMonthDays = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+		d += prevMonthDays;
+		m--;
+	}
+
+	if (m < 0) { m += 12; y--; }
+
+	// Roll down units when excluded
+	if (!includeYears) {
+		m += y * 12;
+		y = 0;
+	}
+
+	if (!includeMonths) {
+		// Add days from each month being dropped
+		for (let i = 0; i < m; i++) {
+			const monthIndex = (start.getMonth() + i) % 12;
+			const yearOffset = Math.floor((start.getMonth() + i) / 12);
+			const year = start.getFullYear() + yearOffset;
+			d += new Date(year, monthIndex + 1, 0).getDate();
+		}
+		m = 0;
+	}
+
+	if (!includeDays) {
+		h += d * 24;
+		d = 0;
+	}
+
+	if (!includeHours) {
+		min += h * 60;
+		h = 0;
+	}
+
+	if (!includeMinutes) {
+		s += min * 60;
+		min = 0;
+	}
+
+	// Seconds are final, no further collapse
+	return { y, m, d, h, min, s };
 }
 
 /**

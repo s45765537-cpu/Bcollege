@@ -1962,6 +1962,8 @@ interface Character {
 	IsFullyOwnedByPlayer: () => boolean;
 	/** The number of days since the character has been owned (-1 means not owned) */
 	OwnedSince: () => number;
+	/** Epoch timestamp of ownership start (-1 means not owned) */
+	OwnedSinceMs: () => number;
 	/** Whether the given character owns the player */
 	IsOwner: () => boolean;
 	IsKneeling: () => boolean;

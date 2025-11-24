@@ -386,9 +386,7 @@ function PrivateTitleIs(Title) { return ((CurrentCharacter.Title != null) && (Cu
  * @returns {boolean} - TRUE if it's the birthday
  */
 function PrivateIsPlayerBirthday() {
-	return ((new Date(Player.Creation)).getDate() == (new Date(CurrentTime)).getDate()) &&
-		   ((new Date(Player.Creation)).getMonth() == (new Date(CurrentTime)).getMonth()) &&
-		   ((new Date(Player.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
+	return Player.IsBirthday();
 }
 /**
  * Returns TRUE if the private room friend will join the player in bed, love must be positive and higher than frigid trait

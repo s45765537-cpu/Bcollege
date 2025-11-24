@@ -114,18 +114,20 @@ NoMemberNumber,-
 Relationships,- Relationships -
 Lover,Lover:
 Owner,Owner:
-LoverNone,None
-OwnerNone,None
+None,None
+Unowned,Unowned
 OwnerGGTS,GGTS
 Money,Money:
 MemberFor,Member for
+JoinDate,Join Date
 Birthday,Bondage Club Birthday! 
 FriendsFor,Friends for
-TrialFor,On trial for
-CollaredFor,Collared for
-DatingFor,Dating for
-EngagedFor,Engaged for
-MarriedFor,Married for
+For,for
+TrialBy,On trial by
+CollaredBy,Collared by
+DatingWith,Dating with
+EngagedWith,Engaged with
+MarriedWith,Married with
 Days,day(s)
 Unknown,Unknown
 Reputation,- Reputation -
