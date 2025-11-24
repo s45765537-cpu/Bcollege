@@ -527,13 +527,17 @@ function ItemColorNextColor(colorGroup) {
 	const schema = ItemColorItem.Asset.Group.ColorSchema;
 	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length;
 	const nextColor = schema[nextIndex];
-	const newColors = [...ItemColorState.colors];
 	if (nextColor === "Default") {
-		colorIndicesToSet.forEach(i => newColors[i] = ItemColorState.defaultColors[i]);
+		colorIndicesToSet.forEach(i => {
+			ItemColorItem.Color[i] = ItemColorState.defaultColors[i];
+			ItemColorState.colors[i] = ItemColorState.defaultColors[i];
+		});
 	} else {
-		colorIndicesToSet.forEach(i => newColors[i] = nextColor);
+		colorIndicesToSet.forEach(i => {
+			ItemColorItem.Color[i] = nextColor;
+			ItemColorState.colors[i] = nextColor;
+		});
 	}
-	ItemColorItem.Color = newColors;
 	CharacterLoadCanvas(ItemColorCharacter);
 }
 
