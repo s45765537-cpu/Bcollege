@@ -130,7 +130,7 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 		await ItemColorOpenPicker(ItemColorState.colorGroups[0], { shape });
 	} else {
 		// Pre-loaded (and hide) the color picker subscreen again
-		await ColorPickerInit({ shape });
+		await ColorPickerInit({ shape, dispatch: false });
 		ColorPickerUnload();
 	}
 }

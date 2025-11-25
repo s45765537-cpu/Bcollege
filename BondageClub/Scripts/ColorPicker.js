@@ -882,7 +882,7 @@ var ColorPicker = {
 	 * Set the color and/or opacity of the passed color picker screen
 	 * @param {ElementHelp.ElementOrId} root - The color picker screen or its ID
 	 * @param {{ readonly colorString?: string, readonly hsv?: Readonly<HSVColor>, readonly opacity?: number }} value - The passed color (be it as string or HSV object) and opacity
-	 * @param {null | { overrideEditOpacity?: boolean }} options
+	 * @param {null | { overrideEditOpacity?: boolean, dispatch?: boolean }} options
 	 */
 	setColor(root, value, options=null) {
 		options ??= {};
@@ -952,7 +952,9 @@ var ColorPicker = {
 		}
 
 		outputInput.value = colorOutputText;
-		fieldset.dispatchEvent(new CustomEvent("input", { detail: { source: outputInput.name } }));
+		if (options.dispatch ?? true) {
+			fieldset.dispatchEvent(new CustomEvent("input", { detail: { source: outputInput.name } }));
+		}
 	},
 
 	/**
@@ -1174,7 +1176,7 @@ function ColorPickerReload(options=null) {
 	}
 
 	// Apply the new color and opacity
-	ColorPicker.setColor(fieldset, { colorString: singularColor, opacity: singularOpacity }, { overrideEditOpacity: true });
+	ColorPicker.setColor(fieldset, { colorString: singularColor, opacity: singularOpacity }, { overrideEditOpacity: true, dispatch: options.dispatch });
 	if (ItemColorCharacter) {
 		CharacterLoadCanvas(ItemColorCharacter);
 	}
