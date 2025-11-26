@@ -497,7 +497,7 @@ var ColorPicker = {
 
 			const isHexColor = CommonIsColor(color);
 			if (opacity !== 1 && isHexColor) {
-				color += opacity.toString(16).padStart(2, "0");
+				color += Math.round(opacity * 255).toString(16).padStart(2, "0");
 			}
 
 			navigator.clipboard.writeText(color);
