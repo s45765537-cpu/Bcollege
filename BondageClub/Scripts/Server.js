@@ -319,6 +319,8 @@ ServerPlayerChatRoom.register(
 	{ screen: "ChatRoom" },
 	{ screen: "ChatAdmin" },
 	{ screen: "GameLARP" },
+	{ screen: "GameMagicBattle" },
+	{ screen: "GameClubCard" },
 	{ screen: "Appearance", callback: () => CharacterAppearanceReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "InformationSheet", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "Title", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
