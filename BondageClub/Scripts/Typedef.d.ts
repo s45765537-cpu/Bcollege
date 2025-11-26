@@ -730,8 +730,6 @@ type BackgroundTag =
 
 type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
 
-type ModuleType = keyof ModuleScreens;
-
 interface ModuleScreens {
 	Character:
 		| "Appearance"
@@ -811,6 +809,8 @@ interface ModuleScreens {
 	;
 }
 
+type ModuleType = keyof ModuleScreens;
+type ScreenName = ModuleScreens["Character"] | ModuleScreens["Cutscene"] | ModuleScreens["MiniGame"] | ModuleScreens["Online"] | ModuleScreens["Room"];
 type RoomName = ModuleScreens[ModuleType];
 
 interface RelogDataBase<T extends ModuleType> {

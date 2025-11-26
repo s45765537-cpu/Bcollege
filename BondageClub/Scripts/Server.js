@@ -285,7 +285,7 @@ function ServerHandleRelog(C) {
 	return true;
 }
 
-/** @typedef {{ screen?: string, callback?: () => boolean }} ServerChatRoomChecksOptions */
+/** @typedef {{ screen?: ScreenName, module?: ModuleType, callback?: () => boolean }} ServerChatRoomChecksOptions */
 
 /**
  * Namespace with callbacks for determining whether the player is in a chatroom
@@ -295,7 +295,7 @@ function ServerHandleRelog(C) {
 var ServerPlayerChatRoom = {
 	/**
 	 * All registered callbacks representing distinct screens that must be checked in order to determine chatroom presence
-	 * @type {((screen: string) => boolean)[]}
+	 * @type {((module: ModuleType, screen: ScreenName) => boolean)[]}
 	 */
 	callbacks: [],
 
@@ -304,10 +304,10 @@ var ServerPlayerChatRoom = {
 	 * @param {ServerChatRoomChecksOptions[]} options
 	 */
 	register(...options) {
-		for (let { screen, callback } of options) {
+		for (let { screen, module, callback } of options) {
 			if (screen) {
 				callback ??= () => true;
-				this.callbacks.push((currentScreen) => currentScreen === screen && callback());
+				this.callbacks.push((currentModule, currentScreen) => (module && currentModule === module || screen && currentScreen === screen) && callback());
 			} else if (callback) {
 				this.callbacks.push(() => callback());
 			}
@@ -327,7 +327,7 @@ ServerPlayerChatRoom.register(
 	{ screen: "OnlineProfile", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "FriendList", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
 	{ screen: "Preference", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
-	{ screen: "MiniGame", callback: () => DialogGamingReturnScreen?.[1] === "ChatRoom" },
+	{ module: "MiniGame", callback: () => DialogGamingReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "Crafting", callback: () => CraftingReturnToChatroom },
 	{ screen: "Shop2", callback: () => Shop2InitVars.PreviousScreen?.[1] === "ChatRoom" },
 	{ screen: "WheelFortune", callback: () => WheelFortuneReturnScreen?.[1] === "ChatRoom" },
@@ -339,7 +339,7 @@ ServerPlayerChatRoom.register(
  * @returns {boolean} - True if in a chatroom
  */
 function ServerPlayerIsInChatRoom() {
-	return ServerPlayerChatRoom.callbacks.some(predicate => predicate(CurrentScreen));
+	return ServerPlayerChatRoom.callbacks.some(predicate => predicate(CurrentModule, CurrentScreen));
 }
 
 /** Ratelimit: Max number of messages per interval */
