@@ -1039,6 +1039,18 @@ type Mutable<T> = {
 		-readonly[P in keyof T]: T[P];
 };
 
+/**
+ * Normalizes a type for cleaner IntelliSense.
+ *
+ * Forces TypeScript to resolve intersections and mapped types into
+ * a readable object shape without changing the original type behavior.
+ *
+ * @template T
+ */
+type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & unknown;
+
 //#region Assets
 
 type IAssetFamily = "Female3DCG";
