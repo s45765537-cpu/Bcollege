@@ -25353,6 +25353,7 @@ var AssetFemale3DCG = [
 	// #region Height
 	{
 		Group: "Height",
+		Priority: 0,
 		AllowNone: false,
 		AllowColorize: false,
 		Asset: [
@@ -28530,6 +28531,7 @@ var AssetFemale3DCG = [
 	// #region Pronouns
 	{
 		Group: "Pronouns",
+		Priority: 0,
 		AllowNone: false,
 		Asset: [
 			{ Name: "SheHer", Visible: false, Random: false, Gender: "F" },

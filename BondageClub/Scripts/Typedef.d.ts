@@ -1357,7 +1357,6 @@ interface Asset {
 	readonly RemoveTime: number;
 	readonly RemoveTimer: number;
 	readonly MaxTimer: number;
-	readonly DrawingPriority?: number;
 	readonly DrawingLeft: TopLeft.Data;
 	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;

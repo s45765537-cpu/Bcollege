@@ -269,6 +269,9 @@ interface AssetGroupDefinitionBase extends AssetCommonPropertiesGroupAsset, Asse
 	/** The list of assets defined by the group */
 	Asset: (AssetDefinition | string)[];
 
+	/** Inherited from {@link AssetCommonPropertiesGroupAssetLayer} but mandatory here */
+	Priority: number;
+
 	/**
 	 * The type of the group
 	 *
