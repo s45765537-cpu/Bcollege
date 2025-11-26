@@ -4547,6 +4547,7 @@ interface ColorPickerInitOptions {
 	 * @default false
 	 */
 	reset?: boolean;
+	dispatch?: boolean;
 }
 
 //#end region

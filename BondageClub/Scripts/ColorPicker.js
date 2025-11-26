@@ -882,7 +882,7 @@ var ColorPicker = {
 	 * Set the color and/or opacity of the passed color picker screen
 	 * @param {ElementHelp.ElementOrId} root - The color picker screen or its ID
 	 * @param {{ readonly colorString?: string, readonly hsv?: Readonly<HSVColor>, readonly opacity?: number }} value - The passed color (be it as string or HSV object) and opacity
-	 * @param {null | { overrideEditOpacity?: boolean }} options
+	 * @param {null | { overrideEditOpacity?: boolean, dispatch?: boolean }} options
 	 */
 	setColor(root, value, options=null) {
 		options ??= {};
@@ -952,7 +952,9 @@ var ColorPicker = {
 		}
 
 		outputInput.value = colorOutputText;
-		fieldset.dispatchEvent(new CustomEvent("input", { detail: { source: outputInput.name } }));
+		if (options.dispatch ?? true) {
+			fieldset.dispatchEvent(new CustomEvent("input", { detail: { source: outputInput.name } }));
+		}
 	},
 
 	/**
@@ -1121,19 +1123,19 @@ function ColorPickerReload(options=null) {
 
 	// Grab all colors and opacity and identify a suitable "singular" value for the inputs
 	// When dealing with items or color groups (_i.e._ a set with potentially multiple distinct colors/opacities) the best you can do is attempt to pick the value that is the _least_ bullshit
-	let singularOpacity = 0;
-	let singularColor = "";
+	/** @type {number[]} */
+	let opacities;
+	/** @type {string[]} */
+	let colors;
 	if (options.colorState) {
-		const opacities = options.colorState.opacity;
-		singularOpacity = (opacities.length >= 1 && opacities.every(i => i === opacities[0])) ? opacities[0] : 1;
-		const colors = options.colorState.colors;
-		singularColor = (colors.length >= 1 && colors.every(i => i === colors[0])) ? colors[0] : "";
+		opacities = options.colorState.opacity;
+		colors = options.colorState.colors;
 	} else {
-		const opacities = Array.from(ItemColorPickerLayers.keys()).map(i => ItemColorState.opacity[i]);
-		singularOpacity = (opacities.length >= 1 && opacities.every(i => i === opacities[0])) ? opacities[0] : 1;
-		const colors = ItemColorPickerIndices.map(i => ItemColorState.colors[i]);
-		singularColor = (colors.length >= 1 && colors.every(i => i === colors[0])) ? colors[0] : "";
+		opacities = Array.from(ItemColorPickerLayers.keys()).map(i => ItemColorState.opacity[i]);
+		colors = ItemColorPickerIndices.map(i => ItemColorState.colors[i]);
 	}
+	const singularOpacity = opacities.length === 0 ? 1 : Math.max(...opacities);
+	const singularColor = (colors.length >= 1 && colors.every(i => i === colors[0])) ? colors[0] : "";
 
 	// Gather the elements
 	const fieldset = /** @type {null | HTMLFieldSetElement} */(root.matches("fieldset[name='color-picker']") ? root : root.querySelector("fieldset[name='color-picker']"));
@@ -1174,7 +1176,7 @@ function ColorPickerReload(options=null) {
 	}
 
 	// Apply the new color and opacity
-	ColorPicker.setColor(fieldset, { colorString: singularColor, opacity: singularOpacity }, { overrideEditOpacity: true });
+	ColorPicker.setColor(fieldset, { colorString: singularColor, opacity: singularOpacity }, { overrideEditOpacity: true, dispatch: options.dispatch });
 	if (ItemColorCharacter) {
 		CharacterLoadCanvas(ItemColorCharacter);
 	}

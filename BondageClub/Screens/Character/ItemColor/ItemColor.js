@@ -119,10 +119,8 @@ function ItemColorSanitizeProperty(item) {
  */
 async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorReset();
-	ItemColorCharacter = c;
-	ItemColorItem = Object.assign(item, { Color: ItemColorSanitizeColor(item), Property: ItemColorSanitizeProperty(item) });
-	ItemColorBackup = AppearanceItemStringify(ItemColorItem);
-	ItemColorStateBuild(c, ItemColorItem, x, y, width, height);
+	ItemColorBackup = AppearanceItemStringify(item);
+	ItemColorStateBuild(c, item, x, y, width, height);
 	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
 	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
 
@@ -132,7 +130,7 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 		await ItemColorOpenPicker(ItemColorState.colorGroups[0], { shape });
 	} else {
 		// Pre-loaded (and hide) the color picker subscreen again
-		await ColorPickerInit({ shape });
+		await ColorPickerInit({ shape, dispatch: false });
 		ColorPickerUnload();
 	}
 }
