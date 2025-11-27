@@ -229,6 +229,33 @@ const ChatRoomMapViewObjectList = [
 		Transparency: 1,
 		TransparencyCutoutHeight: 0.96
 	},
+	{
+		ID: 750,
+		Type: "FloorDecorationExpanding",
+		Style: "RailroadPreview", // The image shown in the map editor palette
+		BuildImageName: function(X, Y) {
+			// Get the connections as True/False
+			let directions = ChatRoomMapViewGetConnectivityDirections(X, Y, (tX, tY) => {
+				const neighbor = ChatRoomMapViewGetObjectAtPos(tX, tY);
+				// Connect if neighbor exists and has the exact same ID as this track
+				return neighbor != null && neighbor.ID === this.ID;
+			});
+
+			// Build the suffix string in a strict order
+			let Suffix = "";
+			if (directions.North) Suffix += "North";
+			if (directions.South) Suffix += "South";
+			if (directions.East)  Suffix += "East";
+			if (directions.West)  Suffix += "West";
+
+			// Handle the "Single" case (no connections)
+			if (Suffix === "") return "Railroad"; // Default to vertical if alone
+
+			// Return the final image name
+			return "Railroad" + Suffix;
+		},
+		Top: -0.35,
+	},
 	{ ID: 800, Type: "FloorDecorationAnimal", Style: "Blank" },
 	{
 		ID: 810,
@@ -957,6 +984,22 @@ function ChatRoomMapViewIsWall(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return true;
 	let ID = ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth);
 	return ((ID >= 1000) && (ID < 2000));
+}
+
+/**
+ * Checks for connectivity in 4 directions based on a provided validation function
+ * @param {number} X - The X position on the map
+ * @param {number} Y - The Y position on the map
+ * @param {function(number, number): boolean} Condition - Function that returns true if the position is connected
+ * @returns {{ North: boolean, South: boolean, East: boolean, West: boolean }} - The connectivity status
+ */
+function ChatRoomMapViewGetConnectivityDirections(X, Y, Condition) {
+	return {
+		North: Condition(X, Y - 1),
+		South: Condition(X, Y + 1),
+		East: Condition(X + 1, Y),
+		West: Condition(X - 1, Y)
+	};
 }
 
 /**
