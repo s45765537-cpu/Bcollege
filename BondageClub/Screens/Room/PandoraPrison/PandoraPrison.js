@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PandoraPrisonBackground = "Cell";
 var PandoraWillpowerTimer = 0;

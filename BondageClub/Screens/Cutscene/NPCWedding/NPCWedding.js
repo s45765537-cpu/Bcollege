@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var NPCWeddingBackground = "Management";
 /** @type {null | NPCCharacter} */

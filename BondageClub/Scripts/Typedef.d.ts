@@ -1993,7 +1993,9 @@ interface Character {
 	/** Whether the character is in love with the player */
 	IsLoverOfPlayer: () => boolean;
 	/** Returns the list of member numbers (or names, for NPCs) the character is in love with */
-	GetLoversNumbers: (MembersOnly?: boolean) => (number | string)[];
+	GetLoversNumbers(MembersOnly: true): number[];
+	GetLoversNumbers(MembersOnly: false): (number | string)[];
+	GetLoversNumbers(MembersOnly?: boolean): (number | string)[];
 	/** Returns the lovership data for the character */
 	GetLovership: (MembersOnly?: boolean) => Lovership[];
 	/** @deprecated Use IsLoverOfCharacter() */

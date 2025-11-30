@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var AsylumGGTSBackground = "AsylumGGTSRoom";
 /** @type {null | NPCCharacter} */

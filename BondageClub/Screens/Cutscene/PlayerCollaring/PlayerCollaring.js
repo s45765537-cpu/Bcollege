@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PlayerCollaringBackground = "Management";
 /** @type {null | NPCCharacter} */

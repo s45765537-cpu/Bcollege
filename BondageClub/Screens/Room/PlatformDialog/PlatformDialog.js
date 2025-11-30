@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PlatformDialog = null;
 var PlatformDialogBackground = null;

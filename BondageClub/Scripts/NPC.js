@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /**
  * List for all possible pairs of NPC traits. A pair defines opposites.

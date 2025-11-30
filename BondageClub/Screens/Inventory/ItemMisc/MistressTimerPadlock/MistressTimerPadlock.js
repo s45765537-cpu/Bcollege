@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 const MistressTimerChooseList = [5, 10, 15, 30, 60, 120, 180, 240, -180, -120, -60, -30, -15];

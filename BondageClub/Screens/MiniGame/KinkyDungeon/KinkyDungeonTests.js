@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // This file is for Kinky Dungeon unit tests, run from the console

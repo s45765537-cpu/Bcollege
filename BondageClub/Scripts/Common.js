@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 // Main variables
 "use strict";
 /** @type {PlayerCharacter} */
@@ -1222,7 +1223,7 @@ function CommonIsCharacter(value) {
 function CommonCloneDeep(obj, reviver=null, replacer=null) {
 	reviver ??= undefined;
 	replacer ??= undefined;
-	return JSON.parse(JSON.stringify(obj, replacer), reviver);
+	return /** @type {T} */ (JSON.parse(JSON.stringify(obj, replacer), reviver));
 }
 
 /**
@@ -1269,8 +1270,9 @@ function CommonIsFinite(value, min=-Infinity, max=Infinity) {
 
 /**
  * A version of {@link Array.isArray} more friendly towards readonly arrays.
- * @param {unknown} arg - The to-be validated object
- * @returns {arg is readonly unknown[]} Whether the passed object is a (potentially readonly) array
+ * @template {unknown} T
+ * @param {T} arg - The to-be validated object
+ * @returns {arg is (arg extends readonly unknown[] ? readonly unknown[] : unknown[])} Whether the passed object is a (potentially readonly) array
  */
 function CommonIsArray(arg) {
 	return Array.isArray(arg);

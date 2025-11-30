@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 'use strict';
 
 var KeybindingManager = {
@@ -512,8 +513,7 @@ var KeybindingManager = {
 			if (settingsStringified === '') return;
 
 			try {
-				/** @type {Keybindings.KeybindingSerialized[]} */
-				const settings = JSON.parse(LZString.decompressFromBase64(settingsStringified)) ?? [];
+				const settings = /** @type {Keybindings.KeybindingSerialized[]} */ (JSON.parse(LZString.decompressFromBase64(settingsStringified)) ?? []);
 
 				settings.forEach(kb => {
 					const isDefaultKeybinding = this.keybindings.has(kb.actionId);

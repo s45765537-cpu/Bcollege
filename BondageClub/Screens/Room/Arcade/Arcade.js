@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ArcadeBackground = "PartyBasement";
 /** @type {null | NPCCharacter} */

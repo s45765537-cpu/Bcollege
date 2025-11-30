@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var MagicPuzzleBackground = "MagicSchoolLaboratory";
 var MagicPuzzleStart = 0;

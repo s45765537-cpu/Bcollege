@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -352,7 +353,6 @@ var CraftingJSON = {
 	 * @returns {CraftingJSON.ParsingOutput} - The decoded crafted JSON data
 	 */
 	decode: function decode(craftsJSON) {
-		/** @type {CraftingJSON.DataEncoded} */
 		let obj;
 		try {
 			obj = JSON.parse(craftsJSON);
@@ -375,12 +375,11 @@ var CraftingJSON = {
 				/** @type {(null | CraftingItem)[]} */
 				const crafts = [];
 				for (const [i, craftString] of obj.crafts.entries()) {
-					/** @type {null | CraftingItem} */
 					let craft = null;
 					if (craftString != null) {
 						try {
-							craft = JSON.parse(LZString.decompressFromBase64(craftString));
-						} catch (_error) {
+							craft = /** @type {null | CraftingItem} */ (JSON.parse(LZString.decompressFromBase64(craftString)));
+						} catch {
 							errors.add(i);
 						}
 					}

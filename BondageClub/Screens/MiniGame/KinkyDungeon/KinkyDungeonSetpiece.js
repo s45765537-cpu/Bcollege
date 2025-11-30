@@ -1,7 +1,9 @@
+// @ts-strict-ignore
 "use strict";
 
 let KDSetpieceAttempts = 10;
 
+/** @type {KDSetPieceType[]} */
 let KDSetPieces = [
 	{Name: "Bedroom", tags: ["decorative", "urban"], Radius: 4},
 	{Name: "Graveyard", tags: ["decorative", "temple"], Radius: 5},
@@ -24,10 +26,12 @@ let KDSetPieces = [
 	{Name: "Magicflies", tags: ["temple", "light"], noPOI: true, Radius: 1, xPad: 1, yPad: 1, xPadEnd: 1, yPadEnd: 1},
 ];
 
+/** @type {Map<any, any>} */
 let KDCountSetpiece = new Map();
 
 function KinkyDungeonPlaceSetPieces(POI, trapLocations, chestlist, shrinelist, chargerlist, spawnPoints, InJail, width, height) {
 	KDCountSetpiece = new Map();
+	/** @type {Map<any, KDSetPieceType>} */
 	let pieces = new Map();
 
 	let Params = KinkyDungeonMapParams[KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint]];

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var SkillModifier = 0;
 var SkillModifierMax = 5;

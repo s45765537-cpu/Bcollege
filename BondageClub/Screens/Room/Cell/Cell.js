@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var CellBackground = "Cell";
 var CellMinutes = 5;

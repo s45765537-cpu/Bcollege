@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var TightenLoosenItemMaximumDifficulty = 0;
 var TightenLoosenItemMinimumDifficulty = -10;

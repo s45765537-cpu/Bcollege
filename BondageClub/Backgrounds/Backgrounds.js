@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 const BackgroundsStringsPath = "Backgrounds/Backgrounds.csv";

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ShopBackground = "Shop";
 /** @type {null | NPCCharacter} */

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 let KinkyDungeonManaCost = 10; // The base mana cost of a spell, multiplied by the spell's level
 

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -141,11 +142,15 @@ function InventoryLoad(Inventory, InventoryData) {
 	const items = [];
 	if (typeof Inventory === "string") {
 		try {
-			const Inv = JSON.parse(LZString.decompressFromUTF16(Inventory));
-			for (let I = 0; I < Inv.length; I++) {
-				items.push({ Group: Inv[I][1], Name: Inv[I][0] });
+			const str = LZString.decompressFromUTF16(Inventory);
+			if (!str) throw new Error(`failed LZString decompression`);
+			const inv = JSON.parse(str);
+			if (!CommonIsArray(inv)) throw new Error(`failed parsing inventory`);
+			for (const item of inv) {
+				if (!CommonIsArray(item)) continue;
+				items.push(/** @type {InventoryBundle} */({ Group: item[1], Name: item[0] }));
 			}
-		} catch(_err) {
+		} catch (_err) {
 			console.log("Error while loading compressed inventory, no inventory loaded.");
 		}
 	}

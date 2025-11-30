@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 // Lots of good info here: http://www.adammil.net/blog/v125_Roguelike_Vision_Algorithms.html#permissivecode
 // For this implementation I decided that ray calculations are too much so I just did a terraria style lighting system
@@ -110,6 +111,7 @@ function KinkyDungeonMakeBrightnessMap(width, height, mapBrightness, Lights, del
 		if (Enemy && Enemy.blockVision || (Enemy.blockVisionWhileStationary && !EE.moved && EE.idle)) // Add
 			KDLightBlockers.set(EE.x + "," + EE.y, true);
 	}
+	/** @type {Map<string, number>} */
 	let LightsTemp = new Map();
 	for (let location of Object.values(KinkyDungeonEffectTiles)) {
 		for (let tile of Object.values(location)) {

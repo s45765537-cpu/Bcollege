@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var WheelFortuneCustomizeBackground = "Sheet";
 var WheelFortuneCustomizeOffset = 0;

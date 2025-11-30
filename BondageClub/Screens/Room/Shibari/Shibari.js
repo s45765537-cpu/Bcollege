@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ShibariBackground = "Shibari";
 /** @type {null | NPCCharacter} */

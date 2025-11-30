@@ -1,5 +1,7 @@
+// @ts-strict-ignore
 "use strict";
 
+/** @type {Map<string, enemy>} */
 let KDEnemiesCache = new Map();
 
 let KinkyDungeonSummonCount = 2;

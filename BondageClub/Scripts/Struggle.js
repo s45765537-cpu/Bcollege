@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /** @type {null | number[]} */
 var StruggleLockPickOrder = null;

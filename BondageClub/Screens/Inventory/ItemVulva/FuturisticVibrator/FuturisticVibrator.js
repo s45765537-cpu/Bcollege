@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 var ItemVulvaFuturisticVibratorTriggers = ["Increase", "Decrease", "Disable", "Edge", "Random", "Deny", "Tease", "Shock"];

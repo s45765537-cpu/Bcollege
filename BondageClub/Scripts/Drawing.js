@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /**
  * The main game canvas where everything will be drawn

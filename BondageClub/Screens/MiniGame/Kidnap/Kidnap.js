@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var KidnapVictory = false;
 var KidnapDifficulty = 0;

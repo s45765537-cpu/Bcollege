@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PlayerAuctionBackground = "SlaveMarket";
 /** @type {null | NPCCharacter[]} */

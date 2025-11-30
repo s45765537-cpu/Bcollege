@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 function KinkyDungeonSendBuffEvent(Event, data) {

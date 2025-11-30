@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 let CombinationPadlockPlayerIsBlind = false;
 let CombinationPadlockBlindCombinationOffset = null;

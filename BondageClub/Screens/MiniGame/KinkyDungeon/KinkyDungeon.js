@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // Disable interpolation when scaling, will make texture be pixelated
@@ -168,6 +169,7 @@ const Accessory = "accessory";
 const Weapon = "weapon";
 const Misc = "misc";
 
+/** @type {Map<string, any>} */
 let KinkyDungeonStatsChoice = new Map();
 
 let KDJourney = "";
@@ -534,7 +536,7 @@ function KDLoadPerks() {
 
 
 	if (localStorage.getItem("KDUnlockedPerks")) {
-		let perks = JSON.parse(localStorage.getItem("KDUnlockedPerks"));
+		let perks = /** @type {any[]} */ (JSON.parse(localStorage.getItem("KDUnlockedPerks")));
 		if (perks) {
 			for (let p of perks) {
 				if (!KDUnlockedPerks.includes(p)) {
@@ -664,9 +666,12 @@ async function KinkyDungeonLoad() {
 			KinkyDungeonNewDress = true;
 			KDCurrentOutfit = parseInt(localStorage.getItem("kdcurrentoutfit") || 0);
 			let appearance = LZString.decompressFromBase64(localStorage.getItem("kinkydungeonappearance" + KDCurrentOutfit));
-			if (!appearance || (StandalonePatched && JSON.parse(appearance).length && JSON.parse(appearance)[0]?.Asset)) {
-				KinkyDungeonNewDress = false;
-				appearance = CharacterAppearanceStringify(KinkyDungeonPlayerCharacter ? KinkyDungeonPlayerCharacter : Player);
+			if (!appearance || StandalonePatched) {
+				const app = JSON.parse(appearance);
+				if (CommonIsArray(app) && CommonIsObject(app[0]) && "Asset" in (app[0])) {
+					KinkyDungeonNewDress = false;
+					appearance = CharacterAppearanceStringify(KinkyDungeonPlayerCharacter ? KinkyDungeonPlayerCharacter : Player);
+				}
 			}
 
 			CharacterAppearanceRestore(KinkyDungeonPlayer, appearance);
@@ -1153,10 +1158,12 @@ function KinkyDungeonRun() {
 					KinkyDungeonPlayer.Appearance = origAppearance;
 					try {
 						let parsed = JSON.parse(decompressed);
-						if (parsed.length > 0) {
+						if (CommonIsArray(parsed) && parsed.length > 0) {
 							if (!StandalonePatched) {
 								for (let g of parsed) {
-									InventoryWear(KinkyDungeonPlayer, g.Name, g.Group, g.Color);
+									if (CommonIsObject(g)) {
+										InventoryWear(KinkyDungeonPlayer, g.Name, g.Group, g.Color);
+									}
 								}
 								CharacterRefresh(KinkyDungeonPlayer);
 								ElementValue("saveInputField", LZString.compressToBase64(CharacterAppearanceStringify(KinkyDungeonPlayer)));
@@ -2125,9 +2132,9 @@ function KinkyDungeonLoadStats() {
 	let statsChoice = localStorage.getItem('KinkyDungeonStatsChoice' + KinkyDungeonPerksConfig);
 	if (statsChoice) {
 		let statsArray = JSON.parse(statsChoice);
-		if (statsArray) {
+		if (CommonIsArray(statsArray)) {
 			for (let s of statsArray) {
-				if (!s.includes('arousalMode') && KinkyDungeonStatsPresets[s] && KDValidatePerk(KinkyDungeonStatsPresets[s]))
+				if (typeof s === "string" && !s.includes('arousalMode') && KinkyDungeonStatsPresets[s] && KDValidatePerk(KinkyDungeonStatsPresets[s]))
 					KinkyDungeonStatsChoice.set(s, true);
 			}
 		}
@@ -2431,10 +2438,12 @@ function KinkyDungeonHandleClick() {
 						KinkyDungeonPlayer.Appearance = origAppearance;
 						try {
 							let parsed = JSON.parse(decompressed);
-							if (parsed.length > 0) {
+							if (CommonIsArray(parsed)) {
 								if (!StandalonePatched) {
 									for (let g of parsed) {
-										InventoryWear(KinkyDungeonPlayer, g.Name, g.Group, g.Color);
+										if (CommonIsObject(g)) {
+											InventoryWear(KinkyDungeonPlayer, g.Name, g.Group, g.Color);
+										}
 									}
 									CharacterRefresh(KinkyDungeonPlayer);
 								}
@@ -2960,7 +2969,7 @@ function KinkyDungeonLoadGame(String) {
 	let str = String ? LZString.decompressFromBase64(String.trim()) : (localStorage.getItem('KinkyDungeonSave') ? LZString.decompressFromBase64(localStorage.getItem('KinkyDungeonSave')) : "");
 	if (str) {
 		let saveData = JSON.parse(str);
-		if (saveData
+		if (CommonIsObject(saveData)
 			&& saveData.spells != undefined
 			&& saveData.level != undefined
 			&& saveData.checkpoint != undefined
@@ -3017,9 +3026,9 @@ function KinkyDungeonLoadGame(String) {
 				KDOrigMana = KinkyDungeonStatMana*10;
 				KDOrigDistraction = KinkyDungeonStatDistraction*10;
 			}
-			KDGameData = JSON.parse(JSON.stringify(KDGameDataBase));
+			KDGameData = CommonCloneDeep(KDGameDataBase);
 			if (saveData.KDGameData != undefined) KDGameData = Object.assign({}, saveData.KDGameData);
-			KDEventData = JSON.parse(JSON.stringify(KDEventDataBase));
+			KDEventData = CommonCloneDeep(KDEventDataBase);
 			if (saveData.KDEventData != undefined) KDEventData = Object.assign({}, saveData.KDEventData);
 
 			if (saveData.statchoice != undefined) KinkyDungeonStatsChoice = new Map(saveData.statchoice);

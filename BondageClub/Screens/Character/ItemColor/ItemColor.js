@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** A configuration object containing constants used by the ItemColor UI scripts */

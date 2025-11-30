@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PandoraBackground = "Pandora/Ground/Entrance";
 /** @type {PandoraBaseRoom} */

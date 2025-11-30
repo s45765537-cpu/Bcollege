@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var TitleBackground = "Sheet";
 /** @type {null | TitleName} */

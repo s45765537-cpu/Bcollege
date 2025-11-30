@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var NicknameManagementBackground = "Sheet";
 /** @type {null | Character | NPCCharacter} */

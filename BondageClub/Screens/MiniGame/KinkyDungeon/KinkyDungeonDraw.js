@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 let KDRecentRepIndex = 0;
@@ -1347,7 +1348,7 @@ function KinkyDungeonDrawGame() {
 			return true;
 		}, true, bx + bindex * (bwidth + bspacing), 925, bwidth, 60, TextGet("KinkyDungeonMagic"), "#ffffff", KinkyDungeonRootDirectory + "UI/button_spells.png", undefined, undefined, false, "", 24, true); bindex++;
 
-		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", KinkyDungeonNewLoreList.length): TextGet("KinkyDungeonLogbook");
+		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", `${KinkyDungeonNewLoreList.length}`): TextGet("KinkyDungeonLogbook");
 		DrawButtonKDEx("goLog", (bdata) => {
 			KinkyDungeonDrawState = "Logbook";
 			KinkyDungeonUpdateLore(localStorage.getItem("kinkydungeonexploredlore") ? JSON.parse(localStorage.getItem("kinkydungeonexploredlore")) : []);
@@ -1368,7 +1369,7 @@ function KinkyDungeonDrawGame() {
 		}, true, bx + bindex *(bwidth + bspacing), 925, bwidth, 60, TextGet("KinkyDungeonReputation"), "#ffffff", KinkyDungeonRootDirectory + "UI/button_reputation.png", undefined, undefined, false, "", 24, true); bindex++;
 		DrawButtonKDEx("return", (bdata) => {KinkyDungeonDrawState = "Game"; return true;}, true, KDReturnButtonXX, 925, bwidth, 60, TextGet("KinkyDungeonGame"), "#ffffff", "", ""); bindex++;
 
-		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", KinkyDungeonNewLoreList.length): TextGet("KinkyDungeonLogbook");
+		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", `${KinkyDungeonNewLoreList.length}`): TextGet("KinkyDungeonLogbook");
 		DrawButtonKDEx("goLog", (bdata) => {
 			KinkyDungeonDrawState = "Logbook";
 			KinkyDungeonUpdateLore(localStorage.getItem("kinkydungeonexploredlore") ? JSON.parse(localStorage.getItem("kinkydungeonexploredlore")) : []);
@@ -1386,7 +1387,7 @@ function KinkyDungeonDrawGame() {
 			return true;
 		}, true, bx + bindex *(bwidth + bspacing), 925, bwidth, 60, TextGet("KinkyDungeonMagic"), "#ffffff", KinkyDungeonRootDirectory + "UI/button_spells.png", undefined, undefined, false, "", 24, true); bindex++;
 
-		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", KinkyDungeonNewLoreList.length): TextGet("KinkyDungeonLogbook");
+		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", `${KinkyDungeonNewLoreList.length}`): TextGet("KinkyDungeonLogbook");
 		DrawButtonKDEx("goLog", (bdata) => {
 			KinkyDungeonDrawState = "Logbook";
 			KinkyDungeonUpdateLore(localStorage.getItem("kinkydungeonexploredlore") ? JSON.parse(localStorage.getItem("kinkydungeonexploredlore")) : []);
@@ -1423,7 +1424,7 @@ function KinkyDungeonDrawGame() {
 			KinkyDungeonDrawState = "MagicSpells";
 			return true;
 		}, true, bx + bindex *(bwidth + bspacing), 925, bwidth, 60, TextGet("KinkyDungeonMagic"), "#ffffff", KinkyDungeonRootDirectory + "UI/button_spells.png", undefined, undefined, false, "", 24, true); bindex++;
-		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", KinkyDungeonNewLoreList.length): TextGet("KinkyDungeonLogbook");
+		let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", `${KinkyDungeonNewLoreList.length}`): TextGet("KinkyDungeonLogbook");
 		DrawButtonKDEx("goLog", (bdata) => {
 			KinkyDungeonDrawState = "Logbook";
 			KinkyDungeonUpdateLore(localStorage.getItem("kinkydungeonexploredlore") ? JSON.parse(localStorage.getItem("kinkydungeonexploredlore")) : []);
@@ -1694,6 +1695,7 @@ let KDTimescale = 0.004;
 let KDBulletSpeed = 40;
 
 // We use this to offset floaters
+/** @type {Map<any, number>} */
 let KDEntitiesFloaterRegisty = new Map();
 let KDFloaterSpacing = 36 / KinkyDungeonGridSizeDisplay;
 
@@ -3131,6 +3133,7 @@ function KDDrawTooltip(TooltipList, offset) {
 /**
  * Elements which are temporary and drawn using a declarative style
  * If not redrawn at the end of a frame, they will be removed
+ * @type {Map<string, HTMLElement>}
  */
 let KDTempElements = new Map();
 /**
@@ -3176,8 +3179,7 @@ function KDTextField(Name, Left, Top, Width, Height, Type = "text", Value = "", 
 	let Element = KDTempElements.get(Name);
 	let created = false;
 	if (!Element) {
-		ElementCreateInput(Name, Type, Value, MaxLength);
-		Element = document.getElementById(Name);
+		Element = ElementCreateInput(Name, Type, Value, MaxLength);
 		KDTempElements.set(Name, Element)
 		if (Element) created = true;
 	}
