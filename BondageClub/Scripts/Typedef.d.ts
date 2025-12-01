@@ -98,6 +98,10 @@ type HTMLElementScalarTagNameMap = {
 	}
 };
 
+// Turn `HTMLOptions<"foo" | "bar">` into `HTMLOptions<"foo"> | HTMLOptions<"bar">`
+/** A union of {@link HTMLOptions} types for all valid HTML element tags */
+type HTMLOptionsUnion = { [k in keyof HTMLElementTagNameMap]: HTMLOptions<k> }[keyof HTMLElementTagNameMap];
+
 type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** The elements HTML tag */
 	tag: T,
@@ -122,7 +126,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** A list of CSS classes to-be assigned to the element (see {@link HTMLElement.classList}). */
 	classList?: readonly (null | undefined | string)[];
 	/** Any to-be added child elements. */
-	children?: readonly (null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+	children?: readonly (null | undefined | string | Node | HTMLOptionsUnion)[];
 	/** The {@link HTMLElement.innerHTML} of the element; will be assigned before appending children */
 	innerHTML?: string;
 };
@@ -366,11 +370,11 @@ declare namespace ElementDOMScreen {
 		/** Buttons for in the header's menubar (see `.screen-header [role="menubar"]`) */
 		menubarButtons?: readonly HTMLButtonElement[];
 		/** Content for within the main section (see `.screen-main`) */
-		mainContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+		mainContent?: readonly (Node | string | HTMLOptionsUnion)[];
 		/** Whether an extra `aside.screen-aside-l` section should be added to the left of `.screen-main` */
-		leftContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+		leftContent?: readonly (Node | string | HTMLOptionsUnion)[];
 		/** Whether an extra `aside.screen-aside-r` section should be added to the right of `.screen-main` */
-		rightContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+		rightContent?: readonly (Node | string | HTMLOptionsUnion)[];
 		/** Text content for within the heading (see `.screen-hgroup h1`) */
 		header?: string;
 		/**

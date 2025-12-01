@@ -87,7 +87,7 @@ var KeyGUI = {
 
 		keybindElm?.replaceChildren();
 
-		/** @type {readonly (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
+		/** @type {readonly (string | Node | HTMLOptionsUnion)[]} */
 		const keyContents = [
 			{
 				tag: 'span',
