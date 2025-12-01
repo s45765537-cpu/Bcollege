@@ -36,7 +36,9 @@
 	},
 	"homepage": "https://github.com/Ben987/Bondage-College#readme",
 	"browserslist": [
-		"since 2020 and > 0.5% and not dead"
+		"since 2020 and > 0.5% and not dead",
+		"Firefox >= 115",
+		"Chrome >= 109"
 	],
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.1",
