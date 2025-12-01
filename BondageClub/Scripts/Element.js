@@ -1427,7 +1427,7 @@ var ElementButton = {
 	/**
 	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
-	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {(this: HTMLButtonElement, ev: PointerEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
@@ -1994,7 +1994,7 @@ var ElementMenu = {
 	 *     ...
 	 * </div>
 	 * @param {string | null} id - The menu's ID
-	 * @param {readonly (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} menuItems - The menu's content.
+	 * @param {readonly (string | Node | HTMLOptionsUnion)[]} menuItems - The menu's content.
 	 * Any `<button>` element without a role (regardless of nesting) will be assigned the `menuitem` role and thus be elligble for menu-style navigation.
 	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
 	 * @param {Object} [options]
@@ -2153,7 +2153,7 @@ var ElementCheckbox = {
 	 *   <span id="checkbox-label" for="checkbox">Label</label>
 	 * </div>
 	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
-	 * @param {string | Node | HTMLOptions<keyof HTMLElementTagNameMap>} label - The label of the checkbox
+	 * @param {string | Node | HTMLOptionsUnion} label - The label of the checkbox
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.LabelOptions} options - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element

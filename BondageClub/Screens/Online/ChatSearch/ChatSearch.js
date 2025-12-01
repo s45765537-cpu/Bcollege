@@ -1177,7 +1177,7 @@ function ChatSearchCreateGridRoom(room, index) {
 
 	const icons = ChatSearchGridRoomGetIcons(room);
 
-	/** @type {(null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
+	/** @type {(null | undefined | string | Node | HTMLOptionsUnion)[]} */
 	const content = [
 		ElementButton.Create(`chat-search-room-join-button-${room.Order}`, () => {
 			ChatSearchClickRoom(room);
@@ -1298,7 +1298,7 @@ function ChatSearchGridRoomCanJoin(room) {
  * @returns {HTMLDivElement | undefined}
  */
 function ChatSearchCreateGridRoomTooltip(room, index) {
-	/** @type {HTMLOptions<keyof HTMLElementTagNameMap>[]} */
+	/** @type {HTMLOptionsUnion[]} */
 	const children = [];
 	if (room.Friends.length > 0) {
 		children.push({

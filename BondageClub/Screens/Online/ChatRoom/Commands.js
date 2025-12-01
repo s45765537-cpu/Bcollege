@@ -568,7 +568,7 @@ var CommandsHelp = {
 	* @param {ICommand} command
 	* @param {string} setCommand
 	* @param {boolean} singleCommand
-	* @returns {HTMLOptions<keyof HTMLElementTagNameMap>}
+	* @returns {HTMLOptionsUnion}
 	*/
 	_BuildCommand(command, setCommand, singleCommand) {
 		const description = this._GetDescription(command);
@@ -582,7 +582,7 @@ var CommandsHelp = {
 		/**
 		 * @param {string} title
 		 * @param {boolean} addToggle
-		 * @returns {HTMLOptions<keyof HTMLElementTagNameMap>}
+		 * @returns {HTMLOptionsUnion}
 		 */
 		const buildSectionHeader = (title, addToggle) => ({
 			tag: "header",
@@ -597,7 +597,7 @@ var CommandsHelp = {
 			],
 		});
 
-		/** @returns {HTMLOptions<keyof HTMLElementTagNameMap>} */
+		/** @returns {HTMLOptionsUnion} */
 		const buildSubcommandsSection = () => ({
 			tag: "section",
 			classList: ["commands-command-section"],
@@ -612,14 +612,14 @@ var CommandsHelp = {
 			],
 		});
 
-		/** @returns {HTMLOptions<keyof HTMLElementTagNameMap>} */
+		/** @returns {HTMLOptionsUnion} */
 		const buildArgumentsSection = () => ({
 			tag: "section",
 			classList: ["commands-command-section"],
 			children: [
 				buildSectionHeader("Arguments:", command.Arguments.length > 0),
 				...command.Arguments.flatMap(arg =>
-				/** @type {HTMLOptions<keyof HTMLElementTagNameMap>} */
+				/** @type {HTMLOptionsUnion} */
 					({
 						tag: "section",
 						classList: ["commands-command-arguments"],
@@ -658,7 +658,7 @@ var CommandsHelp = {
 			],
 		});
 
-		/** @returns {HTMLOptions<keyof HTMLElementTagNameMap>} */
+		/** @returns {HTMLOptionsUnion} */
 		const buildCommandHeader = () => ({
 			tag: "header",
 			classList: ["commands-command-header"],
@@ -974,7 +974,7 @@ var CommandsChangelog = {
 				sibbling = sibbling.nextElementSibling;
 			}
 
-			/** @type {(string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
+			/** @type {(string | Node | HTMLOptionsUnion)[]} */
 			const extraChildren = [];
 			if (headerTag === "h1") {
 				extraChildren.push(

@@ -3491,7 +3491,7 @@ function PlatformLoadGame(Slot) {
 		if (!CommonIsObject(LoadObj)) throw new Error();
 		LoadObj = /** @type {Platform.SaveData} */ (data);
 	} catch (err) {
-		console.error(`invalid save game in slot ${Slot}`);
+		console.error(`invalid save game in slot ${Slot}`, err);
 		return;
 	}
 	if (LoadObj.Character == null) return;
