@@ -1427,7 +1427,7 @@ var ElementButton = {
 	/**
 	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
-	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {(this: HTMLButtonElement, ev: PointerEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
