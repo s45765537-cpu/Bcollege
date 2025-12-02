@@ -2126,6 +2126,7 @@ function DialogChangeMode(mode, reset=false) {
 				colorState: {
 					opacity: [1],
 					colors: [DialogColorSelect ?? ""],
+					defaultColors: [""],
 					editOpacity: false,
 				},
 				shape: [1090, 15, 910, 970],

@@ -245,6 +245,7 @@ function PreferenceSubscreenGeneralColorPickerToggle() {
 		ColorPickerInit({
 			colorState: {
 				colors: [Player.LabelColor],
+				defaultColors: ["#ffffff"],
 				opacity: [1],
 				editOpacity: false,
 			},

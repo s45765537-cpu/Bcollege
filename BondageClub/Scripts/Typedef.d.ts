@@ -4543,6 +4543,12 @@ interface HSVColor {
 	V: number;
 }
 
+interface ColorPickerColorInput {
+	readonly colorString?: string,
+	readonly hsv?: Readonly<HSVColor>,
+	readonly opacity?: number,
+}
+
 interface ColorPickerInitOptions {
 	/** The root element or `color-picker` fieldset (or ID thereof) in the color picker subscreen; defaults to {@link ColorPicker.ids.root} */
 	root?: ElementHelp.ElementOrId;
@@ -4560,7 +4566,7 @@ interface ColorPickerInitOptions {
 	 * A custom color state.
 	 * Defaults to {@link ItemColorState} if not provided.
 	 */
-	colorState?: Pick<ItemColorStateType, "editOpacity" | "opacity" | "colors">;
+	colorState?: Prettify<Pick<ItemColorStateType, "editOpacity" | "opacity" | "colors"> & Partial<Pick<ItemColorStateType, "defaultOpacity" | "defaultColors">>>;
 	/** Whether the color picker should be disabled or not */
 	disabled?: boolean;
 	/** The dimensions of the color picker screen */

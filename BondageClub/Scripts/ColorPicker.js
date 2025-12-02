@@ -924,9 +924,76 @@ var ColorPicker = {
 	},
 
 	/**
+	 * {@link ColorPicker.setColor} helper for parsing color values (be it stringified or as HSV)
+	 * @private
+	 * @param {Pick<ColorPickerColorInput, "colorString" | "hsv">} value
+	 * @param {HTMLInputElement} outputInput
+	 * @param {null | number} opacity
+	 * @returns {{ hsv: null | HSVColor, output: string }}
+	 */
+	_setColorParseColor(value, outputInput, opacity) {
+		let output = "";
+		let colorIsHex = true;
+		/** @type {null | HSVColor} */
+		let hsv = null;
+		if (value.colorString != null) {
+			const color = value.colorString;
+			hsv = ColorPickerCSSToHSV(color);
+			colorIsHex = CommonIsColor(color, { allowAlpha: true });
+			output = colorIsHex ? color.slice(0, 7).toUpperCase() : color;
+		} else if (value.hsv) {
+			hsv = { ...value.hsv };
+			colorIsHex = true;
+			output = ColorPickerHSVToCSS(hsv);
+		} else {
+			colorIsHex = CommonIsColor(outputInput.value, { allowAlpha: true });
+			output = colorIsHex ? outputInput.value.slice(0, 7).toUpperCase() : outputInput.value;
+		}
+
+		if (opacity != null && opacity !== 255 && colorIsHex) {
+			output += opacity.toString(16).padStart(2, "0").toUpperCase();
+		}
+		return { hsv, output };
+	},
+
+	/**
+	 * {@link ColorPicker.setColor} helper for parsing opacity values
+	 * @private
+	 * @param {Pick<ColorPickerColorInput, "opacity" | "colorString">} value
+	 * @param {HTMLInputElement} opacityInput
+	 * @param {null | { overrideEditOpacity?: boolean }} options
+	 * @returns {null | number}
+	 */
+	_setColorParseOpacity(value, opacityInput, options=null) {
+		options ??= {};
+		if (opacityInput.disabled && !options.overrideEditOpacity) {
+			return null;
+		}
+
+		/** @type {null | number} */
+		let opacity = null;
+		if (CommonIsFinite(value.opacity, 0, 1)) {
+			opacity = Math.round(value.opacity * 255);
+		} else if (value.colorString != null && CommonIsColor(value.colorString, { allowAlpha: true }) && value.colorString.length > 7) {
+			const opacityCandidate = CommonParseInt(value.colorString.slice(7, 9), 16);
+			if (CommonIsInteger(opacityCandidate, 0, 255)) {
+				opacity = opacityCandidate;
+			}
+		}
+
+		if (opacity != null) {
+			const opacityMin = CommonParseInt(opacityInput.min) ?? 0;
+			const opacityMax = CommonParseInt(opacityInput.max) ?? 255;
+			return CommonClamp(opacity, opacityMin, opacityMax);
+		} else {
+			return null;
+		}
+	},
+
+	/**
 	 * Set the color and/or opacity of the passed color picker screen
 	 * @param {ElementHelp.ElementOrId} root - The color picker screen or its ID
-	 * @param {{ readonly colorString?: string, readonly hsv?: Readonly<HSVColor>, readonly opacity?: number }} value - The passed color (be it as string or HSV object) and opacity
+	 * @param {ColorPickerColorInput} value - The passed color (be it as string or HSV object) and opacity
 	 * @param {null | { overrideEditOpacity?: boolean, dispatch?: boolean }} options
 	 */
 	setColor(root, value, options=null) {
@@ -943,42 +1010,11 @@ var ColorPicker = {
 		}
 		const [outputInput, hueInput, tintInput, opacityInput] = [elements.output, elements.hue, elements.tint, elements.opacity];
 
-		// Parse the color (if provided) and identify whether we're dealing with hexcodes or not (Default, White, etc.)
-		let colorOutputText = "";
-		let colorIsHex = true;
-		/** @type {null | HSVColor} */
-		let hsv = null;
-		if (value.colorString != null) {
-			const color = value.colorString;
-			hsv = ColorPickerCSSToHSV(color);
-			colorIsHex = CommonIsColor(color, { allowAlpha: true });
-			colorOutputText = colorIsHex ? color.slice(0, 7).toUpperCase() : color;
-		} else if (value.hsv) {
-			hsv = { ...value.hsv };
-			colorIsHex = true;
-			colorOutputText = ColorPickerHSVToCSS(hsv);
-		} else {
-			colorIsHex = CommonIsColor(outputInput.value, { allowAlpha: true });
-			colorOutputText = colorIsHex ? outputInput.value.slice(0, 7).toUpperCase() : outputInput.value;
-		}
-
 		// Parse the opacities
-		/** @type {null | number} */
-		let opacity = null;
-		if (CommonIsFinite(value.opacity, 0, 1)) {
-			opacity = Math.round(value.opacity * 255);
-		} else if (value.colorString != null && CommonIsColor(value.colorString, { allowAlpha: true }) && value.colorString.length > 7) {
-			const opacityCandidate = CommonParseInt(value.colorString.slice(7, 9), 16);
-			if (CommonIsInteger(opacityCandidate, 0, 255)) {
-				opacity = opacityCandidate;
-			}
-		}
+		const opacity = ColorPicker._setColorParseOpacity(value, opacityInput, options);
 
-		if (opacity != null) {
-			const opacityMin = CommonParseInt(opacityInput.min) ?? 0;
-			const opacityMax = CommonParseInt(opacityInput.max) ?? 255;
-			opacity = CommonClamp(opacity, opacityMin, opacityMax);
-		}
+		// Parse the color (if provided) and identify whether we're dealing with hexcodes or not (Default, White, etc.)
+		let { hsv, output } = ColorPicker._setColorParseColor(value, outputInput, opacity);
 
 		if (hsv != null) {
 			hueInput.valueAsNumber = CommonClamp(Math.round(hsv.H * 360), 0, 360);
@@ -986,15 +1022,11 @@ var ColorPicker = {
 			fieldset.style.setProperty("--hue", hueInput.value);
 		}
 
-		if (opacity != null && (!opacityInput.disabled || options.overrideEditOpacity)) {
-			// Only create an RGBA code when not fully opaque and when the color is a hexcode (so no Default, White, etc.)
-			if (opacity !== 255 && colorIsHex) {
-				colorOutputText += opacity.toString(16).padStart(2, "0").toUpperCase();
-			}
+		if (opacity != null) {
 			opacityInput.valueAsNumber = opacity;
 		}
 
-		outputInput.value = colorOutputText;
+		outputInput.value = output;
 		if (options.dispatch ?? true) {
 			fieldset.dispatchEvent(new CustomEvent("input", { detail: { source: outputInput.name } }));
 		}
@@ -1178,20 +1210,30 @@ function ColorPickerReload(options=null) {
 	// When dealing with items or color groups (_i.e._ a set with potentially multiple distinct colors/opacities) the best you can do is attempt to pick the value that is the _least_ bullshit
 	/** @type {number[]} */
 	let opacities;
+	/** @type {number[]} */
+	let defaultOpacities;
 	/** @type {string[]} */
 	let colors;
+	/** @type {string[]} */
+	let defaultColors;
 	if (options.colorState) {
 		opacities = options.colorState.opacity;
 		colors = options.colorState.colors;
+		defaultOpacities = [...(options.colorState.defaultOpacity ?? opacities)];
+		defaultColors = [...(options.colorState.defaultColors ?? colors)];
 	} else if (ItemColorState) {
 		const colorState = ItemColorState;
 		opacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.opacity[i]);
 		colors = ItemColorPickerIndices.map(i => colorState.colors[i]);
+		defaultOpacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.defaultOpacity[i]);
+		defaultColors = ItemColorPickerIndices.map(i => colorState.defaultColors[i]);
 	} else {
 		return null;
 	}
 	const singularOpacity = opacities.length === 0 ? 1 : Math.max(...opacities);
 	const singularColor = (colors.length >= 1 && colors.every(i => i === colors[0])) ? colors[0] : "";
+	const singularDefaultOpacity = defaultOpacities.length === 0 ? 1 : Math.max(...defaultOpacities);
+	const singularDefaultColor = (defaultColors.length >= 1 && defaultColors.every(i => i === defaultColors[0])) ? defaultColors[0] : "";
 
 	// Gather the elements
 	const fieldset = /** @type {null | HTMLFieldSetElement} */(root.matches("fieldset[name='color-picker']") ? root : root.querySelector("fieldset[name='color-picker']"));
@@ -1238,10 +1280,17 @@ function ColorPickerReload(options=null) {
 	}
 
 	// Reset the default values
-	tintInput.defaultValue = tintInput.value;
-	opacityInput.defaultValue = opacityInput.value;
-	outputInput.defaultValue = outputInput.value;
-	hueInput.defaultValue = hueInput.value;
+	const defaultOpacityParsed = ColorPicker._setColorParseOpacity({ opacity: singularDefaultOpacity }, opacityInput, { overrideEditOpacity: true });
+	const defaultColorParsed = ColorPicker._setColorParseColor({ colorString: singularDefaultColor }, outputInput, defaultOpacityParsed);
+	outputInput.defaultValue = defaultColorParsed.output;
+	opacityInput.defaultValue = (defaultOpacityParsed ?? 255).toString();
+	if (defaultColorParsed.hsv != null) {
+		tintInput.defaultValue = ColorPickerHSVToCSS(defaultColorParsed.hsv);
+		hueInput.defaultValue = defaultColorParsed.hsv.H.toString();
+	} else {
+		tintInput.defaultValue = "#FFFFFF";
+		hueInput.defaultValue = "0";
+	}
 
 	// Reset the search suggestions in the RGB text input based on one's color history + any supported non-hex colors (Default, White, Asian, etc.)
 	const prevColors = Array.from(ItemColorHistory);
