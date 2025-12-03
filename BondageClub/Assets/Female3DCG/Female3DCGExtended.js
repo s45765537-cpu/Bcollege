@@ -12434,6 +12434,45 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemBoots", AssetName: "SingleBalletBoot" },
 		}, // SingleBalletBoot
+		GiftBox: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR],
+			Options: [
+				{
+					Name: "Open",
+				},
+				{
+					Name: "Closed",
+					Property: {
+						SetPose: ["AllFours"],
+						AllowActivePose: ["Hogtied"],
+						Hide: ["ItemButt", "TailStraps", "Wings"],
+						HideItem: ["ItemMiscTeddyBear"],
+						HideItemExclude: [
+							"ItemArmsBitchSuit",
+							"ItemArmsBitchSuitExposed",
+							"ItemArmsShinyPetSuit",
+						],
+						Block: [
+							"ItemArms",
+							"ItemBreast",
+							"ItemButt",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemLegs",
+							"ItemMisc",
+							"ItemNipples",
+							"ItemNipplesPiercings",
+							"ItemPelvis",
+							"ItemTorso",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+						],
+					},
+					Random: false,
+				},
+			],
+		}, //GiftBox
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

@@ -39,6 +39,12 @@ ItemDevicesLuckyWheelStand,Stand
 ItemDevicesVacBedDeluxeBody,Body
 ItemDevicesVacBedDeluxeSheet,Sheet
 ItemDevicesWoodenRackWood,Wood
+ItemDevicesGiftBoxBox, Box
+ItemDevicesGiftBoxBoxReflection, Box Reflection
+ItemDevicesGiftBoxRibbon, Ribbon
+ItemDevicesGiftBoxRibbonReflection, Ribbon Reflection
+ItemDevicesGiftBoxInner, Inner
+ItemDevicesGiftBoxInnerReflection, Inner Reflection
 ItemFeetSturdyLeatherBeltsBelts,Belts
 ItemFeetSturdyLeatherBeltsMetal,Metal
 ItemHandheldSmartphoneStripes,Pattern

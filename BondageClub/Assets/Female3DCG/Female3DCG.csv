@@ -1063,6 +1063,7 @@ ItemDevices,X-Cross,St. Andrews Cross
 ItemDevices,Highchair,Highchair
 ItemDevices,Potty,Potty
 ItemDevices,Enema,Enema Fixture
+ItemDevices,GiftBox,Gift Box
 ItemEars,,Ears
 ItemEars,BluetoothEarbuds,Bluetooth Earbuds
 ItemEars,FuturisticEarphones,Futuristic Earphones
@@ -1122,6 +1123,7 @@ ItemHandheld,Flogger,Flogger
 ItemHandheld,FoamRoll,Foam Roll
 ItemHandheld,ForSaleSign,For Sale Sign
 ItemHandheld,Gavel,Gavel
+ItemHandheld,GiftBox,Gift Box
 ItemHandheld,GlassEmpty,Empty Glass
 ItemHandheld,GlassFilled,Filled Glass
 ItemHandheld,GlueTube,Atoxic Glue Tube

@@ -1531,6 +1531,28 @@ ItemDevicesPottyText,Text
 ItemDevicesEnemaBag,Plastic Bag
 ItemDevicesEnemaRack,Fixture
 ItemDevicesEnemaLiquid,Liquid
+ItemDevicesGiftBoxBox,Box 
+ItemDevicesGiftBoxBoxReflection,Box Reflection 
+ItemDevicesGiftBoxRibbon,Ribbon
+ItemDevicesGiftBoxRibbonReflection,Ribbon Reflection
+ItemDevicesGiftBoxInner,Padding
+ItemDevicesGiftBoxInnerReflection,Padding Reflection  
+ItemDevicesGiftBoxFrontBox,Box (edit Alpha)
+ItemDevicesGiftBoxFrontBoxReflection,Box Reflection (edit Alpha)
+ItemDevicesGiftBoxFrontRibbon,Ribbon (edit Alpha)
+ItemDevicesGiftBoxFrontRibbonReflection,Ribbon Reflection (edit Alpha)
+ItemDevicesGiftBoxFrontInner,Padding (edit Alpha)
+ItemDevicesGiftBoxFrontInnerReflection,Padding Reflection (edit Alpha)
+ItemDevicesGiftBoxHindBox,Backside Box 
+ItemDevicesGiftBoxHindBoxReflection,Backside Box Reflection 
+ItemDevicesGiftBoxHindRibbon,Backside Ribbon
+ItemDevicesGiftBoxHindRibbonReflection,Backside Ribbon Reflection
+ItemDevicesGiftBoxHindInner,BacksidePadding
+ItemDevicesGiftBoxHindInnerReflection,Backside Padding Reflection  
+ItemDevicesGiftBoxTopBox,Lid Box 
+ItemDevicesGiftBoxTopBoxReflection,Lid Box Reflection 
+ItemDevicesGiftBoxTopRibbon,Lid Ribbon
+ItemDevicesGiftBoxTopRibbonReflection,Lid Ribbon Reflection 
 ItemEarsFuturisticEarphonesBand,Band
 ItemEarsFuturisticEarphonesDisplay,Display
 ItemEarsFuturisticEarphonesLock,Lock
@@ -1606,6 +1628,10 @@ ItemHandheldCigaretteFilterInMouth,Filter In Mouth
 ItemHandheldCigarettePaperInMouth,Paper In Mouth
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
+ItemHandheldGiftBoxBox, Box
+ItemHandheldGiftBoxBoxReflection, Box Reflection
+ItemHandheldGiftBoxRibbon,Ribbon
+ItemHandheldGiftBoxRibbonReflection, Ribbon Reflection
 ItemHandheldKyosensuFan,Fan paper
 ItemHandheldKyosensuFan1,Fan paper 2nd color
 ItemHandheldKyosensuFan2,Fan paper 3rd color
