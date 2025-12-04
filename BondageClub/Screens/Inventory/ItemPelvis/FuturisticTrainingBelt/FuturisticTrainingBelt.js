@@ -9,9 +9,6 @@ var FuturisticTrainingBeltStates = ["None", "LowPriorityEdge", "LowPriorityTease
 /** @type {ItemPropertiesCustom["PublicModeCurrent"]} */
 var FuturisticTrainingBeltSetMode = 0;
 
-/** @deprecated */
-var FuturisticTrainingBeltStandUpFlag = /** @type {never} */(false);
-
 var FuturisticTrainingBeltSpeechCharacterLimit = 25;
 
 var FuturisticTrainingBeltRandomEdgeCycle = 150000; // 150s = 20% downtime at low intensity, so 30 of low and 120s of high

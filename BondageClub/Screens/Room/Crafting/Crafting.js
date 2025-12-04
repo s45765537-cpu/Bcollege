@@ -31,13 +31,6 @@ let CraftingSelectedItem = null;
 let CraftingOffset = 0;
 
 /**
- * A list of all assets valid for crafting, potentially filtered by a user-provided keyword.
- * @type {never}
- * @deprecated
- */
-let CraftingItemList = /** @type {never} */([]);
-
-/**
  * The character used for the crafting preview.
  * @type {Character | null}
  */

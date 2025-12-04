@@ -41,12 +41,6 @@ const E = /** @type {const} */ ({
 	Block: "Block",
 	/** Indicates that the character is mounted onto something. Acts as a restraint and blocks moving around. */
 	Mounted: "Mounted",
-	/** @deprecated: Removed without replacement */
-	// KneelFreeze: "KneelFreeze",
-	/** @deprecated: Equivalent to adding a `BodyLower` pose to {@link Asset.SetPose} while `Kneel` is included in {@link Asset.AllowActivePose} */
-	// ForceKneel: "ForceKneel",
-	/** @deprecated: omit `Kneel` from {@link Asset.AllowActivePose} instead */
-	// BlockKneel: "BlockKneel",
 	/** Enable items that have the CuffedFeet prerequisite to be applied. */
 	CuffedFeet: "CuffedFeet",
 	/** Enable items that have the CuffedLegs prerequisite to be applied. */

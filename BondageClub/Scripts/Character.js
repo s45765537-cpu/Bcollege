@@ -523,9 +523,6 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (this.IsNpc() && !NPCEventGet(this, "PlayerCollaring")) return false;
 			return Player.IsOwnedByCharacter(this);
 		},
-		IsLover: function (C) {
-			return this.IsLoverOfCharacter(C);
-		},
 		IsLoverOfCharacter: function (C) {
 			const loves = this.GetLovership();
 			if (C.IsNpc()) {
@@ -1199,9 +1196,6 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.Ownership = ServerAccountDataSyncedValidate.Ownership(data.Ownership, Char);
 	Char.Lovership = ServerAccountDataSyncedValidate.Lovership(data.Lovership, Char);
 	Char.Reputation = ServerAccountDataSyncedValidate.Reputation(data.Reputation, Char);
-	Char.BlockItems = /** @type {never} */([]);
-	Char.LimitedItems = /** @type {never} */([]);
-	Char.FavoriteItems = /** @type {never} */([]);
 	if (!Char.IsPlayer()) {
 		Char.PermissionItems = ServerUnPackItemPermissions(data, Char.GetDifficulty() >= 3).permissions;
 		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);

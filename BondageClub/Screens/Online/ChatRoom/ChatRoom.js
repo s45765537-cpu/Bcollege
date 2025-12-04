@@ -48,8 +48,6 @@ var ChatRoomTargetMemberNumber = -1;
 var ChatRoomOwnershipOption = "";
 /** @type {ChatRoomLovershipOption} */
 var ChatRoomLovershipOption = "";
-/** @deprecated Check whether ChatRoomData is set or not instead */
-var ChatRoomPlayerCanJoin = false;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
@@ -81,21 +79,6 @@ var ChatRoomSlowtimer = 0;
  * @type {boolean}
  */
 var ChatRoomSlowStop = false;
-/**
- * Default position of the chat log field
- * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
- */
-var ChatRoomChatLogRect = /** @type {never} */([1005, 66, 988, 835]);
-/**
- * Default position of the chat input field
- * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
- */
-var ChatRoomChatInputRect = /** @type {never} */([1453, 953, 895, 90]);
-/**
- * Default position of the chat input length label
- * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
- */
-var ChatRoomChatLengthLabelRect = /** @type {never} */([1764, 970, 120, 82]);
 
 /**
  * Default position of the entire chat panel
@@ -6524,17 +6507,6 @@ function ChatRoomDataChanged() {
 
 function ChatRoomRefreshFontSize() {
 	ChatRoomFontSize = ChatRoomFontSizes[Player.ChatSettings.FontSize || "Medium"];
-}
-
-/**
- * Checks if the message can be sent as chat or the player should be warned
- * @deprecated No replacement; OOC should always be allowed through
- * @param {string} Message - User input
- * @param {Character} WhisperTarget
- * @returns {boolean}
- */
-function ChatRoomShouldBlockGaggedOOCMessage(Message, WhisperTarget) {
-	return false;
 }
 
 /**

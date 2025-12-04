@@ -985,30 +985,6 @@ function LoginSetupPlayer(C) {
 
 		if (ChatRoomValidateProperties(C.LastChatRoom))
 			Player.LastChatRoom = C.LastChatRoom;
-	} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
-		// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
-		/** @type {ChatRoomSettings} */
-		const room = {
-			Name: C.LastChatRoom,
-			Description: C.LastChatRoomDesc,
-			Admin: typeof C.LastChatRoomAdmin == "string" ? CommonConvertStringToArray(C.LastChatRoomAdmin) : [],
-			Whitelist: typeof C.LastChatRoomWhitelist == "string" ? CommonConvertStringToArray(C.LastChatRoomWhitelist) : [],
-			Ban: typeof C.LastChatRoomBan == "string" ? CommonConvertStringToArray(C.LastChatRoomBan) : [],
-			Background: C.LastChatRoomBG,
-			Limit: C.LastChatRoomSize,
-			Game: "",
-			Visibility: C.LastChatRoomPrivate ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC,
-			Access: ChatRoomVisibilityMode.PUBLIC,
-			BlockCategory: C.LastChatRoomBlockCategory,
-			Space: C.LastChatRoomSpace,
-			Language: C.LastChatRoomLanguage,
-			Custom: C.LastChatRoomCustom,
-			MapData: C.LastChatRoomMapData,
-		};
-
-		if (ChatRoomValidateProperties(room)) {
-			Player.LastChatRoom = room;
-		}
 	}
 
 	// Loads the ownership data

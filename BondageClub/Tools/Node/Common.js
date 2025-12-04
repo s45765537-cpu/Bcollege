@@ -33,7 +33,6 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemNeckAccessories/CollarAutoShockUnit/CollarAutoShockUnit.js",
 	"Screens/Inventory/ItemArms/PrisonLockdownSuit/PrisonLockdownSuit.js",
 	"Screens/Inventory/ItemPelvis/LoveChastityBelt/LoveChastityBelt.js",
-	"Screens/Inventory/ItemVulva/LoversVibrator/LoversVibrator.js",
 	"Screens/Inventory/ItemButt/AnalBeads2/AnalBeads2.js",
 	"Screens/Inventory/ItemDevices/LuckyWheel/LuckyWheel.js",
 	"Screens/Inventory/ItemDevices/FuturisticCrate/FuturisticCrate.js",
