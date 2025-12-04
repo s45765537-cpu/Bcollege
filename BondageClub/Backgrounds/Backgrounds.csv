@@ -15,6 +15,7 @@ BDSMRoomBlue,BDSM Room Blue
 BDSMRoomPurple,BDSM Room Purple
 BDSMRoomRed,BDSM Room Red 1
 BDSMRoomRed2,BDSM Room Red 2
+BDSMRoomRed3,BDSM Room Red 3
 Beach,Beach
 BeachCafe,Beach Promenade Café
 BeachHotel,Beach Hotel
@@ -28,6 +29,7 @@ BoutiqueMain,Boutique Shop
 CaptainCabin,Captain Cabin
 Casino1,Casino
 Castle,Fancy Castle
+CastleHall1,Stone Castle Hall
 Cellar,Cellar
 CeremonialVenue,Ceremony Venue
 ChillRoom,Chill Room
@@ -121,6 +123,8 @@ NightClub,Nightclub
 Nursery,Nursery
 Office1,Luxury Office
 Office2,Open Office
+Office3,College Small Office
+Office4,College Director Office
 OldFarm,Old Farm
 Onsen,Onsen
 OutdoorPool,Outdoor Pool
@@ -186,6 +190,7 @@ SnowyTown1,Snowy Town 1
 SnowyTown2,Snowy Town 2
 SpaceCaptainBedroom,Space Station Captain Bedroom
 SpookyForest,Spooky Forest
+Stage1,Fashion Stage
 StreetNight,Christmas Street Night
 StudentBedroom1,Student Bedroom
 SunTemple,Sun Temple
