@@ -3935,6 +3935,11 @@ ItemDevicesPottySelectText,Select text
 ItemDevicesPottyModuleText,Text
 ItemDevicesPottyOptione0,Text
 ItemDevicesPottySete0,SourceCharacter writes text on DestinationCharacter's potty.
+ItemDevicesGiftBoxOpen,Open Gift
+ItemDevicesGiftBoxClosed,Close Gift
+ItemDevicesGiftBoxSelect,Change Gift
+ItemDevicesGiftBoxSetOpen,SourceCharacter opens the gift.
+ItemDevicesGiftBoxSetClosed,SourceCharacter closes the gift.
 ItemFeetSteelAnkleCuffsChained,Chain Attached
 ItemFeetSteelAnkleCuffsClosed,Attached
 ItemFeetSteelAnkleCuffsNone,Detached
