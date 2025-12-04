@@ -1750,9 +1750,9 @@ interface DialogLine {
 	Trait: string;
 }
 
-interface DialogInfo {
-	module: ModuleType;
-	screen: string;
+interface DialogInfo<T extends ModuleType> {
+	module: T;
+	screen: ModuleScreens[T];
 	name: string;
 }
 
@@ -1808,7 +1808,7 @@ interface Character {
 	/**
 	 * The character's loaded dialog info
 	 */
-	DialogInfo?: DialogInfo;
+	DialogInfo?: DialogInfo<any>;
 	/**
 	 * A deprecated identifier for online characters
 	 * Only exists on the player, has the same value as their character ID.
@@ -2190,11 +2190,6 @@ interface NPCCharacter extends Character {
 	Domination?: number;
 }
 
-/** College & Asylum */
-interface NPCCharacter {
-	GoneAway?: boolean;
-}
-
 /** Movie Studio */
 interface NPCCharacter {
 	TrialDone?: boolean;
@@ -2570,13 +2565,23 @@ interface NPCTrait {
 
 type NPCEventType =
 	| "LastInteraction"
-	| "Wife" | "Fiancee" | "Girlfriend"
+	| "Wife"
+	| "Fiancee"
+	| "Girlfriend"
 	| "PrivateRoomEntry"
-	| "NPCCollaring" | "PlayerCollaring"
-	| "NextGift" | "LastGift"
-	| "Kidnap" | "NextKidnap"
+	// Date at which the player became full owner of the NPC
+	| "NPCCollaring"
+	// Date at which the player became fully owned by the NPC
+	| "PlayerCollaring"
+	| "NextGift"
+	| "LastGift"
+	| "Kidnap"
+	| "NextKidnap"
 	| "NPCBrainwashing"
-	| "EndSubTrial" | "EndDomTrial"
+	// Date at which the ownership trial as a sub to this NPC ends
+	| "EndSubTrial"
+	// Date at which the ownership trial as a dom to this NPC ends
+	| "EndDomTrial"
 	| "NextBed"
 	| "NewCloth"
 	| "RefusedActivity"

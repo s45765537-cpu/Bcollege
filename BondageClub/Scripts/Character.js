@@ -1123,16 +1123,15 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 
 /**
  * Loads an NPC into the character array. The appearance is randomized, and a type can be provided to dress them in a given style.
+ * @template {ModuleType} T
  * @param {string} CharacterID - The unique identifier for the NPC
  * @param {string} [NPCType] - The dialog used by the NPC.  Defaults to CharacterID if not specified.
- * @param {null | ModuleType} module
- * @param {null | string} screen
+ * @param {null | T} module
+ * @param {null | ModuleScreens[T]} screen
  * @returns {NPCCharacter} - The randomly generated NPC
  */
-function CharacterLoadNPC(CharacterID, NPCType, module=null, screen=null) {
-	module ??= CurrentModule;
-	screen ??= CurrentScreen;
-	if (!NPCType) NPCType = CharacterID;
+function CharacterLoadNPC(CharacterID, NPCType=null, module=null, screen=null) {
+	NPCType ??= CharacterID;
 
 	// Checks if the NPC already exists and returns it if it's the case
 	const duplicate = Character.find(c => c.CharacterID === CharacterID);
@@ -1141,7 +1140,7 @@ function CharacterLoadNPC(CharacterID, NPCType, module=null, screen=null) {
 	// Randomize the new character
 	const C = CharacterCreate("Female3DCG", CharacterType.NPC, CharacterID);
 	C.AccountName = NPCType;
-	CharacterLoadCSVDialog(C, { module: module, screen: screen, name: NPCType });
+	CharacterLoadCSVDialog(C, { module: module ?? CurrentModule, screen: screen ?? CurrentScreen, name: NPCType });
 	C.Name = CharacterGenerateRandomName();
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);

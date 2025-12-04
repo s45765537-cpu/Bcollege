@@ -129,7 +129,7 @@ function CollegeTennisGameEnd() {
 	if (CollegeTennisJennifer.Name == "Jennifer") CollegeTennisJennifer.Stage = MiniGameVictory ? "100" : "200";
 	else CollegeTennisJennifer.Stage = MiniGameVictory ? "1100" : "1200";
 	CollegeTennisJennifer.CurrentDialog = DialogFind(CollegeTennisJennifer, MiniGameVictory ? "TennisVictory" : "TennisDefeat");
-	CollegeTennisJenniferWillJoinRoom = ((CollegeTennisJennifer.Name == "Jennifer") && MiniGameVictory && (MiniGameDifficultyMode != "Easy") && (CollegeTennisJenniferStatus != "Lover") && (CollegeTennisJenniferStatus != "Owned") && (CollegeTennisJenniferStatus != "Curfew") && (CollegeTennisJenniferStatus != "Owner") && LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax));
+	CollegeTennisJenniferWillJoinRoom = ((CollegeTennisJennifer.Name == "Jennifer") && MiniGameVictory && (MiniGameDifficultyMode != "Easy") && (CollegeTennisJenniferStatus != "Lover") && (CollegeTennisJenniferStatus != "Owned") && (CollegeTennisJenniferStatus != "Curfew") && (CollegeTennisJenniferStatus != "Owner") && LogQuery("RentRoom", "PrivateRoom") && PrivateHasEmptySlot());
 }
 
 /**
@@ -140,8 +140,7 @@ function CollegeTennisInviteToPrivateRoom() {
 	InventoryAdd(Player, "TennisRacket", "ItemHandheld");
 	InventoryRemove(CollegeTennisJennifer, "ItemHandheld");
 	CommonSetScreen("Room", "Private");
-	let C = PrivateAddCharacter(CollegeTennisJennifer, null, true);
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeTennisJennifer, null, true);
 	NPCTraitSet(C, "Submissive", 20);
 	NPCTraitSet(C, "Frigid", 80);
 	NPCTraitSet(C, "Wise", 40);
@@ -167,5 +166,6 @@ function CollegeTennisInviteToPrivateRoom() {
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();
+	CharacterDelete(CollegeTennisJennifer);
 	CollegeTennisJennifer = null;
 }

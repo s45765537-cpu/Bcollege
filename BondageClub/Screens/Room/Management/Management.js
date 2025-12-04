@@ -206,12 +206,12 @@ function ManagementCannotBeReleasedExtreme() { return Player.IsOwned() === "npc"
  * Checks if the player can be owned by the mistress.
  * @returns {boolean} - TRUE if the player is fully submissive, the player is not owned, the mistress has not been angered and the mistress can enter the private room.
  */
-function ManagementWillOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
+function ManagementWillOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && PrivateHasEmptySlot() && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the mistress is not willing to own the player.
  * @returns {boolean} - TRUE if the player can be owned, but is not submissive enough.
  */
-function ManagementWontOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
+function ManagementWontOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && PrivateHasEmptySlot() && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the player has at least one lover who is a NPC from bondage college.
  * @returns {boolean} - TRUE if the player has at least one lover who is a NPC from bondage college.
@@ -368,10 +368,11 @@ function ManagementCannotPlayWithSubLock() { return (ReputationGet("Dominant") <
  * @returns {boolean} - TRUE if there's no other Mistress in the player private room
  */
 function ManagementNoMistressInPrivateRoom() {
-	if (PrivateCharacter.length <= 1) return true;
-	for (let C = 1; C < PrivateCharacter.length; C++)
-		if ((PrivateCharacter[C].Title != null) && (PrivateCharacter[C].Title == "Mistress"))
+	for (const char of PrivateCharacter) {
+		if (char.IsNpc() && char.Title === "Mistress") {
 			return false;
+		}
+	}
 	return true;
 }
 
@@ -380,9 +381,11 @@ function ManagementNoMistressInPrivateRoom() {
  * @returns {boolean} - TRUE if any NPC in the private room is chaste.
  */
 function ManagementFriendIsChaste() {
-	for (let C = 1; C < PrivateCharacter.length; C++)
-		if ((PrivateCharacter[C].AccountName != null) && PrivateCharacter[C].IsChaste())
+	for (const char of PrivateCharacter) {
+		if (char.IsNpc() && char.IsChaste()) {
 			return true;
+		}
+	}
 	return false;
 }
 
@@ -607,7 +610,7 @@ function ManagementSendMistressToPrivateRoom(RepChange) {
 	ReputationProgress("Dominant", RepChange);
 	ManagementEmpty = true;
 	ManagementMistress.Name = ManagementMistress.Name.replace(TextGet("Mistress") + " ", "");
-	PrivateAddCharacter(ManagementMistress, "Mistress", null, null, "Private");
+	PrivateAddCharacter(ManagementMistress, "Mistress", null);
 	DialogLeave();
 }
 
