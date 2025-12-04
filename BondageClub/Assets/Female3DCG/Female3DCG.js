@@ -44477,7 +44477,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GiftBox",
-				InventoryID: 3000,
 				ParentGroup: "",
 				IsRestraint: false,
 				Value: 0,
@@ -64758,7 +64757,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GiftBox",
-				InventoryID: 3001,
 				Value: 0,
 				Difficulty: 2,
 				SelfBondage: 0,
