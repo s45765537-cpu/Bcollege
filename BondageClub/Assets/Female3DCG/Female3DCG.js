@@ -64764,7 +64764,6 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 
 				Effect: [E.Tethered, E.MapImmobile],
-				RemoveAtLogin: true,
 				FixedPosition: true,
 				Extended: true,
 				DefaultColor: [
