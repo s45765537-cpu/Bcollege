@@ -1643,23 +1643,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCorsetTop1",
-				InventoryID: 113,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
-				Fetish: ["Leather"],
-				DynamicGroupName: "Corset",
-				BuyGroup: "LeatherCorsetTop1",
-				Priority: 25,
-				Value: 60,
-				HideItem: [
-					"ItemNipplesPiercingsRoundPiercing",
-					"ItemNipplesPiercingsNecklacePiercingChain",
-					"ItemNipplesLactationPump",
-				],
-				PoseMapping: {
-					Hogtied: "Hogtied",
-					AllFours: "AllFours",
+				CopyConfig: {
+					AssetName: "LeatherCorsetTop1",
+					GroupName: "Corset",
+					BuyGroup: true,
 				},
+				DynamicGroupName: "Corset",
 			},
 			{
 				Name: "FlowerDress",
