@@ -4223,6 +4223,8 @@ var AssetFemale3DCG = [
 			{ Name: "WhiteMoon", Left: 195, Top: 252 },
 			{ Name: "ZamStick", Left: 195, Top: 254 },
 			{ Name: "ZamStickII", Left: 195, Top: 258 },
+			{ Name: "SkullDecal", Left: 215, Top: 278 },
+			{ Name: "CyberTechCorp", Left: 201, Top: 258 },
 		],
 	},
 	{
