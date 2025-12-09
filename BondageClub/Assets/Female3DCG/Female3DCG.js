@@ -566,6 +566,7 @@ const AssetPoseMapping = /** @type {const} */ ({
  */
 var AssetFemale3DCG = [
 	// Appearance specific
+	// #region ClothOuter
 	{
 		Group: "ClothOuter",
 		ParentGroup: "BodyUpper",
@@ -839,6 +840,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region Cloth
 	{
 		Group: "Cloth",
 		ParentGroup: "BodyUpper",
@@ -4126,6 +4129,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region Decals
 	{
 		Group: "Decals",
 		Priority: 32,
@@ -4227,6 +4232,8 @@ var AssetFemale3DCG = [
 			{ Name: "CyberTechCorp", Left: 201, Top: 258 },
 		],
 	},
+	// #endregion
+	// #region ClothAccessory
 	{
 		Group: "ClothAccessory",
 		Priority: 32,
@@ -5439,7 +5446,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Necklace
 	{
 		Group: "Necklace",
 		ParentGroup: "BodyUpper",
@@ -5884,7 +5892,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Suit
 	{
 		Group: "Suit",
 		ParentGroup: "BodyUpper",
@@ -6490,7 +6499,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region SuitLower
 	{
 		Group: "SuitLower",
 		ParentGroup: "BodyLower",
@@ -6868,7 +6878,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ClothLower
 	{
 		Group: "ClothLower",
 		ParentGroup: "BodyLower",
@@ -8410,7 +8421,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Bra
 	{
 		Group: "Bra",
 		ParentGroup: "BodyUpper",
@@ -9486,7 +9498,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Corset
 	{
 		Group: "Corset",
 		ParentGroup: "BodyUpper",
@@ -9910,7 +9923,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Panties
 	{
 		Group: "Panties",
 		ParentGroup: "BodyLower",
@@ -11336,7 +11350,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Socks
 	{
 		Group: "Socks",
 		ParentGroup: "BodyLower",
@@ -11717,6 +11732,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region SocksRight
 	{
 		Group: "SocksRight",
 		ParentGroup: "BodyLower",
@@ -11990,6 +12007,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region SocksLeft
 	{
 		Group: "SocksLeft",
 		ParentGroup: "BodyLower",
@@ -12264,6 +12283,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region AnkletRight
 	{
 		Group: "AnkletRight",
 		ParentGroup: "BodyLower",
@@ -12372,7 +12393,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region AnkletLeft
 	{
 		Group: "AnkletLeft",
 		ParentGroup: "BodyLower",
@@ -12481,6 +12503,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region Garters
 	{
 		Group: "Garters",
 		ParentGroup: "BodyLower",
@@ -12939,6 +12963,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region Shoes
 	{
 		Group: "Shoes",
 		ParentGroup: "BodyLower",
@@ -15092,7 +15118,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Hat
 	{
 		Group: "Hat",
 		Priority: 55,
@@ -16342,9 +16369,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
-	// Hair accessory 1: Ears & Accessories
-	// Hair accessory 2: Ears only
+	// #endregion
+	// #region HairAccessory3
 	// Hair accessory 3: Accessories only
 	{
 		Group: "HairAccessory3",
@@ -16467,7 +16493,9 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region HairAccessory1
+	// Hair accessory 1: Ears & Accessories
 	{
 		Group: "HairAccessory1",
 		Priority: 54,
@@ -18318,7 +18346,9 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region HairAccessory2
+	// Hair accessory 2: Ears only
 	{
 		Group: "HairAccessory2",
 		Priority: 53,
@@ -18699,7 +18729,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Gloves
 	{
 		Group: "Gloves",
 		ParentGroup: "BodyUpper",
@@ -19060,6 +19091,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region HandAccessoryLeft
 	{
 		Group: "HandAccessoryLeft",
 		Priority: 28,
@@ -19187,6 +19220,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region HandAccessoryRight
 	{
 		Group: "HandAccessoryRight",
 		Priority: 28,
@@ -19315,6 +19350,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region Bracelet
 	{
 		Group: "Bracelet",
 		ParentGroup: "BodyUpper",
@@ -19593,7 +19630,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Glasses
 	{
 		Group: "Glasses",
 		Priority: 27,
@@ -19859,7 +19897,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Jewelry
 	{
 		Group: "Jewelry",
 		Priority: 33,
@@ -20049,7 +20088,8 @@ var AssetFemale3DCG = [
 			},
 		],
 	},
-
+	// #endregion
+	// #region Mask
 	{
 		Group: "Mask",
 		Priority: 53,
@@ -21324,7 +21364,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region TailStraps
 	{
 		Group: "TailStraps",
 		Priority: 4,
@@ -21926,7 +21967,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region Wings
 	{
 		Group: "Wings",
 		Priority: 3,
@@ -22033,7 +22075,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region BodyMarkings
 	{
 		Group: "BodyMarkings",
 		Priority: 8,
@@ -22571,6 +22614,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region FaceMarkings
 	{
 		Group: "FaceMarkings",
 		Priority: 8,
@@ -22672,6 +22717,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region Height
 	{
 		Group: "Height",
 		AllowNone: false,
@@ -22690,7 +22737,8 @@ var AssetFemale3DCG = [
 			{ Name: "H0940", Visible: false, Zoom: 0.94 },
 		],
 	},
-
+	// #endregion
+	// #region BodyStyle
 	{
 		Group: "BodyStyle",
 		Priority: 0,
@@ -22796,7 +22844,8 @@ var AssetFemale3DCG = [
 			},
 		],
 	},
-
+	// #endregion
+	// #region BodyUpper
 	{
 		Group: "BodyUpper",
 		Priority: 7,
@@ -22848,7 +22897,8 @@ var AssetFemale3DCG = [
 			},
 		],
 	},
-
+	// #endregion
+	// #region ArmsLeft
 	{
 		Group: "ArmsLeft",
 		Priority: 7,
@@ -22865,7 +22915,8 @@ var AssetFemale3DCG = [
 		ColorSuffix: { HEX_COLOR: "White", Default: "White" },
 		Asset: [""],
 	},
-
+	// #endregion
+	// #region ArmsRight
 	{
 		Group: "ArmsRight",
 		Priority: 7,
@@ -22882,7 +22933,8 @@ var AssetFemale3DCG = [
 		ColorSuffix: { HEX_COLOR: "White", Default: "White" },
 		Asset: [""],
 	},
-
+	// #endregion
+	// #region HandsLeft
 	{
 		Group: "HandsLeft",
 		Priority: 27,
@@ -22896,7 +22948,8 @@ var AssetFemale3DCG = [
 		ColorSuffix: { HEX_COLOR: "White" },
 		Asset: [""],
 	},
-
+	// #endregion
+	// #region HandsRight
 	{
 		Group: "HandsRight",
 		Priority: 27,
@@ -22910,7 +22963,8 @@ var AssetFemale3DCG = [
 		ColorSuffix: { HEX_COLOR: "White" },
 		Asset: [""],
 	},
-
+	// #endregion
+	// #region BodyLower
 	{
 		Group: "BodyLower",
 		ParentSize: "BodyUpper",
@@ -22923,7 +22977,8 @@ var AssetFemale3DCG = [
 		Color: ["Default", "White", "Asian", "Black"],
 		ColorSuffix: { HEX_COLOR: "White" },
 	},
-
+	// #endregion
+	// #region HairFront
 	{
 		Group: "HairFront",
 		Priority: 52,
@@ -23848,7 +23903,8 @@ var AssetFemale3DCG = [
 			"#ee99ee",
 		],
 	},
-
+	// #endregion
+	// #region HairBack
 	{
 		Group: "HairBack",
 		ParentColor: "HairFront",
@@ -25138,7 +25194,8 @@ var AssetFemale3DCG = [
 			"#ee99ee",
 		],
 	},
-
+	// #endregion
+	// #region FacialHair
 	{
 		Group: "FacialHair",
 		Priority: 9,
@@ -25181,7 +25238,8 @@ var AssetFemale3DCG = [
 			"#ee99ee",
 		],
 	},
-
+	// #endregion
+	// #region Eyebrows
 	{
 		Group: "Eyebrows",
 		Priority: 9,
@@ -25275,7 +25333,8 @@ var AssetFemale3DCG = [
 			"Eyebrows8",
 		],
 	},
-
+	// #endregion
+	// #region Eyes
 	{
 		Group: "Eyes",
 		Priority: 9,
@@ -25378,7 +25437,8 @@ var AssetFemale3DCG = [
 			"#aa33aa",
 		],
 	},
-
+	// #endregion
+	// #region Eyes2
 	{
 		Group: "Eyes2",
 		Priority: 9,
@@ -25482,7 +25542,8 @@ var AssetFemale3DCG = [
 			"#aa33aa",
 		],
 	},
-
+	// #endregion
+	// #region EyeShadow
 	{
 		Group: "EyeShadow",
 		Priority: 8,
@@ -25592,7 +25653,8 @@ var AssetFemale3DCG = [
 			},
 		],
 	},
-
+	// #endregion
+	// #region Mouth
 	{
 		Group: "Mouth",
 		Priority: 10,
@@ -25707,7 +25769,8 @@ var AssetFemale3DCG = [
 			"#aaaa55",
 		],
 	},
-
+	// #endregion
+	// #region Nipples
 	{
 		Group: "Nipples",
 		ParentGroup: "BodyUpper",
@@ -25725,7 +25788,8 @@ var AssetFemale3DCG = [
 		ColorSuffix: { White: "Default", Asian: "Default", Black: "Default" },
 		InheritColor: "BodyUpper",
 	},
-
+	// #endregion
+	// #region Pussy
 	{
 		Group: "Pussy",
 		Priority: 12,
@@ -25762,7 +25826,8 @@ var AssetFemale3DCG = [
 			"#222222",
 		],
 	},
-
+	// #endregion
+	// #region Pronouns
 	{
 		Group: "Pronouns",
 		AllowNone: false,
@@ -25772,7 +25837,8 @@ var AssetFemale3DCG = [
 			{ Name: "TheyThem", Visible: false, Random: false },
 		],
 	},
-
+	// #endregion
+	// #region Head
 	{
 		Group: "Head",
 		ParentColor: "BodyUpper",
@@ -25794,7 +25860,8 @@ var AssetFemale3DCG = [
 		ColorSuffix: { HEX_COLOR: "White" },
 		InheritColor: "BodyUpper",
 	},
-
+	// #endregion
+	// #region Blush
 	// Facial Expression specific
 	{
 		Group: "Blush",
@@ -25813,7 +25880,8 @@ var AssetFemale3DCG = [
 		],
 		Asset: ["Blush"],
 	},
-
+	// #endregion
+	// #region Fluids
 	{
 		Group: "Fluids",
 		Priority: 12,
@@ -25838,7 +25906,8 @@ var AssetFemale3DCG = [
 		],
 		Asset: ["Fluids"],
 	},
-
+	// #endregion
+	// #region Emoticon
 	{
 		Group: "Emoticon",
 		Priority: 100,
@@ -25886,8 +25955,8 @@ var AssetFemale3DCG = [
 		],
 		Asset: ["Emoticon"],
 	},
-
-	// Item specific
+	// #endregion
+	// #region ItemFeet
 	{
 		Group: "ItemFeet",
 		ParentGroup: "BodyLower",
@@ -26873,7 +26942,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemLegs
 	{
 		Group: "ItemLegs",
 		ParentGroup: "BodyLower",
@@ -28157,7 +28227,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemVulva
 	{
 		Group: "ItemVulva",
 		Category: "Item",
@@ -28964,7 +29035,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemVulvaPiercings
 	{
 		Group: "ItemVulvaPiercings",
 		Category: "Item",
@@ -29336,7 +29408,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemButt
 	{
 		Group: "ItemButt",
 		Category: "Item",
@@ -30150,7 +30223,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemPelvis
 	{
 		Group: "ItemPelvis",
 		ParentGroup: "BodyLower",
@@ -32355,7 +32429,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemTorso
 	{
 		Group: "ItemTorso",
 		ParentGroup: "BodyUpper",
@@ -33233,7 +33308,6 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			//Flat Chest Compatible Items
 			{
 				Name: "LeatherChestHarness1",
 				Audio: "LeatherStretchingShort",
@@ -33772,7 +33846,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemTorso2
 	{
 		Group: "ItemTorso2",
 		ParentGroup: "BodyUpper",
@@ -35151,7 +35226,8 @@ var AssetFemale3DCG = [
 			},
 		],
 	},
-
+	// #endregion
+	// #region ItemNipples
 	{
 		Group: "ItemNipples",
 		ParentGroup: "BodyUpper",
@@ -35489,7 +35565,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemNipplesPiercings
 	{
 		Group: "ItemNipplesPiercings",
 		ParentGroup: "BodyUpper",
@@ -35703,7 +35780,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemBreast
 	{
 		Group: "ItemBreast",
 		ParentGroup: "BodyUpper",
@@ -36008,7 +36086,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemArms
 	{
 		Group: "ItemArms",
 		ParentGroup: "BodyUpper",
@@ -40960,7 +41039,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemHands
 	{
 		Group: "ItemHands",
 		ParentGroup: "BodyUpper",
@@ -42802,6 +42882,8 @@ var AssetFemale3DCG = [
 			},
 		],
 	},
+	// #endregion
+	// #region ItemHandheld
 	{
 		Group: "ItemHandheld",
 		ParentGroup: "BodyUpper",
@@ -44599,7 +44681,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemNeck
 	{
 		Group: "ItemNeck",
 		Category: "Item",
@@ -45749,7 +45832,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemNeckAccessories
 	{
 		Group: "ItemNeckAccessories",
 		Category: "Item",
@@ -46099,7 +46183,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemNeckRestraints
 	{
 		Group: "ItemNeckRestraints",
 		Category: "Item",
@@ -46665,6 +46750,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region ItemMouth
 	{
 		Group: "ItemMouth",
 		Category: "Item",
@@ -49771,7 +49858,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemMouth2
 	{
 		Group: "ItemMouth2",
 		Category: "Item",
@@ -51887,7 +51975,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemMouth3
 	{
 		Group: "ItemMouth3",
 		Category: "Item",
@@ -54027,7 +54116,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemHead
 	{
 		Group: "ItemHead",
 		Category: "Item",
@@ -55374,7 +55464,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemNose
 	{
 		Group: "ItemNose",
 		Category: "Item",
@@ -55552,6 +55643,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region ItemHood
 	{
 		Group: "ItemHood",
 		Category: "Item",
@@ -59700,6 +59793,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region ItemEars
 	{
 		Group: "ItemEars",
 		Category: "Item",
@@ -59899,7 +59994,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemMisc
 	{
 		Group: "ItemMisc",
 		Category: "Item",
@@ -60629,7 +60725,8 @@ var AssetFemale3DCG = [
 		],
 		Color: ["Default"],
 	},
-
+	// #endregion
+	// #region ItemDevices
 	{
 		Group: "ItemDevices",
 		Category: "Item",
@@ -65039,6 +65136,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region ItemAddon
 	{
 		Group: "ItemAddon",
 		Category: "Item",
@@ -65210,7 +65309,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+	// #endregion
+	// #region ItemBoots
 	{
 		Group: "ItemBoots",
 		ParentGroup: "BodyLower",
@@ -67365,6 +67465,8 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
+	// #endregion
+	// #region ItemScript
 	{
 		Group: "ItemScript",
 		Category: "Script",
@@ -67372,8 +67474,10 @@ var AssetFemale3DCG = [
 		AllowColorize: false,
 		Asset: [{ Name: "Script", Visible: false }],
 	},
+	// #endregion
 ];
 
+// #region Poses
 /** 3D Custom Girl based pose
  * @type {Pose[]}
  */
@@ -67497,6 +67601,9 @@ var PoseFemale3DCG = [
  */
 var PoseFemale3DCGNames = PoseFemale3DCG.map((pose) => pose.Name);
 
+// #endregion
+
+// #region Activities
 /**
  * 3D Custom Girl based activities
  *
@@ -68463,6 +68570,9 @@ var ActivityFemale3DCG = [
  */
 let ActivityFemale3DCGOrdering = ActivityFemale3DCG.map((a) => a.Name);
 
+// #endregion
+
+// #region Fetishes
 /**
  * 3D Custom Girl based fetishes
  * Modify PreferenceArousalFetishDefaultCompressedString if you add a new fetish
@@ -68617,3 +68727,5 @@ var FetishFemale3DCG = [
  * A set with all available fetish names.
  */
 const FetishFemale3DCGNames = new Set(FetishFemale3DCG.map((f) => f.Name));
+
+// #endregion
