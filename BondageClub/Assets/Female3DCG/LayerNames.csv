@@ -1626,6 +1626,13 @@ ItemHandheldCigaretteSmokeInMouth,Smoke In Mouth
 ItemHandheldCigaretteLitInMouth,Lit In Mouth
 ItemHandheldCigaretteFilterInMouth,Filter In Mouth
 ItemHandheldCigarettePaperInMouth,Paper In Mouth
+ItemHandheldDragonPlushMainColor,Main Color
+ItemHandheldDragonPlushSecondaryColor,Secondary Color
+ItemHandheldDragonPlushDetailsColor,Details Color
+ItemHandheldDragonPlushGemsColor,Gems Color
+ItemHandheldDragonPlushEyesMainColor,Eyes Main Color
+ItemHandheldDragonPlushEyesGlowColor,Eyes Glow Color
+ItemHandheldDragonPlushShadows,Shadows
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
 ItemHandheldGiftBoxBox, Box

@@ -44521,6 +44521,64 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "DragonPlush",
+				Priority: 34,
+				Difficulty: -10,
+				Time: 1,
+				//Top: 250,
+				//Left: 100,
+				IsRestraint: false,
+				DefaultColor: [
+					"#141414",
+					"#660000",
+					"#925900",
+					"#4CFF00",
+					"#875301",
+					"#ffed00",
+				],
+				AllowActivity: ["SpankItem", "RubItem"],
+				BuyGroup: "DragonPlush",
+				ParentGroup: "",
+				Random: false,
+				Extended: true,
+				CreateLayerTypes: ["typed"],
+				Layer: [
+					{
+						Name: "MainColor",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "SecondaryColor",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "DetailsColor",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "GemsColor",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "EyesMainColor",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "EyesGlowColor",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Shadows",
+						AllowColorize: false,
+						AllowTypes: { typed: [0, 1] },
+					},
+				],
+				Attribution: {
+					Author: "Deya",
+					License: "CC0 1.0 Universal/Public domain",
+				},
+			},
 		],
 		Color: [
 			"Default",

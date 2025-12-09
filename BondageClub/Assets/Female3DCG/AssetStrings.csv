@@ -3957,6 +3957,11 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldDragonPlushSelect,Select Position
+ItemHandheldDragonPlushSetHolding,SourceCharacter holds a cute Dragon Plush!
+ItemHandheldDragonPlushHolding,Holding
+ItemHandheldDragonPlushSetFloor,SourceCharacter places PronounPossessive Dragon Plush on the floor
+ItemHandheldDragonPlushFloor,Floor
 ItemHandheldSmartphoneModuleCase,Cases
 ItemHandheldSmartphoneOptionc0,No Case
 ItemHandheldSmartphoneOptionc1,Matte
