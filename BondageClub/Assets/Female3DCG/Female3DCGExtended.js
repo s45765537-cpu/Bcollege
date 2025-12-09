@@ -22317,5 +22317,16 @@ var AssetFemale3DCGExtended = {
 				Chat: "MinidollsItemHandheldSet",
 			},
 		}, // Minidolls
+		DragonPlush: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Holding",
+				},
+				{
+					Name: "Floor",
+				},
+			],
+		}, // DragonPlush
 	}, // ItemHandheld
 };
