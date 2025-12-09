@@ -8899,16 +8899,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherStrapBra1",
-				Audio: "LeatherStretchingShort",
-				InventoryID: 276,
-				StyleOverride: ["EchoV2"],
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
-				Fetish: ["Leather"],
-				Value: 15,
-				BuyGroup: "LeatherStrapBra1",
-				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
-				PoseMapping: {},
+				CopyConfig: {
+					AssetName: "LeatherStrapBra1",
+					GroupName: "ItemTorso",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "ItemTorso",
 			},
 			{
 				Name: "Swimsuit3",
@@ -32836,6 +32832,7 @@ var AssetFemale3DCG = [
 				Top: 200,
 				BuyGroup: "LeatherStrapBra1",
 				Prerequisite: ["AccessTorso", "HasBreasts"],
+				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
 				DrawLocks: false,
 				PoseMapping: {
 					...AssetPoseMapping.ItemTorso2,
@@ -34984,6 +34981,15 @@ var AssetFemale3DCG = [
 					{ Name: "Shine1" },
 					{ Name: "Shine2" },
 				],
+			},
+			{
+				Name: "LeatherStrapBra1",
+				CopyConfig: {
+					AssetName: "LeatherStrapBra1",
+					GroupName: "ItemTorso",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "ItemTorso",
 			},
 		],
 		Color: [
