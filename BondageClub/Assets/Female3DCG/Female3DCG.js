@@ -8968,15 +8968,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Ribbons",
-				InventoryID: 282,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
-				Fetish: ["Lingerie"],
-				Value: 30,
-				BuyGroup: "Ribbon",
-				Extended: true,
-				Hide: ["ItemNipples"],
-				CreateLayerTypes: ["typed"],
+				CopyConfig: {
+					AssetName: "Ribbons",
+					GroupName: "ItemBreast",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "ItemBreast",
 			},
 			{
 				Name: "LeatherBreastBinder",
@@ -34027,7 +34024,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Ribbons",
-				Bleh: "Ditto",
 				CopyConfig: {
 					AssetName: "Ribbons",
 					GroupName: "ItemTorso",
@@ -34908,6 +34904,9 @@ var AssetFemale3DCG = [
 				BuyGroup: "Ribbon",
 				Prerequisite: ["AccessBreast", "HasBreasts"],
 				Extended: true,
+				PoseMapping: {
+					...AssetPoseMapping.ItemBreast,
+				},
 				CreateLayerTypes: ["typed"],
 			},
 			{
