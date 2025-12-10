@@ -121,6 +121,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 164, Type: "FloorDecoration", Style: "KeyGold" , OnEnter: function(){ Player.MapData.PrivateState.HasKeyGold = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyGold; } },
 	{ ID: 165, Type: "FloorDecoration", Style: "VikingChair" , Top: -0.5, Height: 2 },
 	{ ID: 166, Type: "FloorDecoration", Style: "Bed" , Top: -0.82, Left: 0.05, Height: 1.8, Width: 0.90, AssetName: "Bed", AssetGroup: "ItemDevices" },
+	{ ID: 170, Type: "FloorDecoration", Style: "Stairs" , Top: 0, Left: 0 },
 
 
 	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
@@ -144,6 +145,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 560, Type: "FloorDecorationParty", Style: "BeachUmbrellaStripe", Top: -1.1, Height: 2 },
 	{ ID: 570, Type: "FloorDecorationParty", Style: "BeachTowelStripe" },
 	{ ID: 580, Type: "FloorDecorationParty", Style: "Speaker", Top: -1.2, Height: 1.85 },
+	{ ID: 590, Type: "FloorDecorationParty", Style: "Presents", Top: 0.25, Height: 0.50 },
 
 	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
@@ -501,18 +503,26 @@ const ChatRoomMapViewObjectList = [
 
 	{ ID: 2000, Type: "FloorObstacle", Style: "Blank", CanEnter: () => false, },
 	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125, CanEnter: () => false, },
+	{ ID: 2006, Type: "FloorObstacle", Style: "GoldStones", Top: 0.10, Left: 0.25, Height: 0.5, Width: 0.5, CanEnter: () => false, },
+	{ ID: 2007, Type: "FloorObstacle", Style: "StonePile", Top: 0.10, Left: 0.25, Height: 0.5, Width: 0.5, CanEnter: () => false, },
 	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2011, Type: "FloorObstacle", Style: "Knight", Top: -1.25, Left: 0.05, Height: 1.65, Width: 0.75, CanEnter: () => false, },
+	{ ID: 2012, Type: "FloorObstacle", Style: "Samurai", Top: -1.25, Left: 0.05, Height: 1.75, Width: 0.85, CanEnter: () => false, },
 	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5, CanEnter: () => false, },
 	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2, CanEnter: () => false, },
 	{ ID: 2031, Type: "FloorObstacle", Style: "BarbFence", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2032, Type: "FloorObstacle", Style: "PicketFence", Top: -0.80, Height: 0.75, Width: 1, CanEnter: () => false, },
 	{ ID: 2035, Type: "FloorObstacle", Style: "Bush", Top: -0.25, Height: 1, CanEnter: () => false, },
 	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5, CanEnter: () => false, },
 	{ ID: 2045, Type: "FloorObstacle", Style: "OakTree_Fall", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5, CanEnter: () => false, },
+	{ ID: 2048, Type: "FloorObstacle", Style: "LeaflessTree", Top: -1.25, Height: 2, CanEnter: () => false, },
 	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2, CanEnter: () => false, },
 	{ ID: 2055, Type: "FloorObstacle", Style: "PalmTree", Left: -0.30, Top: -1.5, Width: 1.65, Height: 2.5, CanEnter: () => false, },
 	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2, CanEnter: () => false, },
 	{ ID: 2070, Type: "FloorObstacle", Style: "Window", Top: -0.5, Height: 1.5, CanEnter: () => false, },
-	{ ID: 2080, Type: "FloorObstacle", Style: "TrashCan", Top: -0.25, Height: 1, CanEnter: () => false, },
+	{ ID: 2080, Type: "FloorObstacle", Style: "TrashCan", Top: -0.25, Height: 0.75, Width: 0.75, CanEnter: () => false, },
+	{ ID: 2090, Type: "FloorObstacle", Style: "LampPost", Top: -1.25, Height: 2, CanEnter: () => false, },
+	{ ID: 2098, Type: "FloorObstacle", Style: "Pillar", Top: -1.25, Left: 0.16, Height: 2, Width: 0.70, CanEnter: () => false, },
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
@@ -529,6 +539,7 @@ const ChatRoomMapViewObjectList = [
 	},
 	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
 	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
+	{ ID: 3060, Type: "WallDecoration", Style: "Stocking",Top: 0.35, Left: 0.25, Height: 0.5, Width: 0.5 },
 	{ ID: 3100, Type: "WallDecoration", Style: "SilverShield" },
 	{ ID: 3110, Type: "WallDecoration", Style: "CrossedSabers" },
 	{ ID: 3200, Type: "WallDecoration", Style: "SchoolBoard" },
@@ -548,6 +559,13 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 4020, Type: "WallPath", Style: "Metal", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
 	{ ID: 4021, Type: "WallPath", Style: "MetalUp", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "U" || Direction === "";  } },
 	{ ID: 4022, Type: "WallPath", Style: "MetalDown", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
+
+
+	{ ID: 5010, Type: "Banners", Style: "Red", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5011, Type: "Banners", Style: "Blue", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5012, Type: "Banners", Style: "Green", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5013, Type: "Banners", Style: "Yellow", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5014, Type: "Banners", Style: "Black", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 
 ];
 /**
@@ -1465,7 +1483,7 @@ function ChatRoomMapViewUpdateFlag() {
 				else if ((Obj.Type == "FloorDecorationExpanding") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorItem") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
-				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
+				else if (((Obj.Type == "WallDecoration") || (Obj.Type == "Banners")) && (Tile.Type != "Wall")) ClearObject = true;
 				else if ((Obj.Type == "WallPath") && (Tile.Type != "Wall")) ClearObject = true;
 				else if (Tile.Type == "Wall") {
 
