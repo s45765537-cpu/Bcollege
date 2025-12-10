@@ -5119,6 +5119,7 @@ type ChatRoomMapObjectType = (
 	| "FloorIcon"
 	| "WallDecoration"
 	| "WallPath"
+	| "Banners"
 );
 
 type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
