@@ -2805,7 +2805,7 @@ class HTMLColorTintElement extends HTMLElement {
 
 			tintPicker._pressedOldValue = this.value;
 			this.setPointerCapture(ev.pointerId);
-			document.dispatchEvent(new PointerEvent("pointermove", ev));
+			tintPicker.dispatchEvent(new PointerEvent("pointermove", ev));
 		}
 
 		/** @type {(this: HTMLColorTintElement, ev: KeyboardEvent) => void} */
