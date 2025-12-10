@@ -3120,7 +3120,6 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				DefaultColor: ["#cf2828", "#666"],
-				HideItemAttribute: ["Skirt"],
 				HideItem: [
 					"ClothLowerPajama1",
 					"ClothLowerHaremPants",
@@ -3128,10 +3127,10 @@ var AssetFemale3DCG = [
 				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
-					Hogtied: PoseType.HIDE,
-					AllFours: PoseType.HIDE,
-					KneelingSpread: PoseType.HIDE,
-					OverTheHead: PoseType.HIDE,
+					Hogtied: PoseType.Hogtied,
+					AllFours: PoseType.AllFours,
+					KneelingSpread: PoseType.KneelingSpread,
+					OverTheHead: PoseType.OverTheHead,
 				},
 				Layer: [
 					{ Name: "Dress", PoseMapping: {}, Priority: 26 },
@@ -3139,6 +3138,9 @@ var AssetFemale3DCG = [
 						Name: "TopFur",
 						PoseMapping: {
 							Yoked: "Yoked",
+							OverTheHead: "OverTheHead",
+							AllFours: "OverTheHead",
+							Hogtied: "OverTheHead",
 						},
 					},
 					{ Name: "BottomFur", CopyLayerColor: "TopFur", PoseMapping: {} },
