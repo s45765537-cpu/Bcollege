@@ -396,7 +396,7 @@ function CharacterAppearanceAllowForTypes(allowTypes, typeRecord) {
  * @param {Character} C - The character wearing the item
  * @param {AssetLayer} layer - The layer to check visibility for
  * @param {Asset} asset - The asset that the layer belongs to
- * @param {TypeRecord} [typeRecord] - The item's type, if it has one
+ * @param {null | TypeRecord} [typeRecord] - The item's type, if it has one
  * @returns {boolean} - TRUE if the layer should be visible, FALSE otherwise
  */
 function CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord=null) {
