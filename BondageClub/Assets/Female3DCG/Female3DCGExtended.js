@@ -19696,20 +19696,9 @@ var AssetFemale3DCGExtended = {
 	Bra: {
 		Ribbons: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Basic",
-				},
-				{
-					Name: "Bow",
-				},
-				{
-					Name: "Wrap",
-				},
-			],
-			DialogPrefix: {
-				Option: "RibbonBraType",
-				Header: "SelectRibbonStyle",
+			CopyConfig: {
+				AssetName: "Ribbons",
+				GroupName: "ItemBreast",
 			},
 		}, // Ribbons
 		SexyBikini1: {
