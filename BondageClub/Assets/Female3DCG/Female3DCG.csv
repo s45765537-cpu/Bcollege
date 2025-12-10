@@ -1444,6 +1444,7 @@ ItemMouth,Ribbons,Ribbons
 ItemMouth,RingGag,Ring Gag
 ItemMouth,RopeBallGag,Rope Ball Gag
 ItemMouth,RopeGag,Rope Gag
+ItemMouth,RoseBallGag,Rose Ball Gag
 ItemMouth,ScarfGag,Scarf
 ItemMouth,ShoeGag,Shoe Gag
 ItemMouth,Slime,Slime
@@ -1763,6 +1764,7 @@ Necklace,NecklaceButterfly,Butterfly Necklace
 Necklace,NecklaceKey,Key Necklace
 Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
+Necklace,NecklaceRoseBallGag,Rose Ball Gag Necklace
 Necklace,PearlNecklace1,Custom Pearl Necklace
 Necklace,PlantNecklace,Plant Necklace
 Necklace,RosePendant,Rose Pendant

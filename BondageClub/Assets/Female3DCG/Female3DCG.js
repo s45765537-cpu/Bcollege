@@ -5864,6 +5864,18 @@ var AssetFemale3DCG = [
 				ParentGroup: {},
 				Layer: [{ Name: "Vines" }, { Name: "Leaf" }, { Name: "Bud" }],
 			},
+			{
+				Name: "NecklaceRoseBallGag",
+				InventoryID: 1301,
+				Value: -1,
+				Priority: 43,
+				DefaultColor: ["#960000", "#AFAC69", "#202020"],
+				BuyGroup: "RoseBallGag",
+				Left: 150,
+				Top: 10,
+				ParentGroup: "",
+				Layer: [{ Name: "Rose" }, { Name: "Metal" }, { Name: "Straps" }],
+			},
 		],
 		Color: [
 			"Default",
@@ -49751,6 +49763,28 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "RoseBallGag",
+				InventoryID: 1301,
+				Fetish: ["Leather"],
+				Value: 25,
+				Difficulty: 6,
+				Time: 20,
+				AllowLock: true,
+				AllowTighten: true,
+				BuyGroup: "RoseBallGag",
+				Audio: "LeatherCreakWithMetal",
+				Prerequisite: "GagUnique",
+				Hide: ["Mouth"],
+				Effect: [E.BlockMouth, E.GagMedium],
+				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				DefaultColor: ["#960000", "#AFAC69", "#202020"],
+				Layer: [
+					{ Name: "Rose" },
+					{ Name: "Metal" },
+					{ Name: "Straps" },
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -51864,6 +51898,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "CompGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RoseBallGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "RoseBallGag",
 					BuyGroup: true,
 				},
 			},
@@ -54004,6 +54046,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "AOMGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RoseBallGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "RoseBallGag",
 					BuyGroup: true,
 				},
 			},

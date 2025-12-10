@@ -2558,6 +2558,9 @@ ItemMouthQualityHarnessGagBallShine,Ball Shine
 ItemMouthQualityHarnessGagRing,Ring
 ItemMouthQualityHarnessGagStraps,Straps
 ItemMouthQualityHarnessGagMetal,Metal
+ItemMouthRoseBallGagRose,Rose
+ItemMouthRoseBallGagMetal,Metal
+ItemMouthRoseBallGagStraps,Straps
 ItemMouthShoeGagShoe,Shoe
 ItemMouthShoeGagStrap,Strap
 ItemMouthStitchesFakeMouth,Lips
@@ -3123,6 +3126,9 @@ NecklacePearlNecklace1Option3,Choker
 NecklacePlantNecklaceVines,Vines
 NecklacePlantNecklaceLeaf,Leaves
 NecklacePlantNecklaceBud,Flower Bud
+NecklaceNecklaceRoseBallGagRose,Rose
+NecklaceNecklaceRoseBallGagMetal,Metal
+NecklaceNecklaceRoseBallGagStraps,Straps
 NecklaceRosePendantMetal,Metal
 NecklaceRosePendantPetals,Petals
 PantiesBoxerShortsShorts,Shorts
