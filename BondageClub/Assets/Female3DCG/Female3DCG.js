@@ -48781,11 +48781,8 @@ var AssetFemale3DCG = [
 				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["#960000", "#AFAC69", "#202020"],
-				Layer: [
-					{ Name: "Rose" },
-					{ Name: "Metal" },
-					{ Name: "Straps" },
-				],
+				DrawLocks: false,
+				Layer: [{ Name: "Rose" }, { Name: "Metal" }, { Name: "Straps" }],
 			},
 		],
 		Color: [
