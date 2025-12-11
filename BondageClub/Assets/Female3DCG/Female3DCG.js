@@ -3130,10 +3130,8 @@ var AssetFemale3DCG = [
 				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
-					Hogtied: PoseType.Hogtied,
-					AllFours: PoseType.AllFours,
-					KneelingSpread: PoseType.KneelingSpread,
-					OverTheHead: PoseType.OverTheHead,
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
 				},
 				Layer: [
 					{ Name: "Dress", PoseMapping: {}, Priority: 26 },
