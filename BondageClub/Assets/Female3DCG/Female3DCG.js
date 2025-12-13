@@ -3130,10 +3130,8 @@ var AssetFemale3DCG = [
 				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
-					Hogtied: PoseType.Hogtied,
-					AllFours: PoseType.AllFours,
-					KneelingSpread: PoseType.KneelingSpread,
-					OverTheHead: PoseType.OverTheHead,
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
 				},
 				Layer: [
 					{ Name: "Dress", PoseMapping: {}, Priority: 26 },
@@ -39191,7 +39189,6 @@ var AssetFemale3DCG = [
 					"#AAAA80",
 				],
 				SetPose: ["BackElbowTouch"],
-				AllowActivePose: ["LegsOpen", "LegsClosed", "Kneel", "KneelingSpread"],
 				Effect: [E.MergedFingers, E.BlockWardrobe, E.Block],
 				Block: ["ItemHandheld", "ItemHands"],
 				SelfUnlock: false,
@@ -48782,11 +48779,8 @@ var AssetFemale3DCG = [
 				Effect: [E.BlockMouth, E.GagMedium],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				DefaultColor: ["#960000", "#AFAC69", "#202020"],
-				Layer: [
-					{ Name: "Rose" },
-					{ Name: "Metal" },
-					{ Name: "Straps" },
-				],
+				DrawLocks: false,
+				Layer: [{ Name: "Rose" }, { Name: "Metal" }, { Name: "Straps" }],
 			},
 		],
 		Color: [
