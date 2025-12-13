@@ -2759,16 +2759,27 @@ interface ExtendedItemCapsScriptHooksStruct<
 	DataType extends ExtendedItemData<any>,
 	OptionType extends ExtendedItemOption
 > {
+	/** See {@link ExtendedItemScriptHookCallbacks.Init} */
 	Init?: ExtendedItemScriptHookCallbacks.Init<DataType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.Load} */
 	Load?: ExtendedItemScriptHookCallbacks.Load<DataType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.Draw} */
 	Draw?: ExtendedItemScriptHookCallbacks.Draw<DataType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.Click} */
 	Click?: ExtendedItemScriptHookCallbacks.Click<DataType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.Exit} */
 	Exit?: ExtendedItemScriptHookCallbacks.Exit<DataType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.Validate} */
 	Validate?: ExtendedItemScriptHookCallbacks.Validate<DataType, OptionType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.PublishAction} */
 	PublishAction?: ExtendedItemScriptHookCallbacks.PublishAction<DataType, OptionType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.SetOption} */
 	SetOption?: ExtendedItemScriptHookCallbacks.SetOption<DataType, OptionType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.BeforeDraw} */
 	BeforeDraw?: ExtendedItemScriptHookCallbacks.BeforeDraw<DataType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.AfterDraw} */
 	AfterDraw?: ExtendedItemScriptHookCallbacks.AfterDraw<DataType>,
+	/** See {@link ExtendedItemScriptHookCallbacks.ScriptDraw} */
 	ScriptDraw?: ExtendedItemScriptHookCallbacks.ScriptDraw<DataType>,
 }
 
