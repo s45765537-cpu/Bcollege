@@ -509,6 +509,9 @@ var ColorPicker = {
 
 			const isHexColor = CommonIsColor(color);
 			if (opacity !== 1 && isHexColor) {
+				if (color.length === 4) {
+					color = `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`;
+				}
 				color += Math.round(opacity * 255).toString(16).padStart(2, "0");
 			}
 
@@ -940,6 +943,13 @@ var ColorPicker = {
 			const color = value.colorString;
 			hsv = ColorPickerCSSToHSV(color);
 			colorIsHex = CommonIsColor(color, { allowAlpha: true });
+			if (!colorIsHex) {
+				output = color;
+			} else if (color.length === 4) {
+				output = `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`.toUpperCase();
+			} else {
+				output = color.slice(0, 7).toUpperCase();
+			}
 			output = colorIsHex ? color.slice(0, 7).toUpperCase() : color;
 		} else if (value.hsv) {
 			hsv = { ...value.hsv };
