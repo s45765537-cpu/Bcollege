@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-12-10
-* Last recorded PR: [#6058](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6058)
-* Last recorded commit hash: `5882a86594c2782ccf15c06c9ffc228ac0cd7890`
+* Changelog last updated: 2025-12-16
+* Last recorded PR: [#6060](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6060)
+* Last recorded commit hash: `c302343e7ff1c6ad8247737a1c66871bca638f46`
 
 ## [R123]
 
@@ -30,6 +30,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * dDeepLb - Arousal command ([#6008](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6008))
 * Rama - Ensure that altering a layer's opacity also alters those with a matching `ColorIndex` ([#6038](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6038))
 * Rama - Ensure that default colors and opacities can be explicitly passed to `ColorPickerReload()` ([#6045](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6045))
+* Ben987 - Online Rooms - 4 New Backgrounds from Bondage Teacher
 * Ben987 - Migrate www.bondageprojects.com to another hosting
 * Ben987 - Heroky Server architecture update
 * Ben987 - Online Rooms - 5 New Backgrounds from Bondage Teacher
@@ -51,6 +52,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Fix opening the color picker resetting layer opacities if the layers have distinct values ([#6036](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6036))
 * Rama - Fix opacities not being cast to the proper interval before copying ([#6037](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6037))
 * Rama - Fix single color picker clicks failing to correctly set the color ([#6058](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6058))
+* Estsanatlehi - Some quick fixes to the ArmbinderSuit ([#6059](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6059))
+* Estsanatlehi - Fix the puppy job crashing since the merging of the fox tails ([#6060](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6060))
 * Estsanatlehi - Fix player-added locks not being built properly ([#6014](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6014))
 * Estsanatlehi - Fix `/action` not sending as a proper subject-less emote ([#6016](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6016))
 * Estsanatlehi - Fix some reverse activities not showing up ([#6017](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6017))
