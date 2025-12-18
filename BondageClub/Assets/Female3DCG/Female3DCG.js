@@ -3117,7 +3117,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuzzyDress",
 				InventoryID: 149,
-				Gender: "F",
 				Value: 70,
 				Priority: 32,
 				Top: 0,
@@ -3146,7 +3145,6 @@ var AssetFemale3DCG = [
 					},
 					{ Name: "BottomFur", CopyLayerColor: "TopFur", PoseMapping: {} },
 				],
-				Alpha: [{ Group: ["ClothLower"], Masks: [[0, 320, 500, 300]] }],
 			},
 			{
 				Name: "CropTop",
