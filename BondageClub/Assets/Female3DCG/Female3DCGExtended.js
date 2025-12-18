@@ -3285,7 +3285,12 @@ var AssetFemale3DCGExtended = {
 							// b4 - Full bind plus link legs
 							Property: {
 								SetPose: ["BackElbowTouch"],
-								AllowActivePose: ["LegsOpen", "LegsClosed", "Kneel"],
+								AllowActivePose: [
+									"BaseLower",
+									"LegsOpen",
+									"LegsClosed",
+									"Kneel",
+								],
 								Effect: [E.Slow],
 								Difficulty: 9,
 							},
