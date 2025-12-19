@@ -64076,6 +64076,157 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "XFrame",
+				InventoryID: 1302,
+				Value: 200,
+				Audio: "WoodFurniture",
+				Priority: 1,
+				Difficulty: 0,
+				FixedPosition: true,
+				AllowLock: true,
+				DrawLocks: false,
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: 900,
+				},
+				Left: 0,
+				Layer: [
+					{
+						Name: "FrameBaseFloor",
+						ColorGroup: "Frame",
+					},
+					{
+						Name: "FrameBaseBack",
+						ColorGroup: "Frame",
+					},
+					{
+						Name: "FrameBaseFront",
+						CopyLayerColor: "FrameBaseBack",
+					},
+					{
+						Name: "Stains",
+						AllowTypes: {s: 1}
+					},
+					{
+						Name: "FrameRopeTop",
+						AllowTypes: {a: 3}
+					},
+					{
+						Name: "RopeCuffsBack",
+						CopyLayerColor: "FrameRopeTop",
+						AllowTypes: {a: 3}
+					},
+					{
+						Name: "RopeCuffsFront",
+						CopyLayerColor: "FrameRopeTop",
+						AllowTypes: {a: 3},
+						Priority: 29
+					},
+					{
+						Name: "FrameRopeBottom",
+						CopyLayerColor: "FrameRopeTop",
+						AllowTypes: {b: [2, 3, 4]}
+					},
+					{
+						Name: "AnkleRopesBack",
+						CopyLayerColor: "FrameRopeTop",
+						AllowTypes: {b: 2}
+					},
+					{
+						Name: "RopeAnkles",
+						CopyLayerColor: "FrameRopeTop",
+						Priority: 24,
+						AllowTypes: {b: 3}
+					},
+					{
+						Name: "RopeKnees",
+						CopyLayerColor: "FrameRopeTop",
+						Priority: 24,
+						AllowTypes: {b: 3}
+					},
+					{
+						Name: "HipRopes",
+						CopyLayerColor: "FrameRopeTop",
+						AllowTypes: {b: 4},
+						Priority: 24,
+					},
+					{
+						Name: "AnkleRopesFront",
+						CopyLayerColor: "FrameRopeTop",
+						AllowTypes: {b: 2},
+						Priority: 24
+					},
+					{
+						Name: "WaistRope",
+						CopyLayerColor: "FrameRopeTop",
+						AllowTypes: {b: 4},
+						Priority: 17
+					},
+					{
+						Name: "TopCuffsShadow",
+						AllowColorize: false,
+						AllowTypes: {a: 1}
+					},
+					{
+						Name: "BottomCuffsShadow",
+						AllowColorize: false,
+						AllowTypes: {b: 1}
+					},
+					{
+						Name: "TopCuffLoops",
+						ColorGroup: "Metal",
+						AllowTypes: {a: [1, 2]},
+					},
+					{
+						Name: "TopLocks",
+						ColorGroup: "Metal",
+						LockLayer: true,
+						AllowTypes: {a: 1}
+					},
+					{
+						Name: "LowCuffChainLocks",
+						CopyLayerColor: "TopLocks",
+						LockLayer: true,
+						AllowTypes: {a: 2}
+					},
+					{
+						Name: "BottomCuffLoops",
+						CopyLayerColor: "TopCuffLoops",
+						AllowTypes: {b: 1}
+					},
+					{
+						Name: "BottomLocks",
+						CopyLayerColor: "TopLocks",
+						LockLayer: true,
+						AllowTypes: {b: 1}
+					},
+					{
+						Name: "LowCuffChain",
+						CopyLayerColor: "TopChains",
+						AllowTypes: {a: 2}
+					},
+					{
+						Name: "TopChains",
+						ColorGroup: "Metal",
+						AllowTypes: [{a: [1, 2], c: 1}]
+					},
+					{
+						Name: "BottomChains",
+						CopyLayerColor: "TopChains",
+						AllowTypes: [{b:1, c: 1}]
+					},
+					{
+						Name: "BoltsShadow",
+						AllowColorize: false
+					},
+					{
+						Name: "Bolts",
+						ColorGroup: "Metal"
+					}
+				]
+
+			}
 		],
 		Color: [
 			"Default",

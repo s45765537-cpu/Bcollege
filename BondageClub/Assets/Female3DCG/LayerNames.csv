@@ -1553,6 +1553,14 @@ ItemDevicesGiftBoxTopBox,Lid Box
 ItemDevicesGiftBoxTopBoxReflection,Lid Box Reflection 
 ItemDevicesGiftBoxTopRibbon,Lid Ribbon
 ItemDevicesGiftBoxTopRibbonReflection,Lid Ribbon Reflection 
+ItemDevicesXFrameFrameBaseFloor,Floor
+ItemDevicesXFrameFrameBaseBack,Frame
+ItemDevicesXFrameTopCuffLoops,Cuff Loops
+ItemDevicesXFrameTopChains,Chains
+ItemDevicesXFrameTopLocks,Locks
+ItemDevicesXFrameFrameRopeTop,Rope
+ItemDevicesXFrameStains,Stains
+ItemDevicesXFrameBolts,Bolts
 ItemEarsFuturisticEarphonesBand,Band
 ItemEarsFuturisticEarphonesDisplay,Display
 ItemEarsFuturisticEarphonesLock,Lock
