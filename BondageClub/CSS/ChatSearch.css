@@ -1,7 +1,7 @@
 #chat-search-room-grid {
     display: grid;
     grid-template-columns: repeat(3, 15.75em);
-    grid-template-rows: repeat(7, 2.2em);
+    grid-template-rows: repeat(8, 2.2em);
     grid-gap: 0.5em 0.75em;
 
     --tooltip-friends-color: #FFFF88;
