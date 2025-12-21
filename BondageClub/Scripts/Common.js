@@ -2125,66 +2125,48 @@ function CommonTokenize(input, options = {
 /**
  * Formats a duration in ms to a human readable string of days, months, and years.
  * Defaults to showing days.
- * @param {number} ms
+ * @param {number | Date} end
+ * @param {number | Date} start
  * @param {{
- *   includeYears?: boolean;
- *   includeMonths?: boolean;
- *   includeWeeks?: boolean;
- *   includeDays?: boolean;
- *   includeHours?: boolean;
- *   includeMinutes?: boolean;
- *   includeSeconds?: boolean;
+ *   includeYearsMonths?: boolean;
+ *   precision?: number;
  *   showFull?: boolean;
  * }} options
  * @returns {string}
  */
-function CommonFormatDuration(ms, options = {}) {
+function CommonFormatDuration(end, start, options = {}) {
 	const {
-		includeYears = false,
-		includeMonths = false,
-		includeWeeks = false,
-		includeDays = true,
-		includeHours = false,
-		includeMinutes = false,
-		includeSeconds = false,
+		includeYearsMonths = false,
+		precision = 0,
 		showFull = false
 	} = options;
 
 	// Update options, because we're passing them to other function
 	options = {
 		...options,
-		includeYears,
-		includeMonths,
-		includeWeeks,
-		includeDays,
-		includeHours,
-		includeMinutes,
-		includeSeconds,
+		includeYearsMonths,
 	};
 
 	const {
 		y: years,
 		m: months,
-		d: daysLeft,
+		d: days,
 		h: hours,
 		min: minutes,
 		s: seconds,
-	} = CommonGetDateParts(ms, options);
+	} = CommonGetDateParts(new Date(end), new Date(start), options);
 
 	// Weeks extracted from remaining days
-	const weeks = includeWeeks ? Math.floor(daysLeft / 7) : 0;
-	const days = includeWeeks ? daysLeft % 7 : daysLeft;
 	const full = showFull ? "Full" : "";
 
 	/** @type {[string, boolean, number][]} */
 	const pairs = [
-		[InterfaceTextGet("DurationFormatYear" + full), includeYears, years],
-		[InterfaceTextGet("DurationFormatMonth" + full), includeMonths, months],
-		[InterfaceTextGet("DurationFormatWeek" + full), includeWeeks, weeks],
-		[InterfaceTextGet("DurationFormatDay" + full), includeDays, days],
-		[InterfaceTextGet("DurationFormatHour" + full), includeHours, hours],
-		[InterfaceTextGet("DurationFormatMinute" + full), includeMinutes, minutes],
-		[InterfaceTextGet("DurationFormatSecond" + full), includeSeconds, seconds],
+		[InterfaceTextGet("DurationFormatYear" + full), includeYearsMonths, years],
+		[InterfaceTextGet("DurationFormatMonth" + full), includeYearsMonths, months],
+		[InterfaceTextGet("DurationFormatDay" + full), true, days],
+		[InterfaceTextGet("DurationFormatHour" + full), precision > 0, hours],
+		[InterfaceTextGet("DurationFormatMinute" + full), precision > 1, minutes],
+		[InterfaceTextGet("DurationFormatSecond" + full), precision > 2, seconds],
 	]
 		.filter(([, enabled]) => enabled)
 		.map(([label, , value]) => /** @type {[string, boolean, number]} */ ([label, true, value]));
@@ -2195,10 +2177,6 @@ function CommonFormatDuration(ms, options = {}) {
 			CommonStringPartitionReplace(label, { $value$: v }).join('')
 		);
 
-	if (result.length === 0) {
-		return InterfaceTextGet("DurationFormatError");
-	}
-
 	return result.join(InterfaceTextGet("CommaDelimiter"));
 }
 
@@ -2206,80 +2184,54 @@ function CommonFormatDuration(ms, options = {}) {
  * Break duration into real-calendar components (y, m, d, h, min, s),
  * optionally rolling excluded components into the next smaller unit.
  *
- * @param {number} ms
+ * @param {Date} end
+ * @param {Date} start
  * @param {{
- *   includeYears?: boolean,
- *   includeMonths?: boolean,
- *   includeDays?: boolean,
- *   includeHours?: boolean,
- *   includeMinutes?: boolean,
+ *   includeYearsMonths?: boolean,
  * }} options
  */
-function CommonGetDateParts(ms, options = {}) {
+function CommonGetDateParts(end, start, options = {}) {
 	const {
-		includeYears = true,
-		includeMonths = true,
-		includeDays = true,
-		includeHours = true,
-		includeMinutes = true,
+		includeYearsMonths = true,
 	} = options;
 
-	// Base calendar diff with normalization
-	const start = new Date(1970, 0, 1);
-	const end = new Date(start.getTime() + ms);
+	if (start > end) [start, end] = [end, start];
 
-	let y = end.getFullYear() - start.getFullYear();
-	let m = end.getMonth() - start.getMonth();
-	let d = end.getDate() - start.getDate();
-	let h = end.getHours() - start.getHours();
-	let min = end.getMinutes() - start.getMinutes();
-	let s = end.getSeconds() - start.getSeconds();
+	let y, m, d;
 
-	if (s < 0) { s += 60; min--; }
-	if (min < 0) { min += 60; h--; }
-	if (h < 0) { h += 24; d--; }
+	let diff = end.valueOf() - start.valueOf();
 
-	if (d < 0) {
-		const prevMonthDays = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
-		d += prevMonthDays;
-		m--;
-	}
+	if (!includeYearsMonths) {
+		d = Math.floor(diff / 86400000);
+		diff %= 86400000;
+	} else {
+		const mid = new Date(start);
+		mid.setFullYear(end.getFullYear(), end.getMonth(), end.getDate());
+		if (mid > end) mid.setDate(mid.getDate() - 1);
 
-	if (m < 0) { m += 12; y--; }
+		y = mid.getFullYear() - start.getFullYear();
+		m = mid.getMonth() - start.getMonth();
+		d = mid.getDate() - start.getDate();
 
-	// Roll down units when excluded
-	if (!includeYears) {
-		m += y * 12;
-		y = 0;
-	}
-
-	if (!includeMonths) {
-		// Add days from each month being dropped
-		for (let i = 0; i < m; i++) {
-			const monthIndex = (start.getMonth() + i) % 12;
-			const yearOffset = Math.floor((start.getMonth() + i) / 12);
-			const year = start.getFullYear() + yearOffset;
-			d += new Date(year, monthIndex + 1, 0).getDate();
+		if (d < 0) {
+			const prevMonth = new Date(mid);
+			prevMonth.setDate(0);
+			d += prevMonth.getDate();
+			m--;
 		}
-		m = 0;
+		if (m < 0) { m += 12; y--; }
+
+		diff = end.valueOf() - mid.valueOf();
 	}
 
-	if (!includeDays) {
-		h += d * 24;
-		d = 0;
-	}
+	const h = Math.floor(diff / 3600000);
+	diff %= 3600000;
 
-	if (!includeHours) {
-		min += h * 60;
-		h = 0;
-	}
+	const min = Math.floor(diff / 60000);
+	diff %= 60000;
 
-	if (!includeMinutes) {
-		s += min * 60;
-		min = 0;
-	}
+	const s = Math.floor(diff / 1000);
 
-	// Seconds are final, no further collapse
 	return { y, m, d, h, min, s };
 }
 
