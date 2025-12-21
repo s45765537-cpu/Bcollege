@@ -43283,6 +43283,10 @@ var AssetFemale3DCG = [
 						Name: "Laura",
 						AllowTypes: { DawnsDarlings: 2 },
 					},
+					{
+						Name: "Nel",
+						AllowTypes: { NelsStorage: 1 },
+					},
 				],
 			},
 			{
