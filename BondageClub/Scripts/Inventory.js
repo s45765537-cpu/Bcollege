@@ -316,7 +316,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "CuffedArmsOrEmpty": return (InventoryGet(C, "ItemArms") != null && !C.Effect.includes("CuffedArms")) ? "MustFreeArmsFirst" : "";
 		case "CuffedLegsOrEmpty": return (InventoryGet(C, "ItemLegs") != null && !C.Effect.includes("CuffedLegs")) ? "MustFreeLegsFirst" : "";
 		case "CuffedFeetOrEmpty": return (InventoryGet(C, "ItemFeet") != null && !C.Effect.includes("CuffedFeet")) ? "MustFreeFeetFirst" : "";
-		case "NoOuterClothes": return InventoryHasItemInAnyGroup(C, ["Cloth", "ClothLower"]) ? "RemoveClothesForItem" : "";
+		case "NoOuterClothes": return InventoryHasItemInAnyGroup(C, ["Cloth", "ClothLower", "ClothOuter"]) ? "RemoveClothesForItem" : "";
 		case "NoClothLower": return InventoryHasItemInAnyGroup(C, ["ClothLower"]) ? "RemoveClothesForItem" : "";
 		case "NoMaidTray": return InventoryIsItemInList(C, "ItemMisc", ["WoodenMaidTray", "WoodenMaidTrayFull"]) ? "CannotBeUsedWhileServingDrinks" : "";
 		case "CanBeCeilingTethered": return InventoryHasItemInAnyGroup(C, ["ItemArms", "ItemTorso", "ItemTorso2", "ItemPelvis"]) ? "" : "AddItemsToUse";
@@ -346,18 +346,18 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 
 		// Checks for chastity cages, in case of penis protruding items.
 		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage", "ChastityPouch", "Ballspreader"]) ? "MustRemoveChastityCage" : "";
-		case  "NoErection": return C.HasEffect("ForcedErection") ? "MustNotHaveForcedErection" : "";
+		case "NoErection": return C.HasEffect("ForcedErection") ? "MustNotHaveForcedErection" : "";
 
 		// Checks for penis protruding items, to block chastity cages.
 		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", ["HighSecurityStraitJacket"]) ? "MustHaveFullPenisAccess" : "";
 
 		// Checks for torso access based on clothes
-		case "AccessTorso": return !InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth"]) ? "RemoveClothesForItem" : "";
+		case "AccessTorso": return !InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth", "ClothOuter"]) ? "RemoveClothesForItem" : "";
 
 		// Breast items can be blocked by clothes
-		case "AccessBreast": return !InventoryDoItemsExposeGroup(C, "ItemBreast", ["Cloth"]) || !InventoryDoItemsExposeGroup(
+		case "AccessBreast": return !InventoryDoItemsExposeGroup(C, "ItemBreast", ["Cloth", "ClothOuter"]) || !InventoryDoItemsExposeGroup(
 			C, "ItemBreast", ["Bra"]) ? "RemoveClothesForItem" : "";
-		case "AccessBreastSuitZip": return !InventoryDoItemsExposeGroup(C, "ItemNipplesPiercings", ["Cloth"]) || !InventoryDoItemsExposeGroup(
+		case "AccessBreastSuitZip": return !InventoryDoItemsExposeGroup(C, "ItemNipplesPiercings", ["Cloth", "ClothOuter"]) || !InventoryDoItemsExposeGroup(
 			C, "ItemNipplesPiercings", ["Suit"]) ? "UnZipSuitForItem" : "";
 
 		// Vulva/Butt items can be blocked by clothes, panties and some socks, as well as chastity
@@ -378,7 +378,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		}
 
 		case "AccessCrotch":
-			return (InventoryDoItemsBlockGroup(C, "ItemPelvis", ["Cloth", "ClothLower", "Socks"])
+			return (InventoryDoItemsBlockGroup(C, "ItemPelvis", ["Cloth", "ClothLower", "ClothOuter", "Socks"])
 				|| (!InventoryDoItemsExposeGroup(C, "ItemVulva", ["ClothLower", "Panties"])
 				&& !InventoryDoItemsExposeGroup(C, "ItemVulvaPiercings", ["ClothLower", "Panties"])
 				&& !InventoryDoItemsExposeGroup(C, "ItemButt", ["ClothLower", "Panties"])))
