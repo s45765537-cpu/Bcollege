@@ -791,13 +791,6 @@ function InventoryCraftPropertyIs(Item, Property) {
 }
 
 /**
-* Sets the craft and type on the item, uses the achetype properties if possible.
-* Note that appearance changes are _not_ pushed to the server.
-* @deprecated Use {@link InventoryCraft} instead (or use {@link InventoryWear} directly if appropriate)
-*/
-var InventoryWearCraft = /** @type {never} */(function() { return; });
-
-/**
  * Makes the character wear an item on a body area
  * @param {Character} C - The character that must wear the item
  * @param {string} AssetName - The name of the asset to wear

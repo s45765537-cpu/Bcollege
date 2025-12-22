@@ -2379,11 +2379,3 @@ function ChatRoomMapViewPaste(Param) {
 
 }
 
-/**
- * Make sure the whisper target is still valid on the map, and leave whipser mode if needed
- * @deprecated Unused
- * @returns {void} - Nothing
- */
-function ChatRoomMapViewWhisperValid() {
-	// No-oped in R104, automatically handled when a whisper tries to be sent
-}

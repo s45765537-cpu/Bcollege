@@ -212,18 +212,6 @@ function PreferenceSetArousalZone(C, ZoneName, Factor = null, CanOrgasm = null) 
 }
 
 /**
- * Sets the love factor for a specific body zone on the player
- * @param {Character} C - The character, for whom the love factor of a particular zone should be set
- * @param {AssetGroupItemName} ZoneName - The name of the zone, the factor should be set for
- * @param {ArousalFactor} Factor - The factor of the zone (0 is horrible, 2 is normal, 4 is great)
- * @deprecated Use {@link PreferenceSetArousalZone}
- * @returns {void} - Nothing
- */
-function PreferenceSetZoneFactor(C, ZoneName, Factor) {
-	PreferenceSetArousalZone(C, ZoneName, Factor);
-}
-
-/**
  * Determines, if a player can reach on orgasm from a particular zone
  * @param {Character} C - The character whose ability to orgasm we check
  * @param {AssetGroupItemName} ZoneName - The name of the zone to check
@@ -232,18 +220,6 @@ function PreferenceSetZoneFactor(C, ZoneName, Factor) {
 function PreferenceGetZoneOrgasm(C, ZoneName) {
 	const Zone = PreferenceGetArousalZone(C, ZoneName);
 	return !!Zone && !!Zone.Orgasm;
-}
-
-/**
- * Sets the ability to induce an orgasm for a given zone*
- * @param {Character} C - The characterfor whom we set the ability to órgasm from a given zone
- * @param {AssetGroupItemName} ZoneName - The name of the zone to set the ability to orgasm for
- * @param {boolean} CanOrgasm - Sets, if the character can cum from the given zone (true) or not (false)
- * @deprecated Use {@link PreferenceSetArousalZone}
- * @returns {void} - Nothing
- */
-function PreferenceSetZoneOrgasm(C, ZoneName, CanOrgasm) {
-	PreferenceSetArousalZone(C, ZoneName, null, CanOrgasm);
 }
 
 /**
@@ -297,12 +273,6 @@ function PreferenceInitPlayer(C, data) {
 
 	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);
 	C.AudioSettings = ValidationApplyRecord(data.AudioSettings, C, PreferenceAudioSettingsValidate);
-	if (typeof data?.AudioSettings?.PlayBeeps !== "undefined") {
-		// Backward-compatibility for the old checkbox in Audio: we grab that out and force-apply it
-		// to the previously useless notification audio setting for beeps, and since the validation above
-		// removed the value, it wouldn't run anymore.
-		data.NotificationSettings.Beeps.Audio = data.AudioSettings.PlayBeeps ? NotificationAudioType.REPEAT : NotificationAudioType.NONE;
-	}
 
 	// @ts-ignore: Just backward-compat cleanup
 	delete data.ChatSettings?.AutoBanBlackList;
@@ -381,41 +351,22 @@ function PreferenceInitPlayer(C, data) {
 
 	// Convert old version of notification settings
 	let NS = /** @type {Partial<NotificationSettingsType>} */ (data.NotificationSettings ?? {});
-	if (typeof NS.ChatMessage?.IncludeActions === "boolean") {
-		const chatMessagesEnabled = NS.ChatMessage.AlertType !== NotificationAudioType.NONE;
-		NS.ChatMessage.Normal = chatMessagesEnabled;
-		NS.ChatMessage.Whisper = chatMessagesEnabled;
-		NS.ChatMessage.Activity = chatMessagesEnabled && NS.ChatMessage.IncludeActions;
-		delete NS.ChatMessage.IncludeActions;
-	}
-	if (typeof NS.ChatActions !== "undefined") delete NS.ChatActions;
 
-	const defaultAudio = typeof NS.Audio === "boolean" && NS.Audio ? NotificationAudioType.FIRST : NotificationAudioType.NONE;
-	if (typeof NS.Audio !== "undefined") delete NS.Audio;
-
-	if (typeof NS.ChatJoin?.Enabled !== "undefined") {
-		// Convert old version of settings
-		NS.ChatJoin.AlertType = NS.ChatJoin.Enabled ? NotificationAlertType.TITLEPREFIX : NotificationAlertType.NONE;
-		NS.ChatJoin.Audio = NotificationAudioType.NONE;
-		delete NS.ChatJoin.Enabled;
-	}
-	if (typeof NS.Chat !== "undefined") { NS.ChatMessage = NS.Chat; delete NS.Chat; }
-
-	if (typeof NS.Beeps !== "object") NS.Beeps = PreferenceInitNotificationSetting(NS.Beeps, defaultAudio, NotificationAlertType.POPUP);
+	if (typeof NS.Beeps !== "object") NS.Beeps = PreferenceInitNotificationSetting(NS.Beeps, NotificationAudioType.FIRST, NotificationAlertType.POPUP);
 	// @ts-expect-error object gets its missing properties afterwards
 	if (typeof NS.ChatMessage !== "object") NS.ChatMessage = PreferenceInitNotificationSetting(NS.ChatMessage, defaultAudio);
 	if (typeof NS.ChatMessage.Normal !== "boolean") NS.ChatMessage.Normal = true;
 	if (typeof NS.ChatMessage.Whisper !== "boolean") NS.ChatMessage.Whisper = true;
 	if (typeof NS.ChatMessage.Activity !== "boolean") NS.ChatMessage.Activity = false;
 	// @ts-expect-error object gets its missing properties afterwards
-	if (typeof NS.ChatJoin !== "object") NS.ChatJoin = PreferenceInitNotificationSetting(NS.ChatJoin, defaultAudio);
+	if (typeof NS.ChatJoin !== "object") NS.ChatJoin = PreferenceInitNotificationSetting(NS.ChatJoin, NotificationAudioType.FIRST);
 	if (typeof NS.ChatJoin.Owner !== "boolean") NS.ChatJoin.Owner = false;
 	if (typeof NS.ChatJoin.Lovers !== "boolean") NS.ChatJoin.Lovers = false;
 	if (typeof NS.ChatJoin.Friendlist !== "boolean") NS.ChatJoin.Friendlist = false;
 	if (typeof NS.ChatJoin.Subs !== "boolean") NS.ChatJoin.Subs = false;
-	if (typeof NS.Disconnect !== "object") NS.Disconnect = PreferenceInitNotificationSetting(NS.Disconnect, defaultAudio);
-	if (typeof NS.Larp !== "object") NS.Larp = PreferenceInitNotificationSetting(NS.Larp, defaultAudio, NotificationAlertType.NONE);
-	if (typeof NS.Test !== "object") NS.Test = PreferenceInitNotificationSetting(NS.Test, defaultAudio, NotificationAlertType.TITLEPREFIX);
+	if (typeof NS.Disconnect !== "object") NS.Disconnect = PreferenceInitNotificationSetting(NS.Disconnect, NotificationAudioType.FIRST);
+	if (typeof NS.Larp !== "object") NS.Larp = PreferenceInitNotificationSetting(NS.Larp, NotificationAudioType.FIRST, NotificationAlertType.NONE);
+	if (typeof NS.Test !== "object") NS.Test = PreferenceInitNotificationSetting(NS.Test, NotificationAudioType.FIRST, NotificationAlertType.TITLEPREFIX);
 	data.NotificationSettings = /** @type {NotificationSettingsType} */ (NS);
 
 	C.NotificationSettings = ValidationApplyRecord(data.NotificationSettings, C, PreferenceNotificationSettingsValidate);

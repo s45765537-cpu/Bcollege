@@ -1,13 +1,6 @@
 // @ts-strict-ignore
 "use strict";
 
-/** @deprecated - Superseded by `span.dialog-status`. */
-var DialogText = /** @type {never} */("");
-/** @deprecated  - Superseded by `span.dialog-status[data-default]`.*/
-var DialogTextDefault = /** @type {never} */("");
-/** @deprecated  - Superseded by `span.dialog-status[data-timeout-id]`.*/
-var DialogTextDefaultTimer = /** @type {never} */(-1);
-
 /** The duration temporary status message show up for, in ms
  * @type {number}
  */
@@ -75,27 +68,12 @@ var DialogMenuButton = [];
  */
 var DialogMenuMode = null;
 
-/** @deprecated Use {@link DialogMenuMode}. */
-var DialogColor = /** @type {never} */(null);
-/** @deprecated Use {@link DialogMenuMode}. */
-var DialogItemPermissionMode = /** @type {never} */(null);
-/** @deprecated Use {@link DialogMenuMode}.*/
-var DialogItemToLock = /** @type {never} */(null);
-/** @deprecated Use {@link DialogMenuMode}. */
-var DialogActivityMode = /** @type {never} */(false);
-/** @deprecated Use {@link DialogMenuMode}. */
-var DialogLockMenu = /** @type {never} */(false);
-/** @deprecated Use {@link DialogMenuMode}. */
-var DialogCraftingMenu = /** @type {never} */(false);
-
 /**
  * The group that was selected before we entered the expression coloring screen
  * @type {{mode: DialogMenuMode, group: AssetItemGroup}}
  */
 var DialogExpressionPreviousMode = null;
 
-/** @deprecated */
-var DialogFacialExpressions = /** @type {never} */([]);
 var DialogFacialExpressionsSelectedBlindnessLevel = 2;
 var DialogExtendedMessage = "";
 /**
@@ -2542,17 +2520,6 @@ function DialogChangeItemColor(C, Color) {
 }
 
 /**
- * Draw the list of activities
- *
- * @deprecated - See {@link DialogMenuMapping.activities.Load} and {@link DialogMenuMapping.activities.Reload} for the new DOM-based menu
- * @param {Character} C - The character currently focused in the dialog.
- * @returns {void} - Nothing
- */
-function DialogDrawActivityMenu(C) {
-	// Keep around as deprecated no-op
-}
-
-/**
  * Returns the button image name for a dialog menu button based on the button name.
  * @param {DialogMenuButton} ButtonName - The menu button name
  * @param {Item} FocusItem - The focused item
@@ -2592,17 +2559,6 @@ function DialogGetMenuButtonColor(ButtonName) {
  */
 function DialogIsMenuButtonDisabled(ButtonName) {
 	return DialogButtonDisabledTester.test(ButtonName);
-}
-
-/**
- * Draw the list of items
- *
- * @deprecated - See {@link DialogMenuMapping.items.Load} and {@link DialogMenuMapping.items.Reload} for the new DOM-based menu
- * @param {Character} C - The character currently focused in the dialog.
- * @returns {void} - Nothing
- */
-function DialogDrawItemMenu(C) {
-	// Keep around as deprecated no-op
 }
 
 /**
@@ -5671,13 +5627,6 @@ function DialogDraw() {
 	DialogMenuMapping[DialogMenuMode]?.Draw();
 	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Draw();
 }
-
-/**
- * Handles clicks in the dialog expression menu.
- * @deprecated - Superseded by {@link DialogSelfMenuMapping["Expression"]}
- * @returns {void} - Nothing
- */
-function DialogClickExpressionMenu() {}
 
 /**
  * Sets the current character sub menu to the owner rules

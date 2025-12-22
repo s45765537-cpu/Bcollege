@@ -4,11 +4,6 @@
 /** @type {SocketIO.Socket} */
 var ServerSocket = null;
 var ServerURL = "http://localhost:4288";
-/**
- * @type { { Message: string; Timer: number; ChatRoomName?: string | null; IsMail?: boolean; } }
- * @deprecated Use {@link ServerShowBeep} instead.
- */
-var ServerBeep = { Message: "", Timer: 0 };
 /** @type {NotificationBeep[] } */
 var ServerBeepQueue = [];
 var ServerIsConnected = false;
@@ -1077,25 +1072,6 @@ function ServerShowBeep(message, duration, options, title) {
 	TimerCreate(() => {
 		NotificationReset(NotificationEventType.BEEP);
 	}, 0, false, 'foreground');
-}
-
-
-/** Draws the last beep sent by the server if the timer is still valid, used during the drawing process
- * @deprecated
- */
-function ServerDrawBeep() {
-}
-
-/** Handles a click on the beep rectangle if mail is included */
-function ServerClickBeep() {
-}
-
-/**
- * Opens the friendlist from any screen
- * @deprecated Use {@link FriendListShow()};
- */
-async function ServerOpenFriendList() {
-	await FriendListShow();
 }
 
 // TODO: `data: object` -> `data: ServerAccountOwnershipResponse`

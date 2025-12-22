@@ -13097,9 +13097,6 @@ var AssetFemale3DCGExtended = {
 				{},
 				525,
 			),
-			ScriptHooks: {
-				Draw: InventoryItemVulvaLoversVibratorDrawHook,
-			},
 		}, // LoversVibrator
 		FuturisticVibrator: {
 			Archetype: ExtendedArchetype.VIBRATING,

@@ -1071,8 +1071,6 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	/** @deprecated - superseded by {@link ParentGroup} */
-	readonly ParentGroupName?: never;
 	/** An object mapping pose names to group names from which to inherit body sizes. */
 	readonly ParentGroup: ParentGroup.Data;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
@@ -1097,8 +1095,6 @@ interface AssetGroup {
 	readonly Block?: readonly AssetGroupItemName[];
 	readonly Zone?: readonly RectTuple[];
 	readonly SetPose?: readonly AssetPoseName[];
-	/** @deprecated - Superceded by {@link PoseMapping} */
-	readonly AllowPose?: never;
 	readonly PoseMapping: AssetPoseMapping;
 	readonly AllowExpression?: readonly ExpressionName[];
 	readonly Effect: readonly EffectName[];
@@ -1112,8 +1108,6 @@ interface AssetGroup {
 	readonly DrawingTop: TopLeft.Data;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
-	/** @deprecated Use {@link Asset.AllowActivePose} instead */
-	readonly FreezeActivePose?: never;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
 	readonly StyleOverride?: string [];
@@ -1194,16 +1188,8 @@ interface AssetLayer {
 	readonly HideColoring: boolean;
 	/** A record mapping stringified {@link PartialType} values to a set of unique IDs. */
 	readonly AllowTypes: AllowTypes.Data | null;
-	/** @deprecated - superceded by {@link CreateLayerTypes} */
-	readonly HasType?: never;
-	/** @deprecated - superseded by {@link ParentGroup} */
-	readonly ParentGroupName?: never;
 	/** An object mapping pose names to group names from which to inherit body sizes. */
 	readonly ParentGroup: ParentGroup.Data;
-	/** @deprecated - Superceded by {@link PoseMapping} */
-	readonly AllowPose?: never;
-	/** @deprecated - Superceded by {@link PoseMapping} */
-	readonly HideForPose?: never;
 	/** An array of objects mapping poses to other poses to determine their draw folder */
 	readonly PoseMapping: Readonly<AssetPoseMapping>;
 	/** The drawing priority of this layer. Inherited from the parent asset/group if not specified in the layer
@@ -1226,15 +1212,11 @@ interface AssetLayer {
 	readonly TextureMask?: AssetLayerMaskTexureDefinition;
 	readonly LockLayer: boolean;
 	readonly MirrorExpression?: AssetGroupName;
-	/** @deprecated */
-	readonly AllowModuleTypes?: never;
 	/** The coloring index for this layer */
 	readonly ColorIndex: number;
 	/** Any group-specific alpha masks that should be applied when drawing the layer. Only available on layers that have
 	been created prior to drawing */
 	readonly GroupAlpha?: readonly Alpha.Data[];
-	/** @deprecated - Superceded by {@link CreateLayerTypes} */
-	readonly ModuleType?: never;
 	/**
 	 * A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files.
 	 *
@@ -1290,8 +1272,6 @@ interface Asset {
 	readonly Description: string;
 	readonly Group: AssetGroup;
 	readonly ParentItem?: string;
-	/** @deprecated - superseded by {@link ParentGroup} */
-	readonly ParentGroupName?: never;
 	/** An object mapping pose names to group names from which to inherit body sizes. */
 	readonly ParentGroup: ParentGroup.Data;
 	readonly Enable: boolean;
@@ -1325,14 +1305,8 @@ interface Asset {
 				X?: number;
 				Y?: number;
 		}[];
-	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
-	readonly AllowPose?: never;
-	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
-	readonly HideForPose?: never;
 	readonly PoseMapping: Readonly<AssetPoseMapping>;
 	readonly AllowActivePose?: readonly AssetPoseName[];
-	/** @deprecated Use {@link Asset.AllowActivePose} instead */
-	readonly WhitelistActivePose?: never;
 	readonly Value: number;
 	readonly NeverSell: boolean;
 	readonly Difficulty: number;
@@ -1368,8 +1342,6 @@ interface Asset {
 	readonly AllowBlock?: readonly AssetGroupItemName[];
 	readonly AllowHide?: readonly AssetGroupName[];
 	readonly AllowHideItem?: readonly string[];
-	/** @deprecated */
-	readonly AllowTypes?: never;
 	readonly AllowTighten: boolean;
 	/**
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
@@ -1395,23 +1367,11 @@ interface Asset {
 	readonly DynamicGroupName: AssetGroupName;
 	readonly DynamicActivity: (C: Character) => ActivityName | null | undefined;
 	readonly DynamicAudio: ((C: Character) => string) | null;
-	/**
-	 * Whether the asset is restricted to a given character.
-	 *
-	 * When the asset is added to a character, the member number of the character using the
-	 * asset will be stored along in its properties, and all subsequent modifications will
-	 * only be possible for that character.
-	 *
-	 * @deprecated Discontinued in favor of the {@link FamilyOnly}/{@link LoverOnly}/{@link OwnerOnly} trio
-	 */
-	readonly CharacterRestricted?: never;
 	readonly AllowRemoveExclusive: boolean;
 	readonly InheritColor: null | AssetGroupName;
 	readonly DynamicBeforeDraw: boolean;
 	readonly DynamicAfterDraw: boolean;
 	readonly DynamicScriptDraw: boolean;
-	/** @deprecated - superceded by {@link CreateLayerTypes} */
-	readonly HasType?: never;
 	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	readonly CreateLayerTypes: readonly string[];
 	/** A record that maps {@link ExtendedItemData.name} to a set with all option indices that support locks */
@@ -1419,8 +1379,6 @@ interface Asset {
 	readonly AllowColorizeAll: boolean;
 	readonly AvailableLocations: readonly string[];
 	readonly OverrideHeight?: Readonly<AssetOverrideHeight>;
-	/** @deprecated Use {@link Asset.AllowActivePose} instead */
-	readonly FreezeActivePose?: never;
 	readonly DrawLocks: boolean;
 	readonly AllowExpression?: readonly ExpressionName[];
 	readonly MirrorExpression?: AssetGroupName;
@@ -1923,12 +1881,6 @@ interface Character {
 	MustDraw: boolean;
 	BlinkFactor: number;
 	AllowItem: boolean;
-	/** @deprecated - superseded by {@link Character.PermissionItems} */
-	BlockItems?: never;
-	/** @deprecated - superseded by {@link Character.PermissionItems} */
-	FavoriteItems?: never;
-	/** @deprecated - superseded by {@link Character.PermissionItems} */
-	LimitedItems?: never;
 	/** A record with all asset- and type-specific permission settings */
 	PermissionItems: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>;
 	HeightModifier: number;
@@ -2007,10 +1959,6 @@ interface Character {
 	GetLoversNumbers(MembersOnly?: boolean): (number | string)[];
 	/** Returns the lovership data for the character */
 	GetLovership: (MembersOnly?: boolean) => Lovership[];
-	/** @deprecated Use IsLoverOfCharacter() */
-	IsLover: (C: Character) => boolean;
-	/** @deprecated - superseded by {@link Character.PermissionItems} */
-	HiddenItems?: never;
 	HeightRatio: number;
 	HasHiddenItems: boolean;
 	SavedColors: HSVColor[];
@@ -2370,24 +2318,14 @@ interface GenderSettingsType {
 }
 
 interface NotificationSettingsType {
-	/** @deprecated */
-	Audio?: boolean;
 	Beeps: NotificationSetting;
-	/** @deprecated */
-	Chat?: any;
 	ChatMessage: NotificationSetting & {
-		/** @deprecated */
-		IncludeActions?: any;
 		Mention: boolean;
 		Normal: boolean;
 		Whisper: boolean;
 		Activity: boolean;
 	};
-	/** @deprecated */
-	ChatActions?: any;
 	ChatJoin: NotificationSetting & {
-		/** @deprecated */
-		Enabled?: any;
 		Owner: boolean;
 		Lovers: boolean;
 		Friendlist: boolean;
@@ -2421,8 +2359,6 @@ interface RestrictionSettingsType {
 }
 
 interface ImmersionSettingsType {
-	/** @deprecated Removed as it prevents players from having the possibility of using OOC to discuss the scene */
-	BlockGaggedOOC: never;
 	StimulationEvents: boolean;
 	ReturnToChatRoom: boolean;
 	ReturnToChatRoomAdmin: boolean;
@@ -2487,8 +2423,6 @@ interface GameplaySettingsType {
 interface AudioSettingsType {
 	Volume: number;
 	MusicVolume: number;
-	/** @deprecated */
-	PlayBeeps: never;
 	/** Play items sounds in chatrooms */
 	PlayItem: boolean;
 	/** Play sounds only if the player is involved */
@@ -3220,24 +3154,6 @@ interface AssetDefinitionProperties {
 	 * @see {@link Asset.AllowActivePose}
 	 */
 	AllowActivePose?: AssetPoseName[];
-	/**
-	 * A list of allowed poses
-	 * @see {@link Asset.AllowPose}
-	 * @deprecated - Was never actually functional
-	 */
-	AllowPose?: never;
-	/**
-	 * A list of poses
-	 * @see {@link Asset.WhitelistActivePose}
-	 * @deprecated Use {@link ItemProperties.AllowActivePose} instead
-	 */
-	WhitelistActivePose?: never;
-	/**
-	 * A list of poses that should be frozen
-	 * @see {@link Asset.FreezeActivePose}
-	 * @deprecated Use {@link ItemProperties.AllowActivePose} instead
-	 */
-	FreezeActivePose?: never;
 
 	/**
 	 * Whether an item can be unlocked by the player even if they're restrained
@@ -3328,13 +3244,6 @@ interface ItemPropertiesBase {
  * per-item.
  */
 interface ItemPropertiesCustom {
-	/**
-	 * The member number of the player adding the item.
-	 * Only set if the asset is marked as {@link AssetDefinition.CharacterRestricted}.
-	 *
-	 * @deprecated Discontinued in favor of the {@link Asset.FamilyOnly}/{@link Asset.LoverOnly}/{@link Asset.OwnerOnly} trio
-	 */
-	ItemMemberNumber?: never;
 
 	//#region Lock properties
 
@@ -5238,26 +5147,3 @@ interface LayeringDisplay extends Rect {
 }
 
 // #endregion
-
-// #region deprecation
-
-/** @deprecated superseded by {@link PoseAvailable} */
-declare const CharacterItemsHavePoseAvailable: never;
-/** @deprecated superseded by {@link PoseAvailable} */
-declare const InventoryPrerequisiteCanChangeToPose: never;
-/** @deprecated superseded by {@link PoseSetByItems} */
-declare const CharacterItemsHavePose: never;
-/** @deprecated superseded by {@link PoseSetByItems} */
-declare const CharacterDoItemsSetPose: never;
-/** @deprecated superseded by {@link PoseCategoryAvailable} */
-declare const CharacterItemsHavePoseType: never;
-/** @deprecated superseded by {@link PoseRefresh} */
-declare const CharacterLoadPose: never;
-/** @deprecated superseded by {@link PoseToMapping} */
-declare const AssetPoseToMapping: never;
-/** @deprecated superseded by {@link InventoryPrerequisiteConflicts.GagPrerequisite} */
-declare const InventoryPrerequisiteConflictingGags: never;
-/** @deprecated the chat log is now hidden via {@link ChatRoomHideElements}; use {@link ChatRoomShowElements} to unhide it */
-declare const RelogChatLog: never;
-/** @deprecated the chat log is now hidden via {@link ChatRoomHideElements}; use {@link ChatRoomShowElements} to unhide it */
-declare const RelogInputText: never;

@@ -579,7 +579,6 @@ function ManagementReleaseFromOwner(RepChange) {
 
 /**
  * Break ownership by another player
- * @deprecated
  * @returns {void} - Nothing.
  */
 function ManagementBreakOnlineOwnership() {

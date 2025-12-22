@@ -3,11 +3,6 @@
 "use strict";
 /** @type {PlayerCharacter} */
 var Player;
-/**
- * @type {number|string}
- * @deprecated Use the keyboard handler's `event` parameter instead
- */
-var KeyPress = "";
 /** @type {ModuleType} */
 var CurrentModule;
 /** @type {ModuleScreens[CurrentModule]} */
@@ -389,7 +384,6 @@ function CommonResize(load) {
  * @type {MouseEventListener}
  */
 function CommonClick(event) {
-	ServerClickBeep();
 	if (CurrentCharacter == null)
 		CurrentScreenFunctions.Click(event);
 	else
@@ -418,13 +412,6 @@ function CommonTouchActive(X, Y, W, H, TL) {
 	}
 	return false;
 }
-
-/**
- * Catches key presses on the main screen and forwards it to the current screen key down function if it exists, otherwise it sends it to the dialog key down function
- * @deprecated Use GameKeyDown instead
- * @type {KeyboardEventListener}
- */
-function CommonKeyDown(event) { return false; }
 
 /**
  * Calls a basic dynamic function if it exists, for complex functions, use: CommonDynamicFunctionParams
