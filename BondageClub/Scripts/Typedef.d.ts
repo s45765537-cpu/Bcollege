@@ -1055,6 +1055,11 @@ type Prettify<T> = {
   [K in keyof T]: T[K];
 } & unknown;
 
+/**
+ * A type that can be a value or a function returning that value.
+ */
+type Thunk<T> = T | (() => T);
+
 //#region Assets
 
 type IAssetFamily = "Female3DCG";

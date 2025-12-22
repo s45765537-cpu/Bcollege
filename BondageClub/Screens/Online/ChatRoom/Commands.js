@@ -119,7 +119,7 @@ function CommandPrintHelpForSubcommandsArguments(cmd, options, timeout) {
  * @returns {boolean} - true if a command was executed, false otherwise
  */
 function CommandExecute(msg) {
-	const tokens = CommonTokenize(msg, { delimiters: [['"', '"'], ['\'', '\'']] });
+	const tokens = CommonTokenize(msg, { delimiters: [['"', '"']], includeDelimiters: true });
 	let [key, ...parsed] = tokens;
 
 	let commandDepth = 0;
@@ -141,7 +141,7 @@ function CommandExecute(msg) {
 		return false;
 	}
 
-	if (command.every(c => c.PreserveCase === null || c.PreserveCase === false)) {
+	if (command.every(c => !c.PreserveCase)) {
 		parsed = parsed.map(arg => arg.toLowerCase());
 	}
 
@@ -173,7 +173,7 @@ function CommandExecute(msg) {
 			}
 
 			if (depth >= parsedArgs.length) break;
-			const nextCmd = current.Subcommands?.find(c => c.Tag === parsedArgs[depth]);
+			const nextCmd = CommonUnwrapThunk(current.Subcommands)?.find(c => c.Tag === parsedArgs[depth]);
 			if (!nextCmd) break;
 
 			current = nextCmd;
@@ -260,7 +260,7 @@ function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
 
 	if (parts[0] !== CommandsKey + current.Tag) return CommandChangeChatInputContent(CommandsKey + current.Tag + ' ');
 
-	const sub = current.Subcommands?.find(s => s.Tag === forward[depth]);
+	const sub = CommonUnwrapThunk(current.Subcommands)?.find(s => s.Tag === forward[depth]);
 	if (sub) {
 		current = CommandResolveReference(sub);
 	}
@@ -323,7 +323,7 @@ function CommandResolveReference(cmd) {
  * @returns {boolean} if completion was handled
  */
 function CommandHandleSubcommandCompletion(cmd, remaining, parts, options) {
-	const candidates = cmd.Subcommands.filter(s =>
+	const candidates = CommonUnwrapThunk(cmd.Subcommands).filter(s =>
 		(!s.Prerequisite || s.Prerequisite()) &&
 		(!remaining[0] || s.Tag.startsWith(remaining[0]))
 	);
@@ -572,12 +572,13 @@ var CommandsHelp = {
 	*/
 	_BuildCommand(command, setCommand, singleCommand) {
 		const description = this._GetDescription(command);
-		const hasSubcommands = Array.isArray(command.Subcommands) && command.Subcommands.length > 0;
+		const subcommands = CommonUnwrapThunk(command.Subcommands);
+		const hasSubcommands = Array.isArray(subcommands) && subcommands.length > 0;
 		const hasArguments = Array.isArray(command.Arguments) && command.Arguments.length > 0;
 		const expandDisabled = !hasSubcommands && !hasArguments;
 
 		/** @param {ArgumentDef} argDef */
-		const args = (argDef) => hasArguments && argDef.suggestions ? Array.isArray(argDef.suggestions) ? argDef.suggestions : argDef.suggestions() : [];
+		const args = (argDef) => hasArguments && argDef.suggestions ? CommonUnwrapThunk(argDef.suggestions) : [];
 
 		/**
 		 * @param {string} title
@@ -602,12 +603,12 @@ var CommandsHelp = {
 			tag: "section",
 			classList: ["commands-command-section"],
 			children: [
-				buildSectionHeader("Subcommands:", command.Subcommands.length > 0),
+				buildSectionHeader("Subcommands:", subcommands.length > 0),
 				{
 					tag: "article",
 					classList: ["commands-command-subcommands"],
 					children: [
-						...command.Subcommands.map(s => this._BuildCommand(s, `${setCommand} ${s.Tag}`, false)),],
+						...subcommands.map(s => this._BuildCommand(s, `${setCommand} ${s.Tag}`, false)),],
 				},
 			],
 		});
@@ -631,17 +632,17 @@ var CommandsHelp = {
 								children: [
 									...args(arg).flatMap((hint, i, hints) => {
 										const btn = ElementButton.Create(
-											`commands-command-argument-hint-${setCommand}`,
+											`commands-command-argument-hint-${setCommand}-${hint}`,
 											() => CommandSet(`${setCommand} ${hint}`),
 											{
-												label: this._GetArgumentTranslated(hint),
+												label: hint,
 												labelPosition: "center",
 												noStyling: true,
 											},
 											{
 												button: {
 													classList: ["commands-button", "commands-command-argument"],
-													attributes: { "aria-label": `Run ${setCommand} command` },
+													attributes: { "aria-label": `Run ${setCommand} ${hint} command` },
 												}
 											}
 										);
