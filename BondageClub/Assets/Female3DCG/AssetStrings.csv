@@ -6036,6 +6036,11 @@ ItemVulvaDoubleEndDildoNormal,Normal Size
 ItemVulvaDoubleEndDildoSelect,Select the size of the double ended dildo.
 ItemVulvaDoubleEndDildoSetLarge,DestinationCharacterName AssetName grows to it's large size.
 ItemVulvaDoubleEndDildoSetNormal,DestinationCharacterName AssetName shrinks down to it's normal size.
+ItemVulvaMysteryBoxClosed,Closed
+ItemVulvaMysteryBoxOpen,Open
+ItemVulvaMysteryBoxSetClosed,SourceCharacter replaces the lid on DestinationCharacter box and ties the bow.
+ItemVulvaMysteryBoxSetOpen,SourceCharacter unties DestinationCharacter bow and removes the lid.
+ItemVulvaMysteryBoxSelect,Choose the state of the box.
 ItemVulvaPiercingsRoundClitPiercingBell,Bell
 ItemVulvaPiercingsRoundClitPiercingChain,Chain
 ItemVulvaPiercingsRoundClitPiercingHaremChain,Harem Chains

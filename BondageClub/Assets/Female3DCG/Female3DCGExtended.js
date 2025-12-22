@@ -13144,6 +13144,39 @@ var AssetFemale3DCGExtended = {
 		LatexNulge: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // Latex Nulge
+		MysteryBox: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Closed",
+					Property: {
+						Block: [
+							"ItemPelvis",
+							"ItemVulvaPiercings",
+						],
+						Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
+						HideItem: [
+							"ItemVulvaVibratingLatexPanties",
+							"ItemVulvaVibratingDildo",
+							"ItemVulvaInflatableVibeDildo",
+							"ItemVulvaClitSuctionCup",
+							"ItemVulvaTapeStrips",
+							"ItemVulvaBenWaBalls",
+							"ItemVulvaHeavyWeightClamp",
+							"ItemVulvaShockDildo",
+						],
+					},
+				},
+				{
+					Name: "Open",
+					Property: {
+						Block: [],
+						HideItem: [],
+					},
+				},
+			],
+		}, // MysteryBox
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
