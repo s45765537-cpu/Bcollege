@@ -2057,11 +2057,33 @@ function CommonTokenize(input, options = {
 	includeDelimiters: false,
 	trimTrailingSpaces: true
 }) {
-	const tokens = [];
+	let tokens = [];
 	let buffer = '';
 	let inDelimiter = false;
 	let currentDelimiterPair = null;
 	let escapeNext = false;
+
+	function hasUnescapedClosing(startIndex, closeChar) {
+		let escaped = false;
+
+		for (let i = startIndex; i < input.length; i++) {
+			const c = input[i];
+
+			if (escaped) {
+				escaped = false;
+				continue;
+			}
+
+			if (c === '\\') {
+				escaped = true;
+				continue;
+			}
+
+			if (c === closeChar) return true;
+		}
+
+		return false;
+	}
 
 	for (let i = 0; i < input.length; i++) {
 		const char = input[i];
@@ -2069,54 +2091,64 @@ function CommonTokenize(input, options = {
 		if (escapeNext) {
 			buffer += char;
 			escapeNext = false;
-		} else if (char === '\\') {
+			continue;
+		}
+
+		if (char === '\\') {
 			escapeNext = true;
-		} else if (!inDelimiter) {
-			const delimiterPair = options.delimiters?.find(([first]) => first === char);
+			continue;
+		}
+
+		if (!inDelimiter) {
+			const delimiterPair = options.delimiters?.find(([open, close]) => {
+				if (open !== char) return false;
+				return hasUnescapedClosing(i + 1, close); // ✅ FIXED
+			});
 
 			if (delimiterPair) {
-				if (buffer.length > 0) {
+				if (buffer.length) {
 					tokens.push(buffer);
 					buffer = '';
 				}
 
-				if (options.includeDelimiters) {
-					buffer += char;
-				}
+				if (options.includeDelimiters) buffer += char;
 
 				inDelimiter = true;
 				currentDelimiterPair = delimiterPair;
-			} else if (char === ' ') {
-				if (buffer.length > 0) {
+				continue;
+			}
+
+			if (char === ' ') {
+				if (buffer.length) {
 					tokens.push(buffer);
 					buffer = '';
 				}
-			} else {
-				buffer += char;
+				continue;
 			}
-		} else if (inDelimiter) {
-			if (char === currentDelimiterPair[1]) {
-				if (options.includeDelimiters) {
-					buffer += char;
-				}
 
-				tokens.push(buffer);
-				buffer = '';
-				inDelimiter = false;
-				currentDelimiterPair = null;
-			} else {
-				buffer += char;
-			}
+			buffer += char;
+			continue;
 		}
+
+		// inside delimiter
+		if (char === currentDelimiterPair[1]) {
+			if (options.includeDelimiters) buffer += char;
+
+			tokens.push(buffer);
+			buffer = '';
+			inDelimiter = false;
+			currentDelimiterPair = null;
+			continue;
+		}
+
+		buffer += char;
 	}
 
-	if (buffer.length > 0) {
-		tokens.push(buffer);
-		buffer = '';
-	}
+	if (escapeNext) buffer += '\\';
+	if (buffer.length) tokens.push(buffer);
 
 	if (options.trimTrailingSpaces) {
-		tokens.map(token => token.trim()).filter(token => token.length > 0);
+		tokens = tokens.map(t => t.trim()).filter(Boolean);
 	}
 
 	return tokens;
@@ -2338,4 +2370,15 @@ function CommonStringSplice(string, index, value, defaultValue) {
 		string = string + defaultValue.repeat(Math.ceil((index - string.length) / defaultValue.length));
 	}
 	return string.substring(0, index) + value + string.substring(index + value.length);
+}
+
+/**
+ * Unwraps a thunk into a value
+ *
+ * @template T
+ * @param {Thunk<T>} thunk
+ * @returns {T}
+ */
+function CommonUnwrapThunk(thunk) {
+	return typeof thunk === "function" ? /** @type {() => T} */ (thunk)() : thunk;
 }
