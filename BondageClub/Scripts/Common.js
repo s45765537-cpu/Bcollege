@@ -2128,45 +2128,64 @@ function CommonTokenize(input, options = {
  * @param {number | Date} end
  * @param {number | Date} start
  * @param {{
- *   includeYearsMonths?: boolean;
- *   precision?: number;
+ *   includeYears?: boolean;
+ *   includeMonths?: boolean;
+ *   includeWeeks?: boolean;
+ *   includeDays?: boolean;
+ *   includeHours?: boolean;
+ *   includeMinutes?: boolean;
+ *   includeSeconds?: boolean;
  *   showFull?: boolean;
  * }} options
  * @returns {string}
  */
-function CommonFormatDuration(end, start, options = {}) {
+function CommonFormatDurationRange(end, start, options = {}) {
 	const {
-		includeYearsMonths = false,
-		precision = 0,
+		includeYears = false,
+		includeMonths = false,
+		includeWeeks = false,
+		includeDays = true,
+		includeHours = false,
+		includeMinutes = false,
+		includeSeconds = false,
 		showFull = false
 	} = options;
 
 	// Update options, because we're passing them to other function
 	options = {
 		...options,
-		includeYearsMonths,
+		includeYears,
+		includeMonths,
+		includeWeeks,
+		includeDays,
+		includeHours,
+		includeMinutes,
+		includeSeconds,
 	};
 
 	const {
 		y: years,
 		m: months,
-		d: days,
+		d: daysLeft,
 		h: hours,
 		min: minutes,
 		s: seconds,
-	} = CommonGetDateParts(new Date(end), new Date(start), options);
+	} = CommonGetDatePartsRange(new Date(end), new Date(start), options);
 
 	// Weeks extracted from remaining days
+	const weeks = includeWeeks ? Math.floor(daysLeft / 7) : 0;
+	const days = includeWeeks ? daysLeft % 7 : daysLeft;
 	const full = showFull ? "Full" : "";
 
 	/** @type {[string, boolean, number][]} */
 	const pairs = [
-		[InterfaceTextGet("DurationFormatYear" + full), includeYearsMonths, years],
-		[InterfaceTextGet("DurationFormatMonth" + full), includeYearsMonths, months],
-		[InterfaceTextGet("DurationFormatDay" + full), true, days],
-		[InterfaceTextGet("DurationFormatHour" + full), precision > 0, hours],
-		[InterfaceTextGet("DurationFormatMinute" + full), precision > 1, minutes],
-		[InterfaceTextGet("DurationFormatSecond" + full), precision > 2, seconds],
+		[InterfaceTextGet("DurationFormatYear" + full), includeYears, years],
+		[InterfaceTextGet("DurationFormatMonth" + full), includeMonths, months],
+		[InterfaceTextGet("DurationFormatWeek" + full), includeWeeks, weeks],
+		[InterfaceTextGet("DurationFormatDay" + full), includeDays, days],
+		[InterfaceTextGet("DurationFormatHour" + full), includeHours, hours],
+		[InterfaceTextGet("DurationFormatMinute" + full), includeMinutes, minutes],
+		[InterfaceTextGet("DurationFormatSecond" + full), includeSeconds, seconds],
 	]
 		.filter(([, enabled]) => enabled)
 		.map(([label, , value]) => /** @type {[string, boolean, number]} */ ([label, true, value]));
@@ -2177,7 +2196,32 @@ function CommonFormatDuration(end, start, options = {}) {
 			CommonStringPartitionReplace(label, { $value$: v }).join('')
 		);
 
+	if (result.length === 0) {
+		return InterfaceTextGet("DurationFormatError");
+	}
+
 	return result.join(InterfaceTextGet("CommaDelimiter"));
+}
+
+/**
+ * Formats a duration in ms to a human readable string of days, months, and years.
+ * Defaults to showing days.
+ * @deprecated Use CommonFormatDurationRange instead
+ * @param {number} ms
+ * @param {{
+ *   includeYears?: boolean;
+ *   includeMonths?: boolean;
+ *   includeWeeks?: boolean;
+ *   includeDays?: boolean;
+ *   includeHours?: boolean;
+ *   includeMinutes?: boolean;
+ *   includeSeconds?: boolean;
+ *   showFull?: boolean;
+ * }} options
+ * @returns {string}
+ */
+function CommonFormatDuration(ms, options = {}) {
+	return CommonFormatDurationRange(new Date(ms), new Date(0), options);
 }
 
 /**
@@ -2187,24 +2231,30 @@ function CommonFormatDuration(end, start, options = {}) {
  * @param {Date} end
  * @param {Date} start
  * @param {{
- *   includeYearsMonths?: boolean,
+ *   includeYears?: boolean,
+ *   includeMonths?: boolean,
+ *   includeDays?: boolean,
+ *   includeHours?: boolean,
+ *   includeMinutes?: boolean,
  * }} options
  */
-function CommonGetDateParts(end, start, options = {}) {
+function CommonGetDatePartsRange(end, start, options = {}) {
 	const {
-		includeYearsMonths = true,
+		includeYears = true,
+		includeMonths = true,
+		includeDays = true,
+		includeHours = true,
+		includeMinutes = true,
 	} = options;
 
 	if (start > end) [start, end] = [end, start];
 
-	let y, m, d;
+	let y = 0, m = 0, d = 0, h = 0, min = 0;
 
 	let diff = end.valueOf() - start.valueOf();
 
-	if (!includeYearsMonths) {
-		d = Math.floor(diff / 86400000);
-		diff %= 86400000;
-	} else {
+	// Note: this assumes if includeYears or includeMonths is true then includeDays is also true, and if includeYears is true then includeMonths is also true
+	if (includeYears || includeMonths) {
 		const mid = new Date(start);
 		mid.setFullYear(end.getFullYear(), end.getMonth(), end.getDate());
 		if (mid > end) mid.setDate(mid.getDate() - 1);
@@ -2221,18 +2271,45 @@ function CommonGetDateParts(end, start, options = {}) {
 		}
 		if (m < 0) { m += 12; y--; }
 
+		if (!includeYears) { m += 12 * y; y = 0; }
+
 		diff = end.valueOf() - mid.valueOf();
+	} else if (includeDays) {
+		d = Math.floor(diff / 86400000);
+		diff %= 86400000;
 	}
 
-	const h = Math.floor(diff / 3600000);
-	diff %= 3600000;
+	if (includeHours) {
+		h = Math.floor(diff / 3600000);
+		diff %= 3600000;
+	}
 
-	const min = Math.floor(diff / 60000);
-	diff %= 60000;
+	if (includeMinutes) {
+		min = Math.floor(diff / 60000);
+		diff %= 60000;
+	}
 
 	const s = Math.floor(diff / 1000);
 
 	return { y, m, d, h, min, s };
+}
+
+/**
+ * Break duration into real-calendar components (y, m, d, h, min, s),
+ * optionally rolling excluded components into the next smaller unit.
+ *
+ * @deprecated Use CommonGetDatePartsRange instead.
+ * @param {number} ms
+ * @param {{
+ *   includeYears?: boolean,
+ *   includeMonths?: boolean,
+ *   includeDays?: boolean,
+ *   includeHours?: boolean,
+ *   includeMinutes?: boolean,
+ * }} options
+ */
+function CommonGetDateParts(ms, options = {}) {
+	return CommonGetDatePartsRange(new Date(ms), new Date(0), options);
 }
 
 /**

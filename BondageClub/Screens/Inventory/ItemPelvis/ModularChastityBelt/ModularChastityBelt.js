@@ -39,9 +39,9 @@ function InventoryItemPelvisModularChastityBeltDrawBase(_offset)
 	DrawText(AssetTextGet("ModularChastityBeltTimeWorn") + ":", 1320, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(AssetTextGet("ModularChastityBeltTimeSinceLastOrgasm") + ":", 1320, 550 + 1*75 + _offset, "White", "Gray");
 
-	const opts = { includeYearsMonths: true };
-	const timeWorn = CommonFormatDuration(CommonTime(), DialogFocusItem.Property.TimeWorn, opts);
-	const timeSinceLastOrgasm = CommonFormatDuration(CommonTime(), DialogFocusItem.Property.TimeSinceLastOrgasm, opts);
+	const opts = { includeYears: true, includeMonths: true, includeDays: true };
+	const timeWorn = CommonFormatDurationRange(CommonTime(), DialogFocusItem.Property.TimeWorn, opts);
+	const timeSinceLastOrgasm = CommonFormatDurationRange(CommonTime(), DialogFocusItem.Property.TimeSinceLastOrgasm, opts);
 
 	DrawText(timeWorn, 1655, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(timeSinceLastOrgasm, 1655, 550 + 1*75 + _offset, "White", "Gray");

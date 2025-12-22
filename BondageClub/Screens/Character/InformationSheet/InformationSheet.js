@@ -104,7 +104,7 @@ function InformationSheetRun() {
 
 	if ((C.IsPlayer() || C.IsOnline()) && C.Creation !== null) {
 		const memberLabel = TextGet(C.IsBirthday() ? "Birthday" : "MemberFor");
-		const creationFormatted = CommonFormatDuration(CurrentTime, C.Creation, { showFull: true, includeYearsMonths: true });
+		const creationFormatted = CommonFormatDurationRange(CurrentTime, C.Creation, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
 		const memberForLabel = `${memberLabel} ${creationFormatted}`;
 		DrawTextFit(memberForLabel, 550, currentY, 450, (C.IsBirthday() ? "Blue" : "Black"), "Gray");
 		const y = currentY;
@@ -113,7 +113,7 @@ function InformationSheetRun() {
 				dateStyle: "medium",
 				timeStyle: "short",
 			});
-			const createdDayDuration = CommonFormatDuration(CurrentTime, C.Creation, { showFull: true });
+			const createdDayDuration = CommonFormatDurationRange(CurrentTime, C.Creation, { showFull: true });
 
 			DrawHoverElements.push(() => {
 				DrawButtonHover(550, y - 20, 450, 40, `${createdDate} – ${createdDayDuration}`);
@@ -129,7 +129,7 @@ function InformationSheetRun() {
 	} else if (C.IsNpc()) {
 		const friendshipDate = NPCEventGet(C, "PrivateRoomEntry");
 
-		const friendshipDurationFormatted = CommonFormatDuration(CurrentTime, friendshipDate, { showFull: true, includeYearsMonths: true });
+		const friendshipDurationFormatted = CommonFormatDurationRange(CurrentTime, friendshipDate, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
 		const friendsFor = `${TextGet("FriendsFor")} ${friendshipDurationFormatted}`;
 		DrawTextFit(friendsFor, 550, currentY, 450, "Black", "Gray");
 		const y = currentY;
@@ -138,7 +138,7 @@ function InformationSheetRun() {
 				dateStyle: "medium",
 				timeStyle: "short",
 			});
-			const friendshipDayDuration = CommonFormatDuration(CurrentTime, friendshipDate, { showFull: true });
+			const friendshipDayDuration = CommonFormatDurationRange(CurrentTime, friendshipDate, { showFull: true });
 			DrawHoverElements.push(() => {
 				DrawButtonHover(550, y - 20, 450, 40, `${friendshipStartDate} — ${friendshipDayDuration}`);
 			});
@@ -191,7 +191,7 @@ function InformationSheetRun() {
 			DrawTextFit(ownerStageLabel, 550, currentY, 450, "Black", "Gray");
 			currentY += spacing;
 			if (C.OwnedSinceMs() > 0) {
-				const ownedDurationFormatted = CommonFormatDuration(CurrentTime, ownedDate, { showFull: true, includeYearsMonths: true });
+				const ownedDurationFormatted = CommonFormatDurationRange(CurrentTime, ownedDate, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
 				const ownerDurationLabel = `${TextGet("For")} ${ownedDurationFormatted}`;
 				DrawTextFit(ownerDurationLabel, 550, currentY, 450, "Black", "Gray");
 				const y = currentY;
@@ -200,7 +200,7 @@ function InformationSheetRun() {
 						dateStyle: "medium",
 						timeStyle: "short",
 					});
-					const ownedDayDuration = CommonFormatDuration(CurrentTime, ownedDate, { showFull: true });
+					const ownedDayDuration = CommonFormatDurationRange(CurrentTime, ownedDate, { showFull: true });
 					DrawHoverElements.push(() => {
 						DrawButtonHover(550, y - 20, 450, 40, `${ownedStartDate} — ${ownedDayDuration}`);
 					});
@@ -257,7 +257,7 @@ function InformationSheetRun() {
 			const stageText = stageQualifier[lover.Stage];
 			const relationStageLabel = `${TextGet(`${stageText}With`)} ${lover.Name}${lover.MemberNumber ? ` (${lover.MemberNumber})` : ""}`;
 			DrawTextFit(relationStageLabel, 1200, 200 + L * 150, 600, "Black", "Gray");
-			const relationDurationLabel = `${TextGet("For")} ${CommonFormatDuration(CurrentTime, lover.Start, { showFull: true, includeYearsMonths: true })}`;
+			const relationDurationLabel = `${TextGet("For")} ${CommonFormatDurationRange(CurrentTime, lover.Start, { showFull: true, includeYears: true, includeMonths: true, includeDays: true })}`;
 			DrawTextFit(relationDurationLabel, 1200, 260 + L * 150, 600, "Black", "Gray");
 			const hoverY = 260 + L * 150 - 20;
 			if (MouseIn(1200, hoverY, 600, 40)) {
@@ -265,7 +265,7 @@ function InformationSheetRun() {
 					dateStyle: "medium",
 					timeStyle: "short",
 				});
-				const relationDurationLabelShort = CommonFormatDuration(CurrentTime, lover.Start, { showFull: true });
+				const relationDurationLabelShort = CommonFormatDurationRange(CurrentTime, lover.Start, { showFull: true });
 
 				DrawHoverElements.push(() => {
 					DrawButtonHover(1200, hoverY, 450, 40, `${relationStartDate} – ${relationDurationLabelShort}`);
@@ -292,7 +292,7 @@ function InformationSheetRun() {
 			const loverStageLabel = `${TextGet(`${stageText}With`)} ${C.LoverName()}`;
 			DrawText(loverStageLabel, 550, currentY, "Black", "Gray");
 			currentY += spacing;
-			const loverDurationLabel = `${TextGet("For")} ${CommonFormatDuration(CurrentTime,  playerLove.Start, { showFull: true, includeYearsMonths: true })}`;
+			const loverDurationLabel = `${TextGet("For")} ${CommonFormatDurationRange(CurrentTime,  playerLove.Start, { showFull: true, includeYears: true, includeMonths: true, includeDays: true })}`;
 			DrawText(loverDurationLabel, 550, currentY, "Black", "Gray");
 			const y = currentY - 20;
 			if (MouseIn(550, y, 450, 40))
@@ -301,7 +301,7 @@ function InformationSheetRun() {
 						dateStyle: "medium",
 						timeStyle: "short",
 					});
-					const loverDurationTooltip = `${loverStartDate} – ${CommonFormatDuration(CurrentTime, playerLove.Start, { showFull: true })}`;
+					const loverDurationTooltip = `${loverStartDate} – ${CommonFormatDurationRange(CurrentTime, playerLove.Start, { showFull: true })}`;
 					DrawButtonHover(550, y, 450, 40, loverDurationTooltip);
 				});
 			currentY += spacing;
@@ -317,7 +317,7 @@ function InformationSheetRun() {
 			const ownedByLabel = `${TextGet(`${stageText}By`)} ${C.OwnerName()}`;
 			DrawText(ownedByLabel, 550, currentY, "Black", "Gray");
 			currentY += spacing;
-			const ownedDurationFormatted = CommonFormatDuration(CurrentTime, ownedDate, { showFull: true, includeYearsMonths: true });
+			const ownedDurationFormatted = CommonFormatDurationRange(CurrentTime, ownedDate, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
 			const ownedStageLabel = `${TextGet(`For`)} ${ownedDurationFormatted}`;
 			DrawText(ownedStageLabel, 550, currentY, "Black", "Gray");
 			const y = currentY - 20;
@@ -326,7 +326,7 @@ function InformationSheetRun() {
 					dateStyle: "medium",
 					timeStyle: "short",
 				});
-				const ownedDayDuration = CommonFormatDuration(CurrentTime, ownedDate, { showFull: true });
+				const ownedDayDuration = CommonFormatDurationRange(CurrentTime, ownedDate, { showFull: true });
 				DrawHoverElements.push(() => {
 					DrawButtonHover(550, y, 450, 40, `${ownedStartDate} – ${ownedDayDuration}`);
 				});
