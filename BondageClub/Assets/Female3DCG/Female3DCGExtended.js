@@ -22259,6 +22259,21 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "NelsStorage",
+					Key: "NelsStorage",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Nel
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Nel.png" },
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,

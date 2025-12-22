@@ -8048,6 +8048,12 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
+ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
+ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
+ItemHandheldPlushieOptionNelsStorage0,None
+ItemHandheldPlushieSetVagrants0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage1,Nel
+ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
