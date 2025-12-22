@@ -64111,7 +64111,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "XFrame",
-				InventoryID: 1302,
+				InventoryID: 1303,
 				Value: 200,
 				Audio: "WoodFurniture",
 				Priority: 1,
