@@ -3946,8 +3946,8 @@ ItemDevicesXFrameSelectLegRestraint,Select Leg Restraints
 ItemDevicesXFrameSelectChains,Select Chains
 ItemDevicesXFrameSelectWaistRope,Select Waist Rope
 ItemDevicesXFrameSelectStains,Select Stains
-ItemDevicesXFrameModuleArmRestraint,Arm Restraints,
-ItemDevicesXFrameModuleLegRestraint,Leg Restraints,
+ItemDevicesXFrameModuleArmRestraint,Arm Restraints
+ItemDevicesXFrameModuleLegRestraint,Leg Restraints
 ItemDevicesXFrameModuleChains,Chains
 ItemDevicesXFrameModuleWaistRope,Waist Rope
 ItemDevicesXFrameModuleStains,Stains

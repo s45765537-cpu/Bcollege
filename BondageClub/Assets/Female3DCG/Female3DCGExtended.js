@@ -13148,10 +13148,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Closed",
 					Property: {
-						Block: [
-							"ItemPelvis",
-							"ItemVulvaPiercings",
-						],
+						Block: ["ItemPelvis", "ItemVulvaPiercings"],
 						Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
 						HideItem: [
 							"ItemVulvaVibratingLatexPanties",

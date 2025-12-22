@@ -29023,10 +29023,14 @@ var AssetFemale3DCG = [
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
 				Layer: [
-					{ Name: "Box", AllowTypes: { typed: 0 },},
-					{ Name: "Box2", AllowTypes: { typed: 1 }, CopyLayerColor: "Box",},
-					{ Name: "Ribbons", AllowTypes: { typed: 0 },},
-					{ Name: "Ribbons2", AllowTypes: { typed: 1 }, CopyLayerColor: "Ribbons",},
+					{ Name: "Box", AllowTypes: { typed: 0 } },
+					{ Name: "Box2", AllowTypes: { typed: 1 }, CopyLayerColor: "Box" },
+					{ Name: "Ribbons", AllowTypes: { typed: 0 } },
+					{
+						Name: "Ribbons2",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Ribbons",
+					},
 				],
 			},
 		],
