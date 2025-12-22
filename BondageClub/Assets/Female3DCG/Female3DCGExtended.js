@@ -12478,6 +12478,95 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //GiftBox
+		XFrame: {
+			Archetype: ExtendedArchetype.MODULAR,
+
+			Modules: [
+				{
+					Name: "ArmRestraint",
+					Key: "a",
+					Options: [
+						{}, // a0 - None
+						{
+							Prerequisite: "CuffedArms",
+							Property: {
+								SetPose: ["OverTheHead"],
+								Difficulty: 9,
+								Effect: [E.Block, E.Mounted, E.Freeze],
+							},
+						}, // a1 - Cuff Links
+						{
+							Prerequisite: "CuffedArms",
+							Property: {
+								SetPose: ["Yoked"],
+								Difficulty: 9,
+								Effect: [E.Block, E.Mounted, E.Freeze],
+							},
+						}, // a2 - Low Cuff Chain
+						{
+							Property: {
+								SetPose: ["OverTheHead"],
+								Difficulty: 9,
+								Effect: [E.Block, E.Mounted, E.Freeze],
+							},
+						}, // a3 Rope Ties
+					],
+				},
+				{
+					Name: "LegRestraint",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								AllowActivePose: ["BaseLower", "LegsClosed"],
+							},
+						}, // b0 None
+						{
+							Prerequisite: "CuffedFeet",
+							Property: {
+								SetPose: ["BaseLower"],
+								Effect: [E.Mounted, E.Freeze],
+							},
+						}, // b1 - Cuff Links
+						{
+							Property: {
+								SetPose: ["Spread"],
+								Effect: [E.Mounted, E.Freeze],
+							},
+						}, // b2 Rope Ties
+						{
+							Property: {
+								SetPose: ["LegsClosed"],
+								Effect: [E.Mounted, E.Freeze],
+							},
+						}, // b3 Rope Ties (Together)
+						{
+							Property: {
+								SetPose: ["KneelingSpread"],
+								OverrideHeight: { Height: 3, Priority: 60 },
+								Effect: [E.Mounted, E.Freeze],
+							},
+						}, // b4 Rope Tied (Hips)
+					],
+				},
+				{
+					Name: "Chains",
+					Key: "c",
+					Options: [
+						{}, // c0 No Chains
+						{}, // c1 Chains
+					],
+				},
+				{
+					Name: "Stains",
+					Key: "s",
+					Options: [
+						{}, // s0 No Stains
+						{}, // s1 Stains
+					],
+				},
+			],
+		}, //XFrame
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
