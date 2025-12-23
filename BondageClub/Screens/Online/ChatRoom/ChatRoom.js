@@ -44,10 +44,10 @@ var ChatRoomLastMessage = [""];
 var ChatRoomLastMessageIndex = 0;
 /** @type {number} */
 var ChatRoomTargetMemberNumber = -1;
-/** @type {ChatRoomOwnershipOption} */
-var ChatRoomOwnershipOption = "";
-/** @type {ChatRoomLovershipOption} */
-var ChatRoomLovershipOption = "";
+/** @type {ChatRoomOwnershipEvent | null} */
+var ChatRoomOwnershipOption = null;
+/** @type {ChatRoomLovershipEvent | null} */
+var ChatRoomLovershipOption = null;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
@@ -411,13 +411,13 @@ function DialogCanChangeClothes() {
 }
 /**
  * Checks if the specified owner option is available.
- * @param {ChatRoomOwnershipOption} Option - The option to check for availability
+ * @param {ChatRoomOwnershipEvent} Option - The option to check for availability
  * @returns {boolean} - TRUE if the current ownership option is the specified one.
  */
 function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnershipOption); }
 /**
  * Checks if the specified lover option is available.
- * @param {ChatRoomLovershipOption} Option - The option to check for availability
+ * @param {ChatRoomLovershipEvent} Option - The option to check for availability
  * @returns {boolean} - TRUE if the current lover option is the specified one.
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
@@ -1606,8 +1606,8 @@ function ChatRoomFocusCharacter(C, options=null) {
 	ChatRoomHideElements();
 	ChatRoomBackground = ChatRoomData.Background;
 	C.AllowItem = C.IsPlayer() || ServerChatRoomGetAllowItem(Player, C);
-	ChatRoomOwnershipOption = "";
-	ChatRoomLovershipOption = "";
+	ChatRoomOwnershipOption = null;
+	ChatRoomLovershipOption = null;
 	if (!C.IsPlayer()) ServerSend("ChatRoomAllowItem", { MemberNumber: C.MemberNumber });
 	if (C.IsOwnedByPlayer() || C.IsLoverOfPlayer()) ServerSend("ChatRoomChat", { Content: "RuleInfoGet", Type: "Hidden", Target: C.MemberNumber });
 	CharacterSetCurrent(C, options);
@@ -5793,7 +5793,7 @@ function ChatRoomSendOwnershipRequest(RequestType) {
 	if ((ChatRoomOwnershipOption == "CanEndTrial") && (RequestType == "Accept")) {
 		DialogChangeReputation("Dominant", -20);
 	}
-	ChatRoomOwnershipOption = "";
+	ChatRoomOwnershipOption = null;
 	ServerSend("AccountOwnership", { MemberNumber: CurrentCharacter.MemberNumber, Action: RequestType });
 	if (RequestType === "Propose") {
 		const msg = InterfaceTextGet("OwnerProposeSub").replace("TargetCharacterName", CharacterNickname(CurrentCharacter));
@@ -5810,7 +5810,7 @@ function ChatRoomSendOwnershipRequest(RequestType) {
 function ChatRoomSendLovershipRequest(RequestType) {
 	if ((ChatRoomLovershipOption == "CanOfferBeginWedding") && (RequestType == "Propose")) CharacterChangeMoney(Player, -100);
 	if ((ChatRoomLovershipOption == "CanBeginWedding") && (RequestType == "Accept")) CharacterChangeMoney(Player, -100);
-	ChatRoomLovershipOption = "";
+	ChatRoomLovershipOption = null;
 	ServerSend("AccountLovership", { MemberNumber: CurrentCharacter.MemberNumber, Action: RequestType });
 	if (RequestType == "Accept" || RequestType === "Break") DialogLeave();
 }
