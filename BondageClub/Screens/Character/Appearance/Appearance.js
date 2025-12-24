@@ -2015,7 +2015,7 @@ function CharacterAppearanceCopyToClipboard(C) {
 	let S = JSON.stringify(App);
 	S = LZString.compressToBase64(S);
 	navigator.clipboard.writeText(S);
-	ChatRoomSendLocal(TextGet("AppCopyDone"));
+	ChatRoomSendLocal(InterfaceTextGet("AppCopyDone"));
 
 }
 
@@ -2029,15 +2029,15 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 
 	// If the data is invalid, we exit right away
 	if ((C == null) || (C.Appearance == null) || !C.IsPlayer())
-		return ChatRoomSendLocal(TextGet("AppPasteError"));
+		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
 
 	// If the player cannot change, we show an error in chat
 	if (!C.CanChangeOwnClothes())
-		return ChatRoomSendLocal(TextGet("AppPasteBlocked"));
+		return ChatRoomSendLocal(InterfaceTextGet("AppPasteBlocked"));
 
 	// Validates the compressed string first
 	if (typeof CompApp !== "string" || CompApp.length === 0)
-		return ChatRoomSendLocal(TextGet("AppPasteError"));
+		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
 
 	// Try to decompress the data
 	let DecompressedData = null;
@@ -2049,7 +2049,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 
 	// If we failed to decompress
 	if (DecompressedData == null)
-		return ChatRoomSendLocal(TextGet("AppPasteError"));
+		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
 
 	// Tries to get the appearance bundle object
 	/** @type {ClipboardAppearanceBundle | null} */
@@ -2064,7 +2064,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 
 	// If the loaded data is invalid
 	if ((App == null) || !Array.isArray(App) || (App.length == 0))
-		return ChatRoomSendLocal(TextGet("AppPasteError"));
+		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
 
 	// Restores the appearance rows that are valid
 	let MustRefresh = false;
@@ -2097,9 +2097,9 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	if (MustRefresh) {
 		CharacterRefresh(C, false);
 		if (ChatRoomRefresh) ChatRoomCharacterUpdate(C);
-		ChatRoomSendLocal(TextGet("AppPasteDone"));
+		ChatRoomSendLocal(InterfaceTextGet("AppPasteDone"));
 	} else {
-		ChatRoomSendLocal(TextGet("AppPasteError"));
+		ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
 	}
 
 }
