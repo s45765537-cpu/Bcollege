@@ -590,7 +590,11 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true, newOption.Property?.AllowActivePose)) {
 		// Otherwise use the standard prerequisite check
 		const statusID = DialogMenuMapping[DialogMenuMode]?.ids.status;
-		return !statusID ? "error" : (document.getElementById(statusID)?.textContent ?? "error");
+		if (statusID) {
+			// No idea what's going on there… Are we setting that at one point?
+			return (document.getElementById(statusID)?.textContent ?? "error");
+		}
+		return InventoryDisallow(C, Item.Asset, newOption.Prerequisite, newOption.Property.AllowActivePose);
 	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
 		// We're switching from a locked, lockable option to one that can't be locked. Prevent that.
 		return InterfaceTextGet("ExtendedItemUnlockBeforeChange");

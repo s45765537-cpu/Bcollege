@@ -3946,8 +3946,8 @@ ItemDevicesXFrameSelectLegRestraint,Select Leg Restraints
 ItemDevicesXFrameSelectChains,Select Chains
 ItemDevicesXFrameSelectWaistRope,Select Waist Rope
 ItemDevicesXFrameSelectStains,Select Stains
-ItemDevicesXFrameModuleArmRestraint,Arm Restraints,
-ItemDevicesXFrameModuleLegRestraint,Leg Restraints,
+ItemDevicesXFrameModuleArmRestraint,Arm Restraints
+ItemDevicesXFrameModuleLegRestraint,Leg Restraints
 ItemDevicesXFrameModuleChains,Chains
 ItemDevicesXFrameModuleWaistRope,Waist Rope
 ItemDevicesXFrameModuleStains,Stains
@@ -7952,7 +7952,7 @@ ItemHandheldPlushieOptionGangriels2,Mabel
 ItemHandheldPlushieSetGangriels2,SourceCharacter places a squeaky Mabel plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectCelestialEnchants,Celestial Enchants:
 ItemHandheldPlushieModuleCelestialEnchants,Celestial Enchants
-ItemHandheldPlushieSetCelestialEnchants0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetCelestialEnchants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionCelestialEnchants0,None
 ItemHandheldPlushieOptionCelestialEnchants1,Celiko
 ItemHandheldPlushieSetCelestialEnchants1,SourceCharacter places an amazing Celiko plushie in DestinationCharacter hands.
@@ -8061,7 +8061,7 @@ ItemHandheldPlushieSetEnsLivingRoom10,SourceCharacter places a cute Dawn plushie
 ItemHandheldPlushieSelectDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieModuleDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieOptionDawnsDarlings0,None
-ItemHandheldPlushieSetDawnsDarlings0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetDawnsDarlings0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionDawnsDarlings1,Kin
 ItemHandheldPlushieSetDawnsDarlings1,SourceCharacter places a cute Kin plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionDawnsDarlings2,Laura
@@ -8069,7 +8069,7 @@ ItemHandheldPlushieSetDawnsDarlings2,SourceCharacter places a cute Laura plushie
 ItemHandheldPlushieSelectVagrants,Vagrants/Misc
 ItemHandheldPlushieModuleVagrants,Vagrants/Misc
 ItemHandheldPlushieOptionVagrants0,None
-ItemHandheldPlushieSetVagrants0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionVagrants1,Nabi
 ItemHandheldPlushieSetVagrants1,SourceCharacter places a cute Nabi plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVagrants2,Hoshi-Ko
@@ -8093,7 +8093,8 @@ ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plus
 ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
 ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
 ItemHandheldPlushieOptionNelsStorage0,None
-ItemHandheldPlushieSetVagrants0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetNelsStorage0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionNelsStorage1,Nel
 ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:

@@ -12516,11 +12516,7 @@ var AssetFemale3DCGExtended = {
 					Name: "LegRestraint",
 					Key: "b",
 					Options: [
-						{
-							Property: {
-								AllowActivePose: ["BaseLower", "LegsClosed"],
-							},
-						}, // b0 None
+						{}, // b0 None
 						{
 							Prerequisite: "CuffedFeet",
 							Property: {
@@ -13148,10 +13144,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Closed",
 					Property: {
-						Block: [
-							"ItemPelvis",
-							"ItemVulvaPiercings",
-						],
+						Block: ["ItemPelvis", "ItemVulvaPiercings"],
 						Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
 						HideItem: [
 							"ItemVulvaVibratingLatexPanties",
