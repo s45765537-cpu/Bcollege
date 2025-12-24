@@ -1523,7 +1523,7 @@ function CommonObjectFlip(obj) {
  * Parse the passed stringified JSON data and catch any exceptions.
  * Exceptions will cause the function to return `undefined`.
  * @param {string} data
- * @returns {any}
+ * @returns {unknown}
  * @see {@link JSON.parse}
  */
 function CommonJSONParse(data) {

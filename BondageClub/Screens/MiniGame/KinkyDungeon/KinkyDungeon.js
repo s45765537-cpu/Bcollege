@@ -667,15 +667,14 @@ async function KinkyDungeonLoad() {
 			KDCurrentOutfit = parseInt(localStorage.getItem("kdcurrentoutfit") || 0);
 			let appearance = LZString.decompressFromBase64(localStorage.getItem("kinkydungeonappearance" + KDCurrentOutfit));
 			if (!appearance || StandalonePatched) {
-				const app = JSON.parse(appearance);
-				if (CommonIsArray(app) && CommonIsObject(app[0]) && "Asset" in (app[0])) {
+				const app = CommonJSONParse(appearance || "{}");
+				if (!CommonIsArray(app) || !CommonIsObject(app[0]) || !("Asset" in app[0])) {
 					KinkyDungeonNewDress = false;
-					appearance = CharacterAppearanceStringify(KinkyDungeonPlayerCharacter ? KinkyDungeonPlayerCharacter : Player);
+					appearance = CharacterAppearanceStringify(KinkyDungeonPlayerCharacter ?? Player);
 				}
 			}
 
 			CharacterAppearanceRestore(KinkyDungeonPlayer, appearance);
-
 
 			if (KDPatched)
 				suppressCanvasUpdate(() => CharacterReleaseTotal(KinkyDungeonPlayer));
