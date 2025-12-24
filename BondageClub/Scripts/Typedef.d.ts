@@ -842,7 +842,7 @@ type ThumbIcon = "lock" | "blindfold" | "lightbulb" | "player" | "rope";
 
 //#region Chat
 
-type ChatRoomLovershipOption =
+type ChatRoomLovershipEvent =
 	| "CanOfferBeginDating"
 	| "CanBeginDating"
 	| "CanOfferBeginEngagement"
