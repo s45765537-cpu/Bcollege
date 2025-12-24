@@ -842,8 +842,18 @@ type ThumbIcon = "lock" | "blindfold" | "lightbulb" | "player" | "rope";
 
 //#region Chat
 
-type ChatRoomLovershipOption = "" | "CanOfferBeginWedding" | "CanBeginWedding";
-type ChatRoomOwnershipOption = "" | "CanOfferEndTrial" | "CanOfferTrial" | "CanEndTrial";
+type ChatRoomLovershipOption =
+	| "CanOfferBeginDating"
+	| "CanBeginDating"
+	| "CanOfferBeginEngagement"
+	| "CanBeginEngagement"
+	| "CanOfferBeginWedding"
+	| "CanBeginWedding";
+type ChatRoomOwnershipEvent =
+	| "CanOfferStartTrial"
+	| "CanStartTrial"
+	| "CanOfferEndTrial"
+	| "CanEndTrial";
 
 type ChatRoom = ServerChatRoomData;
 type ChatRoomSettings = ServerChatRoomSettings;
