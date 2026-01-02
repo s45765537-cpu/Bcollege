@@ -44,7 +44,7 @@ const PreferenceSubscreenGeneralCheckboxes = [
 	{
 		label: "DisableAutoMaid",
 		check: () => !Player.GameplaySettings.DisableAutoMaid,
-		click: (value) => Player.GameplaySettings.DisableAutoMaid = value,
+		click: (value) => Player.GameplaySettings.DisableAutoMaid = !value,
 		disabled: (onHighDifficulty) => onHighDifficulty
 	},
 	{
