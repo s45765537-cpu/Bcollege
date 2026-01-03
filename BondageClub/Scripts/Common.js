@@ -2144,7 +2144,8 @@ function CommonTokenize(input, options = {
 /**
  * Formats a duration in ms to a human readable string of days, months, and years.
  * Defaults to showing days.
- * @param {number} ms
+ * @param {number | Date} end
+ * @param {number | Date} start
  * @param {{
  *   includeYears?: boolean;
  *   includeMonths?: boolean;
@@ -2157,7 +2158,7 @@ function CommonTokenize(input, options = {
  * }} options
  * @returns {string}
  */
-function CommonFormatDuration(ms, options = {}) {
+function CommonFormatDurationRange(end, start, options = {}) {
 	const {
 		includeYears = false,
 		includeMonths = false,
@@ -2188,7 +2189,7 @@ function CommonFormatDuration(ms, options = {}) {
 		h: hours,
 		min: minutes,
 		s: seconds,
-	} = CommonGetDateParts(ms, options);
+	} = CommonGetDatePartsRange(new Date(end), new Date(start), options);
 
 	// Weeks extracted from remaining days
 	const weeks = includeWeeks ? Math.floor(daysLeft / 7) : 0;
@@ -2222,9 +2223,101 @@ function CommonFormatDuration(ms, options = {}) {
 }
 
 /**
+ * Formats a duration in ms to a human readable string of days, months, and years.
+ * Defaults to showing days.
+ * @deprecated Use CommonFormatDurationRange instead
+ * @param {number} ms
+ * @param {{
+ *   includeYears?: boolean;
+ *   includeMonths?: boolean;
+ *   includeWeeks?: boolean;
+ *   includeDays?: boolean;
+ *   includeHours?: boolean;
+ *   includeMinutes?: boolean;
+ *   includeSeconds?: boolean;
+ *   showFull?: boolean;
+ * }} options
+ * @returns {string}
+ */
+function CommonFormatDuration(ms, options = {}) {
+	return CommonFormatDurationRange(new Date(ms), new Date(0), options);
+}
+
+/**
  * Break duration into real-calendar components (y, m, d, h, min, s),
  * optionally rolling excluded components into the next smaller unit.
  *
+ * @param {Date} end
+ * @param {Date} start
+ * @param {{
+ *   includeYears?: boolean,
+ *   includeMonths?: boolean,
+ *   includeDays?: boolean,
+ *   includeHours?: boolean,
+ *   includeMinutes?: boolean,
+ * }} options
+ */
+function CommonGetDatePartsRange(end, start, options = {}) {
+	const {
+		includeYears = true,
+		includeMonths = true,
+		includeDays = true,
+		includeHours = true,
+		includeMinutes = true,
+	} = options;
+
+	if (start > end) [start, end] = [end, start];
+
+	let y = 0, m = 0, d = 0, h = 0, min = 0;
+
+	let diff = end.valueOf() - start.valueOf();
+
+	// Note: this assumes if includeYears or includeMonths is true then includeDays is also true, and if includeYears is true then includeMonths is also true
+	if (includeYears || includeMonths) {
+		const mid = new Date(start);
+		mid.setFullYear(end.getFullYear(), end.getMonth(), end.getDate());
+		if (mid > end) mid.setDate(mid.getDate() - 1);
+
+		y = mid.getFullYear() - start.getFullYear();
+		m = mid.getMonth() - start.getMonth();
+		d = mid.getDate() - start.getDate();
+
+		if (d < 0) {
+			const prevMonth = new Date(mid);
+			prevMonth.setDate(0);
+			d += prevMonth.getDate();
+			m--;
+		}
+		if (m < 0) { m += 12; y--; }
+
+		if (!includeYears) { m += 12 * y; y = 0; }
+
+		diff = end.valueOf() - mid.valueOf();
+	} else if (includeDays) {
+		d = Math.floor(diff / 86400000);
+		diff %= 86400000;
+	}
+
+	if (includeHours) {
+		h = Math.floor(diff / 3600000);
+		diff %= 3600000;
+	}
+
+	if (includeMinutes) {
+		min = Math.floor(diff / 60000);
+		diff %= 60000;
+	}
+
+	const s = Math.floor(diff / 1000);
+
+	return { y, m, d, h, min, s };
+}
+
+/**
+ * Break duration into real-calendar components (y, m, d, h, min, s),
+ * optionally rolling excluded components into the next smaller unit.
+ *
+ * @deprecated Use CommonGetDatePartsRange instead.
  * @param {number} ms
  * @param {{
  *   includeYears?: boolean,
@@ -2235,71 +2328,7 @@ function CommonFormatDuration(ms, options = {}) {
  * }} options
  */
 function CommonGetDateParts(ms, options = {}) {
-	const {
-		includeYears = true,
-		includeMonths = true,
-		includeDays = true,
-		includeHours = true,
-		includeMinutes = true,
-	} = options;
-
-	// Base calendar diff with normalization
-	const start = new Date(1970, 0, 1);
-	const end = new Date(start.getTime() + ms);
-
-	let y = end.getFullYear() - start.getFullYear();
-	let m = end.getMonth() - start.getMonth();
-	let d = end.getDate() - start.getDate();
-	let h = end.getHours() - start.getHours();
-	let min = end.getMinutes() - start.getMinutes();
-	let s = end.getSeconds() - start.getSeconds();
-
-	if (s < 0) { s += 60; min--; }
-	if (min < 0) { min += 60; h--; }
-	if (h < 0) { h += 24; d--; }
-
-	if (d < 0) {
-		const prevMonthDays = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
-		d += prevMonthDays;
-		m--;
-	}
-
-	if (m < 0) { m += 12; y--; }
-
-	// Roll down units when excluded
-	if (!includeYears) {
-		m += y * 12;
-		y = 0;
-	}
-
-	if (!includeMonths) {
-		// Add days from each month being dropped
-		for (let i = 0; i < m; i++) {
-			const monthIndex = (start.getMonth() + i) % 12;
-			const yearOffset = Math.floor((start.getMonth() + i) / 12);
-			const year = start.getFullYear() + yearOffset;
-			d += new Date(year, monthIndex + 1, 0).getDate();
-		}
-		m = 0;
-	}
-
-	if (!includeDays) {
-		h += d * 24;
-		d = 0;
-	}
-
-	if (!includeHours) {
-		min += h * 60;
-		h = 0;
-	}
-
-	if (!includeMinutes) {
-		s += min * 60;
-		min = 0;
-	}
-
-	// Seconds are final, no further collapse
-	return { y, m, d, h, min, s };
+	return CommonGetDatePartsRange(new Date(ms), new Date(0), options);
 }
 
 /**
