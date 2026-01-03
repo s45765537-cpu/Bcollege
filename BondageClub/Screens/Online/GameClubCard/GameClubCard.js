@@ -302,10 +302,11 @@ function GameClubCardBoardDoBundle(Cards) {
 		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
 		let Negating = `${card.Negating !== undefined ? card.Negating : ''}`;
 		let EffectKey = `${card.EffectKey !== undefined ? card.EffectKey : ''}`;
+		let CanActive = `${card.CanActive !== undefined ? card.CanActive : ''}`;
 		let UniqueID = `${card.UniqueID !== undefined ? card.UniqueID : ''}`;
 		let Group = card.Group && card.Group.length ? card.Group.join('|') : '';
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${Negating},${EffectKey},${UniqueID},${Group};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${Negating},${EffectKey},${CanActive},${UniqueID},${Group};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -313,6 +314,22 @@ function GameClubCardBoardDoBundle(Cards) {
 	}
 
 	return Result;
+}
+
+/**
+ * Creates a bundle of cards in a string to push to the server.
+ * @param {readonly ClubCard[]} Cards - An array of ClubCard objects
+ * @returns {string} - A string with all the cards
+ */
+function GameClubCardHandDoBundle(Cards) {
+    let Result = "";
+    if (Cards != null) {
+        for (let C of Cards) {
+            let encodedCard = String.fromCharCode(C.ID) + "|" + C.UniqueID + "|" + `${C.Revealed !== undefined ? C.Revealed : ''}`;
+            Result += encodedCard + ";";
+        }
+    }
+    return Result;
 }
 
 function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
@@ -352,7 +369,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, Negating, EffectKey, UniqueID, Group] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, Negating, EffectKey, CanActive, UniqueID, Group] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -369,6 +386,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
 			if (Negating != undefined && Negating != '') card.Negating = Negating;
 			if (EffectKey != undefined && EffectKey != '') card.EffectKey = Number(EffectKey);
+			if (CanActive != undefined && CanActive != '') card.CanActive = (CanActive === "true");
 			if (UniqueID != undefined && UniqueID != '') card.UniqueID = UniqueID;
 			if (Group) card.Group = Group.split('|');
 
@@ -377,6 +395,29 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 	}
 
 	return result;
+}
+
+function GameClubCardHandUndoBundle(Bundle, Location = null) {
+    let Result = [];
+    if (!Bundle) return Result;
+
+    let Entries = Bundle.split(";");
+    for (let Entry of Entries) {
+        if (!Entry) continue;
+        let Parts = Entry.split("|");
+
+        let CardID = Parts[0].charCodeAt(0);
+        let UniqueID = Parts[1];
+        let Revealed = Boolean(Parts[2]);
+
+        let Card = ClubCardList.find(C => C.ID === CardID);
+        if (Card) {
+            let NewCard = { ...Card, UniqueID };
+            if (Revealed) NewCard.Revealed = Revealed;
+            Result.push(NewCard);
+        }
+    }
+    return Result;
 }
 
 /**
@@ -401,7 +442,7 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.Sleeve !== null) CCPlayer.Sleeve = Bundle.Sleeve;
 
 	//###
-	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
+	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardHandUndoBundle(Bundle.Hand);
 	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
 	if (Bundle.Event != null) CCPlayer.Event = GameClubCardBoardUndoBundle(Bundle.Event, Location);
 	//Check that if the user has the selected ClubCardFocus card, we hide its original.
@@ -489,8 +530,9 @@ function GameClubCardLoadData(Packet) {
 	}
 	if (Packet.Data.CCLog != null) ClubCardMessageSend(Packet.Data.CCLog, false);
 
-	// Check the focused card is still in the player's hand
+	// Check the focused card is still in the player's hand / board
 	ClubCardDefocusCardIfDiscarded();
+	ClubCardDefocusCardIfRemoved();
 
 	// Check if either player has now won
 	ClubCardCheckVictory(ClubCardPlayer[0]);
@@ -564,7 +606,7 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			LastMoneyPerTurn: CCPlayer.LastMoneyPerTurn,
 			FullDeck: GameClubCardDoBundle(CCPlayer.FullDeck),
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
-			Hand: GameClubCardDoBundle(CCPlayer.Hand),
+			Hand: GameClubCardHandDoBundle(CCPlayer.Hand),
 			Board: GameClubCardBoardDoBundle(CCPlayer.Board),
 			Event: GameClubCardBoardDoBundle(CCPlayer.Event),
 			DiscardPile: GameClubCardDoBundle(CCPlayer.DiscardPile),
