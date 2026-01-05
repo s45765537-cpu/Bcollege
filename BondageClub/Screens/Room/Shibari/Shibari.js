@@ -271,14 +271,6 @@ function ShibariSpank() {
 }
 
 /**
- * Triggered when the teacher gives the suspension hemp rope to the player
- * @returns {void} - Nothing
- */
-function ShibariGetRope() {
-	InventoryAdd(Player, "SuspensionHempRope", "ItemFeet");
-}
-
-/**
  * Triggered when the player rescues the teacher and completes the mission for the maid rescue mission.
  * @returns {void} - Nothing
  */

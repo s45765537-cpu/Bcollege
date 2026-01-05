@@ -21,8 +21,6 @@ ItemBreastWhip,,,(She whimpers as you whip her breast.)  Ow!  You won't whip a d
 ItemBreastCrop,,,"(You swing the crop on her torso.)  That's pretty unfair, I'm only trying to do my job.",,
 ItemPelvisWhip,,,"(You whip her butt as she whimpers from the pain.)  Bring subs to your place and whip them, not me!",,
 ItemPelvisCrop,,,(You lash the leather crop pretty hard on her.)  Oooow!  I'm glad I'm not your slave.,,
-SuspensionHempRope,,,(You restrain her feet and suspend her from the ceiling with the hemp rope.)  Hey!  I still have work to do here.,,
-RemoveSuspensionHempRope,,,(You release her from the ceiling and release her feet.)  Good!  I do prefer cages.,,
 0,,,Welcome to the Bondage Club private rooms.  Are you looking to rent a room?,,"!DialogLogQuery(""RentRoom"", ""PrivateRoom"")"
 0,,,Welcome to the Bondage Club private rooms.  Do you want to improve your room?,,"DialogLogQuery(""RentRoom"", ""PrivateRoom"")"
 0,,"Hi, I'm DialogPlayerName.","Nice to meet you, I'm DialogCharacterName.  I manage the private room rentals and improvements.",DialogRemove(),
