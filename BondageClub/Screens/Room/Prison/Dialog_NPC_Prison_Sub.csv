@@ -26,8 +26,6 @@ ItemPelvisCrop,,,(You whip her butt with the leather crop as she wiggles it for 
 ItemVulvaVibratingWand,,,(She wriggles in her shackles.)  I'll confess anything you want.,,
 VibratingEgg,,,(She looks surprised.) Sweet pains.,,
 RemoveVibratingEgg,,,Oof. I could not have lasted much longer.,,
-SuspensionHempRope,,,(You restrain her legs with the long hemp rope and suspend her by the feet from the ceiling.)  Oh my god!,,
-RemoveSuspensionHempRope,,,(You untie the hemp rope from the ceiling and slowly get her down.)  Wow!  That was quite a ride.,,
 0,,,"(A girl comes in and looks around.) Hello, what's going on here?",,
 0,,It's under construction. Please leave.,,SubSendAway(),!PrisonSubIsBehindBars()
 0,,I'm looking for a curious person in handcuffs for some tests.,,SubHandcuffing(),PrisonSubAskForCuff()
