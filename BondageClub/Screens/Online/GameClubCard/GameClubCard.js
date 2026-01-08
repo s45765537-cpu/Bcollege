@@ -322,14 +322,14 @@ function GameClubCardBoardDoBundle(Cards) {
  * @returns {string} - A string with all the cards
  */
 function GameClubCardHandDoBundle(Cards) {
-    let Result = "";
-    if (Cards != null) {
-        for (let C of Cards) {
-            let encodedCard = String.fromCharCode(C.ID) + "|" + C.UniqueID + "|" + `${C.Revealed !== undefined ? C.Revealed : ''}`;
-            Result += encodedCard + ";";
-        }
-    }
-    return Result;
+	let Result = "";
+	if (Cards != null) {
+		for (let C of Cards) {
+			let encodedCard = String.fromCharCode(C.ID) + "|" + C.UniqueID + "|" + `${C.Revealed !== undefined ? C.Revealed : ''}`;
+			Result += encodedCard + ";";
+		}
+	}
+	return Result;
 }
 
 function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
@@ -398,26 +398,26 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 }
 
 function GameClubCardHandUndoBundle(Bundle, Location = null) {
-    let Result = [];
-    if (!Bundle) return Result;
+	let Result = [];
+	if (!Bundle) return Result;
 
-    let Entries = Bundle.split(";");
-    for (let Entry of Entries) {
-        if (!Entry) continue;
-        let Parts = Entry.split("|");
+	let Entries = Bundle.split(";");
+	for (let Entry of Entries) {
+		if (!Entry) continue;
+		let Parts = Entry.split("|");
 
-        let CardID = Parts[0].charCodeAt(0);
-        let UniqueID = Parts[1];
-        let Revealed = Boolean(Parts[2]);
+		let CardID = Parts[0].charCodeAt(0);
+		let UniqueID = Parts[1];
+		let Revealed = Boolean(Parts[2]);
 
-        let Card = ClubCardList.find(C => C.ID === CardID);
-        if (Card) {
-            let NewCard = { ...Card, UniqueID };
-            if (Revealed) NewCard.Revealed = Revealed;
-            Result.push(NewCard);
-        }
-    }
-    return Result;
+		let Card = ClubCardList.find(C => C.ID === CardID);
+		if (Card) {
+			let NewCard = { ...Card, UniqueID };
+			if (Revealed) NewCard.Revealed = Revealed;
+			Result.push(NewCard);
+		}
+	}
+	return Result;
 }
 
 /**
