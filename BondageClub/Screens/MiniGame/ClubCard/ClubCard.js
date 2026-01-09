@@ -2072,48 +2072,48 @@ var ClubCardList = [
 		}
 	},
 	{
-        ID: 12013,
-        Name: "Mei",
-        Group: ["Player", "CollegeStudent", "Dominant"],
-        RewardMemberNumber: 105930,
-        Prerequisite: "SearchACard",
-        RequiredLevel: 4,
-        FamePerTurn: 1,
+		ID: 12013,
+		Name: "Mei",
+		Group: ["Player", "CollegeStudent", "Dominant"],
+		RewardMemberNumber: 105930,
+		Prerequisite: "SearchACard",
+		RequiredLevel: 4,
+		FamePerTurn: 1,
 		MoneyPerTurn: -1,
-        OnPlay: function (CCPlayer) {
-            if (ClubCardSelection == null && CCPlayer.Deck.length > 0) {
-                ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.slice()));
-                return;
-            }
-            if (ClubCardSelection) {
-                CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
-                CCPlayer.Hand.push(ClubCardSelection);
+		OnPlay: function (CCPlayer) {
+			if (ClubCardSelection == null && CCPlayer.Deck.length > 0) {
+				ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.slice()));
+				return;
+			}
+			if (ClubCardSelection) {
+				CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
+				CCPlayer.Hand.push(ClubCardSelection);
 				CCPlayer.Hand[CCPlayer.Hand.length - 1].Revealed = true;
 				if (ClubCardSelection.RequiredLevel > 4) ClubCardPlayerAddMoney(CCPlayer, 3);
 				else CCPlayer.Board[CCPlayer.Board.length - 1].Group = this.Group.concat("Submissive");
-            } else {
-                ClubCardPlayCard(CCPlayer, this, false);
-            }
+			} else {
+				ClubCardPlayCard(CCPlayer, this, false);
+			}
 			ClubCardPlayerAddMoney(CCPlayer, 3);
-        }
-    },
+		}
+	},
 	{
-        ID: 12014,
-        Name: "Ari",
-        Group: ["Player", "CollegeStudent"],
-        RewardMemberNumber: 137539,
-        RequiredLevel: 3,
-        MoneyPerTurn: 1,
+		ID: 12014,
+		Name: "Ari",
+		Group: ["Player", "CollegeStudent"],
+		RewardMemberNumber: 137539,
+		RequiredLevel: 3,
+		MoneyPerTurn: 1,
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, Math.min(CCPlayer.Level, Math.floor(ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") / 2)));
 		}
-    },
+	},
 	{
-        ID: 12015,
-        Name: "Lumi",
-        Group: ["Player"],
-        RewardMemberNumber: 214503,
-        RequiredLevel: 2,
+		ID: 12015,
+		Name: "Lumi",
+		Group: ["Player"],
+		RewardMemberNumber: 214503,
+		RequiredLevel: 2,
 		MoneyPerTurn: 1,
 		CanActive: true,
 		OnActive: function(CCPlayer) {
@@ -2142,13 +2142,13 @@ var ClubCardList = [
 		onLevelUp: function() {
 			this.CanActive = true;
 		}
-    },
+	},
 	{
-        ID: 12016,
-        Name: "Tifa",
-        Group: ["Player"],
-        RewardMemberNumber: 168857,
-        RequiredLevel: 3,
+		ID: 12016,
+		Name: "Tifa",
+		Group: ["Player"],
+		RewardMemberNumber: 168857,
+		RequiredLevel: 3,
 		MoneyPerTurn: 1,
 		FamePerTurn: 1,
 		CanActive: true,
@@ -2167,7 +2167,7 @@ var ClubCardList = [
 		turnStart: function() {
 			this.CanActive = true;
 		}
-    },
+	},
 
 	// 13000 - Shibari Members
 	{
