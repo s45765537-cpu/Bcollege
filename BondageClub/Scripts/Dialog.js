@@ -2097,7 +2097,7 @@ function DialogChangeMode(mode, reset=false) {
 				onInput: () => null,
 				onExit: ({ colors, initialColors }, save) => {
 					if (save && !CommonArraysEqual(colors, initialColors)) {
-						DialogColorSelect = colors[0];
+						DialogColorSelect = colors[0] || null;
 					}
 					DialogChangeMode("items");
 				},
