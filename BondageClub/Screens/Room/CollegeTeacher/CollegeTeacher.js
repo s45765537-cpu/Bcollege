@@ -67,7 +67,7 @@ function CollegeTeacherMildredClothes(C) {
 async function CollegeTeacherLoad() {
 
 	// Generates a full Mildred model based on the Bondage College template
-	if (!CollegeTeacherMildred && PrivateCharacterIsInRoom("Mildred")) {
+	if (!CollegeTeacherMildred && !PrivateCharacterIsInRoom("Mildred")) {
 		// Generates the model
 		CollegeTeacherMildred = CharacterLoadNPC("NPC_CollegeTeacher_Mildred");
 		CollegeTeacherMildred.AllowItem = false;
