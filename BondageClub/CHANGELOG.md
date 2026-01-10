@@ -11,9 +11,50 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-12-16
-* Last recorded PR: [#6060](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6060)
-* Last recorded commit hash: `c302343e7ff1c6ad8247737a1c66871bca638f46`
+* Changelog last updated: 2026-01-10
+* Last recorded PR: [#6088](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6088)
+* Last recorded commit hash: `c5bca51d32971a02028950c57ea10afc78a94f97`
+
+## [R124]
+
+### [Changes]
+
+* leah - Add Nel plushie ([#6072](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6072))
+* Kane - Adds an X-Frame by Jess and Hareo ([#6071](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6071))
+* RavenCreative - Mystery Box... Just in time for a new year... if not the holidays! XD ([#6064](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6064))
+* Sin - Adding Ruffled Dress and Bow Belt from Echo mod (XinLian) ([#6088](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6088))
+* Anna - Club Card Exhibitionists and extras, redux ([#6082](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6082))
+* Estsanatlehi - Add ClothOuter to some of the prerequisites ([#6074](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6074))
+* Ben987 - Online Chat Rooms - 5 New Backgrounds from Bondage Teacher
+* Ben987 - Server - Inactive Account Purge
+* Ben987 - Server - Update Heroku Architecture
+* Ben987 - Change Log
+
+### [Fixes]
+
+* Sin - Fixed a typo in ExtendablePostureCollar string. ([#6078](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6078))
+* Sin - Fix for Fuzzydress ([#6066](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6066))
+* u3shit - calculate year/month/day difference properly ([#6073](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6073))
+* lera - Reversed toggle for DisableAutoMaid checkbox ([#6083](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6083))
+* dDeepLb - Fix commands ([#6063](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6063))
+* dDeepLb - Chat Search 8th Tile ([#6070](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6070))
+* Rama - Ensure that three-digit color codes are expanded to six-digit codes ([#6065](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6065))
+* Estsanatlehi - Add missing strings for DeepThroat and SuckPenetrateItem ([#6067](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6067))
+* Estsanatlehi - Fix a crash when trying to start KinkyDungeon ([#6075](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6075))
+* Estsanatlehi - Show the day count for durations in tooltips on the profile ([#6069](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6069))
+* Estsanatlehi - Fix error with the cuffs in the ArmbinderSuit ([#6068](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6068))
+
+### [Technical]
+
+* Estsanatlehi - Add a link to more documentation ([#6061](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6061))
+* Estsanatlehi - Remove all more than 6 months old deprecated things ([#6048](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6048))
+* Estsanatlehi - Fix the ChatRoomLovership/OwnershipOption types being incorrect ([#6077](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6077))
+* Estsanatlehi - Move the copy/paste status messages to Interface.csv ([#6080](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6080))
+* Estsanatlehi - Missed one type rename ([#6079](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6079))
+* Estsanatlehi - Remove last references to SuspensionHempRope ([#6085](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6085))
+* Estsanatlehi - Remove effects using Array.filter in the training belt ([#6086](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6086))
+* Estsanatlehi - Fix CI ([#6076](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6076))
+* Estsanatlehi - Fix CI ([#6087](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6087))
 
 ## [R123]
 
