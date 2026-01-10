@@ -82,6 +82,8 @@ ClothAccessoryBibText,Text
 ClothAccessoryBibTrim,Trim
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
+ClothAccessoryBowBeltBelt,Belt
+ClothAccessoryBowBeltBow,Bow
 ClothAccessoryBugLegsJoints,Joints
 ClothAccessoryBugLegsLegs,Legs
 ClothAccessoryBunnyCollarCuffsBow,Bow
@@ -217,6 +219,20 @@ ClothOuterJacketHoodieHoodDownBack,Hood
 ClothRibbonCorsetCorset,Corset
 ClothRibbonCorsetRivets,Rivets
 ClothRibbonCorsetRibbon,Ribbon
+ClothRuffledDressSleeveRight,Right Sleeve
+ClothRuffledDressSleeveLeft,Left Sleeve
+ClothRuffledDressSleeve,Sleeves
+ClothRuffledDressBelt,Belt
+ClothRuffledDressBodice,Bodice
+ClothRuffledDressBow,Bow
+ClothRuffledDressHem,Upper Hem
+ClothRuffledDressHem2,Lower Hem
+ClothRuffledDressCorsetLacing,Corset Lacing
+ClothRuffledDressCorsetCenter,Corset Center
+ClothRuffledDressCorsetLeft,Corset Left
+ClothRuffledDressCorsetRight,Corset Right
+ClothRuffledDressLaceTrim,Lace Trim
+ClothRuffledDressSkirt,Skirt
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
