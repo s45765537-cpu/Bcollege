@@ -73,6 +73,15 @@ var ChatAdminRoomCustomizationMusicLibrary = [
 ];
 
 /**
+ * Checks whether the player is allowed to change customization settings
+ * @returns {boolean} - true if the player is allowed to change customization settings, false otherwise
+ */
+function ChatAdminRoomCustomizationCanEdit() {
+	// Either the player is creating the room or they're an admin of an existing one
+	return (ChatRoomData === null) || ChatRoomPlayerIsAdmin();
+}
+
+/**
  * Changes a customiation value from a chat room command
  * @param {"Image" | "Filter" | "Music"} Property - The custom property to change (Image, Filter or Music)
  * @param {string} Value - The value to set in that property
@@ -104,6 +113,8 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
  * @type {ScreenLoadHandler}
  */
 async function ChatAdminRoomCustomizationLoad() {
+	const canEditCustom = ChatAdminRoomCustomizationCanEdit();
+
 	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
 	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: "", SizeMode: DrawingResizeMode.Fill };
@@ -113,7 +124,7 @@ async function ChatAdminRoomCustomizationLoad() {
 	imageInput.setAttribute("autocomplete", "off");
 	filterInput.setAttribute("autocomplete", "off");
 	musicInput.setAttribute("autocomplete", "off");
-	if (!ChatRoomPlayerIsAdmin()) {
+	if (!canEditCustom) {
 		imageInput.setAttribute("disabled", "disabled");
 		filterInput.setAttribute("disabled", "disabled");
 		musicInput.setAttribute("disabled", "disabled");
@@ -228,6 +239,8 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
  * @returns {void} - Nothing
  */
 function ChatAdminRoomCustomizationRun() {
+	const canEditCustom = ChatAdminRoomCustomizationCanEdit();
+	const isAdmin = ChatRoomPlayerIsAdmin();
 
 	// Shows the background and plays the music if needed
 	ChatAdminRoomCustomizationProcess(ChatAdminRoomCustomizationCurrent, { x: 500, y: 1000 * (1 - ChatRoomCharacterViewZoom) / 2, w: 1000, h: 1000 * ChatRoomCharacterViewZoom }, false);
@@ -240,7 +253,7 @@ function ChatAdminRoomCustomizationRun() {
 		ElementPosition("InputImageURL", 1000, 350, 1500);
 		MainCanvas.textAlign = "left";
 		const urlEmpty = !ElementValue("InputImageURL");
-		const disableButton = urlEmpty || !ChatRoomPlayerIsAdmin();
+		const disableButton = urlEmpty || !canEditCustom;
 		DrawCheckbox(205, 400, 64, 64, TextGet("BackgroundSizeMode1"), ChatAdminRoomCustomizationSizeMode == DrawingResizeMode.Fill && !urlEmpty, disableButton);
 		DrawCheckbox(560, 400, 64, 64, TextGet("BackgroundSizeMode2"), ChatAdminRoomCustomizationSizeMode == DrawingResizeMode.FillOriginalRatio && !urlEmpty, disableButton);
 		DrawCheckbox(1265, 400, 64, 64, TextGet("BackgroundSizeMode3"), ChatAdminRoomCustomizationSizeMode == DrawingResizeMode.ShowFullOriginalRatio && !urlEmpty, disableButton);
@@ -268,9 +281,12 @@ function ChatAdminRoomCustomizationRun() {
 	}
 
 	// Shows the bottom buttons
-	DrawButton(425, 840, 250, 65, TextGet("Preview"), "White");
-	DrawButton(725, 840, 250, 65, TextGet("Clear"), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, null, !ChatRoomPlayerIsAdmin());
-	DrawButton(1025, 840, 250, 65, TextGet("Save"), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, null, !ChatRoomPlayerIsAdmin());
+
+	// Only enable preview button if the player is an admin and currently in a room
+	DrawButton(425, 840, 250, 65, TextGet("Preview"), isAdmin ? "White" : "#ebebe4", null, null, !isAdmin);
+
+	DrawButton(725, 840, 250, 65, TextGet("Clear"), canEditCustom ? "White" : "#ebebe4", null, null, !canEditCustom);
+	DrawButton(1025, 840, 250, 65, TextGet("Save"), canEditCustom ? "White" : "#ebebe4", null, null, !canEditCustom);
 	DrawButton(1325, 840, 250, 65, TextGet("Cancel"), "White");
 
 }
@@ -289,6 +305,8 @@ function ChatAdminRoomCustomizationClick() {
 		ElementValue("InputMusicURL", "https://bondageprojects.com/music/relax.mp3");
 	}*/
 
+	const canEditCustom = ChatAdminRoomCustomizationCanEdit();
+
 	// If there's no special mode loaded
 	if (ChatAdminRoomCustomizationMode == null) {
 
@@ -299,7 +317,7 @@ function ChatAdminRoomCustomizationClick() {
 		}
 
 		// Select the size mode for the background image
-		if (MouseIn(205, 400, 1124, 64) && ChatRoomPlayerIsAdmin() && !!ElementValue("InputImageURL")) {
+		if (MouseIn(205, 400, 1124, 64) && canEditCustom && !!ElementValue("InputImageURL")) {
 			if (MouseIn(205, 400, 64, 64)) ChatAdminRoomCustomizationSizeMode = DrawingResizeMode.Fill;
 			if (MouseIn(560, 400, 64, 64)) ChatAdminRoomCustomizationSizeMode = DrawingResizeMode.FillOriginalRatio;
 			if (MouseIn(1265, 400, 64, 64)) ChatAdminRoomCustomizationSizeMode = DrawingResizeMode.ShowFullOriginalRatio;
@@ -333,7 +351,7 @@ function ChatAdminRoomCustomizationClick() {
 	}
 
 	// Can show a preview right away in the screen
-	if (MouseIn(425, 840, 250, 65)) {
+	if (MouseIn(425, 840, 250, 65) && ChatRoomPlayerIsAdmin()) {
 		ChatAdminRoomCustomizationCurrent = {
 			ImageURL: ElementValue("InputImageURL").trim(),
 			ImageFilter: ElementValue("InputImageFilter").trim(),
@@ -343,13 +361,13 @@ function ChatAdminRoomCustomizationClick() {
 	}
 
 	// Clear the current data and goes back to the admin screen
-	if (MouseIn(725, 840, 250, 65) && ChatRoomPlayerIsAdmin()) {
+	if (MouseIn(725, 840, 250, 65) && canEditCustom) {
 		ChatAdminData.Custom = null;
 		ChatAdminRoomCustomizationExit();
 	}
 
 	// Admins can save the changes
-	if (MouseIn(1025, 840, 250, 65) && ChatRoomPlayerIsAdmin()) {
+	if (MouseIn(1025, 840, 250, 65) && canEditCustom) {
 		if (ChatAdminData.Custom == null) ChatAdminData.Custom = {};
 		ChatAdminData.Custom.ImageURL = ElementValue("InputImageURL").trim();
 		ChatAdminData.Custom.SizeMode = ChatAdminRoomCustomizationSizeMode;
