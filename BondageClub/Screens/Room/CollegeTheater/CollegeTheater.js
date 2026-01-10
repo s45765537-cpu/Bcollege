@@ -72,7 +72,7 @@ function CollegeTheaterJuliaClothes(C) {
 async function CollegeTheaterLoad() {
 
 	// Generates a full Julia model based on the Bondage College template
-	if (CollegeTheaterJulia == null && PrivateCharacterIsInRoom("Julia")) {
+	if (CollegeTheaterJulia == null && !PrivateCharacterIsInRoom("Julia")) {
 		CollegeTheaterJulia = CharacterLoadNPC("NPC_CollegeTheater_Julia");
 		CollegeTheaterJulia.AllowItem = false;
 		CollegeTheaterJulia.Name = "Julia";
