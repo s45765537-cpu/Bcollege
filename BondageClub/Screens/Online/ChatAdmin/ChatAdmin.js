@@ -517,7 +517,8 @@ function ChatEditorCreateRoom() {
 		Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist").trim()),
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
 		Limit: parseInt(ElementValue("InputSize"), 10),
-		BlockCategory: ChatAdminData.BlockCategory
+		BlockCategory: ChatAdminData.BlockCategory,
+		Custom: ChatAdminData.Custom
 	};
 	if (ChatAdminData.MapData.Type !== "Never") {
 		NewRoom.MapData = ChatRoomMapViewInitialize(ChatAdminData.MapData.Type);
