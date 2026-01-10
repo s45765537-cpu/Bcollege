@@ -96,7 +96,8 @@ function MagicSchoolLaboratoryRun() {
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Wardrobe.png", TextGet("Dress"));
 	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Explore.png", TextGet("Explore"));
-	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("Escape"));
+	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Tree.png", TextGet("ExploreAround"));
+	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("Escape"));
 }
 
 /**
@@ -109,7 +110,8 @@ function MagicSchoolLaboratoryClick() {
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 	if (MouseIn(1885, 265, 90, 90) && !MagicSchoolLaboratoryInHouse("")) MagicSchoolLaboratoryDressHouse();
 	if (MouseIn(1885, 385, 90, 90) && !MagicSchoolLaboratoryInHouse("")) MagicSchoolLaboratoryFindStudent();
-	if (MouseIn(1885, 505, 90, 90) && !MagicSchoolLaboratoryInHouse("")) CommonSetScreen("Room", "MagicSchoolEscape");
+	if (MouseIn(1885, 505, 90, 90) && !MagicSchoolLaboratoryInHouse("")) CommonSetScreen("Room", "MagicSchoolFindsAround");
+	if (MouseIn(1885, 625, 90, 90) && !MagicSchoolLaboratoryInHouse("")) CommonSetScreen("Room", "MagicSchoolEscape");
 }
 
 /**
@@ -567,4 +569,80 @@ function MagicSchoolLaboratoryLearnMastery() {
  */
 function MagicSchoolLaboratoryCanWageWand() {
 	return InventoryIsWorn(MagicSchoolLaboratoryStudent, "RainbowWand", "ItemHandheld");
+}
+
+/**
+ * Give player essence from defeated student
+ * @param {number} Amount - The amount of essence to give
+ * @returns {void} - Nothing
+ */
+function MagicSchoolLaboratoryGiveEssence(Amount) {
+	DialogRemove();
+	PoseSetActive(CurrentCharacter,'Kneel');
+	NormalizeMagicSchoolFindsAround();
+	Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress += CommonParseInt("" + Amount);
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	KitsuneDefeatCountUpdate();
+}
+
+/**
+ * Magic School Laboratory Kitsune Quest in progress?
+ * True if started but not completed (0–8)
+ * @returns {boolean}
+ */
+function MagicSchoolLaboratoryKitsuneQuestInProgress() {
+	NormalizeMagicSchoolFindsAround();
+	const p = Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress;
+	return p >= 0 && p < 9;
+}
+
+/**
+ * Normalizes the MagicSchoolFindsAround data in the player's game state.
+ * Ensures that the KitsuneQuestProgress property is a valid number, defaulting to 0 if not present or invalid.
+ * @returns {void} - Nothing
+ */
+function NormalizeMagicSchoolFindsAround() {
+	const data = Player.Game.MagicSchoolFindsAround;
+	data.KitsuneQuestProgress = Number(data.KitsuneQuestProgress) || 0;
+	if (data.KitsuneQuestProgress > 9) data.KitsuneQuestProgress = 0;
+}
+
+/** Replace number in dialog
+ * @returns {void} - Nothing
+ */
+function KitsuneDefeatCountUpdate() {
+	MagicSchoolLaboratoryValidate();
+	if (MagicSchoolFindsAroundKitsune == null) return;
+	if (MagicSchoolFindsAroundKitsune._Stage != "100") return;
+	let Defeats = Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress;
+	if (Defeats == null || Defeats < 0) Defeats = 0;
+	let MissingDefeats = 9 - Defeats;
+	if (MissingDefeats != 0) {
+		MagicSchoolFindsAroundKitsune.CurrentDialog = DialogFind(MagicSchoolFindsAroundKitsune, "100").replace("LEFTDEFEATCOUNT", MissingDefeats.toString());
+	} else {
+		MagicSchoolFindsAroundKitsune.CurrentDialog = DialogFind(MagicSchoolFindsAroundKitsune, "CompleteQuestRelief");
+	}
+}
+
+/**
+ * Ensures the game object exists for this room
+ * @returns {void} - Nothing
+ */
+function MagicSchoolLaboratoryValidate() {
+	if (Player.Game.MagicSchoolFindsAround == null) {
+		Player.Game.MagicSchoolFindsAround = {};
+	}
+	NormalizeMagicSchoolLaboratory();
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+}
+
+/**
+ * Normalizes the MagicSchoolFindsAround data in the player's game state.
+ * Ensures that the KitsuneQuestProgress property is a valid number, defaulting to 0 if not present or invalid.
+ * @returns {void} - Nothing
+ */
+function NormalizeMagicSchoolLaboratory() {
+	const data = Player.Game.MagicSchoolFindsAround;
+	data.KitsuneQuestProgress = CommonParseInt("" + data.KitsuneQuestProgress) || 0;
+	if (data.KitsuneQuestProgress > 9) data.KitsuneQuestProgress = 0;
 }

@@ -199,7 +199,7 @@ var DialogLeaveFocusItemHandlers = {
 	 */
 	DialogFocusItem: {
 		Appearance: () => {
-			// Manually restore the focus group (if it was set) as `DialogLeave` deinitializes it
+			// Manually restore the focus group (if it was set) as `DialogLeave` de-initializes it
 
 			// TODO: Review the logic here as it seems that either the appearance menu is abusing DialogLeave,
 			// or DialogLeave is too hyper focused on dialog and doing things that it really shouldn't.
@@ -222,7 +222,7 @@ var DialogLeaveFocusItemHandlers = {
 
 /**
  * Returns character based on argument
- * @param {Character | string} C - The characer to get; can be `"Player"` to get player or empty to get current
+ * @param {Character | string} C - The character to get; can be `"Player"` to get player or empty to get current
  * @returns {Character} - The actual character
  */
 function DialogGetCharacter(C) {
@@ -451,7 +451,7 @@ function DialogInventoryAvailable(InventoryName, InventoryGroup) { return Invent
 
 /**
  * Checks, if the player is the administrator of the current chat room
- * @returns {boolean} - Returns true, if the player belogs to the group of administrators for the current char room false otherwise
+ * @returns {boolean} - Returns true, if the player belongs to the group of administrators for the current char room false otherwise
  */
 function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && ServerPlayerIsInChatRoom()); }
 
@@ -745,7 +745,7 @@ function DialogIntro(C) {
 }
 
 /**
- * Generic dialog function to leave conversation. De-inititalizes global variables and reverts the
+ * Generic dialog function to leave conversation. De-initializes global variables and reverts the
  * FocusGroup of the player and the current character to null
  * @param {null | DialogLeave.Options} options - Further customization options
  * @returns {void} - Nothing
@@ -768,7 +768,7 @@ function DialogLeave(options=null) {
 	// Stop sounds & expressions from struggling/swapping items
 	AudioDialogStop();
 
-	// Stop any strugling minigame
+	// Stop any struggling minigame
 	if (StruggleMinigameIsRunning()) {
 		StruggleMinigameStop();
 	}
@@ -1916,7 +1916,7 @@ function DialogPublishAction(C, Action, ClickItem) {
 
 /**
  * Returns TRUE if the clicked item can be processed, make sure it's not the same item as the one already used
- * @param {Item} CurrentItem - The item currently equiped
+ * @param {Item} CurrentItem - The item currently equipped
  * @param {Item} ClickItem - The clicked item
  * @returns {boolean} - TRUE when we can process
  */
@@ -2174,7 +2174,7 @@ function DialogChangeFocusToGroup(C, Group) {
 	// Stop sounds & expressions from struggling/swapping items
 	AudioDialogStop();
 
-	// Stop any strugling minigame
+	// Stop any struggling minigame
 	if(StruggleMinigameIsRunning()) {
 		StruggleMinigameStop();
 	}
@@ -2479,7 +2479,7 @@ function DialogExtendItem(Item, SourceItem) {
 }
 
 /**
- * Shows the tigthen/loosen item menu for a given item, if possible.
+ * Shows the tighten/loosen item menu for a given item, if possible.
  * @param {Item} Item - The item to open the menu for
  * @returns {void} - Nothing
  */
@@ -2587,7 +2587,7 @@ function DialogIsMenuButtonDisabled(ButtonName) {
  */
 class DialogMenu {
 	/**
-	 * An object containg all DOM element IDs referenced in the {@link DialogMenu} subclass.
+	 * An object containing all DOM element IDs referenced in the {@link DialogMenu} subclass.
 	 * @abstract
 	 * @readonly
 	 * @type {Readonly<Record<string, string> & { root: string, status?: string, grid?: string, paginate?: string, icon?: string, menubar?: string }>}
@@ -2612,7 +2612,7 @@ class DialogMenu {
 	_initProperties = null;
 
 	/**
-	 * An object containg all event listeners referenced in the {@link DialogMenu} subclass.
+	 * An object containing all event listeners referenced in the {@link DialogMenu} subclass.
 	 * @readonly
 	 * @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>}
 	 */
@@ -2720,7 +2720,7 @@ class DialogMenu {
 	_reloadHighestID = -1;
 
 	/**
-	 * Promise object for queuing reloads, ensuring that they are run consecutively rather than concurrently if multiple calls are invoked (near) simultenously.
+	 * Promise object for queuing reloads, ensuring that they are run consecutively rather than concurrently if multiple calls are invoked (near) simultaneously.
 	 * See {@link DialogMenu.Reload}
 	 * @private
 	 * @type {Promise<boolean>}
@@ -2861,7 +2861,7 @@ class DialogMenu {
 		root.toggleAttribute("hidden", false);
 		DialogMenuButtonBuild(this.C);
 
-		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar reallignment
+		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar realignment
 		const shape = this.shape;
 		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		this.Reload(null, { reset: true, resetScrollbar: false }).then((status) => {
@@ -3114,7 +3114,7 @@ class DialogMenu {
 	}
 
 	/**
-	 * Helper function for handling the clicks of succesfully validated grid button clicks.
+	 * Helper function for handling the clicks of successfully validated grid button clicks.
 	 * @abstract
 	 * @param {HTMLButtonElement} button - The clicked button
 	 * @param {Character} C - The target character
@@ -3305,7 +3305,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 			return equippedItem && AsylumGGTSControlItem(C, equippedItem) ? InterfaceTextGet("BlockedByGGTS") : null;
 		},
 		DialogAllowItemClick: (C, clickedItem, equippedItem) => {
-			// Allow extended items to pass through; clicking them opens their extended item mneu
+			// Allow extended items to pass through; clicking them opens their extended item menu
 			return (
 				equippedItem
 				&& !DialogAllowItemClick(equippedItem, clickedItem)
@@ -4215,7 +4215,7 @@ class _DialogDialogMenu extends DialogMenu {
 
 	/** @type {DialogMenu<string, DialogLine>["_ClickButton"]} */
 	_ClickButton(button, C, clickedDialog) {
-		// Use the private `_CurrentDialog`/`_Reload` variables in order to circumenvent the respective setters,
+		// Use the private `_CurrentDialog`/`_Reload` variables in order to circumvent the respective setters,
 		// manually performing any reloads/status updates
 
 		// If the player is gagged, the answer will always be the same
@@ -5348,7 +5348,7 @@ function DialogFindPlayer(KeyWord) {
 
 /**
  * Searches in the dialog for a specific stage keyword and returns that dialog option if we find it
- * @param {Character} C - The character whose dialog optio*
+ * @param {Character} C - The character whose dialog option*
  * @param {string} KeyWord1 - The key word to search for
  * @param {string} [KeyWord2] - An optionally given second key word. is only looked for, if specified and the first
  * keyword was not found.
@@ -5541,8 +5541,13 @@ function DialogDraw() {
 	// Draw both the player and the interaction character
 	if (!CurrentCharacter.IsPlayer())
 		DrawCharacter(Player, 0, 0, 1);
-	DrawCharacter(CurrentCharacter, 500, 0, 1);
-
+	if (!(CurrentCharacter.AccountName == "NPC_MagicSchoolFindsAround_Kitsune")) {
+		DrawCharacter(CurrentCharacter, 500, 0, 1);
+	} else {
+		if (ShowNPCBool) {
+			DrawCharacter(CurrentCharacter, 500, 0, 1);
+		}
+	}
 	const C = CharacterGetCurrent();
 
 	// Drawing the character causes ScriptDraw hooks to be called, some of which

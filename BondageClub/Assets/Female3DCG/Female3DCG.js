@@ -5168,7 +5168,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "BodyWritings", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				Name: "BodyWritings", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays available for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
 				InventoryID: 184,
 				Priority: 9,
 				Value: -1,
@@ -21618,7 +21618,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 188,
 						Left: {
 							[PoseType.DEFAULT]: 0,
@@ -21627,7 +21627,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "TL",
 						Top: 188,
 						Left: {
@@ -21637,14 +21637,14 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "TL",
 						Top: 370,
 						Left: 4,
 					},
 					{
 						Name: "BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "TL",
 						Top: 370,
 						Left: 207,
@@ -21668,7 +21668,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: {
 							[PoseType.DEFAULT]: 118,
 							AllFours: 131,
@@ -21680,7 +21680,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 118,
@@ -21689,6 +21689,50 @@ var AssetFemale3DCG = [
 						Left: {
 							[PoseType.DEFAULT]: 302,
 							AllFours: 275,
+						},
+					},
+					{
+						Name: "BL",
+						AllowTypes: {typed: 2},
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 410,
+							AllFours: 410,
+							Kneel: 410,
+							KneelingSpread: 410,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 5,
+							AllFours: 5,
+							Kneel: 5,
+							KneelingSpread: 5,
+						},/*
+						PoseMapping: {
+										AllFours: "AllFours",
+										Kneel: "AllFours",
+										KneelingSpread: "AllFours",
+						},*/
+					},
+					{
+						Name: "BR",
+						AllowTypes: {typed: 3},
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 430,
+							AllFours: 410,
+							Kneel: 410,
+							KneelingSpread: 410,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 302,
+							AllFours: 252,
+							Kneel: 252,
+							KneelingSpread: 252,
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Kneel: "AllFours",
+							KneelingSpread: "AllFours",
 						},
 					},
 				],
@@ -21701,20 +21745,20 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 277,
 						Left: 53,
 					},
 					{
 						Name: "TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "TL",
 						Top: 277,
 						Left: 283,
 					},
 					{
 						Name: "BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "TL",
 						Top: 463,
 						Left: 33,
@@ -21725,7 +21769,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "TL",
 						Top: 463,
 						Left: {
@@ -21748,54 +21792,54 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Base_TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Tip_TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Base_TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "Base_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Tip_TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "Tip_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Base_BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "Base_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Tip_BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Base_BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "Base_TL",
 						Top: 463,
-						Left: 285,
+						Left: 285
 					},
 					{
 						Name: "Tip_BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 285,
@@ -21857,7 +21901,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 1,
 							AllFours: 51,
 							Hogtied: 51,
-						},
+						}
 					},
 					{
 						Name: "BR",
@@ -21872,7 +21916,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 301,
 							AllFours: 251,
 							Hogtied: 251,
-						},
+						}
 					},
 					{
 						Name: "TLs2",
@@ -21917,7 +21961,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: -1,
 							AllFours: 7,
 							Hogtied: 7,
-						},
+						}
 					},
 					{
 						Name: "BRs2",
@@ -21932,7 +21976,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 261,
 							AllFours: 255,
 							Hogtied: 255,
-						},
+						}
 					},
 				],
 			},
@@ -22074,6 +22118,462 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "KitsuneTailStraps",
+				InventoryID: 1293,
+				Fetish: ["Pet"],
+				DefaultColor: ["#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E"],
+				Value: -1,
+				BodyCosplay: true,
+				Layer: [
+					{
+						Name: "Tip1",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 133,
+							AllFours: 240,
+							Kneel: 133,
+							KneelingSpread: 133,
+							Hogtied:240,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 5,
+							AllFours: 5,
+							Kneel: 5,
+							KneelingSpread: 5,
+							Hogtied: 5,
+						},
+						AllowTypes: { show1_: 0 },
+					},
+					{
+						Name: "Tail1",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 133,
+							AllFours: 240,
+							Kneel: 133,
+							KneelingSpread: 133,
+							Hogtied: 244,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 5,
+							AllFours: 5,
+							Kneel: 5,
+							KneelingSpread: 5,
+							Hogtied: 5,
+						},
+						AllowTypes: { show1_: 0 },
+					},
+					{
+						Name: "Tip2",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 133,
+							AllFours: 240,
+							Hogtied: 240,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 254,
+							AllFours: 254,
+							Hogtied: 254,
+						},
+						AllowTypes: { show2_: 0 },
+					},
+					{
+						Name: "Tail2",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 133,
+							AllFours: 240,
+							Hogtied: 240,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 254,
+							AllFours: 254,
+							Hogtied: 254,
+						},
+						AllowTypes: { show2_: 0 },
+					},
+					{
+						Name: "Tip3",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 181,
+							AllFours: 240,
+							Hogtied: 240,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 12,
+							AllFours: 0,
+							Hogtied: 0,
+						},
+						AllowTypes: { show3_: 0 },
+					},
+					{
+						Name: "Tail3",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 181,
+							AllFours: 240,
+							Hogtied: 240,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 12,
+							AllFours: 0,
+							Hogtied: 0,
+						},
+						AllowTypes: { show3_: 0 },
+					},
+					{
+						Name: "Tip4",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 181,
+							AllFours: 240,
+							Hogtied: 240,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 230,
+							AllFours: 218,
+							Hogtied: 218,
+						},
+						AllowTypes: { show4_: 0 },
+					},
+					{
+						Name: "Tail4",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 181,
+							AllFours: 240,
+							Hogtied: 240,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 230,
+							AllFours: 218,
+							Hogtied: 218,
+						},
+						AllowTypes: { show4_: 0 },
+					},
+					{
+						Name: "Tip5",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 329,
+							AllFours: 395,
+							Hogtied: 395,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 5,
+							AllFours: 5,
+							Hogtied: 5,
+						},
+						AllowTypes: { show5_: 0 },
+					},
+					{
+						Name: "Tail5",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 329,
+							AllFours: 395,
+							Hogtied: 395,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 5,
+							AllFours: 5,
+							Hogtied: 5,
+						},
+						AllowTypes: { show5_: 0 },
+					},
+					{
+						Name: "Tip6",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 329,
+							AllFours: 395,
+							Hogtied: 395,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 211,
+							AllFours: 211,
+							Hogtied: 211,
+						},
+						AllowTypes: { show6_: 0 },
+					},
+					{
+						Name: "Tail6",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 329,
+							AllFours: 395,
+							Hogtied: 395,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 211,
+							AllFours: 211,
+							Hogtied: 211,
+						},
+						AllowTypes: { show6_: 0 },
+					},
+					{
+						Name: "Tail7",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 400,
+							AllFours: 430,
+							Hogtied: 430,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 9,
+							AllFours: 9,
+							Hogtied: 9,
+						},
+						AllowTypes: { show7_: 0 },
+					},
+					{
+						Name: "Tip7",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 400,
+							AllFours: 430,
+							Hogtied: 430,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 9,
+							AllFours: 9,
+							Hogtied: 9,
+						},
+						AllowTypes: { show7_: 0 },
+					},
+					{
+						Name: "Tail8",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 400,
+							AllFours: 430,
+							Hogtied: 430,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 204,
+							AllFours: 204,
+							Hogtied: 204,
+						},
+						AllowTypes: { show8_: 0 },
+					},
+					{
+						Name: "Tip8",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 400,
+							AllFours: 430,
+							Hogtied: 430,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 204,
+							AllFours: 204,
+							Hogtied: 204,
+						},
+						AllowTypes: { show8_: 0 },
+					},
+					{
+						Name: "Tail9",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 478,
+							AllFours: 525,
+							Kneel: 445,
+							KneelingSpread: 445,
+							Hogtied: 525,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 39,
+							AllFours: 17,
+							Kneel: 2,
+							KneelingSpread: 15,
+							Hogtied: 17,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+						AllowTypes: { show9_: 0 },
+					},
+					{
+						Name: "Middle9",
+						CopyLayerColor: "Tail9",
+						Top: {
+							[PoseType.DEFAULT]: 478,
+							AllFours: 525,
+							Kneel: 445,
+							KneelingSpread: 445,
+							Hogtied: 525,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 39,
+							AllFours: 17,
+							Kneel: 2,
+							KneelingSpread: 15,
+							Hogtied: 17,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+						AllowTypes: { show9_: 0 },
+					},
+					{
+						Name: "Tip9",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 478,
+							AllFours: 525,
+							Kneel: 445,
+							KneelingSpread: 445,
+							Hogtied: 525,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 39,
+							AllFours: 17,
+							Kneel: 2,
+							KneelingSpread: 15,
+							Hogtied: 17,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+						AllowTypes: { show9_: 0 },
+					},
+					{
+						Name: "Tail10",
+						ColorGroup: "Tails",
+						Top: {
+							[PoseType.DEFAULT]: 478,
+							AllFours: 525,
+							Kneel: 445,
+							KneelingSpread: 445,
+							Hogtied: 525,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 247,
+							AllFours: 237,
+							Kneel: 104,
+							KneelingSpread: 94,
+							Hogtied: 237,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+						AllowTypes: { show9_: 2 },
+					},
+					{
+						Name: "Middle10",
+						CopyLayerColor: "Tail10",
+						Top: {
+							[PoseType.DEFAULT]: 478,
+							AllFours: 525,
+							Kneel: 445,
+							KneelingSpread: 445,
+							Hogtied: 525,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 247,
+							AllFours: 237,
+							Kneel: 104,
+							KneelingSpread: 94,
+							Hogtied: 237,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+						AllowTypes: { show9_: 2 },
+					},
+					{
+						Name: "Tip10",
+						ColorGroup: "Tips",
+						Top: {
+							[PoseType.DEFAULT]: 478,
+							AllFours: 525,
+							Kneel: 445,
+							KneelingSpread: 445,
+							Hogtied: 525,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 247,
+							AllFours: 237,
+							Kneel: 104,
+							KneelingSpread: 94,
+							Hogtied: 237,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+							AllFours: "AllFours",
+							Hogtied: "AllFours",
+						},
+						AllowTypes: { show9_: 2 },
+					},
+				],
+			},/*
+			{
+				Name: "WolfTailStrap4",
+				InventoryID: 641,
+				Fetish: ["Pet"],
+				//DefaultColor: ["#4560a1", "#89c1ff"],
+				Value: 20,
+				BodyCosplay: true,
+				Layer: [
+					{
+						Name: "Tail1",
+						ColorGroup: "Tails",
+						Top: {
+								[PoseType.DEFAULT]: 485,
+								AllFours: 334,
+								Kneel: 434,
+								KneelingSpread: 434,
+						},
+						Left: {
+								[PoseType.DEFAULT]: 29,
+								AllFours: 276,
+								Kneel: 45,
+								KneelingSpread: 45,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+						AllowTypes: { show1_: 0 },
+					},
+					{
+						Name: "Tip1",
+						ColorGroup: "Tips",
+						Top: {
+								[PoseType.DEFAULT]: 485,
+								AllFours: 334,
+								Kneel: 434,
+								KneelingSpread: 434,
+						},
+						Left: {
+								[PoseType.DEFAULT]: 29,
+								AllFours: 276,
+								Kneel: 45,
+								KneelingSpread: 45,
+						},
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+						AllowTypes: { show1_: 0 },
+					},
+				],
+			},*/
 			{
 				Name: "SkunkTail",
 				InventoryID: 1178,
@@ -29773,7 +30273,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 183,
 						Left: {
 							[PoseType.DEFAULT]: 0,
@@ -29782,7 +30282,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "TL",
 						Top: 183,
 						Left: {
@@ -29792,14 +30292,14 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "TL",
 						Top: 365,
 						Left: 4,
 					},
 					{
 						Name: "BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "TL",
 						Top: 365,
 						Left: 207,
@@ -29916,7 +30416,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: {
 							[PoseType.DEFAULT]: 118,
 							AllFours: 131,
@@ -29928,7 +30428,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 118,
@@ -29937,6 +30437,50 @@ var AssetFemale3DCG = [
 						Left: {
 							[PoseType.DEFAULT]: 302,
 							AllFours: 275,
+						},
+					},
+					{
+						Name: "BL",
+						AllowTypes: {typed: 2},
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 430,
+							AllFours: 410,
+							Kneel: 410,
+							KneelingSpread: 410,
+						},
+						Left: {
+							[PoseType.DEFAULT]: -45,
+							AllFours: 5,
+							Kneel: 5,
+							KneelingSpread: 5,
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Kneel: "AllFours",
+							KneelingSpread: "AllFours",
+						},
+					},
+					{
+						Name: "BR",
+						AllowTypes: {typed: 3},
+						CopyLayerColor: "TL",
+						Top: {
+							[PoseType.DEFAULT]: 430,
+							AllFours: 410,
+							Kneel: 410,
+							KneelingSpread: 410,
+						},
+						Left: {
+							[PoseType.DEFAULT]: 302,
+							AllFours: 252,
+							Kneel: 252,
+							KneelingSpread: 252,
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Kneel: "AllFours",
+							KneelingSpread: "AllFours",
 						},
 					},
 				],
@@ -29953,20 +30497,20 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 282,
 						Left: 53,
 					},
 					{
 						Name: "TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "TL",
 						Top: 282,
 						Left: 283,
 					},
 					{
 						Name: "BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "TL",
 						Top: 468,
 						Left: 33,
@@ -29977,7 +30521,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "TL",
 						Top: 468,
 						Left: {
@@ -30004,54 +30548,54 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Base_TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Tip_TL",
-						AllowTypes: { typed: 0 },
+						AllowTypes: {typed: 0},
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Base_TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "Base_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Tip_TR",
-						AllowTypes: { typed: 1 },
+						AllowTypes: {typed: 1},
 						CopyLayerColor: "Tip_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Base_BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "Base_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Tip_BL",
-						AllowTypes: { typed: 2 },
+						AllowTypes: {typed: 2},
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Base_BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "Base_TL",
 						Top: 463,
-						Left: 285,
+						Left: 285
 					},
 					{
 						Name: "Tip_BR",
-						AllowTypes: { typed: 3 },
+						AllowTypes: {typed: 3},
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 285,
@@ -30127,7 +30671,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 1,
 							AllFours: 51,
 							Hogtied: 51,
-						},
+						}
 					},
 					{
 						Name: "BR",
@@ -30142,7 +30686,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 301,
 							AllFours: 251,
 							Hogtied: 251,
-						},
+						}
 					},
 					{
 						Name: "TLs2",
@@ -30187,7 +30731,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: -1,
 							AllFours: 7,
 							Hogtied: 7,
-						},
+						}
 					},
 					{
 						Name: "BRs2",
@@ -30202,7 +30746,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 261,
 							AllFours: 255,
 							Hogtied: 255,
-						},
+						}
 					},
 				],
 			},

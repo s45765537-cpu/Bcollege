@@ -174,7 +174,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pattern",
 					Key: "p",
-					Options: [{}, {}, {}, {}, {}, {}], //None, Stripes 1, Stripes 2, Tirangle, Cowprint, Tigerprint
+					Options: [{}, {}, {}, {}, {}, {}], //None, Stripes 1, Stripes 2, Triangle, Cowprint, Tigerprint
 				},
 				{
 					Name: "Hair",
@@ -397,7 +397,7 @@ var AssetFemale3DCGExtended = {
 			Modules: [
 				{
 					Name: "Style",
-					Key: "s", //Style
+					Key: "s",//Style
 					DrawImages: false,
 					Options: [
 						{}, //s0 - Style 1 - Original Style
@@ -406,7 +406,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Rotation",
-					Key: "r", //Rotation
+					Key: "r",//Rotation
 					DrawImages: false,
 					Options: [
 						{}, //r0 - TL - Top Left
@@ -427,6 +427,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "TR",
 				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
+				},
 			],
 		},
 		KittenTailStrap2: {
@@ -446,6 +452,107 @@ var AssetFemale3DCGExtended = {
 					Name: "BR",
 				},
 			],
+		},
+		KitsuneTailStraps: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Tail1",
+					Key: "show1_",
+					DrawImages: false,
+					Options: [
+						{}, //show1_0 - Show
+						{}, //show1_1 - Hide
+					],
+				},
+				{
+					Name: "Tail2",
+					Key: "show2_",
+					DrawImages: false,
+					Options: [
+						{}, //show2_0 - Show
+						{}, //show2_1 - Hide
+					],
+				},
+				{
+					Name: "Tail3",
+					Key: "show3_",
+					DrawImages: false,
+					Options: [
+						{}, //show3_0 - Show
+						{}, //show3_1 - Hide
+					],
+				},
+				{
+					Name: "Tail4",
+					Key: "show4_",
+					DrawImages: false,
+					Options: [
+						{}, //show4_0 - Show
+						{}, //show4_1 - Hide
+					],
+				},
+				{
+					Name: "Tail5",
+					Key: "show5_",
+					DrawImages: false,
+					Options: [
+						{}, //show5_0 - Show
+						{}, //show5_1 - Hide
+					],
+				},
+				{
+					Name: "Tail6",
+					Key: "show6_",
+					DrawImages: false,
+					Options: [
+						{}, //show6_0 - Show
+						{}, //show6_1 - Hide
+					],
+				},
+				{
+					Name: "Tail7",
+					Key: "show7_",
+					DrawImages: false,
+					Options: [
+						{}, //show7_0 - Show
+						{}, //show7_1 - Hide
+					],
+				},
+				{
+					Name: "Tail8",
+					Key: "show8_",
+					DrawImages: false,
+					Options: [
+						{}, //show8_0 - Show
+						{}, //show8_1 - Hide
+					],
+				},
+				{
+					Name: "Tail9",
+					Key: "show9_",
+					DrawImages: false,
+					Options: [
+						{}, //show9_0 - Show Left
+						{}, //show9_1 - Hide
+						{}, //show9_2 - Show Right
+					],
+				},
+			],
+			DrawData: {
+				elementData: [
+					{ position: ExtendedXYWithoutImages[9][0] },
+					{ position: ExtendedXYWithoutImages[9][1] },
+					{ position: ExtendedXYWithoutImages[9][2] },
+					{ position: ExtendedXYWithoutImages[9][3] },
+					{ position: ExtendedXYWithoutImages[9][4] },
+					{ position: ExtendedXYWithoutImages[9][5] },
+					{ position: ExtendedXYWithoutImages[9][6] },
+					{ position: ExtendedXYWithoutImages[9][7] },
+					{ position: ExtendedXYWithoutImages[9][8] },
+				],
+				itemsPerPage: 9,
+			},
 		},
 	},
 	ClothOuter: {
@@ -10379,7 +10486,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Device",
 					Key: "d",
 					Options: [
-						{}, // d0 - No devvice
+						{}, // d0 - No device
 						{
 							// s1 - Pleasure module
 							HasSubscreen: true,
@@ -10771,7 +10878,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Blue",
 				},
 			],
-		}, // LitteMonster
+		}, // LittleMonster
 		InflatableBodyBag: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
@@ -13264,7 +13371,7 @@ var AssetFemale3DCGExtended = {
 			Modules: [
 				{
 					Name: "Style",
-					Key: "s", //Style
+					Key: "s",//Style
 					DrawImages: false,
 					Options: [
 						{}, //s0 - Style 1 - Original Style
@@ -13273,7 +13380,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Rotation",
-					Key: "r", //Rotation
+					Key: "r",//Rotation
 					DrawImages: false,
 					Options: [
 						{}, //r0 - TL - Top Left
@@ -13311,6 +13418,12 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "TR",
+				},
+				{
+					Name: "BL",
+				},
+				{
+					Name: "BR",
 				},
 			],
 		},
@@ -15295,7 +15408,7 @@ var AssetFemale3DCGExtended = {
 						{ Property: { Effect: [E.BlockMouth, E.GagLight] } }, //g0 - Regular BitGag
 						{ Property: {} }, //g1 - No Gag
 						{ Property: { Effect: [E.BlockMouth, E.GagMedium] } }, //g2 - Thick BitGag
-						{ Property: { Effect: [E.BlockMouth, E.GagHeavy] } }, //g3 - Tongue Depresor
+						{ Property: { Effect: [E.BlockMouth, E.GagHeavy] } }, //g3 - Tongue Depressor
 						{ Property: { Effect: [E.BlockMouth, E.GagMedium] } }, //g4 - Ballgag
 						{
 							Property: {
@@ -19468,7 +19581,7 @@ var AssetFemale3DCGExtended = {
 							Property: { Difficulty: 0 },
 						},
 						{
-							// x1 - Eqquiped
+							// x1 - Equipped
 							Property: { Difficulty: 1 },
 						},
 					],
@@ -19482,7 +19595,7 @@ var AssetFemale3DCGExtended = {
 							Property: { Difficulty: 0 },
 						},
 						{
-							// y1 - Eqquiped
+							// y1 - Equipped
 							Property: { Difficulty: 1 },
 						},
 					],
@@ -19496,7 +19609,7 @@ var AssetFemale3DCGExtended = {
 							Property: { Difficulty: 0 },
 						},
 						{
-							// c1 - Eqquiped
+							// c1 - Equipped
 							Property: {
 								Difficulty: 1,
 								AllowActivity: ["PenetrateItem"],
@@ -21022,7 +21135,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					// Use `BlindTotal` for VR avatars to ensure that the `thin` property never reduces the blindness level below `BlindHeavy`,
-					// as lowering it any more will result in visual odities related to partial blindness
+					// as lowering it any more will result in visual oddities related to partial blindness
 					Name: "Function",
 					Key: "f",
 					Options: [
