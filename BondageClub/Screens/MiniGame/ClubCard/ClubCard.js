@@ -409,7 +409,7 @@ var ClubCardList = [
 		FamePerTurn: -1
 	},
 
-	// 2000 - Staff Members (Club employees that can be targetted by events)
+	// 2000 - Staff Members (Club employees that can be targeted by events)
 	{
 		ID: 2000,
 		Name: "Waitress",
@@ -1636,7 +1636,7 @@ var ClubCardList = [
 		}
 	},
 	{
-		//TODO Fussy Babby, Need a fix for a bug where if your opponent wins at the end of your turn, you hang in the game.
+		//TODO Fussy Baby, Need a fix for a bug where if your opponent wins at the end of your turn, you hang in the game.
 		ID: 10007,
 		Name: "Fussy Baby",
 		Group: ["ABDLBaby"],
@@ -2146,6 +2146,7 @@ var ClubCardList = [
 	{
 		ID: 12016,
 		Name: "Tifa",
+		Reward: "NPC_MagicSchoolFindsAround_Kitsune",
 		Group: ["Player"],
 		RewardMemberNumber: 168857,
 		RequiredLevel: 3,
@@ -2221,8 +2222,8 @@ var ClubCardList = [
 			for (const card of CCPlayer.Hand.slice()) {
 				if (ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card)) {
 					ClubCardSummonCard(CCPlayer, card);
-					const cardIndexInHnad = CCPlayer.Hand.findIndex(value => value.ID === card.ID);
-			        CCPlayer.Hand.splice(cardIndexInHnad, 1);
+					const cardIndexInHand = CCPlayer.Hand.findIndex(value => value.ID === card.ID);
+					CCPlayer.Hand.splice(cardIndexInHand, 1);
 				}
 			}
 		},
@@ -4250,7 +4251,7 @@ function ClubCardMessageGetText(ClubCardMessage) {
 
 /**
    * Updated the text by mask, for InnerHTML
-   * The function finds the necessary words from the arrays and adds colour labels to them.
+   * The function finds the necessary words from the arrays and adds color labels to them.
    * @param {String} text -Normal Card Text
    * @returns {String} -  Updated for InnerHTML Card Text
    */
@@ -4317,7 +4318,7 @@ function ClubCardGenerateUniqueID(cardID) {
 }
 
 /**
- * Creates a popop in the middle of the board that pauses the game
+ * Creates a popup in the middle of the board that pauses the game
  * @param {string} Mode - The popup mode "DECK", "TEXT" or "YESNO"
  * @param {string|null} Text - The text to display
  * @param {string|null} Button1 - The label of the first button
@@ -4411,7 +4412,7 @@ function ClubCardPlayerAddFame(CCPlayer, Amount, CardName = null) {
 }
 
 /**
- * Add fame from a player and remove from the ohter player
+ * Add fame from a player and remove from the other player
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {Number} moneyAmount - The money amount to steal
  * @param {Number} fameAmount - The fame amount to steal
@@ -4454,7 +4455,7 @@ function ClubCardPlayerSteal(CCPlayer, moneyAmount, fameAmount, isStickyFingers 
  * @returns {void} - Nothing
  */
 function ClubCardUpgradeLevel(CCPlayer) {
-	// Homeroom blocks both players from ugprading while it is on the board
+	// Homeroom blocks both players from upgrading while it is on the board
 	const opponent = ClubCardGetOpponent(CCPlayer);
 	const updatedCost = ClubCardCalculateLevelCost(CCPlayer);
 	const blockedByEvent = ClubCardEventNameIsInEvents(CCPlayer, "Homeroom") || ClubCardEventNameIsInEvents(opponent, "Homeroom");
@@ -5454,7 +5455,7 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 
 /**
  * @param {string} StartType
- * StartType = ClubCardStartTurnType.BUNKRUPT because otherwise the bankruptcy function won't work.
+ * StartType = ClubCardStartTurnType.BANKRUPT because otherwise the bankruptcy function won't work.
  */
 function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
 	if (ClubCardIsStartTurn == false) {
@@ -6867,7 +6868,7 @@ function ClubCardRenderPanel() {
 		return;
 	}
 
-	// Draw the discard and bottom butttons and texts
+	// Draw the discard and bottom buttons and texts
 	if  (!ClubCardPopup) DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
@@ -7463,7 +7464,7 @@ function ClubCardClick() {
 	// Draw card and end turn
 	if (MouseIn(1705, 805, 90, 190) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending)
 		return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
-	// Open Bankrupt window and bind function close and bancrupt in yes and no
+	// Open Bankrupt window and bind function close and bankrupt in yes and no
 	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending)
 		return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardStartTurn()", "ClubCardDestroyPopup()");
 	// Upgrade lvl Club
@@ -7494,7 +7495,7 @@ function ClubCardClickPlayCard(isPending) {
 	if (isPending) {
 		//PlayCard with Pending Card
 		if (ClubCardIsAnimationOn) {
-			//### Play Select card when Pendind Card is Active
+			//### Play Select card when Pending Card is Active
 			const originalCard = ClubCardGetOriginalCardByUniqueID(ClubCardFocus.UniqueID);
 			originalCard.IsVisible = true;
 			originalCard.AnimationState = "idle";
