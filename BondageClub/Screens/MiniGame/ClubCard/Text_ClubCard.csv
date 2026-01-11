@@ -109,7 +109,7 @@ Text Uptown Girl,<F>She's been living in her white bread world.
 Title Tourist,Tourist
 Text Tourist,<F>I'll need a vacation from my vacation.
 Title Diplomat,Diplomat
-Text Diplomat,<F>Business or leasure?  Pain and pleasure.
+Text Diplomat,<F>Business or leisure?  Pain and pleasure.
 Title Gambler,Gambler
 Text Gambler,"When she enters your club, discard a card at random then draw a card."
 Title Red Twin,Red Twin
@@ -155,7 +155,7 @@ Text Paroled Thief,"Unless a police is present in your club, your opponent steal
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother
-Text Stepmother,"When a member with - Fame enters, Steal Fame equal to their + Money. Enters: Recieve 1 Fame for each member present with - Fame."
+Text Stepmother,"When a member with - Fame enters, Steal Fame equal to their + Money. Enters: Receive 1 Fame for each member present with - Fame."
 Title Sheriff,Sheriff
 Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
@@ -163,7 +163,7 @@ Text Maid Lover,"Gain +1 Money per maid (Max 3). Gain +2 Fame and -2 Money if yo
 Title Diaper Lover,Diaper Lover
 Text Diaper Lover,"Gain +1 money per ABDL baby in your club (Max 3). When an ABDL Baby enters while there are 3+ ABDL Babies already present, draw a card."
 Title Masochist,Masochist
-Text Masochist,"Gain +1 Fame and +1 Money if a Dominant is present. Recieve 1 Money for each card you discard."
+Text Masochist,"Gain +1 Fame and +1 Money if a Dominant is present. Receive 1 Money for each card you discard."
 Title Feet Worshiper,Feet Worshiper
 Text Feet Worshiper,+2 Money per turn if at least one Porn Actress or ABDL Mommy is present.
 Title Fin-Dom Simp,Fin-Dom Simp
@@ -299,7 +299,7 @@ Text Money Heist,"Steal 6 Money. Then steal 2 Money if a Criminal is present. Th
 Title BDSM Ball,BDSM Ball
 Text BDSM Ball,"All Submissives and Dominants in your club get +1 Fame."
 Title Vampire Ball,Vampire Ball
-Text Vampire Ball,"Gain 2 Fame for each member that's not Dominant, Liability, Kemonomini, Maid, Player, or Staff."
+Text Vampire Ball,"Gain 2 Fame for each member that's not Dominant, Liability, Kemonomimi, Maid, Player, or Staff."
 Title Straitjacket Saturday,Straitjacket Saturday
 Text Straitjacket Saturday,Draw a random Ayslum Nurse. Gain 4 money for each Asylum Patient present.
 Title Charity Auction,Charity Auction
@@ -360,7 +360,7 @@ Text Restrain,"For 2 turns, both players cannot use events and negate the effect
 Title Detective,Detective
 Text Detective,"When your opponent takes the draw action, Receive 2 Money. If no Liability present, also receive 1 Fame."
 Title Launder,Launder
-Text Launder,"If a Criminal is present, spend all your Money. Recieve 1 Fame for every 3 Money lost. If this card is in your streets, shuffle it to your deck."
+Text Launder,"If a Criminal is present, spend all your Money. Receive 1 Fame for every 3 Money lost. If this card is in your streets, shuffle it to your deck."
 Title Big Baby,Big Baby
 Text Big Baby,"Enters: Opponent draws a card"
 Title Fussy Baby,Fussy Baby
@@ -641,7 +641,7 @@ Text Yunari,"If your streets have fewer cards than your opponent's, leaves your 
 Title Pack Leader,Pack Leader
 Text Pack Leader,"Gain +1 Fame for each Pack Member in your club (Max +5). Gain +2 Fame if a Pack Member is in your streets."
 Title Mama Bear,Mama Bear
-Text Mama Bear,"Enters: Recieve 1 Fame per different group in your club, and 1 Money per ABDL Baby in your club."
+Text Mama Bear,"Enters: Receive 1 Fame per different group in your club, and 1 Money per ABDL Baby in your club."
 Title Instincts,Instincts
 Text Instincts,"Lose 12 fame, draw three cards. You cannot gain fame until a Kemonomimi is present."
 Title Pack Tactics,Pack Tactics
@@ -695,7 +695,7 @@ Text Flasher,"Receive 1 Fame when a member enters your club. Enters: Add 2 Nude 
 Title Window Shopper,Window Shopper
 Text Window Shopper,"Gain +4 Fame if there are at least 12 visible exhibitionists. When you play streaker, exotic dancer, or nudist, play again."
 Title Lingerie Model,Lingerie Model
-Text Lingerie Model,"Enters: Add 3 New Clothes to your oppoenent's deck."
+Text Lingerie Model,"Enters: Add 3 New Clothes to your opponent's deck."
 Title Procuress,Procuress
 Text Procuress,"For every 6 members present, lose 2 Money and add Exotic Dancer to your hand."
 Title Covert Canvas,Covert Canvas
@@ -703,7 +703,7 @@ Text Covert Canvas,"Receive 1 Fame for each card a player draws. Enters: Both pl
 Title Temptress,Temptress
 Text Temptress,"When your opponent draws a card, steal 1 fame. If their deck is empty, they lose 7 Fame at the end of their turn."
 Title Sexibitionist,Sexibitionist 
-Text Sexibitionist,"Enters: Add 3 Nude Photos to your oppoenent's deck, then both players draw 3 cards."
+Text Sexibitionist,"Enters: Add 3 Nude Photos to your opponent's deck, then both players draw 3 cards."
 Title New Clothes,New Clothes
 Text New Clothes,"When Drawn: Remove this card, draw a card, lose 3 Money and your opponent receive 3 Fame."
 Title Nude Photos,Nude Photos
