@@ -2216,12 +2216,6 @@ interface Character {
 	House?: "" | MagicSchoolHouse;
 }
 
-/** Magic Beings */
-
-interface Character {
-	Finding?: "" | MagicSchoolFinding;
-}
-
 /** MovieStudio */
 interface Character {
 	Friendship?: string;
