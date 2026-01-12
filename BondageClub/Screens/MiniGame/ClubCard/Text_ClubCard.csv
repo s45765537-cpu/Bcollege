@@ -509,7 +509,7 @@ Text Pet Trainer,"When you play a pet you gain 2 fame. Gains +3 fame if show dog
 Title Show Dog,Show Dog
 Text Show Dog,"Enters: lose 15 money and reveal your hand."
 Title Miss Mouse,Miss Mouse
-Text Miss Mouse,"When a pet enters: opponent loses 1 Fame per 2 building tiers. Gain +1 Fame if owner present. Enters: Lose 1 Money."
+Text Miss Mouse,"When a pet enters your club, opponent loses 1 Fame per 2 building tiers. Gain +1 Fame if an owner is present. Enters: Lose 1 Money."
 Title Rich Owner,Rich Owner
 Text Rich Owner,"Pets treat your building level as 1 higher. +1 Fame if a Maid is present. When a Pet enters, gain 1 Money per pet present (Max 5)"
 Title Tour Guide,Tour Guide
@@ -611,7 +611,7 @@ Text Country Gal,"<F>Every bounce it gets tighter… my grip on bull, duh!"
 Title Kneeling Sub,Kneeling Sub
 Text Kneeling Sub,"<F>I'm on my knees so much, that I needed kneepads"
 Title Humbled Harper,Humbled Harper
-Text Humbled Harper,"For each card you opponent draws receive 1 Money, and if at least 6 members present receive 1 Fame."
+Text Humbled Harper,"For each card your opponent draws, receive 1 Money, and if there are at least 6 members present receive 1 Fame."
 Title Miss N Spection,Miss N Spection
 Text Miss N Spection,"If you take the Draw action with no cards in hand, draw 2 additional cards. Enters: Discard a card of your choice, then draw a card."
 Prerequisite Miss N Spection,Select a card in your hand to discard.
