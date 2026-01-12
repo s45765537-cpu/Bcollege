@@ -22,7 +22,7 @@ CompleteQuestRelief,,,"Finally! I can feel the essence you gathered. Good Work~ 
 90,,(Fight her),"(Her ears flatten, power crackling around her.) “Oh… you stupid little thing.”",MagicBattleStart(),
 90,95,Wait! I want to work with you!,"(She smiles, clearly pleased.) “I knew you’d make the right decision~”",StartQuest(),
 95,100,How I'm supposed to do this?,"Go back to school, after you defeat students, when they are bound and helpless, use this spell. (She teaches you a spell to drain essence)",StartQuest(),"QuestStarted()"
-100,,(Leave for School),"How long I need to wait? You are still missing LEFTDEFEATCOUNT students to defeat!!!",RunAwayWithCountUpdate(),"!QuestCompleted()"
+100,,(Leave for School),"How long I need to wait? You are still missing LEFTDEFEATCOUNT students to defeat!!!",RunAway(),"!QuestCompleted()"
 100,105,I did it!,"“Good work~” (A soft pink fog envelops you as she leans closer, her lips brushing your skin.) “Come… I will share secrets of my power~” (You hear her whisper and everything goes dark)",,"QuestCompleted()"
 110,0,(Leave with your new powers),,RunAwayEnd()
 105,130,(You look around), Daji is nowhere to be seen. You’re alone… yet you can feel your new power dwelling inside... and ready to be unleashed...,HideNPC(),

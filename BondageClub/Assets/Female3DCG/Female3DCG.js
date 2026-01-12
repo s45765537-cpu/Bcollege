@@ -21618,7 +21618,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 188,
 						Left: {
 							[PoseType.DEFAULT]: 0,
@@ -21627,7 +21627,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "TL",
 						Top: 188,
 						Left: {
@@ -21637,14 +21637,14 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "TL",
 						Top: 370,
 						Left: 4,
 					},
 					{
 						Name: "BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "TL",
 						Top: 370,
 						Left: 207,
@@ -21668,7 +21668,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: {
 							[PoseType.DEFAULT]: 118,
 							AllFours: 131,
@@ -21680,7 +21680,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 118,
@@ -21693,7 +21693,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 410,
@@ -21706,16 +21706,16 @@ var AssetFemale3DCG = [
 							AllFours: 5,
 							Kneel: 5,
 							KneelingSpread: 5,
-						},/*
+						} /*
 						PoseMapping: {
 										AllFours: "AllFours",
 										Kneel: "AllFours",
 										KneelingSpread: "AllFours",
-						},*/
+						},*/,
 					},
 					{
 						Name: "BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 430,
@@ -21745,20 +21745,20 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 277,
 						Left: 53,
 					},
 					{
 						Name: "TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "TL",
 						Top: 277,
 						Left: 283,
 					},
 					{
 						Name: "BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "TL",
 						Top: 463,
 						Left: 33,
@@ -21769,7 +21769,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "TL",
 						Top: 463,
 						Left: {
@@ -21792,54 +21792,54 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Base_TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Tip_TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Base_TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Base_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Tip_TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Tip_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Base_BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "Base_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Tip_BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Base_BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "Base_TL",
 						Top: 463,
-						Left: 285
+						Left: 285,
 					},
 					{
 						Name: "Tip_BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 285,
@@ -21901,7 +21901,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 1,
 							AllFours: 51,
 							Hogtied: 51,
-						}
+						},
 					},
 					{
 						Name: "BR",
@@ -21916,7 +21916,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 301,
 							AllFours: 251,
 							Hogtied: 251,
-						}
+						},
 					},
 					{
 						Name: "TLs2",
@@ -21961,7 +21961,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: -1,
 							AllFours: 7,
 							Hogtied: 7,
-						}
+						},
 					},
 					{
 						Name: "BRs2",
@@ -21976,7 +21976,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 261,
 							AllFours: 255,
 							Hogtied: 255,
-						}
+						},
 					},
 				],
 			},
@@ -22120,8 +22120,30 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KitsuneTailStraps",
+				InventoryID: 1304,
 				Fetish: ["Pet"],
-				DefaultColor: ["#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E"],
+				DefaultColor: [
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+					"#4E1313",
+					"#1E1E1E",
+				],
 				Value: -1,
 				BodyCosplay: true,
 				Layer: [
@@ -22133,7 +22155,7 @@ var AssetFemale3DCG = [
 							AllFours: 240,
 							Kneel: 133,
 							KneelingSpread: 133,
-							Hogtied:240,
+							Hogtied: 240,
 						},
 						Left: {
 							[PoseType.DEFAULT]: 5,
@@ -22520,7 +22542,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { show9_: 2 },
 					},
 				],
-			},/*
+			} /*
 			{
 				Name: "WolfTailStrap4",
 				InventoryID: 641,
@@ -22572,7 +22594,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { show1_: 0 },
 					},
 				],
-			},*/
+			},*/,
 			{
 				Name: "SkunkTail",
 				InventoryID: 1178,
@@ -30272,7 +30294,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 183,
 						Left: {
 							[PoseType.DEFAULT]: 0,
@@ -30281,7 +30303,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "TL",
 						Top: 183,
 						Left: {
@@ -30291,14 +30313,14 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "TL",
 						Top: 365,
 						Left: 4,
 					},
 					{
 						Name: "BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "TL",
 						Top: 365,
 						Left: 207,
@@ -30415,7 +30437,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: {
 							[PoseType.DEFAULT]: 118,
 							AllFours: 131,
@@ -30427,7 +30449,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 118,
@@ -30440,7 +30462,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 430,
@@ -30462,7 +30484,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "TL",
 						Top: {
 							[PoseType.DEFAULT]: 430,
@@ -30496,20 +30518,20 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 282,
 						Left: 53,
 					},
 					{
 						Name: "TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "TL",
 						Top: 282,
 						Left: 283,
 					},
 					{
 						Name: "BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "TL",
 						Top: 468,
 						Left: 33,
@@ -30520,7 +30542,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "TL",
 						Top: 468,
 						Left: {
@@ -30547,54 +30569,54 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Base_TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Tip_TL",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 						Top: 269,
 						Left: 0,
 					},
 					{
 						Name: "Base_TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Base_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Tip_TR",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Tip_TL",
 						Top: 269,
 						Left: 285,
 					},
 					{
 						Name: "Base_BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "Base_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Tip_BL",
-						AllowTypes: {typed: 2},
+						AllowTypes: { typed: 2 },
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 0,
 					},
 					{
 						Name: "Base_BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "Base_TL",
 						Top: 463,
-						Left: 285
+						Left: 285,
 					},
 					{
 						Name: "Tip_BR",
-						AllowTypes: {typed: 3},
+						AllowTypes: { typed: 3 },
 						CopyLayerColor: "Tip_TL",
 						Top: 463,
 						Left: 285,
@@ -30670,7 +30692,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 1,
 							AllFours: 51,
 							Hogtied: 51,
-						}
+						},
 					},
 					{
 						Name: "BR",
@@ -30685,7 +30707,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 301,
 							AllFours: 251,
 							Hogtied: 251,
-						}
+						},
 					},
 					{
 						Name: "TLs2",
@@ -30730,7 +30752,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: -1,
 							AllFours: 7,
 							Hogtied: 7,
-						}
+						},
 					},
 					{
 						Name: "BRs2",
@@ -30745,7 +30767,7 @@ var AssetFemale3DCG = [
 							[PoseType.DEFAULT]: 261,
 							AllFours: 255,
 							Hogtied: 255,
-						}
+						},
 					},
 				],
 			},
