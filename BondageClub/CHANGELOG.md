@@ -20,7 +20,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 ### [Changes]
 
 * leah - Add Nel plushie ([#6072](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6072))
-* Kane - Adds an X-Frame by Jess and Hareo ([#6071](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6071))
+* Kane - Adds an X-Frame by Jess the vampire and Hareo ([#6071](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6071))
 * RavenCreative - Mystery Box... Just in time for a new year... if not the holidays! XD ([#6064](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6064))
 * Sin - Adding Ruffled Dress and Bow Belt from Echo mod (XinLian) ([#6088](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6088))
 * Anna - Club Card Exhibitionists and extras, redux ([#6082](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6082))

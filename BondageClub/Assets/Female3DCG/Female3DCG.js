@@ -22120,7 +22120,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KitsuneTailStraps",
-				InventoryID: 1293,
 				Fetish: ["Pet"],
 				DefaultColor: ["#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E","#4E1313","#1E1E1E"],
 				Value: -1,
