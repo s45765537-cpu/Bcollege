@@ -3197,7 +3197,8 @@ function ChatRoomSendChatMessage(msg) {
 	const data = ChatRoomGenerateChatRoomChatMessage("Chat", msg, replyId);
 	ServerSend("ChatRoomChat", data);
 
-	ChatRoomStimulationMessage("Talk");
+	const firstOOCRange = SpeechGetOOCRanges(msg).shift();
+	if (!firstOOCRange || firstOOCRange.start > 0) ChatRoomStimulationMessage("Talk");
 	return true;
 }
 
