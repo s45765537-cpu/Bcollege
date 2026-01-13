@@ -5541,13 +5541,8 @@ function DialogDraw() {
 	// Draw both the player and the interaction character
 	if (!CurrentCharacter.IsPlayer())
 		DrawCharacter(Player, 0, 0, 1);
-	if (!(CurrentCharacter.AccountName == "NPC_MagicSchoolFindsAround_Kitsune")) {
-		DrawCharacter(CurrentCharacter, 500, 0, 1);
-	} else {
-		if (ShowNPCBool) {
-			DrawCharacter(CurrentCharacter, 500, 0, 1);
-		}
-	}
+	DrawCharacter(CurrentCharacter, 500, 0, 1);
+
 	const C = CharacterGetCurrent();
 
 	// Drawing the character causes ScriptDraw hooks to be called, some of which

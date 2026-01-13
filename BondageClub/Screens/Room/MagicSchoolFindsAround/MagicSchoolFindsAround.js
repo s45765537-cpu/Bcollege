@@ -1,87 +1,82 @@
 "use strict";
 var MagicSchoolFindsAroundBackground = "ForestPath";
-/** @type {null | NPCCharacter} */
-var MagicSchoolFindsAroundKitsune = null;
-/** @type {boolean} */
-var PrizesKnowledgeBool = false;
-/** @type {string} */
-var NPC_FindsAround_Kitsune_Appearance = "NobwRAgmBcYKIDcCmA7Alig5gcQPYHcUwAaMbGMAYQBtcAXACxKpmDAGIA2ADgEZ/ezACJIAZgEMArtTrCxUmc3YAxVWrABdAL7FwUWACVcAZyQAFVABNxKWaXKwAckgDGAa2riXSZpVYdeOEDApW4AJgAGSLDNHT0KABlcLGU0YwYUJDpjZgcwAGVJNDok/CQAJ19/djCAVjq62N1ICjhqJEwbOny3NHK7MgoaegZSiqroNnYImdm5CWlZbWb9KgYMJFMAIXLxQXsKHfEJqYjKM7Om+Nh88ToMSlxy0wG8x+esk45ZudJpn4iSgBgL+wKBAKuLRukhQxjo5TQAAdzF00Jt9oNYGZUZswHEoWBsbYAJ4MExIDF5fK4dw5Uh+SbfXgRZmCZbXMAACXE5SQAFt8nQab0sHTMQVhcYDGhMAwBgypgBmADsEWUaqUtW4Wq1kNW3N5AqF7gwmDFVMlCTE8v8IgWij+tV4Tqdeoo0oARh7krkKBAUB4stLZTbGexKHAIxG3YY0F6fQdYP7AyVrV9w5HMzGqLg+d6tkgHeLsDy6BUxQqOEIhNwtrWlBA4I3G0DuBE29xs9gssdEwUybj6dUACyKiJCcdKGvTzvsglbGyWGJ97mhqbD3gbjfZyiSOG5tAAL3EHvaymoklEomJcB5xmX4u5fQgLm8xmMT2JD8rNU4YT/nBKLwyi8EIoENnAYTKFBSiKlsERwAh8wKAMdoochiwYUWaGYaQOHYfIuFgPhqGEQR9qkRRWGUeheFkTRREkdRzF0VRrG0cR9EsZxbE8RxTHsZhc76jy/LYLQyC+rA4m4MgFa2lxfwQGEynKdm0qilJXKLi+b4fuUxLBnKXwCXxjGKWZRbsBAw7aiq3HsKqTkgt845jsqShhF53lKJQlCKgFiqed5Xm+f5gXZsoXhIAAakgaDUFpACy4jGG46YqZlUB/JuuXDtmnIRAAnKqWmcvFIYnMJrQuGSMUPnkWy4JYxKCsS7RVfiqyOE8fLiIlfZNS1ACqiLIpUQ6wAA6usZZ4isiQ8pgPiDc1xJjJUXUUE+5TKOUyR0EVZXiH0e0HemwGXcoBUneUC7uMqtTHX093pZNbCmZ9FlMdVsBwMSSAevt+DGJSrQA0DBA5Ftf0A6D+V9v9g4sIypnWVsvCcAFSjDlsuO4w5ajqKCEK/fAcOblpSP3iZFno5j2N/PjeNbNxaNgmT+R9dQ1BbBe5S8pYVMA/kDDiJYBDptwkGUMOgJk8o0gDeKSW4JIjDpvU7btpqkQdtmjhIoi7TGEFfaG2NJvzRyZh7sYxJg1idvEtbBKi0g5UTeKZj7Sgauwq73W4LezxlUg4uBxQADSxTGDCSAACondQgq7Ii5oUEnCWp+I6cXUEBc40Eiq8GbAQFyETPF6XQEV3ARelzXOV1w3Jdl+wwSF1Xjft53lccMO1ft4PPe153rdN+X4/d23Y9dwPQ9zyE2gaEAA===";
-/** @typedef {boolean} */
-var ShowNPCBool = true;
+/** @type {NPCCharacter} */
+// This cursed thing is because I can't use @ts-expect-error here, as non-strict TS flags it
+// but not doing that causes 30 strictness errors
+var MagicSchoolFindsAroundKitsune = /** @type {NPCCharacter} */ (/** @type {unknown} */ (null));
 var MagicSchoolFindsAroundSpellCount = 0;
 var MagicSchoolFindsAroundLastSpell = "";
 
 /**
  * Uncompress a string containing an appearance, then applies that appearance data to the NPC
- * @param {Character} C - The character that loads its new appearance
- * @param {string} CompApp - The compressed string of appearance data
+ * @param {NPCCharacter} C - The NPC character that loads its new appearance
  * @returns {void} - Nothing
  */
-function MagicSchoolFindsAroundPrepareFoundNPC(C, CompApp) {
-	if (!C.IsPlayer()) {
-		C.Stage = "0";
-		C.AllowItem = false;
+function MagicSchoolFindsAroundPrepareFoundNPC(C) {
+
+	CharacterNaked(C, false);
+	CharacterRelease(C, false);
+
+	// BASE APPEARANCE
+	InventoryWear(C, "EchoV2", "BodyStyle", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "Eyebrows1", "Eyebrows", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "NoEars", "Head", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "Large", "BodyLower", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "Normal", "BodyUpper", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "H0970", "Height", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "Full", "Mouth", "#520808", undefined, undefined, undefined, false);
+	InventoryWear(C, "HairBack75", "HairBack", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "HairFront9", "HairFront", "#1F1F1F", undefined, undefined, undefined, false);
+	InventoryWear(C, "Eyes14", "Eyes",  ["Default", "#AB1633", "#4B4B4B", "Default", "#FFFFFF", "#000000"], undefined, undefined, undefined, false);
+	InventoryWear(C, "Eyes14", "Eyes2", ["Default", "#AB1633", "#4B4B4B", "Default", "#FFFFFF", "#000000"], undefined, undefined, undefined, false);
+
+	// ACCESSORIES / CLOTHING
+	InventoryWear(C, "SunstripePanties1", "Panties", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "ChineseBra1", "Bra", "#0c0c0c", undefined, undefined, undefined, false);
+	InventoryWear(C, "LongFishnets", "SuitLower", "#252525", undefined, undefined, undefined, false);
+	InventoryWear(C, "ElegantSkirt", "ClothLower", ["#000000", "Default"], undefined, undefined, undefined, false);
+	InventoryWear(C, "Pantyhose1", "Socks", "#010101", undefined, undefined, undefined, false);
+	InventoryWear(C, "HaremStockings", "SocksRight", ["#370F0F", "#585858"], undefined, undefined, undefined, false);
+	InventoryWear(C, "HaremStockings", "SocksLeft", ["Default", "#515151"], undefined, undefined, undefined, false);
+	InventoryWear(C, "Ribbon", "AnkletRight", "#CECECE", undefined, undefined, undefined, false);
+	InventoryWear(C, "Ribbon", "AnkletLeft", "#CECECE", undefined, undefined, undefined, false);
+	InventoryWear(C, "Geta", "Shoes", ["#430D0D", "#D8D8D8"], undefined, undefined, undefined, false);
+	InventoryWear(C, "Band2", "Hat", "#414141", undefined, undefined, undefined, false);
+	InventoryWear(C, "RosePendant", "Necklace", ["#1E1E1E", "#820202"], undefined, undefined, undefined, false);
+	InventoryWear(C, "KitsuneTailStraps", "TailStraps", undefined, undefined, undefined, undefined, false);
+	InventoryWear(C, "FaceVeil", "Mask", ["#2A2A2A", "#141414"], undefined, undefined, undefined, false);
+	InventoryWear(C, "SmallBlurred", "EyeShadow", "#8E2C40", undefined, undefined, undefined, false);
+	InventoryWear(C,"CustomizableFluffyEars2","HairAccessory2", ["#262626", "#1F1D1D", "#AE2F2F", "#3B0E0E", ...Array(25).fill("Default")], undefined, undefined, undefined, false);
+
+	// GLOVES
+	const gloves = InventoryWear(C, "HaremGlove", "Gloves", ["Default", "#A2A2A2"], undefined, undefined, undefined, false);
+	if (gloves) {
+		gloves.Property ??= {};
+		Object.assign(gloves.Property, { OverridePriority: { Bands: 33, Fabric: 0 } });
 	}
-	CharacterNaked(C);
 
-	// Try to decompress the data
-	let KitsuneDecompressed = null;
-	try {
-		KitsuneDecompressed = LZString.decompressFromBase64(CompApp);
-	} catch {
-		KitsuneDecompressed = null;
+	// HAND ACCESSORY
+	const rings = InventoryWear(C,"Rings","HandAccessoryRight", ["Default","Default","Default","Default","#A48537","Default","#707070","#00D307","#222222","#CC3333","#222222","#CC3333"], undefined, undefined, undefined, false);
+	if (rings) {
+		rings.Property ??= {};
+		Object.assign(rings.Property, { TypeRecord: { r: 1, t: 1 }, OverridePriority: 34 });
 	}
 
-	// If we failed to decompress, exit early
-	if (KitsuneDecompressed == null)
-		return;
-
-	// Tries to get the appearance bundle object
-	/** @type {ClipboardAppearanceBundle | null} */
-	let App = null;
-	try {
-		const json = JSON.parse(KitsuneDecompressed);
-		// We're being careful below, so this is okay
-		App = /** @type {ClipboardAppearanceBundle} */(json);
-	} catch {
-		App = null;
+	// MAIN CLOTH
+	const cloth = InventoryWear(C,"EveningGown","Cloth",["#681111", "Default", "Default", "#FFFFFF"],undefined,undefined,undefined,false);
+	if (cloth) {
+		cloth.Property ??= {};
+		Object.assign(cloth.Property, { Opacity: [0,1,0,0], OverridePriority: { Back: 0, Bottom: 0, Silk: 0 } });
 	}
 
-	// If the loaded data is invalid, exit early
-	if ((App == null) || !Array.isArray(App) || (App.length == 0))
-		return;
-
-	// Restores the appearance rows that are valid
-	let MustRefresh = false;
-	for (let AppRow of App)
-		if ((AppRow.A != null) && (typeof AppRow.A == "string") && (AppRow.G != null) && (typeof AppRow.G == "string") && AppearanceGroupAllowed(C, AppRow.G)) {
-
-			// On the first update, we clear the current appearance
-			if (!MustRefresh)
-				for (let A = C.Appearance.length - 1; A >= 0; A--)
-					if ((C.Appearance[A].Asset.Group.Category == "Appearance") && C.Appearance[A].Asset.Group.AllowCustomize)
-						if (C.Appearance[A].Asset.Group.AllowNone && AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name))
-							C.Appearance.splice(A, 1);
-
-			// Apply potential fixups when pasting
-			const fixup = LoginInventoryFixups.find(f => f.Old.Group === AppRow.G && (f.Old.Name === AppRow.A || f.Old.Name === "*"));
-			if (fixup) {
-				AppRow.G = fixup.New.Group;
-				if (fixup.New.Name) {
-					AppRow.A = fixup.New.Name;
-				}
-			}
-
-			// Wear the appearance asset and flags for a refresh
-			InventoryWear(C, AppRow.A, AppRow.G, AppRow.C, null, null, null, false);
-			MustRefresh = true;
-
-		}
-
-	// If at least one appearance row was updated, we refresh the character
-	if (MustRefresh) {
-		CharacterRefresh(C, false);
+	// GARTERS
+	const garters = InventoryWear(C,"ComboBelt","Garters",["#DD8B8B", "#AEAEAE", "#080808"],undefined,undefined,undefined,false);
+	if (garters) {
+		garters.Property ??= {};
+		Object.assign(garters.Property, { OverridePriority: { Belt: 17, Detail: 11 }, TypeRecord: { c: 1 } });
 	}
+
+	CharacterRefresh(C);
 }
 
 /**
@@ -90,13 +85,15 @@ function MagicSchoolFindsAroundPrepareFoundNPC(C, CompApp) {
  */
 async function MagicSchoolFindsAroundLoad() {
 	if (MagicSchoolFindsAroundKitsune == null) {
-		ShowNPCBool = true;
 		MagicSchoolFindsAroundKitsune = CharacterLoadNPC("NPC_MagicSchoolFindsAround_Kitsune");
-		MagicSchoolFindsAroundKitsune.Name = "Daji";
+		MagicSchoolFindsAroundPrepareFoundNPC(MagicSchoolFindsAroundKitsune);
 		MagicSchoolFindsAroundKitsune.LabelColor = "#4E1313";
-		CharacterRelease(MagicSchoolFindsAroundKitsune);
-		MagicSchoolFindsAroundPrepareFoundNPC(MagicSchoolFindsAroundKitsune, NPC_FindsAround_Kitsune_Appearance);
+		MagicSchoolFindsAroundKitsune.AllowItem = false;
+		MagicSchoolFindsAroundKitsune.Name = "Daji";
+		MagicSchoolFindsAroundKitsune.Stage = "0";
+		delete MagicSchoolFindsAroundKitsune.FixedImage;
 	}
+	MagicSchoolLaboratoryKitsuneQuestUpdate();
 }
 
 /**
@@ -106,14 +103,9 @@ async function MagicSchoolFindsAroundLoad() {
 function MagicSchoolFindsAroundRun() {
 	// Draw the background and the characters
 	DrawCharacter(Player, 500, 0, 1);
-	if (ShowNPCBool) {
-		DrawCharacter(MagicSchoolFindsAroundKitsune, 1000, 0, 1);
-	} else {
-		DrawCharacter(null, 1000, 0, 1);
-	}
+	DrawCharacter(MagicSchoolFindsAroundKitsune, 1000, 0, 1);
 	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
-	/*QuestProgress = Player.MagicSchoolFindsAroundKitsuneQuestProgress;*/
 }
 
 /**
@@ -133,9 +125,7 @@ function MagicSchoolFindsAroundClick() {
  * Sets a boolean flag on the player to indicate they have learned about the prizes
  * @returns {void} - Nothing
  */
-function MagicSchoolFindsAroundLearnAboutPrizes() {
-	PrizesKnowledgeBool = true;
-}
+function MagicSchoolFindsAroundLearnAboutPrizes() {}
 
 /**
  * Starts a magic battle with the Kitsune NPC
@@ -152,6 +142,7 @@ function MagicSchoolFindsAroundMagicBattleStart() {
 async function MagicSchoolFindsAroundKitsuneMagicBattleEnd() {
 	await CommonSetScreen("Room", "MagicSchoolFindsAround");
 	CharacterSetCurrent(MagicSchoolFindsAroundKitsune);
+	if (!CurrentCharacter) return;
 	if (MiniGameVictory) {
 		MagicSchoolFindsAroundKitsune.Stage = "70";
 		PoseSetActive(CurrentCharacter,'Kneel');
@@ -183,6 +174,7 @@ function MagicSchoolFindsAroundClubCardStart() {
 function MagicSchoolFindsAroundClubCardEnd() {
 	CommonSetScreen("Room", "MagicSchoolFindsAround");
 	CharacterSetCurrent(MagicSchoolFindsAroundKitsune);
+	if (!CurrentCharacter) return;
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
 
@@ -201,14 +193,14 @@ function MagicSchoolFindsAroundRunAway() {
  */
 function MagicSchoolFindsAroundRunAwayEnd() {
 	DialogLeave();
-	ShowNPCBool = true;
 	MagicSchoolFindsAroundKitsune.Name = "Daji";
+	delete MagicSchoolFindsAroundKitsune.FixedImage;
 	CharacterRelease(MagicSchoolFindsAroundKitsune);
-	PoseSetActive(MagicSchoolFindsAroundKitsune,'BaseLower');
+	PoseSetActive(MagicSchoolFindsAroundKitsune, 'BaseLower');
 	MagicSchoolFindsAroundGiveTails();
-	MagicSchoolFindsAroundValidate();
-	if (Player.Game.MagicSchoolFindsAround?.KitsuneQuestProgress == 9) {
-		Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress = -1;
+	const data = MagicSchoolFindsAroundGetData();
+	if (data.KitsuneQuestProgress == 9) {
+		data.KitsuneQuestProgress = -1;
 	}
 	MagicSchoolFindsAroundKitsune.Stage = "0";
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
@@ -220,14 +212,18 @@ function MagicSchoolFindsAroundRunAwayEnd() {
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundStartQuest() {
-	MagicSchoolFindsAroundValidate();
-	if (Player.Game.MagicSchoolFindsAround?.KitsuneQuestProgress == null) {
-		Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress = -1;
-	}
-	if (Player.Game.MagicSchoolFindsAround?.KitsuneQuestProgress < 0) {
-		Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress = 0;
-	}
+	const data = MagicSchoolFindsAroundGetData();
+	data.KitsuneQuestProgress = 0;
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+}
+
+/**
+ * Return the current progress of the quest
+ * @returns {number}
+ */
+function MagicSchoolFindsAroundKitsuneGetQuestProgress() {
+	const data = MagicSchoolFindsAroundGetData();
+	return data.KitsuneQuestProgress ?? -1;
 }
 
 /**
@@ -235,13 +231,7 @@ function MagicSchoolFindsAroundStartQuest() {
  * @returns {boolean} - True if in progress
  */
 function MagicSchoolFindsAroundQuestStarted() {
-	MagicSchoolFindsAroundValidate();
-	if (Player.Game.MagicSchoolFindsAround?.KitsuneQuestProgress == null) {
-		Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress = -1;
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-		return false;
-	}
-	return Player.Game.MagicSchoolFindsAround?.KitsuneQuestProgress >= 0;
+	return MagicSchoolFindsAroundKitsuneGetQuestProgress() >= 0;
 }
 
 /**
@@ -249,36 +239,18 @@ function MagicSchoolFindsAroundQuestStarted() {
  * @returns {boolean} - True if completed
  */
 function MagicSchoolFindsAroundQuestCompleted() {
-	MagicSchoolFindsAroundValidate();
-	if (Player.Game.MagicSchoolFindsAround?.KitsuneQuestProgress == null) {
-		Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress = -1;
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-		return false;
-	}
-	return Player.Game.MagicSchoolFindsAround?.KitsuneQuestProgress == 9;
+	return MagicSchoolFindsAroundKitsuneGetQuestProgress() >= 9;
 }
 
 /**
- * Normalizes the MagicSchoolFindsAround data in the player's game state.
- * Ensures that the KitsuneQuestProgress property is a valid number, defaulting to 0 if not present or invalid.
- * @returns {void} - Nothing
+ * Returns the fully initialized and validated parameters for the FindsAround game
+ * @returns {Required<GameMagicSchoolFindsAroundParameters>} - Nothing
  */
-function NormalizeMagicSchoolFindsAround() {
-	const data = Player.Game.MagicSchoolFindsAround;
-	data.KitsuneQuestProgress = CommonParseInt("" + data.KitsuneQuestProgress) || 0;
-	if (data.KitsuneQuestProgress > 9) data.KitsuneQuestProgress = 0;
-}
-
-/**
- * Ensures the game object exists for this room
- * @returns {void} - Nothing
- */
-function MagicSchoolFindsAroundValidate() {
-	if (Player.Game.MagicSchoolFindsAround == null) {
-		Player.Game.MagicSchoolFindsAround = {};
-	}
-	NormalizeMagicSchoolFindsAround();
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+function MagicSchoolFindsAroundGetData() {
+	if (!CommonIsObject(Player.Game.MagicSchoolFindsAround)) Player.Game.MagicSchoolFindsAround = {};
+	const data = /** @type {Required<GameMagicSchoolFindsAroundParameters>} */ (Player.Game.MagicSchoolFindsAround);
+	data.KitsuneQuestProgress = CommonClamp(data.KitsuneQuestProgress ?? -1, -1, 9);
+	return data;
 }
 
 /**
@@ -286,7 +258,7 @@ function MagicSchoolFindsAroundValidate() {
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundGiveTails() {
-	InventoryAdd(Player,"KitsuneTailStraps","TailStraps");
+	InventoryAdd(Player, "KitsuneTailStraps", "TailStraps");
 }
 
 /** Hide the NPC
@@ -294,16 +266,16 @@ function MagicSchoolFindsAroundGiveTails() {
  */
 function MagicSchoolFindsAroundHideNPC() {
 	MagicSchoolFindsAroundKitsune.Name = "";
-	ShowNPCBool = false;
-	/*DialogLeave();*/
+	MagicSchoolFindsAroundKitsune.FixedImage = "Screens/Room/MovieStudio/Empty.png";
 }
 
 /**
  * Triggered when the player lost and get ungagged by the Kitsune, can affect reputation
+ * @param {string} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundUngagPlayer(RepChange) {
-	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
+	DialogChangeReputation("Dominant", CommonParseInt(RepChange) ?? 0);
 	InventoryRemove(Player, "ItemMouth");
 	InventoryRemove(Player, "ItemMouth2");
 	InventoryRemove(Player, "ItemMouth3");
@@ -311,12 +283,13 @@ function MagicSchoolFindsAroundUngagPlayer(RepChange) {
 
 /**
  * When the player lost a battle and the Kitsune tests a spell on her
+ * @param {string} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundLoserSpell(RepChange) {
 
 	// If we must change the player dom/sub reputation
-	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
+	DialogChangeReputation("Dominant", CommonParseInt(RepChange) ?? 0);
 
 	// After many spells, the event ends CHANGE TO 5
 	if (MagicSchoolFindsAroundSpellCount >= 5) {
@@ -332,8 +305,8 @@ function MagicSchoolFindsAroundLoserSpell(RepChange) {
 		if ((Spell == "Hogtie") && Player.PoseMapping.BodyFull === "Hogtied") Spell = "";
 		if ((Spell == "ReleaseHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = "";
 		if ((Spell == "FlyingHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = "";
-		if ((Spell == "SwitchRope") && ((InventoryGet(Player, "ItemArms").Asset.Name == "HempRope") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
-		if ((Spell == "SwitchChain") && ((InventoryGet(Player, "ItemArms").Asset.Name == "Chains") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
+		if ((Spell == "SwitchRope") && ((InventoryGet(Player, "ItemArms")?.Asset.Name == "HempRope") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
+		if ((Spell == "SwitchChain") && ((InventoryGet(Player, "ItemArms")?.Asset.Name == "Chains") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
 		if ((Spell == "Arousal") && (MagicSchoolFindsAroundKitsune.House != "Maiestas")) Spell = "";
 		if ((Spell == "FlyingHogtie") && (MagicSchoolFindsAroundKitsune.House != "Vincula")) Spell = "";
 		if ((Spell == "Tickle") && (MagicSchoolFindsAroundKitsune.House != "Amplector")) Spell = "";
@@ -348,13 +321,16 @@ function MagicSchoolFindsAroundLoserSpell(RepChange) {
 	if (Spell == "Fail") { CharacterSetFacialExpression(MagicSchoolFindsAroundKitsune, "Blush", "Medium", 8); CharacterSetFacialExpression(MagicSchoolFindsAroundKitsune, "Eyes", "Angry", 8); }
 	if (Spell == "FlyingHogtie") {
 		const item = InventoryGet(Player, "ItemArms");
-		TypedItemSetOptionByName(Player, item, "SuspensionHogtied");
-		const Height = 0.67 * Math.random();
-		item.Property.OverrideHeight = {
-			Height: Height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
-			HeightRatioProportion: Height,
-			Priority: 0,
-		};
+		if (item) {
+			TypedItemSetOptionByName(Player, item, "SuspensionHogtied");
+			const Height = 0.67 * Math.random();
+			item.Property ??= {};
+			item.Property.OverrideHeight = {
+				Height: Height * (Pose.find(p => p.Name === "Hogtied")?.OverrideHeight?.Height ?? 1),
+				HeightRatioProportion: Height,
+				Priority: 0,
+			};
+		}
 		CharacterSetFacialExpression(Player, "Blush", "High", 8);
 		CharacterSetFacialExpression(Player, "Eyes", "Surprised", 8);
 	}
@@ -388,10 +364,11 @@ function MagicSchoolFindsAroundLoserSpell(RepChange) {
 
 /**
  * Triggered when the player lost and get untied by the Kitsune, can affect reputation
+ * @param {string} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundReleasePlayer(RepChange) {
-	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
+	DialogChangeReputation("Dominant", CommonParseInt(RepChange) ?? 0);
 	CharacterRelease(Player);
 }
 
@@ -404,17 +381,28 @@ function MagicSchoolFindsAroundPlayerMainHall() {
 	CommonSetScreen("Room", "MainHall");
 }
 
-/** Replace number in dialog
+/**
+ * Magic School Finds Around Kitsune Quest in progress?
+ * True if started but not completed (0–8)
+ * @returns {boolean}
+ */
+function DialogKitsuneQuestInProgress() {
+	const p = MagicSchoolFindsAroundKitsuneGetQuestProgress();
+	return p >= 0 && p < 9;
+}
+
+/**
+ * Update the Kitsune NPC's quest status as it progresses
  * @returns {void} - Nothing
  */
-function MagicSchoolFindsAroundRunAwayWithCountUpdate() {
-	MagicSchoolFindsAroundValidate();
-	let Defeats = Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress;
-	if (Defeats == null || Defeats < 0) Defeats = 0;
+function MagicSchoolLaboratoryKitsuneQuestUpdate() {
+	if (MagicSchoolFindsAroundKitsune == null) return;
+	let Defeats = MagicSchoolFindsAroundKitsuneGetQuestProgress();
+	// Quest already started, so set the state directly
+	if (Defeats !== -1) MagicSchoolFindsAroundKitsune.Stage = "100";
+	if (Defeats < 0) Defeats = 0;
 	let MissingDefeats = 9 - Defeats;
-	DialogLeave();
-	CommonSetScreen("Room", "MagicSchoolLaboratory");
-	if (MissingDefeats != 0) {
+	if (MissingDefeats !== 0) {
 		MagicSchoolFindsAroundKitsune.CurrentDialog = DialogFind(MagicSchoolFindsAroundKitsune, "100").replace("LEFTDEFEATCOUNT", MissingDefeats.toString());
 	} else {
 		MagicSchoolFindsAroundKitsune.CurrentDialog = DialogFind(MagicSchoolFindsAroundKitsune, "CompleteQuestRelief");
@@ -422,12 +410,16 @@ function MagicSchoolFindsAroundRunAwayWithCountUpdate() {
 }
 
 /**
- * Magic School Finds Around Kitsune Quest in progress?
- * True if started but not completed (0–8)
- * @returns {boolean}
+ * Give player essence from defeated student
+ * @param {string} Amount - The amount of essence to give
+ * @returns {void} - Nothing
  */
-function MagicSchoolFindsAroundKitsuneQuestInProgress() {
-	NormalizeMagicSchoolFindsAround();
-	const p = Player.Game.MagicSchoolFindsAround.KitsuneQuestProgress;
-	return p >= 0 && p < 9;
+function DialogKitsuneGiveEssence(Amount) {
+	if (!CurrentCharacter) return;
+	DialogRemove();
+	PoseSetActive(CurrentCharacter, 'Kneel');
+	const data = MagicSchoolFindsAroundGetData();
+	data.KitsuneQuestProgress += CommonParseInt(Amount) ?? 0;
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	MagicSchoolLaboratoryKitsuneQuestUpdate();
 }

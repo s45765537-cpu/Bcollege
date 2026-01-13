@@ -397,7 +397,7 @@ var AssetFemale3DCGExtended = {
 			Modules: [
 				{
 					Name: "Style",
-					Key: "s",//Style
+					Key: "s", //Style
 					DrawImages: false,
 					Options: [
 						{}, //s0 - Style 1 - Original Style
@@ -406,7 +406,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Rotation",
-					Key: "r",//Rotation
+					Key: "r", //Rotation
 					DrawImages: false,
 					Options: [
 						{}, //r0 - TL - Top Left
@@ -13371,7 +13371,7 @@ var AssetFemale3DCGExtended = {
 			Modules: [
 				{
 					Name: "Style",
-					Key: "s",//Style
+					Key: "s", //Style
 					DrawImages: false,
 					Options: [
 						{}, //s0 - Style 1 - Original Style
@@ -13380,7 +13380,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Rotation",
-					Key: "r",//Rotation
+					Key: "r", //Rotation
 					DrawImages: false,
 					Options: [
 						{}, //r0 - TL - Top Left
