@@ -300,6 +300,7 @@ var KeybindingDefaults = {
 		{
 			id: 'chat_send_chat',
 			action: (event) => {
+				if (event.isComposing) return false;
 				event.preventDefault();
 				ChatRoomSendChat();
 				return true;
