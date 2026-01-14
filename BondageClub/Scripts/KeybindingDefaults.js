@@ -313,6 +313,25 @@ var KeybindingDefaults = {
 			}
 		},
 		{
+			id: 'chat_send_ooc_chat',
+			action: (event) => {
+				if (event.isComposing) return false;
+				const inputChat = /** @type {HTMLInputElement} */ (ElementWrap("InputChat"));
+				let text = inputChat?.value;
+				if (!text) return true;
+				inputChat.value = `(${text}`;
+				ChatRoomSendChat();
+				return true;
+			},
+			categoryId: 'chat',
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
+			readonly: false,
+			defaultKeyCombo: {
+				key: 'Enter',
+				modifiers: new Set(['Ctrl']),
+			}
+		},
+		{
 			id: 'chat_history_prev',
 			action: () => {
 				ChatRoomScrollHistory(true);
