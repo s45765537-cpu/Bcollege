@@ -433,8 +433,8 @@ var KeybindingManager = {
 		 * @param {Keybindings.KeyCombo} kb2
 		 */
 		_isKeyComboEqual(kb1, kb2) {
-			return ("key" in kb1 && "key" in kb2 && kb1.key === kb2.key
-				|| "char" in kb1 && "char" in kb2 && kb1.char === kb2.char
+			return ("key" in kb1 && "key" in kb2 && kb1.key && kb2.key && kb1.key === kb2.key
+				|| "char" in kb1 && "char" in kb2 && kb1.char && kb2.char && kb1.char.toLowerCase() === kb2.char.toLowerCase()
 			) && this._areModifiersConflicting(kb1.modifiers, kb2.modifiers);
 		}
 
@@ -485,14 +485,14 @@ var KeybindingManager = {
 			 */
 			const serializeKeybinding = (kb) => {
 				const { id: actionId, keyCombo } = kb;
-				const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : keyCombo.char;
+				const keyString = "key" in keyCombo && keyCombo?.key ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : ("char" in keyCombo ? keyCombo.char : undefined);
 				return {
 					actionId,
 					keyCombo: keyString + ' ' + (keyCombo.modifiers ? [...keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
 				};
 			};
 
-			const serialized = [...this.keybindings.values()].filter(kb => !kb.readonly).map(kb => serializeKeybinding(kb));
+			const serialized = [...this.keybindings.values()].filter(kb => !kb.readonly && !this.isDefaultCombo(kb)).map(kb => serializeKeybinding(kb));
 
 			serialized.push(...[...this.uninitializedKeybindings.values()].map(kb => serializeKeybinding(kb)));
 

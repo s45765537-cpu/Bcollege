@@ -55,7 +55,7 @@ var KeyGUI = {
 	 */
 	buildKeybinding: function (keybinding) {
 		const keyCombo = keybinding.keyCombo;
-		const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo?.key] : keyCombo.char;
+		const keyString = "key" in keyCombo && keyCombo?.key ? KeybindingManager.ASCIIKeyboardMap[keyCombo?.key] : ("char" in keyCombo ? keyCombo.char : undefined);
 		const contextsString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => KeyManager.getContextLabel(ctx)).join(', ');
 		const contextsTooltipString = keybinding.contextIds.filter(ctx => KeyManager.getContext(ctx).showInUI).map(ctx => `· ${KeyManager.getContextLabel(ctx)}`).join('\\n');
 		const keybindElm = document.getElementById(KeyGUI.selec.keyId(keybinding.id));
@@ -265,7 +265,7 @@ var KeyGUI = {
 				case 'keyCombo':
 					return [...new Set(KeyManager.getAllKeybindings().map(kb => {
 						const keyCombo = kb.keyCombo;
-						const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : keyCombo.char;
+						const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : ("char" in keyCombo ? keyCombo.char : undefined);
 						const modifiersString = kb.keyCombo?.modifiers ? [...kb.keyCombo.modifiers].join(' + ') : '';
 
 						let keyComboString = TextGet('KeybindNotBound');
@@ -583,9 +583,8 @@ function PreferenceSubscreenKeybindingsKeyUp(e) {
 	e.preventDefault();
 	e.stopImmediatePropagation();
 
+	// Stop handling if the key is not allowed to be bound
 	if (e.code in KeybindingManager.ASCIIKeyboardMap === false) return false;
-
-	const code = /** @type {Keybindings.KeyCode} */ (e.code);
 
 	if (CommonKey.IsPressed(e, 'Escape', 0)) {
 		KeyGUI.selectedAction = null;
@@ -593,9 +592,10 @@ function PreferenceSubscreenKeybindingsKeyUp(e) {
 	}
 
 	const modifiers = KeyManager.getModifiers(e);
+	const normalizedKey = e.key.length === 1 ? e.key.toUpperCase() : e.key;
 
 	/** @type {Keybindings.KeyCombo} */
-	const keyCombo = { key: code, modifiers: modifiers };
+	const keyCombo = { char: normalizedKey, modifiers: modifiers };
 
 	KeyGUI.updateKeybinding(KeyGUI.selectedAction, keyCombo);
 
