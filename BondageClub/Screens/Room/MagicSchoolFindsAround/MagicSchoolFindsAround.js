@@ -397,6 +397,7 @@ function DialogKitsuneQuestInProgress() {
  */
 function MagicSchoolLaboratoryKitsuneQuestUpdate() {
 	if (MagicSchoolFindsAroundKitsune == null) return;
+	if (!MagicSchoolFindsAroundQuestStarted()) return;
 	let Defeats = MagicSchoolFindsAroundKitsuneGetQuestProgress();
 	// Quest already started, so set the state directly
 	if (Defeats !== -1) MagicSchoolFindsAroundKitsune.Stage = "100";
