@@ -322,12 +322,12 @@ function PandoraClick() {
  * @param {KeyboardEvent} event - Key event
  * @returns {boolean} - Whether the supplied event was understood/used.
  */
-function PandoraKeyDown (event) {
+function PandoraKeyDown(event) {
 	/** @type {"North" | "South" | "East" | "West" | undefined} */
 	let dir;
-	const movingAllowed = PandoraCurrentRoom.Character.every (i => i.AllowMove == null  ||  i.AllowMove);
+	const movingAllowed = PandoraCurrentRoom?.Character.every(i => i.AllowMove == null || i.AllowMove);
 	if (movingAllowed && PandoraMode == "" && !CommonKey.GetModifiers(event)) {
-		switch (CommonKeyMove (event, true)) {
+		switch (CommonKeyMove(event, true)) {
 			case 'u':
 				dir = "North";
 				break;
@@ -347,8 +347,8 @@ function PandoraKeyDown (event) {
 				break;
 		}
 
-		if (dir !== undefined  &&  PandoraDirectionAvailable (dir)) {
-			PandoraEnterRoom (PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf (dir)], dir);
+		if (dir !== undefined && PandoraDirectionAvailable(dir)) {
+			PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf(dir)], dir);
 		}
 	}
 	return dir !== undefined;
