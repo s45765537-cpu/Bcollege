@@ -1543,7 +1543,7 @@ function PandoraPenitentiaryRun() {
  */
 function PandoraPenitentiaryDoActivity(Activity) {
 
-	// Make sur the source/player is a guard first
+	// Make sure the source/player is a guard first
 	if (!PandoraPenitentiaryIsGuard(Player))
 		return ChatRoomSendLocal(TextGet("PandoraInvalidSource"), 10_000);
 
@@ -1552,13 +1552,20 @@ function PandoraPenitentiaryDoActivity(Activity) {
 	if ((Target != null) && !PandoraPenitentiaryIsInmate(Target))
 		return ChatRoomSendLocal(TextGet("PandoraInvalidTarget"), 10_000);
 
-	// Make sure the activity is valid
-	if (Activity != null) {
-		Activity = Activity.trim();
-		Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
+	if (Activity.toLowerCase() === "help") {
+		let helpMsg = TextGet("PandoraActivityHelp") + "\n";
+		helpMsg += PandoraPenitentiaryActivityList.map(a => `- ${a.toLowerCase()}`).join("\n");
+		ChatRoomSendLocal(helpMsg, 10_000);
+		return;
 	}
-	if ((Activity == null) || !PandoraPenitentiaryActivityList.includes(Activity))
-		return ChatRoomSendLocal(TextGet("PandoraInvalidActivity"), 10_000);
+
+	// Make sure the activity is valid
+	Activity = Activity.trim();
+	Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
+	if (!PandoraPenitentiaryActivityList.includes(Activity)) {
+		ChatRoomSendLocal(TextGet("PandoraInvalidActivity"), 10_000);
+		return;
+	}
 
 	// Make sure the activity can be run on that target
 	if (Target != null) {
