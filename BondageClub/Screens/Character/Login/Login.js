@@ -11,12 +11,13 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "afraidwolf", "Ak1ba", "AlexG", "Asriel", "Aybes", "Beepus", "bryce", "Canti", "Christian", 
-	"Christoffer", "Claudia", "Cm382714", "Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", 
-	"Exusiai", "George", "Greendragon", "I.F.S.", "Jason", "Jenna", "john", "Jonas", "Kim", "Laurie", 
-	"Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", "Nikita", "PristessSakura", 
-	"Schrödingers", "shadowhack", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", 
-	"Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio", "云雪"
+	"Abysseia", "Ak1ba", "AlexG", "asdddew", "Asriel", "Aybes", "bryce", "Canti", "Christian", 
+	"Christoffer", "Claudia", "Cm382714", "Desch", "Diona", "Dragokahn", "dynilath", "EBXD", 
+	"Edwin", "Exusiai", "Gagcat", "George", "Greendragon", "Hhhhh", "I.F.S.", "Jack", "Jason", 
+	"john", "Jonas", "Kim", "Laurie", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", 
+	"Nightcore", "Nikita", "Optical", "PristessSakura", "Roxxy", "Schrödingers", "shadowhack", 
+	"Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", 
+	"Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
