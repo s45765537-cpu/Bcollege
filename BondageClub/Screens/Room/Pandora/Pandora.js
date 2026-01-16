@@ -322,12 +322,12 @@ function PandoraClick() {
  * @param {KeyboardEvent} event - Key event
  * @returns {boolean} - Whether the supplied event was understood/used.
  */
-function PandoraKeyDown (event) {
+function PandoraKeyDown(event) {
 	/** @type {"North" | "South" | "East" | "West" | undefined} */
 	let dir;
-	const movingAllowed = PandoraCurrentRoom.Character.every (i => i.AllowMove == null  ||  i.AllowMove);
+	const movingAllowed = PandoraCurrentRoom?.Character.every(i => i.AllowMove == null || i.AllowMove);
 	if (movingAllowed && PandoraMode == "" && !CommonKey.GetModifiers(event)) {
-		switch (CommonKeyMove (event, true)) {
+		switch (CommonKeyMove(event, true)) {
 			case 'u':
 				dir = "North";
 				break;
@@ -347,8 +347,8 @@ function PandoraKeyDown (event) {
 				break;
 		}
 
-		if (dir !== undefined  &&  PandoraDirectionAvailable (dir)) {
-			PandoraEnterRoom (PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf (dir)], dir);
+		if (dir !== undefined && PandoraDirectionAvailable(dir)) {
+			PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf(dir)], dir);
 		}
 	}
 	return dir !== undefined;
@@ -1210,13 +1210,19 @@ function PandoraPenitentiaryCreate() {
 		PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
 
 		// The inmate first search for a prison that already exists
-		ChatSearchStart(ChatRoomSpaceType.MIXED, ["Online", "ChatSearch"], { BackgroundTagList: [BackgroundsTagPandora] });
+		ChatSearchStart(ChatRoomSpaceType.MIXED, ["Room", "Infiltration"], {
+			BackgroundTagList: [BackgroundsTagPandora],
+			Game: "Prison",
+		}).then(() => {
+			ChatSearchQuery("");
+		});
 	}
 }
 
 /**
- * Called from MainHall and ChatSearch - Checks if we must create the Pandora prison and creates it
- * @param {object} Result - The result of the search
+ * Intercept chat results and auto-join Pandora room if currently in the Penitentiary
+ * This function expects to only be called with the ChatSearch screen running
+ * @param {ServerChatRoomSearchResultResponse} Result - The result of the search
  * @returns {void} - Nothing
  */
 function PandoraPenitentiaryResult(Result) {
@@ -1224,47 +1230,44 @@ function PandoraPenitentiaryResult(Result) {
 	// Exits right away if already in a chat room
 	if (ServerPlayerIsInChatRoom()) return;
 
+	// Neither a guard nor an inmate, ignore
+	if (!PandoraPenitentiaryIsInmate(Player) && !PandoraPenitentiaryIsGuard(Player)) return;
+
 	// Prepares a list of all available prisons, do not return in a room where we used a safeword
-	let List = [];
-	for (let R of Result)
-		if (R.Name.startsWith("Pandora") && !PandoraPenitentiarySafewordRooms.includes(R.Name) && (R.Game == "Prison") && (R.MemberCount < R.MemberLimit))
-			List.push(R.Name);
+	let List = Result.filter(
+		room => room.Name.startsWith("Pandora")
+		&& room.Game === "Prison"
+		&& room.MemberCount < room.MemberLimit
+		&& !PandoraPenitentiarySafewordRooms.includes(room.Name)
+	);
 
-	// If we find some results
+	// There are some matches, join a random one
 	if (List.length > 0) {
-
-		// Try to join a random prison
-		ServerSend("ChatRoomJoin", { Name: CommonRandomItemFromList(null, List) });
-
-	} else {
-
-		// Since we did not found any prison, we Setup the parameters for a new one
-		ChatSearchSpace = ChatRoomSpaceType.MIXED;
-		ChatRoomSpace = ChatRoomSpaceType.MIXED;
-		ChatSearchReturnScreen = ["Online", "ChatSearch"];
-		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
-
-		// Creates the prison chat room
-		/** @type {ChatRoomSettings} */
-		const NewRoom = {
-			Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
-			Description: "Pandora Penitentiary Cell",
-			Background: CommonRandomItemFromList(null, ["PrisonHall", "PandoraCell0", "PandoraCell1", "PandoraCell2", "PandoraCell3", "PandoraCell4", "PandoraCell5", "PandoraCell6"]),
-			Visibility: ChatRoomVisibilityMode.PUBLIC,
-			Access: ChatRoomAccessMode.PUBLIC,
-			Limit: 10,
-			Space: ChatRoomSpaceType.MIXED,
-			Game: "Prison",
-			Admin: [],
-			Whitelist: [],
-			Ban: [],
-			BlockCategory: ["Leashing"],
-			Language: ChatAdminDefaultLanguage,
-		};
-		ServerSend("ChatRoomCreate", NewRoom);
-
+		ServerSend("ChatRoomJoin", { Name: CommonRandomItemFromList(null, List).Name });
+		return;
 	}
 
+	// Since we did not found any prison, we Setup the parameters for a new one
+	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
+
+	// Creates the prison chat room
+	/** @type {ChatRoomSettings} */
+	const NewRoom = {
+		Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
+		Description: "Pandora Penitentiary Cell",
+		Background: CommonRandomItemFromList(null, ["PrisonHall", "PandoraCell0", "PandoraCell1", "PandoraCell2", "PandoraCell3", "PandoraCell4", "PandoraCell5", "PandoraCell6"]),
+		Visibility: ChatRoomVisibilityMode.PUBLIC,
+		Access: ChatRoomAccessMode.PUBLIC,
+		Limit: 10,
+		Space: ChatRoomSpaceType.MIXED,
+		Game: "Prison",
+		Admin: [],
+		Whitelist: [],
+		Ban: [],
+		BlockCategory: ["Leashing"],
+		Language: ChatAdminDefaultLanguage,
+	};
+	ServerSend("ChatRoomCreate", NewRoom);
 }
 
 /**
@@ -1543,7 +1546,7 @@ function PandoraPenitentiaryRun() {
  */
 function PandoraPenitentiaryDoActivity(Activity) {
 
-	// Make sur the source/player is a guard first
+	// Make sure the source/player is a guard first
 	if (!PandoraPenitentiaryIsGuard(Player))
 		return ChatRoomSendLocal(TextGet("PandoraInvalidSource"), 10_000);
 
@@ -1552,13 +1555,20 @@ function PandoraPenitentiaryDoActivity(Activity) {
 	if ((Target != null) && !PandoraPenitentiaryIsInmate(Target))
 		return ChatRoomSendLocal(TextGet("PandoraInvalidTarget"), 10_000);
 
-	// Make sure the activity is valid
-	if (Activity != null) {
-		Activity = Activity.trim();
-		Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
+	if (Activity.toLowerCase() === "help") {
+		let helpMsg = TextGet("PandoraActivityHelp") + "\n";
+		helpMsg += PandoraPenitentiaryActivityList.map(a => `- ${a.toLowerCase()}`).join("\n");
+		ChatRoomSendLocal(helpMsg, 10_000);
+		return;
 	}
-	if ((Activity == null) || !PandoraPenitentiaryActivityList.includes(Activity))
-		return ChatRoomSendLocal(TextGet("PandoraInvalidActivity"), 10_000);
+
+	// Make sure the activity is valid
+	Activity = Activity.trim();
+	Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
+	if (!PandoraPenitentiaryActivityList.includes(Activity)) {
+		ChatRoomSendLocal(TextGet("PandoraInvalidActivity"), 10_000);
+		return;
+	}
 
 	// Make sure the activity can be run on that target
 	if (Target != null) {
