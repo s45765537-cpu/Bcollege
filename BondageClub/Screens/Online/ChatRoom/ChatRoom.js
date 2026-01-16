@@ -4415,6 +4415,7 @@ function ChatRoomMessageGetReplyId() {
 	if (!chatInput) return;
 	return chatInput.getAttribute("reply-id");
 }
+
 /**
  * Returns the name of the character that this message is a reply to.
  * We get the wrong name when replying to reply that's what this is for.
@@ -4424,29 +4425,34 @@ function ChatRoomMessageGetReplyId() {
  */
 function ChatRoomMessageGetReplyName(msgId, isWhisper=false) {
 	const message = ChatRoomMessageGetById(msgId);
-	if (message) {
-		if (isWhisper) {
-			const sender = Number(message.getAttribute("data-sender"));
-			return CharacterNickname(ChatRoomCharacter.find(C => C.MemberNumber === sender));
-		}
-		const names = message.querySelectorAll(".ChatMessageName");
-		const name = names[names.length - 1];
-		return name?.textContent;
+	if (!message) {
+		return null;
 	}
-	return null;
+	if (isWhisper) {
+		const sender = Number(message.getAttribute("data-sender"));
+		const char = ChatRoomCharacter.find(C => C.MemberNumber === sender);
+		if (char) {
+			return CharacterNickname(char);
+		}
+		// Fallthrough here if the character happened to leave
+	}
+	const names = message.querySelectorAll(".ChatMessageName");
+	const name = names[names.length - 1];
+	return name?.textContent;
 }
+
 /**
  * @param {string} msgId
  * @returns {string | null}
  */
 function ChatRoomMessageGetReplyContent(msgId) {
 	const message = ChatRoomMessageGetById(msgId);
-	if (message) {
-		const contents = message.querySelectorAll(".chat-room-message-content");
-		const content = contents[contents.length - 1];
-		return content.textContent;
+	if (!message) {
+		return null;
 	}
-	return null;
+	const contents = message.querySelectorAll(".chat-room-message-content");
+	const content = contents[contents.length - 1];
+	return content.textContent;
 }
 
 
