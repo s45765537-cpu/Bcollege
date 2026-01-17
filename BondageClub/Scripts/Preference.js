@@ -353,8 +353,7 @@ function PreferenceInitPlayer(C, data) {
 	let NS = /** @type {Partial<NotificationSettingsType>} */ (data.NotificationSettings ?? {});
 
 	if (typeof NS.Beeps !== "object") NS.Beeps = PreferenceInitNotificationSetting(NS.Beeps, NotificationAudioType.FIRST, NotificationAlertType.POPUP);
-	// @ts-expect-error object gets its missing properties afterwards
-	if (typeof NS.ChatMessage !== "object") NS.ChatMessage = PreferenceInitNotificationSetting(NS.ChatMessage, defaultAudio);
+	if (typeof NS.ChatMessage !== "object") NS.ChatMessage = PreferenceInitNotificationSetting(NS.ChatMessage, NotificationAudioType.FIRST);
 	if (typeof NS.ChatMessage.Normal !== "boolean") NS.ChatMessage.Normal = true;
 	if (typeof NS.ChatMessage.Whisper !== "boolean") NS.ChatMessage.Whisper = true;
 	if (typeof NS.ChatMessage.Activity !== "boolean") NS.ChatMessage.Activity = false;
