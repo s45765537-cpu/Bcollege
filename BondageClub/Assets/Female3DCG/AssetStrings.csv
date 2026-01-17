@@ -6547,6 +6547,19 @@ PantiesMaleCatsuitPantiesTucked,Tucked
 PantiesPoofyDiaperPoofy,Extra Padding
 PantiesPoofyDiaperRegularPadding,Regular Padding
 PantiesPoofyDiaperSelect,Select the amount of padding.
+PantiesPullDownPantiesPutOn,Put On
+PantiesPullDownPantiesPulledAside,Pulled Aside
+PantiesPullDownPantiesCrotchExposed,Crotch Exposed
+PantiesPullDownPantiesAroundThighs,Around Thighs
+PantiesPullDownPantiesAroundKnees,Around Knees
+PantiesPullDownPantiesAroundAnkles,Around Ankles
+PantiesPullDownPantiesSelect,Customize the state of the panties
+PantiesPullDownPantiesSetPutOn,SourceCharacter puts panties on DestinationCharacter.
+PantiesPullDownPantiesSetPulledAside,SourceCharacter pulls aside DestinationCharacter panties.
+PantiesPullDownPantiesSetCrotchExposed,SourceCharacter pulls down DestinationCharacter panties to the crotch.
+PantiesPullDownPantiesSetAroundThighs,SourceCharacter pulls down DestinationCharacter panties to the thighs.
+PantiesPullDownPantiesSetAroundKnees,SourceCharacter pulls down DestinationCharacter panties to the knees.
+PantiesPullDownPantiesSetAroundAnkles,SourceCharacter pulls down DestinationCharacter panties to the ankles.
 PasswordChangeSuccess,SourceCharacter changes the password of the lock on DestinationCharacter FocusAssetGroup.
 PasswordFail,SourceCharacter tries the word Password but fails to open the lock on DestinationCharacter FocusAssetGroup.
 PasswordPadlockChangePassword,Accept
