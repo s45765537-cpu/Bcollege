@@ -200,13 +200,22 @@ const CraftingEffectsPrerequisite = {
 		max: 1
 	},
 	Strong: {
-		max: 1
+		max: 1,
+		isDisabled(craft) {
+			return craft.Effects?.Nimble != null || craft.Effects?.Flexible != null;
+		},
 	},
 	Flexible: {
-		max: 1
+		max: 1,
+		isDisabled(craft) {
+			return craft.Effects?.Nimble != null || craft.Effects?.Strong != null;
+		},
 	},
 	Nimble: {
-		max: 1
+		max: 1,
+		isDisabled(craft) {
+			return craft.Effects?.Flexible != null || craft.Effects?.Strong != null;
+		},
 	},
 };
 /**
@@ -217,7 +226,7 @@ const CraftingEffectsPrerequisite = {
 function CraftingCheckEffectsPrerequisite(craft, effect) {
 	const prerequisite = CraftingEffectsPrerequisite[effect];
 	if (craft.Effects?.[effect] == null && !CommonIsInteger(Object.keys(craft.Effects).length, 0, CraftingEffectsDefaultMaximumEffects-1)) return false;
-	if (!CommonIsInteger((craft.Effects?.[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumCount) -1)) return false;
+	if (!CommonIsInteger((craft.Effects?.[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumCount))) return false;
 
 	if (!prerequisite.isDisabled) return true;
 	return !prerequisite.isDisabled(craft);
@@ -229,7 +238,7 @@ function CraftingCheckEffectsPrerequisite(craft, effect) {
  */
 function CraftingPropertyUpdateButtons(craft) {
 	for (const name of Array.from(CraftingPropertyMap.keys())) {
-		const disabled = !CraftingCheckEffectsPrerequisite(craft, name) || !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
+		const disabled = !CraftingCheckEffectsPrerequisite({...craft, Effects: {...craft.Effects, [name]: (craft.Effects?.[name] ?? 0) + 1}}, name) || !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
 		document.getElementById(`crafting-property-button-${name}-add`)?.toggleAttribute("disabled", disabled);
 	}
 }
@@ -1584,6 +1593,7 @@ function CraftingUpdatePreview() {
 	CharacterReleaseTotal(CraftingPreview, false);
 	if (CraftingNakedPreview) CharacterNaked(CraftingPreview, false);
 	if (!CraftingSelectedItem) return;
+	CraftingPropertyUpdateButtons(CraftingSelectedItem);
 	const Craft = CraftingConvertSelectedToItem();
 	const FoundGroups = new Set();
 	const RelevantAssets = (CraftingAssets[Craft.Item] ?? []).filter(a => {
@@ -1968,7 +1978,6 @@ function CraftingDeserialize(craftString) {
 		Name,
 		Description,
 		Color,
-		Effects: Effects ? CommonJSONParse(Effects) : {},
 		Property: /** @type {CraftingPropertyType} */(Property) || "Normal",
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
@@ -1976,6 +1985,7 @@ function CraftingDeserialize(craftString) {
 		Type: Type || undefined,
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
+		Effects: Effects ? CommonJSONParse(Effects) : null,
 	};
 
 	const priority = Number.parseInt(OverridePriority);
@@ -2286,7 +2296,6 @@ function CraftingConvertSelectedToItem() {
 	return {
 		Item: (CraftingSelectedItem.Asset == null) ? "" : CraftingSelectedItem.Asset.Name,
 		Property: CraftingSelectedItem.Property,
-		Effects: CraftingSelectedItem.Effects,
 		Lock: (CraftingSelectedItem.Lock == null) ? "" : /**@type {AssetLockType}*/(CraftingSelectedItem.Lock.Name),
 		Name: CraftingSelectedItem.Name,
 		Description: CraftingSelectedItem.Description,
@@ -2295,6 +2304,7 @@ function CraftingConvertSelectedToItem() {
 		TypeRecord: CraftingSelectedItem.TypeRecord || null,
 		DifficultyFactor: CraftingSelectedItem.DifficultyFactor || undefined,
 		ItemProperty: CraftingSelectedItem.ItemProperty,
+		Effects: CraftingSelectedItem.Effects,
 	};
 }
 
@@ -2312,8 +2322,8 @@ function CraftingConvertItemToSelected(Craft) {
 		Private: Craft.Private,
 		TypeRecord: Craft.TypeRecord || null,
 		Property: Craft.Property,
-		Effects: Craft.Effects,
 		Assets: CraftingAssets[Craft.Item] ?? [],
+		Effects: Craft.Effects,
 		get Asset() {
 			return this.Assets[0];
 		},
