@@ -1,5 +1,5 @@
-﻿Enter your online description (10000 characters maximum)
-Введите описание в Интернете (10000 максимум символов)
+﻿Enter your online description (MAXLEN characters maximum)
+Введите описание в Интернете (MAXLEN максимум символов)
 CharacterName's online description
 Имя персонажа Описание в интернете
 Exit profile

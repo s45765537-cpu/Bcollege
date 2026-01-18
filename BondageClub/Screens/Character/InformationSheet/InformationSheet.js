@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var InformationSheetBackground = "Sheet";
 /** @type {null | Character | NPCCharacter} */
@@ -14,6 +15,55 @@ async function InformationSheetLoad() {
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Character", "Preference");
 	TextPrefetch("Character", "Title");
+
+	const C = InformationSheetSelection;
+
+	if (!C.IsPlayer()) return;
+
+	const dropdownOptions = Object.values(AllowedInteractions)
+		.map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({
+			attributes: {
+				value: e.toString(),
+				label: TextGet("AllowedInteraction" + e.toString()),
+				selected: e === Player.AllowedInteractions
+			}
+		}));
+
+	ElementCreate({
+		tag: "label",
+		attributes: {
+			id: "AllowedInteractions-dropdown-container",
+			for: "AllowedInteractions-dropdown"
+		},
+		style: {
+			display: "grid",
+			"grid-template-rows": "max-content max-content",
+			"grid-template-columns": "auto",
+			"gap": "var(--gap)"
+		},
+		children: [
+			{
+				tag: "span",
+				attributes: { id: "AllowedInteractions-dropdown-label" },
+				children: [TextGet("AllowedInteractions")],
+				style: { "user-select": "none" }
+			},
+			ElementCreateDropdown("AllowedInteractions-dropdown", dropdownOptions, function (ev) {
+				ev.preventDefault();
+				if (this.value in Object.values(AllowedInteractions) === false) return;
+				Player.AllowedInteractions = /** @type {AllowedInteractions} */ (CommonParseInt(this.value));
+				if (Player.GetDifficulty() >= Difficulty.EXTREME) LoginExtremeItemSettings(Player.AllowedInteractions === AllowedInteractions.Everyone);
+
+				const P = {
+					ItemPermission: Player.AllowedInteractions,
+					AllowedInteractions: Player.AllowedInteractions,
+					...ServerPackItemPermissions(Player.PermissionItems),
+				};
+				ServerAccountUpdate.QueueData(P);
+			})
+		],
+		parent: document.body
+	});
 }
 
 /**
@@ -52,21 +102,41 @@ function InformationSheetRun() {
 
 	currentY += spacingLarge;
 
-	if (C.IsPlayer()) {
-		let memberForLine = TextGet(C.IsBirthday() ? "Birthday" : "MemberFor") + " " + (Math.floor((CurrentTime - C.Creation) / 86400000)).toString() + " " + TextGet("Days");
+	if ((C.IsPlayer() || C.IsOnline()) && C.Creation !== null) {
+		const clubStayDuration = CommonFormatDuration(CurrentTime - C.Creation, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
+		const memberForLine = TextGet(C.IsBirthday() ? "Birthday" : "MemberFor") + " " + clubStayDuration;
+		const joinedDate = new Date(C.Creation).toLocaleString(undefined, {
+			dateStyle: "medium",
+			timeStyle: "short",
+		});
+
 		DrawTextFit(memberForLine, 550, currentY, 450, (C.IsBirthday() ? "Blue" : "Black"), "Gray");
+		const y = currentY;
+		if (MouseIn(550, y - 20, 450, 40))
+			DrawHoverElements.push(() => {
+				DrawButtonHover(550, y - 20, 450, 40, joinedDate);
+			});
 		currentY += spacing;
 
-		let moneyLine = TextGet("Money") + " " + C.Money.toString() + " $";
-		DrawTextFit(moneyLine, 550, currentY, 450, "Black", "Gray");
-		currentY += spacing;
-	} else if (C.IsOnline() && C.Creation != null) {
-		let memberForLine = TextGet("MemberFor") + " " + (Math.floor((CurrentTime - C.Creation) / 86400000)).toString() + " " + TextGet("Days");
-		DrawTextFit(memberForLine, 550, currentY, 450, "Black", "Gray");
-		currentY += spacing;
+		if (C.IsPlayer()) {
+			let moneyLine = TextGet("Money") + " " + C.Money.toString() + " $";
+			DrawTextFit(moneyLine, 550, currentY, 450, "Black", "Gray");
+			currentY += spacing;
+		}
 	} else if (C.IsNpc()) {
-		let friendForLine = TextGet("FriendsFor") + " " + (Math.floor((CurrentTime - NPCEventGet(C, "PrivateRoomEntry")) / 86400000)).toString() + " " + TextGet("Days");
-		DrawTextFit(friendForLine, 550, currentY, 450, "Black", "Gray");
+		const friendshipDuration = CommonFormatDuration(CurrentTime - NPCEventGet(C, "PrivateRoomEntry"), { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
+		let friendsFor = `${TextGet("FriendsFor")} ${friendshipDuration}`;
+		const friendshipStartDate = new Date(NPCEventGet(C, "PrivateRoomEntry")).toLocaleString(undefined, {
+			dateStyle: "medium",
+			timeStyle: "short",
+		});
+
+		DrawTextFit(friendsFor, 550, currentY, 450, "Black", "Gray");
+		const y = currentY;
+		if (MouseIn(550, y - 20, 450, 40))
+			DrawHoverElements.push(() => {
+				DrawButtonHover(550, y - 20, 450, 40, friendshipStartDate);
+			});
 		currentY += spacing;
 
 		let relationshipQualifier = "";
@@ -91,8 +161,7 @@ function InformationSheetRun() {
 
 		// Shows the difficulty level
 		let difficultyLine = `${TextGet("DifficultyLevel" + C.GetDifficulty())} ${TextGet("DifficultyTitle")}`;
-		if(C.IsPlayer())
-		{
+		if (C.IsPlayer()) {
 			const MillisecondsPerDay = 86400000;
 			const DifficultyChangeMaxDelay = 7;
 			const LastChangeTime = typeof C.Difficulty?.LastChange === "number" ? C.Difficulty.LastChange : C.Creation;
@@ -104,23 +173,43 @@ function InformationSheetRun() {
 		currentY += spacing;
 
 		// Shows the owner
-		let ownerLine = TextGet("Owner") + " " + (C.IsOwned() ? C.OwnerName() + (C.OwnerNumber() !== -1 ? " (" + C.OwnerNumber() + ")" : "") : TextGet("OwnerNone"));
-		DrawTextFit(ownerLine, 550, currentY, 450, "Black", "Gray");
-		currentY += spacing;
-		if (C.IsOwned() && (C.IsOwned() != "ggts")) {
-			let stageLine = TextGet(!C.IsFullyOwned() ? "TrialFor" : "CollaredFor") + " " + C.OwnedSince().toString() + " " + TextGet("Days");
-			DrawTextFit(stageLine, 550, currentY, 450, "Black", "Gray");
+		if (!C.IsOwned()) {
+			DrawTextFit(TextGet("Unowned"), 550, currentY, 450, "Black", "Gray");
 			currentY += spacing;
+		}
+		if (C.IsOwned() && C.IsOwned() != "ggts") {
+			const stageText = C.IsFullyOwned() ? "Collared" : "Trial";
+			const ownerNumber = C.OwnerNumber() !== -1 ? `(${C.OwnerNumber()})` : "";
+			const ownerLine = `${TextGet(`${stageText}By`)} ${C.OwnerName()} ${ownerNumber}`;
+			const stageDuration = CommonFormatDuration(CurrentTime - C.OwnedSinceMs(), { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
+			const joinedHoverLine = new Date(C.OwnedSinceMs()).toLocaleString(undefined, {
+				dateStyle: "medium",
+				timeStyle: "short",
+			});
+
+			DrawTextFit(ownerLine, 550, currentY, 450, "Black", "Gray");
+			currentY += spacing;
+			if (C.OwnedSinceMs() > 0) {
+				DrawTextFit(`${TextGet("For")} ${stageDuration}`, 550, currentY, 450, "Black", "Gray");
+				const y = currentY;
+				if (MouseIn(550, y - 20, 450, 40))
+					DrawHoverElements.push(() => {
+						DrawButtonHover(550, y - 20, 450, 40, joinedHoverLine);
+					});
+				currentY += spacing;
+			}
 		}
 
 		currentY = 800;
 
 		// Shows the member number and online permissions for other online players
 
-		DrawTextFit(TextGet("AllowedInteractions"), 550, currentY, 450, "Black", "Gray");
-		currentY += spacing;
-		DrawTextFit(TextGet("AllowedInteraction" + C.AllowedInteractions.toString()), 550, currentY, 450, "Black", "Gray");
-		currentY += spacing;
+		if (C.IsOnline()) {
+			DrawTextFit(TextGet("AllowedInteractions"), 550, currentY, 450, "Black", "Gray");
+			currentY += spacing;
+			DrawTextFit(TextGet("AllowedInteraction" + C.AllowedInteractions.toString()), 550, currentY, 450, "Black", "Gray");
+			currentY += spacing;
+		}
 	}
 
 	// Draw the buttons on the right side
@@ -131,9 +220,13 @@ function InformationSheetRun() {
 		DrawButton(1815, 305, 90, 90, "", "White", "Icons/Preference.png");
 		DrawButton(1815, 420, 90, 90, "", "White", "Icons/FriendList.png");
 		DrawButton(1815, 535, 90, 90, "", "White", "Icons/Introduction.png");
+		if (C.HasOwnerNotes())
+			DrawButton(1715, 535, 90, 90, "", "White", "Icons/Management.png");
 		DrawButton(1815, 765, 90, 90, "", "White", "Icons/Next.png");
 	} else if (C.IsOnline()) {
 		DrawButton(1815, 190, 90, 90, "", "White", "Icons/Introduction.png");
+		if (C.HasOwnerNotes() || C.IsFullyOwnedByPlayer())
+			DrawButton(1715, 190, 90, 90, "", "White", "Icons/Management.png");
 		DrawButton(1815, 765, 90, 90, "", "White", "Icons/Next.png");
 	}
 
@@ -142,26 +235,89 @@ function InformationSheetRun() {
 	if (InformationSheetSecondScreen) return InformationSheetSecondScreenRun();
 
 	// For player and online characters, we show the lover list (NPC or online)
-	if (C.IsPlayer() || C.IsOnline()) {
+	if ((C.IsPlayer() || C.IsOnline()) && C.GetLovership().length > 0) {
+		const stageQualifier = Object.freeze({
+			0: "Dating",
+			1: "Engaged",
+			2: "Married",
+		});
 		DrawText(TextGet("Relationships"), 1200, 125, "Black", "Gray");
 		const lovership = C.GetLovership();
-		if (lovership.length < 1) DrawText(TextGet("Lover") + " " + TextGet("LoverNone"), 1200, 200, "Black", "Gray");
+		if (lovership.length < 1) DrawText(TextGet("None"), 1200, 200, "Black", "Gray");
 		for (let [L, lover] of lovership.entries()) {
-			DrawText(TextGet("Lover") + " " + lover.Name + (lover.MemberNumber ? " (" + lover.MemberNumber + ")" : ""), 1200, 200 + L * 150, "Black", "Gray");
-			DrawText(TextGet((lover.Stage == 0) ? "DatingFor" : (lover.Stage == 1) ? "EngagedFor" : "MarriedFor") + " " + (Math.floor((CurrentTime - lover.Start) / 86400000)).toString() + " " + TextGet("Days"), 1200, 260 + L * 150, "Black", "Gray");
+			const stageText = stageQualifier[lover.Stage];
+			const loverNumber = lover.MemberNumber ? `(${lover.MemberNumber})` : "";
+			const relationshipDurationHover = CommonFormatDuration(CurrentTime - lover.Start, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
+			const stageDurationHover = new Date(lover.Start).toLocaleString(undefined, {
+				dateStyle: "medium",
+				timeStyle: "short",
+			});
+
+			DrawTextFit(`${TextGet(`${stageText}With`)} ${lover.Name} ${loverNumber}`, 1200, 200 + L * 150, 600, "Black", "Gray");
+			DrawTextFit(`${TextGet("For")} ${relationshipDurationHover}`, 1200, 260 + L * 150, 600, "Black", "Gray");
+			const hoverY = 260 + L * 150 - 20;
+			if (MouseIn(1200, hoverY, 600, 40))
+				DrawHoverElements.push(() => {
+					DrawButtonHover(1200, hoverY, 450, 40, stageDurationHover);
+				});
 		}
-	}
-	if (C.IsNpc()) {
+	} else if (C.IsNpc()) {
+		const stageQualifier = Object.freeze({
+			0: "Dating",
+			1: "Engaged",
+			2: "Married",
+		});
 		// For NPC characters, shows the lover, owner & traits
-		DrawText(TextGet("Lover") + " " + (C.LoverName() ? C.LoverName() : TextGet("LoverNone")), 550, 500, "Black", "Gray");
 		const lovership = C.GetLovership();
 		const playerLove = lovership.find(l => l.MemberNumber === Player.MemberNumber);
-		if (playerLove) {
-			DrawText(TextGet((playerLove.Stage == 0) ? "DatingFor" : (playerLove.Stage == 1) ? "EngagedFor" : "MarriedFor") + " " + (Math.floor((CurrentTime - playerLove.Start) / 86400000)).toString() + " " + TextGet("Days"), 550, 575, "Black", "Gray");
+
+		if (!C.LoverName() && !playerLove) {
+			DrawText(`${TextGet("Lover")} ${TextGet("None")}`, 550, currentY, "Black", "Gray");
+			currentY += spacing;
 		}
-		DrawText(TextGet("Owner") + " " + (C.IsOwned() ? C.OwnerName() : TextGet("OwnerNone")), 550, 650, "Black", "Gray");
-		if (C.IsOwned())
-			DrawText(TextGet(C.IsFullyOwned() ? "CollaredFor" : "TrialFor") + " " + C.OwnedSince().toString() + " " + TextGet("Days"), 550, 725, "Black", "Gray");
+		if (playerLove) {
+			const stageText = stageQualifier[playerLove.Stage];
+			const loverLine = `${TextGet(`${stageText}With`)} ${C.LoverName()}`;
+			const relationshipDuration = CommonFormatDuration(CurrentTime - playerLove.Start, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
+			const stageDurationHover = new Date(playerLove.Start).toLocaleString(undefined, {
+				dateStyle: "medium",
+				timeStyle: "short",
+			});
+
+			DrawText(loverLine, 550, currentY, "Black", "Gray");
+			currentY += spacing;
+			DrawText(`${TextGet("For")} ${relationshipDuration}`, 550, currentY, "Black", "Gray");
+			const y = currentY - 20;
+			if (MouseIn(550, y, 450, 40))
+				DrawHoverElements.push(() => {
+					DrawButtonHover(550, y, 450, 40, stageDurationHover);
+				});
+			currentY += spacing;
+		}
+
+		if (!C.IsOwned()) {
+			DrawText(`${TextGet("Owner")} ${TextGet("None")}`, 550, currentY, "Black", "Gray");
+			currentY += spacing;
+		} else if (C.IsOwned()) {
+			const stageText = C.IsFullyOwned() ? "Collared" : "Trial";
+			const ownerLine = `${TextGet(`${stageText}By`)} ${C.OwnerName()}`;
+			const ownedDuration = CommonFormatDuration(CurrentTime - C.OwnedSinceMs(), { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
+			const stageLine = `${TextGet(`For`)} ${ownedDuration}`;
+			const joinedHoverLine = new Date(C.OwnedSinceMs()).toLocaleString(undefined, {
+				dateStyle: "medium",
+				timeStyle: "short",
+			});
+
+			DrawText(ownerLine, 550, currentY, "Black", "Gray");
+			currentY += spacing;
+			DrawText(stageLine, 550, currentY, "Black", "Gray");
+			const y = currentY - 20;
+			if (MouseIn(550, y, 450, 40))
+				DrawHoverElements.push(() => {
+					DrawButtonHover(550, y, 450, 40, joinedHoverLine);
+				});
+			currentY += spacing;
+		}
 		DrawText(TextGet("Trait"), 1000, 125, "Black", "Gray");
 
 		// After one week we show the traits, after two weeks we show the level
@@ -205,34 +361,35 @@ function InformationSheetSecondScreenRun() {
 			DrawText(TextGet("Unknown"), 1425, 200, "Black", "Gray");
 		} else {
 			let skillLine = 0;
-			for (const type of SkillValidSkills) {
-				const name = TextGet(`Skill${type}`);
-				const level = SkillGetLevel(C, type);
-				const progress = SkillGetProgress(C, type);
-				if (level === 0 && progress === 0) continue;
-				const ratio = SkillGetRatio(C, type);
-				const modifier = SkillGetModifier(C, type);
-				const duration = SkillGetModifierDuration(C, type);
-
-				const skillText = `${name} ${level} (${progress / 10}%)`;
-				const color = ratio !== 1 ? "Red" : "Black";
-				DrawText(skillText, 1425, 200 + skillLine * lineHeight, color, "Gray");
-				skillLine++;
-				if (modifier && modifier !== 0) {
-					/** @type {CommonSubtituteSubstitution[]} */
-					const subst = [
-						["ABS", (modifier > 0 ? "+" : "-")],
-						["VAL", modifier.toString()],
-						["DURATION", TimermsToTime(duration)],
-					];
-					const modifierColor = modifier > 0 ? "Green" : "Red";
-					const modifierText = CommonStringSubstitute(TextGet("SkillModifier"), subst);
-					DrawText(modifierText, 1440, 200 + skillLine * lineHeight, modifierColor, "Gray");
-					skillLine++;
-				}
-			}
 			if (C.Skill.length == 0) {
 				DrawText(TextGet("SkillNone"), 1425, 200, "Black", "Gray");
+			} else {
+				for (const type of SkillValidSkills) {
+					const name = TextGet(`Skill${type}`);
+					const level = SkillGetLevel(C, type);
+					const progress = SkillGetProgress(C, type);
+					if (level === 0 && progress === 0) continue;
+					const ratio = SkillGetRatio(C, type);
+					const modifier = SkillGetModifier(C, type);
+					const duration = SkillGetModifierDuration(C, type);
+
+					const skillText = `${name} ${level} (${progress / 10}%)`;
+					const color = ratio !== 1 ? "Red" : "Black";
+					DrawText(skillText, 1425, 200 + skillLine * lineHeight, color, "Gray");
+					skillLine++;
+					if (modifier && modifier !== 0) {
+						/** @type {CommonSubtituteSubstitution[]} */
+						const subst = [
+							["ABS", (modifier > 0 ? "+" : "-")],
+							["VAL", modifier.toString()],
+							["DURATION", TimermsToTime(duration)],
+						];
+						const modifierColor = modifier > 0 ? "Green" : "Red";
+						const modifierText = CommonStringSubstitute(TextGet("SkillModifier"), subst);
+						DrawText(modifierText, 1440, 200 + skillLine * lineHeight, modifierColor, "Gray");
+						skillLine++;
+					}
+				}
 			}
 		}
 	}
@@ -251,10 +408,16 @@ function InformationSheetClick() {
 		if (MouseIn(1815, 190, 90, 90) && !TitleIsForced(TitleGet(C))) CommonSetScreen("Character", "Title");
 		if (MouseIn(1815, 305, 90, 90)) CommonSetScreen("Character", "Preference");
 		if (MouseIn(1815, 420, 90, 90)) CommonSetScreen("Character", "FriendList");
-		if (MouseIn(1815, 535, 90, 90)) CommonSetScreen("Character", "OnlineProfile");
+		if (MouseIn(1815, 535, 90, 90)) OnlineProfileStart("Description");
+		if (MouseIn(1715, 535, 90, 90) && C.HasOwnerNotes()) {
+			OnlineProfileStart("OwnersNotes");
+		}
 		if (MouseIn(1815, 765, 90, 90)) InformationSheetSecondScreen = !InformationSheetSecondScreen;
 	} else if (C.IsOnline()) {
-		if (MouseIn(1815, 190, 90, 90)) CommonSetScreen("Character", "OnlineProfile");
+		if (MouseIn(1815, 190, 90, 90)) OnlineProfileStart("Description");
+		if (MouseIn(1715, 190, 90, 90) && (C.HasOwnerNotes() || C.IsFullyOwnedByPlayer())) {
+			OnlineProfileStart("OwnersNotes");
+		}
 		if (MouseIn(1815, 765, 90, 90)) InformationSheetSecondScreen = !InformationSheetSecondScreen;
 	}
 }
@@ -271,6 +434,10 @@ function InformationSheetExit() {
 	InformationSheetReturnScreen = null;
 }
 
+function InformationSheetUnload() {
+	ElementRemove("AllowedInteractions-dropdown-container");
+}
+
 /**
  * Loads the information sheet for a character
  * @param {Character} C - The character whose information sheet should be displayed
@@ -282,4 +449,13 @@ function InformationSheetLoadCharacter(C) {
 		InformationSheetReturnScreen = CommonGetScreen();
 	}
 	CommonSetScreen("Character", "InformationSheet");
+}
+
+function InformationSheetResize() {
+	const C = InformationSheetSelection;
+	if (C.IsPlayer()) {
+		ElementSetPosition("AllowedInteractions-dropdown-container", 550, 800);
+		ElementSetSize("AllowedInteractions-dropdown", 600);
+		ElementSetFontSize("AllowedInteractions-dropdown-container", "auto");
+	}
 }

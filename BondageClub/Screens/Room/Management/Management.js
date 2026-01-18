@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ManagementBackground = "Management";
 /** @type {null | NPCCharacter} */

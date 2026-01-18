@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var AppearanceBackground = "Dressing";
 /** Offset for the group view */
@@ -982,7 +983,7 @@ function AppearanceRun() {
 		// Leave the color picker if the item is gone.
 		if (!InventoryGet(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName)) ItemColorCancelAndExit();
 		// Draw the color picker
-		ItemColorDraw(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950);
+		ItemColorDraw(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1095, 25, 880, 950);
 	}
 
 	// In cloth selection mode
@@ -1333,7 +1334,7 @@ function AppearanceClick() {
 
 	// In item coloring mode
 	else if (CharacterAppearanceMode == "Color") {
-		ItemColorClick(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1200, 25, 775, 950);
+		ItemColorClick(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1095, 25, 880, 950);
 	}
 
 	// Selecting a button in the row at the top
@@ -1888,7 +1889,7 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 	CharacterAppearanceMode = "Color";
 	CharacterAppearanceColorPickerGroupName = AssetGroup;
 	CharacterAppearanceColorPickerBackup = CharacterAppearanceGetCurrentValue(C, CharacterAppearanceColorPickerGroupName, "Color");
-	ItemColorLoad(C, Item, 1200, 25, 775, 950, true);
+	ItemColorLoad(C, Item, 1095, 25, 880, 950, true);
 	ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 		CharacterAppearanceMode = CurrentMode;
 		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
@@ -1983,9 +1984,10 @@ function CharacterAppearanceGenderAllowed(asset) {
 /**
  * If the player is in the chat room, we display a local message for him/her
  * @param {string} Msg
+ * @deprecated
  */
 function CharacterAppearanceChatRoomMessage(Msg) {
-	if (CurrentScreen == "ChatRoom") ChatRoomSendLocal(TextGet(Msg));
+	ChatRoomSendLocal(TextGet(Msg));
 }
 
 /**
@@ -2013,7 +2015,7 @@ function CharacterAppearanceCopyToClipboard(C) {
 	let S = JSON.stringify(App);
 	S = LZString.compressToBase64(S);
 	navigator.clipboard.writeText(S);
-	CharacterAppearanceChatRoomMessage("AppCopyDone");
+	ChatRoomSendLocal(TextGet("AppCopyDone"));
 
 }
 
@@ -2027,40 +2029,42 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 
 	// If the data is invalid, we exit right away
 	if ((C == null) || (C.Appearance == null) || !C.IsPlayer())
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// If the player cannot change, we show an error in chat
 	if (!C.CanChangeOwnClothes())
-		return CharacterAppearanceChatRoomMessage("AppPasteBlocked");
+		return ChatRoomSendLocal(TextGet("AppPasteBlocked"));
 
 	// Validates the compressed string first
 	if (typeof CompApp !== "string" || CompApp.length === 0)
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// Try to decompress the data
 	let DecompressedData = null;
 	try {
 		DecompressedData = LZString.decompressFromBase64(CompApp);
-	} catch(err) {
+	} catch {
 		DecompressedData = null;
 	}
 
 	// If we failed to decompress
 	if (DecompressedData == null)
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// Tries to get the appearance bundle object
-	/** @type {ClipboardAppearanceBundle} */
+	/** @type {ClipboardAppearanceBundle | null} */
 	let App = null;
 	try {
-		App = JSON.parse(DecompressedData);
-	} catch(err) {
+		const json = JSON.parse(DecompressedData);
+		// We're being careful below, so this is okay
+		App = /** @type {ClipboardAppearanceBundle} */(json);
+	} catch {
 		App = null;
 	}
 
 	// If the loaded data is invalid
 	if ((App == null) || !Array.isArray(App) || (App.length == 0))
-		return CharacterAppearanceChatRoomMessage("AppPasteError");
+		return ChatRoomSendLocal(TextGet("AppPasteError"));
 
 	// Restores the appearance rows that are valid
 	let MustRefresh = false;
@@ -2093,9 +2097,9 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	if (MustRefresh) {
 		CharacterRefresh(C, false);
 		if (ChatRoomRefresh) ChatRoomCharacterUpdate(C);
-		CharacterAppearanceChatRoomMessage("AppPasteDone");
+		ChatRoomSendLocal(TextGet("AppPasteDone"));
 	} else {
-		CharacterAppearanceChatRoomMessage("AppPasteError");
+		ChatRoomSendLocal(TextGet("AppPasteError"));
 	}
 
 }

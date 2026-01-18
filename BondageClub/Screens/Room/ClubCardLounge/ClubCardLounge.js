@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ClubCardLoungeBackground = "ClubCardLounge";
 /** @type {null | NPCCharacter} */

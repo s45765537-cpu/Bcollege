@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** @type {{ Group: AssetGroup, Assets: { Asset: Asset, Hidden: boolean, Blocked: boolean, Limited: boolean}[]}[]} */

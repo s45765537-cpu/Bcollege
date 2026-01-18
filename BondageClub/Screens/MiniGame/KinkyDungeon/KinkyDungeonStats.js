@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 // Player entity
 let KinkyDungeonPlayerEntity = null; // The current player entity
@@ -148,6 +149,7 @@ function KDInitInventory() {
 	}
 }
 
+/** @type {Map<string, boolean>} */
 let KinkyDungeonPlayerTags = new Map();
 
 let KinkyDungeonCurrentDress = "Default";

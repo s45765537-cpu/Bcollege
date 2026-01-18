@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /** @type Character[] */
 var Character = [];
@@ -176,7 +177,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			this.DrawPoseMapping = PoseToMapping.Scalar(poses, "Character.Pose");
 		},
 
-		ActivePoseMapping: {},
+		ActivePoseMapping: { BodyLower: "BaseLower", BodyUpper: "BaseUpper" },
 		get ActivePose() {
 			return Object.values(this.ActivePoseMapping);
 		},
@@ -427,15 +428,19 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsOwnedByPlayer: function () {
 			return this.IsOwnedByCharacter(Player);
 		},
+		IsFullyOwnedByPlayer: function () {
+			return this.IsOwnedByPlayer() && this.IsFullyOwned();
+		},
 		OwnerName: function () {
 			switch (this.IsOwned()) {
 				case "ggts": return TextGet("OwnerGGTS");
 				case "npc": {
+					const name = this.Owner.replace("NPC-", "");
 					if (this.IsFullyOwned()) {
-						return this.Owner.replace("NPC-", "");
+						return name;
 					 }
 					 const privateOwner = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
-					 return privateOwner?.Name ?? "";
+					 return privateOwner?.Name ?? name ?? "";
 				}
 				case "online": return this.Ownership.Name;
 				case "player": return CharacterNickname(Player);
@@ -447,6 +452,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (this.IsOwned() === "online")
 				return this.Ownership.MemberNumber;
 			return -1;
+		},
+		HasOwnerNotes: function () {
+			return typeof this.Ownership?.Notes === "string" && this.Ownership.Notes.length > 0;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
 			return (memberNumber != -1 && this.OwnerNumber() === memberNumber);
@@ -484,6 +492,33 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			return -1;
 		},
+		OwnedSinceMs: function () {
+			switch (this.IsOwned()) {
+				case "online":
+					return this.Ownership.Start;
+				case "player": {
+					let Time = NPCEventGet(this, "NPCCollaring");
+					if (Time > 0) return Time;
+					Time = NPCEventGet(this, "EndDomTrial");
+					if (Time > 0) {
+						return Time || 0;
+					}
+					break;
+				}
+				case "npc": {
+					for (const npc of PrivateCharacter) {
+						let Time = NPCEventGet(npc, "PlayerCollaring");
+						if (Time > 0) return Time;
+						Time = NPCEventGet(npc, "EndSubTrial");
+						if (Time > 0) {
+							return Time || 0;
+						}
+					}
+					break;
+				}
+			}
+			return -1;
+		},
 		IsOwner: function () {
 			if (this.IsNpc() && !NPCEventGet(this, "PlayerCollaring")) return false;
 			return Player.IsOwnedByCharacter(this);
@@ -516,6 +551,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsLoverOfMemberNumber: function (memberNumber) {
 			return this.GetLoversNumbers().indexOf(memberNumber) >= 0;
 		},
+		// @ts-expect-error I know you don't like hand-made class object things
 		GetLoversNumbers: function (MembersOnly) {
 			return this.GetLovership(MembersOnly).map(l => l.MemberNumber ? l.MemberNumber : l.Name);
 		},
@@ -628,10 +664,13 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			ChatRoomMapViewUpdatePlayerFlag();
 		},
 		IsBirthday: function () {
-			if ((this.Creation == null) || (CurrentTime == null)) return false;
-			return ((new Date(this.Creation)).getDate() == (new Date(CurrentTime)).getDate()) &&
-				   ((new Date(this.Creation)).getMonth() == (new Date(CurrentTime)).getMonth()) &&
-				   ((new Date(this.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
+			if ((this.Creation === null) || (CurrentTime === null)) return false;
+			const creation = new Date(this.Creation),
+				current = new Date(CurrentTime);
+
+			return (creation.getUTCDate() === current.getUTCDate()) &&
+				(creation.getUTCMonth() === current.getUTCMonth()) &&
+				(creation.getUTCFullYear() !== current.getUTCFullYear());
 		},
 		IsSiblingOfCharacter: function(C) {
 			return this.IsOwnedByMemberNumber(C.OwnerNumber());
@@ -1213,7 +1252,10 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 
 	// Decompresses data
 	if (typeof data.Description === "string" && data.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-		data.Description = LZString.decompressFromUTF16(data.Description.substr(1));
+		data.Description = LZString.decompressFromUTF16(data.Description.substring(1));
+	}
+	if (typeof data.Ownership?.Notes === "string") {
+		data.Ownership.Notes = LZString.decompressFromUTF16 (data.Ownership.Notes);
 	}
 	if (Array.isArray(data.WhiteList)) {
 		data.WhiteList.sort((a, b) => a - b);
@@ -1235,7 +1277,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		Char.Name = data.Name;
 		Char.Lover = (data.Lover != null) ? data.Lover : "";
 		Char.Owner = (data.Owner != null) ? data.Owner : "";
-		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title);
+		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title, Char);
 		Char.Nickname = data.Nickname;
 		Char.AccountName = "Online-" + data.ID.toString();
 		Char.MemberNumber = data.MemberNumber;
@@ -1529,6 +1571,15 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 		&& (C.ID === Current.ID || DialogMenuMode === "dialog")
 	) {
 		CharacterRefreshDialog(C);
+	}
+
+	// Ensure that any color and/or opacity changes that occur while one is wearing `ItemColorItem`
+	// are sanitized, ensuring that aforementioned properties are represented via their array-based variant
+	if (C.Appearance.includes(ItemColorItem)) {
+		ItemColorItem = Object.assign(
+			ItemColorItem,
+			{ Color: ItemColorSanitizeColor(ItemColorItem), Property: ItemColorSanitizeProperty(ItemColorItem) },
+		);
 	}
 }
 
@@ -2001,14 +2052,16 @@ function CharacterDecompressWardrobe(Wardrobe) {
 		return Wardrobe;
 	}
 
-	/** @type {null | WardrobeItemBundle[][]} */
-	let compressedWardrobe = null;
+	/** @type {WardrobeItemBundle[][]} */
+	let compressedWardrobe;
 	try {
-		compressedWardrobe = JSON.parse(LZString.decompressFromUTF16(Wardrobe));
+		const data = LZString.decompressFromUTF16(Wardrobe);
+		if (!data) throw new Error();
+		const json = JSON.parse(data);
+		if (!Array.isArray(json)) throw new Error();
+		compressedWardrobe = /** @type {WardrobeItemBundle[][]} */ (json);
 	} catch (error) {
 		console.error("Failed to decompress the passed wardrobe", error);
-	}
-	if (!Array.isArray(compressedWardrobe)) {
 		return [];
 	}
 
@@ -2417,12 +2470,10 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
 	Nick = Nick.trim();
 	if (C.Nickname === Nick) return null;
 
-	if (!(CharacterCanChangeNickname(C) && !fromOwner)) {
-		return "NicknameLocked";
+	const status = CharacterValidateNickname(C, Nick, fromOwner);
+	if (status) {
+		return status;
 	}
-
-	if (Nick.length > 20) return "NicknameTooLong";
-	if (Nick.length > 0 && !ServerCharacterNicknameRegex.test(Nick)) return "NicknameInvalidChars";
 
 	const oldNick = C.Nickname ?? C.Name;
 	C.Nickname = Nick;
@@ -2441,6 +2492,45 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
 	}
 
 	return null;
+}
+
+/**
+ * Validate the given character's nickname
+ *
+ * @param {Character} C - The character to change the nickname of.
+ * @param {string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
+ * @return {"NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} null if the nickname was valid, or an explanation for why the nickname was rejected.
+ */
+function CharacterValidateNickname(C, Nick, fromOwner = false) {
+	if (!(CharacterCanChangeNickname(C) && !fromOwner)) {
+		return "NicknameLocked";
+	}
+
+	if (Nick.length > 20) return "NicknameTooLong";
+	if (Nick.length > 0 && !ServerCharacterNicknameRegex.test(Nick)) return "NicknameInvalidChars";
+
+	return null;
+}
+
+/**
+ * Update the owners note on the specified character.  The Player must be the owner of this character.
+ * Notes will be truncated to max 4000 chars.
+ *
+ * @param {Character} C - The character to receive the updated notes.
+ * @param {string} [notes] - String containing the notes.  If undefined, existing notes will be erased.
+ */
+function CharacterSetOwnersNotes(C, notes = undefined) {
+	if (C.Ownership !== null && typeof C.Ownership === "object" && C.Ownership.Notes !== notes && C.IsFullyOwnedByPlayer()) {
+		let Notes = undefined;
+		if (typeof notes === "string" && notes.length > 0) {
+			C.Ownership.Notes = notes.slice(0, OnlineProfileTextOwnersNotesMaxLen);
+			Notes = LZString.compressToUTF16(C.Ownership.Notes);
+		} else {
+			C.Ownership.Notes = undefined;
+		}
+
+		ServerSend("AccountOwnership", { MemberNumber: C.MemberNumber, Action: "UpdateNotes", Notes });
+	}
 }
 
 /**

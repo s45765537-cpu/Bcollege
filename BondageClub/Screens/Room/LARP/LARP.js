@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var LARPBackground = "WrestlingRing";
 /** @type {null | NPCCharacter} */

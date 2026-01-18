@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 'use strict';
 
 /**
@@ -72,7 +73,7 @@ const CommonCommands = [
 	{
 		Tag: 'friendlistadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.FriendList, true, number);
 		},
@@ -83,9 +84,22 @@ const CommonCommands = [
 		}]
 	},
 	{
+		Tag: 'friendlistrequest',
+		Action: args => {
+			const number = CommonParseInt(args);
+			if (number === null) return;
+			ChatRoomListUpdate(Player.FriendList, true, number, "FriendRequest");
+		},
+		Arguments: [{
+			name: "Member number",
+			description: "friendlistadd but with notification",
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsFriend).map(c => c.MemberNumber.toString()),
+		}]
+	},
+	{
 		Tag: 'friendlistremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.FriendList, false, number);
 		},
@@ -98,7 +112,7 @@ const CommonCommands = [
 	{
 		Tag: 'ghostadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.GhostList, true, number);
 		},
@@ -111,7 +125,7 @@ const CommonCommands = [
 	{
 		Tag: 'ghostremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.GhostList, false, number);
 		},
@@ -124,7 +138,7 @@ const CommonCommands = [
 	{
 		Tag: 'whitelistadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.WhiteList, true, number);
 		},
@@ -137,7 +151,7 @@ const CommonCommands = [
 	{
 		Tag: 'whitelistremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.WhiteList, false, number);
 		},
@@ -150,7 +164,7 @@ const CommonCommands = [
 	{
 		Tag: 'blacklistadd',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.BlackList, true, number);
 		},
@@ -163,7 +177,7 @@ const CommonCommands = [
 	{
 		Tag: 'blacklistremove',
 		Action: args => {
-			const number = CommonParseNumber(args);
+			const number = CommonParseInt(args);
 			if (number === null) return;
 			ChatRoomListUpdate(Player.BlackList, false, number);
 		},
@@ -415,7 +429,7 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'me',
-		Action: (_, msg) => {
+		Action: (msg) => {
 			ChatRoomSendEmote(msg);
 		}
 	},
@@ -423,12 +437,12 @@ const CommonCommands = [
 		Tag: 'attempt',
 		Action: (_, msg, parsed) => {
 			if (parsed[0]?.match(/(\d{0,2}|100)%/))
-				ChatRoomSendAttemptEmote(msg);
+				ChatRoomSendEmote(msg);
 		}
 	},
 	{
 		Tag: 'action',
-		Action: (_, msg) => ChatRoomSendEmote(msg),
+		Action: (msg) => ChatRoomSendEmote(`**${msg}`),
 	},
 	{
 		Tag: 'pandora',
@@ -1026,6 +1040,46 @@ const CommonCommands = [
 			}
 
 			return ChatRoomMapViewChangeKey(target, keys, false);
+		}
+	},
+	{
+		Tag: 'clear',
+		Action: () => {
+			const chatLog = document.querySelector("#TextAreaChatLog");
+			const seps = chatLog.querySelectorAll(".chat-room-sep");
+
+			if (seps.length > 0) {
+				const lastSep = seps[seps.length - 1];
+
+				// Remove everything before the last separator
+				while (chatLog.firstChild !== lastSep) {
+					chatLog.removeChild(chatLog.firstChild);
+				}
+
+				// Remove everything after the last separator
+				while (lastSep.nextSibling) {
+					chatLog.removeChild(lastSep.nextSibling);
+				}
+			}
+
+			ElementScrollToEnd("TextAreaChatLog");
+		}
+	},
+	{
+		Tag: 'arousal',
+		Action: (args) => {
+			if (!PreferenceArousalAtLeast(Player, "Manual") || PreferenceArousalAtLeast(Player, "Automatic"))
+				return ChatRoomSendLocal(TextGet("ArousalNotChangeable"));
+
+			const arousal = CommonParseInt(args);
+
+			if (arousal === null) return ChatRoomSendLocal(TextGet("InvalidNumber"));
+
+			const clamped = CommonClamp(arousal, 0, 100);
+
+			ActivitySetArousal(Player, clamped);
+			if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
+			if (Player.ArousalSettings.Progress === 100) ActivityOrgasmPrepare(Player);
 		}
 	}
 ];

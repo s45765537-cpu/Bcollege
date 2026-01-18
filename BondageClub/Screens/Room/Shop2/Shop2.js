@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var Shop2Background = "Shop";
 
@@ -195,9 +196,9 @@ const Shop2Consts = {
 	 * @type {RectTuple}
 	 */
 	ItemColorCoords: [
-		1115,
+		1115 - 25,
 		25,
-		860,
+		860 + 25,
 		772 + (185 - 25),
 	],
 

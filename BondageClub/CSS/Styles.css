@@ -369,6 +369,7 @@ select:invalid:not(:disabled):not(:read-only) {
 bc-tint-input {
 	--hue: 0;
 
+	color-scheme: light only;
 	display: inline-block;
 	aspect-ratio: 1 / 0.6;
 	width: 160px;

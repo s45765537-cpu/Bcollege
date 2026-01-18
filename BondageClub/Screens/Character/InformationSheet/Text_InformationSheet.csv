@@ -4,7 +4,20 @@ Title,Title:
 TitleNone,None
 TitleMistress,Mistress
 TitleMaster,Master
+TitleQueen,Queen
+TitleKing,King
+TitleGoddess,Goddess
+TitleGod,God
 TitleClubSlave,Club Slave
+TitleFreeUse,Free Use
+TitleArchbishop,Archbishop
+TitleBishop,Bishop
+TitleArchjudge,Archjudge
+TitleJudge,Judge
+TitleChampion,Champion
+TitleMatron,Matron 
+TitlePatriarch,Patriarch
+TitlePrimaris,Primaris 
 TitleHeadMaid,Head Maid
 TitleMaid,Maid
 TitleBondageMaid,Bondage Maid
@@ -59,6 +72,13 @@ TitleSissy,Sissy
 TitleTomboy,Tomboy
 TitleFemboy,Femboy
 TitlePet,Pet
+TitleDragon,Dragon
+TitleVampire,Vampire
+TitleTurtle,Turtle
+TitleThing,Thing
+TitleElf,Elf
+TitleDrow,Drow
+TitlePixie,Pixie
 TitleBrat,Brat
 TitleKitten,Kitten
 TitlePuppy,Puppy
@@ -94,18 +114,20 @@ NoMemberNumber,-
 Relationships,- Relationships -
 Lover,Lover:
 Owner,Owner:
-LoverNone,None
-OwnerNone,None
+None,None
+Unowned,Unowned
 OwnerGGTS,GGTS
 Money,Money:
 MemberFor,Member for
+JoinDate,Join Date
 Birthday,Bondage Club Birthday! 
 FriendsFor,Friends for
-TrialFor,On trial for
-CollaredFor,Collared for
-DatingFor,Dating for
-EngagedFor,Engaged for
-MarriedFor,Married for
+For,for
+TrialBy,On trial by
+CollaredBy,Collared by
+DatingWith,Dating with
+EngagedWith,Engaged with
+MarriedWith,Married with
 Days,day(s)
 Unknown,Unknown
 Reputation,- Reputation -

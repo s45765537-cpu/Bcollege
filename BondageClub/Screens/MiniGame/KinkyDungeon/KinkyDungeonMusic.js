@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** These tracks will loop with a certain chance of forcibly continuing the loop. 0 = no loop*/

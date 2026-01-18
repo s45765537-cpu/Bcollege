@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // How to make your item futuristic!
@@ -175,9 +176,7 @@ function InventoryItemFuturisticClickAccessDenied(data) {
 		} else {
 			FuturisticAccessDeniedMessage = AssetTextGet("CantChangeWhileLockedFuturistic");
 			AudioPlayInstantSound("Audio/AccessDenied.mp3");
-			if (CurrentScreen == "ChatRoom") {
-				InventoryItemFuturisticPublishAccessDenied(CharacterGetCurrent());
-			}
+			InventoryItemFuturisticPublishAccessDenied(CharacterGetCurrent());
 		}
 	}
 }

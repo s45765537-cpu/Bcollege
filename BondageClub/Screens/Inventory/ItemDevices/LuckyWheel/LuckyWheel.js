@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ItemDevicesLuckyWheelMinTexts = 2;
 var ItemDevicesLuckyWheelMaxTexts = 8;

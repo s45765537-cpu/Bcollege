@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -68,6 +69,7 @@ var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
 var ChatRoomStruggleAssistTimer = 0;
+/** @type {StruggleOnlineData} */
 var ChatRoomStruggleData = null;
 /**
  * The timer started when a slowed player attempts to leave
@@ -894,7 +896,7 @@ function ChatRoomCanBeLeashedBy(sourceMemberNumber, C) {
  * Checks if the player has waited long enough to be able to call the maids
  * @returns {boolean} - TRUE if the current character has been in the last chat room for more than 30 minutes
  */
-function DialogCanCallMaids() { return (CurrentScreen == "ChatRoom" && (ChatRoomData && ChatRoomData.Game == "" && !(LogValue("Committed", "Asylum") >= CurrentTime)) &&  !Player.CanWalk()) && !MainHallIsMaidsDisabled();}
+function DialogCanCallMaids() { return (ServerPlayerIsInChatRoom() && ChatRoomData?.Game == "" && LogValue("Committed", "Asylum") < CurrentTime && !Player.CanWalk()) && !MainHallIsMaidsDisabled(); }
 
 
 /**
@@ -2784,7 +2786,7 @@ function ChatRoomAttemptStandMinigameEnd() {
  * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or visibility is not set.
  */
 function ChatRoomDataIsPrivate(room) {
-	return room.Visibility && !CommonArraysEqual(room?.Visibility, ChatRoomVisibilityMode.PUBLIC) || room.Private;
+	return !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
 }
 
 /**
@@ -2801,7 +2803,7 @@ function ChatRoomIsPrivate() {
  * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or access is not set.
  */
 function ChatRoomDataIsLocked(room) {
-	return room.Access && !CommonArraysEqual(room?.Access, ChatRoomAccessMode.PUBLIC) || room.Locked;
+	return !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
 }
 
 /**
@@ -3013,27 +3015,12 @@ function ChatRoomLeave(clearCharacters = false) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomCommonKeyDown(event) {
-	if (CommonKey.IsPressed(event, "Escape")) {
-		// Escape toggles between main view and chat
-		ElementScrollToEnd("TextAreaChatLog");
-		ElementFocus("InputChat");
+	if (CommonIsMobile && CommonKey.IsPressed(event, "Enter", 0)) {
+		event.preventDefault();
+		ChatRoomSendChat();
 		return true;
-	} else if (CommonKey.IsPressed(event, "k", CommonKey.ALT)) {
-		if (!event.repeat) ChatRoomToggleKneel();
-		return true;
-	} else if (CommonKey.IsPressed(event, "i", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave({ reload: false }); }
-		ChatRoomOpenInformationScreen();
-		return true;
-	} else if (CommonKey.IsPressed(event, "b", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave({ reload: false }); }
-		ChatRoomOpenWardrobeScreen();
-		return true;
-	} else if (CommonKey.IsPressed(event, "h", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave({ reload: false }); }
-		ChatRoomOpenAdminScreen();
-		return true;
-	}
+	};
+
 	return false;
 }
 
@@ -3042,46 +3029,10 @@ function ChatRoomCommonKeyDown(event) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomKeyDown(event) {
-	const inputChat = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
-	const chatHasFocus = inputChat && document.activeElement === inputChat;
-	const modifiers = CommonKey.GetModifiers(event);
-
-	if (chatHasFocus) {
-		// Why are these room-level event listeners!?
-		if (!modifiers) {
-			switch (event.key) {
-				case "Tab":
-					// Autocomplete whatever the chat contains
-					if (inputChat.value.length !== 0) {
-						CommandAutoComplete(inputChat.value);
-						return true;
-					}
-					break;
-				case "Enter":
-					// The ENTER key sends the chat.
-					ChatRoomSendChat();
-					return true;
-				case "PageUp":
-				case "PageDown":
-					// On page up/down, we scroll through chat history
-					ChatRoomScrollHistory(event.key === "PageUp");
-					return true;
-				case "Escape":
-					// Escape toggles between main view and chat
-					// FIXME: this actually is never called; the input element's default listener is the one unfocusing itself
-					ElementFocus("MainCanvas");
-					return true;
-			}
-		}
-	} else if (ChatRoomCommonKeyDown(event)) {
+	if (ChatRoomCommonKeyDown(event)) {
 		return true;
 	} else if (ChatRoomActiveView.KeyDown && ChatRoomActiveView.KeyDown(event)) {
 		return true;
-	}
-
-	if (CommonKey.IsPressed(event, "Escape", CommonKey.Shift)) {
-		// Try to leave the room on Shift-Escape
-		ChatRoomAttemptLeave();
 	}
 
 	if (
@@ -3097,7 +3048,7 @@ function ChatRoomKeyDown(event) {
 
 		if (CommonKey.NavigationKeyDown(chatLog, event, (el) => el.clientHeight * 0.05)) {
 			return true;
-		} else if (CommonKey.InputKeyDown(chatInput, event)) {
+		} else if (CommonKey.InputKeyDown(chatInput, event, { allowCtrlA: false })) {
 			return true;
 		}
 	}
@@ -3170,11 +3121,7 @@ function ChatRoomSendChat() {
 
 	// Emote parsing
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
-		if (msg.match(/^\*\d*%/)) {
-			ChatRoomSendAttemptEmote(msg);
-		} else {
-			ChatRoomSendEmote(msg);
-		}
+		ChatRoomSendEmote(msg);
 		inputChat.value = "";
 		inputChat.dispatchEvent(new InputEvent("input"));
 		return;
@@ -3235,14 +3182,16 @@ function ChatRoomGenerateChatRoomChatMessage(type, msg, replyId) {
 			msg += ")";
 		}
 
+		const originalMsg = msg;
 		// Chat messages are always garbled, unless the no speech restriction is lifted
-		const process = SpeechTransformProcess(Player, msg, SpeechTransformSenderEffects);
+		const process = SpeechTransformProcess(Player, originalMsg, SpeechTransformSenderEffects);
 		msg = process.text;
 
 		// We always garble, but if "no speech garbling" is enabled,
 		// we also send down the ungarbled message if it's different
-		const originalMsg = Player.RestrictionSettings.NoSpeechGarble && msg !== process.text ? msg : undefined;
-		Dictionary.push({ Effects: process.effects, Original: originalMsg });
+		if (Player.RestrictionSettings.NoSpeechGarble && msg !== originalMsg) {
+			Dictionary.push({ Effects: process.effects, Original: originalMsg });
+		}
 	}
 
 	if (replyId) {
@@ -3305,6 +3254,7 @@ function ChatRoomSendWhisper(targetNumber, msg) {
  * @returns {void} - Nothing
  */
 function ChatRoomSendLocal(Content, Timeout) {
+	if (!ServerPlayerIsInChatRoom()) return;
 	ChatRoomMessage({
 		Sender: Player.MemberNumber,
 		Type: "LocalMessage",
@@ -3320,11 +3270,24 @@ function ChatRoomSendLocal(Content, Timeout) {
 function ChatRoomSendEmote(msg) {
 	// Emotes can be prevented with an owner presence rule
 	if (ChatRoomOwnerPresenceRule("BlockEmote", null)) return;
-	if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) msg = msg.substring(1);
-	else {
+
+	const match = msg.match(/^(\*|\/attempt )(\d{0,2}|100)%(.+)/);
+
+	if (match) {
+		msg = msg.replace(/^(\*|\/attempt )(\d{0,2}|100)%/, "");
+		msg = msg.trim();
+		if (msg == "") return;
+
+		const chance = parseInt(match[2] ? match[2] : 50);
+		const random = parseInt(Math.random() * 100);
+
+		const attemptSucceeded = random <= chance;
+		msg += attemptSucceeded ? ": ✔" : ": ❌";
+		msg += " (" + chance + "%)";
+	} else if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) {
+		msg = msg.substring(1);
+	} else {
 		msg = msg.replace(/^\*/, "").replace(/\*$/, "");
-		if (msg.startsWith(CommandsKey + "me ")) msg = msg.replace(CommandsKey + "me ", "");
-		if (msg.startsWith(CommandsKey + "action ")) msg = msg.replace(CommandsKey + "action ", "*");
 	}
 	msg = msg.trim();
 	if (msg == "" || msg == "*") return;
@@ -3336,33 +3299,11 @@ function ChatRoomSendEmote(msg) {
 /**
  * Sends message as attempt emote. Emote can be failed or succeeded.
  * @param {string} msg - Emote message
+ * @deprecated
  * @returns {void} - Nothing
  */
 function ChatRoomSendAttemptEmote(msg) {
-	// Emotes can be prevented with an owner presence rule
-	if (ChatRoomOwnerPresenceRule("BlockEmote", null)) return;
-	const match = msg.match(/^(\*|\/attempt )(\d{0,2}|100)%(.+)/);
-
-	if (!match) {
-		ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
-		return;
-	}
-
-	msg = msg.replace(/^(\*|\/attempt )(\d{0,2}|100)%/, "");
-	msg = msg.trim();
-	if (msg == "") return;
-
-	const chance = parseInt(match[2] ? match[2] : 50);
-	const random = parseInt(Math.random() * 100);
-
-	const attemptSucceeded = random <= chance;
-	msg += attemptSucceeded ? ": ✔" : ": ❌";
-	msg += " (" + chance + "%)";
-
-	const replyId = ChatRoomMessageGetReplyId();
-	const data = ChatRoomGenerateChatRoomChatMessage("Emote", msg, replyId);
-	ServerSend("ChatRoomChat", data);
-	return;
+	ChatRoomSendEmote(msg);
 }
 
 /**
@@ -3373,32 +3314,33 @@ function ChatRoomSendAttemptEmote(msg) {
  *
  * @param {Character} C - Character on which the action is done.
  * @param {string} Action - Action modifier
- * @param {Item} PrevItem - The item that has been removed.
- * @param {Item} NextItem - The item that has been added.
+ * @param {Item | null} PrevItem - The item that has been removed.
+ * @param {Item | null} NextItem - The item that has been added.
  * @returns {boolean} - whether we published anything to the chat.
  */
 function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
-	// Make sure we're in a chat room
-	if (CurrentScreen !== "ChatRoom")
-		return false;
+	// This can't use ServerPlayerIsInChatRoom because wardrobe changes can cause those to bleed through
+	if (CurrentScreen !== "ChatRoom") return false;
 
 	const dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacter(C)
 		.targetCharacter(C);
 
+	/** @type {AssetGroupName | null} */
+	let groupName = C.FocusGroup?.Name;
 	if (PrevItem != null) {
+		groupName ??= PrevItem.Asset.Group.Name;
 		dictionary.asset(PrevItem.Asset, "PrevAsset", PrevItem.Craft && PrevItem.Craft.Name);
 	}
 	if (NextItem != null) {
+		groupName ??= NextItem.Asset.Group.Name;
 		dictionary.asset(NextItem.Asset, "NextAsset", NextItem.Craft && NextItem.Craft.Name);
 	}
-	if (C.FocusGroup != null) {
-		dictionary.focusGroup(C.FocusGroup.Name);
-	}
+	dictionary.focusGroup(groupName);
 
 	// Prepares the item packet to be sent to other players in the chatroom
-	ChatRoomCharacterItemUpdate(C);
+	ChatRoomCharacterItemUpdate(C, groupName);
 
 	// Sends the result to the server and leaves the dialog if we need to
 	ServerSend("ChatRoomChat", { Content: Action, Type: "Action", Dictionary: dictionary.build() });
@@ -3417,30 +3359,31 @@ function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
  * @returns {void} - Nothing.
  */
 function ChatRoomCharacterItemUpdate(C, Group) {
-	if ((Group == null) && (C.FocusGroup != null)) Group = C.FocusGroup.Name;
-	if ((CurrentScreen == "ChatRoom") && (Group != null)) {
-		// Single item updates aren't sent back to the source member, so update the ChatRoomData accordingly
-		if (ChatRoomData && ChatRoomData.Character) {
-			const characterIndex = ChatRoomData.Character.findIndex((char) => char.MemberNumber === C.MemberNumber);
-			if (characterIndex !== -1) {
-				// @ts-expect-error FIXME: This is mistaking raw server data with unpacked character data
-				ChatRoomData.Character[characterIndex] = C;
-			}
-		}
+	if (!ServerPlayerIsInChatRoom()) return;
+	Group ??= C.FocusGroup?.Name;
+	if (!Group) return;
 
-		const Item = InventoryGet(C, Group);
-		/** @type {ServerCharacterItemUpdate} */
-		const P = {
-			Target: C.MemberNumber,
-			Group: Group,
-			Name: (Item != null) ? Item.Asset.Name : undefined,
-			Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
-			Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
-			Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
-			Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
-		};
-		ServerSend("ChatRoomCharacterItemUpdate", P);
+	// Single item updates aren't sent back to the source member, so update the ChatRoomData accordingly
+	if (ChatRoomData && ChatRoomData.Character) {
+		const characterIndex = ChatRoomData.Character.findIndex((char) => char.MemberNumber === C.MemberNumber);
+		if (characterIndex !== -1) {
+			// @ts-expect-error FIXME: This is mistaking raw server data with unpacked character data
+			ChatRoomData.Character[characterIndex] = C;
+		}
 	}
+
+	const Item = InventoryGet(C, Group);
+	/** @type {ServerCharacterItemUpdate} */
+	const P = {
+		Target: C.MemberNumber,
+		Group: Group,
+		Name: (Item != null) ? Item.Asset.Name : undefined,
+		Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
+		Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
+		Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
+		Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
+	};
+	ServerSend("ChatRoomCharacterItemUpdate", P);
 }
 
 /**
@@ -3474,12 +3417,12 @@ function ChatRoomCharacterExpressionUpdate(C, Group) {
  * @returns {void} - Nothing.
  */
 function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
-	if (CurrentScreen == "ChatRoom") {
-		ServerSend("ChatRoomChat", { Content: msg, Type: "Action", Dictionary });
-		const C = CharacterGetCurrent();
-		if (C) ChatRoomCharacterItemUpdate(C);
-		if (LeaveDialog && (C != null)) DialogLeave();
-	}
+	// This can't use ServerPlayerIsInChatRoom because wardrobe changes can cause those to bleed through
+	if (CurrentScreen !== "ChatRoom") return;
+	ServerSend("ChatRoomChat", { Content: msg, Type: "Action", Dictionary });
+	const C = CharacterGetCurrent();
+	if (C) ChatRoomCharacterItemUpdate(C);
+	if (LeaveDialog && (C != null)) DialogLeave();
 }
 
 /**
@@ -3492,6 +3435,7 @@ function ChatRoomPublishCustomAction(msg, LeaveDialog, Dictionary) {
  * @returns {void} - Nothing.
  */
 function ChatRoomCharacterUpdate(C) {
+	if (!ServerPlayerIsInChatRoom()) return;
 	if (ChatRoomAllowCharacterUpdate) {
 		const data = {
 			ID: C.CharacterID,
@@ -4030,6 +3974,8 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
 	} else if (data.Content == "ChatRoomMapViewChangeKey") {
 		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
+	} else if (data.Content == "ChatRoomFriendRequestAdd") {
+		ChatRoomFriendMessage(SenderCharacter, data);
 	}
 	return true;
 }
@@ -5602,9 +5548,10 @@ function ChatRoomCurrentTime() {
  * Adds or removes an online member to/from a specific list. (From the dialog menu)
  * @param {"Add" | "Remove"} Operation - Operation to perform.
  * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList" | "DrawFocusList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist, drawfocuslist)
+ * @param {"FriendRequest"} [notification] - used to send notifications
  * @returns {void} - Nothing
  */
-function ChatRoomListManage(Operation, ListType) {
+function ChatRoomListManage(Operation, ListType, notification) {
 	if (!CurrentCharacter) return;
 	if (!CurrentCharacter.IsOnline()) return;
 	const isAdd = Operation === "Add";
@@ -5615,7 +5562,8 @@ function ChatRoomListManage(Operation, ListType) {
 			ChatRoomDrawFocusListRemove([CurrentCharacter]);
 		}
 	} else if (Array.isArray(Player[ListType])) {
-		ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber);
+		ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber, ListType === "FriendList" ? notification : undefined);
+		CharacterRefreshDialog(CurrentCharacter);
 	}
 }
 
@@ -5624,28 +5572,108 @@ function ChatRoomListManage(Operation, ListType) {
  * @param {number[]} List - List to add to or remove from.
  * @param {boolean} Adding - If TRUE adding to the list, if FALSE removing from the list.
  * @param {string} Argument - Member number to add/remove.
+ * @param {"FriendRequest"} [notification] - used to send notifications
  * @deprecated Use {@link ChatRoomListUpdate}
  * @returns {void} - Nothing
  */
-function ChatRoomListManipulation(List, Adding, Argument) {
-	var C = parseInt(Argument);
-	if (!isNaN(C) && (C >= 0) && (C != Player.MemberNumber)) {
-		ChatRoomListUpdate(List, Adding, C);
-	}
+function ChatRoomListManipulation(List, Adding, Argument, notification) {
+	const C = CommonParseInt(Argument);
+	if (C === null || !CommonIsNonNegativeInteger(C) || C === Player.MemberNumber) return;
+	ChatRoomListUpdate(List, Adding, C, notification);
 }
+
+/** @type {Map<string, number>} */
+const ChatRoomLastFriendRequest = new Map();
+
+/**
+ * Sends a notification message when a friend request is received.
+ * @param {Character} SenderCharacter - The character who sent the request.
+ * @param {ServerChatRoomMessage} data - The chat message data.
+ * @returns {void} - Nothing
+ */
+
+function ChatRoomFriendMessage(SenderCharacter, data) {
+	if (!Player.ChatSettings.ShowFriendRequestMessages) return;
+	const lastRequest = ChatRoomLastFriendRequest.get(SenderCharacter.MemberNumber+data.Content) ?? -Infinity;
+	if (!(lastRequest < CurrentTime + 5 * 60 * 1000)) return;
+	ChatRoomLastFriendRequest[SenderCharacter.MemberNumber+data.Content] = CurrentTime;
+	/** @type {CommonSubtituteSubstitution[]} this is ass */
+	const substitutions = [
+		["SourceCharacter", CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")"],
+	];
+	if (Player.FriendList.includes(SenderCharacter.MemberNumber)) {
+		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAcceptMessage"), substitutions));
+		return;
+	}
+	let id = CommonGenerateUniqueID();
+	const hide = () => {
+		document.getElementById(id)?.remove();
+	};
+	const addBack = () => {
+		ChatRoomListUpdate(Player.FriendList, true, SenderCharacter.MemberNumber, "FriendRequest");
+		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAddbackMessage"), substitutions));
+		hide();
+	};
+	const ghost = () => {
+		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendGhostMessage"), substitutions));
+		hide();
+	};
+	ChatRoomSendLocal(
+		ElementCreate({
+			tag: "div",
+			children: /** @type {(HTMLElement | string)[]} */(CommonStringPartitionReplace(TextGet("FriendRequestMessage"), {
+				"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
+				"{buttons}": ElementCreate(
+					{
+						tag: "div",
+						classList: ["chat-room-friendrequest-buttons"],
+						attributes: {id},
+						children: [
+							ElementButton.Create(null, null, null, {
+								button: {
+									classList: ["chat-room-friendrequest-add-back"],
+									children: [TextGet("FriendAddback")],
+								}
+							}),
+							ElementButton.Create(null, null, null, {
+								button: {
+									classList: ["chat-room-friendrequest-hide"],
+									children: [TextGet("FriendIgnore")],
+								}
+							}),
+							ElementButton.Create(null, null, null, {
+								button: {
+									classList: ["chat-room-friendrequest-ghost"],
+									children: /** @type {(HTMLElement | string)[]} */(CommonStringPartitionReplace(TextGet("FriendGhost"), {
+										"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
+									})),
+								}
+							}),
+						],
+					})
+			}))
+		}).outerHTML
+	);
+	document.querySelector(`#${id} .chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
+	document.querySelector(`#${id} .chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
+	document.querySelector(`#${id} .chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+}
+
 
 /**
  * Updates character lists for the player and saves the change
  * @param {number[]} list - The array of member numbers to update
  * @param {boolean} adding - If TRUE adding to the list, if FALSE removing from the list
  * @param {number} memberNumber - The member number to add/remove
+ * @param {"FriendRequest"} [notification] - used to send notifications
  * @returns {void} - Nothing
  */
-function ChatRoomListUpdate(list, adding, memberNumber) {
+function ChatRoomListUpdate(list, adding, memberNumber, notification) {
 	if (memberNumber === Player.MemberNumber) return;
 	if (!CommonIsNonNegativeInteger(memberNumber)) return;
 	const numIdx = list.indexOf(memberNumber);
 	if (adding && numIdx < 0) {
+		if (notification) ServerSend("ChatRoomChat", { Content: `ChatRoom${notification}Add`, Type: "Hidden", Target: memberNumber});
 		list.push(memberNumber);
 	}
 	else if (!adding && numIdx >= 0) {
@@ -6168,7 +6196,7 @@ function ChatRoomGameResponse(data) {
 function ChatRoomSafewordChatCommand() {
 	if (DialogChatRoomCanSafeword())
 		ChatRoomSafewordRevert();
-	else if (CurrentScreen == "ChatRoom") {
+	else if (ServerPlayerIsInChatRoom()) {
 		/** @type {ServerChatRoomMessage} */
 		var msg = {Sender: Player.MemberNumber, Content: "SafewordDisabled", Type: "Action"};
 		ChatRoomMessage(msg);
@@ -6237,7 +6265,8 @@ function ChatRoomConcatenateBanList(IncludesTypes, ExistingList) {
  * @returns {number[]} Complete array of whitelisted members
  */
 function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
-	var Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
+	/** @type {readonly number[]} */
+	let Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
 	IncludesTypes.forEach(Type => {
 		if (Type == "Owner" && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
 		else if (Type == "Lovers") Whitelist = Whitelist.concat(Player.GetLoversNumbers(true));
@@ -6254,7 +6283,8 @@ function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
  * @returns {number[]} Complete array of admin members
  */
 function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
-	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
+	/** @type {readonly number[]} */
+	let AdminList = Array.isArray(ExistingList) ? ExistingList : [];
 	IncludesTypes.forEach(Type => {
 		if (Type == "Owner" && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
 		else if (Type == "Lovers") AdminList = AdminList.concat(Player.GetLoversNumbers(true));
@@ -6295,11 +6325,13 @@ function ChatRoomGetLoadRules(C) {
 /**
  * Handles a response from another player containing the rules that the current player is allowed to read.
  * @param {Character} C - Character to set the rules on
- * @param {readonly LogRecord[]} Rule - An array of rules that the current player can read.
+ * @param {LogRecord[]} Rule - An array of rules that the current player can read.
  * @returns {void} - Nothing
  */
 function ChatRoomSetLoadRules(C, Rule) {
-	if (Array.isArray(Rule)) C.Rule = Rule;
+	if (CommonIsArray(Rule)) {
+		C.Rule = Rule;
+	}
 }
 
 /**

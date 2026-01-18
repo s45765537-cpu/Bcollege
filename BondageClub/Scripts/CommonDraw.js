@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -228,6 +229,9 @@ function CommonDrawAppearanceBuild(
 	const { maskLayers: maskTexLayers, maskLayersBlink: maskTexLayersBlink } =
 		CommonDrawAppearancePrepareMaskLayers(C);
 
+	/** @type {Map<Item, ExtendedItemOptionConfig["DrawOptions"]>} */
+	const drawOptionsMap = new Map();
+
 	// Loop through all layers in the character appearance
 	for (const layer of C.AppearanceLayers) {
 		const asset = layer.Asset;
@@ -421,8 +425,15 @@ function CommonDrawAppearanceBuild(
 			h,
 		]);
 
-		let mirrored = false;
-		let inverted = false;
+		let drawOptions = drawOptionsMap.get(item);
+		if (!drawOptions) {
+			const opts = ExtendedItemGetDrawingOptions(item);
+			drawOptionsMap.set(item, opts);
+			drawOptions = opts;
+		}
+		let mirrored = drawOptions.Mirror;
+		let inverted = drawOptions.Invert;
+
 		if (asset.FixedPosition && C.IsInverted()) {
 			mirrored = !mirrored;
 			inverted = !inverted;

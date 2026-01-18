@@ -1,12 +1,17 @@
+// @ts-strict-ignore
 "use strict";
 
 
 // For cacheing
+/** @type {Map<string, outfit>} */
 let KinkyDungeonOutfitCache = new Map();
 
 /**@type {string[]} Contains protected zones*/
 let KDProtectedCosplay = [];
 
+/**
+ * @param {{name: string}} item
+ */
 function KDOutfit(item) {
 	return KinkyDungeonOutfitCache.get(item.name);
 }

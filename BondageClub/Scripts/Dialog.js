@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** @deprecated - Superseded by `span.dialog-status`. */
@@ -474,13 +475,13 @@ function DialogInventoryAvailable(InventoryName, InventoryGroup) { return Invent
  * Checks, if the player is the administrator of the current chat room
  * @returns {boolean} - Returns true, if the player belogs to the group of administrators for the current char room false otherwise
  */
-function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && (CurrentScreen == "ChatRoom")); }
+function DialogChatRoomPlayerIsAdmin() { return (ChatRoomPlayerIsAdmin() && ServerPlayerIsInChatRoom()); }
 
 /**
  * Checks, if a safe word can be used.
  * @returns {boolean} - Returns true, if the player is currently within a chat room
  */
-function DialogChatRoomCanSafeword() { return (CurrentScreen == "ChatRoom" && !AsylumGGTSIsEnabled() && Player.GameplaySettings.EnableSafeword); }
+function DialogChatRoomCanSafeword() { return ServerPlayerIsInChatRoom() && !AsylumGGTSIsEnabled() && Player.GameplaySettings.EnableSafeword; }
 
 /**
  * Checks if the player is currently owned.
@@ -516,7 +517,7 @@ function DialogGGTSAction(Action, Minute) {
  * @returns {boolean} - TRUE if GGTS can unlock
  */
 function DialogGGTSCanUnlock() {
-	return (ChatRoomPlayerIsAdmin() && (CurrentScreen == "ChatRoom") && AsylumGGTSHasMinutes(30) && ChatRoomIsLocked());
+	return (ChatRoomPlayerIsAdmin() && ServerPlayerIsInChatRoom() && AsylumGGTSHasMinutes(30) && ChatRoomIsLocked());
 }
 
 /**
@@ -807,7 +808,7 @@ function DialogLeave(options=null) {
 	Object.values(DialogSelfMenuMapping).forEach(obj => obj.Exit());
 
 	// Destroy the remaining color pickers
-	ColorPickerExit();
+	ColorPickerExit(true);
 
 	// Go controller, go!
 	ControllerClearAreas();
@@ -879,7 +880,6 @@ function DialogMenuBack() {
 			break;
 
 		case "colorDefault":
-			ColorPickerHide();
 			DialogColorSelect = null;
 			DialogChangeMode("items");
 			break;
@@ -1668,7 +1668,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		}
 
 		// Seventh, if the player is using the online map room and is located on an object tile, she can use that object
-		if ((CurrentScreen == "ChatRoom") && ChatRoomMapViewIsActive() && Player.MapData) {
+		if (ServerPlayerIsInChatRoom() && ChatRoomMapViewIsActive() && Player.MapData) {
 			let Obj = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
@@ -1858,7 +1858,7 @@ function DialogMenuButtonClick() {
 			// Starts picking colors for the item, keeps the original color and shows it at the bottom
 			else if (button === "ColorChange" && Item != null) {
 				DialogChangeMode("colorItem");
-				ItemColorLoad(C, Item, 1300, 25, 675, 950);
+				ItemColorLoad(C, Item, 1090, 15, 885, 970);
 				ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 					DialogChangeMode("items");
 					if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
@@ -1918,7 +1918,7 @@ function DialogMenuButtonClick() {
  */
 function DialogPublishAction(C, Action, ClickItem) {
 	// Publishes the item result
-	if ((CurrentScreen == "ChatRoom") && !InventoryItemHasEffect(ClickItem)) {
+	if (ServerPlayerIsInChatRoom() && !InventoryItemHasEffect(ClickItem)) {
 		if (ChatRoomPublishAction(C, Action, null, ClickItem))
 			DialogLeave();
 	}
@@ -2074,7 +2074,16 @@ function DialogChangeMode(mode, reset=false) {
 	}
 
 	if (DialogMenuMode !== mode) {
-		DialogMenuMapping[DialogMenuMode]?.Unload();
+		switch (DialogMenuMode) {
+			case "colorDefault":
+			case "colorExpression":
+			case "colorItem":
+				ColorPickerUnload();
+				break;
+			default:
+				DialogMenuMapping[DialogMenuMode]?.Unload();
+				break;
+		}
 		DialogMenuMode = mode;
 	}
 
@@ -2116,6 +2125,7 @@ function DialogChangeMode(mode, reset=false) {
 					colors: [DialogColorSelect ?? ""],
 					editOpacity: false,
 				},
+				shape: [1090, 15, 910, 970],
 				heading: InterfaceTextGet("DialogMenuColorDefault"),
 			});
 			break;
@@ -2283,7 +2293,7 @@ function DialogClick(event) {
 		return;
 	} else if (DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") {
 		if (MouseIn(1300, 25, 675, 950) && FocusItem) {
-			ItemColorClick(C, C.FocusGroup.Name, 1200, 25, 775, 950);
+			ItemColorClick(C, C.FocusGroup.Name, 1090, 15, 885, 970);
 			return;
 		}
 	}
@@ -2296,11 +2306,16 @@ function DialogResize(load) {
 	switch (DialogMenuMode) {
 		case "layering":
 			Layering.Resize(load);
-			return;
+			break;
+		case "colorDefault":
+			ColorPickerResize(load);
+			break;
+		default:
+			DialogMenuMapping[DialogMenuMode]?.Resize(load);
+			break;
 	}
 
 	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Resize(load);
-	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
 /**
@@ -4121,10 +4136,20 @@ class _DialogDialogMenu extends DialogMenu {
 
 	/**
 	 * @private
+	 * @param {Character} C
 	 * @satisfies {TimerHandler}
 	 */
-	_mobileTimeoutHandler() {
-		document.querySelector(`#${this.ids.menubar} [name='Exit']`)?.removeAttribute("disabled");
+	_mobileTimeoutHandler(C) {
+		const button = document.querySelector(`#${this.ids.menubar} [name='Exit']`);
+		switch (DialogIntro(C)) {
+			case "":
+			case "NOEXIT":
+				button?.setAttribute("aria-disabled", "true");
+				break;
+			default:
+				button?.setAttribute("aria-disabled", "false");
+				break;
+		}
 		this._mobileTimeoutID = null;
 	}
 
@@ -4133,7 +4158,7 @@ class _DialogDialogMenu extends DialogMenu {
 		super.Exit();
 		if (this._mobileTimeoutID != null) {
 			clearTimeout(this._mobileTimeoutID);
-			this._mobileTimeoutHandler();
+			this._mobileTimeoutHandler(this.C);
 		}
 	}
 
@@ -4142,7 +4167,7 @@ class _DialogDialogMenu extends DialogMenu {
 		super.Unload();
 		if (this._mobileTimeoutID != null) {
 			clearTimeout(this._mobileTimeoutID);
-			this._mobileTimeoutHandler();
+			this._mobileTimeoutHandler(this.C);
 		}
 	}
 
@@ -4194,16 +4219,12 @@ class _DialogDialogMenu extends DialogMenu {
 		const { C } = properties;
 		if (options.reset) {
 			menubar.replaceChildren();
-			ElementMenu.AppendButton(
-				menubar,
+			menubar.append(
 				ElementButton.Create(
 					`${this.ids.menubar}-Exit`,
 					this.eventListeners._ClickMenubarExit,
-					{ image: "./Icons/Exit.png", tooltip: InterfaceTextGet("DialogMenuExit"), tooltipPosition: "left" },
-					{ button: {
-						attributes: { "screen-generated": undefined, name: "Exit", disabled: CommonIsMobile ? "" : undefined },
-						classList: ["dialog-menubar-button"],
-					}},
+					{ image: "./Icons/Exit.png", tooltip: InterfaceTextGet("DialogMenuExit"), tooltipPosition: "left", name: "Exit" },
+					{ button: { classList: ["dialog-menubar-button"], attributes: { "aria-disabled": CommonIsMobile.toString() } }},
 				),
 			);
 
@@ -4213,7 +4234,8 @@ class _DialogDialogMenu extends DialogMenu {
 				if (this._mobileTimeoutID != null) {
 					clearTimeout(this._mobileTimeoutID);
 				}
-				this._mobileTimeoutID = setTimeout(this._mobileTimeoutHandler.bind(this), 150);
+				this._mobileTimeoutID = setTimeout(this._mobileTimeoutHandler.bind(this), 150, this.C);
+				return; // Abort; the mobile timeout handler already takes care of managing the disabled state here
 			}
 		}
 
@@ -4512,7 +4534,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 					const groupName = equippedItem.Asset.Group.Name;
 					DialogChangeMode("colorExpression");
 					Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, groupName));
-					ItemColorLoad(Player, equippedItem, 1200, 25, 775, 950, true);
+					ItemColorLoad(Player, equippedItem, 1090, 15, 885, 970, true);
 					ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 						DialogMenuBack();
 						if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
@@ -4527,7 +4549,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				click(button) {
 					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
 					DialogFacialExpressionsSelectedBlindnessLevel = level;
-					button.querySelector(".button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
+					button.querySelector("img.button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
 				},
 			},
 			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
@@ -4558,7 +4580,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 							break;
 					}
 					button.setAttribute("aria-valuetext", state);
-					button.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
+					button.querySelector("img.button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
 				},
 			},
 			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
@@ -4731,9 +4753,9 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				if (expressionObj.Expression === currentExpression) {
 					button.setAttribute("aria-checked", "true");
 					button.setAttribute("tabindex", "0");
-					const src = button.querySelector(".button-image")?.getAttribute("src");
+					const src = button.querySelector("img.button-image")?.getAttribute("src");
 					if (src) {
-						owningButton.querySelector(".button-image")?.setAttribute("src", src);
+						owningButton.querySelector("img.button-image")?.setAttribute("src", src);
 					}
 				} else {
 					button.setAttribute("aria-checked", "false");
@@ -4776,7 +4798,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		}
 		button.setAttribute("aria-valuenow", level);
 		button.setAttribute("aria-valuetext", state);
-		button.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
+		button.querySelector("img.button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
@@ -4798,7 +4820,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		CharacterSetFacialExpression(C, clickedObj.Group, clickedObj.Expression);
 		C.ActiveExpression.setWithoutReload(clickedObj.Group, clickedObj.Expression ?? undefined);
 
-		const thisImg = button.querySelector(".button-image");
+		const thisImg = button.querySelector("img.button-image");
 		const controllerImg = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"] .button-image`);
 		if (thisImg && controllerImg) {
 			controllerImg.setAttribute("src", thisImg.getAttribute("src"));
@@ -4809,7 +4831,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		if (blinkButton && blinkButton.getAttribute("aria-valuenow") !== "1") {
 			blinkButton.setAttribute("aria-valuenow", "1");
 			blinkButton.setAttribute("aria-valuetext", "None");
-			blinkButton.querySelector(".button-image")?.setAttribute("src", "Icons/WinkNone.png");
+			blinkButton.querySelector("img.button-image")?.setAttribute("src", "Icons/WinkNone.png");
 		}
 	}
 }
@@ -5411,7 +5433,7 @@ function DialogFindAutoReplace(C, KeyWord1, KeyWord2, ReturnPrevious) {
  * Draw the up/down arrow to bump a character up and down if they're hidden.
  */
 function DialogDrawRepositionButton() {
-	if (!CurrentCharacter.HeightModifier == null || !CurrentCharacter.FocusGroup) return;
+	if (!CurrentCharacter.FocusGroup) return;
 
 	let drawButton = "";
 	if (CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
@@ -5549,7 +5571,7 @@ function DialogLoad() {
 function DialogDraw() {
 
 	// Customization can be used in dialog if screen is online chat room
-	if ((CurrentScreen == "ChatRoom") && ChatRoomCustomized) {
+	if (ServerPlayerIsInChatRoom() && ChatRoomCustomized) {
 		const drawBGToRect = DrawShowChatRoomCustomBackground() ? { x: 0, y: 0, w: 2000, h: 1000 } : null;
 		ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, drawBGToRect, true);
 	}
@@ -5637,7 +5659,7 @@ function DialogDraw() {
 			DialogChangeMode("items");
 		}
 	} else if ((DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") && FocusItem) {
-		ItemColorDraw(C, C.FocusGroup.Name, 1200, 25, 775, 950);
+		ItemColorDraw(C, C.FocusGroup.Name, 1090, 15, 885, 970);
 		return;
 	} else if (DialogMenuMode === "colorDefault") {
 		return;

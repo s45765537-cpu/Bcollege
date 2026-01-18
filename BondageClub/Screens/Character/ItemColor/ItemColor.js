@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** A configuration object containing constants used by the ItemColor UI scripts */
@@ -20,7 +21,7 @@ const ItemColorMode = /** @type {const} */({
 let ItemColorCharacter = null;
 /** @type {null | ItemColorItem} */
 let ItemColorItem = null;
-/** @type {ItemColorMode} */
+/** @type {null | ItemColorMode} */
 let ItemColorCurrentMode = ItemColorMode.DEFAULT;
 /** @type {null | string} */
 let ItemColorStateKey = null;
@@ -114,20 +115,23 @@ function ItemColorSanitizeProperty(item) {
  * @param {number} width - The width the UI should be drawn at
  * @param {number} height - The height the UI should be drawn at
  * @param {boolean} [includeResetButton] - Whether or not to include the "Reset to default" button
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
+ * @satisfies {ScreenLoadHandler}
  */
-function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
+async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorReset();
-	ItemColorCharacter = c;
-	ItemColorItem = Object.assign(item, { Color: ItemColorSanitizeColor(item), Property: ItemColorSanitizeProperty(item) });
-	ItemColorBackup = AppearanceItemStringify(ItemColorItem);
-	ItemColorStateBuild(c, ItemColorItem, x, y, width, height);
+	ItemColorBackup = AppearanceItemStringify(item);
+	ItemColorStateBuild(c, item, x, y, width, height);
 	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
 	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
+
+	// Add 25 from the width to correct for the hard-coded scrollbar gutter
+	const shape = /** @type {const} */([x, y, width + 25, height]);
 	if (ItemColorState.simpleMode) {
-		ItemColorOpenPicker(ItemColorState.colorGroups[0]);
+		await ItemColorOpenPicker(ItemColorState.colorGroups[0], { shape });
 	} else {
-		// Hide the pre-loaded color picker subscreen again
+		// Pre-loaded (and hide) the color picker subscreen again
+		await ColorPickerInit({ shape, dispatch: false });
 		ColorPickerUnload();
 	}
 }
@@ -238,15 +242,10 @@ function ItemColorDrawDefault(x, y) {
 /**
  * A debounced callback for when the item color picker changes its value. This sets the color for the currently selected set of color
  * indices
+ * @deprecated - Superseded by {@link ColorPicker.eventListeners.inputItemColor}
  * @type {(color: string) => void}
  */
-const ItemColorOnPickerChange = CommonLimitFunction((color) => {
-	if (!ItemColorState) return;
-	const newColors = ItemColorState.colors.slice();
-	ItemColorPickerIndices.forEach(i => newColors[i] = color);
-	ItemColorItem.Color = newColors;
-	CharacterLoadCanvas(ItemColorCharacter);
-});
+const ItemColorOnPickerChange = () => undefined;
 
 /**
  * Click handler for the item color UI according to its current state
@@ -263,7 +262,6 @@ function ItemColorClick(c, group, x, y, width, height) {
 	if (!item || ItemColorCurrentMode === ItemColorMode.COLOR_PICKER) {
 		return;
 	}
-	ItemColorStateBuild(c, item, x, y, width, height);
 
 	const headerButtonSize = ItemColorConfig.headerButtonSize;
 
@@ -283,7 +281,8 @@ function ItemColorClick(c, group, x, y, width, height) {
 		return ItemColorPaginationClick();
 	}
 
-	return ItemColorClickDefault(x, ItemColorState.contentY, width);
+	const shape = /** @type {const} */([x, y, width + 25, height]);
+	return ItemColorClickDefault(x, ItemColorState.contentY, width, shape);
 }
 
 /**
@@ -291,9 +290,10 @@ function ItemColorClick(c, group, x, y, width, height) {
  * @param {number} x - The x-coordinate at which the default UI was drawn
  * @param {number} y - The y-coordinate at which the default UI was drawn
  * @param {number} width - The width with which the default UI was drawn
+ * @param {Readonly<RectTuple>} shape - The shape of the color picker
  * @returns {void} - Nothing
  */
-function ItemColorClickDefault(x, y, width) {
+function ItemColorClickDefault(x, y, width, shape) {
 	const pageStart = ItemColorPage * ItemColorState.pageSize;
 	const colorGroups = ItemColorState.colorGroups.slice(pageStart, pageStart + ItemColorState.pageSize);
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
@@ -313,7 +313,7 @@ function ItemColorClickDefault(x, y, width) {
 		if (MouseYIn(y + i * rowHeight, buttonHeight)) {
 			if (MouseXIn(colorPickerButtonX, colorPickerButtonWidth)) {
 				// Color picker button
-				ItemColorOpenPicker(colorGroup);
+				ItemColorOpenPicker(colorGroup, { shape });
 			} else if (MouseXIn(colorDisplayButtonX, colorDisplayWidth)) {
 				// Cycle through the color schema
 				ItemColorNextColor(colorGroup);
@@ -474,7 +474,10 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 	ItemColorPickerIndices = ItemColorGetColorIndices(colorGroup);
 	const asset = ItemColorItem.Asset;
 
-	const layers = colorGroup.name === null ? asset.Layer : colorGroup.layers;
+	const layerPage = ItemColorLayerPages[colorGroup.name];
+	const protoLayers = colorGroup.name === null ? asset.Layer : (layerPage === 0 ? colorGroup.layers : [colorGroup.layers[layerPage - 1]]);
+	const layers = protoLayers.flatMap(layer => asset.Layer.find(l => l.ColorIndex === layer.ColorIndex));
+	ItemColorPickerLayers.clear();
 	for (const layer of layers) {
 		const index = asset.Layer.indexOf(layer);
 		if (index !== -1) {
@@ -494,7 +497,6 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 				nameList.push(ItemColorLayerNames.get(`${asset.DynamicGroupName}${asset.Name}${colorGroup.name}`));
 				break getName;
 			}
-			const layerPage = ItemColorLayerPages[colorGroup.name];
 			if (layerPage !== 0) {
 				// Only add the layer name if we're not in the color group's "All" category
 				const layer = colorGroup.layers[layerPage - 1];
@@ -525,13 +527,17 @@ function ItemColorNextColor(colorGroup) {
 	const schema = ItemColorItem.Asset.Group.ColorSchema;
 	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length;
 	const nextColor = schema[nextIndex];
-	const newColors = [...ItemColorState.colors];
 	if (nextColor === "Default") {
-		colorIndicesToSet.forEach(i => newColors[i] = ItemColorState.defaultColors[i]);
+		colorIndicesToSet.forEach(i => {
+			ItemColorItem.Color[i] = ItemColorState.defaultColors[i];
+			ItemColorState.colors[i] = ItemColorState.defaultColors[i];
+		});
 	} else {
-		colorIndicesToSet.forEach(i => newColors[i] = nextColor);
+		colorIndicesToSet.forEach(i => {
+			ItemColorItem.Color[i] = nextColor;
+			ItemColorState.colors[i] = nextColor;
+		});
 	}
-	ItemColorItem.Color = newColors;
 	CharacterLoadCanvas(ItemColorCharacter);
 }
 
@@ -608,6 +614,7 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	const colorableLayers = ItemColorGetColorableLayers(item);
 	const colorGroups = ItemColorGetGroups(item, colorableLayers);
 	const simpleMode = colorableLayers.length === 1;
+	ItemColorCurrentMode = simpleMode ? ItemColorMode.COLOR_PICKER : ItemColorMode.DEFAULT;
 
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
 	const buttonSpacing = ItemColorConfig.buttonSpacing;
@@ -650,6 +657,12 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 		drawImport,
 		drawExport,
 	};
+
+	ItemColorPickerIndices = ItemColorGetColorIndices({ name: null, layers: [], colorIndex: -1 });
+	ItemColorPickerLayers.clear();
+	for (const [index, layer] of ItemColorItem.Asset.Layer.entries()) {
+		ItemColorPickerLayers.set(index, layer);
+	}
 
 	// Add all currently active colors within the item
 	ItemColorState.initialColors.forEach(color => {
@@ -739,13 +752,26 @@ function ItemColorOnExit(callback) {
  */
 function ItemColorFireExit(save) {
 	const colorState = {
-		colors: ItemColorState.colors,
-		opacity: ItemColorState.opacity,
+		colors: [...ItemColorState.colors],
+		opacity: [...ItemColorState.opacity],
 		initialColors: [...ItemColorState.initialColors],
 		initialOpacity: [...ItemColorState.initialOpacity],
+		defaultColors: [...ItemColorState.defaultColors],
+		defaultOpacity: [...ItemColorState.defaultOpacity],
+		editOpacity: ItemColorState.editOpacity,
 	};
 	ItemColorExitListeners.forEach(listener => listener(colorState, save, null));
-	ColorPickerExit();
+
+	// Minify the opacity property if possible
+	/** @type {Item} */
+	const item = ItemColorItem;
+	if (CommonArraysEqual(colorState.opacity, colorState.defaultOpacity)) {
+		delete item.Property.Opacity;
+	} else if (colorState.opacity.every(opacity => opacity === colorState.opacity[0])) {
+		item.Property.Opacity = colorState.opacity[0];
+	}
+
+	ColorPickerExit(true);
 	ItemColorReset();
 }
 
@@ -756,7 +782,7 @@ function ItemColorFireExit(save) {
 function ItemColorReset() {
 	ItemColorCharacter = null;
 	ItemColorItem = null;
-	ItemColorCurrentMode = ItemColorMode.DEFAULT;
+	ItemColorCurrentMode = null;
 	ItemColorStateKey = null;
 	ItemColorState = null;
 	ItemColorPage = 0;

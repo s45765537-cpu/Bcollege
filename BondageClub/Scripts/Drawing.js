@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /**
  * The main game canvas where everything will be drawn
@@ -330,6 +331,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
 		|| CurrentScreen === "Crafting"
+		|| CurrentScreen === "Wardrobe"
 		|| CurrentScreen === "Shop2"
 		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
@@ -410,7 +412,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		const YOffset = CharacterAppearanceYOffset(C, HeightRatio);
 
 		// Calculate the vertical parameters. In certain cases, cut off anything above the Y value.
-		const YCutOff = YOffset >= 0 || CurrentScreen == "ChatRoom";
+		const YCutOff = YOffset >= 0 || ServerPlayerIsInChatRoom();
 		const YStart = CanvasUpperOverflow + (YCutOff ? -YOffset / HeightRatio : 0);
 		const SourceHeight = 1000 / HeightRatio + (YCutOff ? 0 : -YOffset / HeightRatio);
 		const DestY = (IsInverted || YCutOff) ? 0 : YOffset;
@@ -459,11 +461,11 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		}
 
 		// Draw the character name below herself
-		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
-			if ((CurrentScreen !== "ChatRoom") || (ChatRoomMapViewIsActive() === false) || (CurrentCharacter != null))
+		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(ServerPlayerIsInChatRoom() && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
+			if (!ServerPlayerIsInChatRoom() || !ChatRoomMapViewIsActive() || CurrentCharacter)
 				if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 					DrawCanvas.font = CommonGetFont(30);
-					const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
+					const NameOffset = ServerPlayerIsInChatRoom() && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
 					DrawText(CharacterNickname(C), X + 255 * Zoom, Y + 980 * Zoom + NameOffset, (CommonIsColor(C.LabelColor)) ? C.LabelColor : "White", "Black");
 					DrawCanvas.font = CommonGetFont(36);
 				}
@@ -1507,6 +1509,7 @@ function DrawProcess(time) {
 			CurrentModule !== "Character"
 			&& bgName !== "Sheet"
 			&& CurrentScreen !== "Crafting"
+			&& CurrentScreen !== "Wardrobe"
 			&& CurrentScreen !== "Shop2"
 			&& CurrentScreen !== "MaidCleaning" // does it's own darkening
 		);

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -130,19 +131,32 @@ function ElementCreate(options) {
 
 	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
 
+	elem.append(...ElementParseChildren(options.children ?? []));
+	if (options.parent) { options.parent.appendChild(elem); }
+	return elem;
+}
+
+
+/**
+ * Convert the list of passed HTML option children into a list of nodes and/or string
+ * @param {HTMLOptions<any>["children"]} children
+ * @returns {(string | Node)[]}
+ */
+function ElementParseChildren(children) {
+	/** @type {(string | Node)[]} */
+	const ret = [];
 	/** @type {(i: unknown) => i is Node | string} */
 	const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
-	for (const childElem of options.children ?? []) {
+	for (const childElem of children ?? []) {
 		if (childElem != null) {
 			if (isNode(childElem)) {
-				elem.append(childElem);
+				ret.push(childElem);
 			} else {
-				ElementCreate({ ...childElem, parent: elem });
+				ret.push(ElementCreate({ ...childElem }));
 			}
 		}
 	}
-	if (options.parent) { options.parent.appendChild(elem); }
-	return elem;
+	return ret;
 }
 
 /**
@@ -1254,21 +1268,32 @@ var ElementButton = {
 	 * @private
 	 * @param {string} id
 	 * @param {string} [img]
+	 * @param {string} [imgColor]
 	 * @param {Omit<HTMLOptions<"img">, "tag">} [options]
-	 * @returns {HTMLImageElement}
+	 * @returns {HTMLImageElement | HTMLDivElement}
 	 */
-	_ParseImage: function _ParseImage(id, img, options) {
+	_ParseImage: function _ParseImage(id, img=null, imgColor=null, options=null) {
 		if (!img) {
 			return;
 		}
 
 		options ??= {};
-		return ElementCreate({
-			...options,
-			tag: "img",
-			classList: ["button-image", ...(options.classList ?? [])],
-			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
-		});
+		if (imgColor == null) {
+			return ElementCreate({
+				...options,
+				tag: "img",
+				classList: ["button-image", ...(options.classList ?? [])],
+				attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
+			});
+		} else {
+			return ElementCreate({
+				...options,
+				tag: "div",
+				classList: ["button-image", ...(options.classList ?? [])],
+				attributes: { id: `${id}-image`, "aria-hidden": "true", src: img, role: "img", ...(options.attributes ?? {}) },
+				style: { "background-image": `url("./${img}")`, "mask-image": `url("./${img}")`, "background-color": imgColor, ...(options.style ?? {}) },
+			});
+		}
 	},
 
 	/**
@@ -1421,7 +1446,7 @@ var ElementButton = {
 
 		options ??= {};
 		const labelPosition = options.labelPosition ?? (options.image == null ? "center" : "bottom");
-		const image = this._ParseImage(id, options.image, htmlOptions.img);
+		const image = this._ParseImage(id, options.image, options.imageColor, htmlOptions.img);
 		const label = this._ParseLabel(id, options.label, labelPosition, htmlOptions.label);
 		const icons = this._ParseIcons(id, options.icons);
 
@@ -1480,6 +1505,8 @@ var ElementButton = {
 				tabindex: options.tabindex,
 				"aria-controls": ariaControls,
 				"aria-checked": options.ariaChecked == null ? null : options.ariaChecked.toString(),
+				"aria-expanded": options.ariaExpanded == null ? null : options.ariaExpanded.toString(),
+				"aria-haspopup": options.ariaHasPopup == null ? null : options.ariaHasPopup.toString(),
 				...(buttonOptions.attributes ?? {}),
 			},
 			classList,
@@ -1520,11 +1547,15 @@ var ElementButton = {
 					}
 				}
 				break;
+			case "combobox":
 			case "checkbox":
 			case "menuitemcheckbox":
 				elem.addEventListener("click", this._ClickCheckbox);
-				if (!elem.getAttribute("aria-checked")) {
+				if (!elem.hasAttribute("aria-checked")) {
 					elem.setAttribute("aria-checked", "false");
+				}
+				if (role === "combobox" && !elem.hasAttribute("aria-expanded")) {
+					elem.setAttribute("aria-expanded", "false");
 				}
 				break;
 			case "spinbutton": {
@@ -1587,7 +1618,7 @@ var ElementButton = {
 		htmlOptions.button.dataAttributes.vibrating ??= item.Property?.Effect?.includes("Vibrating") ? "" : undefined;
 		htmlOptions.button.children = [
 			...(htmlOptions.button.children ?? []),
-			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", { dataAttributes: { hidden: "" } }),
+			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", null, { dataAttributes: { hidden: "" } }),
 		];
 		htmlOptions.tooltip ??= {};
 		htmlOptions.tooltip.classList ??= [];
@@ -1779,6 +1810,65 @@ var ElementButton = {
  */
 var ElementMenu = {
 	/**
+	 * @private
+	 * @type {WeakMap<Element, MutationObserver>}
+	 */
+	_observers: new WeakMap,
+
+	/**
+	 * @private
+	 * @satisfies {MutationCallback}
+	 * @param {readonly { addedNodes: readonly Node[] | NodeList, target: Node }[]} mutationList
+	 */
+	_osbserverCallback: function _osbserverCallback(mutationList) {
+		const roles = [
+			"menuitem",
+			"menuitemradio",
+			"menuitemcheckbox",
+		];
+		const roleSelector = roles.map(i => `[role='${i}']:not([hidden])`).join(",");
+
+		/** @type {(el: Node) => el is Element} */
+		const nodeFilter = (el) => el instanceof HTMLButtonElement || (el instanceof Element && roles.includes(el.getAttribute("role")));
+
+		for (const mutation of mutationList) {
+			const nodes = Array.from(mutation.addedNodes).filter(nodeFilter);
+			if (!nodes.length) {
+				continue;
+			}
+
+			for (const menuitem of nodes) {
+				let role = menuitem.getAttribute("role");
+				if (menuitem instanceof HTMLButtonElement) {
+					if (menuitem.disabled) {
+						menuitem.disabled = false;
+						menuitem.setAttribute("aria-disabled", "true");
+					}
+					if (!role) {
+						role = "menuitem";
+						menuitem.setAttribute("role", role);
+					}
+				}
+				if (roles.includes(role)) {
+					menuitem.addEventListener("keydown", ElementMenu._KeyDown);
+					menuitem.setAttribute("tabindex", "-1");
+				}
+			}
+
+			// Check whether only the first element still has a tabindex of 0
+			if (mutation.target instanceof Element) {
+				const menuitems = Array.from(mutation.target.querySelectorAll(roleSelector));
+				if (!menuitems.length) {
+					continue;
+				} else if (menuitems[0].getAttribute("tabindex") !== "0") {
+					menuitems.find(el => el.getAttribute("tabindex") === "0")?.setAttribute("tabindex", "-1");
+					menuitems[0]?.setAttribute("tabindex", "0");
+				}
+			}
+		}
+	},
+
+	/**
 	 * KeyDown event listener that implements menubar-style keyboard navigation
 	 * @this {HTMLElement}
 	 * @param {KeyboardEvent} ev
@@ -1932,6 +2022,10 @@ var ElementMenu = {
 
 		htmlOptions ??= {};
 		const menuOptions = htmlOptions.menu ?? {};
+		const children = ElementParseChildren([
+			...menuItems,
+			...(menuOptions.children ?? [])
+		]).map(el => typeof el === "string" ? document.createTextNode(el) : el);
 		elem = ElementCreate({
 			...menuOptions,
 			tag: "div",
@@ -1944,35 +2038,16 @@ var ElementMenu = {
 			parent: menuOptions.parent ?? document.body,
 			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
 			classList: ["menubar", "HideOnPopup", ...(menuOptions.classList ?? [])],
-			children: [...menuItems, ...(menuOptions.children ?? [])],
+			children,
 		});
 
-		let first = true;
-		elem.querySelectorAll("button, [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']").forEach((menuitem) => {
-			let role = menuitem.getAttribute("role");
-			if (!role) {
-				role = "menuitem";
-				menuitem.setAttribute("role", "menuitem");
-			}
+		// Manually run the observer callback so that the menubar-specific attributes are set in a synchronous manner
+		ElementMenu._osbserverCallback([{ addedNodes: children, target: elem }]);
 
-			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
-				return;
-			}
-
-			if (first && !menuitem.hasAttribute("hidden")) {
-				first = false;
-				menuitem.setAttribute("tabindex", "0");
-			} else {
-				menuitem.setAttribute("tabindex", "-1");
-			}
-			menuitem.addEventListener("keydown", this._KeyDown);
-
-			// Ensure that disabled buttons use `aria-disabled` in order to keep them focusable
-			if (menuitem instanceof HTMLButtonElement && menuitem.disabled) {
-				menuitem.disabled = false;
-				menuitem.setAttribute("aria-disabled", "true");
-			}
-		});
+		// Attach an observer in order to handle all the menubar-specific attribute juggling
+		const observer = new MutationObserver(ElementMenu._osbserverCallback);
+		ElementMenu._observers.set(elem, observer);
+		observer.observe(elem, { childList: true, subtree: true });
 		return elem;
 	},
 
@@ -1980,32 +2055,11 @@ var ElementMenu = {
 	 * Append a menuitem to the passed menubar
 	 * @param {HTMLElement} menu - The menubar
 	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
+	 * @deprecated - Fully equivalent to {@link HTMLElement.append}
 	 */
 	AppendButton: function AppendButton(menu, ...menuitems) {
 		if (!menu || !menuitems) {
 			return;
-		}
-
-		let i = 0;
-		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
-		for (const elem of menuitems) {
-			let role = elem.getAttribute("role");
-			if (!role) {
-				role = "menuitem";
-				elem.setAttribute("role", "menuitem");
-			}
-
-			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
-				continue;
-			}
-
-			if (i === 0 && !firstMenuItem) {
-				elem.tabIndex = 0;
-			} else {
-				elem.tabIndex = -1;
-			}
-			elem.addEventListener("keydown", this._KeyDown);
-			i++;
 		}
 		menu.append(...menuitems);
 	},
@@ -2014,33 +2068,11 @@ var ElementMenu = {
 	 * Prepend a menuitem to the passed menubar
 	 * @param {HTMLElement} menu - The menubar
 	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
+	 * @deprecated - Fully equivalent to {@link HTMLElement.prepend}
 	 */
 	PrependItem: function PrependButton(menu, ...menuitems) {
 		if (!menu || !menuitems) {
 			return;
-		}
-
-		let i = 0;
-		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
-		for (const elem of menuitems) {
-			let role = elem.getAttribute("role");
-			if (!role) {
-				role = "menuitem";
-				elem.setAttribute("role", "menuitem");
-			}
-
-			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
-				continue;
-			}
-
-			if (i === 0) {
-				firstMenuItem?.setAttribute("tabindex", "-1");
-				elem.tabIndex = 0;
-			} else {
-				elem.tabIndex = -1;
-			}
-			elem.addEventListener("keydown", this._KeyDown);
-			i++;
 		}
 		menu.prepend(...menuitems);
 	},
@@ -2130,7 +2162,7 @@ var ElementCheckbox = {
 	 * @param {string | Node | HTMLOptions<keyof HTMLElementTagNameMap>} label - The label of the checkbox
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.LabelOptions} options - High level options for the to-be created checkbox
-	 * @param {null | Partial<Record<"checkbox" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @param {null | Partial<Record<"checkbox" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 */
 	CreateLabelled: function CreateLabelled(id=null, label, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
@@ -2147,12 +2179,14 @@ var ElementCheckbox = {
 
 		options ??= {};
 		const labelOptions = htmlOptions?.label ?? {};
+		const containerOptions = htmlOptions?.container ?? {};
 		const orientation = options.orientation ?? "horizontal";
 
 		return ElementCreate({
+			...containerOptions,
 			tag: "label",
-			classList: ["checkbox-pair", `checkbox-pair-${orientation}`],
-			attributes: { id: `checkbox-pair-${id}` },
+			classList: ["checkbox-pair", `checkbox-pair-${orientation}`, ...(containerOptions.classList ?? [])],
+			attributes: { id: `checkbox-pair-${id}`, ...(containerOptions.attributes ?? {}) },
 			children: [
 				this.Create(id, onChange, options, htmlOptions),
 				{
@@ -2164,7 +2198,8 @@ var ElementCheckbox = {
 					},
 					classList: ["checkbox-label", ...(labelOptions.classList ?? [])],
 					children: [label, ...(labelOptions.children ?? [])],
-				}
+				},
+				...(containerOptions.children ?? []),
 			],
 		});
 	}
@@ -2472,12 +2507,16 @@ var ElementDOMScreen = {
 	 *         <p role="status" />
 	 *     </hgroup>
 	 *
-	 *     <!--
-	 *         The third and final row: a scrollable section with the main content of the screen.
-	 *         As a rule of thumb, it is recommended to embed the immediate child elements into some sort of
-	 *         grouping element like `<fieldset>`, `<section>` and/or `<article>`.
-	 *     -->
-	 *     <main class="screen-main" />
+	 *     <div class="screen-main-container">
+	 *         <aside class="screen-aside-l" />
+	 *         <!--
+	 *             The third and final row: a scrollable section with the main content of the screen.
+	 *             As a rule of thumb, it is recommended to embed the immediate child elements into some sort of
+	 *             grouping element like `<fieldset>`, `<section>` and/or `<article>`.
+	 *         -->
+	 *         <main class="screen-main" />
+	 *         <aside class="screen-aside-r" />
+	 *     </div>
 	 * </div>
 	 * @param {string} id - The ID of the screen
 	 * @param {null | ElementDOMScreen.TemplateOptions} options - Further customization options
@@ -2485,30 +2524,51 @@ var ElementDOMScreen = {
 	 */
 	getTemplate(id, options=null) {
 		options ??= {};
+		const hgroup = ElementCreate({
+			tag: "hgroup",
+			classList: ["scroll-box", "screen-hgroup"],
+			attributes: { id: `${id}-hgroup` },
+			children: [
+				{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
+				{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
+			],
+		});
+		const mainSection = options.mainSection ?? "center";
 
 		const children = [
 			ElementCreate({
 				tag: "header",
 				classList: ["screen-header"],
-				attributes: { "aria-owns": `${id}-hgroup`, id: `${id}-header` },
+				attributes: { "aria-owns": options.hgroupInHeader ? null : `${id}-hgroup`, id: `${id}-header` },
 				children: [
 					ElementMenu.Create(`${id}-menu`, options.menubarButtons ?? [], { direction: "rtl" }),
+					options.hgroupInHeader ? hgroup : null,
 				],
 			}),
+			options.hgroupInHeader ? null : hgroup,
 			ElementCreate({
-				tag: "hgroup",
-				classList: ["scroll-box", "screen-hgroup"],
-				attributes: { id: `${id}-hgroup` },
+				tag: "div",
+				classList: ["screen-main-container"],
 				children: [
-					{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
-					{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
+					ElementCreate({
+						tag: mainSection === "left" ? "main" : "aside",
+						classList: ["screen-aside-l", mainSection === "left" ? "scroll-box" : null],
+						attributes: { id: `${id}-aside-l` },
+						children: options.leftContent,
+					}),
+					ElementCreate({
+						tag: mainSection === "center" ? "main" : "aside",
+						classList: ["screen-main", mainSection === "center" ? "scroll-box" : null],
+						attributes: { id: `${id}-main` },
+						children: options.mainContent,
+					}),
+					ElementCreate({
+						tag: mainSection === "right" ? "main" : "aside",
+						classList: ["screen-aside-r", mainSection === "right" ? "scroll-box" : null],
+						attributes: { id: `${id}-aside-r` },
+						children: options.rightContent,
+					}),
 				],
-			}),
-			ElementCreate({
-				tag: options.mainTag ?? "main",
-				classList: ["scroll-box", "screen-main"],
-				attributes: { id: `${id}-main` },
-				children: options.mainContent,
 			}),
 		];
 
@@ -2544,7 +2604,7 @@ var ElementDOMScreen = {
 				tag: "div",
 				attributes: { id, "screen-generated": CurrentScreen },
 				parent: options.parent,
-				classList: ["HideOnPopup", "screen"],
+				classList: ["HideOnPopup", "screen", options.hgroupInHeader ? "screen-hgroup-in-header" : null],
 				children,
 			});
 		}
@@ -2573,11 +2633,12 @@ var ElementDOMScreen = {
 
 	/**
 	 * Set a temporary status message for the screen.
-	 * @param {HTMLElement} root The screen on which the status is the be set; it _must_ contain a single `h1` and `[role='status']` element
-	 * @param {string} status The to-be displayed status message
+	 * @param {ElementHelp.ElementOrId} root The screen on which the status is the be set; it _must_ contain a single `h1` and `[role='status']` element
+	 * @param {string | Element | readonly (string | Element)[]} status The to-be displayed status message
 	 * @param {number} timeout How long the status message should be shown in ms; defaults to 5000 ms
 	 */
 	setStatus(root, status, timeout=5000) {
+		root = ElementWrap(root)?.closest(".screen");
 		if (!root || !Number.isFinite(timeout)) {
 			return;
 		}
@@ -2593,11 +2654,50 @@ var ElementDOMScreen = {
 			clearTimeout(timeoutID);
 		}
 
+		const statusArray = CommonIsArray(status) ? status : [status];
 		headingElem.toggleAttribute("hidden", true);
-		statusElem.replaceChildren(status);
+		statusElem.replaceChildren(...statusArray);
 		timeoutID = setTimeout(ElementDOMScreen._setStatusTimerHandler, timeout, headingElem, statusElem);
 		ElementDOMScreen._statusIDMap.set(statusElem, timeoutID);
 	},
+
+	/**
+	 * Clear the temporary status message of the passed screen.
+	 * @param {ElementHelp.ElementOrId} root The screen on which the status is the be removed; it _must_ contain a single `h1` and `[role='status']` element
+	 */
+	clearStatus(root) {
+		root = ElementWrap(root)?.closest(".screen");
+		if (!root) {
+			return;
+		}
+
+		const statusElem = root.querySelector(`[role='status']`);
+		const headingElem = root.querySelector(`h1`);
+		if (!statusElem || !headingElem) {
+			return;
+		}
+
+		const timeoutID = ElementDOMScreen._statusIDMap.get(statusElem);
+		if (timeoutID != null) {
+			clearTimeout(timeoutID);
+			ElementDOMScreen._setStatusTimerHandler(headingElem, statusElem);
+		}
+	},
+
+	/**
+	 * Set the persistent heading of a screen.
+	 * @param {ElementHelp.ElementOrId} root The screen on which the heading is the be set
+	 * @param {string | Element | readonly (string | Element)[]} heading The to-be displayed heading content. Note that headings may only ever contain [flow content](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Content_categories#flow_content)
+	 */
+	setHeading(root, heading) {
+		root = ElementWrap(root)?.closest(".screen");
+		if (!root) {
+			return;
+		}
+
+		const headingArray = CommonIsArray(heading) ? heading : [heading];
+		root.querySelector(`h1`)?.replaceChildren(...headingArray);
+	}
 };
 
 /**
@@ -2686,15 +2786,12 @@ class HTMLColorTintElement extends HTMLElement {
 			tintPicker.dispatchEvent(new InputEvent("input"));
 		}
 
-		/** @type {(this: Document, ev: PointerEvent) => void} */
+		/** @type {(this: HTMLColorTintElement, ev: PointerEvent) => void} */
 		function pointerup(ev) {
 			if (tintPicker._pressedOldValue == null) {
 				return;
 			}
 
-			document.removeEventListener("pointerup", pointerup);
-			document.removeEventListener("pointercancel", pointerup);
-			document.removeEventListener("pointermove", pointermove);
 			if (ev.type !== "pointercancel" && tintPicker._pressedOldValue !== tintPicker.value) {
 				// Round the knob position such to the nearest 1/255 x- & y-coordinate
 				const top = (255 - tintPicker.brightness) / (255 / 100);
@@ -2703,6 +2800,7 @@ class HTMLColorTintElement extends HTMLElement {
 				tintPicker.dispatchEvent(new Event("change"));
 			}
 			tintPicker._pressedOldValue = null;
+			this.releasePointerCapture(ev.pointerId);
 		}
 
 		/** @type {(this: HTMLColorTintElement, ev: PointerEvent) => void} */
@@ -2712,9 +2810,7 @@ class HTMLColorTintElement extends HTMLElement {
 			}
 
 			tintPicker._pressedOldValue = this.value;
-			document.addEventListener("pointerup", pointerup);
-			document.addEventListener("pointercancel", pointerup);
-			document.addEventListener("pointermove", pointermove);
+			this.setPointerCapture(ev.pointerId);
 			document.dispatchEvent(new PointerEvent("pointermove", ev));
 		}
 
@@ -2796,7 +2892,17 @@ class HTMLColorTintElement extends HTMLElement {
 			tintPicker._pressedOldValue = null;
 		}
 
+		/** @type {(this: HTMLColorTintElement, ev: TouchEvent) => void} */
+		function touchstart(ev) {
+			// Prevent the `touchstart` event from interfering with `pointer{x}` events on Chromium via triggering `pointercancel`
+			ev.preventDefault();
+		}
+
 		this.addEventListener("pointerdown", pointerdown);
+		this.addEventListener("pointercancel", pointerup);
+		this.addEventListener("pointerup", pointerup);
+		this.addEventListener("pointermove", pointermove);
+		this.addEventListener("touchstart", touchstart);
 		this.addEventListener("keydown", keydown);
 		this.addEventListener("keyup", keyup);
 		this.addEventListener("blur", keyup);
@@ -2827,7 +2933,10 @@ class HTMLColorTintElement extends HTMLElement {
 	 * @type {boolean}
 	 */
 	get disabled() {
-		return this.hasAttribute("disabled");
+		return (
+			this.hasAttribute("disabled")
+			|| !!this.closest("fieldset:disabled, form:disabled")
+		);
 	}
 	set disabled(value) {
 		this.toggleAttribute("disabled", value);

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 // Main variables
 "use strict";
 /** @type {PlayerCharacter} */
@@ -567,7 +568,7 @@ async function CommonSetScreen(...spec) {
 	TextLoad();
 	try {
 		await TextScreenCache.loadedPromise;
-	} catch (e) {
+	} catch (_e) {
 		console.error(`Failed to load text strings for screen!`);
 	}
 
@@ -1203,10 +1204,11 @@ function CommonIsObject(value) {
 /**
  * Type guard which checks that a value is a character
  * @param {unknown} value - The value to test
- * @returns {value is Character}
+ * @returns {value is Character | PlayerCharacter}
  */
 function CommonIsCharacter(value) {
-	return CommonIsObject(value) && (value.Type === "online" || value.Type === "npc" || value.Type === "simple");
+	const char = /** @type {Character} */ (value);
+	return CommonIsObject(char) && (char.Type === "online" || char.Type === "npc" || char.Type === "simple" || char.Type === "player");
 }
 
 /**
@@ -1221,7 +1223,7 @@ function CommonIsCharacter(value) {
 function CommonCloneDeep(obj, reviver=null, replacer=null) {
 	reviver ??= undefined;
 	replacer ??= undefined;
-	return JSON.parse(JSON.stringify(obj, replacer), reviver);
+	return /** @type {T} */ (JSON.parse(JSON.stringify(obj, replacer), reviver));
 }
 
 /**
@@ -1268,8 +1270,9 @@ function CommonIsFinite(value, min=-Infinity, max=Infinity) {
 
 /**
  * A version of {@link Array.isArray} more friendly towards readonly arrays.
- * @param {unknown} arg - The to-be validated object
- * @returns {arg is readonly unknown[]} Whether the passed object is a (potentially readonly) array
+ * @template {unknown} T
+ * @param {T} arg - The to-be validated object
+ * @returns {arg is (arg extends readonly unknown[] ? readonly unknown[] : unknown[])} Whether the passed object is a (potentially readonly) array
  */
 function CommonIsArray(arg) {
 	return Array.isArray(arg);
@@ -1472,7 +1475,7 @@ function CommonURLHasExtension(TestURL, Extension) {
 		for (let Ext of Extension)
 			if (FormatUrl.endsWith(Ext))
 				return true;
-	} catch (err) {
+	} catch (_err) {
 		let FormatUrl = TestURL.trim().toLowerCase();
 		if ((FormatUrl.startsWith("screens/")) || (FormatUrl.startsWith("backgrounds/")))
 			for (let Ext of Extension)
@@ -1550,6 +1553,7 @@ function CommonJSONParse(data) {
  *
  * This returns a layout independent u/d/l/r string
  *
+ * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
  * @param {KeyboardEvent} event
  * @returns {"u"|"d"|"l"|"r"|undefined}
  */
@@ -1707,7 +1711,7 @@ var CommonKey = /** @type {const} */({
 	 * // `Enter` with the `Ctrl` and `Shift` modifiers
 	 * CommonKey(event, "Enter", CommonKey.SHIFT | CommonKey.CTRL);
 	 * @param {KeyboardEvent} event - The keyboard event in question
-	 * @param {string} key - The expected key (see {@link KeyboardEvent.key})
+	 * @param {string} key - The expected key (see {@link KeyboardEvent.prototype.key})
 	 * @param {null | number} modifiers - An optional bit mask of all expected modifiers (see examples)
 	 * @returns {boolean} - Whether the expected key and all its modifiers were pressed
 	 */
@@ -1732,6 +1736,7 @@ var CommonKey = /** @type {const} */({
 
 	/**
 	 * A {@link ScreenFunctions.KeyDown} helper function for implementing the navigation key handling of scrollable elements.
+	 * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
 	 * @param {HTMLElement} scrollableElem - The scrollable element
 	 * @param {KeyboardEvent} event - The `keydown` event
 	 * @param {(scrollableElem: HTMLElement) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
@@ -1777,9 +1782,11 @@ var CommonKey = /** @type {const} */({
 	 * A {@link ScreenFunctions.KeyDown} helper function for automatically forwarding key presses to the passed input element.
 	 * @param {HTMLInputElement | HTMLTextAreaElement} inputElem - The input or textarea element in question
 	 * @param {KeyboardEvent} ev - The keydown event
+	 * @param {null | { allowCtrlA?: boolean }} options
 	 * @returns {boolean} - Whether the keypress was processed
 	 */
-	InputKeyDown: function InputKeyDown(inputElem, ev) {
+	InputKeyDown: function InputKeyDown(inputElem, ev, options=null) {
+		options ??= {};
 		const activeElement = ElementGetRoot(inputElem).activeElement;
 		const noFocus = (
 			activeElement === null
@@ -1809,7 +1816,7 @@ var CommonKey = /** @type {const} */({
 			inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
 		} else if ((ev.key === "Enter" || ev.key === "Delete" || ev.key === "Insert") && !modifiers) {
 			inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
-		} else if (ev.key === "a" && modifiers === ctrl) {
+		} else if (options.allowCtrlA && ev.key === "a" && modifiers === ctrl) {
 			inputElem.setSelectionRange(0, inputElem.value.length);
 		} else {
 			return false;
@@ -1857,7 +1864,7 @@ var CommonKey = /** @type {const} */({
  * Partition the string into separate parts using the given replacer keys, replacing them with replacer values
  * @template T
  * @param {string} string
- * @param {Record<string, T>} replacers
+ * @param {Record<string, T>} replacers - An object with replacements. Note that {@link Node} elements are cloned prior to the replacement
  * @returns {(string | T)[]}
  */
 function CommonStringPartitionReplace(string, replacers) {
@@ -1879,7 +1886,8 @@ function CommonStringPartitionReplace(string, replacers) {
 		if (prefix) {
 			ret.push(prefix);
 		}
-		ret.push(replacers[match[0]]);
+		const obj = replacers[match[0]];
+		ret.push(obj instanceof Node ? /** @type {T} */(obj.cloneNode(true)) : obj);
 		i = match.index + match[0].length;
 	}
 
@@ -2115,26 +2123,219 @@ function CommonTokenize(input, options = {
 }
 
 /**
- * Formats a duration in ms to a human readable string of days, months, and years
+ * Formats a duration in ms to a human readable string of days, months, and years.
+ * Defaults to showing days.
  * @param {number} ms
+ * @param {{
+ *   includeYears?: boolean;
+ *   includeMonths?: boolean;
+ *   includeWeeks?: boolean;
+ *   includeDays?: boolean;
+ *   includeHours?: boolean;
+ *   includeMinutes?: boolean;
+ *   includeSeconds?: boolean;
+ *   showFull?: boolean;
+ * }} options
+ * @returns {string}
+ */
+function CommonFormatDuration(ms, options = {}) {
+	const {
+		includeYears = false,
+		includeMonths = false,
+		includeWeeks = false,
+		includeDays = true,
+		includeHours = false,
+		includeMinutes = false,
+		includeSeconds = false,
+		showFull = false
+	} = options;
+
+	// Update options, because we're passing them to other function
+	options = {
+		...options,
+		includeYears,
+		includeMonths,
+		includeWeeks,
+		includeDays,
+		includeHours,
+		includeMinutes,
+		includeSeconds,
+	};
+
+	const {
+		y: years,
+		m: months,
+		d: daysLeft,
+		h: hours,
+		min: minutes,
+		s: seconds,
+	} = CommonGetDateParts(ms, options);
+
+	// Weeks extracted from remaining days
+	const weeks = includeWeeks ? Math.floor(daysLeft / 7) : 0;
+	const days = includeWeeks ? daysLeft % 7 : daysLeft;
+	const full = showFull ? "Full" : "";
+
+	/** @type {[string, boolean, number][]} */
+	const pairs = [
+		[InterfaceTextGet("DurationFormatYear" + full), includeYears, years],
+		[InterfaceTextGet("DurationFormatMonth" + full), includeMonths, months],
+		[InterfaceTextGet("DurationFormatWeek" + full), includeWeeks, weeks],
+		[InterfaceTextGet("DurationFormatDay" + full), includeDays, days],
+		[InterfaceTextGet("DurationFormatHour" + full), includeHours, hours],
+		[InterfaceTextGet("DurationFormatMinute" + full), includeMinutes, minutes],
+		[InterfaceTextGet("DurationFormatSecond" + full), includeSeconds, seconds],
+	]
+		.filter(([, enabled]) => enabled)
+		.map(([label, , value]) => /** @type {[string, boolean, number]} */ ([label, true, value]));
+
+	const result = pairs
+		.filter(([, , value], idx) => value > 0 || idx === pairs.length - 1)
+		.map(([label, , v]) =>
+			CommonStringPartitionReplace(label, { $value$: v }).join('')
+		);
+
+	if (result.length === 0) {
+		return InterfaceTextGet("DurationFormatError");
+	}
+
+	return result.join(InterfaceTextGet("CommaDelimiter"));
+}
+
+/**
+ * Break duration into real-calendar components (y, m, d, h, min, s),
+ * optionally rolling excluded components into the next smaller unit.
+ *
+ * @param {number} ms
+ * @param {{
+ *   includeYears?: boolean,
+ *   includeMonths?: boolean,
+ *   includeDays?: boolean,
+ *   includeHours?: boolean,
+ *   includeMinutes?: boolean,
+ * }} options
+ */
+function CommonGetDateParts(ms, options = {}) {
+	const {
+		includeYears = true,
+		includeMonths = true,
+		includeDays = true,
+		includeHours = true,
+		includeMinutes = true,
+	} = options;
+
+	// Base calendar diff with normalization
+	const start = new Date(1970, 0, 1);
+	const end = new Date(start.getTime() + ms);
+
+	let y = end.getFullYear() - start.getFullYear();
+	let m = end.getMonth() - start.getMonth();
+	let d = end.getDate() - start.getDate();
+	let h = end.getHours() - start.getHours();
+	let min = end.getMinutes() - start.getMinutes();
+	let s = end.getSeconds() - start.getSeconds();
+
+	if (s < 0) { s += 60; min--; }
+	if (min < 0) { min += 60; h--; }
+	if (h < 0) { h += 24; d--; }
+
+	if (d < 0) {
+		const prevMonthDays = new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+		d += prevMonthDays;
+		m--;
+	}
+
+	if (m < 0) { m += 12; y--; }
+
+	// Roll down units when excluded
+	if (!includeYears) {
+		m += y * 12;
+		y = 0;
+	}
+
+	if (!includeMonths) {
+		// Add days from each month being dropped
+		for (let i = 0; i < m; i++) {
+			const monthIndex = (start.getMonth() + i) % 12;
+			const yearOffset = Math.floor((start.getMonth() + i) / 12);
+			const year = start.getFullYear() + yearOffset;
+			d += new Date(year, monthIndex + 1, 0).getDate();
+		}
+		m = 0;
+	}
+
+	if (!includeDays) {
+		h += d * 24;
+		d = 0;
+	}
+
+	if (!includeHours) {
+		min += h * 60;
+		h = 0;
+	}
+
+	if (!includeMinutes) {
+		s += min * 60;
+		min = 0;
+	}
+
+	// Seconds are final, no further collapse
+	return { y, m, d, h, min, s };
+}
+
+/**
+ * Build and returns a range
+ * @param {number} start If {@link end} is unspecified, then this will be the end of the range, and start will be set to 0
+ * @param {number} [end] End value for the range, inclusive
+ * @param {number} [step=1]
+ * @returns {number[]}
+ */
+function CommonRange(start, end, step = 1) {
+	if (end == null) [start, end] = [0, start];
+	const n = Math.max(Math.ceil((end - start) / step), 0);
+	return Array.from({ length: n }, (_, i) => start + i * step);
+}
+
+/**
+ * Take an array and find the first element that maps to a user-specified value, returning the mapped value.
+ *
+ * Effectively combines {@link array.find} and {@link array.map}.
+ * @template Tinp
+ * @template Tout
+ * @param {readonly Tinp[]} array - The array in question
+ * @param {(value: Tinp, index: number, obj: readonly Tinp[]) => undefined | null | Tout} predicateMapper - A mapping
+ * predicate. The first non-nullish return value will be returned by the outer function.
+ * @param {any} [thisArg] - If provided, it will be used as the this value for each invocation of
+ * predicate. If it is not provided, undefined is used instead.
+ * @returns {undefined | Tout} - The mapped value or `undefined` if no non-nullish value was found
+ */
+function CommonFindMap(array, predicateMapper, thisArg=null) {
+	if (thisArg != null) {
+		predicateMapper = predicateMapper.bind(thisArg);
+	}
+	for (const [i, elem] of array.entries()) {
+		const result = predicateMapper(elem, i, array);
+		if (result != null) {
+			return result;
+		}
+	}
+	return undefined;
+}
+
+/**
+ * Splice a string into a string at a specific index.
+ *
+ * The string will be automatically extended using {@link defaultValue} if the index falls outside its bounds.
+ *
+ * @param {string} string
+ * @param {number} index
+ * @param {string} value
+ * @param {string} defaultValue
  * @returns
  */
-function CommonFormatDuration(ms) {
-	const dayMs = 86400000;
-	const yearDays = 365;
-	const monthDays = 30;
-
-	let days = Math.floor(ms / dayMs);
-	const years = Math.floor(days / yearDays);
-	days -= years * yearDays;
-
-	const months = Math.floor(days / monthDays);
-	days -= months * monthDays;
-
-	let result = [];
-	if (years > 0) result.push(`${years}y`);
-	if (months > 0) result.push(`${months}m`);
-	if (days > 0 || result.length === 0) result.push(`${days}d`);
-
-	return result.join(", ");
+function CommonStringSplice(string, index, value, defaultValue) {
+	if (string.length < index) {
+		string = string + defaultValue.repeat(Math.ceil((index - string.length) / defaultValue.length));
+	}
+	return string.substring(0, index) + value + string.substring(index + value.length);
 }

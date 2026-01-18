@@ -1,7 +1,8 @@
+// @ts-strict-ignore
 "use strict";
 
 /** BC's version */
-var GameVersion = "R121";
+var GameVersion = "R122";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -195,7 +196,7 @@ function GameRunBackground(Timestamp) {
  * When the user presses a key, we send the KeyDown event to the current screen if it can accept it
  * @param {KeyboardEvent} event
  */
-async function GameKeyDown(event) {
+function GameKeyDown(event) {
 	KeyPress = event.keyCode || event.which;
 
 	if (ScreenIsLoading) return;
@@ -207,13 +208,23 @@ async function GameKeyDown(event) {
 			break handleKeyDown;
 		}
 
+		if (CurrentScreen === "Preference" && PreferenceSubscreen.name === "Keybindings" && KeyGUI.selectedAction) {
+			handled = true;
+			break handleKeyDown;
+		}
+
+		if (KeyManager.handleKeyPress(event)) {
+			handled = true;
+			break handleKeyDown;
+		}
+
 		if (CommonKey.IsPressed(event, "Escape")) {
 			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
 				document.activeElement.blur();
 				handled = true;
 				break handleKeyDown;
 			} else if (CurrentScreenFunctions.Exit) {
-				await CurrentScreenFunctions.Exit();
+				CurrentScreenFunctions.Exit();
 				handled = true;
 				break handleKeyDown;
 			}
@@ -308,8 +319,7 @@ function GameMouseWheel(event) {
 function GameMouseMove(event, forwardToScreens = true) {
 	MouseX = Math.round(event.offsetX * 2000 / MainCanvas.canvas.clientWidth);
 	MouseY = Math.round(event.offsetY * 1000 / MainCanvas.canvas.clientHeight);
-	if(forwardToScreens)
-	{
+	if (forwardToScreens) {
 		CommonMouseMove(event);
 	}
 }
@@ -349,8 +359,7 @@ function GameTouchMove(event, forwardToScreens = true) {
 	const touch = event.changedTouches[0];
 	MouseX = Math.round((touch.clientX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
 	MouseY = Math.round((touch.clientY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
-	if(forwardToScreens)
-	{
+	if (forwardToScreens) {
 		CommonMouseMove(event);
 	}
 }

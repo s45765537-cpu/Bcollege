@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 let KinkyDungeonGagMumbleChance = 0.02;
@@ -148,6 +149,7 @@ let KinkyDungeonLastMoveTimerStart = 0;
 let KinkyDungeonLastMoveTimerCooldown = 175;
 let KinkyDungeonLastMoveTimerCooldownStart = 50;
 
+/** @type {{x: number, y: number}[]} */
 let KinkyDungeonPatrolPoints = [];
 let KinkyDungeonStartPosition = {x: 1, y: 1};
 let KinkyDungeonEndPosition = {x: 1, y: 1};
@@ -270,11 +272,11 @@ function KinkyDungeonNewGamePlus() {
 
 function KDResetData(Data) {
 	if (!Data) Data = KDGameDataBase;
-	KDGameData = JSON.parse(JSON.stringify( Data));
+	KDGameData = CommonCloneDeep(Data);
 }
 function KDResetEventData(Data) {
 	if (!Data) Data = KDEventDataBase;
-	KDEventData = JSON.parse(JSON.stringify( Data));
+	KDEventData = CommonCloneDeep(Data);
 }
 
 function KinkyDungeonInitialize(Level, Load) {
@@ -4012,7 +4014,7 @@ function KDAddModel(C, Group, ItemModel, NewColor, filters, item) {
 		/** @type {Item} */
 		// @ts-expect-error
 		const NA = {
-			Model: JSON.parse(JSON.stringify(ItemModel)),
+			Model: CommonCloneDeep(ItemModel),
 			Difficulty: 0,//parseInt((ItemModel.Difficulty == null) ? 0 : ItemModel.Difficulty) + parseInt(DifficultyFactor),
 			Color: data.color,
 			Property: undefined,

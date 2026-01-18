@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var MagicSchoolLaboratoryBackground = "MagicSchoolLaboratory";
 /** @type {null | NPCCharacter} */

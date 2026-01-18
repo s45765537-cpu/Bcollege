@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** @type {ChatColorThemeType[]} */
@@ -36,6 +37,7 @@ const PreferenceSubscreenChatCheckboxes = [
 	{ label: "ShowBeepChat", check: () => Player.ChatSettings.ShowBeepChat, click: () => Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat },
 	{ label: "OOCAutoClose", check: () => Player.ChatSettings.OOCAutoClose, click: () => Player.ChatSettings.OOCAutoClose = !Player.ChatSettings.OOCAutoClose },
 	{ label: "DisableReplies", check: () => Player.ChatSettings.DisableReplies, click: () => Player.ChatSettings.DisableReplies = !Player.ChatSettings.DisableReplies },
+	{ label: "ShowFriendRequestMessages", check: () => Player.ChatSettings.ShowFriendRequestMessages, click: () => Player.ChatSettings.ShowFriendRequestMessages = !Player.ChatSettings.ShowFriendRequestMessages },
 ];
 
 /** @type {Record<string, PreferenceChatDropdownOption>} */

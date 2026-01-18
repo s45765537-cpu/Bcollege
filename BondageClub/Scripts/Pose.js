@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -205,7 +206,7 @@ function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 		|| ForceChange
 		|| (newPose && newPose.Category === "BodyFull")
 	) {
-		C.ActivePoseMapping = (newPose == null) ? {} : { [newPose.Category]: newPose.Name };
+		C.ActivePoseMapping = (newPose == null) ? { BodyLower: "BaseLower", BodyUpper: "BaseUpper" } : { [newPose.Category]: newPose.Name };
 		CharacterRefresh(C, false);
 		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
 			DialogSelfMenuMapping.Pose.Reload();

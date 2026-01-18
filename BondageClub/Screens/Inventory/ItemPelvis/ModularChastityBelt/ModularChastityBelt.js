@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 var InventoryItemPelvisModularChastityBeltVoiceTriggers = ["Increase", "Decrease", "Disable", "Inflate", "Deflate", "Empty", "Shock"];
@@ -38,8 +39,12 @@ function InventoryItemPelvisModularChastityBeltDrawBase(_offset)
 	DrawText(AssetTextGet("ModularChastityBeltTimeWorn") + ":", 1320, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(AssetTextGet("ModularChastityBeltTimeSinceLastOrgasm") + ":", 1320, 550 + 1*75 + _offset, "White", "Gray");
 
-	DrawText(`${CommonFormatDuration(CommonTime() - DialogFocusItem.Property.TimeWorn)}`, 1655, 550 + 0*75 + _offset, "White", "Gray");
-	DrawText(`${CommonFormatDuration(CommonTime() - DialogFocusItem.Property.TimeSinceLastOrgasm)}`, 1655, 550 + 1*75 + _offset, "White", "Gray");
+	const opts = { includeYears: true, includeMonths: true, includeDays: true };
+	const timeWorn = CommonFormatDuration(CommonTime() - DialogFocusItem.Property.TimeWorn, opts);
+	const timeSinceLastOrgasm = CommonFormatDuration(CommonTime() - DialogFocusItem.Property.TimeSinceLastOrgasm, opts);
+
+	DrawText(timeWorn, 1655, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(timeSinceLastOrgasm, 1655, 550 + 1*75 + _offset, "White", "Gray");
 
 	MainCanvas.textAlign = "center";
 }
@@ -223,7 +228,7 @@ function InventoryItemPelvisModularChastityBeltVoiceControlClickSet(){
 
 		if (temp != "" && typeof temp === "string") {
 			DialogFocusItem.Property.TriggerValues = temp;
-			if (CurrentScreen == "ChatRoom") {
+			if (ServerPlayerIsInChatRoom()) {
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
 					.destinationCharacter(CurrentCharacter)

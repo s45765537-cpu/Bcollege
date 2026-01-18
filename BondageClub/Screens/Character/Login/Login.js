@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var LoginBackground = "Dressing";
 /**
@@ -10,12 +11,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-"Abysseia", "Ak1ba", "AlexG", "Asriel", "Baal", "bryce", "Canti", "Christian", "Christoffer", "Cm382714", 
-"Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", "john", 
-"Jonas", "Joseph", "Kim", "Laurie", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", 
-"Nightcore", "Nikita", "PristessSakura", "Robin", "Schrödingers", "Sean", "serenat2023", "shadowhack", 
-"Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", 
-"Troubadix", "Troy", "United_carryツ", "WhiteSniper", "XDWolfie", "Xepherio", 
+	"Abysseia", "Ak1ba", "AlexG", "Asriel", "bryce", "Canti", "Christian", "Christoffer", "Claudia", "Cm382714", 
+	"Daneal", "Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", 
+	"I.F.S.", "john", "Jonas", "Kim", "Laurie", "Lyall", "Marashu", "Mario", "Michel", "Mindtie", "Misa", 
+	"NeReFox", "Nightcore", "Nikita", "PristessSakura", "Schrödingers", "shadowhack", "Soulcollar", "Sticks", 
+	"Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio", 
 ];
 
 /* eslint-enable */
@@ -516,6 +516,10 @@ let LoginInventoryFixups = [
 	{ Old: { Group: "RightAnklet", Name: "*" }, New: { Group: "AnkletRight" }},
 	{ Old: { Group: "LeftHand", Name: "*" }, New: { Group: "HandAccessoryLeft" }},
 	{ Old: { Group: "RightHand", Name: "*" }, New: { Group: "HandAccessoryRight" }},
+	{ Old: {Group: "ItemButt", Name: "FoxTail1"}, New: {Group: "ItemButt", Name: "FoxTail", Option: "BR"}},
+	{ Old: {Group: "ItemButt", Name: "FoxTail2"}, New: {Group: "ItemButt", Name: "FoxTail"} },
+	{ Old: {Group: "TailStraps", Name: "FoxTailStrap1"}, New: {Group: "TailStraps", Name: "FoxTailStrap", Option: "BR"}},
+	{ Old: {Group: "TailStraps", Name: "FoxTailStrap2"}, New: {Group: "TailStraps", Name: "FoxTailStrap"}},
 ];
 
 /**
@@ -631,11 +635,9 @@ function LoginValidCollar() {
 		if (item && item.Asset.Name == "SlaveCollar") {
 			InventoryRemove(Player, "ItemNeck");
 			item = null;
-			if (CurrentScreen == "ChatRoom") {
-				ChatRoomCharacterItemUpdate(Player, "ItemNeck");
-				ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
-				ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
-			}
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
 		}
 	}
 
@@ -645,13 +647,13 @@ function LoginValidCollar() {
 			// We're wearing something else, yank that
 			InventoryRemove(Player, "ItemNeck");
 			item = null;
-			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 
 		if (!item) {
 			// Now make sure we're wearing the slave collar
 			InventoryWear(Player, "SlaveCollar", "ItemNeck");
-			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 	}
 
@@ -913,7 +915,7 @@ function LoginSetupPlayer(C) {
 	Player.Game = CommonIsObject(C.Game) ? C.Game : {};
 	if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 		const desc = LZString.decompressFromUTF16(C.Description.substring(1)) ?? "";
-		Player.Description = desc.substring(0, 10000);
+		Player.Description = desc.substring(0, OnlineProfileTextDescMaxLen);
 	} else {
 		Player.Description = "";
 	}
@@ -930,15 +932,14 @@ function LoginSetupPlayer(C) {
 	if (shouldSync) {
 		ServerPlayerBlockItemsSync();
 	}
-	Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms ?? "";
-
 
 	// Sets the default language when creating or searching for chat rooms
 	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
-	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
-	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
+	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ServerChatRoomSupportedLanguages[0];
+	if (ServerChatRoomSupportedLanguages.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ServerChatRoomSupportedLanguages[0];
 
 	// Migrate SearchSettings
+	let updateSearchSettings = false;
 	if (!C.ChatSearchSettings) {
 		C.ChatSearchSettings = {
 			Language: "",
@@ -950,15 +951,24 @@ function LoginSetupPlayer(C) {
 			MapTypes: undefined,
 			RoomMinSize: 2,
 			RoomMaxSize: 20,
+			FilterTerms: "",
 		};
 		if (C.RoomSearchLanguage != null) {
 			C.ChatSearchSettings.Language = C.RoomSearchLanguage;
 			C.RoomSearchLanguage = undefined;
 			ServerAccountUpdate.QueueData({ RoomSearchLanguage: null });
 		}
+		updateSearchSettings = true;
+	}
+	if (C.ChatSearchFilterTerms) {
+		C.ChatSearchSettings.FilterTerms = C.ChatSearchFilterTerms;
+		ServerAccountUpdate.QueueData({ ChatSearchFilterTerms: null });
+		updateSearchSettings = true;
+	}
+	Player.ChatSearchSettings = ServerAccountDataSyncedValidate.ChatSearchSettings(C.ChatSearchSettings, Player);
+	if (updateSearchSettings || !CommonObjectEqual(C.ChatSearchSettings, Player.ChatSearchSettings)) {
 		ServerAccountUpdate.QueueData({ ChatSearchSettings: C.ChatSearchSettings });
 	}
-	Player.ChatSearchSettings = C.ChatSearchSettings;
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData ?? undefined;
@@ -1002,9 +1012,15 @@ function LoginSetupPlayer(C) {
 	}
 
 	// Loads the ownership data
-	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership);
+	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
 	if (Player.Ownership != null) {
-		Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
+		Player.Owner = Player.IsFullyOwned() ? Player.Ownership.Name : "";
+		if (typeof Player.Ownership.Notes === "string") {
+			const desc = LZString.decompressFromUTF16(Player.Ownership.Notes) ?? "";
+			Player.Ownership.Notes = desc.slice(0, OnlineProfileTextOwnersNotesMaxLen);
+		} else {
+			Player.Ownership.Notes = "";
+		}
 	}
 
 	// @ts-expect-error: FIXME: Property 'Name' is optional in type 'ServerLovership' but required in type 'Lovership'
@@ -1020,7 +1036,6 @@ function LoginSetupPlayer(C) {
 	Player.AllowedInteractions = C.AllowedInteractions ?? C.ItemPermission ?? AllowedInteractions.OwnerLoversWhitelistAndDomsOnly;
 	Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 	Player.SavedExpressions = C.SavedExpressions ?? [];
-	PreferenceValidateArousalData(Player);
 	if (!Array.isArray(Player.SavedExpressions))
 		Player.SavedExpressions = [];
 	if (Player.SavedExpressions.length < 5)
@@ -1054,7 +1069,7 @@ function LoginSetupPlayer(C) {
 			if (data === null) throw new Error();
 			const json = /** @type {[number, string][]} */(JSON.parse(data));
 			friendNames = new Map(json);
-		} catch (err) {
+		} catch (_err) {
 			console.warn("An error occured while parsing friendnames, entries have been reset.");
 		}
 	}
@@ -1069,7 +1084,7 @@ function LoginSetupPlayer(C) {
 			if (!CommonIsArray(json)) throw new Error();
 			const numbers = /** @type {number[]} */(json.filter(Number));
 			submissivesList = new Set(numbers);
-		} catch (err) {
+		} catch (_err) {
 			console.warn("An error occured while parsing submissives, entries have been reset.");
 		}
 	}
@@ -1103,6 +1118,7 @@ function LoginSetupPlayer(C) {
 	SkillLoad(C.Skill);
 	Player.ConfiscatedItems = C.ConfiscatedItems ?? [];
 	Player.ExtensionSettings = C.ExtensionSettings ?? {};
+	Player.KeybindingSettings = C.KeybindingSettings ?? "";
 
 	PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
 	CharacterRefresh(Player, false);
@@ -1187,6 +1203,7 @@ function LoginResponse(C) {
 	ActivitySetArousal(Player, 0);
 	ActivityTimerProgress(Player, 0);
 	NotificationLoad();
+	KeyManager.deserialize();
 
 	if (ManagementIsClubSlave()) CharacterNaked(Player);
 

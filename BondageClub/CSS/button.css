@@ -117,6 +117,16 @@
 	aspect-ratio: 1 /1;
 }
 
+.button-image[role="img"] {
+	background-position: center;
+	background-blend-mode: multiply;
+	background-repeat: no-repeat;
+	background-size: contain;
+	mask-position: center;
+	mask-size: contain;
+	mask-repeat: no-repeat;
+}
+
 .button-image[data-hidden] {
 	display: none;
 	opacity: 20%;

@@ -20,6 +20,7 @@ BeachCafe,Beach Promenade Café
 BeachHotel,Beach Hotel
 BeachSunset,Beach Sunset
 Bedroom,Bedroom
+Bedroom2,Japanese Bedroom
 BondageBedChamber,Bondage Bedchamber
 Boudoir,Boudoir
 BoutiqueBack,Shop Dressing Rooms
@@ -30,6 +31,7 @@ Castle,Fancy Castle
 Cellar,Cellar
 CeremonialVenue,Ceremony Venue
 ChillRoom,Chill Room
+CollegeBuilding1,College Building
 CollegeCafeteria,Cafeteria 1
 CollegeCafeteria2,Cafeteria 2
 CollegeClass1,Classroom 1
@@ -45,6 +47,7 @@ CollegePool,College Pool
 CollegeTeacherLounge2,Teachers' Lounge
 CollegeTennis,Tennis Court
 CollegeTheater,Theater
+CollegeTheater2,Theater 2
 CollegeShowerRoom,Shower Room
 CollegeSportsGround,Sports Ground
 CollegeStaffRoom,Staff Room
@@ -57,12 +60,14 @@ DeepForest,Deep Forest
 Desert,Desert
 DesolateVillage,Desolate Village
 DiningRoom,Dining Room
+DressingRoom1,Dressing Room
 Dungeon,Dungeon
 DungeonRuin,Ruined Dungeon
 DystopianCity,Dystopian City
 EgyptianExhibit,Egyptian Exhibit
 EgyptianTomb,Egyptian Tomb
 EmptyWarehouse,Empty Warehouse
+FancyBathroom1,Fancy Bathroom
 FancyBedroom1,Fancy Bedroom
 ForestCave,Forest Cave
 ForestPath,Forest Path
@@ -77,6 +82,7 @@ HorseStable,Horse Stable
 HotelBedroom,Hotel Bedroom
 HotelBedroom2,Hotel Bedroom 2
 HotelBedroom3,Hotel Bedroom 3
+HotelBedroom4,Hotel Bedroom 4
 HouseBasement1,Empty Basement 1
 HouseBasement2,Empty Basement 2
 HouseBasement3,Empty Basement 3
@@ -106,6 +112,7 @@ LoungePiano1,Lounge Piano
 MaidCafe,Maid Café
 MaidQuarters,Maid Quarters
 MainHall,Main Hall
+MainHall2,Main Hall Gold
 Management,Club Management
 MedinaMarket,Medina Market
 MiddletownSchool,Middletown School

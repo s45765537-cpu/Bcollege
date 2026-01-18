@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var MovieStudioBackground = "MovieStudio";
 /** @type {null | NPCCharacter} */

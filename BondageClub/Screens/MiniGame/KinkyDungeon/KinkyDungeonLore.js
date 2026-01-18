@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 let KinkyDungeonCurrentLore = -1;
@@ -34,12 +35,12 @@ let KinkyDungeonLoreScale = 1.5;
 let KinkyDungeonRepeatLoreChance = 0.4; // Chance you will find a duplicate piece of lore
 let KinkyDungeonGenericLoreChance = 0.33; // Chance you will find a generic note instead of a previous note
 
-let KinkyDungeonNewLoreList = localStorage.getItem("kinkydungeonnewlore") ? JSON.parse(localStorage.getItem("kinkydungeonnewlore")) : [];
+let KinkyDungeonNewLoreList = /** @type {any[]} */ (localStorage.getItem("kinkydungeonnewlore") ? JSON.parse(localStorage.getItem("kinkydungeonnewlore")) : []);
 
 function KinkyDungeonNewLore() {
 	let availableLore = [];
-	let exploredLore = localStorage.getItem("kinkydungeonexploredlore") ? JSON.parse(localStorage.getItem("kinkydungeonexploredlore")) : [];
-	let newLore = localStorage.getItem("kinkydungeonnewlore") ? JSON.parse(localStorage.getItem("kinkydungeonnewlore")) : [];
+	let exploredLore = /** @type {any[]} */ (localStorage.getItem("kinkydungeonexploredlore") ? JSON.parse(localStorage.getItem("kinkydungeonexploredlore")) : []);
+	let newLore = /** @type {any[]} */ (localStorage.getItem("kinkydungeonnewlore") ? JSON.parse(localStorage.getItem("kinkydungeonnewlore")) : []);
 
 	let checkpoint = KinkyDungeonMapIndex[MiniGameKinkyDungeonCheckpoint];
 

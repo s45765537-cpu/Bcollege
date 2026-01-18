@@ -1,13 +1,27 @@
 SelectTitle,Select your displayed name and title
+SearchTitle,Search for a title name
 CurrentTitle,Current title: TITLE
-Nickname,Nickname (letters and spaces)
+Nickname,Nickname
 NicknameLocked,Nickname locked by your owner
 NicknameTooLong,Nickname is too long (max. 20 characters)
 NicknameInvalidChars,Nickname contains invalid characters
 TitleNone,None
 TitleMistress,Mistress
 TitleMaster,Master
+TitleKing,King
+TitleQueen,Queen
+TitleGoddess,Goddess
+TitleGod,God
 TitleClubSlave,Club Slave
+TitleFreeUse,Free Use
+TitleArchbishop,Archbishop
+TitleBishop,Bishop
+TitleArchjudge,Archjudge
+TitleJudge,Judge
+TitleChampion,Champion
+TitleMatron,Matron 
+TitlePatriarch,Patriarch
+TitlePrimaris,Primaris 
 TitleHeadMaid,Head Maid
 TitleMaid,Maid
 TitleBondageMaid,Bondage Maid
@@ -62,6 +76,13 @@ TitleSissy,Sissy
 TitleTomboy,Tomboy
 TitleFemboy,Femboy
 TitlePet,Pet
+TitleDragon,Dragon
+TitleVampire,Vampire
+TitleTurtle,Turtle
+TitleThing,Thing
+TitleElf,Elf
+TitleDrow,Drow
+TitlePixie,Pixie
 TitleBrat,Brat
 TitleKitten,Kitten
 TitlePuppy,Puppy

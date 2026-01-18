@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 // Escape chances
 // Struggle : How difficult it is to struggle out of the item. Shouldn't be below 0.1 as that would be too tedious. Negative values help protect against spells.
@@ -2360,6 +2361,7 @@ function KDGetRestraintsEligible(enemy, Level, Index, Bypass, Lock, RequireWill,
 
 	if (KinkyDungeonSlowLevel > 0) willPercent = willPercent * (0.6 + 0.4 * Math.min(1, Math.max(0, 1 - KinkyDungeonSlowLevel/3)));
 
+	/** @type {Map<string, boolean>} */
 	let tags = new Map();
 	if (enemy.tags.length) {
 		for (let t of enemy.tags) {
@@ -2476,6 +2478,7 @@ function KinkyDungeonGetRestraint(enemy, Level, Index, Bypass, Lock, RequireWill
 }
 
 function KinkyDungeonUpdateRestraints(delta) {
+	/** @type {Map<string, boolean>} */
 	let playerTags = new Map();
 	for (let inv of KinkyDungeonAllRestraint()) {
 		let group = KDRestraint(inv).Group;

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 var ItemVulvaFuturisticVibratorTriggers = ["Increase", "Decrease", "Disable", "Edge", "Random", "Deny", "Tease", "Shock"];
@@ -99,7 +100,7 @@ function InventoryItemVulvaFuturisticVibratorClickSet() {
 
 		if (temp != "" && typeof temp === "string") {
 			DialogFocusItem.Property.TriggerValues = temp;
-			if (CurrentScreen == "ChatRoom") {
+			if (ServerPlayerIsInChatRoom()) {
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
 					.destinationCharacter(CurrentCharacter)

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /** @type {null | string[][]} */
 var ActivityDictionary = null;
@@ -13,12 +14,23 @@ var ActivityOrgasmRuined = false; // If set to true, the orgasm will be ruined r
 /** @type { ()=>void | undefined } */
 let ActivityTranslateResolve = undefined;
 
+let ActivityDebug = false;
+
+/**
+ * Debug logging function for activities
+ */
+function ActivityLog(...args) {
+	if (ActivityDebug) {
+		console.log(...args);
+	}
+}
+
 /**
  * Checks if the current room allows for activities. (They can only be done in certain rooms)
  * @returns {boolean} - Whether or not activities can be done
  */
 function ActivityAllowed() {
-	return (CurrentScreen == "ChatRoom" && !(ChatRoomData && ChatRoomData.BlockCategory && ChatRoomData.BlockCategory.includes("Arousal")))
+	return (ServerPlayerIsInChatRoom() && !(ChatRoomData && ChatRoomData.BlockCategory && ChatRoomData.BlockCategory.includes("Arousal")))
 		|| (((CurrentScreen == "Private") || (CurrentScreen == "PrivateBed")) && LogQuery("RentRoom", "PrivateRoom")); }
 
 /**
@@ -255,8 +267,13 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
 	if (!activity.Prerequisite)
 		return true;
 
-	const reverse = activity.Reverse;
-	return activity.Prerequisite.every((pre) => ActivityCheckPrerequisite(pre, (!reverse ? acting : acted), (!reverse ? acted : acting), group));
+	return activity.Prerequisite.every((pre) => {
+		const res = ActivityCheckPrerequisite(pre, acting, acted, group);
+		if (!res) {
+			ActivityLog(`${acting.Name} on ${acted.Name}, act: ${activity.Name}, g: ${group.Name}: Prereq ${pre} failed`);
+		}
+		return res;
+	});
 }
 
 /**
@@ -267,10 +284,9 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  * @param {Activity} activity
  * @param {AssetGroup} targetGroup
  */
-function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup) {
-	const reverse = activity.Reverse;
-	let items = CharacterItemsForActivity(!reverse ? acting : acted, needsItem);
-	if (Player.HasEffect("Chaste")) {
+function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup, useTargetItems = false) {
+	let items = CharacterItemsForActivity(useTargetItems ? acted : acting, needsItem);
+	if ((useTargetItems ? acted : acting).HasEffect("Chaste")) {
 		items = items.filter(item => item.Asset.Name !== "Penis");
 	}
 
@@ -288,14 +304,11 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 		}
 
 		// FIXME: workaround for reverse activities because those are in a non-activity group
-		const isStrapon = item.Asset.Group.Name === "ItemDevices" && ["StrapOnSmooth", "StrapOnStuds"].includes(item.Asset.Name);
-		const isPenis = item.Asset.Group.Name === "Pussy" && item.Asset.Name === "Penis";
 
 		if (InventoryItemHasEffect(item, "UseRemote")) {
 			// That item actually needs a remote, so handle it separately
-		} else if (reverse && acted.FocusGroup.Name !== item.Asset.Group.Name && !(isStrapon || isPenis)) {
-			return activities; // This is a reverse activity, but we're targetting the wrong slot, just skip
-		} else if (!isPenis) {
+		} else {
+			ActivityLog(`${acting.Name} on ${acted.Name}: act: ${activity.Name} needs item ${needsItem} satisfied by ${item.Asset.Name}`);
 			activities.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup.MirrorActivitiesFrom ?? targetGroup.Name });
 			return activities;
 		}
@@ -310,6 +323,8 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
  * @return {ItemActivity[]} - The list of allowed activities
  */
 function ActivityAllowedForGroup(character, groupname) {
+	ActivityLog(`${Player.Name} on ${character.Name}: looking up allowed activities for group: ${groupname}`);
+
 	// If we are not within interaction range, don't allow any activities
 	if(InventoryIsBlockedByDistance(character)) return [];
 
@@ -319,21 +334,33 @@ function ActivityAllowedForGroup(character, groupname) {
 	if (!activities || !group) return [];
 
 	// Make sure the target player zone is allowed for an activity
-	if (!ActivityPossibleOnGroup(character, groupname))
+	if (!ActivityPossibleOnGroup(character, groupname)) {
+		ActivityLog(`${Player.Name} on ${character.Name}, group: ${groupname}: not possible`);
 		return [];
+	}
 
 	const targetedItem = InventoryGet(character, groupname);
 
 	/** @type {ItemActivity[]} */
 	let allowed = activities.reduce((allowedActivities, activity) => {
 		// Validate that this activity can be done
-		if (!ActivityHasValidTarget(character, activity, group)) return allowedActivities;
+		if (!ActivityHasValidTarget(character, activity, group)) {
+			ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: Invalid target ${group.Name}`);
+			return allowedActivities;
+		}
+
 		// Make sure all the prerequisites are met, unless chaste and the item is StrapOn because otherwise you can't penetrate with strap on
-		if (!ActivityCheckPrerequisites(activity, Player, character, group)) return allowedActivities;
+		if (!ActivityCheckPrerequisites(activity, Player, character, group)) {
+			ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: Prereq fail`);
+			return allowedActivities;
+		}
 
 		// Ensure this activity is permitted for both actors
 		if (!ActivityCheckPermissions(activity, Player, true)
-			|| !ActivityCheckPermissions(activity, character, false)) return allowedActivities;
+			|| !ActivityCheckPermissions(activity, character, false)) {
+			ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: Perms`);
+			return allowedActivities;
+		}
 
 		// All checks complete, this activity is allowed
 
@@ -342,20 +369,27 @@ function ActivityAllowedForGroup(character, groupname) {
 
 		if (needsItem) {
 			const needsItemActivity = /** @type {ActivityNameItem} */(needsItem.substring(6));
+			ActivityLog(`${Player.Name} on ${character.Name}: needs item ${needsItem}`);
 			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(Player, character, needsItemActivity, activity, group)];
 		}
 		if (targetNeedsItem) {
 			const targetNeedsItemActivity = /** @type {ActivityNameItem} */(targetNeedsItem.substring(12));
-			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(character, Player, targetNeedsItemActivity, activity, group)];
+			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(Player, character, targetNeedsItemActivity, activity, group, true)];
 		}
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {
 			let remote = Player.Appearance.find(a => InventoryItemHasEffect(a, "TriggerShock"));
-			if (remote) return allowedActivities.concat({ Activity: activity, Item: remote, Group: group.Name });
+			if (remote) {
+				ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: can trigger shock, adding in`);
+				return allowedActivities.concat({ Activity: activity, Item: remote, Group: group.Name });
+			}
 		}
 
+		ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: not handled by item stuff, adding in`);
 		return allowedActivities.concat({ Activity: activity, Group: group.Name });
 	}, []);
+
+	ActivityLog(`${Player.Name} on ${character.Name}: allowed activities for group ${groupname} lookup complete`, allowed);
 
 	// Sort allowed activities by their group declaration order
 	return allowed.sort((a, b) => Math.sign(ActivityFemale3DCGOrdering.indexOf(a.Activity.Name) - ActivityFemale3DCGOrdering.indexOf(b.Activity.Name)));
@@ -443,7 +477,7 @@ function ActivityEffectFlat(S, C, Amount, Z, Count, Asset) {
  * @return {void} - Nothing
  */
 function ActivityChatRoomArousalSync(C) {
-	if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom"))
+	if (C.IsPlayer() && ServerPlayerIsInChatRoom())
 		ServerSend("ChatRoomCharacterArousalUpdate", { OrgasmTimer: C.ArousalSettings.OrgasmTimer, Progress: C.ArousalSettings.Progress, ProgressTimer: C.ArousalSettings.ProgressTimer, OrgasmCount: C.ArousalSettings.OrgasmCount });
 }
 
@@ -530,29 +564,23 @@ function ActivityOrgasmControl() {
 	if ((ActivityOrgasmGameTimer != null) && (ActivityOrgasmGameTimer > 0) && (CurrentTime < Player.ArousalSettings.OrgasmTimer)) {
 		// Ruin the orgasm
 		if (ActivityOrgasmGameProgress >= ActivityOrgasmGameDifficulty - 1 || CurrentTime > Player.ArousalSettings.OrgasmTimer - 500) {
-			if (CurrentScreen == "ChatRoom") {
+			if (ServerPlayerIsInChatRoom()) {
 				if (CurrentTime > Player.ArousalSettings.OrgasmTimer - 500) {
 					if (Player.ArousalSettings.OrgasmStage == 0) {
-						if ((CurrentScreen == "ChatRoom"))
-							ChatRoomMessage({ Content: "OrgasmFailPassive" + (Math.floor(Math.random() * 3)).toString(), Type: "Action", Sender: Player.MemberNumber });
+						ChatRoomMessage({ Content: "OrgasmFailPassive" + (Math.floor(Math.random() * 3)).toString(), Type: "Action", Sender: Player.MemberNumber });
 					} else {
-						if ((CurrentScreen == "ChatRoom")) {
-							const Dictionary = new DictionaryBuilder()
-								.sourceCharacter(Player)
-								.build();
-							ServerSend("ChatRoomChat", { Content: "OrgasmFailTimeout" + (Math.floor(Math.random() * 3)).toString(), Type: "Activity", Dictionary: Dictionary });
-							ActivityChatRoomArousalSync(Player);
-						}
-					}
-				} else {
-					if ((CurrentScreen == "ChatRoom")) {
-
 						const Dictionary = new DictionaryBuilder()
 							.sourceCharacter(Player)
 							.build();
-						ServerSend("ChatRoomChat", { Content: ("OrgasmFailResist" + (Math.floor(Math.random() * 3))).toString(), Type: "Activity", Dictionary: Dictionary });
+						ServerSend("ChatRoomChat", { Content: "OrgasmFailTimeout" + (Math.floor(Math.random() * 3)).toString(), Type: "Activity", Dictionary: Dictionary });
 						ActivityChatRoomArousalSync(Player);
 					}
+				} else {
+					const Dictionary = new DictionaryBuilder()
+						.sourceCharacter(Player)
+						.build();
+					ServerSend("ChatRoomChat", { Content: ("OrgasmFailResist" + (Math.floor(Math.random() * 3))).toString(), Type: "Activity", Dictionary: Dictionary });
+					ActivityChatRoomArousalSync(Player);
 				}
 			}
 			ActivityOrgasmGameResistCount++;
@@ -590,7 +618,7 @@ function ActivityOrgasmStart(C) {
 			C.ArousalSettings.OrgasmStage = 2;
 			C.ArousalSettings.OrgasmCount = (C.ArousalSettings.OrgasmCount == null) ? 1 : C.ArousalSettings.OrgasmCount + 1;
 			ActivityOrgasmGameTimer = C.ArousalSettings.OrgasmTimer - CurrentTime;
-			if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom")) {
+			if (C.IsPlayer() && ServerPlayerIsInChatRoom()) {
 
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
@@ -600,7 +628,7 @@ function ActivityOrgasmStart(C) {
 			}
 		} else {
 			ActivityOrgasmStop(Player, 65 + Math.ceil(Math.random() * 20));
-			if ((C.IsPlayer()) && (CurrentScreen == "ChatRoom")) {
+			if (C.IsPlayer() && ServerPlayerIsInChatRoom()) {
 				let ChatModifier = C.ArousalSettings.OrgasmStage == 1 ? "Timeout" : "Surrender";
 				const Dictionary = new DictionaryBuilder()
 					.sourceCharacter(Player)
@@ -648,7 +676,7 @@ function ActivityOrgasmGameGenerate(Progress) {
 
 	// Runs the game or finish it if the threshold is reached, it can trigger a chatroom message for everyone to see
 	if (Progress >= ActivityOrgasmGameDifficulty) {
-		if (CurrentScreen == "ChatRoom") {
+		if (ServerPlayerIsInChatRoom()) {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)
 				.build();
@@ -862,6 +890,7 @@ function ActivityBuildChatTag(character, group, activity, is_label = false) {
  * @param {boolean} sendMessage - Whether to send a message to the chat or not
  */
 function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) {
+	ActivityLog(`${actor.Name} on ${acted.Name}: triggering activity on group ${targetGroup.Name}`, ItemActivity);
 	const Activity = ItemActivity.Activity;
 	const UsedAsset = ItemActivity && ItemActivity.Item ? ItemActivity.Item.Asset : null;
 
@@ -884,7 +913,7 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 	ActivityRunSelf(actor, acted, Activity, group, UsedAsset);
 
 	// The text result can be outputted in the chatroom or in the NPC dialog
-	if (CurrentScreen == "ChatRoom" && sendMessage) {
+	if (ServerPlayerIsInChatRoom() && sendMessage) {
 
 		// Publishes the activity to the chatroom
 		const dictionary = new DictionaryBuilder()

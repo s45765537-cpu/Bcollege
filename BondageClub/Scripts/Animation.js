@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /**
  * Where animation data is stored. Animation data is only managed client side, nothing should be synced.

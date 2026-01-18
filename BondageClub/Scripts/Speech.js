@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 const chineseRegex = /\p{Script=Hani}/u;

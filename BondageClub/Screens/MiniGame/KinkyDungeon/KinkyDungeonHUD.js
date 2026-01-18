@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 let KinkyDungeonStruggleGroups = [];
 let KinkyDungeonStruggleGroupsBase = [
@@ -875,7 +876,7 @@ function KinkyDungeonDrawInputs() {
 		return true;
 	}, true, bx + bindex * (bwidth + bspacing), 925, bwidth, 60, TextGet("KinkyDungeonMagic"), "#ffffff", KinkyDungeonRootDirectory + "UI/button_spells.png", undefined, undefined, false, "", 24, true); bindex++;
 
-	let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", KinkyDungeonNewLoreList.length): TextGet("KinkyDungeonLogbook");
+	let logtxt = KinkyDungeonNewLoreList.length > 0 ? TextGet("KinkyDungeonLogbookN").replace("N", `${KinkyDungeonNewLoreList.length}`): TextGet("KinkyDungeonLogbook");
 	DrawButtonKDEx("goLog", (bdata) => {
 		KinkyDungeonDrawState = "Logbook";
 		KinkyDungeonUpdateLore(localStorage.getItem("kinkydungeonexploredlore") ? JSON.parse(localStorage.getItem("kinkydungeonexploredlore")) : []);

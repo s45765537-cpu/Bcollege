@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 let KDBasicArmorWeight = 1.0;

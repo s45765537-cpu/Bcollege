@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var AdvancedRuleBackground = "Sheet";
 /** @type {null | Character | NPCCharacter} */

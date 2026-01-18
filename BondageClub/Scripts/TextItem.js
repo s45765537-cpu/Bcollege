@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -338,6 +339,51 @@ const TextItem = {
 			let ctx = TempCanvas.getContext("2d");
 
 			DynamicDrawText(text, ctx, Width / 2, Height / 2, {
+				fontFamily: data.font,
+				color: Color,
+				width: Width,
+				fontSize: 20,
+				...drawOptions,
+			});
+
+			drawCanvas(TempCanvas, X + XOffset, Y + YOffset, AlphaMasks);
+			drawCanvasBlink(TempCanvas, X + XOffset, Y + YOffset, AlphaMasks);
+		}
+	},
+	/**
+	 * Is equivalent to GenericTextDrawHook but arc
+	 * @param {TextItemData} data
+	 * @param {((drawData: DynamicDrawingData<Record<string, unknown>>) => void) | null} originalFunction
+	 * @param {{C: Character; A: Asset; CA: Item; X: number; Y: number; Property: ItemProperties; drawCanvas: DrawCanvasCallback; drawCanvasBlink: DrawCanvasCallback; AlphaMasks: RectTuple[]; L: string; Color: string}} drawArgs
+	 * @param {{Width?: number; Height?: number; XOffset?: number; YOffset?: number; LayerName?: string; drawOptions?: DynamicDrawOptions;}} options
+	 */
+	GenericTextArcDrawHook(
+		data,
+		originalFunction,
+		{
+			C,
+			A,
+			CA,
+			X,
+			Y,
+			Property,
+			drawCanvas,
+			drawCanvasBlink,
+			AlphaMasks,
+			L,
+			Color,
+		},
+		{ Width=128, Height=128, XOffset=0, YOffset=0, LayerName="Text", drawOptions={} },
+	) {
+		if (L === LayerName) {
+			const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
+
+			TextItem.Init(data, C, CA, false, false);
+			const text = CA.Property.Text;
+
+			let ctx = TempCanvas.getContext("2d");
+
+			DynamicDrawTextArc(text, ctx, Width / 2, Height / 2, {
 				fontFamily: data.font,
 				color: Color,
 				width: Width,

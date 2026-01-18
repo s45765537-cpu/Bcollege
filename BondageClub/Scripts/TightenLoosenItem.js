@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var TightenLoosenItemMaximumDifficulty = 0;
 var TightenLoosenItemMinimumDifficulty = -10;
@@ -73,7 +74,7 @@ function TightenLoosenItemClick() {
 
 	// Exit button
 	if (MouseIn(1885, 25, 90, 90)) {
-		if (ExtendedItemPermissionMode && CurrentScreen == "ChatRoom") ChatRoomCharacterUpdate(Player);
+		if (ExtendedItemPermissionMode) ChatRoomCharacterUpdate(Player);
 		ExtendedItemPermissionMode = false;
 		TightenLoosenItemExit();
 		return;
@@ -119,7 +120,7 @@ function TightenLoosenItemClick() {
 	// If the difficulty changed and we must refresh, improves the skill a little if done in a multiplayer
 	if (Action != "") {
 		CharacterRefresh(C, true, false);
-		if (CurrentScreen == "ChatRoom") {
+		if (ServerPlayerIsInChatRoom()) {
 			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && C.IsPlayer()) SkillProgress(Player, "Evasion", 25);
 			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && !C.IsPlayer()) SkillProgress(Player, "Bondage", 25);
 			if (((Action == "TightenLot") || (Action == "TightenLittle")) && C.IsPlayer()) SkillProgress(Player, "SelfBondage", 25);

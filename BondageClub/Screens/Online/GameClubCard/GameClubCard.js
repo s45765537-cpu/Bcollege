@@ -1,8 +1,10 @@
+// @ts-strict-ignore
 "use strict";
 var GameClubCardBackground = "Sheet";
 var GameClubCardEntryPlayerSlot = 0;
 var GameClubCardExpectQuery = false;
 var GameClubCardQueryAdmin = false;
+var GameClubCardChangedRunningSettings = false;
 
 /**
  * Gets the current state of online Club Card.
@@ -68,7 +70,7 @@ function GameClubCardDrawIcon(C, X, Y, Zoom) {
  * @returns {void} - Nothing
  */
 function GameClubCardDrawCharacter(C, X, Y, Zoom) {
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom")) {
+	if (ServerPlayerIsInChatRoom()) {
 		GameClubCardDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, Zoom);
 	}
 }
@@ -81,7 +83,8 @@ async function GameClubCardLoad() {
 	ClubCardCommonLoad();
 	GameClubCardExpectQuery = false;
 	GameClubCardQueryAdmin = false;
-	if (Player.Game.ClubCard.PlayerSlot == null) Player.Game.ClubCard.PlayerSlot = 0;
+	GameClubCardChangedRunningSettings = false;
+	Player.Game.ClubCard.PlayerSlot ??= 0;
 	GameClubCardEntryPlayerSlot = Player.Game.ClubCard.PlayerSlot;
 	GameClubCardLoadStatus();
 }
@@ -130,12 +133,10 @@ function GameClubCardClick() {
 
 	// When the user selects a new player slot
 	if (MouseIn(1000, 268, 200, 64) && (GameClubCardGetStatus() == "")) {
-		Player.Game.ClubCard.PlayerSlot--;
-		if (Player.Game.ClubCard.PlayerSlot < 0) Player.Game.ClubCard.PlayerSlot = 2;
+		Player.Game.ClubCard.PlayerSlot = CommonModulo(--Player.Game.ClubCard.PlayerSlot, 3);
 	}
 	if (MouseIn(1200, 268, 200, 64) && (GameClubCardGetStatus() == "")) {
-		Player.Game.ClubCard.PlayerSlot++;
-		if (Player.Game.ClubCard.PlayerSlot > 2) Player.Game.ClubCard.PlayerSlot = 0;
+		Player.Game.ClubCard.PlayerSlot = CommonModulo(++Player.Game.ClubCard.PlayerSlot, 3);
 	}
 
 	// If the administrator wants to start the game
@@ -143,57 +144,49 @@ function GameClubCardClick() {
 
 		// Updates the player data
 		GameClubCardQueryAdmin = true;
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-		ChatRoomCharacterUpdate(Player);
-
-		// Notices everyone in the room that the game starts
-		const Dictionary = new DictionaryBuilder()
-			.sourceCharacter(Player)
-			.build();
-		ServerSend("ChatRoomChat", { Content: "ClubCardGameStart", Type: "Action" , Dictionary: Dictionary});
 
 		// Sends the 1st and 2nd players in the packet
-		let P1 = -1;
-		let P2 = -1;
-		for (let C = 0; C < ChatRoomCharacter.length; C++) {
-			if ((ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.ClubCard != null) && (ChatRoomCharacter[C].Game.ClubCard.PlayerSlot === 1)) P1 = ChatRoomCharacter[C].MemberNumber;
-			if ((ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.ClubCard != null) && (ChatRoomCharacter[C].Game.ClubCard.PlayerSlot === 2)) P2 = ChatRoomCharacter[C].MemberNumber;
+		let P1 = ChatRoomCharacter.find(c => c.Game?.ClubCard?.PlayerSlot === 1)?.MemberNumber ?? -1;
+		let P2 = ChatRoomCharacter.find(c => c.Game?.ClubCard?.PlayerSlot === 2)?.MemberNumber ?? -1;
+
+		GameClubCardExit();
+
+		// We do that after exiting so the final Game update gets sent
+		if (P1 !== -1 && P2 !== -1) {
+			GameClubCardSetStatus("Running");
+			ServerSend("ChatRoomGame", { GameProgress: "Start", Player1: P1, Player2: P2 });
+
+			// Notify everyone in the room that the game is starting
+			const Dictionary = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.build();
+			ServerSend("ChatRoomChat", { Content: "ClubCardGameStart", Type: "Action", Dictionary: Dictionary});
 		}
-
-		// Sends the start flag to everyone in the room
-		ServerSend("ChatRoomGame", { GameProgress: "Start", Player1: P1, Player2: P2 });
-		GameClubCardSetStatus("Running");
-		ChatRoomCharacterUpdate(Player);
-		CommonSetScreen("Online", "ChatRoom");
 		return;
-
 	}
 
 	// If a player wants to join the game, we send a query to the room admin
 	if (MouseIn(900, 640, 400, 64) && GameClubCardCanJoinGame()) {
 		ServerSend("ChatRoomGame", { GameProgress: "Query" });
-		CommonSetScreen("Online", "ChatRoom");
 		GameClubCardExpectQuery = true;
 		if (GameClubCardIsAdmin(Player)) GameClubCardQueryAdmin = true;
+		GameClubCardExit();
 		return;
 	}
+
 	//If the admin clicked reset game status for all players and sends message.
 	if (MouseIn(900, 720, 400, 64) && GameClubCardIsAdmin(Player)) {
 		ClubCardSendRequestResetGame();
 	}
 
 	if (MouseIn(900, 800, 400, 64)) {
-		if (Player.Game.ClubCard.Settings.AutoSpectate) Player.Game.ClubCard.Settings.AutoSpectate = !Player.Game.ClubCard.Settings.AutoSpectate;
-		else Player.Game.ClubCard.Settings.AutoSpectate = true;
-
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+		Player.Game.ClubCard.Settings.AutoSpectate = !Player.Game.ClubCard.Settings.AutoSpectate;
+		GameClubCardChangedRunningSettings = true;
 	}
 
 	if (MouseIn(900, 880, 60, 60)) {
-		if (Player.Game.ClubCard.Settings.IsAnimation) Player.Game.ClubCard.Settings.IsAnimation = !Player.Game.ClubCard.Settings.IsAnimation;
-		else Player.Game.ClubCard.Settings.IsAnimation = true;
-
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+		Player.Game.ClubCard.Settings.IsAnimation = !Player.Game.ClubCard.Settings.IsAnimation;
+		GameClubCardChangedRunningSettings = true;
 	}
 }
 
@@ -203,26 +196,22 @@ function GameClubCardClick() {
  */
 function GameClubCardExit() {
 
-	// When the game isn't running, we allow to change the class or team
-	if (GameClubCardGetStatus() == "") {
+	if (GameClubCardGetStatus() == "" || GameClubCardChangedRunningSettings) {
 
-		// Notices everyone in the room of the change in the player slot
-		if (GameClubCardEntryPlayerSlot != Player.Game.ClubCard.PlayerSlot) {
+		// Inform everyone in the room that we changed our player slot
+		if (GameClubCardEntryPlayerSlot !== Player.Game.ClubCard.PlayerSlot) {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)
 				.build();
 			ServerSend("ChatRoomChat", { Content: "ClubCardNewPlayerSlot" + Player.Game.ClubCard.PlayerSlot.toString(), Type: "Action", Dictionary: Dictionary });
 		}
 
-		// Updates the player and go back to the chat room
+		// This is only safe because the UI locks up player slot changes if a game is running
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 		ChatRoomCharacterUpdate(Player);
-
 	}
 
-	// Returns to the chat screen
 	CommonSetScreen("Online", "ChatRoom");
-
 }
 
 /**

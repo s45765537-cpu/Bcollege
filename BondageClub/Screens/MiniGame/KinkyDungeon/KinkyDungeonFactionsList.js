@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 let KinkyDungeonFactionColors = {
@@ -469,6 +470,7 @@ function KDInitFactions(Reset) {
 	KDFactionRelations = new Map();
 	// For each faction in faction relations we create all the maps
 	for (let f1 of Object.entries(KinkyDungeonFactionRelationsBase)) {
+		/** @type {Map<string, number>} */
 		let fmap = new Map();
 
 		KDFactionRelations.set(f1[0], fmap);

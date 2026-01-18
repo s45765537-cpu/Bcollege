@@ -1317,10 +1317,8 @@ ItemBreastChastityPlateStraps,Straps
 ItemBreastChastityPlateUnder1,Under layer
 ItemBreastChastityPlateShine1,Plate Shine
 ItemBreastChastityPlateShine2,Under layer shine
-ItemButtFoxTail1Base,Tail
-ItemButtFoxTail1Tip,Tip
-ItemButtFoxTail2Base,Tail
-ItemButtFoxTail2Tip,Tip
+ItemButtFoxTailBase_TL,Tail
+ItemButtFoxTailTip_TL,Tip
 ItemButtFoxTailsBases,Tails
 ItemButtFoxTailsTips,Tips
 ItemButtSuccubusHeartButtPlugHeart,Heart
@@ -1527,6 +1525,12 @@ ItemDevicesHighchairBottleOutline,Bottle Outline
 ItemDevicesHighchairBottleCork,Bottle Cork
 ItemDevicesHighchairSippyCup,Sippy Cup
 ItemDevicesHighchairFaceStains,Face Stains
+ItemDevicesPottyBase,Potty
+ItemDevicesPottyInset,Inset
+ItemDevicesPottyText,Text
+ItemDevicesEnemaBag,Plastic Bag
+ItemDevicesEnemaRack,Fixture
+ItemDevicesEnemaLiquid,Liquid
 ItemEarsFuturisticEarphonesBand,Band
 ItemEarsFuturisticEarphonesDisplay,Display
 ItemEarsFuturisticEarphonesLock,Lock
@@ -1663,6 +1667,12 @@ ItemHandheldUchiwaFan2,Fan paper 3rd color
 ItemHandheldUchiwaBase,Fan base
 ItemHandheldUchiwaEdge,Fan edge
 ItemHandheldUchiwaFanSurface,Fan inner rods
+ItemHandheldBabyPowderBottle,Bottle
+ItemHandheldBabyPowderText,Details
+ItemHandheldWipesPackage,Package
+ItemHandheldWipesInlet,Inlet
+ItemHandheldWipesText,Text
+ItemHandheldMiniDollsHaruhi,Doll
 ItemHandsBalletBootsMittensRight,Right hand
 ItemHandsBalletBootsMittensSRight,Right shine
 ItemHandsBalletBootsMittensLeft,Left hand
@@ -2720,6 +2730,7 @@ ItemPelvisBulkyDiaperBase,Diaper
 ItemPelvisBulkyDiaperCrotchPiece,Crotch Padding
 ItemPelvisBulkyDiaperTape,Tape
 ItemPelvisBulkyDiaperWaistBand,Waist Band
+ItemPelvisBulkyDiaperGradient,Gradient
 ItemPelvisFemPelvisHarnessMain,Main
 ItemPelvisFemPelvisHarnessMetal,Metal
 ItemPelvisFemPelvisHarnessLock,Lock
@@ -2786,6 +2797,7 @@ ItemPelvisPoofyDiaperBase,Diaper
 ItemPelvisPoofyDiaperCrotchPatch,Crotch Padding
 ItemPelvisPoofyDiaperFrills,Frills
 ItemPelvisPoofyDiaperTape,Tape
+ItemPelvisPoofyDiaperGradient,Gradient
 ItemPelvisPortalPantiesBase,Latex
 ItemPelvisPortalPantiesGlowTubes,LED
 ItemPelvisPortalPantiesMetalHex,Hex
@@ -2824,6 +2836,7 @@ ItemPelvisWaistLegHarnessVibTop,Vibrator head
 ItemPelvisWaistLegHarnessVibBelow,Vibrator body
 ItemPelvisLatexDiaperBase,Latex
 ItemPelvisLatexDiaperShine,Shine
+ItemPelvisLatexDiaperGradient,Gradient
 ItemPelvisUntrainersThinBase,Base
 ItemPelvisUntrainersThinBack,Back
 ItemPelvisUntrainersThinMiddle,Middle
@@ -3087,12 +3100,19 @@ PantiesBulkyDiaperBase,Diaper
 PantiesBulkyDiaperCrotchPiece,Crotch Padding
 PantiesBulkyDiaperTape,Tape
 PantiesBulkyDiaperWaistBand,Waist Band
+PantiesBulkyDiaperGradient,Gradient
 PantiesCockSockBase,Cock Sock
 PantiesCockSockBow,Bow
 PantiesCockSockStripes,Stripes
+PantiesDiapers1Base,Diaper
+PantiesDiapers1Gradient,Gradient
 PantiesDiapers2Cover,Plastic Cover
 PantiesDiapers2Diaper,Diaper
+PantiesDiapers2Gradient,Gradient
+PantiesDiapers3Base,Diaper
+PantiesDiapers3Gradient,Gradient
 PantiesDiapers4Diaper,Diaper
+PantiesDiapers4Gradient,Gradient
 PantiesDiapers4Pattern,Pattern
 PantiesDiapers4Tape,Tape
 PantiesFloralPanties2Base,Base
@@ -3117,6 +3137,7 @@ PantiesPoofyDiaperBase,Diaper
 PantiesPoofyDiaperCrotchPatch,Crotch Padding
 PantiesPoofyDiaperFrills,Frills
 PantiesPoofyDiaperTape,Tape
+PantiesPoofyDiaperGradient,Gradient
 PantiesRedBowPantiesBow,Bow
 PantiesRedBowPantiesPanties,Panties
 PantiesWaistLegHarnessBeltsA,Waist belt
@@ -3128,6 +3149,7 @@ PantiesWaistLegHarnessBeltsC,Link belts
 PantiesWaistLegHarnessMetalC,Link metal parts
 PantiesLatexDiaperBase,Latex
 PantiesLatexDiaperShine,Shine
+PantiesLatexDiaperGradient,Gradient
 PantiesUntrainersThinBase,Base
 PantiesUntrainersThinBack,Back
 PantiesUntrainersThinMiddle,Middle
@@ -3336,12 +3358,12 @@ TailStrapsDragonTailStrap2LeftPrimary,Primary
 TailStrapsDragonTailStrap2LeftSecondary,Secondary
 TailStrapsDragonTailStrap2RightPrimary,Primary
 TailStrapsDragonTailStrap2RightSecondary,Secondary
+TailStrapsWolfTailStrap3TL,Tail
+TailStrapsKittenTailStrap1TL,Tail
 TailStrapsFoxTailsStrapBases,Tails
 TailStrapsFoxTailsStrapTips,Tips
-TailStrapsFoxTailStrap1Base,Tail
-TailStrapsFoxTailStrap1Tip,Tip
-TailStrapsFoxTailStrap2Base,Tail
-TailStrapsFoxTailStrap2Tip,Tip
+TailStrapsFoxTailStrapBase_TL,Tail
+TailStrapsFoxTailStrapTip_TL,Tip
 TailStrapsLionTailStrapPlume,Plume
 TailStrapsLionTailStrapTail,Tail
 TailStrapsSuccubusHeartTailStrapHeart,Heart

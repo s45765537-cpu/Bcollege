@@ -964,8 +964,7 @@ ItemButt,ButtPump,Butt Pump
 ItemButt,Cowtail,Cow Tail
 ItemButt,DemonPlug,Demon Tail Plug
 ItemButt,EggVibePlugXXL,Egg Vibe Plug XXL
-ItemButt,FoxTail1,Fox Tail Small
-ItemButt,FoxTail2,Fox Tail Large
+ItemButt,FoxTail,Fox Tail
 ItemButt,FoxTails,Fox Tails
 ItemButt,FuckPlug,Fuckable Butt Plug
 ItemButt,HollowButtPlug,Hollow Butt Plug
@@ -1062,6 +1061,8 @@ ItemDevices,WoodenRack,Wooden Rack
 ItemDevices,WoodenStocks,Wooden Stocks
 ItemDevices,X-Cross,St. Andrews Cross
 ItemDevices,Highchair,Highchair
+ItemDevices,Potty,Potty
+ItemDevices,Enema,Enema Fixture
 ItemEars,,Ears
 ItemEars,BluetoothEarbuds,Bluetooth Earbuds
 ItemEars,FuturisticEarphones,Futuristic Earphones
@@ -1170,6 +1171,10 @@ ItemHandheld,Vibrator,Vibrator
 ItemHandheld,WartenbergWheel,Wartenberg Wheel
 ItemHandheld,Whip,Whip
 ItemHandheld,WhipPaddle,Whip Paddle
+ItemHandheld,BabyPowder,Baby Powder
+ItemHandheld,Wipes,Wipes
+ItemHandheld,Diaper,Diaper
+ItemHandheld,MiniDolls,Mini Dolls
 ItemHands,,Hands
 ItemHands,BalletBootsMittens,Ballet Boots Mittens
 ItemHands,CheerleaderPomPoms,Pom Pom Mitts
@@ -1588,7 +1593,6 @@ ItemNose,NoseRing,Nose Ring
 ItemNose,PigNose,Pig Nose
 ItemNose,PigNoseHook,Pig Nose Hook
 ItemPelvis,,Pelvis
-ItemPelvis,BulkyDiaper,Bulky Chastity Diaper
 ItemPelvis,DiaperHarness,Diaper Harness
 ItemPelvis,FemPelvisHarness,Female Pelvis Harness
 ItemPelvis,ForbiddenChastityBelt,Forbidden Chastity Belt
@@ -1609,7 +1613,7 @@ ItemPelvis,ObedienceBelt,Obedience Belt
 ItemPelvis,OrnateChastityBelt,Ornate Chastity Belt
 ItemPelvis,PelvisChainLeash,Pelvis Chain Leash
 ItemPelvis,PolishedChastityBelt,Polished Chastity Belt
-ItemPelvis,PoofyDiaper,Poofy Chastity Diaper
+ItemPelvis,PoofyDiaper,Poofy Diaper
 ItemPelvis,PortalPanties,PortalLink Panties
 ItemPelvis,Ribbons,Ribbons
 ItemPelvis,SciFiPleasurePanties,Sci-Fi Pleasure Panties
@@ -1618,7 +1622,6 @@ ItemPelvis,SteelChastityPanties,Steel Chastity Panties
 ItemPelvis,StraponPanties,Strap-On Panties
 ItemPelvis,StuddedChastityBelt,Studded Chastity Belt
 ItemPelvis,WaistLegHarness,Waist-Leg Full Harness
-ItemPelvis,LatexDiaper,Latex Chastity Diaper
 ItemScript,,Body
 ItemScript,Script,Script
 ItemTorso,,Torso
@@ -1970,8 +1973,7 @@ TailStraps,DragonTailStrap1,Dragon Tail Strap
 TailStraps,DragonTailStrap2Left, Scaled dragon tail strap (Left)
 TailStraps,DragonTailStrap2Right, Scaled dragon tail strap (Right)
 TailStraps,FoxTailsStrap,Fox Tails Strap
-TailStraps,FoxTailStrap1,Fox Small Tail Strap
-TailStraps,FoxTailStrap2,Fox Large Tail Strap
+TailStraps,FoxTailStrap,Fox Tail Strap
 TailStraps,HorseTailStrap,Horse Tail Strap
 TailStraps,HorseTailStrap1,Horse TailStrap
 TailStraps,KittenTailStrap1,Light Kitten Tail Strap
@@ -1983,7 +1985,7 @@ TailStraps,MouseTailStrap2,Mouse Tail Strap 2
 TailStraps,PuppyTailStrap,Puppy Tail Strap
 TailStraps,PuppyTailStrap1,Puppy Fluffy Tail Strap
 TailStraps,RaccoonStrap,Raccoon Tail Strap
-TailStraps,RaccoonTailStrap,Raccoon2 Tail Strap
+TailStraps,RaccoonTailStrap,Raccoon Tail Strap 2
 TailStraps,SuccubusHeartTailStrap,Succubus Heart Tail Strap
 TailStraps,SuccubusTailStrap,Succubus Tail Strap
 TailStraps,TailStrap,Kitty Tail Strap

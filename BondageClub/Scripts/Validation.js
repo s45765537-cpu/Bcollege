@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // Regexes for lock combination numbers and passwords
@@ -1084,7 +1085,7 @@ function ValidationResolveCyclicBlocks(appearance, diffMap) {
 	while (cycles.length > 0) {
 		const groups = appearance.map((item) => item.Asset.Group.Name);
 
-		/* @type Map<string, number> */
+		/** @type {Map<string, number>} */
 		const groupCounts = new Map();
 		// Count how many cycles each group appears in
 		for (const group of groups) {

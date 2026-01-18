@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 'use strict';
 
 function addTextKey(Name, Text) {
@@ -9,9 +10,6 @@ function addTextKey(Name, Text) {
 	}
 	if (ct == 0) KDLoadingTextKeys[Name] = Text;
 }
-
-const cloneDeep = (obj) =>
-	JSON.parse(JSON.stringify(obj));
 
 const defaultRestraint = {
 	inventory: true,
@@ -53,8 +51,10 @@ function KinkyDungeonCreateRestraint(props, displayName, flavorText, functionTex
 		throw new Error('name, Group and Asset props must be provided.');
 	}
 
+	/** @type {restraint} */
+	// @ts-expect-error enemyType is incorrect somewhere
 	const restraint = ({
-		...cloneDeep(defaultRestraint),
+		...CommonCloneDeep(defaultRestraint),
 		...props
 	});
 
@@ -128,7 +128,7 @@ function KinkyDungeonCloneRestraint(clonedName, newName, props) {
 	}
 
 	const newRestraint = ({
-		...cloneDeep(existingRestraint),
+		...CommonCloneDeep(existingRestraint),
 		name: newName
 	});
 

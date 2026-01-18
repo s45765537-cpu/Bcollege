@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var GameLARPBackground = "Sheet";
 var GameLARPClass = [
@@ -216,7 +217,7 @@ function GameLARPRunProcess() {
 
 				// Prepare substitutions for this option using full pronoun substitution
 				const substitutions = GameLARPBuildSubstitutions(Player, GameLARPTurnFocusCharacter, "", null, option.Odds);
-			 	substitutions.push(["OptionOdds", Math.round(option.Odds * 100).toString()]);
+				substitutions.push(["OptionOdds", Math.round(option.Odds * 100).toString()]);
 
 				// Get the dictionary text and apply substitutions
 				const buttonText = CommonStringSubstitute(OnlineGameDictionaryText("Option" + option.Name), substitutions);
@@ -1106,7 +1107,7 @@ function GameLARPLoadStatus() {
 function GameLARPDrawCharacter(C, X, Y, Zoom) {
 
 	// LARP draws the timer if needed and the icon linked to team and class
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom")) {
+	if (ServerPlayerIsInChatRoom()) {
 		GameLARPDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
 		if ((GameLARPPlayer.length > 0) && (C.MemberNumber == GameLARPPlayer[GameLARPTurnPosition].MemberNumber) && (GameLARPGetStatus() == "Running") && (GameLARPTurnFocusCharacter == null)) {
 			MainCanvas.font = CommonGetFont(72);

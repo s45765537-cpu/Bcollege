@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var HorseWalkBackground = "HorseStableLight";
 /** @type { null | { X: number, Y: number }[] } */

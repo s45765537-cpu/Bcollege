@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** @type {Map<string, HTMLImageElement>} */
@@ -573,7 +574,15 @@ function GLDrawBingImageToTextureInfo(gl, Img, textureInfo) {
 	textureInfo.width = Img.width;
 	textureInfo.height = Img.height;
 	gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
-	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, Img);
+	try {
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, Img);
+	} catch (error) {
+		if (error instanceof Error && error.name === "SecurityError") {
+			console.error(`Failed to draw image "${Img.src}":`, error);
+		} else {
+			throw error;
+		}
+	}
 }
 
 /**

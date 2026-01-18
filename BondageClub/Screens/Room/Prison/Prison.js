@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var PrisonBackground = "Prison";
 /** @type {null | number} */

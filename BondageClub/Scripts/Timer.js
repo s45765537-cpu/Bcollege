@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var CurrentTime = 0;
 var TimerRunInterval = 20;

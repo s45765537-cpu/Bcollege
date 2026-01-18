@@ -142,8 +142,8 @@ Cannot be slowed down from leaving a room.
 Cannot be slowed down from leaving a room.
 Skip punishment when calling maids from chat room.
 Skip punishment when calling maids from chat room.
-Don't garble online chat and whipers when gagged.
-Don't garble online chat and whipers when gagged.
+Don't garble online chat and whispers when gagged.
+Don't garble online chat and whispers when gagged.
 Character label color:
 Character label color:
 Item permission:

@@ -158,12 +158,16 @@ function testTypedItemDialog(groupName, assetName, config, dialogSet) {
 	) {
 		dialogConfig.Chat = undefined;
 	}
+	if (typeof dialogConfig.Header === "function") {
+		dialogConfig.Header = undefined;
+	}
 
 	/** @type {Set<string>} */
 	const ret = new Set();
 	const optionNames = config.Options?.map(o => !o.HasSubscreen ? o.Name : undefined) ?? [];
 	gatherDifference([dialogConfig.Option], optionNames, dialogSet, ret);
-	gatherDifference([dialogConfig.Header], [""], dialogSet, ret);
+	if (dialogConfig.Header)
+		gatherDifference([dialogConfig.Header], [""], dialogSet, ret);
 	if (chatSetting === "default") {
 		gatherDifference([dialogConfig.Chat], optionNames, dialogSet, ret);
 	} else if (chatSetting === "fromTo") {
@@ -193,6 +197,9 @@ function testModularItemDialog(groupName, assetName, config, dialogSet) {
 	};
 	if (typeof dialogConfig.Chat === "function" || !groupName.includes("Item")) {
 		dialogConfig.Chat = undefined;
+	}
+	if (typeof dialogConfig.Header === "function") {
+		dialogConfig.Header = undefined;
 	}
 
 	const modulesNames = config.Modules?.map(m => m.Name) ?? [];
@@ -1063,7 +1070,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 			if (asset.Name === "SlaveCollar") {
 				layerTypes = [];
 				for (let i = 0; i <= 21; i++) {
-					layerTypes.push([`noarch${i}`, poses]);
+					layerTypes.push([/** @type {PartialType} */ (`noarch${i}`), poses]);
 				}
 			} else if (layer.CreateLayerTypes.length || layer.AllowTypes) {
 				/** @type {PartialType[]} */
@@ -1354,6 +1361,7 @@ function sanitizeVMOutput(input) {
 		Object: Object,
 		TestingColorLayers: new Set(loadCSV("Assets/Female3DCG/LayerNames.csv", 2).map(i => i[0])),
 		TestingColorGroups: new Set(loadCSV("Assets/Female3DCG/ColorGroups.csv", 2).map(i => i[0])),
+		PreferenceArousalUpdateValidation: () => null,
 		console: {
 			...console,
 			warn: function warn(...args) {

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
@@ -228,7 +229,7 @@ function AssetsItemMouthFuturisticPanelGagScriptDrawHook(data, originalFunction,
 		persistentData.ChangeTime = Math.min(persistentData.ChangeTime, CommonTime() + 400); // Trigger shortly after if the user speaks
 
 	if (persistentData.UpdateTime < CommonTime() && drawData.C == Player) {
-		if (CurrentScreen == "ChatRoom") {
+		if (ServerPlayerIsInChatRoom()) {
 			AssetsItemMouthFuturisticPanelGagScriptUpdatePlayer(data, drawData);
 			persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 		}

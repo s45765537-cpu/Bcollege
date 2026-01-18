@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var AsylumGGTSBackground = "AsylumGGTSRoom";
 /** @type {null | NPCCharacter} */
@@ -1276,7 +1277,7 @@ function AsylumGGTSControlItem(C, Item) {
 	} else {
 		if ((Item == null) || (Item.Asset == null) || (Item.Asset.Name == null)) return false;
 		if ((Item.Asset.Name.substr(0, 10) != "Futuristic") && (Item.Asset.Name != "FuckMachine")) return false;
-		if ((CurrentScreen == "ChatRoom") && (ChatSearchGetSpace() == "Asylum")) return true;
+		if (ServerPlayerIsInChatRoom() && ChatSearchGetSpace() == "Asylum") return true;
 		if (CurrentScreen.substr(0, 6) == "Asylum") return true;
 	}
 	return false;
@@ -1457,7 +1458,7 @@ function AsylumGGTSDroneDress(C) {
 function AsylumGGTSAllowChange(C) {
 	if (LogValue("Isolated", "Asylum") >= CurrentTime) return false;
 	if (AsylumGGTSGetLevel(C) >= 6) {
-		if ((CurrentScreen == "ChatRoom") && (ChatSearchGetSpace() == "Asylum")) return false;
+		if (ServerPlayerIsInChatRoom() && ChatSearchGetSpace() == "Asylum") return false;
 		if (CurrentScreen.substr(0, 6) == "Asylum") return false;
 	}
 	return true;
@@ -1529,7 +1530,7 @@ function AsylumGGTSHiddenMessage(SenderCharacter, Interaction, data) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSDrawCharacter(C, X, Y, Zoom) {
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom") && (ChatSearchGetSpace() === "Asylum")) {
+	if (ServerPlayerIsInChatRoom() && ChatSearchGetSpace() === "Asylum") {
 		let Level = AsylumGGTSGetLevel(C);
 		if ((Level > 0) && (C.Game != null) && (C.Game.GGTS != null)) {
 			if (C.Game.GGTS.Strike >= 1) DrawImageZoomCanvas("Screens/Room/AsylumGGTS/Strike" + C.Game.GGTS.Strike.toString() + ".png", MainCanvas, 0, 0, 100, 50, X + 50 * Zoom, Y + 800 * Zoom, 100 * Zoom, 50 * Zoom);

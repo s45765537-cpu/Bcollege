@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var DailyJobBackground = "MainHall";
 /** @type {null | NPCCharacter} */

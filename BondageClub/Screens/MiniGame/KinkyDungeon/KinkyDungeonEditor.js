@@ -1,7 +1,8 @@
+// @ts-strict-ignore
 "use strict";
 
 
-let KDMapTilesListEditor = localStorage.getItem("KDMapTilesListEditor") ? JSON.parse(localStorage.getItem("KDMapTilesListEditor")) : Object.assign({}, KDMapTilesList);
+let KDMapTilesListEditor = /** @type {Record<string, KDMapTile>} */ (localStorage.getItem("KDMapTilesListEditor") ? JSON.parse(localStorage.getItem("KDMapTilesListEditor")) : Object.assign({}, KDMapTilesList));
 
 let KDTileToTest = null;
 
@@ -599,7 +600,7 @@ function KDDrawEditorUI() {
 	DrawButtonKDEx("DeleteEditorTiles", () => {
 		if (KDTE_confirmreset) {
 			KDTE_confirmreset = false;
-			KDMapTilesListEditor = JSON.parse(JSON.stringify(KDMapTilesList));
+			KDMapTilesListEditor = CommonCloneDeep(KDMapTilesList);
 		} else {
 			KDTE_confirmreset = true;
 		}
@@ -619,7 +620,7 @@ function KDDrawEditorUI() {
 		navigator.clipboard.readText()
 			.then(text => {
 				let tile = JSON.parse(text);
-				if (tile && tile.name) {
+				if (CommonIsObject(tile) && tile.name) {
 					console.log(JSON.parse(text));
 					console.log("Parse successful!!!");
 					KDTE_LoadTile(tile.name, tile);
@@ -649,7 +650,7 @@ function KDDrawEditorUI() {
 	DrawButtonKDEx("CommitTiles", () => {
 		if (KDTE_confirmcommit) {
 			KDTE_confirmcommit = false;
-			KDMapTilesList = JSON.parse(JSON.stringify(KDMapTilesListEditor));
+			KDMapTilesList = CommonCloneDeep(KDMapTilesListEditor);
 		} else {
 			KDTE_confirmcommit = true;
 		}
@@ -1159,7 +1160,7 @@ function KDTE_LoadTile(name, loadedTile) {
 	ElementValue("MapForbidTags", nt.forbidTags.toString());
 
 	// JSON recreation to kill all references
-	KDMapTilesListEditor = JSON.parse(JSON.stringify(KDMapTilesListEditor));
+	KDMapTilesListEditor = CommonCloneDeep(KDMapTilesListEditor);
 
 	KDTESetIndexToTile(nt.name);
 
@@ -1230,7 +1231,7 @@ function KDTE_SaveTile(tile) {
 
 	// JSON recreation to kill all references
 	KDMapTilesListEditor[KDEditorCurrentMapTileName] = saveTile;
-	KDMapTilesListEditor = JSON.parse(JSON.stringify(KDMapTilesListEditor));
+	KDMapTilesListEditor = CommonCloneDeep(KDMapTilesListEditor);
 
 	KDTESetIndexToTile(KDEditorCurrentMapTileName);
 

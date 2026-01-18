@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 'use strict';
 
 /** Prunes delayed actions with tags

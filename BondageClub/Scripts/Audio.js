@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var AudioDialog = new Audio();
 
@@ -103,6 +104,8 @@ var AudioList = [
 	{ Name: "MetalClip", File: "MetalClip" },
 	{ Name: "SoftFurniture", File: "SoftFurniture" },
 	{ Name: "WoodFurniture", File: "WoodFurniture" },
+	{ Name: "PutDownPlastic", File: "PutDownPlastic" },
+	{ Name: "EnemaFixture", File: "EnemaFixture" },
 ];
 
 

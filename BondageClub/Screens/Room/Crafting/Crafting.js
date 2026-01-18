@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 // NOTE: Keep as `var` to enable `window`-based lookup
@@ -662,7 +663,7 @@ var CraftingEventListeners = {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
 				CraftingModeSet("Color");
-				ItemColorLoad(CraftingPreview, item, 1200, 25, 775, 950, true);
+				ItemColorLoad(CraftingPreview, item, 1100, 15, 875, 970, true);
 				ItemColorOnExit(({ colors }, save) => {
 					if (save) {
 						CraftingSelectedItem.Color = colors.join(",") || "Default";
@@ -955,7 +956,7 @@ var CraftingEventListeners = {
 		switch (controlButton.id) {
 			case CraftingID.padlockButton:
 				ElementButton._ParseLabel(controlButton.id, TextGet("NoLock"), "bottom", { parent: controlButton });
-				ElementButton._ParseImage(controlButton.id, "./Icons/NoLock.png", { parent: controlButton });
+				ElementButton._ParseImage(controlButton.id, "./Icons/NoLock.png", null, { parent: controlButton });
 				break;
 			case CraftingID.propertyButton:
 				ElementButton._ParseLabel(controlButton.id, TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`), null, { parent: controlButton });
@@ -1284,7 +1285,7 @@ async function CraftingLoad() {
 
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
 	CraftingPreview.Appearance = [...Player.Appearance];
-	CraftingPreview.Crafting = JSON.parse(JSON.stringify(Player.Crafting));
+	CraftingPreview.Crafting = CommonCloneDeep(Player.Crafting);
 
 	// Declare the preview character as being owned/loved by the player so any owner-/lover-related validation checks pass
 	CraftingPreview.Owner = Player.Name;
@@ -1723,7 +1724,7 @@ function CraftingRun() {
 		DrawCharacter(CraftingPreview, -100, 100, 2, false);
 		DrawCharacter(CraftingPreview, 700, 100, 0.9, false);
 		DrawButton(880, 900, 90, 90, "", "white", `Icons/${CraftingNakedPreview ? "Dress" : "Naked"}.png`);
-		ItemColorDraw(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1200, 25, 775, 950);
+		ItemColorDraw(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1100, 15, 875, 970);
 	}
 
 	// Need the `DialogFocusItem` check here as there's a bit of a race condition
@@ -1979,7 +1980,7 @@ function CraftingDeserialize(craftString) {
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
 		ItemProperty: ItemProperty ? CommonJSONParse(ItemProperty) : {},
-		Type: Type || null,
+		Type: Type || undefined,
 		TypeRecord: TypeRecord ? CommonJSONParse(TypeRecord) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
 	};
@@ -2006,7 +2007,7 @@ function CraftingDecompressServerData(Data) {
 	let DecompressedData = null;
 	try {
 		DecompressedData = LZString.decompressFromUTF16(Data);
-	} catch(err) {
+	} catch {
 		DecompressedData = null;
 	}
 	if (DecompressedData == null) {
@@ -2252,8 +2253,8 @@ function CraftingClick(event) {
 		if (MouseIn(880, 900, 90, 90)) {
 			CraftingNakedPreview = !CraftingNakedPreview;
 			CraftingUpdatePreview();
-		} else if (MouseIn(1200, 25, 775, 950)) {
-			ItemColorClick(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1200, 25, 775, 950);
+		} else if (MouseIn(1100, 15, 875, 970)) {
+			ItemColorClick(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName, 1100, 15, 875, 970);
 		}
 		return;
 	}
@@ -2371,7 +2372,7 @@ function CraftingExitResetElements() {
 	const assetControlButton = document.getElementById(CraftingID.assetButton);
 	assetControlButton.innerHTML = "";
 	ElementButton._ParseLabel(assetControlButton.id, TextGet("SelectItem"), "bottom", { parent: assetControlButton });
-	ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", { parent: assetControlButton });
+	ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", null, { parent: assetControlButton });
 	if (assetControlButton.getAttribute("aria-checked") === "false") {
 		assetControlButton.dispatchEvent(new Event("click"));
 	}
@@ -2750,10 +2751,10 @@ const CraftingValidationRecord = {
 	/** @deprecated */
 	Type: {
 		Validate: function (c, a) {
-			return c.Type == null || typeof c.Type === "string";
+			return c.Type === undefined;
 		},
 		GetDefault: function (c, a) {
-			return null;
+			return undefined;
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	}

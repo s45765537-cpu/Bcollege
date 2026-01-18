@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 /**
  * The background to use for the settings screen
@@ -39,6 +40,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenGeneralClick(),
 		exit: () => PreferenceSubscreenGeneralExit(),
 		unload: () => PreferenceSubscreenGeneralUnload(),
+		resize: () => PreferenceSubscreenGeneralResize(),
 	},
 	{
 		name: "Difficulty",
@@ -156,6 +158,15 @@ const PreferenceSubscreens = [
 		unload: () => PreferenceSubscreenScriptsUnload(),
 	},
 	{
+		name: "Keybindings",
+		icon: "Icons/Keyboard.png",
+		load: () => PreferenceSubscreenKeybindingsLoad(),
+		run: () => PreferenceSubscreenKeybindingsRun(),
+		click: () => PreferenceSubscreenKeybindingsClick(),
+		exit: () => PreferenceSubscreenKeybindingsExit(),
+		resize: () => PreferenceSubscreenKeybindingsResize(),
+	},
+	{
 		name: "Extensions",
 		load: () => PreferenceSubscreenExtensionsLoad(),
 		run: () => PreferenceSubscreenExtensionsRun(),
@@ -245,10 +256,10 @@ function PreferenceClick() {
  * If the player is in a subscreen, they exit to the main preferences menu instead.
  * @type {ScreenExitHandler}
  */
-async function PreferenceExit() {
+function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {
 		// If we are in a subscreen, the only exit is to the main preference screen
-		await PreferenceSubscreenExit();
+		PreferenceSubscreenExit();
 		return;
 	}
 
@@ -276,7 +287,7 @@ async function PreferenceExit() {
 		...ServerPackItemPermissions(Player.PermissionItems),
 	};
 	ServerAccountUpdate.QueueData(P);
-	await CommonSetScreen("Character", "InformationSheet");
+	CommonSetScreen("Character", "InformationSheet");
 }
 
 /**
@@ -290,6 +301,10 @@ function PreferenceUnload() {
 function PreferenceResize(onLoad) {
 	PreferenceSubscreenResize?.(onLoad);
 	PreferenceSubscreen.resize?.(onLoad);
+}
+
+function PreferenceKeyUp(event) {
+	PreferenceSubscreen?.keyUp?.(event);
 }
 
 /**
@@ -402,44 +417,6 @@ function PreferenceGetNextIndex(List, Index) {
 }
 
 /**
- * Private helper to quickly check boolean settings
- * @param {boolean} defaultValue
- * @returns {(arg: boolean) => boolean}
- */
-const isBool = (defaultValue) => {
-	return (arg) => {
-		return typeof arg === "boolean" ? arg : defaultValue;
-	};
-};
-
-/**
- * Private helper to quickly check items in lists
- * @template T
- * @param {T[]} list
- * @param {T} defaultValue
- * @returns {(arg: unknown) => T}
- */
-const isItem = (list, defaultValue) => {
-	return (arg) => {
-		return CommonIncludes(list, arg) ? arg : defaultValue;
-	};
-};
-
-/**
- * Private helper to quickly check numbers
- * @template {number} T
- * @param {number} min
- * @param {number} max
- * @param {T} defaultValue
- * @returns {(arg: T) => T}
- */
-const isInt = (min, max, defaultValue) => {
-	return (arg) => {
-		return CommonIsInteger(arg, min, max) ? /** @type {typeof defaultValue} */(arg) : defaultValue;
-	};
-};
-
-/**
  * Namespace with default values for {@link ActivityEnjoyment} properties.
  * @satisfies {ActivityEnjoyment}
  * @namespace
@@ -454,28 +431,6 @@ var PreferenceActivityEnjoymentDefault = {
 };
 
 /**
- * Namespace with default values for {@link ActivityEnjoyment} properties.
- * @satisfies {{ [k in keyof ActivityEnjoyment]: (arg: ActivityEnjoyment[k], C: Character) => ActivityEnjoyment[k] }}
- * @namespace
- */
-var PreferenceActivityEnjoymentValidate = {
-	/** @type {(arg: ActivityName, C: Character) => undefined | ActivityName} */
-	Name: (arg, C) => {
-		if (C.IsPlayer()) {
-			return typeof arg === "string" ? /** @type {ActivityName} */(arg) : PreferenceActivityEnjoymentDefault.Name;
-		} else {
-			return CommonIncludes(ActivityFemale3DCGOrdering, arg) ? arg : PreferenceActivityEnjoymentDefault.Name;
-		}
-	},
-	Self: (arg, C) => {
-		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceActivityEnjoymentDefault.Self;
-	},
-	Other: (arg, C) => {
-		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceActivityEnjoymentDefault.Other;
-	},
-};
-
-/**
  * Namespace with default values for {@link ArousalFetish} properties.
  * @satisfies {ArousalFetish}
  * @namespace
@@ -485,20 +440,6 @@ var PreferenceArousalFetishDefault = {
 	Name: undefined,
 	/** @type {ArousalFactor} */
 	Factor: 2,
-};
-
-/**
- * Namespace with default values for {@link ArousalFetish} properties.
- * @type {{ [k in keyof ArousalFetish]: (arg: ArousalFetish[k], C: Character) => ArousalFetish[k] }}
- * @namespace
- */
-var PreferenceArousalFetishValidate = {
-	Name: (arg, C) => {
-		return CommonHas(FetishFemale3DCGNames, arg) ? arg : PreferenceArousalFetishDefault.Name;
-	},
-	Factor: (arg, C) => {
-		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceArousalFetishDefault.Factor;
-	},
 };
 
 /**
@@ -516,30 +457,10 @@ var PreferenceArousalZoneDefault = {
 };
 
 /**
- * Namespace with default values for {@link ArousalZone} properties.
- * @satisfies {{ [k in keyof ArousalZone]: (arg: ArousalZone[k], C: Character) => ArousalZone[k] }}
- * @namespace
+ * Which zones are considered erogenous by default
+ * @type {AssetGroupName[]}
  */
-var PreferenceArousalZoneValidate = {
-	/** @type {(arg: AssetGroupName, C: Character) => undefined | AssetGroupItemName} */
-	Name: (arg, C) => {
-		const group = AssetGroup.find(i => i.Name === arg);
-		if (
-			group?.IsItem()
-			&& AssetActivitiesForGroup("Female3DCG", arg, "any").length
-		) {
-			return group.Name;
-		} else {
-			return PreferenceArousalZoneDefault.Name;
-		}
-	},
-	Factor: (arg, C) => {
-		return CommonIsInteger(arg, 0, 4) ? /** @type {ArousalFactor} */(arg) : PreferenceArousalZoneDefault.Factor;
-	},
-	Orgasm: (arg, C) => {
-		return typeof arg === "boolean" ? arg : PreferenceArousalZoneDefault.Orgasm;
-	},
-};
+var PreferenceArousalZoneOrgasmDefault = ["ItemVulva", "ItemVulvaPiercings"];
 
 /**
  * Namespace with default values for {@link ArousalSettingsType} properties.
@@ -559,14 +480,49 @@ var PreferenceArousalSettingsDefault = {
 	ProgressTimer: 0,
 	VibratorLevel: 0,
 	ChangeTime: 0,
-	Activity: PreferenceArousalActivityDefaultCompressedString,
-	Zone: PreferenceArousalZoneDefaultCompressedString,
-	Fetish: PreferenceArousalFetishDefaultCompressedString,
+	// Next three are initialized lazily since they depend on the loaded assets
+	Activity: "",
+	Zone: "",
+	Fetish: "",
 	OrgasmTimer: 0,
 	OrgasmStage: 0,
 	OrgasmCount: 0,
 	DisableAdvancedVibes: false,
 };
+
+/**
+ * Updates all of the validation "keys" based on the currently registered assets, groups, and activities
+ */
+function PreferenceArousalUpdateValidation() {
+	const activities = AssetAllActivities("Female3DCG")
+		.filter(a => a.ActivityID != null)
+		.map(({ Name }) => ({ ...PreferenceActivityEnjoymentDefault, Name }))
+		.sort(({ Name: aName }, { Name: bName }) => AssetGetActivity("Female3DCG", aName).ActivityID - AssetGetActivity("Female3DCG", bName).ActivityID);
+	PreferenceArousalSettingsDefault.Activity = activities
+		.map((act) => PreferenceArousalActivityToChar(act.Self, act.Other))
+		.join("");
+
+	// By default on new characters, all zones are of neutral preference and vulva/clit can trigger an orgasm
+	const zones = AssetGroup.map((group) =>
+		({
+			...PreferenceArousalZoneDefault,
+			Name: (group?.IsItem() && group.ArousalZoneID !== undefined) ? group.Name : undefined,
+			Orgasm: PreferenceArousalZoneOrgasmDefault.includes(group.Name),
+		}))
+		.filter(({ Name }) => Name !== undefined)
+		.sort(({ Name: aName }, { Name: bName }) => AssetGroupGet("Female3DCG", aName).ArousalZoneID - AssetGroupGet("Female3DCG", bName).ArousalZoneID);
+	PreferenceArousalSettingsDefault.Zone = zones
+		.map(act => PreferenceArousalZoneToChar(act.Factor, act.Orgasm))
+		.join("");
+
+	const fetishes = AssetAllFetishes("Female3DCG")
+		.filter(f => f.FetishID != null)
+		.map(({ Name }) => ({ ...PreferenceArousalFetishDefault, Name }))
+		.sort(({ Name: aName }, { Name: bName }) => AssetGetFetish("Female3DCG", aName).FetishID - AssetGetFetish("Female3DCG", bName).FetishID);
+	PreferenceArousalSettingsDefault.Fetish = fetishes
+		.map(fet => PreferenceArousalFetishToChar(fet.Factor))
+		.join("");
+}
 
 /**
  * Namespace with functions for validating {@link ArousalSettingsType} properties
@@ -611,22 +567,83 @@ var PreferenceArousalSettingsValidate = {
 		return CommonIsInteger(arg, 0, CommonTime()) ? arg : PreferenceArousalSettingsDefault.ChangeTime;
 	},
 	Activity: (arg, C) => {
-		let A = (typeof arg === "string" && arg != null) ? arg : PreferenceArousalActivityDefaultCompressedString;
-		while (A.length < PreferenceArousalActivityDefaultCompressedString.length)
-			A = A + PreferenceArousalTwoFactorToChar();
-		return A;
+		if (PreferenceArousalSettingsDefault.Activity === "") {
+			PreferenceArousalUpdateValidation();
+		}
+		if (CommonIsArray(arg)) {
+			// Old object-based activities
+			let newActivity = PreferenceArousalSettingsDefault.Activity;
+			const objectArousalSettings = /** @type {{ Name: string, Self: number, Other: number}[]} */ (/** @type {unknown} */ (arg));
+			for (let oldActivity of objectArousalSettings) {
+				if (!CommonIsObject(oldActivity) || typeof oldActivity.Name !== "string" || typeof oldActivity.Self === "number" || typeof oldActivity.Other === "number") continue;
+
+				const activity = AssetGetActivity(C.AssetFamily, oldActivity.Name);
+				if (!activity) continue;
+
+				newActivity = newActivity.substring(0, activity.ActivityID) + PreferenceArousalActivityToChar(oldActivity.Self, oldActivity.Other) + newActivity.substring(activity.ActivityID + 1);
+			}
+			return newActivity;
+		}
+		if (typeof arg !== "string") return PreferenceArousalSettingsDefault.Activity;
+
+		while (arg.length < PreferenceArousalSettingsDefault.Activity.length)
+			arg = arg + PreferenceArousalActivityToChar(PreferenceActivityEnjoymentDefault.Self, PreferenceActivityEnjoymentDefault.Other);
+		if (arg.length > PreferenceArousalSettingsDefault.Activity.length)
+			arg = arg.substring(0, PreferenceArousalSettingsDefault.Activity.length);
+		return arg;
 	},
 	Zone: (arg, C) => {
-		let Z = (typeof arg === "string" && arg != null) ? arg : PreferenceArousalZoneDefaultCompressedString;
-		while (Z.length < PreferenceArousalZoneDefaultCompressedString.length)
-			Z = Z + PreferenceArousalFactorToChar();
-		return Z;
+		// Set up the defaults for arousal zones now that we're done loading groups
+		if (PreferenceArousalSettingsDefault.Zone === "") {
+			PreferenceArousalUpdateValidation();
+		}
+		if (CommonIsArray(arg)) {
+			// Old object-based zones
+			let newZone = PreferenceArousalSettingsDefault.Zone;
+			const objectZoneSettings = /** @type {{ Name: AssetGroupItemName, Factor: ArousalFactor, Orgasm: boolean }[]} */ (/** @type {unknown} */ (arg));
+			for (let oldZone of objectZoneSettings) {
+				if (!CommonIsObject(oldZone) || typeof oldZone.Name !== "string" || typeof oldZone.Factor !== "number" || typeof oldZone.Orgasm !== "boolean") continue;
+
+				const group = AssetGroupGet(C.AssetFamily, oldZone.Name);
+				if (!group || !group.IsItem()) return;
+
+				newZone = newZone.substring(0, group.ArousalZoneID) + PreferenceArousalZoneToChar(oldZone.Factor, oldZone.Orgasm) + newZone.substring(group.ArousalZoneID + 1);
+			}
+			return newZone;
+		}
+		if (typeof arg !== "string") return PreferenceArousalSettingsDefault.Zone;
+
+		while (arg.length < PreferenceArousalSettingsDefault.Zone.length)
+			arg = arg + PreferenceArousalZoneToChar(PreferenceArousalZoneDefault.Factor, PreferenceArousalZoneDefault.Orgasm);
+		if (arg.length > PreferenceArousalSettingsDefault.Zone.length)
+			arg = arg.substring(0, PreferenceArousalSettingsDefault.Zone.length);
+		return arg;
 	},
 	Fetish: (arg, C) => {
-		let F = (typeof arg === "string" && arg != null) ? arg : PreferenceArousalFetishDefaultCompressedString;
-		while (F.length < PreferenceArousalFetishDefaultCompressedString.length)
-			F = F + PreferenceArousalFactorToChar();
-		return F;
+		if (PreferenceArousalSettingsDefault.Fetish === "") {
+			PreferenceArousalUpdateValidation();
+		}
+		if (CommonIsArray(arg)) {
+			// Old object-based fetishes
+			let newFetish = PreferenceArousalSettingsDefault.Fetish;
+			const objectFetishSettings = /** @type {{ Name: FetishName, Factor: ArousalFactor }[]} */ (/** @type {unknown} */ (arg));
+			for (let oldFetish of objectFetishSettings) {
+				if (!CommonIsObject(oldFetish) || typeof oldFetish.Name !== "string" || typeof oldFetish.Factor !== "number") continue;
+
+				const fetish = AssetGetFetish(C.AssetFamily, oldFetish.Name);
+				if (!fetish) continue;
+
+				newFetish = newFetish.substring(0, fetish.FetishID) + PreferenceArousalFetishToChar(oldFetish.Factor) + newFetish.substring(fetish.FetishID + 1);
+			}
+			return newFetish;
+		}
+		if (typeof arg !== "string") return PreferenceArousalSettingsDefault.Fetish;
+
+		while (arg.length < PreferenceArousalSettingsDefault.Fetish.length)
+			arg = arg + PreferenceArousalFetishToChar(PreferenceArousalFetishDefault.Factor);
+		if (arg.length > PreferenceArousalSettingsDefault.Fetish.length)
+			arg = arg.substring(0, PreferenceArousalSettingsDefault.Fetish.length);
+		return arg;
 	},
 	OrgasmTimer: (arg, C) => {
 		return CommonIsFinite(arg, 0) ? arg : PreferenceArousalSettingsDefault.OrgasmTimer;
@@ -736,6 +753,7 @@ var PreferenceChatSettingsDefault = {
 	PreserveChat: true,
 	OOCAutoClose: true,
 	DisableReplies: false,
+	ShowFriendRequestMessages: true,
 };
 
 /**
@@ -744,31 +762,32 @@ var PreferenceChatSettingsDefault = {
  * @namespace
  */
 var PreferenceChatSettingsValidate = {
-	ColorActions: isBool(PreferenceChatSettingsDefault.ColorActions),
-	ColorActivities: isBool(PreferenceChatSettingsDefault.ColorActivities),
-	ColorEmotes: isBool(PreferenceChatSettingsDefault.ColorEmotes),
-	ColorNames: isBool(PreferenceChatSettingsDefault.ColorNames),
-	ColorTheme: isItem(PreferenceChatColorThemeList, PreferenceChatSettingsDefault.ColorTheme),
-	DisplayTimestamps: isBool(PreferenceChatSettingsDefault.DisplayTimestamps),
-	EnterLeave: isItem(PreferenceChatEnterLeaveList, PreferenceChatSettingsDefault.EnterLeave),
-	FontSize: isItem(PreferenceChatFontSizeList, PreferenceChatSettingsDefault.FontSize),
-	MemberNumbers: isItem(PreferenceChatMemberNumbersList, PreferenceChatSettingsDefault.MemberNumbers),
-	MuStylePoses: isBool(PreferenceChatSettingsDefault.MuStylePoses),
-	ShowActivities: isBool(PreferenceChatSettingsDefault.ShowActivities),
-	ShowAutomaticMessages: isBool(PreferenceChatSettingsDefault.ShowAutomaticMessages),
-	ShowBeepChat: isBool(PreferenceChatSettingsDefault.ShowBeepChat),
-	ShowChatHelp: isBool(PreferenceChatSettingsDefault.ShowChatHelp),
-	ShrinkNonDialogue: isBool(PreferenceChatSettingsDefault.ShrinkNonDialogue),
-	WhiteSpace: isItem(["", "Preserve"], PreferenceChatSettingsDefault.WhiteSpace),
+	ColorActions: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorActions),
+	ColorActivities: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorActivities),
+	ColorEmotes: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorEmotes),
+	ColorNames: ServerValidation.isBool(PreferenceChatSettingsDefault.ColorNames),
+	ColorTheme: ServerValidation.isItem(PreferenceChatColorThemeList, PreferenceChatSettingsDefault.ColorTheme),
+	DisplayTimestamps: ServerValidation.isBool(PreferenceChatSettingsDefault.DisplayTimestamps),
+	EnterLeave: ServerValidation.isItem(PreferenceChatEnterLeaveList, PreferenceChatSettingsDefault.EnterLeave),
+	FontSize: ServerValidation.isItem(PreferenceChatFontSizeList, PreferenceChatSettingsDefault.FontSize),
+	MemberNumbers: ServerValidation.isItem(PreferenceChatMemberNumbersList, PreferenceChatSettingsDefault.MemberNumbers),
+	MuStylePoses: ServerValidation.isBool(PreferenceChatSettingsDefault.MuStylePoses),
+	ShowActivities: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowActivities),
+	ShowAutomaticMessages: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowAutomaticMessages),
+	ShowBeepChat: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowBeepChat),
+	ShowChatHelp: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowChatHelp),
+	ShrinkNonDialogue: ServerValidation.isBool(PreferenceChatSettingsDefault.ShrinkNonDialogue),
+	WhiteSpace: ServerValidation.isItem(["", "Preserve"], PreferenceChatSettingsDefault.WhiteSpace),
 	CensoredWordsList: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceChatSettingsDefault.CensoredWordsList;
 	},
 	CensoredWordsLevel: (arg, C) => {
 		return CommonIsInteger(arg, 0, 2) ? arg : PreferenceChatSettingsDefault.CensoredWordsLevel;
 	},
-	PreserveChat: isBool(PreferenceChatSettingsDefault.PreserveChat),
-	OOCAutoClose: isBool(PreferenceChatSettingsDefault.OOCAutoClose),
-	DisableReplies: isBool(PreferenceChatSettingsDefault.DisableReplies),
+	PreserveChat: ServerValidation.isBool(PreferenceChatSettingsDefault.PreserveChat),
+	OOCAutoClose: ServerValidation.isBool(PreferenceChatSettingsDefault.OOCAutoClose),
+	DisableReplies: ServerValidation.isBool(PreferenceChatSettingsDefault.DisableReplies),
+	ShowFriendRequestMessages: ServerValidation.isBool(PreferenceChatSettingsDefault.ShowFriendRequestMessages),
 };
 
 /**
@@ -789,8 +808,8 @@ var PreferenceVisualSettingsDefault = {
  * @namespace
  */
 var PreferenceVisualSettingsValidate = {
-	ForceFullHeight: isBool(PreferenceVisualSettingsDefault.ForceFullHeight),
-	UseCharacterInPreviews: isBool(PreferenceVisualSettingsDefault.UseCharacterInPreviews),
+	ForceFullHeight: ServerValidation.isBool(PreferenceVisualSettingsDefault.ForceFullHeight),
+	UseCharacterInPreviews: ServerValidation.isBool(PreferenceVisualSettingsDefault.UseCharacterInPreviews),
 	MainHallBackground: (arg, C) => {
 		return typeof arg === "string" && arg.length && arg !== "MainHall" ? arg : PreferenceVisualSettingsDefault.MainHallBackground;
 	},
@@ -826,9 +845,9 @@ var PreferenceAudioSettingsValidate = {
 	MusicVolume: (arg) => {
 		return CommonIsFinite(arg, 0, 1) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
 	},
-	PlayItem: isBool(PreferenceAudioSettingsDefault.PlayItem),
-	PlayItemPlayerOnly: isBool(PreferenceAudioSettingsDefault.PlayItemPlayerOnly),
-	Notifications: isBool(PreferenceAudioSettingsDefault.Notifications),
+	PlayItem: ServerValidation.isBool(PreferenceAudioSettingsDefault.PlayItem),
+	PlayItemPlayerOnly: ServerValidation.isBool(PreferenceAudioSettingsDefault.PlayItemPlayerOnly),
+	Notifications: ServerValidation.isBool(PreferenceAudioSettingsDefault.Notifications),
 	// @ts-expect-error deprecated
 	PlayBeeps: (arg) => undefined,
 };
@@ -852,9 +871,9 @@ var PreferenceControllerSettingsDefault = {
  * @namespace
  */
 var PreferenceControllerSettingsValidate = {
-	ControllerActive: isBool(PreferenceControllerSettingsDefault.ControllerActive),
-	ControllerSensitivity: isItem(PreferenceSettingsSensitivityList, PreferenceControllerSettingsDefault.ControllerSensitivity),
-	ControllerDeadZone: isItem(PreferenceSettingsDeadZoneList, PreferenceControllerSettingsDefault.ControllerDeadZone),
+	ControllerActive: ServerValidation.isBool(PreferenceControllerSettingsDefault.ControllerActive),
+	ControllerSensitivity: ServerValidation.isItem(PreferenceSettingsSensitivityList, PreferenceControllerSettingsDefault.ControllerSensitivity),
+	ControllerDeadZone: ServerValidation.isItem(PreferenceSettingsDeadZoneList, PreferenceControllerSettingsDefault.ControllerDeadZone),
 	Buttons: (arg) => { return arg; },
 	Axis: (arg) => { return arg; },
 };
@@ -880,13 +899,13 @@ var PreferenceGameplaySettingsDefault = {
  * @namespace
  */
 var PreferenceGameplaySettingsValidate = {
-	SensDepChatLog: isItem(PreferenceSettingsSensDepList, PreferenceGameplaySettingsDefault.SensDepChatLog),
-	BlindDisableExamine: isBool(PreferenceGameplaySettingsDefault.BlindDisableExamine),
-	DisableAutoRemoveLogin: isBool(PreferenceGameplaySettingsDefault.DisableAutoRemoveLogin),
-	ImmersionLockSetting: isBool(PreferenceGameplaySettingsDefault.ImmersionLockSetting),
-	EnableSafeword: isBool(PreferenceGameplaySettingsDefault.EnableSafeword),
-	DisableAutoMaid: isBool(PreferenceGameplaySettingsDefault.DisableAutoMaid),
-	OfflineLockedRestrained: isBool(PreferenceGameplaySettingsDefault.OfflineLockedRestrained),
+	SensDepChatLog: ServerValidation.isItem(PreferenceSettingsSensDepList, PreferenceGameplaySettingsDefault.SensDepChatLog),
+	BlindDisableExamine: ServerValidation.isBool(PreferenceGameplaySettingsDefault.BlindDisableExamine),
+	DisableAutoRemoveLogin: ServerValidation.isBool(PreferenceGameplaySettingsDefault.DisableAutoRemoveLogin),
+	ImmersionLockSetting: ServerValidation.isBool(PreferenceGameplaySettingsDefault.ImmersionLockSetting),
+	EnableSafeword: ServerValidation.isBool(PreferenceGameplaySettingsDefault.EnableSafeword),
+	DisableAutoMaid: ServerValidation.isBool(PreferenceGameplaySettingsDefault.DisableAutoMaid),
+	OfflineLockedRestrained: ServerValidation.isBool(PreferenceGameplaySettingsDefault.OfflineLockedRestrained),
 };
 
 /**
@@ -914,15 +933,15 @@ var PreferenceImmersionSettingsDefault = {
  * @namespace
  */
 var PreferenceImmersionSettingsValidate = {
-	StimulationEvents: isBool(PreferenceImmersionSettingsDefault.StimulationEvents),
-	ReturnToChatRoom: isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoom),
-	ReturnToChatRoomAdmin: isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoomAdmin),
-	ChatRoomMapLeaveOnExit: isBool(PreferenceImmersionSettingsDefault.ChatRoomMapLeaveOnExit),
-	SenseDepMessages: isBool(PreferenceImmersionSettingsDefault.SenseDepMessages),
-	ChatRoomMuffle: isBool(PreferenceImmersionSettingsDefault.ChatRoomMuffle),
-	BlindAdjacent: isBool(PreferenceImmersionSettingsDefault.BlindAdjacent),
-	AllowTints: isBool(PreferenceImmersionSettingsDefault.AllowTints),
-	ShowUngarbledMessages: isBool(PreferenceImmersionSettingsDefault.ShowUngarbledMessages),
+	StimulationEvents: ServerValidation.isBool(PreferenceImmersionSettingsDefault.StimulationEvents),
+	ReturnToChatRoom: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoom),
+	ReturnToChatRoomAdmin: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoomAdmin),
+	ChatRoomMapLeaveOnExit: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ChatRoomMapLeaveOnExit),
+	SenseDepMessages: ServerValidation.isBool(PreferenceImmersionSettingsDefault.SenseDepMessages),
+	ChatRoomMuffle: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ChatRoomMuffle),
+	BlindAdjacent: ServerValidation.isBool(PreferenceImmersionSettingsDefault.BlindAdjacent),
+	AllowTints: ServerValidation.isBool(PreferenceImmersionSettingsDefault.AllowTints),
+	ShowUngarbledMessages: ServerValidation.isBool(PreferenceImmersionSettingsDefault.ShowUngarbledMessages),
 	// @ts-expect-error deprecated
 	BlockGaggedOOC: (arg) => undefined,
 };
@@ -945,10 +964,10 @@ var PreferenceRestrictionSettingsDefault = {
  * @namespace
  */
 var PreferenceRestrictionSettingsValidate = {
-	BypassStruggle: isBool(PreferenceRestrictionSettingsDefault.BypassStruggle),
-	SlowImmunity: isBool(PreferenceRestrictionSettingsDefault.SlowImmunity),
-	BypassNPCPunishments: isBool(PreferenceRestrictionSettingsDefault.BypassNPCPunishments),
-	NoSpeechGarble: isBool(PreferenceRestrictionSettingsDefault.NoSpeechGarble),
+	BypassStruggle: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.BypassStruggle),
+	SlowImmunity: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.SlowImmunity),
+	BypassNPCPunishments: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.BypassNPCPunishments),
+	NoSpeechGarble: ServerValidation.isBool(PreferenceRestrictionSettingsDefault.NoSpeechGarble),
 };
 
 /**
@@ -977,15 +996,15 @@ var PreferenceOnlineSettingsDefault = {
  * @namespace
  */
 var PreferenceOnlineSettingsValidate = {
-	AutoBanBlackList: isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
-	AutoBanGhostList: isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
-	DisableAnimations: isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
-	SearchFriendsFirst: isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
-	EnableAfkTimer: isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
-	ShowStatus: isBool(PreferenceOnlineSettingsDefault.ShowStatus),
-	SendStatus: isBool(PreferenceOnlineSettingsDefault.SendStatus),
-	FriendListAutoRefresh: isBool(PreferenceOnlineSettingsDefault.FriendListAutoRefresh),
-	ShowRoomCustomization: isInt(0, 4, PreferenceOnlineSettingsDefault.ShowRoomCustomization),
+	AutoBanBlackList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
+	AutoBanGhostList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
+	DisableAnimations: ServerValidation.isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
+	SearchFriendsFirst: ServerValidation.isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
+	EnableAfkTimer: ServerValidation.isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
+	ShowStatus: ServerValidation.isBool(PreferenceOnlineSettingsDefault.ShowStatus),
+	SendStatus: ServerValidation.isBool(PreferenceOnlineSettingsDefault.SendStatus),
+	FriendListAutoRefresh: ServerValidation.isBool(PreferenceOnlineSettingsDefault.FriendListAutoRefresh),
+	ShowRoomCustomization: ServerValidation.isInt(0, 4, PreferenceOnlineSettingsDefault.ShowRoomCustomization),
 	DefaultChatRoomBackground: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceOnlineSettingsDefault.DefaultChatRoomBackground;
 	},
@@ -1018,17 +1037,17 @@ var PreferenceGraphicsSettingsDefault = {
  * @namespace
  */
 var PreferenceGraphicsSettingsValidate = {
-	Font: isItem(PreferenceGraphicsFontList, PreferenceGraphicsSettingsDefault.Font),
-	InvertRoom: isBool(PreferenceGraphicsSettingsDefault.InvertRoom),
-	StimulationFlash: isBool(PreferenceGraphicsSettingsDefault.StimulationFlash),
-	DoBlindFlash: isBool(PreferenceGraphicsSettingsDefault.DoBlindFlash),
-	AnimationQuality: isItem(PreferenceGraphicsAnimationQualityList, PreferenceGraphicsSettingsDefault.AnimationQuality),
-	SmoothZoom: isBool(PreferenceGraphicsSettingsDefault.SmoothZoom),
-	CenterChatrooms: isBool(PreferenceGraphicsSettingsDefault.CenterChatrooms),
-	AllowBlur: isBool(PreferenceGraphicsSettingsDefault.AllowBlur),
-	MaxFPS: isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxFPS),
-	MaxUnfocusedFPS: isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxUnfocusedFPS),
-	ShowFPS: isBool(PreferenceGraphicsSettingsDefault.ShowFPS),
+	Font: ServerValidation.isItem(PreferenceGraphicsFontList, PreferenceGraphicsSettingsDefault.Font),
+	InvertRoom: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.InvertRoom),
+	StimulationFlash: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.StimulationFlash),
+	DoBlindFlash: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.DoBlindFlash),
+	AnimationQuality: ServerValidation.isItem(PreferenceGraphicsAnimationQualityList, PreferenceGraphicsSettingsDefault.AnimationQuality),
+	SmoothZoom: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.SmoothZoom),
+	CenterChatrooms: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.CenterChatrooms),
+	AllowBlur: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.AllowBlur),
+	MaxFPS: ServerValidation.isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxFPS),
+	MaxUnfocusedFPS: ServerValidation.isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxUnfocusedFPS),
+	ShowFPS: ServerValidation.isBool(PreferenceGraphicsSettingsDefault.ShowFPS),
 };
 
 /**
@@ -1064,21 +1083,6 @@ var PreferenceGenderSettingsValidate = {
 	HideTitles: hasSameShape(PreferenceGenderSettingsDefault.HideTitles),
 };
 
-
-/**
- * Private helper to quick check notification settings
- * @param {NotificationSetting} defaultNotif
- * @returns {(arg: NotificationSetting) => NotificationSetting}
- */
-const isValidNotification = (defaultNotif) => {
-	return (arg) => {
-		return {
-			Audio: /** @type {NotificationAudioType} */ (isInt(0, 2, defaultNotif.Audio)(arg.Audio)),
-			AlertType: /** @type {NotificationAlertType} */  (isInt(0, 3, defaultNotif.AlertType)(arg.AlertType)),
-		};
-	};
-};
-
 /**
  * Namespace with default values for {@link NotificationSettingsType} properties.
  * @type {Required<NotificationSettingsType>}
@@ -1104,28 +1108,28 @@ var PreferenceNotificationSettingsDefault = {
  * @namespace
  */
 var PreferenceNotificationSettingsValidate = {
-	Beeps: isValidNotification(PreferenceNotificationSettingsDefault.Beeps),
+	Beeps: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Beeps),
 	ChatMessage: (arg) => {
 		return {
-			...isValidNotification(PreferenceNotificationSettingsDefault.ChatMessage)(arg),
-			Normal: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg.Normal),
-			Whisper: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg.Whisper),
-			Activity: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg.Activity),
-			Mention: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg.Mention),
+			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatMessage)(arg),
+			Normal: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg.Normal),
+			Whisper: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg.Whisper),
+			Activity: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg.Activity),
+			Mention: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg.Mention),
 		};
 	},
 	ChatJoin: (arg) => {
 		return {
-			...isValidNotification(PreferenceNotificationSettingsDefault.ChatJoin)(arg),
-			Owner: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg.Owner),
-			Lovers: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg.Lovers),
-			Friendlist: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg.Friendlist),
-			Subs: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg.Subs),
+			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatJoin)(arg),
+			Owner: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg.Owner),
+			Lovers: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg.Lovers),
+			Friendlist: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg.Friendlist),
+			Subs: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg.Subs),
 		};
 	},
-	Disconnect: isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
-	Larp: isValidNotification(PreferenceNotificationSettingsDefault.Larp),
-	Test: isValidNotification(PreferenceNotificationSettingsDefault.Test),
+	Disconnect: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
+	Larp: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Larp),
+	Test: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Test),
 	Audio: () => undefined,
 	Chat: () => undefined,
 	ChatActions: () => undefined,
@@ -1162,159 +1166,6 @@ function PreferenceRegisterExtensionSetting(Setting) {
 				return textA.localeCompare(textB);
 			})
 	);
-}
-
-/**
- * Validates the character arousal object and converts it's objects to compressed string if needed
- * @param {Character} C - The character to check
- * @returns {void} - Nothing
- */
-function PreferenceValidateArousalData(C) {
-
-	// Nothing to do without data
-	if ((C == null) || (C.ArousalSettings == null)) return;
-	let MustUpdate = false;
-
-	// Converts from an array of objects to a string
-	if ((C.ArousalSettings.Activity != null) && CommonIsArray(C.ArousalSettings.Activity)) {
-
-		// For all asset group where we save/sync arousal
-		let NewActivity = "";
-		for (let Activity of ActivityFemale3DCG) {
-
-			// Check if the activity was already setup previously as an object, then convert to the char
-			let Found = false;
-			for (let A of C.ArousalSettings.Activity) {
-				/** @type {object} */
-				let OldActivity = A;
-				if ((typeof OldActivity === "object") && (OldActivity.Name != null) && (typeof OldActivity.Name === "string") && (OldActivity.Name === Activity.Name) && (OldActivity.Self != null) && (typeof OldActivity.Self === "number") && (OldActivity.Other != null) && (typeof OldActivity.Other === "number")) {
-					NewActivity = NewActivity + PreferenceArousalTwoFactorToChar(OldActivity.Self, OldActivity.Other);
-					Found = true;
-					break;
-				}
-			}
-
-			// If it wasn't found, we create the char for it
-			if (!Found) NewActivity = NewActivity + PreferenceArousalTwoFactorToChar();
-
-		}
-
-		// Assigns the new activity string
-		C.ArousalSettings.Activity = NewActivity;
-		MustUpdate = true;
-
-	}
-
-	// If the activities are not a string, we rebuild it from scratch
-	if ((C.ArousalSettings.Activity != null) && (typeof C.ArousalSettings.Activity !== "string")) {
-		C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
-		MustUpdate = true;
-	}
-
-	// If the length of the activity isn't accurate, we fix it
-	if ((C.ArousalSettings.Activity != null) && (typeof C.ArousalSettings.Activity === "string") && (C.ArousalSettings.Activity.length != PreferenceArousalActivityDefaultCompressedString.length)) {
-		while (C.ArousalSettings.Activity.length < PreferenceArousalActivityDefaultCompressedString.length)
-			C.ArousalSettings.Activity = C.ArousalSettings.Activity + PreferenceArousalTwoFactorToChar();
-		if (C.ArousalSettings.Activity.length > PreferenceArousalActivityDefaultCompressedString.length)
-			C.ArousalSettings.Activity = C.ArousalSettings.Activity.substring(0, PreferenceArousalActivityDefaultCompressedString.length);
-		MustUpdate = true;
-	}
-
-	// Converts from an array of objects to a string
-	if ((C.ArousalSettings.Fetish != null) && CommonIsArray(C.ArousalSettings.Fetish)) {
-
-		// For all asset group where we save/sync arousal
-		let NewFetish = "";
-		for (let Fetish of FetishFemale3DCG) {
-
-			// Check if the fetish was already setup previously as an object, then convert to the char
-			let Found = false;
-			for (let F of C.ArousalSettings.Fetish) {
-				/** @type {object} */
-				let OldFetish = F;
-				if ((typeof OldFetish === "object") && (OldFetish.Name != null) && (typeof OldFetish.Name === "string") && (OldFetish.Name === Fetish.Name) && (OldFetish.Factor != null) && (typeof OldFetish.Factor === "number")) {
-					NewFetish = NewFetish + PreferenceArousalFactorToChar(OldFetish.Factor);
-					Found = true;
-					break;
-				}
-			}
-
-			// If it wasn't found, we create the char for it
-			if (!Found) NewFetish = NewFetish + PreferenceArousalFactorToChar();
-
-		}
-
-		// Assigns the new fetish string
-		C.ArousalSettings.Fetish = NewFetish;
-		MustUpdate = true;
-
-	}
-
-	// If the fetishes are not a string, we rebuild it from scratch
-	if ((C.ArousalSettings.Fetish != null) && (typeof C.ArousalSettings.Fetish !== "string")) {
-		C.ArousalSettings.Fetish = PreferenceArousalFetishDefaultCompressedString;
-		MustUpdate = true;
-	}
-
-	// If the length of the fetish isn't accurate, we fix it
-	if ((C.ArousalSettings.Fetish != null) && (typeof C.ArousalSettings.Fetish === "string") && (C.ArousalSettings.Fetish.length != PreferenceArousalFetishDefaultCompressedString.length)) {
-		while (C.ArousalSettings.Fetish.length < PreferenceArousalFetishDefaultCompressedString.length)
-			C.ArousalSettings.Fetish = C.ArousalSettings.Fetish + PreferenceArousalFactorToChar();
-		if (C.ArousalSettings.Fetish.length > PreferenceArousalFetishDefaultCompressedString.length)
-			C.ArousalSettings.Fetish = C.ArousalSettings.Fetish.substring(0, PreferenceArousalFetishDefaultCompressedString.length);
-		MustUpdate = true;
-	}
-
-	// Converts from an array of objects to a string
-	if ((C.ArousalSettings.Zone != null) && CommonIsArray(C.ArousalSettings.Zone)) {
-
-		// For all asset group where we save/sync arousal
-		let NewZone = "";
-		for (let Group of AssetGroup)
-			if (Group.ArousalZoneID != null) {
-
-				// Check if the zone was already setup previously as an object, then convert to the char
-				let Found = false;
-				for (let Z of C.ArousalSettings.Zone) {
-					/** @type {object} */
-					let Zone = Z;
-					if ((typeof Zone === "object") && (Zone.Name != null) && (typeof Zone.Name === "string") && (Zone.Name === Group.Name) && (Zone.Factor != null) && (typeof Zone.Factor === "number") && (Zone.Orgasm != null) && (typeof Zone.Orgasm === "boolean")) {
-						NewZone = NewZone + PreferenceArousalFactorToChar(Zone.Factor, Zone.Orgasm);
-						Found = true;
-						break;
-					}
-				}
-
-				// If it wasn't found, we create the char for it
-				if (!Found) NewZone = NewZone + PreferenceArousalFactorToChar();
-
-			}
-
-		// Assigns the new zone string
-		C.ArousalSettings.Zone = NewZone;
-		MustUpdate = true;
-
-	}
-
-	// If the zones are not a string, we rebuild it from scratch
-	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone !== "string")) {
-		C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
-		MustUpdate = true;
-	}
-
-	// If the length of the zone isn't accurate, we fix it
-	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone === "string") && (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) {
-		while (C.ArousalSettings.Zone.length < PreferenceArousalZoneDefaultCompressedString.length)
-			C.ArousalSettings.Zone = C.ArousalSettings.Zone + PreferenceArousalFactorToChar(2, false);
-		if (C.ArousalSettings.Zone.length > PreferenceArousalZoneDefaultCompressedString.length)
-			C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, PreferenceArousalZoneDefaultCompressedString.length);
-		MustUpdate = true;
-	}
-
-	// If we must update the server with the updated data
-	if (MustUpdate)
-		ServerAccountUpdate.QueueData({ ArousalSettings: Player.ArousalSettings });
-
 }
 
 /**

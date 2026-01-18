@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var MainHallBackground = "MainHall";
 /** @type {null | number} */

@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 var InventoryItemMiscHighSecurityPadlockPlayerCanUnlock = true;
@@ -143,7 +144,7 @@ function InventoryItemMiscHighSecurityPadlockClickHook(data, originalFunction) {
 					CommonConvertArrayToString(list); // Convert to array and back; can only save strings on server
 				ElementValue("MemberNumberList", DialogFocusSourceItem.Property.MemberNumberListKeys);
 
-				if (CurrentScreen == "ChatRoom") {
+				if (ServerPlayerIsInChatRoom()) {
 					const Dictionary = new DictionaryBuilder()
 						.sourceCharacter(Player)
 						.destinationCharacter(C)

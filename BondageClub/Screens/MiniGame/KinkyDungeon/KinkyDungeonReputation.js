@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 const KDANGER = -19;

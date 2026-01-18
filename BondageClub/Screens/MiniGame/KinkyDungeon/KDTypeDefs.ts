@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 type Named = {
 	name: string,
 }
@@ -426,7 +427,7 @@ interface restraint extends KDRestraintProps {
 	weight: number,
 	minLevel: number,
 
-	Color: string[] | string,
+	Color?: string[] | string,
 
 	escapeChance: any,
 
@@ -2195,3 +2196,26 @@ declare function UpdateModels(m: Character);
 declare function KDGetAvailablePosesArms(m: Model);
 declare function KDGetAvailablePosesLegs(m: Model);
 declare function suppressCanvasUpdate(cb: () => void);
+
+interface outfit {
+	name: string;
+	dress: string;
+	shop: boolean;
+	rarity: number;
+	events?: { trigger:string, type: string, power: number, requiredTag?: string }[];
+}
+
+interface KDSetPieceType {
+	Name: string;
+	tags: string[];
+	Radius: number;
+	Max?: number;
+	Prereqs?: string[];
+	xPad?: number;
+	xPadEnd?: number;
+	yPad?: number;
+	yPadEnd?: number;
+	noPOI?: boolean;
+}
+
+interface KDOpenClosedSet { x: number; y: number; g: number; f: number; s: string }

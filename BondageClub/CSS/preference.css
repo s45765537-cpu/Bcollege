@@ -1,14 +1,14 @@
 #preference-subscreen *,
 #preference-subscreen-header *,
 #preference-subscreen-hgroup *,
-#preference-subscreen-main * {
+#preference-subscreen .screen-main-container * {
   pointer-events: auto;
 }
 
 #preference-subscreen,
 #preference-subscreen-header,
 #preference-subscreen-hgroup,
-#preference-subscreen-main,
+#preference-subscreen .screen-main-container,
 #preference-subscreen .button > * {
   pointer-events: none;
 }
@@ -203,3 +203,40 @@
 }
 
 /* #endregion Extensions */
+
+/* #region General */
+
+#preference-general-grid {
+	padding-top: var(--gap);
+}
+
+label:has(#InputCharacterLabelColor) {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--gap);
+	width: fit-content;
+}
+
+#InputCharacterLabelColor {
+	width: min(20vh, 10vw);
+	width: min(20dvh, 10dvw);
+}
+
+#preference-general-color-picker-toggle {
+	width: min(6vh, 3vw);
+	width: min(6dvh, 3dvw);
+	height: min(6vh, 3vw);
+	height: min(6dvh, 3dvw);
+}
+
+#AllowedInteractions-dropdown-container {
+  grid-template-columns: max-content max-content;
+}
+
+#preference-general-hardcore-warning {
+	color: red;
+	margin-top: var(--gap);
+}
+
+/* #endregion General */

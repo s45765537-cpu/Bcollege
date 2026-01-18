@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var GameMagicBattleBackground = "Sheet";
 var GameMagicBattleTimerDelay = 30;
@@ -538,7 +539,7 @@ function GameMagicBattleLoadStatus() {
  */
 function GameMagicBattleDrawCharacter(C, X, Y, Zoom) {
 	// Magic battle draws the timer and the spell buttons
-	if ((CurrentModule == "Online") && (CurrentScreen == "ChatRoom")) {
+	if (ServerPlayerIsInChatRoom()) {
 		GameMagicBattleDrawIcon(C, X + 70 * Zoom, Y + 800 * Zoom, 0.6 * Zoom);
 		if (Player.CanTalk() && (GameMagicBattleGetStatus() == "Running")) {
 			if (C.MemberNumber == Player.MemberNumber) {

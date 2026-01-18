@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /**
@@ -40,26 +41,15 @@ function PreferenceArousalAtLeast(C, Level) {
  * @returns {ArousalFactor} - Returns the love factor of the activity for the character (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceGetActivityFactor(C, Type, Self) {
-
-	// No valid data means no special factor
-	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Activity == null) || (typeof C.ArousalSettings.Activity !== "string")) return 2;
-
-	// Finds the ID of the activity specified
-	let ID = -1;
-	for (let A of ActivityFemale3DCG)
-		if (A.Name === Type) {
-			ID = A.ActivityID;
-			break;
-		}
-	if (ID == -1) return 2;
+	const activity = AssetGetActivity(C.AssetFamily, Type);
+	if (!activity || !CommonIsNonNegativeInteger(activity.ActivityID)) return 0;
 
 	// Gets the value and make sure it's valid
-	let Value = C.ArousalSettings.Activity.charCodeAt(ID) - 100;
+	let Value = C.ArousalSettings.Activity.charCodeAt(activity.ActivityID) - 100;
 	if (Self) Value = Value % 10;
 	else Value = Math.floor(Value / 10);
-	// @ts-ignore
-	return ((Value >= 0) && (Value <= 4)) ? Value : 2;
 
+	return /** @type {ArousalFactor} */ (Value >= 0 && Value <= 4 ? Value : 2);
 }
 
 /**
@@ -70,32 +60,24 @@ function PreferenceGetActivityFactor(C, Type, Self) {
  * @param {ArousalFactor} Factor - The factor of the sexual activity (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceSetActivityFactor(C, Type, Self, Factor) {
-
 	// Make sure the Activity data is valid
 	if ((typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) return;
-	if (!CommonIsObject(C.ArousalSettings)) return;
-	if (!C.ArousalSettings || typeof C.ArousalSettings?.Activity !== "string") C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
-	while ((C.ArousalSettings.Activity.length < PreferenceArousalActivityDefaultCompressedString.length))
-		C.ArousalSettings.Activity = C.ArousalSettings.Activity + PreferenceArousalTwoFactorToChar();
 
-	// Finds the ID of the Activity specified
-	let ID = -1;
-	for (let F of ActivityFemale3DCG)
-		if (F.Name === Type) {
-			ID = F.ActivityID;
-			break;
-		}
-	if (ID == -1) return;
+	const activity = AssetGetActivity(C.AssetFamily, Type);
+	if (!activity || !CommonIsNonNegativeInteger(activity.ActivityID)) return;
 
 	// Gets and sets the factors
 	let SelfFactor = PreferenceGetActivityFactor(C, Type, true);
 	let OtherFactor = PreferenceGetActivityFactor(C, Type, false);
-	if (Self) SelfFactor = Factor;
-	else OtherFactor = Factor;
+	if (Self) {
+		SelfFactor = Factor;
+	} else {
+		OtherFactor = Factor;
+	}
 
-	// Sets the Fetish in the compressed string
-	C.ArousalSettings.Activity = C.ArousalSettings.Activity.substring(0, ID) + PreferenceArousalTwoFactorToChar(SelfFactor, OtherFactor) + C.ArousalSettings.Activity.substring(ID + 1);
-
+	const val = PreferenceArousalActivityToChar(SelfFactor, OtherFactor);
+	const def = PreferenceArousalActivityToChar(PreferenceActivityEnjoymentDefault.Self, PreferenceActivityEnjoymentDefault.Other);
+	C.ArousalSettings.Activity = CommonStringSplice(C.ArousalSettings.Activity, activity.ActivityID, val, def);
 }
 
 /**
@@ -105,24 +87,13 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
  * @returns {ArousalFactor} - Returns the love factor of the fetish for the character (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceGetFetishFactor(C, Type) {
-
-	// No valid data means no fetish
-	if (typeof C.ArousalSettings?.Fetish !== "string") return 2;
-
 	// Finds the ID of the fetish specified
-	let ID = -1;
-	for (let F of FetishFemale3DCG)
-		if (F.Name === Type) {
-			ID = F.FetishID;
-			break;
-		}
-	if (ID == -1) return 2;
+	const fetish = AssetGetFetish(C.AssetFamily, Type);
+	if (!fetish || !CommonIsNonNegativeInteger(fetish.FetishID)) return 0;
 
 	// If value is between 0 and 4, we return it
-	let Value = C.ArousalSettings.Fetish.charCodeAt(ID) - 100;
-	// @ts-ignore
-	return ((Value >= 0) && (Value <= 4)) ? Value : 2;
-
+	let Value = C.ArousalSettings.Fetish.charCodeAt(fetish.FetishID) - 100;
+	return /** @type {ArousalFactor} */ (Value >= 0 && Value <= 4 ? Value : 2);
 }
 
 /**
@@ -133,49 +104,49 @@ function PreferenceGetFetishFactor(C, Type) {
  * @returns {void} - Nothing
  */
 function PreferenceSetFetishFactor(C, Type, Factor) {
-
 	// Make sure the fetish data is valid
 	if ((typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) return;
-	if ((C == null) || (C.ArousalSettings == null)) return;
-	if ((C.ArousalSettings.Fetish == null) || (typeof C.ArousalSettings.Fetish !== "string")) C.ArousalSettings.Fetish = PreferenceArousalFetishDefaultCompressedString;
-	while ((C.ArousalSettings.Fetish.length < PreferenceArousalFetishDefaultCompressedString.length))
-		C.ArousalSettings.Fetish = C.ArousalSettings.Fetish + PreferenceArousalFactorToChar();
 
-	// Finds the ID of the fetish specified
-	let ID = -1;
-	for (let F of FetishFemale3DCG)
-		if (F.Name === Type) {
-			ID = F.FetishID;
-			break;
-		}
-	if (ID == -1) return;
+	const fetish = AssetGetFetish(C.AssetFamily, Type);
+	if (!fetish || !CommonIsNonNegativeInteger(fetish.FetishID)) return;
 
 	// Sets the Fetish in the compressed string
-	C.ArousalSettings.Fetish = C.ArousalSettings.Fetish.substring(0, ID) + PreferenceArousalFactorToChar(Factor) + C.ArousalSettings.Fetish.substring(ID + 1);
-
+	const val = PreferenceArousalFetishToChar(Factor);
+	const def = PreferenceArousalFetishToChar(PreferenceArousalFetishDefault.Factor);
+	C.ArousalSettings.Fetish = CommonStringSplice(C.ArousalSettings.Fetish, fetish.FetishID, val, def);
 }
 
 /**
  * Validates the character arousal object and converts it's objects to compressed string if needed
- * @param {number} Factor - The factor of enjoyability from 0 (turn off) to 4 (very high)
- * @param {boolean} Orgasm - Whether the zone can give an orgasm
+ * @param {ArousalFactor} factor - The factor of enjoyability from 0 (turn off) to 4 (very high)
+ * @param {boolean} allowOrgasm - Whether the zone can give an orgasm
  * @returns {string} - A string of 1 char that represents the compressed zone
  */
-function PreferenceArousalFactorToChar(Factor = 2, Orgasm = false) {
-	if ((Factor < 0) || (Factor > 4)) Factor = 2;
-	return String.fromCharCode(100 + Factor + (Orgasm ? 10 : 0));
+function PreferenceArousalZoneToChar(factor, allowOrgasm) {
+	if ((factor < 0) || (factor > 4)) factor = 2;
+	return String.fromCharCode(100 + factor + (allowOrgasm ? 10 : 0));
+}
+
+/**
+ * Turn a fetish factor value into its serialized character representation
+ * @param {ArousalFactor} factor - The factor of enjoyability from 0 (turn off) to 4 (very high)
+ * @returns {string} - A string of 1 char that represents the compressed zone
+ */
+function PreferenceArousalFetishToChar(factor) {
+	if ((factor < 0) || (factor > 4)) factor = 2;
+	return String.fromCharCode(100 + factor);
 }
 
 /**
  * Validates the character arousal object and converts it's objects to compressed string if needed
- * @param {number} Factor1 - The first factor of enjoyability from 0 (turn off) to 4 (very high)
- * @param {number} Factor2 - The second factor of enjoyability from 0 (turn off) to 4 (very high)
+ * @param {number} selfFactor - The first factor of enjoyability from 0 (turn off) to 4 (very high)
+ * @param {number} otherFactor - The second factor of enjoyability from 0 (turn off) to 4 (very high)
  * @returns {string} - A string of 1 char that represents the compressed zone
  */
-function PreferenceArousalTwoFactorToChar(Factor1 = 2, Factor2 = 2) {
-	if ((Factor1 < 0) || (Factor1 > 4)) Factor1 = 2;
-	if ((Factor2 < 0) || (Factor2 > 4)) Factor2 = 2;
-	return String.fromCharCode(100 + Factor1 + (Factor2 * 10));
+function PreferenceArousalActivityToChar(selfFactor, otherFactor) {
+	if ((selfFactor < 0) || (selfFactor > 4)) selfFactor = 2;
+	if ((otherFactor < 0) || (otherFactor > 4)) otherFactor = 2;
+	return String.fromCharCode(100 + selfFactor + (otherFactor * 10));
 }
 
 /**
@@ -187,10 +158,6 @@ function PreferenceArousalTwoFactorToChar(Factor1 = 2, Factor2 = 2) {
  * or null if a corresponding zone definition could not be found.
  */
 function PreferenceGetArousalZone(C, ZoneName) {
-
-	// Make sure the data is valid
-	if (typeof C.ArousalSettings?.Zone !== "string") return null;
-
 	// Finds the asset group and make sure the string contains it
 	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
 	if (!Group || !CommonIsNonNegativeInteger(Group.ArousalZoneID) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return null;
@@ -212,8 +179,7 @@ function PreferenceGetArousalZone(C, ZoneName) {
  */
 function PreferenceGetZoneFactor(C, ZoneName) {
 	const Zone = PreferenceGetArousalZone(C, ZoneName);
-	/** @type {ArousalFactor} */
-	if (!Zone) return 2;
+	if (!Zone) return 0;
 	return Zone.Factor;
 }
 
@@ -226,20 +192,11 @@ function PreferenceGetZoneFactor(C, ZoneName) {
  * @returns {void} - Nothing
  */
 function PreferenceSetArousalZone(C, ZoneName, Factor = null, CanOrgasm = null) {
-	// Nothing to do if data is invalid
-	if (typeof C.ArousalSettings?.Zone !== "string") return;
-
-	// Finds the asset group and make sure the string contains it
-	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	if (!Group || !CommonIsNonNegativeInteger(Group.ArousalZoneID) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return;
-
 	// Gets the zone object
 	let Zone = PreferenceGetArousalZone(C, ZoneName);
-	Zone ??= {
-		Name: ZoneName,
-		Factor: 2,
-		Orgasm: false
-	};
+	if (!Zone) return;
+
+	const Group = AssetGroupGet(C.AssetFamily, ZoneName);
 
 	if (typeof Factor === "number") {
 		Zone.Factor = Factor;
@@ -249,7 +206,9 @@ function PreferenceSetArousalZone(C, ZoneName, Factor = null, CanOrgasm = null) 
 	}
 
 	// Creates the new char and slides it in the compressed string
-	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalFactorToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
+	const val = PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm);
+	const def = PreferenceArousalZoneToChar(PreferenceArousalZoneDefault.Factor, PreferenceArousalZoneDefault.Orgasm);
+	C.ArousalSettings.Zone = CommonStringSplice(C.ArousalSettings.Zone, Group.ArousalZoneID, val, def);
 }
 
 /**
@@ -335,7 +294,6 @@ function PreferenceInitPlayer(C, data) {
 
 	C.LabelColor = CommonIsColor(data.LabelColor) ? data.LabelColor ?? "" : "#ffffff";
 	C.AllowedInteractions = data.AllowedInteractions ?? data.ItemPermission ?? 2;
-
 
 	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);
 	C.AudioSettings = ValidationApplyRecord(data.AudioSettings, C, PreferenceAudioSettingsValidate);
@@ -512,9 +470,6 @@ function PreferenceInitPlayer(C, data) {
 
 	if (Object.keys(toUpdate).length > 0)
 		ServerAccountUpdate.QueueData(toUpdate);
-
-	PreferenceValidateArousalData(C);
-
 }
 
 /**

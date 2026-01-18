@@ -218,6 +218,35 @@ BodyMarkingsWombTattoosSelectViper,Apply
 BodyMarkingsWombTattoosSelectWaves,Apply
 BodyMarkingsWombTattoosSelectWingSmall,Apply
 BodyMarkingsWombTattoosSelectZoom,Apply
+BodyMarkingsWombTattoosSetBig,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetBloom,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetBottomSpike,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetFlash,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetFly,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetGrass,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetGrow,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetGrowHollow,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetHeartline,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetHeartSmall,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetHeartSmallOutline,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetHeartSolid,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetHeartWings,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetIn,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetLeaves,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetMidSpike,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetRibow,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetSense,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetShake,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetSideHearts,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetSwim,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetThorn,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetThornOut,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetTopSpike,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetVenom,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetViper,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetWaves,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetWingSmall,SourceCharacter changes DestinationCharacter womb tattoo.
+BodyMarkingsWombTattoosSetZoom,SourceCharacter changes DestinationCharacter womb tattoo.
 BodyMarkingsFaceScarsModule1,Forehead
 BodyMarkingsFaceScarsModule2,Left Lip
 BodyMarkingsFaceScarsModule3,Right Lip
@@ -817,6 +846,7 @@ ClothCustomTShirtOptiont6,Staff
 ClothCustomTShirtOptiont7,Elite
 ClothCustomTShirtOptiont8,Raiders
 ClothCustomTShirtOptiont9,White Moon
+ClothCustomTShirtOptiont25,Bunny Cropout
 ClothCustomTShirtSelectBase,T-shirt options:
 ClothCustomTShirtSelectShirt,Choose your T-shirt's positioning:
 ClothCustomTShirtSelectStamp,About stamp...
@@ -864,6 +894,35 @@ ClothHoodieSetHood,SourceCharacter adjusts the hood of DestinationCharacter hood
 ClothHoodieSetHood,SourceCharacter adjusts the length of DestinationCharacter hoodie.
 ClothHoodieSetp0,SourceCharacter takes DestinationCharacter hands out of the hoodie's pouch.
 ClothHoodieSetp1,SourceCharacter puts DestinationCharacter hands into the hoodie's pouch.
+TailStrapsFoxTailStrapSelect,Select tail position:
+TailStrapsFoxTailStrapTL,Top Left
+TailStrapsFoxTailStrapTR,Top Right
+TailStrapsFoxTailStrapBL,Bottom Left
+TailStrapsFoxTailStrapBR,Bottom Right
+TailStrapsWolfTailStrap3SelectBase,
+TailStrapsWolfTailStrap3SelectRotation,Select position:
+TailStrapsWolfTailStrap3SelectStyle,Select style:
+TailStrapsWolfTailStrap3Optionr0,Top Left
+TailStrapsWolfTailStrap3Optionr1,Top Right
+TailStrapsWolfTailStrap3Optionr2,Bottom Left
+TailStrapsWolfTailStrap3Optionr3,Bottom Right
+TailStrapsWolfTailStrap3Options0,Original Style
+TailStrapsWolfTailStrap3Options1,Flipped Styles
+TailStrapsWolfTailStrap3ModuleStyle,Style
+TailStrapsWolfTailStrap3ModuleRotation,Rotation
+TailStrapsRaccoonTailStrapSelect,Select position:
+TailStrapsRaccoonTailStrapTL,Top Left
+TailStrapsRaccoonTailStrapTR,Top Right
+TailStrapsRaccoonTailStrapBL,Bottom Left
+TailStrapsRaccoonTailStrapBR,Bottom Right
+TailStrapsKittenTailStrap1Select,Select position:
+TailStrapsKittenTailStrap1TL,Top Left
+TailStrapsKittenTailStrap1TR,Top Right
+TailStrapsKittenTailStrap2Select,Select position:
+TailStrapsKittenTailStrap2TL,Top Left
+TailStrapsKittenTailStrap2TR,Top Right
+TailStrapsKittenTailStrap2BL,Bottom Left
+TailStrapsKittenTailStrap2BR,Bottom Right
 ClothOuterJacketHoodieModuleHood,Hood
 ClothOuterJacketHoodieModuleSleeve,Sleeve
 ClothOuterJacketHoodieOptionh0,Hood Down
@@ -1018,8 +1077,7 @@ CupholderGagSetCup,SourceCharacter places a cup on DestinationCharacter cup hold
 CupholderGagSetNoCup,SourceCharacter removes the cup from DestinationCharacter cup holder gag.
 CupholderGagSetTip,SourceCharacter tips over the cup on DestinationCharacter cup holder gag.
 CushionTypeHold,Hold cushion
-CushionTypeKneel,Kneel on cushion
-CushionTypeKneelingSpread,Kneel spreads on cushion
+CushionTypeSit,Sit on cushion
 CustomTagText,Save text
 DecalsDenOfSin,Den of Sin
 Decrease,Decrease
@@ -1630,6 +1688,19 @@ HairAccessory1CustomizableFluffyEars1SelectSmallRing4,SmallRing 4
 HairAccessory1CustomizableFluffyEars1SelectBigRing1,BigRing 1
 HairAccessory1CustomizableFluffyEars1SelectBigRing2,BigRing 2
 HairAccessory1CustomizableFluffyEars1SelectTag,Tag
+HairAccessory1CustomizableFluffyEars1SetStud1,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetStud2,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetStud3,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetStud4,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetBar,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetBells,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetSmallRing1,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetSmallRing2,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetSmallRing3,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetSmallRing4,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetBigRing1,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetBigRing2,SourceCharacter changes DestinationCharacter ear accessory.
+HairAccessory1CustomizableFluffyEars1SetTag,SourceCharacter changes DestinationCharacter ear accessory.
 HairAccessory1CustomizableFluffyEars2ModuleStud1,Stud 1
 HairAccessory1CustomizableFluffyEars2ModuleStud2,Stud 2
 HairAccessory1CustomizableFluffyEars2ModuleStud3,Stud 3
@@ -3465,6 +3536,55 @@ ItemBreastFuturisticBraTempC,°C
 ItemBreastFuturisticBraTracking,Tracking Signal:
 ItemBreastFuturisticBraTrackingGood,Good
 ItemBreastWhip,(You clumsily whip your own breast and tummy.  It would be more painful if someone else did it.)
+ItemButtWolfTail3SelectBase,
+ItemButtWolfTail3SelectRotation,Select position:
+ItemButtWolfTail3SelectStyle,Select style:
+ItemButtWolfTail3Optionr0,Top Left
+ItemButtWolfTail3Optionr1,Top Right
+ItemButtWolfTail3Optionr2,Bottom Left
+ItemButtWolfTail3Optionr3,Bottom Right
+ItemButtWolfTail3Options0,Original Style
+ItemButtWolfTail3Options1,Flipped Styles
+ItemButtWolfTail3ModuleStyle,Style
+ItemButtWolfTail3ModuleRotation,Rotation
+ItemButtWolfTail3Setr0,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Setr1,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Setr2,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Setr3,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Sets0,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtWolfTail3Sets1,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail1Select,Select position:
+ItemButtKittenTail1TL,Top Left
+ItemButtKittenTail1TR,Top Right
+ItemButtKittenTail1SetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail1SetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2Select,Select position:
+ItemButtKittenTail2TL,Top Left
+ItemButtKittenTail2TR,Top Right
+ItemButtKittenTail2BL,Bottom Left
+ItemButtKittenTail2BR,Bottom Right
+ItemButtKittenTail2SetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2SetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2SetBL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail2SetBR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSelect,Select position:
+ItemButtRaccoonTailPlugTL,Top Left
+ItemButtRaccoonTailPlugTR,Top Right
+ItemButtRaccoonTailPlugBL,Bottom Left
+ItemButtRaccoonTailPlugBR,Bottom Right
+ItemButtRaccoonTailPlugSetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSetBL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtRaccoonTailPlugSetBR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSelect,Select tail position:
+ItemButtFoxTailTL,Top Left
+ItemButtFoxTailTR,Top Right
+ItemButtFoxTailBL,Bottom Left
+ItemButtFoxTailBR,Bottom Right
+ItemButtFoxTailSetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSetBL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtFoxTailSetBR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
 ItemButtAnalBeads2Select,Select the number of inserted beads
 ItemButtAnalBeads2Set1Decrease,SourceCharacter pulls a bead from DestinationCharacter butt
 ItemButtAnalBeads2Set1Increase,SourceCharacter inserts a bead in DestinationCharacter butt
@@ -3810,6 +3930,11 @@ ItemDevicesHighchairOptionc0,No Stains
 ItemDevicesHighchairSetc0,SourceCharacter removes DestinationCharacter stains
 ItemDevicesHighchairOptionc1,Stains
 ItemDevicesHighchairSetc1,DestinationCharacter makes food stains
+ItemDevicesPottySelectBase,Select an option
+ItemDevicesPottySelectText,Select text
+ItemDevicesPottyModuleText,Text
+ItemDevicesPottyOptione0,Text
+ItemDevicesPottySete0,SourceCharacter writes text on DestinationCharacter's potty.
 ItemFeetSteelAnkleCuffsChained,Chain Attached
 ItemFeetSteelAnkleCuffsClosed,Attached
 ItemFeetSteelAnkleCuffsNone,Detached
@@ -7810,6 +7935,12 @@ ItemHandheldPlushieOptionLatexLab10,Iris
 ItemHandheldPlushieSetLatexLab10,SourceCharacter places a cute Iris plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionLatexLab11,Kelsey
 ItemHandheldPlushieSetLatexLab11,SourceCharacter places a cute Kelsey plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionLatexLab12,Fae
+ItemHandheldPlushieSetLatexLab12,SourceCharacter places a cute Fae plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionLatexLab13,Maria
+ItemHandheldPlushieSetLatexLab13,SourceCharacter places a cute Maria plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionLatexLab14,Lyko
+ItemHandheldPlushieSetLatexLab14,SourceCharacter places a cute Lyko plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectVoidOrder,Void Order
 ItemHandheldPlushieModuleVoidOrder,Void Order
 ItemHandheldPlushieOptionVoidOrder0,None
@@ -7876,6 +8007,14 @@ ItemHandheldPlushieOptionEnsLivingRoom9,Arelia
 ItemHandheldPlushieSetEnsLivingRoom9,SourceCharacter places a cute Arelia plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionEnsLivingRoom10,Dawn
 ItemHandheldPlushieSetEnsLivingRoom10,SourceCharacter places a cute Dawn plushie in DestinationCharacter hands.
+ItemHandheldPlushieSelectDawnsDarlings,Dawn's Darlings
+ItemHandheldPlushieModuleDawnsDarlings,Dawn's Darlings
+ItemHandheldPlushieOptionDawnsDarlings0,None
+ItemHandheldPlushieSetDawnsDarlings0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionDawnsDarlings1,Kin
+ItemHandheldPlushieSetDawnsDarlings1,SourceCharacter places a cute Kin plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionDawnsDarlings2,Laura
+ItemHandheldPlushieSetDawnsDarlings2,SourceCharacter places a cute Laura plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectVagrants,Vagrants/Misc
 ItemHandheldPlushieModuleVagrants,Vagrants/Misc
 ItemHandheldPlushieOptionVagrants0,None
@@ -8499,3 +8638,14 @@ ItemNeckSteampunkCollarSetc0,SourceCharacter removes any mouth cover from Destin
 ItemNeckSteampunkCollarSetc1,SourceCharacter covers the DestinationCharacter mouth with a perforated leather device.
 ItemNeckSteampunkCollarSetc2,SourceCharacter covers the DestinationCharacter mouth with a spiked half-sphere metal object.
 ItemNeckSteampunkCollarSetc3,SourceCharacter covers the DestinationCharacter mouth with a rubber dildo device.
+SelectDollType,Select the doll type.
+MinidollsItemHandheldSetHaruhi,SourceCharacter places a charming Ruruplush in DestinationCharacter hands.
+MinidollsItemHandheldSetMina,SourceCharacter places an adorable Minadoll in DestinationCharacter hands.
+MinidollsItemHandheldSetLonely,SourceCharacter places a glossy Lonelytex in DestinationCharacter hands.
+MinidollsItemHandheldSetSalem,SourceCharacter places a cute Pootlem in DestinationCharacter hands.
+MinidollsItemHandheldSetNadine,SourceCharacter places a sexy Plushdine in DestinationCharacter hands.
+MinidollsItemHandheldTypeHaruhi,Haruhi
+MinidollsItemHandheldTypeMina,Mina
+MinidollsItemHandheldTypeLonely,Lonely
+MinidollsItemHandheldTypeSalem,Salem
+MinidollsItemHandheldTypeNadine,Nadine

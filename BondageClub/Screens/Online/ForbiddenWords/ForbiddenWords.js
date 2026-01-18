@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 var ForbiddenWordsBackground = "Sheet";
 /** @type {null | Character } */

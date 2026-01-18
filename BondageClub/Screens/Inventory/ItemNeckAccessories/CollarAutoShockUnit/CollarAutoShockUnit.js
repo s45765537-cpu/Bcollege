@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
@@ -70,7 +71,7 @@ function AssetsItemNeckAccessoriesCollarAutoShockUnitScriptDrawHook(data, origin
 		property.BlinkState = !wasBlinking;
 		const timeToNextRefresh = wasBlinking ? 4000 : 1000;
 
-		if (CurrentScreen == "ChatRoom" && drawData.C == Player) {
+		if (ServerPlayerIsInChatRoom() && drawData.C == Player) {
 			if (PropertyAutoPunishDetectSpeech(drawData.Item, persistentData.LastMessageLen)) {
 				PropertyShockPublishAction(drawData.C, drawData.Item, true);
 			}
