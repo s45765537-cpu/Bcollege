@@ -476,7 +476,7 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 
 	const layerPage = ItemColorLayerPages[colorGroup.name];
 	const protoLayers = colorGroup.name === null ? asset.Layer : (layerPage === 0 ? colorGroup.layers : [colorGroup.layers[layerPage - 1]]);
-	const layers = protoLayers.flatMap(layer => asset.Layer.find(l => l.ColorIndex === layer.ColorIndex));
+	const layers = new Set(protoLayers.flatMap(layer => asset.Layer.filter(l => l.ColorIndex === layer.ColorIndex)));
 	ItemColorPickerLayers.clear();
 	for (const layer of layers) {
 		const index = asset.Layer.indexOf(layer);

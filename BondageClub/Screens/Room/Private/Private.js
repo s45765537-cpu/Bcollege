@@ -512,9 +512,11 @@ async function PrivateLoad() {
 	PrivateBackground = Player.VisualSettings.PrivateRoomBackground ?? "Private";
 
 	// Loads the vendor and NPCs, also check for relationship decay
-	PrivateVendor = CharacterLoadNPC("NPC_Private_Vendor");
-	PrivateVendor.AllowItem = false;
-	NPCTraitDialog(PrivateVendor);
+	if (!PrivateVendor) {
+		PrivateVendor = CharacterLoadNPC("NPC_Private_Vendor");
+		PrivateVendor.AllowItem = false;
+		NPCTraitDialog(PrivateVendor);
+	}
 
 	Player.ArousalSettings.OrgasmCount = 0;
 
@@ -524,15 +526,16 @@ async function PrivateLoad() {
 	if (MustSync) ServerPrivateCharacterSync();
 
 	// There's a 20% odds that the owner will interecpt the player as soon as she enters the room
-	if ((Math.random() < 0.2) && PrivateEntryEvent && Player.IsOwned() && !LogQuery("OwnerBeepActive", "PrivateRoom"))
-		for (let C = 1; C < PrivateCharacter.length; C++)
-			if (PrivateCharacter[C].IsOwner()) {
-				PoseSetActive(Player, "Kneel", true);
-				NPCTraitDialog(PrivateCharacter[C]);
-				CharacterSetCurrent(PrivateCharacter[C]);
-				PrivateCharacter[C].CurrentDialog = DialogFind(CurrentCharacter, "1060");
-				PrivateCharacter[C].Stage = "1061";
-			}
+	if ((Math.random() < 0.2) && PrivateEntryEvent && Player.IsOwned() && !LogQuery("OwnerBeepActive", "PrivateRoom")) {
+		const npcOwner = PrivateCharacter.find(c => c.IsOwner());
+		if (npcOwner) {
+			PoseSetActive(Player, "Kneel", true);
+			NPCTraitDialog(npcOwner);
+			npcOwner.CurrentDialog = DialogFind(npcOwner, "1060");
+			npcOwner.Stage = "1061";
+			CharacterSetCurrent(npcOwner);
+		}
+	}
 
 	// NPCs can change clothes everyday
 	for (let C = 1; C < PrivateCharacter.length; C++)
@@ -895,7 +898,6 @@ function PrivateClickCharacter() {
 				if (!PrivateCharacter[C].IsPlayer()) {
 					PrivateCharacterShouldSync = true;
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwner()) PrivateCharacter[C].Stage = "1000";
-					if ((PrivateCharacter[C].Stage == "0") && NPCEventGet(PrivateCharacter[C], "EndSubTrial")) PrivateCharacter[C].Stage = "1000";
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwnedByPlayer()) PrivateCharacter[C].Stage = "2000";
 					NPCTraitDialog(PrivateCharacter[C]);
 				}
@@ -1137,15 +1139,14 @@ function PrivateLoadCharacter(data) {
 
 /**
  * Triggered when a new character is added to the player's private room.
+ * @template {ModuleType} T
  * @param {NPCCharacter} Template - The base of the character, includes the name and appearance.
  * @param {"" | NPCArchetype} [Archetype] - The type of character such as maid or mistress.
- * @param {boolean} [CustomData=false] - Whether or not the character has non-random traits.
- * @param {null | ModuleType} [Module]
- * @param {null | string} [Screen]
+ * @param {boolean} [CustomData=false] - Whether or not the character has non-random traits. Passing `true` will also skip calling {@link ServerPrivateCharacterSync()}.
  * @returns {NPCCharacter} - The new private room character.
  */
-function PrivateAddCharacter(Template, Archetype, CustomData, Module=null, Screen=null) {
-	const C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", Module, Screen);
+function PrivateAddCharacter(Template, Archetype, CustomData=false) {
+	const C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", "Room", "Private");
 	C.Name = Template.Name;
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();
@@ -1154,15 +1155,15 @@ function PrivateAddCharacter(Template, Archetype, CustomData, Module=null, Scree
 	NPCTraitGenerate(C);
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
 	if ((Archetype === "Submissive") || (Archetype === "Bunny")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
-	if ((CustomData == null) || (CustomData == false)) NPCTraitDialog(C);
+	if (!CustomData) NPCTraitDialog(C);
 	NPCSetupArousal(C);
-	CharacterRefresh(C);
-	PrivateCharacter.push(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
 	NPCEventAdd(C, "NextKidnap", CurrentTime + 86400000);
-	if ((CustomData == null) || (CustomData == false)) ServerPrivateCharacterSync();
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsRestrained() || !C.CanTalk());
 	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck").Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
+	if (!CustomData) ServerPrivateCharacterSync();
+	CharacterRefresh(C);
+	PrivateCharacter.push(C);
 	return C;
 }
 
@@ -1203,10 +1204,10 @@ function PrivateKickOutOwner() {
  * @returns {void} - Nothing.
  */
 function PrivateKickCharacterOut(C) {
-	let DeleteCharIndex = PrivateCharacter.findIndex(c => c.Name === C.Name);
+	let DeleteCharIndex = PrivateCharacter.findIndex(c => c.CharacterID === C.CharacterID);
 	if (DeleteCharIndex < 0) return;
-	CharacterDelete(C);
 	PrivateCharacter.splice(DeleteCharIndex, 1);
+	CharacterDelete(C);
 	let OtherCharIndex = 0;
 	for (let Char of PrivateCharacter) {
 		if (OtherCharIndex >= DeleteCharIndex) Char.CharacterID = "NPC_Private_Custom_" + OtherCharIndex.toString();
@@ -2514,4 +2515,12 @@ function PrivateOwnerHallParadeEnd(Action) {
 		PrivateNPCInteraction(-3);
 		PrivateBlockChange(15);
 	}
+}
+
+/**
+ * Check whether the Private room has an NPC with that name in it
+ * @param {string} name
+ */
+function PrivateCharacterIsInRoom(name) {
+	return PrivateCharacter.some(c => c.IsNpc() && c.Name === name);
 }

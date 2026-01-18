@@ -1095,11 +1095,6 @@ var PreferenceNotificationSettingsDefault = {
 	Disconnect: { Audio: NotificationAudioType.FIRST, AlertType: NotificationAlertType.NONE },
 	Larp: { Audio: NotificationAudioType.NONE, AlertType: NotificationAlertType.NONE },
 	Test: { Audio: NotificationAudioType.NONE, AlertType: NotificationAlertType.TITLEPREFIX },
-
-	// Those are deprecated
-	Audio: undefined,
-	Chat: undefined,
-	ChatActions: undefined,
 };
 
 /**
@@ -1130,9 +1125,6 @@ var PreferenceNotificationSettingsValidate = {
 	Disconnect: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
 	Larp: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Larp),
 	Test: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Test),
-	Audio: () => undefined,
-	Chat: () => undefined,
-	ChatActions: () => undefined,
 };
 
 /**

@@ -72,19 +72,10 @@ function CollegeTheaterJuliaClothes(C) {
 async function CollegeTheaterLoad() {
 
 	// Generates a full Julia model based on the Bondage College template
-	if (CollegeTheaterJulia == null) {
-
-		// Do not generate her if she's already in the private room
-		if (PrivateCharacter.length > 1)
-			for (let P = 1; P < PrivateCharacter.length; P++)
-				if (PrivateCharacter[P].Name == "Julia")
-					return;
-
-		// Generates the model
+	if (CollegeTheaterJulia == null && !PrivateCharacterIsInRoom("Julia")) {
 		CollegeTheaterJulia = CharacterLoadNPC("NPC_CollegeTheater_Julia");
 		CollegeTheaterJulia.AllowItem = false;
 		CollegeTheaterJulia.Name = "Julia";
-		CollegeTheaterJulia.GoneAway = false;
 		CollegeTheaterJuliaClothes(CollegeTheaterJulia);
 		CharacterRefresh(CollegeTheaterJulia);
 
@@ -98,7 +89,7 @@ async function CollegeTheaterLoad() {
  */
 function CollegeTheaterRun() {
 	DrawCharacter(Player, 500, 0, 1);
-	if ((CollegeTheaterJulia != null) && !CollegeTheaterJulia.GoneAway) DrawCharacter(CollegeTheaterJulia, 1000, 0, 1);
+	if (CollegeTheaterJulia) DrawCharacter(CollegeTheaterJulia, 1000, 0, 1);
 	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 }
@@ -108,7 +99,7 @@ function CollegeTheaterRun() {
  * @returns {void} - Nothing
  */
 function CollegeTheaterClick() {
-	if (MouseIn(1000, 0, 500, 1000) && (CollegeTheaterJulia != null) && !CollegeTheaterJulia.GoneAway) CharacterSetCurrent(CollegeTheaterJulia);
+	if (MouseIn(1000, 0, 500, 1000) && CollegeTheaterJulia) CharacterSetCurrent(CollegeTheaterJulia);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "CollegeEntrance");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 }
@@ -224,9 +215,7 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 		InventoryAddMany(Player, ItemsToEarn);
 	}
 	CommonSetScreen("Room", "Private");
-	PrivateAddCharacter(CollegeTheaterJulia, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeTheaterJulia, null, true);
 	NPCTraitSet(C, "Playful", 90);
 	NPCTraitSet(C, "Peaceful", 70);
 	NPCTraitSet(C, "Horny", 40);
@@ -248,5 +237,6 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();
-	CollegeTheaterJulia.GoneAway = true;
+	CharacterDelete(CollegeTheaterJulia);
+	CollegeTheaterJulia = null;
 }

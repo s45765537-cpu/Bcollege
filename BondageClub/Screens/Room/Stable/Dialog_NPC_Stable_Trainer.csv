@@ -30,8 +30,6 @@ RemoveItemNipples,,,(She grumbles as you use remove the item.)  Be thoughtful an
 ItemVulvaVibratingWand,,,"(You massage her pussy with the wand, but she stays cold.)  I'm very sorry.  I'm not in the mood.",,
 VibratingEgg,,,"(You slide the egg inside, but she barely reacts to it.)  I don't want to top from the bottom, but this egg would work better on someone else.",,
 RemoveVibratingEgg,,,"(She doesn't react as you remove the egg.)  Maybe it doesn't work, I didn't feel a thing in there.",,
-SuspensionHempRope,,,(She struggles against it.) Not a bridle?,,
-RemoveSuspensionHempRope,,,(She catches her breath.) Finally.  What was that supposed to be?,,
 0,,,Welcome to the Horse Stable.  How can I help you?,,
 0,,"Hello, I'm DialogPlayerName.  Pleased to meet you.","Pleased to meet you too.  I'm DialogCharacterName, I'm a Trainer for our Horse Club.",DialogRemove(),
 0,40,Can you answer some questions?,"Yes sure, but hurry up, the ponies are waiting.",,

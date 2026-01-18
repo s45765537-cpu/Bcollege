@@ -11,11 +11,13 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Ak1ba", "AlexG", "Asriel", "bryce", "Canti", "Christian", "Christoffer", "Claudia", "Cm382714", 
-	"Daneal", "Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", 
-	"I.F.S.", "john", "Jonas", "Kim", "Laurie", "Lyall", "Marashu", "Mario", "Michel", "Mindtie", "Misa", 
-	"NeReFox", "Nightcore", "Nikita", "PristessSakura", "Schrödingers", "shadowhack", "Soulcollar", "Sticks", 
-	"Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio", 
+	"Abysseia", "Ak1ba", "AlexG", "asdddew", "Asriel", "Aybes", "bryce", "Canti", "Christian", 
+	"Christoffer", "Claudia", "Cm382714", "Desch", "Diona", "Dragokahn", "dynilath", "EBXD", 
+	"Edwin", "Exusiai", "Gagcat", "George", "Greendragon", "Hhhhh", "I.F.S.", "Jack", "Jason", 
+	"john", "Jonas", "Kim", "Laurie", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", 
+	"Nightcore", "Nikita", "Optical", "PristessSakura", "Roxxy", "Schrödingers", "shadowhack", 
+	"Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", 
+	"Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
@@ -985,30 +987,6 @@ function LoginSetupPlayer(C) {
 
 		if (ChatRoomValidateProperties(C.LastChatRoom))
 			Player.LastChatRoom = C.LastChatRoom;
-	} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
-		// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
-		/** @type {ChatRoomSettings} */
-		const room = {
-			Name: C.LastChatRoom,
-			Description: C.LastChatRoomDesc,
-			Admin: typeof C.LastChatRoomAdmin == "string" ? CommonConvertStringToArray(C.LastChatRoomAdmin) : [],
-			Whitelist: typeof C.LastChatRoomWhitelist == "string" ? CommonConvertStringToArray(C.LastChatRoomWhitelist) : [],
-			Ban: typeof C.LastChatRoomBan == "string" ? CommonConvertStringToArray(C.LastChatRoomBan) : [],
-			Background: C.LastChatRoomBG,
-			Limit: C.LastChatRoomSize,
-			Game: "",
-			Visibility: C.LastChatRoomPrivate ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC,
-			Access: ChatRoomVisibilityMode.PUBLIC,
-			BlockCategory: C.LastChatRoomBlockCategory,
-			Space: C.LastChatRoomSpace,
-			Language: C.LastChatRoomLanguage,
-			Custom: C.LastChatRoomCustom,
-			MapData: C.LastChatRoomMapData,
-		};
-
-		if (ChatRoomValidateProperties(room)) {
-			Player.LastChatRoom = room;
-		}
 	}
 
 	// Loads the ownership data

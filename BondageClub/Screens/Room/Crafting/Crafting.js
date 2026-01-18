@@ -31,13 +31,6 @@ let CraftingSelectedItem = null;
 let CraftingOffset = 0;
 
 /**
- * A list of all assets valid for crafting, potentially filtered by a user-provided keyword.
- * @type {never}
- * @deprecated
- */
-let CraftingItemList = /** @type {never} */([]);
-
-/**
  * The character used for the crafting preview.
  * @type {Character | null}
  */
@@ -726,7 +719,7 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		const craft = CommonJSONParse(LZString.decompressFromBase64(settingsString.trim()));
+		const craft = /** @type {CraftingItem} */ (CommonJSONParse(LZString.decompressFromBase64(settingsString.trim())));
 		if (!craft) {
 			alert(TextGet("UploadFailure"));
 			return;
@@ -1981,7 +1974,7 @@ function CraftingDeserialize(craftString) {
 		Private: Private === "T",
 		ItemProperty: ItemProperty ? CommonJSONParse(ItemProperty) : {},
 		Type: Type || undefined,
-		TypeRecord: TypeRecord ? CommonJSONParse(TypeRecord) : null,
+		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
 	};
 

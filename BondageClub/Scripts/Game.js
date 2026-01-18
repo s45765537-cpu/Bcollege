@@ -2,7 +2,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R122";
+var GameVersion = "R124";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -120,9 +120,6 @@ function GameFallbackTimer() {
  */
 function GameRun(Timestamp) {
 	try {
-		// Compatibility; call the old function (now a no-op)
-		MainRun();
-
 		GameAnimationFrameId = null;
 
 		if (TimerLastTime > 0 && Timestamp > 0) {
@@ -197,7 +194,6 @@ function GameRunBackground(Timestamp) {
  * @param {KeyboardEvent} event
  */
 function GameKeyDown(event) {
-	KeyPress = event.keyCode || event.which;
 
 	if (ScreenIsLoading) return;
 
@@ -375,14 +371,3 @@ function GameMouseLeave(event) {
 		MouseY = -1;
 	}
 }
-
-/** @deprecated */
-function KeyDown(event) { GameKeyDown(event); }
-/** @deprecated */
-function MainRun(Timestamp) {
-	// This is a no-op now, only kept for compatibility
-}
-/** @deprecated */
-function Click(event) { if (!CommonIsMobile) { CommonClick(event); } }
-/** @deprecated */
-function LoseFocus(event) { GameMouseLeave(event); }

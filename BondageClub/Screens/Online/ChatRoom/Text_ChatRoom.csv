@@ -22,7 +22,8 @@ MenuCancel,Stop leaving
 MenuGameOption,Game options
 PandoraInvalidSource,You must be a Pandora's guard to use this command.
 PandoraInvalidTarget,Your target is not a Pandora's inmate.
-PandoraInvalidActivity,"Invalid Pandora activity, type /help to get the list."
+PandoraInvalidActivity,"Invalid Pandora activity, use `/pandora help` to get the list."
+PandoraActivityHelp,"The supported activities are:"
 PandoraInvalidActivityForTarget,This activity cannot be performed on this target.
 OrgasmComing,An orgasm is coming!
 OrgasmResist,Resist!
@@ -88,10 +89,6 @@ OwnerPresenceBlockAccessSelf,Accessing yourself is forbidden when your owner is 
 OwnerPresenceBlockAccessOther,Accessing others is forbidden when your owner is present.
 SelectedPlayerToStart,PLAYERNAME has been selected randomly to start the game.
 JoinedClubCardGame,PLAYERNAME has joined the Club Card game.
-AppCopyDone,Your appearance data has been copied to your clipboard.  Paste it somewhere else to save it.
-AppPasteDone,Your pasted appearance is loaded.
-AppPasteError,Your pasted appearance cannot be loaded.
-AppPasteBlocked,You cannot change your appearance.
 MapCopyDone,The current map data has been copied to your clipboard.  Paste it somewhere else to save it.
 MapCopyError,There's no map data to copy.
 MapPasteDone,Your pasted map data is loaded.

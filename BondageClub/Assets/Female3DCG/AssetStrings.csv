@@ -918,11 +918,51 @@ TailStrapsRaccoonTailStrapBR,Bottom Right
 TailStrapsKittenTailStrap1Select,Select position:
 TailStrapsKittenTailStrap1TL,Top Left
 TailStrapsKittenTailStrap1TR,Top Right
+TailStrapsKittenTailStrap1BL,Bottom Left
+TailStrapsKittenTailStrap1BR,Bottom Right
 TailStrapsKittenTailStrap2Select,Select position:
 TailStrapsKittenTailStrap2TL,Top Left
 TailStrapsKittenTailStrap2TR,Top Right
 TailStrapsKittenTailStrap2BL,Bottom Left
 TailStrapsKittenTailStrap2BR,Bottom Right
+TailStrapsKitsuneTailStrapsSelectBase,Pick which tails to show:
+TailStrapsKitsuneTailStrapsModuleTail1,Tail One
+TailStrapsKitsuneTailStrapsModuleTail2,Tail Two
+TailStrapsKitsuneTailStrapsModuleTail3,Tail Three
+TailStrapsKitsuneTailStrapsModuleTail4,Tail Four
+TailStrapsKitsuneTailStrapsModuleTail5,Tail Five
+TailStrapsKitsuneTailStrapsModuleTail6,Tail Six
+TailStrapsKitsuneTailStrapsModuleTail7,Tail Seven
+TailStrapsKitsuneTailStrapsModuleTail8,Tail Eight
+TailStrapsKitsuneTailStrapsModuleTail9,Tail Nine
+TailStrapsKitsuneTailStrapsOptionshow1_0,Show
+TailStrapsKitsuneTailStrapsOptionshow1_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow2_0,Show
+TailStrapsKitsuneTailStrapsOptionshow2_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow3_0,Show
+TailStrapsKitsuneTailStrapsOptionshow3_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow4_0,Show
+TailStrapsKitsuneTailStrapsOptionshow4_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow5_0,Show
+TailStrapsKitsuneTailStrapsOptionshow5_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow6_0,Show
+TailStrapsKitsuneTailStrapsOptionshow6_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow7_0,Show
+TailStrapsKitsuneTailStrapsOptionshow7_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow8_0,Show
+TailStrapsKitsuneTailStrapsOptionshow8_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow9_0,Show Left
+TailStrapsKitsuneTailStrapsOptionshow9_1,Hide
+TailStrapsKitsuneTailStrapsOptionshow9_2,Show Right
+TailStrapsKitsuneTailStrapsSelectTail1,Tail One
+TailStrapsKitsuneTailStrapsSelectTail2,Tail Two
+TailStrapsKitsuneTailStrapsSelectTail3,Tail Three
+TailStrapsKitsuneTailStrapsSelectTail4,Tail Four
+TailStrapsKitsuneTailStrapsSelectTail5,Tail Five
+TailStrapsKitsuneTailStrapsSelectTail6,Tail Six
+TailStrapsKitsuneTailStrapsSelectTail7,Tail Seven
+TailStrapsKitsuneTailStrapsSelectTail8,Tail Eight
+TailStrapsKitsuneTailStrapsSelectTail9,Tail Nine
 ClothOuterJacketHoodieModuleHood,Hood
 ClothOuterJacketHoodieModuleSleeve,Sleeve
 ClothOuterJacketHoodieOptionh0,Hood Down
@@ -3556,8 +3596,12 @@ ItemButtWolfTail3Sets1,SourceCharacter turns the plug around in DestinationChara
 ItemButtKittenTail1Select,Select position:
 ItemButtKittenTail1TL,Top Left
 ItemButtKittenTail1TR,Top Right
+ItemButtKittenTail1BL,Bottom Left
+ItemButtKittenTail1BR,Bottom Right
 ItemButtKittenTail1SetTL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
 ItemButtKittenTail1SetTR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail1SetBL,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
+ItemButtKittenTail1SetBR,SourceCharacter turns the plug around in DestinationCharacter butt to set it in a better position.
 ItemButtKittenTail2Select,Select position:
 ItemButtKittenTail2TL,Top Left
 ItemButtKittenTail2TR,Top Right
@@ -3935,6 +3979,48 @@ ItemDevicesPottySelectText,Select text
 ItemDevicesPottyModuleText,Text
 ItemDevicesPottyOptione0,Text
 ItemDevicesPottySete0,SourceCharacter writes text on DestinationCharacter's potty.
+ItemDevicesGiftBoxOpen,Open Gift
+ItemDevicesGiftBoxClosed,Close Gift
+ItemDevicesGiftBoxSelect,Change Gift
+ItemDevicesGiftBoxSetOpen,SourceCharacter opens the gift.
+ItemDevicesGiftBoxSetClosed,SourceCharacter closes the gift.
+ItemDevicesXFrameSelectBase,Configure the X-Frame
+ItemDevicesXFrameSelectArmRestraint,Select Arm Restraints
+ItemDevicesXFrameSelectLegRestraint,Select Leg Restraints
+ItemDevicesXFrameSelectChains,Select Chains
+ItemDevicesXFrameSelectWaistRope,Select Waist Rope
+ItemDevicesXFrameSelectStains,Select Stains
+ItemDevicesXFrameModuleArmRestraint,Arm Restraints
+ItemDevicesXFrameModuleLegRestraint,Leg Restraints
+ItemDevicesXFrameModuleChains,Chains
+ItemDevicesXFrameModuleWaistRope,Waist Rope
+ItemDevicesXFrameModuleStains,Stains
+ItemDevicesXFrameOptiona0,None
+ItemDevicesXFrameOptiona1,Cuff Loops
+ItemDevicesXFrameOptiona2,Cuff Chains
+ItemDevicesXFrameOptiona3,Rope Ties
+ItemDevicesXFrameOptionb0,None
+ItemDevicesXFrameOptionb1,Cuff Loops
+ItemDevicesXFrameOptionb2,Rope Ties
+ItemDevicesXFrameOptionb3,Ankle & Knees Tied
+ItemDevicesXFrameOptionb4,Legs Tied Behind Cross
+ItemDevicesXFrameOptionc0,None
+ItemDevicesXFrameOptionc1,Chains
+ItemDevicesXFrameOptions0,None
+ItemDevicesXFrameOptions1,Stains
+ItemDevicesXFrameSeta0,SourceCharacter frees DestinationCharacter wrists from the X-Frame.
+ItemDevicesXFrameSeta1,SourceCharacter attaches DestinationCharacter wrist cuffs to the X-Frame.
+ItemDevicesXFrameSeta2,SourceCharacter attaches DestinationCharacter wrist cuffs to the X-Frame with chains.
+ItemDevicesXFrameSeta3,SourceCharacter ties DestinationCharacter wrists to the X-Frame with ropes.
+ItemDevicesXFrameSetb0,SourceCharacter frees DestinationCharacter ankles from the X-Frame.
+ItemDevicesXFrameSetb1,SourceCharacter attaches DestinationCharacter ankle cuffs to the X-Frame.
+ItemDevicesXFrameSetb2,SourceCharacter ties DestinationCharacter ankles to the X-Frame with ropes.
+ItemDevicesXFrameSetb3,SourceCharacter ties DestinationCharacter ankles and knees together with ropes.
+ItemDevicesXFrameSetb4,SourceCharacter ties DestinationCharacter legs behind the X-Frame with ropes.
+ItemDevicesXFrameSetc0,SourceCharacter removes the extra chains on DestinationCharacter X-Frame.
+ItemDevicesXFrameSetc1,SourceCharacter attaches extra chains on DestinationCharacter X-Frame.
+ItemDevicesXFrameSets0,SourceCharacter cleans DestinationCharacter X-Frame from stains.
+ItemDevicesXFrameSets1,SourceCharacter stains DestinationCharacter X-Frame.
 ItemFeetSteelAnkleCuffsChained,Chain Attached
 ItemFeetSteelAnkleCuffsClosed,Attached
 ItemFeetSteelAnkleCuffsNone,Detached
@@ -3952,6 +4038,11 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldDragonPlushSelect,Select Position
+ItemHandheldDragonPlushSetHolding,SourceCharacter holds a cute Dragon Plush!
+ItemHandheldDragonPlushHolding,Holding
+ItemHandheldDragonPlushSetFloor,SourceCharacter places PronounPossessive Dragon Plush on the floor
+ItemHandheldDragonPlushFloor,Floor
 ItemHandheldSmartphoneModuleCase,Cases
 ItemHandheldSmartphoneOptionc0,No Case
 ItemHandheldSmartphoneOptionc1,Matte
@@ -5462,7 +5553,7 @@ ItemNeckExtendablePostureCollarSetc1,SourceCharacter adds a thin cover to Destin
 ItemNeckExtendablePostureCollarSetc2,SourceCharacter adds a medium cover to DestinationCharacter extendable posture collar.
 ItemNeckExtendablePostureCollarSetc3,SourceCharacter adds a thick cover to DestinationCharacter extendable posture collar.
 ItemNeckExtendablePostureCollarSetc4,SourceCharacter adds a complete cover to DestinationCharacter extendable posture collar.
-ItemNeckExtendablePostureCollarSetg0,SourceCharacter frees DestinationCharacter mouth from PronounPossesive extendable posture collar.
+ItemNeckExtendablePostureCollarSetg0,SourceCharacter frees DestinationCharacter mouth from PronounPossessive extendable posture collar.
 ItemNeckExtendablePostureCollarSetg1,SourceCharacter adds a panel gag to DestinationCharacter extendable posture collar.
 ItemNeckExtendablePostureCollarSetg2,SourceCharacter adds a ballgag to DestinationCharacter extendable posture collar.
 ItemNeckExtendablePostureCollarSeth0,SourceCharacter removes the hood of DestinationCharacter extendable posture collar.
@@ -5989,6 +6080,11 @@ ItemVulvaDoubleEndDildoNormal,Normal Size
 ItemVulvaDoubleEndDildoSelect,Select the size of the double ended dildo.
 ItemVulvaDoubleEndDildoSetLarge,DestinationCharacterName AssetName grows to it's large size.
 ItemVulvaDoubleEndDildoSetNormal,DestinationCharacterName AssetName shrinks down to it's normal size.
+ItemVulvaMysteryBoxClosed,Closed
+ItemVulvaMysteryBoxOpen,Open
+ItemVulvaMysteryBoxSetClosed,SourceCharacter replaces the lid on DestinationCharacter box and ties the bow.
+ItemVulvaMysteryBoxSetOpen,SourceCharacter unties DestinationCharacter bow and removes the lid.
+ItemVulvaMysteryBoxSelect,Choose the state of the box.
 ItemVulvaPiercingsRoundClitPiercingBell,Bell
 ItemVulvaPiercingsRoundClitPiercingChain,Chain
 ItemVulvaPiercingsRoundClitPiercingHaremChain,Harem Chains
@@ -6639,7 +6735,6 @@ SelectOpenFaceHoodStyle,Select a hood style.
 SelectPersonalCageHeight,Use the lever to:
 SelectPiercingState,Select the piercing attachment
 SelectPriorityType,Select the visibility
-SelectRibbonStyle,Select a style.
 SelectRibbonType,Select the ribbon bondage
 SelectRopeBondage,Select the rope bondage
 SelectSpreaderType,Select leg spreader width.
@@ -7070,7 +7165,7 @@ ItemArmsArmbinderSuitModuleZipper,Genital access
 ItemArmsArmbinderSuitSelectZipper,Suit's zipper menu
 ItemArmsArmbinderSuitOptionz0,Zipped up
 ItemArmsArmbinderSuitOptionz1,Open
-ItemArmsArmbinderSuitModuleLegs,Leg lenght & belts
+ItemArmsArmbinderSuitModuleLegs,Leg length & belts
 ItemArmsArmbinderSuitSelectLegs,Lower suit menu
 ItemArmsArmbinderSuitOptionl0,No leg extension
 ItemArmsArmbinderSuitOptionl1,Leg extension
@@ -7901,7 +7996,7 @@ ItemHandheldPlushieOptionGangriels2,Mabel
 ItemHandheldPlushieSetGangriels2,SourceCharacter places a squeaky Mabel plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectCelestialEnchants,Celestial Enchants:
 ItemHandheldPlushieModuleCelestialEnchants,Celestial Enchants
-ItemHandheldPlushieSetCelestialEnchants0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetCelestialEnchants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionCelestialEnchants0,None
 ItemHandheldPlushieOptionCelestialEnchants1,Celiko
 ItemHandheldPlushieSetCelestialEnchants1,SourceCharacter places an amazing Celiko plushie in DestinationCharacter hands.
@@ -8010,7 +8105,7 @@ ItemHandheldPlushieSetEnsLivingRoom10,SourceCharacter places a cute Dawn plushie
 ItemHandheldPlushieSelectDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieModuleDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieOptionDawnsDarlings0,None
-ItemHandheldPlushieSetDawnsDarlings0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetDawnsDarlings0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionDawnsDarlings1,Kin
 ItemHandheldPlushieSetDawnsDarlings1,SourceCharacter places a cute Kin plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionDawnsDarlings2,Laura
@@ -8018,7 +8113,7 @@ ItemHandheldPlushieSetDawnsDarlings2,SourceCharacter places a cute Laura plushie
 ItemHandheldPlushieSelectVagrants,Vagrants/Misc
 ItemHandheldPlushieModuleVagrants,Vagrants/Misc
 ItemHandheldPlushieOptionVagrants0,None
-ItemHandheldPlushieSetVagrants0,SorceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionVagrants1,Nabi
 ItemHandheldPlushieSetVagrants1,SourceCharacter places a cute Nabi plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVagrants2,Hoshi-Ko
@@ -8039,6 +8134,13 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
+ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
+ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
+ItemHandheldPlushieOptionNelsStorage0,None
+ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieSetNelsStorage0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage1,Nel
+ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
 ItemHandheldCigaretteSelect,Choose position of the cigarette:

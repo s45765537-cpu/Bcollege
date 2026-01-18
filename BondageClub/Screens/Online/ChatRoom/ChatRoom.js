@@ -44,12 +44,10 @@ var ChatRoomLastMessage = [""];
 var ChatRoomLastMessageIndex = 0;
 /** @type {number} */
 var ChatRoomTargetMemberNumber = -1;
-/** @type {ChatRoomOwnershipOption} */
-var ChatRoomOwnershipOption = "";
-/** @type {ChatRoomLovershipOption} */
-var ChatRoomLovershipOption = "";
-/** @deprecated Check whether ChatRoomData is set or not instead */
-var ChatRoomPlayerCanJoin = false;
+/** @type {ChatRoomOwnershipEvent | null} */
+var ChatRoomOwnershipOption = null;
+/** @type {ChatRoomLovershipEvent | null} */
+var ChatRoomLovershipOption = null;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
@@ -81,21 +79,6 @@ var ChatRoomSlowtimer = 0;
  * @type {boolean}
  */
 var ChatRoomSlowStop = false;
-/**
- * Default position of the chat log field
- * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
- */
-var ChatRoomChatLogRect = /** @type {never} */([1005, 66, 988, 835]);
-/**
- * Default position of the chat input field
- * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
- */
-var ChatRoomChatInputRect = /** @type {never} */([1453, 953, 895, 90]);
-/**
- * Default position of the chat input length label
- * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
- */
-var ChatRoomChatLengthLabelRect = /** @type {never} */([1764, 970, 120, 82]);
 
 /**
  * Default position of the entire chat panel
@@ -428,13 +411,13 @@ function DialogCanChangeClothes() {
 }
 /**
  * Checks if the specified owner option is available.
- * @param {ChatRoomOwnershipOption} Option - The option to check for availability
+ * @param {ChatRoomOwnershipEvent} Option - The option to check for availability
  * @returns {boolean} - TRUE if the current ownership option is the specified one.
  */
 function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnershipOption); }
 /**
  * Checks if the specified lover option is available.
- * @param {ChatRoomLovershipOption} Option - The option to check for availability
+ * @param {ChatRoomLovershipEvent} Option - The option to check for availability
  * @returns {boolean} - TRUE if the current lover option is the specified one.
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
@@ -1623,8 +1606,8 @@ function ChatRoomFocusCharacter(C, options=null) {
 	ChatRoomHideElements();
 	ChatRoomBackground = ChatRoomData.Background;
 	C.AllowItem = C.IsPlayer() || ServerChatRoomGetAllowItem(Player, C);
-	ChatRoomOwnershipOption = "";
-	ChatRoomLovershipOption = "";
+	ChatRoomOwnershipOption = null;
+	ChatRoomLovershipOption = null;
 	if (!C.IsPlayer()) ServerSend("ChatRoomAllowItem", { MemberNumber: C.MemberNumber });
 	if (C.IsOwnedByPlayer() || C.IsLoverOfPlayer()) ServerSend("ChatRoomChat", { Content: "RuleInfoGet", Type: "Hidden", Target: C.MemberNumber });
 	CharacterSetCurrent(C, options);
@@ -3214,7 +3197,8 @@ function ChatRoomSendChatMessage(msg) {
 	const data = ChatRoomGenerateChatRoomChatMessage("Chat", msg, replyId);
 	ServerSend("ChatRoomChat", data);
 
-	ChatRoomStimulationMessage("Talk");
+	const firstOOCRange = SpeechGetOOCRanges(msg).shift();
+	if (!firstOOCRange || firstOOCRange.start > 0) ChatRoomStimulationMessage("Talk");
 	return true;
 }
 
@@ -4431,6 +4415,7 @@ function ChatRoomMessageGetReplyId() {
 	if (!chatInput) return;
 	return chatInput.getAttribute("reply-id");
 }
+
 /**
  * Returns the name of the character that this message is a reply to.
  * We get the wrong name when replying to reply that's what this is for.
@@ -4440,29 +4425,34 @@ function ChatRoomMessageGetReplyId() {
  */
 function ChatRoomMessageGetReplyName(msgId, isWhisper=false) {
 	const message = ChatRoomMessageGetById(msgId);
-	if (message) {
-		if (isWhisper) {
-			const sender = Number(message.getAttribute("data-sender"));
-			return CharacterNickname(ChatRoomCharacter.find(C => C.MemberNumber === sender));
-		}
-		const names = message.querySelectorAll(".ChatMessageName");
-		const name = names[names.length - 1];
-		return name?.textContent;
+	if (!message) {
+		return null;
 	}
-	return null;
+	if (isWhisper) {
+		const sender = Number(message.getAttribute("data-sender"));
+		const char = ChatRoomCharacter.find(C => C.MemberNumber === sender);
+		if (char) {
+			return CharacterNickname(char);
+		}
+		// Fallthrough here if the character happened to leave
+	}
+	const names = message.querySelectorAll(".ChatMessageName");
+	const name = names[names.length - 1];
+	return name?.textContent;
 }
+
 /**
  * @param {string} msgId
  * @returns {string | null}
  */
 function ChatRoomMessageGetReplyContent(msgId) {
 	const message = ChatRoomMessageGetById(msgId);
-	if (message) {
-		const contents = message.querySelectorAll(".chat-room-message-content");
-		const content = contents[contents.length - 1];
-		return content.textContent;
+	if (!message) {
+		return null;
 	}
-	return null;
+	const contents = message.querySelectorAll(".chat-room-message-content");
+	const content = contents[contents.length - 1];
+	return content.textContent;
 }
 
 
@@ -5810,7 +5800,7 @@ function ChatRoomSendOwnershipRequest(RequestType) {
 	if ((ChatRoomOwnershipOption == "CanEndTrial") && (RequestType == "Accept")) {
 		DialogChangeReputation("Dominant", -20);
 	}
-	ChatRoomOwnershipOption = "";
+	ChatRoomOwnershipOption = null;
 	ServerSend("AccountOwnership", { MemberNumber: CurrentCharacter.MemberNumber, Action: RequestType });
 	if (RequestType === "Propose") {
 		const msg = InterfaceTextGet("OwnerProposeSub").replace("TargetCharacterName", CharacterNickname(CurrentCharacter));
@@ -5827,7 +5817,7 @@ function ChatRoomSendOwnershipRequest(RequestType) {
 function ChatRoomSendLovershipRequest(RequestType) {
 	if ((ChatRoomLovershipOption == "CanOfferBeginWedding") && (RequestType == "Propose")) CharacterChangeMoney(Player, -100);
 	if ((ChatRoomLovershipOption == "CanBeginWedding") && (RequestType == "Accept")) CharacterChangeMoney(Player, -100);
-	ChatRoomLovershipOption = "";
+	ChatRoomLovershipOption = null;
 	ServerSend("AccountLovership", { MemberNumber: CurrentCharacter.MemberNumber, Action: RequestType });
 	if (RequestType == "Accept" || RequestType === "Break") DialogLeave();
 }
@@ -6524,17 +6514,6 @@ function ChatRoomDataChanged() {
 
 function ChatRoomRefreshFontSize() {
 	ChatRoomFontSize = ChatRoomFontSizes[Player.ChatSettings.FontSize || "Medium"];
-}
-
-/**
- * Checks if the message can be sent as chat or the player should be warned
- * @deprecated No replacement; OOC should always be allowed through
- * @param {string} Message - User input
- * @param {Character} WhisperTarget
- * @returns {boolean}
- */
-function ChatRoomShouldBlockGaggedOOCMessage(Message, WhisperTarget) {
-	return false;
 }
 
 /**

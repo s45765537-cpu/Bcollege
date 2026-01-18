@@ -82,6 +82,8 @@ ClothAccessoryBibText,Text
 ClothAccessoryBibTrim,Trim
 ClothAccessoryBouquetBase,Holder
 ClothAccessoryBouquetFlowers,Flowers
+ClothAccessoryBowBeltBelt,Belt
+ClothAccessoryBowBeltBow,Bow
 ClothAccessoryBugLegsJoints,Joints
 ClothAccessoryBugLegsLegs,Legs
 ClothAccessoryBunnyCollarCuffsBow,Bow
@@ -217,6 +219,20 @@ ClothOuterJacketHoodieHoodDownBack,Hood
 ClothRibbonCorsetCorset,Corset
 ClothRibbonCorsetRivets,Rivets
 ClothRibbonCorsetRibbon,Ribbon
+ClothRuffledDressSleeveRight,Right Sleeve
+ClothRuffledDressSleeveLeft,Left Sleeve
+ClothRuffledDressSleeve,Sleeves
+ClothRuffledDressBelt,Belt
+ClothRuffledDressBodice,Bodice
+ClothRuffledDressBow,Bow
+ClothRuffledDressHem,Upper Hem
+ClothRuffledDressHem2,Lower Hem
+ClothRuffledDressCorsetLacing,Corset Lacing
+ClothRuffledDressCorsetCenter,Corset Center
+ClothRuffledDressCorsetLeft,Corset Left
+ClothRuffledDressCorsetRight,Corset Right
+ClothRuffledDressLaceTrim,Lace Trim
+ClothRuffledDressSkirt,Skirt
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
@@ -1531,6 +1547,36 @@ ItemDevicesPottyText,Text
 ItemDevicesEnemaBag,Plastic Bag
 ItemDevicesEnemaRack,Fixture
 ItemDevicesEnemaLiquid,Liquid
+ItemDevicesGiftBoxBox,Box 
+ItemDevicesGiftBoxBoxReflection,Box Reflection 
+ItemDevicesGiftBoxRibbon,Ribbon
+ItemDevicesGiftBoxRibbonReflection,Ribbon Reflection
+ItemDevicesGiftBoxInner,Padding
+ItemDevicesGiftBoxInnerReflection,Padding Reflection  
+ItemDevicesGiftBoxFrontBox,Box (edit Alpha)
+ItemDevicesGiftBoxFrontBoxReflection,Box Reflection (edit Alpha)
+ItemDevicesGiftBoxFrontRibbon,Ribbon (edit Alpha)
+ItemDevicesGiftBoxFrontRibbonReflection,Ribbon Reflection (edit Alpha)
+ItemDevicesGiftBoxFrontInner,Padding (edit Alpha)
+ItemDevicesGiftBoxFrontInnerReflection,Padding Reflection (edit Alpha)
+ItemDevicesGiftBoxHindBox,Backside Box 
+ItemDevicesGiftBoxHindBoxReflection,Backside Box Reflection 
+ItemDevicesGiftBoxHindRibbon,Backside Ribbon
+ItemDevicesGiftBoxHindRibbonReflection,Backside Ribbon Reflection
+ItemDevicesGiftBoxHindInner,BacksidePadding
+ItemDevicesGiftBoxHindInnerReflection,Backside Padding Reflection  
+ItemDevicesGiftBoxTopBox,Lid Box 
+ItemDevicesGiftBoxTopBoxReflection,Lid Box Reflection 
+ItemDevicesGiftBoxTopRibbon,Lid Ribbon
+ItemDevicesGiftBoxTopRibbonReflection,Lid Ribbon Reflection 
+ItemDevicesXFrameFrameBaseFloor,Floor
+ItemDevicesXFrameFrameBaseBack,Frame
+ItemDevicesXFrameTopCuffLoops,Cuff Loops
+ItemDevicesXFrameTopChains,Chains
+ItemDevicesXFrameTopLocks,Locks
+ItemDevicesXFrameFrameRopeTop,Rope
+ItemDevicesXFrameStains,Stains
+ItemDevicesXFrameBolts,Bolts
 ItemEarsFuturisticEarphonesBand,Band
 ItemEarsFuturisticEarphonesDisplay,Display
 ItemEarsFuturisticEarphonesLock,Lock
@@ -1604,8 +1650,19 @@ ItemHandheldCigaretteSmokeInMouth,Smoke In Mouth
 ItemHandheldCigaretteLitInMouth,Lit In Mouth
 ItemHandheldCigaretteFilterInMouth,Filter In Mouth
 ItemHandheldCigarettePaperInMouth,Paper In Mouth
+ItemHandheldDragonPlushMainColor,Main Color
+ItemHandheldDragonPlushSecondaryColor,Secondary Color
+ItemHandheldDragonPlushDetailsColor,Details Color
+ItemHandheldDragonPlushGemsColor,Gems Color
+ItemHandheldDragonPlushEyesMainColor,Eyes Main Color
+ItemHandheldDragonPlushEyesGlowColor,Eyes Glow Color
+ItemHandheldDragonPlushShadows,Shadows
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
+ItemHandheldGiftBoxBox, Box
+ItemHandheldGiftBoxBoxReflection, Box Reflection
+ItemHandheldGiftBoxRibbon,Ribbon
+ItemHandheldGiftBoxRibbonReflection, Ribbon Reflection
 ItemHandheldKyosensuFan,Fan paper
 ItemHandheldKyosensuFan1,Fan paper 2nd color
 ItemHandheldKyosensuFan2,Fan paper 3rd color
@@ -2525,6 +2582,9 @@ ItemMouthQualityHarnessGagBallShine,Ball Shine
 ItemMouthQualityHarnessGagRing,Ring
 ItemMouthQualityHarnessGagStraps,Straps
 ItemMouthQualityHarnessGagMetal,Metal
+ItemMouthRoseBallGagRose,Rose
+ItemMouthRoseBallGagMetal,Metal
+ItemMouthRoseBallGagStraps,Straps
 ItemMouthShoeGagShoe,Shoe
 ItemMouthShoeGagStrap,Strap
 ItemMouthStitchesFakeMouth,Lips
@@ -2934,6 +2994,10 @@ ItemVulvaLatexNulgeShine,Shine
 ItemVulvaBallspreaderCageRing,Metal
 ItemVulvaBallspreaderPenis,Penis
 ItemVulvaBallspreaderLock,Lock
+ItemVulvaMysteryBoxRibbons,Ribbons
+ItemVulvaMysteryBoxRibbons2,Ribbons
+ItemVulvaMysteryBoxBox,Box
+ItemVulvaMysteryBoxBox2,Box
 ItemVulvaPiercingsClitRingLeash,Leash
 ItemVulvaPiercingsClitRingRing,Ring
 ItemVulvaPiercingsRoundClitPiercingBell,Bell
@@ -3090,6 +3154,9 @@ NecklacePearlNecklace1Option3,Choker
 NecklacePlantNecklaceVines,Vines
 NecklacePlantNecklaceLeaf,Leaves
 NecklacePlantNecklaceBud,Flower Bud
+NecklaceNecklaceRoseBallGagRose,Rose
+NecklaceNecklaceRoseBallGagMetal,Metal
+NecklaceNecklaceRoseBallGagStraps,Straps
 NecklaceRosePendantMetal,Metal
 NecklaceRosePendantPetals,Petals
 PantiesBoxerShortsShorts,Shorts
@@ -3360,10 +3427,32 @@ TailStrapsDragonTailStrap2RightPrimary,Primary
 TailStrapsDragonTailStrap2RightSecondary,Secondary
 TailStrapsWolfTailStrap3TL,Tail
 TailStrapsKittenTailStrap1TL,Tail
+TailStrapsWolfTailStrap3TL,Tail
+TailStrapsKittenTailStrap1TL,Tail
 TailStrapsFoxTailsStrapBases,Tails
 TailStrapsFoxTailsStrapTips,Tips
 TailStrapsFoxTailStrapBase_TL,Tail
 TailStrapsFoxTailStrapTip_TL,Tip
+TailStrapsKitsuneTailStrapsTail1,Tail One
+TailStrapsKitsuneTailStrapsTip1,Tip One
+TailStrapsKitsuneTailStrapsTail2,Tail Two
+TailStrapsKitsuneTailStrapsTip2,Tip Two
+TailStrapsKitsuneTailStrapsTail3,Tail Three
+TailStrapsKitsuneTailStrapsTip3,Tip Three
+TailStrapsKitsuneTailStrapsTail4,Tail Four
+TailStrapsKitsuneTailStrapsTip4,Tip Four
+TailStrapsKitsuneTailStrapsTail5,Tail Five
+TailStrapsKitsuneTailStrapsTip5,Tip Five
+TailStrapsKitsuneTailStrapsTail6,Tail Six
+TailStrapsKitsuneTailStrapsTip6,Tip Six
+TailStrapsKitsuneTailStrapsTail7,Tail Seven
+TailStrapsKitsuneTailStrapsTip7,Tip Seven
+TailStrapsKitsuneTailStrapsTail8,Tail Eight
+TailStrapsKitsuneTailStrapsTip8,Tip Eight
+TailStrapsKitsuneTailStrapsTail9,Tail Nine
+TailStrapsKitsuneTailStrapsTip9,Tip Nine
+TailStrapsKitsuneTailStrapsTail10,Tail Ten
+TailStrapsKitsuneTailStrapsTip10,Tip Ten
 TailStrapsLionTailStrapPlume,Plume
 TailStrapsLionTailStrapTail,Tail
 TailStrapsSuccubusHeartTailStrapHeart,Heart

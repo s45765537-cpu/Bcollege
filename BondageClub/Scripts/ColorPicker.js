@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -83,7 +82,7 @@ function ColorPickerDraw(X, Y, Width, Height, Src, Callback) {
 function ColorPickerCSSToHSV(Color, DefaultHSV) {
 	Color = Color || "#FFFFFF";
 	var M = Color.match(/^#(([0-9a-f]{3})|([0-9a-f]{6})|([0-9a-f]{8}))$/i);
-	var R, G, B;
+	var [R, G, B] = [NaN, NaN, NaN];
 	if (M) {
 		var GRP = M[1];
 		if (GRP.length == 3) {
@@ -130,7 +129,7 @@ function ColorPickerCSSToHSV(Color, DefaultHSV) {
  * @returns {HexColor} - Hex color code corresponding to the given HSV
  */
 function ColorPickerHSVToCSS(HSV) {
-	var R, G, B;
+	var [R, G, B] = [NaN, NaN, NaN];
 	var H = HSV.H, S = HSV.S, V = HSV.V;
 	var I = Math.floor(H * 6);
 	var F = H * 6 - I;
@@ -224,7 +223,7 @@ var ColorPicker = {
 	 * @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>}
 	 */
 	eventListeners: {
-		/** @type {(this: HTMLInputElement | HTMLColorTintElement, ev: InputEvent) => void} */
+		/** @type {(this: HTMLInputElement | HTMLColorTintElement, ev: Event) => void} */
 		inputColor: function (ev) {
 			if (this.validity.valid) {
 				this.closest("fieldset")?.dispatchEvent(new CustomEvent("input", { detail: { source: this.name } }));
@@ -249,16 +248,14 @@ var ColorPicker = {
 		 * @type {(this: HTMLFieldSetElement, ev: Event) => void}
 		 */
 		inputFieldset: function (ev) {
-			const hueInput = /** @type {null | HTMLInputElement} */(this.elements.namedItem("hue"));
-			const opacityInput = /** @type {null | HTMLInputElement} */(this.elements.namedItem("opacity"));
-			const tintInput = /** @type {HTMLColorTintElement | null} */(this.elements.namedItem("tint"));
-			const outputInput = /** @type {null | HTMLInputElement} */(this.elements.namedItem("output"));
-			if ([hueInput, opacityInput, tintInput, outputInput].some(i => i == null || !i.validity.valid)) {
+			const elements = ColorPicker._unpackColorPickerFieldset(this, { checkValidity: true });
+			if (elements == null) {
 				ev.stopImmediatePropagation();
 				return;
 			} else if (!(ev instanceof CustomEvent)) {
 				return;
 			}
+			const [hueInput, opacityInput, tintInput, outputInput] = [elements.hue, elements.opacity, elements.tint, elements.output];
 
 			switch (ev.detail.source) {
 				case "output": {
@@ -322,12 +319,15 @@ var ColorPicker = {
 		changeRadio: function (ev) {
 			/** @type {null | HTMLFieldSetElement} */
 			const group = this.closest("fieldset[name='color-picker']");
-			const outputInput = /** @type {null | HTMLInputElement} */(group?.elements.namedItem("output"));
-			const saveButton = /** @type {null | HTMLButtonElement} */(group?.elements.namedItem("save"));
-			if (!group || !outputInput || !saveButton) {
-				ev.stopImmediatePropagation();
+			if (!group) {
 				return;
 			}
+
+			const elements = ColorPicker._unpackColorPickerFieldset(group);
+			if (!elements) {
+				return;
+			}
+			const [outputInput, saveButton] = [elements.output, elements.save];
 
 			if (this.value) {
 				// Switch to a saved color
@@ -338,12 +338,14 @@ var ColorPicker = {
 				let colorString = "";
 				if (ItemColorState && ItemColorItem) {
 					// The subscreen is backed by an actual item and proper color state: the default colors can restored accurately
+					const item = ItemColorItem;
+					const colorState = ItemColorState;
 					ItemColorPickerIndices.forEach(i => {
-						ItemColorState.colors[i] = ItemColorState.initialColors[i];
-						ItemColorItem.Color[i] = ItemColorState.initialColors[i];
+						colorState.colors[i] = colorState.initialColors[i];
+						item.Color[i] = colorState.initialColors[i];
 					});
 
-					const colors = ItemColorPickerIndices.map(i => ItemColorState.colors[i] ?? ItemColorState.defaultColors[i]);
+					const colors = ItemColorPickerIndices.map(i => colorState.colors[i] ?? colorState.defaultColors[i]);
 					colorString = (colors.length >= 1 && colors.every(i => i === colors[0])) ? colors[0] : "";
 				} else {
 					// The subscreen lacks an underlying item or proper color state: the default colors can restored approximately
@@ -363,7 +365,7 @@ var ColorPicker = {
 			/** @type {null | HTMLOutputElement} */
 			const output = document.querySelector(`output[for~="${menu?.id}"]`);
 			if (output) {
-				output.replaceChildren(...Array.from(this.labels).map(i => i.textContent.replace(" ", "")));
+				output.replaceChildren(...Array.from(this.labels ?? []).map(i => i.textContent.replace(" ", "")));
 				output.style.backgroundColor = this.value;
 			}
 		},
@@ -394,16 +396,18 @@ var ColorPicker = {
 		clickSaveColor: function (ev) {
 			/** @type {null | HTMLFieldSetElement} */
 			const group = this.closest("fieldset[name='color-picker']");
-			const colorInput = /** @type {null | HTMLInputElement} */(group?.elements.namedItem("output"));
-			const savedColorOutput = /** @type {null | HTMLOutputElement} */(group?.elements.namedItem("saved-colors-output"));
-			const savedColorGroup = /** @type {null | HTMLFieldSetElement} */(group?.elements.namedItem("saved-colors-group"));
+			if (!group) {
+				return;
+			}
+
+			const elements = ColorPicker._unpackColorPickerFieldset(group, { checkValidity: true });
+			if (!elements) {
+				return;
+			}
+
+			const [colorInput, savedColorOutput, savedColorGroup] = [elements.output, elements.savedColorOutput, elements.savedColorGroup];
 			const savedColorInput = /** @type {null | HTMLInputElement} */(savedColorGroup?.querySelector("input:checked"));
-			if (
-				!colorInput?.validity.valid
-				|| !savedColorOutput
-				|| !savedColorGroup
-				|| !savedColorInput
-			) {
+			if (!savedColorInput) {
 				return;
 			}
 
@@ -418,9 +422,9 @@ var ColorPicker = {
 			const rgb = colorInput.value.slice(0, 7);
 
 			savedColorInput.value = rgb;
-			savedColorInput.labels.forEach(el => {
+			Array.from(savedColorInput.labels ?? []).forEach(el => {
 				el.style.backgroundColor = rgb;
-				el.querySelector(".checkbox-label").replaceChildren(`${index.toString().padStart(2, " ")}: ${rgb}`);
+				el.querySelector(".checkbox-label")?.replaceChildren(`${index.toString().padStart(2, " ")}: ${rgb}`);
 			});
 
 			savedColorOutput.style.backgroundColor = rgb;
@@ -457,9 +461,9 @@ var ColorPicker = {
 				ItemColorRevert("default");
 			} else {
 				const root = this.closest(".screen");
-				/** @type {null | HTMLFieldSetElement} */
+				/** @type {null | undefined | HTMLFieldSetElement} */
 				const fieldset = root?.querySelector("fieldset[name='color-picker']");
-				for (const e of fieldset.elements) {
+				for (const e of (fieldset?.elements ?? [])) {
 					if (e instanceof HTMLInputElement || e instanceof HTMLColorTintElement) {
 						e.value = e.defaultValue;
 					}
@@ -479,13 +483,20 @@ var ColorPicker = {
 			}
 
 			const colorState = ColorPicker.getColor(root);
+			if (!colorState) {
+				ElementDOMScreen.setStatus(root, CommonStringPartitionReplace("Internal error: failed to retrieve {root} color state", {
+					"{root}": ElementCreate({ tag: "q", children: [root.id] }),
+				}));
+				return;
+			}
+
 			/** @type {string} */
 			let color;
 			let opacity = 1;
 			const allColors = new Set(colorState.colors);
 			const allOpacities = new Set(colorState.opacity);
 			if (allColors.size === 1) {
-				color = allColors.values().next().value;
+				color = /** @type {string} */(allColors.values().next().value);
 			} else {
 				ElementDOMScreen.setStatus(root, CommonStringPartitionReplace(ItemColorText.get("CopyFail"), {
 					"{nColors}": ElementCreate({ tag: "q", children: [allColors.size.toString()] }),
@@ -493,11 +504,14 @@ var ColorPicker = {
 				return;
 			}
 			if (allOpacities.size === 1) {
-				opacity = allOpacities.values().next().value;
+				opacity = /** @type {number} */(allOpacities.values().next().value);
 			}
 
 			const isHexColor = CommonIsColor(color);
 			if (opacity !== 1 && isHexColor) {
+				if (color.length === 4) {
+					color = `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`;
+				}
 				color += Math.round(opacity * 255).toString(16).padStart(2, "0");
 			}
 
@@ -571,31 +585,33 @@ var ColorPicker = {
 		 * @type {ColorPickerInitOptions["onInput"]}
 		 */
 		inputItemColor: function (elem, ev) {
-			const opacityInput = /** @type {null | HTMLInputElement} */(elem.elements.namedItem("opacity"));
-			const outputInput = /** @type {null | HTMLInputElement} */(elem.elements.namedItem("output"));
-			if (!opacityInput || !outputInput) {
+			const item = ItemColorItem;
+			const colorState = ItemColorState;
+			const elements = ColorPicker._unpackColorPickerFieldset(elem);
+			if (!elements || !item || !colorState || !ItemColorCharacter) {
 				ev.stopImmediatePropagation();
 				return;
 			}
+			const [outputInput, opacityInput] = [elements.output, elements.opacity];
 
 			if (CommonIsColor(outputInput.value, { allowAlpha: true })) {
 				const colorValue = outputInput.value.slice(0, 7);
 				ItemColorPickerIndices.forEach(i => {
-					ItemColorState.colors[i] = colorValue;
-					ItemColorItem.Color[i] = colorValue;
+					colorState.colors[i] = colorValue;
+					item.Color[i] = colorValue;
 				});
-			} else if (ItemColorItem.Asset.Group.ColorSchema.includes(outputInput.value)) {
+			} else if (item.Asset.Group.ColorSchema.includes(outputInput.value)) {
 				ItemColorPickerIndices.forEach(i => {
-					ItemColorState.colors[i] = outputInput.value;
-					ItemColorItem.Color[i] = outputInput.value;
+					colorState.colors[i] = outputInput.value;
+					item.Color[i] = outputInput.value;
 				});
 			}
 
-			if (ItemColorState.editOpacity) {
+			if (colorState.editOpacity) {
 				for (const [i, layer] of ItemColorPickerLayers.entries()) {
 					const opacityValue = CommonClamp(opacityInput.valueAsNumber / 255, layer.MinOpacity, layer.MaxOpacity);
-					ItemColorState.opacity[i] = opacityValue;
-					ItemColorItem.Property.Opacity[i] = opacityValue;
+					colorState.opacity[i] = opacityValue;
+					item.Property.Opacity[i] = opacityValue;
 				}
 			}
 
@@ -618,7 +634,7 @@ var ColorPicker = {
 			const target = ev.relatedTarget;
 			if (
 				target instanceof Element
-				&& (this.contains(target) || Array.from(controller.labels).some(el => el.contains(target)))
+				&& (this.contains(target) || Array.from(controller.labels ?? []).some(el => el.contains(target)))
 			) {
 				return;
 			} else if (controller.getAttribute("aria-expanded") === "true") {
@@ -640,10 +656,9 @@ var ColorPicker = {
 
 			elems.forEach(e => e.toggleAttribute("hidden", hidden));
 			if (!hidden) {
-				/** @type {HTMLElement} */
 				const input = (
-					CommonFindMap(elems, (el) => el.querySelector("input:checked"))
-					?? CommonFindMap(elems, (el) => el.querySelector("input"))
+					CommonFindMap(elems, (el) => /** @type {null | HTMLInputElement} */(el.querySelector("input:checked")))
+					?? CommonFindMap(elems, (el) => /** @type {null | HTMLInputElement} */(el.querySelector("input")))
 					?? elems[0]
 				);
 				input.focus();
@@ -659,6 +674,38 @@ var ColorPicker = {
 			// as they otherwise wouldn't appear in `FocusEvent.relatedTarget`
 			this.blur();
 		},
+	},
+
+	/**
+	 * Unpack and validate the {@link HTMLFieldSetElement.elements} of the passed `fieldset[name='color-picker']` element.
+	 * @private
+	 * @param {HTMLFieldSetElement} fieldset
+	 * @param {null | { checkValidity?: boolean }} options
+	 */
+	_unpackColorPickerFieldset(fieldset, options=null) {
+		options ??= {};
+		const checkValidity = options.checkValidity ?? false;
+
+		const hue = fieldset.elements.namedItem("hue");
+		const opacity = fieldset.elements.namedItem("opacity");
+		const tint = fieldset.elements.namedItem("tint");
+		const output = fieldset.elements.namedItem("output");
+		const savedColorGroup = fieldset.elements.namedItem("saved-colors-group");
+		const savedColorOutput = fieldset.elements.namedItem("saved-colors-output");
+		const save = fieldset.elements.namedItem("save");
+		if (
+			hue instanceof HTMLInputElement && (!checkValidity || hue.validity.valid)
+			&& opacity instanceof HTMLInputElement && (!checkValidity || opacity.validity.valid)
+			&& tint instanceof HTMLColorTintElement && (!checkValidity || tint.validity.valid)
+			&& output instanceof HTMLInputElement && (!checkValidity || output.validity.valid)
+			&& savedColorGroup instanceof HTMLFieldSetElement && (!checkValidity || savedColorGroup.validity.valid)
+			&& savedColorOutput instanceof HTMLOutputElement && (!checkValidity || savedColorOutput.validity.valid)
+			&& save instanceof HTMLButtonElement && (!checkValidity || save.validity.valid)
+		) {
+			return { hue, opacity, tint, output, savedColorGroup, savedColorOutput, save };
+		} else {
+			return null;
+		}
 	},
 
 	/**
@@ -880,9 +927,83 @@ var ColorPicker = {
 	},
 
 	/**
+	 * {@link ColorPicker.setColor} helper for parsing color values (be it stringified or as HSV)
+	 * @private
+	 * @param {Pick<ColorPickerColorInput, "colorString" | "hsv">} value
+	 * @param {HTMLInputElement} outputInput
+	 * @param {null | number} opacity
+	 * @returns {{ hsv: null | HSVColor, output: string }}
+	 */
+	_setColorParseColor(value, outputInput, opacity) {
+		let output = "";
+		let colorIsHex = true;
+		/** @type {null | HSVColor} */
+		let hsv = null;
+		if (value.colorString != null) {
+			const color = value.colorString;
+			hsv = ColorPickerCSSToHSV(color);
+			colorIsHex = CommonIsColor(color, { allowAlpha: true });
+			if (!colorIsHex) {
+				output = color;
+			} else if (color.length === 4) {
+				output = `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`.toUpperCase();
+			} else {
+				output = color.slice(0, 7).toUpperCase();
+			}
+			output = colorIsHex ? color.slice(0, 7).toUpperCase() : color;
+		} else if (value.hsv) {
+			hsv = { ...value.hsv };
+			colorIsHex = true;
+			output = ColorPickerHSVToCSS(hsv);
+		} else {
+			colorIsHex = CommonIsColor(outputInput.value, { allowAlpha: true });
+			output = colorIsHex ? outputInput.value.slice(0, 7).toUpperCase() : outputInput.value;
+		}
+
+		if (opacity != null && opacity !== 255 && colorIsHex) {
+			output += opacity.toString(16).padStart(2, "0").toUpperCase();
+		}
+		return { hsv, output };
+	},
+
+	/**
+	 * {@link ColorPicker.setColor} helper for parsing opacity values
+	 * @private
+	 * @param {Pick<ColorPickerColorInput, "opacity" | "colorString">} value
+	 * @param {HTMLInputElement} opacityInput
+	 * @param {null | { overrideEditOpacity?: boolean }} options
+	 * @returns {null | number}
+	 */
+	_setColorParseOpacity(value, opacityInput, options=null) {
+		options ??= {};
+		if (opacityInput.disabled && !options.overrideEditOpacity) {
+			return null;
+		}
+
+		/** @type {null | number} */
+		let opacity = null;
+		if (CommonIsFinite(value.opacity, 0, 1)) {
+			opacity = Math.round(value.opacity * 255);
+		} else if (value.colorString != null && CommonIsColor(value.colorString, { allowAlpha: true }) && value.colorString.length > 7) {
+			const opacityCandidate = CommonParseInt(value.colorString.slice(7, 9), 16);
+			if (CommonIsInteger(opacityCandidate, 0, 255)) {
+				opacity = opacityCandidate;
+			}
+		}
+
+		if (opacity != null) {
+			const opacityMin = CommonParseInt(opacityInput.min) ?? 0;
+			const opacityMax = CommonParseInt(opacityInput.max) ?? 255;
+			return CommonClamp(opacity, opacityMin, opacityMax);
+		} else {
+			return null;
+		}
+	},
+
+	/**
 	 * Set the color and/or opacity of the passed color picker screen
 	 * @param {ElementHelp.ElementOrId} root - The color picker screen or its ID
-	 * @param {{ readonly colorString?: string, readonly hsv?: Readonly<HSVColor>, readonly opacity?: number }} value - The passed color (be it as string or HSV object) and opacity
+	 * @param {ColorPickerColorInput} value - The passed color (be it as string or HSV object) and opacity
 	 * @param {null | { overrideEditOpacity?: boolean, dispatch?: boolean }} options
 	 */
 	setColor(root, value, options=null) {
@@ -893,50 +1014,17 @@ var ColorPicker = {
 			return;
 		}
 
-		const outputInput = /** @type {null | HTMLInputElement} */(fieldset.elements.namedItem("output"));
-		const hueInput = /** @type {null | HTMLInputElement} */(fieldset.elements.namedItem("hue"));
-		const tintInput = /** @type {HTMLColorTintElement | null} */(fieldset.elements.namedItem("tint"));
-		const opacityInput = /** @type {null | HTMLInputElement} */(fieldset.elements.namedItem("opacity"));
-		if ([outputInput, hueInput, tintInput, opacityInput].some(i => i == null)) {
+		const elements = ColorPicker._unpackColorPickerFieldset(fieldset);
+		if (!elements) {
 			return;
 		}
-
-		// Parse the color (if provided) and identify whether we're dealing with hexcodes or not (Default, White, etc.)
-		let colorOutputText = "";
-		let colorIsHex = true;
-		/** @type {null | HSVColor} */
-		let hsv = null;
-		if (value.colorString != null) {
-			const color = value.colorString;
-			hsv = ColorPickerCSSToHSV(color);
-			colorIsHex = CommonIsColor(color, { allowAlpha: true });
-			colorOutputText = colorIsHex ? color.slice(0, 7).toUpperCase() : color;
-		} else if (value.hsv) {
-			hsv = { ...value.hsv };
-			colorIsHex = true;
-			colorOutputText = ColorPickerHSVToCSS(hsv);
-		} else {
-			colorIsHex = CommonIsColor(outputInput.value, { allowAlpha: true });
-			colorOutputText = colorIsHex ? outputInput.value.slice(0, 7).toUpperCase() : outputInput.value;
-		}
+		const [outputInput, hueInput, tintInput, opacityInput] = [elements.output, elements.hue, elements.tint, elements.opacity];
 
 		// Parse the opacities
-		/** @type {null | number} */
-		let opacity = null;
-		if (CommonIsFinite(value.opacity, 0, 1)) {
-			opacity = Math.round(value.opacity * 255);
-		} else if (CommonIsColor(value.colorString, { allowAlpha: true }) && value.colorString.length > 7) {
-			const opacityCandidate = CommonParseInt(value.colorString.slice(7, 9), 16);
-			if (CommonIsInteger(opacityCandidate, 0, 255)) {
-				opacity = opacityCandidate;
-			}
-		}
+		const opacity = ColorPicker._setColorParseOpacity(value, opacityInput, options);
 
-		if (opacity != null) {
-			const opacityMin = CommonParseInt(opacityInput.min) ?? 0;
-			const opacityMax = CommonParseInt(opacityInput.max) ?? 255;
-			opacity = CommonClamp(opacity, opacityMin, opacityMax);
-		}
+		// Parse the color (if provided) and identify whether we're dealing with hexcodes or not (Default, White, etc.)
+		let { hsv, output } = ColorPicker._setColorParseColor(value, outputInput, opacity);
 
 		if (hsv != null) {
 			hueInput.valueAsNumber = CommonClamp(Math.round(hsv.H * 360), 0, 360);
@@ -944,15 +1032,11 @@ var ColorPicker = {
 			fieldset.style.setProperty("--hue", hueInput.value);
 		}
 
-		if (opacity != null && (!opacityInput.disabled || options.overrideEditOpacity)) {
-			// Only create an RGBA code when not fully opaque and when the color is a hexcode (so no Default, White, etc.)
-			if (opacity !== 255 && colorIsHex) {
-				colorOutputText += opacity.toString(16).padStart(2, "0").toUpperCase();
-			}
+		if (opacity != null) {
 			opacityInput.valueAsNumber = opacity;
 		}
 
-		outputInput.value = colorOutputText;
+		outputInput.value = output;
 		if (options.dispatch ?? true) {
 			fieldset.dispatchEvent(new CustomEvent("input", { detail: { source: outputInput.name } }));
 		}
@@ -970,25 +1054,32 @@ var ColorPicker = {
 		}
 
 		/** @type {ItemColorExitState} */
-		let state;
-		if (ItemColorState) {
+		let exitState;
+		const colorState = ItemColorState;
+		if (colorState) {
 			// Plan A: the color picker is backed by an `ItemColorState`
 			const layerIndices = Array.from(ItemColorPickerLayers.keys());
-			state = {
-				colors: ItemColorPickerIndices.map(i => ItemColorState.colors[i]),
-				opacity: layerIndices.map(i => ItemColorState.opacity[i]),
-				initialColors: ItemColorPickerIndices.map(i => ItemColorState.initialColors[i]),
-				initialOpacity: layerIndices.map(i => ItemColorState.initialOpacity[i]),
-				defaultColors: [...ItemColorState.defaultColors],
-				defaultOpacity: [...ItemColorState.defaultOpacity],
-				editOpacity: ItemColorState.editOpacity,
+			exitState = {
+				colors: ItemColorPickerIndices.map(i => colorState.colors[i]),
+				opacity: layerIndices.map(i => colorState.opacity[i]),
+				initialColors: ItemColorPickerIndices.map(i => colorState.initialColors[i]),
+				initialOpacity: layerIndices.map(i => colorState.initialOpacity[i]),
+				defaultColors: [...colorState.defaultColors],
+				defaultOpacity: [...colorState.defaultOpacity],
+				editOpacity: colorState.editOpacity,
 			};
 		} else {
 			// Plan B: There's no `ItemColorState`; directly extract values and initial values from the input elements
 			/** @type {null | HTMLFieldSetElement} */
 			const fieldset = screen?.querySelector("fieldset[name='color-picker']");
-			const opacityInput = /** @type {null | HTMLInputElement} */(fieldset.elements.namedItem("opacity"));
-			const outputInput = /** @type {null | HTMLInputElement} */(fieldset.elements.namedItem("output"));
+			if (!fieldset) {
+				return null;
+			}
+			const elements = ColorPicker._unpackColorPickerFieldset(fieldset);
+			if (!elements) {
+				return null;
+			}
+			const [opacityInput, outputInput] = [elements.opacity, elements.output];
 
 			const initialOpacity = (opacityInput ? CommonParseInt(opacityInput.defaultValue) : null) ?? 255;
 			let initialColor = (outputInput ? outputInput.defaultValue : "") || "Default";
@@ -1002,7 +1093,7 @@ var ColorPicker = {
 				color = color.slice(0, 7); // Remove the alpha component
 			}
 
-			state = {
+			exitState = {
 				colors: [color],
 				opacity: [opacity / 255],
 				initialColors: [initialColor],
@@ -1012,7 +1103,7 @@ var ColorPicker = {
 				editOpacity: (opacityInput?.disabled ?? true) == false,
 			};
 		}
-		return state;
+		return exitState;
 	},
 
 	/**
@@ -1022,17 +1113,20 @@ var ColorPicker = {
 	 * @returns {boolean} - The new `disabled` state
 	 */
 	toggleDisabled(root, force=null) {
-		root = ElementWrap(root);
-		if (!root) {
-			return;
+		const screen = ElementWrap(root);
+		if (!screen) {
+			return false;
 		}
 
-		const fieldset = /** @type {null | HTMLFieldSetElement} */(root.matches("fieldset[name='color-picker']") ? root : root.querySelector("fieldset[name='color-picker']"));
+		const fieldset = /** @type {null | HTMLFieldSetElement} */(screen.matches("fieldset[name='color-picker']") ? screen : screen.querySelector("fieldset[name='color-picker']"));
+		if (!fieldset) {
+			return false;
+		}
 		const disabled = force ?? !fieldset.disabled;
 		fieldset.disabled = disabled;
 
 		// Also disable the accept and reset buttons
-		const menubarButtons = root.closest(".screen")?.querySelectorAll("[role='menuitem'][name='reset'], [role='menuitem'][name='accept']");
+		const menubarButtons = Array.from(screen.closest(".screen")?.querySelectorAll("[role='menuitem'][name='reset'], [role='menuitem'][name='accept']") ?? []);
 		menubarButtons.forEach(button => button.setAttribute("aria-disabled", disabled.toString()));
 		return disabled;
 	},
@@ -1040,7 +1134,7 @@ var ColorPicker = {
 
 /**
  * Call {@link ColorPickerLoad} with the passed parameters and perform a resize.
- * @param {ColorPickerInitOptions} options - The load parameters
+ * @param {null | ColorPickerInitOptions} options - The load parameters
  * @returns {Promise<HTMLElement>} - The root element of the color picker subscreen
  */
 async function ColorPickerInit(options=null) {
@@ -1050,11 +1144,11 @@ async function ColorPickerInit(options=null) {
 	await ColorPickerLoad();
 	ColorPickerInitOptions = null;
 	ColorPickerResize(true);
-	return ElementWrap(options.root ?? ColorPicker.ids.root);
+	return /** @type {HTMLElement} */(ElementWrap(options.root ?? ColorPicker.ids.root));
 }
 
 /** @type {ScreenLoadHandler} */
-function ColorPickerLoad() {
+async function ColorPickerLoad() {
 	const options = ColorPickerInitOptions ?? {};
 	let root = ElementWrap(options.root ?? ColorPicker.ids.root);
 	if (root) {
@@ -1126,32 +1220,45 @@ function ColorPickerReload(options=null) {
 	// When dealing with items or color groups (_i.e._ a set with potentially multiple distinct colors/opacities) the best you can do is attempt to pick the value that is the _least_ bullshit
 	/** @type {number[]} */
 	let opacities;
+	/** @type {number[]} */
+	let defaultOpacities;
 	/** @type {string[]} */
 	let colors;
+	/** @type {string[]} */
+	let defaultColors;
 	if (options.colorState) {
 		opacities = options.colorState.opacity;
 		colors = options.colorState.colors;
+		defaultOpacities = [...(options.colorState.defaultOpacity ?? opacities)];
+		defaultColors = [...(options.colorState.defaultColors ?? colors)];
+	} else if (ItemColorState) {
+		const colorState = ItemColorState;
+		opacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.opacity[i]);
+		colors = ItemColorPickerIndices.map(i => colorState.colors[i]);
+		defaultOpacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.defaultOpacity[i]);
+		defaultColors = ItemColorPickerIndices.map(i => colorState.defaultColors[i]);
 	} else {
-		opacities = Array.from(ItemColorPickerLayers.keys()).map(i => ItemColorState.opacity[i]);
-		colors = ItemColorPickerIndices.map(i => ItemColorState.colors[i]);
+		return null;
 	}
 	const singularOpacity = opacities.length === 0 ? 1 : Math.max(...opacities);
 	const singularColor = (colors.length >= 1 && colors.every(i => i === colors[0])) ? colors[0] : "";
+	const singularDefaultOpacity = defaultOpacities.length === 0 ? 1 : Math.max(...defaultOpacities);
+	const singularDefaultColor = (defaultColors.length >= 1 && defaultColors.every(i => i === defaultColors[0])) ? defaultColors[0] : "";
 
 	// Gather the elements
 	const fieldset = /** @type {null | HTMLFieldSetElement} */(root.matches("fieldset[name='color-picker']") ? root : root.querySelector("fieldset[name='color-picker']"));
-	const savedColor = /** @type {null | HTMLFieldSetElement} */(fieldset?.elements.namedItem("saved-colors-group"));
-	const savedColorOutput = /** @type {null | HTMLOutputElement} */(fieldset?.elements.namedItem("saved-colors-output"));
-	const savedColorSave = /** @type {null | HTMLButtonElement} */(fieldset?.elements.namedItem("save"));
-	const hueInput = /** @type {null | HTMLInputElement} */(fieldset?.elements.namedItem("hue"));
-	const opacityInput = /** @type {null | HTMLInputElement} */(fieldset?.elements.namedItem("opacity"));
-	const tintInput = /** @type {null | HTMLColorTintElement} */(fieldset?.elements.namedItem("tint"));
-	const outputInput = /** @type {null | HTMLInputElement} */(fieldset?.elements.namedItem("output"));
-	if (!fieldset || !savedColor || !tintInput || !opacityInput || !opacityInput || !savedColorOutput || !savedColorSave) {
+	if (!fieldset) {
 		return root;
 	}
+	const elements = ColorPicker._unpackColorPickerFieldset(fieldset);
+	if (!elements) {
+		return root;
+	}
+	const [savedColor, savedColorOutput, hueInput, opacityInput, tintInput, outputInput] = [
+		elements.savedColorGroup, elements.savedColorOutput, elements.hue, elements.opacity, elements.tint, elements.output,
+	];
 
-	if (options.colorState?.editOpacity ?? ItemColorState.editOpacity) {
+	if (options.colorState?.editOpacity ?? ItemColorState?.editOpacity) {
 		// Configure the min/max opacity and whether the opacity is configurable in the first place
 		let opacityMin = null;
 		let opacityMax = null;
@@ -1183,15 +1290,22 @@ function ColorPickerReload(options=null) {
 	}
 
 	// Reset the default values
-	tintInput.defaultValue = tintInput.value;
-	opacityInput.defaultValue = opacityInput.value;
-	outputInput.defaultValue = outputInput.value;
-	hueInput.defaultValue = hueInput.value;
+	const defaultOpacityParsed = ColorPicker._setColorParseOpacity({ opacity: singularDefaultOpacity }, opacityInput, { overrideEditOpacity: true });
+	const defaultColorParsed = ColorPicker._setColorParseColor({ colorString: singularDefaultColor }, outputInput, defaultOpacityParsed);
+	outputInput.defaultValue = defaultColorParsed.output;
+	opacityInput.defaultValue = (defaultOpacityParsed ?? 255).toString();
+	if (defaultColorParsed.hsv != null) {
+		tintInput.defaultValue = ColorPickerHSVToCSS(defaultColorParsed.hsv);
+		hueInput.defaultValue = defaultColorParsed.hsv.H.toString();
+	} else {
+		tintInput.defaultValue = "#FFFFFF";
+		hueInput.defaultValue = "0";
+	}
 
 	// Reset the search suggestions in the RGB text input based on one's color history + any supported non-hex colors (Default, White, Asian, etc.)
 	const prevColors = Array.from(ItemColorHistory);
 	if (!options.colorState) {
-		prevColors.push(...ItemColorItem.Asset.Group.ColorSchema.filter(i => !CommonIsColor(i)));
+		prevColors.push(...(ItemColorItem?.Asset.Group.ColorSchema ?? []).filter(i => !CommonIsColor(i)));
 	}
 	prevColors.sort();
 	outputInput.list?.replaceChildren(...prevColors.map(value => {
@@ -1205,7 +1319,7 @@ function ColorPickerReload(options=null) {
 		// The default (valueless) option `-`
 		if (!input.value) {
 			input.checked = true;
-			savedColorOutput.replaceChildren(...Array.from(input.labels).map(el => el.textContent.replace(" ", "")));
+			savedColorOutput.replaceChildren(...Array.from(input.labels ?? []).map(el => el.textContent.replace(" ", "")));
 			savedColorOutput.style.removeProperty("background-color");
 			return root;
 		}
@@ -1213,7 +1327,7 @@ function ColorPickerReload(options=null) {
 		const hsv = Player.SavedColors[i - 1];
 		const rgb = ColorPickerHSVToCSS(hsv);
 		input.value = rgb;
-		input.labels.forEach(el => {
+		Array.from(input.labels ?? []).forEach(el => {
 			el.querySelector(".checkbox-label")?.replaceChildren(`${i.toString().padStart(2, " ")}: ${rgb}`);
 			el.style.backgroundColor = rgb;
 		});

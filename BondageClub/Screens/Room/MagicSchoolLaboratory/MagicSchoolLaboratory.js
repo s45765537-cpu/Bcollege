@@ -96,7 +96,8 @@ function MagicSchoolLaboratoryRun() {
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Wardrobe.png", TextGet("Dress"));
 	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Explore.png", TextGet("Explore"));
-	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("Escape"));
+	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Tree.png", TextGet("ExploreAround"));
+	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("Escape"));
 }
 
 /**
@@ -109,7 +110,8 @@ function MagicSchoolLaboratoryClick() {
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 	if (MouseIn(1885, 265, 90, 90) && !MagicSchoolLaboratoryInHouse("")) MagicSchoolLaboratoryDressHouse();
 	if (MouseIn(1885, 385, 90, 90) && !MagicSchoolLaboratoryInHouse("")) MagicSchoolLaboratoryFindStudent();
-	if (MouseIn(1885, 505, 90, 90) && !MagicSchoolLaboratoryInHouse("")) CommonSetScreen("Room", "MagicSchoolEscape");
+	if (MouseIn(1885, 505, 90, 90) && !MagicSchoolLaboratoryInHouse("")) CommonSetScreen("Room", "MagicSchoolFindsAround");
+	if (MouseIn(1885, 625, 90, 90) && !MagicSchoolLaboratoryInHouse("")) CommonSetScreen("Room", "MagicSchoolEscape");
 }
 
 /**

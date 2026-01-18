@@ -20,7 +20,7 @@
 		"assets:posemapping": "cd Tools/Node && node --unhandled-rejections=strict PoseMapping",
 		"scripts:lint": "eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:lint:fix": "eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
-		"scripts:typecheck": "cd ../ && tsc -p BondageClub/tsconfig.json",
+		"scripts:typecheck": "cd ../ && tsc -p BondageClub/tsconfig.json && tsc-strict -p BondageClub/tsconfig.json",
 		"files:case": "cd Tools/Node && node --unhandled-rejections=strict FileCase",
 		"files:sortcsv": "cd Tools/Node && node --unhandled-rejections=strict SortCSV",
 		"test": "echo \\\"Error: no test specified\\\" && exit 1"
@@ -36,7 +36,9 @@
 	},
 	"homepage": "https://github.com/Ben987/Bondage-College#readme",
 	"browserslist": [
-		"since 2020 and > 0.5% and not dead"
+		"since 2020 and > 0.5% and not dead",
+		"Firefox >= 115",
+		"Chrome >= 109"
 	],
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.1",
@@ -55,6 +57,7 @@
 		"@types/node": "^24.10.0",
 		"@types/stream-counter": "^1.0.3",
 		"ansi-colors": "^4.1.1",
+		"baseline-browser-mapping": "^2.9.12",
 		"cheerio": "^1.0.0-rc.3",
 		"eslint": "^9.39.1",
 		"eslint-config-prettier": "^10.1.8",

@@ -9,9 +9,6 @@ var FuturisticTrainingBeltStates = ["None", "LowPriorityEdge", "LowPriorityTease
 /** @type {ItemPropertiesCustom["PublicModeCurrent"]} */
 var FuturisticTrainingBeltSetMode = 0;
 
-/** @deprecated */
-var FuturisticTrainingBeltStandUpFlag = /** @type {never} */(false);
-
 var FuturisticTrainingBeltSpeechCharacterLimit = 25;
 
 var FuturisticTrainingBeltRandomEdgeCycle = 150000; // 150s = 20% downtime at low intensity, so 30 of low and 120s of high
@@ -659,35 +656,17 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data, drawData
 	let EdgeMode = State.includes("Edge") || Mode == "EdgeAndDeny" || Mode == "RandomTeasing";
 
 
+	Item.Property.Effect ??= [];
 	if (EdgeMode) {
-		if (Item.Property.Effect && !Item.Property.Effect.includes("DenialMode")) {
+		if (!Item.Property.Effect.includes("DenialMode")) {
 			Item.Property.Effect.push("DenialMode");
 		}
-		if (Item.Property.Effect && !Item.Property.Effect.includes("RuinOrgasms")) {
+		if (!Item.Property.Effect.includes("RuinOrgasms")) {
 			Item.Property.Effect.push("RuinOrgasms");
 		}
 	} else {
-		if (Item.Property.Effect && Item.Property.Effect.includes("DenialMode")) {
-			for (let E = 0; E < Item.Property.Effect.length; E++) {
-				let Effect = Item.Property.Effect[E];
-				if (Effect == "DenialMode") {
-					Item.Property.Effect.splice(E, 1);
-					E--;
-				}
-			}
-		}
-		if (Item.Property.Effect && Item.Property.Effect.includes("RuinOrgasms")) {
-			for (let E = 0; E < Item.Property.Effect.length; E++) {
-				let Effect = Item.Property.Effect[E];
-				if (Effect == "RuinOrgasms") {
-					Item.Property.Effect.splice(E, 1);
-					E--;
-				}
-			}
-		}
+		Item.Property.Effect = Item.Property.Effect.filter(e => e !== "DenialMode" && e !== "RuinOrgasms");
 	}
-
-
 
 	if (ArousalActive) {
 		if (EdgeMode && C.ArousalSettings.Progress > 96 && !((ActivityOrgasmGameTimer != null) && (ActivityOrgasmGameTimer > 0) && (CurrentTime < C.ArousalSettings.OrgasmTimer))) { // Manually trigger orgasm at this stage

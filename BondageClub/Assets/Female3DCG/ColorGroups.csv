@@ -7,6 +7,10 @@ ClothAccessoryXmasShortShawlVelvet,Velvet
 ClothAccessoryXmasLongShawlCloth,Coth
 ClothAccessoryXmasLongShawlVelvet,Velvet
 ClothLowerTutuTutu,Tutu
+ClothRuffledDressSleeves,Sleeves
+ClothRuffledDressHem,Hem
+ClothRuffledDressCorset,Corset
+ClothRuffledDressLace,Lace
 ItemArmsArmbinderSuitSuit,Latex suit parts
 ItemArmsArmbinderSuitSuitShine,Latex shine
 ItemArmsArmbinderSuitBelts,Leather parts
@@ -39,6 +43,14 @@ ItemDevicesLuckyWheelStand,Stand
 ItemDevicesVacBedDeluxeBody,Body
 ItemDevicesVacBedDeluxeSheet,Sheet
 ItemDevicesWoodenRackWood,Wood
+ItemDevicesGiftBoxBox, Box
+ItemDevicesGiftBoxBoxReflection, Box Reflection
+ItemDevicesGiftBoxRibbon, Ribbon
+ItemDevicesGiftBoxRibbonReflection, Ribbon Reflection
+ItemDevicesGiftBoxInner, Inner
+ItemDevicesGiftBoxInnerReflection, Inner Reflection
+ItemDevicesXFrameFrame, Wood
+ItemDevicesXFrameMetal, Metal
 ItemFeetSturdyLeatherBeltsBelts,Belts
 ItemFeetSturdyLeatherBeltsMetal,Metal
 ItemHandheldSmartphoneStripes,Pattern
@@ -130,3 +142,5 @@ ItemBootsSingleBalletBootBelts,Belts
 NecklaceBeadNecklaceDragon,Dragon
 NecklaceBeadNecklaceCursedEye,Cursed Eye
 NecklaceBeadNecklaceShine,Shine
+TailStrapsKitsuneTailStrapsTails,Tails
+TailStrapsKitsuneTailStrapsTips,Tips

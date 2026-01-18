@@ -421,6 +421,7 @@ Label-ChatOther-ItemTorso-TickleItem,Tickle Back
 Label-ChatOther-ItemTorso-ThrowItem,Throw on Back
 Label-ChatOther-ItemVulva-ReversePenetrateAss,Take in Ass
 Label-ChatOther-ItemVulva-Caress,Caress Pussy
+Label-ChatOther-ItemVulva-DeepThroat,Deepthroat
 Label-ChatOther-ItemVulva-ReversePenetratePussy,Take in Pussy
 Label-ChatOther-ItemVulva-GaggedKiss,Push Gag in Pussy
 Label-ChatOther-ItemVulva-Kick,Kick Pussy
@@ -439,6 +440,7 @@ Label-ChatOther-ItemVulva-Scratch,Scratch
 Label-ChatOther-ItemVulva-ShockItem,Shock Vulva
 Label-ChatOther-ItemVulva-Slap,Slap Pussy Lips
 Label-ChatOther-ItemVulva-SpankItem,Spank Pussy
+Label-ChatOther-ItemVulva-SuckPenetrateItem,Suck On
 Label-ChatOther-ItemVulva-ReverseSuckItem,Suck On
 Label-ChatOther-ItemVulva-TickleItem,Tickle Vulva
 Label-ChatOther-ItemVulvaPiercings-Caress,Caress Clitoris
@@ -1034,6 +1036,7 @@ ChatOther-ItemTorso-TickleItem,SourceCharacter tickles TargetCharacter's back wi
 ChatOther-ItemTorso-ThrowItem,SourceCharacter throws ActivityAsset on TargetCharacter's back.
 ChatOther-ItemVulva-ReversePenetrateAss,SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive ass.
 ChatOther-ItemVulva-Caress,SourceCharacter caresses TargetCharacter's pussy with PronounPossessive fingers.
+ChatOther-ItemVulva-DeepThroat,SourceCharacter deepthroats TargetCharacter's ActivityAsset.
 ChatOther-ItemVulva-ReversePenetratePussy,SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive pussy.
 ChatOther-ItemVulva-GaggedKiss,SourceCharacter pushes PronounPossessive gag into TargetCharacter's vagina.
 ChatOther-ItemVulva-Kick,SourceCharacter kicks TargetCharacter on TargetPronounPossessive pussy.
@@ -1052,6 +1055,7 @@ ChatOther-ItemVulva-Scratch,SourceCharacter scratches over TargetCharacter's vul
 ChatOther-ItemVulva-ShockItem,SourceCharacter shocks TargetCharacter's vulva with PronounPossessive ActivityAsset.
 ChatOther-ItemVulva-Slap,SourceCharacter slaps TargetCharacter's pussy lips.
 ChatOther-ItemVulva-SpankItem,SourceCharacter hits TargetCharacter's pussy with PronounPossessive ActivityAsset.
+ChatOther-ItemVulva-SuckPenetrateItem,SourceCharacter sucks on TargetCharacter's ActivityAsset.
 ChatOther-ItemVulva-ReverseSuckItem,SourceCharacter eagerly sucks TargetCharacter's ActivityAsset.
 ChatOther-ItemVulva-TickleItem,SourceCharacter tickles TargetCharacter's vulva with PronounPossessive ActivityAsset.
 ChatOther-ItemVulvaPiercings-Caress,SourceCharacter caresses TargetCharacter's clitoris with PronounPossessive fingers.

@@ -70,11 +70,8 @@ Bra,HeartTop,Heart Top
 Bra,KittyBra1,Kitty Bra
 Bra,LatexBra1,Latex Bra
 Bra,LatexBunnySuit,Latex Bunny Girl Bodysuit
-Bra,LeatherBreastBinder,Leather Breast Binder
-Bra,LeatherStrapBra1,Leather Strap Bra
 Bra,MaidBra1,Maid Bra
 Bra,OuvertPerl1,Ouvert Perl
-Bra,Ribbons,Ribbons
 Bra,Sarashi1,Sarashi
 Bra,SexyBeachBra1,Sexy Beach Bra
 Bra,SexyBikini1,Demonique Bikini
@@ -83,8 +80,7 @@ Bra,SexyBikini3,One Piece Swimsuit
 Bra,SexyBikiniBra1,Micro Bikini Top
 Bra,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
 Bra,StarHarnessBra,Star Harness
-Bra,StrapBra, Strap Bra
-Bra,StuddedHarness,Studded Harness
+Bra,StrapBra,Strap Bra
 Bra,SportSwimsuit,Sport Swimsuit
 Bra,Swimsuit1,Swimsuit style 1
 Bra,Swimsuit2,Swimsuit style 2
@@ -170,6 +166,7 @@ Cloth,OffTheShoulderTop,Off The Shoulder Top
 Cloth,RetroGirdle,Retro Girdle Dress
 Cloth,RibbonCorset,Ribbon Corset
 Cloth,Robe1,Robe
+Cloth,RuffledDress,Ruffled Dress
 Cloth,SeethroughTop,See-through Top
 Cloth,ShoulderlessTop,Shoulderless Top
 Cloth,SlaveRags,Slave Rags
@@ -193,6 +190,7 @@ Cloth,MaidBikini,Maid Bikini
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
+ClothAccessory,BowBelt,Bow Belt
 ClothAccessory,BugLegs,Bug Legs
 ClothAccessory,BunnyCollarCuffs,Bunny Girl Accessories
 ClothAccessory,BowBackAccessory,Bow Back Accessory
@@ -278,6 +276,7 @@ ClothLower,SatinSkirt,Satin Skirt
 ClothLower,ShortPencilSkirt,Short Pencil Skirt
 ClothLower,ShortPlaidSkirt,Short Plaid Skirt
 ClothLower,Shorts1,Shorts
+ClothLower,SkinnyJeans,Skinny Jeans
 ClothLower,Skirt1,Skirt
 ClothLower,Skirt2,Student Skirt
 ClothLower,Skirt3,Student Skirt Short
@@ -323,6 +322,7 @@ Decals,BTeacher,Bondage Teacher
 Decals,BTG,BTG
 Decals,Bullseye,Aim Your Boss Butt
 Decals,ControlPad1,Control Padded
+Decals,CyberTechCorp,CyberTech Corp
 Decals,Dominant,Dominant
 Decals,Eclipse,Eclipse
 Decals,Elite,Kidnap League Elite
@@ -332,6 +332,7 @@ Decals,Keys,Keys?!
 Decals,RadFrog,RadFrog
 Decals,Raiders,Raiders Of The Pandora's Box
 Decals,Shibari,Shibari Crew
+Decals,SkullDecal,Skull
 Decals,Staff,Staff
 Decals,WhiteMoon,White Moon
 Decals,ZamStick,The Zam Sticker
@@ -944,12 +945,11 @@ ItemBreast,,Breasts
 ItemBreast,ForbiddenChastityBra,Forbidden Chastity Bra
 ItemBreast,FuturisticBra,Futuristic Chastity Bra
 ItemBreast,FuturisticBra2,Futuristic Bra
-ItemBreast,LeatherBreastBinder,Leather Breast Binder
 ItemBreast,MetalChastityBra,Metal Chastity Bra
 ItemBreast,OrnateChastityBra,Ornate Chastity Bra
 ItemBreast,PolishedChastityBra,Polished Chastity Bra
 ItemBreast,Ribbons,Ribbons
-ItemBreast,TickleBra, Tickle Bra
+ItemBreast,TickleBra,Tickle Bra
 ItemBreast,ChastityPlate,Male Chastity Plate
 ItemButt,,Butt
 ItemButt,AnalBeads,Anal Beads
@@ -1063,6 +1063,8 @@ ItemDevices,X-Cross,St. Andrews Cross
 ItemDevices,Highchair,Highchair
 ItemDevices,Potty,Potty
 ItemDevices,Enema,Enema Fixture
+ItemDevices,GiftBox,Gift Box
+ItemDevices,XFrame,X-Frame
 ItemEars,,Ears
 ItemEars,BluetoothEarbuds,Bluetooth Earbuds
 ItemEars,FuturisticEarphones,Futuristic Earphones
@@ -1115,6 +1117,7 @@ ItemHandheld,Cane,Cane
 ItemHandheld,CattleProd,Cattle Prod
 ItemHandheld,Cigarette,Cigarette
 ItemHandheld,Crop,Crop
+ItemHandheld,DragonPlush,Dragon Plush
 ItemHandheld,ElectricToothbrush,Electric Toothbrush
 ItemHandheld,Feather,Feather
 ItemHandheld,FeatherDuster,Feather Duster
@@ -1122,6 +1125,7 @@ ItemHandheld,Flogger,Flogger
 ItemHandheld,FoamRoll,Foam Roll
 ItemHandheld,ForSaleSign,For Sale Sign
 ItemHandheld,Gavel,Gavel
+ItemHandheld,GiftBox,Gift Box
 ItemHandheld,GlassEmpty,Empty Glass
 ItemHandheld,GlassFilled,Filled Glass
 ItemHandheld,GlueTube,Atoxic Glue Tube
@@ -1438,6 +1442,7 @@ ItemMouth,Ribbons,Ribbons
 ItemMouth,RingGag,Ring Gag
 ItemMouth,RopeBallGag,Rope Ball Gag
 ItemMouth,RopeGag,Rope Gag
+ItemMouth,RoseBallGag,Rose Ball Gag
 ItemMouth,ScarfGag,Scarf
 ItemMouth,ShoeGag,Shoe Gag
 ItemMouth,Slime,Slime
@@ -1669,6 +1674,7 @@ ItemVulva,InflatableVibeDildo,Inflatable Vibrating Dildo
 ItemVulva,InflatableVibratingPanties, Inflatable Vibrating Panties
 ItemVulva,LoversVibrator,Lovers Vibrator
 ItemVulva,LoversVibratorRemote,Lovers Remote
+ItemVulva,MysteryBox,Mystery Box
 ItemVulva,PenisDildo,Penis Dildo
 ItemVulva,PlasticChastityCage1,Plastic Chastity Cage 1
 ItemVulva,PlasticChastityCage2,Plastic Chastity Cage 2
@@ -1757,6 +1763,7 @@ Necklace,NecklaceButterfly,Butterfly Necklace
 Necklace,NecklaceKey,Key Necklace
 Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
+Necklace,NecklaceRoseBallGag,Rose Ball Gag Necklace
 Necklace,PearlNecklace1,Custom Pearl Necklace
 Necklace,PlantNecklace,Plant Necklace
 Necklace,RosePendant,Rose Pendant
@@ -1974,6 +1981,7 @@ TailStraps,DragonTailStrap2Left, Scaled dragon tail strap (Left)
 TailStraps,DragonTailStrap2Right, Scaled dragon tail strap (Right)
 TailStraps,FoxTailsStrap,Fox Tails Strap
 TailStraps,FoxTailStrap,Fox Tail Strap
+TailStraps,KitsuneTailStraps,Kitsune Tail Straps
 TailStraps,HorseTailStrap,Horse Tail Strap
 TailStraps,HorseTailStrap1,Horse TailStrap
 TailStraps,KittenTailStrap1,Light Kitten Tail Strap

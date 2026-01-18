@@ -85,19 +85,11 @@ function CollegeDetentionYukiClothes(C) {
 async function CollegeDetentionLoad() {
 
 	// Generates a full Yuki model based on the Bondage College template
-	if (CollegeDetentionYuki == null) {
-
-		// Do not generate her if she's already in the private room
-		if (PrivateCharacter.length > 1)
-			for (let P = 1; P < PrivateCharacter.length; P++)
-				if (PrivateCharacter[P].Name == "Yuki")
-					return;
-
+	if (!CollegeDetentionYuki && !PrivateCharacterIsInRoom("Yuki")) {
 		// Generates the model
 		CollegeDetentionYuki = CharacterLoadNPC("NPC_CollegeDetention_Yuki");
 		CollegeDetentionYuki.AllowItem = false;
 		CollegeDetentionYuki.Name = "Yuki";
-		CollegeDetentionYuki.GoneAway = false;
 		CollegeDetentionYukiClothes(CollegeDetentionYuki);
 		CharacterRefresh(CollegeDetentionYuki);
 
@@ -111,7 +103,7 @@ async function CollegeDetentionLoad() {
  */
 function CollegeDetentionRun() {
 	DrawCharacter(Player, 500, 0, 1);
-	if ((CollegeDetentionYuki != null) && !CollegeDetentionYuki.GoneAway) DrawCharacter(CollegeDetentionYuki, 1000, 0, 1);
+	if (CollegeDetentionYuki) DrawCharacter(CollegeDetentionYuki, 1000, 0, 1);
 	DrawButton(1885, 25, 90, 90, "", Player.CanWalk() ? "White" : "Pink", "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 }
@@ -121,7 +113,7 @@ function CollegeDetentionRun() {
  * @returns {void} - Nothing
  */
 function CollegeDetentionClick() {
-	if (MouseIn(1000, 0, 500, 1000) && (CollegeDetentionYuki != null) && !CollegeDetentionYuki.GoneAway) CharacterSetCurrent(CollegeDetentionYuki);
+	if (MouseIn(1000, 0, 500, 1000) && CollegeDetentionYuki) CharacterSetCurrent(CollegeDetentionYuki);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "CollegeEntrance");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 }
@@ -219,9 +211,7 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	ItemsToEarn.push({Name: "RegularSleepingPill", Group: "ItemMouth"});
 	InventoryAddMany(Player, ItemsToEarn);
 
-	PrivateAddCharacter(CollegeDetentionYuki, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeDetentionYuki, null, true);
 	NPCTraitSet(C, "Dominant", 20);
 	NPCTraitSet(C, "Horny", 80);
 	NPCTraitSet(C, "Rude", 60);
@@ -243,7 +233,8 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();
-	CollegeDetentionYuki.GoneAway = true;
+	CharacterDelete(CollegeDetentionYuki);
+	CollegeDetentionYuki = null;
 
 	CommonSetScreen("Room", "Private");
 }

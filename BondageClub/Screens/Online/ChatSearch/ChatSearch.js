@@ -104,9 +104,9 @@ var ChatSearchFilterHelpScreenElement;
  * @param {ServerChatRoomSpace} space - Name of the chatroom space
  * @param {ScreenSpecifier | undefined} returnScreen - Screen to go back to when exiting leaving the lobby.
  * @param {ChatSearchLobbyOptions} [options]
- * @returns {void} - Nothing.
+ * @returns {Promise<void>} - Nothing.
  */
-function ChatSearchStart(space, returnScreen, options) {
+async function ChatSearchStart(space, returnScreen, options) {
 	const validSpaces = /** @type {ServerChatRoomSpace[]} */ (["X", "", "M", "Asylum"]);
 	if (!validSpaces.includes(space)) {
 		console.error(`invalid space ${space}`);
@@ -124,7 +124,12 @@ function ChatSearchStart(space, returnScreen, options) {
 	ChatSearchBackground = options?.Background ?? "Introduction";
 	ChatSearchBackgroundTagList = options?.BackgroundTagList ?? BackgroundsTagList;
 	ChatSearchQueryString = "";
-	CommonSetScreen("Online", "ChatSearch");
+	const [module, screen] = CommonGetScreen();
+	if (module === "Online" && screen === "ChatSearch") {
+		// Already on screen
+		return Promise.resolve();
+	}
+	return CommonSetScreen("Online", "ChatSearch");
 }
 
 /**
@@ -1177,7 +1182,7 @@ function ChatSearchCreateGridRoom(room, index) {
 
 	const icons = ChatSearchGridRoomGetIcons(room);
 
-	/** @type {(null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
+	/** @type {(null | undefined | string | Node | HTMLOptionsUnion)[]} */
 	const content = [
 		ElementButton.Create(`chat-search-room-join-button-${room.Order}`, () => {
 			ChatSearchClickRoom(room);
@@ -1298,7 +1303,7 @@ function ChatSearchGridRoomCanJoin(room) {
  * @returns {HTMLDivElement | undefined}
  */
 function ChatSearchCreateGridRoomTooltip(room, index) {
-	/** @type {HTMLOptions<keyof HTMLElementTagNameMap>[]} */
+	/** @type {HTMLOptionsUnion[]} */
 	const children = [];
 	if (room.Friends.length > 0) {
 		children.push({
@@ -1876,9 +1881,6 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery(Query) {
-
-	// No regular chat result if locked in Pandora prison
-	if (PandoraPenitentiaryIsInmate(Player)) return;
 
 	if (ChatRoomJoinLeash != null && ChatRoomJoinLeash != "") {
 		Query = ChatRoomJoinLeash.toUpperCase().trim();

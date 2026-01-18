@@ -11,16 +11,20 @@ BackAlley,Back Alley
 BalconyNight,Balcony Night
 BalletClass1,Ballet Class
 BarRestaurant,Bar Restaurant
+Bar2,Small Bar
 BDSMRoomBlue,BDSM Room Blue
 BDSMRoomPurple,BDSM Room Purple
 BDSMRoomRed,BDSM Room Red 1
 BDSMRoomRed2,BDSM Room Red 2
+BDSMRoomRed3,BDSM Room Red 3
 Beach,Beach
 BeachCafe,Beach Promenade Café
 BeachHotel,Beach Hotel
 BeachSunset,Beach Sunset
 Bedroom,Bedroom
 Bedroom2,Japanese Bedroom
+Bedroom3,Boy Bedroom
+Bedroom4,Girl Bedroom
 BondageBedChamber,Bondage Bedchamber
 Boudoir,Boudoir
 BoutiqueBack,Shop Dressing Rooms
@@ -28,6 +32,7 @@ BoutiqueMain,Boutique Shop
 CaptainCabin,Captain Cabin
 Casino1,Casino
 Castle,Fancy Castle
+CastleHall1,Stone Castle Hall
 Cellar,Cellar
 CeremonialVenue,Ceremony Venue
 ChillRoom,Chill Room
@@ -54,6 +59,7 @@ CollegeStaffRoom,Staff Room
 CommercialStreetNight1,Commercial Street Night
 Confessions,Confessions
 CosyChalet,Cosy Chalet
+Cottage1,Wooden Cottage
 CozyLivingRoom,Cozy Living Room
 CreepyBasement,Creepy Basement
 DeepForest,Deep Forest
@@ -101,8 +107,10 @@ JungleTemple,Jungle Temple
 Kennels,Kennels
 KidnapLeague,Kidnappers League
 KinkyShop1,Kinky Shop
-Kitchen1,Kitchen 1
-Kitchen2,Kitchen 2
+Kitchen1,Modern Kitchen
+Kitchen2,Large Kitchen
+Kitchen3,Cozy Kitchen
+Kitchen4,Dorm Kitchen
 LatexRoom,Latex Room
 LeatherChamber,Leather Chamber
 LingerieShop,Lingerie Shop
@@ -115,12 +123,15 @@ MainHall,Main Hall
 MainHall2,Main Hall Gold
 Management,Club Management
 MedinaMarket,Medina Market
+MeetingRoom1,Meeting Room
 MiddletownSchool,Middletown School
 MovieStudio,Movie Studio
 NightClub,Nightclub
 Nursery,Nursery
 Office1,Luxury Office
 Office2,Open Office
+Office3,College Small Office
+Office4,College Director Office
 OldFarm,Old Farm
 Onsen,Onsen
 OutdoorPool,Outdoor Pool
@@ -136,6 +147,7 @@ PandoraCell4,Pandora Cell E
 PandoraCell5,Pandora Cell F
 PandoraCell6,Pandora Cell G
 ParkDay,Park Day
+ParkEntrance1,Park Entrance
 ParkNight,Park Night
 ParkWinter,Park Winter
 PartyBasement,Party Basement
@@ -186,10 +198,12 @@ SnowyTown1,Snowy Town 1
 SnowyTown2,Snowy Town 2
 SpaceCaptainBedroom,Space Station Captain Bedroom
 SpookyForest,Spooky Forest
+Stage1,Fashion Stage
 StreetNight,Christmas Street Night
 StudentBedroom1,Student Bedroom
 SunTemple,Sun Temple
 SynthWave,Virtual World
+Tavern1,Old Tavern
 ThroneRoom,Throne Room
 TiledBathroom,Tiled Bathroom
 UnderwaterOne,Underwater One

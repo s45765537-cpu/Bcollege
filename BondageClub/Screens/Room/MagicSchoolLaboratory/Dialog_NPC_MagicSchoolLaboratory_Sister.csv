@@ -64,6 +64,7 @@ RemoveItemNipples,,,(She takes a deep breath and stays silent as you remove the 
 100,110,(Remove her gag.),(You slowly remove her gag.)  Thanks sis!  You're a great wizard.,UngagStudent(),
 100,120,(Play with her.),(She stares at you as you get closer.),,
 100,,(Bring her to your room.),,TransferToRoom(),CanTransferToRoom()
+100,,(Gather essence from her.),"(The spell starts to drains her essence. She grows pale and drops to her knees shaking and moaning.) AahHhh~  (After a moment she calms down a little. She is powerless, exhausted, but also satisfied in some way~)","DialogKitsuneGiveEssence(1)",DialogKitsuneQuestInProgress()
 100,,(Let her go.),,DialogLeave(),
 110,120,That was a fun battle.,(She nods slowly and looks at you as you get closer.),,
 110,120,House Maiestas will rule the school soon.,(She nods happily as you get closer.),"DialogChangeReputation(""HouseMaiestas"", 2)","InHouse(""Maiestas"")"

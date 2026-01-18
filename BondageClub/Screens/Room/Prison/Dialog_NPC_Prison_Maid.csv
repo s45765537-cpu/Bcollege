@@ -17,8 +17,6 @@ ItemBreastWhip,,,(She jumps from the searing pain on her breast.)  Ouch!  Miss H
 ItemBreastCrop,,,(You whip her breast with the leather crop as she whimpers and bows her head.),,
 ItemPelvisWhip,,,(You whip her butt hard as she sighs.)  I promise I'll work harder Miss Head Maid.,,
 ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maids work isn't easy.,,
-SuspensionHempRope,,,(You restrain her legs with the long hemp rope and suspend her by the feet from the ceiling.)  Well done.,,
-RemoveSuspensionHempRope,,,(You untie the hemp rope from the ceiling and slowly let her down.)  Always be careful when you suspend someone.,,
 0,,,(A maid stands around and greets you.) This room is under construction. Please leave.,,
 0,,What's going on here?,I'm looking for someone in handcuffs to help me test something.,,!PrisonPlayerIsHandcuffed()
 0,1,What kind of test is it?,(She shoves you into a cell and closes the door.),CellPlayerIn(),PrisonPlayerIsHandcuffed()
