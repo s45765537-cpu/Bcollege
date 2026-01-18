@@ -265,6 +265,7 @@ function MagicSchoolFindsAroundGiveTails() {
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundHideNPC() {
+	MagicSchoolFindsAroundGiveTails();
 	MagicSchoolFindsAroundKitsune.Name = "";
 	MagicSchoolFindsAroundKitsune.FixedImage = "Screens/Room/MovieStudio/Empty.png";
 }
