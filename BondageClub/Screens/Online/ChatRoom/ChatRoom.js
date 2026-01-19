@@ -4326,6 +4326,9 @@ function ChatRoomMessage(data) {
 	if (typeof data !== "object" || typeof data.Content !== "string" || typeof data.Sender !== "number")
 		return;
 
+	// We're not in a chat room anymore
+	if (!ChatRoomData) return;
+
 	// Make sure the sender is in the room
 	const SenderCharacter = ChatRoomCharacter.find(c => c.MemberNumber == data.Sender);
 	if (!SenderCharacter) return;
