@@ -5644,9 +5644,13 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 			}))
 		}).outerHTML
 	);
-	document.querySelector(`#${id} .chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
-	document.querySelector(`#${id} .chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
-	document.querySelector(`#${id} .chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+
+	const button = document.getElementById(id);
+	if (button) {
+		document.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
+		document.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
+		document.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+	}
 }
 
 
