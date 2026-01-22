@@ -769,7 +769,7 @@ var CraftingEventListeners = {
 		}
 
 		// Focus the search input in the side pannel if it exists
-		const panel = document.querySelector(`#${this.getAttribute("aria-controls")} > .crafting-grid`);
+		const panel = document.querySelector(`#${CSS.escape(this.getAttribute("aria-controls"))} > .crafting-grid`);
 		const activeRadio = panel?.querySelector(`[aria-checked='true']`);
 		if (activeRadio) {
 			activeRadio.scrollIntoView();

@@ -8,6 +8,8 @@ action:chat_history_prev:desc,Navigates to the previous message in the chat hist
 action:chat_history_prev:name,Chat History Previous
 action:chat_send_chat:desc,Sends the message to the chatroom.
 action:chat_send_chat:name,Send Message
+action:chat_send_ooc_chat:desc,Sends the OOC message to the chatroom.
+action:chat_send_ooc_chat:name,Send OOC Message
 action:chat_send_chat_mobile:desc,Sends the message to the chatroom (virtual keyboard compatibility).
 action:chat_send_chat_mobile:name,Send Message (mobile)
 action:chatroom_leave:desc,Tries to leave the chat room.

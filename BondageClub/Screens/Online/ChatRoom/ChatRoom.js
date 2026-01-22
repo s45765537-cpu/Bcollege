@@ -4326,6 +4326,9 @@ function ChatRoomMessage(data) {
 	if (typeof data !== "object" || typeof data.Content !== "string" || typeof data.Sender !== "number")
 		return;
 
+	// We're not in a chat room anymore
+	if (!ChatRoomData) return;
+
 	// Make sure the sender is in the room
 	const SenderCharacter = ChatRoomCharacter.find(c => c.MemberNumber == data.Sender);
 	if (!SenderCharacter) return;
@@ -5644,9 +5647,13 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 			}))
 		}).outerHTML
 	);
-	document.querySelector(`#${id} .chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
-	document.querySelector(`#${id} .chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
-	document.querySelector(`#${id} .chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+
+	const button = document.getElementById(id);
+	if (button) {
+		document.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
+		document.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
+		document.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+	}
 }
 
 

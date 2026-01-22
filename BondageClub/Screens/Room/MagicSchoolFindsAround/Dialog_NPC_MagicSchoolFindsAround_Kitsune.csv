@@ -1,6 +1,6 @@
 PlayerGagged,,,"(She looks at your gag and chuckles.) Someone had fun~ but we can't speak like this, return when you are more available.",,
-ClubCardVictory,0,,"Good work~ you have potential to be a great player, here is your reward",,
-ClubCardDefeat,,,Now time for my reward~,,
+ClubCardVictory,0,,"Good work~ you have potential to be a great player, enjoy your reward~",,
+ClubCardDefeat,,,Now time for my reward: [~More Coming Soon~],,
 BattleSuccess,70,,"(She looks at you with hate in her eyes, but you can feel some weakness behind her bravado)",,
 BattleFail,70,,Now time for my reward~,,
 CompleteQuestRelief,,,"Finally! I can feel the essence you gathered. Good Work~ ",,
@@ -18,14 +18,14 @@ CompleteQuestRelief,,,"Finally! I can feel the essence you gathered. Good Work~ 
 30,35,What are the stakes?,"If you win I will give you a card, but if you lose... I will tie you up and enjoy myself~",,
 35,,Let's play.,,ClubCardStart()
 35,0,I dont want to risk,Shame~,,
-70,110,(Reach for her power),"(You sense the weakness she hides and reach for it. Slowly, irresistibly, her power flows into you. She resists, but it is in vain. At last, she lies spent on the ground… and her power is yours.)",GiveTails(),
+70,110,(Reach for her power),"(You sense the weakness she hides and reach for it. Slowly, irresistibly, her power flows into you. She resists, but it is in vain. At last, she lies spent on the ground… and her power is yours.) [(~Kitsune tails unlocked~)]",GiveTails(),
 90,,(Fight her),"(Her ears flatten, power crackling around her.) “Oh… you stupid little thing.”",MagicBattleStart(),
 90,95,Wait! I want to work with you!,"(She smiles, clearly pleased.) “I knew you’d make the right decision~”",StartQuest(),
 95,100,How I'm supposed to do this?,"Go back to school, after you defeat students, when they are bound and helpless, use this spell. (She teaches you a spell to drain essence)",StartQuest(),"QuestStarted()"
 100,,(Leave for School),"How long I need to wait? You are still missing LEFTDEFEATCOUNT students to defeat!!!",RunAway(),"!QuestCompleted()"
 100,105,I did it!,"“Good work~” (A soft pink fog envelops you as she leans closer, her lips brushing your skin.) “Come… I will share secrets of my power~” (You hear her whisper and everything goes dark)",,"QuestCompleted()"
 110,0,(Leave with your new powers),,RunAwayEnd()
-105,130,(You look around), Daji is nowhere to be seen. You’re alone… yet you can feel your new power dwelling inside... and ready to be unleashed...,HideNPC(),
+105,130,(You look around), Daji is nowhere to be seen. You’re alone… yet you can feel your new power dwelling inside... and ready to be unleashed... [(~Kitsune tails unlocked~)],HideNPC(),
 130,0,(Leave with your new powers),,RunAwayEnd()
 200,210,(Struggle and test your bondage.),(She smiles and removes your gag.)  You're cute when you struggle.  I won't let you go that easily.,UngagPlayer(0),
 200,210,(Bow your head and whimper silently.),(She smirks and removes your gag.)  Such a cute subbie in bondage.  I won't let you go easily.,UngagPlayer(-3),

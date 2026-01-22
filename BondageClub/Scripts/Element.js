@@ -7,8 +7,9 @@
  * IDs consist of base36-encoded integers whose value is incremented each time this function is called.
  */
 var ElementGenerateID = (() => {
+	// Prefix the ID with a letter, as number-prefixes are invalid within css selectors unless escaped via the likes of `CSS.escape()`
 	let id = 0;
-	return function() { return (id++).toString(36); };
+	return function() { return "a" + (id++).toString(36); };
 })();
 
 /**
