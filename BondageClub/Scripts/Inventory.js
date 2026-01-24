@@ -365,7 +365,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "AccessVulva": {
 			const target = Prerequisite === "AccessVulva" ? "ItemVulva" : "ItemButt";
 
-			if (InventoryDoItemsBlockGroup(C, target, ["Cloth", "Socks"]) || !InventoryDoItemsExposeGroup(C, target, ["ClothLower", "Panties"]))
+			if (InventoryDoItemsBlockGroup(C, target, ["Cloth", "Panties", "Socks"]) || !InventoryDoItemsExposeGroup(C, target, ["ClothLower", "Panties"]))
 				return "RemoveClothesForItem";
 
 			// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.
@@ -378,7 +378,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		}
 
 		case "AccessCrotch":
-			return (InventoryDoItemsBlockGroup(C, "ItemPelvis", ["Cloth", "ClothLower", "ClothOuter", "Socks"])
+			return (InventoryDoItemsBlockGroup(C, "ItemPelvis", ["Cloth", "ClothLower", "ClothOuter", "Socks", "Panties"])
 				|| (!InventoryDoItemsExposeGroup(C, "ItemVulva", ["ClothLower", "Panties"])
 				&& !InventoryDoItemsExposeGroup(C, "ItemVulvaPiercings", ["ClothLower", "Panties"])
 				&& !InventoryDoItemsExposeGroup(C, "ItemButt", ["ClothLower", "Panties"])))
