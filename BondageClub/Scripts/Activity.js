@@ -227,11 +227,11 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			if (group.Name === "ItemButt")
 				return InventoryPrerequisiteMessage(actor, "AccessButt") === "" && !(actor.IsPlugged() || actor.IsButtChaste());
 			else if (group.Name === "ItemVulva")
-				return (InventoryPrerequisiteMessage(actor, "AccessCrotch") === "") && !actor.IsVulvaChaste();
+				return InventoryPrerequisiteMessage(actor, "AccessCrotch") === "" && InventoryPrerequisiteMessage(actor, "AccessVulva") === "" && !actor.IsVulvaChaste();
 			else if (group.Name === "ItemVulvaPiercings")
-				return (InventoryPrerequisiteMessage(actor, "AccessCrotch") === "") && !actor.IsVulvaChaste();
+				return InventoryPrerequisiteMessage(actor, "AccessCrotch") === "" && InventoryPrerequisiteMessage(actor, "AccessVulva") === "" && !actor.IsVulvaChaste();
 			else if (group.Name === "ItemBreast" || group.Name === "ItemNipples")
-				return (InventoryPrerequisiteMessage(actor, "AccessBreast") === "") && !actor.IsBreastChaste();
+				return InventoryPrerequisiteMessage(actor, "AccessBreast") === "" && !actor.IsBreastChaste();
 			else if (group.Name === "ItemBoots")
 				return InventoryPrerequisiteMessage(actor, "NakedFeet") === "";
 			else if (group.Name === "ItemHands")
