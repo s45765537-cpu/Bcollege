@@ -437,7 +437,7 @@ function ElementCreateDiv(ID) {
 
 /**
  * Removes an element from the main document
- * @param {ElementHelp.ElementOrId} elementOrId - The id of the tag to remove from the document.
+ * @param {ElementHelp.ElementOrId | null} elementOrId - The id of the tag to remove from the document.
  * @returns {void} - Nothing
  */
 function ElementRemove(elementOrId) {
@@ -490,7 +490,7 @@ function ElementPosition(ElementOrID, X, Y, W, H) {
 /**
  * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
  * Not same as ElementPositionFix. Calculates Font size itself.
- * @param {ElementHelp.ElementOrId} ElementOrID - The id of the input tag to (re-)position or the element itself.
+ * @param {ElementHelp.ElementOrId | null} ElementOrID - The id of the input tag to (re-)position or the element itself.
  * @param {number} X - Starting point of the element on the X axis.
  * @param {number} Y - Starting point of the element on the Y axis.
  * @param {number} W - Width of the element.
@@ -2697,9 +2697,11 @@ var ElementDOMScreen = {
 
 /**
  * Given an HTML element, reduce its font size until it fully fits into its visual width
- * @param {HTMLElement} el
+ * @param {HTMLElement | Element} el
  */
 function ElementFitText(el) {
+	if (!(el instanceof HTMLElement)) return;
+
 	const style = window.getComputedStyle(el);
 	const baseSize = parseFloat(style.fontSize); // in px, even if CSS said "em"
 	let size = baseSize;
