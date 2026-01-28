@@ -22184,6 +22184,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Rika
 						{}, // Roslin
 						{}, // Felix
+						{}, // Donna
 					],
 					DrawData: {
 						elementData: [
@@ -22199,6 +22200,10 @@ var AssetFemale3DCGExtended = {
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Roslin.png",
 							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Felix.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_PrincessDonna.png",
+							},
 						],
 					},
 				},
@@ -22496,6 +22501,30 @@ var AssetFemale3DCGExtended = {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Nel.png" },
+						],
+					},
+				},
+				{
+					Name: "CCLounge",
+					Key: "CCLounge",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Donna
+						{}, // Deasy
+						{}, // Jennifer
+						{}, // Tsuki
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Dana.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Deasy.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Jennifer.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Tsuki.png" },
 						],
 					},
 				},
