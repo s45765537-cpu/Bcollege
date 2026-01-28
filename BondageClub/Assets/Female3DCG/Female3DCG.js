@@ -11471,6 +11471,101 @@ var AssetFemale3DCG = [
 					{ Name: "Bow" },
 				],
 			},
+			{
+				Name: "PullDownPanties",
+				InventoryID: 2301,
+				Value: 25,
+				Priority: 24,
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 0,
+				},
+				InheritPoseMappingFields: true,
+				AllowExpression: [null, "Hard"],
+				PoseMapping: {
+					Spread: "Spread",
+					AllFours: "AllFours",
+					KneelingSpread: "KneelingSpread",
+				},
+				ParentGroup: {
+					[PoseType.DEFAULT]: "BodyLower",
+					AllFours: "BodyUpper",
+				},
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+				Extended: true,
+				StyleOverride: ["EchoV1", "EchoV2"],
+				Layer: [
+					{
+						Name: "PutOn",
+						AllowTypes: { typed: 0 },
+						HideForAttribute: ["PenisLayer"],
+					},
+					{
+						Name: "PutOnBulge",
+						AllowTypes: { typed: 0 },
+						ShowForAttribute: ["PenisLayer"],
+						MirrorExpression: "Pussy",
+						CopyLayerColor: "Pose1",
+					},
+					{
+						Name: "PulledAside",
+						AllowTypes: { typed: 1 },
+						HideForAttribute: ["PenisLayer"],
+						CopyLayerColor: "Pose1",
+					},
+					{
+						Name: "PulledAsideBulge",
+						AllowTypes: { typed: 1 },
+						ShowForAttribute: ["PenisLayer"],
+						MirrorExpression: "Pussy",
+						CopyLayerColor: "Pose1",
+					},
+					{
+						Name: "CrotchExposed",
+						AllowTypes: { typed: 2 },
+						HideForAttribute: ["PenisLayer"],
+						CopyLayerColor: "Pose1",
+						PoseMapping: {
+							AllFours: "AllFours",
+						},
+					},
+					{
+						Name: "CrotchExposedBulge",
+						AllowTypes: { typed: 2 },
+						ShowForAttribute: ["PenisLayer"],
+						MirrorExpression: "Pussy",
+						CopyLayerColor: "Pose1",
+						PoseMapping: {
+							AllFours: "AllFours",
+						},
+					},
+					{
+						Name: "AroundThighs",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "Pose1",
+						PoseMapping: {
+							AllFours: "AllFours",
+						},
+					},
+					{
+						Name: "AroundKnees",
+						AllowTypes: { typed: 4 },
+						CopyLayerColor: "Pose1",
+						PoseMapping: {
+							Kneel: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "AroundAnkles",
+						AllowTypes: { typed: 5 },
+						CopyLayerColor: "Pose1",
+						PoseMapping: {
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
