@@ -1,4 +1,4 @@
-//@ts-check
+//f@ts-check
 "use strict";
 // *** Item value guidelines ***
 // First, check if there's a similar item and use that price.  If there isn't, use the real price in US dollars
@@ -43818,6 +43818,10 @@ var AssetFemale3DCG = [
 						AllowTypes: { DenOfSin: 6 },
 					},
 					{
+						Name: "PrincesDonna",
+						AllowTypes: { DenOfSin: 7 },
+					},
+					{
 						Name: "Gangriel",
 						AllowTypes: { Gangriels: 1 },
 					},
@@ -44060,6 +44064,22 @@ var AssetFemale3DCG = [
 					{
 						Name: "Nel",
 						AllowTypes: { NelsStorage: 1 },
+					},
+					{
+						Name: "Dana",
+						AllowTypes: { CCLounge: 1 },
+					},
+					{
+						Name: "Deasy",
+						AllowTypes: { CCLounge: 2 },
+					},
+					{
+						Name: "Jennifer",
+						AllowTypes: { CCLounge: 3 },
+					},
+					{
+						Name: "Tsuki",
+						AllowTypes: { CCLounge: 4 },
 					},
 				],
 			},

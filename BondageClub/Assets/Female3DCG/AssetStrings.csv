@@ -7986,6 +7986,8 @@ ItemHandheldPlushieOptionDenOfSin5,Roslin
 ItemHandheldPlushieSetDenOfSin5,SourceCharacter places a cute Roslin plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionDenOfSin6,Felix
 ItemHandheldPlushieSetDenOfSin6,SourceCharacter places a soft Felix plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionDenOfSin7,Donna
+ItemHandheldPlushieSetDenOfSin7,SourceCharacter places a Princess Donnna plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleGangriels,Gangriel's Rock Bar
 ItemHandheldPlushieSelectGangriels,Gangriel's Rock Bar
 ItemHandheldPlushieOptionGangriels0,None
@@ -8134,13 +8136,24 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
+ItemHandheldPlushieModuleNelsStorage,Nel's Stroage Room
 ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
-ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
 ItemHandheldPlushieOptionNelsStorage0,None
 ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieSetNelsStorage0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionNelsStorage1,Nel
 ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
+ItemHandheldPlushieModuleCCLounge,CC's Lounge
+ItemHandheldPlushieOptionCCLounge0,None
+ItemHandheldPlushieSetCCLounge0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionCCLounge1,Dana
+ItemHandheldPlushieSetCCLounge1,SourceCharacter places a cute Dana plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionCCLounge2,Deasy
+ItemHandheldPlushieSetCCLounge2,SourceCharacter places a cute Deasy plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionCCLounge3,Jennifer
+ItemHandheldPlushieSetCCLounge3,SourceCharacter places a cute Jennifer plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionCCLounge4,Tsuki
+ItemHandheldPlushieSetCCLounge4,SourceCharacter places a cute Tsuki plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
