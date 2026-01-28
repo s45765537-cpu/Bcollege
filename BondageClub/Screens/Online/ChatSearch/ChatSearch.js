@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -26,6 +25,8 @@ var ChatSearchResultOffset = 0;
 var ChatSearchPageX = 25;
 /** The room grid's top offset */
 var ChatSearchPageY = 135;
+var ChatSearchRoomsPerRow = 3;
+var ChatSearchRoomsPerColumn = 8;
 /**
  * Layout parameters for the room grid
  * @type {CommonGenerateGridParameters}
@@ -39,8 +40,6 @@ var ChatSearchListParams = {
 	itemHeight: 85,
 	minMarginY: 24,
 };
-var ChatSearchRoomsPerRow = 3;
-var ChatSearchRoomsPerColumn = 8;
 /** Pre-calculated. Must be updated if you change the grid parameters */
 var ChatSearchRoomsPerPage = ChatSearchRoomsPerRow * ChatSearchRoomsPerColumn;
 /** @type {ScreenSpecifier} */
@@ -78,23 +77,23 @@ var ChatSearchSpace = null;
 var ChatSearchFilterTermsTemp = "";
 var ChatSearchCurrentRoomSpaceIndex = 0;
 
-/** @type {HTMLDivElement} */
+/** @type {HTMLDivElement | null} */
 var ChatSearchRoomHeader;
-/** @type {HTMLDivElement} */
+/** @type {HTMLDivElement | null} */
 var ChatSearchRoomGrid;
-/** @type {HTMLFieldSetElement} */
+/** @type {HTMLFieldSetElement | null} */
 var ChatSearchSearchMenu;
-/** @type {HTMLDivElement} */
+/** @type {HTMLDivElement | null} */
 var ChatSearchPageCountElement;
 /** @type {HTMLDialogElement | null} */
 var ChatSearchDialogElement;
-/** @type {HTMLButtonElement} */
+/** @type {HTMLButtonElement | null} */
 var ChatSearchSearchMenuButton;
-/** @type {HTMLDivElement} */
+/** @type {HTMLDivElement | null} */
 var ChatSearchSearchBodyElement;
 /** @type {HTMLDialogElement | null} */
 var ChatSearchFilterUnhideConfirmElement;
-/** @type {HTMLDialogElement} */
+/** @type {HTMLDialogElement | null} */
 var ChatSearchFilterHelpScreenElement;
 
 /**
@@ -134,7 +133,7 @@ async function ChatSearchStart(space, returnScreen, options) {
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
  * @type {ScreenLoadHandler}
  */
-function ChatSearchLoad() {
+async function ChatSearchLoad() {
 	ChatRoomCustomizationClear();
 	ChatRoomActivateView(ChatRoomCharacterViewName);
 	ChatRoomMapViewEditMode = "";
@@ -210,8 +209,10 @@ function ChatSearchLoad() {
 			}
 		}
 	});
-
-	if (!Player.ChatSearchSettings.Space.includes(ChatSearchGetSpace())) Player.ChatSearchSettings.Space = ChatSearchGetSpace();
+	const space = ChatSearchGetSpace();
+	if (space && !Player.ChatSearchSettings.Space.includes(space)) {
+		Player.ChatSearchSettings.Space = space;
+	}
 	const searchInput = ElementCreateSearchInput("InputSearch", () => {
 		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
 		return rooms.map(i => i.DisplayName).sort();
@@ -254,6 +255,7 @@ function ChatSearchLoad() {
 		"chat-search-room-open-search-menu",
 		function () {
 			const img = this.querySelector('img');
+			if (!img) return;
 			const open = this.getAttribute("aria-expanded") === "true";
 			if (open) {
 				this.setAttribute("aria-expanded", "false");
@@ -261,12 +263,16 @@ function ChatSearchLoad() {
 			} else {
 				this.setAttribute("aria-expanded", "true");
 				img.src = `Icons/CaretDown.svg`;
-				if (document.activeElement.id !== "InputSearch") {
+				if (document.activeElement?.id !== "InputSearch") {
 					ElementFocus("InputSearch");
 				}
 			}
-			const searchPanel = document.getElementById(this.getAttribute("aria-controls"));
-			searchPanel.hidden = open;
+			const control = this.getAttribute("aria-controls");
+			if (!control) return;
+			const searchPanel = document.getElementById(control);
+			if (searchPanel) {
+				searchPanel.hidden = open;
+			}
 		},
 		{
 			tooltip: TextGet("SearchMenuButton"),
@@ -304,7 +310,7 @@ function ChatSearchLoad() {
 						ElementButton.Create(
 							"chat-search-room-search-button",
 							() => {
-								if (ChatSearchSearchMenuButton.getAttribute("aria-expanded") === "true") {
+								if (ChatSearchSearchMenuButton?.getAttribute("aria-expanded") === "true") {
 									ChatSearchSearchMenuButton.click();
 								}
 								ChatSearchQuery(ChatSearchQueryString);
@@ -423,16 +429,18 @@ function ChatSearchLoad() {
 						ElementButton.Create(
 							"chat-search-room-help-button",
 							() => {
-								if (ChatSearchFilterHelpScreenElement.getAttribute("open") == "true") return ChatSearchFilterHelpScreenElement.close();
-								ChatSearchFilterHelpScreenElement.showModal();
+								if (ChatSearchFilterHelpScreenElement?.getAttribute("open") == "true") {
+									return ChatSearchFilterHelpScreenElement.close();
+								}
+								ChatSearchFilterHelpScreenElement?.showModal();
 								ElementPositionFixed(ChatSearchFilterHelpScreenElement, 25, 135, 1900, 800);
-								ChatSearchFilterHelpScreenElement.addEventListener("keydown", (ev) => {
+								ChatSearchFilterHelpScreenElement?.addEventListener("keydown", (ev) => {
 									if (ev.key === "Escape") {
-										ChatSearchFilterHelpScreenElement.close();
+										ChatSearchFilterHelpScreenElement?.close();
 										return;
 									}
 								}, { once: true });
-								ChatSearchFilterHelpScreenElement.focus();
+								ChatSearchFilterHelpScreenElement?.focus();
 							},
 							{
 								tooltip: TextGet("Help"),
@@ -515,9 +523,10 @@ function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("RoomType")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-type-radio-group",
+							// @ts-expect-error
 							(ev, key) => {
 								if (key === "None") {
-									Player.ChatSearchSettings.MapTypes = undefined;
+									Player.ChatSearchSettings.MapTypes = "";
 								}
 								else {
 									Player.ChatSearchSettings.MapTypes = key;
@@ -556,11 +565,12 @@ function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("Lobby")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
+							// @ts-expect-error
 							(ev, key) => {
 								Player.ChatSearchSettings.Space = ChatSearchSpace = key;
 								ChatSearchUpdateSearchSettings();
 							},
-							ChatSearchGetSpace(),
+							ChatSearchGetSpace() ?? "",
 							[
 								Player.GetGenders().includes("F") && {
 									options: { image: "Icons/Female.svg", tooltip: TextGet("Female") },
@@ -727,7 +737,7 @@ function ChatSearchLoad() {
 					]
 				},
 				ElementButton.Create("chat-search-search-menu-search-button", function () {
-					const elements = /** @type {HTMLCollectionOf<Element & { validity: ValidityState, reportValidity(): boolean }>} */(ChatSearchSearchMenu.elements);
+					const elements = /** @type {HTMLCollectionOf<Element & { validity: ValidityState, reportValidity(): boolean }>} */(ChatSearchSearchMenu?.elements) ?? [];
 					for (const el of elements) {
 						if (!el.validity.valid) {
 							el.reportValidity();
@@ -767,7 +777,7 @@ function ChatSearchLoad() {
 				})),
 			},
 			ElementButton.Create("chat-search-filter-help-screen-close", function () {
-				ChatSearchFilterHelpScreenElement.close();
+				ChatSearchFilterHelpScreenElement?.close();
 			}, null, {
 				button: {
 					classList: ["chat-search-filter-help-screen-close-button"],
@@ -785,7 +795,6 @@ function ChatSearchLoad() {
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
 	TextPrefetch("Online", "ChatRoom");
-	return;
 }
 
 /** @type {ScreenResizeHandler} */
@@ -797,19 +806,27 @@ function ChatSearchResize() {
 	if (document.getElementById("chat-search-room-page")) ElementPositionFixed("chat-search-room-page", (2000 - 1200) / 2, (1000 - 700) / 2, 1200, 700);
 	document.querySelectorAll('.chat-search-room-title').forEach(ElementFitText);
 	ElementPositionFixed(ChatSearchFilterHelpScreenElement, 25, 135, 1900, 800);
-	if (ChatSearchFilterUnhideConfirmElement) ElementPositionFixed(ChatSearchFilterUnhideConfirmElement, 50, 135, 1900, 800);
+	ElementPositionFixed(ChatSearchFilterUnhideConfirmElement, 50, 135, 1900, 800);
 }
 
 /** @type {ScreenUnloadHandler} */
 function ChatSearchUnload() {
 	ElementRemove(ChatSearchRoomHeader);
+	ChatSearchRoomHeader = null;
 	ElementRemove(ChatSearchSearchMenu);
+	ChatSearchSearchMenu = null;
 	ElementRemove(ChatSearchRoomGrid);
+	ChatSearchRoomGrid = null;
 	ElementRemove(ChatSearchSearchBodyElement);
+	ChatSearchSearchBodyElement = null;
 	ElementRemove(ChatSearchPageCountElement);
+	ChatSearchPageCountElement = null;
 	ElementRemove(ChatSearchDialogElement);
+	ChatSearchDialogElement = null;
 	ElementRemove(ChatSearchSearchMenuButton);
+	ChatSearchSearchMenuButton = null;
 	ElementRemove(ChatSearchFilterHelpScreenElement);
+	ChatSearchFilterHelpScreenElement = null;
 	ChatRoomStimulationMessage("Walk");
 }
 
@@ -878,7 +895,9 @@ function ChatSearchSetPage(page) {
 	const { total } = ChatSearchGetPagination();
 	page = total !== 0 ? CommonClamp(page, 1, total) : page;
 	ChatSearchResultOffset = Math.max(0, (page - 1) * ChatSearchRoomsPerPage);
-	ChatSearchPageCountElement.textContent = `${page} / ${total}`;
+	if (ChatSearchPageCountElement) {
+		ChatSearchPageCountElement.textContent = `${page} / ${total}`;
+	}
 	ChatSearchGridUpdate(ChatSearchGetRooms().slice(ChatSearchResultOffset, ChatSearchResultOffset + ChatSearchRoomsPerPage));
 }
 
@@ -928,9 +947,9 @@ function ChatSearchKeyDown(event) {
 	const searchInput = document.querySelector("input#InputSearch");
 	/** @type {HTMLInputElement | null} */
 	const filterInput = document.querySelector("input#InputFilter");
-	if (CommonKey.InputKeyDown(searchInput, event)) {
+	if (searchInput &&CommonKey.InputKeyDown(searchInput, event)) {
 		return true;
-	} else if (CommonKey.InputKeyDown(filterInput, event)) {
+	} else if (filterInput && CommonKey.InputKeyDown(filterInput, event)) {
 		return true;
 	}
 	return false;
@@ -952,7 +971,7 @@ function ChatSearchPaste(event) {
 function ChatSearchKeyDownListener(event) {
 	if (event.repeat || !CommonKey.IsPressed(event, "Enter")) return;
 	ChatSearchQuery(ChatSearchQueryString);
-	if (ChatSearchSearchMenuButton.getAttribute("aria-expanded") === "true") {
+	if (ChatSearchSearchMenuButton?.getAttribute("aria-expanded") === "true") {
 		ChatSearchSearchMenuButton.click();
 	}
 }
@@ -976,7 +995,7 @@ function ChatSearchExit(exitScreen = false) {
 }
 
 function ChatSearchBack() {
-	if (ChatSearchFilterHelpScreenElement.open) {
+	if (ChatSearchFilterHelpScreenElement?.open) {
 		ChatSearchFilterHelpScreenElement.close();
 		return true;
 	}
@@ -984,8 +1003,8 @@ function ChatSearchBack() {
 		ChatSearchDialogElement.close();
 		return true;
 	}
-	if (!ChatSearchSearchMenu.hidden) {
-		ChatSearchSearchMenuButton.click();
+	if (!ChatSearchSearchMenu?.hidden) {
+		ChatSearchSearchMenuButton?.click();
 		return true;
 	}
 	return false;
@@ -1010,7 +1029,9 @@ function ChatSearchFilterHelpDraw() {
  * @returns {void} - Nothing
  */
 function ChatSearchCreateFilterUnhideConfirm(roomLabel, memberLabel, wordsLabel, room) {
-	ElementRemove(ChatSearchFilterUnhideConfirmElement);
+	if (ChatSearchFilterUnhideConfirmElement) {
+		ElementRemove(ChatSearchFilterUnhideConfirmElement);
+	}
 	ChatSearchFilterUnhideConfirmElement = ElementCreate(
 		{
 			tag: "dialog",
@@ -1051,7 +1072,10 @@ function ChatSearchCreateFilterUnhideConfirm(roomLabel, memberLabel, wordsLabel,
 					classList: ["chat-search-filter-unhide-confirm-buttons"],
 					children: [
 						ElementButton.Create("chat-search-filter-unhide-confirm-cancel", function () {
-							ElementRemove(ChatSearchFilterUnhideConfirmElement);
+							if (ChatSearchFilterUnhideConfirmElement) {
+								ElementRemove(ChatSearchFilterUnhideConfirmElement);
+								ChatSearchFilterUnhideConfirmElement = null;
+							}
 						}, null, {
 							button: {
 								children: [
@@ -1062,7 +1086,10 @@ function ChatSearchCreateFilterUnhideConfirm(roomLabel, memberLabel, wordsLabel,
 						),
 						ElementButton.Create("chat-search-filter-unhide-confirm-confirm", function () {
 							ChatSearchClickUnhideRoom(room, true);
-							ElementRemove(ChatSearchFilterUnhideConfirmElement);
+							if (ChatSearchFilterUnhideConfirmElement) {
+								ElementRemove(ChatSearchFilterUnhideConfirmElement);
+								ChatSearchFilterUnhideConfirmElement = null;
+							}
 						}, null, {
 							button: {
 								children: [
@@ -1134,6 +1161,7 @@ function ChatSearchGetSpaceName(space) {
  * @param {ChatRoomSearchResult[]} rooms
  */
 function ChatSearchGridUpdate(rooms) {
+	if (!ChatSearchRoomGrid) return;
 	ChatSearchRoomGrid.innerHTML = "";
 	for (const [index, room] of rooms.entries()) {
 		ChatSearchCreateGridRoom(room, index);
@@ -1155,7 +1183,8 @@ function ChatSearchClickRoom(room) {
 		ChatSearchHiddenResult.push(room);
 		const roomIdx = ChatSearchResult.findIndex(r => r.Name === room.Name);
 		if (roomIdx >= 0) ChatSearchResult.splice(roomIdx, 1);
-		document.getElementById(`chat-search-room-join-button-${room.Order}`).setAttribute("data-temporary-hidden", "true");
+		const roomElem = document.getElementById(`chat-search-room-join-button-${room.Order}`);
+		roomElem?.setAttribute("data-temporary-hidden", "true");
 		if (ChatSearchGhostPlayerOnClickActive) return ChatRoomListUpdate(Player.GhostList, true, room.CreatorMemberNumber);
 
 		ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
@@ -1265,7 +1294,7 @@ function ChatSearchCreateGridRoom(room, index) {
 				id: `chat-search-room-${room.Order}`,
 			},
 			children: content,
-			parent: ChatSearchRoomGrid,
+			parent: ChatSearchRoomGrid ?? undefined,
 		}
 	);
 }
@@ -1357,6 +1386,7 @@ function ChatSearchCreateGridRoomTooltip(room, index) {
  * @returns {HTMLElement[]}
  */
 function ChatSearchCreateRoomPageTags(room) {
+	/** @type {HTMLElement[]} */
 	let roomPageTags = [];
 
 	/**
@@ -1434,8 +1464,9 @@ function ChatSearchCreateRoomPageTags(room) {
  * @param {ChatRoomSearchResult} room
  */
 function ChatSearchShowRoomPage(room) {
-	/** @type {HTMLDialogElement | null} */
-	ElementRemove(ChatSearchDialogElement);
+	if (ChatSearchDialogElement) {
+		ElementRemove(ChatSearchDialogElement);
+	}
 	const roomPageElements = [
 		ElementCreate({
 			tag: "h2",
@@ -1464,7 +1495,7 @@ function ChatSearchShowRoomPage(room) {
 			children: ChatSearchCreateRoomPageTags(room),
 		}),
 		ElementButton.Create("chat-search-room-page-exit", () => {
-			ChatSearchDialogElement.close();
+			ChatSearchDialogElement?.close();
 		}, {
 			image: "Icons/cross.svg",
 		}, {
@@ -1488,7 +1519,7 @@ function ChatSearchShowRoomPage(room) {
 				},
 				ElementButton.Create("chat-search-room-page-join",
 					() => {
-						ChatSearchDialogElement.close();
+						ChatSearchDialogElement?.close();
 						ChatSearchJoin(room.Name);
 					}, null, {
 						button: {
@@ -1533,11 +1564,11 @@ function ChatSearchShowRoomPage(room) {
 	ElementPositionFixed("chat-search-room-page", (2000 - 1200) / 2, (1000 - 700) / 2, 1200, 700);
 	ChatSearchDialogElement.addEventListener("keydown", (ev) => {
 		if (ev.key === "Escape") {
-			ChatSearchDialogElement.close();
+			ChatSearchDialogElement?.close();
 			return;
 		}
 		if (ev.key === "Enter") {
-			ChatSearchDialogElement.close();
+			ChatSearchDialogElement?.close();
 			ChatSearchJoin(room.Name);
 		}
 	}, { once: true });
@@ -1583,9 +1614,9 @@ function ChatSearchToggleSearchMode() {
 	switch (ChatSearchMode) {
 		case "":
 			// Switch to filter mode
-			ChatSearchRoomGrid.classList.add("chat-search-filter-search");
-			ElementWrap("InputSearch").toggleAttribute("hidden", true);
-			ElementWrap("InputFilter").toggleAttribute("hidden", false);
+			ChatSearchRoomGrid?.classList.add("chat-search-filter-search");
+			ElementWrap("InputSearch")?.toggleAttribute("hidden", true);
+			ElementWrap("InputFilter")?.toggleAttribute("hidden", false);
 
 			// Save the current search query and load the filter string
 			ChatSearchQueryString = ElementValue("InputSearch");
@@ -1598,19 +1629,24 @@ function ChatSearchToggleSearchMode() {
 
 		case "Filter":
 			// Switch to Normal mode
-			ChatSearchRoomGrid.classList.remove("chat-search-filter-search");
-			ElementWrap("InputSearch").toggleAttribute("hidden", false);
-			ElementWrap("InputFilter").toggleAttribute("hidden", true);
+			ChatSearchRoomGrid?.classList.remove("chat-search-filter-search");
+			ElementWrap("InputSearch")?.toggleAttribute("hidden", false);
+			ElementWrap("InputFilter")?.toggleAttribute("hidden", true);
 			ChatSearchSaveFilterTerms();
 			ChatSearchMode = "";
 			ChatSearchQuery(ChatSearchQueryString);
 			break;
 	}
-	document.getElementById('chat-search-room-filter-section').hidden = ChatSearchMode != "Filter";
-	document.getElementById('chat-search-room-navigation-section').hidden = ChatSearchMode == "Filter";
+	ElementWrap('chat-search-room-filter-section')?.toggleAttribute("hidden", ChatSearchMode != "Filter");
+	ElementWrap('chat-search-room-navigation-section')?.toggleAttribute("hidden", ChatSearchMode == "Filter");
 	const filterButton = document.getElementById('chat-search-hide-rooms');
-	filterButton.querySelector(".button-tooltip").textContent = TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode");
-	filterButton.dataset.mode = ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode";
+	if (filterButton) {
+		const tooltip = filterButton.querySelector(".button-tooltip");
+		if (tooltip) {
+			tooltip.textContent = TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode");
+		}
+		filterButton.dataset.mode = ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode";
+	}
 	ChatSearchSetPageRelative(0);
 }
 
@@ -1684,7 +1720,8 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 	// Move the room from the hidden result to the normal result
 	ChatSearchResult.push(Room);
 	ChatSearchHiddenResult.splice(roomIdx, 1);
-	document.getElementById(`chat-search-room-join-button-${Room.Order}`).setAttribute("data-temporary-hidden", "false");
+	const roomElem = document.getElementById(`chat-search-room-join-button-${Room.Order}`);
+	roomElem?.setAttribute("data-temporary-hidden", "false");
 }
 
 /**
@@ -1823,7 +1860,8 @@ function ChatSearchAutoJoinRoom() {
 				&& Player.LastChatRoom.Background
 				&& Player.LastChatRoom.Visibility != null
 				&& Player.LastChatRoom.Limit
-				&& Player.LastChatRoom.Description != null) {
+				&& Player.LastChatRoom.Description != null
+				&& Player.LastChatRoom.Name) {
 
 				if ((ChatAdminMessage === "ResponseRoomAlreadyExist" || roomIsFull) && ChatSearchRejoinIncrement < 50) {
 					// The ChatRoomCreate call below failed. Append prefix and try again
@@ -1879,12 +1917,11 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery(Query) {
-
-	if (ChatRoomJoinLeash != null && ChatRoomJoinLeash != "") {
+	if (ChatRoomJoinLeash !== "") {
 		Query = ChatRoomJoinLeash.toUpperCase().trim();
-	} else if (Player.ImmersionSettings && Player.LastChatRoom && Player.LastChatRoom.Name != "") {
-		if (Player.ImmersionSettings.ReturnToChatRoom) {
-			Query = Player.LastChatRoom.Name.toUpperCase().trim();
+	} else if (Player.ImmersionSettings.ReturnToChatRoom) {
+		if (Player.LastChatRoom?.Name) {
+			Query = Player.LastChatRoom.Name?.toUpperCase().trim() ?? "";
 		} else {
 			ChatRoomSetLastChatRoom(null);
 		}
@@ -1896,7 +1933,7 @@ function ChatSearchQuery(Query) {
 	const SearchData = {
 		Query: Query.toUpperCase().trim(),
 		Language: ChatSearchLanguage,
-		Space: ChatSearchGetSpace(),
+		Space: ChatSearchGetSpace() ?? "",
 		Game: ChatSearchGame,
 		FullRooms: Player.ChatSearchSettings.FullRooms,
 		ShowLocked: Player.ChatSearchSettings.ShowLocked,
