@@ -180,7 +180,6 @@ function MainHallAllow(room) {
 async function MainHallLoad() {
 
 	// Loads the variables and dialog
-	ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
 	ChatSearchSafewordAppearance = null;
 	PoseSetActive(Player, null);
 	if (ChatSearchPreviousActivePose != null) {

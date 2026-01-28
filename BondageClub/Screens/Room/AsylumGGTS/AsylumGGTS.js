@@ -125,7 +125,6 @@ function AsylumGGTSComputerImage(Level) {
  * @type {ScreenLoadHandler}
  */
 async function AsylumGGTSLoad() {
-	ChatSearchRoomSpaces = ["ASYLUM"];
 	AsylumGGTSIntroDone = false;
 	AsylumGGTSTask = null;
 	if (AsylumGGTSComputer == null) {
