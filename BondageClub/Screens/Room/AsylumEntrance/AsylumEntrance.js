@@ -114,7 +114,7 @@ function AsylumEntranceClick() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceStartChat() {
-	ChatSearchStart("Asylum", ["Room", "AsylumEntrance"], { Background: "Asylum", BackgroundTagList: [BackgroundsTagAsylum], });
+	ChatSearchStart("Asylum", ["Room", "AsylumEntrance"], { Background: "AsylumEntrance", BackgroundTagList: [BackgroundsTagAsylum], });
 }
 
 // Wears the nurse clothes on a character (same as nursery)
