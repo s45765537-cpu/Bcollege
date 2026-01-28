@@ -523,7 +523,7 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("RoomType")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-type-radio-group",
-							// @ts-expect-error
+							// @ts-ignore
 							(ev, key) => {
 								if (key === "None") {
 									Player.ChatSearchSettings.MapTypes = "";
@@ -565,7 +565,7 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("Lobby")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
-							// @ts-expect-error
+							// @ts-ignore
 							(ev, key) => {
 								Player.ChatSearchSettings.Space = ChatSearchSpace = key;
 								ChatSearchUpdateSearchSettings();

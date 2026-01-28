@@ -8157,6 +8157,7 @@ ItemHandheldPlushieSetNelsStorage0,SourceCharacter removes a plushie from Destin
 ItemHandheldPlushieOptionNelsStorage1,Nel
 ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleCCLounge,CC's Lounge
+ItemHandheldPlushieSelectCCLounge,CC's Lounge
 ItemHandheldPlushieOptionCCLounge0,None
 ItemHandheldPlushieSetCCLounge0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionCCLounge1,Dana
