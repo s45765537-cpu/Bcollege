@@ -76,8 +76,6 @@ var ChatSearchGame = "";
 /** @type {ServerChatRoomSpace | null} */
 var ChatSearchSpace = null;
 var ChatSearchFilterTermsTemp = "";
-/** @type {ChatRoomSpaceLabel[]} */
-var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
 var ChatSearchCurrentRoomSpaceIndex = 0;
 
 /** @type {HTMLDivElement} */

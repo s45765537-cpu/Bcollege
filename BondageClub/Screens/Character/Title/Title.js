@@ -128,16 +128,7 @@ async function TitleLoad() {
 		nicknameInput.setAttribute("disabled", "disabled");
 	}
 	nicknameInput.addEventListener("input", () => {
-		const status = CharacterValidateNickname(Player, nicknameInput.value, false);
-
-		if (!ServerCharacterNicknameRegex.test(nicknameInput.value)) {
-			TitleNicknameStatus = status;
-		}
-
-		if (nicknameInput.value.length === 0 || !status) {
-			TitleNicknameStatus = null;
-		}
-
+		TitleNicknameStatus = CharacterValidateNickname(Player, nicknameInput.value, false);
 		nicknameInput.setCustomValidity(TitleNicknameStatus ?? "");
 	});
 

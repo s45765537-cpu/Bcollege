@@ -180,7 +180,6 @@ function MainHallAllow(room) {
 async function MainHallLoad() {
 
 	// Loads the variables and dialog
-	ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
 	ChatSearchSafewordAppearance = null;
 	PoseSetActive(Player, null);
 	if (ChatSearchPreviousActivePose != null) {
@@ -234,8 +233,15 @@ function MainHallRun() {
 				if (Player.ImmersionSettings?.ReturnToChatRoom) {
 					const { Female, Male } = Player.GenderSettings.AutoJoinSearch;
 					/** @type {ScreenSpecifier} */
-					const screen = Female || Male ? ["Room", "MainHall"] : ["Online", "ChatSelect"];
-					ChatSearchStart(Player.LastChatRoom.Space, screen);
+					let screen = Female || Male ? ["Room", "MainHall"] : ["Online", "ChatSelect"];
+					/** @type {ChatSearchLobbyOptions} */
+					const options = {};
+					if (Player.LastChatRoom.Space === "Asylum") {
+						options.Background = "AsylumEntrance";
+						options.BackgroundTagList = [BackgroundsTagAsylum];
+						screen = ["Room", "AsylumEntrance"];
+					}
+					ChatSearchStart(Player.LastChatRoom.Space, screen, options);
 					return;
 				} else {
 					ChatRoomSetLastChatRoom(null);

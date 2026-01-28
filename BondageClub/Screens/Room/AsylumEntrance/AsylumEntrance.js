@@ -46,7 +46,6 @@ function AsylumEntranceCanPlayClubCard() { return (!Player.IsRestrained() && !Cu
  * @type {ScreenLoadHandler}
  */
 async function AsylumEntranceLoad() {
-	ChatSearchRoomSpaces = ["ASYLUM"];
 	AsylumEntranceBackground = "AsylumEntrance";
 	if (AsylumEntranceNurse == null) {
 		AsylumEntranceNurse = CharacterLoadNPC("NPC_AsylumEntrance_Nurse");
@@ -115,7 +114,7 @@ function AsylumEntranceClick() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceStartChat() {
-	ChatSearchStart("Asylum", ["Room", "AsylumEntrance"], { Background: "Asylum", BackgroundTagList: [BackgroundsTagAsylum], });
+	ChatSearchStart("Asylum", ["Room", "AsylumEntrance"], { Background: "AsylumEntrance", BackgroundTagList: [BackgroundsTagAsylum], });
 }
 
 // Wears the nurse clothes on a character (same as nursery)
