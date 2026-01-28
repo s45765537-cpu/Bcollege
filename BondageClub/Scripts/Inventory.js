@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -82,17 +81,13 @@ function InventoryItemCreate(C, Group, Name) {
 * @param {string} DelItemName - The name of the item to delete
 * @param {AssetGroupName} DelItemGroup - The group name of the item to delete
 * @param {boolean} [Push=true] - Set to TRUE to push to the server
-* @return {InventoryItem}
+* @return {InventoryItem | null}
 */
 function InventoryDelete(C, DelItemName, DelItemGroup, Push) {
-	let item = null;
 	// First, we remove the item from the player inventory
-	for (let I = 0; I < C.Inventory.length; I++)
-		if ((C.Inventory[I].Name == DelItemName) && (C.Inventory[I].Group == DelItemGroup)) {
-			item = C.Inventory.splice(I, 1);
-			break;
-		}
-
+	const idx = C.Inventory.findIndex(i => i.Name === DelItemName && i.Group === DelItemGroup);
+	if (idx === -1) return null;
+	const item = C.Inventory.splice(idx, 1);
 	// Next, we call the player account service to remove the item
 	if ((C.IsPlayer()) && ((Push == null) || Push))
 		ServerPlayerInventorySync();
@@ -130,6 +125,7 @@ function InventoryDeleteGroup(C, group, push) {
 /**
  * Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using LZString
  * @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
+ * @param {string} InventoryData
  * @return {InventoryBundle[]}
  */
 function InventoryLoad(Inventory, InventoryData) {
@@ -153,13 +149,13 @@ function InventoryLoad(Inventory, InventoryData) {
 		} catch (_err) {
 			console.log("Error while loading compressed inventory, no inventory loaded.");
 		}
-	}
-	if (CommonIsArray(Inventory)) {
+	} else if (CommonIsArray(Inventory)) {
 		for (let I = 0; I < Inventory.length; I++) {
 			items.push(Inventory[I]);
 		}
-	} else if (typeof Inventory === "object") {
+	} else if (CommonIsObject(Inventory)) {
 		for (const G of CommonKeys(Inventory)) {
+			if (!Inventory[G]) continue;
 			for (const A of Inventory[G]) {
 				items.push({ Group: G, Name: A });
 			}
@@ -447,7 +443,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
  */
 function InventoryIsItemInList(C, ItemGroup, ItemList) {
 	const Item = InventoryGet(C, ItemGroup);
-	return Item && ItemList.includes(Item.Asset.Name);
+	return !!Item && ItemList.includes(Item.Asset.Name);
 }
 
 /**
@@ -461,7 +457,7 @@ function InventoryIsItemInList(C, ItemGroup, ItemList) {
  */
 function InventoryDoesItemHavePrerequisite(C, ItemGroup, Prerequisite) {
 	const Item = InventoryGet(C, ItemGroup);
-	return Item && Item.Asset.Prerequisite && Item.Asset.Prerequisite.includes(Prerequisite);
+	return !!Item && Item.Asset.Prerequisite && Item.Asset.Prerequisite.includes(Prerequisite);
 }
 
 /**
@@ -476,7 +472,7 @@ function InventoryDoesItemHavePrerequisite(C, ItemGroup, Prerequisite) {
 function InventoryDoItemsBlockGroup(C, TargetGroup, GroupsToCheck) {
 	return GroupsToCheck.some((Group) => {
 		const Item = InventoryGet(C, Group);
-		return Item && InventoryGetItemProperty(Item, "Block").includes(TargetGroup);
+		return !!Item && InventoryGetItemProperty(Item, "Block")?.includes(TargetGroup);
 	});
 }
 
@@ -492,7 +488,7 @@ function InventoryDoItemsBlockGroup(C, TargetGroup, GroupsToCheck) {
 function InventoryDoItemsExposeGroup(C, TargetGroup, GroupsToCheck) {
 	return GroupsToCheck.every((Group) => {
 		const Item = InventoryGet(C, Group);
-		return !Item || InventoryGetItemProperty(Item, "Expose").includes(TargetGroup);
+		return !Item || InventoryGetItemProperty(Item, "Expose")?.includes(TargetGroup);
 	});
 }
 
@@ -536,27 +532,28 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {T} fieldName
 	 * @param {Character} C - The character on which we check for prerequisites
 	 * @param {PropertiesArray[T]} blockingPrereqs - The prerequisites we check for on lower gags
-	 * @param {Asset} asset - The new gag
-	 * @param {Object} options
+	 * @param {Asset|null} asset - The new gag
+	 * @param {object} [options]
 	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
 	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
-	_GagCheck: function _GagCheck(fieldName, C, blockingPrereqs, asset=null, options=null) {
-		/** @type {readonly unknown[]} */
+	_GagCheck: function _GagCheck(fieldName, C, blockingPrereqs, asset=null, options) {
+		/** @type {readonly unknown[] | undefined | null} */
 		const blockingPrereqsUnknown = blockingPrereqs;
 		const errMessage = options?.errMessage ?? "CannotBeUsedOverGag";
 		const invert = options?.invert ?? false;
 
 		/** @type {number | undefined} */
-		const gagPriority = InventoryPrerequisiteConflicts.GagPriorities[asset?.Group?.Name];
+		const gagPriority = asset?.Group?.Name ? InventoryPrerequisiteConflicts.GagPriorities[asset.Group.Name] : undefined;
 		const gagItems = CommonKeys(InventoryPrerequisiteConflicts.GagPriorities).map(group => InventoryGet(C, group));
 
 		// Find all lower gags in which there is a prerequisite that blocks the new gag
 		const prereqConflicts = gagItems.slice(0, gagPriority).filter(item => {
-			/** @type {readonly unknown[]} */
+			if (!item) return false;
+			/** @type {(readonly unknown[]) | undefined | null} */
 			const prereqs = InventoryGetItemProperty(item, fieldName);
-			return prereqs.some((p) => blockingPrereqsUnknown.includes(p));
+			return prereqs?.some((p) => blockingPrereqsUnknown?.includes(p));
 		}).filter((item) => item != null);
 
 		const hasConflict = invert ? prereqConflicts.length === 0 : prereqConflicts.length > 0;
@@ -567,13 +564,13 @@ var InventoryPrerequisiteConflicts = {
 	 * Check if there are any lower gags with prerequisites that block the new gag from being applied
 	 * @param {Character} C - The character on which we check for prerequisites
 	 * @param {readonly AssetPrerequisite[]} blockingPrereqs - The prerequisites we check for on lower gags
-	 * @param {Asset} asset - The new gag
-	 * @param {Object} options
+	 * @param {Asset|null} asset - The new gag
+	 * @param {Object} [options]
 	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
 	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
-	GagPrerequisite: function GagPrerequisite(C, blockingPrereqs, asset=null, options=null) {
+	GagPrerequisite: function GagPrerequisite(C, blockingPrereqs, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Prerequisite", C, blockingPrereqs, asset, options);
 	},
 
@@ -581,13 +578,13 @@ var InventoryPrerequisiteConflicts = {
 	 * Check if there are any lower gags with effects that block the new gag from being applied
 	 * @param {Character} C - The character on which we check for prerequisites
 	 * @param {readonly EffectName[]} blockingEffects - The prerequisites we check for on lower gags
-	 * @param {Asset} asset - The new gag
-	 * @param {Object} options
+	 * @param {Asset|null} [asset] - The new gag
+	 * @param {object} [options]
 	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
 	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
-	GagEffect: function GagEffect(C, blockingEffects, asset=null, options=null) {
+	GagEffect: function GagEffect(C, blockingEffects, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Effect", C, /** @type {EffectName[]} */(blockingEffects), asset, options);
 	},
 };
@@ -625,7 +622,7 @@ function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowAc
 		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq, asset)));
 	} else {
 		// In the case of poses the `SetPose`-based prerequisite can fall back to any `AllowActivePose` member of the same category
-		const poseMapping = PoseToMapping.Array(allowActivePose, "Assset.AllowActivePose");
+		const poseMapping = PoseToMapping.Array(allowActivePose ?? [], "Asset.AllowActivePose");
 		for (const prereq of prerequisites) {
 			if (CommonIncludes(posePrereq, prereq)) {
 				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
@@ -672,10 +669,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 * @returns {Item|null} - Returns the appearance which is the item / cloth asset, color and properties
 */
 function InventoryGet(C, AssetGroup) {
-	for (let A = 0; A < C.Appearance.length; A++)
-		if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group.Family == C.AssetFamily) && (C.Appearance[A].Asset.Group.Name == AssetGroup))
-			return C.Appearance[A];
-	return null;
+	return C.Appearance.find(A => A.Asset.Group.Family === C.AssetFamily && A.Asset.Group.Name === AssetGroup) ?? null;
 }
 
 /**
@@ -684,9 +678,9 @@ function InventoryGet(C, AssetGroup) {
 * @param {Character} Target - The character on which the item is used
 * @param {AssetGroupItemName} GroupName - The name of the asset group to scan
 * @param {CraftingItem} Craft - The crafted properties to apply
-* @param {Boolean} Refresh - TRUE if we must refresh the character
-* @param {Boolean} PreConfigureItem - TRUE if the default, pre-configured item state of the crafted item must be (re-)applied
-* @param {Boolean} CraftWarn - Whether a warning should logged whenever the crafting validation fails
+* @param {boolean} Refresh - TRUE if we must refresh the character
+* @param {boolean} PreConfigureItem - TRUE if the default, pre-configured item state of the crafted item must be (re-)applied
+* @param {boolean} CraftWarn - Whether a warning should logged whenever the crafting validation fails
 * @returns {void}
 */
 function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureItem=true, CraftWarn=true) {
@@ -717,7 +711,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	// Set extended item properties
 	ExtendedItemSetOptionByRecord(
 		Target, Item, Craft.TypeRecord,
-		{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
+		{ push: false, refresh: false, C_Source: Source ?? undefined, properties: Craft.ItemProperty ?? undefined },
 	);
 
 	// Applies a lock to the item
@@ -768,7 +762,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 * Returns the number of items on a character with a specific property
 * @param {Character} C - The character to validate
 * @param {CraftingPropertyType} Property - The property to count
-* @returns {Number} - The number of times the property is found
+* @returns {number} - The number of times the property is found
 */
 function InventoryCraftCount(C, Property) {
 	let Count = 0;
@@ -800,7 +794,7 @@ function InventoryCraftPropertyIs(Item, Property) {
  * @param {number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
  * @param {CraftingItem} [Craft] - The crafting properties of the item
  * @param {boolean} [Refresh] - Whether to refresh the character and push the changes to the server
- * @returns {null | Item} - Thew newly created item or `null` if the asset does not exist
+ * @returns {Item | null} - Thew newly created item or `null` if the asset does not exist
  */
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber, Craft, Refresh=true) {
 	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
@@ -808,6 +802,7 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 	ItemColor ??= "Default";
 	const color = ItemColor === "Default" ? [...A.DefaultColor] : ItemColor;
 	const item = CharacterAppearanceSetItem(C, AssetGroup, A, color, Difficulty, MemberNumber);
+	if (!item) return null;
 
 	/**
 	 * TODO: grant tighter control over setting expressions.
@@ -840,10 +835,10 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 * @param {number} Difficulty - The new difficulty level to escape from the item
 */
 function InventorySetDifficulty(C, AssetGroup, Difficulty) {
-	if ((Difficulty >= 0) && (Difficulty <= 100))
-		for (let A = 0; A < C.Appearance.length; A++)
-			if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group.Name == AssetGroup))
-				C.Appearance[A].Difficulty = Difficulty;
+	const item = InventoryGet(C, AssetGroup);
+	if (!item) return;
+	item.Difficulty = CommonClamp(Difficulty, 0, 100);
+
 	if ((CurrentModule != "Character") && (C.IsPlayer())) ServerPlayerAppearanceSync();
 }
 
@@ -851,12 +846,13 @@ function InventorySetDifficulty(C, AssetGroup, Difficulty) {
 * Returns TRUE if there's already a locked item at a given body area
 * @param {Character} C - The character that is wearing the item
 * @param {AssetGroupItemName} AssetGroup - The name of the asset group (body area)
-* @param {Boolean} CheckProperties - Set to TRUE to check for additionnal properties
-* @returns {Boolean} - TRUE if the item is locked
+* @param {boolean} CheckProperties - Set to TRUE to check for additionnal properties
+* @returns {boolean} - TRUE if the item is locked
 */
 function InventoryLocked(C, AssetGroup, CheckProperties) {
-	var I = InventoryGet(C, AssetGroup);
-	return ((I != null) && InventoryItemHasEffect(I, "Lock", CheckProperties));
+	const item = InventoryGet(C, AssetGroup);
+	if (!item) return false;
+	return InventoryItemHasEffect(item, "Lock", CheckProperties);
 }
 
 /**
@@ -874,21 +870,22 @@ function InventoryLocked(C, AssetGroup, CheckProperties) {
  *  NOTE: Long-term this should be replaced with better checks before calling this function.
  * @returns {Item | null} - The equipped item (if any)
  */
-function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn = false, Extend = true, AllowedAssets = null, IgnoreRequirements = false) {
+function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn = false, Extend = true, AllowedAssets = undefined, IgnoreRequirements = false) {
 	if (InventoryLocked(C, /** @type {AssetGroupItemName} */(GroupName), true)) {
-		return;
+		return null;
 	}
 
 	// Finds the asset group and make sure it's not blocked
 	const Group = AssetGroupGet(C.AssetFamily, GroupName);
-	if (!IgnoreRequirements && (!Group || InventoryGroupIsBlocked(C, /** @type {AssetGroupItemName} */(GroupName)))) {
-		return;
+	if (!Group || !IgnoreRequirements && (!Group || InventoryGroupIsBlocked(C, /** @type {AssetGroupItemName} */(GroupName)))) {
+		return null;
 	}
 	const IsClothes = Group.Clothing;
 
-	let AssetList = null;
+	/** @type {Asset[]} */
+	let AssetList = [];
 	if (AllowedAssets) {
-		AssetList = AllowedAssets.map(assetName => Asset.find(A => A.Group.Name == GroupName && A.Name == assetName));
+		AssetList = AllowedAssets.map(assetName => Asset.find(A => A.Group.Name == GroupName && A.Name == assetName)).filter(Boolean);
 	}
 	// Restrict the options to assets owned by the character
 	if (MustOwn) {
@@ -902,9 +899,10 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 
 	// Get and apply a random asset
 	const SelectedAsset = InventoryGetRandom(C, GroupName, AssetList, IgnoreRequirements);
+	if (!SelectedAsset) return null;
 
 	// Pick a random color for clothes from their schema
-	const SelectedColor = IsClothes ? SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)] : null;
+	const SelectedColor = IsClothes ? SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)] : undefined;
 
 	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty);
 	if (Extend) {
@@ -921,14 +919,14 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
  * Randomly extends an item (sets an item type, etc.) on a character
  * @param {Character} C - The character wearing the item
  * @param {AssetGroupName} GroupName - The name of the item's group
- * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
+ * @param {Character | undefined} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
  * @returns {Item | null} - The equipped item (if any)
  */
-function InventoryRandomExtend(C, GroupName, C_Source=null) {
+function InventoryRandomExtend(C, GroupName, C_Source=undefined) {
 	const Item = InventoryGet(C, GroupName);
 
 	if (!Item || !Item.Asset.Archetype) {
-		return;
+		return null;
 	}
 
 	switch (Item.Asset.Archetype) {
@@ -946,12 +944,12 @@ function InventoryRandomExtend(C, GroupName, C_Source=null) {
  * Select a random asset from a group, narrowed to the most preferable available options (i.e
  * unblocked/visible/unlimited) based on their binary "rank"
  * @param {Character} C - The character to pick the asset for
- * @param {AssetGroupName} GroupName - The asset group to pick the asset from. Set to an empty string to not filter by group.
+ * @param {AssetGroupName | undefined} GroupName - The asset group to pick the asset from. Set to an empty string to not filter by group.
  * @param {readonly Asset[]} [AllowedAssets] - Optional parameter: A list of assets from which one can be selected. If not provided,
  *     the full list of all assets is used.
  * @param {boolean} [IgnorePrerequisites=false] - If True, skip the step to check whether prerequisites are met
  *  NOTE: Long-term this should be replaced with better checks before calling this function.
- * @returns {Asset|null} - The randomly selected asset or `null` if none found
+ * @returns {Asset|null} - The randomly selected asset or `undefined` if none found
  */
 function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = false) {
 	/** @type {{ Asset: Asset, Rank: number }[]} */
@@ -970,14 +968,14 @@ function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = f
 			&& AssetList[A].Enable
 			&& (IgnorePrerequisites || InventoryAllow(C, AssetList[A], undefined, false)))
 		{
-			var CurrRank = 0;
+			let CurrRank = 0;
 
 			if (InventoryIsPermissionBlocked(C, AssetList[A].Name, AssetList[A].Group.Name)) {
 				if (BlockedRank > MinRank) continue;
 				else CurrRank += BlockedRank;
 			}
 
-			if (CharacterAppearanceItemIsHidden(AssetList[A].Name, GroupName)) {
+			if (GroupName && CharacterAppearanceItemIsHidden(AssetList[A].Name, GroupName)) {
 				if (HiddenRank > MinRank) continue;
 				else CurrRank += HiddenRank;
 			}
@@ -991,7 +989,7 @@ function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = f
 			List.push({ Asset: AssetList[A], Rank: CurrRank });
 		}
 
-	var PreferredList = List.filter(L => L.Rank == MinRank);
+	const PreferredList = List.filter(L => L.Rank == MinRank);
 	if (PreferredList.length == 0) return null;
 
 	return PreferredList[Math.floor(Math.random() * PreferredList.length)].Asset;
@@ -1059,12 +1057,11 @@ function InventoryRemove(C, AssetGroup, Refresh) {
 /**
 * Returns TRUE if the body area (Asset Group) for a character is blocked for either restraints (default) or activities and cannot be used
 * @param {Character} C - The character on which we validate the group
-* @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area), defaults to `C.FocusGroup`
+* @param {AssetGroupItemName} GroupName - The name of the asset group (body area), defaults to `C.FocusGroup`
 * @param {boolean} [Activity=false] - if TRUE check if activity is allowed on the asset group
 * @returns {boolean} - TRUE if the group is blocked
 */
-function InventoryGroupIsBlockedForCharacter(C, GroupName=null, Activity=false) {
-	GroupName ??= C.FocusGroup.Name;
+function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity=false) {
 	const restraints = C.Appearance.filter(i => i.Asset.Group.IsItem());
 
 	if (Activity && !restraints.some(i => i.Asset.AllowActivityOn.includes(GroupName) || i.Property?.AllowActivityOn?.includes(GroupName))) {
@@ -1099,14 +1096,13 @@ function InventoryIsBlockedByDistance(C) {
 /**
 * Returns TRUE if the body area is blocked by an owner rule
 * @param {Character} C - The character on which we validate the group
-* @param {AssetGroupName} [GroupName] - The name of the asset group (body area)
+* @param {AssetGroupName} GroupName - The name of the asset group (body area)
 * @returns {boolean} - TRUE if the group is blocked
 */
 function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
 	if (!C.IsPlayer()) return false;
 	if (!Player.IsOwned()) return false;
 	if (CurrentCharacter == null) return false;
-	if (GroupName == null) GroupName = C.FocusGroup.Name;
 	const Dict = [
 		["A", "ItemBoots"],
 		["B", "ItemFeet"],
@@ -1147,11 +1143,11 @@ function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
  *
  * Similar to {@link InventoryGroupIsBlockedForCharacter} but also checks for map range and owner rules.
  * @param {Character} C - The character on which we validate the group
- * @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area)
+ * @param {AssetGroupItemName} GroupName - The name of the asset group (body area)
  * @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
  * @returns {null | string} - The error message (if any)
  */
-function InventoryGroupIsAvailable(C, GroupName=null, Activity=false) {
+function InventoryGroupIsAvailable(C, GroupName, Activity=false) {
 	// Checks for regular blocks and enclose effects
 	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) {
 		return InterfaceTextGet("ZoneBlocked");
@@ -1176,11 +1172,11 @@ function InventoryGroupIsAvailable(C, GroupName=null, Activity=false) {
  *
  * Similar to {@link InventoryGroupIsBlockedForCharacter} but also checks for map range and owner rules.
  * @param {Character} C - The character on which we validate the group
- * @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area)
+ * @param {AssetGroupItemName} GroupName - The name of the asset group (body area)
  * @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
  * @returns {boolean} - TRUE if the group is blocked
  */
-function InventoryGroupIsBlocked(C, GroupName=null, Activity=false) {
+function InventoryGroupIsBlocked(C, GroupName, Activity=false) {
 	return InventoryGroupIsAvailable(C, GroupName, Activity) !== null;
 }
 
@@ -1209,10 +1205,10 @@ function InventoryItemHasEffect(Item, Effect, CheckProperties = true) {
 /**
 * Returns TRUE if an item lock is pickable
 * @param {Item} Item - The item from appearance that must be validated
-* @returns {Boolean} - TRUE if PickDifficulty is on the item
+* @returns {boolean} - TRUE if PickDifficulty is on the item
 */
 function InventoryItemIsPickable(Item) {
-	if (!Item) return null;
+	if (!Item) return false;
 	const lock = InventoryGetLock(Item);
 	if (lock && lock.Asset && lock.Asset.PickDifficulty && lock.Asset.PickDifficulty > 0) return true;
 	else return false;
@@ -1293,136 +1289,111 @@ function InventoryExpressionTriggerApply(C, expressions) {
 /**
 * Returns the padlock item that locks another item
 * @param {Item} Item - The item from appearance that must be scanned
-* @returns {Item} - A padlock item or NULL if none
+* @returns {Item|null} - A padlock item or NULL if none
 */
 function InventoryGetLock(Item) {
-	if ((Item == null) || (Item.Property == null) || (Item.Property.LockedBy == null)) return null;
-	for (let A = 0; A < Asset.length; A++)
-		if (Asset[A].IsLock && (Asset[A].Name == Item.Property.LockedBy))
-			return { Asset: Asset[A] };
-	return null;
+	if (!Item.Property?.LockedBy) return null;
+	const asset = Asset.find(a => a.IsLock && a.Name === Item.Property?.LockedBy);
+	if (!asset) return null;
+	return { Asset: asset };
 }
 
 /**
 * Returns TRUE if the item has an OwnerOnly flag, such as the owner padlock
 * @param {Item} Item - The item from appearance that must be scanned
-* @returns {Boolean} - TRUE if owner only
+* @returns {boolean} - TRUE if owner only
 */
 function InventoryOwnerOnlyItem(Item) {
-	if (Item == null) return false;
+	if (!Item) return false;
 	if (Item.Asset.OwnerOnly) return true;
-	if (Item.Asset.Group.Category == "Item") {
-		var Lock = InventoryGetLock(Item);
-		if ((Lock != null) && (Lock.Asset.OwnerOnly != null) && Lock.Asset.OwnerOnly) return true;
-	}
-	return false;
+	if (Item.Asset.Group.Category !== "Item") return false;
+
+	const Lock = InventoryGetLock(Item);
+	return Lock?.Asset.OwnerOnly ?? false;
 }
 
 /**
 * Returns TRUE if the item has a LoverOnly flag, such as the lover padlock
 * @param {Item} Item - The item from appearance that must be scanned
-* @returns {Boolean} - TRUE if lover only
+* @returns {boolean} - TRUE if lover only
 */
 function InventoryLoverOnlyItem(Item) {
 	if (Item == null) return false;
 	if (Item.Asset.LoverOnly) return true;
-	if (Item.Asset.Group.Category == "Item") {
-		var Lock = InventoryGetLock(Item);
-		if ((Lock != null) && (Lock.Asset.LoverOnly != null) && Lock.Asset.LoverOnly) return true;
-	}
-	return false;
+	if (Item.Asset.Group.Category !== "Item") return false;
+
+	const Lock = InventoryGetLock(Item);
+	return Lock?.Asset.LoverOnly ?? false;
 }
 
 /**
 * Returns TRUE if the item has a FamilyOnly flag, such as the D/s family padlock
 * @param {Item} Item - The item from appearance that must be scanned
-* @returns {Boolean} - TRUE if family only
+* @returns {boolean} - TRUE if family only
 */
 function InventoryFamilyOnlyItem(Item) {
 	if (Item == null) return false;
 	if (Item.Asset.FamilyOnly) return true;
-	if (Item.Asset.Group.Category == "Item") {
-		var Lock = InventoryGetLock(Item);
-		if ((Lock != null) && (Lock.Asset.FamilyOnly != null) && Lock.Asset.FamilyOnly) return true;
-	}
-	return false;
+	if (Item.Asset.Group.Category !== "Item") return false;
+
+	const Lock = InventoryGetLock(Item);
+	return Lock?.Asset.FamilyOnly ?? false;
 }
 
 /**
 * Returns TRUE if the character is wearing at least one restraint that's locked with an extra lock
 * @param {Character} C - The character to scan
-* @returns {Boolean} - TRUE if one restraint with an extra lock is found
+* @returns {boolean} - TRUE if one restraint with an extra lock is found
 */
 function InventoryCharacterHasLockedRestraint(C) {
-	if (C.Appearance != null)
-		for (let A = 0; A < C.Appearance.length; A++)
-			if (C.Appearance[A].Asset.IsRestraint && (InventoryGetLock(C.Appearance[A]) != null))
-				return true;
-	return false;
+	return C.Appearance.some(item => item.Asset.IsRestraint && !InventoryGetLock(item));
 }
 
 /**
  *
  * @param {Character} C - The character to scan
  * @param {AssetLockType} LockName - The type of lock to check for
- * @returns {Boolean} - Returns TRUE if any item has the specified lock locked onto it
+ * @returns {boolean} - Returns TRUE if any item has the specified lock locked onto it
  */
 function InventoryCharacterIsWearingLock(C, LockName) {
-	for (let A = 0; A < C.Appearance.length; A++)
-		if ((C.Appearance[A].Property != null) && (C.Appearance[A].Property.LockedBy == LockName))
-			return true;
-	return false;
+	return C.Appearance.some(item => item.Property?.LockedBy === LockName);
 }
 
 /**
 * Returns TRUE if the character is wearing at least one item that's a restraint with a OwnerOnly flag, such as the
 * owner padlock
 * @param {Character} C - The character to scan
-* @returns {Boolean} - TRUE if one owner only restraint is found
+* @returns {boolean} - TRUE if one owner only restraint is found
 */
 function InventoryCharacterHasOwnerOnlyRestraint(C) {
 	if (!C.IsOwned()) return false;
-	if (C.Appearance != null)
-		for (let A = 0; A < C.Appearance.length; A++)
-			if (C.Appearance[A].Asset.IsRestraint && InventoryOwnerOnlyItem(C.Appearance[A]))
-				return true;
-	return false;
+	return C.Appearance.some(item => item.Asset.IsRestraint && InventoryOwnerOnlyItem(item));
 }
 
 /**
 * Returns TRUE if the character is wearing at least one item that's a restraint with a LoverOnly flag, such as the
 * lover padlock
 * @param {Character} C - The character to scan
-* @returns {Boolean} - TRUE if one lover only restraint is found
+* @returns {boolean} - TRUE if one lover only restraint is found
 */
 function InventoryCharacterHasLoverOnlyRestraint(C) {
 	if (C.GetLoversNumbers().length == 0) return false;
-	if (C.Appearance != null)
-		for (let A = 0; A < C.Appearance.length; A++) {
-			if (C.Appearance[A].Asset.IsRestraint && InventoryLoverOnlyItem(C.Appearance[A]))
-				return true;
-		}
-	return false;
+	return C.Appearance.some(item => item.Asset.IsRestraint && InventoryLoverOnlyItem(item));
 }
 
 /**
 * Returns TRUE if the character is wearing at least one item that's a restraint with a FamilyOnly flag
 * @param {Character} C - The character to scan
-* @returns {Boolean} - TRUE if one family only restraint is found
+* @returns {boolean} - TRUE if one family only restraint is found
 */
 function InventoryCharacterHasFamilyOnlyRestraint(C) {
-	if (C.Appearance != null)
-		for (let A = 0; A < C.Appearance.length; A++) {
-			if (C.Appearance[A].Asset.IsRestraint && InventoryFamilyOnlyItem(C.Appearance[A]))
-				return true;
-		}
-	return false;
+	return C.Appearance.some(item => item.Asset.IsRestraint && InventoryFamilyOnlyItem(item));
 }
 
 /**
 * Returns TRUE if at least one item on the character can be locked
 * @param {Character} C - The character to scan
-* @returns {Boolean} - TRUE if at least one item can be locked
+* @returns {boolean} - TRUE if at least one item can be locked
 */
 function InventoryHasLockableItems(C) {
 	return C.Appearance.some((item) => InventoryDoesItemAllowLock(item) && InventoryGetLock(item) == null);
@@ -1436,9 +1407,9 @@ function InventoryHasLockableItems(C) {
 function InventoryDoesItemAllowLock(item) {
 	const asset = item.Asset;
 	const typeRecord = item.Property && item.Property.TypeRecord;
-	if (asset.AllowLockType != null && CommonIsObject(typeRecord)) {
+	if (asset.AllowLockType && CommonIsObject(typeRecord)) {
 		const entries = Object.entries(typeRecord);
-		return entries.some(([k, i]) => asset.AllowLockType[k] && asset.AllowLockType[k].has(i));
+		return entries.some(([k, i]) => asset.AllowLockType?.[k].has(i));
 	} else {
 		return asset.AllowLock;
 	}
@@ -1447,18 +1418,33 @@ function InventoryDoesItemAllowLock(item) {
 /**
  * Applies a lock to an appearance item of a character
  * @param {Character} C - The character on which the lock must be applied
- * @param {Item|AssetGroupName} Item - The item from appearance to lock
- * @param {Item|AssetLockType} Lock - The asset of the lock or the name of the lock asset
- * @param {null|Character|PlayerCharacter|number|string} [AppliedBy] - The member number to put on the lock, or message to show
+ * @param {Item|AssetGroupName} ItemOrGroupName - The item from appearance to lock
+ * @param {Item|AssetLockType} LockOrLockType - The asset of the lock or the name of the lock asset
+ * @param {null|Character|string} [AppliedBy] - The character applying the lock, or message to show
  * @param {boolean} [Update=true] - Whether or not to update the character
- */
-function InventoryLock(C, Item, Lock, AppliedBy = null, Update = true) {
-	if (typeof Item === 'string') Item = InventoryGet(C, Item);
-	if (typeof Lock === 'string') Lock = { Asset: AssetGet(C.AssetFamily, "ItemMisc", Lock) };
+*/
+function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Update = true) {
+	/** @type {Item | null} */
+	let Item;
+	/** @type {Item | null} */
+	let Lock = null;
+	if (typeof ItemOrGroupName === 'string') {
+		Item = InventoryGet(C, ItemOrGroupName);
+	} else {
+		Item = ItemOrGroupName;
+	}
+	if (typeof LockOrLockType === 'string') {
+		const lock = AssetGet(C.AssetFamily, "ItemMisc", LockOrLockType);
+		if (lock) {
+			Lock = { Asset: lock };
+		}
+	} else {
+		Lock = LockOrLockType;
+	}
 	if (!Item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(Item)) return;
 
 	// Protect against using the PortalLink lock on incompatible items
-	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(Item, "Attribute").includes("PortalLinkLockable"))
+	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(Item, "Attribute")?.includes("PortalLinkLockable"))
 		return;
 
 	if (Item.Property == null) Item.Property = {};
@@ -1498,12 +1484,19 @@ function InventoryLock(C, Item, Lock, AppliedBy = null, Update = true) {
 /**
  * Unlocks an item and removes all related properties
  * @param {Character} C - The character on which the item must be unlocked
- * @param {Item|AssetGroupItemName} Item - The item from appearance to unlock
- * @param RefreshDialog — Refreshes the character dialog
+ * @param {Item|AssetGroupItemName} ItemOrGroupName - The item from appearance to unlock
+ * @param {boolean} [refreshDialog=true] - Refreshes the character dialog
  */
-function InventoryUnlock(C, Item, refreshDialog=true) {
-	if (typeof Item === 'string') Item = InventoryGet(C, Item);
-	if (Item?.Property?.Effect && ValidationDeleteLock(Item.Property, false)) {
+function InventoryUnlock(C, ItemOrGroupName, refreshDialog=true) {
+	/** @type {Item | null} */
+	let Item;
+	if (typeof ItemOrGroupName === 'string') {
+		Item = InventoryGet(C, ItemOrGroupName);
+	} else {
+		Item = ItemOrGroupName;
+	}
+	if (Item && Item.Property && Item.Property.Effect) {
+		ValidationDeleteLock(Item.Property, false);
 		CharacterRefresh(C, true, refreshDialog);
 	}
 }
@@ -1515,39 +1508,39 @@ function InventoryUnlock(C, Item, refreshDialog=true) {
 * @param {Character} AppliedBy - Set to TRUE if the source is the owner, to apply owner locks
 */
 function InventoryLockRandom(C, Item, AppliedBy) {
-	if (InventoryDoesItemAllowLock(Item)) {
-		var List = [];
-		for (let A = 0; A < Asset.length; A++)
-			if (Asset[A].IsLock && Asset[A].Random && !Asset[A].LoverOnly && !Asset[A].FamilyOnly && (AppliedBy.IsOwner() || !Asset[A].OwnerOnly))
-				List.push(Asset[A]);
-		if (List.length > 0) {
-			const Lock = { Asset: InventoryGetRandom(C, null, List) };
-			InventoryLock(C, Item, Lock, AppliedBy);
-		}
+	if (!InventoryDoesItemAllowLock(Item)) return false;
+
+	const locks = Asset.filter(a => a.IsLock && a.Random && !a.LoverOnly && !a.FamilyOnly && (AppliedBy.IsOwner() || !a.OwnerOnly));
+	const randomLock = InventoryGetRandom(C, undefined, locks);
+	if (!randomLock) return false;
+	InventoryLock(C, Item, { Asset: randomLock }, AppliedBy);
+}
+
+/**
+ * Applies random locks on each character items that can be locked
+ * @param {Character} C - The character on which the items must be locked
+ * @param {Character} AppliedBy - The character applying the lock
+ */
+function InventoryFullLockRandom(C, AppliedBy) {
+	for (const item of C.Appearance) {
+		if (InventoryGetLock(item)) continue;
+		InventoryLockRandom(C, item, AppliedBy);
 	}
 }
 
 /**
-* Applies random locks on each character items that can be locked
-* @param {Character} C - The character on which the items must be locked
-* @param {Character} AppliedBy - Set to TRUE if the source is the owner, to apply owner locks
-*/
-function InventoryFullLockRandom(C, AppliedBy) {
-	for (let I = 0; I < C.Appearance.length; I++)
-		if (InventoryGetLock(C.Appearance[I]) == null)
-			InventoryLockRandom(C, C.Appearance[I], AppliedBy);
-}
-
-/**
-* Applies a specific lock  on each character items that can be locked
-* @param {Character} C - The character on which the items must be locked
-* @param {AssetLockType} LockType - The lock type to apply
-*/
+ * Applies a specific lock on each character items that can be locked
+ * @param {Character} C - The character on which the items must be locked
+ * @param {AssetLockType} LockType - The lock type to apply
+ * @param {Character} [AppliedBy] - The character applying the lock
+ */
 function InventoryFullLock(C, LockType, AppliedBy) {
-	if ((C != null) && (LockType != null))
-		for (let I = 0; I < C.Appearance.length; I++)
-			if (InventoryDoesItemAllowLock(C.Appearance[I]))
-				InventoryLock(C, C.Appearance[I], LockType, AppliedBy);
+	for (const item of C.Appearance) {
+		if (!InventoryDoesItemAllowLock(item)) continue;
+		InventoryLock(C, item, LockType, AppliedBy, false);
+	}
+	CharacterRefresh(C);
+	ChatRoomCharacterUpdate(C);
 }
 
 /**
@@ -1574,9 +1567,9 @@ function InventoryConfiscateRemote() {
 /**
 * Returns TRUE if the item is worn by the character
 * @param {Character} C - The character to scan
-* @param {String} AssetName - The asset / item name to scan
+* @param {string} AssetName - The asset / item name to scan
 * @param {AssetGroupName} AssetGroup - The asset group name to scan
-* @returns {Boolean} - TRUE if item is worn
+* @returns {boolean} - TRUE if item is worn
 */
 function InventoryIsWorn(C, AssetName, AssetGroup) {
 	if ((C != null) && (C.Appearance != null) && Array.isArray(C.Appearance))
@@ -1614,7 +1607,7 @@ function InventorySetPermission(groupName, assetName, permissionType, type=null,
 /**
  * Toggles an item's permission for the player
  * @param {Item} Item - Appearance item to toggle
- * @param {string} [Type] - The relevant extended item option identifier of the item (if any)
+ * @param {string|null} [Type] - The relevant extended item option identifier of the item (if any)
  * @param {boolean} [Worn] - True if the player is changing permissions for an item they're wearing or if it's the first option
  * @param {boolean} push - Whether to push the permission changes to the server
  * @returns {ItemPermissionMode} - The new item permission
@@ -1710,8 +1703,8 @@ function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
  * Returns TRUE if the item is not limited, if the player is an owner or a lover of the character, or on their whitelist
  * @param {Character} C - The character on which we check the limited permissions for the item
  * @param {Item} Item - The item being interacted with
- * @param {String} [ItemType] - The asset type to scan
- * @returns {Boolean} - TRUE if item is allowed
+ * @param {string} [ItemType] - The asset type to scan
+ * @returns {boolean} - TRUE if item is allowed
  */
 function InventoryCheckLimitedPermission(C, Item, ItemType) {
 	if (!InventoryIsPermissionLimited(C, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, ItemType)) return true;
@@ -1724,12 +1717,12 @@ function InventoryCheckLimitedPermission(C, Item, ItemType) {
  * Returns TRUE if a specific item / asset is blocked or limited for the player by the character item permissions
  * @param {Character} C - The character on which we check the permissions
  * @param {Item} Item - The item being interacted with
- * @param {string | null} [ItemType] - The asset type to scan
- * @returns {Boolean} - Returns TRUE if the item cannot be used
+ * @param {string | undefined} [ItemType] - The asset type to scan
+ * @returns {boolean} - Returns TRUE if the item cannot be used
  */
 function InventoryBlockedOrLimited(C, Item, ItemType) {
-	let Blocked = InventoryIsPermissionBlocked(C, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, ItemType);
-	let Limited = !InventoryCheckLimitedPermission(C, Item, ItemType);
+	const Blocked = InventoryIsPermissionBlocked(C, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, ItemType);
+	const Limited = !InventoryCheckLimitedPermission(C, Item, ItemType);
 	return Blocked || Limited;
 }
 
@@ -1806,6 +1799,7 @@ function InventoryExtractLockProperties(property) {
 	const lockProperties = {};
 	for (const key of Object.keys(property)) {
 		if (ValidationAllLockProperties.includes(key)) {
+			// @ts-ignore
 			lockProperties[key] = CommonCloneDeep(property[key]);
 		}
 	}
