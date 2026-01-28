@@ -270,7 +270,8 @@ function AsylumGGTSBuildPrivate() {
  * @param {Character} C - The character to rename
  * @returns {string} - The new name for that character
  */
-function AsylumGGTSCharacterName(C, Name) {
+function AsylumGGTSCharacterName(C) {
+	let Name = C.Nickname ?? C.Name;
 	let Level = AsylumGGTSGetLevel(C);
 	if (Level == 2) Name = Name + "-" + C.MemberNumber.toString();
 	if (Level == 3) Name = Name + "-GG-" + C.MemberNumber.toString();
