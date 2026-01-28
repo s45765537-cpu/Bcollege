@@ -20043,6 +20043,64 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Jockstrap
+		PullDownPanties: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "PutOn",
+					Property: {
+						Block: [
+							"ItemPelvis",
+							"ItemButt",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						HideItem: [
+							"ItemButtAnalBeads2",
+							"ItemVulvaVibratingDildo",
+							"ItemVulvaInflatableVibeDildo",
+							"ItemVulvaClitSuctionCup",
+							"ItemVulvaTapeStrips",
+							"ItemVulvaBenWaBalls",
+							"ItemVulvaHeavyWeightClamp",
+							"ItemVulvaShockDildo",
+						],
+					},
+				},
+				{
+					Name: "PulledAside",
+					Property: {
+						HideItem: ["ItemButtAnalBeads2"],
+					},
+				},
+				{
+					Name: "CrotchExposed",
+					Property: {
+						Effect: [E.Slow],
+					},
+				},
+				{
+					Name: "AroundThighs",
+					Property: {
+						Effect: [E.Slow],
+					},
+				},
+				{
+					Name: "AroundKnees",
+					Property: {
+						Effect: [E.Slow],
+					},
+				},
+				{
+					Name: "AroundAnkles",
+					Property: {
+						Effect: [E.Slow],
+					},
+				},
+			],
+		}, // PullDownPanties
 	}, // Panties
 	Glasses: {
 		EyePatch1: {
