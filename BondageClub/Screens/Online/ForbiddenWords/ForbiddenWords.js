@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var ForbiddenWordsBackground = "Sheet";
 /** @type {null | Character } */
@@ -37,7 +36,7 @@ function ForbiddenWordsUnload() {
  * Starts the forbidden words screen and loads it
  * @returns {void} - Nothing
  */
-function ForbiddenWordsOpen(RuleType) {
+function ForbiddenWordsOpen() {
 	ForbiddenWordsTarget = CurrentCharacter;
 	DialogLeave();
 	CommonSetScreen("Online", "ForbiddenWords");
@@ -119,9 +118,12 @@ function ForbiddenWordsClick() {
  * @type {ScreenExitHandler}
  */
 function ForbiddenWordsExit() {
+	const C = ForbiddenWordsTarget;
 	let FW = ForbiddenWordsConsequence + "|" + ForbiddenWordsList.join("|");
-	ServerSend("ChatRoomChat", { Content: "OwnerRuleForbiddenWords" + FW, Type: "Hidden", Target: ForbiddenWordsTarget.MemberNumber });
-	CommonSetScreen("Online", "ChatRoom").then(() => {
-		ChatRoomFocusCharacter(ForbiddenWordsTarget);
-	});
+	if (C) {
+		ServerSend("ChatRoomChat", { Content: "OwnerRuleForbiddenWords" + FW, Type: "Hidden", Target: C.MemberNumber });
+		CommonSetScreen("Online", "ChatRoom").then(() => ChatRoomFocusCharacter(C));
+	} else {
+		CommonSetScreen("Online", "ChatRoom");
+	}
 }
