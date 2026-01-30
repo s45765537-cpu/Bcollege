@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var NicknameManagementBackground = "Sheet";
 /** @type {null | Character | NPCCharacter} */
@@ -10,6 +9,9 @@ var NicknameManagementLock = false;
  * @type {ScreenLoadHandler}
  */
 async function NicknameManagementLoad() {
+	if (!NicknameManagementTarget) {
+		return;
+	}
 	if (NicknameManagementTarget.Nickname == null) NicknameManagementTarget.Nickname = "";
 	ElementCreateInput("InputNickname", "text", NicknameManagementTarget.Nickname, "20");
 	NicknameManagementLock = LogQueryRemote(NicknameManagementTarget, "BlockNickname", "OwnerRule");
@@ -20,6 +22,9 @@ async function NicknameManagementLoad() {
  * @returns {void} - Nothing
  */
 function NicknameManagementRun() {
+	if (!NicknameManagementTarget) {
+		return;
+	}
 	DrawCharacter(NicknameManagementTarget, 50, 50, 0.9);
 	DrawText(TextGet("Title1"), 1200, 200, "Black", "Silver");
 	DrawText(TextGet("Title2"), 1200, 300, "Black", "Silver");
@@ -53,11 +58,12 @@ function NicknameManagementExit(Save = false) {
 	let NewNickname = ElementValue("InputNickname");
 	ElementRemove("InputNickname");
 	CommonSetScreen("Online", "ChatRoom");
-	if (Save) {
+	if (Save && NicknameManagementTarget) {
 		if (NewNickname != NicknameManagementTarget.Nickname) {
 			NicknameManagementTarget.Nickname = NewNickname;
 			ServerSend("ChatRoomChat", { Content: "OwnerRuleNicknameNew" + NewNickname, Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
 		}
 		ServerSend("ChatRoomChat", { Content: "OwnerRuleNickname" + (NicknameManagementLock ? "Block" : "Allow"), Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
 	}
+	NicknameManagementTarget = null;
 }
