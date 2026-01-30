@@ -814,7 +814,7 @@ function CommonDrawColorValid(Color, AssetGroup) {
 function CommonDrawFindPose(C, AllowedPoses) {
 	for (const [category, poses] of CommonEntries(AllowedPoses)) {
 		const drawPose = C.DrawPoseMapping[category];
-		if (poses.includes(drawPose)) {
+		if (CommonIncludes(poses,drawPose)) {
 			return drawPose;
 		}
 	}
@@ -824,7 +824,7 @@ function CommonDrawFindPose(C, AllowedPoses) {
 /**
  * Finds the pose that should be used when a given asset (and optionally layer) is drawn.
  * @param {Character} C - The character whose poses to check
- * @param {AssetLayer} [Layer] - The layer to check (optional)
+ * @param {AssetLayer} Layer - The layer to check
  * @returns {AssetPoseName | null} - The pose to use when drawing the given asset (or layer)
  */
 function CommonDrawResolveAssetPose(C, Layer) {

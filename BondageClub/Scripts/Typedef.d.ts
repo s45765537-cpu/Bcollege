@@ -110,7 +110,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	 *
 	 * Note that booleans are interpreted as [boolean attributes](https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML).
 	 */
-	attributes?: Partial<Record<string, number | boolean | string>>;
+	attributes?: Partial<Record<string, null | number | boolean | string>>
 	/**
 	 * Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}).
 	 *
@@ -140,6 +140,11 @@ interface HTMLElementEventMap {
 
 interface HTMLElementTagNameMap {
 	"bc-tint-input": HTMLColorTintElement;
+}
+
+interface HTMLColorTintElement {
+	addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLColorTintElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+	addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
 }
 
 declare namespace ElementButton {
@@ -1431,7 +1436,7 @@ interface ClipboardItemBundle {
 	/** The item's asset name */
 	A: string;
 	/** The item's color */
-	C?: string;
+	C?: ItemColor;
 }
 
 type ClipboardAppearanceBundle = ClipboardItemBundle[];
@@ -2011,7 +2016,7 @@ interface Character {
 	HasTints: () => boolean;
 	GetTints: () => RGBAColor[];
 	HasAttribute: (attribute: AssetAttribute) => boolean;
-	DrawAppearance?: Item[];
+	DrawAppearance: Item[];
 	AppearanceLayers?: Mutable<AssetLayer>[];
 	AppearanceMasks?: AssetLayer[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;

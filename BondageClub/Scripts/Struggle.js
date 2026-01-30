@@ -399,7 +399,7 @@ function StruggleMinigameWasInterrupted(C) {
 		return true;
 
 	// A new item blocked access
-	if (InventoryGroupIsBlocked(C))
+	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name))
 		return true;
 
 	// The item we're applying is now disallowed

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -90,6 +89,17 @@ const ElementNoParent = 0;
 
 /**
  * @template {keyof HTMLElementScalarTagNameMap} T
+ * @overload
+ * @param {HTMLOptions<T>} options
+ * @returns {HTMLElementTagNameMap[T]}
+ */
+/**
+ * @overload
+ * @param {HTMLOptionsUnion} options
+ * @returns {HTMLElement}
+ */
+/**
+ * @template {keyof HTMLElementScalarTagNameMap} T
  * @param {HTMLOptions<T>} options - Options for customizing the element
  * @returns {HTMLElementTagNameMap[T]} - The created element
  */
@@ -107,7 +117,7 @@ function ElementCreate(options) {
 	}
 	for (const [eventName, listener] of Object.entries(options.eventListeners ?? {})) {
 		if (listener != null) {
-			elem.addEventListener(eventName, listener);
+			elem.addEventListener(eventName, /** @type {EventListener} */(listener));
 		}
 	}
 	for (const [k, v] of Object.entries(options.style ?? {})) {
@@ -147,7 +157,7 @@ function ElementParseChildren(children) {
 	/** @type {(string | Node)[]} */
 	const ret = [];
 	/** @type {(i: unknown) => i is Node | string} */
-	const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
+	const isNode = (i) => typeof i === "string" || (CommonIsObject(i) && "nodeValue" in i);
 	for (const childElem of children ?? []) {
 		if (childElem != null) {
 			if (isNode(childElem)) {
@@ -269,18 +279,21 @@ function ElementNumberInputWheel(event) {
  * Creates a new text input element in the main document.Does not create a new element if there is already an existing one with the same ID
  * @param {string | null} ID - The id of the input tag to create.
  * @param {string} Type - Type of the input tag to create.
- * @param {string} Value - Value of the input tag to create.
- * @param {string | number} [MaxLength] - Maximum input tag of the input to create.
- * @param {Node} [form] - The form the element belongs to
+ * @param {null | string} [Value] - Value of the input tag to create.
+ * @param {null | number | string} [MaxLength] - Maximum input tag of the input to create.
+ * @param {null | Node} [form] - The form the element belongs to
  * @returns {HTMLInputElement} - The created HTML input element
  */
-function ElementCreateInput(ID, Type, Value, MaxLength, form) {
+function ElementCreateInput(ID, Type, Value = "", MaxLength = undefined, form = undefined) {
 	ID ??= ElementGenerateID();
 	let e = /** @type {HTMLInputElement} */ (document.getElementById(ID));
 	if (e) {
 		return e;
 	}
-
+	if (typeof MaxLength === "string") {
+		MaxLength = CommonParseInt(MaxLength, 10) ?? undefined;
+	}
+	const maxLength = CommonIsInteger(MaxLength, 0) ? MaxLength : undefined;
 	e = ElementCreate({
 		tag: "input",
 		attributes: {
@@ -288,7 +301,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 			name: ID,
 			type: Type,
 			value: Value,
-			maxLength: typeof MaxLength === "number" ? MaxLength : Number.parseInt(MaxLength, 10),
+			maxLength,
 			["screen-generated"]: CurrentScreen,
 		},
 		parent: form ?? document.body,
@@ -463,6 +476,10 @@ function ElementPosition(ElementOrID, X, Y, W, H) {
 
 	// For a vertical slider, swap the width and the height (the transformation is handled by CSS)
 	if (E.tagName.toLowerCase() === "input" && E.getAttribute("type") === "range" && E.classList.contains("Vertical")) {
+		if (!H) {
+			console.warn("ElementPosition: missing H parameter for a vertical slider");
+			return;
+		}
 		[W, H] = [H, W];
 	}
 
@@ -690,7 +707,7 @@ function ElementCreateSettingsLabel(label, position="top") {
  * Create a group of radio buttons
  * @param {string} id
  * @param {string} defaultValue
- * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onclick
+ * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent, key: any) => any} onclick
  * @param {{
  * htmlOptions?: Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>,
  * options?: ElementButton.Options,
@@ -706,7 +723,7 @@ function ElementCreateRadioButtonGroup(id, onclick, defaultValue, options) {
 			role: "radiogroup",
 			id: id
 		},
-		children: options.map((entry) => ElementButton.Create(null, (ev) => {
+		children: options.map((entry) => ElementButton.Create(null, function (ev) {
 			if (onclick) {
 				onclick.call(this, ev, entry?.htmlOptions?.button?.attributes?.value);
 			}
@@ -771,7 +788,7 @@ var ElementCheckboxDropdown = {
 	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
 	 * @returns {HTMLDivElement} - The created dropdown menu
 	 */
-	FromList(id, checkboxList, eventListener, options=null) {
+	FromList(id, checkboxList, eventListener, options=undefined) {
 		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
@@ -792,7 +809,7 @@ var ElementCheckboxDropdown = {
 	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
 	 * @returns {HTMLDivElement} - The created dropdown menu
 	 */
-	FromRecord(id, checkboxRecord, eventListener, options=null) {
+	FromRecord(id, checkboxRecord, eventListener, options=undefined) {
 		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
@@ -833,12 +850,12 @@ var ElementCheckboxDropdown = {
  * @param {string | null} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
  * @param {() => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
  * @param {Object} [options]
- * @param {null | string} [options.value] - Value of the search input
- * @param {null | Node} [options.parent] - The parent element of the search input; defaults to {@link document.body}
- * @param {null | number} [options.maxLength] - Maximum input length of the search input
+ * @param {string} [options.value] - Value of the search input
+ * @param {Node} [options.parent] - The parent element of the search input; defaults to {@link document.body}
+ * @param {number} [options.maxLength] - Maximum input length of the search input
  * @returns {HTMLInputElement} - The newly created search input
  */
-function ElementCreateSearchInput(id, dataCallback, options=null) {
+function ElementCreateSearchInput(id, dataCallback, options=undefined) {
 	id ??= ElementGenerateID();
 	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
 	if (elem) {
@@ -847,7 +864,7 @@ function ElementCreateSearchInput(id, dataCallback, options=null) {
 	}
 
 	options ??= {};
-	elem = ElementCreateInput(id, "search", options.value ?? "", options.maxLength, options.parent);
+	elem = ElementCreateInput(id, "search", options.value, options.maxLength, options.parent);
 	elem.appendChild(ElementCreate({ tag: "datalist", attributes: { id: `${id}-datalist` } }));
 	elem.setAttribute("list", `${id}-datalist`);
 	elem.addEventListener("focus", async function() {
@@ -946,6 +963,8 @@ var ElementButton = {
 			ev.preventDefault();
 		}
 		const root = ElementGetRoot(this);
+		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
+		// @ts-ignore Generic vs Specific Event
 		root.addEventListener("mouseup", ElementButton._MouseUp);
 	},
 
@@ -961,13 +980,15 @@ var ElementButton = {
 			return;
 		}
 
-		if (activeElement.closest(".button-tooltip")) {
+		if (activeElement?.closest(".button-tooltip")) {
 			ev.stopImmediatePropagation();
 			return;
 		}
 
 		// Fix buttons not automatically losing focus after a click event
 		button.blur();
+		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
+		// @ts-ignore Generic vs Specific Event
 		this.removeEventListener("mouseup", ElementButton._MouseUp);
 	},
 
@@ -1151,9 +1172,9 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 	 */
 	_ClickSpin: function _ClickSpin(ev) {
-		const min = Number.parseInt(this.getAttribute("aria-valuemin"), 10);
-		const max = Number.parseInt(this.getAttribute("aria-valuemax"), 10);
-		const now = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
+		const min = Number.parseInt(this.getAttribute("aria-valuemin") ?? "", 10);
+		const max = Number.parseInt(this.getAttribute("aria-valuemax") ?? "", 10);
+		const now = Number.parseInt(this.getAttribute("aria-valuenow") ?? "", 10);
 		if (Number.isNaN(min) || Number.isNaN(max)) {
 			ev.stopImmediatePropagation();
 			return;
@@ -1188,10 +1209,10 @@ var ElementButton = {
 				break;
 			case "ArrowLeft":
 			case "ArrowDown":
-				valuenow = Number.parseInt(this.getAttribute("aria-valuenow"), 10) - 2;
+				valuenow = Number.parseInt(this.getAttribute("aria-valuenow") ?? "", 10) - 2;
 				break;
 			case "Home":
-				valuenow = Number.parseInt(this.getAttribute("aria-valuemax"), 10) - 1;
+				valuenow = Number.parseInt(this.getAttribute("aria-valuemax") ?? "", 10) - 1;
 				break;
 			case "End":
 				valuenow = this.getAttribute("aria-valuemax");
@@ -1269,15 +1290,14 @@ var ElementButton = {
 	 * @private
 	 * @param {string} id
 	 * @param {string} [img]
-	 * @param {string} [imgColor]
-	 * @param {Omit<HTMLOptions<"img">, "tag">} [options]
-	 * @returns {HTMLImageElement | HTMLDivElement}
+	 * @param {null | string} [imgColor]
+	 * @param {Omit<HTMLOptions<"img" | "div">, "tag">} [options]
+	 * @returns {HTMLImageElement | HTMLDivElement | null}
 	 */
-	_ParseImage: function _ParseImage(id, img=null, imgColor=null, options=null) {
+	_ParseImage: function _ParseImage(id, img, imgColor=undefined, options=undefined) {
 		if (!img) {
-			return;
+			return null;
 		}
-
 		options ??= {};
 		if (imgColor == null) {
 			return ElementCreate({
@@ -1305,7 +1325,7 @@ var ElementButton = {
 	 * @param {Omit<HTMLOptions<"span">, "tag">} [options]
 	 * @returns {null | HTMLSpanElement}
 	 */
-	_ParseLabel: function _ParseLabel(id, label, position, options) {
+	_ParseLabel: function _ParseLabel(id, label, position="bottom", options) {
 		label = (CommonIsArray(label) ? label : [label]).filter(i => i != null);
 		if (label.length === 0) {
 			return null;
@@ -1325,7 +1345,7 @@ var ElementButton = {
 	/**
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
-	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon)[]} [icons] - The (optional) list of icons
+	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon | null | undefined)[]} [icons] - The (optional) list of icons
 	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
@@ -1356,22 +1376,24 @@ var ElementButton = {
 			let src;
 			/** @type {(string | Node | HTMLOptions<any>)[]} */
 			let tooltipChildren;
-			if (typeof icon === "object") {
-				custom = true;
-				name = icon.name;
-				src = icon.iconSrc;
-				tooltipChildren = (CommonIsArray(icon.tooltipText) ? icon.tooltipText : [icon.tooltipText]).filter(i => i != null);
-			} else if (icon.endsWith("Padlock")) {
+			if (typeof icon === "string" && icon.endsWith("Padlock")) {
 				name = icon;
 				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 				tooltipChildren = [InterfaceTextGet("PreviewIconPadlock").replace(
 					"AssetName",
-					AssetGet("Female3DCG", "ItemMisc", icon).Description,
+					(AssetGet("Female3DCG", "ItemMisc", icon)?.Description ?? ""),
 				)];
-			} else {
+			} else if (typeof icon === "string") {
 				name = icon;
 				src = `./Icons/Previews/${icon}.png`;
 				tooltipChildren = [InterfaceTextGet(`PreviewIcon${icon}`)];
+			} else if (CommonIsObject(icon)) {
+				custom = true;
+				name = icon.name;
+				src = icon.iconSrc;
+				tooltipChildren = (CommonIsArray(icon.tooltipText) ? icon.tooltipText : [icon.tooltipText]).filter(i => i != null);
+			} else {
+				return;
 			}
 			if (iconNames.includes(name)) {
 				return;
@@ -1401,11 +1423,11 @@ var ElementButton = {
 	 * @private
 	 * @param {string} id
 	 * @param {"left" | "right" | "top" | "bottom"} [position]
-	 * @param {readonly (null | string | Node | HTMLOptions<any>)[]} [children]
+	 * @param {readonly (null | undefined | string | Node | HTMLOptions<any>)[]} [children]
 	 * @param {Omit<HTMLOptions<"div">, "tag">} [options]
 	 * @returns {null | HTMLDivElement}
 	 */
-	_ParseTooltip: function _ParseTooltip(id, position, children, options) {
+	_ParseTooltip: function _ParseTooltip(id, position = "left", children, options) {
 		if (!children || children.every(i => i == null)) {
 			return null;
 		}
@@ -1430,10 +1452,10 @@ var ElementButton = {
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: PointerEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
-	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @param {Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
-	Create: function Create(id, onClick, options=null, htmlOptions=null) {
+	Create: function Create(id, onClick, options, htmlOptions) {
 		id ??= ElementGenerateID();
 		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
@@ -1452,7 +1474,7 @@ var ElementButton = {
 		const icons = this._ParseIcons(id, options.icons);
 
 		// Only add the icon-based component of the tooltip if there is an actual tooltip
-		/** @type {(null | string | Node | HTMLOptions<any>)[]} */
+		/** @type {(null | undefined | string | Node | HTMLOptions<any>)[]} */
 		const protoTooltip = [...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip])];
 		if (!protoTooltip.every(i => i == null)) {
 			protoTooltip.push(...(icons?.tooltip ?? []));
@@ -1469,16 +1491,16 @@ var ElementButton = {
 			...(buttonOptions.classList ?? []),
 		];
 
-		/** @type {null | "aria-labelledby" | "aria-describedby"} */
-		let tooltipRoleAttribute = null;
-		switch (options.tooltipRole ?? null) {
+		/** @type {"aria-labelledby" | "aria-describedby"} */
+		let tooltipRoleAttribute;
+		switch (options.tooltipRole) {
 			case "label":
 				tooltipRoleAttribute = "aria-labelledby";
 				break;
 			case "description":
 				tooltipRoleAttribute = "aria-describedby";
 				break;
-			case null:
+			default:
 				tooltipRoleAttribute = (label ? "aria-describedby" : "aria-labelledby");
 				break;
 		}
@@ -1721,6 +1743,10 @@ var ElementButton = {
 			console.error(`Element "${id}" already exists`);
 			return elem;
 		}
+		const group = AssetGroupGet(C.AssetFamily, activity.Group);
+		if (!group) {
+			throw new Error(`ElementButton.CreateForActivity: Unknown group ${activity.Group}`);
+		}
 
 		htmlOptions ??= {};
 		htmlOptions.button ??= {};
@@ -1736,7 +1762,7 @@ var ElementButton = {
 		];
 
 		options ??= {};
-		options.label ??= ActivityDictionaryText(ActivityBuildChatTag(C, AssetGroupGet(C.AssetFamily, activity.Group), activity.Activity, true));
+		options.label ??= ActivityDictionaryText(ActivityBuildChatTag(C, group, activity.Activity, true));
 		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
 		options.icons = [
 			...(options.icons ?? []),
@@ -1762,7 +1788,7 @@ var ElementButton = {
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
 		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
-		/** @type {InventoryIcon[]} */
+		/** @type {(InventoryIcon | null)[]} */
 		const iconNamesNew = [
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
@@ -1773,7 +1799,7 @@ var ElementButton = {
 		];
 
 		const iconNamesAdded = iconNamesNew.filter(i => i != null && !iconNamesOld.includes(i));
-		const iconNamesRemoved = iconNamesOld.filter(i => !/** @type {string[]} */(iconNamesNew).includes(i));
+		const iconNamesRemoved = iconNamesOld.filter(i => !/** @type {string[]} */(iconNamesNew).includes(i ?? ""));
 		if (iconNamesAdded.length === 0 && iconNamesRemoved.length === 0) {
 			return false;
 		}
@@ -1824,7 +1850,7 @@ var ElementMenu = {
 		const roleSelector = roles.map(i => `[role='${i}']:not([hidden])`).join(",");
 
 		/** @type {(el: Node) => el is Element} */
-		const nodeFilter = (el) => el instanceof HTMLButtonElement || (el instanceof Element && roles.includes(el.getAttribute("role")));
+		const nodeFilter = (el) => el instanceof HTMLButtonElement || (el instanceof Element && roles.includes(el.getAttribute("role") ?? ""));
 
 		for (const mutation of mutationList) {
 			const nodes = Array.from(mutation.addedNodes).filter(nodeFilter);
@@ -1833,7 +1859,7 @@ var ElementMenu = {
 			}
 
 			for (const menuitem of nodes) {
-				let role = menuitem.getAttribute("role");
+				let role = menuitem.getAttribute("role") ?? "";
 				if (menuitem instanceof HTMLButtonElement) {
 					if (menuitem.disabled) {
 						menuitem.disabled = false;
@@ -1845,6 +1871,7 @@ var ElementMenu = {
 					}
 				}
 				if (roles.includes(role)) {
+					// @ts-ignore
 					menuitem.addEventListener("keydown", ElementMenu._KeyDown);
 					menuitem.setAttribute("tabindex", "-1");
 				}
@@ -2001,10 +2028,10 @@ var ElementMenu = {
 	 * @param {Object} [options]
 	 * @param {"ltr" | "rtl"} [options.direction] - The direction of the menu. Should match the value of the CSS `direction` property if provided
 	 * @param {"menubar" | "menu"} [options.role] - The role of the menu/menubar
-	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 * @returns {HTMLDivElement} - The menu
 	 */
-	Create: function Create(id, menuItems, options=null, htmlOptions=null) {
+	Create: function Create(id, menuItems, options=undefined, htmlOptions=undefined) {
 		id ??= ElementGenerateID();
 		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
 		if (elem) {
@@ -2083,7 +2110,10 @@ var ElementCheckbox = {
 	 */
 	_pointerdown: function(ev) {
 		const root = ElementGetRoot(this);
+		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
+		// @ts-ignore Generic vs Specific Event
 		root.addEventListener("pointerup", ElementCheckbox._pointerup);
+		// @ts-ignore Generic vs Specific Event
 		root.addEventListener("pointercancel", ElementCheckbox._pointerup);
 	},
 
@@ -2094,21 +2124,24 @@ var ElementCheckbox = {
 	_pointerup: function(ev) {
 		// Ensure that focus is lost after clicking
 		/** @type {null | HTMLInputElement} */
-		const input = this.activeElement?.closest("input.checkbox");
+		const input = this.activeElement?.closest("input.checkbox") ?? null;
 		input?.blur();
 
+		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
+		// @ts-ignore Generic vs Specific Event
 		this.removeEventListener("pointerup", ElementCheckbox._pointerup);
+		// @ts-ignore Generic vs Specific Event
 		this.removeEventListener("pointercancel", ElementCheckbox._pointerup);
 	},
 
 	/**
 	 * Construct and return a DOM checkbox element (`<input type="checkbox">`)
-	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
-	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
-	 * @param {null | ElementCheckbox.Options} options - High level options for the to-be created checkbox
-	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @param {null | string} [id] - The ID of the element, or `null` if one must be assigned automatically
+	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} [onChange] - The change event listener to-be fired upon checkbox clicks
+	 * @param {null | ElementCheckbox.Options} [options] - High level options for the to-be created checkbox
+	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 */
-	Create: function Create(id=null, onChange=null, options=null, htmlOptions=null) {
+	Create: function Create(id=undefined, onChange=undefined, options=undefined, htmlOptions=undefined) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
@@ -2139,7 +2172,7 @@ var ElementCheckbox = {
 			},
 			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
 			eventListeners: {
-				change: onChange,
+				change: onChange ?? undefined,
 				pointerdown: ElementCheckbox._pointerdown,
 				...(checkboxOptions.eventListeners ?? {}),
 			},
@@ -2237,8 +2270,8 @@ function ElementCheckVisibility(el, options) {
 
 /**
  * Get an element by its ID or DOM element reference, returning null if it does not exist.
- * @param {ElementHelp.ElementOrId} elementOrId
- * @returns { HTMLElement | null }
+ * @param {ElementHelp.ElementOrId | null} elementOrId
+ * @returns {HTMLElement | null}
  */
 function ElementWrap(elementOrId) {
 	if (elementOrId instanceof HTMLElement) return elementOrId;
@@ -2397,7 +2430,7 @@ var ElementSwipe = {
 			}
 			const touch = ev.touches[0];
 			coords = { oldX: touch.screenX, oldY: touch.screenY };
-			minDistance = options.minSwipeDistance ?? globalThis.innerWidth / 40;
+			minDistance = options?.minSwipeDistance ?? globalThis.innerWidth / 40;
 
 			document.addEventListener("touchend", touchend);
 			document.addEventListener("touchcancel", touchend);
@@ -2425,7 +2458,7 @@ var ElementSwipe = {
 			let directionOk = false;
 			/** @type {string[]} */
 			let transform;
-			switch (options.direction) {
+			switch (options?.direction) {
 				case "up":
 					directionOk = newY < oldY;
 					transform = translationStages.map(i => `translate(0, ${-i}%)`);
@@ -2447,7 +2480,7 @@ var ElementSwipe = {
 
 			if (distance >= minDistance && directionOk) {
 				const onFinish = () => {
-					if (options.onClose) {
+					if (options?.onClose) {
 						options.onClose(elem, ev);
 					} else {
 						elem.dispatchEvent(new PointerEvent("click", ev));
@@ -2455,7 +2488,7 @@ var ElementSwipe = {
 				};
 
 				this.dispatchEvent(new TouchEvent("touchcancel"));
-				if (options.animation) {
+				if (options?.animation) {
 					options.animation.addEventListener("finish", onFinish);
 					options.animation.play();
 				} else {
@@ -2534,7 +2567,7 @@ var ElementDOMScreen = {
 			ElementCreate({
 				tag: "header",
 				classList: ["screen-header"],
-				attributes: { "aria-owns": options.hgroupInHeader ? null : `${id}-hgroup`, id: `${id}-header` },
+				attributes: { "aria-owns": options.hgroupInHeader ? undefined : `${id}-hgroup`, id: `${id}-header` },
 				children: [
 					ElementMenu.Create(`${id}-menu`, options.menubarButtons ?? [], { direction: "rtl" }),
 					options.hgroupInHeader ? hgroup : null,
@@ -2633,13 +2666,13 @@ var ElementDOMScreen = {
 	 * @param {number} timeout How long the status message should be shown in ms; defaults to 5000 ms
 	 */
 	setStatus(root, status, timeout=5000) {
-		root = ElementWrap(root)?.closest(".screen");
-		if (!root || !Number.isFinite(timeout)) {
+		const elem = ElementWrap(root)?.closest(".screen");
+		if (!elem || !Number.isFinite(timeout)) {
 			return;
 		}
 
-		const statusElem = root.querySelector(`[role='status']`);
-		const headingElem = root.querySelector(`h1`);
+		const statusElem = elem.querySelector(`[role='status']`);
+		const headingElem = elem.querySelector(`h1`);
 		if (!statusElem || !headingElem) {
 			return;
 		}
@@ -2661,13 +2694,13 @@ var ElementDOMScreen = {
 	 * @param {ElementHelp.ElementOrId} root The screen on which the status is the be removed; it _must_ contain a single `h1` and `[role='status']` element
 	 */
 	clearStatus(root) {
-		root = ElementWrap(root)?.closest(".screen");
-		if (!root) {
+		const elem = ElementWrap(root)?.closest(".screen");
+		if (!elem) {
 			return;
 		}
 
-		const statusElem = root.querySelector(`[role='status']`);
-		const headingElem = root.querySelector(`h1`);
+		const statusElem = elem.querySelector(`[role='status']`);
+		const headingElem = elem.querySelector(`h1`);
 		if (!statusElem || !headingElem) {
 			return;
 		}
@@ -2685,13 +2718,13 @@ var ElementDOMScreen = {
 	 * @param {string | Element | readonly (string | Element)[]} heading The to-be displayed heading content. Note that headings may only ever contain [flow content](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Content_categories#flow_content)
 	 */
 	setHeading(root, heading) {
-		root = ElementWrap(root)?.closest(".screen");
-		if (!root) {
+		const elem = ElementWrap(root)?.closest(".screen");
+		if (!elem) {
 			return;
 		}
 
 		const headingArray = CommonIsArray(heading) ? heading : [heading];
-		root.querySelector(`h1`)?.replaceChildren(...headingArray);
+		elem.querySelector(`h1`)?.replaceChildren(...headingArray);
 	}
 };
 
@@ -2761,14 +2794,14 @@ class HTMLColorTintElement extends HTMLElement {
 
 		const tintPicker = this;
 
-		/** @type {(this: Document, ev: PointerEvent) => void} */
+		/** @type {(this: HTMLColorTintElement, ev: PointerEvent) => void} */
 		function pointermove(ev) {
 			if (tintPicker._pressedOldValue == null) {
 				return;
 			}
 
 			/** @type {null | HTMLElement} */
-			const knob = tintPicker.shadowRoot.querySelector(".knob");
+			const knob = tintPicker.shadowRoot?.querySelector(".knob") ?? null;
 			if (!tintPicker || !knob) {
 				ev.stopImmediatePropagation();
 				return;
@@ -3057,7 +3090,7 @@ class HTMLColorTintElement extends HTMLElement {
 		this._value = value;
 		const rgb = ColorPickerHSVToCSS(value);
 		/** @type {null | HTMLElement} */
-		const knob = this.shadowRoot?.querySelector(".knob-circle");
+		const knob = this.shadowRoot?.querySelector(".knob-circle") ?? null;
 		knob?.style.setProperty("background-color", rgb);
 		this.style.setProperty("--hue", (value.H * 360).toString());
 		if (this._pressedOldValue == null) {
@@ -3085,7 +3118,7 @@ class HTMLColorTintElement extends HTMLElement {
 	 * @type {string}
 	 */
 	get name() {
-		return this.getAttribute("name");
+		return this.getAttribute("name") ?? "";
 	}
 	set name(value) {
 		this.setAttribute("name", value);
@@ -3099,7 +3132,7 @@ class HTMLColorTintElement extends HTMLElement {
 	 */
 	_setKnobPosition(left, top) {
 		/** @type {null | HTMLElement} */
-		const knob = this.shadowRoot?.querySelector(".knob");
+		const knob = this.shadowRoot?.querySelector(".knob") ?? null;
 		if (!knob) {
 			return;
 		}
@@ -3114,7 +3147,7 @@ class HTMLColorTintElement extends HTMLElement {
 	 */
 	_getKnobPosition() {
 		/** @type {null | HTMLElement} */
-		const knob = this.shadowRoot?.querySelector(".knob");
+		const knob = this.shadowRoot?.querySelector(".knob") ?? null;
 		const left = Number.parseFloat(knob ? (knob.style.left || getComputedStyle(knob).left) : "0%");
 		const top = Number.parseFloat(knob ? (knob.style.top || getComputedStyle(knob).top) : "0%");
 		return { left, top };

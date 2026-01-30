@@ -1348,7 +1348,7 @@ function DialogMenuButtonBuild(C) {
 	const Item = InventoryGet(C, C.FocusGroup.Name);
 	const ItemBlockedOrLimited = !!Item && InventoryBlockedOrLimited(C, Item);
 	const IsItemLocked = InventoryItemHasEffect(Item, "Lock", true);
-	const IsGroupBlocked = InventoryGroupIsBlocked(C);
+	const IsGroupBlocked = InventoryGroupIsBlocked(C, C.FocusGroup.Name);
 
 	if (DialogMenuMode === "locked") {
 		// If the item isn't locked, there are no more buttons to add
@@ -2509,7 +2509,7 @@ function DialogChangeItemColor(C, Color) {
 	if (InventoryItemHasEffect(Item, "Lock", true) && !DialogCanUnlock(C, Item)) return;
 
 	// Make sure the item is allowed, the group isn't blocked and it's not an enclosing item
-	if (!InventoryAllow(C, Item.Asset) || InventoryGroupIsBlocked(C)) return;
+	if (!InventoryAllow(C, Item.Asset) || InventoryGroupIsBlocked(C, C.FocusGroup.Name)) return;
 	if (InventoryItemHasEffect(Item, "Enclose", true) && (C.IsPlayer())) return;
 
 	// Apply the color & redraw the character after 100ms.  Prevent unnecessary redraws to reduce performance impact
