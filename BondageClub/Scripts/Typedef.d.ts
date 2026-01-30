@@ -856,7 +856,13 @@ type ChatRoomOwnershipEvent =
 	| "CanEndTrial";
 
 type ChatRoom = ServerChatRoomData;
-type ChatRoomSettings = ServerChatRoomSettings;
+// TODO: Review the partial nature of the `Custom` and `Space` fields
+type ChatRoomSettings = Prettify<
+	Omit<ServerChatRoomData, "Character" | "Custom" | "Space">
+	& Partial<Pick<ServerChatRoomData, "Custom" | "Space">>
+>;
+/** Parsed chat room settings as used by the `ChatAdmin` screen */
+type ChatRoomAdminSettings = Prettify<ChatRoomSettings & Required<Pick<ChatRoomSettings, "MapData">>>;
 
 /** ChatRoom results once received by the client */
 type ChatRoomSearchResult = (ServerChatRoomSearchData & { DisplayName: string, Order: number });
