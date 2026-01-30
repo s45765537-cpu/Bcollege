@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var WheelFortuneCustomizeBackground = "Sheet";
 var WheelFortuneCustomizeOffset = 0;
@@ -9,8 +8,11 @@ var WheelFortuneCustomizeList = "";
  * @type {ScreenLoadHandler}
  */
 async function WheelFortuneCustomizeLoad() {
+	if (!WheelFortuneCharacter) {
+		return;
+	}
 	WheelFortuneCustomizeOffset = 0;
-	if (typeof WheelFortuneCharacter.OnlineSharedSettings.WheelFortune === "string")
+	if (typeof WheelFortuneCharacter.OnlineSharedSettings?.WheelFortune === "string")
 		WheelFortuneCustomizeList = WheelFortuneCharacter.OnlineSharedSettings.WheelFortune;
 	else
 		WheelFortuneCustomizeList = WheelFortuneDefault;
@@ -21,6 +23,9 @@ async function WheelFortuneCustomizeLoad() {
  * @returns {void} - Nothing
  */
 function WheelFortuneCustomizeRun() {
+	if (!WheelFortuneCharacter) {
+		return;
+	}
 	const isDisabled = !WheelFortuneCharacter.IsPlayer();
 	const buttonColor = isDisabled ? "Gray" : "White";
 	let titleText = "";
@@ -61,6 +66,9 @@ function WheelFortuneCustomizeRun() {
  * @returns {void} - Nothing
  */
 function WheelFortuneCustomizeClick() {
+	if (!WheelFortuneCharacter) {
+		return;
+	}
 	// Exit-without-save button
 	if (MouseIn(1830, 60, 90, 90)) WheelFortuneCustomizeExit();
 
@@ -113,9 +121,7 @@ function WheelFortuneCustomizeClick() {
  * @returns {void} - Nothing
  */
 function WheelFortuneCustomizeExit(Save=false) {
-	if (Save && WheelFortuneCharacter.IsPlayer()) {
-		// @ts-ignore: Individual properties validated separately
-		if (Player.OnlineSharedSettings == null) Player.OnlineSharedSettings = {};
+	if (Save && WheelFortuneCharacter?.IsPlayer()) {
 		Player.OnlineSharedSettings.WheelFortune = WheelFortuneCustomizeList;
 		ServerAccountUpdate.QueueData({ OnlineSharedSettings: Player.OnlineSharedSettings });
 	}

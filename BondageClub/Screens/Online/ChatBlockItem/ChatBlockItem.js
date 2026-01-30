@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var ChatBlockItemBackground = "Sheet";
 /** @type {ServerChatRoomBlockCategory[]} */
@@ -59,6 +58,8 @@ function ChatBlockItemClick() {
 				ChatBlockItemCategory.splice(idx, 1);
 			}
 			return true;
+		} else {
+			return false;
 		}
 	});
 }
@@ -68,6 +69,8 @@ function ChatBlockItemClick() {
  * @type {ScreenExitHandler}
  */
 function ChatBlockItemExit() {
-	CommonSetScreen(...ChatBlockItemReturnScreen);
+	if (ChatBlockItemReturnScreen) {
+		CommonSetScreen(...ChatBlockItemReturnScreen);
+	}
 	ChatBlockItemEditable = true;
 }

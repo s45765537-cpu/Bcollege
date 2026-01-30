@@ -1057,12 +1057,12 @@ function DrawText(Text, X, Y, Color, BackColor) {
  * @param {number} Height - Height of the component
  * @param {string} Label - Text to display in the button
  * @param {string} Color - Color of the component
- * @param {string} [Image] - URL of the image to draw inside the button, if applicable
- * @param {string} [HoveringText] - Text of the tooltip, if applicable
+ * @param {null | string} [Image] - URL of the image to draw inside the button, if applicable
+ * @param {null | string} [HoveringText] - Text of the tooltip, if applicable
  * @param {boolean} [Disabled] - Disables the hovering options if set to true
  * @returns {void} - Nothing
  */
-function DrawButton(Left, Top, Width, Height, Label, Color, Image, HoveringText, Disabled) {
+function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, HoveringText=null, Disabled=false) {
 
 	ControllerAddActiveArea(Left, Top);
 
@@ -1112,14 +1112,14 @@ function DrawCheckbox(Left, Top, Width, Height, Text, IsChecked, Disabled = fals
  * @param {number} Height - Height of the component
  * @param {string} Label - Text inside the component
  * @param {string} Color - Color of the component
- * @param {string} [Image] - Image URL to draw in the component
- * @param {() => string} [BackText] - Text for the back button tooltip
- * @param {() => string} [NextText] - Text for the next button tooltip
+ * @param {null | string} [Image] - Image URL to draw in the component
+ * @param {null | (() => string)} [BackText] - Text for the back button tooltip
+ * @param {null | (() => string)} [NextText] - Text for the next button tooltip
  * @param {boolean} [Disabled] - Disables the hovering options if set to true
- * @param {number} [ArrowWidth] - How much of the button the previous/next sections cover. By default, half each.
+ * @param {null | number} [ArrowWidth] - How much of the button the previous/next sections cover. By default, half each.
  * @returns {void} - Nothing
  */
-function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image, BackText, NextText, Disabled, ArrowWidth) {
+function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image=null, BackText=null, NextText=null, Disabled=false, ArrowWidth=null) {
 	// Set the widths of the previous/next sections to be colored cyan when hovering over them
 	// By default each covers half the width, together covering the whole button
 	if (ArrowWidth == null || ArrowWidth > Width / 2) ArrowWidth = Width / 2;

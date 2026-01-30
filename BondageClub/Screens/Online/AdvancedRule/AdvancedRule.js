@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var AdvancedRuleBackground = "Sheet";
 /** @type {null | Character | NPCCharacter} */
@@ -91,7 +90,10 @@ function AdvancedRuleClick() {
  */
 function AdvancedRuleExit() {
 	CommonSetScreen("Online", "ChatRoom").then(() => {
-		ServerSend("ChatRoomChat", { Content: "OwnerRule" + AdvancedRuleType + AdvancedRuleSelection, Type: "Hidden", Target: AdvancedRuleTarget.MemberNumber });
-		ChatRoomFocusCharacter(AdvancedRuleTarget);
+		if (AdvancedRuleTarget) {
+			ServerSend("ChatRoomChat", { Content: "OwnerRule" + AdvancedRuleType + AdvancedRuleSelection, Type: "Hidden", Target: AdvancedRuleTarget.MemberNumber });
+			ChatRoomFocusCharacter(AdvancedRuleTarget);
+			AdvancedRuleTarget = null;
+		}
 	});
 }

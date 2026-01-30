@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var ChatAdminBackground = "Sheet";
 var ChatAdminMessage = "";
@@ -25,7 +24,7 @@ var ChatAdminAccessModeLabels = CommonKeys(ChatRoomAccessMode);
 var ChatAdminAccessModeValues = ChatAdminAccessModeLabels.map((key) => ChatRoomAccessMode[key]);
 var ChatAdminAccessModeIndex = 0;
 
-/** @type {ChatRoomSettings | null} */
+/** @type {ChatRoomAdminSettings | null} */
 var ChatAdminData = null;
 /** @type {"create" | "update" | null} */
 var ChatAdminMode = null;
@@ -69,9 +68,9 @@ function ChatAdminShowEdit(roomData) {
  * This should not be called directly; use {@link ChatAdminShowCreate} or {@link ChatAdminShowEdit}
  *
  * @param {"create" | "update"} mode
- * @param {ChatRoomSettings | undefined} roomData
+ * @param {ChatRoomSettings | null} roomData
  */
-function ChatAdminStart(mode, roomData = undefined) {
+function ChatAdminStart(mode, roomData = null) {
 	ChatAdminMode = mode;
 	if (mode === "create") {
 		/** @type {("BlackList" | "GhostList")[]} */
@@ -96,14 +95,21 @@ function ChatAdminStart(mode, roomData = undefined) {
 			Access: ChatRoomAccessMode.PUBLIC,
 			BlockCategory: [],
 			Language: ChatAdminDefaultLanguage,
-			Space: ChatSearchGetSpace(),
+			Space: ChatSearchGetSpace() ?? undefined,
 			MapData: { Type: "Never" },
 			// Custom: {},
 		};
 	} else if (mode === "update") {
-		ChatAdminData = roomData;
+		if (roomData == null) {
+			throw new Error(`missing room data for mode "${mode}"!`);
+		}
+		const MapData = {
+			...(roomData.MapData ?? {}),
+			Type: roomData.MapData?.Type ?? "Never",
+		};
+		ChatAdminData = { ...roomData, MapData };
 	} else {
-		throw new Error(`invalid mode ${mode}!`);
+		throw new Error(`invalid mode "${mode}"!`);
 	}
 	CommonSetScreen("Online", "ChatAdmin");
 }
@@ -113,7 +119,7 @@ function ChatAdminStart(mode, roomData = undefined) {
  * @returns {boolean}
  */
 function ChatAdminCanEdit() {
-	return ChatAdminMode === "create" || ChatAdminData.Admin.includes(Player.MemberNumber);
+	return ChatAdminMode === "create" || !!ChatAdminData?.Admin.includes(Player.MemberNumber);
 }
 
 /**
@@ -121,35 +127,35 @@ function ChatAdminCanEdit() {
  * @type {ScreenLoadHandler}
  */
 async function ChatAdminLoad() {
-	if (!ChatAdminData.Background) {
-		ChatAdminData.Background = Player.OnlineSettings.DefaultChatRoomBackground;
+	const adminData = ChatAdminData;
+	if (!adminData) {
+		return;
+	} else if (!adminData.Background) {
+		adminData.Background = Player.OnlineSettings.DefaultChatRoomBackground;
 	}
 	ChatAdminBackgroundList = BackgroundsGenerateList(ChatSearchBackgroundTagList);
 
 	// We have to reload the index here because we might be coming back from the background selection screen
-	ChatAdminBackgroundIndex = ChatAdminBackgroundList.indexOf(ChatAdminData.Background);
+	ChatAdminBackgroundIndex = ChatAdminBackgroundList.indexOf(adminData.Background);
 	if (ChatAdminBackgroundIndex < 0) ChatAdminBackgroundIndex = 0;
-	ChatAdminData.Background = ChatAdminBackgroundList[ChatAdminBackgroundIndex];
+	adminData.Background = ChatAdminBackgroundList[ChatAdminBackgroundIndex];
 
 	// We have to reload the Visibility & Access mode indices to cover the case where it was changed by someone else or not through the UI
 	// Note that we are using .findIndex() and .sort().join(',') (hacky way to compare string arrays) because we're looking for an [] in an [][].
-	ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === ChatAdminData.Visibility.sort().join(','));
+	ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === adminData.Visibility.sort().join(','));
 	if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = 0;
-	ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === ChatAdminData.Access.sort().join(','));
+	ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === adminData.Access.sort().join(','));
 	if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
 
 	// Sets the chat room language
-	if (ChatAdminData.Language == null) ChatAdminData.Language = ServerChatRoomSupportedLanguages[0];
-	if (!ServerChatRoomSupportedLanguages.includes(ChatAdminData.Language)) ChatAdminData.Language = ServerChatRoomSupportedLanguages[0];
-
-	if (ChatAdminData.MapData == null) ChatAdminData.MapData = { Type: "Never" };
-	if (ChatAdminData.MapData.Type == null) ChatAdminData.MapData.Type = "Never";
+	if (adminData.Language == null) adminData.Language = ServerChatRoomSupportedLanguages[0];
+	if (!ServerChatRoomSupportedLanguages.includes(adminData.Language)) adminData.Language = ServerChatRoomSupportedLanguages[0];
 
 	// Prepares the controls to edit a room
-	const nameInput = ElementCreateInput("InputName", "text", ChatAdminData.Name, "20");
+	const nameInput = ElementCreateInput("InputName", "text", adminData.Name, "20");
 	nameInput.setAttribute("autocomplete", "off");
 	nameInput.setAttribute("pattern", "^[\x20-\x7E]+$");
-	const sizeInput = ElementCreateInput("InputSize", "number", ChatAdminData.Limit.toString());
+	const sizeInput = ElementCreateInput("InputSize", "number", adminData.Limit.toString());
 	sizeInput.setAttribute("min", "2");
 	sizeInput.setAttribute("max", "20");
 	sizeInput.setAttribute("autocomplete", "off");
@@ -157,22 +163,22 @@ async function ChatAdminLoad() {
 	descInput.setAttribute("maxLength", ServerChatRoomDescriptionMaxLength);
 	descInput.setAttribute("autocomplete", "off");
 	descInput.setAttribute("placeholder", TextGet("InputDescriptionPlaceholder"));
-	ElementValue("InputDescription", ChatAdminData.Description);
+	ElementValue("InputDescription", adminData.Description);
 	const adminListInput = ElementCreateTextArea("InputAdminList");
 	adminListInput.setAttribute("maxLength", 2000);
 	adminListInput.setAttribute("autocomplete", "off");
 	adminListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
-	ElementValue("InputAdminList", CommonConvertArrayToString(ChatAdminData.Admin));
+	ElementValue("InputAdminList", CommonConvertArrayToString(adminData.Admin));
 	const whitelistInput = ElementCreateTextArea("InputWhitelist");
 	whitelistInput.setAttribute("maxLength", 2000);
 	whitelistInput.setAttribute("autocomplete", "off");
 	whitelistInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
-	ElementValue("InputWhitelist", CommonConvertArrayToString(ChatAdminData.Whitelist));
+	ElementValue("InputWhitelist", CommonConvertArrayToString(adminData.Whitelist));
 	const banListInput = ElementCreateTextArea("InputBanList");
 	banListInput.setAttribute("maxLength", 2000);
 	banListInput.setAttribute("autocomplete", "off");
 	banListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
-	ElementValue("InputBanList", CommonConvertArrayToString(ChatAdminData.Ban));
+	ElementValue("InputBanList", CommonConvertArrayToString(adminData.Ban));
 
 	// If the player isn't an admin, we disable the inputs
 	if (!ChatAdminCanEdit()) {
@@ -180,8 +186,8 @@ async function ChatAdminLoad() {
 		descInput.setAttribute("disabled", "disabled");
 
 		// We also garble them if possible
-		ElementValue("InputName", ChatSearchMuffle(ChatAdminData.Name));
-		ElementValue("InputDescription", ChatSearchMuffle(ChatAdminData.Description));
+		ElementValue("InputName", ChatSearchMuffle(adminData.Name));
+		ElementValue("InputDescription", ChatSearchMuffle(adminData.Description));
 
 		adminListInput.setAttribute("disabled", "disabled");
 		whitelistInput.setAttribute("disabled", "disabled");
@@ -211,8 +217,12 @@ function ChatAdminUnload() {
  * Handles drawing the editor screen
  */
 function ChatAdminRun() {
-	if (ChatAdminPreviewBackgroundMode) {
-		ChatAdminBackground = ChatAdminData.Background;
+	const adminData = ChatAdminData;
+	const backgroundList = ChatAdminBackgroundList;
+	if (!adminData || !backgroundList) {
+		return;
+	} else if (ChatAdminPreviewBackgroundMode) {
+		ChatAdminBackground = adminData.Background;
 		DrawButton(40, 40, 260, 60, TextGet("ReturnMenu"), "White");
 		return;
 	}
@@ -228,7 +238,7 @@ function ChatAdminRun() {
 	DrawText(TextGet("RoomLanguage"), 250, 190, "Black", "Gray");
 	// FIXME: technically the `TextGet` is only needed for the "All language" cases,
 	// but we also support Spanish as a room language which isn't actually in the translation files
-	const languageLabel = TranslationGetLanguageName(ChatAdminData.Language, true) || TextGet("Language" + ChatAdminData.Language);
+	const languageLabel = TranslationGetLanguageName(adminData.Language, true) || TextGet("Language" + adminData.Language);
 	const languageBGColor = canEdit && MouseIn(405, 157, 300, 60) ? "Cyan" : ButtonBackground;
 	DrawButton(405, 157, 300, 60, languageLabel, languageBGColor, null, null, !ChatRoomPlayerIsAdmin());
 	DrawText(TextGet("RoomSize"), 850, 190, "Black", "Gray");
@@ -251,19 +261,19 @@ function ChatAdminRun() {
 	DrawButton(885, 816, 340, 60, TextGet("QuickaddBanGhostlist"), ButtonBackground, null, null, !canEdit);
 
 	// Background selection, block button and game selection
-	DrawImageResize("Backgrounds/" + ChatAdminData.Background + ".jpg", 1300, 75, 600, 350);
-	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatAdminData.Background), ButtonBackground, null,
-		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? ChatAdminBackgroundList[ChatAdminBackgroundList.length - 1] : ChatAdminBackgroundList[ChatAdminBackgroundIndex - 1]),
-		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= ChatAdminBackgroundList.length - 1) ? ChatAdminBackgroundList[0] : ChatAdminBackgroundList[ChatAdminBackgroundIndex + 1]),
+	DrawImageResize("Backgrounds/" + adminData.Background + ".jpg", 1300, 75, 600, 350);
+	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(adminData.Background), ButtonBackground, null,
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? backgroundList[backgroundList.length - 1] : backgroundList[ChatAdminBackgroundIndex - 1]),
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= backgroundList.length - 1) ? backgroundList[0] : backgroundList[ChatAdminBackgroundIndex + 1]),
 		!canEdit);
 	DrawButton(1840, 450, 60, 60, "", ButtonBackground, "Icons/Small/Preference.png", null, !canEdit);
 	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
-	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + ChatAdminData.Game), ButtonBackground, null, () => "", () => "");
-	DrawButton(1300, 640, 275, 60, TextGet("RoomCustomization"), (ChatAdminData.Custom == null) ? "White" : "#B0FFB0");
-	DrawBackNextButton(1625, 640, 275, 60, TextGet("Map" + ChatAdminData.MapData.Type), ButtonBackground, null, () => "", () => "", !canEdit);
+	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + adminData.Game), ButtonBackground, null, () => "", () => "");
+	DrawButton(1300, 640, 275, 60, TextGet("RoomCustomization"), (adminData.Custom == null) ? "White" : "#B0FFB0");
+	DrawBackNextButton(1625, 640, 275, 60, TextGet("Map" + adminData.MapData.Type), ButtonBackground, null, () => "", () => "", !canEdit);
 	if (MouseIn(1625, 640, 275, 60)) {
 		DrawHoverElements.push(() => {
-			DrawButtonHover(1625, 630, 275, 60, TextGet(`Map${ChatAdminData.MapData.Type}Tooltip`));
+			DrawButtonHover(1625, 630, 275, 60, TextGet(`Map${adminData.MapData.Type}Tooltip`));
 		});
 	}
 
@@ -290,6 +300,11 @@ function ChatAdminRun() {
  * @returns {void} - Nothing
  */
 function ChatAdminClick() {
+	const adminData = ChatAdminData;
+	if (!adminData || !ChatAdminBackgroundList) {
+		return;
+	}
+
 	// Background preview mode
 	if (ChatAdminPreviewBackgroundMode || MouseIn(1300, 75, 600, 350)) {
 		ChatAdminPreviewBackgroundMode = !ChatAdminPreviewBackgroundMode;
@@ -307,27 +322,29 @@ function ChatAdminClick() {
 	// Background selection button (admin only) and item block button (anyone)
 	if ((MouseIn(1300, 75, 600, 350) || MouseIn(1840, 450, 60, 60) && ChatAdminCanEdit() || MouseIn(1300, 550, 275, 60) || MouseIn(1300, 640, 275, 60))) {
 		// We save the current data so we can restore it when coming back from the subscreens
-		ChatAdminData = {
-			...ChatAdminData,
-			Name: ElementValue("InputName"),
-			Description: ElementValue("InputDescription"),
-			Limit: parseInt(ElementValue("InputSize"), 10),
-			Admin: CommonConvertStringToArray(ElementValue("InputAdminList")),
-			Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist")),
-			Ban: CommonConvertStringToArray(ElementValue("InputBanList")),
-		};
+		Object.assign(
+			adminData,
+			{
+				Name: ElementValue("InputName"),
+				Description: ElementValue("InputDescription"),
+				Limit: parseInt(ElementValue("InputSize"), 10),
+				Admin: CommonConvertStringToArray(ElementValue("InputAdminList")),
+				Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist")),
+				Ban: CommonConvertStringToArray(ElementValue("InputBanList")),
+			},
+		);
 		if (MouseIn(1300, 640, 275, 60)) {
 			CommonSetScreen("Online", "ChatAdminRoomCustomization");
 			return;
 		} else if (MouseIn(1300, 550, 275, 60)) {
 			ChatBlockItemEditable = ChatAdminCanEdit();
 			ChatBlockItemReturnScreen = CommonGetScreen();
-			ChatBlockItemCategory = ChatAdminData.BlockCategory;
+			ChatBlockItemCategory = adminData.BlockCategory;
 			CommonSetScreen("Online", "ChatBlockItem");
 			return;
 		} else {
-			BackgroundSelectionMake(ChatSearchBackgroundTagList, ChatAdminData.Background, (Name, setBackground) => {
-				if (setBackground) ChatAdminData.Background = Name;
+			BackgroundSelectionMake(ChatSearchBackgroundTagList, adminData.Background, (Name, setBackground) => {
+				if (setBackground) adminData.Background = Name;
 				CommonSetScreen("Online", "ChatAdmin");
 			});
 			return;
@@ -341,34 +358,34 @@ function ChatAdminClick() {
 			ChatAdminBackgroundIndex += ((MouseX < 1550) ? -1 : 1);
 			if (ChatAdminBackgroundIndex >= ChatAdminBackgroundList.length) ChatAdminBackgroundIndex = 0;
 			if (ChatAdminBackgroundIndex < 0) ChatAdminBackgroundIndex = ChatAdminBackgroundList.length - 1;
-			ChatAdminData.Background = ChatAdminBackgroundList[ChatAdminBackgroundIndex];
+			adminData.Background = ChatAdminBackgroundList[ChatAdminBackgroundIndex];
 			return;
 		}
 
 		// When we select a new game type
 		if (MouseIn(1625, 550, 275, 60)) {
-			let Index = ChatAdminGameList.indexOf(ChatAdminData.Game);
+			let Index = ChatAdminGameList.indexOf(adminData.Game);
 			Index = Index + ((MouseX < 1763) ? -1 : 1);
 			if (Index < 0) Index = ChatAdminGameList.length - 1;
 			if (Index >= ChatAdminGameList.length) Index = 0;
-			ChatAdminData.Game = ChatAdminGameList[Index];
+			adminData.Game = ChatAdminGameList[Index];
 			return;
 		}
 
 		// When we select a new map type
 		if (MouseIn(1625, 640, 275, 60)) {
-			let Index = ChatRoomMapViewTypeList.indexOf(ChatAdminData.MapData.Type);
+			let Index = ChatRoomMapViewTypeList.indexOf(adminData.MapData.Type);
 			Index = Index + ((MouseX < 1763) ? -1 : 1);
 			if (Index < 0) Index = ChatRoomMapViewTypeList.length - 1;
 			if (Index >= ChatRoomMapViewTypeList.length) Index = 0;
-			ChatAdminData.MapData.Type = ChatRoomMapViewTypeList[Index];
+			adminData.MapData.Type = ChatRoomMapViewTypeList[Index];
 			return;
 		}
 
 		if (MouseIn(405, 157, 300, 60)) {
-			let Pos = ServerChatRoomSupportedLanguages.indexOf(ChatAdminData.Language) + 1;
+			let Pos = ServerChatRoomSupportedLanguages.indexOf(adminData.Language) + 1;
 			if (Pos >= ServerChatRoomSupportedLanguages.length) Pos = 0;
-			ChatAdminData.Language = ServerChatRoomSupportedLanguages[Pos];
+			adminData.Language = ServerChatRoomSupportedLanguages[Pos];
 			return;
 		}
 
@@ -377,7 +394,7 @@ function ChatAdminClick() {
 			ChatAdminVisibilityModeIndex += ((MouseX < 1438) ? -1 : 1);
 			if (ChatAdminVisibilityModeIndex >= ChatAdminVisibilityModeValues.length) ChatAdminVisibilityModeIndex = 0;
 			if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.length - 1;
-			ChatAdminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
+			adminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
 			return;
 		}
 
@@ -386,7 +403,7 @@ function ChatAdminClick() {
 			ChatAdminAccessModeIndex += ((MouseX < 1763) ? -1 : 1);
 			if (ChatAdminAccessModeIndex >= ChatAdminAccessModeValues.length) ChatAdminAccessModeIndex = 0;
 			if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = ChatAdminAccessModeValues.length - 1;
-			ChatAdminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
+			adminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
 			return;
 		}
 
@@ -448,7 +465,11 @@ function ChatAdminExit() {
  * @returns {void} - Nothing
  */
 function ChatEditorUpdateRoom() {
-	/** @type {ChatRoomSettings} */
+	if (!ChatAdminData) {
+		return;
+	}
+
+	/** @type {ChatRoomAdminSettings} */
 	const UpdatedRoom = {
 		Name: ElementValue("InputName").trim(),
 		Language: ChatAdminData.Language,
@@ -501,6 +522,10 @@ function ChatAdminResponse(data) {
  * @returns {void} - Nothing
  */
 function ChatEditorCreateRoom() {
+	if (!ChatAdminData) {
+		return;
+	}
+
 	ServerAccountUpdate.QueueData({ RoomCreateLanguage: ChatAdminData.Language });
 	ChatAdminDefaultLanguage = ChatAdminData.Language;
 	/** @type {ChatRoomSettings} */
