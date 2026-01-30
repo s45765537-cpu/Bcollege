@@ -11484,7 +11484,7 @@ var AssetFemale3DCG = [
 				AllowExpression: [null, "Hard"],
 				PoseMapping: {
 					Spread: "Spread",
-					AllFours: "AllFours",
+					AllFours: PoseType.HIDE,
 					KneelingSpread: "KneelingSpread",
 				},
 				ParentGroup: {
@@ -11505,52 +11505,43 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 0 },
 						ShowForAttribute: ["PenisLayer"],
 						MirrorExpression: "Pussy",
-						CopyLayerColor: "Pose1",
+						CopyLayerColor: "PutOn",
 					},
 					{
 						Name: "PulledAside",
 						AllowTypes: { typed: 1 },
 						HideForAttribute: ["PenisLayer"],
-						CopyLayerColor: "Pose1",
+						CopyLayerColor: "PutOn",
 					},
 					{
 						Name: "PulledAsideBulge",
 						AllowTypes: { typed: 1 },
 						ShowForAttribute: ["PenisLayer"],
 						MirrorExpression: "Pussy",
-						CopyLayerColor: "Pose1",
+						CopyLayerColor: "PutOn",
 					},
 					{
 						Name: "CrotchExposed",
 						AllowTypes: { typed: 2 },
 						HideForAttribute: ["PenisLayer"],
-						CopyLayerColor: "Pose1",
-						PoseMapping: {
-							AllFours: "AllFours",
-						},
+						CopyLayerColor: "PutOn",
 					},
 					{
 						Name: "CrotchExposedBulge",
 						AllowTypes: { typed: 2 },
 						ShowForAttribute: ["PenisLayer"],
 						MirrorExpression: "Pussy",
-						CopyLayerColor: "Pose1",
-						PoseMapping: {
-							AllFours: "AllFours",
-						},
+						CopyLayerColor: "PutOn",
 					},
 					{
 						Name: "AroundThighs",
 						AllowTypes: { typed: 3 },
-						CopyLayerColor: "Pose1",
-						PoseMapping: {
-							AllFours: "AllFours",
-						},
+						CopyLayerColor: "PutOn",
 					},
 					{
 						Name: "AroundKnees",
 						AllowTypes: { typed: 4 },
-						CopyLayerColor: "Pose1",
+						CopyLayerColor: "PutOn",
 						PoseMapping: {
 							Kneel: PoseType.HIDE,
 						},
@@ -11558,7 +11549,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "AroundAnkles",
 						AllowTypes: { typed: 5 },
-						CopyLayerColor: "Pose1",
+						CopyLayerColor: "PutOn",
 						PoseMapping: {
 							Kneel: PoseType.HIDE,
 							KneelingSpread: PoseType.HIDE,
@@ -43913,7 +43904,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { DenOfSin: 6 },
 					},
 					{
-						Name: "PrincesDonna",
+						Name: "PrincessDonna",
 						AllowTypes: { DenOfSin: 7 },
 					},
 					{
