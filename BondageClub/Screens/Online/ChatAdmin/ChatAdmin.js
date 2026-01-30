@@ -101,7 +101,13 @@ function ChatAdminStart(mode, roomData = undefined) {
 			// Custom: {},
 		};
 	} else if (mode === "update") {
-		ChatAdminData = roomData;
+		ChatAdminData = {
+			...roomData,
+			MapData: {
+				...(roomData.MapData ?? {}),
+				Type: roomData.MapData?.Type ?? "Never",
+			},
+		};
 	} else {
 		throw new Error(`invalid mode ${mode}!`);
 	}
@@ -141,9 +147,6 @@ async function ChatAdminLoad() {
 	// Sets the chat room language
 	if (ChatAdminData.Language == null) ChatAdminData.Language = ServerChatRoomSupportedLanguages[0];
 	if (!ServerChatRoomSupportedLanguages.includes(ChatAdminData.Language)) ChatAdminData.Language = ServerChatRoomSupportedLanguages[0];
-
-	if (ChatAdminData.MapData == null) ChatAdminData.MapData = { Type: "Never" };
-	if (ChatAdminData.MapData.Type == null) ChatAdminData.MapData.Type = "Never";
 
 	// Prepares the controls to edit a room
 	const nameInput = ElementCreateInput("InputName", "text", ChatAdminData.Name, "20");
