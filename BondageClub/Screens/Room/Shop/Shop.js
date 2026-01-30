@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var ShopBackground = "Shop";
 /** @type {null | NPCCharacter} */
@@ -19,7 +18,10 @@ var ShopDemoItemGroupList = ["ItemHead", "ItemMouth", "ItemArms", "ItemLegs", "I
  * Checks if the vendor is restrained
  * @returns {boolean} - Returns TRUE if the vendor is restrained or gagged
  */
-function ShopIsVendorRestrained() { return (ShopVendor.IsRestrained() || !ShopVendor.CanTalk()); }
+function ShopIsVendorRestrained() {
+	return ShopVendor ? (ShopVendor.IsRestrained() || !ShopVendor.CanTalk()) : false;
+}
+
 /**
  * Checks if the current rescue scenario corresponds to the given one
  * @param {string} ScenarioName - Name of the rescue scenario to check for
@@ -68,6 +70,9 @@ async function ShopLoad() {
  * @returns {void} - Nothing
  */
 function ShopRun() {
+	if (!ShopVendor) {
+		return;
+	}
 
 	// Draw both characters
 	DrawCharacter(Player, 0, 0, 1);
@@ -101,6 +106,9 @@ function ShopHideGenderedAsset(Asset) {
  * @returns {void} - Nothing
  */
 function ShopClick() {
+	if (!ShopVendor) {
+		return;
+	}
 	if ((MouseX >= 0) && (MouseX < 500) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(Player);
 	if ((MouseX >= 500) && (MouseX < 1000) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(ShopVendor);
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) CommonSetScreen("Room", "MainHall");
@@ -112,6 +120,9 @@ function ShopClick() {
  * @returns {void} - Nothing
  */
 function ShopCompleteRescue() {
+	if (!ShopVendor) {
+		return;
+	}
 	ShopVendor.AllowItem = ShopVendorAllowItem;
 	CharacterRelease(ShopVendor);
 	MaidQuartersCurrentRescueCompleted = true;
@@ -134,6 +145,9 @@ function ShopCheckBoughtEverything() {
  * @returns {void} - Nothing
  */
 function ShopVendorBondage() {
+	if (!ShopVendor) {
+		return;
+	}
 	ShopVendorAllowItem = true;
 	ShopVendor.AllowItem = true;
 }
@@ -144,7 +158,9 @@ function ShopVendorBondage() {
  * @returns {void} - Nothing
  */
 function ShopJobRestrain() {
-
+	if (!ShopVendor) {
+		return;
+	}
 	// First, we find a body part where we can use the item
 	DialogChangeReputation("Dominant", -1);
 	const availableGroups = ShopJobFilterAvailableGroups();
@@ -156,8 +172,11 @@ function ShopJobRestrain() {
 	}
 
 	// Add a random item on that body part and creates a customer
-	InventoryWearRandom(Player, ShopDemoItemGroup, 3);
-	ShopDemoItemPayment = Math.round(InventoryGet(Player, ShopDemoItemGroup).Asset.Value / 10);
+	const item = InventoryWearRandom(Player, ShopDemoItemGroup, 3);
+	if (!item) {
+		return;
+	}
+	ShopDemoItemPayment = Math.round(item.Asset.Value / 10);
 	if ((ShopDemoItemPayment == null) || (ShopDemoItemPayment < 7)) ShopDemoItemPayment = 7;
 	ShopCustomer = CharacterLoadNPC("NPC_Shop_Customer");
 	ShopCustomer.AllowItem = false;
@@ -172,6 +191,9 @@ function ShopJobRestrain() {
  * @returns {void} - Nothing
  */
 function ShopJobStart() {
+	if (!ShopCustomer) {
+		return;
+	}
 	DialogLeave();
 	EmptyBackground = "Shop";
 	EmptyCharacterOffset = -500;
