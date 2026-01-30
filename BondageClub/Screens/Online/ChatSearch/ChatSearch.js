@@ -989,6 +989,7 @@ function ChatSearchExit(exitScreen = false) {
 	ChatSearchFilterUnhideConfirm = null;
 	ChatSearchPreviousActivePose = { ...Player.ActivePoseMapping };
 	ChatSearchLastSearchDataJSON = null;
+	ChatRoomSetLastChatRoom(null);
 	ElementRemove("InputSearch");
 	CommonSetScreen(...ChatSearchReturnScreen);
 	DrawingGetTextSize.clearCache();
