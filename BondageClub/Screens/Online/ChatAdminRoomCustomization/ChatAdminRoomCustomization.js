@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 "use strict";
 var ChatAdminRoomCustomizationBackground = "Sheet";
-/** @type {ServerChatRoomCustomData} */
+/** @type {null | ServerChatRoomCustomData} */
 var ChatAdminRoomCustomizationCurrent = null;
 /** @type {null | HTMLAudioElement} */
 var ChatAdminRoomCustomizationMusic = null;
@@ -88,18 +87,22 @@ function ChatAdminRoomCustomizationCanEdit() {
  * @returns {void} - Nothing
  */
 function ChatAdminRoomCustomizationCommand(Property, Value) {
+	if (!ChatRoomData) {
+		return;
+	}
 
 	// Command type & value must be valid and player must be a room administrator
 	if ((Property == null) || (Value == null) || (typeof Value !== "string") || !ChatRoomPlayerIsAdmin()) return;
 	Value = Value.trim();
 
 	// Builds the custom object
+	/** @type {undefined | ServerChatRoomCustomData} */
 	let Custom = ChatRoomData.Custom;
 	if (Custom == null) Custom = { ImageURL: "", ImageFilter: "", MusicURL: "" };
 	if (Property == "Image") Custom.ImageURL = Value;
 	if (Property == "Filter") Custom.ImageFilter = Value;
 	if (Property == "Music") Custom.MusicURL = Value;
-	if ((Custom.ImageURL == "") && (Custom.ImageFilter == "") && (Custom.MusicURL == "")) Custom = null;
+	if ((Custom.ImageURL == "") && (Custom.ImageFilter == "") && (Custom.MusicURL == "")) Custom = undefined;
 
 	// Update the room's custom data
 	const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
@@ -113,23 +116,26 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
  * @type {ScreenLoadHandler}
  */
 async function ChatAdminRoomCustomizationLoad() {
+	if (!ChatAdminData) {
+		return;
+	}
 	const canEditCustom = ChatAdminRoomCustomizationCanEdit();
 
 	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
 	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: "", SizeMode: DrawingResizeMode.Fill };
-	const imageInput = ElementCreateInput("InputImageURL", "text", data.ImageURL, "250");
-	const filterInput = ElementCreateInput("InputImageFilter", "text", data.ImageFilter, "10");
-	const musicInput = ElementCreateInput("InputMusicURL", "text", data.MusicURL, "250");
+	const imageInput = ElementCreateInput("InputImageURL", "text", data.ImageURL ?? "", "250");
+	const filterInput = ElementCreateInput("InputImageFilter", "text", data.ImageFilter ?? "", "10");
+	const musicInput = ElementCreateInput("InputMusicURL", "text", data.MusicURL ?? "", "250");
 	imageInput.setAttribute("autocomplete", "off");
 	filterInput.setAttribute("autocomplete", "off");
 	musicInput.setAttribute("autocomplete", "off");
 	if (!canEditCustom) {
-		imageInput.setAttribute("disabled", "disabled");
-		filterInput.setAttribute("disabled", "disabled");
-		musicInput.setAttribute("disabled", "disabled");
+		imageInput.toggleAttribute("disabled", true);
+		filterInput.toggleAttribute("disabled", true);
+		musicInput.toggleAttribute("disabled", true);
 	}
-	ChatAdminRoomCustomizationSizeMode = data.SizeMode;
+	ChatAdminRoomCustomizationSizeMode = data.SizeMode ?? DrawingResizeMode.Fill;
 }
 
 function ChatAdminRoomCustomizationUnload() {
@@ -167,9 +173,9 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 			ChatAdminRoomCustomizationMusic.src = FileName;
 			ChatAdminRoomCustomizationMusic.volume = Math.min(vol, 1) * 0.25;
 			ChatAdminRoomCustomizationMusic.play();
-			ChatAdminRoomCustomizationMusic.addEventListener('ended', function() {
-				ChatAdminRoomCustomizationMusic.currentTime = 0;
-				ChatAdminRoomCustomizationMusic.play();
+			ChatAdminRoomCustomizationMusic.addEventListener('ended', function(ev) {
+				this.currentTime = 0;
+				this.play();
 			}, false);
 		}
 		if (ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.play();
@@ -182,7 +188,7 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 
 /**
  * Runs the customization on the current screen, can be called from elsewhere
- * @param {ServerChatRoomCustomData} Custom - The customization to apply
+ * @param {ServerChatRoomCustomData | null} Custom - The customization to apply
  * @param {Rect | null} DrawBGToRect - If non-null draw the background to these coordinates. Online chat rooms will use the tracked values elsewhere
  * @param {boolean} DrawBGEffects - If true and drawing a background then apply blur/dark/tint
  * @returns {void} - Nothing
@@ -190,7 +196,7 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) {
 
 	// Make sure the customization data is valid first
-	if ((Custom == null) || (typeof Custom !== "object")) {
+	if (Custom == null) {
 		ChatRoomCustomizationClear();
 		return;
 	}
@@ -206,9 +212,9 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 		if (CommonURLHasExtension(URL, [".jpg", ".jpeg", ".png"])) {
 			if (DrawBGToRect != null) {
 				const opts = {
-					blur: DrawBGEffects ? Player.GetBlurLevel() : null,
-					darken: DrawBGEffects ? DrawGetDarkFactor() : null,
-					tints: DrawBGEffects ? Player.GetTints() : null,
+					blur: DrawBGEffects ? Player.GetBlurLevel() : undefined,
+					darken: DrawBGEffects ? DrawGetDarkFactor() : undefined,
+					tints: DrawBGEffects ? Player.GetTints() : undefined,
 					sizeMode: Custom.SizeMode
 				};
 				DrawRoomBackground(URL, DrawBGToRect, opts);
@@ -305,6 +311,9 @@ function ChatAdminRoomCustomizationClick() {
 		ElementValue("InputMusicURL", "https://bondageprojects.com/music/relax.mp3");
 	}*/
 
+	if (!ChatAdminData) {
+		return;
+	}
 	const canEditCustom = ChatAdminRoomCustomizationCanEdit();
 
 	// If there's no special mode loaded
@@ -335,15 +344,15 @@ function ChatAdminRoomCustomizationClick() {
 		}
 
 		// If a button is clicked, we select that song
-		for (let L = 0; L < ChatAdminRoomCustomizationMusicLibrary.length; L++) {
+		for (const [L, music] of ChatAdminRoomCustomizationMusicLibrary.entries()) {
 			let X = Math.floor(L % 3) * 600 + 115;
 			let Y = Math.floor(L / 3) * 100 + 210;
 			if (MouseIn(X, Y, 500, 65)) {
-				ElementValue("InputMusicURL", ChatAdminRoomCustomizationMusicLibrary[L].URL);
+				ElementValue("InputMusicURL", music.URL);
 				return;
 			}
 			if (MouseIn(X + 500, Y, 65, 65)) {
-				window.open(ChatAdminRoomCustomizationMusicLibrary[L].Source, '_blank').focus();
+				window.open(music.Source, '_blank')?.focus();
 				return;
 			}
 		}
@@ -362,7 +371,7 @@ function ChatAdminRoomCustomizationClick() {
 
 	// Clear the current data and goes back to the admin screen
 	if (MouseIn(725, 840, 250, 65) && canEditCustom) {
-		ChatAdminData.Custom = null;
+		ChatAdminData.Custom = undefined;
 		ChatAdminRoomCustomizationExit();
 	}
 
@@ -374,7 +383,7 @@ function ChatAdminRoomCustomizationClick() {
 		ChatAdminData.Custom.ImageFilter = ElementValue("InputImageFilter").trim();
 		ChatAdminData.Custom.MusicURL = ElementValue("InputMusicURL").trim();
 		if ((ChatAdminData.Custom.ImageURL == "") && (ChatAdminData.Custom.ImageFilter == "") && (ChatAdminData.Custom.MusicURL == ""))
-			ChatAdminData.Custom = null;
+			ChatAdminData.Custom = undefined;
 		ChatAdminRoomCustomizationExit();
 	}
 
