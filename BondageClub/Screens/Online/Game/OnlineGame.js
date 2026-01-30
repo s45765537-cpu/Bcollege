@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 "use strict";
 /** @type {null | string[][]} */
 let OnlineGameDictionary = null;
 
-/** @type { ()=>void | undefined } */
+/** @type {((gameDict: string[][]) => void) | undefined} */
 let OnlineGameTranslateResolve = undefined;
 
 /**
@@ -25,7 +24,7 @@ function OnlneGameDictionaryLoad() {
 			if (this.status == 200) {
 				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
 				OnlineGameDictionary = CommonCSVCache[FullPath];
-				OnlineGameTranslateResolve?.();
+				OnlineGameTranslateResolve?.(OnlineGameDictionary);
 			}
 		});
 
@@ -42,19 +41,24 @@ function OnlneGameDictionaryLoad() {
 			});
 	}
 }
+
+/**
+ * @param {string} CachePath
+ */
 function OnlineGameTranslate(CachePath) {
 	if (!Array.isArray(TranslationCache[CachePath])) return;
-	const DoTranslate = () => {
-		for (let T = 0; T < OnlineGameDictionary.length; T++) {
-			if (OnlineGameDictionary[T][1]) {
-				let indexText = TranslationCache[CachePath].indexOf(OnlineGameDictionary[T][1].trim());
+	/** @type {typeof OnlineGameTranslateResolve} */
+	const DoTranslate = (gameDict) => {
+		for (let T = 0; T < gameDict.length; T++) {
+			if (gameDict[T][1]) {
+				let indexText = TranslationCache[CachePath].indexOf(gameDict[T][1].trim());
 				if (indexText >= 0) {
-					OnlineGameDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
+					gameDict[T][1] = TranslationCache[CachePath][indexText + 1];
 				}
 			}
 		}
 	};
-	if(OnlineGameDictionary) DoTranslate();
+	if(OnlineGameDictionary) DoTranslate(OnlineGameDictionary);
 	else OnlineGameTranslateResolve = DoTranslate;
 }
 /**
@@ -63,16 +67,18 @@ function OnlineGameTranslate(CachePath) {
  * @returns {string} The text attached to the keyword, will return a missing text if it was not found
  */
 function OnlineGameDictionaryText(KeyWord) {
-	for (let D = 0; D < OnlineGameDictionary.length; D++)
-		if (OnlineGameDictionary[D][0] === ChatRoomGetGame() + KeyWord)
-			return OnlineGameDictionary[D][1].trim();
+	if (OnlineGameDictionary) {
+		for (let D = 0; D < OnlineGameDictionary.length; D++)
+			if (OnlineGameDictionary[D][0] === ChatRoomGetGame() + KeyWord)
+				return OnlineGameDictionary[D][1].trim();
+	}
 	return "MISSING ONLINE GAME DESCRIPTION FOR KEYWORD " + KeyWord;
 }
 
 /**
  * Catches the character click from chat rooms and make sure the online game doesn't need to handle them
  * @param {Character} C - Character that has been clicked on
- * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
+ * @return {boolean} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClickCharacter(C) {
 	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return GameLARPCharacterClick(C);
@@ -82,7 +88,7 @@ function OnlineGameClickCharacter(C) {
 
 /**
  * Catches the chat room clicks and make sure the online game doesn't need to handle them
- * @return {*} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
+ * @return {boolean} Returns the return content of click function of the currently selected game, or false if there is no corresponding game
  */
 function OnlineGameClick() {
 	if ((ChatRoomGetGame() === "LARP") && (GameLARPGetStatus() != "")) return GameLARPClickProcess();
@@ -195,7 +201,7 @@ function OnlineGameHasOptions() {
 			return false;
 		case "Prison":
 			return false;
-		case "":
+		default:
 			return false;
 	}
 }
