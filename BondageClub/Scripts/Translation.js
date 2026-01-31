@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ServerChatRoomLanguage | "TW"} */
@@ -1080,7 +1079,7 @@ function TranslationAvailable(FullPath) {
  * @returns {string[]} - Array of strings with each line divided. For each translated line, the english string precedes the translated one in the array.
  */
 function TranslationParseTXT(str) {
-
+	/** @type {string[]} */
 	const arr = [];
 	let c;
 	str = str.replace(/\r\n/g, '\n').trim();
@@ -1147,12 +1146,15 @@ function TranslationTextArray(S, T) {
 /**
  * Loads a character dialog translation and caches it
  * @param {Character} C - The character for which we want to translate the dialog
+ * @param {() => void} cb
  * @returns {void} - Nothing
  */
 function TranslationLoadDialog(C, cb) {
 	// Only translate if we play in a foreign language
 	if (!TranslationEnabled()) {
 		cb();
+		return;
+	} else if (!C.DialogInfo) {
 		return;
 	}
 
@@ -1181,6 +1183,9 @@ function TranslationLoadDialog(C, cb) {
  * @param {Character} C
  */
 function TranslationTranslateDialog(C) {
+	if (!C.DialogInfo) {
+		return;
+	}
 	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}_${TranslationLanguage}.txt`;
 	if (!TranslationCache[FullPath]) return;
 
