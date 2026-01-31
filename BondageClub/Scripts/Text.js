@@ -45,7 +45,7 @@ function TextGetInScope(filePath, key) {
  * Loads the CSV text file of the current screen into the buffer. It will get the CSV from the cache if the file was already fetched from
  * the server
  * @param {string} [TextGroup] - Screen for which to load the CSV of
- * @returns {void} - Nothing
+ * @returns {TextCache} - The CSV text file's correpsonding text cache
  */
 function TextLoad(TextGroup) {
 
@@ -55,16 +55,18 @@ function TextLoad(TextGroup) {
 
 	TextPrefetchFile(FullPath);
 	TextScreenCache = TextAllScreenCache.get(FullPath);
+	return TextScreenCache;
 }
 
 /**
  * Cache the Module and TextGroup for later use, speeds up first use
  * @param {string} Module
  * @param {string} TextGroup
+ * @returns {TextCache}  - The Module + TextGroup's correpsonding text cache
  */
 function TextPrefetch(Module, TextGroup) {
 	const file = "Screens/" + Module + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
-	TextPrefetchFile(file);
+	return TextPrefetchFile(file);
 }
 
 /**
