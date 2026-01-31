@@ -88,7 +88,7 @@ function ChatAdminRoomCustomizationCanEdit() {
  */
 function ChatAdminRoomCustomizationCommand(Property, Value) {
 	if (!ChatRoomData) {
-		return;
+		throw new Error('Missing "ChatRoomData" data');
 	}
 
 	// Command type & value must be valid and player must be a room administrator

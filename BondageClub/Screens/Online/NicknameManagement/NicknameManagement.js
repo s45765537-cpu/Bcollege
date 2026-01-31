@@ -10,7 +10,7 @@ var NicknameManagementLock = false;
  */
 async function NicknameManagementLoad() {
 	if (!NicknameManagementTarget) {
-		return;
+		throw new Error('Missing "NicknameManagementTarget" data');
 	}
 	if (NicknameManagementTarget.Nickname == null) NicknameManagementTarget.Nickname = "";
 	ElementCreateInput("InputNickname", "text", NicknameManagementTarget.Nickname, "20");
