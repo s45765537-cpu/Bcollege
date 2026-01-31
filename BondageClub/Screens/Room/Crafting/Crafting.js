@@ -100,8 +100,8 @@ const CraftingPropertyMap = new Map([
 	["Heavy", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 	["Light", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 ]);
-const CraftingEffectsDefaultMaximumCount = 5;
-const CraftingEffectsDefaultMaximumEffects = 3;
+const CraftingEffectsDefaultMaximumStack = 2;
+const CraftingEffectsDefaultMaximumEffects = 2;
 /**
  * A record mapping crafting property names to functions that return a boolean indicating whether the property can increase
  * @type {Record<CraftingPropertyType, {max?: number, isDisabled?: (craft: CraftingItem | CraftingItemSelected) => boolean}>}
@@ -225,8 +225,8 @@ const CraftingEffectsPrerequisite = {
  */
 function CraftingCheckEffectsPrerequisite(craft, effect) {
 	const prerequisite = CraftingEffectsPrerequisite[effect];
-	if (craft.Effects?.[effect] == null && !CommonIsInteger(Object.keys(craft.Effects).length, 0, CraftingEffectsDefaultMaximumEffects-1)) return false;
-	if (!CommonIsInteger((craft.Effects?.[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumCount))) return false;
+	if (craft.Effects?.[effect] == null || !CommonIsInteger(Object.keys(craft.Effects).length, 0, CraftingEffectsDefaultMaximumEffects)) return false;
+	if (!CommonIsInteger((craft.Effects?.[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumStack))) return false;
 
 	if (!prerequisite.isDisabled) return true;
 	return !prerequisite.isDisabled(craft);
@@ -1194,7 +1194,7 @@ var CraftingElements = {
 									attributes: {
 										type: "number",
 										inputmode: "numeric",
-										max: CraftingEffectsPrerequisite[property]?.max ?? CraftingEffectsDefaultMaximumCount,
+										max: CraftingEffectsPrerequisite[property]?.max ?? CraftingEffectsDefaultMaximumStack,
 										required: true,
 										value: 0,
 										min: 0,
