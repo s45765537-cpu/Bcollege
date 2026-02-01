@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {TextCache | null} */
@@ -53,8 +52,7 @@ function TextLoad(TextGroup) {
 	if ((TextGroup == null) || (TextGroup == "")) TextGroup = CurrentScreen;
 	const FullPath = "Screens/" + CurrentModule + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
 
-	TextPrefetchFile(FullPath);
-	TextScreenCache = TextAllScreenCache.get(FullPath);
+	TextScreenCache = TextPrefetchFile(FullPath);
 	return TextScreenCache;
 }
 
@@ -138,6 +136,9 @@ class TextCache {
 		return cache;
 	}
 
+	/**
+	 * @param {string} msg
+	 */
 	log(msg) {
 		// console.log(`TextCache "${this.path}" (loaded: ${this.loaded}):`, msg);
 	}
@@ -202,7 +203,7 @@ class TextCache {
 	 * @returns {Promise<TextCache>} - Promised object that returns the original text cache
 	 */
 	async buildCache() {
-		if (!this.path) return;
+		if (!this.path) return this;
 		this.log("buildCache");
 		return this.fetchCsv()
 			.then((lines) => this.translate(lines))
