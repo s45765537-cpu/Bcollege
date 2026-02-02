@@ -540,7 +540,7 @@ function DialogPrerequisite(dialog) {
 	else if (dialog.Prerequisite.indexOf("!CurrentCharacter.") == 0)
 		return !CurrentCharacter[dialog.Prerequisite.substring(18, 250).replace("()", "").trim()]();
 	else if (dialog.Prerequisite.indexOf("(") >= 0)
-		return CommonDynamicFunctionParams(dialog.Prerequisite);
+		return !!CommonDynamicFunctionParams(dialog.Prerequisite);
 	else if (dialog.Prerequisite.substring(0, 1) != "!")
 		return !!window[CurrentScreen + dialog.Prerequisite.trim()];
 	else

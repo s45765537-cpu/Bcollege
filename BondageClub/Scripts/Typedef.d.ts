@@ -3222,9 +3222,9 @@ type TypeRecord = Record<string, number>;
  */
 
 interface ExpressionQueueItem {
-	Time?: number;
-	Group?: ExpressionGroupName;
-	Expression?: ExpressionName;
+	Time: number;
+	Group: ExpressionGroupName;
+	Expression: ExpressionName;
 }
 
 /**

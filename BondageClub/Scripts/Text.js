@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {TextCache | null} */
@@ -45,7 +44,7 @@ function TextGetInScope(filePath, key) {
  * Loads the CSV text file of the current screen into the buffer. It will get the CSV from the cache if the file was already fetched from
  * the server
  * @param {string} [TextGroup] - Screen for which to load the CSV of
- * @returns {void} - Nothing
+ * @returns {TextCache} - The CSV text file's correpsonding text cache
  */
 function TextLoad(TextGroup) {
 
@@ -53,18 +52,19 @@ function TextLoad(TextGroup) {
 	if ((TextGroup == null) || (TextGroup == "")) TextGroup = CurrentScreen;
 	const FullPath = "Screens/" + CurrentModule + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
 
-	TextPrefetchFile(FullPath);
-	TextScreenCache = TextAllScreenCache.get(FullPath);
+	TextScreenCache = TextPrefetchFile(FullPath);
+	return TextScreenCache;
 }
 
 /**
  * Cache the Module and TextGroup for later use, speeds up first use
  * @param {string} Module
  * @param {string} TextGroup
+ * @returns {TextCache}  - The Module + TextGroup's correpsonding text cache
  */
 function TextPrefetch(Module, TextGroup) {
 	const file = "Screens/" + Module + "/" + TextGroup + "/Text_" + TextGroup + ".csv";
-	TextPrefetchFile(file);
+	return TextPrefetchFile(file);
 }
 
 /**
@@ -136,6 +136,9 @@ class TextCache {
 		return cache;
 	}
 
+	/**
+	 * @param {string} msg
+	 */
 	log(msg) {
 		// console.log(`TextCache "${this.path}" (loaded: ${this.loaded}):`, msg);
 	}
@@ -200,7 +203,7 @@ class TextCache {
 	 * @returns {Promise<TextCache>} - Promised object that returns the original text cache
 	 */
 	async buildCache() {
-		if (!this.path) return;
+		if (!this.path) return this;
 		this.log("buildCache");
 		return this.fetchCsv()
 			.then((lines) => this.translate(lines))

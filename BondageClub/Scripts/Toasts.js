@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 'use strict';
 
 /**
@@ -284,7 +283,8 @@ var ToastManager = new class ToastManager {
 		_.onShow?.(toast);
 
 		if (_.progress && _.duration > 0) {
-			const progressBar = toast.querySelector('progress');
+			// Can safely cast; the progress element is always created when the `_.progress` parameter is passed
+			const progressBar = /** @type {HTMLProgressElement} */(toast.querySelector('progress'));
 			progressBar.value = 0;
 
 			const timerRemove = this._animateProgress(progressBar, () => remove('timeout'), _.duration);
@@ -327,8 +327,7 @@ var ToastManager = new class ToastManager {
 	 */
 	_getOrCreateContainer() {
 		const position = 'top-right';
-		/** @type {HTMLDivElement} */
-		let container = document.querySelector(`.toast-container[data-pos="${position}"]`);
+		let container = /** @type {null | HTMLDivElement} */(document.querySelector(`.toast-container[data-pos="${position}"]`));
 		if (!container) {
 			container = ElementCreate({
 				tag: 'div',

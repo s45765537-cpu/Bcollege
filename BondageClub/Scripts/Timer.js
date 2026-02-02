@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var CurrentTime = 0;
 var TimerRunInterval = 20;
@@ -71,7 +70,9 @@ function TimerInventoryRemove() {
 		}
 
 		const removedLocks = [];
-		const timedItems = C.Appearance.filter(item => item.Property && typeof item.Property.RemoveTimer === "number" && item.Property.RemoveTimer <= CurrentTime);
+		const timedItems = /** @type {(Item & { Property: { RemoveTimer: number } })[]} */(
+			C.Appearance.filter(item => item.Property && typeof item.Property.RemoveTimer === "number" && item.Property.RemoveTimer <= CurrentTime)
+		);
 		for (let item of timedItems) {
 			const lock = InventoryGetLock(item);
 			const ShouldRemoveItem = item.Property.RemoveItem;
@@ -222,9 +223,10 @@ function TimerProcess() {
 			for (let C = 0; C < Character.length; C++) {
 
 				// If the character is having an orgasm and the timer ran out, we move to the next orgasm stage
-				if ((Character[C].ArousalSettings != null) && (Character[C].ArousalSettings.OrgasmTimer != null) && (Character[C].ArousalSettings.OrgasmTimer > 0)) {
-					if (Character[C].ArousalSettings.OrgasmTimer < CurrentTime) {
-						if ((Character[C].ArousalSettings.OrgasmStage == null) || (Character[C].ArousalSettings.OrgasmStage <= 1)) ActivityOrgasmStart(Character[C]);
+				const arousalSettings = Character[C].ArousalSettings;
+				if (arousalSettings?.OrgasmTimer != null && arousalSettings.OrgasmTimer > 0) {
+					if (arousalSettings.OrgasmTimer < CurrentTime) {
+						if ((arousalSettings.OrgasmStage == null) || (arousalSettings.OrgasmStage <= 1)) ActivityOrgasmStart(Character[C]);
 						else ActivityOrgasmStop(Character[C], 20);
 					}
 				} else {
@@ -315,6 +317,7 @@ function TimerProcess() {
 function TimermsToTime(s) {
 
 	// Pad to 2 or 3 digits, default is 2
+	/** @type {(n: number, z?: number) => string} */
 	function pad(n, z) {
 		z = z || 2;
 		return ('00' + n).slice(-z);

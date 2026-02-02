@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** BC's version */
@@ -48,6 +47,10 @@ function GameStart() {
 	document.addEventListener("paste", (e) => GamePaste(e));
 
 	const canvas = document.getElementById("MainCanvas");
+	if (canvas == null) {
+		// Canvas is already initialized by index.html; this code path should _never_ occur
+		throw new Error("Canvas is null");
+	}
 	canvas.tabIndex = 1000;
 
 	canvas.addEventListener("keydown", (e) => GameKeyDown(e));
@@ -204,7 +207,7 @@ function GameKeyDown(event) {
 			break handleKeyDown;
 		}
 
-		if (CurrentScreen === "Preference" && PreferenceSubscreen.name === "Keybindings" && KeyGUI.selectedAction) {
+		if (CurrentScreen === "Preference" && PreferenceSubscreen?.name === "Keybindings" && KeyGUI.selectedAction) {
 			handled = true;
 			break handleKeyDown;
 		}
@@ -247,9 +250,9 @@ function GameKeyDown(event) {
 
 /** @type {KeyboardEventListener} */
 function GameKeyUp(event) {
-	if (ScreenIsLoading) return;
-	if (StruggleMinigameIsRunning()) { return; }
-	const handled = CurrentScreenFunctions.KeyUp?.(event);
+	if (ScreenIsLoading) return false;
+	if (StruggleMinigameIsRunning()) { return false; }
+	const handled = CurrentScreenFunctions.KeyUp?.(event) ?? false;
 	if (handled) {
 		event.preventDefault();
 		event.stopImmediatePropagation();

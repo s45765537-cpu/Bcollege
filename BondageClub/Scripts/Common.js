@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 // Main variables
 "use strict";
 /** @type {PlayerCharacter} */
@@ -47,6 +46,7 @@ const CommonChatTags = {
 	AUTOMATIC: "Automatic",
 };
 
+/** @type {(this: string, index: number, character: string) => string} */
 String.prototype.replaceAt=function(index, character) {
 	return this.substr(0, index) + character + this.substr(index+character.length);
 };
@@ -212,6 +212,7 @@ function CommonReadCSV(url) {
 		return CommonCSVCache[url];
 	}
 
+	/** @type {string[][]} */
 	const temp = CommonCSVCache[url] = [];
 
 	// Opens the file, parse it and returns the result in an Object
@@ -276,15 +277,15 @@ const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
  */
 async function CommonFetch(request) {
 	let retries = FETCH_MAX_RETRIES;
-	let reply;
 	const method = request instanceof Request ? request.method : "GET";
 	const url = request instanceof Request ? request.url : request;
+	let reply = await fetch(request);
 	while (retries-- > 0) {
-		reply = await fetch(request);
 		if (reply.status >= 400) {
 			const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - retries)), FETCH_MAX_RETRY_BACKOFF_TIME);
 			console.warn(`${method} request to ${url} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
 			await CommonSleep(retrySeconds * 1000);
+			reply = await fetch(request);
 			continue;
 		}
 		break;
@@ -396,13 +397,13 @@ function CommonClick(event) {
  * @param {number} Y - The Y position
  * @param {number} W - The width of the square
  * @param {number} H - The height of the square
- * @param {TouchList} [TL] - Can give a specific touch event instead of the default one
+ * @param {null | TouchList} [TL] - Can give a specific touch event instead of the default one
  * @returns {boolean}
  */
-function CommonTouchActive(X, Y, W, H, TL) {
+function CommonTouchActive(X, Y, W, H, TL=null) {
 	if (!CommonIsMobile) return false;
 	if (TL == null) TL = CommonTouchList;
-	if (TL == null) return;
+	if (TL == null) return false;
 	for (let index = 0; index < TL.length; index++) {
 		const Touch = TL[index];
 		let TouchX = Math.round((Touch.pageX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
@@ -419,8 +420,11 @@ function CommonTouchActive(X, Y, W, H, TL) {
  * @returns {void} - Nothing
  */
 function CommonDynamicFunction(FunctionName) {
-	if (typeof window[FunctionName.substr(0, FunctionName.indexOf("("))] === "function")
-		window[FunctionName.replace("()", "")]();
+	/** @type {Record<string, any>} */
+	const namespace = window;
+	const func = namespace[FunctionName.substr(0, FunctionName.indexOf("("))];
+	if (typeof func === "function")
+		func();
 	else
 		console.log("Trying to launch invalid function: " + FunctionName);
 }
@@ -429,7 +433,7 @@ function CommonDynamicFunction(FunctionName) {
 /**
  * Calls a dynamic function with parameters (if it exists), also allow ! in front to reverse the result. The dynamic function is the provided function name in the dialog option object and it is prefixed by the current screen.
  * @param {string} FunctionName - Function name to call dynamically
- * @returns {*} - Returns what the dynamic function returns or FALSE if the function does not exist
+ * @returns {unknown | boolean} - Returns what the dynamic function returns or FALSE if the function does not exist
  */
 function CommonDynamicFunctionParams(FunctionName) {
 
@@ -449,10 +453,13 @@ function CommonDynamicFunctionParams(FunctionName) {
 	if ((FunctionName.indexOf("Dialog") != 0) && (FunctionName.indexOf("Inventory") != 0) && (FunctionName.indexOf(CurrentScreen) != 0)) FunctionName = CurrentScreen + FunctionName;
 
 	// If it's really a function, we continue
-	if (typeof window[FunctionName] === "function") {
+	/** @type {Record<string, any>} */
+	const namespace = window;
+	const func = namespace[FunctionName];
+	if (typeof func === "function") {
 
 		// Launches the function with the params and returns the result
-		var Result = window[FunctionName](...Params);
+		var Result = func(...Params);
 		return Reverse ? !Result : Result;
 	} else {
 
@@ -469,28 +476,30 @@ function CommonDynamicFunctionParams(FunctionName) {
  *  passed directly into the function call, allowing for more complex JS objects to be passed in. This
  *  function will not log to console if the provided function name does not exist as a global function.
  * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} [args] - zero or more arguments to be passed to the function (optional)
+ * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
  * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
  */
-function CommonCallFunctionByName(FunctionName/*, ...args */) {
-	var Function = window[FunctionName];
-	if (typeof Function === "function") {
-		var args = Array.prototype.slice.call(arguments, 1);
-		return Function.apply(null, args);
+function CommonCallFunctionByName(FunctionName, ...args) {
+	/** @type {Record<string, any>} */
+	const namespace = window;
+	const func = namespace[FunctionName];
+	if (typeof func === "function") {
+		return func(...args);
 	}
 }
 
 /**
  * Behaves exactly like CommonCallFunctionByName, but logs a warning if the function name is invalid.
  * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} [args] - zero or more arguments to be passed to the function (optional)
+ * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
  * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
  */
-function CommonCallFunctionByNameWarn(FunctionName/*, ...args */) {
-	var Function = window[FunctionName];
-	if (typeof Function === "function") {
-		var args = Array.prototype.slice.call(arguments, 1);
-		return Function.apply(null, args);
+function CommonCallFunctionByNameWarn(FunctionName, ...args) {
+	/** @type {Record<string, any>} */
+	const namespace = window;
+	const func = namespace[FunctionName];
+	if (typeof func === "function") {
+		return func(...args);
 	} else {
 		console.warn(`Attempted to call invalid function "${FunctionName}"`);
 	}
@@ -522,10 +531,12 @@ async function CommonSetScreen(...spec) {
 
 	const [NewModule, NewScreen] = spec;
 	// Check for required functions
-	if (typeof window[`${NewScreen}Run`] !== "function") {
+	/** @type {Record<string, any>} */
+	const namespace = window;
+	if (typeof namespace[`${NewScreen}Run`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Run function`);
 	}
-	if (typeof window[`${NewScreen}Click`] !== "function") {
+	if (typeof namespace[`${NewScreen}Click`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Click function`);
 	}
 
@@ -533,28 +544,28 @@ async function CommonSetScreen(...spec) {
 	CurrentModule = NewModule;
 	CurrentScreen = NewScreen;
 	CurrentScreenFunctions = {
-		Run: (time) => window[`${NewScreen}Run`](time),
-		Click: (e) => window[`${NewScreen}Click`](e),
-		MouseDown: typeof window[`${NewScreen}MouseDown`] === "function" ? (e) => window[`${NewScreen}MouseDown`](e) : undefined,
-		MouseUp: typeof window[`${NewScreen}MouseUp`] === "function" ? (e) => window[`${NewScreen}MouseUp`](e) : undefined,
-		MouseMove: typeof window[`${NewScreen}MouseMove`] === "function" ? (e) => window[`${NewScreen}MouseMove`](e) : undefined,
-		MouseWheel: typeof window[`${NewScreen}MouseWheel`] === "function" ? (e) => window[`${NewScreen}MouseWheel`](e) : undefined,
-		Draw: typeof window[`${NewScreen}Draw`] === "function" ? () => window[`${NewScreen}Draw`]() : undefined,
-		Load: typeof window[`${NewScreen}Load`] === "function" ? () => window[`${NewScreen}Load`]() : undefined,
-		Unload: typeof window[`${NewScreen}Unload`] === "function" ? () => window[`${NewScreen}Unload`]() : undefined,
-		Resize: typeof window[`${NewScreen}Resize`] === "function" ? (load) => window[`${NewScreen}Resize`](load) : undefined,
-		KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? (e) => window[`${NewScreen}KeyDown`](e) : undefined,
-		KeyUp: typeof window[`${NewScreen}KeyUp`] === "function" ? (e) => window[`${NewScreen}KeyUp`](e) : undefined,
-		Exit: typeof window[`${NewScreen}Exit`] === "function" ? () => window[`${NewScreen}Exit`]() : undefined,
-		Paste: typeof window[`${NewScreen}Paste`] === "function" ? (e) => window[`${NewScreen}Paste`](e) : undefined,
+		Run: (time) => namespace[`${NewScreen}Run`](time),
+		Click: (e) => namespace[`${NewScreen}Click`](e),
+		MouseDown: typeof namespace[`${NewScreen}MouseDown`] === "function" ? (e) => namespace[`${NewScreen}MouseDown`](e) : undefined,
+		MouseUp: typeof namespace[`${NewScreen}MouseUp`] === "function" ? (e) => namespace[`${NewScreen}MouseUp`](e) : undefined,
+		MouseMove: typeof namespace[`${NewScreen}MouseMove`] === "function" ? (e) => namespace[`${NewScreen}MouseMove`](e) : undefined,
+		MouseWheel: typeof namespace[`${NewScreen}MouseWheel`] === "function" ? (e) => namespace[`${NewScreen}MouseWheel`](e) : undefined,
+		Draw: typeof namespace[`${NewScreen}Draw`] === "function" ? () => namespace[`${NewScreen}Draw`]() : undefined,
+		Load: typeof namespace[`${NewScreen}Load`] === "function" ? () => namespace[`${NewScreen}Load`]() : undefined,
+		Unload: typeof namespace[`${NewScreen}Unload`] === "function" ? () => namespace[`${NewScreen}Unload`]() : undefined,
+		Resize: typeof namespace[`${NewScreen}Resize`] === "function" ? (load) => namespace[`${NewScreen}Resize`](load) : undefined,
+		KeyDown: typeof namespace[`${NewScreen}KeyDown`] === "function" ? (e) => namespace[`${NewScreen}KeyDown`](e) : undefined,
+		KeyUp: typeof namespace[`${NewScreen}KeyUp`] === "function" ? (e) => namespace[`${NewScreen}KeyUp`](e) : undefined,
+		Exit: typeof namespace[`${NewScreen}Exit`] === "function" ? () => namespace[`${NewScreen}Exit`]() : undefined,
+		Paste: typeof namespace[`${NewScreen}Paste`] === "function" ? (e) => namespace[`${NewScreen}Paste`](e) : undefined,
 	};
 
 	CurrentDarkFactor = 1.0;
 	CommonGetFont.clearCache();
 	CommonGetFontName.clearCache();
-	TextLoad();
+	const textCache = TextLoad();
 	try {
-		await TextScreenCache.loadedPromise;
+		await textCache.loadedPromise;
 	} catch (_e) {
 		console.error(`Failed to load text strings for screen!`);
 	}
@@ -640,7 +651,7 @@ function CommonRemoveItemFromList(list, index) {
  * Removes random item from list and returns it
  * @template T
  * @param {T[]} list
- * @returns {T}
+ * @returns {undefined | T}
  */
 function CommonRemoveRandomItemFromList(list) {
 	return CommonRemoveItemFromList(list, Math.floor(Math.random() * list.length));
@@ -664,7 +675,7 @@ function CommonRandomItemFromList(ItemPrevious, ItemList) {
 		let randomIndex = Math.floor(Math.random() * maxRandom);
 		if( previousIndex > -1 && randomIndex >= previousIndex) randomIndex++;
 		return ItemList[randomIndex];
-	} else return undefined;
+	} else return ItemPrevious;
 }
 
 /**
@@ -673,12 +684,13 @@ function CommonRandomItemFromList(ItemPrevious, ItemList) {
  * @returns {number[]} - Array of valid numbers from the given string
  */
 function CommonConvertStringToArray(s) {
+	/** @type {number[]} */
 	var arr = [];
 	if (typeof s === "string") {
 		arr = s.split(',').reduce((list, curr) => {
 			if (!(!curr || Number.isNaN(Number(curr)))) list.push(Number(curr));
 			return list;
-		}, []);
+		}, arr);
 	}
 	return arr;
 }
@@ -750,30 +762,42 @@ function CommonArraysEqual(a1, a2, ignoreOrder = false) {
  * Creates a debounced wrapper for the provided function with the provided wait time. The wrapped function will not be called as long as
  * the debounced function continues to be called. If the debounced function is called, and then not called again within the wait time, the
  * wrapped function will be called.
- * @param {function} func - The function to debounce
- * @returns {function} - A debounced version of the provided function
+ * @template {any[]} argsT
+ * @template retT
+ * @param {(...args: argsT) => retT} func - The function to debounce
+ * @returns {(waitInterval: number, ...args: argsT) => retT} - A debounced version of the provided function
  */
 function CommonDebounce(func) {
-	let timeout, args, context, timestamp, result, wait;
+	/** @type {null | number} */
+	let timeout;
+	/** @type {number} */
+	let timestamp;
+	/** @type {retT} */
+	let result;
+	/** @type {number} */
+	let wait;
 
-	function later() {
+	// Just a `setTimeout()` alias with some proper function-specific argument typing tailored around `later()`
+	/** @type {(handler: TimerHandler, timeout: number, context: unknown, args: argsT) => number} */
+	const laterSetTimeout = setTimeout;
+
+	/** @type {(context: unknown, args: argsT) => void} */
+	function later(context, args) {
 		const last = CommonTime() - timestamp;
 		if (last >= 0 && last < wait) {
-			timeout = setTimeout(later, wait - last);
+			timeout = laterSetTimeout(later, wait - last, context, args);
 		} else {
 			timeout = null;
 			result = func.apply(context, args);
-			context = args = null;
 		}
 	}
 
-	return function (waitInterval/*, ...args */) {
-		context = this;
+	/** @type {(this: unknown, waitInterval: number, ...args: argsT) => retT} */
+	return function (waitInterval, ...args) {
 		wait = waitInterval;
-		args = Array.prototype.slice.call(arguments, 1);
 		timestamp = CommonTime();
 		if (!timeout) {
-			timeout = setTimeout(later, wait);
+			timeout = laterSetTimeout(later, wait, this, args);
 		}
 		return result;
 	};
@@ -782,11 +806,21 @@ function CommonDebounce(func) {
 /**
  * Creates a throttling wrapper for the provided function with the provided wait time. If the wrapped function has been successfully called
  * within the wait time, further call attempts will be delayed until the wait time has passed.
- * @param {function} func - The function to throttle
- * @returns {function} - A throttled version of the provided function
+ * @template {any[]} argsT
+ * @template retT
+ * @param {(...args: argsT) => retT} func - The function to throttle
+ * @returns {(waitInterval: number, ...args: argsT) => retT} - A throttled version of the provided function
  */
 function CommonThrottle(func) {
-	let timeout, args, context, timestamp = 0, result;
+	/** @type {null | number} */
+	let timeout;
+	/** @type {argsT} */
+	let args;
+	/** @type {unknown} */
+	let context;
+	let timestamp = 0;
+	/** @type {retT} */
+	let result;
 
 	function run() {
 		timeout = null;
@@ -794,9 +828,10 @@ function CommonThrottle(func) {
 		timestamp = CommonTime();
 	}
 
-	return function (wait/*, ...args */) {
+	/** @type {(this: unknown, wait: number, ...innerArgs: argsT) => retT} */
+	return function (wait, ...innerArgs) {
 		context = this;
-		args = Array.prototype.slice.call(arguments, 1);
+		args = innerArgs;
 		if (!timeout) {
 			const last = CommonTime() - timestamp;
 			if (last >= 0 && last < wait) {
@@ -812,26 +847,27 @@ function CommonThrottle(func) {
 /**
  * Creates a wrapper for a function to limit how often it can be called. The player-defined wait interval setting determines the
  * allowed frequency. Below 100 ms the function will be throttled and above will be debounced.
- * @template {(...args: any) => any} FunctionType
- * @param {FunctionType} func - The function to limit calls of
+ * @template {any[]} argsT
+ * @template retT
+ * @param {(...args: argsT) => retT} func - The function to limit calls of
  * @param {number} [minWait=0] - A lower bound for how long the wait interval can be, 0 by default
  * @param {number} [maxWait=1000] - An upper bound for how long the wait interval can be, 1 second by default
- * @returns {FunctionType} - A debounced or throttled version of the function
+ * @returns {(...args: argsT) => retT} - A debounced or throttled version of the function
  */
 function CommonLimitFunction(func, minWait = 0, maxWait = 1000) {
 	const funcDebounced = CommonDebounce(func);
 	const funcThrottled = CommonThrottle(func);
 
-	return /** @type {FunctionType} */(function () {
+	/** @type {(this: unknown, ...args: argsT) => retT} */
+	return function (...args) {
 		const wait = Math.min(
 			Math.max(
 				Player.GraphicsSettings ? Player.GraphicsSettings.AnimationQuality : 100, minWait
 			),
 			maxWait,
 		);
-		const args = [wait].concat(Array.from(arguments));
-		return wait < 100 ? funcThrottled.apply(this, args) : funcDebounced.apply(this, args);
-	});
+		return wait < 100 ? funcThrottled.apply(this, [wait, ...args]) : funcDebounced.apply(this, [wait, ...args]);
+	};
 }
 
 /**
@@ -840,10 +876,11 @@ function CommonLimitFunction(func, minWait = 0, maxWait = 1000) {
  * the result stored in a local cache to speed up things.
  * @template {(...args: any) => any} T
  * @param {T} func - The function to memoize
- * @param {((arg: any) => string)[]} argConvertors - A list of stringification functions for creating a memo, one for each function argument
+ * @param {null | ((arg: any) => string)[]} argConvertors - A list of stringification functions for creating a memo, one for each function argument
  * @returns {MemoizedFunction<T>} - The result of the memoized function
  */
 function CommonMemoize(func, argConvertors=null) {
+	/** @type {Record<string, ReturnType<T>>} */
 	var memo = {};
 	var memoized = /** @type {MemoizedFunction<T>} */(function (...args) {
 		let index = "";
@@ -916,11 +953,15 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 	DrawProcess(0);
 
 	// Capture screen as image URL
-	const ImgData = /** @type {HTMLCanvasElement} */ (document.getElementById("MainCanvas")).getContext('2d').getImageData(Left, Top, Width, Height);
+	const ImgData = /** @type {HTMLCanvasElement | null} */ (document.getElementById("MainCanvas"))?.getContext('2d')?.getImageData(Left, Top, Width, Height);
+	if (!ImgData) {
+		return;
+	}
+
 	let PhotoCanvas = document.createElement('canvas');
 	PhotoCanvas.width = Width;
 	PhotoCanvas.height = Height;
-	PhotoCanvas.getContext('2d').putImageData(ImgData, 0, 0);
+	PhotoCanvas.getContext('2d')?.putImageData(ImgData, 0, 0);
 	const PhotoImg = PhotoCanvas.toDataURL("image/png");
 
 	// Open the image in a new window
@@ -1000,8 +1041,13 @@ function CommonDeepEqual(obj1, obj2) {
 			if (key !== keys2[i]) {
 				return false;
 			}
+
 			// Otherwise, compare the values
-			return CommonDeepEqual(obj1[key], obj2[key]);
+			/** @type {Record<string, any>} */
+			const obj1Compare = obj1;
+			/** @type {Record<string, any>} */
+			const obj2Compare = obj2;
+			return CommonDeepEqual(obj1Compare[key], obj2Compare[key]);
 		});
 	}
 
@@ -1039,7 +1085,11 @@ function CommonDeepIsSubset(subRec, superRec) {
 			if (!subKeys.every(k => superKeys.has(k))) {
 				return false;
 			} else {
-				return subKeys.every(key => CommonDeepIsSubset(subRec[key], superRec[key]));
+				/** @type {Record<string, any>} */
+				const subRecCompare = subRec;
+				/** @type {Record<string, any>} */
+				const superRecCompare = superRec;
+				return subKeys.every(key => CommonDeepIsSubset(subRecCompare[key], superRecCompare[key]));
 			}
 		}
 	}
@@ -1070,6 +1120,10 @@ function CommonArrayConcatDedupe(dest, src) {
  * @returns {void} - Nothing
  */
 function CommonPadlockUnlock(C, Item) {
+	if (!C.FocusGroup) {
+		return;
+	}
+
 	for (let A = 0; A < C.Appearance.length; A++) {
 		if (C.Appearance[A].Asset.Group.Name === C.FocusGroup.Name) {
 			C.Appearance[A] = Item;
@@ -1109,6 +1163,12 @@ function CommonStringSubstitute(msg, substitutions) {
 	if (typeof msg !== "string" || msg.trim() === "")
 		return "";
 
+	/**
+	 *
+	 * @param {CommonSubstituteReplacer | undefined} replacer
+	 * @param {string} replacement
+	 * @returns {(match: string, offset: number, string: string) => string}
+	 */
 	function makeReplacer(replacer, replacement) {
 		if (typeof replacer === "function")
 			return (match, offset, string) => replacer(match, offset, replacement, string);
@@ -1203,8 +1263,8 @@ function CommonIsCharacter(value) {
  * @todo JSON serialization will break things like functions, Sets and Maps.
  * @template T
  * @param {T} obj
- * @param {null | ((this: any, key: string, value: any) => any)} replacer
- * @param {null | ((this: any, key: string, value: any) => any)} reviver
+ * @param {null | ((this: any, key: string, value: any) => any)} [replacer]
+ * @param {null | ((this: any, key: string, value: any) => any)} [reviver]
  * @returns {T}
  */
 function CommonCloneDeep(obj, reviver=null, replacer=null) {
@@ -1577,14 +1637,15 @@ function CommonHas(obj, key) {
  *  "OldFunc",
  *  function NewFunc (a, b) { return a + b; },
  * );
- * @template {any} T
+ * @template {readonly any[]} T
  * @param {string} propertyName - The name for the new property
- * @param {()=>T} getter - The getter function for the property
- * @param {(T)=>void} setter - The setter function for the property
+ * @param {() => T} [getter] - The getter function for the property
+ * @param {(args: T) => void} [setter] - The setter function for the property
  */
-function CommonProperty(propertyName, getter = undefined, setter = undefined) {
-	if(window[propertyName] !== undefined)
-	{
+function CommonProperty(propertyName, getter=undefined, setter=undefined) {
+	/** @type {Record<string, any>} */
+	const windowNamespace = window;
+	if (windowNamespace[propertyName] !== undefined) {
 		throw new Error(`The name ${setter} already exists.`);
 	}
 
@@ -1609,7 +1670,7 @@ function CommonProperty(propertyName, getter = undefined, setter = undefined) {
  *  "OldFunc",
  *  function NewFunc (a, b) { return a + b; },
  * );
- * @template {(...any) => any} T
+ * @template {(...args: any[]) => any} T
  * @param {string} oldName - The old (deprecated) name of the symbol
  * @param {T} callback - The function with its new name
  * @param {Record<string, any>} namespace - The namespace wherein the new and old names will be stored
@@ -1625,8 +1686,11 @@ function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
 	const privateName = `_${newName}`;
 	namespace[privateName] = callback;
 
-	window[newName].get = function() { return namespace[privateName]; };
-	window[newName].set = function(val) { namespace[privateName] = val; };
+	/** @type {Record<string, any>} */
+	const windowNamespace = window;
+	windowNamespace[newName].get = function() { return namespace[privateName]; };
+	/** @type {(value: unknown) => void} */
+	windowNamespace[newName].set = function(val) { namespace[privateName] = val; };
 
 	Object.defineProperty(window, oldName, {
 		enumerable: true,
@@ -1660,10 +1724,8 @@ function CommonCapitalize(string) {
  * @returns {VariableContainer<T1, T2>} - The newly created object
  */
 function CommonVariableContainer(defaults, extraVars=null, resetCallbacks=null) {
-	// @ts-ignore
-	extraVars ??= {};
 	const ret = Object.assign(
-		extraVars,
+		/** @type {VariableContainer<T1, T2>} */(extraVars ?? {}),
 		defaults,
 		{
 			Defaults: defaults,
@@ -1938,6 +2000,7 @@ var CommonRegEscape = (() => {
 			if (i === 0 && FIRST_DIGIT_OR_ASCII.exec(chr)) {
 				result[i] = escapeChar(chr);
 			} else if (chr in ControlEscape) {
+				// @ts-ignore: `chr` _is_ in `ControlEscape`; stop your whining TS
 				result[i] = '\\' + ControlEscape[chr];
 			} else if (SYNTAX_SOLIDUS.exec(chr)) {
 				result[i] = '\\' + chr;
@@ -1966,7 +2029,7 @@ var CommonRegEscape = (() => {
  */
 function CommonScreenName(screen) {
 	const cache = TextAllScreenCache.get(`Screens/Room/MainHall/Text_MainHall.csv`);
-	return cache.get(screen);
+	return cache?.get(screen);
 }
 
 /**
@@ -2050,6 +2113,7 @@ function CommonTokenize(input, options = {
 	let currentDelimiterPair = null;
 	let escapeNext = false;
 
+	/** @type {(startIndex: number, closeChar: string) => boolean} */
 	function hasUnescapedClosing(startIndex, closeChar) {
 		let escaped = false;
 
@@ -2118,7 +2182,7 @@ function CommonTokenize(input, options = {
 		}
 
 		// inside delimiter
-		if (char === currentDelimiterPair[1]) {
+		if (char === currentDelimiterPair?.[1]) {
 			if (options.includeDelimiters) buffer += char;
 
 			tokens.push(buffer);

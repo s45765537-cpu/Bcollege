@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 const chineseRegex = /\p{Script=Hani}/u;
@@ -47,7 +46,9 @@ function SpeechFullEmote(D) {
  * @return {number} - The gag level corresponding to the given effects
  */
 function SpeechGetEffectGagLevel(Effect) {
-	return Effect.reduce((Modifier, EffectName) => Modifier + (SpeechGagLevelLookup[EffectName] || 0), 0);
+	/** @type {Partial<Record<EffectName, number>>} */
+	const effectLookup = SpeechGagLevelLookup;
+	return Effect.reduce((Modifier, EffectName) => Modifier + (effectLookup[EffectName] || 0), 0);
 }
 
 /**
@@ -641,8 +642,8 @@ function SpeechTransformStutterIntensity(C) {
 		for (let item of C.Appearance) {
 			if (!InventoryItemHasEffect(item, "Egged", true)) continue;
 			const itemIntensity = InventoryGetItemProperty(item, "Intensity");
-			if (itemIntensity <= intensity) continue;
-			intensity = item.Property.Intensity;
+			if (itemIntensity == null || itemIntensity <= intensity) continue;
+			intensity = itemIntensity;
 		}
 	}
 	return intensity;
@@ -755,6 +756,8 @@ function SpeechAnonymize(msg, characters) {
 
 	// Now replace with the placeholder, lowercasing if it's not the first thing in the string
 	const replacement = InterfaceTextGet("Someone");
+
+	/** @type {(_match: unknown, offset: number, ...args: unknown[]) => string} */
 	function replacer(_match, offset, _string, _groups) {
 		return offset === 0 ? replacement : replacement.toLowerCase();
 	}
