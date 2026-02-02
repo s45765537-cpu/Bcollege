@@ -186,7 +186,7 @@ var DialogLeaveFocusItemHandlers = {
 				item.Difficulty
 				- SkillGetLevel(Player, "Bondage")
 				- item.Asset.Difficulty
-				- (item.Craft?.Property === "Secure" ? 4 : 0)
+				- (item.Craft.Effects?.Secure ?? 0) * 4
 			);
 			item.Difficulty = item.Asset.Difficulty;
 			CraftingModeSet("Name");
@@ -1151,11 +1151,11 @@ const DialogEffectIcons = /** @type {const} */({
 	 */
 	GetIcons: function(item) {
 		const effects = new Set([...item.Asset.Effect, ...(item.Property?.Effect ?? [])]);
-		const craftingProperty = item.Craft?.Property;
+		const craftingProperty = item.Craft?.Effects;
 		return DialogEffectIcons.GetEffectIcons(effects, craftingProperty);
 	},
-	/** @type {(effects: Iterable<EffectName>, prop?: CraftingPropertyType) => null | InventoryIcon[]} */
-	GetEffectIcons: function (effects, prop) {
+	/** @type {(effects: Iterable<EffectName>, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon[]} */
+	GetEffectIcons: function (effects, craftEffect) {
 		/** @type {InventoryIcon[]} */
 		const icons = [];
 		for (const effect of effects) {
@@ -1167,8 +1167,8 @@ const DialogEffectIcons = /** @type {const} */({
 			}
 
 			const icon = (
-				DialogEffectIcons._GetGagIcon(effect, prop)
-				|| DialogEffectIcons._GetBlindIcon(effect, prop)
+				DialogEffectIcons._GetGagIcon(effect, craftEffect)
+				|| DialogEffectIcons._GetBlindIcon(effect, craftEffect)
 				|| DialogEffectIcons._GetDeafIcon(effect)
 			);
 			if (icon) {
@@ -1177,28 +1177,25 @@ const DialogEffectIcons = /** @type {const} */({
 		}
 		return icons;
 	},
-	/** @type {(effect: EffectName, prop?: CraftingPropertyType) => null | InventoryIcon} */
-	_GetGagIcon(effect, prop) {
+	// this fucking variable name really kills me
+	/** @type {(effect: EffectName, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon} */
+	_GetGagIcon(effect, craftEffect) {
 		let level = SpeechGagLevelLookup[/** @type {GagEffectName} */(effect)];
-		if (level === undefined) {
-			return null;
-		} else if (prop === "Small") {
-			level -= 2;
-		} else if (prop === "Large") {
-			level += 2;
-		}
+		if (typeof level === "undefined") return null;
+		if (typeof craftEffect === "undefined") return DialogEffectIcons._GagLevelToIcon(level);
+
+		level -= 2 * (craftEffect?.Small ?? 0);
+		level += 2 * (craftEffect?.Large ?? 0);
 		return DialogEffectIcons._GagLevelToIcon(level);
 	},
-	/** @type {(effect: EffectName, prop?: CraftingPropertyType) => null | InventoryIcon} */
-	_GetBlindIcon(effect, prop) {
+	/** @type {(effect: EffectName, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon} */
+	_GetBlindIcon(effect, craftEffect) {
 		let level = CharacterBlindLevels.get(/** @type {BlindEffectName} */(effect));
-		if (level === undefined) {
-			return null;
-		} else if (prop === "Thin") {
-			level -= 2;
-		} else if (prop === "Thick") {
-			level += 2;
-		}
+		if (typeof level === "undefined") return null;
+		if (typeof craftEffect === "undefined") return DialogEffectIcons._GagLevelToIcon(level);
+
+		level -= 2 * (craftEffect?.Thin ?? 0);
+		level += 2 * (craftEffect?.Thick ?? 0);
 		return DialogEffectIcons._BlindLevelToIcon(level);
 	},
 	/** @type {(effect: EffectName) => undefined | InventoryIcon} */
@@ -2255,7 +2252,7 @@ function DialogClick(event) {
 			StruggleMinigameClick();
 		} else {
 			for (const [idx, [game, data]] of StruggleGetMinigames().entries()) {
-				if (MouseIn(1387 + 300 * (idx - 1), 550, 225, 275) && data.DisablingCraftedProperty && !InventoryCraftPropertyIs(DialogStrugglePrevItem, data.DisablingCraftedProperty)) {
+				if (MouseIn(1387 + 300 * (idx - 1), 550, 225, 275) && data.DisablingCraftedProperty && !((DialogStrugglePrevItem?.Craft?.Property?.[data.DisablingCraftedProperty] ?? 0) > 0)) {
 					StruggleMinigameStart(Player, game, DialogStrugglePrevItem, DialogStruggleNextItem, DialogStruggleStop);
 					DialogMenuButtonBuild(C);
 				}
@@ -3979,10 +3976,14 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
 		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then(textCache => {
 			property.replaceChildren(
-				InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-				ElementCreate({ tag: "dfn", children: [item.Craft.Property] }),
-				" - ",
-				textCache.get(`Description${item.Craft.Property}`),
+				...Object.entries(item.Craft.Effects).reduce((acc, [propertyKey, propertyValue]) => acc.concat([
+					ElementCreate({ tag: "dfn", children: [propertyKey] }),
+					propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
+					textCache.get(`Description${propertyKey}`),
+					{
+						tag: "br",
+					}
+				]), []),
 			);
 		});
 
@@ -5583,7 +5584,7 @@ function DialogDraw() {
 			for (const [idx, [game, data]] of StruggleGetMinigames().entries()) {
 				const offset = 300 * idx;
 				const hover = MouseIn(1087 + offset, 550, 225, 275);
-				const disabled = data.DisablingCraftedProperty ? InventoryCraftPropertyIs(DialogStrugglePrevItem, data.DisablingCraftedProperty) : false;
+				const disabled = data.DisablingCraftedProperty ? (DialogStrugglePrevItem?.Craft?.Effects?.[data.DisablingCraftedProperty] ?? 0) > 0 : false;
 				const bgColor = disabled ? "Gray" : (hover ? "aqua" : "white");
 				DrawRect(1087 + offset, 550, 225, 275, bgColor);
 				DrawImageResize("Icons/Struggle/" + game + ".png", 1089 + offset, 552, 221, 221);

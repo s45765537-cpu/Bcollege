@@ -117,8 +117,8 @@
 }
 
 #crafting-property-grid {
-	grid-template-columns: min-content;
-	grid-template-rows: repeat(auto-fill, calc(1.5 * var(--menu-button-size)));
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(auto-fill, 2.7em);
 }
 
 #crafting-asset-grid button,
@@ -132,15 +132,6 @@
 
 #crafting-asset-grid button[data-hidden-asset]:not([aria-checked="true"]),
 #crafting-asset-grid button[data-hidden-group]:not([aria-checked="true"]) {
-	display: none;
-}
-
-#crafting-property-grid button {
-	width: calc(5.7 * var(--menu-button-size));
-	height: calc(1.5 * var(--menu-button-size));
-}
-
-#crafting-property-grid button > .button-label {
 	display: none;
 }
 
@@ -284,4 +275,72 @@
 	#crafting-property-button {
 		font-size: min(3dvh, 1.5dvw);
 	}
+}
+
+.crafting-property-list-item {
+	display: flex;
+  	height: 2.7em;
+	background-color: white;
+	justify-content: space-between;
+	margin-right: var(--scrollbar-gutter);
+}
+
+.crafting-property-list-item p {
+	margin: 0;
+	font-size: 0.6em;
+	user-select: none;
+}
+.crafting-property-name {
+	font-size: 0.75em;
+	width: fit-content;
+	user-select: none;
+	margin-left: 0.15em;
+}
+.crafting-property-info {
+	width: 100%;
+	padding-inline: 0.2em;
+}
+.crafting-property-value {
+	display: inline;
+	margin-left: 0.25em;
+	user-select: none;
+	font-size: 0.75em;
+}
+.crafting-property-value input {
+	display: inline;
+	width: 2em;
+	margin-left: 0.25em;
+	background-color: rgb(245, 245, 245);
+}
+
+.crafting-property-value input::-webkit-outer-spin-button,
+.crafting-property-value input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.crafting-property-value input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.crafting-property-button {
+	aspect-ratio: 1;
+	color: gray;
+}
+.crafting-property-button:disabled {
+	--button-color: #949494;
+	cursor: not-allowed;
+}
+.crafting-property-add {
+	--button-color: #8cff82;
+}
+.crafting-property-add:last-child {
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
+}
+.crafting-property-remove {
+	--button-color: #ff8282;
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
 }

@@ -361,8 +361,8 @@ function SpeechTransformShouldGagGarble(C) {
  */
 function SpeechTransformGagGarbleIntensity(C) {
 	let intensity = SpeechGetGagLevel(C, ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemHood", "ItemNeck", "ItemDevices"]);
-	intensity = intensity + InventoryCraftCount(C, "Large") * 2;
-	intensity = intensity - InventoryCraftCount(C, "Small") * 2;
+	intensity = intensity + InventoryCraftCount(C, "Large", true) * 2;
+	intensity = intensity - InventoryCraftCount(C, "Small", true) * 2;
 	return intensity;
 }
 

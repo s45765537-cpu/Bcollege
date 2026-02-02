@@ -1683,14 +1683,20 @@ var ElementButton = {
 			tag: "ul",
 			classList: ["button-tooltip-craft"],
 			children: [
-				craft.Property ? {
+				Object.entries(craft.Effects).length > 0 ? {
 					tag: "li",
 					children: [
 						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-						{
-							tag: "q",
-							children: [{ tag: "dfn", children: [craft.Property] }, " - "],
-						},
+						...Object.entries(craft.Effects).reduce((acc, [propertyKey, propertyValue]) => acc.concat([{
+							tag: "p",
+							children: [
+								{
+									tag: "dfn",
+									children: [propertyKey],
+								},
+								propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
+							],
+						}]), []),
 					],
 				} : undefined,
 				(craft.MemberName && craft.MemberNumber) ? {
@@ -1718,9 +1724,9 @@ var ElementButton = {
 		});
 
 		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
-			const dfn = list.querySelector("dfn");
-			if (dfn) {
-				dfn.parentElement?.append(textCache.get(`Description${dfn.textContent}`));
+			const dfn = list.querySelectorAll("dfn");
+			for (const d of dfn) {
+				d.parentElement?.append(textCache.get(`Description${d.textContent}`));
 			}
 		});
 		return [label, list];
