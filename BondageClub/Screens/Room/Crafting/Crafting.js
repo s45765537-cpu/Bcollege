@@ -483,11 +483,11 @@ function CraftingAssetsPopulate() {
  * @returns {Boolean} - TRUE if the item has that effect
  */
 function CraftingItemHasEffect(Item, Effect) {
-	if (Item.Effect != null)
+	if (Item?.Effect != null)
 		for (let E of Effect)
 			if (Item.Effect.indexOf(E) >= 0)
 				return true;
-	if (Item.AllowEffect != null)
+	if (Item?.AllowEffect != null)
 		for (let E of Effect)
 			if (Item.AllowEffect.indexOf(E) >= 0)
 				return true;
