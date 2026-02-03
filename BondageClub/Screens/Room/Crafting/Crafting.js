@@ -51,9 +51,9 @@ let CraftingReorderList = [];
 let CraftingReorderMode = "None";
 
 /**
- * A record mapping all crafting-valid asset names to a list of matching elligble assets.
+ * A record mapping all crafting-valid asset names to a list of matching eligible assets.
  *
- * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ * Eligible assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
  *
  * The first asset in each list is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
  * @type {Record<string, Asset[]>}
@@ -245,7 +245,7 @@ function CraftingPropertyUpdateButtons(craft) {
 }
 /**
  * An enum with status codes for crafting validation.
- * @property OK - The validation proceded without errors
+ * @property OK - The validation proceeded without errors
  * @property ERROR - The validation produced one or more errors that were successfully resolved
  * @property CRITICAL_ERROR - The validation produced an unrecoverable error
  * @type {{OK: 2, ERROR: 1, CRITICAL_ERROR: 0}}
@@ -424,8 +424,8 @@ var CraftingDescription = {
 };
 
 /**
- * Construct a record mapping all crafting-valid asset names to a list of matching elligble assets.
- * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ * Construct a record mapping all crafting-valid asset names to a list of matching eligible assets.
+ * Eligible assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
  * @see {@link CraftingAssets}
  * @returns {Record<string, Asset[]>}
  */
@@ -742,7 +742,7 @@ var CraftingEventListeners = {
 				CraftingExitResetElements();
 				CraftingSelectedItem = CraftingConvertItemToSelected(craft);
 				document.querySelector(`#${CraftingID.assetGrid} [name='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
-				alert(TextGet("UploadSucces"));
+				alert(TextGet("UploadSuccess"));
 				return;
 			case CraftingStatusType.CRITICAL_ERROR:
 				alert(TextGet("UploadFailure"));
@@ -757,7 +757,7 @@ var CraftingEventListeners = {
 	_ClickDownload: function _ClickDownload() {
 		const craft = CraftingConvertSelectedToItem();
 		navigator.clipboard.writeText(LZString.compressToBase64(JSON.stringify(craft)));
-		alert(TextGet("DownloadSucces"));
+		alert(TextGet("DownloadSuccess"));
 	},
 
 	/**
@@ -769,7 +769,7 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		// Focus the search input in the side pannel if it exists
+		// Focus the search input in the side panel if it exists
 		const panel = document.querySelector(`#${CSS.escape(this.getAttribute("aria-controls"))} > .crafting-grid`);
 		const activeRadio = panel?.querySelector(`[aria-checked='true']`);
 		if (activeRadio) {
@@ -943,9 +943,9 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		const sidePannel = this.closest(".crafting-panel");
-		const controlButton = document.querySelector(`[aria-controls='${sidePannel?.id}']`);
-		if (!sidePannel || !controlButton) {
+		const sidePanel = this.closest(".crafting-panel");
+		const controlButton = document.querySelector(`[aria-controls='${sidePanel?.id}']`);
+		if (!sidePanel || !controlButton) {
 			return;
 		}
 
@@ -1817,7 +1817,7 @@ function CraftingUnload() {
 
 /**
  * Update {@link CraftingSelectedItem.ItemProperties} with a select few properties from the passed item.
- * @param {Item} item - The item whose properties should be coppied.
+ * @param {Item} item - The item whose properties should be copied.
  * @returns {void}
  */
 function CraftingUpdateFromItem(item) {
@@ -1896,7 +1896,7 @@ function CraftingModeSet(NewMode) {
 			// Select the asset
 			document.querySelector(`#${CraftingID.assetGrid} [name='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
 		} else {
-			// Open the side pannel and manually updating the crafting preview to clear it of old items
+			// Open the side panel and manually updating the crafting preview to clear it of old items
 			document.querySelector(`#${CraftingID.assetButton}[aria-checked='false']`)?.dispatchEvent(new Event("click"));
 			CraftingUpdatePreview();
 		}
@@ -2015,7 +2015,7 @@ function CraftingDecompressServerData(Data) {
 		DecompressedData = null;
 	}
 	if (DecompressedData == null) {
-		console.warn("An error occured while decompressing Crafting data, entries have been reset.");
+		console.warn("An error occurred while decompressing Crafting data, entries have been reset.");
 		return [];
 	}
 
@@ -2405,7 +2405,7 @@ function CraftingExitResetElements() {
 		document.querySelectorAll(`#${CraftingID.assetGrid} [data-hidden-group]`).forEach(e => e.toggleAttribute("data-hidden-group", false));
 	}
 
-	// Close the side pannel
+	// Close the side panel
 	document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`)?.dispatchEvent(new Event("click"));
 }
 
@@ -2474,8 +2474,8 @@ function CraftingAppliesToItem(Craft, Item) {
 	// Validates the craft asset
 	if (!Craft || !Item) return false;
 
-	const elligbleAssets = CraftingAssets[Craft.Item] ?? [];
-	return elligbleAssets.includes(Item);
+	const eligibleAssets = CraftingAssets[Craft.Item] ?? [];
+	return eligibleAssets.includes(Item);
 }
 
 /**
@@ -2767,7 +2767,7 @@ const CraftingValidationRecord = {
 };
 
 /**
- * Validate and sanitinize crafting properties of the passed item inplace.
+ * Validate and sanitize crafting properties of the passed item inplace.
  * @param {CraftingItem} Craft - The crafted item properties or `null`
  * @param {Asset | null} asset - The matching Asset. Will be extracted from the player inventory if `null`
  * @param {boolean} Warn - Whether a warning should logged whenever the crafting validation fails
@@ -2816,7 +2816,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 		}
 	}
 
-	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable,
+	// If the Asset has been explicitly passed then `Craft.Item` errors are fully recoverable,
 	// though the player should actually own the item
 	if (assets.length > 0 && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
