@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 "use strict";
-var PuppyWalkerBackground = "Gardens";
+var PuppyWalkerBackground = "Garden1";
 var PuppyWalkerMoves = [0, 0, 0, 0];
 var PuppyWalkerMovesTimer = [0, 0, 0, 0];
 var PuppyWalkerEscape = [0, 0, 0, 0];

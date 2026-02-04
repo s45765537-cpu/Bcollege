@@ -132,7 +132,7 @@ Forest Cave
 森林洞穴
 Forest Path
 森林小道
-Gardens
+Public Garden
 花园
 Garden Café 1
 花园咖啡馆1

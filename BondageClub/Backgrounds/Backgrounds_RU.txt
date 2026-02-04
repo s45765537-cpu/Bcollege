@@ -92,7 +92,7 @@ Forest Cave
 Лесная пещера
 Forest Path
 Лесная тропа
-Gardens
+Public Garden
 Сад
 Gymnasium
 Спортзал

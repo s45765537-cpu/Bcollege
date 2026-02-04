@@ -12,7 +12,7 @@ Desert
 沙漠
 Dungeon
 地牢
-Gardens
+Public Garden
 花園
 Gymnasium
 體育館
