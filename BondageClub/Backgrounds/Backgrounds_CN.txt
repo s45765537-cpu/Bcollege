@@ -36,7 +36,9 @@ Beach
 海滩
 Beach Promenade Café
 海滨长廊咖啡馆
-Beach Hotel
+Beach Hotel 1
+海滩酒店
+Beach Hotel 2
 海滩酒店
 Beach Sunset
 海滩日落

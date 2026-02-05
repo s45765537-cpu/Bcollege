@@ -32,7 +32,9 @@ Beach
 Пляж
 Beach Promenade Café
 Открытое пляжное кафе
-Beach Hotel
+Beach Hotel 1
+Пляжный отель
+Beach Hotel 2
 Пляжный отель
 Beach Sunset
 Закат на пляже

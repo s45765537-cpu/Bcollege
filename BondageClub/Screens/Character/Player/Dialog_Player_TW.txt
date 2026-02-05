@@ -811,7 +811,9 @@ Captain Cabin
 船長室
 Underwater One
 水下1
-Beach Hotel
+Beach Hotel 1
+海灘酒店
+Beach Hotel 2
 海灘酒店
 Dystopian City
 反烏托邦城市

@@ -1,5 +1,6 @@
 AbandonedBuilding,Abandoned Building
 AbandonedSideRoom,Abandoned Side Room
+Agora1,Palace Agora
 AlchemistOffice,Alchemist Office
 AncientRuins,Ancient Ruins
 AsylumBedroom,Bedroom
@@ -20,16 +21,20 @@ BDSMRoomRed2,BDSM Room Red 2
 BDSMRoomRed3,BDSM Room Red 3
 Beach,Beach
 BeachCafe,Beach Promenade Café
-BeachHotel,Beach Hotel
+BeachHotel1,Beach Hotel 1
+BeachHotel2,Beach Hotel 2
 BeachSunset,Beach Sunset
 Bedroom,Bedroom
 Bedroom2,Japanese Bedroom
 Bedroom3,Boy Bedroom
-Bedroom4,Girl Bedroom
+Bedroom4,Girl Bedroom 1
+Bedroom5,Evelyn's Bedroom
+Bedroom6,Girl Bedroom 2
 BondageBedChamber,Bondage Bedchamber
 Boudoir,Boudoir
 BoutiqueBack,Shop Dressing Rooms
 BoutiqueMain,Boutique Shop
+BoxingRing1,Boxing Ring
 CaptainCabin,Captain Cabin
 Casino1,Casino
 Castle,Fancy Castle
@@ -130,6 +135,7 @@ MedinaMarket,Medina Market
 MeetingRoom1,Meeting Room
 MiddletownSchool,Middletown School
 MovieStudio,Movie Studio
+MovieStudio2,Movie Studio Camera
 NightClub,Nightclub
 Nursery,Nursery
 Office1,Luxury Office
@@ -161,6 +167,7 @@ PoolBottom,Pool Bottom
 PrisonHall,Prison Hall
 Private,Private Room
 PublicBath,Public Bath
+PublicBathroom1,Public Bathroom
 RainyForestPathDay,Rainy Forest Path Day
 RainyForstPathNight,Rainy Forest Path Night
 RainyStreetDay,Rainy Street Day
