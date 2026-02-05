@@ -4350,13 +4350,15 @@ interface CraftingItemSelected {
 	 * The first member of the {@link CraftingItemSelected.Assets} array.
 	 *
 	 * The asset is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
+	 *
+	 * Will be `undefined` upon creating a new craft prior to the user picking the underlying item.
 	 */
 	get Asset(): Asset | undefined;
 	/**
 	 * The crafted item propertty.
-	 * @deprecated superseded by {@link CraftingItemSelected .Effects}
+	 * @deprecated superseded by {@link CraftingItemSelected.Effects}
 	 */
-	Property: CraftingPropertyType;
+	Property?: CraftingPropertyType;
 	/** The crafted item properties mapped to their property strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/** The lock as equipped on the item or, if absent, `null`. */
@@ -4375,8 +4377,8 @@ interface CraftingItemSelected {
 	 */
 	ItemProperty: ItemProperties;
 	/** Get or set the `OverridePriority` property of {@link CraftingItemSelected.ItemProperty} */
-	get OverridePriority(): null | AssetLayerOverridePriority;
-	set OverridePriority(value: null | AssetLayerOverridePriority);
+	get OverridePriority(): undefined | AssetLayerOverridePriority;
+	set OverridePriority(value: undefined | AssetLayerOverridePriority);
  }
 
 /**
