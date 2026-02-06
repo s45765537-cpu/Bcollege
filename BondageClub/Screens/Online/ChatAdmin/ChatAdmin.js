@@ -329,7 +329,7 @@ function ChatAdminClick() {
 	// Import & export buttons
 	if (MouseIn(1174, 76, 48, 48)) { // Upload (Import)
 		if (!ChatAdminCanEdit()) return;
-		
+
 		const code = prompt(TextGet("UploadPrompt"))?.trim();
 		if (code == null) return; // User cancelled the prompt
 		if (!code) {
@@ -343,30 +343,7 @@ function ChatAdminClick() {
 			return;
 		}
 
-		ElementValue("InputName", data.Name);
-		ElementValue("InputDescription", data.Description);
-		ElementValue("InputSize", data.Limit.toString());
-		ElementValue("InputAdminList", CommonConvertArrayToString(data.Admin));
-		ElementValue("InputWhitelist", CommonConvertArrayToString(data.Whitelist));
-		ElementValue("InputBanList", CommonConvertArrayToString(data.Ban));
-
-		ChatAdminData.Language = data.Language;
-		ChatAdminData.Background = data.Background;
-		ChatAdminData.Limit = data.Limit;
-		ChatAdminData.BlockCategory = data.BlockCategory;
-		ChatAdminData.Game = data.Game;
-		ChatAdminData.MapData = data.MapData;
-		ChatAdminData.Custom = data.Custom;
-
-		ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex(elem => elem.length === data.Visibility.length && elem.every(role => data.Visibility.includes(role)));
-		ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex(elem => elem.length === data.Access.length && elem.every(role => data.Access.includes(role)));
-		// This shouldn't happen due to validation, but just in case...
-		if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = 0;
-		if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
-
-		ChatAdminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
-		ChatAdminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
-
+		ChatEditorAdminSettingsImport(data);
 		ChatAdminMessage = "UploadSuccess";
 	} else if (MouseIn(1174, 160, 48, 48)) { // Download (Export)
 		const code = LZString.compressToBase64(JSON.stringify(ChatEditorGetAdminSettings()));
@@ -553,6 +530,36 @@ function ChatEditorValidateAdminSettings(settings) {
 			(s.MapData.Tiles === undefined || typeof s.MapData.Tiles === "string") &&
 			(s.MapData.Objects === undefined || typeof s.MapData.Objects === "string")
 		)
+}
+
+/**
+ * Imports the given ChatRoomAdminSettings into the editor inputs
+ * @param {ChatRoomAdminSettings} settings - The chat room settings to import
+ */
+function ChatEditorAdminSettingsImport(settings) {
+	ElementValue("InputName", settings.Name);
+	ElementValue("InputDescription", settings.Description);
+	ElementValue("InputSize", settings.Limit.toString());
+	ElementValue("InputAdminList", CommonConvertArrayToString(settings.Admin));
+	ElementValue("InputWhitelist", CommonConvertArrayToString(settings.Whitelist));
+	ElementValue("InputBanList", CommonConvertArrayToString(settings.Ban));
+
+	ChatAdminData.Language = settings.Language;
+	ChatAdminData.Background = settings.Background;
+	ChatAdminData.Limit = settings.Limit;
+	ChatAdminData.BlockCategory = settings.BlockCategory;
+	ChatAdminData.Game = settings.Game;
+	ChatAdminData.MapData = settings.MapData;
+	ChatAdminData.Custom = settings.Custom;
+
+	ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex(elem => elem.length === settings.Visibility.length && elem.every(role => settings.Visibility.includes(role)));
+	ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex(elem => elem.length === settings.Access.length && elem.every(role => settings.Access.includes(role)));
+	// This shouldn't happen due to validation, but just in case...
+	if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = 0;
+	if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
+
+	ChatAdminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
+	ChatAdminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
 }
 
 /**
