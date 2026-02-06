@@ -44,6 +44,20 @@ Admin
 Администратор
 Unlisted
 Без списка
+Import room code
+Импортировать код комнаты
+Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+Вставьте код комнаты. Импорт кодов комнат перезапишет существующие настройки. Вы уверены?
+Failed to parse the passed room code (incomplete? invalid? outdated?)
+Не удалось разобрать переданный код комнаты (неполный? недействительный? устаревший?)
+Successfully imported room code
+Код комнаты успешно импортирован
+Export room code
+Экспортировать код комнаты
+Failed to copy room code to clipboard
+Не удалось скопировать код комнаты в буфер обмена
+Room code copied to clipboard
+Код комнаты скопирован в буфер обмена
 Create
 Создать
 Save

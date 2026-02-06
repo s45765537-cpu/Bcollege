@@ -48,6 +48,20 @@ Admin
 Адміністратор
 Unlisted
 Не внесено до списку
+Import room code
+Імпортувати код кімнати
+Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+Будь ласка, вставте код кімнати. Імпорт кодів кімнат призведе до перезапису існуючих налаштувань. Ви впевнені?
+Failed to parse the passed room code (incomplete? invalid? outdated?)
+Не вдалося розпізнати наданий код кімнати (неповний? недійсний? застарілий?)
+Successfully imported room code
+Код кімнати успішно імпортовано
+Export room code
+Експортувати код кімнати
+Failed to copy room code to clipboard
+Не вдалося скопіювати код кімнати в буфер обміну
+Room code copied to clipboard
+Код кімнати скопійовано в буфер обміну
 Create
 Створити
 Save
