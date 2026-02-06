@@ -337,7 +337,12 @@ function ChatAdminClick() {
 			return;
 		}
 
-		const data = CommonJSONParse(LZString.decompressFromBase64(code));
+		const decompressedJSON = LZString.decompressFromBase64(code);
+		if (!decompressedJSON) {
+			ChatAdminMessage = "UploadInvalidCode";
+			return;
+		}
+		const data = CommonJSONParse(decompressedJSON);
 		if (!data || !ChatEditorValidateAdminSettings(data)) {
 			ChatAdminMessage = "UploadInvalidCode";
 			return;
@@ -502,22 +507,23 @@ function ChatAdminExit() {
 function ChatEditorValidateAdminSettings(settings) {
 	if (typeof settings !== "object" || settings === null) return false;
 	const s = /** @type {ChatRoomAdminSettings} */ (settings);
-	const isMemberNumber = (n) => typeof n === "number" && Number.isInteger(n) && n > 0;
+	const isMemberNumber = (/** @type {unknown} */ n) => typeof n === "number" && Number.isInteger(n) && n > 0;
+	/* eslint-disable indent */
 	return typeof s.Name === "string" && /^[\x20-\x7E]+$/.test(s.Name)
 		&& typeof s.Language === "string" && ServerChatRoomSupportedLanguages.includes(s.Language)
 		&& typeof s.Description === "string" && s.Description.length <= ServerChatRoomDescriptionMaxLength
-		&& typeof s.Background === "string" && ChatAdminBackgroundList.indexOf(s.Background) >= 0
+		&& typeof s.Background === "string" && ChatAdminBackgroundList != null && ChatAdminBackgroundList.indexOf(s.Background) >= 0
 		&& typeof s.Limit === "number" && Number.isInteger(s.Limit) && s.Limit >= 2 && s.Limit <= 20
 		&& Array.isArray(s.Admin) && s.Admin.every(isMemberNumber)
 		&& Array.isArray(s.Whitelist) && s.Whitelist.every(isMemberNumber)
 		&& Array.isArray(s.Ban) && s.Ban.every(isMemberNumber)
 		&& Array.isArray(s.BlockCategory) && s.BlockCategory.every(cat => ChatBlockItemList.includes(cat))
 		&& typeof s.Game === "string" && ChatAdminGameList.includes(s.Game)
-		&& Array.isArray(s.Visibility) && ChatAdminVisibilityModeValues.some(v => 
+		&& Array.isArray(s.Visibility) && ChatAdminVisibilityModeValues.some(v =>
 			v.length === s.Visibility.length &&
 			v.every(role => s.Visibility.includes(role))
 		)
-		&& Array.isArray(s.Access) && ChatAdminAccessModeValues.some(v => 
+		&& Array.isArray(s.Access) && ChatAdminAccessModeValues.some(v =>
 			v.length === s.Access.length &&
 			v.every(role => s.Access.includes(role))
 		)
@@ -529,7 +535,8 @@ function ChatEditorValidateAdminSettings(settings) {
 			// Not validating Tiles/Objects further as this is the standard set by ChatRoomMapViewPaste
 			(s.MapData.Tiles === undefined || typeof s.MapData.Tiles === "string") &&
 			(s.MapData.Objects === undefined || typeof s.MapData.Objects === "string")
-		)
+		);
+	/* eslint-enable indent */
 }
 
 /**
@@ -537,6 +544,8 @@ function ChatEditorValidateAdminSettings(settings) {
  * @param {ChatRoomAdminSettings} settings - The chat room settings to import
  */
 function ChatEditorAdminSettingsImport(settings) {
+	if (!ChatAdminData) return;
+
 	ElementValue("InputName", settings.Name);
 	ElementValue("InputDescription", settings.Description);
 	ElementValue("InputSize", settings.Limit.toString());
@@ -584,7 +593,7 @@ function ChatEditorGetAdminSettings() {
 		Access: ChatAdminData.Access,
 		MapData: ChatAdminData.MapData,
 		Custom: ChatAdminData.Custom
-	}
+	};
 }
 
 /**
