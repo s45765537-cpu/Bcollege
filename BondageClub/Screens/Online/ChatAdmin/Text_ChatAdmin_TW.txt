@@ -42,6 +42,20 @@ Admin
 管理員
 Unlisted
 未列名
+Import room code
+匯入房間代碼
+Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+請貼上房間代碼。匯入房間代碼將會覆寫現有設定。確定嗎？
+Failed to parse the passed room code (incomplete? invalid? outdated?)
+無法解析傳入的房間代碼（不完整？無效？過時？）
+Successfully imported room code
+成功匯入房間代碼
+Export room code
+匯出房間代碼
+Failed to copy room code to clipboard
+無法將房間代碼複製到剪貼簿
+Room code copied to clipboard
+房間代碼已複製到剪貼簿
 Create
 創建
 Save

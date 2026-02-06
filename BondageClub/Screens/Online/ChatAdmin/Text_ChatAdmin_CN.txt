@@ -48,6 +48,20 @@ Unlisted
 未列入名单
 Access
 访问
+Import room code
+导入房间代码
+Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+请粘贴房间代码。导入房间代码将覆盖现有设置。确定吗？
+Failed to parse the passed room code (incomplete? invalid? outdated?)
+无法解析传入的房间代码（不完整？无效？已过时？）
+Successfully imported room code
+房间代码导入成功
+Export room code
+导出房间代码
+Failed to copy room code to clipboard
+复制房间代码到剪贴板失败
+Room code copied to clipboard
+房间代码已复制到剪贴板
 Create
 创建
 Save

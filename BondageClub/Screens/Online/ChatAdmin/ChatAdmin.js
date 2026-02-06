@@ -234,7 +234,7 @@ function ChatAdminRun() {
 	// Draw the main controls
 	DrawText(TextGet(ChatAdminMessage), 675, 910, "Black", "Gray");
 	DrawText(TextGet("RoomName"), 250, 105, "Black", "Gray");
-	ElementPosition("InputName", 815, 100, 820);
+	ElementPosition("InputName", 780, 100, 750);
 	DrawText(TextGet("RoomLanguage"), 250, 190, "Black", "Gray");
 	// FIXME: technically the `TextGet` is only needed for the "All language" cases,
 	// but we also support Spanish as a room language which isn't actually in the translation files
@@ -242,7 +242,7 @@ function ChatAdminRun() {
 	const languageBGColor = canEdit && MouseIn(405, 157, 300, 60) ? "Cyan" : ButtonBackground;
 	DrawButton(405, 157, 300, 60, languageLabel, languageBGColor, null, null, !ChatRoomPlayerIsAdmin());
 	DrawText(TextGet("RoomSize"), 850, 190, "Black", "Gray");
-	ElementPosition("InputSize", 1099, 185, 250);
+	ElementPosition("InputSize", 1064, 185, 180);
 	DrawText(TextGet("RoomDescription"), 675, 250, "Black", "Gray");
 	ElementPosition("InputDescription", 675, 355, 1100, 170);
 	DrawText(TextGet("RoomAdminList"), 295, 475, "Black", "Gray");
@@ -259,6 +259,13 @@ function ChatAdminRun() {
 	DrawButton(680, 816, 165, 60, TextGet("QuickaddWhitelistWhitelist"), ButtonBackground, null, null, !canEdit);
 	DrawButton(885, 746, 340, 60, TextGet("QuickaddBanBlacklist"), ButtonBackground, null, null, !canEdit);
 	DrawButton(885, 816, 340, 60, TextGet("QuickaddBanGhostlist"), ButtonBackground, null, null, !canEdit);
+
+	// Import & export buttons
+	DrawButton(1174, 76, 48, 48, "", ButtonBackground, undefined, TextGet("UploadTooltip"), !canEdit);
+	DrawButton(1174, 160, 48, 48, "", "White", undefined, TextGet("DownloadTooltip"));
+	// We draw the icons separately to allow for resizing.
+	DrawImageResize("Icons/Upload.png", 1176, 78, 44, 44);
+	DrawImageResize("Icons/Download.png", 1176, 162, 44, 44);
 
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + adminData.Background + ".jpg", 1300, 75, 600, 350);
@@ -316,6 +323,56 @@ function ChatAdminClick() {
 	// When the user cancels/exits
 	if (MouseIn(1625, 840, 250, 65)) {
 		ChatAdminExit();
+		return;
+	}
+
+	// Import & export buttons
+	if (MouseIn(1174, 76, 48, 48)) { // Upload (Import)
+		if (!ChatAdminCanEdit()) return;
+		
+		const code = prompt(TextGet("UploadPrompt"))?.trim();
+		if (code == null) return; // User cancelled the prompt
+		if (!code) {
+			ChatAdminMessage = "UploadInvalidCode";
+			return;
+		}
+
+		const data = CommonJSONParse(LZString.decompressFromBase64(code));
+		if (!data || !ChatEditorValidateAdminSettings(data)) {
+			ChatAdminMessage = "UploadInvalidCode";
+			return;
+		}
+
+		ElementValue("InputName", data.Name);
+		ElementValue("InputDescription", data.Description);
+		ElementValue("InputSize", data.Limit.toString());
+		ElementValue("InputAdminList", CommonConvertArrayToString(data.Admin));
+		ElementValue("InputWhitelist", CommonConvertArrayToString(data.Whitelist));
+		ElementValue("InputBanList", CommonConvertArrayToString(data.Ban));
+
+		ChatAdminData.Language = data.Language;
+		ChatAdminData.Background = data.Background;
+		ChatAdminData.Limit = data.Limit;
+		ChatAdminData.BlockCategory = data.BlockCategory;
+		ChatAdminData.Game = data.Game;
+		ChatAdminData.MapData = data.MapData;
+		ChatAdminData.Custom = data.Custom;
+
+		ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex(elem => elem.length === data.Visibility.length && elem.every(role => data.Visibility.includes(role)));
+		ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex(elem => elem.length === data.Access.length && elem.every(role => data.Access.includes(role)));
+		// This shouldn't happen due to validation, but just in case...
+		if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = 0;
+		if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
+
+		ChatAdminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
+		ChatAdminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
+
+		ChatAdminMessage = "UploadSuccess";
+	} else if (MouseIn(1174, 160, 48, 48)) { // Download (Export)
+		const code = LZString.compressToBase64(JSON.stringify(ChatEditorGetAdminSettings()));
+		navigator.clipboard.writeText(code)
+			.then(() => ChatAdminMessage = "DownloadSuccess")
+			.catch(() => ChatAdminMessage = "DownloadFailed");
 		return;
 	}
 
@@ -461,16 +518,51 @@ function ChatAdminExit() {
 }
 
 /**
- * Sends the chat room data packet to the server. The response will be handled by ChatAdminResponse once it is received
- * @returns {void} - Nothing
+ * Validates whether the given settings is in the correct format for a ChatRoomAdminSettings object
+ * @param {unknown} settings - The settings to validate
+ * @returns {settings is ChatRoomAdminSettings} - True if the settings are valid, false otherwise
  */
-function ChatEditorUpdateRoom() {
-	if (!ChatAdminData) {
-		return;
-	}
+function ChatEditorValidateAdminSettings(settings) {
+	if (typeof settings !== "object" || settings === null) return false;
+	const s = /** @type {ChatRoomAdminSettings} */ (settings);
+	const isMemberNumber = (n) => typeof n === "number" && Number.isInteger(n) && n > 0;
+	return typeof s.Name === "string" && /^[\x20-\x7E]+$/.test(s.Name)
+		&& typeof s.Language === "string" && ServerChatRoomSupportedLanguages.includes(s.Language)
+		&& typeof s.Description === "string" && s.Description.length <= ServerChatRoomDescriptionMaxLength
+		&& typeof s.Background === "string" && ChatAdminBackgroundList.indexOf(s.Background) >= 0
+		&& typeof s.Limit === "number" && Number.isInteger(s.Limit) && s.Limit >= 2 && s.Limit <= 20
+		&& Array.isArray(s.Admin) && s.Admin.every(isMemberNumber)
+		&& Array.isArray(s.Whitelist) && s.Whitelist.every(isMemberNumber)
+		&& Array.isArray(s.Ban) && s.Ban.every(isMemberNumber)
+		&& Array.isArray(s.BlockCategory) && s.BlockCategory.every(cat => ChatBlockItemList.includes(cat))
+		&& typeof s.Game === "string" && ChatAdminGameList.includes(s.Game)
+		&& Array.isArray(s.Visibility) && ChatAdminVisibilityModeValues.some(v => 
+			v.length === s.Visibility.length &&
+			v.every(role => s.Visibility.includes(role))
+		)
+		&& Array.isArray(s.Access) && ChatAdminAccessModeValues.some(v => 
+			v.length === s.Access.length &&
+			v.every(role => s.Access.includes(role))
+		)
+		&& typeof s.MapData === "object" && (
+			s.MapData !== null &&
+			typeof s.MapData.Type === "string" &&
+			ChatRoomMapViewTypeList.includes(s.MapData.Type) &&
+			(s.MapData.Fog === undefined || typeof s.MapData.Fog === "boolean") &&
+			// Not validating Tiles/Objects further as this is the standard set by ChatRoomMapViewPaste
+			(s.MapData.Tiles === undefined || typeof s.MapData.Tiles === "string") &&
+			(s.MapData.Objects === undefined || typeof s.MapData.Objects === "string")
+		)
+}
 
-	/** @type {ChatRoomAdminSettings} */
-	const UpdatedRoom = {
+/**
+ * Gathers the data from the editor inputs and returns it as a ChatRoomAdminSettings object
+ * @returns {ChatRoomAdminSettings | undefined} - The chat room settings based on the current editor inputs, or undefined if ChatAdminData is not set
+ */
+function ChatEditorGetAdminSettings() {
+	if (!ChatAdminData) return;
+
+	return {
 		Name: ElementValue("InputName").trim(),
 		Language: ChatAdminData.Language,
 		Description: ElementValue("InputDescription").trim(),
@@ -485,9 +577,19 @@ function ChatEditorUpdateRoom() {
 		Access: ChatAdminData.Access,
 		MapData: ChatAdminData.MapData,
 		Custom: ChatAdminData.Custom
-	};
+	}
+}
+
+/**
+ * Sends the chat room data packet to the server. The response will be handled by ChatAdminResponse once it is received
+ * @returns {void} - Nothing
+ */
+function ChatEditorUpdateRoom() {
+	const UpdatedRoom = ChatEditorGetAdminSettings();
+	if (!UpdatedRoom) return;
 	if (UpdatedRoom.MapData.Type !== "Never") {
-		UpdatedRoom.MapData = Object.assign(ChatRoomMapViewInitialize(UpdatedRoom.MapData.Type), UpdatedRoom.MapData);
+		if (!(UpdatedRoom.MapData.Tiles && UpdatedRoom.MapData.Objects))
+			UpdatedRoom.MapData = Object.assign(ChatRoomMapViewInitialize(UpdatedRoom.MapData.Type), UpdatedRoom.MapData);
 	}
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 	ChatAdminMessage = "UpdatingRoom";
@@ -546,7 +648,10 @@ function ChatEditorCreateRoom() {
 		Custom: ChatAdminData.Custom
 	};
 	if (ChatAdminData.MapData.Type !== "Never") {
-		NewRoom.MapData = ChatRoomMapViewInitialize(ChatAdminData.MapData.Type);
+		if (ChatAdminData.MapData.Tiles && ChatAdminData.MapData.Objects)
+			NewRoom.MapData = ChatAdminData.MapData;
+		else
+			NewRoom.MapData = ChatRoomMapViewInitialize(ChatAdminData.MapData.Type);
 	}
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatAdminMessage = "CreatingRoom";

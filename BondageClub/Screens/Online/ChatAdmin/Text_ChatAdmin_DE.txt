@@ -54,6 +54,20 @@ Admin
 Verwaltung
 Unlisted
 Ungelistet
+Import room code
+Raumcode importieren
+Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+Bitte fügen Sie den Raumcode ein. Das Importieren von Raumcodes überschreibt bestehende Einstellungen. Sind Sie sicher?
+Failed to parse the passed room code (incomplete? invalid? outdated?)
+Fehler beim Parsen des übergebenen Raumcodes (unvollständig? ungültig? veraltet?)
+Successfully imported room code
+Raumcode erfolgreich importiert
+Export room code
+Raumcode exportieren
+Failed to copy room code to clipboard
+Fehler beim Kopieren des Raumcodes in die Zwischenablage
+Room code copied to clipboard
+Raumcode in die Zwischenablage kopiert
 Create
 Erstellen
 Save

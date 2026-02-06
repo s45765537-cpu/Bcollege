@@ -30,6 +30,13 @@ AccessModeHeader,Access
 AccessModePUBLIC,Public
 AccessModeADMIN_WHITELIST,Admin + Whitelist
 AccessModeADMIN,Admin
+UploadTooltip,Import room code
+UploadPrompt,Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+UploadInvalidCode,Failed to parse the passed room code (incomplete? invalid? outdated?)
+UploadSuccess,Successfully imported room code
+DownloadTooltip,Export room code
+DownloadFailed,Failed to copy room code to clipboard
+DownloadSuccess,Room code copied to clipboard
 Create,Create
 Save,Save
 Exit,Exit
