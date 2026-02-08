@@ -63977,7 +63977,7 @@ var AssetFemale3DCG = [
 				Difficulty: -10,
 				Time: 5,
 				IsRestraint: false,
-				Effect: [E.Freeze, E.MapImmobile],
+				Effect: [E.Mounted, E.MapImmobile],
 				RemoveAtLogin: true,
 				FixedPosition: true,
 				Layer: [
