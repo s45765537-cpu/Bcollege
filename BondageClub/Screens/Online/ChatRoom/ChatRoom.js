@@ -4352,7 +4352,13 @@ function ChatRoomMessage(data) {
 	switch (data.Type) {
 		case "Action":
 			{
-				let text = AssetTextGet(msg);
+				let text;
+				if (msg.startsWith("GGTS")) {
+					text = AsylumGGTSGetMessage(msg);
+				}
+				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
+					text = AssetTextGet(msg);
+				}
 				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
 					text = InterfaceTextGet(msg);
 				}
