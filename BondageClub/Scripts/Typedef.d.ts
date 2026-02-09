@@ -621,6 +621,7 @@ interface AssetPoseMap {
 
 type AssetPoseCategory = keyof AssetPoseMap;
 type AssetPoseName = AssetPoseMap[keyof AssetPoseMap];
+type NullPoseType = null | ""; // XXX: we're not always consistent there
 
 /**
  * A record mapping pose names to the actually to-be drawn poses.
@@ -4164,7 +4165,7 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	G: string;
 	AG: AssetGroup;
 	L: string;
-	Pose: AssetPoseName;
+	Pose: AssetPoseName | NullPoseType;
 	LayerType: string;
 	BlinkExpression: string;
 	drawCanvas: DrawCanvasCallback;
@@ -4187,7 +4188,7 @@ interface DynamicBeforeDrawOverrides {
 	LayerType?: string;
 	L?: string;
 	AlphaMasks?: RectTuple[];
-	Pose?: AssetPoseName;
+	Pose?: AssetPoseName | NullPoseType;
 }
 
 type DynamicDrawTextEffect = "burn";
