@@ -266,20 +266,26 @@ function ServerDisconnect(data, close = false) {
  * @param {ServerAccountData} C
  */
 function ServerHandleRelog(C) {
-	// In relog mode, we jump back to the previous screen, keeping the current game flow
 	if (!RelogData) return false;
 	Player.CharacterID = C.ID.toString();
 	Player.OnlineID = C.ID.toString();
 	CurrentCharacter = RelogData.Character;
 
-	if (RelogData.ChatRoomName) {
-		// We can afford to drop the player into the lobby since its state is still valid
-		CommonSetScreen("Online", "ChatSearch");
-		ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
-	} else {
-		const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
-		CommonSetScreen(...screen);
-	}
+	// In relog mode, we jump back to the previous screen, keeping the current game flow
+	// For chatroom relogs, just drop the player into the lobby since its state should still be valid
+	const isChatRoomRelog = !!RelogData.ChatRoomName;
+	/** @type {ScreenSpecifier} */
+	const screen = isChatRoomRelog ? ["Online", "ChatSearch"] : /** @type {ScreenSpecifier} */ ([RelogData.Module, RelogData.Screen]);
+
+	// XXX: Using `.then()` here because I don't want asyncness to spread to LoginResponse just yet
+	CommonSetScreen(...screen).then(async () => {
+		if (isChatRoomRelog) {
+			const ret = await ServerRoomJoin(RelogData.ChatRoomName);
+			if (ret.err) {
+				console.error(ret.error);
+			}
+		}
+	});
 	return true;
 }
 

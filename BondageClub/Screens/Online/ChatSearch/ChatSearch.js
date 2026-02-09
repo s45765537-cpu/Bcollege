@@ -15,8 +15,11 @@ var ChatSearchBackgroundTagList = [];
 var ChatSearchResult = [];
 /** @type {ChatRoomSearchResult[]} */
 var ChatSearchHiddenResult = [];
-/** @type {ServerChatRoomSearchRequest | null} */
-var ChatSearchLastSearchDataJSON = null;
+/**
+ * @type {never}
+ * @deprecated Use {@link ServerRoomSearch()}
+ */
+var ChatSearchLastSearchDataJSON = /** @type {never} */ (null);
 var ChatSearchLastQuerySearchTime = 0;
 var ChatSearchLastQueryJoin = "";
 var ChatSearchLastQueryJoinTime = 0;
@@ -991,7 +994,6 @@ function ChatSearchExit(exitScreen = false) {
 	ChatSearchShowHiddenRoomsActive = false;
 	ChatSearchFilterUnhideConfirm = null;
 	ChatSearchPreviousActivePose = { ...Player.ActivePoseMapping };
-	ChatSearchLastSearchDataJSON = null;
 	ChatRoomSetLastChatRoom(null);
 	ElementRemove("InputSearch");
 	CommonSetScreen(...ChatSearchReturnScreen);
@@ -1925,9 +1927,9 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
 /**
  * Sends the search query data to the server. The response will be handled by ChatSearchResponse once it is received
  * @param {string} Query - The search term to look for
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function ChatSearchQuery(Query) {
+async function ChatSearchQuery(Query) {
 	if (ChatRoomJoinLeash !== "") {
 		Query = ChatRoomJoinLeash.toUpperCase().trim();
 	} else if (Player.ImmersionSettings.ReturnToChatRoom) {
@@ -1951,17 +1953,9 @@ function ChatSearchQuery(Query) {
 		MapTypes: Player.ChatSearchSettings.MapTypes ? [Player.ChatSearchSettings.MapTypes] : [],
 		SearchDescs: Player.ChatSearchSettings.SearchDescriptions,
 	};
-	const isEqual = CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData);
-
-	// Leashing between language filters
-	if (ChatRoomJoinLeash) SearchData.Language = "";
-
-	// Prevent spam searching the same thing.
-	if (!isEqual || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
-		ChatSearchLastQuerySearchTime = CommonTime();
-		ChatSearchLastSearchDataJSON = SearchData;
-		ChatSearchResult = [];
-		ServerSend("ChatRoomSearch", SearchData);
+	const res = await ServerRoomSearch(Query.toUpperCase().trim(), SearchData);
+	if (res.ok) {
+		ChatSearchResult = ChatSearchParseResponse(res.value ?? []);
 	}
 }
 
