@@ -238,9 +238,10 @@ function CraftingCheckEffectsPrerequisite(craft, effect) {
  */
 function CraftingPropertyUpdateButtons(craft) {
 	for (const name of Array.from(CraftingPropertyMap.keys())) {
-		const disabled = !CraftingCheckEffectsPrerequisite({...craft, Effects: {...craft.Effects, [name]: (craft.Effects?.[name] ?? 0) + 1}}, name) || !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
+		const disabled = !CraftingCheckEffectsPrerequisite({...craft, Effects: {...craft.Effects, [name]: (craft.Effects?.[name] ?? 0) + 1}}, name) || craft.Asset && !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
 		document.getElementById(`crafting-property-button-${name}-add`)?.toggleAttribute("disabled", disabled);
 	}
+	document.getElementById("crafting-property-button")?.toggleAttribute("disabled", craft.Asset == null);
 }
 /**
  * An enum with status codes for crafting validation.
