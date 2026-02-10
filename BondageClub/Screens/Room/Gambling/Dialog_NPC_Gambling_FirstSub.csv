@@ -80,7 +80,7 @@ RemoveSuspensionHempRope,,,"Finally, I'm back on firm ground.",,
 72,0,(Shake your head.),"Oh, you want to stay as you are? Fine with me.",,!Player.CanTalk()
 81,0,"Yeah, I won!",You were lucky. I guess you get to tie me up.,"SimpleDiceController(""win"")",ShowDiceStack()
 82,0,Dammit! You win.,I want to test some items...,"SimpleDiceController(""lost"")",ShowDiceStack()
-83,0,It's a draw., I'll definitely win next time!,"SimpleDiceController(""eqaul"")",ShowDiceStack()
+83,0,It's a draw., I'll definitely win next time!,"SimpleDiceController(""equal"")",ShowDiceStack()
 103,,I want to add a die.,(She gives you another die.),"TwentyOneController(""add"")",ShowDiceStack()
 103,,3 points are enough.,My roll.,"TwentyOneController(""fin"")",ShowDiceStack()
 104,,I want to add a die.,(She gives you another die.),"TwentyOneController(""add"")",ShowDiceStack()
