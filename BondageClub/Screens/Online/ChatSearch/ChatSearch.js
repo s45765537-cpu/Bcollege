@@ -806,7 +806,9 @@ function ChatSearchResize() {
 	if (document.getElementById("chat-search-room-page")) ElementPositionFixed("chat-search-room-page", (2000 - 1200) / 2, (1000 - 700) / 2, 1200, 700);
 	document.querySelectorAll('.chat-search-room-title').forEach(ElementFitText);
 	ElementPositionFixed(ChatSearchFilterHelpScreenElement, 25, 135, 1900, 800);
-	ElementPositionFixed(ChatSearchFilterUnhideConfirmElement, 50, 135, 1900, 800);
+	if (ChatSearchFilterUnhideConfirmElement) {
+		ElementPositionFixed(ChatSearchFilterUnhideConfirmElement, 50, 135, 1900, 800);
+	}
 }
 
 /** @type {ScreenUnloadHandler} */
