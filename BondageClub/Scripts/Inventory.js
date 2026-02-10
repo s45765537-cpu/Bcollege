@@ -1326,7 +1326,7 @@ function InventoryFamilyOnlyItem(Item) {
 * @returns {boolean} - TRUE if one restraint with an extra lock is found
 */
 function InventoryCharacterHasLockedRestraint(C) {
-	return C.Appearance.some(item => item.Asset.IsRestraint && !InventoryGetLock(item));
+	return C.Appearance.some(item => item.Asset.IsRestraint && InventoryGetLock(item));
 }
 
 /**
