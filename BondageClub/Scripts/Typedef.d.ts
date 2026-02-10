@@ -4576,8 +4576,8 @@ interface ItemColorStateType {
 	pageCount: number;
 	/** Whether the opacity is user-configurable */
 	editOpacity: boolean;
-	drawImport: () => Promise<string>;
-	drawExport: (data: string) => Promise<void>;
+	drawImport?: () => Promise<string>;
+	drawExport?: (data: string) => Promise<void>;
 }
 
 /** A hexadecimal color code */
