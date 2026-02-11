@@ -32,6 +32,7 @@ var GamblingIllegalChange = false;
 var GamblingToothpickCount = 0;
 var GamblingNpcDiceShown = false;
 var GamblingPlayerDiceShown = false;
+var GamblingToothpickStackShown = false;
 
 /**
  * Checks if the player is helpless (maids disabled) or not.
@@ -180,6 +181,7 @@ async function GamblingLoad() {
 	GamblingIllegalChange = false;
 	GamblingNpcDiceShown = false;
 	GamblingPlayerDiceShown = false;
+	GamblingToothpickStackShown = false;
 
 	// Rescue mission load
 	if ((MaidQuartersCurrentRescue == "Gambling") && !MaidQuartersCurrentRescueStarted) {
@@ -211,6 +213,7 @@ async function GamblingLoad() {
 function GamblingRun() {
 	GamblingPlayerDiceShown = false;
 	GamblingNpcDiceShown = false;
+	GamblingToothpickStackShown = false;
 	DrawCharacter(GamblingFirstSub, 250, 0, 1);
 	DrawCharacter(Player, 750, 0, 1);
 	if ((ReputationGet("Gambling") > 20) || MaidQuartersCurrentRescue == "Gambling") DrawCharacter(GamblingSecondSub, 1250, 0, 1);
@@ -282,7 +285,15 @@ function GamblingDialogDraw() {
 		}
 	}
 
-	if (GamblingPlayerDiceShown || GamblingNpcDiceShown) {
+	// Toothpick part
+	if (GamblingToothpickStackShown) {
+		for (let i = 0; i < GamblingToothpickCount; i++) {
+			DrawImageResize("Screens/Room/Gambling/toothpick.png", 410, 45 + 26 * i, 160, 7);
+		}
+		DrawText(GamblingToothpickCount.toString(), 490, 25, "white", "black");
+	}
+
+	if (GamblingPlayerDiceShown || GamblingNpcDiceShown || GamblingToothpickStackShown) {
 		// Recursively add us back into the hover queue, but make sure to do so *once* we're done as to not cause recursion
 		setTimeout(() => {
 			if (!DrawHoverElements.includes(GamblingDialogDraw)) {
@@ -364,10 +375,8 @@ function GamblingSimpleDiceController(SimpleDiceState) {
  * @returns {true} - Always true
  */
 function GamblingShowToothpickStack() {
-	for (let i = 0; i < GamblingToothpickCount; i++) {
-		DrawImageResize("Screens/Room/Gambling/toothpick.png", 410, 45 + 26 * i, 160, 7);
-	}
-	DrawText(GamblingToothpickCount.toString(), 490, 25, "white", "black");
+	GamblingToothpickStackShown = true;
+	GamblingDialogDraw();
 	return true;
 }
 
