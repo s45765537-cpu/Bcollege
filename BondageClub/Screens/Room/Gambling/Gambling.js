@@ -449,8 +449,6 @@ function GamblingTwentyOneController(TwentyOneState) {
 		// Start a New Game
 		Player.Appearance = GamblingAppearancePlayer.slice();
 		GamblingFirstSub.Appearance = GamblingAppearanceFirst.slice();
-		GamblingPlayerSubState = GamblingDressingLevel(Player);
-		GamblingNpcSubState = 0;
 		GamblingPlayerDiceStack = [];
 		GamblingNpcDiceStack = [];
 		CharacterRelease(Player);
@@ -467,12 +465,10 @@ function GamblingTwentyOneController(TwentyOneState) {
 		GamblingPlayerRollDice();
 		GamblingFirstSub.Stage = (100 + GamblingDiceStackSum(GamblingPlayerDiceStack)).toString();
 		if (GamblingDiceStackSum(GamblingPlayerDiceStack) > 21) {
-			GamblingPlayerSubState = GamblingPlayerSubState +1;
-			GamblingFirstSub.Stage = (170 + GamblingPlayerSubState).toString();
+			GamblingFirstSub.Stage = (170 + GamblingDressingLevel(Player)).toString();
 		} else if (GamblingDiceStackSum(GamblingPlayerDiceStack) == 21) {
 			//The Player win automatilly
-			GamblingNpcSubState = GamblingNpcSubState +1;
-			GamblingFirstSub.Stage = (160 + GamblingNpcSubState).toString();
+			GamblingFirstSub.Stage = (160 + GamblingDressingLevel(GamblingFirstSub)).toString();
 		}
 
 	} else if (TwentyOneState == "fin") {
@@ -482,17 +478,15 @@ function GamblingTwentyOneController(TwentyOneState) {
 			GamblingNpcRollDice();
 		}
 		if (GamblingDiceStackSum(GamblingNpcDiceStack) > GamblingDiceStackSum(GamblingPlayerDiceStack) && GamblingDiceStackSum(GamblingNpcDiceStack) < 22) {
-			GamblingPlayerSubState = GamblingPlayerSubState +1;
-			GamblingFirstSub.Stage = (170 + GamblingPlayerSubState).toString();
+			GamblingFirstSub.Stage = (170 + GamblingDressingLevel(Player)).toString();
 		} else {
-			GamblingNpcSubState = GamblingNpcSubState +1;
-			GamblingFirstSub.Stage = (160 + GamblingNpcSubState).toString();
+			GamblingFirstSub.Stage = (160 + GamblingDressingLevel(GamblingFirstSub)).toString();
 		}
 
 	} else if (TwentyOneState == "win_next") {
 		//The winner stiped the loser
 		//the next turn started automaticly
-		if (GamblingStripTied(GamblingFirstSub, GamblingNpcSubState)) {
+		if (GamblingStripTied(GamblingFirstSub, GamblingDressingLevel(GamblingFirstSub))) {
 			CharacterRelease(Player);
 			Player.Appearance = GamblingAppearancePlayer.slice();
 			CharacterRefresh(Player);
@@ -513,7 +507,7 @@ function GamblingTwentyOneController(TwentyOneState) {
 	} else if (TwentyOneState == "lost_next") {
 		//the loser Player ist stipped by winner
 		//the next turn started automaticly
-		if (GamblingStripTied(Player, GamblingPlayerSubState)) {
+		if (GamblingStripTied(Player, GamblingDressingLevel(Player))) {
 			CharacterRelease(GamblingFirstSub);
 			GamblingFirstSub.Appearance = GamblingAppearanceFirst.slice();
 			CharacterRefresh(GamblingFirstSub);
@@ -794,47 +788,79 @@ function GamblingDaredSixController(DaredSixState) {
 
 /**
  * Get the dressinglevel for characters
- * @param {Character} C - The character to check
- * @returns {number} - Returns 0 if the character is naked, 2, if she's in her underwear, 3 if she's still wearing shoes. 1 otherwise
+ * @param {Character} char - The character to check
+ * @returns {number} - Returns a number that indicates at what stage of being tied the character is
  */
-function GamblingDressingLevel(C) {
-	if (CharacterIsNaked(C)) return 3;
-	if (CharacterIsInUnderwear(C)) return 2;
-	for (let I = 0; I < C.Appearance.length; I++)
-		if (C.Appearance[I].Asset.Group.Name == "Shoes")
-			return 0;
-	return 1;
+function GamblingDressingLevel(char) {
+	if (InventoryHasItemInAnyGroup(char, ["Hat", "Shoes", "Gloves"])) return 1; // Accessories
+	if (InventoryHasItemInAnyGroup(char, ["Cloth", "ClothLower"])) return 2; // Clothes
+	if (InventoryHasItemInAnyGroup(char, ["Bra", "Panties", "Socks"])) return 3; // Underwear
+	if (!InventoryHasItemInAnyGroup(char, ["ItemLegs", "ItemFeet"])) return 4; // Legs restrained
+	if (!InventoryHasItemInAnyGroup(char, ["ItemArms"])) return 5; // Arms restrained
+	if (!InventoryHasItemInAnyGroup(char, ["ItemMouth"])) return 6; // Gagged
+	return 6;
 }
 
 /**
- *  Strips or ties a caracter that lost a turn
- * @param {Character} gstCarachter - The character to tie
- * @param {number} gstLevel - The current game level
+ * Strips or ties a caracter that lost a turn
+ * @param {Character} char - The character to tie
+ * @param {number} level - The current game level
  * @returns {boolean} - Returns true, if the character lost, false otherwise
  */
-function GamblingStripTied(gstCarachter, gstLevel) {
-	var r = false;
-	if (gstLevel == 1) {
-		InventoryRemove(gstCarachter, "Hat");
-		InventoryRemove(gstCarachter, "Shoes");
-		InventoryRemove(gstCarachter, "Gloves");
-	} else if (gstLevel == 2) {
-		InventoryRemove(gstCarachter, "Cloth");
-		InventoryRemove(gstCarachter, "ClothLower");
-	} else if (gstLevel == 3) {
-		InventoryRemove(gstCarachter, "Bra");
-		InventoryRemove(gstCarachter, "Panties");
-		InventoryRemove(gstCarachter, "Socks");
-	} else if (gstLevel == 4) {
-		InventoryWearRandom(gstCarachter, "ItemLegs");
-		InventoryWearRandom(gstCarachter, "ItemFeet");
-	} else if (gstLevel == 5) {
-		InventoryWearRandom(gstCarachter, "ItemArms");
-	} else if (gstLevel == 6) {
-		InventoryWearRandom(gstCarachter, "ItemMouth");
-		r = true;
+function GamblingStripTied(char, level) {
+	if (level == 1) {
+		if (InventoryHasItemInAnyGroup(char, ["Hat", "Shoes", "Gloves"])) {
+			InventoryRemove(char, "Hat");
+			InventoryRemove(char, "Shoes");
+			InventoryRemove(char, "Gloves");
+			return false;
+		} else {
+			level = 2;
+		}
 	}
-	return r;
+	if (level == 2) {
+		if (InventoryHasItemInAnyGroup(char, ["Cloth", "ClothLower"])) {
+			InventoryRemove(char, "Cloth");
+			InventoryRemove(char, "ClothLower");
+			return false;
+		} else {
+			level = 3;
+		}
+	}
+	if (level == 3) {
+		if (InventoryHasItemInAnyGroup(char, ["Bra", "Panties", "Socks"])) {
+			InventoryRemove(char, "Bra");
+			InventoryRemove(char, "Panties");
+			InventoryRemove(char, "Socks");
+			return false;
+		} else {
+			level = 4;
+		}
+	}
+	if (level == 4) {
+		if (!InventoryHasItemInAnyGroup(char, ["ItemLegs", "ItemFeet"])) {
+			InventoryWearRandom(char, "ItemLegs");
+			InventoryWearRandom(char, "ItemFeet");
+			return false;
+		} else {
+			level = 5;
+		}
+	}
+	if (level == 5) {
+		if (!InventoryHasItemInAnyGroup(char, ["ItemArms"])) {
+			InventoryWearRandom(char, "ItemArms");
+			return false;
+		} else {
+			level = 6;
+		}
+	}
+	if (level == 6) {
+		if (!InventoryHasItemInAnyGroup(char, ["ItemMouth"])) {
+			InventoryWearRandom(char, "ItemMouth");
+			return true;
+		}
+	}
+	return true;
 
 }
 
