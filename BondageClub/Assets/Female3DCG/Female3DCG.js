@@ -4345,6 +4345,8 @@ var AssetFemale3DCG = [
 			{ Name: "ZamStickII", Left: 195, Top: 258 },
 			{ Name: "SkullDecal", Left: 215, Top: 278 },
 			{ Name: "CyberTechCorp", Left: 201, Top: 258 },
+			{ Name: "SpreaderBar", Left: 205, Top: 270 },
+			{ Name: "FireBite", Left: 218, Top: 258 },
 		],
 	},
 	// #endregion
