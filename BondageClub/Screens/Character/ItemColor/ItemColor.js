@@ -584,10 +584,7 @@ function ItemColorGetGroups(item, colorableLayers) {
 			};
 		})
 		.sort((g1, g2) => g1.colorIndex - g2.colorIndex);
-
-	if (item.Asset.AllowColorizeAll) {
-		colorGroups.unshift({ name: null, layers: [], colorIndex: -1 });
-	}
+	colorGroups.unshift({ name: null, layers: [], colorIndex: -1 });
 	return colorGroups;
 }
 
