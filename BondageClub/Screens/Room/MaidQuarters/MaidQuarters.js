@@ -17,7 +17,9 @@ var MaidQuartersIsHeadMaid = false;
 var MaidQuartersSelfBondageMaidDrinksAccepted = false;
 var MaidQuartersSelfBondageMaidCleaningAccepted = false;
 var MaidQuartersDominantRep = 0;
+/** @type {"" | MaidQuartersMissionType} */
 var MaidQuartersCurrentRescue = "";
+/** @type {MaidQuartersMissionType[]} */
 var MaidQuartersRescueList = ["IntroductionClass", "ShibariDojo", "Shop", "Gambling"]; // "Prison" should be re-added when git4nick code is ready
 var MaidQuartersRescueStage = ["310", "320", "330", "340", "350"];
 var MaidQuartersCurrentRescueStarted = false;
