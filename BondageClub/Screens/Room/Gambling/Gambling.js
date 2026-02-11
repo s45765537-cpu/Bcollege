@@ -30,6 +30,8 @@ var GamblingAppearancePlayer = /** @type {never} */ (null);
 var GamblingIllegalChange = false;
 /** available Toothpicks */
 var GamblingToothpickCount = 0;
+var GamblingNpcDiceShown = false;
+var GamblingPlayerDiceShown = false;
 
 /**
  * Checks if the player is helpless (maids disabled) or not.
@@ -176,6 +178,8 @@ async function GamblingLoad() {
 
 	GamblingAppearancePlayer = Player.Appearance.slice();
 	GamblingIllegalChange = false;
+	GamblingNpcDiceShown = false;
+	GamblingPlayerDiceShown = false;
 
 	// Rescue mission load
 	if ((MaidQuartersCurrentRescue == "Gambling") && !MaidQuartersCurrentRescueStarted) {
@@ -205,6 +209,8 @@ async function GamblingLoad() {
  * @returns {void} - Nothing
  */
 function GamblingRun() {
+	GamblingPlayerDiceShown = false;
+	GamblingNpcDiceShown = false;
 	DrawCharacter(GamblingFirstSub, 250, 0, 1);
 	DrawCharacter(Player, 750, 0, 1);
 	if ((ReputationGet("Gambling") > 20) || MaidQuartersCurrentRescue == "Gambling") DrawCharacter(GamblingSecondSub, 1250, 0, 1);
@@ -229,39 +235,61 @@ function GamblingClick() {
 }
 
 /**
- * Paint the stack of dice, the sum of ponits and player's money
+ * Enable the rendering of the player dice info
  * @returns {true} - Always true
  */
 function GamblingShowDiceStack() {
-	var j = 0;
-	for (let i = GamblingPlayerDiceStack.length; i > 0 ; i--) {
-		DrawImageResize("Screens/Room/Gambling/dice_" + GamblingPlayerDiceStack[i - 1] + ".png", 25, (25 + j * 60), 60, 60);
-		j++;
-	}
-	if (GamblingShowDiceSum) {
-		DrawText(GamblingDiceStackSum(GamblingPlayerDiceStack).toString(), 125, 55, "white", "black");
-	}
-	if (GamblingShowMoney) {
-		DrawText(Player.Money.toString() + " $", 175, 125, "white", "black");
-	}
-	j = 0;
-	for (let i = GamblingNpcDiceStack.length; i > 0 ; i--) {
-		DrawImageResize("Screens/Room/Gambling/dice_" + GamblingNpcDiceStack[i - 1] + ".png", 525, (25 + j * 60), 60, 60);
-		j++;
-	}
-	if (GamblingShowDiceSum) {
-		DrawText(GamblingDiceStackSum(GamblingNpcDiceStack).toString(), 625, 55, "white", "black");
-	}
+	GamblingPlayerDiceShown = true;
+	GamblingNpcDiceShown = true;
+	GamblingDialogDraw();
 	return true;
 }
 
 /**
- * Paint the dice for the NPC
+ * Enable the rendering for the NPC dice
  * @returns {true} - Always true
  */
 function GamblingShowNpcDice() {
-	DrawImageResize("Screens/Room/Gambling/dice_" + GamblingNpcDiceStack[GamblingNpcDiceStack.length - 1] + ".png", 525, 25, 60, 60);
+	GamblingNpcDiceShown = true;
+	GamblingDialogDraw();
 	return true;
+}
+
+/**
+ * Paint the stack of dice, the sum of points and player's money
+ */
+function GamblingDialogDraw() {
+	// Player info part
+	if (GamblingPlayerDiceShown) {
+		for (let i = GamblingPlayerDiceStack.length; i > 0; i--) {
+			DrawImageResize("Screens/Room/Gambling/dice_" + GamblingPlayerDiceStack[i - 1] + ".png", 25, (25 + (GamblingPlayerDiceStack.length - i) * 60), 60, 60);
+		}
+		if (GamblingShowDiceSum && GamblingPlayerDiceStack.length) {
+			DrawText(GamblingDiceStackSum(GamblingPlayerDiceStack).toString(), 125, 55, "white", "black");
+		}
+	}
+	if (GamblingShowMoney) {
+		DrawText(Player.Money.toString() + " $", 175, 125, "white", "black");
+	}
+
+	// NPC part
+	if (GamblingNpcDiceShown) {
+		for (let i = GamblingNpcDiceStack.length; i > 0; i--) {
+			DrawImageResize("Screens/Room/Gambling/dice_" + GamblingNpcDiceStack[i - 1] + ".png", 525, (25 + (GamblingNpcDiceStack.length - i) * 60), 60, 60);
+		}
+		if (GamblingShowDiceSum && GamblingNpcDiceStack.length) {
+			DrawText(GamblingDiceStackSum(GamblingNpcDiceStack).toString(), 625, 55, "white", "black");
+		}
+	}
+
+	if (GamblingPlayerDiceShown || GamblingNpcDiceShown) {
+		// Recursively add us back into the hover queue, but make sure to do so *once* we're done as to not cause recursion
+		setTimeout(() => {
+			if (!DrawHoverElements.includes(GamblingDialogDraw)) {
+				DrawHoverElements.push(GamblingDialogDraw);
+			}
+		}, 0);
+	}
 }
 
 /**
@@ -315,13 +343,19 @@ function GamblingSimpleDiceController(SimpleDiceState) {
 	} else if (SimpleDiceState == "win") {
 		GamblingFirstSub.Stage = "0";
 		ReputationProgress("Gambling", 1);
+		GamblingNpcDiceShown = false;
+		GamblingPlayerDiceShown = false;
 	} else if (SimpleDiceState == "lost") {
 		InventoryWearRandom(Player, "ItemArms");
 		GamblingFirstSub.Stage = "0";
+		GamblingNpcDiceShown = false;
+		GamblingPlayerDiceShown = false;
 	} else if (SimpleDiceState == "equal") {
 		InventoryRemove(Player, "ItemArms");
 		InventoryRemove(GamblingFirstSub, "ItemArms");
 		GamblingFirstSub.Stage = "0";
+		GamblingNpcDiceShown = false;
+		GamblingPlayerDiceShown = false;
 	}
 }
 
@@ -814,10 +848,11 @@ function GamblingAnnoyGamblingFirstSub() {
 
 /**
  * Uses an activity on the player or releases her
- * @param {"new"| "next" } ReleaseState - The current state of the release process
+ * @param {"new"| "next" | "end"} ReleaseState - The current state of the release process
+ * @param {string} [ReputationChange]
  * @returns {void} - Nothing
  */
-function GamblingReleasePlayerGame(ReleaseState) {
+function GamblingReleasePlayerGame(ReleaseState, ReputationChange) {
 	if (ReleaseState == "new") {
 		GamblingNpcSubState = 0;
 		GamblingReleasePlayerGame("next");
@@ -856,6 +891,13 @@ function GamblingReleasePlayerGame(ReleaseState) {
 			GamblingNpcSubState = 0;
 			GamblingFirstSub.Stage = "ActivityRelease";
 		}
+	} else if (ReleaseState === "end") {
+		const rep = CommonParseInt(ReputationChange ?? "0", 10) ?? 0;
+		if (rep) {
+			DialogChangeReputation("Dominant", rep);
+		}
+		GamblingNpcDiceShown = false;
+		GamblingPlayerDiceShown = false;
 	}
 }
 
