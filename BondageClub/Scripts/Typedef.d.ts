@@ -4270,13 +4270,13 @@ interface CraftingItem {
 	MemberNumber?: number;
 	/** The custom item description. */
 	Description: string;
-	/** The crafted item properties mapped to their property strength. */
+	/** The crafted item effects mapped to their effect strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
-	/** 
-	* The crafted item property.
+	/**
+	* The crafted item effect.
 	* @deprecated superseded by {@link CraftingItem.Effects}
 	*/
-	Property: CraftingPropertyType
+	Property?: CraftingPropertyType;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
 	/** The name of the lock or, if absent, an empty string. */
