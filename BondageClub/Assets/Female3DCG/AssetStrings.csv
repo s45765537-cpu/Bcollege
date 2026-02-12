@@ -3881,7 +3881,7 @@ ItemDevicesTheHangingFrameInflated,Inflated
 ItemDevicesTheHangingFrameNormal,Frame
 ItemDevicesTheHangingFrameSelect,Select option
 ItemDevicesTheHangingFrameSetInflated,SourceCharacter adjusts DestinationCharacter Hanging Frame to inflated frame.
-ItemDevicesTheHangingFrameSetNormal,SourceCharacter adjusts DestinationCharacter Hanging Frame to standart frame.
+ItemDevicesTheHangingFrameSetNormal,SourceCharacter adjusts DestinationCharacter Hanging Frame to standard frame.
 ItemDevicesTrolleyClosed,Closed
 ItemDevicesTrolleyOpen,Open
 ItemDevicesTrolleySelect,Select Options
