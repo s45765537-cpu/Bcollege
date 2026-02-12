@@ -138,8 +138,8 @@ Crafter: MemberName (MemberNumber)
 Crafter: MemberName (MemberNumber)
 Name: CraftName
 Name: CraftName
-Property: CraftProperty
-Property: CraftProperty
+Effects: CraftProperty
+Effects: CraftProperty
 Current Mode:
 Current Mode:
 Decoding the lock...
@@ -474,10 +474,10 @@ Remove the suspension first.
 Remove the suspension first.
 Unzip the suit first.
 Unzip the suit first.
-, 
-, 
-, and 
-, und 
+,
+,
+, and
+, und
 View previous expressions
 vorherigen Ausdruck anzeigen
 Allowed Limited Item

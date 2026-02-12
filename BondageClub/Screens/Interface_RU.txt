@@ -138,7 +138,7 @@ Crafter: MemberName (MemberNumber)
 Создатель: MemberName (MemberNumber)
 Name: CraftName
 Имя: CraftName
-Property: CraftProperty
+Effects: CraftProperty
 Свойство: CraftProperty
 Current Mode:
 Текущий режим:
@@ -474,10 +474,10 @@ Remove the suspension first.
 Сначала снимите подвесы.
 Unzip the suit first.
 Сначала расстегните молнии на костюме.
-, 
-, 
-, and 
-, и 
+,
+,
+, and
+, и
 View previous expressions
 Просмотр предыдущих выражений
 Allowed Limited Item

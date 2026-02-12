@@ -16,9 +16,9 @@ Next
 下一页
 Reorder Slots
 重排栏位
-Click slots to select items to move: 
+Click slots to select items to move:
 选择要移动的栏位：
-Click slots to place selected items: 
+Click slots to place selected items:
 选择栏位放置选择物品：
 No lock
 无锁
@@ -30,7 +30,7 @@ Select an item
 选择一件物品
 Select an item for the GroupName
 选择一件物品用于GroupName
-Select an item property
+Select item effects
 选择一条物品特性
 Select a lock
 选择一种锁
@@ -40,7 +40,7 @@ Pick the item colors
 选择该物品的颜色
 Configure layer priority
 配置图层优先级
-Filter properties
+Filter effects
 筛选特性
 Filter items
 筛选物品
@@ -110,7 +110,7 @@ Heavy
 沉重
 Light
 轻盈
-No special property.
+No special effect.
 无特殊特性
 Harder to understand gagged speech.
 更难理解塞口说话。

@@ -156,7 +156,7 @@ Name: CraftName
 名称：CraftName
 Private: CraftPrivate
 私有: CraftPrivate
-Property: CraftProperty
+Effects: CraftProperty
 特性：CraftProperty
 Current Mode:
 目前的模式:
@@ -628,9 +628,9 @@ Remove the suspension first.
 先从悬挂上下来
 Unzip the suit first.
 先解开外套
-, 
+,
 ，
-, and 
+, and
 ，和
 View previous expressions
 查看之前表情
