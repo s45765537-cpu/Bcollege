@@ -98,7 +98,8 @@
 	text-indent: 1em hanging each-line;
 }
 
-.button-tooltip-craft {
+.button-tooltip-craft,
+.button-tooltip-craft ul {
 	list-style-type: none;
 	padding: unset;
 	margin: unset;
