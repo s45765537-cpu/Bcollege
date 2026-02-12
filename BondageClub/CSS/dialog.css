@@ -235,6 +235,10 @@
 	grid-area: dialog-crafted-property;
 }
 
+#dialog-crafted-property ul {
+	padding-left: 1em;
+}
+
 #dialog-crafted-private {
 	grid-area: dialog-crafted-private;
 }
