@@ -653,7 +653,7 @@ function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetect
  * @returns {boolean}
  */
 function InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom, ShockCooldown) {
-	return PunishStandup && CharacterIsKneelValid(C) && C.IsStanding() && isPlayerInChatRoom && ShockCooldown < CommonTime();
+	return PunishStandup && C.CanKneel(PoseChangeStatus.NEVER_WITHOUT_AID) && C.IsStanding() && isPlayerInChatRoom && ShockCooldown < CommonTime();
 }
 
 /**

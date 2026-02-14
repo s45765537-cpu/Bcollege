@@ -116,7 +116,7 @@ function InventoryPetSuitShockCollarCheckPunish(Item, C) {
 	} else if (PunishActivity && PropertyPunishActivityCheck("Kick")) {
 		// Punish the player if they Activity
 		return "Activity";
-	} else if (PunishStandup && CharacterIsKneelValid(C) && C.IsStanding() && ServerPlayerIsInChatRoom()) {
+	} else if (PunishStandup && C.CanKneel(PoseChangeStatus.NEVER_WITHOUT_AID) && C.IsStanding() && ServerPlayerIsInChatRoom()) {
 		// Punish the player if they stand up
 		return "StandUp";
 	} else if (PunishStruggle && Player.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 4 || StruggleLockPickProgressCurrentTries > 0)) {

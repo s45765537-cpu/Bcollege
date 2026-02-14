@@ -49,7 +49,7 @@ function InventoryObedienceBeltCheckPunish(Item, C) {
 		// Punish the player if they orgasm
 		Item.Property.NextShockTime = CurrentTime + FuturisticChastityBeltShockCooldownOrgasm; // Difficult to have two orgasms in 10 seconds
 		return "Orgasm";
-	} else if (PunishStandup && CharacterIsKneelValid(C) && C.IsStanding() && ServerPlayerIsInChatRoom()) {
+	} else if (PunishStandup && C.CanKneel(PoseChangeStatus.NEVER_WITHOUT_AID) && C.IsStanding() && ServerPlayerIsInChatRoom()) {
 		// Punish the player if they stand up
 		return "StandUp";
 	} else if (PunishStruggle && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
