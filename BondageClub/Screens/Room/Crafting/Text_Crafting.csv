@@ -14,12 +14,12 @@ SelectSlot,"Edit or craft a new item.  Page"
 SelectDestroy,Select a crafted item slot to destroy.  Page
 SelectItem,Select an item
 SelectItemSuffix,Select an item for the GroupName
-SelectProperty,Select an item property
+SelectProperty,Select item effects
 SelectLock,Select a lock
 SelectName,Configure the crafted item
 SelectColor,Pick the item colors
 SelectPriority,Configure layer priority
-FilterProperty,Filter properties
+FilterProperty,Filter effects
 FilterAsset,Filter items
 FilterLock,Filter padlocks
 EnterName,Name of the crafted item
@@ -54,7 +54,7 @@ PropertyEdging,Edging
 PropertyDull,Dull
 PropertyHeavy,Heavy
 PropertyLight,Light
-DescriptionNormal,No special property.
+DescriptionNormal,No special effect.
 DescriptionLarge,Harder to understand gagged speech.
 DescriptionSmall,Easier to understand gagged speech.
 DescriptionThick,Harder to see through.
@@ -97,6 +97,6 @@ JSONUpload,Import new crafting inventory
 JSONDownload,Download all crafts
 JSONSelectNew,New crafts (select all)
 JSONSelectOld,Old crafts (select all)
-RemoveProperty,Remove/decrement property
-AddProperty,Add/increment property
-MultipleProperties,Multiple properties
+RemoveProperty,Remove/decrement effect
+AddProperty,Add/increment effect
+MultipleProperties,Multiple effects

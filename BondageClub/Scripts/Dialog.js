@@ -3976,14 +3976,23 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
 		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then(textCache => {
 			property.replaceChildren(
-				...Object.entries(item.Craft.Effects).reduce((acc, [propertyKey, propertyValue]) => acc.concat([
-					ElementCreate({ tag: "dfn", children: [propertyKey] }),
-					propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
-					textCache.get(`Description${propertyKey}`),
-					{
-						tag: "br",
-					}
-				]), []),
+				InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+				ElementCreate({
+					tag: "ul",
+					children: Object.entries(item.Craft.Effects).map(([propertyKey, propertyValue]) => {
+						return {
+							tag: "li",
+							children: [
+								{
+									tag: "dfn",
+									children: [propertyKey],
+								},
+								propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
+								textCache.get(`Description${propertyKey}`),
+							],
+						};
+					}),
+				}),
 			);
 		});
 

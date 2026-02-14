@@ -369,7 +369,7 @@ Name: CraftName
 名稱：CraftName
 Description: CraftDescription
 描述：CraftDescription
-Property: CraftProperty
+Effects: CraftProperty
 特性：CraftProperty
 View next page
 查看下一頁
@@ -517,11 +517,11 @@ Select hood style
 選擇面罩風格
 Hair out & Accessories out
 頭髮&配飾在外
- Hair in & Accessories out 
+ Hair in & Accessories out
 頭髮在內&配飾在外
- Hair out & Accessories in 
+ Hair out & Accessories in
 頭髮在外&配飾在內
- Hair in & Accessories in 
+ Hair in & Accessories in
 頭髮&配飾在內
 SourceCharacter changes the style of DestinationCharacter gwen hood.
 SourceCharacter改變了DestinationCharacter情趣頭套的外觀。
@@ -1443,7 +1443,7 @@ Wrong code
 密碼錯誤
 Use 4 digits as a code
 使用4位數密碼
-Remove on Unlock: 
+Remove on Unlock:
 解鎖時移除:
 Enter Password :
 輸入密碼：
@@ -1463,7 +1463,7 @@ Locked on:
 鎖定於：
 This person is locked by different people
 這個人被多個人鎖了起來
-This person is fully locked by: 
+This person is fully locked by:
 這個人被以下人物鎖了起來:
 This person is fully locked by you
 這個人被你一個人鎖了起來
@@ -1479,7 +1479,7 @@ A victim cannot unlock TargetPronounSelf if TargetPronounPossessive elbows are b
 手肘被綁在一起的時候受害者無法為自己開鎖
 DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
 DestinationCharacterName把開鎖器斷在了鎖芯裡!
-Remaining tries: 
+Remaining tries:
 剩餘嘗試次數:
 Failing or quitting will break your lockpick for 1 minute
 失敗或退出後的一分鐘內無法嘗試開鎖
@@ -2267,7 +2267,7 @@ The plugs cease abruptly as you are about to go over the edge.
 在你快要到達高潮的時候，塞子突然停了下來。
 The plugs bring you so close to release... before turning off suddenly.
 塞子馬上就要讓你到達高潮……突然關閉了。
-Punishment for speaking too much: 
+Punishment for speaking too much:
 說太多話的懲罰：
 Shock
 電擊
@@ -2275,15 +2275,15 @@ Edge for 5m
 寸止5分鐘
 Vibe for 5m
 振動5分鐘
-Punishment for not saying word: 
+Punishment for not saying word:
 不說話的懲罰：
-Punishment for banned words: 
+Punishment for banned words:
 說了不該說的話的懲罰：
 Public Mode Permission:
 公開模式權限：
 Club Mistresses
 俱樂部女主人
-Current Public Mode: 
+Current Public Mode:
 目前公開模式：
 Deny
 拒絕
@@ -2635,9 +2635,9 @@ SourceCharacter takes a piece of duct tape for TargetCharacter and places it on 
 SourceCharacter從TargetCharacter身上拿了些膠帶，貼在了TargetPronounObject的臉上。
 SourceCharacter wraps some duct tape onto DestinationCharacter face.
 SourceCharacter在TargetCharacter的臉上纏了一些膠帶。
-SourceCharacter wraps DestinationCharacter head in tape with multiple layers. 
+SourceCharacter wraps DestinationCharacter head in tape with multiple layers.
 SourceCharacter用許多層膠帶包裹住了DestinationCharacter頭。
-SourceCharacter wraps DestinationCharacter head in tape with the eyes free. 
+SourceCharacter wraps DestinationCharacter head in tape with the eyes free.
 SourceCharacter用膠帶包裹住了DestinationCharacter頭，但露出眼睛。
 Select Locker type
 選擇置物櫃類型

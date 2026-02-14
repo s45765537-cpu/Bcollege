@@ -81,7 +81,7 @@ CraftingDescription,Description: CraftDescription
 CraftingMember,Crafter: MemberName (MemberNumber)
 CraftingName,Name: CraftName
 CraftingPrivate,Private: CraftPrivate
-CraftingProperty,Property: CraftProperty
+CraftingProperty,Effects: CraftProperty
 CurrentMode,Current Mode:
 Decoding,Decoding the lock...
 Delete,Delete

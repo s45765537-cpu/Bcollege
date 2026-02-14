@@ -1687,16 +1687,21 @@ var ElementButton = {
 					tag: "li",
 					children: [
 						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-						...Object.entries(craft.Effects).reduce((acc, [propertyKey, propertyValue]) => acc.concat([{
-							tag: "p",
-							children: [
-								{
-									tag: "dfn",
-									children: [propertyKey],
-								},
-								propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
-							],
-						}]), []),
+						{
+							tag: "ul",
+							children: Object.entries(craft.Effects).map(([propertyKey, propertyValue]) => {
+								return {
+									tag: "li",
+									children: [
+										{
+											tag: "dfn",
+											children: [propertyKey],
+										},
+										propertyValue > 1 ? `× ${propertyValue} - ` : " - ",
+									],
+								};
+							}),
+						},
 					],
 				} : undefined,
 				(craft.MemberName && craft.MemberNumber) ? {
