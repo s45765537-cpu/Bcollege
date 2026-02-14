@@ -302,7 +302,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DynamicScriptDraw: (typeof AssetDef.DynamicScriptDraw === 'boolean') ? AssetDef.DynamicScriptDraw : false,
 		CreateLayerTypes: Array.isArray(AssetDef.CreateLayerTypes) ? AssetDef.CreateLayerTypes : [],
 		AllowLockType: null,
-		AllowColorizeAll: typeof AssetDef.AllowColorizeAll === "boolean" ? AssetDef.AllowColorizeAll : true,
 		AvailableLocations: AssetDef.AvailableLocations || [],
 		OverrideHeight: AssetDef.OverrideHeight,
 		DrawLocks: allowLock && (typeof AssetDef.DrawLocks === "boolean" ? AssetDef.DrawLocks : true),

@@ -57830,7 +57830,6 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Extended: true,
-				AllowColorizeAll: false,
 				Top: 31,
 				Left: 166.5,
 				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
