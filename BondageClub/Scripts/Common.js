@@ -521,6 +521,7 @@ var ScreenIsLoading = false;
  * @returns {Promise<void>} - Nothing
  */
 async function CommonSetScreen(...spec) {
+	const { recursive } = spec[2] ?? {};
 	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
 		CurrentScreenFunctions.Unload();
 	}
@@ -530,6 +531,7 @@ async function CommonSetScreen(...spec) {
 
 
 	const [NewModule, NewScreen] = spec;
+	const [OldModule, OldScreen] = [CurrentModule, CurrentScreen];
 	// Check for required functions
 	/** @type {Record<string, any>} */
 	const namespace = window;
@@ -572,8 +574,19 @@ async function CommonSetScreen(...spec) {
 
 	ElementToggleGeneratedElements(CurrentScreen, true);
 
-	if (CurrentScreenFunctions.Load) {
-		await CurrentScreenFunctions.Load();
+	try {
+		await CurrentScreenFunctions.Load?.();
+	} catch (error) {
+		if (!recursive) {
+			// Plan A: failed to load the new screen; revert back to the old screen
+			console.error(`Failed to load "${NewModule}/${NewScreen}" screen:\n`, error);
+			ToastManager.error(`Failed to load "${NewModule}/${NewScreen}" screen`);
+			return CommonSetScreen(.../** @type {ScreenSpecifier} */([OldModule, OldScreen, { recursive: true }]));
+		} else {
+			// Plan B: can't even reload the old screen; things are FUBAR at this point ¯\_(ツ)_/¯
+			// @ts-expect-error: `options.cause` requires es2022, though is inert and harmless on older browsers
+			throw new Error(`Failed to reload previous "${NewModule}/${NewScreen}" screen`, { cause: error });
+		}
 	}
 	const background = DrawGetBackgroundURL(false);
 	if (background) {

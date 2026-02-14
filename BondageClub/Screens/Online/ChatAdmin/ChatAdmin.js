@@ -129,7 +129,7 @@ function ChatAdminCanEdit() {
 async function ChatAdminLoad() {
 	const adminData = ChatAdminData;
 	if (!adminData) {
-		return;
+		throw new Error('Missing "ChatAdminData" data');
 	} else if (!adminData.Background) {
 		adminData.Background = Player.OnlineSettings.DefaultChatRoomBackground;
 	}

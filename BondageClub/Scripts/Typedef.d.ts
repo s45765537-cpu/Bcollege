@@ -832,7 +832,13 @@ interface RelogDataBase<T extends ModuleType> {
 type _RelogDataMap<T> = T extends ModuleType ? RelogDataBase<T> : never;
 type RelogData = _RelogDataMap<ModuleType>;
 
-type _ScreenSpecifier<T extends ModuleType> = [module: T, screen: ModuleScreens[T]];
+/** Further options to-be passed along to {@link CommonSetScreen} */
+interface ScreenSpecifierOptions {
+	/** Whether this concerns a recursive {@link CommonSetScreen} call */
+	recursive?: boolean;
+}
+
+type _ScreenSpecifier<T extends ModuleType> = [module: T, screen: ModuleScreens[T], options?: null | ScreenSpecifierOptions];
 type ScreenSpecifier = _ScreenSpecifier<"Character"> | _ScreenSpecifier<"Cutscene"> | _ScreenSpecifier<"MiniGame"> | _ScreenSpecifier<"Online"> | _ScreenSpecifier<"Room">;
 
 type AssetCategory = "Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy" | "Smoking";

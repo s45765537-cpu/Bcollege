@@ -9,7 +9,7 @@ var WheelFortuneCustomizeList = "";
  */
 async function WheelFortuneCustomizeLoad() {
 	if (!WheelFortuneCharacter) {
-		return;
+		throw new Error('Missing "WheelFortuneCharacter" data');
 	}
 	WheelFortuneCustomizeOffset = 0;
 	if (typeof WheelFortuneCharacter.OnlineSharedSettings?.WheelFortune === "string")
