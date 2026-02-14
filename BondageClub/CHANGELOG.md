@@ -11,9 +11,56 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-01-16
-* Last recorded PR: [#6101](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6101)
-* Last recorded commit hash: `57bbb195ce8e5e83ad1eab65ee6b3c9fbb5f12c3`
+* Changelog last updated: 2026-02-14
+* Last recorded PR: [#6116](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6116)
+* Last recorded commit hash: `ee421c586621dd59099cf21c76fd5342df5ecb18`
+
+## [R125]
+
+### [Changes]
+
+* Raven - Pull Down Panties ([#6107](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6107))
+* Zoe - Added support for multiple craft properties ([#5900](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5900))
+* Sin - Added Firebite and SpreaderBar logos By Gangriel ([#6128](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6128))
+* Sin - Added 5 plushies to the plushie item, Drawn by @RavenCreative ([#6109](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6109))
+* lera - Add support for 'room codes' (export/import) ([#6119](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6119))
+* Felix - Kitsune tails unlocks on quest completion and small dialog tweaks ([#6102](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6102))
+* dDeepLb - Send ooc keybinding ([#6098](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6098))
+* Estsanatlehi - Swap Freeze for Mounted on the Throne ([#6121](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6121))
+* Estsanatlehi - Add a 2nd tie type to the pole for the BackElbowTouch pose ([#6132](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6132))
+* Ben987 - Online Rooms - 4 New Backgrounds from Bondage Teacher
+* Ben987 - Online Rooms - 7 New Backgrounds from Bondage Teacher
+* Ben987 - Change Log
+
+### [Fixes]
+
+* lera - fix: punish standing detection in edge cases (bound, rules, etc.) ([#6134](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6134))
+* Zoe - Fix: Adjusted null safety for crafts yet again ([#6120](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6120))
+* Zoe - Fixed problem about checking a null value ([#6118](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6118))
+* Rama - Fix crafting effect-related text styling and nomenclature ([#6130](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6130))
+* Rama - Add precautions against querying IDs that start with a number ([#6105](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6105))
+* Estsanatlehi - Fix issues in Gambling.js ([#6126](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6126))
+* Estsanatlehi - Fix typo in the Hanging Frame's Normal message ([#6133](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6133))
+* Estsanatlehi - Fix some bugs in Asylum/GGTS ([#6110](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6110))
+* Estsanatlehi - Clear the last chat room when leaving the lobby ([#6112](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6112))
+* Estsanatlehi - Fix a leftover removed variable name causing a crash on account creation ([#6103](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6103))
+* Estsanatlehi - Don't bother processing chatroom messages if we're not in a room anymore ([#6104](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6104))
+* Ben987 - Fix Bondage Brawl Compatibility
+
+### [Technical]
+
+* Rama - Add logic for handling `Load()` exceptions ([#6116](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6116))
+* Rama - Deprecate the `Asset.AllowColorizeAll` option ([#6129](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6129))
+* Rama - Move the `KeybindManager` class out of the `KeybindingManager` namespace ([#6131](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6131))
+* Rama - Add strict type checking for the shop ([#6114](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6114))
+* Rama - Add strict type checking for a bunch of `Online` rooms ([#6115](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6115))
+* Rama - Enable strict typing for another batch of modules ([#6117](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6117))
+* Estsanatlehi - Move the GGTS answers to a translation file ([#6122](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6122))
+* Estsanatlehi - Fix CI and some assorted bugfixes ([#6127](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6127))
+* Estsanatlehi - Strict-type ChatSearch.js ([#6108](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6108))
+* Estsanatlehi - Fix CI issues ([#6111](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6111))
+* Estsanatlehi - Strict-typing, step 1 (of 22582) ([#6113](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6113))
+* Estsanatlehi - Fix TS error because of manual object validation ([#6106](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6106))
 
 ## [R124]
 
@@ -1024,7 +1071,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Pandora Online Prison - Join Available Prisons
 * Ben987 - Pandora Online Prison - Random Bondage Activity
 * Ben987 - Pandora Online Prison - All 13 Guard Activities
-* Ben987 - Pandora Online Prison - Safeword - Prevent Reentry in Same Room (PR not found)
+* Ben987 - Pandora Online Prison - Safeword - Prevent Reentry in Same Room
 * Ben987 - Change Log
 * Ben987 - Credits + Patrons
 
