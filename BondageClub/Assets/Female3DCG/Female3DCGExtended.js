@@ -10976,6 +10976,15 @@ var AssetFemale3DCGExtended = {
 						Effect: [E.Block, E.Freeze, E.BlockWardrobe],
 					},
 				},
+				{
+					Name: "TiedElbow",
+					SelfBondageLevel: 5,
+					Property: {
+						Difficulty: 10,
+						SetPose: ["BackElbowTouch"],
+						Effect: [E.Block, E.Freeze, E.BlockWardrobe],
+					},
+				},
 			],
 		}, // Pole
 		CryoCapsule: {

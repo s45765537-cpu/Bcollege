@@ -3874,8 +3874,10 @@ ItemDevicesPetBedSetBlanket,SourceCharacter gives TargetCharacter a blanket.
 ItemDevicesPetBedSetNoBlanket,SourceCharacter removes the blanket from TargetCharacter.
 ItemDevicesPoleSelect,Select Pole state
 ItemDevicesPoleSetTied,SourceCharacter ties TargetCharacter to the pole.
+ItemDevicesPoleSetTiedElbow,SourceCharacter ties TargetCharacter to the pole.
 ItemDevicesPoleSetUntied,SourceCharacter unties TargetCharacter from the pole.
 ItemDevicesPoleTied,Tie to pole
+ItemDevicesPoleTiedElbow,Tie elbows to pole
 ItemDevicesPoleUntied,Untie from pole
 ItemDevicesTheHangingFrameInflated,Inflated
 ItemDevicesTheHangingFrameNormal,Frame
