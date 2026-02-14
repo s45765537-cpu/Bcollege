@@ -261,11 +261,18 @@ function ChatAdminRun() {
 	DrawButton(885, 816, 340, 60, TextGet("QuickaddBanGhostlist"), ButtonBackground, null, null, !canEdit);
 
 	// Import & export buttons
-	DrawButton(1174, 76, 48, 48, "", ButtonBackground, undefined, TextGet("UploadTooltip"), !canEdit);
-	DrawButton(1174, 160, 48, 48, "", "White", undefined, TextGet("DownloadTooltip"));
+	DrawButton(1174, 76, 48, 48, "", ButtonBackground, undefined, undefined, !canEdit);
+	DrawButton(1174, 160, 48, 48, "", "White");
 	// We draw the icons separately to allow for resizing.
 	DrawImageResize("Icons/Upload.png", 1176, 78, 44, 44);
 	DrawImageResize("Icons/Download.png", 1176, 162, 44, 44);
+	// We also draw the tooltips separately to prevent conflicting with adjacent DOM elements (which take render priority over canvas)
+	if (!CommonIsMobile && !CommonPhotoMode) {
+		if (MouseIn(1174, 76, 48, 48)) // Upload (Import)
+			DrawHoverElements.push(() => DrawButtonHover(1247, 20, 48, 48, TextGet("UploadTooltip")));
+		if (MouseIn(1174, 160, 48, 48)) // Download (Export)
+			DrawHoverElements.push(() => DrawButtonHover(1247, 218, 48, 48, TextGet("DownloadTooltip")));
+	}
 
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + adminData.Background + ".jpg", 1300, 75, 600, 350);
