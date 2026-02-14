@@ -309,13 +309,19 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceNaked(C) {
-	// @ts-expect-error C is never after the IsOnline check
-	const keepCosplay = !(C.IsOnline() || C.IsPlayer()) || C.OnlineSharedSettings?.BlockBodyCosplay;
-	C.Appearance = C.Appearance.filter(item =>
-		item.Asset.Group.AllowNone &&
-		item.Asset.Group.IsAppearance()
-		&& (!keepCosplay || item.Asset.Group.BodyCosplay)
-	);
+	const keepCosplay = (C.IsPlayer() || C.IsOnline()) && C.OnlineSharedSettings?.BlockBodyCosplay;
+	C.Appearance = C.Appearance.filter(({ Asset: { Group } }) => {
+		// Appearance or mandatory groups stay
+		if (!Group.IsAppearance() || !Group.AllowNone)
+			return true;
+
+		// If it's cosplay, it stays on
+		if (keepCosplay && Group.BodyCosplay)
+			return true;
+
+		return false;
+	});
+
 	// Loads the new character canvas
 	CharacterLoadCanvas(C);
 

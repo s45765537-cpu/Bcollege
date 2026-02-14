@@ -19,8 +19,6 @@ let TempCanvas;
  */
 let ColorCanvas;
 
-var DialogLeaveDueToItem = false;
-
 var BlindFlash = false;
 var DrawingBlindFlashTimer = 0;
 

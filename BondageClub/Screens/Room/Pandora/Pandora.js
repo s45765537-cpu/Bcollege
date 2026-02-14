@@ -1632,12 +1632,12 @@ function PandoraPlayerPay(Amount) {
 function PandoraBuyRandomClothes() {
 	CharacterChangeMoney(Player, -10);
 	CharacterNaked(Player);
-	CharacterTransferItem(CurrentCharacter, Player, "Cloth");
-	CharacterTransferItem(CurrentCharacter, Player, "ClothLower");
-	CharacterTransferItem(CurrentCharacter, Player, "Bra");
-	CharacterTransferItem(CurrentCharacter, Player, "Panties");
-	CharacterTransferItem(CurrentCharacter, Player, "Socks");
-	CharacterTransferItem(CurrentCharacter, Player, "Shoes");
+	CharacterTransferItem(CurrentCharacter, Player, "Cloth", false);
+	CharacterTransferItem(CurrentCharacter, Player, "ClothLower", false);
+	CharacterTransferItem(CurrentCharacter, Player, "Bra", false);
+	CharacterTransferItem(CurrentCharacter, Player, "Panties", false);
+	CharacterTransferItem(CurrentCharacter, Player, "Socks", false);
+	CharacterTransferItem(CurrentCharacter, Player, "Shoes", false);
 	CharacterNaked(CurrentCharacter);
 	PandoraClothes = "Random";
 }

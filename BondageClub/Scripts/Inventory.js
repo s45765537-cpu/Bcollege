@@ -869,20 +869,13 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 	}
 	const IsClothes = Group.Clothing;
 
-	/** @type {Asset[]} */
-	let AssetList = [];
-	if (AllowedAssets) {
-		AssetList = AllowedAssets.map(assetName => Asset.find(A => A.Group.Name == GroupName && A.Name == assetName)).filter(Boolean);
-	}
-	// Restrict the options to assets owned by the character
-	if (MustOwn) {
-		CharacterAppearanceBuildAssets(C);
-		if (AssetList) {
-			AssetList.filter(A => CharacterAppearanceAssets.some(CAA => CAA.Group.Name == A.Group.Name && CAA.Name == A.Name));
-		} else {
-			AssetList = CharacterAppearanceAssets;
-		}
-	}
+	// Build the list of assets we can use and filter it down if needed
+	const groupAssets = Asset.filter(a =>
+		a.Group.Family === C.AssetFamily &&
+		a.Group.Name === GroupName &&
+		CharacterAppearanceGenderAllowed(a) &&
+		(!MustOwn || InventoryAvailable(C, a.Name, a.Group.Name)));
+	const AssetList = AllowedAssets ? AllowedAssets.map(assetName => groupAssets.find(a => a.Name === assetName)).filter(Boolean) : groupAssets;
 
 	// Get and apply a random asset
 	const SelectedAsset = InventoryGetRandom(C, GroupName, AssetList, IgnoreRequirements);
@@ -1333,7 +1326,7 @@ function InventoryFamilyOnlyItem(Item) {
 * @returns {boolean} - TRUE if one restraint with an extra lock is found
 */
 function InventoryCharacterHasLockedRestraint(C) {
-	return C.Appearance.some(item => item.Asset.IsRestraint && !InventoryGetLock(item));
+	return C.Appearance.some(item => item.Asset.IsRestraint && InventoryGetLock(item));
 }
 
 /**
