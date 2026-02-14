@@ -1,4 +1,4 @@
-BodyUpperLarge,Body
+﻿BodyUpperLarge,Body
 BodyUpperNormal,Body
 BodyUpperSmall,Body
 BodyUpperXLarge,Body
@@ -60,10 +60,10 @@ BraSatinCorsetUpperLaceEdge,Side Pattern
 BraSatinCorsetUpperLace,Lace Bra
 BraSatinCorsetUpperCrossStraps,Middle Lace
 BraSatinCorsetUpperCenterLine,Lining  
-BraMaidBraBra, Bra
-BraMaidBraLace, Lace
+BraMaidBraBra,Bra
+BraMaidBraLace,Lace
 BraBandageUpper_Body,Body
-BraLeatherBunnyHollowBraRing, Rings
+BraLeatherBunnyHollowBraRing,Rings
 BraLeatherBunnyHollowBraBraReflection,Bra
 BraLeatherBunnyHollowBraBra,Bra
 BraLeatherBunnyHollowBraZipper,Zipper
@@ -257,8 +257,8 @@ ClothNunRobesInterior,Interior
 ClothOffTheShoulderTopLeft,Left
 ClothOffTheShoulderTopRight,Right
 ClothFishnetTop,Fishnet Top
-ClothFrilledShirtBase, Latex
-ClothFrilledShirtFrill, Frills
+ClothFrilledShirtBase,Latex
+ClothFrilledShirtFrill,Frills
 ClothFuzzyDressDress,Dress
 ClothFuzzyDressTopFur,Fur
 ClothGrandMageBackSkirt,Inside Skirt
@@ -276,12 +276,12 @@ ClothHoodieLaces,Laces
 ClothHoodieMain,Main
 ClothHoodieWaist,Waist and Wrists
 ClothJacketBase,Jacket
-ClothLatexTankTopBase, Tank Top
-ClothLatexTankTopCollar, Collar
-ClothLatexTankTopHoodDown, Loose Hood
-ClothLatexTankTopHoodFull, Pulled Hood
-ClothLatexTankTopHoodHigh, Hoodie Up
-ClothLatexTankTopHoodLow, Hoodie Down
+ClothLatexTankTopBase,Tank Top
+ClothLatexTankTopCollar,Collar
+ClothLatexTankTopHoodDown,Loose Hood
+ClothLatexTankTopHoodFull,Pulled Hood
+ClothLatexTankTopHoodHigh,Hoodie Up
+ClothLatexTankTopHoodLow,Hoodie Down
 ClothLaurelBase,Top
 ClothLaurelDesign,Design
 ClothLaurelLace,Lace
@@ -340,8 +340,8 @@ ClothLowerMiniDenimHotPantsPants,Pants
 ClothLowerMiniDenimHotPantsShadow,Shadow
 ClothLowerOpenLeatherSkirtBottom,Skirt
 ClothLowerOpenLeatherSkirtReflective,Shine
-ClothLowerPajama1Cloth, Pants
-ClothLowerPajama1Stripe, Trim
+ClothLowerPajama1Cloth,Pants
+ClothLowerPajama1Stripe,Trim
 ClothLowerPantBootsBase,Latex
 ClothLowerPantBootsBoot,Boot
 ClothLowerPantBootsStripe,Stripe
@@ -456,8 +456,8 @@ EyesEyes153,Eyepupil
 EyesEyes154,Shadow
 EyesEyes155,Shine
 EyesEyes156,Eyelids
-EyeShadowWingsLine, Eyeliner
-EyeShadowWingsShad, Eyeshadow
+EyeShadowWingsLine,Eyeliner
+EyeShadowWingsShad,Eyeshadow
 GartersButterflyGarterGarterR,Right leg garter
 GartersButterflyGarterGarterL,Left leg garter
 GartersGarterBeltLeft,Left
@@ -1542,7 +1542,7 @@ ItemDevicesWoodenRackFrameMetal,Metal
 ItemDevicesWoodenRackFrameStains,Stains
 ItemDevicesWoodenRackFrameWood,Wooden Frame
 ItemDevicesWoodenRackTopChains,Chains
-ItemDevicesWoodenRackTopRopes, Ropes
+ItemDevicesWoodenRackTopRopes,Ropes
 ItemDevicesWoodenRackTopStocksBack,Arm Stocks
 ItemDevicesX-CrossCross,Frame
 ItemDevicesX-CrossPadding,Padding
@@ -1680,10 +1680,10 @@ ItemHandheldDragonPlushEyesGlowColor,Eyes Glow Color
 ItemHandheldDragonPlushShadows,Shadows
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
-ItemHandheldGiftBoxBox, Box
-ItemHandheldGiftBoxBoxReflection, Box Reflection
+ItemHandheldGiftBoxBox,Box
+ItemHandheldGiftBoxBoxReflection,Box Reflection
 ItemHandheldGiftBoxRibbon,Ribbon
-ItemHandheldGiftBoxRibbonReflection, Ribbon Reflection
+ItemHandheldGiftBoxRibbonReflection,Ribbon Reflection
 ItemHandheldKyosensuFan,Fan paper
 ItemHandheldKyosensuFan1,Fan paper 2nd color
 ItemHandheldKyosensuFan2,Fan paper 3rd color
@@ -1866,9 +1866,9 @@ ItemHoodCanvasHoodHood,Canvas
 ItemHoodCanvasHoodText,Text
 ItemHoodCollarHoodCollar,Collar
 ItemHoodCollarHoodHood,Hood
-ItemHoodCorsetHoodLace, Lacing
-ItemHoodCorsetHoodLatex, Latex
-ItemHoodCorsetHoodLines, Outline
+ItemHoodCorsetHoodLace,Lacing
+ItemHoodCorsetHoodLatex,Latex
+ItemHoodCorsetHoodLines,Outline
 ItemHoodCowHoodBase,Hood
 ItemHoodCowHoodSpots,Spots
 ItemHoodCreepyIronMaskMain,Mask
@@ -1907,12 +1907,12 @@ ItemHoodFestivalFoxMaskBase,Base
 ItemHoodFestivalFoxMaskEyeLeft,Left Eye
 ItemHoodFestivalFoxMaskEyeRight,Right Eye
 ItemHoodFestivalFoxMaskMarkings,Markings
-ItemHoodFoxHoodBase, Base
-ItemHoodFoxHoodEarFuzz, Fuzz
-ItemHoodFoxHoodFace, Face
-ItemHoodFoxHoodInnerEar, Ear Canal
-ItemHoodFoxHoodLens, Lenses
-ItemHoodFoxHoodOuterEar, Ear
+ItemHoodFoxHoodBase,Base
+ItemHoodFoxHoodEarFuzz,Fuzz
+ItemHoodFoxHoodFace,Face
+ItemHoodFoxHoodInnerEar,Ear Canal
+ItemHoodFoxHoodLens,Lenses
+ItemHoodFoxHoodOuterEar,Ear
 ItemHoodFoxyMaskLower,Lower
 ItemHoodFoxyMaskUpper,Upper
 ItemHoodFuturisticHelmetBase,Base
@@ -1969,19 +1969,19 @@ ItemHoodKittyHoodPanel,Forehead Panel
 ItemHoodLampHeadHoodInside,Interior
 ItemHoodLampHeadHoodLamp,Exterior
 ItemHoodLampHeadHoodSwitch,Switch
-ItemHoodLatexBunnyBase, Hood
-ItemHoodLatexBunnyInnerEar, Inner Ear
-ItemHoodLatexBunnyMouth, Mouth
-ItemHoodLatexBunnyNose, Nose
-ItemHoodLatexBunnyOuterEar, Outer Ear
-ItemHoodLatexDogMaskBase, Hood
+ItemHoodLatexBunnyBase,Hood
+ItemHoodLatexBunnyInnerEar,Inner Ear
+ItemHoodLatexBunnyMouth,Mouth
+ItemHoodLatexBunnyNose,Nose
+ItemHoodLatexBunnyOuterEar,Outer Ear
+ItemHoodLatexDogMaskBase,Hood
 ItemHoodLatexDogMaskCollarBand,Collar Band
 ItemHoodLatexDogMaskCollarMetal,Collar Link
-ItemHoodLatexDogMaskDogMouth, Mouth
-ItemHoodLatexDogMaskLenses, Lenses
-ItemHoodLatexDogMaskLining, Lining
-ItemHoodLatexDogMaskMouthHole, Holes
-ItemHoodLatexDogMaskMuzzleBase, Muzzle
+ItemHoodLatexDogMaskDogMouth,Mouth
+ItemHoodLatexDogMaskLenses,Lenses
+ItemHoodLatexDogMaskLining,Lining
+ItemHoodLatexDogMaskMouthHole,Holes
+ItemHoodLatexDogMaskMuzzleBase,Muzzle
 ItemHoodLatexHabitBase,Shawl
 ItemHoodLatexHabitCape,Shoulders
 ItemHoodLatexHabitCollar,Collar
@@ -1997,8 +1997,8 @@ ItemHoodOldGasMaskTubeA,Breathing Attachment
 ItemHoodOpenMouthPlugHoodHood,Hood
 ItemHoodOpenMouthPlugHoodLenses,Lenses
 ItemHoodOpenMouthPlugHoodPlug,Plug
-ItemHoodPantyHoodBase, Pantyhose
-ItemHoodPantyHoodHairUnder, Hair
+ItemHoodPantyHoodBase,Pantyhose
+ItemHoodPantyHoodHairUnder,Hair
 ItemHoodPumpkinHeadBack,Back
 ItemHoodPumpkinHeadFront,Front
 ItemHoodPaperbagStickytape,Sticky tape
@@ -2017,9 +2017,9 @@ ItemHoodRubberMaskWigComp,Rear wig
 ItemHoodRubberMaskWigAcc,Wig Accessory
 ItemHoodRubberMaskGag,Gag
 ItemHoodRubberMaskEarplug,Earplug
-ItemHoodSensoryDeprivationHoodBase, Latex
-ItemHoodSensoryDeprivationHoodEarCover, Silencer
-ItemHoodSensoryDeprivationHoodLips, Lips
+ItemHoodSensoryDeprivationHoodBase,Latex
+ItemHoodSensoryDeprivationHoodEarCover,Silencer
+ItemHoodSensoryDeprivationHoodLips,Lips
 ItemHoodSlimeOne,Color 1
 ItemHoodSlimeTwo,Color 2
 ItemHoodSpaceMaskOneDetail,Details
@@ -2034,19 +2034,19 @@ ItemHoodTechnoHelmet1TransparentVisor,Visor
 ItemHoodTransparentLatexHoodMain,Hood
 ItemHoodTransparentLatexHoodHDetail,Hole detail
 ItemHoodTransparentLatexHoodHair,Hair
-ItemHoodVacHoodBase, Hood
 ItemHoodVacHoodBase,Hood
-ItemHoodVacHoodClipHose, Clipped Hose
+ItemHoodVacHoodBase,Hood
 ItemHoodVacHoodClipHose,Clipped Hose
-ItemHoodVacHoodHandPump, Pump
+ItemHoodVacHoodClipHose,Clipped Hose
 ItemHoodVacHoodHandPump,Pump
-ItemHoodVacHoodLenses, Lens
+ItemHoodVacHoodHandPump,Pump
+ItemHoodVacHoodLenses,Lens
 ItemHoodVacHoodLenses,Lenses
-ItemHoodVacHoodPlasticClip, Clip
 ItemHoodVacHoodPlasticClip,Clip
-ItemHoodVacHoodRebreather, Rebreather Bag
+ItemHoodVacHoodPlasticClip,Clip
 ItemHoodVacHoodRebreather,Rebreather Bag
-ItemHoodVacHoodTube, Breathing Tube
+ItemHoodVacHoodRebreather,Rebreather Bag
+ItemHoodVacHoodTube,Breathing Tube
 ItemHoodVacHoodTube,Breathing Tube
 ItemLegsFrogtieMetalCuffsChain,Chain
 ItemLegsFrogtieMetalCuffsMarks,Marks
@@ -2188,9 +2188,9 @@ ItemMouth2HarnessPacifierGagPacifierOuter,Pacifier
 ItemMouth2HarnessPanelGagMetal,Metal
 ItemMouth2HarnessPanelGagPanel,Panel
 ItemMouth2HarnessPanelGagStraps,Straps
-ItemMouth2HarnessPonyBitsBobble, Bobble
-ItemMouth2HarnessPonyBitsMetal, Metal
-ItemMouth2HarnessPonyBitsStraps, Straps
+ItemMouth2HarnessPonyBitsBobble,Bobble
+ItemMouth2HarnessPonyBitsMetal,Metal
+ItemMouth2HarnessPonyBitsStraps,Straps
 ItemMouth2HorrorMuzzleMuzzle,Muzzle
 ItemMouth2HorrorMuzzleRivets,Rivets
 ItemMouth2KittyGagBase,Base
@@ -2338,9 +2338,9 @@ ItemMouth3HarnessPacifierGagPacifierOuter,Pacifier
 ItemMouth3HarnessPanelGagMetal,Metal
 ItemMouth3HarnessPanelGagPanel,Panel
 ItemMouth3HarnessPanelGagStraps,Straps
-ItemMouth3HarnessPonyBitsBobble, Bobble
-ItemMouth3HarnessPonyBitsMetal, Metal
-ItemMouth3HarnessPonyBitsStraps, Straps
+ItemMouth3HarnessPonyBitsBobble,Bobble
+ItemMouth3HarnessPonyBitsMetal,Metal
+ItemMouth3HarnessPonyBitsStraps,Straps
 ItemMouth3HorrorMuzzleMuzzle,Muzzle
 ItemMouth3HorrorMuzzleRivets,Rivets
 ItemMouth3KittyGagBase,Base
@@ -2516,9 +2516,9 @@ ItemMouthHarnessPacifierGagPacifierOuter,Pacifier
 ItemMouthHarnessPanelGagMetal,Metal
 ItemMouthHarnessPanelGagPanel,Panel
 ItemMouthHarnessPanelGagStraps,Straps
-ItemMouthHarnessPonyBitsBobble, Bobble
-ItemMouthHarnessPonyBitsMetal, Metal
-ItemMouthHarnessPonyBitsStraps, Straps
+ItemMouthHarnessPonyBitsBobble,Bobble
+ItemMouthHarnessPonyBitsMetal,Metal
+ItemMouthHarnessPonyBitsStraps,Straps
 ItemMouthHorrorMuzzleMuzzle,Muzzle
 ItemMouthHorrorMuzzleRivets,Rivets
 ItemMouthKittyGagBase,Base
@@ -2614,8 +2614,8 @@ ItemMouthTechnoGagBase,Base
 ItemMouthTechnoGagPlastic,Plastic
 ItemMouthTechnoGagShine,Shine
 ItemMouthTechnoGagStraps,Straps
-ItemMouthTonguePiercingGagBitGag, BitGag
-ItemMouthTonguePiercingGagBitGag2, BitGag 2
+ItemMouthTonguePiercingGagBitGag,BitGag
+ItemMouthTonguePiercingGagBitGag2,BitGag 2
 ItemMouthTonguePiercingGagClothesPeg,Clothes Peg
 ItemMouthTonguePiercingGagGagRing,Tongue ring
 ItemMouthTonguePiercingGagGagRingBells,Bells
@@ -2716,8 +2716,8 @@ ItemNeckPaddedBeltCollarLock,Padlock
 ItemNeckPaddedBeltCollarMetal,Metal
 ItemNeckPaddedBeltCollarPadding,Padding
 ItemNeckPaddedBeltCollarTrim,Trim
-ItemNeckPetSuitShockCollarBuckles, Buckles
-ItemNeckPetSuitShockCollarCollar, Collar
+ItemNeckPetSuitShockCollarBuckles,Buckles
+ItemNeckPetSuitShockCollarCollar,Collar
 ItemNeckPostureCollarCollar,Collar
 ItemNeckPostureCollarRing1,Middle Ring
 ItemNeckPostureCollarRing2,Left Ring
@@ -2998,11 +2998,11 @@ ItemVulvaFuturisticVibratorDisplay,Display
 ItemVulvaFuturisticVibratorLock,Lock
 ItemVulvaHempRopeBeltRope,Rope
 ItemVulvaHempRopeBeltWand,Wand
-ItemVulvaInflatableVibratingPantiesBase, Base
-ItemVulvaInflatableVibratingPantiesBelt, Belt
-ItemVulvaInflatableVibratingPantiesLock, Lock
-ItemVulvaInflatableVibratingPantiesValve, Valve
-ItemVulvaInflatableVibratingPantiesVibe, Butterfly Vibe
+ItemVulvaInflatableVibratingPantiesBase,Base
+ItemVulvaInflatableVibratingPantiesBelt,Belt
+ItemVulvaInflatableVibratingPantiesLock,Lock
+ItemVulvaInflatableVibratingPantiesValve,Valve
+ItemVulvaInflatableVibratingPantiesVibe,Butterfly Vibe
 ItemVulvaFullCasingCageCage,Cage
 ItemVulvaFullCasingCageRing,Ring
 ItemVulvaFullCasingCageFace,Face
@@ -3315,8 +3315,8 @@ ShoesHoofBootsSBuckles,Straps buckles
 ShoesHoofBootsLock,Padlocks
 ShoesIndoorSlippersMain,Body
 ShoesIndoorSlippersDetail,Details
-ShoesLatexHeelsBase, Shoe
-ShoesLatexHeelsTrim, Trim
+ShoesLatexHeelsBase,Shoe
+ShoesLatexHeelsTrim,Trim
 ShoesMaryShoesMain,Main
 ShoesMaryShoesRear,Rear
 ShoesPumpHighHeelsMain,Shoes
@@ -3335,16 +3335,16 @@ ShoesSneakersSportMain,Main
 ShoesSocialHeelsMain,Main
 ShoesSocialHeelsRear,Rear
 ShoesStilettoHeelsCenter,Center
-ShoesStilettoHeelsHeels, Heels
+ShoesStilettoHeelsHeels,Heels
 ShoesStilettoHeelsRounded,Round Base
-ShoesStilettoHeelsSole, Sole
-ShoesStilettoHeelsTop, Base
+ShoesStilettoHeelsSole,Sole
+ShoesStilettoHeelsTop,Base
 ShoesTallerBootsBelt,Leather Belt
 ShoesTallerBootsBoots,Leather Boots
 ShoesTallerBootsMetal,Chains Details
-ShoesThighBootsBand, Band
-ShoesThighBootsBase, Boot
-ShoesThighBootsThigh, Sock
+ShoesThighBootsBand,Band
+ShoesThighBootsBase,Boot
+ShoesThighBootsThigh,Sock
 ShoesWitchShoesShoes,Main
 ShoesWitchShoesToes,Front detail
 ShoesWitchShoesBelt,Straps
