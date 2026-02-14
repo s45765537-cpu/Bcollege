@@ -5175,6 +5175,12 @@ interface ShopItem {
 
 // #endregion
 
+// #region MaidQuarters
+
+type MaidQuartersMissionType = "ShibariDojo" | "IntroductionClass" | "Shop" | "Gambling" | "Prison";
+
+// #endregion
+
 // #region layering
 
 interface LayeringExitOptions {
