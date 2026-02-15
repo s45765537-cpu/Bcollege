@@ -457,7 +457,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		}
 
 		// Draw the arousal meter & game images on certain conditions
-		if (CurrentScreen != "ChatRoom" || ChatRoomHideIconState <= 1) {
+		if (CurrentScreen != "ChatRoom" || ChatRoomHideIconState <= ChatRoomHideIconStateType.NO_ICONS) {
 			DrawArousalMeter(C, X, Y, Zoom);
 			OnlineGameDrawCharacter(C, X, Y, Zoom);
 			if (C.HasHiddenItems) DrawImageZoomCanvas("Screens/Character/Player/HiddenItem.png", DrawCanvas, 0, 0, 86, 86, X + 54 * Zoom, Y + 880 * Zoom, 70 * Zoom, 70 * Zoom);
@@ -485,7 +485,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		}
 
 		// Draw the character name below herself
-		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(ServerPlayerIsInChatRoom() && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
+		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(ServerPlayerIsInChatRoom() && ChatRoomHideIconState >= ChatRoomHideIconStateType.NO_NAME)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
 			if (!ServerPlayerIsInChatRoom() || !ChatRoomMapViewIsActive() || CurrentCharacter)
 				if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 					DrawCanvas.font = CommonGetFont(30);

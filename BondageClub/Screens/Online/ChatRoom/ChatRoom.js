@@ -265,7 +265,20 @@ const ChatRoomArousalMsg_ChanceGagMod = {
 	"Gag" : 0.3,
 };
 
-var ChatRoomHideIconState = 0;
+/**
+ * An enum for the icon visibility state
+ * @satisfies {Record<"SHOW_ALL" | "NO_ICONS" | "NO_AROUSAL_BAR" | "NO_NAME", number>}
+ */
+const ChatRoomHideIconStateType = /** @type {const} */({
+	SHOW_ALL: 0,
+	NO_ICONS: 1,
+	NO_AROUSAL_BAR: 2,
+	NO_NAME: 3
+});
+
+/** @type {0 | 1 | 2 | 3} */
+var ChatRoomHideIconState = ChatRoomHideIconStateType.SHOW_ALL;
+
 /**
  * The list of buttons in the top-right
  * @type {ChatRoomMenuButton[]}
@@ -1468,7 +1481,7 @@ async function ChatRoomLoad() {
 	}
 
 	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
-		ChatRoomHideIconState = 0;
+		ChatRoomHideIconState = ChatRoomHideIconStateType.SHOW_ALL;
 	}
 	ChatRoomMenuBuild();
 	ChatRoomCharacterViewInitialize = true;
@@ -1662,7 +1675,7 @@ function ChatRoomUpdateDisplay() {
  */
 function DrawStatus(C, X, Y, Zoom) {
 	if ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowStatus != null) && (Player.OnlineSettings.ShowStatus == false)) return;
-	if (ChatRoomHideIconState >= 2) return;
+	if (ChatRoomHideIconState >= ChatRoomHideIconStateType.NO_AROUSAL_BAR) return;
 	if ((C.ArousalSettings != null) && (C.ArousalSettings.OrgasmTimer != null) && (C.ArousalSettings.OrgasmTimer > 0)) {
 		DrawImageResize("Icons/Status/Orgasm" + (Math.floor(CommonTime() / 1000) % 3).toString() + ".png", X + 225 * Zoom, Y + 920 * Zoom, 50 * Zoom, 30 * Zoom);
 		return;
@@ -2951,8 +2964,12 @@ function ChatRoomMenuPerformAction(action, event) {
 			break;
 		case "Icons":
 			// When the user toggles icon visibility
-			ChatRoomHideIconState += 1;
-			if (ChatRoomHideIconState > 3) ChatRoomHideIconState = 0;
+			ChatRoomHideIconState = /** @type {typeof ChatRoomHideIconState} */ (
+				CommonClamp(ChatRoomHideIconState + 1,
+					ChatRoomHideIconStateType.NO_NAME,
+					ChatRoomHideIconStateType.SHOW_ALL
+				)
+			);
 			break;
 		case "ClearFocus":
 			// When the user wants to exit focus mode (clear their focus list)
