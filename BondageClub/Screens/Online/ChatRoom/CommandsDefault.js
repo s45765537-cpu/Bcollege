@@ -92,7 +92,7 @@ const CommonCommands = [
 		},
 		Arguments: [{
 			name: "Member number",
-			description: "friendlistadd but with notification",
+			description: "Member number of the player to request friendship with",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsFriend).map(c => c.MemberNumber.toString()),
 		}]
 	},

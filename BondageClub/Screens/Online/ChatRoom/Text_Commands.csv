@@ -61,3 +61,5 @@ mapgivekey, [MemberNumber] [bronze] [silver] [gold]: Give any map key to a playe
 maptakekey, [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
 clear,Removes all messages from the chat
 arousal,Sets your arousal level
+sos,Toggle SOS emote
+brb,Toggle Be-right-back emote
