@@ -1919,7 +1919,7 @@ interface Character {
 	ExpressionQueue?: ExpressionQueueItem[];
 	CanTalk: () => boolean;
 	CanWalk: () => boolean;
-	CanKneel: () => boolean;
+	CanKneel: (minimumStatus?: PoseChangeStatus) => boolean;
 	CanInteract: () => boolean;
 
 	/**

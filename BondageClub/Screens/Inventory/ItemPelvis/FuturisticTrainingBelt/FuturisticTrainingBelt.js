@@ -461,7 +461,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, drawData
 			StruggleProgressStruggleCount = 0;
 			DialogLeaveDueToItem = true;
 		}
-	} else if (Item.Property.PunishStandup && CharacterIsKneelValid(C) && C.IsStanding() && ServerPlayerIsInChatRoom()) {
+	} else if (Item.Property.PunishStandup && C.CanKneel(PoseChangeStatus.NEVER_WITHOUT_AID) && C.IsStanding() && ServerPlayerIsInChatRoom()) {
 		AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, "Standup");
 		PoseSetActive(C, "Kneel");
 		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
