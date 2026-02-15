@@ -23860,6 +23860,22 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
 					},
+					{
+						Name: "Braid",
+						//CopyLayerColor: "Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+					},
+					{
+						Name: "SmallEars_Braid",
+						ShowForAttribute: ["SmallEars"],
+						CopyLayerColor: "Braid",
+					},
+					{
+						Name: "NoEars_Braid",
+						ShowForAttribute: ["NoEars"],
+						CopyLayerColor: "Braid",
+					},
+					{ Name: "Band" },
 				],
 			},
 			{
@@ -24543,7 +24559,23 @@ var AssetFemale3DCG = [
 						Priority: 52,
 					},
 					{
+						Name: "Main_Tips_Middle",
+						Priority: 52,
+					},
+					{
+						Name: "Main_Tips_Sides",
+						Priority: 52,
+					},
+					{
 						Name: "Back",
+						Priority: 51,
+					},
+					{
+						Name: "Back_Tips_Middle",
+						Priority: 51,
+					},
+					{
+						Name: "Back_Tips_Sides",
 						Priority: 51,
 					},
 				],
@@ -24741,7 +24773,10 @@ var AssetFemale3DCG = [
 					Suspension: "Suspension",
 				},
 			},
-			{ Name: "HairBack5b" },
+			{
+				Name: "HairBack5b",
+				Layer: [{ Name: "Main" }, { Name: "Tips" }, { Name: "Bands" }],
+			},
 			{ Name: "HairBack6" },
 			{ Name: "HairBack6b" },
 			{
