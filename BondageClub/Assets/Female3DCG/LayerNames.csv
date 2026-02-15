@@ -756,6 +756,9 @@ HairAccessory3Ribbons1Left,Left
 HairAccessory3Ribbons1Right,Right
 HairAccessory3Ribbons4Left,Left
 HairAccessory3Ribbons4Right,Right
+HairBackHairBack5bMain,Main
+HairBackHairBack5bTips,Tips
+HairBackHairBack5bBands,Bands
 HairBackHairBack13bBun,Bun
 HairBackHairBack13bMainLeft,Right
 HairBackHairBack13bMainRight,Left
@@ -880,18 +883,23 @@ HairBackHairBack84Left,Left
 HairBackHairBack84Right,Right
 HairBackHairBack84LeftStreak,Left Streak
 HairBackHairBack84RightStreak,Right Streak
-HairFrontHairFront22Base, Base
-HairFrontHairFront22bBase, Base
-HairFrontHairFront22bFluff, Fluff
-HairFrontHairFront22bTip, Tip
-HairFrontHairFront22Fluff, Fluff
-HairFrontHairFront22Tip, Tip
-HairFrontHairFront23Base, Base
-HairFrontHairFront23bBase, Base
-HairFrontHairFront23bFluff, Fluff
-HairFrontHairFront23bTip, Tip
-HairFrontHairFront23Fluff, Fluff
-HairFrontHairFront23Tip, Tip
+HairFrontHairFront20Main,Base
+HairFrontHairFront20Braid,Braid
+HairFrontHairFront20SmallEarsBraid,Braid
+HairFrontHairFront20NoEarsBraid,Braid
+HairFrontHairFront20Band,Band
+HairFrontHairFront22Base,Base
+HairFrontHairFront22bBase,Base
+HairFrontHairFront22bFluff,Fluff
+HairFrontHairFront22bTip,Tip
+HairFrontHairFront22Fluff,Fluff
+HairFrontHairFront22Tip,Tip
+HairFrontHairFront23Base,Base
+HairFrontHairFront23bBase,Base
+HairFrontHairFront23bFluff,Fluff
+HairFrontHairFront23bTip,Tip
+HairFrontHairFront23Fluff,Fluff
+HairFrontHairFront23Tip,Tip
 HairFrontHairFront27Bangs,Bangs
 HairFrontHairFront27BangsTip,Tips
 HairFrontHairFront27Base,Base
@@ -981,8 +989,12 @@ HairFrontHairFront62bGlossyBase,Base
 HairFrontHairFront62bTone,Ends
 HairFrontHairFront62bStrands,Strands
 HairFrontHairFront62bBraids,Extra
-HairFrontHairFront63Main,Main
-HairFrontHairFront63Back,Back
+HairFrontHairFront63Main,Front
+HairFrontHairFront63Main_Tips_Middle,Front Bang
+HairFrontHairFront63Main_Tips_Sides,Side Bangs
+HairFrontHairFront63Back,Rear Base
+HairFrontHairFront63Back_Tips_Middle,Lower Front Bang
+HairFrontHairFront63Back_Tips_Sides,Lower Side Bangs
 HairFrontHairFront64Main,Main
 HairFrontHairFront64Clip,Clip
 HairFrontHairFront65Full,Full
