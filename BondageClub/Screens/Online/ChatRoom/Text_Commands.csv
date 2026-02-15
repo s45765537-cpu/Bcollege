@@ -22,6 +22,7 @@ focusclear,: Alias for /focus clear
 focushelp,: Alias for /focus help
 friendlistadd,[MemberNumber]: Add the player to your friendlist
 friendlistremove,[MemberNumber]: Remove the player from your friendlist
+friendlistrequest,[MemberNumber]: Add the player to your friend list with a notification
 ghostadd,[MemberNumber]: Add the player to your ghostlist
 ghostremove,[MemberNumber]: Remove the player from your ghostlist
 help,[Keyword]: Display help for the command with prefix Keyword. Exclude [Keyword] to view all valid commands
@@ -60,3 +61,5 @@ mapgivekey, [MemberNumber] [bronze] [silver] [gold]: Give any map key to a playe
 maptakekey, [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
 clear,Removes all messages from the chat
 arousal,Sets your arousal level
+sos,Toggle SOS emote
+brb,Toggle Be-right-back emote
