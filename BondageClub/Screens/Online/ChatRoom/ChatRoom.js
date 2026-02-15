@@ -5048,6 +5048,8 @@ function ChatRoomSyncRoomProperties(data) {
 
 	// Update our leash state
 	CharacterRefreshLeash(Player);
+
+	ChatRoomMapManager.OnMapDataUpdated();
 }
 
 /**
