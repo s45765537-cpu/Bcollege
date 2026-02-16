@@ -110,13 +110,13 @@ const CraftingEffectsPrerequisite = {
 	Painful: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects.Comfy != null;
+			return !!craft.Effects.Comfy;
 		}
 	},
 	Comfy: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects.Painful != null;
+			return !!craft.Effects.Painful;
 		},
 	},
 	Decoy: {
@@ -125,72 +125,72 @@ const CraftingEffectsPrerequisite = {
 	Secure: {
 		max: 2,
 		isDisabled(craft) {
-			return craft.Effects.Loose != null;
+			return !!craft.Effects.Loose;
 		},
 	},
 	Loose: {
 		isDisabled(craft) {
-			return craft.Effects.Secure != null;
+			return !!craft.Effects.Secure;
 		},
 	},
 	Arousing: {
 		isDisabled(craft) {
-			return craft.Effects.Dull != null;
+			return !!craft.Effects.Dull;
 		},
 	},
 	Dull: {
 		isDisabled(craft) {
-			return craft.Effects.Arousing != null;
+			return !!craft.Effects.Arousing;
 		},
 	},
 	Heavy: {
 		isDisabled(craft) {
-			return craft.Effects.Light != null;
+			return !!craft.Effects.Light;
 		},
 	},
 	Light: {
 		isDisabled(craft) {
-			return craft.Effects.Heavy != null;
+			return !!craft.Effects.Heavy;
 		},
 	},
 	Large: {
 		isDisabled(craft) {
-			return craft.Effects.Small != null;
+			return !!craft.Effects.Small;
 		},
 	},
 	Small: {
 		isDisabled(craft) {
-			return craft.Effects.Large != null;
+			return !!craft.Effects.Large;
 		},
 	},
 	Thick: {
 		isDisabled(craft) {
-			return craft.Effects.Thin != null;
+			return !!craft.Effects.Thin;
 		},
 	},
 	Thin: {
 		isDisabled(craft) {
-			return craft.Effects.Thick != null;
+			return !!craft.Effects.Thick;
 		},
 	},
 	Malleable: {
 		isDisabled(craft) {
-			return craft.Effects.Rigid != null;
+			return !!craft.Effects.Rigid;
 		},
 	},
 	Rigid: {
 		isDisabled(craft) {
-			return craft.Effects.Malleable != null;
+			return !!craft.Effects.Malleable;
 		},
 	},
 	Simple: {
 		isDisabled(craft) {
-			return craft.Effects.Puzzling != null;
+			return !!craft.Effects.Puzzling;
 		},
 	},
 	Puzzling: {
 		isDisabled(craft) {
-			return craft.Effects.Simple != null;
+			return !!craft.Effects.Simple;
 		},
 	},
 	Edging: {
@@ -202,31 +202,34 @@ const CraftingEffectsPrerequisite = {
 	Strong: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects.Nimble != null || craft.Effects.Flexible != null;
+			return !!craft.Effects.Nimble || !!craft.Effects.Flexible;
 		},
 	},
 	Flexible: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects.Nimble != null || craft.Effects.Strong != null;
+			return !!craft.Effects.Nimble || !!craft.Effects.Strong;
 		},
 	},
 	Nimble: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects.Flexible != null || craft.Effects.Strong != null;
+			return !!craft.Effects.Flexible || !!craft.Effects.Strong;
 		},
 	},
 };
 /**
- * Checks if a {@link CraftingItem["Effect"]} prerequisite is met
+ * Checks if a {@link CraftingItem["Effects"]} prerequisite is met
  * @param {CraftingItemSelected | CraftingItem} craft
  * @param {CraftingPropertyType} effect
  */
 function CraftingCheckEffectsPrerequisite(craft, effect) {
+	// Count all effects with a positive value (nullish/absent and 0 values are equivalent in this context)
+	const nEffects = Object.values(craft.Effects).reduce((sum, effectValue) => effectValue ? sum + 1 : nEffects, 0);
+	if (nEffects > CraftingEffectsDefaultMaximumEffects) return false;
+
 	const prerequisite = CraftingEffectsPrerequisite[effect];
-	if (craft.Effects[effect] == null || !CommonIsInteger(Object.keys(craft.Effects).length, 0, CraftingEffectsDefaultMaximumEffects)) return false;
-	if (!CommonIsInteger((craft.Effects[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumStack))) return false;
+	if (!CommonIsInteger((craft.Effects[effect] ?? 0), 1, (prerequisite?.max ?? CraftingEffectsDefaultMaximumStack))) return false;
 
 	if (!prerequisite.isDisabled) return true;
 	return !prerequisite.isDisabled(craft);
@@ -496,7 +499,7 @@ function CraftingItemHasEffect(Item, Effect) {
 }
 
 function CraftingUpdatePropertyButton() {
-	const entries = CraftingSelectedItem?.Effects ? Object.entries(CraftingSelectedItem.Effects) : [];
+	const entries = (CraftingSelectedItem?.Effects ? Object.entries(CraftingSelectedItem.Effects) : []).filter(([key, value]) => !!value);
 	if (entries.length === 0) {
 		document.getElementById(CraftingID.propertyButton).innerText = TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`);
 		return;
@@ -807,16 +810,23 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickRemoveProperty: function _ClickRemoveProperty() {
+		if (!CraftingSelectedItem) {
+			return;
+		}
+
 		const name = this.parentElement.getAttribute("name");
-		CraftingSelectedItem.Property = /** @type {CraftingPropertyType} */("Normal");
-		if (CraftingSelectedItem?.Effects[name] != null && CraftingSelectedItem.Effects[name] <= 1) {
+		if (!CraftingSelectedItem.Effects[name]) {
 			delete CraftingSelectedItem.Effects[name];
 		} else {
 			CraftingSelectedItem.Effects[name] -= 1;
 		}
-		if (CraftingSelectedItem.Effects[name] == null) {
+		if (!CraftingSelectedItem.Effects[name]) {
 			this.parentElement.querySelector(".crafting-property-value").toggleAttribute("hidden", true);
 			this.toggleAttribute("hidden", true);
+			if (CraftingSelectedItem.Property === name) {
+				const newName = CommonEntries(CraftingSelectedItem.Effects).find(([effectName, value]) => effectName !== name && !!value)?.[0];
+				CraftingSelectedItem.Property = newName ?? "Normal";
+			}
 		}
 		/** @type {HTMLInputElement} */(this.parentElement.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects[name] ?? 0;
 		CraftingUpdatePropertyButton();
@@ -893,8 +903,8 @@ var CraftingEventListeners = {
 			e.setAttribute("aria-disabled", disabled ? "true" : "false");
 			// .crafting-property-add
 			e.querySelector(".crafting-property-add").toggleAttribute("disabled", disabled);
-			e.querySelector(".crafting-property-remove").toggleAttribute("hidden", CraftingSelectedItem.Effects[propertyType] == null);
-			e.querySelector(".crafting-property-value").toggleAttribute("hidden", CraftingSelectedItem.Effects[propertyType] == null);
+			e.querySelector(".crafting-property-remove").toggleAttribute("hidden", !CraftingSelectedItem.Effects[propertyType]);
+			e.querySelector(".crafting-property-value").toggleAttribute("hidden", !CraftingSelectedItem.Effects[propertyType]);
 			/** @type {HTMLInputElement} */(e.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects[propertyType] ?? 0;
 		});
 		CraftingUpdatePropertyButton();
@@ -1202,18 +1212,19 @@ var CraftingElements = {
 									},
 									eventListeners: {
 										/** @type {(this: HTMLInputElement, ev: Event) => void} */
-										change: function() {
-											const value = this.valueAsNumber;
-											if (isNaN(value)) return;
-											if (!CraftingCheckEffectsPrerequisite(CraftingSelectedItem, /** @type {CraftingPropertyType} */(property))) {
+										change: function(ev) {
+											if (!this.validity.valid) {
+												// Abort! `blur` will trigger a second `change` call after sanitizing the currently invalid value
+												ev.stopImmediatePropagation();
 												return;
 											}
-											CraftingSelectedItem.Effects[property] = this.valueAsNumber;
+
+											if (!CraftingCheckEffectsPrerequisite(CraftingSelectedItem, property)) {
+												return;
+											}
+											CraftingSelectedItem.Effects[property] = this.valueAsNumber || undefined;
 											CraftingUpdatePropertyButton();
 											CraftingPropertyUpdateButtons(CraftingSelectedItem);
-											if (CraftingSelectedItem.Effects[property] <= 0) {
-												delete CraftingSelectedItem.Effects[property];
-											}
 										},
 										/** @type {(this: HTMLInputElement, ev: Event) => void} */
 										blur: function (ev) {
@@ -1689,7 +1700,7 @@ function CraftingRun() {
 				if (groupName && InventoryAvailable(Player, Craft.Item, groupName)) {
 					DrawImageResize("Assets/" + Player.AssetFamily + "/" + groupName + "/Preview/" + asset.Name + ".png", X + 3, Y + 3, 135, 135);
 					DrawTextFit(asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
-					const effectArray = Object.entries(Craft.Effects);
+					const effectArray = Object.entries(Craft.Effects).filter(([_, value]) => !!value);
 					let text;
 					const getEffectText = (effect, count) => {
 						return TextGet(`Property${effect}`) + (count > 1 ? ` ×${count}` : "");
@@ -2620,25 +2631,60 @@ const CraftingValidationRecord = {
 		Validate: function (c, a) {
 			if (!CommonIsObject(c.Effects)) {
 				return false;
-			} else if (c.Effects.Normal) {
-				return false;
-			} else if (a == null) {
-				return CommonKeys(c.Effects).every(effect => CraftingPropertyMap.has(effect));
 			}
-			return CommonKeys(c.Effects).every(effect => {
-				const craftingProperty = CraftingPropertyMap.get(effect);
-				return craftingProperty?.(a) && CraftingCheckEffectsPrerequisite(c,effect);
-			});
+
+			let nEffects = 0;
+			for (const [effect, effectValue] of CommonEntries(c.Effects)) {
+				const prerequisite = CraftingEffectsPrerequisite[effect];
+				const validateProp = CraftingPropertyMap.get(effect);
+				if (
+					!prerequisite // Invalid effect type
+					|| !validateProp // Invalid effect type
+					|| effect === "Normal" // `Normal` is _never_ explicit and always implicit
+					|| !effectValue // Falsely value, equivalent to the value being absent
+					|| !CommonIsInteger(effectValue, 1, prerequisite.max ?? CraftingEffectsDefaultMaximumStack) // Value is either not an integer or out of bounds
+					|| (prerequisite.isDisabled?.(c) ?? false) // Conflict with other crafting effects
+					|| (a && !validateProp(a)) // Conflict with some asset property
+					|| nEffects >= CraftingEffectsDefaultMaximumEffects // Too many effects
+				) {
+					return false;
+				}
+				nEffects++;
+			}
+			return true;
 		},
 		GetDefault: (c, a) => {
-			if (c.Effects == null && c.Property != null && CraftingPropertyMap.has(c.Property)) {
-				return { [c.Property]: 1 };
-			} else if (c.Effects?.Normal != null) {
-				delete c.Effects.Normal;
-				return c.Effects;
-			} else {
-				return {};
+			if (!CommonIsObject(c.Effects)) {
+				if (c.Property != null && CraftingPropertyMap.has(c.Property)) {
+					return { [c.Property]: 1 };
+				} else {
+					return {};
+				}
 			}
+
+			/** @type {CraftingItem["Effects"]} */
+			const ret = {};
+			let nEffects = 0;
+			for (const [effect, effectValue] of CommonEntries(c.Effects)) {
+				const prerequisite = CraftingEffectsPrerequisite[effect];
+				const validateProp = CraftingPropertyMap.get(effect);
+				if (
+					!prerequisite // Invalid effect type
+					|| !validateProp // Invalid effect type
+					|| effect === "Normal" // `Normal` is _never_ explicit and always implicit
+					|| !effectValue // Falsely value, equivalent to the value being absent
+					|| !CommonIsInteger(effectValue, 1) // Value is either not an integer or otherwise illegal (<0)
+					|| (prerequisite.isDisabled?.({ ...c, Effects: ret }) ?? false) // Conflict with other crafting effects
+					|| (a && !validateProp(a)) // Conflict with some asset property
+					|| nEffects >= CraftingEffectsDefaultMaximumEffects // Too many effects
+				) {
+					continue;
+				}
+				// We can be a bit more lenient with values that are too large and just clamp them w.r.t. the max
+				ret[effect] = CommonClamp(effectValue, 1, prerequisite.max ?? CraftingEffectsDefaultMaximumStack);
+				nEffects++;
+			}
+			return ret;
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	},
