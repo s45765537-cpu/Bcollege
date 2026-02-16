@@ -1986,7 +1986,7 @@ function CraftingDeserialize(craftString) {
 		Type: Type || undefined,
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
-		Effects: Effects ? CommonJSONParse(Effects) : null,
+		Effects: Effects ? CommonJSONParse(Effects) : {},
 	};
 
 	const priority = Number.parseInt(OverridePriority);
@@ -2632,13 +2632,13 @@ const CraftingValidationRecord = {
 		},
 		GetDefault: (c, a) => {
 			if (c.Effects == null && c.Property != null && CraftingPropertyMap.has(c.Property)) {
-				return {[c.Property]: 1};
-			}
-			if (c.Effects.Normal != null) {
+				return { [c.Property]: 1 };
+			} else if (c.Effects?.Normal != null) {
 				delete c.Effects.Normal;
 				return c.Effects;
+			} else {
+				return {};
 			}
-			return {};
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	},
