@@ -79,10 +79,10 @@ DescriptionLight,Speeds up walking.
 OpenColorpicker,Open Colorpicker
 Layering,Change item layering
 Download,Export crafting code
-DownloadSucces,Crafting code pasted to clipboard
+DownloadSuccess,Crafting code pasted to clipboard
 Upload,Import crafting code
 UploadPrompt,Please paste the crafting code. Importing crafting codes will overwrite existing settings. Are you sure?
-UploadSucces,Crafting code successfully parsed
+UploadSuccess,Crafting code successfully parsed
 UploadFailure,Failed to parse the passed crafting code
 Undress,Undress character preview
 JSONError,Error while parsing craft
