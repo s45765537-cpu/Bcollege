@@ -110,13 +110,13 @@ const CraftingEffectsPrerequisite = {
 	Painful: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects?.Comfy != null;
+			return craft.Effects.Comfy != null;
 		}
 	},
 	Comfy: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects?.Painful != null;
+			return craft.Effects.Painful != null;
 		},
 	},
 	Decoy: {
@@ -125,72 +125,72 @@ const CraftingEffectsPrerequisite = {
 	Secure: {
 		max: 2,
 		isDisabled(craft) {
-			return craft.Effects?.Loose != null;
+			return craft.Effects.Loose != null;
 		},
 	},
 	Loose: {
 		isDisabled(craft) {
-			return craft.Effects?.Secure != null;
+			return craft.Effects.Secure != null;
 		},
 	},
 	Arousing: {
 		isDisabled(craft) {
-			return craft.Effects?.Dull != null;
+			return craft.Effects.Dull != null;
 		},
 	},
 	Dull: {
 		isDisabled(craft) {
-			return craft.Effects?.Arousing != null;
+			return craft.Effects.Arousing != null;
 		},
 	},
 	Heavy: {
 		isDisabled(craft) {
-			return craft.Effects?.Light != null;
+			return craft.Effects.Light != null;
 		},
 	},
 	Light: {
 		isDisabled(craft) {
-			return craft.Effects?.Heavy != null;
+			return craft.Effects.Heavy != null;
 		},
 	},
 	Large: {
 		isDisabled(craft) {
-			return craft.Effects?.Small != null;
+			return craft.Effects.Small != null;
 		},
 	},
 	Small: {
 		isDisabled(craft) {
-			return craft.Effects?.Large != null;
+			return craft.Effects.Large != null;
 		},
 	},
 	Thick: {
 		isDisabled(craft) {
-			return craft.Effects?.Thin != null;
+			return craft.Effects.Thin != null;
 		},
 	},
 	Thin: {
 		isDisabled(craft) {
-			return craft.Effects?.Thick != null;
+			return craft.Effects.Thick != null;
 		},
 	},
 	Malleable: {
 		isDisabled(craft) {
-			return craft.Effects?.Rigid != null;
+			return craft.Effects.Rigid != null;
 		},
 	},
 	Rigid: {
 		isDisabled(craft) {
-			return craft.Effects?.Malleable != null;
+			return craft.Effects.Malleable != null;
 		},
 	},
 	Simple: {
 		isDisabled(craft) {
-			return craft.Effects?.Puzzling != null;
+			return craft.Effects.Puzzling != null;
 		},
 	},
 	Puzzling: {
 		isDisabled(craft) {
-			return craft.Effects?.Simple != null;
+			return craft.Effects.Simple != null;
 		},
 	},
 	Edging: {
@@ -202,19 +202,19 @@ const CraftingEffectsPrerequisite = {
 	Strong: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects?.Nimble != null || craft.Effects?.Flexible != null;
+			return craft.Effects.Nimble != null || craft.Effects.Flexible != null;
 		},
 	},
 	Flexible: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects?.Nimble != null || craft.Effects?.Strong != null;
+			return craft.Effects.Nimble != null || craft.Effects.Strong != null;
 		},
 	},
 	Nimble: {
 		max: 1,
 		isDisabled(craft) {
-			return craft.Effects?.Flexible != null || craft.Effects?.Strong != null;
+			return craft.Effects.Flexible != null || craft.Effects.Strong != null;
 		},
 	},
 };
@@ -225,8 +225,8 @@ const CraftingEffectsPrerequisite = {
  */
 function CraftingCheckEffectsPrerequisite(craft, effect) {
 	const prerequisite = CraftingEffectsPrerequisite[effect];
-	if (craft.Effects?.[effect] == null || !CommonIsInteger(Object.keys(craft.Effects).length, 0, CraftingEffectsDefaultMaximumEffects)) return false;
-	if (!CommonIsInteger((craft.Effects?.[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumStack))) return false;
+	if (craft.Effects[effect] == null || !CommonIsInteger(Object.keys(craft.Effects).length, 0, CraftingEffectsDefaultMaximumEffects)) return false;
+	if (!CommonIsInteger((craft.Effects[effect] ?? 0), 0, (prerequisite?.max ?? CraftingEffectsDefaultMaximumStack))) return false;
 
 	if (!prerequisite.isDisabled) return true;
 	return !prerequisite.isDisabled(craft);
@@ -238,7 +238,7 @@ function CraftingCheckEffectsPrerequisite(craft, effect) {
  */
 function CraftingPropertyUpdateButtons(craft) {
 	for (const name of Array.from(CraftingPropertyMap.keys())) {
-		const disabled = !CraftingCheckEffectsPrerequisite({...craft, Effects: {...craft.Effects, [name]: (craft.Effects?.[name] ?? 0) + 1}}, name) || craft.Asset && !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
+		const disabled = !CraftingCheckEffectsPrerequisite({...craft, Effects: {...craft.Effects, [name]: (craft.Effects[name] ?? 0) + 1}}, name) || craft.Asset && !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
 		document.getElementById(`crafting-property-button-${name}-add`)?.toggleAttribute("disabled", disabled);
 	}
 	document.getElementById("crafting-property-button")?.toggleAttribute("disabled", craft.Asset == null);
@@ -629,7 +629,7 @@ var CraftingEventListeners = {
 			item.Difficulty = (
 				item.Asset.Difficulty
 				+ SkillGetLevel(Player, "Bondage")
-				+ (item.Craft.Effects?.Secure ?? 0) * 4
+				+ (item.Craft.Effects.Secure ?? 0) * 4
 				+ CraftingSelectedItem.DifficultyFactor
 			);
 			DialogSetTightenLoosenItem(item);
@@ -809,16 +809,16 @@ var CraftingEventListeners = {
 	_ClickRemoveProperty: function _ClickRemoveProperty() {
 		const name = this.parentElement.getAttribute("name");
 		CraftingSelectedItem.Property = /** @type {CraftingPropertyType} */("Normal");
-		if (CraftingSelectedItem?.Effects?.[name] != null && CraftingSelectedItem.Effects[name] <= 1) {
+		if (CraftingSelectedItem?.Effects[name] != null && CraftingSelectedItem.Effects[name] <= 1) {
 			delete CraftingSelectedItem.Effects[name];
 		} else {
 			CraftingSelectedItem.Effects[name] -= 1;
 		}
-		if (CraftingSelectedItem.Effects?.[name] == null) {
+		if (CraftingSelectedItem.Effects[name] == null) {
 			this.parentElement.querySelector(".crafting-property-value").toggleAttribute("hidden", true);
 			this.toggleAttribute("hidden", true);
 		}
-		/** @type {HTMLInputElement} */(this.parentElement.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects?.[name] ?? 0;
+		/** @type {HTMLInputElement} */(this.parentElement.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects[name] ?? 0;
 		CraftingUpdatePropertyButton();
 		CraftingPropertyUpdateButtons(CraftingSelectedItem);
 	},
@@ -893,9 +893,9 @@ var CraftingEventListeners = {
 			e.setAttribute("aria-disabled", disabled ? "true" : "false");
 			// .crafting-property-add
 			e.querySelector(".crafting-property-add").toggleAttribute("disabled", disabled);
-			e.querySelector(".crafting-property-remove").toggleAttribute("hidden", CraftingSelectedItem.Effects?.[propertyType] == null);
-			e.querySelector(".crafting-property-value").toggleAttribute("hidden", CraftingSelectedItem.Effects?.[propertyType] == null);
-			/** @type {HTMLInputElement} */(e.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects?.[propertyType] ?? 0;
+			e.querySelector(".crafting-property-remove").toggleAttribute("hidden", CraftingSelectedItem.Effects[propertyType] == null);
+			e.querySelector(".crafting-property-value").toggleAttribute("hidden", CraftingSelectedItem.Effects[propertyType] == null);
+			/** @type {HTMLInputElement} */(e.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects[propertyType] ?? 0;
 		});
 		CraftingUpdatePropertyButton();
 		// Disable the extended item config button for non-extended items
@@ -2620,9 +2620,11 @@ const CraftingValidationRecord = {
 		Validate: function (c, a) {
 			if (!CommonIsObject(c.Effects)) {
 				return false;
+			} else if (c.Effects.Normal) {
+				return false;
+			} else if (a == null) {
+				return CommonKeys(c.Effects).every(effect => CraftingPropertyMap.has(effect));
 			}
-			if (c.Effects?.Normal) return false;
-			if (a == null) return Object.keys(c.Effects).every(effect => {return CraftingPropertyMap.has(/** @type {CraftingPropertyType} */(effect));});
 			return CommonKeys(c.Effects).every(effect => {
 				const craftingProperty = CraftingPropertyMap.get(effect);
 				return craftingProperty?.(a) && CraftingCheckEffectsPrerequisite(c,effect);
