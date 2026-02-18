@@ -128,6 +128,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		delete newProps.OverridePriority;
 		delete newProps.DrawingTop;
 		delete newProps.DrawingLeft;
+		delete newProps.Opacity;
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;
