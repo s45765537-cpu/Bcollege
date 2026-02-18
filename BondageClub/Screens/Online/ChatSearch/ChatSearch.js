@@ -1624,7 +1624,7 @@ function ChatSearchToggleSearchMode() {
 			// Save the current search query and load the filter string
 			ChatSearchQueryString = ElementValue("InputSearch");
 			ChatSearchFilterTermsTemp = Player.ChatSearchSettings.FilterTerms;
-			ElementValue("InputSearch", ChatSearchFilterTermsTemp);
+			ElementValue("InputFilter", ChatSearchFilterTermsTemp);
 			ChatSearchMode = "Filter";
 			ChatSearchQuery("");
 			ChatSearchQuerySort();
