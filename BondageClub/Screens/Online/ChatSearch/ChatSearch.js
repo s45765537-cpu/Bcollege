@@ -230,6 +230,7 @@ async function ChatSearchLoad() {
 	filterInput.toggleAttribute("hidden", true);
 	filterInput.classList.add("chat-search-input-filter-box");
 	filterInput.addEventListener("input", function () {
+		clearButton.hidden = this.value.length === 0;
 		Player.ChatSearchSettings.FilterTerms = this.value;
 	});
 	filterInput.addEventListener("keydown", (event) => {
@@ -238,10 +239,15 @@ async function ChatSearchLoad() {
 	});
 
 	const clearButton = ElementButton.Create("chat-search-clear-input-search", function (ev) {
-		ElementValue("InputSearch", "");
-		ChatSearchQueryString = "";
-		this.hidden = true;
-		ChatSearchQuery("");
+		switch (ChatSearchMode) {
+			case "":
+				ElementValue("InputSearch", "");
+				ChatSearchQuery("");
+				break;
+			case "Filter":
+				ElementValue("InputFilter", "");
+				break;
+		}
 	}, {
 		image: "Icons/cross.svg",
 		noStyling: true,
