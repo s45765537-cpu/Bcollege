@@ -591,6 +591,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		delete newProps.OverridePriority;
 		delete newProps.DrawingTop;
 		delete newProps.DrawingLeft;
+		delete newProps.Opacity;
 		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
 			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
 			delete newProps.Intensity;
