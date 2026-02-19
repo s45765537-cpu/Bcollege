@@ -429,7 +429,7 @@ async function ChatSearchLoad() {
 						ElementButton.Create(
 							"chat-search-room-help-button",
 							() => {
-								if (ChatSearchFilterHelpScreenElement?.getAttribute("open") == "true") {
+								if (ChatSearchFilterHelpScreenElement?.open) {
 									return ChatSearchFilterHelpScreenElement.close();
 								}
 								ChatSearchFilterHelpScreenElement?.showModal();
