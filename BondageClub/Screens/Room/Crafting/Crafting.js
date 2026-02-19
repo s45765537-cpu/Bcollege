@@ -225,7 +225,7 @@ const CraftingEffectsPrerequisite = {
  */
 function CraftingCheckEffectsPrerequisite(craft, effect) {
 	// Count all effects with a positive value (nullish/absent and 0 values are equivalent in this context)
-	const nEffects = Object.values(craft.Effects).reduce((sum, effectValue) => effectValue ? sum + 1 : nEffects, 0);
+	const nEffects = Object.values(craft.Effects).reduce((sum, effectValue) => effectValue ? sum + 1 : sum, 0);
 	if (nEffects > CraftingEffectsDefaultMaximumEffects) return false;
 
 	const prerequisite = CraftingEffectsPrerequisite[effect];
