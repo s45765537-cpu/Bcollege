@@ -230,6 +230,7 @@ async function ChatSearchLoad() {
 	filterInput.toggleAttribute("hidden", true);
 	filterInput.classList.add("chat-search-input-filter-box");
 	filterInput.addEventListener("input", function () {
+		clearButton.hidden = this.value.length === 0;
 		Player.ChatSearchSettings.FilterTerms = this.value;
 	});
 	filterInput.addEventListener("keydown", (event) => {
@@ -238,10 +239,15 @@ async function ChatSearchLoad() {
 	});
 
 	const clearButton = ElementButton.Create("chat-search-clear-input-search", function (ev) {
-		ElementValue("InputSearch", "");
-		ChatSearchQueryString = "";
-		this.hidden = true;
-		ChatSearchQuery("");
+		switch (ChatSearchMode) {
+			case "":
+				ElementValue("InputSearch", "");
+				ChatSearchQuery("");
+				break;
+			case "Filter":
+				ElementValue("InputFilter", "");
+				break;
+		}
 	}, {
 		image: "Icons/cross.svg",
 		noStyling: true,
@@ -1620,11 +1626,16 @@ function ChatSearchToggleSearchMode() {
 			ChatSearchRoomGrid?.classList.add("chat-search-filter-search");
 			ElementWrap("InputSearch")?.toggleAttribute("hidden", true);
 			ElementWrap("InputFilter")?.toggleAttribute("hidden", false);
+			document.getElementById("chat-search-room-search-button")?.toggleAttribute("disabled", true);
+			if (ChatSearchSearchMenuButton?.getAttribute("aria-expanded") === "true") {
+				ChatSearchSearchMenuButton.click();
+			}
+			ChatSearchSearchMenuButton?.toggleAttribute("disabled", true);
 
 			// Save the current search query and load the filter string
 			ChatSearchQueryString = ElementValue("InputSearch");
 			ChatSearchFilterTermsTemp = Player.ChatSearchSettings.FilterTerms;
-			ElementValue("InputSearch", ChatSearchFilterTermsTemp);
+			ElementValue("InputFilter", ChatSearchFilterTermsTemp);
 			ChatSearchMode = "Filter";
 			ChatSearchQuery("");
 			ChatSearchQuerySort();
@@ -1635,6 +1646,8 @@ function ChatSearchToggleSearchMode() {
 			ChatSearchRoomGrid?.classList.remove("chat-search-filter-search");
 			ElementWrap("InputSearch")?.toggleAttribute("hidden", false);
 			ElementWrap("InputFilter")?.toggleAttribute("hidden", true);
+			document.getElementById("chat-search-room-search-button")?.toggleAttribute("disabled", false);
+			ChatSearchSearchMenuButton?.toggleAttribute("disabled", false);
 			ChatSearchSaveFilterTerms();
 			ChatSearchMode = "";
 			ChatSearchQuery(ChatSearchQueryString);
