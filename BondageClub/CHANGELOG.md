@@ -11,9 +11,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-02-14
-* Last recorded PR: [#6116](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6116)
-* Last recorded commit hash: `ee421c586621dd59099cf21c76fd5342df5ecb18`
+* Changelog last updated: 2026-02-22
+* Last recorded PR: [#6147](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6147)
+* Last recorded commit hash: `d06f89b1bc7194c9e0918e83756bb39a50e4ddad`
+
+## [Generated]
 
 ## [R125]
 
@@ -23,38 +25,51 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Zoe - Added support for multiple craft properties ([#5900](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5900))
 * Sin - Added Firebite and SpreaderBar logos By Gangriel ([#6128](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6128))
 * Sin - Added 5 plushies to the plushie item, Drawn by @RavenCreative ([#6109](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6109))
+* Sin + LisaTheOrange - Adds new map layer "Effects" with the ability to paint light/shadow and mood light effects on to the map. ([#6041](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6041))
 * lera - Add support for 'room codes' (export/import) ([#6119](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6119))
 * Felix - Kitsune tails unlocks on quest completion and small dialog tweaks ([#6102](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6102))
+* Felix + Tifa - Add HairFront20 braid and band assets ([#6138](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6138))
 * dDeepLb - Send ooc keybinding ([#6098](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6098))
 * Estsanatlehi - Swap Freeze for Mounted on the Throne ([#6121](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6121))
 * Estsanatlehi - Add a 2nd tie type to the pole for the BackElbowTouch pose ([#6132](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6132))
 * Ben987 - Online Rooms - 4 New Backgrounds from Bondage Teacher
 * Ben987 - Online Rooms - 7 New Backgrounds from Bondage Teacher
+* Ben987 - Import of Maid Dress 3 from Echo
 * Ben987 - Change Log
 
 ### [Fixes]
 
+* Felix - Small typo fixes ([#6143](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6143))
 * lera - fix: punish standing detection in edge cases (bound, rules, etc.) ([#6134](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6134))
+* lera - update(ui): prevent overlap in room code buttons' tooltips ([#6137](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6137))
 * Zoe - Fix: Adjusted null safety for crafts yet again ([#6120](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6120))
 * Zoe - Fixed problem about checking a null value ([#6118](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6118))
 * Rama - Fix crafting effect-related text styling and nomenclature ([#6130](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6130))
 * Rama - Add precautions against querying IDs that start with a number ([#6105](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6105))
+* Rama - Fix the color picker size exploding on iOS ([#6146](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6146))
+* Rama - Fix an issue wherein the extended item `Init()` validation could reset opacities ([#6147](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6147))
+* Rama - Fix crafting item effects potentially initializing to `null` ([#6144](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6144))
 * Estsanatlehi - Fix issues in Gambling.js ([#6126](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6126))
 * Estsanatlehi - Fix typo in the Hanging Frame's Normal message ([#6133](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6133))
 * Estsanatlehi - Fix some bugs in Asylum/GGTS ([#6110](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6110))
 * Estsanatlehi - Clear the last chat room when leaving the lobby ([#6112](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6112))
 * Estsanatlehi - Fix a leftover removed variable name causing a crash on account creation ([#6103](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6103))
 * Estsanatlehi - Don't bother processing chatroom messages if we're not in a room anymore ([#6104](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6104))
+* Estsanatlehi - Fix the MaidDress3 indentation and make it female-only since it has no male-body layers ([#6142](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6142))
+* Estsanatlehi - Random typo and whitespace fixes ([#6140](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6140))
+* Estsanatlehi - Fix missing command desc ([#6141](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6141))
 * Ben987 - Fix Bondage Brawl Compatibility
 
 ### [Technical]
 
+* lera - refactor: convert CharacterIsKneelValid to minimumStatus parameter on CharacterCanKneel ([#6136](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6136))
 * Rama - Add logic for handling `Load()` exceptions ([#6116](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6116))
 * Rama - Deprecate the `Asset.AllowColorizeAll` option ([#6129](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6129))
 * Rama - Move the `KeybindManager` class out of the `KeybindingManager` namespace ([#6131](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6131))
 * Rama - Add strict type checking for the shop ([#6114](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6114))
 * Rama - Add strict type checking for a bunch of `Online` rooms ([#6115](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6115))
 * Rama - Enable strict typing for another batch of modules ([#6117](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6117))
+* Rama - Improve validation and ensure that nullish- and zero-valued effects are properly treated equivalently ([#6145](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6145))
 * Estsanatlehi - Move the GGTS answers to a translation file ([#6122](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6122))
 * Estsanatlehi - Fix CI and some assorted bugfixes ([#6127](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6127))
 * Estsanatlehi - Strict-type ChatSearch.js ([#6108](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6108))
