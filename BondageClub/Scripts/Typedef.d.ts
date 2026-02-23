@@ -1402,7 +1402,7 @@ interface Asset {
 	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	readonly CreateLayerTypes: readonly string[];
 	/** A record that maps {@link ExtendedItemData.name} to a set with all option indices that support locks */
-	readonly AllowLockType: null | Record<string, Set<number>>;
+	readonly AllowLockType: null | Partial<Record<string, Set<number>>>;
 	/** @deprecated Removed without replacement: items _must_ support a "color all layers" button (to the extent that the item is colorable in the first place) */
 	readonly AllowColorizeAll?: never;
 	readonly AvailableLocations: readonly string[];
