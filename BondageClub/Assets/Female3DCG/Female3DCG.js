@@ -11514,8 +11514,10 @@ var AssetFemale3DCG = [
 				InheritPoseMappingFields: true,
 				AllowExpression: [null, "Hard"],
 				PoseMapping: {
+					...AssetPoseMapping.Panties,
 					Spread: "Spread",
-					AllFours: PoseType.HIDE,
+					LegsClosed: "LegsClosed",
+					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
 				ParentGroup: {
