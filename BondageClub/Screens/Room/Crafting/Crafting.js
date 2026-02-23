@@ -2632,6 +2632,15 @@ const CraftingValidationRecord = {
 			if (!CommonIsObject(c.Effects)) {
 				return false;
 			}
+			// Check for desyncs between `Property` and `Effects`
+			if (
+				c.Property != null
+				&& c.Property !== "Normal"
+				&& CraftingPropertyMap.has(c.Property)
+				&& !c.Effects[c.Property]
+			) {
+				return false;
+			}
 
 			let nEffects = 0;
 			for (const [effect, effectValue] of CommonEntries(c.Effects)) {
@@ -2660,6 +2669,16 @@ const CraftingValidationRecord = {
 				} else {
 					return {};
 				}
+			}
+
+			// Fix desyncs between `Property` and `Effects`
+			if (
+				c.Property != null
+				&& c.Property !== "Normal"
+				&& CraftingPropertyMap.has(c.Property)
+				&& !c.Effects[c.Property]
+			) {
+				c.Effects[c.Property] = 1;
 			}
 
 			/** @type {CraftingItem["Effects"]} */
