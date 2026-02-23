@@ -1192,7 +1192,7 @@ const DialogEffectIcons = /** @type {const} */({
 	_GetBlindIcon(effect, craftEffect) {
 		let level = CharacterBlindLevels.get(/** @type {BlindEffectName} */(effect));
 		if (typeof level === "undefined") return null;
-		if (typeof craftEffect === "undefined") return DialogEffectIcons._GagLevelToIcon(level);
+		if (typeof craftEffect === "undefined") return DialogEffectIcons._BlindLevelToIcon(level);
 
 		level -= 2 * (craftEffect?.Thin ?? 0);
 		level += 2 * (craftEffect?.Thick ?? 0);
