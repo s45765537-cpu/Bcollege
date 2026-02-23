@@ -3763,9 +3763,13 @@ var ChatRoomMessageHandlers = [
 			let inRange;
 			switch (data.Type) {
 				case "Action":
-				case "Emote":
 				case "Activity":
-					// We only show interaction messages from characters that are visible
+					inRange = ChatRoomMapViewCharacterIsVisible(sender);
+					// Out of range actions/activites shouldn't show at all. They aren't intended to have OOC content.
+					if (!inRange) return true;
+					break;
+
+				case "Emote":
 					inRange = ChatRoomMapViewCharacterIsVisible(sender);
 					break;
 
