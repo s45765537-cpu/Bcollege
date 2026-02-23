@@ -1387,9 +1387,10 @@ function InventoryHasLockableItems(C) {
 function InventoryDoesItemAllowLock(item) {
 	const asset = item.Asset;
 	const typeRecord = item.Property && item.Property.TypeRecord;
-	if (asset.AllowLockType && CommonIsObject(typeRecord)) {
+	const allowLockType = asset.AllowLockType;
+	if (allowLockType && CommonIsObject(typeRecord)) {
 		const entries = Object.entries(typeRecord);
-		return entries.some(([k, i]) => asset.AllowLockType?.[k].has(i));
+		return entries.some(([k, i]) => allowLockType[k]?.has(i));
 	} else {
 		return asset.AllowLock;
 	}
