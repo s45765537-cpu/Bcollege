@@ -3979,7 +3979,10 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 				InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
 				ElementCreate({
 					tag: "ul",
-					children: Object.entries(item.Craft.Effects).map(([propertyKey, propertyValue]) => {
+					children: Object.entries(item.Craft.Effects ?? {}).map(([propertyKey, propertyValue]) => {
+						if (!propertyValue) {
+							return null;
+						}
 						return {
 							tag: "li",
 							children: [

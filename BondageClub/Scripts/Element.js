@@ -1675,6 +1675,10 @@ var ElementButton = {
 	 * @returns {HTMLElement[]}
 	 */
 	CreateCraftTooltipContent: function CreateCraftTooltipContent(craft) {
+		// FIXME: For reasons unknown the `Effects` can, under unclear circumstances, occasionally disappear during the `DialogInventory` construction
+		// As a workaround, treat the value as potentially nulllish
+		// xref https://discord.com/channels/554377975714414605/1475900330205122583
+		const nEffects = Object.values(craft.Effects ?? {}).reduce((sum, effectValue) => effectValue ? sum + 1 : sum, 0);
 		const label = ElementCreate({
 			tag: "span",
 			children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
@@ -1683,7 +1687,7 @@ var ElementButton = {
 			tag: "ul",
 			classList: ["button-tooltip-craft"],
 			children: [
-				Object.entries(craft.Effects).length > 0 ? {
+				nEffects > 0 ? {
 					tag: "li",
 					children: [
 						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
