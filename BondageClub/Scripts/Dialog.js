@@ -2252,7 +2252,7 @@ function DialogClick(event) {
 			StruggleMinigameClick();
 		} else {
 			for (const [idx, [game, data]] of StruggleGetMinigames().entries()) {
-				if (MouseIn(1387 + 300 * (idx - 1), 550, 225, 275) && data.DisablingCraftedProperty && !((DialogStrugglePrevItem?.Craft?.Property?.[data.DisablingCraftedProperty] ?? 0) > 0)) {
+				if (MouseIn(1387 + 300 * (idx - 1), 550, 225, 275) && data.DisablingCraftedProperty && !((DialogStrugglePrevItem?.Craft?.Effects[data.DisablingCraftedProperty] ?? 0) > 0)) {
 					StruggleMinigameStart(Player, game, DialogStrugglePrevItem, DialogStruggleNextItem, DialogStruggleStop);
 					DialogMenuButtonBuild(C);
 				}
