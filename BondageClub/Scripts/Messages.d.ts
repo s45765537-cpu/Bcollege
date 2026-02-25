@@ -436,7 +436,7 @@ interface ServerChatRoomSearchRequest {
 	Language: "" | ServerChatRoomLanguage | ServerChatRoomLanguage[];
     SearchDescs?: boolean;
 	ShowLocked?: boolean;
-    MapTypes?: ("" | ChatRoomMapType)[];
+    MapTypes?: ChatRoomMapType[];
 }
 type ChatRoomSearchSettings = {
 	Language: "" | ServerChatRoomLanguage;

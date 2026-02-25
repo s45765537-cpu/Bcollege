@@ -1953,7 +1953,7 @@ function ChatSearchQuery(Query) {
 		Game: ChatSearchGame,
 		FullRooms: Player.ChatSearchSettings.FullRooms,
 		ShowLocked: Player.ChatSearchSettings.ShowLocked,
-		MapTypes: [Player.ChatSearchSettings.MapTypes],
+		MapTypes: Player.ChatSearchSettings.MapTypes ? [Player.ChatSearchSettings.MapTypes] : [],
 		SearchDescs: Player.ChatSearchSettings.SearchDescriptions,
 	};
 	const isEqual = CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData);

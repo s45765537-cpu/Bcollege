@@ -1412,7 +1412,7 @@ const ServerChatRoomSearchSettingsValidate = {
 	FullRooms: ServerValidation.isBool(false),
 	ShowLocked: ServerValidation.isBool(true),
 	SearchDescriptions: ServerValidation.isBool(false),
-	MapTypes: (arg) => CommonIncludes(/** @type {const} */(["", "Never", "Hybrid", "Always"]), arg) ? arg : "",
+	MapTypes: (arg) => CommonIncludes(/** @type {const} */(["Never", "Hybrid", "Always"]), arg) ? arg : "",
 	RoomMinSize: ServerValidation.isInt(2, 20, 2),
 	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
 	FilterTerms: ServerValidation.isString(200, ""),
