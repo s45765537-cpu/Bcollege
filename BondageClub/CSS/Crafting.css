@@ -130,6 +130,7 @@
 	height: calc(2.5 * var(--menu-button-size));
 }
 
+#crafting-padlock-grid button[data-hidden-asset]:not([aria-checked="true"]),
 #crafting-asset-grid button[data-hidden-asset]:not([aria-checked="true"]),
 #crafting-asset-grid button[data-hidden-group]:not([aria-checked="true"]) {
 	display: none;

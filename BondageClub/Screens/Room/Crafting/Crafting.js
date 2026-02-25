@@ -977,11 +977,23 @@ var CraftingEventListeners = {
 		}
 	},
 
+	_InputSearch: async function _InputSearch() {
+		const query = this.value.toUpperCase().trim();
+		const searchResultCandidates = document.getElementById(this.getAttribute("aria-controls"));
+		searchResultCandidates?.querySelectorAll("button.button").forEach(button => {
+			const label = button.querySelector(".button-label");
+			if (label) {
+				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? false : true;
+				button.toggleAttribute("data-hidden-asset", displayStyle);
+			}
+		});
+	},
+
 	/**
 	 * @private
 	 * @type {(this: HTMLInputElement, ev: Event) => Promise<void>}
 	 */
-	_InputSearch: async function _InputSearch() {
+	_InputSearchEffect: async function _InputSearchEffect() {
 		const query = this.value.toUpperCase().trim();
 		const searchResultCandidates = document.getElementById(this.getAttribute("aria-controls"));
 		searchResultCandidates?.querySelectorAll(".crafting-property-list-item").forEach(button => {
@@ -1106,9 +1118,10 @@ var CraftingElements = {
 	 * @param {string} id
 	 * @param {string} controls
 	 * @param {string} placeholder
+	 * @param {"asset" | "lock" | "effect"} type
 	 * @returns {HTMLInputElement}
 	 */
-	_SearchInput: function _SearchInput(id, controls, placeholder, assetSearch=false) {
+	_SearchInput: function _SearchInput(id, controls, placeholder, type) {
 		return ElementCreate({
 			tag: "input",
 			attributes: {
@@ -1123,8 +1136,8 @@ var CraftingElements = {
 				group: undefined, // Initialized and managed by the `focus` event listener for asset searches
 			},
 			eventListeners: {
-				input: CraftingEventListeners._InputSearch,
-				focus: assetSearch ? CraftingEventListeners._FocusSearchAsset : CraftingEventListeners._FocusSearch,
+				input: type === "effect" ? CraftingEventListeners._InputSearchEffect : CraftingEventListeners._InputSearch,
+				focus: type === "asset" ? CraftingEventListeners._FocusSearchAsset : CraftingEventListeners._FocusSearch,
 			},
 			children: [
 				{ tag: "datalist", attributes: { id: `${id}-datalist` } },
@@ -1392,7 +1405,7 @@ async function CraftingLoad() {
 							attributes: { id: CraftingID.propertyHeader },
 							children: [
 								{ tag: "span", children: [TextGet("SelectProperty")] },
-								CraftingElements._SearchInput(CraftingID.propertySearch, CraftingID.propertyGrid, TextGet("FilterProperty")),
+								CraftingElements._SearchInput(CraftingID.propertySearch, CraftingID.propertyGrid, TextGet("FilterProperty"), "effect"),
 							],
 						},
 						{
@@ -1425,7 +1438,7 @@ async function CraftingLoad() {
 							attributes: { id: CraftingID.assetHeader },
 							children: [
 								{ tag: "span", children: [TextGet("SelectItem")] },
-								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset"), true),
+								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset"), "asset"),
 							],
 						},
 						{
@@ -1461,7 +1474,7 @@ async function CraftingLoad() {
 							attributes: { id: CraftingID.padlockHeader },
 							children: [
 								{ tag: "span", children: [TextGet("SelectLock")] },
-								CraftingElements._SearchInput(CraftingID.padlockSearch, CraftingID.padlockGrid, TextGet("FilterLock")),
+								CraftingElements._SearchInput(CraftingID.padlockSearch, CraftingID.padlockGrid, TextGet("FilterLock"), "lock"),
 							],
 						},
 						{
