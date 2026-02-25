@@ -529,7 +529,7 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("RoomType")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-type-radio-group",
-							// @ts-ignore
+							/** @type {(this: HTMLButtonElement, ev: Event, key: "None" | ChatRoomMapType) => void} */
 							(ev, key) => {
 								if (key === "None") {
 									Player.ChatSearchSettings.MapTypes = "";
@@ -539,7 +539,7 @@ async function ChatSearchLoad() {
 								}
 								ChatSearchUpdateSearchSettings();
 							},
-							Player.ChatSearchSettings.MapTypes == null ? "None" : Player.ChatSearchSettings.MapTypes,
+							!Player.ChatSearchSettings.MapTypes ? "None" : Player.ChatSearchSettings.MapTypes,
 							[
 								{
 									options: { image: "Icons/cross.svg", tooltip: TextGet("AllRooms"), },
