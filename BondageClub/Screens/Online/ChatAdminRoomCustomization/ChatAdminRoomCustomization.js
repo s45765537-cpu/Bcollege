@@ -209,7 +209,7 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 
 		// Only allows .jpg and .png files for now
 		let URL = Custom.ImageURL.trim();
-		if (CommonURLHasExtension(URL, [".jpg", ".jpeg", ".png"])) {
+		if (CommonURLHasExtension(URL, [".jpg", ".jpeg", ".png", ".webp"])) {
 			if (DrawBGToRect != null) {
 				const opts = {
 					blur: DrawBGEffects ? Player.GetBlurLevel() : undefined,
