@@ -332,28 +332,39 @@ function AsylumGGTSSetTimer() {
 }
 
 /**
+ * Replaces the punctuation and capitalization in given text depending on the GGTS level.
+ * Makes it easier to respond to GGTS queries on lower levels.
+ * @param {number} Level - GGTS level
+ * @param {string} Text - the text to sanitize
+ * @return {string} - sanitized text
+ */
+function AsylumGGTSSanitizeText(Level, Text) {
+	Text = Text.replace(/’/g, "'");
+	Text = Text.replace(/。/g, ".");
+	Text = Text.replace(/，/g, ",");
+
+	if (Level <= 3) {
+		Text = Text.trim().toLowerCase();
+		Text = Text.replace(/\s/g, "");
+		Text = Text.replace(/\./g, "");
+		Text = Text.replace(/,/g, "");
+		Text = Text.replace(/'/g, "");
+		Text = Text.replace(/’/g, "");
+	}
+
+	return Text;
+}
+
+/**
  * Returns TRUE if the query was answered by character number M
  * @param {number} Level - The player GGTS level, at level 4 or more, capital letters and punctuation matters
  * @param {string} Text - The text to evaluate
  * @returns {boolean} - TRUE if the is done
  */
 function AsylumGGTSQueryDone(Level, Text) {
-	let Chat = AsylumGGTSChatToParse;
-	if (Level <= 3) {
-		Chat = Chat.trim().toLowerCase();
-		Chat = Chat.replace(/\s/g, "");
-		Chat = Chat.replace(/\./g, "");
-		Chat = Chat.replace(/,/g, "");
-		Chat = Chat.replace(/'/g, "");
-		Chat = Chat.replace(/’/g, "");
-		if (Chat === Text) return true;
-	} else {
-		Chat = Chat.replace(/’/g, "'");
-		Chat = Chat.replace(/。/g, ".");
-		Chat = Chat.replace(/，/g, ",");
-		if (Chat === Text) return true;
-	}
-	return false;
+	let ChatSanitized = AsylumGGTSSanitizeText(Level, AsylumGGTSChatToParse);
+	let TextSanitized = AsylumGGTSSanitizeText(Level, Text);
+	return ChatSanitized === TextSanitized;
 }
 
 /**
