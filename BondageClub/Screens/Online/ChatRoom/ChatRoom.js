@@ -5222,8 +5222,9 @@ function ChatRoomSyncItem(data) {
 			const previousItem = InventoryGet(ChatRoomCharacter[C], data.Item.Group);
 			// Go home TS, you're drunk: this explicit downcast should not be necessary, but here we are
 			const newItem = data.Item.Name == null ? null : ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, /** @type {ServerCharacterItemUpdate & { Name: string }} */(data.Item));
+			const unknownAsset = data.Item.Name !== undefined && newItem === null;
 
-			let { item, valid } = ValidationResolveAppearanceDiff(data.Item.Group, previousItem, newItem, updateParams);
+			let { item, valid } = ValidationResolveAppearanceDiff(data.Item.Group, previousItem, newItem, updateParams, unknownAsset);
 
 			ChatRoomAllowCharacterUpdate = false;
 
