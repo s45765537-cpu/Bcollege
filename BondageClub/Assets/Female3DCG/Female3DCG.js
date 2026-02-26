@@ -26996,6 +26996,35 @@ var AssetFemale3DCG = [
 					{ Name: "Line", MinOpacity: 0.8 }, //MinOpacity set in order to 'turn off' opacity control for this layer.
 				],
 			},
+			{
+				Name: "Running",
+				MinOpacity: 0,
+				Opacity: 0.8,
+				MaxOpacity: 1,
+				Random: false,
+				Layer: [
+					{ 
+						Name: "0",
+						AllowTypes: { typed: [0] },
+					},
+					{ 
+						Name: "1",
+						AllowTypes: { typed: [1] },
+					},
+					{ 
+						Name: "2",
+						AllowTypes: { typed: [2] },
+					},
+					{ 
+						Name: "3",
+						AllowTypes: { typed: [3] },
+					},
+					{ 
+						Name: "4",
+						AllowTypes: { typed: [4] },
+					},
+				],
+			},
 		],
 	},
 	// #endregion

@@ -1153,6 +1153,12 @@ EyebrowsEyebrows2SelectRightPiercing,Select Left Eyebrow Piercing
 EyebrowsEyebrows2SelectStyle,Select Eyebrow Style
 EyePatchTypeLeft,Left
 EyePatchTypeRight,Right
+EyeShadowRunningSelect,Select Options
+EyeShadowRunning0,Trails
+EyeShadowRunning1,Tragedy
+EyeShadowRunning2,Streaky
+EyeShadowRunning3,Uneven
+EyeShadowRunning4,Messy
 FaceMarkingsFaceWritingsModulePosition,Position
 FaceMarkingsFaceWritingsModuleStyle,Style
 FaceMarkingsFaceWritingsModuleText,Text
