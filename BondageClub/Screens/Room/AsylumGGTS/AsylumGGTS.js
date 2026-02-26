@@ -349,7 +349,6 @@ function AsylumGGTSSanitizeText(Level, Text) {
 		Text = Text.replace(/\./g, "");
 		Text = Text.replace(/,/g, "");
 		Text = Text.replace(/'/g, "");
-		Text = Text.replace(/’/g, "");
 	}
 
 	return Text;
