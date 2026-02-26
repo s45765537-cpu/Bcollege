@@ -125,17 +125,13 @@ Cloth,CollegeOutfit1,College
 Cloth,ComfyTop,Sleep Top
 Cloth,CorsetDress,Corset Dress
 Cloth,CorsetShirt,Corset Shirt
-Cloth,Cow,Cow
+Cloth,Cow,Cow Top
 Cloth,CropTop,Crop Top
 Cloth,CustomTShirt,Custom T-Shirt
 Cloth,Dress2,Nomadic Dress
 Cloth,Dress3,Long Dress
 Cloth,DressFur,Dress with Fur
 Cloth,EveningGown,Evening Gown
-Cloth,MaidDress3,Maid Dress 3
-Cloth,MaidDress4,Maid Dress 4
-Cloth,YuletideVelvetWarmth,Yuletide Velvet Warmth
-Cloth,NunRobes,Nun Robes
 Cloth,FishnetTop,Fishnet Top
 Cloth,FlowerDress,Flower Dress
 Cloth,FrilledShirt,Latex Frilled Shirt
@@ -158,12 +154,15 @@ Cloth,LeatherBolero,Leather Bolero
 Cloth,LeatherCropTop, Leather Crop Top
 Cloth,MaidApron1,Maid Apron
 Cloth,MaidApron2,Exposed Maid Apron
+Cloth,MaidDress3,Maid Dress 3
+Cloth,MaidDress4,Maid Dress 4
 Cloth,MaidLatex,Maid Latex Uniform
 Cloth,MaidOutfit1,Maid
 Cloth,MaidOutfit2,Maid Exposed
 Cloth,MaleTankTop1,Male Cloth Tank-Top
 Cloth,MeshTop,Mesh Top
 Cloth,MistressTop,Mistress Top
+Cloth,NunRobes,Nun Robes
 Cloth,NurseUniform,Nurse Uniform
 Cloth,OffTheShoulderTop,Off The Shoulder Top
 Cloth,RetroGirdle,Retro Girdle Dress
@@ -187,6 +186,7 @@ Cloth,TShirt2,Classic T-Shirt
 Cloth,VirginKiller1,Virgin Killer
 Cloth,WeddingDress1,Wedding Dress
 Cloth,WeddingDress2,Shoulderless Wedding Dress
+Cloth,YuletideVelvetWarmth,Yuletide Velvet Warmth
 Cloth,Yukata1,Yukata
 Cloth,CocktailDress,Cocktail Dress
 Cloth,MaidBikini,Maid Bikini

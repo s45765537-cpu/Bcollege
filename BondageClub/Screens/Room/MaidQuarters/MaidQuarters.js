@@ -69,7 +69,7 @@ function MaidQuartersPlayerInMaidUniform() {
 		(Hat == "MaidHairband1" || Hat == "MaidLatexHairband")
 		&& (
 			// Either regular maid outfits or latex outfit
-			(Cloth == "MaidOutfit1" || Cloth == "MaidOutfit2" || Cloth == "MaidLatex")
+			(Cloth == "MaidOutfit1" || Cloth == "MaidOutfit2" || Cloth == "MaidDress3" || Cloth == "MaidDress4" || Cloth == "MaidLatex")
 			// Or mostly naked
 			|| (NakedOrWithApron
 			&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
@@ -310,7 +310,9 @@ function MaidQuartersClick() {
 		} else {
 			switch (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name")){
 				case "MaidOutfit1": InventoryWear(Player,"MaidOutfit2","Cloth"); break;
-				case "MaidOutfit2": InventoryWear(Player,"MaidApron1","Cloth"); break;
+				case "MaidOutfit2": InventoryWear(Player,"MaidDress3","Cloth"); break;
+				case "MaidDress3": InventoryWear(Player,"MaidDress4","Cloth"); break;
+				case "MaidDress4": InventoryWear(Player,"MaidApron1","Cloth"); break;
 				case "MaidApron1": InventoryWear(Player,"MaidApron2","Cloth"); break;
 				case "MaidApron2": InventoryWear(Player,"MaidOutfit1","Cloth"); break;
 			}

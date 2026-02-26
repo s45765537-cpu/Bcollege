@@ -4226,7 +4226,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MaidDress3",
+				InventoryID: 101,
 				Random: false,
+				Value: -1,
+				BuyGroup: "Maid",
 				Top: 0,
 				Left: 0,
 				Priority: 26,
@@ -4255,7 +4258,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MaidDress4",
+				InventoryID: 101,
 				Random: false,
+				Value: -1,
+				BuyGroup: "Maid",
 				Top: 0,
 				Left: 0,
 				Priority: 26,

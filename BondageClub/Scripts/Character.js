@@ -1008,16 +1008,25 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 	if (Archetype == "Maid") {
 		InventoryAdd(C, "MaidOutfit1", "Cloth", false);
 		InventoryAdd(C, "MaidOutfit2", "Cloth", false);
+		InventoryAdd(C, "MaidDress3", "Cloth", false);
+		InventoryAdd(C, "MaidDress4", "Cloth", false);
 		InventoryAdd(C, "MaidHairband1", "Hat", false);
 		InventoryAdd(C, "MaidLatex", "Cloth", false);
 		InventoryAdd(C, "MaidLatexHairband", "Hat", false);
-		if (Math.random() > 0.85) {
+		let Outfit = Math.floor(Math.random() * 7); // Bigger odds of having the base maid outfit
+		if (Outfit == 0) {
 			InventoryWear(C, "MaidOutfit2", "Cloth");
 			InventoryWear(C, "MaidHairband1", "Hat");
-		} else if (Math.random() > 0.75) {
+		} else if (Outfit == 1) {
 			InventoryWear(C, "MaidLatex", "Cloth");
 			InventoryGet(C, "Cloth").Color = ['#202020', '#B0B0B0', 'Default'];
 			InventoryWear(C, "MaidLatexHairband", "Hat");
+		} else if (Outfit == 2) {
+			InventoryWear(C, "MaidDress3", "Cloth");
+			InventoryWear(C, "MaidHairband1", "Hat");
+		} else if (Outfit == 3) {
+			InventoryWear(C, "MaidDress4", "Cloth");
+			InventoryWear(C, "MaidHairband1", "Hat");
 		} else {
 			InventoryWear(C, "MaidOutfit1", "Cloth");
 			InventoryWear(C, "MaidHairband1", "Hat");

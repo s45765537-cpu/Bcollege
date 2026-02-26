@@ -796,6 +796,8 @@ function LoginMaidItems() {
 	if (LogQuery("JoinedSorority", "Maid")) {
 		InventoryAdd(Player, "MaidOutfit1", "Cloth", false);
 		InventoryAdd(Player, "MaidOutfit2", "Cloth", false);
+		InventoryAdd(Player, "MaidDress3", "Cloth", false);
+		InventoryAdd(Player, "MaidDress4", "Cloth", false);
 		InventoryAdd(Player, "MaidHairband1", "Cloth", false);
 		InventoryAdd(Player, "MaidApron1", "Cloth", false);
 		InventoryAdd(Player, "MaidApron2", "Cloth", false);
@@ -805,6 +807,8 @@ function LoginMaidItems() {
 	} else {
 		InventoryDelete(Player, "MaidOutfit1", "Cloth", false);
 		InventoryDelete(Player, "MaidOutfit2", "Cloth", false);
+		InventoryDelete(Player, "MaidDress3", "Cloth", false);
+		InventoryDelete(Player, "MaidDress4", "Cloth", false);
 		InventoryDelete(Player, "MaidHairband1", "Cloth", false);
 		InventoryDelete(Player, "MaidApron1", "Cloth", false);
 		InventoryDelete(Player, "MaidApron2", "Cloth", false);
