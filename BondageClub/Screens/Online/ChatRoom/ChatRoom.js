@@ -5214,70 +5214,68 @@ function ChatRoomSyncArousal(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncItem(data) {
-	if (ChatRoomData == null || (data == null) || (typeof data !== "object") || (data.Source == null) || (typeof data.Source !== "number") || (data.Item == null) || (typeof data.Item !== "object") || (data.Item.Target == null) || (typeof data.Item.Target !== "number") || (data.Item.Group == null) || (typeof data.Item.Group !== "string")) return;
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if (ChatRoomCharacter[C].MemberNumber === data.Item.Target) {
+	if (!ChatRoomData) return;
+	if (!CommonIsObject(data)) return;
+	if (!CommonIsInteger(data.Source) || !CommonIsObject(data.Item) || typeof data.Item.Group !== "string" || !CommonIsInteger(data.Item.Target)) return;
 
-			const updateParams = ValidationCreateDiffParams(ChatRoomCharacter[C], data.Source);
-			const previousItem = InventoryGet(ChatRoomCharacter[C], data.Item.Group);
-			// Go home TS, you're drunk: this explicit downcast should not be necessary, but here we are
-			const newItem = data.Item.Name == null ? null : ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, /** @type {ServerCharacterItemUpdate & { Name: string }} */(data.Item));
-			const unknownAsset = data.Item.Name !== undefined && newItem === null;
+	const targetChar = ChatRoomCharacter.find(char => char.MemberNumber === data.Item.Target);
+	if (!targetChar) return;
 
-			let { item, valid } = ValidationResolveAppearanceDiff(data.Item.Group, previousItem, newItem, updateParams, unknownAsset);
+	const updateParams = ValidationCreateDiffParams(targetChar, data.Source);
+	const previousItem = InventoryGet(targetChar, data.Item.Group);
+	const newItem = ServerBundledItemToAppearanceItem(targetChar.AssetFamily, data.Item);
+	const unknownAsset = data.Item.Name !== undefined && newItem === null;
 
-			ChatRoomAllowCharacterUpdate = false;
+	let { item, valid } = ValidationResolveAppearanceDiff(data.Item.Group, previousItem, newItem, updateParams, unknownAsset);
 
-			if (!item || (previousItem && previousItem.Asset.Name !== item.Asset.Name)) {
-				InventoryRemove(ChatRoomCharacter[C], data.Item.Group, false);
-			}
+	ChatRoomAllowCharacterUpdate = false;
 
-			item: if (item) {
+	if (!item || (previousItem && previousItem.Asset.Name !== item.Asset.Name)) {
+		InventoryRemove(targetChar, data.Item.Group, false);
+	}
 
-				// Puts the item on the character and apply the craft & property
-				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty);
-				if (wornItem == null) {
-					valid = false;
-					break item;
-				}
-				wornItem.Craft = item.Craft;
-				wornItem.Property = item.Property;
+	item: if (item) {
 
-				/** @type {AppearanceDiffMap} */
-				const diffMap = {};
-				for (const appearanceItem of ChatRoomCharacter[C].Appearance) {
-					const groupName = appearanceItem.Asset.Group.Name;
-					if (groupName === data.Item.Group) {
-						diffMap[groupName] = [previousItem, appearanceItem];
-					} else {
-						diffMap[groupName] = [appearanceItem, appearanceItem];
-					}
-				}
-
-				const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(ChatRoomCharacter[C].Appearance, diffMap);
-				ChatRoomCharacter[C].Appearance = cyclicBlockSanitizationResult.appearance;
-				valid = valid && cyclicBlockSanitizationResult.valid;
-			}
-
-			ChatRoomAllowCharacterUpdate = true;
-
-			// If the update was invalid, send a correction update
-			if (ChatRoomCharacter[C].IsPlayer() && !valid) {
-				console.warn(`Invalid appearance update to group ${data.Item.Group}. Updating with sanitized appearance.`);
-				ChatRoomCharacterUpdate(ChatRoomCharacter[C]);
-			} else {
-				CharacterRefresh(ChatRoomCharacter[C]);
-			}
-
-			// Keeps the change in the chat room data and allows the character to be updated again
-			for (let R = 0; R < ChatRoomData.Character.length; R++) {
-				if (ChatRoomData.Character[R].MemberNumber == data.Item.Target)
-					// @ts-expect-error FIXME: This is mistaking raw server data with unpacked character data
-					ChatRoomData.Character[R].Appearance = ChatRoomCharacter[C].Appearance;
-			}
-
-			return;
+		// Puts the item on the character and apply the craft & property
+		const wornItem = CharacterAppearanceSetItem(targetChar, item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty);
+		if (wornItem == null) {
+			valid = false;
+			break item;
 		}
+		wornItem.Craft = item.Craft;
+		wornItem.Property = item.Property;
+
+		/** @type {AppearanceDiffMap} */
+		const diffMap = {};
+		for (const appearanceItem of targetChar.Appearance) {
+			const groupName = appearanceItem.Asset.Group.Name;
+			if (groupName === data.Item.Group) {
+				diffMap[groupName] = [previousItem, appearanceItem];
+			} else {
+				diffMap[groupName] = [appearanceItem, appearanceItem];
+			}
+		}
+
+		const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(targetChar.Appearance, diffMap);
+		targetChar.Appearance = cyclicBlockSanitizationResult.appearance;
+		valid = valid && cyclicBlockSanitizationResult.valid;
+	}
+
+	ChatRoomAllowCharacterUpdate = true;
+
+	// If the update was invalid, send a correction update
+	if (targetChar.IsPlayer() && !valid) {
+		console.warn(`Invalid appearance update to group ${data.Item.Group}. Updating with sanitized appearance.`);
+		ChatRoomCharacterUpdate(targetChar);
+	} else {
+		CharacterRefresh(targetChar);
+	}
+
+	// Keeps the change in the chat room data and allows the character to be updated again
+	const rawChar = ChatRoomData.Character.find(char => char.MemberNumber === data.Item.Target);
+	if (rawChar) {
+		rawChar.Appearance = ServerAppearanceBundle(targetChar.Appearance);
+	}
 }
 
 /**
