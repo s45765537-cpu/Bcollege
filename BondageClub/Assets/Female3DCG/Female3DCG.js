@@ -4229,7 +4229,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Top: 0,
 				Left: 0,
-				Priority: 30,
+				Priority: 26,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
@@ -4237,7 +4237,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "BackBow" },
+					{ Name: "BackBow", Priority: 6 },
 					{ Name: "LiningSkirt" },
 					{ Name: "ShirtTone" },
 					{ Name: "ShirtBrightPart" },
@@ -4250,6 +4250,24 @@ var AssetFemale3DCG = [
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "女仆装3",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "MaidDress4",
+				Random: false,
+				Top: 0,
+				Left: 0,
+				Priority: 26,
+				Gender: "F",
+				PoseMapping: {
+					Hogtied: "Hogtied",
+					AllFours: PoseType.HIDE,
+				},
+				Layer: [{ Name: "LiningSkirt" }, { Name: "Top" }, { Name: "Skirt" }, { Name: "Apron" }, { Name: "WaistRope" }, { Name: "Waist" }],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "女仆装4",
 					License: "CC BY-SA-NC 4.0",
 				},
 			},

@@ -1,4 +1,4 @@
-﻿BodyUpperLarge,Body
+BodyUpperLarge,Body
 BodyUpperNormal,Body
 BodyUpperSmall,Body
 BodyUpperXLarge,Body
@@ -213,6 +213,12 @@ ClothMaidDress3ShirtBrightPart,Shirt Bright Part
 ClothMaidDress3ShirtCollar,Shirt Collar
 ClothMaidDress3ShirtDarkPart,Shirt Dark Part
 ClothMaidDress3ShirtTone,Shirt Tone
+ClothMaidDress4Apron,Apron
+ClothMaidDress4LiningSkirt,Lining Skirt
+ClothMaidDress4Skirt,Skirt
+ClothMaidDress4Top,Top
+ClothMaidDress4Waist,Waist
+ClothMaidDress4WaistRope,Waist Rope
 ClothOuterLeatherJacketJacket,Jacket
 ClothOuterLeatherJacketMetal,Metal
 ClothOuterLeatherJacketShineJacket,Shine Jacket
