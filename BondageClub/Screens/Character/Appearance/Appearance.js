@@ -1181,13 +1181,13 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * @param {Character} C - The character whose appearance should be changed
  * @param {AssetGroupName} Group - The name of the corresponding groupr for the item
  * @param {Asset|null} ItemAsset - The asset collection of the item to be changed
- * @param {string|string[]} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
- * @param {number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
+ * @param {null | string | string[]} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
+ * @param {null | number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
  * to the item
- * @param {number} [ItemMemberNumber=-1] - The member number of the player adding the item - defaults to -1
+ * @param {null | number} [ItemMemberNumber=-1] - The member number of the player adding the item - defaults to -1
  * @returns {Item | null} - Thew newly created item or `undefined` if the asset does not exist
  */
-function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMemberNumber) {
+function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, DifficultyFactor=null, ItemMemberNumber=null) {
 	// Sets the difficulty factor
 	if (DifficultyFactor == null) DifficultyFactor = 0;
 

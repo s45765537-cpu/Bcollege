@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -24,13 +23,15 @@ var CraftingJSON = {
 		function dragstart(ev) {
 			draggedItem = this.closest("fieldset");
 			parent = null;
-			ev.dataTransfer.setData("application/my-app", this.id);
-			ev.dataTransfer.effectAllowed = "move";
+			if (ev.dataTransfer) {
+				ev.dataTransfer.setData("application/my-app", this.id);
+				ev.dataTransfer.effectAllowed = "move";
+			}
 		}
 
 		/** @type {(this: HTMLElement, ev: DragEvent) => void} */
 		function dragenter(ev) {
-			if (this === parent) {
+			if (this === parent || !draggedItem) {
 				return;
 			}
 			parent = this;
@@ -75,50 +76,67 @@ var CraftingJSON = {
 	/**
 	 * @private
 	 * @param {Element} fieldset
-	 * @param {Element} radioContainer
+	 * @param {null | Element} radioContainer
 	 * @param {Map<{ inputNew: HTMLInputElement, inputOld: HTMLInputElement }, boolean>} checkLog
 	 */
 	_queueAdvance: function _queueAdvance(fieldset, radioContainer, checkLog) {
+		if (!radioContainer) {
+			return;
+		}
 		fieldset.prepend(radioContainer);
 
-		/** @type {HTMLInputElement} */
+		/** @type {null | HTMLInputElement} */
 		const inputNew = radioContainer.querySelector("input[type='radio'][value='new']");
-		/** @type {HTMLInputElement} */
+		/** @type {null | HTMLInputElement} */
 		const inputOld = fieldset.querySelector("input[type='radio'][value='old']");
+		if (!inputOld || !inputNew) {
+			return;
+		}
 		checkLog.set({ inputNew, inputOld }, inputNew.checked);
 		inputNew.name = inputOld.name;
+	},
+
+	/**
+	 * @private
+	 * @param {null | HTMLElement} el
+	 * @returns {el is HTMLElement}
+	 */
+	_isTooltip: function _isTooltip(el) {
+		return el?.getAttribute("role") === "tooltip";
 	},
 
 	/** @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>} */
 	eventListeners: {
 		focusTooltip: function() {
 			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(el => el?.getAttribute("role") === "tooltip") ?? [];
+			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
 			tooltips.forEach(e => e.toggleAttribute("data-focus", true));
 		},
 
 		blurTooltip: function() {
 			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(el => el?.getAttribute("role") === "tooltip") ?? [];
+			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
 			tooltips.forEach(e => e.toggleAttribute("data-focus", false));
 		},
 
 		hoverinTooltip: function() {
 			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(el => el?.getAttribute("role") === "tooltip") ?? [];
+			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
 			tooltips.forEach(e => e.toggleAttribute("data-hover", true));
 		},
 
 		hoveroutTooltip: function() {
 			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(el => el?.getAttribute("role") === "tooltip") ?? [];
+			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
 			tooltips.forEach(e => e.toggleAttribute("data-hover", false));
 		},
 
 		/** @type {(this: HTMLElement, ev: DragEvent) => void} */
 		dragover: function(ev) {
-			ev.preventDefault();
-			ev.dataTransfer.dropEffect = "move";
+			if (ev.dataTransfer) {
+				ev.preventDefault();
+				ev.dataTransfer.dropEffect = "move";
+			}
 		},
 
 		/** @type {(this: HTMLElement, ev: DragEvent) => void} */
@@ -127,17 +145,19 @@ var CraftingJSON = {
 			const fieldsets = Array.from(this.children);
 
 			// Identify the target and source elements
-			const elemTarget = ev.target instanceof Element && ev.target.closest("[draggable='true']");
-			const indexTarget = fieldsets.indexOf(elemTarget.closest("fieldset"));
-			if (!elemTarget || Number.isNaN(indexTarget) || !CraftingJSON._craftListCache) {
+			const elemTarget = ev.target instanceof Element ? ev.target.closest("[draggable='true']") : null;
+			const fieldsetTarget = elemTarget?.closest("fieldset");
+			const indexTarget = fieldsetTarget ? fieldsets.indexOf(fieldsetTarget) : -1;
+			if (!elemTarget || indexTarget === -1 || !CraftingJSON._craftListCache || !ev.dataTransfer) {
 				return;
 			}
 
 			const data = ev.dataTransfer.getData("application/my-app");
 			const root = /** @type {ShadowRoot} */(this.getRootNode());
 			const elemSource = root.getElementById(data);
-			const indexSource = fieldsets.indexOf(elemSource.closest("fieldset"));
-			if (!elemSource || Number.isNaN(indexSource) || indexSource === indexTarget) {
+			const fieldsetSource = elemSource?.closest("fieldset");
+			const indexSource = fieldsetSource ? fieldsets.indexOf(fieldsetSource) : -1;
+			if (!elemSource || indexSource === -1 || indexSource === indexTarget) {
 				return;
 			}
 
@@ -196,9 +216,9 @@ var CraftingJSON = {
 				return;
 			}
 
-			/** @type {NodeListOf<HTMLInputElement>} */
+			/** @type {undefined | NodeListOf<HTMLInputElement>} */
 			const inputs = this.closest("dialog")?.querySelectorAll("input[type='radio']:checked");
-			inputs.forEach(el => {
+			inputs?.forEach(el => {
 				const index = Number.parseInt(el.name, 10);
 				if (!Number.isNaN(index) && el.value === "new" && el.validity.valid) {
 					Player.Crafting[index] = craftList[index].craft;
@@ -273,13 +293,13 @@ var CraftingJSON = {
 		clickSelectNew: function() {
 			/** @type {undefined | NodeListOf<HTMLInputElement>} */
 			const inputs = this.closest("fieldset")?.querySelectorAll("input[type='radio'][value='new']:enabled");
-			inputs.forEach(el => el.checked = true);
+			inputs?.forEach(el => el.checked = true);
 		},
 
 		clickSelectOld: function() {
 			/** @type {undefined | NodeListOf<HTMLInputElement>} */
 			const inputs = this.closest("fieldset")?.querySelectorAll("input[type='radio'][value='old']:enabled");
-			inputs.forEach(el => el.checked = true);
+			inputs?.forEach(el => el.checked = true);
 		},
 
 		clickError: function() {
@@ -299,8 +319,7 @@ var CraftingJSON = {
 				return;
 			}
 
-			/** @type {null | Element} */
-			let match = null;
+			let match = /** @type {null | Element} */(null);
 			const regex = new RegExp(query, "gi");
 			superGroup.querySelectorAll(".craft-label").forEach(e => {
 				e.innerHTML = e.textContent.replaceAll(regex, string => {
@@ -308,9 +327,7 @@ var CraftingJSON = {
 					return `<em class="label-highlight">${ChatRoomHTMLEntities(string)}</em>`;
 				});
 			});
-			if (match) {
-				match.closest("[role='radiogroup']")?.scrollIntoView({ behavior: "instant" });
-			}
+			match?.closest("[role='radiogroup']")?.scrollIntoView({ behavior: "instant" });
 		},
 
 		/** @type {(this: HTMLInputElement) => void} */
@@ -363,10 +380,12 @@ var CraftingJSON = {
 		if (!CommonIsObject(obj)) {
 			return { status: CraftingStatusType.CRITICAL_ERROR };
 		}
+		/** @type {{ [k in keyof CraftingJSON.DataEncoded]?: unknown }} */
+		const obj2 = obj;
 
-		switch (obj.version) {
+		switch (obj2.version) {
 			case 1: {
-				if (!Array.isArray(obj.crafts)) {
+				if (!Array.isArray(obj2.crafts)) {
 					return { status: CraftingStatusType.CRITICAL_ERROR };
 				}
 
@@ -374,11 +393,11 @@ var CraftingJSON = {
 				const errors = new Set;
 				/** @type {(null | CraftingItem)[]} */
 				const crafts = [];
-				for (const [i, craftString] of obj.crafts.entries()) {
+				for (const [i, craftString] of obj2.crafts.entries()) {
 					let craft = null;
-					if (craftString != null) {
+					if (typeof craftString === "string") {
 						try {
-							craft = /** @type {null | CraftingItem} */ (JSON.parse(LZString.decompressFromBase64(craftString)));
+							craft = /** @type {null | CraftingItem} */ (JSON.parse(LZString.decompressFromBase64(craftString) || "null"));
 						} catch {
 							errors.add(i);
 						}
@@ -393,7 +412,7 @@ var CraftingJSON = {
 				return {
 					errors,
 					status: errors.size === 0 ? CraftingStatusType.OK : CraftingStatusType.ERROR,
-					data: { version: obj.version, crafts },
+					data: { version: obj2.version, crafts },
 				};
 			}
 			default:
@@ -409,7 +428,7 @@ var CraftingJSON = {
 	 * @returns {HTMLElement}
 	 */
 	createRadio: function createRadio(craft, tooltipID, options) {
-		const asset = CraftingAssets[craft?.Item]?.[0];
+		const asset = craft?.Item ? CraftingAssets[craft.Item]?.[0] : null;
 		return ElementCreate({
 			tag: "label",
 			attributes: {

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 // NOTE: Keep as `var` to enable `window`-based lookup
@@ -240,8 +239,8 @@ function CraftingCheckEffectsPrerequisite(craft, effect) {
  * @param {CraftingItemSelected} craft
  */
 function CraftingPropertyUpdateButtons(craft) {
-	for (const name of Array.from(CraftingPropertyMap.keys())) {
-		const disabled = !CraftingCheckEffectsPrerequisite({...craft, Effects: {...craft.Effects, [name]: (craft.Effects[name] ?? 0) + 1}}, name) || craft.Asset && !CraftingPropertyMap.get(/** @type {CraftingPropertyType} */(name))(craft.Asset);
+	for (const [name, validate] of CraftingPropertyMap.entries()) {
+		const disabled = !CraftingCheckEffectsPrerequisite({...craft, Effects: {...craft.Effects, [name]: (craft.Effects[name] ?? 0) + 1}}, name) || craft.Asset && !validate(craft.Asset);
 		document.getElementById(`crafting-property-button-${name}-add`)?.toggleAttribute("disabled", disabled);
 	}
 	document.getElementById("crafting-property-button")?.toggleAttribute("disabled", craft.Asset == null);
@@ -500,20 +499,21 @@ function CraftingItemHasEffect(Item, Effect) {
 
 function CraftingUpdatePropertyButton() {
 	const entries = (CraftingSelectedItem?.Effects ? Object.entries(CraftingSelectedItem.Effects) : []).filter(([key, value]) => !!value);
+	const button = document.getElementById(CraftingID.propertyButton);
+	if (!button) {
+		return;
+	}
+
 	if (entries.length === 0) {
-		document.getElementById(CraftingID.propertyButton).innerText = TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`);
-		return;
-	}
-	if (entries.length === 1) {
+		button.innerText = TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`);
+	} else if (entries.length === 1) {
 		const [name, value] = entries[0];
-		document.getElementById(CraftingID.propertyButton).innerText = TextGet(`Property${name}`) + " ×" + value + ": " + TextGet(`Description${name}`);
-		return;
+		button.innerText = TextGet(`Property${name}`) + " ×" + value + ": " + TextGet(`Description${name}`);
+	} else if (entries.length <= 5) {
+		button.innerText = entries.map(([name, value]) => TextGet(`Property${name}`) + " ×" + value).join(" & ");
+	} else {
+		button.innerText = TextGet(`MultipleProperties`) + ` (${entries.length})`;
 	}
-	if (entries.length <= 5) {
-		document.getElementById(CraftingID.propertyButton).innerText = entries.map(([name, value]) => TextGet(`Property${name}`) + " ×" + value).join(" & ");
-		return;
-	}
-	document.getElementById(CraftingID.propertyButton).innerText = TextGet(`MultipleProperties`) + ` (${entries.length})`;
 
 }
 /**
@@ -581,7 +581,8 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLTextAreaElement | HTMLInputElement, ev: Event) => void}
 	 */
 	_InputDescription: function _InputDescription() {
-		this.setCustomValidity(this.value.match(this.dataset.pattern) ? "" : "patternMismatch");
+		const pattern = this.dataset.pattern;
+		this.setCustomValidity(!pattern || this.value.match(pattern) ? "" : "patternMismatch");
 	},
 
 	/**
@@ -620,12 +621,12 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickTighten: function _ClickTighten() {
-		if (!CraftingPreview || !CraftingSelectedItem?.Asset.AllowTighten) {
+		if (!CraftingPreview || !CraftingSelectedItem?.Asset?.AllowTighten) {
 			return;
 		}
 
 		const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
-		if (item) {
+		if (item?.Craft) {
 			// Make sure that all expected modifiers are present so that the difficulty factor can easily be extracted afterwards by extracting a deterministic value
 			item.Craft.Property = CraftingSelectedItem.Property;
 			item.Craft.Effects = CraftingSelectedItem.Effects;
@@ -665,15 +666,16 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickColors: function _ClickColors() {
-		if (CraftingPreview && CraftingSelectedItem?.Asset) {
-			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
+		const selectedItem = CraftingSelectedItem;
+		if (CraftingPreview && selectedItem?.Asset) {
+			const item = InventoryGet(CraftingPreview, selectedItem.Asset.DynamicGroupName);
 			if (item) {
 				CraftingModeSet("Color");
 				ItemColorLoad(CraftingPreview, item, 1100, 15, 875, 970, true);
 				ItemColorOnExit(({ colors }, save) => {
 					if (save) {
-						CraftingSelectedItem.Color = colors.join(",") || "Default";
-						ElementValue(CraftingID.colorsInput, CraftingSelectedItem.Color);
+						selectedItem.Color = colors.join(",") || "Default";
+						ElementValue(CraftingID.colorsInput, selectedItem.Color);
 					}
 					CraftingModeSet("Name");
 				});
@@ -697,7 +699,9 @@ var CraftingEventListeners = {
 	_ClickAccept: function _ClickAccept() {
 		// blur the active element in order to trigger any `change` event listeners
 		document.activeElement?.dispatchEvent(new Event("blur"));
-		Player.Crafting[CraftingSlot] = CraftingConvertSelectedToItem();
+		if (CraftingSelectedItem) {
+			Player.Crafting[CraftingSlot] = CraftingConvertSelectedToItem(CraftingSelectedItem);
+		}
 		CraftingSaveServer();
 		CraftingExit(false);
 	},
@@ -732,7 +736,7 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		const craft = /** @type {CraftingItem} */ (CommonJSONParse(LZString.decompressFromBase64(settingsString.trim())));
+		const craft = /** @type {null | CraftingItem} */ (CommonJSONParse(LZString.decompressFromBase64(settingsString.trim()) || "null"));
 		if (!craft) {
 			alert(TextGet("UploadFailure"));
 			return;
@@ -741,12 +745,15 @@ var CraftingEventListeners = {
 		const status = CraftingValidate(craft, null, true, true);
 		switch (status) {
 			case CraftingStatusType.ERROR:
-			case CraftingStatusType.OK:
+			case CraftingStatusType.OK: {
 				CraftingExitResetElements();
 				CraftingSelectedItem = CraftingConvertItemToSelected(craft);
-				document.querySelector(`#${CraftingID.assetGrid} [name='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
+				// The valdiation above guarantees the presence of an asset
+				const asset = /** @type {Asset} */(CraftingSelectedItem.Asset);
+				document.querySelector(`#${CraftingID.assetGrid} [name='${asset.Name}'][data-group='${asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
 				alert(TextGet("UploadSuccess"));
 				return;
+			}
 			case CraftingStatusType.CRITICAL_ERROR:
 				alert(TextGet("UploadFailure"));
 				return;
@@ -758,7 +765,10 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickDownload: function _ClickDownload() {
-		const craft = CraftingConvertSelectedToItem();
+		if (!CraftingSelectedItem) {
+			return;
+		}
+		const craft = CraftingConvertSelectedToItem(CraftingSelectedItem);
 		navigator.clipboard.writeText(LZString.compressToBase64(JSON.stringify(craft)));
 		alert(TextGet("DownloadSuccess"));
 	},
@@ -772,8 +782,13 @@ var CraftingEventListeners = {
 			return;
 		}
 
+		const controlledID = this.getAttribute("aria-controls");
+		if (!controlledID) {
+			return;
+		}
+
 		// Focus the search input in the side panel if it exists
-		const panel = document.querySelector(`#${CSS.escape(this.getAttribute("aria-controls"))} > .crafting-grid`);
+		const panel = document.querySelector(`#${CSS.escape(controlledID)} > .crafting-grid`);
 		const activeRadio = panel?.querySelector(`[aria-checked='true']`);
 		if (activeRadio) {
 			activeRadio.scrollIntoView();
@@ -794,13 +809,23 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickAddProperty: function _ClickAddProperty() {
-		const name = this.parentElement.getAttribute("name");
-		this.parentElement.querySelector(".crafting-property-value").toggleAttribute("hidden", false);
-		this.parentElement.querySelector(".crafting-property-remove").toggleAttribute("hidden", false);
+		const parent = this.parentElement;
+		const name = /** @type {null | CraftingPropertyType} */(parent?.getAttribute("name"));
+		if (!parent || !name || !CraftingSelectedItem) {
+			return;
+		}
+
+		parent.querySelector(".crafting-property-value")?.toggleAttribute("hidden", false);
+		parent.querySelector(".crafting-property-remove")?.toggleAttribute("hidden", false);
 		CraftingSelectedItem.Effects[name] ??= 0;
 		CraftingSelectedItem.Effects[name] += 1;
-		CraftingSelectedItem.Property = /** @type {CraftingPropertyType} */(name);
-		/** @type {HTMLInputElement} */(this.parentElement.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects[name];
+		CraftingSelectedItem.Property = name;
+
+		/** @type {null | HTMLInputElement} */
+		const numericInput = parent.querySelector(".crafting-property-value input");
+		if (numericInput) {
+			numericInput.valueAsNumber = CraftingSelectedItem.Effects[name];
+		}
 		CraftingUpdatePropertyButton();
 		CraftingPropertyUpdateButtons(CraftingSelectedItem);
 	},
@@ -810,25 +835,31 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickRemoveProperty: function _ClickRemoveProperty() {
-		if (!CraftingSelectedItem) {
+		const parent = this.parentElement;
+		const name = /** @type {null | CraftingPropertyType} */(parent?.getAttribute("name"));
+		if (!CraftingSelectedItem || !parent || !name) {
 			return;
 		}
 
-		const name = this.parentElement.getAttribute("name");
 		if (!CraftingSelectedItem.Effects[name]) {
 			delete CraftingSelectedItem.Effects[name];
 		} else {
 			CraftingSelectedItem.Effects[name] -= 1;
 		}
 		if (!CraftingSelectedItem.Effects[name]) {
-			this.parentElement.querySelector(".crafting-property-value").toggleAttribute("hidden", true);
+			parent.querySelector(".crafting-property-value")?.toggleAttribute("hidden", true);
 			this.toggleAttribute("hidden", true);
 			if (CraftingSelectedItem.Property === name) {
 				const newName = CommonEntries(CraftingSelectedItem.Effects).find(([effectName, value]) => effectName !== name && !!value)?.[0];
 				CraftingSelectedItem.Property = newName ?? "Normal";
 			}
 		}
-		/** @type {HTMLInputElement} */(this.parentElement.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects[name] ?? 0;
+
+		/** @type {null | HTMLInputElement} */
+		const numericInput = parent.querySelector(".crafting-property-value input");
+		if (numericInput) {
+			numericInput.valueAsNumber = CraftingSelectedItem.Effects[name] ?? 0;
+		}
 		CraftingUpdatePropertyButton();
 		CraftingPropertyUpdateButtons(CraftingSelectedItem);
 	},
@@ -837,8 +868,12 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickPadlock: function _ClickPadlock() {
+		if (!CraftingSelectedItem) {
+			return;
+		}
 		const newLock = this.getAttribute("aria-checked") === "true" ? AssetGet("Female3DCG", "ItemMisc", this.name) : null;
-		const needsRefresh = (!newLock && CraftingSelectedItem.Lock) || (newLock && !CraftingSelectedItem);
+		const oldLock = CraftingSelectedItem.Lock;
+		const needsRefresh = (!newLock && oldLock) || (newLock && !oldLock);
 		CraftingSelectedItem.Lock = newLock;
 		if (needsRefresh) {
 			CraftingUpdatePreview();
@@ -851,12 +886,13 @@ var CraftingEventListeners = {
 	 */
 	_ClickAsset: function _ClickAsset() {
 		const assets = CraftingAssets[this.name];
-		if (!assets) {
+		if (!assets || !CraftingSelectedItem) {
 			return;
 		}
+		const asset = assets[0];
 
 		// Only relevant when switching between two assets from within the `Name` subscreen
-		const needsPropertyUpdate = !CraftingSelectedItem.Asset || CraftingSelectedItem.Asset !== assets[0];
+		const needsPropertyUpdate = !CraftingSelectedItem.Asset || CraftingSelectedItem.Asset !== asset;
 		CraftingSelectedItem.Assets = assets;
 
 		// Set the various input fields
@@ -868,9 +904,9 @@ var CraftingEventListeners = {
 			document.getElementById(CraftingID.privateCheckbox),
 			document.getElementById(CraftingID.asciiDescriptionCheckbox),
 		]);
-		priorityInput.defaultValue = priorityInput.placeholder = (CraftingSelectedItem.Asset.DrawingPriority ?? CraftingSelectedItem.Asset.Group.DrawingPriority).toString();
-		colorsInput.defaultValue = colorsInput.placeholder = CraftingSelectedItem.Asset.DefaultColor.join(",");
-		nameInput.defaultValue = nameInput.placeholder = CraftingSelectedItem.Asset.Description;
+		priorityInput.defaultValue = priorityInput.placeholder = (asset.DrawingPriority ?? asset.Group.DrawingPriority).toString();
+		colorsInput.defaultValue = colorsInput.placeholder = asset.DefaultColor.join(",");
+		nameInput.defaultValue = nameInput.placeholder = asset.Description;
 		nameInput.value = CraftingSelectedItem.Name;
 		descriptionInput.value = CraftingDescription.Decode(CraftingSelectedItem.Description);
 		privateInput.checked = CraftingSelectedItem.Private;
@@ -894,19 +930,26 @@ var CraftingEventListeners = {
 		document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "false");
 
 		// Disable the buttons for all invalid properties
-		document.querySelectorAll(`#${CraftingID.propertyGrid} [name]`).forEach(e => {
-			const propertyType = /** @type {CraftingPropertyType} */(e.getAttribute("name"));
+		for (const e of document.querySelectorAll(`#${CraftingID.propertyGrid} [name]`)) {
+			const propertyType = /** @type {null | CraftingPropertyType} */(e.getAttribute("name"));
+			if (!propertyType) {
+				continue;
+			}
 			const callback = CraftingPropertyMap.get(propertyType);
-			const hidden = (callback && !CraftingSelectedItem.Assets.some(a => callback(a)));
+			const hidden = (callback && !assets.some(a => callback(a)));
 			const disabled = hidden || !CraftingCheckEffectsPrerequisite(CraftingSelectedItem, propertyType);
 			e.toggleAttribute("hidden", hidden);
 			e.setAttribute("aria-disabled", disabled ? "true" : "false");
-			// .crafting-property-add
-			e.querySelector(".crafting-property-add").toggleAttribute("disabled", disabled);
-			e.querySelector(".crafting-property-remove").toggleAttribute("hidden", !CraftingSelectedItem.Effects[propertyType]);
-			e.querySelector(".crafting-property-value").toggleAttribute("hidden", !CraftingSelectedItem.Effects[propertyType]);
-			/** @type {HTMLInputElement} */(e.querySelector(".crafting-property-value input")).valueAsNumber = CraftingSelectedItem.Effects[propertyType] ?? 0;
-		});
+			e.querySelector(".crafting-property-add")?.toggleAttribute("disabled", disabled);
+			e.querySelector(".crafting-property-remove")?.toggleAttribute("hidden", !CraftingSelectedItem.Effects[propertyType]);
+			e.querySelector(".crafting-property-value")?.toggleAttribute("hidden", !CraftingSelectedItem.Effects[propertyType]);
+			/** @type {null | HTMLInputElement} */
+			const numericInput = e.querySelector(".crafting-property-value input");
+			if (numericInput) {
+				numericInput.valueAsNumber = CraftingSelectedItem.Effects[propertyType] ?? 0;
+			}
+		}
+
 		CraftingUpdatePropertyButton();
 		// Disable the extended item config button for non-extended items
 		const [extendedButton, colorButton, layeringButton, tightenButton] = /** @type {HTMLButtonElement[]} */([
@@ -915,14 +958,14 @@ var CraftingEventListeners = {
 			document.getElementById(CraftingID.layeringButton),
 			document.getElementById(CraftingID.tightenButton),
 		]);
-		extendedButton.disabled = !CraftingSelectedItem.Asset.Extended;
-		tightenButton.disabled = !CraftingSelectedItem.Asset.AllowTighten;
-		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, { Asset: CraftingSelectedItem.Asset });
+		extendedButton.disabled = !asset.Extended;
+		tightenButton.disabled = !asset.AllowTighten;
+		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, { Asset: asset });
 		layeringButton.disabled = false;
 		priorityInput.disabled = false;
 
 		// Set the lock, removing any locks it the item does not support them
-		const allowLock = CraftingSelectedItem.Assets.some(a => a.AllowLock);
+		const allowLock = assets.some(a => a.AllowLock);
 		if (CraftingSelectedItem.Lock && allowLock) {
 			const lockButton = document.querySelector(`#${CraftingID.padlockGrid} [name='${CraftingSelectedItem.Lock.Name}'][aria-checked='false']`);
 			lockButton?.setAttribute("aria-disabled", "false");
@@ -972,7 +1015,7 @@ var CraftingEventListeners = {
 				ElementButton._ParseImage(controlButton.id, "./Icons/NoLock.png", null, { parent: controlButton });
 				break;
 			case CraftingID.propertyButton:
-				ElementButton._ParseLabel(controlButton.id, TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`), null, { parent: controlButton });
+				ElementButton._ParseLabel(controlButton.id, TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`), undefined, { parent: controlButton });
 				break;
 		}
 	},
@@ -995,7 +1038,11 @@ var CraftingEventListeners = {
 	 */
 	_InputSearchEffect: async function _InputSearchEffect() {
 		const query = this.value.toUpperCase().trim();
-		const searchResultCandidates = document.getElementById(this.getAttribute("aria-controls"));
+		const controlledID = this.getAttribute("aria-controls");
+		if (!controlledID) {
+			return;
+		}
+		const searchResultCandidates = document.getElementById(controlledID);
 		searchResultCandidates?.querySelectorAll(".crafting-property-list-item").forEach(button => {
 			const label = button.querySelector(".crafting-property-info");
 			if (label) {
@@ -1017,7 +1064,9 @@ var CraftingEventListeners = {
 
 		descriptionInput.dataset.pattern = this.checked ? CraftingDescription.PatternASCII.source : CraftingDescription.Pattern.source;
 		descriptionInput.maxLength = this.checked ? 398 : 200;
-		descriptionInput.previousSibling.textContent = TextGet(this.checked ? "EnterDescriptionLong" : "EnterDescription");
+		if (descriptionInput.previousSibling) {
+			descriptionInput.previousSibling.textContent = TextGet(this.checked ? "EnterDescriptionLong" : "EnterDescription");
+		}
 		if (descriptionInput.value.length > descriptionInput.maxLength) {
 			// Can't reliably update `ValidityState.tooLong` programmatically after changing the max length (even with input/change event dispatching),
 			// so as a work around just do it manually via a custom error
@@ -1048,7 +1097,7 @@ var CraftingEventListeners = {
 
 			// Update the label of the asset panel
 			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(
-				TextGet("SelectItemSuffix").replace('GroupName', this.getAttribute("aria-label").toLocaleLowerCase())
+				TextGet("SelectItemSuffix").replace('GroupName', this.getAttribute("aria-label")?.toLocaleLowerCase() ?? "")
 			);
 
 			// Make sure that the asset panel is open and scroll to the top
@@ -1088,9 +1137,14 @@ var CraftingEventListeners = {
 
 		let options = CraftingElements._SearchCache.get(group);
 		if (!options) {
-			const searchResults = document.getElementById(this.getAttribute("aria-controls"));
-			const query = group === "ALL" ? ".button-label" : `[data-group='${group}'] .button-label`;
-			options = Array.from(searchResults?.querySelectorAll(query) ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
+			const controlledID = this.getAttribute("aria-controls");
+			if (controlledID) {
+				const searchResults = document.getElementById(controlledID);
+				const query = group === "ALL" ? ".button-label" : `[data-group='${group}'] .button-label`;
+				options = Array.from(searchResults?.querySelectorAll(query) ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
+			} else {
+				options = [];
+			}
 			CraftingElements._SearchCache.set(group, options);
 		}
 		this.list?.replaceChildren(...options);
@@ -1106,7 +1160,11 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		const searchResults = document.getElementById(this.getAttribute("aria-controls"));
+		const controlledID = this.getAttribute("aria-controls");
+		if (!controlledID) {
+			return;
+		}
+		const searchResults = document.getElementById(controlledID);
 		const options = Array.from(searchResults?.querySelectorAll(".button-label") ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
 		this.list?.replaceChildren(...options);
 	},
@@ -1176,7 +1234,7 @@ var CraftingElements = {
 				id,
 				CraftingEventListeners._ClickRadio,
 				{ label, role: "radio" },
-				{ button: { children, attributes: { tabindex: first ? 0 : -1, ...(attributes ?? {}) }, parent: ElementNoParent }},
+				{ button: { children: children ?? undefined, attributes: { tabindex: first ? 0 : -1, ...(attributes ?? {}) }, parent: ElementNoParent }},
 			);
 		}
 		ret.addEventListener("click", onClick);
@@ -1226,9 +1284,14 @@ var CraftingElements = {
 									eventListeners: {
 										/** @type {(this: HTMLInputElement, ev: Event) => void} */
 										change: function(ev) {
-											if (!this.validity.valid) {
+											if (!this.validity.valid || !CraftingSelectedItem) {
 												// Abort! `blur` will trigger a second `change` call after sanitizing the currently invalid value
 												ev.stopImmediatePropagation();
+												return;
+											}
+											const value = this.valueAsNumber;
+											if (isNaN(value)) return;
+											if (!CraftingCheckEffectsPrerequisite(CraftingSelectedItem, property)) {
 												return;
 											}
 
@@ -1482,7 +1545,8 @@ async function CraftingLoad() {
 							classList: ["crafting-grid", "scroll-box"],
 							attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
 							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name, i) => {
-								const a = AssetGet("Female3DCG", "ItemMisc", name);
+								// Guaranteed to be non-null given the `InventoryAvailable()` check above
+								const a = /** @type {Asset} */(AssetGet("Female3DCG", "ItemMisc", name));
 								return CraftingElements._RadioButton(
 									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, null, null, null, i === 0,
 								);
@@ -1614,12 +1678,15 @@ async function CraftingLoad() {
  * Update the crafting character preview image, applies the item on all possible body parts
  */
 function CraftingUpdatePreview() {
+	if (!CraftingPreview) {
+		return;
+	}
 	CraftingPreview.Appearance = Player.Appearance.slice();
 	CharacterReleaseTotal(CraftingPreview, false);
 	if (CraftingNakedPreview) CharacterNaked(CraftingPreview, false);
 	if (!CraftingSelectedItem) return;
 	CraftingPropertyUpdateButtons(CraftingSelectedItem);
-	const Craft = CraftingConvertSelectedToItem();
+	const Craft = CraftingConvertSelectedToItem(CraftingSelectedItem);
 	const FoundGroups = new Set();
 	const RelevantAssets = (CraftingAssets[Craft.Item] ?? []).filter(a => {
 		if (FoundGroups.has(a.DynamicGroupName)) {
@@ -1633,9 +1700,12 @@ function CraftingUpdatePreview() {
 	for (const RelevantAsset of RelevantAssets) {
 		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft, false);
 		// Hack for the stuff in ItemAddons, since there's no way to resolve their prerequisites
-		if (RelevantAsset.Prerequisite.includes("OnBed")) {
-			const bedType = RelevantAsset.Name.includes("Medical") ? "MedicalBed" : "Bed";
-			const bed = AssetGet(CraftingPreview.AssetFamily, "ItemDevices", bedType);
+		if (!RelevantAsset.Prerequisite.includes("OnBed")) {
+			continue;
+		}
+		const bedType = RelevantAsset.Name.includes("Medical") ? "MedicalBed" : "Bed";
+		const bed = AssetGet(CraftingPreview.AssetFamily, "ItemDevices", bedType);
+		if (bed) {
 			InventoryWear(CraftingPreview, bed.Name, bed.DynamicGroupName, null, null, Player.MemberNumber, null, false);
 		}
 	}
@@ -1647,6 +1717,10 @@ function CraftingUpdatePreview() {
  * @returns {void} - Nothing
  */
 function CraftingRun() {
+	if (!CraftingPreview) {
+		return;
+	}
+
 	// In slot selection mode, we show the slots to select from
 	if (CraftingMode == "Slot") {
 		let BGColor;
@@ -1713,10 +1787,11 @@ function CraftingRun() {
 				if (groupName && InventoryAvailable(Player, Craft.Item, groupName)) {
 					DrawImageResize("Assets/" + Player.AssetFamily + "/" + groupName + "/Preview/" + asset.Name + ".png", X + 3, Y + 3, 135, 135);
 					DrawTextFit(asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
-					const effectArray = Object.entries(Craft.Effects).filter(([_, value]) => !!value);
-					let text;
+					const effectArray = CommonEntries(Craft.Effects).filter(([_, value]) => !!value);;
+					let text = "";
+					/** @type {(effect: CraftingPropertyType, count?: number) => string} */
 					const getEffectText = (effect, count) => {
-						return TextGet(`Property${effect}`) + (count > 1 ? ` ×${count}` : "");
+						return TextGet(`Property${effect}`) + ((count ?? 0) > 1 ? ` ×${count}` : "");
 					};
 					if (effectArray.length === 0) {
 						text = TextGet("PropertyNormal");
@@ -1748,6 +1823,9 @@ function CraftingRun() {
 
 	// In color mode, the player can change the color of each parts of the item
 	if (CraftingMode == "Color") {
+		if (!CraftingSelectedItem?.Asset) {
+			return;
+		}
 		DrawText(TextGet("SelectColor"), 600, 60, "White", "Black");
 		DrawCharacter(CraftingPreview, -100, 100, 2, false);
 		DrawCharacter(CraftingPreview, 700, 100, 0.9, false);
@@ -1870,9 +1948,11 @@ function CraftingUpdateFromItem(item) {
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
-	for (const key of /** @type {Set<string>} */(keys)) {
-		if (item.Property[key] != null) {
-			CraftingSelectedItem.ItemProperty[key] = item.Property[key];
+	for (const key of keys) {
+		const propValue = item.Property[key];
+		if (propValue != null) {
+			// Use some creative `never` casting as TS _loathes_ anything related to iterating heterogeneous objects
+			CraftingSelectedItem.ItemProperty[key] = /** @type {never} */(propValue);
 		}
 	}
 }
@@ -1910,6 +1990,11 @@ function CraftingModeSet(NewMode) {
 
 	CraftingMode = NewMode;
 	if (NewMode === "Name") {
+		if (!CraftingSelectedItem) {
+			// Variable always assigned in `CraftingClick()` before switching mode; if not? Everything and anything is broken at this point
+			throw new Error("No `CraftingSelectedItem` has been selected");
+		}
+
 		const root = document.getElementById(CraftingID.root);
 		if (root) {
 			root.toggleAttribute("hidden", false);
@@ -1997,7 +2082,7 @@ function CraftingDeserialize(craftString) {
 		Effects,
 	] = craftString.split(CraftingSerializeFieldSep);
 
-	/** @type {CraftingItem} */
+	/** @type {CraftingItem & { ItemProperty: ItemProperties }} */
 	const craft = {
 		Item,
 		Name,
@@ -2006,14 +2091,14 @@ function CraftingDeserialize(craftString) {
 		Property: /** @type {CraftingPropertyType} */(Property) || "Normal",
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
-		ItemProperty: ItemProperty ? CommonJSONParse(ItemProperty) : {},
+		ItemProperty: ItemProperty ? /** @type {ItemProperties} */(CommonJSONParse(ItemProperty)) : {},
 		Type: Type || undefined,
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
-		Effects: Effects ? CommonJSONParse(Effects) : {},
+		Effects: Effects ? /** @type {Partial<Record<CraftingPropertyType, number>>} */(Effects) : {},
 	};
 
-	const priority = Number.parseInt(OverridePriority);
+	const priority = Number.parseInt(OverridePriority, 10);
 	if (!Number.isNaN(priority)) {
 		craft.ItemProperty.OverridePriority = priority;
 	}
@@ -2098,7 +2183,7 @@ function CraftingLoadServer(Packet) {
 
 /**
  * Advance to the next crafting reordering mode, or set the mode to the specified value.
- * @param {CraftingReorderType} newmode - The mode to set.  If null, advance to next mode.
+ * @param {null | CraftingReorderType} newmode - The mode to set.  If null, advance to next mode.
  */
 function CraftingReorderModeSet(newmode=null)
 {
@@ -2145,6 +2230,10 @@ function CraftingReorderModeSet(newmode=null)
  * @type {MouseEventListener}
  */
 function CraftingClick(event) {
+	if (!CraftingPreview) {
+		return;
+	}
+
 	// Can always exit or cancel
 	if (MouseIn(1895, 15, 90, 90) && !["Color", "Extended", "OverridePriority", "Name"].includes(CraftingMode)) CraftingExit();
 	if (MouseIn(1790, 15, 90, 90) && !["Color", "Extended", "Slot", "OverridePriority", "Name"].includes(CraftingMode)) return CraftingModeSet("Slot");
@@ -2226,6 +2315,12 @@ function CraftingClick(event) {
 			} else if (CraftingReorderMode == "Place") {
 				// Swap the slot clicked with the first entry in the list.
 				const idx = CraftingReorderList.shift();
+				if (idx == null) {
+					// The reorder list is empty. Is this even a reachable code path?
+					CraftingReorderModeSet("None");
+					return;
+				}
+
 				const item = Player.Crafting[S + CraftingOffset];
 				Player.Crafting[S + CraftingOffset] = Player.Crafting[idx];
 				Player.Crafting[idx] = item;
@@ -2278,7 +2373,9 @@ function CraftingClick(event) {
 
 	// In color selection mode, we allow picking a color
 	if (CraftingMode == "Color") {
-		if (MouseIn(880, 900, 90, 90)) {
+		if (!CraftingSelectedItem?.Asset) {
+			return;
+		} else if (MouseIn(880, 900, 90, 90)) {
 			CraftingNakedPreview = !CraftingNakedPreview;
 			CraftingUpdatePreview();
 		} else if (MouseIn(1100, 15, 875, 970)) {
@@ -2306,6 +2403,9 @@ function CraftingClick(event) {
  * @returns {void} - Nothing
  * */
 function CraftingRefreshPreview() {
+	if (!CraftingPreview || !CraftingSelectedItem?.Asset) {
+		return;
+	}
 	let Item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 	if ((Item != null) && (Item.Color != null)) {
 		CraftingSelectedItem.Color = Array.isArray(Item.Color) ? Item.Color.join(",") : Item.Color || "";
@@ -2315,21 +2415,22 @@ function CraftingRefreshPreview() {
 
 /**
  * Converts the currently selected item into a crafting item.
+ * @param {CraftingItemSelected} item
  * @return {CraftingItem}
  * */
-function CraftingConvertSelectedToItem() {
+function CraftingConvertSelectedToItem(item) {
 	return {
-		Item: (CraftingSelectedItem.Asset == null) ? "" : CraftingSelectedItem.Asset.Name,
-		Property: CraftingSelectedItem.Property,
-		Lock: (CraftingSelectedItem.Lock == null) ? "" : /**@type {AssetLockType}*/(CraftingSelectedItem.Lock.Name),
-		Name: CraftingSelectedItem.Name,
-		Description: CraftingSelectedItem.Description,
-		Color: CraftingSelectedItem.Color,
-		Private: CraftingSelectedItem.Private,
-		TypeRecord: CraftingSelectedItem.TypeRecord || null,
-		DifficultyFactor: CraftingSelectedItem.DifficultyFactor || undefined,
-		ItemProperty: CraftingSelectedItem.ItemProperty,
-		Effects: CraftingSelectedItem.Effects,
+		Item: (item.Asset == null) ? "" : item.Asset.Name,
+		Property: item.Property,
+		Lock: (item.Lock == null) ? "" : /**@type {AssetLockType}*/(item.Lock.Name),
+		Name: item.Name,
+		Description: item.Description,
+		Color: item.Color,
+		Private: item.Private,
+		TypeRecord: item.TypeRecord || null,
+		DifficultyFactor: item.DifficultyFactor || undefined,
+		ItemProperty: item.ItemProperty,
+		Effects: item.Effects,
 	};
 }
 
@@ -2397,12 +2498,15 @@ function CraftingExitResetElements() {
 	document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "true");
 
 	// Open the asset-based side panel and reset the styling of its control button
-	const assetControlButton = document.getElementById(CraftingID.assetButton);
-	assetControlButton.innerHTML = "";
-	ElementButton._ParseLabel(assetControlButton.id, TextGet("SelectItem"), "bottom", { parent: assetControlButton });
-	ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", null, { parent: assetControlButton });
-	if (assetControlButton.getAttribute("aria-checked") === "false") {
-		assetControlButton.dispatchEvent(new Event("click"));
+	const assetControlButton = /** @type {null | HTMLButtonElement} */(document.getElementById(CraftingID.assetButton));
+	if (assetControlButton) {
+		assetControlButton.innerHTML = "";
+		// FIXME: Avoid using private API like this
+		ElementButton._ParseLabel(assetControlButton.id, TextGet("SelectItem"), "bottom", { parent: assetControlButton });
+		ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", null, { parent: assetControlButton });
+		if (assetControlButton.getAttribute("aria-checked") === "false") {
+			assetControlButton.click();
+		}
 	}
 
 	// Disable all buttons that _must_ have an asset selected
@@ -2473,9 +2577,11 @@ function CraftingExit(allowPanelClose=true) {
 		}
 		case "Slot": {
 			ElementRemove(CraftingID.root);
-			CharacterDelete(CraftingPreview);
+			if (CraftingPreview) {
+				CharacterDelete(CraftingPreview);
+				CraftingPreview = null;
+			}
 			CraftingElements._SearchCache.clear();
-			CraftingPreview = null;
 			CraftingOffset = 0;
 			CraftingDestroy = false;
 			CraftingReorderModeSet("None");
@@ -2614,7 +2720,7 @@ const CraftingValidationRecord = {
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Name: {
-		Validate: (c, a) => c.Name && typeof c.Name === "string",
+		Validate: (c, a) => !!c.Name && typeof c.Name === "string",
 		GetDefault: (c, a) => a ? a.Description : "Crafted Item",
 		StatusCode: CraftingStatusType.ERROR,
 	},
@@ -2630,7 +2736,9 @@ const CraftingValidationRecord = {
 	},
 	Property: {
 		Validate: function (c, a) {
-			if (a == null) {
+			if (c.Property == null) {
+				return true;
+			} else if (a == null) {
 				return CraftingPropertyMap.has(c.Property);
 			} else {
 				const Allow = CraftingPropertyMap.get(c.Property);
@@ -2735,7 +2843,7 @@ const CraftingValidationRecord = {
 			// allowing `OverrideHeight`.
 			/** @type {ItemProperties} */
 			const baseline = {
-				OverrideHeight: null,
+				OverrideHeight: undefined,
 			};
 			if (a.Archetype) {
 				const data = ExtendedItemGetData(a, a.Archetype);
@@ -2744,10 +2852,10 @@ const CraftingValidationRecord = {
 				}
 			}
 
-			for (const [key, value] of Object.entries(property)) {
+			for (const [key, value] of CommonEntries(property)) {
 				if (value == null) {
 					continue;
-				} else if (CraftingPropertyExclude.has(/** @type {keyof ItemProperties} */(key))) {
+				} else if (CraftingPropertyExclude.has(key)) {
 					return false;
 				} else if (key === "OverridePriority") {
 					if (Number.isInteger(value)) {
@@ -2776,7 +2884,7 @@ const CraftingValidationRecord = {
 
 			/** @type {ItemProperties} */
 			const baseline = {
-				OverrideHeight: null,
+				OverrideHeight: undefined,
 			};
 			if (a.Archetype) {
 				let data = ExtendedItemGetData(a, a.Archetype);
@@ -2785,12 +2893,13 @@ const CraftingValidationRecord = {
 				}
 			}
 
+			/** @type {ItemProperties} */
 			const ret = {};
-			for (const [key, value] of Object.entries(property)) {
-				if (value == null || CraftingPropertyExclude.has(/** @type {keyof ItemProperties} */(key))) {
+			for (const [key, value] of CommonEntries(property)) {
+				if (value == null || CraftingPropertyExclude.has(key)) {
 					continue;
 				} else if (key === "OverridePriority" && Number.isInteger(value)) {
-					ret[key] = value;
+					ret[key] = /** @type {any} */(value);
 				} else if (key === "OverridePriority" && CommonIsObject(value)) {
 					ret[key] = {};
 					const layers = a.Layer.map(l => l.Name);
@@ -2800,7 +2909,7 @@ const CraftingValidationRecord = {
 						}
 					}
 				} else if (typeof value === typeof baseline[key]) {
-					ret[key] = value;
+					ret[key] = /** @type {never} */(value);
 				}
 			}
 			return ret;
@@ -2881,13 +2990,13 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 	 * If `Asset == null` at this point then let all Asset-requiring checks pass, as we
 	 * can't properly validate them. Note that this will introduce the potential for false negatives.
 	 */
-	for (const [AttrName, {Validate, GetDefault, StatusCode}] of Object.entries(CraftingValidationRecord)) {
+	for (const [AttrName, { Validate, GetDefault, StatusCode }] of CommonEntries(CraftingValidationRecord)) {
 		if (!assets.some(a => Validate(Craft, a, checkPlayerInventory))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
 				console.warn(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
 			}
-			Craft[AttrName] = GetDefault(Craft, asset, checkPlayerInventory);
+			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory));
 			StatusMap.set(AttrName, StatusCode);
 		} else {
 			StatusMap.set(AttrName, CraftingStatusType.OK);
@@ -2904,8 +3013,8 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 	}
 
 	// Check for extra attributes
-	const LegalAttributes = Object.keys(CraftingValidationRecord);
-	for (const AttrName of Object.keys(Craft)) {
+	const LegalAttributes = CommonKeys(CraftingValidationRecord);
+	for (const AttrName of CommonKeys(Craft)) {
 		if (!LegalAttributes.includes(AttrName)) {
 			if (Warn) {
 				console.warn(`Invalid extra "Craft.${AttrName}" attribute for crafted item "${Name}"`);
