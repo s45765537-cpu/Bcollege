@@ -4271,6 +4271,23 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Cow",
+				Random: false,
+				Gender: "F",
+				Top: 0,
+				Left: 0,
+				Prerequisite: ["HasBreasts"],
+				Layer: [
+					{ Name: "Clothes", Priority: 26 },
+					{ Name: "Edge", Priority: 26 },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "奶牛",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
