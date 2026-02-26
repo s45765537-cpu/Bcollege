@@ -20539,6 +20539,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ButterflyGarter
+		LaceLegRing: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Leftleg" }, { Name: "Rightleg" }, { Name: "Both" }],
+		}, // LaceLegRing
 	}, // Garters
 	AnkletRight: {
 		LegFur: {

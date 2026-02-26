@@ -472,6 +472,14 @@ GartersGarterBeltLeft,Left
 GartersGarterBeltRight,Right
 GartersGarterBeltLeft,Left
 GartersGarterBeltRight,Right
+GartersLaceLegRingLeftLegBow,Left Leg Bow
+GartersLaceLegRingLeftLegLace,Left Leg Lace
+GartersLaceLegRingLeftLegRing,Left Leg Ring
+GartersLaceLegRingLeftLegShadow,Left Leg Shadow
+GartersLaceLegRingRightLegBow,Right Leg Bow
+GartersLaceLegRingRightLegLace,Right Leg Lace
+GartersLaceLegRingRightLegRing,Right Leg Ring
+GartersLaceLegRingRightLegShadow,Right Leg Shadow
 GlassesGogglesBase,Goggles
 GlassesGogglesGlass,Lenses
 GlassesGogglesStrap,Strap

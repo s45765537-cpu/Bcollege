@@ -894,6 +894,10 @@ ClothHoodieSetHood,SourceCharacter adjusts the hood of DestinationCharacter hood
 ClothHoodieSetHood,SourceCharacter adjusts the length of DestinationCharacter hoodie.
 ClothHoodieSetp0,SourceCharacter takes DestinationCharacter hands out of the hoodie's pouch.
 ClothHoodieSetp1,SourceCharacter puts DestinationCharacter hands into the hoodie's pouch.
+GartersLaceLegRingBoth,Both
+GartersLaceLegRingLeftleg,Left leg
+GartersLaceLegRingRightleg,Right leg
+GartersLaceLegRingSelect,Select
 TailStrapsFoxTailStrapSelect,Select tail position:
 TailStrapsFoxTailStrapTL,Top Left
 TailStrapsFoxTailStrapTR,Top Right
