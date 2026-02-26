@@ -73,13 +73,15 @@ function ValidationCreateDiffParams(C, sourceMemberNumber) {
  * @param {Item|null} previousItem - The previous item that the target character had equipped (or null if none)
  * @param {Item|null} newItem - The new item to equip (may be identical to the previous item, or null if removing)
  * @param {AppearanceUpdateParameters} params - The appearance update parameters that apply to the diff
+ * @param {boolean} unknownAsset - Whether the incoming item is from an asset we're missing
  * @returns {ItemDiffResolution} - The diff resolution - a wrapper object containing the final item and a flag
  * indicating whether or not the change was valid.
  */
-function ValidationResolveAppearanceDiff(groupName, previousItem, newItem, params) {
+function ValidationResolveAppearanceDiff(groupName, previousItem, newItem, params, unknownAsset) {
+	/** @type {ItemDiffResolution} */
 	let result;
 	if (!previousItem && !newItem) {
-		result = { item: previousItem, valid: true };
+		result = { item: previousItem, valid: !unknownAsset };
 	} else if (groupName === "ItemScript") {
 		result = ValidationResolveScriptDiff(previousItem, newItem, params);
 	} else if (!previousItem) {

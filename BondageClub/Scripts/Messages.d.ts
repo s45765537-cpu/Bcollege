@@ -1001,8 +1001,8 @@ interface ServerCharacterArousalResponse {
 interface ServerCharacterItemUpdate {
 	Target: number;
 	Group: AssetGroupName;
-	Name?: string;
-	Color: string | string[];
+	Name: string | undefined;
+	Color: ItemColor;
 	Difficulty: number;
 	Property?: ItemProperties;
 	Craft?: CraftingItem;

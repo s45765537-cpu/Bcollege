@@ -691,7 +691,7 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 		// eslint-disable-next-line
 		.reduce(({ appearance, updateValid }, groupName) => {
 			const diff = appearanceDiffs[groupName];
-			const { item, valid } = ValidationResolveAppearanceDiff(groupName, diff[0], diff[1], updateParams);
+			const { item, valid } = ValidationResolveAppearanceDiff(groupName, diff[0], diff[1], updateParams, false);
 			if (item) appearance.push(item);
 			updateValid = updateValid && valid;
 			return { appearance, updateValid };
