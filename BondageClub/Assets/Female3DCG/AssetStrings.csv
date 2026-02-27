@@ -6312,6 +6312,7 @@ OnlineBountySuitcaseOngoing,SourceCharacter's suitcase will be open in TIMEREMAI
 OnlineBountySuitcaseOngoingOpened,SourceCharacter's data will be ready in TIMEREMAINING minutes. Make sure PronounSubject is secure until then!
 OnlineBountySuitcaseStart,SourceCharacter starts unlocking DestinationCharacterName suitcase! PronounSubject will finish in 5 minutes.
 OnlineBountySuitcaseStartOpened,SourceCharacter starts stealing more data from DestinationCharacterName laptop! PronounSubject will finish in 5 minutes.
+OnlineStruggleInterrupt,TargetCharacter struggles were interrupted by SourceCharacter.
 OpacityLabel,Change Opacity
 OpenFaceHoodStyleHideBackHair,Hair in
 OpenFaceHoodStyleShowBackHair,Hair out
@@ -6618,6 +6619,15 @@ ShoesThighBootsSetb1,SourceCharacter adds bands to DestinationCharacter boots.
 ShoesThighBootsSetl0,SourceCharacter shortens DestinationCharacter boots.
 ShoesThighBootsSetl1,SourceCharacter extends the sock on DestinationCharacter boots.
 ShoesThighBootsSetl2,SourceCharacter extends DestinationCharacter boots.
+ShoesZipperLeatherBootsModuleLeftSide,Left Side
+ShoesZipperLeatherBootsModuleRightSide,Right Side
+ShoesZipperLeatherBootsOptionl0,Close
+ShoesZipperLeatherBootsOptionl1,Open
+ShoesZipperLeatherBootsOptionr0,Close
+ShoesZipperLeatherBootsOptionr1,Open
+ShoesZipperLeatherBootsSelectBase,Choose Appearance
+ShoesZipperLeatherBootsSelectRightSide,Choose Right Appearance
+ShoesZipperLeatherBootsSelectLeftSide,Choose Left Appearance
 ShowMessageInChat,Show chat message
 SlaveCollarChangeType,SourceCharacter changes DestinationCharacter collar model.
 SlaveCollarSelectType,Select the slave collar model
@@ -6626,7 +6636,6 @@ SlowLeaveAttempt,SourceCharacter slowly heads for the door.
 SlowLeaveCancel,SourceCharacter stops heading for the door.
 SlowLeaveInterrupt,SourceCharacter was stopped from leaving.
 SlowStop,"SourceCharacter gets in the way of TargetCharacter, preventing TargetPronounObject from leaving."
-OnlineStruggleInterrupt,TargetCharacter struggles were interrupted by SourceCharacter.
 SocksLeftLooseSocksFlat,Flat style
 SocksLeftLooseSocksNormal,Loose style
 SocksLeftLooseSocksSelect,Choose how to wear left socks:

@@ -14637,6 +14637,23 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PumpHighHeels
+		ZipperLeatherBoots: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "LeftSide",
+					Key: "l",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+				{
+					Name: "RightSide",
+					Key: "r",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+			],
+		}, // ZipperLeatherBoots
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {

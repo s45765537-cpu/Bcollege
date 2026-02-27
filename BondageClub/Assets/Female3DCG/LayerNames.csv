@@ -3369,6 +3369,10 @@ ShoesWitchShoesShoes,Main
 ShoesWitchShoesToes,Front detail
 ShoesWitchShoesBelt,Straps
 ShoesWitchShoesBuckle,Buckles
+ShoesZipperLeatherBootsBaseLeft,Base (Left)
+ShoesZipperLeatherBootsBaseRight,Base (Right)
+ShoesZipperLeatherBootsOpenLeft,Open (Left)
+ShoesZipperLeatherBootsOpenRight,Open (Right)
 SocksGradientPantyhoseLower,Lower
 SocksGradientPantyhoseUpper,Upper
 SocksHaremStockingsBands,Bands

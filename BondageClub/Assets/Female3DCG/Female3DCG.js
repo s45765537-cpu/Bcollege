@@ -15507,6 +15507,48 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "ZipperLeatherBoots",
+				Random: false,
+				Left: 110,
+				Top: 740,
+				PoseMapping: {
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				Priority: 23,
+				Layer: [
+					{
+						Name: "BaseRight",
+						ColorGroup: "Right",
+						AllowTypes: { r: 0 },
+					},
+					{
+						Name: "BaseLeft",
+						ColorGroup: "Left",
+						AllowTypes: { l: 0 },
+					},
+					{
+						Name: "OpenRight",
+						ColorGroup: "Right",
+						AllowTypes: { r: 1 },
+					},
+					{
+						Name: "OpenLeft",
+						ColorGroup: "Left",
+						AllowTypes: { l: 1 },
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "拉链皮靴",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
