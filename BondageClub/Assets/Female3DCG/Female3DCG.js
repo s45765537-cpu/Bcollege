@@ -15483,6 +15483,26 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "Slippers",
+				Random: false,
+				Top: 0,
+				Left: 0,
+				PoseMapping: {
+					Kneel: "Hide",
+					KneelingSpread: "Hide",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Hogtied: "Hide",
+					AllFours: "Hide",
+				},
+				Priority: 23,
+				Attribution: {
+					Author: "Luzi (SugarChain)",
+					OriginalName: "拖鞋",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
