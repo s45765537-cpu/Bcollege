@@ -48,8 +48,10 @@ const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
 var ChatRoomMapViewVisibilityMask = [];
 /** @type {boolean[]} */
 var ChatRoomMapViewAudibilityMask = [];
-var ChatRoomMapViewTileFog = new Uint16Array(ChatRoomMapViewWidth * ChatRoomMapViewHeight);
-var ChatRoomMapViewObjectFog = new Uint16Array(ChatRoomMapViewWidth * ChatRoomMapViewHeight);
+/** @type {Uint16Array | null} */
+var ChatRoomMapViewTileFog = null;
+/** @type {Uint16Array | null} */
+var ChatRoomMapViewObjectFog = null;
 var ChatRoomMapViewKeysPressed = {
 	u: false,
 	d: false,
@@ -1312,10 +1314,10 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	ChatRoomMapViewFocusedCharacter = null;
 
 	// Prepares the fog if needed
-	if (ChatRoomMapViewTileFog.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
+	if (!ChatRoomMapViewTileFog || ChatRoomMapViewTileFog.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
 		ChatRoomMapViewTileFog = new Uint16Array(ChatRoomMapViewWidth * ChatRoomMapViewHeight);
 	}
-	if (ChatRoomMapViewObjectFog.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
+	if (!ChatRoomMapViewObjectFog || ChatRoomMapViewObjectFog.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
 		ChatRoomMapViewObjectFog = new Uint16Array(ChatRoomMapViewWidth * ChatRoomMapViewHeight);
 	}
 
@@ -1581,7 +1583,7 @@ function ChatRoomMapViewUpdateFlag() {
 					"FloorItem",
 					"FloorObstacle"
 				].includes(Obj.Type) && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) {
-                	ClearObject = true;
+					ClearObject = true;
 				} else if ((Obj.Type == "WallDecoration" || Obj.Type == "Banners" || Obj.Type == "WallPath") && (Tile.Type != "Wall")) {
 					ClearObject = true;
 				} else if (Tile.Type == "Wall") {

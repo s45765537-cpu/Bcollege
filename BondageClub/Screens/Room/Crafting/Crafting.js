@@ -1020,9 +1020,13 @@ var CraftingEventListeners = {
 		}
 	},
 
+	/**
+	 * @private
+	 * @this {HTMLInputElement}
+	 */
 	_InputSearch: async function _InputSearch() {
 		const query = this.value.toUpperCase().trim();
-		const searchResultCandidates = document.getElementById(this.getAttribute("aria-controls"));
+		const searchResultCandidates = document.getElementById(this.getAttribute("aria-controls") ?? "");
 		searchResultCandidates?.querySelectorAll("button.button").forEach(button => {
 			const label = button.querySelector(".button-label");
 			if (label) {
