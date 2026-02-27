@@ -4284,6 +4284,10 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Prerequisite: ["HasBreasts"],
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
 				Layer: [
 					{ Name: "Clothes", Priority: 26 },
 					{ Name: "Edge", Priority: 26 },
