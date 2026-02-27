@@ -2095,11 +2095,11 @@ function CraftingDeserialize(craftString) {
 		Property: /** @type {CraftingPropertyType} */(Property) || "Normal",
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
-		ItemProperty: ItemProperty ? /** @type {ItemProperties} */(CommonJSONParse(ItemProperty)) : {},
+		ItemProperty: ItemProperty ? /** @type {ItemProperties} */(CommonJSONParse(ItemProperty) ?? {}) : {},
 		Type: Type || undefined,
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
-		Effects: Effects ? /** @type {Partial<Record<CraftingPropertyType, number>>} */(Effects) : {},
+		Effects: Effects ? /** @type {Partial<Record<CraftingPropertyType, number>>} */(CommonJSONParse(Effects) ?? {}) : {},
 	};
 
 	const priority = Number.parseInt(OverridePriority, 10);
