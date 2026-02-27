@@ -7669,6 +7669,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PencilSkirt",
 				InventoryID: 221,
+				BuyGroup: "PencilSkirt",
 				Fetish: ["Leather"],
 				Value: 60,
 				StyleOverride: ["EchoV2"],
@@ -7845,9 +7846,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShortPencilSkirt",
-				InventoryID: 228,
+				InventoryID: 221,
+				Value: -1,
+				BuyGroup: "PencilSkirt",
 				Fetish: ["Leather"],
-				Value: 50,
 				StyleOverride: ["EchoV2"],
 				Left: 105,
 				Top: 380,
@@ -8640,6 +8642,30 @@ var AssetFemale3DCG = [
 				],
 			},
 			// Penis Compatible Clothing
+			{
+				Name: "PencilSkirt2",
+				InventoryID: 221,
+				BuyGroup: "PencilSkirt",
+				Value: -1,
+				Gender: "F",
+				Prerequisite: ["HasVagina"],
+				Fetish: ["Leather"],
+				Left: 160,
+				Top: 390,
+				Random: false,
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				SetPose: ["LegsClosed"],
+				AllowActivePose: ["Kneel"],
+				Attribute: ["Skirt"],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "铅笔裙2",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -11545,7 +11571,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PullDownPanties",
-				InventoryID: 1305,
+				InventoryID: 228,
 				Value: 25,
 				Priority: 24,
 				Left: {
