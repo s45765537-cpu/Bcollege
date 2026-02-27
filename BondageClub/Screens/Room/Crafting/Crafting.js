@@ -782,19 +782,16 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		const controlledID = this.getAttribute("aria-controls");
-		if (!controlledID) {
-			return;
-		}
-
-		// Focus the search input in the side panel if it exists
-		const panel = document.querySelector(`#${CSS.escape(controlledID)} > .crafting-grid`);
-		const activeRadio = panel?.querySelector(`[aria-checked='true']`);
-		if (activeRadio) {
-			activeRadio.scrollIntoView();
-		} else {
-			panel?.scrollTo({ top: 0 });
-		}
+		const panelRoots = ElementUnpackIDs.fromAttribute(this, "aria-controls");
+		panelRoots.forEach(root => {
+			const panel = root.querySelector(".crafting-grid");
+			const activeRadio = panel?.querySelector(`[aria-checked='true']`);
+			if (activeRadio) {
+				activeRadio.scrollIntoView();
+			} else {
+				panel?.scrollTo({ top: 0, behavior: "instant" });
+			}
+		});
 	},
 
 	/**
@@ -1026,14 +1023,14 @@ var CraftingEventListeners = {
 	 */
 	_InputSearch: async function _InputSearch() {
 		const query = this.value.toUpperCase().trim();
-		const searchResultCandidates = document.getElementById(this.getAttribute("aria-controls") ?? "");
-		searchResultCandidates?.querySelectorAll("button.button").forEach(button => {
+		const searchResultCandidates = ElementUnpackIDs.fromAttribute(this, "aria-controls");
+		searchResultCandidates.forEach(candidate => candidate.querySelectorAll("button.button").forEach(button => {
 			const label = button.querySelector(".button-label");
 			if (label) {
 				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? false : true;
 				button.toggleAttribute("data-hidden-asset", displayStyle);
 			}
-		});
+		}));
 	},
 
 	/**
@@ -1042,18 +1039,14 @@ var CraftingEventListeners = {
 	 */
 	_InputSearchEffect: async function _InputSearchEffect() {
 		const query = this.value.toUpperCase().trim();
-		const controlledID = this.getAttribute("aria-controls");
-		if (!controlledID) {
-			return;
-		}
-		const searchResultCandidates = document.getElementById(controlledID);
-		searchResultCandidates?.querySelectorAll(".crafting-property-list-item").forEach(button => {
+		const searchResultCandidates = ElementUnpackIDs.fromAttribute(this, "aria-controls");
+		searchResultCandidates.forEach(candidate => candidate.querySelectorAll(".crafting-property-list-item").forEach(button => {
 			const label = button.querySelector(".crafting-property-info");
 			if (label) {
 				const displayStyle = label.textContent.toUpperCase().includes(query) ? false : true;
 				button.toggleAttribute("hidden", displayStyle);
 			}
-		});
+		}));
 	},
 
 	/**
@@ -1141,14 +1134,9 @@ var CraftingEventListeners = {
 
 		let options = CraftingElements._SearchCache.get(group);
 		if (!options) {
-			const controlledID = this.getAttribute("aria-controls");
-			if (controlledID) {
-				const searchResults = document.getElementById(controlledID);
-				const query = group === "ALL" ? ".button-label" : `[data-group='${group}'] .button-label`;
-				options = Array.from(searchResults?.querySelectorAll(query) ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
-			} else {
-				options = [];
-			}
+			const query = group === "ALL" ? ".button-label" : `[data-group='${group}'] .button-label`;
+			const searchResults = ElementUnpackIDs.fromAttribute(this, "aria-controls");
+			options = searchResults.flatMap(el => Array.from(el.querySelectorAll(query)).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }})));
 			CraftingElements._SearchCache.set(group, options);
 		}
 		this.list?.replaceChildren(...options);
@@ -1164,12 +1152,8 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		const controlledID = this.getAttribute("aria-controls");
-		if (!controlledID) {
-			return;
-		}
-		const searchResults = document.getElementById(controlledID);
-		const options = Array.from(searchResults?.querySelectorAll(".button-label") ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
+		const searchResults = ElementUnpackIDs.fromAttribute(this, "aria-controls");
+		const options = searchResults.flatMap(el => Array.from(el.querySelectorAll(".button-label")).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }})));
 		this.list?.replaceChildren(...options);
 	},
 };

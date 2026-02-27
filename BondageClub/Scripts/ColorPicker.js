@@ -648,7 +648,7 @@ var ColorPicker = {
 		 */
 		clickComboBox: function (ev) {
 			const hidden = this.getAttribute("aria-expanded") === "false";
-			const elems = this.getAttribute("aria-controls")?.split(" ").map(i => document.getElementById(i)).filter(Boolean) ?? [];
+			const elems = ElementUnpackIDs.fromAttribute(this, "aria-controls");
 			if (elems.length === 0) {
 				ev.stopImmediatePropagation();
 				return;

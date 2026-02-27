@@ -108,26 +108,22 @@ var CraftingJSON = {
 	/** @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>} */
 	eventListeners: {
 		focusTooltip: function() {
-			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
+			const tooltips = ElementUnpackIDs.fromAttribute(this, "aria-owns", { filter: CraftingJSON._isTooltip });
 			tooltips.forEach(e => e.toggleAttribute("data-focus", true));
 		},
 
 		blurTooltip: function() {
-			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
+			const tooltips = ElementUnpackIDs.fromAttribute(this, "aria-owns", { filter: CraftingJSON._isTooltip });
 			tooltips.forEach(e => e.toggleAttribute("data-focus", false));
 		},
 
 		hoverinTooltip: function() {
-			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
+			const tooltips = ElementUnpackIDs.fromAttribute(this, "aria-owns", { filter: CraftingJSON._isTooltip });
 			tooltips.forEach(e => e.toggleAttribute("data-hover", true));
 		},
 
 		hoveroutTooltip: function() {
-			const root = /** @type {ShadowRoot} */(this.getRootNode());
-			const tooltips = this.getAttribute("aria-owns")?.split(" ").map(id => root.getElementById(id)).filter(CraftingJSON._isTooltip) ?? [];
+			const tooltips = ElementUnpackIDs.fromAttribute(this, "aria-owns", { filter: CraftingJSON._isTooltip });
 			tooltips.forEach(e => e.toggleAttribute("data-hover", false));
 		},
 

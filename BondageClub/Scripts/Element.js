@@ -1821,10 +1821,7 @@ var ElementButton = {
 
 		for (const icon of icons) {
 			if (!icon.hasAttribute("data-custom")) {
-				const tooltipComponentID = icon.getAttribute("aria-owns");
-				if (tooltipComponentID) {
-					ElementGetRoot(button).getElementById(tooltipComponentID)?.remove();
-				}
+				ElementUnpackIDs.fromAttribute(icon, "aria-owns").forEach(el => el.remove());
 				icon.remove();
 			}
 		}
@@ -2761,6 +2758,52 @@ function ElementFitText(el) {
 		if (size < 8) break;
 	}
 }
+
+/**
+ * Namespace for unpacking ID lists into their corresponding elements.
+ *
+ * Used retrieving elements referenced in attributes such as `aria-controls` and `aria-owns`, which consist of space-separated element IDs.
+ */
+var ElementUnpackIDs = {
+	/**
+	 * Convert a list of IDs into their corresponding elements.
+	 * @template {HTMLElement} [T=HTMLElement]
+	 * @param {readonly string[]} list The list of element IDs
+	 * @param {null | ElementUnpackIDs.Options<T>} [options] Further options
+	 * @returns {T[]} The list of elements (may or may not be shorter than the ID list)
+	 */
+	fromList: function fromList(list, options=null) {
+		options ??= {};
+		const root = ElementGetRoot(options.root ?? document);
+		// @ts-ignore cast to never and ignore as TS insists on being a huge pain in the ass when dealing with type predicates
+		const filter = options.filter ?? /** @type {never} */((i) => i != null);
+		return list.map(id => root.getElementById(id)).filter(filter);
+	},
+
+	/**
+	 * Convert a space-separated stringified ID list into their corresponding elements.
+	 * @template {HTMLElement} [T=HTMLElement]
+	 * @param {string} string The stringified list of comma-separated element IDs
+	 * @param {null | ElementUnpackIDs.Options<T>} [options] Further options
+	 * @returns {T[]} The list of elements (may or may not be shorter than the ID list)
+	 */
+	fromString: function fromString(string, options=null) {
+		return ElementUnpackIDs.fromList(string.split(" "), options);
+	},
+
+	/**
+	 * Grab an attribute containing a space-separated stringified ID list and convert them into their corresponding elements.
+	 * @template {HTMLElement} [T=HTMLElement]
+	 * @param {Element} element The element
+	 * @param {string} attrName The name of the attribute with the element IDs
+	 * @param {null | Exclude<ElementUnpackIDs.Options<T>, "root">} [options] Further options
+	 * @returns {T[]} The list of elements (may or may not be shorter than the ID list)
+	 */
+	fromAttribute: function fromAttribute(element, attrName, options=null) {
+		options ??= {};
+		return ElementUnpackIDs.fromString(element.getAttribute(attrName) ?? "", { ...options, root: element });
+	},
+};
 
 /**
  * HTML element for color tint pickers, functioning as some kind of 2D `<input type='range'>` input for selecting the color's saturation and brightness.
