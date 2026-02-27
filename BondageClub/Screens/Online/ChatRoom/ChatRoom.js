@@ -2983,8 +2983,8 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomCharacter = [];
 	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
-	ChatRoomMapViewTileFog = "";
-	ChatRoomMapViewObjectFog = "";
+	ChatRoomMapViewTileFog = null;
+	ChatRoomMapViewObjectFog = null;
 	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();
 	ChatRoomSetLastChatRoom(null);
