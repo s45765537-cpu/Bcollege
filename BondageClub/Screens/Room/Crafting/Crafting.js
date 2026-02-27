@@ -2099,7 +2099,7 @@ function CraftingDeserialize(craftString) {
 		Type: Type || undefined,
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
-		Effects: Effects ? /** @type {Partial<Record<CraftingPropertyType, number>>} */(Effects) : {},
+		Effects: Effects ? /** @type {Partial<Record<CraftingPropertyType, number>>} */(CommonJSONParse(Effects)) : {},
 	};
 
 	const priority = Number.parseInt(OverridePriority, 10);
