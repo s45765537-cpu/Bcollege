@@ -28,6 +28,9 @@ ItemArmsSturdyLeatherBeltsBelts,Belts
 ItemArmsSturdyLeatherBeltsMetal,Metal
 ItemArmsTransportJacketCanvas,Canvas
 ItemArmsTransportJacketStripes,Stripes
+ItemBootsSingleBalletBootBoot,Main boot
+ItemBootsSingleBalletBootStraps,Boot straps
+ItemBootsSingleBalletBootBelts,Belts
 ItemDevicesBrickWallBrick,Brick sector
 ItemDevicesBrickWallMetal,Metal sector
 ItemDevicesCageCage,Cage
@@ -35,11 +38,19 @@ ItemDevicesCoffinMain,Coffin
 ItemDevicesCryoCapsuleMain,Capsule
 ItemDevicesDollBoxBox,Box
 ItemDevicesDollBoxText,Label & Text
+ItemDevicesExclusiveWaitressObject,Objects
+ItemDevicesExclusiveWaitressSunshade,Sunshade
 ItemDevicesFuckMachineMachine,Machine
 ItemDevicesFuturisticCrateHarness,Harness
 ItemDevicesFuturisticCratePadding,Padding
 ItemDevicesFuturisticCratePleasure,Pleasure Module
 ItemDevicesFuturisticCrateStructure,Structure
+ItemDevicesGiftBoxBox, Box
+ItemDevicesGiftBoxBoxReflection, Box Reflection
+ItemDevicesGiftBoxRibbon, Ribbon
+ItemDevicesGiftBoxRibbonReflection, Ribbon Reflection
+ItemDevicesGiftBoxInner, Inner
+ItemDevicesGiftBoxInnerReflection, Inner Reflection
 ItemDevicesKabeshiriWallWall,Wall
 ItemDevicesLuckyWheelMisc,Misc
 ItemDevicesLuckyWheelSection,Wheel Sections
@@ -47,17 +58,24 @@ ItemDevicesLuckyWheelStand,Stand
 ItemDevicesVacBedDeluxeBody,Body
 ItemDevicesVacBedDeluxeSheet,Sheet
 ItemDevicesWoodenRackWood,Wood
-ItemDevicesGiftBoxBox, Box
-ItemDevicesGiftBoxBoxReflection, Box Reflection
-ItemDevicesGiftBoxRibbon, Ribbon
-ItemDevicesGiftBoxRibbonReflection, Ribbon Reflection
-ItemDevicesGiftBoxInner, Inner
-ItemDevicesGiftBoxInnerReflection, Inner Reflection
 ItemDevicesXFrameFrame, Wood
 ItemDevicesXFrameMetal, Metal
 ItemFeetSturdyLeatherBeltsBelts,Belts
 ItemFeetSturdyLeatherBeltsMetal,Metal
+ItemHandheldKyosensuFan,Fan paper
+ItemHandhelddKyosensuFan1,Fan paper 2nd color
+ItemHandhelddKyosensuFan2,Fan paper 3rd color
 ItemHandheldSmartphoneStripes,Pattern
+ItemHandheldUchiwaFan,Fan paper
+ItemHandheldUchiwaFan1,Fan paper 2nd color
+ItemHandheldUchiwaFan2,Fan paper 3rd color
+ItemHoodHalloIIIMask,Mask
+ItemHoodHalloIIIDetail1,Mask 1st detail
+ItemHoodHalloIIIDetail2,Mask 2nd detail
+ItemHoodHalloIIIDetail2,Mask 3rd detail
+ItemHoodHalloIIIInside,Inside mask
+ItemHoodHalloIIICollar,Collar
+ItemHoodHalloIIICDetail,Metal
 ItemHoodCustomLatexHoodHoodCoverParts,Cover Hood Parts
 ItemHoodCustomLatexHoodLinings,Linings
 ItemHoodCustomLatexHoodPanels,Panels
@@ -99,9 +117,6 @@ ItemPelvisHeavyDutyBeltRubber,Rubber
 ItemPelvisModularChastityBeltLock,Lock
 ItemPelvisModularChastityBeltMetal,Metal
 ItemPelvisObedienceBeltMetal,Metal
-ItemVulvaPiercingsRoundClitPiercingAddons,Addons
-MaskFestivalFoxMaskEyes,Eyes
-ShoesCustomHeelsStraps,Straps
 ItemPelvisWaistLegHarnessMainBelts,Main Belts
 ItemPelvisWaistLegHarnessLegStraps,Leg Straps
 ItemPelvisWaistLegHarnessLinkStrap,Leg Link Strap
@@ -110,24 +125,10 @@ ItemPelvisWaistLegHarnessAccessoryBelts,Accessory Harness Straps
 ItemPelvisWaistLegHarnessStrapOn,Strap On Device
 ItemPelvisWaistLegHarnessChastity,Chastity Belt Device
 ItemPelvisWaistLegHarnessVibrator,Vibrator Wand Device
-ItemDevicesExclusiveWaitressObject,Objects
-ItemDevicesExclusiveWaitressSunshade,Sunshade
-ItemHandheldKyosensuFan,Fan paper
-ItemHandhelddKyosensuFan1,Fan paper 2nd color
-ItemHandhelddKyosensuFan2,Fan paper 3rd color
-ItemHandheldUchiwaFan,Fan paper
-ItemHandheldUchiwaFan1,Fan paper 2nd color
-ItemHandheldUchiwaFan2,Fan paper 3rd color
-ItemHoodHalloIIIMask,Mask
-ItemHoodHalloIIIDetail1,Mask 1st detail
-ItemHoodHalloIIIDetail2,Mask 2nd detail
-ItemHoodHalloIIIDetail2,Mask 3rd detail
-ItemHoodHalloIIIInside,Inside mask
-ItemHoodHalloIIICollar,Collar
-ItemHoodHalloIIICDetail,Metal
 ItemTorsoBarrelCorsetBelly,Belly belt
 ItemTorsoBarrelCorsetLegs,Legs belts
 ItemTorsoBarrelCorsetNeck,Corset collar
+ItemVulvaPiercingsRoundClitPiercingAddons,Addons
 HairAccessory1CustomizableFluffyEars1Extras,Extras Left
 HairAccessory1CustomizableFluffyEars1ExtrasRight,Extras Right
 HairAccessory1CustomizableFluffyEars2Extras,Extras Left
@@ -140,11 +141,10 @@ HairAccessory1CustomizableElfEarsExtras,Extras Left
 HairAccessory1CustomizableElfEarsExtrasRight,Extras Right
 HairAccessory1CustomizableCowEarsExtras,Extras Left
 HairAccessory1CustomizableCowEarsExtrasRight,Extras Right
-ItemBootsSingleBalletBootBoot,Main boot
-ItemBootsSingleBalletBootStraps,Boot straps
-ItemBootsSingleBalletBootBelts,Belts
+MaskFestivalFoxMaskEyes,Eyes
 NecklaceBeadNecklaceDragon,Dragon
 NecklaceBeadNecklaceCursedEye,Cursed Eye
 NecklaceBeadNecklaceShine,Shine
+ShoesCustomHeelsStraps,Straps
 TailStrapsKitsuneTailStrapsTails,Tails
 TailStrapsKitsuneTailStrapsTips,Tips
