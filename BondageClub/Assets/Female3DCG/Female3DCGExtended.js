@@ -22641,6 +22641,21 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "SakisDen",
+					Key: "SakisDen",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Saki
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Saki.png" },
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,

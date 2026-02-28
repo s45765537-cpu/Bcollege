@@ -44784,6 +44784,10 @@ var AssetFemale3DCG = [
 						Name: "Tsuki",
 						AllowTypes: { CCLounge: 4 },
 					},
+					{
+						Name: "Saki",
+						AllowTypes: { SakisDen: 1 },
+					},
 				],
 			},
 			{

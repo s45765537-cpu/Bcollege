@@ -8049,6 +8049,12 @@ ItemHandheldPlushieOptionCCLounge3,Jennifer
 ItemHandheldPlushieSetCCLounge3,SourceCharacter places a cute Jennifer plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionCCLounge4,Tsuki
 ItemHandheldPlushieSetCCLounge4,SourceCharacter places a cute Tsuki plushie in DestinationCharacter hands.
+ItemHandheldPlushieModuleSakisDen,Saki's Den
+ItemHandheldPlushieSelectSakisDen,Saki's Den
+ItemHandheldPlushieOptionSakisDen0,None
+ItemHandheldPlushieSetSakisDen0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionSakisDen1,Saki
+ItemHandheldPlushieSetSakisDen1,SourceCharacter places a pretty Saki plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
