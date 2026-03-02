@@ -45693,7 +45693,7 @@ var AssetFemale3DCG = [
 				Value: 30,
 				Difficulty: 0,
 				Time: 1,
-				DefaultColor: ["#FF0000", "#FF0000", "#FF0000", "#FFF600"],
+				DefaultColor: ["#FF0000", "#FF0000", "#FF0000", "#D4AF37"],
 				Layer: [
 					{ Name: "Main"},
 					{ Name: "MainRibbon"},
