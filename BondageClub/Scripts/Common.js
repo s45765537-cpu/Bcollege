@@ -2359,11 +2359,14 @@ function CommonGetDatePartsRange(end, start, options = {}) {
 		m = mid.getMonth() - start.getMonth();
 		d = mid.getDate() - start.getDate();
 
-		if (d < 0) {
+		let monthIndex = mid.getMonth();
+		while (d < 0) {
 			const prevMonth = new Date(mid);
+			prevMonth.setMonth(monthIndex);
 			prevMonth.setDate(0);
 			d += prevMonth.getDate();
 			m--;
+			monthIndex = (monthIndex + 1) % 12;
 		}
 		if (m < 0) { m += 12; y--; }
 
