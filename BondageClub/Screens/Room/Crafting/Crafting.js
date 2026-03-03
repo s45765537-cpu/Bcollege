@@ -2631,7 +2631,7 @@ function CraftingItemListBuild() {
  * @see {@link CratingValidationStruct}
  * @todo Let the Validate/GetDefault functions take the respective attribute rather than the entire {@link CraftingItem}
  */
-const CraftingValidationRecord = {
+var CraftingValidationRecord = {
 	Color: {
 		Validate: function(craft, asset) {
 			if (typeof craft.Color !== "string") {
