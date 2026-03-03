@@ -628,7 +628,6 @@ var CraftingEventListeners = {
 		const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 		if (item?.Craft) {
 			// Make sure that all expected modifiers are present so that the difficulty factor can easily be extracted afterwards by extracting a deterministic value
-			item.Craft.Property = CraftingSelectedItem.Property;
 			item.Craft.Effects = CraftingSelectedItem.Effects;
 			item.Difficulty = (
 				item.Asset.Difficulty
@@ -819,7 +818,6 @@ var CraftingEventListeners = {
 		parent.querySelector(".crafting-property-remove")?.toggleAttribute("hidden", false);
 		CraftingSelectedItem.Effects[name] ??= 0;
 		CraftingSelectedItem.Effects[name] += 1;
-		CraftingSelectedItem.Property = name;
 
 		/** @type {null | HTMLInputElement} */
 		const numericInput = parent.querySelector(".crafting-property-value input");
@@ -849,10 +847,6 @@ var CraftingEventListeners = {
 		if (!CraftingSelectedItem.Effects[name]) {
 			parent.querySelector(".crafting-property-value")?.toggleAttribute("hidden", true);
 			this.toggleAttribute("hidden", true);
-			if (CraftingSelectedItem.Property === name) {
-				const newName = CommonEntries(CraftingSelectedItem.Effects).find(([effectName, value]) => effectName !== name && !!value)?.[0];
-				CraftingSelectedItem.Property = newName ?? "Normal";
-			}
 		}
 
 		/** @type {null | HTMLInputElement} */
@@ -2092,7 +2086,7 @@ function CraftingDeserialize(craftString) {
 		Name,
 		Description,
 		Color,
-		Property: /** @type {CraftingPropertyType} */(Property) || "Normal",
+		Property: /** @type {CraftingPropertyType} */(Property) || undefined,
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
 		ItemProperty: ItemProperty ? /** @type {ItemProperties} */(CommonJSONParse(ItemProperty) ?? {}) : {},
@@ -2352,7 +2346,6 @@ function CraftingClick(event) {
 					get Asset() {
 						return this.Assets[0];
 					},
-					Property: "Normal",
 					Effects: {},
 					Lock: null,
 					Private: false,
@@ -2425,7 +2418,6 @@ function CraftingRefreshPreview() {
 function CraftingConvertSelectedToItem(item) {
 	return {
 		Item: (item.Asset == null) ? "" : item.Asset.Name,
-		Property: item.Property,
 		Lock: (item.Lock == null) ? "" : /**@type {AssetLockType}*/(item.Lock.Name),
 		Name: item.Name,
 		Description: item.Description,
@@ -2451,7 +2443,6 @@ function CraftingConvertItemToSelected(Craft) {
 		Color: Craft.Color,
 		Private: Craft.Private,
 		TypeRecord: Craft.TypeRecord || null,
-		Property: Craft.Property,
 		Assets: CraftingAssets[Craft.Item] ?? [],
 		Effects: Craft.Effects,
 		get Asset() {
@@ -2749,7 +2740,7 @@ var CraftingValidationRecord = {
 				return (Allow !== undefined) ? Allow(a) : false;
 			}
 		},
-		GetDefault: (c, a) => "Normal",
+		GetDefault: (c, a) => undefined,
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Effects: {
