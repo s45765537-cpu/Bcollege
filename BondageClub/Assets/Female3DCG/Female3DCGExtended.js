@@ -22681,4 +22681,27 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // DragonPlush
 	}, // ItemHandheld
+	EyeShadow: {
+		Running: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "0",
+				},
+				{
+					Name: "1",
+				},
+				{
+					Name: "2",
+				},
+				{
+					Name: "3",
+				},
+				{
+					Name: "4",
+				},
+			],
+		},
+	},
 };
