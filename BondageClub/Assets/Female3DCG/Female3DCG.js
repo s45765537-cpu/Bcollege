@@ -50306,6 +50306,50 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Layer: [{ Name: "Rose" }, { Name: "Metal" }, { Name: "Straps" }],
 			},
+			{
+				Name: "BishopGag",
+				InventoryID: 1307,
+				Fetish: ["Leather"],
+				Value: 30,
+				Difficulty: 4,
+				Time: 20,
+				AllowLock: true,
+				AllowTighten: true,
+				BuyGroup: "BishopGag",
+				Audio: "LeatherCreakWithMetal",
+				Prerequisite: "GagUnique",
+				Hide: ["Mouth"],
+				Extended: true,
+				Effect: [E.BlockMouth, E.GagHeavy],
+				DefaultColor: ["#6C2323", "#8F8F8F", "#202020", "#202020", "Default"],
+				DrawLocks: false,
+				Layer: [
+					{
+						Name: "Ball",
+					},
+					{
+						Name: "StrapRings",
+					},
+					{
+						Name: "Strap",
+						ColorGroup: "Leather",
+					},
+					{
+						Name: "Panel",
+						ColorGroup: "Leather",
+						AllowTypes: { typed: 1 }
+					},
+					{
+						Name: "Buckles",
+						CopyLayerColor: "StrapRings",
+					},
+					{
+						Name: "Lock",
+						LockLayer: true,
+						AllowTypes: { typed: 1 }
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -52436,6 +52480,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "RoseBallGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BishopGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BishopGag",
 					BuyGroup: true,
 				},
 			},
@@ -54593,6 +54645,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "RoseBallGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BishopGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BishopGag",
 					BuyGroup: true,
 				},
 			},

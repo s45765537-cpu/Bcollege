@@ -16304,6 +16304,23 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // CompGag
+		BishopGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Open",
+					Property: {
+					},
+				},
+				{
+					Name: "Covered",
+					Property: {
+						Difficulty: 6
+					},
+				},
+			],
+		},
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -16491,6 +16508,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "CompGag" },
 		}, // CompGag
+		BishopGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BishopGag" },
+		}, // BishopGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -16670,6 +16691,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "AsylumMuzzle" },
 		}, // AsylumMuzzle
+		BishopGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BishopGag" },
+		}, // BishopGag
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
