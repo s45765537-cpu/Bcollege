@@ -4910,6 +4910,9 @@ async function ChatRoomSync(data) {
 
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
+
+	// Parse the new chat room map data, if any
+	ChatRoomMapManager.OnMapDataUpdated();
 }
 
 
