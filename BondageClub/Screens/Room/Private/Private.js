@@ -633,7 +633,7 @@ function PrivateNewCloth(C) {
 
 	// Birthday Hat
 	if (PrivateIsPlayerBirthday() && (InventoryGet(C, "Hat") == null))
-		InventoryWear(C, "CollegeDunce", "Hat", CommonRandomItemFromList("", ["#FF0000", "#FFFF00", "#FF00FF", "#00FF00", "#00FFFF", "#0000FF"]));
+		InventoryWear(C, "CollegeDunce", "Hat", CommonRandomItemFromList(null, ["#FF0000", "#FFFF00", "#FF00FF", "#00FF00", "#00FFFF", "#0000FF"]));
 
 	// Random December hats (25% odds)
 	if ((new Date().getMonth() == 11) && (Math.random() < 0.25) && (InventoryGet(C, "Hat") == null))
@@ -1751,7 +1751,7 @@ function PrivateStartGirlfriend() {
 /**
  * Puts a wedding ring of a specified color on a specified character
  * @param {Character} C - The character that must wear the ring.
- * @param {string} Color - The color of the ring #D0D000 is gold, #B0B0B0 is silver.
+ * @param {BCColor} Color - The color of the ring #D0D000 is gold, #B0B0B0 is silver.
  * @returns {void} - Nothing.
  */
 function PrivateWearRing(C, Color) {

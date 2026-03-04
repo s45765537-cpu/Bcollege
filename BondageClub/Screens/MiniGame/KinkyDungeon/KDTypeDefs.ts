@@ -427,7 +427,7 @@ interface restraint extends KDRestraintProps {
 	weight: number,
 	minLevel: number,
 
-	Color?: string[] | string,
+	Color?: BCColor[] | BCColor,
 
 	escapeChance: any,
 
@@ -548,7 +548,7 @@ interface overrideDisplayItem {
 	/** Group */
 	Group: AssetGroupName,
 	/** Color */
-	Color: string[]|string,
+	Color: BCColor[]|BCColor,
 	/** Filters */
 	Filters?: Record<string, LayerFilter>,
 	/** Faction color index */
@@ -2164,7 +2164,7 @@ interface Model {
 	SuperProtected: boolean;
 	Restraint: boolean;
 	Group: AssetGroupName;
-	DefaultColor: string;
+	DefaultColor: BCColor;
 }
 
 

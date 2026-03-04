@@ -46,6 +46,7 @@ var MainHallPunishmentList = [
 ];
 
 var MainHallPunishmentChoice = 0;
+/** @type {BCColor} */
 var MainHallRopeColor = "Default";
 
 /**
@@ -734,6 +735,7 @@ function MainHallPunishFromChatroomArms() {
 		}
 	} else {
 		if (MainHallPunishmentList[I].ItemArms) {
+			/** @type {BCColor} */
 			var ArmsColor = "Default";
 			if (MainHallPunishmentList[I].ItemArms == "LatexBoxtieLeotard" || MainHallPunishmentList[I].ItemArms == "SeamlessStraitDress" ) {
 				ArmsColor = "#252525";

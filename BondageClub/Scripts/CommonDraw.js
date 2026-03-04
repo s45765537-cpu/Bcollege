@@ -455,7 +455,7 @@ function CommonDrawAppearanceBuild(
 
 		if (layer.HasImage && (!layer.LockLayer || itemIsLocked)) {
 			// Handle the layer's color suffix mapping, transforming it back into a named color so we still use the correct base
-			/** @type {string | undefined} */
+			/** @type {BCColor | undefined} */
 			let colorSuffix = undefined;
 			if (layer.ColorSuffix && layerColor) {
 				colorSuffix =
@@ -482,11 +482,11 @@ function CommonDrawAppearanceBuild(
 			const baseURLExpression = `${baseURL}${expressionSegment}`;
 			const baseURLBlink = `${baseURL}${blinkExpressionSegment}`;
 
-			const shouldColorize =
-				layer.AllowColorize && layerColor && layerColor[0] === "#";
+			/** @type {(color: BCColor) => color is HexColor} */
+			const shouldColorize = (color) => layer.AllowColorize && color && color[0] === "#";
 			let colorSegment = "";
 
-			if (shouldColorize) {
+			if (shouldColorize(layerColor)) {
 				// The layer is colorizable and has an explicit hexcode, it needs to be drawn colorized
 				colorSegment = colorSuffix != undefined ? colorSuffix : "";
 			} else {
@@ -521,7 +521,7 @@ function CommonDrawAppearanceBuild(
 				(m) => m.Priority < 0 || m.Priority >= layer.Priority,
 			);
 
-			if (shouldColorize) {
+			if (shouldColorize(layerColor)) {
 				drawImageColorize(baseURLExpression + layerURL, X, Y, {
 					HexColor: layerColor,
 					FullAlpha: asset.FullAlpha,
@@ -732,7 +732,7 @@ function CommonDrawApplyLayerAlphaMasks(
  * @param {Item} item
  * @param {AssetLayer} layer
  * @param {AssetGroupName} groupName
- * @param {HexColor} [initialColor] Used as the starting value to check that specific color and fully resolve it
+ * @param {BCColor} [initialColor] Used as the starting value to check that specific color and fully resolve it
  */
 function CommonDrawResolveLayerColor(C, item, layer, groupName, initialColor) {
 	// Pick the layer's color out of the item's Color property based on the layer's index, or default it to what the group says
@@ -789,7 +789,7 @@ function CommonDrawResolveLayerColor(C, item, layer, groupName, initialColor) {
  * Determines whether the provided color is valid
  * @param {string} Color - The color
  * @param {AssetGroup} AssetGroup - The asset group the color is being used fo
- * @returns {boolean} - Whether the color is valid
+ * @returns {Color is BCColor} - Whether the color is valid
  */
 function CommonDrawColorValid(Color, AssetGroup) {
 	if (typeof Color !== "string") {
@@ -802,7 +802,7 @@ function CommonDrawColorValid(Color, AssetGroup) {
 	}
 
 	// Otherwise it's a named color, and must appear in the schema
-	return AssetGroup.ColorSchema.includes(Color);
+	return CommonIncludes(AssetGroup.ColorSchema, Color);
 }
 
 /**

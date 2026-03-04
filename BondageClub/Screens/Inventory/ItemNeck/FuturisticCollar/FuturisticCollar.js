@@ -342,10 +342,21 @@ function InventoryItemNeckFuturisticCollarUnlock(C) {
  * @param {Item} FromItem
  */
 function InventoryItemNeckFuturisticCollarColor(C, FromItem) {
+	/** @type {readonly BCColor[]} */
+	let fromColors;
+	if (typeof FromItem.Color === "string") {
+		fromColors = Array(FromItem.Asset.ColorableLayerCount).fill(FromItem.Color);
+	} else if (CommonIsArray(FromItem.Color)) {
+		fromColors = FromItem.Color;
+	} else {
+		fromColors = FromItem.Asset.DefaultColor;
+	}
+
 	for (const item of C.Appearance) {
 		const canRecolor = InventoryGetItemProperty(item, "Attribute").includes("FuturisticRecolor");
 		if (item.Asset && canRecolor && item.Asset.Group.Name != "ItemNeck") {
 
+			/** @type {BCColor[]} */
 			let colors = null;
 			if (item.Asset.Layer.length > 1 && typeof item.Color === "string") {
 				let color = item.Color;
@@ -366,19 +377,19 @@ function InventoryItemNeckFuturisticCollarColor(C, FromItem) {
 				if (item.Asset.Layer[L].Name != "Light" && item.Asset.Layer[L].Name != "Shine") {
 					if (!item.Asset.Layer[L].Name) {
 						if (FromItem.Color[3] != "Default")
-							item.Color = (canRecolorDisplay) ? FromItem.Color[0] : FromItem.Color[3];
+							item.Color = (canRecolorDisplay) ? fromColors[0] : fromColors[3];
 					} else if (item.Asset.Layer[L].Name == "Lock") {
 						if (FromItem.Color[3] != "Default")
-							colors[L] = FromItem.Color[3];
+							colors[L] = fromColors[3];
 					} else if (item.Asset.Layer[L].Name == "Display" || item.Asset.Layer[L].Name == "Screen" || item.Asset.Layer[L].Name == "Ball") {
 						if (FromItem.Color[0] != "Default")
-							colors[L] = FromItem.Color[0];
+							colors[L] = fromColors[0];
 					} else if (item.Asset.Layer[L].Name != "Mesh" && item.Asset.Layer[L].Name != "Text") {
 						if (FromItem.Color[1] != "Default")
-							colors[L] = FromItem.Color[1];
+							colors[L] = fromColors[1];
 					} else if (item.Asset.Layer[L].Name != "Text") {
 						if (FromItem.Color[2] != "Default")
-							colors[L] = FromItem.Color[2];
+							colors[L] = fromColors[2];
 					}
 				}
 			}

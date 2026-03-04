@@ -796,7 +796,7 @@ function ManagementClubSlaveTransferToRoom() {
 
 /**
  * Triggered when the player earns the mistress clothes.
- * @param {string} Color - The color of the outfit
+ * @param {BCColor} Color - The color of the outfit
  * @returns {void} - Nothing.
  */
 function ManagementGetMistressOutfit(Color) {

@@ -1181,7 +1181,7 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * @param {Character} C - The character whose appearance should be changed
  * @param {AssetGroupName} Group - The name of the corresponding groupr for the item
  * @param {Asset|null} ItemAsset - The asset collection of the item to be changed
- * @param {null | string | string[]} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
+ * @param {null | ItemColor} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
  * @param {null | number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
  * to the item
  * @param {null | number} [ItemMemberNumber=-1] - The member number of the player adding the item - defaults to -1
@@ -1302,7 +1302,7 @@ function CharacterAppearanceMoveGroup(C, Move) {
 /**
  * Sets the color for a specific group
  * @param {Character} C - The character whose item group should be colored
- * @param {string} Color - The color (in the format "#rrggbb") to be applied to the group
+ * @param {BCColor} Color - The color (in the format "#rrggbb") to be applied to the group
  * @param {AssetGroupName} Group - The name of the group, whose color should be changed
  * @returns {void} - Nothing
  */
@@ -2071,8 +2071,8 @@ function CharacterAppearanceCopyToClipboard(C) {
 		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance") && A.Asset.Group.AllowCustomize) {
 			/** @type {{ A: string, G: AssetGroupName, C?: ItemColor }} */
 			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name, C: undefined };
-			if ((A.Color != null) && Array.isArray(A.Color)) Obj.C = CommonCloneDeep(A.Color);
-			if ((A.Color != null) && (typeof A.Color == "string") && (A.Color != "") && (A.Color.toLowerCase() != "default")) Obj.C = A.Color;
+			if (Array.isArray(A.Color)) Obj.C = CommonCloneDeep(A.Color);
+			if (typeof A.Color == "string" && A.Color && A.Color.toLowerCase() != "default") Obj.C = A.Color;
 			App.push(Obj);
 		}
 

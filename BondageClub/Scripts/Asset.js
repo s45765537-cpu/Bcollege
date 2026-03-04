@@ -65,6 +65,7 @@ const PoseType = /** @type {const} */({
  */
 function AssetGroupAdd(Family, GroupDef) {
 	const AllowNone = typeof GroupDef.AllowNone === "boolean" ? GroupDef.AllowNone : true;
+	/** @type {BCColor[]} */
 	const ColorSchema = (GroupDef.Color == null) ? ["Default"] : GroupDef.Color;
 
 	/** @type {AssetGroup} */
@@ -1146,12 +1147,12 @@ function AssetLayerSort(layers) {
 /**
  * Convert {@link AssetDefinition} default color into a {@link Asset} default color list
  * @param {number} colorableLayerCount The number of colorable layers
- * @param {string} fillValue The default color. Usually `"Default"` though skin colors can also be supplied on occasion.
- * @param {string | readonly string[]} [color] See {@link AssetDefinition.DefaultColor}
- * @returns {string[]} See {@link Asset.DefaultColor}
+ * @param {BCColor} fillValue The default color. Usually `"Default"` though skin colors can also be supplied on occasion.
+ * @param {BCColor | readonly BCColor[]} [color] See {@link AssetDefinition.DefaultColor}
+ * @returns {BCColor[]} See {@link Asset.DefaultColor}
  */
 function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
-	/** @type {string[]} */
+	/** @type {BCColor[]} */
 	const defaultColor = Array(colorableLayerCount).fill(fillValue);
 	if (typeof color === "string") {
 		defaultColor.fill(color);

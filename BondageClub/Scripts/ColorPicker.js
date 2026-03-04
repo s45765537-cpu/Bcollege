@@ -149,7 +149,7 @@ function ColorPickerHSVToCSS(HSV) {
 	var RS = Math.floor(R * 255).toString(16).toUpperCase().padStart(2, "0");
 	var GS = Math.floor(G * 255).toString(16).toUpperCase().padStart(2, "0");
 	var BS = Math.floor(B * 255).toString(16).toUpperCase().padStart(2, "0");
-	return "#" + RS + GS + BS;
+	return `#${RS}${GS}${BS}`;
 }
 
 /**
@@ -262,6 +262,7 @@ var ColorPicker = {
 					if (!CommonIsColor(outputInput.value, { allowAlpha: true })) {
 						break;
 					}
+					const rgb = CommonColorTrimAlpha(outputInput.value);
 
 					const opacityMin = CommonParseInt(opacityInput.min, 10) ?? 0;
 					const opacityMax = CommonParseInt(opacityInput.max, 10) ?? Infinity;
@@ -274,7 +275,6 @@ var ColorPicker = {
 						}
 					}
 
-					const rgb = outputInput.value.slice(0, 7);
 					const hsv = ColorPickerCSSToHSV(rgb);
 					hueInput.valueAsNumber = Math.round(hsv.H * 360);
 					this.style.setProperty("--hue", hueInput.value);
@@ -350,7 +350,7 @@ var ColorPicker = {
 				} else {
 					// The subscreen lacks an underlying item or proper color state: the default colors can restored approximately
 					// Note that this approximation does become exact when a single layer is being modified or when all layers happen to have the same default color
-					colorString = CommonIsColor(outputInput.defaultValue, { allowAlpha: true }) ? outputInput.defaultValue.slice(0, 7) : outputInput.defaultValue;
+					colorString = CommonIsColor(outputInput.defaultValue, { allowAlpha: true }) ? CommonColorTrimAlpha(outputInput.defaultValue) : outputInput.defaultValue;
 				}
 
 				ColorPicker.setColor(group, { colorString });
@@ -419,7 +419,7 @@ var ColorPicker = {
 			if (!CommonIsColor(colorInput.value, { allowAlpha: true })) {
 				return;
 			}
-			const rgb = colorInput.value.slice(0, 7);
+			const rgb = CommonColorTrimAlpha(colorInput.value);
 
 			savedColorInput.value = rgb;
 			Array.from(savedColorInput.labels ?? []).forEach(el => {
@@ -560,7 +560,7 @@ var ColorPicker = {
 				if (CommonIsColor(color, { allowAlpha: true })) {
 					statusKey = "PasteSuccess";
 					colorTextElem = ElementCreate({ tag: "q", children: [
-						{ tag: "span", children: ["◼ "], style: { "color": color.slice(0, 7) } },
+						{ tag: "span", children: ["◼ "], style: { "color": CommonColorTrimAlpha(color) } },
 						{ tag: "span", children: [color], style: { "font-family": "monospace" } },
 					]});
 					ColorPicker.setColor(root, { colorString: color });
@@ -594,16 +594,17 @@ var ColorPicker = {
 			}
 			const [outputInput, opacityInput] = [elements.output, elements.opacity];
 
-			if (CommonIsColor(outputInput.value, { allowAlpha: true })) {
-				const colorValue = outputInput.value.slice(0, 7);
+			const colorValue = outputInput.value;
+			if (CommonIsColor(colorValue, { allowAlpha: true })) {
+				const hexColorValue = CommonColorTrimAlpha(colorValue);
+				ItemColorPickerIndices.forEach(i => {
+					colorState.colors[i] = hexColorValue;
+					item.Color[i] = hexColorValue;
+				});
+			} else if (CommonIncludes(item.Asset.Group.ColorSchema, colorValue)) {
 				ItemColorPickerIndices.forEach(i => {
 					colorState.colors[i] = colorValue;
 					item.Color[i] = colorValue;
-				});
-			} else if (item.Asset.Group.ColorSchema.includes(outputInput.value)) {
-				ItemColorPickerIndices.forEach(i => {
-					colorState.colors[i] = outputInput.value;
-					item.Color[i] = outputInput.value;
 				});
 			}
 
@@ -941,23 +942,27 @@ var ColorPicker = {
 		let hsv = null;
 		if (value.colorString != null) {
 			const color = value.colorString;
-			hsv = ColorPickerCSSToHSV(color);
-			colorIsHex = CommonIsColor(color, { allowAlpha: true });
-			if (!colorIsHex) {
+			if (!CommonIsColor(color, { allowAlpha: true })) {
 				output = color;
 			} else if (color.length === 4) {
 				output = `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`.toUpperCase();
+				hsv = ColorPickerCSSToHSV(color);
 			} else {
-				output = color.slice(0, 7).toUpperCase();
+				output = CommonColorTrimAlpha(color).toUpperCase();
+				hsv = ColorPickerCSSToHSV(color);
 			}
-			output = colorIsHex ? color.slice(0, 7).toUpperCase() : color;
 		} else if (value.hsv) {
 			hsv = { ...value.hsv };
 			colorIsHex = true;
 			output = ColorPickerHSVToCSS(hsv);
 		} else {
-			colorIsHex = CommonIsColor(outputInput.value, { allowAlpha: true });
-			output = colorIsHex ? outputInput.value.slice(0, 7).toUpperCase() : outputInput.value;
+			if (CommonIsColor(outputInput.value, { allowAlpha: true })) {
+				colorIsHex = true;
+				output = CommonColorTrimAlpha(outputInput.value);
+			} else {
+				colorIsHex = false;
+				output = outputInput.value;
+			}
 		}
 
 		if (opacity != null && opacity !== 255 && colorIsHex) {
@@ -1082,15 +1087,19 @@ var ColorPicker = {
 			const [opacityInput, outputInput] = [elements.opacity, elements.output];
 
 			const initialOpacity = (opacityInput ? CommonParseInt(opacityInput.defaultValue) : null) ?? 255;
-			let initialColor = (outputInput ? outputInput.defaultValue : "") || "Default";
+			let initialColor = (outputInput ? /** @type {BCColor} */(outputInput.defaultValue) : "Default") || "Default";
 			if (CommonIsColor(initialColor, { allowAlpha: true })) {
-				initialColor = initialColor.slice(0, 7); // Remove the alpha component
+				initialColor = CommonColorTrimAlpha(initialColor);
 			}
 
 			const opacity = opacityInput?.validity.valid ? opacityInput.valueAsNumber : initialOpacity;
-			let color = outputInput?.validity.valid ? outputInput.value : initialColor;
-			if (CommonIsColor(color, { allowAlpha: true })) {
-				color = color.slice(0, 7); // Remove the alpha component
+			let color = initialColor;
+			if (!outputInput?.validity.valid) {
+				color = initialColor;
+			} else if (outputInput.value === "Default") {
+				color = "Default";
+			} else if (CommonIsColor(outputInput.value, { allowAlpha: true })) {
+				color = CommonColorTrimAlpha(outputInput.value);
 			}
 
 			exitState = {

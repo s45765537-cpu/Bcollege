@@ -306,12 +306,22 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 			8: 2,
 		};
 
+		/** @type {readonly BCColor[]} */
+		let itemColors;
+		if (typeof Item.Color === "string") {
+			itemColors = Array(Item.Asset.ColorableLayerCount).fill(Item.Color);
+		} else if (CommonIsArray(Item.Color)) {
+			itemColors = Item.Color;
+		} else {
+			itemColors = Item.Asset.DefaultColor;
+		}
+
 		// Draw the background
 		const colorLayerID = 10;
 		for (let sectionID = 0; sectionID < SectionsPerNumTexts[nbTexts]; sectionID++) {
 			const image = "Assets/Female3DCG/ItemDevices/LuckyWheel_" + nbTexts + "_" + (sectionID + 1) + ".png";
-			const color = Item.Color[colorLayerID + sectionID] || "#888";
-			DrawImageCanvas(image, ctx, 0, 0, { HexColor: color, AlphaMasks });
+			const color = itemColors[colorLayerID + sectionID] || "#888";
+			DrawImageCanvas(image, ctx, 0, 0, { HexColor: CommonIsColor(color) ? color : undefined, AlphaMasks });
 		}
 
 

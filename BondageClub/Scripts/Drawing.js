@@ -89,12 +89,12 @@ function DrawHexToRGB(color) {
 
 /**
  * Converts a RGB color to a hex color string
- * @param {readonly number[]} color - RGB color to conver
- * @returns {string} - Hex color string
+ * @param {readonly [R: number, G: number, B: number]} color - RGB color to conver
+ * @returns {HexColor} - Hex color string
  */
 function DrawRGBToHex(color) {
 	const rgb = color[2] | (color[1] << 8) | (color[0] << 16);
-	return '#' + (0x1000000 + rgb).toString(16).slice(1).toUpperCase();
+	return `#${(0x1000000 + rgb).toString(16).slice(1).toUpperCase()}`;
 }
 
 /**

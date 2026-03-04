@@ -999,7 +999,7 @@ function CharacterLoadCSVDialog(C, info) {
  * Sets the clothes based on a character archetype
  * @param {Character} C - Character to set the clothes for
  * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl" | "Bunny" | "Succubus"} Archetype - Archetype to determine the clothes to put on
- * @param {string} [ForceColor] - Color to use for the added clothes
+ * @param {BCColor} [ForceColor] - Color to use for the added clothes
  * @returns {void} - Nothing
  */
 function CharacterArchetypeClothes(C, Archetype, ForceColor) {
@@ -1044,8 +1044,9 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 
 	// Mistress archetype
 	if (Archetype == "Mistress") {
+		/** @type {HexColor[]} */
 		let ColorList = ["#333333", "#AA4444", "#AAAAAA"];
-		let Color = (ForceColor == null) ? CommonRandomItemFromList("", ColorList) : ForceColor;
+		let Color = (ForceColor == null) ? CommonRandomItemFromList(null, ColorList) : ForceColor;
 		CharacterAppearanceSetItem(C, "Hat", null);
 		InventoryAdd(C, "MistressGloves", "Gloves", false);
 		InventoryWear(C, "MistressGloves", "Gloves", Color);
@@ -1115,7 +1116,7 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 	// Succubus archetype
 	if (Archetype == "Succubus") {
 		CharacterNaked(C);
-		let Color = CommonRandomItemFromList(null, ["Default", "#222222", "#BBBBBB", "#882222"]);
+		let Color = CommonRandomItemFromList(null, /** @type {const} */(["Default", "#222222", "#BBBBBB", "#882222"]));
 		InventoryWear(C, CommonRandomItemFromList(null, ["BondageDress1", "BondageDress2", "CorsetDress", "EveningGown", "Dress3"]), "Cloth", Color);
 		InventoryWear(C, CommonRandomItemFromList(null, ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
 		if (Math.random() > 0.5) InventoryWear(C, CommonRandomItemFromList(null, ["GradientPantyhose", "Socks5", "Stockings1", "Stockings2"]), "Socks", Color);
@@ -1748,10 +1749,11 @@ function CharacterRandomUnderwear(C) {
 		}
 
 	// Generate random undies at a random color
+	/** @type {"" | BCColor} */
 	var Color = "";
 	for (const G of AssetGroup)
 		if ((G.Category == "Appearance") && G.Underwear && (G.IsDefault || (Math.random() < 0.2))) {
-			if (Color == "") Color = CommonRandomItemFromList("", G.ColorSchema);
+			if (Color == "") Color = CommonRandomItemFromList(null, G.ColorSchema);
 			const Group = G.Asset
 				.filter(A => InventoryAvailable(C, A.Name, G.Name));
 			if (Group.length > 0)

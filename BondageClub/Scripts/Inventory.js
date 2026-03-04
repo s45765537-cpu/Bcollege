@@ -706,7 +706,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	}
 
 	// Applies the color schema, separated by commas
-	Item.Color = Craft.Color.replace(" ", "").split(",");
+	Item.Color = /** @type {BCColor[]} */(Craft.Color.replace(" ", "").split(","));
 
 	// Set extended item properties
 	ExtendedItemSetOptionByRecord(
@@ -776,7 +776,7 @@ function InventoryCraftPropertyIs() {}
  * @param {Character} C - The character that must wear the item
  * @param {string} AssetName - The name of the asset to wear
  * @param {AssetGroupName} AssetGroup - The name of the asset group to wear
- * @param {null | string | string[]} [ItemColor] - The hex color of the item, can be undefined or "Default"
+ * @param {null | ItemColor} [ItemColor] - The hex color of the item, can be undefined or "Default"
  * @param {null | number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
  * @param {null | number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
  * @param {null | CraftingItem} [Craft] - The crafting properties of the item
