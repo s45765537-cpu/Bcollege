@@ -273,12 +273,7 @@ async function ChatSearchLoad() {
 					ElementFocus("InputSearch");
 				}
 			}
-			const control = this.getAttribute("aria-controls");
-			if (!control) return;
-			const searchPanel = document.getElementById(control);
-			if (searchPanel) {
-				searchPanel.hidden = open;
-			}
+			ElementUnpackIDs.fromAttribute(this, "aria-controls").forEach(el => el.hidden = open);
 		},
 		{
 			tooltip: TextGet("SearchMenuButton"),

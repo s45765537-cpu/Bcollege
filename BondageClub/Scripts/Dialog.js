@@ -4475,11 +4475,10 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([hidden])`)?.toggleAttribute("hidden", true);
 				if (this.getAttribute("aria-checked") === "true") {
 					colorButton?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
-					const buttonGrid = document.getElementById(this.getAttribute("aria-owns"));
-					if (buttonGrid) {
+					ElementUnpackIDs.fromAttribute(this, "aria-owns").forEach(buttonGrid => {
 						buttonGrid.toggleAttribute("hidden", false);
 						buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
-					}
+					});
 				} else {
 					colorButton?.setAttribute("aria-disabled", "true");
 				}
