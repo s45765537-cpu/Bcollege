@@ -4354,11 +4354,6 @@ interface CraftingItemSelected {
 	 * Will be `undefined` upon creating a new craft prior to the user picking the underlying item.
 	 */
 	get Asset(): Asset | undefined;
-	/**
-	 * The crafted item propertty.
-	 * @deprecated superseded by {@link CraftingItemSelected.Effects}
-	 */
-	Property?: CraftingPropertyType;
 	/** The crafted item properties mapped to their property strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/** The lock as equipped on the item or, if absent, `null`. */
