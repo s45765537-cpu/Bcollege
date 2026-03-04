@@ -8461,7 +8461,7 @@ ItemBootsSingleBalletBootOptionv2,Medium
 ItemBootsSingleBalletBootOptionv3,Intense
 ItemBootsSingleBalletBootOptionv4,Full on
 ItemBootsSingleBalletBootSetm0,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot just to stand on TargetPronounPossessive own.
-ItemBootsSingleBalletBootSetm1,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot restraining any attempt by TargetPronounPossessive to get up.
+ItemBootsSingleBalletBootSetm1,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot restraining any attempt by TargetPronounObject to get up.
 ItemBootsSingleBalletBootSetm2,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot for some hop training.
 ItemBootsSingleBalletBootSett0,SourceCharacter puts a Single Ballet Boot's standard version on DestinationCharacter legs.
 ItemBootsSingleBalletBootSett1,SourceCharacter puts a Single Ballet Boot's full leg variation on DestinationCharacter legs.
@@ -8514,24 +8514,24 @@ ItemDevicesSingleBalletBootOptionv2,Medium
 ItemDevicesSingleBalletBootOptionv3,Intense
 ItemDevicesSingleBalletBootOptionv4,Full on
 ItemDevicesSingleBalletBootSetm0,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot just to stand on TargetPronounPossessive own.
-ItemDevicesSingleBalletBootSetm1,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot restraining any attempt by TargetPronounPossessive to get up.
+ItemDevicesSingleBalletBootSetm1,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot restraining any attempt by TargetPronounObject to get up.
 ItemDevicesSingleBalletBootSetm2,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot for some hop training.
 ItemDevicesSingleBalletBootSett0,SourceCharacter puts a Single Ballet Boot's standard version on DestinationCharacter legs.
 ItemDevicesSingleBalletBootSett1,SourceCharacter puts a Single Ballet Boot's full leg variation on DestinationCharacter legs.
 ItemDevicesSingleBalletBootSete0,SourceCharacter unties belts from DestinationCharacter ankles and legs.
 ItemDevicesSingleBalletBootSete1,SourceCharacter ties DestinationCharacter ankles and legs using some belts.
 ItemDevicesSingleBalletBootSetb0,SourceCharacter unties belts from DestinationCharacter thighs.
-ItemDevicesSingleBalletBootSetb1,SourceCharacter ties the DestinationCharacter thighs using some belts.
+ItemDevicesSingleBalletBootSetb1,SourceCharacter ties DestinationCharacter thighs using some belts.
 ItemDevicesSingleBalletBootSetf0,SourceCharacter unwraps any foam tape from DestinationCharacter legs.
 ItemDevicesSingleBalletBootSetf1,SourceCharacter wraps DestinationCharacter up to the knees using foam tape.
 ItemDevicesSingleBalletBootSetf2,SourceCharacter wraps DestinationCharacter legs completely using foam tape.
 ItemDevicesSingleBalletBootSetp0,SourceCharacter removes all metal pillory from DestinationCharacter legs.
 ItemDevicesSingleBalletBootSetp1,SourceCharacter installs metal pillories on DestinationCharacter legs.
 ItemDevicesSingleBalletBootSetv0,SourceCharacter turns off the vibration device from DestinationCharacter boot.
-ItemDevicesSingleBalletBootSetv1,SourceCharacter sets the DestinationCharacter boot vibration device to lowest speed.
-ItemDevicesSingleBalletBootSetv2,SourceCharacter sets the DestinationCharacter boot vibration device to average speed.
-ItemDevicesSingleBalletBootSetv3,SourceCharacter sets the DestinationCharacter boot vibration device to high speed.
-ItemDevicesSingleBalletBootSetv4,SourceCharacter sets the DestinationCharacter boot vibration device to max speed.
+ItemDevicesSingleBalletBootSetv1,SourceCharacter sets DestinationCharacter boot vibration device to lowest speed.
+ItemDevicesSingleBalletBootSetv2,SourceCharacter sets DestinationCharacter boot vibration device to average speed.
+ItemDevicesSingleBalletBootSetv3,SourceCharacter sets DestinationCharacter boot vibration device to high speed.
+ItemDevicesSingleBalletBootSetv4,SourceCharacter sets DestinationCharacter boot vibration device to max speed.
 ItemHandheldFoamRollSelect,Just a single foam roll to hold but...
 ItemHandheldFoamRollRoll,Keep it as a roll
 ItemHandheldFoamRollMittens,Try it!
@@ -8563,10 +8563,10 @@ ItemHoodTransparentLatexHoodModuleLayer,Face position
 ItemHoodTransparentLatexHoodSelectLayer,About hood layer option:
 ItemHoodTransparentLatexHoodOptionl0,Over mask
 ItemHoodTransparentLatexHoodOptionl1,Under mask
-ItemHoodTransparentLatexHoodSett0,SourceCharacter covers the DestinationCharacter head with a safety Transparent hood.
-ItemHoodTransparentLatexHoodSett1,SourceCharacter covers the DestinationCharacter head with a Transparent hood with nose openings.
-ItemHoodTransparentLatexHoodSett2,SourceCharacter covers the DestinationCharacter head with a Transparent hood with a mouth opening.
-ItemHoodTransparentLatexHoodSett3,SourceCharacter covers the DestinationCharacter head with a Transparent hood without air opening.
+ItemHoodTransparentLatexHoodSett0,SourceCharacter covers DestinationCharacter head with a safety Transparent hood.
+ItemHoodTransparentLatexHoodSett1,SourceCharacter covers DestinationCharacter head with a Transparent hood with nose openings.
+ItemHoodTransparentLatexHoodSett2,SourceCharacter covers DestinationCharacter head with a Transparent hood with a mouth opening.
+ItemHoodTransparentLatexHoodSett3,SourceCharacter covers DestinationCharacter head with a Transparent hood without air opening.
 ItemHoodTransparentLatexHoodSetl0,SourceCharacter puts the Transparent hood on DestinationCharacter previous head items.
 ItemHoodTransparentLatexHoodSetl1,SourceCharacter puts the Transparent hood under DestinationCharacter previous head items.
 ShoesPumpHighHeelsSelect,Select your Pump High Heels style:
@@ -8635,12 +8635,12 @@ ItemNeckSteampunkCollarOptionc3,Rubber dildo
 ItemNeckSteampunkCollarSett0,SourceCharacter removes the additional straps from DestinationCharacter head.
 ItemNeckSteampunkCollarSett1,SourceCharacter reinforces the collar with straps on DestinationCharacter head.
 ItemNeckSteampunkCollarSetg0,SourceCharacter removes any gag from DestinationCharacter mouth.
-ItemNeckSteampunkCollarSetg1,SourceCharacter puts a ball gag in the DestinationCharacter mouth.
-ItemNeckSteampunkCollarSetg2,SourceCharacter puts a ring gag in the DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg1,SourceCharacter puts a ball gag in DestinationCharacter mouth.
+ItemNeckSteampunkCollarSetg2,SourceCharacter puts a ring gag in DestinationCharacter mouth.
 ItemNeckSteampunkCollarSetg3,SourceCharacter installs a pussy lips gag in the DestinationCharacter mouth.
-ItemNeckSteampunkCollarSetg4,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and leaves it empty.
-ItemNeckSteampunkCollarSetg5,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the half size.
-ItemNeckSteampunkCollarSetg6,SourceCharacter puts an inflatable gag in the DestinationCharacter mouth and pump it to the limit.
+ItemNeckSteampunkCollarSetg4,SourceCharacter puts an inflatable gag in DestinationCharacter mouth and leaves it empty.
+ItemNeckSteampunkCollarSetg5,SourceCharacter puts an inflatable gag in DestinationCharacter mouth and pump it to the half size.
+ItemNeckSteampunkCollarSetg6,SourceCharacter puts an inflatable gag in DestinationCharacter mouth and pump it to the limit.
 ItemNeckSteampunkCollarSets0,SourceCharacter removes the steel spiked collar from DestinationCharacter neck.
 ItemNeckSteampunkCollarSets1,SourceCharacter just installs a steel spiked collar on DestinationCharacter neck.
 ItemNeckSteampunkCollarSets2,SourceCharacter installs a higher layer steel spiked collar on DestinationCharacter neck.
@@ -8659,3 +8659,8 @@ MinidollsItemHandheldTypeMina,Mina
 MinidollsItemHandheldTypeLonely,Lonely
 MinidollsItemHandheldTypeSalem,Salem
 MinidollsItemHandheldTypeNadine,Nadine
+ItemMouthBishopGagSelect,Add or Remove Panel
+ItemMouthBishopGagOpen,Open
+ItemMouthBishopGagCovered,Covered
+ItemMouthBishopGagSetOpen,SourceCharacter removes the panel from DestinationCharacter gag.
+ItemMouthBishopGagSetCovered,SourceCharacter attaches the panel to DestinationCharacter gag.
