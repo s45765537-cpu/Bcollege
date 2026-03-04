@@ -27010,18 +27010,22 @@ var AssetFemale3DCG = [
 					{ 
 						Name: "1",
 						AllowTypes: { typed: [1] },
+						CopyLayerColor: "0",
 					},
 					{ 
 						Name: "2",
 						AllowTypes: { typed: [2] },
+						CopyLayerColor: "0",
 					},
 					{ 
 						Name: "3",
 						AllowTypes: { typed: [3] },
+						CopyLayerColor: "0",
 					},
 					{ 
 						Name: "4",
 						AllowTypes: { typed: [4] },
+						CopyLayerColor: "0",
 					},
 				],
 			},
