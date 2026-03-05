@@ -84,7 +84,7 @@ function PreferenceSubscreenArousalRun() {
 			DrawCheckbox(1230, 853, 64, 64, TextGet("ArousalAllowOrgasm"), PreferenceGetZoneOrgasm(Player, Player.FocusGroup.Name));
 			DrawText(TextGet("ArousalZone" + Player.FocusGroup.Name) + " - " + TextGet("ArousalConfigureErogenousZones"), 550, 795, "Black", "Gray");
 			DrawAssetGroupZone(Player, Player.FocusGroup.Zone, 0.9, 50, 50, 1, "cyan");
-			DrawBackNextButton(550, 853, 600, 64, TextGet("ArousalZoneLove" + PreferenceArousalZoneFactor), PreferenceGetFactorColor(PreferenceGetZoneFactor(Player, Player.FocusGroup.Name)), "", () => "", () => "");
+			DrawBackNextButton(550, 853, 600, 64, TextGet("ArousalZoneLove" + PreferenceGetZoneFactor(Player, Player.FocusGroup.Name)), PreferenceGetFactorColor(PreferenceGetZoneFactor(Player, Player.FocusGroup.Name)), "", () => "", () => "");
 		}
 		else DrawText(TextGet("ArousalSelectErogenousZones"), 550, 795, "Black", "Gray");
 
@@ -200,7 +200,7 @@ function PreferenceSubscreenArousalClick() {
 
 		// Arousal zone love control
 		if ((Player.FocusGroup != null) && MouseIn(550, 853, 600, 64)) {
-			const step = MouseX <= 1755 ? -1 : +1;
+			const step = MouseX <= 850 ? -1 : +1;
 			const zone = PreferenceGetArousalZone(Player, Player.FocusGroup.Name);
 			const factor = /** @type {ArousalFactor} */ (CommonModulo(zone.Factor + step, 5));
 			PreferenceSetArousalZone(Player, zone.Name, factor);
