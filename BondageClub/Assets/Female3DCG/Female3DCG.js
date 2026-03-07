@@ -48708,7 +48708,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				DefaultColor: ["#665D5D", "#514D57", "#979595"],
+				DefaultColor: ["#665D5D", "#514D57", "Default", "#979595"],
 				Audio: "LeatherCreak",
 				Hide: ["Mouth"],
 				Effect: [],
@@ -48725,7 +48725,6 @@ var AssetFemale3DCG = [
 						// TODO: Add a proper mouth opening to the metal layer
 						// This would allow the gag to be used over other flat gags when the `Tongue` layer is disabled
 						Name: "Metal",
-						AllowColorize: false,
 					},
 					{
 						Name: "Tongue",
@@ -48993,13 +48992,13 @@ var AssetFemale3DCG = [
 					// All Panels
 					{
 						Name: "PanelBase",
-						AllowTypes: { p: [1, 2, 3, 4, 5, 6, 7, 8, 0] },
+						AllowTypes: { p: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
 						ColorGroup: "Straps",
 						Priority: 55,
 					},
 					{
 						Name: "PanelStuds",
-						AllowTypes: { p: [1, 2, 3, 4, 5, 6, 7, 8, 0] },
+						AllowTypes: { p: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
 						CopyLayerColor: "BaseMetal",
 						Priority: 55,
 					},
