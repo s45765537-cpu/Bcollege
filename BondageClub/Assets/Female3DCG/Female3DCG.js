@@ -27003,26 +27003,26 @@ var AssetFemale3DCG = [
 				MaxOpacity: 1,
 				Random: false,
 				Layer: [
-					{ 
+					{
 						Name: "0",
 						AllowTypes: { typed: [0] },
 					},
-					{ 
+					{
 						Name: "1",
 						AllowTypes: { typed: [1] },
 						CopyLayerColor: "0",
 					},
-					{ 
+					{
 						Name: "2",
 						AllowTypes: { typed: [2] },
 						CopyLayerColor: "0",
 					},
-					{ 
+					{
 						Name: "3",
 						AllowTypes: { typed: [3] },
 						CopyLayerColor: "0",
 					},
-					{ 
+					{
 						Name: "4",
 						AllowTypes: { typed: [4] },
 						CopyLayerColor: "0",
@@ -28551,7 +28551,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticLegCuffs",
 				InventoryID: 565,
-				StyleOverride: ["EchoV2"],
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				DefaultColor: ["Default", "#40812C", "#707070"],
@@ -28573,13 +28572,14 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Attribute: ["FuturisticRecolor"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: "", AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: "", AllowTypes: { typed: 2 }, StyleOverride: ["EchoV2"], },
 					{ Name: "Display", ParentGroup: "" },
-					{ Name: "Cuffs" },
+					{ Name: "Cuffs", StyleOverride: ["EchoV2"],},
 					{
 						Name: "Lock",
 						LockLayer: true,
 						ParentGroup: "",
+						StyleOverride: ["EchoV2"],
 					},
 				],
 			},
