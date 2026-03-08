@@ -28572,9 +28572,14 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Attribute: ["FuturisticRecolor"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: "", AllowTypes: { typed: 2 }, StyleOverride: ["EchoV2"], },
+					{
+						Name: "Chain",
+						ParentGroup: "",
+						AllowTypes: { typed: 2 },
+						StyleOverride: ["EchoV2"],
+					},
 					{ Name: "Display", ParentGroup: "" },
-					{ Name: "Cuffs", StyleOverride: ["EchoV2"],},
+					{ Name: "Cuffs", StyleOverride: ["EchoV2"] },
 					{
 						Name: "Lock",
 						LockLayer: true,
@@ -50356,7 +50361,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Panel",
 						ColorGroup: "Leather",
-						AllowTypes: { typed: 1 }
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Buckles",
@@ -50365,7 +50370,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						LockLayer: true,
-						AllowTypes: { typed: 1 }
+						AllowTypes: { typed: 1 },
 					},
 				],
 			},
