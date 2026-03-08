@@ -16310,13 +16310,12 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Open",
-					Property: {
-					},
+					Property: {},
 				},
 				{
 					Name: "Covered",
 					Property: {
-						Difficulty: 6
+						Difficulty: 6,
 					},
 				},
 			],
