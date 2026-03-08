@@ -46231,6 +46231,22 @@ var AssetFemale3DCG = [
 					{ Name: "Padlock", LockLayer: true, AllowColorize: true },
 				],
 			},
+			{
+				Name: "RibbonCollar",
+				Audio: "ClothSlip",
+				InventoryID: 2303,
+				Fetish: ["Lingerie"],
+				Value: 30,
+				Difficulty: 0,
+				Time: 1,
+				DefaultColor: ["#FF0000", "#FF0000", "#FF0000", "#D4AF37"],
+				Layer: [
+					{ Name: "Main"},
+					{ Name: "MainRibbon"},
+					{ Name: "SideRibbons"},
+					{ Name: "Chain"},
+				],
+			},
 		],
 		Color: [
 			"Default",

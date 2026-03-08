@@ -2853,6 +2853,10 @@ ItemNeckSteampunkCollarGMetal,Gag metal
 ItemNeckSteampunkCollarCover,Cover gag
 ItemNeckSteampunkCollarSpike,Spike collar
 ItemNeckSteampunkCollarRing,Collar main ring
+ItemNeckRibbonCollarMain,Main
+ItemNeckRibbonCollarMainRibbon,Middle Ribbon
+ItemNeckRibbonCollarSideRibbons,Side Ribbons
+ItemNeckRibbonCollarChain,Chain
 ItemNipplesChainClampChain,Chain
 ItemNipplesChainClampClamp,Clamps
 ItemNipplesChainClampMetal,Metal
