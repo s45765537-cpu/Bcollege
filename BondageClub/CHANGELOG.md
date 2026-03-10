@@ -11,11 +11,70 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-02-22
-* Last recorded PR: [#6147](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6147)
-* Last recorded commit hash: `d06f89b1bc7194c9e0918e83756bb39a50e4ddad`
+* Changelog last updated: 2026-03-09
+* Last recorded PR: [#6180](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6180)
+* Last recorded commit hash: `1037a731fbce02c08e8153a9e83a3cc4b89b1e6c`
 
 ## [Generated]
+
+## [R126]
+
+### [Changes]
+
+* KyraObscura - Add Running Mascara Eyeshadow ([#6167](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6167))
+* KyraObscura - Running Mascara and Piercing asset updates ([#6171](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6171))
+* KyraObscura - Add Bishop Gag ([#6173](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6173))
+* Feldob66 - Asset/ribbon collar by Tifa & Felix ([#6179](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6179))
+* Sin - Added several map items provided by Magdalena and realigned the tracks ([#6180](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6180))
+* Ben987 - Maid Sorority - Integration of Maid Dresses 3 & 4
+* Ben987 - Echo Import - Maid Dress 4
+* Ben987 - Echo Import - Cow Top
+* Ben987 - Echo Import - Pumpkin Harness Gag
+* Ben987 - Echo Import - Lace Leg Ring
+* Ben987 - Echo Import - Pencil Skirt 2
+* Ben987 - Echo Import - Slippers
+* Ben987 - Echo Import - Zipper Leather Boots
+* Ben987 - Echo Import - Lolita Short Dress
+* Ben987 - Echo Import - Crimson Clouds Dress
+* Ben987 - Change Log
+
+### [Fixes]
+
+* LisaTheOrange - Fix map effects not being updated after joining a new map room ([#6172](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6172))
+* LisaTheOrange - Fix inability to answer GGTS queries on levels 1-3 ([#6160](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6160))
+* KyraObscura - Small fixes for OTN Plug Gag and Pony Bridle ([#6177](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6177))
+* KyraObscura - Add Layer Names for Bishop Gag ([#6174](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6174))
+* lera - Prevent actions/activities from erronenously bypassing hearing range ([#6151](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6151))
+* Sin - Several Bugfixes for Echov2 items that were missing poses/layer overrides. ([#6176](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6176))
+* Rama - Fix `CraftingDeserialize()` failing to deserialize effects ([#6164](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6164))
+* Rama - Fix an issue wherein the amount displayed amount of days could be negative ([#6169](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6169))
+* Rama - Fix a number of issues related to the inputs of the ChatSearch `Filter` mode ([#6148](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6148))
+* Rama - Fix `CraftingCheckEffectsPrerequisite()` ([#6149](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6149))
+* Rama - Fix `InventoryDoesItemAllowLock()` failing to handle unknown typerecord keys ([#6153](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6153))
+* Rama - Fix the `DialogEffectIcons` logic being confused about what is and isn't a blindfold ([#6154](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6154))
+* Rama - Fix an issue wherein crafting validation would fail to properly sync `Effects` and `Property` ([#6155](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6155))
+* Rama - Fix a `ElementButton.CreateCraftTooltipContent()` crash when crafting effects are missing ([#6157](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6157))
+* Rama - Fix the chatroom search failing to handle non-filtered map types ([#6158](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6158))
+* Estsanatlehi - Fix the arousal zone factor not loading in the UI ([#6175](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6175))
+* Estsanatlehi - Check the dialog open state through its property instead of an attribute access ([#6150](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6150))
+* Estsanatlehi - Add .webp to the list of allowed image file types ([#6159](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6159))
+* Estsanatlehi - Fix a validation issue with missing assets ([#6161](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6161))
+* Estsanatlehi - Add back the missing pose mappings for the pull down panties ([#6152](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6152))
+* Ben987 - Fix AssetStrings & ColorGroups Sorting
+* Ben987 - Fix Asset PoseMapping: Cow Top
+
+### [Technical]
+
+* Sin - optimize map object rendering with lookup table ([#6156](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6156))
+* Rama - Add helper functions for unpacking stringified element ID lists ([#6166](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6166))
+* Rama - Harden all color-related annotations ([#6168](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6168))
+* Rama - Add strict typing for crafting ([#6123](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6123))
+* Rama - Bump `prettier-eslint` to version 17 ([#6165](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6165))
+* Rama - Stop assigning `Craft.Property` to new/edited crafts ([#6170](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6170))
+* Estsanatlehi - Fix CI ([#6178](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6178))
+* Estsanatlehi - Fix CI ([#6163](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6163))
+* Estsanatlehi - Teach FileCase about layer files requiring lower case file extensions ([#6162](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6162))
+* Ben987 - Fix Lint For 8 New Assets
 
 ## [R125]
 
