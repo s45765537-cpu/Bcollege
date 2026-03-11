@@ -3825,34 +3825,32 @@ const ChatRoomMapManager = (function () {
 		}
 	}
 
-	/**
-	 * This function should be called each time the external code updates {@link ChatRoomData.MapData}.
-	 *
-	 * This function decodes the updated map data and replaces
-	 * the data stored in ${@link ChatRoomMapManager.Map} with the decoded map.
-	 * @returns {void}
-	 */
-	function OnMapDataUpdated() {
-		ChatRoomMapManager.Map.loadGlobalMapData();
-	}
-
 	let initialized = false;
-
-	/**
-	 * Initializes the map with the current global data if needed.
-	 * Must be called in {@link ChatRoomMapViewActivate}.
-	 * @returns {void}
-	 */
-	function OnViewActivate() {
-		if (!initialized) {
-			ChatRoomMapManager.Map.loadGlobalMapData();
-			initialized = true;
-		}
-	}
 
 	return {
 		Map: new MapManager(new MapData()),
-		OnMapDataUpdated,
-		OnViewActivate,
+
+		/**
+		 * This function should be called each time the external code updates {@link ChatRoomData.MapData}.
+		 *
+		 * This function decodes the updated map data and replaces
+		 * the data stored in ${@link ChatRoomMapManager.Map} with the decoded map.
+		 * @returns {void}
+		 */
+		OnMapDataUpdated() {
+			ChatRoomMapManager.Map.loadGlobalMapData();
+		},
+
+		/**
+		 * Initializes the map with the current global data if needed.
+		 * Must be called in {@link ChatRoomMapViewActivate}.
+		 * @returns {void}
+		 */
+		OnViewActivate() {
+			if (!initialized) {
+				ChatRoomMapManager.Map.loadGlobalMapData();
+				initialized = true;
+			}
+		},
 	};
 })();
