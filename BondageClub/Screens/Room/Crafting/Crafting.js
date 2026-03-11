@@ -2795,8 +2795,11 @@ var CraftingValidationRecord = {
 					|| !CommonIsInteger(effectValue, 1) // Value is either not an integer or otherwise illegal (<0)
 					|| (prerequisite.isDisabled?.({ ...c, Effects: ret }) ?? false) // Conflict with other crafting effects
 					|| (a && !validateProp(a)) // Conflict with some asset property
-					|| nEffects >= CraftingEffectsDefaultMaximumEffects // Too many effects
 				) {
+					continue;
+				} else if (nEffects >= CraftingEffectsDefaultMaximumEffects) { // Too many effects
+					// Precaution against `Effects`/`Property` desyncs potentially triggering recursive validation loops
+					c.Property = undefined;
 					continue;
 				}
 				// We can be a bit more lenient with values that are too large and just clamp them w.r.t. the max

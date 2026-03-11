@@ -215,7 +215,7 @@ const ChatRoomMapViewObjectList = [
 			if ((RightObject != null) && (RightObject.ID == this.ID))return "CouchPinkLeft";
 			return "CouckPinkSmall";
 		},
-		top: -0.35
+		Top: -0.35
 	},
 	{
 		ID: 720,
