@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 /**
  * The main game canvas where everything will be drawn
@@ -38,7 +37,7 @@ var DrawLastCharacters = [];
 /**
  * A list of elements to draw at the end of the drawing process.
  * Mostly used for hovering button labels.
- * @type {Function[]}
+ * @type {(() => void)[]}
  */
 var DrawHoverElements = [];
 
@@ -102,11 +101,21 @@ function DrawRGBToHex(color) {
  * @returns {void} - Nothing
  */
 function DrawLoad() {
+	const mainCanvas = /** @type {null | HTMLCanvasElement} */ (document.getElementById("MainCanvas"))?.getContext?.("2d");
+	const tempCanvas = document.createElement("canvas").getContext("2d");
+	const colorCanvas = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+	if (!mainCanvas) {
+		throw new Error("MainCanvas element or context is null");
+	} else if (!tempCanvas) {
+		throw new Error("TempCanvas context is null");
+	} else if (!colorCanvas) {
+		throw new Error("ColorCanvas context is null");
+	}
 
 	// Creates the objects used in the game
-	MainCanvas = /** @type {HTMLCanvasElement} */ (document.getElementById("MainCanvas")).getContext("2d");
-	TempCanvas = document.createElement("canvas").getContext("2d");
-	ColorCanvas = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+	MainCanvas = mainCanvas;
+	TempCanvas = tempCanvas;
+	ColorCanvas = colorCanvas;
 
 	// Font is fixed for now, color can be set
 	MainCanvas.font = CommonGetFont(36);
@@ -129,12 +138,12 @@ function DrawGetImage(Source) {
 		const IsAsset = (Source.indexOf("Assets") >= 0);
 		if (IsAsset) {
 			Img.addEventListener("load", function () {
-				DrawGetImageOnLoad(Img);
+				DrawGetImageOnLoad(this);
 			});
 		}
 
 		Img.addEventListener("error", function () {
-			DrawGetImageOnError(Img, IsAsset);
+			DrawGetImageOnError(this, IsAsset);
 		});
 
 		// For CORS access
@@ -217,6 +226,7 @@ function DrawGetImageOnError(Img, IsAsset) {
  * @param {number} Zoom - Zoom factor
  * @param {number} Level - Current vibration level on a scale of 0 to 4. Must be INTEGER
  * @param {boolean} Animated - Whether or not animations should be played
+ * @param {number} AnimFactor
  * @param {boolean} Orgasm - Whether or not the meter is in recover from orgasm mode
  * @returns {void} - Nothing
  */
@@ -334,7 +344,11 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
 
-	if (C.IsPlayer() || OverrideDark || Player.GetBlindLevel() < 3) {
+	if (
+		C.IsPlayer()
+		|| OverrideDark
+		|| Player.GetBlindLevel() < 3
+	) {
 
 		CharacterCheckHooks(C, CurrentCharacter != null);
 
@@ -373,6 +387,10 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// There's 2 different canvas, one blinking and one that doesn't
 		let Canvas = (Math.round(CurrentTime / 400) % C.BlinkFactor == 0 && !CommonPhotoMode) ? C.CanvasBlink : C.Canvas;
+		if (!Canvas) {
+			// Things are FUBAR if we ever reach this point
+			return;
+		}
 
 		// If we must dark the Canvas characters
 		if (!C.IsPlayer() && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
@@ -440,7 +458,11 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		}
 
 		// Draws the character focus zones if we need too
-		if ((C.FocusGroup != null) && (C.FocusGroup.Zone != null) && (CurrentScreen != "Preference") && (!["colorDefault", "colorExpression", "colorItem"].includes(DialogMenuMode))) {
+		if (
+			C.FocusGroup?.Zone != null
+			&& CurrentScreen != "Preference"
+			&& !CommonIncludes(/** @type {const} */(["colorDefault", "colorExpression", "colorItem"]), DialogMenuMode)
+		) {
 
 			// Draw all the possible zones in transparent colors (gray if free, yellow if occupied, red if blocker)
 			for (const group of AssetGroup) {
@@ -479,7 +501,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
  * @param {number} HeightRatio - The displayed height ratio of the character
  * @param {string} Color - Color of the zone outline
  * @param {number} [Thickness=3] - Thickness of the outline
- * @param {string} FillColor - If non-empty, the color to fill the rectangle with
+ * @param {string} [FillColor] - If non-empty, the color to fill the rectangle with
  * @returns {void} - Nothing
  */
 function DrawAssetGroupZone(C, Zone, Zoom, X, Y, HeightRatio, Color, Thickness = 3, FillColor = undefined) {
@@ -630,9 +652,13 @@ function DrawApplyTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
 	});
 
 	let mask = DrawCacheTextureAlphaMasks.get(key);
-	if(!mask) {
+	if (!mask) {
 		const tempCanvas = document.createElement("canvas");
 		const ctx = tempCanvas.getContext("2d", { willReadFrequently: true });
+		if (!ctx) {
+			return;
+		}
+
 		tempCanvas.width = destCanvas.canvas.width;
 		tempCanvas.height = destCanvas.canvas.height;
 		ctx.fillStyle = "rgb(0,0,0)";
@@ -694,7 +720,7 @@ function DrawImageEx(
 		Zoom = 1.0;
 
 	if (typeof HexColor !== "string")
-		HexColor = null;
+		HexColor = undefined;
 
 	if (typeof Alpha !== "number")
 		Alpha = 1.0;
@@ -1019,6 +1045,9 @@ const DrawingGetTextSize = CommonMemoize(
 			if (metrics.width <= Width)
 				return [Text, S];
 		}
+
+		// Things are FUBAR if this point is ever reached
+		return [Text, S];
 	});
 
 /**
@@ -1339,11 +1368,11 @@ function DrawGetCustomBackground(C) {
  * @param {boolean} [opts.inverted=false] Whether the background should be flipped upside-down
  * @param {number} [opts.blur=1.0] How blurry the background is
  * @param {number} [opts.darken=0.0] How darkened the background is (1 is bright, 0 is pitch black)
- * @param {RGBAColor[]} [opts.tints] Tints to apply to the background
+ * @param {readonly RGBAColor[]} [opts.tints] Tints to apply to the background
  * @param {DrawingResizeMode} [opts.sizeMode] The method of resizing the background
  */
 function DrawRoomBackground(URL, bounds, opts) {
-	let { inverted, blur, darken, tints, sizeMode } = opts;
+	let { inverted, blur, darken, tints, sizeMode } = opts ?? {};
 
 	inverted ??= false;
 	blur ??= 0.0;
@@ -1398,6 +1427,7 @@ function DrawBlindFlash(intensity) {
 }
 
 var DrawScreenFlashTime = 0;
+/** @type {null | string} */
 var DrawScreenFlashColor = null;
 var DrawScreenFlashStrength = 140;
 
@@ -1467,7 +1497,7 @@ function DrawLoadingScreen(time) {
 /**
  *
  * @param {boolean} skipVFX
- * @returns
+ * @returns {undefined | string}
  */
 function DrawGetBackgroundURL(skipVFX) {
 	let bgName = window[`${CurrentScreen}Background`];
@@ -1552,6 +1582,7 @@ function DrawProcess(time) {
 		const skipVFX = DrawSkipVFX.evaluate(CurrentModule, CurrentScreen);
 		const backgroundURL = DrawGetBackgroundURL(skipVFX);
 		if (backgroundURL != null) {
+			/** @type {{ blur?: number, inverted?: boolean, darken?: number, tints?: readonly RGBAColor[] }} */
 			const bgOptions = {};
 			if (!skipVFX) {
 				bgOptions.blur = Player.GetBlurLevel();
@@ -1639,9 +1670,12 @@ function DrawProcessScreenFlash() {
  * @returns {void} - Nothing
  */
 function DrawProcessHoverElements() {
-	for (let E = 0; E < DrawHoverElements.length; E++)
-		if (typeof DrawHoverElements[0] === "function")
-			(DrawHoverElements.shift())();
+	while (DrawHoverElements.length) {
+		const func = DrawHoverElements.shift();
+		if (typeof func === "function") {
+			func();
+		}
+	}
 }
 
 /**
@@ -1754,7 +1788,7 @@ function DrawPreviewBox(X, Y, Path, Description, Options) {
 	if (Border) DrawEmptyRect(X, Y, Width, Height, Foreground);
 	// DrawRect(ImageX, ImageY, ImageWidth, ImageHeight, "pink"); // Debug rect
 	if (Path !== "") DrawImageResize(Path, ImageX, ImageY, ImageWidth, ImageHeight);
-	DrawPreviewIcons(Icons, X, Y);
+	DrawPreviewIcons(Icons ?? [], X, Y);
 	if (Description) DrawTextFit(Description, X + Width / 2, Y + Height - 25, Width - 2 * Padding, Foreground);
 }
 
@@ -1776,7 +1810,7 @@ function DrawPreviewIcons(icons, X, Y) {
 			let text = InterfaceTextGet("PreviewIcon" + icon);
 			if (icon.endsWith("Padlock")) {
 				path = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
-				text = InterfaceTextGet("PreviewIconPadlock").replace("AssetName", AssetGet("Female3DCG", "ItemMisc", icon).Description);
+				text = InterfaceTextGet("PreviewIconPadlock").replace("AssetName", AssetGet("Female3DCG", "ItemMisc", icon)?.Description ?? "AssetName");
 			}
 			DrawImageResize(path, iconX, iconY, iconSize, iconSize);
 			if (MouseIn(iconX, iconY, iconSize * 0.9, iconSize * 0.9)) {
@@ -1802,7 +1836,7 @@ function DrawCanvasPreview(X, Y, Canvas, Description, Options) {
 
 /**
  * Returns a rectangular subsection of a canvas
- * @param {HTMLCanvasElement} Canvas - The source canvas to take a section of
+ * @param {null | HTMLCanvasElement} Canvas - The source canvas to take a section of
  * @param {number} Left - The starting X co-ordinate of the section
  * @param {number} Top - The starting Y co-ordinate of the section
  * @param {number} Width - The width of the section to take
@@ -1813,7 +1847,9 @@ function DrawCanvasSegment(Canvas, Left, Top, Width, Height) {
 	TempCanvas.canvas.width = Width;
 	TempCanvas.canvas.height = Height;
 	TempCanvas.clearRect(0, 0, Width, Height);
-	TempCanvas.drawImage(Canvas, Left, Top, Width, Height, 0, 0, Width, Height);
+	if (Canvas) {
+		TempCanvas.drawImage(Canvas, Left, Top, Width, Height, 0, 0, Width, Height);
+	}
 	return TempCanvas.canvas;
 }
 
@@ -1863,7 +1899,7 @@ function DrawImageTrapezify(image, targetCanvas, topToBottomRatio, x = 0, y = 0)
 	for (let i = 0; i < height; i++) {
 		const s = i / height;
 		const xStart = (xStartTop * (1 - s) + xStartBottom * s);
-		targetCtx.drawImage(image, 0, i, width, 1, x + xStart, y + i, width - xStart * 2, 1);
+		targetCtx?.drawImage(image, 0, i, width, 1, x + xStart, y + i, width - xStart * 2, 1);
 	}
 }
 
