@@ -748,13 +748,6 @@ async function WheelFortuneLoad() {
 	while (WheelFortunePosMax !== 0 && WheelFortunePosMax < 12)
 		WheelFortunePosMax = WheelFortunePosMax + WheelFortunePosMax;
 	WheelFortunePosMax = WheelFortunePosMax * 83;
-
-	// Create events to spin the wheel for mobile or not
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mousedown", WheelFortuneMouseDown);
-	if (!CommonIsMobile) document.getElementById("MainCanvas").addEventListener("mouseup", WheelFortuneMouseUp);
-	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchstart", WheelFortuneMouseDown);
-	if (CommonIsMobile) document.getElementById("MainCanvas").addEventListener("touchend", WheelFortuneMouseUp);
-
 }
 
 /**
