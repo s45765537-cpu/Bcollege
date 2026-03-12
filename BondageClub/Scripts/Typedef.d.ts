@@ -699,6 +699,23 @@ type GraphicsFontName =
 	"CenturyGothic" | "Georgia" | "CourierNew" | "Copperplate"
 	;
 
+type AnimationDataKey = string;
+type AnimationPersistentData = {
+	[key in `GroupData${string}` | "Group"]?: { Subscriptions: AnimationDataKey[] };
+};
+interface AnimationPersistentStorage extends Record<string, Record<string, any>> {
+	readonly AssetGroup: Record<AnimationDataKey, Record<string, { Subscriptions: AnimationDataKey[] }>>,
+	/** Unknown value type; seems to be unused */
+	readonly "": Record<AnimationDataKey, never>,
+	/** Unknown value type; seems to be unused */
+	readonly DynamicPlayerCanvas: Record<AnimationDataKey, never>,
+	readonly PersistentData: Record<AnimationDataKey, AnimationPersistentData>,
+	readonly Rebuild: Record<AnimationDataKey, boolean>,
+	readonly RefreshTime: Record<AnimationDataKey, number>,
+	readonly RefreshRate: Record<AnimationDataKey, number>,
+}
+type AnimationDataTypes = keyof AnimationPersistentStorage;
+
 type PreferenceSubscreenName =
 	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
 	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
@@ -4154,7 +4171,7 @@ interface CommonDrawCallbacks {
 	drawImageColorizeBlink: DrawImageColorizeCallback;
 }
 
-interface DynamicDrawingData<T extends Record<string, any> = Record<string, unknown>> {
+interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersistentData> {
 	C: Character;
 	X: number;
 	Y: number;
