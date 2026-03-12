@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var WheelFortuneBackground = "Black";
 /** @type {ScreenSpecifier | null} */
@@ -375,9 +374,9 @@ var WheelFortuneOption = [
 		Color: "Orange",
 		Script: function() {
 			CharacterNaked(Player);
-			InventoryWearRandom(Player, "ItemArms", 8, null, false, true, ["BitchSuit", "HempRope", "Chains", "ArmbinderJacket", "StraitLeotard", "LeatherStraitJacket", "BoxTieArmbinder", "Bolero", "PantyhoseBodyOpen", "SeamlessStraitDress", "SeamlessStraitDressOpen"], true);
-			InventoryWearRandom(Player, "HairAccessory1", 8, null, false, true, ["Ears1", "Ears2", "PonyEars1", "BunnyEars1", "BunnyEars2", "PuppyEars1", "FoxEars1", "WolfEars1", "WolfEars2", "FoxEars2", "FoxEars3", "PuppyEars2"], true);
-			InventoryWearRandom(Player, "TailStraps", 8, null, false, true, ["FoxTailsStrap", "PuppyTailStrap", "RaccoonStrap", "PuppyTailStrap1", "FoxTailStrap", "WolfTailStrap1", "WolfTailStrap2", "WolfTailStrap3"], true);
+			InventoryWearRandom(Player, "ItemArms", 8, undefined, false, true, ["BitchSuit", "HempRope", "Chains", "ArmbinderJacket", "StraitLeotard", "LeatherStraitJacket", "BoxTieArmbinder", "Bolero", "PantyhoseBodyOpen", "SeamlessStraitDress", "SeamlessStraitDressOpen"], true);
+			InventoryWearRandom(Player, "HairAccessory1", 8, undefined, false, true, ["Ears1", "Ears2", "PonyEars1", "BunnyEars1", "BunnyEars2", "PuppyEars1", "FoxEars1", "WolfEars1", "WolfEars2", "FoxEars2", "FoxEars3", "PuppyEars2"], true);
+			InventoryWearRandom(Player, "TailStraps", 8, undefined, false, true, ["FoxTailsStrap", "PuppyTailStrap", "RaccoonStrap", "PuppyTailStrap1", "FoxTailStrap", "WolfTailStrap1", "WolfTailStrap2", "WolfTailStrap3"], true);
 			if (InventoryGet(Player, "ItemMouth") == null) InventoryWearRandom(Player, "ItemMouth", 8);
 			if (InventoryGet(Player, "ItemNeck") == null) InventoryWearRandom(Player, "ItemNeck", 8);
 			if ((InventoryGet(Player, "ItemNeckRestraints") == null) && WheelFortuneCanWear("ChainLeash", "ItemNeckRestraints")) InventoryWear(Player, "ChainLeash", "ItemNeckRestraints", null, 8);
@@ -576,7 +575,9 @@ function WheelFortuneHogtie() {
 	InventoryRemove(Player, "ItemArms");
 	let Type = (ItemName == "ThinLeatherStraps") ? "Hogtie" : "Hogtied";
 	const itemArms = InventoryWear(Player, ItemName, "ItemArms", "Default", 15);
-	TypedItemSetOptionByName(Player, itemArms, Type);
+	if (itemArms) {
+		TypedItemSetOptionByName(Player, itemArms, Type);
+	}
 	CharacterRefresh(Player);
 	ChatRoomCharacterUpdate(Player);
 }
@@ -595,7 +596,9 @@ function WheelFortuneShibari() {
 	if (WheelFortuneCanWear("HempRope", "ItemFeet")) feetItem = InventoryWear(Player, "HempRope", "ItemFeet", "Default", 15);
 	if (WheelFortuneCanWear("HempRopeHarness", "ItemTorso")) {
 		const torsoItem = InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", 15);
-		if (Math.random() > 0.66) {
+		torsoItem: if (!torsoItem) {
+			break torsoItem;
+		} else if (Math.random() > 0.66) {
 			TypedItemSetOptionByName(Player, torsoItem, "Diamond");
 		} else if (Math.random() > 0.5) {
 			TypedItemSetOptionByName(Player, torsoItem, "Harness");
@@ -609,8 +612,9 @@ function WheelFortuneShibari() {
 	if ((Level == 2) && armsItem != null) {
 		TypedItemSetOptionByName(Player, armsItem, "SuspensionHogtied");
 		const height = 0.67 * Math.random();
+		armsItem.Property ??= {};
 		armsItem.Property.OverrideHeight = {
-			Height: height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
+			Height: height * (PoseRecord.Hogtied.OverrideHeight?.Height ?? 0),
 			HeightRatioProportion: height,
 			Priority: 0,
 		};
@@ -659,7 +663,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 	// If the item is already locked with a timer lock, we extend the time and exit
 	let Item = InventoryGet(Player, Group);
 	if ((Item != null) && (InventoryGetLock(Item) != null)) {
-		if ((Item.Property != null) && (Item.Property.LockedBy === "TimerPasswordPadlock")) {
+		if ((Item.Property?.RemoveTimer != null) && (Item.Property?.LockedBy === "TimerPasswordPadlock")) {
 			Item.Property.RemoveTimer = Item.Property.RemoveTimer + Minutes * 60000;
 			if (Item.Property.RemoveTimer > CurrentTime + 240 * 60000) Item.Property.RemoveTimer = CurrentTime + 240 * 60000;
 			CharacterRefresh(Player);
@@ -676,7 +680,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 			const assetName = CommonRandomItemFromList("", WheelFortuneEncaseList);
 			Item = (Item != null && InventoryBlockedOrLimited(Player, Item)) ? null : InventoryWear(Player, assetName, "ItemDevices", "Default", 20);
 		} else {
-			Item = InventoryWearRandom(Player, Group, null, false);
+			Item = InventoryWearRandom(Player, Group, undefined, false);
 		}
 
 		Try++;
@@ -695,7 +699,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 
 	// Applies a lock if needed
 	Item = InventoryGet(Player, Group);
-	if ((Minutes != null) && (Minutes > 0) && Item.Asset.AllowLock) {
+	if ((Minutes != null) && (Minutes > 0) && Item?.Asset.AllowLock) {
 		InventoryLock(Player, Item, "TimerPasswordPadlock", null, false);
 		if (Item.Property == null) Item.Property = {};
 		Item.Property.RemoveTimer = CurrentTime + Minutes * 60000;
@@ -715,6 +719,9 @@ function WheelFortuneInventoryWear(Group, Minutes) {
  * @type {ScreenLoadHandler}
  */
 async function WheelFortuneLoad() {
+	if (!WheelFortuneCharacter) {
+		throw new Error('Missing "WheelFortuneCharacter" data');
+	}
 
 	// Resets to the default wheel if the character wheel is incorrect
 	WheelFortuneList = "";
@@ -774,7 +781,7 @@ function WheelFortuneDrawWheel(FullWheel, Pos, MaxPos, X, Y, Zoom) {
 	// Make sure the wheel has at least wheel count + 50 elements
 	let Wheel = FullWheel.split("");
 	while (Wheel.length < FullWheel.length + 50)
-		Wheel = [].concat(Wheel, FullWheel.split(""));
+		Wheel = [...Wheel, ...FullWheel.split("")];
 
 	// For each elements in the wheel
 	for (let W = 0; W < Wheel.length; W++) {
@@ -813,12 +820,12 @@ function WheelFortuneDrawWheel(FullWheel, Pos, MaxPos, X, Y, Zoom) {
 
 /**
  * Runs the lucky wheel mini game
- * @returns {void} - Nothing
+ * @type {ScreenRunHandler}
  */
 function WheelFortuneRun() {
 
 	// If the mouse position changed to spin the wheel
-	if (MouseY < 0) WheelFortuneMouseUp();
+	if (MouseY < 0) WheelFortuneMouseUp(new MouseEvent("mouseup"));
 	if ((WheelFortunePosY != null) && (WheelFortunePosY != MouseY) && (MouseY != -1) && (WheelFortuneVelocity == 0)) {
 		WheelFortunePos = WheelFortunePos - WheelFortunePosY + MouseY;
 		WheelFortunePosY = MouseY;
@@ -879,9 +886,12 @@ function WheelFortuneRun() {
 
 /**
  * Handles clicks during the mini game
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function WheelFortuneClick() {
+	if (!WheelFortuneCharacter) {
+		return;
+	}
 
 	// No more clicks if the wheel is spinning
 	if (WheelFortuneVelocity != 0) return;
@@ -909,7 +919,7 @@ function WheelFortuneClick() {
 
 /**
  * If the user clicks to spin the wheel, we keep the starting position
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function WheelFortuneMouseDown() {
 	if (MouseIn(750, 0, 500, 1000) && (WheelFortuneVelocity == 0) && WheelFortuneList.length > 0) {
@@ -922,10 +932,10 @@ function WheelFortuneMouseDown() {
 
 /**
  * If the user releases the mouse/finger to spin the wheel
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function WheelFortuneMouseUp() {
-	if ((WheelFortunePosY != null) && (WheelFortuneVelocity == 0) && WheelFortuneList.length > 0) {
+	if ((WheelFortunePosY != null) && (WheelFortuneVelocity == 0) && WheelFortuneList.length > 0 && WheelFortuneCharacter) {
 		if ((WheelFortunePosY < 400) && (MouseY == -1)) WheelFortunePosY = -1;
 		if ((WheelFortunePosY > 600) && (MouseY == -1)) WheelFortunePosY = 1001;
 		if ((WheelFortuneInitTime + 1000 >= CommonTime()) && (Math.abs(WheelFortuneInitY - WheelFortunePosY) > 300)) {
@@ -963,7 +973,7 @@ function WheelFortuneResult() {
 
 /**
  * When the mini exits
- * @returns {void} - Nothing
+ * @type {ScreenExitHandler}
  */
 function WheelFortuneExit() {
 	if (WheelFortuneVelocity == 0 && !WheelFortuneForced && WheelFortuneReturnScreen) {
