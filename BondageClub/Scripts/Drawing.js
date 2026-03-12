@@ -1483,6 +1483,57 @@ function DrawGetBackgroundURL(skipVFX) {
 	return undefined;
 }
 
+/** Namespace for managing the skipping of VFX drawing */
+var DrawSkipVFX = {
+	/**
+	 * The list of registered callbacks; see {@link DrawSkipVFX.evaluate}.
+	 * @readonly
+	 * @private
+	 * @type {((module: ModuleType, screen: ScreenName) => boolean)[]}
+	 */
+	_list: [],
+
+	/**
+	 * Register either a function or a module and/or screen name for which VFX drawing must be skipped
+	 * @param  {...(PartialScreenSpecifier | ((module: ModuleType, screen: ScreenName) => boolean))} args The to-be registered functions/screen-/module names
+	 */
+	register: function register(...args) {
+		for (const arg of args) {
+			if (typeof arg === "function") {
+				DrawSkipVFX._list.push(arg);
+			} else {
+				const { module, screen } = arg;
+				if (module == null) {
+					DrawSkipVFX._list.push((moduleArg, screenArg) => screen === screenArg);
+				} else if (screen == null) {
+					DrawSkipVFX._list.push((moduleArg, screenArg) => module === moduleArg);
+				} else {
+					DrawSkipVFX._list.push((moduleArg, screenArg) => module === moduleArg && screen === screenArg);
+				}
+			}
+		}
+	},
+
+	/**
+	 * Evaluate whether VFX drawing must be skipped for the passed module and screen
+	 * @param {ModuleType} module The module
+	 * @param {ScreenName} screen The screen within the module
+	 * @returns {boolean} Whether VFX drawing must be skipped
+	 */
+	evaluate: function evaluate(module, screen) {
+		return DrawSkipVFX._list.some(func => func(module, screen));
+	},
+};
+
+DrawSkipVFX.register(
+	{ module: "Character" },
+	{ screen: "Crafting" },
+	{ screen: "Wardrobe" },
+	{ screen: "Shop2" },
+	{ screen: "MaidCleaning" }, // does it's own darkening
+	(_, screen) => window[`${screen}Background`] === "Sheet",
+);
+
 /**
  * Constantly looping draw process. Draws beeps, handles the screen size, handles the current blindfold state and draws the current screen.
  * @param {number} time - The current time for frame
@@ -1499,19 +1550,8 @@ function DrawProcess(time) {
 	// ChatRoom handles its own background drawing.
 	// We do need to draw the full-width background when a dialog is running and it's not handled by ChatAdminRoomCustomizationProcess
 	if (!DrawShowChatRoomCustomBackground()) {
-
-		let bgName = window[CurrentScreen + "Background"];
-
 		// Some screens never display visual effects
-		const skipVFX = !(
-			CurrentModule !== "Character"
-			&& bgName !== "Sheet"
-			&& CurrentScreen !== "Crafting"
-			&& CurrentScreen !== "Wardrobe"
-			&& CurrentScreen !== "Shop2"
-			&& CurrentScreen !== "MaidCleaning" // does it's own darkening
-		);
-
+		const skipVFX = DrawSkipVFX.evaluate(CurrentModule, CurrentScreen);
 		const backgroundURL = DrawGetBackgroundURL(skipVFX);
 		if (backgroundURL != null) {
 			const bgOptions = {};
