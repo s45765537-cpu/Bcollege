@@ -3611,8 +3611,7 @@ function PlatformEventKeyDown(Code) {
 
 /**
  * Handles keys pressed
- * @param {KeyboardEvent} e - The key pressed
- * @returns {boolean} - TRUE if we handled the key pressed
+ * @type {KeyboardEventListener}
  */
 function PlatformKeyDown(e) {
 	if (CommonKey.GetModifiers(e)) {
@@ -3624,11 +3623,15 @@ function PlatformKeyDown(e) {
 
 /**
  * Handles keys released
- * @param {KeyboardEvent} e - The key released
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
 function PlatformKeyUp(e) {
-	if (PlatformKeys.indexOf(e.code) >= 0) PlatformKeys.splice(PlatformKeys.indexOf(e.code), 1);
+	if (PlatformKeys.indexOf(e.code) >= 0) {
+		PlatformKeys.splice(PlatformKeys.indexOf(e.code), 1);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /**

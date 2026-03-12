@@ -1470,7 +1470,7 @@ function DrawLoadingScreen(time) {
  * @returns
  */
 function DrawGetBackgroundURL(skipVFX) {
-	let bgName = window[CurrentScreen + "Background"];
+	let bgName = window[`${CurrentScreen}Background`];
 
 	const itemBackground = DrawGetCustomBackground(Player);
 	if (!skipVFX && itemBackground) {

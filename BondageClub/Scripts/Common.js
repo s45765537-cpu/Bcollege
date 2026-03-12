@@ -2487,3 +2487,46 @@ function CommonStringSplice(string, index, value, defaultValue) {
 function CommonUnwrapThunk(thunk) {
 	return typeof thunk === "function" ? /** @type {() => T} */ (thunk)() : thunk;
 }
+
+/**
+ * I am a testing function for typescript to evaluate and should not be executed during runtime nor removed.
+ *
+ * Checks whether all all `window`-defined backgrounds and screen functions have an appropriate signature.
+ * @returns {void}
+ */
+function CommonTestSatisfies() {
+	// eslint-disable-next-line
+	const foo = {
+		/** @type {{ [key in `${RoomName}Background`]?: string }} */
+		Background: globalThis,
+		/** @type {{ [key in `${RoomName}Run`]: ScreenRunHandler }} */
+		Run: globalThis,
+		/** @type {{ [key in `${RoomName}MouseDown`]?: MouseEventListener }} */
+		MouseDown: globalThis,
+		/** @type {{ [key in `${RoomName}MouseUp`]?: MouseEventListener }} */
+		MouseUp: globalThis,
+		/** @type {{ [key in `${RoomName}MouseMove`]?: MouseEventListener }} */
+		MouseMove: globalThis,
+		/** @type {{ [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }} */
+		MouseWheel: globalThis,
+		/** @type {{ [key in `${RoomName}Click`]: MouseEventListener }} */
+		Click: globalThis,
+		/** @type {{ [key in `${RoomName}Load`]?: ScreenLoadHandler }} */
+		Load: globalThis,
+		/** @type {{ [key in `${RoomName}Unload`]?: ScreenUnloadHandler }} */
+		Unload: globalThis,
+		/** @type {{ [key in `${RoomName}Draw`]?: ScreenDrawHandler }} */
+		Draw: globalThis,
+		/** @type {{ [key in `${RoomName}Resize`]?: ScreenResizeHandler }} */
+		Resize: globalThis,
+		/** @type {{ [key in `${RoomName}KeyDown`]?: KeyboardEventListener }} */
+		KeyDown: globalThis,
+		/** @type {{ [key in `${RoomName}KeyUp`]?: KeyboardEventListener }} */
+		KeyUp: globalThis,
+		/** @type {{ [key in `${RoomName}Paste`]?: ClipboardEventListener }} */
+		Paste: globalThis,
+		/** @type {{ [key in `${RoomName}Exit`]?: ScreenExitHandler }} */
+		Exit: globalThis,
+	};
+}
+

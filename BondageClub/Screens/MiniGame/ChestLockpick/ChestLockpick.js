@@ -1,7 +1,7 @@
 "use strict";
 
-/** @type {null | string} */
-var ChestLockpickBackground = null;
+/** @type {undefined | string} */
+var ChestLockpickBackground = undefined;
 var ChestLockpickChestImage = "";
 var ChestLockpickSpeed = 500; // Higher number gives slower spin speed
 var ChestLockpickAngle = 0;

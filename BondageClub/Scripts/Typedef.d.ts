@@ -765,11 +765,9 @@ interface ModuleScreens {
 		| "Disclaimer"
 		| "FriendList"
 		| "InformationSheet"
-		| "ItemColor"
 		| "Login"
 		| "OnlineProfile"
 		| "PasswordReset"
-		| "Player"
 		| "Preference"
 		| "Relog"
 		| "Title"
@@ -791,7 +789,6 @@ interface ModuleScreens {
 		| "HorseWalk"
 		| "Kidnap"
 		| "KinkyDungeon"
-		| "Lockpick"
 		| "MagicBattle" | "MagicPuzzle"
 		| "MaidCleaning" | "MaidDrinks"
 		| "PlayerAuction"
@@ -807,7 +804,7 @@ interface ModuleScreens {
 		| "ChatAdmin" | "ChatAdminRoomCustomization" | "ChatBlockItem"
 		| "ChatRoom" | "ChatSearch" | "ChatSelect"
 		| "ForbiddenWords"
-		| "Game" | "GameClubCard" | "GameLARP" | "GameMagicBattle"
+		| "GameClubCard" | "GameLARP" | "GameMagicBattle"
 		| "NicknameManagement"
 		| "WheelFortuneCustomize"
 		;
@@ -1722,6 +1719,28 @@ interface ScreenFunctions {
 	/** Called when user presses Esc */
 	Exit?: ScreenExitHandler;
 }
+
+// Explicitly insert all backgrounds & screen functions into the window namespace such that they can
+// easily be looked up with the likes of `window[`${CurrentScreen}Background`]`.
+// Note that most of them can still be undefined
+type ScreenFunctionsSymbols = Prettify<(
+	{ [key in `${RoomName}Background`]?: string }
+	& { [key in `${RoomName}Run`]: ScreenRunHandler }
+	& { [key in `${RoomName}MouseDown`]?: MouseEventListener }
+	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
+	& { [key in `${RoomName}MouseMove`]?: MouseEventListener }
+	& { [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }
+	& { [key in `${RoomName}Click`]: MouseEventListener }
+	& { [key in `${RoomName}Load`]?: ScreenLoadHandler }
+	& { [key in `${RoomName}Unload`]?: ScreenUnloadHandler }
+	& { [key in `${RoomName}Draw`]?: ScreenDrawHandler }
+	& { [key in `${RoomName}Resize`]?: ScreenResizeHandler }
+	& { [key in `${RoomName}KeyDown`]?: KeyboardEventListener }
+	& { [key in `${RoomName}KeyUp`]?: KeyboardEventListener }
+	& { [key in `${RoomName}Paste`]?: ClipboardEventListener }
+	& { [key in `${RoomName}Exit`]?: ScreenExitHandler }
+)>;
+interface Window extends ScreenFunctionsSymbols {}
 
 //#region Characters
 

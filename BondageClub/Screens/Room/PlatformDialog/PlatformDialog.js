@@ -1,7 +1,8 @@
 // @ts-strict-ignore
 "use strict";
 var PlatformDialog = null;
-var PlatformDialogBackground = null;
+/** @type {undefined | string} */
+var PlatformDialogBackground = undefined;
 var PlatformDialogText = null;
 var PlatformDialogAnswer = null;
 var PlatformDialogAnswerPosition = 0;

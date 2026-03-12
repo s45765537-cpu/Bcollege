@@ -197,9 +197,9 @@ function ClubCardBuilderFilterLoad() {
 
 /**
  * Loads the club card deck builder
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ClubCardBuilderLoad() {
+async function ClubCardBuilderLoad() {
 	ClubCardCommonLoad();
 	ClubCardBuilderDeckIndex = -1;
 	ClubCardBuilderRenameIndex = -1;
@@ -228,7 +228,7 @@ function ClubCardBuilderRenameMode(Deck) {
 
 /**
  * Runs the club card deck builder
- * @returns {void} - Nothing
+ * @type {ScreenRunHandler}
  */
 function ClubCardBuilderRun() {
 	let Index = null;
@@ -315,7 +315,7 @@ function ClubCardBuilderRun() {
 
 /**
  * Handles clicks during the club card game
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function ClubCardBuilderClick() {
 
@@ -444,6 +444,7 @@ function ClubCardBuilderClick() {
 
 }
 
+/** @type {ScreenUnloadHandler} */
 function ClubCardBuilderUnload() {
 	ClubCardBuilderFinishEdit();
 }
