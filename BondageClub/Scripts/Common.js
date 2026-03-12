@@ -6,7 +6,7 @@ var Player;
 var CurrentModule;
 /** @type {ModuleScreens[CurrentModule]} */
 var CurrentScreen;
-/** @type {ScreenFunctions} */
+/** @type {Required<ScreenFunctions>} */
 var CurrentScreenFunctions;
 /** @type {Character|NPCCharacter|null} */
 var CurrentCharacter = null;
@@ -339,9 +339,7 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 function CommonMouseDown(event) {
 	if (CurrentCharacter == null) {
 		if (ScreenIsLoading) return;
-		if (CurrentScreenFunctions.MouseDown) {
-			CurrentScreenFunctions.MouseDown(event);
-		}
+		CurrentScreenFunctions.MouseDown(event);
 	} else {
 		DialogMouseDown(event);
 	}
@@ -350,34 +348,24 @@ function CommonMouseDown(event) {
 /** @type {MouseEventListener} */
 function CommonMouseUp(event) {
 	if (ScreenIsLoading) return;
-	if (CurrentScreenFunctions.MouseUp)
-	{
-		CurrentScreenFunctions.MouseUp(event);
-	}
+	CurrentScreenFunctions.MouseUp(event);
 }
 
 /** @type {MouseEventListener} */
 function CommonMouseMove(event) {
 	if (ScreenIsLoading) return;
-	if (CurrentScreenFunctions.MouseMove)
-	{
-		CurrentScreenFunctions.MouseMove(event);
-	}
+	CurrentScreenFunctions.MouseMove(event);
 }
 
 /** @type {MouseWheelEventListener} */
 function CommonMouseWheel(event) {
 	if (ScreenIsLoading) return;
-	if (CurrentScreenFunctions.MouseWheel) {
-		CurrentScreenFunctions.MouseWheel(event);
-	}
+	CurrentScreenFunctions.MouseWheel(event);
 }
 
 /** @type {ScreenResizeHandler} */
 function CommonResize(load) {
-	if (CurrentScreenFunctions.Resize) {
-		CurrentScreenFunctions.Resize(load);
-	}
+	CurrentScreenFunctions.Resize(load);
 }
 
 /**
@@ -522,9 +510,9 @@ var ScreenIsLoading = false;
  */
 async function CommonSetScreen(...spec) {
 	const { recursive } = spec[2] ?? {};
-	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
-		CurrentScreenFunctions.Unload();
-	}
+
+	// `CurrentScreenFunctions` is still undefined the _very_ first time a screen is set as BC launches
+	CurrentScreenFunctions?.Unload();
 	if (ControllerIsActive()) {
 		ControllerClearAreas();
 	}
@@ -533,12 +521,10 @@ async function CommonSetScreen(...spec) {
 	const [NewModule, NewScreen] = spec;
 	const [OldModule, OldScreen] = [CurrentModule, CurrentScreen];
 	// Check for required functions
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	if (typeof namespace[`${NewScreen}Run`] !== "function") {
+	if (typeof window[`${NewScreen}Run`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Run function`);
 	}
-	if (typeof namespace[`${NewScreen}Click`] !== "function") {
+	if (typeof window[`${NewScreen}Click`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Click function`);
 	}
 
@@ -546,20 +532,20 @@ async function CommonSetScreen(...spec) {
 	CurrentModule = NewModule;
 	CurrentScreen = NewScreen;
 	CurrentScreenFunctions = {
-		Run: (time) => namespace[`${NewScreen}Run`](time),
-		Click: (e) => namespace[`${NewScreen}Click`](e),
-		MouseDown: typeof namespace[`${NewScreen}MouseDown`] === "function" ? (e) => namespace[`${NewScreen}MouseDown`](e) : undefined,
-		MouseUp: typeof namespace[`${NewScreen}MouseUp`] === "function" ? (e) => namespace[`${NewScreen}MouseUp`](e) : undefined,
-		MouseMove: typeof namespace[`${NewScreen}MouseMove`] === "function" ? (e) => namespace[`${NewScreen}MouseMove`](e) : undefined,
-		MouseWheel: typeof namespace[`${NewScreen}MouseWheel`] === "function" ? (e) => namespace[`${NewScreen}MouseWheel`](e) : undefined,
-		Draw: typeof namespace[`${NewScreen}Draw`] === "function" ? () => namespace[`${NewScreen}Draw`]() : undefined,
-		Load: typeof namespace[`${NewScreen}Load`] === "function" ? () => namespace[`${NewScreen}Load`]() : undefined,
-		Unload: typeof namespace[`${NewScreen}Unload`] === "function" ? () => namespace[`${NewScreen}Unload`]() : undefined,
-		Resize: typeof namespace[`${NewScreen}Resize`] === "function" ? (load) => namespace[`${NewScreen}Resize`](load) : undefined,
-		KeyDown: typeof namespace[`${NewScreen}KeyDown`] === "function" ? (e) => namespace[`${NewScreen}KeyDown`](e) : undefined,
-		KeyUp: typeof namespace[`${NewScreen}KeyUp`] === "function" ? (e) => namespace[`${NewScreen}KeyUp`](e) : undefined,
-		Exit: typeof namespace[`${NewScreen}Exit`] === "function" ? () => namespace[`${NewScreen}Exit`]() : undefined,
-		Paste: typeof namespace[`${NewScreen}Paste`] === "function" ? (e) => namespace[`${NewScreen}Paste`](e) : undefined,
+		Run: (time) => window[`${NewScreen}Run`](time),
+		Click: (e) => window[`${NewScreen}Click`](e),
+		MouseDown: (e) => window[`${NewScreen}MouseDown`]?.(e),
+		MouseUp: (e) => window[`${NewScreen}MouseUp`]?.(e),
+		MouseMove: (e) => window[`${NewScreen}MouseMove`]?.(e),
+		MouseWheel: (e) => window[`${NewScreen}MouseWheel`]?.(e),
+		Draw: () => window[`${NewScreen}Draw`]?.(),
+		Load: async () => window[`${NewScreen}Load`]?.(),
+		Unload: () => window[`${NewScreen}Unload`]?.(),
+		Resize: (load) => window[`${NewScreen}Resize`]?.(load),
+		KeyDown: (e) => window[`${NewScreen}KeyDown`]?.(e) ?? false,
+		KeyUp: (e) => window[`${NewScreen}KeyUp`]?.(e) ?? false,
+		Exit: () => window[`${NewScreen}Exit`]?.(),
+		Paste: (e) => window[`${NewScreen}Paste`]?.(e),
 	};
 
 	CurrentDarkFactor = 1.0;
@@ -575,7 +561,7 @@ async function CommonSetScreen(...spec) {
 	ElementToggleGeneratedElements(CurrentScreen, true);
 
 	try {
-		await CurrentScreenFunctions.Load?.();
+		await CurrentScreenFunctions.Load();
 	} catch (error) {
 		if (!recursive) {
 			// Plan A: failed to load the new screen; revert back to the old screen

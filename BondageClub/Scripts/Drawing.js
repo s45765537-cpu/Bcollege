@@ -1599,7 +1599,7 @@ function DrawProcess(time) {
 	if (CurrentCharacter != null) DialogDraw();
 	else {
 		CurrentScreenFunctions.Run(time);
-		if (CurrentScreenFunctions.Draw != null) CurrentScreenFunctions.Draw();
+		CurrentScreenFunctions.Draw();
 	}
 
 	// Handle screen flash effects
@@ -1621,7 +1621,7 @@ function DrawProcess(time) {
 		if (CurrentCharacter != null) {
 			DialogResize(false);
 		} else {
-			CurrentScreenFunctions.Resize?.(false);
+			CurrentScreenFunctions.Resize(false);
 		}
 	}
 

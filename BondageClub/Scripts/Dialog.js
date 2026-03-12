@@ -795,13 +795,13 @@ function DialogLeave(options=null) {
 	// FIXME: Can't safely call `Load()` here again as many screens are ill equipped for reloads;
 	// limit it the `ChatRoom` screen for now unless _explicitly_ requested otherwise
 	if (options.reload === true) {
-		CurrentScreenFunctions.Load?.()
-			.then(() => CurrentScreenFunctions.Resize?.(true));
+		CurrentScreenFunctions.Load()
+			.then(() => CurrentScreenFunctions.Resize(true));
 	} else if (options.reload == null) {
 		switch (CurrentScreen) {
 			case "ChatRoom":
-				CurrentScreenFunctions.Load?.()
-					.then(() => CurrentScreenFunctions.Resize?.(true));
+				CurrentScreenFunctions.Load()
+					.then(() => CurrentScreenFunctions.Resize(true));
 				break;
 		}
 	}
