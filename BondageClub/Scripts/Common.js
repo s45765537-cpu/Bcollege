@@ -430,9 +430,17 @@ function CommonDynamicFunctionParams(FunctionName) {
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
 	var ParamsString = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex);
-	var Params = ParamsString.length === 0 ? [] : ParamsString.split(",");
-	for (let P = 0; P < Params.length; P++)
-		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
+
+	// Convert stringified numbers to actual numbers where possible
+	/** @type {(string | number)[]} */
+	var Params = [];
+	if (ParamsString) {
+		for (let param of ParamsString.split(",")) {
+			param = param.trim().replace('"', '').replace('"', '');
+			const paramNumber = parseFloat(param);
+			Params.push(isFinite(paramNumber) ? paramNumber : param);
+		}
+	}
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
 	if (["Dialog", "Inventory", CurrentScreen].every(s => !FunctionName.startsWith(s))) {
 		FunctionName = CurrentScreen + FunctionName;
