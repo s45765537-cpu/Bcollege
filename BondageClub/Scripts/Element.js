@@ -1307,12 +1307,13 @@ var ElementButton = {
 				attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
 			});
 		} else {
+			const imgURL = img.startsWith("data:image") ? `url("${img}")` : `url("./${img}")`;
 			return ElementCreate({
 				...options,
 				tag: "div",
 				classList: ["button-image", ...(options.classList ?? [])],
 				attributes: { id: `${id}-image`, "aria-hidden": "true", src: img, role: "img", ...(options.attributes ?? {}) },
-				style: { "background-image": `url("./${img}")`, "mask-image": `url("./${img}")`, "background-color": imgColor, ...(options.style ?? {}) },
+				style: { "background-image": imgURL, "mask-image": imgURL, "background-color": imgColor, ...(options.style ?? {}) },
 			});
 		}
 	},
