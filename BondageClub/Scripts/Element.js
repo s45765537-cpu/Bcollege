@@ -1307,7 +1307,7 @@ var ElementButton = {
 				attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
 			});
 		} else {
-			const imgURL = img.startsWith("data:image") ? `url("${img}")` : `url("./${img}")`;
+			const imgURL = (img.startsWith("data:image") || img.startsWith("http")) ? `url("${img}")` : `url("./${img}")`;
 			return ElementCreate({
 				...options,
 				tag: "div",
@@ -1406,7 +1406,7 @@ var ElementButton = {
 				classList: ["button-icon-tooltip-li"],
 				children: tooltipChildren,
 				parent: tooltip,
-				style: { "background-image": src.startsWith("data:image") ? `url("${src}")` : `url("./${src}")` },
+				style: { "background-image": (src.startsWith("data:image") || src.startsWith("http")) ? `url("${src}")` : `url("./${src}")` },
 			});
 
 			ElementCreate({
