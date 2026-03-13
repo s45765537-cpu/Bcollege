@@ -1295,7 +1295,7 @@ var ElementButton = {
 	 * @returns {HTMLImageElement | HTMLDivElement | null}
 	 */
 	_ParseImage: function _ParseImage(id, img, imgColor=undefined, options=undefined) {
-		if (!img) {
+		if (img == null) {
 			return null;
 		}
 		options ??= {};
