@@ -222,14 +222,14 @@ function AsylumEntranceIsWearingNurseClothes() {
 // When a patient gets committed
 /**
  * Commits a player to the asylum for a given time and changes the players reputation
- * @param {string} Duration - The time (in micro seconds) the player gets committed for
- * @param {string} ReputationChange - The amount the player's reputation is going to change
+ * @param {number} Duration - The time (in micro seconds) the player gets committed for
+ * @param {number} ReputationChange - The amount the player's reputation is going to change
  * @returns {void} - Nothing
  */
 function AsylumEntranceCommitPatient(Duration, ReputationChange) {
-	LogAdd("Committed", "Asylum", CurrentTime + parseInt(Duration));
+	LogAdd("Committed", "Asylum", CurrentTime + Duration);
 	if (ReputationGet("Asylum") >= 0) DialogSetReputation("Asylum", -1);
-	DialogChangeReputation("Asylum", parseInt(ReputationChange) * -1);
+	DialogChangeReputation("Asylum", ReputationChange * -1);
 }
 
 /**
@@ -385,13 +385,13 @@ function AsylumEntranceKidnapNurseFightOutro(Surrender) {
 
 /**
  * Handles the bribe attempt of the kidnapping nurse
- * @param {string} BribeAmount - The offered bribe amount
- * @param {string} BribeOdds - The odds of a succesful bribe attempt
+ * @param {number} BribeAmount - The offered bribe amount
+ * @param {number} BribeOdds - The odds of a succesful bribe attempt
  * @returns {void} - Nothing
  */
 function AsylumEntranceKidnapNurseBribe(BribeAmount, BribeOdds) {
-	if (parseInt(BribeOdds) > Math.random() * 100) {
-		CharacterChangeMoney(Player, parseInt(BribeAmount) * -1);
+	if (BribeOdds > Math.random() * 100) {
+		CharacterChangeMoney(Player, BribeAmount * -1);
 		AsylumEntranceKidnapNurse.Stage = "12";
 		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, "BribeSuccess");
 	} else {

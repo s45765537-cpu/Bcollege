@@ -172,7 +172,7 @@ function AsylumTherapyOrgasmTherapyRestrain() {
 /**
  * Initiates the bondage therapy as a nurse
  * @param {number} RepChange - The amount, the player's reputation changes
- * @param {"FEW" | "LOT" | "ALL" } RestraintsLevel - The level of restraints to use
+ * @param {"FEW" | "LOT" | "ALL" } [RestraintsLevel] - The level of restraints to use
  * @returns {void} - Nothing
  */
 function AsylumTherapyPatientBondageIntro(RepChange, RestraintsLevel) {
@@ -224,7 +224,7 @@ function AsylumTherapyPatientOrgasmIntro(RepChange) {
 
 /**
  * Starts the therapy mini-game as a nurse
- * @param {number} Difficulty - The difficulty of the mini game
+ * @param {"Easy" | "Normal" | "Hard"} Difficulty - The difficulty of the mini game
  * @returns {void} - Nothing
  */
 function AsylumTherapyTherapyStart(Difficulty) {

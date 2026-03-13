@@ -1415,7 +1415,7 @@ function AsylumGGTSLock(LockTime, Msg) {
 
 /**
  * Fully dress the character in a drone futuristic gear setup
- * @param {Character} C - The character to dress, if omitted, we use the player
+ * @param {Character} [C] - The character to dress, if omitted, we use the player
  * @return {void} - Nothing
  */
 function AsylumGGTSDroneDress(C) {

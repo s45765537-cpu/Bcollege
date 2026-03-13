@@ -235,45 +235,45 @@ function DialogGetCharacter(C) {
 /**
  * Compares the player's reputation with a given value
  * @param {ReputationType} RepType - The name of the reputation to check
- * @param {string} Value - The value to compare
+ * @param {number} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is less or equal than a given value
  */
-function DialogReputationLess(RepType, Value) { return (ReputationGet(RepType) <= parseInt(Value)); }
+function DialogReputationLess(RepType, Value) { return ReputationGet(RepType) <= Value; }
 
 /**
  * Compares the player's reputation with a given value
  * @param {ReputationType} RepType - The name of the reputation to check
- * @param {string} Value - The value to compare
+ * @param {number} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is greater or equal than a given value
  */
-function DialogReputationGreater(RepType, Value) { return (ReputationGet(RepType) >= parseInt(Value)); }
+function DialogReputationGreater(RepType, Value) { return ReputationGet(RepType) >= Value; }
 
 /**
  * Compares the player's money with a given amount
- * @param {string} Amount - The amount of money that must be met
+ * @param {number} Amount - The amount of money that must be met
  * @returns {boolean} - Returns TRUE if the player has enough money
  */
-function DialogMoneyGreater(Amount) { return (parseInt(Player.Money) >= parseInt(Amount)); }
+function DialogMoneyGreater(Amount) { return Player.Money >= Amount; }
 
 /**
  * Changes a given player's account by a given amount
- * @param {string} Amount - The amount that should be charged or added to the player's account
+ * @param {number} Amount - The amount that should be charged or added to the player's account
  * @returns {void} - Nothing
  */
-function DialogChangeMoney(Amount) { CharacterChangeMoney(Player, parseInt(Amount)); }
+function DialogChangeMoney(Amount) { CharacterChangeMoney(Player, Amount); }
 
 /**
  * Alters the current player's reputation by a given amount
  * @param {ReputationType} RepType - The name of the reputation to change
- * @param {number|string} Value - The value, the player's reputation should be altered by
+ * @param {number} Value - The value, the player's reputation should be altered by
  * @returns {void} - Nothing
  */
-function DialogSetReputation(RepType, Value) { ReputationChange(RepType, (parseInt(ReputationGet(RepType)) * -1) + parseInt(Value)); } // Sets a fixed number for the player specific reputation
+function DialogSetReputation(RepType, Value) { ReputationChange(RepType, ReputationGet(RepType) * -1 + Value); } // Sets a fixed number for the player specific reputation
 
 /**
  * Change the player's reputation progressively through dialog options (a reputation is easier to break than to build)
  * @param {ReputationType} RepType - The name of the reputation to change
- * @param {number|string} Value - The value, the player's reputation should be altered by
+ * @param {number} Value - The value, the player's reputation should be altered by
  * @returns {void} - Nothing
  */
 function DialogChangeReputation(RepType, Value) { ReputationProgress(RepType, Value); }
@@ -429,10 +429,10 @@ function DialogSetPose(C, NewPose) { PoseSetActive(DialogGetCharacter(C), NewPos
 /**
  * Checks, whether a given skill of the player is greater or equal a given value
  * @param {SkillType} SkillType - Name of the skill to check
- * @param {string} Value - The value, the given skill must be compared to
+ * @param {number} Value - The value, the given skill must be compared to
  * @returns {boolean} - Returns true if a specific skill is greater or equal than a given value
  */
-function DialogSkillGreater(SkillType, Value) { return (parseInt(SkillGetLevel(Player, SkillType)) >= parseInt(Value)); }
+function DialogSkillGreater(SkillType, Value) { return SkillGetLevel(Player, SkillType) >= Value; }
 
 /**
  * Checks, if a given item is available in the player's inventory
@@ -462,10 +462,10 @@ function DialogCanViewRules() { return Player.IsFullyOwned(); }
 
 /**
  * Checks if the has enough GGTS minutes to spend on different activities, for GGTS level 6 and up
- * @param {string} Minute - The number of minutes to compare
+ * @param {number} Minute - The number of minutes to compare
  * @returns {boolean} - TRUE if the player has enough minutes
  */
-function DialogGGTSMinuteGreater(Minute) { return AsylumGGTSHasMinutes(parseInt(Minute)); }
+function DialogGGTSMinuteGreater(Minute) { return AsylumGGTSHasMinutes(Minute); }
 
 /**
  * Checks if the player can spend GGTS minutes on herself, for GGTS level 6 and up

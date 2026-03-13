@@ -122,13 +122,13 @@ function CollegeCafeteriaClick() {
 
 /**
  * When Sidney love towards the player changes
- * @param {string} LoveChange - The amount the love of Sidney changes
- * @param {string} MoneyChange - The amount of money, the plyer looses
+ * @param {number} LoveChange - The amount the love of Sidney changes
+ * @param {number} [MoneyChange] - The amount of money, the player looses
  * @returns {void} - Nothing
  */
 function CollegeCafeteriaSidneyLoveChange(LoveChange, MoneyChange) {
-	if (LoveChange != null) CollegeCafeteriaSidneyLove = CollegeCafeteriaSidneyLove + parseInt(LoveChange);
-	if (MoneyChange != null) CharacterChangeMoney(Player, parseInt(MoneyChange) * -1);
+	if (LoveChange != null) CollegeCafeteriaSidneyLove += LoveChange;
+	if (MoneyChange != null) CharacterChangeMoney(Player, MoneyChange * -1);
 }
 
 /**

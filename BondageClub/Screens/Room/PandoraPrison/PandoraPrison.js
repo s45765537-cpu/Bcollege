@@ -296,7 +296,7 @@ function PandoraPrisonBribeAllowed() {
 
 /**
  * Checks if the perk specified is currently selected
- * @param {string} Type - The perk type
+ * @param {InfiltrationPerks} Type - The perk type
  * @returns {boolean} - Returns TRUE if it's selected
  */
 function PandoraPrisonHasPerk(Type) {
@@ -305,13 +305,11 @@ function PandoraPrisonHasPerk(Type) {
 
 /**
  * When the player bribes the guard to lower her sentence
- * @param {string|number} Money - The amount of money spent
- * @param {string|number} Minutes - The number of minutes to remove from the sentence
+ * @param {number} Money - The amount of money spent
+ * @param {number} Minutes - The number of minutes to remove from the sentence
  * @returns {void} - Nothing
  */
 function PandoraPrisonBribeProcess(Money, Minutes) {
-	Money = parseInt(Money);
-	Minutes = parseInt(Minutes);
 	if (Money != 0) CharacterChangeMoney(Player, Money * -1);
 	if (Minutes != 0) {
 		Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - (Minutes * 60000);

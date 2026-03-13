@@ -53,9 +53,9 @@ ItemPelvisCrop,,,(You whack the leather crop right on her butt.)  Ouch! I'll put
 220,230,This is too much!,It's not enough.  (She opens a gym bag full of restraints and grins.),
 220,230,(Blush red.),Isn't it fun?  (She opens a gym bag full of restraints and grins.),"DialogChangeReputation(""Dominant"", -2)"
 220,230,(Act like you don't care.),Time for more trouble.  (She opens a gym bag full of restraints and grins.),
-230,240,"Alright, can we stop now?","(She stares at you and uses many restraints on you, while everyone around watches.)",PlayerFullRestrain(Player)
-230,240,(Shake your head no.),"(She stares at you and uses many restraints on you, while everyone around watches.)",PlayerFullRestrain(Player)
-230,240,(Look away.),"(She stares at you and uses many restraints on you, while everyone around watches.)",PlayerFullRestrain(Player)
+230,240,"Alright, can we stop now?","(She stares at you and uses many restraints on you, while everyone around watches.)",PlayerFullRestrain()
+230,240,(Shake your head no.),"(She stares at you and uses many restraints on you, while everyone around watches.)",PlayerFullRestrain()
+230,240,(Look away.),"(She stares at you and uses many restraints on you, while everyone around watches.)",PlayerFullRestrain()
 240,250,(Grumble and struggle.),(She humiliates you some more and leaves you bound in the main hall.),
 240,250,(Wait patiently.),(She humiliates you some more and leaves you bound in the main hall.),
 250,,(Leave her.),,KidnapFail()

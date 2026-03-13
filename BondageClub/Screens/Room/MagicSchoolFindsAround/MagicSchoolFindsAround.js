@@ -543,11 +543,11 @@ function MagicSchoolFindsAroundRunAwayEnd() {
 
 /**
  * Triggered when the player lost and get ungagged by the Kitsune, can affect reputation
- * @param {string} RepChange
+ * @param {number} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundUngagPlayer(RepChange) {
-	DialogChangeReputation("Dominant", CommonParseInt(RepChange) ?? 0);
+	DialogChangeReputation("Dominant", RepChange);
 	InventoryRemove(Player, "ItemMouth");
 	InventoryRemove(Player, "ItemMouth2");
 	InventoryRemove(Player, "ItemMouth3");
@@ -555,13 +555,13 @@ function MagicSchoolFindsAroundUngagPlayer(RepChange) {
 
 /**
  * When the player lost a battle and the Kitsune tests a spell on her
- * @param {string} RepChange
+ * @param {number} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundLoserSpell(RepChange) {
 
 	// If we must change the player dom/sub reputation
-	DialogChangeReputation("Dominant", CommonParseInt(RepChange) ?? 0);
+	DialogChangeReputation("Dominant", RepChange);
 
 	// After many spells, the event ends CHANGE TO 5
 	if (MagicSchoolFindsAroundSpellCount >= 5) {
@@ -681,7 +681,7 @@ function MagicSchoolFindsAroundTheresaQuestUpdate() {
 
 /**
  * Give player essence from rescued person
- * @param {string} Amount - The amount of essence to give
+ * @param {number} Amount - The amount of essence to give
  * @returns {void} - Nothing
  */
 function DialogTheresaGiveEssence(Amount) {
@@ -690,7 +690,7 @@ function DialogTheresaGiveEssence(Amount) {
 	DialogRemove();
 	PoseSetActive(CurrentCharacter, 'Kneel');
 	const data = MagicSchoolFindsAroundGetData();
-	data.TheresaQuestProgress += CommonParseInt(Amount) ?? 0;
+	data.TheresaQuestProgress += Amount ?? 0;
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	MagicSchoolFindsAroundTheresaQuestUpdate();
 }
