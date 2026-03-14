@@ -1295,7 +1295,7 @@ var ElementButton = {
 	 * @returns {HTMLImageElement | HTMLDivElement | null}
 	 */
 	_ParseImage: function _ParseImage(id, img, imgColor=undefined, options=undefined) {
-		if (!img) {
+		if (img == null) {
 			return null;
 		}
 		options ??= {};
@@ -1307,12 +1307,13 @@ var ElementButton = {
 				attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
 			});
 		} else {
+			const imgURL = (img.startsWith("data:image") || img.startsWith("http")) ? `url("${img}")` : `url("./${img}")`;
 			return ElementCreate({
 				...options,
 				tag: "div",
 				classList: ["button-image", ...(options.classList ?? [])],
 				attributes: { id: `${id}-image`, "aria-hidden": "true", src: img, role: "img", ...(options.attributes ?? {}) },
-				style: { "background-image": `url("./${img}")`, "mask-image": `url("./${img}")`, "background-color": imgColor, ...(options.style ?? {}) },
+				style: { "background-image": imgURL, "mask-image": imgURL, "background-color": imgColor, ...(options.style ?? {}) },
 			});
 		}
 	},
@@ -1405,7 +1406,7 @@ var ElementButton = {
 				classList: ["button-icon-tooltip-li"],
 				children: tooltipChildren,
 				parent: tooltip,
-				style: { "background-image": src.startsWith("data:image") ? `url("${src}")` : `url("./${src}")` },
+				style: { "background-image": (src.startsWith("data:image") || src.startsWith("http")) ? `url("${src}")` : `url("./${src}")` },
 			});
 
 			ElementCreate({
