@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-03-09
-* Last recorded PR: [#6180](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6180)
-* Last recorded commit hash: `1037a731fbce02c08e8153a9e83a3cc4b89b1e6c`
+* Changelog last updated: 2026-03-16
+* Last recorded PR: [#6193](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6193)
+* Last recorded commit hash: `1d5a0d65837de35ce07a3bc38e2d54da9bf17a54`
 
 ## [Generated]
 
@@ -26,6 +26,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * KyraObscura - Add Bishop Gag ([#6173](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6173))
 * Feldob66 - Asset/ribbon collar by Tifa & Felix ([#6179](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6179))
 * Sin - Added several map items provided by Magdalena and realigned the tracks ([#6180](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6180))
+* Sin - Adding flowerdress override for suspension pose ([#6191](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6191))
 * Ben987 - Maid Sorority - Integration of Maid Dresses 3 & 4
 * Ben987 - Echo Import - Maid Dress 4
 * Ben987 - Echo Import - Cow Top
@@ -46,6 +47,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * KyraObscura - Add Layer Names for Bishop Gag ([#6174](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6174))
 * lera - Prevent actions/activities from erronenously bypassing hearing range ([#6151](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6151))
 * Sin - Several Bugfixes for Echov2 items that were missing poses/layer overrides. ([#6176](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6176))
+* Sin - Resized and realigned a few map items. ([#6184](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6184))
 * Rama - Fix `CraftingDeserialize()` failing to deserialize effects ([#6164](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6164))
 * Rama - Fix an issue wherein the amount displayed amount of days could be negative ([#6169](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6169))
 * Rama - Fix a number of issues related to the inputs of the ChatSearch `Filter` mode ([#6148](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6148))
@@ -55,11 +57,17 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Fix an issue wherein crafting validation would fail to properly sync `Effects` and `Property` ([#6155](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6155))
 * Rama - Fix a `ElementButton.CreateCraftTooltipContent()` crash when crafting effects are missing ([#6157](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6157))
 * Rama - Fix the chatroom search failing to handle non-filtered map types ([#6158](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6158))
+* Rama - Define the `ChatRoomMapManager `-embedded functions inline ([#6182](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6182))
+* Rama - Fix too many crafting effects potentially triggering recursive validation loops ([#6181](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6181))
+* Rama - Do not prepend button image url if they're using the `data:` scheme ([#6190](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6190))
+* Rama - Fix a misplaced space in the crafting effects tooltip ([#6187](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6187))
+* Rama - Fix empty nicknames displaying in GGTS rooms ([#6192](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6192))
 * Estsanatlehi - Fix the arousal zone factor not loading in the UI ([#6175](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6175))
 * Estsanatlehi - Check the dialog open state through its property instead of an attribute access ([#6150](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6150))
 * Estsanatlehi - Add .webp to the list of allowed image file types ([#6159](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6159))
 * Estsanatlehi - Fix a validation issue with missing assets ([#6161](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6161))
 * Estsanatlehi - Add back the missing pose mappings for the pull down panties ([#6152](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6152))
+* Estsanatlehi - KD null item locks ([#6193](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6193))
 * Ben987 - Fix AssetStrings & ColorGroups Sorting
 * Ben987 - Fix Asset PoseMapping: Cow Top
 
