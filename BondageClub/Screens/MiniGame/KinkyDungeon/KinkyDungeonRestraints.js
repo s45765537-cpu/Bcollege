@@ -3039,12 +3039,11 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass, Lock, Keep, Link
 				//let placed = InventoryGet(KinkyDungeonPlayer, AssetGroup);
 				let placedOnPlayer = false;
 				//if (!placed) console.log(`Error placing ${restraint.name} on player!!!`);
-				if (ArcadeDeviousChallenge && KinkyDungeonDeviousDungeonAvailable() && !KinkyDungeonRestraintsLocked.includes(AssetGroup) && AssetGroup != "ItemHead" && InventoryAllow(
-					Player, AssetGet("Female3DCG", AssetGroup, restraint.Asset)) &&
-					(!InventoryGetLock(InventoryGet(Player, AssetGroup))
-					|| (InventoryGetLock(InventoryGet(Player, AssetGroup)).Asset.OwnerOnly == false && InventoryGetLock(InventoryGet(Player, AssetGroup)).Asset.LoverOnly == false))) {
-					//(!InventoryGetLock(InventoryGet(Player, AssetGroup))
-					//|| (InventoryGetLock(InventoryGet(Player, AssetGroup)).Asset.OwnerOnly == false && InventoryGetLock(InventoryGet(Player, AssetGroup)).Asset.LoverOnly == false))) {
+				const lockedItem = InventoryGet(Player, AssetGroup);
+				const lockItem = InventoryGetLock(lockedItem);
+				if (ArcadeDeviousChallenge && KinkyDungeonDeviousDungeonAvailable() && !KinkyDungeonRestraintsLocked.includes(AssetGroup)
+					&& AssetGroup !== "ItemHead" && InventoryAllow(Player, AssetGet("Female3DCG", AssetGroup, restraint.Asset)) &&
+					(!lockItem || !(lockItem.Asset.OwnerOnly || lockItem.Asset.LoverOnly))) {
 					const asset = AssetGet(Player.AssetFamily, AssetGroup, restraint.Asset);
 					if (asset) {
 						placedOnPlayer = true;
