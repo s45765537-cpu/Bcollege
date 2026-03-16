@@ -1,7 +1,7 @@
 "use strict";
 var NicknameManagementBackground = "Sheet";
-/** @type {null | Character | NPCCharacter} */
-var NicknameManagementTarget = null;
+/** @type {Character} */
+var NicknameManagementTarget = /** @type {never} */ (null);
 var NicknameManagementLock = false;
 
 /**
@@ -13,7 +13,8 @@ async function NicknameManagementLoad() {
 		throw new Error('Missing "NicknameManagementTarget" data');
 	}
 	if (NicknameManagementTarget.Nickname == null) NicknameManagementTarget.Nickname = "";
-	ElementCreateInput("InputNickname", "text", NicknameManagementTarget.Nickname, "20");
+	const input = ElementCreateInput("InputNickname", "text", NicknameManagementTarget.Nickname, "20");
+	input.pattern = ServerCharacterNicknameRegex.source;
 	NicknameManagementLock = LogQueryRemote(NicknameManagementTarget, "BlockNickname", "OwnerRule");
 }
 
@@ -22,9 +23,6 @@ async function NicknameManagementLoad() {
  * @returns {void} - Nothing
  */
 function NicknameManagementRun() {
-	if (!NicknameManagementTarget) {
-		return;
-	}
 	DrawCharacter(NicknameManagementTarget, 50, 50, 0.9);
 	DrawText(TextGet("Title1"), 1200, 200, "Black", "Silver");
 	DrawText(TextGet("Title2"), 1200, 300, "Black", "Silver");
@@ -55,15 +53,19 @@ function NicknameManagementClick() {
  * @param {boolean} Save - Received rule data object.
  */
 function NicknameManagementExit(Save = false) {
-	let NewNickname = ElementValue("InputNickname");
+	const inputElem = /** @type {HTMLInputElement | null} */(document.getElementById("InputNickname"));
+	const NewNickname = inputElem?.validity.valid ? inputElem.value : NicknameManagementTarget.Nickname;
 	ElementRemove("InputNickname");
 	CommonSetScreen("Online", "ChatRoom");
 	if (Save && NicknameManagementTarget) {
 		if (NewNickname != NicknameManagementTarget.Nickname) {
+			// This doesn't need to go through `CharacterSetNickname` because we're
+			// on the "other side"; it'll be handled by the target on reception of
+			// the `OwnerRuleNicknameNew` message.
 			NicknameManagementTarget.Nickname = NewNickname;
 			ServerSend("ChatRoomChat", { Content: "OwnerRuleNicknameNew" + NewNickname, Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
 		}
 		ServerSend("ChatRoomChat", { Content: "OwnerRuleNickname" + (NicknameManagementLock ? "Block" : "Allow"), Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
 	}
-	NicknameManagementTarget = null;
+	NicknameManagementTarget = /** @type {never} */ (null);
 }

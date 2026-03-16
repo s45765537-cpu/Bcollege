@@ -13,7 +13,9 @@ var ServerAccountNameRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountPasswordRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountResetNumberRegex = /^[0-9]{1,20}$/;
 var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
-var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
+// XXX: something-something ES2024 `v` flag when passed as a text input validation pattern in Firefox
+// eslint-disable-next-line no-useless-escape
+var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'\-]{1,20}$/u;
 var ServerChatMessageMaxLength = 2000;
 var ServerChatRoomDescriptionMaxLength = 300;
 /** @type {ServerChatRoomLanguage[]} */
@@ -1245,7 +1247,7 @@ var ServerValidation = {
 
 /**
  * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
- * @satisfies {{ [k in keyof (ServerAccountDataSynced | PlayerCharacter)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => PlayerCharacter[k] }}
+ * @satisfies {{ [k in keyof (ServerAccountData | PlayerCharacter)]?: (arg: Partial<ServerAccountData[k]>, C: Character) => PlayerCharacter[k] }}
  * @namespace
  */
 var ServerAccountDataSyncedValidate = {
@@ -1253,7 +1255,10 @@ var ServerAccountDataSyncedValidate = {
 		return TitleList.some(t => t.Name === arg) ? arg : undefined;
 	},
 	Nickname: (arg, C) => {
-		return typeof arg === "string" ? arg : undefined;
+		return typeof arg === "string" && ServerCharacterNicknameRegex.test(arg) ? arg.trim() : undefined;
+	},
+	Money: (arg, C) => {
+		return CommonIsNumeric(arg) ? arg : 0;
 	},
 	AllowedInteractions: (arg, C) => {
 		return CommonIsInteger(arg, 0, 5) ? /** @type {AllowedInteractions} */(arg) : 2;
@@ -1286,6 +1291,7 @@ var ServerAccountDataSyncedValidate = {
 			Poker: CommonIsObject(arg.Poker) ? arg.Poker : undefined,
 			ClubCard: CommonIsObject(arg.ClubCard) ? arg.ClubCard : undefined,
 			Prison: CommonIsObject(arg.Prison) ? arg.Prison : undefined,
+			MagicSchoolFindsAround: CommonIsObject(arg.MagicSchoolFindsAround) ? arg.MagicSchoolFindsAround : undefined,
 		};
 	},
 	LabelColor: (arg, C) => {
@@ -1295,7 +1301,20 @@ var ServerAccountDataSyncedValidate = {
 		return (CommonIsFinite(arg, 0, CurrentTime)) ? arg : undefined;
 	},
 	Description: (arg, C) => {
-		return typeof arg === "string" ? arg : undefined;
+		let desc = "";
+		if (typeof arg === "string" && arg.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+			desc = LZString.decompressFromUTF16(arg.substring(1)) ?? "";
+		} else if (typeof arg === "string") {
+			desc = arg;
+		}
+		desc = desc.substring(0, OnlineProfileTextDescMaxLen);
+		return desc;
+	},
+	Lover: (arg, C) => {
+		return typeof arg === "string" && arg.startsWith("NPC-") ? arg : undefined;
+	},
+	Owner: (arg, C) => {
+		return typeof arg === "string" ? arg : "";
 	},
 	Ownership: (arg, C) => {
 		if (!CommonIsObject(arg)) {
@@ -1306,11 +1325,15 @@ var ServerAccountDataSyncedValidate = {
 		if (
 			typeof Name === "string"
 			&& CommonIsInteger(MemberNumber, 0)
-			&& (Notes == undefined || Notes == null || typeof Notes === "string")
+			&& (!Notes || typeof Notes === "string")
 			&& (Stage === 0 || Stage === 1)
 			&& CommonIsInteger(Start, 0, CommonTime())
 		) {
-			return { Name, MemberNumber, Notes, Stage, Start };
+			let dNotes = LZString.decompressFromUTF16(Notes) ?? undefined;
+			if (dNotes) {
+				dNotes = dNotes.substring(0, OnlineProfileTextOwnersNotesMaxLen);
+			}
+			return { Name, MemberNumber, Notes: dNotes, Stage, Start };
 		} else {
 			return null;
 		}
