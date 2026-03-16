@@ -1272,7 +1272,7 @@ function InventoryExpressionTriggerApply(C, expressions) {
 * @returns {Item|null} - A padlock item or NULL if none
 */
 function InventoryGetLock(Item) {
-	if (!Item.Property?.LockedBy) return null;
+	if (!Item?.Property?.LockedBy) return null;
 	const asset = Asset.find(a => a.IsLock && a.Name === Item.Property?.LockedBy);
 	if (!asset) return null;
 	return { Asset: asset };
