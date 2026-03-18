@@ -3348,11 +3348,10 @@ function ChatRoomCharacterItemUpdate(C, Group) {
 	if (!Group) return;
 
 	// Single item updates aren't sent back to the source member, so update the ChatRoomData accordingly
-	if (ChatRoomData && ChatRoomData.Character) {
+	if (ChatRoomData?.Character) {
 		const characterIndex = ChatRoomData.Character.findIndex((char) => char.MemberNumber === C.MemberNumber);
 		if (characterIndex !== -1) {
-			// @ts-expect-error FIXME: This is mistaking raw server data with unpacked character data
-			ChatRoomData.Character[characterIndex] = C;
+			ChatRoomData.Character[characterIndex].Appearance = ServerAppearanceBundle(C.Appearance);
 		}
 	}
 
