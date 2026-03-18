@@ -261,9 +261,16 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				this.HasEffect("BlockWardrobe")
 			);
 		},
+		_BlindLevel: undefined,
 		/** Look for blindness effects and return the worst (limited by settings), Light: 1, Normal: 2, Heavy: 3 */
 		GetBlindLevel: function (eyesOnly = false) {
-			let blindLevel = 0;
+			let blindLevel = this._BlindLevel;
+			if (blindLevel != null) {
+				return blindLevel;
+			} else {
+				blindLevel = 0;
+			}
+
 			const eyes1 = InventoryGet(this, "Eyes");
 			const eyes2 = InventoryGet(this, "Eyes2");
 			if (eyes1 && eyes1.Property && eyes1.Property.Expression && eyes2 && eyes2.Property && eyes2.Property.Expression) {
@@ -273,16 +280,19 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			if (!eyesOnly) {
 				const effects = CharacterGetEffects(this, ["ItemHead", "ItemHood", "ItemNeck", "ItemDevices"], true);
-				blindLevel += effects.reduce((Start, EffectName) => Start + (CharacterBlindLevels.get(/**@type {BlindEffectName} */(EffectName)) || 0), 0);
+				/** @type {Map<EffectName, number>} */
+				const blindLevels = CharacterBlindLevels;
+				blindLevel += effects.reduce((Start, EffectName) => Start + (blindLevels.get(EffectName) ?? 0), 0);
 				blindLevel += InventoryCraftCount(this, "Thick", true);
 				blindLevel -= InventoryCraftCount(this, "Thin", true);
 			}
 			// Light sensory deprivation setting limits blindness
 			if (this.IsPlayer() && this.GameplaySettings && this.GameplaySettings.SensDepChatLog == "SensDepLight") {
-				return Math.max(0, Math.min(2, blindLevel));
+				this._BlindLevel = Math.max(0, Math.min(2, blindLevel));
 			} else {
-				return Math.max(0, Math.min(3, blindLevel));
+				this._BlindLevel = Math.max(0, Math.min(3, blindLevel));
 			}
+			return this._BlindLevel;
 		},
 		GetBlurLevel: function() {
 			if ((this.IsPlayer() && this.GraphicsSettings && !this.GraphicsSettings.AllowBlur) || CommonPhotoMode) {
@@ -1383,7 +1393,19 @@ function CharacterDeleteAllOnline() {
  * @returns {void} - Nothing
  */
 function CharacterLoadEffect(C) {
+	// Grab any old cached values if available
+	// Do not call `GetBlindLevel()`, as that could potentially try to compute the _old_ blind level using an unrelated _new_ appearance
+	const oldblindlevel = C._BlindLevel ??= 0;
+	if (C.IsPlayer()) {
+		// Compute the dark factor, which will internally use the _old_ blind level as (potentially) assigned above
+		DrawLastDarkFactor = CharacterGetDarkFactor(C);
+	}
+	C._BlindLevel = undefined;
 	C.Effect = CharacterGetEffects(C);
+	if (C.IsPlayer() && C.GraphicsSettings.DoBlindFlash && oldblindlevel > 0 && C.GetBlindLevel() === 0) {
+		DrawBlindFlash(oldblindlevel);
+	}
+
 	CharacterLoadTints(C);
 	CharacterLoadAttributes(C);
 }
