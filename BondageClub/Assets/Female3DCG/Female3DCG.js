@@ -22133,6 +22133,17 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "KirugumiMask",
+				CopyConfig: {
+					GroupName: "ItemHood",
+					AssetName: "KirugumiMask",
+					BuyGroup: true,
+				},
+				Left: 150,
+				Top: 20,
+				DynamicGroupName: "ItemHood",
+			},
 		],
 		Color: [
 			"Default",

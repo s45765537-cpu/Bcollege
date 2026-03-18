@@ -17407,6 +17407,15 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "BodyMarkings", AssetName: "Splatters" },
 		}, // Splatters
+		KirugumiMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemHood", AssetName: "KirugumiMask" },
+			DialogPrefix: {
+				Header: "ItemHoodKirugumiMaskSelect",
+				Module: "ItemHoodKirugumiMaskModule",
+				Option: "ItemHoodKirugumiMaskOption",
+			},
+		},
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
