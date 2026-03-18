@@ -1445,6 +1445,26 @@ interface Asset {
 
 //#endregion
 
+/** See {@link CharacterAppearanceGetCurrentValue} */
+interface CharacterAppearanceValues {
+	/** See {@link Asset.Name} */
+	Name: string;
+	/** See {@link Asset.Description} */
+	Description: string;
+	/** See {@link Asset.DefaultColor} and {@link Item.Color} */
+	Color: ItemColor;
+	/** The index within {@link Character.Apperance} */
+	ID: number;
+	/** See {@link Asset.Effect} */
+	Effect: readonly EffectName[];
+	/** The asset */
+	Asset: Asset;
+	/** The item */
+	Full: Item;
+	/** See {@link Asset.ZoomModifier} */
+	Zoom: number;
+}
+
 type ItemBundle = ServerItemBundle;
 
 /** A tuple-based version of {@link ItemBundle} */
