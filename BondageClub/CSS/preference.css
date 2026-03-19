@@ -240,3 +240,104 @@ label:has(#InputCharacterLabelColor) {
 }
 
 /* #endregion General */
+
+/* #region Scripts */
+
+.preference-scripts-warning {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap);
+}
+
+#preference-scripts-warning-title {
+  color: #c80800;
+  margin: 0;
+}
+
+.preference-scripts-text {
+  color: black;
+  white-space: normal;
+}
+
+#preference-scripts-table {
+  display: grid;
+  grid-template-columns: min(20vh, 10vw) repeat(var(--script-columns), min(30vh, 15vw));
+  grid-template-columns: min(20dvh, 10dvw) repeat(var(--script-columns), min(30dvh, 15dvw));
+	grid-auto-rows: min(9vh, 4.5vw);
+	grid-auto-rows: min(9dvh, 4.5dvw);
+  align-items: center;
+}
+
+.preference-scripts-cell {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+.preference-scripts-header-cell {
+  font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	text-wrap: nowrap;
+}
+
+.preference-scripts-header-content {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  padding-left: min(6vh, 3vw);
+  padding-left: min(6dvh, 3dvw);
+}
+
+.preference-scripts-header-content .preference-scripts-help-button {
+  position: absolute;
+  left: 0;
+}
+
+.preference-scripts-column-divider {
+  border-left: var(--border-width) solid rgba(0, 0, 0, 0.5);
+  padding-left: var(--gap);
+}
+
+.preference-scripts-row-divider {
+  border-top: var(--border-width) solid rgba(0, 0, 0, 0.5);
+}
+
+.preference-scripts-checkbox-label {
+	white-space: nowrap;
+}
+
+.preference-scripts-checkbox {
+  width: min(6vh, 3vw);
+  width: min(6dvh, 3dvw);
+  height: min(6vh, 3vw);
+  height: min(6dvh, 3dvw);
+}
+
+#preference-scripts-help-global,
+.preference-scripts-help-button {
+  padding: 0;
+}
+
+.preference-scripts-help-button {
+  width: min(6vh, 3vw);
+  width: min(6dvh, 3dvw);
+  height: min(6vh, 3vw);
+  height: min(6dvh, 3dvw);
+}
+
+#preference-scripts-help-overlay {
+  background-color: #ff8;
+  border: var(--border-width) solid #000000;
+  padding: var(--gap);
+  z-index: 2;
+  color: black;
+  white-space: normal;
+}
+
+/* #endregion Scripts */

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ScriptPermissionProperty[]} */
@@ -10,6 +9,30 @@ let PreferenceScriptTimeoutHandle = null;
 /** @type {null | number} */
 let PreferenceScriptTimer = null;
 let PreferenceScriptWarningAccepted = false;
+
+const PreferenceSubscreenScriptsIDs = Object.freeze({
+	grid: "preference-scripts-grid",
+	content: "preference-scripts-content",
+	warning: "preference-scripts-warning",
+	warningTitle: "preference-scripts-warning-title",
+	warningText: "preference-scripts-warning-text",
+	warningAccept: "preference-scripts-warning-accept",
+	explanation: "preference-scripts-explanation",
+	helpGlobal: "preference-scripts-help-global",
+	table: "preference-scripts-table",
+	helpOverlay: "preference-scripts-help-overlay",
+	/**
+		 * @param {ScriptPermissionProperty} property
+		 * @param {ScriptPermissionLevel} permissionLevel
+		 * @returns {string}
+		 */
+	scriptsCheckboxId: (property, permissionLevel) => `preference-scripts-checkbox-${property}-${permissionLevel}`,
+	/**
+	 * @param {ScriptPermissionProperty} property
+	 * @returns {string}
+	 */
+	scriptsHelpButtonId: (property) => `preference-scripts-help-${property}`,
+});
 
 const ScriptPermissionLevel = Object.freeze({
 	SELF: "Self",
@@ -32,154 +55,205 @@ const ScriptPermissionBits = Object.freeze({
 const maxScriptPermission = Object.values(ScriptPermissionBits)
 	.reduce((sum, bit) => sum | bit, 0);
 
+/**
+ * @returns {ScriptPermissionLevel[]}
+ */
+function PreferenceSubscreenScriptsGetPermissionLevels() {
+	return Object.values(ScriptPermissionLevel);
+}
+
 
 function PreferenceSubscreenScriptsLoad() {
-	if (PreferenceScriptWarningAccepted) return;
-	PreferenceScriptTimer = Date.now() + 5000;
-	PreferenceScriptTimeoutHandle = setTimeout(() => {
-		PreferenceScriptTimer = null;
-		PreferenceScriptTimeoutHandle = null;
-	}, 5000);
-}
-
-function PreferenceSubscreenScriptsRun() {
-	const helpColour = "#ff8";
-
-	// Character, exit & help buttons
-	DrawCharacter(Player, 50, 50, 0.9);
-
-	MainCanvas.textAlign = "left";
-
 	if (!PreferenceScriptWarningAccepted) {
-		PreferenceScriptsDrawWarningScreen();
-		return;
+		PreferenceScriptTimer = Date.now() + 5000;
+		PreferenceScriptTimeoutHandle = setTimeout(() => {
+			PreferenceScriptTimer = null;
+			PreferenceScriptTimeoutHandle = null;
+		}, 5000);
 	}
 
-	// Slightly wacky x-coordinate because DrawTextWrap assumes text is centered (500 - 1300/2 = -150)
-	DrawTextWrap(TextGet("ScriptsExplanation"), -150, 150, 1300, 120, "Black");
-	DrawButton(1815, 190, 90, 90, "", PreferenceScriptHelp === "global" ? helpColour : "White", "Icons/Question.png");
-
-	/** @type {ScriptPermissionLevel[]} */
-	const permissions = Object.values(ScriptPermissionLevel);
-
-	// Can be used to page properties in the future
-	/** @type {ScriptPermissionProperty[]} */
-	const propertiesPage = PreferenceScriptPermissionProperties;
-
-	MainCanvas.textAlign = "center";
-	for (const [i, property] of propertiesPage.entries()) {
-		DrawTextFit(TextGet(`ScriptsPermissionProperty${property}`), 850 + 300 * i, 320, 124, "Black", "Gray");
-		const helpHover = MouseIn(720 + 300 * i, 296, 48, 48);
-		const iconColour = PreferenceScriptHelp === property ? "_Yellow" : helpHover ? "_Cyan" : "";
-		DrawImageResize(`Icons/Question${iconColour}.png`, 720 + 300 * i, 296, 48, 48);
-		MainCanvas.moveTo(700 + 300 * i, 270);
-		MainCanvas.strokeStyle = "rgba(0, 0, 0, 0.5)";
-		MainCanvas.lineTo(700 + 300 * i, 270 + (permissions.length + 1) * 90);
-		MainCanvas.stroke();
-		for (const [j, permissionLevel] of permissions.entries()) {
-			const disabled = permissionLevel !== ScriptPermissionLevel.PUBLIC
-				&& permissionLevel !== ScriptPermissionLevel.SELF
-				&& (
-					ValidationHasScriptPermission(Player, property, ScriptPermissionLevel.PUBLIC)
-					|| !ValidationHasScriptPermission(Player, property, ScriptPermissionLevel.SELF)
-				);
-			DrawCheckbox(816 + 300 * i, 386 + 90 * j, 64, 64, "", ValidationHasScriptPermission(Player, property, permissionLevel), disabled);
+	const parent = ElementWrap(`${PreferenceIDs.subscreen}-main`);
+	const root = ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenScriptsIDs.grid },
+		parent,
+	});
+	root.addEventListener("click", () => {
+		if (PreferenceScriptHelp) {
+			PreferenceScriptHelp = null;
+			PreferenceSubscreenScriptsUpdateHelp();
 		}
-	}
-	MainCanvas.textAlign = "left";
+	});
 
-	MainCanvas.moveTo(500, 370);
-	MainCanvas.strokeStyle = "rgba(0, 0, 0, 0.5)";
-	MainCanvas.lineTo(700 + propertiesPage.length * 300, 370);
-	MainCanvas.stroke();
+	ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenScriptsIDs.warning },
+		classList: ["preference-scripts-warning"],
+		parent: root,
+		children: [
+			{
+				tag: "h3",
+				attributes: { id: PreferenceSubscreenScriptsIDs.warningTitle },
+				children: [TextGet("ScriptsWarningTitle")],
+			},
+			{
+				tag: "div",
+				attributes: { id: PreferenceSubscreenScriptsIDs.warningText },
+				children: [TextGet("ScriptsWarning")],
+			},
+			ElementButton.Create(PreferenceSubscreenScriptsIDs.warningAccept, (ev) => {
+				ev.stopPropagation();
+				if (PreferenceScriptTimer == null) {
+					PreferenceScriptWarningAccepted = true;
+					PreferenceSubscreenScriptsResize();
+				}
+			}, {
+				label: TextGet("ScriptsWarningAccept"),
+			}),
+		],
+	});
 
-	for (const [i, permissionName] of permissions.entries()) {
-		DrawText(TextGet(`ScriptsPermissionLevel${permissionName}`), 500, 410 + 90 * i, "Black", "Gray");
-	}
+	const content = ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenScriptsIDs.content },
+		parent: root,
+	});
 
-	if (PreferenceScriptHelp === "global") {
-		const helpHeight = 90 + 90 * permissions.length;
-		DrawRect(500, 270, 1300, helpHeight, helpColour);
-		MainCanvas.strokeStyle = "Black";
-		MainCanvas.strokeRect(500, 270, 1300, helpHeight);
-		DrawTextWrap(TextGet("ScriptsHelpGlobal"), -110, 270, 1260, helpHeight, "Black");
-		MainCanvas.textAlign = "center";
-		return;
-	} else if (PreferenceScriptHelp) {
-		const helpHeight = 90 * permissions.length;
-		DrawRect(500, 370, 1300, helpHeight, helpColour);
-		MainCanvas.strokeStyle = "Black";
-		MainCanvas.strokeRect(500, 370, 1300, helpHeight);
-		DrawTextWrap(TextGet(`ScriptsHelp${PreferenceScriptHelp}`), -110, 370, 1260, helpHeight, "Black");
-	}
+	ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenScriptsIDs.explanation },
+		classList: ["preference-scripts-text"],
+		children: [TextGet("ScriptsExplanation")],
+		parent: content,
+	});
 
-	MainCanvas.textAlign = "center";
-}
-
-function PreferenceScriptsDrawWarningScreen() {
-	DrawText(TextGet("ScriptsWarningTitle"), 500, 220, "#c80800", "Gray");
-	DrawTextWrap(TextGet("ScriptsWarning"), -140, 250, 1280, 240, "Black");
-
-	MainCanvas.textAlign = "center";
-	const disabled = PreferenceScriptTimer != null;
-	const seconds = PreferenceScriptTimer ? Math.ceil((PreferenceScriptTimer - Date.now()) / 1000) : null;
-	DrawButton(500, 500, 400, 64, `${TextGet("ScriptsWarningAccept")}${seconds ? ` (${seconds})` : ""}`, disabled ? "rgba(0, 0, 0, 0.12)" : "White", null, null, disabled);
-	MainCanvas.textAlign = "left";
-}
-
-function PreferenceSubscreenScriptsClick() {
-	if (!PreferenceScriptWarningAccepted) {
-		PreferenceSubscreenScriptsWarningClick();
-		return;
-	}
-
-	if (PreferenceScriptHelp === "global") {
-		PreferenceScriptHelp = null;
-		return;
-	} else if (MouseIn(1815, 190, 90, 90)) {
-		PreferenceScriptHelp = "global";
-		return;
-	}
-
-	const ScriptPermissions = Player.OnlineSharedSettings.ScriptPermissions;
-
-	/** @type {ScriptPermissionLevel[]} */
-	const permissions = Object.values(ScriptPermissionLevel);
-
-	// Can be used to page properties in the future
-	/** @type {ScriptPermissionProperty[]} */
-	const propertiesPage = PreferenceScriptPermissionProperties;
-
-	for (const [i, property] of propertiesPage.entries()) {
-		if (MouseIn(720 + 300 * i, 296, 48, 48)) {
-			if (PreferenceScriptHelp === property) {
-				PreferenceScriptHelp = null;
-				return;
-			} else {
-				PreferenceScriptHelp = property;
-				return;
-			}
+	ElementButton.Create(PreferenceSubscreenScriptsIDs.helpGlobal, (ev) => {
+		ev.stopPropagation();
+		PreferenceScriptHelp = PreferenceScriptHelp === "global" ? null : "global";
+		PreferenceSubscreenScriptsUpdateHelp();
+	}, {
+		image: "Icons/Question.png",
+		tooltip: TextGet("ScriptsShowHelp"),
+	},
+	{
+		button: {
+			parent: content,
 		}
+	});
 
-		for (const [j, permissionLevel] of permissions.entries()) {
-			if (MouseIn(816 + 300 * i, 386 + 90 * j, 64, 64)) {
+	const table = ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenScriptsIDs.table },
+		classList: ["preference-scripts-table"],
+		style: {
+			"--script-columns": PreferenceScriptPermissionProperties.length.toString(),
+		},
+		parent: content,
+	});
+
+	ElementCreate({
+		tag: "div",
+		classList: ["preference-scripts-cell", "preference-scripts-header-cell"],
+		parent: table,
+	});
+
+	for (const property of PreferenceScriptPermissionProperties) {
+		const helpButtonId = PreferenceSubscreenScriptsIDs.scriptsHelpButtonId(property);
+		const helpButton = ElementButton.Create(helpButtonId, (ev) => {
+			ev.stopPropagation();
+			PreferenceScriptHelp = PreferenceScriptHelp === property ? null : property;
+			PreferenceSubscreenScriptsUpdateHelp();
+		}, {
+			image: "Icons/Question.png",
+			tooltip: TextGet("ScriptsShowHelp"),
+		}, {
+			button: { classList: ["preference-scripts-help-button"] },
+		});
+
+		ElementCreate({
+			tag: "div",
+			classList: ["preference-scripts-cell", "preference-scripts-header-cell", "preference-scripts-column-divider"],
+			children: [
+				{
+					tag: "div",
+					classList: ["preference-scripts-header-content"],
+					children: [
+						helpButton,
+						{
+							tag: "span",
+							children: [TextGet(`ScriptsPermissionProperty${property}`)],
+						},
+					],
+				},
+			],
+			parent: table,
+		});
+	}
+
+	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
+	for (const [rowIndex, permissionLevel] of permissions.entries()) {
+		const rowClassList = rowIndex === 0 ? ["preference-scripts-row-divider"] : [];
+		ElementCreate({
+			tag: "div",
+			classList: ["preference-scripts-cell", "preference-scripts-checkbox-label", ...rowClassList],
+			children: [TextGet(`ScriptsPermissionLevel${permissionLevel}`)],
+			parent: table,
+		});
+
+		for (const property of PreferenceScriptPermissionProperties) {
+			const checkboxId = PreferenceSubscreenScriptsIDs.scriptsCheckboxId(property, permissionLevel);
+			const checkbox = ElementCheckbox.Create(checkboxId, function (ev) {
+				ev.stopPropagation();
+				const scriptPermissions = Player.OnlineSharedSettings.ScriptPermissions;
 				const levelSelf = permissionLevel === ScriptPermissionLevel.SELF;
 				const levelPublic = permissionLevel === ScriptPermissionLevel.PUBLIC;
 				const selfAllowed = ValidationHasScriptPermission(Player, property, ScriptPermissionLevel.SELF);
 				const publicAllowed = ValidationHasScriptPermission(Player, property, ScriptPermissionLevel.PUBLIC);
 				if (levelSelf) {
-					ScriptPermissions[property].permission = selfAllowed ? 0 : ScriptPermissionBits[permissionLevel];
+					scriptPermissions[property].permission = selfAllowed ? 0 : ScriptPermissionBits[permissionLevel];
 				} else if (levelPublic) {
-					ScriptPermissions[property].permission = publicAllowed ? 0 : maxScriptPermission;
+					scriptPermissions[property].permission = publicAllowed ? 0 : maxScriptPermission;
 				} else if (selfAllowed && !publicAllowed) {
-					ScriptPermissions[property].permission ^= ScriptPermissionBits[permissionLevel];
+					scriptPermissions[property].permission ^= ScriptPermissionBits[permissionLevel];
 				}
-				return;
-			}
+				PreferenceSubscreenScriptsUpdateCheckboxes();
+			}, {
+				checked: ValidationHasScriptPermission(Player, property, permissionLevel),
+			}, {
+				checkbox: {
+					classList: ["preference-scripts-checkbox"],
+					eventListeners: {
+						click: (ev) => ev.stopPropagation(),
+					},
+				},
+			});
+
+			ElementCreate({
+				tag: "div",
+				classList: ["preference-scripts-cell", "preference-scripts-column-divider", ...rowClassList],
+				children: [checkbox],
+				parent: table,
+			});
 		}
 	}
 
-	PreferenceScriptHelp = null;
+	ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenScriptsIDs.helpOverlay },
+		classList: ["preference-scripts-help-overlay", "scroll-box"],
+		parent: content,
+	});
+
+	PreferenceSubscreenScriptsUpdateCheckboxes();
+}
+
+function PreferenceSubscreenScriptsRun() {
+	DrawCharacter(Player, 50, 50, 0.9);
+	if (!PreferenceScriptWarningAccepted)
+		PreferenceSubscreenScriptsUpdateWarning();
+}
+
+function PreferenceSubscreenScriptsClick() {
 }
 
 function PreferenceSubscreenScriptsExit() {
@@ -191,7 +265,9 @@ function PreferenceSubscreenScriptsUnload() {
 		clearTimeout(PreferenceScriptTimeoutHandle);
 		PreferenceScriptTimeoutHandle = null;
 	}
+	PreferenceScriptHelp = null;
 	PreferenceScriptTimer = null;
+	ElementRemove(PreferenceSubscreenScriptsIDs.grid);
 	const scriptItem = InventoryGet(Player, "ItemScript");
 	if (scriptItem) {
 		const params = ValidationCreateDiffParams(Player, Player.MemberNumber);
@@ -214,8 +290,128 @@ function PreferenceSubscreenScriptsUnload() {
 	}
 }
 
-function PreferenceSubscreenScriptsWarningClick() {
-	if (PreferenceScriptTimer == null && MouseIn(500, 500, 400, 64)) {
-		PreferenceScriptWarningAccepted = true;
+function PreferenceSubscreenScriptsResize() {
+	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
+	const tableHeight = 90 * (permissions.length + 1);
+
+	const { x, y } = PreferenceSubscreenMainGrid;
+	ElementSetPosition(PreferenceSubscreenScriptsIDs.grid, x, y);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.grid, 1400, 800);
+
+	ElementSetPosition(PreferenceSubscreenScriptsIDs.explanation, 500, 150);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.explanation, 1300, 120);
+
+	ElementSetPosition(PreferenceSubscreenScriptsIDs.helpGlobal, 1815, 190);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.helpGlobal, 90, 90);
+
+	ElementSetPosition(PreferenceSubscreenScriptsIDs.table, 500, 270);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.table, 1300, tableHeight);
+
+	ElementSetPosition(PreferenceSubscreenScriptsIDs.warning, 500, 220);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.warning, 1200, 600);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.warningAccept, 400, 64);
+
+	const table = ElementWrap(PreferenceSubscreenScriptsIDs.table);
+	const headerLabels = /** @type {NodeListOf<HTMLSpanElement>} */(table?.querySelectorAll(".preference-scripts-header-content > span") ?? []);
+	const checkboxLabels = /** @type {NodeListOf<HTMLDivElement>} */(table?.querySelectorAll(".preference-scripts-checkbox-label") ?? []);
+
+	for (const label of headerLabels) {
+		ElementFitText(label);
+	}
+	for (const label of checkboxLabels) {
+		ElementFitText(label);
+	}
+
+	PreferenceSubscreenScriptsUpdateHelp();
+	PreferenceSubscreenScriptsUpdateWarning();
+}
+
+function PreferenceSubscreenScriptsUpdateCheckboxes() {
+	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
+
+	for (const property of PreferenceScriptPermissionProperties) {
+		for (const permissionLevel of permissions) {
+			const checkbox = /** @type {HTMLInputElement | null} */(ElementWrap(PreferenceSubscreenScriptsIDs.scriptsCheckboxId(property, permissionLevel)));
+			if (!checkbox) continue;
+			const disabled = permissionLevel !== ScriptPermissionLevel.PUBLIC
+				&& permissionLevel !== ScriptPermissionLevel.SELF
+				&& (
+					ValidationHasScriptPermission(Player, property, ScriptPermissionLevel.PUBLIC)
+					|| !ValidationHasScriptPermission(Player, property, ScriptPermissionLevel.SELF)
+				);
+			checkbox.checked = ValidationHasScriptPermission(Player, property, permissionLevel);
+			checkbox.disabled = disabled;
+		}
+	}
+}
+
+function PreferenceSubscreenScriptsUpdateWarning() {
+	const warning = ElementWrap(PreferenceSubscreenScriptsIDs.warning);
+	const content = ElementWrap(PreferenceSubscreenScriptsIDs.content);
+	if (!warning || !content) return;
+
+	const showWarning = !PreferenceScriptWarningAccepted;
+	warning.toggleAttribute("hidden", !showWarning);
+	content.toggleAttribute("hidden", showWarning);
+
+	const acceptButton = /** @type {HTMLButtonElement | null} */ (ElementWrap(PreferenceSubscreenScriptsIDs.warningAccept));
+	const acceptLabel = ElementWrap(`${PreferenceSubscreenScriptsIDs.warningAccept}-label`);
+	const disabled = PreferenceScriptTimer != null;
+	const seconds = PreferenceScriptTimer ? Math.ceil((PreferenceScriptTimer - Date.now()) / 1000) : null;
+	if (acceptButton) acceptButton.disabled = disabled;
+	if (acceptLabel) {
+		acceptLabel.textContent = `${TextGet("ScriptsWarningAccept")}${seconds ? ` (${seconds})` : ""}`;
+	}
+}
+
+function PreferenceSubscreenScriptsUpdateHelp() {
+	const helpOverlay = ElementWrap(PreferenceSubscreenScriptsIDs.helpOverlay);
+	if (!helpOverlay) return;
+
+	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
+	if (!PreferenceScriptHelp) {
+		helpOverlay.toggleAttribute("hidden", true);
+		PreferenceSubscreenScriptsUpdateHelpButtons();
+		return;
+	}
+
+	const isGlobal = PreferenceScriptHelp === "global";
+	const helpHeight = (isGlobal ? 90 : 0) + 90 * permissions.length;
+	const helpTop = isGlobal ? 270 : 370;
+	const textKey = isGlobal ? "ScriptsHelpGlobal" : `ScriptsHelp${PreferenceScriptHelp}`;
+
+	const text = TextGet(textKey);
+	const htmlized = CommonStringPartitionReplace(text, {
+		'\\n': ElementCreate({ tag: 'br' }),
+	});
+	helpOverlay.replaceChildren(...htmlized);
+	ElementSetPosition(PreferenceSubscreenScriptsIDs.helpOverlay, 500, helpTop);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.helpOverlay, 1200, helpHeight);
+	helpOverlay.toggleAttribute("hidden", false);
+	PreferenceSubscreenScriptsUpdateHelpButtons();
+}
+
+function PreferenceSubscreenScriptsUpdateHelpButtons() {
+	PreferenceSubscreenScriptsSetHelpIcon(
+		PreferenceSubscreenScriptsIDs.helpGlobal,
+		PreferenceScriptHelp === "global" ? "Icons/Question_Yellow.png" : "Icons/Question.png"
+	);
+	for (const property of PreferenceScriptPermissionProperties) {
+		const active = PreferenceScriptHelp === property;
+		PreferenceSubscreenScriptsSetHelpIcon(
+			PreferenceSubscreenScriptsIDs.scriptsHelpButtonId(property),
+			active ? "Icons/Question_Yellow.png" : "Icons/Question.png"
+		);
+	}
+}
+
+/**
+ * @param {string} buttonId
+ * @param {string} icon
+ */
+function PreferenceSubscreenScriptsSetHelpIcon(buttonId, icon) {
+	const image = /** @type {HTMLImageElement | null} */(ElementWrap(`${buttonId}-image`));
+	if (image) {
+		image.src = icon;
 	}
 }
