@@ -1270,3 +1270,15 @@ function AssetLoadCheckActivities() {
 		console.info(`Next available activity ID is ${Math.max(...ids.keys()) + 1}`);
 	}
 }
+
+/**
+ * Return all entries in `list` that are absent from `referenceList`
+ * @param {readonly RemoveOnItemRemove[]} list
+ * @param {readonly RemoveOnItemRemove[]} referenceList
+ * @returns {RemoveOnItemRemove[]}
+ */
+function AssetGetRemoveOnItemRemoveDiff(list, referenceList) {
+	return list.filter(rec => !referenceList.some(referenceRec => {
+		return rec.Name == referenceRec.Name && rec.Group == referenceRec.Group && CommonDeepEqual(rec.TypeRecord, referenceRec.TypeRecord);
+	}));
+}

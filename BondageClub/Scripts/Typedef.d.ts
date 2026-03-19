@@ -1292,6 +1292,15 @@ interface ExpressionPair {
 	Expression: null | ExpressionName,
 }
 
+type RemoveOnItemRemove = {
+	/** The optional name of the item within the to-be removed group. Ignored if an empty string is passed */
+	readonly Name: string;
+	/** The name of the to-be removed group */
+	readonly Group: AssetGroupName;
+	/** The optional type of the to-be removed item */
+	readonly TypeRecord?: TypeRecord;
+};
+
 /**
  * The internal Asset definition of an asset.
  *
@@ -1363,7 +1372,7 @@ interface Asset {
 	readonly LoverOnly: boolean;
 	readonly FamilyOnly: boolean;
 	readonly ExpressionTrigger?: readonly ExpressionTrigger[];
-	readonly RemoveItemOnRemove: readonly { Name: string; Group: AssetGroupName; TypeRecord?: TypeRecord; }[];
+	readonly RemoveItemOnRemove: readonly RemoveOnItemRemove[];
 	readonly AllowEffect?: readonly EffectName[];
 	readonly AllowBlock?: readonly AssetGroupItemName[];
 	readonly AllowHide?: readonly AssetGroupName[];
@@ -1585,6 +1594,17 @@ type InventoryItem = InventoryBundle & Item;
 
 declare namespace InventoryPrerequisiteConflicts {
 	type ErrMessage = "" | "CannotBeUsedOverGag" | "MustBeUsedOverGag";
+}
+
+declare namespace InventoryUnequip {
+	interface Options {
+		/**
+		 * A custom list of sub-item removals; generally useful when _swapping_ an item for one with an intersecting {@link Asset.RemoveItemOnRemove}.
+		 *
+		 * Defaults to {@link Asset.RemoveItemOnRemove}.
+		 */
+		removeItemOnRemove?: readonly RemoveOnItemRemove[];
+	}
 }
 
 type SkillType = "Bondage" | "SelfBondage" | "LockPicking" | "Evasion" | "Willpower" | "Infiltration" | "Dressage";
