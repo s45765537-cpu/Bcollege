@@ -16510,6 +16510,11 @@ var AssetFemale3DCGExtended = {
 		BishopGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BishopGag" },
+			DialogPrefix: {
+				Header: "ItemMouthBishopGagSelect",
+				Chat: "ItemMouthBishopGagSet",
+				Option: "ItemMouthBishopGag",
+			},
 		}, // BishopGag
 	}, // ItemMouth2
 	ItemMouth3: {
@@ -16693,6 +16698,11 @@ var AssetFemale3DCGExtended = {
 		BishopGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BishopGag" },
+			DialogPrefix: {
+				Header: "ItemMouthBishopGagSelect",
+				Chat: "ItemMouthBishopGagSet",
+				Option: "ItemMouthBishopGag",
+			},
 		}, // BishopGag
 	}, // ItemMouth3
 	Mask: {

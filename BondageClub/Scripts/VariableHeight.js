@@ -188,7 +188,7 @@ function VariableHeightDraw(data) {
 
 	ElementPosition(VariableHeightSliderId, ...data.drawData.elementData[0].position);
 
-	DrawTextFit(InterfaceTextGet("VariableHeightPercent"), 1405, 555, 250, "white", "gray");
+	DrawTextFit(AssetTextGet("VariableHeightPercent"), 1405, 555, 250, "white", "gray");
 	ElementPosition(VariableHeightNumerId, 1640, 550, 175);
 
 	const { newOption, previousOption } = VariableHeightConstructOptions(data, DialogFocusItem);
