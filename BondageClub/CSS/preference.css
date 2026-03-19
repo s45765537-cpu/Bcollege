@@ -200,7 +200,7 @@
 
 .preference-gender-row {
   display: grid;
-  grid-template-columns: min(90dvh, 45dvw) min(16vh, 8vw) min(16vh, 8vw);
+  grid-template-columns: min(90vh, 45vw) min(16vh, 8vw) min(16vh, 8vw);
   grid-template-columns: min(90dvh, 45dvw) min(16dvh, 8dvw) min(16dvh, 8dvw);
   gap: var(--gap);
   column-gap: min(3vh, 1.5vw);
