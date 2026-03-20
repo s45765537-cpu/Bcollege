@@ -111,6 +111,78 @@
 
 /* #endregion Restriction */
 
+/* #region Difficulty */
+
+#preference-difficulty-list {
+  display: grid;
+  grid-template-columns: min(30vh, 15vw) min(90vh, 45vw);
+  grid-template-columns: min(30dvh, 15dvw) min(90dvh, 45dvw);
+  gap: min(6dvh, 3dvw);
+  align-items: center;
+}
+
+#preference-difficulty-list-title {
+  text-align: left;
+  grid-column: 1 / -1;
+}
+
+[id^="preference-difficulty-list-label-"] {
+  text-align: left;
+	white-space: nowrap;
+}
+
+[id^="preference-difficulty-list-button-"]:not([id$="-label"]) {
+  width: 100%;
+  height: min(6dvh, 3dvw);
+}
+
+#preference-difficulty-detail-title,
+#preference-difficulty-detail-text,
+#preference-difficulty-status {
+  text-align: center;
+}
+
+#preference-difficulty-status {
+	margin-top: auto;
+}
+
+#preference-difficulty-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: min(2vh, 1vw);
+  gap: min(2dvh, 1dvw);
+}
+
+#preference-difficulty-detail-text {
+  max-width: min(120vh, 60vw);
+  max-width: min(120dvh, 60dvw);
+	text-align: justify;
+}
+
+#checkbox-pair-preference-difficulty-accept {
+  width: min(120vh, 60vw);
+  width: min(120dvh, 60dvw);
+  justify-content: center;
+	margin-top: auto;
+}
+
+#preference-difficulty-change {
+  width: min(40vh, 20vw);
+  width: min(40dvh, 20dvw);
+  height: min(6dvh, 3dvw);
+}
+
+.preference-difficulty-level-selected {
+  background-color: #ddffdd;
+}
+
+.preference-difficulty-change-disabled {
+  background-color: #ebebe4;
+}
+
+/* #endregion Difficulty */
+
 /** #region Online */
 
 #RoomCustomizationLevel-dropdown-container {
