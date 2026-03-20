@@ -86,13 +86,13 @@ function PreferenceSubscreenScriptsLoad() {
 	});
 
 	ElementCreate({
-		tag: "div",
+		tag: "section",
 		attributes: { id: PreferenceSubscreenScriptsIDs.warning },
 		classList: ["preference-scripts-warning"],
 		parent: root,
 		children: [
 			{
-				tag: "h3",
+				tag: "h2",
 				attributes: { id: PreferenceSubscreenScriptsIDs.warningTitle },
 				children: [TextGet("ScriptsWarningTitle")],
 			},
@@ -410,8 +410,5 @@ function PreferenceSubscreenScriptsUpdateHelpButtons() {
  * @param {string} icon
  */
 function PreferenceSubscreenScriptsSetHelpIcon(buttonId, icon) {
-	const image = /** @type {HTMLImageElement | null} */(ElementWrap(`${buttonId}-image`));
-	if (image) {
-		image.src = icon;
-	}
+	ElementWrap(`${buttonId}-image`)?.setAttribute("src", icon);
 }
