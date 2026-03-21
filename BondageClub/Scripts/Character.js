@@ -558,6 +558,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (!(CommonIsArray(this.Lovership) || (this.IsNpc() && this.Lover != ""))) return loves;
 
 			if (this.IsNpc()) {
+				if (!this.Lover) {
+					return [];
+				}
 				// NPC can only love the player at the moment. Reconstruct their lovership data
 				/** @type {Lovership} */
 				const love = { Name: this.Lover, MemberNumber: Player.MemberNumber };
