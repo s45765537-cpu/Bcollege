@@ -841,6 +841,9 @@ interface ScreenSpecifierOptions {
 type _ScreenSpecifier<T extends ModuleType> = [module: T, screen: ModuleScreens[T], options?: null | ScreenSpecifierOptions];
 type ScreenSpecifier = _ScreenSpecifier<"Character"> | _ScreenSpecifier<"Cutscene"> | _ScreenSpecifier<"MiniGame"> | _ScreenSpecifier<"Online"> | _ScreenSpecifier<"Room">;
 
+type _PartialScreenSpecifier<T extends ModuleType> = { module?: T, screen?: ModuleScreens[T] };
+type PartialScreenSpecifier = _PartialScreenSpecifier<"Character"> | _PartialScreenSpecifier<"Cutscene"> | _PartialScreenSpecifier<"MiniGame"> | _PartialScreenSpecifier<"Online"> | _PartialScreenSpecifier<"Room">;
+
 type AssetCategory = "Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy" | "Smoking";
 
 type PortalLinkStatus = "PortalLinkInvalidCode" | "PortalLinkClipboardError" | "PortalLinkValidCode" | `PortalLinkSearching${number}` | "PortalLinkDuplicateCode" | "PortalLinkTargetNotFound" | "PortalLinkEstablished";
