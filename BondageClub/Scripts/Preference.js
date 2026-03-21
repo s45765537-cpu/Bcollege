@@ -268,7 +268,7 @@ function PreferenceInitPlayer(C, data) {
 		LabelColor: JSON.stringify(data.LabelColor) ?? "",
 	};
 
-	C.LabelColor = CommonIsColor(data.LabelColor) ? data.LabelColor ?? "" : "#ffffff";
+	C.LabelColor = ServerAccountDataSyncedValidate.LabelColor(data.LabelColor, C);
 	C.AllowedInteractions = data.AllowedInteractions ?? data.ItemPermission ?? 2;
 
 	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);

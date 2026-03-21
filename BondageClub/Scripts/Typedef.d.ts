@@ -2281,7 +2281,7 @@ interface PlayerCharacter extends Character {
 	// All the following are guaranteed to be set on login
 	MemberNumber: number;
 	Nickname: string;
-	LabelColor: "" | HexColor;
+	LabelColor: HexColor;
 	Game: CharacterGameParameters;
 	Description: string;
 	Creation: number;
