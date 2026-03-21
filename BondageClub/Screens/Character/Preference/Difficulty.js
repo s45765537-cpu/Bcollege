@@ -3,55 +3,106 @@
 /** @type {null | DifficultyLevel} */
 var PreferenceDifficultyLevel = null;
 var PreferenceDifficultyAccept = false;
+var PreferenceDifficultyStatusTimerActive = false;
+var PreferenceDifficultyStatusTimerLastChange = 0;
+
+const PreferenceSubscreenDifficultyIDs = Object.freeze({
+	list: "preference-difficulty-list",
+	listTitle: "preference-difficulty-list-title",
+	detail: "preference-difficulty-detail",
+	detailTitle: "preference-difficulty-detail-title",
+	detailText: "preference-difficulty-detail-text",
+	accept: "preference-difficulty-accept",
+	changeButton: "preference-difficulty-change",
+	status: "preference-difficulty-status",
+	/** @param {number | ""} id */
+	listLabel: (id) => `preference-difficulty-list-label-${id}`,
+	/** @param {number | ""} id */
+	listButton: (id) => `preference-difficulty-list-button-${id}`,
+});
+
+function PreferenceSubscreenDifficultyLoad() {
+	const subscreen = ElementWrap(`${PreferenceIDs.subscreen}-main`);
+
+	const list = ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenDifficultyIDs.list },
+		children: [
+			{
+				tag: "div",
+				attributes: { id: PreferenceSubscreenDifficultyIDs.listTitle },
+			},
+		],
+		parent: subscreen,
+	});
+
+	for (let D = 0; D <= 3; D++) {
+		const label = ElementCreate({
+			tag: "div",
+			attributes: { id: PreferenceSubscreenDifficultyIDs.listLabel(D) },
+			children: [
+				...CommonStringPartitionReplace(TextGet(`DifficultyLevel${D}Label`), { "\\n": ElementCreate({ tag: "br" }) })
+			],
+		});
+
+		const button = ElementButton.Create(
+			PreferenceSubscreenDifficultyIDs.listButton(D),
+			() => PreferenceSubscreenDifficultySelect(/** @type {DifficultyLevel} */ (D)),
+			{ label: TextGet(`DifficultyLevel${D}`), labelPosition: "center" },
+		);
+
+		list.append(button, label);
+	}
+
+	ElementCreate({
+		tag: "div",
+		attributes: { id: PreferenceSubscreenDifficultyIDs.detail },
+		children: [
+			{
+				tag: "div",
+				attributes: { id: PreferenceSubscreenDifficultyIDs.detailTitle },
+			},
+			{
+				tag: "div",
+				attributes: { id: PreferenceSubscreenDifficultyIDs.detailText },
+			},
+			ElementCheckbox.CreateLabelled(
+				PreferenceSubscreenDifficultyIDs.accept,
+				TextGet("DifficultyIAccept"),
+				function (ev) {
+					PreferenceDifficultyAccept = this.checked;
+					PreferenceSubscreenDifficultyUpdate();
+				},
+				{
+					checked: PreferenceDifficultyAccept,
+					orientation: "horizontal",
+				},
+			),
+			ElementButton.Create(
+				PreferenceSubscreenDifficultyIDs.changeButton,
+				() => {
+					if (PreferenceDifficultyAccept) PreferenceSubscreenDifficultyConfirm();
+				},
+				{ label: TextGet("DifficultyChangeMode") },
+			),
+			{
+				tag: "div",
+				attributes: { id: PreferenceSubscreenDifficultyIDs.status },
+			}
+		],
+		parent: subscreen,
+	});
+
+	PreferenceSubscreenDifficultyUpdate();
+}
 
 /**
  * Runs and draw the preference screen, difficulty subscreen
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenDifficultyRun() {
-
-	// Draw the character and the controls
-	MainCanvas.textAlign = "left";
 	DrawCharacter(Player, 50, 50, 0.9);
-
-	// When no level is selected, we allow to select one
-	if (PreferenceDifficultyLevel == null) {
-
-		// Draw the difficulty levels
-		DrawText(TextGet("DifficultyTitle"), 500, 225, "Black", "Gray");
-		for (let D = 0; D <= 3; D++) {
-			const lines = TextGet(`DifficultyLevel${D}Label`).split("\\n");
-			for (const [idx, line] of Object.entries(lines)) {
-				DrawText(line, 850, 325 + 150 * D + 64 * Number(idx), "Black", "White");
-			}
-		}
-
-		// Draw the difficulty buttons
-		MainCanvas.textAlign = "center";
-		for (let D = 0; D <= 3; D++)
-			DrawButton(500, 320 + 150 * D, 300, 64, TextGet("DifficultyLevel" + D.toString()), (D == Player.GetDifficulty()) ? "#DDFFDD" : "White", "");
-
-	} else {
-
-		DrawText(TextGet(`DifficultyLevel${PreferenceDifficultyLevel}Title`), 500, 225, "Black", "White");
-
-		const text = TextGet("DifficultyLevel" + PreferenceDifficultyLevel.toString() + "Text");
-		const lines = text.split("\\n");
-		for (const [idx, line] of Object.entries(lines)) {
-			DrawText(line, 500, 325 + 64 * Number(idx), "Black", "White");
-		}
-
-		// Can only set to 2 or 3 if no change was done for 1 week
-		if (PreferenceDifficultyLevel !== Player.GetDifficulty()) {
-			const LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
-			if ((PreferenceDifficultyLevel <= 1) || (LastChange + 604800000 < CurrentTime)) {
-				DrawCheckbox(500, 700, 64, 64, TextGet("DifficultyIAccept"), PreferenceDifficultyAccept);
-				MainCanvas.textAlign = "center";
-				DrawButton(500, 825, 300, 64, TextGet("DifficultyChangeMode") + " " + TextGet("DifficultyLevel" + PreferenceDifficultyLevel.toString()), PreferenceDifficultyAccept ? "White" : "#ebebe4", "");
-			} else DrawText(TextGet("DifficultyWaitSevenDays").replace("NumberOfHours", Math.ceil((LastChange + 604800000 - CurrentTime) / 3600000).toString()), 500, 825, "Black", "White");
-		} else DrawText(TextGet("DifficultyAlreadyPlayingOn"), 500, 825, "Black", "White");
-		MainCanvas.textAlign = "center";
-	}
+	PreferenceSubscreenDifficultyUpdateStatusTimer();
 }
 
 /**
@@ -59,30 +110,16 @@ function PreferenceSubscreenDifficultyRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenDifficultyClick() {
+}
 
-	// When no level is selected, the user can pick one to go into details
-	if (PreferenceDifficultyLevel == null) {
-		PreferenceDifficultyAccept = false;
-		for (let D = 0; D <= 3; D++)
-			if (MouseIn(500, 320 + 150 * D, 300, 64))
-				PreferenceDifficultyLevel = /** @type {DifficultyLevel} */ (D);
-	} else {
-
-		// If a level is selected, the user must check to confirm
-		if (PreferenceDifficultyLevel !== Player.GetDifficulty()) {
-			var LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
-			if ((PreferenceDifficultyLevel <= 1) || (LastChange + 604800000 < CurrentTime)) {
-				if (MouseIn(500, 700, 64, 64)) PreferenceDifficultyAccept = !PreferenceDifficultyAccept;
-				if (MouseIn(500, 825, 300, 64) && PreferenceDifficultyAccept) {
-					Player.Difficulty = { LastChange: CurrentTime, Level: PreferenceDifficultyLevel };
-					ServerSend("AccountDifficulty", PreferenceDifficultyLevel);
-					LoginDifficulty(true);
-					PreferenceDifficultyLevel = null;
-					PreferenceSubscreenExit();
-				}
-			}
-		}
-	}
+function PreferenceSubscreenDifficultyResize() {
+	ElementPositionFixed(PreferenceSubscreenDifficultyIDs.list, 500, 225, 1300, 700);
+	ElementPositionFixed(PreferenceSubscreenDifficultyIDs.detail, 500, 225, 1300, 650);
+	const list = ElementWrap(PreferenceSubscreenDifficultyIDs.list);
+	const labels = /** @type {NodeListOf<HTMLElement>} */ (list?.querySelectorAll(`[id^="${PreferenceSubscreenDifficultyIDs.listLabel("")}"]`) ?? []);
+	labels.forEach(label => {
+		ElementFitText(label);
+	});
 }
 
 function PreferenceSubscreenDifficultyExit() {
@@ -93,6 +130,149 @@ function PreferenceSubscreenDifficultyExit() {
 	} else {
 		// If a level is selected, we are returning to list of levels
 		PreferenceDifficultyLevel = null;
+		PreferenceSubscreenDifficultyUpdate();
 		return false;
 	}
+}
+function PreferenceSubscreenDifficultyConfirm() {
+	if (PreferenceDifficultyLevel == null) return;
+	if (PreferenceDifficultyLevel === Player.GetDifficulty()) return;
+
+	const LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
+	if ((PreferenceDifficultyLevel > 1) && (LastChange + 604800000 >= CurrentTime)) return;
+
+	Player.Difficulty = { LastChange: CurrentTime, Level: PreferenceDifficultyLevel };
+	ServerSend("AccountDifficulty", PreferenceDifficultyLevel);
+	LoginDifficulty(true);
+	PreferenceDifficultyLevel = null;
+	PreferenceSubscreenExit();
+}
+
+/**
+ * Sets the text of an element to the given text, with line breaks
+ * @param {ElementHelp.ElementOrId} elementOrId
+ * @param {string} text
+ */
+function PreferenceSubscreenDifficultySetLines(elementOrId, text) {
+	const element = ElementWrap(elementOrId);
+	if (!element) return;
+
+	const nodes = CommonStringPartitionReplace(text, { "\\n": ElementCreate({ tag: "br" }) });
+	element.replaceChildren(...nodes);
+}
+
+function PreferenceSubscreenDifficultyUpdate() {
+	const listVisible = PreferenceDifficultyLevel == null;
+	const list = ElementWrap(PreferenceSubscreenDifficultyIDs.list);
+	const detail = ElementWrap(PreferenceSubscreenDifficultyIDs.detail);
+
+	list?.toggleAttribute("hidden", !listVisible);
+	detail?.toggleAttribute("hidden", listVisible);
+	PreferenceDifficultyStatusTimerActive = false;
+
+	const listTitle = ElementWrap(PreferenceSubscreenDifficultyIDs.listTitle);
+	if (listTitle) listTitle.textContent = TextGet("DifficultyTitle");
+
+	for (let D = 0; D <= 3; D++) {
+		const button = ElementWrap(PreferenceSubscreenDifficultyIDs.listButton(D));
+		button?.classList?.toggle("preference-difficulty-level-selected", D === Player.GetDifficulty());
+	}
+
+	if (!listVisible) {
+		const detailTitle = ElementWrap(PreferenceSubscreenDifficultyIDs.detailTitle);
+		if (detailTitle) detailTitle.textContent = TextGet(`DifficultyLevel${PreferenceDifficultyLevel}Title`);
+
+		const detailText = TextGet(`DifficultyLevel${PreferenceDifficultyLevel}Text`);
+		PreferenceSubscreenDifficultySetLines(PreferenceSubscreenDifficultyIDs.detailText, detailText);
+
+		const accept = /** @type {HTMLInputElement} */ (ElementWrap(PreferenceSubscreenDifficultyIDs.accept));
+		const acceptLabel = ElementWrap(`${PreferenceSubscreenDifficultyIDs.accept}-label`);
+		const acceptPair = ElementWrap(`checkbox-pair-${PreferenceSubscreenDifficultyIDs.accept}`);
+		const changeButton = /** @type {HTMLButtonElement} */ (ElementWrap(PreferenceSubscreenDifficultyIDs.changeButton));
+		const changeButtonLabel = ElementWrap(`${PreferenceSubscreenDifficultyIDs.changeButton}-label`);
+		const status = ElementWrap(PreferenceSubscreenDifficultyIDs.status);
+
+		if (acceptLabel) acceptLabel.textContent = TextGet("DifficultyIAccept");
+
+		if (PreferenceDifficultyLevel === Player.GetDifficulty()) {
+			acceptPair?.toggleAttribute("hidden", true);
+			changeButton?.toggleAttribute("hidden", true);
+			if (status) {
+				PreferenceSubscreenDifficultyUpdateStatus(TextGet("DifficultyAlreadyPlayingOn"));
+				status.toggleAttribute("hidden", false);
+			}
+		} else {
+			const lastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
+			const canChange = (PreferenceDifficultyLevel != null && PreferenceDifficultyLevel <= 1) || (lastChange + 604800000 < CurrentTime);
+
+			acceptPair?.toggleAttribute("hidden", !canChange);
+			changeButton?.toggleAttribute("hidden", !canChange);
+
+			if (status) {
+				if (!canChange) {
+					PreferenceDifficultyStatusTimerActive = true;
+					PreferenceDifficultyStatusTimerLastChange = lastChange;
+					PreferenceSubscreenDifficultyUpdateStatusTimer();
+					status.toggleAttribute("hidden", false);
+				} else {
+					PreferenceSubscreenDifficultyUpdateStatus("");
+					status.toggleAttribute("hidden", true);
+				}
+			}
+
+			if (accept) {
+				accept.checked = PreferenceDifficultyAccept;
+				accept.disabled = !canChange;
+			}
+
+			if (changeButton && changeButtonLabel) {
+				changeButtonLabel.textContent = `${TextGet("DifficultyChangeMode")} ${TextGet(`DifficultyLevel${PreferenceDifficultyLevel}`)}`;
+				changeButton.classList.toggle("preference-difficulty-change-disabled", !PreferenceDifficultyAccept);
+				changeButton.disabled = !PreferenceDifficultyAccept;
+			}
+		}
+	}
+}
+
+/**
+ * Updates the status message
+ * @param {string} status
+ */
+function PreferenceSubscreenDifficultyUpdateStatus(status) {
+	const statusElement = ElementWrap(PreferenceSubscreenDifficultyIDs.status);
+	if (!statusElement || statusElement.textContent === status) return;
+
+	statusElement.textContent = status;
+}
+
+function PreferenceSubscreenDifficultyUpdateStatusTimer() {
+	if (!PreferenceDifficultyStatusTimerActive) return;
+
+	const statusElement = ElementWrap(PreferenceSubscreenDifficultyIDs.status);
+	if (!statusElement) return;
+
+	const formattedDuration = CommonFormatDurationRange(PreferenceDifficultyStatusTimerLastChange + 604800000, CurrentTime, {
+		includeDays: true,
+		includeHours: true,
+		includeMinutes: true,
+		includeSeconds: true,
+		showFull: true,
+	});
+	const statusText = TextGet("DifficultyWaitSevenDays").replace("NumberOfHours", formattedDuration);
+	PreferenceSubscreenDifficultyUpdateStatus(statusText);
+
+	if (PreferenceDifficultyStatusTimerLastChange + 604800000 < CurrentTime) {
+		PreferenceDifficultyStatusTimerActive = false;
+		PreferenceSubscreenDifficultyUpdate();
+	}
+}
+
+/**
+ * Selects a difficulty level
+ * @param {DifficultyLevel} level
+ */
+function PreferenceSubscreenDifficultySelect(level) {
+	PreferenceDifficultyLevel = level;
+	PreferenceDifficultyAccept = false;
+	PreferenceSubscreenDifficultyUpdate();
 }

@@ -44,9 +44,11 @@ const PreferenceSubscreens = [
 	},
 	{
 		name: "Difficulty",
+		load: () => PreferenceSubscreenDifficultyLoad(),
 		run: () => PreferenceSubscreenDifficultyRun(),
 		click: () => PreferenceSubscreenDifficultyClick(),
 		exit: () => PreferenceSubscreenDifficultyExit(),
+		resize: () => PreferenceSubscreenDifficultyResize(),
 	},
 	{
 		name: "Restriction",
