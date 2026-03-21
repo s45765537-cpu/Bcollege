@@ -268,6 +268,29 @@
 
 /* #endregion Immersion */
 
+/* #region Gender */
+
+.preference-gender-row {
+  display: grid;
+  grid-template-columns: min(90vh, 45vw) min(16vh, 8vw) min(16vh, 8vw);
+  grid-template-columns: min(90dvh, 45dvw) min(16dvh, 8dvw) min(16dvh, 8dvw);
+  gap: var(--gap);
+  column-gap: min(3vh, 1.5vw);
+  column-gap: min(3dvh, 1.5dvw);
+  align-items: center;
+}
+
+.preference-gender-header span {
+  text-align: center;
+  font-weight: bold;
+}
+
+.preference-gender-row .checkbox {
+  justify-self: center;
+}
+
+/* #endregion Gender */
+
 /* #region Extensions */
 
 #preference-no-extensions-label {

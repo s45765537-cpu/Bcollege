@@ -148,8 +148,10 @@ const PreferenceSubscreens = [
 	},
 	{
 		name: "Gender",
+		load: () => PreferenceSubscreenGenderLoad(),
 		run: () => PreferenceSubscreenGenderRun(),
 		click: () => PreferenceSubscreenGenderClick(),
+		resize: () => PreferenceSubscreenGenderResize(),
 	},
 	{
 		name: "Scripts",
