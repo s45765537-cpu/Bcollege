@@ -575,5 +575,5 @@ function KidnapLeagueWearAnimeGirl() {
  * @returns {boolean} - TRUE if wearing
  */
 function KidnapLeaguePlayerIsAnimeGirl() {
-	return InventoryIsWorn(Player, "AnimeGirl", "Cloth");
+	return InventoryIsWorn(Player, "Cloth", "AnimeGirl");
 }

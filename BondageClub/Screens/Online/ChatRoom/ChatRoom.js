@@ -512,13 +512,13 @@ function DialogCanTakePhotos() { return (ChatRoomData && ChatRoomData.BlockCateg
  * Checks if the current character has a lucky wheel to spin
  * @returns {boolean} - TRUE if the player can take a photo.
  */
-function ChatRoomCanStartWheelFortune() { return (CurrentCharacter != null) && InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices"); }
+function ChatRoomCanStartWheelFortune() { return (CurrentCharacter != null) && InventoryIsWorn(CurrentCharacter, "ItemDevices", "WheelFortune"); }
 /**
  * Starts the current character lucky wheel
  * @returns {void} - Nothing
  */
 function ChatRoomStartWheelFortune() {
-	if ((CurrentCharacter == null) || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
+	if ((CurrentCharacter == null) || !InventoryIsWorn(CurrentCharacter, "ItemDevices", "WheelFortune")) return;
 	WheelFortuneReturnScreen = CommonGetScreen();
 	WheelFortuneBackground = ChatRoomData.Background;
 	WheelFortuneCharacter = CurrentCharacter;
@@ -529,7 +529,7 @@ function ChatRoomStartWheelFortune() {
  * If the player is owner and wearing a wheel of fortune, she can force her sub to spin it
  * @returns {boolean} - TRUE if the player can take a photo.
  */
-function ChatRoomCanForceWheelFortune() { return (CurrentCharacter != null) && CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "WheelFortune", "ItemDevices"); }
+function ChatRoomCanForceWheelFortune() { return (CurrentCharacter != null) && CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "ItemDevices", "WheelFortune"); }
 
 /**
  * Checks if the player can start searching a player
@@ -551,7 +551,7 @@ function ChatRoomCanTakeSuitcaseOpened() {
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
 function ChatRoomCarryingBounty(C) {
-	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C,"BountySuitcase", "ItemMisc"));
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C, "ItemMisc", "BountySuitcase"));
 }
 /**
  * Checks if the player carries an opened bounty
@@ -559,21 +559,21 @@ function ChatRoomCarryingBounty(C) {
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
 function ChatRoomCarryingBountyOpened(C) {
-	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C,"BountySuitcaseEmpty", "ItemMisc"));
+	return (ReputationGet("Kidnap") > 0 && Player.CanInteract() && C.AllowItem != false && InventoryIsWorn(C, "ItemMisc", "BountySuitcaseEmpty"));
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
 function ChatRoomCantTakeSuitcase() {
-	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcase", "ItemMisc"));
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter, "ItemMisc", "BountySuitcase"));
 }
 /**
  * Checks if the player can start searching a player but the player is unbound
  * @returns {boolean} - Returns TRUE if the player can start searching a player
  */
 function ChatRoomCantTakeSuitcaseOpened() {
-	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter,"BountySuitcaseEmpty", "ItemMisc"));
+	return (Player.CanInteract() && CurrentCharacter.CanInteract() && CurrentCharacter.AllowItem && InventoryIsWorn(CurrentCharacter, "ItemMisc", "BountySuitcaseEmpty"));
 }
 /**
  * Attempts to take the suitcase from the current player
@@ -2019,9 +2019,9 @@ function ChatRoomUpdateOnlineBounty() {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)
 				.build();
-			if (InventoryIsWorn(Player, "BountySuitcase", "ItemMisc"))
+			if (InventoryIsWorn(Player, "ItemMisc", "BountySuitcase"))
 				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarly", true, Dictionary);
-			else if (InventoryIsWorn(Player, "BountySuitcaseEmpty", "ItemMisc"))
+			else if (InventoryIsWorn(Player, "ItemMisc", "BountySuitcaseEmpty"))
 				ChatRoomPublishCustomAction("OnlineBountySuitcaseEndEarlyOpened", true, Dictionary);
 		}
 
@@ -6097,7 +6097,7 @@ function ChatRoomSetRule(data) {
 			for (let C of ChatRoomCharacter)
 				if (C.IsOwner())
 					CharacterSetCurrent(C);
-			if ((CurrentCharacter == null) || !CurrentCharacter.IsOwner() || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
+			if ((CurrentCharacter == null) || !CurrentCharacter.IsOwner() || !InventoryIsWorn(CurrentCharacter, "ItemDevices", "WheelFortune")) return;
 			WheelFortuneReturnScreen = CommonGetScreen();
 			WheelFortuneBackground = ChatRoomData.Background;
 			WheelFortuneCharacter = CurrentCharacter;

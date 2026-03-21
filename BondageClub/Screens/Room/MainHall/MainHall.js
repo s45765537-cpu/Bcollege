@@ -385,7 +385,7 @@ function MainHallDraw() {
 			DrawButton(25, 265, 90, 90, "", "White", "Icons/Refreshsments.png", TextGet("Cafe"));
 		}
 		// Special permission to enter the kidnappers league if doing the online bounty quest while being restrained
-		if (Player.CanWalk() && (InventoryIsWorn(Player, "BountySuitcase", "ItemMisc") || InventoryIsWorn(Player, "BountySuitcaseEmpty", "ItemMisc")))
+		if (Player.CanWalk() && (InventoryIsWorn(Player, "ItemMisc", "BountySuitcase") || InventoryIsWorn(Player, "ItemMisc", "BountySuitcaseEmpty")))
 			DrawButton(1645, 385, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("KidnapLeague"));
 
 	}
@@ -536,7 +536,7 @@ function MainHallClick() {
 				MainHallWalk("Cafe");
 		}
 		// Special permission to enter the kidnappers league if doing the online bounty quest while being restrained
-		if (Player.CanWalk() && (InventoryIsWorn(Player, "BountySuitcase", "ItemMisc") || InventoryIsWorn(Player, "BountySuitcaseEmpty", "ItemMisc")))
+		if (Player.CanWalk() && (InventoryIsWorn(Player, "ItemMisc", "BountySuitcase") || InventoryIsWorn(Player, "ItemMisc", "BountySuitcaseEmpty")))
 			if ((MouseX >= 1645) && (MouseX < 1735) && (MouseY >= 385) && (MouseY < 475))
 				MainHallWalk("KidnapLeague");
 

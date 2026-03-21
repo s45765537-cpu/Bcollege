@@ -1416,7 +1416,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 					let ImageName = Obj.Style;
 					if ((Obj.AssetName != null) || (Obj.OccupiedStyle != null)) {
 						let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
-						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetName, Obj.AssetGroup)) break;
+						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetGroup, Obj.AssetName)) break;
 						if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
 					} else {
 						if (Obj.BuildImageName != null)
