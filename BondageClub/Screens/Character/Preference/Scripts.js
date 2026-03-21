@@ -78,12 +78,6 @@ function PreferenceSubscreenScriptsLoad() {
 		attributes: { id: PreferenceSubscreenScriptsIDs.grid },
 		parent,
 	});
-	root.addEventListener("click", () => {
-		if (PreferenceScriptHelp) {
-			PreferenceScriptHelp = null;
-			PreferenceSubscreenScriptsUpdateHelp();
-		}
-	});
 
 	ElementCreate({
 		tag: "section",
@@ -151,10 +145,16 @@ function PreferenceSubscreenScriptsLoad() {
 		parent: content,
 	});
 
+	const headerRow = ElementCreate({
+		tag: "div",
+		classList: ["preference-scripts-header-row"],
+		parent: table,
+	});
+
 	ElementCreate({
 		tag: "div",
-		classList: ["preference-scripts-cell", "preference-scripts-header-cell"],
-		parent: table,
+		classList: ["preference-scripts-header-spacer"],
+		parent: headerRow,
 	});
 
 	for (const property of PreferenceScriptPermissionProperties) {
@@ -170,9 +170,10 @@ function PreferenceSubscreenScriptsLoad() {
 			button: { classList: ["preference-scripts-help-button"] },
 		});
 
+		const headerId = `preference-scripts-header-${property}`;
 		ElementCreate({
 			tag: "div",
-			classList: ["preference-scripts-cell", "preference-scripts-header-cell", "preference-scripts-column-divider"],
+			classList: ["preference-scripts-header-cell", "preference-scripts-column-divider"],
 			children: [
 				{
 					tag: "div",
@@ -181,27 +182,42 @@ function PreferenceSubscreenScriptsLoad() {
 						helpButton,
 						{
 							tag: "span",
+							attributes: { id: headerId },
 							children: [TextGet(`ScriptsPermissionProperty${property}`)],
 						},
 					],
 				},
 			],
-			parent: table,
+			parent: headerRow,
 		});
 	}
 
 	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
 	for (const [rowIndex, permissionLevel] of permissions.entries()) {
 		const rowClassList = rowIndex === 0 ? ["preference-scripts-row-divider"] : [];
-		ElementCreate({
-			tag: "div",
-			classList: ["preference-scripts-cell", "preference-scripts-checkbox-label", ...rowClassList],
-			children: [TextGet(`ScriptsPermissionLevel${permissionLevel}`)],
+		const rowId = `preference-scripts-row-${permissionLevel}`;
+		const row = ElementCreate({
+			tag: "fieldset",
+			classList: ["preference-scripts-row", ...rowClassList],
+			children: [
+				{
+					tag: "legend",
+					attributes: { id: rowId },
+					children: [
+						{
+							tag: "span",
+							classList: ["preference-scripts-row-label"],
+							children: [TextGet(`ScriptsPermissionLevel${permissionLevel}`)],
+						},
+					],
+				},
+			],
 			parent: table,
 		});
 
 		for (const property of PreferenceScriptPermissionProperties) {
 			const checkboxId = PreferenceSubscreenScriptsIDs.scriptsCheckboxId(property, permissionLevel);
+			const headerId = `preference-scripts-header-${property}`;
 			const checkbox = ElementCheckbox.Create(checkboxId, function (ev) {
 				ev.stopPropagation();
 				const scriptPermissions = Player.OnlineSharedSettings.ScriptPermissions;
@@ -222,6 +238,7 @@ function PreferenceSubscreenScriptsLoad() {
 			}, {
 				checkbox: {
 					classList: ["preference-scripts-checkbox"],
+					attributes: { "aria-labelledby": `${rowId} ${headerId}` },
 					eventListeners: {
 						click: (ev) => ev.stopPropagation(),
 					},
@@ -230,9 +247,9 @@ function PreferenceSubscreenScriptsLoad() {
 
 			ElementCreate({
 				tag: "div",
-				classList: ["preference-scripts-cell", "preference-scripts-column-divider", ...rowClassList],
+				classList: ["preference-scripts-checkbox-cell", "preference-scripts-column-divider"],
 				children: [checkbox],
-				parent: table,
+				parent: row,
 			});
 		}
 	}
@@ -256,7 +273,14 @@ function PreferenceSubscreenScriptsRun() {
 function PreferenceSubscreenScriptsClick() {
 }
 
-function PreferenceSubscreenScriptsExit() {
+function PreferenceSubscreenScriptsExit(allowPanelClose=true) {
+	if (PreferenceScriptHelp && allowPanelClose) {
+		PreferenceScriptHelp = null;
+		PreferenceSubscreenScriptsUpdateHelp();
+
+		return false;
+	}
+
 	return true;
 }
 
@@ -293,6 +317,7 @@ function PreferenceSubscreenScriptsUnload() {
 function PreferenceSubscreenScriptsResize() {
 	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
 	const tableHeight = 90 * (permissions.length + 1);
+	const tableWidth = 500 + PreferenceScriptPermissionProperties.length * 400;
 
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenScriptsIDs.grid, x, y);
@@ -305,7 +330,7 @@ function PreferenceSubscreenScriptsResize() {
 	ElementSetSize(PreferenceSubscreenScriptsIDs.helpGlobal, 90, 90);
 
 	ElementSetPosition(PreferenceSubscreenScriptsIDs.table, 500, 270);
-	ElementSetSize(PreferenceSubscreenScriptsIDs.table, 1300, tableHeight);
+	ElementSetSize(PreferenceSubscreenScriptsIDs.table, tableWidth, tableHeight);
 
 	ElementSetPosition(PreferenceSubscreenScriptsIDs.warning, 500, 220);
 	ElementSetSize(PreferenceSubscreenScriptsIDs.warning, 1200, 600);
@@ -313,7 +338,7 @@ function PreferenceSubscreenScriptsResize() {
 
 	const table = ElementWrap(PreferenceSubscreenScriptsIDs.table);
 	const headerLabels = /** @type {NodeListOf<HTMLSpanElement>} */(table?.querySelectorAll(".preference-scripts-header-content > span") ?? []);
-	const checkboxLabels = /** @type {NodeListOf<HTMLDivElement>} */(table?.querySelectorAll(".preference-scripts-checkbox-label") ?? []);
+	const checkboxLabels = /** @type {NodeListOf<HTMLSpanElement>} */(table?.querySelectorAll(".preference-scripts-row-label") ?? []);
 
 	for (const label of headerLabels) {
 		ElementFitText(label);
