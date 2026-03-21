@@ -160,6 +160,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenScriptsClick(),
 		exit: () => PreferenceSubscreenScriptsExit(),
 		unload: () => PreferenceSubscreenScriptsUnload(),
+		resize: () => PreferenceSubscreenScriptsResize(),
 	},
 	{
 		name: "Keybindings",
