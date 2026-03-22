@@ -431,7 +431,7 @@ var KeybindingDefaults = {
 			}
 		},
 
-        {
+		{
 			id: "chatroom_prev_page",
 			action: () => {
 				if (ChatRoomCharacterViewIsActive() && ChatRoomCharacterViewCharacterCountTotal > 10) {
@@ -451,12 +451,16 @@ var KeybindingDefaults = {
 			},
 		},
 
-        {
+		{
 			id: "chatroom_next_page",
 			action: () => {
-				ChatRoomCharacterViewOffset = 10;
-				ChatRoomUpdateDisplay();
-				return true;
+				if (ChatRoomCharacterViewIsActive() && ChatRoomCharacterViewCharacterCountTotal > 10) {
+					ChatRoomCharacterViewOffset = 10;
+					ChatRoomUpdateDisplay();
+					return true;
+				} else {
+					return false;
+				}
 			},
 			contextIds: ["isInChatRoom"],
 			categoryId: "chatroom",
