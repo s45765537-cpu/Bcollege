@@ -14834,6 +14834,18 @@ var AssetFemale3DCGExtended = {
 				AssetName: "CustomizableFluffyEars1",
 			},
 		},
+		Antenna: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{ Name: "Right" },
+				{ Name: "RightGlowing" },
+				{ Name: "Left" },
+				{ Name: "LeftGlowing" },
+				{ Name: "LeftRight" },
+				{ Name: "LeftRightGlowing" },
+			],
+		}, // Antenna
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {

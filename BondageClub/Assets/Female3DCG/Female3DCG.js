@@ -4659,7 +4659,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BrocadeCloudsSnowEmbroideryQipao",
+				InventoryID: 1310,
 				Random: false,
+				Value: 60,
 				Gender: "F",
 				Top: 0,
 				Left: 0,
@@ -19057,6 +19059,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CustomizableCowEars",
 				InventoryID: 1257,
+				Random: false,
 				Value: -1,
 				Left: 92,
 				Top: 0,
@@ -19200,6 +19203,34 @@ var AssetFemale3DCG = [
 						ColorGroup: "ExtrasRight",
 					},
 				],
+			},
+			{
+				Name: "Antenna",
+				InventoryID: 1311,
+				Random: false,
+				Value: 25,
+				Top: 0,
+				Left: 0,
+				ParentGroup: {},
+				DefaultColor: ["#8F8F8F", "#000000", "#131313", "#5C0000", "#600000", "#8F8F8F", "#000000", "#131313", "#5C0000", "#600000"],
+				Layer: [
+					{ Name: "A1", Priority: 55, AllowTypes: [{ typed: 0 }, { typed: 1 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "A2", Priority: 55, AllowTypes: [{ typed: 0 }, { typed: 1 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "A3", Priority: 55, AllowTypes: [{ typed: 0 }, { typed: 1 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "A4", Priority: 55, AllowTypes: [{ typed: 0 }, { typed: 1 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "A5", Priority: 55, AllowTypes: [{ typed: 1 }, { typed: 5 }] },
+			
+					{ Name: "B1", Priority: 55, AllowTypes: [{ typed: 2 }, { typed: 3 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "B2", Priority: 55, AllowTypes: [{ typed: 2 }, { typed: 3 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "B3", Priority: 55, AllowTypes: [{ typed: 2 }, { typed: 3 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "B4", Priority: 55, AllowTypes: [{ typed: 2 }, { typed: 3 }, { typed: 4 }, { typed: 5 }] },
+					{ Name: "B5", Priority: 55, AllowTypes: [{ typed: 3 }, { typed: 5 }] },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "天线",
+					License: "CC BY-SA-NC 4.0",
+				},
 			},
 		],
 		Color: [

@@ -127,7 +127,7 @@ Cloth,ComfyTop,Sleep Top
 Cloth,CorsetDress,Corset Dress
 Cloth,CorsetShirt,Corset Shirt
 Cloth,Cow,Cow Top
-Cloth,CrimsonCloudsInkRhymeQipaoDress,Crimson Clouds Dress
+Cloth,CrimsonCloudsInkRhymeQipaoDress,Crimson Clouds Qipao
 Cloth,CropTop,Crop Top
 Cloth,CrossStrapDress,Cross Strap Dress
 Cloth,CustomTShirt,Custom T-Shirt
@@ -474,6 +474,7 @@ Gloves,OperaGloves,Opera Gloves
 Gloves,SeethroughSuit,See-through Gloves
 Gloves,WarmGloves,Short Leather Gloves
 HairAccessory1,,Hair Accessory (All)
+HairAccessory1,Antenna,Antenna
 HairAccessory1,Antennae,Antennae
 HairAccessory1,BatWings,Small Bat Wings
 HairAccessory1,BigLynxEars,Lynx Ears
