@@ -1814,7 +1814,7 @@ interface Character {
 	Name: string;
 	Nickname?: string; // technically never as it's Online-only
 	Owner: string;
-	Lover: string;
+	Lover?: string;
 	Money: number;
 	Inventory: InventoryItem[];
 	InventoryData?: string;
@@ -2283,7 +2283,7 @@ type DifficultyLevel =
 interface PlayerCharacter extends Character {
 	// All the following are guaranteed to be set on login
 	MemberNumber: number;
-	Nickname: string;
+	Nickname?: string;
 	LabelColor: HexColor;
 	Game: CharacterGameParameters;
 	Description: string;
