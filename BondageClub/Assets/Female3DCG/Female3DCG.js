@@ -4605,9 +4605,15 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Priority: 26,
 				Prerequisite: ["HasBreasts"],
-				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE, },
+				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 				DefaultColor: ["Default", "Default", "Default", "#303030", "Default"],
-				Layer: [{ Name: "BottomLace" }, { Name: "Chest" }, { Name: "ShoulderLace" }, { Name: "Dress" }, { Name: "Bowknot" }],
+				Layer: [
+					{ Name: "BottomLace" },
+					{ Name: "Chest" },
+					{ Name: "ShoulderLace" },
+					{ Name: "Dress" },
+					{ Name: "Bowknot" },
+				],
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "花园连衣裙",
@@ -4625,7 +4631,7 @@ var AssetFemale3DCG = [
 				Priority: 26,
 				Prerequisite: ["HasBreasts"],
 				DefaultColor: ["#1F1F1F", "#1F1F1F", "#1F1F1F", "#1F1F1F", "#FFFFFF"],
-				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE, },
+				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 				Layer: [
 					{ Name: "Rope", ParentGroup: {} },
 					{
