@@ -4744,7 +4744,7 @@ SourceCharacter adds a thick cover to DestinationCharacter extendable posture co
 SourceCharacter добавляет сильное покрытие к DestinationCharacter ошейнику-стойки.
 SourceCharacter adds a complete cover to DestinationCharacter extendable posture collar.
 SourceCharacter добавляет полное прикрытие к DestinationCharacter ошейнику-стойки.
-SourceCharacter frees DestinationCharacter mouth from PronounPossesive extendable posture collar.
+SourceCharacter frees DestinationCharacter mouth from PronounPossessive extendable posture collar.
 SourceCharacter освобождает DestinationCharacter рот от кляпа ошейника-стойки.
 SourceCharacter adds a panel gag to DestinationCharacter extendable posture collar.
 SourceCharacter добавляет панельный кляп к DestinationCharacter ошейнику-стойки.
