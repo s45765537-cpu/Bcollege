@@ -430,6 +430,43 @@ var KeybindingDefaults = {
 				modifiers: new Set(['Alt'])
 			}
 		},
+
+        {
+			id: "chatroom_prev_page",
+			action: () => {
+				if (ChatRoomCharacterViewIsActive() && ChatRoomCharacterViewCharacterCountTotal > 10) {
+					ChatRoomCharacterViewOffset = 0;
+					ChatRoomUpdateDisplay();
+					return true;
+				} else {
+					return false;
+				}
+			},
+			contextIds: ["isInChatRoom"],
+			categoryId: "chatroom",
+			readonly: false,
+			defaultKeyCombo: {
+				key: "Digit1",
+				modifiers: new Set(["Alt"]),
+			},
+		},
+
+        {
+			id: "chatroom_next_page",
+			action: () => {
+				ChatRoomCharacterViewOffset = 10;
+				ChatRoomUpdateDisplay();
+				return true;
+			},
+			contextIds: ["isInChatRoom"],
+			categoryId: "chatroom",
+			readonly: false,
+			defaultKeyCombo: {
+				key: "Digit2",
+				modifiers: new Set(["Alt"]),
+			},
+		},
+
 		{
 			id: 'chatroom_open_wardrobe',
 			action: () => {
