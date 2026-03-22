@@ -1061,6 +1061,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // OffTheShoulderTop
+		BrocadeCloudsSnowEmbroideryQipao: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: true,
+			Options: [{ Name: "Yes" }, { Name: "No" }],
+		}, // BrocadeCloudsSnowEmbroideryQipao
 	}, // Cloth
 	BodyMarkings: {
 		WombTattoos: {
