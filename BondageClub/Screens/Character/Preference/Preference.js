@@ -298,18 +298,22 @@ function PreferenceExit() {
 /**
  * Clear all GUI data and DOM elements creates by the preference screen load function
  * We don't do this in exit function for disconnects do not trigger the exit function
+ * @type {ScreenUnloadHandler}
  */
 function PreferenceUnload() {
 	PreferenceSubscreenUnload();
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceResize(onLoad) {
 	PreferenceSubscreenResize?.(onLoad);
 	PreferenceSubscreen.resize?.(onLoad);
 }
 
+/** @type {KeyboardEventListener} */
 function PreferenceKeyUp(event) {
-	PreferenceSubscreen?.keyUp?.(event);
+	// @ts-expect-error: TS, please stop pretending that `void` and `undefined` are distinct
+	return PreferenceSubscreen?.keyUp?.(event) ?? false;
 }
 
 /**

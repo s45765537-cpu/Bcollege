@@ -20,7 +20,7 @@ async function WheelFortuneCustomizeLoad() {
 
 /**
  * Draws the lucky wheel customization screen
- * @returns {void} - Nothing
+ * @type {ScreenRunHandler}
  */
 function WheelFortuneCustomizeRun() {
 	if (!WheelFortuneCharacter) {
@@ -63,7 +63,7 @@ function WheelFortuneCustomizeRun() {
 
 /**
  * Handles the click events.  Called from CommonClick()
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function WheelFortuneCustomizeClick() {
 	if (!WheelFortuneCharacter) {
@@ -119,6 +119,7 @@ function WheelFortuneCustomizeClick() {
  * Handles exiting from the screen, updates the lucky wheel in the online shared settings
  * @param {boolean} Save - Whether to push the updated selection to the server
  * @returns {void} - Nothing
+ * @satisfies {ScreenExitHandler}
  */
 function WheelFortuneCustomizeExit(Save=false) {
 	if (Save && WheelFortuneCharacter?.IsPlayer()) {
