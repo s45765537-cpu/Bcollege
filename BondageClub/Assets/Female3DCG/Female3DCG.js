@@ -62930,11 +62930,13 @@ var AssetFemale3DCG = [
 					{
 						Name: "SheetBack",
 						ColorGroup: "Sheet",
+						StyleOverride: [],
 						Priority: 1,
 					},
 					{
 						Name: "SheetFront",
 						ColorGroup: "Sheet",
+						StyleOverride: [],
 						Priority: 2,
 					},
 					{
@@ -62963,7 +62965,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { l: 1 },
 						CopyLayerColor: "LegsSpread",
 					},
-					{ Name: "Frame", MinOpacity: 1, Priority: 3 },
+					{ Name: "Frame", MinOpacity: 1, Priority: 3, StyleOverride: [] },
 				],
 			},
 			{

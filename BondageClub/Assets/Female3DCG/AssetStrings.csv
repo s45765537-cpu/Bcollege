@@ -3717,8 +3717,8 @@ ItemDevicesVacBedDeluxeModuleArms,Arm Position
 ItemDevicesVacBedDeluxeModuleLegs,Leg Position
 ItemDevicesVacBedDeluxeOptiona0,Arms Down
 ItemDevicesVacBedDeluxeOptiona1,Arms Yoked
-ItemDevicesVacBedDeluxeOptionl0,Legs Together
-ItemDevicesVacBedDeluxeOptionl1,Legs Spread
+ItemDevicesVacBedDeluxeOptionl0,Legs Spread
+ItemDevicesVacBedDeluxeOptionl1,Legs Together
 ItemDevicesVacBedDeluxeSelectArms,Select arm position
 ItemDevicesVacBedDeluxeSelectBase,Select options
 ItemDevicesVacBedDeluxeSelectLegs,Select leg position
