@@ -1546,18 +1546,26 @@ function InventoryConfiscateRemote() {
 }
 
 /**
-* Returns TRUE if the item is worn by the character
-* @param {Character} C - The character to scan
-* @param {string} AssetName - The asset / item name to scan
-* @param {AssetGroupName} AssetGroup - The asset group name to scan
-* @returns {boolean} - TRUE if item is worn
-*/
-function InventoryIsWorn(C, AssetName, AssetGroup) {
-	if ((C != null) && (C.Appearance != null) && Array.isArray(C.Appearance))
-		for (let A = 0; A < C.Appearance.length; A++)
-			if ((C.Appearance[A].Asset.Name == AssetName) && (C.Appearance[A].Asset.Group.Name == AssetGroup))
-				return true;
-	return false;
+ * Returns TRUE if character wears any of the requested items in the given group
+ * @param {Character} C - The character to scan
+ * @param {AssetGroupName} group - The asset group name to scan
+ * @param {"None" | string | readonly (string | "None")[]} assetName - The asset / item names to scan. `null` means none is worn. Multiple names means any of them.
+ * @returns {boolean} - TRUE if item is worn
+ */
+function InventoryIsWorn(C, group, assetName) {
+	if (AssetGroupGet("Female3DCG", group)) {
+		// our group is a group, yay
+	} else if (AssetGroupGet("Female3DCG", /** @type {AssetGroupName} */ (assetName))) {
+		// Backward compatibility: our group isn't a group, flip everything
+		[group, assetName] = [/** @type {AssetGroupName} */ (assetName), group];
+	} else {
+		return false;
+	}
+	if (!C) return false;
+	const names = !Array.isArray(assetName) ? [assetName] : assetName;
+	const allowsNone = names.includes("None");
+	const wearsAny = C.Appearance.some(i => i.Asset.Group.Name === group && names.some(a => i.Asset.Name === a));
+	return wearsAny || allowsNone && !wearsAny;
 }
 
 /**

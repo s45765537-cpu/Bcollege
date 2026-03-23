@@ -411,55 +411,55 @@ function AsylumGGTSTaskDone(C, T) {
 				InventoryGet(C, "ItemFeet") != null
 			);
 		case "ItemHandsFuturisticMittens":
-			return InventoryIsWorn(C, "FuturisticMittens", "ItemHands");
+			return InventoryIsWorn(C, "ItemHands", "FuturisticMittens");
 		case "ItemArmsFuturisticArmbinder":
-			return InventoryIsWorn(C, "FuturisticArmbinder", "ItemArms");
+			return InventoryIsWorn(C, "ItemArms", "FuturisticArmbinder");
 		case "ItemArmsFuturisticStraitjacket":
-			return InventoryIsWorn(C, "FuturisticStraitjacket", "ItemArms");
+			return InventoryIsWorn(C, "ItemArms", "FuturisticStraitjacket");
 		case "ItemHeadFuturisticMask":
-			return InventoryIsWorn(C, "FuturisticMask", "ItemHead");
+			return InventoryIsWorn(C, "ItemHead", "FuturisticMask");
 		case "ItemEarsFuturisticEarphones":
-			return InventoryIsWorn(C, "FuturisticEarphones", "ItemEars");
+			return InventoryIsWorn(C, "ItemEars", "FuturisticEarphones");
 		case "ItemNeckFuturisticCollar":
-			return InventoryIsWorn(C, "FuturisticCollar", "ItemNeck");
+			return InventoryIsWorn(C, "ItemNeck", "FuturisticCollar");
 		case "ItemArmsFuturisticCuffs":
-			return Level != 1 || InventoryIsWorn(C, "FuturisticCuffs", "ItemArms");
+			return Level != 1 || InventoryIsWorn(C, "ItemArms", "FuturisticCuffs");
 		case "ItemArmsFeetFuturisticCuffs":
 			return (
-				InventoryIsWorn(C, "FuturisticCuffs", "ItemArms") &&
-				InventoryIsWorn(C, "FuturisticAnkleCuffs", "ItemFeet") &&
-				InventoryIsWorn(C, "FuturisticLegCuffs", "ItemLegs")
+				InventoryIsWorn(C, "ItemArms", "FuturisticCuffs") &&
+				InventoryIsWorn(C, "ItemFeet", "FuturisticAnkleCuffs") &&
+				InventoryIsWorn(C, "ItemLegs", "FuturisticLegCuffs")
 			);
 		case "ItemBootsFuturisticHeels":
 			return (
-				InventoryIsWorn(C, "FuturisticHeels", "ItemBoots") ||
-				InventoryIsWorn(C, "FuturisticHeels2", "ItemBoots")
+				InventoryIsWorn(C, "ItemBoots", "FuturisticHeels") ||
+				InventoryIsWorn(C, "ItemBoots", "FuturisticHeels2")
 			);
 		case "ItemMouthFuturisticBallGag":
 			return (
-				InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth") ||
-				InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth2") ||
-				InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth3")
+				InventoryIsWorn(C, "ItemMouth", "FuturisticHarnessBallGag") ||
+				InventoryIsWorn(C, "ItemMouth2", "FuturisticHarnessBallGag") ||
+				InventoryIsWorn(C, "ItemMouth3", "FuturisticHarnessBallGag")
 			);
 		case "ItemMouthFuturisticPanelGag":
 			return (
-				InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth") ||
-				InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth2") ||
-				InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth3") ||
-				InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth") ||
-				InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth2") ||
-				InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth3")
+				InventoryIsWorn(C, "ItemMouth", "FuturisticHarnessPanelGag") ||
+				InventoryIsWorn(C, "ItemMouth2", "FuturisticHarnessPanelGag") ||
+				InventoryIsWorn(C, "ItemMouth3", "FuturisticHarnessPanelGag") ||
+				InventoryIsWorn(C, "ItemMouth", "FuturisticPanelGag") ||
+				InventoryIsWorn(C, "ItemMouth2", "FuturisticPanelGag") ||
+				InventoryIsWorn(C, "ItemMouth3", "FuturisticPanelGag")
 			);
 		case "ItemPelvisFuturisticChastityBelt":
-			return InventoryIsWorn(C, "FuturisticChastityBelt", "ItemPelvis");
+			return InventoryIsWorn(C, "ItemPelvis", "FuturisticChastityBelt");
 		case "ItemPelvisFuturisticTrainingBelt":
-			return InventoryIsWorn(C, "FuturisticTrainingBelt", "ItemPelvis");
+			return InventoryIsWorn(C, "ItemPelvis", "FuturisticTrainingBelt");
 		case "ItemBreastFuturisticBra":
-			return InventoryIsWorn(C, "FuturisticBra", "ItemBreast");
+			return InventoryIsWorn(C, "ItemBreast", "FuturisticBra");
 		case "ItemBreastFuturisticBra2":
-			return InventoryIsWorn(C, "FuturisticBra2", "ItemBreast");
+			return InventoryIsWorn(C, "ItemBreast", "FuturisticBra2");
 		case "ItemTorsoFuturisticHarness":
-			return InventoryIsWorn(C, "FuturisticHarness", "ItemTorso");
+			return InventoryIsWorn(C, "ItemTorso", "FuturisticHarness");
 		case "PoseKneel":
 			return C.IsKneeling();
 		case "PoseStand":
@@ -554,12 +554,12 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if (((T == "ActivityKiss") || (T == "ActivityLick") || (T == "ActivityBite")) && !C.CanTalk()) return false; // Kiss, lick & bite require being able to talk
 	if (((T == "ActivityKiss") || (T == "ActivityLick") || (T == "ActivityBite")) && (Player.HasEffect("BlockMouth"))) return false; // Kiss, lick & bite require being able to use mouth
 	if ((T == "ActivityMasturbateHand") && C.IsVulvaChaste()) return false; // Cannot masturbate if chaste
-	if ((T == "ActivityMasturbateHand") && InventoryIsWorn(C, "FuckMachine", "ItemDevices")) return false; // Cannot masturbate if wearing the fuck machine
+	if ((T == "ActivityMasturbateHand") && InventoryIsWorn(C, "ItemDevices", "FuckMachine")) return false; // Cannot masturbate if wearing the fuck machine
 	if (((T == "ClothHeels") || (T == "ClothSocks") || (T == "ClothBarefoot")) && (InventoryGet(C, "ItemBoots") != null)) return false; // No feet tasks if locked in boots
 	if ((T == "NewRuleNoOrgasm") && !PreferenceArousalAtLeast(C, "Hybrid")) return false; // Orgasm rule are only available on hybrid or auto
 	if (((T == "ItemRemoveLimb") || (T == "ItemRemoveBody") || (T == "ItemRemoveHead") || (T == "ItemUngag") || (T == "ItemUnchaste")) && (LogValue("Isolated", "Asylum") >= CurrentTime)) return false; // When punishment is active, items doesn't get removed
 	if (((T == "ItemRemoveLimb") || (T == "ItemRemoveBody") || (T == "ItemRemoveHead") || (T == "ItemUngag") || (T == "ItemUnchaste")) && (Math.random() * 6 < AsylumGGTSGetLevel(C))) return false; // The higher the level, the less likely GGTS will release
-	if ((T == "ItemPose") && !InventoryIsWorn(C, "FuturisticCuffs", "ItemArms") && !InventoryIsWorn(C, "FuturisticStraitjacket", "ItemArms") && !InventoryIsWorn(C, "FuturisticAnkleCuffs", "ItemFeet") && !InventoryIsWorn(C, "FuturisticLegCuffs", "ItemLegs")) return false;
+	if ((T == "ItemPose") && !InventoryIsWorn(C, "ItemArms", "FuturisticCuffs") && !InventoryIsWorn(C, "ItemArms", "FuturisticStraitjacket") && !InventoryIsWorn(C, "ItemFeet", "FuturisticAnkleCuffs") && !InventoryIsWorn(C, "ItemLegs", "FuturisticLegCuffs")) return false;
 	if ((T == "ItemRemoveLimb") && !AsylumGGTSCanRemove(C, "ItemHands") && !AsylumGGTSCanRemove(C, "ItemArms") && !AsylumGGTSCanRemove(C, "ItemFeet") && !AsylumGGTSCanRemove(C, "ItemLegs") && !AsylumGGTSCanRemove(C, "ItemBoots")) return false;
 	if ((T == "ItemRemoveBody") && !AsylumGGTSCanRemove(C, "ItemPelvis") && !AsylumGGTSCanRemove(C, "ItemBreast") && !AsylumGGTSCanRemove(C, "ItemTorso") && !AsylumGGTSCanRemove(C, "ItemDevices")) return false;
 	if ((T == "ItemRemoveHead") && !AsylumGGTSCanRemove(C, "ItemNeck") && !AsylumGGTSCanRemove(C, "ItemHead") && !AsylumGGTSCanRemove(C, "ItemEars")) return false;
@@ -567,23 +567,23 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 		((InventoryGet(C, "ItemMouth") == null) || (InventoryGet(C, "ItemMouth").Asset.Name.substr(0, 10) != "Futuristic")) &&
 	((InventoryGet(C, "ItemMouth2") == null) || (InventoryGet(C, "ItemMouth2").Asset.Name.substr(0, 10) != "Futuristic")) &&
 	((InventoryGet(C, "ItemMouth3") == null) || (InventoryGet(C, "ItemMouth3").Asset.Name.substr(0, 10) != "Futuristic")))) return false;
-	if ((T == "ItemChaste") && (!InventoryIsWorn(C, "FuturisticChastityBelt", "ItemPelvis") || C.IsVulvaChaste())) return false; // Must have unchaste futuristic belt to chaste it
-	if ((T == "ItemUnchaste") && (!InventoryIsWorn(C, "FuturisticChastityBelt", "ItemPelvis") || !C.IsVulvaChaste())) return false; // Must have chaste futuristic belt to unchaste it
-	if ((T == "ItemIntensity") && !InventoryIsWorn(C, "FuturisticTrainingBelt", "ItemPelvis")) return false; // Must have training belt to change intensity
-	if ((T == "ItemBeltToFuck") && !InventoryIsWorn(C, "FuturisticTrainingBelt", "ItemPelvis")) return false; // Must have training belt to change to fuck machine
-	if ((T == "ItemFuckToBelt") && !InventoryIsWorn(C, "FuckMachine", "ItemDevices")) return false; // Must have fuck machine to change to training belt
-	if ((T == "ItemFuckMachineIntensity") && !InventoryIsWorn(C, "FuckMachine", "ItemDevices")) return false; // Must have training belt to change intensity
-	if ((T == "ItemEarsDeaf") && !InventoryIsWorn(C, "FuturisticEarphones", "ItemEars")) return false; // Must have headphones to change deaf level
-	if ((T == "ItemMaskBlind") && !InventoryIsWorn(C, "FuturisticMask", "ItemHead")) return false; // Must have mask to change blind level
+	if ((T == "ItemChaste") && (!InventoryIsWorn(C, "ItemPelvis", "FuturisticChastityBelt") || C.IsVulvaChaste())) return false; // Must have unchaste futuristic belt to chaste it
+	if ((T == "ItemUnchaste") && (!InventoryIsWorn(C, "ItemPelvis", "FuturisticChastityBelt") || !C.IsVulvaChaste())) return false; // Must have chaste futuristic belt to unchaste it
+	if ((T == "ItemIntensity") && !InventoryIsWorn(C, "ItemPelvis", "FuturisticTrainingBelt")) return false; // Must have training belt to change intensity
+	if ((T == "ItemBeltToFuck") && !InventoryIsWorn(C, "ItemPelvis", "FuturisticTrainingBelt")) return false; // Must have training belt to change to fuck machine
+	if ((T == "ItemFuckToBelt") && !InventoryIsWorn(C, "ItemDevices", "FuckMachine")) return false; // Must have fuck machine to change to training belt
+	if ((T == "ItemFuckMachineIntensity") && !InventoryIsWorn(C, "ItemDevices", "FuckMachine")) return false; // Must have training belt to change intensity
+	if ((T == "ItemEarsDeaf") && !InventoryIsWorn(C, "ItemEars", "FuturisticEarphones")) return false; // Must have headphones to change deaf level
+	if ((T == "ItemMaskBlind") && !InventoryIsWorn(C, "ItemHead", "FuturisticMask")) return false; // Must have mask to change blind level
 	if ((T == "ItemTransform")
-		&& !InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth") && !InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth2") && !InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth3")
-		&& !InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth") && !InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth2") && !InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth3")
-		&& !InventoryIsWorn(C, "FuturisticArmbinder", "ItemArms") && !InventoryIsWorn(C, "FuturisticStraitjacket", "ItemArms") && !InventoryIsWorn(C, "FuturisticCuffs", "ItemArms")
+		&& !InventoryIsWorn(C, "ItemMouth", "FuturisticPanelGag") && !InventoryIsWorn(C, "ItemMouth2", "FuturisticPanelGag") && !InventoryIsWorn(C, "ItemMouth3", "FuturisticPanelGag")
+		&& !InventoryIsWorn(C, "ItemMouth", "FuturisticHarnessBallGag") && !InventoryIsWorn(C, "ItemMouth2", "FuturisticHarnessBallGag") && !InventoryIsWorn(C, "ItemMouth3", "FuturisticHarnessBallGag")
+		&& !InventoryIsWorn(C, "ItemArms", "FuturisticArmbinder") && !InventoryIsWorn(C, "ItemArms", "FuturisticStraitjacket") && !InventoryIsWorn(C, "ItemArms", "FuturisticCuffs")
 	) return false; // Must be wearing an item that can be transformed
 	if ((T == "ItemChangeGag")
-		&& !InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth") && !InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth2") && !InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth3")
-		&& !InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth") && !InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth2") && !InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth3")
-		&& !InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth") && !InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth2") && !InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth3")
+		&& !InventoryIsWorn(C, "ItemMouth", "FuturisticPanelGag") && !InventoryIsWorn(C, "ItemMouth2", "FuturisticPanelGag") && !InventoryIsWorn(C, "ItemMouth3", "FuturisticPanelGag")
+		&& !InventoryIsWorn(C, "ItemMouth", "FuturisticHarnessBallGag") && !InventoryIsWorn(C, "ItemMouth2", "FuturisticHarnessBallGag") && !InventoryIsWorn(C, "ItemMouth3", "FuturisticHarnessBallGag")
+		&& !InventoryIsWorn(C, "ItemMouth", "FuturisticHarnessPanelGag") && !InventoryIsWorn(C, "ItemMouth2", "FuturisticHarnessPanelGag") && !InventoryIsWorn(C, "ItemMouth3", "FuturisticHarnessPanelGag")
 	) return false; // Must be wearing a harness or panel gag
 	if ((T == "PoseOverHead") && !C.CanInteract()) return false; // Must be able to use hands for hands poses
 	if ((T == "PoseBehindBack") && (((C.PoseMapping != null) && ["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) || !C.CanInteract())) return false; // Must be able to use hands for hands poses
@@ -592,7 +592,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "LockRoom") && (ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "UnlockRoom") && (!ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
-	if ((T == "RestrainLegs") && InventoryIsWorn(C, "FuckMachine", "ItemDevices")) return false; // Cannot restrain own legs if wearing the fuck machine
+	if ((T == "RestrainLegs") && InventoryIsWorn(C, "ItemDevices", "FuckMachine")) return false; // Cannot restrain own legs if wearing the fuck machine
 	if ((T.substr(0, 4) == "Item") && (T.length >= 15) && T != "ItemFuckMachineIntensity" && !C.CanInteract()) return false; // To use an item, must be able to interact
 	if ((T == "ItemHandsFuturisticMittens") && ((InventoryGet(C, "ItemHands") != null) || InventoryGroupIsBlocked(C, "ItemHands"))) return false;
 	if ((T == "ItemHeadFuturisticMask") && ((InventoryGet(C, "ItemHead") != null) || InventoryGroupIsBlocked(C, "ItemHead"))) return false;
@@ -1313,14 +1313,14 @@ function AsylumGGTSAddStrike() {
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 
 	// On the third strike, we open the leg cuffs if we can
-	if ((Player.Game.GGTS.Strike >= 3) && InventoryIsWorn(Player, "FuturisticAnkleCuffs", "ItemFeet")) {
+	if ((Player.Game.GGTS.Strike >= 3) && InventoryIsWorn(Player, "ItemFeet", "FuturisticAnkleCuffs")) {
 		InventoryGet(Player, "ItemFeet").Property = { SetPose: null, Difficulty: 0, Effect: [] };
 		CharacterRefresh(Player);
 		ChatRoomCharacterUpdate(Player);
 	}
 
 	// On the third strike, we change the fuck machine to a training belt if we can
-	if ((Player.Game.GGTS.Strike >= 3) && InventoryIsWorn(Player, "FuckMachine", "ItemDevices")) {
+	if ((Player.Game.GGTS.Strike >= 3) && InventoryIsWorn(Player, "ItemDevices", "FuckMachine")) {
 		InventoryRemove(Player, "ItemDevices");
 		InventoryWear(Player, "FuturisticTrainingBelt", "ItemPelvis", null, 10);
 		ChatRoomCharacterUpdate(Player);

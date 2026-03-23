@@ -251,17 +251,17 @@ function ManagementCannotBreakUpLoverNPC(L) { return ((Player.Lovership.length >
  * Checks if the player is currently a club slave.
  * @returns {boolean} - TRUE if the player is a club slave.
  */
-function ManagementIsClubSlave() { return (InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck")); }
+function ManagementIsClubSlave() { return (InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar")); }
 /**
  * Checks if the player can start a regular chat with a club slave.
  * @returns {boolean} - TRUE if the player can start a regular
  */
-function ManagementCanStartClubSlaveTalk() { return (!InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck") && (ManagementRandomGirlArchetype === "") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function ManagementCanStartClubSlaveTalk() { return (!InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar") && (ManagementRandomGirlArchetype === "") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player can start a chat with a bunny club slave.
  * @returns {boolean} - TRUE if the player can start a regular
  */
-function ManagementCanStartBunnyTalk() { return (!InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck") && (ManagementRandomGirlArchetype === "Bunny") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function ManagementCanStartBunnyTalk() { return (!InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar") && (ManagementRandomGirlArchetype === "Bunny") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player is wearing a slave collar.
  * @returns {boolean} - TRUE if the player is wearing a slave collar.

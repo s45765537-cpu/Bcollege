@@ -41,11 +41,11 @@ var PrisonPlayerBehindBars = false;
 var PrisonPlayerForIllegalChange = false;
 
 // functions for Dialogs
-function PrisonPlayerIsHandcuffed() {return InventoryIsWorn(Player, "MetalCuffs", "ItemArms");}
-function PrisonPlayerIsPanelGag()   {return InventoryIsWorn(Player, "HarnessPanelGag", "ItemMouth");}
-function PrisonPlayerIsLegTied()    {return InventoryIsWorn(Player, "LeatherBelt", "ItemLegs");}
-function PrisonPlayerIsFeetTied()   {return InventoryIsWorn(Player, "LeatherBelt", "ItemFeet");}
-function PrisonPlayerIsOTMGag()     {return InventoryIsWorn(Player, "ClothGag", "ItemMouth");}
+function PrisonPlayerIsHandcuffed() {return InventoryIsWorn(Player, "ItemArms", "MetalCuffs");}
+function PrisonPlayerIsPanelGag()   {return InventoryIsWorn(Player, "ItemMouth", "HarnessPanelGag");}
+function PrisonPlayerIsLegTied()    {return InventoryIsWorn(Player, "ItemLegs", "LeatherBelt");}
+function PrisonPlayerIsFeetTied()   {return InventoryIsWorn(Player, "ItemFeet", "LeatherBelt");}
+function PrisonPlayerIsOTMGag()     {return InventoryIsWorn(Player, "ItemMouth", "ClothGag");}
 function PrisonPlayerIsStriped()    {return !InventoryGet(Player, "Cloth");}
 function PrisonPlayerIsBadGirl()    {return LogQuery("Joined", "BadGirl");}
 function PrisonPlayerIsBadGirlThief() {return (LogQuery("Joined", "BadGirl") && (LogQuery("Stolen", "BadGirl") || LogQuery("Hide", "BadGirl") || LogQuery("Caught", "BadGirl")));}

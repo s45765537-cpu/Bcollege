@@ -57,15 +57,11 @@ function MagicBattleGetDifficulty(C) {
 	if ((InventoryGet(C, "Bra") == null) && (InventoryGet(C, "Panties") == null) && (InventoryGet(C, "Socks") == null) && (InventoryGet(C, "Gloves") == null) && (InventoryGet(C, "Garters") == null) && (InventoryGet(C, "Corset") == null)) D = D + 3 * NF;
 	if (InventoryGet(C, "ItemLegs") != null) D = D + 1 * BF;
 	if (InventoryGet(C, "ItemFeet") != null) D = D + 1 * BF;
-	if (InventoryIsWorn(C, "HempRope", "ItemArms")) D = D + 1 * BF;
-	if (InventoryIsWorn(C, "Chains", "ItemArms")) D = D + 3 * BF;
-	if (InventoryIsWorn(C, "LeatherArmbinder", "ItemArms")) D = D + 4 * BF;
-	if (InventoryIsWorn(C, "ArmbinderJacket", "ItemArms")) D = D + 4 * BF;
-	if (InventoryIsWorn(C, "BoxTieArmbinder", "ItemArms")) D = D + 4 * BF;
-	if (InventoryIsWorn(C, "LatexArmbinder", "ItemArms")) D = D + 4 * BF;
-	if (InventoryIsWorn(C, "SeamlessLatexArmbinder", "ItemArms")) D = D + 4 * BF;
-	if (InventoryIsWorn(C, "HempRopeHarness", "ItemTorso")) D = D + 2 * BF;
-	if (InventoryIsWorn(C, "CrotchChain", "ItemTorso")) D = D + 4 * BF;
+	if (InventoryIsWorn(C, "ItemArms", "HempRope")) D = D + 1 * BF;
+	if (InventoryIsWorn(C, "ItemArms", "Chains")) D = D + 3 * BF;
+	if (InventoryIsWorn(C, "ItemArms", ["LeatherArmbinder", "ArmbinderJacket", "BoxTieArmbinder", "LatexArmbinder", "SeamlessLatexArmbinder"])) D = D + 4 * BF;
+	if (InventoryIsWorn(C, "ItemTorso", "HempRopeHarness")) D = D + 2 * BF;
+	if (InventoryIsWorn(C, "ItemTorso", "CrotchChain")) D = D + 4 * BF;
 	return D;
 }
 

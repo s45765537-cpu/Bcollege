@@ -1316,8 +1316,8 @@ function PandoraPenitentiaryBuildActivityList(C) {
 	if (!C.IsGagged()) ActivityList.push("Gag");
 	if (C.IsGagged() && PandoraGroupAvailable(C, "ItemMouth", true) && PandoraGroupAvailable(C, "ItemMouth2", true) && PandoraGroupAvailable(C, "ItemMouth3", true) && PandoraGroupAvailable(C, "ItemHead", true) && PandoraGroupAvailable(C, "ItemHood", true)) ActivityList.push("Ungag");
 	if (!C.IsEnclose() && !InPandoraCase && (C.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Hogtie");
-	if (!C.IsEnclose() && !InPandoraCase && !InventoryIsWorn(C, "HempRope", "ItemArms") && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Shibari");
-	if (!InventoryIsWorn(C, "PrisonLockdownSuit", "ItemArms") && !InventoryIsWorn(C, "TransportJacket", "ItemArms") && !InventoryIsWorn(C, "FullLatexSuit", "ItemArms") && !InventoryIsWorn(C, "PrisonSJ", "ItemArms") && !C.HasPenis() && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Detain");
+	if (!C.IsEnclose() && !InPandoraCase && !InventoryIsWorn(C, "ItemArms", "HempRope") && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Shibari");
+	if (!InventoryIsWorn(C, "ItemArms", ["PrisonLockdownSuit", "TransportJacket", "FullLatexSuit", "PrisonSJ"]) && !C.HasPenis() && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Detain");
 	if (!C.IsNaked()) ActivityList.push("Naked");
 	if (!C.IsVulvaChaste() && !C.HasPenis() && (InventoryGet(C, "ItemPelvis") == null) && !InventoryGroupIsBlocked(C, "ItemPelvis")) ActivityList.push("Chastity");
 	if (C.IsVulvaChaste() && !C.HasPenis() && PandoraGroupAvailable(C, "ItemPelvis")) ActivityList.push("Unchaste");

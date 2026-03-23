@@ -702,7 +702,7 @@ function LoginValidCollar() {
 	}
 
 	// Check if we should switch to the club slave collar
-	if (LogQuery("ClubSlave", "Management") && !InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck"))
+	if (LogQuery("ClubSlave", "Management") && !InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar"))
 		InventoryWear(Player, "ClubSlaveCollar", "ItemNeck");
 }
 

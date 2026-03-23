@@ -22,7 +22,7 @@ function PreferenceIsPlayerInSensDep() {
  */
 function PreferenceArousalAtLeast(C, Level) {
 	if (AsylumGGTSIsEnabled() && AsylumGGTSGetLevel(C) >= 4) {
-		if (InventoryIsWorn(C, "FuturisticChastityBelt", "ItemPelvis") || InventoryIsWorn(C, "FuturisticTrainingBelt", "ItemPelvis") || InventoryIsWorn(C, "FuckMachine", "ItemDevices"))
+		if (InventoryIsWorn(C, "ItemPelvis", "FuturisticChastityBelt") || InventoryIsWorn(C, "ItemPelvis", "FuturisticTrainingBelt") || InventoryIsWorn(C, "ItemDevices", "FuckMachine"))
 			return true;
 	}
 	if ((C.ArousalSettings == null) || (C.ArousalSettings.Active == null)) return false;
