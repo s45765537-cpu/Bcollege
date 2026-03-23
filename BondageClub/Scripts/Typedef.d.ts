@@ -1220,8 +1220,8 @@ interface AssetLayer {
 	/** The name of the layer - may be null if the asset only contains a single default layer */
 	readonly Name: LayerName | null;
 	/** Specify a body type to override the asset with. */
-	readonly StyleOverride?: string [];
-	readonly CreateLayerTypesOverride?: number [];
+	readonly StyleOverride?: BodyStyle[];
+	readonly CreateLayerTypesOverride?: number[];
 	/** Specify a list of CLT asset layers to override. */
 	readonly AllowColorize: boolean;
 	/** if not null, specifies that this layer should always copy the color of the named layer */
@@ -1339,8 +1339,8 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
-	readonly StyleOverride?: string[];
-	readonly SupportedStyles?: string[];
+	readonly StyleOverride?: BodyStyle[];
+	readonly SupportedStyles?: BodyStyle[];
 	readonly CreateLayerTypesOverride?: number[];
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;

@@ -11,6 +11,8 @@ interface Fetish {
 	GetFactor(C: Character): number;
 }
 
+type BodyStyle = "EchoV1" | "EchoV2" | AssetGroupName;
+
 /** Types for representing the left/top coordinate of a target draw rect. */
 declare namespace TopLeft {
 	/**
@@ -522,7 +524,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	NotVisibleOnScreen?: string[];
 
 	/** Specify body type overrides that live in the asset override folder */
-	StyleOverride?: string[];
+	StyleOverride?: BodyStyle[];
 	CreateLayerTypesOverride?: number[];
 
 	DrawOffset?: {
@@ -880,7 +882,7 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	/**
 	 * Specify body type overrides that live in the asset override folder
 	 */
-	StyleOverride?: string[];
+	StyleOverride?: BodyStyle[];
 	CreateLayerTypesOverride?: number[];
 
 	MirrorExpression?: AssetGroupName;

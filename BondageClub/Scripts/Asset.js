@@ -701,8 +701,8 @@ function AssetMapLayer(Layer, A, I) {
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
-		StyleOverride: Layer.StyleOverride,
-		CreateLayerTypesOverride: Layer.CreateLayerTypesOverride,
+		StyleOverride: Layer.StyleOverride ?? A.StyleOverride,
+		CreateLayerTypesOverride: Layer.CreateLayerTypesOverride ?? A.CreateLayerTypesOverride,
 		// If `null`, initialized in the second asset layer loop in `AssetAdd()`
 		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
