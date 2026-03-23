@@ -1794,9 +1794,9 @@ var CommonKey = /** @type {const} */({
 	/**
 	 * A {@link ScreenFunctions.KeyDown} helper function for implementing the navigation key handling of scrollable elements.
 	 * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
-	 * @param {HTMLElement} scrollableElem - The scrollable element
+	 * @param {Element} scrollableElem - The scrollable element
 	 * @param {KeyboardEvent} event - The `keydown` event
-	 * @param {(scrollableElem: HTMLElement) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
+	 * @param {(scrollableElem: Element) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
 	 * @returns {boolean} - Whether a navigation key was (successfuly pressed)
 	 */
 	NavigationKeyDown: function NavigationKeyDown(scrollableElem, event, getArrowScrollDistance) {
