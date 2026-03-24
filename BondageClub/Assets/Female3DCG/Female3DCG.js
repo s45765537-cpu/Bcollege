@@ -9142,6 +9142,99 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Shapewear2",
+				InventoryID: 1314,
+				Random: false,
+				Value: 24,
+				Top: 0,
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 90,
+				},
+				Priority: 14,
+				SetPose: ["LegsClosed", "Kneel"],
+				AllowActivePose: ["LegsClosed", "Kneel"],
+				Layer: [
+					{
+						Name: "Top",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "Bottom",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+						},
+					},
+					{
+						Name: "TopPattern",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "BottomPattern",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+						},
+					},
+					{
+						Name: "TopCenter",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "BottomCenter",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+						},
+					},
+					{
+						Name: "TopLine",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "BottomLine",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+						},
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "塑身衣2",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -12145,11 +12238,7 @@ var AssetFemale3DCG = [
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				PoseMapping: {},
 				DefaultColor: ["#545454", "#000000", "Default"],
-				Layer: [
-					{ Name: "MetalRing" },
-					{ Name: "Strap" },
-					{ Name: "Pearl" },
-				],
+				Layer: [{ Name: "MetalRing" }, { Name: "Strap" }, { Name: "Pearl" }],
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "珍珠带",
