@@ -291,6 +291,15 @@ ClothLowerShapewear2Top,Top
 ClothLowerShapewear2TopCenter,Top Center
 ClothLowerShapewear2TopLine,Top Line
 ClothLowerShapewear2TopPattern,Top Pattern
+ClothLowerSlitColumnSkirtBase,Base
+ClothLowerSlitColumnSkirtBottomGloss,Bottom Gloss
+ClothLowerSlitColumnSkirtBottomHighlight,Bottom Highlight
+ClothLowerSlitColumnSkirtBottomSkirt,Bottom Skirt
+ClothLowerSlitColumnSkirtBottomZipper,Bottom Zipper
+ClothLowerSlitColumnSkirtTopGloss,Top Gloss
+ClothLowerSlitColumnSkirtTopHighlight,Top Highlight
+ClothLowerSlitColumnSkirtTopSkirt,Top Skirt
+ClothLowerSlitColumnSkirtTopZipper,Top Zipper
 ClothMaidDress3ApronDarkPart,Apron Dark Part
 ClothMaidDress3ApronTone,Apron Tone
 ClothMaidDress3BackBow,Back Bow
