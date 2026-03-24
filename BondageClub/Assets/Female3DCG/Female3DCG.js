@@ -9146,7 +9146,7 @@ var AssetFemale3DCG = [
 				Name: "Shapewear2",
 				InventoryID: 1314,
 				Random: false,
-				Value: 24,
+				Value: 20,
 				Top: 0,
 				Left: {
 					[PoseType.DEFAULT]: 0,
@@ -9232,6 +9232,47 @@ var AssetFemale3DCG = [
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "塑身衣2",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "LacePants",
+				InventoryID: 1315,
+				Random: false,
+				Value: 24,
+				Top: 0,
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 90,
+				},
+				Priority: 20,
+				Layer: [
+					{
+						Name: "Pants",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							KneelingSpread: "KneelingSpread",
+							Kneel: "Kneel",
+							Spread: "Spread",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Pattern",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							KneelingSpread: "KneelingSpread",
+							Kneel: "Kneel",
+							Spread: "Spread",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "蕾丝裤",
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
