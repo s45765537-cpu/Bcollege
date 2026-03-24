@@ -1154,33 +1154,45 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				}
 			}
 
-			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
-			for (const color of colors) {
-				for (const expression of expressions) {
-					for (const [type, poseList] of layerTypes) {
-						for (const pose of poseList) {
-							/** @type {undefined | "" | AssetGroupName} */
-							const parentGroup = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
-							const parentNames = !parentGroup ? new Set([null]) : assetGroupMap[parentGroup][asset.Gender ?? "FM"];
-							if (parentNames.size === 0) {
-								error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
-							}
+			// Combinations involving BodyStyle
+			const DEFAULT_STYLE = "DEFAULT_STYLE";
+			let bodyStyles = layer.StyleOverride ?? ["DEFAULT_STYLE"];
+			bodyStyles.splice(0, 0, DEFAULT_STYLE);
 
-							for (const parent of parentNames) {
-								const pngPath = (
-									root
-									+ (pose ? `${pose}/` : "")
-									+ (expression ? `${expression}/` : "")
-								);
-								const fileParts = [];
-								if (asset.Name) fileParts.push(asset.Name);
-								if (parent) fileParts.push(parent);
-								if (type) fileParts.push(type);
-								if (color) fileParts.push(color);
-								if (layer.Name) fileParts.push(layer.Name);
-								const file = pngPath + fileParts.join("_") + ".png";
-								if (!fs.existsSync(file)) {
-									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
+			for (const style of bodyStyles) {
+				const styleSubpath = style !== DEFAULT_STYLE ? `Override/${style}/` : "";
+				const root = `${BASE_PATH}Assets/${asset.Group.Family}/${styleSubpath}${asset.DynamicGroupName}/`;
+				for (const color of colors) {
+					for (const expression of expressions) {
+						for (const [type, poseList] of layerTypes) {
+							for (const pose of poseList) {
+								/** @type {undefined | "" | AssetGroupName} */
+								const parentGroup = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
+								const parentNames = !parentGroup ? new Set([null]) : assetGroupMap[parentGroup][asset.Gender ?? "FM"];
+								if (parentNames.size === 0) {
+									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
+								}
+
+								for (const parent of parentNames) {
+									const pngPath = (
+										root
+										+ (pose ? `${pose}/` : "")
+										+ (expression ? `${expression}/` : "")
+									);
+									const fileParts = [];
+									if (asset.Name) fileParts.push(asset.Name);
+									if (parent) fileParts.push(parent);
+									if (type) fileParts.push(type);
+									if (color) fileParts.push(color);
+									if (layer.Name) fileParts.push(layer.Name);
+									const file = pngPath + fileParts.join("_") + ".png";
+									if (!fs.existsSync(file)) {
+										if (style === DEFAULT_STYLE) {
+											error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing layer file "${file}"`);
+										} else {
+											error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing override layer file for style ${style} "${file}"`);
+										}
+									}
 								}
 							}
 						}
