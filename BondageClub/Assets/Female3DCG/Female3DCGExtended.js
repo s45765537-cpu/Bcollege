@@ -1066,6 +1066,12 @@ var AssetFemale3DCGExtended = {
 			DrawImages: true,
 			Options: [{ Name: "Yes" }, { Name: "No" }],
 		}, // BrocadeCloudsSnowEmbroideryQipao
+		AllureSidecut: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			DrawImages: false,
+			Options: [{ Name: "Default" }, { Name: "Transparent" }],
+		}, // AllureSidecut
 	}, // Cloth
 	BodyMarkings: {
 		WombTattoos: {
