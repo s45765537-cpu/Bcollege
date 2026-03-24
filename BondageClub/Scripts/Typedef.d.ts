@@ -373,7 +373,7 @@ declare namespace ElementDOMScreen {
 		/** The parent element of the to-be returned screen (if any) */
 		parent?: Node;
 		/** Buttons for in the header's menubar (see `.screen-header [role="menubar"]`) */
-		menubarButtons?: readonly HTMLButtonElement[];
+		menubarButtons?: readonly HTMLElement[];
 		/** Content for within the main section (see `.screen-main`) */
 		mainContent?: readonly (Node | string | HTMLOptionsUnion)[];
 		/** Whether an extra `aside.screen-aside-l` section should be added to the left of `.screen-main` */
