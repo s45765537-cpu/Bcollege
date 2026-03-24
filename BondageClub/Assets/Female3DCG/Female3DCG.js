@@ -9331,6 +9331,57 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "WoolenHighWaistSkirt",
+				InventoryID: 1318,
+				Random: false,
+				Value: 22,
+				Top: 0,
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 90,
+				},
+				Priority: 26,
+				DefaultColor: ["#560E0E", "#560E0E", "#1F1F1F"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				Layer: [
+					{
+						Name: "Top",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Bottom",
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "KneelingSpread",
+							LegsClosed: PoseType.DEFAULT,
+							Spread: PoseType.DEFAULT,
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Buttons",
+						ParentGroup: {},
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "裙子",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
