@@ -12048,6 +12048,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PullDownPanties",
 				InventoryID: 1305,
+				Random: false,
 				Value: 25,
 				Priority: 24,
 				Left: {
@@ -12132,6 +12133,28 @@ var AssetFemale3DCG = [
 						},
 					},
 				],
+			},
+			{
+				Name: "PearlStrapPanties",
+				InventoryID: 1313,
+				Random: false,
+				Value: 12,
+				Left: 170,
+				Top: 460,
+				ParentGroup: {},
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+				PoseMapping: {},
+				DefaultColor: ["#545454", "#000000", "Default"],
+				Layer: [
+					{ Name: "MetalRing" },
+					{ Name: "Strap" },
+					{ Name: "Pearl" },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "珍珠带",
+					License: "CC BY-SA-NC 4.0",
+				},
 			},
 		],
 		Color: [
