@@ -9276,6 +9276,31 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Halfpleatedskirt",
+				InventoryID: 1316,
+				Random: false,
+				Value: 18,
+				Top: 0,
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 90,
+				},
+				DefaultColor: ["#7F1739", "Default", "Default"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+				PoseMapping: {
+					Kneel: "KneelingSpread",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				Priority: 26,
+				Layer: [{ Name: "Skirt" }, { Name: "Whiteline" }, { Name: "Chain" }],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "半开百褶裙",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
