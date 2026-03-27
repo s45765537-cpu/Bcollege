@@ -82,12 +82,10 @@
 
 .screen-hgroup {
 	grid-area: hgroup;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	display: inline;
+	align-content: center;
 	color: white;
-	min-height: 1.15em; /* 1 line */
-	height: var(--menu-button-size);
+	min-height: max(var(--menu-button-size), 1.15em); /* >=1 line */
 	max-height: 4.6em; /* 4 lines */
 }
 
