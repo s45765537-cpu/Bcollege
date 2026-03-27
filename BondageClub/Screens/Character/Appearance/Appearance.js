@@ -228,10 +228,8 @@ function CharacterAppearanceMustHide(C, GroupName) {
 function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 
 	// Clear the current appearance
-	for (let A = C.Appearance.length - 1; A >= 0; A--)
-		if (C.Appearance[A].Asset.Group.Category == "Appearance")
-			if ((!ClothOnly || (C.Appearance[A].Asset.Group.AllowNone)) && AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name))
-				C.Appearance.splice(A, 1);
+	const items = C.Appearance.filter(item => item.Asset.Group.IsAppearance() && (!ClothOnly || item.Asset.Group.AllowNone) && AppearanceGroupAllowed(C, item.Asset.Group.Name));
+	InventoryUnequip.items(C, items);
 
 	// Need to add chest and genitals first to allow associated Has<BodyPart> prerequisites on clothing to pass
 	const firstGroups = ["BodyUpper", "Pussy"];
@@ -349,26 +347,20 @@ function CharacterAppearanceStripLayer(C) {
 	HasUnderwear = HasUnderwear && !HasClothes;
 
 	// Remove assets from the top layer only
-	var RemoveAsset = false;
-	for (let A = C.Appearance.length - 1; A >= 0; A--) {
-		RemoveAsset = false;
-
-		if (!WardrobeGroupAccessible(C, C.Appearance[A].Asset.Group)) continue;
-		if (!AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name)) continue;
-		if (C.Appearance[A].Asset.Group.BodyCosplay || C.Appearance[A].Asset.BodyCosplay) {
-			if (HasBodyCosplay) RemoveAsset = true;
-		}
-		else if (C.Appearance[A].Asset.Group.Underwear) {
-			if (HasUnderwear) RemoveAsset = true;
-		}
-		else if (C.Appearance[A].Asset.Group.Clothing) {
-			if (HasClothes) RemoveAsset = true;
-		}
-
-		if (RemoveAsset) {
-			C.Appearance.splice(A, 1);
+	/** @type {Item[]} */
+	const items = [];
+	for (const item of C.Appearance) {
+		if (!WardrobeGroupAccessible(C, item.Asset.Group)) continue;
+		if (!AppearanceGroupAllowed(C, item.Asset.Group.Name)) continue;
+		if (item.Asset.Group.BodyCosplay || item.Asset.BodyCosplay) {
+			if (HasBodyCosplay) items.push(item);
+		} else if (item.Asset.Group.Underwear) {
+			if (HasUnderwear) items.push(item);
+		} else if (item.Asset.Group.Clothing) {
+			if (HasClothes) items.push(item);
 		}
 	}
+	InventoryUnequip.items(C, items);
 
 	// Loads the new character canvas
 	CharacterLoadCanvas(C);
@@ -1179,21 +1171,19 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
 	DifficultyFactor ??= 0;
 
 	// Removes the previous if we need to
-	const prevItem = CommonFindMap(
-		C.Appearance,
-		(item, index) => { return item.Asset.Group.Name === Group ? { item, index } : undefined; },
-	);
-
+	const prevItem = InventoryGet(C, Group);
 	if (prevItem) {
-		C.Appearance.splice(prevItem.index, 1);
+		// Do not remove any sub items if the new asset also supports them (e.g. don't remove bed-specific restraints when swapping the bed for the medical bed)
+		const removeItemOnRemove = AssetGetRemoveOnItemRemoveDiff(prevItem.Asset.RemoveItemOnRemove, ItemAsset?.RemoveItemOnRemove ?? []);
+		InventoryUnequip.item(C, prevItem, { removeItemOnRemove });
 	}
 
 	if (!ItemAsset) {
 		return null;
 	}
 
-	if (prevItem && !ItemColorIsDefault(prevItem.item)) {
-		NewColor ??= prevItem.item.Color;
+	if (prevItem && !ItemColorIsDefault(prevItem)) {
+		NewColor ??= prevItem.Color;
 	}
 
 	// Add the new item to the character appearance
@@ -1827,10 +1817,8 @@ function CharacterAppearanceReady(C) {
 function CharacterAppearanceCopy(FromC, ToC) {
 
 	// Removes any previous appearance asset
-	for (let A = ToC.Appearance.length - 1; A >= 0; A--)
-		if ((ToC.Appearance[A].Asset != null) && (ToC.Appearance[A].Asset.Group.Category == "Appearance")) {
-			ToC.Appearance.splice(A, 1);
-		}
+	const items = ToC.Appearance.filter(item => item.Asset.Group.IsAppearance());
+	InventoryUnequip.items(ToC, items);
 
 	// Adds all appearance assets from the first character to the second
 	for (let A = 0; A < FromC.Appearance.length; A++)
@@ -2139,11 +2127,10 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 		if ((AppRow.A != null) && (typeof AppRow.A == "string") && (AppRow.G != null) && (typeof AppRow.G == "string") && AppearanceGroupAllowed(C, AppRow.G)) {
 
 			// On the first update, we clear the current appearance
-			if (!MustRefresh)
-				for (let A = C.Appearance.length - 1; A >= 0; A--)
-					if ((C.Appearance[A].Asset.Group.Category == "Appearance") && C.Appearance[A].Asset.Group.AllowCustomize)
-						if (C.Appearance[A].Asset.Group.AllowNone && AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name))
-							C.Appearance.splice(A, 1);
+			if (!MustRefresh) {
+				const items = C.Appearance.filter(({ Asset: { Group } }) => Group.IsAppearance() && Group.AllowCustomize && Group.AllowNone && AppearanceGroupAllowed(C, Group.Name));
+				InventoryUnequip.items(C, items);
+			}
 
 			// Apply potential fixups when pasting
 			const fixup = LoginInventoryFixups.find(f => f.Old.Group === AppRow.G && (f.Old.Name === AppRow.A || f.Old.Name === "*"));

@@ -619,7 +619,7 @@ function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowAc
 
 	// Create/load a simple character for prerequisite checking
 	const checkCharacter = CharacterLoadSimple("InventoryAllow");
-	checkCharacter.Appearance = C.Appearance.filter((item) => item.Asset.Group.Name !== asset.Group.Name);
+	InventoryUnequip.group(checkCharacter, asset.Group.Name);
 	CharacterLoadEffect(checkCharacter);
 	PoseRefresh(checkCharacter);
 

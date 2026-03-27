@@ -631,10 +631,7 @@ function StableDressBackPlayer() {
 	CharacterRelease(Player);
 	CharacterNaked(Player);
 	//Release Harnes, Plug, Ears2
-	for (let E = Player.Appearance.length - 1; E >= 0; E--)
-		if ((Player.Appearance[E].Asset.Group.Name == "ItemTorso") || (Player.Appearance[E].Asset.Group.Name == "Hat") || (Player.Appearance[E].Asset.Group.Name == "ItemButt")) {
-			Player.Appearance.splice(E, 1);
-		}
+	InventoryUnequip.groups(Player, ["ItemTorso", "Hat", "ItemButt"]);
 	CharacterDress(Player, StablePlayerAppearance);
 	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
@@ -734,10 +731,7 @@ function StablePlayerExamEnd() {
 	CharacterRelease(Player);
 	CharacterNaked(Player);
 	//Release Harnes, Plug, Ears2
-	for (let E = Player.Appearance.length - 1; E >= 0; E--)
-		if ((Player.Appearance[E].Asset.Group.Name == "ItemTorso") || (Player.Appearance[E].Asset.Group.Name == "Hat") || (Player.Appearance[E].Asset.Group.Name == "ItemButt")) {
-			Player.Appearance.splice(E, 1);
-		}
+	InventoryUnequip.groups(Player, ["ItemTorso", "Hat", "ItemButt"]);
 	CharacterDress(Player, StablePlayerAppearance);
 	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
