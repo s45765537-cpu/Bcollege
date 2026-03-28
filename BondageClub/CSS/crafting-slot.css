@@ -46,7 +46,8 @@
 	background-color: color-mix(in srgb, red 33%, pink 67%);
 }
 
-#crafting-slot-screen[data-mode] .crafting-slot-button:focus {
+#crafting-slot-screen[data-mode="Delete"] .crafting-slot-button:focus,
+#crafting-slot-screen[data-mode="Reorder"] .crafting-slot-button:focus {
 	outline: 2px solid rgb(0, 96, 223);
 	box-shadow: 0 0 0 3px white;
 	border-radius: 1px;
