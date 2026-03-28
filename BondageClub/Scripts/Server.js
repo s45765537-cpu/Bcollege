@@ -266,20 +266,26 @@ function ServerDisconnect(data, close = false) {
  * @param {ServerAccountData} C
  */
 function ServerHandleRelog(C) {
-	// In relog mode, we jump back to the previous screen, keeping the current game flow
 	if (!RelogData) return false;
 	Player.CharacterID = C.ID.toString();
 	Player.OnlineID = C.ID.toString();
 	CurrentCharacter = RelogData.Character;
 
-	if (RelogData.ChatRoomName) {
-		// We can afford to drop the player into the lobby since its state is still valid
-		CommonSetScreen("Online", "ChatSearch");
-		ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
-	} else {
-		const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
-		CommonSetScreen(...screen);
-	}
+	// In relog mode, we jump back to the previous screen, keeping the current game flow
+	// For chatroom relogs, just drop the player into the lobby since its state should still be valid
+	const isChatRoomRelog = !!RelogData.ChatRoomName;
+	/** @type {ScreenSpecifier} */
+	const screen = isChatRoomRelog ? ["Online", "ChatSearch"] : /** @type {ScreenSpecifier} */ ([RelogData.Module, RelogData.Screen]);
+
+	// XXX: Using `.then()` here because I don't want asyncness to spread to LoginResponse just yet
+	CommonSetScreen(...screen).then(async () => {
+		if (isChatRoomRelog) {
+			const ret = await ServerRoomJoin(RelogData.ChatRoomName);
+			if (ret.err) {
+				console.error(ret.error);
+			}
+		}
+	});
 	return true;
 }
 
@@ -1440,3 +1446,122 @@ const ServerChatRoomSearchSettingsValidate = {
 	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
 	FilterTerms: ServerValidation.isString(200, ""),
 };
+
+const ServerDefaultTimeout = 1000;
+
+class ServerError extends Error {}
+
+class ServerTimeoutError extends ServerError {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message = undefined) {
+		super(message);
+		this.name = "ServerTimeoutError";
+	}
+}
+
+class ServerInProgressError extends ServerError {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message = undefined) {
+		super(message);
+		this.name = "ServerInProgressError";
+	}
+}
+
+class ServerJoinError extends ServerError {
+	/**
+	 * @type {ServerChatRoomJoinFailedResponse} name
+	 */
+	name;
+	/**
+	 * @param {ServerChatRoomJoinFailedResponse} type
+	 * @param {string} [message]
+	 */
+	constructor(type, message = undefined) {
+		super(message);
+		this.name = type;
+	}
+}
+
+/**
+ * Run a promise along with a timeout
+ *
+ * @template T
+ * @param {number} timeout
+ * @param {((resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void)} executor
+ * @return {Promise<T>}
+ */
+function ServerPromiseWithTimeout(timeout, executor) {
+	const work = new Promise(executor);
+	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(Result.failure(new ServerTimeoutError())), timeout); });
+	return Promise.race([work, timeoutPromise]);
+}
+
+
+let ServerRoomSearchLastQueryTime = 0;
+/** @type {ServerChatRoomSearchRequest | null} */
+let ServerRoomSearchLastQuery = null;
+
+
+/**
+ * Perform a search query against the server
+ * @param {string} queryString
+ * @param {Omit<ServerChatRoomSearchRequest, "Query">} options
+ * @return {Promise<Result<ServerChatRoomSearchResultResponse, ServerError>>}
+ */
+async function ServerRoomSearch(queryString, options) {
+	/** @type {ServerChatRoomSearchRequest} */
+	const request = {
+		Query: queryString.toUpperCase().trim(),
+		...options,
+	};
+
+	if (CommonObjectEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
+		return Result.failure(new ServerInProgressError("Search query while another query is in progress!"));
+	}
+
+	ServerRoomSearchLastQueryTime = CommonTime();
+	ServerRoomSearchLastQuery = CommonCloneDeep(request);
+
+	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
+		ServerSocket.once("ChatRoomSearchResult", (data) => {
+			resolve(Result.success(data));
+		});
+
+		ServerSend("ChatRoomSearch", request);
+	});
+}
+
+let ServerRoomJoinLastQuery = "";
+let ServerRoomJoinLastQueryTime = 0;
+
+/**
+ * Perform a join query against the server
+ * @param {string} roomName
+ * @return {Promise<Result<string, ServerError>>}
+ */
+async function ServerRoomJoin(roomName) {
+	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + 1000 > CommonTime()) {
+		return Result.failure(new ServerInProgressError("Join query while another query is in progress!"));
+	}
+
+	ServerRoomJoinLastQueryTime = CommonTime();
+	ServerRoomJoinLastQuery = roomName;
+
+	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
+		ServerSocket.once("ChatRoomSearchResponse", (data) => {
+			if (data === "JoinedRoom") {
+				resolve(Result.success(roomName));
+			} else if (data === "RoomKicked") {
+				// We… shouldn't get that one while joining
+			} else {
+				reject(Result.failure(new ServerJoinError(data)));
+			}
+		});
+
+		ServerSend("ChatRoomJoin", { Name: roomName });
+	});
+}

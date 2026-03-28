@@ -447,8 +447,8 @@ function CommonDynamicFunctionParams(FunctionName) {
 	if (typeof func === "function") {
 
 		// Launches the function with the params and returns the result
-		var Result = func(...Params);
-		return Reverse ? !Result : Result;
+		const res = func(...Params);
+		return Reverse ? !res : res;
 	} else {
 
 		// Log the error in the console
@@ -2472,6 +2472,73 @@ function CommonStringSplice(string, index, value, defaultValue) {
  */
 function CommonUnwrapThunk(thunk) {
 	return typeof thunk === "function" ? /** @type {() => T} */ (thunk)() : thunk;
+}
+
+/**
+ * A class representing the result of a failable operation
+ * @template T
+ * @template {Error} [E=Error]
+ */
+class Result {
+	/** @type {T} */
+	value;
+	/** @type {E | null} */
+	error;
+
+	/**
+	 * Create a new Result representing the status of a failable operation
+	 * @param {T} value
+	 * @param {E | null} [error]
+	 */
+	constructor(value, error = null) {
+		this.value = value;
+		this.error = error;
+	}
+
+	/**
+	 * Build a Result for a successful operation
+	 * @template T
+	 * @param {T} value
+	 * @returns
+	 */
+	static success(value) {
+		return new Result(value, null);
+	}
+
+	/**
+	 * Build a Result for a failed operation
+	 * @param {Error} error
+	 * @returns
+	 */
+	static failure(error) {
+		return new Result(null, error);
+	}
+
+	/**
+	 * Returns whether the operation was a success
+	 */
+	get ok() {
+		return !this.error;
+	}
+
+	/**
+	 * Returns whether the operation was a failure
+	 */
+	get err() {
+		return !!this.error;
+	}
+
+	/**
+	 * Unwrap the result
+	 * This either returns the successful return of the operation, or throws the error it reported
+	 */
+	unwrap() {
+		if (this.ok) {
+			return this.value;
+		} else {
+			throw this.error;
+		}
+	}
 }
 
 /**
