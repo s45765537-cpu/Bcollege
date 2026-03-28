@@ -340,11 +340,11 @@ fieldset[name="crafting-slot"] a {
 	height: 100%;
 }
 
-.crafting-draggabl[data-hover="left"] {
+.crafting-draggable[data-hover="left"] {
 	left: 0;
 }
 
-.crafting-draggabl[data-hover="right"] {
+.crafting-draggable[data-hover="right"] {
 	left: 50%;
 }
 
