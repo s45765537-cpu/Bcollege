@@ -297,7 +297,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 		CustomBlindBackground: typeof AssetDef.CustomBlindBackground === 'string' ? AssetDef.CustomBlindBackground : undefined,
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
-		PoseMapping: AssetParsePoseMapping(AssetDef.PoseMapping, Group.PoseMapping, AssetDef.InheritPoseMappingFields),
 		Tint: Array.isArray(AssetDef.Tint) ? AssetDef.Tint : [],
 		AllowTint: Array.isArray(AssetDef.Tint) && AssetDef.Tint.length > 0,
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
@@ -688,7 +687,7 @@ function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 		StyleOverride: Array.isArray(Layer.StyleOverride) ? Layer.StyleOverride : Array.isArray(AssetDef.StyleOverride) ? AssetDef.StyleOverride : [],
 		CreateLayerTypesOverride: Array.isArray(Layer.CreateLayerTypesOverride) ? Layer.CreateLayerTypesOverride : Array.isArray(AssetDef.CreateLayerTypesOverride) ? AssetDef.CreateLayerTypesOverride : [],
 		// If `null`, initialized in the second asset layer loop in `AssetAdd()`
-		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields),
+		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, AssetParsePoseMapping(AssetDef.PoseMapping, A.Group.PoseMapping, AssetDef.InheritPoseMappingFields), Layer.InheritPoseMappingFields),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
 		ColorSuffix: Layer.ColorSuffix ?? AssetDef.ColorSuffix ?? GroupDef.ColorSuffix ?? {},

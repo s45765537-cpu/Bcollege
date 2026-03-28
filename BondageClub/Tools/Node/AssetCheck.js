@@ -922,7 +922,7 @@ function testActivePose(assets, poseMap) {
 		}
 
 		for (const layer of asset.Layer) {
-			const allowPoseMap = poseToPoseMap(/** @type {AssetPoseName[]} */(Object.keys(layer.PoseMapping ?? asset.PoseMapping)), poseMap);
+			const allowPoseMap = poseToPoseMap(/** @type {AssetPoseName[]} */(Object.keys(layer.PoseMapping)), poseMap);
 			const allowActivePoseMap = poseToPoseMap(asset.AllowActivePose ?? [], poseMap);
 
 			for (const [_category, allowActivePoseList] of Object.entries(allowActivePoseMap)) {

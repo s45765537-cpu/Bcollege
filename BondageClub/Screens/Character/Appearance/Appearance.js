@@ -565,7 +565,7 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		return true;
 	}
 
-	if (C.Pose.some(p => assetToCheck && assetToCheck.PoseMapping[p] === PoseType.HIDE)) return false;
+	if (C.Pose.some(p => assetToCheck && assetToCheck.Layer.every(l => l.PoseMapping[p] === PoseType.HIDE))) return false;
 
 	for (const item of C.DrawAppearance) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;

@@ -1341,7 +1341,6 @@ interface Asset {
 				X?: number;
 				Y?: number;
 		}[];
-	readonly PoseMapping: Readonly<AssetPoseMapping>;
 	readonly AllowActivePose?: readonly AssetPoseName[];
 	readonly Value: number;
 	readonly NeverSell: boolean;
