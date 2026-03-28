@@ -9195,7 +9195,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: 90,
 				},
 				Priority: 14,
-				SetPose: ["LegsClosed", "Kneel"],
+				SetPose: ["LegsClosed"],
 				AllowActivePose: ["LegsClosed", "Kneel"],
 				Layer: [
 					{
