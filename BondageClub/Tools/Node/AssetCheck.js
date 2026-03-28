@@ -921,23 +921,25 @@ function testActivePose(assets, poseMap) {
 			continue;
 		}
 
-		const allowPoseMap = poseToPoseMap(/** @type {AssetPoseName[]} */(Object.keys(asset.PoseMapping)), poseMap);
-		const allowActivePoseMap = poseToPoseMap(asset.AllowActivePose ?? [], poseMap);
+		for (const layer of asset.Layer) {
+			const allowPoseMap = poseToPoseMap(/** @type {AssetPoseName[]} */(Object.keys(layer.PoseMapping ?? asset.PoseMapping)), poseMap);
+			const allowActivePoseMap = poseToPoseMap(asset.AllowActivePose ?? [], poseMap);
 
-		for (const [_category, allowActivePoseList] of Object.entries(allowActivePoseMap)) {
-			const category = /** @type {AssetPoseCategory} */(_category);
-			const allowPoseList = allowPoseMap[category];
-			if (!allowPoseList) {
-				continue;
-			}
+			for (const [_category, allowActivePoseList] of Object.entries(allowActivePoseMap)) {
+				const category = /** @type {AssetPoseCategory} */(_category);
+				const allowPoseList = allowPoseMap[category];
+				if (!allowPoseList) {
+					continue;
+				}
 
-			const invalidSuperset = allowPoseList.filter(p => !allowActivePoseList.includes(p) && asset.PoseMapping[p] !== PoseType.DEFAULT && asset.PoseMapping[p] !== PoseType.HIDE);
-			if (invalidSuperset.length > 0) {
-				invalidSuperset.sort();
-				error(
-					`${asset.Group.Name}:${asset.Name}: PoseMapping keys must be a subset of AllowActivePose for a given pose category; `
-					+ `found ${invalidSuperset.length} offending members in category "${category}": ${invalidSuperset}`
-				);
+				const invalidSuperset = allowPoseList.filter(p => !allowActivePoseList.includes(p) && layer.PoseMapping[p] !== PoseType.DEFAULT && layer.PoseMapping[p] !== PoseType.HIDE);
+				if (invalidSuperset.length > 0) {
+					invalidSuperset.sort();
+					error(
+						`${asset.Group.Name}:${asset.Name}:${layer.Name}: PoseMapping keys must be a subset of AllowActivePose for a given pose category; `
+						+ `found ${invalidSuperset.length} offending members in category "${category}": ${invalidSuperset}`
+					);
+				}
 			}
 		}
 
