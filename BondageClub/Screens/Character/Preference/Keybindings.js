@@ -256,30 +256,30 @@ var KeyGUI = {
 
 		existing?.replaceChildren();
 
-		const searchInput = ElementCreateSearchInput(KeyGUI.selec.searchInput, () => {
-			switch (KeyGUI.currentSearchingMode) {
-				case 'action':
-					return [...new Set(KeyManager.getAllKeybindings().map(kb => KeyManager.getKeybindingActionLabel(kb.id)))];
-				case 'category':
-					return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getCategoryLabel(cat.id)))];
-				case 'keyCombo':
-					return [...new Set(KeyManager.getAllKeybindings().map(kb => {
-						const keyCombo = kb.keyCombo;
-						const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : ("char" in keyCombo ? keyCombo.char : undefined);
-						const modifiersString = kb.keyCombo?.modifiers ? [...kb.keyCombo.modifiers].join(' + ') : '';
+		const searchInput = ElementCreateSearchInput(
+			KeyGUI.selec.searchInput,
+			() => {
+				switch (KeyGUI.currentSearchingMode) {
+					case 'action':
+						return [...new Set(KeyManager.getAllKeybindings().map(kb => KeyManager.getKeybindingActionLabel(kb.id)))];
+					case 'category':
+						return [...new Set(KeyManager.getAllCategories().map(cat => KeyManager.getCategoryLabel(cat.id)))];
+					case 'keyCombo':
+						return [...new Set(KeyManager.getAllKeybindings().map(kb => {
+							const keyCombo = kb.keyCombo;
+							const keyString = "key" in keyCombo ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : ("char" in keyCombo ? keyCombo.char : undefined);
+							const modifiersString = kb.keyCombo?.modifiers ? [...kb.keyCombo.modifiers].join(' + ') : '';
 
-						let keyComboString = TextGet('KeybindNotBound');
-						if (modifiersString) keyComboString = `${modifiersString} + ${keyString}`;
-						else if (keyString) keyComboString = keyString;
+							let keyComboString = TextGet('KeybindNotBound');
+							if (modifiersString) keyComboString = `${modifiersString} + ${keyString}`;
+							else if (keyString) keyComboString = keyString;
 
-						return keyComboString;
-					}))];
-			}
-		});
-
-		searchInput.placeholder = TextGet("KeybindSearchPlaceholder");
-
-		searchInput.addEventListener('input', () => KeyGUI.searchFilteredAll());
+							return keyComboString;
+						}))];
+				}
+			},
+			{ placeholder: TextGet("KeybindSearchPlaceholder"), onInput: () => KeyGUI.searchFilteredAll() },
+		);
 
 		const searchInputContainer = ElementCreate({
 			tag: 'label',

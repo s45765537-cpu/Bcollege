@@ -14,9 +14,6 @@ var CraftingBackground = "CraftingWorkshop";
  */
 let CraftingMode = "Slot";
 
-/** Whether selecting a crafted item in the crafting screen should destroy it. */
-let CraftingDestroy = false;
-
 /** The index of the selected crafted item within the crafting screen. */
 let CraftingSlot = 0;
 
@@ -25,9 +22,6 @@ let CraftingSlot = 0;
  * @type {CraftingItemSelected | null}
  */
 let CraftingSelectedItem = null;
-
-/** An offset used for the pagination of {@link Player.Crafting}. */
-let CraftingOffset = 0;
 
 /**
  * The character used for the crafting preview.
@@ -40,14 +34,6 @@ let CraftingNakedPreview = false;
 
 /** Whether exiting the crafting menu should return you to the chatroom or, otherwise, the main hall. */
 let CraftingReturnToChatroom = false;
-
-/** List of item indices collected for swapping.
- * @type {number[]}
- */
-let CraftingReorderList = [];
-
-/** @type {CraftingReorderType} */
-let CraftingReorderMode = "None";
 
 /**
  * A record mapping all crafting-valid asset names to a list of matching eligible assets.
@@ -1654,6 +1640,8 @@ async function CraftingLoad() {
 
 		parent.setAttribute("aria-busy", "false");
 	});
+
+	CraftingSlots.Load();
 }
 
 /**
@@ -1703,102 +1691,6 @@ function CraftingRun() {
 		return;
 	}
 
-	// In slot selection mode, we show the slots to select from
-	if (CraftingMode == "Slot") {
-		let BGColor;
-		let TrashCancel = false;
-
-		switch (CraftingReorderMode) {
-			case "None":
-				BGColor = CraftingDestroy ? "Pink" : "White";
-				break;
-
-			case "Select":
-				BGColor = "Yellow";
-				break;
-
-			case "Place":
-				BGColor = "Grey";
-				break;
-		}
-
-		DrawButton(1265, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Upload.png", TextGet("JSONDownload"), CraftingReorderMode !== "None");
-		DrawButton(1370, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Download.png", TextGet("JSONUpload"), CraftingReorderMode !== "None");
-		DrawButton(1475, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
-		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
-		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Swap.png", TextGet("Reorder"));
-		DrawButton(1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
-		if (CraftingReorderMode == "Select") {
-			DrawText(`${TextGet("ReorderSelect")} ${CraftingReorderList.length}`, 737, 60, "White", "Black");
-		} else if (CraftingReorderMode == "Place") {
-			DrawText(`${TextGet("ReorderPlace")} ${CraftingReorderList.length}`, 737, 60, "White", "Black");
-		} else if (CraftingDestroy) {
-			DrawText(`${TextGet("SelectDestroy")} ${Math.floor(CraftingOffset / 20) + 1} / ${200 / 20}.`, 737, 60, "White", "Black");
-		} else {
-			DrawText(`${TextGet("SelectSlot")} ${Math.floor(CraftingOffset / 20) + 1} / ${200 / 20}.`, 737, 60, "White", "Black");
-			TrashCancel = true;
-		}
-		if (TrashCancel) {
-			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Trash.png", TextGet("Destroy"));
-		} else {
-			DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
-		}
-		for (let S = CraftingOffset; S < CraftingOffset + 20; S++) {
-			let X = ((S - CraftingOffset) % 4) * 500 + 15;
-			let Y = Math.floor((S - CraftingOffset) / 4) * 180 + 130;
-			let Craft = Player.Crafting[S];
-			switch (CraftingReorderMode) {
-				case "Select":
-					BGColor = CraftingReorderList.includes (S) ? "Chartreuse" : "Yellow";
-					break;
-
-				case "Place":
-					BGColor = CraftingReorderList.includes (S) ? "Green" : "Grey";
-					break;
-
-				default:
-					break;
-			}
-			if (!Craft) {
-				DrawButton(X, Y, 470, 140, TextGet("EmptySlot"), BGColor);
-			} else {
-				DrawButton(X, Y, 470, 140, "", BGColor);
-				DrawTextFit(Craft.Name, X + 295, Y + 25, 315, "Black", "Silver");
-				const asset = CraftingAssets[Craft.Item]?.[0];
-				const groupName = asset?.DynamicGroupName;
-				if (groupName && InventoryAvailable(Player, Craft.Item, groupName)) {
-					DrawImageResize("Assets/" + Player.AssetFamily + "/" + groupName + "/Preview/" + asset.Name + ".png", X + 3, Y + 3, 135, 135);
-					DrawTextFit(asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
-					const effectArray = CommonEntries(Craft.Effects).filter(([_, value]) => !!value);;
-					let text = "";
-					/** @type {(effect: CraftingPropertyType, count?: number) => string} */
-					const getEffectText = (effect, count) => {
-						return TextGet(`Property${effect}`) + ((count ?? 0) > 1 ? ` ×${count}` : "");
-					};
-					if (effectArray.length === 0) {
-						text = TextGet("PropertyNormal");
-					}
-					if (effectArray.length === 1) {
-						const [effect, count] = effectArray[0];
-						text = getEffectText(effect, count);
-					}
-					else if (effectArray.length === 2) {
-						const [effect1, count1] = effectArray[0];
-						const [effect2, count2] = effectArray[1];
-						text = getEffectText(effect1, count1) + " and " + getEffectText(effect2, count2);
-					}
-					else if (effectArray.length > 2) {
-						text = TextGet(`MultipleProperties`) + ` (${effectArray.length})`;
-					}
-
-					DrawTextFit(text, X + 295, Y + 115, 315, "Black", "Silver");
-					if ((Craft.Lock != null) && (Craft.Lock != ""))
-						DrawImageResize("Assets/" + Player.AssetFamily + "/ItemMisc/Preview/" + Craft.Lock + ".png", X + 70, Y + 70, 70, 70);
-				}
-			}
-		}
-	}
-
 	if (CraftingMode == "Name") {
 		DrawCharacter(CraftingPreview, 775, 100, 0.9, false);
 	}
@@ -1843,10 +1735,14 @@ function CraftingResize(load) {
 	switch (CraftingMode) {
 		case "OverridePriority":
 			Layering.Resize(load);
-			break;
+			return;
 		case "Name":
 			ElementPositionFixed(CraftingID.root, 15, 15, 1970, 970);
-			break;
+			return;
+	}
+	if (CommonHas(CraftingSlots.modeKeys, CraftingMode)) {
+		CraftingSlots.Resize(load);
+		return;
 	}
 }
 
@@ -1863,7 +1759,13 @@ function CraftingKeyDown(ev) {
 			return true;
 		} else if (CommonKey.InputKeyDown(searchInput, ev)) {
 			return true;
+		} else {
+			return false;
 		}
+	}
+
+	if (CommonHas(CraftingSlots.modeKeys, CraftingMode)) {
+		return CraftingSlots.KeyDown(ev);
 	}
 	return false;
 }
@@ -1877,6 +1779,12 @@ function CraftingPaste(ev) {
 			break dialog;
 		}
 		CommonKey.InputPaste(searchInput, ev);
+		return;
+	}
+
+	if (CommonHas(CraftingSlots.modeKeys, CraftingMode)) {
+		CraftingSlots.Paste(ev);
+		return;
 	}
 }
 
@@ -1891,11 +1799,15 @@ function CraftingUnload() {
 	switch (CraftingMode) {
 		case "OverridePriority":
 			Layering.Unload();
-			break;
+			return;
 		case "Name": {
 			document.getElementById(CraftingID.root)?.toggleAttribute("hidden", true);
-			break;
+			return;
 		}
+	}
+	if (CommonHas(CraftingSlots.modeKeys, CraftingMode)) {
+		CraftingSlots.Unload();
+		return;
 	}
 }
 
@@ -1965,39 +1877,32 @@ function CraftingGetAllAssetNames() {
  */
 function CraftingModeSet(NewMode) {
 	CraftingUnload();
-	CraftingDestroy = false;
-	if (CraftingMode == "Slot" && NewMode != "Slot") {
-		CraftingReorderModeSet ("None");
-	}
 
 	CraftingMode = NewMode;
-	if (NewMode === "Name") {
-		if (!CraftingSelectedItem) {
-			// Variable always assigned in `CraftingClick()` before switching mode; if not? Everything and anything is broken at this point
-			throw new Error("No `CraftingSelectedItem` has been selected");
-		}
+	switch (NewMode) {
+		case "Name": {
+			if (!CraftingSelectedItem) {
+				// Variable always assigned in `CraftingClick()` before switching mode; if not? Everything and anything is broken at this point
+				throw new Error("No `CraftingSelectedItem` has been selected");
+			}
 
-		const root = document.getElementById(CraftingID.root);
-		if (root) {
-			root.toggleAttribute("hidden", false);
-		}
-		CraftingResize(false);
+			document.getElementById(CraftingID.root)?.toggleAttribute("hidden", false);
+			CraftingResize(false);
 
-		if (CraftingSelectedItem.Asset) {
-			// Select the asset
-			document.querySelector(`#${CraftingID.assetGrid} [name='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
-		} else {
-			// Open the side panel and manually updating the crafting preview to clear it of old items
-			document.querySelector(`#${CraftingID.assetButton}[aria-checked='false']`)?.dispatchEvent(new Event("click"));
-			CraftingUpdatePreview();
+			if (CraftingSelectedItem.Asset) {
+				// Select the asset
+				document.querySelector(`#${CraftingID.assetGrid} [name='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
+			} else {
+				// Open the side pannel and manually updating the crafting preview to clear it of old items
+				document.querySelector(`#${CraftingID.assetButton}[aria-checked='false']`)?.dispatchEvent(new Event("click"));
+				CraftingUpdatePreview();
+			}
+			return;
 		}
-
-		// Most mobile phones only trigger click events if a touchstart event originates from within the DOM element.
-		// For those that do not, the mixture of DOM and canvas buttons can be problematic, as a lingering touch can _instantly_ trigger a click if a DOM button is created where a canvas button previously was.
-		// As a workaround, disable the exit button for ~100 ms on mobile when (re-)entering the `Name` subscreen
-		if (CommonIsMobile && root) {
-			ElementClickTimeout(root);
-		}
+	}
+	if (CommonHas(CraftingSlots.modeKeys, NewMode)) {
+		CraftingSlots._changeMode(/** @type {CraftingSlotModes} */(NewMode));
+		return;
 	}
 }
 
@@ -2164,50 +2069,6 @@ function CraftingLoadServer(Packet) {
 }
 
 /**
- * Advance to the next crafting reordering mode, or set the mode to the specified value.
- * @param {null | CraftingReorderType} newmode - The mode to set.  If null, advance to next mode.
- */
-function CraftingReorderModeSet(newmode=null)
-{
-	let pushcrafts = true;
-
-	if (newmode == null) {
-		switch (CraftingReorderMode) {
-			case "None":
-				newmode = "Select";
-				break;
-
-			case "Select":
-				if (CraftingReorderList.length <= 0) {
-					// If selection list is empty, flip back to
-					// "None"; skip unnecessary network traffic.
-					pushcrafts = false;
-					newmode = "None";
-				} else {
-					newmode = "Place";
-				}
-				break;
-
-			case "Place":
-				newmode = "None";
-				break;
-		}
-	}
-
-	if (newmode == "None"  &&  CraftingReorderMode != "None") {
-		/*
-		 * We may have been in the middle of reordering things.
-		 * Commit the current state, and empty the list.
-		 */
-		if (pushcrafts) {
-			CraftingSaveServer();
-		}
-		CraftingReorderList = [];
-	}
-	CraftingReorderMode = newmode;
-}
-
-/**
  * Handles clicks in the crafting room.
  * @type {MouseEventListener}
  */
@@ -2217,140 +2078,8 @@ function CraftingClick(event) {
 	}
 
 	// Can always exit or cancel
-	if (MouseIn(1895, 15, 90, 90) && !["Color", "Extended", "OverridePriority", "Name"].includes(CraftingMode)) CraftingExit();
-	if (MouseIn(1790, 15, 90, 90) && !["Color", "Extended", "Slot", "OverridePriority", "Name"].includes(CraftingMode)) return CraftingModeSet("Slot");
-
-	// In slot mode, we can select which item slot to craft
-	if (CraftingMode == "Slot") {
-
-		// Four-ish pages of slots
-		if (MouseIn(1475, 15, 90, 90)) {
-			CraftingOffset = CraftingOffset - 20;
-			if (CraftingOffset < 0) CraftingOffset = 200 - 20;
-		} else if (MouseIn(1580, 15, 90, 90)) {
-			CraftingOffset = CraftingOffset + 20;
-			if (CraftingOffset >= 200) CraftingOffset = 0;
-		}
-
-		if (CraftingReorderMode == "None") {
-			if (MouseIn(1265, 15, 90, 90)) {
-				const href = URL.createObjectURL(new Blob(
-					[JSON.stringify(CraftingJSON.encode(Player.Crafting), null, 4)],
-					{ type: "application/json" },
-				));
-				const date = new Date();
-				const download = ElementCreate({
-					tag: "a",
-					parent: document.body,
-					attributes: {
-						href,
-						hidden: true,
-						download: `craft${Player.MemberNumber}-${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date.getDay().toString().padStart(2, "0")}.json`
-					},
-				});
-				download.click();
-				download.remove();
-				URL.revokeObjectURL(href);
-			} else if (MouseIn(1370, 15, 90, 90)) {
-				const { dialog } = CraftingJSON.createDialog(document.body);
-				CraftingResize(true);
-				dialog.showModal();
-			}
-		}
-
-		// Enter/Exit destroy item mode; or exit reorder mode.
-		if (MouseIn(1790, 15, 90, 90)) {
-			if (CraftingReorderMode != "None") {
-				CraftingReorderModeSet ("None");
-			} else {
-				CraftingDestroy = !CraftingDestroy;
-			}
-		}
-
-		// Craft slot reordering mode.
-		if (MouseIn (1675, 15, 90, 90)) {
-			if (CraftingDestroy) CraftingDestroy = false;
-
-			CraftingReorderModeSet(); // Advance mode
-		}
-
-		// Scan 20 items for clicks
-		for (let S = 0; S < 20; S++) {
-
-			// If the box was clicked
-			let X = (S % 4) * 500 + 15;
-			let Y = Math.floor(S / 4) * 180 + 130;
-			const Craft = Player.Crafting[S + CraftingOffset];
-			if (!MouseIn(X, Y, 470, 140)) continue;
-
-			// Reorder, destroy, edit or create a new crafting item
-			if (CraftingReorderMode == "Select") {
-				// If the index isn't present, add it.  If it
-				// is present, delete it.  This has the effect
-				// of toggling the slot in the UI.
-				const idx = CraftingReorderList.indexOf (S + CraftingOffset);
-				if (idx >= 0) {
-					CraftingReorderList.splice (idx, 1);
-				} else {
-					CraftingReorderList.push (S + CraftingOffset);
-				}
-			} else if (CraftingReorderMode == "Place") {
-				// Swap the slot clicked with the first entry in the list.
-				const idx = CraftingReorderList.shift();
-				if (idx == null) {
-					// The reorder list is empty. Is this even a reachable code path?
-					CraftingReorderModeSet("None");
-					return;
-				}
-
-				const item = Player.Crafting[S + CraftingOffset];
-				Player.Crafting[S + CraftingOffset] = Player.Crafting[idx];
-				Player.Crafting[idx] = item;
-				if (CraftingReorderList.length <= 0) {
-					// List exhausted; commit changes and end reorder mode.
-					CraftingReorderModeSet ("None");
-				}
-			} else if (CraftingDestroy) {
-				if (Craft) {
-					if (S + CraftingOffset < Player.Crafting.length) Player.Crafting[S + CraftingOffset] = null;
-					CraftingSaveServer();
-				}
-			} else if (Craft) {
-				CraftingSlot = S + CraftingOffset;
-				CraftingSelectedItem = CraftingConvertItemToSelected(Craft);
-				CraftingModeSet("Name");
-			} else {
-				CraftingSlot = S + CraftingOffset;
-				CraftingSelectedItem = {
-					Name: "",
-					Description: "",
-					DifficultyFactor: 0,
-					Color: "Default",
-					Assets: [],
-					get Asset() {
-						return this.Assets[0];
-					},
-					Effects: {},
-					Lock: null,
-					Private: false,
-					TypeRecord: null,
-					ItemProperty: {},
-					get OverridePriority() {
-						return this.ItemProperty.OverridePriority;
-					},
-					set OverridePriority(value) {
-						if (value == null) {
-							delete this.ItemProperty.OverridePriority;
-						} else {
-							this.ItemProperty.OverridePriority = value;
-						}
-					},
-				};
-				CraftingModeSet("Name");
-			}
-		}
-		return;
-	}
+	if (MouseIn(1895, 15, 90, 90) && !["Slot", "Reorder", "Delete", "Color", "Extended", "OverridePriority", "Name"].includes(CraftingMode)) CraftingExit();
+	if (MouseIn(1790, 15, 90, 90) && !["Color", "Extended", "Slot", "Reorder", "Delete", "OverridePriority", "Name"].includes(CraftingMode)) return CraftingModeSet("Slot");
 
 	// In color selection mode, we allow picking a color
 	if (CraftingMode == "Color") {
@@ -2372,10 +2101,6 @@ function CraftingClick(event) {
 
 	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
 		TightenLoosenItemClick();
-	}
-
-	if (CraftingMode == "OverridePriority") {
-		return;
 	}
 }
 
@@ -2554,23 +2279,26 @@ function CraftingExit(allowPanelClose=true) {
 			}
 			return;
 		}
-		case "Slot": {
-			ElementRemove(CraftingID.root);
-			if (CraftingPreview) {
-				CharacterDelete(CraftingPreview);
-				CraftingPreview = null;
-			}
-			CraftingElements._SearchCache.clear();
-			CraftingOffset = 0;
-			CraftingDestroy = false;
-			CraftingReorderModeSet("None");
-			if (CraftingReturnToChatroom) {
-				CommonSetScreen("Online", "ChatRoom");
-			} else {
-				CommonSetScreen("Room", "MainHall");
-			}
+	}
+
+	if (CommonHas(CraftingSlots.modeKeys, CraftingMode)) {
+		if (CraftingSlots.Exit(allowPanelClose)) {
 			return;
 		}
+
+		CraftingMode = "Slot";
+		ElementRemove(CraftingID.root);
+		if (CraftingPreview) {
+			CharacterDelete(CraftingPreview);
+			CraftingPreview = null;
+		}
+		CraftingElements._SearchCache.clear();
+		if (CraftingReturnToChatroom) {
+			CommonSetScreen("Online", "ChatRoom");
+		} else {
+			CommonSetScreen("Room", "MainHall");
+		}
+		return;
 	}
 }
 

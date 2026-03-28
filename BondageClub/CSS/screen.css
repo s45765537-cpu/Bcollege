@@ -73,8 +73,8 @@
 }
 
 .screen-header [role="menuitem"] .button-image {
-	max-height: 90px;
-	max-width: 90px;
+	max-height: 86px;
+	max-width: 86px;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -82,12 +82,10 @@
 
 .screen-hgroup {
 	grid-area: hgroup;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	display: inline;
+	align-content: center;
 	color: white;
-	min-height: 1.15em; /* 1 line */
-	height: var(--menu-button-size);
+	min-height: max(var(--menu-button-size), 1.15em); /* >=1 line */
 	max-height: 4.6em; /* 4 lines */
 }
 

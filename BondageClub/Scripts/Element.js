@@ -848,14 +848,24 @@ var ElementCheckboxDropdown = {
  *     </datalist>
  * </input>
  * @param {string | null} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
- * @param {() => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
+ * @param {(searchInput: HTMLInputElement) => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
  * @param {Object} [options]
  * @param {string} [options.value] - Value of the search input
  * @param {Node} [options.parent] - The parent element of the search input; defaults to {@link document.body}
  * @param {number} [options.maxLength] - Maximum input length of the search input
+ * @param {number} [options.minLength] - Minimum input length of the search input
+ * @param {number} [options.size]
+ * @param {string} [options.placeholder]
+ * @param {string} [options.name]
+ * @param {boolean} [options.disabled]
+ * @param {boolean} [options.spellcheck]
+ * @param {string | RegExp} [options.pattern]
+ * @param {(this: HTMLInputElement, ev: Event) => void} [options.onInput]
+ * @param {(this: HTMLInputElement, ev: KeyboardEvent) => void} [options.onKeydown]
+ * @param {null | Partial<Record<"search", Omit<HTMLOptions<"input">, "tag">>>} htmlOptions
  * @returns {HTMLInputElement} - The newly created search input
  */
-function ElementCreateSearchInput(id, dataCallback, options=undefined) {
+function ElementCreateSearchInput(id, dataCallback, options=undefined, htmlOptions=null) {
 	id ??= ElementGenerateID();
 	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
 	if (elem) {
@@ -864,19 +874,46 @@ function ElementCreateSearchInput(id, dataCallback, options=undefined) {
 	}
 
 	options ??= {};
-	elem = ElementCreateInput(id, "search", options.value, options.maxLength, options.parent);
-	elem.appendChild(ElementCreate({ tag: "datalist", attributes: { id: `${id}-datalist` } }));
-	elem.setAttribute("list", `${id}-datalist`);
-	elem.addEventListener("focus", async function() {
-		if (this.list?.children.length !== 0) {
-			return;
-		}
+	htmlOptions ??= {};
+	htmlOptions.search ??= {};
+	return ElementCreate({
+		...htmlOptions.search,
+		tag: "input",
+		parent: options.parent,
+		attributes: {
+			id,
+			type: "search",
+			size: options.size ?? 0,
+			list: `${id}-datalist`,
+			name: options.name,
+			value: options.value,
+			disabled: options.disabled,
+			minlength: options.minLength,
+			maxlength: options.maxLength,
+			placeholder: options.placeholder,
+			spellcheck: typeof options.spellcheck === "boolean" ? options.spellcheck.toString() : undefined,
+			pattern: options.pattern instanceof RegExp ? options.pattern.source : options.pattern,
+			...(htmlOptions.search.attributes ?? {}),
+		},
+		children: [
+			ElementCreate({ tag: "datalist", attributes: { id: `${id}-datalist` } }),
+			...(htmlOptions.search.children ?? []),
+		],
+		eventListeners: {
+			async focus() {
+				if (this.list?.children.length !== 0) {
+					return;
+				}
 
-		for (const value of dataCallback()) {
-			this.list.appendChild(ElementCreate({ tag: "option", attributes: { value } }));
-		}
+				for (const value of dataCallback(this)) {
+					this.list.appendChild(ElementCreate({ tag: "option", attributes: { value } }));
+				}
+			},
+			input: options.onInput,
+			keydown: options.onKeydown,
+			...(htmlOptions.search.eventListeners ?? {}),
+		},
 	});
-	return elem;
 }
 
 /**
@@ -1449,9 +1486,90 @@ var ElementButton = {
 	},
 
 	/**
+	 * Set the `[role]` attribute of the passed button
+	 * @param {HTMLButtonElement} button
+	 * @param {null | ElementButton.Options["role"]} role
+	 */
+	SetRole: function SetRole(button, role) {
+		const oldRole = button.getAttribute("role");
+		if (oldRole === role) {
+			return;
+		}
+
+		switch (oldRole) {
+			case "radio":
+				button.removeEventListener("click", ElementButton._ClickRadio);
+				button.removeEventListener("keydown", ElementButton._KeyDownRadio);
+				break;
+			case "menuitemradio":
+				button.removeEventListener("click", ElementButton._ClickRadio);
+				break;
+			case "combobox":
+			case "switch":
+			case "checkbox":
+			case "menuitemcheckbox":
+				button.removeEventListener("click", ElementButton._ClickCheckbox);
+				break;
+			case "spinbutton": {
+				button.removeEventListener("click", ElementButton._ClickSpin);
+				button.removeEventListener("keydown", ElementButton._KeyDownSpin);
+				break;
+			}
+		}
+
+		if (role == null) {
+			button.removeAttribute("role");
+			return;
+		} else {
+			button.setAttribute("role", role);
+		}
+		switch (role) {
+			case "radio":
+			case "menuitemradio":
+				button.addEventListener("click", ElementButton._ClickRadio);
+				if (!button.getAttribute("aria-checked")) {
+					button.setAttribute("aria-checked", "false");
+				}
+
+				if (role === "radio") {
+					button.addEventListener("keydown", ElementButton._KeyDownRadio);
+					if (button.getAttribute("tabindex") == null) {
+						button.tabIndex = button.getAttribute("aria-checked") === "true" ? 0 : -1;
+					}
+				}
+				break;
+			case "combobox":
+			case "switch":
+			case "checkbox":
+			case "menuitemcheckbox":
+				button.addEventListener("click", ElementButton._ClickCheckbox);
+				if (!button.getAttribute("aria-checked")) {
+					button.setAttribute("aria-checked", "false");
+				}
+				if (role === "combobox" && !button.hasAttribute("aria-expanded")) {
+					button.setAttribute("aria-expanded", "false");
+				}
+				break;
+			case "spinbutton": {
+				if (!button.hasAttribute("aria-valuemin")) {
+					button.setAttribute("aria-valuemin", "0");
+				}
+				if (!button.hasAttribute("aria-valuemax")) {
+					button.setAttribute("aria-valuemax", "100");
+				}
+				if (!button.hasAttribute("aria-valuenow")) {
+					button.setAttribute("aria-valuenow", button.getAttribute("aria-valuemin"));
+				}
+				button.addEventListener("click", ElementButton._ClickSpin);
+				button.addEventListener("keydown", ElementButton._KeyDownSpin);
+			}
+		}
+	},
+
+	/**
 	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
-	 * @param {(this: HTMLButtonElement, ev: PointerEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ((this: HTMLButtonElement, ev: PointerEvent) => any)} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
@@ -1524,7 +1642,7 @@ var ElementButton = {
 				name: options.name,
 				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
-				role: options.role,
+				// role: options.role, // Assigned further down below via `ElementButton.SetRole`
 				type: "button",
 				tabindex: options.tabindex,
 				"aria-controls": ariaControls,
@@ -1540,7 +1658,6 @@ var ElementButton = {
 				mousedown: this._MouseDown,
 				bcClickDisabled: options.clickDisabled,
 				...this._GetClickTouchListeners(),
-				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
 				tooltip,
@@ -1555,49 +1672,19 @@ var ElementButton = {
 			},
 		});
 
-		const role = buttonOptions.attributes?.role ?? options.role;
-		switch (role) {
-			case "radio":
-			case "menuitemradio":
-				elem.addEventListener("click", this._ClickRadio);
-				if (!elem.getAttribute("aria-checked")) {
-					elem.setAttribute("aria-checked", "false");
-				}
-
-				if (role === "radio") {
-					elem.addEventListener("keydown", this._KeyDownRadio);
-					if (elem.getAttribute("tabindex") == null) {
-						elem.tabIndex = elem.getAttribute("aria-checked") === "true" ? 0 : -1;
-					}
-				}
-				break;
-			case "combobox":
-			case "checkbox":
-			case "menuitemcheckbox":
-				elem.addEventListener("click", this._ClickCheckbox);
-				if (!elem.hasAttribute("aria-checked")) {
-					elem.setAttribute("aria-checked", "false");
-				}
-				if (role === "combobox" && !elem.hasAttribute("aria-expanded")) {
-					elem.setAttribute("aria-expanded", "false");
-				}
-				break;
-			case "spinbutton": {
-				if (!elem.hasAttribute("aria-valuemin")) {
-					elem.setAttribute("aria-valuemin", "0");
-				}
-				if (!elem.hasAttribute("aria-valuemax")) {
-					elem.setAttribute("aria-valuemax", "100");
-				}
-				if (!elem.hasAttribute("aria-valuenow")) {
-					elem.setAttribute("aria-valuenow", elem.getAttribute("aria-valuemin"));
-				}
-				elem.addEventListener("click", this._ClickSpin);
-				elem.addEventListener("keydown", this._KeyDownSpin);
-			}
+		const role = /** @type {ElementButton.Options["role"]} */(buttonOptions.attributes?.role ?? options.role);
+		if (role) {
+			ElementButton.SetRole(elem, role);
 		}
 
-		elem.addEventListener("click", onClick);
+		for (const [name, listener] of Object.entries(buttonOptions.eventListeners ?? {})) {
+			if (listener) {
+				elem.addEventListener(name, /** @type {EventListener} */(listener));
+			}
+		}
+		if (onClick) {
+			elem.addEventListener("click", onClick);
+		}
 
 		if (options.disabled) {
 			const menuItemRoles = ["menuitem", "menuitemradio", "menuitemcheckbox"];
@@ -1615,7 +1702,7 @@ var ElementButton = {
 	 * @param {string | null} idPrefix - The ID of the to-be created search button
 	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
 	 * @param {null | Character} C - The character wearing the asset/item (if any)
-	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ((this: HTMLButtonElement, ev: PointerEvent) => any)} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
