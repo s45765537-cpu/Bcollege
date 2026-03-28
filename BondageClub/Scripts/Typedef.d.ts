@@ -4291,6 +4291,11 @@ interface PandoraBaseRoom {
 
 //#region Crafting items
 
+/**
+ * The available crafting subscreens.
+ *
+ * Note that this list _may_ be incomplete, as additional entries can be added be added by third parties via {@link CraftingSlotModes}
+ */
 type CraftingMode = (
 	"Slot"
 	| "Reorder"
