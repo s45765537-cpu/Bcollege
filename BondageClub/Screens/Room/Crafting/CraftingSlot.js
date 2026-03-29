@@ -596,6 +596,7 @@ var CraftingSlots = {
 			}
 			return { list, section };
 		} else {
+			const pageLabel = TextGet("Page");
 			const headingID = `crafting-page-${Math.floor(pageIndex / craftsPerPage)}`;
 			const list = ElementCreate({
 				tag: "ul",
@@ -622,7 +623,7 @@ var CraftingSlots = {
 							),
 							{
 								tag: "a",
-								children: [{ tag: "h2", children: [`Page ${1 + Math.floor(pageIndex / craftsPerPage)} / ${nCrafts / craftsPerPage}`], attributes: { id: headingID } }],
+								children: [{ tag: "h2", children: [`${pageLabel} ${1 + Math.floor(pageIndex / craftsPerPage)} / ${nCrafts / craftsPerPage}`], attributes: { id: headingID } }],
 								attributes: { href: `#${headingID}` },
 							},
 						],
