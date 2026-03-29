@@ -1063,7 +1063,7 @@ var AssetFemale3DCGExtended = {
 		}, // OffTheShoulderTop
 		BrocadeCloudsSnowEmbroideryQipao: {
 			Archetype: ExtendedArchetype.TYPED,
-			DrawImages: true,
+			DrawImages: false,
 			Options: [{ Name: "Yes" }, { Name: "No" }],
 		}, // BrocadeCloudsSnowEmbroideryQipao
 		AllureSidecut: {

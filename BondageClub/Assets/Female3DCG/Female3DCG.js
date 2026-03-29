@@ -4758,7 +4758,7 @@ var AssetFemale3DCG = [
 				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 				Layer: [
 					{ Name: "BaseColor", AllowTypes: { typed: 0 } },
-					{ Name: "A2", AllowTypes: { typed: 1 }, CopyLayerColor: "A1" },
+					{ Name: "A2", AllowTypes: { typed: 1 } },
 					{ Name: "Strap" },
 					{ Name: "Outline" },
 					{ Name: "DetailGloss" },
@@ -9195,7 +9195,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: 90,
 				},
 				Priority: 14,
-				SetPose: ["LegsClosed", "Kneel"],
+				SetPose: ["LegsClosed"],
 				AllowActivePose: ["LegsClosed", "Kneel"],
 				Layer: [
 					{

@@ -302,7 +302,7 @@ var CraftingSlots = {
 
 			// Unflatten the <li> list, inserting them back into the <ul> elements
 			let offset = 0;
-			for (const [i, ul] of this.querySelectorAll(".crafting-slot-ul").entries()) {
+			for (const [_i, ul] of this.querySelectorAll(".crafting-slot-ul").entries()) {
 				const nItems = ul.children.length;
 				ul.replaceChildren(...newLIList.slice(offset, offset + nItems));
 				offset += nItems;
