@@ -47001,7 +47001,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "RibbonCollar",
 				Audio: "ClothSlip",
-				InventoryID: 2303,
+				InventoryID: 1322,
 				Fetish: ["Lingerie"],
 				Value: 30,
 				Difficulty: 0,
