@@ -1063,7 +1063,7 @@ var AssetFemale3DCGExtended = {
 		}, // OffTheShoulderTop
 		BrocadeCloudsSnowEmbroideryQipao: {
 			Archetype: ExtendedArchetype.TYPED,
-			DrawImages: true,
+			DrawImages: false,
 			Options: [{ Name: "Yes" }, { Name: "No" }],
 		}, // BrocadeCloudsSnowEmbroideryQipao
 		AllureSidecut: {
@@ -1569,7 +1569,7 @@ var AssetFemale3DCGExtended = {
 							HasSubscreen: true,
 							ArchetypeConfig: {
 								Archetype: ExtendedArchetype.TEXT,
-								MaxLength: { Text: 6, Text2: 5, Text3: 3 },
+								MaxLength: { Text: 7, Text2: 6, Text3: 4 },
 								ScriptHooks: {
 									AfterDraw: AssetsFaceMarkingsFaceWritingsAfterDrawHook,
 								},
@@ -22177,6 +22177,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // SteampunkWings
+		SeraphWings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Wing1",
+					Key: "show1",
+					DrawImages: false,
+					Options: [
+						{}, //show1_0 - Show
+						{}, //show1_1 - Hide
+					],
+				},
+				{
+					Name: "Wing2",
+					Key: "show2",
+					DrawImages: false,
+					Options: [
+						{}, //show2_0 - Show
+						{}, //show2_1 - Hide
+					],
+				},
+				{
+					Name: "Wing3",
+					Key: "show3",
+					DrawImages: false,
+					Options: [
+						{}, //show3_0 - Show
+						{}, //show3_1 - Hide
+					],
+				},
+			],
+		}, // SeraphWings
 		DragonWings: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: true,
