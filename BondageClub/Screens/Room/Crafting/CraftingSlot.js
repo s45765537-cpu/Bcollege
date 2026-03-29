@@ -573,13 +573,11 @@ var CraftingSlots = {
 	 * Construct a single crafting slot `<section>` header or, if it already exists, clear if of existing slot buttons
 	 * @private
 	 * @param {number} pageIndex - The (0-based) index of the item page as represented by the `<section>`
-	 * @param {null | { craftsPerPage?: number }} options
+	 * @param {{ craftsPerPage: number, nCrafts: number }} options
 	 * @returns {{ section: HTMLElement, list: HTMLUListElement }} The section and the button list embedded therein
 	 */
-	_createButtonSection: function _createButtonSection(pageIndex, options=null) {
-		options ??= {};
-		const nCrafts = 200;
-		const craftsPerPage = options.craftsPerPage ?? 20;
+	_createButtonSection: function _createButtonSection(pageIndex, options) {
+		const { nCrafts, craftsPerPage } = options;
 		const sectionID = `crafting-slot-section-${Math.floor(pageIndex / craftsPerPage)}`;
 		let section = document.getElementById(sectionID);
 		if (section) {
@@ -598,6 +596,7 @@ var CraftingSlots = {
 			}
 			return { list, section };
 		} else {
+			const pageLabel = TextGet("Page");
 			const headingID = `crafting-page-${Math.floor(pageIndex / craftsPerPage)}`;
 			const list = ElementCreate({
 				tag: "ul",
@@ -624,7 +623,7 @@ var CraftingSlots = {
 							),
 							{
 								tag: "a",
-								children: [{ tag: "h2", children: [`Page ${1 + Math.floor(pageIndex / craftsPerPage)} / ${nCrafts / craftsPerPage}`], attributes: { id: headingID } }],
+								children: [{ tag: "h2", children: [`${pageLabel} ${1 + Math.floor(pageIndex / craftsPerPage)} / ${nCrafts / craftsPerPage}`], attributes: { id: headingID } }],
 								attributes: { href: `#${headingID}` },
 							},
 						],
@@ -640,27 +639,30 @@ var CraftingSlots = {
 	 * Construct all the various crafting slot `<section>`s, each representing a single "page".
 	 * @private
 	 * @param {CraftingSlotModes} mode
+	 * @param {null | { craftsPerPage?: number }} options
 	 * @returns {{ sections: HTMLElement[], modeArgs: CraftingSlotsMode.Args[] }}
 	 */
-	_createButtonAllSections: function _createButtonAllSections(mode) {
+	_createButtonAllSections: function _createButtonAllSections(mode, options=null) {
 		/** @type {CraftingSlotsMode.Args[]} */
 		const modeArgs = [];
 		/** @type {HTMLElement[]} */
 		const sections = [];
 		/** @type {HTMLUListElement} */
 		let list;
+		const craftsPerPage = options?.craftsPerPage ?? 20;
 		const multiSelectListeners = CraftingSlots._getMultiSelectListeners(mode);
-		for (const [i, craft] of Player.Crafting.slice(0, 200).entries()) {
-			if (i % 20 === 0) {
-				const sectionElems = CraftingSlots._createButtonSection(i);
+		for (const [i, craft] of Player.Crafting.entries()) {
+			if (i % craftsPerPage === 0) {
+				const sectionElems = CraftingSlots._createButtonSection(i, { craftsPerPage, nCrafts: Player.Crafting.length });
 				list = sectionElems.list;
 				sections.push(sectionElems.section);
 			}
 
 			/** @type {HTMLButtonElement} */
 			let button;
-			if (craft) {
-				const item = { Asset: CraftingAssets[craft.Item][0], Craft: craft };
+			const asset = craft ? CraftingAssets[craft.Item]?.[0] : undefined;
+			if (craft && asset) {
+				const item = { Asset: asset, Craft: craft };
 				button = ElementButton.CreateForAsset(
 					null, item, null, null,
 					{ labelPosition: "right", },
@@ -753,7 +755,7 @@ var CraftingSlots = {
 
 	/**
 	 * Construct a crafting Slots-esque screen
-	 * @param {null | { id?: string, mode?: CraftingSlotModes }} options Various options
+	 * @param {null | { id?: string, mode?: CraftingSlotModes, craftsPerPage?: number }} options Various options
 	 * @returns {{ screen: HTMLElement, observer: IntersectionObserver }} The screen and its intersection observer as used for the nav bar
 	 */
 	createScreen: function createScreen(options=null) {
