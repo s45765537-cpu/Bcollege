@@ -22177,6 +22177,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // SteampunkWings
+		SeraphWings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Wing1",
+					Key: "show1",
+					DrawImages: false,
+					Options: [
+						{}, //show1_0 - Show
+						{}, //show1_1 - Hide
+					],
+				},
+				{
+					Name: "Wing2",
+					Key: "show2",
+					DrawImages: false,
+					Options: [
+						{}, //show2_0 - Show
+						{}, //show2_1 - Hide
+					],
+				},
+				{
+					Name: "Wing3",
+					Key: "show3",
+					DrawImages: false,
+					Options: [
+						{}, //show3_0 - Show
+						{}, //show3_1 - Hide
+					],
+				},
+			],
+		}, // SeraphWings
 		DragonWings: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: true,

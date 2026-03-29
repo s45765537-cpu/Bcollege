@@ -6889,6 +6889,19 @@ WingsDragonWingsSpread,Spread
 WingsDragonWingsFolded,Folded
 WingsDragonWingsBound,Bound
 WingsDragonWingsSelect,Select the state
+WingsSeraphWingsSelectBase,Toggle Wings
+WingsSeraphWingsSelectWing1,Wing 1
+WingsSeraphWingsSelectWing2,Wing 2
+WingsSeraphWingsSelectWing3,Wing 3
+WingsSeraphWingsModuleWing1,Wing 1
+WingsSeraphWingsModuleWing2,Wing 2
+WingsSeraphWingsModuleWing3,Wing 3
+WingsSeraphWingsOptionshow10,Show
+WingsSeraphWingsOptionshow11,Hide
+WingsSeraphWingsOptionshow20,Show
+WingsSeraphWingsOptionshow21,Hide
+WingsSeraphWingsOptionshow30,Show
+WingsSeraphWingsOptionshow31,Hide
 YourRoom,<i>Your private room</i>
 ZipBondageZipFeetFull,Full Binding
 ZipBondageZipFeetLight,Light Binding

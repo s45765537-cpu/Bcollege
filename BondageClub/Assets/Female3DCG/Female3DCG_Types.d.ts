@@ -407,7 +407,7 @@ interface AssetGroupDefinitionBase extends AssetCommonPropertiesGroupAsset, Asse
 	MirrorActivitiesFrom?: AssetGroupItemName;
 
 	/**
-	 * The group actually recieving arousal events
+	 * The group actually receiving arousal events
 	 *
 	 * Used to proxy around a group that does not have activities
 	 * enabled (and thus arousal settings.
@@ -939,7 +939,7 @@ interface ExtendedItemConfig<OptionType extends ExtendedItemOption> {
 	/** A record containing various dialog keys used by the extended item screen */
 	DialogPrefix?: ExtendedItemCapsDialog<any, OptionType>;
 	/**
-	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * A record containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
 	 * and parameters passed on to them. If undefined, these are ignored.
 	 * Note that scripthook functions must be loaded before `Female3DCGExtended.js` in `index.html`.
 	 */
@@ -1140,7 +1140,7 @@ interface TypedItemConfig extends ExtendedItemConfig<TypedItemOption> {
 	 */
 	ChangeWhenLocked?: boolean;
 	/**
-	 * A recond containing functions that are run on load, click, draw, exit, validate and publishaction,
+	 * A record containing functions that are run on load, click, draw, exit, validate and publishaction,
 	 * with the original archetype function and parameters passed on to them. If undefined, these are ignored.
 	 * Note that scripthook functions must be loaded before `Female3DCGExtended.js` in `index.html`.
 	 */
@@ -1195,7 +1195,7 @@ interface ModularItemConfig extends ExtendedItemConfig<ModularItemOption> {
 		Chat?: string | ExtendedItemChatCallback<ModularItemOption>;
 	};
 	/**
-	 * A recond containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
+	 * A record containing functions that are run on load, click, draw, exit, and validate, with the original archetype function
 	 * and parameters passed on to them. If undefined, these are ignored.
 	 * Note that scripthook functions must be loaded before `Female3DCGExtended.js` in `index.html`.
 	 */

@@ -5893,3 +5893,25 @@ function DialogKeyDown(event) {
 function DialogMouseDown(event) {
 	if (CurrentCharacter) StruggleMouseDown(event);
 }
+
+/**
+ * Make an NPC invisible
+ * @param {NPCCharacter} npc
+ * @returns {void} - Nothing
+ */
+function DialogHideNPC(npc) {
+	npc.SavedName = npc.Name;
+	npc.Name = "";
+	npc.FixedImage = "Screens/Room/MovieStudio/Empty.png";
+}
+
+/**
+ * Make an NPC invisible
+ * @param {NPCCharacter} npc
+ * @returns {void} - Nothing
+ */
+function DialogRevealNPC(npc) {
+	npc.Name = npc.SavedName;
+	delete npc.SavedName;
+	delete npc.FixedImage;
+}
