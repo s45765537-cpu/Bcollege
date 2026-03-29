@@ -95,8 +95,6 @@ PropertyStrong,Strong
 PropertyThick,Thick
 PropertyThin,Thin
 RemoveProperty,Remove/decrement effect
-ReorderPlace,Click slots to place selected items: 
-ReorderSelect,Click slots to select items to move: 
 Return,Return to item customizer
 SelectColor,Pick the item colors
 SelectDelete,Delete {n} crafting items
