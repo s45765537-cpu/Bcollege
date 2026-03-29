@@ -65,14 +65,18 @@
 	gap: var(--gap);
 }
 
-.screen-header [role="menuitem"] {
+.screen-header [role="menuitem"],
+.screen-header [role="menuitemcheckbox"],
+.screen-header [role="menuitemradio"] {
 	--tooltip-gap: var(--gap);
 
 	height: var(--menu-button-size);
 	width: var(--menu-button-size);
 }
 
-.screen-header [role="menuitem"] .button-image {
+.screen-header [role="menuitem"] .button-image,
+.screen-header [role="menuitemcheckbox"] .button-image,
+.screen-header [role="menuitemradio"] .button-image {
 	max-height: 86px;
 	max-width: 86px;
 	top: 50%;
