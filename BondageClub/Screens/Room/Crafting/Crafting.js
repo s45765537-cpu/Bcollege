@@ -270,9 +270,6 @@ const CraftingPropertyExclude = new Set([
 const CraftingID = /** @type {const} */({
 	root: "crafting-screen",
 
-	topBar: "crafting-top-bar",
-	header: "crafting-header",
-	menuBar: "crafting-menu-bar",
 	downloadButton: "crafting-download-button",
 	uploadButton: "crafting-upload-button",
 	acceptButton: "crafting-accept-button",
@@ -637,7 +634,7 @@ var CraftingEventListeners = {
 				Layering.Init(item, CraftingPreview, {
 					x: Layering.DisplayDefault.x,
 					y: Layering.DisplayDefault.y - 10,
-					w: Layering.DisplayDefault.w + 10,
+					w: Layering.DisplayDefault.w,
 					h: Layering.DisplayDefault.h + 10,
 					buttonGap: 15,
 				});
@@ -1357,289 +1354,297 @@ async function CraftingLoad() {
 	};
 	CharacterReleaseTotal(CraftingPreview);
 
-	const parent = ElementCreate({
-		tag: "div",
-		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen, "aria-busy": "true", hidden: true },
-		classList: ["HideOnPopup"],
+	const itemScreen = ElementDOMScreen.getTemplate(CraftingID.root, {
+		header: TextGet("SelectName"),
 		parent: document.body,
-	});
-
-	TextScreenCache?.loadedPromise.then(async () => {
-		ElementCreate({
-			tag: "div",
-			attributes: { id: CraftingID.topBar },
-			parent,
-			children: [
-				{ tag: "h1", attributes: { id: CraftingID.header }, children: [TextGet("SelectName")] },
-				ElementMenu.Create(
-					CraftingID.menuBar,
-					[
-						ElementButton.Create(CraftingID.exitButton, CraftingEventListeners._ClickExit, { tooltip: TextGet("Exit") }),
-						ElementButton.Create(CraftingID.cancelButton, CraftingEventListeners._ClickExit, { tooltip: TextGet("Cancel") }),
-						ElementButton.Create(
-							CraftingID.acceptButton, CraftingEventListeners._ClickAccept,
+		hgroupInHeader: true,
+		mainSection: "right",
+		menubarButtons: [
+			ElementButton.Create(
+				CraftingID.exitButton, CraftingEventListeners._ClickExit,
+				{ tooltip: TextGet("Exit"), image: "./Icons/Exit.png" },
+			),
+			ElementButton.Create(
+				CraftingID.cancelButton, CraftingEventListeners._ClickExit,
+				{ tooltip: TextGet("Cancel"), image: "./Icons/Cancel.png" },
+			),
+			ElementButton.Create(
+				CraftingID.acceptButton, CraftingEventListeners._ClickAccept,
+				{
+					image: "./Icons/Accept.png",
+					disabled: true,
+					tooltip: [
+						TextGet("Accept"),
+						ElementCreate({ tag: "span", children: [TextGet("AcceptInvalid")], attributes: { id: `${CraftingID.acceptButton}-tooltip-disabled` } }),
+					],
+				},
+			),
+			ElementButton.Create(
+				CraftingID.uploadButton, CraftingEventListeners._ClickUpload,
+				{ tooltip: TextGet("Upload"), image: "./Icons/Download.png" },
+			),
+			ElementButton.Create(
+				CraftingID.downloadButton, CraftingEventListeners._ClickDownload,
+				{ tooltip: TextGet("Download"), image: "./Icons/Upload.png" },
+			),
+			ElementButton.Create(
+				CraftingID.undressButton, CraftingEventListeners._ClickUndress,
+				{ tooltip: TextGet("Undress"), role: "menuitemcheckbox", image: "./Icons/Naked.png" },
+				{ button: { attributes: { "aria-checked": CraftingNakedPreview ? "true" : "false" } } },
+			),
+		],
+		mainContent: [
+			DialogFocusGroup.Create(CraftingID.centerPanel, CraftingEventListeners._ClickGroup, { useDynamicGroupName: true })
+		],
+		leftContent: [
+			ElementMenu.Create(
+				CraftingID.leftPanel,
+				[
+					ElementButton.Create(
+						CraftingID.propertyButton, CraftingEventListeners._ClickExpand,
+						{ role: "menuitemradio" },
+						{ button: {
+							attributes: { "aria-expanded": "false", "aria-controls": CraftingID.propertyPanel },
+							children: [TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`)],
+						}},
+					),
+					ElementButton.Create(
+						CraftingID.assetButton, CraftingEventListeners._ClickExpand,
+						{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./Icons/NoCraft.png" },
+						{ button: { attributes: { "aria-expanded": "false", "aria-controls": CraftingID.assetPanel } } },
+					),
+					ElementButton.Create(
+						CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
+						{ role: "menuitemradio", label: TextGet("NoLock"), image: "./Icons/NoLock.png" },
+						{ button: { attributes: { "aria-expanded": "false", "aria-controls": CraftingID.padlockPanel } } },
+					),
+					{
+						tag: "div",
+						attributes: {
+							id: CraftingID.propertyPanel,
+							"aria-labelledby": CraftingID.propertyHeader,
+						},
+						classList: ["crafting-panel"],
+						children: [
 							{
-								disabled: true,
-								tooltip: [
-									TextGet("Accept"),
-									ElementCreate({ tag: "span", children: [TextGet("AcceptInvalid")], attributes: { id: `${CraftingID.acceptButton}-tooltip-disabled` } }),
+								tag: "label",
+								classList: ["crafting-label"],
+								attributes: { id: CraftingID.propertyHeader },
+								children: [
+									{ tag: "span", children: [TextGet("SelectProperty")] },
+									CraftingElements._SearchInput(CraftingID.propertySearch, CraftingID.propertyGrid, TextGet("FilterProperty"), "effect"),
 								],
 							},
-						),
-						ElementButton.Create(CraftingID.uploadButton, CraftingEventListeners._ClickUpload, { tooltip: TextGet("Upload") }),
-						ElementButton.Create(CraftingID.downloadButton, CraftingEventListeners._ClickDownload, { tooltip: TextGet("Download") }),
-						ElementButton.Create(
-							CraftingID.undressButton, CraftingEventListeners._ClickUndress,
-							{ tooltip: TextGet("Undress"), role: "menuitemcheckbox" },
-							{ button: { attributes: { "aria-checked": CraftingNakedPreview ? "true" : "false" } } },
-						),
-					],
-					{ direction: "rtl" },
-				),
-			],
-		});
-
-		// Go home eslint, you're drunk
-		// eslint-disable-next-line no-unused-expressions
-		ElementMenu.Create(
-			CraftingID.leftPanel,
-			[
-				ElementButton.Create(
-					CraftingID.propertyButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio" },
-					{ button: {
-						attributes: { "aria-expanded": "false", "aria-controls": CraftingID.propertyPanel },
-						children: [TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`)],
-					}},
-				),
-				ElementButton.Create(
-					CraftingID.assetButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./Icons/NoCraft.png" },
-					{ button: { attributes: { "aria-expanded": "false", "aria-controls": CraftingID.assetPanel } } },
-				),
-				ElementButton.Create(
-					CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./Icons/NoLock.png" },
-					{ button: { attributes: { "aria-expanded": "false", "aria-controls": CraftingID.padlockPanel } } },
-				),
-				{
-					tag: "div",
-					attributes: {
-						id: CraftingID.propertyPanel,
-						"aria-labelledby": CraftingID.propertyHeader,
-					},
-					classList: ["crafting-panel"],
-					children: [
-						{
-							tag: "label",
-							classList: ["crafting-label"],
-							attributes: { id: CraftingID.propertyHeader },
-							children: [
-								{ tag: "span", children: [TextGet("SelectProperty")] },
-								CraftingElements._SearchInput(CraftingID.propertySearch, CraftingID.propertyGrid, TextGet("FilterProperty"), "effect"),
-							],
-						},
-						{
-							tag: "ul",
-							classList: ["crafting-grid", "scroll-box"],
-							attributes: { id: CraftingID.propertyGrid },
-							children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
-								if (property === "Normal") {
-									return;
-								}
-								return CraftingElements._PropertyListItem(
-									`${CraftingID.propertyButton}-${property}`,
-									property
-								);
-							}),
-						},
-					],
-				},
-				{
-					tag: "div",
-					attributes: {
-						id: CraftingID.assetPanel,
-						"aria-labelledby": CraftingID.assetHeader,
-					},
-					classList: ["crafting-panel"],
-					children: [
-						{
-							tag: "label",
-							classList: ["crafting-label"],
-							attributes: { id: CraftingID.assetHeader },
-							children: [
-								{ tag: "span", children: [TextGet("SelectItem")] },
-								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset"), "asset"),
-							],
-						},
-						{
-							tag: "div",
-							classList: ["crafting-grid", "scroll-box"],
-							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": "true" },
-							children: CraftingItemListBuild().map((a, i) => {
-								return CraftingElements._RadioButton(
-									CraftingID.assetButton,
-									CraftingEventListeners._ClickAsset,
-									a,
-									null,
-									null,
-									null,
-									i === 0,
-								);
-							}),
-						},
-					],
-				},
-				{
-					tag: "div",
-					attributes: {
-						id: CraftingID.padlockPanel,
-						"aria-labelledby": CraftingID.padlockHeader,
-						"aria-orientation": "vertical",
-					},
-					classList: ["crafting-panel"],
-					children: [
-						{
-							tag: "label",
-							classList: ["crafting-label"],
-							attributes: { id: CraftingID.padlockHeader },
-							children: [
-								{ tag: "span", children: [TextGet("SelectLock")] },
-								CraftingElements._SearchInput(CraftingID.padlockSearch, CraftingID.padlockGrid, TextGet("FilterLock"), "lock"),
-							],
-						},
-						{
-							tag: "div",
-							classList: ["crafting-grid", "scroll-box"],
-							attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
-							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name, i) => {
-								// Guaranteed to be non-null given the `InventoryAvailable()` check above
-								const a = /** @type {Asset} */(AssetGet("Female3DCG", "ItemMisc", name));
-								return CraftingElements._RadioButton(
-									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, null, null, null, i === 0,
-								);
-							}).sort((a1, a2) => a1.name.localeCompare(a2.name)),
-						},
-					],
-				},
-			],
-			undefined,
-			{ menu: { attributes: { "aria-orientation": "vertical" }, parent } },
-		),
-
-		parent.append(DialogFocusGroup.Create(CraftingID.centerPanel, CraftingEventListeners._ClickGroup, { useDynamicGroupName: true }));
-
-		ElementCreate({
-			tag: "div",
-			parent,
-			attributes: { id: CraftingID.rightPanel },
-			classList: ["scroll-box"],
-			children: [
-				{
-					tag: "label",
-					attributes: { id: CraftingID.nameLabel },
-					classList: ["crafting-label"],
-					children: [
-						{ tag: "span", children: [TextGet("EnterName")] },
-						{
-							// NOTE: Perform the pattern checking via JS as there are differences in how plain JS `RegExp` and `HTMLInputElement.pattern`
-							// handle their pattern matching with characters larger than /u+FFFF
-							tag: "input",
-							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0 },
-							dataAttributes: { pattern: CraftingDescription.Pattern.source },
-							eventListeners: {
-								change: CraftingEventListeners._ChangeName,
-								input: CraftingEventListeners._InputDescription,
+							{
+								tag: "ul",
+								classList: ["crafting-grid", "scroll-box"],
+								attributes: { id: CraftingID.propertyGrid },
+								children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
+									if (property === "Normal") {
+										return;
+									}
+									return CraftingElements._PropertyListItem(
+										`${CraftingID.propertyButton}-${property}`,
+										property
+									);
+								}),
 							},
+						],
+					},
+					{
+						tag: "div",
+						attributes: {
+							id: CraftingID.assetPanel,
+							"aria-labelledby": CraftingID.assetHeader,
 						},
-					],
-				},
-				{
-					tag: "label",
-					attributes: { id: CraftingID.descriptionLabel },
-					classList: ["crafting-label"],
-					children: [
-						{ tag: "span", children: [TextGet("EnterDescription")] },
-						{
-							tag: "textarea",
-							attributes: { id: CraftingID.descriptionInput, maxLength: "200", size: 0 },
-							dataAttributes: { pattern: CraftingDescription.Pattern.source },
-							eventListeners: {
-								change: CraftingEventListeners._ChangeDescription,
-								input: CraftingEventListeners._InputDescription,
+						classList: ["crafting-panel"],
+						children: [
+							{
+								tag: "label",
+								classList: ["crafting-label"],
+								attributes: { id: CraftingID.assetHeader },
+								children: [
+									{ tag: "span", children: [TextGet("SelectItem")] },
+									CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset"), "asset"),
+								],
 							},
+							{
+								tag: "div",
+								classList: ["crafting-grid", "scroll-box"],
+								attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": "true" },
+								children: CraftingItemListBuild().map((a, i) => {
+									return CraftingElements._RadioButton(
+										CraftingID.assetButton,
+										CraftingEventListeners._ClickAsset,
+										a,
+										null,
+										null,
+										null,
+										i === 0,
+									);
+								}),
+							},
+						],
+					},
+					{
+						tag: "div",
+						attributes: {
+							id: CraftingID.padlockPanel,
+							"aria-labelledby": CraftingID.padlockHeader,
+							"aria-orientation": "vertical",
 						},
-					],
-				},
-				{
-					tag: "label",
-					attributes: { id: CraftingID.colorsLabel },
-					classList: ["crafting-label"],
-					children: [
-						{ tag: "span", children: [TextGet("EnterColor")] },
-						{
-							tag: "input",
-							attributes: { id: CraftingID.colorsInput, type: "text", size: 0, disabled: "true" },
-							eventListeners: { change: CraftingEventListeners._ChangeColor },
-						},
-						ElementButton.Create(CraftingID.colorsButton, CraftingEventListeners._ClickColors, { disabled: true }),
-					],
-				},
-				{
-					tag: "label",
-					attributes: { id: CraftingID.layeringLabel },
-					classList: ["crafting-label"],
-					children: [
-						{
-							tag: "input",
-							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0, disabled: "true" },
-							eventListeners: { blur: ElementNumberInputBlur, wheel: ElementNumberInputWheel, input: CraftingEventListeners._InputLayering },
-						},
-						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering, { disabled: true }),
-						{ tag: "span", children: [TextGet("EnterPriority")] },
-					],
-				},
-				{
-					tag: "label",
-					attributes: { id: CraftingID.privateLabel },
-					classList: ["crafting-label"],
-					children: [
-						ElementCheckbox.Create(CraftingID.privateCheckbox, CraftingEventListeners._ClickPrivate),
-						{ tag: "span", children: [TextGet("EnterPrivate")] },
-					],
-				},
-				{
-					tag: "label",
-					attributes: { id: CraftingID.extendedLabel },
-					classList: ["crafting-label"],
-					children: [
-						ElementButton.Create(CraftingID.extendedButton, CraftingEventListeners._ClickExtended, { disabled: true }),
-						{ tag: "span", children: [TextGet("EnterType")] },
-					],
-				},
-				{
-					tag: "label",
-					attributes: { id: CraftingID.tightenLabel },
-					classList: ["crafting-label"],
-					children: [
-						ElementButton.Create(CraftingID.tightenButton, CraftingEventListeners._ClickTighten, { disabled: true }),
-						{ tag: "span", children: [TextGet("EnterTighten")] },
-					],
-				},
-				{
-					tag: "label",
-					attributes: { id: CraftingID.asciidescriptionLabel },
-					classList: ["crafting-label"],
-					children: [
-						ElementCheckbox.Create(CraftingID.asciiDescriptionCheckbox, CraftingEventListeners._ClickAsciiDescription),
-						{ tag: "span", children: [TextGet("EnterExtendedDescription")] },
-					],
-				},
-			],
-		});
-
-		parent.setAttribute("aria-busy", "false");
+						classList: ["crafting-panel"],
+						children: [
+							{
+								tag: "label",
+								classList: ["crafting-label"],
+								attributes: { id: CraftingID.padlockHeader },
+								children: [
+									{ tag: "span", children: [TextGet("SelectLock")] },
+									CraftingElements._SearchInput(CraftingID.padlockSearch, CraftingID.padlockGrid, TextGet("FilterLock"), "lock"),
+								],
+							},
+							{
+								tag: "div",
+								classList: ["crafting-grid", "scroll-box"],
+								attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
+								children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name, i) => {
+									// Guaranteed to be non-null given the `InventoryAvailable()` check above
+									const a = /** @type {Asset} */(AssetGet("Female3DCG", "ItemMisc", name));
+									return CraftingElements._RadioButton(
+										`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, null, null, null, i === 0,
+									);
+								}).sort((a1, a2) => a1.name.localeCompare(a2.name)),
+							},
+						],
+					},
+				],
+				undefined,
+				{ menu: { attributes: { "aria-orientation": "vertical" } } },
+			),
+		],
+		rightContent: [
+			{
+				tag: "div",
+				attributes: { id: CraftingID.rightPanel },
+				children: [
+					{
+						tag: "label",
+						attributes: { id: CraftingID.nameLabel },
+						classList: ["crafting-label"],
+						children: [
+							{ tag: "span", children: [TextGet("EnterName")] },
+							{
+								// NOTE: Perform the pattern checking via JS as there are differences in how plain JS `RegExp` and `HTMLInputElement.pattern`
+								// handle their pattern matching with characters larger than /u+FFFF
+								tag: "input",
+								attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0 },
+								dataAttributes: { pattern: CraftingDescription.Pattern.source },
+								eventListeners: {
+									change: CraftingEventListeners._ChangeName,
+									input: CraftingEventListeners._InputDescription,
+								},
+							},
+						],
+					},
+					{
+						tag: "label",
+						attributes: { id: CraftingID.descriptionLabel },
+						classList: ["crafting-label"],
+						children: [
+							{ tag: "span", children: [TextGet("EnterDescription")] },
+							{
+								tag: "textarea",
+								attributes: { id: CraftingID.descriptionInput, maxLength: "200", size: 0 },
+								dataAttributes: { pattern: CraftingDescription.Pattern.source },
+								eventListeners: {
+									change: CraftingEventListeners._ChangeDescription,
+									input: CraftingEventListeners._InputDescription,
+								},
+							},
+						],
+					},
+					{
+						tag: "label",
+						attributes: { id: CraftingID.colorsLabel },
+						classList: ["crafting-label"],
+						children: [
+							{ tag: "span", children: [TextGet("EnterColor")] },
+							{
+								tag: "input",
+								attributes: { id: CraftingID.colorsInput, type: "text", size: 0, disabled: "true" },
+								eventListeners: { change: CraftingEventListeners._ChangeColor },
+							},
+							ElementButton.Create(
+								CraftingID.colorsButton, CraftingEventListeners._ClickColors,
+								{ disabled: true, image: "./Icons/Color.png" },
+							),
+						],
+					},
+					{
+						tag: "label",
+						attributes: { id: CraftingID.layeringLabel },
+						classList: ["crafting-label"],
+						children: [
+							{
+								tag: "input",
+								attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0, disabled: "true" },
+								eventListeners: { blur: ElementNumberInputBlur, wheel: ElementNumberInputWheel, input: CraftingEventListeners._InputLayering },
+							},
+							ElementButton.Create(
+								CraftingID.layeringButton, CraftingEventListeners._ClickLayering,
+								{ disabled: true, image: "./Icons/Layering.png" },
+							),
+							{ tag: "span", children: [TextGet("EnterPriority")] },
+						],
+					},
+					{
+						tag: "label",
+						attributes: { id: CraftingID.privateLabel },
+						classList: ["crafting-label"],
+						children: [
+							ElementCheckbox.Create(CraftingID.privateCheckbox, CraftingEventListeners._ClickPrivate),
+							{ tag: "span", children: [TextGet("EnterPrivate")] },
+						],
+					},
+					{
+						tag: "label",
+						attributes: { id: CraftingID.extendedLabel },
+						classList: ["crafting-label"],
+						children: [
+							ElementButton.Create(
+								CraftingID.extendedButton, CraftingEventListeners._ClickExtended,
+								{ disabled: true, image: "./Icons/Use.png" },
+							),
+							{ tag: "span", children: [TextGet("EnterType")] },
+						],
+					},
+					{
+						tag: "label",
+						attributes: { id: CraftingID.tightenLabel },
+						classList: ["crafting-label"],
+						children: [
+							ElementButton.Create(
+								CraftingID.tightenButton, CraftingEventListeners._ClickTighten,
+								{ disabled: true, image: "./Icons/TightenLoosen.png" },
+							),
+							{ tag: "span", children: [TextGet("EnterTighten")] },
+						],
+					},
+					{
+						tag: "label",
+						attributes: { id: CraftingID.asciidescriptionLabel },
+						classList: ["crafting-label"],
+						children: [
+							ElementCheckbox.Create(CraftingID.asciiDescriptionCheckbox, CraftingEventListeners._ClickAsciiDescription),
+							{ tag: "span", children: [TextGet("EnterExtendedDescription")] },
+						],
+					},
+				],
+			},
+		],
 	});
+	itemScreen.hidden = true;
 
 	CraftingSlots.Load();
 }
@@ -1737,7 +1742,7 @@ function CraftingResize(load) {
 			Layering.Resize(load);
 			return;
 		case "Name":
-			ElementPositionFixed(CraftingID.root, 15, 15, 1970, 970);
+			ElementPositionFixed(CraftingID.root, 0, 15, 2000, 970);
 			return;
 	}
 	if (CommonHas(CraftingSlots.modeKeys, CraftingMode)) {
