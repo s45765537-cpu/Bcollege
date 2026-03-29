@@ -145,10 +145,10 @@ function OnlineProfileClick() {
 
 /**
  * Handles exiting while in the online profile screen. It removes the input and saves the description.
- * @param {boolean} Save - Whether or not we should save the changes
+ * @param {boolean} [Save] - Whether or not we should save the changes
  * @returns {void} - Nothing
  */
-function OnlineProfileExit(Save) {
+function OnlineProfileExit(Save=false) {
 	if (Save) {
 		const ev = ElementValue("DescriptionInput").trim();
 		if (OnlineProfileMode == "Description") {

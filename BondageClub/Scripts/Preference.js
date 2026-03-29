@@ -22,7 +22,7 @@ function PreferenceIsPlayerInSensDep() {
  */
 function PreferenceArousalAtLeast(C, Level) {
 	if (AsylumGGTSIsEnabled() && AsylumGGTSGetLevel(C) >= 4) {
-		if (InventoryIsWorn(C, "FuturisticChastityBelt", "ItemPelvis") || InventoryIsWorn(C, "FuturisticTrainingBelt", "ItemPelvis") || InventoryIsWorn(C, "FuckMachine", "ItemDevices"))
+		if (InventoryIsWorn(C, "ItemPelvis", "FuturisticChastityBelt") || InventoryIsWorn(C, "ItemPelvis", "FuturisticTrainingBelt") || InventoryIsWorn(C, "ItemDevices", "FuckMachine"))
 			return true;
 	}
 	if ((C.ArousalSettings == null) || (C.ArousalSettings.Active == null)) return false;
@@ -268,7 +268,7 @@ function PreferenceInitPlayer(C, data) {
 		LabelColor: JSON.stringify(data.LabelColor) ?? "",
 	};
 
-	C.LabelColor = CommonIsColor(data.LabelColor) ? data.LabelColor ?? "" : "#ffffff";
+	C.LabelColor = ServerAccountDataSyncedValidate.LabelColor(data.LabelColor, C);
 	C.AllowedInteractions = data.AllowedInteractions ?? data.ItemPermission ?? 2;
 
 	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);

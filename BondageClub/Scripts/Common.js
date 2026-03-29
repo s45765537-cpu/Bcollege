@@ -6,7 +6,7 @@ var Player;
 var CurrentModule;
 /** @type {ModuleScreens[CurrentModule]} */
 var CurrentScreen;
-/** @type {ScreenFunctions} */
+/** @type {Required<ScreenFunctions>} */
 var CurrentScreenFunctions;
 /** @type {Character|NPCCharacter|null} */
 var CurrentCharacter = null;
@@ -339,9 +339,7 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 function CommonMouseDown(event) {
 	if (CurrentCharacter == null) {
 		if (ScreenIsLoading) return;
-		if (CurrentScreenFunctions.MouseDown) {
-			CurrentScreenFunctions.MouseDown(event);
-		}
+		CurrentScreenFunctions.MouseDown(event);
 	} else {
 		DialogMouseDown(event);
 	}
@@ -350,34 +348,24 @@ function CommonMouseDown(event) {
 /** @type {MouseEventListener} */
 function CommonMouseUp(event) {
 	if (ScreenIsLoading) return;
-	if (CurrentScreenFunctions.MouseUp)
-	{
-		CurrentScreenFunctions.MouseUp(event);
-	}
+	CurrentScreenFunctions.MouseUp(event);
 }
 
 /** @type {MouseEventListener} */
 function CommonMouseMove(event) {
 	if (ScreenIsLoading) return;
-	if (CurrentScreenFunctions.MouseMove)
-	{
-		CurrentScreenFunctions.MouseMove(event);
-	}
+	CurrentScreenFunctions.MouseMove(event);
 }
 
 /** @type {MouseWheelEventListener} */
 function CommonMouseWheel(event) {
 	if (ScreenIsLoading) return;
-	if (CurrentScreenFunctions.MouseWheel) {
-		CurrentScreenFunctions.MouseWheel(event);
-	}
+	CurrentScreenFunctions.MouseWheel(event);
 }
 
 /** @type {ScreenResizeHandler} */
 function CommonResize(load) {
-	if (CurrentScreenFunctions.Resize) {
-		CurrentScreenFunctions.Resize(load);
-	}
+	CurrentScreenFunctions.Resize(load);
 }
 
 /**
@@ -459,8 +447,8 @@ function CommonDynamicFunctionParams(FunctionName) {
 	if (typeof func === "function") {
 
 		// Launches the function with the params and returns the result
-		var Result = func(...Params);
-		return Reverse ? !Result : Result;
+		const res = func(...Params);
+		return Reverse ? !res : res;
 	} else {
 
 		// Log the error in the console
@@ -522,9 +510,9 @@ var ScreenIsLoading = false;
  */
 async function CommonSetScreen(...spec) {
 	const { recursive } = spec[2] ?? {};
-	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
-		CurrentScreenFunctions.Unload();
-	}
+
+	// `CurrentScreenFunctions` is still undefined the _very_ first time a screen is set as BC launches
+	CurrentScreenFunctions?.Unload();
 	if (ControllerIsActive()) {
 		ControllerClearAreas();
 	}
@@ -533,12 +521,10 @@ async function CommonSetScreen(...spec) {
 	const [NewModule, NewScreen] = spec;
 	const [OldModule, OldScreen] = [CurrentModule, CurrentScreen];
 	// Check for required functions
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	if (typeof namespace[`${NewScreen}Run`] !== "function") {
+	if (typeof window[`${NewScreen}Run`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Run function`);
 	}
-	if (typeof namespace[`${NewScreen}Click`] !== "function") {
+	if (typeof window[`${NewScreen}Click`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Click function`);
 	}
 
@@ -546,20 +532,20 @@ async function CommonSetScreen(...spec) {
 	CurrentModule = NewModule;
 	CurrentScreen = NewScreen;
 	CurrentScreenFunctions = {
-		Run: (time) => namespace[`${NewScreen}Run`](time),
-		Click: (e) => namespace[`${NewScreen}Click`](e),
-		MouseDown: typeof namespace[`${NewScreen}MouseDown`] === "function" ? (e) => namespace[`${NewScreen}MouseDown`](e) : undefined,
-		MouseUp: typeof namespace[`${NewScreen}MouseUp`] === "function" ? (e) => namespace[`${NewScreen}MouseUp`](e) : undefined,
-		MouseMove: typeof namespace[`${NewScreen}MouseMove`] === "function" ? (e) => namespace[`${NewScreen}MouseMove`](e) : undefined,
-		MouseWheel: typeof namespace[`${NewScreen}MouseWheel`] === "function" ? (e) => namespace[`${NewScreen}MouseWheel`](e) : undefined,
-		Draw: typeof namespace[`${NewScreen}Draw`] === "function" ? () => namespace[`${NewScreen}Draw`]() : undefined,
-		Load: typeof namespace[`${NewScreen}Load`] === "function" ? () => namespace[`${NewScreen}Load`]() : undefined,
-		Unload: typeof namespace[`${NewScreen}Unload`] === "function" ? () => namespace[`${NewScreen}Unload`]() : undefined,
-		Resize: typeof namespace[`${NewScreen}Resize`] === "function" ? (load) => namespace[`${NewScreen}Resize`](load) : undefined,
-		KeyDown: typeof namespace[`${NewScreen}KeyDown`] === "function" ? (e) => namespace[`${NewScreen}KeyDown`](e) : undefined,
-		KeyUp: typeof namespace[`${NewScreen}KeyUp`] === "function" ? (e) => namespace[`${NewScreen}KeyUp`](e) : undefined,
-		Exit: typeof namespace[`${NewScreen}Exit`] === "function" ? () => namespace[`${NewScreen}Exit`]() : undefined,
-		Paste: typeof namespace[`${NewScreen}Paste`] === "function" ? (e) => namespace[`${NewScreen}Paste`](e) : undefined,
+		Run: (time) => window[`${NewScreen}Run`](time),
+		Click: (e) => window[`${NewScreen}Click`](e),
+		MouseDown: (e) => window[`${NewScreen}MouseDown`]?.(e),
+		MouseUp: (e) => window[`${NewScreen}MouseUp`]?.(e),
+		MouseMove: (e) => window[`${NewScreen}MouseMove`]?.(e),
+		MouseWheel: (e) => window[`${NewScreen}MouseWheel`]?.(e),
+		Draw: () => window[`${NewScreen}Draw`]?.(),
+		Load: async () => window[`${NewScreen}Load`]?.(),
+		Unload: () => window[`${NewScreen}Unload`]?.(),
+		Resize: (load) => window[`${NewScreen}Resize`]?.(load),
+		KeyDown: (e) => window[`${NewScreen}KeyDown`]?.(e) ?? false,
+		KeyUp: (e) => window[`${NewScreen}KeyUp`]?.(e) ?? false,
+		Exit: () => window[`${NewScreen}Exit`]?.(),
+		Paste: (e) => window[`${NewScreen}Paste`]?.(e),
 	};
 
 	CurrentDarkFactor = 1.0;
@@ -575,7 +561,7 @@ async function CommonSetScreen(...spec) {
 	ElementToggleGeneratedElements(CurrentScreen, true);
 
 	try {
-		await CurrentScreenFunctions.Load?.();
+		await CurrentScreenFunctions.Load();
 	} catch (error) {
 		if (!recursive) {
 			// Plan A: failed to load the new screen; revert back to the old screen
@@ -1808,9 +1794,9 @@ var CommonKey = /** @type {const} */({
 	/**
 	 * A {@link ScreenFunctions.KeyDown} helper function for implementing the navigation key handling of scrollable elements.
 	 * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
-	 * @param {HTMLElement} scrollableElem - The scrollable element
+	 * @param {Element} scrollableElem - The scrollable element
 	 * @param {KeyboardEvent} event - The `keydown` event
-	 * @param {(scrollableElem: HTMLElement) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
+	 * @param {(scrollableElem: Element) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
 	 * @returns {boolean} - Whether a navigation key was (successfuly pressed)
 	 */
 	NavigationKeyDown: function NavigationKeyDown(scrollableElem, event, getArrowScrollDistance) {
@@ -2487,3 +2473,113 @@ function CommonStringSplice(string, index, value, defaultValue) {
 function CommonUnwrapThunk(thunk) {
 	return typeof thunk === "function" ? /** @type {() => T} */ (thunk)() : thunk;
 }
+
+/**
+ * A class representing the result of a failable operation
+ * @template T
+ * @template {Error} [E=Error]
+ */
+class Result {
+	/** @type {T} */
+	value;
+	/** @type {E | null} */
+	error;
+
+	/**
+	 * Create a new Result representing the status of a failable operation
+	 * @param {T} value
+	 * @param {E | null} [error]
+	 */
+	constructor(value, error = null) {
+		this.value = value;
+		this.error = error;
+	}
+
+	/**
+	 * Build a Result for a successful operation
+	 * @template T
+	 * @param {T} value
+	 * @returns
+	 */
+	static success(value) {
+		return new Result(value, null);
+	}
+
+	/**
+	 * Build a Result for a failed operation
+	 * @param {Error} error
+	 * @returns
+	 */
+	static failure(error) {
+		return new Result(null, error);
+	}
+
+	/**
+	 * Returns whether the operation was a success
+	 */
+	get ok() {
+		return !this.error;
+	}
+
+	/**
+	 * Returns whether the operation was a failure
+	 */
+	get err() {
+		return !!this.error;
+	}
+
+	/**
+	 * Unwrap the result
+	 * This either returns the successful return of the operation, or throws the error it reported
+	 */
+	unwrap() {
+		if (this.ok) {
+			return this.value;
+		} else {
+			throw this.error;
+		}
+	}
+}
+
+/**
+ * I am a testing function for typescript to evaluate and should not be executed during runtime nor removed.
+ *
+ * Checks whether all all `window`-defined backgrounds and screen functions have an appropriate signature.
+ * @returns {void}
+ */
+function CommonTestSatisfies() {
+	// eslint-disable-next-line
+	const foo = {
+		/** @type {{ [key in `${RoomName}Background`]?: string }} */
+		Background: globalThis,
+		/** @type {{ [key in `${RoomName}Run`]: ScreenRunHandler }} */
+		Run: globalThis,
+		/** @type {{ [key in `${RoomName}MouseDown`]?: MouseEventListener }} */
+		MouseDown: globalThis,
+		/** @type {{ [key in `${RoomName}MouseUp`]?: MouseEventListener }} */
+		MouseUp: globalThis,
+		/** @type {{ [key in `${RoomName}MouseMove`]?: MouseEventListener }} */
+		MouseMove: globalThis,
+		/** @type {{ [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }} */
+		MouseWheel: globalThis,
+		/** @type {{ [key in `${RoomName}Click`]: MouseEventListener }} */
+		Click: globalThis,
+		/** @type {{ [key in `${RoomName}Load`]?: ScreenLoadHandler }} */
+		Load: globalThis,
+		/** @type {{ [key in `${RoomName}Unload`]?: ScreenUnloadHandler }} */
+		Unload: globalThis,
+		/** @type {{ [key in `${RoomName}Draw`]?: ScreenDrawHandler }} */
+		Draw: globalThis,
+		/** @type {{ [key in `${RoomName}Resize`]?: ScreenResizeHandler }} */
+		Resize: globalThis,
+		/** @type {{ [key in `${RoomName}KeyDown`]?: KeyboardEventListener }} */
+		KeyDown: globalThis,
+		/** @type {{ [key in `${RoomName}KeyUp`]?: KeyboardEventListener }} */
+		KeyUp: globalThis,
+		/** @type {{ [key in `${RoomName}Paste`]?: ClipboardEventListener }} */
+		Paste: globalThis,
+		/** @type {{ [key in `${RoomName}Exit`]?: ScreenExitHandler }} */
+		Exit: globalThis,
+	};
+}
+

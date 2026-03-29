@@ -11,12 +11,12 @@ var AsylumMeetingPatientRight = null;
  * Checks if the player can be released
  * @returns {boolean} - Returns true, if the player can be released, false otherwise
  */
-function AsylumMeetingCanReleasePlayer() { return (Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && !InventoryIsWorn(Player, "FuturisticCuffs", "ItemArms") && (LogValue("Committed", "Asylum") >= CurrentTime)); }
+function AsylumMeetingCanReleasePlayer() { return (Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && !InventoryIsWorn(Player, "ItemArms", "FuturisticCuffs") && (LogValue("Committed", "Asylum") >= CurrentTime)); }
 /**
  * Checks if the player cannot be released
  * @returns {boolean} - Returns true, if the player cannot be released, false otherwise
  */
-function AsylumMeetingCannotReleasePlayer() { return (Player.IsRestrained() && (AsylumMeetingPatientLeft.IsRestrained() || InventoryIsWorn(Player, "FuturisticCuffs", "ItemArms") || (LogValue("Committed", "Asylum") < CurrentTime))); }
+function AsylumMeetingCannotReleasePlayer() { return (Player.IsRestrained() && (AsylumMeetingPatientLeft.IsRestrained() || InventoryIsWorn(Player, "ItemArms", "FuturisticCuffs") || (LogValue("Committed", "Asylum") < CurrentTime))); }
 /**
  * Checks wether the player can be restrained or not
  * @returns {boolean} - Returns true, if the player can be restrained, flase otherwise
@@ -27,8 +27,8 @@ function AsylumMeetingCanRestrainPlayer() { return (!Player.IsRestrained() && !A
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
 function AsylumMeetingCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
-function AsylumMeetingWearingGGTS() { return InventoryIsWorn(CurrentCharacter, "FuturisticCuffs", "ItemArms"); }
-function AsylumMeetingGGTSCollar() { return InventoryIsWorn(CurrentCharacter, "FuturisticCollar", "ItemNeck"); }
+function AsylumMeetingWearingGGTS() { return InventoryIsWorn(CurrentCharacter, "ItemArms", "FuturisticCuffs"); }
+function AsylumMeetingGGTSCollar() { return InventoryIsWorn(CurrentCharacter, "ItemNeck", "FuturisticCollar"); }
 /**
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained and gagged

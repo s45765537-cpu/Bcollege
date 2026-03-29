@@ -222,7 +222,7 @@ function GameKeyDown(event) {
 				document.activeElement.blur();
 				handled = true;
 				break handleKeyDown;
-			} else if (CurrentScreenFunctions.Exit) {
+			} else {
 				CurrentScreenFunctions.Exit();
 				handled = true;
 				break handleKeyDown;
@@ -234,7 +234,7 @@ function GameKeyDown(event) {
 			break handleKeyDown;
 		}
 
-		if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {
+		if (CurrentScreenFunctions.KeyDown(event)) {
 			handled = true;
 			break handleKeyDown;
 		}
@@ -252,7 +252,7 @@ function GameKeyDown(event) {
 function GameKeyUp(event) {
 	if (ScreenIsLoading) return false;
 	if (StruggleMinigameIsRunning()) { return false; }
-	const handled = CurrentScreenFunctions.KeyUp?.(event) ?? false;
+	const handled = CurrentScreenFunctions.KeyUp(event);
 	if (handled) {
 		event.preventDefault();
 		event.stopImmediatePropagation();
@@ -263,7 +263,7 @@ function GameKeyUp(event) {
 /** @type {ClipboardEventListener} */
 function GamePaste(event) {
 	if (!ScreenIsLoading) {
-		CurrentScreenFunctions.Paste?.(event);
+		CurrentScreenFunctions.Paste(event);
 	}
 }
 

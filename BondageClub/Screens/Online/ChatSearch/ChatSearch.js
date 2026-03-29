@@ -15,8 +15,11 @@ var ChatSearchBackgroundTagList = [];
 var ChatSearchResult = [];
 /** @type {ChatRoomSearchResult[]} */
 var ChatSearchHiddenResult = [];
-/** @type {ServerChatRoomSearchRequest | null} */
-var ChatSearchLastSearchDataJSON = null;
+/**
+ * @type {never}
+ * @deprecated Use {@link ServerRoomSearch()}
+ */
+var ChatSearchLastSearchDataJSON = /** @type {never} */ (null);
 var ChatSearchLastQuerySearchTime = 0;
 var ChatSearchLastQueryJoin = "";
 var ChatSearchLastQueryJoinTime = 0;
@@ -213,17 +216,24 @@ async function ChatSearchLoad() {
 	if (space && !Player.ChatSearchSettings.Space.includes(space)) {
 		Player.ChatSearchSettings.Space = space;
 	}
-	const searchInput = ElementCreateSearchInput("InputSearch", () => {
-		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-		return rooms.map(i => i.DisplayName).sort();
-	}, { maxLength: 200, value: ChatSearchQueryString });
-	ElementSetAttribute("InputSearch", "placeholder", TextGet("SearchRoom"));
-	searchInput.classList.add("chat-search-input-search-box");
-	searchInput.addEventListener("input", function (ev) {
-		clearButton.hidden = this.value.length === 0;
-		ChatSearchQueryString = this.value;
-	});
-	searchInput.addEventListener("keydown", ChatSearchKeyDownListener);
+	const searchInput = ElementCreateSearchInput(
+		"InputSearch",
+		() => {
+			const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+			return rooms.map(i => i.DisplayName).sort();
+		},
+		{
+			maxLength: 200,
+			value: ChatSearchQueryString,
+			placeholder: TextGet("SearchRoom"),
+			onInput: function (ev) {
+				clearButton.hidden = this.value.length === 0;
+				ChatSearchQueryString = this.value;
+			},
+			onKeydown: ChatSearchKeyDownListener,
+		},
+		{ search: { classList: ["chat-search-input-search-box"] } },
+	);
 
 	const filterInput = ElementCreateInput("InputFilter", "text", Player.ChatSearchSettings.FilterTerms);
 	ElementSetAttribute("InputFilter", "placeholder", TextGet("FilterExcludeTerms"));
@@ -991,7 +1001,6 @@ function ChatSearchExit(exitScreen = false) {
 	ChatSearchShowHiddenRoomsActive = false;
 	ChatSearchFilterUnhideConfirm = null;
 	ChatSearchPreviousActivePose = { ...Player.ActivePoseMapping };
-	ChatSearchLastSearchDataJSON = null;
 	ChatRoomSetLastChatRoom(null);
 	ElementRemove("InputSearch");
 	CommonSetScreen(...ChatSearchReturnScreen);
@@ -1737,7 +1746,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 
 /**
  * Handles the reception of the server response when joining a room or when getting banned/kicked
- * @param {ServerChatRoomSearchResponse} data - Response from the server
+ * @param {ServerChatRoomJoinResponse} data - Response from the server
  * @returns {void} - Nothing
  */
 function ChatSearchResponse(data) {
@@ -1752,7 +1761,7 @@ function ChatSearchResponse(data) {
 
 /**
  * Sends a toast message based on the given response type
- * @param {ServerChatRoomSearchResponse} type
+ * @param {ServerChatRoomJoinResponse} type
  */
 function ChatSearchSendToast(type) {
 	ToastManager.dismissByCategory("ChatSearch");
@@ -1925,9 +1934,9 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
 /**
  * Sends the search query data to the server. The response will be handled by ChatSearchResponse once it is received
  * @param {string} Query - The search term to look for
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function ChatSearchQuery(Query) {
+async function ChatSearchQuery(Query) {
 	if (ChatRoomJoinLeash !== "") {
 		Query = ChatRoomJoinLeash.toUpperCase().trim();
 	} else if (Player.ImmersionSettings.ReturnToChatRoom) {
@@ -1951,17 +1960,9 @@ function ChatSearchQuery(Query) {
 		MapTypes: Player.ChatSearchSettings.MapTypes ? [Player.ChatSearchSettings.MapTypes] : [],
 		SearchDescs: Player.ChatSearchSettings.SearchDescriptions,
 	};
-	const isEqual = CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData);
-
-	// Leashing between language filters
-	if (ChatRoomJoinLeash) SearchData.Language = "";
-
-	// Prevent spam searching the same thing.
-	if (!isEqual || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
-		ChatSearchLastQuerySearchTime = CommonTime();
-		ChatSearchLastSearchDataJSON = SearchData;
-		ChatSearchResult = [];
-		ServerSend("ChatRoomSearch", SearchData);
+	const res = await ServerRoomSearch(Query.toUpperCase().trim(), SearchData);
+	if (res.ok) {
+		ChatSearchResult = ChatSearchParseResponse(res.value ?? []);
 	}
 }
 

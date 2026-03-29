@@ -13,7 +13,9 @@ var ServerAccountNameRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountPasswordRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountResetNumberRegex = /^[0-9]{1,20}$/;
 var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
-var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
+// XXX: something-something ES2024 `v` flag when passed as a text input validation pattern in Firefox
+// eslint-disable-next-line no-useless-escape
+var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'\-]{1,20}$/u;
 var ServerChatMessageMaxLength = 2000;
 var ServerChatRoomDescriptionMaxLength = 300;
 /** @type {ServerChatRoomLanguage[]} */
@@ -264,20 +266,26 @@ function ServerDisconnect(data, close = false) {
  * @param {ServerAccountData} C
  */
 function ServerHandleRelog(C) {
-	// In relog mode, we jump back to the previous screen, keeping the current game flow
 	if (!RelogData) return false;
 	Player.CharacterID = C.ID.toString();
 	Player.OnlineID = C.ID.toString();
 	CurrentCharacter = RelogData.Character;
 
-	if (RelogData.ChatRoomName) {
-		// We can afford to drop the player into the lobby since its state is still valid
-		CommonSetScreen("Online", "ChatSearch");
-		ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
-	} else {
-		const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
-		CommonSetScreen(...screen);
-	}
+	// In relog mode, we jump back to the previous screen, keeping the current game flow
+	// For chatroom relogs, just drop the player into the lobby since its state should still be valid
+	const isChatRoomRelog = !!RelogData.ChatRoomName;
+	/** @type {ScreenSpecifier} */
+	const screen = isChatRoomRelog ? ["Online", "ChatSearch"] : /** @type {ScreenSpecifier} */ ([RelogData.Module, RelogData.Screen]);
+
+	// XXX: Using `.then()` here because I don't want asyncness to spread to LoginResponse just yet
+	CommonSetScreen(...screen).then(async () => {
+		if (isChatRoomRelog) {
+			const ret = await ServerRoomJoin(RelogData.ChatRoomName);
+			if (ret.err) {
+				console.error(ret.error);
+			}
+		}
+	});
 	return true;
 }
 
@@ -1245,7 +1253,7 @@ var ServerValidation = {
 
 /**
  * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
- * @satisfies {{ [k in keyof (ServerAccountDataSynced | PlayerCharacter)]?: (arg: Partial<ServerAccountDataSynced[k]>, C: Character) => PlayerCharacter[k] }}
+ * @satisfies {{ [k in keyof (ServerAccountData | PlayerCharacter)]?: (arg: Partial<ServerAccountData[k]>, C: Character) => PlayerCharacter[k] }}
  * @namespace
  */
 var ServerAccountDataSyncedValidate = {
@@ -1253,7 +1261,10 @@ var ServerAccountDataSyncedValidate = {
 		return TitleList.some(t => t.Name === arg) ? arg : undefined;
 	},
 	Nickname: (arg, C) => {
-		return typeof arg === "string" ? arg : undefined;
+		return typeof arg === "string" && ServerCharacterNicknameRegex.test(arg) ? arg.trim() : undefined;
+	},
+	Money: (arg, C) => {
+		return CommonIsNumeric(arg) ? arg : 0;
 	},
 	AllowedInteractions: (arg, C) => {
 		return CommonIsInteger(arg, 0, 5) ? /** @type {AllowedInteractions} */(arg) : 2;
@@ -1286,6 +1297,7 @@ var ServerAccountDataSyncedValidate = {
 			Poker: CommonIsObject(arg.Poker) ? arg.Poker : undefined,
 			ClubCard: CommonIsObject(arg.ClubCard) ? arg.ClubCard : undefined,
 			Prison: CommonIsObject(arg.Prison) ? arg.Prison : undefined,
+			MagicSchoolFindsAround: CommonIsObject(arg.MagicSchoolFindsAround) ? arg.MagicSchoolFindsAround : undefined,
 		};
 	},
 	LabelColor: (arg, C) => {
@@ -1295,7 +1307,20 @@ var ServerAccountDataSyncedValidate = {
 		return (CommonIsFinite(arg, 0, CurrentTime)) ? arg : undefined;
 	},
 	Description: (arg, C) => {
-		return typeof arg === "string" ? arg : undefined;
+		let desc = "";
+		if (typeof arg === "string" && arg.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+			desc = LZString.decompressFromUTF16(arg.substring(1)) ?? "";
+		} else if (typeof arg === "string") {
+			desc = arg;
+		}
+		desc = desc.substring(0, OnlineProfileTextDescMaxLen);
+		return desc;
+	},
+	Lover: (arg, C) => {
+		return typeof arg === "string" && arg.startsWith("NPC-") ? arg : undefined;
+	},
+	Owner: (arg, C) => {
+		return typeof arg === "string" ? arg : "";
 	},
 	Ownership: (arg, C) => {
 		if (!CommonIsObject(arg)) {
@@ -1306,11 +1331,15 @@ var ServerAccountDataSyncedValidate = {
 		if (
 			typeof Name === "string"
 			&& CommonIsInteger(MemberNumber, 0)
-			&& (Notes == undefined || Notes == null || typeof Notes === "string")
+			&& (!Notes || typeof Notes === "string")
 			&& (Stage === 0 || Stage === 1)
 			&& CommonIsInteger(Start, 0, CommonTime())
 		) {
-			return { Name, MemberNumber, Notes, Stage, Start };
+			let dNotes = LZString.decompressFromUTF16(Notes) ?? undefined;
+			if (dNotes) {
+				dNotes = dNotes.substring(0, OnlineProfileTextOwnersNotesMaxLen);
+			}
+			return { Name, MemberNumber, Notes: dNotes, Stage, Start };
 		} else {
 			return null;
 		}
@@ -1417,3 +1446,122 @@ const ServerChatRoomSearchSettingsValidate = {
 	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
 	FilterTerms: ServerValidation.isString(200, ""),
 };
+
+const ServerDefaultTimeout = 1000;
+
+class ServerError extends Error {}
+
+class ServerTimeoutError extends ServerError {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message = undefined) {
+		super(message);
+		this.name = "ServerTimeoutError";
+	}
+}
+
+class ServerInProgressError extends ServerError {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message = undefined) {
+		super(message);
+		this.name = "ServerInProgressError";
+	}
+}
+
+class ServerJoinError extends ServerError {
+	/**
+	 * @type {ServerChatRoomJoinFailedResponse} name
+	 */
+	name;
+	/**
+	 * @param {ServerChatRoomJoinFailedResponse} type
+	 * @param {string} [message]
+	 */
+	constructor(type, message = undefined) {
+		super(message);
+		this.name = type;
+	}
+}
+
+/**
+ * Run a promise along with a timeout
+ *
+ * @template T
+ * @param {number} timeout
+ * @param {((resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void)} executor
+ * @return {Promise<T>}
+ */
+function ServerPromiseWithTimeout(timeout, executor) {
+	const work = new Promise(executor);
+	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(Result.failure(new ServerTimeoutError())), timeout); });
+	return Promise.race([work, timeoutPromise]);
+}
+
+
+let ServerRoomSearchLastQueryTime = 0;
+/** @type {ServerChatRoomSearchRequest | null} */
+let ServerRoomSearchLastQuery = null;
+
+
+/**
+ * Perform a search query against the server
+ * @param {string} queryString
+ * @param {Omit<ServerChatRoomSearchRequest, "Query">} options
+ * @return {Promise<Result<ServerChatRoomSearchResultResponse, ServerError>>}
+ */
+async function ServerRoomSearch(queryString, options) {
+	/** @type {ServerChatRoomSearchRequest} */
+	const request = {
+		Query: queryString.toUpperCase().trim(),
+		...options,
+	};
+
+	if (CommonObjectEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
+		return Result.failure(new ServerInProgressError("Search query while another query is in progress!"));
+	}
+
+	ServerRoomSearchLastQueryTime = CommonTime();
+	ServerRoomSearchLastQuery = CommonCloneDeep(request);
+
+	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
+		ServerSocket.once("ChatRoomSearchResult", (data) => {
+			resolve(Result.success(data));
+		});
+
+		ServerSend("ChatRoomSearch", request);
+	});
+}
+
+let ServerRoomJoinLastQuery = "";
+let ServerRoomJoinLastQueryTime = 0;
+
+/**
+ * Perform a join query against the server
+ * @param {string} roomName
+ * @return {Promise<Result<string, ServerError>>}
+ */
+async function ServerRoomJoin(roomName) {
+	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + 1000 > CommonTime()) {
+		return Result.failure(new ServerInProgressError("Join query while another query is in progress!"));
+	}
+
+	ServerRoomJoinLastQueryTime = CommonTime();
+	ServerRoomJoinLastQuery = roomName;
+
+	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
+		ServerSocket.once("ChatRoomSearchResponse", (data) => {
+			if (data === "JoinedRoom") {
+				resolve(Result.success(roomName));
+			} else if (data === "RoomKicked") {
+				// We… shouldn't get that one while joining
+			} else {
+				reject(Result.failure(new ServerJoinError(data)));
+			}
+		});
+
+		ServerSend("ChatRoomJoin", { Name: roomName });
+	});
+}

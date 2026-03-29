@@ -146,10 +146,9 @@ async function TitleLoad() {
 
 	const searchInput = ElementCreateSearchInput(
 		TitleSelec.searchInput,
-		() => TitleListFiltered.map(T => TextGet("Title" + T.Name))
+		() => TitleListFiltered.map(T => TextGet("Title" + T.Name)),
+		{ placeholder: TextGet("SearchTitle"), onInput: () => TitleSearch() },
 	);
-	searchInput.addEventListener("input", () => TitleSearch());
-	searchInput.placeholder = TextGet("SearchTitle");
 
 	const titleButtons = TitleListFiltered.map((title, I) => {
 		return ElementButton.Create(

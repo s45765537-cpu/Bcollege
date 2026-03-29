@@ -1,5 +1,117 @@
 "use strict";
 
+const PreferenceSubscreenGenderIDs = Object.freeze({
+	grid: "preference-gender-grid",
+});
+
+const PreferenceSubscreenGenderSettings = [
+	{
+		id: "AutoJoinSearch",
+		label: "GenderAutoJoinSearch",
+		setting: () => Player.GenderSettings.AutoJoinSearch,
+	},
+	{
+		id: "HideShopItems",
+		label: "GenderHideShopItems",
+		setting: () => Player.GenderSettings.HideShopItems,
+	},
+	{
+		id: "HideTitles",
+		label: "GenderHideTitles",
+		setting: () => Player.GenderSettings.HideTitles,
+	},
+];
+
+/**
+ * Loads the gender preference subscreen.
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenGenderLoad() {
+	const femaleLabel = TextGet("GenderFemales");
+	const maleLabel = TextGet("GenderMales");
+
+	const header = ElementCreate({
+		tag: "div",
+		classList: ["preference-gender-row", "preference-gender-header"],
+		children: [
+			{
+				tag: "span",
+				classList: ["preference-gender-placeholder"],
+				children: [""],
+			},
+			{
+				tag: "span",
+				children: [femaleLabel],
+			},
+			{
+				tag: "span",
+				children: [maleLabel],
+			},
+		],
+	});
+
+	const rows = PreferenceSubscreenGenderSettings.map((entry) => {
+		const setting = entry.setting();
+		const rowLabel = TextGet(entry.label);
+		const femaleId = `preference-gender-${entry.id}-female`;
+		const maleId = `preference-gender-${entry.id}-male`;
+
+		const femaleCheckbox = ElementCheckbox.Create(
+			femaleId,
+			function () {
+				setting.Female = this.checked;
+			},
+			{ checked: setting.Female },
+			{
+				checkbox: {
+					attributes: {
+						"aria-label": `${rowLabel} - ${femaleLabel}`,
+					},
+				},
+			}
+		);
+
+		const maleCheckbox = ElementCheckbox.Create(
+			maleId,
+			function () {
+				setting.Male = this.checked;
+			},
+			{ checked: setting.Male },
+			{
+				checkbox: {
+					attributes: {
+						"aria-label": `${rowLabel} - ${maleLabel}`,
+					},
+				},
+			}
+		);
+
+		return ElementCreate({
+			tag: "div",
+			classList: ["preference-gender-row"],
+			children: [
+				{
+					tag: "span",
+					classList: ["preference-gender-label"],
+					children: [rowLabel],
+				},
+				femaleCheckbox,
+				maleCheckbox,
+			],
+		});
+	});
+
+	ElementCreate({
+		tag: "div",
+		classList: ["preference-settings-grid", "scroll-box", "preference-gender-grid"],
+		attributes: {
+			id: PreferenceSubscreenGenderIDs.grid,
+		},
+		children: [header, ...rows],
+		parent: ElementWrap(PreferenceIDs.subscreen),
+	});
+}
+
 /**
  * Sets the gender preferences for a player. Redirected to from the main Run function if the player is in the
  * gender settings subscreen
@@ -7,63 +119,16 @@
  */
 function PreferenceSubscreenGenderRun() {
 	DrawCharacter(Player, 50, 50, 0.9);
-
-	MainCanvas.textAlign = "left";
-
-	DrawText(TextGet("GenderFemales"), 1410, 160, "Black", "Gray");
-	DrawText(TextGet("GenderMales"), 1590, 160, "Black", "Gray");
-
-	PreferenceGenderDrawSetting(500, 225, TextGet("GenderAutoJoinSearch"), Player.GenderSettings.AutoJoinSearch);
-	PreferenceGenderDrawSetting(500, 305, TextGet("GenderHideShopItems"), Player.GenderSettings.HideShopItems);
-	PreferenceGenderDrawSetting(500, 385, TextGet("GenderHideTitles"), Player.GenderSettings.HideTitles);
-
-	MainCanvas.textAlign = "center";
 }
 
 /**
- * Draws the two checkbox row for a gender setting
- * @param {number} Left - The X co-ordinate the row starts on
- * @param {number} Top - The Y co-ordinate the row starts on
- * @param {string} Text - The text for the setting's description
- * @param {PreferenceGenderSetting} Setting - The player setting the row corresponds to
- * @returns {void} - Nothing
- */
-function PreferenceGenderDrawSetting(Left, Top, Text, Setting) {
-	DrawText(Text, Left, Top, "Black", "Gray");
-	DrawCheckbox(Left + 950, Top - 32, 64, 64, "", Setting.Female);
-	DrawCheckbox(Left + 950 + 155, Top - 32, 64, 64, "", Setting.Male);
-}
-
-/**
- * Handles the click events for the notifications settings of a player.  Redirected from the main Click function.
+ * Handles click events for the gender settings of a player. Redirected from the main Click function.
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGenderClick() {
-	PreferenceGenderClickSetting(1450, 225, Player.GenderSettings.AutoJoinSearch, false);
-	PreferenceGenderClickSetting(1450, 305, Player.GenderSettings.HideShopItems, false);
-	PreferenceGenderClickSetting(1450, 385, Player.GenderSettings.HideTitles, false);
 }
 
-/**
- * Handles the click for a gender setting row
- * @param {number} Left - The X co-ordinate the row starts on
- * @param {number} Top - The Y co-ordinate the row starts on
- * @param {PreferenceGenderSetting} Setting - The player setting the row corresponds to
- * @param {boolean} MutuallyExclusive - Whether only one option can be enabled at a time
- * @returns {void} - Nothing
- */
-function PreferenceGenderClickSetting(Left, Top, Setting, MutuallyExclusive) {
-	if (MouseIn(Left, Top - 32, 64, 64)) {
-		Setting.Female = !Setting.Female;
-		if (MutuallyExclusive && Setting.Female) {
-			Setting.Male = false;
-		}
-	}
-
-	if (MouseIn(Left + 155, Top - 32, 64, 64)) {
-		Setting.Male = !Setting.Male;
-		if (MutuallyExclusive && Setting.Male) {
-			Setting.Female = false;
-		}
-	}
+function PreferenceSubscreenGenderResize() {
+	const { x, y } = PreferenceSubscreenMainGrid;
+	ElementSetPosition(PreferenceSubscreenGenderIDs.grid, x, y);
 }

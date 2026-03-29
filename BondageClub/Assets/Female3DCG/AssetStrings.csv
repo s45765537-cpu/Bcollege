@@ -586,6 +586,12 @@ ClitSuctightensToHeavy,SourceCharacter tweaks DestinationCharacter clitoris suct
 ClitSuctightensToLight,SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in TargetPronounPossessive clitoris lightly.
 ClitSuctightensToMaximum,SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in TargetPronounPossessive clitoris entirely.
 ClitSuctightensToMedium,SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in TargetPronounPossessive clitoris firmly.
+ClothAllureSidecutDefault,Default
+ClothAllureSidecutSelect,Style
+ClothAllureSidecutTransparent,Transparent
+ClothBrocadeCloudsSnowEmbroideryQipaoNo,No
+ClothBrocadeCloudsSnowEmbroideryQipaoSelect,Select Lining Skirt
+ClothBrocadeCloudsSnowEmbroideryQipaoYes,Yes
 ClothOffTheShoulderTopSelect,Choose Style:
 ClothOffTheShoulderTopRight,Right
 ClothOffTheShoulderTopLeft,Left
@@ -1441,6 +1447,13 @@ GwenHoodStylef0,Original
 GwenHoodStylef1,Smooth
 GwenHoodChangeStyleFinish,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHair,SourceCharacter changes the style of DestinationCharacter gwen hood.
+HairAccessory1AntennaLeft,Left
+HairAccessory1AntennaLeftGlowing,Left Glowing
+HairAccessory1AntennaLeftRight,Left Right
+HairAccessory1AntennaLeftRightGlowing,Left Right Glowing
+HairAccessory1AntennaRight,Right
+HairAccessory1AntennaRightGlowing,Right Glowing
+HairAccessory1AntennaSelect,Select Pattern
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
 HairAccessory1ElfEarsSelect,Select elf ears position
@@ -3707,8 +3720,8 @@ ItemDevicesVacBedDeluxeModuleArms,Arm Position
 ItemDevicesVacBedDeluxeModuleLegs,Leg Position
 ItemDevicesVacBedDeluxeOptiona0,Arms Down
 ItemDevicesVacBedDeluxeOptiona1,Arms Yoked
-ItemDevicesVacBedDeluxeOptionl0,Legs Together
-ItemDevicesVacBedDeluxeOptionl1,Legs Spread
+ItemDevicesVacBedDeluxeOptionl0,Legs Spread
+ItemDevicesVacBedDeluxeOptionl1,Legs Together
 ItemDevicesVacBedDeluxeSelectArms,Select arm position
 ItemDevicesVacBedDeluxeSelectBase,Select options
 ItemDevicesVacBedDeluxeSelectLegs,Select leg position
@@ -8049,6 +8062,12 @@ ItemHandheldPlushieOptionCCLounge3,Jennifer
 ItemHandheldPlushieSetCCLounge3,SourceCharacter places a cute Jennifer plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionCCLounge4,Tsuki
 ItemHandheldPlushieSetCCLounge4,SourceCharacter places a cute Tsuki plushie in DestinationCharacter hands.
+ItemHandheldPlushieModuleSakisDen,Saki's Den
+ItemHandheldPlushieSelectSakisDen,Saki's Den
+ItemHandheldPlushieOptionSakisDen0,None
+ItemHandheldPlushieSetSakisDen0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionSakisDen1,Saki
+ItemHandheldPlushieSetSakisDen1,SourceCharacter places a pretty Saki plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
 ItemHandheldCigaretteSelect,Choose position of the cigarette:

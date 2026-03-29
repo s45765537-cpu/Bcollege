@@ -570,5 +570,5 @@ function MagicSchoolLaboratoryLearnMastery() {
  * @returns {boolean} - TRUE if it can be waged
  */
 function MagicSchoolLaboratoryCanWageWand() {
-	return InventoryIsWorn(MagicSchoolLaboratoryStudent, "RainbowWand", "ItemHandheld");
+	return InventoryIsWorn(MagicSchoolLaboratoryStudent, "ItemHandheld", "RainbowWand");
 }

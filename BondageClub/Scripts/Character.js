@@ -558,6 +558,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (!(CommonIsArray(this.Lovership) || (this.IsNpc() && this.Lover != ""))) return loves;
 
 			if (this.IsNpc()) {
+				if (!this.Lover) {
+					return [];
+				}
 				// NPC can only love the player at the moment. Reconstruct their lovership data
 				/** @type {Lovership} */
 				const love = { Name: this.Lover, MemberNumber: Player.MemberNumber };
@@ -1244,22 +1247,15 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
  */
 function CharacterLoadOnline(data, SourceMemberNumber) {
 
-	/** @type {Character} */
-	let Char = null;
 	// Check if the character already exists to reuse it
-	if (data.ID.toString() == Player.CharacterID) {
-		Char = Player;
-	} else {
-		Char = Character.find(c => c.CharacterID === data.ID);
-	}
+	/** @type {Character} */
+	let Char = data.ID.toString() == Player.CharacterID ? Player : Character.find(c => c.CharacterID === data.ID);
 
-	// Decompresses data
-	if (typeof data.Description === "string" && data.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-		data.Description = LZString.decompressFromUTF16(data.Description.substring(1));
-	}
-	if (typeof data.Ownership?.Notes === "string") {
-		data.Ownership.Notes = LZString.decompressFromUTF16 (data.Ownership.Notes);
-	}
+	// We have to do that validation here because Description is one of the keys we check to decide
+	// whether to refresh or not; our currently in-memory character has it decoded, so we have to decode
+	// this as well.
+	data.Description = ServerAccountDataSyncedValidate.Description(data.Description, Char);
+
 	if (Array.isArray(data.WhiteList)) {
 		data.WhiteList.sort((a, b) => a - b);
 	}
@@ -1268,7 +1264,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 	}
 
 	// If the character isn't found
-	if (Char == null) {
+	if (!Char) {
 		// We delete the duplicate character if the person relogged.
 		const duplicate = Character.find(c => c.MemberNumber === data.MemberNumber);
 		if (duplicate) {
@@ -1278,17 +1274,16 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		// Creates the new character from the online template
 		Char = CharacterCreate("Female3DCG", CharacterType.ONLINE, data.ID);
 		Char.Name = data.Name;
-		Char.Lover = (data.Lover != null) ? data.Lover : "";
-		Char.Owner = (data.Owner != null) ? data.Owner : "";
+		Char.Lover = ServerAccountDataSyncedValidate.Lover(data.Lover, Char);
+		Char.Owner = ServerAccountDataSyncedValidate.Owner(data.Owner, Char);
 		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title, Char);
-		Char.Nickname = data.Nickname;
+		Char.Nickname = ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
 		Char.AccountName = "Online-" + data.ID.toString();
 		Char.MemberNumber = data.MemberNumber;
-		Char.Difficulty = data.Difficulty;
+		Char.Difficulty = ServerAccountDataSyncedValidate.Difficulty(data.Difficulty, Char);
 		Char.AllowItem = false;
 		CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" });
 		CharacterOnlineRefresh(Char, data, SourceMemberNumber);
-
 	} else {
 
 		// If we must add a character, we refresh it
@@ -2413,11 +2408,10 @@ function CharacterClearOwnership(C, push=true) {
  * @returns {string} - The nickname to return
  */
 function CharacterNickname(C) {
-	let Nick = C.Nickname;
-	if (Nick == null) Nick = "";
-	Nick = Nick.trim().substring(0, 20);
-	if ((Nick == "") || !ServerCharacterNicknameRegex.test(Nick)) Nick = C.Name;
-	return AsylumGGTSIsEnabled() ? AsylumGGTSCharacterName(C, Nick) : Nick;
+	if (AsylumGGTSIsEnabled()) {
+		return AsylumGGTSCharacterName(C);
+	}
+	return C.Nickname ?? C.Name;
 }
 
 /**

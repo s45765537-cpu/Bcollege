@@ -702,7 +702,7 @@ function LoginValidCollar() {
 	}
 
 	// Check if we should switch to the club slave collar
-	if (LogQuery("ClubSlave", "Management") && !InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck"))
+	if (LogQuery("ClubSlave", "Management") && !InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar"))
 		InventoryWear(Player, "ClubSlaveCollar", "ItemNeck");
 }
 
@@ -956,17 +956,12 @@ function LoginSetupPlayer(C) {
 	Player.Name = C.Name;
 	Player.AccountName = C.AccountName;
 	Player.AssetFamily = C.AssetFamily ?? "Female3DCG";
-	Player.Title = C.Title;
-	Player.Nickname = typeof C.Nickname === "string" ? C.Nickname : "";
-	Player.Money = CommonIsNumeric(C.Money) ? C.Money : 0;
-	Player.Owner = typeof C.Owner === "string" ? C.Owner : "";
-	Player.Game = CommonIsObject(C.Game) ? C.Game : {};
-	if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-		const desc = LZString.decompressFromUTF16(C.Description.substring(1)) ?? "";
-		Player.Description = desc.substring(0, OnlineProfileTextDescMaxLen);
-	} else {
-		Player.Description = "";
-	}
+	Player.Title = ServerAccountDataSyncedValidate.Title(C.Title, Player);
+	Player.Nickname = ServerAccountDataSyncedValidate.Nickname(C.Nickname, Player);
+	Player.Money = ServerAccountDataSyncedValidate.Money(C.Money, Player);
+	Player.Owner = ServerAccountDataSyncedValidate.Owner(C.Owner, Player);
+	Player.Game = ServerAccountDataSyncedValidate.Game(C.Game, Player);
+	Player.Description = ServerAccountDataSyncedValidate.Description(C.Description, Player);
 	Player.Creation = C.Creation;
 	Player.Wardrobe = C.Wardrobe ? CharacterDecompressWardrobe(C.Wardrobe) : [];
 	WardrobeFixLength();
@@ -1039,21 +1034,12 @@ function LoginSetupPlayer(C) {
 	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
 	if (Player.Ownership != null) {
 		Player.Owner = Player.IsFullyOwned() ? Player.Ownership.Name : "";
-		if (typeof Player.Ownership.Notes === "string") {
-			const desc = LZString.decompressFromUTF16(Player.Ownership.Notes) ?? "";
-			Player.Ownership.Notes = desc.slice(0, OnlineProfileTextOwnersNotesMaxLen);
-		} else {
-			Player.Ownership.Notes = "";
-		}
 	}
 
 	// @ts-expect-error: FIXME: Property 'Name' is optional in type 'ServerLovership' but required in type 'Lovership'
 	// Ensures lovership data is compatible and converts lovers to lovership
 	Player.Lovership = Array.isArray(C.Lovership) ? C.Lovership : C.Lovership != undefined ? [C.Lovership] : [];
-	if ((C.Lover != null) && (C.Lover != "undefined") && C.Lover.startsWith("NPC-")) {
-		Player.Lover = C.Lover;
-		ServerPlayerSync();
-	}
+	Player.Lover = ServerAccountDataSyncedValidate.Lover(C.Lover, Player);
 
 	// Calls the preference init to make sure the preferences are loaded correctly
 	PreferenceInitPlayer(Player, C);

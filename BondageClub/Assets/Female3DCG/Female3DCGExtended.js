@@ -1061,6 +1061,17 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // OffTheShoulderTop
+		BrocadeCloudsSnowEmbroideryQipao: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: true,
+			Options: [{ Name: "Yes" }, { Name: "No" }],
+		}, // BrocadeCloudsSnowEmbroideryQipao
+		AllureSidecut: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			DrawImages: false,
+			Options: [{ Name: "Default" }, { Name: "Transparent" }],
+		}, // AllureSidecut
 	}, // Cloth
 	BodyMarkings: {
 		WombTattoos: {
@@ -14829,6 +14840,18 @@ var AssetFemale3DCGExtended = {
 				AssetName: "CustomizableFluffyEars1",
 			},
 		},
+		Antenna: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{ Name: "Right" },
+				{ Name: "RightGlowing" },
+				{ Name: "Left" },
+				{ Name: "LeftGlowing" },
+				{ Name: "LeftRight" },
+				{ Name: "LeftRightGlowing" },
+			],
+		}, // Antenna
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {
@@ -22657,6 +22680,21 @@ var AssetFemale3DCGExtended = {
 									"Assets/Female3DCG/ItemHandheld/Plushie_Jennifer.png",
 							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Tsuki.png" },
+						],
+					},
+				},
+				{
+					Name: "SakisDen",
+					Key: "SakisDen",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Saki
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Saki.png" },
 						],
 					},
 				},

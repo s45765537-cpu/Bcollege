@@ -39,17 +39,8 @@ function AssetBaseURL(C, group, groupName, pose, layer, layerType, asset) {
 	// set base body url
 	const poseSegment = pose ? pose + "/" : "";
 	let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
-	if (
-		bodyStyle.StyleOverride?.includes(groupName) ||
-		asset.StyleOverride?.includes(bodyStyle.Name) ||
-		layer.StyleOverride?.includes(bodyStyle.Name)
-	) {
-		if (
-			(!asset.CreateLayerTypesOverride?.length &&
-			!layer.CreateLayerTypesOverride?.length) ||
-			(asset.CreateLayerTypesOverride?.includes(layerTypeNumber) ||
-			layer.CreateLayerTypesOverride?.includes(layerTypeNumber))
-		) {
+	if (bodyStyle.StyleOverride?.includes(groupName) || layer.StyleOverride?.includes(bodyStyle.Name)) {
+		if (!layer.CreateLayerTypesOverride?.length || layer.CreateLayerTypesOverride?.includes(layerTypeNumber)) {
 			baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
 		}
 	}

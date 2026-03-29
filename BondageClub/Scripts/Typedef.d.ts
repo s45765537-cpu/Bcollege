@@ -192,7 +192,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
+		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton" | "menuitem" | "switch";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */
@@ -373,7 +373,7 @@ declare namespace ElementDOMScreen {
 		/** The parent element of the to-be returned screen (if any) */
 		parent?: Node;
 		/** Buttons for in the header's menubar (see `.screen-header [role="menubar"]`) */
-		menubarButtons?: readonly HTMLButtonElement[];
+		menubarButtons?: readonly HTMLElement[];
 		/** Content for within the main section (see `.screen-main`) */
 		mainContent?: readonly (Node | string | HTMLOptionsUnion)[];
 		/** Whether an extra `aside.screen-aside-l` section should be added to the left of `.screen-main` */
@@ -699,6 +699,23 @@ type GraphicsFontName =
 	"CenturyGothic" | "Georgia" | "CourierNew" | "Copperplate"
 	;
 
+type AnimationDataKey = string;
+type AnimationPersistentData = {
+	[key in `GroupData${string}` | "Group"]?: { Subscriptions: AnimationDataKey[] };
+};
+interface AnimationPersistentStorage extends Record<string, Record<string, any>> {
+	readonly AssetGroup: Record<AnimationDataKey, Record<string, { Subscriptions: AnimationDataKey[] }>>,
+	/** Unknown value type; seems to be unused */
+	readonly "": Record<AnimationDataKey, never>,
+	/** Unknown value type; seems to be unused */
+	readonly DynamicPlayerCanvas: Record<AnimationDataKey, never>,
+	readonly PersistentData: Record<AnimationDataKey, AnimationPersistentData>,
+	readonly Rebuild: Record<AnimationDataKey, boolean>,
+	readonly RefreshTime: Record<AnimationDataKey, number>,
+	readonly RefreshRate: Record<AnimationDataKey, number>,
+}
+type AnimationDataTypes = keyof AnimationPersistentStorage;
+
 type PreferenceSubscreenName =
 	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
 	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
@@ -748,11 +765,9 @@ interface ModuleScreens {
 		| "Disclaimer"
 		| "FriendList"
 		| "InformationSheet"
-		| "ItemColor"
 		| "Login"
 		| "OnlineProfile"
 		| "PasswordReset"
-		| "Player"
 		| "Preference"
 		| "Relog"
 		| "Title"
@@ -774,7 +789,6 @@ interface ModuleScreens {
 		| "HorseWalk"
 		| "Kidnap"
 		| "KinkyDungeon"
-		| "Lockpick"
 		| "MagicBattle" | "MagicPuzzle"
 		| "MaidCleaning" | "MaidDrinks"
 		| "PlayerAuction"
@@ -790,7 +804,7 @@ interface ModuleScreens {
 		| "ChatAdmin" | "ChatAdminRoomCustomization" | "ChatBlockItem"
 		| "ChatRoom" | "ChatSearch" | "ChatSelect"
 		| "ForbiddenWords"
-		| "Game" | "GameClubCard" | "GameLARP" | "GameMagicBattle"
+		| "GameClubCard" | "GameLARP" | "GameMagicBattle"
 		| "NicknameManagement"
 		| "WheelFortuneCustomize"
 		;
@@ -840,6 +854,9 @@ interface ScreenSpecifierOptions {
 
 type _ScreenSpecifier<T extends ModuleType> = [module: T, screen: ModuleScreens[T], options?: null | ScreenSpecifierOptions];
 type ScreenSpecifier = _ScreenSpecifier<"Character"> | _ScreenSpecifier<"Cutscene"> | _ScreenSpecifier<"MiniGame"> | _ScreenSpecifier<"Online"> | _ScreenSpecifier<"Room">;
+
+type _PartialScreenSpecifier<T extends ModuleType> = { module?: T, screen?: ModuleScreens[T] };
+type PartialScreenSpecifier = _PartialScreenSpecifier<"Character"> | _PartialScreenSpecifier<"Cutscene"> | _PartialScreenSpecifier<"MiniGame"> | _PartialScreenSpecifier<"Online"> | _PartialScreenSpecifier<"Room">;
 
 type AssetCategory = "Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy" | "Smoking";
 
@@ -1203,8 +1220,8 @@ interface AssetLayer {
 	/** The name of the layer - may be null if the asset only contains a single default layer */
 	readonly Name: LayerName | null;
 	/** Specify a body type to override the asset with. */
-	readonly StyleOverride?: string [];
-	readonly CreateLayerTypesOverride?: number [];
+	readonly StyleOverride?: BodyStyle[];
+	readonly CreateLayerTypesOverride?: number[];
 	/** Specify a list of CLT asset layers to override. */
 	readonly AllowColorize: boolean;
 	/** if not null, specifies that this layer should always copy the color of the named layer */
@@ -1322,8 +1339,8 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
-	readonly StyleOverride?: string[];
-	readonly SupportedStyles?: string[];
+	readonly StyleOverride?: BodyStyle[];
+	readonly SupportedStyles?: BodyStyle[];
 	readonly CreateLayerTypesOverride?: number[];
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;
@@ -1703,6 +1720,28 @@ interface ScreenFunctions {
 	Exit?: ScreenExitHandler;
 }
 
+// Explicitly insert all backgrounds & screen functions into the window namespace such that they can
+// easily be looked up with the likes of `window[`${CurrentScreen}Background`]`.
+// Note that most of them can still be undefined
+type ScreenFunctionsSymbols = Prettify<(
+	{ [key in `${RoomName}Background`]?: string }
+	& { [key in `${RoomName}Run`]: ScreenRunHandler }
+	& { [key in `${RoomName}MouseDown`]?: MouseEventListener }
+	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
+	& { [key in `${RoomName}MouseMove`]?: MouseEventListener }
+	& { [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }
+	& { [key in `${RoomName}Click`]: MouseEventListener }
+	& { [key in `${RoomName}Load`]?: ScreenLoadHandler }
+	& { [key in `${RoomName}Unload`]?: ScreenUnloadHandler }
+	& { [key in `${RoomName}Draw`]?: ScreenDrawHandler }
+	& { [key in `${RoomName}Resize`]?: ScreenResizeHandler }
+	& { [key in `${RoomName}KeyDown`]?: KeyboardEventListener }
+	& { [key in `${RoomName}KeyUp`]?: KeyboardEventListener }
+	& { [key in `${RoomName}Paste`]?: ClipboardEventListener }
+	& { [key in `${RoomName}Exit`]?: ScreenExitHandler }
+)>;
+interface Window extends ScreenFunctionsSymbols {}
+
 //#region Characters
 
 /** The different types of (mutually exclusive) permissions an item or item option can have */
@@ -1811,7 +1850,7 @@ interface Character {
 	Name: string;
 	Nickname?: string; // technically never as it's Online-only
 	Owner: string;
-	Lover: string;
+	Lover?: string;
 	Money: number;
 	Inventory: InventoryItem[];
 	InventoryData?: string;
@@ -2280,8 +2319,8 @@ type DifficultyLevel =
 interface PlayerCharacter extends Character {
 	// All the following are guaranteed to be set on login
 	MemberNumber: number;
-	Nickname: string;
-	LabelColor: "" | HexColor;
+	Nickname?: string;
+	LabelColor: HexColor;
 	Game: CharacterGameParameters;
 	Description: string;
 	Creation: number;
@@ -4151,7 +4190,7 @@ interface CommonDrawCallbacks {
 	drawImageColorizeBlink: DrawImageColorizeCallback;
 }
 
-interface DynamicDrawingData<T extends Record<string, any> = Record<string, unknown>> {
+interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersistentData> {
 	C: Character;
 	X: number;
 	Y: number;
@@ -4254,6 +4293,8 @@ interface PandoraBaseRoom {
 
 type CraftingMode = (
 	"Slot"
+	| "Reorder"
+	| "Delete"
 	| "Name"
 	| "Color"
 	| "Extended"
@@ -4261,8 +4302,83 @@ type CraftingMode = (
 	| "OverridePriority"
 );
 
-type CraftingReorderType = "None" | "Select" | "Place";
+/**
+ * A namespace with helper types for implementing custom crafting slot modes; modes that can be added by adding a callback to {@link CraftingSlots.modeData}.
+ */
+declare namespace CraftingSlotsMode {
+	/** The return type of {@link Callback} representing mode-specific heading and mode-accept-button customization */
+	interface Result {
+		/**
+		 * The color of the `mode-accept` button's question mark icon.
+		 * @default "white"
+		 */
+		modeAcceptQuestionColor?: string;
+		/**
+		 * The image source of the `mode-accept` button.
+		 * @default "./Icons/Crafting.png"
+		 */
+		modeAcceptImgSrc?: string;
+		/**
+		 * The tooltip content of the `mode-accept` button.
+		 *
+		 * Should contain a more extensive description of the relevant crafting mode (if so required; see {@link Result.heading}).
+		 * @default TextGet("ModeAcceptSlot")
+		 */
+		modeAcceptTooltip?: string | Node | readonly (string | Node)[];
+		/**
+		 * A click listener for the `mode-accept` button.
+		 *
+		 * If present, the button should serve a "accept all changes" type of role.
+		 *
+		 * If absent, disable the button.
+		 * @default null
+		 */
+		modeAcceptListener?: null | ((this: HTMLButtonElement, ev: PointerEvent) => void);
+		/**
+		 * The content of the main crafting slot heading.
+		 *
+		 * Must contain a 1-line summary of the relevant crafting mode. See {@link Result.modeAcceptTooltip} if a more extensive description is also desired.
+		 */
+		heading: string | Node | readonly (string | Node )[];
+	}
 
+	/** Arguments for {@link Callback} representing a crafting item + button pair */
+	interface Args {
+		/** The crafting item (if any) associated with the button */
+		craft: null | CraftingItem;
+		/** The `.crafting-slot-button` button in question */
+		button: HTMLButtonElement;
+		/** Multi select listeners that can be attached to the button in order to implement `click` and `shift + click` selection behavior */
+		multiSelectListeners: {
+			click: (this: HTMLButtonElement, ev: PointerEvent) => void,
+			focus: (this: HTMLButtonElement, ev: FocusEvent) => void,
+		};
+	}
+
+	/**
+	 * The to-be registered callback
+	 * @param crafts A list of crafting arguments, which most prominently include the crafting items and their respective buttons
+	 * @returns The final mode-specific config
+	 */
+	type Callback = (crafts: readonly Args[]) => Result;
+
+	type Data = {
+		/** The `<select>` label associated with the registered slot mode. If absent, default to the `TextGet(Label${SlotModeName})` output */
+		selectLabel?: string;
+		/** The to-be registered callback used for setting up mode-specific configurations */
+		readonly callback: Callback;
+	}
+}
+
+/** All registered crafting slot modes (see {@link CraftingSlotsMode}) */
+interface CraftingSlotModeData extends Record<Extract<CraftingMode, "Slot" | "Reorder" | "Delete">, CraftingSlotsMode.Data> {
+	Slot: CraftingSlotsMode.Data;
+	Reorder: CraftingSlotsMode.Data;
+	Delete: CraftingSlotsMode.Data;
+}
+
+/** All `Slot`-adjecant crafting modes */
+type CraftingSlotModes = keyof CraftingSlotModeData;
 
 /**
  * A struct with an items crafting-related information.

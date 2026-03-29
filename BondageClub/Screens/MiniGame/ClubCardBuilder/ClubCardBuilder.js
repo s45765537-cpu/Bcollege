@@ -69,7 +69,11 @@ let ClubCardBuilderReturnToChatroom = false;
 function ClubCardBuilderLoadDeck(Deck) {
 	// create the editor's elements
 	ElementCreateDropdown("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), ClubCardBuilderTagChanged);
-	ElementCreateSearchInput("CardsSearchFilter", () => ClubCardList.map(i => ClubCardTextGet(i))).addEventListener("input", ClubCardBuilderInputChanged);
+	ElementCreateSearchInput(
+		"CardsSearchFilter",
+		() => ClubCardList.map(i => ClubCardTextGet(i)),
+		{ onInput: ClubCardBuilderInputChanged },
+	);
 
 	// Loads the default deck if no deck exists or the deck is invalid
 	ClubCardBuilderDeckIndex = Deck;
@@ -197,9 +201,9 @@ function ClubCardBuilderFilterLoad() {
 
 /**
  * Loads the club card deck builder
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ClubCardBuilderLoad() {
+async function ClubCardBuilderLoad() {
 	ClubCardCommonLoad();
 	ClubCardBuilderDeckIndex = -1;
 	ClubCardBuilderRenameIndex = -1;
@@ -228,7 +232,7 @@ function ClubCardBuilderRenameMode(Deck) {
 
 /**
  * Runs the club card deck builder
- * @returns {void} - Nothing
+ * @type {ScreenRunHandler}
  */
 function ClubCardBuilderRun() {
 	let Index = null;
@@ -315,7 +319,7 @@ function ClubCardBuilderRun() {
 
 /**
  * Handles clicks during the club card game
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function ClubCardBuilderClick() {
 
@@ -444,6 +448,7 @@ function ClubCardBuilderClick() {
 
 }
 
+/** @type {ScreenUnloadHandler} */
 function ClubCardBuilderUnload() {
 	ClubCardBuilderFinishEdit();
 }

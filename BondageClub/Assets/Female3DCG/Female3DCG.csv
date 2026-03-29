@@ -106,6 +106,7 @@ Cloth,AdultBabyDress1,Puffy Dress
 Cloth,AdultBabyDress2,Bows Dress
 Cloth,AdultBabyDress3,Summer flower dress
 Cloth,AdultBabyDress4,Shiny dress
+Cloth,AllureSidecut,Allure Sidecut
 Cloth,AnimeGirl,Cosplay Girl Suit
 Cloth,BabydollDress1,Babydoll Dress
 Cloth,Blouse1,Blouse
@@ -116,6 +117,7 @@ Cloth,BondageBustier2,Bondage Bustier 2
 Cloth,BondageDress1,Bondage Dress Style 1
 Cloth,BondageDress2,Bondage Dress Style 2
 Cloth,BridesmaidDress1,Bridesmaid Dress
+Cloth,BrocadeCloudsSnowEmbroideryQipao,Brocade Clouds Qipao
 Cloth,BusinessSuit,Business Suit
 Cloth,ButtonShirt,Button Shirt
 Cloth,CheerleaderTop,Cheerleader Top
@@ -126,8 +128,9 @@ Cloth,ComfyTop,Sleep Top
 Cloth,CorsetDress,Corset Dress
 Cloth,CorsetShirt,Corset Shirt
 Cloth,Cow,Cow Top
-Cloth,CrimsonCloudsInkRhymeQipaoDress,Crimson Clouds Dress
+Cloth,CrimsonCloudsInkRhymeQipaoDress,Crimson Clouds Qipao
 Cloth,CropTop,Crop Top
+Cloth,CrossStrapDress,Cross Strap Dress
 Cloth,CustomTShirt,Custom T-Shirt
 Cloth,Dress2,Nomadic Dress
 Cloth,Dress3,Long Dress
@@ -138,6 +141,7 @@ Cloth,FlowerDress,Flower Dress
 Cloth,FrilledShirt,Latex Frilled Shirt
 Cloth,FurCoat,Fur Coat
 Cloth,FuzzyDress,Fuzzy Dress
+Cloth,GardenDress,Garden Dress
 Cloth,Gown1,Puffball Gown
 Cloth,Gown2Top,Hobble Gown
 Cloth,Gown3,Shiny Gown
@@ -195,10 +199,11 @@ Cloth,MaidBikini,Maid Bikini
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
+ClothAccessory,BowAccessory,Bow - Front
 ClothAccessory,BowBelt,Bow Belt
 ClothAccessory,BugLegs,Bug Legs
 ClothAccessory,BunnyCollarCuffs,Bunny Girl Accessories
-ClothAccessory,BowBackAccessory,Bow Back Accessory
+ClothAccessory,BowBackAccessory,Bow - Back
 ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,CatsuitCollar,Catsuit Collar
@@ -238,6 +243,7 @@ ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
 ClothLower,BaggyJeans,Baggy Jeans
+ClothLower,BlackButterflySkirt,Butterfly Skirt
 ClothLower,BondageSkirt,Bondage Skirt
 ClothLower,BusinessSkirt,Business Skirt
 ClothLower,BusinessTrousers,Business Trousers
@@ -249,6 +255,7 @@ ClothLower,CrossSkirt,Cross Skirt
 ClothLower,CrossSkirtLight,Cross Skirt (light)
 ClothLower,ElegantSkirt,Elegant Skirt
 ClothLower,Gown2Skirt,Hobble Gown Skirt
+ClothLower,Halfpleatedskirt,Half Pleated Skirt
 ClothLower,HaremPants,Harem Pants
 ClothLower,HaremPants2,Harem Pants 2
 ClothLower,HulaSkirt,Hula Skirt
@@ -257,6 +264,7 @@ ClothLower,Jeans2,Ripped Jeans
 ClothLower,JeanSkirt,Jean Skirt
 ClothLower,JeansShorts,Jeans Shorts
 ClothLower,GymShorts,Gym Shorts
+ClothLower,LacePants,Lace Pants
 ClothLower,LatexPants1,Latex Pants
 ClothLower,LatexSkirt1,Latex Skirt
 ClothLower,LatexSkirt2,Long Latex Skirt
@@ -279,6 +287,7 @@ ClothLower,PVCHobbleSkirt,PVC Hobble Skirt
 ClothLower,RuffledMiniskirt,Ruffled Miniskirt
 ClothLower,RuffledSkirt,Ruffled Skirt
 ClothLower,SatinSkirt,Satin Skirt
+ClothLower,Shapewear2,Shapewear Bottom
 ClothLower,ShortPencilSkirt,Pencil Skirt Short
 ClothLower,ShortPlaidSkirt,Short Plaid Skirt
 ClothLower,Shorts1,Shorts
@@ -286,6 +295,7 @@ ClothLower,SkinnyJeans,Skinny Jeans
 ClothLower,Skirt1,Skirt
 ClothLower,Skirt2,Student Skirt
 ClothLower,Skirt3,Student Skirt Short
+ClothLower,SlitColumnSkirt,Slit Column Skirt
 ClothLower,TennisSkirt1,Tennis
 ClothLower,TulleSkirt,Fitted Pleated Skirt
 ClothLower,Tutu,Tutu
@@ -293,6 +303,7 @@ ClothLower,UtilityKilt,Utility Kilt
 ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
+ClothLower,WoolenHighWaistSkirt,High Waist Skirt
 ClothLower,YogaPants,Yoga Pants
 ClothOuter,,Cloth Outer
 ClothOuter,LeatherJacket,Leather Jacket
@@ -471,6 +482,7 @@ Gloves,OperaGloves,Opera Gloves
 Gloves,SeethroughSuit,See-through Gloves
 Gloves,WarmGloves,Short Leather Gloves
 HairAccessory1,,Hair Accessory (All)
+HairAccessory1,Antenna,Antenna
 HairAccessory1,Antennae,Antennae
 HairAccessory1,BatWings,Small Bat Wings
 HairAccessory1,BigLynxEars,Lynx Ears
@@ -1819,6 +1831,7 @@ Panties,Panties16,Frill Panties
 Panties,Panties7,Style 2
 Panties,Panties8,Style 3
 Panties,PearlPanties1,Pearl String
+Panties,PearlStrapPanties,Pearl Strap Panties
 Panties,PilotPanties,Pilot Panties
 Panties,PullDownPanties,Pull Down Panties
 Panties,SportPanties,Sport Panties
@@ -1899,6 +1912,7 @@ Socks,HaremStockings,Harem Stockings
 Socks,KneePads,Knee Pads
 Socks,LatexSocks1,Latex Socks
 Socks,LeatherSocks1,Short Leather Socks
+Socks,NetSocks,Net Socks
 Socks,Pantyhose1,Pantyhose
 Socks,Pantyhose2,Crotchless Pantyhose
 Socks,Socks0,Ankle
@@ -2033,3 +2047,4 @@ Wings,SteampunkWings,Steampunk Wings
 Wings,SuccubusFeather,Succubus Feather
 Wings,SuccubusWings,Succubus Wings
 Wings,DragonWings,Dragon Wings
+Wings,Wing1,Low Bat Wings

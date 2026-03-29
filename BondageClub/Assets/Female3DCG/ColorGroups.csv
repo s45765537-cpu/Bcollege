@@ -1,5 +1,10 @@
 BraLeatherBunnyHollowBraBody,Body
 BraLeatherBunnyHollowBraReflection,Shine
+ClothAccessoryBowAccessoryAccessory,Accessory
+ClothAccessoryBowAccessoryAccessoryBead,Accessory Bead
+ClothAccessoryBowAccessoryAccessoryRing,Accessory Ring
+ClothAccessoryBowAccessoryBaseColor,Base Color
+ClothAccessoryBowAccessoryBody,Body
 ClothAccessoryWitchShawlBase,Base
 ClothAccessoryWitchShawlShadow,Shadow
 ClothAccessoryXmasShortShawlCloth,Coth
@@ -17,6 +22,10 @@ ClothLolitaShortDressBow,Bow
 ClothLolitaShortDressBowShadow,Bow Shadow
 ClothLolitaShortDressFlower,Flower
 ClothLolitaShortDressFlowerShadow,Flower Shadow
+ClothLowerBlackButterflySkirtBottomSkirtLining,Bottom Skirt Lining
+ClothLowerBlackButterflySkirtButterflySkirtHem,Butterfly Skirt Hem
+ClothLowerBlackButterflySkirtFrontSkirtHem,Front Skirt Hem
+ClothLowerBlackButterflySkirtWaistband,Waistband
 ClothLowerTutuTutu,Tutu
 ClothRuffledDressSleeves,Sleeves
 ClothRuffledDressHem,Hem

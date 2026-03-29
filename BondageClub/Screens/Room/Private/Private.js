@@ -1561,7 +1561,7 @@ function PrivateStartActivity() {
 				case "Locks": if(InventoryHasLockableItems(Player)) break testLoop; break;
 				case "Bed": if((PrivateBedCount() == 1) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime) && (NPCTraitGet(CurrentCharacter, "Horny") >= 0) && PrivateBedActive() && (!Player.Cage)) break testLoop; break;
 				case "Aftercare": if((CurrentCharacter.Love >= 50) && (NPCTraitGet(CurrentCharacter, "Wise") >= 0)) break testLoop; break;
-				case "CollarType": if(Player.IsOwned() && InventoryIsWorn(Player, "SlaveCollar", "ItemNeck")) break testLoop; break;
+				case "CollarType": if(Player.IsOwned() && InventoryIsWorn(Player, "ItemNeck", "SlaveCollar")) break testLoop; break;
 			}
 		}
 
@@ -1902,10 +1902,10 @@ function PrivateLoveYou() {
 					case "Underwear": if ((!CharacterIsInUnderwear(Player) || !CharacterIsInUnderwear(CurrentCharacter)) && Player.CanInteract() && CurrentCharacter.CanInteract()) break testLoop; break;
 					case "Naked": if ((!CharacterIsNaked(Player) || !CharacterIsNaked(CurrentCharacter)) && Player.CanInteract() && CurrentCharacter.CanInteract()) break testLoop; break;
 					case "EggInsert": if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && !Player.IsVulvaChaste() && (!InventoryGet(Player, "ItemVulva")) && !CurrentCharacter.IsOwnedByPlayer() && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose()) break testLoop; break;
-					case "LockBelt": if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && !Player.IsVulvaChaste() && InventoryIsWorn(Player, "VibratingEgg", "ItemVulva") && !CurrentCharacter.IsOwnedByPlayer() && (NPCTraitGet(CurrentCharacter, "Dominant") >= 0) && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose()) break testLoop; break;
+					case "LockBelt": if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && !Player.IsVulvaChaste() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && !CurrentCharacter.IsOwnedByPlayer() && (NPCTraitGet(CurrentCharacter, "Dominant") >= 0) && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose()) break testLoop; break;
 					case "UnlockBelt": if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis")) && (InventoryGetLock(InventoryGet(Player, "ItemPelvis"))) && (InventoryGetLock(InventoryGet(Player, "ItemPelvis")).Asset.Name == "LoversPadlock") && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose()) break testLoop; break;
-					case "EggSpeedUp": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "VibratingEgg", "ItemVulva") && ((!InventoryGet(Player, "ItemVulva").Property) || (InventoryGet(Player, "ItemVulva").Property.Intensity < 3))) break testLoop; break;
-					case "EggSpeedDown": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "VibratingEgg", "ItemVulva") && (InventoryGet(Player, "ItemVulva").Property) && (InventoryGet(Player, "ItemVulva").Property.Intensity > -1)) break testLoop; break;
+					case "EggSpeedUp": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && ((!InventoryGet(Player, "ItemVulva").Property) || (InventoryGet(Player, "ItemVulva").Property.Intensity < 3))) break testLoop; break;
+					case "EggSpeedDown": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && (InventoryGet(Player, "ItemVulva").Property) && (InventoryGet(Player, "ItemVulva").Property.Intensity > -1)) break testLoop; break;
 					case "Bed": if ((PrivateBedCount() == 1) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime) && PrivateBedActive() && (!Player.Cage) && (!CurrentCharacter.Cage)) break testLoop; break;
 					case "LoverLock": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryHasLockableItems(Player)) break testLoop; break;
 					case "LoverUnlock": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryCharacterHasLoverOnlyRestraint(Player)) break testLoop; break;

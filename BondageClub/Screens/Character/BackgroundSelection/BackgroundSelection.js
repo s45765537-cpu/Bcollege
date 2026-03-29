@@ -82,8 +82,11 @@ async function BackgroundSelectionLoad() {
 	});
 
 	TextScreenCache.loadedPromise.then(() => {
-		const searchFilter = ElementCreateSearchInput(Background.elementID.searchFilter, () => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort());
-		searchFilter.addEventListener("input", BackgroundSelectionInputChanged);
+		const searchFilter = ElementCreateSearchInput(
+			Background.elementID.searchFilter,
+			() => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort(),
+			{ onInput: BackgroundSelectionInputChanged },
+		);
 
 		const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
 		if (BackgroundSelectionTagList.length < 2) {

@@ -35,13 +35,14 @@ function ChatRoomCharacterViewIsActive() {
 
 /**
  * Run handler for the chat room character view
+ * @type {ScreenRunHandler}
  */
 function ChatRoomCharacterViewRun() {
 }
 
 /**
  * Handles clicks the chatroom screen view.
- * @returns {void} - Nothing.
+ * @type {MouseEventListener}
  */
 function ChatRoomCharacterViewClick(event) {
 
