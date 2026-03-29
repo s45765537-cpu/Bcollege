@@ -754,8 +754,6 @@ type BackgroundTag =
 	"Club" | "College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora" | "Club Cards"
 	;
 
-type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
-
 interface ModuleScreens {
 	Character:
 		| "Appearance"
@@ -2209,6 +2207,7 @@ interface NPCCharacter extends Character {
 	Event?: NPCEvent[];
 	Affection?: number;
 	Domination?: number;
+	SavedName?: string;
 }
 
 /** Movie Studio */
@@ -3978,7 +3977,11 @@ interface GamePrisonParameters {
 }
 
 interface GameMagicSchoolFindsAroundParameters {
-	KitsuneQuestProgress?: number;
+    KitsuneQuestProgress?: number;
+    TheresaQuestProgress?: number;
+    TheresaBadWords?: string[];
+    TheresaTooRude?: boolean;
+    TheresaHideUntil?: number;
 }
 
 //#endregion
@@ -4028,6 +4031,13 @@ interface GameGGTSParameters {
 	Strike: number;
 	Rule: string[];
 }
+
+// #endregion
+
+// #region Magic Battle & School stuff
+
+type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
+type MagicSchoolSpell = "Hogtie" | "ReleaseHogtie" | "FlyingHogtie" | "Arousal" | "Tickle" | "Pain" | "SwitchRope" | "SwitchChain" | "Fail" | "Tight";
 
 // #endregion
 

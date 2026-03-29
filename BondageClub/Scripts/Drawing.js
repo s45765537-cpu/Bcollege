@@ -1925,6 +1925,15 @@ function RectGetFrame(rect) {
 }
 
 /**
+ * Get the rect's origin point
+ * @param {Rect | RectTuple} rect
+ * @return {[x: number, y: number]}
+ */
+function RectGetOrigin(rect) {
+	return Array.isArray(rect) ? [rect[0], rect[1]] : [rect.x, rect.y];
+}
+
+/**
  * Offsets a rect by the given amount
  * @param {Rect} rect
  * @param {number} dX

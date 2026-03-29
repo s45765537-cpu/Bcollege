@@ -6,7 +6,8 @@ var MagicSchoolLaboratoryTeacher = null;
 /** @type {null | NPCCharacter} */
 var MagicSchoolLaboratoryStudent = null;
 var MagicSchoolLaboratoryBattleWage = "";
-var MagicSchoolLaboratoryLastSpell = "";
+/** @type {MagicSchoolSpell | undefined} */
+var MagicSchoolLaboratoryLastSpell;
 var MagicSchoolLaboratorySpellCount = 0;
 
 /**
@@ -98,7 +99,7 @@ function MagicSchoolLaboratoryRun() {
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Wardrobe.png", TextGet("Dress"));
 	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Explore.png", TextGet("Explore"));
-	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Tree.png", TextGet("ExploreAround"));
+	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 505, 90, 90, "", "White", "Icons/Castle.png", TextGet("ExploreAround"));
 	if (!MagicSchoolLaboratoryInHouse("")) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Kidnap.png", TextGet("Escape"));
 }
 
@@ -442,34 +443,46 @@ function MagicSchoolLaboratoryReleasePlayer(RepChange) {
 }
 
 /**
- * When the player lost a battle and the student tests a spell on her
- * @returns {void} - Nothing
+ * @param {NPCCharacter} npc
  */
-function MagicSchoolLaboratoryLoserSpell(RepChange) {
-
-	// If we must change the player dom/sub reputation
-	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
-
-	// After many spells, the event ends CHANGE TO 5
-	if (MagicSchoolLaboratorySpellCount >= 5) {
-		MagicSchoolLaboratoryStudent.Stage = "240";
-		MagicSchoolLaboratoryStudent.CurrentDialog = DialogFind(MagicSchoolLaboratoryStudent, "SpellEnd");
-		return;
+function MagicSchoolLaboratoryGetAllSpellsForNpc(npc) {
+	/** @type {MagicSchoolSpell[]} */
+	const allCommonSpells = ["Hogtie", "ReleaseHogtie", "SwitchRope", "SwitchChain", "Fail", "Tight"];
+	switch (npc.House) {
+		case "Maiestas":
+			allCommonSpells.push("Arousal");
+			break;
+		case "Vincula":
+			allCommonSpells.push("FlyingHogtie");
+			break;
+		case "Amplector":
+			allCommonSpells.push("Tickle");
+			break;
+		case "Corporis":
+			allCommonSpells.push("Pain");
+			break;
 	}
+	return allCommonSpells;
+}
+
+/**
+ * @param {NPCCharacter} npc
+ * @param {MagicSchoolSpell | undefined} lastSpell
+ */
+function MagicSchoolLaboratoryApplyRandomSpellEffects(npc, lastSpell) {
+
+	const allSpells = MagicSchoolLaboratoryGetAllSpellsForNpc(npc);
 
 	// Finds a valid spell based on the player current predicament.  Some spells can only be done by specific houses.
-	let Spell = "";
-	while (Spell == "") {
-		Spell = CommonRandomItemFromList(MagicSchoolLaboratoryLastSpell, ["Hogtie", "ReleaseHogtie", "FlyingHogtie", "Arousal", "Tickle", "Pain", "SwitchRope", "SwitchChain", "Fail", "Tight"]);
-		if ((Spell == "Hogtie") && Player.PoseMapping.BodyFull === "Hogtied") Spell = "";
-		if ((Spell == "ReleaseHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = "";
-		if ((Spell == "FlyingHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = "";
-		if ((Spell == "SwitchRope") && ((InventoryGet(Player, "ItemArms").Asset.Name == "HempRope") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
-		if ((Spell == "SwitchChain") && ((InventoryGet(Player, "ItemArms").Asset.Name == "Chains") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = "";
-		if ((Spell == "Arousal") && (MagicSchoolLaboratoryStudent.House != "Maiestas")) Spell = "";
-		if ((Spell == "FlyingHogtie") && (MagicSchoolLaboratoryStudent.House != "Vincula")) Spell = "";
-		if ((Spell == "Tickle") && (MagicSchoolLaboratoryStudent.House != "Amplector")) Spell = "";
-		if ((Spell == "Pain") && (MagicSchoolLaboratoryStudent.House != "Corporis")) Spell = "";
+	/** @type {MagicSchoolSpell | undefined} */
+	let Spell;
+	while (!Spell) {
+		Spell = CommonRandomItemFromList(lastSpell, allSpells);
+		if ((Spell == "Hogtie") && Player.PoseMapping.BodyFull === "Hogtied") Spell = undefined;
+		if ((Spell == "ReleaseHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = undefined;
+		if ((Spell == "FlyingHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = undefined;
+		if ((Spell == "SwitchRope") && ((InventoryGet(Player, "ItemArms").Asset.Name == "HempRope") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = undefined;
+		if ((Spell == "SwitchChain") && ((InventoryGet(Player, "ItemArms").Asset.Name == "Chains") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = undefined;
 	}
 
 	// Applies the spell effect
@@ -477,7 +490,7 @@ function MagicSchoolLaboratoryLoserSpell(RepChange) {
 	if (Spell == "Tickle") { CharacterSetFacialExpression(Player, "Blush", "Medium", 8); CharacterSetFacialExpression(Player, "Eyes", "Surprised", 8); }
 	if (Spell == "Pain") { CharacterSetFacialExpression(Player, "Blush", "Medium", 8); CharacterSetFacialExpression(Player, "Eyes", "Closed", 8); }
 	if (Spell == "Tight") { CharacterSetFacialExpression(Player, "Blush", "Low", 8); CharacterSetFacialExpression(Player, "Eyes", "Closed", 8); }
-	if (Spell == "Fail") { CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Blush", "Medium", 8); CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Eyes", "Angry", 8); }
+	if (Spell == "Fail") { CharacterSetFacialExpression(npc, "Blush", "Medium", 8); CharacterSetFacialExpression(npc, "Eyes", "Angry", 8); }
 	if (Spell == "FlyingHogtie") {
 		const item = InventoryGet(Player, "ItemArms");
 		TypedItemSetOptionByName(Player, item, "SuspensionHogtied");
@@ -508,14 +521,35 @@ function MagicSchoolLaboratoryLoserSpell(RepChange) {
 		if (InventoryGet(Player, "ItemTorso") != null) InventoryWear(Player, "CrotchChain", "ItemTorso");
 		if (InventoryGet(Player, "ItemArms") != null) InventoryWear(Player, "Chains", "ItemArms");
 	}
-	if ((Spell == "FlyingHogtie") || (Spell == "Hogtie") || (Spell == "ReleaseHogtie") || (Spell == "SwitchRope") || (Spell == "SwitchChain")) CharacterRefresh(Player);
+	if ((Spell == "FlyingHogtie") || (Spell == "Hogtie") || (Spell == "ReleaseHogtie") || (Spell == "SwitchRope") || (Spell == "SwitchChain")) {
+		CharacterRefresh(Player);
+	}
+	return Spell;
+}
+
+/**
+ * When the player lost a battle and the student tests a spell on her
+ * @returns {void} - Nothing
+ */
+function MagicSchoolLaboratoryLoserSpell(RepChange) {
+
+	// If we must change the player dom/sub reputation
+	if ((RepChange != "") && (RepChange != "0")) DialogChangeReputation("Dominant", parseInt(RepChange));
+
+	// After many spells, the event ends CHANGE TO 5
+	if (MagicSchoolLaboratorySpellCount >= 5) {
+		MagicSchoolLaboratoryStudent.Stage = "240";
+		MagicSchoolLaboratoryStudent.CurrentDialog = DialogFind(MagicSchoolLaboratoryStudent, "SpellEnd");
+		return;
+	}
+
+	const Spell = MagicSchoolLaboratoryApplyRandomSpellEffects(MagicSchoolLaboratoryStudent, MagicSchoolLaboratoryLastSpell);
 
 	// Shows the spell dialog
 	MagicSchoolLaboratoryLastSpell = Spell;
 	MagicSchoolLaboratoryStudent.Stage = "Spell" + Spell;
 	MagicSchoolLaboratorySpellCount++;
 	MagicSchoolLaboratoryStudent.CurrentDialog = DialogFind(MagicSchoolLaboratoryStudent, "Spell" + Spell + "Intro");
-
 }
 
 /**
