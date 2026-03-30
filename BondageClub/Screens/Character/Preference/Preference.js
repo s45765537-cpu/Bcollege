@@ -327,7 +327,7 @@ function PreferenceSubscreenCreateSubscreen(subscreenName) {
 			menubarButtons: [ElementButton.Create(PreferenceIDs.exit, PreferenceSubscreenExit, { image: "Icons/Exit.png" })],
 			header: subscreenName,
 			parent: document.body,
-
+			hgroupInHeader: true,
 		},
 	);
 

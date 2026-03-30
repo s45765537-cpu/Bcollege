@@ -15,7 +15,8 @@
 
 #preference-subscreen-hgroup {
 	color: black;
-	justify-content: flex-start;
+	justify-content: flex-end;
+	display: flex;
 }
 
 #preference-subscreen-hgroup h1 {
