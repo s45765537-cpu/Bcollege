@@ -2244,6 +2244,9 @@ function CraftingExitResetElements() {
 
 	// Close the side panel
 	document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`)?.dispatchEvent(new Event("click"));
+
+	// Reset property button label
+	document.getElementById(CraftingID.propertyButton)?.replaceChildren(TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`));
 }
 
 /**
