@@ -100,6 +100,11 @@
 	grid-area: crafting-lock-button;
 }
 
+#crafting-asset-button > .button-label,
+#crafting-padlock-button > .button-label {
+	font-size: 0.65em;
+}
+
 #crafting-center-panel {
 	display: flex;
 	height: 100%;
