@@ -725,6 +725,7 @@ var Shop2 = {
 						}
 					},
 					{
+						parent: document.body,
 						placeholder: TextGet("InputSearch"),
 						onInput() {
 							if (!this.value) {
