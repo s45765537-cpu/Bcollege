@@ -2503,7 +2503,7 @@ function ChatRoomMouseWheel(event) {
 
 /**
  * Handles clicks the chatroom screen.
- * @type {MouseEventListener}
+ * @type {ClickEventListener}
  */
 function ChatRoomClick(event) {
 
