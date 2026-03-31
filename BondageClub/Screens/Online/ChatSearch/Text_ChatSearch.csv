@@ -98,7 +98,7 @@ LARPRoomGameDescription,LARP game is active in this room.
 MagicBattleRoomGameDescription,Magic Battle is active in this room.
 GGTSRoomGameDescription,GGTS is active in this room.
 PrisonRoomGameDescription,Pandora is active in this room.
-ClubCardGameDescription,Club Card is active in this room.
+ClubCardRoomGameDescription,Club Card is active in this room.
 LanguageDescription,The main language of this room is %LANGUAGE%.
 AlwaysMapDescription,This room is always a map.
 HybridMapDescription,This room allows both maps and normal rooms.
