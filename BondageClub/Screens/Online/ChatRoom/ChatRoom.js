@@ -6040,7 +6040,7 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleCollarWear") {
 			if ((InventoryGet(Player, "ItemNeck") == null) || ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name != "SlaveCollar"))) {
 				const Dictionary = new DictionaryBuilder()
-					.targetCharacterName(CurrentCharacter)
+					.targetCharacterName(Player)
 					.build();
 				ServerSend("ChatRoomChat", { Content: "PlayerOwnerCollarWear", Type: "Action", Dictionary });
 			}
