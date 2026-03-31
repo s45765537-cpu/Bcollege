@@ -4097,48 +4097,14 @@ class _DialogDialogMenu extends DialogMenu {
 		});
 	}
 
-	/**
-	 * A {@link clearTimeout}-returned ID for temporarily disabling the exit button on mobile button clicks
-	 * @private
-	 * @type {null | number}
-	 */
-	_mobileTimeoutID = null;
-
-	/**
-	 * @private
-	 * @param {Character} C
-	 * @satisfies {TimerHandler}
-	 */
-	_mobileTimeoutHandler(C) {
-		const button = document.querySelector(`#${this.ids.menubar} [name='Exit']`);
-		switch (DialogIntro(C)) {
-			case "":
-			case "NOEXIT":
-				button?.setAttribute("aria-disabled", "true");
-				break;
-			default:
-				button?.setAttribute("aria-disabled", "false");
-				break;
-		}
-		this._mobileTimeoutID = null;
-	}
-
 	/** @type {ScreenFunctions["Exit"]} */
 	Exit() {
 		super.Exit();
-		if (this._mobileTimeoutID != null) {
-			clearTimeout(this._mobileTimeoutID);
-			this._mobileTimeoutHandler(this.C);
-		}
 	}
 
 	/** @type {ScreenFunctions["Unload"]} */
 	Unload() {
 		super.Unload();
-		if (this._mobileTimeoutID != null) {
-			clearTimeout(this._mobileTimeoutID);
-			this._mobileTimeoutHandler(this.C);
-		}
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
@@ -4197,16 +4163,6 @@ class _DialogDialogMenu extends DialogMenu {
 					{ button: { classList: ["dialog-menubar-button"], attributes: { "aria-disabled": CommonIsMobile.toString() } }},
 				),
 			);
-
-			// TODO: Remove once the other dialog menubar have all been DOM'ified
-			// Prevent certain mobile phone types from instantly clicking DOM buttons placed behind a previously-clicked canvas button
-			if (CommonIsMobile) {
-				if (this._mobileTimeoutID != null) {
-					clearTimeout(this._mobileTimeoutID);
-				}
-				this._mobileTimeoutID = setTimeout(this._mobileTimeoutHandler.bind(this), 150, this.C);
-				return; // Abort; the mobile timeout handler already takes care of managing the disabled state here
-			}
 		}
 
 		const exitButton = menubar.querySelector("[name='Exit']");

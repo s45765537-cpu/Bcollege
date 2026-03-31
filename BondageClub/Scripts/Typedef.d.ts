@@ -1641,6 +1641,7 @@ interface Lovership {
  * @see {@link CommonKeyMove}
  */
 type KeyboardEventListener = (event: KeyboardEvent) => boolean;
+type ClickEventListener = (event: PointerEvent) => void;
 type MouseEventListener = (event: MouseEvent | TouchEvent) => void;
 type MouseWheelEventListener = (event: WheelEvent) => void;
 type ClipboardEventListener = (event: ClipboardEvent) => void;
@@ -1683,9 +1684,9 @@ interface ScreenFunctions {
 	MouseWheel?: MouseWheelEventListener;
 	/**
 	 * Called if the user clicks on the canvas
-	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 * @param {PointerEvent} event - The event that triggered this
 	 */
-	Click: MouseEventListener;
+	Click: ClickEventListener;
 
 	// Optional
 	/** Called when screen is loaded using `CommonSetScreen` */
@@ -1721,6 +1722,7 @@ interface ScreenFunctions {
 // Explicitly insert all backgrounds & screen functions into the window namespace such that they can
 // easily be looked up with the likes of `window[`${CurrentScreen}Background`]`.
 // Note that most of them can still be undefined
+/** See {@link CommonTestSatisfies} */
 type ScreenFunctionsSymbols = Prettify<(
 	{ [key in `${RoomName}Background`]?: string }
 	& { [key in `${RoomName}Run`]: ScreenRunHandler }
@@ -1728,7 +1730,7 @@ type ScreenFunctionsSymbols = Prettify<(
 	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
 	& { [key in `${RoomName}MouseMove`]?: MouseEventListener }
 	& { [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }
-	& { [key in `${RoomName}Click`]: MouseEventListener }
+	& { [key in `${RoomName}Click`]: ClickEventListener }
 	& { [key in `${RoomName}Load`]?: ScreenLoadHandler }
 	& { [key in `${RoomName}Unload`]?: ScreenUnloadHandler }
 	& { [key in `${RoomName}Draw`]?: ScreenDrawHandler }

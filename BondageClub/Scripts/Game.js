@@ -66,6 +66,8 @@ function GameStart() {
 	canvas.addEventListener("touchmove", (e) => GameTouchMove(e));
 	canvas.addEventListener("touchend", (e) => GameTouchEnd(e));
 
+	canvas.addEventListener("click", (e) => GameClick(e));
+
 	GameAnimationFrameId = requestAnimationFrame(GameRun);
 	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
 	GameWorker = new Worker("Scripts/GameWorker.js");
@@ -298,7 +300,6 @@ function GameMouseUp(event) {
 	}
 	GameMouseMove(event, false);
 	CommonMouseUp(event);
-	CommonClick(event);
 	GameMouseIsDown = false;
 }
 
@@ -344,9 +345,17 @@ function GameTouchEnd(event) {
 	if (!CommonIsMobile) { return; }
 	if (!GameMouseIsDown) { return; }
 	CommonMouseUp(event);
-	CommonClick(event);
 	GameMouseIsDown = false;
 	CommonTouchList = event.touches;
+}
+
+/**
+ * Only fire canvas clicks via the `click` event, lest there is the possibility of a canvas click and DOM click firing twice on certain
+ * platforms (_e.g._ Android) due to said mobile browsers firing both `touch<x>` and `mouse<x>` events
+ * @param {PointerEvent} event
+ */
+function GameClick(event) {
+	CommonClick(event);
 }
 
 /**

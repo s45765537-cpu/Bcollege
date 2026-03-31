@@ -1254,7 +1254,7 @@ async function Shop2Load() {
 	});
 }
 
-/** @type {MouseEventListener} */
+/** @type {ClickEventListener} */
 function Shop2Click(event) {
 	Object.values(Shop2.Elements).some((e) => {
 		if (e.Click && e.Mode.has(Shop2Vars.Mode) && MouseIn(...e.Coords)) {
