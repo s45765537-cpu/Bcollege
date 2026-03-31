@@ -1,74 +1,21 @@
 #crafting-screen {
-	display: grid;
-	grid-template:
-		"crafting-top-bar crafting-top-bar crafting-top-bar" var(--menu-button-size)
-		"crafting-left-panel crafting-center-panel crafting-right-panel" auto / 3fr 1.75fr 3fr
-	;
-	gap: calc(var(--menu-button-size) / 6);
+	gap: var(--gap);
+	padding-left: min(1.5vh, 0.75vw);
+	padding-left: min(1.5dvh, 0.75dvw);
 }
 
-#crafting-top-bar {
-	display: grid;
-	grid-template-columns: auto min-content;
-	gap: calc(var(--menu-button-size) / 6);
-	grid-area: crafting-top-bar;
-}
-
-#crafting-header {
-	user-select: none;
-	font-size: min(5vh, 2.5vw);
-	line-height: 0;
-	color: white;
-	justify-self: center;
-	align-self: center;
-	padding-left: calc((5 + (4 / 6)) * var(--menu-button-size));
-}
-
-#crafting-menu-bar {
-	display: grid;
-	direction: rtl;
-	grid-auto-flow: column;
-	gap: calc(var(--menu-button-size) / 6);
-}
-
-#crafting-accept-button,
-#crafting-cancel-button,
-#crafting-exit-button,
-#crafting-download-button,
-#crafting-upload-button {
-	width: var(--menu-button-size);
-	height: var(--menu-button-size);
-}
-
-#crafting-accept-button {
-	background-image: url("../Icons/Accept.png");
+#crafting-screen > .screen-main-container {
+	grid-template: "left main right" / 3fr 1.75fr 3fr;
 }
 
 #crafting-accept-button[aria-disabled="false"] #crafting-accept-button-tooltip-disabled {
 	display: none;
 }
 
-#crafting-cancel-button {
-	background-image: url("../Icons/Cancel.png");
-}
-
-#crafting-exit-button {
-	background-image: url("../Icons/Exit.png");
-}
-
-#crafting-download-button {
-	background-image: url("../Icons/Upload.png");
-}
-
-#crafting-upload-button {
-	background-image: url("../Icons/Download.png");
-}
-
 #crafting-left-panel {
 	display: grid;
 	grid-area: crafting-left-panel;
 	row-gap: 3px;
-	padding: 3px;
 	overflow-y: hidden;
 	height: 100%;
 	grid-template:
@@ -153,22 +100,15 @@
 	grid-area: crafting-lock-button;
 }
 
+#crafting-asset-button > .button-label,
+#crafting-padlock-button > .button-label {
+	font-size: 0.65em;
+}
+
 #crafting-center-panel {
 	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	grid-area: crafting-center-panel;
-}
-
-#crafting-undress-button {
-	width: var(--menu-button-size);
-	height: var(--menu-button-size);
-	background-image: url("../Icons/Naked.png");
-}
-
-#crafting-right-panel {
-	grid-area: crafting-right-panel;
-	padding-right: calc(var(--menu-button-size) / 12);
+	height: 100%;
+	width: 100%;
 }
 
 #crafting-extended-button,
@@ -179,18 +119,6 @@
 #crafting-ascii-description-checkbox {
 	height: calc(0.75 * var(--menu-button-size));
 	width: calc(0.75 * var(--menu-button-size));
-}
-
-#crafting-extended-button {
-	background-image: url("../Icons/Use.png");
-}
-
-#crafting-tighten-button {
-	background-image: url("../Icons/TightenLoosen.png");
-}
-
-#crafting-layering-button {
-	background-image: url("../Icons/Layering.png");
 }
 
 .crafting-label {
@@ -235,10 +163,6 @@
 	grid-column: 1 / 3;
 }
 
-#crafting-colors-button {
-	background-image: url("../Icons/Color.png");
-}
-
 #crafting-name-input, #crafting-colors-input {
 	height: calc(0.75 * var(--menu-button-size));
 }
@@ -269,10 +193,6 @@
 }
 
 @supports (height: 100dvh) {
-	#crafting-header {
-		font-size: min(5dvh, 2.5dvw);
-	}
-
 	#crafting-property-button {
 		font-size: min(3dvh, 1.5dvw);
 	}

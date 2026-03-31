@@ -212,7 +212,7 @@ fieldset[name="crafting-slot"] h2 {
 	font-weight: normal;
 	margin: unset;
 	padding: unset;
-	text-align: center;
+	align-content: center;
 	color: inherit;
 	white-space: nowrap;
 }
