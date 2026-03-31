@@ -130,7 +130,14 @@ async function generateChangelogHtml() {
 
 	const startIndex = sourceMarkdown.search(/^## \[R[0-9a-zA-Z]+]/m);
 	const trimmedMarkdown = sourceMarkdown.substring(startIndex);
-	const renderedMarkdown = await marked.parse(trimmedMarkdown);
+
+	// Restore the heading ID assignment that got removed at _some_ point in Marked
+	const renderer = new marked.Renderer();
+	renderer.heading = function ({ text, depth }) {
+		const id = text.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "");
+		return `<h${depth} id="${id}">${text}</h${depth}>`;
+	}
+	const renderedMarkdown = await marked.parse(trimmedMarkdown, { renderer });
 
 	const $ = cheerio.load(sourceHtml);
 	$("body").empty()
