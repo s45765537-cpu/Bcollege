@@ -1211,17 +1211,11 @@ function ChatRoomCreateElement() {
 				},
 			],
 		});
-		if (CommonIsMobile) {
-			ElementClickTimeout(elem);
-		}
 
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	} else if (ChatRoomChatHidden) {
-		if (CommonIsMobile) {
-			ElementClickTimeout(elem);
-		}
 		elem.toggleAttribute("hidden", false);
 		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
@@ -1238,9 +1232,6 @@ function ChatRoomCreateElement() {
 function ChatRoomShowElements() {
 	const elem = document.getElementById("chat-room-div");
 	if (elem) {
-		if (CommonIsMobile) {
-			ElementClickTimeout(elem);
-		}
 		elem.toggleAttribute("hidden", false);
 
 		// We can't accurately keep track of the scroll height within the likes of `ChatRoomAppendChat` when an element is hidden via `[hidden]`,
