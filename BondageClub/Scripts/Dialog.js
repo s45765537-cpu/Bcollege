@@ -4160,7 +4160,7 @@ class _DialogDialogMenu extends DialogMenu {
 					`${this.ids.menubar}-Exit`,
 					this.eventListeners._ClickMenubarExit,
 					{ image: "./Icons/Exit.png", tooltip: InterfaceTextGet("DialogMenuExit"), tooltipPosition: "left", name: "Exit" },
-					{ button: { classList: ["dialog-menubar-button"], attributes: { "aria-disabled": CommonIsMobile.toString() } }},
+					{ button: { classList: ["dialog-menubar-button"] }},
 				),
 			);
 		}
