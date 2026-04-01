@@ -370,7 +370,7 @@ function CommonResize(load) {
 
 /**
  * Catches the clicks on the main screen and forwards it to the current screen click function if it exists, otherwise it sends it to the dialog click function
- * @type {ClickEventListener}
+ * @type {MouseEventListener}
  */
 function CommonClick(event) {
 	if (CurrentCharacter == null)
@@ -2562,7 +2562,7 @@ function CommonTestSatisfies() {
 		MouseMove: globalThis,
 		/** @type {{ [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }} */
 		MouseWheel: globalThis,
-		/** @type {{ [key in `${RoomName}Click`]: ClickEventListener }} */
+		/** @type {{ [key in `${RoomName}Click`]: MouseEventListener }} */
 		Click: globalThis,
 		/** @type {{ [key in `${RoomName}Load`]?: ScreenLoadHandler }} */
 		Load: globalThis,

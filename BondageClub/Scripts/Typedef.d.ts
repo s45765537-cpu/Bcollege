@@ -1641,8 +1641,7 @@ interface Lovership {
  * @see {@link CommonKeyMove}
  */
 type KeyboardEventListener = (event: KeyboardEvent) => boolean;
-type ClickEventListener = (event: PointerEvent) => void;
-type MouseEventListener = (event: MouseEvent | TouchEvent) => void;
+type MouseEventListener = (event: PointerEvent) => void;
 type MouseWheelEventListener = (event: WheelEvent) => void;
 type ClipboardEventListener = (event: ClipboardEvent) => void;
 
@@ -1664,29 +1663,29 @@ interface ScreenFunctions {
 	Run: ScreenRunHandler;
 	/**
 	 * Called if the user presses the mouse button or touches the touchscreen on the canvas
-	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 * @param {PointerEvent} event - The event that triggered this
 	 */
 	MouseDown?: MouseEventListener;
 		/**
 	 * Called if the user releases the mouse button or the touchscreen on the canvas
-	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 * @param {PointerEvent} event - The event that triggered this
 	 */
 	MouseUp?: MouseEventListener;
 	/**
 	 * Called if the user moves the mouse cursor or the touch on the touchscreen over the canvas
-	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 * @param {PointerEvent} event - The event that triggered this
 	 */
 	MouseMove?: MouseEventListener;
 	/**
 	 * Called if the user moves the mouse wheel on the canvas
-	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
+	 * @param {PointerEvent} event - The event that triggered this
 	 */
 	MouseWheel?: MouseWheelEventListener;
 	/**
 	 * Called if the user clicks on the canvas
 	 * @param {PointerEvent} event - The event that triggered this
 	 */
-	Click: ClickEventListener;
+	Click: MouseEventListener;
 
 	// Optional
 	/** Called when screen is loaded using `CommonSetScreen` */
@@ -1730,7 +1729,7 @@ type ScreenFunctionsSymbols = Prettify<(
 	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
 	& { [key in `${RoomName}MouseMove`]?: MouseEventListener }
 	& { [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }
-	& { [key in `${RoomName}Click`]: ClickEventListener }
+	& { [key in `${RoomName}Click`]: MouseEventListener }
 	& { [key in `${RoomName}Load`]?: ScreenLoadHandler }
 	& { [key in `${RoomName}Unload`]?: ScreenUnloadHandler }
 	& { [key in `${RoomName}Draw`]?: ScreenDrawHandler }

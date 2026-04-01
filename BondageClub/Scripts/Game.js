@@ -47,7 +47,7 @@ function GameStart() {
 	document.addEventListener("paste", (e) => GamePaste(e));
 
 	const canvas = document.getElementById("MainCanvas");
-	if (canvas == null) {
+	if (!(canvas instanceof HTMLCanvasElement)) {
 		// Canvas is already initialized by index.html; this code path should _never_ occur
 		throw new Error("Canvas is null");
 	}
@@ -56,16 +56,13 @@ function GameStart() {
 	canvas.addEventListener("keydown", (e) => GameKeyDown(e));
 	canvas.addEventListener("keyup", (e) => GameKeyUp(e));
 
-	canvas.addEventListener("mousedown", (e) => GameMouseDown(e));
-	canvas.addEventListener("mouseup", (e) => GameMouseUp(e));
-	canvas.addEventListener("mousemove", (e) => GameMouseMove(e));
 	canvas.addEventListener("wheel", (e) => GameMouseWheel(e));
-	canvas.addEventListener("mouseleave", (e) => GameMouseLeave(e));
 
-	canvas.addEventListener("touchstart", (e) => GameTouchStart(e));
-	canvas.addEventListener("touchmove", (e) => GameTouchMove(e));
+	canvas.addEventListener("pointerdown", (e) => GamePointerDown(e, canvas));
+	canvas.addEventListener("pointerup", (e) => GamePointerUp(e, canvas));
+	canvas.addEventListener("pointermove", (e) => GamePointerMove(e));
+	canvas.addEventListener("pointercancel", (e) => GamePointerCancel(e, canvas));
 	canvas.addEventListener("touchend", (e) => GameTouchEnd(e));
-	canvas.addEventListener("touchcancel", (e) => GameTouchCancel(e));
 
 	canvas.addEventListener("click", (e) => GameClick(e));
 
@@ -272,63 +269,24 @@ function GamePaste(event) {
 
 /**
  * If the user presses the mouse button, we fire the mousedown event for other screens
- * @param {MouseEvent} event
+ * @param {PointerEvent} event
+ * @param {HTMLCanvasElement} canvas
  */
-function GameMouseDown(event) {
-	if (
-		CommonIsMobile
-		|| event.button !== 0 // 0: Main button pressed, usually the left button or the un-initialized state
-	) {
-		return;
-	}
+function GamePointerDown(event, canvas) {
 	CommonMouseDown(event);
+	// Guarantees that a `pointdown` event is followed up with `pointerup`
+	canvas.setPointerCapture(event.pointerId);
 }
 
 /**
  * If the user releases the mouse button, we fire the mouseup and click events for other screens
- * @param {MouseEvent} event
+ * @param {PointerEvent} event
+ * @param {HTMLCanvasElement} canvas
  */
-function GameMouseUp(event) {
-	if (
-		CommonIsMobile
-		|| event.button !== 0 // 0: Main button pressed, usually the left button or the un-initialized state
-	) {
-		return;
-	}
-	GameMouseMove(event, false);
+function GamePointerUp(event, canvas) {
+	GamePointerMove(event, false);
 	CommonMouseUp(event);
-}
-
-/**
- * If the user rolls the mouse wheel, we fire the mousewheel event for other screens
- * @type {MouseWheelEventListener}
- */
-function GameMouseWheel(event) {
-	if (CommonIsMobile) { return; }
-	CommonMouseWheel(event);
-}
-
-/**
- * If the user moves the mouse mouse, we keep the mouse position for other scripts and fire the mousemove event for other screens
- * @param {MouseEvent} event
- */
-function GameMouseMove(event, forwardToScreens = true) {
-	MouseX = Math.round(event.offsetX * 2000 / MainCanvas.canvas.clientWidth);
-	MouseY = Math.round(event.offsetY * 1000 / MainCanvas.canvas.clientHeight);
-	if (forwardToScreens) {
-		CommonMouseMove(event);
-	}
-}
-
-/**
- * If the user starts touching the screen (mobile only), we fire the mousedown and click events for other screens
- * @param {TouchEvent} event
- */
-function GameTouchStart(event) {
-	if (!CommonIsMobile) { return; }
-	GameTouchMove(event, false);
-	CommonMouseDown(event);
-	CommonTouchList = event.touches;
+	canvas.releasePointerCapture(event.pointerId);
 }
 
 /**
@@ -336,20 +294,27 @@ function GameTouchStart(event) {
  * @param {TouchEvent} event
  */
 function GameTouchEnd(event) {
-	if (!CommonIsMobile) { return; }
-	CommonMouseUp(event);
 	CommonTouchList = event.touches;
 }
 
 /**
- * Clean up after a `touchcancel` event, which is fired upon ending a touch action under unconventional circumstances.
- *
- * This should be considered a cleanup function for emergency touch-related aborts.
- * @param {TouchEvent} event
+ * If the user rolls the mouse wheel, we fire the mousewheel event for other screens
+ * @type {MouseWheelEventListener}
  */
-function GameTouchCancel(event) {
-	MouseX = -1;
-	MouseY = -1;
+function GameMouseWheel(event) {
+	CommonMouseWheel(event);
+}
+
+/**
+ * If the user moves the mouse mouse, we keep the mouse position for other scripts and fire the mousemove event for other screens
+ * @param {PointerEvent} event
+ */
+function GamePointerMove(event, forwardToScreens = true) {
+	MouseX = Math.round((event.clientX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
+	MouseY = Math.round((event.clientY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
+	if (forwardToScreens) {
+		CommonMouseMove(event);
+	}
 }
 
 /**
@@ -362,27 +327,12 @@ function GameClick(event) {
 }
 
 /**
- * if the user moves the touch, we keep the mouse position for other scripts and fire the mousemove event for other screens
- * @param {TouchEvent} event
+ * @param {PointerEvent} event
+ * @param {HTMLCanvasElement} canvas
  */
-function GameTouchMove(event, forwardToScreens = true) {
-	if (!CommonIsMobile) { return; }
-	const touch = event.changedTouches[0];
-	MouseX = Math.round((touch.clientX - MainCanvas.canvas.offsetLeft) * 2000 / MainCanvas.canvas.clientWidth);
-	MouseY = Math.round((touch.clientY - MainCanvas.canvas.offsetTop) * 1000 / MainCanvas.canvas.clientHeight);
-	if (forwardToScreens) {
-		CommonMouseMove(event);
-	}
-}
-
-/**
- * When the mouse is away from the control, we stop keeping the coordinates,
- * we also check for false positives with "relatedTarget"
- * @param {MouseEvent} event
- */
-function GameMouseLeave(event) {
-	if (event.relatedTarget) {
-		MouseX = -1;
-		MouseY = -1;
-	}
+function GamePointerCancel(event, canvas) {
+	MouseX = -1;
+	MouseY = -1;
+	CommonTouchList = null;
+	canvas.releasePointerCapture(event.pointerId);
 }
