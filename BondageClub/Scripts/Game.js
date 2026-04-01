@@ -270,7 +270,6 @@ function GamePaste(event) {
 	}
 }
 
-var GameMouseIsDown = false;
 /**
  * If the user presses the mouse button, we fire the mousedown event for other screens
  * @param {MouseEvent} event
@@ -278,13 +277,11 @@ var GameMouseIsDown = false;
 function GameMouseDown(event) {
 	if (
 		CommonIsMobile
-		|| GameMouseIsDown
 		|| event.button !== 0 // 0: Main button pressed, usually the left button or the un-initialized state
 	) {
 		return;
 	}
 	CommonMouseDown(event);
-	GameMouseIsDown = true;
 }
 
 /**
@@ -294,14 +291,12 @@ function GameMouseDown(event) {
 function GameMouseUp(event) {
 	if (
 		CommonIsMobile
-		|| !GameMouseIsDown
 		|| event.button !== 0 // 0: Main button pressed, usually the left button or the un-initialized state
 	) {
 		return;
 	}
 	GameMouseMove(event, false);
 	CommonMouseUp(event);
-	GameMouseIsDown = false;
 }
 
 /**
@@ -331,10 +326,8 @@ function GameMouseMove(event, forwardToScreens = true) {
  */
 function GameTouchStart(event) {
 	if (!CommonIsMobile) { return; }
-	if (GameMouseIsDown) { return; }
 	GameTouchMove(event, false);
 	CommonMouseDown(event);
-	GameMouseIsDown = true;
 	CommonTouchList = event.touches;
 }
 
@@ -344,9 +337,7 @@ function GameTouchStart(event) {
  */
 function GameTouchEnd(event) {
 	if (!CommonIsMobile) { return; }
-	if (!GameMouseIsDown) { return; }
 	CommonMouseUp(event);
-	GameMouseIsDown = false;
 	CommonTouchList = event.touches;
 }
 
@@ -359,7 +350,6 @@ function GameTouchEnd(event) {
 function GameTouchCancel(event) {
 	MouseX = -1;
 	MouseY = -1;
-	GameMouseIsDown = false;
 }
 
 /**
