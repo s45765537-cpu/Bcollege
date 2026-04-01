@@ -65,6 +65,7 @@ function GameStart() {
 	canvas.addEventListener("touchstart", (e) => GameTouchStart(e));
 	canvas.addEventListener("touchmove", (e) => GameTouchMove(e));
 	canvas.addEventListener("touchend", (e) => GameTouchEnd(e));
+	canvas.addEventListener("touchcancel", (e) => GameTouchCancel(e));
 
 	canvas.addEventListener("click", (e) => GameClick(e));
 
@@ -347,6 +348,18 @@ function GameTouchEnd(event) {
 	CommonMouseUp(event);
 	GameMouseIsDown = false;
 	CommonTouchList = event.touches;
+}
+
+/**
+ * Clean up after a `touchcancel` event, which is fired upon ending a touch action under unconventional circumstances.
+ *
+ * This should be considered a cleanup function for emergency touch-related aborts.
+ * @param {TouchEvent} event
+ */
+function GameTouchCancel(event) {
+	MouseX = -1;
+	MouseY = -1;
+	GameMouseIsDown = false;
 }
 
 /**
