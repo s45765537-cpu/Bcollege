@@ -106,21 +106,7 @@ function CommonGetFormatDate() {
  * @returns {boolean} - Returns TRUE if the user is on a mobile browser
  */
 function CommonDetectMobile() {
-
-	// First check
-	var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile', 'mobile/', 'webos', 'kindle'];
-	for (let i in mobile) if (navigator.userAgent.toLowerCase().indexOf(mobile[i].toLowerCase()) > 0) return true;
-
-	// IPad pro check
-	if (navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)) return true;
-
-	// Second check
-	if (sessionStorage.desktop) return false;
-	else if (localStorage.mobile) return true;
-
-	// If nothing is found, we assume desktop
-	return false;
-
+	return globalThis.matchMedia("(hover: none)").matches;
 }
 
 /**
