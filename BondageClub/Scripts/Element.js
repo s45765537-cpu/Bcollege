@@ -677,11 +677,11 @@ function ElementCreateSettingsLabel(label, position="top") {
  * Create a group of radio buttons
  * @param {string} id
  * @param {string} defaultValue
- * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent, key: any) => any} onclick
+ * @param {(this: HTMLButtonElement, ev: PointerEvent, key: any) => any} onclick
  * @param {{
  * htmlOptions?: Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>,
  * options?: ElementButton.Options,
- * onClick?: (this: HTMLButtonElement, ev: MouseEvent | TouchEvent, key: string) => any
+ * onClick?: (this: HTMLButtonElement, ev: PointerEvent, key: string) => any
  * }[]} options
  */
 function ElementCreateRadioButtonGroup(id, onclick, defaultValue, options) {
@@ -1804,7 +1804,7 @@ var ElementButton = {
 	 * @param {string | null} idPrefix - The ID of the to-be created search button
 	 * @param {ItemActivity} activity - The activity for which to create a button
 	 * @param {Character} C - The target character of the activity
-	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {(this: HTMLButtonElement, ev: PointerEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button

@@ -909,7 +909,7 @@ var ChatRoomSep = {
 	/**
 	 * Click event listener for collapsing one or more chat room separators
 	 * @private
-	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
+	 * @type {(this: HTMLButtonElement, event: PointerEvent) => Promise<void>}
 	 */
 	_ClickCollapse: async function _ClickCollapse(event) {
 		const mode = this.getAttribute("aria-expanded") === "true" ? "Collapse" : "Uncollapse";
@@ -926,7 +926,7 @@ var ChatRoomSep = {
 	/**
 	 * Click event listener for scrolling towards chat room seperator
 	 * @private
-	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
+	 * @type {(this: HTMLButtonElement, event: PointerEvent) => Promise<void>}
 	 */
 	_ClickScrollUp: async function _ClickScrollUp(event) {
 		// Workaround as we can't directly use `chatArea.scrollIntoView` due to the seperators position being sticky
@@ -2468,7 +2468,7 @@ function ChatRoomMenuDraw() {
 
 /**
  * Redirects the Mouse Down event to the map if needed
- * @param {MouseEvent | TouchEvent} event
+ * @param {PointerEvent} event
  * @returns {void} - Nothing
  */
 function ChatRoomMouseDown(event) {
@@ -2477,7 +2477,7 @@ function ChatRoomMouseDown(event) {
 
 /**
  * Redirects the Mouse Up event to the map if needed
- * @param {MouseEvent | TouchEvent} event
+ * @param {PointerEvent} event
  * @returns {void} - Nothing
  */
 function ChatRoomMouseUp(event) {
@@ -2486,7 +2486,7 @@ function ChatRoomMouseUp(event) {
 
 /**
  * Redirects the Mouse Move event to the map if needed
- * @param {MouseEvent | TouchEvent} event
+ * @param {PointerEvent} event
  * @returns {void} - Nothing
  */
 function ChatRoomMouseMove(event) {
@@ -2503,7 +2503,7 @@ function ChatRoomMouseWheel(event) {
 
 /**
  * Handles clicks the chatroom screen.
- * @type {ClickEventListener}
+ * @type {MouseEventListener}
  */
 function ChatRoomClick(event) {
 

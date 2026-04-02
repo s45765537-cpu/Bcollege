@@ -136,7 +136,7 @@ async function generateChangelogHtml() {
 	renderer.heading = function ({ text, depth }) {
 		const id = text.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "");
 		return `<h${depth} id="${id}">${text}</h${depth}>`;
-	}
+	};
 	const renderedMarkdown = await marked.parse(trimmedMarkdown, { renderer });
 
 	const $ = cheerio.load(sourceHtml);

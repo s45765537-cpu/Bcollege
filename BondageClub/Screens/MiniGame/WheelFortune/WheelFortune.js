@@ -818,7 +818,6 @@ function WheelFortuneDrawWheel(FullWheel, Pos, MaxPos, X, Y, Zoom) {
 function WheelFortuneRun() {
 
 	// If the mouse position changed to spin the wheel
-	if (MouseY < 0) WheelFortuneMouseUp(new MouseEvent("mouseup"));
 	if ((WheelFortunePosY != null) && (WheelFortunePosY != MouseY) && (MouseY != -1) && (WheelFortuneVelocity == 0)) {
 		WheelFortunePos = WheelFortunePos - WheelFortunePosY + MouseY;
 		WheelFortunePosY = MouseY;

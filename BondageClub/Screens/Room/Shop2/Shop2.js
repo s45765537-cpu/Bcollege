@@ -409,7 +409,7 @@ var Shop2 = {
 
 	/**
 	 * Click function for a single item in the shop
-	 * @param {MouseEvent | TouchEvent} event
+	 * @param {PointerEvent} event
 	 * @param {number} assetIndex - The assets index within {@link Shop2Vars.CurrentAssets}
 	 * @satisfies {MouseEventListener}
 	 * @private
@@ -1254,7 +1254,7 @@ async function Shop2Load() {
 	});
 }
 
-/** @type {ClickEventListener} */
+/** @type {MouseEventListener} */
 function Shop2Click(event) {
 	Object.values(Shop2.Elements).some((e) => {
 		if (e.Click && e.Mode.has(Shop2Vars.Mode) && MouseIn(...e.Coords)) {
