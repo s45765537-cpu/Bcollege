@@ -31,16 +31,6 @@ const ColorPickerNumSaved = 18; //
 let ColorPickerInitOptions = null;
 
 /**
- * Helper to guard for TouchEvents
- * @param {Event} event
- * @returns {event is TouchEvent}
- */
-function isTouchEvent(event) {
-	// Disabled for desktop Safari has no need for touch events
-	return window.TouchEvent && event instanceof TouchEvent;
-}
-
-/**
  * Gets the coordinates of the current event on the canvas
  * @deprecated
  * @param {MouseEvent|TouchEvent} Event - The touch/mouse event
