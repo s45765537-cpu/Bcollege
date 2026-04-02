@@ -4338,7 +4338,7 @@ declare namespace CraftingSlotsMode {
 		 * The tooltip content of the `mode-accept` button.
 		 *
 		 * Should contain a more extensive description of the relevant crafting mode (if so required; see {@link Result.heading}).
-		 * @default TextGet("ModeAcceptSlot")
+		 * @default undefined
 		 */
 		modeAcceptTooltip?: string | Node | readonly (string | Node)[];
 		/**
@@ -4347,7 +4347,7 @@ declare namespace CraftingSlotsMode {
 		 * If present, the button should serve a "accept all changes" type of role.
 		 *
 		 * If absent, disable the button.
-		 * @default null
+		 * @default undefined
 		 */
 		modeAcceptListener?: null | ((this: HTMLButtonElement, ev: PointerEvent) => void);
 		/**

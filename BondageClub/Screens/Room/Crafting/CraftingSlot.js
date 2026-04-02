@@ -415,6 +415,13 @@ var CraftingSlots = {
 				});
 				return {
 					heading: TextGet("SelectSlot"),
+					modeAcceptTooltip: TextSubstitute(
+						"ModeAcceptSlot",
+						{
+							"{br}": ElementCreate({ tag: "br" }),
+							"{click}": ElementCreate({ tag: "kbd", children: [TextGet("TermMouseClick")] }),
+						},
+					),
 				};
 			},
 		},
@@ -707,13 +714,7 @@ var CraftingSlots = {
 			modeResult.modeAcceptListener ?? null,
 			{
 				image: modeResult.modeAcceptImgSrc ?? "./Icons/Crafting.png",
-				tooltip: (modeResult.modeAcceptTooltip ?? TextSubstitute(
-					"ModeAcceptSlot",
-					{
-						"{br}": ElementCreate({ tag: "br" }),
-						"{click}": ElementCreate({ tag: "kbd", children: [TextGet("TermMouseClick")] }),
-					},
-				)),
+				tooltip: modeResult.modeAcceptTooltip,
 				tooltipPosition: "right",
 				name: "mode-accept",
 			},
