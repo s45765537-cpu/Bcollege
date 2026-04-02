@@ -649,7 +649,7 @@ function MagicSchoolFindsAroundTheresaQuestUpdate() {
 		if (!line) {
 			console.error("failed to locate line");
 		} else {
-			line.Result = line.Result.replace(/(REMAINING|\d+)/, remaining.toString());
+			line.Result = line.Result?.replace(/(REMAINING|\d+)/, remaining.toString()) ?? null;
 		}
 	}
 	if (MagicSchoolFindsAroundTheresaTimerUp()) {
