@@ -487,7 +487,7 @@ type DialogStruggleActionType = "ActionUse" | "ActionSwap" | "ActionRemove" | "A
 
 type CharacterType = "player" | "online" | "npc" | "simple";
 
-type CharacterPronouns = "SheHer" | "HeHim" | "TheyThem";
+type CharacterPronouns = "SheHer" | "HeHim" | "TheyThem" | "ItIt";
 
 type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 

@@ -362,15 +362,19 @@ ProgressKeysController,Alternate keys A and S or X and Y on a controller
 PronounObjectHeHim,him
 PronounObjectSheHer,her
 PronounObjectTheyThem,them
+PronounObjectItIt,it
 PronounPossessiveHeHim,his
 PronounPossessiveSheHer,her
 PronounPossessiveTheyThem,their
+PronounPossessiveItIt,its
 PronounSelfHeHim,himself
 PronounSelfSheHer,herself
 PronounSelfTheyThem,themself
+PronounSelfItIt,itself
 PronounSubjectHeHim,he
 PronounSubjectSheHer,she
 PronounSubjectTheyThem,they
+PronounSubjectItIt,it
 ReceivedBeep,Received at
 RemoveItemWithTimer,Remove item when the lock timer runs out
 Removing,Removing...
