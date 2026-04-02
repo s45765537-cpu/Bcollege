@@ -8,6 +8,8 @@ const TextAllScreenCache = new Map;
 /** Prefix for the Text-generated warning message on a missing key */
 const TEXT_NOT_FOUND_PREFIX = "MISSING TEXT IN";
 
+var TextLogMissingStrings = false;
+
 /**
  * Finds the text value linked to the tag in the buffer
  * @param {string} TextTag - Tag for the text to find
@@ -171,7 +173,10 @@ class TextCache {
 		}
 		const value = this.cache[key];
 		if (typeof value !== "string") {
-			this.log(`Unknown key: ${key}`);
+			if (TextLogMissingStrings) {
+				console.warn(`Unknown translation key in ${this.fileName()}: ${key}`);
+			}
+			this.log(`Unknown translation key: ${key}`);
 			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
 		}
 		return value;
