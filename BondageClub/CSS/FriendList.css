@@ -263,6 +263,55 @@
 	color: gray;
 }
 
+.friend-list-actions-wrapper {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.friend-list-actions-button {
+	text-decoration: none;
+	font-size: inherit;
+	line-height: 1;
+}
+
+.friend-list-actions-menu.friend-list-actions-menu {
+	position: absolute;
+	top: 50%;
+	left: -50%;
+	transform: translateY(-50%);
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	gap: var(--small-gap);
+	padding: var(--small-gap);
+	white-space: nowrap;
+	z-index: 10;
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.friend-list-actions-menu.friend-list-actions-menu-detached {
+	transform: none;
+	visibility: visible;
+	opacity: 1;
+	pointer-events: auto;
+	position: fixed;
+}
+
+.friend-list-actions-item {
+	border: none;
+	width: min(24dvh, 12dvw);
+	height: min(5dvh, 2.5dvw);
+}
+
+.friend-list-actions-item .button-image {
+	width: min(5dvh, 2.5dvw);
+	height: min(5dvh, 2.5dvw);
+}
+
 .highlight {
 	text-decoration: underline;
 	font-weight: 800;
