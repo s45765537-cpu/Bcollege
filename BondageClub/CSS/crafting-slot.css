@@ -66,10 +66,6 @@
 	color: white;
 }
 
-#crafting-slot-screen-aside-l a:not(:hover) {
-	text-decoration: none;
-}
-
 #crafting-slot-screen-aside-l li {
 	height: 1.3em;
 	text-align: end;
@@ -78,16 +74,22 @@
 	padding-right: var(--scrollbar-gutter);
 }
 
+#crafting-slot-screen-aside-l li:hover,
+#crafting-slot-screen-aside-l li:active {
+	text-decoration: underline;
+	color: lightgray;
+}
+
 #crafting-slot-screen-aside-l a {
 	color: inherit;
 	text-wrap: nowrap;
+	text-decoration: none;
 }
 
 #crafting-slot-screen-aside-l li:has([aria-current="true"]) {
 	background-color: rgba(0, 0, 0, 0.75);
 	text-decoration: underline;
 }
-
 
 #crafting-slot-screen .screen-header {
 	padding-right: var(--scrollbar-gutter);
@@ -217,6 +219,11 @@ fieldset[name="crafting-slot"] h2 {
 	white-space: nowrap;
 }
 
+fieldset[name="crafting-slot"] h2:hover,
+fieldset[name="crafting-slot"] h2:active {
+	color: lightgray;
+}
+
 fieldset[name="crafting-slot"] section:has(.crafting-slot-collapser[aria-expanded="false"]) h2 {
 	padding-bottom: unset;
 	color: gray;
@@ -233,8 +240,9 @@ fieldset[name="crafting-slot"] a {
 	color: inherit;
 }
 
-.crafting-slot-collapser:hover {
-	color: white;
+.crafting-slot-collapser:hover,
+.crafting-slot-collapser:active {
+	color: lightgray;
 }
 
 .crafting-slot-collapser::before {
