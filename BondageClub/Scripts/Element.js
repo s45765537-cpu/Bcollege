@@ -964,11 +964,6 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 	 */
 	_MouseDown: function _MouseDown(ev) {
-		// Prevent tooltips from handling any click-related actions intended for the button
-		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-			ev.stopImmediatePropagation();
-			ev.preventDefault();
-		}
 		const root = ElementGetRoot(this);
 		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
 		// @ts-ignore Generic vs Specific Event
@@ -984,11 +979,6 @@ var ElementButton = {
 		/** @type {null | HTMLButtonElement} */
 		const button = activeElement instanceof Element ? activeElement.closest("button.button") : null;
 		if (!button) {
-			return;
-		}
-
-		if (activeElement?.closest(".button-tooltip")) {
-			ev.stopImmediatePropagation();
 			return;
 		}
 
@@ -1017,11 +1007,6 @@ var ElementButton = {
 
 		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
 		function touchstart(ev) {
-			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-				ev.stopImmediatePropagation();
-				return;
-			}
-
 			holdAndClick = false;
 			if (!this.disabled) {
 				holdAndClickTimeoutID ??= setTimeout(touchstartTimeout, 300, this, ev);
@@ -1038,11 +1023,6 @@ var ElementButton = {
 
 		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
 		function touchend(ev) {
-			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-				ev.stopImmediatePropagation();
-				return;
-			}
-
 			if (!holdAndClick) {
 				this.blur();
 			} else {
@@ -1052,9 +1032,7 @@ var ElementButton = {
 
 		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
 		function click(ev) {
-			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-				ev.stopImmediatePropagation();
-			} else if (holdAndClick) {
+			if (holdAndClick) {
 				ev.stopImmediatePropagation();
 				holdAndClick = false;
 			} else if (this.getAttribute("aria-disabled") === "true") {
