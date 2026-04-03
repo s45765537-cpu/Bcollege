@@ -30,6 +30,7 @@ async function DisclaimerLoad() {
 		{
 			parent: document.body,
 			header: TextGet("Disclaimer"),
+			hgroupInHeader: true,
 			mainContent: [
 				disclaimerTextSection,
 				disclaimerButtonsSection,
@@ -37,8 +38,6 @@ async function DisclaimerLoad() {
 		},
 	);
 
-	document.querySelector(`#${DisclaimerIDs.screen} h1`)?.replaceChildren(TextGet("Disclaimer"));
-	document.getElementById("disclaimer-screen-hgroup")?.classList.remove("scroll-box");
 
 	const introLine1 = ElementCreate({
 		tag: "p",
