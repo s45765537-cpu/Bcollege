@@ -219,6 +219,10 @@ function GameKeyDown(event) {
 				document.activeElement.blur();
 				handled = true;
 				break handleKeyDown;
+			} else if (CurrentCharacter) {
+				DialogMenuBack();
+				handled = true;
+				break handleKeyDown;
 			} else {
 				CurrentScreenFunctions.Exit();
 				handled = true;
