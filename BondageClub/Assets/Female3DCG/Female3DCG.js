@@ -1085,7 +1085,6 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				//Value: 1,
 				Priority: 22,
-				Random: true,
 				Extended: true,
 				DefaultColor: ["#F2AADC", "#F2AADC"],
 				Attribution: {
@@ -8945,7 +8944,6 @@ var AssetFemale3DCG = [
 				Left: 86,
 				Value: 15,
 				DefaultColor: "#7A446A",
-				Random: true,
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Hide: ["Panties", "ItemPelvis"],
 				Attribute: ["Skirt"],
@@ -14173,7 +14171,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "ButterflyGarter",
 				Left: 75,
-				Random: true,
 				Extended: true,
 				DefaultColor: ["#F2AADC", "#F2AADC"],
 				PoseMapping: {
@@ -15545,7 +15542,6 @@ var AssetFemale3DCG = [
 				Height: -5,
 				Top: 501,
 				Left: { Spread: 102 },
-				Random: true,
 				Extended: true,
 				DefaultColor: ["#AC9F8A", "#AC9F8A", "#AC9F8A", "#AC9F8A"],
 				Layer: [
@@ -15926,7 +15922,6 @@ var AssetFemale3DCG = [
 				BuyGroup: "HeellessHoof",
 				DynamicGroupName: "ItemBoots",
 				DefaultColor: ["#454545", "#877C66"],
-				Random: true,
 				Extended: true,
 				Alpha: [
 					{
@@ -16029,7 +16024,6 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemBoots",
 				Value: -1,
 				DefaultColor: ["#413A2B", "#252525", "#A18F55", "#877C66"],
-				Random: true,
 				Extended: true,
 				Alpha: [
 					{
@@ -16411,7 +16405,6 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
 						},
-						AllowColorize: true,
 					},
 					{
 						Name: "Strap",
@@ -16426,7 +16419,6 @@ var AssetFemale3DCG = [
 						},
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: 0 },
-						AllowColorize: true,
 					},
 					{
 						Name: "SMetal",
@@ -16441,7 +16433,6 @@ var AssetFemale3DCG = [
 						},
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: 0 },
-						AllowColorize: true,
 					},
 				],
 			},
@@ -17816,9 +17807,8 @@ var AssetFemale3DCG = [
 								Masks: [[50, -50, 400, 150]],
 							},
 						],
-						AllowColorize: true,
 					},
-					{ Name: "Stripes", AllowColorize: true },
+					{ Name: "Stripes" },
 				],
 			},
 		],
@@ -21398,25 +21388,21 @@ var AssetFemale3DCG = [
 						Name: "Nose",
 						CreateLayerTypes: ["f"],
 						AllowTypes: { f: [0, 1] },
-						AllowColorize: true,
 					},
 					{
 						Name: "RLens",
 						CreateLayerTypes: ["f"],
 						AllowTypes: { f: [0, 1] },
-						AllowColorize: true,
 					},
 					{
 						Name: "LLens",
 						CreateLayerTypes: ["f"],
 						AllowTypes: { f: [0, 1] },
-						AllowColorize: true,
 					},
 					{
 						Name: "Main",
 						CreateLayerTypes: ["f"],
 						AllowTypes: { f: [0, 1] },
-						AllowColorize: true,
 					},
 				],
 			},
@@ -21432,15 +21418,13 @@ var AssetFemale3DCG = [
 						Name: "RLens",
 						CreateLayerTypes: ["l"],
 						AllowTypes: { l: [0, 1, 2] },
-						AllowColorize: true,
 					},
 					{
 						Name: "LLens",
 						CreateLayerTypes: ["l"],
 						AllowTypes: { l: [0, 1, 2] },
-						AllowColorize: true,
 					},
-					{ Name: "Main", AllowColorize: true },
+					{ Name: "Main" },
 				],
 			},
 			{
@@ -22670,17 +22654,14 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						AllowColorize: true,
 						ColorGroup: "Face",
 					},
 					{
 						Name: "Cheeks",
-						AllowColorize: true,
 						ColorGroup: "Face",
 					},
 					{
 						Name: "Eyelids",
-						AllowColorize: true,
 						ColorGroup: "Face",
 					},
 					{
@@ -22688,20 +22669,17 @@ var AssetFemale3DCG = [
 						Priority: 26,
 						CreateLayerTypes: ["e"],
 						AllowTypes: { e: [0, 1, 2, 3, 4, 5, 6] },
-						AllowColorize: true,
 					},
 					{
 						Name: "Eyebrows",
 						CreateLayerTypes: ["y"],
 						AllowTypes: { y: [0, 1, 2, 3, 4] },
-						AllowColorize: true,
 						ColorGroup: "Eyes",
 					},
 					{
 						Name: "Iris",
 						CreateLayerTypes: ["e"],
 						AllowTypes: { e: [0, 2, 3, 4, 5, 6] },
-						AllowColorize: true,
 						ColorGroup: "Eyes",
 					},
 					{
@@ -22709,7 +22687,6 @@ var AssetFemale3DCG = [
 						Priority: 26,
 						CreateLayerTypes: ["l"],
 						AllowTypes: { l: [0, 1, 2, 3, 4, 5] },
-						AllowColorize: true,
 					},
 					{
 						Name: "LipsOptA",
@@ -22727,7 +22704,6 @@ var AssetFemale3DCG = [
 								1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
 							],
 						},
-						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
 					{
@@ -22735,7 +22711,6 @@ var AssetFemale3DCG = [
 						Priority: 6,
 						CreateLayerTypes: ["g"],
 						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18] },
-						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
 					{
@@ -22743,7 +22718,6 @@ var AssetFemale3DCG = [
 						Priority: 53,
 						CreateLayerTypes: ["g"],
 						AllowTypes: { g: [14, 15] },
-						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
 				],
@@ -24712,7 +24686,6 @@ var AssetFemale3DCG = [
 	{
 		Group: "BodyMarkings",
 		Priority: 8,
-		Clothing: false,
 		EditOpacity: true,
 		MinOpacity: 0,
 		MaxOpacity: 1,
@@ -25251,7 +25224,6 @@ var AssetFemale3DCG = [
 	{
 		Group: "FaceMarkings",
 		Priority: 8,
-		Clothing: false,
 		EditOpacity: true,
 		MinOpacity: 0,
 		MaxOpacity: 1,
@@ -44598,11 +44570,11 @@ var AssetFemale3DCG = [
 					"ItemHandheldMiniDolls",
 				],
 				Layer: [
-					{ Name: "Left", AllowColorize: true },
-					{ Name: "SLeft", AllowColorize: true },
-					{ Name: "Right", AllowColorize: true },
-					{ Name: "SRight", AllowColorize: true },
-					{ Name: "Padlocks", LockLayer: true, AllowColorize: true },
+					{ Name: "Left" },
+					{ Name: "SLeft" },
+					{ Name: "Right" },
+					{ Name: "SRight" },
+					{ Name: "Padlocks", LockLayer: true },
 				],
 			},
 		],
@@ -45729,7 +45701,6 @@ var AssetFemale3DCG = [
 				Top: 233,
 				Priority: 46,
 				IsRestraint: false,
-				Random: true,
 				Audio: "FanOpen",
 				AllowActivity: ["RubItem"],
 				DefaultColor: [
@@ -45772,7 +45743,6 @@ var AssetFemale3DCG = [
 				Top: 233,
 				Priority: 46,
 				IsRestraint: false,
-				Random: true,
 				Audio: "FanOpen",
 				AllowActivity: ["RubItem"],
 				DefaultColor: [
@@ -47398,7 +47368,6 @@ var AssetFemale3DCG = [
 				Time: 15,
 				DefaultColor: ["#BFBFB1", "#95866D", "#808080", "#877C66"],
 				Extended: true,
-				Random: true,
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -47457,7 +47426,6 @@ var AssetFemale3DCG = [
 					"#C0C0C0",
 				],
 				Extended: true,
-				Random: true,
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -47469,8 +47437,8 @@ var AssetFemale3DCG = [
 					{ Name: "Shy", Group: "Eyes", Timer: 15 },
 				],
 				Layer: [
-					{ Name: "Collar", AllowColorize: true },
-					{ Name: "CMetal", AllowColorize: true },
+					{ Name: "Collar" },
+					{ Name: "CMetal" },
 					{ Name: "Muzzle", CopyLayerColor: "Collar" },
 					{ Name: "MMetal", CopyLayerColor: "CMetal" },
 					{
@@ -47528,7 +47496,6 @@ var AssetFemale3DCG = [
 						Name: "Spike",
 						CreateLayerTypes: ["s"],
 						AllowTypes: { s: [1, 2] },
-						AllowColorize: true,
 					},
 					{
 						Name: "SLock",
@@ -47537,7 +47504,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { s: [1, 2] },
 						CopyLayerColor: "StLock",
 					},
-					{ Name: "Ring", AllowColorize: true },
+					{ Name: "Ring" },
 				],
 			},
 			{
@@ -47560,9 +47527,9 @@ var AssetFemale3DCG = [
 					{ Name: "Shy", Group: "Eyes", Timer: 15 },
 				],
 				Layer: [
-					{ Name: "Collar", AllowColorize: true },
+					{ Name: "Collar" },
 					{ Name: "CBack", Priority: 6, CopyLayerColor: "Collar" },
-					{ Name: "Padlock", LockLayer: true, AllowColorize: true },
+					{ Name: "Padlock", LockLayer: true },
 				],
 			},
 			{
@@ -51491,7 +51458,6 @@ var AssetFemale3DCG = [
 				Top: 20,
 				DefaultColor: ["#BFBFB1", "#95866D", "#A0A0A0", "#877C66"],
 				Extended: true,
-				Random: true,
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -55722,7 +55688,6 @@ var AssetFemale3DCG = [
 				Top: 20,
 				DefaultColor: ["#BFBFB1", "#95866D", "#A0A0A0", "#877C66"],
 				Extended: true,
-				Random: true,
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -57291,7 +57256,6 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Attribute: ["ShortHair"],
 				Extended: true,
-				Random: true,
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["#707070", "#404040", "#404040", "#E14055", "#606060"],
@@ -57335,7 +57299,6 @@ var AssetFemale3DCG = [
 				Time: 10,
 				DefaultColor: ["#BFBFB1", "#95866D", "#A0A0A0", "#877C66"],
 				Extended: true,
-				Random: true,
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
@@ -60967,17 +60930,14 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						AllowColorize: true,
 						ColorGroup: "Face",
 					},
 					{
 						Name: "Cheeks",
-						AllowColorize: true,
 						ColorGroup: "Face",
 					},
 					{
 						Name: "Eyelids",
-						AllowColorize: true,
 						ColorGroup: "Face",
 					},
 					{
@@ -60985,20 +60945,17 @@ var AssetFemale3DCG = [
 						Priority: 26,
 						CreateLayerTypes: ["e"],
 						AllowTypes: { e: [0, 1, 2, 3, 4, 5, 6] },
-						AllowColorize: true,
 					},
 					{
 						Name: "Eyebrows",
 						CreateLayerTypes: ["y"],
 						AllowTypes: { y: [0, 1, 2, 3, 4] },
-						AllowColorize: true,
 						ColorGroup: "Eyes",
 					},
 					{
 						Name: "Iris",
 						CreateLayerTypes: ["e"],
 						AllowTypes: { e: [0, 2, 3, 4, 5, 6] },
-						AllowColorize: true,
 						ColorGroup: "Eyes",
 					},
 					{
@@ -61006,7 +60963,6 @@ var AssetFemale3DCG = [
 						Priority: 35,
 						CreateLayerTypes: ["l"],
 						AllowTypes: { l: [0, 1, 2, 3, 4, 5] },
-						AllowColorize: true,
 					},
 					{
 						Name: "LipsOptA",
@@ -61024,7 +60980,6 @@ var AssetFemale3DCG = [
 								1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
 							],
 						},
-						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
 					{
@@ -61032,7 +60987,6 @@ var AssetFemale3DCG = [
 						Priority: 6,
 						CreateLayerTypes: ["g"],
 						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18] },
-						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
 					{
@@ -61040,7 +60994,6 @@ var AssetFemale3DCG = [
 						Priority: 53,
 						CreateLayerTypes: ["g"],
 						AllowTypes: { g: [14, 15] },
-						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
 					{
@@ -61048,14 +61001,12 @@ var AssetFemale3DCG = [
 						Priority: 39,
 						CreateLayerTypes: ["a"],
 						AllowTypes: { a: [1, 2] },
-						AllowColorize: true,
 					},
 					{
 						Name: "Earplug",
 						Priority: 35,
 						CreateLayerTypes: ["d"],
 						AllowTypes: { d: 1 },
-						AllowColorize: true,
 						ColorGroup: "Gag",
 					},
 				],
@@ -61399,7 +61350,6 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Attribute: ["ShortHair"],
 				Extended: true,
-				Random: true,
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["#707070", "#404040", "#404040", "#E14055", "#606060"],
@@ -61654,7 +61604,6 @@ var AssetFemale3DCG = [
 					{
 						Name: "Main",
 						HideForAttribute: ["SmallEars", "NoEars"],
-						AllowColorize: true,
 					},
 					{
 						Name: "SmallEars",
@@ -61676,7 +61625,6 @@ var AssetFemale3DCG = [
 						Name: "HDetail",
 						CreateLayerTypes: ["t"],
 						AllowTypes: { t: [0, 1, 2] },
-						AllowColorize: true,
 					},
 					{
 						Name: "Hair",
