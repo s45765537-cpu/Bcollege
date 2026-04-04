@@ -5618,7 +5618,7 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	ChatRoomSendLocal(
 		ElementCreate({
 			tag: "div",
-			children: /** @type {(HTMLElement | string)[]} */(CommonStringPartitionReplace(TextGet("FriendRequestMessage"), {
+			children: TextFormatted("FriendRequestMessage", {
 				"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
 				"{buttons}": ElementCreate(
 					{
@@ -5641,14 +5641,14 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-ghost"],
-									children: /** @type {(HTMLElement | string)[]} */(CommonStringPartitionReplace(TextGet("FriendGhost"), {
+									children: TextFormatted("FriendGhost", {
 										"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
-									})),
+									}),
 								}
 							}),
 						],
 					})
-			}))
+			}),
 		}).outerHTML
 	);
 

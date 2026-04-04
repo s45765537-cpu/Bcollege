@@ -107,7 +107,7 @@ var KeyGUI = {
 					concealed: keybinding.contextIds.length === 0
 				},
 				dataAttributes: {
-					tooltip: CommonStringPartitionReplace(TextGet("KeybindContextsValid"), {
+					tooltip: TextFormatted("KeybindContextsValid", {
 						$contexts$: contextsTooltipString
 					}).join('')
 				},
@@ -124,7 +124,7 @@ var KeyGUI = {
 							id: KeyGUI.selec.keyConflictIndicatorId(keybinding.id),
 						},
 						dataAttributes: {
-							tooltip: CommonStringPartitionReplace(TextGet("KeybindConflictsWith"), {
+							tooltip: TextFormatted("KeybindConflictsWith", {
 								$conflicts$: conflictNames
 							}).join('')
 						},
@@ -515,7 +515,7 @@ var KeyGUI = {
 				closedby: 'none'
 			},
 			children: [
-				CommonStringPartitionReplace(TextGet("KeybindWaitingForInput"), {
+				TextFormatted("KeybindWaitingForInput", {
 					$action$: keybindingName
 				}).join(''),
 				ElementButton.Create(

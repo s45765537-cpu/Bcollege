@@ -569,8 +569,8 @@ var CraftingJSON = {
 							children: [
 								{
 									tag: "p",
-									children: CommonStringPartitionReplace(
-										TextGet("JSONDescription0"),
+									children: TextFormatted(
+										"JSONDescription0",
 										{ "{all}": ElementCreate({ tag: "em", children: [TextGet("JSONDescriptionAll")] }) }
 									),
 								},
@@ -579,7 +579,7 @@ var CraftingJSON = {
 									children: [
 										{
 											tag: "li",
-											children: CommonStringPartitionReplace(TextGet("JSONDescription1"), {
+											children: TextFormatted("JSONDescription1", {
 												"{json}": ElementCreate({ tag: "code", children: [".json"] }),
 												"{download-tooltip}": ElementCreate({ tag: "q", children: [TextGet("JSONDownload")] }),
 											}),
