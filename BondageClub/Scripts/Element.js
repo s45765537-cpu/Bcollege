@@ -377,7 +377,10 @@ function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOpti
 		eventListeners: {
 			...(selectOptions.eventListeners ?? {}),
 			change(ev) {
-				if (!this.validity) {
+				if (!this.matches(":focus-visible")) {
+					this.blur();
+				}
+				if (!this.validity.valid) {
 					ev.stopImmediatePropagation();
 					return;
 				}
@@ -959,36 +962,6 @@ var ElementButton = {
 		}
 	},
 
-	/**
-	 * @private
-	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
-	 */
-	_MouseDown: function _MouseDown(ev) {
-		const root = ElementGetRoot(this);
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		root.addEventListener("mouseup", ElementButton._MouseUp);
-	},
-
-	/**
-	 * @private
-	 * @type {(this: Document | ShadowRoot, ev: MouseEvent) => void}
-	 */
-	_MouseUp: function _MouseUp(ev) {
-		const activeElement = this.activeElement;
-		/** @type {null | HTMLButtonElement} */
-		const button = activeElement instanceof Element ? activeElement.closest("button.button") : null;
-		if (!button) {
-			return;
-		}
-
-		// Fix buttons not automatically losing focus after a click event
-		button.blur();
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		this.removeEventListener("mouseup", ElementButton._MouseUp);
-	},
-
 	_GetClickTouchListeners: function _GetClickTouchListeners() {
 		/** @type {null | number} */
 		let holdAndClickTimeoutID = null;
@@ -1023,9 +996,7 @@ var ElementButton = {
 
 		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
 		function touchend(ev) {
-			if (!holdAndClick) {
-				this.blur();
-			} else {
+			if (holdAndClick) {
 				ev.preventDefault();
 			}
 		}
@@ -1035,7 +1006,12 @@ var ElementButton = {
 			if (holdAndClick) {
 				ev.stopImmediatePropagation();
 				holdAndClick = false;
-			} else if (this.getAttribute("aria-disabled") === "true") {
+				return;
+			}
+			if (!this.matches(":focus-visible")) {
+				this.blur();
+			}
+			if (this.getAttribute("aria-disabled") === "true") {
 				this.dispatchEvent(new PointerEvent("bcClickDisabled", ev));
 				ev.stopImmediatePropagation();
 			}
@@ -1603,7 +1579,6 @@ var ElementButton = {
 			eventListeners: {
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
-				mousedown: this._MouseDown,
 				bcClickDisabled: options.clickDisabled,
 				...this._GetClickTouchListeners(),
 			},
@@ -2154,32 +2129,15 @@ var ElementMenu = {
 var ElementCheckbox = {
 	/**
 	 * @private
-	 * @type {(this: HTMLInputElement, ev: PointerEvent) => void}
+	 * @type {(this: HTMLInputElement, ev: Event) => void}
 	 */
-	_pointerdown: function(ev) {
-		const root = ElementGetRoot(this);
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		root.addEventListener("pointerup", ElementCheckbox._pointerup);
-		// @ts-ignore Generic vs Specific Event
-		root.addEventListener("pointercancel", ElementCheckbox._pointerup);
-	},
-
-	/**
-	 * @private
-	 * @type {(this: Document | ShadowRoot, ev: PointerEvent) => void}
-	 */
-	_pointerup: function(ev) {
-		// Ensure that focus is lost after clicking
-		/** @type {null | HTMLInputElement} */
-		const input = this.activeElement?.closest("input.checkbox") ?? null;
-		input?.blur();
-
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		this.removeEventListener("pointerup", ElementCheckbox._pointerup);
-		// @ts-ignore Generic vs Specific Event
-		this.removeEventListener("pointercancel", ElementCheckbox._pointerup);
+	_change: function(ev) {
+		if (!this.matches(":focus-visible")) {
+			this.blur();
+		}
+		if (!this.validity.valid) {
+			ev.stopImmediatePropagation();
+		}
 	},
 
 	/**
@@ -2205,7 +2163,7 @@ var ElementCheckbox = {
 				break;
 		}
 
-		return ElementCreate({
+		const ret = ElementCreate({
 			...checkboxOptions,
 			tag: "input",
 			attributes: {
@@ -2220,11 +2178,13 @@ var ElementCheckbox = {
 			},
 			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
 			eventListeners: {
-				change: onChange ?? undefined,
-				pointerdown: ElementCheckbox._pointerdown,
+				change: ElementCheckbox._change,
 				...(checkboxOptions.eventListeners ?? {}),
 			},
 		});
+		if (onChange) {
+			ret.addEventListener("change", onChange);
+		}
 	},
 
 	/**
