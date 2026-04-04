@@ -242,6 +242,42 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // NunHabit
+		JesterHat: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "LeftPart",
+					Key: "l",
+					Options: [
+						{}, // 0 - No style 
+						{}, // 1 - Stripes
+						{}, // 2 - Dots
+						{}, // 3 - Stripes & Dots
+					],
+				},
+				{
+					Name: "TopPart",
+					Key: "t",
+					Options: [
+						{}, // 0 - No style
+						{}, // 1 - Stripes
+						{}, // 2 - Dots
+						{}, // 3 - Stripes & Dots
+					],
+				},
+				{
+					Name: "RightPart",
+					Key: "r",
+					Options: [
+						{}, // 0 - No style
+						{}, // 1 - Stripes
+						{}, // 2 - Dots
+						{}, // 3 - Stripes & Dots
+					],
+				},
+			],
+		}, // JesterHat
 		PirateHat: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatTags: [

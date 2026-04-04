@@ -1228,6 +1228,19 @@ HatVintageHatRibbon,Ribbon
 HatVintageHatInside,Inside
 HatWitchHat1Band,Band
 HatWitchHat1Hat,Hat
+HatJesterHatLeft,Hat Body (Left)
+HatJesterHatRight,Hat Body (Right)
+HatJesterHatTop,Hat Body (Top)
+HatJesterHatCrown,Crown
+HatJesterHatBellLeft,Bell (Left)
+HatJesterHatBellRight,Bell (Right)
+HatJesterHatBellTop,Bell (Top)
+HatJesterHatStripesLeft,Stripes (Left)
+HatJesterHatStripesRight,Stripes (Right)
+HatJesterHatStripesTop,Stripes (Top)
+HatJesterHatDotsLeft,Dots (Left)
+HatJesterHatDotsRight,Dots (Right)
+HatJesterHatDotsTop,Dots (Top)
 ItemAddonCeilingNeckCuffCuff,Metal cuff
 ItemAddonCeilingNeckCuffLock,Padlock
 ItemAddonCoversInner,Inner

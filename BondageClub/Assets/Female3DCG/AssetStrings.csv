@@ -2787,6 +2787,26 @@ HatSwimCapSelectHair,Adjust Hair Openings
 HatSwimCapSelectPattern,Choose Pattern
 HatSwimCapSetHair,SourceCharacter adjusts DestinationCharacter swimcap hair openings.
 HatSwimCapSetPattern,SourceCharacter swaps DestinationCharacter swimcap pattern.
+HatJesterHat,Jester hat
+HatJesterHatModuleLeftPart,Left Prong
+HatJesterHatModuleRightPart,Right Prong
+HatJesterHatModuleTopPart,Top Prong
+HatJesterHatOptionl0,None
+HatJesterHatOptionl1,Stripes
+HatJesterHatOptionl2,Dots
+HatJesterHatOptionl3,Stripes & Dots
+HatJesterHatOptionr0,None
+HatJesterHatOptionr1,Stripes
+HatJesterHatOptionr2,Dots
+HatJesterHatOptionr3,Stripes & Dots
+HatJesterHatOptiont0,None
+HatJesterHatOptiont1,Stripes
+HatJesterHatOptiont2,Dots
+HatJesterHatOptiont3,Stripes & Dots
+HatJesterHatSelectBase,Customise your Jester Hat
+HatJesterHatSelectLeftPart,Choose left style
+HatJesterHatSelectRightPart,Choose right style
+HatJesterHatSelectTopPart,Choose top style
 HeadphoneEarPlugsPoseHeavy,Heavy
 HeadphoneEarPlugsPoseLight,Light
 HeadphoneEarPlugsPoseNoiseCancelling,Noise-Cancelling
