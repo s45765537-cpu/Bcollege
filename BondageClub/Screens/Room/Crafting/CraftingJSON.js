@@ -569,7 +569,7 @@ var CraftingJSON = {
 							children: [
 								{
 									tag: "p",
-									children: TextFormatted(
+									children: TextSubstitute(
 										"JSONDescription0",
 										{ "{all}": ElementCreate({ tag: "em", children: [TextGet("JSONDescriptionAll")] }) }
 									),
@@ -579,7 +579,7 @@ var CraftingJSON = {
 									children: [
 										{
 											tag: "li",
-											children: TextFormatted("JSONDescription1", {
+											children: TextSubstitute("JSONDescription1", {
 												"{json}": ElementCreate({ tag: "code", children: [".json"] }),
 												"{download-tooltip}": ElementCreate({ tag: "q", children: [TextGet("JSONDownload")] }),
 											}),

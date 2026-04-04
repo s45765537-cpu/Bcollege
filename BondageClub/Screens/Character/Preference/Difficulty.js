@@ -41,7 +41,7 @@ function PreferenceSubscreenDifficultyLoad() {
 			tag: "div",
 			attributes: { id: PreferenceSubscreenDifficultyIDs.listLabel(D) },
 			children: [
-				...TextFormatted(`DifficultyLevel${D}Label`, { "\\n": ElementCreate({ tag: "br" }) })
+				...TextSubstitute(`DifficultyLevel${D}Label`, { "\\n": ElementCreate({ tag: "br" }) })
 			],
 		});
 

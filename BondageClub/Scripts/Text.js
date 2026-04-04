@@ -92,7 +92,7 @@ function TextPrefetchFile(file) {
  * @param {TextCache} [options.textCache] A custom text cache from which to retrieve the text; defaults to {@link TextScreenCache}
  * @returns {(string | T)[]} The text associated to the tag, split into a list according to the passed replacers. Missing tag texts will be interpreted as empty strings.
  */
-function TextFormatted(textTag, replacers, options) {
+function TextSubstitute(textTag, replacers, options) {
 	const { textCache } = options ?? {};
 	/** @type {(key: string) => string} */
 	const getter = textCache ? (key) => textCache.get(key) : TextGet;

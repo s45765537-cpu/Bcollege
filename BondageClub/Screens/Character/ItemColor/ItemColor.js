@@ -503,7 +503,7 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 				nameList.push(ItemColorLayerNames.get(`${asset.DynamicGroupName}${asset.Name}${layer.Name ?? ""}`));
 			}
 		}
-		options.heading = TextFormatted(
+		options.heading = TextSubstitute(
 			"Heading",
 			{ "{item}": ElementCreate({ tag: "q", children: [nameList.join("/")] }) },
 		);

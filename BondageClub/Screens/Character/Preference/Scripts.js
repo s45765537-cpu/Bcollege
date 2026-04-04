@@ -405,7 +405,7 @@ function PreferenceSubscreenScriptsUpdateHelp() {
 	const helpTop = isGlobal ? 270 : 370;
 	const textKey = isGlobal ? "ScriptsHelpGlobal" : `ScriptsHelp${PreferenceScriptHelp}`;
 
-	const htmlized = TextFormatted(textKey, {
+	const htmlized = TextSubstitute(textKey, {
 		'\\n': ElementCreate({ tag: 'br' }),
 	});
 	helpOverlay.replaceChildren(...htmlized);

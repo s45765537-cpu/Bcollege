@@ -454,7 +454,7 @@ var CraftingSlots = {
 					modeAcceptListener: CraftingSlots.eventListeners.clickModeAcceptSlotReorder,
 					modeAcceptQuestionColor: "yellow",
 					modeAcceptImgSrc: "./Icons/Swap.png",
-					modeAcceptTooltip: TextFormatted(
+					modeAcceptTooltip: TextSubstitute(
 						"ModeAcceptReorder",
 						{
 							"{br}": ElementCreate({ tag: "br" }),
@@ -462,7 +462,7 @@ var CraftingSlots = {
 							"{shift}": ElementCreate({ tag: "kbd", children: [TextGet("TermShift")] }),
 						},
 					),
-					heading: TextFormatted(
+					heading: TextSubstitute(
 						"SelectReorder",
 						{ "{n}": ElementCreate({ tag: "code", children: ["0"] }) },
 					),
@@ -482,7 +482,7 @@ var CraftingSlots = {
 					modeAcceptListener: CraftingSlots.eventListeners.clickModeAcceptSlotDelete,
 					modeAcceptQuestionColor: "pink",
 					modeAcceptImgSrc: "./Icons/Trash.png",
-					modeAcceptTooltip: TextFormatted(
+					modeAcceptTooltip: TextSubstitute(
 						"ModeAcceptDelete",
 						{
 							"{br}": ElementCreate({ tag: "br" }),
@@ -491,7 +491,7 @@ var CraftingSlots = {
 							"{shift}": ElementCreate({ tag: "kbd", children: [TextGet("TermShift")] }),
 						},
 					),
-					heading: TextFormatted(
+					heading: TextSubstitute(
 						"SelectDelete",
 						{ "{n}": ElementCreate({ tag: "code", children: ["0"] }) },
 					),
@@ -707,7 +707,7 @@ var CraftingSlots = {
 			modeResult.modeAcceptListener ?? null,
 			{
 				image: modeResult.modeAcceptImgSrc ?? "./Icons/Crafting.png",
-				tooltip: (modeResult.modeAcceptTooltip ?? TextFormatted(
+				tooltip: (modeResult.modeAcceptTooltip ?? TextSubstitute(
 					"ModeAcceptSlot",
 					{
 						"{br}": ElementCreate({ tag: "br" }),
