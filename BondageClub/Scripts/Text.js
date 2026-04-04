@@ -83,6 +83,22 @@ function TextPrefetchFile(file) {
 	return cache;
 }
 
+/**
+ * Finds the text value linked to the tag in the buffer, partition the text value into separate parts using the given replacer keys, and then substitute them with replacer values
+ * @template T
+ * @param {string} textTag Tag for the text to find
+ * @param {Record<string, T>} replacers An object mapping replacement terms to values. Note that {@link Node} elements are cloned prior to the replacement
+ * @param {Object} [options]
+ * @param {TextCache} [options.textCache] A custom text cache from which to retrieve the text; defaults to {@link TextScreenCache}
+ * @returns {(string | T)[]} The text associated to the tag, split into a list according to the passed replacers. Missing tag texts will be interpreted as empty strings.
+ */
+function TextFormatted(textTag, replacers, options) {
+	const { textCache } = options ?? {};
+	/** @type {(key: string) => string} */
+	const getter = textCache ? (key) => textCache.get(key) : TextGet;
+	return CommonStringPartitionReplace(getter(textTag), replacers);
+}
+
 const InterfaceStringsPath = "Screens/Interface.csv";
 
 /**
