@@ -53,9 +53,6 @@ function GameStart() {
 	}
 	canvas.tabIndex = 1000;
 
-	canvas.addEventListener("keydown", (e) => GameKeyDown(e));
-	canvas.addEventListener("keyup", (e) => GameKeyUp(e));
-
 	canvas.addEventListener("wheel", (e) => GameMouseWheel(e));
 
 	canvas.addEventListener("pointerdown", (e) => GamePointerDown(e, canvas));
