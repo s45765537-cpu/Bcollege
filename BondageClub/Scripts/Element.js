@@ -1001,7 +1001,7 @@ var ElementButton = {
 			}
 		}
 
-		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		/** @type {(this: HTMLButtonElement, ev: PointerEvent) => void} */
 		function click(ev) {
 			if (holdAndClick) {
 				ev.stopImmediatePropagation();
@@ -1027,7 +1027,7 @@ var ElementButton = {
 			holdAndClick = false;
 		}
 
-		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		/** @type {(this: HTMLButtonElement, ev: PointerEvent) => void} */
 		function bcTouchHold(ev) {
 			this.focus({ preventScroll: true });
 			this.toggleAttribute("data-show-tooltip", true);
