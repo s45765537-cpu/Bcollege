@@ -328,10 +328,9 @@ fieldset[name="crafting-slot"] a {
 	width: 100%;
 	font-size: 0.65em;
 	width: calc(200% + var(--gap) + 2 * var(--border-width));
-	max-height: calc(2 * var(--button-height) + var(--gap));
 	display: -webkit-box;
-	line-clamp: 9;
-	-webkit-line-clamp: 9;
+	line-clamp: 11;
+	-webkit-line-clamp: 11;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
