@@ -53,9 +53,6 @@ function GameStart() {
 	}
 	canvas.tabIndex = 1000;
 
-	canvas.addEventListener("keydown", (e) => GameKeyDown(e));
-	canvas.addEventListener("keyup", (e) => GameKeyUp(e));
-
 	canvas.addEventListener("wheel", (e) => GameMouseWheel(e));
 
 	canvas.addEventListener("pointerdown", (e) => GamePointerDown(e, canvas));
@@ -220,6 +217,10 @@ function GameKeyDown(event) {
 		if (CommonKey.IsPressed(event, "Escape")) {
 			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
 				document.activeElement.blur();
+				handled = true;
+				break handleKeyDown;
+			} else if (CurrentCharacter) {
+				DialogMenuBack();
 				handled = true;
 				break handleKeyDown;
 			} else {

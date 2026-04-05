@@ -4044,7 +4044,7 @@ class _DialogDialogMenu extends DialogMenu {
 		this.eventListeners = {
 			...this.eventListeners,
 
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			/** @type {(this: HTMLButtonElement, ev: PointerEvent) => void} */
 			_ClickMenubarExit: function(ev) {
 				const C = dialogMenu.C;
 				if (!C) {
@@ -4056,7 +4056,7 @@ class _DialogDialogMenu extends DialogMenu {
 					case "":
 					case "NOEXIT":
 						this.setAttribute("aria-disabled", "true");
-						this.dispatchEvent(new MouseEvent("bcClickDisabled", ev));
+						this.dispatchEvent(new PointerEvent("bcClickDisabled", ev));
 						ev.stopImmediatePropagation();
 						break;
 					default:
