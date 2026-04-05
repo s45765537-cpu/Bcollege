@@ -488,9 +488,11 @@ var ColorPicker = {
 			if (allColors.size === 1) {
 				color = /** @type {string} */(allColors.values().next().value);
 			} else {
-				ElementDOMScreen.setStatus(root, CommonStringPartitionReplace(ItemColorText.get("CopyFail"), {
-					"{nColors}": ElementCreate({ tag: "q", children: [allColors.size.toString()] }),
-				}));
+				ElementDOMScreen.setStatus(root, TextSubstitute(
+					"CopyFail",
+					{ "{nColors}": ElementCreate({ tag: "q", children: [allColors.size.toString()] }) },
+					{ textCache: ItemColorText }
+				));
 				return;
 			}
 			if (allOpacities.size === 1) {
@@ -517,9 +519,11 @@ var ColorPicker = {
 			} else {
 				colorTextElem = ElementCreate({ tag: "q", children: [color] });
 			}
-			ElementDOMScreen.setStatus(root, CommonStringPartitionReplace(ItemColorText.get("CopySuccess"), {
-				"{color}": colorTextElem,
-			}));
+			ElementDOMScreen.setStatus(root, TextSubstitute(
+				"CopySuccess",
+				{ "{color}": colorTextElem },
+				{ textCache: ItemColorText },
+			));
 		},
 
 		/**
@@ -564,9 +568,11 @@ var ColorPicker = {
 						tag: "q", children: [color.length >= 100 ? `${color.slice(0, 100)}…` : color],
 					});
 				}
-				ElementDOMScreen.setStatus(root, CommonStringPartitionReplace(ItemColorText.get(statusKey), {
-					"{color}": colorTextElem,
-				}));
+				ElementDOMScreen.setStatus(root, TextSubstitute(
+					statusKey,
+					{ "{color}": colorTextElem },
+					{ textCache: ItemColorText }
+				));
 			});
 		},
 
