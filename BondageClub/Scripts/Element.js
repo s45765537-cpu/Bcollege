@@ -1308,7 +1308,7 @@ var ElementButton = {
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
 	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon | null | undefined)[]} [icons] - The (optional) list of icons
-	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [HTMLSpanElement, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
 		icons = icons?.filter(i => i != null);
@@ -1378,7 +1378,7 @@ var ElementButton = {
 				parent: iconGrid,
 			});
 		});
-		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), tooltip] };
+		return { iconGrid, tooltip: [ElementCreate({ tag: "span", children: [InterfaceTextGet("StatusAndEffects")] }), tooltip] };
 	},
 
 	/**
