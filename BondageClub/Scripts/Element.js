@@ -2185,6 +2185,7 @@ var ElementCheckbox = {
 		if (onChange) {
 			ret.addEventListener("change", onChange);
 		}
+		return ret;
 	},
 
 	/**
