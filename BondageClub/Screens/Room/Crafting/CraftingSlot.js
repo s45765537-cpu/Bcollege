@@ -224,6 +224,9 @@ var CraftingSlots = {
 					hits[0]?.scrollIntoView({ behavior: "instant" });
 				}
 
+				// Need to stop the propagation in order to prevent a new `focus` event from immediately firing.
+				// Namely, enter key presses with no focused element would _normally_ trigger a search input focus via `CommonKey.InputKeyDown`
+				ev.stopPropagation();
 				this.blur();
 			}
 		},
