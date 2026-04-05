@@ -17505,7 +17505,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "JesterHat",
-				InventoryID: 2303,
+				InventoryID: 1323,
 				Extended: true,
 				Value: 25,
 				Left: 125,
@@ -24193,7 +24193,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SeraphWings",
-				InventoryID: 2302,
+				InventoryID: 1324,
 				DefaultColor: [],
 				Value: -1,
 				BodyCosplay: true,
