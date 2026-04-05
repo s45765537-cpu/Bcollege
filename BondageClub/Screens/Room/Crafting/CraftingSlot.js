@@ -706,8 +706,9 @@ var CraftingSlots = {
 		const modeButtonOld = document.querySelector(`#${rootID} button[name='mode-accept']`);
 		/** @type {null | HTMLSelectElement} */
 		const modeSelect = document.querySelector(`#${rootID} select[name='mode-select']`);
+		const fieldset = document.querySelector(`#${rootID} fieldset[name='crafting-slot']`);
 		const heading = document.querySelector(`#${rootID} h1`);
-		if (!modeButtonOld || !heading || !modeSelect) {
+		if (!modeButtonOld || !heading || !modeSelect || !fieldset) {
 			return;
 		}
 
@@ -731,6 +732,7 @@ var CraftingSlots = {
 				}],
 			}},
 		);
+		fieldset.setAttribute("aria-describedby", modeButtonNew.querySelector(".button-tooltip")?.id ?? "");
 		modeButtonOld.replaceWith(modeButtonNew);
 		heading.replaceChildren(...(CommonIsArray(modeResult.heading) ? modeResult.heading : [modeResult.heading]));
 		modeSelect.value = mode;
