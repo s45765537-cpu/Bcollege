@@ -2146,13 +2146,14 @@ var ElementCheckbox = {
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} [onChange] - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.Options} [options] - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLInputElement}
 	 */
 	Create: function Create(id=undefined, onChange=undefined, options=undefined, htmlOptions=undefined) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
 			console.error(`Element "${id}" already exists`);
-			return checkbox;
+			return /** @type {HTMLInputElement} */(checkbox);
 		}
 
 		options ??= {};
@@ -2200,18 +2201,14 @@ var ElementCheckbox = {
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.LabelOptions} options - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLLabelElement}
 	 */
 	CreateLabelled: function CreateLabelled(id=null, label, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
 			console.error(`Element "${id}" already exists`);
-			return checkbox;
-		}
-
-		if (!label) {
-			console.error(`Missing label for checkbox "${id}"`);
-			return;
+			return /** @type {HTMLLabelElement} */(checkbox);
 		}
 
 		options ??= {};
