@@ -17527,7 +17527,7 @@ var AssetFemale3DCG = [
 				],
 				PoseMapping: { Suspension: PoseType.HIDE },
 				Layer: [
-					{ Name: "Crown"},
+					{ Name: "Crown" },
 					{ Name: "Left", ColorGroup: "Fabric" },
 					{ Name: "Right", ColorGroup: "Fabric" },
 					{ Name: "Top", ColorGroup: "Fabric" },
