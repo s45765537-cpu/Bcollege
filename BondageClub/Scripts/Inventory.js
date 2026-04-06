@@ -979,9 +979,9 @@ function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = f
 * Removes a specific item from a character body area
 * @param {Character} C - The character on which we must remove the item
 * @param {AssetGroupName} AssetGroup - The name of the asset group (body area)
-* @param {boolean} [Refresh] - Whether or not to trigger a character refresh. Defaults to false
+* @param {boolean} [Refresh] - Whether or not to trigger a character refresh. Defaults to true
 */
-function InventoryRemove(C, AssetGroup, Refresh) {
+function InventoryRemove(C, AssetGroup, Refresh=true) {
 
 	const lastblindlevel = Player.GetBlindLevel();
 	DrawLastDarkFactor = CharacterGetDarkFactor(Player);
@@ -1020,7 +1020,7 @@ function InventoryRemove(C, AssetGroup, Refresh) {
 	for (let E = 0; E < C.Appearance.length; E++)
 		if (C.Appearance[E].Asset.Group.Name == AssetGroup) {
 			C.Appearance.splice(E, 1);
-			if (Refresh || Refresh == null) CharacterRefresh(C);
+			if (Refresh) CharacterRefresh(C);
 
 			if (Player.GraphicsSettings && Player.GraphicsSettings.DoBlindFlash) {
 				if (Refresh == false) CharacterLoadEffect(C); // update Effect to get the new blind level
