@@ -720,7 +720,7 @@ function CharacterAppearanceGetCurrentValue(C, Group, Type) {
 					ret = item;
 					break;
 				case "Zoom":
-					ret = ((item.Asset.ZoomModifier > 1) || (item.Asset.ZoomModifier < 0.9)) ? 1 : item.Asset.ZoomModifier;
+					ret = item.Asset.ZoomModifier;
 					break;
 			}
 		}
