@@ -637,6 +637,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 * The height of the character as set in the special `Height` appearance group.
 	 *
 	 * Is represented by a number in the `[0.9, 1.0]` interval.
+	 * @default 1.0
 	 */
 	Zoom?: number;
 	Prerequisite?: AssetPrerequisite | AssetPrerequisite[];
