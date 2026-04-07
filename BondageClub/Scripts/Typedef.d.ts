@@ -2053,6 +2053,11 @@ interface Character {
 	HeightRatio: number;
 	HasHiddenItems: boolean;
 	SavedColors: HSVColor[];
+	/**
+	 * @private
+	 * The cached blind level; use {@link Character.GetBlindLevel} instead.
+	 */
+	_BlindLevel?: number;
 	GetBlindLevel: (eyesOnly?: boolean) => number;
 	GetBlurLevel: () => number;
 	IsLocked: () => boolean;
