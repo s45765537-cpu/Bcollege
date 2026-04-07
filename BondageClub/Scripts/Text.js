@@ -232,6 +232,9 @@ class TextCache {
 			.then(() => {
 				this.rebuildListeners.forEach((listener) => listener(this));
 				return this;
+			}).catch(reason => {
+				console.error(reason);
+				return this;
 			});
 	}
 
