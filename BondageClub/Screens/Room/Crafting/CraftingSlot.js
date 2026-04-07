@@ -224,6 +224,9 @@ var CraftingSlots = {
 					hits[0]?.scrollIntoView({ behavior: "instant" });
 				}
 
+				// Need to stop the propagation in order to prevent a new `focus` event from immediately firing.
+				// Namely, enter key presses with no focused element would _normally_ trigger a search input focus via `CommonKey.InputKeyDown`
+				ev.stopPropagation();
 				this.blur();
 			}
 		},
@@ -415,6 +418,13 @@ var CraftingSlots = {
 				});
 				return {
 					heading: TextGet("SelectSlot"),
+					modeAcceptTooltip: TextSubstitute(
+						"ModeAcceptSlot",
+						{
+							"{br}": ElementCreate({ tag: "br" }),
+							"{click}": ElementCreate({ tag: "kbd", children: [TextGet("TermMouseClick")] }),
+						},
+					),
 				};
 			},
 		},
@@ -696,8 +706,9 @@ var CraftingSlots = {
 		const modeButtonOld = document.querySelector(`#${rootID} button[name='mode-accept']`);
 		/** @type {null | HTMLSelectElement} */
 		const modeSelect = document.querySelector(`#${rootID} select[name='mode-select']`);
+		const fieldset = document.querySelector(`#${rootID} fieldset[name='crafting-slot']`);
 		const heading = document.querySelector(`#${rootID} h1`);
-		if (!modeButtonOld || !heading || !modeSelect) {
+		if (!modeButtonOld || !heading || !modeSelect || !fieldset) {
 			return;
 		}
 
@@ -707,13 +718,7 @@ var CraftingSlots = {
 			modeResult.modeAcceptListener ?? null,
 			{
 				image: modeResult.modeAcceptImgSrc ?? "./Icons/Crafting.png",
-				tooltip: (modeResult.modeAcceptTooltip ?? TextSubstitute(
-					"ModeAcceptSlot",
-					{
-						"{br}": ElementCreate({ tag: "br" }),
-						"{click}": ElementCreate({ tag: "kbd", children: [TextGet("TermMouseClick")] }),
-					},
-				)),
+				tooltip: modeResult.modeAcceptTooltip,
 				tooltipPosition: "right",
 				name: "mode-accept",
 			},
@@ -727,6 +732,7 @@ var CraftingSlots = {
 				}],
 			}},
 		);
+		fieldset.setAttribute("aria-describedby", modeButtonNew.querySelector(".button-tooltip")?.id ?? "");
 		modeButtonOld.replaceWith(modeButtonNew);
 		heading.replaceChildren(...(CommonIsArray(modeResult.heading) ? modeResult.heading : [modeResult.heading]));
 		modeSelect.value = mode;

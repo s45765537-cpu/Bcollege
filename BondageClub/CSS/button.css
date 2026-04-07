@@ -99,6 +99,10 @@
 	text-indent: 1em hanging each-line;
 }
 
+.button-tooltip-justify > * {
+	display: block;
+}
+
 .button-tooltip-craft,
 .button-tooltip-craft ul {
 	list-style-type: none;

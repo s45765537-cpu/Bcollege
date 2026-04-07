@@ -82,6 +82,11 @@ select:invalid:not(:disabled):not(:read-only) {
 	box-shadow: 0 0 3px 2px #c22;
 }
 
+/* Disable datalist picker button in Chrome */
+input[type="search"]::-webkit-calendar-picker-indicator {
+	display: none !important;
+}
+
 /* Range Inputs - WebKit */
 
 .range-input {

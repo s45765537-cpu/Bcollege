@@ -2294,6 +2294,8 @@ function CraftingExit(allowPanelClose=true) {
 			return;
 		}
 
+		// Clear the hash from the URL as (potentially) assigned by clicking on anchor elements
+		globalThis.location.hash = "";
 		CraftingMode = "Slot";
 		ElementRemove(CraftingID.root);
 		if (CraftingPreview) {
