@@ -253,7 +253,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DrawingLeft: AssetParseTopLeft(AssetDef.Left, Group.DrawingLeft),
 		DrawingTop: AssetParseTopLeft(AssetDef.Top, Group.DrawingTop),
 		HeightModifier: (AssetDef.Height == null) ? 0 : AssetDef.Height,
-		ZoomModifier: (AssetDef.Zoom == null) ? 1 : AssetDef.Zoom,
+		ZoomModifier: CommonClamp(AssetDef.Zoom ?? 1, 0.9, 1.0),
 		Alpha: AssetParseAlpha(AssetDef.Alpha, "Asset.Alpha"),
 		FullAlpha: AssetDef.FullAlpha == null ? true : AssetDef.FullAlpha,
 		Prerequisite: (typeof AssetDef.Prerequisite === "string" ? [AssetDef.Prerequisite] : Array.isArray(AssetDef.Prerequisite) ? AssetDef.Prerequisite : []),

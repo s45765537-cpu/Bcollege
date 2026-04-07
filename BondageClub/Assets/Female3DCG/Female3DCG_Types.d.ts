@@ -633,6 +633,12 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	MaxTimer?: number;
 
 	Height?: number;
+	/**
+	 * The height of the character as set in the special `Height` appearance group.
+	 *
+	 * Is represented by a number in the `[0.9, 1.0]` interval.
+	 * @default 1.0
+	 */
 	Zoom?: number;
 	Prerequisite?: AssetPrerequisite | AssetPrerequisite[];
 	Extended?: boolean;
@@ -768,6 +774,7 @@ declare namespace AssetDefinition {
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Item` category. */
 	interface Item extends AssetDefinitionBase {
 		BodyCosplay?: false;
+		Zoom?: never;
 	}
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Appearance` category. */
 	interface Appearance extends AssetDefinitionBase {

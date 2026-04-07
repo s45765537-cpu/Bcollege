@@ -250,7 +250,7 @@ var AssetFemale3DCGExtended = {
 					Name: "LeftPart",
 					Key: "l",
 					Options: [
-						{}, // 0 - No style 
+						{}, // 0 - No style
 						{}, // 1 - Stripes
 						{}, // 2 - Dots
 						{}, // 3 - Stripes & Dots

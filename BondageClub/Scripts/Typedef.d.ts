@@ -1365,6 +1365,11 @@ interface Asset {
 	readonly DrawingLeft: TopLeft.Data;
 	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
+	/**
+	 * The height of the character as set in the special `Height` appearance group.
+	 *
+	 * Is represented by a number in the `[0.9, 1.0]` interval.
+	 */
 	readonly ZoomModifier: number;
 	readonly Alpha: null | readonly Alpha.Data[];
 	readonly Prerequisite: readonly AssetPrerequisite[];
@@ -1444,6 +1449,26 @@ interface Asset {
 }
 
 //#endregion
+
+/** See {@link CharacterAppearanceGetCurrentValue} */
+interface CharacterAppearanceValues {
+	/** See {@link Asset.Name} */
+	Name: string;
+	/** See {@link Asset.Description} */
+	Description: string;
+	/** See {@link Asset.DefaultColor} and {@link Item.Color} */
+	Color: ItemColor;
+	/** The index within {@link Character.Apperance} */
+	ID: number;
+	/** See {@link Asset.Effect} */
+	Effect: readonly EffectName[];
+	/** The asset */
+	Asset: Asset;
+	/** The item */
+	Full: Item;
+	/** See {@link Asset.ZoomModifier} */
+	Zoom: number;
+}
 
 type ItemBundle = ServerItemBundle;
 
