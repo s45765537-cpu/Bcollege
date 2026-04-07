@@ -252,7 +252,7 @@ class TextCache {
 					// We say we're loaded even though that's wrong because we want `.get()`
 					// to return the "MISSING" string
 					this.loaded = true;
-					reject();
+					reject(`Failed to fetch csv file "${this.path}"`);
 					return;
 				}
 				response.text().then((data => {
