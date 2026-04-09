@@ -1360,6 +1360,13 @@ function ColorPickerResize() {
 	if (root && shape) {
 		ElementPositionFixed(root, ...shape);
 	}
+
+	/** Manually set the tint input's height due to iOS bugs (https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6146) */
+	const picker = root?.querySelector("bc-tint-input");
+	if (picker) {
+		const shapeRect = picker.getBoundingClientRect();
+		picker.style.setProperty("height", `${shapeRect.width}px`);
+	}
 }
 
 /** @type {ScreenUnloadHandler} */

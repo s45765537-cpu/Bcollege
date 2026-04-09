@@ -41,10 +41,8 @@
 }
 
 .color-picker bc-tint-input {
-	aspect-ratio: 1 / 1;
-	/* Explicitly unset width/height and leave them blank */
-	/* iOS has some very strange interactions involving them in combination with aspect-ratio, ballooning the former two out of control */
-	width: unset;
+	aspect-ratio: unset;
+	width: 100%;
 	height: unset;
 }
 
