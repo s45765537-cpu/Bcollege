@@ -232,6 +232,9 @@ class TextCache {
 			.then(() => {
 				this.rebuildListeners.forEach((listener) => listener(this));
 				return this;
+			}).catch(reason => {
+				console.error(reason);
+				return this;
 			});
 	}
 
@@ -252,7 +255,7 @@ class TextCache {
 					// We say we're loaded even though that's wrong because we want `.get()`
 					// to return the "MISSING" string
 					this.loaded = true;
-					reject();
+					reject(`Failed to fetch csv file "${this.path}"`);
 					return;
 				}
 				response.text().then((data => {
