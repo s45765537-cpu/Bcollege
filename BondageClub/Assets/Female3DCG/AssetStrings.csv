@@ -8020,6 +8020,24 @@ ItemHandheldPlushieOptionVoidOrder18,Dante
 ItemHandheldPlushieSetVoidOrder18,SourceCharacter places a cute Dante plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVoidOrder19,Sarah Jade Kelly
 ItemHandheldPlushieSetVoidOrder19,SourceCharacter places an unforgetable Sarah Jade Kelly plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder20,Wolfie
+ItemHandheldPlushieSetVoidOrder20,SourceCharacter places a cute Wolfie plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder21,Vi
+ItemHandheldPlushieSetVoidOrder21,SourceCharacter places a cute Vi plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder22,Needle
+ItemHandheldPlushieSetVoidOrder22,SourceCharacter places a cute Needle plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder23,Mist
+ItemHandheldPlushieSetVoidOrder23,SourceCharacter places a cute Mist plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder24,Milim
+ItemHandheldPlushieSetVoidOrder24,SourceCharacter places a cute Milim plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder25,Lisa
+ItemHandheldPlushieSetVoidOrder25,SourceCharacter places a cute Lisa plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder26,Kirumi
+ItemHandheldPlushieSetVoidOrder26,SourceCharacter places a cute Kirumi plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder27,Alex Carameii
+ItemHandheldPlushieSetVoidOrder27,SourceCharacter places a cute Alex Carameii plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder28,Katrina Thunder
+ItemHandheldPlushieSetVoidOrder28,SourceCharacter places a cute Katrina Thunder plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectEnsLivingRoom,En's Living Room
 ItemHandheldPlushieModuleEnsLivingRoom,En's Living Room
 ItemHandheldPlushieOptionEnsLivingRoom0,None
@@ -8044,6 +8062,8 @@ ItemHandheldPlushieOptionEnsLivingRoom9,Arelia
 ItemHandheldPlushieSetEnsLivingRoom9,SourceCharacter places a cute Arelia plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionEnsLivingRoom10,Dawn
 ItemHandheldPlushieSetEnsLivingRoom10,SourceCharacter places a cute Dawn plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionEnsLivingRoom11,Bella
+ItemHandheldPlushieSetEnsLivingRoom11,SourceCharacter places a cute Bella plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieModuleDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieOptionDawnsDarlings0,None
