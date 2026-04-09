@@ -46000,6 +46000,42 @@ var AssetFemale3DCG = [
 						AllowTypes: { VoidOrder: 19 },
 					},
 					{
+						Name: "Wolfie",
+						AllowTypes: { VoidOrder: 20 },
+					},
+					{
+						Name: "Vi",
+						AllowTypes: { VoidOrder: 21 },
+					},
+					{
+						Name: "Neddle",
+						AllowTypes: { VoidOrder: 22 },
+					},
+					{
+						Name: "Mist",
+						AllowTypes: { VoidOrder: 23 },
+					},
+					{
+						Name: "Milim",
+						AllowTypes: { VoidOrder: 24 },
+					},
+					{
+						Name: "Lisa3",
+						AllowTypes: { VoidOrder: 25 },
+					},
+					{
+						Name: "Kirumi",
+						AllowTypes: { VoidOrder: 26 },
+					},
+					{
+						Name: "AlexCarameii",
+						AllowTypes: { VoidOrder: 27 },
+					},
+					{
+						Name: "KatrinaThunder",
+						AllowTypes: { VoidOrder: 28 },
+					},
+					{
 						Name: "Alunra",
 						AllowTypes: { EnsLivingRoom: 1 },
 					},
@@ -46038,6 +46074,10 @@ var AssetFemale3DCG = [
 					{
 						Name: "Dawn",
 						AllowTypes: { EnsLivingRoom: 10 },
+					},
+					{
+						Name: "Bella",
+						AllowTypes: { EnsLivingRoom: 11 },
 					},
 					{
 						Name: "Nabi",

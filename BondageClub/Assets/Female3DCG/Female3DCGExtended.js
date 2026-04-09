@@ -3002,8 +3002,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
 				Chat: ({ C }) =>
-					`ItemArmsCeilingShacklesSet${
-						C.PoseMapping.BodyFull === "Suspension" ? "Suspension" : ""
+					`ItemArmsCeilingShacklesSet${C.PoseMapping.BodyFull === "Suspension" ? "Suspension" : ""
 					}`,
 			},
 		}, // CeilingShackles
@@ -13846,8 +13845,7 @@ var AssetFemale3DCGExtended = {
 				Header: "LactationPumpSelectSetting",
 				Option: "LactationPump",
 				Chat: ({ newIndex, previousIndex }) =>
-					`LactationPumpPower${
-						newIndex > previousIndex ? "tightens" : "loosens"
+					`LactationPumpPower${newIndex > previousIndex ? "tightens" : "loosens"
 					}To`,
 			},
 			DrawImages: false,
@@ -22553,6 +22551,15 @@ var AssetFemale3DCGExtended = {
 						{}, // Psyker
 						{}, // Dante
 						{}, // Sarah Jade Kelly
+						{}, // Wolfie
+						{}, // Vi
+						{}, // Neddle
+						{}, // Mist
+						{}, // Milim
+						{}, // Lisa3
+						{}, // Kirumi
+						{}, // AlexCarameii
+						{}, // KatrinaThunder
 					],
 					DrawData: {
 						elementData: [
@@ -22607,6 +22614,42 @@ var AssetFemale3DCGExtended = {
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushie_SarahJadeKelly.png",
 							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Wolfie.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Vi.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Neddle.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Mist.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Milim.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Lisa3.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Kirumi.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_AlexCarameii.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_KatrinaThunder.png",
+							},
 						],
 					},
 				},
@@ -22626,6 +22669,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Amy
 						{}, // Arelia
 						{}, // Dawn
+						{}, // Bella
 					],
 					DrawData: {
 						elementData: [
@@ -22650,6 +22694,7 @@ var AssetFemale3DCGExtended = {
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Arelia.png",
 							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Dawn.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Bella.png" },
 						],
 					},
 				},
