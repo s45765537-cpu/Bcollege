@@ -1402,7 +1402,8 @@ function CharacterLoadEffect(C) {
 	}
 	C._BlindLevel = undefined;
 	C.Effect = CharacterGetEffects(C);
-	if (C.IsPlayer() && C.GraphicsSettings.DoBlindFlash && oldblindlevel > 0 && C.GetBlindLevel() === 0) {
+	// Optional on `C.GraphicsSettings` because this can be called before login when showing the player avatar when creating a new account
+	if (C.IsPlayer() && C.GraphicsSettings?.DoBlindFlash && oldblindlevel > 0 && C.GetBlindLevel() === 0) {
 		DrawBlindFlash(oldblindlevel);
 	}
 
