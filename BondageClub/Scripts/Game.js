@@ -51,7 +51,6 @@ function GameStart() {
 		// Canvas is already initialized by index.html; this code path should _never_ occur
 		throw new Error("Canvas is null");
 	}
-	canvas.tabIndex = 1000;
 
 	canvas.addEventListener("wheel", (e) => GameMouseWheel(e));
 
@@ -215,7 +214,7 @@ function GameKeyDown(event) {
 		}
 
 		if (CommonKey.IsPressed(event, "Escape")) {
-			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
+			if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
 				document.activeElement.blur();
 				handled = true;
 				break handleKeyDown;
