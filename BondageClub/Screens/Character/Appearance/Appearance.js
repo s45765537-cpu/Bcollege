@@ -981,7 +981,7 @@ function AppearanceRun() {
 				Group.AllowNone || AppearancePreviewUseCharacter(Group) ? 65 : undefined);
 
 			var Color = CharacterAppearanceGetCurrentValue(C, Group.Name, "Color");
-			const ColorButtonText = ItemColorGetColorButtonText(Color === "None" ? "Default" : Color);
+			const ColorButtonText = ItemColorGetColorButtonText(Color === "None" || Color.length === 0 ? "Default" : Color);
 			const ColorButtonColor = ColorButtonText.startsWith("#") ? ColorButtonText : "#fff";
 			const CanCycleColors = !!Item && canAccess && (Item.Asset.ColorableLayerCount > 0 || Item.Asset.Group.ColorSchema.length > 1) && !InventoryBlockedOrLimited(C, Item);
 			const CanPickColor = CanCycleColors && Group.AllowColorize;
