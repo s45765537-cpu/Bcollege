@@ -1181,6 +1181,48 @@ function LoginSetupPlayer(C) {
 }
 
 /**
+ * Routes the player to the correct post-login screen.
+ * @returns {void} Nothing
+ */
+function LoginDone() {
+	if (!DisclaimerIsAccepted()) {
+		DisclaimerOpen(LoginDone);
+		return;
+	}
+
+	// We're done loading, now start the player in whatever screen is appropriate
+	if (LogQuery("Locked", "Cell")) {
+		// The player has been locked up, they must log back in the cell
+		CommonSetScreen("Room", "Cell");
+	} else if (Player.Infiltration?.Punishment && (Player.Infiltration.Punishment.Timer ?? 0) > CurrentTime) {
+		// The player must log back in Pandora's Box prison
+		PandoraWillpower = 0;
+		InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
+		CommonSetScreen("Room", "PandoraPrison");
+	} else if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
+		// The player must log back in the asylum
+		if (AsylumGGTSGetLevel(Player) <= 5) {
+			AsylumEntranceWearPatientClothes(Player, true);
+		} else {
+			AsylumGGTSDroneDress(Player);
+		}
+		CommonSetScreen("Room", "AsylumBedroom");
+	} else if (LogValue("ForceGGTS", "Asylum") ?? 0 > 0) {
+		// The owner is forcing the player to do GGTS
+		CommonSetScreen("Room", "AsylumEntrance");
+	} else if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
+		// The player must start in her room, in her cage
+		InventoryRemove(Player, "ItemFeet");
+		InventoryRemove(Player, "ItemLegs");
+		Player.Cage = true;
+		PoseSetActive(Player, "Kneel", true);
+		CommonSetScreen("Room", "Private");
+	} else {
+		CommonSetScreen("Room", "MainHall");
+	}
+}
+
+/**
  * Handles player login response data
  * @param {ServerLoginResponse} C - The Login response data - this will either be the player's character data if the
  * login was successful, or a string error message if the login failed.
@@ -1222,37 +1264,9 @@ function LoginResponse(C) {
 
 	if (ManagementIsClubSlave()) CharacterNaked(Player);
 
-	// We're done loading, now start the player in whatever screen is appropriate
-	if (LogQuery("Locked", "Cell")) {
-		// The player has been locked up, they must log back in the cell
-		CommonSetScreen("Room", "Cell");
-	} else if (Player.Infiltration?.Punishment && (Player.Infiltration.Punishment.Timer ?? 0) > CurrentTime) {
-		// The player must log back in Pandora's Box prison
-		PandoraWillpower = 0;
-		InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
-		CommonSetScreen("Room", "PandoraPrison");
-	} else if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
-		// The player must log back in the asylum
-		if (AsylumGGTSGetLevel(Player) <= 5) {
-			AsylumEntranceWearPatientClothes(Player, true);
-		} else {
-			AsylumGGTSDroneDress(Player);
-		}
-		CommonSetScreen("Room", "AsylumBedroom");
-	} else if (LogValue("ForceGGTS", "Asylum") ?? 0 > 0) {
-		// The owner is forcing the player to do GGTS
-		CommonSetScreen("Room", "AsylumEntrance");
-	} else if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
-		// The player must start in her room, in her cage
-		InventoryRemove(Player, "ItemFeet");
-		InventoryRemove(Player, "ItemLegs");
-		Player.Cage = true;
-		PoseSetActive(Player, "Kneel", true);
-		CommonSetScreen("Room", "Private");
-	} else {
-		CommonSetScreen("Room", "MainHall");
-	}
 	ServerIsLoggedIn_ = true;
+
+	LoginDone();
 }
 
 /** Check if the player's browser has ES2020 support */

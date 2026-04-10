@@ -4809,6 +4809,7 @@ interface LogNameType {
 	SlaveMarket: "Auctioned",
 	Trainer: "JoinedStable",
 	TrainerExam: "JoinedStable",
+	Disclaimer: "Accepted",
 }
 
 // #end region

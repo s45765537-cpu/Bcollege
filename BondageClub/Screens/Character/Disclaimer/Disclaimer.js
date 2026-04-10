@@ -7,6 +7,9 @@ const DisclaimerIDs = Object.freeze({
 	accept: "disclaimer-accept",
 	buttons: "disclaimer-buttons",
 });
+const DisclaimerVersion = 1;
+/** @type {null | (() => void)} */
+var DisclaimerCloseCallback = null;
 
 /**
  * Loads the disclaimer screen
@@ -95,6 +98,16 @@ async function DisclaimerLoad() {
 }
 
 /**
+ * Opens the disclaimer screen and optionally runs a callback when the player accepts it.
+ * @param {(() => void)=} closeCallback
+ * @returns {void}
+ */
+function DisclaimerOpen(closeCallback) {
+	DisclaimerCloseCallback = closeCallback ?? null;
+	CommonSetScreen("Character", "Disclaimer");
+}
+
+/**
  * Runs & draws the disclaimer screen
  * @returns {void} - Nothing
  */
@@ -116,10 +129,23 @@ function DisclaimerUnload() {
  * @returns {void} - Nothing
  */
 function DisclaimerExit() {
+	const hasCloseCallback = DisclaimerCloseCallback !== null;
+	DisclaimerCloseCallback = null;
+	if (hasCloseCallback) {
+		window.location.reload();
+		return;
+	}
 	CommonSetScreen("Character", "Login");
 }
 
 function DisclaimerAccept() {
+	LogAdd("Accepted", "Disclaimer", DisclaimerVersion);
+	const closeCallback = DisclaimerCloseCallback;
+	DisclaimerCloseCallback = null;
+	if (closeCallback) {
+		closeCallback();
+		return;
+	}
 	CharacterCreatePlayer();
 	InventoryRemove(Player, "ItemFeet");
 	InventoryRemove(Player, "ItemLegs");
@@ -139,4 +165,8 @@ function DisclaimerResize() {
 	ElementSetPosition(DisclaimerIDs.screen, 100, 100);
 	ElementSetSize(DisclaimerIDs.screen, 1800, 800);
 	ElementSetFontSize(DisclaimerIDs.screen, "auto");
+}
+
+function DisclaimerIsAccepted() {
+	return LogValue("Accepted", "Disclaimer") ?? 0 >= DisclaimerVersion;
 }
