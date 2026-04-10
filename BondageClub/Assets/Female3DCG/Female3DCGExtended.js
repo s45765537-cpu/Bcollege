@@ -3002,7 +3002,8 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "SelectBondagePosition",
 				Chat: ({ C }) =>
-					`ItemArmsCeilingShacklesSet${C.PoseMapping.BodyFull === "Suspension" ? "Suspension" : ""
+					`ItemArmsCeilingShacklesSet${
+						C.PoseMapping.BodyFull === "Suspension" ? "Suspension" : ""
 					}`,
 			},
 		}, // CeilingShackles
@@ -13845,7 +13846,8 @@ var AssetFemale3DCGExtended = {
 				Header: "LactationPumpSelectSetting",
 				Option: "LactationPump",
 				Chat: ({ newIndex, previousIndex }) =>
-					`LactationPumpPower${newIndex > previousIndex ? "tightens" : "loosens"
+					`LactationPumpPower${
+						newIndex > previousIndex ? "tightens" : "loosens"
 					}To`,
 			},
 			DrawImages: false,
@@ -22615,32 +22617,25 @@ var AssetFemale3DCGExtended = {
 									"Assets/Female3DCG/ItemHandheld/Plushie_SarahJadeKelly.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Wolfie.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Wolfie.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Vi.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Vi.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Neddle.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Neddle.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Mist.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mist.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Milim.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Milim.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Lisa3.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lisa3.png",
 							},
 							{
-								imagePath:
-									"Assets/Female3DCG/ItemHandheld/Plushie_Kirumi.png",
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Kirumi.png",
 							},
 							{
 								imagePath:
