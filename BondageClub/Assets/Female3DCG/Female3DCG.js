@@ -4846,6 +4846,14 @@ var AssetFemale3DCG = [
 				Top: 254,
 			},
 			{
+				Name: "MissMariasManor",
+				Priority: 32,
+				Left: 195,
+				Top: 255,
+				Extended: true,
+				CreateLayerTypes: ["typed"],
+			},
+			{
 				Name: "RatAss",
 				Priority: 32,
 				Left: 195,

@@ -1109,6 +1109,22 @@ var AssetFemale3DCGExtended = {
 			Options: [{ Name: "Default" }, { Name: "Transparent" }],
 		}, // AllureSidecut
 	}, // Cloth
+	Decals: {
+		MissMariasManor: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Default",
+				},
+				{
+					Name: "Version2",
+				},
+				{
+					Name: "Version3",
+				},
+			],
+		},
+	}, // Decals
 	BodyMarkings: {
 		WombTattoos: {
 			Archetype: ExtendedArchetype.MODULAR,
