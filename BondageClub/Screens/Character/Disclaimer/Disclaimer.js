@@ -8,7 +8,7 @@ const DisclaimerIDs = Object.freeze({
 	buttons: "disclaimer-buttons",
 });
 const DisclaimerVersion = 1;
-/** @type {null | (() => void)} */
+/** @type {null | ((accepted: boolean) => void)} */
 var DisclaimerCloseCallback = null;
 
 /**
@@ -98,8 +98,8 @@ async function DisclaimerLoad() {
 }
 
 /**
- * Opens the disclaimer screen and optionally runs a callback when the player accepts it.
- * @param {(() => void)=} closeCallback
+ * Opens the disclaimer screen and optionally runs a callback when the player closes it.
+ * @param {(accepted: boolean) => void} closeCallback
  * @returns {void}
  */
 function DisclaimerOpen(closeCallback) {
@@ -129,10 +129,10 @@ function DisclaimerUnload() {
  * @returns {void} - Nothing
  */
 function DisclaimerExit() {
-	const hasCloseCallback = DisclaimerCloseCallback !== null;
+	const closeCallback = DisclaimerCloseCallback;
 	DisclaimerCloseCallback = null;
-	if (hasCloseCallback) {
-		window.location.reload();
+	if (closeCallback) {
+		closeCallback(false);
 		return;
 	}
 	CommonSetScreen("Character", "Login");
@@ -143,7 +143,7 @@ function DisclaimerAccept() {
 	const closeCallback = DisclaimerCloseCallback;
 	DisclaimerCloseCallback = null;
 	if (closeCallback) {
-		closeCallback();
+		closeCallback(true);
 		return;
 	}
 	CharacterCreatePlayer();

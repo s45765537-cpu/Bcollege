@@ -1181,12 +1181,13 @@ function LoginSetupPlayer(C) {
 }
 
 /**
- * Routes the player to the correct post-login screen.
+ * Routes the player to the correct post-login screen after the disclaimer flow completes.
+ * @param {boolean} accepted
  * @returns {void} Nothing
  */
-function LoginDone() {
-	if (!DisclaimerIsAccepted()) {
-		DisclaimerOpen(LoginDone);
+function LoginDone(accepted) {
+	if (!accepted) {
+		window.location.reload();
 		return;
 	}
 
@@ -1220,6 +1221,18 @@ function LoginDone() {
 	} else {
 		CommonSetScreen("Room", "MainHall");
 	}
+}
+
+/**
+ * Shows the disclaimer after login when required, then continues the login flow.
+ * @returns {void} Nothing
+ */
+function LoginOpenDisclaimer() {
+	if (!DisclaimerIsAccepted()) {
+		DisclaimerOpen(LoginDone);
+		return;
+	}
+	LoginDone(true);
 }
 
 /**
@@ -1266,7 +1279,7 @@ function LoginResponse(C) {
 
 	ServerIsLoggedIn_ = true;
 
-	LoginDone();
+	LoginOpenDisclaimer();
 }
 
 /** Check if the player's browser has ES2020 support */
