@@ -98,19 +98,6 @@ async function DisclaimerLoad() {
 }
 
 /**
- * Opens the disclaimer screen and optionally runs a callback when the player closes it.
- * @param {(accepted: boolean) => void} closeCallback
- * @returns {void}
- */
-function DisclaimerOpen(closeCallback) {
-	if (!closeCallback) {
-		throw Error("DisclaimerOpen: closeCallback is required");
-	}
-	DisclaimerCloseCallback = closeCallback;
-	CommonSetScreen("Character", "Disclaimer");
-}
-
-/**
  * Runs & draws the disclaimer screen
  * @returns {void} - Nothing
  */
@@ -141,6 +128,27 @@ function DisclaimerExit() {
 	CommonSetScreen("Character", "Login");
 }
 
+/**
+ * Opens the disclaimer screen and optionally runs a callback when the player closes it.
+ * @param {(accepted: boolean) => void} closeCallback
+ * @returns {boolean} Whether the player has already accepted the disclaimer
+ */
+function DisclaimerOpen(closeCallback) {
+	if (!closeCallback) {
+		throw Error("DisclaimerOpen: closeCallback is required");
+	}
+	// Check if the player has already accepted the disclaimer and just trying to log in
+	const accepted = (LogValue("Accepted", "Disclaimer") ?? 0) >= DisclaimerVersion;
+	if (accepted && ServerIsLoggedIn()) {
+		closeCallback(accepted);
+		return true;
+	}
+	DisclaimerCloseCallback = closeCallback;
+	CommonSetScreen("Character", "Disclaimer");
+
+	return false;
+}
+
 function DisclaimerAccept() {
 	LogAdd("Accepted", "Disclaimer", DisclaimerVersion);
 	const closeCallback = DisclaimerCloseCallback;
@@ -149,27 +157,10 @@ function DisclaimerAccept() {
 		closeCallback(true);
 		return;
 	}
-	CharacterCreatePlayer();
-	InventoryRemove(Player, "ItemFeet");
-	InventoryRemove(Player, "ItemLegs");
-	InventoryRemove(Player, "ItemArms");
-	CharacterAppearanceSetDefault(Player);
-
-	// Redirect the player to the login screen after they have their character created
-	CharacterAppearanceLoadCharacter(Player, (result) => {
-		if (result)
-			CommonSetScreen("Character", "Creation");
-		else
-			CommonSetScreen("Character", "Login");
-	});
 }
 
 function DisclaimerResize() {
 	ElementSetPosition(DisclaimerIDs.screen, 100, 100);
 	ElementSetSize(DisclaimerIDs.screen, 1800, 800);
 	ElementSetFontSize(DisclaimerIDs.screen, "auto");
-}
-
-function DisclaimerIsAccepted() {
-	return LogValue("Accepted", "Disclaimer") ?? 0 >= DisclaimerVersion;
 }

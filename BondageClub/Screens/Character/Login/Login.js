@@ -11,60 +11,60 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-"AlexG", 
-"Asriel", 
-"Aybes", 
-"Brad", 
-"bryce", 
-"Canti", 
-"Cerberus", 
-"Christian", 
-"Claudia", 
-"Cm382714", 
-"Deamonfox", 
-"Deluxe", 
-"Desch", 
-"Dragokahn", 
-"dynilath", 
-"EBXD", 
-"Edwin", 
-"Exusiai", 
-"Fabian", 
-"George", 
-"Greendragon", 
-"Hhhhh", 
-"I.F.S.", 
-"john", 
-"Jonas", 
-"Kim", 
-"Laurie", 
-"Mario", 
-"Michel", 
-"Mindtie", 
-"Misa", 
-"NeReFox", 
-"Nikita", 
-"Optical", 
-"PristessSakura", 
-"Schrödingers", 
-"shadowhack", 
-"Soulcollar", 
-"Soulrunner", 
-"Spare2", 
-"Sticks", 
-"Sunny", 
-"Tam", 
-"Tarram1010", 
-"Teli", 
-"Thkdt", 
-"Troubadix", 
-"Troy", 
-"Ultimate", 
-"Water", 
-"WhiteSniper", 
-"XDWolfie", 
-"Xepherio", 
-"云雪", 
+"AlexG",
+"Asriel",
+"Aybes",
+"Brad",
+"bryce",
+"Canti",
+"Cerberus",
+"Christian",
+"Claudia",
+"Cm382714",
+"Deamonfox",
+"Deluxe",
+"Desch",
+"Dragokahn",
+"dynilath",
+"EBXD",
+"Edwin",
+"Exusiai",
+"Fabian",
+"George",
+"Greendragon",
+"Hhhhh",
+"I.F.S.",
+"john",
+"Jonas",
+"Kim",
+"Laurie",
+"Mario",
+"Michel",
+"Mindtie",
+"Misa",
+"NeReFox",
+"Nikita",
+"Optical",
+"PristessSakura",
+"Schrödingers",
+"shadowhack",
+"Soulcollar",
+"Soulrunner",
+"Spare2",
+"Sticks",
+"Sunny",
+"Tam",
+"Tarram1010",
+"Teli",
+"Thkdt",
+"Troubadix",
+"Troy",
+"Ultimate",
+"Water",
+"WhiteSniper",
+"XDWolfie",
+"Xepherio",
+"云雪",
 ];
 
 /* eslint-enable */
@@ -307,7 +307,7 @@ async function LoginLoad() {
 	});
 
 	const register = ElementButton.Create(LoginIDs.register, () => {
-		CommonSetScreen("Character", "Disclaimer");
+		LoginDone();
 	},
 	{
 		label: TextGet("NewCharacter"),
@@ -1182,50 +1182,62 @@ function LoginSetupPlayer(C) {
 
 /**
  * Routes the player to the correct post-login screen after the disclaimer flow completes.
- * @param {boolean} accepted
  * @returns {void} Nothing
  */
-function LoginDone(accepted) {
-	if (!DisclaimerIsAccepted()) {
-		DisclaimerOpen((isAccepted) => {
-			if (isAccepted) {
-				LoginDone(true);
-			} else {
-				window.location.reload();
-			}
-		});
-		return;
-	}
+function LoginDone() {
+	DisclaimerOpen((isAccepted) => {
+		if (isAccepted && !ServerIsLoggedIn()) {
+			CharacterCreatePlayer();
+			InventoryRemove(Player, "ItemFeet");
+			InventoryRemove(Player, "ItemLegs");
+			InventoryRemove(Player, "ItemArms");
+			CharacterAppearanceSetDefault(Player);
 
-	// We're done loading, now start the player in whatever screen is appropriate
-	if (LogQuery("Locked", "Cell")) {
-		// The player has been locked up, they must log back in the cell
-		CommonSetScreen("Room", "Cell");
-	} else if (Player.Infiltration?.Punishment && (Player.Infiltration.Punishment.Timer ?? 0) > CurrentTime) {
-		// The player must log back in Pandora's Box prison
-		PandoraWillpower = 0;
-		InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
-		CommonSetScreen("Room", "PandoraPrison");
-	} else if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
-		// The player must log back in the asylum
-		if (AsylumGGTSGetLevel(Player) <= 5) {
-			AsylumEntranceWearPatientClothes(Player, true);
-		} else {
-			AsylumGGTSDroneDress(Player);
+			// Redirect the player to the login screen after they have their character created
+			CharacterAppearanceLoadCharacter(Player, (result) => {
+				if (result)
+					CommonSetScreen("Character", "Creation");
+				else
+					CommonSetScreen("Character", "Login");
+			});
+		} else if (!isAccepted) {
+			window.location.reload();
+		} else if (isAccepted && ServerIsLoggedIn()) {
+			LoginDoneInternal();
 		}
-		CommonSetScreen("Room", "AsylumBedroom");
-	} else if (LogValue("ForceGGTS", "Asylum") ?? 0 > 0) {
-		// The owner is forcing the player to do GGTS
-		CommonSetScreen("Room", "AsylumEntrance");
-	} else if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
-		// The player must start in her room, in her cage
-		InventoryRemove(Player, "ItemFeet");
-		InventoryRemove(Player, "ItemLegs");
-		Player.Cage = true;
-		PoseSetActive(Player, "Kneel", true);
-		CommonSetScreen("Room", "Private");
-	} else {
-		CommonSetScreen("Room", "MainHall");
+	});
+
+	function LoginDoneInternal() {
+		// We're done loading, now start the player in whatever screen is appropriate
+		if (LogQuery("Locked", "Cell")) {
+			// The player has been locked up, they must log back in the cell
+			CommonSetScreen("Room", "Cell");
+		} else if (Player.Infiltration?.Punishment && (Player.Infiltration.Punishment.Timer ?? 0) > CurrentTime) {
+			// The player must log back in Pandora's Box prison
+			PandoraWillpower = 0;
+			InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
+			CommonSetScreen("Room", "PandoraPrison");
+		} else if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
+			// The player must log back in the asylum
+			if (AsylumGGTSGetLevel(Player) <= 5) {
+				AsylumEntranceWearPatientClothes(Player, true);
+			} else {
+				AsylumGGTSDroneDress(Player);
+			}
+			CommonSetScreen("Room", "AsylumBedroom");
+		} else if (LogValue("ForceGGTS", "Asylum") ?? 0 > 0) {
+			// The owner is forcing the player to do GGTS
+			CommonSetScreen("Room", "AsylumEntrance");
+		} else if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
+			// The player must start in her room, in her cage
+			InventoryRemove(Player, "ItemFeet");
+			InventoryRemove(Player, "ItemLegs");
+			Player.Cage = true;
+			PoseSetActive(Player, "Kneel", true);
+			CommonSetScreen("Room", "Private");
+		} else {
+			CommonSetScreen("Room", "MainHall");
+		}
 	}
 }
 
@@ -1273,7 +1285,7 @@ function LoginResponse(C) {
 
 	ServerIsLoggedIn_ = true;
 
-	DisclaimerOpen(LoginDone);
+	LoginDone();
 }
 
 /** Check if the player's browser has ES2020 support */
