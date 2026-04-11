@@ -1186,8 +1186,14 @@ function LoginSetupPlayer(C) {
  * @returns {void} Nothing
  */
 function LoginDone(accepted) {
-	if (!accepted) {
-		window.location.reload();
+	if (!DisclaimerIsAccepted()) {
+		DisclaimerOpen((isAccepted) => {
+			if (isAccepted) {
+				LoginDone(true);
+			} else {
+				window.location.reload();
+			}
+		});
 		return;
 	}
 
@@ -1221,18 +1227,6 @@ function LoginDone(accepted) {
 	} else {
 		CommonSetScreen("Room", "MainHall");
 	}
-}
-
-/**
- * Shows the disclaimer after login when required, then continues the login flow.
- * @returns {void} Nothing
- */
-function LoginOpenDisclaimer() {
-	if (!DisclaimerIsAccepted()) {
-		DisclaimerOpen(LoginDone);
-		return;
-	}
-	LoginDone(true);
 }
 
 /**
@@ -1279,7 +1273,7 @@ function LoginResponse(C) {
 
 	ServerIsLoggedIn_ = true;
 
-	LoginOpenDisclaimer();
+	DisclaimerOpen(LoginDone);
 }
 
 /** Check if the player's browser has ES2020 support */

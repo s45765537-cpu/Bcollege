@@ -103,7 +103,10 @@ async function DisclaimerLoad() {
  * @returns {void}
  */
 function DisclaimerOpen(closeCallback) {
-	DisclaimerCloseCallback = closeCallback ?? null;
+	if (!closeCallback) {
+		throw Error("DisclaimerOpen: closeCallback is required");
+	}
+	DisclaimerCloseCallback = closeCallback;
 	CommonSetScreen("Character", "Disclaimer");
 }
 
