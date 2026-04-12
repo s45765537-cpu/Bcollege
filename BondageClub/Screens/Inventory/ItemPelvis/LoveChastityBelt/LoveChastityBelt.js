@@ -14,7 +14,7 @@ const InventoryItemPelvisLoveChastityBeltCrotchShield = new Map([
 ]);
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
-function InventoryItemPelvisLoveChastityBeltDraw(Data, OriginalFunction) {
+function InventoryItemPelvisLoveChastityBeltDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 	if (Data.currentModule === ModularItemBase) {
 		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
@@ -60,7 +60,7 @@ function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Validate<ModularItemData, ModularItemOption>} */
-function InventoryItemPelvisLoveChastityBeltValidate(Data, OriginalFunction, C, Item, Option, CurrentOption) {
+function InventoryItemPelvisLoveChastityBeltValidateHook(Data, OriginalFunction, C, Item, Option, CurrentOption) {
 	const Prefix = `${Item.Asset.Group.Name}${Item.Asset.Name}`;
 	const Module = Data.modules.find((m) => m.Key === Option.Name[0]) || { Name: null };
 	const FrontShield = ModularItemParseCurrent(Data, Item.Property.TypeRecord)[0];

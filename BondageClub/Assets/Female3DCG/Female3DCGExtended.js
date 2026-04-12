@@ -19318,8 +19318,8 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { ShowText: true },
 			ScriptHooks: {
 				SetOption: InventoryItemPelvisLoveChastityBeltSetOptionHook,
-				Draw: InventoryItemPelvisLoveChastityBeltDraw,
-				Validate: InventoryItemPelvisLoveChastityBeltValidate,
+				Draw: InventoryItemPelvisLoveChastityBeltDrawHook,
+				Validate: InventoryItemPelvisLoveChastityBeltValidateHook,
 				Click: (...args) => {
 					InventoryItemPelvisSciFiPleasurePantiesClickHook(...args, false);
 				},
@@ -19337,7 +19337,7 @@ var AssetFemale3DCGExtended = {
 				Draw: InventoryItemPelvisFuturisticTrainingBeltDrawHook,
 				Exit: InventoryItemPelvisFuturisticTrainingBeltExitHook,
 				Validate: FuturisticAccessValidate,
-				ScriptDraw: AssetsItemPelvisFuturisticTrainingBeltScriptDraw,
+				ScriptDraw: AssetsItemPelvisFuturisticTrainingBeltScriptDrawHook,
 			},
 			BaselineProperty: {
 				ShowText: false,

@@ -684,7 +684,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data, drawData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<VibratingItemData, FuturisticTrainingBeltPersistentData>} */
-function AssetsItemPelvisFuturisticTrainingBeltScriptDraw(data, originalFunction, drawData) {
+function AssetsItemPelvisFuturisticTrainingBeltScriptDrawHook(data, originalFunction, drawData) {
 	var persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
 	const property = (drawData.Item.Property = drawData.Item.Property || {});
