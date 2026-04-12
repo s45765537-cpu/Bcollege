@@ -47608,8 +47608,9 @@ var AssetFemale3DCG = [
 				Audio: "ClothSlip",
 				InventoryID: 1322,
 				Fetish: ["Lingerie"],
-				Value: 30,
+				AllowLock: true,
 				Difficulty: 0,
+				Value: 30,
 				Time: 1,
 				DefaultColor: ["#FF0000", "#FF0000", "#FF0000", "#D4AF37"],
 				Layer: [
