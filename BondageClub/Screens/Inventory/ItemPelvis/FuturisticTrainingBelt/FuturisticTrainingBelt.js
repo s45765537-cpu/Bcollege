@@ -680,7 +680,7 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data, drawData
 }
 
 /**
- * @typedef {{ UpdateTime?: number, LastMessageLen?: number, CheckTime?: number, DeviceState?: number, DeviceStateTimer?: number, DeviceVibeMode?: VibratorMode }} FuturisticTrainingBeltPersistentData
+ * @typedef {{ UpdateTime?: number, LastMessageLen?: number, CheckTime?: number, DeviceState?: number, DeviceStateTimer?: number, DeviceVibeMode?: VibratorMode } & AnimationPersistentData} FuturisticTrainingBeltPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<VibratingItemData, FuturisticTrainingBeltPersistentData>} */

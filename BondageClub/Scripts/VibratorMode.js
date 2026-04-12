@@ -397,7 +397,7 @@ function VibratorModeSetAssetProperties(data) {
 }
 
 /**
- * @typedef {{ Mode?: VibratorMode, ChangeTime?: number, LastChange?: number }} VibratorModePersistentData
+ * @typedef {{ Mode?: VibratorMode, ChangeTime?: number, LastChange?: number } & AnimationPersistentData} VibratorModePersistentData
  */
 
 /**

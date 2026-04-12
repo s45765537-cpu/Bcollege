@@ -131,7 +131,7 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 }
 
 /**
- * @typedef {{ UpdateTime?: number, LastMessageLen?: number }} FuturisticChastityBeltPersistentData
+ * @typedef {{ UpdateTime?: number, LastMessageLen?: number } & AnimationPersistentData} FuturisticChastityBeltPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.ScriptDraw<FuturisticChastityBeltPersistentData>} */

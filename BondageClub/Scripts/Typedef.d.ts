@@ -2888,7 +2888,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A non-empty message string if the item failed validation, or an empty string otherwise
 	 */
 	type Validate<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string>;
 	/**
 	 * Callback for extended item `PublishAction` functions.
@@ -2899,7 +2899,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param previousOption The previously selected extended item option
 	 */
 	type PublishAction<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType]>;
 	/**
 	 * Callback for extended item `Init` functions.
@@ -2921,7 +2921,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 */
 	type SetOption<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean, refresh: boolean]>;
 	/**
 	 * Callback for extended item `AfterDraw` functions.
@@ -2929,7 +2929,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param drawData The dynamic draw data
 	 */
 	type AfterDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -2938,7 +2938,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A record with any and all to-be overriden draw data
 	 */
 	type BeforeDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
@@ -2946,7 +2946,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param drawData The dynamic draw data
 	 */
 	type ScriptDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -3061,7 +3061,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type AfterDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -3073,7 +3073,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type BeforeDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
@@ -3084,7 +3084,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type ScriptDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -4292,7 +4292,7 @@ interface DynamicBeforeDrawOverrides {
 
 type DynamicDrawTextEffect = "burn";
 
-interface DynamicScriptCallbackData<T extends Record<string, any> = Record<string, unknown>> {
+interface DynamicScriptCallbackData<T extends AnimationPersistentData = AnimationPersistentData> {
 	C: Character;
 	Item: Item;
 	PersistentData: () => T;

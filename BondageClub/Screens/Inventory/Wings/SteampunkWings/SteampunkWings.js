@@ -2,7 +2,7 @@
 'use strict';
 
 /**
- * @typedef {{ State?: number, StateGears?: number, Modifier?: number, ModifierGears?: number, ChangeTime?: number, FrameTime?: number, DrawRequested?: boolean }} SteampunkWingsPersistentData
+ * @typedef {{ State?: number, StateGears?: number, Modifier?: number, ModifierGears?: number, ChangeTime?: number, FrameTime?: number, DrawRequested?: boolean } & AnimationPersistentData} SteampunkWingsPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<SteampunkWingsPersistentData>} */
