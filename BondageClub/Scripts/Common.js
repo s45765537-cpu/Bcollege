@@ -449,33 +449,36 @@ function CommonDynamicFunctionParams(FunctionName) {
  *  CommonDynamicFunctionParams in that arguments are not parsed from the passed in FunctionName string, but
  *  passed directly into the function call, allowing for more complex JS objects to be passed in. This
  *  function will not log to console if the provided function name does not exist as a global function.
- * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
- * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
+ * @template {keyof WindowFunctions} T
+ * @param {T} FunctionName - The name of the global function to call
+ * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
+ * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByName(FunctionName, ...args) {
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	const func = namespace[FunctionName];
+	const func = window[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
+	} else {
+		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
+		return undefined;
 	}
 }
 
 /**
  * Behaves exactly like CommonCallFunctionByName, but logs a warning if the function name is invalid.
- * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
- * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
+ * @template {keyof WindowFunctions} T
+ * @param {T} FunctionName - The name of the global function to call
+ * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
+ * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByNameWarn(FunctionName, ...args) {
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	const func = namespace[FunctionName];
+	const func = window[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
 		console.warn(`Attempted to call invalid function "${FunctionName}"`);
+		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
+		return undefined;
 	}
 }
 
@@ -2538,6 +2541,7 @@ function CommonTestSatisfies() {
 	const foo = {
 		/** @type {{ [key in `${RoomName}Background`]?: string }} */
 		Background: globalThis,
+
 		/** @type {{ [key in `${RoomName}Run`]: ScreenRunHandler }} */
 		Run: globalThis,
 		/** @type {{ [key in `${RoomName}MouseDown`]?: MouseEventListener }} */
@@ -2566,6 +2570,31 @@ function CommonTestSatisfies() {
 		Paste: globalThis,
 		/** @type {{ [key in `${RoomName}Exit`]?: ScreenExitHandler }} */
 		Exit: globalThis,
+
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Init`]?: ExtendedItemCallbacks.Init }} */
+		ExtendedItemInit: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Load`]?: ExtendedItemCallbacks.Load }} */
+		ExtendedItemLoad: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }} */
+		ExtendedItemDraw: globalThis,
+		/** @type {{ [key in `Inventor${AssetGroupName}y${string}Click`]?: ExtendedItemCallbacks.Click }} */
+		ExtendedItemClick: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }} */
+		ExtendedItemExit: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Validate`]?: ExtendedItemCallbacks.Validate }} */
+		ExtendedItemValidate: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}PublishAction`]?: ExtendedItemCallbacks.PublishAction }} */
+		ExtendedItemPublishAction: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}SetOption`]?: ExtendedItemCallbacks.SetOption }} */
+		ExtendedItemSetOption: globalThis,
+		/** @type {{ [key in `Assets${AssetGroupName}${string}BeforeDraw`]?: ExtendedItemCallbacks.BeforeDraw }} */
+		ExtendedItemBeforeDraw: globalThis,
+		/** @type {{ [key in `Assets${AssetGroupName}${string}AfterDraw`]?: ExtendedItemCallbacks.AfterDraw }} */
+		ExtendedItemAfterDraw: globalThis,
+		/** @type {{ [key in `Assets${AssetGroupName}${string}ScriptDraw`]?: ExtendedItemCallbacks.ScriptDraw }} */
+		ExtendedItemScriptDraw: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}NpcDialog`]?: (C: Character, Option: ExtendedItemOption, PreviousOption: ExtendedItemOption) => void }} */
+		ExtendedItemNpcDialog: globalThis,
 	};
 }
 

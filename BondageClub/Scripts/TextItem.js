@@ -101,6 +101,7 @@ function TextItemCreateTextItemData(asset, {
 
 	DialogPrefix = DialogPrefix || {};
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.TEXT : parentOption.Name);
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	return TextItemDataLookup[key] = {
 		archetype: ExtendedArchetype.TEXT,

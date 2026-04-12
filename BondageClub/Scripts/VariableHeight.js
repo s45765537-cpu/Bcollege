@@ -94,6 +94,7 @@ function VariableHeightCreateData(asset,
 	parentOption=null)
 {
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.VARIABLEHEIGHT : parentOption.Name);
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	DialogPrefix = DialogPrefix || {};
 

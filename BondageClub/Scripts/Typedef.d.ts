@@ -1748,7 +1748,10 @@ interface ScreenFunctions {
 // Note that most of them can still be undefined
 /** See {@link CommonTestSatisfies} */
 type ScreenFunctionsSymbols = Prettify<(
+	// Backgrounds
 	{ [key in `${RoomName}Background`]?: string }
+
+	// Screen functions
 	& { [key in `${RoomName}Run`]: ScreenRunHandler }
 	& { [key in `${RoomName}MouseDown`]?: MouseEventListener }
 	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
@@ -1763,6 +1766,20 @@ type ScreenFunctionsSymbols = Prettify<(
 	& { [key in `${RoomName}KeyUp`]?: KeyboardEventListener }
 	& { [key in `${RoomName}Paste`]?: ClipboardEventListener }
 	& { [key in `${RoomName}Exit`]?: ScreenExitHandler }
+
+	// Extended item functions (dynamically generated and assigned to `Window`)
+	& { [key in `Inventory${AssetGroupName}${string}Init`]?: ExtendedItemCallbacks.Init }
+	& { [key in `Inventory${AssetGroupName}${string}Load`]?: ExtendedItemCallbacks.Load }
+	& { [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }
+	& { [key in `Inventory${AssetGroupName}${string}Click`]?: ExtendedItemCallbacks.Click }
+	& { [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }
+	& { [key in `Inventory${AssetGroupName}${string}Validate`]?: ExtendedItemCallbacks.Validate }
+	& { [key in `Inventory${AssetGroupName}${string}PublishAction`]?: ExtendedItemCallbacks.PublishAction }
+	& { [key in `Inventory${AssetGroupName}${string}SetOption`]?: ExtendedItemCallbacks.SetOption }
+	& { [key in `Assets${AssetGroupName}${string}BeforeDraw`]?: ExtendedItemCallbacks.BeforeDraw }
+	& { [key in `Assets${AssetGroupName}${string}AfterDraw`]?: ExtendedItemCallbacks.AfterDraw }
+	& { [key in `Assets${AssetGroupName}${string}ScriptDraw`]?: ExtendedItemCallbacks.ScriptDraw }
+	& { [key in `Inventory${AssetGroupName}${string}NpcDialog`]?: (C: Character, Option: ExtendedItemOption, PreviousOption: ExtendedItemOption) => void }
 )>;
 interface Window extends ScreenFunctionsSymbols {}
 
@@ -3100,9 +3117,9 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	/** A key uniquely identifying the asset */
 	key: string;
 	/** The common prefix used for all extended item functions associated with the asset */
-	functionPrefix: string;
+	functionPrefix: `Inventory${AssetGroupName}${string}`;
 	/** The common prefix used for all dynamic asset hook functions for the asset */
-	dynamicAssetsFunctionPrefix: string;
+	dynamicAssetsFunctionPrefix: `Assets${AssetGroupName}${string}`;
 	/** An array of the chat message tags that should be included in the item's chatroom messages. */
 	chatTags: CommonChatTags[];
 	/** Contains custom dictionary entries in the event that the base ones do not suffice. */
@@ -3901,6 +3918,9 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 // #endregion
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+/** The {@link Window} type with all non-function values removed (though they may still be optional) */
+type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends Function ? k : never]: Window[k] };
 
 // #region Struggle Minigame
 

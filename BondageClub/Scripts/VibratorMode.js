@@ -260,6 +260,7 @@ function VibratorModeCreateData(
 ) {
 	const modeSet = Array.isArray(Options) ? Options : Object.values(VibratorModeSet);
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.VIBRATING : parentOption.Name);
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	DialogPrefix = DialogPrefix || {};
 

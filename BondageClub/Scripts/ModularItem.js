@@ -263,6 +263,7 @@ function ModularItemCreateModularData(asset, {
 	// Only enable DrawImages in the base screen if all module-specific DrawImages are true
 	const BaseDrawImages = (typeof DrawImages !== "boolean") ? ModulesParsed.every((m) => m.DrawImages) : DrawImages;
 
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}`;
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.MODULAR : parentOption.Name);
 	DialogPrefix = DialogPrefix || {};
@@ -375,7 +376,7 @@ function ModularItemDrawCommon(
 	{ paginate, pageCount, elementData, itemsPerPage },
 ) {
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Draw");
+		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Draw`);
 		return;
 	}
 
@@ -500,7 +501,7 @@ function ModularItemClickModule(module, data) {
  */
 function ModularItemClickCommon(data, { paginate, elementData, itemsPerPage }, exitCallback, itemCallback, paginateCallback, pageNumber) {
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click");
+		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Click`);
 		return;
 	}
 
