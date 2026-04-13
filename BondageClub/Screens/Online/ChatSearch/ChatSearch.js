@@ -1642,7 +1642,6 @@ function ChatSearchToggleSearchMode() {
 			ElementValue("InputFilter", ChatSearchFilterTermsTemp);
 			ChatSearchMode = "Filter";
 			ChatSearchQuery("");
-			ChatSearchQuerySort();
 			break;
 
 		case "Filter":
@@ -1825,11 +1824,11 @@ function ChatSearchParseResponse(searchResults) {
  */
 function ChatSearchResultResponse(data) {
 	if (PandoraPenitentiaryIsInmate(Player)) {
-		PandoraPenitentiaryResult(ChatSearchParseResponse(data ?? []));
+		PandoraPenitentiaryResult(ChatSearchParseResponse(data));
 		return;
 	}
 	ElementContent("InputSearch-datalist", "");
-	ChatSearchResult = ChatSearchParseResponse(data ?? []);
+	ChatSearchResult = ChatSearchParseResponse(data);
 	ChatSearchResultOffset = 0;
 	ChatSearchQuerySort();
 	ChatSearchApplyFilterTerms();
@@ -1960,10 +1959,13 @@ async function ChatSearchQuery(Query) {
 		MapTypes: Player.ChatSearchSettings.MapTypes ? [Player.ChatSearchSettings.MapTypes] : [],
 		SearchDescs: Player.ChatSearchSettings.SearchDescriptions,
 	};
+
 	const res = await ServerRoomSearch(Query.toUpperCase().trim(), SearchData);
-	if (res.ok) {
-		ChatSearchResult = ChatSearchParseResponse(res.value ?? []);
+	if (res.err) {
+		return;
 	}
+
+	ChatSearchResultResponse(res.value ?? []);
 }
 
 /**
