@@ -47617,6 +47617,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1322,
 				Fetish: ["Lingerie"],
 				AllowLock: true,
+				DrawLocks: false,
 				Difficulty: 0,
 				Value: 30,
 				Time: 1,
