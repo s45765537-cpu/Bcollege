@@ -44,7 +44,6 @@ function ServerInit() {
 	}));
 	ServerSocket.on("LoginQueue", function (data) { LoginQueue(data); });
 	ServerSocket.on("ForceDisconnect", function (data) { ServerDisconnect(data, true); });
-	ServerSocket.on("ChatRoomSearchResult", function (data) { ChatSearchResultResponse(data); });
 	ServerSocket.on("ChatRoomSearchResponse", function (data) { ChatSearchResponse(data); });
 	ServerSocket.on("ChatRoomCreateResponse", function (data) { ChatCreateResponse(data); });
 	ServerSocket.on("ChatRoomUpdateResponse", function (data) { ChatAdminResponse(data); });
