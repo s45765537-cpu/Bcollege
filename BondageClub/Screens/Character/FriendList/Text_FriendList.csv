@@ -6,6 +6,7 @@ MemberNickname,Nickname
 MemberNumber,Member number
 ChatRoomName,Chat room
 ChatRoomType,Room type
+ChatRoomMemberCount,Chat room size
 RelationType,Relation type
 ActionFriends,Send a Beep
 ActionRead,Read a Beep

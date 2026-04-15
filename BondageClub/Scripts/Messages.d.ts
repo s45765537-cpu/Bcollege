@@ -318,6 +318,8 @@ interface ServerFriendInfo {
     MemberName: string;
     ChatRoomSpace?: ServerChatRoomSpace | null;
     ChatRoomName?: string | null;
+	ChatRoomLimit?: number;
+	ChatRoomMemberCount?: number;
     Private?: true | undefined;
 }
 
