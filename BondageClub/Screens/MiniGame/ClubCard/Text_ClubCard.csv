@@ -137,7 +137,7 @@ Text Accountant,+1 Money per turn at House level or better.  +1 Money per turn a
 Title Secretary,Secretary
 Text Secretary,Your timed events will last one extra turn.
 Title Associate,Associate
-Text Associate,You can play one extra card per turn.
+Text Associate,"You can play an extra card each turn, if you use all actions in turn lose 4 Money, doubled at Manor level."
 Title Human Resource,Human Resource
 Text Human Resource,Draw an extra card each time you end your turn by drawing a card.
 Title Policewoman,Policewoman
@@ -211,7 +211,7 @@ Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
 Text Doctor,+3 Fame per turn for each Asylum Patient present. Max 12
 Title Picky Nurse,Picky Nurse
-Text Picky Nurse,Only enters if 2 Asylum Patient or more are present.  Leaves if there are less than 2 Asylum Patient.
+Text Picky Nurse,"Enters and Active (once per turn): Set her fame to the tier of the highest tier patient present."
 Title Amateur Rigger,Amateur Rigger
 Text Amateur Rigger,<F>Purple hands?  I'm sure it's normal.
 Title Domme,Domme
@@ -323,7 +323,7 @@ Text Virtual Meeting,Draw 2 cards
 Title Weekend Meeting,Weekend Meeting
 Text Weekend Meeting,Draw 3 cards
 Title Fancy Meeting,Fancy Meeting
-Text Fancy Meeting,Draw 5 cards
+Text Fancy Meeting,Draw 4 cards
 Title Prank,Prank
 Text Prank,Your opponent discards 2 random cards.
 Title Sabotage,Sabotage
@@ -467,7 +467,7 @@ Text Shibari Lover,"When this card or another Shibari member enters your club, p
 Title Goddess of Ropes,Goddess of Ropes
 Text Goddess of Ropes,"When you play a Shibari card, play a random Knot from your deck." 
 Title Rope Slinger,Rope Slinger
-Text Rope Slinger,"When she enters your club, play all knots in your hand. When you upgrade your building, return this member to your hand."
+Text Rope Slinger,"Active (once per turn): Play all knots in your hand."
 Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Play all Knots in your hand, deck, and streets and shuffle them into your deck."
 Title Living Art,Living Art
@@ -520,7 +520,7 @@ Prerequisite Moon,Choose a member to create an illusory copy of that card in you
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"Enters: Steal 2 Fame. When you steal with another effect, steal 1 Fame and Money."
 Title Earner,Earner
-Text Earner,"Gain +1 Money for each member in your streets. (Max +4)"
+Text Earner,"Gain +1 Money for each member in your streets. (Max +7) Enters: Discard a random member from your deck."
 Title Naughty Baby,Naughty Baby
 Text Naughty Baby,"Enters: Steal 4 money if no Police are present. Then steal 4 fame if no Police are present in opponent's club."
 Title Consigliere,Consigliere
@@ -550,7 +550,7 @@ Text Tax Auditor,"Enters: Select a level 3 or lower member in your opponent's cl
 Prerequisite Tax Auditor,Select a member from your opponent club to set its money to 1
 GroupKemonomimi,Kemonomimi
 Title Beat Cop,Beat Cop
-Text Beat Cop,"Cannot be targeted by other cards. Enters: Shuffle each player's streets into their deck."
+Text Beat Cop,"Cannot be targeted by other cards. Enters: Shuffle 4 cards from each player's streets into their deck."
 Title Knot Tester,Knot Tester
 Text Knot Tester,"Enters: Play a random Knot event from your deck."
 Title Insurance Agent,Insurance Agent
@@ -693,7 +693,7 @@ Text Exotic Dancer,"Gains +1 Fame if there are at least 16 members in your club,
 Title Flasher,Flasher
 Text Flasher,"Receive 1 Fame when a member enters your club. Enters: Add 2 Nude Photos to your opponent's deck."
 Title Window Shopper,Window Shopper
-Text Window Shopper,"Gain +4 Fame if there are at least 12 visible exhibitionists. When you play streaker, exotic dancer, or nudist, play again."
+Text Window Shopper,"Gain +4 Fame if there are at least 12 visible exhibitionists. Once per turn: When you play streaker, exotic dancer, or nudist, play again."
 Title Lingerie Model,Lingerie Model
 Text Lingerie Model,"Enters: Add 3 New Clothes to your opponent's deck."
 Title Procuress,Procuress
@@ -726,3 +726,40 @@ Effect Tifa Draw,"SOURCEPLAYER draw a card from Tifa"
 ActiveEffect,Activate Effect.
 DrawThisCard,Draw This Card.
 SendToStreets,Send To Streets.
+GroupLatex,Latex
+Title Latex Amateur,Latex Amateur
+Text Latex Amateur,"Gains +1 Base fame each time you take the draw action (Max 3), resets to 0 base fame when you play a card."
+Title Suit polisher,Suit polisher
+Text Suit polisher,"Gains +1 base Money each time you take the draw action (Max 3), resets to 0 base Money when you play a card."
+Title Shine lover,Shine lover
+Text Shine lover,"When you take the draw action, you gain 1 money for each latex member in your club (Max=club level)"
+Title Color Mixer,Color Mixer
+Text Color Mixer,"Enters: Choose a non-latex member in your club, this member gains all of the selected member's types."
+Title Vac-bed Patient,Vac-bed Patient
+Text Vac-bed Patient,"When you take the draw action, gain 1 fame and 1 money."
+Title Tight Squeeze,Tight Squeeze
+Text Tight Squeeze,"When you draw this member with the draw action, add it to your club."
+Title Latex Drone,Latex Drone
+Text Latex Drone," "
+Title Encased,Encased
+Text Encased,Leaves your club if you play a card.
+Title Condom Suit,Condom Suit
+Text Condom Suit,"When you take the draw action, gets +1 Fame and Money (Max 5). When you play a card, negates herself."
+Title Latex Nurse,Latex Nurse
+Text Latex Nurse,"Enters: Select a member in your hand to discard to summon a "Vac-bed Patient" to your club."
+Title Exquisite Suit,Exquisite Suit
+Text Exquisite Suit,"When you take the draw action, gain 1 fame for each latex member in your club."
+Title Full Catsuit,Full Catsuit
+Text Full Catsuit,"Gains +2 Base Fame and +2 Base Money each time you take the draw action (Max 5)"
+Title Goddess Gleem,Goddess Gleem
+Text Goddess Gleem,Gains +4 Base fame each time you take the draw action.
+Title Polish and Shine,Polish and Shine
+Text Polish and Shine,"Put 2 random tier 3 or lower members in your hand into your club, gain 5 money for each Fetishist or Latex member played this way."
+Title Fully Encased,Fully Encased
+Text Fully Encased,"For the next 12 turns, each time you take the draw action you gain 1 fame for each turn this card has been on the field."
+Title Intense Training,Intense Training
+Text Intense Training,Play a Shibari card of your choice from your streets. 
+Title The Butler,The Butler
+Text The Butler,"Police no longer prevent steal effects. When your opponent plays a criminal, they steal 1 Money."
+Title Personal Assistant,Personal Assistant
+Text Personal Assistant,"If you would discard a Tier 5 card, shuffle it into your deck instead."
