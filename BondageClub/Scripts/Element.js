@@ -852,7 +852,7 @@ function ElementCreateSearchInput(id, dataCallback, options=undefined, htmlOptio
 	return ElementCreate({
 		...htmlOptions.search,
 		tag: "input",
-		parent: options.parent,
+		parent: options.parent ?? document.body,
 		attributes: {
 			id,
 			type: "search",
