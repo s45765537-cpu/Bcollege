@@ -1210,9 +1210,6 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * @returns {Item | null} - Thew newly created item or `undefined` if the asset does not exist
  */
 function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, DifficultyFactor=null, ItemMemberNumber=null) {
-	if (!ItemAsset) {
-		return null;
-	}
 
 	// Sets the difficulty factor
 	DifficultyFactor ??= 0;
@@ -1224,8 +1221,15 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
 	);
 
 	if (prevItem) {
-		NewColor ??= !prevItem.item.Color || prevItem.item.Color === "Default" ? [...ItemAsset.DefaultColor] : prevItem.item.Color;
 		C.Appearance.splice(prevItem.index, 1);
+	}
+
+	if (!ItemAsset) {
+		return null;
+	}
+
+	if (prevItem) {
+		NewColor ??= !prevItem.item.Color || prevItem.item.Color === "Default" ? [...ItemAsset.DefaultColor] : prevItem.item.Color;
 	} else {
 		NewColor ??= [...ItemAsset.DefaultColor];
 	}
