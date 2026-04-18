@@ -106,7 +106,7 @@ function CommonGetFormatDate() {
  * @returns {boolean} - Returns TRUE if the user is on a mobile browser
  */
 function CommonDetectMobile() {
-	return globalThis.matchMedia("(hover: none)").matches;
+	return globalThis.matchMedia("(pointer: course)").matches;
 }
 
 /**
