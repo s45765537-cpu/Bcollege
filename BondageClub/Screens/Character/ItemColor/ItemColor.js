@@ -125,6 +125,8 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
 	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
 
+	await ItemColorText.loadedPromise;
+
 	// Add 25 from the width to correct for the hard-coded scrollbar gutter
 	const shape = /** @type {const} */([x, y, width + 25, height]);
 	if (ItemColorState.simpleMode) {
@@ -503,9 +505,11 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 				nameList.push(ItemColorLayerNames.get(`${asset.DynamicGroupName}${asset.Name}${layer.Name ?? ""}`));
 			}
 		}
+
 		options.heading = TextSubstitute(
 			"Heading",
 			{ "{item}": ElementCreate({ tag: "q", children: [nameList.join("/")] }) },
+			{ textCache: ItemColorText }
 		);
 	}
 	options.onExit ??= (_, save) => ItemColorCloseColorPicker(save);
