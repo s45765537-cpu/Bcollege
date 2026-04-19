@@ -2791,7 +2791,7 @@ class DialogMenu {
 			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 			 */
 			_ClickPaginatePrev: function(event) {
-				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" }));
+				document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" }));
 			},
 
 			/**
@@ -2799,7 +2799,7 @@ class DialogMenu {
 			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 			 */
 			_ClickPaginateNext: function(event) {
-				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" }));
+				document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" }));
 			},
 
 			/**
