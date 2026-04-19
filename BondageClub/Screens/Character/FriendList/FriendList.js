@@ -356,23 +356,27 @@ function FriendListKeyDown(event) {
 function FriendListUnload() {
 }
 
-/** @type {ScreenExitHandler} */
-function FriendListExit() {
+/** @t ype {ScreenExitHandler} */
+async function FriendListExit() {
 	const beepMenu = document.getElementById(FriendListIDs.beepList);
 	if (beepMenu) {
 		FriendListBeepMenuClose();
 		return;
 	}
 	ElementRemove(FriendListIDs.root);
+	let screenPromise;
 	if (FriendListReturn != null && FriendListReturn.Screen != "FriendList") {
 		if (FriendListReturn?.Screen === "ChatRoom" && FriendListReturn?.hasScrolledChat) {
 			ElementScrollToEnd("TextAreaChatLog");
 		}
 		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
-		CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
-	} else CommonSetScreen("Character", "InformationSheet");
+		screenPromise = CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
+	} else {
+		screenPromise = CommonSetScreen("Character", "InformationSheet");
+	}
 	FriendListReturn = null;
 	FriendListModeIndex = 0;
+	return screenPromise;
 }
 //#endregion
 
@@ -550,11 +554,13 @@ async function FriendListShowBeep(i) {
  */
 async function FriendListChatSearch(room) {
 	if (FriendListReturn?.Screen !== "ChatSearch") return;
-	FriendListExit();
-	await CommonWaitFor(() => !ScreenIsLoading);
-	// Change the text box so the player still cant read it
+	// XXX: can't use `ChatSearchQuery(room)` here, as `ChatSearchLoad` will trigger a query
+	// before us, which will eat the timeout and cause the empty search to win. So just
+	// overwrite the underlying search string so it searches for that
+	ChatSearchQueryString = room;
+	await FriendListExit();
+	// Change the text box so the player still can't read it
 	ElementValue("InputSearch", ChatSearchMuffle(room));
-	ChatSearchQuery(room);
 }
 
 /** @satisfies {{ [key in (ServerChatRoomSpace | "Private")]: FriendListIcon }} */
