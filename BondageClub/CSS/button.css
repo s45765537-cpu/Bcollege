@@ -296,7 +296,8 @@
 	}
 
 	.button:hover > .button-tooltip,
-	.button:focus > .button-tooltip {
+	.button:active > .button-tooltip,
+	.button:focus-visible > .button-tooltip {
 		visibility: visible;
 	}
 }
