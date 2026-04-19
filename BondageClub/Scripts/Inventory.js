@@ -1016,6 +1016,7 @@ function InventoryRemove(C, AssetGroup, Refresh=true) {
 	for (let E = 0; E < C.Appearance.length; E++)
 		if (C.Appearance[E].Asset.Group.Name == AssetGroup) {
 			C.Appearance.splice(E, 1);
+			BlindFlashQueue = true;
 			if (Refresh) CharacterRefresh(C);
 			return;
 		}

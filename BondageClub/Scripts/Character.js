@@ -1396,15 +1396,18 @@ function CharacterLoadEffect(C) {
 	// Grab any old cached values if available
 	// Do not call `GetBlindLevel()`, as that could potentially try to compute the _old_ blind level using an unrelated _new_ appearance
 	const oldblindlevel = C._BlindLevel ??= 0;
-	if (C.IsPlayer()) {
+	if (C.IsPlayer() && BlindFlashQueue) {
 		// Compute the dark factor, which will internally use the _old_ blind level as (potentially) assigned above
 		DrawLastDarkFactor = CharacterGetDarkFactor(C);
 	}
 	C._BlindLevel = undefined;
 	C.Effect = CharacterGetEffects(C);
-	// Optional on `C.GraphicsSettings` because this can be called before login when showing the player avatar when creating a new account
-	if (C.IsPlayer() && C.GraphicsSettings?.DoBlindFlash && oldblindlevel > 0 && C.GetBlindLevel() === 0) {
-		DrawBlindFlash(oldblindlevel);
+	if (C.IsPlayer() && BlindFlashQueue) {
+		// Optional on `C.GraphicsSettings` because this can be called before login when showing the player avatar when creating a new account
+		if (C.GraphicsSettings?.DoBlindFlash && oldblindlevel > 0 && C.GetBlindLevel() === 0) {
+			DrawBlindFlash(oldblindlevel);
+		}
+		BlindFlashQueue = false;
 	}
 
 	CharacterLoadTints(C);
