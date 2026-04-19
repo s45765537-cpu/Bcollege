@@ -19,6 +19,12 @@ let TempCanvas;
 let ColorCanvas;
 
 var BlindFlash = false;
+
+/**
+ * Whether a blindfold removal screen flash should _potentially_ be performed the next time the player character is refreshed.
+ * Generally assigned by {@link InventoryRemove}.
+ */
+var BlindFlashQueue = false;
 var DrawingBlindFlashTimer = 0;
 
 // A bank of all the chached images
