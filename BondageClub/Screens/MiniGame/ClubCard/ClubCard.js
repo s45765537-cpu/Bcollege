@@ -411,6 +411,7 @@ var ClubCardList = [
 	{
 		ID: 1027,
 		Name: "Personal Assistant",
+		Group: ["Staff"],
 		MoneyPerTurn: 1
 	},
 
@@ -462,14 +463,9 @@ var ClubCardList = [
 		ID: 2004,
 		Name: "Associate",
 		Group: ["Staff"],
+		MoneyPerTurn: -2,
 		ExtraPlay: 1,
-		RequiredLevel: 3,
-		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardTurnCardPlayed >= ClubCardTurnPlayableCardCount(CCPlayer)) {
-				if (CCPlayer.Level == 5) ClubCardPlayerAddMoney(CCPlayer, -8);
-				else ClubCardPlayerAddMoney(CCPlayer, -4);
-			}
-		}
+		RequiredLevel: 3
 	},
 	{
 		ID: 2005,
@@ -2975,20 +2971,21 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		MoneyPerTurn: 5,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (cardPlayed.Name != "Encased") ClubCardRemoveFromBoard(CCPlayer, this);
+			if (!ClubCardCardHasGroup(cardPlayed, "Latex") && cardPlayed.Type !== "Event") ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
 	{
 		ID: 18008,
-		Name: "Condom Suit",
+		Name: "Exquisite Suit",
 		Group: ["Latex"],
 		RequiredLevel: 3,
+		MoneyPerTurn: 1,
 		onDrawAction: function() {
-			if ((this.MoneyPerTurn ?? 0) < 5) this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) + 1;
+			if ((this.MoneyPerTurn ?? 0) < 6) this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) + 1;
 			if ((this.FamePerTurn ?? 0) < 5) this.FamePerTurn = (this.FamePerTurn ?? 0) + 1;
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (cardPlayed.Name !== "Condom Suit") {
+			if (!ClubCardCardHasGroup(cardPlayed, "Latex") && cardPlayed.Type !== "Event") {
 				this.Negated = true;
 				this.Negating = this.UniqueID;
 			}
@@ -3010,14 +3007,10 @@ var ClubCardList = [
 	},
 	{
 		ID: 18010,
-		Name: "Exquisite Suit",
+		Name: "Condom Suit",
 		Group: ["Latex"],
 		RequiredLevel: 4,
-		FamePerTurn: -2,
-		MoneyPerTurn: 6,
-		onDrawAction: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Latex"));
-		}
+		FamePerTurn: 3
 	},
 	{
 		ID: 18011,
@@ -3891,7 +3884,7 @@ var ClubCardList = [
 		Group: ["Video"],
 		Time: 0,
 		RequiredLevel: 3,
-		ExtraPlay: 4,
+		ExtraPlay: 3,
 		OnPlay: function(CCPlayer) {
 			for (let i = 2; i > 0; i--) {
 				let pornOnBoard = CCPlayer.Board.filter(card => ClubCardCardHasGroup(card, "PornActress"));
@@ -4158,10 +4151,10 @@ var ClubCardList = [
 		Name: "Fully Encased",
 		Type: "Event",
 		RequiredLevel: 4,
-		Time: 13,
+		Time: 11,
 		EffectKey: 1,
 		onDrawAction: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, this.EffectKey);
+			ClubCardPlayerAddFame(CCPlayer, 2 + this.EffectKey);
 		},
 		turnStart: function() {
 			this.EffectKey++;
@@ -4189,6 +4182,7 @@ var ClubCardList = [
 		ID: 31045,
 		Name: "Intense Training",
 		Type: "Event",
+		Group: ["Shibari"],
 		Prerequisite: "SearchACard",
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
@@ -5893,6 +5887,7 @@ function ClubCardDefocusCardIfRemoved() {
 function ClubCardCheckVictory(CCPlayer) {
 	if (CCPlayer.Fame >= ClubCardFameGoal) {
 		ClubCardFocus = null;
+		ClubCardPending = null;
 		MiniGameVictory = (CCPlayer.Control == "Player");
 		MiniGameEnded = true;
 		let Msg = TextGet("VictoryFor" + CCPlayer.Control);
@@ -6083,6 +6078,7 @@ function ClubCardCardsSelectConditions(Card, CCPlayer, AICard = null) {
 	if ((AICard ?? ClubCardPending).Name === "Vanilla Classic" && !ClubCardCardHasGroup(Card, "PornActress")) return false;
 	if ((AICard ?? ClubCardPending).Name === "Sophie" && ClubCardIsLiability(Card)) return false;
 	if ((AICard ?? ClubCardPending).EffectType === "Removal" && (Card.Name === "Kira" && !Card.Negated)) return false;
+	if ((AICard ?? ClubCardPending).EffectType === "Removal" && (ClubCardCardHasGroup(Card, "Latex") && (ClubCardNameIsOnBoard(CCPlayer, "Condom Suit", true) || ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Condom Suit", true)))) return false;
 	if ((AICard ?? ClubCardPending).Name === "Walkies" && !(ClubCardCardHasGroup(Card, "Exhibitionist") || ClubCardCardHasGroup(Card, "Pet"))) return false;
 	if ((AICard ?? ClubCardPending).Name === "Latex Nurse" && Card.Type === "Event") return false;
 	return true;

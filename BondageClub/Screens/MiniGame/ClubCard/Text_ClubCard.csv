@@ -137,7 +137,7 @@ Text Accountant,+1 Money per turn at House level or better.  +1 Money per turn a
 Title Secretary,Secretary
 Text Secretary,Your timed events will last one extra turn.
 Title Associate,Associate
-Text Associate,"You can play an extra card each turn, if you use all actions in turn lose 4 Money, doubled at Manor level."
+Text Associate,You can play one extra card per turn.
 Title Human Resource,Human Resource
 Text Human Resource,Draw an extra card each time you end your turn by drawing a card.
 Title Policewoman,Policewoman
@@ -578,7 +578,7 @@ Text Skye,"Once per turn when a member enters your club, if it has a type not al
 Title Vintage Maid,Vintage Maid
 Text Vintage Maid,"Cannot be targeted by other cards. Enters: Return a member of your choice from your streets to your hand."
 Title Fetish Flick,Fetish Flick
-Text Fetish Flick,"Return 2 random Porn actresses from your club to your hand, then take 4 actions."
+Text Fetish Flick,"Return 2 random Porn actresses from your club to your hand, then take 3 actions."
 Title Ball Buster,Ball Buster
 Text Ball Buster,"Return two random porn actresses from your club to your hand. Your opponent cannot play events or liabilities for 2 turns."
 GroupTimedEvent,Timed Event
@@ -679,7 +679,7 @@ Text Cafe Maid,"For each card you draw, receive 1 Money, if your club tier is 4 
 Title Jailbird,Jailbird
 Text Jailbird,"When you steal Fame, can steal even if the opponent have none."
 Title Riot,Riot
-Text Riot,"For 4 turns, steal 1 Fame per Criminal in your streets, and gain 2 Money per Criminal in your club."
+Text Riot,"For 4 turns, steal 2 Fame per Criminal in your streets, and gain 3 Money per Criminal in your club."
 Title Tabled Tessa,Tabled Tessa
 Text Tabled Tessa,"Gains +1 Money and +1 Fame as long as your club level is lower than the opponent's."
 Title Stalker,Stalker
@@ -735,6 +735,7 @@ Title Shine lover,Shine lover
 Text Shine lover,"When you take the draw action, you gain 1 money for each latex member in your club (Max=club level)"
 Title Color Mixer,Color Mixer
 Text Color Mixer,"Enters: Choose a non-latex member in your club, this member gains all of the selected member's types."
+Prerequisite Color Mixer,Select a member from your club.
 Title Vac-bed Patient,Vac-bed Patient
 Text Vac-bed Patient,"When you take the draw action, gain 1 fame and 1 money."
 Title Tight Squeeze,Tight Squeeze
@@ -742,13 +743,14 @@ Text Tight Squeeze,"When you draw this member with the draw action, add it to yo
 Title Latex Drone,Latex Drone
 Text Latex Drone," "
 Title Encased,Encased
-Text Encased,Leaves your club if you play a card.
+Text Encased,Leaves your club if you play a non-latex Member.
 Title Condom Suit,Condom Suit
-Text Condom Suit,"When you take the draw action, gets +1 Fame and Money (Max 5). When you play a card, negates herself."
+Text Exquisite Suit,"When you take the draw action, gets +1 Fame and Money (Max 5). When you play a non-latex member, negates herself."
 Title Latex Nurse,Latex Nurse
 Text Latex Nurse,"Enters: Select a member in your hand to discard to summon a "Vac-bed Patient" to your club."
+Prerequisite Latex Nurse,Select a member from your club.
 Title Exquisite Suit,Exquisite Suit
-Text Exquisite Suit,"When you take the draw action, gain 1 fame for each latex member in your club."
+Text Condom Suit,"Other Latex members cant be removed from either club"
 Title Full Catsuit,Full Catsuit
 Text Full Catsuit,"Gains +2 Base Fame and +2 Base Money each time you take the draw action (Max 5)"
 Title Goddess Gleem,Goddess Gleem
@@ -756,9 +758,10 @@ Text Goddess Gleem,Gains +4 Base fame each time you take the draw action.
 Title Polish and Shine,Polish and Shine
 Text Polish and Shine,"Put 2 random tier 3 or lower members in your hand into your club, gain 5 money for each Fetishist or Latex member played this way."
 Title Fully Encased,Fully Encased
-Text Fully Encased,"For the next 12 turns, each time you take the draw action you gain 1 fame for each turn this card has been on the field."
+Text Fully Encased,"For the next 10 turns, each time you take the draw action you gain 2 + 1 Fame for each turn this card has been on the field."
 Title Intense Training,Intense Training
 Text Intense Training,Play a Shibari card of your choice from your streets. 
+Prerequisite Intense Training,Select a Shibari card from your streets.
 Title The Butler,The Butler
 Text The Butler,"Police no longer prevent steal effects. When your opponent plays a criminal, they steal 1 Money."
 Title Personal Assistant,Personal Assistant
