@@ -592,6 +592,11 @@ ClothAllureSidecutTransparent,Transparent
 ClothBrocadeCloudsSnowEmbroideryQipaoNo,No
 ClothBrocadeCloudsSnowEmbroideryQipaoSelect,Select Lining Skirt
 ClothBrocadeCloudsSnowEmbroideryQipaoYes,Yes
+ClothLittleFormalShirtOptiont0,Yes
+ClothLittleFormalShirtSelectBase,Select Shirt Style
+ClothLittleFormalShirtSelectTie,Include a tie
+ClothLittleFormalShirtModuleTie,Tie
+ClothLittleFormalShirtOptiont1,No
 ClothOffTheShoulderTopSelect,Choose Style:
 ClothOffTheShoulderTopRight,Right
 ClothOffTheShoulderTopLeft,Left

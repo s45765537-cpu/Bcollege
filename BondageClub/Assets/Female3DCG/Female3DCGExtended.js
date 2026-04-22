@@ -1108,6 +1108,9 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Default" }, { Name: "Transparent" }],
 		}, // AllureSidecut
+		LittleFormalShirt: {
+						Archetype: "modular",
+						Modules: [{ Name: "Tie", Key: "t", Options: [{}, {}] }],}, // LittleFormalShirt
 	}, // Cloth
 	Decals: {
 		MissMariasManor: {
