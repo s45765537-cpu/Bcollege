@@ -614,13 +614,15 @@ function FriendListLoadFriendList(data) {
 		Owner: TextGet("TypeOwner"),
 		Lover: TextGet("TypeLover"),
 		Submissive: TextGet("TypeSubmissive"),
-		Friend: TextGet("TypeFriend")
+		Friend: TextGet("TypeFriend"),
+		Pending: TextGet("TypePending")
 	};
 	const relationTypeIcons = {
 		Owner: './Icons/Small/Owner.png',
 		Lover: './Icons/Small/Lover.png',
 		Submissive: './Icons/Small/Family.png',
-		Friend: './Icons/Small/FriendList.png'
+		Friend: './Icons/Small/FriendList.png',
+		Pending: './Icons/Wait.png'
 	};
 	const sortingSymbol = FriendListSortingDirection === "Asc" ? "↑" : "↓";
 	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
@@ -687,6 +689,8 @@ function FriendListLoadFriendList(data) {
 			friendRawData.push({
 				memberName: friend.MemberName,
 				memberNumber: friend.MemberNumber,
+				relationType: FriendListGetRelationType(friend.MemberNumber),
+				pending: FriendListIsPending(friend.MemberNumber),
 				chatRoom: {
 					name: originalChatRoomName,
 					caption: chatRoomName || "-",
@@ -727,6 +731,8 @@ function FriendListLoadFriendList(data) {
 			friendRawData.push({
 				memberName: beepData.MemberName,
 				memberNumber: beepData.MemberNumber,
+				relationType: FriendListGetRelationType(beepData.MemberNumber),
+				pending: false,
 				chatRoom: {
 					name: beepData.ChatRoomName,
 					caption: chatRoomName || "-",
@@ -746,21 +752,27 @@ function FriendListLoadFriendList(data) {
 		if (document.hasFocus()) NotificationReset(NotificationEventType.BEEP);
 	} else if (mode === "AllFriends") {
 		// In Delete mode, we show the friend list and allow the user to remove them
-		for (const [memberNumber, memberName] of Array.from(Player.FriendNames).sort((a, b) => a[1].localeCompare(b[1]))) {
-			let Type = "Friend";
-			if (Player.IsOwnedByMemberNumber(memberNumber)) {
-				Type = "Owner";
-			} else if (Player.IsLoverOfMemberNumber(memberNumber)) {
-				Type = "Lover";
-			} else if (Player.SubmissivesList.has(memberNumber)) {
-				Type = "Submissive";
-			}
+		/** @type {[number, string][]} */
+		const allFriendEntries = [
+			...Array.from(Player.FriendNames.entries()),
+			...Player.FriendList.map((entry) => /** @type {[number, string]} */([entry, Player.FriendNames.get(entry) ?? TextGet("Unknown")])),
+			...Player.Lovership.map((entry) => entry.MemberNumber ? /** @type {[number, string]} */([entry.MemberNumber, entry.Name]) : undefined).filter(entry => entry !== undefined),
+			Player.Ownership ? /** @type {[number, string]} */([Player.Ownership?.MemberNumber, Player.Ownership?.Name]) : undefined,
+		].filter(entry => entry !== undefined);
+		// we are using the map to filter out duplicate entries
+		const allFriendMap = new Map(allFriendEntries);
+		const allFriends = Array
+			.from(allFriendMap, /** @returns {[number, string]} */([memberNumber, memberName]) => [memberNumber, memberName])
+			.sort((a, b) => a[1].localeCompare(b[1]));
+
+		for (const [memberNumber, memberName] of allFriends) {
 
 			friendRawData.push({
 				memberName: memberName,
 				memberNumber: memberNumber,
-				relationType: FriendTypeCaption[Type],
-				canDelete: FriendListCanDelete(memberNumber)
+				relationType: FriendListGetRelationType(memberNumber),
+				canDelete: FriendListCanDelete(memberNumber),
+				pending: FriendListIsPending(memberNumber),
 			});
 		}
 	}
@@ -768,11 +780,18 @@ function FriendListLoadFriendList(data) {
 	friendRawData.forEach(friend => {
 		const row = ElementCreate({
 			tag: "tr",
-			classList: ['friend-list-row'],
+			classList: [
+				'friend-list-row',
+				...(friend.pending ? ['friend-list-pending'] : []),
+			],
 			children: [
 				{
 					tag: "td",
-					classList: ['friend-list-column', 'MemberName'],
+					classList: [
+						'friend-list-column',
+						'MemberName',
+						...(friend.memberName === TextGet("Unknown") ? ['friend-list-unknown'] : [])
+					],
 					children: [
 						friend.memberName
 					],
@@ -1159,6 +1178,35 @@ function FriendListToggleAutoRefresh() {
 //#endregion
 
 //#region UTILITY FUNCTIONS
+/**
+ * Checks if the given member number is pending friend request.
+ * @param {number} memberNumber
+ * @returns {boolean}
+ */
+function FriendListIsPending(memberNumber) {
+	return !Player.FriendNames.has(memberNumber) &&
+	!Player.IsLoverOfMemberNumber(memberNumber) &&
+	!Player.IsOwnedByMemberNumber(memberNumber) ||
+		(
+			(Player.SubmissivesList.has(memberNumber) ||
+			Player.IsLoverOfMemberNumber(memberNumber) ||
+			Player.IsOwnedByMemberNumber(memberNumber)) &&
+			!Player.HasOnFriendlist(memberNumber)
+		);
+}
+
+/**
+ * Gets the relation type of the given member number.
+ * @param {number} memberNumber
+ * @returns {FriendListRelationType}
+ */
+function FriendListGetRelationType(memberNumber) {
+	if (Player.IsOwnedByMemberNumber(memberNumber)) return "Owner";
+	else if (Player.IsLoverOfMemberNumber(memberNumber)) return "Lover";
+	else if (Player.SubmissivesList.has(memberNumber)) return "Submissive";
+	else if (FriendListIsPending(memberNumber)) return "Pending";
+	else return "Friend";
+}
 
 /**
  * Checks if the player can delete the given member number from their friendlist.

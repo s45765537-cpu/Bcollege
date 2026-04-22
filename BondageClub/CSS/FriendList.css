@@ -13,7 +13,6 @@
 
 	box-sizing: border-box;
 	border: var(--border-width) var(--border-color) var(--border-style);
-	overflow: hidden;
 	padding: 0;
 }
 
@@ -206,6 +205,10 @@
 	color: yellow;
 }
 
+.friend-list-pending {
+	color: gray;
+}
+
 .friend-list-column {
 	float: left;
 	width: 22%;
@@ -224,6 +227,10 @@
 	width: 15%;
 }
 
+.MemberName.friend-list-unknown {
+	font-style: italic;
+}
+
 #friend-list-subscreen[data-mode="AllFriends"] .RelationType {
 	display: flex;
 	justify-content: center;
@@ -238,6 +245,7 @@
 .friend-list-link {
 	text-decoration: underline;
 	cursor: pointer;
+	color: white;
 }
 
 .friend-list-link:disabled {
