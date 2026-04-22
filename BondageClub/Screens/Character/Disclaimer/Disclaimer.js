@@ -7,6 +7,9 @@ const DisclaimerIDs = Object.freeze({
 	accept: "disclaimer-accept",
 	buttons: "disclaimer-buttons",
 });
+const DisclaimerVersion = 1;
+/** @type {null | ((accepted: boolean) => void)} */
+var DisclaimerCloseCallback = null;
 
 /**
  * Loads the disclaimer screen
@@ -116,23 +119,44 @@ function DisclaimerUnload() {
  * @returns {void} - Nothing
  */
 function DisclaimerExit() {
+	const closeCallback = DisclaimerCloseCallback;
+	DisclaimerCloseCallback = null;
+	if (closeCallback) {
+		closeCallback(false);
+		return;
+	}
 	CommonSetScreen("Character", "Login");
 }
 
-function DisclaimerAccept() {
-	CharacterCreatePlayer();
-	InventoryRemove(Player, "ItemFeet");
-	InventoryRemove(Player, "ItemLegs");
-	InventoryRemove(Player, "ItemArms");
-	CharacterAppearanceSetDefault(Player);
+/**
+ * Opens the disclaimer screen and optionally runs a callback when the player closes it.
+ * @param {(accepted: boolean) => void} closeCallback
+ * @returns {boolean} Whether the player has already accepted the disclaimer
+ */
+function DisclaimerOpen(closeCallback) {
+	if (!closeCallback) {
+		throw Error("DisclaimerOpen: closeCallback is required");
+	}
+	// Check if the player has already accepted the disclaimer and just trying to log in
+	const accepted = (LogValue("Accepted", "Disclaimer") ?? 0) >= DisclaimerVersion;
+	if (accepted && ServerIsLoggedIn()) {
+		closeCallback(accepted);
+		return true;
+	}
+	DisclaimerCloseCallback = closeCallback;
+	CommonSetScreen("Character", "Disclaimer");
 
-	// Redirect the player to the login screen after they have their character created
-	CharacterAppearanceLoadCharacter(Player, (result) => {
-		if (result)
-			CommonSetScreen("Character", "Creation");
-		else
-			CommonSetScreen("Character", "Login");
-	});
+	return false;
+}
+
+function DisclaimerAccept() {
+	LogAdd("Accepted", "Disclaimer", DisclaimerVersion);
+	const closeCallback = DisclaimerCloseCallback;
+	DisclaimerCloseCallback = null;
+	if (closeCallback) {
+		closeCallback(true);
+		return;
+	}
 }
 
 function DisclaimerResize() {
