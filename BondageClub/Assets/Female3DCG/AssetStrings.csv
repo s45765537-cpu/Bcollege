@@ -8100,13 +8100,16 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
-ItemHandheldPlushieModuleNelsStorage,Nel's Stroage Room
+ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
 ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
 ItemHandheldPlushieOptionNelsStorage0,None
-ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieSetNelsStorage0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionNelsStorage1,Nel
 ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage2,Fallen
+ItemHandheldPlushieSetNelsStorage2,SourceCharacter places a cute Fallen plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage3,Reina
+ItemHandheldPlushieSetNelsStorage3,SourceCharacter places a cute Reina plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleCCLounge,CC's Lounge
 ItemHandheldPlushieSelectCCLounge,CC's Lounge
 ItemHandheldPlushieOptionCCLounge0,None
