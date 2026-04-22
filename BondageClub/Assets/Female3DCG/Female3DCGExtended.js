@@ -1109,8 +1109,20 @@ var AssetFemale3DCGExtended = {
 			Options: [{ Name: "Default" }, { Name: "Transparent" }],
 		}, // AllureSidecut
 		LittleFormalShirt: {
-						Archetype: "modular",
-						Modules: [{ Name: "Tie", Key: "t", Options: [{}, {}] }],}, // LittleFormalShirt
+			Archetype: "modular",
+			Modules: [{ Name: "Tie", Key: "t", Options: [{}, {}] }],
+		}, // LittleFormalShirt
+		StarryOceanEveningGown: {
+			Archetype: "modular",
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Mirror",
+					Key: "M",
+					Options: [{}, { DrawOptions: { Mirror: true } }],
+				},
+			],
+		}, // StarryOceanEveningGown
 	}, // Cloth
 	Decals: {
 		MissMariasManor: {
@@ -22785,7 +22797,9 @@ var AssetFemale3DCGExtended = {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Nel.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Fallen.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Fallen.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Reina.png" },
 						],
 					},

@@ -6,7 +6,7 @@ let TextScreenCache = null;
 const TextAllScreenCache = new Map;
 
 /** Prefix for the Text-generated warning message on a missing key */
-const TEXT_NOT_FOUND_PREFIX = "MISSING TEXT IN";
+const TEXT_NOT_FOUND_PREFIX = "";
 
 var TextLogMissingStrings = false;
 
