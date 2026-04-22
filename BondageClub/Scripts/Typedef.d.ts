@@ -2228,6 +2228,8 @@ interface CharacterOnlineSharedSettings {
 	WheelFortune: string;
 }
 
+type NicknameStatus = "NicknameTooLong" | "NicknameTooShort" | "NicknameInvalidChars" | "NicknameLocked";
+
 type NPCArchetype =
 	/* Pandora NPCs */
 	"MemberNew"|"MemberOld"|"Cosplay"|"Mistress"|"Slave"|"Maid"|"Guard"|

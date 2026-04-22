@@ -3,7 +3,7 @@
 var TitleBackground = "Sheet";
 /** @type {null | TitleName} */
 var TitleSelectedTitle = null;
-/** @type {null | "NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} */
+/** @type {null | NicknameStatus} */
 var TitleNicknameStatus = null;
 /** @deprecated */
 let TitleOffset = 0;
@@ -128,8 +128,11 @@ async function TitleLoad() {
 		nicknameInput.setAttribute("disabled", "disabled");
 	}
 	nicknameInput.addEventListener("input", () => {
-		TitleNicknameStatus = CharacterValidateNickname(Player, nicknameInput.value, false);
-		nicknameInput.setCustomValidity(TitleNicknameStatus ?? "");
+		const value = nicknameInput.value.trim();
+		if (value !== "") {
+			TitleNicknameStatus = CharacterValidateNickname(Player, value, false);
+			nicknameInput.setCustomValidity(TitleNicknameStatus ?? "");
+		}
 	});
 
 	const labeledInput = ElementCreate({
