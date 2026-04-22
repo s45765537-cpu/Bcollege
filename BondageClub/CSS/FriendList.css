@@ -261,32 +261,9 @@
 /* #endregion */
 
 /* #region BUTTONS */
-#friend-list-button-refresh {
-	background-image: url("../Icons/Small/Reset.png");
-}
-
-#friend-list-button-auto-refresh {
-	background-image: url("../Icons/Wait.png");
-}
-
-#friend-list-button-prev {
-	background-image: url("../Icons/Small/Prev.png");
-}
-
-#friend-list-button-next {
-	background-image: url("../Icons/Small/Next.png");
-}
-
-#friend-list-button-exit {
-	background-image: url("../Icons/Small/Exit.png");
-}
 
 #friend-list-reset-sorting {
 	position: absolute;
-}
-
-#friend-list-reset-sorting {
-	background-image: url("../Icons/Small/Remove.png");
 }
 
 .button.inactive {

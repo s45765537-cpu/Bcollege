@@ -36,6 +36,7 @@ const FriendListIDs = Object.freeze({
 	searchInput: 'friend-list-search-input',
 
 	btnAutoRefresh: 'friend-list-button-auto-refresh',
+	btnAddFriend: 'friend-list-button-add-friend',
 	btnRefresh: 'friend-list-button-refresh',
 	btnPrev: 'friend-list-button-prev',
 	btnNext: 'friend-list-button-next',
@@ -110,6 +111,7 @@ async function FriendListLoad() {
 							{
 								tooltip: TextGet("AutoRefresh"),
 								role: "checkbox",
+								image: "Icons/Wait.png"
 							},
 							{
 								button: {
@@ -125,6 +127,22 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("Refresh"),
+								image: "Icons/Small/Reset.png"
+							},
+							{
+								button: {
+									classList: ['friend-list-button'],
+								}
+							}
+						),
+						ElementButton.Create(
+							FriendListIDs.btnAddFriend,
+							() => {
+								FriendListAddFriends();
+							},
+							{
+								tooltip: TextGet("AddFriends"),
+								image: "Icons/Plus.png",
 							},
 							{
 								button: {
@@ -139,6 +157,7 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("PrevMode"),
+								image: "Icons/Small/Prev.png"
 							},
 							{
 								button: {
@@ -153,6 +172,7 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("NextMode"),
+								image: "Icons/Small/Next.png"
 							},
 							{
 								button: {
@@ -167,6 +187,7 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("Exit"),
+								image: "Icons/Small/Exit.png"
 							},
 							{
 								button: {
@@ -190,7 +211,8 @@ async function FriendListLoad() {
 				},
 				{
 					tooltip: TextGet("ResetSorting"),
-					tooltipPosition: 'right'
+					tooltipPosition: 'right',
+					image: "Icons/Small/Remove.png"
 				},
 				{
 					button: {
@@ -987,6 +1009,49 @@ function FriendListDelete(MemberNumber) {
 		ServerPlayerRelationsSync();
 	} else FriendListConfirmDelete.push(MemberNumber);
 	ServerSend("AccountQuery", { Query: "OnlineFriends" });
+}
+
+/**
+ * Prompts for a comma-separated list of members to add.
+ * @returns {void} - Nothing
+ */
+function FriendListAddFriends() {
+	const input = prompt(TextGet("AddFriendsPrompt"));
+	if (input === null) return;
+
+	const memberNumbers = new Set();
+	input.split(",").forEach((entry) => {
+		const match = entry.trim().match(/\d+/);
+		if (!match) return;
+		const memberNumber = Number.parseInt(match[0], 10);
+		if (!Number.isNaN(memberNumber)) {
+			memberNumbers.add(memberNumber);
+		}
+	});
+
+	if (memberNumbers.size === 0) {
+		alert(TextGet("AddFriendsError"));
+		return;
+	};
+
+	const addedMembers = [];
+	memberNumbers.forEach((memberNumber) => {
+		if (!CommonIsNonNegativeInteger(memberNumber)) return;
+		if (memberNumber === Player.MemberNumber) return;
+		if (Player.FriendList.includes(memberNumber)) return;
+		addedMembers.push(memberNumber);
+		ChatRoomListUpdate(Player.FriendList, true, memberNumber, "FriendRequest", false);
+	});
+
+	if (addedMembers.length > 0) {
+		ServerPlayerRelationsSync();
+		ServerSend("AccountQuery", { Query: "OnlineFriends" });
+	}
+
+	alert(addedMembers.length > 0
+		? TextSubstitute("AddFriendsSuccess", { $addedMembers: addedMembers.join(", ") }).join("")
+		: TextGet("AddFriendsNoNewFriends")
+	);
 }
 
 /**

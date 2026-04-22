@@ -27,3 +27,8 @@ TypeMale,Male-only room
 TypeMixed,Mixed male/female room
 TypeAsylum,Asylum room
 TypePrivate,Private room
+AddFriends,Add friends
+AddFriendsPrompt,Add friends (comma separated list of member numbers)
+AddFriendsError,No valid member numbers were provided.
+AddFriendsSuccess,Added friends numbers: $addedMembers.
+AddFriendsNoNewFriends,No new friends were added.
