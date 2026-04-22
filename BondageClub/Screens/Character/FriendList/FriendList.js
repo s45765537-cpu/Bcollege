@@ -97,7 +97,7 @@ async function FriendListLoad() {
 							/**
 							* @this {HTMLInputElement}
 							*/
-							input: function() {
+							input: function () {
 								FriendListSearchByProperties(this.value);
 							},
 						},
@@ -239,46 +239,56 @@ async function FriendListLoad() {
 										"friend-list-member-name",
 										() => FriendListChangeSortingMode("MemberName"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-member-number",
 										() => FriendListChangeSortingMode("MemberNumber"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-chat-room-type",
 										() => FriendListChangeSortingMode("ChatRoomType"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-chat-room-name",
 										() => FriendListChangeSortingMode("ChatRoomName"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-relation-type",
 										() => FriendListChangeSortingMode("RelationType"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									{
 										tag: "th",
@@ -471,7 +481,7 @@ function FriendListBeep(MemberNumber, data = null) {
 							FriendListBeepShowRoom && ServerPlayerIsInChatRoom() ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff')
 						],
 						eventListeners: {
-							click: function()  {
+							click: function () {
 								FriendListBeepShowRoom = !FriendListBeepShowRoom;
 								this.textContent = FriendListBeepShowRoom ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff');
 							}
@@ -929,11 +939,13 @@ function FriendListLoadFriendList(data) {
 						`friend-list-show-beep-${friend.memberNumber}`,
 						() => FriendListShowBeep(friend.beep.beepIndex),
 						{ noStyling: true },
-						{ button: {
-							classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-beeps-content'],
-							children: [friend.beep.caption],
-							attributes: { role: "cell" },
-						}},
+						{
+							button: {
+								classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-beeps-content'],
+								children: [friend.beep.caption],
+								attributes: { role: "cell" },
+							}
+						},
 					),
 				);
 			} else {
@@ -985,7 +997,7 @@ function FriendListLoadFriendList(data) {
 	// Loads the friend list and sorts it with current settings
 	friendList.append(...FriendListContent);
 	FriendListSort(FriendListSortingMode, FriendListSortingDirection);
-	FriendListSearchByProperties(/** @type {HTMLInputElement} */ (document.getElementById(FriendListIDs.searchInput))?.value);
+	FriendListSearchByProperties(/** @type {HTMLInputElement} */(document.getElementById(FriendListIDs.searchInput))?.value);
 	ElementSetScrollPercentage(FriendListIDs.friendList, friendListScrollPercent, 'instant');
 }
 
@@ -1086,8 +1098,8 @@ function FriendListSort(sortingMode, sortingDirection) {
 			return sortingDirection === 'Asc' ? numberA - numberB : numberB - numberA;
 		} else {
 			return sortingDirection === 'Asc' ?
-        contentA.localeCompare(contentB) :
-        contentB.localeCompare(contentA);
+				contentA.localeCompare(contentB) :
+				contentB.localeCompare(contentA);
 		}
 	});
 	friendlist.replaceChildren(...sortedItems);
