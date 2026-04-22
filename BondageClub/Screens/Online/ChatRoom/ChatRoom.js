@@ -386,7 +386,9 @@ function ChatRoomCanAddFriend() { return CurrentCharacter && !CurrentCharacter.I
  * Checks if the player can remove the current character from her friendlist.
  * @returns {boolean} - TRUE if the current character is in the player's friendlist.
  */
-function ChatRoomCanRemoveFriend() { return CurrentCharacter && CurrentCharacter.IsFriend(); }
+function ChatRoomCanRemoveFriend() {
+	return CurrentCharacter && FriendListCanDelete(CurrentCharacter.MemberNumber);
+}
 /**
  * Checks if the player can add the current character to her ghostlist
  * @returns {boolean} - TRUE if the current character is not in the player's ghostlist yet.

@@ -32,3 +32,4 @@ AddFriendsPrompt,Add friends (comma separated list of member numbers)
 AddFriendsError,No valid member numbers were provided.
 AddFriendsSuccess,Added friends numbers: $addedMembers.
 AddFriendsNoNewFriends,No new friends were added.
+ConfirmDelete,Are you sure you want to delete $memberName ($memberNumber)?

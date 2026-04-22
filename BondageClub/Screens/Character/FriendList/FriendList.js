@@ -2,7 +2,7 @@
 "use strict";
 //#region VARIABLES
 var FriendListBackground = "BrickWall";
-/** @type {number[]} */
+/** @deprecated @type {number[]} */
 var FriendListConfirmDelete = [];
 /** @type {FriendListReturn<any> | null} */
 var FriendListReturn = null;
@@ -54,8 +54,6 @@ const FriendListIDs = Object.freeze({
 /** @type {ScreenLoadHandler} */
 async function FriendListLoad() {
 	const mode = FriendListMode[FriendListModeIndex];
-
-	FriendListConfirmDelete = [];
 
 	const root = document.getElementById(FriendListIDs.root) ?? ElementCreate({
 		tag: 'div',
@@ -615,7 +613,6 @@ function FriendListLoadFriendList(data) {
 	// Loads the header caption
 	const BeepCaption = InterfaceTextGet("Beep");
 	const DeleteCaption = InterfaceTextGet("Delete");
-	const ConfirmDeleteCaption = InterfaceTextGet("ConfirmDelete");
 	const SentCaption = InterfaceTextGet("SentBeep");
 	const ReceivedCaption = InterfaceTextGet("ReceivedBeep");
 	const MailCaption = InterfaceTextGet("BeepWithMail");
@@ -764,13 +761,12 @@ function FriendListLoadFriendList(data) {
 			} else if (Player.SubmissivesList.has(memberNumber)) {
 				Type = "Submissive";
 			}
-			const canDelete = Type === "Friend" && Player.HasOnFriendlist(memberNumber) || Type === "Submissive" && Player.SubmissivesList.has(memberNumber);
 
 			friendRawData.push({
 				memberName: memberName,
 				memberNumber: memberNumber,
 				relationType: FriendTypeCaption[Type],
-				canDelete: canDelete
+				canDelete: FriendListCanDelete(memberNumber)
 			});
 		}
 	}
@@ -977,7 +973,7 @@ function FriendListLoadFriendList(data) {
 			{ noStyling: true },
 			{ button: {
 				classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
-				children: [FriendListConfirmDelete.includes(friend.memberNumber) ? ConfirmDeleteCaption : DeleteCaption],
+				children: [DeleteCaption],
 				attributes: { disabled: !friend.canDelete, role: "cell" },
 			}}
 		));
@@ -994,21 +990,21 @@ function FriendListLoadFriendList(data) {
 }
 
 /**
- * When the user wants to delete someone from her friend list this must be confirmed.
- * This function either displays the confirm message or deletes the friend from the player's friendlist
+ * When the user wants to delete someone from their friend list this must be confirmed.
+ * This function either displays the confirm message or deletes the friend from the friendlist
  * @param {number} MemberNumber - The member to delete from the friendlist
  * @returns {void} - Nothing
  */
 function FriendListDelete(MemberNumber) {
-	if (FriendListConfirmDelete.includes(MemberNumber)) {
-		FriendListConfirmDelete.splice(FriendListConfirmDelete.indexOf(MemberNumber), 1);
-		if (Player.HasOnFriendlist(MemberNumber)) {
-			Player.FriendList.splice(Player.FriendList.indexOf(MemberNumber), 1);
-		}
-		Player.SubmissivesList.delete(MemberNumber);
-		ServerPlayerRelationsSync();
-	} else FriendListConfirmDelete.push(MemberNumber);
-	ServerSend("AccountQuery", { Query: "OnlineFriends" });
+	const confirmMessage = TextSubstitute("ConfirmDelete", {
+		$memberName: Player.FriendNames.get(MemberNumber) ?? TextGet("Unknown"),
+		$memberNumber: MemberNumber
+	}).join("");
+	if (confirm(confirmMessage)) {
+		ChatRoomListUpdate(Player.FriendList, false, MemberNumber);
+		Player.FriendNames.delete(MemberNumber);
+		ServerSend("AccountQuery", { Query: "OnlineFriends" });
+	}
 }
 
 /**
@@ -1165,3 +1161,16 @@ function FriendListToggleAutoRefresh() {
 	ServerAccountUpdate.QueueData({ OnlineSettings: Player.OnlineSettings });
 }
 //#endregion
+
+//#region UTILITY FUNCTIONS
+
+/**
+ * Checks if the player can delete the given member number from their friendlist.
+ * @param {number} memberNumber
+ * @returns {boolean}
+ */
+function FriendListCanDelete(memberNumber) {
+	return Player.HasOnFriendlist(memberNumber) && !Player.IsOwnedByMemberNumber(memberNumber) && !Player.IsLoverOfMemberNumber(memberNumber);
+}
+
+//#endregion UTILITY FUNCTIONS
