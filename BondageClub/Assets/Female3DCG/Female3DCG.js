@@ -4778,6 +4778,7 @@ var AssetFemale3DCG = [
 				Left: 170,
 				Top: 210,
 				Priority: 27,
+				Gender: "F",
 				DynamicGroupName: "Cloth",
 				Expose: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings"],
 				PoseMapping: {
@@ -4819,6 +4820,7 @@ var AssetFemale3DCG = [
 				Left: 20,
 				Top: 200,
 				Priority: 26,
+				Gender: "F",
 				ParentGroup: "BodyUpper",
 				DynamicGroupName: "Cloth",
 				PoseMapping: { ...AssetPoseMapping.ClothLower },
