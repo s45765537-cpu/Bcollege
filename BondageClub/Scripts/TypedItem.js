@@ -182,6 +182,7 @@ function TypedItemCreateTypedItemData(asset, {
 	Name,
 }, parentOption=null) {
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.TYPED : parentOption.Name);
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}`;
 	const optionsParsed = TypedItemBuildOptions(Options, asset, ChangeWhenLocked, name);
 	DialogPrefix = DialogPrefix || {};
@@ -435,11 +436,10 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
 	}
 
 	// TODO: Remove this `if` check when all extended items have been made archetypical
-	if (option.OptionType !== "ExtendedItemOption") {
-		const validationFunctionName = `${data ? data.functionPrefix : ''}${ExtendedItemSubscreen || ""}Validate`;
+	if (option.OptionType !== "ExtendedItemOption" && data) {
 		/** @type {Parameters<ExtendedItemCallbacks.Validate<T>>} */
 		const args = [C, item, option, previousOption, permitExisting];
-		const validationMessage = CommonCallFunctionByName(validationFunctionName, ...args);
+		const validationMessage = CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen || ""}Validate`, ...args);
 		if (typeof validationMessage === "string") {
 			return validationMessage;
 		}
@@ -747,7 +747,6 @@ function TypedItemHandleOptionClick(data, C, Option) {
  * @returns {void} Nothing
  */
 function TypedItemSetType(data, C, newOption) {
-	const FunctionPrefix = `${data.functionPrefix}${ExtendedItemSubscreen || ""}`;
 	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
 	const previousOption = TypedItemFindPreviousOption(data, DialogFocusItem);
 
@@ -778,9 +777,9 @@ function TypedItemSetType(data, C, newOption) {
 			// If we're in a chatroom, call the item's publish function to publish a message to the chatroom
 			/** @type {Parameters<ExtendedItemCallbacks.PublishAction<T>>} */
 			const args = [C, DialogFocusItem, newOption, previousOption];
-			CommonCallFunctionByName(`${FunctionPrefix}PublishAction`, ...args);
+			CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen || ""}PublishAction`, ...args);
 		} else if (!C.IsPlayer()) {
-			CommonCallFunctionByName(`${FunctionPrefix}NpcDialog`, C, newOption, previousOption);
+			CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen || ""}NpcDialog`, C, newOption, previousOption);
 		}
 	}
 

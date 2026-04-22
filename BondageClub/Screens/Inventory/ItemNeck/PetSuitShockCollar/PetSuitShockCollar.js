@@ -83,7 +83,7 @@ function InventoryItemNeckPetSuitShockCollarResetCount() {
 }
 
 /**
- * @typedef {{ UpdateTime?: number, CheckTime?: number, LastMessageLen?: number, LastTriggerCount?: number, DisplayCount?: number }} PetSuitShockCollarPersistentData
+ * @typedef {{ UpdateTime?: number, CheckTime?: number, LastMessageLen?: number, LastTriggerCount?: number, DisplayCount?: number } & AnimationPersistentData} PetSuitShockCollarPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<PetSuitShockCollarPersistentData>} */

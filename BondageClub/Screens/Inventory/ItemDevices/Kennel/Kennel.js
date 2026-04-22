@@ -2,7 +2,7 @@
 "use strict";
 
 /**
- * @typedef {{ DoorState?: number, DrawRequested?: boolean, MustChange?: boolean, ChangeTime?: number }} KennelPersistentData
+ * @typedef {{ DoorState?: number, DrawRequested?: boolean, MustChange?: boolean, ChangeTime?: number } & AnimationPersistentData} KennelPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<KennelPersistentData>} */

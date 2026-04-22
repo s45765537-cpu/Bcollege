@@ -197,7 +197,7 @@ function InventoryItemMouthFuturisticPanelGagTrigger(data, C, Item, Deflate) {
 }
 
 /**
- * @typedef {{ LastMessageLen?: number, UpdateTime?: number, ChangeTime?: number }} FuturisticPanelGagPersistentData
+ * @typedef {{ LastMessageLen?: number, UpdateTime?: number, ChangeTime?: number } & AnimationPersistentData} FuturisticPanelGagPersistentData
  */
 
 /**

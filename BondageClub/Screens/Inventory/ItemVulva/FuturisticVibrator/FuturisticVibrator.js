@@ -269,7 +269,7 @@ function InventoryItemVulvaFuturisticVibratorHandleChat(data, C, Item, LastTime)
 }
 
 /**
- * @typedef {{ CheckTime?: number, Mode?: VibratorMode, ChangeTime?: number, LastChange?: number }} FuturisticVibratorPersistentData
+ * @typedef {{ CheckTime?: number, Mode?: VibratorMode, ChangeTime?: number, LastChange?: number } & AnimationPersistentData} FuturisticVibratorPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<VibratingItemData, FuturisticVibratorPersistentData>} */

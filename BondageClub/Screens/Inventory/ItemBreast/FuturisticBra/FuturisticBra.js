@@ -60,7 +60,7 @@ function InventoryItemBreastFuturisticBraDrawHook(Data, OriginalFunction) {
 }
 
 /**
- * @typedef {{ UpdateTime?: number, ShowHeart?: boolean }} FuturisticBraPersistentData
+ * @typedef {{ UpdateTime?: number, ShowHeart?: boolean } & AnimationPersistentData} FuturisticBraPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<FuturisticBraPersistentData>} */

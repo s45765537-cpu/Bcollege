@@ -1748,7 +1748,10 @@ interface ScreenFunctions {
 // Note that most of them can still be undefined
 /** See {@link CommonTestSatisfies} */
 type ScreenFunctionsSymbols = Prettify<(
+	// Backgrounds
 	{ [key in `${RoomName}Background`]?: string }
+
+	// Screen functions
 	& { [key in `${RoomName}Run`]: ScreenRunHandler }
 	& { [key in `${RoomName}MouseDown`]?: MouseEventListener }
 	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
@@ -1763,6 +1766,20 @@ type ScreenFunctionsSymbols = Prettify<(
 	& { [key in `${RoomName}KeyUp`]?: KeyboardEventListener }
 	& { [key in `${RoomName}Paste`]?: ClipboardEventListener }
 	& { [key in `${RoomName}Exit`]?: ScreenExitHandler }
+
+	// Extended item functions (dynamically generated and assigned to `Window`)
+	& { [key in `Inventory${AssetGroupName}${string}Init`]?: ExtendedItemCallbacks.Init }
+	& { [key in `Inventory${AssetGroupName}${string}Load`]?: ExtendedItemCallbacks.Load }
+	& { [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }
+	& { [key in `Inventory${AssetGroupName}${string}Click`]?: ExtendedItemCallbacks.Click }
+	& { [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }
+	& { [key in `Inventory${AssetGroupName}${string}Validate`]?: ExtendedItemCallbacks.Validate }
+	& { [key in `Inventory${AssetGroupName}${string}PublishAction`]?: ExtendedItemCallbacks.PublishAction }
+	& { [key in `Inventory${AssetGroupName}${string}SetOption`]?: ExtendedItemCallbacks.SetOption }
+	& { [key in `Assets${AssetGroupName}${string}BeforeDraw`]?: ExtendedItemCallbacks.BeforeDraw }
+	& { [key in `Assets${AssetGroupName}${string}AfterDraw`]?: ExtendedItemCallbacks.AfterDraw }
+	& { [key in `Assets${AssetGroupName}${string}ScriptDraw`]?: ExtendedItemCallbacks.ScriptDraw }
+	& { [key in `Inventory${AssetGroupName}${string}NpcDialog`]?: (C: Character, Option: ExtendedItemOption, PreviousOption: ExtendedItemOption) => void }
 )>;
 interface Window extends ScreenFunctionsSymbols {}
 
@@ -2871,7 +2888,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A non-empty message string if the item failed validation, or an empty string otherwise
 	 */
 	type Validate<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string>;
 	/**
 	 * Callback for extended item `PublishAction` functions.
@@ -2882,7 +2899,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param previousOption The previously selected extended item option
 	 */
 	type PublishAction<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType]>;
 	/**
 	 * Callback for extended item `Init` functions.
@@ -2904,7 +2921,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 */
 	type SetOption<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean, refresh: boolean]>;
 	/**
 	 * Callback for extended item `AfterDraw` functions.
@@ -2912,7 +2929,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param drawData The dynamic draw data
 	 */
 	type AfterDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -2921,7 +2938,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A record with any and all to-be overriden draw data
 	 */
 	type BeforeDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
@@ -2929,7 +2946,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param drawData The dynamic draw data
 	 */
 	type ScriptDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -3044,7 +3061,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type AfterDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -3056,7 +3073,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type BeforeDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
@@ -3067,7 +3084,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type ScriptDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -3100,9 +3117,9 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	/** A key uniquely identifying the asset */
 	key: string;
 	/** The common prefix used for all extended item functions associated with the asset */
-	functionPrefix: string;
+	functionPrefix: `Inventory${AssetGroupName}${string}`;
 	/** The common prefix used for all dynamic asset hook functions for the asset */
-	dynamicAssetsFunctionPrefix: string;
+	dynamicAssetsFunctionPrefix: `Assets${AssetGroupName}${string}`;
 	/** An array of the chat message tags that should be included in the item's chatroom messages. */
 	chatTags: CommonChatTags[];
 	/** Contains custom dictionary entries in the event that the base ones do not suffice. */
@@ -3902,6 +3919,9 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
+/** The {@link Window} type with all non-function values removed (though they may still be optional) */
+type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends Function ? k : never]: Window[k] };
+
 // #region Struggle Minigame
 
 type StruggleKnownMinigames = "Strength" | "Flexibility" | "Dexterity" | "Loosen" | "LockPick";
@@ -4272,7 +4292,7 @@ interface DynamicBeforeDrawOverrides {
 
 type DynamicDrawTextEffect = "burn";
 
-interface DynamicScriptCallbackData<T extends Record<string, any> = Record<string, unknown>> {
+interface DynamicScriptCallbackData<T extends AnimationPersistentData = AnimationPersistentData> {
 	C: Character;
 	Item: Item;
 	PersistentData: () => T;
