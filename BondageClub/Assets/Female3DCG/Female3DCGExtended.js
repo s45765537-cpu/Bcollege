@@ -22775,11 +22775,15 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{}, // off
 						{}, // Nel
+						{}, // Fallen
+						{}, // Reina
 					],
 					DrawData: {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Nel.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Fallen.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Reina.png" },
 						],
 					},
 				},
