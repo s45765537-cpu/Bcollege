@@ -249,8 +249,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					C.MemberNumber != null &&
 					C.AllowItem &&
 					!C.IsEnclose() &&
-					!(InventoryGet(CurrentCharacter, "ItemNeck") !== null &&
-						InventoryGet(CurrentCharacter, "ItemNeck").Asset.Name == "ClubSlaveCollar")
+					InventoryGet(C, "ItemNeck")?.Asset.Name !== "ClubSlaveCollar"
 				);
 			}
 		},
