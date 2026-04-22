@@ -549,22 +549,6 @@ function FriendListBeepMenuSend() {
 }
 
 /**
- * Opens the friendlist from any screen
- */
-async function FriendListShow() {
-	if (CurrentScreen === 'FriendList') return;
-	DialogLeave({ reload: false });
-	ElementToggleGeneratedElements(CurrentScreen, false);
-	FriendListReturn = {
-		Screen: CurrentScreen,
-		Module: CurrentModule,
-		IsInChatRoom: ServerPlayerIsInChatRoom(),
-		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
-	};
-	await CommonSetScreen("Character", "FriendList");
-}
-
-/**
  * Shows the wanted beep on click from beep list
  * @param {number} i index of the beep
  */
@@ -1185,4 +1169,19 @@ function FriendListCanDelete(memberNumber) {
 	return Player.HasOnFriendlist(memberNumber) && !Player.IsOwnedByMemberNumber(memberNumber) && !Player.IsLoverOfMemberNumber(memberNumber);
 }
 
+/**
+ * Opens the friendlist from any screen
+ */
+async function FriendListShow() {
+	if (CurrentScreen === 'FriendList') return;
+	DialogLeave({ reload: false });
+	ElementToggleGeneratedElements(CurrentScreen, false);
+	FriendListReturn = {
+		Screen: CurrentScreen,
+		Module: CurrentModule,
+		IsInChatRoom: ServerPlayerIsInChatRoom(),
+		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
+	};
+	await CommonSetScreen("Character", "FriendList");
+}
 //#endregion UTILITY FUNCTIONS
