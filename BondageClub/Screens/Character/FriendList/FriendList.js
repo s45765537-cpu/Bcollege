@@ -752,17 +752,16 @@ function FriendListLoadFriendList(data) {
 		if (document.hasFocus()) NotificationReset(NotificationEventType.BEEP);
 	} else if (mode === "AllFriends") {
 		// In Delete mode, we show the friend list and allow the user to remove them
-		/** @type {[number, string][]} */
 		const allFriendEntries = [
-			...Array.from(Player.FriendNames.entries()),
-			...Player.FriendList.map((entry) => /** @type {[number, string]} */([entry, Player.FriendNames.get(entry) ?? TextGet("Unknown")])),
-			...Player.Lovership.map((entry) => entry.MemberNumber ? /** @type {[number, string]} */([entry.MemberNumber, entry.Name]) : undefined).filter(entry => entry !== undefined),
-			Player.Ownership ? /** @type {[number, string]} */([Player.Ownership?.MemberNumber, Player.Ownership?.Name]) : undefined,
+			...Player.FriendNames.entries(),
+			...Player.FriendList.map((entry) => /** @type {const} */([entry, Player.FriendNames.get(entry) ?? TextGet("Unknown")])),
+			...Player.Lovership.map((entry) => entry.MemberNumber ? /** @type {const} */([entry.MemberNumber, entry.Name]) : undefined).filter(entry => entry !== undefined),
+			Player.Ownership ? /** @type {const} */([Player.Ownership?.MemberNumber, Player.Ownership?.Name]) : undefined,
 		].filter(entry => entry !== undefined);
 		// we are using the map to filter out duplicate entries
 		const allFriendMap = new Map(allFriendEntries);
 		const allFriends = Array
-			.from(allFriendMap, /** @returns {[number, string]} */([memberNumber, memberName]) => [memberNumber, memberName])
+			.from(allFriendMap.entries())
 			.sort((a, b) => a[1].localeCompare(b[1]));
 
 		for (const [memberNumber, memberName] of allFriends) {

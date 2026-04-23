@@ -229,6 +229,7 @@
 
 .MemberName.friend-list-unknown {
 	font-style: italic;
+	user-select: none;
 }
 
 #friend-list-subscreen[data-mode="AllFriends"] .RelationType {
