@@ -1123,6 +1123,13 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // StarryOceanEveningGown
+		CasualDroppedSuit: {
+					Archetype: ExtendedArchetype.MODULAR,
+					DrawImages: false,
+					Modules: [
+						{ Name: "Color", Key: "typed", Options: [{}, {}] },
+						{ Name: "Side", Key: "M", Options: [{}, { DrawOptions: { Mirror: true } }] },
+					],}, // CasualDroppedSuit
 	}, // Cloth
 	Decals: {
 		MissMariasManor: {

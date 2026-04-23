@@ -196,6 +196,9 @@ ClothBusinessSuitTie,Tie
 ClothButtonShirtBottom,Lower Gradient
 ClothButtonShirtButtons,Buttons
 ClothButtonShirtTop,Upper Gradient
+ClothCasualDroppedSuitbase,base
+ClothCasualDroppedSuitplain,plain
+ClothCasualDroppedSuitshadow,shadow
 ClothCheerleaderTopBase,Top
 ClothCheerleaderTopInnerstrips,Inner Trim
 ClothCheerleaderTopStraps,Trim

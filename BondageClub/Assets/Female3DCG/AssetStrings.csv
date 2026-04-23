@@ -819,6 +819,15 @@ ClothAccessoryHoodedCloakSelectHood,Hood
 ClothAccessoryHoodedCloakOptionh0,Down
 ClothAccessoryHoodedCloakOptionh1,Over Head
 ClothAccessoryHoodedCloakOptionh2,Over Eyes
+ClothCasualDroppedSuitSelectBase,Configure the suit
+ClothCasualDroppedSuitSelectColor,Select the color type
+ClothCasualDroppedSuitSelectSide,Wear on which side
+ClothCasualDroppedSuitModuleColor,Color
+ClothCasualDroppedSuitModuleSide,Side
+ClothCasualDroppedSuitOptionM0,Right
+ClothCasualDroppedSuitOptionM1,Left
+ClothCasualDroppedSuitOptiontyped0,Opaque
+ClothCasualDroppedSuitOptiontyped1,Matte
 ClothCheerleaderTopTextLabel,Change Text:
 ClothChineseDress2Pink,Style 3
 ClothChineseDress2Purple,Style 2
@@ -1012,11 +1021,11 @@ ClothSlaveRagsSetc0,SourceCharacter puts some old rags over DestinationCharacter
 ClothSlaveRagsSetc1,SourceCharacter puts some old and filthy rags over DestinationCharacter body.
 ClothSlaveRagsSetc2,SourceCharacter puts some torn rags over DestinationCharacter body.
 ClothSlaveRagsSetc3,SourceCharacter puts some torn and filthy rags over DestinationCharacter body.
-ClothStarryOceanEveningGownSelectBase,Put the gown on which side
-ClothStarryOceanEveningGownSelectMirror,Put the gown on which side
 ClothStarryOceanEveningGownModuleMirror,Select side
 ClothStarryOceanEveningGownOptionM0,Right side
 ClothStarryOceanEveningGownOptionM1,Left side
+ClothStarryOceanEveningGownSelectBase,Put the gown on which side
+ClothStarryOceanEveningGownSelectMirror,Put the gown on which side
 ClothTShirt2BCLogo,Club Logo
 ClothTShirt2BDSM,BD-SM
 ClothTShirt2Gag,The Moaning Groans
