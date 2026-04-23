@@ -2560,7 +2560,14 @@ function ChatRoomTopMenuSync() {
 		const img = btn.querySelector("img.button-image");
 
 		if (!btn || !tooltip || !img) continue;
-		tooltip.replaceChildren(...(CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText]));
+		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
+		const areEqual = hoverParts.every((part, i) => {
+			const node = tooltip.childNodes[i];
+			return typeof part === "string" ? part === node?.textContent : node?.isEqualNode(part);
+		});
+		if (areEqual) {
+			tooltip.replaceChildren(...hoverParts);
+		}
 
 		if (btn.dataset.color !== state.state) {
 			btn.dataset.color = state.state;
