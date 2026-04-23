@@ -1825,9 +1825,7 @@ function ChatRoomStimulationMessage(Action) {
  * @type {ScreenResizeHandler}
  */
 function ChatRoomResize(load) {
-	if (document.getElementById("chat-room-top-menu")) {
-		ElementPositionFix("chat-room-top-menu", ChatRoomFontSize, 1005, 2, 992, 60);
-	}
+	ChatRoomTopMenuPosition();
 	const chatInput = document.getElementById("InputChat");
 	if (chatInput) {
 		/** @type {RectTuple} */
@@ -2414,7 +2412,7 @@ function ChatRoomMenuDraw() {}
 /**
  * Icon/color/tooltip state for one top-menu entry.
  * @param {ChatRoomMenuButton} menuId
- * @returns {{ iconName: string, state: ChatRoom.TopBarButtonState, hoverText: string, suffix: string }}
+ * @returns {{ iconName: string, state: ChatRoom.TopBarButtonState, hoverText: string | Node | readonly (string | Node)[], suffix: string }}
  */
 function ChatRoomMenuButtonVisualState(menuId) {
 	let iconName = menuId;
@@ -2490,7 +2488,7 @@ function ChatRoomMenuButtonVisualState(menuId) {
 function ChatRoomTopMenuPosition() {
 	const elem = document.getElementById("chat-room-top-menu");
 	if (elem) {
-		ElementPositionFix(elem, ChatRoomFontSize, 1005, 2, 992, 60);
+		ElementPositionFix(elem, ChatRoomFontSize, ChatRoomDivRect[0], 2, ChatRoomDivRect[2], 60);
 	}
 }
 
@@ -2538,12 +2536,13 @@ function ChatRoomTopMenuSync() {
 				{
 					image: "Icons/Rectangle/" + state.iconName + state.suffix + ".png",
 					tooltip: state.hoverText,
-					disabled: state.state === "Blocked"
+					disabled: state.state === "Blocked",
+					name,
 				},
 				{
 					button: {
 						classList: ["chat-room-top-menu-btn"],
-						dataAttributes: { chatMenu: name, color: state.state },
+						dataAttributes: { color: state.state },
 					},
 				},
 			);
@@ -2551,21 +2550,21 @@ function ChatRoomTopMenuSync() {
 		}
 	}
 
-	for (let i = 0; i < ChatRoomMenuButtons.length; i++) {
-		const name = ChatRoomMenuButtons[i];
+	for (const name of ChatRoomMenuButtons) {
 		const state = ChatRoomMenuButtonVisualState(name);
-		const btn = /** @type {HTMLButtonElement | undefined} */(bar.children[i]);
-		const tooltip = /** @type {HTMLDivElement | null} */(btn.querySelector(".button-tooltip"));
-		const img = /** @type {HTMLImageElement | null} */(btn.querySelector("img.button-image"));
+		/** @type {HTMLButtonElement | null} */
+		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
+		/** @type {HTMLDivElement | null} */
+		const tooltip = btn.querySelector(".button-tooltip");
+		/** @type {HTMLImageElement | null} */
+		const img = btn.querySelector("img.button-image");
 
 		if (!btn || !tooltip || !img) continue;
-		if (tooltip.textContent !== state.hoverText) {
-			tooltip.textContent = state.hoverText;
-		}
+		tooltip.replaceChildren(...(CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText]));
 
 		if (btn.dataset.color !== state.state) {
 			btn.dataset.color = state.state;
-			btn.disabled = state.state === "Blocked";
+			btn.setAttribute("aria-disabled", state.state === "Blocked" ? "true" : "false");
 		}
 
 		const imgSrc = "Icons/Rectangle/" + state.iconName + state.suffix + ".png";

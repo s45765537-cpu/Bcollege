@@ -794,11 +794,17 @@
 #chat-room-top-menu {
   display: flex;
   flex-direction: row;
-  gap: min(0.2dvh, 0.1dvw);
+  gap: 2px;
   box-sizing: border-box;
   z-index: 1;
 }
+#chat-room-top-menu > *:first-child {
+  border-left: unset;
+}
 
+#chat-room-top-menu > *:last-child {
+  border-right: unset;
+}
 .chat-room-top-menu-btn {
   display: flex;
   align-items: center;
