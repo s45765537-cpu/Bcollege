@@ -2412,10 +2412,11 @@ function ChatRoomMenuDraw() {}
 /**
  * Icon/color/tooltip state for one top-menu entry.
  * @param {ChatRoomMenuButton} menuId
- * @returns {{ iconName: string, state: ChatRoom.TopBarButtonState, hoverText: string | Node | readonly (string | Node)[], suffix: string }}
+ * @returns {{ image: string, state: ChatRoom.TopBarButtonState, hoverText: string | Node | readonly (string | Node)[] }}
  */
 function ChatRoomMenuButtonVisualState(menuId) {
-	let iconName = menuId;
+	let image = menuId;
+	let imageSrc = "";
 	/** @type {ChatRoom.TopBarButtonState} */
 	let state = "Default";
 	let suffix = "";
@@ -2427,13 +2428,15 @@ function ChatRoomMenuButtonVisualState(menuId) {
 				state = "Blocked";
 			} else if (ChatRoomIsLeavingSlowly()) {
 				state = "Limited";
-				iconName = "Cancel";
+				image = "Cancel";
 			} else {
 				state = Player.IsSlow() ? "Limited" : "Default";
 			}
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
 			break;
 		case "Icons":
 			suffix = ChatRoomHideIconState.toString();
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
 			break;
 		case "Kneel": {
 			let status = 0;
@@ -2455,6 +2458,7 @@ function ChatRoomMenuButtonVisualState(menuId) {
 					state = "Default";
 					break;
 			}
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
 			break;
 		}
 		case "Dress":
@@ -2476,10 +2480,14 @@ function ChatRoomMenuButtonVisualState(menuId) {
 			} else {
 				state = "Default";
 			}
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
+			break;
+		default:
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
 			break;
 	}
-	hoverText ??= TextGet("Menu" + iconName);
-	return { iconName, state, hoverText, suffix };
+	hoverText ??= TextGet("Menu" + image);
+	return { image: imageSrc, state, hoverText };
 }
 
 /**
@@ -2534,7 +2542,7 @@ function ChatRoomTopMenuSync() {
 					ChatRoomMenuPerformAction(name, ev);
 				},
 				{
-					image: "Icons/Rectangle/" + state.iconName + state.suffix + ".png",
+					image: state.image,
 					tooltip: state.hoverText,
 					disabled: state.state === "Blocked",
 					name,
@@ -2574,7 +2582,7 @@ function ChatRoomTopMenuSync() {
 			btn.setAttribute("aria-disabled", state.state === "Blocked" ? "true" : "false");
 		}
 
-		const imgSrc = "Icons/Rectangle/" + state.iconName + state.suffix + ".png";
+		const imgSrc = state.image;
 		if (img.src !== imgSrc) {
 			img.src = imgSrc;
 		}
