@@ -1795,7 +1795,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			root.activeElement === null
 			|| root.activeElement === document.body
-			|| root.activeElement.id === "MainCanvas"
 			|| root.activeElement instanceof HTMLDialogElement
 		);
 
@@ -1837,7 +1836,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			activeElement === null
 			|| activeElement === document.body
-			|| activeElement.id === "MainCanvas"
 			|| activeElement instanceof HTMLDialogElement
 		);
 
@@ -1884,7 +1882,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			activeElement === null
 			|| activeElement === document.body
-			|| activeElement.id === "MainCanvas"
 			|| activeElement instanceof HTMLDialogElement
 		);
 

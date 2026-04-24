@@ -3137,7 +3137,6 @@ function ChatRoomKeyDown(event) {
 	if (
 		document.activeElement === null
 		|| document.activeElement === document.body
-		|| document.activeElement.id === "MainCanvas"
 	) {
 		const chatInput = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
 		const chatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog"));
