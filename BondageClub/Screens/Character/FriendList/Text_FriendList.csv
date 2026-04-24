@@ -22,8 +22,16 @@ TypeOwner,Owner
 TypeLover,Lover
 TypeSubmissive,Submissive
 TypeFriend,Friend
+TypePending,Pending friend...
 TypeFemale,Female-only room
 TypeMale,Male-only room
 TypeMixed,Mixed male/female room
 TypeAsylum,Asylum room
 TypePrivate,Private room
+AddFriends,Add friends
+AddFriendsPrompt,Add friends (comma separated list of member numbers)
+AddFriendsError,No valid member numbers were provided.
+AddFriendsSuccess,Added friends numbers: $addedMembers.
+AddFriendsNoNewFriends,No new friends were added.
+ConfirmDelete,Are you sure you want to delete $memberName ($memberNumber)?
+Unknown,Unknown

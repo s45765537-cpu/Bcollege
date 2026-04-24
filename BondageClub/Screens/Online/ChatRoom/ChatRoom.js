@@ -391,7 +391,9 @@ function ChatRoomCanAddFriend() { return CurrentCharacter && !CurrentCharacter.I
  * Checks if the player can remove the current character from her friendlist.
  * @returns {boolean} - TRUE if the current character is in the player's friendlist.
  */
-function ChatRoomCanRemoveFriend() { return CurrentCharacter && CurrentCharacter.IsFriend(); }
+function ChatRoomCanRemoveFriend() {
+	return CurrentCharacter && FriendListCanDelete(CurrentCharacter.MemberNumber);
+}
 /**
  * Checks if the player can add the current character to her ghostlist
  * @returns {boolean} - TRUE if the current character is not in the player's ghostlist yet.
@@ -5790,9 +5792,10 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
  * @param {boolean} adding - If TRUE adding to the list, if FALSE removing from the list
  * @param {number} memberNumber - The member number to add/remove
  * @param {"FriendRequest"} [notification] - used to send notifications
+ * @param {boolean} [sync = true] - if true, will sync the list to the server
  * @returns {void} - Nothing
  */
-function ChatRoomListUpdate(list, adding, memberNumber, notification) {
+function ChatRoomListUpdate(list, adding, memberNumber, notification, sync = true) {
 	if (memberNumber === Player.MemberNumber) return;
 	if (!CommonIsNonNegativeInteger(memberNumber)) return;
 	const numIdx = list.indexOf(memberNumber);
@@ -5818,7 +5821,7 @@ function ChatRoomListUpdate(list, adding, memberNumber, notification) {
 		}
 	}
 
-	ServerPlayerRelationsSync();
+	if (sync) ServerPlayerRelationsSync();
 	// The server will take care of pushing out updated character if the blacklist or whitelist was touched
 }
 
