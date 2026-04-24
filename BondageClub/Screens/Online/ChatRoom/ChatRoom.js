@@ -1685,7 +1685,7 @@ function ChatRoomSetLastChatRoom(room) {
 			Player.LastChatRoom = ChatRoomGetSettings(room);
 			ServerAccountUpdate.QueueData({ LastChatRoom: Player.LastChatRoom });
 		}
-	} else {
+	} else if (Player.LastChatRoom !== null || Player.LastMapData !== null) {
 		Player.LastChatRoom = null;
 		Player.LastMapData = null;
 		ServerAccountUpdate.QueueData({ LastChatRoom: null, LastMapData: null });
