@@ -1518,7 +1518,7 @@ async function ServerRoomSearch(queryString, options) {
 		...options,
 	};
 
-	if (CommonObjectEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
+	if (CommonDeepEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
 		return Result.failure(new ServerInProgressError("Search query while another query is in progress!"));
 	}
 
