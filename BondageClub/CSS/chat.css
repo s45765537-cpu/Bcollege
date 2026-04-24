@@ -789,3 +789,47 @@
     background-color: color-mix(in srgb, var(--base-color, white) 90%, gray 10%);
   }
 }
+
+/* Top-right chat room toolbar (canvas coordinates via ElementPositionFix) */
+#chat-room-top-menu {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  box-sizing: border-box;
+  z-index: 1;
+}
+#chat-room-top-menu > *:first-child {
+  border-left: unset;
+}
+
+#chat-room-top-menu > *:last-child {
+  border-right: unset;
+}
+.chat-room-top-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  box-sizing: border-box;
+  border: var(--border-width) solid black;
+}
+
+.chat-room-top-menu-btn[data-color="Default"] {
+  --button-color: white;
+	--hover-color: #dedede;
+}
+
+.chat-room-top-menu-btn[data-color="Limited"] {
+  --button-color: yellow;
+	--hover-color: #f6f62a;
+}
+
+.chat-room-top-menu-btn[data-color="Blocked"] {
+  --button-color: pink;
+	--disabled-color: var(--button-color);
+}
+
+.chat-room-top-menu-btn .button-image {
+	top: unset;
+	object-fit: contain;
+}
