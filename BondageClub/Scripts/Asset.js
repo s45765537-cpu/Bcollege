@@ -74,7 +74,6 @@ function AssetGroupAdd(Family, GroupDef) {
 		Name: GroupDef.Group,
 		Description: GroupDef.Group,
 		Asset: [],
-		ParentGroup: AssetParseParentGroup(GroupDef.ParentGroup, {}),
 		Category: (GroupDef.Category == null) ? "Appearance" : GroupDef.Category,
 		IsDefault: (GroupDef.Default == null) ? true : GroupDef.Default,
 		IsRestraint: (GroupDef.IsRestraint == null) ? false : GroupDef.IsRestraint,
@@ -89,9 +88,6 @@ function AssetGroupAdd(Family, GroupDef) {
 		Clothing: (GroupDef.Clothing == null) ? false : GroupDef.Clothing,
 		Underwear: (GroupDef.Underwear == null) ? false : GroupDef.Underwear,
 		BodyCosplay: (GroupDef.BodyCosplay == null) ? false : GroupDef.BodyCosplay,
-		EditOpacity: (GroupDef.EditOpacity == null) ? false : GroupDef.EditOpacity,
-		MinOpacity: (GroupDef.MinOpacity == null) ? 1 : GroupDef.MinOpacity,
-		MaxOpacity: (GroupDef.MaxOpacity == null) ? 1 : GroupDef.MaxOpacity,
 		Hide: GroupDef.Hide,
 		Block: GroupDef.Block,
 		Zone: GroupDef.Zone,
@@ -103,15 +99,12 @@ function AssetGroupAdd(Family, GroupDef) {
 		MirrorGroup: (GroupDef.MirrorGroup == null) ? "" : GroupDef.MirrorGroup,
 		RemoveItemOnRemove: (GroupDef.RemoveItemOnRemove == null) ? [] : GroupDef.RemoveItemOnRemove,
 		DrawingPriority: (GroupDef.Priority == null) ? AssetGroup.length : GroupDef.Priority,
-		DrawingLeft: AssetParseTopLeft(GroupDef.Left, 0),
-		DrawingTop: AssetParseTopLeft(GroupDef.Top, 0),
 		DrawingBlink: (GroupDef.Blink == null) ? false : GroupDef.Blink,
 		InheritColor: (typeof GroupDef.InheritColor === "string" ? GroupDef.InheritColor : null),
 		PreviewZone: GroupDef.PreviewZone,
 		DynamicGroupName: GroupDef.DynamicGroupName || GroupDef.Group,
 		MirrorActivitiesFrom: GroupDef.MirrorActivitiesFrom || undefined,
 		ArousalZone: (typeof GroupDef.ArousalZone === "string" ? GroupDef.ArousalZone : undefined),
-		ColorSuffix: GroupDef.ColorSuffix || {},
 		ExpressionPrerequisite: GroupDef.ExpressionPrerequisite || [],
 		HasPreviewImages: typeof GroupDef.HasPreviewImages === "boolean" ? GroupDef.HasPreviewImages : AllowNone,
 		/** @type {() => this is AssetAppearanceGroup} */
@@ -194,16 +187,17 @@ function AssetActivityMirrorGroupSet(group) {
  * @param {AssetGroup} Group
  * @param {AssetDefinition} AssetDef
  * @param {ExtendedItemMainConfig} ExtendedConfig
+ * @param {AssetGroupDefinition} GroupDef
  * @returns {void} - Nothing
  */
-function AssetAdd(Group, AssetDef, ExtendedConfig) {
+function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
+	if (!GroupDef) {
+		// Temporary until everyone catches up
+		throw new Error(`Missing group definition object for ${AssetDef.Name}`);
+	}
+
 	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
 	const difficulty = AssetDef.Difficulty ?? 0;
-
-	const editOpacity = (typeof AssetDef.EditOpacity === "boolean") ? AssetDef.EditOpacity : (typeof Group.EditOpacity === "boolean") ? Group.EditOpacity : false;
-	let minOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MinOpacity === "number" ? AssetDef.MinOpacity : Group.MinOpacity) : 1;
-	let maxOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MaxOpacity === "number" ? AssetDef.MaxOpacity : Group.MaxOpacity) : 1;
-	const opacity = editOpacity ? AssetParseOpacity(AssetDef.Opacity, minOpacity, maxOpacity) : 1;
 
 	/** @type {Mutable<Asset>} */
 	var A = {
@@ -211,11 +205,8 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Description: AssetDef.Name,
 		Group: Group,
 		ParentItem: AssetDef.ParentItem,
-		ParentGroup: AssetParseParentGroup(AssetDef.ParentGroup, Group.ParentGroup),
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
 		Visible: (AssetDef.Visible == null) ? true : AssetDef.Visible,
-		StyleOverride: AssetDef.StyleOverride,
-		CreateLayerTypesOverride: AssetDef.CreateLayerTypesOverride,
 		DrawOffset: AssetDef.DrawOffset,
 		NotVisibleOnScreen: Array.isArray(AssetDef.NotVisibleOnScreen) ? AssetDef.NotVisibleOnScreen : [],
 		Wear: (AssetDef.Wear == null) ? true : AssetDef.Wear,
@@ -249,13 +240,8 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		RemoveTime: (AssetDef.RemoveTime == null) ? ((AssetDef.Time == null) ? 0 : AssetDef.Time) : AssetDef.RemoveTime,
 		RemoveTimer: (AssetDef.RemoveTimer == null) ? 0 : AssetDef.RemoveTimer,
 		MaxTimer: (AssetDef.MaxTimer == null) ? 0 : AssetDef.MaxTimer,
-		DrawingPriority: AssetDef.Priority,
-		DrawingLeft: AssetParseTopLeft(AssetDef.Left, Group.DrawingLeft),
-		DrawingTop: AssetParseTopLeft(AssetDef.Top, Group.DrawingTop),
 		HeightModifier: (AssetDef.Height == null) ? 0 : AssetDef.Height,
 		ZoomModifier: CommonClamp(AssetDef.Zoom ?? 1, 0.9, 1.0),
-		Alpha: AssetParseAlpha(AssetDef.Alpha, "Asset.Alpha"),
-		FullAlpha: AssetDef.FullAlpha == null ? true : AssetDef.FullAlpha,
 		Prerequisite: (typeof AssetDef.Prerequisite === "string" ? [AssetDef.Prerequisite] : Array.isArray(AssetDef.Prerequisite) ? AssetDef.Prerequisite : []),
 		Extended: (AssetDef.Extended == null) ? false : AssetDef.Extended,
 		AlwaysExtend: (AssetDef.AlwaysExtend == null) ? false : AssetDef.AlwaysExtend,
@@ -275,10 +261,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
-		EditOpacity: editOpacity,
-		Opacity: opacity,
-		MinOpacity: minOpacity,
-		MaxOpacity: maxOpacity,
+		EditOpacity: !!(AssetDef.EditOpacity ?? GroupDef.EditOpacity ?? false),
 		Audio: AssetDef.Audio,
 		Category: AssetDef.Category,
 		Fetish: AssetDef.Fetish,
@@ -314,13 +297,11 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CustomBlindBackground: typeof AssetDef.CustomBlindBackground === 'string' ? AssetDef.CustomBlindBackground : undefined,
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
-		PoseMapping: AssetParsePoseMapping(AssetDef.PoseMapping, Group.PoseMapping, AssetDef.InheritPoseMappingFields),
 		Tint: Array.isArray(AssetDef.Tint) ? AssetDef.Tint : [],
 		AllowTint: Array.isArray(AssetDef.Tint) && AssetDef.Tint.length > 0,
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
 		Gender: AssetDef.Gender,
 		CraftGroup: typeof AssetDef.CraftGroup === "string" ? AssetDef.CraftGroup : AssetDef.Name,
-		ColorSuffix: AssetDef.ColorSuffix || Group.ColorSuffix,
 		ExpressionPrerequisite: Array.isArray(AssetDef.ExpressionPrerequisite) ? AssetDef.ExpressionPrerequisite : Group.ExpressionPrerequisite,
 		AllowColorize: typeof AssetDef.AllowColorize === "boolean" ? AssetDef.AllowColorize : Group.AllowColorize,
 	};
@@ -335,7 +316,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	}
 	A.Layer = layers.map((Layer, I) => {
 		Layer.InheritPoseMappingFields ??= AssetDef.InheritPoseMappingFields;
-		return AssetMapLayer(Layer, A, I);
+		return AssetMapLayer(Layer, A, I, AssetDef, GroupDef);
 	});
 	A.Layer.forEach((layer, i) => {
 		// Now that most layer pose mappings are initialized, handle all `Layer.CopyLayerPoseMapping` cases
@@ -665,13 +646,14 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * @param {AssetLayerDefinition} Layer - The raw layer definition
  * @param {Asset} A - The built asset
  * @param {number} I - The index of the layer within the asset
+ * @param {AssetDefinition} AssetDef - The definition for the built asset
+ * @param {AssetGroupDefinition} GroupDef - The definition for the built asset's group
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
-function AssetMapLayer(Layer, A, I) {
-	const editOpacity = A.EditOpacity;
-	const minOpacity = editOpacity ? AssetParseOpacity(Layer.MinOpacity ?? A.MinOpacity, 0, 1) : 1;
-	const maxOpacity = editOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? A.MaxOpacity, 0, 1) : 1;
-	const opacity = AssetParseOpacity(Layer.Opacity ?? A.Opacity, minOpacity, maxOpacity);
+function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
+	const minOpacity = A.EditOpacity ? AssetParseOpacity(Layer.MinOpacity ?? AssetDef.MinOpacity ?? GroupDef.MinOpacity ?? 1, 0, 1) : 1;
+	const maxOpacity = A.EditOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? AssetDef.MaxOpacity ?? GroupDef.MaxOpacity ?? 1, 0, 1) : 1;
+	const opacity = AssetParseOpacity(Layer.Opacity ?? AssetDef.Opacity, minOpacity, maxOpacity);
 
 	/** @type {AssetLayer} */
 	const L = {
@@ -683,31 +665,32 @@ function AssetMapLayer(Layer, A, I) {
 		AllowTypes: Layer.AllowTypes != null ? AssetParseAllowTypes(Layer.AllowTypes) : null,
 		CreateLayerTypes: Array.isArray(Layer.CreateLayerTypes) ? Layer.CreateLayerTypes : A.CreateLayerTypes,
 		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
-		ParentGroup: AssetParseParentGroup(Layer.ParentGroup, A.ParentGroup),
-		Priority: Layer.Priority || A.DrawingPriority || A.Group.DrawingPriority,
+		ParentGroup: AssetParseParentGroup(Layer.ParentGroup, AssetParseParentGroup(AssetDef.ParentGroup, AssetParseParentGroup(GroupDef.ParentGroup, {}))),
+		Priority: Layer.Priority ?? AssetDef.Priority ?? A.Group.DrawingPriority,
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
-		Alpha: AssetParseLayerAlpha(Layer, A, I),
+		Alpha: AssetParseLayerAlpha(Layer, AssetDef, I),
+		FullAlpha: AssetDef.FullAlpha == null ? true : AssetDef.FullAlpha,
 		Asset: A,
-		DrawingLeft: AssetParseTopLeft(Layer.Left, A.DrawingLeft),
-		DrawingTop: AssetParseTopLeft(Layer.Top, A.DrawingTop),
+		DrawingLeft: AssetParseTopLeft(Layer.Left, AssetParseTopLeft(AssetDef.Left, AssetParseTopLeft(GroupDef.Left, 0))),
+		DrawingTop: AssetParseTopLeft(Layer.Top, AssetParseTopLeft(AssetDef.Top, AssetParseTopLeft(GroupDef.Top, 0))),
 		HideAs: Layer.HideAs,
 		FixedPosition: typeof Layer.FixedPosition === "boolean" ? Layer.FixedPosition : false,
 		HasImage: Layer.HasImage ?? A.Visible,
 		Opacity: opacity,
 		MinOpacity: minOpacity,
 		MaxOpacity: maxOpacity,
-		BlendingMode: Layer.BlendingMode || "source-over",
+		BlendingMode: Layer.BlendingMode ?? "source-over",
 		TextureMask: Layer.TextureMask,
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
-		StyleOverride: Layer.StyleOverride ?? A.StyleOverride,
-		CreateLayerTypesOverride: Layer.CreateLayerTypesOverride ?? A.CreateLayerTypesOverride,
+		StyleOverride: Array.isArray(Layer.StyleOverride) ? Layer.StyleOverride : Array.isArray(AssetDef.StyleOverride) ? AssetDef.StyleOverride : [],
+		CreateLayerTypesOverride: Array.isArray(Layer.CreateLayerTypesOverride) ? Layer.CreateLayerTypesOverride : Array.isArray(AssetDef.CreateLayerTypesOverride) ? AssetDef.CreateLayerTypesOverride : [],
 		// If `null`, initialized in the second asset layer loop in `AssetAdd()`
-		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields),
+		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, AssetParsePoseMapping(AssetDef.PoseMapping, A.Group.PoseMapping, AssetDef.InheritPoseMappingFields), Layer.InheritPoseMappingFields),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
-		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
+		ColorSuffix: Layer.ColorSuffix ?? AssetDef.ColorSuffix ?? GroupDef.ColorSuffix ?? {},
 	};
 	return L;
 }
@@ -831,15 +814,15 @@ function AssetParseAlpha(alphaDef, warningPrefix=null) {
 /**
  * Parse the passed layers alpha mask definitions.
  * @param {AssetLayerDefinition} Layer - The raw layer definition
- * @param {Asset} NewAsset - The raw asset definition
+ * @param {AssetDefinition} NewAsset - The raw asset definition
  * @param {number} I - The index of the layer within its asset
  * @return {Alpha.Data[]} - a list of alpha mask data for the layer
  */
 function AssetParseLayerAlpha(Layer, NewAsset, I) {
-	const Alpha = AssetParseAlpha(Layer.Alpha, "Layer.Alpha") || [];
+	const Alpha = AssetParseAlpha(Layer.Alpha, "Layer.Alpha") ?? [];
 	// If the layer is the first layer for an asset, add the asset's alpha masks
 	if (I === 0 && NewAsset.Alpha) {
-		Alpha.push(...NewAsset.Alpha);
+		Alpha.push(...(AssetParseAlpha(NewAsset.Alpha, "Asset.Alpha") ?? []));
 	}
 	return Alpha;
 }
@@ -975,7 +958,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 	for (const groupDef of Groups) {
 		const G = AssetGroupAdd(Family, groupDef);
 		for (const assetDef of Object.values(assetDefsParsed[G.Name])) {
-			AssetAdd(G, assetDef, ExtendedConfig);
+			AssetAdd(G, assetDef, ExtendedConfig, groupDef);
 		}
 	}
 

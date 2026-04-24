@@ -515,7 +515,7 @@ function CommonDrawAppearanceBuild(
 			if (shouldColorize(layerColor)) {
 				drawImageColorize(baseURLExpression + layerURL, X, Y, {
 					HexColor: layerColor,
-					FullAlpha: asset.FullAlpha,
+					FullAlpha: layer.FullAlpha,
 					AlphaMasks: masks,
 					Alpha: opacity,
 					Invert: inverted,
@@ -525,7 +525,7 @@ function CommonDrawAppearanceBuild(
 				});
 				drawImageColorizeBlink(baseURLBlink + layerURL, X, Y, {
 					HexColor: layerColor,
-					FullAlpha: asset.FullAlpha,
+					FullAlpha: layer.FullAlpha,
 					AlphaMasks: masks,
 					Alpha: opacity,
 					Invert: inverted,

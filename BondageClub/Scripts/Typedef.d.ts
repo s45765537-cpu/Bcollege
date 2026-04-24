@@ -1113,8 +1113,6 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	/** An object mapping pose names to group names from which to inherit body sizes. */
-	readonly ParentGroup: ParentGroup.Data;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
 	readonly IsDefault: boolean;
 	readonly IsRestraint: boolean;
@@ -1142,12 +1140,7 @@ interface AssetGroup {
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
 	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
-	readonly EditOpacity: boolean;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly DrawingPriority: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
@@ -1164,9 +1157,6 @@ interface AssetGroup {
 	readonly ArousalZone?: AssetGroupItemName;
 	readonly ArousalZoneID?: number;
 
-	/** A dict mapping colors to custom filename suffices.
-	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
-	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>>;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly HasPreviewImages: boolean;
 	/** Return whether this group belongs to the `Appearance` {@link AssetGroup.Category} */
@@ -1239,6 +1229,7 @@ interface AssetLayer {
 	readonly Priority: number;
 	readonly InheritColor: AssetGroupName | null;
 	readonly Alpha: readonly Alpha.Data[];
+	readonly FullAlpha: boolean;
 	/** The asset that this layer belongs to */
 	readonly Asset: Asset;
 	readonly DrawingLeft: TopLeft.Data;
@@ -1271,6 +1262,10 @@ interface AssetLayer {
 	readonly ShowForAttribute: readonly AssetAttribute[] | null;
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
 	readonly Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
+	/**
+	 * A dict mapping colors to custom filename suffices.
+	 * The "HEX_COLOR" key is special-cased to apply to all color hex codes.
+	 */
 	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>> | null;
 }
 
@@ -1314,8 +1309,6 @@ interface Asset {
 	readonly Description: string;
 	readonly Group: AssetGroup;
 	readonly ParentItem?: string;
-	/** An object mapping pose names to group names from which to inherit body sizes. */
-	readonly ParentGroup: ParentGroup.Data;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
 	readonly NotVisibleOnScreen?: readonly string[];
@@ -1340,6 +1333,7 @@ interface Asset {
 	readonly StyleOverride?: BodyStyle[];
 	readonly SupportedStyles?: BodyStyle[];
 	readonly CreateLayerTypesOverride?: number[];
+	// Only on BodyStyle
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;
 				Asset?: string;
@@ -1347,7 +1341,6 @@ interface Asset {
 				X?: number;
 				Y?: number;
 		}[];
-	readonly PoseMapping: Readonly<AssetPoseMapping>;
 	readonly AllowActivePose?: readonly AssetPoseName[];
 	readonly Value: number;
 	readonly NeverSell: boolean;
@@ -1361,9 +1354,6 @@ interface Asset {
 	readonly RemoveTime: number;
 	readonly RemoveTimer: number;
 	readonly MaxTimer: number;
-	readonly DrawingPriority?: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
 	/**
 	 * The height of the character as set in the special `Height` appearance group.
@@ -1371,7 +1361,6 @@ interface Asset {
 	 * Is represented by a number in the `[0.9, 1.0]` interval.
 	 */
 	readonly ZoomModifier: number;
-	readonly Alpha: null | readonly Alpha.Data[];
 	readonly Prerequisite: readonly AssetPrerequisite[];
 	readonly Extended: boolean;
 	readonly AlwaysExtend: boolean;
@@ -1394,9 +1383,6 @@ interface Asset {
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
 	 */
 	readonly DefaultColor: readonly BCColor[];
-	readonly Opacity: number;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly EditOpacity: boolean;
 	readonly Audio?: string;
 	readonly Category?: readonly AssetCategory[];
@@ -1442,8 +1428,6 @@ interface Asset {
 	readonly DefaultTint?: BCColor;
 	readonly Gender?: AssetGender;
 	readonly CraftGroup: string;
-	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>>;
-	readonly FullAlpha: boolean;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly AllowColorize: boolean;
 }

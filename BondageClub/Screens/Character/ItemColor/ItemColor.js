@@ -90,18 +90,27 @@ function ItemColorSanitizeColor(item) {
  */
 function ItemColorSanitizeProperty(item) {
 	let opacity = item.Asset.Layer.map(l => l.Opacity);
+	// let item.Property?.Opacity = item.Property?.Opacity;
+	if (CommonIsFinite(item.Property?.Opacity)) {
+		if (item.Asset.Layer.some(l => CommonClamp(/** @type {number} */ (item.Property.Opacity), l.MinOpacity, l.MaxOpacity) === item.Property.Opacity)) {
+			// The value fits in all of our layers min/max, use that
+			opacity.fill(item.Property.Opacity);
+		} else {
+			// It doesn't, so make a fake array with that value and let the next block validate it
+			item.Property.Opacity = Array(item.Asset.Layer.length).fill(item.Property?.Opacity);
+		}
+	}
 	if (Array.isArray(item.Property?.Opacity)) {
 		for (const [i, opacityValue] of item.Property.Opacity.entries()) {
 			if (i >= opacity.length) {
 				break;
-			} if (!CommonIsFinite(opacityValue)) {
+			}
+			if (!CommonIsFinite(opacityValue)) {
 				continue;
 			} else {
 				opacity[i] = CommonClamp(opacityValue, item.Asset.Layer[i].MinOpacity, item.Asset.Layer[i].MaxOpacity);
 			}
 		}
-	} else if (CommonIsFinite(item.Property?.Opacity)) {
-		opacity.fill(CommonClamp(item.Property.Opacity, item.Asset.MinOpacity, item.Asset.MaxOpacity));
 	}
 	return Object.assign(item.Property ?? {}, { Opacity: opacity });
 }

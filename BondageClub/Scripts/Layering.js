@@ -421,7 +421,7 @@ var Layering = {
 		const priorityIsObject = CommonIsObject(this.OverridePriority);
 
 		const layerGroupings = this._GroupLayers(this.Asset.Layer);
-		const assetPriority = this.Asset.DrawingPriority ?? this.Asset.Group.DrawingPriority;
+		const assetPriority = this.Asset.Group.DrawingPriority;
 		const itemPriority = Number.isInteger(this.OverridePriority) ? /** @type {number} */(this.OverridePriority) : assetPriority;
 		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? /** @type {number} */(this._PriorityDefault) : assetPriority;
 

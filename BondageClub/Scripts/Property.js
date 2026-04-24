@@ -33,7 +33,13 @@ function PropertyGetID(Name, Item=DialogFocusItem) {
  * @returns {void} - Nothing
  */
 const PropertyOpacityChange = CommonLimitFunction((C, Item, Opacity) => {
-	Item.Property.Opacity = Opacity;
+	if (Array.isArray(Item.Property.Opacity)) {
+		for (const [i, layer] of Item.Asset.Layer.entries()) {
+			Item.Property.Opacity[i] = CommonClamp(Opacity, layer.MinOpacity, layer.MaxOpacity);
+		}
+	} else {
+		Item.Property.Opacity = Opacity;
+	}
 	CharacterLoadCanvas(C);
 });
 
@@ -45,7 +51,7 @@ function PropertyOpacityInit({ asset }, originalFunction, C, item, push=true, re
 
 	// Abort prematurely if all opacity values are within bounds; no need for any refreshes or pushes as nothing was changed
 	const opacity = item.Property.Opacity;
-	if (CommonIsFinite(opacity, asset.MinOpacity, asset.MaxOpacity)) {
+	if (CommonIsFinite(opacity) && item.Asset.Layer.every(l => CommonClamp(opacity, l.MinOpacity, l.MaxOpacity) === opacity)) {
 		return originalFunction?.(C, item, push, refresh) ?? false;
 	} else if (
 		CommonIsArray(opacity)
@@ -56,7 +62,7 @@ function PropertyOpacityInit({ asset }, originalFunction, C, item, push=true, re
 	}
 
 	// Illegal or uninitialized opacity value; restore a valid default and perform the whole push + refresh dance
-	item.Property.Opacity = asset.Opacity;
+	item.Property.Opacity = asset.Layer.map(l => l.Opacity);
 
 	if (originalFunction) originalFunction(C, item, false, false);
 	if (refresh) CharacterRefresh(C, push, false);
@@ -81,11 +87,13 @@ function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIco
 	}
 
 	const opacity = CommonIsNumeric(DialogFocusItem.Property.Opacity) ? DialogFocusItem.Property.Opacity : 1;
+	const minOpacity = Math.min(...asset.Layer.map(l => l.MinOpacity));
+	const maxOpacity = Math.max(...asset.Layer.map(l => l.MaxOpacity));
 	const opacitySlider = ElementCreateRangeInput(
 		ID,
 		opacity,
-		asset.MinOpacity,
-		asset.MaxOpacity,
+		minOpacity,
+		maxOpacity,
 		0.01,
 		thumbIcon,
 	);
@@ -145,7 +153,9 @@ function PropertyOpacityExit({ asset }, OriginalFunction, Refresh=true) {
 	const Opacity = Number(ElementValue(ID));
 
 	// Restore the original opacity if the new opacity is invalid
-	if (!(Opacity <= asset.MaxOpacity && Opacity >= asset.MinOpacity)) {
+	const minOpacity = Math.min(...asset.Layer.map(l => l.MinOpacity));
+	const maxOpacity = Math.max(...asset.Layer.map(l => l.MaxOpacity));
+	if (!(Opacity <= maxOpacity && Opacity >= minOpacity)) {
 		DialogFocusItem.Property.Opacity = PropertyOriginalValue.get(ID);
 		ElementRemove(ID);
 		PropertyOriginalValue.delete(ID);
