@@ -22918,6 +22918,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DragonPlush
+		Chocolate: {
+			Archetype: "modular",
+			DrawImages: false,
+			Modules: [{ Name: "Type", Key: "p", Options: [{}, {}, {}, {}] }],
+		}, // Chocolate
 	}, // ItemHandheld
 	EyeShadow: {
 		Running: {

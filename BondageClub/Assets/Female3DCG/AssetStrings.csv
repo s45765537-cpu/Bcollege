@@ -3910,6 +3910,13 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldChocolateModuleType,Change
+ItemHandheldChocolateOptionp0,Wrapped
+ItemHandheldChocolateOptionp1,Foiled
+ItemHandheldChocolateOptionp2,Golden ticket
+ItemHandheldChocolateOptionp3,Chocolate
+ItemHandheldChocolateSelectBase,Change your bar type
+ItemHandheldChocolateSelectType,Chocolate bar type...
 ItemHandheldDragonPlushSelect,Select Position
 ItemHandheldDragonPlushSetHolding,SourceCharacter holds a cute Dragon Plush!
 ItemHandheldDragonPlushHolding,Holding

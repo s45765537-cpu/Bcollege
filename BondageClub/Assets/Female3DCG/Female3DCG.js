@@ -46620,6 +46620,43 @@ var AssetFemale3DCG = [
 					License: "CC0 1.0 Universal/Public domain",
 				},
 			},
+			{
+				Name: "Chocolate",
+				Random: false,
+				Top: {
+					[PoseType.DEFAULT]: 350,
+					BackCuffs: 342,
+					Yoked: 120,
+					OverTheHead: -10,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 190,
+					BackCuffs: 327,
+					Yoked: 30,
+					OverTheHead: 110,
+				},
+				Difficulty: -10,
+				ParentGroup: {},
+				IsRestraint: false,
+				PoseMapping: {
+					...AssetPoseMapping.ItemHandheld,
+					BackCuffs: "",
+					Yoked: "",
+					OverTheHead: "",
+				},
+				AllowActivity: ["EatItem"],
+				Layer: [
+					{ Name: "ChocolateBar", AllowTypes: { p: [2, 3] } },
+					{ Name: "GoldTicket", AllowTypes: { p: [2] } },
+					{ Name: "AluminumFoil", AllowTypes: { p: [0, 1] } },
+					{ Name: "WrappingPaper", AllowTypes: { p: [0] } },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "巧克力",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
