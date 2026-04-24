@@ -2484,21 +2484,28 @@ function CharacterCanChangeNickname(C) {
  *
  * @param {Character} C - The character to change the nickname of.
  * @param {string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
- * @return {"NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} null if the nickname was valid, or an explanation for why the nickname was rejected.
+ * @return {null | NicknameStatus} null if the nickname was valid, or an explanation for why the nickname was rejected.
  */
 function CharacterSetNickname(C, Nick, fromOwner = false) {
 	if (!C.IsPlayer()) return null;
 
 	Nick = Nick.trim();
-	if (C.Nickname === Nick) return null;
-
-	const status = CharacterValidateNickname(C, Nick, fromOwner);
-	if (status) {
-		return status;
-	}
+	// Same nickname, or setting an empty nickname with no nickname already
+	if (C.Nickname === Nick || Nick.length === 0 && !C.Nickname) return null;
 
 	const oldNick = C.Nickname ?? C.Name;
-	C.Nickname = Nick;
+
+	if (Nick.length === 0) {
+		// We're clearing nicknames
+		delete C.Nickname;
+		Nick = null;
+	} else {
+		const status = CharacterValidateNickname(C, Nick, fromOwner);
+		if (status) {
+			return status;
+		}
+		C.Nickname = Nick;
+	}
 	ServerAccountUpdate.QueueData({ Nickname: Nick });
 
 	if (ServerPlayerIsInChatRoom()) {
@@ -2520,8 +2527,8 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
  * Validate the given character's nickname
  *
  * @param {Character} C - The character to change the nickname of.
- * @param {string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
- * @return {"NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} null if the nickname was valid, or an explanation for why the nickname was rejected.
+ * @param {string} Nick - The name to use as the new nickname.
+ * @return {null | NicknameStatus} null if the nickname was valid, or an explanation for why the nickname was rejected.
  */
 function CharacterValidateNickname(C, Nick, fromOwner = false) {
 	if (!(CharacterCanChangeNickname(C) && !fromOwner)) {
@@ -2529,7 +2536,8 @@ function CharacterValidateNickname(C, Nick, fromOwner = false) {
 	}
 
 	if (Nick.length > 20) return "NicknameTooLong";
-	if (Nick.length > 0 && !ServerCharacterNicknameRegex.test(Nick)) return "NicknameInvalidChars";
+	if (Nick.length === 0) return "NicknameTooShort";
+	if (!ServerCharacterNicknameRegex.test(Nick)) return "NicknameInvalidChars";
 
 	return null;
 }
