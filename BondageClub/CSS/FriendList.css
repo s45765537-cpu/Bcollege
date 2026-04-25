@@ -277,28 +277,18 @@
 }
 
 .friend-list-actions-menu.friend-list-actions-menu {
-	position: absolute;
-	top: 50%;
-	left: -50%;
-	transform: translateY(-50%);
 	background-color: white;
 	display: flex;
 	flex-direction: column;
-	gap: var(--small-gap);
-	padding: var(--small-gap);
 	white-space: nowrap;
-	z-index: 10;
-	visibility: hidden;
-	opacity: 0;
-	pointer-events: none;
+	padding: 0;
 }
 
-.friend-list-actions-menu.friend-list-actions-menu-detached {
+.friend-list-actions-menu.friend-list-actions-menu:popover-open {
 	transform: none;
-	visibility: visible;
-	opacity: 1;
+	inset: unset;
+	visibility: unset;
 	pointer-events: auto;
-	position: fixed;
 }
 
 .friend-list-actions-item {

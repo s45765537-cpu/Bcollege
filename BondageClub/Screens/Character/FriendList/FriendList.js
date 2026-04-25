@@ -17,7 +17,6 @@ var FriendListBeepShowRoom = true;
 let FriendListSortingMode = 'None';
 /** @type {FriendListSortingDirection} */
 let FriendListSortingDirection = 'Asc';
-let FriendListActionsMenuReady = false;
 /** @type {Record<string, FriendListActionDefinition>} */
 var FriendListActionDefinitions = {
 	delete: {
@@ -357,11 +356,6 @@ async function FriendListLoad() {
 		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	});
 
-	if (!FriendListActionsMenuReady) {
-		FriendListActionsMenuReady = true;
-		document.addEventListener("click", FriendListHandleDocumentClick);
-	}
-
 	FriendListSortingMode = 'None';
 	FriendListSortingDirection = 'Asc';
 }
@@ -418,10 +412,6 @@ function FriendListUnload() {
 
 /** @t ype {ScreenExitHandler} */
 async function FriendListExit() {
-	if (FriendListActionsMenuReady) {
-		document.removeEventListener("click", FriendListHandleDocumentClick);
-		FriendListActionsMenuReady = false;
-	}
 	const beepMenu = document.getElementById(FriendListIDs.beepList);
 	if (beepMenu) {
 		FriendListBeepMenuClose();
@@ -667,8 +657,7 @@ function FriendListLoadFriendList(data) {
 
 	/** @type {HTMLDivElement[]} */
 	const FriendListContent = [];
-	document.querySelectorAll(".friend-list-actions-menu.friend-list-actions-menu-detached")
-		.forEach((menu) => ElementRemove(menu));
+	FriendListCloseActionsMenu();
 
 	const mode = FriendListMode[FriendListModeIndex];
 
@@ -1150,7 +1139,7 @@ function FriendListCreateActionsCell(friend) {
 				children: [
 					ElementButton.Create(
 						buttonId,
-						() => FriendListToggleActionsMenu(memberNumber),
+						function() { FriendListToggleActionsMenu.call(this, memberNumber); },
 						{ noStyling: true },
 						{
 							button: {
@@ -1166,17 +1155,26 @@ function FriendListCreateActionsCell(friend) {
 							}
 						},
 					),
-					{
-						tag: "div",
-						attributes: {
-							id: menuId,
-							role: "menu",
-						},
-						classList: ["friend-list-actions-menu", "button-tooltip", "button-tooltip-left"],
-						children: actions.length > 0
+					ElementMenu.Create(
+						menuId,
+						actions.length > 0
 							? actions.map((action) => FriendListCreateActionItem(action, context))
 							: [TextGet("ActionsNone")],
-					},
+						{
+							role: "menu",
+						},
+						{
+							menu: {
+								classList: ["friend-list-actions-menu", "button-tooltip", "button-tooltip-left"],
+								attributes: {
+									popover: "auto",
+								},
+								eventListeners: {
+									focusout: FriendListActionsMenuFocusOut,
+								},
+							},
+						}
+					),
 				],
 			},
 		],
@@ -1184,32 +1182,40 @@ function FriendListCreateActionsCell(friend) {
 }
 
 /**
+ * Closes the actions popover if focus is no longer on this menu (or a descendant). {@link FriendListCloseActionsMenu} syncs the trigger and popover.
+ * @this {HTMLElement}
+ * @param {FocusEvent} ev
+ */
+function FriendListActionsMenuFocusOut(ev) {
+	const to = ev.relatedTarget;
+	if (!(to instanceof Node) || !this.contains(to)) {
+		FriendListCloseActionsMenu();
+	}
+}
+
+/**
+ * @this {HTMLButtonElement}
  * @param {number} memberNumber
  */
 function FriendListToggleActionsMenu(memberNumber) {
 	const wrapper = ElementWrap(`friend-list-actions-wrapper-${memberNumber}`);
 	if (!wrapper) return;
-	const isOpen = wrapper.getAttribute("data-open") === "true";
-	FriendListCloseActionsMenu();
-	if (isOpen) return;
-	wrapper.setAttribute("data-open", "true");
-	wrapper.querySelector(".friend-list-actions-button")?.setAttribute("aria-expanded", "true");
-	const menu = /** @type {HTMLElement | null} */ (wrapper.querySelector(".friend-list-actions-menu"));
-	if (!menu) return;
-	if (!menu.dataset.originalParent) menu.dataset.originalParent = wrapper.id;
-	menu.classList.add("friend-list-actions-menu-detached");
-	document.body.appendChild(menu);
-	FriendListPositionActionsMenu(wrapper, menu);
-}
 
-/**
- * @param {MouseEvent} event
- */
-function FriendListHandleDocumentClick(event) {
-	const target = /** @type {Element} */ (event.target);
-	if (!FriendListIsActionsMenuTarget(target)) {
-		FriendListCloseActionsMenu();
-	}
+	const wasOpen = this.getAttribute("aria-expanded") === "true";
+	FriendListCloseActionsMenu();
+	if (wasOpen) return;
+
+	/** @type {HTMLElement | null} */
+	const menu = wrapper.querySelector(".friend-list-actions-menu");
+	if (!menu) return;
+
+	menu.showPopover();
+	FriendListPositionActionsMenu(wrapper, menu);
+
+	/** @type {HTMLButtonElement | null} */
+	const firstButton = menu.querySelector("button[role='menuitem'], button[role='menuitemradio'], button[role='menuitemcheckbox']");
+	firstButton?.focus();
+	this.setAttribute("aria-expanded", "true");
 }
 
 /**
@@ -1222,18 +1228,16 @@ function FriendListIsActionsMenuTarget(target) {
 }
 
 function FriendListCloseActionsMenu() {
-	const openWrappers = document.querySelectorAll(".friend-list-actions-wrapper[data-open='true']");
-	openWrappers.forEach((wrapper) => {
-		wrapper.setAttribute("data-open", "false");
-		wrapper.querySelector(".friend-list-actions-button")?.setAttribute("aria-expanded", "false");
-		const menu = /** @type {HTMLElement | null} */ (
-			document.querySelector(`.friend-list-actions-menu[data-original-parent="${wrapper.id}"]`)
-		);
-		if (!menu) return;
-		menu.classList.remove("friend-list-actions-menu-detached");
-		menu.style.left = "";
-		menu.style.top = "";
-		wrapper.appendChild(menu);
+	document.querySelectorAll("button.friend-list-actions-button[aria-expanded='true']").forEach((button) => {
+		const menu = ElementUnpackIDs.fromAttribute(button, "aria-controls")[0];
+		if (menu) {
+			try {
+				menu.hidePopover();
+			} catch {
+				// already closed
+			}
+		}
+		button.setAttribute("aria-expanded", "false");
 	});
 }
 
@@ -1245,29 +1249,36 @@ function FriendListPositionActionsMenu(wrapper, menu) {
 	const anchor = wrapper.querySelector(".friend-list-actions-button");
 	const anchorRect = anchor?.getBoundingClientRect() ?? wrapper.getBoundingClientRect();
 	const menuRect = menu.getBoundingClientRect();
+	const menuWidth = menuRect.width || /** @type {HTMLElement} */(menu).offsetWidth || 0;
+	const menuHeight = menuRect.height || /** @type {HTMLElement} */(menu).offsetHeight || 0;
 	const margin = 8;
 	const offset = 12;
-	let left = anchorRect.left - menuRect.width - offset;
-	let top = anchorRect.top + (anchorRect.height - menuRect.height) / 2;
-	left = Math.min(Math.max(margin, left), window.innerWidth - menuRect.width - margin);
-	top = Math.min(Math.max(margin, top), window.innerHeight - menuRect.height - margin);
-	const scaleX = MainCanvas.canvas.clientWidth / MainCanvasWidth;
-	const scaleY = MainCanvas.canvas.clientHeight / MainCanvasHeight;
-	const xPos = (left - MainCanvas.canvas.offsetLeft) / scaleX;
-	const yPos = (top - MainCanvas.canvas.offsetTop) / scaleY;
-	ElementSetPosition(menu, xPos, yPos, "top-left");
+	let left = anchorRect.left - menuWidth - offset;
+	let top = anchorRect.top + (anchorRect.height - menuHeight) / 2;
+	left = Math.min(Math.max(margin, left), window.innerWidth - menuWidth - margin);
+	top = Math.min(Math.max(margin, top), window.innerHeight - menuHeight - margin);
+
+	Object.assign(menu.style, {
+		position: "fixed",
+		inset: "auto",
+		left: `${left}px`,
+		top: `${top}px`,
+		right: "auto",
+		bottom: "auto",
+		margin: "0",
+	});
 	ElementSetFontSize(menu, "auto");
 }
 
 function FriendListRepositionActionsMenu() {
-	const menu = /** @type {HTMLElement | null} */ (
-		document.querySelector(".friend-list-actions-menu.friend-list-actions-menu-detached")
-	);
-	if (!menu) return;
-	const parentId = menu.dataset.originalParent;
-	if (!parentId) return;
-	const wrapper = ElementWrap(parentId);
+	/** @type {HTMLElement | null} */
+	const menu = document.querySelector(".friend-list-actions-menu:popover-open");
+	const menuIdPrefix = "friend-list-actions-menu-";
+	if (!menu?.id?.startsWith(menuIdPrefix)) return;
+
+	const wrapper = ElementWrap(menu.id.replace(menuIdPrefix, "friend-list-actions-wrapper-"));
 	if (!wrapper) return;
+
 	FriendListPositionActionsMenu(wrapper, menu);
 }
 
