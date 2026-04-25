@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 var BackgroundSelectionBackground = "Introduction";
@@ -7,15 +6,21 @@ var BackgroundSelectionList = [];
 /** @type {BackgroundTag[]} */
 var BackgroundSelectionTagList = [];
 var BackgroundSelectionIndex = 0;
-/** @type {string | null} */
-var BackgroundSelectionSelect = null;
+/** @type {string} */
+var BackgroundSelectionSelect = /** @type {never} */ (null);
 var BackgroundSelectionSize = 12;
 var BackgroundSelectionOffset = 0;
 /** @type {null | ((selection: string, setBackground: boolean) => void)} */
 var BackgroundSelectionCallback = null;
-/** @type {never} */
+/**
+ * @type {never}
+ * @deprecated
+ */
 var BackgroundSelectionReturnScreen;
-/** @type {never} */
+/**
+ * @type {never}
+ * @deprecated
+ */
 var BackgroundSelectionAll;
 /** @type {string[]} */
 var BackgroundSelectionView = [];
@@ -81,7 +86,7 @@ async function BackgroundSelectionLoad() {
 		parent: document.body,
 	});
 
-	TextScreenCache.loadedPromise.then(() => {
+	TextScreenCache?.loadedPromise.then(() => {
 		const searchFilter = ElementCreateSearchInput(
 			Background.elementID.searchFilter,
 			() => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort(),

@@ -573,7 +573,7 @@ function MainHallOpenChangelog() {
 function MainHallMaidReleasePlayer() {
 	if (MainHallMaid.CanInteract()) {
 		for (let D = 0; D < MainHallMaid.Dialog.length; D++)
-			if ((MainHallMaid.Dialog[D].Stage == "0") && (MainHallMaid.Dialog[D].Option == null))
+			if ((MainHallMaid.Dialog[D].Stage == "0") && (MainHallMaid.Dialog[D].Option === null))
 				MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "AlreadyReleased");
 		CharacterRelease(Player);
 		for (let L = 0; L < MainHallStrongLocks.length; L++)
@@ -591,7 +591,7 @@ function MainHallMaidReleasePlayer() {
 function MainHallMaidAngry() {
 	if ((ReputationGet("Dominant") < 30) && !MainHallIsHeadMaid) {
 		for (let D = 0; D < MainHallMaid.Dialog.length; D++)
-			if ((MainHallMaid.Dialog[D].Stage == "PlayerGagged") && (MainHallMaid.Dialog[D].Option == null))
+			if ((MainHallMaid.Dialog[D].Stage == "PlayerGagged") && (MainHallMaid.Dialog[D].Option === null))
 				MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "LearnedLesson");
 		ReputationProgress("Dominant", 1);
 		InventoryWearRandom(Player, "ItemMouth");

@@ -55,8 +55,8 @@ var DialogTightenLoosenItem = null;
  * @type {Item|null}
  */
 var DialogFocusSourceItem = null;
-/** @type {null | ReturnType<typeof setTimeout>} */
-var DialogFocusItemColorizationRedrawTimer = null;
+/** @type {ReturnType<typeof setTimeout>} */
+var DialogFocusItemColorizationRedrawTimer = /** @type {never} */ (null);
 /**
  * The list of currently visible menu item buttons.
  * @type {DialogMenuButton[]}
@@ -70,7 +70,7 @@ var DialogMenuMode = null;
 
 /**
  * The group that was selected before we entered the expression coloring screen
- * @type {{mode: DialogMenuMode, group: AssetItemGroup}}
+ * @type {{mode: DialogMenuMode, group: AssetItemGroup} | null}
  */
 var DialogExpressionPreviousMode = null;
 
@@ -106,17 +106,17 @@ var DialogGamingReturnScreen = null;
 var DialogButtonDisabledTester = /Disabled(For\w+)?$/u;
 /**
  * The attempted action that's leading the player to struggle.
- * @type {DialogStruggleActionType?}
+ * @type {DialogStruggleActionType | null}
  */
 let DialogStruggleAction = null;
 /**
  * The item we're struggling out of, or swapping from.
- * @type {Item}
+ * @type {Item | null}
  */
 let DialogStrugglePrevItem = null;
 /**
  * The item we're swapping to.
- * @type {Item}
+ * @type {Item | null}
  */
 let DialogStruggleNextItem = null;
 /** Whether we went through the struggle selection screen or went straight through. */
@@ -151,7 +151,6 @@ var DialogFavoriteStateDetails = [
 	{
 		TargetFavorite: false,
 		PlayerFavorite: false,
-		Icon: null,
 		UsableOrder: DialogSortOrder.Usable,
 		UnusableOrder: DialogSortOrder.Unusable
 	},
@@ -182,11 +181,11 @@ var DialogLeaveFocusItemHandlers = {
 	DialogTightenLoosenItem: {
 		Crafting: (item) => {
 			// Subtract deterministic modifiers so that only the difficulty factor remains
-			CraftingSelectedItem.DifficultyFactor = (
-				item.Difficulty
+			/** @type {CraftingItemSelected} */ (CraftingSelectedItem).DifficultyFactor = (
+				(item.Difficulty ?? 0)
 				- SkillGetLevel(Player, "Bondage")
 				- item.Asset.Difficulty
-				- (item.Craft.Effects?.Secure ?? 0) * 4
+				- (item.Craft?.Effects?.Secure ?? 0) * 4
 			);
 			item.Difficulty = item.Asset.Difficulty;
 			CraftingModeSet("Name");
@@ -226,8 +225,10 @@ var DialogLeaveFocusItemHandlers = {
  * @returns {Character} - The actual character
  */
 function DialogGetCharacter(C) {
-	if (typeof C === "string")
+	if (typeof C === "string") {
+		// @ts-ignore Strict-TS: force-cast here because there's a bunch of side-effects to having this return `null`
 		return (C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter;
+	}
 	return C;
 }
 
@@ -335,9 +336,8 @@ function DialogLogQuery(LogType, LogGroup) { return LogQuery(LogType, LogGroup);
 /**
  * Sets the AllowItem flag on the current character
  * @param {string} Allow - The flag to set. Either "TRUE" or "FALSE"
- * @returns {boolean} - The boolean version of the flag
  */
-function DialogAllowItem(Allow) { return CurrentCharacter.AllowItem = (Allow.toUpperCase().trim() == "TRUE"); }
+function DialogAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.AllowItem = (Allow.toUpperCase().trim() == "TRUE"); }
 
 /**
  * Returns the value of the AllowItem flag of a given character
@@ -350,9 +350,10 @@ function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C); }
 
 /**
  * Returns TRUE if the AllowItem flag doesn't allow putting an item on the current character
+ * @param {string | Character} C
  * @returns {boolean} - The reversed value of the given character's AllowItem flag
  */
-function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C ? C : CurrentCharacter).AllowItem; }
+function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C).AllowItem; }
 
 /**
  * Returns TRUE if no item can be used by the player on the current character because of the map distance
@@ -377,19 +378,19 @@ function DialogIsKneeling(C) { return DialogGetCharacter(C).IsKneeling(); }
  * Determines if the player is owned by the current character
  * @returns {boolean} - Returns true, if the player is owned by the current character, false otherwise
  */
-function DialogIsOwner() { return CurrentCharacter.IsOwner(); }
+function DialogIsOwner() { return CurrentCharacter?.IsOwner() ?? false; }
 
 /**
  * Determines, if the current character is the player's lover
  * @returns {boolean} - Returns true, if the current character is one of the player's lovers
  */
-function DialogIsLover() { return CurrentCharacter.IsLoverOfCharacter(Player); }
+function DialogIsLover() { return CurrentCharacter?.IsLoverOfCharacter(Player) ?? false; }
 
 /**
  * Determines if the current character is owned by the player
  * @returns {boolean} - Returns true, if the current character is owned by the player, false otherwise
  */
-function DialogIsProperty() { return CurrentCharacter.IsOwnedByPlayer(); }
+function DialogIsProperty() { return CurrentCharacter?.IsOwnedByPlayer() ?? false; }
 
 /**
  * Checks, if a given character is currently restrained
@@ -431,7 +432,7 @@ function DialogCanInteract(C) { return DialogGetCharacter(C).CanInteract(); }
  * Can be omitted to bring the character back to the standing position.
  * @returns {void} - Nothing
  */
-function DialogSetPose(C, NewPose) { PoseSetActive((C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter, NewPose || null, true); }
+function DialogSetPose(C, NewPose) { PoseSetActive(DialogGetCharacter(C), NewPose || null, true); }
 
 /**
  * Checks, whether a given skill of the player is greater or equal a given value
@@ -529,22 +530,56 @@ function DialogGGTSInteraction(Interaction) {
  * @returns {boolean} - Returns true, if the prerequisite is met, false otherwise
  */
 function DialogPrerequisite(dialog) {
-	if (dialog.Prerequisite == null)
-		return true;
-	else if (dialog.Prerequisite.indexOf("Player.") == 0)
-		return Player[dialog.Prerequisite.substring(7, 250).replace("()", "").trim()]();
-	else if (dialog.Prerequisite.indexOf("!Player.") == 0)
-		return !Player[dialog.Prerequisite.substring(8, 250).replace("()", "").trim()]();
-	else if (dialog.Prerequisite.indexOf("CurrentCharacter.") == 0)
-		return CurrentCharacter[dialog.Prerequisite.substring(17, 250).replace("()", "").trim()]();
-	else if (dialog.Prerequisite.indexOf("!CurrentCharacter.") == 0)
-		return !CurrentCharacter[dialog.Prerequisite.substring(18, 250).replace("()", "").trim()]();
-	else if (dialog.Prerequisite.indexOf("(") >= 0)
-		return !!CommonDynamicFunctionParams(dialog.Prerequisite);
-	else if (dialog.Prerequisite.substring(0, 1) != "!")
-		return !!window[CurrentScreen + dialog.Prerequisite.trim()];
-	else
-		return !window[CurrentScreen + dialog.Prerequisite.substr(1, 250).trim()];
+	const prereq = dialog.Prerequisite?.trim();
+	if (!prereq) return true;
+
+	const match = prereq.match(/^(!?)(Player|CurrentCharacter)\.(\w+)\(\)$/);
+	if (match) {
+		const [, neg, target, method] = match;
+		const obj = target === "Player" ? Player : CurrentCharacter;
+
+		if (typeof obj[method] !== "function") {
+			console.error(
+				`DialogPrerequisite: Method '${method}' not found on ${target}`,
+				{ prereq, dialog }
+			);
+			return false;
+		}
+
+		const result = obj[method]();
+		return neg ? !result : result;
+	}
+
+	if (prereq.indexOf("(") > 0) {
+		try {
+			return !!CommonDynamicFunctionParams(prereq);
+		} catch (err) {
+			console.error(
+				`DialogPrerequisite: Failed dynamic expression`,
+				{ prereq, dialog, err }
+			);
+			return false;
+		}
+	}
+
+	const negated = prereq.startsWith("!");
+	const key = (negated ? prereq.slice(1) : prereq).trim();
+	const globalKey = CurrentScreen + key;
+
+	if (globalKey in window) {
+		const value = !!window[globalKey];
+		return negated ? !value : value;
+	}
+
+	console.error(
+		`DialogPrerequisite: Unrecognized prerequisite format`,
+		{
+			prereq,
+			dialog,
+		}
+	);
+
+	return false;
 }
 
 
@@ -624,11 +659,11 @@ function DialogHasKey(C, Item) {
 	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && Item.Asset.Enable && Item.Property && Item.Property.LockedBy && !Item.Property.LockedBy.startsWith("Owner")) return true;
 	if (lock && lock.Asset.ExclusiveUnlock) {
 		// Locks with exclusive access (intricate, high-sec)
-		const allowedMembers = CommonConvertStringToArray(Item.Property.MemberNumberListKeys);
+		const allowedMembers = CommonConvertStringToArray(Item.Property?.MemberNumberListKeys ?? "");
 		// High-sec, check if we're in the keyholder list
-		if (Item.Property.MemberNumberListKeys != null) return allowedMembers.includes(Player.MemberNumber);
+		if (Item.Property?.MemberNumberListKeys != null) return allowedMembers.includes(Player.MemberNumber);
 		// Intricate, check that we added that lock
-		if (Item.Property.LockMemberNumber == Player.MemberNumber) return true;
+		if (Item.Property?.LockMemberNumber == Player.MemberNumber) return true;
 	}
 	let UnlockName = /** @type {EffectName} */("Unlock" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
@@ -740,7 +775,7 @@ function DialogAllowItemScreenException() {
  * @returns {string} - The name of the current dialog, if such a dialog exists, any empty string otherwise
  */
 function DialogIntro(C) {
-	const dialog = C?.Dialog.find(d => d.Stage == C.Stage && d.Option == null && d.Result != null && DialogPrerequisite(d));
+	const dialog = C?.Dialog.find(d => d.Stage == C.Stage && d.Option === null && d.Result !== null && DialogPrerequisite(d));
 	return dialog?.Result ?? "";
 }
 
@@ -813,7 +848,8 @@ function DialogLeave(options=null) {
  */
 function DialogRemove() {
 	const C = CurrentCharacter;
-	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option === C.ClickedOption && dialog.Option != null && DialogPrerequisite(dialog));
+	if (!C) return;
+	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option === C.ClickedOption && dialog.Option !== null && DialogPrerequisite(dialog));
 	if (dialogIndex !== -1) {
 		C.Dialog.splice(dialogIndex, 1);
 		document.querySelector(`.dialog-dialog-button[data-index="${dialogIndex}"]`)?.remove();
@@ -827,11 +863,12 @@ function DialogRemove() {
  * @returns {void} - Nothing
  */
 function DialogRemoveGroup(GroupName) {
+	if (!CurrentCharacter) return;
 	const GroupNameUpper = GroupName.trim().toUpperCase();
 	document.querySelectorAll(`.dialog-dialog-button[data-group="${GroupNameUpper}" i]`).forEach(e => e.remove());
 	document.querySelectorAll(".dialog-dialog-button").forEach((e, i) => e.setAttribute("data-index", i.toString()));
 	for (let D = CurrentCharacter.Dialog.length - 1; D >= 0; D--)
-		if ((CurrentCharacter.Dialog[D].Group != null) && (CurrentCharacter.Dialog[D].Group.trim().toUpperCase() == GroupNameUpper)) {
+		if (CurrentCharacter.Dialog[D].Group?.trim().toUpperCase() === GroupNameUpper) {
 			CurrentCharacter.Dialog.splice(D, 1);
 		}
 }
@@ -863,8 +900,9 @@ function DialogMenuBack() {
 			break;
 
 		case "colorExpression": {
+			if (!DialogExpressionPreviousMode) return;
 			const { mode, group } = DialogExpressionPreviousMode;
-			DialogChangeMode(mode || "dialog");
+			DialogChangeMode(mode ?? "dialog");
 			DialogChangeFocusToGroup(Player, group);
 			DialogExpressionPreviousMode = null;
 		}
@@ -911,7 +949,7 @@ function DialogMenuBack() {
  * Returns whether the current mode shows items.
  */
 function DialogModeShowsInventory() {
-	return ["items", "activities", "locking", "permissions"].includes(DialogMenuMode);
+	return DialogMenuMode && ["items", "activities", "locking", "permissions"].includes(DialogMenuMode);
 }
 
 /**
@@ -929,7 +967,9 @@ function DialogIsInWardrobe() {
  * @returns {void} - Nothing
  */
 function DialogLeaveItemMenu() {
-	DialogChangeFocusToGroup(CharacterGetCurrent(), null);
+	const C = CharacterGetCurrent();
+	if (!C) return;
+	DialogChangeFocusToGroup(C, null);
 }
 
 /**
@@ -1081,13 +1121,13 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
  * Returns settings for an item based on whether the player and target have favorited it, if any
  * @param {Character} C - The targeted character
  * @param {Asset} asset - The asset to check favorite settings for
- * @param {string} [type=null] - The type of the asset to check favorite settings for
+ * @param {string | null} [type] - The type of the asset to check favorite settings for
  * @returns {FavoriteState} - The details to use for the asset
  */
 function DialogGetFavoriteStateDetails(C, asset, type = null) {
 	const isTargetFavorite = InventoryIsFavorite(C, asset.Name, asset.Group.Name, type);
 	const isPlayerFavorite = !C.IsPlayer() && InventoryIsFavorite(Player, asset.Name, asset.Group.Name, type);
-	return DialogFavoriteStateDetails.find(F => F.TargetFavorite == isTargetFavorite && F.PlayerFavorite == isPlayerFavorite);
+	return /** @type {FavoriteState} */ (DialogFavoriteStateDetails.find(F => F.TargetFavorite == isTargetFavorite && F.PlayerFavorite == isPlayerFavorite));
 }
 
 /**
@@ -1117,6 +1157,7 @@ function DialogGetLockIcon(item, isWorn) {
  * @returns {InventoryIcon[]} - A list of icon names
  */
 function DialogGetAssetIcons(asset) {
+	/** @type {InventoryIcon[]} */
 	let icons = [];
 	icons = icons.concat(asset.PreviewIcons);
 	if (asset.OwnerOnly) icons.push("OwnerOnly");
@@ -1154,7 +1195,7 @@ const DialogEffectIcons = /** @type {const} */({
 		const craftingProperty = item.Craft?.Effects;
 		return DialogEffectIcons.GetEffectIcons(effects, craftingProperty);
 	},
-	/** @type {(effects: Iterable<EffectName>, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon[]} */
+	/** @type {(effects: Iterable<EffectName>, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => InventoryIcon[]} */
 	GetEffectIcons: function (effects, craftEffect) {
 		/** @type {InventoryIcon[]} */
 		const icons = [];
@@ -1202,7 +1243,7 @@ const DialogEffectIcons = /** @type {const} */({
 	_GetDeafIcon(effect) {
 		/** @type {InventoryIcon[]} */
 		const keys = ["DeafLight", "DeafNormal", "DeafHeavy"];
-		return keys.find(k => DialogEffectIcons.Table[k].includes(effect));
+		return keys.find(k => DialogEffectIcons.Table[k]?.includes(effect));
 	},
 	/** @type {(level?: number) => null | InventoryIcon} */
 	_GagLevelToIcon: function (level) {
@@ -1220,11 +1261,11 @@ const DialogEffectIcons = /** @type {const} */({
 	},
 	/** @type {(level?: number) => null | InventoryIcon} */
 	_BlindLevelToIcon: function (level) {
-		if (!level || level < CharacterBlindLevels.get("BlindLight")) {
+		if (!level || level < (CharacterBlindLevels.get("BlindLight") ?? 0)) {
 			return null;
-		} else if (level <= CharacterBlindLevels.get("BlindLight")) {
+		} else if (level <= (CharacterBlindLevels.get("BlindLight") ?? 0)) {
 			return "BlindLight";
-		} else if (level <= CharacterBlindLevels.get("BlindHeavy")) {
+		} else if (level <= (CharacterBlindLevels.get("BlindHeavy") ?? 0)) {
 			return "BlindNormal";
 		} else {
 			return "BlindHeavy";
@@ -1300,7 +1341,7 @@ function DialogCanInspectLock(Item) {
 	if (!Item) return false;
 
 	const lockedBy = InventoryGetItemProperty(Item, "LockedBy");
-	return !Player.IsBlind() || ["SafewordPadlock", "CombinationPadlock"].includes(lockedBy);
+	return !Player.IsBlind() || !!lockedBy && ["SafewordPadlock", "CombinationPadlock"].includes(lockedBy);
 }
 
 /**
@@ -1335,14 +1376,14 @@ function DialogMenuButtonBuild(C) {
 	DialogMenuButton = [];
 
 	// Hide "Exit" button for the screens where
-	if (!["colorExpression", "colorItem"].includes(DialogMenuMode))
+	if (DialogMenuMode && !["colorExpression", "colorItem"].includes(DialogMenuMode))
 		DialogMenuButton = ["Exit"];
 
 	// There's no group focused, hence no menu to draw
 	if (C.FocusGroup == null) return;
 
 	/** The item in the current slot */
-	const Item = InventoryGet(C, C.FocusGroup.Name);
+	const Item = /** @type {Item} */ (InventoryGet(C, C.FocusGroup.Name));
 	const ItemBlockedOrLimited = !!Item && InventoryBlockedOrLimited(C, Item);
 	const IsItemLocked = InventoryItemHasEffect(Item, "Lock", true);
 	const IsGroupBlocked = InventoryGroupIsBlocked(C, C.FocusGroup.Name);
@@ -1446,7 +1487,7 @@ function DialogMenuButtonBuild(C) {
 			}
 
 			if (!DialogMenuButton.includes("Use") && canUseRemoteState !== "InvalidItem") {
-				/** @type {DialogMenuButton} */
+				/** @type {DialogMenuButton | null} */
 				let button = null;
 				switch (canUseRemoteState) {
 					case "Available":
@@ -1576,7 +1617,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		return;
 	}
 
-	const CurItem = C.Appearance.find(A => A.Asset.Group.Name == C.FocusGroup.Name && A.Asset.DynamicAllowInventoryAdd(C));
+	const CurItem = C.Appearance.find(A => A.Asset.Group.Name == C.FocusGroup?.Name && A.Asset.DynamicAllowInventoryAdd(C));
 
 	// In item permission mode we add all the enable items except the ones already on, unless on Extreme difficulty
 	if (DialogMenuMode === "permissions") {
@@ -1585,7 +1626,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 				continue;
 
 			if (A.Wear) {
-				const isWorn = CurItem && CurItem.Asset.Name === A.Name && CurItem.Asset.Group.Name === A.Group.Name;
+				const isWorn = CurItem?.Asset.Name === A.Name && CurItem?.Asset.Group.Name === A.Group.Name;
 				DialogInventoryAdd(Player, { Asset: A }, isWorn, DialogSortOrder.Enabled);
 			} else if (A.IsLock) {
 				const LockIsWorn = InventoryCharacterIsWearingLock(C, /** @type {AssetLockType} */ (A.Name));
@@ -1684,15 +1725,14 @@ function DialogInventoryStringified(C) {
  * @param {number} Slot - Index of saved expression (0 to 4)
  */
 function DialogFacialExpressionsLoad(Slot) {
-	const expressions = Player.SavedExpressions && Player.SavedExpressions[Slot];
-	if (expressions != null) {
-		expressions.forEach(e => {
-			CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression);
-			Player.ActiveExpression.setWithoutReload(e.Group, e.CurrentExpression);
-		});
-		if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.IsPlayer()) {
-			DialogSelfMenuMapping.Expression.Reload();
-		}
+	const expressions = Player.SavedExpressions[Slot];
+	if (!expressions) return;
+	expressions.forEach(e => {
+		CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression ?? null);
+		Player.ActiveExpression.setWithoutReload(e.Group, e.CurrentExpression ?? null);
+	});
+	if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.IsPlayer()) {
+		DialogSelfMenuMapping.Expression.Reload();
 	}
 }
 
@@ -1718,7 +1758,7 @@ function DialogBuildSavedExpressionsMenu() {
 			);
 
 			for (let x = 0; x < expression.length; x++) {
-				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression);
+				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression ?? null);
 			}
 			CharacterRefresh(PreviewCharacter, false, false);
 
@@ -1736,11 +1776,11 @@ function DialogBuildSavedExpressionsMenu() {
 function DialogMenuButtonClick() {
 
 	// Hack because those panes handle their menu icons themselves
-	if (["colorExpression", "colorItem", "extended", "layering", "tighten"].includes(DialogMenuMode)) return false;
+	if (DialogMenuMode && ["colorExpression", "colorItem", "extended", "layering", "tighten"].includes(DialogMenuMode)) return false;
 
 	// Gets the current character and item
 	/** The focused character */
-	const C = CharacterGetCurrent();
+	const C = /** @type {Character} */ (CharacterGetCurrent());
 	/** The focused item */
 	const Item = C.FocusGroup ? InventoryGet(C, C.FocusGroup.Name) : null;
 
@@ -1762,9 +1802,11 @@ function DialogMenuButtonClick() {
 			}
 
 			// Remote Icon - Pops the item extension
-			else if (button === "Remote" && DialogCanUseRemoteState(C, Item) === "Available") {
-				DialogExtendItem(Item);
-				return true;
+			else if (button === "Remote") {
+				if (Item && DialogCanUseRemoteState(C, Item) === "Available") {
+					DialogExtendItem(Item);
+					return true;
+				}
 			}
 
 			// Lock Icon - Rebuilds the inventory list with locking items
@@ -1779,7 +1821,7 @@ function DialogMenuButtonClick() {
 			else if (button === "Unlock" && Item) {
 				// Check that this is not one of the sticky-locked items
 				const isNotStickyLock = InventoryItemHasEffect(Item, "Lock", true) && !InventoryItemHasEffect(Item, "Lock", false);
-				if (C.FocusGroup.IsItem() && isNotStickyLock && (!C.IsPlayer() || C.CanInteract())) {
+				if (C.FocusGroup?.IsItem() && isNotStickyLock && (!C.IsPlayer() || C.CanInteract())) {
 					InventoryUnlock(C, C.FocusGroup.Name, false);
 					if (ChatRoomPublishAction(C, "ActionUnlock", Item, null)) {
 						DialogLeave();
@@ -1933,7 +1975,7 @@ function DialogAllowItemClick(CurrentItem, ClickItem) {
  * @returns {ItemPermissionMode} - Nothing
  */
 function DialogPermissionsClick(ClickItem, CurrentItem=null) {
-	const worn = (ClickItem.Worn || (CurrentItem && (CurrentItem.Asset.Name == ClickItem.Asset.Name)));
+	const worn = ClickItem.Worn || !!CurrentItem && CurrentItem.Asset.Name == ClickItem.Asset.Name;
 	return DialogInventoryTogglePermission(ClickItem, worn);
 }
 
@@ -1973,7 +2015,7 @@ function DialogItemClick(ClickItem, C, CurrentItem=null) {
 			DialogStruggleStart(C, "ActionUnlock", CurrentItem, null);
 		} else if (ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote") {
 			// The vibrating egg remote can open the vibrating egg's extended dialog
-			if (DialogCanUseRemoteState(C, CurrentItem) === "Available") { DialogExtendItem(CurrentItem); }
+			if (CurrentItem && DialogCanUseRemoteState(C, CurrentItem) === "Available") { DialogExtendItem(CurrentItem); }
 		} else {
 			// Runs the activity arousal process if activated, & publishes the item action text to the chatroom
 			DialogPublishAction(C, "ActionUse", ClickItem);
@@ -2001,6 +2043,7 @@ function DialogItemClick(ClickItem, C, CurrentItem=null) {
  * @param {null | Item} equippedItem
  */
 function DialogActivityClick(C, clickedActivity, equippedItem) {
+	if (!C.FocusGroup) return;
 	if (C.IsNpc() && clickedActivity.Item) {
 		let Line = C.FocusGroup.Name + clickedActivity.Item.Asset.DynamicName(Player);
 		let D = DialogFind(C, Line, null, false);
@@ -2045,6 +2088,7 @@ function DialogInventoryTogglePermission(item, worn) {
  */
 function DialogChangeMode(mode, reset=false) {
 	const C = CharacterGetCurrent();
+	if (!C) return;
 
 	// Handle changing to the expression color picker having to restore the selected mode & group
 	if (mode === "colorExpression" && (!DialogExpressionPreviousMode || DialogExpressionPreviousMode.mode !== "colorExpression")) {
@@ -2145,7 +2189,7 @@ function DialogChangeMode(mode, reset=false) {
 /**
  * Change the given character's focused group.
  * @param {Character} C - The character to change the focus of.
- * @param {AssetItemGroup|string} Group - The group that should gain focus.
+ * @param {AssetItemGroup|string|null} Group - The group that should gain focus. `null` deselects the current group
  */
 function DialogChangeFocusToGroup(C, Group) {
 	/** @type {null | AssetGroup} */
@@ -2173,12 +2217,12 @@ function DialogChangeFocusToGroup(C, Group) {
 	AudioDialogStop();
 
 	// Stop any struggling minigame
-	if(StruggleMinigameIsRunning()) {
+	if (StruggleMinigameIsRunning()) {
 		StruggleMinigameStop();
 	}
 
 	// If we're in the two-character dialog, clear their focused group
-	if (!CurrentCharacter.IsPlayer()) {
+	if (CurrentCharacter && !CurrentCharacter?.IsPlayer()) {
 		Player.FocusGroup = null;
 		CurrentCharacter.FocusGroup = null;
 	}
@@ -2211,19 +2255,21 @@ function DialogClick(event) {
 
 	// Gets the current character
 	let C = CharacterGetCurrent();
+	if (!C) return;
 
 	// Check if the user clicked on one of the top menu icons
 	if (DialogMenuButtonClick()) return;
 
 	// User clicked on the interacted character or herself, check if we need to update the menu
 	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && DialogIntro(Player) && DialogAllowItemScreenException()) {
-		C = (MouseX < 500) ? Player : CurrentCharacter;
+		const clickedChar = (MouseX < 500) ? Player : CurrentCharacter;
 		let X = MouseX < 500 ? 0 : 500;
 		for (const Group of AssetGroup) {
 			if (!Group.IsItem()) continue;
-			const Zone = Group.Zone.find(Z => DialogClickedInZone(C, Z, 1, X, 0, C.HeightRatio));
+			const Zone = Group.Zone.find(Z => DialogClickedInZone(clickedChar, Z, 1, X, 0, clickedChar.HeightRatio));
 			if (Zone) {
 				DialogChangeFocusToGroup(C, Group);
+				C = clickedChar;
 				break;
 			}
 		}
@@ -2237,6 +2283,7 @@ function DialogClick(event) {
 
 	// If the user clicked the Up button, move the character up to the top of the screen
 	if ((CurrentCharacter.HeightModifier < -90 || CurrentCharacter.HeightModifier > 30) && (CurrentCharacter.FocusGroup != null) && MouseIn(510, 50, 90, 90)) {
+		// @ts-ignore Strict-TS: CharacterAppearanceForceUpCharacter must change. Only online characters have member numbers
 		CharacterAppearanceForceUpCharacter = CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber ? -1 : CurrentCharacter.MemberNumber;
 		return;
 	}
@@ -2390,11 +2437,12 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
 /**
  * Displays the given text for 5 seconds
  * @param {string} status - The text to be displayed
- * @param {number} timer - the number of milliseconds to display the message for
- * @param {null | { asset?: Asset, group?: AssetGroup, C?: Character }} replace - Attempt to perform replacements within the `status` text
+ * @param {number} [timer] - the number of milliseconds to display the message for
+ * @param {null | { asset?: Asset | null, group?: AssetGroup | null, C?: Character | null }} [replace] - Attempt to perform replacements within the `status` text
+ * @param {string | null} [id]
  * @returns {void} - Nothing
  */
-function DialogSetStatus(status, timer=0, replace=null, id=null) {
+function DialogSetStatus(status, timer=0, replace, id) {
 	id ??= DialogMenuMapping[DialogMenuMode]?.ids.status;
 	const elem = id ? document.getElementById(id) : null;
 	if (!elem) {
@@ -2403,7 +2451,8 @@ function DialogSetStatus(status, timer=0, replace=null, id=null) {
 
 	replace ??= {};
 	if (replace.group || replace.asset) {
-		status = status.replaceAll("GroupName", DialogActualNameForGroup(replace.C ?? Player, replace.group ?? replace.asset.Group).toLowerCase());
+		const groupName = replace.group ?? /** @type {Asset} */ (replace.asset).Group;
+		status = status.replaceAll("GroupName", DialogActualNameForGroup(replace.C ?? Player, groupName).toLowerCase());
 	}
 	if (replace.asset) {
 		status = status.replaceAll("AssetName", replace.asset.Description);
@@ -2454,7 +2503,7 @@ function DialogStatusClear() {
 	const timeoutID = elem?.getAttribute("data-timeout-id");
 	if (timeoutID) {
 		clearTimeout(Number.parseInt(timeoutID, 10));
-		DialogStatusTimerHandler(elem);
+		if (elem) DialogStatusTimerHandler(elem);
 	}
 }
 
@@ -2467,11 +2516,12 @@ function DialogStatusClear() {
  */
 function DialogExtendItem(Item, SourceItem) {
 	const C = CharacterGetCurrent();
+	if (!C) return;
 	if (AsylumGGTSControlItem(C, Item)) return;
 	if (InventoryBlockedOrLimited(C, Item)) return;
 	DialogChangeMode("extended");
 	DialogFocusItem = Item;
-	DialogFocusSourceItem = SourceItem;
+	DialogFocusSourceItem = SourceItem ?? null;
 	ExtendedItemInit(C, Item.Asset.IsLock ? SourceItem : Item, false, true);
 	CommonDynamicFunction("Inventory" + Item.Asset.Group.Name + Item.Asset.Name + "Load()");
 }
@@ -2483,6 +2533,7 @@ function DialogExtendItem(Item, SourceItem) {
  */
 function DialogSetTightenLoosenItem(Item) {
 	const C = CharacterGetCurrent();
+	if (!C) return;
 	if (AsylumGGTSControlItem(C, Item)) return;
 	if (InventoryBlockedOrLimited(C, Item)) return;
 	DialogChangeMode("tighten");
@@ -2839,7 +2890,7 @@ class DialogMenu {
 	}
 
 	/** @type {ScreenLoadHandler} */
-	Load() {
+	async Load() {
 		if (this._initPropertyNames.some(p => this._initProperties?.[p] == null)) {
 			console.error(
 				`Aborting, one or more uninitialized properties in ${this.mode} subscreen`,
@@ -2975,6 +3026,7 @@ class DialogMenu {
 		const currentProp = CommonPick(/** @type {Partial<PropType>} */(this._initProperties ?? {}), this._initPropertyNames);
 		const newProp = CommonPick(properties, this._initPropertyNames);
 		for (const k of Object.keys(newProp)) {
+			// @ts-ignore Strict-TS: direct property access to initialize
 			newProp[k] ??= currentProp[k];
 		}
 
@@ -3105,7 +3157,7 @@ class DialogMenu {
 	 * Return the underlying item or activity object of the passed grid button.
 	 * @abstract
 	 * @param {HTMLButtonElement} button - The clicked button
-	 * @returns {ClickedObj | undefined} - The button's underlying item or activity object
+	 * @returns {ClickedObj | null} - The button's underlying item or activity object
 	 */
 	_GetClickedObject(button) {
 		throw new Error("Trying to all an abstract method");
@@ -3263,8 +3315,8 @@ class _DialogFocusMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["Load"]} */
-	Load() {
-		super.Load();
+	async Load() {
+		await super.Load();
 		document.getElementById(this.ids.root)?.setAttribute("data-group", this.focusGroup.Name);
 		return;
 	}
@@ -3378,7 +3430,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		/** @type {null | Asset} */
 		let asset = null;
 		let showIcon = false;
-		let textContent = options.status;
+		let textContent = options.status ?? "";
 		if (textContent == null) {
 			switch (this.mode) {
 				case "locked": {
@@ -3489,6 +3541,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 	/** @type {_DialogFocusMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, properties, options) {
 		const grid = document.getElementById(this.ids.grid);
+		if (!grid) return;
 		const dataAttr = ["data-craft", "data-hidden", "data-vibrating"];
 		const checkedButton = grid.querySelector(".dialog-grid-button[aria-checked='true']");
 		if (checkedButton) {
@@ -3508,7 +3561,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 	 * @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]}
 	 */
 	_GetClickedObject(button) {
-		return DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)];
+		return DialogInventory[Number.parseInt(button.getAttribute("data-index") ?? "-1", 10)];
 	}
 
 	/**
@@ -3546,7 +3599,7 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 			return equippedItem ? null : InterfaceTextGet("NoItemEquipped");
 		},
 		InventoryDoesItemAllowLock: (C, clickedLock, equippedItem) => {
-			return InventoryDoesItemAllowLock(equippedItem) ? null : InterfaceTextGet("AccessBlocked");
+			return equippedItem && InventoryDoesItemAllowLock(equippedItem) ? null : InterfaceTextGet("AccessBlocked");
 		},
 	};
 
@@ -3635,7 +3688,7 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
-		return DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)];
+		return DialogInventory[Number.parseInt(button.getAttribute("data-index") ?? "-1", 10)];
 	}
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_ClickButton"]} */
@@ -3753,7 +3806,7 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
-		return DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)];
+		return DialogInventory[Number.parseInt(button.getAttribute("data-index") ?? "-1", 10)];
 	}
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_ClickButton"]} */
@@ -3865,7 +3918,7 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 
 	/** @type {DialogMenu<string, ItemActivity>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
-		return DialogActivity[Number.parseInt(button.getAttribute("data-index"), 10)];
+		return DialogActivity[Number.parseInt(button.getAttribute("data-index") ?? "-1", 10)];
 	}
 
 	/** @type {DialogMenu<string, ItemActivity>["_ClickButton"]} */
@@ -3957,7 +4010,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 	_ReloadIcon(root, icon, properties, options) {
 		const { C, focusGroup } = properties;
 		const ids = this.ids;
-		const item = InventoryGet(C, focusGroup.Name);
+		const item = /** @type {Item} */ (InventoryGet(C, focusGroup.Name));
 
 		icon.innerHTML = "";
 		[
@@ -4102,7 +4155,7 @@ class _DialogDialogMenu extends DialogMenu {
 		super.Exit();
 	}
 
-	/** @type {ScreenFunctions["Unload"]} */
+	/** @type {VoidHandler} */
 	Unload() {
 		super.Unload();
 	}
@@ -4139,7 +4192,7 @@ class _DialogDialogMenu extends DialogMenu {
 				continue;
 			}
 
-			const unload = !(dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
+			const unload = !(dialog.Stage === C.Stage && dialog.Option !== null && DialogPrerequisite(dialog));
 			button.toggleAttribute("hidden", unload);
 			if (!unload) {
 				button.querySelector(".button-label")?.replaceChildren(SpeechTransformDialog(Player, dialog.Option));
@@ -4179,7 +4232,7 @@ class _DialogDialogMenu extends DialogMenu {
 
 	/** @type {DialogMenu<string, DialogLine>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
-		const index = Number.parseInt(button.getAttribute("data-index"), 10);
+		const index = Number.parseInt(button.getAttribute("data-index") ?? "-1", 10);
 		return this.C?.Dialog[index] ?? null;
 	}
 
@@ -4195,7 +4248,7 @@ class _DialogDialogMenu extends DialogMenu {
 		// A dialog option can change the conversation stage, show text or launch a custom function
 		if ((Player.CanTalk() && C.CanTalk()) || SpeechFullEmote(clickedDialog.Option)) {
 			C._CurrentDialog = clickedDialog.Result;
-			if (clickedDialog.NextStage != null) {
+			if (clickedDialog.NextStage !== null) {
 				C._Stage = clickedDialog.NextStage;
 				this.Reload();
 			} else {
@@ -4203,8 +4256,12 @@ class _DialogDialogMenu extends DialogMenu {
 				DialogSetStatus(C.CurrentDialog);
 			}
 
-			if (typeof clickedDialog.Function === "string") {
-				CommonDynamicFunctionParams(clickedDialog.Function);
+			if (clickedDialog.Function) {
+				try {
+					CommonDynamicFunctionParams(clickedDialog.Function);
+				} catch (err) {
+					console.error("_ClickButton: Failed dynamic expression", clickedDialog.Function, err);
+				}
 			}
 		} else if (clickedDialog.Function?.trim() === "DialogLeave()") {
 			DialogLeave();
@@ -4374,7 +4431,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 	/** @satisfies {DialogMenu<ModeType, ExpressionPair>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
 		CharacterIsExpressionAllowed: (C, clickedItem, equippedItem) => {
-			const status = CharacterIsExpressionDisallowed(C, equippedItem, clickedItem.Expression);
+			const status = !!equippedItem && CharacterIsExpressionDisallowed(C, equippedItem, clickedItem.Expression);
 			return status ? InterfaceTextGet(`Prerequisite${status}`) : null;
 		},
 	};
@@ -4438,7 +4495,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				} else {
 					colorButton?.setAttribute("aria-disabled", "true");
 				}
-				if (colorButton.getAttribute("aria-disabled") === "true" && ItemColorState) {
+				if (colorButton?.getAttribute("aria-disabled") === "true" && ItemColorState) {
 					ItemColorCancelAndExit();
 				}
 			},
@@ -4480,28 +4537,29 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
 			blink: {
 				click(button, ev, { C }) {
-					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
+					const val = CommonParseInt(button.getAttribute("aria-valuenow") ?? "", 10) ?? 1;
+					const level = /** @type {1 | 2 | 3 | 4} */ (CommonClamp(val, 1, 4));
 
 					/** @type {string} */
 					let state;
 					switch (level) {
 						case 1:
 							state = "None";
-							CharacterSetFacialExpression(C, "Eyes", C.ActiveExpression.Eyes, null);
+							CharacterSetFacialExpression(C, "Eyes", C.ActiveExpression.Eyes);
 							break;
 						case 2:
 							state = "Left";
-							CharacterSetFacialExpression(C, "Eyes1", C.ActiveExpression.Eyes, null);
-							CharacterSetFacialExpression(C, "Eyes2", "Closed", null);
+							CharacterSetFacialExpression(C, "Eyes1", C.ActiveExpression.Eyes);
+							CharacterSetFacialExpression(C, "Eyes2", "Closed");
 							break;
 						case 3:
 							state = "Both";
-							CharacterSetFacialExpression(C, "Eyes", "Closed", null);
+							CharacterSetFacialExpression(C, "Eyes", "Closed");
 							break;
 						case 4:
 							state = "Right";
-							CharacterSetFacialExpression(C, "Eyes1", "Closed", null);
-							CharacterSetFacialExpression(C, "Eyes2", C.ActiveExpression.Eyes, null);
+							CharacterSetFacialExpression(C, "Eyes1", "Closed");
+							CharacterSetFacialExpression(C, "Eyes2", C.ActiveExpression.Eyes);
 							break;
 					}
 					button.setAttribute("aria-valuetext", state);
@@ -4589,7 +4647,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 								name: group,
 								"aria-expanded": "false",
 								"aria-owns": `${ids.grid}-${group}`,
-								"aria-label": AssetGroupGet("Female3DCG", group).Description,
+								"aria-label": AssetGroupGet("Female3DCG", group)?.Description,
 							},
 						}},
 					)),
@@ -4607,7 +4665,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 							id: `${ids.grid}-${group}`,
 							role: "radiogroup",
 							"aria-required": "true",
-							"aria-label": AssetGroupGet("Female3DCG", group).Description,
+							"aria-label": AssetGroupGet("Female3DCG", group)?.Description,
 						},
 						dataAttributes: { name: group },
 					};
@@ -4743,7 +4801,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		}
 
 		CharacterSetFacialExpression(C, clickedObj.Group, clickedObj.Expression);
-		C.ActiveExpression.setWithoutReload(clickedObj.Group, clickedObj.Expression ?? undefined);
+		C.ActiveExpression.setWithoutReload(clickedObj.Group, clickedObj.Expression);
 
 		const thisImg = button.querySelector("img.button-image");
 		const controllerImg = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"] .button-image`);
@@ -5252,7 +5310,8 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 		];
 
 		const children = rules.map(([name, group, logValue]) => {
-			if (!LogQuery(name, group)) {
+			const val = LogValue(name, group);
+			if (val === null || val === undefined) {
 				return null;
 			} else {
 				return ElementCreate({
@@ -5260,7 +5319,7 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 					dataAttributes: { name, group },
 					children: [
 						InterfaceTextGet(`RulesMenu${name}`),
-						(logValue ? ` ${TimerToString(LogValue(name, group) - CurrentTime)}` : null),
+						(logValue ? ` ${TimerToString(val - CurrentTime)}` : null),
 					],
 				});
 			}
@@ -5319,7 +5378,7 @@ function DialogFindPlayer(KeyWord) {
  * Searches in the dialog for a specific stage keyword and returns that dialog option if we find it
  * @param {Character} C - The character whose dialog option*
  * @param {string} KeyWord1 - The key word to search for
- * @param {string} [KeyWord2] - An optionally given second key word. is only looked for, if specified and the first
+ * @param {string | null} [KeyWord2] - An optionally given second key word. is only looked for, if specified and the first
  * keyword was not found.
  * @param {boolean} [ReturnPrevious=true] - If specified, returns the previous dialog, if neither of the the two key words were found
  ns should be searched
@@ -5349,16 +5408,19 @@ function DialogFind(C, KeyWord1, KeyWord2, ReturnPrevious = true) {
  * is replaced with the player's name and 'DestinationCharacter' with the current character's name.
  */
 function DialogFindAutoReplace(C, KeyWord1, KeyWord2, ReturnPrevious) {
-	return DialogFind(C, KeyWord1, KeyWord2, ReturnPrevious)
+	const line = DialogFind(C, KeyWord1, KeyWord2, ReturnPrevious);
+	const current = CharacterGetCurrent();
+	if (!current) return line;
+	return line
 		.replace("SourceCharacter", CharacterNickname(Player))
-		.replace("DestinationCharacter", CharacterNickname(CharacterGetCurrent()));
+		.replace("DestinationCharacter", CharacterNickname(current));
 }
 
 /**
  * Draw the up/down arrow to bump a character up and down if they're hidden.
  */
 function DialogDrawRepositionButton() {
-	if (!CurrentCharacter.FocusGroup) return;
+	if (!CurrentCharacter || !CurrentCharacter.FocusGroup) return;
 
 	let drawButton = "";
 	if (CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
@@ -5378,7 +5440,9 @@ function DialogDrawRepositionButton() {
  * @param {Character} C The character currently focused.
  */
 function DialogDrawTopMenu(C) {
+	if (!C.FocusGroup) return;
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
+	if (!FocusItem) return;
 
 	for (let I = DialogMenuButton.length - 1; I >= 0; I--) {
 		const ButtonColor = DialogGetMenuButtonColor(DialogMenuButton[I]);
@@ -5498,7 +5562,7 @@ function DialogDraw() {
 	// Customization can be used in dialog if screen is online chat room
 	if (ServerPlayerIsInChatRoom() && ChatRoomCustomized) {
 		const drawBGToRect = DrawShowChatRoomCustomBackground() ? { x: 0, y: 0, w: 2000, h: 1000 } : null;
-		ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, drawBGToRect, true);
+		ChatAdminRoomCustomizationProcess(/** @type {ServerChatRoomData} */ (ChatRoomData).Custom, drawBGToRect, true);
 	}
 
 	// Check that there's actually a character selected
@@ -5529,7 +5593,7 @@ function DialogDraw() {
 	const FocusItem = InventoryGet(C, C.FocusGroup?.Name);
 
 	// Draws the top menu text & icons
-	if (!["extended", "tighten", "colorDefault", "colorExpression", "colorItem", "layering", "dialog"].includes(DialogMenuMode))
+	if (DialogMenuMode && !["extended", "tighten", "colorDefault", "colorExpression", "colorItem", "layering", "dialog"].includes(DialogMenuMode))
 		DialogDrawTopMenu(C);
 
 	// If the player is struggling or lockpicking
@@ -5543,7 +5607,7 @@ function DialogDraw() {
 				DrawItemPreview(DialogStrugglePrevItem, C, 1200, 100);
 				DrawItemPreview(DialogStruggleNextItem, C, 1200, 100);
 			} else if (DialogStrugglePrevItem || DialogStruggleNextItem) {
-				const item = DialogStrugglePrevItem || DialogStruggleNextItem;
+				const item = /** @type {Item} */ (DialogStrugglePrevItem ?? DialogStruggleNextItem);
 				DrawItemPreview(item, C, 1387, 100);
 			}
 
@@ -5584,7 +5648,7 @@ function DialogDraw() {
 			DialogChangeMode("items");
 		}
 	} else if ((DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") && FocusItem) {
-		ItemColorDraw(C, C.FocusGroup.Name, 1090, 15, 885, 970);
+		ItemColorDraw(C, FocusItem.Asset.Group.Name, 1090, 15, 885, 970);
 		return;
 	} else if (DialogMenuMode === "colorDefault") {
 		return;
@@ -5676,8 +5740,8 @@ function DialogActualNameForGroup(C, G) {
  *
  * @param {Character} C
  * @param {DialogStruggleActionType} Action
- * @param {Item} PrevItem
- * @param {Item} NextItem
+ * @param {Item | null} PrevItem
+ * @param {Item | null} NextItem
  */
 function DialogStruggleStart(C, Action, PrevItem, NextItem) {
 
@@ -5768,7 +5832,7 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 			if ((NextItem.Craft != null) && CommonIsColor(NextItem.Craft.Color))
 				Color = NextItem.Craft.Color;
 
-			NextItem = InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, false);
+			NextItem = InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, false) ?? undefined;
 		}
 
 		CharacterRefresh(C, true, true);
@@ -5803,7 +5867,7 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, NextItem);
 			DialogChangeMode("items");
 		} else if (
-			NextItem !== null
+			NextItem != null
 			&& NextItem.Asset.Extended
 			&& (
 				NextItem.Craft == null

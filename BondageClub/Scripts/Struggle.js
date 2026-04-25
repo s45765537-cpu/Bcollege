@@ -507,7 +507,7 @@ function StruggleMinigameIsRunning() {
  * @param {Character} C - The character currently doing the struggling, either on itself (ie. as Player), or on someone else.
  * @param {StruggleKnownMinigames} MiniGame - The minigame to start
  * @param {Item | null} PrevItem - The item currently being present on the character, or null if none
- * @param {Item} NextItem - The item currently being added on the character, or null if it's a removal
+ * @param {Item | null} NextItem - The item currently being added on the character, or null if it's a removal
  * @param {StruggleCompletionCallback} Completion - A callback that will be called when the minigame ends
  */
 function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
@@ -743,8 +743,8 @@ function StruggleStrengthProcess(Decrease) {
  * escapee being bound in a way.
  *
  * @param {Character} C - The character who tries to struggle
- * @param {Item} PrevItem - The item, the character wants to struggle out of
- * @param {Item} [NextItem] - The item that should substitute the first one
+ * @param {Item | null} PrevItem - The item, the character wants to struggle out of
+ * @param {Item | null} [NextItem] - The item that should substitute the first one
  * @returns {{difficulty: number; auto: number; timer: number; }} - Nothing
  */
 function StruggleStrengthGetDifficulty(C, PrevItem, NextItem) {

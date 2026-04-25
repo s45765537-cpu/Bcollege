@@ -665,7 +665,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 /**
 * Gets the current item / cloth worn a specific area (AssetGroup)
 * @param {Character} C - The character on which we must check the appearance
-* @param {AssetGroupName} AssetGroup - The name of the asset group to scan
+* @param {AssetGroupName|null|undefined} AssetGroup - The name of the asset group to scan
 * @returns {Item|null} - Returns the appearance which is the item / cloth asset, color and properties
 */
 function InventoryGet(C, AssetGroup) {
@@ -1390,7 +1390,7 @@ function InventoryDoesItemAllowLock(item) {
 /**
  * Applies a lock to an appearance item of a character
  * @param {Character} C - The character on which the lock must be applied
- * @param {Item|AssetGroupName} ItemOrGroupName - The item from appearance to lock
+ * @param {Item|AssetGroupName|null} ItemOrGroupName - The item from appearance to lock
  * @param {Item|AssetLockType} LockOrLockType - The asset of the lock or the name of the lock asset
  * @param {null|Character|string} [AppliedBy] - The character applying the lock, or message to show
  * @param {boolean} [Update=true] - Whether or not to update the character
@@ -1635,7 +1635,7 @@ function InventoryTogglePermission(Item, Type=null, Worn=false, push=true) {
 * @param {Character} C - The character on which we check the permissions
 * @param {string} AssetName - The asset / item name to scan
 * @param {AssetGroupName} AssetGroup - The asset group name to scan
-* @param {string} [AssetType] - The asset type to scan
+* @param {string | null} [AssetType] - The asset type to scan
 * @returns {boolean} - TRUE if asset / item is blocked
 */
 function InventoryIsPermissionBlocked(C, AssetName, AssetGroup, AssetType) {
@@ -1652,7 +1652,7 @@ function InventoryIsPermissionBlocked(C, AssetName, AssetGroup, AssetType) {
 * @param {Character} C - The character on which we check the permissions
 * @param {string} AssetName - The asset / item name to scan
 * @param {AssetGroupName} AssetGroup - The asset group name to scan
-* @param {string} [AssetType] - The asset type to scan
+* @param {string | null} [AssetType] - The asset type to scan
 * @returns {boolean} - TRUE if asset / item is a favorite
 */
 function InventoryIsFavorite(C, AssetName, AssetGroup, AssetType) {
@@ -1668,7 +1668,7 @@ function InventoryIsFavorite(C, AssetName, AssetGroup, AssetType) {
  * @param {Character} C - The character on which we check the permissions
  * @param {string} AssetName - The asset / item name to scan
  * @param {AssetGroupName} AssetGroup - The asset group name to scan
- * @param {string} [AssetType] - The asset type to scan
+ * @param {string | null} [AssetType] - The asset type to scan
  * @returns {boolean} - TRUE if asset / item is limited
  */
 function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
@@ -1683,7 +1683,7 @@ function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
  * Returns TRUE if the item is not limited, if the player is an owner or a lover of the character, or on their whitelist
  * @param {Character} C - The character on which we check the limited permissions for the item
  * @param {Item} Item - The item being interacted with
- * @param {string} [ItemType] - The asset type to scan
+ * @param {string | null} [ItemType] - The asset type to scan
  * @returns {boolean} - TRUE if item is allowed
  */
 function InventoryCheckLimitedPermission(C, Item, ItemType) {
@@ -1697,7 +1697,7 @@ function InventoryCheckLimitedPermission(C, Item, ItemType) {
  * Returns TRUE if a specific item / asset is blocked or limited for the player by the character item permissions
  * @param {Character} C - The character on which we check the permissions
  * @param {Item} Item - The item being interacted with
- * @param {string | undefined} [ItemType] - The asset type to scan
+ * @param {string | undefined | null} [ItemType] - The asset type to scan
  * @returns {boolean} - Returns TRUE if the item cannot be used
  */
 function InventoryBlockedOrLimited(C, Item, ItemType) {
@@ -1711,7 +1711,7 @@ function InventoryBlockedOrLimited(C, Item, ItemType) {
  * used by the player)
  * @param {Character} C - The character whose permissions to check
  * @param {Item} item - The item to check
- * @param {string | undefined} [type] - the item type to check
+ * @param {string | undefined | null} [type] - the item type to check
  * @returns {boolean} - Returns TRUE if the given item & type is limited but allowed for the player
  */
 function InventoryIsAllowedLimited(C, item, type) {

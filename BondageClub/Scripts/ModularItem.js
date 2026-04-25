@@ -565,7 +565,7 @@ function ModularItemModuleTransition(newModule, data) {
 /**
  * Parses the focus item's current type into an array representing the currently selected module options
  * @param {ModularItemData} data - The modular item's data
- * @param {null | TypeRecord} typeRecord - The type string for a modular item. If null, use a type string extracted from the selected module options
+ * @param {null | undefined | TypeRecord} typeRecord - The type string for a modular item. If null, use a type string extracted from the selected module options
  * @returns {number[]} - An array of numbers representing the currently selected options for each of the item's modules
  */
 function ModularItemParseCurrent({ asset, modules }, typeRecord) {

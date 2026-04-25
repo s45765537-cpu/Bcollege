@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 'use strict';
 
 var KeybindingDefaults = {
@@ -35,7 +34,7 @@ var KeybindingDefaults = {
 				(document.activeElement === null
 					|| document.activeElement === document.body
 					|| document.activeElement instanceof HTMLDialogElement)
-				&& document.activeElement.id !== "InputChat"
+				&& document.activeElement?.id !== "InputChat"
 		},
 		{
 			id: 'isInChatRoom',

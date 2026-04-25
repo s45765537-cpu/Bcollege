@@ -18,7 +18,7 @@ const PreferenceExtensionsIDs = Object.freeze({
 function PreferenceSubscreenExtensionsLoad() {
 	PreferenceExtensionsDisplay = Object.keys(PreferenceExtensionsSettings).map(
 		k => (
-			s=>({
+			s => ({
 				Button: typeof s.ButtonText === "function" ? s.ButtonText() : s.ButtonText,
 				Image: s.Image && (typeof s.Image === "function" ? s.Image() : s.Image),
 				click: () => {

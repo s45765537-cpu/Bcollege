@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData>} */
@@ -11,10 +10,11 @@ function AssetsItemDevicesDollBoxAfterDrawHook(data, originalFunction,
 		const width = 400;
 		const tempCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tempCanvas.getContext("2d");
+		if (!ctx) return;
 
 		// One line of text will be centered
 		TextItem.Init(data, C, CA, false, false);
-		const [text1, text2] = [CA.Property.Text, CA.Property.Text2];
+		const [text1, text2] = [CA.Property?.Text ?? "", CA.Property?.Text2 ?? ""];
 		const isAlone = !text1 || !text2;
 
 		const drawOptions = {

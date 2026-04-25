@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 const BackgroundsStringsPath = "Backgrounds/Backgrounds.csv";
@@ -319,7 +318,7 @@ const BackgroundsList = [
  * @returns {string}
  */
 function BackgroundsTextGet(msg) {
-	return TextAllScreenCache.get(BackgroundsStringsPath).get(msg);
+	return TextAllScreenCache.get(BackgroundsStringsPath)?.get(msg) ?? "MISSING BACKGROUND CACHE";
 }
 
 /**

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
@@ -6,7 +5,7 @@ function InventoryItemButtInflVibeButtPlugDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 
 	if (Data.currentModule === ModularItemBase) {
-		const [InflateLevel, Intensity] = ModularItemParseCurrent(Data, DialogFocusItem.Property.TypeRecord);
+		const [InflateLevel, Intensity] = ModularItemParseCurrent(Data, DialogFocusItem?.Property?.TypeRecord);
 
 		// Display option information
 		MainCanvas.save();

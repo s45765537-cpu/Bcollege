@@ -15,12 +15,15 @@ var PreferenceGraphicsFontList = ["Arial", "TimesNewRoman", "Papyrus", "ComicSan
 /** @type {WebGLPowerPreference[]} */
 var PreferenceGraphicsPowerModes = ["low-power", "default", "high-performance"];
 var PreferenceGraphicsFontIndex = 0;
-/** @type {null | number} */
-var PreferenceGraphicsAnimationQualityIndex = null;
-/** @type {null | number} */
-var PreferenceGraphicsPowerModeIndex = null;
-/** @type {null | WebGLContextAttributes} */
-var PreferenceGraphicsWebGLOptions = null;
+/** @type {number} */
+var PreferenceGraphicsAnimationQualityIndex = -1;
+/** @type {number} */
+var PreferenceGraphicsPowerModeIndex = -1;
+/**
+ * Tied to the screen's lifetime
+ * @type {WebGLContextAttributes}
+ */
+var PreferenceGraphicsWebGLOptions;
 var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
 var PreferenceGraphicsFrameLimit = [0, 10, 15, 30, 60];
 

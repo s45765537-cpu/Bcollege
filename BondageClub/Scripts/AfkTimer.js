@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 var AfkTimerTimout = 5 * 60 * 1000; // 5 minutes
@@ -61,12 +60,12 @@ function AfkTimerSetEnabled(Enabled) {
  * @returns {void} - Nothing
  */
 function AfkTimerSetIsAfk() {
-	if (CurrentScreen != "ChatRoom") return;
+	if (!ServerPlayerIsInChatRoom()) return;
 	if (AfkTimerIsSet) return;
 	if (AfkTimerLastEvent === 0 || AfkTimerLastEvent + AfkTimerTimout > CommonTime()) return;
 	// save the current Emoticon, if there is any
-	if (InventoryGet(Player, "Emoticon") && InventoryGet(Player, "Emoticon").Property && AfkTimerOldEmoticon == null) {
-		AfkTimerOldEmoticon = /** @type {ExpressionNameMap["Emoticon"]} */(InventoryGet(Player, "Emoticon").Property.Expression);
+	if (InventoryGet(Player, "Emoticon") && InventoryGet(Player, "Emoticon")?.Property && AfkTimerOldEmoticon == null) {
+		AfkTimerOldEmoticon = /** @type {ExpressionNameMap["Emoticon"]} */(InventoryGet(Player, "Emoticon")?.Property?.Expression);
 	}
 	CharacterSetFacialExpression(Player, "Emoticon", "Afk");
 	AfkTimerIsSet = true;

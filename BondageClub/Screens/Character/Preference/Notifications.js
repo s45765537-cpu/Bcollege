@@ -88,7 +88,7 @@ function PreferenceSubscreenNotificationsRun() {
  * @returns {void} - Nothing
  */
 function PreferenceNotificationsDrawSetting(Left, Top, Text, Setting) {
-	DrawBackNextButton(Left, Top, 164, 64, TextGet("NotificationsAlertType" + Setting.AlertType.toString()), "White", null, () => "", () => "");
+	DrawBackNextButton(Left, Top, 164, 64, TextGet("NotificationsAlertType" + Setting.AlertType.toString()), "White", undefined, () => "", () => "");
 	const Enabled = Setting.AlertType > 0;
 	if (Enabled) {
 		DrawButton(Left + 200, Top, 64, 64, "", "White", "Icons/Audio" + Setting.Audio.toString() + ".png");

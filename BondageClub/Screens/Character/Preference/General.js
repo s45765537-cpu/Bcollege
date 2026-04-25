@@ -171,7 +171,6 @@ function PreferenceSubscreenGeneralRun() {
 	MainCanvas.textAlign = "left";
 	if (PreferenceMessage != "") DrawText(TextGet(PreferenceMessage), 920, 125, "Red", "Black");
 	MainCanvas.textAlign = "center";
-
 }
 
 /**

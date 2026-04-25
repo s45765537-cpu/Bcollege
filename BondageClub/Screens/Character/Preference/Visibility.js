@@ -1,15 +1,17 @@
-// @ts-strict-ignore
 "use strict";
 
-/** @type {{ Group: AssetGroup, Assets: { Asset: Asset, Hidden: boolean, Blocked: boolean, Limited: boolean}[]}[]} */
+/** @type {{ Group: AssetGroup, Assets: { Asset: Asset, Hidden: boolean, Blocked: boolean, Limited: boolean }[]}[]} */
 var PreferenceVisibilityGroupList = [];
 var PreferenceVisibilityGroupIndex = 0;
 var PreferenceVisibilityAssetIndex = 0;
 var PreferenceVisibilityHideChecked = false;
 var PreferenceVisibilityBlockChecked = false;
 var PreferenceVisibilityCanBlock = true;
-/** @type {null | Asset} */
-var PreferenceVisibilityPreviewAsset = null;
+/**
+ * Bound to screen lifetime
+ * @type {Asset}
+ */
+var PreferenceVisibilityPreviewAsset;
 var PreferenceVisibilityResetClicked = false;
 /** @type {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} */
 var PreferenceVisibilityRecord = {};
@@ -19,7 +21,7 @@ var PreferenceVisibilityRecord = {};
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenVisibilityLoad() {
-	ElementWrap(PreferenceIDs.exit).hidden = true;
+	ElementWrap(PreferenceIDs.exit)?.toggleAttribute("hidden", true);
 	PreferenceVisibilityRecord = { ...Player.PermissionItems };
 	PreferenceVisibilityGroupList = [];
 	const hideableGroups = AssetGroup.filter(g => AssetGroupIsHideable(g));
@@ -140,7 +142,7 @@ function PreferenceSubscreenVisibilityClick() {
 		// Reset button
 		if (MouseIn(500, PreferenceVisibilityResetClicked ? 780 : 700, 300, 64)) {
 			if (PreferenceVisibilityResetClicked) {
-				Object.values(Player.PermissionItems).forEach(i => i.Hidden = false);
+				Object.values(Player.PermissionItems).forEach(i => { if (i) i.Hidden = false; });
 				PreferenceVisibilityExit(true);
 			}
 			else PreferenceVisibilityResetClicked = true;
@@ -150,11 +152,12 @@ function PreferenceSubscreenVisibilityClick() {
 
 	// Confirm button
 	if (MouseIn(1720, 60, 90, 90)) {
-		CommonEntries(PreferenceVisibilityRecord).forEach(([key, permission]) => {
-			Player.PermissionItems[key] ??= permission;
+		for (const [key, permission] of CommonEntries(PreferenceVisibilityRecord)) {
+			if (!permission) continue;
+			Player.PermissionItems[key] ??= PreferencePermissionGetDefault();
 			Player.PermissionItems[key].Hidden = permission.Hidden;
 			Player.PermissionItems[key].Permission = permission.Permission;
-		});
+		}
 		PreferenceVisibilityExit(true);
 	}
 

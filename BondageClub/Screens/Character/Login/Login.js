@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var LoginBackground = "Dressing";
 /**
@@ -77,7 +76,7 @@ var LoginErrorMessage = "";
  * The dummy on the login screen.
  *
  * Lifetime bound to the screen.
- * @type {NPCCharacter} */
+ * @type {NPCCharacter | null} */
 var LoginCharacter;
 
 /* DEBUG: To measure FPS - uncomment this and change the + 4000 to + 40
@@ -108,10 +107,11 @@ const LoginIDs = Object.freeze({
  */
 function LoginDoNextThankYou() {
 	LoginThankYou = CommonRandomItemFromList(LoginThankYou, LoginThankYouList);
-	CharacterRelease(LoginCharacter, false);
-	CharacterAppearanceFullRandom(LoginCharacter);
-	if (InventoryGet(LoginCharacter, "ItemNeck") != null) InventoryRemove(LoginCharacter, "ItemNeck", false);
-	CharacterFullRandomRestrain(LoginCharacter);
+	const char = /** @type {NPCCharacter} */ (LoginCharacter);
+	CharacterRelease(char, false);
+	CharacterAppearanceFullRandom(char);
+	if (InventoryGet(char, "ItemNeck") != null) InventoryRemove(char, "ItemNeck", false);
+	CharacterFullRandomRestrain(char);
 	LoginThankYouNext = CommonTime() + 4000;
 }
 
@@ -343,7 +343,7 @@ async function LoginLoad() {
 		ActivityDictionaryLoad();
 		AssetLoadDescription("Female3DCG");
 		const timer = TimerCreate(() => {
-			TextScreenCache.loadedPromise.then(() => {
+			TextScreenCache?.loadedPromise.then(() => {
 				LoginReloadLanguageText();
 				timer?.();
 			});
@@ -387,16 +387,17 @@ function LoginRun() {
 	// Draw the login controls
 	const status = ElementWrap(LoginIDs.status);
 	const statusNewText = LoginGetStatus() ?? TextGet("EnterNamePassword");
-	if (status.textContent !== statusNewText) {
+	if (status && status.textContent !== statusNewText) {
 		status.textContent = statusNewText;
 	}
-	ElementWrap(LoginIDs.login).toggleAttribute("disabled", !CanLogin);
-	ElementWrap(LoginIDs.register).toggleAttribute("disabled", !CanLogin);
-	ElementWrap(LoginIDs.passwordReset).toggleAttribute("disabled", !CanLogin);
-	ElementWrap(LoginIDs.cheats).style.display = CheatAllow ? "" : "none";
+	ElementWrap(LoginIDs.login)?.toggleAttribute("disabled", !CanLogin);
+	ElementWrap(LoginIDs.register)?.toggleAttribute("disabled", !CanLogin);
+	ElementWrap(LoginIDs.passwordReset)?.toggleAttribute("disabled", !CanLogin);
+	const cheatElem = ElementWrap(LoginIDs.cheats);
+	if (cheatElem) cheatElem.style.display = CheatAllow ? "" : "none";
 
 	// Draw the character and thank you bubble
-	DrawCharacter(LoginCharacter, 1400, 100, 0.9);
+	DrawCharacter(/** @type {NPCCharacter} */ (LoginCharacter), 1400, 100, 0.9);
 	if (LoginThankYouNext < CommonTime()) LoginDoNextThankYou();
 	DrawImage("Screens/" + CurrentModule + "/" + CurrentScreen + "/Bubble.png", 1400, 16);
 	DrawText(TextGet("ThankYou") + " " + LoginThankYou, 1625, 53, "Black", "Gray");
@@ -445,19 +446,19 @@ function LoginUnload() {
 	ElementRemove(LoginIDs.cheats);
 	ElementRemove(LoginIDs.language);
 
-	CharacterDelete(LoginCharacter);
+	CharacterDelete(/** @type {NPCCharacter} */ (LoginCharacter));
 	LoginCharacter = null;
 }
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function LoginResize(load) {
-	ElementPositionFixed(LoginIDs.welcome, 500, 50, 1000, null);
-	ElementPositionFixed(LoginIDs.status, 500, 100, 1000, null);
+	ElementPositionFixed(LoginIDs.welcome, 500, 50, 1000);
+	ElementPositionFixed(LoginIDs.status, 500, 100, 1000);
 
-	ElementPositionFixed(LoginIDs.nameLabel, 500, 200, 1000, null);
-	ElementPositionFixed(LoginIDs.name, 750, 260, 500, null);
-	ElementPositionFixed(LoginIDs.passwordLabel, 500, 330, 1000, null);
-	ElementPositionFixed(LoginIDs.password, 750, 390, 500, null);
+	ElementPositionFixed(LoginIDs.nameLabel, 500, 200, 1000);
+	ElementPositionFixed(LoginIDs.name, 750, 260, 500);
+	ElementPositionFixed(LoginIDs.passwordLabel, 500, 330, 1000);
+	ElementPositionFixed(LoginIDs.password, 750, 390, 500);
 
 	ElementSetPosition(LoginIDs.login, 1000, 490);
 	ElementSetFontSize(LoginIDs.login, "auto");
@@ -470,16 +471,42 @@ function LoginResize(load) {
 }
 
 function LoginReloadLanguageText() {
-	ElementWrap(LoginIDs.welcome).textContent = TextGet("Welcome");
-	ElementWrap(LoginIDs.status).textContent = LoginGetStatus() ?? TextGet("EnterNamePassword");
-	ElementWrap(LoginIDs.nameLabel).textContent = TextGet("AccountName");
-	ElementWrap(LoginIDs.passwordLabel).textContent = TextGet("Password");
-
-	ElementWrap(LoginIDs.newCharacter).textContent = TextGet("CreateNewCharacter");
-	ElementWrap(LoginIDs.login).querySelector("span").textContent = TextGet("Login");
-	ElementWrap(LoginIDs.register).querySelector("span").textContent = TextGet("NewCharacter");
-	ElementWrap(LoginIDs.passwordReset).querySelector("span").textContent = TextGet("PasswordReset");
-	ElementWrap(LoginIDs.cheats).querySelector("span").textContent = TextGet("Cheats");
+	const welcome = ElementWrap(LoginIDs.welcome);
+	if (welcome) {
+		welcome.textContent = TextGet("Welcome");
+	}
+	const status = ElementWrap(LoginIDs.status);
+	if (status) {
+		status.textContent = LoginGetStatus() ?? TextGet("EnterNamePassword");
+	}
+	const nameLabel = ElementWrap(LoginIDs.nameLabel);
+	if (nameLabel) {
+		nameLabel.textContent = TextGet("AccountName");
+	}
+	const passwordLabel = ElementWrap(LoginIDs.passwordLabel);
+	if (passwordLabel) {
+		passwordLabel.textContent = TextGet("Password");
+	}
+	const newCharacter = ElementWrap(LoginIDs.newCharacter);
+	if (newCharacter) {
+		newCharacter.textContent = TextGet("CreateNewCharacter");
+	}
+	const login = ElementWrap(LoginIDs.login)?.querySelector("span");
+	if (login) {
+		login.textContent = TextGet("Login");
+	}
+	const register = ElementWrap(LoginIDs.register)?.querySelector("span");
+	if (register) {
+		register.textContent = TextGet("NewCharacter");
+	}
+	const passwordReset = ElementWrap(LoginIDs.passwordReset)?.querySelector("span");
+	if (passwordReset) {
+		passwordReset.textContent = TextGet("PasswordReset");
+	}
+	const cheats = ElementWrap(LoginIDs.cheats)?.querySelector("span");
+	if (cheats) {
+		cheats.textContent = TextGet("Cheats");
+	}
 }
 
 /**
@@ -659,7 +686,7 @@ function LoginPerformAppearanceFixups(Appearance) {
 
 /**
  * Perform the crafting fixups needed
- * @param {readonly CraftingItem[]} Crafting - The server-provided, uncompressed crafting data
+ * @param {readonly (CraftingItem | null)[]} Crafting - The server-provided, uncompressed crafting data
  */
 function LoginPerformCraftingFixups(Crafting) {
 	if (!Crafting || !CommonIsArray(Crafting)) return;
@@ -904,6 +931,7 @@ function LoginDifficulty(applyDefaults) {
 function LoginExtremeItemSettings(applyDefaults) {
 	const LimitedAssets = new Set(MainHallStrongLocks.map(i => `ItemMisc/${i}`));
 	for (const [name, permission] of CommonEntries(Player.PermissionItems)) {
+		if (!permission) continue;
 		permission.Hidden = false;
 		const limitedAllowed = LimitedAssets.has(name);
 
@@ -996,7 +1024,7 @@ function LoginSetupPlayer(C) {
 			FullRooms: true,
 			ShowLocked: true,
 			SearchDescriptions: false,
-			MapTypes: undefined,
+			MapTypes: "",
 			RoomMinSize: 2,
 			RoomMaxSize: 20,
 			FilterTerms: "",
@@ -1004,12 +1032,14 @@ function LoginSetupPlayer(C) {
 		if (C.RoomSearchLanguage != null) {
 			C.ChatSearchSettings.Language = C.RoomSearchLanguage;
 			C.RoomSearchLanguage = undefined;
+			// @ts-ignore Strict-TS: This ought to be deleted server-side
 			ServerAccountUpdate.QueueData({ RoomSearchLanguage: null });
 		}
 		updateSearchSettings = true;
 	}
 	if (C.ChatSearchFilterTerms) {
 		C.ChatSearchSettings.FilterTerms = C.ChatSearchFilterTerms;
+		// @ts-ignore Strict-TS: This ought to be deleted server-side
 		ServerAccountUpdate.QueueData({ ChatSearchFilterTerms: null });
 		updateSearchSettings = true;
 	}

@@ -576,7 +576,6 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("Lobby")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
-							// @ts-ignore
 							(ev, key) => {
 								Player.ChatSearchSettings.Space = ChatSearchSpace = key;
 								ChatSearchUpdateSearchSettings();

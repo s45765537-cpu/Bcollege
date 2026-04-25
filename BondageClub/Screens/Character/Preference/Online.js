@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 
-/** @type {null | string[]} */
-var PreferenceOnlineDefaultBackgroundList = null;
+/** @type {string[]} */
+var PreferenceOnlineDefaultBackgroundList = /** @type {never} */ (null);
 var PreferenceOnlineDefaultBackgroundIndex = 0;
 var PreferenceOnlineDefaultBackground = "";
 
@@ -75,7 +74,7 @@ function PreferenceSubscreenOnlineLoad() {
 			dropdown
 		]
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(grid);
+	ElementWrap(PreferenceIDs.subscreen)?.append(grid);
 
 	const subtitle = ElementCreate({
 		tag: "label",
@@ -105,7 +104,7 @@ function PreferenceSubscreenOnlineLoad() {
 			selection
 		]
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(grid2);
+	ElementWrap(PreferenceIDs.subscreen)?.append(grid2);
 }
 /**
  * Sets the online preferences for the player. Redirected to from the main Run function if the player is in the online
@@ -116,8 +115,8 @@ function PreferenceSubscreenOnlineRun() {
 	DrawCharacter(Player, 50, 50, 0.9);
 	MainCanvas.textAlign = "center";
 	PreferencePageChangeDraw(1595, 75, 2);
-	ElementWrap(PreferenceSubscreenOnlineIDs.grid).toggleAttribute("hidden", PreferencePageCurrent !== 1);
-	ElementWrap(PreferenceSubscreenOnlineIDs.grid2).toggleAttribute("hidden", PreferencePageCurrent !== 2);
+	ElementWrap(PreferenceSubscreenOnlineIDs.grid)?.toggleAttribute("hidden", PreferencePageCurrent !== 1);
+	ElementWrap(PreferenceSubscreenOnlineIDs.grid2)?.toggleAttribute("hidden", PreferencePageCurrent !== 2);
 
 	if (PreferencePageCurrent === 2) {
 		DrawImageResize("Backgrounds/" + PreferenceOnlineDefaultBackground + ".jpg", 500, 210, 300, 185);

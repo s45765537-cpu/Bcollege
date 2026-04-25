@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Validate<ModularItemData, ModularItemOption>} */
 function ItemHeadDroneMaskValidateHook(data, originalFunction, C, item, newOption, previousOption, permitExisting) {
-	let ret = originalFunction(C, item, newOption, previousOption, permitExisting);
+	let ret = originalFunction?.(C, item, newOption, previousOption, permitExisting) ?? "";
 	if (C.IsSimple()) {
 		return ret;
 	}
@@ -35,9 +34,11 @@ function AssetsItemHeadDroneMaskAfterDrawHook(data, originalFunction, {
 		let XOffset = 67;
 		let YOffset = 89;
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
+		let ctx = TempCanvas.getContext('2d');
+		if (!ctx) return;
 
 		TextItem.Init(data, C, CA, false, false);
-		const text = CA.Property.Text;
+		const text = CA.Property?.Text ?? "";
 		const isAlone = !text;
 
 		const drawOptions = {
@@ -48,7 +49,6 @@ function AssetsItemHeadDroneMaskAfterDrawHook(data, originalFunction, {
 		};
 
 		// Draw the text onto the canvas
-		let ctx = TempCanvas.getContext('2d');
 		DynamicDrawText(text, ctx, Width/2, Height/ (isAlone? 2: 2.5), drawOptions);
 
 		//And print the canvas onto the character based on the above positions
