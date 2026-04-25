@@ -550,7 +550,7 @@ Text Tax Auditor,"Enters: Select a level 3 or lower member in your opponent's cl
 Prerequisite Tax Auditor,Select a member from your opponent club to set its money to 1
 GroupKemonomimi,Kemonomimi
 Title Beat Cop,Beat Cop
-Text Beat Cop,"Cannot be targeted by other cards. Enters: Shuffle 4 cards from each player's streets into their deck."
+Text Beat Cop,"Cannot be targeted by other cards. Enters: Shuffle up to 4 random cards from each player's streets into their deck."
 Title Knot Tester,Knot Tester
 Text Knot Tester,"Enters: Play a random Knot event from your deck."
 Title Insurance Agent,Insurance Agent
@@ -616,13 +616,13 @@ Title Miss N Spection,Miss N Spection
 Text Miss N Spection,"If you take the Draw action with no cards in hand, draw 2 additional cards. Enters: Discard a card of your choice, then draw a card."
 Prerequisite Miss N Spection,Select a card in your hand to discard.
 Title Bottom Bitch,Bottom Bitch
-Text Bottom Bitch,"Gain +1 fame for each other submissive present (max 8). Leaves at the end of your turn if no mistress present."
+Text Bottom Bitch,"Gain +2 fame for each other submissive present (max 12). Leaves at the end of your turn if no mistress present."
 Title Nadu Nyla,Nadu Nyla
 Text Nadu Nyla,Gain +2 Fame and +1 Money as long as you have an active event in your club.
 Title Surrender,Surrender
 Text Surrender,All Slaves in your club get +1 Fame.
 Title Hands Out,Hands Out
-Text Hands Out,"Select a card in your hand, then discard your hand and draw as many cards, save the selected card if a slave is present."
+Text Hands Out,"Select a card in your hand, then discard your hand and draw as many cards + 1, save the selected card if a slave is present."
 Prerequisite Hands Out,Select a card in your hand.
 Title Carol,Carol
 Text Carol,"Enters: If another Nurse is present, add a random Patient from your Streets to your club, if there are none, add one from your deck."
@@ -738,12 +738,12 @@ Text Color Mixer,"Enters: Choose a non-latex member in your club, this member ga
 Prerequisite Color Mixer,Select a member from your club.
 Title Vac-bed Patient,Vac-bed Patient
 Text Vac-bed Patient,"When you take the draw action, gain 1 fame and 1 money."
-Title Tight Squeeze,Tight Squeeze
-Text Tight Squeeze,"When you draw this member with the draw action, add it to your club."
+Title Shiny Show Off,Shiny Show Off
+Text Shiny Show Off,"When you take the draw action, for each Latex member present, players lose 1 Fame. (Max 5)"
 Title Latex Drone,Latex Drone
 Text Latex Drone," "
 Title Encased,Encased
-Text Encased,Leaves your club if you play a non-latex Member.
+Text Encased,Leaves your club if you play a non-latex or dominant Member.
 Title Condom Suit,Condom Suit
 Text Exquisite Suit,"When you take the draw action, gets +1 Fame and Money (Max 5). When you play a non-latex member, negates herself."
 Title Latex Nurse,Latex Nurse
@@ -766,3 +766,5 @@ Title The Butler,The Butler
 Text The Butler,"Police no longer prevent steal effects. When your opponent plays a criminal, they steal 1 Money."
 Title Personal Assistant,Personal Assistant
 Text Personal Assistant,"If you would discard a Tier 5 card, shuffle it into your deck instead."
+Title Creeking,Creeking
+Text Creeking,"For 5 turns: select and negate a latex member in your club. When you take the draw action, gain +2 Fame per Latex member present (Max 3*club tier)"
