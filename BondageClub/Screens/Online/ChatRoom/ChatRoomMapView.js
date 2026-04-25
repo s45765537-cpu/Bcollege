@@ -2332,7 +2332,6 @@ function ChatRoomMapViewClick() {
 				Y = 10 + 70 * (count % 13);
 				X = 10 + 70 * Math.floor(count / 13);
 				if (MouseIn(X, Y, 60, 60)) {
-					// @ts-ignore
 					if ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup))
 						ChatRoomMapViewEditObject = CommonCloneDeep(Obj);
 					return;

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 const PreferenceSubscreenRestrictionIDs = Object.freeze({
@@ -22,7 +21,7 @@ function PreferenceSubscreenRestrictionLoad() {
 		attributes: { id: PreferenceSubscreenRestrictionIDs.hint },
 		children: [hintText]
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(hintLabel);
+	ElementWrap(PreferenceIDs.subscreen)?.append(hintLabel);
 
 	const pairs = settingsList.map(s => {
 		return ElementCheckbox.CreateLabelled(s, TextGet(`Restriction${s}`),
@@ -46,7 +45,7 @@ function PreferenceSubscreenRestrictionLoad() {
 		]
 	});
 
-	ElementWrap(PreferenceIDs.subscreen).append(grid);
+	ElementWrap(PreferenceIDs.subscreen)?.append(grid);
 }
 
 /**

@@ -1814,7 +1814,7 @@ var ElementButton = {
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
 		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
-		/** @type {(InventoryIcon | null)[]} */
+		/** @type {(InventoryIcon | null | undefined)[]} */
 		const iconNamesNew = [
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,

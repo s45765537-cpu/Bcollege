@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemCallbacks.BeforeDraw} */
@@ -11,5 +10,5 @@ function AssetsItemArmsNylonRopeBeforeDraw(data) {
 		};
 	}
 
-	return null;
+	return data;
 }

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -6,13 +5,13 @@
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<FuturisticCratePersistentData>} */
-function AssetsItemDevicesFuturisticCrateBeforeDraw({ PersistentData, L, X, Y, Property }) {
+function AssetsItemDevicesFuturisticCrateBeforeDraw(drawData) {
+	const { PersistentData, L, Y, Property } = drawData;
 	const Data = PersistentData();
 	if (typeof Data.DildoState !== "number") Data.DildoState = 0;
 	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
 
-	//if (L === "DevicePleasureHolder") return { Y: Y + Data.DildoState };
-	if (L !== "DevicePleasureHolder") return;
+	if (L !== "DevicePleasureHolder") return drawData;
 
 	const Properties = Property || {};
 	const Intensity = typeof Properties.Intensity === "number" ? Properties.Intensity : -1;
@@ -39,7 +38,7 @@ function AssetsItemDevicesFuturisticCrateBeforeDraw({ PersistentData, L, X, Y, P
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<VibratingItemData, FuturisticCratePersistentData>} */
 function AssetsItemDevicesFuturisticCrateScriptDrawHook(data, originalFunction, drawData) {
-	originalFunction(drawData);
+	originalFunction?.(drawData);
 
 	const Data = drawData.PersistentData();
 	const Properties = drawData.Item.Property || {};

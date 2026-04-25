@@ -1,13 +1,15 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemMiscExclusivePadlockDrawHook(data, originalFunction) {
 	originalFunction();
 
+	const C = CharacterGetCurrent();
+	if (!C || !DialogFocusItem) return;
+
 	DrawText(AssetTextGet(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 600, "white", "gray");
 	let msg = AssetTextGet(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Detail");
-	const subst = ChatRoomPronounSubstitutions(CurrentCharacter, "TargetPronoun", false);
+	const subst = ChatRoomPronounSubstitutions(C, "TargetPronoun", false);
 	msg = CommonStringSubstitute(msg, subst);
 	DrawText(msg, 1500, 700, "white", "gray");
 

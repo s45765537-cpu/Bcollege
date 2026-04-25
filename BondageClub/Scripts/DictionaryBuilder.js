@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -50,6 +49,7 @@ class DictionaryBuilder {
 	sourceCharacter(character) {
 		if (!this._condition) return this;
 		/** @type {SourceCharacterDictionaryEntry} */
+		// @ts-ignore Strict-TS: Character doesn't have a MemberNumber
 		const entry = { SourceCharacter: character.MemberNumber };
 		if (character.IsPlayer() && ChatRoomMapViewHasSuperPowers() && ChatRoomMapViewIsActive()) {
 			entry.HasSuperPowers = true;
@@ -86,6 +86,7 @@ class DictionaryBuilder {
 		if (!this._condition) return this;
 
 		/** @type {TargetCharacterDictionaryEntry} */
+		// @ts-ignore Strict-TS: Character doesn't have a MemberNumber
 		const entry = {TargetCharacter: character.MemberNumber};
 		if (this._targetIndex) {
 			entry.Index = this._targetIndex;
@@ -223,11 +224,11 @@ class DictionaryBuilder {
 	 * @param {number} [count] - The number of times the activity is done
 	 * @returns
 	 */
-	performActivity(name, group, item = null, count = 1) {
+	performActivity(name, group, item, count = 1) {
 		this._addEntry({ ActivityName: name });
 		this.focusGroup(group.Name);
 		if (item) {
-			this.asset(item.Asset, "UsedAsset", item.Craft && item.Craft.Name);
+			this.asset(item.Asset, "UsedAsset", item.Craft?.Name);
 		}
 		if (count > 1)
 			this._addEntry({ ActivityCounter: count });
@@ -247,6 +248,7 @@ class DictionaryBuilder {
 	/**
 	 * Adds a changeKey dictionary entry
 	 * @param {("gold" | "silver" | "bronze")[]} keys
+	 * @param {boolean} giveKey
 	 * @returns
 	 */
 	mapViewChangeKey(keys, giveKey) {

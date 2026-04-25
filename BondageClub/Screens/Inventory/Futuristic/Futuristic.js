@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 // How to make your item futuristic!
@@ -51,6 +50,7 @@ var FuturisticAccessChastityGroups = ["ItemPelvis", "ItemTorso", "ItemButt", "It
  */
 function FuturisticAccess(data, OriginalFunction, DeniedFunction) {
 	const C = CharacterGetCurrent();
+	if (!C) return false;
 	if (InventoryItemFuturisticValidate(C) !== "") {
 		DialogExtendedMessage = AssetTextGet("FuturisticItemLoginScreen");
 		DeniedFunction(data);
@@ -107,9 +107,7 @@ function FuturisticAccessExit() {
  * @type {ExtendedItemScriptHookCallbacks.Validate<ExtendedItemData<any>, any>}
  */
 function FuturisticAccessValidate(Data, OriginalFunction, C, Item, Option, CurrentOption, permitExisting) {
-	let futureString = InventoryItemFuturisticValidate(C, Item, CurrentOption.ChangeWhenLocked);
-	if (futureString) return futureString;
-	else return OriginalFunction(C, Item, Option, CurrentOption, permitExisting);
+	return InventoryItemFuturisticValidate(C, Item, CurrentOption.ChangeWhenLocked) ?? OriginalFunction?.(C, Item, Option, CurrentOption, permitExisting);
 }
 
 // Load the futuristic item ACCESS DENIED screen
@@ -155,15 +153,16 @@ function InventoryItemFuturisticClickAccessDenied(data) {
 	if (NoArch.Click(data)) {
 		return;
 	}
+	const C = CharacterGetCurrent();
+	if (!C) return;
 
 	if (MouseIn(1400, 800, 200, 64)) {
-		const elem = /** @type {null | HTMLInputElement} */(document.getElementById("PasswordField"));
-		if (elem?.disabled ?? true) {
+		const elem = /** @type {HTMLInputElement | null} */(document.getElementById("PasswordField"));
+		if (!elem || (elem?.disabled ?? true)) {
 			return;
 		}
 
 		const pw = elem.value.toUpperCase();
-		const C = CharacterGetCurrent();
 		if (DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy == "PasswordPadlock" && pw == DialogFocusItem.Property.Password) {
 			CommonPadlockUnlock(C, DialogFocusItem);
 			DialogLeaveFocusItem();
@@ -176,7 +175,7 @@ function InventoryItemFuturisticClickAccessDenied(data) {
 		} else {
 			FuturisticAccessDeniedMessage = AssetTextGet("CantChangeWhileLockedFuturistic");
 			AudioPlayInstantSound("Audio/AccessDenied.mp3");
-			InventoryItemFuturisticPublishAccessDenied(CharacterGetCurrent());
+			InventoryItemFuturisticPublishAccessDenied(C);
 		}
 	}
 }
@@ -184,8 +183,8 @@ function InventoryItemFuturisticClickAccessDenied(data) {
 /**
  * Validates, if the chosen option is possible. Sets the global variable 'DialogExtendedMessage' to the appropriate error message, if not.
  * @param {Character} C - The character to validate the option
- * @param {Item} Item - The equipped item
- * @param {boolean} changeWhenLocked - See {@link ExtendedItemOption.ChangeWhenLocked}
+ * @param {Item | null} Item - The equipped item
+ * @param {boolean} [changeWhenLocked] - See {@link ExtendedItemOption.ChangeWhenLocked}
  * @returns {string} - Returns false and sets DialogExtendedMessage, if the chosen option is not possible.
  */
 function InventoryItemFuturisticValidate(C, Item = DialogFocusItem, changeWhenLocked=false) {
@@ -222,6 +221,7 @@ function InventoryItemFuturisticValidate(C, Item = DialogFocusItem, changeWhenLo
  * @param {Character} C - The character that got denied access.
  */
 function InventoryItemFuturisticPublishAccessDenied(C) {
+	if (!C.FocusGroup) return;
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacter(C)

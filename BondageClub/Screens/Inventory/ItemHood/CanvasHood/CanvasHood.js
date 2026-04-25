@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -10,16 +9,18 @@ function AssetsItemHoodCanvasHoodAfterDrawHook(data, originalFunction,
 	{ C, A, CA, X, Y, L, drawCanvas, drawCanvasBlink, AlphaMasks, Color },
 ) {
 	if (L === "Text") {
-		// Fetch the text property and assert that it matches the character
-		// and length requirements
-		TextItem.Init(data, C, CA, false, false);
-		const text = CA.Property.Text;
 
 		// Prepare a temporary canvas to draw the text to
 		const height = 50;
 		const width = 120;
 		const tempCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tempCanvas.getContext("2d");
+		if (!ctx) return;
+
+		// Fetch the text property and assert that it matches the character
+		// and length requirements
+		TextItem.Init(data, C, CA, false, false);
+		const text = CA.Property?.Text ?? "";
 
 		DynamicDrawTextArc(text, ctx, width / 2, height / 2, {
 			fontSize: 36,

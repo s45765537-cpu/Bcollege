@@ -3413,8 +3413,8 @@ function ChatRoomSendAttemptEmote(msg) {
  *
  * @param {Character} C - Character on which the action is done.
  * @param {string} Action - Action modifier
- * @param {Item | null} PrevItem - The item that has been removed.
- * @param {Item | null} NextItem - The item that has been added.
+ * @param {Item | null | undefined} PrevItem - The item that has been removed.
+ * @param {Item | null | undefined} NextItem - The item that has been added.
  * @returns {boolean} - whether we published anything to the chat.
  */
 function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {

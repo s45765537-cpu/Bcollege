@@ -1,6 +1,5 @@
-// @ts-strict-ignore
 "use strict";
-/** @type Character[] */
+/** @type {Character[]} */
 var Character = [];
 var CharacterNextId = 0;
 
@@ -164,6 +163,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		HeightRatio: 1,
 		HasHiddenItems: false,
 		SavedColors: GetDefaultSavedColors(),
+		// @ts-ignore Strict-TS: not sure why this is null here
 		ActiveExpression: null,
 
 		PoseMapping: {},
@@ -294,7 +294,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return this._BlindLevel;
 		},
 		GetBlurLevel: function() {
-			if ((this.IsPlayer() && this.GraphicsSettings && !this.GraphicsSettings.AllowBlur) || CommonPhotoMode) {
+			if ((this.IsPlayer() && !this.GraphicsSettings.AllowBlur) || CommonPhotoMode) {
 				return 0;
 			}
 			let blurLevel = 0;
@@ -343,7 +343,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		},
 		GetSlowLevel: function () {
 			// Respect immunity setting for the player
-			if (this.IsPlayer() && /** @type {PlayerCharacter} */(this).RestrictionSettings.SlowImmunity)
+			if (this.IsPlayer() && this.RestrictionSettings.SlowImmunity)
 				return 0;
 
 			let slowness = 0;
@@ -394,7 +394,8 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (this.Owner && this.Owner.trim().startsWith("NPC-")) return "npc";
 			if (this.IsPlayer()) {
 				// NPC-owner while in trial
-				let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
+				// Cast here because PrivateCharacter[0] is actually the player
+				let trialing = /** @type {PlayerCharacter | NPCCharacter} */ (PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0));
 				if (trialing && trialing !== this) return "npc";
 			}
 			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
@@ -415,7 +416,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					return false;
 				}
 				case "online":
-					return this.Ownership.MemberNumber === C.MemberNumber;
+					return this.Ownership?.MemberNumber === C.MemberNumber;
 				case "player":
 					return true;
 				default:
@@ -428,8 +429,8 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				case "npc":
 					return !!PrivateCharacter.find(c => NPCEventGet(c, "PlayerCollaring") > 0);
 				case "player":
-					return (NPCEventGet(this, "NPCCollaring") > 0);
-				case "online": return this.Ownership.Stage >= 1;
+					return (NPCEventGet(/** @type {NPCCharacter} */(this), "NPCCollaring") > 0);
+				case "online": return (this.Ownership?.Stage ?? 0) >= 1;
 				default:
 					return false;
 			}
@@ -451,7 +452,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					 const privateOwner = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
 					 return privateOwner?.Name ?? name ?? "";
 				}
-				case "online": return this.Ownership.Name;
+				case "online": return this.Ownership?.Name ?? ""; // this.IsOwned() makes it impossible
 				case "player": return CharacterNickname(Player);
 				default:
 					return "";
@@ -459,7 +460,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		},
 		OwnerNumber: function () {
 			if (this.IsOwned() === "online")
-				return this.Ownership.MemberNumber;
+				return this.Ownership?.MemberNumber ?? -1; // this.IsOwned() makes it impossible
 			return -1;
 		},
 		HasOwnerNotes: function () {
@@ -471,11 +472,12 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		OwnedSince: function () {
 			switch (this.IsOwned()) {
 				case "online":
-					return Math.floor((CurrentTime - this.Ownership.Start) / 86400000);
+					// this.IsOwned() makes it impossible
+					return Math.floor((CurrentTime - (this.Ownership?.Start ?? 0)) / 86400000);
 				case "player": {
-					let Time = NPCEventGet(this, "NPCCollaring");
+					let Time = NPCEventGet(/** @type {NPCCharacter} */(this), "NPCCollaring");
 					if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
-					Time = NPCEventGet(this, "EndDomTrial");
+					Time = NPCEventGet(/** @type {NPCCharacter} */(this), "EndDomTrial");
 					if (Time > 0) {
 						if (Time > CurrentTime)
 							return Math.ceil((Time - CurrentTime) / 86400000);
@@ -504,7 +506,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		OwnedSinceMs: function () {
 			switch (this.IsOwned()) {
 				case "online":
-					return this.Ownership.Start;
+					return this.Ownership?.Start ?? 0;
 				case "player": {
 					let Time = NPCEventGet(this, "NPCCollaring");
 					if (Time > 0) return Time;
@@ -536,12 +538,12 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			const loves = this.GetLovership();
 			if (C.IsNpc()) {
 				const Love = loves.find(l => !l.MemberNumber && l.Name === C.Name);
-				if (Love == null) return false;
-				return Love.Start > 0;
+				if (!Love) return false;
+				return (Love.Start ?? 0) > 0;
 			}
 
 			return (
-				this.IsLoverOfMemberNumber(C.MemberNumber) ||
+				this.IsLoverOfMemberNumber(/** @type {number} */ (C.MemberNumber)) ||
 				this.IsNpc() && (((this.Lover != null) && (this.Lover.trim() == C.Name)) || (NPCEventGet(this, "Girlfriend") > 0))
 			);
 		},
@@ -652,8 +654,8 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsPlayer: function () {
 			return this.Type === CharacterType.PLAYER;
 		},
-		get X() { return this.Position?.X;},
-		get Y() { return this.Position?.Y;},
+		get X() { return this.Position?.X ?? -1; },
+		get Y() { return this.Position?.Y ?? -1; },
 		set X(value) {
 			this.Position = { X: value, Y: this.Y };
 		},
@@ -661,11 +663,15 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			this.Position = { X: this.X, Y: value };
 		},
 		get Position() {
-			if (this?.MapData?.Pos == undefined) return null;
-			if (this?.MapData?.Pos?.X === null || this?.MapData?.Pos?.Y === null) return null;
-			return { X: this.MapData.Pos.X, Y: this.MapData.Pos.Y};
+			if (!this.MapData?.Pos) return null;
+			if (this.MapData?.Pos?.X === null || this.MapData?.Pos?.Y === null) return null;
+			return { X: this.MapData.Pos.X, Y: this.MapData.Pos.Y };
 		},
-		set Position({X,Y}) {
+		set Position(pos) {
+			if (pos === null) {
+				return;
+			}
+			const { X, Y } = pos;
 			if (!this.MapData) return;
 			if (!this.MapData.Pos) return;
 			this.MapData.Pos = ChatRoomMapViewValidatePosition({X, Y});
@@ -673,9 +679,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			ChatRoomMapViewUpdatePlayerFlag();
 		},
 		IsBirthday: function () {
-			if ((this.Creation === null) || (CurrentTime === null)) return false;
-			const creation = new Date(this.Creation),
-				current = new Date(CurrentTime);
+			if (!this.Creation) return false;
+			const creation = new Date(this.Creation);
+			const current = new Date(CurrentTime);
 
 			return (creation.getUTCDate() === current.getUTCDate()) &&
 				(creation.getUTCMonth() === current.getUTCMonth()) &&
@@ -749,7 +755,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return this.Attribute.includes(attribute);
 		},
 		GetGenders: function () {
-			return this.Appearance.map(asset => asset.Asset.Gender).filter(a => a);
+			return this.Appearance.map(asset => asset.Asset.Gender).filter(Boolean);
 		},
 		GetPronouns: function () {
 			const pronounItem = InventoryGet(this, "Pronouns");
@@ -834,10 +840,17 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 	// Keep these two methods non-enumerable such that they do not interfere with the likes of `Object.keys`
 	const activeExpression = Object.defineProperties(/** @type {Character["ActiveExpression"]} */({}), {
 		setWithoutReload: {
+			/**
+			 * @param {string} key
+			 * @param {any} value
+			 */
 			value: function (key, value) { this[key] = value; },
 			enumerable: false,
 		},
 		deleteWithoutReload: {
+			/**
+			 * @param {string} key
+			 */
 			value: function (key) { delete this[key]; },
 			enumerable: false,
 		},
@@ -874,6 +887,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 function CharacterGenerateRandomName() {
 
 	// Get the list of all currently known names
+	/** @type {string[]} */
 	const CurrentNames = [];
 	CurrentNames.push(...Character.map(c => c.Name));
 	CurrentNames.push(...PrivateCharacter.map(c => c.Name));
@@ -917,6 +931,10 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 
 	C.Dialog = [];
 
+	/**
+	 * @param {string} fieldContents
+	 * @returns {string | null}
+	 */
 	function parseField(fieldContents) {
 		if (typeof fieldContents !== "string") return null;
 		const str = fieldContents;
@@ -931,7 +949,7 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 		// Creates a dialog object
 		/** @type {DialogLine} */
 		const D = {
-			Stage: parseField(L[0]),
+			Stage: parseField(L[0]) ?? "",
 			NextStage: parseField(L[1]),
 			Option: parseField(L[2]),
 			Result: parseField(L[3]),
@@ -942,7 +960,7 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 		};
 
 		// Prefix with the current screen unless this is a Dialog function or an online character
-		if (D.Function && D.Function !== "") {
+		if (D.Function) {
 			// @ts-expect-error Not sure why the online || player check errors here
 			D.Function = (D.Function.startsWith("Dialog") ? "" : (C.IsOnline() || C.IsPlayer()) ? "ChatRoom" : functionPrefix) + D.Function;
 		}
@@ -958,24 +976,27 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 /**
  * Loads the content of a CSV file to build the character dialog. Can override the current screen.
  * @param {Character} C - Character for which to build the dialog objects
- * @param {DialogInfo} [info]
+ * @param {DialogInfo<any>} [info]
  * @returns {void} - Nothing
  */
 function CharacterLoadCSVDialog(C, info) {
 
+	/** @type {DialogInfo<any>} */
+	let dialog;
 	if (!info && !C.DialogInfo) {
 		console.error(`cannot refresh dialog for character ${C.ID}`);
 		return;
 	} else if (info) {
-		C.DialogInfo = info;
+		dialog = C.DialogInfo = info;
 	} else {
 		// Just refresh the info we have
+		dialog = /** @type {DialogInfo<any>} */ (C.DialogInfo);
 	}
 
-	const FullPath = ScreenFileGetDialog(C.DialogInfo.name, C.DialogInfo.module, C.DialogInfo.screen);
+	const FullPath = ScreenFileGetDialog(dialog.name, dialog.module, dialog.screen);
 
 	function buildDialog() {
-		CharacterBuildDialog(C, CommonCSVCache[FullPath], C.DialogInfo.screen);
+		CharacterBuildDialog(C, CommonCSVCache[FullPath], dialog.screen);
 
 		// Translate the dialog if needed and perform substitutions
 		TranslationLoadDialog(C, () => {
@@ -1029,9 +1050,8 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 		if (Outfit == 0) {
 			InventoryWear(C, "MaidOutfit2", "Cloth");
 			InventoryWear(C, "MaidHairband1", "Hat");
-		} else if (Outfit == 1) {
-			InventoryWear(C, "MaidLatex", "Cloth");
-			InventoryGet(C, "Cloth").Color = ['#202020', '#B0B0B0', 'Default'];
+		} else if (Math.random() > 0.75) {
+			InventoryWear(C, "MaidLatex", "Cloth", ['#202020', '#B0B0B0', 'Default']);
 			InventoryWear(C, "MaidLatexHairband", "Hat");
 		} else if (Outfit == 2) {
 			InventoryWear(C, "MaidDress3", "Cloth");
@@ -1117,25 +1137,27 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 	// Rope bunny archetype
 	if (Archetype == "Bunny") {
 		CharacterNaked(C);
-		InventoryWear(C, CommonRandomItemFromList(null, ["BunnySuit", "LatexBunnySuit"]), "Bra", CommonRandomItemFromList(null, ["Default", "#BBBBBB", "#222222", "#882222", "#BB8888", "#BB00BB"]));
+		InventoryWear(C, CommonRandomItemFromList("", ["BunnySuit", "LatexBunnySuit"]), "Bra", CommonRandomItemFromList(null, ["Default", "#BBBBBB", "#222222", "#882222", "#BB8888", "#BB00BB"]));
 		InventoryWear(C, "BunnyCollarCuffs", "ClothAccessory");
-		InventoryWear(C, CommonRandomItemFromList(null, ["BunnyEars1", "BunnyEars2"]), "HairAccessory1");
+		InventoryWear(C, CommonRandomItemFromList("", ["BunnyEars1", "BunnyEars2"]), "HairAccessory1");
 		InventoryWear(C, "BunnyTailStrap", "TailStraps");
 		if (Math.random() > 0.5) InventoryWear(C, "Pantyhose1", "Socks");
-		InventoryWear(C, CommonRandomItemFromList(null, ["AnkleStrapShoes", "StilettoHeels", "Shoes5"]), "Shoes");
+		InventoryWear(C, CommonRandomItemFromList("", ["AnkleStrapShoes", "StilettoHeels", "Shoes5"]), "Shoes");
 	}
 
 	// Succubus archetype
 	if (Archetype == "Succubus") {
 		CharacterNaked(C);
 		let Color = CommonRandomItemFromList(null, /** @type {const} */(["Default", "#222222", "#BBBBBB", "#882222"]));
-		InventoryWear(C, CommonRandomItemFromList(null, ["BondageDress1", "BondageDress2", "CorsetDress", "EveningGown", "Dress3"]), "Cloth", Color);
-		InventoryWear(C, CommonRandomItemFromList(null, ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
-		if (Math.random() > 0.5) InventoryWear(C, CommonRandomItemFromList(null, ["GradientPantyhose", "Socks5", "Stockings1", "Stockings2"]), "Socks", Color);
-		InventoryWear(C, "SuccubusHorns", "HairAccessory1", Color);
-		InventoryWear(C, CommonRandomItemFromList(null, ["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);
-		InventoryWear(C, CommonRandomItemFromList(null, ["BatWings", "DevilWings", "SuccubusWings"]), "Wings", Color);
-		InventoryWear(C, CommonRandomItemFromList(null, ["AnkleStrapShoes", "StilettoHeels", "Shoes5", "CustomHeels", "ThighBoots"]), "Shoes", Color);
+		InventoryWear(C, CommonRandomItemFromList("", ["BondageDress1", "BondageDress2", "CorsetDress", "EveningGown", "Dress3"]), "Cloth", Color);
+		InventoryWear(C, CommonRandomItemFromList("", ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
+		if (Math.random() > 0.5) {
+			InventoryWear(C, CommonRandomItemFromList("", ["GradientPantyhose", "Socks5", "Stockings1", "Stockings2"]), "Socks", Color);
+			InventoryWear(C, "SuccubusHorns", "HairAccessory1", Color);
+		}
+		InventoryWear(C, CommonRandomItemFromList("", ["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);
+		InventoryWear(C, CommonRandomItemFromList("", ["BatWings", "DevilWings", "SuccubusWings"]), "Wings", Color);
+		InventoryWear(C, CommonRandomItemFromList("", ["AnkleStrapShoes", "StilettoHeels", "Shoes5", "CustomHeels", "ThighBoots"]), "Shoes", Color);
 	}
 
 }
@@ -1144,7 +1166,7 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
  * Loads an NPC into the character array. The appearance is randomized, and a type can be provided to dress them in a given style.
  * @template {ModuleType} T
  * @param {string} CharacterID - The unique identifier for the NPC
- * @param {string} [NPCType] - The dialog used by the NPC.  Defaults to CharacterID if not specified.
+ * @param {null | string} [NPCType] - The dialog used by the NPC.  Defaults to CharacterID if not specified.
  * @param {null | T} module
  * @param {null | ModuleScreens[T]} screen
  * @returns {NPCCharacter} - The randomly generated NPC
@@ -1154,10 +1176,10 @@ function CharacterLoadNPC(CharacterID, NPCType=null, module=null, screen=null) {
 
 	// Checks if the NPC already exists and returns it if it's the case
 	const duplicate = Character.find(c => c.CharacterID === CharacterID);
-	if (duplicate) return duplicate;
+	if (duplicate) return /** @type {NPCCharacter} */ (duplicate);
 
 	// Randomize the new character
-	const C = CharacterCreate("Female3DCG", CharacterType.NPC, CharacterID);
+	const C = /** @type {NPCCharacter} */ (CharacterCreate("Female3DCG", CharacterType.NPC, CharacterID));
 	C.AccountName = NPCType;
 	CharacterLoadCSVDialog(C, { module: module ?? CurrentModule, screen: screen ?? CurrentScreen, name: NPCType });
 	C.Name = CharacterGenerateRandomName();
@@ -1226,8 +1248,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 
 	const oldPronouns = Char.GetPronouns();
 	const currentAppearance = Char.Appearance;
-	LoginPerformAppearanceFixups(data.Appearance);
-	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance, SourceMemberNumber);
+	LoginPerformAppearanceFixups(data.Appearance ?? []);
+	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance ?? [], SourceMemberNumber);
 	CharacterAppearanceResolveSync(Char, currentAppearance);
 
 	if (Char.IsPlayer()) LoginValidCollar();
@@ -1257,13 +1279,13 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 function CharacterLoadOnline(data, SourceMemberNumber) {
 
 	// Check if the character already exists to reuse it
-	/** @type {Character} */
+	/** @type {Character | undefined} */
 	let Char = data.ID.toString() == Player.CharacterID ? Player : Character.find(c => c.CharacterID === data.ID);
 
 	// We have to do that validation here because Description is one of the keys we check to decide
 	// whether to refresh or not; our currently in-memory character has it decoded, so we have to decode
 	// this as well.
-	data.Description = ServerAccountDataSyncedValidate.Description(data.Description, Char);
+	data.Description = ServerAccountDataSyncedValidate.Description(data.Description, Player);
 
 	if (Array.isArray(data.WhiteList)) {
 		data.WhiteList.sort((a, b) => a - b);
@@ -1296,30 +1318,24 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 	} else {
 
 		// If we must add a character, we refresh it
-		var Refresh = true;
-		if (ChatRoomData.Character != null)
-			for (let C = 0; C < ChatRoomData.Character.length; C++)
-				if (ChatRoomData.Character[C].ID.toString() == data.ID.toString()) {
-					Refresh = false;
-					break;
-				}
+		let Refresh = !ChatRoomData?.Character.some(c => c.ID.toString() === data.ID.toString());
 
 		// Flags "refresh" if we need to redraw the character
 		if (!Refresh)
-			if ((Char.Description != data.Description) || (Char.Title != data.Title) || (Char.Nickname != data.Nickname) || (Char.LabelColor != data.LabelColor) || (ChatRoomData == null) || (ChatRoomData.Character == null))
+			if ((Char.Description != data.Description) || (Char.Title != data.Title) || (Char.Nickname != data.Nickname) || (Char.LabelColor != data.LabelColor) || (ChatRoomData?.Character == null))
 				Refresh = true;
 			else
 				for (let C = 0; C < ChatRoomData.Character.length; C++)
 					if (ChatRoomData.Character[C].ID == data.ID)
-						if (ChatRoomData.Character[C].Appearance.length != data.Appearance.length)
+						if (ChatRoomData?.Character[C]?.Appearance?.length != data.Appearance?.length)
 							Refresh = true;
 						else
-							for (let A = 0; A < data.Appearance.length && !Refresh; A++) {
-								const Old = ChatRoomData.Character[C].Appearance[A];
-								const New = data.Appearance[A];
-								if ((New.Name != Old.Name) || (New.Group != Old.Group) || (New.Color != Old.Color)) Refresh = true;
-								else if ((New.Property != null) && (Old.Property != null) && (JSON.stringify(New.Property) != JSON.stringify(Old.Property))) Refresh = true;
-								else if (((New.Property != null) && (Old.Property == null)) || ((New.Property == null) && (Old.Property != null))) Refresh = true;
+							for (let A = 0; A < (data.Appearance?.length ?? 0) && !Refresh; A++) {
+								const Old = ChatRoomData?.Character[C]?.Appearance?.[A];
+								const New = data.Appearance?.[A];
+								if ((New?.Name !== Old?.Name) || (New?.Group !== Old?.Group) || JSON.stringify(New?.Color) !== JSON.stringify(Old?.Color)) Refresh = true;
+								else if ((New?.Property != null) && (Old?.Property != null) && (JSON.stringify(New?.Property) !== JSON.stringify(Old.Property))) Refresh = true;
+								else if (((New?.Property != null) && (Old?.Property == null)) || ((New?.Property == null) && (Old?.Property != null))) Refresh = true;
 							}
 
 		// Flags "refresh" if the ownership or lovership or inventory or blockitems or limiteditems has changed
@@ -1423,7 +1439,7 @@ function CharacterLoadAttributes(C) {
 	const attributes = new Set();
 	C.Attribute = [];
 	for (const item of C.Appearance) {
-		const itemAttrs = InventoryGetItemProperty(item, "Attribute");
+		const itemAttrs = InventoryGetItemProperty(item, "Attribute") ?? [];
 		for (const attribute of itemAttrs) {
 			attributes.add(attribute);
 		}
@@ -1434,15 +1450,17 @@ function CharacterLoadAttributes(C) {
 /**
  * Returns a list of effects for a character from some or all groups
  * @param {Character} C - The character to check
- * @param {readonly AssetGroupName[]} [Groups=null] - Optional: The list of groups to consider. If none defined, check all groups
+ * @param {readonly AssetGroupName[] | undefined} [Groups=null] - Optional: The list of groups to consider. If none defined, check all groups
  * @param {boolean} [AllowDuplicates=false] - Optional: If true, keep duplicates of the same effect provided they're taken from different groups
  * @returns {EffectName[]} - A list of effects
  */
-function CharacterGetEffects(C, Groups = null, AllowDuplicates = false) {
+function CharacterGetEffects(C, Groups = undefined, AllowDuplicates = false) {
+	/** @type {EffectName[]} */
 	let totalEffects = [];
 	C.Appearance
 		.filter(A => !Array.isArray(Groups) || Groups.length == 0 || Groups.includes(A.Asset.Group.Name))
 		.forEach(item => {
+			/** @type {EffectName[]} */
 			let itemEffects = [];
 			if (item.Property && Array.isArray(item.Property.Effect)) {
 				CommonArrayConcatDedupe(itemEffects, item.Property.Effect);
@@ -1472,7 +1490,7 @@ function CharacterLoadTints(C) {
 	/** @type {ResolvedTintDefinition[]} */
 	const tints = [];
 	for (const item of C.Appearance) {
-		tints.push(...InventoryGetItemProperty(item, "Tint").map(({Color, Strength, DefaultColor}) => ({Color, Strength, DefaultColor, Item: item})));
+		tints.push(...(InventoryGetItemProperty(item, "Tint") ?? []).map(({Color, Strength, DefaultColor}) => ({Color, Strength, DefaultColor, Item: item})));
 	}
 	C.Tints = tints;
 }
@@ -1569,7 +1587,7 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	C.RunScripts = (
 		!C.IsOnline()
 		|| C.IsPlayer()
-		|| !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)
+		|| !Player.OnlineSettings.DisableAnimations
 	) && (
 		!C.IsGhosted()
 	);
@@ -1578,7 +1596,7 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	if (C.IsPlayer()) {
 		// Grab the first custom background that we can find
 		const customBGItem = C.Appearance.find(item => item.Property?.CustomBlindBackground);
-		C.CustomBackground = customBGItem ? customBGItem.Property.CustomBlindBackground : undefined;
+		C.CustomBackground = customBGItem ? customBGItem.Property?.CustomBlindBackground : undefined;
 	}
 
 	if (C.IsPlayer() && Push) {
@@ -1598,7 +1616,7 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 
 	// Ensure that any color and/or opacity changes that occur while one is wearing `ItemColorItem`
 	// are sanitized, ensuring that aforementioned properties are represented via their array-based variant
-	if (C.Appearance.includes(ItemColorItem)) {
+	if (ItemColorItem && C.Appearance.includes(ItemColorItem)) {
 		ItemColorItem = Object.assign(
 			ItemColorItem,
 			{ Color: ItemColorSanitizeColor(ItemColorItem), Property: ItemColorSanitizeProperty(ItemColorItem) },
@@ -1654,19 +1672,14 @@ function CharacterRefreshDialog(C) {
 		}
 
 		// Replace the focus items from underneath us so we get the updated data
-		if (wasLock) {
-			DialogFocusItem = lock;
-			DialogFocusSourceItem = focusItem;
-		} else {
-			DialogFocusItem = focusItem;
-		}
+		[DialogFocusItem, DialogFocusSourceItem] = wasLock ? [lock, focusItem] : [focusItem, null];
 
 		// Reset the cached extended item requirement checks
-		if (DialogFocusItem.Asset.Extended) {
+		if (/** @type {Item} */ (DialogFocusItem).Asset.Extended) {
 			ExtendedItemRequirementCheckMessageMemo.clearCache();
 		}
 	} else if (DialogMenuMode === "colorItem") {
-		const itemRemovedOrDifferent = !focusItem || InventoryGetItemProperty(ItemColorItem, "Name") !== InventoryGetItemProperty(focusItem, "Name");
+		const itemRemovedOrDifferent = !focusItem || ItemColorItem && InventoryGetItemProperty(ItemColorItem, "Name") !== InventoryGetItemProperty(focusItem, "Name");
 		if (itemRemovedOrDifferent) {
 			ItemColorCancelAndExit();
 			DialogChangeMode("items");
@@ -1773,7 +1786,7 @@ function CharacterRandomUnderwear(C) {
 	var Color = "";
 	for (const G of AssetGroup)
 		if ((G.Category == "Appearance") && G.Underwear && (G.IsDefault || (Math.random() < 0.2))) {
-			if (Color == "") Color = CommonRandomItemFromList(null, G.ColorSchema);
+			if (Color == "") Color = CommonRandomItemFromList("Default", G.ColorSchema);
 			const Group = G.Asset
 				.filter(A => InventoryAvailable(C, A.Name, G.Name));
 			if (Group.length > 0)
@@ -1837,7 +1850,7 @@ function CharacterRelease(C, Refresh) {
  */
 function CharacterReleaseFromLock(C, LockName) {
 	for (let A = 0; A < C.Appearance.length; A++)
-		if ((C.Appearance[A].Property != null) && (C.Appearance[A].Property.LockedBy == LockName))
+		if (C.Appearance[A].Property?.LockedBy === LockName)
 			InventoryUnlock(C, C.Appearance[A]);
 }
 
@@ -1848,7 +1861,7 @@ function CharacterReleaseFromLock(C, LockName) {
  */
 function CharacterReleaseNoLock(C) {
 	for (let E = C.Appearance.length - 1; E >= 0; E--)
-		if (C.Appearance[E].Asset.IsRestraint && ((C.Appearance[E].Property == null) || (C.Appearance[E].Property.LockedBy == null))) {
+		if (C.Appearance[E].Asset.IsRestraint && !C.Appearance[E].Property?.LockedBy) {
 			C.Appearance.splice(E, 1);
 		}
 	CharacterRefresh(C);
@@ -1865,7 +1878,8 @@ function CharacterReleaseTotal(C, refresh=true) {
 		if (C.Appearance[E].Asset.Group.Category != "Appearance") {
 			if (C.IsOwned() && C.Appearance[E].Asset.Name == "SlaveCollar") {
 				// Reset slave collar to the default model if it has a gameplay effect (such as gagging the player)
-				if (C.Appearance[E].Property && C.Appearance[E].Property.Effect && C.Appearance[E].Property.Effect.length > 0) {
+				const effects = InventoryGetItemProperty(C.Appearance[E], "Effect");
+				if (effects?.length) {
 					C.Appearance[E].Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
 				}
 			}
@@ -1911,12 +1925,12 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
 	}
 
 	// Apply each item if needed
-	if (InventoryGet(C, "ItemArms") == null) InventoryWearRandom(C, "ItemArms", null, false);
-	if ((Math.random() >= RatioRare) && (InventoryGet(C, "ItemHead") == null)) InventoryWearRandom(C, "ItemHead", null, false);
-	if ((Math.random() >= RatioNormal) && (InventoryGet(C, "ItemMouth") == null)) InventoryWearRandom(C, "ItemMouth", null, false);
-	if ((Math.random() >= RatioRare) && (InventoryGet(C, "ItemNeck") == null)) InventoryWearRandom(C, "ItemNeck", null, false);
-	if ((Math.random() >= RatioNormal) && (InventoryGet(C, "ItemLegs") == null)) InventoryWearRandom(C, "ItemLegs", null, false);
-	if ((Math.random() >= RatioNormal) && !C.IsKneeling() && (InventoryGet(C, "ItemFeet") == null)) InventoryWearRandom(C, "ItemFeet", null, false);
+	if (!InventoryGet(C, "ItemArms")) InventoryWearRandom(C, "ItemArms", undefined, false);
+	if ((Math.random() >= RatioRare) && !InventoryGet(C, "ItemHead")) InventoryWearRandom(C, "ItemHead", undefined, false);
+	if ((Math.random() >= RatioNormal) && !InventoryGet(C, "ItemMouth")) InventoryWearRandom(C, "ItemMouth", undefined, false);
+	if ((Math.random() >= RatioRare) && !InventoryGet(C, "ItemNeck")) InventoryWearRandom(C, "ItemNeck", undefined, false);
+	if ((Math.random() >= RatioNormal) && !InventoryGet(C, "ItemLegs")) InventoryWearRandom(C, "ItemLegs", undefined, false);
+	if ((Math.random() >= RatioNormal) && !C.IsKneeling() && !InventoryGet(C, "ItemFeet")) InventoryWearRandom(C, "ItemFeet", undefined, false);
 
 	if (Refresh || Refresh == null) CharacterRefresh(C);
 
@@ -1931,7 +1945,7 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
  *
  * @param {Character} C - Character for which to set the expression of
  * @param {ExpressionGroupName | "Eyes1"} AssetGroup - Asset group for the expression
- * @param {ExpressionName} Expression - Name of the expression to use
+ * @param {ExpressionName | undefined} Expression - Name of the expression to use
  * @param {number} [Timer] - Optional: time the expression will last, in seconds. Will send a null expression to expression queue. If expression to set is null, this is ignored.
  * @param {ItemColor} [Color] - Optional: color of the expression to set
  * @param {boolean} [fromQueue] - Internal: used to skip queuing the expression change if it comes from the queued expressions
@@ -1993,7 +2007,7 @@ function CharacterResetFacialExpression(C) {
 				name = "Eyes1";
 			}
 			const color = item.Color;
-			CharacterSetFacialExpression(C, name, null, null, color);
+			CharacterSetFacialExpression(C, name, null, undefined, color);
 		}
 	}
 }
@@ -2008,8 +2022,8 @@ function CharacterResetFacialExpression(C) {
 function CharacterIsExpressionDisallowed(C, Item, Expression) {
 	if (!C || !Item) return "Internal error: missing character or item";
 
-	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
-	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
+	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true) ?? [];
+	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true) ?? [];
 	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
 	const prereqMessage = !exprPre ? null : InventoryPrerequisiteMessage(C, exprPre, Item.Asset);
 
@@ -2047,18 +2061,18 @@ function CharacterGetCurrent() {
 
 /**
  * Compresses a character wardrobe from an array to a LZ string to use less storage space
- * @param {readonly ItemBundle[][]} Wardrobe - Uncompressed wardrobe
+ * @param {readonly (ItemBundle[] | null)[]} Wardrobe - Uncompressed wardrobe
  * @returns {string} - The compressed wardrobe
  */
 function CharacterCompressWardrobe(Wardrobe) {
 	if (CommonIsArray(Wardrobe) && (Wardrobe.length > 0)) {
 		var CompressedWardrobe = [];
-		for (let W = 0; W < Wardrobe.length; W++) {
+		for (const outfit of Wardrobe) {
 			/** @type {WardrobeItemBundle[]} */
-			var Arr = [];
-			if (Wardrobe[W] != null)
-				for (let A = 0; A < Wardrobe[W].length; A++)
-					Arr.push([Wardrobe[W][A].Name, Wardrobe[W][A].Group, Wardrobe[W][A].Color, Wardrobe[W][A].Property]);
+			const Arr = [];
+			for (const bundle of outfit ?? []) {
+				Arr.push([bundle.Name, bundle.Group, bundle.Color, bundle.Property]);
+			}
 			CompressedWardrobe.push(Arr);
 		}
 		return LZString.compressToUTF16(JSON.stringify(CompressedWardrobe));
@@ -2112,7 +2126,7 @@ function CharacterDecompressWardrobe(Wardrobe) {
  */
 function CharacterHasItemWithAttribute(C, Attribute) {
 	return C.Appearance.some(item => {
-		return InventoryGetItemProperty(item, "Attribute").includes(Attribute);
+		return InventoryGetItemProperty(item, "Attribute")?.includes(Attribute);
 	});
 }
 
@@ -2124,7 +2138,7 @@ function CharacterHasItemWithAttribute(C, Attribute) {
  */
 function CharacterItemsForActivity(C, Activity) {
 	return C.Appearance.filter(item => {
-		return InventoryGetItemProperty(item, "AllowActivity").includes(Activity);
+		return InventoryGetItemProperty(item, "AllowActivity")?.includes(Activity);
 	});
 }
 
@@ -2155,7 +2169,7 @@ function CharacterIsEdged(C) {
 		if (!Group.IsItem()) continue;
 		if (Group.ArousalZoneID != null) {
 			let Zone = PreferenceGetArousalZone(C, Group.Name);
-			if (Zone.Orgasm && (Zone.Factor > 0))
+			if (Zone && Zone.Orgasm && (Zone.Factor > 0))
 				OrgasmZones.push(Zone.Name);
 		}
 	}
@@ -2172,7 +2186,7 @@ function CharacterIsEdged(C) {
 		);
 
 	// Return true if every vibrating item on an orgasm zone has the "Edged" effect
-	return !!VibratingItems.length && VibratingItems.every(Item => Item.Property.Effect && Item.Property.Effect.includes("Edged"));
+	return !!VibratingItems.length && VibratingItems.every(Item => Item.Property?.Effect?.includes("Edged"));
 
 }
 
@@ -2184,11 +2198,7 @@ function CharacterIsEdged(C) {
  */
 function CharacterHasBlockedItem(C, BlockList) {
 	if ((BlockList == null) || !CommonIsArray(BlockList) || (BlockList.length == 0)) return false;
-	for (let B = 0; B < BlockList.length; B++)
-		for (let A = 0; A < C.Appearance.length; A++)
-			if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Category != null) && (C.Appearance[A].Asset.Category.indexOf(BlockList[B]) >= 0))
-				return true;
-	return false;
+	return BlockList.some(category => C.Appearance.some(item => item.Asset.Category?.some(itemCategory => category === itemCategory)));
 }
 
 /**
@@ -2337,7 +2347,7 @@ function CharacterCheckHooks(C, IgnoreHooks) {
 			// Fancy logic is to use a different hook for when the character is focused
 			const layerVisibilityHook = () => {
 				const inDialog = (CurrentCharacter != null);
-				C.AppearanceLayers = C.AppearanceLayers.filter((Layer) => (
+				C.AppearanceLayers = C.AppearanceLayers?.filter((Layer) => (
 					!Layer.Visibility ||
 					(Layer.Visibility == "Player" && C.IsPlayer()) ||
 					(Layer.Visibility == "AllExceptPlayerDialog" && !(inDialog && C.IsPlayer())) ||
@@ -2368,12 +2378,13 @@ function CharacterCheckHooks(C, IgnoreHooks) {
  * @param {Character} FromC - The character from which to pick the item
  * @param {Character} ToC - The character on which we must put the item
  * @param {AssetGroupName} Group - The item group to transfer (Cloth, Hat, etc.)
+ * @param {boolean} [Refresh] - Perform a character refresh
  * @returns {void} - Nothing
  */
-function CharacterTransferItem(FromC, ToC, Group, Refresh) {
+function CharacterTransferItem(FromC, ToC, Group, Refresh=true) {
 	let Item = InventoryGet(FromC, Group);
 	if (Item == null) return;
-	InventoryWear(ToC, Item.Asset.Name, Group, Item.Color, Item.Difficulty);
+	InventoryWear(ToC, Item.Asset.Name, Group, Item.Color, Item.Difficulty, undefined, undefined, false);
 	if (Refresh) CharacterRefresh(ToC);
 }
 
@@ -2404,11 +2415,13 @@ function CharacterClearOwnership(C, push=true) {
 	if (C.IsPlayer()) {
 		const ownerType = C.IsOwned();
 		switch (ownerType) {
-			case "online":
-				ServerSend("AccountOwnership", { MemberNumber: C.Ownership.MemberNumber, Action: "Break" });
+			case "online": {
+				const number = C.Ownership?.MemberNumber ?? -1; // Can't happen; protected by `C.IsOwned()`
+				ServerSend("AccountOwnership", { MemberNumber: number, Action: "Break" });
 				C.Owner = "";
 				C.Ownership = null;
 				break;
+			}
 
 			case "npc":
 				C.Owner = "";
@@ -2463,7 +2476,8 @@ function CharacterPronoun(C, DialogKey, HideIdentity) {
  */
 function CharacterPronounDescription(C) {
 	const pronounAsset = AssetGet(C.AssetFamily, "Pronouns", C.GetPronouns());
-	return pronounAsset.Description;
+	// Pronouns is part of the default appearance
+	return /** @type {string} */ (pronounAsset?.Description);
 }
 
 /**
@@ -2483,13 +2497,13 @@ function CharacterCanChangeNickname(C) {
  * Note that changing any nickname but yours (ie. Player) is not supported.
  *
  * @param {Character} C - The character to change the nickname of.
- * @param {string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
+ * @param {null | string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
  * @return {null | NicknameStatus} null if the nickname was valid, or an explanation for why the nickname was rejected.
  */
 function CharacterSetNickname(C, Nick, fromOwner = false) {
 	if (!C.IsPlayer()) return null;
 
-	Nick = Nick.trim();
+	Nick = (Nick ?? "").trim();
 	// Same nickname, or setting an empty nickname with no nickname already
 	if (C.Nickname === Nick || Nick.length === 0 && !C.Nickname) return null;
 
@@ -2506,6 +2520,8 @@ function CharacterSetNickname(C, Nick, fromOwner = false) {
 		}
 		C.Nickname = Nick;
 	}
+	// @ts-ignore Strict-TS: Types only say 'undefined', but we need `null`
+	// to survive JSON serialization to the server
 	ServerAccountUpdate.QueueData({ Nickname: Nick });
 
 	if (ServerPlayerIsInChatRoom()) {
@@ -2559,6 +2575,7 @@ function CharacterSetOwnersNotes(C, notes = undefined) {
 			C.Ownership.Notes = undefined;
 		}
 
+		// @ts-ignore Strict-TS: Only OnlineCharacters have a MemberNumber
 		ServerSend("AccountOwnership", { MemberNumber: C.MemberNumber, Action: "UpdateNotes", Notes });
 	}
 }
@@ -2610,18 +2627,13 @@ function CharacterRefreshLeash(C) {
  * @returns {Item}
  */
 function CharacterScriptGet(C) {
-	let script = InventoryGet(C, "ItemScript");
-	if (!script) {
-		InventoryWear(C, "Script", "ItemScript");
-		script = InventoryGet(C, "ItemScript");
-	}
-
+	let script = InventoryGet(C, "ItemScript") ?? /** @type {Item} */ (InventoryWear(C, "Script", "ItemScript"));
 	script.Property = script.Property || {};
 	// Propagate change and try to reload the item. If the script permissions
 	// on the target were wrong, then it'll be null
 	CharacterScriptRefresh(C);
 
-	script = InventoryGet(C, "ItemScript");
+	script = /** @type {Item} */ (InventoryGet(C, "ItemScript"));
 	return script;
 }
 

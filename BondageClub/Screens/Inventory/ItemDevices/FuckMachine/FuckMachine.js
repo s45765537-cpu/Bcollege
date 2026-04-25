@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -6,13 +5,14 @@
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<VibratingItemData, FuckMachinePersistentData>} */
-function AssetsItemDevicesFuckMachineBeforeDrawHook(data, originalFunction, { PersistentData, L, Y, Property }) {
+function AssetsItemDevicesFuckMachineBeforeDrawHook(data, originalFunction, drawData) {
+	const { PersistentData, L, Y, Property } = drawData;
 	const Data = PersistentData();
 	if (typeof Data.DildoState !== "number") Data.DildoState = 0;
 	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
 
 	if (L === "Dildo") return { Y: Y + Data.DildoState };
-	if (L !== "Pole") return;
+	if (L !== "Pole") return drawData;
 
 	const Properties = Property || {};
 	const Intensity = typeof Properties.Intensity === "number" ? Properties.Intensity : -1;

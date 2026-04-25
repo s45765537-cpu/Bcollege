@@ -407,7 +407,7 @@ function CommonDynamicFunction(FunctionName) {
 /**
  * Calls a dynamic function with parameters (if it exists), also allow ! in front to reverse the result. The dynamic function is the provided function name in the dialog option object and it is prefixed by the current screen.
  * @param {string} FunctionName - Function name to call dynamically
- * @returns {unknown | boolean} - Returns what the dynamic function returns or FALSE if the function does not exist
+ * @returns {unknown} - Returns what the dynamic function returns, or throws if it can't be called
  */
 function CommonDynamicFunctionParams(FunctionName) {
 
@@ -424,23 +424,21 @@ function CommonDynamicFunctionParams(FunctionName) {
 	for (let P = 0; P < Params.length; P++)
 		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
-	if ((FunctionName.indexOf("Dialog") != 0) && (FunctionName.indexOf("Inventory") != 0) && (FunctionName.indexOf(CurrentScreen) != 0)) FunctionName = CurrentScreen + FunctionName;
+	if (["Dialog", "Inventory", CurrentScreen].every(s => !FunctionName.startsWith(s))) {
+		FunctionName = CurrentScreen + FunctionName;
+	}
 
 	// If it's really a function, we continue
 	/** @type {Record<string, any>} */
 	const namespace = window;
 	const func = namespace[FunctionName];
-	if (typeof func === "function") {
-
-		// Launches the function with the params and returns the result
-		const res = func(...Params);
-		return Reverse ? !res : res;
-	} else {
-
-		// Log the error in the console
-		console.log("Trying to launch invalid function: " + FunctionName);
-		return false;
+	if (typeof func !== "function") {
+		throw new Error("CommonDynamicFunctionParams: Invalid function name: " + FunctionName);
 	}
+
+	// Launches the function with the params and returns the result
+	const res = func(...Params);
+	return Reverse ? !res : res;
 }
 
 

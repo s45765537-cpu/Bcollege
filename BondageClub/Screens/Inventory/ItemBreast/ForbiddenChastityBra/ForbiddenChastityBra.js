@@ -1,36 +1,38 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData | ModularItemData>} */
 function InventoryItemBreastForbiddenChastityBraDrawHook(data, originalFunction) {
 	originalFunction();
+	if (!DialogFocusItem) return;
 	if (data.archetype === ExtendedArchetype.MODULAR && data.currentModule !== "ShockModule") {
 		return;
 	}
 
+	const { TriggerCount, ShowText, PunishOrgasm, PunishStandup, PunishStruggle } = DialogFocusItem.Property ?? {};
+
 	MainCanvas.textAlign = "right";
 	DrawText(AssetTextGet("ShockCount"), 1500, 575, "White", "Gray");
 	MainCanvas.textAlign = "left";
-	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
+	DrawText(`${TriggerCount}`, 1510, 575, "White", "Gray");
 
 	MainCanvas.textAlign = "center";
 	ExtendedItemCustomDraw("ResetShockCount", 1635, 550, null, false, false);
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625, null, false, false);
 	MainCanvas.textAlign = "left";
 	ExtendedItemDrawCheckbox(
-		"ShowText", 1100, 618, DialogFocusItem.Property.ShowText,
+		"ShowText", 1100, 618, !!ShowText,
 		{ text: AssetTextGet("ShowMessageInChat"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
-		"PunishOrgasm", 1100, 700, DialogFocusItem.Property.PunishOrgasm,
+		"PunishOrgasm", 1100, 700, !!PunishOrgasm,
 		{ text: AssetTextGet("ForbiddenChastityBraPunishOrgasm"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
-		"PunishStandup", 1100, 770, DialogFocusItem.Property.PunishStandup,
+		"PunishStandup", 1100, 770, !!PunishStandup,
 		{ text: AssetTextGet("ForbiddenChastityBraPunishStandup"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
-		"PunishStruggle", 1100, 840, DialogFocusItem.Property.PunishStruggle,
+		"PunishStruggle", 1100, 840, !!PunishStruggle,
 		{ text: AssetTextGet("ForbiddenChastityBraPunishStruggle"), textColor: "White", changeWhenLocked: false },
 	);
 	MainCanvas.textAlign = "center";
@@ -44,6 +46,7 @@ function InventoryItemBreastForbiddenChastityBraClickHook(data, originalFunction
 	}
 
 	const C = CharacterGetCurrent();
+	if (!C || !DialogFocusItem) return;
 	if (MouseIn(1635, 550, 225, 55)) {
 		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount, false, false);
 		return;
@@ -52,7 +55,7 @@ function InventoryItemBreastForbiddenChastityBraClickHook(data, originalFunction
 		return;
 	}
 	if (!ExtendedItemPermissionMode) {
-		const property = DialogFocusItem.Property;
+		const property = /** @type {ItemProperties} */ (DialogFocusItem?.Property);
 		if (MouseIn(1100, 618, 64, 64)) {
 			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		} else if (MouseIn(1100, 700, 64, 64)) {
@@ -74,12 +77,12 @@ function InventoryItemBreastForbiddenChastityBraClickHook(data, originalFunction
 function AssetsItemBreastForbiddenChastityBraScriptDrawHook(data, originalFunction, drawData) {
 	const persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
-	const property = (drawData.Item.Property = drawData.Item.Property || {});
+	const property = (drawData.Item.Property ??= {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 	if (typeof persistentData.CheckTime !== "number") persistentData.CheckTime = CommonTime();
 	if (typeof persistentData.DisplayCount !== "number") persistentData.DisplayCount = 0;
-	if (typeof persistentData.LastTriggerCount !== "number") persistentData.LastTriggerCount = property.TriggerCount;
+	if (typeof persistentData.LastTriggerCount !== "number") persistentData.LastTriggerCount = property.TriggerCount ?? 0;
 	if (typeof property.NextShockTime !== "number") property.NextShockTime = 0;
 	const canShock = typeof property.ShockLevel === "number";
 
@@ -88,14 +91,14 @@ function AssetsItemBreastForbiddenChastityBraScriptDrawHook(data, originalFuncti
 	if (lastMsgIndex >= 0 && ChatRoomChatLog[lastMsgIndex].Time > persistentData.CheckTime)
 		persistentData.UpdateTime = Math.min(persistentData.UpdateTime, CommonTime() + 200); // Trigger if the user speaks
 
-	const isTriggered = persistentData.LastTriggerCount < property.TriggerCount;
+	const isTriggered = persistentData.LastTriggerCount < (property.TriggerCount ?? 0);
 	const newlyTriggered = isTriggered && persistentData.DisplayCount == 0;
 	if (newlyTriggered)
 		persistentData.UpdateTime = Math.min(persistentData.UpdateTime, CommonTime());
 
 	if (persistentData.UpdateTime < CommonTime()) {
 
-		if (drawData.C.IsPlayer() && CommonTime() > drawData.Item.Property.NextShockTime) {
+		if (drawData.C.IsPlayer() && CommonTime() > (drawData.Item.Property.NextShockTime ?? 0)) {
 			if (canShock) {
 				AssetsItemPelvisObedienceBeltUpdate(drawData, persistentData.CheckTime);
 			}
@@ -105,7 +108,7 @@ function AssetsItemBreastForbiddenChastityBraScriptDrawHook(data, originalFuncti
 		// Set CheckTime to last processed chat message time
 		persistentData.CheckTime = (lastMsgIndex >= 0 ? ChatRoomChatLog[lastMsgIndex].Time : 0);
 
-		if (persistentData.LastTriggerCount > property.TriggerCount) persistentData.LastTriggerCount = 0;
+		if (persistentData.LastTriggerCount > (property.TriggerCount ?? 0)) persistentData.LastTriggerCount = 0;
 		const wasBlinking = property.BlinkState;
 		property.BlinkState = wasBlinking && !newlyTriggered ? false : true;
 		const timeFactor = isTriggered ? 12 : 1;

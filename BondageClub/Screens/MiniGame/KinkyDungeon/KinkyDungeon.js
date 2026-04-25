@@ -144,6 +144,7 @@ let KDDefaultKB = {
 };
 
 let KinkyDungeonRootDirectory = "Screens/MiniGame/KinkyDungeon/";
+/** @type {Character} */
 let KinkyDungeonPlayerCharacter = null; // Other player object
 let KinkyDungeonGameData = null; // Data sent by other player
 let KinkyDungeonGameDataNullTimer = 4000; // If data is null, we query this often

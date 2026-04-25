@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var ItemDevicesLuckyWheelMinTexts = 2;
 var ItemDevicesLuckyWheelMaxTexts = 8;
@@ -50,8 +49,10 @@ function InventoryItemDevicesLuckyWheelInitHook(data, originalFunction, characte
 /** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
 function InventoryItemDevicesLuckyWheelg0LoadHook(data, originalFunction) {
 	originalFunction();
-	for (let num = 0; num < DialogFocusItem.Property.Texts.length; num++) {
-		const input = ElementCreateInput(`LuckyWheelText${num}`, "input", DialogFocusItem.Property.Texts[num] || "", ItemDevicesLuckyWheelMaxTextLength);
+	if (!DialogFocusItem) return;
+	const texts = (DialogFocusItem.Property?.Texts ?? []);
+	for (let num = 0; num < texts.length; num++) {
+		const input = ElementCreateInput(`LuckyWheelText${num}`, "input", texts[num], ItemDevicesLuckyWheelMaxTextLength);
 		if (input) {
 			input.pattern = DynamicDrawTextInputPattern;
 			input.addEventListener("change", InventoryItemDevicesLuckyWheelUpdate);
@@ -69,19 +70,21 @@ var ItemDevicesLuckyWheelRowLength = 350;
 function InventoryItemDevicesLuckyWheelg0DrawHook(data, originalFunction) {
 	originalFunction();
 
+	if (!DialogFocusItem) return;
 	// Section labels & remove buttons grid
 	let top = ItemDevicesLuckyWheelRowTop;
 	let left = ItemDevicesLuckyWheelRowLeft;
-	for (let num = 0; num < DialogFocusItem.Property.Texts.length; num++) {
+	const texts = (DialogFocusItem.Property?.Texts ?? []);
+	for (let num = 0; num < texts.length; num++) {
 		let topRow = (num % (ItemDevicesLuckyWheelMaxTexts / 2) * ItemDevicesLuckyWheelRowHeight);
 		let leftCol = Math.floor(num / (ItemDevicesLuckyWheelMaxTexts / 2)) * ItemDevicesLuckyWheelRowLength;
 		ElementPosition(`LuckyWheelText${num}`, left + leftCol, top + topRow, 300);
 	}
 
-	const disabledAdd = DialogFocusItem.Property.Texts.length >= ItemDevicesLuckyWheelMaxTexts;
+	const disabledAdd = texts.length >= ItemDevicesLuckyWheelMaxTexts;
 	DrawButton(1360, 720, 120, 48, AssetTextGet("LuckyWheelAddSection"), disabledAdd ? "#888" : "white", null, null, disabledAdd);
 
-	const disabledRemove = DialogFocusItem.Property.Texts.length <= ItemDevicesLuckyWheelMinTexts;
+	const disabledRemove = texts.length <= ItemDevicesLuckyWheelMinTexts;
 	DrawButton(1530, 720, 120, 48, AssetTextGet("LuckyWheelRemoveSection"), disabledRemove ? "#888" : "white", null, null, disabledRemove);
 
 }
@@ -89,26 +92,28 @@ function InventoryItemDevicesLuckyWheelg0DrawHook(data, originalFunction) {
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
 function InventoryItemDevicesLuckyWheelg0ClickHook(data, originalFunction) {
 	originalFunction();
+	if (!DialogFocusItem) return;
+	const texts = (DialogFocusItem?.Property?.Texts ?? []);
 	if (MouseIn(1360, 720, 120, 48)) {
-		if (DialogFocusItem.Property.Texts.length >= ItemDevicesLuckyWheelMaxTexts) return;
+		if (texts.length >= ItemDevicesLuckyWheelMaxTexts) return;
 
-		let last = DialogFocusItem.Property.Texts.length;
+		let last = texts.length;
 		const label = ItemDevicesLuckyWheelLabelForNum(last + 1);
 		const input = ElementCreateInput(`LuckyWheelText${last}`, "input", label, ItemDevicesLuckyWheelMaxTextLength);
 		if (input) {
 			input.pattern = DynamicDrawTextInputPattern;
 			input.addEventListener("change", InventoryItemDevicesLuckyWheelUpdate);
 		}
-		DialogFocusItem.Property.Texts.push(label);
+		DialogFocusItem.Property?.Texts?.push(label);
 		InventoryItemDevicesLuckyWheelUpdate();
 		return;
 	}
 
 	if (MouseIn(1530, 720, 120, 48)) {
-		if (DialogFocusItem.Property.Texts.length <= ItemDevicesLuckyWheelMinTexts) return;
+		if (texts.length <= ItemDevicesLuckyWheelMinTexts) return;
 
-		const num = DialogFocusItem.Property.Texts.length - 1;
-		DialogFocusItem.Property.Texts.splice(num, 1);
+		const num = texts.length - 1;
+		DialogFocusItem?.Property?.Texts?.splice(num, 1);
 		ElementRemove(`LuckyWheelText${num}`);
 		InventoryItemDevicesLuckyWheelUpdate();
 		return;
@@ -117,20 +122,24 @@ function InventoryItemDevicesLuckyWheelg0ClickHook(data, originalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
 function InventoryItemDevicesLuckyWheelg0ExitHook(data, originalFunction) {
-	if (!DialogFocusItem) return;
+	const C = CharacterGetCurrent();
+	if (!DialogFocusItem || !C) return;
 
+	DialogFocusItem.Property ??= {};
+	DialogFocusItem.Property.Texts ??= [];
+
+	const texts = DialogFocusItem.Property.Texts;
 	for (let num = 0; num < ItemDevicesLuckyWheelMaxTexts; num++) {
-		if (num < DialogFocusItem.Property.Texts.length) {
+		if (num < texts.length) {
 			const text = ElementValue(`LuckyWheelText${num}`);
-			if (text != DialogFocusItem.Property.Texts[num]) {
-				DialogFocusItem.Property.Texts[num] = text;
+			if (text != texts[num]) {
+				texts[num] = text;
 			}
 		}
 
 		ElementRemove(`LuckyWheelText${num}`);
 	}
 
-	const C = CharacterGetCurrent();
 	ChatRoomCharacterItemUpdate(C);
 	CharacterRefresh(C, true, false);
 
@@ -139,15 +148,20 @@ function InventoryItemDevicesLuckyWheelg0ExitHook(data, originalFunction) {
 }
 
 function InventoryItemDevicesLuckyWheelUpdate() {
-	CharacterRefresh(CharacterGetCurrent(), false);
+	const C = CharacterGetCurrent();
+	if (!C) return;
+	CharacterRefresh(C, false);
 }
 
 function InventoryItemDevicesLuckyWheelTrigger() {
-	const randomAngle = Math.round(Math.random() * 360);
-	DialogFocusItem.Property.TargetAngle = randomAngle;
-	ChatRoomCharacterItemUpdate(CharacterGetCurrent());
-
 	const C = CharacterGetCurrent();
+	if (!C || !DialogFocusItem) return;
+
+	const randomAngle = Math.round(Math.random() * 360);
+	DialogFocusItem.Property ??= {};
+	DialogFocusItem.Property.TargetAngle = randomAngle;
+	ChatRoomCharacterItemUpdate(C);
+
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacter(C)
@@ -163,7 +177,7 @@ function InventoryItemDevicesLuckyWheelTrigger() {
 function InventoryItemDevicesLuckyWheelStoppedTurning(C, Item, Angle) {
 	if (!C.IsPlayer() || Item.Asset.Name !== "LuckyWheel") return;
 
-	let storedTexts = Item.Property.Texts && Array.isArray(Item.Property.Texts) ? Item.Property.Texts.filter(T => typeof T === "string") : [];
+	let storedTexts = Array.isArray(Item.Property?.Texts) ? Item.Property.Texts.filter(T => typeof T === "string") : [];
 	storedTexts = storedTexts.map(T => T.substring(0, ItemDevicesLuckyWheelMaxTextLength));
 	const nbTexts = Math.max(Math.min(ItemDevicesLuckyWheelMaxTextLength, storedTexts.length), ItemDevicesLuckyWheelMinTexts);
 	const sectorAngleSize = 360 / nbTexts;
@@ -223,7 +237,7 @@ function AssetsItemDevicesLuckyWheelScriptDraw({ C, PersistentData, Item }) {
 }
 
 /** @type {ExtendedItemCallbacks.AfterDraw<LuckyWheelPersistentData>} */
-function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color, Opacity }) {
+function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, CA, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color, Opacity }) {
 	const height = 500;
 	const width = 500;
 
@@ -234,8 +248,11 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 		if (!Data.Spinning)
 			return;
 
+		Data.LightStep ??= 0;
+
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tmpCanvas.getContext("2d");
+		if (!ctx) return;
 
 		if (C.IsInverted()) {
 			ctx.rotate(Math.PI);
@@ -243,7 +260,7 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 			Y -= 500;
 		}
 
-		if (Data.AnimationSpeed < 2 * ItemDevicesLuckyWheelAnimationMinSpeed) {
+		if ((Data.AnimationSpeed ?? 1) < 2 * ItemDevicesLuckyWheelAnimationMinSpeed) {
 			// Start blinking
 			Data.LightStep = (++Data.LightStep) % 2;
 
@@ -266,9 +283,8 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 
 	if (L === "Text") {
 		const Data = PersistentData();
-		const CurrentAngle = Data.AnimationAngleState;
+		const CurrentAngle = Data.AnimationAngleState ?? 0;
 		const Properties = Property || {};
-		const Item = InventoryGet(C, A.Group.Name);
 
 		DynamicDrawLoadFont(ItemDevicesLuckyWheelFont);
 
@@ -279,9 +295,11 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 
 		// Draw
 		const diameter = height / 2;
+		/** @type {(degrees: number) => number} */
 		const degreeToRadians = (degrees) => degrees * Math.PI / 180;
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tmpCanvas.getContext("2d");
+		if (!ctx) return;
 
 		if (C.IsInverted()) {
 			ctx.rotate(Math.PI);
@@ -296,6 +314,7 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 		ctx.rotate(degreeToRadians(CurrentAngle));
 		ctx.translate(-diameter, -diameter);
 
+		/** @type {Record<number, number>} */
 		const SectionsPerNumTexts = {
 			2: 2,
 			3: 3,
@@ -308,12 +327,12 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 
 		/** @type {readonly BCColor[]} */
 		let itemColors;
-		if (typeof Item.Color === "string") {
-			itemColors = Array(Item.Asset.ColorableLayerCount).fill(Item.Color);
-		} else if (CommonIsArray(Item.Color)) {
-			itemColors = Item.Color;
+		if (typeof CA.Color === "string") {
+			itemColors = Array(CA.Asset.ColorableLayerCount).fill(CA.Color);
+		} else if (CommonIsArray(CA.Color)) {
+			itemColors = CA.Color;
 		} else {
-			itemColors = Item.Asset.DefaultColor;
+			itemColors = CA.Asset.DefaultColor;
 		}
 
 		// Draw the background

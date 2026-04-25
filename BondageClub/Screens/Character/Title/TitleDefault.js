@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {{ Name: TitleName; Requirement: () => boolean; Earned?: boolean, Force?: boolean }[]} */
@@ -28,7 +27,7 @@ var TitleList = [
 	{ Name: "MasterKidnapper", Requirement: function () { return (ReputationGet("Kidnap") >= 100); }, Earned: true },
 	{ Name: "Patient", Requirement: function () { return ((ReputationGet("Asylum") <= -50) && (ReputationGet("Asylum") > -100)); }, Earned: true },
 	{ Name: "PermanentPatient", Requirement: function () { return (ReputationGet("Asylum") <= -100); }, Earned: true },
-	{ Name: "EscapedPatient", Requirement: function () { return (LogValue("Escaped", "Asylum") >= CurrentTime); }, Force: true },
+	{ Name: "EscapedPatient", Requirement: function () { return ((LogValue("Escaped", "Asylum") ?? 0) >= CurrentTime); }, Force: true },
 	{ Name: "Nurse", Requirement: function () { return ((ReputationGet("Asylum") >= 50) && (ReputationGet("Asylum") < 100)); }, Earned: true },
 	{ Name: "Doctor", Requirement: function () { return (ReputationGet("Asylum") >= 100); }, Earned: true },
 	{ Name: "AnimeGirl", Requirement: function () { return InventoryAvailable(Player, "AnimeGirl", "Cloth") && !Player.GenderSettings.HideTitles.Female; }, Earned: true },

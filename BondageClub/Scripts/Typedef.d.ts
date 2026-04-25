@@ -118,7 +118,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	 */
 	dataAttributes?: Partial<Record<string, number | string | boolean>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
-	style?: Record<string, string>;
+	style?: Record<string, string | undefined>;
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
 	eventListeners?: { [k in keyof HTMLElementEventMap]?: (this: HTMLElementTagNameMap[T], event: HTMLElementEventMap[k]) => any };
 	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
@@ -405,7 +405,7 @@ declare namespace DialogMenu {
 		/** Whether to hard reset and reconstruct the button grid, rather than just re-evaluating the existing button's states via a soft reset. */
 		reset?: boolean;
 		/** The to-be assigned custom status message */
-		status?: string;
+		status?: string | null;
 		/** Display the {@link ReloadOptions.status} message on a timer; units are in ms */
 		statusTimer?: number;
 		/**
@@ -1796,13 +1796,13 @@ type ScriptPermissions = Record<ScriptPermissionProperty, ScriptPermission>;
 
 interface DialogLine {
 	Stage: string;
-	NextStage: string;
-	Option: string;
-	Result: string;
-	Function: string;
-	Prerequisite: string;
-	Group: string;
-	Trait: string;
+	NextStage: string | null;
+	Option: string | null;
+	Result: string | null;
+	Function: string | null;
+	Prerequisite: string | null;
+	Group: string | null;
+	Trait: string | null;
 }
 
 interface DialogInfo<T extends ModuleType> {
@@ -2076,8 +2076,8 @@ interface Character {
 	CanPickLocks: () => boolean;
 	IsEdged: () => boolean;
 	IsPlayer: () => this is PlayerCharacter;
-	get X(): number | null;
-	get Y(): number | null;
+	get X(): number;
+	get Y(): number;
 	set X(X: number);
 	set Y(Y: number);
 	get Position(): ChatRoomMapPos | null;
@@ -2115,19 +2115,19 @@ interface Character {
 	/**
 	 * Check if the player is ghosting the given target character (or member number)
 	 */
-	HasOnGhostlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	HasOnGhostlist: (this: PlayerCharacter, target: Character | number) => boolean;
 	/**
 	 * Check if the player is blacklisting the given target character (or member number)
 	 */
-	HasOnBlacklist: (target?: Character | number) => boolean;
+	HasOnBlacklist: (target: Character | number) => boolean;
 	/**
 	 * Check if the player is whitelisting the given target character (or member number)
 	 */
-	HasOnWhitelist: (target?: Character | number) => boolean;
+	HasOnWhitelist: (target: Character | number) => boolean;
 	/**
 	 * Check if the player is friend with the given target character (or member number)
 	 */
-	HasOnFriendlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	HasOnFriendlist: (this: PlayerCharacter, target: Character | number) => boolean;
 	/**
 	 * Check if this character is ghosted by the player
 	 */
@@ -2389,7 +2389,7 @@ interface PlayerCharacter extends Character {
 	GhostList: number[];
 	Wardrobe: (ItemBundle[] | null)[];
 	WardrobeCharacterNames: string[];
-	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
+	SavedExpressions: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	SavedColors: HSVColor[];
 	FriendList: number[];
 	FriendNames: Map<number, string>;
@@ -2561,10 +2561,6 @@ interface PlayerOnlineSettings {
 	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 	FriendListAutoRefresh: boolean;
 	DefaultChatRoomBackground: string;
-	/**
-	 * @deprecated
-	 */
-	SearchShowsFullRooms: never;
 }
 
 /** Pandora Player extension */
@@ -4726,14 +4722,14 @@ interface ColorPickerInitOptions {
 	dispatch?: boolean;
 }
 
-//#end region
+// #end region
 
 // #region Log
 
 interface LogRecord {
 	Name: LogNameType[LogGroupType];
 	Group: LogGroupType;
-	Value: number;
+	Value: number | undefined;
 }
 
 /** The logging groups as supported by the {@link LogRecord.Group} */
@@ -4825,7 +4821,7 @@ interface LogNameType {
 interface FavoriteState {
 	TargetFavorite: boolean;
 	PlayerFavorite: boolean;
-	Icon: FavoriteIcon;
+	Icon?: FavoriteIcon;
 	UsableOrder: DialogSortOrder;
 	UnusableOrder: DialogSortOrder;
 }
@@ -4922,9 +4918,9 @@ interface ArousalSettingsType {
 	Activity: string;
 	Zone: string;
 	Fetish: string;
-	OrgasmTimer?: number;
-	OrgasmStage?: 0 | 1 | 2;
-	OrgasmCount?: number;
+	OrgasmTimer: number;
+	OrgasmStage: 0 | 1 | 2;
+	OrgasmCount: number;
 	DisableAdvancedVibes: boolean;
 }
 

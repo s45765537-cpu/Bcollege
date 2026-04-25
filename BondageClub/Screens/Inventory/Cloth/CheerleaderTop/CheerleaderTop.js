@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 "use strict";
 
-const AssetsClothCheerleaderTopData = {
+const AssetsClothCheerleaderTopData = /** @type {const} */ ({
 	_Small: {
 		shearFactor: 0.78,
 		width: 100,
@@ -22,7 +21,7 @@ const AssetsClothCheerleaderTopData = {
 		width: 130,
 		yOffset: 84,
 	}
-};
+});
 
 /** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData>} */
 function AssetsClothCheerleaderTopAfterDrawHook(data, originalFunction, {
@@ -54,14 +53,15 @@ function AssetsClothCheerleaderTopAfterDrawHook(data, originalFunction, {
 	}
 
 	TextItem.Init(data, C, CA, false, false);
-	const text = CA.Property.Text;
+	const text = CA.Property?.Text ?? "";
 
-	const sizeData = AssetsClothCheerleaderTopData[G] || AssetsClothCheerleaderTopData._Small;
+	const sizeData = AssetsClothCheerleaderTopData[/** @type {keyof typeof AssetsClothCheerleaderTopData} */ (G)] ?? AssetsClothCheerleaderTopData._Small;
 
 	const height = 48;
 	const width = sizeData.width;
 	const flatCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 	const ctx = flatCanvas.getContext("2d");
+	if (!ctx) return;
 
 	DynamicDrawTextArc(text, ctx, width / 2, height / 2, {
 		fontSize: 48,

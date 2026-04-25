@@ -1,8 +1,11 @@
 // @ts-strict-ignore
 "use strict";
 var TitleBackground = "Sheet";
-/** @type {null | TitleName} */
-var TitleSelectedTitle = null;
+/**
+ * Bound to screen lifetime
+ * @type {TitleName}
+ */
+var TitleSelectedTitle;
 /** @type {null | NicknameStatus} */
 var TitleNicknameStatus = null;
 /** @deprecated */

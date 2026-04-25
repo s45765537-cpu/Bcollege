@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemCallbacks.BeforeDraw} */
@@ -15,6 +14,5 @@ function AssetsItemArmsHempRopeBeforeDraw(data) {
 			Y: data.Y + 30,
 		};
 	}
-
-	return null;
+	return data;
 }

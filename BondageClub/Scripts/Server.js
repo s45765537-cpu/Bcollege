@@ -1421,7 +1421,7 @@ var ServerAccountDataSyncedValidate = {
 	/**
 	 * @param {ServerAccountDataSynced["ChatSearchSettings"]} arg
 	 * @param {Character} C
-	 * @returns {ServerAccountDataSynced["ChatSearchSettings"]}
+	 * @returns {ChatRoomSearchSettings}
 	 */
 	ChatSearchSettings: (arg, C) => {
 		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
