@@ -1446,7 +1446,7 @@ const ServerChatRoomSearchSettingsValidate = {
 	FilterTerms: ServerValidation.isString(200, ""),
 };
 
-const ServerDefaultTimeout = 1000;
+const ServerDefaultTimeout = 3000;
 
 class ServerError extends Error {}
 
@@ -1518,7 +1518,7 @@ async function ServerRoomSearch(queryString, options) {
 		...options,
 	};
 
-	if (CommonDeepEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
+	if (CommonDeepEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + ServerDefaultTimeout > CommonTime()) {
 		return Result.failure(new ServerInProgressError("Search query while another query is in progress!"));
 	}
 
@@ -1528,6 +1528,7 @@ async function ServerRoomSearch(queryString, options) {
 	try {
 		return await ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
 			ServerSocket.once("ChatRoomSearchResult", (data) => {
+				ServerRoomSearchLastQueryTime = 0;
 				resolve(Result.success(data));
 			});
 
@@ -1547,7 +1548,7 @@ let ServerRoomJoinLastQueryTime = 0;
  * @return {Promise<Result<string, ServerError>>}
  */
 async function ServerRoomJoin(roomName) {
-	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + 1000 > CommonTime()) {
+	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + ServerDefaultTimeout > CommonTime()) {
 		return Result.failure(new ServerInProgressError("Join query while another query is in progress!"));
 	}
 
@@ -1557,6 +1558,7 @@ async function ServerRoomJoin(roomName) {
 	try {
 		return await ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
 			ServerSocket.once("ChatRoomSearchResponse", (data) => {
+				ServerRoomJoinLastQueryTime = 0;
 				if (data === "JoinedRoom") {
 					resolve(Result.success(roomName));
 				} else if (data === "RoomKicked") {
