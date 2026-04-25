@@ -30,7 +30,7 @@ var FriendListActionDefinitions = {
 	add: {
 		id: "add",
 		getIcon: () => "Icons/Plus.png",
-		isVisible: (context) => FriendListModeIndex === 2 && context.canAdd,
+		isVisible: (context) => FriendListModeIndex === 2 && !!context.canAdd,
 		isEnabled: (context) => !!context.canAdd,
 		getLabel: () => InterfaceTextGet("Add"),
 		onClick: (context) => {
@@ -714,7 +714,6 @@ function FriendListLoadFriendList(data) {
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${friend.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? "");
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (friend.ChatRoomSpace ?? "");
-			const canBeep = true;
 
 			friendRawData.push({
 				memberName: friend.MemberName,
