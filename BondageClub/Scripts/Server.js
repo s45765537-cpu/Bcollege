@@ -1495,7 +1495,7 @@ class ServerJoinError extends ServerError {
  */
 function ServerPromiseWithTimeout(timeout, executor) {
 	const work = new Promise(executor);
-	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(Result.failure(new ServerTimeoutError())), timeout); });
+	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(new ServerTimeoutError()), timeout); });
 	return Promise.race([work, timeoutPromise]);
 }
 
@@ -1525,13 +1525,17 @@ async function ServerRoomSearch(queryString, options) {
 	ServerRoomSearchLastQueryTime = CommonTime();
 	ServerRoomSearchLastQuery = CommonCloneDeep(request);
 
-	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
-		ServerSocket.once("ChatRoomSearchResult", (data) => {
-			resolve(Result.success(data));
-		});
+	try {
+		return await ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
+			ServerSocket.once("ChatRoomSearchResult", (data) => {
+				resolve(Result.success(data));
+			});
 
-		ServerSend("ChatRoomSearch", request);
-	});
+			ServerSend("ChatRoomSearch", request);
+		});
+	} catch (e) {
+		return Result.failure(e);
+	}
 }
 
 let ServerRoomJoinLastQuery = "";
@@ -1550,17 +1554,21 @@ async function ServerRoomJoin(roomName) {
 	ServerRoomJoinLastQueryTime = CommonTime();
 	ServerRoomJoinLastQuery = roomName;
 
-	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
-		ServerSocket.once("ChatRoomSearchResponse", (data) => {
-			if (data === "JoinedRoom") {
-				resolve(Result.success(roomName));
-			} else if (data === "RoomKicked") {
-				// We… shouldn't get that one while joining
-			} else {
-				reject(Result.failure(new ServerJoinError(data)));
-			}
-		});
+	try {
+		return await ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
+			ServerSocket.once("ChatRoomSearchResponse", (data) => {
+				if (data === "JoinedRoom") {
+					resolve(Result.success(roomName));
+				} else if (data === "RoomKicked") {
+					// We… shouldn't get that one while joining
+				} else {
+					reject(new ServerJoinError(data));
+				}
+			});
 
-		ServerSend("ChatRoomJoin", { Name: roomName });
-	});
+			ServerSend("ChatRoomJoin", { Name: roomName });
+		});
+	} catch (e) {
+		return Result.failure(e);
+	}
 }
