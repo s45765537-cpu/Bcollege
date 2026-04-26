@@ -1165,9 +1165,6 @@ function FriendListCreateActionsCell(friend) {
 						{
 							menu: {
 								classList: ["friend-list-actions-menu", "button-tooltip", "button-tooltip-left"],
-								attributes: {
-									popover: "auto",
-								},
 								eventListeners: {
 									focusout: FriendListActionsMenuFocusOut,
 								},
@@ -1187,8 +1184,11 @@ function FriendListCreateActionsCell(friend) {
  */
 function FriendListActionsMenuFocusOut(ev) {
 	const to = ev.relatedTarget;
+
 	if (!(to instanceof Node) || !this.contains(to)) {
-		FriendListCloseActionsMenu();
+		/** @type {HTMLButtonElement | null} */
+		const controller = document.querySelector(`button[aria-controls~="${this.id}"]`);
+		controller?.click();
 	}
 }
 
@@ -1208,7 +1208,9 @@ function FriendListToggleActionsMenu(memberNumber) {
 	const menu = wrapper.querySelector(".friend-list-actions-menu");
 	if (!menu) return;
 
-	menu.showPopover();
+	menu.setAttribute("data-original-parent", wrapper.id);
+	menu.setAttribute("open", "true");
+	document.body.appendChild(menu);
 	FriendListPositionActionsMenu(wrapper, menu);
 
 	/** @type {HTMLButtonElement | null} */
@@ -1217,24 +1219,13 @@ function FriendListToggleActionsMenu(memberNumber) {
 	this.setAttribute("aria-expanded", "true");
 }
 
-/**
- * @param {Element} target
- * @returns {boolean}
- */
-function FriendListIsActionsMenuTarget(target) {
-	return !!target?.closest(".friend-list-actions-wrapper")
-		|| !!target?.closest(".friend-list-actions-menu");
-}
-
 function FriendListCloseActionsMenu() {
 	document.querySelectorAll("button.friend-list-actions-button[aria-expanded='true']").forEach((button) => {
 		const menu = ElementUnpackIDs.fromAttribute(button, "aria-controls")[0];
 		if (menu) {
-			try {
-				menu.hidePopover();
-			} catch {
-				// already closed
-			}
+			ElementWrap(menu.getAttribute("data-original-parent"))?.appendChild(menu);
+			menu.removeAttribute("data-original-parent");
+			menu.removeAttribute("open");
 		}
 		button.setAttribute("aria-expanded", "false");
 	});
@@ -1271,7 +1262,7 @@ function FriendListPositionActionsMenu(wrapper, menu) {
 
 function FriendListRepositionActionsMenu() {
 	/** @type {HTMLElement | null} */
-	const menu = document.querySelector(".friend-list-actions-menu:popover-open");
+	const menu = document.querySelector(".friend-list-actions-menu[open='true']");
 	const menuIdPrefix = "friend-list-actions-menu-";
 	if (!menu?.id?.startsWith(menuIdPrefix)) return;
 
