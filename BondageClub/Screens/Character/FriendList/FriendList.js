@@ -861,7 +861,7 @@ function FriendListLoadFriendList(data) {
 					ElementCreate({
 						tag: "td",
 						classList: ['friend-list-column', 'ChatRoomName'],
-						children: [friend.chatRoom.caption],
+						innerHTML: friend.chatRoom.caption,
 						style: { "user-select": friend.chatRoom.caption === "-" ? "none" : undefined },
 					}),
 				);
