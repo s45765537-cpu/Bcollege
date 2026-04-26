@@ -1,8 +1,8 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<ModularItemData>} */
 function InventoryItemDevicesKabeshiriWallLoadHook(data, originalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -14,12 +14,13 @@ function InventoryItemDevicesKabeshiriWallLoadHook(data, originalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
 function InventoryItemDevicesKabeshiriWallDrawHook(data, originalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
 	}
 
-	const elements = textData.textNames.map(i => document.getElementById(PropertyGetID(i, DialogFocusItem)));
+	const elements = textData.textNames.map(i => document.getElementById(PropertyGetID(i, /** @type {Item} */ (DialogFocusItem)))).filter(Boolean);
 	if (data.currentModule !== ModularItemBase) {
 		elements.forEach(el => el.toggleAttribute("hidden", true));
 	} else {
@@ -41,13 +42,14 @@ function InventoryItemDevicesKabeshiriWallPublishActionHook(data, originalFuncti
 			return;
 		}
 		case "ModularItemOption":
-			originalFunction(C, item, newOption, previousOption);
+			originalFunction?.(C, item, newOption, previousOption);
 			return;
 	}
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<ModularItemData>} */
 function InventoryItemDevicesKabeshiriWallExitHook(data, originalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData !== null) {
 		TextItem.Exit(textData);
@@ -68,10 +70,11 @@ function AssetsItemDevicesKabeshiriWallAfterDrawHook(
 		const width = 1000;
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tmpCanvas.getContext("2d");
+		if (!ctx) return;
 
 		TextItem.Init(data, C, CA, false, false);
-		const text1 = CA.Property.Text;
-		const text2 = CA.Property.Text2;
+		const text1 = CA.Property?.Text ?? "";
+		const text2 = CA.Property?.Text2 ?? "";
 
 		DynamicDrawTextArc(text1, ctx, 200, 490, {
 			fontSize: 20,

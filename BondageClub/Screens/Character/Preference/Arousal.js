@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ArousalActiveName[]} */
@@ -10,8 +9,11 @@ var PreferenceArousalVisibleIndex = 0;
 /** @type {ArousalAffectStutterName[]} */
 var PreferenceArousalAffectStutterList = ["None", "Arousal", "Vibration", "All"];
 var PreferenceArousalAffectStutterIndex = 0;
-/** @type {null | ActivityName[]} */
-var PreferenceArousalActivityList = null;
+/**
+ * Initialized by {@link PreferenceSubscreenArousalLoad}
+ * @type {ActivityName[]}
+ */
+var PreferenceArousalActivityList;
 var PreferenceArousalActivityIndex = 0;
 /** @type {never} */
 var PreferenceArousalActivityFactorSelf;
@@ -19,8 +21,11 @@ var PreferenceArousalActivityFactorSelf;
 var PreferenceArousalActivityFactorOther;
 /** @type {never} */
 var PreferenceArousalZoneFactor;
-/** @type {null | FetishName[]} */
-var PreferenceArousalFetishList = null;
+/**
+ * Initialized by {@link PreferenceSubscreenArousalLoad}
+ * @type {FetishName[]}
+ */
+var PreferenceArousalFetishList;
 var PreferenceArousalFetishIndex = 0;
 /** @type {never} */
 var PreferenceArousalFetishFactor;
@@ -202,8 +207,10 @@ function PreferenceSubscreenArousalClick() {
 		if ((Player.FocusGroup != null) && MouseIn(550, 853, 600, 64)) {
 			const step = MouseX <= 850 ? -1 : +1;
 			const zone = PreferenceGetArousalZone(Player, Player.FocusGroup.Name);
-			const factor = /** @type {ArousalFactor} */ (CommonModulo(zone.Factor + step, 5));
-			PreferenceSetArousalZone(Player, zone.Name, factor);
+			if (zone) {
+				const factor = /** @type {ArousalFactor} */ (CommonModulo(zone.Factor + step, 5));
+				PreferenceSetArousalZone(Player, zone.Name, factor);
+			}
 		}
 
 		// Arousal zone orgasm check box

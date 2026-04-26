@@ -18,6 +18,7 @@ ClothCrimsonCloudsInkRhymeQipaoDressQipaoEdge,Qipao Edge
 ClothCrimsonCloudsInkRhymeQipaoDressQipaoFabric,Qipao Fabric
 ClothCrimsonCloudsInkRhymeQipaoDressQipaoOutline,Qipao Outline
 ClothCrimsonCloudsInkRhymeQipaoDressQipaoShadow,Qipao Shadow
+ClothLittleFormalShirtShirt,Shirt
 ClothLolitaShortDressBow,Bow
 ClothLolitaShortDressBowShadow,Bow Shadow
 ClothLolitaShortDressFlower,Flower
@@ -26,11 +27,19 @@ ClothLowerBlackButterflySkirtBottomSkirtLining,Bottom Skirt Lining
 ClothLowerBlackButterflySkirtButterflySkirtHem,Butterfly Skirt Hem
 ClothLowerBlackButterflySkirtFrontSkirtHem,Front Skirt Hem
 ClothLowerBlackButterflySkirtWaistband,Waistband
+ClothLowerSuspenderPantsBeltLower,Belt (Lower)
+ClothLowerSuspenderPantsBeltUpper,Belt (Upper)
+ClothLowerSuspenderPantsBuckleLower,Buckle (Lower)
+ClothLowerSuspenderPantsBuckleUpper,Buckle (Upper)
+ClothLowerSuspenderPantsInner,Inner
+ClothLowerSuspenderPantsOuter,Outer
+ClothLowerSuspenderPantsStraps,Straps
 ClothLowerTutuTutu,Tutu
 ClothRuffledDressSleeves,Sleeves
 ClothRuffledDressHem,Hem
 ClothRuffledDressCorset,Corset
 ClothRuffledDressLace,Lace
+ClothStarryOceanEveningGownLining,Lining
 GartersLaceLegRingRing,Ring
 GartersLaceLegRingLace,Lace
 GartersLaceLegRingBow,Bow
@@ -82,6 +91,7 @@ ItemDevicesXFrameFrame, Wood
 ItemDevicesXFrameMetal, Metal
 ItemFeetSturdyLeatherBeltsBelts,Belts
 ItemFeetSturdyLeatherBeltsMetal,Metal
+ItemHandheldElectricGuitarStrap,Strap
 ItemHandheldKyosensuFan,Fan paper
 ItemHandhelddKyosensuFan1,Fan paper 2nd color
 ItemHandhelddKyosensuFan2,Fan paper 3rd color
@@ -174,3 +184,7 @@ TailStrapsKitsuneTailStrapsTips,Tips
 WingsSeraphWingsBases,Bases
 WingsSeraphWingsTips,Tips
 WingsSeraphWingsWings,Wings
+HatJesterHatFabric,Fabric
+HatJesterHatBell,Bell
+HatJesterHatStripes,Stripes
+HatJesterHatDots,Dots

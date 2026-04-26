@@ -77,6 +77,7 @@
 }
 
 .button-tooltip {
+	pointer-events: none;
 	cursor: auto;
 	background-color: #FFFF88;
 	color: black;
@@ -96,6 +97,10 @@
 	text-align: justify;
 	text-wrap: wrap;
 	text-indent: 1em hanging each-line;
+}
+
+.button-tooltip-justify > * {
+	display: block;
 }
 
 .button-tooltip-craft,
@@ -286,27 +291,13 @@
 
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
 @media (hover: hover) {
-	@supports selector(:has(*)) {
-		.button-styling:hover:not(:has(.button-tooltip:hover)) {
-			background-color: var(--hover-color);
-		}
-
-		.button:hover:not(:has(.button-tooltip:hover)) > .button-tooltip {
-			visibility: visible;
-		}
+	.button-styling:hover {
+		background-color: var(--hover-color);
 	}
 
-	@supports not selector(:has(*)) {
-		.button-styling:hover {
-			background-color: var(--hover-color);
-		}
-
-		.button:hover > .button-tooltip {
-			visibility: visible;
-		}
-	}
-
-	.button:focus > .button-tooltip {
+	.button:hover > .button-tooltip,
+	.button:active > .button-tooltip,
+	.button:focus-visible > .button-tooltip {
 		visibility: visible;
 	}
 }

@@ -194,10 +194,9 @@ function ExtendedItemInit(C, Item, Push=true, Refresh=true) {
 		return false;
 	}
 
-	const functionName = `Inventory${Item.Asset.Group.Name}${Item.Asset.Name}Init`;
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
 	const args = [C, Item, Push, Refresh];
-	return CommonCallFunctionByNameWarn(functionName, ...args);
+	return CommonCallFunctionByNameWarn(`Inventory${Item.Asset.Group.Name}${Item.Asset.Name}Init`, ...args);
 }
 
 /**
@@ -611,11 +610,11 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
  * extended item functions (e.g. if the currently focused it is the hemp rope arm restraint, this will return
  * "InventoryItemArmsHempRope", allowing functions like InventoryItemArmsHempRopeLoad to be called)
  * @param {Item} Item - The extended item in question; defaults to {@link DialogFocusItem}
- * @returns {string} The extended item function prefix for the currently focused item
+ * @returns {`Inventory${AssetGroupName}${string}`} The extended item function prefix for the currently focused item
  */
 function ExtendedItemFunctionPrefix(Item=DialogFocusItem) {
 	const Asset = Item.Asset;
-	return "Inventory" + Asset.Group.Name + Asset.Name;
+	return `Inventory${Asset.Group.Name}${Asset.Name}`;
 }
 
 /**

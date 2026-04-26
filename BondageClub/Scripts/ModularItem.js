@@ -263,6 +263,7 @@ function ModularItemCreateModularData(asset, {
 	// Only enable DrawImages in the base screen if all module-specific DrawImages are true
 	const BaseDrawImages = (typeof DrawImages !== "boolean") ? ModulesParsed.every((m) => m.DrawImages) : DrawImages;
 
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}`;
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.MODULAR : parentOption.Name);
 	DialogPrefix = DialogPrefix || {};
@@ -375,7 +376,7 @@ function ModularItemDrawCommon(
 	{ paginate, pageCount, elementData, itemsPerPage },
 ) {
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Draw");
+		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Draw`);
 		return;
 	}
 
@@ -500,7 +501,7 @@ function ModularItemClickModule(module, data) {
  */
 function ModularItemClickCommon(data, { paginate, elementData, itemsPerPage }, exitCallback, itemCallback, paginateCallback, pageNumber) {
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click");
+		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Click`);
 		return;
 	}
 
@@ -564,7 +565,7 @@ function ModularItemModuleTransition(newModule, data) {
 /**
  * Parses the focus item's current type into an array representing the currently selected module options
  * @param {ModularItemData} data - The modular item's data
- * @param {null | TypeRecord} typeRecord - The type string for a modular item. If null, use a type string extracted from the selected module options
+ * @param {null | undefined | TypeRecord} typeRecord - The type string for a modular item. If null, use a type string extracted from the selected module options
  * @returns {number[]} - An array of numbers representing the currently selected options for each of the item's modules
  */
 function ModularItemParseCurrent({ asset, modules }, typeRecord) {

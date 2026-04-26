@@ -3240,8 +3240,10 @@ function PlatformDrawGiftButtons() {
  * @returns {void} - Nothing
  */
 function PlatformRun() {
-	if ((document.activeElement == null) || (document.activeElement.id !== "MainCanvas")) document.getElementById("MainCanvas").focus();
-	if ((document.activeElement == null) || (document.activeElement.id !== "MainCanvas")) PlatformKeys = [];
+	if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
+		document.activeElement.blur();
+		PlatformKeys = [];
+	}
 	PlatformDrawGame();
 	DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	if (PlatformHeal != null) DrawButton(1800, 10, 90, 90, "", "White", "Icons/Save.png", TextGet("Save"));

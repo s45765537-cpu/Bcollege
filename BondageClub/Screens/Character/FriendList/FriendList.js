@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 //#region VARIABLES
 var FriendListBackground = "BrickWall";
-/** @type {number[]} */
+/** @deprecated @type {number[]} */
 var FriendListConfirmDelete = [];
 /** @type {FriendListReturn<any> | null} */
 var FriendListReturn = null;
@@ -36,6 +35,7 @@ const FriendListIDs = Object.freeze({
 	searchInput: 'friend-list-search-input',
 
 	btnAutoRefresh: 'friend-list-button-auto-refresh',
+	btnAddFriend: 'friend-list-button-add-friend',
 	btnRefresh: 'friend-list-button-refresh',
 	btnPrev: 'friend-list-button-prev',
 	btnNext: 'friend-list-button-next',
@@ -53,8 +53,6 @@ const FriendListIDs = Object.freeze({
 /** @type {ScreenLoadHandler} */
 async function FriendListLoad() {
 	const mode = FriendListMode[FriendListModeIndex];
-
-	FriendListConfirmDelete = [];
 
 	const root = document.getElementById(FriendListIDs.root) ?? ElementCreate({
 		tag: 'div',
@@ -98,7 +96,7 @@ async function FriendListLoad() {
 							/**
 							* @this {HTMLInputElement}
 							*/
-							input: function() {
+							input: function () {
 								FriendListSearchByProperties(this.value);
 							},
 						},
@@ -110,6 +108,7 @@ async function FriendListLoad() {
 							{
 								tooltip: TextGet("AutoRefresh"),
 								role: "checkbox",
+								image: "Icons/Wait.png"
 							},
 							{
 								button: {
@@ -125,6 +124,22 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("Refresh"),
+								image: "Icons/Small/Reset.png"
+							},
+							{
+								button: {
+									classList: ['friend-list-button'],
+								}
+							}
+						),
+						ElementButton.Create(
+							FriendListIDs.btnAddFriend,
+							() => {
+								FriendListAddFriends();
+							},
+							{
+								tooltip: TextGet("AddFriends"),
+								image: "Icons/Plus.png",
 							},
 							{
 								button: {
@@ -139,6 +154,7 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("PrevMode"),
+								image: "Icons/Small/Prev.png"
 							},
 							{
 								button: {
@@ -153,6 +169,7 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("NextMode"),
+								image: "Icons/Small/Next.png"
 							},
 							{
 								button: {
@@ -167,6 +184,7 @@ async function FriendListLoad() {
 							},
 							{
 								tooltip: TextGet("Exit"),
+								image: "Icons/Small/Exit.png"
 							},
 							{
 								button: {
@@ -190,7 +208,8 @@ async function FriendListLoad() {
 				},
 				{
 					tooltip: TextGet("ResetSorting"),
-					tooltipPosition: 'right'
+					tooltipPosition: 'right',
+					image: "Icons/Small/Remove.png"
 				},
 				{
 					button: {
@@ -219,46 +238,56 @@ async function FriendListLoad() {
 										"friend-list-member-name",
 										() => FriendListChangeSortingMode("MemberName"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-member-number",
 										() => FriendListChangeSortingMode("MemberNumber"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-chat-room-type",
 										() => FriendListChangeSortingMode("ChatRoomType"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-chat-room-name",
 										() => FriendListChangeSortingMode("ChatRoomName"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									ElementButton.Create(
 										"friend-list-relation-type",
 										() => FriendListChangeSortingMode("RelationType"),
 										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
-											attributes: { role: "columnheader" },
-										}},
+										{
+											button: {
+												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
+												attributes: { role: "columnheader" },
+											}
+										},
 									),
 									{
 										tag: "th",
@@ -356,23 +385,27 @@ function FriendListKeyDown(event) {
 function FriendListUnload() {
 }
 
-/** @type {ScreenExitHandler} */
-function FriendListExit() {
+/** @t ype {ScreenExitHandler} */
+async function FriendListExit() {
 	const beepMenu = document.getElementById(FriendListIDs.beepList);
 	if (beepMenu) {
 		FriendListBeepMenuClose();
 		return;
 	}
 	ElementRemove(FriendListIDs.root);
+	let screenPromise;
 	if (FriendListReturn != null && FriendListReturn.Screen != "FriendList") {
 		if (FriendListReturn?.Screen === "ChatRoom" && FriendListReturn?.hasScrolledChat) {
 			ElementScrollToEnd("TextAreaChatLog");
 		}
 		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
-		CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
-	} else CommonSetScreen("Character", "InformationSheet");
+		screenPromise = CommonSetScreen(FriendListReturn.Module, FriendListReturn.Screen);
+	} else {
+		screenPromise = CommonSetScreen("Character", "InformationSheet");
+	}
 	FriendListReturn = null;
 	FriendListModeIndex = 0;
+	return screenPromise;
 }
 //#endregion
 
@@ -386,7 +419,7 @@ function FriendListBeep(MemberNumber, data = null) {
 	if (FriendListBeepTarget === -1) {
 		ElementCreateDiv(FriendListIDs.beepList);
 	}
-	const FriendListBeepElement = document.getElementById(FriendListIDs.beepList);
+	const FriendListBeepElement = /** @type {HTMLElement} */ (document.getElementById(FriendListIDs.beepList));
 	const beepTitle = data === null ? 'Send Beep' : data.Sent ? 'Sent Beep' : 'Received Beep';
 	const userName = Player.FriendNames.get(MemberNumber) ?? data?.MemberName;
 	const userCaption = `${userName} [${MemberNumber}]`;
@@ -447,7 +480,7 @@ function FriendListBeep(MemberNumber, data = null) {
 							FriendListBeepShowRoom && ServerPlayerIsInChatRoom() ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff')
 						],
 						eventListeners: {
-							click: function()  {
+							click: function () {
 								FriendListBeepShowRoom = !FriendListBeepShowRoom;
 								this.textContent = FriendListBeepShowRoom ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff');
 							}
@@ -470,7 +503,10 @@ function FriendListBeep(MemberNumber, data = null) {
 							'Reply'
 						],
 						eventListeners: {
-							click: () => FriendListBeep(data?.MemberNumber)
+							click: () => {
+								if (typeof data?.MemberNumber === "number")
+									FriendListBeep(data.MemberNumber);
+							}
 						}
 					}
 				]
@@ -515,28 +551,12 @@ function FriendListBeepMenuSend() {
 }
 
 /**
- * Opens the friendlist from any screen
- */
-async function FriendListShow() {
-	if (CurrentScreen === 'FriendList') return;
-	DialogLeave({ reload: false });
-	ElementToggleGeneratedElements(CurrentScreen, false);
-	FriendListReturn = {
-		Screen: CurrentScreen,
-		Module: CurrentModule,
-		IsInChatRoom: ServerPlayerIsInChatRoom(),
-		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
-	};
-	await CommonSetScreen("Character", "FriendList");
-}
-
-/**
  * Shows the wanted beep on click from beep list
  * @param {number} i index of the beep
  */
 async function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
-	if (!beep) return;
+	if (typeof beep?.MemberNumber !== "number") return;
 	FriendListModeIndex = 1;
 	await FriendListShow();
 	FriendListBeep(beep.MemberNumber, beep);
@@ -546,15 +566,17 @@ async function FriendListShowBeep(i) {
 //#region FRIEND LIST
 /**
  * Exits the friendlist
- * @param {string} room The room to search for
+ * @param {string | undefined} room The room to search for
  */
 async function FriendListChatSearch(room) {
-	if (FriendListReturn?.Screen !== "ChatSearch") return;
-	FriendListExit();
-	await CommonWaitFor(() => !ScreenIsLoading);
-	// Change the text box so the player still cant read it
+	if (FriendListReturn?.Screen !== "ChatSearch" || !room) return;
+	// XXX: can't use `ChatSearchQuery(room)` here, as `ChatSearchLoad` will trigger a query
+	// before us, which will eat the timeout and cause the empty search to win. So just
+	// overwrite the underlying search string so it searches for that
+	ChatSearchQueryString = room;
+	await FriendListExit();
+	// Change the text box so the player still can't read it
 	ElementValue("InputSearch", ChatSearchMuffle(room));
-	ChatSearchQuery(room);
 }
 
 /** @satisfies {{ [key in (ServerChatRoomSpace | "Private")]: FriendListIcon }} */
@@ -587,7 +609,6 @@ function FriendListLoadFriendList(data) {
 	// Loads the header caption
 	const BeepCaption = InterfaceTextGet("Beep");
 	const DeleteCaption = InterfaceTextGet("Delete");
-	const ConfirmDeleteCaption = InterfaceTextGet("ConfirmDelete");
 	const SentCaption = InterfaceTextGet("SentBeep");
 	const ReceivedCaption = InterfaceTextGet("ReceivedBeep");
 	const MailCaption = InterfaceTextGet("BeepWithMail");
@@ -595,19 +616,22 @@ function FriendListLoadFriendList(data) {
 		Owner: TextGet("TypeOwner"),
 		Lover: TextGet("TypeLover"),
 		Submissive: TextGet("TypeSubmissive"),
-		Friend: TextGet("TypeFriend")
+		Friend: TextGet("TypeFriend"),
+		Pending: TextGet("TypePending")
 	};
 	const relationTypeIcons = {
 		Owner: './Icons/Small/Owner.png',
 		Lover: './Icons/Small/Lover.png',
 		Submissive: './Icons/Small/Family.png',
-		Friend: './Icons/Small/FriendList.png'
+		Friend: './Icons/Small/FriendList.png',
+		Pending: './Icons/Wait.png'
 	};
 	const sortingSymbol = FriendListSortingDirection === "Asc" ? "↑" : "↓";
 	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
-	const friendList = document.getElementById(FriendListIDs.friendList);
+	const friendList = /** @type {HTMLElement} */ (document.getElementById(FriendListIDs.friendList));
 	friendList.innerHTML = "";
 
+	/** @type {HTMLDivElement[]} */
 	const FriendListContent = [];
 
 	const mode = FriendListMode[FriendListModeIndex];
@@ -638,7 +662,7 @@ function FriendListLoadFriendList(data) {
 		"friend-list-relation-type": "RelationType",
 	};
 	CommonEntries(columnHeaders).forEach(([id, modeName]) => {
-		const elem = document.getElementById(id);
+		const elem = /** @type {HTMLElement} */ (document.getElementById(id));
 		const elemSortingSymbol = FriendListSortingMode === modeName ? sortingSymbol : "↕";
 		elem.textContent = `${TextGet(modeName)} ${elemSortingSymbol}`;
 		switch (elemSortingSymbol) {
@@ -661,13 +685,15 @@ function FriendListLoadFriendList(data) {
 		for (const friend of data) {
 			const originalChatRoomName = friend.ChatRoomName || '';
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${friend.ChatRoomSpace || "F"}`);
-			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
-			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (friend.ChatRoomSpace || '');
+			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? "");
+			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (friend.ChatRoomSpace ?? "");
 			const canBeep = true;
 
 			friendRawData.push({
 				memberName: friend.MemberName,
 				memberNumber: friend.MemberNumber,
+				relationType: FriendListGetRelationType(friend.MemberNumber),
+				pending: FriendListIsPending(friend.MemberNumber),
 				chatRoom: {
 					name: originalChatRoomName,
 					caption: chatRoomName || "-",
@@ -688,9 +714,9 @@ function FriendListLoadFriendList(data) {
 		for (let i = FriendListBeepLog.length - 1; i >= 0; i--) {
 			const beepData = FriendListBeepLog[i];
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${beepData.ChatRoomSpace || "F"}`);
-			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
+			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? "");
 			let beepCaption = '';
-			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (beepData.ChatRoomSpace || '');
+			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (beepData.ChatRoomSpace ?? "");
 
 			const rawBeepCaption = [];
 			if (beepData.Sent) {
@@ -708,6 +734,8 @@ function FriendListLoadFriendList(data) {
 			friendRawData.push({
 				memberName: beepData.MemberName,
 				memberNumber: beepData.MemberNumber,
+				relationType: FriendListGetRelationType(beepData.MemberNumber ?? 0),
+				pending: false,
 				chatRoom: {
 					name: beepData.ChatRoomName,
 					caption: chatRoomName || "-",
@@ -727,22 +755,26 @@ function FriendListLoadFriendList(data) {
 		if (document.hasFocus()) NotificationReset(NotificationEventType.BEEP);
 	} else if (mode === "AllFriends") {
 		// In Delete mode, we show the friend list and allow the user to remove them
-		for (const [memberNumber, memberName] of Array.from(Player.FriendNames).sort((a, b) => a[1].localeCompare(b[1]))) {
-			let Type = "Friend";
-			if (Player.IsOwnedByMemberNumber(memberNumber)) {
-				Type = "Owner";
-			} else if (Player.IsLoverOfMemberNumber(memberNumber)) {
-				Type = "Lover";
-			} else if (Player.SubmissivesList.has(memberNumber)) {
-				Type = "Submissive";
-			}
-			const canDelete = Type === "Friend" && Player.HasOnFriendlist(memberNumber) || Type === "Submissive" && Player.SubmissivesList.has(memberNumber);
+		const allFriendEntries = [
+			...Player.FriendNames.entries(),
+			...Player.FriendList.map((entry) => /** @type {const} */([entry, Player.FriendNames.get(entry) ?? TextGet("Unknown")])),
+			...Player.Lovership.map((entry) => entry.MemberNumber ? /** @type {const} */([entry.MemberNumber, entry.Name]) : undefined).filter(entry => entry !== undefined),
+			Player.Ownership ? /** @type {const} */([Player.Ownership?.MemberNumber, Player.Ownership?.Name]) : undefined,
+		].filter(entry => entry !== undefined);
+		// we are using the map to filter out duplicate entries
+		const allFriendMap = new Map(allFriendEntries);
+		const allFriends = Array
+			.from(allFriendMap.entries())
+			.sort((a, b) => a[1].localeCompare(b[1]));
+
+		for (const [memberNumber, memberName] of allFriends) {
 
 			friendRawData.push({
 				memberName: memberName,
 				memberNumber: memberNumber,
-				relationType: FriendTypeCaption[Type],
-				canDelete: canDelete
+				relationType: FriendListGetRelationType(memberNumber),
+				canDelete: FriendListCanDelete(memberNumber),
+				pending: FriendListIsPending(memberNumber),
 			});
 		}
 	}
@@ -750,11 +782,18 @@ function FriendListLoadFriendList(data) {
 	friendRawData.forEach(friend => {
 		const row = ElementCreate({
 			tag: "tr",
-			classList: ['friend-list-row'],
+			classList: [
+				'friend-list-row',
+				...(friend.pending ? ['friend-list-pending'] : []),
+			],
 			children: [
 				{
 					tag: "td",
-					classList: ['friend-list-column', 'MemberName'],
+					classList: [
+						'friend-list-column',
+						'MemberName',
+						...(friend.memberName === TextGet("Unknown") ? ['friend-list-unknown'] : [])
+					],
 					children: [
 						friend.memberName
 					],
@@ -763,7 +802,7 @@ function FriendListLoadFriendList(data) {
 					tag: "td",
 					classList: ['friend-list-column', 'MemberNumber'],
 					children: [
-						friend.memberNumber.toString()
+						`${friend.memberNumber ?? ""}`
 					],
 				},
 			]
@@ -881,7 +920,7 @@ function FriendListLoadFriendList(data) {
 						innerHTML: friend.chatRoom.caption,
 						style: { "user-select": friend.chatRoom.caption === "-" ? "none" : undefined },
 						eventListeners: {
-							click: () => FriendListChatSearch(friend.chatRoom.name),
+							click: () => FriendListChatSearch(friend.chatRoom?.name),
 						},
 					}),
 				);
@@ -893,7 +932,10 @@ function FriendListLoadFriendList(data) {
 				row.append(
 					ElementButton.Create(
 						`friend-list-beep-${friend.memberNumber}`,
-						() => FriendListBeep(friend.memberNumber),
+						() => {
+							if (typeof friend.memberNumber === "number")
+								FriendListBeep(friend.memberNumber);
+						},
 						{ noStyling: true },
 						{ button: {
 							classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content'],
@@ -903,13 +945,15 @@ function FriendListLoadFriendList(data) {
 					),
 					ElementButton.Create(
 						`friend-list-show-beep-${friend.memberNumber}`,
-						() => FriendListShowBeep(friend.beep.beepIndex),
+						() => { if (friend.beep?.beepIndex) FriendListShowBeep(friend.beep.beepIndex); },
 						{ noStyling: true },
-						{ button: {
-							classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-beeps-content'],
-							children: [friend.beep.caption],
-							attributes: { role: "cell" },
-						}},
+						{
+							button: {
+								classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-beeps-content'],
+								children: [friend.beep.caption],
+								attributes: { role: "cell" },
+							}
+						},
 					),
 				);
 			} else {
@@ -945,11 +989,14 @@ function FriendListLoadFriendList(data) {
 
 		row.appendChild(ElementButton.Create(
 			`friend-list-delete-${friend.memberNumber}`,
-			() => FriendListDelete(friend.memberNumber),
+			() => {
+				if (typeof friend.memberNumber === "number")
+					FriendListDelete(friend.memberNumber);
+			},
 			{ noStyling: true },
 			{ button: {
 				classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
-				children: [FriendListConfirmDelete.includes(friend.memberNumber) ? ConfirmDeleteCaption : DeleteCaption],
+				children: [DeleteCaption],
 				attributes: { disabled: !friend.canDelete, role: "cell" },
 			}}
 		));
@@ -961,26 +1008,70 @@ function FriendListLoadFriendList(data) {
 	// Loads the friend list and sorts it with current settings
 	friendList.append(...FriendListContent);
 	FriendListSort(FriendListSortingMode, FriendListSortingDirection);
-	FriendListSearchByProperties(/** @type {HTMLInputElement} */ (document.getElementById(FriendListIDs.searchInput))?.value);
+	FriendListSearchByProperties(/** @type {HTMLInputElement} */(document.getElementById(FriendListIDs.searchInput))?.value);
 	ElementSetScrollPercentage(FriendListIDs.friendList, friendListScrollPercent, 'instant');
 }
 
 /**
- * When the user wants to delete someone from her friend list this must be confirmed.
- * This function either displays the confirm message or deletes the friend from the player's friendlist
+ * When the user wants to delete someone from their friend list this must be confirmed.
+ * This function either displays the confirm message or deletes the friend from the friendlist
  * @param {number} MemberNumber - The member to delete from the friendlist
  * @returns {void} - Nothing
  */
 function FriendListDelete(MemberNumber) {
-	if (FriendListConfirmDelete.includes(MemberNumber)) {
-		FriendListConfirmDelete.splice(FriendListConfirmDelete.indexOf(MemberNumber), 1);
-		if (Player.HasOnFriendlist(MemberNumber)) {
-			Player.FriendList.splice(Player.FriendList.indexOf(MemberNumber), 1);
+	const confirmMessage = TextSubstitute("ConfirmDelete", {
+		$memberName: Player.FriendNames.get(MemberNumber) ?? TextGet("Unknown"),
+		$memberNumber: MemberNumber
+	}).join("");
+	if (confirm(confirmMessage)) {
+		ChatRoomListUpdate(Player.FriendList, false, MemberNumber);
+		Player.FriendNames.delete(MemberNumber);
+		ServerSend("AccountQuery", { Query: "OnlineFriends" });
+	}
+}
+
+/**
+ * Prompts for a comma-separated list of members to add.
+ * @returns {void} - Nothing
+ */
+function FriendListAddFriends() {
+	const input = prompt(TextGet("AddFriendsPrompt"));
+	if (input === null) return;
+
+	const memberNumbers = new Set();
+	input.split(",").forEach((entry) => {
+		const match = entry.trim().match(/\d+/);
+		if (!match) return;
+		const memberNumber = Number.parseInt(match[0], 10);
+		if (!Number.isNaN(memberNumber)) {
+			memberNumbers.add(memberNumber);
 		}
-		Player.SubmissivesList.delete(MemberNumber);
+	});
+
+	if (memberNumbers.size === 0) {
+		alert(TextGet("AddFriendsError"));
+		return;
+	};
+
+	/** @type {number[]} */
+	const addedMembers = [];
+	memberNumbers.forEach((memberNumber) => {
+		if (!CommonIsNonNegativeInteger(memberNumber)) return;
+		if (memberNumber === Player.MemberNumber) return;
+		if (Player.FriendList.includes(memberNumber)) return;
+		addedMembers.push(memberNumber);
+		ChatRoomListUpdate(Player.FriendList, true, memberNumber, "FriendRequest", false);
+	});
+
+	if (addedMembers.length > 0) {
 		ServerPlayerRelationsSync();
-	} else FriendListConfirmDelete.push(MemberNumber);
-	ServerSend("AccountQuery", { Query: "OnlineFriends" });
+		ServerSend("AccountQuery", { Query: "OnlineFriends" });
+	}
+
+	alert(addedMembers.length > 0
+		? TextSubstitute("AddFriendsSuccess", { $addedMembers: addedMembers.join(", ") }).join("")
+		: TextGet("AddFriendsNoNewFriends")
+	);
 }
 
 /**
@@ -993,8 +1084,8 @@ function FriendListChangeMode(modeIndex) {
 	else if (FriendListModeIndex >= FriendListMode.length) FriendListModeIndex = 0;
 	FriendListSortingMode = 'None';
 	FriendListSortingDirection = 'Asc';
-	document.getElementById(FriendListIDs.root).dataset.mode = FriendListMode[FriendListModeIndex];
-	document.getElementById(FriendListIDs.modeTitle).textContent = TextGet(FriendListMode[FriendListModeIndex]);
+	document.getElementById(FriendListIDs.root)?.setAttribute("data-mode", FriendListMode[FriendListModeIndex]);
+	document.getElementById(FriendListIDs.modeTitle)?.replaceChildren(TextGet(FriendListMode[FriendListModeIndex]));
 	ServerSend("AccountQuery", { Query: "OnlineFriends" });
 }
 
@@ -1011,16 +1102,16 @@ function FriendListSort(sortingMode, sortingDirection) {
 
 	const items = friendlist.children;
 	const sortedItems = Array.from(items).sort((elmA, elmB) => {
-		const contentA = elmA.querySelector(`.${sortingMode}`)?.textContent;
-		const contentB = elmB.querySelector(`.${sortingMode}`)?.textContent;
+		const contentA = elmA.querySelector(`.${sortingMode}`)?.textContent ?? "";
+		const contentB = elmB.querySelector(`.${sortingMode}`)?.textContent ?? "";
 		const numberA = Number.parseInt(contentA, 10);
 		const numberB = Number.parseInt(contentB, 10);
 		if (!isNaN(numberA) && !isNaN(numberB)) {
 			return sortingDirection === 'Asc' ? numberA - numberB : numberB - numberA;
 		} else {
 			return sortingDirection === 'Asc' ?
-        contentA.localeCompare(contentB) :
-        contentB.localeCompare(contentA);
+				contentA.localeCompare(contentB) :
+				contentB.localeCompare(contentA);
 		}
 	});
 	friendlist.replaceChildren(...sortedItems);
@@ -1038,9 +1129,9 @@ function FriendListSearchByProperties(text) {
 	const items = friendlist.children;
 	Array.from(items).forEach((element) => element.toggleAttribute("hidden", true));
 	const searchedItems = Array.from(items).filter(item => {
-		return item.querySelector('.MemberName')?.textContent.toLowerCase().includes(text.toLowerCase()) ||
-			item.querySelector('.MemberNickname')?.textContent.toLowerCase().includes(text.toLowerCase()) || // NYI
-			item.querySelector('.MemberNumber')?.textContent.includes(text);
+		return (item.querySelector('.MemberName')?.textContent ?? "").toLowerCase().includes(text.toLowerCase()) ||
+			(item.querySelector('.MemberNickname')?.textContent ?? "").toLowerCase().includes(text.toLowerCase()) || // NYI
+			(item.querySelector('.MemberNumber')?.textContent ?? "").includes(text);
 	});
 	searchedItems.forEach((item) => {
 		item.toggleAttribute("hidden", false);
@@ -1061,7 +1152,7 @@ function FriendListSearchByProperties(text) {
  * @returns {string} - The innerHTML with the searched text highlighted
  */
 function FriendListHighlightProperty(element, text) {
-	const textContent = element.textContent;
+	const textContent = element.textContent ?? "";
 	if (!text) return textContent;
 	const regex = new RegExp(text.toLowerCase(), 'gi');
 
@@ -1094,3 +1185,60 @@ function FriendListToggleAutoRefresh() {
 	ServerAccountUpdate.QueueData({ OnlineSettings: Player.OnlineSettings });
 }
 //#endregion
+
+//#region UTILITY FUNCTIONS
+/**
+ * Checks if the given member number is pending friend request.
+ * @param {number} memberNumber
+ * @returns {boolean}
+ */
+function FriendListIsPending(memberNumber) {
+	return !Player.FriendNames.has(memberNumber) &&
+	!Player.IsLoverOfMemberNumber(memberNumber) &&
+	!Player.IsOwnedByMemberNumber(memberNumber) ||
+		(
+			(Player.SubmissivesList.has(memberNumber) ||
+			Player.IsLoverOfMemberNumber(memberNumber) ||
+			Player.IsOwnedByMemberNumber(memberNumber)) &&
+			!Player.HasOnFriendlist(memberNumber)
+		);
+}
+
+/**
+ * Gets the relation type of the given member number.
+ * @param {number} memberNumber
+ * @returns {FriendListRelationType}
+ */
+function FriendListGetRelationType(memberNumber) {
+	if (Player.IsOwnedByMemberNumber(memberNumber)) return "Owner";
+	else if (Player.IsLoverOfMemberNumber(memberNumber)) return "Lover";
+	else if (Player.SubmissivesList.has(memberNumber)) return "Submissive";
+	else if (FriendListIsPending(memberNumber)) return "Pending";
+	else return "Friend";
+}
+
+/**
+ * Checks if the player can delete the given member number from their friendlist.
+ * @param {number} memberNumber
+ * @returns {boolean}
+ */
+function FriendListCanDelete(memberNumber) {
+	return Player.HasOnFriendlist(memberNumber) && !Player.IsOwnedByMemberNumber(memberNumber) && !Player.IsLoverOfMemberNumber(memberNumber);
+}
+
+/**
+ * Opens the friendlist from any screen
+ */
+async function FriendListShow() {
+	if (CurrentScreen === 'FriendList') return;
+	DialogLeave({ reload: false });
+	ElementToggleGeneratedElements(CurrentScreen, false);
+	FriendListReturn = {
+		Screen: CurrentScreen,
+		Module: CurrentModule,
+		IsInChatRoom: ServerPlayerIsInChatRoom(),
+		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
+	};
+	await CommonSetScreen("Character", "FriendList");
+}
+//#endregion UTILITY FUNCTIONS

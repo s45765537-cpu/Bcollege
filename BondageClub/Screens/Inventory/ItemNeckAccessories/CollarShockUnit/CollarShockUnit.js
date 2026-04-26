@@ -54,7 +54,7 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
 }
 
 /**
- * @typedef {{ ChangeTime?: number, DisplayCount?: number, LastTriggerCount?: number }} ShockUnitPersistentData
+ * @typedef {{ ChangeTime?: number, DisplayCount?: number, LastTriggerCount?: number } & AnimationPersistentData} ShockUnitPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, ShockUnitPersistentData>} */

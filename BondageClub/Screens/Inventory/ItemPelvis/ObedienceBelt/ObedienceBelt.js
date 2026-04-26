@@ -91,7 +91,7 @@ function AssetsItemPelvisObedienceBeltUpdate(data, LastTime) {
 }
 
 /**
- * @typedef {{ UpdateTime?: number, LastMessageLen?: number, CheckTime?: number }} ObedienceBeltPersistentData
+ * @typedef {{ UpdateTime?: number, LastMessageLen?: number, CheckTime?: number } & AnimationPersistentData} ObedienceBeltPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.ScriptDraw<ObedienceBeltPersistentData>} */

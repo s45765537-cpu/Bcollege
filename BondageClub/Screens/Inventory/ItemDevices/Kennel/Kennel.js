@@ -1,17 +1,17 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
- * @typedef {{ DoorState?: number, DrawRequested?: boolean, MustChange?: boolean, ChangeTime?: number }} KennelPersistentData
+ * @typedef {{ DoorState?: number, DrawRequested?: boolean, MustChange?: boolean, ChangeTime?: number } & AnimationPersistentData} KennelPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<KennelPersistentData>} */
-function AssetsItemDevicesKennelBeforeDraw({ PersistentData, L, Property }) {
-	if (L !== "Door") return;
+function AssetsItemDevicesKennelBeforeDraw(drawData) {
+	const { PersistentData, L, Property } = drawData;
+	if (L !== "Door") return drawData;
 
 	const Data = PersistentData();
-	const Properties = Property || {};
-	const Door = Properties.Door || false;
+	Data.DoorState ??= 0;
+	const Door = Property.Door || false;
 
 	if (Data.DoorState >= 11 || Data.DoorState <= 1) Data.MustChange = false;
 
@@ -21,6 +21,7 @@ function AssetsItemDevicesKennelBeforeDraw({ PersistentData, L, Property }) {
 		Data.DrawRequested = false;
 		if (Data.DoorState < 11 && Data.DoorState > 1) return { LayerType: "A" + Data.DoorState };
 	}
+	return drawData;
 }
 
 /** @type {ExtendedItemCallbacks.ScriptDraw<KennelPersistentData>} */
@@ -46,7 +47,7 @@ function AssetsItemDevicesKennelScriptDraw({ C, PersistentData, Item }) {
  * @returns {string}
  */
 function InventoryItemDevicesKennelGetAudio(C) {
-	let wasWorn = InventoryGet(C, "ItemDevices") && InventoryGet(C, "ItemDevices").Asset.Name === "Kennel";
+	let wasWorn = InventoryGet(C, "ItemDevices")?.Asset.Name === "Kennel";
 	let isSelf = C.IsPlayer();
 	return isSelf && wasWorn ? "CageStruggle" : "CageEquip";
 }

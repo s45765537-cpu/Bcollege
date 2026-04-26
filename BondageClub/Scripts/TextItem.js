@@ -101,6 +101,7 @@ function TextItemCreateTextItemData(asset, {
 
 	DialogPrefix = DialogPrefix || {};
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.TEXT : parentOption.Name);
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	return TextItemDataLookup[key] = {
 		archetype: ExtendedArchetype.TEXT,
@@ -308,7 +309,7 @@ const TextItem = {
 	/**
 	 * Usage AfterDraw: (...args) => TextItem.GenericTextDrawHook(...args, {Width: 128, Height: 128, XOffset: 0, YOffset: 10, drawOptions: { fontSize: 12 }})
 	 * @param {TextItemData} data
-	 * @param {((drawData: DynamicDrawingData<Record<string, unknown>>) => void) | null} originalFunction
+	 * @param {((drawData: DynamicDrawingData) => void) | null} originalFunction
 	 * @param {{C: Character; A: Asset; CA: Item; X: number; Y: number; Property: ItemProperties; drawCanvas: DrawCanvasCallback; drawCanvasBlink: DrawCanvasCallback; AlphaMasks: RectTuple[]; L: string; Color: string}} drawArgs
 	 * @param {{Width?: number; Height?: number; XOffset?: number; YOffset?: number; LayerName?: string; drawOptions?: DynamicDrawOptions;}} options
 	 */
@@ -353,7 +354,7 @@ const TextItem = {
 	/**
 	 * Is equivalent to GenericTextDrawHook but arc
 	 * @param {TextItemData} data
-	 * @param {((drawData: DynamicDrawingData<Record<string, unknown>>) => void) | null} originalFunction
+	 * @param {((drawData: DynamicDrawingData) => void) | null} originalFunction
 	 * @param {{C: Character; A: Asset; CA: Item; X: number; Y: number; Property: ItemProperties; drawCanvas: DrawCanvasCallback; drawCanvasBlink: DrawCanvasCallback; AlphaMasks: RectTuple[]; L: string; Color: string}} drawArgs
 	 * @param {{Width?: number; Height?: number; XOffset?: number; YOffset?: number; LayerName?: string; drawOptions?: DynamicDrawOptions;}} options
 	 */

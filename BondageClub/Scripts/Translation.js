@@ -1127,8 +1127,11 @@ function TranslationString(S, T) {
  */
 function TranslationDialogArray(C, T) {
 	for (let D = 0; D < C.Dialog.length; D++) {
-		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T);
-		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T);
+		const { Option, Result } = C.Dialog[D];
+		if (Option)
+			C.Dialog[D].Option = TranslationString(Option, T);
+		if (Result)
+			C.Dialog[D].Result = TranslationString(Result, T);
 	}
 }
 

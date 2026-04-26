@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData>} */
@@ -22,7 +21,7 @@ function AssetsBodyMarkingsBodyWritingsAfterDrawHook(data, originalFunction, {
 		width: Width,
 	};
 
-	switch (CA.Property.TypeRecord.s) {
+	switch (CA.Property?.TypeRecord?.s) {
 		case 0: // Print
 			drawOptions.fontFamily = "Ananda Black";
 			break;
@@ -85,10 +84,11 @@ function AssetsBodyMarkingsBodyWritingsAfterDrawHook(data, originalFunction, {
 	}
 
 	TextItem.Init(data, C, CA, false, false);
-	const [text1, text2, text3] = [CA.Property.Text, CA.Property.Text2, CA.Property.Text3];
+	const [text1, text2, text3] = [CA.Property.Text ?? "", CA.Property.Text2 ?? "", CA.Property.Text3 ?? ""];
 
 	// We draw the desired info on that canvas
 	const ctx = TempCanvas.getContext('2d');
+	if (!ctx) return;
 	DynamicDrawText(text1, ctx, Width / 2, Height / 2 - 10, drawOptions);
 	DynamicDrawText(text2, ctx, Width / 2, Height / 2, drawOptions);
 	DynamicDrawText(text3, ctx, Width / 2, Height / 2 + 10, drawOptions);

@@ -19,6 +19,12 @@ let TempCanvas;
 let ColorCanvas;
 
 var BlindFlash = false;
+
+/**
+ * Whether a blindfold removal screen flash should _potentially_ be performed the next time the player character is refreshed.
+ * Generally assigned by {@link InventoryRemove}.
+ */
+var BlindFlashQueue = false;
 var DrawingBlindFlashTimer = 0;
 
 // A bank of all the chached images
@@ -1085,9 +1091,10 @@ function DrawText(Text, X, Y, Color, BackColor) {
  * @param {null | string} [Image] - URL of the image to draw inside the button, if applicable
  * @param {null | string} [HoveringText] - Text of the tooltip, if applicable
  * @param {boolean} [Disabled] - Disables the hovering options if set to true
+ * @param {null | Rect} [tooltipPosition] - The position of the tooltip
  * @returns {void} - Nothing
  */
-function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, HoveringText=null, Disabled=false) {
+function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, HoveringText=null, Disabled=false, tooltipPosition=null) {
 
 	ControllerAddActiveArea(Left, Top);
 
@@ -1108,7 +1115,10 @@ function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, Hovering
 
 	// Draw the hovering text
 	if ((HoveringText != null) && (MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !CommonIsMobile && !CommonPhotoMode) {
-		DrawHoverElements.push(() => DrawButtonHover(Left, Top, Width, Height, HoveringText));
+		DrawHoverElements.push(() => {
+			const rect = tooltipPosition ?? RectMakeRect(Left, Top, Width, Height);
+			DrawButtonHover(...RectGetFrame(rect), HoveringText);
+		});
 	}
 }
 
@@ -1142,9 +1152,10 @@ function DrawCheckbox(Left, Top, Width, Height, Text, IsChecked, Disabled = fals
  * @param {null | (() => string)} [NextText] - Text for the next button tooltip
  * @param {boolean} [Disabled] - Disables the hovering options if set to true
  * @param {null | number} [ArrowWidth] - How much of the button the previous/next sections cover. By default, half each.
+ * @param {null | Rect} [tooltipPosition] - The position of the tooltip
  * @returns {void} - Nothing
  */
-function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image=null, BackText=null, NextText=null, Disabled=false, ArrowWidth=null) {
+function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image=null, BackText=null, NextText=null, Disabled=false, ArrowWidth=null, tooltipPosition=null) {
 	// Set the widths of the previous/next sections to be colored cyan when hovering over them
 	// By default each covers half the width, together covering the whole button
 	if (ArrowWidth == null || ArrowWidth > Width / 2) ArrowWidth = Width / 2;
@@ -1217,7 +1228,8 @@ function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image=null, 
 	if ((MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !Disabled) {
 		DrawHoverElements.push(() => {
 			const tooltip = MouseX < LeftSplit ? BackText() : MouseX >= RightSplit ? NextText() : "";
-			DrawButtonHover(Left, Top, Width, Height, tooltip);
+			const rect = tooltipPosition ?? RectMakeRect(Left, Top, Width, Height);
+			DrawButtonHover(...RectGetFrame(rect), tooltip);
 		});
 	}
 }

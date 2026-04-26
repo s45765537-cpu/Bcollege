@@ -39,22 +39,6 @@ textarea {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.NoSelect {
-	touch-action: manipulation;
-	/* iOS Safari */
-	-webkit-touch-callout: none;
-	/* Safari */
-	-webkit-user-select: none;
-	/* Konqueror HTML */
-	-khtml-user-select: none;
-	/* Old versions of Firefox */
-	-moz-user-select: none;
-	/* Internet Explorer/Edge */
-	-ms-user-select: none;
-	/* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-	user-select: none;
-}
-
 .custom-select {
 	/* Default background color */
 	--button-color: white;
@@ -80,6 +64,11 @@ input:invalid:not(:disabled):not(:read-only),
 select:invalid:not(:disabled):not(:read-only) {
 	background-color: #fbb;
 	box-shadow: 0 0 3px 2px #c22;
+}
+
+/* Disable datalist picker button in Chrome */
+input[type="search"]::-webkit-calendar-picker-indicator {
+	display: none !important;
 }
 
 /* Range Inputs - WebKit */
@@ -334,36 +323,6 @@ select:invalid:not(:disabled):not(:read-only) {
 
 .dropdown-checkbox-label {
 	padding-left: min(2vh, 1vw);
-}
-
-.truncated-text {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-}
-
-/* A scrollable container with a standardized-ish scrollbar layout */
-.scroll-box {
-	overflow: hidden auto;
-	scroll-padding: 3px;
-	scrollbar-gutter: stable;
-	scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-}
-
-@media (hover: hover) {
-	.scroll-box {
-		scrollbar-color: rgb(149, 149, 149, 0.9) rgb(0, 0, 0, 0.4);
-		transition: scrollbar-color 0.3s ease;
-	}
-
-	.scroll-box:hover {
-		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-	}
-}
-
-[hidden] {
-	display: none !important;
 }
 
 bc-tint-input {

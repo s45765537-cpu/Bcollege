@@ -377,7 +377,10 @@ function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOpti
 		eventListeners: {
 			...(selectOptions.eventListeners ?? {}),
 			change(ev) {
-				if (!this.validity) {
+				if (!this.matches(":focus-visible")) {
+					this.blur();
+				}
+				if (!this.validity.valid) {
 					ev.stopImmediatePropagation();
 					return;
 				}
@@ -849,7 +852,7 @@ function ElementCreateSearchInput(id, dataCallback, options=undefined, htmlOptio
 	return ElementCreate({
 		...htmlOptions.search,
 		tag: "input",
-		parent: options.parent,
+		parent: options.parent ?? document.body,
 		attributes: {
 			id,
 			type: "search",
@@ -959,46 +962,6 @@ var ElementButton = {
 		}
 	},
 
-	/**
-	 * @private
-	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
-	 */
-	_MouseDown: function _MouseDown(ev) {
-		// Prevent tooltips from handling any click-related actions intended for the button
-		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-			ev.stopImmediatePropagation();
-			ev.preventDefault();
-		}
-		const root = ElementGetRoot(this);
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		root.addEventListener("mouseup", ElementButton._MouseUp);
-	},
-
-	/**
-	 * @private
-	 * @type {(this: Document | ShadowRoot, ev: MouseEvent) => void}
-	 */
-	_MouseUp: function _MouseUp(ev) {
-		const activeElement = this.activeElement;
-		/** @type {null | HTMLButtonElement} */
-		const button = activeElement instanceof Element ? activeElement.closest("button.button") : null;
-		if (!button) {
-			return;
-		}
-
-		if (activeElement?.closest(".button-tooltip")) {
-			ev.stopImmediatePropagation();
-			return;
-		}
-
-		// Fix buttons not automatically losing focus after a click event
-		button.blur();
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		this.removeEventListener("mouseup", ElementButton._MouseUp);
-	},
-
 	_GetClickTouchListeners: function _GetClickTouchListeners() {
 		/** @type {null | number} */
 		let holdAndClickTimeoutID = null;
@@ -1017,11 +980,6 @@ var ElementButton = {
 
 		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
 		function touchstart(ev) {
-			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-				ev.stopImmediatePropagation();
-				return;
-			}
-
 			holdAndClick = false;
 			if (!this.disabled) {
 				holdAndClickTimeoutID ??= setTimeout(touchstartTimeout, 300, this, ev);
@@ -1038,26 +996,22 @@ var ElementButton = {
 
 		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
 		function touchend(ev) {
-			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-				ev.stopImmediatePropagation();
-				return;
-			}
-
-			if (!holdAndClick) {
-				this.blur();
-			} else {
+			if (holdAndClick) {
 				ev.preventDefault();
 			}
 		}
 
-		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		/** @type {(this: HTMLButtonElement, ev: PointerEvent) => void} */
 		function click(ev) {
-			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-				ev.stopImmediatePropagation();
-			} else if (holdAndClick) {
+			if (holdAndClick) {
 				ev.stopImmediatePropagation();
 				holdAndClick = false;
-			} else if (this.getAttribute("aria-disabled") === "true") {
+				return;
+			}
+			if (!this.matches(":focus-visible")) {
+				this.blur();
+			}
+			if (this.getAttribute("aria-disabled") === "true") {
 				this.dispatchEvent(new PointerEvent("bcClickDisabled", ev));
 				ev.stopImmediatePropagation();
 			}
@@ -1073,7 +1027,7 @@ var ElementButton = {
 			holdAndClick = false;
 		}
 
-		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		/** @type {(this: HTMLButtonElement, ev: PointerEvent) => void} */
 		function bcTouchHold(ev) {
 			this.focus({ preventScroll: true });
 			this.toggleAttribute("data-show-tooltip", true);
@@ -1354,7 +1308,7 @@ var ElementButton = {
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
 	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon | null | undefined)[]} [icons] - The (optional) list of icons
-	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [HTMLSpanElement, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
 		icons = icons?.filter(i => i != null);
@@ -1424,7 +1378,7 @@ var ElementButton = {
 				parent: iconGrid,
 			});
 		});
-		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), tooltip] };
+		return { iconGrid, tooltip: [ElementCreate({ tag: "span", children: [InterfaceTextGet("StatusAndEffects")] }), tooltip] };
 	},
 
 	/**
@@ -1625,7 +1579,6 @@ var ElementButton = {
 			eventListeners: {
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
-				mousedown: this._MouseDown,
 				bcClickDisabled: options.clickDisabled,
 				...this._GetClickTouchListeners(),
 			},
@@ -1861,7 +1814,7 @@ var ElementButton = {
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
 		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
-		/** @type {(InventoryIcon | null)[]} */
+		/** @type {(InventoryIcon | null | undefined)[]} */
 		const iconNamesNew = [
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
@@ -2176,32 +2129,15 @@ var ElementMenu = {
 var ElementCheckbox = {
 	/**
 	 * @private
-	 * @type {(this: HTMLInputElement, ev: PointerEvent) => void}
+	 * @type {(this: HTMLInputElement, ev: Event) => void}
 	 */
-	_pointerdown: function(ev) {
-		const root = ElementGetRoot(this);
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		root.addEventListener("pointerup", ElementCheckbox._pointerup);
-		// @ts-ignore Generic vs Specific Event
-		root.addEventListener("pointercancel", ElementCheckbox._pointerup);
-	},
-
-	/**
-	 * @private
-	 * @type {(this: Document | ShadowRoot, ev: PointerEvent) => void}
-	 */
-	_pointerup: function(ev) {
-		// Ensure that focus is lost after clicking
-		/** @type {null | HTMLInputElement} */
-		const input = this.activeElement?.closest("input.checkbox") ?? null;
-		input?.blur();
-
-		// FIXME: Switch to `setPointerCapture()` over document-level event listeners
-		// @ts-ignore Generic vs Specific Event
-		this.removeEventListener("pointerup", ElementCheckbox._pointerup);
-		// @ts-ignore Generic vs Specific Event
-		this.removeEventListener("pointercancel", ElementCheckbox._pointerup);
+	_change: function(ev) {
+		if (!this.matches(":focus-visible")) {
+			this.blur();
+		}
+		if (!this.validity.valid) {
+			ev.stopImmediatePropagation();
+		}
 	},
 
 	/**
@@ -2210,13 +2146,14 @@ var ElementCheckbox = {
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} [onChange] - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.Options} [options] - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} [htmlOptions] - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLInputElement}
 	 */
 	Create: function Create(id=undefined, onChange=undefined, options=undefined, htmlOptions=undefined) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
 			console.error(`Element "${id}" already exists`);
-			return checkbox;
+			return /** @type {HTMLInputElement} */(checkbox);
 		}
 
 		options ??= {};
@@ -2227,7 +2164,7 @@ var ElementCheckbox = {
 				break;
 		}
 
-		return ElementCreate({
+		const ret = ElementCreate({
 			...checkboxOptions,
 			tag: "input",
 			attributes: {
@@ -2242,11 +2179,14 @@ var ElementCheckbox = {
 			},
 			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
 			eventListeners: {
-				change: onChange ?? undefined,
-				pointerdown: ElementCheckbox._pointerdown,
+				change: ElementCheckbox._change,
 				...(checkboxOptions.eventListeners ?? {}),
 			},
 		});
+		if (onChange) {
+			ret.addEventListener("change", onChange);
+		}
+		return ret;
 	},
 
 	/**
@@ -2261,18 +2201,14 @@ var ElementCheckbox = {
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.LabelOptions} options - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLLabelElement}
 	 */
 	CreateLabelled: function CreateLabelled(id=null, label, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
 			console.error(`Element "${id}" already exists`);
-			return checkbox;
-		}
-
-		if (!label) {
-			console.error(`Missing label for checkbox "${id}"`);
-			return;
+			return /** @type {HTMLLabelElement} */(checkbox);
 		}
 
 		options ??= {};

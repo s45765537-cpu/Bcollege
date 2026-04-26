@@ -118,7 +118,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	 */
 	dataAttributes?: Partial<Record<string, number | string | boolean>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
-	style?: Record<string, string>;
+	style?: Record<string, string | undefined>;
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
 	eventListeners?: { [k in keyof HTMLElementEventMap]?: (this: HTMLElementTagNameMap[T], event: HTMLElementEventMap[k]) => any };
 	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
@@ -133,9 +133,9 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 
 interface HTMLElementEventMap {
 	/** Custom event fired by {@link ElementButton.Create} buttons whenever a click-event encounters `aria-disabled: "true"`. */
-	bcClickDisabled: MouseEvent;
+	bcClickDisabled: PointerEvent;
 	/** Custom event fired by {@link ElementButton.Create} buttons whenever a touch is hold for 300 ms. */
-	bcTouchHold: MouseEvent;
+	bcTouchHold: PointerEvent;
 }
 
 interface HTMLElementTagNameMap {
@@ -405,7 +405,7 @@ declare namespace DialogMenu {
 		/** Whether to hard reset and reconstruct the button grid, rather than just re-evaluating the existing button's states via a soft reset. */
 		reset?: boolean;
 		/** The to-be assigned custom status message */
-		status?: string;
+		status?: string | null;
 		/** Display the {@link ReloadOptions.status} message on a timer; units are in ms */
 		statusTimer?: number;
 		/**
@@ -1113,8 +1113,6 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	/** An object mapping pose names to group names from which to inherit body sizes. */
-	readonly ParentGroup: ParentGroup.Data;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
 	readonly IsDefault: boolean;
 	readonly IsRestraint: boolean;
@@ -1142,12 +1140,7 @@ interface AssetGroup {
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
 	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
-	readonly EditOpacity: boolean;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly DrawingPriority: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
@@ -1164,9 +1157,6 @@ interface AssetGroup {
 	readonly ArousalZone?: AssetGroupItemName;
 	readonly ArousalZoneID?: number;
 
-	/** A dict mapping colors to custom filename suffices.
-	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
-	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>>;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly HasPreviewImages: boolean;
 	/** Return whether this group belongs to the `Appearance` {@link AssetGroup.Category} */
@@ -1239,6 +1229,7 @@ interface AssetLayer {
 	readonly Priority: number;
 	readonly InheritColor: AssetGroupName | null;
 	readonly Alpha: readonly Alpha.Data[];
+	readonly FullAlpha: boolean;
 	/** The asset that this layer belongs to */
 	readonly Asset: Asset;
 	readonly DrawingLeft: TopLeft.Data;
@@ -1271,6 +1262,10 @@ interface AssetLayer {
 	readonly ShowForAttribute: readonly AssetAttribute[] | null;
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
 	readonly Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
+	/**
+	 * A dict mapping colors to custom filename suffices.
+	 * The "HEX_COLOR" key is special-cased to apply to all color hex codes.
+	 */
 	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>> | null;
 }
 
@@ -1314,8 +1309,6 @@ interface Asset {
 	readonly Description: string;
 	readonly Group: AssetGroup;
 	readonly ParentItem?: string;
-	/** An object mapping pose names to group names from which to inherit body sizes. */
-	readonly ParentGroup: ParentGroup.Data;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
 	readonly NotVisibleOnScreen?: readonly string[];
@@ -1340,6 +1333,7 @@ interface Asset {
 	readonly StyleOverride?: BodyStyle[];
 	readonly SupportedStyles?: BodyStyle[];
 	readonly CreateLayerTypesOverride?: number[];
+	// Only on BodyStyle
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;
 				Asset?: string;
@@ -1347,7 +1341,6 @@ interface Asset {
 				X?: number;
 				Y?: number;
 		}[];
-	readonly PoseMapping: Readonly<AssetPoseMapping>;
 	readonly AllowActivePose?: readonly AssetPoseName[];
 	readonly Value: number;
 	readonly NeverSell: boolean;
@@ -1361,12 +1354,13 @@ interface Asset {
 	readonly RemoveTime: number;
 	readonly RemoveTimer: number;
 	readonly MaxTimer: number;
-	readonly DrawingPriority?: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
+	/**
+	 * The height of the character as set in the special `Height` appearance group.
+	 *
+	 * Is represented by a number in the `[0.9, 1.0]` interval.
+	 */
 	readonly ZoomModifier: number;
-	readonly Alpha: null | readonly Alpha.Data[];
 	readonly Prerequisite: readonly AssetPrerequisite[];
 	readonly Extended: boolean;
 	readonly AlwaysExtend: boolean;
@@ -1389,9 +1383,6 @@ interface Asset {
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
 	 */
 	readonly DefaultColor: readonly BCColor[];
-	readonly Opacity: number;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly EditOpacity: boolean;
 	readonly Audio?: string;
 	readonly Category?: readonly AssetCategory[];
@@ -1437,13 +1428,31 @@ interface Asset {
 	readonly DefaultTint?: BCColor;
 	readonly Gender?: AssetGender;
 	readonly CraftGroup: string;
-	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>>;
-	readonly FullAlpha: boolean;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly AllowColorize: boolean;
 }
 
 //#endregion
+
+/** See {@link CharacterAppearanceGetCurrentValue} */
+interface CharacterAppearanceValues {
+	/** See {@link Asset.Name} */
+	Name: string;
+	/** See {@link Asset.Description} */
+	Description: string;
+	/** See {@link Asset.DefaultColor} and {@link Item.Color} */
+	Color: ItemColor;
+	/** The index within {@link Character.Apperance} */
+	ID: number;
+	/** See {@link Asset.Effect} */
+	Effect: readonly EffectName[];
+	/** The asset */
+	Asset: Asset;
+	/** The item */
+	Full: Item;
+	/** See {@link Asset.ZoomModifier} */
+	Zoom: number;
+}
 
 type ItemBundle = ServerItemBundle;
 
@@ -1723,7 +1732,10 @@ interface ScreenFunctions {
 // Note that most of them can still be undefined
 /** See {@link CommonTestSatisfies} */
 type ScreenFunctionsSymbols = Prettify<(
+	// Backgrounds
 	{ [key in `${RoomName}Background`]?: string }
+
+	// Screen functions
 	& { [key in `${RoomName}Run`]: ScreenRunHandler }
 	& { [key in `${RoomName}MouseDown`]?: MouseEventListener }
 	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
@@ -1738,6 +1750,20 @@ type ScreenFunctionsSymbols = Prettify<(
 	& { [key in `${RoomName}KeyUp`]?: KeyboardEventListener }
 	& { [key in `${RoomName}Paste`]?: ClipboardEventListener }
 	& { [key in `${RoomName}Exit`]?: ScreenExitHandler }
+
+	// Extended item functions (dynamically generated and assigned to `Window`)
+	& { [key in `Inventory${AssetGroupName}${string}Init`]?: ExtendedItemCallbacks.Init }
+	& { [key in `Inventory${AssetGroupName}${string}Load`]?: ExtendedItemCallbacks.Load }
+	& { [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }
+	& { [key in `Inventory${AssetGroupName}${string}Click`]?: ExtendedItemCallbacks.Click }
+	& { [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }
+	& { [key in `Inventory${AssetGroupName}${string}Validate`]?: ExtendedItemCallbacks.Validate }
+	& { [key in `Inventory${AssetGroupName}${string}PublishAction`]?: ExtendedItemCallbacks.PublishAction }
+	& { [key in `Inventory${AssetGroupName}${string}SetOption`]?: ExtendedItemCallbacks.SetOption }
+	& { [key in `Assets${AssetGroupName}${string}BeforeDraw`]?: ExtendedItemCallbacks.BeforeDraw }
+	& { [key in `Assets${AssetGroupName}${string}AfterDraw`]?: ExtendedItemCallbacks.AfterDraw }
+	& { [key in `Assets${AssetGroupName}${string}ScriptDraw`]?: ExtendedItemCallbacks.ScriptDraw }
+	& { [key in `Inventory${AssetGroupName}${string}NpcDialog`]?: (C: Character, Option: ExtendedItemOption, PreviousOption: ExtendedItemOption) => void }
 )>;
 interface Window extends ScreenFunctionsSymbols {}
 
@@ -1770,13 +1796,13 @@ type ScriptPermissions = Record<ScriptPermissionProperty, ScriptPermission>;
 
 interface DialogLine {
 	Stage: string;
-	NextStage: string;
-	Option: string;
-	Result: string;
-	Function: string;
-	Prerequisite: string;
-	Group: string;
-	Trait: string;
+	NextStage: string | null;
+	Option: string | null;
+	Result: string | null;
+	Function: string | null;
+	Prerequisite: string | null;
+	Group: string | null;
+	Trait: string | null;
 }
 
 interface DialogInfo<T extends ModuleType> {
@@ -2028,6 +2054,11 @@ interface Character {
 	HeightRatio: number;
 	HasHiddenItems: boolean;
 	SavedColors: HSVColor[];
+	/**
+	 * @private
+	 * The cached blind level; use {@link Character.GetBlindLevel} instead.
+	 */
+	_BlindLevel?: number;
 	GetBlindLevel: (eyesOnly?: boolean) => number;
 	GetBlurLevel: () => number;
 	IsLocked: () => boolean;
@@ -2045,8 +2076,8 @@ interface Character {
 	CanPickLocks: () => boolean;
 	IsEdged: () => boolean;
 	IsPlayer: () => this is PlayerCharacter;
-	get X(): number | null;
-	get Y(): number | null;
+	get X(): number;
+	get Y(): number;
 	set X(X: number);
 	set Y(Y: number);
 	get Position(): ChatRoomMapPos | null;
@@ -2084,19 +2115,19 @@ interface Character {
 	/**
 	 * Check if the player is ghosting the given target character (or member number)
 	 */
-	HasOnGhostlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	HasOnGhostlist: (this: PlayerCharacter, target: Character | number) => boolean;
 	/**
 	 * Check if the player is blacklisting the given target character (or member number)
 	 */
-	HasOnBlacklist: (target?: Character | number) => boolean;
+	HasOnBlacklist: (target: Character | number) => boolean;
 	/**
 	 * Check if the player is whitelisting the given target character (or member number)
 	 */
-	HasOnWhitelist: (target?: Character | number) => boolean;
+	HasOnWhitelist: (target: Character | number) => boolean;
 	/**
 	 * Check if the player is friend with the given target character (or member number)
 	 */
-	HasOnFriendlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	HasOnFriendlist: (this: PlayerCharacter, target: Character | number) => boolean;
 	/**
 	 * Check if this character is ghosted by the player
 	 */
@@ -2180,6 +2211,8 @@ interface CharacterOnlineSharedSettings {
 	ScriptPermissions: ScriptPermissions;
 	WheelFortune: string;
 }
+
+type NicknameStatus = "NicknameTooLong" | "NicknameTooShort" | "NicknameInvalidChars" | "NicknameLocked";
 
 type NPCArchetype =
 	/* Pandora NPCs */
@@ -2356,7 +2389,7 @@ interface PlayerCharacter extends Character {
 	GhostList: number[];
 	Wardrobe: (ItemBundle[] | null)[];
 	WardrobeCharacterNames: string[];
-	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
+	SavedExpressions: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	SavedColors: HSVColor[];
 	FriendList: number[];
 	FriendNames: Map<number, string>;
@@ -2528,10 +2561,6 @@ interface PlayerOnlineSettings {
 	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 	FriendListAutoRefresh: boolean;
 	DefaultChatRoomBackground: string;
-	/**
-	 * @deprecated
-	 */
-	SearchShowsFullRooms: never;
 }
 
 /** Pandora Player extension */
@@ -2841,7 +2870,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A non-empty message string if the item failed validation, or an empty string otherwise
 	 */
 	type Validate<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string>;
 	/**
 	 * Callback for extended item `PublishAction` functions.
@@ -2852,7 +2881,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param previousOption The previously selected extended item option
 	 */
 	type PublishAction<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType]>;
 	/**
 	 * Callback for extended item `Init` functions.
@@ -2874,7 +2903,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 */
 	type SetOption<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean, refresh: boolean]>;
 	/**
 	 * Callback for extended item `AfterDraw` functions.
@@ -2882,7 +2911,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param drawData The dynamic draw data
 	 */
 	type AfterDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -2891,7 +2920,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A record with any and all to-be overriden draw data
 	 */
 	type BeforeDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
@@ -2899,7 +2928,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param drawData The dynamic draw data
 	 */
 	type ScriptDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -3014,7 +3043,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type AfterDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -3026,7 +3055,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type BeforeDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
@@ -3037,7 +3066,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type ScriptDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -3070,9 +3099,9 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	/** A key uniquely identifying the asset */
 	key: string;
 	/** The common prefix used for all extended item functions associated with the asset */
-	functionPrefix: string;
+	functionPrefix: `Inventory${AssetGroupName}${string}`;
 	/** The common prefix used for all dynamic asset hook functions for the asset */
-	dynamicAssetsFunctionPrefix: string;
+	dynamicAssetsFunctionPrefix: `Assets${AssetGroupName}${string}`;
 	/** An array of the chat message tags that should be included in the item's chatroom messages. */
 	chatTags: CommonChatTags[];
 	/** Contains custom dictionary entries in the event that the base ones do not suffice. */
@@ -3872,6 +3901,9 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
+/** The {@link Window} type with all non-function values removed (though they may still be optional) */
+type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends Function ? k : never]: Window[k] };
+
 // #region Struggle Minigame
 
 type StruggleKnownMinigames = "Strength" | "Flexibility" | "Dexterity" | "Loosen" | "LockPick";
@@ -4242,7 +4274,7 @@ interface DynamicBeforeDrawOverrides {
 
 type DynamicDrawTextEffect = "burn";
 
-interface DynamicScriptCallbackData<T extends Record<string, any> = Record<string, unknown>> {
+interface DynamicScriptCallbackData<T extends AnimationPersistentData = AnimationPersistentData> {
 	C: Character;
 	Item: Item;
 	PersistentData: () => T;
@@ -4338,7 +4370,7 @@ declare namespace CraftingSlotsMode {
 		 * The tooltip content of the `mode-accept` button.
 		 *
 		 * Should contain a more extensive description of the relevant crafting mode (if so required; see {@link Result.heading}).
-		 * @default TextGet("ModeAcceptSlot")
+		 * @default undefined
 		 */
 		modeAcceptTooltip?: string | Node | readonly (string | Node)[];
 		/**
@@ -4347,7 +4379,7 @@ declare namespace CraftingSlotsMode {
 		 * If present, the button should serve a "accept all changes" type of role.
 		 *
 		 * If absent, disable the button.
-		 * @default null
+		 * @default undefined
 		 */
 		modeAcceptListener?: null | ((this: HTMLButtonElement, ev: PointerEvent) => void);
 		/**
@@ -4690,14 +4722,14 @@ interface ColorPickerInitOptions {
 	dispatch?: boolean;
 }
 
-//#end region
+// #end region
 
 // #region Log
 
 interface LogRecord {
 	Name: LogNameType[LogGroupType];
 	Group: LogGroupType;
-	Value: number;
+	Value: number | undefined;
 }
 
 /** The logging groups as supported by the {@link LogRecord.Group} */
@@ -4779,6 +4811,7 @@ interface LogNameType {
 	SlaveMarket: "Auctioned",
 	Trainer: "JoinedStable",
 	TrainerExam: "JoinedStable",
+	Disclaimer: "Accepted",
 }
 
 // #end region
@@ -4788,7 +4821,7 @@ interface LogNameType {
 interface FavoriteState {
 	TargetFavorite: boolean;
 	PlayerFavorite: boolean;
-	Icon: FavoriteIcon;
+	Icon?: FavoriteIcon;
 	UsableOrder: DialogSortOrder;
 	UnusableOrder: DialogSortOrder;
 }
@@ -4885,9 +4918,9 @@ interface ArousalSettingsType {
 	Activity: string;
 	Zone: string;
 	Fetish: string;
-	OrgasmTimer?: number;
-	OrgasmStage?: 0 | 1 | 2;
-	OrgasmCount?: number;
+	OrgasmTimer: number;
+	OrgasmStage: 0 | 1 | 2;
+	OrgasmCount: number;
 	DisableAdvancedVibes: boolean;
 }
 

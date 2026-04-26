@@ -71,6 +71,7 @@ function NoArchCreateNoArchItemData(asset, {
 	Name,
 }, parentOption=null) {
 	DialogPrefix = DialogPrefix || {};
+	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : parentOption.Name}`;
 	return NoArchItemDataLookup[key] = {
 		archetype: ExtendedArchetype.NOARCH,

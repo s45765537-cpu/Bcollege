@@ -196,6 +196,9 @@ ClothBusinessSuitTie,Tie
 ClothButtonShirtBottom,Lower Gradient
 ClothButtonShirtButtons,Buttons
 ClothButtonShirtTop,Upper Gradient
+ClothCasualDroppedSuitbase,base
+ClothCasualDroppedSuitplain,plain
+ClothCasualDroppedSuitshadow,shadow
 ClothCheerleaderTopBase,Top
 ClothCheerleaderTopInnerstrips,Inner Trim
 ClothCheerleaderTopStraps,Trim
@@ -260,6 +263,12 @@ ClothLatexHobbleDressBelt,Lower Belts
 ClothLatexHobbleDressBBuckles,Lower Belt Buckles
 ClothLatexHobbleDressCollar,Collar
 ClothLatexHobbleDressCBuckle,Collar Buckle
+ClothLittleFormalShirtButtons,Buttons
+ClothLittleFormalShirtLShoulder,L. Shoulder
+ClothLittleFormalShirtLWaist,L. Waist
+ClothLittleFormalShirtRShoulder,R. Shoulder
+ClothLittleFormalShirtRWaist,R. Waist
+ClothLittleFormalShirtTie1,Tie
 ClothLolitaShortDressChest1,Chest
 ClothLolitaShortDressChest2,Chest
 ClothLolitaShortDressChestStrap1,Chest Strap
@@ -318,6 +327,22 @@ ClothLowerSlitColumnSkirtTopGloss,Top Gloss
 ClothLowerSlitColumnSkirtTopHighlight,Top Highlight
 ClothLowerSlitColumnSkirtTopSkirt,Top Skirt
 ClothLowerSlitColumnSkirtTopZipper,Top Zipper
+ClothLowerSuspenderPantsLeft_A0,Left_A0
+ClothLowerSuspenderPantsLeft_A1,Left_A1
+ClothLowerSuspenderPantsLeft_B1,Left_B1
+ClothLowerSuspenderPantsLeft_B2,Left_B2
+ClothLowerSuspenderPantsLeft_C1,Left_C1
+ClothLowerSuspenderPantsLeft_C2,Left_C2
+ClothLowerSuspenderPantsLeft_C3,Left_C3
+ClothLowerSuspenderPantsLeft_C4,Left_C4
+ClothLowerSuspenderPantsRight_A0,Right_A0
+ClothLowerSuspenderPantsRight_A1,Right_A1
+ClothLowerSuspenderPantsRight_B1,Right_B1
+ClothLowerSuspenderPantsRight_B2,Right_B2
+ClothLowerSuspenderPantsRight_C1,Right_C1
+ClothLowerSuspenderPantsRight_C2,Right_C2
+ClothLowerSuspenderPantsRight_C3,Right_C3
+ClothLowerSuspenderPantsRight_C4,Right_C4
 ClothLowerWoolenHighWaistSkirtBottom,Bottom
 ClothLowerWoolenHighWaistSkirtButtons,Buttons
 ClothLowerWoolenHighWaistSkirtTop,Top
@@ -365,6 +390,12 @@ ClothRuffledDressCorsetLeft,Corset Left
 ClothRuffledDressCorsetRight,Corset Right
 ClothRuffledDressLaceTrim,Lace Trim
 ClothRuffledDressSkirt,Skirt
+ClothStarryOceanEveningGown1,Fabric
+ClothStarryOceanEveningGown2,Crown
+ClothStarryOceanEveningGown3,Top Laces
+ClothStarryOceanEveningGown4,Bottom Laces
+ClothStarryOceanEveningGownI0,Front
+ClothStarryOceanEveningGownI1,Back
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
@@ -870,6 +901,9 @@ HairAccessory1CustomizableCowEarsBigRing1Left,BigRing1 Left
 HairAccessory1CustomizableCowEarsBigRing1Right,BigRing1 Right
 HairAccessory1CustomizableCowEarsBigRing2Left,BigRing2 Left
 HairAccessory1CustomizableCowEarsBigRing2Right,BigRing2 Right
+HairAccessory1WingedHeadpieceW1,Wings
+HairAccessory1WingedHeadpieceW2,Tails
+HairAccessory1WingedHeadpieceW3,Button
 HairAccessory2BunnyEars2Inner,Inner
 HairAccessory2BunnyEars2Outer,Outer
 HairAccessory2FoxEars2Inner,Inner Ear
@@ -1228,6 +1262,19 @@ HatVintageHatRibbon,Ribbon
 HatVintageHatInside,Inside
 HatWitchHat1Band,Band
 HatWitchHat1Hat,Hat
+HatJesterHatLeft,Hat Body (Left)
+HatJesterHatRight,Hat Body (Right)
+HatJesterHatTop,Hat Body (Top)
+HatJesterHatCrown,Crown
+HatJesterHatBellLeft,Bell (Left)
+HatJesterHatBellRight,Bell (Right)
+HatJesterHatBellTop,Bell (Top)
+HatJesterHatStripesLeft,Stripes (Left)
+HatJesterHatStripesRight,Stripes (Right)
+HatJesterHatStripesTop,Stripes (Top)
+HatJesterHatDotsLeft,Dots (Left)
+HatJesterHatDotsRight,Dots (Right)
+HatJesterHatDotsTop,Dots (Top)
 ItemAddonCeilingNeckCuffCuff,Metal cuff
 ItemAddonCeilingNeckCuffLock,Padlock
 ItemAddonCoversInner,Inner
@@ -1804,6 +1851,10 @@ ItemHandheldAnimeGirlWandDetail2,Spheres
 ItemHandheldAnimeGirlWandSwitch,Power switch
 ItemHandheldBunPlushBase1,Base
 ItemHandheldBunPlushBase2,Accent
+ItemHandheldChocolateAluminumFoil,Aluminum Foil
+ItemHandheldChocolateChocolateBar,Chocolate Bar
+ItemHandheldChocolateGoldTicket,Gold Ticket
+ItemHandheldChocolateWrappingPaper,Wrapping Paper
 ItemHandheldCigaretteSmoke,Smoke
 ItemHandheldCigaretteLit,Lit
 ItemHandheldCigaretteFilter,Filter
@@ -1819,6 +1870,18 @@ ItemHandheldDragonPlushGemsColor,Gems Color
 ItemHandheldDragonPlushEyesMainColor,Eyes Main Color
 ItemHandheldDragonPlushEyesGlowColor,Eyes Glow Color
 ItemHandheldDragonPlushShadows,Shadows
+ItemHandheldElectricGuitarA1,Hip
+ItemHandheldElectricGuitarA2,Shoulder
+ItemHandheldElectricGuitarA3,Strap Button
+ItemHandheldElectricGuitarB1,Wood body
+ItemHandheldElectricGuitarB2,B2
+ItemHandheldElectricGuitarB3,Plastic body
+ItemHandheldElectricGuitarB4,Chords
+ItemHandheldElectricGuitarB5,Pickups
+ItemHandheldElectricGuitarB6,Borders
+ItemHandheldElectricGuitarB7,Tuners
+ItemHandheldElectricGuitarB8,Frets
+ItemHandheldElectricGuitarB9,B9
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
 ItemHandheldGiftBoxBox,Box
@@ -2953,6 +3016,8 @@ ItemNipplesTapedVibeEggsEgg1,Left Vibe Egg
 ItemNipplesTapedVibeEggsEgg2,Right Vibe Egg
 ItemNipplesTapedVibeEggsTape1,Left Tape Strip
 ItemNipplesTapedVibeEggsTape2,Right Tape Strip
+ItemNipplesXmasBellBell,Bell
+ItemNipplesXmasBellBow,Bow
 ItemNoseNoseClipClip,Clip
 ItemNoseNoseClipRod,Rod
 ItemNoseNoseClipSkin,Nose

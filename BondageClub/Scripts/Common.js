@@ -106,7 +106,7 @@ function CommonGetFormatDate() {
  * @returns {boolean} - Returns TRUE if the user is on a mobile browser
  */
 function CommonDetectMobile() {
-	return globalThis.matchMedia("(hover: none)").matches;
+	return globalThis.matchMedia("(pointer: coarse)").matches;
 }
 
 /**
@@ -407,7 +407,7 @@ function CommonDynamicFunction(FunctionName) {
 /**
  * Calls a dynamic function with parameters (if it exists), also allow ! in front to reverse the result. The dynamic function is the provided function name in the dialog option object and it is prefixed by the current screen.
  * @param {string} FunctionName - Function name to call dynamically
- * @returns {unknown | boolean} - Returns what the dynamic function returns or FALSE if the function does not exist
+ * @returns {unknown} - Returns what the dynamic function returns, or throws if it can't be called
  */
 function CommonDynamicFunctionParams(FunctionName) {
 
@@ -424,23 +424,21 @@ function CommonDynamicFunctionParams(FunctionName) {
 	for (let P = 0; P < Params.length; P++)
 		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
-	if ((FunctionName.indexOf("Dialog") != 0) && (FunctionName.indexOf("Inventory") != 0) && (FunctionName.indexOf(CurrentScreen) != 0)) FunctionName = CurrentScreen + FunctionName;
+	if (["Dialog", "Inventory", CurrentScreen].every(s => !FunctionName.startsWith(s))) {
+		FunctionName = CurrentScreen + FunctionName;
+	}
 
 	// If it's really a function, we continue
 	/** @type {Record<string, any>} */
 	const namespace = window;
 	const func = namespace[FunctionName];
-	if (typeof func === "function") {
-
-		// Launches the function with the params and returns the result
-		const res = func(...Params);
-		return Reverse ? !res : res;
-	} else {
-
-		// Log the error in the console
-		console.log("Trying to launch invalid function: " + FunctionName);
-		return false;
+	if (typeof func !== "function") {
+		throw new Error("CommonDynamicFunctionParams: Invalid function name: " + FunctionName);
 	}
+
+	// Launches the function with the params and returns the result
+	const res = func(...Params);
+	return Reverse ? !res : res;
 }
 
 
@@ -449,33 +447,36 @@ function CommonDynamicFunctionParams(FunctionName) {
  *  CommonDynamicFunctionParams in that arguments are not parsed from the passed in FunctionName string, but
  *  passed directly into the function call, allowing for more complex JS objects to be passed in. This
  *  function will not log to console if the provided function name does not exist as a global function.
- * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
- * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
+ * @template {keyof WindowFunctions} T
+ * @param {T} FunctionName - The name of the global function to call
+ * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
+ * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByName(FunctionName, ...args) {
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	const func = namespace[FunctionName];
+	const func = window[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
+	} else {
+		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
+		return undefined;
 	}
 }
 
 /**
  * Behaves exactly like CommonCallFunctionByName, but logs a warning if the function name is invalid.
- * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
- * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
+ * @template {keyof WindowFunctions} T
+ * @param {T} FunctionName - The name of the global function to call
+ * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
+ * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByNameWarn(FunctionName, ...args) {
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	const func = namespace[FunctionName];
+	const func = window[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
 		console.warn(`Attempted to call invalid function "${FunctionName}"`);
+		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
+		return undefined;
 	}
 }
 
@@ -1792,7 +1793,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			root.activeElement === null
 			|| root.activeElement === document.body
-			|| root.activeElement.id === "MainCanvas"
 			|| root.activeElement instanceof HTMLDialogElement
 		);
 
@@ -1834,7 +1834,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			activeElement === null
 			|| activeElement === document.body
-			|| activeElement.id === "MainCanvas"
 			|| activeElement instanceof HTMLDialogElement
 		);
 
@@ -1881,7 +1880,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			activeElement === null
 			|| activeElement === document.body
-			|| activeElement.id === "MainCanvas"
 			|| activeElement instanceof HTMLDialogElement
 		);
 
@@ -2538,6 +2536,7 @@ function CommonTestSatisfies() {
 	const foo = {
 		/** @type {{ [key in `${RoomName}Background`]?: string }} */
 		Background: globalThis,
+
 		/** @type {{ [key in `${RoomName}Run`]: ScreenRunHandler }} */
 		Run: globalThis,
 		/** @type {{ [key in `${RoomName}MouseDown`]?: MouseEventListener }} */
@@ -2566,6 +2565,31 @@ function CommonTestSatisfies() {
 		Paste: globalThis,
 		/** @type {{ [key in `${RoomName}Exit`]?: ScreenExitHandler }} */
 		Exit: globalThis,
+
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Init`]?: ExtendedItemCallbacks.Init }} */
+		ExtendedItemInit: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Load`]?: ExtendedItemCallbacks.Load }} */
+		ExtendedItemLoad: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }} */
+		ExtendedItemDraw: globalThis,
+		/** @type {{ [key in `Inventor${AssetGroupName}y${string}Click`]?: ExtendedItemCallbacks.Click }} */
+		ExtendedItemClick: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }} */
+		ExtendedItemExit: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}Validate`]?: ExtendedItemCallbacks.Validate }} */
+		ExtendedItemValidate: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}PublishAction`]?: ExtendedItemCallbacks.PublishAction }} */
+		ExtendedItemPublishAction: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}SetOption`]?: ExtendedItemCallbacks.SetOption }} */
+		ExtendedItemSetOption: globalThis,
+		/** @type {{ [key in `Assets${AssetGroupName}${string}BeforeDraw`]?: ExtendedItemCallbacks.BeforeDraw }} */
+		ExtendedItemBeforeDraw: globalThis,
+		/** @type {{ [key in `Assets${AssetGroupName}${string}AfterDraw`]?: ExtendedItemCallbacks.AfterDraw }} */
+		ExtendedItemAfterDraw: globalThis,
+		/** @type {{ [key in `Assets${AssetGroupName}${string}ScriptDraw`]?: ExtendedItemCallbacks.ScriptDraw }} */
+		ExtendedItemScriptDraw: globalThis,
+		/** @type {{ [key in `Inventory${AssetGroupName}${string}NpcDialog`]?: (C: Character, Option: ExtendedItemOption, PreviousOption: ExtendedItemOption) => void }} */
+		ExtendedItemNpcDialog: globalThis,
 	};
 }
 

@@ -242,6 +242,42 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // NunHabit
+		JesterHat: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "LeftPart",
+					Key: "l",
+					Options: [
+						{}, // 0 - No style
+						{}, // 1 - Stripes
+						{}, // 2 - Dots
+						{}, // 3 - Stripes & Dots
+					],
+				},
+				{
+					Name: "TopPart",
+					Key: "t",
+					Options: [
+						{}, // 0 - No style
+						{}, // 1 - Stripes
+						{}, // 2 - Dots
+						{}, // 3 - Stripes & Dots
+					],
+				},
+				{
+					Name: "RightPart",
+					Key: "r",
+					Options: [
+						{}, // 0 - No style
+						{}, // 1 - Stripes
+						{}, // 2 - Dots
+						{}, // 3 - Stripes & Dots
+					],
+				},
+			],
+		}, // JesterHat
 		PirateHat: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatTags: [
@@ -1072,7 +1108,50 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Default" }, { Name: "Transparent" }],
 		}, // AllureSidecut
+		LittleFormalShirt: {
+			Archetype: "modular",
+			Modules: [{ Name: "Tie", Key: "t", Options: [{}, {}] }],
+		}, // LittleFormalShirt
+		StarryOceanEveningGown: {
+			Archetype: "modular",
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Mirror",
+					Key: "M",
+					Options: [{}, { DrawOptions: { Mirror: true } }],
+				},
+			],
+		}, // StarryOceanEveningGown
+		CasualDroppedSuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{ Name: "Color", Key: "typed", Options: [{}, {}] },
+				{
+					Name: "Side",
+					Key: "M",
+					Options: [{}, { DrawOptions: { Mirror: true } }],
+				},
+			],
+		}, // CasualDroppedSuit
 	}, // Cloth
+	Decals: {
+		MissMariasManor: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Default",
+				},
+				{
+					Name: "Version2",
+				},
+				{
+					Name: "Version3",
+				},
+			],
+		},
+	}, // Decals
 	BodyMarkings: {
 		WombTattoos: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -19266,8 +19345,8 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { ShowText: true },
 			ScriptHooks: {
 				SetOption: InventoryItemPelvisLoveChastityBeltSetOptionHook,
-				Draw: InventoryItemPelvisLoveChastityBeltDraw,
-				Validate: InventoryItemPelvisLoveChastityBeltValidate,
+				Draw: InventoryItemPelvisLoveChastityBeltDrawHook,
+				Validate: InventoryItemPelvisLoveChastityBeltValidateHook,
 				Click: (...args) => {
 					InventoryItemPelvisSciFiPleasurePantiesClickHook(...args, false);
 				},
@@ -19285,7 +19364,7 @@ var AssetFemale3DCGExtended = {
 				Draw: InventoryItemPelvisFuturisticTrainingBeltDrawHook,
 				Exit: InventoryItemPelvisFuturisticTrainingBeltExitHook,
 				Validate: FuturisticAccessValidate,
-				ScriptDraw: AssetsItemPelvisFuturisticTrainingBeltScriptDraw,
+				ScriptDraw: AssetsItemPelvisFuturisticTrainingBeltScriptDrawHook,
 			},
 			BaselineProperty: {
 				ShowText: false,
@@ -22559,6 +22638,15 @@ var AssetFemale3DCGExtended = {
 						{}, // Psyker
 						{}, // Dante
 						{}, // Sarah Jade Kelly
+						{}, // Wolfie
+						{}, // Vi
+						{}, // Neddle
+						{}, // Mist
+						{}, // Milim
+						{}, // Lisa3
+						{}, // Kirumi
+						{}, // AlexCarameii
+						{}, // KatrinaThunder
 					],
 					DrawData: {
 						elementData: [
@@ -22613,6 +22701,35 @@ var AssetFemale3DCGExtended = {
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushie_SarahJadeKelly.png",
 							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Wolfie.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Vi.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Neddle.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mist.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Milim.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lisa3.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Kirumi.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_AlexCarameii.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_KatrinaThunder.png",
+							},
 						],
 					},
 				},
@@ -22632,6 +22749,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Amy
 						{}, // Arelia
 						{}, // Dawn
+						{}, // Bella
 					],
 					DrawData: {
 						elementData: [
@@ -22656,6 +22774,7 @@ var AssetFemale3DCGExtended = {
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Arelia.png",
 							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Dawn.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Bella.png" },
 						],
 					},
 				},
@@ -22725,11 +22844,17 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{}, // off
 						{}, // Nel
+						{}, // Fallen
+						{}, // Reina
 					],
 					DrawData: {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Nel.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Fallen.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Reina.png" },
 						],
 					},
 				},
@@ -22835,6 +22960,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DragonPlush
+		Chocolate: {
+			Archetype: "modular",
+			DrawImages: false,
+			Modules: [{ Name: "Type", Key: "p", Options: [{}, {}, {}, {}] }],
+		}, // Chocolate
 	}, // ItemHandheld
 	EyeShadow: {
 		Running: {

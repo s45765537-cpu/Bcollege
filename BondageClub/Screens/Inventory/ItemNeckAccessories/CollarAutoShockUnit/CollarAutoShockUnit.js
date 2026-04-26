@@ -44,7 +44,7 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook(Data, Original
 }
 
 /**
- * @typedef {{ ChangeTime?: number, LastMessageLen?: number }} AutoShockUnitPersistentData
+ * @typedef {{ ChangeTime?: number, LastMessageLen?: number } & AnimationPersistentData} AutoShockUnitPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, AutoShockUnitPersistentData>} */

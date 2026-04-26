@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var AudioDialog = new Audio();
 
@@ -588,11 +587,11 @@ function AudioPlaySoundForChatMessage(data, sender, msg, metadata) {
 	if (!data || !sender || !metadata || !["Activity", "Action", "ServerMessage"].includes(data.Type))
 		return false;
 
-	if (AudioShouldSilenceSound(ChatRoomMessageInvolvesPlayer(data))) return;
+	if (AudioShouldSilenceSound(ChatRoomMessageInvolvesPlayer(data))) return false;
 
 	// Instant actions can trigger a sound depending on the action.
 	let Action = AudioActions.find(CA => CA.IsAction && CA.IsAction(data));
-	/** @type AudioSoundEffect */
+	/** @type {AudioSoundEffect | null} */
 	let soundEffect = null;
 	if (Action) {
 		let snd = Action.GetSoundEffect(data, metadata);
@@ -616,7 +615,7 @@ function AudioPlaySoundForChatMessage(data, sender, msg, metadata) {
 
 /**
  * Low-level function to play a sound effect.
- * @param {AudioSoundEffect|string} soundEffect
+ * @param {AudioSoundEffect|string|null} soundEffect
  * @param {number} [volumeModifier]
  * @returns {boolean} if a sound was played or not.
  */
@@ -657,7 +656,7 @@ function AudioPlaySoundEffect(soundEffect, volumeModifier) {
  * @returns {boolean} Whether a sound was played.
  */
 function AudioPlaySoundForAsset(character, asset) {
-	if (AudioShouldSilenceSound()) return;
+	if (AudioShouldSilenceSound()) return false;
 
 	let sound = AudioGetSoundFromAsset(character, asset.Group.Name, asset.Name);
 	return AudioPlaySoundEffect(sound, 0);
@@ -669,7 +668,7 @@ function AudioPlaySoundForAsset(character, asset) {
  * @param {Character} character
  * @param {AssetGroupName} groupName
  * @param {string} assetName
- * @returns {AudioSoundEffect?}
+ * @returns {AudioSoundEffect | null}
  */
 function AudioGetSoundFromAsset(character, groupName, assetName) {
 	let asset = AssetGet(character.AssetFamily, groupName, assetName);
@@ -680,7 +679,7 @@ function AudioGetSoundFromAsset(character, groupName, assetName) {
 		sound = asset.DynamicAudio(character);
 	}
 
-	return [sound, 0];
+	return sound ? [sound, 0] : null;
 }
 
 /**
@@ -702,7 +701,7 @@ function AudioGetFileName(sound) {
  * Processes which sound should be played for items
  * @param {ServerChatRoomMessage} data - Data content triggering the potential sound
  * @param {IChatRoomMessageMetadata} metadata - The chat message metadata
- * @returns {AudioSoundEffect | undefined} - The name of the sound to play, followed by the noise modifier
+ * @returns {AudioSoundEffect | null} - The name of the sound to play, followed by the noise modifier
  */
 function AudioGetSoundFromChatMessage(data, metadata) {
 	const sender = metadata.SourceCharacter;
@@ -710,34 +709,35 @@ function AudioGetSoundFromChatMessage(data, metadata) {
 
 	if (data.Type === "Activity" && metadata.ActivityAsset) {
 		let item = InventoryGet(sender, metadata.ActivityAsset.Group.Name);
-		if (!item || item.Asset.Name !== metadata.ActivityAsset.Name) return;
+		if (!item || item.Asset.Name !== metadata.ActivityAsset.Name) return null;
 
 		// Workaround for the shock remote; select the item on the target instead
-		if (item.Asset.Name === "ShockRemote" && metadata.FocusGroup) {
+		if (item.Asset.Name === "ShockRemote" && metadata.FocusGroup && metadata.TargetCharacter) {
 			item = InventoryGet(metadata.TargetCharacter, metadata.FocusGroup.Name);
 		}
 
-		if (!item || !item.Asset.ActivityAudio) return;
+		if (!item || !item.Asset.ActivityAudio) return null;
 
-		const idx = item.Asset.AllowActivity.findIndex(a => a === metadata.ActivityName);
+		const idx = item.Asset.AllowActivity?.findIndex(a => a === metadata.ActivityName) ?? -1;
 		const soundEffect = item.Asset.ActivityAudio[idx];
 
-		if (!soundEffect) return;
+		if (!soundEffect) return null;
 
 		return [soundEffect, 0];
 	} else if (data.Type === "Action") {
 		const NextAsset = metadata.Assets && metadata.Assets.NextAsset;
-		if (!NextAsset) return;
+		if (!NextAsset) return null;
 
 		return AudioGetSoundFromAsset(sender, NextAsset.Group.Name, NextAsset.Name);
 	}
+	return null;
 }
 
 /**
  * Processes the sound for vibrators
  * @param {ServerChatRoomMessage} data - Represents the chat message received
  * @param {IChatRoomMessageMetadata} metadata - The metadata from the recieved message
- * @returns {[string, number]} - The name of the sound to play, followed by the noise modifier
+ * @returns {[string, number] | null} - The name of the sound to play, followed by the noise modifier
  */
 function AudioVibratorSounds(data, metadata) {
 	var Sound = "";

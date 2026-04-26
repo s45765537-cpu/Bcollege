@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -13,13 +12,14 @@ function AssetsItemDevicesPetBowlAfterDrawHook(data, originalFunction,
 		// Fetch the text property and assert that it matches the character
 		// and length requirements
 		TextItem.Init(data, C, CA, false, false);
-		const text = CA.Property.Text;
+		const text = CA.Property?.Text ?? "";
 
 		// Prepare a temporary canvas to draw the text to
 		const height = 60;
 		const width = 130;
 		const tempCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tempCanvas.getContext("2d");
+		if (!ctx) return;
 
 		// Reposition and orient the text when hanging upside-down
 		if (C.IsInverted()) {

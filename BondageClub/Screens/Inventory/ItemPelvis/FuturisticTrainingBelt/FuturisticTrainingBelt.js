@@ -680,11 +680,11 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptStateMachine(data, drawData
 }
 
 /**
- * @typedef {{ UpdateTime?: number, LastMessageLen?: number, CheckTime?: number, DeviceState?: number, DeviceStateTimer?: number, DeviceVibeMode?: VibratorMode }} FuturisticTrainingBeltPersistentData
+ * @typedef {{ UpdateTime?: number, LastMessageLen?: number, CheckTime?: number, DeviceState?: number, DeviceStateTimer?: number, DeviceVibeMode?: VibratorMode } & AnimationPersistentData} FuturisticTrainingBeltPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<VibratingItemData, FuturisticTrainingBeltPersistentData>} */
-function AssetsItemPelvisFuturisticTrainingBeltScriptDraw(data, originalFunction, drawData) {
+function AssetsItemPelvisFuturisticTrainingBeltScriptDrawHook(data, originalFunction, drawData) {
 	var persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
 	const property = (drawData.Item.Property = drawData.Item.Property || {});

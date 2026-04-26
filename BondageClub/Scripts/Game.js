@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R126";
+var GameVersion = "R127";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -51,10 +51,6 @@ function GameStart() {
 		// Canvas is already initialized by index.html; this code path should _never_ occur
 		throw new Error("Canvas is null");
 	}
-	canvas.tabIndex = 1000;
-
-	canvas.addEventListener("keydown", (e) => GameKeyDown(e));
-	canvas.addEventListener("keyup", (e) => GameKeyUp(e));
 
 	canvas.addEventListener("wheel", (e) => GameMouseWheel(e));
 
@@ -218,8 +214,12 @@ function GameKeyDown(event) {
 		}
 
 		if (CommonKey.IsPressed(event, "Escape")) {
-			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
+			if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
 				document.activeElement.blur();
+				handled = true;
+				break handleKeyDown;
+			} else if (CurrentCharacter) {
+				DialogMenuBack();
 				handled = true;
 				break handleKeyDown;
 			} else {

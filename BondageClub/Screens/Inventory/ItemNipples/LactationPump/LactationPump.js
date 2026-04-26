@@ -1,11 +1,7 @@
 // @ts-strict-ignore
 "use strict";
 
-/**
- * @typedef LactationPumpPersistentData
- * @property {number} [LastSuction]
- * @property {number} [SuctionDuration]
- */
+/** @typedef {{ LastSuction?: number, SuctionDuration?: number } & AnimationPersistentData} LactationPumpPersistentData */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<LactationPumpPersistentData>} */
 function AssetsItemNipplesLactationPumpBeforeDraw(data) {

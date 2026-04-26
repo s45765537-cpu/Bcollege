@@ -144,6 +144,7 @@ let KDDefaultKB = {
 };
 
 let KinkyDungeonRootDirectory = "Screens/MiniGame/KinkyDungeon/";
+/** @type {Character} */
 let KinkyDungeonPlayerCharacter = null; // Other player object
 let KinkyDungeonGameData = null; // Data sent by other player
 let KinkyDungeonGameDataNullTimer = 4000; // If data is null, we query this often
@@ -836,9 +837,9 @@ function KinkyDungeonRun() {
 	// Normally we don't override right click on websites but this is a game
 	if (!CommonIsMobile)
 		document.addEventListener('contextmenu', event => {
-			if (CommonIsMobile || document.activeElement?.id != "MainCanvas") {
+			if (CommonIsMobile) {
 				// Nothing!!
-			} else {
+			} else if (document.activeElement === null || document.activeElement === document.body) {
 				event.preventDefault();
 				let code = KinkyDungeonKeySkip[0];
 				if (!KinkyDungeonKeybindingCurrentKey) {

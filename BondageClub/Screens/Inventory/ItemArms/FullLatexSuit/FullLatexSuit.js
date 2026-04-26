@@ -1,10 +1,10 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
 function InventoryItemArmsFullLatexSuitDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
 	const C = CharacterGetCurrent();
+	if (!C) return;
 	const CanEquip = InventoryGet(C, "ItemVulva") == null;
 	ExtendedItemCustomDraw(
 		`${Data.dialogPrefix.option}Wand`,
@@ -17,8 +17,9 @@ function InventoryItemArmsFullLatexSuitDrawHook(Data, OriginalFunction) {
 /** @type {ExtendedItemScriptHookCallbacks.Click<TypedItemData>} */
 function InventoryItemArmsFullLatexSuitClickHook(Data, OriginalFunction) {
 	OriginalFunction();
+	const C = CharacterGetCurrent();
+	if (!C) return;
 	if (MouseIn(...ExtendedXY[6][4], 225, 275)) {
-		const C = CharacterGetCurrent();
 		const VulvaItem = InventoryGet(C, "ItemVulva");
 		const Worn = (C.IsPlayer() && VulvaItem != null && VulvaItem.Asset.Name === "FullLatexSuitWand");
 		ExtendedItemCustomClick("Wand", () => InventoryItemArmsFullLatexSuitSetWand(Data, C), Worn);

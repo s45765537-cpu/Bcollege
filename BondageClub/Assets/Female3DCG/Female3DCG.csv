@@ -120,6 +120,7 @@ Cloth,BridesmaidDress1,Bridesmaid Dress
 Cloth,BrocadeCloudsSnowEmbroideryQipao,Brocade Clouds Qipao
 Cloth,BusinessSuit,Business Suit
 Cloth,ButtonShirt,Button Shirt
+Cloth,CasualDroppedSuit,Casual Dropped Suit
 Cloth,CheerleaderTop,Cheerleader Top
 Cloth,ChineseDress1,Chinese Dress
 Cloth,ChineseDress2,Chinese Long
@@ -157,6 +158,7 @@ Cloth,LatexTop,Laced Latex Top
 Cloth,Laurel,Laurel Top
 Cloth,LeatherBolero,Leather Bolero
 Cloth,LeatherCropTop, Leather Crop Top
+Cloth,LittleFormalShirt,Little Formal Shirt
 Cloth,LolitaShortDress,Lolita Short Dress
 Cloth,MaidApron1,Maid Apron
 Cloth,MaidApron2,Exposed Maid Apron
@@ -179,6 +181,7 @@ Cloth,SeethroughTop,See-through Top
 Cloth,ShoulderlessTop,Shoulderless Top
 Cloth,SlaveRags,Slave Rags
 Cloth,SleevelessTop,Sleeveless Top
+Cloth,StarryOceanEveningGown,Starry Ocean Gown
 Cloth,StudentOutfit1,Student Black
 Cloth,StudentOutfit2,Student Bow
 Cloth,StudentOutfit3,Student Top
@@ -296,6 +299,7 @@ ClothLower,Skirt1,Skirt
 ClothLower,Skirt2,Student Skirt
 ClothLower,Skirt3,Student Skirt Short
 ClothLower,SlitColumnSkirt,Slit Column Skirt
+ClothLower,SuspenderPants,Suspender Pants
 ClothLower,TennisSkirt1,Tennis
 ClothLower,TulleSkirt,Fitted Pleated Skirt
 ClothLower,Tutu,Tutu
@@ -329,6 +333,7 @@ Decals,FireBite,Firebite
 Decals,Gangriels,Gangriels
 Decals,LukeChill,Luke's Chill Tent
 Decals,Malkuth,Malkuth
+Decals,MissMariasManor,Miss Maria's Manor
 Decals,RatAss,The Rat's Ass
 Decals,SlaveHelpline,Slave Helpline
 Decals,VoidOrder,Void Order
@@ -531,6 +536,7 @@ HairAccessory1,Ribbons4,Hair Ribbon 4
 HairAccessory1,SuccubusHorns,Succubus Horns
 HairAccessory1,UnicornHorn,Unicorn Horn
 HairAccessory1,WeddingVeil1,Wedding Veil
+HairAccessory1,WingedHeadpiece,Winged Headpiece
 HairAccessory1,WolfEars1,Wolf Ears One Piece
 HairAccessory1,WolfEars2,Wolf Ears Big
 HairAccessory1,CyberneticEars1,Cybernetic Ears
@@ -825,6 +831,7 @@ Hat,Veil1,Veil Half Face
 Hat,Veil2,Veil Full Face
 Hat,VintageHat,Vintage Hat
 Hat,WitchHat1,Witch Hat
+Hat,JesterHat, Jester Hat
 Head,,Head
 Head,Default,Regular Ears
 Head,NoEars,Subtle Ears
@@ -1137,9 +1144,11 @@ ItemHandheld,Broom,Broom
 ItemHandheld,CandleWax,Candle Wax
 ItemHandheld,Cane,Cane
 ItemHandheld,CattleProd,Cattle Prod
+ItemHandheld,Chocolate,Chocolate Bar
 ItemHandheld,Cigarette,Cigarette
 ItemHandheld,Crop,Crop
 ItemHandheld,DragonPlush,Dragon Plush
+ItemHandheld,ElectricGuitar,Electric Guitar
 ItemHandheld,ElectricToothbrush,Electric Toothbrush
 ItemHandheld,Feather,Feather
 ItemHandheld,FeatherDuster,Feather Duster
@@ -1484,7 +1493,7 @@ ItemMouth,WiffleGag,Wiffle Ball Gag
 ItemMouth,XLBoneGag,XL Bone Gag
 ItemMouth,PremiumMuzzle,Premium Muzzle Gag
 ItemMouth,OverfilledGag,Overfilling Gag
-ItemMouth,XmasStickerGag,XMas Sticker Gag
+ItemMouth,XmasStickerGag,Christmas Sticker Gag
 ItemMouth2,,Mouth
 ItemMouth3,,Mouth
 ItemNeck,,Neck
@@ -1598,6 +1607,7 @@ ItemNipples,StretchClovers,Nipple Stretchers
 ItemNipples,TapedVibeEggs,Taped Vibrating Eggs
 ItemNipples,VibeNippleClamp,Vibrating Nipple Clamps
 ItemNipples,VibratorRemote,Vibrating Clamps Remote
+ItemNipples,XmasBell,Christmas Bells
 ItemNipplesPiercings,,Nipples
 ItemNipplesPiercings,BarbellPiercing,Barbell Piercing
 ItemNipplesPiercings,BellPiercing,Nipple Bell Piercings

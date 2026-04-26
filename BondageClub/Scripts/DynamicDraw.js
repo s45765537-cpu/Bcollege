@@ -12,7 +12,7 @@
  * @type {object}
  * @property {number} [fontSize] - The target font size. Note that if space is constrained, the actual drawn font size will be reduced
  * automatically to fit. Defaults to 30px.
- * @property {string} [fontFamily] - The desired font family to draw text in. This can be a single font name, or a full CSS font stack
+ * @property {string | null} [fontFamily] - The desired font family to draw text in. This can be a single font name, or a full CSS font stack
  * (e.g. "'Helvetica', 'Arial', sans-serif"). Defaults to the player's chosen global font.
  * @property {CanvasTextAlign} [textAlign] - The text alignment to use. Can be any valid
  * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/text-align text alignment}. Not applicable to the {@link DynamicDrawTextArc}

@@ -99,7 +99,7 @@ function NPCTraitKeepBestOption(C, Group) {
 	let Best = -1;
 	let Pos = -1;
 	for (let D = 0; D < C.Dialog.length; D++)
-		if ((C.Dialog[D].Group != null) && (C.Dialog[D].Group == Group)) {
+		if (C.Dialog[D].Group === Group) {
 			var Value = NPCTraitGetOptionValue(C.Dialog[D].Trait, C.Trait);
 			if (Value > Best) { Best = Value; Pos = D; }
 		}
@@ -107,7 +107,7 @@ function NPCTraitKeepBestOption(C, Group) {
 	// If we found the best possibility, we remove all the others
 	if (Pos >= 0)
 		for (let D = 0; D < C.Dialog.length; D++)
-			if ((D != Pos) && (C.Dialog[D].Group != null) && (C.Dialog[D].Group == Group)) {
+			if ((D != Pos) && C.Dialog[D].Group === Group) {
 				C.Dialog.splice(D, 1);
 				Pos--;
 				D--;
@@ -124,8 +124,8 @@ function NPCTraitDialog(C) {
 
 	// For each dialog option
 	for (let D = 0; D < C.Dialog.length; D++) {
-		if (C.Dialog[D].Group != null) NPCTraitKeepBestOption(C, C.Dialog[D].Group);
-		if (C.Dialog[D].Function != null) C.Dialog[D].Function = C.Dialog[D].Function.replace("MainHall", "");
+		if (C.Dialog[D].Group !== null) NPCTraitKeepBestOption(C, C.Dialog[D].Group);
+		if (C.Dialog[D].Function !== null) C.Dialog[D].Function = C.Dialog[D].Function.replace("MainHall", "");
 	}
 
 }

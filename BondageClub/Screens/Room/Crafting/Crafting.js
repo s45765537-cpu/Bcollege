@@ -878,7 +878,7 @@ var CraftingEventListeners = {
 			document.getElementById(CraftingID.privateCheckbox),
 			document.getElementById(CraftingID.asciiDescriptionCheckbox),
 		]);
-		priorityInput.defaultValue = priorityInput.placeholder = (asset.DrawingPriority ?? asset.Group.DrawingPriority).toString();
+		priorityInput.defaultValue = priorityInput.placeholder = asset.Group.DrawingPriority.toString();
 		colorsInput.defaultValue = colorsInput.placeholder = asset.DefaultColor.join(",");
 		nameInput.defaultValue = nameInput.placeholder = asset.Description;
 		nameInput.value = CraftingSelectedItem.Name;
@@ -2294,6 +2294,8 @@ function CraftingExit(allowPanelClose=true) {
 			return;
 		}
 
+		// Clear the hash from the URL as (potentially) assigned by clicking on anchor elements
+		globalThis.location.hash = "";
 		CraftingMode = "Slot";
 		ElementRemove(CraftingID.root);
 		if (CraftingPreview) {

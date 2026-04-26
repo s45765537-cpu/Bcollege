@@ -710,27 +710,21 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	// Clamp item opacity within the allowed range
-	if (typeof property.Opacity === "number") {
-		if (property.Opacity > asset.MaxOpacity) {
-			property.Opacity = asset.MaxOpacity;
-			changed = true;
-		}
-		if (property.Opacity < asset.MinOpacity) {
-			property.Opacity = asset.MinOpacity;
+	if (CommonIsFinite(property.Opacity)) {
+		const minOpacity = Math.min(...asset.Layer.map(l => l.MinOpacity));
+		const maxOpacity = Math.max(...asset.Layer.map(l => l.MaxOpacity));
+		const clampedOpacity = CommonClamp(property.Opacity, minOpacity, maxOpacity);
+		if (property.Opacity !== clampedOpacity) {
+			property.Opacity = clampedOpacity;
 			changed = true;
 		}
 	} else if (CommonIsArray(property.Opacity)) {
-		// @ts-expect-error We just checked this is an array
-		for (let idx = 0; idx < property.Opacity; idx++) {
+		for (const [idx, opacity] of property.Opacity.entries()) {
 			const layer = asset.Layer[idx];
-			const maxOpacity = layer.MaxOpacity ?? asset.MaxOpacity;
-			const minOpacity = layer.MinOpacity ?? asset.MinOpacity;
-			if (!CommonIsNumeric(property.Opacity[idx]) || property.Opacity[idx] > layer.MaxOpacity) {
-				property.Opacity[idx] = maxOpacity;
-				changed = true;
-			}
-			if (property.Opacity[idx] < layer.MinOpacity) {
-				property.Opacity[idx] = minOpacity;
+			if (!layer) continue;
+			const clampedOpacity = CommonClamp(opacity, layer.MinOpacity, layer.MaxOpacity);
+			if (property.Opacity[idx] !== clampedOpacity) {
+				property.Opacity[idx] = clampedOpacity;
 				changed = true;
 			}
 		}

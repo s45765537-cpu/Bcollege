@@ -592,6 +592,11 @@ ClothAllureSidecutTransparent,Transparent
 ClothBrocadeCloudsSnowEmbroideryQipaoNo,No
 ClothBrocadeCloudsSnowEmbroideryQipaoSelect,Select Lining Skirt
 ClothBrocadeCloudsSnowEmbroideryQipaoYes,Yes
+ClothLittleFormalShirtOptiont0,Yes
+ClothLittleFormalShirtSelectBase,Select Shirt Style
+ClothLittleFormalShirtSelectTie,Include a tie
+ClothLittleFormalShirtModuleTie,Tie
+ClothLittleFormalShirtOptiont1,No
 ClothOffTheShoulderTopSelect,Choose Style:
 ClothOffTheShoulderTopRight,Right
 ClothOffTheShoulderTopLeft,Left
@@ -814,6 +819,15 @@ ClothAccessoryHoodedCloakSelectHood,Hood
 ClothAccessoryHoodedCloakOptionh0,Down
 ClothAccessoryHoodedCloakOptionh1,Over Head
 ClothAccessoryHoodedCloakOptionh2,Over Eyes
+ClothCasualDroppedSuitSelectBase,Configure the suit
+ClothCasualDroppedSuitSelectColor,Select the color type
+ClothCasualDroppedSuitSelectSide,Wear on which side
+ClothCasualDroppedSuitModuleColor,Color
+ClothCasualDroppedSuitModuleSide,Side
+ClothCasualDroppedSuitOptionM0,Right
+ClothCasualDroppedSuitOptionM1,Left
+ClothCasualDroppedSuitOptiontyped0,Opaque
+ClothCasualDroppedSuitOptiontyped1,Matte
 ClothCheerleaderTopTextLabel,Change Text:
 ClothChineseDress2Pink,Style 3
 ClothChineseDress2Purple,Style 2
@@ -1007,6 +1021,11 @@ ClothSlaveRagsSetc0,SourceCharacter puts some old rags over DestinationCharacter
 ClothSlaveRagsSetc1,SourceCharacter puts some old and filthy rags over DestinationCharacter body.
 ClothSlaveRagsSetc2,SourceCharacter puts some torn rags over DestinationCharacter body.
 ClothSlaveRagsSetc3,SourceCharacter puts some torn and filthy rags over DestinationCharacter body.
+ClothStarryOceanEveningGownModuleMirror,Select side
+ClothStarryOceanEveningGownOptionM0,Right side
+ClothStarryOceanEveningGownOptionM1,Left side
+ClothStarryOceanEveningGownSelectBase,Put the gown on which side
+ClothStarryOceanEveningGownSelectMirror,Put the gown on which side
 ClothTShirt2BCLogo,Club Logo
 ClothTShirt2BDSM,BD-SM
 ClothTShirt2Gag,The Moaning Groans
@@ -1057,6 +1076,10 @@ CushionTypeHold,Hold cushion
 CushionTypeSit,Sit on cushion
 CustomTagText,Save text
 DecalsDenOfSin,Den of Sin
+DecalsMissMariasManorSelect,Select version
+DecalsMissMariasManorDefault,v1
+DecalsMissMariasManorVersion2,v2
+DecalsMissMariasManorVersion3,v3
 Decrease,Decrease
 DeflateIt,Deflate it
 deflates,deflates
@@ -2787,6 +2810,26 @@ HatSwimCapSelectHair,Adjust Hair Openings
 HatSwimCapSelectPattern,Choose Pattern
 HatSwimCapSetHair,SourceCharacter adjusts DestinationCharacter swimcap hair openings.
 HatSwimCapSetPattern,SourceCharacter swaps DestinationCharacter swimcap pattern.
+HatJesterHat,Jester hat
+HatJesterHatModuleLeftPart,Left Prong
+HatJesterHatModuleRightPart,Right Prong
+HatJesterHatModuleTopPart,Top Prong
+HatJesterHatOptionl0,None
+HatJesterHatOptionl1,Stripes
+HatJesterHatOptionl2,Dots
+HatJesterHatOptionl3,Stripes & Dots
+HatJesterHatOptionr0,None
+HatJesterHatOptionr1,Stripes
+HatJesterHatOptionr2,Dots
+HatJesterHatOptionr3,Stripes & Dots
+HatJesterHatOptiont0,None
+HatJesterHatOptiont1,Stripes
+HatJesterHatOptiont2,Dots
+HatJesterHatOptiont3,Stripes & Dots
+HatJesterHatSelectBase,Customise your Jester Hat
+HatJesterHatSelectLeftPart,Choose left style
+HatJesterHatSelectRightPart,Choose right style
+HatJesterHatSelectTopPart,Choose top style
 HeadphoneEarPlugsPoseHeavy,Heavy
 HeadphoneEarPlugsPoseLight,Light
 HeadphoneEarPlugsPoseNoiseCancelling,Noise-Cancelling
@@ -3867,6 +3910,13 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldChocolateModuleType,Change
+ItemHandheldChocolateOptionp0,Wrapped
+ItemHandheldChocolateOptionp1,Foiled
+ItemHandheldChocolateOptionp2,Golden ticket
+ItemHandheldChocolateOptionp3,Chocolate
+ItemHandheldChocolateSelectBase,Change your bar type
+ItemHandheldChocolateSelectType,Chocolate bar type...
 ItemHandheldDragonPlushSelect,Select Position
 ItemHandheldDragonPlushSetHolding,SourceCharacter holds a cute Dragon Plush!
 ItemHandheldDragonPlushHolding,Holding
@@ -7955,7 +8005,7 @@ ItemHandheldPlushieSetLatexLab11,SourceCharacter places a cute Kelsey plushie in
 ItemHandheldPlushieOptionLatexLab12,Fae
 ItemHandheldPlushieSetLatexLab12,SourceCharacter places a cute Fae plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionLatexLab13,Maria
-ItemHandheldPlushieSetLatexLab13,SourceCharacter places a cute Maria plushie in DestinationCharacter hands.
+ItemHandheldPlushieSetLatexLab13,SourceCharacter places a pretty Maria plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionLatexLab14,Lyko
 ItemHandheldPlushieSetLatexLab14,SourceCharacter places a cute Lyko plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectVoidOrder,Void Order
@@ -8000,6 +8050,24 @@ ItemHandheldPlushieOptionVoidOrder18,Dante
 ItemHandheldPlushieSetVoidOrder18,SourceCharacter places a cute Dante plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVoidOrder19,Sarah Jade Kelly
 ItemHandheldPlushieSetVoidOrder19,SourceCharacter places an unforgetable Sarah Jade Kelly plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder20,Wolfie
+ItemHandheldPlushieSetVoidOrder20,SourceCharacter places a cute Wolfie plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder21,Vi
+ItemHandheldPlushieSetVoidOrder21,SourceCharacter places a cute Vi plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder22,Needle
+ItemHandheldPlushieSetVoidOrder22,SourceCharacter places a cute Needle plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder23,Mist
+ItemHandheldPlushieSetVoidOrder23,SourceCharacter places a cute Mist plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder24,Milim
+ItemHandheldPlushieSetVoidOrder24,SourceCharacter places a cute Milim plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder25,Lisa
+ItemHandheldPlushieSetVoidOrder25,SourceCharacter places a cute Lisa plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder26,Kirumi
+ItemHandheldPlushieSetVoidOrder26,SourceCharacter places a cute Kirumi plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder27,Alex Carameii
+ItemHandheldPlushieSetVoidOrder27,SourceCharacter places a cute Alex Carameii plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVoidOrder28,Katrina Thunder
+ItemHandheldPlushieSetVoidOrder28,SourceCharacter places a cute Katrina Thunder plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectEnsLivingRoom,En's Living Room
 ItemHandheldPlushieModuleEnsLivingRoom,En's Living Room
 ItemHandheldPlushieOptionEnsLivingRoom0,None
@@ -8024,6 +8092,8 @@ ItemHandheldPlushieOptionEnsLivingRoom9,Arelia
 ItemHandheldPlushieSetEnsLivingRoom9,SourceCharacter places a cute Arelia plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionEnsLivingRoom10,Dawn
 ItemHandheldPlushieSetEnsLivingRoom10,SourceCharacter places a cute Dawn plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionEnsLivingRoom11,Bella
+ItemHandheldPlushieSetEnsLivingRoom11,SourceCharacter places a cute Bella plushie in DestinationCharacter hands.
 ItemHandheldPlushieSelectDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieModuleDawnsDarlings,Dawn's Darlings
 ItemHandheldPlushieOptionDawnsDarlings0,None
@@ -8056,13 +8126,16 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
-ItemHandheldPlushieModuleNelsStorage,Nel's Stroage Room
+ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
 ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
 ItemHandheldPlushieOptionNelsStorage0,None
-ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieSetNelsStorage0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionNelsStorage1,Nel
 ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage2,Fallen
+ItemHandheldPlushieSetNelsStorage2,SourceCharacter places a cute Fallen plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage3,Reina
+ItemHandheldPlushieSetNelsStorage3,SourceCharacter places a cute Reina plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleCCLounge,CC's Lounge
 ItemHandheldPlushieSelectCCLounge,CC's Lounge
 ItemHandheldPlushieOptionCCLounge0,None
