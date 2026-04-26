@@ -2181,7 +2181,7 @@ interface Character {
 	LastMapData?: ChatRoomMapData;
 	/**
 	 * The custom background to use for the current room
-	 * Only valid on {@link Player}
+	 * Only valid on {@link Player}, see {@link DrawGetCustomBackground}
 	 */
 	CustomBackground?: string;
 }
