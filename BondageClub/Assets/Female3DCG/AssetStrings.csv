@@ -8696,3 +8696,20 @@ ItemMouthBishopGagOpen,Open
 ItemMouthBishopGagCovered,Covered
 ItemMouthBishopGagSetOpen,SourceCharacter removes the panel from DestinationCharacter gag.
 ItemMouthBishopGagSetCovered,SourceCharacter attaches the panel to DestinationCharacter gag.
+ItemNoseNoseShackleModuleShackle,Shackle
+ItemNoseNoseShackleModuleAttachment,Attachment
+ItemNoseNoseShackleOptions0,Single Bar
+ItemNoseNoseShackleOptions1,Double Bar
+ItemNoseNoseShackleOptiona0,None
+ItemNoseNoseShackleOptiona1,Long Chain
+ItemNoseNoseShackleOptiona2,Short Chain
+ItemNoseNoseShackleOptiona3,Leash
+ItemNoseNoseShackleSelectBase,Choose Appearance
+ItemNoseNoseShackleSelectShackle,Choose Shackle Type
+ItemNoseNoseShackleSelectAttachment,Choose Attachment
+ItemNoseNoseShackleSets0,SourceCharacter fits a single-bar shackle into DestinationCharacter nose.
+ItemNoseNoseShackleSets1,SourceCharacter fits a double-bar shackle into DestinationCharacter nose.
+ItemNoseNoseShackleSeta0,SourceCharacter removes the attachment from DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta1,SourceCharacter attaches a long chain to DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta2,SourceCharacter attaches a short chain to DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta3,SourceCharacter attaches a leash to DestinationCharacter nose shackle.

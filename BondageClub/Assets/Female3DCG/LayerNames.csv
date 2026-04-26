@@ -2958,6 +2958,12 @@ ItemNoseNoseClipRod,Rod
 ItemNoseNoseClipSkin,Nose
 ItemNoseNoseHookBand,Strap
 ItemNoseNoseHookHook,Hook
+ItemNoseNoseShackleMain,Shackle Body
+ItemNoseNoseShackleSingle,Shackle Pins
+ItemNoseNoseShackleChainlong,Metal Attachments
+ItemNoseNoseShackleLeash,Leash
+ItemNoseNoseShackleHandle,Leash Handle
+ItemNoseNoseShackleLock,Padlocks
 ItemNosePigNoseHookBand,Band
 ItemNosePigNoseHookHook,Hook
 ItemNosePigNoseNose,Nose

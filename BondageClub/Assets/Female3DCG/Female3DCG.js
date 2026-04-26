@@ -57389,6 +57389,68 @@ var AssetFemale3DCG = [
 				CreateLayerTypes: ["typed"],
 			},
 			{
+				Name: "NoseShackle",
+				InventoryID: 1323,
+				Priority: 43,
+				Fetish: ["Metal"],
+				Value: 50,
+				Time: 20,
+				Random: false,
+				AllowLock: true,
+				DrawLocks: false,
+				Left: 50,
+				Extended: true,
+				Attribute: ["NoseRing"],
+				Layer: [
+					{
+						Name: "Main",
+						AllowTypes: { s: [0, 1] },
+					},
+					{
+						Name: "Single",
+						AllowTypes: { s: 0 },
+					},
+					{
+						Name: "Double",
+						AllowTypes: { s: 1 },
+						CopyLayerColor: "Single",
+					},
+					{
+						Name: "Chainlong",
+						AllowTypes: { a: 1 },
+						PoseMapping: {
+							Kneel: "Kneel",
+						},
+					},
+					{
+						Name: "Chainshort",
+						AllowTypes: { a: 2 },
+						CopyLayerColor: "Chainlong",
+						PoseMapping: {
+							Kneel: "Kneel",
+						},
+					},
+					{
+						Name: "Leash",
+						AllowTypes: { a: 3 },
+					},
+					{
+						Name: "Handle",
+						AllowTypes: { a: 3 },
+					},
+					{
+						Name: "Clip",
+						AllowTypes: { a: 3 },
+						CopyLayerColor: "Chainlong",
+					},
+					{
+						Name: "Lock",
+						LockLayer: true,
+						AllowTypes: { a: [1, 2, 3]},
+					},
+				]
+			},
+			{
 				Name: "DuctTape",
 				InventoryID: 540,
 				Fetish: ["Tape"],
