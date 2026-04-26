@@ -229,7 +229,7 @@ function DialogGetCharacter(C) {
 		// @ts-ignore Strict-TS: force-cast here because there's a bunch of side-effects to having this return `null`
 		return (C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter;
 	}
-	return C;
+	return C ?? CurrentCharacter;
 }
 
 /**
@@ -337,7 +337,7 @@ function DialogLogQuery(LogType, LogGroup) { return LogQuery(LogType, LogGroup);
  * Sets the AllowItem flag on the current character
  * @param {string} Allow - The flag to set. Either "TRUE" or "FALSE"
  */
-function DialogAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.AllowItem = (Allow.toUpperCase().trim() == "TRUE"); }
+function DialogSetAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.AllowItem = (Allow.toUpperCase().trim() == "TRUE"); }
 
 /**
  * Returns the value of the AllowItem flag of a given character
@@ -345,15 +345,7 @@ function DialogAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.AllowIt
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
-function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C); }
-
-
-/**
- * Returns TRUE if the AllowItem flag doesn't allow putting an item on the current character
- * @param {string | Character} C
- * @returns {boolean} - The reversed value of the given character's AllowItem flag
- */
-function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C).AllowItem; }
+function DialogAllowsItem(C) { C = DialogGetCharacter(C ?? CharacterGetCurrent()); return C?.AllowItem ?? false; }
 
 /**
  * Returns TRUE if no item can be used by the player on the current character because of the map distance
