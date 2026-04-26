@@ -59,7 +59,7 @@ var DialogFocusSourceItem = null;
 var DialogFocusItemColorizationRedrawTimer = /** @type {never} */ (null);
 /**
  * The list of currently visible menu item buttons.
- * @type {DialogMenuButton[]}
+ * @type {DialogMenuButtonType[]}
  */
 var DialogMenuButton = [];
 /**
@@ -1479,7 +1479,7 @@ function DialogMenuButtonBuild(C) {
 			}
 
 			if (!DialogMenuButton.includes("Use") && canUseRemoteState !== "InvalidItem") {
-				/** @type {DialogMenuButton | null} */
+				/** @type {DialogMenuButtonType | null} */
 				let button = null;
 				switch (canUseRemoteState) {
 					case "Available":
@@ -2562,7 +2562,7 @@ function DialogChangeItemColor(C, Color) {
 
 /**
  * Returns the button image name for a dialog menu button based on the button name.
- * @param {DialogMenuButton} ButtonName - The menu button name
+ * @param {DialogMenuButtonType} ButtonName - The menu button name
  * @param {Item} FocusItem - The focused item
  * @returns {string} - The button image name
  */
@@ -2580,7 +2580,7 @@ function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 
 /**
  * Returns the background color of a dialog menu button based on the button name.
- * @param {DialogMenuButton} ButtonName - The menu button name
+ * @param {DialogMenuButtonType} ButtonName - The menu button name
  * @returns {string} - The background color that the menu button should use
  */
 function DialogGetMenuButtonColor(ButtonName) {
@@ -2595,7 +2595,7 @@ function DialogGetMenuButtonColor(ButtonName) {
 
 /**
  * Determines whether or not a given dialog menu button should be disabled based on the button name.
- * @param {DialogMenuButton} ButtonName - The menu button name
+ * @param {DialogMenuButtonType} ButtonName - The menu button name
  * @returns {boolean} - TRUE if the menu button should be disabled, FALSE otherwise
  */
 function DialogIsMenuButtonDisabled(ButtonName) {
