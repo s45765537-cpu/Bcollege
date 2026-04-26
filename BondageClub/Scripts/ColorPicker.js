@@ -421,6 +421,7 @@ var ColorPicker = {
 			savedColorOutput.replaceChildren(`${index.toString().padStart(2, " ")}:${rgb}`);
 
 			Player.SavedColors[index - 1] = ColorPickerCSSToHSV(rgb);
+			ServerSend("AccountUpdate", { SavedColors: Player.SavedColors });
 		},
 
 		/**
