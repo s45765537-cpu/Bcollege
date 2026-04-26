@@ -2563,11 +2563,12 @@ function DialogChangeItemColor(C, Color) {
 /**
  * Returns the button image name for a dialog menu button based on the button name.
  * @param {DialogMenuButtonType} ButtonName - The menu button name
- * @param {Item} FocusItem - The focused item
+ * @param {Item | null} FocusItem - The focused item
  * @returns {string} - The button image name
  */
 function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 	if (ButtonName === "ColorDefault" || ButtonName === "ColorChange" || ButtonName === "ColorPickDisabled") {
+		if (!FocusItem) return "ColorChange";
 		return ItemColorIsSimple(FocusItem) ? "ColorChange" : "ColorChangeMulti";
 	} else if (ButtonName.includes("PickLock")) {
 		return "PickLock";
@@ -5434,7 +5435,6 @@ function DialogDrawRepositionButton() {
 function DialogDrawTopMenu(C) {
 	if (!C.FocusGroup) return;
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
-	if (!FocusItem) return;
 
 	for (let I = DialogMenuButton.length - 1; I >= 0; I--) {
 		const ButtonColor = DialogGetMenuButtonColor(DialogMenuButton[I]);
