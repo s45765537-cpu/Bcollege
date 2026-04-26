@@ -298,8 +298,11 @@
 }
 
 .friend-list-actions-item .button-image {
-	width: min(5dvh, 2.5dvw);
-	height: min(5dvh, 2.5dvw);
+	padding-left: var(--inner-border-width);
+	width: calc(min(5dvh, 2.5dvw) - 2 * var(--inner-border-width));
+	height: calc(min(5dvh, 2.5dvw) - 2 * var(--inner-border-width));
+	max-width: 86px;
+	max-height: 86px;
 }
 
 .highlight {
