@@ -1164,7 +1164,7 @@ function FriendListCreateActionsCell(friend) {
 						},
 						{
 							menu: {
-								classList: ["friend-list-actions-menu", "button-tooltip", "button-tooltip-left"],
+								classList: ["friend-list-actions-menu"],
 								eventListeners: {
 									focusout: FriendListActionsMenuFocusOut,
 								},

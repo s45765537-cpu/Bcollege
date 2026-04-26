@@ -282,13 +282,16 @@
 	flex-direction: column;
 	white-space: nowrap;
 	padding: 0;
+	border: var(--border-width) solid black;
+	color: black;
+	box-shadow: var(--inner-border-width) var(--inner-border-width) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
+	visibility: hidden;
+	position: absolute;
 }
 
 .friend-list-actions-menu[open="true"] {
-	transform: none;
 	inset: unset;
 	visibility: unset;
-	pointer-events: auto;
 }
 
 .friend-list-actions-item {
