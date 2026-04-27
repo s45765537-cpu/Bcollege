@@ -59,7 +59,7 @@ var DialogFocusSourceItem = null;
 var DialogFocusItemColorizationRedrawTimer = /** @type {never} */ (null);
 /**
  * The list of currently visible menu item buttons.
- * @type {DialogMenuButton[]}
+ * @type {DialogMenuButtonType[]}
  */
 var DialogMenuButton = [];
 /**
@@ -229,7 +229,7 @@ function DialogGetCharacter(C) {
 		// @ts-ignore Strict-TS: force-cast here because there's a bunch of side-effects to having this return `null`
 		return (C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter;
 	}
-	return C;
+	return C ?? CurrentCharacter;
 }
 
 /**
@@ -337,7 +337,7 @@ function DialogLogQuery(LogType, LogGroup) { return LogQuery(LogType, LogGroup);
  * Sets the AllowItem flag on the current character
  * @param {string} Allow - The flag to set. Either "TRUE" or "FALSE"
  */
-function DialogAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.AllowItem = (Allow.toUpperCase().trim() == "TRUE"); }
+function DialogSetAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.AllowItem = (Allow.toUpperCase().trim() == "TRUE"); }
 
 /**
  * Returns the value of the AllowItem flag of a given character
@@ -345,15 +345,7 @@ function DialogAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.AllowIt
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
-function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C); }
-
-
-/**
- * Returns TRUE if the AllowItem flag doesn't allow putting an item on the current character
- * @param {string | Character} C
- * @returns {boolean} - The reversed value of the given character's AllowItem flag
- */
-function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C).AllowItem; }
+function DialogAllowsItem(C) { C = DialogGetCharacter(C ?? CharacterGetCurrent()); return C?.AllowItem ?? false; }
 
 /**
  * Returns TRUE if no item can be used by the player on the current character because of the map distance
@@ -1487,7 +1479,7 @@ function DialogMenuButtonBuild(C) {
 			}
 
 			if (!DialogMenuButton.includes("Use") && canUseRemoteState !== "InvalidItem") {
-				/** @type {DialogMenuButton | null} */
+				/** @type {DialogMenuButtonType | null} */
 				let button = null;
 				switch (canUseRemoteState) {
 					case "Available":
@@ -2570,12 +2562,13 @@ function DialogChangeItemColor(C, Color) {
 
 /**
  * Returns the button image name for a dialog menu button based on the button name.
- * @param {DialogMenuButton} ButtonName - The menu button name
- * @param {Item} FocusItem - The focused item
+ * @param {DialogMenuButtonType} ButtonName - The menu button name
+ * @param {Item | null} FocusItem - The focused item
  * @returns {string} - The button image name
  */
 function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 	if (ButtonName === "ColorDefault" || ButtonName === "ColorChange" || ButtonName === "ColorPickDisabled") {
+		if (!FocusItem) return "ColorChange";
 		return ItemColorIsSimple(FocusItem) ? "ColorChange" : "ColorChangeMulti";
 	} else if (ButtonName.includes("PickLock")) {
 		return "PickLock";
@@ -2588,7 +2581,7 @@ function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 
 /**
  * Returns the background color of a dialog menu button based on the button name.
- * @param {DialogMenuButton} ButtonName - The menu button name
+ * @param {DialogMenuButtonType} ButtonName - The menu button name
  * @returns {string} - The background color that the menu button should use
  */
 function DialogGetMenuButtonColor(ButtonName) {
@@ -2603,7 +2596,7 @@ function DialogGetMenuButtonColor(ButtonName) {
 
 /**
  * Determines whether or not a given dialog menu button should be disabled based on the button name.
- * @param {DialogMenuButton} ButtonName - The menu button name
+ * @param {DialogMenuButtonType} ButtonName - The menu button name
  * @returns {boolean} - TRUE if the menu button should be disabled, FALSE otherwise
  */
 function DialogIsMenuButtonDisabled(ButtonName) {
@@ -5442,7 +5435,6 @@ function DialogDrawRepositionButton() {
 function DialogDrawTopMenu(C) {
 	if (!C.FocusGroup) return;
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
-	if (!FocusItem) return;
 
 	for (let I = DialogMenuButton.length - 1; I >= 0; I--) {
 		const ButtonColor = DialogGetMenuButtonColor(DialogMenuButton[I]);

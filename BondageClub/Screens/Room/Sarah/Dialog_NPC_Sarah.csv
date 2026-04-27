@@ -86,9 +86,9 @@ RemoveVibratingEgg,,,(She does one last moan as you remove the egg.)  Ooooh!  Th
 110,,,Mistress Sophie?  DialogPlayerName?  Marco?  (She laughs.),,
 110,,I shouldn't be here?,I don't know if you'll get in trouble for being here.  Don't make Mistress Sophie angry.,DialogRemove(),
 110,,Do you want to be left alone?,"I guess you can stay, it's boring to be left alone.  Unless it's part of my punishment and you could get in trouble with Mistress Sophie.",DialogRemove(),
-110,120,Do you want to get out of these chains?,Sure!  It's been a while now.  Do you have the key or something to pick the lock?  (She shows you her restraints.),DialogAllowItem(True),
-110,120,Can I play with you?,Of course!  The more the merrier.  (She giggles and gets a little bit closer.),DialogAllowItem(True),
-110,120,(Play with her.),(She giggles and gets a little bit closer.),DialogAllowItem(True),
+110,120,Do you want to get out of these chains?,Sure!  It's been a while now.  Do you have the key or something to pick the lock?  (She shows you her restraints.),DialogSetAllowItem(True),
+110,120,Can I play with you?,Of course!  The more the merrier.  (She giggles and gets a little bit closer.),DialogSetAllowItem(True),
+110,120,(Play with her.),(She giggles and gets a little bit closer.),DialogSetAllowItem(True),
 110,,(Leave her.),,DialogLeave(),
 120,,,I'm so glad that you and Amanda came here.  I wish I could hug you both.,,KnowAmandaInRoom()
 120,,,Mistress Sophie?  DialogPlayerName?  Marco?  (She laughs.),,"DialogIsBlind(""CurrentCharacter"")"

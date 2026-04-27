@@ -350,8 +350,8 @@ type DialogMenuMode = (
 	| "tighten"
 );
 
-type DialogMenuButton = "Activity" |
-	"ColorCancel" | "ColorChange" | "ColorChangeMulti" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
+type DialogMenuButtonType = "Activity" |
+	"ColorCancel" | "ColorChange" | "ColorChangeDisabled" | "ColorChangeMulti" | "ColorChangeMultiDisabled" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
 	"Crafting" |
 	"NormalMode" | "PermissionMode" |
 	"Dismount" | "Escape" | "Remove" |
