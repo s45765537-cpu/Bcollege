@@ -1113,7 +1113,7 @@ var PreferenceNotificationSettingsDefault = {
 
 /**
  * Namespace with functions for validating {@link NotificationSettingsType} properties
- * @type {{ [k in keyof Required<NotificationSettingsType>]: (arg: NotificationSettingsType[k], C: Character) => NotificationSettingsType[k] }}
+ * @type {{ [k in keyof Required<NotificationSettingsType>]: (arg: Partial<NotificationSettingsType[k]>, C: Character) => NotificationSettingsType[k] }}
  * @namespace
  */
 var PreferenceNotificationSettingsValidate = {
@@ -1121,19 +1121,19 @@ var PreferenceNotificationSettingsValidate = {
 	ChatMessage: (arg) => {
 		return {
 			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatMessage)(arg),
-			Normal: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg.Normal),
-			Whisper: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg.Whisper),
-			Activity: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg.Activity),
-			Mention: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg.Mention),
+			Normal: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg?.Normal),
+			Whisper: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg?.Whisper),
+			Activity: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg?.Activity),
+			Mention: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg?.Mention),
 		};
 	},
 	ChatJoin: (arg) => {
 		return {
 			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatJoin)(arg),
-			Owner: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg.Owner),
-			Lovers: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg.Lovers),
-			Friendlist: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg.Friendlist),
-			Subs: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg.Subs),
+			Owner: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg?.Owner),
+			Lovers: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg?.Lovers),
+			Friendlist: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg?.Friendlist),
+			Subs: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg?.Subs),
 		};
 	},
 	Disconnect: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
