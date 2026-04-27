@@ -2440,7 +2440,7 @@ function CharacterClearOwnership(C, push=true) {
 		}
 
 		LoginValidCollar();
-		LogDeleteGroup("OwnerRule");
+		LogDelete(null, "OwnerRule");
 	}
 
 	C.Appearance = C.Appearance.filter(item => !item.Asset.OwnerOnly);

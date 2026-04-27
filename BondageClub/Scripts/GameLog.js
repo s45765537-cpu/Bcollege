@@ -6,28 +6,44 @@
 var Log = [];
 
 /**
+ * Get the log entry corresponding to the given name and group.
+ *
+ * @template {LogGroupType} T
+ * @param {LogNameType[T]} Name
+ * @param {T} Group
+ * @returns {LogRecord | undefined}
+ */
+function LogGet(Name, Group) {
+	return Player.Log.find(l => l.Group === Group && l.Name === Name);
+}
+
+/**
  * Adds a new entry to the player's logs, renews the value if it already exists.
  * @template {LogGroupType} T
- * @param {LogNameType[T]} NewLogName - The name of the log
- * @param {T} NewLogGroup - The name of the log's group
- * @param {number} [NewLogValue] - Value for the log as the time in ms. Is undefined if the value is permanent
+ * @param {LogNameType[T]} Name - The name of the log
+ * @param {T} Group - The name of the log's group
+ * @param {number} [Value] - Value for the log as the time in ms. Is undefined if the value is permanent
  * @param {boolean} [Push=true] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
-function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push=true) {
+function LogAdd(Name, Group, Value, Push=true) {
+	if (typeof Name !== "string" || typeof Group !== "string") return;
+
 	// Makes sure the value is numeric
-	if (typeof NewLogValue === "string") NewLogValue = CommonParseInt(NewLogValue) ?? undefined;
+	if (!CommonIsNumeric(Value) && Value !== undefined) {
+		Value = CommonParseInt(Value, 10) ?? undefined;
+	}
 
 	// Checks to make sure we don't duplicate a log
-	const entry = Player.Log.find(l => l.Group === NewLogGroup && l.Name === NewLogName);
+	const entry = LogGet(Name, Group);
 	if (entry) {
-		entry.Value = NewLogValue;
+		entry.Value = Value;
 	} else {
 		/** @type {LogRecord} */
 		const newEntry = {
-			Name: NewLogName,
-			Group: NewLogGroup,
-			Value: NewLogValue
+			Name,
+			Group,
+			Value,
 		};
 		Player.Log.push(newEntry);
 	}
@@ -39,67 +55,63 @@ function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push=true) {
 /**
  * Deletes a log entry.
  * @template {LogGroupType} T
- * @param {LogNameType[T]} DelLogName - The name of the log
- * @param {T} DelLogGroup - The name of the log's group
+ * @param {LogNameType[T] | null | undefined} Name - The name of the log. Pass null or undefined to delete the whole group.
+ * @param {T} Group - The name of the log's group
  * @param {boolean} [Push=true] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
-function LogDelete(DelLogName, DelLogGroup, Push) {
+function LogDelete(Name, Group, Push) {
+	if (typeof Group !== "string" && (!Name || typeof Name === "string")) return;
 
-	// Finds the log entry and deletes it
-	for (let L = 0; L < Player.Log.length; L++)
-		if ((Player.Log[L].Name == DelLogName) && (Player.Log[L].Group == DelLogGroup)) {
-			Player.Log.splice(L, 1);
-			break;
-		}
+	let deleted = false;
+	if (!Name) {
+		const toDelete = Player.Log.filter(l => l.Group === Group);
 
-	// Sends the new log to the server
-	if ((Push == null) || Push)
+		for (const l of toDelete)
+			LogDelete(l.Name, l.Group, false);
+
+		deleted = toDelete.length > 0;
+	} else {
+		const logIdx = Player.Log.findIndex(l => l.Group === Group && l.Name === Name);
+		if (logIdx < 0) return;
+
+		Player.Log.splice(logIdx, 1);
+		deleted = true;
+	}
+
+	if (deleted && (Push == null) || Push)
 		ServerPlayerLogSync();
-
 }
 
 /**
  * Deletes all log entries to starts with the name.
- * @param {string} DelLogName - The name of the log
- * @param {LogGroupType} DelLogGroup - The name of the log's group
+ * @template {LogGroupType} T
+ * @param {LogNameType[T]} Name - The name of the log
+ * @param {T} Group - The name of the log's group
  * @param {boolean} [Push=true] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
-function LogDeleteStarting(DelLogName, DelLogGroup, Push) {
-	for (let L = 0; L < Player.Log.length; L++)
-		if ((Player.Log[L].Name.substring(0, DelLogName.length) == DelLogName) && (Player.Log[L].Group == DelLogGroup)) {
-			LogDelete(Player.Log[L].Name, DelLogGroup, Push);
-			L = L - 1;
-		}
-}
+function LogDeleteStarting(Name, Group, Push) {
+	const toDelete = Player.Log.filter(l => l.Group === Group && l.Name.startsWith(Name));
 
-/**
- * Deletes all log entries in a particular log group.
- * @param {LogGroupType} DelLogGroup - The name of the log's group
- * @param {boolean} [Push=true] - TRUE if we must push the log to the server
- * @returns {void} - Nothing
- */
-function LogDeleteGroup(DelLogGroup, Push) {
-	Player.Log = Player.Log.filter(L => L.Group !== DelLogGroup);
+	for (const l of toDelete)
+		LogDelete(l.Name, l.Group, false);
 
-	// Sends the new log to the server
-	if ((Push == null) || Push)
+	if (toDelete.length > 0 && (Push == null || Push))
 		ServerPlayerLogSync();
 }
 
-// Checks if the log exists, return true if it does (if there's a value, it counts as an expiry time)
-
 /**
- * Searches for an existing log entry.
+ * Checks for an existing record being expired.
+ *
  * @template {LogGroupType} T
- * @param {LogNameType[T]} QueryLogName - The name of the log to search for
- * @param {T} QueryLogGroup - The name of the log's group
- * @returns {boolean} - Returns TRUE if there is an existing log matching the Name/Group with no value or a value above the current time in ms.
+ * @param {LogNameType[T]} Name - The name of the log to search for
+ * @param {T} Group - The name of the log's group
+ * @returns {boolean} - Returns false if there's no record, or if the found record's numeric value is less than the current time.
  */
-function LogQuery(QueryLogName, QueryLogGroup) {
-	const entry = Player.Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
-	if (!entry) return false;
+function LogQuery(Name, Group) {
+	const value = LogValue(Name, Group);
+	if (value === null) return false;
 
 	// Loose null-check here in case there's a null or an undefined stuck in there
 	return entry.Value == null || entry.Value >= CurrentTime;
@@ -107,30 +119,31 @@ function LogQuery(QueryLogName, QueryLogGroup) {
 
 /**
  * Checks if there's a log entry with extra ID characters in the log of the player (Exemple: BlockScreenABC return true for ID: A, B or C)
+ *
  * @template {LogGroupType} T
- * @param {LogNameType[T]} LogName - The log name to scan
- * @param {T} LogGroup - The log group to scan
+ * @param {LogNameType[T]} Name - The log name to scan
+ * @param {T} Group - The log group to scan
  * @param {string} ID - The ID to validate (letter, number or other chars are fine)
  * @returns {boolean} - Returns true, if the log contains that ID
  */
-function LogContain(LogName, LogGroup, ID) {
+function LogContain(Name, Group, ID) {
 	if (Player.Log == null) return false;
 	for (let L of Player.Log)
-		if (LogGroup == L.Group)
-			if (L.Name.substring(0, LogName.length) == LogName)
-				return (L.Name.substring(LogName.length, 100).indexOf(ID) >= 0);
+		if (Group == L.Group)
+			if (L.Name.substring(0, Name.length) == Name)
+				return (L.Name.substring(Name.length, 100).indexOf(ID) >= 0);
 	return false;
 }
 
 /**
  * Returns the value associated to a log.
  * @template {LogGroupType} T
- * @param {LogNameType[T]} QueryLogName - The name of the log to query the value
- * @param {T} QueryLogGroup - The name of the log's group
- * @returns {number | null | undefined} - Returns the value of the log which is a date represented in ms or undefined. Returns null if no matching log is found.
+ * @param {LogNameType[T]} Name - The name of the log to query the value
+ * @param {T} Group - The name of the log's group
+ * @returns {number | null | undefined} - Returns the value of the requested log if it exists, or null. Returns undefined if the log is not found.
  */
-function LogValue(QueryLogName, QueryLogGroup) {
-	const entry = Player.Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
+function LogValue(Name, Group) {
+	const entry = LogGet(Name, Group);
 	if (!entry) return null;
 	return entry.Value;
 }
@@ -154,15 +167,18 @@ function LogLoad(NewLog) {
  * Searches for an existing log entry on another character.
  * @template {LogGroupType} T
  * @param {Character} C - Character to search on
- * @param {LogNameType[T]} QueryLogName - The name of the log to search for
- * @param {T} QueryLogGroup - The name of the log's group
+ * @param {LogNameType[T]} Name - The name of the log to search for
+ * @param {T} Group - The name of the log's group
  * @returns {boolean} - Returns TRUE if there is an existing log matching the Name/Group with no value or a value above the current time in ms.
  */
-function LogQueryRemote(C, QueryLogName, QueryLogGroup) {
-	if (C.IsPlayer()) return LogQuery(QueryLogName, QueryLogGroup);
+function LogQueryRemote(C, Name, Group) {
+	if (C.IsPlayer()) return LogQuery(Name, Group);
 	if (!C.Rule || !Array.isArray(C.Rule)) return false;
-	var R = C.Rule.find(r => r.Name == QueryLogName && r.Group == QueryLogGroup);
-	return (R != null) && ((R.Value == null) || (R.Value >= CurrentTime));
+
+	const R = C.Rule.find(r => r.Name == Name && r.Group == Group);
+	if (R == null) return false;
+
+	return R.Value == null || typeof R.Value === "number" && R.Value >= CurrentTime;
 }
 
 /**
