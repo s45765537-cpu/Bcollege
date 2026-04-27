@@ -22922,6 +22922,11 @@ var AssetFemale3DCGExtended = {
 			Archetype: "modular",
 			DrawImages: false,
 			Modules: [{ Name: "Type", Key: "p", Options: [{}, {}, {}, {}] }],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 		}, // Chocolate
 	}, // ItemHandheld
 	EyeShadow: {
