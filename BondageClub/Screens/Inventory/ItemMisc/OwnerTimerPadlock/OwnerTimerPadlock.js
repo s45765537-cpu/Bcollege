@@ -32,7 +32,12 @@ function InventoryItemMiscOwnerTimerPadlockDrawHook({ asset }, originalFunction,
 	if (property.ShowTimer) {
 		DrawText(InterfaceTextGet("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
 	} else {
-		DrawText(InterfaceTextGet("TimerUnknown"), 1500, 500, "white", "gray");
+		if (Player.CanInteract() && validator(C)) {
+			DrawText(InterfaceTextGet("TimerHidden"), 1500, 425, "white", "gray");
+			DrawText(InterfaceTextGet("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
+		} else {
+			DrawText(InterfaceTextGet("TimerUnknown"), 1500, 500, "white", "gray");
+		}
 	}
 	DrawText(AssetTextGet(asset.Group.Name + asset.Name + "Intro"), 1500, 600, "white", "gray");
 
