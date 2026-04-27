@@ -1759,7 +1759,7 @@ function ChatSearchResponse(data) {
 
 /**
  * Sends a toast message based on the given response type
- * @param {ServerChatRoomJoinResponse} type
+ * @param {ServerChatRoomJoinResponse | "ServerTimeoutError" | "ServerInProgressError"} type
  */
 function ChatSearchSendToast(type) {
 	ToastManager.dismissByCategory("ChatSearch");
@@ -1768,7 +1768,7 @@ function ChatSearchSendToast(type) {
 		ToastManager.warning(TextGet("Response" + type), { category: "ChatSearch" });
 		return;
 	}
-	if (["CannotFindRoom", "AccountError", "InvalidRoomData"].includes(type)) {
+	if (["CannotFindRoom", "AccountError", "InvalidRoomData", "ServerTimeoutError", "ServerInProgressError"].includes(type)) {
 		ToastManager.error(TextGet("Response" + type), { category: "ChatSearch" });
 		return;
 	}
@@ -1961,6 +1961,11 @@ async function ChatSearchQuery(Query) {
 
 	const res = await ServerRoomSearch(Query.toUpperCase().trim(), SearchData);
 	if (res.err) {
+		if (res.error?.name === "ServerTimeoutError" || res.error?.name === "ServerInProgressError") {
+			ChatSearchSendToast(res.error?.name);
+		} else {
+			console.log(res.error);
+		}
 		return;
 	}
 
