@@ -81,13 +81,13 @@ async function DisclaimerLoad() {
 
 	disclaimerTextSection.replaceChildren(introLine1, tosList, outroLine);
 
-	const returnButton = ElementButton.Create(DisclaimerIDs.return, DisclaimerExit, {
+	const returnButton = ElementButton.Create(DisclaimerIDs.return, () => DisclaimerClose(false), {
 		label: TextGet("TosReturn"),
 	},
 	{
 		button: { classList: ["disclaimer-button"] },
 	});
-	const acceptButton = ElementButton.Create(DisclaimerIDs.accept, DisclaimerAccept, {
+	const acceptButton = ElementButton.Create(DisclaimerIDs.accept, () => DisclaimerClose(true), {
 		label: TextGet("TosAccept"),
 	},
 	{
@@ -115,20 +115,6 @@ function DisclaimerUnload() {
 }
 
 /**
- * Does the cleanup, if the user exits the screen
- * @returns {void} - Nothing
- */
-function DisclaimerExit() {
-	const closeCallback = DisclaimerCloseCallback;
-	DisclaimerCloseCallback = null;
-	if (closeCallback) {
-		closeCallback(false);
-		return;
-	}
-	CommonSetScreen("Character", "Login");
-}
-
-/**
  * Opens the disclaimer screen and optionally runs a callback when the player closes it.
  * @param {(accepted: boolean) => void} closeCallback
  * @returns {boolean} Whether the player has already accepted the disclaimer
@@ -139,7 +125,7 @@ function DisclaimerOpen(closeCallback) {
 	}
 	// Check if the player has already accepted the disclaimer and just trying to log in
 	const accepted = (LogValue("Accepted", "Disclaimer") ?? 0) >= DisclaimerVersion;
-	if (accepted && ServerIsLoggedIn()) {
+	if (accepted) {
 		closeCallback(accepted);
 		return true;
 	}
@@ -149,14 +135,19 @@ function DisclaimerOpen(closeCallback) {
 	return false;
 }
 
-function DisclaimerAccept() {
-	LogAdd("Accepted", "Disclaimer", DisclaimerVersion);
-	const closeCallback = DisclaimerCloseCallback;
-	DisclaimerCloseCallback = null;
-	if (closeCallback) {
-		closeCallback(true);
-		return;
+/**
+ * @param {boolean} accepted
+ */
+function DisclaimerClose(accepted) {
+	if (accepted) {
+		LogAdd("Accepted", "Disclaimer", DisclaimerVersion);
 	}
+	const closeCallback = DisclaimerCloseCallback;
+	if (!closeCallback) {
+		throw Error("DisclaimeExit: closeCallback is missing");
+	}
+	DisclaimerCloseCallback = null;
+	closeCallback(accepted);
 }
 
 function DisclaimerResize() {
