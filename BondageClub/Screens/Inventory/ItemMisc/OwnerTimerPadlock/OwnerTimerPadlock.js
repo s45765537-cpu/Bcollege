@@ -1,8 +1,13 @@
 // @ts-strict-ignore
 "use strict";
 
-const OwnerTimerChooseList = [1, 2, 4, 8, 16, 24, 48, 72, 96, 120, 144, 168, -144, -72, -48, -24, -8, -4];
-let OwnerTimerChooseIndex = 0;
+const OwnerTimerChooseOptions = [
+	{ unit: TimeUnits.MINUTES, values: [5, 10, 15, 30, 60, -30, -15, -10, -5] },
+	{ unit: TimeUnits.HOURS, values: [1, 2, 3, 4, 8, 12, 16, 24, -12, -8, -4, -3, -2, -1] },
+	{ unit: TimeUnits.DAYS, values: [1, 2, 3, 7, -3, -2, -1] },
+];
+let OwnerTimerChooseOptionsIndex = 1; // default is hours
+let OwnerTimerChooseIndexes = [0, 0, 0]; // defaults: [5 minutes, 1 hour, 1 day]
 
 /**
  * @param {Character} C
@@ -67,9 +72,20 @@ function InventoryItemMiscOwnerTimerPadlockDrawHook({ asset }, originalFunction,
 	// Draw buttons to add/remove time if available
 	if (Player.CanInteract() && validator(C)) {
 		DrawButton(1100, 910, 250, 70, InterfaceTextGet("AddTimerTime"), "White");
-		DrawBackNextButton(1400, 910, 250, 70, OwnerTimerChooseList[OwnerTimerChooseIndex] + " " + InterfaceTextGet("Hours"), "White", "",
-			() => OwnerTimerChooseList[(OwnerTimerChooseList.length + OwnerTimerChooseIndex - 1) % OwnerTimerChooseList.length] + " " + InterfaceTextGet("Hours"),
-			() => OwnerTimerChooseList[(OwnerTimerChooseIndex + 1) % OwnerTimerChooseList.length] + " " + InterfaceTextGet("Hours")
+		const selectedOption = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex];
+		const timeList = selectedOption.values;
+		const unit = selectedOption.unit;
+		const selectedIndex = OwnerTimerChooseIndexes[OwnerTimerChooseOptionsIndex];
+		const selectedUnitLabel = InterfaceTextGet(unit.label);
+		DrawBackNextButton(1400, 910, 250, 70, timeList[selectedIndex] + " " + selectedUnitLabel, "White", "",
+			() => timeList[(timeList.length + selectedIndex - 1) % timeList.length] + " " + selectedUnitLabel,
+			() => timeList[(selectedIndex + 1) % timeList.length] + " " + selectedUnitLabel,
+		);
+		const previousUnit = OwnerTimerChooseOptions[(OwnerTimerChooseOptions.length + OwnerTimerChooseOptionsIndex - 1) % OwnerTimerChooseOptions.length].unit;
+		const nextUnit = OwnerTimerChooseOptions[(OwnerTimerChooseOptionsIndex + 1) % OwnerTimerChooseOptions.length].unit;
+		DrawBackNextButton(1700, 910, 250, 70, selectedUnitLabel, "White", "",
+			() => InterfaceTextGet(previousUnit.label),
+			() => InterfaceTextGet(nextUnit.label),
 		);
 	} else if (Player.CanInteract() && property.EnableRandomInput && !property.MemberNumberList.includes(Player.MemberNumber)) {
 		DrawButton(1100, 910, 250, 70, "- 2 " + InterfaceTextGet("Hours"), "White");
@@ -110,30 +126,43 @@ function InventoryItemMiscOwnerTimerPadlockClickHook(data, originalFunction, val
 			property.EnableRandomInput = !property.EnableRandomInput;
 			ChatRoomCharacterItemUpdate(C);
 		} else if (MouseIn(1100, 910, 250, 70)) { // Add time button
-			InventoryItemMiscOwnerTimerPadlockAdd(OwnerTimerChooseList[OwnerTimerChooseIndex] * 3600);
+			const selectedOption = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex];
+			const selectedTime = selectedOption.values[OwnerTimerChooseIndexes[OwnerTimerChooseOptionsIndex]];
+			const selectedUnit = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex].unit;
+			InventoryItemMiscOwnerTimerPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit);
 		} else if (MouseIn(1400, 910, 125, 70)) { // Previous time option
-			OwnerTimerChooseIndex = (OwnerTimerChooseList.length + OwnerTimerChooseIndex - 1) % OwnerTimerChooseList.length;
+			const selectedOption = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex];
+			const values = selectedOption.values;
+			const selectedIndex = OwnerTimerChooseIndexes[OwnerTimerChooseOptionsIndex];
+			OwnerTimerChooseIndexes[OwnerTimerChooseOptionsIndex] = (values.length + selectedIndex - 1) % values.length;
 		} else if (MouseIn(1525, 910, 125, 70)) { // Next time option
-			OwnerTimerChooseIndex = (OwnerTimerChooseIndex + 1) % OwnerTimerChooseList.length;
+			const selectedOption = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex];
+			const selectedIndex = OwnerTimerChooseIndexes[OwnerTimerChooseOptionsIndex];
+			OwnerTimerChooseIndexes[OwnerTimerChooseOptionsIndex] = (selectedIndex + 1) % selectedOption.values.length;
+		} else if (MouseIn(1700, 910, 125, 70)) { // Previous time mode option
+			OwnerTimerChooseOptionsIndex = (OwnerTimerChooseOptions.length + OwnerTimerChooseOptionsIndex - 1) % OwnerTimerChooseOptions.length;
+		} else if (MouseIn(1825, 910, 125, 70)) { // Next time mode option
+			OwnerTimerChooseOptionsIndex = (OwnerTimerChooseOptionsIndex + 1) % OwnerTimerChooseOptions.length;
 		}
 	} else if (property.EnableRandomInput && !property.MemberNumberList.includes(Player.MemberNumber)) {
 		// Everyone else can add/remove time if permitted, and they've not already done so
 		if (MouseIn(1100, 910, 250, 70)) { // -2 hours
-			InventoryItemMiscOwnerTimerPadlockAdd(-2 * 3600, true);
+			InventoryItemMiscOwnerTimerPadlockAdd(-2 * 3600, TimeUnits.HOURS, true);
 		} else if (MouseIn(1400, 910, 250, 70)) { // Random - +/-4 hours
-			InventoryItemMiscOwnerTimerPadlockAdd(4 * 3600 * ((Math.random() >= 0.5) ? 1 : -1), true);
+			InventoryItemMiscOwnerTimerPadlockAdd(4 * 3600 * ((Math.random() >= 0.5) ? 1 : -1), TimeUnits.HOURS, true);
 		} else if (MouseIn(1700, 910, 250, 70)) { // +2 hours
-			InventoryItemMiscOwnerTimerPadlockAdd(2 * 3600, true);
+			InventoryItemMiscOwnerTimerPadlockAdd(2 * 3600, TimeUnits.HOURS, true);
 		}
 	}
 }
 
 // When a value is added to the timer, can be a negative one
 /**
- * @param {number} TimeToAdd
+ * @param {number} TimeToAddSeconds
+ * @param {{label: string, seconds: number}} DisplayTimeUnit
  * @param {boolean} PlayerMemberNumberToList
  */
-function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToList=false) {
+function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, PlayerMemberNumberToList = false) {
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
 	const TimerBefore = property.RemoveTimer;
@@ -142,10 +171,10 @@ function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToLi
 		property.MemberNumberList.push(Player.MemberNumber);
 	}
 	if (DialogFocusItem.Asset.RemoveTimer > 0) {
-		property.RemoveTimer = Math.round(Math.min(property.RemoveTimer + (TimeToAdd * 1000), CurrentTime + (DialogFocusItem.Asset.MaxTimer * 1000)));
+		property.RemoveTimer = Math.round(Math.min(property.RemoveTimer + (TimeToAddSeconds * 1000), CurrentTime + (DialogFocusItem.Asset.MaxTimer * 1000)));
 	}
 	if (CurrentScreen === "ChatRoom") {
-		const timeAdded = (property.RemoveTimer - TimerBefore) / (1000 * 3600);
+		const timeAdded = (property.RemoveTimer - TimerBefore) / (1000 * DisplayTimeUnit.seconds);
 		let msg = "TimerAddRemoveUnknownTime";
 		if (property.ShowTimer) {
 			msg = timeAdded < 0 ? "TimerRemoveTime" : "TimerAddTime";
@@ -157,7 +186,7 @@ function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToLi
 			.focusGroup(C.FocusGroup.Name)
 			.if(property.ShowTimer)
 			.text("TimerTime", Math.round(Math.abs(timeAdded)).toString())
-			.textLookup("TimerUnit", "Hours")
+			.textLookup("TimerUnit", DisplayTimeUnit.label)
 			.endif()
 			.build();
 
