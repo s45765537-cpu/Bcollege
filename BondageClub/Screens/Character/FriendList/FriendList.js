@@ -17,6 +17,36 @@ var FriendListBeepShowRoom = true;
 let FriendListSortingMode = 'None';
 /** @type {FriendListSortingDirection} */
 let FriendListSortingDirection = 'Asc';
+/** @type {Record<string, FriendListActionDefinition>} */
+var FriendListActionDefinitions = {
+	delete: {
+		id: "delete",
+		getIcon: () => "Icons/Small/Remove.png",
+		isVisible: () => FriendListModeIndex === 2 || FriendListModeIndex === 0,
+		isEnabled: (context) => !!context.canDelete,
+		getLabel: () => InterfaceTextGet("Delete"),
+		onClick: (context) => FriendListDelete(context.memberNumber),
+	},
+	add: {
+		id: "add",
+		getIcon: () => "Icons/Plus.png",
+		isVisible: (context) => FriendListModeIndex === 2 && !!context.canAdd,
+		isEnabled: (context) => !!context.canAdd,
+		getLabel: () => InterfaceTextGet("Add"),
+		onClick: (context) => {
+			ChatRoomListUpdate(Player.FriendList, true, context.memberNumber);
+			ServerSend("AccountQuery", { Query: "OnlineFriends" });
+		},
+	},
+	beep: {
+		id: "beep",
+		getIcon: () => "Icons/Chat.png",
+		isVisible: () => true,
+		isEnabled: (context) => !!context.canBeep,
+		getLabel: () => InterfaceTextGet("Beep"),
+		onClick: (context) => FriendListBeep(context.memberNumber),
+	},
+};
 
 const FriendListAutoRefresh = {
 	interval: 30_000,
@@ -291,21 +321,15 @@ async function FriendListLoad() {
 									),
 									{
 										tag: "th",
-										classList: ['friend-list-column', 'mode-specific-content', 'fl-online-friends-content'],
-										attributes: { scope: "col" },
-										children: [TextGet("ActionFriends")],
-									},
-									{
-										tag: "th",
 										classList: ['friend-list-column', 'mode-specific-content', 'fl-beeps-content'],
 										attributes: { scope: "col" },
 										children: [TextGet("ActionRead")],
 									},
 									{
 										tag: "th",
-										classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content'],
+										classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content', 'fl-online-friends-content'],
 										attributes: { scope: "col" },
-										children: [TextGet("ActionDelete")],
+										children: [TextGet("ActionActions")],
 									},
 								],
 							},
@@ -342,6 +366,7 @@ function FriendListResize() {
 	if (FriendListBeepTarget !== -1) {
 		ElementPositionFix(FriendListIDs.beepList, 36, 250, 150, 1500, 800);
 	}
+	FriendListRepositionActionsMenu();
 }
 
 /** @type {ScreenRunHandler} */
@@ -608,7 +633,6 @@ function FriendListLoadFriendList(data) {
 
 	// Loads the header caption
 	const BeepCaption = InterfaceTextGet("Beep");
-	const DeleteCaption = InterfaceTextGet("Delete");
 	const SentCaption = InterfaceTextGet("SentBeep");
 	const ReceivedCaption = InterfaceTextGet("ReceivedBeep");
 	const MailCaption = InterfaceTextGet("BeepWithMail");
@@ -633,6 +657,7 @@ function FriendListLoadFriendList(data) {
 
 	/** @type {HTMLDivElement[]} */
 	const FriendListContent = [];
+	FriendListCloseActionsMenu();
 
 	const mode = FriendListMode[FriendListModeIndex];
 
@@ -652,6 +677,8 @@ function FriendListLoadFriendList(data) {
 		}
 	});
 	if (infoChanged) ServerPlayerRelationsSync();
+
+	const dataMap = new Map(data.map(friend => [friend.MemberNumber, friend]));
 
 	/** @satisfies {Record<string, FriendListSortingMode>} */
 	const columnHeaders = {
@@ -687,13 +714,16 @@ function FriendListLoadFriendList(data) {
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${friend.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? "");
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (friend.ChatRoomSpace ?? "");
-			const canBeep = true;
 
 			friendRawData.push({
 				memberName: friend.MemberName,
 				memberNumber: friend.MemberNumber,
 				relationType: FriendListGetRelationType(friend.MemberNumber),
-				pending: FriendListIsPending(friend.MemberNumber),
+				pending: false,
+				isOnline: true,
+				canDelete: FriendListCanDelete(friend.MemberNumber),
+				canBeep: true,
+				canAdd: false,
 				chatRoom: {
 					name: originalChatRoomName,
 					caption: chatRoomName || "-",
@@ -704,7 +734,6 @@ function FriendListLoadFriendList(data) {
 					],
 				},
 				beep: {
-					canBeep: canBeep,
 					caption: BeepCaption
 				}
 			});
@@ -735,7 +764,11 @@ function FriendListLoadFriendList(data) {
 				memberName: beepData.MemberName,
 				memberNumber: beepData.MemberNumber,
 				relationType: FriendListGetRelationType(beepData.MemberNumber ?? 0),
+				isOnline: !!dataMap.get(beepData.MemberNumber ?? 0),
+				canBeep: !!dataMap.get(beepData.MemberNumber ?? 0),
 				pending: false,
+				canAdd: false,
+				canDelete: false,
 				chatRoom: {
 					name: beepData.ChatRoomName,
 					caption: chatRoomName || "-",
@@ -768,13 +801,17 @@ function FriendListLoadFriendList(data) {
 			.sort((a, b) => a[1].localeCompare(b[1]));
 
 		for (const [memberNumber, memberName] of allFriends) {
+			const isOnline = !!dataMap.get(memberNumber);
 
 			friendRawData.push({
 				memberName: memberName,
 				memberNumber: memberNumber,
 				relationType: FriendListGetRelationType(memberNumber),
 				canDelete: FriendListCanDelete(memberNumber),
+				isOnline: isOnline,
+				canBeep: isOnline,
 				pending: FriendListIsPending(memberNumber),
+				canAdd: FriendListCanAdd(memberNumber),
 			});
 		}
 	}
@@ -928,21 +965,8 @@ function FriendListLoadFriendList(data) {
 		}
 
 		if (friend.beep) {
-			if (friend.beep.canBeep || friend.beep.hasMessage) {
+			if (friend.canBeep || friend.beep.hasMessage) {
 				row.append(
-					ElementButton.Create(
-						`friend-list-beep-${friend.memberNumber}`,
-						() => {
-							if (typeof friend.memberNumber === "number")
-								FriendListBeep(friend.memberNumber);
-						},
-						{ noStyling: true },
-						{ button: {
-							classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content'],
-							children: [friend.beep.caption],
-							attributes: { role: "cell" },
-						}},
-					),
 					ElementButton.Create(
 						`friend-list-show-beep-${friend.memberNumber}`,
 						() => { if (friend.beep?.beepIndex) FriendListShowBeep(friend.beep.beepIndex); },
@@ -987,19 +1011,9 @@ function FriendListLoadFriendList(data) {
 			}));
 		}
 
-		row.appendChild(ElementButton.Create(
-			`friend-list-delete-${friend.memberNumber}`,
-			() => {
-				if (typeof friend.memberNumber === "number")
-					FriendListDelete(friend.memberNumber);
-			},
-			{ noStyling: true },
-			{ button: {
-				classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
-				children: [DeleteCaption],
-				attributes: { disabled: !friend.canDelete, role: "cell" },
-			}}
-		));
+		if (friend.relationType) {
+			row.appendChild(FriendListCreateActionsCell(friend));
+		}
 
 		FriendListContent.push(row);
 
@@ -1028,6 +1042,234 @@ function FriendListDelete(MemberNumber) {
 		Player.FriendNames.delete(MemberNumber);
 		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	}
+}
+
+/**
+ * Registers an action for the friend list action menu.
+ * @param {FriendListActionDefinition} action
+ */
+function FriendListRegisterAction(action) {
+	if (FriendListActionDefinitions[action.id])
+		return console.warn(`Action "${action.id}" already registered`);
+	FriendListActionDefinitions[action.id] = action;
+}
+
+/**
+ * @param {FriendListActionContext} friend
+ * @returns {FriendListActionDefinition[]}
+ */
+function FriendListGetAvailableActions(friend) {
+	return Object.values(FriendListActionDefinitions).filter((action) => action.isVisible ? action.isVisible(friend) : true);
+}
+
+/**
+ * @param {FriendListActionDefinition} action
+ * @param {FriendListActionContext} friend
+ * @returns {HTMLElement}
+ */
+function FriendListCreateActionItem(action, friend) {
+	const label = action.getLabel(friend);
+	const isEnabled = action.isEnabled ? action.isEnabled(friend) : true;
+	return ElementButton.Create(
+		`friend-list-action-${action.id}-${friend.memberNumber}`,
+		() => {
+			FriendListCloseActionsMenu();
+			action.onClick(friend);
+		},
+		{
+			disabled: !isEnabled,
+			image: action.getIcon ? action.getIcon(friend) : undefined,
+			label: label,
+			labelPosition: "right",
+		},
+		{
+			button: {
+				classList: ["friend-list-actions-item"],
+				attributes: {
+					role: "menuitem",
+				},
+			},
+			img: {
+				classList: ["friend-list-actions-icon"],
+			}
+		},
+	);
+}
+
+/**
+ * @param {FriendRawData} friend
+ * @returns {FriendListActionContext}
+ */
+function FriendListBuildActionContext(friend) {
+	return {
+		memberNumber: friend.memberNumber ?? -1,
+		memberName: friend.memberName ?? TextGet("Unknown"),
+		canDelete: friend.canDelete,
+		pending: friend.pending,
+		relationType: friend.relationType,
+		canAdd: friend.canAdd,
+		canBeep: friend.canBeep,
+		isOnline: friend.isOnline,
+	};
+}
+
+/**
+ * @param {FriendRawData} friend
+ * @returns {HTMLElement}
+ */
+function FriendListCreateActionsCell(friend) {
+	const context = FriendListBuildActionContext(friend);
+	const actions = FriendListGetAvailableActions(context);
+	const memberNumber = context.memberNumber;
+	const wrapperId = `friend-list-actions-wrapper-${memberNumber}`;
+	const menuId = `friend-list-actions-menu-${memberNumber}`;
+	const buttonId = `friend-list-actions-${memberNumber}`;
+	return ElementCreate({
+		tag: "td",
+		classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content', 'fl-online-friends-content'],
+		children: [
+			{
+				tag: "div",
+				attributes: {
+					id: wrapperId,
+					"data-open": "false",
+				},
+				classList: ["friend-list-actions-wrapper"],
+				children: [
+					ElementButton.Create(
+						buttonId,
+						function() { FriendListToggleActionsMenu.call(this, memberNumber); },
+						{ noStyling: true },
+						{
+							button: {
+								classList: ['friend-list-actions-button', 'friend-list-link'],
+								children: ["•••"],
+								attributes: {
+									disabled: actions.length === 0,
+									role: "cell",
+									"aria-haspopup": "menu",
+									"aria-expanded": "false",
+									"aria-controls": menuId,
+								},
+							}
+						},
+					),
+					ElementMenu.Create(
+						menuId,
+						actions.length > 0
+							? actions.map((action) => FriendListCreateActionItem(action, context))
+							: [TextGet("ActionsNone")],
+						{
+							role: "menu",
+						},
+						{
+							menu: {
+								classList: ["friend-list-actions-menu"],
+								eventListeners: {
+									focusout: FriendListActionsMenuFocusOut,
+								},
+							},
+						}
+					),
+				],
+			},
+		],
+	});
+}
+
+/**
+ * Closes the actions popover if focus is no longer on this menu (or a descendant). {@link FriendListCloseActionsMenu} syncs the trigger and popover.
+ * @this {HTMLElement}
+ * @param {FocusEvent} ev
+ */
+function FriendListActionsMenuFocusOut(ev) {
+	const to = ev.relatedTarget;
+
+	if (!(to instanceof Node) || !this.contains(to)) {
+		/** @type {HTMLButtonElement | null} */
+		const controller = document.querySelector(`button[aria-controls~="${this.id}"]`);
+		controller?.click();
+	}
+}
+
+/**
+ * @this {HTMLButtonElement}
+ * @param {number} memberNumber
+ */
+function FriendListToggleActionsMenu(memberNumber) {
+	const wrapper = ElementWrap(`friend-list-actions-wrapper-${memberNumber}`);
+	if (!wrapper) return;
+
+	const wasOpen = this.getAttribute("aria-expanded") === "true";
+	FriendListCloseActionsMenu();
+	if (wasOpen) return;
+
+	/** @type {HTMLElement | null} */
+	const menu = wrapper.querySelector(".friend-list-actions-menu");
+	if (!menu) return;
+
+	menu.setAttribute("data-original-parent", wrapper.id);
+	menu.setAttribute("open", "true");
+	document.body.appendChild(menu);
+	FriendListPositionActionsMenu(wrapper, menu);
+
+	/** @type {HTMLButtonElement | null} */
+	const firstButton = menu.querySelector("button[role='menuitem'], button[role='menuitemradio'], button[role='menuitemcheckbox']");
+	firstButton?.focus();
+	this.setAttribute("aria-expanded", "true");
+}
+
+function FriendListCloseActionsMenu() {
+	document.querySelectorAll("button.friend-list-actions-button[aria-expanded='true']").forEach((button) => {
+		const menu = ElementUnpackIDs.fromAttribute(button, "aria-controls")[0];
+		if (menu) {
+			ElementWrap(menu.getAttribute("data-original-parent"))?.appendChild(menu);
+			menu.removeAttribute("data-original-parent");
+			menu.removeAttribute("open");
+		}
+		button.setAttribute("aria-expanded", "false");
+	});
+}
+
+/**
+ * @param {Element} wrapper
+ * @param {HTMLElement} menu
+ */
+function FriendListPositionActionsMenu(wrapper, menu) {
+	const anchor = wrapper.querySelector(".friend-list-actions-button");
+	const anchorRect = anchor?.getBoundingClientRect() ?? wrapper.getBoundingClientRect();
+	const menuRect = menu.getBoundingClientRect();
+	const menuWidth = menuRect.width || /** @type {HTMLElement} */(menu).offsetWidth || 0;
+	const menuHeight = menuRect.height || /** @type {HTMLElement} */(menu).offsetHeight || 0;
+	const margin = 8;
+	const offset = 12;
+	let left = anchorRect.left - menuWidth - offset;
+	let top = anchorRect.top + (anchorRect.height - menuHeight) / 2;
+	left = Math.min(Math.max(margin, left), window.innerWidth - menuWidth - margin);
+	top = Math.min(Math.max(margin, top), window.innerHeight - menuHeight - margin);
+
+	Object.assign(menu.style, {
+		position: "fixed",
+		inset: "auto",
+		left: `${left}px`,
+		top: `${top}px`,
+		right: "auto",
+		bottom: "auto",
+		margin: "0",
+	});
+	ElementSetFontSize(menu, "auto");
+}
+
+function FriendListRepositionActionsMenu() {
+	/** @type {HTMLElement | null} */
+	const menu = document.querySelector(".friend-list-actions-menu[open='true']");
+	const menuIdPrefix = "friend-list-actions-menu-";
+	if (!menu?.id?.startsWith(menuIdPrefix)) return;
+
+	const wrapper = ElementWrap(menu.id.replace(menuIdPrefix, "friend-list-actions-wrapper-"));
+	if (!wrapper) return;
+
+	FriendListPositionActionsMenu(wrapper, menu);
 }
 
 /**
@@ -1224,6 +1466,15 @@ function FriendListGetRelationType(memberNumber) {
  */
 function FriendListCanDelete(memberNumber) {
 	return Player.HasOnFriendlist(memberNumber) && !Player.IsOwnedByMemberNumber(memberNumber) && !Player.IsLoverOfMemberNumber(memberNumber);
+}
+
+/**
+ * Checks if the player can add the given member number to their friendlist.
+ * @param {number} memberNumber
+ * @returns {boolean}
+ */
+function FriendListCanAdd(memberNumber) {
+	return !Player.HasOnFriendlist(memberNumber);
 }
 
 /**
