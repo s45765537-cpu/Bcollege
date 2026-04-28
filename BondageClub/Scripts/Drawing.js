@@ -1366,7 +1366,8 @@ function DrawLineCorner(x0, y0, x1, y1, x2, y2, lineWidth = 2, color = "black") 
  * Gets a character's custom background from the assets it wears
  *
  * @param {Character} C - The character to get the background for
- * @returns {string | undefined} - Path to the custom background, or undefined if none
+ * @returns {string | undefined} either `undefined` for no custom background, `""` for black, or
+ * the filename to a background in the Backgrounds directory
  */
 function DrawGetCustomBackground(C) {
 	return C?.CustomBackground;
@@ -1478,7 +1479,7 @@ function DrawGetDarkFactor() {
 	let darken = CharacterGetDarkFactor(Player);
 	if (darken == 1 && CurrentCharacter != null && !CommonPhotoMode) darken = 0.5;
 
-	const isItemBG = !!DrawGetCustomBackground(Player);
+	const isItemBG = DrawGetCustomBackground(Player) !== undefined;
 	if (isItemBG && (darken === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 		darken = CharacterGetDarkFactor(Player, true);
 	}
@@ -1515,8 +1516,14 @@ function DrawGetBackgroundURL(skipVFX) {
 	let bgName = window[`${CurrentScreen}Background`];
 
 	const itemBackground = DrawGetCustomBackground(Player);
-	if (!skipVFX && itemBackground) {
-		return `Backgrounds/${itemBackground}.jpg`;
+	if (!skipVFX && itemBackground !== undefined) {
+		return itemBackground !== "" ? `Backgrounds/${itemBackground}.jpg` : "";
+	} else if (CurrentScreen === "ChatRoom") {
+		if (ChatRoomCustomized && ChatRoomCustomBackground) {
+			return ChatRoomCustomBackground;
+		} else if (ChatRoomData) {
+			return `Backgrounds/${ChatRoomData.Background}.jpg`;
+		}
 	} else if (bgName) {
 		return `Backgrounds/${bgName}.jpg`;
 	}
@@ -1654,7 +1661,7 @@ function DrawProcess(time) {
 function DrawShowChatRoomCustomBackground() {
 	return CurrentModule === "Online"
 		&& CurrentScreen === "ChatRoom"
-		&& (!CurrentCharacter || (ChatRoomCustomBackground !== "" && !DrawGetCustomBackground(Player)));
+		&& (!CurrentCharacter || (ChatRoomCustomBackground !== "" && DrawGetCustomBackground(Player) !== undefined));
 }
 
 /**

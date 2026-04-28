@@ -21323,7 +21323,6 @@ var AssetFemale3DCGExtended = {
 					Name: "Background",
 					Key: "b",
 					Options: [
-						//CustomBlindBackground: {"None" : "SynthWave", "FreeVR" : "SynthWave", "Gaming" : "Dungeon", "Off" : "", "AR" : ""},
 						{
 							// b0 - Passthrough
 							Property: {
