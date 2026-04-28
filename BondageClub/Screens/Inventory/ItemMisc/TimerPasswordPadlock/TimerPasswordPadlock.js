@@ -181,7 +181,7 @@ function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) 
 				const selectedOption = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex];
 				const selectedTime = selectedOption.values[PasswordTimerChooseIndexes[PasswordTimerChooseOptionsIndex]];
 				const selectedUnit = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex].unit;
-				InventoryItemMiscTimerPasswordPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit);
+				InventoryItemMiscTimerPasswordPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit, false, false);
 			} else if (MouseIn(1400, 910, 125, 70)) { // Previous time option
 				const selectedOption = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex];
 				const values = selectedOption.values;
@@ -216,8 +216,9 @@ function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) 
  * @param {number} TimeToAddSeconds
  * @param {{label: string, seconds: number}} DisplayTimeUnit
  * @param {boolean} PlayerMemberNumberToList
+ * @param {boolean} LeaveDialog
  */
-function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, PlayerMemberNumberToList = false) {
+function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, PlayerMemberNumberToList = false, LeaveDialog = true) {
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
 	const TimerBefore = property.RemoveTimer;
@@ -245,7 +246,7 @@ function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAddSeconds, DisplayTimeU
 			.endif()
 			.build();
 
-		ChatRoomPublishCustomAction(msg, true, dictionary);
+		ChatRoomPublishCustomAction(msg, LeaveDialog || property.RemoveTimer <= CurrentTime, dictionary);
 	} else {
 		DialogLeaveFocusItem();
 	}

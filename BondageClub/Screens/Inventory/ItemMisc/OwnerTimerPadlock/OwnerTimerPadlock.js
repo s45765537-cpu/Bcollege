@@ -129,7 +129,7 @@ function InventoryItemMiscOwnerTimerPadlockClickHook(data, originalFunction, val
 			const selectedOption = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex];
 			const selectedTime = selectedOption.values[OwnerTimerChooseIndexes[OwnerTimerChooseOptionsIndex]];
 			const selectedUnit = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex].unit;
-			InventoryItemMiscOwnerTimerPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit);
+			InventoryItemMiscOwnerTimerPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit, false, false);
 		} else if (MouseIn(1400, 910, 125, 70)) { // Previous time option
 			const selectedOption = OwnerTimerChooseOptions[OwnerTimerChooseOptionsIndex];
 			const values = selectedOption.values;
@@ -161,8 +161,9 @@ function InventoryItemMiscOwnerTimerPadlockClickHook(data, originalFunction, val
  * @param {number} TimeToAddSeconds
  * @param {{label: string, seconds: number}} DisplayTimeUnit
  * @param {boolean} PlayerMemberNumberToList
+ * @param {boolean} LeaveDialog
  */
-function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, PlayerMemberNumberToList = false) {
+function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, PlayerMemberNumberToList = false, LeaveDialog = true) {
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
 	const TimerBefore = property.RemoveTimer;
@@ -190,7 +191,7 @@ function InventoryItemMiscOwnerTimerPadlockAdd(TimeToAddSeconds, DisplayTimeUnit
 			.endif()
 			.build();
 
-		ChatRoomPublishCustomAction(msg, true, dictionary);
+		ChatRoomPublishCustomAction(msg, LeaveDialog || property.RemoveTimer <= CurrentTime, dictionary);
 	} else {
 		DialogLeaveFocusItem();
 	}

@@ -98,7 +98,7 @@ function InventoryItemMiscMistressTimerPadlockClickHook(data, originalFunction) 
 			const selectedOption = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex];
 			const selectedTime = selectedOption.values[MistressTimerChooseIndexes[MistressTimerChooseOptionsIndex]];
 			const selectedUnit = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex].unit;
-			InventoryItemMiscMistressTimerPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit);
+			InventoryItemMiscMistressTimerPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit, false, false);
 		} else if (MouseIn(1400, 910, 125, 70)) { // Previous time option
 			const selectedOption = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex];
 			const values = selectedOption.values;
@@ -130,8 +130,9 @@ function InventoryItemMiscMistressTimerPadlockClickHook(data, originalFunction) 
  * @param {number} TimeToAddSeconds
  * @param {{label: string, seconds: number}} DisplayTimeUnit
  * @param {boolean} PlayerMemberNumberToList
+ * @param {boolean} LeaveDialog
  */
-function InventoryItemMiscMistressTimerPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, PlayerMemberNumberToList = false) {
+function InventoryItemMiscMistressTimerPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, PlayerMemberNumberToList = false, LeaveDialog = true) {
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
 	const TimerBefore = property.RemoveTimer;
@@ -159,7 +160,7 @@ function InventoryItemMiscMistressTimerPadlockAdd(TimeToAddSeconds, DisplayTimeU
 			.endif()
 			.build();
 
-		ChatRoomPublishCustomAction(msg, true, dictionary);
+		ChatRoomPublishCustomAction(msg, LeaveDialog || property.RemoveTimer <= CurrentTime, dictionary);
 	} else {
 		DialogLeaveFocusItem();
 	}
