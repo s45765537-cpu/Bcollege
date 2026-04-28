@@ -1176,7 +1176,7 @@ var ServerValidation = {
 	/**
 	 * Private helper to quickly check boolean settings
 	 * @param {boolean} defaultValue
-	 * @returns {(arg: boolean) => boolean}
+	 * @returns {(arg: boolean | undefined) => boolean}
 	 */
 	isBool(defaultValue) {
 		return (arg) => {
@@ -1238,13 +1238,13 @@ var ServerValidation = {
 	/**
 	 * Private helper to quick check notification settings
 	 * @param {NotificationSetting} defaultNotif
-	 * @returns {(arg: NotificationSetting) => NotificationSetting}
+	 * @returns {(arg: Partial<NotificationSetting>) => NotificationSetting}
 	 */
 	isValidNotification(defaultNotif) {
 		return (arg) => {
 			return {
-				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg.Audio)),
-				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg.AlertType)),
+				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg?.Audio)),
+				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg?.AlertType)),
 			};
 		};
 	},

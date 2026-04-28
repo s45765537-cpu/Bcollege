@@ -80,6 +80,7 @@ function CharacterCreatePlayer() {
 	Character.splice(oldId, 1);
 	CharacterNextId--;
 	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+	PreferenceInitPlayer(Player, {});
 }
 
 /**

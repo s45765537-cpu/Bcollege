@@ -95,6 +95,7 @@ function CreationResponse(data) {
 				Creation: CurrentTime,
 				Appearance: appearance,
 				Money: 100,
+				Log: Log,
 			});
 
 			LoginSetupPlayer(createData);
