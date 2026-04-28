@@ -511,6 +511,7 @@ Tightness,Tightness:
 TryLoosen,Try to loosen the item
 TimerLeft,Time left:
 TimerUnknown,Unknown time left
+TimerHidden,Timer hidden
 Unlocked,Unlocked
 Unlocking,Unlocking...
 Using0,Using none of your skill...
