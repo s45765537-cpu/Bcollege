@@ -3915,6 +3915,10 @@ ItemHandheldChocolateOptionp0,Wrapped
 ItemHandheldChocolateOptionp1,Foiled
 ItemHandheldChocolateOptionp2,Golden ticket
 ItemHandheldChocolateOptionp3,Chocolate
+ItemHandheldChocolateSetp0,SourceCharacter makes DestinationCharacter AssetName show fully wrapped.
+ItemHandheldChocolateSetp1,SourceCharacter makes DestinationCharacter AssetName show aluminum foil inside the wrapping paper.
+ItemHandheldChocolateSetp2,SourceCharacter opened DestinationCharacter AssetName and found a gold ticket inside!
+ItemHandheldChocolateSetp3,SourceCharacter reveals DestinationCharacter AssetName from the wrapping paper.
 ItemHandheldChocolateSelectBase,Change your bar type
 ItemHandheldChocolateSelectType,Chocolate bar type...
 ItemHandheldDragonPlushSelect,Select Position
