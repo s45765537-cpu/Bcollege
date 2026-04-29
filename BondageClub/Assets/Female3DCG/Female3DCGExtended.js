@@ -13373,6 +13373,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // MysteryBox
+		UsedCondom: {
+			Archetype: "typed",
+			DrawImages: false,
+			Options: [{ Name: "A" }, { Name: "B" }, { Name: "C" }],
+		}, // UsedCondom
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {

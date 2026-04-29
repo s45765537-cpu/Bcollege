@@ -31896,6 +31896,32 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "UsedCondom",
+				InventoryID: 1334,
+				Random: false,
+				Value: 2,
+				Gender: "F",
+				Left: 240,
+				Top: 520,
+				IsRestraint: false,
+				Difficulty: -1,
+				Prerequisite: ["HasVagina", "AccessVulva"],
+				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+				Layer: [
+					{ Name: "Condom" },
+					{
+						Name: "Drip",
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: [0, 1] },
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "内套",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
