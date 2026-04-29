@@ -3910,6 +3910,9 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldLaptopClosed,Closed
+ItemHandheldLaptopOpen,Open
+ItemHandheldLaptopSelect,Select the laptop style
 ItemHandheldChocolateModuleType,Change
 ItemHandheldChocolateOptionp0,Wrapped
 ItemHandheldChocolateOptionp1,Foiled

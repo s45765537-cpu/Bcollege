@@ -46705,6 +46705,27 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Laptop",
+				InventoryID: 1333,
+				Value: 100,
+				Random: false,
+				Left: { "": 160, Yoked: 10 },
+				Top: { "": 300, Yoked: 130 },
+				Difficulty: -10,
+				IsRestraint: false,
+				ParentGroup: {},
+				PoseMapping: { ...AssetPoseMapping.ItemHandheld, Yoked: "Yoked" },
+				Layer: [
+					{ Name: "Main", CreateLayerTypes: ["typed"] },
+					{ Name: "Dot", CreateLayerTypes: ["typed"] },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "笔记本电脑",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",

@@ -22927,6 +22927,14 @@ var AssetFemale3DCGExtended = {
 				CommonChatTags.ASSET_NAME,
 			],
 		}, // Chocolate
+		Laptop: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{ Name: "Closed" },
+				{ Name: "Open", Property: { OverridePriority: 35 } },
+			],
+		}, // Laptop
 	}, // ItemHandheld
 	EyeShadow: {
 		Running: {
