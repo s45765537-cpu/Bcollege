@@ -1233,6 +1233,16 @@ function ChatRoomMapViewFloorWallEffect(X, Y) {
 	let SC = ChatRoomMapViewIsWall(X, Y + 1);
 	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1);
 
+	// If here is halfWall
+	if (ChatRoomData.MapData.Tiles.charCodeAt(X + Y * ChatRoomMapViewWidth) == 199){
+
+		//Finds the proper effect and returns it
+		if (!SW && SC && !SE) return 11;
+		if (!SW && SC && SE) return 12;
+		if (SW && SC && !SE) return 13;
+		if (SW && SC && SE) return 0;
+	}
+
 	// Find the "3D" wall effect and returns it
 	if (!SW && SC && !SE) return 50;
 	if (!SW && SC && SE) return 51;
