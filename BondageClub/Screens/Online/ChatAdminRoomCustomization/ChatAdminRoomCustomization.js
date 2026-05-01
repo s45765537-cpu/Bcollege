@@ -94,19 +94,31 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 	Value = Value.trim();
 
 	// Builds the custom object
-	/** @type {undefined | ServerChatRoomCustomData} */
-	let Custom = ChatRoomData.Custom;
-	if (Custom == null) Custom = { ImageURL: "", ImageFilter: "", MusicURL: "" };
-	if (Property == "Image") Custom.ImageURL = Value;
-	if (Property == "Filter") Custom.ImageFilter = Value;
-	if (Property == "Music") Custom.MusicURL = Value;
-	if ((Custom.ImageURL == "") && (Custom.ImageFilter == "") && (Custom.MusicURL == "")) Custom = undefined;
+	/** @type {ServerChatRoomCustomData} */
+	const Custom = CommonCloneDeep(ChatRoomData.Custom) ?? { ImageURL: "", ImageFilter: "", MusicURL: "" };
+	switch (Property) {
+		case "Image":
+			Custom.ImageURL = Value !== "" ? Value : undefined;
+			break;
+		case "Filter":
+			Custom.ImageFilter = Value !== "" ? Value : undefined;
+			break;
+		case "Music":
+			Custom.MusicURL = Value !== "" ? Value : undefined;
+			break;
+	}
+
+	if (Custom.ImageURL === ChatRoomData.Custom.ImageURL
+		&& Custom.ImageFilter === ChatRoomData.Custom.ImageFilter
+		&& Custom.MusicURL === ChatRoomData.Custom.MusicURL) {
+		// Nothing changed, don't bother updating
+		return;
+	}
 
 	// Update the room's custom data
 	const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
 	UpdatedRoom.Custom = Custom;
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
-
 }
 
 /**
