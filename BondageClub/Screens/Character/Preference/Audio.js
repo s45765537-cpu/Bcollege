@@ -23,15 +23,15 @@ function PreferenceSubscreenAudioLoad() {
 
 		if (setting === "MusicVolume") {
 			range.addEventListener("input", () => {
-				if (!ChatAdminRoomCustomizationMusic?.src) return;
+				if (!AudioBackgroundMusic?.src) return;
 
 				if (Player.AudioSettings.MusicVolume > -1)
-					ChatAdminRoomCustomizationMusic.volume = Math.min(Player.AudioSettings.MusicVolume, 0) * 0.25;
+					AudioBackgroundMusic.volume = Math.min(Player.AudioSettings.MusicVolume, 0) * 0.25;
 
 				if (Player.AudioSettings.MusicVolume <= 0)
-					ChatAdminRoomCustomizationMusic.pause();
+					AudioBackgroundMusic.pause();
 				else if (Player.AudioSettings.MusicVolume > 0)
-					ChatAdminRoomCustomizationPlayMusic(ChatAdminRoomCustomizationMusic.src);
+					AudioBackgroundMusicPlay(AudioBackgroundMusic.src);
 			});
 		}
 

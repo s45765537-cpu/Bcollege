@@ -2197,7 +2197,7 @@ function ChatRoomStatusCheckExpiration() {
 function ChatRoomCustomizationClear() {
 	ChatRoomCustomBackground = "";
 	ChatRoomCustomFilter = "";
-	ChatAdminRoomCustomizationPlayMusic("");
+	AudioBackgroundMusicPlay("");
 	ChatRoomCustomSizeMode = null;
 }
 

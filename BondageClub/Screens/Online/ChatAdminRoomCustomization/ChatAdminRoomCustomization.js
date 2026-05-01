@@ -2,8 +2,6 @@
 var ChatAdminRoomCustomizationBackground = "Sheet";
 /** @type {null | ServerChatRoomCustomData} */
 var ChatAdminRoomCustomizationCurrent = null;
-/** @type {null | HTMLAudioElement} */
-var ChatAdminRoomCustomizationMusic = null;
 /** @type {null | "MusicLibrary"} */
 var ChatAdminRoomCustomizationMode = null;
 /** @type {number} */
@@ -145,48 +143,6 @@ function ChatAdminRoomCustomizationUnload() {
 }
 
 /**
- * Plays or stop the background music
- * @param {string} Music - The URL of the music to play
- * @returns {void} - Nothing
- */
-function ChatAdminRoomCustomizationPlayMusic(Music) {
-
-	// If no music should play
-	if ((Music == null) || (Music == "")) {
-		if ((ChatAdminRoomCustomizationMusic != null) && !ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.pause();
-		return;
-	}
-
-	// Only allows .mp3 and .mp4 files for now
-	if (!CommonURLHasExtension(Music, [".mp3", ".mp4"])) {
-		if ((ChatAdminRoomCustomizationMusic != null) && !ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.pause();
-		return;
-	}
-
-	// If volume is more than zero, we start the background music at lower volume
-	const vol = (Player.AudioSettings.MusicVolume == null) ? 100 : Player.AudioSettings.MusicVolume;
-	if (vol > 0) {
-		if (ChatAdminRoomCustomizationMusic == null) ChatAdminRoomCustomizationMusic = new Audio();
-		let FileName = Music.trim();
-		if ((ChatAdminRoomCustomizationMusic.src == null) || (ChatAdminRoomCustomizationMusic.src.indexOf(FileName) < 0)) {
-			ChatAdminRoomCustomizationMusic.currentTime = 0;
-			ChatAdminRoomCustomizationMusic.src = FileName;
-			ChatAdminRoomCustomizationMusic.volume = Math.min(vol, 1) * 0.25;
-			ChatAdminRoomCustomizationMusic.play();
-			ChatAdminRoomCustomizationMusic.addEventListener('ended', function(ev) {
-				this.currentTime = 0;
-				this.play();
-			}, false);
-		}
-		if (ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.play();
-	} else {
-		if ((ChatAdminRoomCustomizationMusic != null) && !ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.pause();
-		return;
-	}
-
-}
-
-/**
  * Runs the customization on the current screen, can be called from elsewhere
  * @param {ServerChatRoomCustomData | null} Custom - The customization to apply
  * @param {Rect | null} DrawBGToRect - If non-null draw the background to these coordinates. Online chat rooms will use the tracked values elsewhere
@@ -234,9 +190,9 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 
 	// The background music can be any MP3 file from the web
 	if ((Custom.MusicURL != null) && (typeof Custom.MusicURL === "string") && (Custom.MusicURL.length <= 250))
-		ChatAdminRoomCustomizationPlayMusic(Custom.MusicURL);
+		AudioBackgroundMusicPlay(Custom.MusicURL);
 	else
-		ChatAdminRoomCustomizationPlayMusic("");
+		AudioBackgroundMusicPlay("");
 
 }
 
@@ -397,7 +353,7 @@ function ChatAdminRoomCustomizationClick() {
  * @type {ScreenExitHandler}
  */
 function ChatAdminRoomCustomizationExit() {
-	ChatAdminRoomCustomizationPlayMusic("");
+	AudioBackgroundMusicPlay("");
 	ElementRemove("InputImageURL");
 	ElementRemove("InputImageFilter");
 	ElementRemove("InputMusicURL");
