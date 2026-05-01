@@ -803,43 +803,60 @@ function AudioShockSounds(data) {
 }
 
 /**
- * Plays or stop the background music
+ * Sets the volume of the background music
+ * @param {number} volume
+ */
+function AudioBackgroundMusicSetVolume(volume) {
+	AudioBackgroundMusic.volume = CommonClamp(volume, 0, 1);
+
+	if (volume === 0) {
+		AudioBackgroundMusicStop();
+		return;
+	}
+	AudioBackgroundMusic.play();
+}
+
+/**
+ * Stops the background music
+ */
+function AudioBackgroundMusicStop() {
+	AudioBackgroundMusic.pause();
+}
+
+/**
+ * Plays the background music
  * @param {string} Music - The URL of the music to play
  * @returns {void} - Nothing
  */
 function AudioBackgroundMusicPlay(Music) {
+	Music = Music.trim();
 
 	// If no music should play
-	if ((Music == null) || (Music == "")) {
-		if ((AudioBackgroundMusic != null) && !AudioBackgroundMusic.paused) AudioBackgroundMusic.pause();
+	if (Music === "") {
+		AudioBackgroundMusicStop();
 		return;
 	}
 
 	// Only allows .mp3 and .mp4 files for now
 	if (!CommonURLHasExtension(Music, [".mp3", ".mp4"])) {
-		if ((AudioBackgroundMusic != null) && !AudioBackgroundMusic.paused) AudioBackgroundMusic.pause();
+		AudioBackgroundMusicStop();
 		return;
 	}
 
-	// If volume is more than zero, we start the background music at lower volume
-	const vol = (Player.AudioSettings.MusicVolume == null) ? 100 : Player.AudioSettings.MusicVolume;
-	if (vol > 0) {
-		if (AudioBackgroundMusic == null) AudioBackgroundMusic = new Audio();
-		let FileName = Music.trim();
-		if ((AudioBackgroundMusic.src == null) || (AudioBackgroundMusic.src.indexOf(FileName) < 0)) {
-			AudioBackgroundMusic.currentTime = 0;
-			AudioBackgroundMusic.src = FileName;
-			AudioBackgroundMusic.volume = Math.min(vol, 1) * 0.25;
-			AudioBackgroundMusic.play();
-			AudioBackgroundMusic.addEventListener('ended', function(ev) {
-				this.currentTime = 0;
-				this.play();
-			}, false);
-		}
-		if (AudioBackgroundMusic.paused) AudioBackgroundMusic.play();
+	// We're already playing that
+	if (AudioBackgroundMusic.src === Music && !AudioBackgroundMusic.paused) return;
+
+	AudioBackgroundMusic.currentTime = 0;
+	AudioBackgroundMusic.src = Music;
+	AudioBackgroundMusic.addEventListener('ended', function() {
+		this.currentTime = 0;
+		this.play();
+	}, false);
+
+	AudioBackgroundMusic.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
+	if (AudioBackgroundMusic.volume > 0) {
+		AudioBackgroundMusic.play();
 	} else {
-		if ((AudioBackgroundMusic != null) && !AudioBackgroundMusic.paused) AudioBackgroundMusic.pause();
-		return;
+		AudioBackgroundMusic.pause();
 	}
-
 }

@@ -189,10 +189,10 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 	}
 
 	// The background music can be any MP3 file from the web
-	if ((Custom.MusicURL != null) && (typeof Custom.MusicURL === "string") && (Custom.MusicURL.length <= 250))
+	if (typeof Custom.MusicURL === "string" && Custom.MusicURL.length <= 250)
 		AudioBackgroundMusicPlay(Custom.MusicURL);
 	else
-		AudioBackgroundMusicPlay("");
+		AudioBackgroundMusicStop();
 
 }
 
@@ -353,7 +353,7 @@ function ChatAdminRoomCustomizationClick() {
  * @type {ScreenExitHandler}
  */
 function ChatAdminRoomCustomizationExit() {
-	AudioBackgroundMusicPlay("");
+	AudioBackgroundMusicStop();
 	ElementRemove("InputImageURL");
 	ElementRemove("InputImageFilter");
 	ElementRemove("InputMusicURL");

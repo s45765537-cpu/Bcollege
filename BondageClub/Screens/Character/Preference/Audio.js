@@ -23,15 +23,7 @@ function PreferenceSubscreenAudioLoad() {
 
 		if (setting === "MusicVolume") {
 			range.addEventListener("input", () => {
-				if (!AudioBackgroundMusic?.src) return;
-
-				if (Player.AudioSettings.MusicVolume > -1)
-					AudioBackgroundMusic.volume = Math.min(Player.AudioSettings.MusicVolume, 0) * 0.25;
-
-				if (Player.AudioSettings.MusicVolume <= 0)
-					AudioBackgroundMusic.pause();
-				else if (Player.AudioSettings.MusicVolume > 0)
-					AudioBackgroundMusicPlay(AudioBackgroundMusic.src);
+				AudioBackgroundMusicSetVolume(Player.AudioSettings.MusicVolume);
 			});
 		}
 
