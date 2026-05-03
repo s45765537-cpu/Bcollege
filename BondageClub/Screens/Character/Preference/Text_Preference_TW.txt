@@ -200,7 +200,7 @@ Color actions
 動作染色
 Color emotes
 表情染色
-Color Activities
+Color activities
 行動染色
 Shrink all messages except dialogue
 縮小除對話外所有訊息
@@ -294,8 +294,10 @@ Lower
 更低
 Lowest
 最低
-Animation quality (reduce if inputs such as sliders are slow to respond)
-動畫效果(如果輸入和滾動條延遲時請調低)
+Animation quality
+動畫效果
+Reduce if inputs such as sliders are slow to respond
+如果輸入和滾動條延遲時請調低
 Display all characters at maximum height
 以最大身高顯示所有角色
 Show AFK bubble if idle for 5 minutes
@@ -348,27 +350,27 @@ Allow with a locked meter
 啟用鎖定量表
 Arousal meter visuals
 性奮量表外觀
-Bare Meter
+Bare meter
 純量表
-Solid Glow
+Solid glow
 持續發光
-Temporary Animation
+Temporary animation
 短暫動畫
-Constant Animation
+Constant animation
 持續動畫
-Vibrator Screen Filters
+Vibrator screen filters
 振動螢幕過濾
 None
 無
-Flickering Glow
+Flickering glow
 閃爍發光
-Arousal Screen Filter
+Arousal screen filter
 性奮螢幕過濾
-Strong Gradient
+Strong gradient
 強梯度
-Solid Color Filter
+Solid color filter
 固定顏色濾鏡
-Solid Filter at High Arousal
+Solid filter at high arousal
 高性奮時出現固定顏色濾鏡
 Meter visibility:
 量表可見性:
@@ -518,7 +520,7 @@ Accept changes
 接受改動
 Cancel changes
 取消改動
-Game Font
+Game font
 遊戲字體
 Fallback fonts will be used if your chosen font is unsupported on your device.
 如果設備不支持,會回退到默認字體.
@@ -548,12 +550,14 @@ Flip the room vertically when upside-down
 當被倒吊起來時垂直翻轉房間
 Flash the screen for certain effects
 受到特定效果時閃爍螢幕
-Enable antialiasing (For this browser, if supported)
-啟用反鋸齒(如果瀏覽器支持)
+Enable antialiasing
+啟用反鋸齒
+For this browser, if supported
+若此瀏覽器支援
 Not running on WebGL, cannot edit rendering configurations.
 未在WebGL運行,無法修改渲染設置.
-Preferred power consumption mode (For this browser, if supported)
-效能模式(如果瀏覽器支持)
+Preferred power consumption mode
+偏好效能模式
 Low consumption, slower rendering
 低消耗,渲染較慢
 Default
@@ -642,8 +646,12 @@ Page
 頁
 Allow item tint effects
 啟用物品染色效果
-Allow item blur effects (turn off if experiencing frame rate drops)
-啟用物品模糊效果（如果遇到幀率降低，請關閉）
+Can only leave a map near an entry or exit
+只能在入口或出口附近離開地圖
+Allow item blur effects
+啟用物品模糊效果
+Turn off if experiencing frame rate drops
+如果遇到幀率降低，請關閉
 Females
 女性
 Males

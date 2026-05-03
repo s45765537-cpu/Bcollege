@@ -10,18 +10,21 @@ var PreferenceChatMemberNumbersList = ["Always", "Never", "OnMouseover"];
 /** @type {ChatFontSizeType[]} */
 var PreferenceChatFontSizeList = ["Small", "Medium", "Large"];
 
-/** @type {PreferenceChatCheckboxOption[]} */
+/** @type {PreferenceCheckboxOption[]} */
 const PreferenceSubscreenChatCheckboxes = [
 	{ label: "ColorNames", check: () => Player.ChatSettings.ColorNames, click: () => Player.ChatSettings.ColorNames = !Player.ChatSettings.ColorNames },
 	{ label: "ColorActions", check: () => Player.ChatSettings.ColorActions, click: () => Player.ChatSettings.ColorActions = !Player.ChatSettings.ColorActions },
 	{ label: "ColorEmotes", check: () => Player.ChatSettings.ColorEmotes, click: () => Player.ChatSettings.ColorEmotes = !Player.ChatSettings.ColorEmotes },
-	{ label: "ShowActivities", check: () => Player.ChatSettings.ShowActivities, click: () => Player.ChatSettings.ShowActivities = !Player.ChatSettings.ShowActivities },
-	{ label: "PreserveWhitespace", check: () => Player.ChatSettings.WhiteSpace == "Preserve", click: () => Player.ChatSettings.WhiteSpace = Player.ChatSettings.WhiteSpace == "Preserve" ? "" : "Preserve" },
 	{ label: "ColorActivities", check: () => Player.ChatSettings.ColorActivities, click: () => Player.ChatSettings.ColorActivities = !Player.ChatSettings.ColorActivities },
+	{ label: "ShowActivities", check: () => Player.ChatSettings.ShowActivities, click: () => Player.ChatSettings.ShowActivities = !Player.ChatSettings.ShowActivities },
+	{ label: "ShowAutomaticMessages", check: () => Player.ChatSettings.ShowAutomaticMessages, click: () => Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages },
+	{ label: "ShowBeepChat", check: () => Player.ChatSettings.ShowBeepChat, click: () => Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat },
+	{ label: "ShowFriendRequestMessages", check: () => Player.ChatSettings.ShowFriendRequestMessages, click: () => Player.ChatSettings.ShowFriendRequestMessages = !Player.ChatSettings.ShowFriendRequestMessages },
+	{ label: "ShowChatRoomHelp", check: () => Player.ChatSettings.ShowChatHelp, click: () => Player.ChatSettings.ShowChatHelp = !Player.ChatSettings.ShowChatHelp },
 	{ label: "ShrinkNonDialogue", check: () => Player.ChatSettings.ShrinkNonDialogue, click: () => Player.ChatSettings.ShrinkNonDialogue = !Player.ChatSettings.ShrinkNonDialogue },
 	{ label: "MuStylePoses", check: () => Player.ChatSettings.MuStylePoses, click: () => Player.ChatSettings.MuStylePoses = !Player.ChatSettings.MuStylePoses },
 	{ label: "DisplayTimestamps", check: () => Player.ChatSettings.DisplayTimestamps, click: () => Player.ChatSettings.DisplayTimestamps = !Player.ChatSettings.DisplayTimestamps },
-	{ label: "ShowChatRoomHelp", check: () => Player.ChatSettings.ShowChatHelp, click: () => Player.ChatSettings.ShowChatHelp = !Player.ChatSettings.ShowChatHelp },
+	{ label: "PreserveWhitespace", check: () => Player.ChatSettings.WhiteSpace == "Preserve", click: () => Player.ChatSettings.WhiteSpace = Player.ChatSettings.WhiteSpace == "Preserve" ? "" : "Preserve" },
 	{
 		label: "PreserveChat",
 		check: () => Player.ChatSettings.PreserveChat,
@@ -33,14 +36,11 @@ const PreferenceSubscreenChatCheckboxes = [
 			}
 		}
 	},
-	{ label: "ShowAutomaticMessages", check: () => Player.ChatSettings.ShowAutomaticMessages, click: () => Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages },
-	{ label: "ShowBeepChat", check: () => Player.ChatSettings.ShowBeepChat, click: () => Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat },
 	{ label: "OOCAutoClose", check: () => Player.ChatSettings.OOCAutoClose, click: () => Player.ChatSettings.OOCAutoClose = !Player.ChatSettings.OOCAutoClose },
 	{ label: "DisableReplies", check: () => Player.ChatSettings.DisableReplies, click: () => Player.ChatSettings.DisableReplies = !Player.ChatSettings.DisableReplies },
-	{ label: "ShowFriendRequestMessages", check: () => Player.ChatSettings.ShowFriendRequestMessages, click: () => Player.ChatSettings.ShowFriendRequestMessages = !Player.ChatSettings.ShowFriendRequestMessages },
 ];
 
-/** @type {Record<string, PreferenceChatDropdownOption>} */
+/** @type {Record<string, PreferenceDropdownOption>} */
 const PreferenceSubscreenChatDropdowns = {
 	ColorTheme: {
 		list: [...PreferenceChatColorThemeList],
@@ -78,31 +78,24 @@ const PreferenceSubscreenChatIDs = Object.freeze({
 });
 
 function PreferenceSubscreenChatLoad() {
+	const checkboxHtmlOptions = { container: { classList: ["preference-settings-checkbox"] } };
+
 	const dropdownElements = Object.entries(PreferenceSubscreenChatDropdowns).map(([key, dropdown]) => {
 		const currentValue = dropdown.current();
 		const options = dropdown.list.map((/** @type {string} */ e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */ ({attributes: { value: e, label: TextGet(e), selected: e === currentValue }}));
-		return ElementCreate({
-			tag: "div",
-			classList: ["preference-settings-dropdown"],
-			attributes: {
-				id: `${key}-dropdown-container`
-			},
-			children: [
-				{
-					tag: "label",
-					children: [TextGet(key)],
-					attributes: { for: `${key}-dropdown` },
-				},
-				ElementCreateDropdown(`${key}-dropdown`, options,
-					(ev) => {
-						ev.preventDefault();
-						const value = /** @type {HTMLSelectElement} */ (ev.target).value;
-						if (!value) return;
-						if (!dropdown.list.includes(value)) return;
-						dropdown.onChange(value);
-					})
-			]
-		});
+		return ElementDropdown.CreateLabelled(`${key}-dropdown`, options, TextGet(key),
+			function (ev) {
+				ev.preventDefault();
+				const value = this.value;
+				if (!value) return;
+				if (!dropdown.list.includes(value)) return;
+				dropdown.onChange(value);
+			}, null, {
+				container: {
+					classList: ["preference-settings-dropdown"],
+				}
+			}
+		);
 	});
 
 	const checkboxElements = PreferenceSubscreenChatCheckboxes.map((checkbox) => {
@@ -111,12 +104,12 @@ function PreferenceSubscreenChatLoad() {
 
 		return ElementCheckbox.CreateLabelled(`${checkbox.label}-checkbox`, label, checkbox.click, {
 			checked
-		});
+		}, checkboxHtmlOptions);
 	});
 
 	const grid = ElementCreate({
 		tag: "div",
-		classList: ["preference-settings-grid", "scroll-box"],
+		classList: ["preference-settings-grid", "preference-settings-aligned-grid", "scroll-box"],
 		attributes: { id: PreferenceSubscreenChatIDs.grid },
 		children: [
 			...dropdownElements,
@@ -152,5 +145,6 @@ function PreferenceSubscreenChatExit() {
 
 function PreferenceSubscreenChatResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
-	ElementSetPosition(PreferenceSubscreenChatIDs.grid, x, y);
+	ElementSetPosition(PreferenceSubscreenChatIDs.grid, x, y + 10);
+	ElementSetSize(PreferenceSubscreenChatIDs.grid, 1400, 800);
 }

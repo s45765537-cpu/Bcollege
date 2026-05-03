@@ -50,3 +50,15 @@
 .element-button-group-button[aria-checked="true"]:first-child {
     border-left: var(--border-width) solid transparent;
 }
+
+.dropdown-pair {
+	display: grid;
+	grid-template-columns: fit-content fit-content;
+	gap: var(--gap);
+	align-items: center;
+}
+
+.dropdown-pair .custom-select {
+	align-self: center;
+	height: fit-content;
+}

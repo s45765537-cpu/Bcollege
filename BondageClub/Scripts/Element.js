@@ -334,6 +334,7 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 
 /**
  * Construct a `<select>`-based dropdown menu.
+ * @deprecated - Use {@link ElementDropdown.Create} instead
  * @param {string | null} id - The name of the select item.
  * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
  * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
@@ -342,66 +343,129 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
  * @returns {HTMLSelectElement} - The created element
  */
 function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOptions=null) {
-	id ??= ElementGenerateID();
-	let select = /** @type {null | HTMLSelectElement} */(document.getElementById(id));
-	if (select != null) {
-		console.error(`Element "${id}" already exists`);
-		return select;
-	}
-
-	options ??= {};
-	const booleanAttributes = Object.fromEntries(/** @type {const} */([
-		["required", options.required],
-		["multiple", options.multiple],
-		["disabled", options.disabled],
-		["size", options.size],
-		["name", options.name],
-	]).filter(i => i[1] != null));
-
-	const selectOptions = htmlOptions?.select ?? {};
-	select = ElementCreate({
-		...htmlOptions,
-		tag: "select",
-		classList: [
-			...(selectOptions.classList ?? []),
-			"HideOnPopup",
-			"custom-select",
-		],
-		attributes: {
-			...(selectOptions.attributes ?? {}),
-			id,
-			["screen-generated"]: CurrentScreen,
-			...booleanAttributes,
-		},
-		parent: selectOptions.parent ?? document.body,
-		eventListeners: {
-			...(selectOptions.eventListeners ?? {}),
-			change(ev) {
-				if (!this.matches(":focus-visible")) {
-					this.blur();
-				}
-				if (!this.validity.valid) {
-					ev.stopImmediatePropagation();
-					return;
-				}
-			},
-		},
-		children: [
-			...(selectOptions.children ?? []),
-			...optionsList.map(content => {
-				if (typeof content === "string") {
-					return { tag: /** @type {const} */("option"), children: [content] };
-				} else if ("tag" in content && content.tag === "hr") {
-					return /** @type {HTMLOptions<"hr">} */(content);
-				} else {
-					return { tag: /** @type {const} */("option"), ...content };
-				}
-			}),
-		],
-	});
-	select.addEventListener("change", onChange);
-	return select;
+	return ElementDropdown.Create(id, optionsList, onChange, options, htmlOptions);
 }
+
+/**
+ * Namespace for creating `<select>`-based dropdown menus.
+ * @namespace
+ */
+var ElementDropdown = {
+	/**
+	 * Construct a `<select>`-based dropdown menu.
+	 * @param {string | null} id - The name of the select item.
+	 * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+	 * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
+	 * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number, name?: string }} [options] - Additional `<select>`-specific properties
+	 * @param {null | Partial<Record<"select", Omit<HTMLOptions<"select">, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLSelectElement} - The created element
+	 */
+	Create(id, optionsList, onChange, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
+		let select = /** @type {null | HTMLSelectElement} */(document.getElementById(id));
+		if (select != null) {
+			console.error(`Element "${id}" already exists`);
+			return select;
+		}
+
+		options ??= {};
+		const booleanAttributes = Object.fromEntries(/** @type {const} */([
+			["required", options.required],
+			["multiple", options.multiple],
+			["disabled", options.disabled],
+			["size", options.size],
+			["name", options.name],
+		]).filter(i => i[1] != null));
+
+		const selectOptions = htmlOptions?.select ?? {};
+		select = ElementCreate({
+			...htmlOptions,
+			tag: "select",
+			classList: [
+				...(selectOptions.classList ?? []),
+				"HideOnPopup",
+				"custom-select",
+			],
+			attributes: {
+				...(selectOptions.attributes ?? {}),
+				id,
+				["screen-generated"]: CurrentScreen,
+				...booleanAttributes,
+			},
+			parent: selectOptions.parent ?? document.body,
+			eventListeners: {
+				...(selectOptions.eventListeners ?? {}),
+				change(ev) {
+					if (!this.matches(":focus-visible")) {
+						this.blur();
+					}
+					if (!this.validity.valid) {
+						ev.stopImmediatePropagation();
+						return;
+					}
+				},
+			},
+			children: [
+				...(selectOptions.children ?? []),
+				...optionsList.map(content => {
+					if (typeof content === "string") {
+						return { tag: /** @type {const} */("option"), children: [content] };
+					} else if ("tag" in content && content.tag === "hr") {
+						return /** @type {HTMLOptions<"hr">} */(content);
+					} else {
+						return { tag: /** @type {const} */("option"), ...content };
+					}
+				}),
+			],
+		});
+		select.addEventListener("change", onChange);
+		return select;
+	},
+
+	/**
+	 * Construct a `<select>`-based dropdown menu.
+	 * @param {string | null} id - The name of the select item.
+	 * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+	 * @param {string} label - The label of the dropdown menu.
+	 * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
+	 * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number, name?: string }} [options] - Additional `<select>`-specific properties
+	 * @param {null | Partial<Record<"select" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLLabelElement} - The created element
+	 */
+	CreateLabelled(id, optionsList, label, onChange, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
+		const checkbox = document.getElementById(id);
+		if (checkbox) {
+			console.error(`Element "${id}" already exists`);
+			return /** @type {HTMLLabelElement} */(checkbox);
+		}
+
+		options ??= {};
+		const labelOptions = htmlOptions?.label ?? {};
+		const containerOptions = htmlOptions?.container ?? {};
+
+		return ElementCreate({
+			...containerOptions,
+			tag: "label",
+			classList: ["dropdown-pair", ...(containerOptions.classList ?? [])],
+			attributes: { id: `dropdown-pair-${id}`, for: id, ...(containerOptions.attributes ?? {}) },
+			children: [
+				{
+					...labelOptions,
+					tag: "span",
+					attributes: {
+						id: `${id}-label`,
+						...labelOptions.attributes
+					},
+					classList: ["dropdown-label", ...(labelOptions.classList ?? [])],
+					children: [label, ...(labelOptions.children ?? [])],
+				},
+				this.Create(id, optionsList, onChange, options, htmlOptions),
+				...(containerOptions.children ?? []),
+			],
+		});
+	},
+};
 
 /**
  * Creates a new div element in the main document. Does not create a new element if there is already an existing one with the same ID
