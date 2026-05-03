@@ -180,7 +180,7 @@ Color actions
 动作染色
 Color emotes
 表情染色
-Color Activities
+Color activities
 行动染色
 Shrink all messages except dialogue
 缩小除对话外所有信息
@@ -208,7 +208,7 @@ Preserve chat logs between rooms
 在房间之间保留聊天记录
 Disable reply feature
 禁用回复功能
-Default Chatroom Background: 
+Default chatroom background: 
 默认聊天室背景:
 Page 1/2
 页面 1/2
@@ -292,8 +292,10 @@ Lower
 更低
 Lowest
 最低
-Animation quality (reduce if inputs such as sliders are slow to respond)
-动画效果(如果输入和滚动条延迟时请调低)
+Animation quality
+动画效果
+Reduce if inputs such as sliders are slow to respond
+如果输入和滚动条延迟时请调低
 Display all characters at maximum height
 以最大身高显示所有角色
 Show AFK bubble if idle for 5 minutes
@@ -346,27 +348,27 @@ Allow with a locked meter
 启用锁定量表
 Arousal meter visuals
 性奋量表外观
-Bare Meter
+Bare meter
 纯量表
-Solid Glow
+Solid glow
 持续发光
-Temporary Animation
+Temporary animation
 短暂动画
-Constant Animation
+Constant animation
 持续动画
-Vibrator Screen Filters
+Vibrator screen filters
 振动屏幕过滤
 None
 无
-Flickering Glow
+Flickering glow
 闪烁发光
-Arousal Screen Filter
+Arousal screen filter
 性奋屏幕过滤
-Strong Gradient
+Strong gradient
 强梯度
-Solid Color Filter
+Solid color filter
 固定颜色滤镜
-Solid Filter at High Arousal
+Solid filter at high arousal
 高性奋时出现固定颜色滤镜
 Meter visibility:
 量表可见性:
@@ -518,7 +520,7 @@ Accept changes
 接受改动
 Cancel changes
 取消改动
-Game Font
+Game font
 游戏字体
 Fallback fonts will be used if your chosen font is unsupported on your device.
 如果设备不支持,会回退到默认字体.
@@ -548,12 +550,14 @@ Flip the room vertically when upside-down
 当被倒吊起来时垂直翻转房间
 Flash the screen for certain effects
 受到特定效果时闪烁屏幕
-Enable antialiasing (For this browser, if supported)
-启用抗锯齿(如果浏览器支持)
+Enable antialiasing
+启用抗锯齿
+For this browser, if supported
+若浏览器支持
 Not running on WebGL, cannot edit rendering configurations.
 未在WebGL运行,无法修改渲染设置.
-Preferred power consumption mode (For this browser, if supported)
-效能模式(如果浏览器支持)
+Preferred power consumption mode
+偏好功耗／效能模式
 Low consumption, slower rendering
 低消耗,渲染较慢
 Default
@@ -666,8 +670,10 @@ Allow item tint effects
 启用物品染色效果
 Can only leave a map near an entry or exit
 只能在入口或出口附近离开地图
-Allow item blur effects (turn off if experiencing frame rate drops)
-启用物品模糊效果（如果遇到帧率降低，请关闭）
+Allow item blur effects
+启用物品模糊效果
+Turn off if experiencing frame rate drops
+如果遇到帧率降低，请关闭
 Females
 女性
 Males

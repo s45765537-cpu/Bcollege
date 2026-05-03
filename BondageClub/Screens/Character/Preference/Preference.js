@@ -128,6 +128,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenGraphicsClick(),
 		exit: () => PreferenceSubscreenGraphicsExit(),
 		unload: () => PreferenceSubscreenGraphicsUnload(),
+		resize: () => PreferenceSubscreenGraphicsResize(),
 	},
 	{
 		name: "Controller",
@@ -207,9 +208,8 @@ async function PreferenceOpenSubscreen(subscreen, page = 1) {
 	if (!CommonIsNonNegativeInteger(page)) page = 1;
 	PreferencePageCurrent = page;
 	PreferenceMessage = "";
-	const subscreenTitle = subscreen === "Main" ? "Preferences" : `${subscreen}Preferences`;
 
-	PreferenceSubscreenCreateSubscreen(TextGet(subscreenTitle));
+	PreferenceSubscreenCreateSubscreen(subscreen);
 	await PreferenceSubscreen?.load?.();
 	PreferenceResize(true);
 }
@@ -320,19 +320,21 @@ function PreferenceKeyUp(event) {
 }
 
 /**
- * @param {string} subscreenName
+ * @param {PreferenceSubscreenName} subscreenName
  * @returns
  */
 function PreferenceSubscreenCreateSubscreen(subscreenName) {
+	const subscreenTitle = subscreenName === "Main" ? "Preferences" : `${subscreenName}Preferences`;
 	const subscreen = ElementDOMScreen.getTemplate(
 		PreferenceIDs.subscreen,
 		{
 			menubarButtons: [ElementButton.Create(PreferenceIDs.exit, PreferenceSubscreenExit, { image: "Icons/Exit.png" })],
-			header: subscreenName,
+			header: TextGet(subscreenTitle),
 			parent: document.body,
 			hgroupInHeader: true,
 		},
 	);
+	subscreen.setAttribute("data-subscreen", subscreenName);
 
 	return subscreen;
 }
