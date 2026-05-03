@@ -4,7 +4,7 @@
 const OwnerTimerChooseOptions = [
 	{ unit: TimeUnits.MINUTES, values: [5, 10, 15, 30, 60, -30, -15, -10, -5] },
 	{ unit: TimeUnits.HOURS, values: [1, 2, 3, 4, 8, 12, 16, 24, -12, -8, -4, -3, -2, -1] },
-	{ unit: TimeUnits.DAYS, values: [1, 2, 3, 7, -3, -2, -1] },
+	{ unit: TimeUnits.DAYS, values: [1, 2, 3, 7, 14, 28, -14, -7, -3, -2, -1] },
 ];
 let OwnerTimerChooseOptionsIndex = 1; // default is hours
 let OwnerTimerChooseIndexes = [0, 0, 0]; // defaults: [5 minutes, 1 hour, 1 day]

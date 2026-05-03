@@ -62329,7 +62329,7 @@ var AssetFemale3DCG = [
 				OwnerOnly: true,
 				Effect: [],
 				IsLock: true,
-				MaxTimer: 604800,
+				MaxTimer: 3024000,
 				RemoveTimer: 300,
 			},
 			{
