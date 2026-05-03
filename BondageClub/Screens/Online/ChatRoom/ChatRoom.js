@@ -134,10 +134,19 @@ var ChatRoomLeashPlayer = null;
  * @type {string}
  */
 var ChatRoomJoinLeash = "";
+
+/**
+ * Whether the chat room customization settings are user-enabled or not
+ */
 var ChatRoomCustomized = false;
-var ChatRoomCustomBackground = "";
-var ChatRoomCustomFilter = "";
-var ChatRoomCustomSizeMode = null;
+
+/** @satisfies {Record<"Never" | "DisabledByDefault" | "EnabledByDefault" | "Always", ChatRoomCustomizationType>} */
+const ChatRoomCustomization = /** @type {const} */ (Object.freeze({
+	Never: 0,
+	DisabledByDefault: 1,
+	EnabledByDefault: 2,
+	Always: 3,
+}));
 
 /**
  * The list of chat room views
@@ -428,11 +437,6 @@ function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnership
  * @returns {boolean} - TRUE if the current lover option is the specified one.
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
-/**
- * Returns TRUE if the room customization button can be used
- * @returns {boolean} - TRUE if can be used
- */
-function ChatRoomCustomizationButton() { return (((ChatRoomData != null) && (ChatRoomData.Custom != null)) && ((Player.OnlineSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization == 1) || (Player.OnlineSettings.ShowRoomCustomization == 2))); }
 /**
  * Checks if the player can take a drink from the current character's tray.
  * @returns {boolean} - TRUE if the current character is wearing a drinks tray and the player can interact.
@@ -1430,8 +1434,13 @@ function ChatRoomMenuBuild() {
 			}
 		}
 	}
-	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
-	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
+	if (ChatRoomData?.Custom && (Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.DisabledByDefault || Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault)) {
+		if (ChatRoomCustomized) {
+			ChatRoomMenuButtons.push("CustomizationOff");
+		} else {
+			ChatRoomMenuButtons.push("CustomizationOn");
+		}
+	}
 	ChatRoomMenuButtons.push("Dress");
 	ChatRoomMenuButtons.push("Profile");
 	if (OnlineGameHasOptions()) ChatRoomMenuButtons.push("GameOption");
@@ -2195,10 +2204,20 @@ function ChatRoomStatusCheckExpiration() {
  * @returns {void} - Nothing.
  */
 function ChatRoomCustomizationClear() {
-	ChatRoomCustomBackground = "";
-	ChatRoomCustomFilter = "";
 	AudioBackgroundMusicStop();
-	ChatRoomCustomSizeMode = null;
+}
+
+/**
+ * Returns whether the current chat room has customization enabled or not
+ */
+function ChatRoomIsCustomized() {
+	const { ShowRoomCustomization } = Player.OnlineSettings;
+	return ChatRoomData?.Custom
+		&& (ShowRoomCustomization === ChatRoomCustomization.Always
+			|| ChatRoomCustomized
+			&& (ShowRoomCustomization === ChatRoomCustomization.DisabledByDefault
+				|| ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault)
+		);
 }
 
 /**
@@ -2206,15 +2225,6 @@ function ChatRoomCustomizationClear() {
  * @returns {void} - Nothing.
  */
 function ChatRoomCustomizationRun() {
-	if ((Player.ImmersionSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 3)) ChatRoomCustomized = true;
-	if (ChatRoomCustomized) {
-		if ((Player.ImmersionSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization >= 1)) {
-			ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, null, null);
-		} else {
-			ChatRoomCustomized = false;
-			ChatRoomCustomizationClear();
-		}
-	}
 }
 
 /**

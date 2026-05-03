@@ -338,8 +338,6 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 	}
 
 	// The background image full image URL over the current background
-	ChatRoomCustomBackground = "";
-	ChatRoomCustomSizeMode = null;
 	let drewBackground = false;
 
 	if (typeof Custom.ImageURL === "string" && Custom.ImageURL !== "" && Custom.ImageURL.length <= 250) {
@@ -356,16 +354,12 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 				DrawRoomBackground(URL, DrawBGToRect, opts);
 				drewBackground = true;
 			}
-			ChatRoomCustomBackground = URL;
-			ChatRoomCustomSizeMode = Custom.SizeMode;
 		}
 	}
 
 	// The image filter is a full rectangle over the current background
-	ChatRoomCustomFilter = "";
 	if (typeof Custom.ImageFilter === "string" && Custom.ImageFilter !== "" && CommonIsColor(Custom.ImageFilter, { allowAlpha: true })) {
 		if (DrawBGToRect && !drewBackground) DrawRect(...RectGetFrame(DrawBGToRect), Custom.ImageFilter);
-		ChatRoomCustomFilter = Custom.ImageFilter;
 	}
 }
 

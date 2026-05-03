@@ -2460,6 +2460,8 @@ interface VisualSettingsType {
 	PrivateRoomBackground?: string;
 }
 
+type ChatRoomCustomizationType = 0 | 1 | 2 | 3;
+
 /**
  * The player's online settings.
  * @see {@link Player.OnlineSettings}
@@ -2472,7 +2474,7 @@ interface PlayerOnlineSettings {
 	SendStatus: boolean;
 	ShowStatus: boolean;
 	EnableAfkTimer: boolean;
-	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
+	ShowRoomCustomization: ChatRoomCustomizationType;
 	FriendListAutoRefresh: boolean;
 	DefaultChatRoomBackground: string;
 }
