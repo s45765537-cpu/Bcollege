@@ -30,3 +30,5 @@ Invalid server answer, it could be outdated.
 Хибна відповідь серверу, сервер може бути застарілим.
 Your character name, account name and password cannot be more than 20 characters long.
 Ім'я облікогово запису, персонажа або пароль не можуть бути довже ніж 20 символів.
+Your character name is permanent and cannot be changed. You can set a nickname later.
+Ім'я персонажа є постійним і не може бути змінене. Пізніше ви зможете встановити псевдонім.
