@@ -6867,11 +6867,11 @@ TextItemChange,"SourceCharacter changes the text on DestinationCharacterName Ass
 TextItemRemove,SourceCharacter removes the text from DestinationCharacterName AssetName
 TextItemSelect,Configure item text
 tightens,tightens
-TimerAddRemoveUnknownTime,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
-TimerAddTime,SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
+TimerAddRemoveUnknownTime,SourceCharacter changes the timer on the padlock on DestinationCharacter FocusAssetGroup
+TimerAddTime,SourceCharacter adds TimerTime to the padlock on DestinationCharacter FocusAssetGroup.
 TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
-TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
+TimerRemoveTime,SourceCharacter removes TimerTime from the padlock on DestinationCharacter FocusAssetGroup.
 TimerRestart,SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
 ToeTapePoseFull,Full
 ToeTapePoseToes,Toes

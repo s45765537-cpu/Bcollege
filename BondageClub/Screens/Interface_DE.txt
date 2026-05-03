@@ -246,6 +246,8 @@ Hacking the item...
 Hacking the item...
 hours
 Stunden
+days
+Tage
 in the Asylum
 im Asylum
 in room

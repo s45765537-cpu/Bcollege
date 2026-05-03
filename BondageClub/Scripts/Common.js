@@ -46,6 +46,16 @@ const CommonChatTags = {
 	AUTOMATIC: "Automatic",
 };
 
+/**
+ * An enum holding values of time units that might be used with their respective label of Interface.csv and seconds
+ * contained in said time unit.
+ */
+const TimeUnits = {
+	MINUTES: { label: "Minutes", seconds: 60 },
+	HOURS: { label: "Hours", seconds: 3600 },
+	DAYS: { label: "Days", seconds: 86400 },
+};
+
 /** @type {(this: string, index: number, character: string) => string} */
 String.prototype.replaceAt=function(index, character) {
 	return this.substr(0, index) + character + this.substr(index+character.length);

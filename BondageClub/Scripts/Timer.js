@@ -47,6 +47,34 @@ function TimerHourToString(T) {
 }
 
 /**
+ * Returns a literal string of the time remaining on a given timer
+ * @param {number} T - Time to convert to a string in ms
+ * @returns {string} - The time string in "DD days HH hours MM minutes" format
+ */
+function TimerToDaysHoursMinutesString(T) {
+	const D = Math.floor(T / 86400000);
+	const H = Math.floor((T % 86400000) / 3600000);
+	const M = Math.floor((T % 3600000) / 60000);
+	let R = "";
+	if (D > 0) {
+		R += D.toString() + " " + InterfaceTextGet(TimeUnits.DAYS.label);
+	}
+	if (H > 0) {
+		if (R.length > 0) {
+			R += " ";
+		}
+		R += H.toString() + " " + InterfaceTextGet(TimeUnits.HOURS.label);
+	}
+	if (M > 0) {
+		if (R.length > 0) {
+			R += " ";
+		}
+		R += M.toString() + " " + InterfaceTextGet(TimeUnits.MINUTES.label);
+	}
+	return R;
+}
+
+/**
  * Check if we must remove items from characters. (Expressions, items being removed, locks, etc.)
  * @returns {void} - Nothing
  */
@@ -350,4 +378,3 @@ function TimerCreate(callback, timeMs, repeat = false, type = 'universal') {
 		Timers.delete(id);
 	};
 }
-

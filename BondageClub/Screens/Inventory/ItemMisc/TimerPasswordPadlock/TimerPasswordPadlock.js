@@ -1,8 +1,12 @@
 // @ts-strict-ignore
 "use strict";
 
-const PasswordTimerChooseList = [5, 10, 15, 30, 60, 120, 180, 240, -180, -120, -60, -30, -15];
-let PasswordTimerChooseIndex = 0;
+const PasswordTimerChooseOptions = [
+	{ unit: TimeUnits.MINUTES, values: [5, 10, 15, 30, 60, -30, -15, -10, -5] },
+	{ unit: TimeUnits.HOURS, values: [1, 2, 3, 4, -3, -2, -1] },
+];
+let PasswordTimerChooseOptionsIndex = 0; // default is minutes
+let PasswordTimerChooseIndexes = [0, 0]; // defaults: [5 minutes, 1 hour]
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
 function InventoryItemMiscTimerPasswordPadlockLoadHook(data, originalFunction) {
@@ -106,23 +110,29 @@ function InventoryItemMiscTimerPasswordPadlockDrawHook(data, originalFunction) {
 		DrawText(InterfaceTextGet(RemoveTextKey), 1500, 868, "white", "gray");
 	}
 
-	const Minutes = InterfaceTextGet("Minutes");
 	// Draw buttons to add/remove time if available
 	if (Player.CanInteract() && (Player.MemberNumber == Property.LockMemberNumber)) {
 		DrawButton(1100, 910, 250, 70, InterfaceTextGet("AddTimerTime"), "White");
-		DrawBackNextButton(1400, 910, 250, 70,
-			PasswordTimerChooseList[PasswordTimerChooseIndex] + " " + Minutes,
-			"White",
-			"",
-			() => PasswordTimerChooseList[(PasswordTimerChooseList.length + PasswordTimerChooseIndex - 1) %
-			PasswordTimerChooseList.length] + " " + Minutes,
-			() => PasswordTimerChooseList[(PasswordTimerChooseIndex + 1) % PasswordTimerChooseList.length] + " " +
-				Minutes,
+		const selectedOption = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex];
+		const timeList = selectedOption.values;
+		const unit = selectedOption.unit;
+		const selectedIndex = PasswordTimerChooseIndexes[PasswordTimerChooseOptionsIndex];
+		const selectedUnitLabel = InterfaceTextGet(unit.label);
+		DrawBackNextButton(1400, 910, 250, 70, timeList[selectedIndex] + " " + selectedUnitLabel, "White", "",
+			() => timeList[(timeList.length + selectedIndex - 1) % timeList.length] + " " + selectedUnitLabel,
+			() => timeList[(selectedIndex + 1) % timeList.length] + " " + selectedUnitLabel,
+		);
+		const previousUnit = PasswordTimerChooseOptions[(PasswordTimerChooseOptions.length + PasswordTimerChooseOptionsIndex - 1) % PasswordTimerChooseOptions.length].unit;
+		const nextUnit = PasswordTimerChooseOptions[(PasswordTimerChooseOptionsIndex + 1) % PasswordTimerChooseOptions.length].unit;
+		DrawBackNextButton(1700, 910, 250, 70, selectedUnitLabel, "White", "",
+			() => InterfaceTextGet(previousUnit.label),
+			() => InterfaceTextGet(nextUnit.label),
 		);
 	} else if (Player.CanInteract() && Property.EnableRandomInput) {
 		for (let I = 0; I < Property.MemberNumberList.length; I++) {
 			if (Property.MemberNumberList[I] == Player.MemberNumber) return;
 		}
+		const Minutes = InterfaceTextGet("Minutes");
 		const TimeButtonSuffix = `${DialogFocusItem.Asset.RemoveTimer * 3 / 60} ${Minutes}`;
 		DrawButton(1100, 910, 250, 70, `- ${TimeButtonSuffix}`, "White");
 		DrawButton(1400, 910, 250, 70, InterfaceTextGet("Random"), "White");
@@ -168,14 +178,23 @@ function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) 
 	if (MouseYIn(910, 70)) {
 		if (Player.MemberNumber === Property.LockMemberNumber) {
 			if (MouseXIn(1100, 250)) {
-				InventoryItemMiscTimerPasswordPadlockAdd(PasswordTimerChooseList[PasswordTimerChooseIndex] * 60, false);
-			} else if (MouseXIn(1400, 250)) {
-				if (MouseX <= 1525) {
-					PasswordTimerChooseIndex = (PasswordTimerChooseList.length + PasswordTimerChooseIndex - 1) %
-						PasswordTimerChooseList.length;
-				} else {
-					PasswordTimerChooseIndex = (PasswordTimerChooseIndex + 1) % PasswordTimerChooseList.length;
-				}
+				const selectedOption = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex];
+				const selectedTime = selectedOption.values[PasswordTimerChooseIndexes[PasswordTimerChooseOptionsIndex]];
+				const selectedUnit = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex].unit;
+				InventoryItemMiscTimerPadlockAdd(selectedTime * selectedUnit.seconds, selectedUnit, false, false);
+			} else if (MouseIn(1400, 910, 125, 70)) { // Previous time option
+				const selectedOption = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex];
+				const values = selectedOption.values;
+				const selectedIndex = PasswordTimerChooseIndexes[PasswordTimerChooseOptionsIndex];
+				PasswordTimerChooseIndexes[PasswordTimerChooseOptionsIndex] = (values.length + selectedIndex - 1) % values.length;
+			} else if (MouseIn(1525, 910, 125, 70)) { // Next time option
+				const selectedOption = PasswordTimerChooseOptions[PasswordTimerChooseOptionsIndex];
+				const selectedIndex = PasswordTimerChooseIndexes[PasswordTimerChooseOptionsIndex];
+				PasswordTimerChooseIndexes[PasswordTimerChooseOptionsIndex] = (selectedIndex + 1) % selectedOption.values.length;
+			} else if (MouseIn(1700, 910, 125, 70)) { // Previous time mode option
+				PasswordTimerChooseOptionsIndex = (PasswordTimerChooseOptions.length + PasswordTimerChooseOptionsIndex - 1) % PasswordTimerChooseOptions.length;
+			} else if (MouseIn(1825, 910, 125, 70)) { // Next time mode option
+				PasswordTimerChooseOptionsIndex = (PasswordTimerChooseOptionsIndex + 1) % PasswordTimerChooseOptions.length;
 			}
 		} else if (Property.EnableRandomInput) {
 			for (let I = 0; I < Property.MemberNumberList.length; I++) {
@@ -187,56 +206,16 @@ function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) 
 			else if (MouseXIn(1400, 250)) TimeToAdd = RemoveTimer * 4 * ((Math.random() >= 0.5) ? 1 : -1);
 			else if (MouseXIn(1700, 250)) TimeToAdd = RemoveTimer * 2;
 
-			if (TimeToAdd) InventoryItemMiscTimerPasswordPadlockAdd(TimeToAdd, true);
+			if (TimeToAdd) InventoryItemMiscTimerPadlockAdd(TimeToAdd, TimeUnits.MINUTES, true);
 		}
 	}
 }
 
-// When a value is added to the timer, can be a negative one
-/**
- * @param {number} TimeToAdd
- * @param {boolean} PlayerMemberNumberToList
- */
-function InventoryItemMiscTimerPasswordPadlockAdd(TimeToAdd, PlayerMemberNumberToList=false) {
-	const Property = DialogFocusSourceItem.Property;
-	const C = CharacterGetCurrent();
-
-	if (PlayerMemberNumberToList) {
-		Property.MemberNumberList.push(Player.MemberNumber);
+/** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
+function InventoryItemMiscTimerPasswordPadlockExitHook(Data, OriginalFunction) {
+	if (OriginalFunction) {
+		OriginalFunction();
 	}
-	const TimerBefore = Property.RemoveTimer;
-	if (DialogFocusItem.Asset.RemoveTimer > 0) {
-		Property.RemoveTimer = Math.round(
-			Math.min(Property.RemoveTimer + (TimeToAdd * 1000), CurrentTime + (DialogFocusItem.Asset.MaxTimer * 1000)));
-	}
-	if (CurrentScreen === "ChatRoom") {
-		const timeAdded = (Property.RemoveTimer - TimerBefore) / (1000 * 60);
-		let msg = "TimerAddRemoveUnknownTime";
-		if (Property.ShowTimer) {
-			msg = timeAdded < 0 ? "TimerRemoveTime" : "TimerAddTime";
-		}
-
-		const dictionary = new DictionaryBuilder()
-			.sourceCharacter(Player)
-			.destinationCharacter(C)
-			.focusGroup(C.FocusGroup.Name)
-			.if(Property.ShowTimer)
-			.text("TimerTime", Math.round(Math.abs(timeAdded)).toString())
-			.textLookup("TimerUnit", "Minutes")
-			.endif()
-			.build();
-
-		for (let A = 0; A < C.Appearance.length; A++) {
-			if (C.Appearance[A].Asset.Group.Name == C.FocusGroup.Name) {
-				C.Appearance[A] = DialogFocusSourceItem;
-				break;
-			}
-		}
-
-		ChatRoomPublishCustomAction(msg, true, dictionary);
-	} else {
-		CharacterRefresh(C);
-	}
-
-	DialogLeaveFocusItem();
+	InventoryItemMiscPasswordPadlockExitHook(Data, OriginalFunction);
+	InventoryItemMiscSendTimerPadlockChangeMessage();
 }

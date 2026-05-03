@@ -18635,6 +18635,7 @@ var AssetFemale3DCGExtended = {
 			ScriptHooks: {
 				Draw: InventoryItemMiscOwnerTimerPadlockDrawHook,
 				Click: InventoryItemMiscOwnerTimerPadlockClickHook,
+				Exit: InventoryItemMiscOwnerTimerPadlockExitHook,
 			},
 			BaselineProperty: {
 				RemoveItem: false,
@@ -18684,6 +18685,7 @@ var AssetFemale3DCGExtended = {
 			ScriptHooks: {
 				Draw: InventoryItemMiscMistressTimerPadlockDrawHook,
 				Click: InventoryItemMiscMistressTimerPadlockClickHook,
+				Exit: InventoryItemMiscMistressTimerPadlockExitHook,
 			},
 			BaselineProperty: {
 				RemoveItem: false,
@@ -18720,7 +18722,7 @@ var AssetFemale3DCGExtended = {
 				Load: InventoryItemMiscTimerPasswordPadlockLoadHook,
 				Draw: InventoryItemMiscTimerPasswordPadlockDrawHook,
 				Click: InventoryItemMiscTimerPasswordPadlockClickHook,
-				Exit: InventoryItemMiscPasswordPadlockExitHook,
+				Exit: InventoryItemMiscTimerPasswordPadlockExitHook,
 			},
 			BaselineProperty: {
 				Password: "PASSWORD",
