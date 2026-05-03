@@ -1,4 +1,4 @@
-﻿Enter your account & character information
+Enter your account & character information
 Введите свою учетную запись и информацию о персонаже
 Character name (letters & spaces)
 Имя персонажа (буквы и пробелы)
@@ -28,3 +28,5 @@ Import Bondage College data
 Импорт данных Бондаж Колледжа
 Invalid server answer, it could be outdated.
 Неверный ответ сервера, он может быть устаревшим.
+Your character name is permanent and cannot be changed. You can set a nickname later.
+Имя персонажа постоянное и не может быть изменено. Позже вы сможете задать прозвище.

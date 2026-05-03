@@ -30,3 +30,5 @@ Invalid server answer, it could be outdated.
 Ungültige Server-Antwort, eventuell veraltet.
 Your character name, account name and password cannot be more than 20 characters long.
 Dein Charaktername, Account und Passwort kann nicht länger als 20 Zeichen sein. 
+Your character name is permanent and cannot be changed. You can set a nickname later.
+Dein Charaktername ist dauerhaft und kann nicht geändert werden. Du kannst später einen Spitznamen festlegen.
