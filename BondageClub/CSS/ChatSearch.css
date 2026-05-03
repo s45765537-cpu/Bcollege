@@ -55,10 +55,11 @@
 	margin: 0.25em 0.5em;
 	width: auto;
 }
-.chat-search-search-menu-room-size-label {
-	font-size: 0.8em;
-	user-select: none;
+
+#chat-search-search-menu .element-settings-label {
+	font-size: 0.7em;
 }
+
 .chat-search-room-size-input {
 	border: var(--border-width) solid black;
 }

@@ -734,7 +734,7 @@ function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
 function ElementCreateSettingsLabel(label, position="top") {
 	return ElementCreate({
 		tag: "span",
-		classList:  [`element-settings-label-${position}`],
+		classList:  ['element-settings-label', `element-settings-label-position-${position}`],
 		children: [
 			label,
 		],
