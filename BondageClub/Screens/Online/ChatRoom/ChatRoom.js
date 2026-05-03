@@ -2204,7 +2204,7 @@ function ChatRoomStatusCheckExpiration() {
  * @returns {void} - Nothing.
  */
 function ChatRoomCustomizationClear() {
-	AudioBackgroundMusicStop();
+	ChatRoomUpdateCustomization(false);
 }
 
 /**
@@ -2221,11 +2221,28 @@ function ChatRoomIsCustomized() {
 }
 
 /**
+ * Update the state of the room customization
+ * @param {boolean | undefined} toggle
+ * @returns
+ */
+function ChatRoomUpdateCustomization(toggle = undefined) {
+	if (typeof toggle === "boolean") {
+		ChatRoomCustomized = toggle;
+	}
+
+	if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.MusicURL) {
+		AudioBackgroundMusicPlay(ChatRoomData.Custom.MusicURL);
+	} else {
+		AudioBackgroundMusicStop();
+	}
+}
+
+/**
  * Use the room customization features if needed
+ * @deprecated
  * @returns {void} - Nothing.
  */
-function ChatRoomCustomizationRun() {
-}
+function ChatRoomCustomizationRun() {}
 
 /**
  * Runs the chatroom screen.
@@ -2836,12 +2853,10 @@ function ChatRoomMenuPerformAction(action, event) {
 			ChatRoomOpenAdminScreen();
 			break;
 		case "CustomizationOn":
-			ChatRoomCustomized = true;
-			ChatRoomCustomizationClear();
+			ChatRoomUpdateCustomization(true);
 			break;
 		case "CustomizationOff":
-			ChatRoomCustomized = false;
-			ChatRoomCustomizationClear();
+			ChatRoomUpdateCustomization(false);
 			break;
 		case "CharacterView":
 			ChatRoomActivateView(ChatRoomCharacterViewName);
@@ -5024,6 +5039,8 @@ async function ChatRoomSync(data) {
 		OnlineGameReset();
 	}
 
+	ChatRoomUpdateCustomization();
+
 	ChatRoomPingLeashedPlayers();
 
 	// Check whether the player's last chatroom data needs updating
@@ -5165,6 +5182,8 @@ function ChatRoomSyncRoomProperties(data) {
 	if (ChatRoomData.Game != null) {
 		ChatRoomGame = ChatRoomData.Game;
 	}
+
+	ChatRoomUpdateCustomization();
 
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();
