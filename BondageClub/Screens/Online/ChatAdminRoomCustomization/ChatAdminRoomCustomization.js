@@ -325,44 +325,13 @@ function ChatAdminRoomCustomizationPreviewMusic() {
 
 /**
  * Runs the customization on the current screen, can be called from elsewhere
+ * @deprecated DrawProcess knows how to handle custom backgrounds, and the music support is highly specific
  * @param {ServerChatRoomCustomData | null} Custom - The customization to apply
  * @param {Rect | null} DrawBGToRect - If non-null draw the background to these coordinates. Online chat rooms will use the tracked values elsewhere
  * @param {boolean} DrawBGEffects - If true and drawing a background then apply blur/dark/tint
  * @returns {void} - Nothing
  */
-function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) {
-
-	// Make sure the customization data is valid first
-	if (Custom == null) {
-		ChatRoomCustomizationClear();
-		return;
-	}
-
-	// The background image full image URL over the current background
-	let drewBackground = false;
-
-	if (typeof Custom.ImageURL === "string" && Custom.ImageURL !== "" && Custom.ImageURL.length <= 250) {
-		// Only allows .jpg and .png files for now
-		let URL = Custom.ImageURL.trim();
-		if (CommonURLHasExtension(URL, [".jpg", ".jpeg", ".png", ".webp"])) {
-			if (DrawBGToRect != null) {
-				const opts = {
-					blur: DrawBGEffects ? Player.GetBlurLevel() : undefined,
-					darken: DrawBGEffects ? DrawGetDarkFactor() : undefined,
-					tints: DrawBGEffects ? Player.GetTints() : undefined,
-					sizeMode: Custom.SizeMode
-				};
-				DrawRoomBackground(URL, DrawBGToRect, opts);
-				drewBackground = true;
-			}
-		}
-	}
-
-	// The image filter is a full rectangle over the current background
-	if (typeof Custom.ImageFilter === "string" && Custom.ImageFilter !== "" && CommonIsColor(Custom.ImageFilter, { allowAlpha: true })) {
-		if (DrawBGToRect && !drewBackground) DrawRect(...RectGetFrame(DrawBGToRect), Custom.ImageFilter);
-	}
-}
+function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) {}
 
 /**
  * When the chat Admin Custom screen runs, draws the screen
@@ -371,9 +340,27 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 function ChatAdminRoomCustomizationRun() {
 
 	// Shows the background and plays the music if needed
-	if (ChatAdminRoomCustomizationIsPreviewing) {
+	if (ChatAdminRoomCustomizationIsPreviewing && ChatAdminRoomCustomizationCurrent) {
 		DrawRect(0, 0, 2000, 1000, "White");
-		ChatAdminRoomCustomizationProcess(ChatAdminRoomCustomizationCurrent, { x: 500, y: 1000 * (1 - ChatRoomCharacterViewZoom) / 2, w: 1000, h: 1000 * ChatRoomCharacterViewZoom }, false);
+
+		const rect = { x: 500, y: 1000 * (1 - ChatRoomCharacterViewZoom) / 2, w: 1000, h: 1000 * ChatRoomCharacterViewZoom };
+		const { ImageURL, ImageFilter, SizeMode } = ServerChatRoomDataValidate.Custom(ChatAdminRoomCustomizationCurrent) ?? {};
+
+		if (ImageURL) {
+			DrawRect(0, 0, 2000, 1000, "White");
+			const opts = {
+				blur: Player.GetBlurLevel(),
+				darken: DrawGetDarkFactor(),
+				tints: Player.GetTints(),
+				sizeMode: SizeMode
+			};
+			DrawRoomBackground(ImageURL, rect, opts);
+		}
+
+		// The image filter is a full rectangle over the current background
+		if (ImageFilter) {
+			DrawRect(...[0, 0, 2000, 1000], ImageFilter);
+		}
 	}
 
 	// In music library mode
