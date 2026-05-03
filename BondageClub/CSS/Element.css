@@ -52,7 +52,7 @@
 
 .dropdown-pair {
 	display: grid;
-	grid-template-columns: fit-content fit-content;
+	grid-template-columns: max-content min-content;
 	gap: var(--gap);
 	align-items: center;
 }
