@@ -2585,7 +2585,7 @@ function ChatRoomTopMenuSync() {
 		}
 
 		const imgSrc = state.image;
-		if (img.src !== imgSrc) {
+		if (!img.src.endsWith(imgSrc)) {
 			img.src = imgSrc;
 		}
 	}
