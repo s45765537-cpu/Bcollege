@@ -22941,6 +22941,11 @@ var AssetFemale3DCGExtended = {
 				{ Name: "Closed" },
 				{ Name: "Open", Property: { OverridePriority: 35 } },
 			],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 		}, // Laptop
 	}, // ItemHandheld
 	EyeShadow: {

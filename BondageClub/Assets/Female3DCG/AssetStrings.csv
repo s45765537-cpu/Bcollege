@@ -3913,6 +3913,8 @@ ItemFeetWoodenCuffsSpread3,Close together.
 ItemHandheldLaptopClosed,Closed
 ItemHandheldLaptopOpen,Open
 ItemHandheldLaptopSelect,Select the laptop style
+ItemHandheldLaptopSetOpen,SourceCharacter opens DestinationCharacter AssetName.
+ItemHandheldLaptopSetClosed,SourceCharacter closes DestinationCharacter AssetName.
 ItemHandheldChocolateModuleType,Change
 ItemHandheldChocolateOptionp0,Wrapped
 ItemHandheldChocolateOptionp1,Foiled
