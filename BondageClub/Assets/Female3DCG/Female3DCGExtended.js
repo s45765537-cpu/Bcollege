@@ -13377,6 +13377,11 @@ var AssetFemale3DCGExtended = {
 			Archetype: "typed",
 			DrawImages: false,
 			Options: [{ Name: "A" }, { Name: "B" }, { Name: "C" }],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 		}, // UsedCondom
 	}, // ItemVulva
 	ItemVulvaPiercings: {
