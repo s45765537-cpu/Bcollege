@@ -8,7 +8,7 @@
 	"scripts": {
 		"changelog:generate": "cd Tools/Node && node GenerateChangelog generate",
 		"changelog:prepare": "cd Tools/Node && node GenerateChangelog prepare",
-		"checks": "npm-run-all -c assets:typecheck scripts:typecheck scripts:typecheck-expensive assets:check scripts:lint assets:lint files:case",
+		"checks": "npm-run-all -c assets:typecheck scripts:typecheck scripts:typecheck-expensive assets:check scripts:lint styles:prettier assets:lint files:case",
 		"checks:cheap": "npm-run-all -c assets:typecheck scripts:typecheck assets:check scripts:lint assets:lint files:case",
 		"checks:expensive": "npm-run-all -c checks",
 		"assets:clean": "gulp --gulpfile Tools/Node/gulpfile.js clean",
@@ -24,6 +24,8 @@
 		"scripts:lint:fix": "eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:typecheck": "cd ../ && tsc -p BondageClub/tsconfig.json && tsc-strict -p BondageClub/tsconfig.json",
 		"scripts:typecheck-expensive": "cd ../ && tsc -p BondageClub/Tools/Node/tsconfig-typecheckexpensive.json",
+		"styles:prettier": "prettier --check --print-width 120 CSS/",
+		"styles:prettier:fix": "prettier --write --print-width 120 CSS/",
 		"files:case": "cd Tools/Node && node --unhandled-rejections=strict FileCase",
 		"files:sortcsv": "cd Tools/Node && node --unhandled-rejections=strict SortCSV",
 		"test": "echo \\\"Error: no test specified\\\" && exit 1"

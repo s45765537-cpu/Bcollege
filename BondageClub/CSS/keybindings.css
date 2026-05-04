@@ -59,7 +59,7 @@
 	padding: var(--padding);
 	border: var(--border-width) solid var(--border-color);
 	border-radius: var(--gap);
-	background-color: #FFFF88;
+	background-color: #ffff88;
 	flex: 0 1 fit-content;
 	font-size: 0.8em;
 }
@@ -84,12 +84,12 @@
 }
 
 @supports (background-color: color-mix(in srgb, black 50%, transparent)) {
-	.button-styling.keybind-combo>.button-label {
-		background-color: transparent
+	.button-styling.keybind-combo > .button-label {
+		background-color: transparent;
 	}
 
 	@media (hover: hover) {
-		.button-styling.keybind-combo:hover:not(:has(.button-tooltip:hover))>.button-label {
+		.button-styling.keybind-combo:hover:not(:has(.button-tooltip:hover)) > .button-label {
 			background-color: transparent;
 		}
 	}
@@ -154,7 +154,7 @@
 	gap: var(--gap);
 }
 
-.keybinding>* {
+.keybinding > * {
 	flex: 1;
 }
 

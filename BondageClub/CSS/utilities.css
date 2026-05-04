@@ -1,45 +1,45 @@
 .light-label {
-  color: white;
+	color: white;
 }
 
 .dark-label {
-  color: black;
+	color: black;
 }
 
 .center-label {
-  text-align: center;
+	text-align: center;
 }
 
 .left-label {
-  text-align: left;
+	text-align: left;
 }
 
 .right-label {
-  text-align: right;
+	text-align: right;
 }
 
 .flex {
-  display: flex;
+	display: flex;
 }
 
 .vertical {
-  flex-direction: column;
+	flex-direction: column;
 }
 
 .horizontal {
-  flex-direction: row;
+	flex-direction: row;
 }
 
 .space-between {
-  justify-content: space-between;
+	justify-content: space-between;
 }
 
 .space-around {
-  justify-content: space-around;
+	justify-content: space-around;
 }
 
 .center {
-  justify-content: center;
+	justify-content: center;
 }
 
 [concealed] {

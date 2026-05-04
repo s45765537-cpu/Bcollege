@@ -1,5 +1,6 @@
 node_modules/
 Scripts/lib/
-CSS/chessboard-0.3.0.css
+CSS/chessboard-*.css
+CSS/normalize.css
 CHANGELOG.md
 package-lock.json

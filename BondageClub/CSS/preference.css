@@ -9,7 +9,7 @@
 #preference-subscreen-header,
 #preference-subscreen-hgroup,
 #preference-subscreen .screen-main-container,
-#preference-subscreen .button>* {
+#preference-subscreen .button > * {
 	pointer-events: none;
 }
 
@@ -64,13 +64,12 @@
 }
 
 #preference-subscreen[data-subscreen="Immersion"] .preference-settings-grid > *:nth-child(even),
-#preference-subscreen[data-subscreen="Graphics"] .preference-settings-grid > *:nth-child(even) ,
+#preference-subscreen[data-subscreen="Graphics"] .preference-settings-grid > *:nth-child(even),
 #preference-subscreen[data-subscreen="Chat"] .preference-settings-grid > *:nth-child(even),
 #preference-subscreen[data-subscreen="Online"] .preference-settings-grid > *:nth-child(even),
 #preference-subscreen[data-subscreen="Gender"] .preference-settings-grid > *:nth-child(even) {
 	background-color: rgba(0, 0, 0, 0.05);
 }
-
 
 /* #region Main */
 
@@ -121,12 +120,16 @@
 }
 
 .preference-settings-grid.preference-settings-aligned-grid {
-	grid-template-columns: min-content minmax(0, max-content) min(40vh, 20vw) min-content;
-	grid-template-columns: min-content minmax(0, max-content) min(40dvh, 20dvw) min-content;
+	grid-template-columns:
+		min-content minmax(0, max-content) min(40vh, 20vw)
+		min-content;
+	grid-template-columns:
+		min-content minmax(0, max-content) min(40dvh, 20dvw)
+		min-content;
 	align-items: center;
 }
 
-.preference-settings-grid.preference-settings-aligned-grid>* {
+.preference-settings-grid.preference-settings-aligned-grid > * {
 	grid-column: 1 / -1;
 }
 
@@ -420,7 +423,7 @@ label:has(#InputCharacterLabelColor) {
 #preference-scripts-warning-title {
 	color: #c80800;
 	margin: 0;
-	font-size: 1.0em;
+	font-size: 1em;
 }
 
 .preference-scripts-text {

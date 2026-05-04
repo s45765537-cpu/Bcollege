@@ -107,7 +107,7 @@
 	direction: ltr;
 }
 
-#crafting-slot-screen .screen-header [role='menubar'] {
+#crafting-slot-screen .screen-header [role="menubar"] {
 	grid-template-columns: repeat(6, var(--menu-button-size));
 	grid-template-rows: repeat(auto-fit, var(--menu-button-size));
 	grid-auto-flow: unset;
@@ -267,7 +267,6 @@ fieldset[name="crafting-slot"] a {
 	position: relative;
 	padding: var(--half-gap);
 }
-
 
 .crafting-slot-ul > li[data-hover]::before {
 	box-sizing: border-box;
