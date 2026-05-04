@@ -1236,6 +1236,17 @@ var ServerValidation = {
 	},
 
 	/**
+	 * Private helper to quickly check color codes
+	 * @param {boolean} allowAlpha
+	 * @param {HexColor | undefined} defaultValue
+	 */
+	isColorCode(allowAlpha = false, defaultValue) {
+		return (arg) => {
+			return CommonIsColor(arg, { allowAlpha }) ? arg : defaultValue;
+		};
+	},
+
+	/**
 	 * Private helper to quick check notification settings
 	 * @param {NotificationSetting} defaultNotif
 	 * @returns {(arg: Partial<NotificationSetting>) => NotificationSetting}
@@ -1444,6 +1455,62 @@ const ServerChatRoomSearchSettingsValidate = {
 	RoomMinSize: ServerValidation.isInt(2, 20, 2),
 	RoomMaxSize: ServerValidation.isInt(2, 20, 20),
 	FilterTerms: ServerValidation.isString(200, ""),
+};
+
+/**
+ * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
+ * @satisfies {{ [k in keyof (ServerChatRoomData)]?: (arg: Partial<ServerChatRoomData[k]>) => ServerChatRoomData[k] }}
+ * @namespace
+ */
+const ServerChatRoomDataValidate = {
+	/** @type {((arg: Partial<ServerChatRoomCustomData>) => ServerChatRoomCustomData) & { [k in keyof (Required<ServerChatRoomCustomData>)]: (arg: ServerChatRoomCustomData[k]) => ServerChatRoomCustomData[k] }} */
+	Custom: Object.assign(
+		(arg) => {
+			/** @type {ServerChatRoomCustomData} */
+			const custom = {
+				...arg,
+				/**
+				 *
+				 * @param {string} img
+				 * @returns
+				 */
+				ImageURL: ServerChatRoomDataValidate.Custom.ImageURL(arg.ImageURL),
+				SizeMode: ServerChatRoomDataValidate.Custom.SizeMode(arg.SizeMode),
+				ImageFilter: ServerChatRoomDataValidate.Custom.ImageFilter(arg.ImageFilter),
+				MusicURL: ServerChatRoomDataValidate.Custom.MusicURL(arg.MusicURL),
+			};
+			if (custom.ImageURL === undefined) delete custom.SizeMode;
+			return Object.values(custom).some(Boolean) ? custom : undefined;
+		},
+		{
+			ImageURL(imgURL) {
+				if (!ServerValidation.isStringOrUndefined(250, undefined)(imgURL))
+					return undefined;
+				if (imgURL === undefined)
+					return undefined;
+				imgURL = imgURL.trim();
+				if (imgURL === "")
+					return undefined;
+				if (!CommonURLHasExtension(imgURL, ChatAdminRoomCustomizationImageFormats))
+					return undefined;
+				return imgURL;
+			},
+			SizeMode: ServerValidation.isInt(DrawingResizeMode.Fill, DrawingResizeMode.ShowFullOriginalRatio, DrawingResizeMode.Fill),
+			ImageFilter: ServerValidation.isColorCode(true, undefined),
+			MusicURL(musicURL) {
+				if (!ServerValidation.isStringOrUndefined(250, undefined)(musicURL))
+					return undefined;
+				if (musicURL === undefined)
+					return undefined;
+				musicURL = musicURL.trim();
+				if (musicURL === "")
+					return undefined;
+				if (!CommonURLHasExtension(musicURL, AudioSupportedMusicFormats))
+					return undefined;
+				return musicURL;
+			},
+		}
+	)
 };
 
 const ServerDefaultTimeout = 3000;

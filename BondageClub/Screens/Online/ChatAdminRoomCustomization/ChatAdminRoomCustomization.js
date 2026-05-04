@@ -7,6 +7,7 @@ var ChatAdminRoomCustomizationIsPreviewing = false;
 var ChatAdminRoomCustomizationMode = null;
 /** @type {null | HTMLAudioElement} */
 var ChatAdminRoomCustomizationAudio = null;
+const ChatAdminRoomCustomizationImageFormats = [".jpg", ".jpeg", ".png", ".webp"];
 var ChatAdminRoomCustomizationMusicLibrary = [
 	{
 		Name: "FantasyAmbience",
@@ -175,13 +176,13 @@ async function ChatAdminRoomCustomizationLoad() {
 		disabled: !canEditCustom,
 	});
 	const saveButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.saveButton, () => {
-		if (adminData.Custom == null) adminData.Custom = {};
-		adminData.Custom.ImageURL = ElementValue("InputImageURL").trim();
-		adminData.Custom.SizeMode = CommonParseInt(ElementValue("SelectImageFillMode")) ?? DrawingResizeMode.Fill;
-		adminData.Custom.ImageFilter = ElementValue("InputImageFilter").trim();
-		adminData.Custom.MusicURL = ElementValue("InputMusicURL").trim();
-		if ((adminData.Custom.ImageURL == "") && (adminData.Custom.ImageFilter == "") && (adminData.Custom.MusicURL == ""))
-			adminData.Custom = undefined;
+		adminData.Custom = ServerChatRoomDataValidate.Custom({
+			...adminData.Custom ?? {},
+			ImageURL: ElementValue("InputImageURL").trim(),
+			SizeMode: CommonParseInt(ElementValue("SelectImageFillMode")) ?? DrawingResizeMode.Fill,
+			ImageFilter: ElementValue("InputImageFilter").trim(),
+			MusicURL: ElementValue("InputMusicURL").trim(),
+		});
 		ChatAdminRoomCustomizationExit();
 	}, {
 		image: "Icons/Accept.png",

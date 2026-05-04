@@ -3,6 +3,8 @@ var AudioDialog = new Audio();
 
 var AudioBackgroundMusic = new Audio();
 
+const AudioSupportedMusicFormats = [".mp3", ".mp4"];
+
 /** @type AudioEffect[] */
 var AudioList = [
 	{ Name: "AirDoorClosing", File: "AirDoorClosing" },
@@ -838,7 +840,7 @@ function AudioBackgroundMusicPlay(Music) {
 	}
 
 	// Only allows .mp3 and .mp4 files for now
-	if (!CommonURLHasExtension(Music, [".mp3", ".mp4"])) {
+	if (!CommonURLHasExtension(Music, AudioSupportedMusicFormats)) {
 		AudioBackgroundMusicStop();
 		return;
 	}
