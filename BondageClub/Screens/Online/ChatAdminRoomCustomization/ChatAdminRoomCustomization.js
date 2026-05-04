@@ -165,8 +165,11 @@ async function ChatAdminRoomCustomizationLoad() {
 	});
 	const clearButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.clearButton, () => {
 		if (!canEditCustom) return;
-		adminData.Custom = undefined;
-		ChatAdminRoomCustomizationExit();
+		ElementValue("InputImageURL", "");
+		ElementValue("SelectImageFillMode", DrawingResizeMode.Fill.toString());
+		ElementValue("InputImageFilter", "");
+		ElementValue("InputMusicURL", "");
+		ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox)?.toggleAttribute("checked", false);
 	}, {
 		image: "Icons/Reset.svg",
 		tooltip: TextGet("ResetButtonTooltip"),
