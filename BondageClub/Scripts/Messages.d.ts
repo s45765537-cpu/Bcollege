@@ -231,7 +231,7 @@ type ServerChatRoomData = {
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
 	MapData?: ServerChatRoomMapData;
-	Custom: ServerChatRoomCustomData;
+	Custom?: ServerChatRoomCustomData;
 	Character: ServerAccountDataSynced[];
 }
 

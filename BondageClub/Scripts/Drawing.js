@@ -1406,7 +1406,7 @@ function DrawRoomBackground(URL, bounds, opts) {
 
 		DrawImageZoomCanvas(URL, MainCanvas, ...sourceRect, ...destRect, inverted);
 
-		if (CurrentScreen === "ChatRoom" && ChatRoomIsCustomized() && ChatRoomData?.Custom.ImageFilter) {
+		if (CurrentScreen === "ChatRoom" && ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageFilter) {
 			DrawRect(...destRect, ChatRoomData.Custom.ImageFilter);
 		}
 
@@ -1519,7 +1519,7 @@ function DrawGetBackgroundURL(skipVFX) {
 	if (!skipVFX && itemBackground !== undefined) {
 		return itemBackground !== "" ? `Backgrounds/${itemBackground}.jpg` : "";
 	} else if (CurrentScreen === "ChatRoom") {
-		if (ChatRoomIsCustomized() && ChatRoomData?.Custom.ImageURL) {
+		if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageURL) {
 			return ChatRoomData?.Custom.ImageURL;
 		} else if (ChatRoomData) {
 			return `Backgrounds/${ChatRoomData.Background}.jpg`;
@@ -1661,7 +1661,7 @@ function DrawProcess(time) {
 function DrawShowChatRoomCustomBackground() {
 	return CurrentModule === "Online"
 		&& CurrentScreen === "ChatRoom"
-		&& (!CurrentCharacter || (ChatRoomData?.Custom.ImageURL !== "" && DrawGetCustomBackground(Player) !== undefined));
+		&& (!CurrentCharacter || (ChatRoomData?.Custom?.ImageURL !== "" && DrawGetCustomBackground(Player) !== undefined));
 }
 
 /**

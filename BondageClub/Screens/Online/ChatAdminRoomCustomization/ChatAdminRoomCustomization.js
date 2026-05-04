@@ -110,9 +110,9 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 			break;
 	}
 
-	if (Custom.ImageURL === ChatRoomData.Custom.ImageURL
-		&& Custom.ImageFilter === ChatRoomData.Custom.ImageFilter
-		&& Custom.MusicURL === ChatRoomData.Custom.MusicURL) {
+	if (Custom.ImageURL === ChatRoomData.Custom?.ImageURL
+		&& Custom.ImageFilter === ChatRoomData.Custom?.ImageFilter
+		&& Custom.MusicURL === ChatRoomData.Custom?.MusicURL) {
 		// Nothing changed, don't bother updating
 		return;
 	}
