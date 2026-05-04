@@ -81,40 +81,162 @@ function ChatAdminRoomCustomizationCanEdit() {
 }
 
 /**
- * Changes a customiation value from a chat room command
- * @param {"Image" | "Filter" | "Music"} Property - The custom property to change (Image, Filter or Music)
- * @param {string} Value - The value to set in that property
+ * Reconfigures the chat room's customisation
+ * @param {string[]} args - The value to set in that property
  * @returns {void} - Nothing
  */
-function ChatAdminRoomCustomizationCommand(Property, Value) {
+function ChatAdminRoomCustomizationCommand(args) {
 	if (!ChatRoomData) {
 		throw new Error('Missing "ChatRoomData" data');
 	}
 
-	// Command type & value must be valid and player must be a room administrator
-	if ((Property == null) || (Value == null) || (typeof Value !== "string") || !ChatRoomPlayerIsAdmin()) return;
-	Value = Value.trim();
-
-	// Builds the custom object
-	/** @type {ServerChatRoomCustomData | undefined} */
-	let Custom = CommonCloneDeep(ChatRoomData.Custom) ?? {};
-	switch (Property) {
-		case "Image":
-			Custom.ImageURL = Value !== "" ? Value : undefined;
-			break;
-		case "Filter":
-			Custom.ImageFilter = Value !== "" ? Value : undefined;
-			break;
-		case "Music":
-			Custom.MusicURL = Value !== "" ? Value : undefined;
-			break;
+	if (!args.length) {
+		if (!ChatRoomData.Custom) {
+			ChatRoomSendLocal("No custom room data");
+			return;
+		}
+		const str = [];
+		if (ChatRoomData.Custom.ImageURL) str.push(`Background image: ${ChatRoomData.Custom.ImageURL}`);
+		if (ChatRoomData.Custom.ImageFilter) str.push(`Background filter: ${ChatRoomData.Custom.ImageFilter}`);
+		if (ChatRoomData.Custom.MusicURL) str.push(`Background music: ${ChatRoomData.Custom.MusicURL}`);
+		str.push(`Music sync is: ${ChatRoomData.Custom.MusicStart !== undefined ? "on" : "off"}`);
+		ChatRoomSendLocal("Custom room info:\n" + str.map(s => `- ${s}`).join("\n"));
+		return;
 	}
 
-	Custom = ServerChatRoomDataValidate.Custom(Custom);
+	/** @type {ServerChatRoomCustomData | undefined} */
+	const customData = CommonCloneDeep(ChatRoomData.Custom) ?? {};
+	let param;
+	while ((param = args.shift()?.trim())) {
+		switch (param) {
+			case "enable":
+			case "disable": {
+				ChatRoomUpdateCustomization(param === "enable");
+				break;
+			}
+			case "image": {
+				if (!ChatRoomPlayerIsAdmin()) {
+					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
+					break;
+				}
+				if ("ImageURL" in customData) {
+					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
+					return;
+				}
+				const arg = args.shift()?.trim();
+				if (!arg) {
+					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
+					return;
+				}
+				if (arg === "-") {
+					customData.ImageURL = undefined;
+					return;
+				}
+				const safeArg = ServerChatRoomDataValidate.Custom.ImageURL(arg);
+				if (!safeArg) {
+					ChatRoomSendLocal(`Invalid value "${arg}" for "${param}" parameter. It needs an URL or a BC resource path.`);
+					return;
+				}
+				customData.ImageURL = safeArg;
+				break;
+			}
+			case "filter": {
+				if (!ChatRoomPlayerIsAdmin()) {
+					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
+					break;
+				}
+				if ("ImageFilter" in customData) {
+					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
+					return;
+				}
+				const arg = args.shift()?.trim();
+				if (!arg) {
+					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
+					return;
+				}
+				if (arg === "-") {
+					customData.ImageFilter = undefined;
+					return;
+				}
+				const safeArg = ServerChatRoomDataValidate.Custom.ImageFilter(arg);
+				if (!safeArg) {
+					ChatRoomSendLocal(`Invalid value "${arg}" for "${param}" parameter. It needs an HexColor.`);
+					return;
+				}
+				customData.ImageFilter = safeArg;
+				break;
+			}
+			case "music": {
+				if (!ChatRoomPlayerIsAdmin()) {
+					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
+					break;
+				}
+				if ("MusicURL" in customData) {
+					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
+					return;
+				}
+				const arg = args.shift()?.trim();
+				if (!arg) {
+					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
+					return;
+				}
+				if (arg.trim() === "-") {
+					customData.MusicURL = undefined;
+					return;
+				}
+				const safeArg = ServerChatRoomDataValidate.Custom.MusicURL(arg);
+				if (!safeArg) {
+					ChatRoomSendLocal(`Invalid value "${arg}" "${param}" for parameter. It needs an URL.`);
+					return;
+				}
+				customData.MusicURL = safeArg;
+				break;
+			}
+			case "sync": {
+				if (!ChatRoomPlayerIsAdmin()) {
+					ChatRoomSendLocal("Editing the room customization requires administrator privileges.");
+					break;
+				}
+				if ("MusicStart" in customData) {
+					ChatRoomSendLocal(`Duplicate "${param}" parameter`);
+					return;
+				}
+				let arg = args.shift()?.trim();
+				if (!arg) {
+					ChatRoomSendLocal(`Missing argument for "${param}" parameter`);
+					return;
+				}
+				arg = arg.trim();
+				/** @type {Record<string, boolean | undefined>} */
+				const boolParams = {
+					"1": true,
+					"0": false,
+					"on": true,
+					"off": false,
+					"true": true,
+					"false": false,
+					"-": false,
+				};
+				if (boolParams[arg] === undefined) {
+					ChatRoomSendLocal(`Invalid value "${arg}" "${param}" for parameter. Recognized values are ${Object.keys(boolParams).map(v => `'${v}'`).join(" ")}`);
+					return;
+				}
+				if (boolParams[arg]) {
+					customData.MusicStart = CurrentTime;
+				} else {
+					customData.MusicStart = undefined;
+				}
+				break;
+			}
+			default:
+				ChatRoomSendLocal(`Unknown parameter "${param}"`);
+				return;
+		}
+	}
 
 	// Update the room's custom data
 	const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
-	UpdatedRoom.Custom = Custom;
+	UpdatedRoom.Custom = ServerChatRoomDataValidate.Custom(customData);
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 }
 
