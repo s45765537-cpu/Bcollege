@@ -1,6 +1,7 @@
 "use strict";
 var AudioDialog = new Audio();
 
+/** @type {HTMLAudioElement & { _playState?: { location?: number } }} */
 var AudioBackgroundMusic = new Audio();
 
 const AudioSupportedMusicFormats = [".mp3", ".mp4"];
@@ -828,9 +829,10 @@ function AudioBackgroundMusicStop() {
 /**
  * Plays the background music
  * @param {string} Music - The URL of the music to play
+ * @param {number | undefined} Location - Where to start playing from in the file
  * @returns {void} - Nothing
  */
-function AudioBackgroundMusicPlay(Music) {
+function AudioBackgroundMusicPlay(Music, Location = undefined) {
 	Music = Music.trim();
 
 	// If no music should play
@@ -846,14 +848,41 @@ function AudioBackgroundMusicPlay(Music) {
 	}
 
 	// We're already playing that
-	if (AudioBackgroundMusic.src === Music && !AudioBackgroundMusic.paused) return;
+	const isNew = AudioBackgroundMusic.src !== Music;
+	if (!isNew && !AudioBackgroundMusic.paused) return;
 
-	AudioBackgroundMusic.currentTime = 0;
-	AudioBackgroundMusic.src = Music;
-	AudioBackgroundMusic.addEventListener('ended', function() {
-		this.currentTime = 0;
-		this.play();
-	}, false);
+	if (isNew) {
+		AudioBackgroundMusic.src = Music;
+		AudioBackgroundMusic.loop = true;
+		AudioBackgroundMusic.load();
+	}
+
+	if (!AudioBackgroundMusic._playState) {
+		AudioBackgroundMusic._playState = {};
+
+		/** @param {typeof AudioBackgroundMusic} audio  */
+		function syncPlayback(audio) {
+			if (isNaN(audio.duration)) {
+				console.warn(`audio source ${Music} has no duration; cannot sync playback`);
+				return false;
+			}
+
+			const time = audio._playState?.location !== undefined ? audio._playState.location % audio.duration : audio.currentTime ?? 0;
+			audio.currentTime = time;
+			return true;
+		}
+
+		AudioBackgroundMusic.addEventListener('play', function () {
+			const self = /** @type {typeof AudioBackgroundMusic} */ (this);
+
+			if (!syncPlayback(self)) {
+				// We started playing without having the metadata, try syncing again when we have it
+				self.addEventListener('loadedmetadata', () => syncPlayback(self), { once: true });
+			}
+		});
+	}
+
+	AudioBackgroundMusic._playState.location = Location;
 
 	AudioBackgroundMusic.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
 	if (AudioBackgroundMusic.volume > 0) {

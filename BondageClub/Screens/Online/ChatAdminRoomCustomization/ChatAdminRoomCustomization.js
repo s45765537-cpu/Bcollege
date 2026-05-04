@@ -182,6 +182,7 @@ async function ChatAdminRoomCustomizationLoad() {
 			SizeMode: CommonParseInt(ElementValue("SelectImageFillMode")) ?? DrawingResizeMode.Fill,
 			ImageFilter: ElementValue("InputImageFilter").trim(),
 			MusicURL: ElementValue("InputMusicURL").trim(),
+			MusicStart: /** @type {HTMLInputElement} */ (ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox))?.checked ? data.MusicStart ?? CurrentTime : undefined,
 		});
 		ChatAdminRoomCustomizationExit();
 	}, {
@@ -231,16 +232,22 @@ async function ChatAdminRoomCustomizationLoad() {
 		data.ImageFilter = this.value.trim();
 	});
 
+	const musicSyncInput = ElementCheckbox.CreateLabelled(ChatAdminRoomCustomizationIDs.musicSyncCheckbox, TextGet("BackgroundMusicSync"), null, { checked: data.MusicStart !== undefined }, { "container": { parent: document.body }});
 	const musicInput = ElementCreateInput(ChatAdminRoomCustomizationIDs.musicURLInput, "text", data.MusicURL ?? "", "250");
 	musicInput.setAttribute("autocomplete", "off");
 	musicInput.setAttribute("placeholder", "https://bondageprojects.com/music/relax.mp3");
 	musicInput.addEventListener("input", function() {
 		data.MusicURL = this.value.trim();
+		musicSyncInput.querySelector("input")?.toggleAttribute('disabled', !canEditCustom || !data.MusicURL);
 	});
+	musicInput.addEventListener("change", () => ChatAdminRoomCustomizationPreviewMusic());
+	musicSyncInput.querySelector("input")?.toggleAttribute('disabled', !canEditCustom || !musicInput.value.trim());
+
 	if (!canEditCustom) {
 		imageInput.toggleAttribute("disabled", true);
 		filterInput.toggleAttribute("disabled", true);
 		musicInput.toggleAttribute("disabled", true);
+		musicSyncInput.toggleAttribute('disabled', true);
 	}
 
 	const openLibraryButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.openLibraryButton, () => {
@@ -290,6 +297,7 @@ async function ChatAdminRoomCustomizationLoad() {
 			musicInput,
 			openLibraryButton,
 			ElementCreateText(TextGet("BackgroundMusicNote"), { classList: ["note"] }),
+			musicSyncInput,
 		]
 	});
 }

@@ -2231,7 +2231,9 @@ function ChatRoomUpdateCustomization(toggle = undefined) {
 	}
 
 	if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.MusicURL) {
-		AudioBackgroundMusicPlay(ChatRoomData.Custom.MusicURL);
+		const songStartedSince = ChatRoomData.Custom.MusicStart ? CurrentTime - ChatRoomData.Custom.MusicStart : undefined;
+		const songLocation = songStartedSince ? songStartedSince / 1000 : undefined;
+		AudioBackgroundMusicPlay(ChatRoomData.Custom.MusicURL, songLocation);
 	} else {
 		AudioBackgroundMusicStop();
 	}

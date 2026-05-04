@@ -1200,6 +1200,18 @@ var ServerValidation = {
 	/**
 	 * Private helper to quickly check numbers
 	 * @template {number} T
+	 * @param {T} defaultValue
+	 * @returns {(arg: T) => T}
+	 */
+	isNumber(defaultValue) {
+		return (arg) => {
+			return CommonIsNumeric(arg) ? /** @type {typeof defaultValue} */(arg) : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check integers
+	 * @template {number} T
 	 * @param {number} min
 	 * @param {number} max
 	 * @param {T} defaultValue
@@ -1478,8 +1490,10 @@ const ServerChatRoomDataValidate = {
 				SizeMode: ServerChatRoomDataValidate.Custom.SizeMode(arg.SizeMode),
 				ImageFilter: ServerChatRoomDataValidate.Custom.ImageFilter(arg.ImageFilter),
 				MusicURL: ServerChatRoomDataValidate.Custom.MusicURL(arg.MusicURL),
+				MusicStart: ServerChatRoomDataValidate.Custom.MusicStart(arg.MusicStart),
 			};
 			if (custom.ImageURL === undefined) delete custom.SizeMode;
+			if (custom.MusicURL === undefined) delete custom.MusicStart;
 			return Object.values(custom).some(Boolean) ? custom : undefined;
 		},
 		{
@@ -1509,6 +1523,7 @@ const ServerChatRoomDataValidate = {
 					return undefined;
 				return musicURL;
 			},
+			MusicStart: ServerValidation.isNumber(undefined),
 		}
 	)
 };
