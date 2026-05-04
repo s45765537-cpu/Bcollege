@@ -165,6 +165,8 @@ async function ChatAdminRoomCustomizationLoad() {
 		image: "Icons/Public.png",
 		tooltip: TextGet("PreviewButtonTooltip"),
 		disabled: !isAdmin,
+		role: "menuitemcheckbox",
+		ariaChecked: ChatAdminRoomCustomizationIsPreviewing,
 	});
 	const clearButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.clearButton, () => {
 		if (!canEditCustom) return;
@@ -243,13 +245,6 @@ async function ChatAdminRoomCustomizationLoad() {
 	musicInput.addEventListener("change", () => ChatAdminRoomCustomizationPreviewMusic());
 	musicSyncInput.querySelector("input")?.toggleAttribute('disabled', !canEditCustom || !musicInput.value.trim());
 
-	if (!canEditCustom) {
-		imageInput.toggleAttribute("disabled", true);
-		filterInput.toggleAttribute("disabled", true);
-		musicInput.toggleAttribute("disabled", true);
-		musicSyncInput.toggleAttribute('disabled', true);
-	}
-
 	const openLibraryButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.openLibraryButton, () => {
 		ChatAdminRoomCustomizationMode = "MusicLibrary";
 		subscreen.toggleAttribute("hidden", true);
@@ -270,9 +265,8 @@ async function ChatAdminRoomCustomizationLoad() {
 		});
 	};
 
-	ElementCreate({
-		tag: "div",
-		classList: ["scroll-box"],
+	const grid = ElementCreate({
+		tag: "fieldset",
 		parent: main,
 		attributes: { id: ChatAdminRoomCustomizationIDs.grid },
 		children: [
@@ -300,6 +294,7 @@ async function ChatAdminRoomCustomizationLoad() {
 			musicSyncInput,
 		]
 	});
+	grid.toggleAttribute('disabled', !canEditCustom);
 }
 
 function ChatAdminRoomCustomizationResize() {
