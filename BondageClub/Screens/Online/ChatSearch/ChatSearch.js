@@ -531,7 +531,7 @@ async function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("RoomType")),
+						ElementCreateSettingsLabel(TextGet("RoomType"), "chat-search-search-menu-room-type-radio-group"),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-type-radio-group",
 							/** @type {(this: HTMLButtonElement, ev: Event, key: "None" | ChatRoomMapType) => void} */
@@ -573,7 +573,7 @@ async function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("Lobby")),
+						ElementCreateSettingsLabel(TextGet("Lobby"), "chat-search-search-menu-room-lobby-radio-group"),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
 							(ev, key) => {
@@ -613,7 +613,7 @@ async function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("ShowFullRooms"), "left"),
+						ElementCreateSettingsLabel(TextGet("ShowFullRooms"), "chat-search-search-menu-full-rooms-input", { position: "left" }),
 						ElementCheckbox.Create("chat-search-search-menu-full-rooms-input", function (ev) {
 							Player.ChatSearchSettings.FullRooms = this.checked;
 							ChatSearchUpdateSearchSettings();
@@ -633,7 +633,7 @@ async function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("ShowLockedRooms"), "left"),
+						ElementCreateSettingsLabel(TextGet("ShowLockedRooms"), "chat-search-search-menu-locked-rooms-input", { position: "left" }),
 						ElementCheckbox.Create("chat-search-search-menu-locked-rooms-input", function (ev) {
 							Player.ChatSearchSettings.ShowLocked = this.checked;
 							ChatSearchUpdateSearchSettings();
@@ -653,7 +653,7 @@ async function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("SearchDescription"), "left"),
+						ElementCreateSettingsLabel(TextGet("SearchDescription"), "chat-search-search-menu-search-description-input", { position: "left" }),
 						ElementCheckbox.Create("chat-search-search-menu-search-description-input", function () {
 							Player.ChatSearchSettings.SearchDescriptions = this.checked;
 							ChatSearchUpdateSearchSettings();
@@ -670,7 +670,7 @@ async function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("GameLabel")),
+						ElementCreateSettingsLabel(TextGet("GameLabel"), "chat-search-search-menu-room-game-dropdown"),
 						ElementCreateDropdown(
 							"chat-search-search-menu-room-game-dropdown",
 							[
@@ -699,7 +699,7 @@ async function ChatSearchLoad() {
 					attributes: { id: "chat-search-search-menu-room-language" },
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel("Language"),
+						ElementCreateSettingsLabel("Language", "chat-search-search-menu-room-language-dropdown"),
 						ElementCreateDropdown(
 							"chat-search-search-menu-room-language-dropdown",
 							[
@@ -721,7 +721,7 @@ async function ChatSearchLoad() {
 					attributes: { id: "chat-search-search-menu-room-size" },
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel("Room Size"),
+						ElementCreateSettingsLabel("Room Size", "chat-search-search-menu-room-size-grid"),
 						{
 							tag: "div",
 							attributes: { id: "chat-search-search-menu-room-size-grid" },

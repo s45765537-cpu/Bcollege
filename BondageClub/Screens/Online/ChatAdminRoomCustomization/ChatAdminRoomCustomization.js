@@ -271,7 +271,7 @@ async function ChatAdminRoomCustomizationLoad() {
 		attributes: { id: ChatAdminRoomCustomizationIDs.grid },
 		children: [
 			ElementCreateText(TextGet("Desc")),
-			ElementCreateSettingsLabel(TextGet("BackgroundImageLabel"), "left"),
+			ElementCreateSettingsLabel(TextGet("BackgroundImageLabel"), imageInput, { position: "left" }),
 			imageInput,
 			ElementCreateText(TextGet("BackgroundImageNote"), { classList: ["note"] }),
 
@@ -281,13 +281,13 @@ async function ChatAdminRoomCustomizationLoad() {
 				tag: "div",
 				classList: ["setting-group"],
 				children: [
-					ElementCreateSettingsLabel(TextGet("BackgroundFilterLabel"), "left"),
+					ElementCreateSettingsLabel(TextGet("BackgroundFilterLabel"), filterInput, { position: "left" }),
 					filterInput,
 				]
 			},
 			ElementCreateText(TextGet("BackgroundFilterNote"), { classList: ["note"] }),
 
-			ElementCreateSettingsLabel(TextGet("BackgroundMusicLabel"), "left"),
+			ElementCreateSettingsLabel(TextGet("BackgroundMusicLabel"), musicInput, { position: "left" }),
 			musicInput,
 			openLibraryButton,
 			ElementCreateText(TextGet("BackgroundMusicNote"), { classList: ["note"] }),
