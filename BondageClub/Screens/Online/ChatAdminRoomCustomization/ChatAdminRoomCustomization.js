@@ -370,30 +370,15 @@ async function ChatAdminRoomCustomizationLoad() {
 		subscreen.toggleAttribute("hidden", true);
 	}, { image: "Icons/Online.png", tooltip: TextGet("OpenLibraryButtonTooltip") });
 
-	/**
-	 * @param {string} contents
-	 * @param {Omit<HTMLOptions<"p">, "tag" | "children"> | undefined} opts
-	 * @returns
-	 */
-	const ElementCreateText = (contents, opts = undefined) => {
-		return ElementCreate({
-			tag: "p",
-			...opts,
-			children: [
-				contents,
-			]
-		});
-	};
-
 	const grid = ElementCreate({
 		tag: "fieldset",
 		parent: main,
 		attributes: { id: ChatAdminRoomCustomizationIDs.grid },
 		children: [
-			ElementCreateText(TextGet("Desc")),
+			ElementText.CreateNote(TextGet("Desc")),
 			ElementCreateSettingsLabel(TextGet("BackgroundImageLabel"), imageInput, { position: "left" }),
 			imageInput,
-			ElementCreateText(TextGet("BackgroundImageNote"), { classList: ["note"] }),
+			ElementText.CreateNote(TextGet("BackgroundImageNote"), { describes: imageInput }),
 
 			imageFillSelect,
 
@@ -405,12 +390,12 @@ async function ChatAdminRoomCustomizationLoad() {
 					filterInput,
 				]
 			},
-			ElementCreateText(TextGet("BackgroundFilterNote"), { classList: ["note"] }),
+			ElementText.CreateNote(TextGet("BackgroundFilterNote"), { describes: filterInput}),
 
 			ElementCreateSettingsLabel(TextGet("BackgroundMusicLabel"), musicInput, { position: "left" }),
 			musicInput,
 			openLibraryButton,
-			ElementCreateText(TextGet("BackgroundMusicNote"), { classList: ["note"] }),
+			ElementText.CreateNote(TextGet("BackgroundMusicNote"), { describes: musicInput }),
 			musicSyncInput,
 		]
 	});

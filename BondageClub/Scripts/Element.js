@@ -2307,6 +2307,41 @@ var ElementCheckbox = {
 };
 
 /**
+ * Namespace for creating text-based elements
+ */
+var ElementText = {
+	/**
+	 * Creates a paragraph node, optionally describing another element
+	 * @param {string} contents
+	 * @param {{ describes?: string | HTMLElement } | undefined} opts
+	 * @returns
+	 */
+	CreateNote: function CreateNote(contents, opts = undefined) {
+		let id;
+		if (opts?.describes) {
+			const target = ElementWrap(opts.describes);
+			if (!target) {
+				console.warn(`Unable to locate element ${opts.describes}`);
+			} else {
+				id = ElementGenerateID();
+				const attrVals = (target.getAttribute("aria-describedby") ?? "").split(" ");
+				attrVals.push(id);
+				target.setAttribute("aria-describedby", attrVals.join(" "));
+			}
+		}
+		const element = ElementCreate({
+			tag: "p",
+			classList: ["element-note"],
+			attributes: { id },
+			children: [
+				contents,
+			],
+		});
+		return element;
+	},
+};
+
+/**
  * Returns the element's document- or shadow-root.
  *
  * If an element is not part of the DOM tree, thus lacking a document- or shadow-root, then {@link document} is returned.
