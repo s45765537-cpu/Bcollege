@@ -96,8 +96,8 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 	Value = Value.trim();
 
 	// Builds the custom object
-	/** @type {ServerChatRoomCustomData} */
-	const Custom = CommonCloneDeep(ChatRoomData.Custom) ?? { ImageURL: "", ImageFilter: "", MusicURL: "" };
+	/** @type {ServerChatRoomCustomData | undefined} */
+	let Custom = CommonCloneDeep(ChatRoomData.Custom) ?? {};
 	switch (Property) {
 		case "Image":
 			Custom.ImageURL = Value !== "" ? Value : undefined;
@@ -110,12 +110,7 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 			break;
 	}
 
-	if (Custom.ImageURL === ChatRoomData.Custom?.ImageURL
-		&& Custom.ImageFilter === ChatRoomData.Custom?.ImageFilter
-		&& Custom.MusicURL === ChatRoomData.Custom?.MusicURL) {
-		// Nothing changed, don't bother updating
-		return;
-	}
+	Custom = ServerChatRoomDataValidate.Custom(Custom);
 
 	// Update the room's custom data
 	const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
