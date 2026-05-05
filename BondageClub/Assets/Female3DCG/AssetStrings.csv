@@ -3913,6 +3913,8 @@ ItemFeetWoodenCuffsSpread3,Close together.
 ItemHandheldLaptopClosed,Closed
 ItemHandheldLaptopOpen,Open
 ItemHandheldLaptopSelect,Select the laptop style
+ItemHandheldLaptopSetOpen,SourceCharacter opens DestinationCharacter AssetName.
+ItemHandheldLaptopSetClosed,SourceCharacter closes DestinationCharacter AssetName.
 ItemHandheldChocolateModuleType,Change
 ItemHandheldChocolateOptionp0,Wrapped
 ItemHandheldChocolateOptionp1,Foiled
@@ -6000,6 +6002,9 @@ ItemVulvaUsedCondomSelect,Select the style
 ItemVulvaUsedCondomA,Sperm
 ItemVulvaUsedCondomB,Drip
 ItemVulvaUsedCondomC,Clean
+ItemVulvaUsedCondomSetA,SourceCharacter makes DestinationCharacter AssetName have a single drop of fluid.
+ItemVulvaUsedCondomSetB,SourceCharacter makes DestinationCharacter AssetName drip a long stream.
+ItemVulvaUsedCondomSetC,SourceCharacter makes DestinationCharacter AssetName have no fluid.
 ItemVulvaVibratingWand,(You slowly massage your pussy with the wand.  Trembling from pleasure and excitement.)
 JewelryJewelrySetModuleEars1,Right Ear
 JewelryJewelrySetModuleEars2,Left Ear

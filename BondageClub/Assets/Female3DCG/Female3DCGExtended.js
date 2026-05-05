@@ -13377,6 +13377,11 @@ var AssetFemale3DCGExtended = {
 			Archetype: "typed",
 			DrawImages: false,
 			Options: [{ Name: "A" }, { Name: "B" }, { Name: "C" }],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 		}, // UsedCondom
 	}, // ItemVulva
 	ItemVulvaPiercings: {
@@ -22940,6 +22945,11 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{ Name: "Closed" },
 				{ Name: "Open", Property: { OverridePriority: 35 } },
+			],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
 			],
 		}, // Laptop
 	}, // ItemHandheld
