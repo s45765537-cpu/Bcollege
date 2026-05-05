@@ -187,6 +187,9 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 384, Type: "FloorDecorationThemed", Style: "LongDeskLeft", Top: -0.3, Left: 0, Height: 1.3, Width: 1 },
 	{ ID: 385, Type: "FloorDecorationThemed", Style: "LongDeskRight", Top: -0.3, Left: 0, Height: 1.3, Width: 1 },
 	{ ID: 386, Type: "FloorDecorationThemed", Style: "Cabinet", Top: -0.9, Left: 0, Height: 2, Width: 1 },
+	{ ID: 387, Type: "FloorDecorationThemed", Style: "Television", Top: -0.3, Left: 0, Height: 1.3, Width: 1 },
+	{ ID: 388, Type: "FloorDecorationThemed", Style: "TelevisionBack", Top: -0.3, Left: 0, Height: 1.3, Width: 1 },
+	{ ID: 389, Type: "FloorDecorationThemed", Style: "Wardrobe", Top: -0.9, Left: 0, Height: 2, Width: 1 },
 
 	{ ID: 500, Type: "FloorDecorationParty", Style: "Blank" },
 	{ ID: 510, Type: "FloorDecorationParty", Style: "BalloonFiveColor", Top: -0.6, Height: 1.5 },
@@ -562,6 +565,9 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2, CanEnter: () => false, },
 	{ ID: 2011, Type: "FloorObstacle", Style: "Knight", Top: -1.25, Left: 0.05, Height: 1.65, Width: 0.75, CanEnter: () => false, },
 	{ ID: 2012, Type: "FloorObstacle", Style: "Samurai", Top: -1.25, Left: 0.05, Height: 1.75, Width: 0.85, CanEnter: () => false, },
+	{ ID: 2013, Type: "FloorObstacle", Style: "Totem", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2014, Type: "FloorObstacle", Style: "EasterIsland", Top: -1, Height: 2, CanEnter: () => false, },
+	{ ID: 2015, Type: "FloorObstacle", Style: "OrderOfTheVoidTotem", Top: -1, Height: 2, CanEnter: () => false, },
 	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5, CanEnter: () => false, },
 	{ ID: 2025, Type: "FloorObstacle", Style: "Chest", Top: 0, Height: 1, CanEnter: () => false, },
 	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2, CanEnter: () => false, },
@@ -647,6 +653,14 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 4023, Type: "WallPath", Style: "MetalLockedBronze", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function () { return Player.MapData.PrivateState.HasKeyBronze == true; } },
 	{ ID: 4024, Type: "WallPath", Style: "MetalLockedSilver", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function () { return Player.MapData.PrivateState.HasKeySilver == true; } },
 	{ ID: 4025, Type: "WallPath", Style: "MetalLockedGold", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function () { return Player.MapData.PrivateState.HasKeyGold == true; } },
+	{ ID: 4030, Type: "WallPath", Style: "BrownDoor", OccupiedStyle: "BrownDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return Player.CanInteract(); } },
+	{ ID: 4031, Type: "WallPath", Style: "BrownDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
+	{ ID: 4032, Type: "WallPath", Style: "RoyalDoor", OccupiedStyle: "RoyalDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return Player.CanInteract(); } },
+	{ ID: 4033, Type: "WallPath", Style: "RoyalDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
+	{ ID: 4034, Type: "WallPath", Style: "SteelDoor", OccupiedStyle: "SteelDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return Player.CanInteract(); } },
+	{ ID: 4035, Type: "WallPath", Style: "SteelDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
+	{ ID: 4036, Type: "WallPath", Style: "GrayDoor", OccupiedStyle: "GrayDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return Player.CanInteract(); } },
+	{ ID: 4037, Type: "WallPath", Style: "GrayDoorOpen", Top: -0.55, Height: 1.55, Left: 0.06, Width: 0.85, CanEnter: function () { return true; } },
 
 
 	{ ID: 5010, Type: "Banners", Style: "Red", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
@@ -654,6 +668,8 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 5012, Type: "Banners", Style: "Green", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5013, Type: "Banners", Style: "Yellow", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5014, Type: "Banners", Style: "Black", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5015, Type: "Banners", Style: "PaladinBanner", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5016, Type: "Banners", Style: "ServiOrdinisBanner", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 
 ];
 
