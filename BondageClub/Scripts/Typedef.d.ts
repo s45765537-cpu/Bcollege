@@ -5043,7 +5043,7 @@ type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
 interface ChatRoomMapDoodad {
 	ID: number;
 	Style: string;
-	OccupiedStyle?: "WoodOpen" | "MetalOpen";
+	OccupiedStyle?: "WoodOpen" | "MetalOpen" | "RoyalDoorOpen" | "SteelDoorOpen" | "GrayDoorOpen" | "BrownDoorOpen";
 	CanEnter?: (direction: ChatRoomMapDirection) => boolean;
 	OnEnter?: () => void;
 }
