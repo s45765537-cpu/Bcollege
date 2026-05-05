@@ -347,7 +347,7 @@
 	flex-direction: column;
 	gap: 0.5em;
 	border: var(--border-width) var(--border-color) var(--border-style);
-	padding: .5em;
+	padding: 0.5em;
 	box-sizing: border-box;
 	backdrop-filter: blur(5px);
 	border-radius: var(--border-radius);
@@ -364,7 +364,7 @@
 	height: 100%;
 	font: inherit;
 	border-radius: var(--border-radius);
-	padding: .5em;
+	padding: 0.5em;
 }
 
 #friend-list-beep-dialog button {

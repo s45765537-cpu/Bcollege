@@ -39,7 +39,7 @@
 .title-button {
 	width: 100%;
 	height: fit-content;
-	font-size: 1.15em
+	font-size: 1.15em;
 }
 
 .title-button[active] {

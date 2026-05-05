@@ -176,7 +176,7 @@
 }
 
 .dialog-grid-button[data-craft]:not([aria-checked="true"]) {
-	--button-color: #FFFF88;
+	--button-color: #ffff88;
 }
 
 .dialog-grid-button[data-permission="Block"] {
@@ -204,7 +204,8 @@
 		"dialog-crafted-crafter dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
 		"dialog-crafted-property dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
 		"dialog-crafted-private dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
-		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / auto var(--gap) min(100%, calc(0.8 * var(--button-height))) var(--scrollbar-gutter)
+		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content)
+		/ auto var(--gap) min(100%, calc(0.8 * var(--button-height))) var(--scrollbar-gutter);
 }
 
 #dialog-crafted ul {
@@ -269,7 +270,8 @@
 	--dialog-button-size: min(8vh, 4vw);
 	grid-template:
 		". dialog-status dialog-menubar" min-content
-		"dialog-paginate dialog-grid dialog-grid" auto / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
+		"dialog-paginate dialog-grid dialog-grid" auto / var(--menu-button-size)
+		auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
 }
 
 #dialog-dialog-grid {
@@ -328,7 +330,7 @@
 }
 
 .dialog-focus-grid [role="radio"][data-equipped] {
-	border-color: #D5A30080;
+	border-color: #d5a30080;
 }
 
 .dialog-focus-grid [role="radio"][aria-checked="true"] {
@@ -356,7 +358,9 @@
 	gap: calc(0.5 * var(--gap));
 	direction: rtl;
 	grid-auto-flow: column;
-	grid-template-columns: repeat(3, var(--menu-button-size)) calc(3px + var(--menu-button-size) + 0.5 * var(--gap)) repeat(auto-fill, var(--menu-button-size));
+	grid-template-columns:
+		repeat(3, var(--menu-button-size)) calc(3px + var(--menu-button-size) + 0.5 * var(--gap))
+		repeat(auto-fill, var(--menu-button-size));
 }
 
 .dialog-expression-grid > .dialog-menubar-button,
@@ -435,7 +439,8 @@
 	gap: calc(var(--gap) / 2);
 	grid-template:
 		"canvas save-button" 50%
-		"canvas load-button" 50% / calc(2 * var(--menu-button-size) + var(--gap)) min-content;
+		"canvas load-button" 50% / calc(2 * var(--menu-button-size) + var(--gap))
+		min-content;
 }
 
 .dialog-expression-preset-slot button {
@@ -492,7 +497,7 @@
 	text-indent: 1em hanging each-line;
 }
 
-@supports(height: 100dvh) {
+@supports (height: 100dvh) {
 	.dialog-root {
 		--button-height: calc(min(25dvh, 12.5dvw) - 2px);
 	}
