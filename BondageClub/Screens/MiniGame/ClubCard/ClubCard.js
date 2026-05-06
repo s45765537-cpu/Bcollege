@@ -416,7 +416,7 @@ var ClubCardList = [
 		Prerequisite: "SelectATier",
 		OnPlay: function () {
 			this.EffectKey = ClubCardTierSelection;
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Personal Assistant", {[ClubCardPlaceholderKeys.AMOUNT]: ClubCardTierSelection });
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Personal Assistant", {[ClubCardPlaceholderKeys.AMOUNT]: ClubCardTierSelection });
 		},
 		onDiscardCard: function(CCPlayer, DiscardedCard) {
 			if (this.EffectKey == (DiscardedCard.RequiredLevel ?? 1)) {
@@ -907,6 +907,9 @@ var ClubCardList = [
 		ID: 4008,
 		Name: "Daycare Enthusiast",
 		Group: ["Fetishist"],
+		RequiredLevel: 2,
+		MoneyPerTurn: 1,
+		FamePerTurn: -1,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "ABDLMommy")) {
 				let membersToPlay = CCPlayer.Hand.filter(value => (ClubCardCanSummonCard(CCPlayer, value) && ClubCardCardHasGroup(value, "ABDLBaby")));
@@ -917,10 +920,6 @@ var ClubCardList = [
 					ClubCardSummonCard(CCPlayer, randomMember);		
 				}
 			}
-		},
-		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
-			if (ClubCardCardHasGroup(cardPlayed, "ABDLMommy") && ClubCardIsLiability(cardPlayed)) ClubCardPlayerAddFame(CCPlayer, 3, this.Name);
-			if (ClubCardCardHasGroup(cardPlayed, "ABDLBaby") && ClubCardIsLiability(cardPlayed)) ClubCardPlayerAddMoney(CCPlayer, 3, this.Name);
 		}
 	},
 	{
@@ -2932,7 +2931,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 18002,
-		Name: "Shine lover",
+		Name: "Latex Lover",
 		Group: ["Fetishist"],
 		FamePerTurn: 1,
 		onDrawAction: function(CCPlayer) {
@@ -2961,7 +2960,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 18005,
-		Name: "Shiny Show Off",
+		Name: "Shine Simp",
 		Group: ["Latex", "Exhibitionist"],
 		RequiredLevel: 2,
 		MoneyPerTurn: 2,
@@ -3049,7 +3048,7 @@ var ClubCardList = [
 		MoneyPerTurn: -2,
 		onDrawAction: function() {
 			this.FamePerTurn = (this.FamePerTurn ?? 0) + 4;
-			this.FamePerTurn = (this.MoneyPerTurn ?? 0) - 2;
+			this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 2;
 		}
 	},
 
@@ -4185,15 +4184,19 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
+			let summonNumber = 1;
 			for (let i = 2; i > 0; i--) {
 				let membersToPlay = CCPlayer.Hand.filter(value => ((value.RequiredLevel ?? 1) < 4) && ClubCardCanSummonCard(CCPlayer, value) && value.Type !== "Event");
 				if (membersToPlay.length > 0) {
+					if (summonNumber > 1) CCPlayer.Board[CCPlayer.Board.length - 1].Negated = true;
 					const randomMember = membersToPlay[Math.floor(Math.random() * membersToPlay.length)];
 					ClubCardSummonCard(CCPlayer, randomMember);
 					const cardIndexInHand = CCPlayer.Hand.findIndex(value => value.ID === randomMember.ID);
 					CCPlayer.Hand.splice(cardIndexInHand, 1);
+					CCPlayer.Board[CCPlayer.Board.length - 2].Negated = false;
 					if ((ClubCardCardHasGroup(randomMember, "Latex") || ClubCardCardHasGroup(randomMember, "Fetishist"))) ClubCardPlayerAddMoney(CCPlayer, 5);
 				}
+				summonNumber++;
 			}
 		}
 	},
@@ -5342,7 +5345,7 @@ function ClubCardSummonCard(CCPlayer, card) {
 		}
 	}
 
-	if (card.OnPlay != null) {
+	if (card.OnPlay != null && card.Prerequisite == undefined) {
 		card.OnPlay(CCPlayer);
 	}
 	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
@@ -5363,7 +5366,7 @@ function ClubCardCanSummonCard(CCPlayer, Card) {
 	if ((Card.CanPlay != null) && !Card.CanPlay(CCPlayer)) return false;
 	const opponent = ClubCardGetOpponent(CCPlayer);
 	if ((CCPlayer.Board != null) && ((Card.Type == "Member") || (Card.Type == null)) && (CCPlayer.Level != null) && CCPlayer.Board.length >= ClubCardLevelLimit[CCPlayer.Level]) return false;
-	if (Card.Prerequisite != null && Card.Name !== "Ball Gag") return false;
+	if (Card.Name == "Kira") return false;
 	if ((Card.Type == "Event") && (ClubCardEventNameIsInEvents(opponent, "Restrain") || ClubCardEventNameIsInEvents(opponent, "Ball Buster"))) return false;
 	if (ClubCardIsLiability(Card) && ClubCardEventNameIsInEvents(opponent, "Ball Buster")) return false;
 	if ((Card.Type == "Event") && (ClubCardEventNameIsInEvents(CCPlayer, "Restrain"))) return false;

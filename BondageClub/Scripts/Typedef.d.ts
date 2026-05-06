@@ -5062,6 +5062,7 @@ type ClubCardTag =
 	| "Kemonomimi"
 	| "Submissive / Slave"
 	| "Exhibitionist"
+	| "Latex"
 	| "Reward";
 
 interface ClubCard {

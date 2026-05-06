@@ -38,6 +38,7 @@ const ClubCardBuilderFilterGroupFilters = {
 	Kemonomimi: (card) => card.Group?.includes("Kemonomimi"),
 	["Submissive / Slave"]: (card) => ["Submissive", "Slave"].some(g => card.Group?.includes(g)),
 	Exhibitionist: (card) => card.Group?.includes("Exhibitionist"),
+	Latex: (card) => card.Group?.includes("Latex"),
 	Reward: (card) => !!card.Reward,
 };
 
