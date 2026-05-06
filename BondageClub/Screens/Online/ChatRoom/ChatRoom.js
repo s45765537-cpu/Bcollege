@@ -2881,11 +2881,11 @@ function ChatRoomAttemptStandMinigameEnd() {
 
 /**
  * Checks if the given chat room visibility property causes it to be "private" (has any form of visibility control)
- * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The visibility property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings | null | undefined} room - The visibility property to check
  * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or visibility is not set.
  */
 function ChatRoomDataIsPrivate(room) {
-	return !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
+	return !!room && !!room.Visibility && !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
 }
 
 /**
@@ -2898,11 +2898,11 @@ function ChatRoomIsPrivate() {
 
 /**
  * Checks if the given chat room access property causes it to be "locked" (has any form of access control)
- * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The access property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings | null | undefined} room - The access property to check
  * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or access is not set.
  */
 function ChatRoomDataIsLocked(room) {
-	return !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
+	return !!room && !!room.Access && !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
 }
 
 /**
