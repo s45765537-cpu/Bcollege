@@ -16644,6 +16644,18 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{Name: "ToeNails",
+					Random: false,
+					Left: 130,
+					Top: 930,
+					Priority: 10,
+					DynamicGroupName: "Shoes",
+					Layer: [{ Name: "Left1" }, { Name: "Right1" }],	Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "脚趾甲",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
