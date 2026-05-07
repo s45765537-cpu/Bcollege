@@ -1099,8 +1099,6 @@ interface AssetGroup {
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
-	readonly StyleOverride?: string [];
-	readonly CreateLayerTypesOverride?: number [];
 	readonly Reposition?: {
 				Group?: string;
 				ShiftX?: number;
@@ -1284,9 +1282,6 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
-	readonly StyleOverride?: BodyStyle[];
-	readonly SupportedStyles?: BodyStyle[];
-	readonly CreateLayerTypesOverride?: number[];
 	// Only on BodyStyle
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;
