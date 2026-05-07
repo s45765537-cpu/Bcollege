@@ -625,7 +625,7 @@ var CommandsHelp = {
 						tag: "section",
 						classList: ["commands-command-arguments"],
 						children: [
-							buildSectionHeader(`${this._GetArgumentTranslated(arg.name)} — ${this._GetArgumentTranslated(arg.description)}`, args(arg).length > 0),
+							buildSectionHeader(`${this._GetArgumentTranslated(`${command.Tag}-${arg.name}`)} — ${this._GetArgumentTranslated(`${command.Tag}-${arg.name}-desc`)}`, args(arg).length > 0),
 							{
 								tag: "article",
 								classList: ["commands-command-arguments-list"],

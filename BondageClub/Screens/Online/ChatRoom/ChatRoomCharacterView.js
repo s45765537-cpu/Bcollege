@@ -234,7 +234,7 @@ function ChatRoomCharacterViewDraw() {
 		blur: Player.GetBlurLevel(),
 		darken: DrawGetDarkFactor(),
 		tints: Player.GetTints(),
-		sizeMode: ChatRoomCustomSizeMode
+		sizeMode: ChatRoomData?.Custom.SizeMode ?? 0,
 	};
 
 	// Loop over the room's characters to draw each of them

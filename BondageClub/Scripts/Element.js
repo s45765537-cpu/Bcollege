@@ -729,12 +729,15 @@ function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
 /**
  * Create a label for a given element
  * @param {string} label
- * @param {'left' | 'top'} position
+ * @param {HTMLElement | string} forId
+ * @param {object} [options]
+ * @param {'left' | 'top'} [options.position='top']
  */
-function ElementCreateSettingsLabel(label, position="top") {
+function ElementCreateSettingsLabel(label, forId, options) {
 	return ElementCreate({
-		tag: "span",
-		classList:  [`element-settings-label-${position}`],
+		tag: "label",
+		attributes: { for: typeof forId === "string" ? forId : (forId.id ||= ElementGenerateID()) },
+		classList:  ['element-settings-label', `element-settings-label-position-${options?.position ?? "top"}`],
 		children: [
 			label,
 		],
@@ -2301,6 +2304,41 @@ var ElementCheckbox = {
 			],
 		});
 	}
+};
+
+/**
+ * Namespace for creating text-based elements
+ */
+var ElementText = {
+	/**
+	 * Creates a paragraph node, optionally describing another element
+	 * @param {string} contents
+	 * @param {{ describes?: string | HTMLElement } | undefined} opts
+	 * @returns
+	 */
+	CreateNote: function CreateNote(contents, opts = undefined) {
+		let id;
+		if (opts?.describes) {
+			const target = ElementWrap(opts.describes);
+			if (!target) {
+				console.warn(`Unable to locate element ${opts.describes}`);
+			} else {
+				id = ElementGenerateID();
+				const attrVals = (target.getAttribute("aria-describedby") ?? "").split(" ");
+				attrVals.push(id);
+				target.setAttribute("aria-describedby", attrVals.join(" "));
+			}
+		}
+		const element = ElementCreate({
+			tag: "p",
+			classList: ["element-note"],
+			attributes: { id },
+			children: [
+				contents,
+			],
+		});
+		return element;
+	},
 };
 
 /**

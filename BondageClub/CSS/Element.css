@@ -2,21 +2,20 @@
 	border: var(--border-width) solid black;
 }
 
-.element-settings-label-top {
-	display: block;
-	margin: 0.25em 0;
-	font-size: 0.75em;
+.element-settings-label {
 	white-space: nowrap;
 	user-select: none;
 }
 
-.element-settings-label-left {
-	font-size: 0.75em;
+.element-settings-label-position-top {
+	display: block;
+	margin: 0.25em 0;
+}
+
+.element-settings-label-position-left {
 	display: inline;
-	white-space: nowrap;
 	margin: 0 0.25em 0 0;
 	align-content: center;
-	user-select: none;
 }
 
 .element-button-group {
@@ -53,7 +52,7 @@
 
 .dropdown-pair {
 	display: grid;
-	grid-template-columns: fit-content fit-content;
+	grid-template-columns: max-content min-content;
 	gap: var(--gap);
 	align-items: center;
 }

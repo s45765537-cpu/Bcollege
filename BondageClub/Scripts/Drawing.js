@@ -1406,8 +1406,8 @@ function DrawRoomBackground(URL, bounds, opts) {
 
 		DrawImageZoomCanvas(URL, MainCanvas, ...sourceRect, ...destRect, inverted);
 
-		if (ChatRoomCustomized && (ChatRoomCustomFilter != null) && (ChatRoomCustomFilter != "")) {
-			DrawRect(...destRect, ChatRoomCustomFilter);
+		if (CurrentScreen === "ChatRoom" && ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageFilter) {
+			DrawRect(...destRect, ChatRoomData.Custom.ImageFilter);
 		}
 
 		// Resetting the filter is expensive, even if there's no change. Only change the filter if we need to.
@@ -1519,8 +1519,8 @@ function DrawGetBackgroundURL(skipVFX) {
 	if (!skipVFX && itemBackground !== undefined) {
 		return itemBackground !== "" ? `Backgrounds/${itemBackground}.jpg` : "";
 	} else if (CurrentScreen === "ChatRoom") {
-		if (ChatRoomCustomized && ChatRoomCustomBackground) {
-			return ChatRoomCustomBackground;
+		if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageURL) {
+			return ChatRoomData?.Custom.ImageURL;
 		} else if (ChatRoomData) {
 			return `Backgrounds/${ChatRoomData.Background}.jpg`;
 		}
@@ -1661,7 +1661,7 @@ function DrawProcess(time) {
 function DrawShowChatRoomCustomBackground() {
 	return CurrentModule === "Online"
 		&& CurrentScreen === "ChatRoom"
-		&& (!CurrentCharacter || (ChatRoomCustomBackground !== "" && DrawGetCustomBackground(Player) !== undefined));
+		&& (!CurrentCharacter || (ChatRoomData?.Custom?.ImageURL !== "" && DrawGetCustomBackground(Player) !== undefined));
 }
 
 /**
@@ -1676,7 +1676,7 @@ function DrawProcessScreenFlash() {
 		}
 	}
 
-	if ((Player.ImmersionSettings != null && Player.GraphicsSettings != null) && (Player.ImmersionSettings.StimulationEvents && Player.GraphicsSettings.StimulationFlash) && DrawScreenFlashTime > CommonTime()) {
+	if (Player.ImmersionSettings.StimulationEvents && Player.GraphicsSettings.StimulationFlash && DrawScreenFlashTime > CommonTime()) {
 		// DrawScreenFlashTime is the end of the flash. The flash is brighter based on the distance to the end.
 		let FlashTime = DrawScreenFlashTime - CommonTime();
 		let PinkFlashAlpha = DrawGetScreenFlashAlpha(FlashTime);
