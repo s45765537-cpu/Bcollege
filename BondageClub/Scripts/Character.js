@@ -412,7 +412,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 						return true;
 
 					let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
-					if (trialing && trialing !== this) return true;
+					if (trialing && trialing === C) return true;
 
 					return false;
 				}
