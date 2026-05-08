@@ -9208,6 +9208,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Top: 0,
 				Value: 100,
+				BuyGroup: "YogaPants",
 				StyleOverride: ["EchoV2"],
 				PoseMapping: {
 					...AssetPoseMapping.ClothLower,
@@ -9602,7 +9603,37 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
-		],
+			{Name: "SideCutoutYogaPants",
+				InventoryID: 1283,				
+				Random: false,
+				Value: 100,
+				BuyGroup: "YogaPants",
+				Top: 420,
+				Left: {
+					[PoseType.DEFAULT]: 100,
+					KneelingSpread: 190,
+				},
+				ParentGroup: "BodyLower",
+				DynamicGroupName: "ClothLower",
+				PoseMapping: {
+					...AssetPoseMapping.ClothLower,
+				},
+				Layer: [
+					// 1~5
+					{ Name: "Base" },
+					{ Name: "DarkTone" },
+					{ Name: "DetailDarkTone" },
+					{ Name: "CrotchSeam" },
+					{ Name: "Outline" },
+					{ Name: "Left2", ParentGroup: {}, PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE, }, ColorGroup: "String" },
+					{ Name: "Right2", ParentGroup: {}, PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE, }, ColorGroup: "String" },
+				],	Attribution: {
+				Author: "Echo (SugarChain)",
+				OriginalName: "两侧镂空瑜伽裤",
+				License: "CC BY-SA-NC 4.0",
+			},
+		},
+	],
 		Color: [
 			"Default",
 			"#bbbbbb",
