@@ -8203,6 +8203,29 @@ ItemHandheldUchiwaSetType3,SourceCharacter chooses a sun art for DestinationChar
 ItemHandheldUchiwaSetType4,SourceCharacter chooses a wave art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType5,SourceCharacter chooses a moon art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Uchiwa fan.
+ItemHandheldCustomPaddleSelectBase,
+ItemHandheldCustomPaddleModuleCustomText,Custom Text
+ItemHandheldCustomPaddleSelectCustomText,Pick your Custom Text:
+ItemHandheldCustomPaddleOptionc0,Blank
+ItemHandheldCustomPaddleOptionc1,Brat
+ItemHandheldCustomPaddleOptionc2,Hearts
+ItemHandheldCustomPaddleOptionc3,Owned
+ItemHandheldCustomPaddleOptionc4,Pet
+ItemHandheldCustomPaddleOptionc5,Slave
+ItemHandheldCustomPaddleOptionc6,Slut
+ItemHandheldCustomPaddleOptionc7,Toy
+ItemHandheldCustomPaddleOptionc8,Bitch
+ItemHandheldCustomPaddleSetc0,SourceCharacter removed the Custom Text from DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc1,SourceCharacter set the Custom Text to "Brat" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc2,SourceCharacter set the Custom Text to "Hearts" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc3,SourceCharacter set the Custom Text to "Owned" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc4,SourceCharacter set the Custom Text to "Pet" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc5,SourceCharacter set the Custom Text to "Slave" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc6,SourceCharacter set the Custom Text to "Slut" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc7,SourceCharacter set the Custom Text to "Toy" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc8,SourceCharacter set the Custom Text to "Bitch" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleActivitySpankItem,SourceCharacter hits DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset leaving a mark.
+ItemHandheldCustomPaddleActivityRubItem,SourceCharacter rubs DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset.
 ItemDevicesLeatherCageSelectBase,Leather cage main menu:
 ItemDevicesLeatherCageModuleFace,Belts
 ItemDevicesLeatherCageSelectFace,Belts options:

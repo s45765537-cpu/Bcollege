@@ -22433,6 +22433,27 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Uchiwa
+		CustomPaddle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "CustomText",
+					Key: "c",
+					DrawImages: false,
+					Options: [
+						{}, // c0 - Blank
+						{}, // c1 - Brat
+						{}, // c2 - Hearts
+						{}, // c3 - Owned
+						{}, // c4 - Pet
+						{}, // c5 - Slave
+						{}, // c6 - Slut
+						{}, // c7 - Toy
+						{}, // c8 - Bitch
+					],
+				},
+			],
+		}, // Custom Paddle
 		Cigarette: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
