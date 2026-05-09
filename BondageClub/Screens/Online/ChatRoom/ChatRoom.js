@@ -4515,9 +4515,15 @@ function ChatRoomMessage(data) {
 			msg = InterfaceTextGet("ServerMessage" + msg);
 			break;
 
-		case "Activity":
-			msg = ActivityDictionaryText(msg);
+		case "Activity": {
+			let text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
+				text = ActivityDictionaryText(msg);
+			}
+			msg = text;
+
 			break;
+		}
 	}
 
 	// Apply requested substitutions
