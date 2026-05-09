@@ -826,7 +826,11 @@ var AssetFemale3DCG = [
 				Priority: 55,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+				},
 				Layer: [
 					{ Name: "Collar" },
 					{
@@ -836,6 +840,7 @@ var AssetFemale3DCG = [
 							...AssetPoseMapping.Cloth,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
 						},
 					},
 					{ Name: "Belt" },
@@ -16728,6 +16733,14 @@ var AssetFemale3DCG = [
 				Top: 930,
 				Priority: 10,
 				DynamicGroupName: "Shoes",
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+					Spread: PoseType.HIDE,
+					LegsClosed: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
 				Layer: [{ Name: "Left1" }, { Name: "Right1" }],
 				Attribution: {
 					Author: "Echo (SugarChain)",
