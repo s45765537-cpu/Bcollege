@@ -22866,6 +22866,23 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "SarahsWorld",
+					Key: "SarahsWorld",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Sarah
+						{}, // Samantha
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sarah.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Samantha.png" },
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,

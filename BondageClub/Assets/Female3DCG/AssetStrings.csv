@@ -8172,6 +8172,18 @@ ItemHandheldPlushieOptionSakisDen1,Saki
 ItemHandheldPlushieSetSakisDen1,SourceCharacter places a pretty Saki plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
+
+ItemHandheldPlushieModuleSarahsWorld,Sarah's World
+ItemHandheldPlushieSelectSarahsWorld,Sarah's World
+ItemHandheldPlushieSarahsWorldSelect,Choose the plushie:
+ItemHandheldPlushieOptionSarahsWorld0,None
+ItemHandheldPlushieSetSarahsWorld0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionSarahsWorld1,Sarah
+ItemHandheldPlushieSetSarahsWorld1,SourceCharacter places a Sarah plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionSarahsWorld2,Samantha
+ItemHandheldPlushieSetSarahsWorld2,SourceCharacter places Sarah's dearest plushie in DestinationCharacter hands.
+
+
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
