@@ -411,10 +411,8 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					if (this.Owner.replace("NPC-", "").trim() === C.Name)
 						return true;
 
-					let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
-					if (trialing && trialing !== this) return true;
-
-					return false;
+					// Only Private NPCs have relevant events, since they're the only ones persisted.
+					return NPCEventGet(C, "EndSubTrial") > 0;
 				}
 				case "online":
 					return this.Ownership?.MemberNumber === C.MemberNumber;
