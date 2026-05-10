@@ -8790,11 +8790,11 @@ ItemMouthBallGag2SelectStrapType,Configure the strap
 ItemMouthBallGag2SelectBallType,Configure the ball
 ItemMouthBallGag2ModuleStrapType,Strap type
 ItemMouthBallGag2ModuleBallType,Ball type
-ItemMouthBallGag2Options0,Basic strap
-ItemMouthBallGag2Options1,Harness strap 1
-ItemMouthBallGag2Optionb0,Regular sized ball
-ItemMouthBallGag2Optionb1,Large sized ball
-ItemMouthBallGag2Optionb2,XL sized ball
+ItemMouthBallGag2Options0,Basic
+ItemMouthBallGag2Options1,Harness
+ItemMouthBallGag2Optionb0,Regular
+ItemMouthBallGag2Optionb1,Large
+ItemMouthBallGag2Optionb2,XL
 ItemMouthBallGag2Sets0,SourceCharacter changes the strap to a basic strap on DestinationCharacter gag.
 ItemMouthBallGag2Sets1,SourceCharacter changes the strap to a harness on DestinationCharacter gag.
 ItemMouthBallGag2Setb0,SourceCharacter changes the ball to a regular sized one on DestinationCharacter gag.
