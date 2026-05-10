@@ -46,6 +46,16 @@ const CommonChatTags = {
 	AUTOMATIC: "Automatic",
 };
 
+/**
+ * An enum holding values of time units that might be used with their respective label of Interface.csv and seconds
+ * contained in said time unit.
+ */
+const TimeUnits = {
+	MINUTES: { label: "Minutes", seconds: 60 },
+	HOURS: { label: "Hours", seconds: 3600 },
+	DAYS: { label: "Days", seconds: 86400 },
+};
+
 /** @type {(this: string, index: number, character: string) => string} */
 String.prototype.replaceAt=function(index, character) {
 	return this.substr(0, index) + character + this.substr(index+character.length);
@@ -2524,72 +2534,3 @@ class Result {
 		}
 	}
 }
-
-/**
- * I am a testing function for typescript to evaluate and should not be executed during runtime nor removed.
- *
- * Checks whether all all `window`-defined backgrounds and screen functions have an appropriate signature.
- * @returns {void}
- */
-function CommonTestSatisfies() {
-	// eslint-disable-next-line
-	const foo = {
-		/** @type {{ [key in `${RoomName}Background`]?: string }} */
-		Background: globalThis,
-
-		/** @type {{ [key in `${RoomName}Run`]: ScreenRunHandler }} */
-		Run: globalThis,
-		/** @type {{ [key in `${RoomName}MouseDown`]?: MouseEventListener }} */
-		MouseDown: globalThis,
-		/** @type {{ [key in `${RoomName}MouseUp`]?: MouseEventListener }} */
-		MouseUp: globalThis,
-		/** @type {{ [key in `${RoomName}MouseMove`]?: MouseEventListener }} */
-		MouseMove: globalThis,
-		/** @type {{ [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }} */
-		MouseWheel: globalThis,
-		/** @type {{ [key in `${RoomName}Click`]: MouseEventListener }} */
-		Click: globalThis,
-		/** @type {{ [key in `${RoomName}Load`]?: ScreenLoadHandler }} */
-		Load: globalThis,
-		/** @type {{ [key in `${RoomName}Unload`]?: ScreenUnloadHandler }} */
-		Unload: globalThis,
-		/** @type {{ [key in `${RoomName}Draw`]?: ScreenDrawHandler }} */
-		Draw: globalThis,
-		/** @type {{ [key in `${RoomName}Resize`]?: ScreenResizeHandler }} */
-		Resize: globalThis,
-		/** @type {{ [key in `${RoomName}KeyDown`]?: KeyboardEventListener }} */
-		KeyDown: globalThis,
-		/** @type {{ [key in `${RoomName}KeyUp`]?: KeyboardEventListener }} */
-		KeyUp: globalThis,
-		/** @type {{ [key in `${RoomName}Paste`]?: ClipboardEventListener }} */
-		Paste: globalThis,
-		/** @type {{ [key in `${RoomName}Exit`]?: ScreenExitHandler }} */
-		Exit: globalThis,
-
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}Init`]?: ExtendedItemCallbacks.Init }} */
-		ExtendedItemInit: globalThis,
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}Load`]?: ExtendedItemCallbacks.Load }} */
-		ExtendedItemLoad: globalThis,
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }} */
-		ExtendedItemDraw: globalThis,
-		/** @type {{ [key in `Inventor${AssetGroupName}y${string}Click`]?: ExtendedItemCallbacks.Click }} */
-		ExtendedItemClick: globalThis,
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }} */
-		ExtendedItemExit: globalThis,
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}Validate`]?: ExtendedItemCallbacks.Validate }} */
-		ExtendedItemValidate: globalThis,
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}PublishAction`]?: ExtendedItemCallbacks.PublishAction }} */
-		ExtendedItemPublishAction: globalThis,
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}SetOption`]?: ExtendedItemCallbacks.SetOption }} */
-		ExtendedItemSetOption: globalThis,
-		/** @type {{ [key in `Assets${AssetGroupName}${string}BeforeDraw`]?: ExtendedItemCallbacks.BeforeDraw }} */
-		ExtendedItemBeforeDraw: globalThis,
-		/** @type {{ [key in `Assets${AssetGroupName}${string}AfterDraw`]?: ExtendedItemCallbacks.AfterDraw }} */
-		ExtendedItemAfterDraw: globalThis,
-		/** @type {{ [key in `Assets${AssetGroupName}${string}ScriptDraw`]?: ExtendedItemCallbacks.ScriptDraw }} */
-		ExtendedItemScriptDraw: globalThis,
-		/** @type {{ [key in `Inventory${AssetGroupName}${string}NpcDialog`]?: (C: Character, Option: ExtendedItemOption, PreviousOption: ExtendedItemOption) => void }} */
-		ExtendedItemNpcDialog: globalThis,
-	};
-}
-

@@ -80,6 +80,7 @@ function CharacterCreatePlayer() {
 	Character.splice(oldId, 1);
 	CharacterNextId--;
 	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+	PreferenceInitPlayer(Player, {});
 }
 
 /**
@@ -410,10 +411,8 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					if (this.Owner.replace("NPC-", "").trim() === C.Name)
 						return true;
 
-					let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
-					if (trialing && trialing !== this) return true;
-
-					return false;
+					// Only Private NPCs have relevant events, since they're the only ones persisted.
+					return NPCEventGet(C, "EndSubTrial") > 0;
 				}
 				case "online":
 					return this.Ownership?.MemberNumber === C.MemberNumber;
@@ -531,7 +530,6 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		IsOwner: function () {
-			if (this.IsNpc() && !NPCEventGet(this, "PlayerCollaring")) return false;
 			return Player.IsOwnedByCharacter(this);
 		},
 		IsLoverOfCharacter: function (C) {
@@ -1595,7 +1593,7 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 
 	if (C.IsPlayer()) {
 		// Grab the first custom background that we can find
-		const customBGItem = C.Appearance.find(item => item.Property?.CustomBlindBackground);
+		const customBGItem = C.Appearance.find(item => typeof item.Property?.CustomBlindBackground === "string");
 		C.CustomBackground = customBGItem ? customBGItem.Property?.CustomBlindBackground : undefined;
 	}
 
@@ -2241,7 +2239,7 @@ function CharacterCanKneel(C, minimumStatus = PoseChangeStatus.ALWAYS) {
 function CharacterGetDarkFactor(C, eyesOnly = false) {
 	let DarkFactor = 1.0;
 	const blindLevel = C.GetBlindLevel(eyesOnly);
-	if (blindLevel >= 3) DarkFactor = 0.0;
+	if (blindLevel >= 3 && !C.Effect.includes('VRAvatars')) DarkFactor = 0.0;
 	else if (CommonPhotoMode) DarkFactor = 1.0;
 	else if (blindLevel === 2) DarkFactor = 0.15;
 	else if (blindLevel === 1) DarkFactor = 0.3;

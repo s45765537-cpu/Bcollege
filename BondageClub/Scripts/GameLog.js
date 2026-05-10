@@ -11,8 +11,7 @@ var Log = [];
  * @param {boolean} [Push=true] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
-function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push) {
-
+function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push=true) {
 	// Makes sure the value is numeric
 	if (typeof NewLogValue === "string") NewLogValue = CommonParseInt(NewLogValue) ?? undefined;
 
@@ -31,9 +30,7 @@ function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push) {
 	}
 
 	// Sends the log to the server
-	if ((Push == null) || Push)
-		ServerPlayerLogSync();
-
+	if (Push) ServerPlayerLogSync();
 }
 
 /**

@@ -223,15 +223,7 @@ function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, Clic
 function ChatRoomCharacterViewDraw() {
 
 	// Check if we should use a custom background
-	let backgroundURL;
-	const itemBackground = DrawGetCustomBackground(Player);
-	if (itemBackground) {
-		backgroundURL = `Backgrounds/${itemBackground}.jpg`;
-	} else if (ChatRoomCustomized && ChatRoomCustomBackground) {
-		backgroundURL = ChatRoomCustomBackground;
-	} else {
-		backgroundURL = `Backgrounds/${ChatRoomData.Background}.jpg`;
-	}
+	const backgroundURL = DrawGetBackgroundURL(false);
 
 	const charCount = ChatRoomCharacterViewCharacterCount;
 	const charsPerRow = ChatRoomCharacterViewCharactersPerRow;
@@ -242,7 +234,7 @@ function ChatRoomCharacterViewDraw() {
 		blur: Player.GetBlurLevel(),
 		darken: DrawGetDarkFactor(),
 		tints: Player.GetTints(),
-		sizeMode: ChatRoomCustomSizeMode
+		sizeMode: ChatRoomData?.Custom?.SizeMode,
 	};
 
 	// Loop over the room's characters to draw each of them

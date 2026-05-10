@@ -69,7 +69,7 @@ var CharacterAppearanceMode = "";
 var CharacterAppearanceMenuMode = "";
 /** @type {null | Item} */
 var CharacterAppearanceCloth = null;
-/** @type {DialogMenuButton[]} */
+/** @type {DialogMenuButtonType[]} */
 var AppearanceMenu = [];
 /** @type {Character[]} */
 var AppearancePreviews = [];
@@ -803,9 +803,14 @@ function AppearanceMenuBuild(C) {
 			if (C.IsPlayer()) AppearanceMenu.push("PermissionMode");
 			if (C.FocusGroup.AllowNone) AppearanceMenu.push("Naked");
 			if (Item && DialogCanColor(C, Item)) {
-				let ButtonName = ItemColorIsSimple(Item) ? "ColorChange" : "ColorChangeMulti";
-				if (InventoryBlockedOrLimited(C, Item)) ButtonName += "Disabled";
-				AppearanceMenu.push(/** @type {DialogMenuButton} */(ButtonName));
+				/** @type {DialogMenuButtonType} */
+				let ButtonName;
+				if (ItemColorIsSimple(Item)) {
+					ButtonName = InventoryBlockedOrLimited(C, Item) ? "ColorChangeDisabled" : "ColorChange";
+				} else {
+					ButtonName = InventoryBlockedOrLimited(C, Item) ? "ColorChangeMultiDisabled" : "ColorChangeMulti";
+				}
+				AppearanceMenu.push(ButtonName);
 			}
 			if (DialogInventory.length > CharacterAppearanceNumClothPerPage) AppearanceMenu.push("Prev", "Next");
 			break;

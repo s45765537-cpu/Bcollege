@@ -1,23 +1,27 @@
 // @ts-strict-ignore
 "use strict";
 
-/** @type {SettingsVFXName[]} */
+/** @type {GraphicsVFXName[]} */
 var PreferenceSettingsVFXList = ["VFXInactive", "VFXSolid", "VFXAnimatedTemp", "VFXAnimated"];
+/** @deprecated */
 var PreferenceSettingsVFXIndex = 0;
-/** @type {SettingsVFXVibratorName[]} */
+/** @type {GraphicsVFXVibratorName[]} */
 var PreferenceSettingsVFXVibratorList = ["VFXVibratorInactive", "VFXVibratorSolid", "VFXVibratorAnimated"];
+/** @deprecated */
 var PreferenceSettingsVFXVibratorIndex = 0;
-/** @type {SettingsVFXFilterName[]} */
-var PreferenceSettingsVFXFilterList = ["VFXFilterLight", "VFXFilterMedium", "VFXFilterHeavy", "VFXFilterNone"];
+/** @type {GraphicsVFXFilterName[]} */
+var PreferenceSettingsVFXFilterList = ["VFXFilterNone", "VFXFilterLight", "VFXFilterMedium", "VFXFilterHeavy"];
+/** @deprecated */
 var PreferenceSettingsVFXFilterIndex = 0;
 /** @type {GraphicsFontName[]} */
 var PreferenceGraphicsFontList = ["Arial", "TimesNewRoman", "Papyrus", "ComicSans", "Impact", "HelveticaNeue", "Verdana", "CenturyGothic", "Georgia", "CourierNew", "Copperplate"];
 /** @type {WebGLPowerPreference[]} */
 var PreferenceGraphicsPowerModes = ["low-power", "default", "high-performance"];
+/** @deprecated */
 var PreferenceGraphicsFontIndex = 0;
-/** @type {number} */
+/** @deprecated @type {number} */
 var PreferenceGraphicsAnimationQualityIndex = -1;
-/** @type {number} */
+/** @deprecated @type {number} */
 var PreferenceGraphicsPowerModeIndex = -1;
 /**
  * Tied to the screen's lifetime
@@ -27,185 +31,323 @@ var PreferenceGraphicsWebGLOptions;
 var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
 var PreferenceGraphicsFrameLimit = [0, 10, 15, 30, 60];
 
+const PreferenceSubscreenGraphicsIDs = Object.freeze({
+	grid: "preference-graphics-grid",
+	noWebGL: "preference-graphics-no-webgl",
+});
 
 /**
  * Prepares the graphics settings subscreen
  */
 function PreferenceSubscreenGraphicsLoad() {
-	PreferenceSettingsVFXIndex = (PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX) < 0) ? 0 : PreferenceSettingsVFXList.indexOf(Player.ArousalSettings.VFX);
-	PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator) < 0) ? 0 : PreferenceSettingsVFXVibratorList.indexOf(Player.ArousalSettings.VFXVibrator);
-	PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterList.indexOf(Player.ArousalSettings.VFXFilter) < 0) ? 0 : PreferenceSettingsVFXFilterList.indexOf(Player.ArousalSettings.VFXFilter);
-
-	PreferenceGraphicsFontIndex = (PreferenceGraphicsFontList.indexOf(Player.GraphicsSettings.Font) < 0) ? 0 : PreferenceGraphicsFontList.indexOf(Player.GraphicsSettings.Font);
-	PreferenceGraphicsAnimationQualityIndex = (PreferenceGraphicsAnimationQualityList.indexOf(Player.GraphicsSettings.AnimationQuality) < 0) ? 0 : PreferenceGraphicsAnimationQualityList.indexOf(Player.GraphicsSettings.AnimationQuality);
 	PreferenceGraphicsWebGLOptions = GLDrawGetOptions();
-	PreferenceGraphicsPowerModeIndex = (PreferenceGraphicsPowerModes.indexOf(PreferenceGraphicsWebGLOptions.powerPreference) < 0) ? 0 : PreferenceGraphicsPowerModes.indexOf(PreferenceGraphicsWebGLOptions.powerPreference);
 
+	const dropdownHtmlOptions = { container: { classList: ["preference-settings-dropdown"] } };
+	const checkboxHtmlOptions = { container: { classList: ["preference-settings-checkbox"] } };
+
+	const vfxOptions = PreferenceSettingsVFXList.map((v) => ({
+		attributes: {
+			value: v,
+			label: TextGet(v),
+			selected: v === Player.ArousalSettings.VFX,
+		},
+	}));
+
+	const vfxDropdown = ElementDropdown.CreateLabelled("preference-graphics-vfx", vfxOptions, TextGet("VFX"),
+		function (ev) {
+			ev.preventDefault();
+			const next = /** @type {GraphicsVFXName} */ (this.value);
+			if (PreferenceSettingsVFXList.indexOf(next) < 0) return;
+			Player.ArousalSettings.VFX = next;
+		},
+		null,
+		dropdownHtmlOptions
+	);
+
+	const fontOptions = PreferenceGraphicsFontList.map((f) => ({
+		attributes: {
+			value: f,
+			label: TextGet(f),
+			selected: f === Player.GraphicsSettings.Font,
+		},
+	}));
+
+	const fontDropdown = ElementDropdown.CreateLabelled("preference-graphics-font", fontOptions, TextGet("GraphicsFont"),
+		function (ev) {
+			ev.preventDefault();
+			const next = /** @type {GraphicsFontName} */ (this.value);
+			if (PreferenceGraphicsFontList.indexOf(next) < 0) return;
+			Player.GraphicsSettings.Font = next;
+			CommonGetFont.clearCache();
+			CommonGetFontName.clearCache();
+			DrawingGetTextSize.clearCache();
+		},
+		null,
+		{
+			container: {
+				classList: ["preference-settings-dropdown"],
+				children: [
+					GraphicsCreateHint("preference-graphics-font-hint", TextGet("GraphicsFontDisclaimer"), "left"),
+				],
+			},
+		}
+	);
+
+	const invertRoom = ElementCheckbox.CreateLabelled(
+		"preference-graphics-invert-room",
+		TextGet("GraphicsInvertRoom"),
+		function () {
+			Player.GraphicsSettings.InvertRoom = this.checked;
+		},
+		{ checked: Player.GraphicsSettings.InvertRoom },
+		checkboxHtmlOptions
+	);
+
+	const stimulationFlash = ElementCheckbox.CreateLabelled(
+		"preference-graphics-stimulation-flash",
+		TextGet("GraphicsStimulationFlash"),
+		function () {
+			Player.GraphicsSettings.StimulationFlash = this.checked;
+		},
+		{ checked: Player.GraphicsSettings.StimulationFlash },
+		checkboxHtmlOptions
+	);
+
+	const doBlindFlash = ElementCheckbox.CreateLabelled(
+		"preference-graphics-do-blind-flash",
+		TextGet("DoBlindFlash"),
+		function () {
+			Player.GraphicsSettings.DoBlindFlash = this.checked;
+		},
+		{ checked: Player.GraphicsSettings.DoBlindFlash },
+		checkboxHtmlOptions
+	);
+
+	const animationQualityOptions = PreferenceGraphicsAnimationQualityList.map((q) => ({
+		attributes: {
+			value: q.toString(),
+			label: TextGet("GeneralAnimationQuality" + q.toString()),
+			selected: q === Player.GraphicsSettings.AnimationQuality,
+		},
+	}));
+
+	const animationQualityDropdown = ElementDropdown.CreateLabelled("preference-graphics-animation-quality", animationQualityOptions, TextGet("GeneralAnimationQualityText"),
+		function (ev) {
+			ev.preventDefault();
+			const q = CommonParseInt(this.value);
+			if (PreferenceGraphicsAnimationQualityList.indexOf(q) < 0) return;
+			Player.GraphicsSettings.AnimationQuality = q;
+		},
+		null,
+		{
+			container: {
+				classList: ["preference-settings-dropdown"],
+				children: [
+					GraphicsCreateHint("preference-graphics-animation-quality-hint", TextGet("GeneralAnimationQualityHint"), "left"),
+				],
+			}
+		}
+	);
+
+	/** @type {HTMLElement[]} */
+	const webglBlock = [];
+	if (GLVersion !== "No WebGL") {
+		const antialiasingCheckbox = ElementCheckbox.CreateLabelled(
+			"preference-graphics-antialias",
+			TextGet("GraphicsAntialiasing"),
+			function () {
+				PreferenceGraphicsWebGLOptions.antialias = this.checked;
+			},
+			{ checked: PreferenceGraphicsWebGLOptions.antialias },
+			{ container: { children: [GraphicsCreateHint("preference-graphics-antialias-hint", TextGet("GraphicsSupportHint"), "left")], classList: ["preference-settings-checkbox"] } }
+		);
+
+		const powerModeOptions = PreferenceGraphicsPowerModes.map((m) => ({
+			attributes: {
+				value: m,
+				label: TextGet("PowerMode" + m),
+				selected: m === PreferenceGraphicsWebGLOptions.powerPreference,
+			},
+		}));
+
+		const powerModeDropdown = ElementDropdown.CreateLabelled("preference-graphics-power-mode", powerModeOptions, TextGet("GraphicsPowerMode"),
+			function (ev) {
+				ev.preventDefault();
+				const next = /** @type {WebGLPowerPreference} */ (this.value);
+				if (PreferenceGraphicsPowerModes.indexOf(next) < 0) return;
+				PreferenceGraphicsWebGLOptions.powerPreference = next;
+			}, null, { container: { classList: ["preference-settings-dropdown"], children: [GraphicsCreateHint("preference-graphics-power-mode-hint", TextGet("GraphicsSupportHint"), "left")] } }
+		);
+		webglBlock.push(antialiasingCheckbox, powerModeDropdown);
+	} else {
+		webglBlock.push(ElementCreate({
+			tag: "p",
+			attributes: { id: PreferenceSubscreenGraphicsIDs.noWebGL },
+			classList: ["preference-graphics-no-webgl"],
+			children: [TextGet("GraphicsNoWebGL")],
+		}));
+	}
+
+	const vfxFilterOptions = PreferenceSettingsVFXFilterList.map((v) => ({
+		attributes: {
+			value: v,
+			label: TextGet(v),
+			selected: v === Player.ArousalSettings.VFXFilter,
+		},
+	}));
+
+	const vfxFilterDropdown = ElementDropdown.CreateLabelled("preference-graphics-vfx-filter", vfxFilterOptions, TextGet("VFXFilter"),
+		function (ev) {
+			ev.preventDefault();
+			const next = /** @type {GraphicsVFXFilterName} */ (this.value);
+			if (PreferenceSettingsVFXFilterList.indexOf(next) < 0) return;
+			Player.ArousalSettings.VFXFilter = next;
+		},
+		null,
+		dropdownHtmlOptions
+	);
+
+	const vfxVibratorOptions = PreferenceSettingsVFXVibratorList.map((v) => ({
+		attributes: {
+			value: v,
+			label: TextGet(v),
+			selected: v === Player.ArousalSettings.VFXVibrator,
+		},
+	}));
+
+	const vfxVibratorDropdown = ElementDropdown.CreateLabelled("preference-graphics-vfx-vibrator", vfxVibratorOptions, TextGet("VFXVibrator"),
+		function (ev) {
+			ev.preventDefault();
+			const next = /** @type {GraphicsVFXVibratorName} */ (this.value);
+			if (PreferenceSettingsVFXVibratorList.indexOf(next) < 0) return;
+			Player.ArousalSettings.VFXVibrator = next;
+		},
+		null,
+		dropdownHtmlOptions
+	);
+
+	const smoothZoom = ElementCheckbox.CreateLabelled(
+		"preference-graphics-smooth-zoom",
+		TextGet("SmoothZoom"),
+		function () {
+			Player.GraphicsSettings.SmoothZoom = this.checked;
+		},
+		{ checked: Player.GraphicsSettings.SmoothZoom },
+		checkboxHtmlOptions
+	);
+
+	const centerChatrooms = ElementCheckbox.CreateLabelled(
+		"preference-graphics-center-chatrooms",
+		TextGet("CenterChatrooms"),
+		function () {
+			Player.GraphicsSettings.CenterChatrooms = this.checked;
+		},
+		{ checked: Player.GraphicsSettings.CenterChatrooms },
+		checkboxHtmlOptions
+	);
+
+	const allowBlur = ElementCheckbox.CreateLabelled(
+		"preference-graphics-allow-blur",
+		TextGet("AllowBlur"),
+		function () {
+			Player.GraphicsSettings.AllowBlur = this.checked;
+		},
+		{ checked: Player.GraphicsSettings.AllowBlur },
+		{ container: { children: [GraphicsCreateHint("preference-graphics-allow-blur-hint", TextGet("AllowBlurHint"), "left")], classList: ["preference-settings-checkbox"] } }
+	);
+
+	const maxFpsOptions = PreferenceGraphicsFrameLimit.map((n) => ({
+		attributes: {
+			value: n.toString(),
+			label: TextGet("MaxFPS" + n.toString()),
+			selected: n === Player.GraphicsSettings.MaxFPS,
+		},
+	}));
+
+	const maxFpsDropdown = ElementDropdown.CreateLabelled("preference-graphics-max-fps", maxFpsOptions, TextGet("FPSFocusedLimit"),
+		function (ev) {
+			ev.preventDefault();
+			const n = CommonParseInt(this.value);
+			if (PreferenceGraphicsFrameLimit.indexOf(n) < 0) return;
+			Player.GraphicsSettings.MaxFPS = n;
+		},
+		null,
+		dropdownHtmlOptions
+	);
+
+	const maxUnfocusedFpsOptions = PreferenceGraphicsFrameLimit.map((n) => ({
+		attributes: {
+			value: n.toString(),
+			label: TextGet("MaxFPS" + n.toString()),
+			selected: n === Player.GraphicsSettings.MaxUnfocusedFPS,
+		},
+	}));
+
+	const maxUnfocusedFpsDropdown = ElementDropdown.CreateLabelled("preference-graphics-max-unfocused-fps", maxUnfocusedFpsOptions, TextGet("FPSUnfocusedLimit"),
+		function (ev) {
+			ev.preventDefault();
+			const n = CommonParseInt(this.value);
+			if (PreferenceGraphicsFrameLimit.indexOf(n) < 0) return;
+			Player.GraphicsSettings.MaxUnfocusedFPS = n;
+		},
+		null,
+		dropdownHtmlOptions
+	);
+
+	const showFps = ElementCheckbox.CreateLabelled(
+		"preference-graphics-show-fps",
+		TextGet("ShowFPS"),
+		function () {
+			Player.GraphicsSettings.ShowFPS = this.checked;
+		},
+		{ checked: Player.GraphicsSettings.ShowFPS },
+		checkboxHtmlOptions
+	);
+
+	ElementCreate({
+		tag: "div",
+		classList: ["preference-settings-grid", "preference-settings-aligned-grid", "scroll-box"],
+		attributes: { id: PreferenceSubscreenGraphicsIDs.grid },
+		children: [
+			vfxDropdown,
+			vfxFilterDropdown,
+			vfxVibratorDropdown,
+			fontDropdown,
+			invertRoom,
+			smoothZoom,
+			centerChatrooms,
+			stimulationFlash,
+			doBlindFlash,
+			animationQualityDropdown,
+			...webglBlock,
+			allowBlur,
+			maxFpsDropdown,
+			maxUnfocusedFpsDropdown,
+			showFps,
+		],
+		parent: ElementWrap(PreferenceIDs.subscreen)
+	});
 }
 
 /**
  * Sets the graphical preferences for a player. Redirected to from the main Run function if the player is in the
- * visibility settings subscreen
+ * graphics settings subscreen
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGraphicsRun() {
 	DrawCharacter(Player, 50, 50, 0.9);
-
-	MainCanvas.textAlign = "center";
-	PreferencePageChangeDraw(1595, 75, 2); // Uncomment when adding a 2nd page
-
-	MainCanvas.textAlign = "left";
-
-	if (PreferencePageCurrent === 1) {
-		DrawText(TextGet("VFX"), 800, 216, "Black", "Gray");
-		DrawText(TextGet("GraphicsFont"), 800, 306, "Black", "Gray");
-		DrawTextFit(TextGet("GraphicsFontDisclaimer"), 500, 376, 1400, "Black", "Gray");
-		DrawCheckbox(500, 430, 64, 64, TextGet("GraphicsInvertRoom"), Player.GraphicsSettings.InvertRoom);
-		DrawCheckbox(500, 510, 64, 64, TextGet("GraphicsStimulationFlash"), Player.GraphicsSettings.StimulationFlash);
-		DrawCheckbox(500, 590, 64, 64, TextGet("DoBlindFlash"), Player.GraphicsSettings.DoBlindFlash);
-		DrawText(TextGet("GeneralAnimationQualityText"), 750, 712, "Black", "Gray");
-		if (GLVersion !== "No WebGL") {
-			DrawCheckbox(500, 765, 64, 64, TextGet("GraphicsAntialiasing"), PreferenceGraphicsWebGLOptions.antialias);
-			DrawText(TextGet("GraphicsPowerMode"), 880, 885, "Black", "Gray");
-		} else {
-			DrawText(TextGet("GraphicsNoWebGL"), 700, 810, "Red", "Gray");
-		}
-
-		DrawBackNextButton(500, 182, 250, 64, TextGet(Player.ArousalSettings.VFX), "White", "",
-			() => TextGet(PreferenceSettingsVFXList[(PreferenceSettingsVFXIndex + PreferenceSettingsVFXList.length - 1) % PreferenceSettingsVFXList.length]),
-			() => TextGet(PreferenceSettingsVFXList[(PreferenceSettingsVFXIndex + 1) % PreferenceSettingsVFXList.length]));
-
-		DrawBackNextButton(500, 270, 250, 64, TextGet(Player.GraphicsSettings.Font), "White", "",
-			() => TextGet(PreferenceGraphicsFontList[(PreferenceGraphicsFontIndex + PreferenceGraphicsFontList.length - 1) % PreferenceGraphicsFontList.length]),
-			() => TextGet(PreferenceGraphicsFontList[(PreferenceGraphicsFontIndex + 1) % PreferenceGraphicsFontList.length]));
-
-		DrawBackNextButton(500, 680, 200, 64, TextGet("GeneralAnimationQuality" + Player.GraphicsSettings.AnimationQuality), "White", "",
-			() => PreferenceGraphicsAnimationQualityIndex == 0 ? "" : TextGet("GeneralAnimationQuality" + PreferenceGraphicsAnimationQualityList[PreferenceGraphicsAnimationQualityIndex - 1].toString()),
-			() => PreferenceGraphicsAnimationQualityIndex == PreferenceGraphicsAnimationQualityList.length - 1 ? "" : TextGet("GeneralAnimationQuality" + PreferenceGraphicsAnimationQualityList[PreferenceGraphicsAnimationQualityIndex + 1].toString()));
-		if (GLVersion !== "No WebGL") {
-			DrawBackNextButton(500, 850, 360, 64, TextGet("PowerMode" + PreferenceGraphicsPowerModes[PreferenceGraphicsPowerModeIndex]), "White", "",
-				() => PreferenceGraphicsPowerModeIndex == 0 ? "" : TextGet("PowerMode" + PreferenceGraphicsPowerModes[PreferenceGraphicsPowerModeIndex - 1].toString()),
-				() => PreferenceGraphicsPowerModeIndex == PreferenceGraphicsPowerModes.length - 1 ? "" : TextGet("PowerMode" + PreferenceGraphicsPowerModes[PreferenceGraphicsPowerModeIndex + 1].toString()));
-		}
-	} else if (PreferencePageCurrent === 2) {
-		DrawText(TextGet("VFXFilter"), 1000, 216, "Black", "Gray");
-		DrawText(TextGet("VFXVibrator"), 1000, 456, "Black", "Gray");
-		DrawText(TextGet("FPSFocusedLimit"), 1000, 616, "Black", "Gray");
-		DrawText(TextGet("FPSUnfocusedLimit"), 1000, 696, "Black", "Gray");
-		DrawCheckbox(500, 270, 64, 64, TextGet("SmoothZoom"), Player.GraphicsSettings.SmoothZoom);
-		DrawCheckbox(500, 350, 64, 64, TextGet("CenterChatrooms"), Player.GraphicsSettings.CenterChatrooms);
-		DrawCheckbox(500, 510, 64, 64, TextGet("AllowBlur"), Player.GraphicsSettings.AllowBlur);
-
-		DrawBackNextButton(500, 190, 450, 64, TextGet(Player.ArousalSettings.VFXFilter || PreferenceSettingsVFXFilterList[PreferenceSettingsVFXFilterIndex]), "White", "",
-			() => TextGet(PreferenceSettingsVFXFilterList[(PreferenceSettingsVFXFilterIndex + PreferenceSettingsVFXFilterList.length - 1) % PreferenceSettingsVFXFilterList.length]),
-			() => TextGet(PreferenceSettingsVFXFilterList[(PreferenceSettingsVFXFilterIndex + 1) % PreferenceSettingsVFXFilterList.length]));
-
-		DrawBackNextButton(500, 430, 450, 64, TextGet(Player.ArousalSettings.VFXVibrator), "White", "",
-			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + PreferenceSettingsVFXVibratorList.length - 1) % PreferenceSettingsVFXVibratorList.length]),
-			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length]));
-
-		DrawBackNextButton(500, 590, 450, 64, TextGet(`MaxFPS${Player.GraphicsSettings.MaxFPS}`), "White", "",
-			() => {
-				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) - 1, PreferenceGraphicsFrameLimit.length);
-				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
-				return TextGet(key);
-			},
-			() => {
-				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) + 1, PreferenceGraphicsFrameLimit.length);
-				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
-				return TextGet(key);
-			}
-		);
-
-		DrawBackNextButton(500, 670, 450, 64, TextGet(`MaxFPS${Player.GraphicsSettings.MaxUnfocusedFPS}`), "White", "",
-			() => {
-				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxUnfocusedFPS) - 1, PreferenceGraphicsFrameLimit.length);
-				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
-				return TextGet(key);
-			},
-			() => {
-				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxUnfocusedFPS) + 1, PreferenceGraphicsFrameLimit.length);
-				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
-				return TextGet(key);
-			}
-		);
-
-		MainCanvas.textAlign = "left";
-		DrawCheckbox(500, 750, 64, 64, TextGet("ShowFPS"), Player.GraphicsSettings.ShowFPS);
-	}
 }
 
 /**
- * Handles click events for the audio preference settings.  Redirected from the main Click function.
+ * Handles click events for the graphics preference settings. Redirected from the main Click function.
  * @returns {void} - Nothing
  */
-function PreferenceSubscreenGraphicsClick() {
+function PreferenceSubscreenGraphicsClick() {}
 
-	// Change page
-	PreferencePageChangeClick(1595, 75, 2); // Uncomment when adding a 2nd page
-
-	if (PreferencePageCurrent === 1) {
-		if (MouseIn(500, 182, 250, 64)) {
-			if (MouseX <= 625) PreferenceSettingsVFXIndex = (PreferenceSettingsVFXList.length + PreferenceSettingsVFXIndex - 1) % PreferenceSettingsVFXList.length;
-			else PreferenceSettingsVFXIndex = (PreferenceSettingsVFXIndex + 1) % PreferenceSettingsVFXList.length;
-			Player.ArousalSettings.VFX = PreferenceSettingsVFXList[PreferenceSettingsVFXIndex];
-		}
-		if (MouseIn(500, 270, 250, 64)) {
-			if (MouseX <= 625) PreferenceGraphicsFontIndex = (PreferenceGraphicsFontList.length + PreferenceGraphicsFontIndex - 1) % PreferenceGraphicsFontList.length;
-			else PreferenceGraphicsFontIndex = (PreferenceGraphicsFontIndex + 1) % PreferenceGraphicsFontList.length;
-			Player.GraphicsSettings.Font = PreferenceGraphicsFontList[PreferenceGraphicsFontIndex];
-			CommonGetFont.clearCache();
-			CommonGetFontName.clearCache();
-			DrawingGetTextSize.clearCache();
-		}
-		if (MouseIn(500, 430, 64, 64)) Player.GraphicsSettings.InvertRoom = !Player.GraphicsSettings.InvertRoom;
-		if (MouseIn(500, 510, 64, 64)) Player.GraphicsSettings.StimulationFlash = !Player.GraphicsSettings.StimulationFlash;
-		if (MouseIn(500, 590, 64, 64)) Player.GraphicsSettings.DoBlindFlash = !Player.GraphicsSettings.DoBlindFlash;
-		if (MouseIn(500, 680, 200, 64)) {
-			if (MouseX <= 600) {
-				if (PreferenceGraphicsAnimationQualityIndex > 0) PreferenceGraphicsAnimationQualityIndex--;
-			} else {
-				if (PreferenceGraphicsAnimationQualityIndex < PreferenceGraphicsAnimationQualityList.length - 1) PreferenceGraphicsAnimationQualityIndex++;
-			}
-			Player.GraphicsSettings.AnimationQuality = PreferenceGraphicsAnimationQualityList[PreferenceGraphicsAnimationQualityIndex];
-		}
-		if (GLVersion !== "No WebGL" && MouseIn(500, 850, 360, 64)) {
-			if (MouseX <= 678) {
-				PreferenceGraphicsPowerModeIndex = Math.max(0, PreferenceGraphicsPowerModeIndex - 1);
-			} else {
-				PreferenceGraphicsPowerModeIndex = Math.min(PreferenceGraphicsPowerModeIndex + 1, PreferenceGraphicsPowerModes.length - 1);
-			}
-			PreferenceGraphicsWebGLOptions.powerPreference = PreferenceGraphicsPowerModes[PreferenceGraphicsPowerModeIndex];
-		}
-		if (GLVersion !== "No WebGL" && MouseIn(500, 765, 64, 64)) {
-			PreferenceGraphicsWebGLOptions.antialias = !PreferenceGraphicsWebGLOptions.antialias;
-		}
-	} if (PreferencePageCurrent === 2) {
-		if (MouseIn(500, 190, 450, 64)) {
-			if (MouseX <= 825) PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterList.length + PreferenceSettingsVFXFilterIndex - 1) % PreferenceSettingsVFXFilterList.length;
-			else PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterIndex + 1) % PreferenceSettingsVFXFilterList.length;
-			Player.ArousalSettings.VFXFilter = PreferenceSettingsVFXFilterList[PreferenceSettingsVFXFilterIndex];
-		}
-		if (MouseIn(500, 270, 64, 64)) Player.GraphicsSettings.SmoothZoom = !Player.GraphicsSettings.SmoothZoom;
-		if (MouseIn(500, 350, 64, 64)) Player.GraphicsSettings.CenterChatrooms = !Player.GraphicsSettings.CenterChatrooms;
-		if (MouseIn(500, 430, 450, 64)) {
-			if (MouseX <= 825) PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.length + PreferenceSettingsVFXVibratorIndex - 1) % PreferenceSettingsVFXVibratorList.length;
-			else PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length;
-			Player.ArousalSettings.VFXVibrator = PreferenceSettingsVFXVibratorList[PreferenceSettingsVFXVibratorIndex];
-		}
-		if (MouseIn(500, 510, 64, 64)) Player.GraphicsSettings.AllowBlur = !Player.GraphicsSettings.AllowBlur;
-		if (MouseIn(500, 590, 450, 64)) {
-			const dir = MouseX <= 825 ? -1 : 1;
-			const idx = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) + dir, PreferenceGraphicsFrameLimit.length);
-			Player.GraphicsSettings.MaxFPS = PreferenceGraphicsFrameLimit[idx];
-		}
-		if (MouseIn(500, 670, 450, 64)) {
-			const dir = MouseX <= 825 ? -1 : 1;
-			const idx = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxUnfocusedFPS) + dir, PreferenceGraphicsFrameLimit.length);
-			Player.GraphicsSettings.MaxUnfocusedFPS = PreferenceGraphicsFrameLimit[idx];
-		}
-		if (MouseIn(500, 750, 64, 64)) Player.GraphicsSettings.ShowFPS = !Player.GraphicsSettings.ShowFPS;
-	}
+function PreferenceSubscreenGraphicsResize() {
+	const { x, y } = PreferenceSubscreenMainGrid;
+	ElementSetPosition(PreferenceSubscreenGraphicsIDs.grid, x, y + 10);
+	ElementSetSize(PreferenceSubscreenGraphicsIDs.grid, 1400, 800);
 }
 
 function PreferenceSubscreenGraphicsExit() {
@@ -228,4 +370,23 @@ function PreferenceSubscreenGraphicsUnload() {
 		GLDrawSetOptions(PreferenceGraphicsWebGLOptions);
 		GLDrawResetCanvas();
 	}
+}
+
+/**
+ * Creates a hint button with a tooltip
+ * @param {string | null} id
+ * @param {string} tooltip
+ * @param {"left" | "right" | "top" | "bottom"} tooltipPosition
+ * @returns
+ */
+function GraphicsCreateHint(id, tooltip, tooltipPosition) {
+	return ElementButton.Create(id, null, {
+		image: "Icons/Question.png",
+		noStyling: true,
+		tooltipPosition: tooltipPosition,
+		tooltip: tooltip,
+		tooltipRole: "description",
+	}, {
+		button: { classList: ["hint-button"] }
+	});
 }

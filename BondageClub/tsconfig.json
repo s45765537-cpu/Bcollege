@@ -15,5 +15,10 @@
 		],
 	},
 	"include": ["Scripts/**/*", "Screens/**/*", "Assets/**/*", "Backgrounds/**/*.js"],
-	"exclude": ["Scripts/lib/**/*.js", "Scripts/MessagesPatch.d.ts", "node_modules/**/*"],
+	"exclude": [
+		"Scripts/lib/**/*.js",
+		"Scripts/MessagesPatch.d.ts",
+		"Scripts/DeclarationsExpensive.d.ts",
+		"node_modules/**/*",
+	],
 }

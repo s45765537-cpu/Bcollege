@@ -294,6 +294,7 @@ ClothLower,Shapewear2,Shapewear Bottom
 ClothLower,ShortPencilSkirt,Pencil Skirt Short
 ClothLower,ShortPlaidSkirt,Short Plaid Skirt
 ClothLower,Shorts1,Shorts
+ClothLower,SideCutoutYogaPants,Yoga Pants - Cut
 ClothLower,SkinnyJeans,Skinny Jeans
 ClothLower,Skirt1,Skirt
 ClothLower,Skirt2,Student Skirt
@@ -308,10 +309,11 @@ ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
 ClothLower,WoolenHighWaistSkirt,High Waist Skirt
-ClothLower,YogaPants,Yoga Pants
+ClothLower,YogaPants,Yoga Pants - Basic
 ClothOuter,,Cloth Outer
 ClothOuter,LeatherJacket,Leather Jacket
 ClothOuter,JacketHoodie,Jacket Hoodie
+ClothOuter,WoolCoat,Trench Coat
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
@@ -491,6 +493,7 @@ HairAccessory1,Antenna,Antenna
 HairAccessory1,Antennae,Antennae
 HairAccessory1,BatWings,Small Bat Wings
 HairAccessory1,BigLynxEars,Lynx Ears
+HairAccessory1,BlackCatEarsMirror,Black Kitty Ears - Low
 HairAccessory1,BunnyEars1,Bunny Ears
 HairAccessory1,BunnyEars2,Floppy Bunny Ears
 HairAccessory1,CowHorns,Cow Horns
@@ -521,7 +524,7 @@ HairAccessory1,Horns2,Horns 2
 HairAccessory1,Horns3,Horns 3
 HairAccessory1,Horns4,Horns 4
 HairAccessory1,Horns5,Horns 5
-HairAccessory1,KittenEars1,Black Kitty Ears
+HairAccessory1,KittenEars1,Black Kitty Ears - High
 HairAccessory1,KittenEars2,Light Kitty Ears
 HairAccessory1,MouseEars1,Mouse Ears 1
 HairAccessory1,MouseEars2,Mouse Ears 2
@@ -1165,6 +1168,7 @@ ItemHandheld,HeartCrop,Heart Crop
 ItemHandheld,IceCube,Ice Cube
 ItemHandheld,KeyProp,Key
 ItemHandheld,Kyosensu,Kyo-sensu Fan
+ItemHandheld,Laptop,Laptop
 ItemHandheld,LargeDildo,Large Dildo
 ItemHandheld,LongDuster,Long Duster
 ItemHandheld,LongSock,Long Sock
@@ -1172,6 +1176,7 @@ ItemHandheld,Lotion,Lotion
 ItemHandheld,MedicalInjector,Medical Injector
 ItemHandheld,Mug,Mug
 ItemHandheld,Paddle,Paddle
+ItemHandheld,CustomPaddle,Leather Paddle
 ItemHandheld,Panties,Panties
 ItemHandheld,PetToy,Pet Toy
 ItemHandheld,Phone1,Mobile Phone
@@ -1718,6 +1723,7 @@ ItemVulva,ShockDildo,Shock Dildo
 ItemVulva,Stitches,Stitches
 ItemVulva,TapeStrips,Tape Strips
 ItemVulva,TechnoChastityCage,Techno Chastity Cage
+ItemVulva,UsedCondom,Used Condom
 ItemVulva,VibeEggPenisBase,Vibrating Egg
 ItemVulva,VibratingDildo,Vibrating Dildo
 ItemVulva,VibratingEgg,Vibrating Egg
@@ -1912,6 +1918,7 @@ Shoes,StreetBoots,Street Boots
 Shoes,TallerBoots,Combo Boots
 Shoes,ThighBoots, Latex ThighBoots
 Shoes,ThighHighLatexHeels,Latex Heels
+Shoes,ToeNails,Toe Nails
 Shoes,WesternBoots,Western Boots
 Shoes,WitchShoes,Witch Shoes
 Shoes,WoollyBootsTall,Woolly Boots

@@ -33,41 +33,32 @@ function PreferenceSubscreenOnlineLoad() {
 	PreferenceOnlineDefaultBackgroundList = BackgroundsGenerateList(BackgroundsTagList);
 	PreferenceOnlineDefaultBackgroundIndex = PreferenceOnlineDefaultBackgroundList.indexOf(PreferenceOnlineDefaultBackground);
 
+	const checkboxHtmlOptions = { container: { classList: ["preference-settings-checkbox"] } };
+
 	const checkboxElements = PreferenceSubscreenOnlineCheckboxes.map((checkbox) => {
 		const checked = checkbox.check();
 		const label = TextGet(checkbox.label);
 
 		return ElementCheckbox.CreateLabelled(`${checkbox.label}-checkbox`, label, checkbox.click, {
 			checked
-		});
+		}, checkboxHtmlOptions);
 	});
 
 	const dropdownOptions = [0, 1, 2, 3].map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */ ({attributes: { value: e.toString(), label: TextGet("RoomCustomizationLevel" + e.toString()), selected: e === Player.OnlineSettings.ShowRoomCustomization }}));
 
-	const dropdown = ElementCreate({
-		tag: "div",
-		classList: ["preference-settings-dropdown"],
-		attributes: {
-			id: `RoomCustomizationLevel-dropdown-container`
-		},
-		children: [
-			{
-				tag: "label",
-				children: [TextGet("RoomCustomizationLabel")],
-				attributes: { for: "RoomCustomizationLevel" },
-			},
-			ElementCreateDropdown("RoomCustomizationLevel", dropdownOptions, (ev) => {
-				ev.preventDefault();
-				const value = parseInt(/** @type {HTMLSelectElement} */ (ev.target).value);
-				if (!value) return;
-				Player.OnlineSettings.ShowRoomCustomization = /** @type {0 | 1 | 2 | 3} */ (value);
-			})
-		]
+	const dropdown = ElementDropdown.CreateLabelled("RoomCustomizationLevel", dropdownOptions, TextGet("RoomCustomizationLabel"), function (ev) {
+		Player.OnlineSettings.ShowRoomCustomization = /** @type {ChatRoomCustomizationType} */ (CommonParseInt(this.value));
+	},
+	null,
+	{
+		container: {
+			classList: ["preference-settings-dropdown"],
+		}
 	});
 
 	const grid = ElementCreate({
 		tag: "div",
-		classList: ["preference-settings-grid", "scroll-box"],
+		classList: ["preference-settings-grid", "preference-settings-aligned-grid", "scroll-box"],
 		attributes: { id: PreferenceSubscreenOnlineIDs.grid },
 		children: [
 			...checkboxElements,
@@ -133,7 +124,8 @@ function PreferenceSubscreenOnlineClick() {
 
 function PreferenceSubscreenOnlineResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
-	ElementSetPosition(PreferenceSubscreenOnlineIDs.grid, x, y);
+	ElementSetPosition(PreferenceSubscreenOnlineIDs.grid, x, y + 10);
+	ElementSetSize(PreferenceSubscreenOnlineIDs.grid, 1400, 800);
 	ElementSetPosition(PreferenceSubscreenOnlineIDs.subtitle, 500, 150);
 	ElementPositionFixed(PreferenceSubscreenOnlineIDs.selection, 820, 210, 90, 90);
 }

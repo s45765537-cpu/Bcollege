@@ -30,3 +30,5 @@ Invalid server answer, it could be outdated.
 服务器返回错误,游戏版本是否有误？
 Your character name, account name and password cannot be more than 20 characters long.
 角色名、账号名和密码不能超过20个字符
+Your character name is permanent and cannot be changed. You can set a nickname later.
+角色名称是永久的，无法更改。之后你可以设置昵称。

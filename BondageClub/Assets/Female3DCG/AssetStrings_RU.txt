@@ -6636,14 +6636,14 @@ tightens
 затянуть
 SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
 SourceCharacter добавляет неизвестное количество времени к замку на FocusAssetGroup DestinationCharacter
-SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
-SourceCharacter добавляет TimerTime TimerUnit к замку на FocusAssetGroup  DestinationCharacter.
+SourceCharacter adds TimerTime to the padlock on DestinationCharacter FocusAssetGroup.
+SourceCharacter добавляет TimerTime к замку на FocusAssetGroup  DestinationCharacter.
 The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 LockName на  FocusAssetGroupDestinationCharacterName с щелчком открывается.
 The locks on DestinationCharacterName UnlockedGroups open with a click
 Замки на UnlockedGroups DestinationCharacterName с щелчком открываются.
-SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
-SourceCharacter удаляет TimerTime TimerUnit из замка на FocusAssetGroup DestinationCharacter.
+SourceCharacter removes TimerTime from the padlock on DestinationCharacter FocusAssetGroup.
+SourceCharacter удаляет TimerTime из замка на FocusAssetGroup DestinationCharacter.
 SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
 SourceCharacter перезапускает замок пятиминутного таймера на FocusAssetGroup DestinationCharacter.
 Unknown time left

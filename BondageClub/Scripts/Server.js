@@ -1176,7 +1176,7 @@ var ServerValidation = {
 	/**
 	 * Private helper to quickly check boolean settings
 	 * @param {boolean} defaultValue
-	 * @returns {(arg: boolean) => boolean}
+	 * @returns {(arg: boolean | undefined) => boolean}
 	 */
 	isBool(defaultValue) {
 		return (arg) => {
@@ -1199,6 +1199,18 @@ var ServerValidation = {
 
 	/**
 	 * Private helper to quickly check numbers
+	 * @template {number} T
+	 * @param {T} defaultValue
+	 * @returns {(arg: T) => T}
+	 */
+	isNumber(defaultValue) {
+		return (arg) => {
+			return CommonIsNumeric(arg) ? /** @type {typeof defaultValue} */(arg) : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to quickly check integers
 	 * @template {number} T
 	 * @param {number} min
 	 * @param {number} max
@@ -1236,15 +1248,26 @@ var ServerValidation = {
 	},
 
 	/**
+	 * Private helper to quickly check color codes
+	 * @param {boolean} allowAlpha
+	 * @param {HexColor | undefined} defaultValue
+	 */
+	isColorCode(allowAlpha = false, defaultValue) {
+		return (arg) => {
+			return CommonIsColor(arg, { allowAlpha }) ? arg : defaultValue;
+		};
+	},
+
+	/**
 	 * Private helper to quick check notification settings
 	 * @param {NotificationSetting} defaultNotif
-	 * @returns {(arg: NotificationSetting) => NotificationSetting}
+	 * @returns {(arg: Partial<NotificationSetting>) => NotificationSetting}
 	 */
 	isValidNotification(defaultNotif) {
 		return (arg) => {
 			return {
-				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg.Audio)),
-				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg.AlertType)),
+				Audio: /** @type {NotificationAudioType} */ (ServerValidation.isInt(0, 2, defaultNotif.Audio)(arg?.Audio)),
+				AlertType: /** @type {NotificationAlertType} */  (ServerValidation.isInt(0, 3, defaultNotif.AlertType)(arg?.AlertType)),
 			};
 		};
 	},
@@ -1446,7 +1469,66 @@ const ServerChatRoomSearchSettingsValidate = {
 	FilterTerms: ServerValidation.isString(200, ""),
 };
 
-const ServerDefaultTimeout = 1000;
+/**
+ * Namespace with functions for validating {@link ServerAccountDataSynced} properties, converting them into their valid {@link Character} counterpart
+ * @satisfies {{ [k in keyof (ServerChatRoomData)]?: (arg: Partial<ServerChatRoomData[k]>) => ServerChatRoomData[k] }}
+ * @namespace
+ */
+const ServerChatRoomDataValidate = {
+	/** @type {((arg: Partial<ServerChatRoomCustomData>) => ServerChatRoomCustomData) & { [k in keyof (Required<ServerChatRoomCustomData>)]: (arg: ServerChatRoomCustomData[k]) => ServerChatRoomCustomData[k] }} */
+	Custom: Object.assign(
+		(arg) => {
+			/** @type {ServerChatRoomCustomData} */
+			const custom = {
+				...arg,
+				/**
+				 *
+				 * @param {string} img
+				 * @returns
+				 */
+				ImageURL: ServerChatRoomDataValidate.Custom.ImageURL(arg.ImageURL),
+				SizeMode: ServerChatRoomDataValidate.Custom.SizeMode(arg.SizeMode),
+				ImageFilter: ServerChatRoomDataValidate.Custom.ImageFilter(arg.ImageFilter),
+				MusicURL: ServerChatRoomDataValidate.Custom.MusicURL(arg.MusicURL),
+				MusicStart: ServerChatRoomDataValidate.Custom.MusicStart(arg.MusicStart),
+			};
+			if (custom.ImageURL === undefined) delete custom.SizeMode;
+			if (custom.MusicURL === undefined) delete custom.MusicStart;
+			return Object.values(custom).some(Boolean) ? custom : undefined;
+		},
+		{
+			ImageURL(imgURL) {
+				if (!ServerValidation.isStringOrUndefined(250, undefined)(imgURL))
+					return undefined;
+				if (imgURL === undefined)
+					return undefined;
+				imgURL = imgURL.trim();
+				if (imgURL === "")
+					return undefined;
+				if (!CommonURLHasExtension(imgURL, ChatAdminRoomCustomizationImageFormats))
+					return undefined;
+				return imgURL;
+			},
+			SizeMode: ServerValidation.isInt(DrawingResizeMode.Fill, DrawingResizeMode.ShowFullOriginalRatio, DrawingResizeMode.Fill),
+			ImageFilter: ServerValidation.isColorCode(true, undefined),
+			MusicURL(musicURL) {
+				if (!ServerValidation.isStringOrUndefined(250, undefined)(musicURL))
+					return undefined;
+				if (musicURL === undefined)
+					return undefined;
+				musicURL = musicURL.trim();
+				if (musicURL === "")
+					return undefined;
+				if (!CommonURLHasExtension(musicURL, AudioSupportedMusicFormats))
+					return undefined;
+				return musicURL;
+			},
+			MusicStart: ServerValidation.isNumber(undefined),
+		}
+	)
+};
+
+const ServerDefaultTimeout = 3000;
 
 class ServerError extends Error {}
 
@@ -1495,7 +1577,7 @@ class ServerJoinError extends ServerError {
  */
 function ServerPromiseWithTimeout(timeout, executor) {
 	const work = new Promise(executor);
-	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(Result.failure(new ServerTimeoutError())), timeout); });
+	const timeoutPromise = new Promise((_, reject) => { setTimeout(() => reject(new ServerTimeoutError()), timeout); });
 	return Promise.race([work, timeoutPromise]);
 }
 
@@ -1518,20 +1600,25 @@ async function ServerRoomSearch(queryString, options) {
 		...options,
 	};
 
-	if (CommonObjectEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + 1000 > CommonTime()) {
+	if (CommonDeepEqual(ServerRoomSearchLastQuery, request) && ServerRoomSearchLastQueryTime + ServerDefaultTimeout > CommonTime()) {
 		return Result.failure(new ServerInProgressError("Search query while another query is in progress!"));
 	}
 
 	ServerRoomSearchLastQueryTime = CommonTime();
 	ServerRoomSearchLastQuery = CommonCloneDeep(request);
 
-	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
-		ServerSocket.once("ChatRoomSearchResult", (data) => {
-			resolve(Result.success(data));
-		});
+	try {
+		return await ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
+			ServerSocket.once("ChatRoomSearchResult", (data) => {
+				ServerRoomSearchLastQueryTime = 0;
+				resolve(Result.success(data));
+			});
 
-		ServerSend("ChatRoomSearch", request);
-	});
+			ServerSend("ChatRoomSearch", request);
+		});
+	} catch (e) {
+		return Result.failure(e);
+	}
 }
 
 let ServerRoomJoinLastQuery = "";
@@ -1543,24 +1630,29 @@ let ServerRoomJoinLastQueryTime = 0;
  * @return {Promise<Result<string, ServerError>>}
  */
 async function ServerRoomJoin(roomName) {
-	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + 1000 > CommonTime()) {
+	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + ServerDefaultTimeout > CommonTime()) {
 		return Result.failure(new ServerInProgressError("Join query while another query is in progress!"));
 	}
 
 	ServerRoomJoinLastQueryTime = CommonTime();
 	ServerRoomJoinLastQuery = roomName;
 
-	return ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
-		ServerSocket.once("ChatRoomSearchResponse", (data) => {
-			if (data === "JoinedRoom") {
-				resolve(Result.success(roomName));
-			} else if (data === "RoomKicked") {
-				// We… shouldn't get that one while joining
-			} else {
-				reject(Result.failure(new ServerJoinError(data)));
-			}
-		});
+	try {
+		return await ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve, reject) => {
+			ServerSocket.once("ChatRoomSearchResponse", (data) => {
+				ServerRoomJoinLastQueryTime = 0;
+				if (data === "JoinedRoom") {
+					resolve(Result.success(roomName));
+				} else if (data === "RoomKicked") {
+					// We… shouldn't get that one while joining
+				} else {
+					reject(new ServerJoinError(data));
+				}
+			});
 
-		ServerSend("ChatRoomJoin", { Name: roomName });
-	});
+			ServerSend("ChatRoomJoin", { Name: roomName });
+		});
+	} catch (e) {
+		return Result.failure(e);
+	}
 }

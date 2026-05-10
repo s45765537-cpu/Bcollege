@@ -7,7 +7,7 @@ var PreferenceCensoredWordsList = [];
 const PreferenceCensoredWordsIDs = Object.freeze({
 	grid: 'preference-censored-words-grid',
 	subtitle: 'preference-censored-words-subtitle',
-	censorshipOption: 'preference-censored-words-censorship-group',
+	censorshipOption: 'dropdown-pair-CensoredWordsLevel',
 	wordInput: 'InputWord',
 	wordInputGroup: "preference-censored-words-word-input-group",
 	add: 'preference-censored-words-add-button',
@@ -30,33 +30,24 @@ function PreferenceSubscreenCensoredWordsLoad() {
 	});
 	ElementWrap(PreferenceIDs.subscreen).prepend(subtitle);
 
-	const censorshipOption = ElementCreate({
-		tag: "div",
-		classList: ["preference-settings-dropdown"],
-		attributes: {
-			id: PreferenceCensoredWordsIDs.censorshipOption,
-		},
-		children: [
-			{
-				tag: "label",
-				children: [TextGet("CensorLevel")],
-				attributes: { for: "CensoredWordsLevel" },
-			},
-			ElementCreateDropdown(
-				"CensoredWordsLevel",
-				[
-					{ attributes: { value: "0", label: TextGet("CensorLevel0") } },
-					{ attributes: { value: "1", label: TextGet("CensorLevel1") } },
-					{ attributes: { value: "2", label: TextGet("CensorLevel2") } },
-				],
-				function (ev) {
-					ev.preventDefault();
-					Player.ChatSettings.CensoredWordsLevel = parseInt(this.value);
-				}
-			),
+	ElementDropdown.CreateLabelled(
+		"CensoredWordsLevel",
+		[
+			{ attributes: { value: "0", label: TextGet("CensorLevel0") } },
+			{ attributes: { value: "1", label: TextGet("CensorLevel1") } },
+			{ attributes: { value: "2", label: TextGet("CensorLevel2") } },
 		],
-	});
-	ElementWrap(PreferenceIDs.subscreen).append(censorshipOption);
+		TextGet("CensorLevel"),
+		function (ev) {
+			ev.preventDefault();
+			Player.ChatSettings.CensoredWordsLevel = parseInt(this.value);
+		}, null, {
+			container: {
+				classList: ["preference-settings-dropdown"],
+				parent: ElementWrap(PreferenceIDs.subscreen)
+			}
+		}
+	);
 
 	const wordInputGroup = ElementCreate({
 		tag: "div",

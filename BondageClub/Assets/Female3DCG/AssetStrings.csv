@@ -3910,11 +3910,20 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldLaptopClosed,Closed
+ItemHandheldLaptopOpen,Open
+ItemHandheldLaptopSelect,Select the laptop style
+ItemHandheldLaptopSetOpen,SourceCharacter opens DestinationCharacter AssetName.
+ItemHandheldLaptopSetClosed,SourceCharacter closes DestinationCharacter AssetName.
 ItemHandheldChocolateModuleType,Change
 ItemHandheldChocolateOptionp0,Wrapped
 ItemHandheldChocolateOptionp1,Foiled
 ItemHandheldChocolateOptionp2,Golden ticket
 ItemHandheldChocolateOptionp3,Chocolate
+ItemHandheldChocolateSetp0,SourceCharacter makes DestinationCharacter AssetName show fully wrapped.
+ItemHandheldChocolateSetp1,SourceCharacter makes DestinationCharacter AssetName show aluminum foil inside the wrapping paper.
+ItemHandheldChocolateSetp2,SourceCharacter opened DestinationCharacter AssetName and found a gold ticket inside!
+ItemHandheldChocolateSetp3,SourceCharacter reveals DestinationCharacter AssetName from the wrapping paper.
 ItemHandheldChocolateSelectBase,Change your bar type
 ItemHandheldChocolateSelectType,Chocolate bar type...
 ItemHandheldDragonPlushSelect,Select Position
@@ -5989,6 +5998,13 @@ ItemVulvaStitchesSetZigZag,SourceCharacter stitches DestinationCharacter pussy s
 ItemVulvaStitchesSkewed,Skewed
 ItemVulvaStitchesStraight,Straight
 ItemVulvaStitchesZigZag,Zig Zag
+ItemVulvaUsedCondomSelect,Select the style
+ItemVulvaUsedCondomA,Sperm
+ItemVulvaUsedCondomB,Drip
+ItemVulvaUsedCondomC,Clean
+ItemVulvaUsedCondomSetA,SourceCharacter makes DestinationCharacter AssetName have a single drop of fluid.
+ItemVulvaUsedCondomSetB,SourceCharacter makes DestinationCharacter AssetName drip a long stream.
+ItemVulvaUsedCondomSetC,SourceCharacter makes DestinationCharacter AssetName have no fluid.
 ItemVulvaVibratingWand,(You slowly massage your pussy with the wand.  Trembling from pleasure and excitement.)
 JewelryJewelrySetModuleEars1,Right Ear
 JewelryJewelrySetModuleEars2,Left Ear
@@ -6856,11 +6872,11 @@ TextItemChange,"SourceCharacter changes the text on DestinationCharacterName Ass
 TextItemRemove,SourceCharacter removes the text from DestinationCharacterName AssetName
 TextItemSelect,Configure item text
 tightens,tightens
-TimerAddRemoveUnknownTime,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
-TimerAddTime,SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
+TimerAddRemoveUnknownTime,SourceCharacter changes the timer on the padlock on DestinationCharacter FocusAssetGroup
+TimerAddTime,SourceCharacter adds TimerTime to the padlock on DestinationCharacter FocusAssetGroup.
 TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
-TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
+TimerRemoveTime,SourceCharacter removes TimerTime from the padlock on DestinationCharacter FocusAssetGroup.
 TimerRestart,SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
 ToeTapePoseFull,Full
 ToeTapePoseToes,Toes
@@ -8156,6 +8172,15 @@ ItemHandheldPlushieOptionSakisDen1,Saki
 ItemHandheldPlushieSetSakisDen1,SourceCharacter places a pretty Saki plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
+ItemHandheldPlushieModuleSarahsWorld,Sarah's World
+ItemHandheldPlushieSelectSarahsWorld,Sarah's World
+ItemHandheldPlushieSarahsWorldSelect,Choose the plushie:
+ItemHandheldPlushieOptionSarahsWorld0,None
+ItemHandheldPlushieSetSarahsWorld0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionSarahsWorld1,Sarah
+ItemHandheldPlushieSetSarahsWorld1,SourceCharacter places a sexy Sarah plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionSarahsWorld2,Samantha
+ItemHandheldPlushieSetSarahsWorld2,SourceCharacter places a sexy Samantha plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
@@ -8187,6 +8212,29 @@ ItemHandheldUchiwaSetType3,SourceCharacter chooses a sun art for DestinationChar
 ItemHandheldUchiwaSetType4,SourceCharacter chooses a wave art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType5,SourceCharacter chooses a moon art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Uchiwa fan.
+ItemHandheldCustomPaddleSelectBase,
+ItemHandheldCustomPaddleModuleCustomText,Custom Text
+ItemHandheldCustomPaddleSelectCustomText,Pick your Custom Text:
+ItemHandheldCustomPaddleOptionc0,Blank
+ItemHandheldCustomPaddleOptionc1,Brat
+ItemHandheldCustomPaddleOptionc2,Hearts
+ItemHandheldCustomPaddleOptionc3,Owned
+ItemHandheldCustomPaddleOptionc4,Pet
+ItemHandheldCustomPaddleOptionc5,Slave
+ItemHandheldCustomPaddleOptionc6,Slut
+ItemHandheldCustomPaddleOptionc7,Toy
+ItemHandheldCustomPaddleOptionc8,Bitch
+ItemHandheldCustomPaddleSetc0,SourceCharacter removed the Custom Text from DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc1,SourceCharacter set the Custom Text to "Brat" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc2,SourceCharacter set the Custom Text to "Hearts" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc3,SourceCharacter set the Custom Text to "Owned" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc4,SourceCharacter set the Custom Text to "Pet" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc5,SourceCharacter set the Custom Text to "Slave" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc6,SourceCharacter set the Custom Text to "Slut" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc7,SourceCharacter set the Custom Text to "Toy" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc8,SourceCharacter set the Custom Text to "Bitch" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleActivitySpankItem,SourceCharacter hits DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset leaving a mark.
+ItemHandheldCustomPaddleActivityRubItem,SourceCharacter rubs DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset.
 ItemDevicesLeatherCageSelectBase,Leather cage main menu:
 ItemDevicesLeatherCageModuleFace,Belts
 ItemDevicesLeatherCageSelectFace,Belts options:

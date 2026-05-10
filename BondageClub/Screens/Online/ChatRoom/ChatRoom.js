@@ -134,10 +134,19 @@ var ChatRoomLeashPlayer = null;
  * @type {string}
  */
 var ChatRoomJoinLeash = "";
+
+/**
+ * Whether the chat room customization settings are user-enabled or not
+ */
 var ChatRoomCustomized = false;
-var ChatRoomCustomBackground = "";
-var ChatRoomCustomFilter = "";
-var ChatRoomCustomSizeMode = null;
+
+/** @satisfies {Record<"Never" | "DisabledByDefault" | "EnabledByDefault" | "Always", ChatRoomCustomizationType>} */
+const ChatRoomCustomization = /** @type {const} */ (Object.freeze({
+	Never: 0,
+	DisabledByDefault: 1,
+	EnabledByDefault: 2,
+	Always: 3,
+}));
 
 /**
  * The list of chat room views
@@ -428,11 +437,6 @@ function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnership
  * @returns {boolean} - TRUE if the current lover option is the specified one.
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
-/**
- * Returns TRUE if the room customization button can be used
- * @returns {boolean} - TRUE if can be used
- */
-function ChatRoomCustomizationButton() { return (((ChatRoomData != null) && (ChatRoomData.Custom != null)) && ((Player.OnlineSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization == 1) || (Player.OnlineSettings.ShowRoomCustomization == 2))); }
 /**
  * Checks if the player can take a drink from the current character's tray.
  * @returns {boolean} - TRUE if the current character is wearing a drinks tray and the player can interact.
@@ -1430,8 +1434,13 @@ function ChatRoomMenuBuild() {
 			}
 		}
 	}
-	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
-	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
+	if (ChatRoomData?.Custom && (Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.DisabledByDefault || Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault)) {
+		if (ChatRoomCustomized) {
+			ChatRoomMenuButtons.push("CustomizationOff");
+		} else {
+			ChatRoomMenuButtons.push("CustomizationOn");
+		}
+	}
 	ChatRoomMenuButtons.push("Dress");
 	ChatRoomMenuButtons.push("Profile");
 	if (OnlineGameHasOptions()) ChatRoomMenuButtons.push("GameOption");
@@ -1685,7 +1694,7 @@ function ChatRoomSetLastChatRoom(room) {
 			Player.LastChatRoom = ChatRoomGetSettings(room);
 			ServerAccountUpdate.QueueData({ LastChatRoom: Player.LastChatRoom });
 		}
-	} else {
+	} else if (Player.LastChatRoom !== null || Player.LastMapData !== null) {
 		Player.LastChatRoom = null;
 		Player.LastMapData = null;
 		ServerAccountUpdate.QueueData({ LastChatRoom: null, LastMapData: null });
@@ -2195,27 +2204,47 @@ function ChatRoomStatusCheckExpiration() {
  * @returns {void} - Nothing.
  */
 function ChatRoomCustomizationClear() {
-	ChatRoomCustomBackground = "";
-	ChatRoomCustomFilter = "";
-	ChatAdminRoomCustomizationPlayMusic("");
-	ChatRoomCustomSizeMode = null;
+	ChatRoomUpdateCustomization(false);
+}
+
+/**
+ * Returns whether the current chat room has customization enabled or not
+ */
+function ChatRoomIsCustomized() {
+	const { ShowRoomCustomization } = Player.OnlineSettings;
+	return ChatRoomData?.Custom
+		&& (ShowRoomCustomization === ChatRoomCustomization.Always
+			|| ChatRoomCustomized
+			&& (ShowRoomCustomization === ChatRoomCustomization.DisabledByDefault
+				|| ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault)
+		);
+}
+
+/**
+ * Update the state of the room customization
+ * @param {boolean | undefined} toggle
+ * @returns
+ */
+function ChatRoomUpdateCustomization(toggle = undefined) {
+	if (typeof toggle === "boolean") {
+		ChatRoomCustomized = toggle;
+	}
+
+	if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.MusicURL) {
+		const songStartedSince = ChatRoomData.Custom.MusicStart ? CurrentTime - ChatRoomData.Custom.MusicStart : undefined;
+		const songLocation = songStartedSince ? songStartedSince / 1000 : undefined;
+		AudioBackgroundMusicPlay(ChatRoomData.Custom.MusicURL, songLocation);
+	} else {
+		AudioBackgroundMusicStop();
+	}
 }
 
 /**
  * Use the room customization features if needed
+ * @deprecated
  * @returns {void} - Nothing.
  */
-function ChatRoomCustomizationRun() {
-	if ((Player.ImmersionSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 3)) ChatRoomCustomized = true;
-	if (ChatRoomCustomized) {
-		if ((Player.ImmersionSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization >= 1)) {
-			ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, null, null);
-		} else {
-			ChatRoomCustomized = false;
-			ChatRoomCustomizationClear();
-		}
-	}
-}
+function ChatRoomCustomizationRun() {}
 
 /**
  * Runs the chatroom screen.
@@ -2585,7 +2614,7 @@ function ChatRoomTopMenuSync() {
 		}
 
 		const imgSrc = state.image;
-		if (img.src !== imgSrc) {
+		if (!img.src.endsWith(imgSrc)) {
 			img.src = imgSrc;
 		}
 	}
@@ -2826,12 +2855,10 @@ function ChatRoomMenuPerformAction(action, event) {
 			ChatRoomOpenAdminScreen();
 			break;
 		case "CustomizationOn":
-			ChatRoomCustomized = true;
-			ChatRoomCustomizationClear();
+			ChatRoomUpdateCustomization(true);
 			break;
 		case "CustomizationOff":
-			ChatRoomCustomized = false;
-			ChatRoomCustomizationClear();
+			ChatRoomUpdateCustomization(false);
 			break;
 		case "CharacterView":
 			ChatRoomActivateView(ChatRoomCharacterViewName);
@@ -2881,11 +2908,11 @@ function ChatRoomAttemptStandMinigameEnd() {
 
 /**
  * Checks if the given chat room visibility property causes it to be "private" (has any form of visibility control)
- * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The visibility property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings | null | undefined} room - The visibility property to check
  * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or visibility is not set.
  */
 function ChatRoomDataIsPrivate(room) {
-	return !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
+	return !!room && !!room.Visibility && !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
 }
 
 /**
@@ -2898,11 +2925,11 @@ function ChatRoomIsPrivate() {
 
 /**
  * Checks if the given chat room access property causes it to be "locked" (has any form of access control)
- * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The access property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings | null | undefined} room - The access property to check
  * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or access is not set.
  */
 function ChatRoomDataIsLocked(room) {
-	return !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
+	return !!room && !!room.Access && !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
 }
 
 /**
@@ -4488,9 +4515,15 @@ function ChatRoomMessage(data) {
 			msg = InterfaceTextGet("ServerMessage" + msg);
 			break;
 
-		case "Activity":
-			msg = ActivityDictionaryText(msg);
+		case "Activity": {
+			let text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
+				text = ActivityDictionaryText(msg);
+			}
+			msg = text;
+
 			break;
+		}
 	}
 
 	// Apply requested substitutions
@@ -5014,6 +5047,8 @@ async function ChatRoomSync(data) {
 		OnlineGameReset();
 	}
 
+	ChatRoomUpdateCustomization();
+
 	ChatRoomPingLeashedPlayers();
 
 	// Check whether the player's last chatroom data needs updating
@@ -5155,6 +5190,8 @@ function ChatRoomSyncRoomProperties(data) {
 	if (ChatRoomData.Game != null) {
 		ChatRoomGame = ChatRoomData.Game;
 	}
+
+	ChatRoomUpdateCustomization();
 
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();

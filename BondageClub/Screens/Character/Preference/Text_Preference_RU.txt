@@ -192,7 +192,7 @@ Color actions
 Цветные действия
 Color emotes
 Цветные эмоции
-Color Activities
+Color activities
 Цветные активности
 Shrink all messages except dialogue
 Уменьшить все сообщения, кроме диалога
@@ -294,8 +294,10 @@ Lower
 Ниже
 Lowest
 Самый низкий
-Animation quality (reduce if inputs such as sliders are slow to respond)
-Качество анимации (уменьшите, если элементы ввода, такие как ползунки, реагируют медленно)
+Animation quality
+Качество анимации
+Reduce if inputs such as sliders are slow to respond
+Уменьшите, если элементы ввода, такие как ползунки, реагируют медленно
 Display all characters at maximum height
 Отображать всех персонажей в максимальном росте
 Show AFK bubble if idle for 5 minutes
@@ -348,27 +350,27 @@ Allow with a locked meter
 Разрешить с заблокированным счетчиком
 Arousal meter visuals
 Визуальные эффекты измерителя возбуждения
-Bare Meter
+Bare meter
 Полоска счетчика
-Solid Glow
+Solid glow
 Сплошное свечение
-Temporary Animation
+Temporary animation
 Временная анимация
-Constant Animation
+Constant animation
 Постоянная анимация
-Vibrator Screen Filters
+Vibrator screen filters
 Сетчатые фильтры вибратора
 None
 Нет
-Flickering Glow
+Flickering glow
 Мерцающее свечение
-Arousal Screen Filter
+Arousal screen filter
 Сетчатый фильтр возбуждения
-Strong Gradient
+Strong gradient
 Сильный градиент
-Solid Color Filter
+Solid color filter
 Сплошной цветной фильтр
-Solid Filter at High Arousal
+Solid filter at high arousal
 Сплошной фильтр при сильном возбуждении
 Meter visibility:
 Видимость счетчика:
@@ -518,7 +520,7 @@ Accept changes
 Принять изменения
 Cancel changes
 Отменить изменения
-Game Font
+Game font
 Шрифт игры
 Fallback fonts will be used if your chosen font is unsupported on your device.
 Резервные шрифты будут использоваться, если выбранный вами шрифт не поддерживается на вашем устройстве.
@@ -548,12 +550,14 @@ Flip the room vertically when upside-down
 Перевернуть комнату по вертикали в перевернутом положении
 Flash the screen for certain effects
 Вспышка экрана для определенных эффектов
-Enable antialiasing (For this browser, if supported)
-Включить сглаживание (для этого браузера, если поддерживается)
+Enable antialiasing
+Включить сглаживание
+For this browser, if supported
+Для этого браузера, если поддерживается
 Not running on WebGL, cannot edit rendering configurations.
 Не запускать на WebGL, нельзя редактировать конфигурации рендеринга.
-Preferred power consumption mode (For this browser, if supported)
-Предпочтительный режим энергопотребления (для этого браузера, если он поддерживается)
+Preferred power consumption mode
+Предпочтительный режим энергопотребления
 Low consumption, slower rendering
 Низкое потребление, более медленный рендеринг
 Default
@@ -650,8 +654,10 @@ Allow item tint effects
 Разрешить эффекты оттенка предмета
 Can only leave a map near an entry or exit
 Карту можно покинуть только возле входа или выхода
-Allow item blur effects (turn off if experiencing frame rate drops)
-Разрешить эффекты размытия предмета (отключить, если частота кадров падает)
+Allow item blur effects
+Разрешить эффекты размытия предмета
+Turn off if experiencing frame rate drops
+Отключите при снижении частоты кадров
 Females
 Женщина
 Males

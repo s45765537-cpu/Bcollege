@@ -350,8 +350,8 @@ type DialogMenuMode = (
 	| "tighten"
 );
 
-type DialogMenuButton = "Activity" |
-	"ColorCancel" | "ColorChange" | "ColorChangeMulti" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
+type DialogMenuButtonType = "Activity" |
+	"ColorCancel" | "ColorChange" | "ColorChangeDisabled" | "ColorChangeMulti" | "ColorChangeMultiDisabled" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
 	"Crafting" |
 	"NormalMode" | "PermissionMode" |
 	"Dismount" | "Escape" | "Remove" |
@@ -680,25 +680,6 @@ type ItemColorMode = "Default" | "ColorPicker";
 
 type CharacterHook = "BeforeSortLayers" | "AfterLoadCanvas";
 
-type ChatColorThemeType = "Light" | "Dark" | "Light2" | "Dark2";
-type ChatEnterLeaveType = "Normal" | "Smaller" | "Hidden";
-type ChatMemberNumbersType = "Always" | "Never" | "OnMouseover";
-type ChatFontSizeType = "Small" | "Medium" | "Large";
-
-type ArousalActiveName = "Inactive" | "NoMeter" | "Manual" | "Hybrid" | "Automatic";
-type ArousalVisibleName = "All" | "Access" | "Self";
-type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
-
-type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
-type SettingsVFXName = "VFXInactive" | "VFXSolid" | "VFXAnimatedTemp" | "VFXAnimated";
-type SettingsVFXVibratorName = "VFXVibratorInactive" | "VFXVibratorSolid" | "VFXVibratorAnimated";
-type SettingsVFXFilterName = "VFXFilterLight" | "VFXFilterMedium" | "VFXFilterHeavy" | "VFXFilterNone";
-
-type GraphicsFontName =
-	"Arial" | "TimesNewRoman" | "Papyrus" | "ComicSans" | "Impact" | "HelveticaNeue" | "Verdana" |
-	"CenturyGothic" | "Georgia" | "CourierNew" | "Copperplate"
-	;
-
 type AnimationDataKey = string;
 type AnimationPersistentData = {
 	[key in `GroupData${string}` | "Group"]?: { Subscriptions: AnimationDataKey[] };
@@ -715,33 +696,6 @@ interface AnimationPersistentStorage extends Record<string, Record<string, any>>
 	readonly RefreshRate: Record<AnimationDataKey, number>,
 }
 type AnimationDataTypes = keyof AnimationPersistentStorage;
-
-type PreferenceSubscreenName =
-	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
-	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
-	"Gender" | "Scripts" | "Extensions" | "Main" | "Keybindings"
-	;
-
-interface PreferenceSubscreen {
-	name: PreferenceSubscreenName;
-	description?: string;
-	icon?: string;
-	hidden?: boolean;
-	load?: () => void | Promise<void>;
-	run: () => void;
-	click: () => void;
-	exit?: () => boolean | Promise<boolean>;
-	unload?: () => void;
-	resize?: (onLoad: boolean) => void;
-	keyUp?: (event: KeyboardEvent) => void;
-}
-
-interface PreferenceGenderSetting {
-	/** Whether the setting is active for female cases */
-	Female: boolean;
-	/** Whether the setting is active for male cases */
-	Male: boolean;
-}
 
 type FetishName =
 	"Bondage" | "Gagged" | "Blindness" | "Deafness" | "Chastity" | "Exhibitionist" | "Masochism" |
@@ -1145,8 +1099,6 @@ interface AssetGroup {
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
-	readonly StyleOverride?: string [];
-	readonly CreateLayerTypesOverride?: number [];
 	readonly Reposition?: {
 				Group?: string;
 				ShiftX?: number;
@@ -1330,9 +1282,6 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
-	readonly StyleOverride?: BodyStyle[];
-	readonly SupportedStyles?: BodyStyle[];
-	readonly CreateLayerTypesOverride?: number[];
 	// Only on BodyStyle
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;
@@ -1726,46 +1675,6 @@ interface ScreenFunctions {
 	/** Called when user presses Esc */
 	Exit?: ScreenExitHandler;
 }
-
-// Explicitly insert all backgrounds & screen functions into the window namespace such that they can
-// easily be looked up with the likes of `window[`${CurrentScreen}Background`]`.
-// Note that most of them can still be undefined
-/** See {@link CommonTestSatisfies} */
-type ScreenFunctionsSymbols = Prettify<(
-	// Backgrounds
-	{ [key in `${RoomName}Background`]?: string }
-
-	// Screen functions
-	& { [key in `${RoomName}Run`]: ScreenRunHandler }
-	& { [key in `${RoomName}MouseDown`]?: MouseEventListener }
-	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
-	& { [key in `${RoomName}MouseMove`]?: MouseEventListener }
-	& { [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }
-	& { [key in `${RoomName}Click`]: MouseEventListener }
-	& { [key in `${RoomName}Load`]?: ScreenLoadHandler }
-	& { [key in `${RoomName}Unload`]?: ScreenUnloadHandler }
-	& { [key in `${RoomName}Draw`]?: ScreenDrawHandler }
-	& { [key in `${RoomName}Resize`]?: ScreenResizeHandler }
-	& { [key in `${RoomName}KeyDown`]?: KeyboardEventListener }
-	& { [key in `${RoomName}KeyUp`]?: KeyboardEventListener }
-	& { [key in `${RoomName}Paste`]?: ClipboardEventListener }
-	& { [key in `${RoomName}Exit`]?: ScreenExitHandler }
-
-	// Extended item functions (dynamically generated and assigned to `Window`)
-	& { [key in `Inventory${AssetGroupName}${string}Init`]?: ExtendedItemCallbacks.Init }
-	& { [key in `Inventory${AssetGroupName}${string}Load`]?: ExtendedItemCallbacks.Load }
-	& { [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }
-	& { [key in `Inventory${AssetGroupName}${string}Click`]?: ExtendedItemCallbacks.Click }
-	& { [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }
-	& { [key in `Inventory${AssetGroupName}${string}Validate`]?: ExtendedItemCallbacks.Validate }
-	& { [key in `Inventory${AssetGroupName}${string}PublishAction`]?: ExtendedItemCallbacks.PublishAction }
-	& { [key in `Inventory${AssetGroupName}${string}SetOption`]?: ExtendedItemCallbacks.SetOption }
-	& { [key in `Assets${AssetGroupName}${string}BeforeDraw`]?: ExtendedItemCallbacks.BeforeDraw }
-	& { [key in `Assets${AssetGroupName}${string}AfterDraw`]?: ExtendedItemCallbacks.AfterDraw }
-	& { [key in `Assets${AssetGroupName}${string}ScriptDraw`]?: ExtendedItemCallbacks.ScriptDraw }
-	& { [key in `Inventory${AssetGroupName}${string}NpcDialog`]?: (C: Character, Option: ExtendedItemOption, PreviousOption: ExtendedItemOption) => void }
-)>;
-interface Window extends ScreenFunctionsSymbols {}
 
 //#region Characters
 
@@ -2181,7 +2090,7 @@ interface Character {
 	LastMapData?: ChatRoomMapData;
 	/**
 	 * The custom background to use for the current room
-	 * Only valid on {@link Player}
+	 * Only valid on {@link Player}, see {@link DrawGetCustomBackground}
 	 */
 	CustomBackground?: string;
 }
@@ -2512,7 +2421,7 @@ interface ChatSettingsType {
 }
 
 interface GameplaySettingsType {
-	SensDepChatLog: SettingsSensDepName;
+	SensDepChatLog: ImmersionSensDepName;
 	BlindDisableExamine: boolean;
 	DisableAutoRemoveLogin: boolean;
 	ImmersionLockSetting: boolean;
@@ -2546,6 +2455,8 @@ interface VisualSettingsType {
 	PrivateRoomBackground?: string;
 }
 
+type ChatRoomCustomizationType = 0 | 1 | 2 | 3;
+
 /**
  * The player's online settings.
  * @see {@link Player.OnlineSettings}
@@ -2558,7 +2469,7 @@ interface PlayerOnlineSettings {
 	SendStatus: boolean;
 	ShowStatus: boolean;
 	EnableAfkTimer: boolean;
-	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
+	ShowRoomCustomization: ChatRoomCustomizationType;
 	FriendListAutoRefresh: boolean;
 	DefaultChatRoomBackground: string;
 }
@@ -4872,159 +4783,6 @@ interface NotificationBeep {
 
 // #end region
 
-// #region preference
-
-interface ActivityEnjoyment {
-	/** The relevant activity type */
-	Name: ActivityName,
-	/** The arousal factor for when the activity is performed on the player character */
-	Self: ArousalFactor,
-	/** The arousal factor for when the activity is performed on someone else */
-	Other: ArousalFactor,
-}
-
-interface ArousalZone {
-	/** The relevant zone */
-	Name: AssetGroupItemName,
-	/** The arousal factor associated with the zone */
-	Factor: ArousalFactor,
-	/** Whether one can orgasm from stimulating the zone */
-	Orgasm: boolean,
-}
-
-interface ArousalFetish {
-	/** The name of the fetish */
-	Name: FetishName,
-	/** The arousal factor associated with the fetish */
-	Factor: ArousalFactor,
-}
-
-/** The factor of the sexual activity (0 is horrible, 2 is normal, 4 is great) */
-type ArousalFactor = 0 | 1 | 2 | 3 | 4;
-
-interface ArousalSettingsType {
-	Active: ArousalActiveName;
-	Visible: ArousalVisibleName;
-	ShowOtherMeter: boolean;
-	AffectExpression: boolean;
-	AffectStutter: ArousalAffectStutterName;
-	VFX: SettingsVFXName;
-	VFXVibrator: SettingsVFXVibratorName;
-	VFXFilter: SettingsVFXFilterName;
-	Progress: number;
-	ProgressTimer: number;
-	VibratorLevel: 0 | 1 | 2 | 3 | 4;
-	ChangeTime: number;
-	Activity: string;
-	Zone: string;
-	Fetish: string;
-	OrgasmTimer: number;
-	OrgasmStage: 0 | 1 | 2;
-	OrgasmCount: number;
-	DisableAdvancedVibes: boolean;
-}
-
-/** Preference Menu info for extensions settings*/
-interface PreferenceExtensionsSettingItem {
-	/**
-	 * The identifier of the extension.
-	 * This is used to identify the extension and must be unique.
-	 */
-	Identifier: string;
-
-	/**
-	 * The label for the extension button.
-	 * If it's a Function, it will be called once when entering
-	 * the extension setting menu. Use the return value as button text.
-	 */
-	ButtonText: string | (()=>string);
-
-	/**
-	 * The image path of the extension.
-	 *
-	 * This is passed to {@link DrawButton} directly. You can use a `data` URL here.
-	 *
-	 * If it's a Function, it will be called once when entering
-	 * the extension setting menu. Use the return value as image
-	 * path.
-	 * If it's undefined, there will be no image for the button
-	 */
-	Image?: string | (()=>string);
-
-	/**
-	 * Called when the extension screen is about to be displayed.
-	 *
-	 * You can create your own HTML elements in here, or load your data.
-	 *
-	 * Note that HTML elements with the `HideOnPopup` class will be hidden
-	 * automatically when a popup is shown.
-	 */
-	load?: () => void;
-
-	/**
-	 * Called when a click happens on the extension screen.
-	 *
-	 * Note: your exit button handling *must* call {@link PreferenceSubscreenExit};
-	 */
-	click: () => void;
-
-	/**
-	 * Called every frame while the extension screen is shown.
-	 */
-	run: () => void;
-
-	/**
-	 * Called when the extension screen is about to be closed.
-	 *
-	 * Handles the unloading of the extension setting, usually when the user clicks the exit button,
-	 * but it can also be called by the relog screen being triggered because of a disconnect.
-	 *
-	 * If you created any HTML elements in {@link PreferenceExtensionsSettingItem.load}, this is a good place to remove them.
-	 */
-	unload?: () => void;
-
-	/**
-	 * Called when the extension screen is about to exit.
-	 *
-	 * Happens either through a click of the exit button, or the ESC key.
-	 * This will **not** be called if a disconnect happens, so clean up should be
-	 * done in {@link PreferenceExtensionsSettingItem.unload}.
-	 *
-	 * @returns {boolean | void} If you have some validation that needs to happen
-	 * (for example, ensuring that a textfield contains a valid color code), return false;
-	 * this will stop the subscreen from exiting.
-	 * You might want to show a message to the user explaining why "nothing is happening" in that case,
-	 * either through your own means or by setting `PreferenceMessage` to a string.
-	 *
-	 * If you return true or nothing, your screen's {@link PreferenceExtensionsSettingItem.unload} handler
-	 * will be called afterward. And the setting screen for the extension will be closed.
-	 */
-	exit: () => boolean | void;
-
-	resize?: (onLoad: boolean) => void;
-}
-
-/** Preference Menu info for extensions settings*/
-type PreferenceExtensionsMenuButtonInfo = {
-	Button: string;
-	Image?: string;
-	click: () => void;
-}
-
-interface PreferenceChatDropdownOption {
-	list: string[];
-	current: () => string;
-	onChange: (value: string) => void;
-}
-
-interface PreferenceChatCheckboxOption {
-	label: string,
-	check: () => boolean,
-	click: () => void
-}
-
-// #end region
-
 // #region fortune wheel
 
 /** A union of valid wheel of fortune button colors */
@@ -5282,7 +5040,7 @@ type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
 interface ChatRoomMapDoodad {
 	ID: number;
 	Style: string;
-	OccupiedStyle?: "WoodOpen" | "MetalOpen";
+	OccupiedStyle?: "WoodOpen" | "MetalOpen" | "RoyalDoorOpen" | "SteelDoorOpen" | "GrayDoorOpen" | "BrownDoorOpen";
 	CanEnter?: (direction: ChatRoomMapDirection) => boolean;
 	OnEnter?: () => void;
 }

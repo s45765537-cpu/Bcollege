@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R127";
+var GameVersion = "R128Beta1";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -38,6 +38,7 @@ function GameStart() {
 
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
 	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
+	PreferenceInitPlayer(Player, {});
 
 	// Those event listeners are all going through a lambda so that mods can
 	// correctly hook into them. Using the functions directly causes a copy of

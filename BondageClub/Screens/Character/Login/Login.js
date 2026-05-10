@@ -307,7 +307,25 @@ async function LoginLoad() {
 	});
 
 	const register = ElementButton.Create(LoginIDs.register, () => {
-		LoginDone();
+		DisclaimerOpen((isAccepted) => {
+			if (isAccepted) {
+				CharacterCreatePlayer();
+				InventoryRemove(Player, "ItemFeet");
+				InventoryRemove(Player, "ItemLegs");
+				InventoryRemove(Player, "ItemArms");
+				CharacterAppearanceSetDefault(Player);
+
+				// Redirect the player to the login screen after they have their character created
+				CharacterAppearanceLoadCharacter(Player, (result) => {
+					if (result)
+						CommonSetScreen("Character", "Creation");
+					else
+						CommonSetScreen("Character", "Login");
+				});
+			} else {
+				window.location.reload();
+			}
+		});
 	},
 	{
 		label: TextGet("NewCharacter"),
@@ -1199,7 +1217,6 @@ function LoginSetupPlayer(C) {
 
 	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 	CharacterAppearanceValidate(Player);
-	ChatRoomCustomized = Player.OnlineSettings.ShowRoomCustomization >= 2;
 	if (Player.Crafting.length > 200) Player.Crafting = Player.Crafting.slice(0, 200);
 
 	// Do the version update check
@@ -1216,28 +1233,11 @@ function LoginSetupPlayer(C) {
  */
 function LoginDone() {
 	DisclaimerOpen((isAccepted) => {
-		if (isAccepted && !ServerIsLoggedIn()) {
-			CharacterCreatePlayer();
-			InventoryRemove(Player, "ItemFeet");
-			InventoryRemove(Player, "ItemLegs");
-			InventoryRemove(Player, "ItemArms");
-			CharacterAppearanceSetDefault(Player);
-
-			// Redirect the player to the login screen after they have their character created
-			CharacterAppearanceLoadCharacter(Player, (result) => {
-				if (result)
-					CommonSetScreen("Character", "Creation");
-				else
-					CommonSetScreen("Character", "Login");
-			});
-		} else if (!isAccepted) {
+		if (!isAccepted) {
 			window.location.reload();
-		} else if (isAccepted && ServerIsLoggedIn()) {
-			LoginDoneInternal();
+			return;
 		}
-	});
 
-	function LoginDoneInternal() {
 		// We're done loading, now start the player in whatever screen is appropriate
 		if (LogQuery("Locked", "Cell")) {
 			// The player has been locked up, they must log back in the cell
@@ -1268,7 +1268,7 @@ function LoginDone() {
 		} else {
 			CommonSetScreen("Room", "MainHall");
 		}
-	}
+	});
 }
 
 /**

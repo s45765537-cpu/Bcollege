@@ -318,6 +318,13 @@ ClothLowerShapewear2Top,Top
 ClothLowerShapewear2TopCenter,Top Center
 ClothLowerShapewear2TopLine,Top Line
 ClothLowerShapewear2TopPattern,Top Pattern
+ClothLowerSideCutoutYogaPantsBase,Base
+ClothLowerSideCutoutYogaPantsCrotchSeam,Crotch Seam
+ClothLowerSideCutoutYogaPantsDarkTone,Dark Tone
+ClothLowerSideCutoutYogaPantsDetailDarkTone,Detail Dark Tone
+ClothLowerSideCutoutYogaPantsLeft2,Left
+ClothLowerSideCutoutYogaPantsOutline,Outline
+ClothLowerSideCutoutYogaPantsRight2,Right
 ClothLowerSlitColumnSkirtBase,Base
 ClothLowerSlitColumnSkirtBottomGloss,Bottom Gloss
 ClothLowerSlitColumnSkirtBottomHighlight,Bottom Highlight
@@ -373,6 +380,11 @@ ClothOuterJacketHoodieHips,Hips
 ClothOuterJacketHoodieSleeves,Sleeve
 ClothOuterJacketHoodieWrist,Wrist
 ClothOuterJacketHoodieHoodDownBack,Hood
+ClothOuterWoolCoatBelt,Belt
+ClothOuterWoolCoatBuckle,Buckle
+ClothOuterWoolCoatButtons,Buttons
+ClothOuterWoolCoatCoat,Coat
+ClothOuterWoolCoatCollar,Collar
 ClothRibbonCorsetCorset,Corset
 ClothRibbonCorsetRivets,Rivets
 ClothRibbonCorsetRibbon,Ribbon
@@ -681,6 +693,10 @@ HairAccessory1BigLynxEarsInner,Inner Ear
 HairAccessory1BigLynxEarsLine,Line
 HairAccessory1BigLynxEarsOuter,Outer Ear
 HairAccessory1BigLynxEarsTuft,Tuft
+HairAccessory1BlackCatEarsMirrorInner,Inner
+HairAccessory1BlackCatEarsMirrorInnerShort,InnerShort
+HairAccessory1BlackCatEarsMirrorOuter,Outer
+HairAccessory1BlackCatEarsMirrorOuterShort,OuterShort
 HairAccessory1BunnyEars2Inner,Inner
 HairAccessory1BunnyEars2Outer,Outer
 HairAccessory1CowEarsEars,Ears
@@ -1894,6 +1910,8 @@ ItemHandheldKyosensuFan2,Fan paper 3rd color
 ItemHandheldKyosensuBase,Fan base
 ItemHandheldKyosensuDetail,Fan detail
 ItemHandheldKyosensuFanSurface,Fan folding
+ItemHandheldLaptopDot,Dot
+ItemHandheldLaptopMain,Main
 ItemHandheldMugFluids,Fluids
 ItemHandheldMugMug,Mug
 ItemHandheldPlushies,Plushies
@@ -3277,6 +3295,8 @@ ItemVulvaStitchesThread,Thread
 ItemVulvaTechnoChastityCageCage,Cage
 ItemVulvaTechnoChastityCageLock,Lock Icon
 ItemVulvaTechnoChastityCageRing,Ring
+ItemVulvaUsedCondomCondom,Condom
+ItemVulvaUsedCondomDrip,Drip
 ItemVulvaVibeEggPenisBaseEgg,Vibe Egg
 ItemVulvaVibeEggPenisBaseStrap,Strap
 ItemVulvaVibratingDildoDildo,Dildo
@@ -3574,6 +3594,8 @@ ShoesTallerBootsMetal,Chains Details
 ShoesThighBootsBand,Band
 ShoesThighBootsBase,Boot
 ShoesThighBootsThigh,Sock
+ShoesToeNailsLeft1,Left
+ShoesToeNailsRight1,Right
 ShoesWitchShoesShoes,Main
 ShoesWitchShoesToes,Front detail
 ShoesWitchShoesBelt,Straps

@@ -33,13 +33,13 @@ function CommonDrawCanvasPrepare(C) {
  */
 function AssetBaseURL(C, group, groupName, pose, layer, layerType, asset) {
 	// determine what body is selected
-	const bodyStyle = InventoryGet(C, "BodyStyle")?.Asset ?? AssetGet("Female3DCG", "BodyStyle", "Original");
+	const bodyStyle = (InventoryGet(C, "BodyStyle")?.Asset ?? AssetGet("Female3DCG", "BodyStyle", "Original"));
 	const layerTypeNumber = parseInt(layerType.slice(5), 10);
 
 	// set base body url
 	const poseSegment = pose ? pose + "/" : "";
 	let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
-	if (bodyStyle.StyleOverride?.includes(groupName) || layer.StyleOverride?.includes(bodyStyle.Name)) {
+	if (bodyStyle?.Layer[0].StyleOverride?.includes(groupName) || layer.StyleOverride?.includes(bodyStyle.Name)) {
 		if (!layer.CreateLayerTypesOverride?.length || layer.CreateLayerTypesOverride?.includes(layerTypeNumber)) {
 			baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
 		}

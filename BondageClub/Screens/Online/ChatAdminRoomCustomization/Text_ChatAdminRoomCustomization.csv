@@ -1,17 +1,23 @@
-Title,"Room customization allows using external resources.  By default, players need to allow it manually."
-TitleMusicLibrary,Use can use copyright free music from the library.
-BackgroundImage1,Put the address of the background jpg image to use.  Ex: https://bondageprojects.com/images/school.jpg
-BackgroundImage2,You can use game resources also.  Ex: Screens/Room/Platform/Background/Savannah/TentInterior.jpg
-BackgroundSizeMode1,Fill the room
-BackgroundSizeMode2,"Fill the room, original aspect ratio"
-BackgroundSizeMode3,"Full image, original aspect ratio"
-BackgroundFilter,"You can put a color filter that will go over your background.  For example, use #00000080 to dim the lights."
-BackgroundMusic,Put the address of the background mp3 music file to use.  Ex: https://bondageprojects.com/music/relax.mp3
-Library,Library
-Preview,Preview
-Clear,Clear All
-Save,Save
-Cancel,Cancel
+Title,"Chat Room Customization"
+Desc,"You can pick custom background images and background music for your room here by loading external resources. Note that players need to enable those customizations manually."
+TitleMusicLibrary,This is a selection of copyright free music you can use.
+BackgroundImageLabel,Custom background image:
+BackgroundImageNote,"You can use game resources as well, like https://bondageprojects.com/images/school.jpg or Screens/Room/Platform/Background/Savannah/TentInterior.jpg"
+BackgroundImageFillModeLabel,Select image fill mode:
+BackgroundSizeModeFill,Fill the room
+BackgroundSizeModeFillOriginalRatio,"Fill the room, original aspect ratio"
+BackgroundSizeModeShowFullOriginalRatio,"Full image, original aspect ratio"
+BackgroundFilterLabel,Color filter:
+BackgroundFilterNote,"You can put a color filter that will go over your background.  For example, use #00000080 to dim the lights."
+BackgroundMusicLabel,Custom music:
+BackgroundMusicNote,Put the address of the background mp3 music file to use.
+BackgroundMusicSync,Synchronize music track across the room
+ResetButtonTooltip,Reset
+OpenLibraryButtonTooltip,Library
+PreviewButtonTooltip,Preview
+ClearButtonTooltip,Clear All
+SaveButtonTooltip,Save
+CancelButtonTooltip,Cancel
 Return,Return
 MusicLibraryFantasyAmbience,Fantasy Ambience
 MusicLibraryHorrorAmbience,Horror Ambience

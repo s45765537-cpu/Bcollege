@@ -686,16 +686,44 @@ const CommonCommands = [
 		},
 	},
 	{
+		Tag: "roomcustom",
+		Action: (cmd, msg, args) => {
+			ChatAdminRoomCustomizationCommand(args);
+		},
+		Arguments: [
+			{
+				name: "enable|disable",
+				description: "Enable/disable the room customization",
+			},
+			{
+				name: "image [URL|-]",
+				description: "Use URL as the room background. `-` to unset",
+			},
+			{
+				name: "filter [#hexcode|-]",
+				description: "Use hexcode as the room effect. `-` to unset",
+			},
+			{
+				name: "music [URL|-]",
+				description: "Use URL as the room background music. `-` to unset",
+			},
+			{
+				name: "sync [on|off]",
+				description: "Enable/disable music syncing",
+			},
+		],
+	},
+	{
 		Tag: "customimage",
-		Action: args => { ChatAdminRoomCustomizationCommand("Image", args); },
+		Action: args => { ChatAdminRoomCustomizationCommand(["image", args]); },
 	},
 	{
 		Tag: "customfilter",
-		Action: args => { ChatAdminRoomCustomizationCommand("Filter", args); },
+		Action: args => { ChatAdminRoomCustomizationCommand(["filter", args]); },
 	},
 	{
 		Tag: "custommusic",
-		Action: args => { ChatAdminRoomCustomizationCommand("Music", args); },
+		Action: args => { ChatAdminRoomCustomizationCommand(["music", args]); },
 	},
 	{
 		Tag: "appcopy",

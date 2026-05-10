@@ -707,10 +707,7 @@ function ItemColorGetColorableLayers(item) {
  * @returns {boolean} - Whether the item only allows one color
  */
 function ItemColorIsSimple(item) {
-	if (item && item.Asset && item.Asset.Layer) {
-		return ItemColorGetColorableLayers(item).length === 1;
-	}
-	else return true;
+	return ItemColorGetColorableLayers(item).length === 1;
 }
 
 /**

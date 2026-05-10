@@ -246,6 +246,8 @@ Hacking the item...
 Hacking the item...
 hours
 Stunden
+days
+Tage
 in the Asylum
 im Asylum
 in room
@@ -824,6 +826,8 @@ Time left:
 verbleibende Zeit:
 Unknown time left
 unbekannte Zeit verbleibend
+Timer hidden
+Zeit versteckt
 Unlocked
 aufgeschlossen
 Unlocking...

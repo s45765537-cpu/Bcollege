@@ -79,7 +79,7 @@
 .button-tooltip {
 	pointer-events: none;
 	cursor: auto;
-	background-color: #FFFF88;
+	background-color: #ffff88;
 	color: black;
 	border: var(--border-width) solid black;
 	box-shadow: var(--inner-border-width) var(--inner-border-width) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
@@ -147,22 +147,44 @@
 }
 
 .button[data-vibrating] > .button-image:not([data-hidden]) {
-	  animation: button-shake calc(1s / 6);
-	  animation-iteration-count: infinite;
+	animation: button-shake calc(1s / 6);
+	animation-iteration-count: infinite;
 }
 
 @keyframes button-shake {
-	0% { transform: translate(-49.666%, 0.333%); }
-	10% { transform: translate(-50.333%, -0.666%); }
-	20% { transform: translate(-51%, 0%); }
-	30% { transform: translate(-49%, 0.666%); }
-	40% { transform: translate(-49.666%, -0.333%); }
-	50% { transform: translate(-50.333%, 0.666%); }
-	60% { transform: translate(-51%, 0.333%); }
-	70% { transform: translate(-49%, 0.333%); }
-	80% { transform: translate(-50.333%, -0.333%); }
-	90% { transform: translate(-49.666%, 0.666%); }
-	100% { transform: translate(-49.666%, -0.666%); }
+	0% {
+		transform: translate(-49.666%, 0.333%);
+	}
+	10% {
+		transform: translate(-50.333%, -0.666%);
+	}
+	20% {
+		transform: translate(-51%, 0%);
+	}
+	30% {
+		transform: translate(-49%, 0.666%);
+	}
+	40% {
+		transform: translate(-49.666%, -0.333%);
+	}
+	50% {
+		transform: translate(-50.333%, 0.666%);
+	}
+	60% {
+		transform: translate(-51%, 0.333%);
+	}
+	70% {
+		transform: translate(-49%, 0.333%);
+	}
+	80% {
+		transform: translate(-50.333%, -0.333%);
+	}
+	90% {
+		transform: translate(-49.666%, 0.666%);
+	}
+	100% {
+		transform: translate(-49.666%, -0.666%);
+	}
 }
 
 .button-label {
