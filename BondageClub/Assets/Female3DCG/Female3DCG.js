@@ -54350,6 +54350,14 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "BallGag2",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BallGag2",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -56511,6 +56519,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "BishopGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BallGag2",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BallGag2",
 					BuyGroup: true,
 				},
 			},
