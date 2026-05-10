@@ -16432,6 +16432,29 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		BallGag2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "StrapType",
+					Key: "s",
+					Options: [
+						{}, // s0 Basic Strap
+						{}, // s1 Head Harness 1
+					]
+				},
+				{
+					Name: "BallType",
+					Key: "b",
+					Options: [
+						{}, // b0 Regualr Size
+						{}, // b1 Large Size
+						{}, // b2 XL Size
+					]
+				},
+			],
+		}
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {

@@ -52162,6 +52162,52 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "BallGag2",
+				InventoryID: 1336,
+				Fetish: ["Leather"],
+				Value: 80,
+				Difficulty: 4,
+				Time: 20,
+				AllowLock: true,
+				AllowTighten: true,
+				Hide: ["Mouth"],
+				Extended: true,
+				DrawLocks: false,
+				Top: 78,
+				Left: 191.5,
+				DefaultColor: ["#2E2E2E", "#862828"],
+				Layer: [
+					{
+						Name: "BasicStrap",
+						AllowTypes: { s: 0 }
+					},
+					{
+						Name: "HarnessStrap",
+						AllowTypes: { s: 1 },
+						CopyLayerColor: "BasicStrap"
+					},
+					{
+						Name: "Rivets",
+						AllowTypes: { s: 1 },
+						AllowColorize: false
+					},
+					{
+						Name: "RegularSizeBall",
+						AllowTypes: { b: 0 }
+					},
+					{
+						Name: "LargeSizeBall",
+						AllowTypes: { b: 1 },
+						CopyLayerColor: "RegularSizeBall"
+					},
+					{
+						Name: "XLSizeBall",
+						AllowTypes: [{ b: 2 }, { b: 3}],
+						CopyLayerColor: "RegularSizeBall"
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
