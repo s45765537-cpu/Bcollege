@@ -657,7 +657,7 @@ type AssetAttribute =
 	| "IsChestHarness" | "IsHipHarness"
 	| "PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3"
 	| "CagePlastic2" | "CageTechno" | "CageFlat"
-	| "FuturisticRecolor" | "FuturisticRecolorDisplay"
+	| "FuturisticRecolor" | "FuturisticRecolorDisplay" | "FuturisticLock"
 	| "PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
 	| "Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
 	| "PetSuit"
