@@ -216,7 +216,8 @@ function PreferenceSubscreenGeneralUnload() {
 	ColorPickerExit(true);
 }
 
-function PreferenceSubscreenGeneralResize() {
+/** @type {ScreenResizeHandler} */
+function PreferenceSubscreenGeneralResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenGeneralIDs.grid, x, y);
 	ColorPickerResize(false);

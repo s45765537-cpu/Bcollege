@@ -555,6 +555,7 @@ function PreferenceSubscreenKeybindingsLoad() {
 function PreferenceSubscreenKeybindingsRun() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenKeybindingsResize() {
 	ElementPositionFixed(KeyGUI.selec.mainContent, 100, 175, 1800, 775);
 	const modal = ElementWrap(KeyGUI.selec.keybindModal);

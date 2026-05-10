@@ -116,6 +116,7 @@ function PreferenceSubscreenCensoredWordsUnload() {
 	Player.ChatSettings.CensoredWordsList = PreferenceCensoredWordsList.join("|");
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenCensoredWordsResize() {
 	ElementSetPosition(PreferenceCensoredWordsIDs.grid, 500, 400);
 	ElementPositionFix(PreferenceCensoredWordsIDs.subtitle, 26, 500, 160, 1300, 60);

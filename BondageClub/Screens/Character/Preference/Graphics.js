@@ -344,6 +344,7 @@ function PreferenceSubscreenGraphicsRun() {
  */
 function PreferenceSubscreenGraphicsClick() {}
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenGraphicsResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenGraphicsIDs.grid, x, y + 10);

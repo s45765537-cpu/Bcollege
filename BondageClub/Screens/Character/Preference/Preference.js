@@ -28,7 +28,7 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenMainLoad(),
 		run: () => PreferenceSubscreenMainRun(),
 		click: () => PreferenceSubscreenMainClick(),
-		resize: () => PreferenceSubscreenMainResize(),
+		resize: (onLoad) => PreferenceSubscreenMainResize(onLoad),
 		unload: () => PreferenceSubscreenMainUnload(),
 		exit: () => PreferenceSubscreenMainExit(),
 	},
@@ -39,7 +39,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenGeneralClick(),
 		exit: () => PreferenceSubscreenGeneralExit(),
 		unload: () => PreferenceSubscreenGeneralUnload(),
-		resize: () => PreferenceSubscreenGeneralResize(),
+		resize: (onLoad) => PreferenceSubscreenGeneralResize(onLoad),
 	},
 	{
 		name: "Difficulty",
@@ -47,14 +47,14 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenDifficultyRun(),
 		click: () => PreferenceSubscreenDifficultyClick(),
 		exit: () => PreferenceSubscreenDifficultyExit(),
-		resize: () => PreferenceSubscreenDifficultyResize(),
+		resize: (onLoad) => PreferenceSubscreenDifficultyResize(onLoad),
 	},
 	{
 		name: "Restriction",
 		load: () => PreferenceSubscreenRestrictionLoad(),
 		run: () => PreferenceSubscreenRestrictionRun(),
 		click: () => PreferenceSubscreenRestrictionClick(),
-		resize: () => PreferenceSubscreenRestrictionResize(),
+		resize: (onLoad) => PreferenceSubscreenRestrictionResize(onLoad),
 	},
 	{
 		name: "Chat",
@@ -62,7 +62,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenChatRun(),
 		click: () => PreferenceSubscreenChatClick(),
 		exit: () => PreferenceSubscreenChatExit(),
-		resize: () => PreferenceSubscreenChatResize(),
+		resize: (onLoad) => PreferenceSubscreenChatResize(onLoad),
 	},
 	{
 		name: "CensoredWords",
@@ -71,7 +71,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenCensoredWordsClick(),
 		exit: () => PreferenceSubscreenCensoredWordsExit(),
 		unload: () => PreferenceSubscreenCensoredWordsUnload(),
-		resize: () => PreferenceSubscreenCensoredWordsResize(),
+		resize: (onLoad) => PreferenceSubscreenCensoredWordsResize(onLoad),
 	},
 	{
 		name: "Audio",
@@ -80,7 +80,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenAudioClick(),
 		exit: () => PreferenceSubscreenAudioExit(),
 		unload: () => PreferenceSubscreenAudioUnload(),
-		resize: () => PreferenceSubscreenAudioResize(),
+		resize: (onLoad) => PreferenceSubscreenAudioResize(onLoad),
 	},
 	{
 		name: "Arousal",
@@ -97,14 +97,14 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenSecurityClick(),
 		exit: () => PreferenceSubscreenSecurityExit(),
 		unload: () => PreferenceSubscreenSecurityUnload(),
-		resize: () => PreferenceSubscreenSecurityResize(),
+		resize: (onLoad) => PreferenceSubscreenSecurityResize(onLoad),
 	},
 	{
 		name: "Online",
 		load: () => PreferenceSubscreenOnlineLoad(),
 		run: () => PreferenceSubscreenOnlineRun(),
 		click: () => PreferenceSubscreenOnlineClick(),
-		resize: () => PreferenceSubscreenOnlineResize(),
+		resize: (onLoad) => PreferenceSubscreenOnlineResize(onLoad),
 	},
 	{
 		name: "Visibility",
@@ -119,7 +119,7 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenImmersionLoad(),
 		run: () => PreferenceSubscreenImmersionRun(),
 		click: () => PreferenceSubscreenImmersionClick(),
-		resize: () => PreferenceSubscreenImmersionResize(),
+		resize: (onLoad) => PreferenceSubscreenImmersionResize(onLoad),
 	},
 	{
 		name: "Graphics",
@@ -128,7 +128,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenGraphicsClick(),
 		exit: () => PreferenceSubscreenGraphicsExit(),
 		unload: () => PreferenceSubscreenGraphicsUnload(),
-		resize: () => PreferenceSubscreenGraphicsResize(),
+		resize: (onLoad) => PreferenceSubscreenGraphicsResize(onLoad),
 	},
 	{
 		name: "Controller",
@@ -151,7 +151,7 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenGenderLoad(),
 		run: () => PreferenceSubscreenGenderRun(),
 		click: () => PreferenceSubscreenGenderClick(),
-		resize: () => PreferenceSubscreenGenderResize(),
+		resize: (onLoad) => PreferenceSubscreenGenderResize(onLoad),
 	},
 	{
 		name: "Scripts",
@@ -160,7 +160,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenScriptsClick(),
 		exit: () => PreferenceSubscreenScriptsExit(),
 		unload: () => PreferenceSubscreenScriptsUnload(),
-		resize: () => PreferenceSubscreenScriptsResize(),
+		resize: (onLoad) => PreferenceSubscreenScriptsResize(onLoad),
 	},
 	{
 		name: "Keybindings",
@@ -169,7 +169,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenKeybindingsRun(),
 		click: () => PreferenceSubscreenKeybindingsClick(),
 		exit: () => PreferenceSubscreenKeybindingsExit(),
-		resize: () => PreferenceSubscreenKeybindingsResize(),
+		resize: (onLoad) => PreferenceSubscreenKeybindingsResize(onLoad),
 	},
 	{
 		name: "Extensions",
@@ -178,7 +178,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenExtensionsClick(),
 		exit: () => PreferenceSubscreenExtensionsExit(),
 		unload: () => PreferenceSubscreenExtensionsUnload(),
-		resize: () => PreferenceSubscreenExtensionsResize(),
+		resize: (onLoad) => PreferenceSubscreenExtensionsResize(onLoad),
 	},
 ];
 
