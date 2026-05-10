@@ -16448,9 +16448,9 @@ var AssetFemale3DCGExtended = {
 					Name: "BallType",
 					Key: "b",
 					Options: [
-						{}, // b0 Regular Size
-						{}, // b1 Large Size
-						{}, // b2 XL Size
+						{ Property: { Effect: [E.GagLight] } }, // b0 Regular Size
+						{ Property: { Effect: [E.GagMedium] } }, // b1 Large Size
+						{ Property: { Effect: [E.GagHeavy] } }, // b2 XL Size
 					]
 				},
 			],

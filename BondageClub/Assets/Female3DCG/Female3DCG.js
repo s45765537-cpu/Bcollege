@@ -52176,6 +52176,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Top: 78,
 				Left: 191.5,
+				Effect: [E.BlockMouth],
 				DefaultColor: ["#2E2E2E", "#862828"],
 				Layer: [
 					{
