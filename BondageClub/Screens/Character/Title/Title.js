@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var TitleBackground = "Sheet";
 /**
@@ -50,9 +49,9 @@ function TitleSet(NewTitle) {
 function TitleSelect(title) {
 	if (title === TitleSelectedTitle) return;
 
-	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle)).toggleAttribute("active", false);
+	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle))?.toggleAttribute("active", false);
 	TitleSelectedTitle = title;
-	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle)).toggleAttribute("active", true);
+	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle))?.toggleAttribute("active", true);
 }
 
 /**
@@ -219,10 +218,9 @@ function TitleUnload() {
  * @returns {void} - Nothing
  */
 function TitleRun() {
-	if (TitleNicknameStatus)
-		ElementWrap(TitleSelec.titleStatus).textContent = TextGet(TitleNicknameStatus);
-	else
-		ElementWrap(TitleSelec.titleStatus).textContent = "";
+	const e = ElementWrap(TitleSelec.titleStatus);
+	if (!e) return;
+	e.textContent = TitleNicknameStatus ? TextGet(TitleNicknameStatus) : "";
 }
 
 /**

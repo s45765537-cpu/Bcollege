@@ -1,16 +1,15 @@
-// @ts-strict-ignore
 "use strict";
 var PlayerCollaringBackground = "Management";
-/** @type {null | NPCCharacter} */
-var PlayerCollaringMistress = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringMistressLeft = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringMistressRight = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringGirlLeft = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringGirlRight = null;
+/** @type {NPCCharacter} */
+var PlayerCollaringMistress = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringMistressLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringMistressRight = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringGirlLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringGirlRight = /** @type {never} */ (null);
 
 /**
  * Loads the Player collaring cutscene by creating the random NPCs and setting the stage
