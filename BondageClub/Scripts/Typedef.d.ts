@@ -1121,6 +1121,7 @@ interface AssetGroup {
 	IsItem(): this is AssetItemGroup;
 	/** Return whether this group belongs to the `Script` {@link AssetGroup.Category} */
 	IsScript(): this is AssetScriptGroup;
+	HasExpression(): this is AssetExpressionGroup;
 }
 
 /** An AssetGroup subtype for the `Appearance` {@link AssetGroup.Category} */
@@ -1150,6 +1151,13 @@ interface AssetScriptGroup extends AssetGroup {
 	readonly Underwear: false;
 	readonly Clothing: false;
 	readonly IsDefault: false;
+}
+
+
+/** An AssetGroup subtype for groups that allows expressions */
+interface AssetExpressionGroup extends AssetAppearanceGroup {
+	readonly Name: ExpressionGroupName;
+	readonly AllowExpression: readonly ExpressionName[];
 }
 
 /** A type mapping all asset group names to their respective, {@link AssetGroup.Category}-specific group type */
