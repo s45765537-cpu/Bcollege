@@ -3487,15 +3487,7 @@ function PlatformLoadGame(Slot) {
 	// Gets the saved JSON object and make sure it's valid
 	let LoadStr = localStorage.getItem("BondageBrawlSave" + Slot.toString());
 	if (LoadStr == null) return;
-	let LoadObj;
-	try {
-		const data = JSON.parse(LoadStr);
-		if (!CommonIsObject(LoadObj)) throw new Error();
-		LoadObj = /** @type {Platform.SaveData} */ (data);
-	} catch (err) {
-		console.error(`invalid save game in slot ${Slot}`, err);
-		return;
-	}
+	let LoadObj = JSON.parse(LoadStr);
 	if (LoadObj.Character == null) return;
 	if (LoadObj.Status == null) return;
 	if (LoadObj.Room == null) return;
