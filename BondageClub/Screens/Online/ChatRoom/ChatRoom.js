@@ -4516,7 +4516,10 @@ function ChatRoomMessage(data) {
 			break;
 
 		case "Activity": {
-			let text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+			let text;
+			if (metadata.ActivityAsset) {
+				text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+			}
 			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
 				text = ActivityDictionaryText(msg);
 			}
