@@ -22900,7 +22900,10 @@ var AssetFemale3DCGExtended = {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sarah.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Samantha.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Samantha.png",
+							},
 						],
 					},
 				},

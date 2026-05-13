@@ -3488,9 +3488,14 @@ function PlatformLoadGame(Slot) {
 	let LoadStr = localStorage.getItem("BondageBrawlSave" + Slot.toString());
 	if (LoadStr == null) return;
 	let LoadObj = JSON.parse(LoadStr);
-	if (LoadObj.Character == null) return;
-	if (LoadObj.Status == null) return;
-	if (LoadObj.Room == null) return;
+	if (
+		!CommonIsObject(LoadObj)
+		|| LoadObj.Character == null
+		|| LoadObj.Status == null
+		|| LoadObj.Room == null
+	) {
+		return;
+	}
 
 	// Load the game parameters and inventory
 	PlatformChar = [];
