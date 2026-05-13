@@ -1661,7 +1661,7 @@ function DrawProcess(time) {
 function DrawShowChatRoomCustomBackground() {
 	return CurrentModule === "Online"
 		&& CurrentScreen === "ChatRoom"
-		&& (!CurrentCharacter || (ChatRoomData?.Custom?.ImageURL !== "" && DrawGetCustomBackground(Player) !== undefined));
+		&& (!CurrentCharacter || (!!ChatRoomData?.Custom?.ImageURL && DrawGetCustomBackground(Player) !== undefined));
 }
 
 /**
