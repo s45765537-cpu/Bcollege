@@ -2597,9 +2597,9 @@ function ChatRoomTopMenuSync() {
 		/** @type {HTMLButtonElement | null} */
 		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
 		/** @type {HTMLDivElement | null} */
-		const tooltip = btn.querySelector(".button-tooltip");
+		const tooltip = btn?.querySelector(".button-tooltip");
 		/** @type {HTMLImageElement | null} */
-		const img = btn.querySelector("img.button-image");
+		const img = btn?.querySelector("img.button-image");
 
 		if (!btn || !tooltip || !img) continue;
 		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
