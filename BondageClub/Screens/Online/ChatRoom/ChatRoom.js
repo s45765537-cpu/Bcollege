@@ -2252,7 +2252,7 @@ function ChatRoomDraw() {
 	if (ChatRoomStruggleData == null) {
 		ChatRoomTopMenuSync();
 	} else {
-		document.getElementById("chat-room-top-menu")?.setAttribute("hidden", "");
+		document.getElementById("chat-room-top-menu")?.toggleAttribute("hidden", true);
 		ChatRoomStruggleDraw();
 	}
 }
