@@ -2607,7 +2607,7 @@ function ChatRoomTopMenuSync() {
 			const node = tooltip.childNodes[i];
 			return typeof part === "string" ? part === node?.textContent : node?.isEqualNode(part);
 		});
-		if (areEqual) {
+		if (!areEqual) {
 			tooltip.replaceChildren(...hoverParts);
 		}
 
