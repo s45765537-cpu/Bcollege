@@ -643,12 +643,15 @@ function FriendListLoadFriendList(data) {
 		Friend: TextGet("TypeFriend"),
 		Pending: TextGet("TypePending")
 	};
+	/**
+	 * Optional icons for each friend type caption
+	 * @type {Partial<Record<keyof typeof FriendTypeCaption, string>>}
+	 */
 	const relationTypeIcons = {
 		Owner: './Icons/Small/Owner.png',
 		Lover: './Icons/Small/Lover.png',
 		Submissive: './Icons/Small/Family.png',
 		Friend: './Icons/Small/FriendList.png',
-		Pending: './Icons/Wait.png'
 	};
 	const sortingSymbol = FriendListSortingDirection === "Asc" ? "↑" : "↓";
 	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
@@ -992,19 +995,24 @@ function FriendListLoadFriendList(data) {
 		}
 
 		if (friend.relationType) {
+			const imageSrc = relationTypeIcons[friend.relationType];
 			row.appendChild(ElementCreate({
 				tag: "td",
 				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
 				children: [
-					{
-						tag: "img",
+					imageSrc ? {
+						tag: "img", // Actual image
 						attributes: {
-							src: relationTypeIcons[friend.relationType],
+							src: imageSrc,
 							decoding: "async",
 							loading: "lazy",
 							"aria-hidden": "true",
 						},
 						classList: ["friend-list-icon-small"],
+					} : {
+						tag: "div", // Invisible spacer
+						classList: ["friend-list-icon-small"],
+						attributes: { "aria-hidden": "true" },
 					},
 					FriendTypeCaption[friend.relationType]
 				],
