@@ -2246,6 +2246,17 @@ function ChatRoomUpdateCustomization(toggle = undefined) {
  */
 function ChatRoomCustomizationRun() {}
 
+/** @type {ScreenDrawHandler} */
+function ChatRoomDraw() {
+	// Top-right menu (DOM) or struggle UI (canvas)
+	if (ChatRoomStruggleData == null) {
+		ChatRoomTopMenuSync();
+	} else {
+		document.getElementById("chat-room-top-menu")?.setAttribute("hidden", "");
+		ChatRoomStruggleDraw();
+	}
+}
+
 /**
  * Runs the chatroom screen.
  * @type {ScreenRunHandler}
@@ -2277,14 +2288,6 @@ function ChatRoomRun(time) {
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
-
-	// Top-right menu (DOM) or struggle UI (canvas)
-	if (ChatRoomStruggleData == null) {
-		ChatRoomTopMenuSync();
-	} else {
-		document.getElementById("chat-room-top-menu")?.setAttribute("hidden", "");
-		ChatRoomStruggleDraw();
-	}
 
 	// Process attempts at leaving slowly
 	ChatRoomProcessSlowLeave();
