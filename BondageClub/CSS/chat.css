@@ -2,8 +2,8 @@
 
 .chat-room-sep {
 	padding-left: 3px !important;
-	border-bottom: var(--border-width) solid black !important;
-	border-top: var(--border-width) solid black !important;
+	border-bottom: 3px solid black !important;
+	border-top: 3px solid black !important;
 	position: sticky !important;
 	overflow: visible !important;
 	top: 0%;
@@ -19,7 +19,7 @@
 	height: 100%;
 	display: grid;
 	grid-template-columns: 6% auto;
-	gap: min(0.4vh, 0.2vw);
+	gap: 3px;
 	justify-items: center;
 	margin-right: 6%;
 	background-color: black;
@@ -67,7 +67,7 @@
 }
 
 #chat-room-div > * {
-	margin-bottom: max(3px, min(0.4vh, 0.2vw));
+	margin-bottom: 3px;
 }
 
 /*
@@ -109,7 +109,7 @@
 #chat-room-buttons-div {
 	grid-area: chat-buttons-div;
 	width: 0;
-	border-left: var(--border-width) inset black;
+	border-left: 3px solid black;
 	justify-self: center;
 }
 
@@ -794,24 +794,18 @@
 #chat-room-top-menu {
 	display: flex;
 	flex-direction: row;
-	gap: 2px;
+	gap: 3px;
 	box-sizing: border-box;
 	z-index: 1;
 }
-#chat-room-top-menu > *:first-child {
-	border-left: unset;
-}
 
-#chat-room-top-menu > *:last-child {
-	border-right: unset;
-}
 .chat-room-top-menu-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex: 1 1 0;
 	box-sizing: border-box;
-	border: var(--border-width) solid black;
+	border: unset;
 }
 
 .chat-room-top-menu-btn[data-color="Default"] {
