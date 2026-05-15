@@ -2246,6 +2246,17 @@ function ChatRoomUpdateCustomization(toggle = undefined) {
  */
 function ChatRoomCustomizationRun() {}
 
+/** @type {ScreenDrawHandler} */
+function ChatRoomDraw() {
+	// Top-right menu (DOM) or struggle UI (canvas)
+	if (ChatRoomStruggleData == null) {
+		ChatRoomTopMenuSync();
+	} else {
+		document.getElementById("chat-room-top-menu")?.toggleAttribute("hidden", true);
+		ChatRoomStruggleDraw();
+	}
+}
+
 /**
  * Runs the chatroom screen.
  * @type {ScreenRunHandler}
@@ -2277,14 +2288,6 @@ function ChatRoomRun(time) {
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
-
-	// Top-right menu (DOM) or struggle UI (canvas)
-	if (ChatRoomStruggleData == null) {
-		ChatRoomTopMenuSync();
-	} else {
-		document.getElementById("chat-room-top-menu")?.setAttribute("hidden", "");
-		ChatRoomStruggleDraw();
-	}
 
 	// Process attempts at leaving slowly
 	ChatRoomProcessSlowLeave();
@@ -2594,9 +2597,9 @@ function ChatRoomTopMenuSync() {
 		/** @type {HTMLButtonElement | null} */
 		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
 		/** @type {HTMLDivElement | null} */
-		const tooltip = btn.querySelector(".button-tooltip");
+		const tooltip = btn?.querySelector(".button-tooltip");
 		/** @type {HTMLImageElement | null} */
-		const img = btn.querySelector("img.button-image");
+		const img = btn?.querySelector("img.button-image");
 
 		if (!btn || !tooltip || !img) continue;
 		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
@@ -2604,7 +2607,7 @@ function ChatRoomTopMenuSync() {
 			const node = tooltip.childNodes[i];
 			return typeof part === "string" ? part === node?.textContent : node?.isEqualNode(part);
 		});
-		if (areEqual) {
+		if (!areEqual) {
 			tooltip.replaceChildren(...hoverParts);
 		}
 
