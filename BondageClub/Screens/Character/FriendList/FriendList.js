@@ -817,6 +817,7 @@ function FriendListLoadFriendList(data) {
 	}
 
 	friendRawData.forEach(friend => {
+		const isUnknown = friend.memberName === TextGet("Unknown");
 		const row = ElementCreate({
 			tag: "tr",
 			classList: [
@@ -829,17 +830,19 @@ function FriendListLoadFriendList(data) {
 					classList: [
 						'friend-list-column',
 						'MemberName',
-						...(friend.memberName === TextGet("Unknown") ? ['friend-list-unknown'] : [])
+						...(isUnknown ? ['friend-list-unknown'] : [])
 					],
 					children: [
-						friend.memberName
+						// Insert a hidden, max-size UTF16 character to "Unknown" names for the sake of the sorting order
+						isUnknown ? { tag: "span", children: [String.fromCharCode(2**32 - 1)], attributes: { hidden: true } } : undefined,
+						{ tag: "span", children: [friend.memberName], classList: ["friend-list-search-cell"] },
 					],
 				},
 				{
 					tag: "td",
 					classList: ['friend-list-column', 'MemberNumber'],
 					children: [
-						`${friend.memberNumber ?? ""}`
+						{ tag: "span", children: [`${friend.memberNumber ?? ""}`], classList: ["friend-list-search-cell"] },
 					],
 				},
 			]
@@ -1365,26 +1368,16 @@ function FriendListSort(sortingMode, sortingDirection) {
  * @param {string} text
  */
 function FriendListSearchByProperties(text) {
+	const searchText = text.toLowerCase();
 	const friendlist = document.getElementById(FriendListIDs.friendList);
 	if (!friendlist) return;
 
-	const items = friendlist.children;
-	Array.from(items).forEach((element) => element.toggleAttribute("hidden", true));
-	const searchedItems = Array.from(items).filter(item => {
-		return (item.querySelector('.MemberName')?.textContent ?? "").toLowerCase().includes(text.toLowerCase()) ||
-			(item.querySelector('.MemberNickname')?.textContent ?? "").toLowerCase().includes(text.toLowerCase()) || // NYI
-			(item.querySelector('.MemberNumber')?.textContent ?? "").includes(text);
-	});
-	searchedItems.forEach((item) => {
-		item.toggleAttribute("hidden", false);
-
-		const nameItem = item.querySelector('.MemberName');
-		if (nameItem) nameItem.innerHTML = FriendListHighlightProperty(nameItem, text);
-		const nicknameItem = item.querySelector('.MemberNickname');
-		if (nicknameItem) nicknameItem.innerHTML = FriendListHighlightProperty(nicknameItem, text);
-		const numberItem = item.querySelector('.MemberNumber');
-		if (numberItem) numberItem.innerHTML = FriendListHighlightProperty(numberItem, text);
-	});
+	for (const row of friendlist.querySelectorAll("tr")) {
+		const cells = Array.from(row.querySelectorAll('.friend-list-search-cell'));
+		const cellMatches = cells.filter(cell => cell.textContent.toLowerCase().includes(searchText));
+		cellMatches.forEach(cell => cell.innerHTML = FriendListHighlightProperty(cell, searchText));
+		row.toggleAttribute("hidden", cellMatches.length === 0);
+	}
 }
 
 /**
@@ -1394,11 +1387,10 @@ function FriendListSearchByProperties(text) {
  * @returns {string} - The innerHTML with the searched text highlighted
  */
 function FriendListHighlightProperty(element, text) {
-	const textContent = element.textContent ?? "";
+	const textContent = element.textContent;
 	if (!text) return textContent;
 	const regex = new RegExp(text.toLowerCase(), 'gi');
-
-	return `<span>${textContent.replace(regex, match => `<b class="highlight">${match}</b>`)}</span>`;
+	return `${textContent.replace(regex, match => `<b class="highlight">${match}</b>`)}`;
 }
 
 /**
