@@ -815,6 +815,17 @@ function FriendListLoadFriendList(data) {
 				canAdd: FriendListCanAdd(memberNumber),
 			});
 		}
+		friendRawData.sort((a, b) => {
+			if (a.pending === b.pending) {
+				return 0;
+			} else if (a.pending) {
+				return 1;
+			} else if (b.pending) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
 	}
 
 	friendRawData.forEach(friend => {
