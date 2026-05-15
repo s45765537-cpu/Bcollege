@@ -158,6 +158,10 @@
 	aspect-ratio: 1 / 1;
 }
 
+.friend-list-icon-monochrome {
+	background: gray;
+}
+
 /* #endregion */
 
 /* #region FRIENDLIST */
@@ -203,6 +207,10 @@
 
 .friend-list-row:hover {
 	color: yellow;
+}
+
+.friend-list-row:hover .friend-list-icon-monochrome {
+	background-color: yellow;
 }
 
 .friend-list-pending {

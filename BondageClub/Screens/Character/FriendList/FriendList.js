@@ -643,15 +643,13 @@ function FriendListLoadFriendList(data) {
 		Friend: TextGet("TypeFriend"),
 		Pending: TextGet("TypePending")
 	};
-	/**
-	 * Optional icons for each friend type caption
-	 * @type {Partial<Record<keyof typeof FriendTypeCaption, string>>}
-	 */
+	/** @type {Record<keyof typeof FriendTypeCaption, string>} */
 	const relationTypeIcons = {
 		Owner: './Icons/Small/Owner.png',
 		Lover: './Icons/Small/Lover.png',
 		Submissive: './Icons/Small/Family.png',
 		Friend: './Icons/Small/FriendList.png',
+		Pending: './Icons/Wait.png',
 	};
 	const sortingSymbol = FriendListSortingDirection === "Asc" ? "↑" : "↓";
 	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
@@ -995,27 +993,34 @@ function FriendListLoadFriendList(data) {
 		}
 
 		if (friend.relationType) {
-			const imageSrc = relationTypeIcons[friend.relationType];
-			row.appendChild(ElementCreate({
-				tag: "td",
-				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
-				children: [
-					imageSrc ? {
-						tag: "img", // Actual image
+			/** @type {HTMLElement} */
+			let imgData;
+			switch (friend.relationType) {
+				case "Pending":
+					imgData = ElementCreate({
+						tag: "div",
+						classList: ["friend-list-icon-small", "friend-list-icon-monochrome"],
+						attributes: { "aria-hidden": "true" },
+						style: { mask: `url("${relationTypeIcons[friend.relationType]}") center center / contain` },
+					});
+					break;
+				default:
+					imgData = ElementCreate({
+						tag: "img",
 						attributes: {
-							src: imageSrc,
+							src: relationTypeIcons[friend.relationType],
 							decoding: "async",
 							loading: "lazy",
 							"aria-hidden": "true",
 						},
 						classList: ["friend-list-icon-small"],
-					} : {
-						tag: "div", // Invisible spacer
-						classList: ["friend-list-icon-small"],
-						attributes: { "aria-hidden": "true" },
-					},
-					FriendTypeCaption[friend.relationType]
-				],
+					});
+					break;
+			}
+			row.appendChild(ElementCreate({
+				tag: "td",
+				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
+				children: [imgData, FriendTypeCaption[friend.relationType]],
 			}));
 		}
 
