@@ -817,7 +817,7 @@ function FriendListLoadFriendList(data) {
 	}
 
 	friendRawData.forEach(friend => {
-		const isUnknown = friend.memberName === TextGet("Unknown");
+		const isPending = friend.pending === true;
 		const row = ElementCreate({
 			tag: "tr",
 			classList: [
@@ -830,11 +830,11 @@ function FriendListLoadFriendList(data) {
 					classList: [
 						'friend-list-column',
 						'MemberName',
-						...(isUnknown ? ['friend-list-unknown'] : [])
+						...(isPending ? ['friend-list-unknown'] : [])
 					],
 					children: [
 						// Insert a hidden, max-size UTF16 character to "Unknown" names for the sake of the sorting order
-						isUnknown ? { tag: "span", children: [String.fromCharCode(2**32 - 1)], attributes: { hidden: true } } : undefined,
+						isPending ? { tag: "span", children: [String.fromCharCode(2**32 - 1)], attributes: { hidden: true } } : undefined,
 						{ tag: "span", children: [friend.memberName], classList: ["friend-list-search-cell"] },
 					],
 				},
