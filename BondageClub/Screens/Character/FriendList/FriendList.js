@@ -1199,12 +1199,16 @@ function FriendListCreateActionsCell(friend) {
  * @param {FocusEvent} ev
  */
 function FriendListActionsMenuFocusOut(ev) {
-	const to = ev.relatedTarget;
+	/** @type {HTMLButtonElement | null} */
+	const controller = document.querySelector(`button[aria-controls~="${this.id}"]`);
+	if (!controller) {
+		return;
+	}
 
-	if (!(to instanceof Node) || !this.contains(to)) {
-		/** @type {HTMLButtonElement | null} */
-		const controller = document.querySelector(`button[aria-controls~="${this.id}"]`);
-		controller?.click();
+	// Prevent losing focus via controller clicks immediately triggering yet another controller click
+	const to = ev.relatedTarget;
+	if (!(to instanceof Node) || !(this.contains(to) || to === controller)) {
+		controller.click();
 	}
 }
 
