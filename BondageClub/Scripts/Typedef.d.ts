@@ -2889,7 +2889,7 @@ declare namespace ExtendedItemCallbacks {
 	 */
 	type BeforeDraw<
 		PersistentData extends AnimationPersistentData = AnimationPersistentData
-	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
+	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides | undefined>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
 	 * Relevant for assets that define {@link Asset.DynamicScriptDraw}.
