@@ -2229,7 +2229,7 @@ type PrivatePunishment = (
 
 interface KidnapCard {
 	Move: number;
-	Value?: number;
+	Value: number;
 }
 
 /** Kidnap minigame */
@@ -2237,8 +2237,10 @@ interface Character {
 	KidnapWillpower?: number;
 	KidnapMaxWillpower?: number;
 	KidnapCard?: KidnapCard[];
-	KidnapStat?: [number, number, number, number];
+	KidnapStat?: [Strength: number, Charisma: number, Initiative: number, number];
 }
+
+type KidnapModeType = "Intro" | "SelectItem" | "SelectMove" | "ShowMove" | "UpperHand" | "SuddenDeath" | "End";
 
 type PandoraPrisonActivity = "Beat" | "Water" | "Transfer" | "Quickie" | "Strip" | "Chastity" | "Tickle" | "ChangeBondage";
 
