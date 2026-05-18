@@ -1,10 +1,9 @@
-// @ts-strict-ignore
 "use strict";
 var MaidDrinksBackground = "Bar";
-/** @type {null | NPCCharacter} */
-var MaidDrinksCustomerLeft = null;
-/** @type {null | NPCCharacter} */
-var MaidDrinksCustomerRight = null;
+/** @type {NPCCharacter} */
+var MaidDrinksCustomerLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var MaidDrinksCustomerRight = /** @type {never} */ (null);
 var MaidDrinksCustomerLeftTimer = -1;
 var MaidDrinksCustomerRightTimer = -1;
 var MaidDrinksCustomerLeftVisible = false;
@@ -69,28 +68,29 @@ function MaidDrinksDrawIcons() {
 	var Seq = 0;
 	while (Seq < MaidDrinksMove.length) {
 
+		const move = MaidDrinksMove[Seq];
 		// Draw the move from 3.5 seconds before to 1 second after
-		if (MaidDrinksMove[Seq].Time <= MiniGameTimer + 3500) {
-			const X = 1200 + (MaidDrinksMove[Seq].Type * 200);
-			const Y = 675 + Math.floor((MiniGameTimer - MaidDrinksMove[Seq].Time) / 4);
-			const Alpha = MaidDrinksMove[Seq].FadeAt == null ? 1.0 : 1.0 - (MiniGameTimer - MaidDrinksMove[Seq].FadeAt) / 200;
+		if (move.Time <= MiniGameTimer + 3500) {
+			const X = 1200 + (move.Type * 200);
+			const Y = 675 + Math.floor((MiniGameTimer - move.Time) / 4);
+			const Alpha = move.FadeAt == null ? 1.0 : 1.0 - (MiniGameTimer - move.FadeAt) / 200;
 			// DrawText(`${MiniGameTimer - MaidDrinksMove[Seq].Time}`, X, Y + 200, "white");
-			DrawImageEx("Screens/" + CurrentModule + "/" + CurrentScreen + "/Icon" + MaidDrinksMove[Seq].Type + ".png", MainCanvas, X, Y, { Alpha });
+			DrawImageEx("Screens/" + CurrentModule + "/" + CurrentScreen + "/Icon" + move.Type + ".png", MainCanvas, X, Y, { Alpha });
 		}
 
 		// Remove the move from the sequence if it's past due
-		if (MaidDrinksMove[Seq].FadeAt == null && MaidDrinksMove[Seq].Time < MiniGameTimer - 800) {
-			MaidDrinksMove[Seq].FadeAt = MiniGameTimer;
+		if (move.FadeAt == null && move.Time < MiniGameTimer - 800) {
+			move.FadeAt = MiniGameTimer;
 			MaidDrinksMiss();
 		}
 
-		if (MaidDrinksMove[Seq].FadeAt != null && MiniGameTimer - MaidDrinksMove[Seq].FadeAt >= 200)
+		if (move.FadeAt != null && MiniGameTimer - move.FadeAt >= 200)
 			MaidDrinksMove.splice(Seq, 1);
 		else Seq = Seq + 1;
 
 		// Beyond 3.5 seconds forward, we exit
 		if (Seq < MaidDrinksMove.length)
-			if (MaidDrinksMove[Seq].Time > MiniGameTimer + 3500)
+			if (move.Time > MiniGameTimer + 3500)
 				return;
 
 	}
@@ -211,8 +211,10 @@ function MaidDrinksRun() {
  */
 function MaidDrinksEnd(Victory) {
 	MaidDrinksLastMoveType = -1;
-	MaidDrinksCustomerLeft = null;
-	MaidDrinksCustomerRight = null;
+	CharacterDelete(MaidDrinksCustomerLeft);
+	MaidDrinksCustomerLeft = /** @type {never} */ (null);
+	CharacterDelete(MaidDrinksCustomerRight);
+	MaidDrinksCustomerRight = /** @type {never} */ (null);
 	InventoryWear(Player, "WoodenMaidTray", "ItemMisc");
 	if (Victory) MiniGameProgress = 100;
 	else MiniGameProgress = 0;

@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var MagicBattleBackground = "";
-/** @type {null | Character} */
-var MagicBattleOpponent = null;
+/** @type {Character} */
+var MagicBattleOpponent = /** @type {never} */ (null);
 var MagicBattleReturnFunction = "";
 var MagicBattleDifficulty = 0;
 var MagicBattleVictory = false;
@@ -187,7 +186,9 @@ function MagicSpellEffect(C, Spell) {
 			InventoryWear(C, "HempRope", "ItemArms");
 		} else {
 			const item = InventoryWear(C, "HempRopeHarness", "ItemTorso");
-			TypedItemSetOptionByName(C, item, "Diamond", true);
+			if (item) {
+				TypedItemSetOptionByName(C, item, "Diamond", true);
+			}
 		}
 	}
 

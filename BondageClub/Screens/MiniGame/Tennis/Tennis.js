@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var TennisBackground = "CollegeTennisPlay";
 /** @type {null | PlayerCharacter | NPCCharacter} */
@@ -68,11 +67,15 @@ async function TennisLoad() {
 function TennisRun() {
 
 	// Draw the characters
-	DrawCharacter(TennisCharacterLeft, 0, 100, 0.9);
-	DrawText(TennisCharacterLeft.Name, 225, 30, "white");
+	if (TennisCharacterLeft) {
+		DrawCharacter(TennisCharacterLeft, 0, 100, 0.9);
+		DrawText(TennisCharacterLeft.Name, 225, 30, "white");
+	}
 	DrawText(TennisGetScore(TennisCharacterLeftPoint, TennisCharacterRightPoint), 225, 80, "white");
-	DrawCharacter(TennisCharacterRight, 1550, 100, 0.9);
-	DrawText(TennisCharacterRight.Name, 1775, 30, "white");
+	if (TennisCharacterRight) {
+		DrawCharacter(TennisCharacterRight, 1550, 100, 0.9);
+		DrawText(TennisCharacterRight.Name, 1775, 30, "white");
+	}
 	DrawText(TennisGetScore(TennisCharacterRightPoint, TennisCharacterLeftPoint), 1775, 80, "white");
 
 	// If the mini game is running
