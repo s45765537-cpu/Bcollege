@@ -410,21 +410,13 @@ var ClubCardList = [
 	},
 	{
 		ID: 1027,
-		Name: "Personal Assistant",
-		Group: ["Staff"],
+		Name: "Reverse Prayer",
+		Group: ["Shibari"],
 		MoneyPerTurn: 1,
 		Prerequisite: "SelectATier",
 		OnPlay: function () {
 			this.EffectKey = ClubCardTierSelection;
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Personal Assistant", {[ClubCardPlaceholderKeys.AMOUNT]: ClubCardTierSelection });
-		},
-		onDiscardCard: function(CCPlayer, DiscardedCard) {
-			if (this.EffectKey == (DiscardedCard.RequiredLevel ?? 1)) {
-				if (CCPlayer.DiscardPile[CCPlayer.DiscardPile.length - 1] == DiscardedCard) {
-					CCPlayer.Deck.push(CCPlayer.DiscardPile[CCPlayer.DiscardPile.length - 1]);
-					CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.length - 1, 1);
-				}
-			}
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Reverse Prayer", {[ClubCardPlaceholderKeys.AMOUNT]: ClubCardTierSelection });
 		}
 	},
 
@@ -628,9 +620,7 @@ var ClubCardList = [
 			const membersInDeck =  CCPlayer.Deck.filter(card => card.Type != "Event");
 			if (membersInDeck.length > 0) {
 				const card = membersInDeck[Math.floor(Math.random() * membersInDeck.length)];
-				CCPlayer.DiscardPile.push(card);
-				const cardIndexInDeck = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
-				CCPlayer.Deck.splice(cardIndexInDeck, 1);
+				ClubCardDiscardCard(CCPlayer, CCPlayer.Deck.findIndex(c => c.ID === card.ID), "Deck");
 			}
 		}
 	},
@@ -744,9 +734,7 @@ var ClubCardList = [
 				if (membersInDeck.length > 0) {
 					const card = membersInDeck[Math.floor(Math.random() * membersInDeck.length)];
 					moneyGain = moneyGain + (card.RequiredLevel ?? 1);
-					CCPlayer.DiscardPile.push(card);
-					const cardIndexInDeck = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
-					CCPlayer.Deck.splice(cardIndexInDeck, 1);
+					ClubCardDiscardCard(CCPlayer, CCPlayer.Deck.findIndex(c => c.ID === card.ID), "Deck");
 				}
 				cardsToDiscard--;
 			}
@@ -1293,7 +1281,7 @@ var ClubCardList = [
 		ID: 7005,
 		Name: "Permanent Patient",
 		Group: ["AsylumPatient", "Slave"],
-		MoneyPerTurn: 3,
+		MoneyPerTurn: 4,
 		RequiredLevel: 3
 	},
 	{
@@ -1321,7 +1309,7 @@ var ClubCardList = [
 		OnActive: function(CCPlayer) {
 			let fame = 0;
 			for (const card of CCPlayer.Board) if (ClubCardCardHasGroup(card, "AsylumPatient")) fame = Math.max(fame, card.RequiredLevel ?? 1);
-			this.FamePerTurn = fame;
+			CCPlayer.Board[CCPlayer.Board.findIndex(c => c.UniqueID === this.UniqueID)].FamePerTurn = fame;
 			CCPlayer.Board[this.ArrayIndex].CanActive = false;
 		},
 		turnStart: function() {
@@ -1663,7 +1651,8 @@ var ClubCardList = [
 		Name: "Sugar Baby",
 		Group: ["ABDLBaby"],
 		RequiredLevel: 3,
-		MoneyPerTurn: 3
+		MoneyPerTurn: 5,
+		FamePerTurn: -1
 	},
 	{
 		ID: 10004,
@@ -2590,12 +2579,13 @@ var ClubCardList = [
 		Name: "Bottom Bitch",
 		Group: ["Slave", "Submissive"],
 		RequiredLevel: 4,
-		MoneyPerTurn: 1,
+		FamePerTurn: -1,
+		MoneyPerTurn: 2,
 		BeforeTurnEnd: function(CCPlayer) {
 			if (!ClubCardGroupIsOnBoard(CCPlayer, "Mistress")) ClubCardRemoveFromBoard(CCPlayer, this);
 			else {
 				const effectFame = (ClubCardGroupOnBoardCount(CCPlayer, "Submissive") - 1) * 2;
-				ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, 12));
+				ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, 10));
 			}
 		}
 	},
@@ -2640,7 +2630,7 @@ var ClubCardList = [
 		Name: "Brutus",
 		Group: ["Kemonomimi", "Police"],
 		RequiredLevel: 3,
-		MoneyPerTurn: 3
+		MoneyPerTurn: 4
 	},
 	{
 		ID: 16003,
@@ -2984,7 +2974,7 @@ var ClubCardList = [
 		Group: ["Latex", "Slave"],
 		RequiredLevel: 3,
 		FamePerTurn: 2,
-		MoneyPerTurn: 5,
+		MoneyPerTurn: 6,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (!ClubCardCardHasGroup(cardPlayed, "Latex") && !ClubCardCardHasGroup(cardPlayed, "Dominant") && cardPlayed.Type !== "Event") ClubCardRemoveFromBoard(CCPlayer, this);
 		}
@@ -2994,7 +2984,7 @@ var ClubCardList = [
 		Name: "Exquisite Suit",
 		Group: ["Latex"],
 		RequiredLevel: 3,
-		MoneyPerTurn: 1,
+		MoneyPerTurn: 2,
 		onDrawAction: function() {
 			if ((this.MoneyPerTurn ?? 0) < 6) this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) + 1;
 			if ((this.FamePerTurn ?? 0) < 5) this.FamePerTurn = (this.FamePerTurn ?? 0) + 1;
@@ -3996,7 +3986,6 @@ var ClubCardList = [
 					ClubCardPlayerDrawCard(CCPlayer, 1);
 				}
 			}
-			ClubCardPlayerDrawCard(CCPlayer, 1);
 		}
 	},
 	{
@@ -4098,7 +4087,7 @@ var ClubCardList = [
 		Type: "Event",
 		Group: ["TimedEvent"],
 		RequiredLevel: 4,
-		Time: 4,
+		Time: 3,
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerSteal(CCPlayer, 0, ClubCardGroupInDiscardPileCount(CCPlayer, "Criminal") * 2);
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Criminal") * 3, this.Name);
@@ -4193,7 +4182,7 @@ var ClubCardList = [
 					ClubCardSummonCard(CCPlayer, randomMember);
 					const cardIndexInHand = CCPlayer.Hand.findIndex(value => value.ID === randomMember.ID);
 					CCPlayer.Hand.splice(cardIndexInHand, 1);
-					CCPlayer.Board[CCPlayer.Board.length - 2].Negated = false;
+					CCPlayer.Board[CCPlayer.Board.length - 2].Negated = undefined;
 					if ((ClubCardCardHasGroup(randomMember, "Latex") || ClubCardCardHasGroup(randomMember, "Fetishist"))) ClubCardPlayerAddMoney(CCPlayer, 5);
 				}
 				summonNumber++;
@@ -5504,19 +5493,25 @@ function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
  */
 function ClubCardDiscardCard(CCPlayer, Pos, DiscardFrom = "Hand") {
 	let DiscardedCard;
+	let DontDiscard = [];
+	for (const card of CCPlayer.Board) if (card.Name == "Reverse Prayer" && !card.Negated) DontDiscard.push(card.EffectKey);
 	if (DiscardFrom == "Hand") {
 		DiscardedCard = CCPlayer.Hand[Pos];
-		if (ClubCardCardHasGroup(DiscardedCard, "Pet") && ClubCardNameIsOnBoard(CCPlayer, "Protective Owner", true)) {
-			CCPlayer.Deck.push(CCPlayer.Hand[Pos]);
-		} else if ((DiscardedCard.RequiredLevel ?? 1) == 5 && ClubCardNameIsOnBoard(CCPlayer, "Personal Assistant", true)) {
-			CCPlayer.Deck.push(CCPlayer.Hand[Pos]);
+		if ((ClubCardCardHasGroup(DiscardedCard, "Pet") && ClubCardNameIsOnBoard(CCPlayer, "Protective Owner", true)) || (DontDiscard.includes(DiscardedCard.RequiredLevel ?? 1))) {
+			CCPlayer.Deck.push(DiscardedCard);
+			CCPlayer.Deck = ClubCardShuffle(CCPlayer.Deck);
 		} else {
-			CCPlayer.DiscardPile.push(CCPlayer.Hand[Pos]);
+			CCPlayer.DiscardPile.push(DiscardedCard);
 		}
 		CCPlayer.Hand.splice(Pos, 1);
 	} else if (DiscardFrom == "Deck") {
 		DiscardedCard = CCPlayer.Deck[Pos];
-		CCPlayer.DiscardPile.push(CCPlayer.Deck[Pos]);
+		if (DontDiscard.includes(DiscardedCard.RequiredLevel ?? 1)) {
+			CCPlayer.Deck.push(DiscardedCard);
+			CCPlayer.Deck = ClubCardShuffle(CCPlayer.Deck);
+		} else {
+			CCPlayer.DiscardPile.push(DiscardedCard);
+		}
 		CCPlayer.Deck.splice(Pos, 1);
 	}
 	for (const Card of CCPlayer.Board.slice()) {

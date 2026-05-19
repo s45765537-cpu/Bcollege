@@ -616,13 +616,13 @@ Title Miss N Spection,Miss N Spection
 Text Miss N Spection,"If you take the Draw action with no cards in hand, draw 2 additional cards. Enters: Discard a card of your choice, then draw a card."
 Prerequisite Miss N Spection,Select a card in your hand to discard.
 Title Bottom Bitch,Bottom Bitch
-Text Bottom Bitch,"Gain +2 fame for each other submissive present (max 12). Leaves at the end of your turn if no mistress present."
+Text Bottom Bitch,"Gain +2 fame for each other submissive present (max 10). Leaves at the end of your turn if no mistress present."
 Title Nadu Nyla,Nadu Nyla
 Text Nadu Nyla,Gain +2 Fame and +1 Money as long as you have an active event in your club.
 Title Surrender,Surrender
 Text Surrender,All Slaves in your club get +1 Fame.
 Title Hands Out,Hands Out
-Text Hands Out,"Select a card in your hand, then discard your hand and draw as many cards + 1, save the selected card if a slave is present."
+Text Hands Out,"Select a card in your hand, then discard your hand and draw as many cards, save the selected card if a slave is present."
 Prerequisite Hands Out,Select a card in your hand.
 Title Carol,Carol
 Text Carol,"Enters: If another Nurse is present, add a random Patient from your Streets to your club, if there are none, add one from your deck."
@@ -679,7 +679,7 @@ Text Cafe Maid,"For each card you draw, receive 1 Money, if your club tier is 4 
 Title Jailbird,Jailbird
 Text Jailbird,"When you steal Fame, can steal even if the opponent have none."
 Title Riot,Riot
-Text Riot,"For 4 turns, steal 2 Fame per Criminal in your streets, and gain 3 Money per Criminal in your club."
+Text Riot,"For 3 turns, steal 2 Fame per Criminal in your streets, and gain 3 Money per Criminal in your club at the end of your turn."
 Title Tabled Tessa,Tabled Tessa
 Text Tabled Tessa,"Gains +1 Money and +1 Fame as long as your club level is lower than the opponent's."
 Title Stalker,Stalker
@@ -734,7 +734,7 @@ Text Suit polisher,"Gains +1 base Money each time you take the draw action (Max 
 Title Latex Lover,Latex Lover
 Text Latex Lover,"When you take the draw action, you gain 1 money for each latex member in your club (Max=club level)"
 Title Color Mixer,Color Mixer
-Text Color Mixer,"Enters: Choose a non-latex member in your club, this member gains all of the selected member's types."
+Text Color Mixer,"Enters: Choose a member from your club, this member gains all of the selected member's types."
 Prerequisite Color Mixer,Select a member from your club.
 Title Vac-bed Patient,Vac-bed Patient
 Text Vac-bed Patient,"When you take the draw action, gain 1 fame and 1 money."
@@ -747,8 +747,8 @@ Text Encased,Leaves your club if you play a non-latex or dominant Member.
 Title Condom Suit,Condom Suit
 Text Exquisite Suit,"When you take the draw action, gets +1 Fame and Money (Max 5). When you play a non-latex member, negates herself."
 Title Latex Nurse,Latex Nurse
-Text Latex Nurse,"Enters: Select a member in your hand to discard to summon a "Vac-bed Patient" to your club."
-Prerequisite Latex Nurse,Select a member from your club.
+Text Latex Nurse,"Enters: Select a member from your hand to discard to summon a "Vac-bed Patient" to your club."
+Prerequisite Latex Nurse,Select a member from your hand.
 Title Exquisite Suit,Exquisite Suit
 Text Condom Suit,"Other Latex members cant be removed from either club"
 Title Full Catsuit,Full Catsuit
@@ -764,9 +764,9 @@ Text Intense Training,Play a Shibari card of your choice from your streets.
 Prerequisite Intense Training,Select a Shibari card from your streets.
 Title The Butler,The Butler
 Text The Butler,"Police no longer prevent steal effects. When your opponent plays a criminal, they steal 1 Money."
-Title Personal Assistant,Personal Assistant
-Text Personal Assistant,"Enters: Select a tier, if you would discard a card of chosen tier, shuffle it into your deck instead. "
-Effect Personal Assistant,Tier AMOUNT was selected for Personal Assistant.
+Title Reverse Prayer,Reverse Prayer
+Text Reverse Prayer,"Enters: Select a tier, if you would discard a card of chosen tier, shuffle it into your deck instead. "
+Effect Reverse Prayer,Tier AMOUNT was selected for Reverse Prayer.
 Title Creeking,Creeking
-Text Creeking,"For 5 turns: select and negate a latex member in your club. When you take the draw action, gain +2 Fame per Latex member present (Max 3*club tier)"
-Prerequisite Creeking,Select a latex member in your club.
+Text Creeking,"For 5 turns: select and negate a latex member from your club. When you take the draw action, gain +2 Fame per Latex member present (Max 3*club tier)"
+Prerequisite Creeking,Select a latex member from your club.
