@@ -534,6 +534,8 @@ function CharacterAppearanceBuildMasks(C) {
 	return masks;
 }
 
+const CharacterAppearanceWarnedAboutShadowAsset = new Set();
+
 /**
  * Determines whether an item or a whole item group is visible or not
  * @param {Character} C - The character whose assets are checked
@@ -569,6 +571,17 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 
 	for (const item of C.DrawAppearance) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;
+		// XXX: all of this is a ball of mud
+		// LSCG is causing "shadow assets" to appear, which are missing some key properties
+		const actualAsset = AssetGet(item.Asset.Group.Family, item.Asset.Group.Name, item.Asset.Name);
+		if (actualAsset && item.Asset !== actualAsset) {
+			const key = `${item.Asset.Group.Name}/${item.Asset.Name}`;
+			if (!CharacterAppearanceWarnedAboutShadowAsset.has(key)) {
+				console.error(`Item ${key} has a shadow asset!`);
+				CharacterAppearanceWarnedAboutShadowAsset.add(key);
+			}
+			item.Asset = actualAsset;
+		}
 		let HidingItem = false;
 		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
 		const Excluded = HideItemExclude?.includes(GroupName + AssetName);
