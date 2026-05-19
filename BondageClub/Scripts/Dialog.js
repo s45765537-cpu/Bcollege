@@ -2260,7 +2260,7 @@ function DialogClick(event) {
 			if (!Group.IsItem()) continue;
 			const Zone = Group.Zone.find(Z => DialogClickedInZone(clickedChar, Z, 1, X, 0, clickedChar.HeightRatio));
 			if (Zone) {
-				DialogChangeFocusToGroup(C, Group);
+				DialogChangeFocusToGroup(clickedChar, Group);
 				C = clickedChar;
 				break;
 			}
