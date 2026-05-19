@@ -1336,6 +1336,8 @@ async function ChatRoomLoad() {
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
 		ChatRoomCharacterUpdate(Player);
 		ActivityChatRoomArousalSync(Player);
+		ChatRoomUpdateCustomization(Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault
+			|| Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.Always);
 		ChatRoomJustEntered = false;
 	}
 
