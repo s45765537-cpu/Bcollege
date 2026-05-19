@@ -289,6 +289,7 @@ PrerequisiteCannotSuspension,Cannot change to the Suspension pose.
 PrerequisiteCannotTapedHands,Cannot change to the TapedHands pose.
 PrerequisiteCannotYoked,Cannot change to the Yoked pose.
 PrerequisiteCantCloseOnShaft,Cannot close on shaft.
+PrerequisiteCantHaveErection,Cannot have an erection.
 PrerequisiteMustBeAbleToKneel,Must be able to kneel.
 PrerequisiteMustBeArmCuffedFirst,Must be wearing a set of arm cuffs first.
 PrerequisiteMustBeFeetCuffedFirst,Must be wearing a set of ankle cuffs first.
