@@ -82,6 +82,10 @@ const FriendListIDs = Object.freeze({
 //#region SCREEN FUNCTIONS
 /** @type {ScreenLoadHandler} */
 async function FriendListLoad() {
+	// Initialize the relationship type captions
+	for (const [relationType, entry] of CommonEntries(FriendListTypeData)) {
+		entry.Caption = TextGet(`Type${relationType}`);
+	}
 	const mode = FriendListMode[FriendListModeIndex];
 
 	const root = document.getElementById(FriendListIDs.root) ?? ElementCreate({
@@ -614,6 +618,33 @@ const FriendListIconMapping = {
 };
 
 /**
+ * Note that the `Caption` field is only initialized in {@link FriendListLoad}..
+ * @type {Record<FriendListRelationType, { Caption?: string, Icon: string, SortingPriority: number }>}
+ */
+const FriendListTypeData = {
+	Owner: {
+		Icon: './Icons/Small/Owner.png',
+		SortingPriority: 1,
+	},
+	Lover: {
+		Icon: './Icons/Small/Lover.png',
+		SortingPriority: 2,
+	},
+	Submissive: {
+		Icon: './Icons/Small/Family.png',
+		SortingPriority: 3,
+	},
+	Friend: {
+		Icon: './Icons/Small/FriendList.png',
+		SortingPriority: 4,
+	},
+	Pending: {
+		Icon: './Icons/Small/Wait.png',
+		SortingPriority: 5,
+	},
+};
+
+/**
  * Loads the friend list data into the HTML div element.
  * @param {ServerFriendInfo[]} data - An array of data, we receive from the server
  *
@@ -636,21 +667,6 @@ function FriendListLoadFriendList(data) {
 	const SentCaption = InterfaceTextGet("SentBeep");
 	const ReceivedCaption = InterfaceTextGet("ReceivedBeep");
 	const MailCaption = InterfaceTextGet("BeepWithMail");
-	const FriendTypeCaption = {
-		Owner: TextGet("TypeOwner"),
-		Lover: TextGet("TypeLover"),
-		Submissive: TextGet("TypeSubmissive"),
-		Friend: TextGet("TypeFriend"),
-		Pending: TextGet("TypePending")
-	};
-	/** @type {Record<keyof typeof FriendTypeCaption, string>} */
-	const relationTypeIcons = {
-		Owner: './Icons/Small/Owner.png',
-		Lover: './Icons/Small/Lover.png',
-		Submissive: './Icons/Small/Family.png',
-		Friend: './Icons/Small/FriendList.png',
-		Pending: './Icons/Wait.png',
-	};
 	const sortingSymbol = FriendListSortingDirection === "Asc" ? "↑" : "↓";
 	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
 	const friendList = /** @type {HTMLElement} */ (document.getElementById(FriendListIDs.friendList));
@@ -1009,20 +1025,21 @@ function FriendListLoadFriendList(data) {
 		if (friend.relationType) {
 			/** @type {HTMLElement} */
 			let imgData;
+			const relationData = FriendListTypeData[friend.relationType];
 			switch (friend.relationType) {
 				case "Pending":
 					imgData = ElementCreate({
 						tag: "div",
 						classList: ["friend-list-icon-small", "friend-list-icon-monochrome"],
 						attributes: { "aria-hidden": "true" },
-						style: { mask: `url("${relationTypeIcons[friend.relationType]}") center center / contain` },
+						style: { mask: `url("${relationData.Icon}") center center / contain` },
 					});
 					break;
 				default:
 					imgData = ElementCreate({
 						tag: "img",
 						attributes: {
-							src: relationTypeIcons[friend.relationType],
+							src: relationData.Icon,
 							decoding: "async",
 							loading: "lazy",
 							"aria-hidden": "true",
@@ -1034,7 +1051,12 @@ function FriendListLoadFriendList(data) {
 			row.appendChild(ElementCreate({
 				tag: "td",
 				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
-				children: [imgData, FriendTypeCaption[friend.relationType]],
+				children: [
+					imgData,
+					// Hidden sorting column; offset the lowest priority to the "a" character (i.e. char code 1 + 96)
+					{ tag: "span", children: [String.fromCharCode(96 + relationData.SortingPriority)], attributes: { hidden: true } },
+					relationData.Caption,
+				],
 			}));
 		}
 
