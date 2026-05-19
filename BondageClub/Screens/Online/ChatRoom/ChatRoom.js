@@ -5187,8 +5187,11 @@ function ChatRoomSyncRoomProperties(data) {
 	}
 
 	// Copy the received properties to chat room data
-	// This uses Object.assign because the character data is missing in that case
-	Object.assign(ChatRoomData, data);
+	// We keep the packed character data around
+	ChatRoomData = {
+		...data,
+		Character: ChatRoomData.Character,
+	};
 	if (ChatRoomSep.ActiveElem) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
 	}
