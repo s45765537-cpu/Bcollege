@@ -186,12 +186,6 @@ function InventoryItemMiscTimerPadlockAdd(TimeToAddSeconds, DisplayTimeUnit, Pla
 		const secondsAdded = (property.RemoveTimer - TimerBefore) / 1000;
 
 		TimerPadlockAccumulatedSeconds += secondsAdded;
-
-		if (LeaveDialog || property.RemoveTimer <= CurrentTime) {
-			DialogLeaveFocusItem();
-		}
-	} else {
-		DialogLeaveFocusItem();
 	}
 }
 

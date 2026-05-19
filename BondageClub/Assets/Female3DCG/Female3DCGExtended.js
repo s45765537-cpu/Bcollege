@@ -18663,6 +18663,7 @@ var AssetFemale3DCGExtended = {
 						...args,
 						InventoryItemMiscLoversTimerPadlockValidator,
 					),
+				Exit: (...args) => InventoryItemMiscOwnerTimerPadlockExitHook(...args),
 			},
 		}, // LoversTimerPadlock
 		OwnerPadlock: {
