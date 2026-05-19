@@ -192,6 +192,10 @@ function AssetActivityMirrorGroupSet(group) {
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	if (!GroupDef) {
+		// Backward compat, and cast because the parameter doesn't allow undefined
+		GroupDef = /** @type {AssetGroupDefinition} */ (AssetFemale3DCG.find(g => g.Group === Group.Name));
+	}
+	if (!GroupDef) {
 		// Temporary until everyone catches up
 		throw new Error(`Missing group definition object for ${AssetDef.Name}`);
 	}
