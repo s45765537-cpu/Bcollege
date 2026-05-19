@@ -478,7 +478,7 @@ function ActivityEffectFlat(S, C, Amount, Z, Count, Asset) {
  * @return {void} - Nothing
  */
 function ActivityChatRoomArousalSync(C) {
-	if (!C.IsPlayer() && !ServerPlayerIsInChatRoom()) return;
+	if (!C.IsPlayer() || !ServerPlayerIsInChatRoom()) return;
 	ServerSend("ChatRoomCharacterArousalUpdate", { OrgasmTimer: C.ArousalSettings.OrgasmTimer, Progress: C.ArousalSettings.Progress, ProgressTimer: C.ArousalSettings.ProgressTimer, OrgasmCount: C.ArousalSettings.OrgasmCount });
 }
 
