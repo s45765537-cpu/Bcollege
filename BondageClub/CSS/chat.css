@@ -832,5 +832,6 @@
 .chat-room-top-menu-btn .button-image {
 	top: unset;
 	width: min(116px, 96%);
-	height: min(56px, 96%);
+	max-height: min(56px, 96%);
+	aspect-ratio: unset;
 }
