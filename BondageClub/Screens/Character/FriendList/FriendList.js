@@ -643,12 +643,13 @@ function FriendListLoadFriendList(data) {
 		Friend: TextGet("TypeFriend"),
 		Pending: TextGet("TypePending")
 	};
+	/** @type {Record<keyof typeof FriendTypeCaption, string>} */
 	const relationTypeIcons = {
 		Owner: './Icons/Small/Owner.png',
 		Lover: './Icons/Small/Lover.png',
 		Submissive: './Icons/Small/Family.png',
 		Friend: './Icons/Small/FriendList.png',
-		Pending: './Icons/Wait.png'
+		Pending: './Icons/Wait.png',
 	};
 	const sortingSymbol = FriendListSortingDirection === "Asc" ? "↑" : "↓";
 	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
@@ -814,9 +815,21 @@ function FriendListLoadFriendList(data) {
 				canAdd: FriendListCanAdd(memberNumber),
 			});
 		}
+		friendRawData.sort((a, b) => {
+			if (a.pending === b.pending) {
+				return 0;
+			} else if (a.pending) {
+				return 1;
+			} else if (b.pending) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
 	}
 
 	friendRawData.forEach(friend => {
+		const isPending = friend.pending === true;
 		const row = ElementCreate({
 			tag: "tr",
 			classList: [
@@ -829,17 +842,19 @@ function FriendListLoadFriendList(data) {
 					classList: [
 						'friend-list-column',
 						'MemberName',
-						...(friend.memberName === TextGet("Unknown") ? ['friend-list-unknown'] : [])
+						...(isPending ? ['friend-list-unknown'] : [])
 					],
 					children: [
-						friend.memberName
+						// Insert a hidden, max-size UTF16 character to "Unknown" names for the sake of the sorting order
+						isPending ? { tag: "span", children: [String.fromCharCode(2**32 - 1)], attributes: { hidden: true } } : undefined,
+						{ tag: "span", children: [friend.memberName], classList: ["friend-list-search-cell"] },
 					],
 				},
 				{
 					tag: "td",
 					classList: ['friend-list-column', 'MemberNumber'],
 					children: [
-						`${friend.memberNumber ?? ""}`
+						{ tag: "span", children: [`${friend.memberNumber ?? ""}`], classList: ["friend-list-search-cell"] },
 					],
 				},
 			]
@@ -992,11 +1007,19 @@ function FriendListLoadFriendList(data) {
 		}
 
 		if (friend.relationType) {
-			row.appendChild(ElementCreate({
-				tag: "td",
-				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
-				children: [
-					{
+			/** @type {HTMLElement} */
+			let imgData;
+			switch (friend.relationType) {
+				case "Pending":
+					imgData = ElementCreate({
+						tag: "div",
+						classList: ["friend-list-icon-small", "friend-list-icon-monochrome"],
+						attributes: { "aria-hidden": "true" },
+						style: { mask: `url("${relationTypeIcons[friend.relationType]}") center center / contain` },
+					});
+					break;
+				default:
+					imgData = ElementCreate({
 						tag: "img",
 						attributes: {
 							src: relationTypeIcons[friend.relationType],
@@ -1005,9 +1028,13 @@ function FriendListLoadFriendList(data) {
 							"aria-hidden": "true",
 						},
 						classList: ["friend-list-icon-small"],
-					},
-					FriendTypeCaption[friend.relationType]
-				],
+					});
+					break;
+			}
+			row.appendChild(ElementCreate({
+				tag: "td",
+				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
+				children: [imgData, FriendTypeCaption[friend.relationType]],
 			}));
 		}
 
@@ -1183,12 +1210,16 @@ function FriendListCreateActionsCell(friend) {
  * @param {FocusEvent} ev
  */
 function FriendListActionsMenuFocusOut(ev) {
-	const to = ev.relatedTarget;
+	/** @type {HTMLButtonElement | null} */
+	const controller = document.querySelector(`button[aria-controls~="${this.id}"]`);
+	if (!controller) {
+		return;
+	}
 
-	if (!(to instanceof Node) || !this.contains(to)) {
-		/** @type {HTMLButtonElement | null} */
-		const controller = document.querySelector(`button[aria-controls~="${this.id}"]`);
-		controller?.click();
+	// Prevent losing focus via controller clicks immediately triggering yet another controller click
+	const to = ev.relatedTarget;
+	if (!(to instanceof Node) || !(this.contains(to) || to === controller)) {
+		controller.click();
 	}
 }
 
@@ -1365,26 +1396,16 @@ function FriendListSort(sortingMode, sortingDirection) {
  * @param {string} text
  */
 function FriendListSearchByProperties(text) {
+	const searchText = text.toLowerCase();
 	const friendlist = document.getElementById(FriendListIDs.friendList);
 	if (!friendlist) return;
 
-	const items = friendlist.children;
-	Array.from(items).forEach((element) => element.toggleAttribute("hidden", true));
-	const searchedItems = Array.from(items).filter(item => {
-		return (item.querySelector('.MemberName')?.textContent ?? "").toLowerCase().includes(text.toLowerCase()) ||
-			(item.querySelector('.MemberNickname')?.textContent ?? "").toLowerCase().includes(text.toLowerCase()) || // NYI
-			(item.querySelector('.MemberNumber')?.textContent ?? "").includes(text);
-	});
-	searchedItems.forEach((item) => {
-		item.toggleAttribute("hidden", false);
-
-		const nameItem = item.querySelector('.MemberName');
-		if (nameItem) nameItem.innerHTML = FriendListHighlightProperty(nameItem, text);
-		const nicknameItem = item.querySelector('.MemberNickname');
-		if (nicknameItem) nicknameItem.innerHTML = FriendListHighlightProperty(nicknameItem, text);
-		const numberItem = item.querySelector('.MemberNumber');
-		if (numberItem) numberItem.innerHTML = FriendListHighlightProperty(numberItem, text);
-	});
+	for (const row of friendlist.querySelectorAll("tr")) {
+		const cells = Array.from(row.querySelectorAll('.friend-list-search-cell'));
+		const cellMatches = cells.filter(cell => cell.textContent.toLowerCase().includes(searchText));
+		cellMatches.forEach(cell => cell.innerHTML = FriendListHighlightProperty(cell, searchText));
+		row.toggleAttribute("hidden", cellMatches.length === 0);
+	}
 }
 
 /**
@@ -1394,11 +1415,10 @@ function FriendListSearchByProperties(text) {
  * @returns {string} - The innerHTML with the searched text highlighted
  */
 function FriendListHighlightProperty(element, text) {
-	const textContent = element.textContent ?? "";
+	const textContent = element.textContent;
 	if (!text) return textContent;
 	const regex = new RegExp(text.toLowerCase(), 'gi');
-
-	return `<span>${textContent.replace(regex, match => `<b class="highlight">${match}</b>`)}</span>`;
+	return `${textContent.replace(regex, match => `<b class="highlight">${match}</b>`)}`;
 }
 
 /**

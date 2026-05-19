@@ -862,7 +862,7 @@ function AudioBackgroundMusicPlay(Music, Location = undefined) {
 
 		/** @param {typeof AudioBackgroundMusic} audio  */
 		function syncPlayback(audio) {
-			if (isNaN(audio.duration)) {
+			if (Location !== undefined && isNaN(audio.duration)) {
 				console.warn(`audio source ${Music} has no duration; cannot sync playback`);
 				return false;
 			}

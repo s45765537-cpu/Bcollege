@@ -2260,7 +2260,7 @@ function DialogClick(event) {
 			if (!Group.IsItem()) continue;
 			const Zone = Group.Zone.find(Z => DialogClickedInZone(clickedChar, Z, 1, X, 0, clickedChar.HeightRatio));
 			if (Zone) {
-				DialogChangeFocusToGroup(C, Group);
+				DialogChangeFocusToGroup(clickedChar, Group);
 				C = clickedChar;
 				break;
 			}
@@ -3423,7 +3423,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		/** @type {null | Asset} */
 		let asset = null;
 		let showIcon = false;
-		let textContent = options.status ?? "";
+		let textContent = options.status;
 		if (textContent == null) {
 			switch (this.mode) {
 				case "locked": {
@@ -3459,7 +3459,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		}
 
 		root.toggleAttribute("data-show-icon", showIcon);
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { asset, group: focusGroup, C }, this.ids.status);
+		DialogSetStatus(textContent ?? "", options.statusTimer ?? 0, { asset, group: focusGroup, C }, this.ids.status);
 	}
 
 	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */

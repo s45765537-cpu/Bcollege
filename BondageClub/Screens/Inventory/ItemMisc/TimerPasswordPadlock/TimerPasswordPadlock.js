@@ -43,17 +43,14 @@ function InventoryItemMiscTimerPasswordPadlockLoadHook(data, originalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemMiscTimerPasswordPadlockDrawHook(data, originalFunction) {
-	if (
-		!DialogFocusItem ||
-		!DialogFocusSourceItem ||
-		!DialogFocusSourceItem.Property ||
-		DialogFocusSourceItem.Property.RemoveTimer < CurrentTime
-	) {
-		return DialogLeaveFocusItem();
+	const Property = DialogFocusSourceItem.Property;
+
+	if (!DialogFocusItem || Property.RemoveTimer < CurrentTime ) {
+		DialogLeaveFocusItem();
+		return;
 	}
 
 	originalFunction();
-	const Property = DialogFocusSourceItem.Property;
 	const C = CharacterGetCurrent();
 
 	if (Property && Property.ShowTimer) {

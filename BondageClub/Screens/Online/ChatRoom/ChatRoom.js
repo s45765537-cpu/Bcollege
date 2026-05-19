@@ -1336,6 +1336,8 @@ async function ChatRoomLoad() {
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
 		ChatRoomCharacterUpdate(Player);
 		ActivityChatRoomArousalSync(Player);
+		ChatRoomUpdateCustomization(Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault
+			|| Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.Always);
 		ChatRoomJustEntered = false;
 	}
 
@@ -2246,6 +2248,17 @@ function ChatRoomUpdateCustomization(toggle = undefined) {
  */
 function ChatRoomCustomizationRun() {}
 
+/** @type {ScreenDrawHandler} */
+function ChatRoomDraw() {
+	// Top-right menu (DOM) or struggle UI (canvas)
+	if (ChatRoomStruggleData == null) {
+		ChatRoomTopMenuSync();
+	} else {
+		document.getElementById("chat-room-top-menu")?.toggleAttribute("hidden", true);
+		ChatRoomStruggleDraw();
+	}
+}
+
 /**
  * Runs the chatroom screen.
  * @type {ScreenRunHandler}
@@ -2277,14 +2290,6 @@ function ChatRoomRun(time) {
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
-
-	// Top-right menu (DOM) or struggle UI (canvas)
-	if (ChatRoomStruggleData == null) {
-		ChatRoomTopMenuSync();
-	} else {
-		document.getElementById("chat-room-top-menu")?.setAttribute("hidden", "");
-		ChatRoomStruggleDraw();
-	}
 
 	// Process attempts at leaving slowly
 	ChatRoomProcessSlowLeave();
@@ -2594,9 +2599,9 @@ function ChatRoomTopMenuSync() {
 		/** @type {HTMLButtonElement | null} */
 		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
 		/** @type {HTMLDivElement | null} */
-		const tooltip = btn.querySelector(".button-tooltip");
+		const tooltip = btn?.querySelector(".button-tooltip");
 		/** @type {HTMLImageElement | null} */
-		const img = btn.querySelector("img.button-image");
+		const img = btn?.querySelector("img.button-image");
 
 		if (!btn || !tooltip || !img) continue;
 		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
@@ -2604,7 +2609,7 @@ function ChatRoomTopMenuSync() {
 			const node = tooltip.childNodes[i];
 			return typeof part === "string" ? part === node?.textContent : node?.isEqualNode(part);
 		});
-		if (areEqual) {
+		if (!areEqual) {
 			tooltip.replaceChildren(...hoverParts);
 		}
 
@@ -4516,7 +4521,10 @@ function ChatRoomMessage(data) {
 			break;
 
 		case "Activity": {
-			let text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+			let text;
+			if (metadata.ActivityAsset) {
+				text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+			}
 			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
 				text = ActivityDictionaryText(msg);
 			}
@@ -5181,8 +5189,11 @@ function ChatRoomSyncRoomProperties(data) {
 	}
 
 	// Copy the received properties to chat room data
-	// This uses Object.assign because the character data is missing in that case
-	Object.assign(ChatRoomData, data);
+	// We keep the packed character data around
+	ChatRoomData = {
+		...data,
+		Character: ChatRoomData.Character,
+	};
 	if (ChatRoomSep.ActiveElem) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
 	}

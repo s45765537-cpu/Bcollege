@@ -718,7 +718,7 @@ function ItemColorIsSimple(item) {
  */
 function ItemColorGetColorButtonTextKey(color) {
 	if (CommonIsArray(color)) {
-		const initialColor = color[0];
+		const initialColor = color[0] ?? "Default";
 		return color.some(c => c !== initialColor) ? "Many" : initialColor;
 	} else if (typeof color !== "string" || color === "None") {
 		return "Default";

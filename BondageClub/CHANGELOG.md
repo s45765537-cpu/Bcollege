@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-05-09
-* Last recorded PR: [#6300](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6300)
-* Last recorded commit hash: `b0bd1f4e925f863d768f775627046d440e59b7a2`
+* Changelog last updated: 2026-05-18
+* Last recorded PR: [#6318](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6318)
+* Last recorded commit hash: `334d4329af56f5de46eb714bde3622e958dbb925`
 
 ## [R128]
 
@@ -51,13 +51,14 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Echo Import - Toe Nails
 * Ben987 - Echo Import - Yoga Pants - Cut
 * Ben987 - Echo Import - Trench Coat
-* Ben987 - Change Log
+* Ben987 - Change Log + Credits + Patrons
 
 ### [Fixes]
 
 * 天上の狐 - fix all NPCs being considered as player's owner ([#6298](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6298))
 * 天上の狐 - fix(friend-list): render sanitized &lt; and &gt; in non-searchable chat room name ([#6274](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6274))
 * 天上の狐 - fix(text/friend-list): correct Femaly-only typo ([#6257](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6257))
+* 天上の狐 - fix(private/vibrator-mode): ensure npc egg speed down is a decrement ([#6318](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6318))
 * Deep - chocolate fix ([#6280](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6280))
 * Rama - Fix the player's `SavedColors` not syncing with the server ([#6277](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6277))
 * Rama - Fix mobile detection logic ([#6245](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6245))
@@ -65,6 +66,15 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Fix tooltips persisting ([#6254](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6254))
 * Rama - Fix a character variable in `Character.CanChangeClothesOn()` ([#6258](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6258))
 * Rama - Ensure that the blind fold flashing queue is only initialized by player characters ([#6267](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6267))
+* Rama - Clamp the maximum chat room top menu image button size to the .png's resolution ([#6308](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6308))
+* Rama - Fix `DrawShowChatRoomCustomBackground()` failing to handle nullish custom background URLs ([#6309](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6309))
+* Rama - Handful of chat room top menu fixes and optimizations ([#6311](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6311))
+* Rama - Make the chat room div gap sizing more consistent ([#6312](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6312))
+* Rama - Make the pending friends icon monochrome and text-colored ([#6314](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6314))
+* Rama - Ensure that pending/unknown friend names are sorted after all confirmed friends ([#6315](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6315))
+* Rama - Ensure that `pending` friends are also properly sorted without explicit user sorting ([#6316](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6316))
+* Rama - Fix the friend list action menu controller being unable to close the menu ([#6317](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6317))
+* Estsanatlehi - Fix non asset-based activities causing a crash when triggered ([#6307](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6307))
 * Estsanatlehi - Fix chatroom issues ([#6297](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6297))
 * Estsanatlehi - Fix a crash when trying to get private/locked state of a non-room ([#6296](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6296))
 * Estsanatlehi - Fix the BodyStyle overrides being ignored ([#6295](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6295))
@@ -83,6 +93,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Fix CI ([#6262](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6262))
 * Estsanatlehi - Cleanup runtime assets ([#6010](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6010))
 * Estsanatlehi - Fix CasualDroppedSuit & XmasBell ([#6269](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6269))
+* Ben987 - Bondage Brawl - Fix Save Game Loading
 
 ### [Technical]
 
@@ -92,6 +103,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Move the expensive global object type checking to its own dedicated test ([#6272](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6272))
 * Rama - Add proper `Window` typing for the dynamically generated extended item functions ([#6240](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6240))
 * Rama - Get rid of the canvas's `tabindex` ([#6268](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6268))
+* Rama - Fix CI ([#6310](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6310))
 * Estsanatlehi - Reformat all CSS files ([#6294](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6294))
 * Estsanatlehi - Fix CI ([#6292](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6292))
 * Estsanatlehi - Initialize the dummy player's preferences from nothing ([#6279](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6279))

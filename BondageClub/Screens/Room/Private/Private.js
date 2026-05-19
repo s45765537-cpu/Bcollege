@@ -1949,7 +1949,7 @@ function PrivateLoveYou() {
 				const egg = InventoryGet(Player, "ItemVulva");
 				const newMode = VibratorModeIntensityIncrement(
 					(egg.Property && egg.Property.Mode) || VibratorMode.OFF,
-					PrivateLoverActivity == "EggSpeedUp",
+					PrivateLoverActivity == "EggSpeedDown",
 				);
 				VibratorModeSetOptionByName(Player, egg, newMode);
 				break;
