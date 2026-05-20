@@ -984,7 +984,7 @@ function FriendListLoadFriendList(data) {
 				row.append(
 					ElementButton.Create(
 						`friend-list-show-beep-${friend.memberNumber}`,
-						() => { if (friend.beep?.beepIndex) FriendListShowBeep(friend.beep.beepIndex); },
+						() => { if (typeof friend.beep?.beepIndex === "number") FriendListShowBeep(friend.beep.beepIndex); },
 						{ noStyling: true },
 						{
 							button: {
