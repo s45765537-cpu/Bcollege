@@ -770,3 +770,5 @@ Effect Reverse Prayer,Tier AMOUNT was selected for Reverse Prayer.
 Title Creeking,Creeking
 Text Creeking,"For 5 turns: select and negate a latex member from your club. When you take the draw action, gain +2 Fame per Latex member present (Max 3*club tier)"
 Prerequisite Creeking,Select a latex member from your club.
+Your Decks,Your Decks
+Default Decks,Preconstructed

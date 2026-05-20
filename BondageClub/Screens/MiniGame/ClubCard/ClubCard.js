@@ -46,6 +46,7 @@ var ClubCardLiabilityLimit = [0, 1, 2, 3, 5, 8];
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
+var ClubCardDefaultSelection = "";
 /**
  * Counter to ensure unique ID incrementation.
  * It is used globally to prevent ID duplication.
@@ -5547,12 +5548,18 @@ function ClubCardGetPlayerIndex() {
 	return -1;
 }
 
+function ClubCardSelectDefaultDeck() {
+	ClubCardDefaultSelection = this.value;
+	ClubCardLoadDeckNumber(-1);
+}
+
 /**
  * Builds a deck array of object from a deck array of numbers
  * @param {number} DeckNum - The array of number deck
  * @returns {void} - The resulting deck
  */
 function ClubCardLoadDeckNumber(DeckNum) {
+	ElementRemove("DefaultDecksDropdown");
 	// Invalid decks cannot be loaded, we get the default one if that's the case
 	let Deck = [];
 	const deckSources = Player?.Game?.ClubCard?.Deck ?? [];
@@ -5565,11 +5572,14 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
 		for (let i = 0; i < Player.Game.ClubCard?.Deck[DeckNum]?.length; i++)
 			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
+	} else if (ClubCardDefaultSelection != "") {
+		Deck = ClubCardBuilderDefaultDecksList[ClubCardDefaultSelection].slice();
 	} else {
 		let msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
 		Deck = ClubCardBuilderDefaultDeck.slice();
 	}
+	ClubCardDefaultSelection = "";
 
 	// Loads the deck and shuffles it
 	let Index = ClubCardGetPlayerIndex();
@@ -6459,6 +6469,7 @@ function ClubCardBankrupt() {
 function ClubCardEndGame(Victory) {
 	ElementRemove("CCLog");
 	ElementRemove("CCChat");
+	ElementRemove("DefaultDecksDropdown");
 	MiniGameEnded = true;
 	if (Victory != null) MiniGameVictory = Victory;
 	ClubCardOpponentDeck = [];
@@ -6548,6 +6559,7 @@ async function ClubCardLoad() {
 	ClubCardIsAnimationOn = Player.Game.ClubCard.Settings.IsAnimation;
 
 	ClubCardCreatePopup("DECK");
+	ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), ClubCardSelectDefaultDeck);
 }
 
 /**
@@ -7329,8 +7341,13 @@ function ClubCardRenderPopup(Timestamp) {
 
 	// In deck mode, we draw 10 deck buttons
 	if (ClubCardPopup.Mode == "DECK") {
-		DrawRect(548, 298, 604, 404, "White");
-		DrawRect(550, 300, 600, 400, "Black");
+		DrawRect(548, 228, 604, 474, "White");
+		DrawRect(550, 230, 600, 470, "Black");
+		DrawTextWrap(TextGet("Your Decks"), 550, 235, 600, 61, "White");
+		DrawRect(238, 228, 304, 146, "White");
+		DrawRect(240, 230, 300, 142, "Black");
+		DrawTextWrap(TextGet("Default Decks"), 240, 235, 292, 61, "White");
+		ElementPositionFix("DefaultDecksDropdown", 36, 242, 310, 296, 60);
 		for (let Deck = 0; Deck < 10; Deck++)
 			DrawButton(560 + Math.floor(Deck / 5) * 300, 310 + (Deck % 5) * 80, 280, 60, ClubCardBuilderGetDeckName(Deck), "White");
 		return;

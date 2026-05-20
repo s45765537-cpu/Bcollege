@@ -5137,6 +5137,12 @@ interface ClubCard {
 	OnActive?: (C: ClubCardPlayer) => void;
 }
 
+type ClubCardDefaultDecks =
+	| "Default"
+	| "Princess Treatment"
+	| "Permanent Stay"
+	| "Pound Town"
+
 interface ClubCardPlayer {
 	Character: Character;
 	Control: string;
