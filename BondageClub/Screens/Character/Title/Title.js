@@ -80,7 +80,18 @@ function TitleGet(C) {
 
 	// If the title is invalid, we set it to none
 	return TitleSet("None");
+}
 
+/**
+ * Returns the title as a localized string
+ *
+ * The title translation file must be prefetched with `TextPrefetch("Character", "Title")`
+ *
+ * @param {string} title
+ */
+async function TitleGetName(title) {
+	const file = ScreenFileGetPath("Text_Title.csv", "Character", "Title");
+	return TextGetInScope(file, `Title${title}`);
 }
 
 /**

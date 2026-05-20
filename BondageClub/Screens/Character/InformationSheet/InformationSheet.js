@@ -18,9 +18,11 @@ var InformationSheetSecondScreen = false;
 async function InformationSheetLoad() {
 	if (!InformationSheetSelection) throw new Error("No character selected");
 
-	TextPrefetch("Character", "FriendList");
-	TextPrefetch("Character", "Preference");
-	TextPrefetch("Character", "Title");
+	await Promise.all([
+		TextPrefetch("Character", "FriendList").loadedPromise,
+		TextPrefetch("Character", "Preference").loadedPromise,
+		TextPrefetch("Character", "Title").loadedPromise,
+	]);
 
 	const C = InformationSheetSelection;
 
@@ -97,7 +99,7 @@ function InformationSheetRun() {
 		currentY += spacing;
 	}
 	if (CurrentTitle !== "None") {
-		DrawTextFit(TextGet("Title") + " " + TextGet("Title" + CurrentTitle), 550, currentY, 450, TitleIsForced(CurrentTitle) ? "Red" : TitleIsEarned(CurrentTitle) ? "#0000BF" : "Black", "Gray");
+		DrawTextFit(TextGet("Title") + " " + TitleGetName(CurrentTitle), 550, currentY, 450, TitleIsForced(CurrentTitle) ? "Red" : TitleIsEarned(CurrentTitle) ? "#0000BF" : "Black", "Gray");
 		currentY += spacing;
 	}
 	if (C.MemberNumber != null) {
