@@ -102,7 +102,7 @@
 
 .preference-button-grid .button-image {
 	max-width: min(86px, calc(100% - 2 * var(--inner-border-width)));
-  	height: min(86px, calc(100% - 2 * var(--inner-border-width)));
+	height: min(86px, calc(100% - 2 * var(--inner-border-width)));
 }
 
 .preference-settings-grid {
