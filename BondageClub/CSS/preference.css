@@ -96,6 +96,10 @@
 
 .preference-button-grid .button-label {
 	font-size: 1em;
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
 }
 
 .preference-button-grid .button-image {
