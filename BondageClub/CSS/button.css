@@ -57,17 +57,24 @@
 	grid-template-areas: "image label";
 }
 
+.button:has(.button-label-right) .button-image {
+	margin-left: var(--inner-border-width);
+}
+
 .button:has(.button-label-left) {
 	grid-template-areas: "label image";
+}
+.button:has(.button-label-left) .button-image {
+	margin-right: var(--inner-border-width);
 }
 
 .button-horizontal .button-image {
 	position: static;
 	transform: unset;
-	width: 96%;
-	height: 96%;
-	max-height: 221px;
-	max-width: 221px;
+	max-width: min(221px, calc(100% - 2 * var(--inner-border-width)));
+	width: unset;
+	max-height: unset;
+  	height: min(221px, calc(100% - 2 * var(--inner-border-width)));
 }
 
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
@@ -115,12 +122,12 @@
 	grid-area: image;
 	position: absolute;
 	pointer-events: none;
-	top: 2%;
+	top: var(--inner-border-width);
 	left: 50%;
 	transform: translateX(-50%);
-	width: min(221px, 96%);
-	max-height: min(221px, 96%);
-	aspect-ratio: 1 /1;
+	width: min(221px, calc(100% - 2 * var(--inner-border-width)));
+	max-height: min(221px, calc(100% - 2 * var(--inner-border-width)));
+	aspect-ratio: 1 / 1;
 }
 
 .button-image[role="img"] {
@@ -190,9 +197,9 @@
 .button-label {
 	grid-area: label;
 	position: absolute;
-	left: 2%;
-	width: 96%;
-	max-height: 98%;
+	left: var(--inner-border-width);
+	width: calc(100% - 2 * var(--inner-border-width));
+	max-height: calc(100% - 2 * var(--inner-border-width));
 	pointer-events: none;
 	cursor: inherit;
 	overflow: hidden;
@@ -260,7 +267,7 @@
 }
 
 .button-label-top {
-	top: 1%;
+	top: var(--inner-border-width);
 }
 
 .button-label-center {
@@ -271,12 +278,21 @@
 .button-label-left,
 .button-label-right {
 	position: static;
-	width: unset;
+	width: 100%;
 	left: unset;
+	text-overflow: ellipsis;
+}
+
+.button-label-left {
+	margin-left: var(--inner-border-width);
+}
+
+.button-label-right {
+	margin-right: var(--inner-border-width);
 }
 
 .button-label-bottom {
-	bottom: 1%;
+	bottom: var(--inner-border-width);
 }
 
 /* selectors */
