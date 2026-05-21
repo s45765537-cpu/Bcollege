@@ -82,6 +82,7 @@
 	grid-auto-flow: column;
 	overflow: auto;
 	height: calc(var(--button-height) * 7 + var(--gap) * 6);
+	font-size: 0.9em;
 }
 
 .preference-button-grid button {
