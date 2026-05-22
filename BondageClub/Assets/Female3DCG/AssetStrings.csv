@@ -8142,6 +8142,14 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants11,Brioche
+ItemHandheldPlushieSetVagrants11,SourceCharacter places a cute Brioche plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants12,Flare
+ItemHandheldPlushieSetVagrants12,SourceCharacter places a cute Flare plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants13,Lara
+ItemHandheldPlushieSetVagrants13,SourceCharacter places a cute Lara plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants14,Kitty
+ItemHandheldPlushieSetVagrants14,SourceCharacter places a cute Kitty plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
 ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
 ItemHandheldPlushieOptionNelsStorage0,None
