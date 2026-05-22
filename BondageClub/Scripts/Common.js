@@ -2037,6 +2037,15 @@ function CommonScreenName(screen) {
 /**
  * Generates the path to a translation CSV file for a screen
  *
+ * @overload
+ * @param {string} module - The screen's module
+ * @param {string} screen - The screen's name
+ * @param {string} group - The text group
+ * @returns {string}
+ */
+/**
+ * Generates the path to a translation CSV file for a screen
+ *
  * @param {string} [module] - The screen's module
  * @param {string} [screen] - The screen's name
  * @param {string} [group] - The text group
