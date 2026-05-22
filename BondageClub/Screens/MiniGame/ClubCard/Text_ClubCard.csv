@@ -242,7 +242,7 @@ Title Pandora Infiltrator,Pandora Infiltrator
 Text Pandora Infiltrator,"Randomly gets -1 Fame/Money when a non-liability member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
 Prerequisite Pandora Infiltrator,"Select a member to copy their type(s)"
 Title Uncontrollable Sub,Uncontrollable Sub
-Text Uncontrollable Sub,"When you upgrade your club, set her Fame to -X. X equals the highest fame among members present."
+Text Uncontrollable Sub,"Leaves after 2 turns. Each member you play gets -1 fame."
 Title Baby Girl,Baby Girl
 Text Baby Girl,+1 Money per turn if at least one ABDL Mommy is present.
 Title Caring Mother,Caring Mother
@@ -550,7 +550,7 @@ Text Tax Auditor,"Enters: Select a level 3 or lower member in your opponent's cl
 Prerequisite Tax Auditor,Select a member from your opponent club to set its money to 1
 GroupKemonomimi,Kemonomimi
 Title Beat Cop,Beat Cop
-Text Beat Cop,"Cannot be targeted by other cards. Enters: Shuffle up to 4 random cards from each player's streets into their deck."
+Text Beat Cop,"Cannot be targeted by other cards. Enters: Shuffle up to 3 random cards from each player's streets into their deck."
 Title Knot Tester,Knot Tester
 Text Knot Tester,"Enters: Play a random Knot event from your deck."
 Title Insurance Agent,Insurance Agent

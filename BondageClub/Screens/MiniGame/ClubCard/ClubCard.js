@@ -644,7 +644,7 @@ var ClubCardList = [
 		ID: 3012,
 		Name: "Naughty Baby",
 		Group: ["Criminal", "ABDLBaby"],
-		MoneyPerTurn: 2,
+		MoneyPerTurn: 3,
 		FamePerTurn: -1,
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
@@ -705,7 +705,7 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
-			let cardsToReturn = 4;
+			let cardsToReturn = 3;
 			while (cardsToReturn > 0) {
 				if (CCPlayer.DiscardPile.length > 0) {
 					const randomCard = Math.floor(Math.random() * CCPlayer.DiscardPile.length);
@@ -1587,9 +1587,10 @@ var ClubCardList = [
 		ID: 9008,
 		Name: "Uncontrollable Sub",
 		Group: ["Liability", "Submissive"],
-		onLevelUp: function(CCPlayer) {
-			const fameToSet = CCPlayer.Board.reduce((max, card) => Math.max(max, card.FamePerTurn ?? 0), 0);
-			CCPlayer.Board[this.ArrayIndex].FamePerTurn = fameToSet * -1;
+		Time: 3,
+		FamePerTurn: -2,
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (!ClubCardIsLiability(cardPlayed) && cardPlayed.Type != "Event") cardPlayed.FamePerTurn = (cardPlayed.FamePerTurn ?? 0) - 1;
 		}
 	},
 	{
@@ -2165,7 +2166,6 @@ var ClubCardList = [
 		Name: "Lumi",
 		Group: ["Player"],
 		RewardMemberNumber: 214503,
-		RequiredLevel: 2,
 		MoneyPerTurn: 1,
 		CanActive: true,
 		OnActive: function(CCPlayer) {
@@ -2180,8 +2180,8 @@ var ClubCardList = [
 				opponent.Hand[i].Revealed = true;
 				opponentTiersSum += opponent.Hand[i].RequiredLevel ?? 1;
 			}
-			if (tiersSum > opponentTiersSum) ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level * 2, this.Name);
-			else if (tiersSum < opponentTiersSum) ClubCardPlayerAddFame(opponent, opponent.Level * 2, this.Name);
+			if (tiersSum > opponentTiersSum) ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level +1, this.Name);
+			else if (tiersSum < opponentTiersSum) ClubCardPlayerAddFame(opponent, opponent.Level +1, this.Name);
 
 			const index = this.ArrayIndex;
 			CCPlayer.Board[index].ExtraPlay = (CCPlayer.Board[index].ExtraPlay ?? 0) + 1;
