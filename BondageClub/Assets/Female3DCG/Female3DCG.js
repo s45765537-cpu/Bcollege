@@ -46526,6 +46526,22 @@ var AssetFemale3DCG = [
 						AllowTypes: { Vagrants: 10 },
 					},
 					{
+						Name: "Brioche",
+						AllowTypes: { Vagrants: 11 },
+					},
+					{
+						Name: "Flare",
+						AllowTypes: { Vagrants: 12 },
+					},
+					{
+						Name: "Lara",
+						AllowTypes: { Vagrants: 13 },
+					},
+					{
+						Name: "Kitty",
+						AllowTypes: { Vagrants: 14 },
+					},
+					{
 						Name: "Kin",
 						AllowTypes: { DawnsDarlings: 1 },
 					},
