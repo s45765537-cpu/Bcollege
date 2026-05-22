@@ -16432,6 +16432,29 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		BallGag2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "StrapType",
+					Key: "s",
+					Options: [
+						{}, // s0 Basic Strap
+						{}, // s1 Head Harness 1
+					]
+				},
+				{
+					Name: "BallType",
+					Key: "b",
+					Options: [
+						{ Property: { Effect: [E.GagLight] } }, // b0 Regular Size
+						{ Property: { Effect: [E.GagMedium] } }, // b1 Large Size
+						{ Property: { Effect: [E.GagHeavy] } }, // b2 XL Size
+					]
+				},
+			],
+		}
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -16628,6 +16651,16 @@ var AssetFemale3DCGExtended = {
 				Option: "ItemMouthBishopGag",
 			},
 		}, // BishopGag
+		BallGag2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGag2" },
+			DialogPrefix: {
+				Header: "ItemMouthBallGag2Select",
+				Module: "ItemMouthBallGag2Module",
+				Option: "ItemMouthBallGag2Option",
+				Chat: "ItemMouthBallGag2Set",
+			},
+		},
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -16816,6 +16849,16 @@ var AssetFemale3DCGExtended = {
 				Option: "ItemMouthBishopGag",
 			},
 		}, // BishopGag
+		BallGag2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGag2" },
+			DialogPrefix: {
+				Header: "ItemMouthBallGag2Select",
+				Module: "ItemMouthBallGag2Module",
+				Option: "ItemMouthBallGag2Option",
+				Chat: "ItemMouthBallGag2Set",
+			},
+		},
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
