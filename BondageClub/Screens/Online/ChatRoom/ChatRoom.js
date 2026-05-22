@@ -25,6 +25,11 @@ const ChatRoomAccessMode = {
 	ADMIN: ["Admin"],
 };
 
+/**
+ * The chat room screen background
+ *
+ * It shall never be set, as doing so will break the code actually checking for the room data's background.
+ */
 var ChatRoomBackground = "";
 /**
  * The data for the current chatroom, as recieved from the server.
@@ -1618,7 +1623,6 @@ function ChatRoomFocusCharacter(C, options=null) {
 	if (ChatRoomOwnerPresenceRule("BlockAccessOther", C)) return;
 	if (C == null) return;
 	ChatRoomHideElements();
-	ChatRoomBackground = ChatRoomData.Background;
 	C.AllowItem = C.IsPlayer() || ServerChatRoomGetAllowItem(Player, C);
 	ChatRoomOwnershipOption = null;
 	ChatRoomLovershipOption = null;
@@ -6866,4 +6870,18 @@ function ChatRoomGetCharacter(spec) {
  */
 function ChatRoomGetGame() {
 	return ChatRoomData?.Game ?? null;
+}
+
+/**
+ * Returns the chatroom's current background
+ * @returns {string}
+ */
+function ChatRoomGetBackgroundURL() {
+	if (!ChatRoomData) {
+		return "";
+	} else if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageURL) {
+		return ChatRoomData?.Custom.ImageURL;
+	} else {
+		return `Backgrounds/${ChatRoomData.Background}.jpg`;
+	}
 }
