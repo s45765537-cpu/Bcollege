@@ -2276,12 +2276,11 @@ var AssetFemale3DCGExtended = {
 					Name: "Zipped",
 					Property: {
 						Block: [
-							"ItemLegs",
 							"ItemPelvis",
 							"ItemButt",
 							"ItemVulva",
 							"ItemVulvaPiercings",
-							"ItemButt",
+							"ItemLegs",
 						],
 						Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
 						HideItem: [
@@ -2941,6 +2940,7 @@ var AssetFemale3DCGExtended = {
 									"ItemVulvaPiercings",
 									"ItemButt",
 								],
+								Attribute: ["GenitaliaCover"],
 								Hide: ["ItemVulvaPiercings", "Pussy"],
 								HideItem: ["ItemButtAnalBeads2"],
 							},
@@ -13618,7 +13618,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ChainShort",
 					Property: {
-						Effect: [E.Freeze, E.IsChained],
+						Effect: [E.Freeze, E.IsChained, E.MapImmobile],
 						SetPose: ["Kneel"],
 					},
 					Random: false,
@@ -13627,7 +13627,7 @@ var AssetFemale3DCGExtended = {
 					Name: "ChainLong",
 					Prerequisite: ["NotSuspended"],
 					Property: {
-						Effect: [E.Tethered, E.IsChained],
+						Effect: [E.Tethered, E.IsChained, E.MapImmobile],
 					},
 					Random: false,
 				},
@@ -20282,7 +20282,6 @@ var AssetFemale3DCGExtended = {
 							"ItemButt",
 							"ItemVulva",
 							"ItemVulvaPiercings",
-							"ItemButt",
 						],
 						HideItem: [
 							"ItemButtAnalBeads2",
