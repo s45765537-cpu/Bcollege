@@ -47305,7 +47305,7 @@ var AssetFemale3DCG = [
 				Audio: "PolyesterWooshWithMetal2",
 				InventoryID: 856,
 				Fetish: ["Leather", "Pet"],
-				Value: -1,
+				Value: 20,
 				Difficulty: 50,
 				Time: 5,
 				AllowLock: true,
