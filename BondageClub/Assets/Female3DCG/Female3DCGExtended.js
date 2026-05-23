@@ -2276,12 +2276,11 @@ var AssetFemale3DCGExtended = {
 					Name: "Zipped",
 					Property: {
 						Block: [
-							"ItemLegs",
 							"ItemPelvis",
 							"ItemButt",
 							"ItemVulva",
 							"ItemVulvaPiercings",
-							"ItemButt",
+							"ItemLegs",
 						],
 						Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
 						HideItem: [
@@ -2941,6 +2940,7 @@ var AssetFemale3DCGExtended = {
 									"ItemVulvaPiercings",
 									"ItemButt",
 								],
+								Attribute: ["GenitaliaCover"],
 								Hide: ["ItemVulvaPiercings", "Pussy"],
 								HideItem: ["ItemButtAnalBeads2"],
 							},
@@ -13618,7 +13618,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "ChainShort",
 					Property: {
-						Effect: [E.Freeze, E.IsChained],
+						Effect: [E.Freeze, E.IsChained, E.MapImmobile],
 						SetPose: ["Kneel"],
 					},
 					Random: false,
@@ -13627,7 +13627,7 @@ var AssetFemale3DCGExtended = {
 					Name: "ChainLong",
 					Prerequisite: ["NotSuspended"],
 					Property: {
-						Effect: [E.Tethered, E.IsChained],
+						Effect: [E.Tethered, E.IsChained, E.MapImmobile],
 					},
 					Random: false,
 				},
@@ -16432,6 +16432,29 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		BallGag2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "StrapType",
+					Key: "s",
+					Options: [
+						{}, // s0 Basic Strap
+						{}, // s1 Head Harness 1
+					]
+				},
+				{
+					Name: "BallType",
+					Key: "b",
+					Options: [
+						{ Property: { Effect: [E.GagLight] } }, // b0 Regular Size
+						{ Property: { Effect: [E.GagMedium] } }, // b1 Large Size
+						{ Property: { Effect: [E.GagHeavy] } }, // b2 XL Size
+					]
+				},
+			],
+		}
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -16628,6 +16651,16 @@ var AssetFemale3DCGExtended = {
 				Option: "ItemMouthBishopGag",
 			},
 		}, // BishopGag
+		BallGag2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGag2" },
+			DialogPrefix: {
+				Header: "ItemMouthBallGag2Select",
+				Module: "ItemMouthBallGag2Module",
+				Option: "ItemMouthBallGag2Option",
+				Chat: "ItemMouthBallGag2Set",
+			},
+		},
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -16816,6 +16849,16 @@ var AssetFemale3DCGExtended = {
 				Option: "ItemMouthBishopGag",
 			},
 		}, // BishopGag
+		BallGag2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGag2" },
+			DialogPrefix: {
+				Header: "ItemMouthBallGag2Select",
+				Module: "ItemMouthBallGag2Module",
+				Option: "ItemMouthBallGag2Option",
+				Chat: "ItemMouthBallGag2Set",
+			},
+		},
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
@@ -20239,7 +20282,6 @@ var AssetFemale3DCGExtended = {
 							"ItemButt",
 							"ItemVulva",
 							"ItemVulvaPiercings",
-							"ItemButt",
 						],
 						HideItem: [
 							"ItemButtAnalBeads2",
@@ -22827,6 +22869,10 @@ var AssetFemale3DCGExtended = {
 						{}, // Zoi
 						{}, // Takao
 						{}, // Carol
+						{}, // Brioche
+						{}, // Flare
+						{}, // Lara
+						{}, // Kitty
 					],
 					DrawData: {
 						elementData: [
@@ -22850,6 +22896,12 @@ var AssetFemale3DCGExtended = {
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Zoi.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Takao.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Carol.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Brioche.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Flare.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lara.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Kitty.png" },
 						],
 					},
 				},

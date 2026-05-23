@@ -408,6 +408,20 @@ ClothStarryOceanEveningGown3,Top Laces
 ClothStarryOceanEveningGown4,Bottom Laces
 ClothStarryOceanEveningGownI0,Front
 ClothStarryOceanEveningGownI1,Back
+ClothXmas2025A1,Interior
+ClothXmas2025A2,Border
+ClothXmas2025B1,Fabric
+ClothXmas2025B2,Tint
+ClothXmas2025Button,Button
+ClothXmas2025C1,Fabric
+ClothXmas2025C2,Tint
+ClothXmas2025D1,Corset Inner
+ClothXmas2025D2,Corset Outer
+ClothXmas2025E1,Dress Inner
+ClothXmas2025E2,Dress Outer
+ClothXmas2025F1,Top
+ClothXmas2025F2,Right
+ClothXmas2025F3,Left
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
@@ -2877,6 +2891,8 @@ ItemMouthPremiumMuzzleMuzzleStraps,Extra Muzzle Straps
 ItemMouthOverfilledGagClothmask,Cloth mask
 ItemMouthOverfilledGagPanties,Stuffing
 ItemMouthOverfilledGagTape1,Tape
+ItemMouthBallGag2BasicStrap,Strap
+ItemMouthBallGag2RegularSizeBall,Ball
 ItemNeckAccessoriesCollarButterflyMetal,Metal
 ItemNeckAccessoriesCollarButterflyStones,Jewels
 ItemNeckAccessoriesCollarRoseAmuletMetal,Metal

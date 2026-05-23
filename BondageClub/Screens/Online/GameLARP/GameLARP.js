@@ -181,8 +181,7 @@ function GameLARPRunProcess() {
 	// If we must show the focused character and available abilities
 	if (GameLARPTurnFocusCharacter != null) {
 
-		// Draw the room dark background
-		DrawImageZoomCanvas("Backgrounds/" + ChatRoomData.Background + ".jpg", MainCanvas, 500, 0, 1000, 1000, 0, 0, 1000, 1000);
+		// Darken the room if we have a selection
 		DrawRect(0, 0, 1000, 1000, "rgba(0,0,0," + 0.5 + ")");
 
 		// In inventory selection mode

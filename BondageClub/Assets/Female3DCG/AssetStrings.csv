@@ -8142,6 +8142,14 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants11,Brioche
+ItemHandheldPlushieSetVagrants11,SourceCharacter places a cute Brioche plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants12,Flare
+ItemHandheldPlushieSetVagrants12,SourceCharacter places a cute Flare plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants13,Lara
+ItemHandheldPlushieSetVagrants13,SourceCharacter places a cute Lara plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants14,Kitty
+ItemHandheldPlushieSetVagrants14,SourceCharacter places a cute Kitty plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
 ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
 ItemHandheldPlushieOptionNelsStorage0,None
@@ -8817,6 +8825,21 @@ ItemMouthBishopGagOpen,Open
 ItemMouthBishopGagCovered,Covered
 ItemMouthBishopGagSetOpen,SourceCharacter removes the panel from DestinationCharacter gag.
 ItemMouthBishopGagSetCovered,SourceCharacter attaches the panel to DestinationCharacter gag.
+ItemMouthBallGag2SelectBase,Configure the ball gag
+ItemMouthBallGag2SelectStrapType,Configure the strap
+ItemMouthBallGag2SelectBallType,Configure the ball
+ItemMouthBallGag2ModuleStrapType,Strap type
+ItemMouthBallGag2ModuleBallType,Ball type
+ItemMouthBallGag2Options0,Basic
+ItemMouthBallGag2Options1,Harness
+ItemMouthBallGag2Optionb0,Regular
+ItemMouthBallGag2Optionb1,Large
+ItemMouthBallGag2Optionb2,XL
+ItemMouthBallGag2Sets0,SourceCharacter changes the strap to a basic strap on DestinationCharacter gag.
+ItemMouthBallGag2Sets1,SourceCharacter changes the strap to a harness on DestinationCharacter gag.
+ItemMouthBallGag2Setb0,SourceCharacter changes the ball to a regular sized one on DestinationCharacter gag.
+ItemMouthBallGag2Setb1,SourceCharacter changes the ball to a large sized one on DestinationCharacter gag.
+ItemMouthBallGag2Setb2,SourceCharacter changes the ball to a XL sized one on DestinationCharacter gag.
 ItemNoseNoseShackleModuleShackle,Shackle
 ItemNoseNoseShackleModuleAttachment,Attachment
 ItemNoseNoseShackleOptions0,Single Bar

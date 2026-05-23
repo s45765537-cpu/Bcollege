@@ -298,13 +298,21 @@ async function ChatAdminRoomCustomizationLoad() {
 		disabled: !canEditCustom,
 	});
 	const saveButton = ElementButton.Create(ChatAdminRoomCustomizationIDs.saveButton, () => {
+		const MusicURL = ElementValue("InputMusicURL").trim();
+		const syncCheckbox = /** @type {HTMLInputElement} */ (ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox));
+		// When syncing, preserve the original sync start, unless the track is different
+		const MusicStart = syncCheckbox?.checked ?
+			MusicURL === ChatRoomData?.Custom?.MusicURL ?
+				data.MusicStart ?? CurrentTime
+				: CurrentTime
+			: undefined;
 		adminData.Custom = ServerChatRoomDataValidate.Custom({
 			...adminData.Custom ?? {},
 			ImageURL: ElementValue("InputImageURL").trim(),
 			SizeMode: CommonParseInt(ElementValue("SelectImageFillMode")) ?? DrawingResizeMode.Fill,
 			ImageFilter: ElementValue("InputImageFilter").trim(),
-			MusicURL: ElementValue("InputMusicURL").trim(),
-			MusicStart: /** @type {HTMLInputElement} */ (ElementWrap(ChatAdminRoomCustomizationIDs.musicSyncCheckbox))?.checked ? data.MusicStart ?? CurrentTime : undefined,
+			MusicURL,
+			MusicStart,
 		});
 		ChatAdminRoomCustomizationExit();
 	}, {

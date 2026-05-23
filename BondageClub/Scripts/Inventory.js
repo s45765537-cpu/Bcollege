@@ -345,7 +345,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "NoErection": return C.HasEffect("ForcedErection") ? "MustNotHaveForcedErection" : "";
 
 		// Checks for penis protruding items, to block chastity cages.
-		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", ["HighSecurityStraitJacket"]) ? "MustHaveFullPenisAccess" : "";
+		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", []) ? "MustHaveFullPenisAccess" : "";
 
 		// Checks for torso access based on clothes
 		case "AccessTorso": return !InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth", "ClothOuter"]) ? "RemoveClothesForItem" : "";
@@ -361,7 +361,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "AccessVulva": {
 			const target = Prerequisite === "AccessVulva" ? "ItemVulva" : "ItemButt";
 
-			if (InventoryDoItemsBlockGroup(C, target, ["Cloth", "Panties", "Socks"]) || !InventoryDoItemsExposeGroup(C, target, ["ClothLower", "Panties"]))
+			if (InventoryDoItemsBlockGroup(C, target, ["Cloth", "Panties", "Socks", "ClothLower"]) || !InventoryDoItemsExposeGroup(C, target, ["ClothLower", "Panties"]))
 				return "RemoveClothesForItem";
 
 			// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.

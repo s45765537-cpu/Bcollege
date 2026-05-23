@@ -1508,7 +1508,7 @@ function DrawLoadingScreen(time) {
 }
 
 /**
- *
+ * Returns the background URL
  * @param {boolean} skipVFX
  * @returns {undefined | string}
  */
@@ -1518,14 +1518,10 @@ function DrawGetBackgroundURL(skipVFX) {
 	const itemBackground = DrawGetCustomBackground(Player);
 	if (!skipVFX && itemBackground !== undefined) {
 		return itemBackground !== "" ? `Backgrounds/${itemBackground}.jpg` : "";
-	} else if (CurrentScreen === "ChatRoom") {
-		if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageURL) {
-			return ChatRoomData?.Custom.ImageURL;
-		} else if (ChatRoomData) {
-			return `Backgrounds/${ChatRoomData.Background}.jpg`;
-		}
 	} else if (bgName) {
 		return `Backgrounds/${bgName}.jpg`;
+	} else if (ChatRoomData) {
+		return ChatRoomGetBackgroundURL();
 	}
 	return undefined;
 }

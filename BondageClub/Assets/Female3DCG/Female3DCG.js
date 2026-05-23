@@ -4908,6 +4908,38 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{Name: "Xmas2025",
+					InventoryID: 1338,
+					Random: false,
+					Value: 50,
+					Left: 40,
+					Top: 220,
+					Gender: "F",
+					Priority: 26,
+					ParentGroup: "BodyUpper",
+					PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE, },
+					DynamicGroupName: "Cloth",
+					Layer: [
+						{ Name: "A1", ColorGroup: "Strap" },
+						{ Name: "A2", ColorGroup: "Strap" },
+						{ Name: "B1", ColorGroup: "Skirt" },
+						{ Name: "B2", ColorGroup: "Skirt" },
+						{ Name: "C1", ColorGroup: "SkirtEdge" },
+						{ Name: "C2", ColorGroup: "SkirtEdge" },
+						{ Name: "D1", ColorGroup: "Fur" },
+						{ Name: "D2", ColorGroup: "Fur" },
+						{ Name: "E1", ColorGroup: "Fur" },
+						{ Name: "E2", ColorGroup: "Fur" },
+						{ Name: "F1", ColorGroup: "Bow" },
+						{ Name: "F2", ColorGroup: "Bow" },
+						{ Name: "F3", ColorGroup: "Bow" },
+						{ Name: "Button" },
+					],	Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "圣诞25",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -8339,6 +8371,7 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				Left: 105,
 				Top: 380,
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Hide: ["Panties", "ItemPelvis"],
 				HideItem: [
 					"ItemDevicesStrapOnSmooth",
@@ -8450,6 +8483,7 @@ var AssetFemale3DCG = [
 				Name: "PleatedSkirt",
 				InventoryID: 225,
 				Value: 35,
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 500]] },
 				],
@@ -8465,6 +8499,7 @@ var AssetFemale3DCG = [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 570]] },
 				],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
 				Layer: [
 					{ Name: "Skirt", ParentGroup: "" },
@@ -8496,7 +8531,6 @@ var AssetFemale3DCG = [
 					"ItemPelvisPoofyDiaper",
 					"ItemPelvisBulkyDiaper",
 				],
-				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				PoseMapping: {
 					Kneel: "Kneel",
 					KneelingSpread: PoseType.HIDE,
@@ -8514,6 +8548,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				BuyGroup: "PencilSkirt",
 				Fetish: ["Leather"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				StyleOverride: ["EchoV2"],
 				Left: 105,
 				Top: 380,
@@ -8620,7 +8655,11 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["Kneel"],
 				Effect: [E.Slow],
 				Hide: ["Pussy"],
-				HideItem: ["ItemFeetSlime"],
+				HideItem: [
+					"ItemFeetSlime",
+					"ItemDevicesStrapOnSmooth",
+					"ItemDevicesStrapOnStuds",
+				],
 				Layer: [
 					{ Name: "Skirt" },
 					{ Name: "Frill" },
@@ -8674,7 +8713,6 @@ var AssetFemale3DCG = [
 				Name: "ElegantSkirt",
 				InventoryID: 233,
 				Value: 80,
-				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
 				Left: 0,
 				Hide: ["ItemFeet"],
@@ -8739,7 +8777,6 @@ var AssetFemale3DCG = [
 				Name: "RuffledSkirt",
 				InventoryID: 234,
 				Value: 80,
-				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
 				Left: 0,
 				Hide: ["ItemFeet"],
@@ -8812,11 +8849,7 @@ var AssetFemale3DCG = [
 					[PoseType.DEFAULT]: 115,
 					KneelingSpread: 205,
 				},
-				HideItem: [
-					"ItemDevicesStrapOnSmooth",
-					"ItemDevicesStrapOnStuds",
-					"Pussy",
-				],
+				HideItem: ["Pussy"],
 				Layer: [
 					{ Name: "Pants" },
 					{ Name: "Trim" },
@@ -8920,6 +8953,7 @@ var AssetFemale3DCG = [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 520]] },
 				],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
 				DefaultColor: ["#131313", "#101010"],
 				Layer: [{ Name: "Dress" }, { Name: "Stripe" }],
@@ -8939,6 +8973,7 @@ var AssetFemale3DCG = [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 588]] },
 				],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
 			},
 			{
@@ -8987,7 +9022,7 @@ var AssetFemale3DCG = [
 					AllFours: "BodyUpper",
 				},
 				Extended: true,
-				Expose: ["ItemVulva", "ItemVulvaPiercings"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Layer: [
 					{ Name: "Zipped", AllowTypes: { typed: 0 } },
 					{
@@ -9113,6 +9148,7 @@ var AssetFemale3DCG = [
 				Attribute: ["Skirt"],
 				Extended: true,
 				DefaultColor: ["#9D2626", "#9D2626"],
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				PoseMapping: {
 					...AssetPoseMapping.ClothLower,
 					LegsClosed: "LegsClosed",
@@ -9217,6 +9253,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Value: 100,
 				ParentGroup: {},
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				PoseMapping: {
 					Kneel: PoseType.DEFAULT,
 					KneelingSpread: PoseType.DEFAULT,
@@ -9317,10 +9354,12 @@ var AssetFemale3DCG = [
 				Left: 160,
 				Top: 390,
 				Random: false,
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				Attribute: ["Skirt"],
@@ -9497,6 +9536,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Priority: 26,
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel", "LegsClosed"],
@@ -9535,6 +9575,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: 90,
 				},
 				Priority: 26,
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				DefaultColor: ["#560E0E", "#560E0E", "#1F1F1F"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				PoseMapping: {
@@ -45048,7 +45089,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomPaddle",
-				InventoryID: 2303,
+				InventoryID: 1337,
 				Priority: 46,
 				Value: 50,
 				DefaultColor: "#93291F",
@@ -46526,6 +46567,22 @@ var AssetFemale3DCG = [
 						AllowTypes: { Vagrants: 10 },
 					},
 					{
+						Name: "Brioche",
+						AllowTypes: { Vagrants: 11 },
+					},
+					{
+						Name: "Flare",
+						AllowTypes: { Vagrants: 12 },
+					},
+					{
+						Name: "Lara",
+						AllowTypes: { Vagrants: 13 },
+					},
+					{
+						Name: "Kitty",
+						AllowTypes: { Vagrants: 14 },
+					},
+					{
 						Name: "Kin",
 						AllowTypes: { DawnsDarlings: 1 },
 					},
@@ -47280,7 +47337,7 @@ var AssetFemale3DCG = [
 				Audio: "PolyesterWooshWithMetal2",
 				InventoryID: 856,
 				Fetish: ["Leather", "Pet"],
-				Value: -1,
+				Value: 20,
 				Difficulty: 50,
 				Time: 5,
 				AllowLock: true,
@@ -52267,6 +52324,53 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "BallGag2",
+				InventoryID: 1336,
+				Fetish: ["Leather"],
+				Value: 80,
+				Difficulty: 4,
+				Time: 20,
+				AllowLock: true,
+				AllowTighten: true,
+				Hide: ["Mouth"],
+				Extended: true,
+				DrawLocks: false,
+				Top: 78,
+				Left: 191.5,
+				Effect: [E.BlockMouth],
+				DefaultColor: ["#2E2E2E", "#862828"],
+				Layer: [
+					{
+						Name: "BasicStrap",
+						AllowTypes: { s: 0 }
+					},
+					{
+						Name: "HarnessStrap",
+						AllowTypes: { s: 1 },
+						CopyLayerColor: "BasicStrap"
+					},
+					{
+						Name: "Rivets",
+						AllowTypes: { s: 1 },
+						AllowColorize: false
+					},
+					{
+						Name: "RegularSizeBall",
+						AllowTypes: { b: 0 }
+					},
+					{
+						Name: "LargeSizeBall",
+						AllowTypes: { b: 1 },
+						CopyLayerColor: "RegularSizeBall"
+					},
+					{
+						Name: "XLSizeBall",
+						AllowTypes: [{ b: 2 }, { b: 3 }],
+						CopyLayerColor: "RegularSizeBall"
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -54405,6 +54509,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "BishopGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BallGag2",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BallGag2",
 					BuyGroup: true,
 				},
 			},
@@ -56569,6 +56681,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "BishopGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BallGag2",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BallGag2",
 					BuyGroup: true,
 				},
 			},
@@ -67948,7 +68068,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				DefaultColor: ["#757575", "#877C66"],
 				Audio: "CuffsMetal",
-				Effect: [E.Freeze],
+				Effect: [E.Freeze, E.MapImmobile],
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 10 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 10 },

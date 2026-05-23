@@ -79,7 +79,7 @@ TitlePet,Pet
 TitleDragon,Dragon
 TitleWolf,Wolf
 TitleMonster,Monster
-TitleShapeshifter,Shapershifter
+TitleShapeshifter,Shapeshifter
 TitleVampire,Vampire
 TitleTurtle,Turtle
 TitleThing,Thing
@@ -110,3 +110,8 @@ TitleConcubus,Concubus
 TitleMajesty,Majesty
 TitleCaptain,Captain
 TitleAdmiral,Admiral
+TitleDominatrix,Dominatrix
+TitleMaiestas,Wizard
+TitleVincula,Magician
+TitleAmplector,Sage
+TitleCorporis,Witch
