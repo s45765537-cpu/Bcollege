@@ -3672,6 +3672,43 @@ SuitCatsuitBase,Suit
 SuitCatsuitOpaqueGloves,Gloves
 SuitCatsuitZip,Zip
 SuitFishnetTop,Fishnet Top
+SuitGlossyBodystockingA2,Tummy
+SuitGlossyBodystockingA3,Shoulders
+SuitGlossyBodystockingA4,Hips
+SuitGlossyBodystockingamL,Seams
+SuitGlossyBodystockingBaseColor,Base Color
+SuitGlossyBodystockingbmask,bmask
+SuitGlossyBodystockingbmL,Seams
+SuitGlossyBodystockingBodyHue,Body Hue
+SuitGlossyBodystockingC1,Neck
+SuitGlossyBodystockingC10,Bottom
+SuitGlossyBodystockingC11,Belly
+SuitGlossyBodystockingC12,Button
+SuitGlossyBodystockingC2,Shoulders
+SuitGlossyBodystockingC3,Torso
+SuitGlossyBodystockingC4,Breast Outer
+SuitGlossyBodystockingC5,Breast Middle
+SuitGlossyBodystockingC6,Breast Inner
+SuitGlossyBodystockingC7,Breast Under
+SuitGlossyBodystockingC8,Tummy
+SuitGlossyBodystockingC9,Ribs
+SuitGlossyBodystockingD1,Lines
+SuitGlossyBodystockingD2,Main
+SuitGlossyBodystockingD3,Shoulders
+SuitGlossyBodystockingD4,Breast
+SuitGlossyBodystockingD5,Cleavage
+SuitGlossyBodystockingD6,Chest
+SuitGlossyBodystockingD7,Support
+SuitGlossyBodystockingE1,Gloves
+SuitGlossyBodystockingEdgeLine,Edge Line
+SuitGlossyBodystockingEdgeShade,Edge Shade
+SuitGlossyBodystockingF1,Hands Line
+SuitGlossyBodystockingF2,Hands Main
+SuitGlossyBodystockingG1,Gloves Line
+SuitGlossyBodystockingG2,Gloves Main
+SuitGlossyBodystockinggmask,Mask
+SuitGlossyBodystockingL,Seams
+SuitGlossyBodystockingmmL,Seams
 SuitLatexCatsuitBase,Suit
 SuitLatexCatsuitPP,Label
 SuitLatexCatsuitText,Text
