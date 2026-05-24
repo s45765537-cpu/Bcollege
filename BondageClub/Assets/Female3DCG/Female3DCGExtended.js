@@ -16442,7 +16442,7 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{}, // s0 Basic Strap
 						{}, // s1 Head Harness 1
-					]
+					],
 				},
 				{
 					Name: "BallType",
@@ -16451,10 +16451,10 @@ var AssetFemale3DCGExtended = {
 						{ Property: { Effect: [E.GagLight] } }, // b0 Regular Size
 						{ Property: { Effect: [E.GagMedium] } }, // b1 Large Size
 						{ Property: { Effect: [E.GagHeavy] } }, // b2 XL Size
-					]
+					],
 				},
 			],
-		}
+		},
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -21124,6 +21124,15 @@ var AssetFemale3DCGExtended = {
 				Chat: "ClothFishnetTopSet",
 			},
 		}, // FishnetTop
+		GlossyBodystocking: {
+			Archetype: "modular",
+			DrawImages: false,
+			Modules: [
+				{ Name: "HandStyle", Key: "h", Options: [{}, {}, {}, {}] },
+				{ Name: "TailorStyle", Key: "m", Options: [{}, {}, {}, {}, {}] },
+				{ Name: "ChestStyle", Key: "b", Options: [{}, {}] },
+			],
+		}, // GlossyBodystocking
 	}, // Suit
 	SuitLower: {
 		MaleSeamlessCatsuit: {
