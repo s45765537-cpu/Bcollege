@@ -31,7 +31,7 @@ const NurseryLeaveMessages = Object.freeze({
 	EscapeFailQuietlyAndVibrator: "EscapeFailQuietlyAndVibrator",
 	EscapeFailNoisy: "EscapeFailNoisy",
 	EscapeFailNoisyAndVibrator: "EscapeFailNoisyAndVibrator",
-})
+});
 
 /** @type {BCColor[]} */
 const NurseryDressColors = [
