@@ -52607,7 +52607,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "XLSizeBall",
-						AllowTypes: [{ b: 2 }, { b: 3 }],
+						AllowTypes: { b: 2 },
 						CopyLayerColor: "RegularSizeBall",
 					},
 				],
