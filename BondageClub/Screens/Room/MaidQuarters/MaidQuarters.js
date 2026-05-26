@@ -462,7 +462,7 @@ function MaidQuartersRescuePay() {
 	MaidQuartersMaid.CurrentDialog = MaidQuartersMaid.CurrentDialog.replace("REPLACEMONEY", M.toString());
 	CharacterChangeMoney(Player, M);
 	IntroductionJobProgress("SubMaid");
-	DialogTheresaGiveEssence("1");
+	DialogTheresaGiveEssence(1);
 }
 
 /**

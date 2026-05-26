@@ -355,11 +355,11 @@ function MagicSchoolFindsAroundGiveWings() {
 
 /**
  * Triggered when the player lost and get untied by the Kitsune, can affect reputation
- * @param {string} RepChange
+ * @param {number} RepChange
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundReleasePlayer(RepChange) {
-	DialogChangeReputation("Dominant", CommonParseInt(RepChange) ?? 0);
+	DialogChangeReputation("Dominant", RepChange);
 	CharacterRelease(Player);
 }
 
@@ -424,7 +424,7 @@ function DialogKitsuneQuestInProgress() {
 
 /**
  * Give player essence from defeated student
- * @param {string} Amount - The amount of essence to give
+ * @param {number} Amount - The amount of essence to give
  * @returns {void} - Nothing
  */
 function DialogKitsuneGiveEssence(Amount) {
@@ -432,7 +432,7 @@ function DialogKitsuneGiveEssence(Amount) {
 	DialogRemove();
 	PoseSetActive(CurrentCharacter, 'Kneel');
 	const data = MagicSchoolFindsAroundGetData();
-	data.KitsuneQuestProgress += CommonParseInt(Amount) ?? 0;
+	data.KitsuneQuestProgress += Amount;
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	MagicSchoolFindsAroundKitsuneQuestUpdate();
 }
@@ -585,9 +585,10 @@ function MagicSchoolFindsAroundLoserSpell(RepChange) {
 
 /**
  * Starts the quest to gather essences for Theresa
+ * @param {"bad"} [type] - Unused and no idea what it's supposed to do (a development leftover maybe)?
  * @returns {void} - Nothing
  */
-function MagicSchoolFindsAroundTheresaStartQuest() {
+function MagicSchoolFindsAroundTheresaStartQuest(type) {
 	const data = MagicSchoolFindsAroundGetData();
 	if (data.TheresaTooRude && data.TheresaBadWords.length >= 3 ) {
 		MagicSchoolFindsAroundTheresa.Stage = "0";
@@ -696,7 +697,7 @@ function DialogTheresaGiveEssence(Amount) {
 }
 
 /**
- * @param {string} stage
+ * @param {number} stage
  */
 function MagicSchoolFindsAroundTheresaGiveBadWordPoint(stage) {
 	const data = MagicSchoolFindsAroundGetData();

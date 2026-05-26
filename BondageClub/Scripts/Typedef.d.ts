@@ -3933,7 +3933,7 @@ interface GamePrisonParameters {
 interface GameMagicSchoolFindsAroundParameters {
     KitsuneQuestProgress?: number;
     TheresaQuestProgress?: number;
-    TheresaBadWords?: string[];
+    TheresaBadWords?: number[];
     TheresaTooRude?: boolean;
     TheresaHideUntil?: number;
 }
