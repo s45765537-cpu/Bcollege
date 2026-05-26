@@ -74,33 +74,35 @@
 /* #region Main */
 
 .preference-button-grid {
-	--button-height: 2.3em;
-	/* 2 lines of text */
-
 	display: grid;
 	gap: var(--gap);
 	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(7, var(--button-height));
+	grid-template-rows: repeat(7, min-content);
 	grid-auto-rows: max-content;
 	grid-auto-flow: column;
 	overflow: auto;
 	height: calc(var(--button-height) * 7 + var(--gap) * 6);
+	font-size: 0.9em;
 }
 
 .preference-button-grid button {
-	height: var(--button-height);
+	height: calc(2.3em + 2 * var(--inner-border-width) + 2 * var(--border-width));
 	width: min(40vh, 20vw);
 	width: min(40dvh, 20dvw);
-	grid-template-columns: var(--button-height) auto;
+	grid-template-columns: 2.3em auto;
 }
 
 .preference-button-grid .button-label {
 	font-size: 1em;
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
 }
 
 .preference-button-grid .button-image {
-	max-height: 86px;
-	max-width: 86px;
+	max-width: min(86px, calc(100% - 2 * var(--inner-border-width)));
+	height: min(86px, calc(100% - 2 * var(--inner-border-width)));
 }
 
 .preference-settings-grid {
