@@ -221,15 +221,23 @@ var DialogLeaveFocusItemHandlers = {
 
 /**
  * Returns character based on argument
- * @param {Character | string} C - The character to get; can be `"Player"` to get player or empty to get current
+ * @param {Character | "Player" | "CurrentCharacter"} C - The character to get; can be `"Player"` to get player or empty to get current
  * @returns {Character} - The actual character
  */
 function DialogGetCharacter(C) {
-	if (typeof C === "string") {
-		// @ts-ignore Strict-TS: force-cast here because there's a bunch of side-effects to having this return `null`
-		return (C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter;
+	switch (C) {
+		case "Player":
+			return Player;
+		case "CurrentCharacter":
+			// @ts-ignore Strict-TS: force-cast here because there's a bunch of side-effects to having this return `null`
+			return CurrentCharacter;
+		default:
+			if (typeof C === "string") {
+				throw new Error(`Unknown character type "${C}"`);
+			} else {
+				return C;
+			}
 	}
-	return C ?? CurrentCharacter;
 }
 
 /**
@@ -302,7 +310,7 @@ function DialogRemoveItem(AssetGroup) { InventoryRemove(Player, AssetGroup); }
 
 /**
  * Releases a character from restraints
- * @param {string | Character} C - The character to be released.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to be released.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
@@ -310,7 +318,7 @@ function DialogRelease(C) { CharacterRelease(DialogGetCharacter(C)); }
 
 /**
  * Strips a character naked and removes the restraints
- * @param {string | Character} C - The character to be stripped and released.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to be stripped and released.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
@@ -318,7 +326,7 @@ function DialogNaked(C) { CharacterNaked(DialogGetCharacter(C)); }
 
 /**
  * Fully restrain a character with random items
- * @param {string | Character} C - The character to be restrained.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to be restrained.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
@@ -341,7 +349,7 @@ function DialogSetAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.Allo
 
 /**
  * Returns the value of the AllowItem flag of a given character
- * @param {string | Character} C - The character whose flag should be returned.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character whose flag should be returned.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
@@ -360,7 +368,7 @@ function DialogDontAllowItemDistance() {
 
 /**
  * Determines if the given character is kneeling
- * @param {string | Character} C - The character to check
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is kneeling
  */
@@ -386,7 +394,7 @@ function DialogIsProperty() { return CurrentCharacter?.IsOwnedByPlayer() ?? fals
 
 /**
  * Checks, if a given character is currently restrained
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is wearing restraints, false otherwise
  */
@@ -394,7 +402,7 @@ function DialogIsRestrained(C) { return DialogGetCharacter(C).IsRestrained(); }
 
 /**
  * Checks, if a given character is currently blinded
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is blinded, false otherwise
  */
@@ -402,7 +410,7 @@ function DialogIsBlind(C) { return DialogGetCharacter(C).IsBlind(); }
 
 /**
  * Checks, if a given character is currently wearing a vibrating item
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is wearing a vibrating item, false otherwise
  */
@@ -410,7 +418,7 @@ function DialogIsEgged(C) { return DialogGetCharacter(C).IsEgged(); }
 
 /**
  * Checks, if a given character is able to change her clothes
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is able to change clothes, false otherwise
  */
@@ -418,7 +426,7 @@ function DialogCanInteract(C) { return DialogGetCharacter(C).CanInteract(); }
 
 /**
  * Sets a new pose for the given character
- * @param {string} C - The character whose pose should be altered.
+ * @param {"Player" | "CurrentCharacter"} C - The character whose pose should be altered.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @param {null | AssetPoseName} [NewPose=null] - The new pose, the character should take.
  * Can be omitted to bring the character back to the standing position.
