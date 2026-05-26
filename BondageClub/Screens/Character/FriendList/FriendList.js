@@ -313,6 +313,15 @@ async function FriendListLoad() {
 										},
 									),
 									ElementButton.Create(
+										"friend-list-chat-room-count",
+										() => FriendListChangeSortingMode("ChatRoomMemberCount"),
+										{ noStyling: true },
+										{ button: {
+											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+											attributes: { role: "columnheader" },
+										}},
+									),
+									ElementButton.Create(
 										"friend-list-relation-type",
 										() => FriendListChangeSortingMode("RelationType"),
 										{ noStyling: true },
@@ -704,6 +713,7 @@ function FriendListLoadFriendList(data) {
 		"friend-list-chat-room-name": "ChatRoomName",
 		"friend-list-chat-room-type": "ChatRoomType",
 		"friend-list-relation-type": "RelationType",
+		"friend-list-chat-room-count": "ChatRoomMemberCount",
 	};
 	CommonEntries(columnHeaders).forEach(([id, modeName]) => {
 		const elem = /** @type {HTMLElement} */ (document.getElementById(id));
@@ -749,6 +759,8 @@ function FriendListLoadFriendList(data) {
 						chatRoomSpaceCaption && chatRoomName ? FriendListIconMapping[friend.ChatRoomSpace ?? ""] : null,
 						friend.Private ? FriendListIconMapping.Private : null,
 					],
+					ChatRoomLimit: friend.ChatRoomLimit,
+					ChatRoomMemberCount: friend.ChatRoomMemberCount,
 				},
 				beep: {
 					caption: BeepCaption
@@ -993,6 +1005,25 @@ function FriendListLoadFriendList(data) {
 					}),
 				);
 			}
+
+			let memberCount = "-";
+			let sortKey = String.fromCharCode(255);
+			const { ChatRoomLimit, ChatRoomMemberCount } = friend.chatRoom;
+			if (ChatRoomLimit !== undefined && ChatRoomMemberCount !== undefined) {
+				memberCount = `${ChatRoomMemberCount.toString().padStart(2, " ")} / ${ChatRoomLimit.toString().padEnd(2, " ")}`;
+				sortKey = `${String.fromCharCode(ChatRoomMemberCount)}${String.fromCharCode(ChatRoomLimit)}`;
+			}
+			row.append(
+				ElementCreate({
+					tag: "td",
+					classList: ['friend-list-column', 'ChatRoomMemberCount'],
+					children: [
+						// A hidden element for identifying the cell's priority in the textContent-based friendlist sorting
+						{ tag: "span", children: [sortKey], style: { display: "none" } },
+						memberCount,
+					],
+				}),
+			);
 		}
 
 		if (friend.beep) {

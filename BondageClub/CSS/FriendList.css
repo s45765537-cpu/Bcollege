@@ -87,7 +87,8 @@
 	display: none;
 }
 
-#friend-list-subscreen[data-mode="OnlineFriends"] .fl-online-friends-content {
+#friend-list-subscreen[data-mode="OnlineFriends"] .fl-online-friends-content,
+#friend-list-subscreen[data-mode="OnlineFriends"] .fl-member-count-content {
 	display: block;
 }
 
@@ -225,14 +226,14 @@
 	white-space: preserve;
 }
 
-#friend-list-member-number,
-.MemberNumber {
-	width: 10%;
+.friend-list-column.ChatRoomName,
+.friend-list-column.MemberName {
+	user-select: all;
 }
 
-#friend-list-member-name,
-.MemberName {
-	width: 15%;
+.friend-list-column.MemberNumber,
+.friend-list-column.ChatRoomMemberCount {
+	user-select: none;
 }
 
 .MemberName.friend-list-unknown {
