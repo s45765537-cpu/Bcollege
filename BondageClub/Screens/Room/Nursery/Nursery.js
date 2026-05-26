@@ -12,8 +12,6 @@ var NurseryABDL1 = null;
 var NurseryABDL2 = null;
 /** 0 = Good girl; 1 = ready to be forgiven; >= 2 = severity of naughtiness. */
 var NurseryPlayerBadBabyStatus = 0;
-/** @type {null | boolean} */
-var NurseryPlayerInappropriateCloth = null;
 var NurseryCoolDownTime = 0;
 /** @type {null | Item[]} */
 var NurseryPlayerAppearance = null;
@@ -56,7 +54,7 @@ let NurseryPacifiers;
 var NurseryGateMsg = null;
 /**
  * message about ease of opening nursery gate
- * @type {keyof NurseryLeaveMessages | null}
+ * @type {keyof typeof NurseryLeaveMessages | null}
  */
 var NurseryLeaveMessage = null;
 /** @type {null | number} */
@@ -69,9 +67,10 @@ var NurseryRepeatOffender = null;
  * @returns {boolean}
  */
 function NurseryCanSpitOutPacifier(character=Player) {
-	const item = InventoryGet(character, "ItemMouth");
-	if (NurseryIsRestrainedPacifier(item.Asset)) return false;
-	return NurseryIsPacified(character);
+	const pacifiers = NurseryGetPacifiers(character);
+	return pacifiers.length > 0 && pacifiers.every((item) => {
+		return !NurseryIsRestrainedPacifier(item.Asset);
+	});
 }
 
 /**
@@ -86,13 +85,19 @@ function NurseryIsDiapered(character=Player) {
 
 /**
  * @param {Character} character
+ * @returns {Item[]}
+ */
+function NurseryGetPacifiers(character=Player) {
+	const slots = ["ItemMouth", "ItemMouth2", "ItemMouth3"];
+	const items = slots.map((slot) => InventoryGet(character, /** @type {AssetGroupName} */(slot)));
+	return items.filter(item => item && item.Asset.Attribute.includes("Pacifier"));
+}
+/**
+ * @param {Character} character
  * @returns {boolean}
  */
 function NurseryIsPacified(character=Player) {
-	const item1 = InventoryGet(character, "ItemMouth");
-	const item2 = InventoryGet(character, "ItemMouth2");
-	const item3 = InventoryGet(character, "ItemMouth3");
-	return (item1?.Asset?.Attribute?.includes("Pacifier") || item2?.Asset?.Attribute?.includes("Pacifier") || item3?.Asset?.Attribute?.includes("Pacifier"));
+	return CharacterHasItemWithAttribute(character, "Pacifier");
 }
 
 /**
@@ -107,7 +112,11 @@ function NurseryIsRestrainedPacifier(item) {
 function NurseryPlayerIsHarnessPacified() { return (CharacterAppearanceGetCurrentValue(Player, "ItemMouth", "Name") == "HarnessPacifierGag"); }
 function NurseryPlayerLostBinky() { return Player.CanTalk() && !NurseryPlayerKeepsLoosingBinky; }
 function NurseryPlayerLostBinkyAgain() { return Player.CanTalk() && NurseryPlayerKeepsLoosingBinky; }
-function NurseryPlayerWearingBabyDress() { return (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "AdultBabyDress1" || CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "AdultBabyDress2" || CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "AdultBabyDress3"); }
+function NurseryPlayerWearingBabyDress() {
+	const dress = InventoryGet(Player, "Cloth");
+	if (!dress) return false;
+	return NurseryDresses.includes(dress.Asset.Name);
+}
 function NurseryPlayerReadyToAppologise() { return (NurseryPlayerBadBabyStatus <= 1); }
 function NurseryPlayerReadyDiapered() { return (NurseryIsDiapered(Player) && !NurseryPlayerInappropriateCloth); }
 function NurseryPlayerCanRegress() { return !InventoryGet(Player, "ItemMouth3") && !InventoryGroupIsBlocked(Player, "ItemMouth3"); }
@@ -152,9 +161,8 @@ async function NurseryLoad() {
 	if (!NurseryIsDiapered(NurseryABDL2)) NurseryABDLOutfitForNPC(NurseryABDL2);
 	NurseryNurse.AllowItem = false;
 	if (NurserySituation == null) return;
-	NurseryClothCheck();
-	if (NurseryPlayerInappropriateCloth) {
-		NurseryPlayerInappropriateCloth = null;
+	const isInappropriate = NurseryIsWearingInappropriateClothes();
+	if (isInappropriate) {
 		NurseryPlayerNeedsPunishing(1);
 		NurseryNurse.Stage = "270";
 		NurseryLoadNurse();
@@ -268,7 +276,7 @@ function NurseryLoadNurse() {
 }
 
 // Checks players diapered is not obscured by Inappropriate cloth
-function NurseryClothCheck() {
+function NurseryIsWearingInappropriateClothes() {
 	const inappropriateCloth = [
 		"MaidOutfit1", "StudentOutfit1", "StudentOutfit2", "BabydollDress1",
 		"TeacherOutfit1", "ChineseDress2", "MistressTop", "NurseUniform"
@@ -278,10 +286,11 @@ function NurseryClothCheck() {
 		"CollegeSkirt", "Skirt1", "Jeans1", "Shorts1", "MistressBottom"
 	];
 
-	const currentCloth = CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name");
-	const currentClothLower = CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name");
-	NurseryPlayerInappropriateCloth = inappropriateCloth.includes(currentCloth) ||
-	                                   inappropriateClothLower.includes(currentClothLower);
+	const currentCloth = InventoryGet(Player, "Cloth")?.Asset?.Name;
+	const currentClothLower = InventoryGet(Player, "ClothLower")?.Asset?.Name;
+	if (!currentCloth || !currentClothLower) return true;
+
+	return inappropriateCloth.includes(currentCloth) || inappropriateClothLower.includes(currentClothLower);
 }
 
 // Sets the outfit for the NPC Nurse
@@ -330,7 +339,7 @@ function NurseryNPCRestrained(CurrentNPC, restraintSet) {
 
 /** Random diaper selection
  * @param {Character} character
- * @param {keyof NurseryDiapers} size
+ * @param {keyof typeof NurseryDiapers} size
  * @returns {string}
  */
 function NurseryRandomDiaper(character, size) {
@@ -379,15 +388,15 @@ function NurseryPlayerUndress(Cost) {
  * @returns {number}
  */
 function NurseryGetRegressionScore(character) {
-	const submission = ReputationCharacterGet(character, "Dominant");
-	const regression = ReputationCharacterGet(character, "ABDL");
+	const submission = ReputationGet("Dominant",character);
+	const regression = ReputationGet("ABDL", character);
 	return (1+submission/100) * (1+regression/100) * (1+NurseryPlayerBadBabyStatus);
 }
 
 /**
  * When the player puts on diapers or has them put on
  * @param {number} domChange;
- * @param {keyof NurseryDiapers} size;
+ * @param {keyof typeof NurseryDiapers} size;
  */
 function NurseryPlayerGetsDiapered(domChange=0, size=null) {
 	ReputationProgress("Dominant", domChange);
@@ -432,7 +441,7 @@ function NurseryPlayerRestrained(restraintSet) {
 		InventoryWear(Player, "PaddedMittens", "ItemHands", "Default");
 		TypedItemSetOptionByName(Player, InventoryGet(Player, "ItemHands"), "Chained");
 	}
-	if (restraintSet == 3) {
+	if (restraintSet == 3 || restraintSet == 5 || restraintSet == 6) {
 		const mouthItem = InventoryWear(Player, "HarnessPacifierGag", "ItemMouth", "Default");
 		const torsoItem = InventoryWear(Player, "AdultBabyHarness", "ItemTorso", "Default");
 		const handsItem = InventoryWear(Player, "PaddedMittens", "ItemHands", "Default");
@@ -441,6 +450,14 @@ function NurseryPlayerRestrained(restraintSet) {
 		InventoryLock(Player, torsoItem, "IntricatePadlock", "Nursery property");
 		InventoryLock(Player, handsItem, "IntricatePadlock", "Nursery property");
 		NurseryPlayerNeedsPunishing(2);
+		if (restraintSet == 5) {
+			InventoryWear(Player, "LeatherBlindfold", "ItemHead", "#cccccc");
+		}
+		if (restraintSet == 6) {
+			PoseSetActive(Player, "Kneel", true);
+			InventoryWear(Player, "LeatherBelt", "ItemLegs", "#cccccc");
+			NurseryPlayerNeedsPunishing(2);
+		}
 	}
 	if (restraintSet == 4) {
 		if (!Player.IsRestrained()) {
@@ -450,16 +467,6 @@ function NurseryPlayerRestrained(restraintSet) {
 			InventoryLock(Player, torsoItem, "IntricatePadlock", "Nursery property");
 			InventoryLock(Player, handsItem, "IntricatePadlock", "Nursery property");
 		}
-	}
-	if (restraintSet == 5) {
-		NurseryPlayerRestrained(3);
-		InventoryWear(Player, "LeatherBlindfold", "ItemHead", "#cccccc");
-	}
-	if (restraintSet == 6) {
-		NurseryPlayerRestrained(3);
-		PoseSetActive(Player, "Kneel", true);
-		InventoryWear(Player, "LeatherBelt", "ItemLegs", "#cccccc");
-		NurseryPlayerNeedsPunishing(2);
 	}
 }
 
@@ -642,14 +649,12 @@ function NurseryPlayerRemoveCloth() {
 
 // Player needs more discipline
 function NurseryPlayerNeedsPunishing(severity) {
-	NurseryPlayerBadBabyStatus = NurseryPlayerBadBabyStatus + severity;
-	if (NurseryPlayerBadBabyStatus > 6) NurseryPlayerBadBabyStatus = 5;
+	NurseryPlayerBadBabyStatus = CommonClamp(1, NurseryPlayerBadBabyStatus + severity, 6);
 }
 
 // Player is punished by nurse
 function NurseryPlayerPunished(severity) {
-	NurseryPlayerBadBabyStatus = NurseryPlayerBadBabyStatus - severity;
-	if (NurseryPlayerBadBabyStatus < 1) NurseryPlayerBadBabyStatus = 1;
+	NurseryPlayerBadBabyStatus = CommonClamp(1, NurseryPlayerBadBabyStatus - severity, 6);
 }
 
 // Player bad baby status can reduce with time until she is ready to apologise

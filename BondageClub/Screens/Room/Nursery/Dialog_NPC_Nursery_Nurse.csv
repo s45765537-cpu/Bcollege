@@ -27,7 +27,7 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 0,,"Hello, I'm DialogPlayerName.  Pleased to meet you.","Pleased to meet you too.  I'm DialogCharacterName, I'm one of the nurses.",DialogRemove(),"DialogReputationLess(""ABDL"", 9)"
 0,5,What is this place?,"This is the nursery, set up as a safe environment for adult babies in need of some motherly compassion, fun and discipline.",,
 0,10,May I join the nursery?,"Of course, we are always welcoming good little boys and girls.  You are aware of what the nursery's requirements are from those in its care?",,"DialogReputationLess(""ABDL"", 0)"
-0,20,I'm ready to join the nursery again.,"Wonderful, have you remembered the $10 fee for diapers?",ClothCheck(),"DialogReputationGreater(""ABDL"", 1)"
+0,20,I'm ready to join the nursery again.,"Wonderful, have you remembered the $10 fee for diapers?",NurseryIsWearingInappropriateClothes(),"DialogReputationGreater(""ABDL"", 1)"
 0,3,Who runs this nursery?,Nurses like me look after the adult babies.  We are supervised by the nursery's matrons.,,
 0,,I can't stay to chat.  (Leave her.),,DialogLeave(),
 012345,,(Money.),,DialogChangeMoney(200),
