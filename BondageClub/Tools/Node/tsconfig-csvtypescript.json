@@ -1,12 +1,18 @@
 {
 	"compilerOptions": {
-		"noEmit": true,
 		"module": "commonjs",
 		"target": "ES2021",
 		"lib": ["es2021", "dom", "DOM.Iterable"],
-		"allowJs": true,
-		"strict": true,
-		"noImplicitAny": true
+		"checkJs": true,
+		"noEmit": true,
+		"types": [],
+		"strict": false,
+		"skipLibCheck": true,
+		"plugins": [
+			{
+				"name": "typescript-strict-plugin"
+			},
+		],
 	},
 	"include": [
 		"../../Scripts/**/*",
@@ -17,7 +23,6 @@
 	],
 	"exclude": [
 		"../../Scripts/lib/**/*.js",
-		"../../Screens/MiniGame/KinkyDungeon/*",
 		"../../Scripts/MessagesPatch.d.ts",
 		"../../Scripts/DeclarationsExpensive.d.ts"
 	]

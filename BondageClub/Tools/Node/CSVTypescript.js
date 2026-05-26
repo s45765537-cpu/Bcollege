@@ -88,7 +88,7 @@ function csvToTs(inputName, outputName, prefix) {
 		return false;
 	}
 
-	let fileOutput = `// See "${inputName}"\n\n`;
+	let fileOutput = `"use strict";\n// See "${inputName}"\n\n`;
 	for (const [i, { Function, Prerequisite }] of Object.entries(csvFunctions)) {
 		if (Function) {
 			fileOutput += `${Function}; // line ${i} - col 5 - Function\n`;
