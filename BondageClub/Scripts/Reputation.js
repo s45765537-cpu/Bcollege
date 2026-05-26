@@ -80,7 +80,7 @@ function ReputationLoad(NewRep) {
  * @param {ReputationType} [repType] - Type/name of the reputation to get the value of.
  * @returns {number} - Returns the value of the reputation. It can range from 100 to -100, and it defaults to 0 if the player never earned this type of reputation before.
 */
-function ReputationGet(character, repType=null) {
+function ReputationGet(character, repType) {
 	if (typeof character === "string") {
 		repType = character;
 		character = Player;

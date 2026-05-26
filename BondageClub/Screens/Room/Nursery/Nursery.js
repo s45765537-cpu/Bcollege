@@ -116,7 +116,7 @@ function NurseryPlayerWearingBabyDress() {
 	return NurseryDresses.includes(dress.Asset.Name);
 }
 function NurseryPlayerReadyToAppologise() { return (NurseryPlayerBadBabyStatus <= 1); }
-function NurseryPlayerReadyDiapered() { return (NurseryIsDiapered(Player) && !NurseryPlayerInappropriateCloth); }
+function NurseryPlayerReadyDiapered() { return (NurseryIsDiapered(Player) && !NurseryIsClothingInappropriate()); }
 function NurseryPlayerCanRegress() { return !InventoryGet(Player, "ItemMouth3") && !InventoryGroupIsBlocked(Player, "ItemMouth3"); }
 
 
@@ -159,7 +159,7 @@ async function NurseryLoad() {
 	if (!NurseryIsDiapered(NurseryABDL2)) NurseryABDLOutfitForNPC(NurseryABDL2);
 	NurseryNurse.AllowItem = false;
 	if (NurserySituation == null) return;
-	const isInappropriate = NurseryIsWearingInappropriateClothes();
+	const isInappropriate = NurseryIsClothingInappropriate();
 	if (isInappropriate) {
 		NurseryPlayerNeedsPunishing(1);
 		NurseryNurse.Stage = "270";
@@ -274,7 +274,7 @@ function NurseryLoadNurse() {
 }
 
 // Checks players diapered is not obscured by Inappropriate cloth
-function NurseryIsWearingInappropriateClothes() {
+function NurseryIsClothingInappropriate() {
 	const inappropriateCloth = [
 		"MaidOutfit1", "StudentOutfit1", "StudentOutfit2", "BabydollDress1",
 		"TeacherOutfit1", "ChineseDress2", "MistressTop", "NurseUniform"
@@ -386,8 +386,8 @@ function NurseryPlayerUndress(Cost) {
  * @returns {number}
  */
 function NurseryGetRegressionScore(character) {
-	const submission = ReputationGet("Dominant",character);
-	const regression = ReputationGet("ABDL", character);
+	const submission = ReputationGet(character, "Dominant");
+	const regression = ReputationGet(character, "ABDL");
 	return (1+submission/100) * (1+regression/100) * (1+NurseryPlayerBadBabyStatus);
 }
 
