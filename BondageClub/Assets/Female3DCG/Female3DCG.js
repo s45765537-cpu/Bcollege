@@ -65779,7 +65779,7 @@ var AssetFemale3DCG = [
 					BackBoxTie: PoseType.DEFAULT,
 					BackCuffs: PoseType.DEFAULT,
 					BackElbowTouch: PoseType.DEFAULT,
-					Hogtied: PoseType.DEFAULT,
+					Hogtied: "AllFours",
 					OverTheHead: PoseType.DEFAULT,
 					TapedHands: PoseType.DEFAULT,
 					Yoked: PoseType.DEFAULT,
