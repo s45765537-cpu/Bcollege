@@ -78,9 +78,7 @@ function NurseryCanSpitOutPacifier(character=Player) {
  * @returns {boolean}
  */
 function NurseryIsDiapered(character=Player) {
-	const pelvis = InventoryGet(character, "ItemPelvis");
-	const panties = InventoryGet(character, "Panties");
-	return (pelvis?.Asset?.Attribute.includes("Diaper") || panties?.Asset?.Attribute.includes("Diaper"));
+	return CharacterHasItemWithAttribute(character, "Diaper");
 }
 
 /**

@@ -27,7 +27,7 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 0,,"Hello, I'm DialogPlayerName.  Pleased to meet you.","Pleased to meet you too.  I'm DialogCharacterName, I'm one of the nurses.",DialogRemove(),"DialogReputationLess(""ABDL"", 9)"
 0,5,What is this place?,"This is the nursery, set up as a safe environment for adult babies in need of some motherly compassion, fun and discipline.",,
 0,10,May I join the nursery?,"Of course, we are always welcoming good little boys and girls.  You are aware of what the nursery's requirements are from those in its care?",,"DialogReputationLess(""ABDL"", 0)"
-0,20,I'm ready to join the nursery again.,"Wonderful, have you remembered the $10 fee for diapers?",NurseryIsWearingInappropriateClothes(),"DialogReputationGreater(""ABDL"", 1)"
+0,20,I'm ready to join the nursery again.,"Wonderful, have you remembered the $10 fee for diapers?",IsWearingInappropriateClothes(),"DialogReputationGreater(""ABDL"", 1)"
 0,3,Who runs this nursery?,Nurses like me look after the adult babies.  We are supervised by the nursery's matrons.,,
 0,,I can't stay to chat.  (Leave her.),,DialogLeave(),
 012345,,(Money.),,DialogChangeMoney(200),
@@ -91,8 +91,8 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 80,90,This dress is ridiculous.,Ridiculously cute.  You look adorable in it.  (She buckles thumbless mittens over both your hands and puts a pacifier in your mouth.) Helplessly adorable.,PlayerRestrained(1),
 80,90,(Wait patiently.),"Hold still just a little longer, only a few accessories left to add now.  (She adds thumbless mittens for your hands and a pacifier in your mouth.)",PlayerRestrained(1),
 90,,(Twirl around.),"Such a sweet little girl, you really do look precious.  You can waddle along now and enjoy the nursery.",,
-90,95,(Spit out the pacifier.),What ever is the matter darling?,"DialogRemoveItem(""ItemMouth"")",NurseryCanSpitOutPacifier()
-90,,(Spit out the pacifier.),(This pacifier is not going anywhere.  The harness holds it securely in place with your mouth firmly closed around the nipple.),,NurseryPlayerIsHarnessPacified()
+90,95,(Spit out the pacifier.),What ever is the matter darling?,"DialogRemoveItem(""ItemMouth"")",CanSpitOutPacifier()
+90,,(Spit out the pacifier.),(This pacifier is not going anywhere.  The harness holds it securely in place with your mouth firmly closed around the nipple.),,PlayerIsHarnessPacified()
 90,,(Test the mittens.),(The mittens are buckled snugly around your wrists.  Your thumbs are trapped inside and you can't grip anything one handed.),,
 90,100,(Leave her and join the rest of the nursery.),,DialogLeave(),
 95,90,I want to suck on a real nipple.,It's not feeding time yet dear.  This all you can have for now.  (She puts a pacifier in your mouth.),"DialogWearItem(""PacifierGag"", ""ItemMouth"")",

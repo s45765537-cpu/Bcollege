@@ -64,18 +64,30 @@ function ReputationLoad(NewRep) {
 }
 
 /**
- * Returns a specific reputation value for the player
- * @param {ReputationType} repType - Type/name of the reputation to get the value of.
- * @param {Character} character - Type/name of the reputation to get the value of.
+  * @overload
+ * @param {ReputationType} PlayerReputationType - Gets the reputation value from the player
+ * @returns {number}
+ */
+/**
+ * @overload
+ * @param {Character} C - The character to get the reputation of
+ * @param {ReputationType} RepType - Type/name of the reputation to get the value of.
+ * @returns {number}
+ */
+/**
+ * Returns the reputation value of a given character
+ * @param {Character | ReputationType} character - The character to get the reputation of
+ * @param {ReputationType} [repType] - Type/name of the reputation to get the value of.
  * @returns {number} - Returns the value of the reputation. It can range from 100 to -100, and it defaults to 0 if the player never earned this type of reputation before.
 */
-function ReputationGet(repType, character=Player) {
-	// if only js had function overloading
-	if (character?.Reputation == null) return 0;
-	const reputation = character.Reputation.find(entry => entry.Type == repType);
+function ReputationGet(character, repType=null) {
+	if (typeof character === "string") {
+		repType = character;
+		character = Player;
+	}
 
-	if (reputation) return parseInt(reputation.Value);
-	return 0;
+	const rep = character.Reputation.find(r => r.Type === repType);
+	return rep?.Value ?? 0;
 }
 
 /**
@@ -86,7 +98,7 @@ function ReputationGet(repType, character=Player) {
  * @deprecated - Deprecated alias for {@link ReputationGet}
  */
 function ReputationCharacterGet(character, repType) {
-	return ReputationGet(repType, character);
+	return ReputationGet(character, repType);
 }
 
 /**
