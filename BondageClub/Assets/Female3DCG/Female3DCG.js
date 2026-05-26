@@ -853,25 +853,28 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
-			{Name: "LabCoat",
+			{
+				Name: "LabCoat",
 				InventoryID: 1340,
 				Random: false,
 				Value: 20,
-					Left: 50,
-					Top: 50,
-					DynamicGroupName: "ClothOuter",
-					ParentGroup: {},
-					Priority: 27,
-					PoseMapping: {
-						...AssetPoseMapping.Cloth,
-						Hogtied: PoseType.HIDE,
-						AllFours: PoseType.HIDE,
-					},
-					Layer: [
-						{ Name: "Lining", Priority: 4 },
-						{ Name: "Right2" },
-						{ Name: "Left2" },
-					],	Attribution: {
+				Left: 50,
+				Top: 50,
+				DynamicGroupName: "ClothOuter",
+				ParentGroup: {},
+				Priority: 27,
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+					TapedHands: PoseType.HIDE,
+				},
+				Layer: [
+					{ Name: "Lining", Priority: 4 },
+					{ Name: "Right2" },
+					{ Name: "Left2" },
+				],
+				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "白大褂",
 					License: "CC BY-SA-NC 4.0",
@@ -7448,10 +7451,15 @@ var AssetFemale3DCG = [
 			{
 				Name: "GlossyBodystocking",
 				InventoryID: 1339,
+				Gender: "F",
 				Random: false,
 				Value: 40,
 				Top: 0,
 				Left: 0,
+				PoseMapping: {
+					...AssetPoseMapping.Suit,
+					TapedHands: PoseType.HIDE,
+				},
 				DefaultColor: [
 					"#111111",
 					"#111111",
@@ -7491,13 +7499,13 @@ var AssetFemale3DCG = [
 					"#000000",
 				],
 				Layer: [
-					{ Name: "BodyHue" }, // 身体色晕
-					{ Name: "BaseColor" }, // 底色
+					{ Name: "BodyHue" }, // 身体色晕 / Z1
+					{ Name: "BaseColor" }, // 底色 / A1
 					{ Name: "A2", ColorGroup: "BodyCurveShade" }, // 身体曲线暗色
 					{ Name: "A3", ColorGroup: "BodyCurveShade" },
 					{ Name: "A4", ColorGroup: "BodyCurveShade" },
-					{ Name: "EdgeLine" }, // 边缘线
-					{ Name: "EdgeShade" }, // 边缘暗色
+					{ Name: "EdgeLine" }, // 边缘线 / B1
+					{ Name: "EdgeShade" }, // 边缘暗色 / B2
 					{ Name: "C1", ColorGroup: "BodyShadeDetails" }, // 身体暗色细节
 					{ Name: "C2", ColorGroup: "BodyShadeDetails" },
 					{ Name: "C3", ColorGroup: "BodyShadeDetails" },
@@ -7519,7 +7527,7 @@ var AssetFemale3DCG = [
 					{ Name: "D7", ColorGroup: "BodyHighlightDetails" },
 					{
 						Name: "E1",
-						CopyLayerColor: "A1",
+						CopyLayerColor: "BaseColor",
 						Priority: 29,
 						CreateLayerTypes: ["h"],
 						AllowTypes: { h: [0, 2, 3], m: [0, 2, 3] },
@@ -7535,7 +7543,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "F1",
-						CopyLayerColor: "B1",
+						CopyLayerColor: "EdgeLine",
 						Priority: 29,
 						CreateLayerTypes: ["h"],
 						AllowTypes: { h: [0, 2, 3], m: [0, 2, 3] },
@@ -7551,7 +7559,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "F2",
-						CopyLayerColor: "B2",
+						CopyLayerColor: "EdgeShade",
 						Priority: 29,
 						CreateLayerTypes: ["h"],
 						AllowTypes: { h: [0, 2, 3], m: [0, 2, 3] },
@@ -7599,7 +7607,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "L",
-						CopyLayerColor: "B1",
+						CopyLayerColor: "EdgeLine",
 						Priority: 29,
 						CreateLayerTypes: ["h"],
 						AllowTypes: { h: [1, 2, 3], m: [0, 2, 3] },
@@ -7626,18 +7634,18 @@ var AssetFemale3DCG = [
 						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 						CreateLayerTypes: ["b"],
 						AllowTypes: { b: 1 },
-						CopyLayerColor: "B1",
+						CopyLayerColor: "EdgeLine",
 					},
 					{
 						Name: "mmL",
 						AllowTypes: { m: [1, 2] },
-						CopyLayerColor: "B1",
+						CopyLayerColor: "EdgeLine",
 						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 					},
 					{
 						Name: "amL",
 						AllowTypes: { m: [2, 3] },
-						CopyLayerColor: "B1",
+						CopyLayerColor: "EdgeLine",
 						PoseMapping: {
 							Yoked: "Yoked",
 							OverTheHead: "OverTheHead",
@@ -52610,7 +52618,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "XLSizeBall",
-						AllowTypes: [{ b: 2 }, { b: 3 }],
+						AllowTypes: { b: 2 },
 						CopyLayerColor: "RegularSizeBall",
 					},
 				],
