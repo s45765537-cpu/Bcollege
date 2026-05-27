@@ -5069,6 +5069,48 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "LaceBraNightgown",
+				InventoryID: 1342,
+				Random: false,
+				Value: 21,
+				Left: 150,
+				Top: 220,
+				Priority: 21,
+				ParentGroup: "BodyUpper",
+				PoseMapping: {
+					Hogtied: "Hogtied",
+					AllFours: PoseType.HIDE,
+				},
+				DynamicGroupName: "Cloth",
+				DefaultColor: ["#797070", "#937373", "#25251F", "#AA8484"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "BraBase" },
+					{ Name: "Edge" },
+					{
+						Name: "BraBaseShadow",
+						BlendingMode: "multiply",
+						AllowColorize: false,
+					},
+					{ Name: "BraLace" },
+					{
+						Name: "HemShadow",
+						BlendingMode: "multiply",
+						AllowColorize: false,
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{ Name: "BraShadow", BlendingMode: "multiply", AllowColorize: false },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "蕾丝文胸睡裙",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
