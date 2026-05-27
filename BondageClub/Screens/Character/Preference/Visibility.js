@@ -12,9 +12,29 @@ var PreferenceVisibilityCanBlock = true;
  * @type {Asset}
  */
 var PreferenceVisibilityPreviewAsset;
+/** @deprecated See {@link PreferenceSubscreenVisibilityOnResetClick}. */
 var PreferenceVisibilityResetClicked = false;
 /** @type {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} */
 var PreferenceVisibilityRecord = {};
+
+const PreferenceSubscreenVisibilityIDs = Object.freeze({
+	grid: "preference-visibility-grid",
+	controls: "preference-visibility-controls",
+	groupRow: "preference-visibility-group-row",
+	assetRow: "preference-visibility-asset-row",
+	groupSelect: "preference-visibility-group",
+	assetSelect: "preference-visibility-asset",
+	hideCheckbox: "preference-visibility-hide",
+	blockCheckbox: "preference-visibility-block",
+	hideWarning: "preference-visibility-hide-warning",
+	resetButton: "preference-visibility-reset",
+	preview: "preference-visibility-preview",
+	locked: "preference-visibility-locked",
+	saveButton: "preference-visibility-save",
+	cancelButton: "preference-visibility-cancel",
+});
+
+const PreferenceVisibilityHiddenWarningIcon = "./Screens/Character/Player/HiddenItem.png";
 
 /**
  * Handles the loading of the visibility settings of a player
@@ -47,7 +67,12 @@ function PreferenceSubscreenVisibilityLoad() {
 	PreferenceVisibilityGroupList.sort((a, b) =>
 		a.Group.Category.localeCompare(b.Group.Category) || a.Group.Description.localeCompare(b.Group.Description)
 	);
+	PreferenceVisibilityGroupIndex = 0;
+	PreferenceVisibilityAssetIndex = 0;
+
+	PreferenceSubscreenVisibilityBuildLayout();
 	PreferenceVisibilityAssetChanged(true);
+	PreferenceSubscreenVisibilityRefreshUI();
 }
 
 /**
@@ -56,42 +81,7 @@ function PreferenceSubscreenVisibilityLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenVisibilityRun() {
-
-	// Character and exit buttons
 	DrawCharacter(Player, 50, 50, 0.9);
-	DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
-	DrawButton(1820, 60, 90, 90, "", "White", "Icons/Cancel.png", TextGet("LeaveNoSave"));
-	MainCanvas.textAlign = "left";
-
-	// Not available in Extreme mode
-	if (Player.GetDifficulty() <= 2) {
-
-		// Left-aligned text controls
-		DrawText(TextGet("VisibilityGroup"), 500, 225, "Black", "Gray");
-		DrawText(TextGet("VisibilityAsset"), 500, 304, "Black", "Gray");
-		DrawCheckbox(500, 352, 64, 64, TextGet("VisibilityCheckboxHide"), PreferenceVisibilityHideChecked);
-		DrawCheckbox(500, 432, 64, 64, TextGet("VisibilityCheckboxBlock"), PreferenceVisibilityBlockChecked, !PreferenceVisibilityCanBlock);
-		if (PreferenceVisibilityHideChecked) {
-			DrawImageResize("Screens/Character/Player/HiddenItem.png", 500, 516, 86, 86);
-			DrawText(TextGet("VisibilityWarning"), 600, 548, "Black", "Gray");
-		}
-		if (PreferenceVisibilityResetClicked) DrawText(TextGet("VisibilityResetDescription"), 500, 732, "Black", "Gray");
-		MainCanvas.textAlign = "center";
-
-		// Buttons
-		DrawBackNextButton(650, 193, 500, 64, PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Group.Description, "White", "", () => "", () => "");
-		DrawBackNextButton(650, 272, 500, 64, PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets[PreferenceVisibilityAssetIndex].Asset.Description, "White", "", () => "", () => "");
-		DrawButton(500, PreferenceVisibilityResetClicked ? 780 : 700, 300, 64, TextGet("VisibilityReset"), "White", "");
-
-		// Preview icon
-		if (PreferenceVisibilityHideChecked) DrawPreviewBox(1200, 193, "Icons/HiddenItem.png", "", { Border: true });
-
-		else DrawAssetPreview(1200, 193, PreferenceVisibilityPreviewAsset, {Description: "", Border: true});
-	} else {
-		MainCanvas.textAlign = "center";
-		DrawText(TextGet("VisibilityLocked"), 1200, 500, "Red", "Gray");
-	}
-
 }
 
 /**
@@ -99,71 +89,344 @@ function PreferenceSubscreenVisibilityRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenVisibilityClick() {
+}
 
-	// Most controls are not available in Extreme mode
-	if (Player.GetDifficulty() <= 2) {
+function PreferenceSubscreenVisibilityUnload() {
+	PreferenceVisibilityGroupList = [];
+	PreferenceVisibilityRecord = {};
+}
 
-		// Group button
-		if (MouseIn(650, 193, 500, 64)) {
-			if (MouseX >= 900) {
-				PreferenceVisibilityGroupIndex++;
-				if (PreferenceVisibilityGroupIndex >= PreferenceVisibilityGroupList.length) PreferenceVisibilityGroupIndex = 0;
-			}
-			else {
-				PreferenceVisibilityGroupIndex--;
-				if (PreferenceVisibilityGroupIndex < 0) PreferenceVisibilityGroupIndex = PreferenceVisibilityGroupList.length - 1;
-			}
-			PreferenceVisibilityAssetIndex = 0;
-			PreferenceVisibilityAssetChanged(true);
+/**
+ * Positions the visibility subscreen elements on resize.
+ */
+function PreferenceSubscreenVisibilityResize() {
+	const { x, y } = PreferenceSubscreenMainGrid;
+	const grid = ElementWrap(PreferenceSubscreenVisibilityIDs.grid);
+	if (grid) ElementSetPosition(grid, x, y);
+	const locked = ElementWrap(PreferenceSubscreenVisibilityIDs.locked);
+	if (locked) ElementSetPosition(locked, x, y);
+}
+
+/**
+ * Trigger a subscreen exit
+ * @param {boolean} SaveChanges - If TRUE, this will commit the configuration
+ * @returns {void} - Nothing
+ */
+function PreferenceVisibilityExit(SaveChanges) {
+	if (SaveChanges) ServerPlayerBlockItemsSync();
+	PreferenceVisibilityRecord = {};
+
+	PreferenceSubscreenExit();
+}
+
+/**
+ * Builds the DOM layout for the visibility subscreen.
+ */
+function PreferenceSubscreenVisibilityBuildLayout() {
+	const subscreen = ElementWrap(PreferenceIDs.subscreen);
+	if (!subscreen) return;
+
+	// In Extreme mode, only show a notice and skip building the controls
+	if (Player.GetDifficulty() > 2) {
+		ElementCreate({
+			tag: "p",
+			classList: ["preference-visibility-locked"],
+			attributes: { id: PreferenceSubscreenVisibilityIDs.locked },
+			children: [TextGet("VisibilityLocked")],
+			parent: subscreen,
+		});
+		ElementWrap(PreferenceIDs.exit)?.toggleAttribute("hidden", false);
+		return;
+	}
+
+	const groupOptions = PreferenceSubscreenVisibilityGetGroupOptions();
+	const assetOptions = PreferenceSubscreenVisibilityGetAssetOptions(PreferenceVisibilityGroupIndex);
+
+	const groupSelect = ElementCreateSearchableDropdown(
+		PreferenceSubscreenVisibilityIDs.groupSelect,
+		groupOptions,
+		(value) => PreferenceSubscreenVisibilityOnGroupChange(value),
+		{
+			value: groupOptions[PreferenceVisibilityGroupIndex]?.value,
+			placeholder: TextGet("VisibilityGroup"),
+			searchPlaceholder: TextGet("VisibilitySearchPlaceholder"),
+			emptyText: TextGet("VisibilityNoResults"),
 		}
+	);
 
-		// Asset button
-		if (MouseIn(650, 272, 500, 64)) {
-			if (MouseX >= 900) {
-				PreferenceVisibilityAssetIndex++;
-				if (PreferenceVisibilityAssetIndex >= PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets.length) PreferenceVisibilityAssetIndex = 0;
-			}
-			else {
-				PreferenceVisibilityAssetIndex--;
-				if (PreferenceVisibilityAssetIndex < 0) PreferenceVisibilityAssetIndex = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets.length - 1;
-			}
-			PreferenceVisibilityAssetChanged(true);
+	const assetSelect = ElementCreateSearchableDropdown(
+		PreferenceSubscreenVisibilityIDs.assetSelect,
+		assetOptions,
+		(value) => PreferenceSubscreenVisibilityOnAssetChange(value),
+		{
+			value: assetOptions[PreferenceVisibilityAssetIndex]?.value,
+			placeholder: TextGet("VisibilityAsset"),
+			searchPlaceholder: TextGet("VisibilitySearchPlaceholder"),
+			emptyText: TextGet("VisibilityNoResults"),
 		}
+	);
 
-		// Hide checkbox
-		if (MouseIn(500, 352, 64, 64)) {
+	const groupRow = ElementCreate({
+		tag: "div",
+		classList: ["preference-visibility-row"],
+		attributes: { id: PreferenceSubscreenVisibilityIDs.groupRow },
+		children: [
+			{
+				tag: "label",
+				attributes: { for: `${PreferenceSubscreenVisibilityIDs.groupSelect}-trigger` },
+				children: [TextGet("VisibilityGroup")],
+			},
+			groupSelect,
+		],
+	});
+
+	const assetRow = ElementCreate({
+		tag: "div",
+		classList: ["preference-visibility-row"],
+		attributes: { id: PreferenceSubscreenVisibilityIDs.assetRow },
+		children: [
+			{
+				tag: "label",
+				attributes: { for: `${PreferenceSubscreenVisibilityIDs.assetSelect}-trigger` },
+				children: [TextGet("VisibilityAsset")],
+			},
+			assetSelect,
+		],
+	});
+
+	const hideCheckbox = ElementCheckbox.CreateLabelled(
+		PreferenceSubscreenVisibilityIDs.hideCheckbox,
+		TextGet("VisibilityCheckboxHide"),
+		function () {
 			PreferenceVisibilityHideChange();
-			if (PreferenceVisibilityHideChecked != PreferenceVisibilityBlockChecked && PreferenceVisibilityCanBlock) PreferenceVisibilityBlockChange();
-		}
-
-		// Block checkbox
-		if (MouseIn(500, 432, 64, 64) && PreferenceVisibilityCanBlock) PreferenceVisibilityBlockChange();
-
-		// Reset button
-		if (MouseIn(500, PreferenceVisibilityResetClicked ? 780 : 700, 300, 64)) {
-			if (PreferenceVisibilityResetClicked) {
-				Object.values(Player.PermissionItems).forEach(i => { if (i) i.Hidden = false; });
-				PreferenceVisibilityExit(true);
+			if (PreferenceVisibilityHideChecked != PreferenceVisibilityBlockChecked && PreferenceVisibilityCanBlock) {
+				PreferenceVisibilityBlockChange();
 			}
-			else PreferenceVisibilityResetClicked = true;
-		}
+			PreferenceSubscreenVisibilityRefreshUI();
+		},
+		{ checked: PreferenceVisibilityHideChecked }
+	);
 
+	const blockCheckbox = ElementCheckbox.CreateLabelled(
+		PreferenceSubscreenVisibilityIDs.blockCheckbox,
+		TextGet("VisibilityCheckboxBlock"),
+		function () {
+			if (!PreferenceVisibilityCanBlock) return;
+			PreferenceVisibilityBlockChange();
+		},
+		{ checked: PreferenceVisibilityBlockChecked, disabled: !PreferenceVisibilityCanBlock }
+	);
+
+	const hideWarning = ElementCreate({
+		tag: "div",
+		classList: ["preference-visibility-warning"],
+		attributes: { id: PreferenceSubscreenVisibilityIDs.hideWarning, concealed: !PreferenceVisibilityHideChecked },
+		children: [
+			{
+				tag: "img",
+				attributes: { src: PreferenceVisibilityHiddenWarningIcon, alt: "" },
+			},
+			{
+				tag: "span",
+				children: [TextGet("VisibilityWarning")],
+			},
+		],
+	});
+
+	const resetButton = ElementButton.Create(
+		PreferenceSubscreenVisibilityIDs.resetButton,
+		() => PreferenceSubscreenVisibilityOnResetClick(),
+		{
+			label: TextGet("VisibilityReset"),
+			labelPosition: "center",
+		}
+	);
+
+	const controls = ElementCreate({
+		tag: "fieldset",
+		classList: ["preference-visibility-controls"],
+		attributes: { id: PreferenceSubscreenVisibilityIDs.controls },
+		children: [groupRow, assetRow, hideCheckbox, blockCheckbox, resetButton],
+	});
+
+	const previewAsset = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets[PreferenceVisibilityAssetIndex].Asset;
+
+	const preview = ElementButton.CreateForAsset(
+		null,
+		previewAsset,
+		Player,
+		null,
+		null,
+		{
+			button: { attributes: { id: PreferenceSubscreenVisibilityIDs.preview } },
+		},
+	);
+
+	ElementCreate({
+		tag: "div",
+		classList: ["preference-visibility-grid"],
+		attributes: { id: PreferenceSubscreenVisibilityIDs.grid },
+		children: [controls, preview, hideWarning],
+		parent: subscreen,
+	});
+
+	// Add Save / Cancel buttons to the menubar
+	const menubar = ElementWrap(`${PreferenceIDs.subscreen}-menu`);
+	if (menubar) {
+		const cancelButton = ElementButton.Create(
+			PreferenceSubscreenVisibilityIDs.cancelButton,
+			() => PreferenceVisibilityExit(false),
+			{ image: "Icons/Cancel.png", tooltip: TextGet("LeaveNoSave") }
+		);
+		const saveButton = ElementButton.Create(
+			PreferenceSubscreenVisibilityIDs.saveButton,
+			() => PreferenceSubscreenVisibilityCommit(),
+			{ image: "Icons/Accept.png", tooltip: TextGet("LeaveSave") }
+		);
+		menubar.append(cancelButton, saveButton);
+	}
+	PreferenceSubscreenVisibilityRefreshPreview();
+}
+
+/**
+ * Builds the dropdown options for the group selector.
+ * @returns {{ value: string, label: string, group: string }[]}
+ */
+function PreferenceSubscreenVisibilityGetGroupOptions() {
+	return PreferenceVisibilityGroupList.map(({ Group }) => ({
+		value: Group.Name,
+		label: Group.Description,
+		group: Group.Category,
+	}));
+}
+
+/**
+ * Builds the dropdown options for the asset selector based on the currently selected group.
+ * @param {number} groupIndex
+ * @returns {{ value: string, label: string }[]}
+ */
+function PreferenceSubscreenVisibilityGetAssetOptions(groupIndex) {
+	const group = PreferenceVisibilityGroupList[groupIndex];
+	if (!group) return [];
+	return group.Assets.map(({ Asset }) => ({
+		value: Asset.Name,
+		label: Asset.Description,
+	}));
+}
+
+/**
+ * Handles selection changes on the group dropdown.
+ * @param {string} value
+ */
+function PreferenceSubscreenVisibilityOnGroupChange(value) {
+	const newIndex = PreferenceVisibilityGroupList.findIndex(g => g.Group.Name === value);
+	if (newIndex < 0) return;
+	PreferenceVisibilityGroupIndex = newIndex;
+	PreferenceVisibilityAssetIndex = 0;
+
+	const assetOptions = PreferenceSubscreenVisibilityGetAssetOptions(PreferenceVisibilityGroupIndex);
+	const dropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.assetSelect));
+	dropdown?.bcSetOptions?.(assetOptions, assetOptions[0]?.value);
+
+	PreferenceVisibilityAssetChanged(true);
+	PreferenceSubscreenVisibilityRefreshUI();
+}
+
+/**
+ * Handles selection changes on the asset dropdown.
+ * @param {string} value
+ */
+function PreferenceSubscreenVisibilityOnAssetChange(value) {
+	const group = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex];
+	if (!group) return;
+	const newIndex = group.Assets.findIndex(a => a.Asset.Name === value);
+	if (newIndex < 0) return;
+	PreferenceVisibilityAssetIndex = newIndex;
+
+	PreferenceVisibilityAssetChanged(true);
+	PreferenceSubscreenVisibilityRefreshUI();
+}
+
+/**
+ * Prompts via the browser confirmation dialog before clearing all Hidden flags
+ * and exiting with save.
+ */
+function PreferenceSubscreenVisibilityOnResetClick() {
+	if (!window.confirm(TextGet("VisibilityResetDescription"))) return;
+
+	Object.values(Player.PermissionItems).forEach(i => { if (i) i.Hidden = false; });
+	PreferenceVisibilityExit(true);
+}
+
+/**
+ * Commits the staged permission record to the player and exits the screen, saving changes.
+ */
+function PreferenceSubscreenVisibilityCommit() {
+	for (const [key, permission] of CommonEntries(PreferenceVisibilityRecord)) {
+		if (!permission) continue;
+		Player.PermissionItems[key] ??= PreferencePermissionGetDefault();
+		Player.PermissionItems[key].Hidden = permission.Hidden;
+		Player.PermissionItems[key].Permission = permission.Permission;
+	}
+	PreferenceVisibilityExit(true);
+}
+
+/**
+ * Synchronises the DOM controls with the current state.
+ */
+function PreferenceSubscreenVisibilityRefreshUI() {
+	const hideCheckbox = /** @type {HTMLInputElement | null} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.hideCheckbox));
+	if (hideCheckbox) hideCheckbox.checked = PreferenceVisibilityHideChecked;
+
+	const blockCheckbox = /** @type {HTMLInputElement | null} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.blockCheckbox));
+	if (blockCheckbox) {
+		blockCheckbox.checked = PreferenceVisibilityBlockChecked;
+		blockCheckbox.disabled = !PreferenceVisibilityCanBlock;
 	}
 
-	// Confirm button
-	if (MouseIn(1720, 60, 90, 90)) {
-		for (const [key, permission] of CommonEntries(PreferenceVisibilityRecord)) {
-			if (!permission) continue;
-			Player.PermissionItems[key] ??= PreferencePermissionGetDefault();
-			Player.PermissionItems[key].Hidden = permission.Hidden;
-			Player.PermissionItems[key].Permission = permission.Permission;
-		}
-		PreferenceVisibilityExit(true);
-	}
+	ElementWrap(PreferenceSubscreenVisibilityIDs.hideWarning)?.toggleAttribute("concealed", !PreferenceVisibilityHideChecked);
 
-	// Cancel button
-	if (MouseIn(1820, 60, 90, 90)) PreferenceVisibilityExit(false);
+	const groupDropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.groupSelect));
+	const currentGroup = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex]?.Group.Name;
+	if (groupDropdown && currentGroup) groupDropdown.bcSetValue?.(currentGroup);
 
+	const assetDropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.assetSelect));
+	const currentAsset = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex]?.Assets[PreferenceVisibilityAssetIndex]?.Asset.Name;
+	if (assetDropdown && currentAsset) assetDropdown.bcSetValue?.(currentAsset);
+
+	PreferenceSubscreenVisibilityRefreshPreview();
+}
+
+/**
+ * Updates the asset preview image and description.
+ */
+function PreferenceSubscreenVisibilityRefreshPreview() {
+	const preview = ElementWrap(PreferenceSubscreenVisibilityIDs.preview);
+	if (!preview) return;
+
+	const asset = PreferenceVisibilityPreviewAsset;
+	if (!asset) return;
+
+	const newPreview = ElementButton.CreateForAsset(
+		null,
+		asset,
+		Player,
+		null,
+		{
+			role: "none",
+			disabled: true,
+			noStyling: true,
+			labelPosition: "bottom"
+		},
+		{
+			button: { classList: ["preference-visibility-preview"], attributes: { id: PreferenceSubscreenVisibilityIDs.preview } },
+			img: { classList: ["preference-visibility-preview-image"] },
+			label: { classList: ["preference-visibility-preview-label"] },
+		},
+	);
+
+	newPreview.toggleAttribute("data-hidden", PreferenceVisibilityHideChecked);
+	preview.replaceWith(newPreview);
 }
 
 /**
@@ -175,7 +438,6 @@ function PreferenceSubscreenVisibilityClick() {
 function PreferenceVisibilityAssetChanged(RefreshCheckboxes) {
 	var CurrAsset = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets[PreferenceVisibilityAssetIndex];
 
-	// Load info for the new asset
 	if (RefreshCheckboxes) {
 		PreferenceVisibilityHideChecked = CurrAsset.Hidden;
 		PreferenceVisibilityBlockChecked = CurrAsset.Blocked;
@@ -185,14 +447,11 @@ function PreferenceVisibilityAssetChanged(RefreshCheckboxes) {
 	var WornItem = InventoryGet(Player, PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Group.Name);
 	PreferenceVisibilityCanBlock = (WornItem == null || WornItem.Asset.Name != CurrAsset.Asset.Name) && !CurrAsset.Limited;
 
-	// Get the preview image path
 	PreferenceVisibilityPreviewAsset = CurrAsset.Asset;
-
-	PreferenceVisibilityResetClicked = false;
 }
 
 /**
- * Toggles the Hide checkbox
+ * Toggles the Hide checkbox state and updates the staged permission record.
  * @returns {void} - Nothing
  */
 function PreferenceVisibilityHideChange() {
@@ -203,7 +462,7 @@ function PreferenceVisibilityHideChange() {
 }
 
 /**
- * Toggles the Block checkbox
+ * Toggles the Block checkbox state and updates the staged permission record.
  * @returns {void} - Nothing
  */
 function PreferenceVisibilityBlockChange() {
@@ -231,28 +490,4 @@ function PreferenceVisibilityCheckboxChanged(permissionRecord, CheckSetting, Typ
 			permission.Hidden = CheckSetting;
 			break;
 	}
-}
-
-/**
- * Exits the preference screen
- */
-function PreferenceSubscreenVisibilityExit() {
-	return true;
-}
-
-
-function PreferenceSubscreenVisibilityUnload() {
-	PreferenceVisibilityGroupList = [];
-	PreferenceVisibilityRecord = {};
-}
-
-/**
- * Trigger a subscreen exit
- * @param {boolean} SaveChanges - If TRUE, this will commit the configuration
- * @returns {void} - Nothing
- */
-function PreferenceVisibilityExit(SaveChanges) {
-	if (SaveChanges) ServerPlayerBlockItemsSync();
-
-	PreferenceSubscreenExit();
 }

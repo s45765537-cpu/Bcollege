@@ -270,8 +270,10 @@ VisibilityCheckboxHide,Hide
 VisibilityCheckboxBlock,Block
 VisibilityWarning,This icon will appear beside a character that's wearing a hidden item
 VisibilityReset,Reset All
-VisibilityResetDescription,This will reset all items to be visible. Click again to confirm and exit.
+VisibilityResetDescription,"Reset every item preference so hidden items become visible again, then exit and save?"
 VisibilityLocked,All items are forced visible under the Extreme difficulty mode
+VisibilitySearchPlaceholder,Search...
+VisibilityNoResults,No items match your search
 LeaveSave,Accept changes
 LeaveNoSave,Cancel changes
 GraphicsFont,Game font
