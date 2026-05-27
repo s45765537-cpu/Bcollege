@@ -89,7 +89,7 @@ function TitleGet(C) {
  *
  * @param {string} title
  */
-async function TitleGetName(title) {
+function TitleGetName(title) {
 	const file = ScreenFileGetPath("Text_Title.csv", "Character", "Title");
 	return TextGetInScope(file, `Title${title}`);
 }
