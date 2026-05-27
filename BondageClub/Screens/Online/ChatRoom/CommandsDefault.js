@@ -908,7 +908,7 @@ const CommonCommands = [
 			if (!CommonIsNonNegativeInteger(target)) {
 				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', target)}</span>`, 5000);
 				return;
-			} else if (!Player.FriendNames.get(target)) {
+			} else if (!Player.HasOnFriendlist(target)) {
 				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`, 5000);
 				return;
 			} else if (!msg) {
