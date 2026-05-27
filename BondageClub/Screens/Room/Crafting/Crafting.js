@@ -1858,6 +1858,7 @@ function CraftingUpdateFromItem(item) {
 
 /**
  * Return a list of all searchable asset names.
+ * @deprecated
  * @returns {string[]}
  */
 function CraftingGetAllAssetNames() {
@@ -2111,6 +2112,7 @@ function CraftingClick(event) {
 
 /**
  * Refreshes the preview model with a slight delay so the item color process is done
+ * @deprecated
  * @returns {void} - Nothing
  * */
 function CraftingRefreshPreview() {
@@ -2314,6 +2316,7 @@ function CraftingExit(allowPanelClose=true) {
 
 /**
  * Applies the craft to all matching items
+ * @deprecated
  * @param {CraftingItem} Craft
  * @param {Asset} Item
  */

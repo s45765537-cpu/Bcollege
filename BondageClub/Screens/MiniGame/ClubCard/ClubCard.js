@@ -4791,6 +4791,7 @@ function ClubCardAddToHand(CCPlayer, Card) {
 
 /**
  * Removes several cards from player time events
+ * @deprecated
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {readonly String[]} ListOfCardNames - The names of the cards to remove
  */

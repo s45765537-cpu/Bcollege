@@ -128,10 +128,7 @@ function TennisRun() {
 				MiniGameProgress = -1;
 				TennisServe(true);
 				TennisCharacterRightPoint++;
-				if ((TennisCharacterRightPoint >= 4) && (TennisCharacterRightPoint >= TennisCharacterLeftPoint + 2)) {
-					MiniGameVictory = false;
-					MiniGameEnded = true;
-				}
+				TennisVerifyEnd();
 			}
 
 			// If the player scores
@@ -139,10 +136,7 @@ function TennisRun() {
 				MiniGameProgress = -1;
 				TennisServe(false);
 				TennisCharacterLeftPoint++;
-				if ((TennisCharacterLeftPoint >= 4) && (TennisCharacterLeftPoint >= TennisCharacterRightPoint + 2)) {
-					MiniGameVictory = true;
-					MiniGameEnded = true;
-				}
+				TennisVerifyEnd();
 			}
 
 		}
@@ -166,6 +160,10 @@ function TennisRun() {
 function TennisVerifyEnd() {
 	if ((TennisCharacterLeftPoint >= 4) && (TennisCharacterLeftPoint >= TennisCharacterRightPoint + 2)) {
 		MiniGameVictory = true;
+		MiniGameEnded = true;
+	}
+	if ((TennisCharacterRightPoint >= 4) && (TennisCharacterRightPoint >= TennisCharacterLeftPoint + 2)) {
+		MiniGameVictory = false;
 		MiniGameEnded = true;
 	}
 }

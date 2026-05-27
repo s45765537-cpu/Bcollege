@@ -500,11 +500,6 @@ function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(Cur
  */
 function ChatRoomCharacterIsWhitelisted(C) { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (C != null && C.MemberNumber != null) && (ChatRoomData.Whitelist.indexOf(C.MemberNumber) >= 0)); }
 /**
- * Checks if the player is in the chatroom whitelist.
- * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
- */
-function ChatRoomPlayerIsWhitelisted() { return ChatRoomCharacterIsWhitelisted(Player); }
-/**
  * Checks if the current character is in the chatroom whitelist.
  * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
  */
@@ -792,6 +787,7 @@ function ChatRoomCanAssistKneel() {
 /**
  * Checks if the player character is kneeling and can stand up.
  * Will return true if there are any available transitions from {@link PoseAllKneeling} to {@link PoseAllStanding}.
+ * @deprecated
  * @returns {boolean} - Whether or not the player character can stand
  */
 function ChatRoomCanAttemptStand() {
@@ -801,6 +797,7 @@ function ChatRoomCanAttemptStand() {
 /**
  * Checks if the player character is standing and can kneel down.
  * Will return true if there are any available transitions from {@link PoseAllStanding} to {@link PoseAllKneeling}.
+ * @deprecated
  * @returns {boolean} - Whether or not the player character can stand
  */
 function ChatRoomCanAttemptKneel() {
@@ -2976,42 +2973,11 @@ function ChatRoomCharacterHasAnyRole(C, room, role) {
 }
 
 /**
- * Checks if a given character can see the room (meets the visibility list requirements)
- * @param {Character} C - The character to check
- * @returns {boolean} - Returns TRUE if the player can see the room.
- */
-function ChatRoomCharacterCanSeeRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "visible"); }
-
-/**
- * Checks if the player can see the room (meets the visibility list requirements)
- * @returns {boolean} - Returns TRUE if the player can see the room.
- */
-function ChatRoomPlayerCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(Player); }
-
-/**
- * Checks if the current character can see the room (meets the visibility list requirements)
- * @returns {boolean} - Returns TRUE if the current character can see the room.
- */
-function ChatRoomCurrentCharacterCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(CurrentCharacter); }
-
-/**
  * Checks if a given character has access to the room (can enter/leave) (meets the access list requirements)
  * @param {Character} C - The character to check
  * @returns {boolean} - Returns TRUE if the player has access to the room.
  */
 function ChatRoomCharacterCanAccessRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "access"); }
-
-/**
- * Checks if the player has access to the room (can enter/leave) (meets the access list requirements)
- * @returns {boolean} - Returns TRUE if the player has access to the room.
- */
-function ChatRoomPlayerCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(Player); }
-
-/**
- * Checks if the current character has access to the room (can enter/leave) (meets the access list requirements)
- * @returns {boolean} - Returns TRUE if the current character has access to the room.
- */
-function ChatRoomCurrentCharacterCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(CurrentCharacter); }
 
 /**
  * Checks if the player can leave the chatroom.
@@ -3024,13 +2990,15 @@ function ChatRoomCanLeave() {
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
-	if (ChatRoomIsLocked() && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
+	// Cannot leave if locked down in Pandora Penitentiary
+	if (ChatRoomData.Game == "Prison" && PandoraPenitentiaryIsInmate(Player)) return false;
+	// GGTS game can forbid anyone to leave
+	if (ChatRoomData.Game == "GGTS" && ChatRoomIsLocked()) return false;
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
-	if (ChatRoomPlayerCanAccessRoom()) return true;
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
-			return false; // Cannot leave if the room is locked and there's an administrator inside
+	// Can leave if we're the room admin or on the whitelist
+	if (ChatRoomCharacterCanAccessRoom(Player)) return true;
+	// Cannot leave if the room is locked and there's an administrator inside
+	if (ChatRoomIsLocked() && ChatRoomCharacter.some(c => ChatRoomCharacterIsAdmin(c))) return false;
 	return true; // Can leave if the room is locked and there's no administrator inside
 }
 
@@ -3980,6 +3948,7 @@ var ChatRoomMessageHandlers = [
  * Adds a function to the list of message extractors.
  *
  * @see ChatRoomMessageExtractor for more info.
+ * @public
  *
  * @param {ChatRoomMessageExtractor} func - The extractor to register
  */
@@ -3996,6 +3965,7 @@ function ChatRoomRegisterMessageExtractor(func) {
  * Adds a function to the list of message handlers
  *
  * @see ChatRoomMessageHandler for more info.
+ * @public
  *
  * @param {ChatRoomMessageHandler} handler - The handler to register
  */
@@ -6459,6 +6429,7 @@ function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
  * @param {("Owner" | "Lovers")[]} [IncludesTypes] - The types of lists to concatenate to the adminlist
  * @param {readonly number[]} [ExistingList] - The existing Admin list, if applicable
  * @returns {number[]} Complete array of admin members
+ * @deprecated
  */
 function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
 	/** @type {readonly number[]} */

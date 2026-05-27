@@ -99,6 +99,7 @@ function CommonIsNumeric(n) {
 /**
  * Gets the current time as a string
  * @returns {string} - Returns the current date and time in a yyyy-mm-dd hh:mm:ss format
+ * @deprecated
  */
 function CommonGetFormatDate() {
 	var d = new Date();
@@ -2300,7 +2301,7 @@ function CommonFormatDurationRange(end, start, options = {}) {
 /**
  * Formats a duration in ms to a human readable string of days, months, and years.
  * Defaults to showing days.
- * @deprecated Use CommonFormatDurationRange instead
+ * @deprecated Use {@link CommonFormatDurationRange} instead
  * @param {number} ms
  * @param {{
  *   includeYears?: boolean;
@@ -2395,7 +2396,7 @@ function CommonGetDatePartsRange(end, start, options = {}) {
  * Break duration into real-calendar components (y, m, d, h, min, s),
  * optionally rolling excluded components into the next smaller unit.
  *
- * @deprecated Use CommonGetDatePartsRange instead.
+ * @deprecated Use {@link CommonGetDatePartsRange} instead.
  * @param {number} ms
  * @param {{
  *   includeYears?: boolean,

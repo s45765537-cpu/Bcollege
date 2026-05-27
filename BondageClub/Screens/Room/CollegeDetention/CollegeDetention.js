@@ -14,13 +14,6 @@ var CollegeDetentionYukiWillReleaseAt = 0;
 function CollegeDetentionCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
- * Checks Yuki's current love level
- * @param {string} LoveLevel - The love level that should be checked
- * @returns {boolean} - Returns true, if Yuki's love is greater or equal the given level, false otherwise
- */
-function CollegeDetentionYukiLoveIs(LoveLevel) { return (CollegeDetentionYukiLove >= parseInt(LoveLevel)); }
-
-/**
  * Adds the sleeping pill to the player's invertory
  * @returns {void} - Nothing
  */

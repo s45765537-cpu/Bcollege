@@ -1,4 +1,5 @@
 "use strict";
+/** @deprecated */
 var AudioDialog = new Audio();
 
 /** @type {HTMLAudioElement & { _playState?: { location?: number } }} */
@@ -524,6 +525,7 @@ function AudioPlayInstantSound(src, volume) {
 /**
  * Begins to play a sound when applying/removing an item
  * @param {string} SourceFile - Source of the audio file to play
+ * @deprecated
  * @returns {void} - Nothing
  */
 function AudioDialogStart(SourceFile) {
@@ -537,6 +539,7 @@ function AudioDialogStart(SourceFile) {
 
 /**
  * Stops playing the sound when done applying/removing an item
+ * @deprecated
  * @returns {void} - Nothing
  */
 function AudioDialogStop() {

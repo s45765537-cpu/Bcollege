@@ -129,6 +129,8 @@ function PreferenceSubscreenExtensionsResize(onLoad) {
 }
 
 /**
+ * Open a given subscreen
+ * @public
  * @param {string} screenIdentifier
  * @param {ScreenSpecifier} returnScreen
  */

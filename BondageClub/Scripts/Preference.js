@@ -413,6 +413,7 @@ function PreferenceInitPlayer(C, data) {
  * @param {NotificationAudioType} audio - The audio setting
  * @param {NotificationAlertType} [defaultAlertType] - The default AlertType to use
  * @returns {NotificationSetting} - The setting to use
+ * @deprecated
  */
 function PreferenceInitNotificationSetting(setting, audio, defaultAlertType) {
 	const alertType = typeof setting === "boolean" && setting === true ? NotificationAlertType.TITLEPREFIX : defaultAlertType ?? NotificationAlertType.NONE;
