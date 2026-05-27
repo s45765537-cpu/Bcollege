@@ -645,6 +645,7 @@ function MainHallPunishFromChatroomStartPunishment() {
 
 /**
  * Triggered when the maid unlocks the player from a chat room
+ * @deprecated
  * @returns {void} - Nothing
  */
 function MainHallPunishFromListEnd() {

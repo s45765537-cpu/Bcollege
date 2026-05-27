@@ -761,6 +761,7 @@ function ChatRoomMapViewIsOutOfBounds(position) {
 
 /**
  * Performs cleanup when leaving the chat room map
+ * @deprecated
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewLeave() {

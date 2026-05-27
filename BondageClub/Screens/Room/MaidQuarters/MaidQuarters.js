@@ -241,7 +241,6 @@ function MaidQuartersCanUngagAndMaidsDisabled() { return MaidQuartersIsMaidsDisa
  * Checks, if the maids are unable to remove the gag (if there is one)
  * @returns {boolean} - Returns true, if the player cannot be ungagged by the maids, false otherwise
  */
-function MaidQuartersCannotUngag() { return (!Player.CanTalk() && InventoryCharacterHasOwnerOnlyRestraint(Player)); }
 function MaidQuartersCannotUngagAndMaidsNotDisabled() { return !MaidQuartersIsMaidsDisabled() && (!Player.CanTalk() && InventoryCharacterHasOwnerOnlyRestraint(Player)); }
 
 /**

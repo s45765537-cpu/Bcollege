@@ -350,6 +350,7 @@ function DialogAllowsItem(C) { C = DialogGetCharacter(C ?? CharacterGetCurrent()
 /**
  * Returns TRUE if no item can be used by the player on the current character because of the map distance
  * @returns {boolean} - TRUE if distance is too far (more than 1 tile)
+ * @deprecated
  */
 function DialogDontAllowItemDistance() {
 	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
@@ -939,6 +940,7 @@ function DialogMenuBack() {
 
 /**
  * Returns whether the current mode shows items.
+ * @deprecated
  */
 function DialogModeShowsInventory() {
 	return DialogMenuMode && ["items", "activities", "locking", "permissions"].includes(DialogMenuMode);
@@ -1707,6 +1709,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
  * Create a stringified list of the group and the assets currently in the dialog inventory
  * @param {Character} C - The character the dialog inventory has been built for
  * @returns {string} - The list of assets as a string
+ * @deprecated
  */
 function DialogInventoryStringified(C) {
 	return (C.FocusGroup ? C.FocusGroup.Name : "") + (DialogInventory ? JSON.stringify(DialogInventory.map(I => I.Asset.Name).sort()) : "");

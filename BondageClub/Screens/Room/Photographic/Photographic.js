@@ -107,6 +107,7 @@ function PhotographicAppearanceAvailable(C, Group) {
 /**
  * @param {string} Asset
  * @param {AssetGroupName} Group
+ * @deprecated
  */
 function PhotographicPlayerAssetAvailable(Asset, Group) {
 	for (let I = Player.Inventory.length - 1; I > -1; I--)
@@ -126,6 +127,7 @@ function PhotographicPlayerRelease() {
 /**
  * @param {string} Asset
  * @param {AssetGroupName} Group
+ * @deprecated
  */
 function PhotographicUseAsset(Asset,Group) {
 	InventoryWear(Player, Asset, Group);

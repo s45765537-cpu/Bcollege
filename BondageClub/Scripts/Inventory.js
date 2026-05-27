@@ -454,6 +454,7 @@ function InventoryIsItemInList(C, ItemGroup, ItemList) {
  * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite to look for
  * @returns {boolean} - TRUE if the character has an item equipped in the named slot which has the named prerequisite,
  * FALSE otherwise
+ * @deprecated
  */
 function InventoryDoesItemHavePrerequisite(C, ItemGroup, Prerequisite) {
 	const Item = InventoryGet(C, ItemGroup);
@@ -1773,6 +1774,7 @@ function InventoryShockExpression(C) {
  * @param {ItemProperties} property - The property object to extract from
  * @returns {ItemProperties} - A property object containing only the lock-related properties from the provided property
  * object
+ * @deprecated
  */
 function InventoryExtractLockProperties(property) {
 	/** @type {ItemProperties} */

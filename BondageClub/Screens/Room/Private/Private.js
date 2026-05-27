@@ -1170,6 +1170,7 @@ function PrivateAddCharacter(Template, Archetype, CustomData=false) {
 /**
  * Gets the index of a given private room character.
  * @returns {number} - Index of the NPC inside the private characters array.
+ * @deprecated
  */
 function PrivateGetCurrentID() {
 	for (let P = 1; P < PrivateCharacter.length; P++)

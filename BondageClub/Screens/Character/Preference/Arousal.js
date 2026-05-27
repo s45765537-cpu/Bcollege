@@ -245,6 +245,7 @@ function PreferenceLoadFetishFactor() {}
 
 /**
  * Increment the passed arousal factor.
+ * @deprecated
  * @param {ArousalFactor} factor
  * @returns {ArousalFactor}
  */
@@ -254,6 +255,7 @@ function PreferenceIncrementArousalFactor(factor) {
 
 /**
  * Decrement the passed arousal factor.
+ * @deprecated
  * @param {ArousalFactor} factor
  * @returns {ArousalFactor}
  */

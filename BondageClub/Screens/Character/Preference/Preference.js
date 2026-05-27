@@ -1145,6 +1145,7 @@ var PreferenceNotificationSettingsValidate = {
 
 /**
  * Registers a new extension setting to the preference screen
+ * @public
  * @param {PreferenceExtensionsSettingItem} Setting - The extension setting to register
  * @returns {void} - Nothing
  */

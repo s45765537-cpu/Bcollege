@@ -697,18 +697,6 @@ function GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight) {
 	return mask;
 }
 
-function canvasToNewWin(canvas) {
-	const PhotoImg = canvas.toDataURL("image/png");
-	// Open the image in a new window
-	let newWindow = window.open('about:blank', '_blank');
-	if (newWindow) {
-		newWindow.document.write("<img src='" + PhotoImg + "' alt='from canvas'/>");
-		newWindow.document.close();
-	} else {
-		console.warn("Popups blocked: Cannot open photo in new tab.");
-	}
-}
-
 /**
  * Loads mask layers and combines them into a single texture mask
  * @param {WebGL2RenderingContext} gl
