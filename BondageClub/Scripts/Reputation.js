@@ -64,14 +64,16 @@ function ReputationLoad(NewRep) {
 }
 
 /**
-  * @overload
- * @param {ReputationType} PlayerReputationType - Gets the reputation value from the player
- * @returns {number}
- */
-/**
+ * Returns the reputation value of a given character
  * @overload
  * @param {Character} C - The character to get the reputation of
  * @param {ReputationType} RepType - Type/name of the reputation to get the value of.
+ * @returns {number}
+ */
+/**
+ * Returns the reputation value of the player
+ * @overload
+ * @param {ReputationType} ReputationType - Gets the reputation value from the player
  * @returns {number}
  */
 /**

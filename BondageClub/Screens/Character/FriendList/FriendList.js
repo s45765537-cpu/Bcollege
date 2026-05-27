@@ -900,8 +900,8 @@ function FriendListLoadFriendList(data) {
 						{ tag: "span", attributes: { hidden: true }, classList: ["friend-list-sorting-node"] },
 						...friend.chatRoom.types.map((iconType) => {
 							if (iconType != null) {
-								const { src, tooltipKey, sortKey } = iconType;
-								totalSortKey += sortKey;
+								const { src, tooltipKey, sortKey: iconSortKey } = iconType;
+								totalSortKey += iconSortKey;
 								return {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
@@ -956,8 +956,8 @@ function FriendListLoadFriendList(data) {
 						{ tag: "span", attributes: { hidden: true }, classList: ["friend-list-sorting-node"] },
 						...friend.chatRoom.types.map((iconType) => {
 							if (iconType) {
-								const { src, tooltipKey, sortKey } = iconType;
-								totalSortKey += sortKey;
+								const { src, tooltipKey, sortKey: iconSortKey } = iconType;
+								totalSortKey += iconSortKey;
 								return {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
