@@ -13723,6 +13723,27 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "SilkStockings3",
+				InventoryID: 1346,
+				Random: false,
+				Fetish: ["Nylon"],
+				Value: 6,
+				Top: 0,
+				Left: {
+					BaseLower: 0,
+					Kneel: 0,
+					KneelingSpread: 30,
+					LegsClosed: 0,
+					LegsOpen: 0,
+					Spread: 0,
+				},
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "丝袜3",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
