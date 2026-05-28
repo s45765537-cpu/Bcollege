@@ -13683,7 +13683,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SilkStockings",
-				InventoryID: 1342,
+				InventoryID: 1344,
 				Random: false,
 				Fetish: ["Nylon"],
 				Value: 8,
@@ -13699,6 +13699,27 @@ var AssetFemale3DCG = [
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "丝袜",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "SilkStockings2",
+				InventoryID: 1345,
+				Random: false,
+				Fetish: ["Nylon"],
+				Value: 7,
+				Top: 0,
+				Left: {
+					BaseLower: 0,
+					Kneel: 0,
+					KneelingSpread: 30,
+					LegsClosed: 0,
+					LegsOpen: 0,
+					Spread: 0,
+				},
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "丝袜2",
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
