@@ -13744,6 +13744,28 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "StripedSocks",
+				Random: false,
+				Top: 0,
+				Left: {
+					BaseLower: 0,
+					Kneel: 0,
+					KneelingSpread: 30,
+					LegsClosed: 0,
+					LegsOpen: 0,
+					Spread: 0,
+				},
+				Layer: [
+					{ Name: "Socks", Priority: 20 },
+					{ Name: "Stripes", Priority: 20 },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "条纹袜",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
