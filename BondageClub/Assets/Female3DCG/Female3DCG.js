@@ -13796,6 +13796,25 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Ruffledsocks1",
+				Random: false,
+				Top: 780,
+				Left: 125,
+				PoseMapping: {
+					Kneel: "Hide",
+					KneelingSpread: "Hide",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Hogtied: "Hide",
+					AllFours: "Hide",
+				},
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "荷叶边袜",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
