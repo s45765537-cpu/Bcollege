@@ -13766,6 +13766,36 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "CuteKittenPrintedSocks",
+				InventoryID: 1347,
+				Random: false,
+				Value: 12,
+				Top: 500,
+				Left: { "": 100, KneelingSpread: 130 },
+				DynamicGroupName: "Socks",
+				Layer: [
+					{ Name: "BaseColor" },
+					{ Name: "Ears" },
+					{ Name: "CatPattern" },
+					{ Name: "Bow" },
+					{
+						Name: "CatTail",
+						PoseMapping: {
+							LegsClosed: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "猫袜",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
