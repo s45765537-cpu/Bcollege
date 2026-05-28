@@ -5129,7 +5129,7 @@ var AssetFemale3DCG = [
 				},
 				Priority: 26,
 				Prerequisite: ["HasBreasts"],
-				PoseMapping: { 
+				PoseMapping: {
 					Hogtied: "Hogtied",
 					AllFours: "AllFours",
 				},
@@ -13678,6 +13678,27 @@ var AssetFemale3DCG = [
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "网袜",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "SilkStockings",
+				InventoryID: 1342,
+				Random: false,
+				Fetish: ["Nylon"],
+				Value: 8,
+				Top: 0,
+				Left: {
+					BaseLower: 0,
+					Kneel: 0,
+					KneelingSpread: 30,
+					LegsClosed: 0,
+					LegsOpen: 0,
+					Spread: 0,
+				},
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "丝袜",
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
