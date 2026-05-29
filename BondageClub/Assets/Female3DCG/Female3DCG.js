@@ -13809,8 +13809,8 @@ var AssetFemale3DCG = [
 					KneelingSpread: "Hide",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
-					Hogtied: "Hide",
-					AllFours: "Hide",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
 				},
 				Attribution: {
 					Author: "Echo (SugarChain)",
@@ -13830,8 +13830,8 @@ var AssetFemale3DCG = [
 					KneelingSpread: "Hide",
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
-					Hogtied: "Hide",
-					AllFours: "Hide",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
 				},
 				Layer: [{ Name: "Socks" }, { Name: "Bowknot" }],
 				DefaultColor: ["#8D8D8D", "#8D8D8D"],
@@ -13846,6 +13846,10 @@ var AssetFemale3DCG = [
 				Name: "FootstepSocks",
 				Random: false,
 				Top: 0,
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 				Left: {
 					BaseLower: 0,
 					Kneel: 0,
@@ -13857,6 +13861,28 @@ var AssetFemale3DCG = [
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "踩脚袜",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "StirrupThighHighSocks",
+				Random: false,
+				Top: 0,
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
+				Left: {
+					BaseLower: 0,
+					Kneel: 0,
+					KneelingSpread: 30,
+					LegsClosed: 0,
+					LegsOpen: 0,
+					Spread: 0,
+				},
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "露趾袜",
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
