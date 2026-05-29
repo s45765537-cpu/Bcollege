@@ -278,7 +278,12 @@ function PrivateSubTrialOverUnwilling() { return ((NPCEventGet(CurrentCharacter,
  * Checks if the player can be pet by a NPC.
  * @returns {boolean} - TRUE if the player is restrained by a petsuit and the NPC is free.
  */
-function PrivateCanPet() { return ((CurrentCharacter.Love >= 0) && !CurrentCharacter.IsRestrained() && (InventoryGet(Player, "ItemArms") != null) && (InventoryGet(Player, "ItemArms").Asset.Name == "BitchSuit")); }
+function PrivateCanPet() {
+	return !!CurrentCharacter
+		&& (CurrentCharacter.Love ?? 0) >= 0
+		&& !CurrentCharacter.IsRestrained()
+		&& CharacterHasItemWithAttribute(Player, "PetSuit");
+}
 /**
  * Checks if the player can sell her slave.
  * @returns {boolean} - TRUE if the player is free and the slave is not a bondage college NPC.

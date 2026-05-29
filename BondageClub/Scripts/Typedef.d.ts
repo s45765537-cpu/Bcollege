@@ -660,6 +660,7 @@ type AssetAttribute =
 	| "FuturisticRecolor" | "FuturisticRecolorDisplay"
 	| "PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
 	| "Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
+	| "PetSuit"
 	;
 
 type PosePrerequisite = `Can${AssetPoseName}`;

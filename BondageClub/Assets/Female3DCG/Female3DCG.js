@@ -39716,6 +39716,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				AllowTighten: true,
+				Attribute: ["PetSuit"],
 				Top: 150,
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
@@ -39821,6 +39822,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				Top: 150,
+				Attribute: ["PetSuit"],
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
 					AllFours: "AllFours",
