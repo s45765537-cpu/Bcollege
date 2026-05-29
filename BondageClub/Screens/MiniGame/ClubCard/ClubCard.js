@@ -46,7 +46,8 @@ var ClubCardLiabilityLimit = [0, 1, 2, 3, 5, 8];
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
-var ClubCardDefaultSelection = "";
+var ClubCardDefaultSelection = "Default";
+var ClubCardUsePrecon = false;
 /**
  * Counter to ensure unique ID incrementation.
  * It is used globally to prevent ID duplication.
@@ -420,6 +421,16 @@ var ClubCardList = [
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Reverse Prayer", {[ClubCardPlaceholderKeys.AMOUNT]: ClubCardTierSelection });
 		}
 	},
+	{
+		ID: 1028,
+		Name: "Plushie",
+		MoneyPerTurn: 1,
+		OnPlay: function(CCPlayer) {
+			this.MoneyPerTurn = Math.min(ClubCardNameCountOnBoard(CCPlayer, "Plushie"), CCPlayer.Level);
+			ClubCardPlayerAddFame(CCPlayer, 2);
+			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), 2);
+		}
+	},
 
 	// 2000 - Staff Members (Club employees that can be targeted by events)
 	{
@@ -603,7 +614,7 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		onOpponentDrawAction: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, 2, this.Name);
-			if (ClubCardGroupIsOnBoard(CCPlayer, "Liability")) ClubCardPlayerAddFame(CCPlayer, 1, this.Name);
+			if (!ClubCardGroupIsOnBoard(CCPlayer, "Liability")) ClubCardPlayerAddFame(CCPlayer, 1, this.Name);
 		}
 	},
 	{
@@ -1274,8 +1285,7 @@ var ClubCardList = [
 		Group: ["AsylumNurse"],
 		RequiredLevel: 3,
 		BeforeTurnEnd: function(CCPlayer) {
-			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 2;
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
+			ClubCardPlayerAddFame(CCPlayer, Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 2, CCPlayer.Level + 1));
 		}
 	},
 	{
@@ -2221,6 +2231,69 @@ var ClubCardList = [
 			this.CanActive = true;
 		}
 	},
+	{
+		ID: 12017,
+		Name: "Jae",
+		Group: ["Player"],
+		RewardMemberNumber: 189317,
+		RequiredLevel: 4,
+		MoneyPerTurn: 1,
+		FamePerTurn: 2,
+		EffectKey: 0,
+		onMemberLeaveClub: function(CCPlayer) {
+			if (this.EffectKey == 0) {
+				ClubCardPlayerAddFame(CCPlayer, this.FamePerTurn ?? 0, this.Name);
+				ClubCardPlayerAddMoney(CCPlayer, this.MoneyPerTurn ?? 0, this.Name);
+				this.EffectKey++;
+			}
+		},
+		AfterTurnEnd: function() {
+			this.EffectKey = 0;
+		},
+		AfterOpponentTurnEnd: function() {
+			this.EffectKey = 0;
+		}
+	},
+	{
+		ID: 12018,
+		Name: "Delta",
+		Group: ["Player"],
+		RewardMemberNumber: 187489,
+		RequiredLevel: 5,
+		MoneyPerTurn: 9,
+		OnPlay: function(CCPlayer) {
+			if (ClubCardNameCountOnBoard(CCPlayer, "Plushie") > 8) CCPlayer.Fame = 100;
+		},
+		onPlayedCard: function(CCPlayer) {
+			if (ClubCardNameCountOnBoard(CCPlayer, "Plushie") > 8) CCPlayer.Fame = 100;
+		}
+	},
+	{
+		ID: 12019,
+		Name: "Felix",
+		Group: ["Player", "Kemonomimi"],
+		RewardMemberNumber: 139503,
+		RequiredLevel: 3,
+		MoneyPerTurn: -6,
+		FamePerTurn: 6,
+		OnPlay: function(CCPlayer) {
+			const playerCards =  ClubCardList.filter(C => ClubCardCardHasGroup(C, "Player"));
+			const cardToAdd = playerCards[Math.floor(Math.random() * playerCards.length)];
+			const position = Math.floor(Math.random() * Math.min(6, CCPlayer.Deck.length)) - 1;
+			CCPlayer.Deck.splice(position, 0, ClubCardGetCopyCardByName(cardToAdd.Name));
+		}
+	},
+	{
+		ID: 12020,
+		Name: "anna",
+		Group: ["Player", "Kemonomimi", "Exhibitionist"],
+		Revealed: true,
+		RewardMemberNumber: 153856,
+		MoneyPerTurn: 1,
+		onRender: function(CCPlayer, X, Y, W) {
+			DrawImageResize("Screens/MiniGame/ClubCard/" + (CCPlayer.Deck[0]?.Type ?? "Member") + "/" + CCPlayer.Deck[0]?.Name + ".png", X + W * 0.1, Y + W * 0.40, W * 0.3, W * 0.6);
+		}
+	},
 
 	// 13000 - Shibari Members
 	{
@@ -3016,7 +3089,8 @@ var ClubCardList = [
 		Name: "Condom Suit",
 		Group: ["Latex"],
 		RequiredLevel: 4,
-		FamePerTurn: 3
+		FamePerTurn: 3,
+		MoneyPerTurn: 1
 	},
 	{
 		ID: 18011,
@@ -5005,6 +5079,7 @@ function ClubCardRemoveFromBoard(CCPlayer, Card, DontDiscard = false, MessageTyp
 		}
 		ClubCardMessageAdd(MessageType, "MemberLeaveClub", {[ClubCardPlaceholderKeys.CARDNAME]: Card.Name}, CCPlayer);
 		ClubCardUpdateBoardCardsIndex(CCPlayer);
+		for (const card of CCPlayer.Board) if (card.onMemberLeaveClub) card.onMemberLeaveClub(CCPlayer, Card);
 	}
 }
 
@@ -5335,7 +5410,7 @@ function ClubCardSummonCard(CCPlayer, card) {
 		}
 	}
 
-	if (card.OnPlay != null && card.Prerequisite == undefined) {
+	if (card.OnPlay != null && (card.Prerequisite == undefined || card.Name == "Ball Gag")) {
 		card.OnPlay(CCPlayer);
 	}
 	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
@@ -5550,7 +5625,6 @@ function ClubCardGetPlayerIndex() {
 
 function ClubCardSelectDefaultDeck() {
 	ClubCardDefaultSelection = this.value;
-	ClubCardLoadDeckNumber(-1);
 }
 
 /**
@@ -5562,28 +5636,29 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	ElementRemove("DefaultDecksDropdown");
 	// Invalid decks cannot be loaded, we get the default one if that's the case
 	let Deck = [];
-	const deckSources = Player?.Game?.ClubCard?.Deck ?? [];
-	const isValid = deckSources.length > DeckNum
-		&& deckSources[DeckNum]?.length >= ClubCardBuilderMinDeckSize
-		&& deckSources[DeckNum]?.length <= ClubCardBuilderMaxDeckSize;
-
-	if (isValid) {
-		let msg = TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player));
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
-		for (let i = 0; i < Player.Game.ClubCard?.Deck[DeckNum]?.length; i++)
-			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
-	} else if (ClubCardDefaultSelection != "") {
+	if (ClubCardUsePrecon) {
 		Deck = ClubCardBuilderDefaultDecksList[ClubCardDefaultSelection].slice();
+		ClubCardUsePrecon = false;
 	} else {
-		let msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
-		Deck = ClubCardBuilderDefaultDeck.slice();
+		const deckSources = Player?.Game?.ClubCard?.Deck ?? [];
+		const isValid = deckSources.length > DeckNum && deckSources[DeckNum]?.length >= ClubCardBuilderMinDeckSize && deckSources[DeckNum]?.length <= ClubCardBuilderMaxDeckSize;
+		if (isValid) {
+			let msg = TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player));
+			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
+			for (let i = 0; i < Player.Game.ClubCard?.Deck[DeckNum]?.length; i++)
+				Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
+		} else {
+			let msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
+			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
+			Deck = ClubCardBuilderDefaultDeck.slice();
+		}
 	}
-	ClubCardDefaultSelection = "";
+	ClubCardDefaultSelection = "Default";
 
 	// Loads the deck and shuffles it
 	let Index = ClubCardGetPlayerIndex();
 	if (Index >= 0) {
+		if (Deck.includes(12018)) Deck.push(1028, 1028, 1028, 1028, 1028, 1028, 1028, 1028, 1028);
 		ClubCardPlayer[Index].Deck = ClubCardShuffle(ClubCardLoadDeck(Deck));
 		ClubCardPlayer[Index].FullDeck = ClubCardLoadDeck(Deck);
 	}
@@ -6876,6 +6951,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 
 	// Draw the images and texts on the screen
 	DrawImageResize("Screens/MiniGame/ClubCard/Frame/" + Card.Type + ((Card.Reward != null) ? "Reward" : "") + Level.toString() + ".png", X, Y, W, W * 2);
+	if (Card.Location === "PlayerBoard" && Card.onRender && !Card.Negated) Card.onRender(ClubCardPlayer[0], X, Y, W);
 	DrawImageResize("Screens/MiniGame/ClubCard/" + Card.Type + "/" + Card.Name + ".png", X + W * 0.05, Y + W * 0.16, W * 0.9, W * 1.8);
 	if ((Card.Time != null) && ((Card.Location === "PlayerBoard") || (Card.Location === "OpponentBoard"))) {
 		MainCanvas.font = "bold " + Math.round(W / 1.5) + "px arial";
@@ -7344,10 +7420,11 @@ function ClubCardRenderPopup(Timestamp) {
 		DrawRect(548, 228, 604, 474, "White");
 		DrawRect(550, 230, 600, 470, "Black");
 		DrawTextWrap(TextGet("Your Decks"), 550, 235, 600, 61, "White");
-		DrawRect(238, 228, 304, 146, "White");
-		DrawRect(240, 230, 300, 142, "Black");
-		DrawTextWrap(TextGet("Default Decks"), 240, 235, 292, 61, "White");
-		ElementPositionFix("DefaultDecksDropdown", 36, 242, 310, 296, 60);
+		DrawRect(218, 228, 320, 234, "White");
+		DrawRect(220, 230, 316, 230, "Black");
+		DrawTextWrap(TextGet("Default Decks"), 230, 235, 292, 61, "White");
+		DrawButton(230, 390, 296, 60, TextGet("Play Precon"), "White");
+		ElementPositionFix("DefaultDecksDropdown", 36, 230, 310, 296, 60);
 		for (let Deck = 0; Deck < 10; Deck++)
 			DrawButton(560 + Math.floor(Deck / 5) * 300, 310 + (Deck % 5) * 80, 280, 60, ClubCardBuilderGetDeckName(Deck), "White");
 		return;
@@ -7740,6 +7817,10 @@ function ClubCardClick() {
 			return;
 		}
 		if (ClubCardPopup.Mode == "DECK")
+			if (MouseIn(242, 390, 296, 60)) {
+				ClubCardUsePrecon = true;
+				ClubCardLoadDeckNumber(-1);
+			}
 			for (let Deck = 0; Deck < 10; Deck++)
 				if (MouseIn(560 + Math.floor(Deck / 5) * 300, 310 + (Deck % 5) * 80, 280, 60))
 					ClubCardLoadDeckNumber(Deck);

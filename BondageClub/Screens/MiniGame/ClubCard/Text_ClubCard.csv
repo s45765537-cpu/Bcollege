@@ -205,7 +205,7 @@ Text Novice Nurse,+1 Fame per turn for each Asylum Patient present. Max 3
 Title Commited Patient,Commited Patient
 Text Commited Patient,<F>My jacket is never tight enough.
 Title Veteran Nurse,Veteran Nurse
-Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present. Max 6
+Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present (max = club tier + 1).
 Title Permanent Patient,Permanent Patient
 Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
@@ -716,7 +716,7 @@ Text Peek Performance,"Both players draw 1 card, and 1 more per 3 visible exhibi
 Title Unlucky Undresser,Unlucky Undresser
 Text Unlucky Undresser,"Enters: add New Clothes and 2 Nude Photos to your opponent's deck."
 Title Lumi,Lumi
-Text Lumi,"Active (Once per tier): Play again, Players reveal their hands, the player with higher sum of tiers receive Fame equal to their club tier*2."
+Text Lumi,"Active (Once per tier): Play again, Players reveal their hands, the player with higher sum of tiers receive Fame equal to their club tier + 1."
 Title Public Advertisement,Public Advertisement
 Text Public Advertisement,"When a member enters your club receive 1 Money and opponent receives 2 Fame."
 Title Tifa,Tifa
@@ -772,3 +772,14 @@ Text Creeking,"For 5 turns: select and negate a latex member from your club. Whe
 Prerequisite Creeking,Select a latex member from your club.
 Your Decks,Your Decks
 Default Decks,Preconstructed
+Title Plushie,Plushie
+Text Plushie,"Enters: Sets its Money to the amount of plushies present (max = club tier), and both players gain 2 Fame."
+Title Delta,Delta
+Text Delta,"If 9 plushies present, win the game. Game start: If your deck has 40 cards, shuffle 9 plushies into your deck."
+Title Felix,Félix
+Text Felix,"Enters: Add a random Player Card to shuffle into the top 6 cards of your deck"
+Title Jae,Jae
+Text Jae,"Once per turn, when a member leaves your club, gain Fame and Money equal to Jae's Fame and Money (max = club tier)."
+Title anna,anna
+Text anna,Show the top card of your deck.
+Play Precon,Play Precon

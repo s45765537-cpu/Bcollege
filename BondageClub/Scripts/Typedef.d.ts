@@ -5122,6 +5122,8 @@ interface ClubCard {
 	 * @param C Player that owns the card
 	 */
 	onLeaveClub?: (C: ClubCardPlayer) => void;
+	onMemberLeaveClub?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	onRender?: (C: ClubCardPlayer, X: number, Y: number, W: number) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
 	onLevelUp?: (C: ClubCardPlayer) => void;
 	onOpponentLevelUp?: (C: ClubCardPlayer) => void;
