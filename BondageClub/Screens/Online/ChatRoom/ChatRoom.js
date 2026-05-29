@@ -1691,7 +1691,7 @@ function ChatRoomTarget() {
 
 /**
  * Updates the account to set the last chat room
- * @param {ChatRoom|null} room - room to set it to. null to reset.
+ * @param {ChatRoomData|null} room - room to set it to. null to reset.
  * @returns {void} - Nothing
  */
 function ChatRoomSetLastChatRoom(room) {
@@ -4969,11 +4969,11 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 /**
  * Handles the reception of the complete room data from the server.
  * @param {unknown} obj - Room object containing the updated chatroom data.
- * @returns {obj is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
+ * @returns {obj is ChatRoomData} - Returns true if the passed properties are valid and false if they're invalid.
  */
 function ChatRoomValidateProperties(obj)
 {
-	const room = /** @type {ChatRoom} */ (obj);
+	const room = /** @type {ChatRoomData} */ (obj);
 	return room != null && typeof room === "object"
 		&& typeof room.Name === "string"
 		&& typeof room.Description === "string"
@@ -6838,7 +6838,7 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 
 /**
  * Gets only the settings/configurable properties of a chat room.
- * @param {ChatRoom} room
+ * @param {ChatRoomData} room
  * @return {ChatRoomSettings}
  */
 function ChatRoomGetSettings(room) {
