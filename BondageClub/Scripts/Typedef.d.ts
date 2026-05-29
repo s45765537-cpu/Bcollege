@@ -650,7 +650,7 @@ type CraftingPropertyType =
 
 type AssetGenericSize = "Small" | "Medium" | "Large";
 type AssetAttribute =
-	"Skirt" | "SuitLower" | "UpperLarge" | 
+	"Skirt" | "SuitLower" | "UpperLarge" |
 	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
 	"CanAttachMittens" |
 	"IsChestHarness" | "IsHipHarness" |
@@ -4357,9 +4357,9 @@ interface CraftingItem {
 	/** The crafted item effects mapped to their effect strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/**
-	* The crafted item effect.
-	* @deprecated superseded by {@link CraftingItem.Effects}
-	*/
+	 * The crafted item effect.
+	 * @deprecated superseded by {@link CraftingItem.Effects}
+	 */
 	Property?: CraftingPropertyType;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
