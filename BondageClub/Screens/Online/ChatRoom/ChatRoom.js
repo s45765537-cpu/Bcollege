@@ -5744,8 +5744,12 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	const substitutions = [
 		["SourceCharacter", CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")"],
 	];
+	/** @type {Parameters<typeof TextSubstitute>[2]} this is ass x2 */
+	const textSubstituteOptions = { textCache: TextPrefetch("Online", "ChatRoom") };
+	/** Temporary helper to get the corresponding Online/ChatRoom text for the given key @param {string} key */
+	const GetChatRoomText = (key) => TextGetInScope(textSubstituteOptions.textCache.path, key);
 	if (Player.FriendList.includes(SenderCharacter.MemberNumber)) {
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAcceptMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendAcceptMessage"), substitutions));
 		return;
 	}
 	let id = CommonGenerateUniqueID();
@@ -5754,20 +5758,21 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	};
 	const addBack = () => {
 		ChatRoomListUpdate(Player.FriendList, true, SenderCharacter.MemberNumber, "FriendRequest");
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAddbackMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendAddbackMessage"), substitutions));
 		hide();
 	};
 	const ghost = () => {
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendGhostMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendGhostMessage"), substitutions));
 		hide();
 	};
 	ChatRoomSendLocal(
 		ElementCreate({
 			tag: "div",
-			children: TextSubstitute("FriendRequestMessage", {
-				"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
-				"{buttons}": ElementCreate(
-					{
+			children: TextSubstitute(
+				"FriendRequestMessage",
+				{
+					"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
+					"{buttons}": ElementCreate({
 						tag: "div",
 						classList: ["chat-room-friendrequest-buttons"],
 						attributes: {id},
@@ -5775,26 +5780,30 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-add-back"],
-									children: [TextGet("FriendAddback")],
+									children: [GetChatRoomText("FriendAddback")],
 								}
 							}),
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-hide"],
-									children: [TextGet("FriendIgnore")],
+									children: [GetChatRoomText("FriendIgnore")],
 								}
 							}),
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-ghost"],
-									children: TextSubstitute("FriendGhost", {
-										"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
-									}),
+									children: TextSubstitute(
+										"FriendGhost",
+										{ "SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")" },
+										textSubstituteOptions,
+									),
 								}
 							}),
 						],
-					})
-			}),
+					}),
+				},
+				textSubstituteOptions,
+			),
 		}).outerHTML
 	);
 
