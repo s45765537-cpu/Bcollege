@@ -636,23 +636,25 @@ function ChatRoomReceiveSuitcaseMoney() {
 }
 
 /**
+ *
  * Handler for hidden suitcase message
+ * @param {Character} character
  * @returns {void}
  */
-function ChatRoomTakeSuitcase(SenderCharacter) {
-	if (Player.CanInteract() || !ServerChatRoomGetAllowItem(SenderCharacter, Player)) return;
-	let misc = InventoryGet(Player, "ItemMisc");
+function ChatRoomTakeSuitcase(character) {
+	if (Player.CanInteract() || !ServerChatRoomGetAllowItem(character, Player)) return;
+
 	if (KidnapLeagueSearchingPlayers.length == 0) {
-		if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
+		if (InventoryIsWorn(character, "ItemMisc", "BountySuitcase")) {
 			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
 			ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
-				{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
+				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
 				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
 			]);
-		} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
+		} else if (InventoryIsWorn(character, "ItemMisc", "BountySuitcaseEmpty")) {
 			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
 			ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
-				{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
+				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
 				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
 			]);
 		}
@@ -660,12 +662,12 @@ function ChatRoomTakeSuitcase(SenderCharacter) {
 		ServerSend("ChatRoomGame", {
 			OnlineBounty: {
 				finishTime: KidnapLeagueSearchFinishTime,
-				target: SenderCharacter.MemberNumber,
+				target: character.MemberNumber,
 			}
 		});
 	}
-	if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
-		KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
+	if (!KidnapLeagueSearchingPlayers.includes(character.MemberNumber)) {
+		KidnapLeagueSearchingPlayers.push(character.MemberNumber);
 	}
 }
 /**
