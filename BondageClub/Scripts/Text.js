@@ -197,7 +197,7 @@ class TextCache {
 			const cacheKey = `${this.fileName()}:${key}`;
 			if (!TextCache._textMissingCache.has(cacheKey)) {
 				TextCache._textMissingCache.add(cacheKey);
-				console.trace(`Unknown translation key in "${this.fileName()}": "${key}"`);
+				console.debug(new Error(`Unknown translation key in "${this.fileName()}": "${key}"`));
 			}
 			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
 		}
