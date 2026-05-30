@@ -684,6 +684,16 @@ function CommonRandomItemFromList(ItemPrevious, ItemList) {
 }
 
 /**
+ * Get a random item from an array.
+ * @template T
+ * @param {readonly T[]} list - List for which to pick a random item from
+ * @returns {T} - The randomly selected item from the list
+ */
+function CommonGetRandomItemFromList(list) {
+	return list[Math.floor(Math.random() * list.length)];
+}
+
+/**
  * Converts a string of numbers split by commas to an array, sanitizes the array by removing all NaN or undefined elements.
  * @param {string} s - String of numbers split by commas
  * @returns {number[]} - Array of valid numbers from the given string
