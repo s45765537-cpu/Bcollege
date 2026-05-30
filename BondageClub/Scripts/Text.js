@@ -121,7 +121,7 @@ class TextCache {
 	 * @private
 	 * @type {Set<string>}
 	 */
-	static _textMissingCache = new Set;
+	static _textMissingCache = new Set();
 
 	/**
 	 * Creates a new TextCache from the provided CSV file path.
