@@ -1486,11 +1486,8 @@ function AsylumGGTSDialogAction(Action, Minute) {
  */
 function AsylumGGTSDialogInteraction(Interaction) {
 
-	// Outputs the interaction in local chat
-	//ServerSend("ChatRoomChat", { Content: "GGTS" + Interaction + "|" + CurrentCharacter.MemberNumber.toString(), Type: "Hidden" });
-	//AsylumGGTSMessage("Interaction" + Interaction, CurrentCharacter);
-	//DialogLeave();
 }
+
 function AsylumGGTSDialogNewTask() {
 	const dictionary = new DictionaryBuilder()
 		.targetCharacter(CurrentCharacter)
@@ -1503,9 +1500,10 @@ function AsylumGGTSDialogNewTask() {
 }
 
 /**
- * @param {number} speed
+ * @param {string} stringSpeed
  */
-function AsylumGGTSDialogSpeed(speed) {
+function AsylumGGTSDialogSpeed(stringSpeed) {
+	const speed = CommonParseInt(stringSpeed);
 	let message = "Speed5";
 	if (speed >= 1) {
 		message = "Speed10";
@@ -1522,12 +1520,12 @@ function AsylumGGTSDialogSpeed(speed) {
 	DialogLeave();
 }
 /**
- * @param {number} pauseDuration
+ * @param {string} pauseDuration
  */
 function AsylumGGTSDialogPause(pauseDuration) {
 	const dictionary = new DictionaryBuilder()
 		.targetCharacter(CurrentCharacter)
-		.addGGTSData({ type: "GGTSPause", duration: pauseDuration})
+		.addGGTSData({ type: "GGTSPause", duration: CommonParseInt(pauseDuration)})
 		.build();
 	ServerSend("ChatRoomChat", { Content: "AsylumGGTSHiddenMessage", Type: "Hidden", Dictionary: dictionary });
 	AsylumGGTSMessage("InteractionPause5", CurrentCharacter); // Is hardcoded to say 5 minutes
@@ -1546,7 +1544,7 @@ function AsylumGGTSHiddenMessage(SenderCharacter, data) {
 	const targetDictionary = dictionary.find(IsTargetCharacterDictionaryEntry);
 	if (!targetDictionary || targetDictionary.TargetCharacter !== Player.MemberNumber) return;
 	dictionary.forEach((entry) => {
-		if (!IsGTTSDictionaryEntry(entry)) return;
+		if (!IsGGTSDictionaryEntry(entry)) return;
 		switch (entry.Action.type) {
 			case "GGTSNewTask":
 				AsylumGGTSNewTask();

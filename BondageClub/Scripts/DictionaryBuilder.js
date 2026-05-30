@@ -260,7 +260,7 @@ class DictionaryBuilder {
 
 	/**
 	 * Adds a changeKey dictionary entry
-	 * @param {GTTSDictionaryEntry["Action"]} action
+	 * @param {GGTSDictionaryEntry["Action"]} action
 	 * @returns
 	 */
 	addGGTSData(action) {
@@ -394,9 +394,9 @@ function IsTextDictionaryEntry(entry) {
 
 /**
  * @param {ChatMessageDictionaryEntry} entry
- * @returns {entry is GTTSDictionaryEntry}
+ * @returns {entry is GGTSDictionaryEntry}
  */
-function IsGTTSDictionaryEntry(entry) {
+function IsGGTSDictionaryEntry(entry) {
 	return CommonIsObject(entry) && "Tag" in entry && entry.Tag === "GGTSData";
 }
 /**

@@ -781,7 +781,7 @@ interface MsgIdDictionaryEntry {
 /**
  * A dictionary entry for GGTS information.
  */
-interface GTTSDictionaryEntry {
+interface GGTSDictionaryEntry {
 	Tag: "GGTSData";
 	Action: {
 		type: "GGTSNewTask"
@@ -858,7 +858,7 @@ type ChatMessageDictionaryEntry =
 	| ReplyIdDictionaryEntry
 	| MapViewTeleportEventDictionaryEntry
 	| MapViewChangeKeyEventDictionaryEntry
-	| GTTSDictionaryEntry
+	| GGTSDictionaryEntry
 	| ModSdkModsQueryPayloadDictionaryEntry
 	| ModSdkModsReplyPayloadDictionaryEntry;
 
