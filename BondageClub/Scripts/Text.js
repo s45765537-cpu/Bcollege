@@ -8,8 +8,6 @@ const TextAllScreenCache = new Map;
 /** Prefix for the Text-generated warning message on a missing key */
 const TEXT_NOT_FOUND_PREFIX = "MISSING TEXT IN";
 
-var TextLogMissingStrings = false;
-
 /**
  * Finds the text value linked to the tag in the buffer
  * @param {string} TextTag - Tag for the text to find
@@ -119,6 +117,13 @@ function InterfaceTextGet(msg) {
  */
 class TextCache {
 	/**
+	 * A cache with missing keys as diagnosed by {@link TextCache.get}. Used for ensuring that each unique cache/key pair only outputs to the console once.
+	 * @private
+	 * @type {Set<string>}
+	 */
+	static _textMissingCache = new Set;
+
+	/**
 	 * Creates a new TextCache from the provided CSV file path.
 	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
 	 */
@@ -189,10 +194,11 @@ class TextCache {
 		}
 		const value = this.cache[key];
 		if (typeof value !== "string") {
-			if (TextLogMissingStrings) {
-				console.warn(`Unknown translation key in ${this.fileName()}: ${key}`);
+			const cacheKey = `${this.fileName()}:${key}`;
+			if (!TextCache._textMissingCache.has(cacheKey)) {
+				TextCache._textMissingCache.add(cacheKey);
+				console.trace(`Unknown translation key in "${this.fileName()}": "${key}"`);
 			}
-			this.log(`Unknown translation key: ${key}`);
 			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
 		}
 		return value;
