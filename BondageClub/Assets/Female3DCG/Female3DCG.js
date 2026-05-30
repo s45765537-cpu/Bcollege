@@ -3031,7 +3031,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "GrandMage",
 				InventoryID: 144,
-				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Value: 90,
 				DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"],
@@ -3051,7 +3050,7 @@ var AssetFemale3DCG = [
 					},
 				],
 				Layer: [
-					{ Name: "Base" },
+					{ Name: "Base", StyleOverride: ["EchoV2"] },
 					{
 						Name: "BackSkirt",
 						ParentGroup: "",
@@ -3062,7 +3061,7 @@ var AssetFemale3DCG = [
 							AllFours: PoseType.HIDE,
 						},
 					},
-					{ Name: "Trim" },
+					{ Name: "Trim", StyleOverride: ["EchoV2"] },
 					{
 						Name: "Belt",
 						PoseMapping: {
@@ -3070,6 +3069,7 @@ var AssetFemale3DCG = [
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
+						StyleOverride: ["EchoV2"],
 					},
 					{
 						Name: "Buckle",
@@ -3078,6 +3078,7 @@ var AssetFemale3DCG = [
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
+						StyleOverride: ["EchoV2"],
 					},
 				],
 			},
@@ -3580,8 +3581,8 @@ var AssetFemale3DCG = [
 				Left: 160,
 				DefaultColor: ["#c91616", "#e0b51d", "#c91616", "#242485", "#f5f5f5"],
 				PoseMapping: {
-					AllFours: "AllFours",
-					Hogtied: "Hogtied",
+					Hogtied: PoseType.DEFAULT,
+					AllFours: PoseType.DEFAULT,
 				},
 				Extended: true,
 				DynamicAfterDraw: true,
@@ -3589,10 +3590,6 @@ var AssetFemale3DCG = [
 					{
 						Name: "Base",
 						StyleOverride: ["EchoV2"],
-						PoseMapping: {
-							Hogtied: PoseType.DEFAULT,
-							AllFours: "AllFours",
-						},
 					},
 					{
 						Name: "Straps",
@@ -3716,7 +3713,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "CorsetDress",
 				InventoryID: 161,
-				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Leather"],
@@ -3730,7 +3726,10 @@ var AssetFemale3DCG = [
 					"ItemNipplesPiercingsNecklacePiercingChain",
 					"ItemNipplesLactationPump",
 				],
-				Layer: [{ Name: "Cloth" }, { Name: "Buttons" }],
+				Layer: [
+					{ Name: "Cloth", StyleOverride: ["EchoV2"] },
+					{ Name: "Buttons" },
+				],
 			},
 			{
 				Name: "MaidLatex",
@@ -11520,13 +11519,18 @@ var AssetFemale3DCG = [
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
 					BackElbowTouch: "BackElbowTouch",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
 				},
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
 					"ItemNipplesLactationPump",
 				],
-				Layer: [{ Name: "Cloth" }, { Name: "Buttons" }],
+				Layer: [
+					{ Name: "Cloth", StyleOverride: ["EchoV2"] },
+					{ Name: "Buttons" },
+				],
 			},
 			{
 				Name: "RibbonCorset",
@@ -14022,7 +14026,7 @@ var AssetFemale3DCG = [
 				},
 				BuyGroup: "SocksFur",
 				Random: false,
-				Layer: [{ Name: "Fabric" }, { Name: "Fur" }],
+				Layer: [{ Name: "Fabric", StyleOverride: ["EchoV2"] }, { Name: "Fur" }],
 			},
 			{
 				Name: "SocksStriped1",
@@ -14288,7 +14292,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "SocksFur",
 				InventoryID: 340,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Nylon"],
 				Value: 40,
 				DefaultColor: ["#8c2331", "Default"],
@@ -14298,7 +14301,7 @@ var AssetFemale3DCG = [
 				},
 				BuyGroup: "SocksFur",
 				Random: false,
-				Layer: [{ Name: "Fabric" }, { Name: "Fur" }],
+				Layer: [{ Name: "Fabric", StyleOverride: ["EchoV2"] }, { Name: "Fur" }],
 			},
 			{
 				Name: "SocksStriped1",
