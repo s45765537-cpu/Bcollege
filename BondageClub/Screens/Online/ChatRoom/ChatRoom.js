@@ -5809,9 +5809,9 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 
 	const button = document.getElementById(id);
 	if (button) {
-		document.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
-		document.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
-		document.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+		button.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
+		button.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
+		button.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
 	}
 }
 
