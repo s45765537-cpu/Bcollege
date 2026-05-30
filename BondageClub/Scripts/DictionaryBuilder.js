@@ -259,6 +259,15 @@ class DictionaryBuilder {
 	}
 
 	/**
+	 * Adds a changeKey dictionary entry
+	 * @param {GTTSDictionaryEntry["Action"]} action
+	 * @returns
+	 */
+	addGGTSData(action) {
+		this._addEntry({ Tag: "GGTSData", Action: action });
+		return this;
+	}
+	/**
 	 * Adds a dictionary entry to the builder
 	 * @param {ChatMessageDictionaryEntry} entry - The dictionary entry to add
 	 * @returns {boolean} - True if the entry was successfully added, false otherwise
@@ -383,6 +392,13 @@ function IsTextDictionaryEntry(entry) {
 		&& "Text" in entry && (typeof entry.Text === "string" || typeof entry.Text === "number");
 }
 
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is GTTSDictionaryEntry}
+ */
+function IsGTTSDictionaryEntry(entry) {
+	return CommonIsObject(entry) && "Tag" in entry && entry.Tag === "GGTSData";
+}
 /**
  * @param {ChatMessageDictionaryEntry} entry
  * @returns {entry is TextLookupDictionaryEntry}

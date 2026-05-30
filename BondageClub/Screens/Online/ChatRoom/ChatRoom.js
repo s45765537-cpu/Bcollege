@@ -636,6 +636,39 @@ function ChatRoomReceiveSuitcaseMoney() {
 }
 
 /**
+ * Handler for hidden suitcase message
+ * @returns {void}
+ */
+function ChatRoomTakeSuitcase(SenderCharacter) {
+	if (Player.CanInteract() || !ServerChatRoomGetAllowItem(SenderCharacter, Player)) return;
+	let misc = InventoryGet(Player, "ItemMisc");
+	if (KidnapLeagueSearchingPlayers.length == 0) {
+		if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
+			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+				{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
+				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			]);
+		} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
+			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
+				{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
+				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			]);
+		}
+	} else {
+		ServerSend("ChatRoomGame", {
+			OnlineBounty: {
+				finishTime: KidnapLeagueSearchFinishTime,
+				target: SenderCharacter.MemberNumber,
+			}
+		});
+	}
+	if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
+		KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
+	}
+}
+/**
  * Checks if the player can give the target character her high security keys.
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
  */
@@ -4007,24 +4040,72 @@ function ChatRoomRegisterMessageHandler(handler) {
  * @returns {boolean}
  */
 function ChatRoomMessageProcessHidden(data, SenderCharacter) {
-	if (data.Content == "RuleInfoGet") ChatRoomGetLoadRules(SenderCharacter);
-	else if (data.Content == "RuleInfoSet") {
-		// @ts-expect-error That message uses .Dictionary as storage for LogRecord[]
-		ChatRoomSetLoadRules(SenderCharacter, data.Dictionary);
+	switch (data.Content) {
+		case "RuleInfoGet":
+			ChatRoomGetLoadRules(SenderCharacter);
+			break;
+		case "RuleInfoSet":
+			// @ts-expect-error That message uses .Dictionary as storage for LogRecord[]
+			ChatRoomSetLoadRules(SenderCharacter, data.Dictionary);
+			break;
+		case "SlowStop":
+			ChatRoomSlowtimer = CurrentTime + 45000;
+			ChatRoomSlowStop = true;
+			break;
+		case "OnlineStruggleInterrupt":
+			StruggleChatRoomEndAmination();
+			break;
+		case "HoldLeash":
+			ChatRoomDoHoldLeash(SenderCharacter);
+			break;
+		case "StopHoldLeash":
+			ChatRoomDoStopHoldLeash(SenderCharacter);
+			break;
+		case "PingHoldLeash":
+			ChatRoomDoPingLeashedPlayers(SenderCharacter);
+			break;
+		case "RemoveLeash":
+			ChatRoomDoRemoveLeash(SenderCharacter);
+			break;
+		case "GiveLockpicks":
+			DialogLentLockpicks = true;
+			break;
+		case "TakeSuitcase":
+			ChatRoomTakeSuitcase(data.Sender);
+			break;
+		case "ReceiveSuitcaseMoney":
+			ChatRoomReceiveSuitcaseMoney();
+			break;
+		case "ClubCardGameConceded":
+			ClubCardPlayerConceded(data.Sender);
+			break;
+		case "ClubCardAdminResetGameHidden":
+			ClubCardResetGameStatus();
+			break;
+		case "ChatRoomMapViewTeleport":
+			ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomMapViewChangeKey":
+			ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomFriendRequestAdd":
+			ChatRoomFriendMessage(SenderCharacter, data);
+			break;
+		case "AsylumGGTSHiddenMessage":
+			AsylumGGTSHiddenMessage(SenderCharacter, data);
+			break;
+		case "ModSdkModsQuery":
+		case "ModSdkModsReply":
+			CommandsModsList.ProcessHiddenRemote(data, SenderCharacter);
+			break;
 	}
-	else if (data.Content.startsWith("StruggleAssist")) {
+
+	if (data.Content.startsWith("StruggleAssist")) {
 		let A = parseInt(data.Content.substr("StruggleAssist".length));
 		if ((A >= 1) && (A <= 7)) {
 			ChatRoomStruggleAssistTimer = CurrentTime + 60000;
 			ChatRoomStruggleAssistBonus = A;
 		}
-	}
-	else if (data.Content == "SlowStop") {
-		ChatRoomSlowtimer = CurrentTime + 45000;
-		ChatRoomSlowStop = true;
-	}
-	else if (data.Content == "OnlineStruggleInterrupt") {
-		StruggleChatRoomEndAmination();
 	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
 		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
@@ -4036,77 +4117,10 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	}
 	else if (data.Content.startsWith("OwnerRule") || data.Content.startsWith("LoverRule")) {
 		ChatRoomSetRule(data);
-	}
-	else if (data.Content == "HoldLeash") {
-		ChatRoomDoHoldLeash(SenderCharacter);
-	}
-	else if (data.Content == "StopHoldLeash") {
-		ChatRoomDoStopHoldLeash(SenderCharacter);
-	}
-	else if (data.Content == "PingHoldLeash") {
-		ChatRoomDoPingLeashedPlayers(SenderCharacter);
-	}
-	else if (data.Content == "RemoveLeash") {
-		ChatRoomDoRemoveLeash(SenderCharacter);
-	}
-	else if (data.Content == "GiveLockpicks") DialogLentLockpicks = true;
-	else if (data.Content == "RequestFullKinkyDungeonData") {
-		if (CurrentScreen == "KinkyDungeon") {
-			KinkyDungeonStreamingPlayers.push(SenderCharacter.MemberNumber);
-			KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true));
-		}
-	}
-	else if (data.Content == "TakeSuitcase") {
-		if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
-			let misc = InventoryGet(Player, "ItemMisc");
-			if (KidnapLeagueSearchingPlayers.length == 0) {
-				if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
-					KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-					ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
-						{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
-						{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
-					]);
-				} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
-					KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-					ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
-						{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
-						{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
-					]);
-				}
-			} else {
-				ServerSend("ChatRoomGame", {
-					OnlineBounty: {
-						finishTime: KidnapLeagueSearchFinishTime,
-						target: SenderCharacter.MemberNumber,
-					}
-				});
-			}
-			if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
-				KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
-			}
-
-		}
-	}
-	else if (data.Content == "ReceiveSuitcaseMoney") {
-		ChatRoomReceiveSuitcaseMoney();
-	} else if (data.Content.substr(0, 4) == "GGTS") {
-		AsylumGGTSHiddenMessage(SenderCharacter, data.Content, data);
-	} else if (data.Content.substr(0, 7) == "Pandora") {
+	} else if (data.Content.startsWith("Pandora")) {
 		PandoraPenitentiaryHiddenMessage(SenderCharacter, data.Content);
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
-	} else if (data.Content == "ClubCardGameConceded") {
-		ClubCardPlayerConceded(data.Sender);
-	} else if (data.Content == "ClubCardAdminResetGameHidden") {
-		ClubCardResetGameStatus();
-	} else if (data.Content == "ChatRoomMapViewTeleport") {
-		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
-	} else if (data.Content == "ChatRoomMapViewChangeKey") {
-		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
-	} else if (data.Content == "ChatRoomFriendRequestAdd") {
-		ChatRoomFriendMessage(SenderCharacter, data);
-	} else if (data.Content === "ModSdkModsQuery" || data.Content === "ModSdkModsReply") {
-		CommandsModsList.ProcessHiddenRemote(data, SenderCharacter);
 	}
 	return true;
 }
