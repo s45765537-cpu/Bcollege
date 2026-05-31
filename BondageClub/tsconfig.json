@@ -20,5 +20,6 @@
 		"Scripts/MessagesPatch.d.ts",
 		"Scripts/DeclarationsExpensive.d.ts",
 		"node_modules/**/*",
+		"Tools/Node/csvtypescript_tmp_output"
 	],
 }
