@@ -435,12 +435,12 @@ class KeybindManager {
 	 * @param {Keybindings.KeyCombo | null} [kb2]
 	 */
 	_isKeyComboEqual(kb1, kb2) {
-		kb1 ??= { key: null, char: null, modifiers: new Set() };
-		kb2 ??= { key: null, char: null, modifiers: new Set() };
+		const combo1 = kb1 ?? { key: null, char: null, modifiers: new Set() };
+		const combo2 = kb2 ?? { key: null, char: null, modifiers: new Set() };
 
-		return ("key" in kb1 && "key" in kb2 && kb1.key && kb2.key && kb1.key === kb2.key
-			|| "char" in kb1 && "char" in kb2 && kb1.char && kb2.char && kb1.char.toLowerCase() === kb2.char.toLowerCase()
-		) && this._areModifiersConflicting(kb1.modifiers, kb2.modifiers);
+		return ("key" in combo1 && "key" in combo2 && combo1.key && combo2.key && combo1.key === combo2.key
+			|| "char" in combo1 && "char" in combo2 && combo1.char && combo2.char && combo1.char.toLowerCase() === combo2.char.toLowerCase()
+		) && this._areModifiersConflicting(combo1.modifiers, combo2.modifiers);
 	}
 
 	/**
