@@ -160,10 +160,10 @@ function InventoryItemMiscOwnerTimerPadlockClickHook(data, originalFunction, val
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
 function InventoryItemMiscOwnerTimerPadlockExitHook(Data, OriginalFunction) {
+	InventoryItemMiscSendTimerPadlockChangeMessage();
 	if (OriginalFunction) {
 		OriginalFunction();
 	}
-	InventoryItemMiscSendTimerPadlockChangeMessage();
 }
 
 /**

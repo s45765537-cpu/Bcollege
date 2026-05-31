@@ -127,8 +127,8 @@ function InventoryItemMiscMistressTimerPadlockClickHook(data, originalFunction) 
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
 function InventoryItemMiscMistressTimerPadlockExitHook(Data, OriginalFunction) {
+	InventoryItemMiscSendTimerPadlockChangeMessage();
 	if (OriginalFunction) {
 		OriginalFunction();
 	}
-	InventoryItemMiscSendTimerPadlockChangeMessage();
 }
