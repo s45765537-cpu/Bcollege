@@ -650,15 +650,15 @@ type CraftingPropertyType =
 
 type AssetGenericSize = "Small" | "Medium" | "Large";
 type AssetAttribute =
-	"Skirt" | "SuitLower" | "UpperLarge" | 
-	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
-	"CanAttachMittens" |
-	"IsChestHarness" | "IsHipHarness" |
-	"PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3" |
-	"CagePlastic2" | "CageTechno" | "CageFlat" |
-	"FuturisticRecolor" | "FuturisticRecolorDisplay" |
-	"PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}` |
-	"Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
+	| "Skirt" | "SuitLower" | "UpperLarge"
+	| "ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix"
+	| "CanAttachMittens"
+	| "IsChestHarness" | "IsHipHarness"
+	| "PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3"
+	| "CagePlastic2" | "CageTechno" | "CageFlat"
+	| "FuturisticRecolor" | "FuturisticRecolorDisplay"
+	| "PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
+	| "Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
 	;
 
 type PosePrerequisite = `Can${AssetPoseName}`;
@@ -837,7 +837,7 @@ type ChatRoomOwnershipEvent =
 	| "CanOfferEndTrial"
 	| "CanEndTrial";
 
-type ChatRoom = ServerChatRoomData;
+type ChatRoomData = ServerChatRoomData;
 // TODO: Review the partial nature of the `Custom` and `Space` fields
 type ChatRoomSettings = Prettify<
 	Omit<ServerChatRoomData, "Character" | "Custom" | "Space">
@@ -4372,9 +4372,9 @@ interface CraftingItem {
 	/** The crafted item effects mapped to their effect strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/**
-	* The crafted item effect.
-	* @deprecated superseded by {@link CraftingItem.Effects}
-	*/
+	 * The crafted item effect.
+	 * @deprecated superseded by {@link CraftingItem.Effects}
+	 */
 	Property?: CraftingPropertyType;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
