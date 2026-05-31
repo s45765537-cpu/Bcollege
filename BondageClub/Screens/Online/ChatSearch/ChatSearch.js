@@ -137,11 +137,6 @@ async function ChatSearchStart(space, returnScreen, options) {
  * @type {ScreenLoadHandler}
  */
 async function ChatSearchLoad() {
-	ChatRoomCustomizationClear();
-	ChatRoomActivateView(ChatRoomCharacterViewName);
-	ChatRoomMapViewEditMode = "";
-	ChatRoomMapViewEditBackup = [];
-	delete Player.MapData;
 	CurrentDarkFactor = 0.5;
 	if (ChatSearchSafewordAppearance == null) {
 		ChatSearchSafewordAppearance = Player.Appearance.slice(0);

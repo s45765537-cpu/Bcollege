@@ -5025,7 +5025,7 @@ interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "Mous
 	Deactivate?: () => void;
 	Draw: () => void;
 	DrawUi: () => void;
-	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
+	RoomUpdated?: () => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;
 	Screenshot: () => void;

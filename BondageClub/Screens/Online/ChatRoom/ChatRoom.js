@@ -155,7 +155,7 @@ const ChatRoomCustomization = /** @type {const} */ (Object.freeze({
 
 /**
  * The list of chat room views
- * @type {Record<"Character"|"Map", ChatRoomView>}
+ * @type {Record<string, ChatRoomView>}
  */
 var ChatRoomViews = {
 	Character: {
@@ -180,7 +180,7 @@ var ChatRoomViews = {
 		MouseWheel: ChatRoomMapViewMouseWheel,
 		KeyDown: ChatRoomMapViewKeyDown,
 		KeyUp: ChatRoomMapViewKeyUp,
-		SyncRoomProperties: ChatRoomMapViewSyncRoomProperties,
+		RoomUpdated: ChatRoomMapViewRoomUpdated,
 		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
 		CanLeave: ChatRoomMapViewCanLeave,
 		Screenshot: ChatRoomMapViewScreenshot
@@ -188,9 +188,9 @@ var ChatRoomViews = {
 };
 /**
  * The active chat room view
- * @type {ChatRoomView}
+ * @type {ChatRoomView | null}
  */
-var ChatRoomActiveView = ChatRoomViews[ChatRoomCharacterViewName];
+var ChatRoomActiveView = null;
 
 /**
  * Chances of a chat message popping up reminding you of some stimulation.
@@ -353,16 +353,34 @@ let ChatRoomResizeManager = {
 };
 
 /**
+ * Update the active view based on the room state
+ */
+function ChatRoomRefreshActiveView() {
+	if (!ChatRoomData) {
+		ChatRoomActiveView?.Deactivate?.();
+		ChatRoomActiveView = null;
+	} else if ((ChatRoomData?.MapData?.Type ?? "Never") === "Never") {
+		ChatRoomActivateView(ChatRoomCharacterViewName);
+		return;
+	} else if (ChatRoomData?.MapData?.Type == "Always") {
+		ChatRoomActivateView(ChatRoomMapViewName);
+	}
+}
+
+/**
  * Activates the chat room view with the passed name
- * @param {string} viewName - The name of the view to activate
+ * @param {keyof ChatRoomViews} viewName - The name of the view to activate
  * @returns {void}
  */
 function ChatRoomActivateView(viewName)
 {
-	if(!(viewName in ChatRoomViews)) { throw Error(`Tried to change to not existing view ${viewName}`); }
-	if(ChatRoomActiveView.Deactivate) ChatRoomActiveView.Deactivate();
+	if (!(viewName in ChatRoomViews)) {
+		throw Error(`Tried to change to non-existing view ${viewName}`);
+	}
+	if (ChatRoomIsViewActive(viewName)) return;
+	ChatRoomActiveView?.Deactivate?.();
 	ChatRoomActiveView = ChatRoomViews[viewName];
-	if(ChatRoomActiveView.Activate) ChatRoomActiveView.Activate();
+	ChatRoomActiveView.Activate?.();
 }
 
 /**
@@ -372,7 +390,9 @@ function ChatRoomActivateView(viewName)
  */
 function ChatRoomIsViewActive(viewName)
 {
-	if(!(viewName in ChatRoomViews)) { return false; }
+	if (!(viewName in ChatRoomViews)) {
+		return false;
+	}
 	return ChatRoomActiveView === ChatRoomViews[viewName];
 }
 
@@ -2282,8 +2302,6 @@ function ChatRoomRun(time) {
 	DrawRect(0, 0, 2000, 1000, "Black");
 
 	// Draw the room characters or the map depending on the map type
-	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomActivateView(ChatRoomCharacterViewName);
-	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
 	ChatRoomActiveView.Run(time);
 	ChatRoomActiveView.Draw();
 	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
@@ -3099,12 +3117,15 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomData = null;
-	Player.MapData = null;
+	delete Player.MapData;
 	ChatRoomCharacter = [];
 	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = null;
 	ChatRoomMapViewObjectFog = null;
+	ChatRoomMapViewEditMode = "";
+	ChatRoomMapViewEditBackup = [];
+	ChatRoomRefreshActiveView();
 	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();
 	ChatRoomSetLastChatRoom(null);
@@ -5044,8 +5065,9 @@ async function ChatRoomSync(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
-	// Parse the new chat room map data, if any
-	ChatRoomMapManager.OnMapDataUpdated();
+	ChatRoomRefreshActiveView();
+
+	ChatRoomActiveView.RoomUpdated?.();
 }
 
 
@@ -5189,12 +5211,12 @@ function ChatRoomSyncRoomProperties(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
-	if(ChatRoomActiveView.SyncRoomProperties) ChatRoomActiveView.SyncRoomProperties(data);
-
 	// Update our leash state
 	CharacterRefreshLeash(Player);
 
-	ChatRoomMapManager.OnMapDataUpdated();
+	ChatRoomRefreshActiveView();
+
+	ChatRoomActiveView.RoomUpdated?.();
 }
 
 /**
