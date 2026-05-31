@@ -969,27 +969,26 @@ function PandoraCharacterJoinPrivateRoom() {
 
 /**
  * Checks if the mission is the one provided in the parameter
- * @param {string} Type - The mission type
+ * @param {InfiltrationMissionType} Type - The mission type
  * @returns {boolean} - Returns TRUE if it's the current mission
  */
 function PandoraMissionIs(Type) { return (InfiltrationMission === Type); }
 
 /**
  * Checks if the perk specified is currently selected
- * @param {string} Type - The perk type
+ * @param {InfiltrationPerks} Type - The perk type
  * @returns {boolean} - Returns TRUE if it's selected
  */
 function PandoraHasPerk(Type) { return InfiltrationPerksActive(Type); }
 
 /**
  * Prepares an information text based on the bribe amount provided
- * @param {string} Amount - The bribe amount
- * @param {string} Type - The perk type
+ * @param {number} Amount - The bribe amount
+ * @param {"Little" | "Full"} Type - The perk type
  * @returns {void} - Nothing
  */
 function PandoraBribeInfo(Amount, Type) {
-	let Money = parseInt(Amount);
-	CharacterChangeMoney(Player, Money * -1);
+	CharacterChangeMoney(Player, Amount * -1);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "BribeInfo" + InfiltrationMission + Type);
 	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("LevelName", TextGet("LevelName" + PandoraTargetRoom.Floor));
 	let Room = PandoraTargetRoom;
@@ -1011,7 +1010,7 @@ function PandoraRecruitBoost() {
 
 /**
  * Starts the player punishment process and jumps to the punishment Dominatrix
- * @param {Boolean} FromKidnapper
+ * @param {Boolean} [FromKidnapper]
  * @param {string} [FixIntro]
  * @returns {void} - Nothing
  */
@@ -1093,11 +1092,11 @@ function PandoraQuizNext() {
 
 /**
  * When the player gives an answer to the guard quiz, the guard will give a visual hint if the answer is incorrect
- * @param {string} Answer
+ * @param {number} Answer
  * @returns {void} - Nothing
  */
 function PandoraQuizAnswer(Answer) {
-	if (Answer != "1") {
+	if (Answer != 1) {
 		CurrentCharacter.QuizFail++;
 		CharacterSetFacialExpression(CurrentCharacter, "Blush", "Low", 3);
 		CharacterSetFacialExpression(CurrentCharacter, "Eyes", "Angry", 3);
@@ -1618,11 +1617,11 @@ function PandoraPenitentiaryHiddenMessage(SenderCharacter, Interaction) {
 
 /**
  * When an NPC pays the player for a service
- * @param {string} Amount - The paid amount
+ * @param {number} Amount - The paid amount
  * @returns {void} - Nothing
  */
 function PandoraPlayerPay(Amount) {
-	CharacterChangeMoney(Player, parseInt(Amount));
+	CharacterChangeMoney(Player, Amount);
 }
 
 /**

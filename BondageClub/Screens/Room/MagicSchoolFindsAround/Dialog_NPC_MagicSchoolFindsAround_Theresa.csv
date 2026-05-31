@@ -34,5 +34,3 @@ TooRudeRepeat,,,Seems like you don't even learn from your previous mistakes,
 35,100,(Leave with your new gift.),,DialogLeave(),
 
 100,,,I may have another task for you [~More Coming Soon~],,
-
-LandingPage,DestinationPage,ButtonText,NpcAnswer,CommandToHappen(),PrerequisiteCheck()

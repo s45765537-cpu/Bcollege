@@ -2182,6 +2182,11 @@ interface Character {
 	PrivateBedAppearance?: string;
 }
 
+type PrivatePunishment = (
+	"Cage" | "Bound" | "BoundPet" | "ChastityBra" | "ForceNaked" | "ConfiscateKey" | "ConfiscateCrop" | "ConfiscateWhip"
+	| "SleepCage" | "LockOut" | "Cell" | "OwnerLocks" | "Asylum" | "ChastityBelt"
+);
+
 interface KidnapCard {
 	Move: number;
 	Value?: number;
@@ -2477,6 +2482,11 @@ interface PlayerOnlineSettings {
 }
 
 /** Pandora Player extension */
+type InfiltrationPerks = (
+	"Strength" | "Charisma" | "Agility" | "Resilience" | "Endurance" | "Investigation" | "Bribery" | "Negotiation"
+	| "Recruiter" | "Forgery" | "Recovery" | "Cartographer" | "Lockpicker" | "Detector"
+);
+
 interface PlayerCharacter {
 	Infiltration?: InfiltrationType;
 }
@@ -2489,7 +2499,7 @@ interface InfiltrationType {
 		Difficulty: number;
 		FightDone?: boolean;
 	}
-	Perks?: string;
+	Perks?: "" | `${number}`;
 }
 
 /** Kinky Dungeon Player extension */
@@ -3925,7 +3935,7 @@ interface GamePrisonParameters {
 interface GameMagicSchoolFindsAroundParameters {
     KitsuneQuestProgress?: number;
     TheresaQuestProgress?: number;
-    TheresaBadWords?: string[];
+    TheresaBadWords?: number[];
     TheresaTooRude?: boolean;
     TheresaHideUntil?: number;
 }

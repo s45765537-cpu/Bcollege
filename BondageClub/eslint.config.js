@@ -117,6 +117,7 @@ module.exports = defineConfig([
 			"Scripts/lib/**/*.js",
 			"**/*.min.js",
 			"Screens/MiniGame/KinkyDungeon/*.js",
+			"Tools/Node/csvtypescript_tmp_output/**/*.js",
 		],
 	),
 ]);

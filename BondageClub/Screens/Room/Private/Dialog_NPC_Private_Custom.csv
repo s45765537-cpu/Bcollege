@@ -536,11 +536,11 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 10,,Get on your knees.,"(She laughs at you.)  Kneeling isn't fun, it's the last thing I'll do for you girl.",,WontKneel(),WontKneel,Dominant|Playful
 10,,Get on your knees.,You really think you can control me or my legs?  Think again girl.,,WontKneel(),WontKneel,Serious|Frigid
 10,,Get on your knees.,(She wiggles her restrained legs and shrugs.),,CannotKneel(),,
-10,,Stand up.,Alright!  Time to move.  (She stands up.),"DialogSetPose(CurrentCharacter, """")",CanStandUp(),StandUp,
-10,,Stand up.,(She happily jumps back up.)  Thanks Miss!,"DialogSetPose(CurrentCharacter, """")",CanStandUp(),StandUp,Submissive|Playful
-10,,Stand up.,It's about time!  Kneeling is for wimpy subs anyway.,"DialogSetPose(CurrentCharacter, """")",CanStandUp(),StandUp,Dominant|Violent
-10,,Stand up.,"Tremendous!  (She stands up slowly.)  I must confess, my legs were starting to hurt.","DialogSetPose(CurrentCharacter, """")",CanStandUp(),StandUp,Peaceful|Polite
-10,,(Point at the floor then upward.),(She nods and stands up.),"DialogSetPose(CurrentCharacter, """")",CanStandUpGagged(),,
+10,,Stand up.,Alright!  Time to move.  (She stands up.),"DialogSetPose(CurrentCharacter)",CanStandUp(),StandUp,
+10,,Stand up.,(She happily jumps back up.)  Thanks Miss!,"DialogSetPose(CurrentCharacter)",CanStandUp(),StandUp,Submissive|Playful
+10,,Stand up.,It's about time!  Kneeling is for wimpy subs anyway.,"DialogSetPose(CurrentCharacter)",CanStandUp(),StandUp,Dominant|Violent
+10,,Stand up.,"Tremendous!  (She stands up slowly.)  I must confess, my legs were starting to hurt.","DialogSetPose(CurrentCharacter)",CanStandUp(),StandUp,Peaceful|Polite
+10,,(Point at the floor then upward.),(She nods and stands up.),"DialogSetPose(CurrentCharacter)",CanStandUpGagged(),,
 10,,Stand up.,(She wiggles her restrained legs and shrugs.),,CannotStandUp(),,
 10,15,You should go.,You want me to leave now?,,!IsLover(),KickOut,
 10,15,You should go.,Oh!  You want some privacy?  (She winks.),,!IsLover(),KickOut,Dominant|Horny
@@ -1700,11 +1700,11 @@ PunishAsylum,1000,You're right Mistress.  (Go to the asylum.),,RunPunishment(1),
 2000,,Get on your knees.,Kneeling is boring.  I'm punished or what?  (She pouts and kneels for you.),"DialogSetPose(CurrentCharacter, ""Kneel"")",WillKneel(),SubWillKneel,Playful|Dumb
 2000,,(Point at the floor.),(She nods and kneels for you.),"DialogSetPose(CurrentCharacter, ""Kneel"")",WillKneelGagged(),,
 2000,,Get on your knees.,(She wiggles her restrained legs and shrugs.),,CannotKneel(),,
-2000,,Stand up.,Alright!  Time to move.  (She stands up.),"DialogSetPose(CurrentCharacter, """")",CanStandUp(),SubStandUp,
-2000,,Stand up.,(She happily jumps back up.)  Thanks Mistress!,"DialogSetPose(CurrentCharacter, """")",CanStandUp(),SubStandUp,Submissive|Playful
-2000,,Stand up.,It's about time!  Kneeling is for wimpy subs anyway.,"DialogSetPose(CurrentCharacter, """")",CanStandUp(),SubStandUp,Dominant|Violent
-2000,,Stand up.,"Tremendous!  (She stands up slowly.)  I must confess, my legs were starting to hurt.","DialogSetPose(CurrentCharacter, """")",CanStandUp(),SubStandUp,Peaceful|Polite
-2000,,(Point at the floor then upward.),(She nods and stands up.),"DialogSetPose(CurrentCharacter, """")",CanStandUpGagged(),,
+2000,,Stand up.,Alright!  Time to move.  (She stands up.),"DialogSetPose(CurrentCharacter)",CanStandUp(),SubStandUp,
+2000,,Stand up.,(She happily jumps back up.)  Thanks Mistress!,"DialogSetPose(CurrentCharacter)",CanStandUp(),SubStandUp,Submissive|Playful
+2000,,Stand up.,It's about time!  Kneeling is for wimpy subs anyway.,"DialogSetPose(CurrentCharacter)",CanStandUp(),SubStandUp,Dominant|Violent
+2000,,Stand up.,"Tremendous!  (She stands up slowly.)  I must confess, my legs were starting to hurt.","DialogSetPose(CurrentCharacter)",CanStandUp(),SubStandUp,Peaceful|Polite
+2000,,(Point at the floor then upward.),(She nods and stands up.),"DialogSetPose(CurrentCharacter)",CanStandUpGagged(),,
 2000,,Stand up.,(She wiggles her restrained legs and shrugs.),,CannotStandUp(),,
 2000,2045,We will play Club Cards.,That's a good plan Mistress.  It's a rare chance for me to get you in trouble.,,CanPlayClubCard(),ClubCardVsSub,
 2000,2045,We will play Club Cards.,That's an interesting idea Miss.  I hope to get you in chastity after my victory.,,CanPlayClubCard(),ClubCardVsSub,Dominant|Frigid
@@ -2186,17 +2186,17 @@ MeetOwnerInMainHallBringToPrivate0,MeetOwnerInMainHallBringToPrivate10,Now?  I h
 MeetOwnerInMainHallBringToPrivate0,MeetOwnerInMainHallBringToPrivate10,(Nod slowly.),(She starts to guide you toward your room.),,,,
 MeetOwnerInMainHallBringToPrivate10,MeetOwnerInMainHallBringToPrivate20,(Go to your private room with her.),(You both go back to your private as she smirks.)  I want to have some fun with you.,OwnerHallReturnToPrivate(),,,
 MeetOwnerInMainHallBringToPrivate20,,What would you like to do?,,StartActivity(),,,
-MeetOwnerInMainHallBondageIntro,,,"My girl, I want to complicate how you will explore the club.",MeetOwnerInMainHallBondageIntro,,,
-MeetOwnerInMainHallBondageIntro,,,"Slave girl, I want ya to struggle hard while in BC.",MeetOwnerInMainHallBondageIntro,Violent|Dumb,,
-MeetOwnerInMainHallBondageIntro,,,"My lovely submissive, I want to make your club wandering slightly more... restricted.",MeetOwnerInMainHallBondageIntro,Polite|Peaceful,,
-MeetOwnerInMainHallBondageIntro,,,"My slave, you're allowed to wander in the club, but it will be on my terms.",MeetOwnerInMainHallBondageIntro,Serious|Wise,,
+MeetOwnerInMainHallBondageIntro,,,"My girl, I want to complicate how you will explore the club.",,,MeetOwnerInMainHallBondageIntro,
+MeetOwnerInMainHallBondageIntro,,,"Slave girl, I want ya to struggle hard while in BC.",,,MeetOwnerInMainHallBondageIntro,Violent|Dumb
+MeetOwnerInMainHallBondageIntro,,,"My lovely submissive, I want to make your club wandering slightly more... restricted.",,,MeetOwnerInMainHallBondageIntro,Polite|Peaceful
+MeetOwnerInMainHallBondageIntro,,,"My slave, you're allowed to wander in the club, but it will be on my terms.",,,MeetOwnerInMainHallBondageIntro,Serious|Wise
 MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,I'm not sure I like the sound of that.,(She grumbles.)  Like it or not.  You're going to get into some bondage.  How tight do you want it?,NPCInteraction(-3),,,
 MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,(Make a confused look.),No need to be confused.  You're going to get into some bondage.  How tight do you want it?,,,,
 MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,That sounds exciting Mistress.,(She nods and smiles.)  You're going to get into some bondage.  How tight do you want it?,NPCInteraction(3),,,
 MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,What does it mean?,It's easy my girl.  You're going to get into some bondage.  How tight do you want it?,,,,
 MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,"Do your worst, I can take it.",(She brings lots of bondage items and gets you bound very securely in the main hall of the club.),"OwnerHallBondage(""ALL"")",,,
 MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Oh!  Make it tight Mistress!,(She brings many bondage items and gets you in tight bondage in the main hall of the club.),"OwnerHallBondage(""LOT"")",,,
-MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Please do it as you want it.,(She brings bondage items and gets you in bondage in the main hall of the club.),"OwnerHallBondage("""")",,,
+MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Please do it as you want it.,(She brings bondage items and gets you in bondage in the main hall of the club.),"OwnerHallBondage()",,,
 MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Not too tight please.,(She brings a few bondage items and gets you in light bondage in the main hall of the club.),"OwnerHallBondage(""FEW"")",,,
 MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Is it really necessary?,Very tight you say?  Alright my girl.  (She brings lots of bondage items and gets you bound very securely in the main hall of the club.),"OwnerHallBondage(""ALL"")",,,
 MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,Wow!  I love this bondage.,"I'm glad you do.  You look great in it.  I need to go, ask for a maid if you're stuck.",,Player.CanTalk(),,
@@ -2204,10 +2204,10 @@ MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,It's too tight Mistres
 MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,(Moan in your gag.),"You're so adorable in bondage.  I need to go, ask for a maid if you're stuck.",,!Player.CanTalk(),,
 MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,(Grumble and pout.),Grumble all you want slave.  I need to go.  Ask for a maid if you're stuck.,,!Player.CanTalk(),,
 MeetOwnerInMainHallBondage30,1000,(Struggle in the main hall.),,DialogLeave(),,,
-MeetOwnerInMainHallNudeParadeIntro,,,"Since you like to travel in the club, we will explore together my girl.",MeetOwnerInMainHallNudeParadeIntro,,,
-MeetOwnerInMainHallNudeParadeIntro,,,"Slave girl, since ya like to explore BC, we'll do it together.",MeetOwnerInMainHallNudeParadeIntro,Violent|Dumb,,
-MeetOwnerInMainHallNudeParadeIntro,,,"My lovely submissive, since you enjoy wandering in the Bondage Club, we shall do it together.",MeetOwnerInMainHallNudeParadeIntro,Polite|Peaceful,,
-MeetOwnerInMainHallNudeParadeIntro,,,"My slave, since you wander in the club so much, we will do it together now.",MeetOwnerInMainHallNudeParadeIntro,Serious|Wise,,
+MeetOwnerInMainHallNudeParadeIntro,,,"Since you like to travel in the club, we will explore together my girl.",,,MeetOwnerInMainHallNudeParadeIntro,
+MeetOwnerInMainHallNudeParadeIntro,,,"Slave girl, since ya like to explore BC, we'll do it together.",,,MeetOwnerInMainHallNudeParadeIntro,Violent|Dumb
+MeetOwnerInMainHallNudeParadeIntro,,,"My lovely submissive, since you enjoy wandering in the Bondage Club, we shall do it together.",,,MeetOwnerInMainHallNudeParadeIntro,Polite|Peaceful
+MeetOwnerInMainHallNudeParadeIntro,,,"My slave, since you wander in the club so much, we will do it together now.",,,MeetOwnerInMainHallNudeParadeIntro,Serious|Wise
 MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade10,That sounds boring.,"Trust me my girl, it won't.  Get naked!",NPCInteraction(-3),!Player.IsNaked(),,
 MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade10,Where should we go?,Don't worry about that and get naked.,,!Player.IsNaked(),,
 MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade10,Good idea Mistress!,(She smiles.)  And it will get better.  Get naked!,NPCInteraction(3),!Player.IsNaked(),,

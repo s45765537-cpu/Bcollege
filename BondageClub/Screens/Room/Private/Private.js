@@ -15,7 +15,9 @@ var PrivateActivityAffectLove = true;
 var PrivateActivityList = ["Gag", "Ungag", "Restrain", "RestrainOther", "FullRestrain", "FullRestrainOther", "Release", "Unchaste", "Tickle", "Spank", "Pet", "Slap", "Kiss", "Fondle", "Naked", "Underwear", "RandomClothes", "CollegeClothes", "Shibari", "Gift", "PetGirl", "Locks", "Bed", "Aftercare", "CollarType"];
 /** @type {null | NPCCharacter} */
 var PrivateActivityTarget = null;
+/** @type {"" | PrivatePunishment} */
 var PrivatePunishment = "";
+/** @type {PrivatePunishment[]} */
 var PrivatePunishmentList = ["Cage", "Bound", "BoundPet", "ChastityBelt", "ChastityBra", "ForceNaked", "ConfiscateKey", "ConfiscateCrop", "ConfiscateWhip", "SleepCage", "LockOut", "Cell", "OwnerLocks", "Asylum"];
 /** @type {null | NPCCharacter} */
 var PrivateCharacterNewClothes = null;
@@ -1670,7 +1672,7 @@ function PrivateRunPunishment(LoveFactor) {
 		case "LockOut": LogAdd("LockOutOfPrivateRoom", "Rule", CurrentTime + 3600000); DialogLeave(); CommonSetScreen("Room", "MainHall"); break;
 		case "Cell": DialogLeave(); CharacterFullRandomRestrain(Player, "ALL"); CellLock(5); break;
 		case "OwnerLocks": InventoryFullLock(Player, "OwnerPadlock"); break;
-		case "Asylum": DialogLeave(); CharacterRelease(Player); AsylumEntranceWearPatientClothes(Player); AsylumEntranceCommitPatient("900000", "1"); CommonSetScreen("Room", "AsylumEntrance"); break;
+		case "Asylum": DialogLeave(); CharacterRelease(Player); AsylumEntranceWearPatientClothes(Player); AsylumEntranceCommitPatient(900000, 1); CommonSetScreen("Room", "AsylumEntrance"); break;
 		case "ChastityBelt":
 			if (NPCTraitGet(CurrentCharacter, "Horny") >= 0) {
 				if (InventoryGet(Player, "ItemVulva") === null) InventoryWear(Player, "VibratingEgg", "ItemVulva");
@@ -2251,8 +2253,8 @@ function PrivateClubCardDefeatActivity() {
 
 /**
  * The consequence activity to do
- * @param {string} Act - The activity to do
- * @param {string} LoveFactor - The love to change
+ * @param {"Cage" | "Bound" | "BoundPet" | "Shibari" | "ForceNaked" | "Chastity" | "Orgasm" | "Tickle" | "Spank"} Act - The activity to do
+ * @param {number} [LoveFactor] - The love to change
  * @returns {void} - Nothing.
  */
 function PrivateClubCardDoConsequence(Act, LoveFactor) {
@@ -2313,8 +2315,9 @@ function PrivateClubCardDoConsequence(Act, LoveFactor) {
 	}
 
 	// Applies a change to the NPC love if needed
-	let Love = parseInt(LoveFactor);
-	if (!isNaN(Love)) PrivateNPCInteraction(Love);
+	if (LoveFactor != null) {
+		PrivateNPCInteraction(LoveFactor);
+	}
 
 	// Returns to the base stage for the NPC and exits dialog for most consequences
 	CurrentCharacter.Stage = CurrentCharacter.IsOwnedByPlayer() ? "2000" : (CurrentCharacter.IsOwner() ? "1000" : "0");
@@ -2325,7 +2328,7 @@ function PrivateClubCardDoConsequence(Act, LoveFactor) {
 /**
  * Do the spanking club card consequence on the player
  * @param {ExpressionName} Eyes - The eye experssion to apply
- * @param {string} Strip - Underwear, Naked or NULL to strip the player or not
+ * @param {"Underwear" | "Naked"} [Strip] - Underwear, Naked or NULL to strip the player or not
  * @returns {void} - Nothing.
  */
 function PrivateClubCardKinkyConsequence(Eyes, Strip) {
@@ -2443,7 +2446,7 @@ function PrivateOwnerHallReturnToPrivate() {
 
 /**
  * Owner in Main Hall - Restrains the player with a factor
- * @param {"FEW"|"LOT"|"ALL"} BondageType - The type of bondage to apply
+ * @param {"FEW"|"LOT"|"ALL"} [BondageType] - The type of bondage to apply
  * @returns {void} - Nothing.
  */
 function PrivateOwnerHallBondage(BondageType) {

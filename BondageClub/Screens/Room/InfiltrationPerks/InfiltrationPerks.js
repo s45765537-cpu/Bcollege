@@ -1,10 +1,12 @@
 // @ts-strict-ignore
 "use strict";
 var InfiltrationPerksBackground = "Sheet";
+/** @type {InfiltrationPerks[]} */
 var InfiltrationPerksList = ["Strength", "Charisma", "Agility", "Resilience", "Endurance", "Investigation", "Bribery", "Negotiation", "Recruiter", "Forgery", "Recovery", "Cartographer", "Lockpicker", "Detector"];
 
 /**
  * Checks if a named perk is activated or not
+ * @param {InfiltrationPerks} PerkName
  * @returns {boolean} - TRUE if the perk is active
  */
 function InfiltrationPerksActive(PerkName) {
@@ -15,16 +17,17 @@ function InfiltrationPerksActive(PerkName) {
 
 /**
  * Activate or deactivate a perk from the player choice
+ * @param {InfiltrationPerks} PerkName
  * @returns {void} - Nothing
  */
 function InfiltrationPerksActivate(PerkName) {
 	while (Player.Infiltration.Perks.length < InfiltrationPerksList.length)
-		Player.Infiltration.Perks = Player.Infiltration.Perks + "0";
+		Player.Infiltration.Perks += "0";
 	let Index = InfiltrationPerksList.indexOf(PerkName);
 	if (Index < 0) return;
 	let Active = !InfiltrationPerksActive(PerkName);
 	if (Active && (InfiltrationPerksAvail() <= InfiltrationPerksTaken())) return;
-	Player.Infiltration.Perks = Player.Infiltration.Perks.substring(0, Index) + (Active ? "1" : "0") + Player.Infiltration.Perks.substring(Index + 1);
+	Player.Infiltration.Perks = /** @type {`${number}`} */(Player.Infiltration.Perks.substring(0, Index) + (Active ? "1" : "0") + Player.Infiltration.Perks.substring(Index + 1));
 }
 
 /**
@@ -54,7 +57,7 @@ async function InfiltrationPerksLoad() {
 
 /**
  * Runs and draws the infiltration perks screen
- * @returns {void} - Nothing
+ * @type {ScreenRunHandler}
  */
 function InfiltrationPerksRun() {
 
@@ -75,7 +78,7 @@ function InfiltrationPerksRun() {
 
 /**
  * Handles clicks in the infiltration perks screen.
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function InfiltrationPerksClick() {
 	if (MouseIn(1815, 75, 90, 90)) InfiltrationPerksExit();
