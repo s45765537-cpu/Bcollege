@@ -200,6 +200,7 @@ function InventoryItemMiscSendTimerPadlockChangeMessage() {
 
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
+	if (!C || !property) return;
 
 	let msg = "TimerAddRemoveUnknownTime";
 	if (property.ShowTimer) {
