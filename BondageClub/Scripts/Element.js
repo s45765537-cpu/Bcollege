@@ -141,6 +141,29 @@ function ElementParseChildren(children) {
 }
 
 /**
+ * Create a reusable animated loader element.
+ * @param {"dots" | "circle"} [variant] - Visual style of loader
+ * @param {Omit<HTMLOptions<"span">, "tag">} [options] - Additional element options
+ * @returns {HTMLSpanElement}
+ */
+function ElementCreateLoader(variant = "dots", options = {}) {
+	/** @type {readonly (HTMLOptionsUnion)[]} */
+	const loaderChildren = variant === "dots"
+		? [{ tag: "span" }, { tag: "span" }, { tag: "span" }]
+		: [];
+	return ElementCreate({
+		...options,
+		tag: "span",
+		attributes: {
+			"aria-hidden": "true",
+			...(options.attributes ?? {}),
+		},
+		classList: ["element-loader", `element-loader-${variant}`, ...(options.classList ?? [])],
+		children: [...loaderChildren, ...(options.children ?? [])],
+	});
+}
+
+/**
  * Creates a new from element in the main document.
  *
  * @param {string | null} ID - The id of the form to create

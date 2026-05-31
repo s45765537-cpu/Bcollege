@@ -2471,6 +2471,11 @@ type ChatRoomCustomizationType = 0 | 1 | 2 | 3;
 interface PlayerOnlineSettings {
 	AutoBanBlackList: boolean;
 	AutoBanGhostList: boolean;
+	/** 
+	 * When true, respond to `/mods remote` hidden queries with your Mod SDK list and a declined reply otherwise
+	 * @default true
+	 */
+	RespondRemoteModListQueries: boolean;
 	DisableAnimations: boolean;
 	SearchFriendsFirst: boolean;
 	SendStatus: boolean;

@@ -508,3 +508,25 @@ function IsMapViewChangeKeyEventDictionaryEntry(entry) {
 		&& "Tag" in entry && entry.Tag === "MapViewChangeKey"
 		&& "Key" in entry && (entry.Key === "bronze" || entry.Key === "silver" || entry.Key === "gold");
 }
+
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is ModSdkModsReplyPayloadDictionaryEntry}
+ */
+function IsModSdkModsReplyPayload(entry) {
+	return CommonIsObject(entry)
+		&& "Tag" in entry && entry.Tag === "ModSdkModsReplyPayload"
+		&& "RequestId" in entry && typeof entry.RequestId === "string"
+		&& "Status" in entry && typeof entry.Status === "string"
+		&& "ModsJson" in entry && typeof entry.ModsJson === "string";
+}
+
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is ModSdkModsQueryPayloadDictionaryEntry}
+ */
+function IsModSdkModsQueryPayload(entry) {
+	return CommonIsObject(entry)
+		&& "Tag" in entry && entry.Tag === "ModSdkModsQueryPayload"
+		&& "RequestId" in entry && typeof entry.RequestId === "string";
+}

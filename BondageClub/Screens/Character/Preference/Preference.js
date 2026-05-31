@@ -996,6 +996,7 @@ var PreferenceRestrictionSettingsValidate = {
 var PreferenceOnlineSettingsDefault = {
 	AutoBanBlackList: false,
 	AutoBanGhostList: true,
+	RespondRemoteModListQueries: true,
 	DisableAnimations: false,
 	SearchFriendsFirst: false,
 	EnableAfkTimer: true,
@@ -1016,6 +1017,7 @@ var PreferenceOnlineSettingsDefault = {
 var PreferenceOnlineSettingsValidate = {
 	AutoBanBlackList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
 	AutoBanGhostList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
+	RespondRemoteModListQueries: ServerValidation.isBool(PreferenceOnlineSettingsDefault.RespondRemoteModListQueries),
 	DisableAnimations: ServerValidation.isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
 	SearchFriendsFirst: ServerValidation.isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
 	EnableAfkTimer: ServerValidation.isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),

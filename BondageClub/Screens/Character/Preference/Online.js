@@ -19,6 +19,7 @@ const PreferenceSubscreenOnlineCheckboxes = [
 	{ label: "BlockBodyCosplay", check: () => Player.OnlineSharedSettings.BlockBodyCosplay, click: () => Player.OnlineSharedSettings.BlockBodyCosplay = !Player.OnlineSharedSettings.BlockBodyCosplay },
 	{ label: "ShowStatus", check: () => Player.OnlineSettings.ShowStatus, click: () => Player.OnlineSettings.ShowStatus = !Player.OnlineSettings.ShowStatus },
 	{ label: "SendStatus", check: () => Player.OnlineSettings.SendStatus, click: () => Player.OnlineSettings.SendStatus = !Player.OnlineSettings.SendStatus },
+	{ label: "RespondRemoteModListQueries", check: () => Player.OnlineSettings.RespondRemoteModListQueries, click: () => Player.OnlineSettings.RespondRemoteModListQueries = !Player.OnlineSettings.RespondRemoteModListQueries },
 ];
 
 const PreferenceSubscreenOnlineIDs = Object.freeze({

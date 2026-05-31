@@ -1109,5 +1109,25 @@ const CommonCommands = [
 			if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
 			if (Player.ArousalSettings.Progress === 100) ActivityOrgasmPrepare(Player);
 		}
+	},
+	{
+		Tag: 'mods',
+		Action: function () {
+			CommandsHelp.ShowFor(CommonUnwrapThunk(this), {
+				setCommand: this[0].Tag,
+			});
+		},
+		Subcommands: [{
+			Tag: 'list',
+			Action: () => CommandsModsList.ShowLocal(),
+		},
+		{
+			Tag: 'remote',
+			Action: args => CommandsModsList.StartRemote(args),
+			Arguments: [{
+				name: "target",
+				suggestions: () => ChatRoomCharacter.flatMap(c => [CharacterNickname(c), String(c.MemberNumber)]),
+			}],
+		}]
 	}
 ];

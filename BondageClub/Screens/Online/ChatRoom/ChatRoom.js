@@ -4084,6 +4084,8 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
 	} else if (data.Content == "ChatRoomFriendRequestAdd") {
 		ChatRoomFriendMessage(SenderCharacter, data);
+	} else if (data.Content === "ModSdkModsQuery" || data.Content === "ModSdkModsReply") {
+		CommandsModsList.ProcessHiddenRemote(data, SenderCharacter);
 	}
 	return true;
 }

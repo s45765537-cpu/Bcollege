@@ -164,6 +164,7 @@ AllowFullWardrobeAccess,Allow others to alter your whole appearance
 BlockBodyCosplay,Prevent others from changing cosplay items
 ShowStatus,Show status bubble
 SendStatus,Send your status
+RespondRemoteModListQueries,Answer mod list queries from others
 UpdateEmailDescription,Linking an email will allow password recovery
 UpdateEmail,Update Email
 UpdateEmailOld,Current email:
