@@ -527,6 +527,8 @@
 	margin-bottom: var(--gap-size);
 }
 
+/* #region Changelog */
+
 .chat-room-changelog {
 	background-color: #d696ff;
 	white-space: normal;
@@ -637,6 +639,8 @@
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
+
+/* #endregion Changelog */
 
 .chat-room-message-popup {
 	display: grid;
@@ -835,3 +839,223 @@
 	width: min(116px, 96%);
 	max-height: min(56px, 96%);
 }
+
+/* #region Mods list */
+
+.chat-room-mods-list {
+	background-color: #d696ff;
+	white-space: normal;
+	font: inherit;
+	overflow: visible;
+	padding-block: 0.25em;
+}
+
+#TextAreaChatLog[data-colortheme^="dark"] > .chat-room-mods-list {
+	background-color: #481d64;
+}
+
+.chat-room-mods-list h2 {
+	font-size: inherit;
+	margin: unset;
+	padding: 0.25em;
+	text-align: center;
+}
+
+.chat-room-mods-panel {
+	margin: 0;
+}
+
+.chat-room-mods-panel-summary {
+	align-items: center;
+	cursor: pointer;
+	display: flex;
+	gap: 0.35em;
+	list-style: none;
+	padding: 0.25em 0;
+}
+
+.chat-room-mods-panel-summary::-webkit-details-marker {
+	display: none;
+}
+
+.chat-room-mods-panel-summary::before {
+	content: "▼";
+	opacity: 0.8;
+	width: 1.15em;
+}
+
+.chat-room-mods-panel:not([open]) > .chat-room-mods-panel-summary::before {
+	content: "▶";
+}
+
+.chat-room-mods-panel-summary > h2 {
+	flex: 1 1 auto;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+.chat-room-mods-panel-summary-text {
+	font-size: 0.85em;
+	opacity: 0.8;
+}
+
+.chat-room-mods-panel-body {
+	margin-top: 0.2em;
+}
+
+.chat-room-mods-panel-actions {
+	display: flex;
+	gap: 0.35em;
+	margin-left: auto;
+}
+
+.chat-room-mods-button {
+	width: 1.15em;
+	height: 1.15em;
+}
+
+.chat-room-mods-button > .button-label {
+	display: contents;
+}
+
+.chat-room-mods-button-copy > .button-image {
+	filter: invert(1);
+}
+
+.chat-room-mods-list-summary {
+	font-size: 0.9em;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.chat-room-mods-list ul {
+	list-style: none;
+	margin: 0.5em 0 0;
+	padding: 0;
+	font-size: 0.85em;
+}
+
+.chat-room-mods-list li {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25em 0.5em;
+	padding: 0.25em 0.5em 0.25em 1.75em;
+	word-break: break-all;
+}
+
+.chat-room-mods-list ul li:nth-child(odd) {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+#TextAreaChatLog[data-colortheme^="dark"] > .chat-room-mods-list ul li:nth-child(odd) {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.chat-room-mods-list-version {
+	opacity: 0.75;
+}
+
+.chat-room-mods-list a {
+	color: #003f91;
+	margin-left: auto;
+}
+
+#TextAreaChatLog[data-colortheme^="dark"] > .chat-room-mods-list a {
+	color: #a9ceff;
+}
+
+.chat-room-mods-list a:visited {
+	color: #380091;
+}
+
+#TextAreaChatLog[data-colortheme^="dark"] > .chat-room-mods-list a:visited {
+	color: #3d91ff;
+}
+
+.chat-room-mods-remote-progress {
+	font-size: 0.9em;
+	text-align: center;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.45em;
+	width: 100%;
+	margin-top: 0.15em;
+}
+
+.chat-room-mods-remote-progress-count {
+	font-size: 0.8em;
+	opacity: 0.72;
+	letter-spacing: 0.01em;
+}
+
+.chat-room-mods-remote-player {
+	border-top: min(0.15vh, 0.08vw) solid rgba(0, 0, 0, 0.25);
+	margin: 0.25em 0;
+}
+
+.chat-room-mods-remote-player-summary {
+	cursor: pointer;
+	list-style: none;
+	padding: 0.35em 0.25em 0.35em 1.15em;
+	display: flex;
+	align-items: baseline;
+	gap: 0.35em;
+}
+
+.chat-room-mods-remote-player-summary::-webkit-details-marker {
+	display: none;
+}
+
+.chat-room-mods-remote-player-summary::marker {
+	content: "";
+	font-size: 0;
+}
+
+.chat-room-mods-remote-player-summary::before {
+	content: "▼";
+	flex-shrink: 0;
+	opacity: 0.75;
+	text-align: center;
+	width: 1.15em;
+}
+
+.chat-room-mods-remote-player:not([open]) > .chat-room-mods-remote-player-summary::before {
+	content: "▶";
+}
+
+.chat-room-mods-remote-player > .chat-room-mods-remote-status-msg {
+	padding-left: 1.35em;
+}
+
+.chat-room-mods-remote-player:has(> ul) > .chat-room-mods-remote-player-summary {
+	padding-bottom: 0.12em;
+}
+
+.chat-room-mods-remote-player > ul {
+	margin-top: 0.15em;
+}
+
+.chat-room-mods-remote-player > ul > li {
+	padding-left: 3.15em;
+}
+
+.chat-room-mods-remote-status-badge {
+	font-size: 0.85em;
+	opacity: 0.85;
+}
+
+.chat-room-mods-remote-version-badge {
+	font-size: 0.8em;
+	opacity: 0.72;
+}
+
+.chat-room-mods-remote-status-msg {
+	font-size: 0.9em;
+	margin: 0.35em 0.5em 0.75em;
+}
+
+/* #endregion Mods list */
