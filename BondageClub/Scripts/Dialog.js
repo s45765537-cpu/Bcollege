@@ -2319,7 +2319,7 @@ function DialogClick(event) {
 		return;
 	} else if (DialogMenuMode === "tighten") {
 		if (DialogTightenLoosenItem != null)
-			TightenLoosenItemClick();
+			TightenLoosenItemClick(CurrentCharacter, DialogTightenLoosenItem);
 		return;
 	} else if (DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") {
 		if (MouseIn(1300, 25, 675, 950) && FocusItem) {
@@ -2541,7 +2541,7 @@ function DialogSetTightenLoosenItem(Item) {
 	if (InventoryBlockedOrLimited(C, Item)) return;
 	DialogChangeMode("tighten");
 	DialogTightenLoosenItem = Item;
-	TightenLoosenItemLoad();
+	TightenLoosenItemLoad(Item);
 }
 
 /**
@@ -5638,7 +5638,7 @@ function DialogDraw() {
 		}
 	} else if (DialogMenuMode === "tighten") {
 		if (DialogTightenLoosenItem) {
-			TightenLoosenItemDraw();
+			TightenLoosenItemDraw(DialogTightenLoosenItem);
 			return;
 		} else {
 			DialogChangeMode("items");
