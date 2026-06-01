@@ -31,21 +31,12 @@ let Game = {
 		load() {}
 	},
 	fetch: (url, options) => {
+		// #TODO: implement fetch functionality
 		return new Promise((resolve, reject) => {});
 	},
 };
-const domGlobals = [
-	"HTMLElement",
-	"HTMLCanvasElement",
-	"HTMLDivElement",
-	"HTMLSpanElement",
-	"HTMLImageElement",
-	"Node",
-	"Event",
-	"CustomEvent",
-	"customElements",
-	"setTimeout",
-];
+
+const domGlobals = ["HTMLElement"];
 
 domGlobals.forEach((key) => {
 	if (global[key]) {
@@ -88,10 +79,6 @@ function load(file) {
 	} else {
 		const script = new vm.Script(contents, { filename: file });
 		script.runInNewContext(Game);
-	}
-
-	if (typeof Game.Request === "undefined") {
-		Game.Request = class {}; // Fallback to prevent the crash
 	}
 }
 
