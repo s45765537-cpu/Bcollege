@@ -429,11 +429,6 @@ function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSel
  * @returns {void} - Nothing
  */
 function ExtendedItemExit() {
-	// Check if an `Exit` function has already been called
-	if (DialogFocusItem == null) {
-		return;
-	}
-
 	// invalidate the cache
 	ExtendedItemRequirementCheckMessageMemo.clearCache();
 
@@ -442,9 +437,15 @@ function ExtendedItemExit() {
 		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Exit`);
 		ExtendedItemSubscreen = null;
 		ExtendedItemPermissionMode = false;
-	} else {
+	} else if (DialogFocusItem) {
 		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}Exit`);
 		DialogFocusItem = null;
+		DialogFocusItemName = null;
+		DialogExtendedMessage = "";
+	} else {
+		CommonCallFunctionByName(`Inventory${DialogFocusItemName}Exit`);
+		DialogFocusItem = null;
+		DialogFocusItemName = null;
 		DialogExtendedMessage = "";
 	}
 }

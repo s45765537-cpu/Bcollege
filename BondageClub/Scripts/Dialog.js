@@ -55,6 +55,13 @@ var DialogTightenLoosenItem = null;
  * @type {Item|null}
  */
 var DialogFocusSourceItem = null;
+/**
+ * The group + name of the selected item.
+ * Only here so in case of emergency we can still unload the extended screen properly
+ *
+ * @type {string|null}
+ */
+var DialogFocusItemName = null;
 /** @type {ReturnType<typeof setTimeout>} */
 var DialogFocusItemColorizationRedrawTimer = /** @type {never} */ (null);
 /**
@@ -995,7 +1002,9 @@ function DialogLeaveFocusItem(allowModeChange=true) {
 		} else if (allowModeChange) {
 			DialogChangeMode("items");
 		}
-	} else if (DialogFocusItem != null) {
+		return;
+	}
+	if (DialogFocusItem || DialogFocusItemName) {
 		const item = DialogFocusItem;
 		ExtendedItemExit();
 		if (DialogFocusItem) {
@@ -2525,6 +2534,7 @@ function DialogExtendItem(Item, SourceItem) {
 	DialogChangeMode("extended");
 	DialogFocusItem = Item;
 	DialogFocusSourceItem = SourceItem ?? null;
+	DialogFocusItemName = Item.Asset.Group.Name + Item.Asset.Name;
 	ExtendedItemInit(C, Item.Asset.IsLock ? SourceItem : Item, false, true);
 	CommonDynamicFunction("Inventory" + Item.Asset.Group.Name + Item.Asset.Name + "Load()");
 }
@@ -5634,7 +5644,7 @@ function DialogDraw() {
 			DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 			return;
 		} else {
-			DialogChangeMode("items");
+			DialogLeaveFocusItem(true);
 		}
 	} else if (DialogMenuMode === "tighten") {
 		if (DialogTightenLoosenItem) {
