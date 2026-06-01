@@ -3584,33 +3584,11 @@ const mentionNameSplitter = /\b/gu;
  * @returns {boolean} - msg contains mention of C
  */
 function ChatRoomMessageMentionsCharacter(C, msg) {
-	const normalizeText = (text) => text.normalize('NFKC').toLowerCase();
-	const nameParts = normalizeText(C.Name).split(mentionNameSplitter);
-	const nickParts = C.Nickname ? normalizeText(C.Nickname).split(mentionNameSplitter) : [];
-	const msgParts = normalizeText(msg).split(mentionNameSplitter);
-	for (let i = 0; i < msgParts.length - (nameParts.length - 1); i++) {
-		if (msgParts[i] === nameParts[0]) {
-			let match = true;
-			for (let j = 0; j < nameParts.length; j++) {
-				if (msgParts[i + j] !== nameParts[j]) {
-					match = false;
-					break;
-				}
-			}
-			if (match) return true;
-		}
-		if (msgParts[i] === nickParts[0]) {
-			let match = true;
-			for (let j = 0; j < nickParts.length; j++) {
-				if (msgParts[i + j] !== nickParts[j]) {
-					match = false;
-					break;
-				}
-			}
-			if (match) return true;
-		}
-	}
-	return false;
+	const name = C.Name.normalize('NFKC').toLowerCase();
+	const nickname = C.Nickname?.normalize('NFKC')?.toLowerCase();
+	const regex = new RegExp(`\\b${name}\\b` + (nickname ? `|\\b${nickname}\\b` : ""), 'i');
+
+	return regex.test(msg);
 }
 
 /**
