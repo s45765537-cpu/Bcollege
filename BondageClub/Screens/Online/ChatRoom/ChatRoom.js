@@ -3578,7 +3578,11 @@ function ChatRoomCharacterUpdate(C) {
 function ChatRoomMessageMentionsCharacter(C, msg) {
 	const name = C.Name.normalize('NFKC').toLowerCase();
 	const nickname = C.Nickname?.normalize('NFKC')?.toLowerCase();
-	const regex = new RegExp(`\\b${name}\\b` + (nickname ? `|\\b${nickname}\\b` : ""), 'i');
+
+	const regexCJK = /[\u4E00-\u9FFF\uAC00-\uD7AF]/;
+	const nameComponent = (!name || regexCJK.test(name)) ? name : `\\b${name}\\b`;
+	const nicknameComponent = (!nickname || regexCJK.test(nickname)) ? nickname : `\\b${nickname}\\b`;
+	const regex = new RegExp([nameComponent, nicknameComponent ].filter(Boolean).join("|"), 'i');
 
 	return regex.test(msg);
 }

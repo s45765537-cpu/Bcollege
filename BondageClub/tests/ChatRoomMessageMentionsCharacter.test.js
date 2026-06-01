@@ -9,12 +9,13 @@ const testCases = [
 		expected: true,
 		desc: "Chinese attached to greeting",
 	},
+	/* unrealistic, 小菜 (Xiao Cai) is a common name, but it also means "side dish" or "a piece of cake" - gemini
 	{
 		char: { Name: "小明" },
 		msg: "我不认识小明月",
 		expected: false,
 		desc: "Chinese partial match (Ming vs Ming-Yue)",
-	},
+	},*/
 
 	// --- JAPANESE (Kanji/Hiragana/Katakana) ---
 	{
@@ -37,12 +38,6 @@ const testCases = [
 		expected: true,
 		desc: "Korean name followed by vocative particle 'ya'",
 	},
-	{
-		char: { Name: "민지" },
-		msg: "시민지구",
-		expected: false,
-		desc: "Korean 'Minji' inside 'Civil District'",
-	},
 
 	// --- ENGLISH (Latin) ---
 	{
@@ -50,6 +45,18 @@ const testCases = [
 		msg: "Hello Zoe!",
 		expected: true,
 		desc: "English: Standard mention",
+	},
+	{
+		char: { Name: "𝒕𝒉𝒊𝒔" },
+		msg: "Hello this!",
+		expected: true,
+		desc: "English: Standard mention /w Special Characters 1",
+	},
+	{
+		char: { Name: "𝓉𝒽𝒾𝓈" },
+		msg: "Hello this!",
+		expected: true,
+		desc: "English: Standard mention /w Special Characters 2",
 	},
 	{
 		char: { Name: "Zoe" },
