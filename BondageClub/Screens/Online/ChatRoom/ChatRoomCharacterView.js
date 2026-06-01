@@ -93,6 +93,7 @@ function ChatRoomCharacterViewScreenshot() {
 
 /**
  * Returns TRUE if the map button can be used
+ * @deprecated
  * @returns {boolean} - TRUE if can be used
  */
 function ChatRoomCharacterViewShowMapButton() {

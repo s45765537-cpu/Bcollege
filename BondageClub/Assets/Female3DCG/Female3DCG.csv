@@ -151,6 +151,7 @@ Cloth,HeavyLeatherDress,Heavy Leather Dress
 Cloth,Hoodie,Comfortable Hoodie
 Cloth,Jacket,Jacket
 Cloth,LaceBabydoll,Lace Babydoll
+Cloth,LaceBraNightgown,Lace Nightgown
 Cloth,LatexHobbleDress,Strict Hobble Dress
 Cloth,LatexLacedSuit,Latex Laced Suit
 Cloth,LatexTankTop,Latex Tank Top
@@ -160,6 +161,7 @@ Cloth,LeatherBolero,Leather Bolero
 Cloth,LeatherCropTop, Leather Crop Top
 Cloth,LittleFormalShirt,Little Formal Shirt
 Cloth,LolitaShortDress,Lolita Short Dress
+Cloth,LongQipaoDress,Long Qipao
 Cloth,MaidApron1,Maid Apron
 Cloth,MaidApron2,Exposed Maid Apron
 Cloth,MaidDress3,Maid Dress 3
@@ -195,6 +197,7 @@ Cloth,TShirt2,Classic T-Shirt
 Cloth,VirginKiller1,Virgin Killer
 Cloth,WeddingDress1,Wedding Dress
 Cloth,WeddingDress2,Shoulderless Wedding Dress
+Cloth,WhiteDress,White Dress
 Cloth,Xmas2025,Christmas Dress
 Cloth,YuletideVelvetWarmth,Yuletide Velvet Warmth
 Cloth,Yukata1,Yukata
@@ -312,6 +315,7 @@ ClothLower,Waspie3,Straps Waspie
 ClothLower,WoolenHighWaistSkirt,High Waist Skirt
 ClothLower,YogaPants,Yoga Pants - Basic
 ClothOuter,,Cloth Outer
+ClothOuter,LabCoat,Lab Coat
 ClothOuter,LeatherJacket,Leather Jacket
 ClothOuter,JacketHoodie,Jacket Hoodie
 ClothOuter,WoolCoat,Trench Coat
@@ -1927,15 +1931,22 @@ Shoes,WoollyBootsTall,Woolly Boots
 Shoes,ZipperLeatherBoots,Zipper Leather Boots
 Socks,,Socks
 Socks,CowPrintedSocks,Cow Printed Socks
+Socks,CuteKittenPrintedSocks,Kitten Socks
 Socks,FootlessSocks1,Footless Socks
+Socks,FootstepSocks,Open Toe Socks
 Socks,GradientPantyhose,Gradient Pantyhose
 Socks,HaremStockings,Harem Stockings
 Socks,KneePads,Knee Pads
 Socks,LatexSocks1,Latex Socks
 Socks,LeatherSocks1,Short Leather Socks
+Socks,LegWarmers1,Leg Warmers
 Socks,NetSocks,Net Socks
 Socks,Pantyhose1,Pantyhose
 Socks,Pantyhose2,Crotchless Pantyhose
+Socks,Ruffledsocks1,Ruffled Socks
+Socks,SilkStockings,Silk Stockings 1
+Socks,SilkStockings2,Silk Stockings 2
+Socks,SilkStockings3,Silk Stockings 3
 Socks,Socks0,Ankle
 Socks,Socks1,Short
 Socks,Socks2,Regular
@@ -1944,11 +1955,13 @@ Socks,Socks4,High Leg
 Socks,Socks5,Full Leg
 Socks,Socks6,Frill Socks
 Socks,SocksFur,Socks with Fur
-Socks,SocksStriped1,Striped Socks
+Socks,SocksStriped1,Striped Socks 1
+Socks,StirrupThighHighSocks,Stirrup Socks
 Socks,Stockings1,Stockings Dark
 Socks,Stockings2,Stockings Light
 Socks,Stockings3,Silky Stockings
 Socks,Stockings4,Fishnet Stockings
+Socks,StripedSocks,Striped Socks 2
 Socks,VSocks1,Vinyl Socks
 Socks,YuletideVelvetWarmth,Yuletide Velvet Warmth
 Socks,LongFishnets,Long Fishnet Stockings

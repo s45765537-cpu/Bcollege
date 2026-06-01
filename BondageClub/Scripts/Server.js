@@ -638,6 +638,7 @@ function ServerPlayerRelationsSync() {
 
 /**
  * Syncs {@link Player.ExtensionSettings} to the server.
+ * @public
  * @param {keyof ExtensionSettings} dataKeyName - The single key to sync
  * @param {boolean} [_force] - unused
  */

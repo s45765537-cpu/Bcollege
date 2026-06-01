@@ -1140,6 +1140,7 @@ function TranslationDialogArray(C, T) {
  * @param {readonly { Tag: string, Value: string }[]} S - Array of current tag-value pairs
  * @param {readonly string[]} T - The active translation dictionary
  * @returns {void} - Nothing
+ * @deprecated
  */
 function TranslationTextArray(S, T) {
 	for (let P = 0; P < S.length; P++)
@@ -1199,6 +1200,7 @@ function TranslationTranslateDialog(C) {
  * Translate an array of tags in the current selected language
  * @param {readonly {Tag: string, Value: string}[]} Text - Array of current tag-value pairs
  * @returns {void} - Nothing
+ * @deprecated
  */
 function TranslationText(Text) {
 	// If we play in a foreign language

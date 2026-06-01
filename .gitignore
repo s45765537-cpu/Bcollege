@@ -10,3 +10,4 @@ web.config
 /BondageClub/Tools/Node/.imagemin-cache
 BondageClub/1 - prepare.bat
 BondageClub/2 - generate.bat
+BondageClub/Tools/Node/csvtypescript_tmp_output

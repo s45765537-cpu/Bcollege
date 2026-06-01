@@ -99,6 +99,7 @@ function CommonIsNumeric(n) {
 /**
  * Gets the current time as a string
  * @returns {string} - Returns the current date and time in a yyyy-mm-dd hh:mm:ss format
+ * @deprecated
  */
 function CommonGetFormatDate() {
 	var d = new Date();
@@ -430,9 +431,17 @@ function CommonDynamicFunctionParams(FunctionName) {
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
 	var ParamsString = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex);
-	var Params = ParamsString.length === 0 ? [] : ParamsString.split(",");
-	for (let P = 0; P < Params.length; P++)
-		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
+
+	// Convert stringified numbers to actual numbers where possible
+	/** @type {(string | number)[]} */
+	var Params = [];
+	if (ParamsString) {
+		for (let param of ParamsString.split(",")) {
+			param = param.trim().replace('"', '').replace('"', '');
+			const paramNumber = parseFloat(param);
+			Params.push(isFinite(paramNumber) ? paramNumber : param);
+		}
+	}
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
 	if (["Dialog", "Inventory", CurrentScreen].every(s => !FunctionName.startsWith(s))) {
 		FunctionName = CurrentScreen + FunctionName;
@@ -681,6 +690,16 @@ function CommonRandomItemFromList(ItemPrevious, ItemList) {
 		if( previousIndex > -1 && randomIndex >= previousIndex) randomIndex++;
 		return ItemList[randomIndex];
 	} else return ItemPrevious;
+}
+
+/**
+ * Get a random item from an array.
+ * @template T
+ * @param {readonly T[]} list - List for which to pick a random item from
+ * @returns {T} - The randomly selected item from the list
+ */
+function CommonGetRandomItemFromList(list) {
+	return list[Math.floor(Math.random() * list.length)];
 }
 
 /**
@@ -2300,7 +2319,7 @@ function CommonFormatDurationRange(end, start, options = {}) {
 /**
  * Formats a duration in ms to a human readable string of days, months, and years.
  * Defaults to showing days.
- * @deprecated Use CommonFormatDurationRange instead
+ * @deprecated Use {@link CommonFormatDurationRange} instead
  * @param {number} ms
  * @param {{
  *   includeYears?: boolean;
@@ -2395,7 +2414,7 @@ function CommonGetDatePartsRange(end, start, options = {}) {
  * Break duration into real-calendar components (y, m, d, h, min, s),
  * optionally rolling excluded components into the next smaller unit.
  *
- * @deprecated Use CommonGetDatePartsRange instead.
+ * @deprecated Use {@link CommonGetDatePartsRange} instead.
  * @param {number} ms
  * @param {{
  *   includeYears?: boolean,

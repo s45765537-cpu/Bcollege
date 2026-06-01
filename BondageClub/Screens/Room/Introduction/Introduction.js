@@ -137,11 +137,11 @@ function IntroductionClick() {
 
 /**
  * Change the opinion the maid has on the player, it will affect the global player Domme/sub reputation at the end of the first training
- * @param {string} Bonus - Number representing the bonus to the current opinion the maid has.
+ * @param {number} Bonus - Number representing the bonus to the current opinion the maid has.
  * @returns {void} - Nothing
  */
 function IntroductionChangeMaidOpinion(Bonus) {
-	IntroductionMaidOpinion = IntroductionMaidOpinion + parseInt(Bonus);
+	IntroductionMaidOpinion += Bonus;
 }
 
 /**

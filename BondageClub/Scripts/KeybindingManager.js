@@ -435,7 +435,9 @@ class KeybindManager {
 	 * @param {Keybindings.KeyCombo | null} [kb2]
 	 */
 	_isKeyComboEqual(kb1, kb2) {
-		if (!kb1 || !kb2) return false;
+		kb1 ??= { key: null, char: null, modifiers: new Set() };
+		kb2 ??= { key: null, char: null, modifiers: new Set() };
+
 		return ("key" in kb1 && "key" in kb2 && kb1.key && kb2.key && kb1.key === kb2.key
 			|| "char" in kb1 && "char" in kb2 && kb1.char && kb2.char && kb1.char.toLowerCase() === kb2.char.toLowerCase()
 		) && this._areModifiersConflicting(kb1.modifiers, kb2.modifiers);
@@ -613,7 +615,6 @@ class KeybindManager {
 	 * @returns {boolean}
 	 */
 	_areModifiersConflicting(modifiers1, modifiers2) {
-		if (!modifiers1 || !modifiers2) return false;
 		modifiers1 ??= new Set();
 		modifiers2 ??= new Set();
 

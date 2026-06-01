@@ -64,29 +64,43 @@ function ReputationLoad(NewRep) {
 }
 
 /**
- * Returns a specific reputation value for the player
+ * Returns the reputation value of a given character
+ * @overload
+ * @param {Character} C - The character to get the reputation of
  * @param {ReputationType} RepType - Type/name of the reputation to get the value of.
- * @returns {number} - Returns the value of the reputation. It can range from 100 to -100, and it defaults to 0 if the player never earned this type of reputation before.
+ * @returns {number}
  */
-function ReputationGet(RepType) {
-	for (let R = 0; R < Player.Reputation.length; R++)
-		if (Player.Reputation[R].Type == RepType)
-			return parseInt(Player.Reputation[R].Value);
-	return 0;
+/**
+ * Returns the reputation value of the player
+ * @overload
+ * @param {ReputationType} ReputationType - Gets the reputation value from the player
+ * @returns {number}
+ */
+/**
+ * Returns the reputation value of a given character
+ * @param {Character | ReputationType} character - The character to get the reputation of
+ * @param {ReputationType} [repType] - Type/name of the reputation to get the value of.
+ * @returns {number} - Returns the value of the reputation. It can range from 100 to -100, and it defaults to 0 if the player never earned this type of reputation before.
+*/
+function ReputationGet(character, repType) {
+	if (typeof character === "string") {
+		repType = character;
+		character = Player;
+	}
+
+	const rep = character.Reputation.find(r => r.Type === repType);
+	return rep?.Value ?? 0;
 }
 
 /**
  * Returns a specific reputation value for a given character
- * @param {Character} C - Character to get the reputation for.
- * @param {ReputationType} RepType - Type/name of the reputation to get the value of.
+ * @param {Character} character - Character to get the reputation for.
+ * @param {ReputationType} repType - Type/name of the reputation to get the value of.
  * @returns {number} - Returns the value of the reputation. It can range from 100 to -100, and it defaults to 0 if the given character never earned this type of reputation before.
+ * @deprecated - Deprecated alias for {@link ReputationGet}
  */
-function ReputationCharacterGet(C, RepType) {
-	if ((C != null) && (C.Reputation != null))
-		for (let R = 0; R < C.Reputation.length; R++)
-			if (C.Reputation[R].Type == RepType)
-				return parseInt(C.Reputation[R].Value);
-	return 0;
+function ReputationCharacterGet(character, repType) {
+	return ReputationGet(character, repType);
 }
 
 /**

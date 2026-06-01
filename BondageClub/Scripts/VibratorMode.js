@@ -177,6 +177,7 @@ function VibratorModeRegister(asset, config, parentOption=null) {
 
 /**
  * Sets an extended item's type and properties to the option provided.
+ * @public
  * @param {VibratingItemData} data - The extended item data
  * @param {Character} C - The character on whom the item is equipped
  * @param {Item} item - The item whose type to set

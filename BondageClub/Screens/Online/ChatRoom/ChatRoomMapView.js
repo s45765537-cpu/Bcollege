@@ -761,6 +761,7 @@ function ChatRoomMapViewIsOutOfBounds(position) {
 
 /**
  * Performs cleanup when leaving the chat room map
+ * @deprecated
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewLeave() {
@@ -873,12 +874,13 @@ function ChatRoomMapViewCanStartWhisper(C) {
 
 /**
  * Handles the reception of the room properties from the server.
- * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom properties.
  * @returns {void} - Nothing.
  */
-function ChatRoomMapViewSyncRoomProperties(data) {
+function ChatRoomMapViewRoomUpdated() {
 	// If the chat room map is visible, we need to update the perception map
 	ChatRoomMapViewCalculatePerceptionMasks();
+
+	ChatRoomMapManager.OnMapDataUpdated();
 }
 
 /**

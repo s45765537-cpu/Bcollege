@@ -255,6 +255,13 @@ ClothGardenDressBowknot,Bowknot
 ClothGardenDressChest,Chest
 ClothGardenDressDress,Dress
 ClothGardenDressShoulderLace,Shoulder Lace
+ClothLaceBraNightgownBase,Base
+ClothLaceBraNightgownBraBase,Bra Top
+ClothLaceBraNightgownBraBaseShadow,Bra Base Shadow
+ClothLaceBraNightgownBraLace,Bra Center
+ClothLaceBraNightgownBraShadow,Bra Shadow
+ClothLaceBraNightgownEdge,Lines
+ClothLaceBraNightgownHemShadow,Hem Shadow
 ClothLatexHobbleDressTop,Top
 ClothLatexHobbleDressCorset,Corset
 ClothLatexHobbleDressBuckles,Corset Buckles
@@ -297,6 +304,19 @@ ClothLolitaShortDressSideBowShadow,Side Bow Shadow
 ClothLolitaShortDressStrap,Strap
 ClothLolitaShortDressWaist1,Waist
 ClothLolitaShortDressWaist2,Waist
+ClothLongQipaoDressA1,Dress
+ClothLongQipaoDressA2,Dress
+ClothLongQipaoDressA3,Dress
+ClothLongQipaoDressB1,Dress
+ClothLongQipaoDressB2,Dress
+ClothLongQipaoDressC1,Collar
+ClothLongQipaoDressC2,Collar
+ClothLongQipaoDressC3,Collar
+ClothLongQipaoDressC4,Collar
+ClothLongQipaoDressC5,Collar
+ClothLongQipaoDressD1,Left Bow
+ClothLongQipaoDressD2,Right Bow
+ClothLongQipaoDressD3,Collar Bow
 ClothLowerBlackButterflySkirtLeft1,Left
 ClothLowerBlackButterflySkirtLeft2,Left
 ClothLowerBlackButterflySkirtLeft3,Left
@@ -368,6 +388,9 @@ ClothMaidDress4Skirt,Skirt
 ClothMaidDress4Top,Top
 ClothMaidDress4Waist,Waist
 ClothMaidDress4WaistRope,Waist Rope
+ClothOuterLabCoatLeft2,Left
+ClothOuterLabCoatLining,Back
+ClothOuterLabCoatRight2,Right
 ClothOuterLeatherJacketJacket,Jacket
 ClothOuterLeatherJacketMetal,Metal
 ClothOuterLeatherJacketShineJacket,Shine Jacket
@@ -408,6 +431,15 @@ ClothStarryOceanEveningGown3,Top Laces
 ClothStarryOceanEveningGown4,Bottom Laces
 ClothStarryOceanEveningGownI0,Front
 ClothStarryOceanEveningGownI1,Back
+ClothWhiteDressBeads,Beads
+ClothWhiteDressChest,Chest
+ClothWhiteDressChestStrap,Chest Strap
+ClothWhiteDressFloralAcc,Floral Acc.
+ClothWhiteDressHip,Hip
+ClothWhiteDressMain,Main
+ClothWhiteDressPattern,Pattern
+ClothWhiteDressShoulderStrap,Shoulder Strap
+ClothWhiteDressWaist,Waist
 ClothXmas2025A1,Interior
 ClothXmas2025A2,Border
 ClothXmas2025B1,Fabric
@@ -3620,6 +3652,11 @@ ShoesZipperLeatherBootsBaseLeft,Base (Left)
 ShoesZipperLeatherBootsBaseRight,Base (Right)
 ShoesZipperLeatherBootsOpenLeft,Open (Left)
 ShoesZipperLeatherBootsOpenRight,Open (Right)
+SocksCuteKittenPrintedSocksBaseColor,Base Color
+SocksCuteKittenPrintedSocksBow,Face
+SocksCuteKittenPrintedSocksCatPattern,Whiskers
+SocksCuteKittenPrintedSocksCatTail,Tail
+SocksCuteKittenPrintedSocksEars,Ears
 SocksGradientPantyhoseLower,Lower
 SocksGradientPantyhoseUpper,Upper
 SocksHaremStockingsBands,Bands
@@ -3633,6 +3670,8 @@ SocksNetSocksUpperNet,Upper Net
 SocksNetSocksUpperPattern,Upper Pattern
 SocksNetSocksUpperSocks,Upper Socks
 SocksNetSocksWaistline,Waistline
+SocksStripedSocksSocks,Socks
+SocksStripedSocksStripes,Stripes
 SocksYuletideVelvetWarmthSock,Sock
 SocksYuletideVelvetWarmthSock,Fuzz
 SocksRippedPantyhoseBaseUpper,Upper
@@ -3650,6 +3689,8 @@ SocksLeftSocksFurFabric,Sock
 SocksLeftSocksFurFur,Fur
 SocksLeftSocksStriped1Dark,Dark Stripes
 SocksLeftSocksStriped1Light,Light Stripes
+SocksLegWarmers1Socks,Sock
+SocksLegWarmers1Bowknot,Bow
 SocksRightGradientPantyhoseLower,Lower
 SocksRightGradientPantyhoseUpper,Upper
 SocksRightHaremStockingsBands,Bands

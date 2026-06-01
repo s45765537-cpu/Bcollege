@@ -137,11 +137,6 @@ async function ChatSearchStart(space, returnScreen, options) {
  * @type {ScreenLoadHandler}
  */
 async function ChatSearchLoad() {
-	ChatRoomCustomizationClear();
-	ChatRoomActivateView(ChatRoomCharacterViewName);
-	ChatRoomMapViewEditMode = "";
-	ChatRoomMapViewEditBackup = [];
-	delete Player.MapData;
 	CurrentDarkFactor = 0.5;
 	if (ChatSearchSafewordAppearance == null) {
 		ChatSearchSafewordAppearance = Player.Appearance.slice(0);
@@ -2040,6 +2035,7 @@ function ChatSearchMatchesTerms(Room, Terms) {
  * Calculates starting offset for the ignored rooms list when displaying results in filter/permission mode.
  * @param {number} shownRooms - Number of rooms shown before the ignored rooms.
  * @returns {number} - Starting offset for ingored rooms
+ * @deprecated
  */
 function ChatSearchCalculateIgnoredRoomsOffset(shownRooms) {
 	return ChatSearchResultOffset + shownRooms - ChatSearchResult.length;

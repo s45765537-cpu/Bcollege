@@ -47,12 +47,12 @@ function MaidQuartersIsMaidsDisabled() { var expire = LogValue("MaidsDisabled", 
  * Checks if the player is helpless (maids disabled) or not and also if they have reputation to do work
  * @returns {boolean} - Returns true if the player has maids enabled and also has rep
  */
-function MaidQuartersCanDoWorkForMaids() { return (DialogReputationGreater("Maid", "1") && !MaidQuartersIsMaidsDisabled()); }
+function MaidQuartersCanDoWorkForMaids() { return (DialogReputationGreater("Maid", 1) && !MaidQuartersIsMaidsDisabled()); }
 /**
  * Checks if the player is helpless (maids disabled) or not and also if they have reputation to do work
  * @returns {boolean} - Returns true if the player has maids enabled and also has rep
  */
-function MaidQuartersCanDoWorkButMaidsDisabled() { return (DialogReputationGreater("Maid", "1") && MaidQuartersIsMaidsDisabled()); }
+function MaidQuartersCanDoWorkButMaidsDisabled() { return (DialogReputationGreater("Maid", 1) && MaidQuartersIsMaidsDisabled()); }
 /**
  * CHecks for appropriate dressing
  * @returns {boolean} - Returns true if the player wears a maid dress and a maid hair band, false otherwise
@@ -241,7 +241,6 @@ function MaidQuartersCanUngagAndMaidsDisabled() { return MaidQuartersIsMaidsDisa
  * Checks, if the maids are unable to remove the gag (if there is one)
  * @returns {boolean} - Returns true, if the player cannot be ungagged by the maids, false otherwise
  */
-function MaidQuartersCannotUngag() { return (!Player.CanTalk() && InventoryCharacterHasOwnerOnlyRestraint(Player)); }
 function MaidQuartersCannotUngagAndMaidsNotDisabled() { return !MaidQuartersIsMaidsDisabled() && (!Player.CanTalk() && InventoryCharacterHasOwnerOnlyRestraint(Player)); }
 
 /**
@@ -383,7 +382,7 @@ function MaidQuartersRemoveMaidUniform() {
 /**
  * Starts a mini game or maid chore
  * @param {ModuleScreens["MiniGame"]} GameType - Name of the mini-game to launch
- * @param {number} Difficulty - Difficulty Ration for the mini-game
+ * @param {"Easy" | "Normal" | "Hard" | `mienaiinaniganiobieruyoru ${"ez" | "nm" | "hd"}`} Difficulty - Difficulty Ration for the mini-game
  * @returns {void} - Nothing
  */
 function MaidQuartersMiniGameStart(GameType, Difficulty) {
@@ -462,7 +461,7 @@ function MaidQuartersRescuePay() {
 	MaidQuartersMaid.CurrentDialog = MaidQuartersMaid.CurrentDialog.replace("REPLACEMONEY", M.toString());
 	CharacterChangeMoney(Player, M);
 	IntroductionJobProgress("SubMaid");
-	DialogTheresaGiveEssence("1");
+	DialogTheresaGiveEssence(1);
 }
 
 /**
@@ -482,11 +481,11 @@ function MaidQuartersMaidReleasePlayer() {
 /**
  * Collects the dominant reputation change of a player during the course of the various dialog options.
  * When the player becomes a maid, the change is applied
- * @param {string} Value - The value by which the reputation is changed
+ * @param {number} Value - The value by which the reputation is changed
  * @returns {void} - Nothing
  */
 function MaidQuartersDominantRepChange(Value) {
-	MaidQuartersDominantRep = MaidQuartersDominantRep + parseInt(Value);
+	MaidQuartersDominantRep += Value;
 }
 
 /**

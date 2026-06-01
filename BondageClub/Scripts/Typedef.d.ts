@@ -192,7 +192,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton" | "menuitem" | "switch";
+		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton" | "menuitem" | "switch" | "none";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */
@@ -648,15 +648,17 @@ type CraftingPropertyType =
 	"Flexible" | "Nimble" | "Arousing" | "Dull" | "Edging" | "Heavy" | "Light"
 	;
 
+type AssetGenericSize = "Small" | "Medium" | "Large";
 type AssetAttribute =
-	"Skirt" | "SuitLower" | "UpperLarge" | "Diaper" |
-	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
-	"CanAttachMittens" |
-	"IsChestHarness" | "IsHipHarness" |
-	"PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3" |
-	"CagePlastic2" | "CageTechno" | "CageFlat" |
-	"FuturisticRecolor" | "FuturisticRecolorDisplay" |
-	"PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
+	| "Skirt" | "SuitLower" | "UpperLarge"
+	| "ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix"
+	| "CanAttachMittens"
+	| "IsChestHarness" | "IsHipHarness"
+	| "PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3"
+	| "CagePlastic2" | "CageTechno" | "CageFlat"
+	| "FuturisticRecolor" | "FuturisticRecolorDisplay"
+	| "PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
+	| "Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
 	;
 
 type PosePrerequisite = `Can${AssetPoseName}`;
@@ -835,7 +837,7 @@ type ChatRoomOwnershipEvent =
 	| "CanOfferEndTrial"
 	| "CanEndTrial";
 
-type ChatRoom = ServerChatRoomData;
+type ChatRoomData = ServerChatRoomData;
 // TODO: Review the partial nature of the `Custom` and `Space` fields
 type ChatRoomSettings = Prettify<
 	Omit<ServerChatRoomData, "Character" | "Custom" | "Space">
@@ -2180,6 +2182,11 @@ interface Character {
 	PrivateBedAppearance?: string;
 }
 
+type PrivatePunishment = (
+	"Cage" | "Bound" | "BoundPet" | "ChastityBra" | "ForceNaked" | "ConfiscateKey" | "ConfiscateCrop" | "ConfiscateWhip"
+	| "SleepCage" | "LockOut" | "Cell" | "OwnerLocks" | "Asylum" | "ChastityBelt"
+);
+
 interface KidnapCard {
 	Move: number;
 	Value?: number;
@@ -2464,6 +2471,11 @@ type ChatRoomCustomizationType = 0 | 1 | 2 | 3;
 interface PlayerOnlineSettings {
 	AutoBanBlackList: boolean;
 	AutoBanGhostList: boolean;
+	/** 
+	 * When true, respond to `/mods remote` hidden queries with your Mod SDK list and a declined reply otherwise
+	 * @default true
+	 */
+	RespondRemoteModListQueries: boolean;
 	DisableAnimations: boolean;
 	SearchFriendsFirst: boolean;
 	SendStatus: boolean;
@@ -2475,6 +2487,11 @@ interface PlayerOnlineSettings {
 }
 
 /** Pandora Player extension */
+type InfiltrationPerks = (
+	"Strength" | "Charisma" | "Agility" | "Resilience" | "Endurance" | "Investigation" | "Bribery" | "Negotiation"
+	| "Recruiter" | "Forgery" | "Recovery" | "Cartographer" | "Lockpicker" | "Detector"
+);
+
 interface PlayerCharacter {
 	Infiltration?: InfiltrationType;
 }
@@ -2487,7 +2504,7 @@ interface InfiltrationType {
 		Difficulty: number;
 		FightDone?: boolean;
 	}
-	Perks?: string;
+	Perks?: "" | `${number}`;
 }
 
 /** Kinky Dungeon Player extension */
@@ -3923,7 +3940,7 @@ interface GamePrisonParameters {
 interface GameMagicSchoolFindsAroundParameters {
     KitsuneQuestProgress?: number;
     TheresaQuestProgress?: number;
-    TheresaBadWords?: string[];
+    TheresaBadWords?: number[];
     TheresaTooRude?: boolean;
     TheresaHideUntil?: number;
 }
@@ -4355,9 +4372,9 @@ interface CraftingItem {
 	/** The crafted item effects mapped to their effect strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/**
-	* The crafted item effect.
-	* @deprecated superseded by {@link CraftingItem.Effects}
-	*/
+	 * The crafted item effect.
+	 * @deprecated superseded by {@link CraftingItem.Effects}
+	 */
 	Property?: CraftingPropertyType;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
@@ -5008,7 +5025,7 @@ interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "Mous
 	Deactivate?: () => void;
 	Draw: () => void;
 	DrawUi: () => void;
-	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
+	RoomUpdated?: () => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;
 	Screenshot: () => void;

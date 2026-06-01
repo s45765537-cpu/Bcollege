@@ -17,7 +17,7 @@ TherapyDefeat,,,I'm sorry nurse DialogPlayerName.  I don't think this is working
 100,110,By getting naked.,"Of course, nurse DialogPlayerName.  (She strips down nervously.)","DialogNaked(""CurrentCharacter"")",
 100,110,Start by stripping.,"Of course, nurse DialogPlayerName.  (She strips down nervously.)","DialogNaked(""CurrentCharacter"")",
 110,120,Don't worry.  I will only use a few restraints on you.,(She surrenders and allows you to restrain her with a few items you find in the room.  She gets a little nervous.),"PatientBondageIntro(-1, ""FEW"")",
-110,120,I will now use some restraints on you.,(She surrenders and allows you to restrain her with some items you find in the room.  She gets a little nervous.),"PatientBondageIntro(0, """")",
+110,120,I will now use some restraints on you.,(She surrenders and allows you to restrain her with some items you find in the room.  She gets a little nervous.),"PatientBondageIntro(0)",
 110,120,"Patient, I will use lots of restraints on you.",(She surrenders and allows you to restrain her with lots of items you find in the room.  She gets a little nervous.),"PatientBondageIntro(1, ""LOT"")",
 110,120,"Girl, you will experience a full bondage therapy.",(She surrenders and allows you to restrain her with all items you find in the room.  She gets a little nervous.),"PatientBondageIntro(2, ""ALL"")",
 120,1000,(Pet and caress her to keep her calm.),(She takes long deep breathes and tries to relax.),,

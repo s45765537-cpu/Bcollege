@@ -221,59 +221,67 @@ var DialogLeaveFocusItemHandlers = {
 
 /**
  * Returns character based on argument
- * @param {Character | string} C - The character to get; can be `"Player"` to get player or empty to get current
+ * @param {Character | "Player" | "CurrentCharacter"} C - The character to get; can be `"Player"` to get player or empty to get current
  * @returns {Character} - The actual character
  */
 function DialogGetCharacter(C) {
-	if (typeof C === "string") {
-		// @ts-ignore Strict-TS: force-cast here because there's a bunch of side-effects to having this return `null`
-		return (C.toUpperCase().trim() == "PLAYER") ? Player : CurrentCharacter;
+	switch (C) {
+		case "Player":
+			return Player;
+		case "CurrentCharacter":
+			// @ts-ignore Strict-TS: force-cast here because there's a bunch of side-effects to having this return `null`
+			return CurrentCharacter;
+		default:
+			if (typeof C === "string") {
+				throw new Error(`Unknown character type "${C}"`);
+			} else {
+				return C;
+			}
 	}
-	return C ?? CurrentCharacter;
 }
 
 /**
  * Compares the player's reputation with a given value
  * @param {ReputationType} RepType - The name of the reputation to check
- * @param {string} Value - The value to compare
+ * @param {number} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is less or equal than a given value
  */
-function DialogReputationLess(RepType, Value) { return (ReputationGet(RepType) <= parseInt(Value)); }
+function DialogReputationLess(RepType, Value) { return ReputationGet(RepType) <= Value; }
 
 /**
  * Compares the player's reputation with a given value
  * @param {ReputationType} RepType - The name of the reputation to check
- * @param {string} Value - The value to compare
+ * @param {number} Value - The value to compare
  * @returns {boolean} - Returns TRUE if a specific reputation type is greater or equal than a given value
  */
-function DialogReputationGreater(RepType, Value) { return (ReputationGet(RepType) >= parseInt(Value)); }
+function DialogReputationGreater(RepType, Value) { return ReputationGet(RepType) >= Value; }
 
 /**
  * Compares the player's money with a given amount
- * @param {string} Amount - The amount of money that must be met
+ * @param {number} Amount - The amount of money that must be met
  * @returns {boolean} - Returns TRUE if the player has enough money
  */
-function DialogMoneyGreater(Amount) { return (parseInt(Player.Money) >= parseInt(Amount)); }
+function DialogMoneyGreater(Amount) { return Player.Money >= Amount; }
 
 /**
  * Changes a given player's account by a given amount
- * @param {string} Amount - The amount that should be charged or added to the player's account
+ * @param {number} Amount - The amount that should be charged or added to the player's account
  * @returns {void} - Nothing
  */
-function DialogChangeMoney(Amount) { CharacterChangeMoney(Player, parseInt(Amount)); }
+function DialogChangeMoney(Amount) { CharacterChangeMoney(Player, Amount); }
 
 /**
  * Alters the current player's reputation by a given amount
  * @param {ReputationType} RepType - The name of the reputation to change
- * @param {number|string} Value - The value, the player's reputation should be altered by
+ * @param {number} Value - The value, the player's reputation should be altered by
  * @returns {void} - Nothing
  */
-function DialogSetReputation(RepType, Value) { ReputationChange(RepType, (parseInt(ReputationGet(RepType)) * -1) + parseInt(Value)); } // Sets a fixed number for the player specific reputation
+function DialogSetReputation(RepType, Value) { ReputationChange(RepType, ReputationGet(RepType) * -1 + Value); } // Sets a fixed number for the player specific reputation
 
 /**
  * Change the player's reputation progressively through dialog options (a reputation is easier to break than to build)
  * @param {ReputationType} RepType - The name of the reputation to change
- * @param {number|string} Value - The value, the player's reputation should be altered by
+ * @param {number} Value - The value, the player's reputation should be altered by
  * @returns {void} - Nothing
  */
 function DialogChangeReputation(RepType, Value) { ReputationProgress(RepType, Value); }
@@ -302,7 +310,7 @@ function DialogRemoveItem(AssetGroup) { InventoryRemove(Player, AssetGroup); }
 
 /**
  * Releases a character from restraints
- * @param {string | Character} C - The character to be released.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to be released.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
@@ -310,7 +318,7 @@ function DialogRelease(C) { CharacterRelease(DialogGetCharacter(C)); }
 
 /**
  * Strips a character naked and removes the restraints
- * @param {string | Character} C - The character to be stripped and released.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to be stripped and released.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
@@ -318,7 +326,7 @@ function DialogNaked(C) { CharacterNaked(DialogGetCharacter(C)); }
 
 /**
  * Fully restrain a character with random items
- * @param {string | Character} C - The character to be restrained.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to be restrained.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {void} - Nothing
  */
@@ -341,7 +349,7 @@ function DialogSetAllowItem(Allow) { if (CurrentCharacter) CurrentCharacter.Allo
 
 /**
  * Returns the value of the AllowItem flag of a given character
- * @param {string | Character} C - The character whose flag should be returned.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character whose flag should be returned.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
@@ -350,6 +358,7 @@ function DialogAllowsItem(C) { C = DialogGetCharacter(C ?? CharacterGetCurrent()
 /**
  * Returns TRUE if no item can be used by the player on the current character because of the map distance
  * @returns {boolean} - TRUE if distance is too far (more than 1 tile)
+ * @deprecated
  */
 function DialogDontAllowItemDistance() {
 	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
@@ -360,7 +369,7 @@ function DialogDontAllowItemDistance() {
 
 /**
  * Determines if the given character is kneeling
- * @param {string | Character} C - The character to check
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is kneeling
  */
@@ -386,7 +395,7 @@ function DialogIsProperty() { return CurrentCharacter?.IsOwnedByPlayer() ?? fals
 
 /**
  * Checks, if a given character is currently restrained
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is wearing restraints, false otherwise
  */
@@ -394,7 +403,7 @@ function DialogIsRestrained(C) { return DialogGetCharacter(C).IsRestrained(); }
 
 /**
  * Checks, if a given character is currently blinded
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is blinded, false otherwise
  */
@@ -402,7 +411,7 @@ function DialogIsBlind(C) { return DialogGetCharacter(C).IsBlind(); }
 
 /**
  * Checks, if a given character is currently wearing a vibrating item
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is wearing a vibrating item, false otherwise
  */
@@ -410,7 +419,7 @@ function DialogIsEgged(C) { return DialogGetCharacter(C).IsEgged(); }
 
 /**
  * Checks, if a given character is able to change her clothes
- * @param {string | Character} C - The character to check.
+ * @param {"Player" | "CurrentCharacter" | Character} C - The character to check.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - Returns true, if the given character is able to change clothes, false otherwise
  */
@@ -418,7 +427,7 @@ function DialogCanInteract(C) { return DialogGetCharacter(C).CanInteract(); }
 
 /**
  * Sets a new pose for the given character
- * @param {string} C - The character whose pose should be altered.
+ * @param {"Player" | "CurrentCharacter"} C - The character whose pose should be altered.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @param {null | AssetPoseName} [NewPose=null] - The new pose, the character should take.
  * Can be omitted to bring the character back to the standing position.
@@ -429,10 +438,10 @@ function DialogSetPose(C, NewPose) { PoseSetActive(DialogGetCharacter(C), NewPos
 /**
  * Checks, whether a given skill of the player is greater or equal a given value
  * @param {SkillType} SkillType - Name of the skill to check
- * @param {string} Value - The value, the given skill must be compared to
+ * @param {number} Value - The value, the given skill must be compared to
  * @returns {boolean} - Returns true if a specific skill is greater or equal than a given value
  */
-function DialogSkillGreater(SkillType, Value) { return (parseInt(SkillGetLevel(Player, SkillType)) >= parseInt(Value)); }
+function DialogSkillGreater(SkillType, Value) { return SkillGetLevel(Player, SkillType) >= Value; }
 
 /**
  * Checks, if a given item is available in the player's inventory
@@ -462,10 +471,10 @@ function DialogCanViewRules() { return Player.IsFullyOwned(); }
 
 /**
  * Checks if the has enough GGTS minutes to spend on different activities, for GGTS level 6 and up
- * @param {string} Minute - The number of minutes to compare
+ * @param {number} Minute - The number of minutes to compare
  * @returns {boolean} - TRUE if the player has enough minutes
  */
-function DialogGGTSMinuteGreater(Minute) { return AsylumGGTSHasMinutes(parseInt(Minute)); }
+function DialogGGTSMinuteGreater(Minute) { return AsylumGGTSHasMinutes(Minute); }
 
 /**
  * Checks if the player can spend GGTS minutes on herself, for GGTS level 6 and up
@@ -939,6 +948,7 @@ function DialogMenuBack() {
 
 /**
  * Returns whether the current mode shows items.
+ * @deprecated
  */
 function DialogModeShowsInventory() {
 	return DialogMenuMode && ["items", "activities", "locking", "permissions"].includes(DialogMenuMode);
@@ -1707,6 +1717,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
  * Create a stringified list of the group and the assets currently in the dialog inventory
  * @param {Character} C - The character the dialog inventory has been built for
  * @returns {string} - The list of assets as a string
+ * @deprecated
  */
 function DialogInventoryStringified(C) {
 	return (C.FocusGroup ? C.FocusGroup.Name : "") + (DialogInventory ? JSON.stringify(DialogInventory.map(I => I.Asset.Name).sort()) : "");

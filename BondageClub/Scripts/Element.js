@@ -141,6 +141,29 @@ function ElementParseChildren(children) {
 }
 
 /**
+ * Create a reusable animated loader element.
+ * @param {"dots" | "circle"} [variant] - Visual style of loader
+ * @param {Omit<HTMLOptions<"span">, "tag">} [options] - Additional element options
+ * @returns {HTMLSpanElement}
+ */
+function ElementCreateLoader(variant = "dots", options = {}) {
+	/** @type {readonly (HTMLOptionsUnion)[]} */
+	const loaderChildren = variant === "dots"
+		? [{ tag: "span" }, { tag: "span" }, { tag: "span" }]
+		: [];
+	return ElementCreate({
+		...options,
+		tag: "span",
+		attributes: {
+			"aria-hidden": "true",
+			...(options.attributes ?? {}),
+		},
+		classList: ["element-loader", `element-loader-${variant}`, ...(options.classList ?? [])],
+		children: [...loaderChildren, ...(options.children ?? [])],
+	});
+}
+
+/**
  * Creates a new from element in the main document.
  *
  * @param {string | null} ID - The id of the form to create
@@ -466,6 +489,317 @@ var ElementDropdown = {
 		});
 	},
 };
+
+/**
+ * Construct a custom searchable dropdown menu.
+ *
+ * The element comprises a button trigger displaying the current selection,
+ * and a popup containing a search input and a scrollable list of options.
+ * Options can optionally be grouped via the `group` field, which inserts a
+ * interactive header before each group of options sharing the same value.
+ *
+ * @example
+ * <div id="..." class="searchable-dropdown">
+ *     <button class="searchable-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+ *         <span class="searchable-dropdown-trigger-label">Selected label</span>
+ *         <span class="searchable-dropdown-trigger-arrow">▾</span>
+ *     </button>
+ *     <div class="searchable-dropdown-popup" hidden>
+ *         <input type="search" class="searchable-dropdown-search">
+ *         <ul role="listbox" class="searchable-dropdown-list">
+ *             <li role="option" data-value="..." aria-selected="true">label</li>
+ *             ...
+ *         </ul>
+ *     </div>
+ * </div>
+ *
+ * @param {string | null} id - The id of the root container; sub-element ids are derived from it.
+ * @param {readonly ElementSearchableDropdown.OptionItem[]} optionsList - The available options.
+ * @param {(value: string) => void} onChange - Called when the selection changes.
+ * @param {ElementSearchableDropdown.CreateOptions | null} [options]
+ * @returns {ElementSearchableDropdown.SearchableDropdownElement}
+ */
+function ElementCreateSearchableDropdown(id, optionsList, onChange, options) {
+	id ??= ElementGenerateID();
+	const existing = /** @type {ElementSearchableDropdown.SearchableDropdownElement | null} */ (ElementWrap(id));
+	if (existing) {
+		console.error(`Element "${id}" already exists`);
+		return existing;
+	}
+	options = options ?? {};
+
+	const triggerId = `${id}-trigger`;
+	const labelId = `${id}-label`;
+	const popupId = `${id}-popup`;
+	const searchId = `${id}-search`;
+	const listId = `${id}-list`;
+
+	/** @type {readonly ElementSearchableDropdown.OptionItem[]} */
+	let _options = [...optionsList];
+	/** @type {string | null} */
+	let _value = options.value ?? null;
+	/** @type {HTMLLIElement[]} */
+	let _renderedItems = [];
+	let _highlightIndex = -1;
+
+	const placeholder = options.placeholder ?? "";
+	const searchPlaceholder = options.searchPlaceholder ?? "";
+	const emptyText = options.emptyText ?? "";
+
+	const trigger = ElementButton.Create(
+		triggerId,
+		function searchableDropdownTriggerClick(ev) {
+			ev.preventDefault();
+			_toggle();
+		},
+		{
+			disabled: options.disabled,
+		},
+		{
+			button: {
+				classList: ["searchable-dropdown-trigger"],
+				attributes: {
+					"aria-haspopup": "listbox",
+					"aria-expanded": "false",
+					"aria-controls": popupId,
+				},
+				children: [
+					{
+						tag: "span",
+						attributes: { id: labelId },
+						classList: ["searchable-dropdown-trigger-label"],
+						children: [placeholder],
+					},
+					{
+						tag: "span",
+						attributes: { "aria-hidden": "true" },
+						classList: ["searchable-dropdown-trigger-arrow"],
+						children: ["\u25BE"],
+					},
+				],
+			},
+		},
+	);
+
+	const search = ElementCreate({
+		tag: "input",
+		classList: ["searchable-dropdown-search"],
+		attributes: {
+			id: searchId,
+			type: "search",
+			placeholder: searchPlaceholder,
+			spellcheck: "false",
+			autocomplete: "off",
+		},
+		eventListeners: {
+			input: () => _renderList(),
+			keydown: (ev) => {
+				switch (ev.key) {
+					case "ArrowDown":
+						ev.preventDefault();
+						if (_renderedItems.length === 0) return;
+						_setHighlight((_highlightIndex + 1) % _renderedItems.length);
+						break;
+					case "ArrowUp":
+						ev.preventDefault();
+						if (_renderedItems.length === 0) return;
+						_setHighlight((_highlightIndex - 1 + _renderedItems.length) % _renderedItems.length);
+						break;
+					case "Enter":
+						ev.preventDefault();
+						if (_highlightIndex >= 0 && _renderedItems[_highlightIndex]) {
+							_renderedItems[_highlightIndex].click();
+						}
+						break;
+					case "Escape":
+						ev.preventDefault();
+						_close();
+						trigger.focus();
+						break;
+				}
+			}
+		}
+	});
+
+	const list = ElementCreate({
+		tag: "ul",
+		attributes: { id: listId, role: "listbox", tabindex: "-1" },
+		classList: ["searchable-dropdown-list", "scroll-box"],
+	});
+
+	const popup = ElementCreate({
+		tag: "div",
+		attributes: { id: popupId, hidden: true, role: "dialog" },
+		classList: ["searchable-dropdown-popup"],
+		children: [search, list],
+	});
+
+	const root = ElementCreate({
+		tag: "div",
+		attributes: { id, "screen-generated": CurrentScreen },
+		classList: ["searchable-dropdown", "HideOnPopup"],
+		parent: options.parent ?? document.body,
+		children: [trigger, popup],
+	});
+
+	/** @type {HTMLSpanElement | null} */
+	const labelSpan =  trigger.querySelector(`#${CSS.escape(labelId)}`);
+
+	const _refreshLabel = () => {
+		const current = _options.find(o => o.value === _value);
+		if (!labelSpan) return;
+		labelSpan.textContent = current ? current.label : placeholder;
+		labelSpan.classList.toggle("searchable-dropdown-trigger-placeholder", !current);
+	};
+
+	/**
+	 * @param {number} idx - The index of the item to highlight.
+	 */
+	const _setHighlight = (idx) => {
+		if (_highlightIndex >= 0 && _renderedItems[_highlightIndex]) {
+			_renderedItems[_highlightIndex].classList.remove("searchable-dropdown-item-active");
+		}
+		_highlightIndex = idx;
+		if (idx >= 0 && _renderedItems[idx]) {
+			_renderedItems[idx].classList.add("searchable-dropdown-item-active");
+			_renderedItems[idx].scrollIntoView({ block: "end" });
+		}
+	};
+
+	const _renderList = () => {
+		const query = search.value.trim().toLowerCase();
+		list.replaceChildren();
+		_renderedItems = [];
+
+		/** @type {string | undefined} */
+		let lastGroup;
+		for (const opt of _options) {
+			const labelLower = opt.label.toLowerCase();
+			const groupLower = (opt.group ?? "").toLowerCase();
+			if (query && !labelLower.includes(query) && !groupLower.includes(query)) continue;
+
+			const li = ElementCreate({
+				tag: "li",
+				attributes: {
+					role: "option",
+					"aria-selected": opt.value === _value ? "true" : "false",
+					"aria-disabled": opt.disabled ? "true" : null,
+					"data-value": opt.value,
+				},
+				classList: [
+					"searchable-dropdown-item",
+					opt.value === _value ? "searchable-dropdown-item-selected" : null,
+					opt.disabled ? "searchable-dropdown-item-disabled" : null,
+				],
+				children: [opt.label],
+				eventListeners: {
+					mousedown: (ev) => ev.preventDefault(),
+					click: () => {
+						if (opt.disabled) return;
+						if (_value !== opt.value) {
+							_value = opt.value;
+							_refreshLabel();
+							onChange?.(opt.value);
+						}
+						_close();
+					},
+				},
+			});
+
+			if (opt.group && opt.group !== lastGroup) {
+				list.appendChild(ElementCreate({
+					tag: "li",
+					attributes: { role: "presentation" },
+					classList: ["searchable-dropdown-group-header"],
+					children: [opt.group],
+					eventListeners: {
+						click: function() {
+							const listRect = list.getBoundingClientRect();
+							const rowRect = li.getBoundingClientRect();
+							const delta = rowRect.top - listRect.top - rowRect.height;
+							const scrollTop = Math.max(0, Math.min(list.scrollHeight - list.clientHeight, list.scrollTop + delta));
+							list.scrollTo({ top: scrollTop, behavior: "smooth" });
+						}
+					}
+				}));
+				lastGroup = opt.group;
+			}
+
+			list.appendChild(li);
+			_renderedItems.push(li);
+		}
+
+		if (_renderedItems.length === 0) {
+			list.appendChild(ElementCreate({
+				tag: "li",
+				attributes: { role: "presentation" },
+				classList: ["searchable-dropdown-empty"],
+				children: [emptyText],
+			}));
+		}
+
+		_highlightIndex = -1;
+		if (_renderedItems.length > 0) {
+			const sel = _renderedItems.findIndex(li => li.classList.contains("searchable-dropdown-item-selected"));
+			_setHighlight(sel >= 0 ? sel : 0);
+		}
+	};
+
+	/**
+	 * @param {MouseEvent} ev
+	 */
+	const _onDocumentMouseDown = (ev) => {
+		if (!root.contains(/** @type {Node} */ (ev.target))) {
+			_close();
+		}
+	};
+
+	const _open = () => {
+		if (trigger.disabled) return;
+		if (!popup.hasAttribute("hidden")) return;
+		popup.toggleAttribute("hidden", false);
+		trigger.setAttribute("aria-expanded", "true");
+		search.value = "";
+		_renderList();
+		setTimeout(() => search.focus(), 0);
+		document.addEventListener("mousedown", _onDocumentMouseDown, true);
+	};
+
+	const _close = () => {
+		if (popup.hasAttribute("hidden")) return;
+		popup.toggleAttribute("hidden", true);
+		trigger.setAttribute("aria-expanded", "false");
+		document.removeEventListener("mousedown", _onDocumentMouseDown, true);
+	};
+
+	const _toggle = () => {
+		if (popup.hasAttribute("hidden")) _open();
+		else _close();
+	};
+
+	if (_value == null && _options.length > 0) _value = _options[0].value;
+	_refreshLabel();
+
+	const api = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (root);
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetOptions"]} */
+	api.bcSetOptions = (newOptions, newValue) => {
+		_options = [...newOptions];
+		if (newValue !== undefined) _value = newValue;
+		if (!_options.find(o => o.value === _value)) _value = _options[0]?.value ?? null;
+		_refreshLabel();
+		if (!popup.hasAttribute("hidden")) _renderList();
+	};
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetValue"]} */
+	api.bcSetValue = (newValue) => {
+		_value = newValue;
+		_refreshLabel();
+		if (!popup.hasAttribute("hidden")) _renderList();
+	};
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetDisabled"]} */
+	api.bcSetDisabled = (disabled) => { trigger.disabled = !!disabled; };
+
+	return api;
+}
 
 /**
  * Creates a new div element in the main document. Does not create a new element if there is already an existing one with the same ID

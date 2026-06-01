@@ -382,7 +382,7 @@ function GamblingShowToothpickStack() {
 
 /**
  * Controller for the Toothpick game
- * @param {"new" | "give_up" | "win" | "lost" | "1" | "2" | "3"} ToothpickState - The current state of the game
+ * @param {"new" | "give_up" | "win" | "lost" | 1 | 2 | 3} ToothpickState - The current state of the game
  * @returns {void} - Nothing
  */
 function GamblingToothpickController(ToothpickState) {
@@ -409,7 +409,7 @@ function GamblingToothpickController(ToothpickState) {
 	}
 
 	else {
-		GamblingToothpickCount -= CommonParseInt(ToothpickState, 10) ?? 0;
+		GamblingToothpickCount -= ToothpickState;
 
 		// has player lost?
 		if (GamblingToothpickCount <= 0) {
@@ -884,7 +884,7 @@ function GamblingAnnoyGamblingFirstSub() {
 /**
  * Uses an activity on the player or releases her
  * @param {"new"| "next" | "end"} ReleaseState - The current state of the release process
- * @param {string} [ReputationChange]
+ * @param {number} [ReputationChange]
  * @returns {void} - Nothing
  */
 function GamblingReleasePlayerGame(ReleaseState, ReputationChange) {
@@ -927,9 +927,8 @@ function GamblingReleasePlayerGame(ReleaseState, ReputationChange) {
 			GamblingFirstSub.Stage = "ActivityRelease";
 		}
 	} else if (ReleaseState === "end") {
-		const rep = CommonParseInt(ReputationChange ?? "0", 10) ?? 0;
-		if (rep) {
-			DialogChangeReputation("Dominant", rep);
+		if (ReputationChange) {
+			DialogChangeReputation("Dominant", ReputationChange);
 		}
 		GamblingNpcDiceShown = false;
 		GamblingPlayerDiceShown = false;

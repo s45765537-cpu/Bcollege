@@ -1135,6 +1135,17 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // CasualDroppedSuit
+		WhiteDress: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "HideNipples",
+					Key: "hn",
+					Options: [{ Property: { Hide: ["Nipples"] } }, {}],
+				},
+			],
+		}, // WhiteDress
 	}, // Cloth
 	Decals: {
 		MissMariasManor: {

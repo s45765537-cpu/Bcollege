@@ -155,7 +155,7 @@ const ChatRoomCustomization = /** @type {const} */ (Object.freeze({
 
 /**
  * The list of chat room views
- * @type {Record<"Character"|"Map", ChatRoomView>}
+ * @type {Record<string, ChatRoomView>}
  */
 var ChatRoomViews = {
 	Character: {
@@ -180,7 +180,7 @@ var ChatRoomViews = {
 		MouseWheel: ChatRoomMapViewMouseWheel,
 		KeyDown: ChatRoomMapViewKeyDown,
 		KeyUp: ChatRoomMapViewKeyUp,
-		SyncRoomProperties: ChatRoomMapViewSyncRoomProperties,
+		RoomUpdated: ChatRoomMapViewRoomUpdated,
 		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
 		CanLeave: ChatRoomMapViewCanLeave,
 		Screenshot: ChatRoomMapViewScreenshot
@@ -188,9 +188,9 @@ var ChatRoomViews = {
 };
 /**
  * The active chat room view
- * @type {ChatRoomView}
+ * @type {ChatRoomView | null}
  */
-var ChatRoomActiveView = ChatRoomViews[ChatRoomCharacterViewName];
+var ChatRoomActiveView = null;
 
 /**
  * Chances of a chat message popping up reminding you of some stimulation.
@@ -353,16 +353,34 @@ let ChatRoomResizeManager = {
 };
 
 /**
+ * Update the active view based on the room state
+ */
+function ChatRoomRefreshActiveView() {
+	if (!ChatRoomData) {
+		ChatRoomActiveView?.Deactivate?.();
+		ChatRoomActiveView = null;
+	} else if ((ChatRoomData?.MapData?.Type ?? "Never") === "Never") {
+		ChatRoomActivateView(ChatRoomCharacterViewName);
+		return;
+	} else if (ChatRoomData?.MapData?.Type == "Always") {
+		ChatRoomActivateView(ChatRoomMapViewName);
+	}
+}
+
+/**
  * Activates the chat room view with the passed name
- * @param {string} viewName - The name of the view to activate
+ * @param {keyof ChatRoomViews} viewName - The name of the view to activate
  * @returns {void}
  */
 function ChatRoomActivateView(viewName)
 {
-	if(!(viewName in ChatRoomViews)) { throw Error(`Tried to change to not existing view ${viewName}`); }
-	if(ChatRoomActiveView.Deactivate) ChatRoomActiveView.Deactivate();
+	if (!(viewName in ChatRoomViews)) {
+		throw Error(`Tried to change to non-existing view ${viewName}`);
+	}
+	if (ChatRoomIsViewActive(viewName)) return;
+	ChatRoomActiveView?.Deactivate?.();
 	ChatRoomActiveView = ChatRoomViews[viewName];
-	if(ChatRoomActiveView.Activate) ChatRoomActiveView.Activate();
+	ChatRoomActiveView.Activate?.();
 }
 
 /**
@@ -372,7 +390,9 @@ function ChatRoomActivateView(viewName)
  */
 function ChatRoomIsViewActive(viewName)
 {
-	if(!(viewName in ChatRoomViews)) { return false; }
+	if (!(viewName in ChatRoomViews)) {
+		return false;
+	}
 	return ChatRoomActiveView === ChatRoomViews[viewName];
 }
 
@@ -499,11 +519,6 @@ function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(Cur
  * @returns {boolean} - TRUE if the character is in the chatroom whitelist.
  */
 function ChatRoomCharacterIsWhitelisted(C) { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (C != null && C.MemberNumber != null) && (ChatRoomData.Whitelist.indexOf(C.MemberNumber) >= 0)); }
-/**
- * Checks if the player is in the chatroom whitelist.
- * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
- */
-function ChatRoomPlayerIsWhitelisted() { return ChatRoomCharacterIsWhitelisted(Player); }
 /**
  * Checks if the current character is in the chatroom whitelist.
  * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
@@ -792,6 +807,7 @@ function ChatRoomCanAssistKneel() {
 /**
  * Checks if the player character is kneeling and can stand up.
  * Will return true if there are any available transitions from {@link PoseAllKneeling} to {@link PoseAllStanding}.
+ * @deprecated
  * @returns {boolean} - Whether or not the player character can stand
  */
 function ChatRoomCanAttemptStand() {
@@ -801,6 +817,7 @@ function ChatRoomCanAttemptStand() {
 /**
  * Checks if the player character is standing and can kneel down.
  * Will return true if there are any available transitions from {@link PoseAllStanding} to {@link PoseAllKneeling}.
+ * @deprecated
  * @returns {boolean} - Whether or not the player character can stand
  */
 function ChatRoomCanAttemptKneel() {
@@ -1691,7 +1708,7 @@ function ChatRoomTarget() {
 
 /**
  * Updates the account to set the last chat room
- * @param {ChatRoom|null} room - room to set it to. null to reset.
+ * @param {ChatRoomData|null} room - room to set it to. null to reset.
  * @returns {void} - Nothing
  */
 function ChatRoomSetLastChatRoom(room) {
@@ -2285,8 +2302,6 @@ function ChatRoomRun(time) {
 	DrawRect(0, 0, 2000, 1000, "Black");
 
 	// Draw the room characters or the map depending on the map type
-	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomActivateView(ChatRoomCharacterViewName);
-	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
 	ChatRoomActiveView.Run(time);
 	ChatRoomActiveView.Draw();
 	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
@@ -2976,42 +2991,11 @@ function ChatRoomCharacterHasAnyRole(C, room, role) {
 }
 
 /**
- * Checks if a given character can see the room (meets the visibility list requirements)
- * @param {Character} C - The character to check
- * @returns {boolean} - Returns TRUE if the player can see the room.
- */
-function ChatRoomCharacterCanSeeRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "visible"); }
-
-/**
- * Checks if the player can see the room (meets the visibility list requirements)
- * @returns {boolean} - Returns TRUE if the player can see the room.
- */
-function ChatRoomPlayerCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(Player); }
-
-/**
- * Checks if the current character can see the room (meets the visibility list requirements)
- * @returns {boolean} - Returns TRUE if the current character can see the room.
- */
-function ChatRoomCurrentCharacterCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(CurrentCharacter); }
-
-/**
  * Checks if a given character has access to the room (can enter/leave) (meets the access list requirements)
  * @param {Character} C - The character to check
  * @returns {boolean} - Returns TRUE if the player has access to the room.
  */
 function ChatRoomCharacterCanAccessRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "access"); }
-
-/**
- * Checks if the player has access to the room (can enter/leave) (meets the access list requirements)
- * @returns {boolean} - Returns TRUE if the player has access to the room.
- */
-function ChatRoomPlayerCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(Player); }
-
-/**
- * Checks if the current character has access to the room (can enter/leave) (meets the access list requirements)
- * @returns {boolean} - Returns TRUE if the current character has access to the room.
- */
-function ChatRoomCurrentCharacterCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(CurrentCharacter); }
 
 /**
  * Checks if the player can leave the chatroom.
@@ -3024,13 +3008,15 @@ function ChatRoomCanLeave() {
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
-	if (ChatRoomIsLocked() && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
+	// Cannot leave if locked down in Pandora Penitentiary
+	if (ChatRoomData.Game == "Prison" && PandoraPenitentiaryIsInmate(Player)) return false;
+	// GGTS game can forbid anyone to leave
+	if (ChatRoomData.Game == "GGTS" && ChatRoomIsLocked()) return false;
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
-	if (ChatRoomPlayerCanAccessRoom()) return true;
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
-			return false; // Cannot leave if the room is locked and there's an administrator inside
+	// Can leave if we're the room admin or on the whitelist
+	if (ChatRoomCharacterCanAccessRoom(Player)) return true;
+	// Cannot leave if the room is locked and there's an administrator inside
+	if (ChatRoomIsLocked() && ChatRoomCharacter.some(c => ChatRoomCharacterIsAdmin(c))) return false;
 	return true; // Can leave if the room is locked and there's no administrator inside
 }
 
@@ -3131,12 +3117,15 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomData = null;
-	Player.MapData = null;
+	delete Player.MapData;
 	ChatRoomCharacter = [];
 	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = null;
 	ChatRoomMapViewObjectFog = null;
+	ChatRoomMapViewEditMode = "";
+	ChatRoomMapViewEditBackup = [];
+	ChatRoomRefreshActiveView();
 	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();
 	ChatRoomSetLastChatRoom(null);
@@ -3980,6 +3969,7 @@ var ChatRoomMessageHandlers = [
  * Adds a function to the list of message extractors.
  *
  * @see ChatRoomMessageExtractor for more info.
+ * @public
  *
  * @param {ChatRoomMessageExtractor} func - The extractor to register
  */
@@ -3996,6 +3986,7 @@ function ChatRoomRegisterMessageExtractor(func) {
  * Adds a function to the list of message handlers
  *
  * @see ChatRoomMessageHandler for more info.
+ * @public
  *
  * @param {ChatRoomMessageHandler} handler - The handler to register
  */
@@ -4114,6 +4105,8 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
 	} else if (data.Content == "ChatRoomFriendRequestAdd") {
 		ChatRoomFriendMessage(SenderCharacter, data);
+	} else if (data.Content === "ModSdkModsQuery" || data.Content === "ModSdkModsReply") {
+		CommandsModsList.ProcessHiddenRemote(data, SenderCharacter);
 	}
 	return true;
 }
@@ -4969,11 +4962,11 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 /**
  * Handles the reception of the complete room data from the server.
  * @param {unknown} obj - Room object containing the updated chatroom data.
- * @returns {obj is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
+ * @returns {obj is ChatRoomData} - Returns true if the passed properties are valid and false if they're invalid.
  */
 function ChatRoomValidateProperties(obj)
 {
-	const room = /** @type {ChatRoom} */ (obj);
+	const room = /** @type {ChatRoomData} */ (obj);
 	return room != null && typeof room === "object"
 		&& typeof room.Name === "string"
 		&& typeof room.Description === "string"
@@ -5072,8 +5065,9 @@ async function ChatRoomSync(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
-	// Parse the new chat room map data, if any
-	ChatRoomMapManager.OnMapDataUpdated();
+	ChatRoomRefreshActiveView();
+
+	ChatRoomActiveView.RoomUpdated?.();
 }
 
 
@@ -5217,12 +5211,12 @@ function ChatRoomSyncRoomProperties(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
-	if(ChatRoomActiveView.SyncRoomProperties) ChatRoomActiveView.SyncRoomProperties(data);
-
 	// Update our leash state
 	CharacterRefreshLeash(Player);
 
-	ChatRoomMapManager.OnMapDataUpdated();
+	ChatRoomRefreshActiveView();
+
+	ChatRoomActiveView.RoomUpdated?.();
 }
 
 /**
@@ -5774,8 +5768,12 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	const substitutions = [
 		["SourceCharacter", CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")"],
 	];
+	/** @type {Parameters<typeof TextSubstitute>[2]} this is ass x2 */
+	const textSubstituteOptions = { textCache: TextPrefetch("Online", "ChatRoom") };
+	/** Temporary helper to get the corresponding Online/ChatRoom text for the given key @param {string} key */
+	const GetChatRoomText = (key) => TextGetInScope(textSubstituteOptions.textCache.path, key);
 	if (Player.FriendList.includes(SenderCharacter.MemberNumber)) {
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAcceptMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendAcceptMessage"), substitutions));
 		return;
 	}
 	let id = CommonGenerateUniqueID();
@@ -5784,20 +5782,21 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	};
 	const addBack = () => {
 		ChatRoomListUpdate(Player.FriendList, true, SenderCharacter.MemberNumber, "FriendRequest");
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAddbackMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendAddbackMessage"), substitutions));
 		hide();
 	};
 	const ghost = () => {
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendGhostMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendGhostMessage"), substitutions));
 		hide();
 	};
 	ChatRoomSendLocal(
 		ElementCreate({
 			tag: "div",
-			children: TextSubstitute("FriendRequestMessage", {
-				"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
-				"{buttons}": ElementCreate(
-					{
+			children: TextSubstitute(
+				"FriendRequestMessage",
+				{
+					"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
+					"{buttons}": ElementCreate({
 						tag: "div",
 						classList: ["chat-room-friendrequest-buttons"],
 						attributes: {id},
@@ -5805,34 +5804,38 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-add-back"],
-									children: [TextGet("FriendAddback")],
+									children: [GetChatRoomText("FriendAddback")],
 								}
 							}),
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-hide"],
-									children: [TextGet("FriendIgnore")],
+									children: [GetChatRoomText("FriendIgnore")],
 								}
 							}),
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-ghost"],
-									children: TextSubstitute("FriendGhost", {
-										"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
-									}),
+									children: TextSubstitute(
+										"FriendGhost",
+										{ "SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")" },
+										textSubstituteOptions,
+									),
 								}
 							}),
 						],
-					})
-			}),
+					}),
+				},
+				textSubstituteOptions,
+			),
 		}).outerHTML
 	);
 
 	const button = document.getElementById(id);
 	if (button) {
-		document.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
-		document.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
-		document.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+		button.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
+		button.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
+		button.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
 	}
 }
 
@@ -6459,6 +6462,7 @@ function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
  * @param {("Owner" | "Lovers")[]} [IncludesTypes] - The types of lists to concatenate to the adminlist
  * @param {readonly number[]} [ExistingList] - The existing Admin list, if applicable
  * @returns {number[]} Complete array of admin members
+ * @deprecated
  */
 function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
 	/** @type {readonly number[]} */
@@ -6838,7 +6842,7 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 
 /**
  * Gets only the settings/configurable properties of a chat room.
- * @param {ChatRoom} room
+ * @param {ChatRoomData} room
  * @return {ChatRoomSettings}
  */
 function ChatRoomGetSettings(room) {

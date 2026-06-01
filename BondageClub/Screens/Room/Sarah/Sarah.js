@@ -617,13 +617,13 @@ function SarahSophiePunishEvent(EventType, DomRep) {
 
 /**
  * When the player plays Sophie Orgasm Game
- * @param {string} Factor
+ * @param {number} Factor
  */
 function SarahSophieOrgasmGame(Factor) {
 
 	// Increments the game parameters
 	SophieOrgasmGameCount++;
-	SophieOrgasmGamePleasure = SophieOrgasmGamePleasure + parseInt(Factor);
+	SophieOrgasmGamePleasure += Factor;
 
 	// Once the factor reaches 12, the player loses
 	if (SophieOrgasmGamePleasure >= 12) {
@@ -674,7 +674,7 @@ function SarahPlayerPunishGirls() {
 
 /**
  * Returns TRUE if the current slave(s) are naked and without restrains
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
  */
 function SarahSlaveNakedWithoutRestrains(C) {
 	if (C == null) {
@@ -686,7 +686,7 @@ function SarahSlaveNakedWithoutRestrains(C) {
 
 /**
  * Returns TRUE if the current slave(s) are wearing clamps, egg and butt plug
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
  */
 function SarahSlaveWithClampEggPlug(C) {
 	if (C == null) {
@@ -703,7 +703,7 @@ function SarahSlaveWithClampEggPlug(C) {
 
 /**
  * Returns TRUE if the current slave(s) are wearing clamps, egg, butt plug, chastity belt & bra
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
  */
 function SarahSlaveChaste(C) {
 	if (C == null) {
@@ -722,7 +722,8 @@ function SarahSlaveChaste(C) {
 
 /**
  * Returns TRUE if the current slave(s) are wearing clamps, egg, butt plug, chastity belt, bra & locked cuffs
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
+ * @returns {boolean}
  */
 function SarahSlaveLockedCuffs(C) {
 	if (C == null) {
@@ -763,7 +764,7 @@ function SarahSlaveOrgasm() {
 
 /**
  * Gives the restrains temporarily to Sarah and Amanda so they can be punished
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
  */
 function SarahGiveFirstSlaveItem(C) {
 	if (C == null) {
@@ -778,7 +779,7 @@ function SarahGiveFirstSlaveItem(C) {
 
 /**
  * Gives the second set of restrains temporarily to Sarah and Amanda so they can be punished
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
  */
 function SarahGiveSecondSlaveItem(C) {
 	if (C == null) {
@@ -792,7 +793,7 @@ function SarahGiveSecondSlaveItem(C) {
 
 /**
  * Gives the third set of restrains temporarily to Sarah and Amanda so they can be punished
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
  */
 function SarahGiveThirdSlaveItem(C) {
 	if (C == null) {
@@ -806,7 +807,7 @@ function SarahGiveThirdSlaveItem(C) {
 
 /**
  * Gives the fourth set of restrains temporarily to Sarah and Amanda so they can be punished
- * @param {NPCCharacter} C
+ * @param {NPCCharacter} [C]
  */
 function SarahGiveFourthSlaveItem(C) {
 	if (C == null) {

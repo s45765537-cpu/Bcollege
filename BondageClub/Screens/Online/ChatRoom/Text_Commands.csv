@@ -67,5 +67,10 @@ mapgivekey, [MemberNumber] [bronze] [silver] [gold]: Give any map key to a playe
 maptakekey, [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
 clear,Removes all messages from the chat
 arousal,Sets your arousal level
+mods,Show Mod SDK related commands
+mods-list,Show Mod SDK mods loaded in your client in the chat log
+mods-remote,[MemberNumber|Name|Nickname] Ask others (or one player) for their Mod SDK list; results appear after replies or timeout.
+mods-remote-target,target player
+mods-remote-target-desc,Optional player in this room (name or member number); omit to query everyone else
 sos,Toggle SOS emote
 brb,Toggle Be-right-back emote

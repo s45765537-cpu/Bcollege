@@ -111,8 +111,8 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenVisibilityLoad(),
 		run: () => PreferenceSubscreenVisibilityRun(),
 		click: () => PreferenceSubscreenVisibilityClick(),
-		exit: () => PreferenceSubscreenVisibilityExit(),
 		unload: () => PreferenceSubscreenVisibilityUnload(),
+		resize: () => PreferenceSubscreenVisibilityResize(),
 	},
 	{
 		name: "Immersion",
@@ -342,8 +342,8 @@ function PreferenceSubscreenCreateSubscreen(subscreenName) {
 /** @type {ScreenResizeHandler} */
 function PreferenceSubscreenResize(onLoad) {
 	ElementPositionFixed(PreferenceIDs.subscreen, 0, 0, 2000, 1000);
-	ElementPositionFixed(PreferenceIDs.exit, 1815, 75, 90, 90);
 	ElementPositionFixed(PreferenceIDs.title, 500, 100, 1000, 45);
+	ElementSetPosition(`${PreferenceIDs.subscreen}-menu`, 1905, 75, "top-right");
 }
 
 /**
@@ -996,6 +996,7 @@ var PreferenceRestrictionSettingsValidate = {
 var PreferenceOnlineSettingsDefault = {
 	AutoBanBlackList: false,
 	AutoBanGhostList: true,
+	RespondRemoteModListQueries: true,
 	DisableAnimations: false,
 	SearchFriendsFirst: false,
 	EnableAfkTimer: true,
@@ -1016,6 +1017,7 @@ var PreferenceOnlineSettingsDefault = {
 var PreferenceOnlineSettingsValidate = {
 	AutoBanBlackList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
 	AutoBanGhostList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
+	RespondRemoteModListQueries: ServerValidation.isBool(PreferenceOnlineSettingsDefault.RespondRemoteModListQueries),
 	DisableAnimations: ServerValidation.isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
 	SearchFriendsFirst: ServerValidation.isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
 	EnableAfkTimer: ServerValidation.isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
@@ -1145,6 +1147,7 @@ var PreferenceNotificationSettingsValidate = {
 
 /**
  * Registers a new extension setting to the preference screen
+ * @public
  * @param {PreferenceExtensionsSettingItem} Setting - The extension setting to register
  * @returns {void} - Nothing
  */

@@ -2621,6 +2621,7 @@ function CharacterRefreshLeash(C) {
 
 /**
  * Create and return a character's script item, if appropriate
+ * @public
  * @param {Character} C
  * @returns {Item}
  */
@@ -2637,6 +2638,7 @@ function CharacterScriptGet(C) {
 
 /**
  * Refresh the character's script
+ * @public
  * @param {Character} C
  */
 function CharacterScriptRefresh(C) {
@@ -2645,6 +2647,7 @@ function CharacterScriptRefresh(C) {
 
 /**
  * Remove a character's script item
+ * @public
  * @param {Character} C
  */
 function CharacterScriptRemove(C) {

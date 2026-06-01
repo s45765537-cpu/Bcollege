@@ -374,6 +374,7 @@ function TypedItemGetOptions(groupName, assetName) {
 
 /**
  * Returns a list of typed item option names available for the given asset, or an empty array if the asset is not typed
+ * @public
  * @param {AssetGroupName} groupName - The name of the asset group
  * @param {string} assetName - The name of the asset
  * @returns {string[]} - The option names available for the asset, or an empty array if the asset is not typed or no
@@ -386,6 +387,7 @@ function TypedItemGetOptionNames(groupName, assetName) {
 
 /**
  * Returns the named option configuration object for a typed item
+ * @public
  * @param {AssetGroupName} groupName - The name of the asset group
  * @param {string} assetName - The name of the asset
  * @param {string} optionName - The name of the option

@@ -2,11 +2,10 @@
  * A type signifying any unknown function.
  * @public
  */
-export declare type AnyFunction = (...args: any) => any;
+declare type AnyFunction = (...args: any) => any;
 
 /** @public */
 declare const bcModSdk: ModSDKGlobalAPI;
-export default bcModSdk;
 
 /**
  * @public
@@ -14,7 +13,7 @@ export default bcModSdk;
  * @example
  * typeof window["a"]["b"]["c"] === GetDotedPathType\<typeof window, "a.b.c"\>
  */
-export declare type GetDotedPathType<Base, DotedKey extends string> = DotedKey extends `${infer Key1}.${infer Key2}` ? GetDotedPathType<GetDotedPathType<Base, Key1>, Key2> : DotedKey extends keyof Base ? Base[DotedKey] : never;
+declare type GetDotedPathType<Base, DotedKey extends string> = DotedKey extends `${infer Key1}.${infer Key2}` ? GetDotedPathType<GetDotedPathType<Base, Key1>, Key2> : DotedKey extends keyof Base ? Base[DotedKey] : never;
 
 /**
  * The global API of the SDK
@@ -22,7 +21,7 @@ export declare type GetDotedPathType<Base, DotedKey extends string> = DotedKey e
  * Accessible using the exported value or as `window.bcModSdk`
  * @public
  */
-export declare interface ModSDKGlobalAPI {
+declare interface ModSDKGlobalAPI {
     /** The version of the SDK itself. Attempting to load two different SDK versions will warn, but work as long as `apiVersion` is same. */
     readonly version: string;
     /** The API version of the SDK itself. Attempting to load two different SDK versions will fail. */
@@ -48,7 +47,7 @@ export declare interface ModSDKGlobalAPI {
 }
 
 /** @public */
-export declare interface ModSDKModAPI {
+declare interface ModSDKModAPI {
     /** Unload this mod, removing any hooks or patches by it. To continue using SDK another call to `registerMod` is required */
     unload(): void;
     /**
@@ -103,7 +102,7 @@ export declare interface ModSDKModAPI {
  * Info about a mod registered within the Mod SDK
  * @public
  */
-export declare interface ModSDKModInfo {
+declare interface ModSDKModInfo {
     /** Short name or abbreviation of the mod */
     name: string;
     /** Full name of the mod */
@@ -118,7 +117,7 @@ export declare interface ModSDKModInfo {
  * Additional options mods can optionally give when registering
  * @public
  */
-export declare interface ModSDKModOptions {
+declare interface ModSDKModOptions {
     /**
      * [OPTIONAL]
      *
@@ -134,7 +133,7 @@ export declare interface ModSDKModOptions {
  * Info about a function modified using the API
  * @public
  */
-export declare interface PatchedFunctionInfo {
+declare interface PatchedFunctionInfo {
     name: string;
     /** The original function */
     original?: (...args: any[]) => any;
@@ -164,6 +163,4 @@ export declare interface PatchedFunctionInfo {
  * The return value is then used as return value instead of original one.
  * @public
  */
-export declare type PatchHook<TFunction extends AnyFunction = AnyFunction> = (args: [...Parameters<TFunction>], next: (args: [...Parameters<TFunction>]) => ReturnType<TFunction>) => ReturnType<TFunction>;
-
-export { }
+declare type PatchHook<TFunction extends AnyFunction = AnyFunction> = (args: [...Parameters<TFunction>], next: (args: [...Parameters<TFunction>]) => ReturnType<TFunction>) => ReturnType<TFunction>;

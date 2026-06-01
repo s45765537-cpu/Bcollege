@@ -1035,6 +1035,11 @@ ClothTShirt2Rock,Rock
 ClothTShirt2Select,Select your design
 ClothTShirt2Smile,Smiley
 ClothTShirt2Tick,Check
+ClothWhiteDressOptionhn0,Hide
+ClothWhiteDressOptionhn1,Show
+ClothWhiteDressSelectHideNipples,Nipples Visibility
+ClothWhiteDressSelectBase,Configure White Dress
+ClothWhiteDressModuleHideNipples,Nipples
 ClubCardGameStart,SourceCharacter has started the Club Card game.
 ClubCardGameEnd,Congratulations! SourceCharacter has won the Club Card game.
 ClubCardGameConcede,Congratulations! SourceCharacter has won the Club Card game after TargetCharacterName conceded.

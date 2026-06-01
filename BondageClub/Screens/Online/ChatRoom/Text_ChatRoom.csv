@@ -112,3 +112,28 @@ FriendGhostMessage,SourceCharacter is now Ghosted.
 FriendIgnore,Ignore request
 InvalidNumber,Invalid number.
 ArousalNotChangeable,Your Arousal "Activation" mode should be set to "Manual" or "Hybrid" to change your arousal.
+CommandModsListTitle,Loaded mods
+CommandModsListSummaryOne,$count registered mod
+CommandModsListSummaryMany,$count registered mods
+CommandModsVersionFormat,v$version
+CommandModsRepositoryLink,Repository
+CommandModsHelpList,"Show Mod SDK mods loaded in your client in the chat log (name, version, optional repository link)."
+CommandModsHelpRemote,"Query mods installed on other players; optional argument targets one player in the room. Others must allow replies in Online preferences."
+CommandModsRemoteTitle,Remote Mod SDK results
+CommandModsRemoteAriaLabel,Remote Mod SDK query results
+CommandModsRemoteProgress,Responses $done / $total
+CommandModsRemoteNoMods,(No mods registered)
+CommandModsRemoteUnknownMember,Member $member
+CommandModsRemoteStatusOk,Responded
+CommandModsRemoteStatusDeclined,Declined
+CommandModsRemoteStatusError,Error
+CommandModsRemoteStatusYou,You
+CommandModsRemoteStatusTimeout,No response
+CommandModsRemoteDeclinedBody,This player declines remote Mod SDK queries (Online preference).
+CommandModsRemoteErrorBody,Could not read mod list.
+CommandModsRemoteTimeoutBody,Timed out waiting for a reply (ghost list or connection can block replies).
+CommandModsRemoteNotInRoom,You must be in a chat room to use this command.
+CommandModsRemoteInvalidTarget,No matching player in this room for that name or member number.
+CommandModsListCopyDone,Mod list copied to your clipboard.
+CommandModsListCopyError,Could not copy mod list to clipboard.
+CommandModsListCopyTooltip,Copy mod list

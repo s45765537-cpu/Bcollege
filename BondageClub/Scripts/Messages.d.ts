@@ -323,6 +323,8 @@ interface ServerFriendInfo {
     MemberName: string;
     ChatRoomSpace?: ServerChatRoomSpace | null;
     ChatRoomName?: string | null;
+	ChatRoomLimit?: number;
+	ChatRoomMemberCount?: number;
     Private?: true | undefined;
 }
 
@@ -795,6 +797,20 @@ interface MapViewChangeKeyEventDictionaryEntry {
 	Bool: boolean;
 }
 
+/** Payload for hidden Mod SDK remote mods query messages */
+interface ModSdkModsQueryPayloadDictionaryEntry {
+	Tag: "ModSdkModsQueryPayload";
+	RequestId: string;
+}
+
+/** Payload for hidden Mod SDK remote mods reply messages */
+interface ModSdkModsReplyPayloadDictionaryEntry {
+	Tag: "ModSdkModsReplyPayload";
+	RequestId: string;
+	Status: CommandsModListStatus;
+	ModsJson: string;
+}
+
 /**
  * A dictionary entry with metadata about the chat message transmitted.
  *
@@ -826,7 +842,9 @@ type ChatMessageDictionaryEntry =
 	| MsgIdDictionaryEntry
 	| ReplyIdDictionaryEntry
 	| MapViewTeleportEventDictionaryEntry
-	| MapViewChangeKeyEventDictionaryEntry;
+	| MapViewChangeKeyEventDictionaryEntry
+	| ModSdkModsQueryPayloadDictionaryEntry
+	| ModSdkModsReplyPayloadDictionaryEntry;
 
 
 type ChatMessageDictionary = ChatMessageDictionaryEntry[];
