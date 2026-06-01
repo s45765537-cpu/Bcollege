@@ -3570,14 +3570,6 @@ function ChatRoomCharacterUpdate(C) {
 }
 
 /**
- * Regex used to split out a string at word boundaries
- *
- * Note that due to a bug in Safari, we can't use the one that handles chinese characters properly.
- */
-// const mentionNameSplitter = /(?<=[^\w\u0000\u007F])|(?=[^\w\u0000\u007F])/gu;
-const mentionNameSplitter = /\b/gu;
-
-/**
  * Checks if the message contains mentions of the character. Case-insensitive.
  * @param {Character} C - Character to check mentions of
  * @param {string} msg - The message to check for mentions
