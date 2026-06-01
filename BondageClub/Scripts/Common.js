@@ -776,12 +776,8 @@ function CommonArraysEqual(a1, a2, ignoreOrder = false) {
 function CommonDebounce(func) {
 	/** @type {null | number} */
 	let timeout;
-	/** @type {number} */
-	let timestamp;
 	/** @type {retT} */
 	let result;
-	/** @type {number} */
-	let wait;
 
 	// Just a `setTimeout()` alias with some proper function-specific argument typing tailored around `later()`
 	/** @type {(handler: TimerHandler, timeout: number, context: unknown, args: argsT) => number} */
@@ -789,22 +785,18 @@ function CommonDebounce(func) {
 
 	/** @type {(context: unknown, args: argsT) => void} */
 	function later(context, args) {
-		const last = CommonTime() - timestamp;
-		if (last >= 0 && last < wait) {
-			timeout = laterSetTimeout(later, wait - last, context, args);
-		} else {
-			timeout = null;
-			result = func.apply(context, args);
-		}
+		timeout = null;
+		result = func.apply(context, args);
 	}
 
 	/** @type {(this: unknown, waitInterval: number, ...args: argsT) => retT} */
 	return function (waitInterval, ...args) {
-		wait = waitInterval;
-		timestamp = CommonTime();
-		if (!timeout) {
-			timeout = laterSetTimeout(later, wait, this, args);
+		if (timeout) {
+			clearTimeout(timeout);
 		}
+
+		timeout = laterSetTimeout(later, waitInterval, this, args);
+
 		return result;
 	};
 }
