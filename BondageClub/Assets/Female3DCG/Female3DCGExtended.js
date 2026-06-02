@@ -22316,6 +22316,48 @@ var AssetFemale3DCGExtended = {
 				Npc: "InventoryItemNoseNoseRingNPCReaction",
 			},
 		}, // NoseRing
+		NoseShackle: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Shackle",
+					Key: "s",
+					DrawImages: true,
+					Options: [
+						{ Property: {Difficulty: 11} }, //s_0 - Single
+						{ Property: {Difficulty: 13} }, //s_1 - Double
+					],
+				},
+				{
+					Name: "Attachment",
+					Key: "a",
+					DrawImages: true,
+					Options: [
+						{}, //a_0 - None
+						{
+							Prerequisite: ["NotSuspended"],
+							Property: {
+								Effect: [E.Tethered, E.IsChained],
+							},
+						}, //a_1 - Chainlong
+						{
+							Prerequisite: ["NotSuspended"],
+							Property: {
+								SetPose: ["Kneel"],
+								AllowActivePose: [...PoseAllKneeling],
+								Effect: [E.Freeze, E.IsChained],
+							},
+						}, //a_2 - Chainshort
+						{
+							Prerequisite: ["NotSuspended"],
+							Property: {
+							Effect: [E.Leash],
+							},
+						}, //a_3 - Leash
+					],
+				},
+			],
+		}, // NoseShackle
 	}, // ItemNose
 	Wings: {
 		SteampunkWings: {
