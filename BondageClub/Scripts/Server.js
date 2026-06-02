@@ -774,17 +774,16 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
  * @param {Asset} asset - The asset on which the color is set
  * @param {BCColor | readonly BCColor[]} color - The color value to parse
  * @param {readonly BCColor[]} schema - The color schema to validate against
- * @returns {BCColor | BCColor[]} - A parsed valid item color
+ * @returns {undefined | BCColor | BCColor[]} - A parsed valid item color
  */
 function ServerParseColor(asset, color, schema) {
 	if (typeof color === "string") {
 		return CommonIsColor(color, { schema }) ? color : schema[0];
 	} else if (CommonIsArray(color)) {
-		if (color == null) return "Default";
 		if (color.length > asset.ColorableLayerCount) color = color.slice(0, asset.ColorableLayerCount);
 		return color.map(c => CommonIsColor(c, { schema }) ? c : schema[0]);
 	} else {
-		return "Default";
+		return undefined;
 	}
 }
 
