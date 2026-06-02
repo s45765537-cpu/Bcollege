@@ -58797,7 +58797,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NoseShackle",
-				InventoryID: 1323,
+				InventoryID: 1349,
 				Priority: 43,
 				Fetish: ["Metal"],
 				Value: 50,
