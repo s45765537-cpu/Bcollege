@@ -274,8 +274,10 @@ const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
  */
 async function CommonFetch(request) {
 	let retries = FETCH_MAX_RETRIES;
-	const method = request instanceof Request ? request.method : "GET";
-	const url = request instanceof Request ? request.url : request;
+	const isRequestObject = CommonIsObject(request) && typeof request === 'object' && 'method' in request;
+	const method = isRequestObject && request.method || "GET";
+	const url = isRequestObject && request.url || request;
+
 	let reply = await fetch(request);
 	while (retries-- > 0) {
 		if (reply.status >= 400) {
