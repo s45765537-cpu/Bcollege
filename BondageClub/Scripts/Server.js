@@ -778,11 +778,11 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
  */
 function ServerParseColor(asset, color, schema) {
 	if (typeof color === "string") {
-		return ServerValidateColorAgainstSchema(color, schema);
+		return CommonIsColor(color, { schema }) ? color : schema[0];
 	} else if (CommonIsArray(color)) {
 		if (color == null) return "Default";
 		if (color.length > asset.ColorableLayerCount) color = color.slice(0, asset.ColorableLayerCount);
-		return color.map(c => ServerValidateColorAgainstSchema(c, schema));
+		return color.map(c => CommonIsColor(c, { schema }) ? c : schema[0]);
 	} else {
 		return "Default";
 	}
@@ -819,19 +819,6 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
 			diff[0] = { Asset: group.Asset[0], Color: group.DefaultColor };
 		}
 	});
-}
-
-/**
- * Validates and returns a color against a color schema
- * @param {BCColor} Color - The color to validate
- * @param {readonly BCColor[]} Schema - The color schema to validate against (a list of accepted Color values)
- * @returns {BCColor} - The color if it is a valid hex color string or part of the color schema, or the default color
- *     from the color schema otherwise
- */
-function ServerValidateColorAgainstSchema(Color, Schema) {
-	var HexCodeRegex = /^#(?:[0-9a-f]{3}){1,2}$/i;
-	if (typeof Color === 'string' && (Schema.includes(Color) || HexCodeRegex.test(Color))) return Color;
-	return Schema[0];
 }
 
 /**
