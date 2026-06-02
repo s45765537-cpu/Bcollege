@@ -108,7 +108,7 @@ export const errorState = {
  * @param {string} text The error
  */
 export function error(text) {
-	console.log("ERROR:", text);
+	console.error("ERROR:", text);
 	process.exitCode = 1;
 	errorState.local = true;
 	errorState.global = true;

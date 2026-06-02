@@ -8,6 +8,8 @@
 		"types": [],
 		"strict": false,
 		"skipLibCheck": true,
+		"incremental": true,
+		"tsBuildInfoFile": "../../.cache/tsc-csvtypescript.tsbuildinfo",
 		"plugins": [
 			{
 				"name": "typescript-strict-plugin"
