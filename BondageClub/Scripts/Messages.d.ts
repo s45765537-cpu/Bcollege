@@ -779,6 +779,21 @@ interface MsgIdDictionaryEntry {
 }
 
 /**
+ * A dictionary entry for GGTS information.
+ */
+interface GGTSDictionaryEntry {
+	Tag: "GGTSData";
+	Action: {
+		type: "GGTSNewTask"
+	} | {
+		type: "GGTSSetSpeed"
+		speed: number
+	} | {
+		type: "GGTSPause"
+		duration: number
+	}
+}
+/**
  * A dictionary entry for teleport events
  */
 interface MapViewTeleportEventDictionaryEntry {
@@ -843,6 +858,7 @@ type ChatMessageDictionaryEntry =
 	| ReplyIdDictionaryEntry
 	| MapViewTeleportEventDictionaryEntry
 	| MapViewChangeKeyEventDictionaryEntry
+	| GGTSDictionaryEntry
 	| ModSdkModsQueryPayloadDictionaryEntry
 	| ModSdkModsReplyPayloadDictionaryEntry;
 

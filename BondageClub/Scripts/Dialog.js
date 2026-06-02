@@ -520,6 +520,7 @@ function DialogCanStartGGTSInteractions() {
  * Nurses can ask GGTS for specific interactions with other players
  * @param {string} Interaction - The interaction to trigger
  * @returns {void}
+ * @deprecated
  */
 function DialogGGTSInteraction(Interaction) {
 	AsylumGGTSDialogInteraction(Interaction);
@@ -627,7 +628,6 @@ function DialogStartKinkyDungeon() {
 			KinkyDungeonPlayerCharacter = CurrentCharacter;
 			if (KinkyDungeonPlayerCharacter != Player && CurrentCharacter.MemberNumber) {
 				KinkyDungeonGameData = null;
-				ServerSend("ChatRoomChat", { Content: "RequestFullKinkyDungeonData", Type: "Hidden", Target: CurrentCharacter.MemberNumber });
 			}
 		}
 		DialogGamingReturnScreen = CommonGetScreen();
