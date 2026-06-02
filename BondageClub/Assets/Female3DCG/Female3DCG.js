@@ -12148,6 +12148,44 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "ABUDiaper",
+				Random: false,
+				Top: 325,
+				Left: 127,
+				Value: 0,
+				BuyGroup: "ABUDiaper",
+				Fetish: ["ABDL"],
+				EditOpacity: true,
+				Category: ["ABDL"],
+				ParentGroup: "BodyLower",
+				Hide: ["Pussy", "ItemVulva"],
+				Attribute: ["GenitaliaCover", "DiaperMedium"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaWiredEgg",
+				],
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tabs",
+					},
+					{
+						Opacity: 0,
+						MinOpacity: 0,
+						MaxOpacity: 1,
+						Name: "Wet",
+					},
+					{
+						Opacity: 1,
+						Name: "Indicator",
+						MinOpacity: 0,
+						MaxOpacity: 1,
+					},
+				],
+			},
+			{
 				Name: "UntrainersThin",
 				Random: false,
 				InventoryID: 1241,
