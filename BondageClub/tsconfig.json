@@ -5,6 +5,8 @@
 		"lib": ["es2021", "dom", "DOM.Iterable"],
 		"checkJs": true,
 		"noEmit": true,
+		"incremental": true,
+		"tsBuildInfoFile": ".cache/tsc-main.tsbuildinfo",
 		"types": [],
 		"strict": false,
 		"skipLibCheck": true,
