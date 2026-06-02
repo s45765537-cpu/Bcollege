@@ -160,10 +160,10 @@ function InventoryItemMiscOwnerTimerPadlockClickHook(data, originalFunction, val
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
 function InventoryItemMiscOwnerTimerPadlockExitHook(Data, OriginalFunction) {
+	InventoryItemMiscSendTimerPadlockChangeMessage();
 	if (OriginalFunction) {
 		OriginalFunction();
 	}
-	InventoryItemMiscSendTimerPadlockChangeMessage();
 }
 
 /**
@@ -200,6 +200,7 @@ function InventoryItemMiscSendTimerPadlockChangeMessage() {
 
 	const C = CharacterGetCurrent();
 	const property = DialogFocusSourceItem.Property;
+	if (!C || !property) return;
 
 	let msg = "TimerAddRemoveUnknownTime";
 	if (property.ShowTimer) {

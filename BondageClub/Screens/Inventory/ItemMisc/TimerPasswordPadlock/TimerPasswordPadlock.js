@@ -210,9 +210,6 @@ function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) 
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
 function InventoryItemMiscTimerPasswordPadlockExitHook(Data, OriginalFunction) {
-	if (OriginalFunction) {
-		OriginalFunction();
-	}
-	InventoryItemMiscPasswordPadlockExitHook(Data, OriginalFunction);
 	InventoryItemMiscSendTimerPadlockChangeMessage();
+	InventoryItemMiscPasswordPadlockExitHook(Data, OriginalFunction);
 }
