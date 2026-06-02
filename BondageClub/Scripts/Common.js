@@ -600,30 +600,52 @@ function CommonTime() {
 }
 
 /**
+ * @overload
+ * @param {string | undefined} Value
+ * @param {{ allowAlpha?: boolean, schema: readonly BCColor[] }} options
+ * @returns {Value is BCColor}
+ *//**
+ * @overload
+ * @param {string | undefined} Value
+ * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
+ * @returns {Value is HexColor}
+ *//**
  * Checks if a given value is a valid HEX color code (optionally with alpha channel)
  * @param {string | undefined} Value - Potential HEX color code
- * @param {null | { allowAlpha?: boolean }} [options]
- * @returns {Value is HexColor} - Returns TRUE if the string is a valid HEX color
+ * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
+ * @returns {Value is HexColor} - Returns TRUE if the string is a valid hex color (or general BC color if it matches the optional schema)
  */
 function CommonIsColor(Value, options=null) {
 	options ??= {};
 	if ((Value == null) || (Value.length < 3)) return false;
 	//convert short hand hex color to standard format
 	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];
-	return options.allowAlpha ? /^#[0-9A-F]{6,8}$/i.test(Value) : /^#[0-9A-F]{6}$/i.test(Value);
+
+	if (options.schema?.includes(Value)) {
+		return true;
+	} else if (options.allowAlpha) {
+		return /^#[0-9A-F]{6,8}$/i.test(Value);
+	} else {
+		return /^#[0-9A-F]{6}$/i.test(Value);
+	}
 }
 
 /**
  * Checks whether an item's color has a valid value that can be interpreted by the drawing
- * functions. Valid values are null, undefined, strings, and an array containing any of the
+ * functions. Valid values are null, undefined, color strings, and an array containing any of the
  * aforementioned types.
- * @param {null | string | readonly (null | string)[]} [Color] - The Color value to check
- * @returns {boolean} - Returns TRUE if the color is a valid item color
+ * @param {null | ItemColor} [color] - The Color value to check
+ * @param {null | { schema?: readonly BCColor[] }} [options]
+ * @returns {color is (null | undefined | ItemColor)} - Returns TRUE if the color is a valid item color
  */
-function CommonColorIsValid(Color) {
-	if (Color == null || typeof Color === "string") return true;
-	if (Array.isArray(Color)) return Color.every(C => C == null || typeof C === "string");
-	return false;
+function CommonColorIsValid(color, options=null) {
+	if (color == null) {
+		return true;
+	} else if (CommonIsArray(color)) {
+		return color.every(c => CommonIsColor(c, options));
+	} else {
+		return CommonIsColor(color, options);
+	}
 }
 
 /**
