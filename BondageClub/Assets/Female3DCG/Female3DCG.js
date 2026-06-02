@@ -5076,6 +5076,7 @@ var AssetFemale3DCG = [
 				Left: 150,
 				Top: 220,
 				Priority: 21,
+				Gender: "F",
 				ParentGroup: "BodyUpper",
 				PoseMapping: {
 					Hogtied: "Hogtied",
@@ -5162,13 +5163,13 @@ var AssetFemale3DCG = [
 						Name: "D1",
 						ColorGroup: "Accessory",
 						InheritPoseMappingFields: true,
-						PoseMapping: { Hogtied: "Hide" },
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 					},
 					{
 						Name: "D2",
 						ColorGroup: "Accessory",
 						InheritPoseMappingFields: true,
-						PoseMapping: { Hogtied: "Hide" },
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 					},
 					{ Name: "D3", ColorGroup: "Accessory" },
 				],
@@ -13695,6 +13696,10 @@ var AssetFemale3DCG = [
 				Fetish: ["Nylon"],
 				Value: 8,
 				Top: 0,
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 				Left: {
 					BaseLower: 0,
 					Kneel: 0,
@@ -13716,6 +13721,10 @@ var AssetFemale3DCG = [
 				Fetish: ["Nylon"],
 				Value: 7,
 				Top: 0,
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 				Left: {
 					BaseLower: 0,
 					Kneel: 0,
@@ -13737,6 +13746,10 @@ var AssetFemale3DCG = [
 				Fetish: ["Nylon"],
 				Value: 6,
 				Top: 0,
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 				Left: {
 					BaseLower: 0,
 					Kneel: 0,
@@ -13763,6 +13776,10 @@ var AssetFemale3DCG = [
 					LegsOpen: 0,
 					Spread: 0,
 				},
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 				Layer: [
 					{ Name: "Socks", Priority: 20 },
 					{ Name: "Stripes", Priority: 20 },
@@ -13780,6 +13797,10 @@ var AssetFemale3DCG = [
 				Value: 12,
 				Top: 500,
 				Left: { "": 100, KneelingSpread: 130 },
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 				DynamicGroupName: "Socks",
 				Layer: [
 					{ Name: "BaseColor" },
