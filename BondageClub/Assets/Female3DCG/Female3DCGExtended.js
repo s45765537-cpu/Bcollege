@@ -22324,8 +22324,8 @@ var AssetFemale3DCGExtended = {
 					Key: "s",
 					DrawImages: true,
 					Options: [
-						{ Property: {Difficulty: 11} }, //s_0 - Single
-						{ Property: {Difficulty: 13} }, //s_1 - Double
+						{ Property: { Difficulty: 11 } }, //s_0 - Single
+						{ Property: { Difficulty: 13 } }, //s_1 - Double
 					],
 				},
 				{
@@ -22351,7 +22351,7 @@ var AssetFemale3DCGExtended = {
 						{
 							Prerequisite: ["NotSuspended"],
 							Property: {
-							Effect: [E.Leash],
+								Effect: [E.Leash],
 							},
 						}, //a_3 - Leash
 					],
