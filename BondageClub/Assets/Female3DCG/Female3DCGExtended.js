@@ -20338,6 +20338,26 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PullDownPanties
+		RoyalDiaper: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "None",
+				},
+				{
+					Name: "Simple",
+				},
+				{
+					Name: "HisMajesty",
+				},
+				{
+					Name: "HerMajesty",
+				},
+				{
+					Name: "Lock",
+				},
+			],
+		}, // RoyalDiaper
 	}, // Panties
 	Glasses: {
 		EyePatch1: {

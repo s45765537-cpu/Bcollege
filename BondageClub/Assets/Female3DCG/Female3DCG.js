@@ -12148,12 +12148,12 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "ABUDiaper",
+				Name: "RoyalDiaper",
 				Random: false,
-				Top: 325,
-				Left: 127,
+				Top: 430,
+				Left: 150,
 				Value: 0,
-				BuyGroup: "ABUDiaper",
+				BuyGroup: "RoyalDiaper",
 				Fetish: ["ABDL"],
 				EditOpacity: true,
 				Category: ["ABDL"],
@@ -12164,12 +12164,26 @@ var AssetFemale3DCG = [
 					"ItemVulvaWandBelt",
 					"ItemVulvaWiredEgg",
 				],
+				DefaultColor: [
+					"Default",
+					"#92D1FF",
+					"Default",
+					"#FFEA00",
+					"#D6CB53",
+				],
+				Extended: true,
 				Layer: [
 					{
 						Name: "Base",
 					},
 					{
 						Name: "Tabs",
+					},
+					{
+						Name: "Motiv",
+						AllowTypes: { typed: [1, 2, 3, 4] },
+						CreateLayerTypes: ["typed"],
+						ParentGroup: "",
 					},
 					{
 						Opacity: 0,
