@@ -23,7 +23,7 @@ function TextGet(TextTag) {
  * @param {readonly (undefined | TextCache)[]} caches
  */
 function TextQueryMultiple(key, ...caches) {
-	const ret = CommonFindMap(caches, (cache) => cache?.get2(key));
+	const ret = CommonFindMap(caches, (cache) => cache?.getOptional(key));
 	if (ret === undefined) {
 		const cachesNonNull = caches.filter(Boolean);
 		const cacheNames = cachesNonNull.map(cache => `${cache.fileName()}:${key}`);
@@ -210,7 +210,7 @@ class TextCache {
 	 * @returns {string} - The text value corresponding to the provided key, translated into the current language, if available
 	 */
 	get(key) {
-		const value = this.get2(key);
+		const value = this.getOptional(key);
 		if (typeof value !== "string") {
 			const cacheKey = `${this.fileName()}:${key}`;
 			if (!TextCache.textMissingCache.has(cacheKey)) {
@@ -227,7 +227,7 @@ class TextCache {
 	 * @param {string} key - The text key to lookup
 	 * @returns {string | undefined} - The text value corresponding to the provided key, translated into the current language, if available and `undefined` otherwise
 	 */
-	get2(key) {
+	getOptional(key) {
 		if (!this.loaded) return undefined;
 		if (TranslationLanguage !== this.language) {
 			this.loadedPromise = this.buildCache();
