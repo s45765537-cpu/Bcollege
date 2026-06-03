@@ -8869,3 +8869,20 @@ ItemMouthBallGag2Sets1,SourceCharacter changes the strap to a harness on Destina
 ItemMouthBallGag2Setb0,SourceCharacter changes the ball to a regular sized one on DestinationCharacter gag.
 ItemMouthBallGag2Setb1,SourceCharacter changes the ball to a large sized one on DestinationCharacter gag.
 ItemMouthBallGag2Setb2,SourceCharacter changes the ball to a XL sized one on DestinationCharacter gag.
+ItemNoseNoseShackleModuleShackle,Shackle
+ItemNoseNoseShackleModuleAttachment,Attachment
+ItemNoseNoseShackleOptions0,Single Bar
+ItemNoseNoseShackleOptions1,Double Bar
+ItemNoseNoseShackleOptiona0,None
+ItemNoseNoseShackleOptiona1,Long Chain
+ItemNoseNoseShackleOptiona2,Short Chain
+ItemNoseNoseShackleOptiona3,Leash
+ItemNoseNoseShackleSelectBase,Choose Appearance
+ItemNoseNoseShackleSelectShackle,Choose Shackle Type
+ItemNoseNoseShackleSelectAttachment,Choose Attachment
+ItemNoseNoseShackleSets0,SourceCharacter fits a single-bar shackle into DestinationCharacter nose.
+ItemNoseNoseShackleSets1,SourceCharacter fits a double-bar shackle into DestinationCharacter nose.
+ItemNoseNoseShackleSeta0,SourceCharacter removes the attachment from DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta1,SourceCharacter attaches a long chain to DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta2,SourceCharacter attaches a short chain to DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta3,SourceCharacter attaches a leash to DestinationCharacter nose shackle.

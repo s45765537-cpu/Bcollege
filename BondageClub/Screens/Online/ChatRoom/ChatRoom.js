@@ -636,6 +636,41 @@ function ChatRoomReceiveSuitcaseMoney() {
 }
 
 /**
+ *
+ * Handler for hidden suitcase message
+ * @param {Character} character
+ * @returns {void}
+ */
+function ChatRoomTakeSuitcase(character) {
+	if (Player.CanInteract() || !ServerChatRoomGetAllowItem(character, Player)) return;
+
+	if (KidnapLeagueSearchingPlayers.length == 0) {
+		if (InventoryIsWorn(character, "ItemMisc", "BountySuitcase")) {
+			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
+				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			]);
+		} else if (InventoryIsWorn(character, "ItemMisc", "BountySuitcaseEmpty")) {
+			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
+				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
+				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			]);
+		}
+	} else {
+		ServerSend("ChatRoomGame", {
+			OnlineBounty: {
+				finishTime: KidnapLeagueSearchFinishTime,
+				target: character.MemberNumber,
+			}
+		});
+	}
+	if (!KidnapLeagueSearchingPlayers.includes(character.MemberNumber)) {
+		KidnapLeagueSearchingPlayers.push(character.MemberNumber);
+	}
+}
+/**
  * Checks if the player can give the target character her high security keys.
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
  */
@@ -3570,47 +3605,21 @@ function ChatRoomCharacterUpdate(C) {
 }
 
 /**
- * Regex used to split out a string at word boundaries
- *
- * Note that due to a bug in Safari, we can't use the one that handles chinese characters properly.
- */
-// const mentionNameSplitter = /(?<=[^\w\u0000\u007F])|(?=[^\w\u0000\u007F])/gu;
-const mentionNameSplitter = /\b/gu;
-
-/**
  * Checks if the message contains mentions of the character. Case-insensitive.
  * @param {Character} C - Character to check mentions of
  * @param {string} msg - The message to check for mentions
  * @returns {boolean} - msg contains mention of C
  */
 function ChatRoomMessageMentionsCharacter(C, msg) {
-	const normalizeText = (text) => text.normalize('NFKC').toLowerCase();
-	const nameParts = normalizeText(C.Name).split(mentionNameSplitter);
-	const nickParts = C.Nickname ? normalizeText(C.Nickname).split(mentionNameSplitter) : [];
-	const msgParts = normalizeText(msg).split(mentionNameSplitter);
-	for (let i = 0; i < msgParts.length - (nameParts.length - 1); i++) {
-		if (msgParts[i] === nameParts[0]) {
-			let match = true;
-			for (let j = 0; j < nameParts.length; j++) {
-				if (msgParts[i + j] !== nameParts[j]) {
-					match = false;
-					break;
-				}
-			}
-			if (match) return true;
-		}
-		if (msgParts[i] === nickParts[0]) {
-			let match = true;
-			for (let j = 0; j < nickParts.length; j++) {
-				if (msgParts[i + j] !== nickParts[j]) {
-					match = false;
-					break;
-				}
-			}
-			if (match) return true;
-		}
-	}
-	return false;
+	const name = C.Name.normalize('NFKC').toLowerCase();
+	const nickname = C.Nickname?.normalize('NFKC')?.toLowerCase();
+
+	const regexCJK = /[\u4E00-\u9FFF\uAC00-\uD7AF]/;
+	const nameComponent = (!name || regexCJK.test(name)) ? name : `\\b${name}\\b`;
+	const nicknameComponent = (!nickname || regexCJK.test(nickname)) ? nickname : `\\b${nickname}\\b`;
+	const regex = new RegExp([nameComponent, nicknameComponent ].filter(Boolean).join("|"), 'i');
+
+	return regex.test(msg);
 }
 
 /**
@@ -4007,24 +4016,72 @@ function ChatRoomRegisterMessageHandler(handler) {
  * @returns {boolean}
  */
 function ChatRoomMessageProcessHidden(data, SenderCharacter) {
-	if (data.Content == "RuleInfoGet") ChatRoomGetLoadRules(SenderCharacter);
-	else if (data.Content == "RuleInfoSet") {
-		// @ts-expect-error That message uses .Dictionary as storage for LogRecord[]
-		ChatRoomSetLoadRules(SenderCharacter, data.Dictionary);
+	switch (data.Content) {
+		case "RuleInfoGet":
+			ChatRoomGetLoadRules(SenderCharacter);
+			break;
+		case "RuleInfoSet":
+			// @ts-expect-error That message uses .Dictionary as storage for LogRecord[]
+			ChatRoomSetLoadRules(SenderCharacter, data.Dictionary);
+			break;
+		case "SlowStop":
+			ChatRoomSlowtimer = CurrentTime + 45000;
+			ChatRoomSlowStop = true;
+			break;
+		case "OnlineStruggleInterrupt":
+			StruggleChatRoomEndAmination();
+			break;
+		case "HoldLeash":
+			ChatRoomDoHoldLeash(SenderCharacter);
+			break;
+		case "StopHoldLeash":
+			ChatRoomDoStopHoldLeash(SenderCharacter);
+			break;
+		case "PingHoldLeash":
+			ChatRoomDoPingLeashedPlayers(SenderCharacter);
+			break;
+		case "RemoveLeash":
+			ChatRoomDoRemoveLeash(SenderCharacter);
+			break;
+		case "GiveLockpicks":
+			DialogLentLockpicks = true;
+			break;
+		case "TakeSuitcase":
+			ChatRoomTakeSuitcase(data.Sender);
+			break;
+		case "ReceiveSuitcaseMoney":
+			ChatRoomReceiveSuitcaseMoney();
+			break;
+		case "ClubCardGameConceded":
+			ClubCardPlayerConceded(data.Sender);
+			break;
+		case "ClubCardAdminResetGameHidden":
+			ClubCardResetGameStatus();
+			break;
+		case "ChatRoomMapViewTeleport":
+			ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomMapViewChangeKey":
+			ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomFriendRequestAdd":
+			ChatRoomFriendMessage(SenderCharacter, data);
+			break;
+		case "AsylumGGTSHiddenMessage":
+			AsylumGGTSHiddenMessage(SenderCharacter, data);
+			break;
+		case "ModSdkModsQuery":
+		case "ModSdkModsReply":
+			CommandsModsList.ProcessHiddenRemote(data, SenderCharacter);
+			break;
 	}
-	else if (data.Content.startsWith("StruggleAssist")) {
+
+	if (data.Content.startsWith("StruggleAssist")) {
 		let A = parseInt(data.Content.substr("StruggleAssist".length));
 		if ((A >= 1) && (A <= 7)) {
 			ChatRoomStruggleAssistTimer = CurrentTime + 60000;
 			ChatRoomStruggleAssistBonus = A;
 		}
-	}
-	else if (data.Content == "SlowStop") {
-		ChatRoomSlowtimer = CurrentTime + 45000;
-		ChatRoomSlowStop = true;
-	}
-	else if (data.Content == "OnlineStruggleInterrupt") {
-		StruggleChatRoomEndAmination();
 	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
 		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
@@ -4036,77 +4093,10 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	}
 	else if (data.Content.startsWith("OwnerRule") || data.Content.startsWith("LoverRule")) {
 		ChatRoomSetRule(data);
-	}
-	else if (data.Content == "HoldLeash") {
-		ChatRoomDoHoldLeash(SenderCharacter);
-	}
-	else if (data.Content == "StopHoldLeash") {
-		ChatRoomDoStopHoldLeash(SenderCharacter);
-	}
-	else if (data.Content == "PingHoldLeash") {
-		ChatRoomDoPingLeashedPlayers(SenderCharacter);
-	}
-	else if (data.Content == "RemoveLeash") {
-		ChatRoomDoRemoveLeash(SenderCharacter);
-	}
-	else if (data.Content == "GiveLockpicks") DialogLentLockpicks = true;
-	else if (data.Content == "RequestFullKinkyDungeonData") {
-		if (CurrentScreen == "KinkyDungeon") {
-			KinkyDungeonStreamingPlayers.push(SenderCharacter.MemberNumber);
-			KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true));
-		}
-	}
-	else if (data.Content == "TakeSuitcase") {
-		if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
-			let misc = InventoryGet(Player, "ItemMisc");
-			if (KidnapLeagueSearchingPlayers.length == 0) {
-				if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
-					KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-					ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
-						{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
-						{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
-					]);
-				} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
-					KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-					ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
-						{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
-						{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
-					]);
-				}
-			} else {
-				ServerSend("ChatRoomGame", {
-					OnlineBounty: {
-						finishTime: KidnapLeagueSearchFinishTime,
-						target: SenderCharacter.MemberNumber,
-					}
-				});
-			}
-			if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
-				KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
-			}
-
-		}
-	}
-	else if (data.Content == "ReceiveSuitcaseMoney") {
-		ChatRoomReceiveSuitcaseMoney();
-	} else if (data.Content.substr(0, 4) == "GGTS") {
-		AsylumGGTSHiddenMessage(SenderCharacter, data.Content, data);
-	} else if (data.Content.substr(0, 7) == "Pandora") {
+	} else if (data.Content.startsWith("Pandora")) {
 		PandoraPenitentiaryHiddenMessage(SenderCharacter, data.Content);
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
-	} else if (data.Content == "ClubCardGameConceded") {
-		ClubCardPlayerConceded(data.Sender);
-	} else if (data.Content == "ClubCardAdminResetGameHidden") {
-		ClubCardResetGameStatus();
-	} else if (data.Content == "ChatRoomMapViewTeleport") {
-		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
-	} else if (data.Content == "ChatRoomMapViewChangeKey") {
-		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
-	} else if (data.Content == "ChatRoomFriendRequestAdd") {
-		ChatRoomFriendMessage(SenderCharacter, data);
-	} else if (data.Content === "ModSdkModsQuery" || data.Content === "ModSdkModsReply") {
-		CommandsModsList.ProcessHiddenRemote(data, SenderCharacter);
 	}
 	return true;
 }

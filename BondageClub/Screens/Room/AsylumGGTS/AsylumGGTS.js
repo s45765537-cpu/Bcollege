@@ -1482,29 +1482,81 @@ function AsylumGGTSDialogAction(Action, Minute) {
  * Called from Dialog.js, as nurse, trigger a specific interaction for the current character
  * @param {String} Interaction - The interaction to perform
  * @returns {void} - Nothing
+ * @deprecated Use {@link AsylumGGTSDialogNewTask}, {@link AsylumGGTSDialogSpeed}, {@link AsylumGGTSDialogPause}
  */
 function AsylumGGTSDialogInteraction(Interaction) {
 
-	// Outputs the interaction in local chat
-	ServerSend("ChatRoomChat", { Content: "GGTS" + Interaction + "|" + CurrentCharacter.MemberNumber.toString(), Type: "Hidden" });
-	AsylumGGTSMessage("Interaction" + Interaction, CurrentCharacter);
+}
+
+function AsylumGGTSDialogNewTask() {
+	const dictionary = new DictionaryBuilder()
+		.targetCharacter(CurrentCharacter)
+		.addGGTSData({ type: "GGTSNewTask"})
+		.build();
+	ServerSend("ChatRoomChat", { Content: "AsylumGGTSHiddenMessage", Type: "Hidden", Dictionary: dictionary });
+	AsylumGGTSMessage("InteractionNewTask", CurrentCharacter);
 	DialogLeave();
 
 }
 
 /**
+ * @param {string} stringSpeed
+ */
+function AsylumGGTSDialogSpeed(stringSpeed) {
+	const speed = CommonParseInt(stringSpeed);
+	let message = "Speed5";
+	if (speed >= 1) {
+		message = "Speed10";
+	} else if (speed >= 2) {
+		message = "Speed20";
+	}
+
+	const dictionary = new DictionaryBuilder()
+		.targetCharacter(CurrentCharacter)
+		.addGGTSData({ type: "GGTSSetSpeed", speed: speed})
+		.build();
+	ServerSend("ChatRoomChat", { Content: "AsylumGGTSHiddenMessage", Type: "Hidden", Dictionary: dictionary });
+	AsylumGGTSMessage("Interaction"+message, CurrentCharacter);
+	DialogLeave();
+}
+/**
+ * @param {string} pauseDuration
+ */
+function AsylumGGTSDialogPause(pauseDuration) {
+	const dictionary = new DictionaryBuilder()
+		.targetCharacter(CurrentCharacter)
+		.addGGTSData({ type: "GGTSPause", duration: CommonParseInt(pauseDuration)})
+		.build();
+	ServerSend("ChatRoomChat", { Content: "AsylumGGTSHiddenMessage", Type: "Hidden", Dictionary: dictionary });
+	AsylumGGTSMessage("InteractionPause5", CurrentCharacter); // Is hardcoded to say 5 minutes
+	DialogLeave();
+}
+
+/**
  * Called from chat room, processes hidden GGTS messages
  * @param {Character} SenderCharacter - The character sending the message
- * @param {String} Interaction - The message sent
  * @param {ServerChatRoomMessage} data - The full message recieved
  * @returns {Object} - Nothing to be used
  */
-function AsylumGGTSHiddenMessage(SenderCharacter, Interaction, data) {
-	if (Interaction == "GGTSNewTask|" + Player.MemberNumber.toString()) return AsylumGGTSNewTask();
-	if (Interaction == "GGTSSpeed5|" + Player.MemberNumber.toString()) return AsylumGGTSSpeed = 0.5;
-	if (Interaction == "GGTSSpeed10|" + Player.MemberNumber.toString()) return AsylumGGTSSpeed = 1;
-	if (Interaction == "GGTSSpeed20|" + Player.MemberNumber.toString()) return AsylumGGTSSpeed = 2;
-	if (Interaction == "GGTSPause5|" + Player.MemberNumber.toString()) return AsylumGGTSTimer = Math.round(CommonTime() + 300000);
+function AsylumGGTSHiddenMessage(SenderCharacter, data) {
+	const dictionary = data.Dictionary;
+	if (!CommonIsArray(dictionary)) return;
+	const targetDictionary = dictionary.find(IsTargetCharacterDictionaryEntry);
+	if (!targetDictionary || targetDictionary.TargetCharacter !== Player.MemberNumber) return;
+	dictionary.forEach((entry) => {
+		if (!IsGGTSDictionaryEntry(entry)) return;
+		switch (entry.Action.type) {
+			case "GGTSNewTask":
+				AsylumGGTSNewTask();
+				break;
+			case "GGTSSetSpeed":
+				AsylumGGTSSpeed = entry.Action.speed;
+				break;
+			case "GGTSPause":
+				AsylumGGTSTimer = Math.round(CommonTime() + entry.Action.duration);
+				break;
+		}
+	});
 }
 
 /**

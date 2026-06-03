@@ -1,6 +1,8 @@
 {
 	"compilerOptions": {
 		"noEmit": true,
+		"incremental": true,
+		"tsBuildInfoFile": "../../.cache/tsc-asset.tsbuildinfo",
 		"module": "commonjs",
 		"target": "ES2021",
 		"lib": ["es2021", "dom", "DOM.Iterable"],

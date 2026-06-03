@@ -888,7 +888,7 @@ function ExtendedItemDrawHeader(X=1387, Y=55, Item=DialogFocusItem) {
  * @param {Asset} asset - The item whose data should be extracted
  * @param {Archetype} Archetype - The archetype corresponding to the lookup table
  * @param {string} Type - The item's type. Only relevant in the case of {@link VariableHeightData}
- * @returns {null | ExtendedDataLookupStruct[Archetype]} The item's data or `null` if the lookup failed
+ * @returns {null | AssetArchetypeGetData<Archetype>} The item's data or `null` if the lookup failed
  */
 function ExtendedItemGetData(asset, Archetype, Type=null) {
 	if (asset == null) {

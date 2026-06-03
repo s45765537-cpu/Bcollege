@@ -6,6 +6,7 @@
 .DS_Store
 
 node_modules
+BondageClub/.cache/
 web.config
 /BondageClub/Tools/Node/.imagemin-cache
 BondageClub/1 - prepare.bat

@@ -274,8 +274,10 @@ const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
  */
 async function CommonFetch(request) {
 	let retries = FETCH_MAX_RETRIES;
-	const method = request instanceof Request ? request.method : "GET";
-	const url = request instanceof Request ? request.url : request;
+	const isRequestObject = CommonIsObject(request) && typeof request === 'object' && 'method' in request;
+	const method = isRequestObject && request.method || "GET";
+	const url = isRequestObject && request.url || request;
+
 	let reply = await fetch(request);
 	while (retries-- > 0) {
 		if (reply.status >= 400) {
@@ -598,30 +600,52 @@ function CommonTime() {
 }
 
 /**
+ * @overload
+ * @param {string | undefined} Value
+ * @param {{ allowAlpha?: boolean, schema: readonly BCColor[] }} options
+ * @returns {Value is BCColor}
+ *//**
+ * @overload
+ * @param {string | undefined} Value
+ * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
+ * @returns {Value is HexColor}
+ *//**
  * Checks if a given value is a valid HEX color code (optionally with alpha channel)
  * @param {string | undefined} Value - Potential HEX color code
- * @param {null | { allowAlpha?: boolean }} [options]
- * @returns {Value is HexColor} - Returns TRUE if the string is a valid HEX color
+ * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
+ * @returns {Value is HexColor} - Returns TRUE if the string is a valid hex color (or general BC color if it matches the optional schema)
  */
 function CommonIsColor(Value, options=null) {
 	options ??= {};
 	if ((Value == null) || (Value.length < 3)) return false;
 	//convert short hand hex color to standard format
 	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];
-	return options.allowAlpha ? /^#[0-9A-F]{6,8}$/i.test(Value) : /^#[0-9A-F]{6}$/i.test(Value);
+
+	if (options.schema?.includes(Value)) {
+		return true;
+	} else if (options.allowAlpha) {
+		return /^#[0-9A-F]{6,8}$/i.test(Value);
+	} else {
+		return /^#[0-9A-F]{6}$/i.test(Value);
+	}
 }
 
 /**
  * Checks whether an item's color has a valid value that can be interpreted by the drawing
- * functions. Valid values are null, undefined, strings, and an array containing any of the
+ * functions. Valid values are null, undefined, color strings, and an array containing any of the
  * aforementioned types.
- * @param {null | string | readonly (null | string)[]} [Color] - The Color value to check
- * @returns {boolean} - Returns TRUE if the color is a valid item color
+ * @param {null | ItemColor} [color] - The Color value to check
+ * @param {null | { schema?: readonly BCColor[] }} [options]
+ * @returns {color is (null | undefined | ItemColor)} - Returns TRUE if the color is a valid item color
  */
-function CommonColorIsValid(Color) {
-	if (Color == null || typeof Color === "string") return true;
-	if (Array.isArray(Color)) return Color.every(C => C == null || typeof C === "string");
-	return false;
+function CommonColorIsValid(color, options=null) {
+	if (color == null) {
+		return true;
+	} else if (CommonIsArray(color)) {
+		return color.every(c => CommonIsColor(c, options));
+	} else {
+		return CommonIsColor(color, options);
+	}
 }
 
 /**
@@ -794,12 +818,8 @@ function CommonArraysEqual(a1, a2, ignoreOrder = false) {
 function CommonDebounce(func) {
 	/** @type {null | number} */
 	let timeout;
-	/** @type {number} */
-	let timestamp;
 	/** @type {retT} */
 	let result;
-	/** @type {number} */
-	let wait;
 
 	// Just a `setTimeout()` alias with some proper function-specific argument typing tailored around `later()`
 	/** @type {(handler: TimerHandler, timeout: number, context: unknown, args: argsT) => number} */
@@ -807,22 +827,18 @@ function CommonDebounce(func) {
 
 	/** @type {(context: unknown, args: argsT) => void} */
 	function later(context, args) {
-		const last = CommonTime() - timestamp;
-		if (last >= 0 && last < wait) {
-			timeout = laterSetTimeout(later, wait - last, context, args);
-		} else {
-			timeout = null;
-			result = func.apply(context, args);
-		}
+		timeout = null;
+		result = func.apply(context, args);
 	}
 
 	/** @type {(this: unknown, waitInterval: number, ...args: argsT) => retT} */
 	return function (waitInterval, ...args) {
-		wait = waitInterval;
-		timestamp = CommonTime();
-		if (!timeout) {
-			timeout = laterSetTimeout(later, wait, this, args);
+		if (timeout) {
+			clearTimeout(timeout);
 		}
+
+		timeout = laterSetTimeout(later, waitInterval, this, args);
+
 		return result;
 	};
 }
