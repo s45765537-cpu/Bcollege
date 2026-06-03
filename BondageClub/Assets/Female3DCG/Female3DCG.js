@@ -26393,6 +26393,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "EchoV2",
 				Visible: false,
+				Random: false,
 				StyleOverride: [
 					"BodyUpper",
 					"BodyLower",
