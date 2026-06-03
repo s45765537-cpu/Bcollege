@@ -132,7 +132,7 @@ class TextCache {
 		this.path = path;
 		/** @type {ServerChatRoomLanguage | "TW"} */
 		this.language = TranslationLanguage;
-		/** @type {Record<string, string>} */
+		/** @type {Partial<Record<string, string>>} */
 		this.cache = {};
 		/** @type {((cache?: TextCache) => void)[]} */
 		this.rebuildListeners = [];
@@ -188,11 +188,7 @@ class TextCache {
 	 * @returns {string} - The text value corresponding to the provided key, translated into the current language, if available
 	 */
 	get(key) {
-		if (!this.loaded) return "";
-		if (TranslationLanguage !== this.language) {
-			this.loadedPromise = this.buildCache();
-		}
-		const value = this.cache[key];
+		const value = this.get2(key);
 		if (typeof value !== "string") {
 			const cacheKey = `${this.fileName()}:${key}`;
 			if (!TextCache._textMissingCache.has(cacheKey)) {
@@ -202,6 +198,19 @@ class TextCache {
 			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
 		}
 		return value;
+	}
+
+	/**
+	 * See {@link TextCache.get}. Looks up a key within this text cache, returning `undefined` if it cannot be found.
+	 * @param {string} key - The text key to lookup
+	 * @returns {string | undefined} - The text value corresponding to the provided key, translated into the current language, if available and `undefined` otherwise
+	 */
+	get2(key) {
+		if (!this.loaded) return undefined;
+		if (TranslationLanguage !== this.language) {
+			this.loadedPromise = this.buildCache();
+		}
+		return this.cache[key];
 	}
 
 	/**
