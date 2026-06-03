@@ -4503,11 +4503,14 @@ function ChatRoomMessage(data) {
 			break;
 
 		case "Activity": {
+			/** @type {string | undefined} */
+			let txt = undefined;
 			if (metadata.ActivityAsset) {
-				msg = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
-			} else {
-				msg = ActivityDictionaryText(msg);
+				// Is this optional? Required? Who knows
+				txt = TextAllScreenCache.get(AssetStringsPath)?.getOptional(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
 			}
+			txt ??= ActivityDictionaryText(msg);
+			msg = txt;
 			break;
 		}
 	}
