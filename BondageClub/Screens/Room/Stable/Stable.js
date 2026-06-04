@@ -1117,17 +1117,15 @@ function StableHideDice() {
  * @returns {void} - Nothing
  */
 function StableClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderABDLDeck;
-	MiniGameStart("ClubCard", 0, "StableClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderABDLDeck, () => StableClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function StableClubCardEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StableClubCardEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

@@ -454,23 +454,20 @@ function CafeTurnDildoUp() {
  * @returns {void} - Nothing
  */
 function CafeClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderMaidDeck;
-	MiniGameStart("ClubCard", 0, "CafeClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderMaidDeck, () => CafeClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function CafeClubCardEnd() {
-	CommonSetScreen("Room", "Cafe").then(() => {
-		CharacterSetCurrent(CafeMaid);
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-		CurrentCharacter.AllowItem = MiniGameVictory;
-		CurrentCharacter.Stage = MiniGameVictory ? "0" : "51";
-		if (!MiniGameVictory) CharacterFullRandomRestrain(Player, "ALL", true);
-	});
+async function CafeClubCardEnd() {
+	await CommonSetScreen("Room", "Cafe");
+	CharacterSetCurrent(CafeMaid);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	CurrentCharacter.AllowItem = MiniGameVictory;
+	CurrentCharacter.Stage = MiniGameVictory ? "0" : "51";
+	if (!MiniGameVictory) CharacterFullRandomRestrain(Player, "ALL", true);
 }
 
 /**

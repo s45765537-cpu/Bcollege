@@ -1702,15 +1702,14 @@ function PandoraClubCardStart() {
 	PandoraFightCharacter = /** @type {NPCCharacter} */ (CurrentCharacter);
 	ClubCardOpponent = CurrentCharacter;
 	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
-	MiniGameStart("ClubCard", 0, "PandoraClubCardEnd");
+	MiniGameStart("ClubCard", 0, () => PandoraClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function PandoraClubCardEnd() {
-	CommonSetScreen("Room", "Pandora");
+async function PandoraClubCardEnd() {
+	await CommonSetScreen("Room", "Pandora");
 	CharacterSetCurrent(PandoraFightCharacter);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

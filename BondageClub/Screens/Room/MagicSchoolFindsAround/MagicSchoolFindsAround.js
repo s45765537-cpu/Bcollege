@@ -492,21 +492,18 @@ async function MagicSchoolFindsAroundKitsuneMagicBattleEnd() {
  * @returns {void} - Nothing
  */
 function MagicSchoolFindsAroundClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderDefaultDeck;;
-	MiniGameStart("ClubCard", 0, "MagicSchoolFindsAroundClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderDefaultDeck, () => MagicSchoolFindsAroundClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function MagicSchoolFindsAroundClubCardEnd() {
-	CommonSetScreen("Room", "MagicSchoolFindsAround").then(() => {
-		CharacterSetCurrent(MagicSchoolFindsAroundKitsune);
-		if (!CurrentCharacter) return;
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function MagicSchoolFindsAroundClubCardEnd() {
+	await CommonSetScreen("Room", "MagicSchoolFindsAround");
+	CharacterSetCurrent(MagicSchoolFindsAroundKitsune);
+	if (!CurrentCharacter) return;
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
 
 /**

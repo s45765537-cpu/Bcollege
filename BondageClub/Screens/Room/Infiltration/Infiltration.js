@@ -561,20 +561,17 @@ function InfiltrationSetPandoraPrisoner() {
  * @returns {void} - Nothing
  */
 function InfiltrationClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderLiabilityDeck;
-	MiniGameStart("ClubCard", 0, "InfiltrationClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderLiabilityDeck, () => InfiltrationClubCardEnd());
 }
 
 /**
  * When the player ends a club card game against the supervisor
- * @returns {void} - Nothing
  */
-function InfiltrationClubCardEnd() {
-	CommonSetScreen("Room", "Infiltration").then(() => {
-		CharacterSetCurrent(InfiltrationSupervisor);
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function InfiltrationClubCardEnd() {
+	await CommonSetScreen("Room", "Infiltration");
+	CharacterSetCurrent(InfiltrationSupervisor);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
 
 /**

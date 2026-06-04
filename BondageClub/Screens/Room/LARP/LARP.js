@@ -72,9 +72,8 @@ function LARPSelectClass(NewClass) {
  * @returns {void} - Nothing
  */
 function LARPClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderABDLDeck;
-	MiniGameStart("ClubCard", 0, "LARPClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderABDLDeck, () => LARPClubCardEnd());
 }
 
 /**

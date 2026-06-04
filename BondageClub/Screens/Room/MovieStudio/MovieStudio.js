@@ -1436,9 +1436,8 @@ function MovieStudioGetMoney() {
  * @returns {void} - Nothing
  */
 function MovieStudioClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderPornDeck;
-	MiniGameStart("ClubCard", 0, "MovieStudioClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderPornDeck, () => MovieStudioClubCardEnd());
 }
 
 /**

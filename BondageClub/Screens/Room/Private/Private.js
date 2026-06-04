@@ -2512,23 +2512,28 @@ function PrivateGetClubCardDeck(C) {
  * When the club card game against a friend NPC starts
  * @returns {void} - Nothing
  */
-function PrivateClubCardVsFriendStart() {
+function PrivateClubCardVsCharacterStart() {
 	if (!CurrentCharacter) return;
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
-	MiniGameStart("ClubCard", 0, "PrivateClubCardVsFriendEnd");
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => PrivateClubCardVsCharacterEnd());
 }
 
 /**
  * When the club card game against a friend NPC ends
- * @returns {void} - Nothing
  */
-function PrivateClubCardVsFriendEnd() {
+async function PrivateClubCardVsCharacterEnd() {
 	if (!CurrentCharacter || !ClubCardOpponent) return;
-	CommonSetScreen("Room", "Private");
+	await CommonSetScreen("Room", "Private");
 	CharacterSetCurrent(ClubCardOpponent);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsFriendVictory" : "ClubCardVsFriendDefeat");
-	CurrentCharacter.Stage = MiniGameVictory ? "110" : "120";
+	if (CurrentCharacter.IsOwner()) {
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsOwnerVictory" : "ClubCardVsOwnerDefeat");
+		CurrentCharacter.Stage = MiniGameVictory ? "1110" : "1120";
+	} else if (CurrentCharacter.IsOwnedByPlayer()) {
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsSubVictory" : "ClubCardVsSubDefeat");
+		CurrentCharacter.Stage = MiniGameVictory ? "2110" : "2120";
+	} else {
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsFriendVictory" : "ClubCardVsFriendDefeat");
+		CurrentCharacter.Stage = MiniGameVictory ? "110" : "120";
+	}
 	if (MiniGameVictory) {
 		CurrentCharacter.AllowItem = true;
 		PrivateClubCardVictoryMode = true;
@@ -2538,51 +2543,40 @@ function PrivateClubCardVsFriendEnd() {
 
 /**
  * When the club card game against an owner NPC starts
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsOwnerStart() {
 	if (!CurrentCharacter) return;
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
-	MiniGameStart("ClubCard", 0, "PrivateClubCardVsOwnerEnd");
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => PrivateClubCardVsCharacterEnd());
 }
 
 /**
  * When the club card game against an owner NPC ends
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsOwnerEnd() {
-	if (!CurrentCharacter || !ClubCardOpponent) return;
-	CommonSetScreen("Room", "Private");
-	CharacterSetCurrent(ClubCardOpponent);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsOwnerVictory" : "ClubCardVsOwnerDefeat");
-	CurrentCharacter.Stage = MiniGameVictory ? "1110" : "1120";
-	if (MiniGameVictory) CurrentCharacter.AllowItem = true;
-	PrivateNPCInteraction(5);
+	PrivateClubCardVsCharacterEnd();
 }
 
 /**
  * When the club card game against a submissive NPC starts
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsSubStart() {
 	if (!CurrentCharacter) return;
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
-	MiniGameStart("ClubCard", 0, "PrivateClubCardVsSubEnd");
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => PrivateClubCardVsCharacterEnd());
 }
 
 /**
  * When the club card game against a submissive NPC ends
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsSubEnd() {
-	if (!CurrentCharacter || !ClubCardOpponent) return;
-	CommonSetScreen("Room", "Private");
-	CharacterSetCurrent(ClubCardOpponent);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsSubVictory" : "ClubCardVsSubDefeat");
-	CurrentCharacter.Stage = MiniGameVictory ? "2110" : "2120";
-	PrivateNPCInteraction(5);
+	PrivateClubCardVsCharacterEnd();
 }
 
 /**

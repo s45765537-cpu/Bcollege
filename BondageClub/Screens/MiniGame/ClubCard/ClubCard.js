@@ -3966,6 +3966,19 @@ function ClubCardIsPlaying() {
 }
 
 /**
+ * Start a ClubCard game against this opponent
+ * @param {Character} opponent
+ * @param {number[]} deck
+ * @param {() => void} completion
+ * @returns
+ */
+async function ClubCardStart(opponent, deck, completion) {
+	ClubCardOpponent = opponent;
+	ClubCardOpponentDeck = deck;
+	await MiniGameStart("ClubCard", 0, completion);
+}
+
+/**
  * In case one of the players disconnects from the server, the other player sends a message about it to the game chat.
  * @param {number} disconnectedMemberNumber
  */

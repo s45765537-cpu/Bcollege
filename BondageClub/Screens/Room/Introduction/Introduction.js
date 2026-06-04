@@ -356,18 +356,15 @@ function IntroductionJobDojoStart() {
  * @returns {void} - Nothing
  */
 function IntroductionClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderMaidDeck;
-	MiniGameStart("ClubCard", 0, "IntroductionClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderMaidDeck, () => IntroductionClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function IntroductionClubCardEnd() {
-	CommonSetScreen("Room", "Introduction").then(() => {
-		CharacterSetCurrent(IntroductionMaid);
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function IntroductionClubCardEnd() {
+	await CommonSetScreen("Room", "Introduction");
+	CharacterSetCurrent(IntroductionMaid);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
