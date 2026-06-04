@@ -4047,7 +4047,7 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 			DialogLentLockpicks = true;
 			break;
 		case "TakeSuitcase":
-			ChatRoomTakeSuitcase(data.Sender);
+			ChatRoomTakeSuitcase(SenderCharacter);
 			break;
 		case "ReceiveSuitcaseMoney":
 			ChatRoomReceiveSuitcaseMoney();

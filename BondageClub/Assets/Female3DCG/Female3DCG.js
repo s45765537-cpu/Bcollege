@@ -27056,7 +27056,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairFront42",
-				Layer: [{ Name: "Main" }, { Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] }],
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] },
+				],
 				Random: false,
 				Attribute: ["ShortHair"],
 				Top: 33,
@@ -27064,7 +27067,10 @@ var AssetFemale3DCG = [
 			}, //HairFront42
 			{
 				Name: "HairFront42b",
-				Layer: [{ Name: "Main" }, { Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] }],
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] },
+				],
 				Random: false,
 				Attribute: ["ShortHair"],
 				Top: 33,
@@ -27172,7 +27178,10 @@ var AssetFemale3DCG = [
 			}, //HairFront46b
 			{
 				Name: "HairFront47",
-				Layer: [{ Name: "Main", StyleOverride: ["EchoV2"] }, { Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] }],
+				Layer: [
+					{ Name: "Main", StyleOverride: ["EchoV2"] },
+					{ Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] },
+				],
 				Random: false,
 				Attribute: ["ShortHair"],
 				Top: 33,
@@ -27180,7 +27189,10 @@ var AssetFemale3DCG = [
 			}, //HairFront47
 			{
 				Name: "HairFront47b",
-				Layer: [{ Name: "Main", StyleOverride: ["EchoV2"] }, { Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] }],
+				Layer: [
+					{ Name: "Main", StyleOverride: ["EchoV2"] },
+					{ Name: "Fade", Priority: 8, StyleOverride: ["EchoV2"] },
+				],
 				Random: false,
 				Attribute: ["ShortHair"],
 				Top: 33,
@@ -58907,9 +58919,9 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						LockLayer: true,
-						AllowTypes: { a: [1, 2, 3]},
+						AllowTypes: { a: [1, 2, 3] },
 					},
-				]
+				],
 			},
 			{
 				Name: "DuctTape",
