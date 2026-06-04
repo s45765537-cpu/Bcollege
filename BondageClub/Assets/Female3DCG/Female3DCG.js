@@ -12149,6 +12149,58 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "RoyalDiaper",
+				Random: false,
+				Top: 430,
+				Left: 150,
+				Value: 0,
+				BuyGroup: "RoyalDiaper",
+				Fetish: ["ABDL"],
+				EditOpacity: true,
+				Category: ["ABDL"],
+				ParentGroup: "BodyLower",
+				Hide: ["Pussy", "ItemVulva"],
+				Attribute: ["GenitaliaCover", "DiaperMedium"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaWiredEgg",
+				],
+				DefaultColor: [
+					"Default",
+					"#92D1FF",
+					"Default",
+					"#FFEA00",
+					"#D6CB53",
+				],
+				Extended: true,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tabs",
+					},
+					{
+						Name: "Motiv",
+						AllowTypes: { typed: [1, 2, 3, 4] },
+						CreateLayerTypes: ["typed"],
+						ParentGroup: "",
+					},
+					{
+						Opacity: 0,
+						MinOpacity: 0,
+						MaxOpacity: 1,
+						Name: "Wet",
+					},
+					{
+						Opacity: 1,
+						Name: "Indicator",
+						MinOpacity: 0,
+						MaxOpacity: 1,
+					},
+				],
+			},
+			{
 				Name: "UntrainersThin",
 				Random: false,
 				InventoryID: 1241,
