@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var MagicPuzzleBackground = "MagicSchoolLaboratory";
 var MagicPuzzleStart = 0;
@@ -24,7 +23,7 @@ async function MagicPuzzleLoad() {
 	MagicPuzzleSize = 10 + Math.round(MagicBattleGetDifficulty(Player) * 1.5);
 	MagicPuzzleTimer = 0;
 	MiniGameVictory = false;
-	MagicPuzzleTrailRainbow = ((InventoryGet(Player, "ItemHandheld") != null) && (InventoryGet(Player, "ItemHandheld").Asset.Name === "RainbowWand"));
+	MagicPuzzleTrailRainbow = InventoryIsWorn(Player, "ItemHandheld", "RainbowWand");
 }
 
 /**

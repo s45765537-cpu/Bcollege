@@ -9,10 +9,6 @@ var MagicSchoolFindsAroundTheresa = /** @type {never} */ (null);
 var MagicSchoolFindsAroundSpellCount = 0;
 /** @type {MagicSchoolSpell | undefined} */
 var MagicSchoolFindsAroundLastSpell;
-//Angel Nun variables
-var AngelNunOutfit = "";
-var CurrentAngelNunName = "Therese";
-var CurrentAngelNunStage = "0";
 /** @satisfies {Record<string, RectTuple>} */
 var MagicSchoolFindsAroundButtons = ({
 	exit: [1885, 25, 90, 90],

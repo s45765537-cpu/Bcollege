@@ -1,7 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var FuturisticChastityBeltShockCooldownOrgasm = 15000; // 15 sec
 
+/** @type {AssetGroupItemName[]} */
 var InventoryItemPelvisFuturisticChastityBeltTamperZones = [
 	"ItemPelvis",
 	"ItemButt",
@@ -17,6 +17,7 @@ function InventoryFuturisticChastityBeltCheckPunish(Item) {
 	const tamperType = typeRecord.t || 0;
 	const orgasmType = typeRecord.o || 0;
 
+	Item.Property ??= {};
 	if (
 		(Item.Property.PunishStruggle || (tamperType === 1 || tamperType == 2))
 		&& Player.FocusGroup
@@ -47,9 +48,8 @@ function InventoryFuturisticChastityBeltCheckPunish(Item) {
 
 	// Punish the player if they orgasm
 	if (
-		Item.Property.NextShockTime - CurrentTime <= 0
+		(Item.Property.NextShockTime ?? 0) - CurrentTime <= 0
 		&& (Item.Property.PunishOrgasm || orgasmType === 1)
-		&& Player.ArousalSettings
 		&& Player.ArousalSettings.OrgasmStage > 1
 	) {
 		// Punish the player if they orgasm
@@ -62,7 +62,8 @@ function InventoryFuturisticChastityBeltCheckPunish(Item) {
  * @param {DynamicScriptCallbackData<FuturisticChastityBeltPersistentData>} data
  */
 function AssetsItemPelvisFuturisticChastityBeltScriptUpdatePlayer(data) {
-	var Item = data.Item;
+	const Item = data.Item;
+	Item.Property ??= {};
 
 	const punishment = InventoryFuturisticChastityBeltCheckPunish(Item);
 	if (punishment) {
@@ -103,7 +104,7 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 			.focusGroup(Item.Asset.Group.Name)
 			.markAutomatic()
 			.if(!!ReplacementWord)
-			.text("ReplacementWord", ReplacementWord)
+			.text("ReplacementWord", /** @type {string} */ (ReplacementWord))
 			.endif()
 			.if(!NoShock)
 			.shockIntensity(2)

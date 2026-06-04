@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 'use strict';
 
 /**
@@ -26,7 +25,7 @@ function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt 
 	// Wings
 
 	if (Data.DrawRequested) {
-		if (Data.FrameTime > 250) {
+		if ((Data.FrameTime ?? 0) > 250) {
 			Data.State = Math.floor(Math.random() * MaxFrame);
 			Data.StateGears = Math.floor(Math.random() * MaxFrameGears);
 		} else {

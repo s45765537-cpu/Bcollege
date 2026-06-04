@@ -395,7 +395,7 @@ function PandoraGenerateNPC(Group, Archetype, Name, AllowItem) {
 
 /**
  * Dress a character in the Rival Club fashion
- * @param {NPCCharacter} C
+ * @param {Character} C
  * @param {string} Type
  * @returns {void} - Nothing
  */
@@ -838,7 +838,7 @@ function PandoraCharacterJoin() {
 	if (PandoraParty.length == 1)
 		PandoraCurrentRoom.Character.push(PandoraParty[0]);
 	PandoraParty = [];
-	PandoraParty.push(CurrentCharacter);
+	PandoraParty.push(/** @type {NPCCharacter} */ (CurrentCharacter));
 	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
 		if (PandoraCurrentRoom.Character[C].ID == CurrentCharacter.ID) {
 			PandoraCurrentRoom.Character.splice(C, 1);
@@ -851,7 +851,7 @@ function PandoraCharacterJoin() {
  * @returns {void} - Nothing
  */
 function PandoraCharacterLeave() {
-	PandoraCurrentRoom.Character.push(CurrentCharacter);
+	PandoraCurrentRoom.Character.push(/** @type {NPCCharacter} */ (CurrentCharacter));
 	PandoraParty = [];
 }
 
@@ -860,7 +860,7 @@ function PandoraCharacterLeave() {
  * @returns {void} - Nothing
  */
 function PandoraCharacterFight() {
-	PandoraFightCharacter = CurrentCharacter;
+	PandoraFightCharacter = /** @type {NPCCharacter} */ (CurrentCharacter);
 	let Difficulty = (InfiltrationDifficulty * 2) + Math.floor(Math.random() * 3);
 	if (CurrentCharacter.AccountName.indexOf("RandomMistress") >= 0) Difficulty = InfiltrationDifficulty + 6;
 	KidnapStart(CurrentCharacter, PandoraBackground, Difficulty, "PandoraCharacterFightEnd()");
@@ -962,7 +962,7 @@ function PandoraCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
  * @returns {void} - Nothing
  */
 function PandoraCharacterJoinPrivateRoom() {
-	const C = PrivateAddCharacter(CurrentCharacter, (CurrentCharacter.Archetype === "Slave") ? "Submissive" : null, null);
+	const C = PrivateAddCharacter(/** @type {NPCCharacter} */ (CurrentCharacter), (CurrentCharacter.Archetype === "Slave") ? "Submissive" : null, null);
 	C.FromPandora = true;
 	PandoraRemoveCurrentCharacter();
 }
@@ -1700,7 +1700,7 @@ function PandoraGetPaint() {
  * @returns {void} - Nothing
  */
 function PandoraClubCardStart() {
-	PandoraFightCharacter = CurrentCharacter;
+	PandoraFightCharacter = /** @type {NPCCharacter} */ (CurrentCharacter);
 	ClubCardOpponent = CurrentCharacter;
 	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
 	MiniGameStart("ClubCard", 0, "PandoraClubCardEnd");

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {CommonGenerateGridParameters} */
@@ -38,7 +37,7 @@ function PreferenceSubscreenMainLoad() {
 					});
 			}),
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(buttons);
+	ElementWrap(PreferenceIDs.subscreen)?.append(buttons);
 }
 
 function PreferenceSubscreenMainRun() {
@@ -49,6 +48,7 @@ function PreferenceSubscreenMainRun() {
 function PreferenceSubscreenMainClick() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenMainResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(MainSubscreenIDs.grid, x, y);

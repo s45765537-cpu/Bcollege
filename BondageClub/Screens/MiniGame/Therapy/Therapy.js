@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 "use strict";
 var TherapyBackground = "AsylumTherapy";
-/** @type {null | NPCCharacter} */
+/** @type {null | NPCCharacter | PlayerCharacter} */
 var TherapyCharacterLeft = null;
 /** @type {null | NPCCharacter} */
 var TherapyCharacterRight = null;
@@ -30,8 +29,8 @@ async function TherapyLoad() {
 function TherapyRun() {
 
 	// Draw the characters
-	DrawCharacter(TherapyCharacterLeft, 0, 0, 1);
-	DrawCharacter(TherapyCharacterRight, 500, 0, 1);
+	if (TherapyCharacterLeft) DrawCharacter(TherapyCharacterLeft, 0, 0, 1);
+	if (TherapyCharacterRight) DrawCharacter(TherapyCharacterRight, 500, 0, 1);
 	MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
 
 	// If we must draw the progress bars

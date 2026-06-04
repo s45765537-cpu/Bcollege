@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {GraphicsVFXName[]} */
@@ -134,8 +133,8 @@ function PreferenceSubscreenGraphicsLoad() {
 	const animationQualityDropdown = ElementDropdown.CreateLabelled("preference-graphics-animation-quality", animationQualityOptions, TextGet("GeneralAnimationQualityText"),
 		function (ev) {
 			ev.preventDefault();
-			const q = CommonParseInt(this.value);
-			if (PreferenceGraphicsAnimationQualityList.indexOf(q) < 0) return;
+			const q = CommonParseInt(this.value) ?? PreferenceGraphicsSettingsDefault.AnimationQuality;
+			if (!PreferenceGraphicsAnimationQualityList.includes(q)) return;
 			Player.GraphicsSettings.AnimationQuality = q;
 		},
 		null,
@@ -267,8 +266,8 @@ function PreferenceSubscreenGraphicsLoad() {
 	const maxFpsDropdown = ElementDropdown.CreateLabelled("preference-graphics-max-fps", maxFpsOptions, TextGet("FPSFocusedLimit"),
 		function (ev) {
 			ev.preventDefault();
-			const n = CommonParseInt(this.value);
-			if (PreferenceGraphicsFrameLimit.indexOf(n) < 0) return;
+			const n = CommonParseInt(this.value) ?? PreferenceGraphicsSettingsDefault.MaxFPS;
+			if (!PreferenceGraphicsFrameLimit.includes(n)) return;
 			Player.GraphicsSettings.MaxFPS = n;
 		},
 		null,
@@ -286,8 +285,8 @@ function PreferenceSubscreenGraphicsLoad() {
 	const maxUnfocusedFpsDropdown = ElementDropdown.CreateLabelled("preference-graphics-max-unfocused-fps", maxUnfocusedFpsOptions, TextGet("FPSUnfocusedLimit"),
 		function (ev) {
 			ev.preventDefault();
-			const n = CommonParseInt(this.value);
-			if (PreferenceGraphicsFrameLimit.indexOf(n) < 0) return;
+			const n = CommonParseInt(this.value) ?? PreferenceGraphicsSettingsDefault.MaxUnfocusedFPS;
+			if (!PreferenceGraphicsFrameLimit.includes(n)) return;
 			Player.GraphicsSettings.MaxUnfocusedFPS = n;
 		},
 		null,
@@ -344,6 +343,7 @@ function PreferenceSubscreenGraphicsRun() {
  */
 function PreferenceSubscreenGraphicsClick() {}
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenGraphicsResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenGraphicsIDs.grid, x, y + 10);

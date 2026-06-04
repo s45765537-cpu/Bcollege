@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ImmersionSensDepName[]} */
@@ -143,7 +142,7 @@ function PreferenceSubscreenImmersionLoad() {
 			},
 			{
 				checked: checkbox.check(),
-				disabled: checkbox.disabled(disableButtons)
+				disabled: checkbox.disabled?.(disableButtons)
 			},
 			checkboxHtmlOptions
 		);
@@ -191,6 +190,7 @@ function PreferenceSubscreenImmersionRun() {
 function PreferenceSubscreenImmersionClick() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenImmersionResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenImmersionIDs.wrapper, x, y + 10);
@@ -214,7 +214,7 @@ function PreferenceSubscreenImmersionCheckStates(disableButtons) {
 	}
 
 	PreferenceSubscreenImmersionCheckboxes.forEach((checkbox) => {
-		const disabled = checkbox.disabled(disableButtons);
+		const disabled = checkbox.disabled?.(disableButtons);
 		const checked = checkbox.check();
 
 		const checkboxElement = /** @type {HTMLInputElement} */ (ElementWrap(`preference-immersion-${checkbox.label}`));

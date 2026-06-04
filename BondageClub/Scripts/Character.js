@@ -1183,6 +1183,8 @@ function CharacterLoadNPC(CharacterID, NPCType=null, module=null, screen=null) {
 	C.Name = CharacterGenerateRandomName();
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
+	C.Love = 0;
+	C.Trait = [];
 
 	// Sets archetype clothes
 	if (NPCType.indexOf("Maid") >= 0) CharacterArchetypeClothes(C, "Maid");
@@ -2345,6 +2347,7 @@ function CharacterCheckHooks(C, IgnoreHooks) {
 			// Fancy logic is to use a different hook for when the character is focused
 			const layerVisibilityHook = () => {
 				const inDialog = (CurrentCharacter != null);
+				// @ts-ignore Strict-TS: Must always be called under CharacterLoadCanvas
 				C.AppearanceLayers = C.AppearanceLayers?.filter((Layer) => (
 					!Layer.Visibility ||
 					(Layer.Visibility == "Player" && C.IsPlayer()) ||

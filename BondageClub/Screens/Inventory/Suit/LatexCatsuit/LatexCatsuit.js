@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 "use strict";
-
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<TypedItemData>} */
 function InventorySuitLatexCatsuitLoadHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -18,6 +17,7 @@ function InventorySuitLatexCatsuitLoadHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
 function InventorySuitLatexCatsuitDrawHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -47,13 +47,14 @@ function InventorySuitLatexCatsuitPublishActionHook(data, originalFunction, C, i
 		}
 
 		case "TypedItemOption":
-			originalFunction(C, item, newOption, previousOption);
+			originalFunction?.(C, item, newOption, previousOption);
 			return;
 	}
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<TypedItemData>} */
 function InventorySuitLatexCatsuitExitHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData !== null) {
 		TextItem.Exit(textData);
@@ -70,10 +71,11 @@ function AssetsSuitLatexCatsuitAfterDraw(
 		const height = 60;
 		const flatCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const flatCtx = flatCanvas.getContext("2d");
+		if (!flatCtx) return;
 
 		TextItem.Init(data, C, CA, false, false);
 
-		if (CA.Property.Text) {
+		if (CA.Property?.Text) {
 			DynamicDrawText(CA.Property.Text, flatCtx, width / 2, height * 2 / 3.3 , {
 				fontSize: 18,
 				fontFamily: data.font,
@@ -83,7 +85,7 @@ function AssetsSuitLatexCatsuitAfterDraw(
 			});
 		}
 
-		if (CA.Property.Text2) {
+		if (CA.Property?.Text2) {
 			// Strip out any weird characters that might peek through
 			const barcodeText = CA.Property.Text2.split("").filter(char => char.match(/[a-zA-Z0-9]/)).join("");
 			DynamicDrawText(barcodeText, flatCtx, width / 2, height * 15 / 14, {
@@ -94,7 +96,7 @@ function AssetsSuitLatexCatsuitAfterDraw(
 			});
 		}
 
-		if (CA.Property.Text3) {
+		if (CA.Property?.Text3) {
 			DynamicDrawTextArc(CA.Property.Text3, flatCtx, width / 2, height * 5 / 6.2, {
 				fontSize: 14,
 				fontFamily: data.font,

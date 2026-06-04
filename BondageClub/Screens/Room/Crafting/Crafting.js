@@ -1720,7 +1720,7 @@ function CraftingRun() {
 	}
 
 	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
-		TightenLoosenItemDraw();
+		TightenLoosenItemDraw(DialogTightenLoosenItem);
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
 	}
@@ -2106,7 +2106,7 @@ function CraftingClick(event) {
 	}
 
 	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
-		TightenLoosenItemClick();
+		TightenLoosenItemClick(CraftingPreview, DialogTightenLoosenItem);
 	}
 }
 

@@ -112,6 +112,7 @@ function PreferenceSubscreenDifficultyRun() {
 function PreferenceSubscreenDifficultyClick() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenDifficultyResize() {
 	ElementPositionFixed(PreferenceSubscreenDifficultyIDs.list, 500, 225, 1300, 700);
 	ElementPositionFixed(PreferenceSubscreenDifficultyIDs.detail, 500, 225, 1300, 650);

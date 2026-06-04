@@ -370,7 +370,7 @@ var CraftingJSON = {
 	decode: function decode(craftsJSON) {
 		let obj;
 		try {
-			obj = JSON.parse(craftsJSON);
+			obj = /** @type {CraftingJSON.DataEncoded} */ (JSON.parse(craftsJSON));
 		} catch (err) {
 			console.error(err);
 			return { status: CraftingStatusType.CRITICAL_ERROR };

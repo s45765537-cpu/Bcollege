@@ -1,12 +1,11 @@
-// @ts-strict-ignore
 "use strict";
 var HorseWalkBackground = "HorseStableLight";
-/** @type { null | { X: number, Y: number }[] } */
-var HorseWalkCarrots = null;
-/** @type { null | { X: number, Y: number }[] } */
-var HorseWalkCrops = null;
-/** @type { null | { X: number, Y: number, Stat: number }[] } */
-var HorseWalkHurdle = null;
+/** @type {{ X: number, Y: number }[] } */
+var HorseWalkCarrots = [];
+/** @type {{ X: number, Y: number }[] } */
+var HorseWalkCrops = [];
+/** @type {{ X: number, Y: number, Stat: number }[] } */
+var HorseWalkHurdle = [];
 var HorseWalkPlayerX = 0;
 var HorseWalkPlayerY = 0;
 var HorseWalkItemSize = 100;
@@ -222,8 +221,8 @@ function HorseWalkRun() {
 				HorseWalkDrawTrainer = false;
 			}
 		}
-		if (HorseWalkDrawPony) DrawCharacter(StablePony, HorseWalkDrawXPosition, HorseWalkDrawYPosition, HorseWalkDrawYHeigh/1000);
-		if (HorseWalkDrawTrainer) DrawCharacter(StableTrainer, HorseWalkDrawXPosition, HorseWalkDrawYPosition, HorseWalkDrawYHeigh/1000);
+		if (HorseWalkDrawPony && StablePony) DrawCharacter(StablePony, HorseWalkDrawXPosition, HorseWalkDrawYPosition, HorseWalkDrawYHeigh/1000);
+		if (HorseWalkDrawTrainer && StableTrainer) DrawCharacter(StableTrainer, HorseWalkDrawXPosition, HorseWalkDrawYPosition, HorseWalkDrawYHeigh/1000);
 		if (MiniGameStarted) {
 			HorseWalkText = TextGet("HorseWalkHitSpots");
 			HorseWalkText = HorseWalkText.replace("$PONY", HorseWalkHitPony.toString()).replace("$TRAINER", HorseWalkHitTrainer.toString());
@@ -234,7 +233,7 @@ function HorseWalkRun() {
 	} else { //Hurdle & Carrot
 		// Draw the player character, progress bar and text
 		if (MiniGameRunning()) HorseWalkDoMove();
-		if (MiniGameDifficultyMode == "HurdleTraining") {
+		if (MiniGameDifficultyMode == "HurdleTraining" && StablePony) {
 			DrawCharacter(Player, 0, 100, 0.8);
 			DrawCharacter(StablePony, HorseWalkPlayerX, HorseWalkPlayerY, 0.4);
 		} else {
@@ -277,6 +276,9 @@ function HorseWalkEnd(Victory) {
 	MiniGameVictory = Victory;
 	MiniGameEnded = true;
 	MiniGameTimer = CommonTime();
+	HorseWalkCarrots = [];
+	HorseWalkCrops = [];
+	HorseWalkHurdle = [];
 }
 
 /**

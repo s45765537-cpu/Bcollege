@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
@@ -24,6 +23,7 @@ function InventoryItemTorsoFuturisticHarnessClickHook(Data, OriginalFunction) {
 /** @type {() => boolean} */
 function InventoryItemTorsoFuturisticHarnessIsColorable() {
 	const C = CharacterGetCurrent();
+	if (!C) return false;
 	const FuturisticCollarItems = InventoryItemNeckFuturisticCollarGetItems(C);
 	return (FuturisticCollarItems.length > 0);
 }
@@ -31,5 +31,6 @@ function InventoryItemTorsoFuturisticHarnessIsColorable() {
 /** @type {() => void} */
 function InventoryItemTorsoFuturisticHarnessColor() {
 	const C = CharacterGetCurrent();
+	if (!C || !DialogFocusItem) return;
 	InventoryItemNeckFuturisticCollarColor(C, DialogFocusItem);
 }
