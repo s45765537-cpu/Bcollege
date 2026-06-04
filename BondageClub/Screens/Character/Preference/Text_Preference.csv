@@ -110,7 +110,7 @@ ShowFriendRequestMessages,Show friend request messages
 DefaultChatRoomBackground,Default chatroom background: 
 ChatSettingsPage0,Page 1/2
 ChatSettingsPage1,Page 2/2
-AudioVolume,Audio volume
+Volume,Audio volume
 MusicVolume,Music volume
 AudioPlayBeeps,Audio alarm for beeps
 AudioPlayItem,Play item sounds in chatrooms
