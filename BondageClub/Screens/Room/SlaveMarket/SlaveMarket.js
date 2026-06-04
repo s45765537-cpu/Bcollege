@@ -84,25 +84,24 @@ function SlaveMarketAuctionStart() {
 	InventoryWear(SlaveMarketSlave, "CollarChainShort", "ItemNeckRestraints");
 	SlaveAuctionVendor = SlaveMarketMistress;
 	SlaveAuctionSlave = SlaveMarketSlave;
-	MiniGameStart("SlaveAuction", "", "SlaveMarketAuctionEnd");
+	MiniGameStart("SlaveAuction", "", () => SlaveMarketAuctionEnd());
 }
 
 /**
- * Triggered when the auction ends. If the player was the last bidder, she buys the slave and gets in a dialog with her, otherwise she returns to the main area of the slave market
- * @returns {void} - Nothing
+ * Triggered when the auction ends.
+ * If the player was the last bidder, she buys the slave and gets in a dialog with her, otherwise she returns to the main area of the slave market
  */
-function SlaveMarketAuctionEnd() {
+async function SlaveMarketAuctionEnd() {
+	await CommonSetScreen("Room", "SlaveMarket");
 	if (SlaveAuctionBidCurrent == "Player") {
 		CharacterChangeMoney(Player, SlaveAuctionBidAmount * -1);
 		let NewChar = PrivateAddCharacter(SlaveMarketSlave,  "Submissive");
 		if (SlaveMarketSlave.Title === "Succubus") NewChar.Title = "Succubus";
-		CommonSetScreen("Room", "SlaveMarket");
 		CharacterSetCurrent(SlaveMarketSlave);
 		SlaveMarketSlave.Stage = "10";
 		SlaveMarketSlave.CurrentDialog = DialogFind(SlaveMarketSlave, "AuctionBuy");
 		SlaveMarketMistress.Stage = "22";
 	} else {
-		CommonSetScreen("Room", "SlaveMarket");
 		CharacterSetCurrent(SlaveMarketMistress);
 		SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "AuctionFail");
 		SlaveMarketMistress.Stage = "23";
@@ -194,18 +193,17 @@ function SlaveMarketAuctionPlayerStrip() {
  */
 function SlaveMarketAuctionPlayerStart() {
 	DialogLeave();
-	MiniGameStart("PlayerAuction", "", "SlaveMarketPlayerAuctionEnd");
+	MiniGameStart("PlayerAuction", "", () => SlaveMarketPlayerAuctionEnd());
 }
 
 /**
  * Triggered when the player auction ends, we create the buyer and activate her
- * @returns {void} - Nothing
  */
-function SlaveMarketPlayerAuctionEnd() {
+async function SlaveMarketPlayerAuctionEnd() {
 	CharacterRelease(Player);
 	LogAdd("Auctioned", "SlaveMarket", CurrentTime + 604800000);
 	CharacterChangeMoney(Player, (PlayerAuctionBidAmount / 2) + 5);
-	CommonSetScreen("Room", "SlaveMarket");
+	await CommonSetScreen("Room", "SlaveMarket");
 	SlaveMarketBuyer.AllowItem = false;
 	SlaveMarketBuyer.Appearance = PlayerAuctionCustomer[PlayerAuctionBidCurrent].Appearance.slice(0);
 	SlaveMarketBuyer.Archetype = PlayerAuctionCustomer[PlayerAuctionBidCurrent].Archetype;

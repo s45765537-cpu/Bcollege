@@ -176,15 +176,14 @@ function DailyJobKidnapFail() {
  * @returns {void} - Nothing
  */
 function DailyJobPuppyGameStart() {
-	MiniGameStart("PuppyWalker", 0, "DailyJobPuppyGameEnd");
+	MiniGameStart("PuppyWalker", 0, () => DailyJobPuppyGameEnd());
 }
 
 /**
  * Triggered at the end of the puppy walker job fight mini-game
- * @returns {void} - Nothing
  */
-function DailyJobPuppyGameEnd() {
-	CommonSetScreen("Room", "DailyJob");
+async function DailyJobPuppyGameEnd() {
+	await CommonSetScreen("Room", "DailyJob");
 	DailyJobPuppyMistress.Stage = (MiniGameVictory) ? "100" : "200";
 	CharacterSetCurrent(DailyJobPuppyMistress);
 	if (MiniGameVictory) IntroductionJobDone();
@@ -227,15 +226,14 @@ function DailyJobDojoRestrainPlayer() {
  * @returns {void} - Nothing
  */
 function DailyJobDojoGameStart() {
-	MiniGameStart("DojoStruggle", 0, "DailyJobDojoGameEnd");
+	MiniGameStart("DojoStruggle", 0, () => DailyJobDojoGameEnd());
 }
 
 /**
  * Triggered at the end of the dojo struggle job minigame
- * @returns {void} - Nothing
  */
-function DailyJobDojoGameEnd() {
-	CommonSetScreen("Room", "DailyJob");
+async function DailyJobDojoGameEnd() {
+	await CommonSetScreen("Room", "DailyJob");
 
 	DailyJobDojoTeacher.Stage = (MiniGameVictory) ? "100" : "200";
 	CharacterSetCurrent(DailyJobDojoTeacher);

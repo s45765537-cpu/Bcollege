@@ -2801,7 +2801,7 @@ function ChatRoomToggleKneel() {
 			if (diff > 9) diff = 9;
 
 			// Starts the mini-game
-			MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+			MiniGameStart("GetUp", diff, () => ChatRoomAttemptStandMinigameEnd());
 			return;
 
 		}
@@ -2942,7 +2942,7 @@ function ChatRoomMenuPerformAction(action, event) {
 	}
 }
 
-function ChatRoomAttemptStandMinigameEnd() {
+async function ChatRoomAttemptStandMinigameEnd() {
 
 	if (MiniGameVictory)  {
 		if (MiniGameType == "GetUp"){
@@ -2968,7 +2968,7 @@ function ChatRoomAttemptStandMinigameEnd() {
 		}
 	}
 
-	CommonSetScreen("Online", "ChatRoom");
+	await CommonSetScreen("Online", "ChatRoom");
 }
 
 /**

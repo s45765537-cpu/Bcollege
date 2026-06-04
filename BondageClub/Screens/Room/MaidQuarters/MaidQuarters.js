@@ -386,7 +386,7 @@ function MaidQuartersRemoveMaidUniform() {
  * @returns {void} - Nothing
  */
 function MaidQuartersMiniGameStart(GameType, Difficulty) {
-	MiniGameStart(GameType, Difficulty, "MaidQuartersMiniGameEnd");
+	MiniGameStart(GameType, Difficulty, () => MaidQuartersMiniGameEnd());
 }
 
 /**

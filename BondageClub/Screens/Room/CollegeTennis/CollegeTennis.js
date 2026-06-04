@@ -114,16 +114,15 @@ function CollegeTennisGameStart(Difficulty) {
 	if ((Difficulty == "Hard") && (CollegeTennisJennifer.Name != "Jennifer")) CharacterChangeMoney(Player, -25);
 	TennisCharacterLeft = Player;
 	TennisCharacterRight = CollegeTennisJennifer;
-	MiniGameStart("Tennis", Difficulty, "CollegeTennisGameEnd");
+	MiniGameStart("Tennis", Difficulty, () => CollegeTennisGameEnd());
 
 }
 
 /**
  * Triggered when the tennis game ends. Winning opens a dialog option to allow the player to invite Jennifer to their room.
- * @returns {void} - Nothing
  */
-function CollegeTennisGameEnd() {
-	CommonSetScreen("Room", "CollegeTennis");
+async function CollegeTennisGameEnd() {
+	await CommonSetScreen("Room", "CollegeTennis");
 	CharacterSetCurrent(CollegeTennisJennifer);
 	if ((MiniGameDifficultyMode == "Hard") && MiniGameVictory && (CollegeTennisJennifer.Name != "Jennifer")) CharacterChangeMoney(Player, 50);
 	if (CollegeTennisJennifer.Name == "Jennifer") CollegeTennisJennifer.Stage = MiniGameVictory ? "100" : "200";

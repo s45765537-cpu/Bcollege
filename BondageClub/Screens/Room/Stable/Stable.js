@@ -163,11 +163,11 @@ function StableTrialPonyTraining() {
 
 //Start the Demo for a Trainer-training
 function StableTrialTrainerTraining() {
-	MiniGameStart("HorseWalk", "WhipPony", "StableTrialTrainerTrainingEnd");
+	MiniGameStart("HorseWalk", "WhipPony", () => StableTrialTrainerTrainingEnd());
 }
 
-function StableTrialTrainerTrainingEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StableTrialTrainerTrainingEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
 	if (MiniGameVictory) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableTrainerToyHorseFin");
@@ -378,12 +378,12 @@ function StablePlayerTrainingDance(Behavior) {
 //Start Traning Hurdle
 function StablePlayerTrainingHurdles(Behavior) {
 	StablePlayerTrainingBehavior += parseInt(Behavior);
-	MiniGameStart("HorseWalk", "Hurdle", "StablePlayerTrainingHurdlesEnd");
+	MiniGameStart("HorseWalk", "Hurdle", () => StablePlayerTrainingHurdlesEnd());
 	StablePlayerTrainingLessons += 2;
 }
 
-function StablePlayerTrainingHurdlesEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StablePlayerTrainingHurdlesEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
 	if (MiniGameVictory) {
 		StablePlayerTrainingBehavior += 2;
@@ -471,13 +471,13 @@ function StablePlayerTrainingStrongRace(Behavior) {
 //Start Traning Carrots - MiniGame
 function StablePlayerTrainingCarrots(Behavior) {
 	StablePlayerTrainingBehavior += parseInt(Behavior);
-	MiniGameStart("HorseWalk", "Carrot", "StablePlayerTrainingCarrotsEnd");
+	MiniGameStart("HorseWalk", "Carrot", () => StablePlayerTrainingCarrotsEnd());
 	StablePlayerTrainingLessons += 2;
 }
 
 //End Traning Carrots - MiniGame
-function StablePlayerTrainingCarrotsEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StablePlayerTrainingCarrotsEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
 	if (MiniGameVictory) {
 		StablePlayerTrainingBehavior += 2;
@@ -686,11 +686,11 @@ function StablePlayerStartExam() {
 }
 
 function StablePlayerExamHurdles() {
-	MiniGameStart("HorseWalk", "Hurdle", "StablePlayerExamHurdlesEnd");
+	MiniGameStart("HorseWalk", "Hurdle", () => StablePlayerExamHurdlesEnd());
 }
 
-function StablePlayerExamHurdlesEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StablePlayerExamHurdlesEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
 	if (MiniGameVictory) {
 		StableExamPoint++;
@@ -832,12 +832,12 @@ function StablePonyTraining(probability) {
 
 //Start Traning Hurdle for Player as Trainer
 function StablePonyTrainingHurdles() {
-	MiniGameStart("HorseWalk", "HurdleTraining", "StablePonyTrainingHurdlesEnd");
+	MiniGameStart("HorseWalk", "HurdleTraining", () => StablePonyTrainingHurdlesEnd());
 	StableTrainerTrainingExercises -= 2;
 }
 
-function StablePonyTrainingHurdlesEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StablePonyTrainingHurdlesEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StablePony);
 	if (MiniGameVictory) {
 		StablePony.CurrentDialog = DialogFind(StablePony, "StablePonyPassIntro");
@@ -852,12 +852,12 @@ function StablePonyTrainingHurdlesEnd() {
 
 //Start the Trainer-training
 function StableTrainerWhip() {
-	MiniGameStart("HorseWalk", "WhipPony", "StableTrainerWhipEnd");
+	MiniGameStart("HorseWalk", "WhipPony", () => StableTrainerWhipEnd());
 	StableTrainerTrainingExercises -= 2;
 }
 
-function StableTrainerWhipEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StableTrainerWhipEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StablePony);
 	if (MiniGameVictory) {
 		StablePony.CurrentDialog = DialogFind(StablePony, "StablePonyPassIntro");
@@ -910,11 +910,11 @@ function StablePlayerTExamKnow() {
 }
 
 function StablePlayerTExamWhip() {
-	MiniGameStart("HorseWalk", "WhipPony", "StablePlayerTExamWhipEnd");
+	MiniGameStart("HorseWalk", "WhipPony", () => StablePlayerTExamWhipEnd());
 }
 
-function StablePlayerTExamWhipEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StablePlayerTExamWhipEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
 	if (MiniGameVictory) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableExamTHurdlesIntro");
@@ -926,11 +926,11 @@ function StablePlayerTExamWhipEnd() {
 }
 
 function StablePlayerTExamHurdles() {
-	MiniGameStart("HorseWalk", "HurdleTraining", "StablePlayerTExamHurdlesEnd");
+	MiniGameStart("HorseWalk", "HurdleTraining", () => StablePlayerTExamHurdlesEnd());
 }
 
-function StablePlayerTExamHurdlesEnd() {
-	CommonSetScreen("Room", "Stable");
+async function StablePlayerTExamHurdlesEnd() {
+	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
 	if (MiniGameVictory) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableExamTPassIntro");
