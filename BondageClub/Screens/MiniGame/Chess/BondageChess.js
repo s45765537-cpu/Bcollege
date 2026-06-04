@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var ChessBackground = "CollegeClass1";
 /** @type {Character} */
