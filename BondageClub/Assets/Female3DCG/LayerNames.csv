@@ -1028,6 +1028,8 @@ HairBackHairBack58bLeft,Left
 HairBackHairBack58bLeftTip,Left Tip
 HairBackHairBack60FrontRight,Right
 HairBackHairBack60FrontLeft,Left
+HairBackHairBack60FrontLeftStreak,Left Streak
+HairBackHairBack60FrontRightStreak,Right Streak
 HairBackHairBack61FrontRight,Right
 HairBackHairBack61FrontLeft,Left
 HairBackHairBack62Braid,Braid
@@ -1036,6 +1038,9 @@ HairBackHairBack63Braid,Left
 HairBackHairBack63BraidRight,Right
 HairBackHairBack63Band,Scrunchies
 HairBackHairBack63Ribbon,Ribbons
+HairBackHairBack64Left,Base
+HairBackHairBack64LeftStreak,Left Streak
+HairBackHairBack64RightStreak,Right Streak
 HairBackHairBack65Right,Right
 HairBackHairBack65Left,Left
 HairBackHairBack65bRight,Right

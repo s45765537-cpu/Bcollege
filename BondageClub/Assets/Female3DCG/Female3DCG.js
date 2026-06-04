@@ -28179,6 +28179,26 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: [0, 2] },
 						CopyLayerColor: "FrontRight",
 					},
+					{
+						Name: "FrontLeftStreak",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "FrontRightStreak",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "BackLeftStreak",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "FrontLeftStreak",
+					},
+					{
+						Name: "BackRightStreak",
+						AllowTypes: { typed: [0, 2] },
+						CopyLayerColor: "FrontRightStreak",
+					},
 				],
 			},
 			{
@@ -28281,8 +28301,23 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairBack64",
-				Left: 51,
+				Left: 45,
 				Top: 0,
+				Layer: [
+					{
+						Name: "Left",
+					},
+					{
+						Name: "Right",
+						CopyLayerColor: "Left",
+					},
+					{
+						Name: "LeftStreak",
+					},
+					{
+						Name: "RightStreak",
+					},
+				],
 			},
 			{
 				Name: "HairBack65",
