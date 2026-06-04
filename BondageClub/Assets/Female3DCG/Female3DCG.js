@@ -5310,6 +5310,7 @@ var AssetFemale3DCG = [
 			{ Name: "CyberTechCorp", Left: 201, Top: 258 },
 			{ Name: "SpreaderBar", Left: 205, Top: 270 },
 			{ Name: "FireBite", Left: 218, Top: 258 },
+			{ Name: "CRABS", Left: 206, Top: 274 },
 		],
 	},
 	// #endregion
