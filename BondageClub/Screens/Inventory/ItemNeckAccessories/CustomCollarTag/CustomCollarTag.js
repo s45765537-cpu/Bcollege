@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData>} */
@@ -30,7 +29,7 @@ function AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook(data, originalFun
 		}
 
 		TextItem.Init(data, C, CA, false, false);
-		const text = CA.Property.Text;
+		const text = CA.Property?.Text ?? "";
 
 		/** @type {DynamicDrawOptions} */
 		const drawOptions = {
@@ -43,6 +42,7 @@ function AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook(data, originalFun
 
 		// We draw the desired info on that canvas
 		const ctx = TempCanvas.getContext('2d');
+		if (!ctx) return;
 		DynamicDrawText(text, ctx, Width / 2, Width / 2, drawOptions);
 
 		// We print the canvas to the character based on the asset position

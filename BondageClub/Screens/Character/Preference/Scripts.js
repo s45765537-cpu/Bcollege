@@ -99,7 +99,7 @@ function PreferenceSubscreenScriptsLoad() {
 				ev.stopPropagation();
 				if (PreferenceScriptTimer == null) {
 					PreferenceScriptWarningAccepted = true;
-					PreferenceSubscreenScriptsResize();
+					PreferenceSubscreenScriptsResize(false);
 				}
 			}, {
 				label: TextGet("ScriptsWarningAccept"),
@@ -314,6 +314,7 @@ function PreferenceSubscreenScriptsUnload() {
 	}
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenScriptsResize() {
 	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
 	const tableHeight = 90 * (permissions.length + 1);

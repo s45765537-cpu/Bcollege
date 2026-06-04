@@ -20338,6 +20338,26 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PullDownPanties
+		RoyalDiaper: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "None",
+				},
+				{
+					Name: "Simple",
+				},
+				{
+					Name: "HisMajesty",
+				},
+				{
+					Name: "HerMajesty",
+				},
+				{
+					Name: "Lock",
+				},
+			],
+		}, // RoyalDiaper
 	}, // Panties
 	Glasses: {
 		EyePatch1: {
@@ -22324,8 +22344,8 @@ var AssetFemale3DCGExtended = {
 					Key: "s",
 					DrawImages: true,
 					Options: [
-						{ Property: {Difficulty: 11} }, //s_0 - Single
-						{ Property: {Difficulty: 13} }, //s_1 - Double
+						{ Property: { Difficulty: 11 } }, //s_0 - Single
+						{ Property: { Difficulty: 13 } }, //s_1 - Double
 					],
 				},
 				{
@@ -22351,7 +22371,7 @@ var AssetFemale3DCGExtended = {
 						{
 							Prerequisite: ["NotSuspended"],
 							Property: {
-							Effect: [E.Leash],
+								Effect: [E.Leash],
 							},
 						}, //a_3 - Leash
 					],

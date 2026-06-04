@@ -113,6 +113,8 @@ function AssetGroupAdd(Family, GroupDef) {
 		IsItem() { return this.Category === "Item"; },
 		/** @type {() => this is AssetScriptGroup} */
 		IsScript() { return this.Category === "Script"; },
+		/** @type {() => this is AssetExpressionGroup} */
+		HasExpression() { return (this.AllowExpression?.length ?? 0) !== 0; },
 	};
 	AssetGroupMap.set(A.Name, A);
 	AssetActivityMirrorGroupSet(A);

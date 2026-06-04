@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {boolean} */
@@ -37,7 +36,8 @@ const PreferenceSubscreenGeneralCheckboxes = [
 			checkbox.checked = Player.GameplaySettings.EnableSafeword;
 
 			const label = TextGet(PreferenceSafewordConfirm ? "ConfirmSafeword" : "EnableSafeword");
-			ElementWrap("preference-immersion-EnableSafeword-label").textContent = label;
+			const e = ElementWrap("preference-immersion-EnableSafeword-label");
+			if (e) e.textContent = label;
 		},
 		disabled: (onHighDifficulty) => onHighDifficulty
 	},
@@ -173,7 +173,8 @@ function PreferenceSubscreenGeneralClick() {
 	PreferenceSafewordConfirm = false;
 
 	const label = TextGet(PreferenceSafewordConfirm ? "ConfirmSafeword" : "EnableSafeword");
-	ElementWrap("preference-immersion-EnableSafeword-label").textContent = label;
+	const e = ElementWrap("preference-immersion-EnableSafeword-label");
+	if (e) e.textContent = label;
 }
 
 /**
@@ -216,7 +217,8 @@ function PreferenceSubscreenGeneralUnload() {
 	ColorPickerExit(true);
 }
 
-function PreferenceSubscreenGeneralResize() {
+/** @type {ScreenResizeHandler} */
+function PreferenceSubscreenGeneralResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenGeneralIDs.grid, x, y);
 	ColorPickerResize(false);

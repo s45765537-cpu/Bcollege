@@ -123,6 +123,7 @@ function PreferenceSubscreenOnlineClick() {
 	PreferencePageChangeClick(1595, 75, 2);
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenOnlineResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenOnlineIDs.grid, x, y + 10);

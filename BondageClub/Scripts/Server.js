@@ -608,7 +608,7 @@ function ServerPlayerReputationSync() {
  */
 function ServerPlayerSkillSync() {
 	Player.Skill.forEach(s => {
-		if (s.ModifierTimeout <= CurrentTime) {
+		if ((s.ModifierTimeout ?? 0) <= CurrentTime) {
 			delete s.ModifierLevel;
 			delete s.ModifierTimeout;
 		}

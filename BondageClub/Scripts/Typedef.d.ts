@@ -621,6 +621,7 @@ interface AssetPoseMap {
 
 type AssetPoseCategory = keyof AssetPoseMap;
 type AssetPoseName = AssetPoseMap[keyof AssetPoseMap];
+type NullPoseType = null | ""; // XXX: we're not always consistent there
 
 /**
  * A record mapping pose names to the actually to-be drawn poses.
@@ -656,9 +657,10 @@ type AssetAttribute =
 	| "IsChestHarness" | "IsHipHarness"
 	| "PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3"
 	| "CagePlastic2" | "CageTechno" | "CageFlat"
-	| "FuturisticRecolor" | "FuturisticRecolorDisplay"
+	| "FuturisticRecolor" | "FuturisticRecolorDisplay" | "FuturisticLock"
 	| "PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
 	| "Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
+	| "PetSuit"
 	;
 
 type PosePrerequisite = `Can${AssetPoseName}`;
@@ -1119,6 +1121,7 @@ interface AssetGroup {
 	IsItem(): this is AssetItemGroup;
 	/** Return whether this group belongs to the `Script` {@link AssetGroup.Category} */
 	IsScript(): this is AssetScriptGroup;
+	HasExpression(): this is AssetExpressionGroup;
 }
 
 /** An AssetGroup subtype for the `Appearance` {@link AssetGroup.Category} */
@@ -1148,6 +1151,13 @@ interface AssetScriptGroup extends AssetGroup {
 	readonly Underwear: false;
 	readonly Clothing: false;
 	readonly IsDefault: false;
+}
+
+
+/** An AssetGroup subtype for groups that allows expressions */
+interface AssetExpressionGroup extends AssetAppearanceGroup {
+	readonly Name: ExpressionGroupName;
+	readonly AllowExpression: readonly ExpressionName[];
 }
 
 /** A type mapping all asset group names to their respective, {@link AssetGroup.Category}-specific group type */
@@ -1747,6 +1757,36 @@ interface PrivateCharacterData {
 	FromPandora?: boolean;
 }
 
+type PrivateActivityType =
+	| "Kiss"
+	| "FrenchKiss"
+	| "Caress"
+	| "Rub"
+	| `Masturbate${"Hand" | "Tongue" | "Player" | "Self"}`
+	| "Underwear"
+	| "Naked"
+	| "Bed"
+	| `Egg${"Insert" | "SpeedUp" | "SpeedDown"}`
+	| `Lover${"Lock" | "Unlock"}`
+	| `${"Lock" | "Unlock"}Belt`
+	| "Skip1" | "Skip2"
+	;
+
+type PrivatePunishmentType =
+	| "Cage"
+	| "Bound"
+	| "BoundPet"
+	| "ChastityBra"
+	| "ChastityBelt"
+	| "ForceNaked"
+	| `Confiscate${"Key" | "Crop" | "Whip"}`
+	| "SleepCage"
+	| "LockOut"
+	| "Cell"
+	| "OwnerLocks"
+	| "Asylum"
+	| ""
+;
 interface Character {
 	/**
 	 * The character's cache slot ID in the Character array
@@ -2189,7 +2229,7 @@ type PrivatePunishment = (
 
 interface KidnapCard {
 	Move: number;
-	Value?: number;
+	Value: number;
 }
 
 /** Kidnap minigame */
@@ -2197,8 +2237,10 @@ interface Character {
 	KidnapWillpower?: number;
 	KidnapMaxWillpower?: number;
 	KidnapCard?: KidnapCard[];
-	KidnapStat?: [number, number, number, number];
+	KidnapStat?: [Strength: number, Charisma: number, Initiative: number, number];
 }
+
+type KidnapModeType = "Intro" | "SelectItem" | "SelectMove" | "ShowMove" | "UpperHand" | "SuddenDeath" | "End";
 
 type PandoraPrisonActivity = "Beat" | "Water" | "Transfer" | "Quickie" | "Strip" | "Chastity" | "Tickle" | "ChangeBondage";
 
@@ -2849,7 +2891,7 @@ declare namespace ExtendedItemCallbacks {
 	 */
 	type BeforeDraw<
 		PersistentData extends AnimationPersistentData = AnimationPersistentData
-	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
+	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides | undefined>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
 	 * Relevant for assets that define {@link Asset.DynamicScriptDraw}.
@@ -4164,7 +4206,7 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	G: string;
 	AG: AssetGroup;
 	L: string;
-	Pose: AssetPoseName;
+	Pose: AssetPoseName | NullPoseType;
 	LayerType: string;
 	BlinkExpression: string;
 	drawCanvas: DrawCanvasCallback;
@@ -4187,7 +4229,7 @@ interface DynamicBeforeDrawOverrides {
 	LayerType?: string;
 	L?: string;
 	AlphaMasks?: RectTuple[];
-	Pose?: AssetPoseName;
+	Pose?: AssetPoseName | NullPoseType;
 }
 
 type DynamicDrawTextEffect = "burn";
@@ -4576,8 +4618,8 @@ interface ItemColorStateType {
 	pageCount: number;
 	/** Whether the opacity is user-configurable */
 	editOpacity: boolean;
-	drawImport: () => Promise<string>;
-	drawExport: (data: string) => Promise<void>;
+	drawImport?: () => Promise<string>;
+	drawExport?: (data: string) => Promise<void>;
 }
 
 /** A hexadecimal color code */

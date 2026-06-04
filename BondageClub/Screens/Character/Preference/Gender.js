@@ -128,6 +128,7 @@ function PreferenceSubscreenGenderRun() {
 function PreferenceSubscreenGenderClick() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenGenderResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenGenderIDs.grid, x, y);
