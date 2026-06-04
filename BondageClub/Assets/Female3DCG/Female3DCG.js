@@ -12162,17 +12162,8 @@ var AssetFemale3DCG = [
 				ParentGroup: "BodyLower",
 				Hide: ["Pussy", "ItemVulva"],
 				Attribute: ["GenitaliaCover", "DiaperMedium"],
-				HideItemExclude: [
-					"ItemVulvaWandBelt",
-					"ItemVulvaWiredEgg",
-				],
-				DefaultColor: [
-					"Default",
-					"#92D1FF",
-					"Default",
-					"#FFEA00",
-					"#D6CB53",
-				],
+				HideItemExclude: ["ItemVulvaWandBelt", "ItemVulvaWiredEgg"],
+				DefaultColor: ["Default", "#92D1FF", "Default", "#FFEA00", "#D6CB53"],
 				Extended: true,
 				Layer: [
 					{
