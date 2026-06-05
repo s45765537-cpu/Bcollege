@@ -127,7 +127,7 @@ Text LARP Queen,"<F>For my next quest, I need enchanted ropes, love potions and 
 Title Local Influencer,Local Influencer
 Text Local Influencer,You lose 4 Money and draw a card when she enters your club.
 Title Wannabe Princess,Wannabe Princess
-Text Wannabe Princess,+2 Fame per turn if your building level is a Manor.
+Text Wannabe Princess,"+2 Fame/turn if your building level is a Manor, +1 Money/turn if you have LARP Queen, +1 Money/turn if you have Throne Room Servant."
 Title Waitress,Waitress
 Text Waitress,+1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
 Title Bouncer,Bouncer
@@ -285,9 +285,9 @@ Text Suki,Gain +1 Money if another Kemonomimi is present.
 Title Angela,Angela
 Text Angela,<F>Hmms nya~ Could I interest you in a lewd potion mew?~
 Title Scratch and Win,Scratch and Win
-Text Scratch and Win,+7 Money.
+Text Scratch and Win,+7-9 Money.
 Title Kinky Garage Sale,Kinky Garage Sale
-Text Kinky Garage Sale,+12 Money.
+Text Kinky Garage Sale,+14 Money.
 Title Second Mortgage,Second Mortgage
 Text Second Mortgage,+20 Money.
 Title Foreign Investment,Foreign Investment
@@ -327,9 +327,9 @@ Text Fancy Meeting,Draw 4 cards
 Title Prank,Prank
 Text Prank,Your opponent discards 2 random cards.
 Title Sabotage,Sabotage
-Text Sabotage,"At the end of your opponent's next 3 turns: If the draw action was taken, they lose 8 fame, else they discard a random card."
+Text Sabotage,"At the end of your opponent's next 3 turns: If the draw action was taken, they lose 10 fame, else they discard a random card."
 Title Nursery Night,Nursery Night
-Text Nursery Night,"+3 Money for each ABDL Baby, ABDL Mommy and Maid in your club."
+Text Nursery Night,"Opponent lose 6 Fame per ABDL Mommy-Baby pair in your club, if a Maid present gain half that amount."
 Title Bad Press,Bad Press
 Text Bad Press,"For 3 turns, your opponent gains no Fame at the end of turn.  Cancels opponent Clever Marketing."
 Effect Bad Press,No Fame is gained because of OPPONENTPLAYER Bad Press event.
@@ -354,7 +354,7 @@ Title Pandora Box,Pandora's Box
 Text Pandora Box,Discard your hand. Each player draws until they have at least 4 cards in hand. Each player draws a card.
 Effect Pandora Box,"SOURCEPLAYER opens Pandora's Box and discard their hand. All players draw until they have 4 cards, then draw a card."
 Title Toy Box,Toy Box
-Text Toy Box,Receive 3 Money and Draw a card.
+Text Toy Box,Receive 3 Fame and Money and Draw a card.
 Title Restrain,Restrain
 Text Restrain,"For 2 turns, both players cannot use events and negate the effect of all events present."
 Title Detective,Detective
@@ -411,7 +411,7 @@ Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
 Title Sophie,Sophie
-Text Sophie,"Enters: Select a non-Liability member from either club to double their fame and money."
+Text Sophie,"+1 Money/turn if you have 3+ Kemonomimi. +1 Fame/turn if you have LARP Queen. Enters: Double the stats of target non-Liability member."
 Effect Sophie,CARDNAME got their fame and money boosted by the lovely Sophie~
 Prerequisite Sophie,Select a member to enhance before Sophie enters.
 Title Hypnotherapist,Hypnotherapist
@@ -622,7 +622,7 @@ Text Nadu Nyla,Gain +2 Fame and +1 Money as long as you have an active event in 
 Title Surrender,Surrender
 Text Surrender,All Slaves in your club get +1 Fame.
 Title Hands Out,Hands Out
-Text Hands Out,"Select a card in your hand, then discard your hand and draw as many cards, save the selected card if a slave is present."
+Text Hands Out,"Select a card in your hand, then discard your hand and draw as many cards + 1, save the selected card if a slave is present."
 Prerequisite Hands Out,Select a card in your hand.
 Title Carol,Carol
 Text Carol,"Enters: If another Nurse is present, add a random Patient from your Streets to your club, if there are none, add one from your deck."
@@ -672,7 +672,7 @@ Prerequisite Akira,Select a member to negate their effect.
 Title Ari,Ari
 Text Ari,"Gain +1 Fame per two college students present (max = club tier)."
 Title Mei,Mei
-Text Mei,"Enters: Select a card from your deck to reveal and add to hand, receive 3 Money, doubled if its tier 5, else gets the submissive type."
+Text Mei,"Enters: Select a card from your deck to reveal and add to hand, if its tier 5 receive 3 Money, else gets the submissive type."
 Prerequisite Mei,"Select a card to add to your hand"
 Title Cafe Maid,Cafe Maid
 Text Cafe Maid,"For each card you draw, receive 1 Money, if your club tier is 4 or higher, receive 1 Fame too."
@@ -716,7 +716,7 @@ Text Peek Performance,"Both players draw 1 card, and 1 more per 3 visible exhibi
 Title Unlucky Undresser,Unlucky Undresser
 Text Unlucky Undresser,"Enters: add New Clothes and 2 Nude Photos to your opponent's deck."
 Title Lumi,Lumi
-Text Lumi,"Active (Once per tier): Play again, Players reveal their hands, the player with higher sum of tiers receive Fame equal to their club tier + 1."
+Text Lumi,"Active (Once per tier): Play again, Players reveal their hands, the player with higher sum of tiers receive Fame equal to their club tier."
 Title Public Advertisement,Public Advertisement
 Text Public Advertisement,"When a member enters your club receive 1 Money and opponent receives 2 Fame."
 Title Tifa,Tifa
@@ -758,28 +758,32 @@ Text Goddess Gleem,Gains +4 Base fame and -2 base Money each time you take the d
 Title Polish and Shine,Polish and Shine
 Text Polish and Shine,"Put 2 random tier 3 or lower members in your hand into your club, gain 5 money for each Fetishist or Latex member played this way."
 Title Fully Encased,Fully Encased
-Text Fully Encased,"For the next 10 turns, each time you take the draw action you gain 2 + 1 Fame for each turn this card has been on the field."
+Text Fully Encased,"For the next 9 turns, each time you take the draw action you gain 3 + 1 Fame for each turn this card has been on the field."
 Title Intense Training,Intense Training
 Text Intense Training,Play a Shibari card of your choice from your streets. 
 Prerequisite Intense Training,Select a Shibari card from your streets.
 Title The Butler,The Butler
 Text The Butler,"Police no longer prevent steal effects. When your opponent plays a criminal, they steal 1 Money."
 Title Reverse Prayer,Reverse Prayer
-Text Reverse Prayer,"Enters: Select a tier, if you would discard a card of chosen tier, shuffle it into your deck instead. "
+Text Reverse Prayer,"Enters: Select a tier, if you would discard a card of chosen tier, keep it instead."
 Effect Reverse Prayer,Tier AMOUNT was selected for Reverse Prayer.
-Title Creeking,Creeking
-Text Creeking,"For 5 turns: select and negate a latex member from your club. When you take the draw action, gain +2 Fame per Latex member present (Max 3*club tier)"
-Prerequisite Creeking,Select a latex member from your club.
+Title Creaking,Creaking
+Text Creaking,"For 6 turns: select and negate a latex member from your club. When you take the draw action, gain +2 Fame per Latex member present (Max 2*club tier)"
+Prerequisite Creaking,Select a latex member from your club.
 Your Decks,Your Decks
 Default Decks,Preconstructed
 Title Plushie,Plushie
 Text Plushie,"Enters: Sets its Money to the amount of plushies present (max = club tier), and both players gain 2 Fame."
 Title Delta,Delta
 Text Delta,"If 9 plushies present, win the game. Game start: If your deck has 40 cards, shuffle 9 plushies into your deck."
-Title Felix,Félix
+Title Felix,Felix
 Text Felix,"Enters: Add a random Player Card to shuffle into the top 6 cards of your deck"
 Title Jae,Jae
 Text Jae,"Once per turn, when a member leaves your club, gain Fame and Money equal to Jae's Fame and Money (max = club tier)."
 Title anna,anna
 Text anna,Show the top card of your deck.
 Play Precon,Play Precon
+Title Clare,Clare the Trickster Auctioneer
+Text Clare,"Active (once per tier): Choose a member from your deck to discard, steal Money equal to its tier and play again."
+Title arella,arella
+Text arella,"Enters: All submissive, college students, and slaves present gets +1 Money."
