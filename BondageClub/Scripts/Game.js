@@ -17,7 +17,7 @@ var CommonTouchList = null;
 
 const DEFAULT_FRAMERATE = 60;
 
-function GameStart() {
+async function GameStart() {
 	ServerURL = CommonGetServer();
 	//CheatImport();
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
@@ -32,7 +32,7 @@ function GameStart() {
 	AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
-	TextPrefetchFile(InterfaceStringsPath);
+	await TextPrefetchFile(InterfaceStringsPath).loadedPromise;
 	CommonSetScreen("Character", "Login");
 	ServerInit();
 
@@ -77,9 +77,9 @@ const GameReadyState = {
 	 * @readonly
 	 * @type {Promise<void>}
 	 */
-	load: new Promise(resolve => window.addEventListener("load", () => {
+	load: new Promise(resolve => window.addEventListener("load", async () => {
 		// When the code is loaded, we start the game engine
-		GameStart();
+		await GameStart();
 		resolve();
 	})),
 	/**

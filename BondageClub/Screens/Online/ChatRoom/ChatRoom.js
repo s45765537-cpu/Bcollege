@@ -4205,10 +4205,12 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			}
 			substitutions.push([Tag, Text.toString()]);
 		} else if (IsTextLookupDictionaryEntry(entry)) {
-			let text = AssetTextGet(entry.TextToLookUp);
-			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-				text = InterfaceTextGet(entry.TextToLookUp);
-			} else {
+			let text = TextQueryMultiple(
+				entry.TextToLookUp,
+				TextAllScreenCache.get(AssetStringsPath),
+				TextAllScreenCache.get(InterfaceStringsPath),
+			);
+			if (!text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
 				// We lower-case here to blend in asset names in messages
 				text = text.toLowerCase();
 			}
@@ -4487,36 +4489,28 @@ function ChatRoomMessage(data) {
 
 	// Substitute actions and server messages for their fulltext version
 	switch (data.Type) {
-		case "Action":
-			{
-				let text;
-				if (msg.startsWith("GGTS")) {
-					text = AsylumGGTSGetMessage(msg);
-				}
-				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-					text = AssetTextGet(msg);
-				}
-				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-					text = InterfaceTextGet(msg);
-				}
-				msg = text;
-			}
+		case "Action": {
+			msg = TextQueryMultiple(
+				msg,
+				msg.startsWith("GGTS") ? TextPrefetchFile(ScreenFileGetPath("GGTSMessages.csv", "Room", "AsylumGGTS")) : undefined,
+				TextAllScreenCache.get(AssetStringsPath),
+				TextAllScreenCache.get(InterfaceStringsPath),
+			);
 			break;
-
+		}
 		case "ServerMessage":
 			msg = InterfaceTextGet("ServerMessage" + msg);
 			break;
 
 		case "Activity": {
-			let text;
+			/** @type {string | undefined} */
+			let txt = undefined;
 			if (metadata.ActivityAsset) {
-				text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+				// Is this optional? Required? Who knows
+				txt = TextAllScreenCache.get(AssetStringsPath)?.getOptional(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
 			}
-			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-				text = ActivityDictionaryText(msg);
-			}
-			msg = text;
-
+			txt ??= ActivityDictionaryText(msg);
+			msg = txt;
 			break;
 		}
 	}

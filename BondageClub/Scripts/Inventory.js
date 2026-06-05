@@ -659,7 +659,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	const errMessage = InventoryDisallow(C, asset, prerequisites, allowActivePose);
 
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
-	if (errMessage && setDialog) DialogSetStatus(InterfaceTextGet(`Prerequisite${errMessage}`), DialogTextDefaultDuration);
+	if (errMessage && setDialog) DialogSetStatus(errMessage, DialogTextDefaultDuration);
 	return errMessage === null;
 }
 

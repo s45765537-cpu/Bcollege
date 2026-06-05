@@ -18,6 +18,29 @@ function TextGet(TextTag) {
 }
 
 /**
+ * Finds the text value linked to the tag in whichever first of the passed caches happens to contain it
+ * @param {string} key
+ * @param {readonly (undefined | TextCache)[]} caches
+ */
+function TextQueryMultiple(key, ...caches) {
+	const ret = CommonFindMap(caches, (cache) => cache?.getOptional(key));
+	if (ret === undefined) {
+		const cachesNonNull = caches.filter(Boolean);
+		const cacheNames = cachesNonNull.map(cache => `${cache.fileName()}:${key}`);
+		if (cacheNames.some(name => !TextCache.textMissingCache.has(name))) {
+			cacheNames.forEach(name => TextCache.textMissingCache.add(name));
+			console.debug(
+				new Error(`Unknown translation key "${key}" not found in any of the passed text caches`),
+				cachesNonNull.map(cache => cache.fileName()),
+			);
+		}
+		return `${TEXT_NOT_FOUND_PREFIX}: ${key}`;
+	} else {
+		return ret;
+	}
+}
+
+/**
  * Finds the translated string for key in the specified text cache
  * @param {string} filePath
  * @param {string} key
@@ -118,10 +141,9 @@ function InterfaceTextGet(msg) {
 class TextCache {
 	/**
 	 * A cache with missing keys as diagnosed by {@link TextCache.get}. Used for ensuring that each unique cache/key pair only outputs to the console once.
-	 * @private
 	 * @type {Set<string>}
 	 */
-	static _textMissingCache = new Set();
+	static textMissingCache = new Set();
 
 	/**
 	 * Creates a new TextCache from the provided CSV file path.
@@ -132,7 +154,7 @@ class TextCache {
 		this.path = path;
 		/** @type {ServerChatRoomLanguage | "TW"} */
 		this.language = TranslationLanguage;
-		/** @type {Record<string, string>} */
+		/** @type {Partial<Record<string, string>>} */
 		this.cache = {};
 		/** @type {((cache?: TextCache) => void)[]} */
 		this.rebuildListeners = [];
@@ -188,20 +210,29 @@ class TextCache {
 	 * @returns {string} - The text value corresponding to the provided key, translated into the current language, if available
 	 */
 	get(key) {
-		if (!this.loaded) return "";
-		if (TranslationLanguage !== this.language) {
-			this.loadedPromise = this.buildCache();
-		}
-		const value = this.cache[key];
+		const value = this.getOptional(key);
 		if (typeof value !== "string") {
 			const cacheKey = `${this.fileName()}:${key}`;
-			if (!TextCache._textMissingCache.has(cacheKey)) {
-				TextCache._textMissingCache.add(cacheKey);
+			if (!TextCache.textMissingCache.has(cacheKey)) {
+				TextCache.textMissingCache.add(cacheKey);
 				console.debug(new Error(`Unknown translation key in "${this.fileName()}": "${key}"`));
 			}
 			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
 		}
 		return value;
+	}
+
+	/**
+	 * See {@link TextCache.get}. Looks up a key within this text cache, returning `undefined` if it cannot be found.
+	 * @param {string} key - The text key to lookup
+	 * @returns {string | undefined} - The text value corresponding to the provided key, translated into the current language, if available and `undefined` otherwise
+	 */
+	getOptional(key) {
+		if (!this.loaded) return undefined;
+		if (TranslationLanguage !== this.language) {
+			this.loadedPromise = this.buildCache();
+		}
+		return this.cache[key];
 	}
 
 	/**
