@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var PrisonBackground = "Prison";
 /** @type {null | number} */
@@ -7,8 +6,8 @@ var PrisonNextEvent = false;
 
 var PrisonBehavior = 0;
 
-/** @type {null | NPCCharacter} */
-var PrisonMaid = null;
+/** @type {NPCCharacter} */
+var PrisonMaid = /** @type {never} */ (null);
 /** @type {null | Item[]} */
 var PrisonMaidAppearance = null;
 var PrisonMaidIsPresent = true;
@@ -16,13 +15,13 @@ var PrisonMaidIsAngry =false;
 /** @type {null | string} */
 var PrisonMaidCharacter = null;
 var PrisonMaidCharacterList = ["Friendly", "Neutral", "Evil", "Chaotic"];
-/** @type {null | number} */
-var PrisonMaidChaotic = null;
+/** @type {number} */
+var PrisonMaidChaotic = 0;
 
-/** @type {null | NPCCharacter} */
-var PrisonSub = null;
-/** @type {null | Item[]} */
-var PrisonSubAppearance = null;
+/** @type {NPCCharacter} */
+var PrisonSub = /** @type {never} */ (null);
+/** @type {Item[]} */
+var PrisonSubAppearance = [];
 var PrisonSubBehindBars = false;
 var PrisonSubSelfCuffed = false;
 var PrisonSubIsPresent = false;
@@ -30,13 +29,13 @@ var PrisonSubAskedCuff = false;
 var PrisonSubIsLeaveOut = true;
 var PrisonSubIsStripSearch = false;
 
-/** @type {null | NPCCharacter} */
-var PrisonPolice = null;
+/** @type {NPCCharacter} */
+var PrisonPolice = /** @type {never} */ (null);
 var PrisonPoliceIsPresent = false;
 var PrisonPlayerCatchedBadGirl = false;
 
-/** @type {null | Item[]} */
-var PrisonPlayerAppearance = null;
+/** @type {Item[]} */
+var PrisonPlayerAppearance = [];
 var PrisonPlayerBehindBars = false;
 var PrisonPlayerForIllegalChange = false;
 
@@ -642,6 +641,7 @@ function PrisonLeaveBadGirl() {
 
 /**
  * Wear NPC as Police
+ * @param {Character} C
  */
 function PrisonWearPoliceEquipment(C) {
 	InventoryWear(C, "Jeans1", "ClothLower", "#3333cc");
@@ -659,10 +659,12 @@ function PrisonWantedPlayer() {
 	else if (LogQuery("Hide", "BadGirl")) return 5;
 	else if (LogQuery("Stolen", "BadGirl")) return 3;
 	else if (LogQuery("Joined", "BadGirl")) return 1;
+	return 0;
 }
 
 /**
  * Catch by Police in MainHall
+ * @param {string} RoomBackground
  * @returns {SafePromise<void>}
  */
 async function PrisonMeetPoliceIntro(RoomBackground) {
@@ -716,8 +718,10 @@ function PrisonCatchHandcuffed() {
 function PrisonCatchKneelingEscape() {
 	PoseSetActive(Player, null, true);
 	const item = InventoryWear(Player, "Chains", "ItemArms", "Default", 3);
-	TypedItemSetOptionByName(Player, item, "Hogtied");
-	CharacterRefresh(Player);
+	if (item) {
+		TypedItemSetOptionByName(Player, item, "Hogtied");
+		CharacterRefresh(Player);
+	}
 	PrisonPolice.Stage = "CatchAggressive5";
 	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "CatchAggressiveFailedEscape");
 }
@@ -787,6 +791,7 @@ async function PrisonCatchByPolice() {
 
 /**
  * Change the Prison Behavior >0 Good, <0 Bad
+ * @param {number} Behavior
  */
 function PrisonSetBehavior(Behavior) {
 	PrisonBehavior = PrisonBehavior + Behavior;
@@ -804,7 +809,9 @@ function PrisonArrestHandoverKeys() {
 
 function PrisonArrestHandoverSleepingPills() {
 	const pills = InventoryDelete(Player, "RegularSleepingPill", "ItemMouth");
-	PrisonSaveConfiscatedItems([pills]);
+	if (pills) {
+		PrisonSaveConfiscatedItems([pills]);
+	}
 	PrisonSetBehavior(1);
 }
 
@@ -877,7 +884,9 @@ function PrisonArrestConfiscatKeys() {
 
 function PrisonArrestConfiscatSleepingPills() {
 	const pills = InventoryDelete(Player, "RegularSleepingPill", "ItemMouth");
-	PrisonSaveConfiscatedItems([pills]);
+	if (pills) {
+		PrisonSaveConfiscatedItems([pills]);
+	}
 	PrisonSetBehavior(-1);
 	PrisonArrestEquipmentSearch();
 }
