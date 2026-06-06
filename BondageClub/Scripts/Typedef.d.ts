@@ -5489,6 +5489,16 @@ type MaidQuartersMissionType = "ShibariDojo" | "IntroductionClass" | "Shop" | "G
 
 // #endregion
 
+// #region Stable
+
+type StableFeeType = "PonyExam" | "TrainPony" | "TrainerExam" | "BecomeTrainer" | "WhiskeyRounds";
+
+type StableActivity = "Stand" | "Trot" | "Gallop" | "Passage" | "Pirouette";
+
+type StableProgressType = "Carriage" | "Treadmill" | "Toyhorse";
+
+// #endregion
+
 // #region layering
 
 interface LayeringExitOptions {
