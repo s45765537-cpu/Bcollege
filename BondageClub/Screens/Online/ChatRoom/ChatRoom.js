@@ -2654,8 +2654,8 @@ function ChatRoomTopMenuSync() {
 		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
 		/** @type {HTMLDivElement | null} */
 		const tooltip = btn?.querySelector(".button-tooltip");
-		/** @type {HTMLImageElement | null} */
-		const img = btn?.querySelector("img.button-image");
+		/** @type {HTMLElement | null} */
+		const img = btn?.querySelector(".button-image");
 
 		if (!btn || !tooltip || !img) continue;
 		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
@@ -2673,8 +2673,13 @@ function ChatRoomTopMenuSync() {
 		}
 
 		const imgSrc = state.image;
-		if (!img.src.endsWith(imgSrc)) {
-			img.src = imgSrc;
+		if (img instanceof HTMLImageElement) {
+			if (!img.src.endsWith(imgSrc)) {
+				img.src = imgSrc;
+			}
+		} else if (img.style.backgroundImage !== imgSrc) {
+			img.style.backgroundImage = `url("${imgSrc}")`;
+			img.style.maskImage = `url("${imgSrc}")`;
 		}
 	}
 }
