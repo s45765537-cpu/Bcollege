@@ -34,7 +34,8 @@ function TextQueryMultiple(key, ...caches) {
 				cachesNonNull.map(cache => cache.fileName()),
 			);
 		}
-		return `${TEXT_NOT_FOUND_PREFIX}: ${key}`;
+		const lastCacheName = cachesNonNull[cachesNonNull.length - 1]?.fileName();
+		return `${TEXT_NOT_FOUND_PREFIX} "${lastCacheName}": ${key}`;
 	} else {
 		return ret;
 	}
