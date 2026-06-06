@@ -111,7 +111,7 @@ Text Tourist,<F>I'll need a vacation from my vacation.
 Title Diplomat,Diplomat
 Text Diplomat,<F>Business or leisure?  Pain and pleasure.
 Title Gambler,Gambler
-Text Gambler,"When she enters your club, discard a card at random then draw a card."
+Text Gambler,"Have 50% chance to gain +1 Money at the end of the turn."
 Title Red Twin,Red Twin
 Text Red Twin,<F>We don't share minds but can share orgasms.
 Title Blue Twin,Blue Twin
@@ -125,7 +125,7 @@ Text Rope Sensei,<F>ロープを尊重する
 Title LARP Queen,LARP Queen
 Text LARP Queen,"<F>For my next quest, I need enchanted ropes, love potions and a cursed chastity belt."
 Title Local Influencer,Local Influencer
-Text Local Influencer,You lose 4 Money and draw a card when she enters your club.
+Text Local Influencer,You lose 2 Money and draw a card when she enters your club.
 Title Wannabe Princess,Wannabe Princess
 Text Wannabe Princess,"+2 Fame/turn if your building level is a Manor, +1 Money/turn if you have LARP Queen, +1 Money/turn if you have Throne Room Servant."
 Title Waitress,Waitress
@@ -177,7 +177,7 @@ Text Porn Amateur,<F>I'll be the next Marylin Cumroe.
 Title Porn Movie Director,Porn Movie Director
 Text Porn Movie Director,"+1 Fame and +1 Money for each Porn Actress present. (Max 4)"
 Title Porn Lesbian,Porn Lesbian
-Text Porn Lesbian,Gets +1 Fame if a fetishist is present. Gets +1 money if another porn actress is present.
+Text Porn Lesbian,Gets +1 Fame if a fetishist is present. Gets +2 money if another porn actress is present.
 Title Porn Veteran,Porn Veteran
 Text Porn Veteran,Enters: Gain 3 Fame and Money.
 Title Porn Star,Porn Star
@@ -239,7 +239,7 @@ Text Union Leader,"Gain +1 Fame for each member present. Gain -1 Fame for each m
 Title No-Fap Advocate,No-Fap Advocate
 Text No-Fap Advocate,"When you play a non-timed event, shuffle a random card from your hand into your deck to draw a card."
 Title Pandora Infiltrator,Pandora Infiltrator
-Text Pandora Infiltrator,"Randomly gets -1 Fame/Money when a non-liability member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
+Text Pandora Infiltrator,"Randomly gets -1 Fame/Money when a member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
 Prerequisite Pandora Infiltrator,"Select a member to copy their type(s)"
 Title Uncontrollable Sub,Uncontrollable Sub
 Text Uncontrollable Sub,"Leaves after 2 turns. Each member you play gets -1 fame."
@@ -739,7 +739,7 @@ Prerequisite Color Mixer,Select a member from your club.
 Title Vac-bed Patient,Vac-bed Patient
 Text Vac-bed Patient,"When you take the draw action, gain 1 fame and 1 money."
 Title Shine Simp,Shine Simp
-Text Shine Simp,"When you take the draw action, for each Latex member present, players lose 1 Fame. (Max 5)"
+Text Shine Simp,"When you take the draw action, for each Latex member present, players lose 1 Fame. (Max 4)"
 Title Latex Drone,Latex Drone
 Text Latex Drone,"<F>1684 :: Code 050 :: Statement :: This drone is ready to obey"
 Title Encased,Encased
@@ -779,7 +779,7 @@ Text Delta,"If 9 plushies present, win the game. Game start: If your deck has 40
 Title Felix,Felix
 Text Felix,"Enters: Add a random Player Card to shuffle into the top 6 cards of your deck"
 Title Jae,Jae
-Text Jae,"Once per turn, when a member leaves your club, gain Fame and Money equal to Jae's Fame and Money (max = club tier)."
+Text Jae,"Once per turn, when a member leaves your club, gain Fame and Money equal to Jae's Fame and Money."
 Title anna,anna
 Text anna,Show the top card of your deck.
 Play Precon,Play Precon
