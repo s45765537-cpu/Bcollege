@@ -53,16 +53,16 @@ interface WebGL2RenderingContext {
 }
 
 interface WebGLProgram {
-	u_alpha?: WebGLUniformLocation;
-	u_color?: WebGLUniformLocation;
-	a_position?: number;
-	a_texcoord?: number;
-	u_matrix?: WebGLUniformLocation;
-	u_texture?: WebGLUniformLocation;
-	u_alpha_texture?: WebGLUniformLocation;
-	u_mask_texture?: WebGLUniformLocation;
-	position_buffer?: WebGLBuffer;
-	texcoord_buffer?: WebGLBuffer;
+	u_alpha: WebGLUniformLocation | null;
+	u_color: WebGLUniformLocation | null;
+	a_position: number;
+	a_texcoord: number;
+	u_matrix: WebGLUniformLocation | null;
+	u_texture: WebGLUniformLocation | null;
+	u_alpha_texture: WebGLUniformLocation | null;
+	u_mask_texture: WebGLUniformLocation | null;
+	position_buffer: WebGLBuffer | null;
+	texcoord_buffer: WebGLBuffer | null;
 }
 
 interface HTMLCanvasElement {
@@ -3955,7 +3955,7 @@ interface TextItemData extends ExtendedItemData<TextItemOption> {
 	 * The font used for dynamically drawing text.
 	 * Requires {@link AssetDefinition.DynamicAfterDraw} to be set.
 	 */
-	font: null | string;
+	font?: string;
 }
 
 // NOTE: Use the intersection operator to enforce that the it remains a `keyof ItemProperties` subtype

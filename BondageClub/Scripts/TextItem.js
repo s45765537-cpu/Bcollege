@@ -108,7 +108,7 @@ function TextItemCreateTextItemData(asset, {
 		key,
 		name,
 		maxLength: MaxLength,
-		font: typeof Font === "string" ? Font : null,
+		font: typeof Font === "string" ? Font : undefined,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,
 		dialogPrefix: {

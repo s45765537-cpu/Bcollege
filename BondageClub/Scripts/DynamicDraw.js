@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -12,7 +11,7 @@
  * @type {object}
  * @property {number} [fontSize] - The target font size. Note that if space is constrained, the actual drawn font size will be reduced
  * automatically to fit. Defaults to 30px.
- * @property {string | null} [fontFamily] - The desired font family to draw text in. This can be a single font name, or a full CSS font stack
+ * @property {string} [fontFamily] - The desired font family to draw text in. This can be a single font name, or a full CSS font stack
  * (e.g. "'Helvetica', 'Arial', sans-serif"). Defaults to the player's chosen global font.
  * @property {CanvasTextAlign} [textAlign] - The text alignment to use. Can be any valid
  * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/text-align text alignment}. Not applicable to the {@link DynamicDrawTextArc}
@@ -162,10 +161,10 @@ const DynamicDrawTextDefaultOptions = {
  */
 const DynamicDrawTextEffects = {
 	[DynamicDrawTextEffect.BURN]: {
-		before(text, ctx, x, y, { width }) {
+		before(text, ctx, x, y, options) {
 			ctx.save();
 			ctx.fillStyle = "#000";
-			ctx.fillText(text, x - 1, y - 1, width);
+			ctx.fillText(text, x - 1, y - 1, options?.width);
 			ctx.restore();
 		},
 	},
@@ -187,6 +186,7 @@ function DynamicDrawLoadFont(fontFamily) {
 	canvas.width = 20;
 	canvas.height = 20;
 	const ctx = canvas.getContext("2d");
+	if (!ctx) return;
 
 	// Dummy text fill to force the browser to load the font (otherwise it won't get loaded until after the first time
 	// the text has been populated, causing the first draw to fallback)
@@ -204,6 +204,7 @@ function DynamicDrawLoadFont(fontFamily) {
 	// Capture the maximum character width for the font, and set up a relative map for character weights
 	const weightMap = DynamicDrawFontMeasurements[fontFamily] = {
 		width: maxWidth,
+		/** @type {Record<string, number>} */
 		weights: {},
 	};
 
@@ -230,6 +231,7 @@ function DynamicDrawGetCharWeight(weightMap, fontFamily, char) {
 		// pre-measured ASCII widths) and normalise it against the font's widest pre-measured character
 		const canvas = document.createElement("canvas");
 		const ctx = canvas.getContext("2d");
+		if (!ctx) return 0;
 		ctx.font = `1px ${fontFamily}`;
 		weight = weightMap.weights[char] = ctx.measureText(char).width / (weightMap.width || 1);
 	}
@@ -400,23 +402,23 @@ function DynamicDrawTextArc(text, ctx, x, y, options) {
  */
 function DynamicDrawTextAndEffects(text, ctx, x, y, options) {
 	DynamicDrawApplyOptions(ctx, options);
-	const effect = DynamicDrawTextEffects[options.effect] || {};
-	if (typeof effect.before === "function") effect.before(text, ctx, x, y, options);
+	const effect = options?.effect && options.effect in DynamicDrawTextEffects ? DynamicDrawTextEffects[options.effect] : null;
+	if (typeof effect?.before === "function") effect.before(text, ctx, x, y, options);
 	ctx.fillText(text, x, y, options.width);
 	if (options.strokeColor) {
 		ctx.strokeText(text, x, y, options.width);
 	}
-	if (typeof effect.after === "function") effect.after(text, ctx, x, y, options);
+	if (typeof effect?.after === "function") effect.after(text, ctx, x, y, options);
 }
 
 /**
  * Parses a dynamic drawing options object, returning default values for properties that aren't defined.
  * @param {DynamicDrawOptions} [options] - The options object to parse
- * @returns {DynamicDrawOptions} - A complete options object, with default values where not specified
+ * @returns {Required<DynamicDrawOptions>} - A complete options object, with default values where not specified
  */
 function DynamicDrawParseOptions(options) {
 	options = options || {};
-	return Object.assign({}, DynamicDrawTextDefaultOptions, options);
+	return /** @type {Required<DynamicDrawOptions>} */ (Object.assign({}, DynamicDrawTextDefaultOptions, options));
 }
 
 /**
@@ -428,11 +430,15 @@ function DynamicDrawParseOptions(options) {
  */
 function DynamicDrawApplyOptions(ctx, { fontSize, fontFamily, textAlign, textBaseline, color, strokeColor, strokeWidth }) {
 	ctx.font = `${fontSize}px ${fontFamily}`;
-	ctx.textAlign = textAlign;
-	ctx.textBaseline = textBaseline;
-	ctx.fillStyle = color;
+	if (textAlign)
+		ctx.textAlign = textAlign;
+	if (textBaseline)
+		ctx.textBaseline = textBaseline;
+	if (color)
+		ctx.fillStyle = color;
 	if (strokeColor) {
 		ctx.strokeStyle = strokeColor;
-		ctx.lineWidth = strokeWidth;
+		if (strokeWidth)
+			ctx.lineWidth = strokeWidth;
 	}
 }
