@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var PokerBackground = "White";
 /** @type {PokerPlayer[]} */
@@ -84,10 +83,8 @@ function PokerDrawPlayer(P, X, Y) {
 			// If a valid image is loaded, we show it, we can move it a little to adjust the position on screen
 			if (P.Image != null) {
 				let Y2 = 0;
-				let W = 300;
-				let H = 440;
-				if (DrawCacheImage.get(P.Image) != null) W = DrawCacheImage.get(P.Image).width;
-				if (DrawCacheImage.get(P.Image) != null) H = DrawCacheImage.get(P.Image).height;
+				const W = DrawCacheImage.get(P.Image)?.width ?? 300;
+				const H = DrawCacheImage.get(P.Image)?.height ?? 440;
 				if (W >= 800) {
 					Y2 = (440 - H) * 0.5;
 					Large = true;
@@ -124,14 +121,14 @@ function PokerDrawPlayer(P, X, Y) {
 	}
 
 	// For regular bondage club characters
-	if (P.Type == "Character") DrawCharacter(P.Character, X, Y - 60, 1, false);
+	if (P.Type == "Character" && P.Character) DrawCharacter(P.Character, X, Y - 60, 1, false);
 
 	// Draw the top text
 	if ((PokerMode != "") && (P.Text != "")) {
 		if ((P.TextColor == null) && (P.Data != null) && (P.Data.cache != null) && (P.Data.cache.TextColor != null))
 			P.TextColor = P.Data.cache.TextColor;
 		if (Large) X = (PokerShowPlayer ? 0 : -250) + 1000;
-		DrawTextWrap(P.Text, X + 10, Y - 82, 480, 60, (P.TextColor == null) ? "black" : "#" + P.TextColor, null, 2);
+		DrawTextWrap(P.Text ?? "", X + 10, Y - 82, 480, 60, (P.TextColor == null) ? "black" : "#" + P.TextColor, undefined, 2);
 	}
 
 	// If no text is loaded, we load the intro
@@ -180,26 +177,23 @@ function PokerGetText(P, Tag) {
 	if ((P.Alternate == null) && (P.Data != null) && (P.Data.cache.Alternate != null))
 		P.Alternate = Math.floor(Math.random() * parseInt(P.Data.cache.Alternate)) + 1;
 	if (P.Alternate != null) {
-		let X = 0;
 		if (Tag != null) {
-			while (T.cache[X] != null) {
-				if (T.cache[X].substr(0, Tag.length + 6) == Tag + "-Alt" + P.Alternate.toString() + "=")
-					Texts.push(T.cache[X].substr(Tag.length + 6, 500));
-				X++;
+			for (const key in T.cache) {
+				const line = T.cache[key] ?? "";
+				if (line.substr(0, Tag.length + 6) == Tag + "-Alt" + P.Alternate.toString() + "=")
+					Texts.push(line.substr(Tag.length + 6, 500));
 			}
 		} else {
-
 			// Without a tag, we find all values within the player progress
 			let Progress = PokerGetProgress(P);
-			while (T.cache[X] != null) {
-				if (T.cache[X].substr(8, 10) == "Chat-Alt" + P.Alternate.toString() + "=") {
-					let From = T.cache[X].substr(0, 3);
-					let To = T.cache[X].substr(4, 3);
-					if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
-						if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
-							Texts.push(T.cache[X].substr(18, 500));
+			for (const key in T.cache) {
+				const line = T.cache[key] ?? "";
+				if (line.substr(8, 10) == "Chat-Alt" + P.Alternate.toString() + "=") {
+					let From = CommonParseInt(line.substr(0, 3));
+					let To = CommonParseInt(line.substr(4, 3));
+					if (From !== null && To !== null && Progress >= From && Progress <= To)
+						Texts.push(line.substr(18, 500));
 				}
-				X++;
 			}
 
 		}
@@ -207,31 +201,27 @@ function PokerGetText(P, Tag) {
 
 	// If there's a tag, we search for it specifically
 	if (Tag != null) {
-		let X = 0;
-		while (T.cache[X] != null) {
-			if (T.cache[X].substr(0, Tag.length + 1) == Tag + "=")
-				Texts.push(T.cache[X].substr(Tag.length + 1, 500));
-			X++;
+		for (const key in T.cache) {
+			const line = T.cache[key] ?? "";
+			if (line.substr(0, Tag.length + 1) == Tag + "=")
+				Texts.push(line.substr(Tag.length + 1, 500));
 		}
 	} else {
-		let X = 0;
 		// Without a tag, we find all values within the player progress
 		let Progress = PokerGetProgress(P);
-		while (T.cache[X] != null) {
-			if (T.cache[X].substr(8, 5) == "Chat=") {
-				let From = T.cache[X].substr(0, 3);
-				let To = T.cache[X].substr(4, 3);
-				if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
-					if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
-						Texts.push(T.cache[X].substr(13, 500));
+		for (const key in T.cache) {
+			const line = T.cache[key] ?? "";
+			if (line.substr(8, 5) == "Chat=") {
+				let From = CommonParseInt(line.substr(0, 3));
+				let To = CommonParseInt(line.substr(4, 3));
+				if (From !== null && To !== null && Progress >= From && Progress <= To)
+					Texts.push(line.substr(13, 500));
 			}
-			X++;
 		}
-
 	}
 
 	// Sets the final text at random from all possible values
-	P.Text = (Texts.length > 0) ? CommonRandomItemFromList("", Texts) : "";
+	P.Text = (Texts.length > 0) ? CommonGetRandomItemFromList(Texts) : "";
 
 }
 
@@ -247,7 +237,7 @@ function PokerGetImage(P) {
 	let Progress = PokerGetProgress(P);
 
 	// For a regular Bondage Club character, we can add or remove restraints
-	if (P.Type == "Character") {
+	if (P.Type == "Character" && P.Character) {
 		if ((Progress > 40) && (P.Cloth != null) && (InventoryGet(P.Character, "Cloth") == null)) InventoryWear(P.Character, P.Cloth.Asset.Name, "Cloth", P.Cloth.Color);
 		if ((Progress > 40) && (P.ClothLower != null) && (InventoryGet(P.Character, "ClothLower") == null)) InventoryWear(P.Character, P.ClothLower.Asset.Name, "ClothLower", P.ClothLower.Color);
 		if ((Progress > 40) && (P.ClothAccessory != null) && (InventoryGet(P.Character, "ClothAccessory") == null)) InventoryWear(P.Character, P.ClothAccessory.Asset.Name, "ClothAccessory", P.ClothAccessory.Color);
@@ -276,58 +266,50 @@ function PokerGetImage(P) {
 			P.Alternate = Math.floor(Math.random() * parseInt(P.Data.cache.Alternate)) + 1;
 		if (P.Alternate != null) {
 			if ((PokerPlayerCount == 2) && (PokerMode != "")) {
-				let X = 0;
-				while (P.Data.cache[X] != null) {
-					if (P.Data.cache[X].substr(8, 19) == "OpponentLarge-Alt" + P.Alternate.toString() + "=") {
-						let From = P.Data.cache[X].substr(0, 3);
-						let To = P.Data.cache[X].substr(4, 3);
-						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
-							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
-								Images.push(P.Data.cache[X].substr(27, 100));
+				for (const key in P.Data.cache) {
+					const line = P.Data.cache[key] ?? "";
+					if (line.substr(8, 19) == "OpponentLarge-Alt" + P.Alternate.toString() + "=") {
+						let From = CommonParseInt(line.substr(0, 3));
+						let To = CommonParseInt(line.substr(4, 3));
+						if (From !== null && To !== null && Progress >= From && Progress <= To)
+							Images.push(line.substr(27, 100));
 					}
-					X++;
 				}
 			}
 			if (Images.length == 0) {
-				let X = 0;
-				while (P.Data.cache[X] != null) {
-					if (P.Data.cache[X].substr(8, 14) == "Opponent-Alt" + P.Alternate.toString() + "=") {
-						let From = P.Data.cache[X].substr(0, 3);
-						let To = P.Data.cache[X].substr(4, 3);
-						if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
-							if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
-								Images.push(P.Data.cache[X].substr(22, 100));
+				for (const key in P.Data.cache) {
+					const line = P.Data.cache[key] ?? "";
+					if (line.substr(8, 14) == "Opponent-Alt" + P.Alternate.toString() + "=") {
+						let From = CommonParseInt(line.substr(0, 3));
+						let To = CommonParseInt(line.substr(4, 3));
+						if (From !== null && To !== null && Progress >= From && Progress <= To)
+							Images.push(line.substr(22, 100));
 					}
-					X++;
 				}
 			}
 		}
 
 		// Sets the non alternative images
 		if ((PokerPlayerCount == 2) && (PokerMode != "")) {
-			let X = 0;
-			while (P.Data.cache[X] != null) {
-				if (P.Data.cache[X].substr(8, 14) == "OpponentLarge=") {
-					let From = P.Data.cache[X].substr(0, 3);
-					let To = P.Data.cache[X].substr(4, 3);
-					if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
-						if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
-							Images.push(P.Data.cache[X].substr(22, 100));
+			for (const key in P.Data.cache) {
+				const line = P.Data.cache[key] ?? "";
+				if (line.substr(8, 14) == "OpponentLarge=") {
+					let From = CommonParseInt(line.substr(0, 3));
+					let To = CommonParseInt(line.substr(4, 3));
+					if (From !== null && To !== null && Progress >= From && Progress <= To)
+						Images.push(line.substr(22, 100));
 				}
-				X++;
 			}
 		}
 		if (Images.length == 0) {
-			let X = 0;
-			while (P.Data.cache[X] != null) {
-				if (P.Data.cache[X].substr(8, 9) == "Opponent=") {
-					let From = P.Data.cache[X].substr(0, 3);
-					let To = P.Data.cache[X].substr(4, 3);
-					if (!isNaN(parseInt(From)) && !isNaN(parseInt(To)))
-						if ((Progress >= parseInt(From)) && (Progress <= parseInt(To)))
-							Images.push(P.Data.cache[X].substr(17, 100));
+			for (const key in P.Data.cache) {
+				const line = P.Data.cache[key] ?? "";
+				if (line.substr(8, 9) == "Opponent=") {
+					let From = CommonParseInt(line.substr(0, 3));
+					let To = CommonParseInt(line.substr(4, 3));
+					if (From !== null && To !== null && Progress >= From && Progress <= To)
+						Images.push(line.substr(17, 100));
 				}
-				X++;
 			}
 		}
 
@@ -365,31 +347,39 @@ function PokerRun() {
 		for (let P = 1; P < PokerPlayer.length; P++)
 			if (PokerPlayer[P].Type != "None") {
 				DrawBackNextButton(50 + P * 500, 840, 400, 60, PokerPlayer[P].Name, "White", "", () => "", () => "");
-				if ((PokerPlayer[P].WebLink == null) && (PokerPlayer[P].Data != null)) PokerPlayer[P].WebLink = PokerPlayer[P].Data.cache.WebLink;
+				if ((PokerPlayer[P].WebLink == null) && (PokerPlayer[P].Data != null)) PokerPlayer[P].WebLink = PokerPlayer[P].Data?.cache.WebLink;
 				if ((PokerPlayer[P].WebLink != null) && (PokerPlayer[P].WebLink != "")) DrawButton(50 + P * 500, 920, 400, 60, TextGet("VisitArtist"), "White");
 			}
 	}
 
 	// Draws the cards and chips
 	if ((PokerMode == "DEAL") || (PokerMode == "FLOP") || (PokerMode == "TURN") || (PokerMode == "RIVER") || (PokerMode == "RESULT")) {
-		for (let P = (PokerShowPlayer ? 0 : 1); P < PokerPlayer.length; P++)
-			if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && (PokerPlayer[P].Hand.length > 0)) {
-				DrawText(PokerPlayer[P].Name + ": " + PokerPlayer[P].Chip.toString(), (PokerShowPlayer ? 250 : 0) + P * 500, 682, "white", "gray");
-				if ((PokerPlayer[P].Family != "Player") && (PokerMode != "RESULT"))
+		for (let P = (PokerShowPlayer ? 0 : 1); P < PokerPlayer.length; P++) {
+			const player = PokerPlayer[P];
+			if (player.Type != "None" && player.Name != "None" && (player.Hand?.length ?? 0) > 0) {
+				DrawText(player.Name + ": " + player.Chip.toString(), (PokerShowPlayer ? 250 : 0) + P * 500, 682, "white", "gray");
+				if (player.Family != "Player" && PokerMode != "RESULT")
 					DrawImageEx("Screens/Room/Poker/Cards/OpponentCards.gif", MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 - 75, 720, {Zoom: 1.5});
 				else {
-					DrawImageEx(PokerCardFileName(PokerPlayer[P].Hand[0]), MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 - 135, 710, {Zoom: 0.6});
-					DrawImageEx(PokerCardFileName(PokerPlayer[P].Hand[1]), MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 + 20, 710, {Zoom: 0.6});
+					if (player.Hand?.[0])
+						DrawImageEx(PokerCardFileName(player.Hand[0]), MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 - 135, 710, {Zoom: 0.6});
+					if (player.Hand?.[1])
+						DrawImageEx(PokerCardFileName(player.Hand[1]), MainCanvas, (PokerShowPlayer ? 250 : 0) + P * 500 + 20, 710, {Zoom: 0.6});
 				}
 			}
-		if ((!PokerShowPlayer) && (PokerPlayer[0].Hand.length > 0)) {
+		}
+		if (!PokerShowPlayer && (PokerPlayer[0].Hand?.length ?? 0) > 0) {
 			DrawText(TextGet("Chip") + ": " + PokerPlayer[0].Chip.toString(), 1887, 970, "white", "gray");
 			if (PokerMode == "RESULT") {
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), MainCanvas, 50, 825, {Zoom: 0.6});
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), MainCanvas, 200, 825, {Zoom: 0.6});
+				if (PokerPlayer[0]?.Hand?.[0])
+					DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), MainCanvas, 50, 825, {Zoom: 0.6});
+				if (PokerPlayer[0]?.Hand?.[1])
+					DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), MainCanvas, 200, 825, {Zoom: 0.6});
 			} else {
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), MainCanvas, 25, 800, {Zoom: 1.25});
-				DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), MainCanvas, 250, 800, {Zoom: 1.25});
+				if (PokerPlayer[0]?.Hand?.[0])
+					DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[0]), MainCanvas, 25, 800, {Zoom: 1.25});
+				if (PokerPlayer[0]?.Hand?.[1])
+					DrawImageEx(PokerCardFileName(PokerPlayer[0].Hand[1]), MainCanvas, 250, 800, {Zoom: 1.25});
 			}
 		}
 	}
@@ -401,7 +391,7 @@ function PokerRun() {
 	}
 
 	// In deal mode, we allow the regular actions when the player can play
-	if (((PokerMode == "DEAL") || (PokerMode == "FLOP") || (PokerMode == "TURN") || (PokerMode == "RIVER")) && (PokerPlayer[0].Hand.length > 0)) {
+	if ((PokerMode == "DEAL" || PokerMode == "FLOP" || PokerMode == "TURN" || PokerMode == "RIVER") && (PokerPlayer[0].Hand?.length ?? 0) > 0) {
 		DrawText(TextGet("Pot") + " " + PokerPot.toString(), 1487, 970, "white", "gray");
 		DrawText(TextGet("Ante") + " " + PokerAnte.toString(), 1687, 970, "white", "gray");
 		DrawButton(1400, 875, 175, 60, TextGet("Bet"), "White");
@@ -410,7 +400,7 @@ function PokerRun() {
 	}
 
 	// In deal mode, we can only watch without a hand
-	if ((PokerMode == "DEAL") && (PokerPlayer[0].Hand.length == 0)) {
+	if (PokerMode == "DEAL" && PokerPlayer[0].Hand?.length == 0) {
 		DrawText(TextGet("Ante") + " " + PokerAnte.toString(), 1887, 970, "white", "gray");
 		DrawButton(1800, 875, 175, 60, TextGet("Watch"), "White");
 	}
@@ -436,14 +426,14 @@ function PokerRun() {
  * @returns {void} - Nothing
  */
 function PokerClearData(P) {
-	P.Difficulty = null;
-	P.Data = null;
-	P.Image = null;
-	P.TextColor = null;
-	P.TextSingle = null;
-	P.TextMultiple = null;
-	P.WebLink = null;
-	P.Alternate = null;
+	delete P.Difficulty;
+	delete P.Data;
+	delete P.Image;
+	delete P.TextColor;
+	delete P.TextSingle;
+	delete P.TextMultiple;
+	delete P.WebLink;
+	delete P.Alternate;
 }
 
 /**
@@ -452,7 +442,7 @@ function PokerClearData(P) {
  * @returns {boolean}
  */
 function PokerChallengeUnlocked(Opponent) {
-	if (Player.Game.Poker.Challenge == null) return false;
+	if (Player.Game.Poker?.Challenge == null) return false;
 	let OpponentPos = PokerChallenge.indexOf(Opponent);
 	let ProgressPos = PokerChallenge.indexOf(Player.Game.Poker.Challenge);
 	return (ProgressPos >= OpponentPos);
@@ -514,7 +504,7 @@ function PokerChangeOpponent(P, Next) {
  * @returns {PokerPlayer} - Nothing
  */
 function PokerNextChallenge() {
-	let ProgressPos = PokerChallenge.indexOf(Player.Game.Poker.Challenge) + 1;
+	let ProgressPos = PokerChallenge.indexOf(Player.Game.Poker?.Challenge ?? "Sarah") + 1;
 	if (ProgressPos <= PokerChallenge.length)
 		for (let A = 0; A < PokerAsset.length; A++)
 			for (let O = 0; O < PokerAsset[A].Opponent.length; O++)
@@ -556,12 +546,13 @@ function PokerClick() {
 	if (MouseIn(1885, 265, 90, 90) && (PokerMode == "")) {
 		PokerPlayerCount = 0;
 		for (let P = 0; P < PokerPlayer.length; P++) {
-			if (PokerPlayer[P].Type == "Character") {
-				PokerPlayer[P].Cloth = InventoryGet(PokerPlayer[P].Character, "Cloth");
-				PokerPlayer[P].ClothLower = InventoryGet(PokerPlayer[P].Character, "ClothLower");
-				PokerPlayer[P].ClothAccessory = InventoryGet(PokerPlayer[P].Character, "ClothAccessory");
-				PokerPlayer[P].Panties = InventoryGet(PokerPlayer[P].Character, "Panties");
-				PokerPlayer[P].Bra = InventoryGet(PokerPlayer[P].Character, "Bra");
+			const player = PokerPlayer[P];
+			if (player.Type == "Character" && player.Character) {
+				player.Cloth = InventoryGet(player.Character, "Cloth");
+				player.ClothLower = InventoryGet(player.Character, "ClothLower");
+				player.ClothAccessory = InventoryGet(player.Character, "ClothAccessory");
+				player.Panties = InventoryGet(player.Character, "Panties");
+				player.Bra = InventoryGet(player.Character, "Bra");
 			}
 			PokerGetText(PokerPlayer[P], "Intro");
 			if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None")) PokerPlayerCount++;
@@ -577,16 +568,17 @@ function PokerClick() {
 
 	// If we can process to the next step
 	let modeCheck = ["DEAL", "FLOP", "TURN", "RIVER"].includes(PokerMode);
-	if (MouseIn(1400, 875, 175, 60) && modeCheck && (PokerPlayer[0].Hand.length > 0))
+	const handSize = PokerPlayer[0].Hand?.length ?? 0;
+	if (MouseIn(1400, 875, 175, 60) && modeCheck && handSize > 0)
 		PokerProcess("Bet");
 
-	if (MouseIn(1600, 875, 175, 60) && modeCheck && (PokerPlayer[0].Hand.length > 0))
+	if (MouseIn(1600, 875, 175, 60) && modeCheck && handSize > 0)
 		PokerProcess("Raise");
 
-	if (MouseIn(1800, 875, 175, 60) && modeCheck && (PokerPlayer[0].Hand.length > 0))
+	if (MouseIn(1800, 875, 175, 60) && modeCheck && handSize > 0)
 		PokerProcess("Fold");
 
-	if (MouseIn(1800, 875, 175, 60) && modeCheck && (PokerPlayer[0].Hand.length <= 0))
+	if (MouseIn(1800, 875, 175, 60) && modeCheck && handSize <= 0)
 		PokerProcess("Watch");
 
 	if (MouseIn(1800, 875, 175, 60) && (PokerMode == "RESULT"))
@@ -611,7 +603,7 @@ function PokerKeyDown(event) {
 	if (event.repeat || CommonKey.GetModifiers(event)) return false;
 
 	let modeCheck = ["DEAL", "FLOP", "TURN", "RIVER"].includes(PokerMode);
-	let handSize = PokerPlayer[0].Hand.length;
+	let handSize = PokerPlayer[0].Hand?.length ?? 0;
 
 	if ((event.key === "B" || event.key === "b") && modeCheck && handSize > 0) {
 		PokerProcess("Bet"); // B to bet
@@ -648,8 +640,7 @@ function PokerExit() {
 function PokerDrawCard(PP) {
 
 	// Tries to assign the difficulty
-	if ((PP.Difficulty == null) && (PP.Data != null) && (PP.Data.cache != null) && (PP.Data.cache.Difficulty != null))
-		PP.Difficulty = parseInt(PP.Data.cache.Difficulty);
+	PP.Difficulty ??= CommonParseInt(PP.Data?.cache.Difficulty ?? "0") ?? 0;
 
 	// Draw until we find a valid card
 	let Draw = true;
@@ -660,7 +651,7 @@ function PokerDrawCard(PP) {
 		Draw = false;
 		Card = Math.floor(Math.random() * 52) + 1;
 		for (let P = 0; P < PokerPlayer.length; P++)
-			if (PokerPlayer[P].Hand.indexOf(Card) >= 0)
+			if ((PokerPlayer[P].Hand?.indexOf(Card) ?? -1) >= 0)
 				Draw = true;
 
 		// On low difficulty, cannot draw a high card, on high, cannot draw a low card
@@ -671,7 +662,7 @@ function PokerDrawCard(PP) {
 	}
 
 	// Add that card to the player hand
-	PP.Hand.push(Card);
+	PP.Hand?.push(Card);
 
 }
 
@@ -701,7 +692,7 @@ function PokerTableDraw() {
 		Draw = false;
 		Card = Math.floor(Math.random() * 52) + 1;
 		for (let P = 0; P < PokerPlayer.length; P++)
-			if (PokerPlayer[P].Hand.indexOf(Card) >= 0)
+			if ((PokerPlayer[P].Hand?.indexOf(Card) ?? -1) >= 0)
 				Draw = true;
 		if (PokerTableCards.indexOf(Card) >= 0)
 			Draw = true;
@@ -714,6 +705,8 @@ function PokerTableDraw() {
 
 /**
  * When all players chip in the pot
+ * @param {number} Multiplier
+ * @param {number} StartPos
  * @returns {void} - Nothing
  */
 function PokerAddPot(Multiplier, StartPos) {
@@ -733,11 +726,13 @@ function PokerAddPot(Multiplier, StartPos) {
 function PokerChallengeDone() {
 	if ((PokerPlayerCount == 2) && (PokerPlayer[2].Type != "None") && (PokerPlayer[2].Name != "None")) {
 		let OpponentPos = PokerChallenge.indexOf(PokerPlayer[2].Name);
-		let ProgressPos = PokerChallenge.indexOf(Player.Game.Poker.Challenge);
+		let ProgressPos = PokerChallenge.indexOf(Player.Game.Poker?.Challenge ?? "");
 		if (OpponentPos > ProgressPos) {
 			let Money = 4 + OpponentPos;
 			CharacterChangeMoney(Player, Money);
 			PokerMessage = TextGet("WinChallenge").replace("MoneyAmount", Money.toString()).replace("OpponentName", PokerPlayer[2].Name);
+			Player.Game ??= {};
+			Player.Game.Poker ??= {};
 			Player.Game.Poker.Challenge = PokerPlayer[2].Name;
 			ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 		}
@@ -747,7 +742,7 @@ function PokerChallengeDone() {
 /**
  * Process an action to advance the poker game
  * @param {string} Action - Bet, Raise, Fold or Watch
- * @returns {string} - The file name of the card image
+ * @returns {void}
  */
 function PokerProcess(Action) {
 
@@ -795,11 +790,11 @@ function PokerProcess(Action) {
 	let Winner = 0;
 	let MaxValue = -1;
 	for (let P = 0; P < PokerPlayer.length; P++)
-		if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && (PokerPlayer[P].Hand.length > 0)) {
-			PokerPlayer[P].HandValue = PokerHandValueCalcHandValue(PokerPlayer[P].Hand[0], PokerPlayer[P].Hand[1], PokerGame, PokerMode, PokerTableCards);
+		if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && ((PokerPlayer[P].Hand?.length ?? 0) > 0)) {
+			PokerPlayer[P].HandValue = PokerHandValueCalcHandValue(PokerPlayer[P].Hand?.[0] ?? 0, PokerPlayer[P].Hand?.[1] ?? 0, PokerGame, PokerMode, PokerTableCards);
 			if ((P == 0) && (Action == "Fold")) PokerPlayer[P].HandValue = -1;
-			if (PokerPlayer[P].HandValue > MaxValue) {
-				MaxValue = PokerPlayer[P].HandValue;
+			if ((PokerPlayer[P].HandValue ?? 0) > MaxValue) {
+				MaxValue = PokerPlayer[P].HandValue ?? 0;
 				Winner = P;
 			}
 		}
@@ -807,10 +802,10 @@ function PokerProcess(Action) {
 	// Gets the number of winners and split the chips between them
 	let WinnerCount = 0;
 	for (let P = 0; P < PokerPlayer.length; P++)
-		if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && (PokerPlayer[P].Hand.length > 0) && (PokerPlayer[P].HandValue == MaxValue))
+		if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && ((PokerPlayer[P].Hand?.length ?? 0) > 0) && (PokerPlayer[P].HandValue == MaxValue))
 			WinnerCount++;
 	for (let P = 0; P < PokerPlayer.length; P++)
-		if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && (PokerPlayer[P].Hand.length > 0) && (PokerPlayer[P].HandValue == MaxValue))
+		if ((PokerPlayer[P].Type != "None") && (PokerPlayer[P].Name != "None") && ((PokerPlayer[P].Hand?.length ?? 0) > 0) && (PokerPlayer[P].HandValue == MaxValue))
 			PokerPlayer[P].Chip = PokerPlayer[P].Chip + Math.floor(PokerPot / WinnerCount);
 	PokerMessage = (WinnerCount > 1) ? TextGet("SplitPot") : (PokerPlayer[Winner].Name + " " + TextGet("Win"));
 

@@ -4072,11 +4072,11 @@ interface PokerPlayer {
 	Difficulty?: number;
 	Hand?: PokerHand;
 	HandValue?: number;
-	Cloth?: Item;
-	ClothLower?: Item;
-	ClothAccessory?: Item;
-	Panties?: Item;
-	Bra?: Item;
+	Cloth?: Item | null;
+	ClothLower?: Item | null;
+	ClothAccessory?: Item | null;
+	Panties?: Item | null;
+	Bra?: Item | null;
 	Character?: Character;
 	Data?: TextCache;
 	Image?: string;
