@@ -751,8 +751,13 @@ var CraftingEventListeners = {
 			return;
 		}
 		const craft = CraftingConvertSelectedToItem(CraftingSelectedItem);
-		navigator.clipboard.writeText(LZString.compressToBase64(JSON.stringify(craft)));
-		alert(TextGet("DownloadSuccess"));
+		CommonClipboardWrite(LZString.compressToBase64(JSON.stringify(craft)), (res) => {
+			if (res.ok) {
+				ToastManager.success("DownloadSuccess");
+			} else {
+				ToastManager.error("DownloadFailed");
+			}
+		});
 	},
 
 	/**

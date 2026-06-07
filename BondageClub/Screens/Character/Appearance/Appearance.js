@@ -1654,11 +1654,11 @@ function AppearanceMenuClick(C) {
 					if (Button === "Character")  AppearanceUseCharacterInPreviewsSetting = !AppearanceUseCharacterInPreviewsSetting;
 					if (Button === "Copy") CharacterAppearanceCopyToClipboard(C);
 					if (Button === "Paste") {
-						try {
-							navigator.clipboard.readText().then(ClipData => CharacterAppearancePaste(C, ClipData, false));
-						} catch (err) {
-							console.error('Failed to read clipboard contents:', err);
-						}
+						CommonClipboardRead((res) => {
+							if (res.ok && res.value) {
+								CharacterAppearancePaste(C, res.value, false);
+							}
+						});
 					}
 					if (Button === "Prev") CharacterAppearanceMoveGroup(C, -1);
 					if (Button === "Next") CharacterAppearanceMoveGroup(C, 1);
@@ -2128,7 +2128,7 @@ function CharacterAppearanceCopyToClipboard(C) {
 	if (App.length == 0) return;
 	let S = JSON.stringify(App);
 	S = LZString.compressToBase64(S);
-	navigator.clipboard.writeText(S);
+	CommonClipboardWrite(S);
 	ChatRoomSendLocal(InterfaceTextGet("AppCopyDone"));
 
 }

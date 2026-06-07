@@ -2588,13 +2588,13 @@ function ChatRoomMapViewCopy() {
 		return;
 	}
 
-	navigator.clipboard
-		.writeText(mapString)
-		.then(() => ChatRoomSendLocal(TextGet("MapCopyDone")))
-		.catch((e) => {
-			console.error("Map copy error:", e);
+	CommonClipboardWrite(mapString, (res) => {
+		if (res.err) {
 			ChatRoomSendLocal(TextGet("MapCopyError"));
-		});
+			return;
+		}
+		ChatRoomSendLocal(TextGet("MapCopyDone"));
+	});
 }
 
 /**
