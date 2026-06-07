@@ -1173,12 +1173,13 @@ function TranslationLoadDialog(C, cb) {
 
 	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
 	if (TranslationAvailable(FullPath)) {
-		CommonGet(FullPath, function() {
-			if (this.status == 200) {
-				TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+		CommonFetch(FullPath)
+			.then(async (response) => {
+				if (response.status !== 200) return;
+				const text = await response.text();
+				TranslationCache[FullPath] = TranslationParseTXT(text);
 				cb();
-			}
-		});
+			});
 	}
 }
 
@@ -1216,13 +1217,15 @@ function TranslationText(Text) {
 		}
 
 		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+		if (TranslationAvailable(FullPath)) {
+			CommonFetch(FullPath)
+				.then(async (response) => {
+					if (response.status !== 200) return;
+					const text = await response.text();
+					TranslationCache[FullPath] = TranslationParseTXT(text);
 					TranslationTextArray(Text, TranslationCache[FullPath]);
-				}
-			});
+				});
+		}
 
 	}
 
@@ -1263,14 +1266,15 @@ function TranslationAsset(Family) {
 		}
 
 		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+		if (TranslationAvailable(FullPath)) {
+			CommonFetch(FullPath)
+				.then(async (response) => {
+					if (response.status !== 200) return;
+					const text = await response.text();
+					TranslationCache[FullPath] = TranslationParseTXT(text);
 					TranslationAssetProcess(TranslationCache[FullPath]);
-				}
-			});
-
+				});
+		}
 	}
 
 }

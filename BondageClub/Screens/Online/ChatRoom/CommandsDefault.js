@@ -880,11 +880,11 @@ const CommonCommands = [
 				}
 			}
 
-			CommonGet("./changelog.html", (xhr) => {
-				if (xhr.status === 200) {
-					CommandsChangelog.Publish(xhr.responseText, { id: "chat-room-changelog", startID, stopID });
-				}
-			});
+			CommonFetch("./changelog.html")
+				.then(async (response) => {
+					if (response.status !== 200) return;
+					CommandsChangelog.Publish(await response.text(), { id: "chat-room-changelog", startID, stopID });
+				});
 		},
 	},
 	{

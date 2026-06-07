@@ -292,20 +292,20 @@ class TextCache {
 		}
 		this.log("fetchCsv: fetching from server");
 		return new Promise((resolve, reject) => {
-			CommonFetch(this.path).then(response => {
-				if (response.status !== 200) {
-					// We say we're loaded even though that's wrong because we want `.get()`
-					// to return the "MISSING" string
-					this.loaded = true;
-					reject(`Failed to fetch csv file "${this.path}"`);
-					return;
-				}
-				response.text().then((data => {
+			CommonFetch(this.path)
+				.then(async (response) => {
+					if (response.status !== 200) {
+						// We say we're loaded even though that's wrong because we want `.get()`
+						// to return the "MISSING" string
+						this.loaded = true;
+						reject(new Error(`Failed to fetch csv file "${this.path}"`));
+						return;
+					}
+					const data = await response.text();
 					CommonCSVCache[this.path] = CommonParseCSV(data);
 					this.log("fetchCsv: parsing");
 					return resolve(CommonCSVCache[this.path]);
-				}));
-			});
+				});
 		});
 	}
 
@@ -342,16 +342,16 @@ class TextCache {
 			return Promise.resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
 		} else {
 			this.log(`translate: fetching translation from ${translationPath}`);
-			return new Promise((resolve) => {
-				CommonGet(translationPath, (xhr) => {
-					if (xhr.status === 200) {
+			return CommonFetch(translationPath)
+				.then(async (response) => {
+					if (response.status === 200) {
 						this.log(`translate: parsing translation`);
-						TranslationCache[translationPath] = TranslationParseTXT(xhr.responseText);
-						return resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
+						const text = await response.text();
+						TranslationCache[translationPath] = TranslationParseTXT(text);
+						return this.buildTranslations(lines, TranslationCache[translationPath]);
 					}
-					return resolve(lines);
+					return lines;
 				});
-			});
 		}
 	}
 
