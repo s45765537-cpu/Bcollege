@@ -21,6 +21,20 @@ type MemoizedFunction<T extends AnyFunction> = T & {
 	clearCache(): void;
 };
 
+/**
+ * This is a typealias for Promise that indicates to eslint that that kind of promise
+ * can skip needing a .catch/never throws or does so in so scuh extraordinary conditions
+ * that it can be bubbled up.
+ *
+ * A good example of that is {@link CommonSetScreen}, where it'll only fail if the screen
+ * configuration is missing callbacks, meaning something's severely wrong with the browser's
+ * loading. The one "runtime" case for it (the loading of the screen's text translation),
+ * is actually silenced there, so it won't bubble up.
+ *
+ * This allows skipping all the places that call CommonSetScreen from having to handle a `.catch`.
+ */
+type SafePromise<T> = Promise<T>;
+
 // GL shim
 interface WebGLTextureData {
 	width: number,

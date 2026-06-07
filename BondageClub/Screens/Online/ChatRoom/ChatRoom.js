@@ -1129,7 +1129,7 @@ var ChatRoomSep = {
 	 * Uncollapse the passed room separator
 	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 */
-	Uncollapse: async function Uncollapse(roomSep) {
+	Uncollapse: function Uncollapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
 		if (!button || button.getAttribute("aria-expanded") === "true") {
 			return;
@@ -1154,7 +1154,7 @@ var ChatRoomSep = {
 	 * Collapse the passed room separator
 	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 */
-	Collapse: async function Collapse(roomSep) {
+	Collapse: function Collapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
 		if (!button || button.getAttribute("aria-expanded") === "false") {
 			return;
@@ -1174,7 +1174,7 @@ var ChatRoomSep = {
 	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 * @param {Pick<ServerChatRoomData, "Name" | "Visibility" | "Space">} data - The data of the room
 	 */
-	SetRoomData: async function SetRoomData(roomSep, data) {
+	SetRoomData: function SetRoomData(roomSep, data) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
 		if (!button) {
 			return;
@@ -1187,7 +1187,7 @@ var ChatRoomSep = {
 	},
 
 	/** Update all the displayed room names based on the player's degree of sensory deprivation. */
-	UpdateDisplayNames: async function UpdateDisplayNames() {
+	UpdateDisplayNames: function UpdateDisplayNames() {
 		const roomLabels = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep-header")));
 		roomLabels.forEach(e => e.replaceChildren(...ChatRoomSep._GetDisplayName(e)));
 	},

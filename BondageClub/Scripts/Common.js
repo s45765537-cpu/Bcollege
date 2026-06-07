@@ -590,7 +590,7 @@ var ScreenIsLoading = false;
 /**
  * Sets the current screen and calls the loading script if needed
  * @param {ScreenSpecifier} spec
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
 async function CommonSetScreen(...spec) {
 	const { recursive } = spec[2] ?? {};

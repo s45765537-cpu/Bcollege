@@ -591,6 +591,7 @@ function FriendListBeepMenuSend() {
 /**
  * Shows the wanted beep on click from beep list
  * @param {number} i index of the beep
+ * @returns {SafePromise<void>}
  */
 async function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
@@ -1520,6 +1521,7 @@ function FriendListCanAdd(memberNumber) {
 
 /**
  * Opens the friendlist from any screen
+ * @returns {SafePromise<void>}
  */
 async function FriendListShow() {
 	if (CurrentScreen === 'FriendList') return;

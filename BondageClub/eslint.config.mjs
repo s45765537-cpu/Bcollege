@@ -79,8 +79,6 @@ const customRules = {
 	"@typescript-eslint/unbound-method": "off",
 	"@typescript-eslint/require-await": "off",
 
-	"@typescript-eslint/no-floating-promises": "off",
-
 	"no-trailing-spaces": "warn",
 	semi: "warn",
 
@@ -108,6 +106,12 @@ const customRules = {
 /** Rules that need `parserOptions.projectService` — only use on `typedFiles`. */
 const typedOnlyRules = {
 	"@typescript-eslint/restrict-template-expressions": ["error", { allowArray: true }],
+
+	"@typescript-eslint/no-floating-promises": ["error", {
+		"allowForKnownSafePromises": [
+			{ "from": "file", "name": "SafePromise" },
+		],
+	}],
 };
 
 export default defineConfig([
