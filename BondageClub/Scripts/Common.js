@@ -319,9 +319,9 @@ function CommonRequestParseRetryAfter(value) {
  * @returns {Promise<Response>}
  */
 async function CommonFetch(request) {
-	const isRequestObject = CommonIsObject(request) && typeof request === 'object' && "method" in request;
-	const method = isRequestObject && request.method || "GET";
-	const url = isRequestObject && request.url || request;
+	const isRequestObject = request instanceof Request;
+	const method = isRequestObject ? request.method : "GET";
+	const url = isRequestObject ? request.url : request;
 
 	for (let attempt = 0; attempt <= FETCH_MAX_RETRIES; attempt++) {
 		let retryAfter;
@@ -1783,7 +1783,7 @@ function CommonProperty(propertyName, getter=undefined, setter=undefined) {
 	/** @type {Record<string, any>} */
 	const windowNamespace = window;
 	if (windowNamespace[propertyName] !== undefined) {
-		throw new Error(`The name ${setter} already exists.`);
+		throw new Error(`The name ${propertyName} already exists.`);
 	}
 
 	getter ??= function(){ throw Error(`Property "${propertyName}" has no getter defined`); };

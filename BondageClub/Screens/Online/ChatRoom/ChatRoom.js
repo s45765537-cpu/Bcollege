@@ -5519,8 +5519,8 @@ function ChatRoomSyncItem(data) {
  */
 function ChatRoomRefreshChatSettings() {
 	if (Player.ChatSettings) {
-		for (let property in Player.ChatSettings)
-			ElementSetDataAttribute("TextAreaChatLog", property, Player.ChatSettings[property]);
+		for (let property of CommonKeys(Player.ChatSettings))
+			ElementSetDataAttribute("TextAreaChatLog", property, `${Player.ChatSettings[property]}`);
 
 		ChatRoomSep.UpdateDisplayNames();
 		if (Player.GameplaySettings &&

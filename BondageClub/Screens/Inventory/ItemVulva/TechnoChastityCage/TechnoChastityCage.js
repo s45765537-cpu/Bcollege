@@ -85,7 +85,7 @@ function InventoryItemVulvaTechnoChastityCageClickHook(data, OriginalFunction) {
 
 /**
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset How many pixels down will the UI be shifted
  */
 function InventoryItemVulvaChastityCageDrawVoiceControl(item, _offset) {
 	//Create inputs
@@ -127,7 +127,7 @@ function InventoryItemVulvaTechnoChastityCageExitHook(data, originalFunction) {
 /**
  * @param {Character} C
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset How many pixels down will the UI be shifted
  */
 function InventoryItemVulvaTechnoChastityCageClickVoiceControl(C, item, _offset){
 	//Click Save
@@ -244,7 +244,7 @@ function InventoryItemVulvaTechnoChastityCagePropertiesCheck(item) {
 
 /**
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemVulvaChastityCageScriptDrawArousalPunishment(item, _offset) {
 	// Display option information
@@ -284,7 +284,7 @@ function InventoryItemVulvaChastityCageNextArousalPunishmentMode(current) {
 /**
  * @param {Character} C
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemVulvaChastityCageClickArousalPunishment(C, item, _offset) {
 	const property = (item.Property ??= {});

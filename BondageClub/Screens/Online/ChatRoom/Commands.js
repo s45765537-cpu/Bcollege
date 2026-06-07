@@ -748,7 +748,7 @@ var CommandsHelp = {
 			children: [
 				buildSectionHeader("Arguments:", commandArguments.length > 0),
 				...commandArguments.flatMap((arg, argIndex) =>
-				/** @type {HTMLOptionsUnion} */
+					/** @type {HTMLOptionsUnion} */
 					({
 						tag: "section",
 						classList: ["commands-command-arguments"],
@@ -781,9 +781,7 @@ var CommandsHelp = {
 								],
 							}
 						]
-					})
-
-				),
+					})),
 			],
 		});
 

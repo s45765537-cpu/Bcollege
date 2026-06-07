@@ -2730,7 +2730,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 		if (!assets.some(a => Validate(Craft, a, checkPlayerInventory))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
-				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
+				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}":`, AttrValue);
 			}
 			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory));
 			StatusMap.set(AttrName, StatusCode);

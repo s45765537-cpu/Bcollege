@@ -1774,7 +1774,7 @@ function sanitizeVMOutput(input) {
 				const source = trace ? trace.split("\n")[2].trim() : "";
 				logOutput.warn.push([source, ...args]);
 			},
-			// eslint-disable-next-line no-shadow
+			// eslint-disable-next-line @typescript-eslint/no-shadow
 			error: function error(...args) {
 				const trace = (new Error()).stack;
 				const source = trace ? trace.split("\n")[2].trim() : "";

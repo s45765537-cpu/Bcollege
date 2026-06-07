@@ -240,6 +240,7 @@ function DialogGetCharacter(C) {
 			return CurrentCharacter;
 		default:
 			if (typeof C === "string") {
+				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 				throw new Error(`Unknown character type "${C}"`);
 			} else {
 				return C;
@@ -960,6 +961,7 @@ function DialogMenuBack() {
 			break;
 
 		default:
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			console.trace(`Unknown menu mode "${DialogMenuMode}, resetting`);
 			DialogLeave();
 			break;
@@ -2211,6 +2213,7 @@ function DialogChangeMode(mode, reset=false) {
 		}
 
 		default:
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			console.error(`Asked to change to mode ${DialogMenuMode}, but setup missing`);
 			break;
 	}

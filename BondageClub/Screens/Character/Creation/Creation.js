@@ -302,6 +302,7 @@ function CreationResponse(data) {
 			CommonSetScreen("Room", "MainHall");
 
 		} else {
+			// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
 			CreationMessage = TextGet("Error") + " " + data.ServerAnswer;
 		}
 	} else {

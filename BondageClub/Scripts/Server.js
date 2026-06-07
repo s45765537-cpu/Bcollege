@@ -171,7 +171,7 @@ function ServerIsLoggedIn() {
  */
 async function ServerIsLoggedInAsync() {
 	await GameReadyState.load;
-	if (!GameReadyState.login) {
+	if (typeof GameReadyState.login === "undefined") {
 		// An unreachable path under normal circumstances as the property is
 		// assigned via `GameStart()` -> `ServerInit()` in synchronous fashion
 		throw new Error("GameReadyState.login is undefined");
