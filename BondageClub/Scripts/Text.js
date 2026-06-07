@@ -128,7 +128,7 @@ function TextSubstitute(textTag, replacers, options) {
 const InterfaceStringsPath = "Screens/Interface.csv";
 
 /**
- * @param {string} msg
+ * @param {TextKeysInterface} msg
  * @returns {string}
  */
 function InterfaceTextGet(msg) {
