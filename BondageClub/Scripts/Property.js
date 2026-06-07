@@ -113,7 +113,7 @@ function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIco
  * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @param {number} XOffset - An offset for all text and slider X coordinates
  * @param {number} YOffset - An offset for all text and slider Y coordinates
- * @param {string} LabelKeyword - The keyword of the opacity label
+ * @param {TextKeysInterface} LabelKeyword - The keyword of the opacity label
  * @returns {void} Nothing
  * @satisfies {ExtendedItemScriptHookCallbacks.Draw<any>}
  */

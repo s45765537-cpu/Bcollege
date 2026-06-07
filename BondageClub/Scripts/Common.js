@@ -50,11 +50,11 @@ const CommonChatTags = {
  * An enum holding values of time units that might be used with their respective label of Interface.csv and seconds
  * contained in said time unit.
  */
-const TimeUnits = {
+const TimeUnits = /** @type {const} */({
 	MINUTES: { label: "Minutes", seconds: 60 },
 	HOURS: { label: "Hours", seconds: 3600 },
 	DAYS: { label: "Days", seconds: 86400 },
-};
+});
 
 /** @type {(this: string, index: number, character: string) => string} */
 String.prototype.replaceAt=function(index, character) {
@@ -2308,13 +2308,13 @@ function CommonFormatDurationRange(end, start, options = {}) {
 
 	/** @type {[string, boolean, number][]} */
 	const pairs = [
-		[InterfaceTextGet("DurationFormatYear" + full), includeYears, years],
-		[InterfaceTextGet("DurationFormatMonth" + full), includeMonths, months],
-		[InterfaceTextGet("DurationFormatWeek" + full), includeWeeks, weeks],
-		[InterfaceTextGet("DurationFormatDay" + full), includeDays, days],
-		[InterfaceTextGet("DurationFormatHour" + full), includeHours, hours],
-		[InterfaceTextGet("DurationFormatMinute" + full), includeMinutes, minutes],
-		[InterfaceTextGet("DurationFormatSecond" + full), includeSeconds, seconds],
+		[InterfaceTextGet(`DurationFormatYear${full}`), includeYears, years],
+		[InterfaceTextGet(`DurationFormatMonth${full}`), includeMonths, months],
+		[InterfaceTextGet(`DurationFormatWeek${full}`), includeWeeks, weeks],
+		[InterfaceTextGet(`DurationFormatDay${full}`), includeDays, days],
+		[InterfaceTextGet(`DurationFormatHour${full}`), includeHours, hours],
+		[InterfaceTextGet(`DurationFormatMinute${full}`), includeMinutes, minutes],
+		[InterfaceTextGet(`DurationFormatSecond${full}`), includeSeconds, seconds],
 	]
 		.filter(([, enabled]) => enabled)
 		.map(([label, , value]) => /** @type {[string, boolean, number]} */ ([label, true, value]));
@@ -2499,6 +2499,15 @@ function CommonStringSplice(string, index, value, defaultValue) {
 		string = string + defaultValue.repeat(Math.ceil((index - string.length) / defaultValue.length));
 	}
 	return string.substring(0, index) + value + string.substring(index + value.length);
+}
+
+/**
+ * Check whether the passed inventory icon belongs to a padlock
+ * @param {InventoryIcon} icon
+ * @returns {icon is AssetLockType}
+ */
+function CommonIsPadlockIcon(icon) {
+	return icon.endsWith("Padlock");
 }
 
 /**

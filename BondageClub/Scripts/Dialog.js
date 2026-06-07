@@ -3400,7 +3400,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 			) {
 				return null;
 			} else if (clickedItem.Asset.SelfBondage <= 10) {
-				return InterfaceTextGet(`RequireSelfBondage${clickedItem.Asset.SelfBondage}`);
+				return InterfaceTextGet("RequireSelfBondage").replace("ReqLevel", clickedItem.Asset.SelfBondage.toString());
 			} else {
 				return InterfaceTextGet("CannotUseOnSelf");
 			}
@@ -4446,7 +4446,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 	clickStatusCallbacks = {
 		CharacterIsExpressionAllowed: (C, clickedItem, equippedItem) => {
 			const status = !!equippedItem && CharacterIsExpressionDisallowed(C, equippedItem, clickedItem.Expression);
-			return status ? InterfaceTextGet(`Prerequisite${status}`) : null;
+			return status ? InterfaceTextGet(`Prerequisite${status}`).replace("{Expression}", clickedItem.Expression) : null;
 		},
 	};
 
@@ -5308,8 +5308,8 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, parameters, options) {
-		/** @type {[name: LogNameType[LogGroupType], group: LogGroupType, logValue?: boolean][]} */
-		const rules = [
+		/** @satisfies {[name: LogNameType[LogGroupType], group: LogGroupType, logValue?: boolean][]} */
+		const rules = /** @type {const} */([
 			["BlockOwnerLockSelf", "OwnerRule"],
 			["BlockChange", "OwnerRule", true],
 			["BlockWhisper", "OwnerRule"],
@@ -5321,7 +5321,7 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 			["BlockNickname", "OwnerRule"],
 			["BlockLoverLockSelf", "LoverRule"],
 			["BlockLoverLockOwner", "LoverRule"],
-		];
+		]);
 
 		const children = rules.map(([name, group, logValue]) => {
 			const val = LogValue(name, group);

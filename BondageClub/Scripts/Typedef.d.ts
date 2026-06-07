@@ -361,7 +361,7 @@ type DialogMenuButtonType = "Activity" |
 	"Layering" |
 	"Lock" | "LockDisabled" | "LockMenu" |
 	`PickLock${PickLockAvailability}` |
-	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
+	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${Exclude<VibratorRemoteAvailability, "Available" | "InvalidItem">}` |
 	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen"
 	;
 
@@ -493,6 +493,7 @@ type DialogStruggleActionType = "ActionUse" | "ActionSwap" | "ActionRemove" | "A
 type CharacterType = "player" | "online" | "npc" | "simple";
 
 type CharacterPronouns = "SheHer" | "HeHim" | "TheyThem" | "ItIt";
+type CharacterPronounType = "Possessive" | "Self" | "Subject" | "Object";
 
 type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 
@@ -1554,6 +1555,10 @@ interface InventoryBundle {
 }
 interface InventoryItem extends InventoryBundle {
 	Asset: Asset;
+}
+
+declare namespace InventoryPrerequisiteConflicts {
+	type ErrMessage = "" | "CannotBeUsedOverGag" | "MustBeUsedOverGag";
 }
 
 type SkillType = "Bondage" | "SelfBondage" | "LockPicking" | "Evasion" | "Willpower" | "Infiltration" | "Dressage";
