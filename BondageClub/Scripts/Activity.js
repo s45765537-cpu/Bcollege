@@ -1,7 +1,9 @@
 "use strict";
-/** @type {string[][]} */
-// @ts-ignore Strict-TS: Lying here because that's loaded by Login
-var ActivityDictionary = null;
+/**
+ * @type {string[][]}
+ * @deprecated
+ */
+var ActivityDictionary = [];
 var ActivityOrgasmGameButtonX = 0;
 var ActivityOrgasmGameButtonY = 0;
 var ActivityOrgasmGameProgress = 0;
@@ -11,7 +13,10 @@ var ActivityOrgasmGameTimer = 0;
 var ActivityOrgasmResistLabel = "";
 var ActivityOrgasmRuined = false; // If set to true, the orgasm will be ruined right before it happens
 
-/** @type { (() => void) | undefined } */
+/**
+ * @type { (() => void) | undefined }
+ * @deprecated
+ */
 let ActivityTranslateResolve = undefined;
 
 let ActivityDebug = false;
@@ -39,52 +44,15 @@ function ActivityAllowed() {
  * @return {void} - Nothing
  */
 function ActivityDictionaryLoad() {
-
-	// Tries to read it from cache first
-	var FullPath = "Screens/Character/Preference/ActivityDictionary.csv";
-	var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
-
-	if (CommonCSVCache[FullPath]) {
-		ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
-	} else {
-		// Opens the file, parse it and returns the result in an object
-		CommonGet(FullPath, function () {
-			if (this.status == 200) {
-				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-				ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
-				ActivityTranslateResolve?.();
-			}
-		});
-	}
-
-	// If a translation file is available, we open the txt file and keep it in cache
-	if (TranslationAvailable(TranslationPath))
-		CommonGet(TranslationPath, function () {
-			if (this.status == 200) {
-				TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
-				ActivityTranslate(TranslationPath);
-			}
-		});
+	TextPrefetchFile(ScreenFileGetPath("ActivityDictionary.csv", "Character", "Preference"));
 }
 
 /**
  * Translates the activity dictionary.
  * @param {string} CachePath - Path to the language cache.
+ * @deprecated
  */
 function ActivityTranslate(CachePath) {
-	if (!Array.isArray(TranslationCache[CachePath])) return;
-	const DoTranslate = () => {
-		for (let T = 0; T < ActivityDictionary.length; T++) {
-			if (ActivityDictionary[T][1]) {
-				let indexText = TranslationCache[CachePath].indexOf(ActivityDictionary[T][1].trim());
-				if (indexText >= 0) {
-					ActivityDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
-				}
-			}
-		}
-	};
-	if(ActivityDictionary) DoTranslate();
-	else ActivityTranslateResolve = DoTranslate;
 }
 
 /**
@@ -93,10 +61,7 @@ function ActivityTranslate(CachePath) {
  * @returns {string} - Description associated to the given keyword
  */
 function ActivityDictionaryText(KeyWord) {
-	for (let D = 0; D < ActivityDictionary.length; D++)
-		if (ActivityDictionary[D][0] == KeyWord)
-			return ActivityDictionary[D][1].trim();
-	return "MISSING ACTIVITY DESCRIPTION FOR KEYWORD " + KeyWord;
+	return TextGetInScope(ScreenFileGetPath("ActivityDictionary.csv", "Character", "Preference"), KeyWord);
 }
 
 /**
