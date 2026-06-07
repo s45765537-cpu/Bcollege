@@ -351,7 +351,7 @@ type DialogMenuMode = (
 );
 
 type DialogMenuButtonType = "Activity" |
-	"ColorCancel" | "ColorChange" | "ColorChangeDisabled" | "ColorChangeMulti" | "ColorChangeMultiDisabled" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
+	"ColorCancel" | "ColorChange" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
 	"Crafting" |
 	"NormalMode" | "PermissionMode" |
 	"Dismount" | "Escape" | "Remove" |
@@ -360,12 +360,17 @@ type DialogMenuButtonType = "Activity" |
 	"InspectLock" | "InspectLockDisabled" |
 	"Layering" |
 	"Lock" | "LockDisabled" | "LockMenu" |
-	"Swap" | "Next" | "Prev" | `PickLock${PickLockAvailability}` |
+	`PickLock${PickLockAvailability}` |
 	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
-	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen" |
-	// Wardrobe buttons
-	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy" | "Paste" | "Naked" | "Accept" | "Cancel" | "Character"
+	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen"
 	;
+
+type AppearanceMenuButtonType = (
+	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy"
+	| "Paste" | "Naked" | "Accept" | "Cancel" | "Character" | "Next" | "Prev" | "Swap"
+	| "Use" | "UseDisabled" | "PermissionMode" | "ColorChange" | "ColorChangeDisabled"
+	| "ColorChangeMulti" | "ColorChangeMultiDisabled"
+);
 
 declare namespace ElementDOMScreen {
 	/** Options for customizing the {@link ElementDOMScreen.GetTemplate} output */

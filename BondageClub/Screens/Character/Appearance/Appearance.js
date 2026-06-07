@@ -69,7 +69,7 @@ var CharacterAppearanceMode = "";
 var CharacterAppearanceMenuMode = "";
 /** @type {null | Item} */
 var CharacterAppearanceCloth = null;
-/** @type {DialogMenuButtonType[]} */
+/** @type {AppearanceMenuButtonType[]} */
 var AppearanceMenu = [];
 /** @type {Character[]} */
 var AppearancePreviews = [];
@@ -803,7 +803,7 @@ function AppearanceMenuBuild(C) {
 			if (C.IsPlayer()) AppearanceMenu.push("PermissionMode");
 			if (C.FocusGroup.AllowNone) AppearanceMenu.push("Naked");
 			if (Item && DialogCanColor(C, Item)) {
-				/** @type {DialogMenuButtonType} */
+				/** @type {AppearanceMenuButtonType} */
 				let ButtonName;
 				if (ItemColorIsSimple(Item)) {
 					ButtonName = InventoryBlockedOrLimited(C, Item) ? "ColorChangeDisabled" : "ColorChange";

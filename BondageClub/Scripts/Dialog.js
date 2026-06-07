@@ -2602,7 +2602,7 @@ function DialogGetMenuButtonImage(ButtonName, FocusItem) {
 
 /**
  * Returns the background color of a dialog menu button based on the button name.
- * @param {DialogMenuButtonType} ButtonName - The menu button name
+ * @param {DialogMenuButtonType | AppearanceMenuButtonType} ButtonName - The menu button name
  * @returns {string} - The background color that the menu button should use
  */
 function DialogGetMenuButtonColor(ButtonName) {
@@ -2617,7 +2617,7 @@ function DialogGetMenuButtonColor(ButtonName) {
 
 /**
  * Determines whether or not a given dialog menu button should be disabled based on the button name.
- * @param {DialogMenuButtonType} ButtonName - The menu button name
+ * @param {DialogMenuButtonType | AppearanceMenuButtonType} ButtonName - The menu button name
  * @returns {boolean} - TRUE if the menu button should be disabled, FALSE otherwise
  */
 function DialogIsMenuButtonDisabled(ButtonName) {
