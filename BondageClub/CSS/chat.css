@@ -590,8 +590,8 @@
 }
 
 .chat-room-changelog-button {
-	height: 1em;
-	width: 1em;
+	height: 1.15em;
+	width: 1.15em;
 }
 
 .chat-room-changelog-button > .button-label {
