@@ -1314,8 +1314,8 @@ SourceCharacter tickles TargetCharacter's neck.
 SourceCharacter挠了挠TargetCharacter的脖子。
 SourceCharacter tickles TargetCharacter's neck with PronounPossessive ActivityAsset.
 SourceCharacter用ActivityAsset搔挠TargetCharacter的脖子。
-SourceCharacter grabs TargetCharacter's collar and pulls TargetPronounObject closer.
-SourceCharacter抓住TargetCharacter的项圈，把TargetPronounObject拉近。
+SourceCharacter grabs TargetCharacter's collar and pulls PronounObject closer.
+SourceCharacter抓住TargetCharacter的项圈，把PronounObject拉近。
 SourceCharacter bites TargetCharacter's nipple.
 SourceCharacter咬了一口TargetCharacter的乳头.
 SourceCharacter caresses TargetCharacter's nipples.
