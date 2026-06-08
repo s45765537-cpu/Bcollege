@@ -1674,7 +1674,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 			for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 				if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-					DialogInventoryAdd(C, { Asset, Craft }, false);
+					DialogInventoryAdd(C, { Asset, Craft: CommonCloneDeep(Craft) }, false);
 				}
 			}
 		}
