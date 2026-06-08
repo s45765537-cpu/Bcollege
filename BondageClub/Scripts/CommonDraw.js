@@ -344,17 +344,17 @@ function CommonDrawAppearanceBuild(
 				DrawingData,
 			);
 			if (CommonIsObject(OverriddenData)) {
-				if (OverriddenData.Property) item.Property = OverriddenData.Property;
-				if (OverriddenData.CA) item = OverriddenData.CA;
-				if (OverriddenData.GroupName) groupName = OverriddenData.GroupName;
-				if (OverriddenData.Color) layerColor = OverriddenData.Color;
-				if (OverriddenData.Opacity) opacity = OverriddenData.Opacity;
-				if (OverriddenData.X) X = OverriddenData.X;
-				if (OverriddenData.Y) Y = OverriddenData.Y;
-				if (OverriddenData.LayerType) layerType = OverriddenData.LayerType;
-				if (OverriddenData.L) layerSegment = OverriddenData.L;
-				if (OverriddenData.AlphaMasks) masks = OverriddenData.AlphaMasks;
-				if (OverriddenData.Pose) pose = OverriddenData.Pose;
+				if (OverriddenData.Property !== undefined) item.Property = OverriddenData.Property;
+				if (OverriddenData.CA !== undefined) item = OverriddenData.CA;
+				if (OverriddenData.GroupName !== undefined) groupName = OverriddenData.GroupName;
+				if (OverriddenData.Color !== undefined) layerColor = OverriddenData.Color;
+				if (OverriddenData.Opacity !== undefined) opacity = OverriddenData.Opacity;
+				if (OverriddenData.X !== undefined) X = OverriddenData.X;
+				if (OverriddenData.Y !== undefined) Y = OverriddenData.Y;
+				if (OverriddenData.LayerType !== undefined) layerType = OverriddenData.LayerType;
+				if (OverriddenData.L !== undefined) layerSegment = OverriddenData.L;
+				if (OverriddenData.AlphaMasks !== undefined) masks = OverriddenData.AlphaMasks;
+				if (OverriddenData.Pose !== undefined) pose = OverriddenData.Pose;
 			}
 		}
 
