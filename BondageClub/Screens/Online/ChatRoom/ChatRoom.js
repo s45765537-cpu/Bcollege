@@ -361,9 +361,10 @@ function ChatRoomRefreshActiveView() {
 		ChatRoomActiveView = null;
 	} else if ((ChatRoomData?.MapData?.Type ?? "Never") === "Never") {
 		ChatRoomActivateView(ChatRoomCharacterViewName);
-		return;
 	} else if (ChatRoomData?.MapData?.Type == "Always") {
 		ChatRoomActivateView(ChatRoomMapViewName);
+	} else if (!ChatRoomActiveView) {
+		ChatRoomActivateView(ChatRoomCharacterViewName);
 	}
 }
 
