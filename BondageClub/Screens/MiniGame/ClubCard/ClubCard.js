@@ -2323,9 +2323,15 @@ var ClubCardList = [
 		MoneyPerTurn: 2,
 		CanActive: true,
 		OnActive: function(CCPlayer) {
+			ClubCardPending = ClubCardFocus;
+			if (ClubCardIsAnimationOn) {
+				ClubCardPending.IsVisible = false;
+				ClubCardMoveCardToPending(ClubCardPending, null);
+			}
+			ClubCardFocus = null;
+			const index = this.ArrayIndex;
+			CCPlayer.Board[index].CanActive = false;
 			ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.filter(card => card.Type != "Event")));
-
-			this.CanActive = false;
 		},
 		onLevelUp: function() {
 			this.CanActive = true;
@@ -2335,7 +2341,7 @@ var ClubCardList = [
 		ID: 12022,
 		Name: "arella",
 		Group: ["Player", "Mistress", "CollegeTeacher"],
-		RewardMemberNumber: 107953,
+		RewardMemberNumber: 66729,
 		RequiredLevel: 3,
 		FamePerTurn: 1,
 		MoneyPerTurn: -1,
@@ -2347,6 +2353,14 @@ var ClubCardList = [
 				}
 			}
 		}
+	},
+	{
+		ID: 12023,
+		Name: "Ramona",
+		Group: ["Player", "Submissive"],
+		RewardMemberNumber: 164817,
+		RequiredLevel: 2,
+		MoneyPerTurn: 2
 	},
 
 	// 13000 - Shibari Members
@@ -3219,8 +3233,9 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerSteal(CCPlayer, 2, 2);
-			if (!ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Police") || ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "The Butler", true)) ClubCardPlayerSteal(CCPlayer, 2, 2);
+			const StealAmount = ClubCardGetOpponent(CCPlayer).Board.length;
+			ClubCardPlayerSteal(CCPlayer, StealAmount, 0);
+			if (!ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Police") || ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "The Butler", true)) ClubCardPlayerSteal(CCPlayer, StealAmount, 0);
 		}
 	},
 	{
@@ -3904,14 +3919,10 @@ var ClubCardList = [
 		Name: "Pet toys",
 		Type: "Event",
 		RequiredLevel: 2,
-		ExtraPlay: 1,
-		Time: 0,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, (ClubCardGroupOnBoardCount(CCPlayer, "Pet") * 2));
-			ClubCardPlayerAddFame(CCPlayer, (ClubCardGroupOnBoardCount(CCPlayer, "Owner") * 2));
-		},
-		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardRemoveFromEventByName(CCPlayer, this.Name);
+			const PetsCount = ClubCardGroupOnBoardCount(CCPlayer, "Pet");
+			ClubCardPlayerAddMoney(CCPlayer, -PetsCount, this.Name);
+			ClubCardPlayerAddFame(CCPlayer, PetsCount * (ClubCardGroupIsOnBoard(CCPlayer, "Owner") ? 3 : 2), this.Name);
 		}
 	},
 	{
@@ -4976,7 +4987,7 @@ function ClubCardCanActiveEffect(CCPlayer, Card) {
 function ClubCardActiveEffect(CCPlayer, Card, SkipActivation = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
 	if (!SkipActivation) Card?.OnActive(CCPlayer);
-	if (ClubCardPending?.Name === "Tifa") return;
+	if (ClubCardPending?.Name === "Tifa" || ClubCardPending?.Name === "Clare") return;
 	ClubCardTurnCardPlayed++;
 	ClubCardSelection = null;
 	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
@@ -5606,6 +5617,20 @@ function ClubCardTifaSelection(CCPlayer, Selection) {
 }
 
 /**
+ * Handles Clares active effect
+ * @param {ClubCardPlayer} CCPlayer
+ * @returns {void} - Nothing
+ */
+function ClubCardClareSelection(CCPlayer) {
+	ClubCardPlayerSteal(CCPlayer, ClubCardFocus.RequiredLevel ?? 1, 0);
+	ClubCardDiscardCard(CCPlayer, CCPlayer.Deck.findIndex(c => c.ID === ClubCardFocus.ID), "Deck");
+	ClubCardFocus = null;
+	ClubCardClickResetPendingCard();
+	ClubCardDestroyPopup();
+	ClubCardActiveEffect(CCPlayer, ClubCardGetCopyCardByName("Clare"), true);
+}
+
+/**
  * Removes cards from a player hand
  * @param {ClubCardPlayer} CCPlayer - The club card player that discards
  * @param {number} Amount - The amount of cards to discard
@@ -5646,7 +5671,7 @@ function ClubCardDiscardCard(CCPlayer, Pos, DiscardFrom = "Hand") {
 			CCPlayer.Hand.splice(Pos, 1);
 		}
 	} else if (DiscardFrom == "Deck") {
-		DiscardedCard = CCPlayer.Deck[Pos];
+		DiscardedCard = {...CCPlayer.Deck[Pos], IsVisible: true, AnimationState: 'idle'}
 		if (!DontDiscard.includes(DiscardedCard.RequiredLevel ?? 1)) {
 			CCPlayer.DiscardPile.push(DiscardedCard);
 			CCPlayer.Deck.splice(Pos, 1);
@@ -6232,7 +6257,7 @@ function ClubCardCanPlayEffectsLimitation(CCPlayer, Card) {
  * @returns {boolean} - TRUE if the card can be selected
  */
 function ClubCardCanSelectCard(CCPlayer, Card) {
-	if ((CCPlayer == null) || (Card == null) || (ClubCardPending == null) || (ClubCardPending.Prerequisite == null)) return false;
+	if ((CCPlayer == null) || (Card == null) || (ClubCardPending == null)) return false;
 	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 0) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
 	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 1) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
 	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 0) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
@@ -6241,6 +6266,7 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
 	if ((ClubCardPending.Prerequisite === "SelectAnyEvent") && ClubCardCardsSelectConditions(Card, CCPlayer) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Event")) return true;
 	if ((ClubCardPending.Prerequisite === "SearchACard") && ClubCardCardsSelectConditions(Card, CCPlayer) && (Card.Location == "Popup")) return true;
 	if (ClubCardPending.Prerequisite === "SelectCardInHand" && ClubCardCardsSelectConditions(Card, CCPlayer) && Card.Location == "PlayerHand") return true;
+	if (ClubCardPending.Name === "Clare" && (Card.Location == "Popup")) return true;
 	return false;
 }
 
@@ -7823,8 +7849,10 @@ function ClubCardClick() {
 				return;
 			}
 			if (ClubCardHover && ClubCardHover.Location == "Popup") return ClubCardClickSetFocusCard();
-			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
-				return (ClubCardDestroyPopup(), ClubCardClickPlayCard(true));
+			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) {
+				if (ClubCardPending.Name == "Clare") return (ClubCardClareSelection(ClubCardPlayer[ClubCardTurnIndex]), ClubCardDestroyPopup());
+				else return (ClubCardDestroyPopup(), ClubCardClickPlayCard(true));
+			}
 			if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null) return ClubCardClickResetFocusCard();
 		}
 		if (ClubCardPopup.Mode == "TIERSELECTION") {

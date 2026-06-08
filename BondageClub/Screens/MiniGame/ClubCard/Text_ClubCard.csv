@@ -293,7 +293,7 @@ Text Second Mortgage,+20 Money.
 Title Foreign Investment,Foreign Investment
 Text Foreign Investment,+30 Money.
 Title Cat Burglar,Cat Burglar
-Text Cat Burglar,Steal 2 Fame and Money. Then steal 2 Fame and 2 Money unless your opponent has Police.
+Text Cat Burglar,"Steal 1 Money per member in your opponent's club, then steal the same amount again unless your opponent has Police."
 Title Money Heist,Money Heist
 Text Money Heist,"Steal 6 Money. Then steal 2 Money if a Criminal is present. Then steal 4 Money if your opponent doesn't have Police."
 Title BDSM Ball,BDSM Ball
@@ -497,7 +497,7 @@ Prerequisite Feline Fatale,Select a member from your opponent club to remove.
 Title Wolf Girl,Wolf Girl
 Text Wolf Girl,"Enters: Lose 7 Money & opponent randomly discards a card. +1 Fame per 2 of your building levels. +1 Money if an owner is present."
 Title Pet toys,Pet toys
-Text Pet toys,"Gain 2 money per pet in your club and gain 2 Fame per owner in your club, then play again. "
+Text Pet toys,"Lose 1 Money and gain 2 Fame per Pet present, gain 1 more if and Owner is present."
 Title Pet Sitter,Pet Sitter
 Text Pet Sitter,"Gains +1 money for each pet in either club (Max 5). If your opponent has any Pets in their club, they gain 1 money each turn."
 Title Pet Rock,Pet Rock
@@ -752,9 +752,9 @@ Prerequisite Latex Nurse,Select a member from your hand.
 Title Exquisite Suit,Exquisite Suit
 Text Condom Suit,"Other Latex members cant be removed from either club"
 Title Full Catsuit,Full Catsuit
-Text Full Catsuit,"Gains +2 Base Fame and +2 Base Money each time you take the draw action"
+Text Full Catsuit,"On draw action: Gets +2/+2 and opponent loses 1 Fame and Money."
 Title Goddess Gleem,Goddess Gleem
-Text Goddess Gleem,Gains +4 Base fame and -2 base Money each time you take the draw action.
+Text Goddess Gleem,"On draw action: Discard a random card from hand, gets +3/-2, and opponent loses 3 Fame"
 Title Polish and Shine,Polish and Shine
 Text Polish and Shine,"Put 2 random tier 3 or lower members in your hand into your club, gain 5 money for each Fetishist or Latex member played this way."
 Title Fully Encased,Fully Encased
@@ -787,3 +787,5 @@ Title Clare,Clare the Trickster Auctioneer
 Text Clare,"Active (once per tier): Choose a member from your deck to discard, steal Money equal to its tier and play again."
 Title arella,arella
 Text arella,"Enters: All submissive, college students, and slaves present gets +1 Money."
+Title Ramona,Ramona
+Text Ramona,<F>I am just a simple girl trying to make my way in the universe.
