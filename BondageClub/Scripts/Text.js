@@ -21,11 +21,17 @@ function TextGet(TextTag) {
  * Finds the text value linked to the tag in whichever first of the passed caches happens to contain it
  * @param {string} key
  * @param {readonly (undefined | TextCache)[]} caches
+ * @param {null | { logMissing?: boolean }} options
+ * @returns {string}
  */
-function TextQueryMultiple(key, ...caches) {
+function TextQueryMultiple(key, caches, options=null) {
 	const ret = CommonFindMap(caches, (cache) => cache?.getOptional(key));
-	if (ret === undefined) {
-		const cachesNonNull = caches.filter(Boolean);
+	if (ret !== undefined) {
+		return ret;
+	}
+
+	const cachesNonNull = caches.filter(Boolean);
+	if (options?.logMissing ?? true) {
 		const cacheNames = cachesNonNull.map(cache => `${cache.fileName()}:${key}`);
 		if (cacheNames.some(name => !TextCache.textMissingCache.has(name))) {
 			cacheNames.forEach(name => TextCache.textMissingCache.add(name));
@@ -34,10 +40,9 @@ function TextQueryMultiple(key, ...caches) {
 				cachesNonNull.map(cache => cache.fileName()),
 			);
 		}
-		return `${TEXT_NOT_FOUND_PREFIX}: ${key}`;
-	} else {
-		return ret;
 	}
+	const lastCacheName = cachesNonNull[cachesNonNull.length - 1]?.fileName();
+	return `${TEXT_NOT_FOUND_PREFIX} "${lastCacheName}": ${key}`;
 }
 
 /**
