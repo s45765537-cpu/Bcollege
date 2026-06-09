@@ -2321,6 +2321,7 @@ var ClubCardList = [
 		RewardMemberNumber: 107953,
 		RequiredLevel: 3,
 		MoneyPerTurn: 2,
+		ExtraPlay: 0,
 		CanActive: true,
 		OnActive: function(CCPlayer) {
 			ClubCardPending = ClubCardFocus;
@@ -2331,11 +2332,17 @@ var ClubCardList = [
 			ClubCardFocus = null;
 			const index = this.ArrayIndex;
 			CCPlayer.Board[index].CanActive = false;
+			CCPlayer.Board[index].ExtraPlay++;
 			ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.filter(card => card.Type != "Event")));
 		},
 		onLevelUp: function() {
 			this.CanActive = true;
 		},
+		BeforeTurnEnd: function(CCPlayer) {
+			const index = this.ArrayIndex;
+			CCPlayer.Board[index].ExtraPlay = 0;
+		}
+
 	},
 	{
 		ID: 12022,
@@ -2344,7 +2351,6 @@ var ClubCardList = [
 		RewardMemberNumber: 66729,
 		RequiredLevel: 3,
 		FamePerTurn: 1,
-		MoneyPerTurn: -1,
 		CanActive: true,
 		OnPlay: function(CCPlayer) {
 			for (let i = 0; i < CCPlayer.Board.length; i++) {
@@ -5621,10 +5627,11 @@ function ClubCardTifaSelection(CCPlayer, Selection) {
  * @param {ClubCardPlayer} CCPlayer
  * @returns {void} - Nothing
  */
-function ClubCardClareSelection(CCPlayer) {
-	ClubCardPlayerSteal(CCPlayer, ClubCardFocus.RequiredLevel ?? 1, 0);
-	ClubCardDiscardCard(CCPlayer, CCPlayer.Deck.findIndex(c => c.ID === ClubCardFocus.ID), "Deck");
+function ClubCardClareSelection(CCPlayer, Card) {
+	if (ClubCardIsAnimationOn === false || ClubCardFocus?.AnimationState != "moving") ClubCardClickResetFocusCard();
 	ClubCardFocus = null;
+	ClubCardPlayerSteal(CCPlayer, Card.RequiredLevel ?? 1, 0);
+	ClubCardDiscardCard(CCPlayer, CCPlayer.Deck.findIndex(c => c.ID === Card.ID), "Deck");
 	ClubCardClickResetPendingCard();
 	ClubCardDestroyPopup();
 	ClubCardActiveEffect(CCPlayer, ClubCardGetCopyCardByName("Clare"), true);
@@ -5671,7 +5678,7 @@ function ClubCardDiscardCard(CCPlayer, Pos, DiscardFrom = "Hand") {
 			CCPlayer.Hand.splice(Pos, 1);
 		}
 	} else if (DiscardFrom == "Deck") {
-		DiscardedCard = {...CCPlayer.Deck[Pos], IsVisible: true, AnimationState: 'idle'}
+		DiscardedCard = CCPlayer.Deck[Pos];
 		if (!DontDiscard.includes(DiscardedCard.RequiredLevel ?? 1)) {
 			CCPlayer.DiscardPile.push(DiscardedCard);
 			CCPlayer.Deck.splice(Pos, 1);
@@ -7850,7 +7857,7 @@ function ClubCardClick() {
 			}
 			if (ClubCardHover && ClubCardHover.Location == "Popup") return ClubCardClickSetFocusCard();
 			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) {
-				if (ClubCardPending.Name == "Clare") return (ClubCardClareSelection(ClubCardPlayer[ClubCardTurnIndex]), ClubCardDestroyPopup());
+				if (ClubCardPending.Name == "Clare") return (ClubCardClareSelection(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus), ClubCardDestroyPopup());
 				else return (ClubCardDestroyPopup(), ClubCardClickPlayCard(true));
 			}
 			if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null) return ClubCardClickResetFocusCard();
