@@ -2714,6 +2714,7 @@ HandAccessoryRightRingsModuleIndex,Index
 HandAccessoryRightRingsModuleMiddle,Middle finger
 HandAccessoryRightRingsModulePinkie,Pinkie
 HandAccessoryRightRingsModuleRing,Ring finger
+HandAccessoryRightRingsModuleRingGem,Ring Gem
 HandAccessoryRightRingsModuleThumb,Thumb
 HandAccessoryRightRingsModuleFingernails,Nails/Claws
 HandAccessoryRightRingsOptioni0,None
@@ -2726,6 +2727,8 @@ HandAccessoryRightRingsOptionp2,Honor Ring
 HandAccessoryRightRingsOptionr0,None
 HandAccessoryRightRingsOptionr1,Steel Ring
 HandAccessoryRightRingsOptionr2,Wedding Ring
+HandAccessoryRightRingsOptiong0,None
+HandAccessoryRightRingsOptiong1,Gem
 HandAccessoryRightRingsOptiont0,None
 HandAccessoryRightRingsOptiont1,Steel Ring
 HandAccessoryRightRingsOptionf0,None
@@ -2736,6 +2739,7 @@ HandAccessoryRightRingsSelectIndex,Choose a ring for the Index
 HandAccessoryRightRingsSelectMiddle,Choose a ring for the Middle finger
 HandAccessoryRightRingsSelectPinkie,Choose a ring for the Pinkie
 HandAccessoryRightRingsSelectRing,Choose a ring for the Ring finger
+HandAccessoryRightRingsSelectRingGem,Add a gem to the ring finger?
 HandAccessoryRightRingsSelectThumb,Choose a ring for the Thumb
 HandAccessoryRightRingsSelectFingernails,Add right hand nails or claws?
 HatBallCapBackSelect,Select strap location.
