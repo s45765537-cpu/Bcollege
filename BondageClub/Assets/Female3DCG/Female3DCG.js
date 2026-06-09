@@ -21941,7 +21941,8 @@ var AssetFemale3DCG = [
 					"Default",
 					"Default",
 					"#A48537",
-					"Default",
+					"#737373",
+					"#C2C2C2",
 					"#707070",
 					"#00D307",
 					"#222222",
@@ -21966,7 +21967,11 @@ var AssetFemale3DCG = [
 					{ Name: "MiddleSteel", AllowTypes: { m: 1 } },
 					//Ring
 					{ Name: "RingSteel", AllowTypes: { r: 1 } },
+					//Wedding
 					{ Name: "Wedding", AllowTypes: { r: 2 } },
+					{ Name: "Wedding_crown", AllowTypes: { r: [1, 2] }, CopyLayerColor: "Wedding" },
+					{ Name: "Wedding_gem", AllowTypes: { r: [1, 2], g: 1 } },
+					{ Name: "Wedding_shine", AllowTypes: { r: [1, 2], g: 1 } },
 					//Pinkie
 					{ Name: "PinkieSteel", AllowTypes: { p: 1 } },
 					{ Name: "HonorBase", AllowTypes: { p: 2 } },
