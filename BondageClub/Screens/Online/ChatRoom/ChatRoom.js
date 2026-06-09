@@ -361,9 +361,10 @@ function ChatRoomRefreshActiveView() {
 		ChatRoomActiveView = null;
 	} else if ((ChatRoomData?.MapData?.Type ?? "Never") === "Never") {
 		ChatRoomActivateView(ChatRoomCharacterViewName);
-		return;
 	} else if (ChatRoomData?.MapData?.Type == "Always") {
 		ChatRoomActivateView(ChatRoomMapViewName);
+	} else if (!ChatRoomActiveView) {
+		ChatRoomActivateView(ChatRoomCharacterViewName);
 	}
 }
 
@@ -4212,8 +4213,8 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 		} else if (IsTextLookupDictionaryEntry(entry)) {
 			let text = TextQueryMultiple(
 				entry.TextToLookUp,
-				TextAllScreenCache.get(AssetStringsPath),
-				TextAllScreenCache.get(InterfaceStringsPath),
+				[TextAllScreenCache.get(AssetStringsPath), TextAllScreenCache.get(InterfaceStringsPath)],
+				{ logMissing: false },
 			);
 			if (!text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
 				// We lower-case here to blend in asset names in messages
@@ -4497,9 +4498,11 @@ function ChatRoomMessage(data) {
 		case "Action": {
 			msg = TextQueryMultiple(
 				msg,
-				msg.startsWith("GGTS") ? TextPrefetchFile(ScreenFileGetPath("GGTSMessages.csv", "Room", "AsylumGGTS")) : undefined,
-				TextAllScreenCache.get(AssetStringsPath),
-				TextAllScreenCache.get(InterfaceStringsPath),
+				[
+					msg.startsWith("GGTS") ? TextPrefetchFile(ScreenFileGetPath("GGTSMessages.csv", "Room", "AsylumGGTS")) : undefined,
+					TextAllScreenCache.get(AssetStringsPath),
+					TextAllScreenCache.get(InterfaceStringsPath),
+				],
 			);
 			break;
 		}
