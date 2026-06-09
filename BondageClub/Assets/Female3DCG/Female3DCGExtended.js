@@ -13484,6 +13484,44 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // UrethralSound
+		ModularVulvaPiercings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Fastening",
+					Key: "f", //Fastening
+					DrawImages: false,
+					Options: [
+						{}, //f0 - No Fastening
+						{
+							Property: {
+								Effect: [E.Chaste],
+								Block: ["ItemVulva"],
+							},
+						}, //f1 - Barbells
+						{
+							Property: {
+								Effect: [E.Chaste],
+								Block: ["ItemVulva"],
+							},
+						}, //f2 - Rings
+					],
+				},
+				{
+					Name: "Shield",
+					Key: "s", //Shield
+					DrawImages: false,
+					Options: [
+						{}, //s0 - No
+						{
+							Property: {
+								Effect: [E.Chaste],
+							},
+						}, //s1 - Yes
+					],
+				},
+			],
+		},
 	}, // ItemVulvaPiercings
 	ItemButt: {
 		WolfTail3: {

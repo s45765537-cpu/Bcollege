@@ -33258,6 +33258,45 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ModularVulvaPiercings",
+				InventoryID: 1350,
+				Gender: "F",
+				Fetish: ["Metal"],
+				Value: 20,
+				Difficulty: 10,
+				Time: 20,
+				Random: false,
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: ["#9F9F9F", "#9F9F9F", "#9F9F9F", "#9F9F9F"],
+				Prerequisite: ["AccessVulva", "HasVagina"],
+				Extended: true,
+				Layer: [
+					{
+						Name: "Rivets",
+					},
+					{
+						Name: "Barbells",
+						ColorGroup: "Fastenings",
+						AllowTypes: { f: 1 },
+					},
+					{
+						Name: "Rings",
+						ColorGroup: "Fastenings",
+						AllowTypes: { f: 2 },
+					},
+					{
+						Name: "Shield",
+						AllowTypes: { s: 1 },
+					},
+					{
+						Name: "ShieldBars",
+						AllowTypes: { s: 1, f: 0 },
+						CopyLayerColor: "Barbells",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
