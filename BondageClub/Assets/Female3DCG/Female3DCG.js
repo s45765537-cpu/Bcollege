@@ -21969,9 +21969,37 @@ var AssetFemale3DCG = [
 					{ Name: "RingSteel", AllowTypes: { r: 1 } },
 					//Wedding
 					{ Name: "Wedding", AllowTypes: { r: 2 } },
-					{ Name: "Wedding_crown", AllowTypes: { r: [1, 2] }, CopyLayerColor: "Wedding" },
-					{ Name: "Wedding_gem", AllowTypes: { r: [1, 2], g: 1 } },
-					{ Name: "Wedding_shine", AllowTypes: { r: [1, 2], g: 1 } },
+					{
+						Name: "Wedding_crown",
+						AllowTypes: { r: [1, 2] },
+						CopyLayerColor: "Wedding",
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Wedding_gem",
+						AllowTypes: { r: [1, 2], g: 1 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Wedding_shine",
+						AllowTypes: { r: [1, 2], g: 1 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
 					//Pinkie
 					{ Name: "PinkieSteel", AllowTypes: { p: 1 } },
 					{ Name: "HonorBase", AllowTypes: { p: 2 } },
