@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "Welcome to the Bondage College!",
 	"engines": {
-		"node": ">= 24.14"
+		"node": ">= 24.14.1"
 	},
 	"scripts": {
 		"changelog:generate": "cd Tools/Node && node GenerateChangelog generate",
