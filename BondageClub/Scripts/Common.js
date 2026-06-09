@@ -2502,15 +2502,6 @@ function CommonStringSplice(string, index, value, defaultValue) {
 }
 
 /**
- * Check whether the passed inventory icon belongs to a padlock
- * @param {InventoryIcon} icon
- * @returns {icon is AssetLockType}
- */
-function CommonIsPadlockIcon(icon) {
-	return icon.endsWith("Padlock");
-}
-
-/**
  * Unwraps a thunk into a value
  *
  * @template T

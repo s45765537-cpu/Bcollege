@@ -1823,7 +1823,7 @@ function DrawPreviewIcons(icons, X, Y) {
 			const iconY = Y + (iconSize + 5) * (index % iconsPerCol);
 			let path = "";
 			let text = "";
-			if (CommonIsPadlockIcon(icon)) {
+			if (InventoryIconIsPadlock(icon)) {
 				path = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 				text = InterfaceTextGet("PreviewIconPadlock").replace("AssetName", AssetGet("Female3DCG", "ItemMisc", icon)?.Description ?? "AssetName");
 			} else {

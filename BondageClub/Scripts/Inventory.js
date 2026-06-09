@@ -1788,3 +1788,12 @@ function InventoryExtractLockProperties(property) {
 	}
 	return lockProperties;
 }
+
+/**
+ * Check whether the passed inventory icon belongs to a padlock
+ * @param {InventoryIcon} icon
+ * @returns {icon is AssetLockType}
+ */
+function InventoryIconIsPadlock(icon) {
+	return icon.endsWith("Padlock");
+}

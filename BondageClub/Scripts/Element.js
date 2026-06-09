@@ -1739,7 +1739,7 @@ var ElementButton = {
 			let src;
 			/** @type {(string | Node | HTMLOptions<any>)[]} */
 			let tooltipChildren;
-			if (typeof icon === "string" && CommonIsPadlockIcon(icon)) {
+			if (typeof icon === "string" && InventoryIconIsPadlock(icon)) {
 				name = icon;
 				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 				tooltipChildren = [InterfaceTextGet("PreviewIconPadlock").replace(
