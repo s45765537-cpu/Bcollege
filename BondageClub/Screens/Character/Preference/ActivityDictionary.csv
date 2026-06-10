@@ -941,7 +941,7 @@ ChatOther-ItemNeck-ShockItem,SourceCharacter shocks TargetCharacter's neck with 
 ChatOther-ItemNeck-Step,SourceCharacter gently places PronounPossessive foot over TargetCharacter's neck.
 ChatOther-ItemNeck-Tickle,SourceCharacter tickles TargetCharacter's neck.
 ChatOther-ItemNeck-TickleItem,SourceCharacter tickles TargetCharacter's neck with PronounPossessive ActivityAsset.
-ChatOther-ItemNeck-CollarGrab,SourceCharacter grabs TargetCharacter's collar and pulls TargetPronounObject closer.
+ChatOther-ItemNeck-CollarGrab,SourceCharacter grabs TargetCharacter's collar and pulls PronounObject closer.
 ChatOther-ItemNipples-Bite,SourceCharacter bites TargetCharacter's nipple.
 ChatOther-ItemNipples-Caress,SourceCharacter caresses TargetCharacter's nipples.
 ChatOther-ItemNipples-GaggedKiss,SourceCharacter presses PronounPossessive gag to TargetCharacter's nipple.
