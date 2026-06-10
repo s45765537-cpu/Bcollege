@@ -872,7 +872,7 @@ function PrivateNewCloth(C) {
 
 	// Validates and exits if needed
 	if (!C.CanInteract()) return; // No changing if bound
-	if (C.Cage != null) return; // No changing if caged
+	if (C.Cage) return; // No changing if caged
 	if (NPCEventGet(C, "PrivateRoomEntry") + 86400000 > CurrentTime) return; // No changing on first day
 	if (NPCEventGet(C, "NewCloth") + 86400000 > CurrentTime) return; // No chaning if changed in last 24 hours
 	if (C.IsOwnedByPlayer()) return; // No changing if owned
@@ -990,9 +990,9 @@ function PrivateDrawCharacter() {
 						if (NPCEventGet(PrivateCharacter[C], "Kidnap") <= CurrentTime) {
 
 							// Draw the NPC and the cage if needed
-							if (PrivateCharacter[C].Cage != null) DrawImage("Screens/Room/Private/CageBack.png", X + (C - PrivateCharacterOffset) * 470, 0);
+							if (PrivateCharacter[C].Cage) DrawImage("Screens/Room/Private/CageBack.png", X + (C - PrivateCharacterOffset) * 470, 0);
 							DrawCharacter(PrivateCharacter[C], X + (C - PrivateCharacterOffset) * 470, 0, 1);
-							if (PrivateCharacter[C].Cage != null) DrawImage("Screens/Room/Private/CageFront.png", X + (C - PrivateCharacterOffset) * 470, 0);
+							if (PrivateCharacter[C].Cage) DrawImage("Screens/Room/Private/CageFront.png", X + (C - PrivateCharacterOffset) * 470, 0);
 							if (LogQuery("Cage", "PrivateRoom") && !LogQuery("BlockCage", "Rule"))
 								if ((!Player.Cage) || (C == 0))
 									if (!PrivateCharacter[C].IsOwner())
@@ -1127,7 +1127,7 @@ function PrivateClickCharacterButton() {
 				if (LogQuery("Cage", "PrivateRoom") && !LogQuery("BlockCage", "Rule"))
 					if ((!Player.Cage) || (C == 0))
 						if (!PrivateCharacter[C].IsOwner()) {
-							PrivateCharacter[C].Cage = (PrivateCharacter[C].Cage == null) ? true : undefined;
+							PrivateCharacter[C].Cage = (!PrivateCharacter[C].Cage ? true : undefined);
 							if (C > 0) ServerPrivateCharacterSync();
 						}
 
@@ -1423,7 +1423,7 @@ function PrivateLoadCharacter(data) {
 		updateRequired = updateRequired || !updateValid;
 	}
 	C.Trait = Array.isArray(data.Trait) ? data.Trait.slice() : [];
-	C.Cage = typeof data.Cage === "boolean" ? data.Cage : false;
+	C.Cage = data.Cage ? true : undefined;
 	C.Event = Array.isArray(data.Event) ? data.Event : [];
 	C.Lover = typeof data.Lover === "string" ? data.Lover : undefined;
 	C.Owner = typeof data.Owner === "string" ? data.Owner : "";
