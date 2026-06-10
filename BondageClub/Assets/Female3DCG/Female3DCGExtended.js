@@ -4797,7 +4797,6 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["BaseUpper"],
 						Effect: [E.Leash],
 						Difficulty: 1,
-						OverridePriority: 29,
 					},
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
 				},
