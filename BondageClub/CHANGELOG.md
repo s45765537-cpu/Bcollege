@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-06-03
-* Last recorded PR: [#6305](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6305)
-* Last recorded commit hash: `fd1377346b1823b1219a02a5386386baef2ae090`
+* Changelog last updated: 2026-06-09
+* Last recorded PR: [#6403](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6403)
+* Last recorded commit hash: `73958e9a1668eda69f0d766fd5933d5e0bdc9f57`
 
 ## [Generated]
 
@@ -21,16 +21,20 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Changes]
 
+* Haruhi - Updated shine for Multistrap Petsuit, Modified HairFront57, 59 and 64, and Modified HairBack60, 64 and 69. ([#6385](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6385))
 * Raksar - Add new item: Royal Diaper ([#6375](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6375))
 * KyraObscura - Add: Nose Shackle Item ([#6368](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6368))
 * Sin - Adds 4 plushies to the game ([#6306](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6306))
 * Sin - Adding CRABS decal ([#6382](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6382))
+* Sin - Add Pirate Rock Radio logo to the decals section. ([#6383](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6383))
+* Sin - Adds 2 Banner objects for maps ([#6384](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6384))
 * Deep - DOM visibility screen ([#6345](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6345))
 * Deep - versions command ([#6340](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6340))
 * Hareo - Adds a new ballgag to the game ([#6304](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6304))
 * Rama - Add a room occupancy column to the friend list ([#6243](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6243))
 * Rama - Add an explicit sorting order for the friend list relationship type column ([#6327](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6327))
 * Rama - Exclude the `EchoV2` body from random NPC appearances ([#6378](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6378))
+* Rama - Adjust the changelog delete button to the line height ([#6400](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6400))
 * Estsanatlehi - Allow buying the pet collar ([#6303](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6303))
 * Estsanatlehi - Make the Cushion's Hogtied pose use AllFours ([#6341](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6341))
 * Estsanatlehi - Resync the music start on a track change ([#6338](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6338))
@@ -65,9 +69,12 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sin - Cute Bikini yoked pose fix for echo v2 ([#6381](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6381))
 * Deep - keybinds bugs ([#6319](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6319))
 * Deep - Fix keybinds failing to execute ([#6352](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6352))
+* Deep - fix chat room nav bar buttons ([#6390](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6390))
 * Rama - Fix the aspect ratio of the chat room top menu button images ([#6322](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6322))
 * Rama - Get rid of the chat room menu button `aspect-ratio` override ([#6335](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6335))
 * Rama - Better account for inner button border sizing and fix the preference grid buttons potentially overflowing ([#6339](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6339))
+* Rama - Ensure that player crafts are copied before their insertion into `DialogInventory` ([#6399](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6399))
+* Rama - Fix the `TextQueryMultiple()` missing-text message not mentioning the (last) text cache ([#6393](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6393))
 * Estsanatlehi - Fix a bug where not having the friendlist data would make `/beep` error ([#6350](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6350))
 * Estsanatlehi - Fix some ordering issues in the timer padlock exit handlers ([#6364](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6364))
 * Estsanatlehi - Fix a bug that broke the dialog if you clicked on yourself ([#6320](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6320))
@@ -81,6 +88,10 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Workaround the shadow asset issue ([#6331](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6331))
 * Estsanatlehi - Revert "Workaround the shadow asset issue" ([#6337](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6337))
 * Estsanatlehi - Fix an issue where we'd stop drawing modded minigames background ([#6336](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6336))
+* Estsanatlehi - Fix the broken Audio volume label ([#6388](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6388))
+* Estsanatlehi - Fix the view activation ([#6394](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6394))
+* Estsanatlehi - Switch to explicit undefined checks when fishing out the dynamic draw overrides ([#6401](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6401))
+* Estsanatlehi - Fix the private room cage ([#6403](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6403))
 * Ben987 - InventoryID Fix
 
 ### [Technical]
@@ -96,6 +107,10 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Exclude a few commits from `git blame` ([#6367](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6367))
 * Rama - Consolidate the coloring validation functions ([#6371](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6371))
 * Rama - Filter out non-csv results from `files:csvtypescript` ([#6376](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6376))
+* Rama - Fix a number of text lookup failures ([#6374](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6374))
+* Rama - Make the CI suite less susceptible towards the type of newline character ([#6379](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6379))
+* Rama - Fix an invalid Windows environment variable declaration ([#6386](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6386))
+* Rama - Fix CI ([#6387](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6387))
 * Estsanatlehi - Remove async marker on TitleGetName ([#6351](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6351))
 * Estsanatlehi - Fix CI ([#6343](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6343))
 * Estsanatlehi - Remove the Drawing3D.js file ([#6346](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6346))
