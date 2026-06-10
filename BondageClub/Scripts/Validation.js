@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 // Regexes for lock combination numbers and passwords
@@ -7,17 +6,22 @@ const ValidationPasswordRegex = /^[A-Z]{1,8}$/;
 const ValidationDefaultCombinationNumber = "0000";
 const ValidationDefaultPassword = "UNLOCK";
 const ValidationRemoveTimerToleranceMs = 5000;
-const ValidationNonModifiableLockProperties = ["LockedBy", "LockMemberNumber", "LockMemberName", "LockMessage"];
-const ValidationRestrictedLockProperties = [
+const ValidationNonModifiableLockProperties = /** @type {const} */ (["LockedBy", "LockMemberNumber", "LockMemberName", "LockMessage"]);
+const ValidationRestrictedLockProperties = /** @type {const} */ ([
 	"EnableRandomInput", "RemoveItem", "ShowTimer", "CombinationNumber", "Password", "Hint", "LockSet", "LockPickSeed",
-];
-const ValidationTimerLockProperties = ["MemberNumberList", "RemoveTimer"];
-const ValidationAllLockProperties = ValidationNonModifiableLockProperties
-	.concat(ValidationRestrictedLockProperties)
-	.concat(ValidationTimerLockProperties)
-	.concat(["MemberNumberListKeys"]);
-const ValidationModifiableProperties = ValidationAllLockProperties.concat(["Effect", "Expression", "ExpressionTimer"]);
-const ValidationScriptableProperties = ["Hide", "HideItem", "UnHide", "Block"];
+]);
+const ValidationTimerLockProperties = /** @type {const} */ (["MemberNumberList", "RemoveTimer"]);
+const ValidationAllLockProperties = /** @type {const} */ ([
+	...ValidationNonModifiableLockProperties,
+	...ValidationRestrictedLockProperties,
+	...ValidationTimerLockProperties,
+	"MemberNumberListKeys",
+]);
+const ValidationModifiableProperties = /** @type {const} */ ([
+	...ValidationAllLockProperties,
+	"Effect", "Expression", "ExpressionTimer",
+]);
+const ValidationScriptableProperties = /** @type {const} */ (["Hide", "HideItem", "UnHide", "Block"]);
 /** @type {Partial<Record<keyof ItemProperties, ScriptPermissionProperty>>} */
 const ValidationPropertyPermissions = {
 	Hide: "Hide",
@@ -334,9 +338,9 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 		}
 
 		// Block changing properties, but exclude modifiable and lock-related properties, as they get handled separately
-		const previousKeys = Object.keys(previousProperty)
+		const previousKeys = CommonKeys(previousProperty)
 			.filter(key => !ValidationModifiableProperties.includes(key));
-		const newKeys = Object.keys(newProperty).filter(key => !ValidationModifiableProperties.includes(key));
+		const newKeys = CommonKeys(newProperty).filter(key => !ValidationModifiableProperties.includes(key));
 
 		previousKeys.forEach(key => {
 			valid = !ValidationCopyProperty(previousProperty, newProperty, key) && valid;
@@ -508,6 +512,7 @@ function ValidationRollbackInvalidLockProperties(sourceProperty, targetProperty,
  */
 function ValidationCloneLock(sourceProperty, targetProperty) {
 	for (const key of ValidationAllLockProperties) {
+		// @ts-ignore TS-Strict
 		targetProperty[key] = sourceProperty[key];
 	}
 }
@@ -516,12 +521,13 @@ function ValidationCloneLock(sourceProperty, targetProperty) {
  * Copies the value of a single property key from a source Property object to a target Property object.
  * @param {ItemProperties} sourceProperty - The original Property object on the item
  * @param {ItemProperties} targetProperty - The Property object on the modified item
- * @param {string} key - The property key whose value to copy
+ * @param {keyof ItemProperties} key - The property key whose value to copy
  * @returns {boolean} - TRUE if the target Property object was modified as a result of copying (indicating that there
  * were invalid changes to the property), FALSE otherwise
  */
 function ValidationCopyProperty(sourceProperty, targetProperty, key) {
 	if (sourceProperty[key] != null && !CommonDeepEqual(targetProperty[key], sourceProperty[key])) {
+		// @ts-ignore TS-Strict
 		targetProperty[key] = sourceProperty[key];
 		return true;
 	}
@@ -739,7 +745,7 @@ function ValidationSanitizeProperties(C, item) {
 
 	// Remove invalid properties from non-typed items
 	if (!asset.Extended) {
-		["SetPose", "Difficulty", "SelfUnlock", "Hide"].forEach(P => {
+		/** @type {const} */ (["SetPose", "Difficulty", "SelfUnlock", "Hide"]).forEach(P => {
 			if (property[P] != null) {
 				console.error(`Removing invalid property "${P}" from ${asset.Name}`);
 				delete property[P];
@@ -1024,7 +1030,7 @@ function ValidationSanitizeSetPose(C, item) {
  * a valid array and is not null, it will be deleted from the object. If it is a valid array, any non-string entries
  * will be removed.
  * @param {ItemProperties} property - The object whose property should be sanitized
- * @param {string} key - The key indicating which property on the object should be sanitized
+ * @param {keyof ItemProperties} key - The key indicating which property on the object should be sanitized
  * @returns {boolean} - TRUE if the object's property was modified as part of the sanitization process (indicating  that
  * the property was not a valid array, or that it contained a non-string entry), FALSE otherwise
  */
@@ -1032,6 +1038,7 @@ function ValidationSanitizeStringArray(property, key) {
 	const value = property[key];
 	let changed = false;
 	if (Array.isArray(value)) {
+		// @ts-ignore TS-Strict
 		property[key] = value.filter(str => {
 			if (typeof str !== "string") {
 				console.error(`Filtering out invalid ${key} entry:`, str);
@@ -1312,20 +1319,17 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
  * @returns {{ [k in keyof T]: ReturnType<T[k]> }} The validated `arg`
  */
 function ValidationApplyRecord(arg, C, validators, allowExtraKeys=false) {
-	if (!CommonIsObject(arg)) {
-		arg = {};
-	}
+	const obj = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */ (CommonIsObject(arg) ? arg : {});
 
 	const validated = /** @type {[string, any][]} */ (CommonEntries(validators).map(([name, validate]) => {
-		/** @type {any} */
-		const value = validate(arg[name], C);
+		const value = validate(obj[name], C);
 		return [name, value];
 	}));
 	const ret = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(validated));
 
 	if (allowExtraKeys) {
-		const extraKeys = CommonKeys(arg).filter(i => !(i in ret));
-		return Object.assign(ret, CommonPick(arg, extraKeys));
+		const extraKeys = CommonKeys(obj).filter(i => !(i in ret));
+		return Object.assign(ret, CommonPick(obj, extraKeys));
 	} else {
 		return ret;
 	}
