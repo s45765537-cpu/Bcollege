@@ -2994,12 +2994,13 @@ var ElementDOMScreen = {
 	 */
 	getTemplate(id, options=null) {
 		options ??= {};
+		const header = CommonIsArray(options.header) ? options.header : [options.header];
 		const hgroup = ElementCreate({
 			tag: "hgroup",
 			classList: ["scroll-box", "screen-hgroup"],
 			attributes: { id: `${id}-hgroup` },
 			children: [
-				{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
+				{ tag: "h1", attributes: { id: `${id}-h1` }, children: header },
 				{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
 			],
 		});

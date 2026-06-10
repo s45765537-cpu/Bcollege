@@ -381,7 +381,7 @@ declare namespace ElementDOMScreen {
 		/** Whether an extra `aside.screen-aside-r` section should be added to the right of `.screen-main` */
 		rightContent?: readonly (Node | string | HTMLOptionsUnion)[];
 		/** Text content for within the heading (see `.screen-hgroup h1`) */
-		header?: string;
+		header?: string | Node | readonly (Node | string)[];
 		/**
 		 * Which section should be marked as `<main>` (if any).
 		 * Defaults to `center` if unspecified.
@@ -2513,7 +2513,7 @@ type ChatRoomCustomizationType = 0 | 1 | 2 | 3;
 interface PlayerOnlineSettings {
 	AutoBanBlackList: boolean;
 	AutoBanGhostList: boolean;
-	/** 
+	/**
 	 * When true, respond to `/mods remote` hidden queries with your Mod SDK list and a declined reply otherwise
 	 * @default true
 	 */

@@ -280,13 +280,13 @@ Item intensity: High
 物品强度：高
 Item intensity: Maximum
 物品强度：最大
-Configure total priority
+Configure {asset} priority
 配置总优先级
 Exit
 退出
 Hide hidden layers
 隐藏隐藏层
-Configure layer-specific priority
+Layer priority
 配置特定层的优先级
 Item configuration locked
 物品配置已锁定

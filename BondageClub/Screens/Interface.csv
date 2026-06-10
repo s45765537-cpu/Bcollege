@@ -150,10 +150,10 @@ Intensity0,Item intensity: Low
 Intensity1,Item intensity: Medium
 Intensity2,Item intensity: High
 Intensity3,Item intensity: Maximum
-LayeringAsset,Configure total priority
+LayeringAsset,Configure {asset} priority
 LayeringExit,Exit
 LayeringHide,Hide hidden layers
-LayeringLayer,Configure layer-specific priority
+LayeringLayer,Layer priority
 LayeringLock,Item configuration locked
 LayeringReset,Reset layering
 LayeringShow,Show hidden layers

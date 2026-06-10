@@ -131,10 +131,10 @@ var Layering = {
 	 */
 	DisplayDefault: Object.freeze({
 		buttonGap: 20,
-		x: 2000 - (9 * 110) - 25,
-		y: 25,
+		x: 2000 - (9 * 110),
+		y: 0,
 		w: (9 * 110),
-		h: 1000 - (2 * 25),
+		h: 1000,
 	}),
 
 	/**
@@ -144,7 +144,6 @@ var Layering = {
 	ID: Object.freeze({
 		root: "layering",
 
-		buttonGrid: "layering-button-grid",
 		resetButton: "layering-reset-button",
 		exitButton: "layering-exit-button",
 		hideButton: "layering-hide-button",
@@ -363,10 +362,8 @@ var Layering = {
 	 * @private
 	 */
 	_ApplyReadonly(isReadonly) {
-		const elements = /** @type {HTMLInputElement[]} */([
-			...Array.from(document.querySelectorAll("[data-asset-priority]")),
-			...Array.from(document.querySelectorAll("[data-layer-priority]")),
-		]);
+		/** @type {NodeListOf<HTMLFieldSetElement>} */
+		const elements = document.querySelectorAll(`${this.ID.root} fieldset`);
 
 		document.getElementById(this.ID.resetButton)?.setAttribute("aria-disabled", isReadonly);
 		for (const e of elements) {
@@ -410,9 +407,9 @@ var Layering = {
 
 	/** @type {ScreenLoadHandler} */
 	Load() {
-		let elem = document.getElementById(this.ID.root);
-		if (elem != null) {
-			elem.toggleAttribute("hidden", false);
+		let root = document.getElementById(this.ID.root);
+		if (root != null) {
+			root.toggleAttribute("hidden", false);
 			this.Resize(true);
 			return;
 		}
@@ -425,134 +422,146 @@ var Layering = {
 		const itemPriority = Number.isInteger(this.OverridePriority) ? /** @type {number} */(this.OverridePriority) : assetPriority;
 		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? /** @type {number} */(this._PriorityDefault) : assetPriority;
 
-		elem = ElementCreate({
-			tag: "div",
-			attributes: {
-				id: this.ID.root,
-				["screen-generated"]: CurrentScreen,
-				"aria-busy": "true",
-			},
-			parent: document.body,
-			classList: ["HideOnPopup"],
-			style: { ["--button-gap"]: `min(${this.Display.buttonGap / 10}vh, ${this.Display.buttonGap / 20}vw)` },
+		const layerFieldset = ElementCreate({
+			tag: "fieldset",
+			attributes: { id: this.ID.layerDIV, "aria-labelledby": this.ID.layerHeader },
 			children: [
 				{
-					tag: "h1",
-					attributes: { id: this.ID.assetHeader },
-					children: [InterfaceTextGet("LayeringAsset")],
-				},
-				ElementMenu.Create(
-					this.ID.buttonGrid,
-					[
-						ElementButton.Create(this.ID.exitButton, () => this.Exit(), { tooltip: InterfaceTextGet("LayeringExit") }),
-						ElementButton.Create(this.ID.resetButton, this._ResetClickListener, { tooltip: InterfaceTextGet("LayeringReset") }),
-						ElementButton.Create(
-							this.ID.hideButton, this._ShowLayersClickListener,
-							{ role: "menuitemcheckbox" },
-							{
-								button: { attributes: { "aria-checked": "true" } },
-								tooltip: { children: [
-									{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-show` }, children: [InterfaceTextGet("LayeringShow")] },
-									{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-hide` }, children: [InterfaceTextGet("LayeringHide")] },
-								]},
-							},
-						),
-						ElementButton.Create(
-							this.ID.lockButton, () => null, { tooltip: InterfaceTextGet("LayeringLock") },
-							{ button: { attributes: { "aria-disabled": "true" } } },
-						),
-					],
-					{ direction: "rtl" },
-					{ menu: { classList: ["layering-button-grid"] } },
-				),
-				{
 					tag: "div",
-					attributes: { id: this.ID.assetGrid },
-					classList: ["layering-pair"],
-					children: [
-						{
-							tag: "input",
-							attributes: { type: "number", min: "-99", max: "99", value: itemPriority, defaultValue: defaultItemPriority.toString(), inputMode: "numeric", id: "layering-input-asset" },
-							dataAttributes: { assetPriority: defaultItemPriority.toString() },
-							classList: priorityIsObject ? ["layering-input-unfocused"] : [],
-							eventListeners: {
-								input: (event) => this._AssetInputListener(event),
-								focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
-								blur: ElementNumberInputBlur,
-								wheel: ElementNumberInputWheel,
-							},
-						},
-						{
-							tag: "label",
-							attributes: { for: "layering-input-asset" },
-							classList: ["layering-pair-text"],
-							children: [this.Asset.Description],
-						},
-					],
-				},
-				{
-					tag: "h1",
-					attributes: { id: this.ID.layerHeader },
-					children: [InterfaceTextGet("LayeringLayer")],
-				},
-				{
-					tag: "div",
-					attributes: { id: this.ID.layerDIV },
-					classList: ["scroll-box"],
-					children: [
-						{
-							tag: "div",
-							attributes: { id: this.ID.layerOuterGrid },
-							children: Object.entries(layerGroupings).flatMap(([layerGroupName, layerList]) => {
-								return [
-									{
-										tag: "h2",
-										dataAttributes: { layeringGroup: layerGroupName },
-										children: [layerGroupName],
-									},
-									{
-										tag: "div",
-										classList: ["layering-layer-inner-grid"],
-										children: layerList.map((layer) => {
-											const name = layer.Name ?? this.Asset.Name;
-											/** @type {number} */
-											const layerPriority = this.OverridePriority?.[name] ?? layer.Priority;
-											/** @type {number} */
-											const defaultLayerPriority = this._PriorityDefault?.[name] ?? layer.Priority;
-											return {
-												tag: "div",
-												classList: ["layering-pair"],
-												attributes: { hidden: !CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) },
-												children: [
-													{
-														tag: "input",
-														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric", id: `layering-input-${layerGroupName}-${name}` },
-														dataAttributes: { layerPriority: defaultLayerPriority.toString(), name },
-														classList: priorityIsObject ? [] : ["layering-input-unfocused"],
-														eventListeners: {
-															input: (event) => this._LayerInputListener(event),
-															focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
-															blur: ElementNumberInputBlur,
-															wheel: ElementNumberInputWheel,
-														},
-													},
-													{
-														tag: "label",
-														attributes: { for: `layering-input-${layerGroupName}-${name}` },
-														classList: ["layering-pair-text"],
-														children: [name],
-													},
-												],
-											};
-										}),
-									},
-								];
-							}),
-						},
-					],
+					attributes: { id: this.ID.layerOuterGrid },
+					children: Object.entries(layerGroupings).map(([layerGroupName, layerList]) => {
+						const headingID = ElementGenerateID();
+						return {
+							tag: "fieldset",
+							classList: ["layering-layer-inner-grid"],
+							attributes: { "aria-labelledby": headingID },
+							children: [
+								{
+									tag: /** @type {const} */("legend"),
+									dataAttributes: { layeringGroup: layerGroupName },
+									children: [layerGroupName],
+								},
+								...layerList.map((layer) => {
+									const name = layer.Name ?? this.Asset.Name;
+									/** @type {number} */
+									const layerPriority = this.OverridePriority?.[name] ?? layer.Priority;
+									/** @type {number} */
+									const defaultLayerPriority = this._PriorityDefault?.[name] ?? layer.Priority;
+									return {
+										tag: /** @type {const} */("div"),
+										classList: ["layering-pair"],
+										attributes: { hidden: !CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) },
+										children: [
+											{
+												tag: /** @type {const} */("input"),
+												attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric", id: `layering-input-${layerGroupName}-${name}` },
+												dataAttributes: { layerPriority: defaultLayerPriority.toString(), name },
+												classList: priorityIsObject ? [] : ["layering-input-unfocused"],
+												eventListeners: {
+													input: (event) => this._LayerInputListener(event),
+													focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
+													blur: ElementNumberInputBlur,
+													wheel: ElementNumberInputWheel,
+												},
+											},
+											{
+												tag: /** @type {const} */("label"),
+												attributes: { for: `layering-input-${layerGroupName}-${name}` },
+												classList: ["layering-pair-text"],
+												children: [name],
+											},
+										],
+									};
+								}),
+							],
+						};
+					}),
 				},
 			],
 		});
+		root = ElementDOMScreen.getTemplate(
+			this.ID.root,
+			{
+				header: TextSubstitute(
+					"LayeringAsset",
+					{ "{asset}": ElementCreate({ tag: "q", children: [this.Asset.Description] }) },
+					{ textCache: TextAllScreenCache.get(InterfaceStringsPath) },
+				),
+				menubarButtons: [
+					ElementButton.Create(
+						this.ID.exitButton,
+						() => this.Exit(),
+						{ tooltip: InterfaceTextGet("LayeringExit"), image: "Icons/Exit.png" },
+					),
+					ElementButton.Create(
+						this.ID.resetButton,
+						this._ResetClickListener,
+						{ tooltip: InterfaceTextGet("LayeringReset"), image: "Icons/Reset.png" },
+					),
+					ElementButton.Create(
+						this.ID.hideButton, this._ShowLayersClickListener,
+						{ role: "menuitemcheckbox", image: "Icons/Visibility.png", ariaChecked: true },
+						{
+							tooltip: { children: [
+								{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-show` }, children: [InterfaceTextGet("LayeringShow")] },
+								{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-hide` }, children: [InterfaceTextGet("LayeringHide")] },
+							]},
+						},
+					),
+					ElementButton.Create(
+						this.ID.lockButton,
+						() => null,
+						{ tooltip: InterfaceTextGet("LayeringLock"), image: "Icons/Lock.png", disabled: true },
+					),
+				],
+				mainContent: [
+					ElementCreate({
+						tag: "fieldset",
+						attributes: { name: "layering", "aria-labelledby": this.ID.assetHeader },
+						children: [
+							{
+								tag: "fieldset",
+								attributes: { id: this.ID.assetGrid, "aria-labelledby": this.ID.assetHeader },
+								children: [
+									{
+										tag: "div",
+										classList: ["layering-pair"],
+										children: [
+											{
+												tag: "input",
+												attributes: { type: "number", min: "-99", max: "99", value: itemPriority, defaultValue: defaultItemPriority.toString(), inputMode: "numeric", id: "layering-input-asset" },
+												dataAttributes: { assetPriority: defaultItemPriority.toString() },
+												classList: priorityIsObject ? ["layering-input-unfocused"] : [],
+												eventListeners: {
+													input: (event) => this._AssetInputListener(event),
+													focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
+													blur: ElementNumberInputBlur,
+													wheel: ElementNumberInputWheel,
+												},
+											},
+											{
+												tag: "label",
+												attributes: { for: "layering-input-asset" },
+												classList: ["layering-pair-text"],
+												children: [this.Asset.Description],
+											},
+										],
+									},
+								],
+							},
+							{
+								tag: "h2",
+								attributes: { id: this.ID.layerHeader },
+								children: [InterfaceTextGet("LayeringLayer")],
+							},
+							layerFieldset,
+						],
+					}),
+				],
+			},
+		);
+		root.setAttribute("aria-busy", "true");
+		document.body.append(root);
 
 		// Load and set all translated text
 		TextCache.buildAsync(`Assets/${this.Character.AssetFamily}/LayerNames.csv`).then((cache) => {
@@ -561,8 +570,10 @@ var Layering = {
 				const key = `${this.Asset.DynamicGroupName}${this.Asset.Name}${h.dataset.layeringGroup}`;
 				h.innerText = cache.cache[key] ?? (h.dataset.layeringGroup || this.Asset.Description);
 			});
-
-			elem.setAttribute("aria-busy", "false");
+		}).catch((e) => {
+			console.error(e);
+		}).finally(() => {
+			root.setAttribute("aria-busy", "false");
 		});
 
 		this.Resize(true);
@@ -574,7 +585,7 @@ var Layering = {
 	 * @type {ScreenResizeHandler}
 	 */
 	Resize(load) {
-		ElementPositionFix(this.ID.root, 0, this.Display.x, this.Display.y, this.Display.w, this.Display.h);
+		ElementPositionFixed(this.ID.root, this.Display.x, this.Display.y, this.Display.w, this.Display.h);
 	},
 
 	/** @type {ScreenUnloadHandler} */

@@ -262,13 +262,13 @@ Item intensity: High
 Интенсивность предмета: Высокая
 Item intensity: Maximum
 Интенсивность предмета: Максимальная
-Configure total priority
+Configure {asset} priority
 Настроить общий приоритет
 Exit
 Выход
 Hide hidden layers
 Скрыть скрытые слои
-Configure layer-specific priority
+Layer priority
 Настройка приоритета уровня
 Item configuration locked
 Конфигурация предмета заблокирована
