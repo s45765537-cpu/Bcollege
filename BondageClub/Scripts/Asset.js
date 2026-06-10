@@ -363,9 +363,12 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	}
 
 	// Ensure that restraints do not have clothing-exclusive properties and vice versa
+	/** @type {AssetAppearancePrerequisite[]} */
+	const appearancePreqs = ["HasBreasts", "HasFlatChest", "HasVagina", "HasPenis"];
 	switch (Group.Category) {
 		case "Item":
 			A.BodyCosplay = false;
+			A.ZoomModifier = 1;
 			break;
 		case "Appearance":
 			A.AllowLock = false;
@@ -374,6 +377,8 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 			A.AllowTighten = false;
 			A.AlwaysExtend = false;
 			A.AlwaysInteract = false;
+			A.Block = [];
+			A.CraftGroup = A.Name;
 			A.CustomBlindBackground = undefined;
 			A.Difficulty = 0;
 			A.DrawLocks = false;
@@ -385,6 +390,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 			A.MaxTimer = 0;
 			A.OwnerOnly = false;
 			A.PickDifficulty = 0;
+			A.Prerequisite = A.Prerequisite.filter(i => appearancePreqs.includes(i));
 			A.RemoveTime = 0;
 			A.RemoveTimer = 0;
 			A.SelfBondage = 0;

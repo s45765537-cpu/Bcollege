@@ -12933,7 +12933,6 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemPelvis",
 				BuyGroup: "FemPelvisHarness",
 				ParentItem: "ItemPelvisFemPelvisHarness",
-				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				DefaultColor: ["#454545", "#909090"],
 				Layer: [
 					{
@@ -13351,7 +13350,6 @@ var AssetFemale3DCG = [
 					"ItemVulvaInflatableVibeDildo",
 				],
 				BuyGroup: "Pantyhose",
-				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 			},
 			{
 				Name: "Socks6",
@@ -15109,7 +15107,6 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemPelvis",
 				BuyGroup: "FemPelvisHarness",
 				ParentItem: "ItemPelvisFemPelvisHarness",
-				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Audio: "LeatherStretchingWithMetal",
 				DefaultColor: ["#454545", "#909090"],
 				Layer: [
@@ -18170,7 +18167,6 @@ var AssetFemale3DCG = [
 					"HairAccessory2",
 					"HairAccessory3",
 				],
-				Block: ["ItemEars"],
 				DynamicGroupName: "ItemHood",
 				Layer: [
 					{ Name: "Cape", AllowTypes: { typed: 0 } },
@@ -23255,7 +23251,6 @@ var AssetFemale3DCG = [
 				DynamicAfterDraw: true,
 				DynamicGroupName: "ItemHead",
 				BuyGroup: "DroneMask",
-				Block: ["ItemNose"],
 				Layer: [
 					// Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", AllowTypes: { h: 0 } },
@@ -23650,7 +23645,6 @@ var AssetFemale3DCG = [
 				Random: false,
 				OverrideBlinking: true,
 				Hide: ["Eyes", "Eyes2"],
-				Block: [],
 				AllowExpression: ["Closed"],
 				Layer: [
 					{ Name: "LeftIris", MirrorExpression: "Eyes" },
@@ -23691,7 +23685,6 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemMouth",
 				DefaultColor: ["#141414", "Default"],
 				Hide: ["Mouth"],
-				Effect: ["BlockMouth"],
 				Layer: [{ Name: "Base" }, { Name: "BaseShine" }],
 			},
 			{
@@ -23719,7 +23712,6 @@ var AssetFemale3DCG = [
 					"#B26D66",
 					"#AAAA80",
 				],
-				Block: [],
 				Hide: [],
 				Layer: [
 					{
@@ -23958,7 +23950,6 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				Attribute: ["ShortHair"],
 				DefaultColor: ["#707070", "#404040", "#404040", "#E14055", "#606060"],
-				Block: [],
 				Hide: ["HairFront", "HairBack"],
 				Layer: [
 					{
