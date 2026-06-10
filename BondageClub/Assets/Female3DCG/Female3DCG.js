@@ -39030,6 +39030,28 @@ var AssetFemale3DCG = [
 						CreateLayerTypesOverride: [1, 2, 3, 6, 7, 9, 12, 13, 15],
 					},
 					{
+						Name: "RopeCuffs_Link",
+						CopyLayerColor: "RopeCuffsFront",
+						HideColoring: true,
+						Priority: 26,
+					},
+					{
+						Name: "Leash",
+						ColorGroup: "Leash",
+						Priority: 25,
+					},
+					{
+						Name: "LeashKnot",
+						ColorGroup: "Leash",
+						CopyLayerColor: "Leash",
+						HideColoring: true,
+						Priority: 26,
+					},
+					{
+						Name: "RopeCuffsFront",
+						Priority: 29,
+					},
+					{
 						Name: "Suspension",
 						Top: -687,
 						Priority: 31,
