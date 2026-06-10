@@ -4558,9 +4558,6 @@ var AssetFemale3DCGExtended = {
 		HempRope: {
 			Archetype: ExtendedArchetype.TYPED,
 			AllowEffect: [E.Leash, E.IsLeashed],
-			ScriptHooks: {
-				Init: InventoryItemArmsHempRopeInitHook,
-			},
 			ChatTags: [
 				CommonChatTags.SOURCE_CHAR,
 				CommonChatTags.TARGET_CHAR,
@@ -4583,47 +4580,13 @@ var AssetFemale3DCGExtended = {
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
 				},
 				{
-					Name: "RopeCuffs",
-					HasSubscreen: true,
-					// NOTE: The pose is managed by the position subscreen (see `Screens/Inventory/ItemArms/HempRope/HempRope.js`);
-					// it must not live in the option's `Property` lest `TypedItemInit` resets the front position back to default
+					Name: "RopeCuffsBack",
 					Property: {
+						SetPose: ["BackCuffs"],
 						Difficulty: 1,
-						OverridePriority: { "": 29, RopeCuffsFront: 29 },
+						OverridePriority: 29,
 					},
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
-					ArchetypeConfig: {
-						Archetype: ExtendedArchetype.NOARCH,
-						BaselineProperty: {
-							SetPose: ["BackCuffs"],
-						},
-						ScriptHooks: {
-							Init: InventoryItemArmsHempRopeRopeCuffsInitHook,
-							Draw: InventoryItemArmsHempRopeRopeCuffsDrawHook,
-							Click: InventoryItemArmsHempRopeRopeCuffsClickHook,
-						},
-						DrawData: {
-							elementData: [
-								{
-									position: [1235, 450, 225, 275],
-									drawImage: true,
-									hidden: false,
-									imagePath:
-										"Screens/Inventory/ItemArms/HempRope/RopeCuffsBack.png",
-								},
-								{
-									position: [1540, 450, 225, 275],
-									drawImage: true,
-									hidden: false,
-									imagePath:
-										"Screens/Inventory/ItemArms/HempRope/RopeCuffsFront.png",
-								},
-							],
-						},
-						DialogPrefix: {
-							Header: "SelectBondagePosition",
-						},
-					},
 				},
 				{
 					Name: "WristElbowTie",
@@ -4827,6 +4790,16 @@ var AssetFemale3DCGExtended = {
 							Chat: "SuspensionChange",
 						},
 					},
+				},
+				{
+					Name: "RopeCuffsFront",
+					Property: {
+						SetPose: ["BaseUpper"],
+						Effect: [E.Leash],
+						Difficulty: 1,
+						OverridePriority: 29,
+					},
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
 				},
 			],
 			DialogPrefix: {
