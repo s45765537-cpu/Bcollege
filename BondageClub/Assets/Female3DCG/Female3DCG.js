@@ -39034,11 +39034,13 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "RopeCuffsFront",
 						HideColoring: true,
 						Priority: 26,
+						AllowTypes: { typed: [17] },
 					},
 					{
 						Name: "Leash",
 						ColorGroup: "Leash",
 						Priority: 25,
+						AllowTypes: { typed: [17] },
 					},
 					{
 						Name: "LeashKnot",
@@ -39046,10 +39048,12 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Leash",
 						HideColoring: true,
 						Priority: 26,
+						AllowTypes: { typed: [17] },
 					},
 					{
 						Name: "RopeCuffsFront",
 						Priority: 29,
+						AllowTypes: { typed: [17] },
 					},
 					{
 						Name: "Suspension",
