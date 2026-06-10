@@ -39,7 +39,7 @@ ArmsRopeSetHogtied,SourceCharacter uses rope to hogtie TargetCharacter.
 ArmsRopeSetInvertedSuspensionAllFours,SourceCharacter uses rope on TargetCharacter to suspend and have TargetPronounObject crawling on all fours upside down.
 ArmsRopeSetInvertedSuspensionHogtied,SourceCharacter uses rope to suspend and hogtie TargetCharacter upside down.
 ArmsRopeSetKneelingHogtie,SourceCharacter uses rope to hogtie TargetCharacter on TargetPronounPossessive knees.
-ArmsRopeSetRopeCuffs,SourceCharacter uses rope to tie rope cuffs on DestinationCharacter wrists
+ArmsRopeSetRopeCuffsBack,SourceCharacter uses rope to tie rope cuffs on DestinationCharacter wrists
 ArmsRopeSetRopeCuffsFront,SourceCharacter uses rope to tie rope cuffs in front of DestinationCharacter wrists
 ArmsRopeSetSimpleHogtie,SourceCharacter uses rope to hogtie TargetCharacter.
 ArmsRopeSetSuspensionAllFours,SourceCharacter uses rope on TargetCharacter to suspend and have TargetPronounObject crawling on all fours.
@@ -6591,9 +6591,8 @@ RopeBondageKneesThighs,Knees and Thighs Tie
 RopeBondageLink,Link Tie
 RopeBondageMermaid,Mermaid Tie
 RopeBondageOverPanties,Over Panties
-RopeBondageRopeCuffs,Rope Cuffs
-ItemArmsHempRopeRopeCuffsBack,Behind back
-ItemArmsHempRopeRopeCuffsFront,In front
+RopeBondageRopeCuffsBack,Rope Cuffs (Behind Back)
+RopeBondageRopeCuffsFront,Rope Cuffs (In Front)
 RopeBondageSimpleHogtie,Simple Hogtie
 RopeBondageStar,Star Harness Tie
 RopeBondageSuspension,Suspension Tie
