@@ -364,7 +364,10 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 
 	// Ensure that restraints do not have clothing-exclusive properties and vice versa
 	/** @type {AssetAppearancePrerequisite[]} */
-	const appearancePreqs = ["HasBreasts", "HasFlatChest", "HasVagina", "HasPenis"];
+	const appearancePreqs = [
+		"HasBreasts", "HasFlatChest", "HasVagina", "HasPenis",
+		...Pose.map(i => /** @type {const} */(`Can${i.Name}`)),
+	];
 	switch (Group.Category) {
 		case "Item":
 			A.BodyCosplay = false;

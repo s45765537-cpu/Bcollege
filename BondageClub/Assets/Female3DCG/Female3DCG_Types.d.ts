@@ -773,7 +773,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	ExpressionPrerequisite?: AssetPrerequisite[];
 }
 
-type AssetAppearancePrerequisite = Extract<AssetPrerequisite, "HasBreasts" | "HasFlatChest" | "HasVagina" | "HasPenis">;
+type AssetAppearancePrerequisite = Extract<AssetPrerequisite, PosePrerequisite | "HasBreasts" | "HasFlatChest" | "HasVagina" | "HasPenis">;
 
 /** Input interface for constructing {@link Asset} objects. */
 declare namespace AssetDefinition {
