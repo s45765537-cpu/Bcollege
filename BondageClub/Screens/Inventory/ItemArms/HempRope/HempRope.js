@@ -1,6 +1,5 @@
 "use strict";
 
-/** Typed index of the "in front" rope-cuffs option (last entry in the HempRope option list) */
 const InventoryItemArmsHempRopeRopeCuffsFrontTypedIndex = 17;
 
 /** @type {ExtendedItemCallbacks.BeforeDraw} */
