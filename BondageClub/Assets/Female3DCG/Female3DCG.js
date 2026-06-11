@@ -39035,7 +39035,7 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Ropes",
 					},
 					{
-						Name: "RopeCuffs_Link",
+						Name: "RopeCuffsLink",
 						CopyLayerColor: "Ropes",
 						HideColoring: true,
 						Priority: 25,
