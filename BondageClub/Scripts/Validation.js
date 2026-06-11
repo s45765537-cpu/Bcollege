@@ -831,7 +831,7 @@ function ValidationSanitizeLock(C, item) {
 
 	// Remove any invalid lock member number
 	const lockNumber = property.LockMemberNumber;
-	if (typeof lockNumber !== "number") {
+	if (lockNumber !== undefined && !CommonIsInteger(lockNumber, 0)) {
 		console.warn("Removing invalid lock member number:", lockNumber);
 		delete property.LockMemberNumber;
 		changed = true;
@@ -870,7 +870,7 @@ function ValidationSanitizeLock(C, item) {
 		const ownerCanUseLoverLocks = !C.IsPlayer() || !LogQuery("BlockLoverLockOwner", "LoverRule");
 		const selfCanUseLoverLocks = !C.IsPlayer() || !LogQuery("BlockLoverLockSelf", "LoverRule");
 		const lockNumberValid = (lockedBySelf && selfCanUseLoverLocks)
-			|| C.GetLoversNumbers(true).includes(lockNumber)
+			|| lockNumber !== undefined && C.GetLoversNumbers(true).includes(lockNumber)
 			|| (lockedByOwner && ownerCanUseLoverLocks);
 
 		if (!hasLovers || !lockNumberValid) {
