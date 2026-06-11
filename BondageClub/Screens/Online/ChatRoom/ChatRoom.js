@@ -361,9 +361,10 @@ function ChatRoomRefreshActiveView() {
 		ChatRoomActiveView = null;
 	} else if ((ChatRoomData?.MapData?.Type ?? "Never") === "Never") {
 		ChatRoomActivateView(ChatRoomCharacterViewName);
-		return;
 	} else if (ChatRoomData?.MapData?.Type == "Always") {
 		ChatRoomActivateView(ChatRoomMapViewName);
+	} else if (!ChatRoomActiveView) {
+		ChatRoomActivateView(ChatRoomCharacterViewName);
 	}
 }
 
@@ -2654,8 +2655,8 @@ function ChatRoomTopMenuSync() {
 		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
 		/** @type {HTMLDivElement | null} */
 		const tooltip = btn?.querySelector(".button-tooltip");
-		/** @type {HTMLImageElement | null} */
-		const img = btn?.querySelector("img.button-image");
+		/** @type {HTMLElement | null} */
+		const img = btn?.querySelector(".button-image");
 
 		if (!btn || !tooltip || !img) continue;
 		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
@@ -2673,8 +2674,13 @@ function ChatRoomTopMenuSync() {
 		}
 
 		const imgSrc = state.image;
-		if (!img.src.endsWith(imgSrc)) {
-			img.src = imgSrc;
+		if (img instanceof HTMLImageElement) {
+			if (!img.src.endsWith(imgSrc)) {
+				img.src = imgSrc;
+			}
+		} else if (img.style.backgroundImage !== imgSrc) {
+			img.style.backgroundImage = `url("${imgSrc}")`;
+			img.style.maskImage = `url("${imgSrc}")`;
 		}
 	}
 }
@@ -4205,10 +4211,12 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			}
 			substitutions.push([Tag, Text.toString()]);
 		} else if (IsTextLookupDictionaryEntry(entry)) {
-			let text = AssetTextGet(entry.TextToLookUp);
-			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-				text = InterfaceTextGet(entry.TextToLookUp);
-			} else {
+			let text = TextQueryMultiple(
+				entry.TextToLookUp,
+				[TextAllScreenCache.get(AssetStringsPath), TextAllScreenCache.get(InterfaceStringsPath)],
+				{ logMissing: false },
+			);
+			if (!text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
 				// We lower-case here to blend in asset names in messages
 				text = text.toLowerCase();
 			}
@@ -4487,36 +4495,30 @@ function ChatRoomMessage(data) {
 
 	// Substitute actions and server messages for their fulltext version
 	switch (data.Type) {
-		case "Action":
-			{
-				let text;
-				if (msg.startsWith("GGTS")) {
-					text = AsylumGGTSGetMessage(msg);
-				}
-				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-					text = AssetTextGet(msg);
-				}
-				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-					text = InterfaceTextGet(msg);
-				}
-				msg = text;
-			}
+		case "Action": {
+			msg = TextQueryMultiple(
+				msg,
+				[
+					msg.startsWith("GGTS") ? TextPrefetchFile(ScreenFileGetPath("GGTSMessages.csv", "Room", "AsylumGGTS")) : undefined,
+					TextAllScreenCache.get(AssetStringsPath),
+					TextAllScreenCache.get(InterfaceStringsPath),
+				],
+			);
 			break;
-
+		}
 		case "ServerMessage":
 			msg = InterfaceTextGet("ServerMessage" + msg);
 			break;
 
 		case "Activity": {
-			let text;
+			/** @type {string | undefined} */
+			let txt = undefined;
 			if (metadata.ActivityAsset) {
-				text = AssetTextGet(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+				// Is this optional? Required? Who knows
+				txt = TextAllScreenCache.get(AssetStringsPath)?.getOptional(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
 			}
-			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-				text = ActivityDictionaryText(msg);
-			}
-			msg = text;
-
+			txt ??= ActivityDictionaryText(msg);
+			msg = txt;
 			break;
 		}
 	}

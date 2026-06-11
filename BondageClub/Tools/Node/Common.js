@@ -143,7 +143,7 @@ export function parseCSV(str) {
 	let c;
 	let col;
 	// We remove whitespace on start and end
-	str = str.trim() + "\n";
+	str = str.trim().replace(/\r\n/g, "\n") + "\n";
 
 	// iterate over each character, keep track of current row and column (of the returned array)
 	for (let row = (col = c = 0); c < str.length; c++) {

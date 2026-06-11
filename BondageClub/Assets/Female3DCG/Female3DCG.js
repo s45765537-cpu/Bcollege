@@ -5311,6 +5311,7 @@ var AssetFemale3DCG = [
 			{ Name: "SpreaderBar", Left: 205, Top: 270 },
 			{ Name: "FireBite", Left: 218, Top: 258 },
 			{ Name: "CRABS", Left: 206, Top: 274 },
+			{ Name: "PirateRockRadio", Left: 206, Top: 268 },
 		],
 	},
 	// #endregion
@@ -12162,17 +12163,8 @@ var AssetFemale3DCG = [
 				ParentGroup: "BodyLower",
 				Hide: ["Pussy", "ItemVulva"],
 				Attribute: ["GenitaliaCover", "DiaperMedium"],
-				HideItemExclude: [
-					"ItemVulvaWandBelt",
-					"ItemVulvaWiredEgg",
-				],
-				DefaultColor: [
-					"Default",
-					"#92D1FF",
-					"Default",
-					"#FFEA00",
-					"#D6CB53",
-				],
+				HideItemExclude: ["ItemVulvaWandBelt", "ItemVulvaWiredEgg"],
+				DefaultColor: ["Default", "#92D1FF", "Default", "#FFEA00", "#D6CB53"],
 				Extended: true,
 				Layer: [
 					{
