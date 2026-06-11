@@ -6,8 +6,7 @@ const InventoryItemArmsHempRopeRopeCuffsFrontTypedIndex = 17;
 function AssetsItemArmsHempRopeBeforeDraw(data) {
 	const subType = data.Property?.TypeRecord?.typed ?? 0;
 	if (data.L === "Leash" && subType === InventoryItemArmsHempRopeRopeCuffsFrontTypedIndex) {
-		// Held art follows the item's IsLeashed flag and chat-room leash state (CharacterRefreshLeash does not reload C.Effect)
-		return { LayerType: InventoryItemArmsHempRopeRopeCuffsIsLeashHeld(data.C, data.CA) ? "Held" : "" };
+		return { LayerType: data.C.HasEffect("IsLeashed") ? "Held" : "" };
 	}
 	if (subType === 11) { // "BedSpreadEagle"
 		return {
@@ -21,16 +20,4 @@ function AssetsItemArmsHempRopeBeforeDraw(data) {
 		};
 	}
 	return data;
-}
-
-/**
- * Whether the rope-cuffs leash should use held art for the passed character
- * @param {Character} C
- * @param {Item} item
- * @returns {boolean}
- */
-function InventoryItemArmsHempRopeRopeCuffsIsLeashHeld(C, item) {
-	if (InventoryItemHasEffect(item, "IsLeashed", true)) return true;
-	if (C.IsPlayer() && ChatRoomLeashPlayer != null) return true;
-	return Array.isArray(ChatRoomLeashList) && C.MemberNumber != null && ChatRoomLeashList.indexOf(C.MemberNumber) >= 0;
 }
