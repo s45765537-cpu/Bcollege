@@ -27489,6 +27489,18 @@ var AssetFemale3DCG = [
 					{
 						Name: "Clip",
 					},
+				],
+			},
+			{
+				Name: "HairFront64b",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Clip",
+					},
 					{
 						Name: "Streaks",
 						ColorGroup: "Main",
