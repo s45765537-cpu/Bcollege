@@ -1595,13 +1595,10 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	) && (
 		!C.IsGhosted()
 	);
-	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
-	if (C.IsPlayer()) {
-		// Grab the first custom background that we can find
-		const customBGItem = C.Appearance.find(item => typeof item.Property?.CustomBlindBackground === "string");
-		C.CustomBackground = customBGItem ? customBGItem.Property?.CustomBlindBackground : undefined;
-	}
+	C.CustomBackground = undefined;
+
+	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
 	if (C.IsPlayer() && Push) {
 		ChatRoomRefreshChatSettings();
