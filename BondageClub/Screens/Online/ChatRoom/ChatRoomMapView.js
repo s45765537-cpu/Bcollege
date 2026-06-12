@@ -767,10 +767,6 @@ function ChatRoomMapViewLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewActivate() {
-	}
-	if (ChatRoomData.MapData?.Tiles?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight || ChatRoomData.MapData?.Objects?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
-		ChatRoomData.MapData = ChatRoomMapViewInitialize(ChatRoomData?.MapData?.Type ?? "Never");
-	}
 	ChatRoomMapManager.OnViewActivate();
 	ChatRoomMapViewCalculatePerceptionMasks();
 }
