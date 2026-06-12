@@ -3314,7 +3314,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.Cloth,
 					Suspension: "Suspension",
 				},
-				DefaultColor: ["#886D5D", "#886D58", "#8B6945", "Default"],
+				DefaultColor: ["#886d5d", "#886D58", "#8B6945", "Default"],
 				Layer: [
 					{ Name: "Base", AllowTypes: { c: [0, 1] } },
 					{ Name: "BaseStains", AllowTypes: { c: 1 } },
@@ -12167,7 +12167,7 @@ var AssetFemale3DCG = [
 				],
 				DefaultColor: [
 					"Default",
-					"#92D1FF",
+					"#92d1ff",
 					"Default",
 					"#FFEA00",
 					"#D6CB53",
@@ -12176,27 +12176,64 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Base",
+						AllowTypes:{d: [0], m: [0,1,2,3,4] },
 					},
 					{
 						Name: "Tabs",
+						Priority:20
 					},
 					{
-						Name: "Motiv",
-						AllowTypes: { typed: [1, 2, 3, 4] },
-						CreateLayerTypes: ["typed"],
+						Name: "None",
+						AllowTypes: { m: [0] },
 						ParentGroup: "",
+						Priority:20
 					},
 					{
 						Opacity: 0,
 						MinOpacity: 0,
 						MaxOpacity: 1,
 						Name: "Wet",
+						Priority:21
 					},
 					{
 						Opacity: 1,
 						Name: "Indicator",
 						MinOpacity: 0,
 						MaxOpacity: 1,
+						Priority:20
+					},
+					{
+						Name: "BaseAlpha",
+						AllowTypes:{d: [1]},
+						CopyLayerColor:"Base",
+					},
+					{
+						Name: "Simple",
+						AllowTypes: { m: [1], d: [0]},
+						ParentGroup: "",
+						CopyLayerColor:"None",
+						Priority:20
+					},
+					{
+						Name: "HisMajesty",
+						AllowTypes: { m: [2], d: [0]},
+						ParentGroup: "",
+						CopyLayerColor:"None",
+						Priority:20
+					},
+					{
+						Name: "HerMajesty",
+						AllowTypes: { m: [3], d: [0]},
+						ParentGroup: "",
+						CopyLayerColor:"None",
+						Priority:20
+					},
+					{
+						Name: "Lock",
+						AllowTypes: { m: [4], d: [0]},
+						ParentGroup: "",
+						CopyLayerColor:"None",
+						Priority:20
 					},
 				],
 			},
