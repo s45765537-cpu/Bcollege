@@ -1411,23 +1411,48 @@ var ServerAccountDataSyncedValidate = {
 	BlackList: (arg, C) => {
 		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
 	},
-	MapData: (arg, C) => {
-		/** @type {ChatRoomMapData} */
-		const data = {
-			Pos: {
-				X: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.X, 0, ChatRoomMapViewWidth) ? arg.Pos.X : ChatRoomMapViewWidth / 2,
-				Y: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.Y, 0, ChatRoomMapViewHeight) ? arg.Pos.Y : ChatRoomMapViewHeight / 2,
-			},
-			PrivateState: CommonIsObject(arg?.PrivateState) ? arg.PrivateState : {},
-		};
-		if (CommonIsObject(arg)) {
-			const copy = { ... arg };
-			delete copy?.Pos;
-			delete copy?.PrivateState;
-			Object.assign(data, copy);
+	/**
+	 * Validate a ChatRoomMapData object
+	 *
+	 * Note that because the position needs the actual room data (for the entry flag position),
+	 * you might get slightly incorrect results from this if run from outside a chat room.
+	 *
+	 * @type {((arg: ChatRoomMapData | undefined, C: Character) => ChatRoomMapData) & { [k in keyof ChatRoomMapData]: (arg: Partial<ChatRoomMapData[k]>, C: Character) => ChatRoomMapData[k] }}
+	 */
+	MapData: Object.assign(
+		/** @type {(arg: Partial<ChatRoomMapData> | undefined, C: Character) => ChatRoomMapData} */
+		(arg, C) => {
+			/** @type {ChatRoomMapData} */
+			const data = {
+				...arg,
+				Pos: ServerAccountDataSyncedValidate.MapData.Pos(arg?.Pos, C),
+				PrivateState: ServerAccountDataSyncedValidate.MapData.PrivateState(arg?.Pos, C),
+			}
+			return data;
+		}, {
+		/**
+		 * Validate a ChatRoomMapPos object
+		 *
+		 * Note that because the position needs the actual room data (for the entry flag position),
+		 * you might get slightly incorrect results from this if run from outside a chat room.
+		 *
+		 * @type {(arg: ChatRoomMapData["Pos"], C: Character) => ChatRoomMapData["Pos"]}
+		 */
+		Pos: (arg, C) => {
+			const defaultPos = ChatRoomMapViewGetEntryFlagPosition() ?? { X: ChatRoomMapViewWidth / 2, Y: ChatRoomMapViewHeight / 2 };
+			/** @type {ChatRoomMapPos} */
+			if (!CommonIsObject(arg)
+				|| !CommonIsInteger(arg.X, 0, ChatRoomMapViewWidth)
+				|| !CommonIsInteger(arg.Y, 0, ChatRoomMapViewHeight)) {
+					return defaultPos;
+				}
+			return arg;
+		},
+		/** @type {(arg: ChatRoomMapData["PrivateState"], C: Character) => ChatRoomMapData["PrivateState"]} */
+		PrivateState: (arg, C) => {
+			return CommonIsObject(arg?.PrivateState) ? arg?.PrivateState : {};
 		}
-		return data;
-	},
+	}),
 	/**
 	 * @param {ServerAccountDataSynced["ChatSearchSettings"]} arg
 	 * @param {Character} C
@@ -1437,6 +1462,19 @@ var ServerAccountDataSyncedValidate = {
 		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
 	},
 };
+
+/**
+ * @param {unknown} arg
+ * @return {arg is ChatRoomMapData}
+ */
+function ServerIsMapData(arg) {
+	const data = /** @type {ChatRoomMapData} */ (arg);
+	return CommonIsObject(data)
+		&& "Pos" in data && CommonIsObject(data.Pos)
+		&& "X" in data.Pos && CommonIsInteger(data.Pos.X, 0, ChatRoomMapViewWidth)
+		&& "Y" in data.Pos && CommonIsInteger(data.Pos.Y, 0, ChatRoomMapViewHeight)
+		&& "PrivateState" in data && CommonIsObject(data.PrivateState);
+}
 
 /**
  * Namespace with default values for {@link ChatRoomSearchSettings} properties.

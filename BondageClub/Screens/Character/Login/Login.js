@@ -1067,8 +1067,6 @@ function LoginSetupPlayer(C) {
 		ServerAccountUpdate.QueueData({ ChatSearchSettings: C.ChatSearchSettings });
 	}
 
-	// Load the last chat room
-	Player.LastMapData = C.LastMapData ?? undefined;
 	if (C.LastChatRoom != null && typeof C.LastChatRoom !== "string") {
 		// Backward compatability: Convert old-style "Private" to "Visibility" and "Locked" to "Access"
 		const data = /** @type {{Private?: boolean; Locked?: boolean }} */ (C.LastChatRoom);
@@ -1080,6 +1078,9 @@ function LoginSetupPlayer(C) {
 		if (ChatRoomValidateProperties(C.LastChatRoom))
 			Player.LastChatRoom = C.LastChatRoom;
 	}
+
+	// Load the last chat room; this is validated by ChatRoomSync/Properties once we re-enter the room
+	Player.LastMapData = ServerIsMapData(C.LastMapData) ? C.LastMapData : undefined;
 
 	// Loads the ownership data
 	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);

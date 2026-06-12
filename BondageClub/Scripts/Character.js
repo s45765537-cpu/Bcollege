@@ -661,18 +661,15 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			this.Position = { X: this.X, Y: value };
 		},
 		get Position() {
-			if (!this.MapData?.Pos) return null;
-			if (this.MapData?.Pos?.X === null || this.MapData?.Pos?.Y === null) return null;
-			return { X: this.MapData.Pos.X, Y: this.MapData.Pos.Y };
+			return this.MapData?.Pos ?? null;
 		},
 		set Position(pos) {
 			if (pos === null) {
 				return;
 			}
-			const { X, Y } = pos;
-			if (!this.MapData) return;
-			if (!this.MapData.Pos) return;
-			this.MapData.Pos = ChatRoomMapViewValidatePosition({X, Y});
+			const newPos = ServerAccountDataSyncedValidate.MapData.Pos(pos, this);
+			this.MapData ??= { Pos: newPos, PrivateState: {}};
+			this.MapData.Pos = newPos;
 			ChatRoomMapViewCalculatePerceptionMasks();
 			ChatRoomMapViewUpdatePlayerFlag();
 		},
