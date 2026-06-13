@@ -7435,7 +7435,11 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
-				HideItemExclude: ["ItemVulvaWiredEgg"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 				PoseMapping: {
 					Yoked: PoseType.DEFAULT,
 					BackBoxTie: PoseType.DEFAULT,
@@ -7508,7 +7512,11 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Hide: ["ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
-				HideItemExclude: ["ItemVulvaWiredEgg"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 				PoseMapping: {
 					Yoked: PoseType.DEFAULT,
 					BackBoxTie: PoseType.DEFAULT,
@@ -10353,6 +10361,11 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Value: 15,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 			},
@@ -10364,6 +10377,11 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Value: 25,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 			},
 			{
 				Name: "SportSwimsuit",
@@ -10380,6 +10398,11 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#011e54", "#a70004", "#d4d5d4"],
 				Value: 20,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 				DrawLocks: false,
 				Layer: [
 					{
@@ -10435,6 +10458,11 @@ var AssetFemale3DCG = [
 				Fetish: ["Nylon", "Pet"],
 				Value: 30,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 			},
 			{
 				Name: "LatexBunnySuit",
@@ -10450,6 +10478,11 @@ var AssetFemale3DCG = [
 				DefaultColor: "#6C33AE",
 				Value: 30,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 				DrawLocks: false,
 				Layer: [
 					{
@@ -10594,6 +10627,11 @@ var AssetFemale3DCG = [
 				Priority: 20,
 				Value: 40,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 			},
 			{
 				Name: "OuvertPerl1",
@@ -10633,6 +10671,11 @@ var AssetFemale3DCG = [
 				Priority: 20,
 				Value: 45,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 			},
 			{
 				Name: "SexyBeachBra1",
@@ -10697,6 +10740,11 @@ var AssetFemale3DCG = [
 				Value: 35,
 				DefaultColor: "#E53771",
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 			},
 			{
 				Name: "ClamShell",
@@ -10895,7 +10943,11 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
-				HideItemExclude: ["ItemVulvaWiredEgg"],
+				HideItemExclude: [
+					"ItemVulvaWandBelt",
+					"ItemVulvaFullLatexSuitWand",
+					"ItemVulvaWiredEgg",
+				],
 				PoseMapping: {
 					Yoked: PoseType.DEFAULT,
 					BackBoxTie: PoseType.DEFAULT,
@@ -15686,7 +15738,6 @@ var AssetFemale3DCG = [
 				Name: "BarefootSandals1",
 				InventoryID: 364,
 				StyleOverride: ["EchoV2"],
-				Hide: ["Socks", "SocksRight", "SocksLeft"],
 				Value: 10,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
@@ -36495,6 +36546,7 @@ var AssetFemale3DCG = [
 				InventoryID: 293,
 				Gender: "F",
 				Fetish: ["Lingerie"],
+				StyleOverride: ["EchoV2"],
 				Priority: 22,
 				Value: 30,
 				Difficulty: 8,
@@ -36631,6 +36683,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Left: 150,
+				StyleOverride: ["EchoV2"],
 				BuyGroup: "Corset3",
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
@@ -36676,6 +36729,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Left: 150,
+				StyleOverride: ["EchoV2"],
 				BuyGroup: "Corset5",
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
@@ -36718,6 +36772,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Left: 150,
+				StyleOverride: ["EchoV2"],
 				BuyGroup: "LatexCorset1",
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				Expose: ["ItemNipples", "ItemBreast", "ItemNipplesPiercings"],
@@ -36957,6 +37012,7 @@ var AssetFemale3DCG = [
 				Name: "Underbust",
 				InventoryID: 299,
 				Fetish: ["Lingerie"],
+				StyleOverride: ["EchoV2"],
 				Priority: 22,
 				Value: -1,
 				Difficulty: 8,
@@ -37302,7 +37358,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Corset" },
+					{ Name: "Corset", StyleOverride: ["EchoV2"] },
 					{
 						Name: "Buttons",
 						ParentGroup: "",
@@ -37317,6 +37373,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Top: 0,
 				Difficulty: 4,
+				StyleOverride: ["EchoV2"],
 				BuyGroup: "ShinyLeotardLock",
 				Value: 80,
 				AllowLock: true,
@@ -37444,6 +37501,7 @@ var AssetFemale3DCG = [
 				Priority: 22,
 				Value: 50,
 				Difficulty: 5,
+				StyleOverride: ["EchoV2"],
 				BuyGroup: "ExtremeCorset",
 				Time: 20,
 				RemoveTime: 10,
