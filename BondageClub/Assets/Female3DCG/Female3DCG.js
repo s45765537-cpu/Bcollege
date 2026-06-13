@@ -21992,13 +21992,14 @@ var AssetFemale3DCG = [
 					"Default",
 					"Default",
 					"#A48537",
-					"Default",
 					"#707070",
 					"#00D307",
 					"#222222",
 					"#CC3333",
 					"#222222",
 					"#CC3333",
+					"#737373",
+					"#C2C2C2",
 				],
 				PoseMapping: {
 					...AssetPoseMapping.HandAccessoryRight,
@@ -22017,6 +22018,7 @@ var AssetFemale3DCG = [
 					{ Name: "MiddleSteel", AllowTypes: { m: 1 } },
 					//Ring
 					{ Name: "RingSteel", AllowTypes: { r: 1 } },
+					//Wedding
 					{ Name: "Wedding", AllowTypes: { r: 2 } },
 					//Pinkie
 					{ Name: "PinkieSteel", AllowTypes: { p: 1 } },
@@ -22027,6 +22029,39 @@ var AssetFemale3DCG = [
 					{ Name: "FingernailsColor", AllowTypes: { f: 1 }, Priority: 28 },
 					{ Name: "ClawsOutline", AllowTypes: { f: 2 }, Priority: 29 },
 					{ Name: "ClawsColor", AllowTypes: { f: 2 }, Priority: 28 },
+					//Wedding Ring Gem
+					{
+						Name: "WeddingCrown",
+						AllowTypes: { r: [1, 2] },
+						CopyLayerColor: "Wedding",
+						Priority: 29,
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "WeddingGem",
+						AllowTypes: { r: [1, 2], g: 1 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "WeddingShine",
+						AllowTypes: { r: [1, 2], g: 1 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+					},
 				],
 			},
 		],

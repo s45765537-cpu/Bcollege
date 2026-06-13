@@ -379,6 +379,11 @@ var AssetFemale3DCGExtended = {
 					Options: [{}, {}, {}],
 				},
 				{
+					Name: "RingGem",
+					Key: "g",
+					Options: [{}, {}],
+				},
+				{
 					Name: "Pinkie",
 					Key: "p",
 					Options: [{}, {}, {}],
