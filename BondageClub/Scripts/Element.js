@@ -504,7 +504,7 @@ var ElementDropdown = {
 };
 
 /**
- * Construct a custom searchable dropdown menu.
+ * Construct a custom searchable dropdown menu or, on mobile, a conventional `<select>` element.
  *
  * The element comprises a button trigger displaying the current selection,
  * and a popup containing a search input and a scrollable list of options.
@@ -530,16 +530,53 @@ var ElementDropdown = {
  * @param {readonly ElementSearchableDropdown.OptionItem[]} optionsList - The available options.
  * @param {(value: string) => void} onChange - Called when the selection changes.
  * @param {ElementSearchableDropdown.CreateOptions | null} [options]
- * @returns {ElementSearchableDropdown.SearchableDropdownElement}
+ * @returns {ElementSearchableDropdown.SearchableDropdownElement | HTMLSelectElement}
  */
 function ElementCreateSearchableDropdown(id, optionsList, onChange, options) {
 	id ??= ElementGenerateID();
-	const existing = /** @type {ElementSearchableDropdown.SearchableDropdownElement | null} */ (ElementWrap(id));
+	const existing = /** @type {ElementSearchableDropdown.SearchableDropdownElement | HTMLSelectElement | null} */ (ElementWrap(id));
 	if (existing) {
 		console.error(`Element "${id}" already exists`);
 		return existing;
 	}
 	options = options ?? {};
+
+	// Use a conventional `<select>` dropdown on mobile in order to benefit from their (generally) very mobile-specific layout
+	if (CommonIsMobile) {
+		/** @type {Record<string, HTMLOptionElement[]>} */
+		const selectGroups = {};
+		/** @type {HTMLOptionElement[]} */
+		const selectOptions = [];
+		for (const opt of optionsList) {
+			const option = ElementCreate({
+				tag: "option",
+				attributes: { value: opt.value, disabled: opt.disabled, selected: options.value === opt.value },
+				children: [opt.label],
+			});
+			if (opt.group != null) {
+				(selectGroups[opt.group] ??= []).push(option);
+			} else {
+				selectOptions.push(option);
+			}
+		}
+		return ElementDropdown.Create(
+			id,
+			[],
+			function (ev) { onChange(this.value); },
+			{ disabled: options.disabled },
+			{
+				select: {
+					parent: options.parent,
+					children: [
+						...Object.entries(selectGroups).map(([ label, children ]) => {
+							return ElementCreate({ tag: "optgroup", attributes: { label }, children });
+						}),
+						...selectOptions,
+					],
+				},
+			},
+		);
+	}
 
 	const triggerId = `${id}-trigger`;
 	const labelId = `${id}-label`;
