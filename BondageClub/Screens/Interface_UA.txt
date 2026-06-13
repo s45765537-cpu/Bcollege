@@ -262,12 +262,12 @@ Item intensity: High
 Item intensity: High
 Item intensity: Maximum
 Item intensity: Maximum
-Configure total priority
-Configure total priority
+Configure {asset} priority
+Configure {asset} priority
 Exit
 Вихід
-Configure layer-specific priority
-Configure layer-specific priority
+Layer priority
+Layer priority
 Item configuration locked
 Item configuration locked
 Reset layering
