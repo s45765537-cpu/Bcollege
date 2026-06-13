@@ -608,7 +608,6 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues, Baseline
 		AllowActivity: Array.isArray(asset.AllowActivity) ? asset.AllowActivity.slice() : [],
 		Attribute: Array.isArray(asset.Attribute) ? asset.Attribute.slice() : [],
 	};
-	if (typeof asset.CustomBlindBackground === "string") BaseLineProperties.CustomBlindBackground = asset.CustomBlindBackground;
 	if (asset.AllowTint) BaseLineProperties.Tint = CommonIsArray(asset.Tint) ? [...asset.Tint] : [];
 
 	if (BaselineProperty != null) {
@@ -631,7 +630,6 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	const layerNames = new Set(Asset.Layer.map(l => l.Name ?? ""));
 	Property = Property || {};
 	mergedProperty.Difficulty += (Property.Difficulty || 0);
-	if (typeof Property.CustomBlindBackground === "string") mergedProperty.CustomBlindBackground = Property.CustomBlindBackground;
 	if (Property.Block) CommonArrayConcatDedupe(mergedProperty.Block, Property.Block);
 	if (Property.Effect) CommonArrayConcatDedupe(mergedProperty.Effect, Property.Effect);
 	if (Property.Hide) CommonArrayConcatDedupe(mergedProperty.Hide, Property.Hide);

@@ -265,7 +265,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		/** Look for blindness effects and return the worst (limited by settings), Light: 1, Normal: 2, Heavy: 3 */
 		GetBlindLevel: function (eyesOnly = false) {
 			let blindLevel = this._BlindLevel;
-			if (blindLevel != null) {
+			if (!eyesOnly && blindLevel != null) {
 				return blindLevel;
 			} else {
 				blindLevel = 0;
@@ -288,11 +288,15 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			// Light sensory deprivation setting limits blindness
 			if (this.IsPlayer() && this.GameplaySettings && this.GameplaySettings.SensDepChatLog == "SensDepLight") {
-				this._BlindLevel = Math.max(0, Math.min(2, blindLevel));
+				blindLevel = Math.max(0, Math.min(2, blindLevel));
 			} else {
-				this._BlindLevel = Math.max(0, Math.min(3, blindLevel));
+				blindLevel = Math.max(0, Math.min(3, blindLevel));
 			}
-			return this._BlindLevel;
+			// Only cache complete blind values
+			if (!eyesOnly) {
+				this._BlindLevel = blindLevel;
+			}
+			return blindLevel;
 		},
 		GetBlurLevel: function() {
 			if ((this.IsPlayer() && !this.GraphicsSettings.AllowBlur) || CommonPhotoMode) {
@@ -1591,13 +1595,10 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	) && (
 		!C.IsGhosted()
 	);
-	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
-	if (C.IsPlayer()) {
-		// Grab the first custom background that we can find
-		const customBGItem = C.Appearance.find(item => typeof item.Property?.CustomBlindBackground === "string");
-		C.CustomBackground = customBGItem ? customBGItem.Property?.CustomBlindBackground : undefined;
-	}
+	C.CustomBackground = undefined;
+
+	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
 	if (C.IsPlayer() && Push) {
 		ChatRoomRefreshChatSettings();
