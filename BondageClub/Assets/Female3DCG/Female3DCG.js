@@ -21979,7 +21979,9 @@ var AssetFemale3DCG = [
 					{ Name: "ClawsOutline", AllowTypes: { f: 2 }, Priority: 29 },
 					{ Name: "ClawsColor", AllowTypes: { f: 2 }, Priority: 28 },
 					//Wedding Ring Gem
-					{ Name: "WeddingCrown", AllowTypes: { r: [1, 2] },
+					{
+						Name: "WeddingCrown",
+						AllowTypes: { r: [1, 2] },
 						CopyLayerColor: "Wedding",
 						Priority: 29,
 						InheritPoseMappingFields: true,
