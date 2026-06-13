@@ -1410,6 +1410,10 @@ ItemArmsFuturisticStraitjacketSides,Sides
 ItemArmsHeavyYokeCuffs,Cuffs
 ItemArmsHeavyYokeFrame,Frame
 ItemArmsHempRope,Ropes
+ItemArmsHempRopeRopes,Ropes
+ItemArmsHempRopeRopeCuffsLink,Rope cuffs link
+ItemArmsHempRopeLeash,Leash
+ItemArmsHempRopeLeashKnot,Leash knot
 ItemArmsHempRopeInvertedSuspension,Inv. Suspension Rope
 ItemArmsHempRopeSuspension,Suspension Rope
 ItemArmsHighSecurityStraitJacketCrotch,Crotch Panel

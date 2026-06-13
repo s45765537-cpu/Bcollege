@@ -39168,10 +39168,36 @@ var AssetFemale3DCG = [
 				Effect: [E.Block, E.BlockWardrobe],
 				Layer: [
 					{
+						Name: "Ropes",
+						HasImage: false,
+					},
+					{
 						Name: "",
 						StyleOverride: ["EchoV2"],
 						CreateLayerTypes: ["typed"],
 						CreateLayerTypesOverride: [1, 2, 3, 6, 7, 9, 12, 13, 15],
+						CopyLayerColor: "Ropes",
+					},
+					{
+						Name: "RopeCuffsLink",
+						CopyLayerColor: "Ropes",
+						HideColoring: true,
+						Priority: 25,
+						AllowTypes: { typed: [17] },
+					},
+					{
+						Name: "Leash",
+						ColorGroup: "Leash",
+						Priority: 25,
+						AllowTypes: { typed: [17] },
+					},
+					{
+						Name: "LeashKnot",
+						ColorGroup: "Leash",
+						CopyLayerColor: "Leash",
+						HideColoring: true,
+						Priority: 26,
+						AllowTypes: { typed: [17] },
 					},
 					{
 						Name: "Suspension",

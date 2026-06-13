@@ -3,6 +3,9 @@
 /** @type {ExtendedItemCallbacks.BeforeDraw} */
 function AssetsItemArmsHempRopeBeforeDraw(data) {
 	const subType = data.Property?.TypeRecord?.typed ?? 0;
+	if (data.L === "Leash" && subType === 17) {
+		return { LayerType: data.C.HasEffect("IsLeashed") ? "Held" : "" };
+	}
 	if (subType === 11) { // "BedSpreadEagle"
 		return {
 			X: data.X - 50,

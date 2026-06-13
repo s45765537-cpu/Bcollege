@@ -4562,6 +4562,7 @@ var AssetFemale3DCGExtended = {
 		}, // NylonRope
 		HempRope: {
 			Archetype: ExtendedArchetype.TYPED,
+			AllowEffect: [E.Leash, E.IsLeashed],
 			ChatTags: [
 				CommonChatTags.SOURCE_CHAR,
 				CommonChatTags.TARGET_CHAR,
@@ -4584,7 +4585,7 @@ var AssetFemale3DCGExtended = {
 					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
 				},
 				{
-					Name: "RopeCuffs",
+					Name: "RopeCuffsBack",
 					Property: {
 						SetPose: ["BackCuffs"],
 						Difficulty: 1,
@@ -4794,6 +4795,15 @@ var AssetFemale3DCGExtended = {
 							Chat: "SuspensionChange",
 						},
 					},
+				},
+				{
+					Name: "RopeCuffsFront",
+					Property: {
+						SetPose: ["BaseUpper"],
+						Effect: [E.Leash],
+						Difficulty: 1,
+					},
+					Expression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
 				},
 			],
 			DialogPrefix: {
