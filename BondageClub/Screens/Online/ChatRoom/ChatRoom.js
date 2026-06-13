@@ -5017,6 +5017,8 @@ async function ChatRoomSync(data) {
 	ChatRoomData = data;
 	ChatRoomJustEntered = true;
 
+	ChatRoomMapViewInitializeCharacter(Player);
+
 	// Loads the room
 	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
 		await CommonSetScreen("Online", "ChatRoom");
@@ -5184,6 +5186,9 @@ function ChatRoomSyncRoomProperties(data) {
 		...data,
 		Character: ChatRoomData.Character,
 	};
+
+	ChatRoomMapViewInitializeCharacter(Player);
+
 	if (ChatRoomSep.ActiveElem) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
 	}

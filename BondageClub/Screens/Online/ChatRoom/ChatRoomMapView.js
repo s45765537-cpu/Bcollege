@@ -713,31 +713,26 @@ function ChatRoomMapViewInitialize(mode) {
 }
 
 /**
- * Initializes the player map data to its default blank state
+ * Initializes the character's map data to its default blank state
  * @param {Character} C - The character to be initialized
- * @returns {ChatRoomMapData}
+ * @returns {ChatRoomMapData | null}
  */
 function ChatRoomMapViewInitializeCharacter(C) {
-
-	let MapData = C.MapData ? C.MapData : null;
-	// Checks to see if we can load the previously saved position
-	if (C.IsPlayer() && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
-		// Restores the saved position
-		MapData = Player.LastMapData;
-	}
-	if (!MapData || !MapData.Pos || !MapData.PrivateState){
-		// Sets position in the middle of the scren by default, or at the entry flag if possible
-		let entryPosition = ChatRoomMapViewGetEntryFlagPosition();
-		if (entryPosition == null) {
-			entryPosition = {
-				X: ChatRoomMapViewWidth / 2,
-				Y: ChatRoomMapViewHeight / 2,
-			};
+	if (ChatRoomData?.MapData.Type === "Always" || ChatRoomData?.MapData.Type === "Hybrid") {
+		// We use LastMapData here in case it's a relog into the room
+		const oldData = C.MapData ??
+			(C.IsPlayer() && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name ?
+				Player.LastMapData
+				: undefined
+			);
+		C.LastMapData = C.MapData = ServerAccountDataSyncedValidate.MapData(oldData, C);
+		if (C.IsPlayer()) {
+			// We throw in an update so that everyone sees us at the proper location
+			ServerSend("ChatRoomCharacterMapDataUpdate", Player.MapData);
 		}
-
-		MapData = { Pos: entryPosition, PrivateState: {} };
+		return C.MapData;
 	}
-	return MapData;
+	return null;
 }
 
 /**
@@ -746,11 +741,7 @@ function ChatRoomMapViewInitializeCharacter(C) {
  * @returns {ChatRoomMapPos}
  */
 function ChatRoomMapViewValidatePosition(position) {
-	const ret = CommonIsObject(position) ? position : {};
-	return {
-		X: CommonIsInteger(ret.X, 0, ChatRoomMapViewWidth) ? ret.X : ChatRoomMapViewWidth / 2,
-		Y: CommonIsInteger(ret.Y, 0, ChatRoomMapViewHeight) ? ret.Y : ChatRoomMapViewHeight / 2,
-	};
+	return ServerAccountDataSyncedValidate.MapData.Pos(position, null);
 }
 
 /**
@@ -776,17 +767,6 @@ function ChatRoomMapViewLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewActivate() {
-
-	// Make sure the player position is valid
-	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapViewWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapViewWidth) {
-		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
-		// Update the change instantly so other players don't see this player on an invalid position
-		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
-
-	}
-	if (ChatRoomData.MapData?.Tiles?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight || ChatRoomData.MapData?.Objects?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
-		ChatRoomData.MapData = ChatRoomMapViewInitialize(ChatRoomData?.MapData?.Type ?? "Never");
-	}
 	ChatRoomMapManager.OnViewActivate();
 	ChatRoomMapViewCalculatePerceptionMasks();
 }
@@ -1350,7 +1330,7 @@ function ChatRoomMapViewGetCharacterAtPos(X, Y) {
  */
 function ChatRoomMapViewGetEntryFlagPosition() {
 
-	if (!ChatRoomData.MapData?.Objects) return null;
+	if (!ChatRoomData?.MapData?.Objects) return null;
 
 	const idx = ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(ChatRoomMapViewObjectEntryID));
 	if (idx < 0) return null;
@@ -1376,10 +1356,6 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		if (!C.MapData?.Pos) continue;
 		ChatRoomMapViewCharacterMap.set(C.MapData.Pos.X + C.MapData.Pos.Y * ChatRoomMapViewWidth, C);
 	}
-
-	// Make sure the player MapData is valid
-	if (Player.MapData == null)
-		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapViewCollision();

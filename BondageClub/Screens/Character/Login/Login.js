@@ -1067,22 +1067,20 @@ function LoginSetupPlayer(C) {
 		ServerAccountUpdate.QueueData({ ChatSearchSettings: C.ChatSearchSettings });
 	}
 
-	// Load the last chat room
-	Player.LastMapData = C.LastMapData ?? undefined;
 	if (C.LastChatRoom != null && typeof C.LastChatRoom !== "string") {
 		// Backward compatability: Convert old-style "Private" to "Visibility" and "Locked" to "Access"
-		// @ts-ignore
-		if (typeof C.LastChatRoom.Private === "boolean")
-			// @ts-ignore
-			C.LastChatRoom.Visibility = C.LastChatRoom.Private ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC;
-		// @ts-ignore
-		if (typeof C.LastChatRoom.Locked === "boolean")
-			// @ts-ignore
-			C.LastChatRoom.Access = C.LastChatRoom.Locked ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
+		const data = /** @type {{Private?: boolean; Locked?: boolean }} */ (C.LastChatRoom);
+		if (typeof data.Private === "boolean")
+			C.LastChatRoom.Visibility = data.Private ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC;
+		if (typeof data.Locked === "boolean")
+			C.LastChatRoom.Access = data.Locked ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
 
 		if (ChatRoomValidateProperties(C.LastChatRoom))
 			Player.LastChatRoom = C.LastChatRoom;
 	}
+
+	// Load the last chat room; this is validated by ChatRoomSync/Properties once we re-enter the room
+	Player.LastMapData = ServerIsMapData(C.LastMapData) ? C.LastMapData : undefined;
 
 	// Loads the ownership data
 	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
