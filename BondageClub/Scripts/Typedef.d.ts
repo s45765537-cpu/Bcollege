@@ -5122,7 +5122,7 @@ interface ClubCard {
 	 * @param C Player that owns the card
 	 */
 	onLeaveClub?: (C: ClubCardPlayer) => void;
-	onMemberLeaveClub?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	onMemberLeaveClub?: (C: ClubCardPlayer, Card: ClubCard, DidntDiscard: boolean) => void;
 	onRender?: (C: ClubCardPlayer, X: number, Y: number, W: number) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
 	onLevelUp?: (C: ClubCardPlayer) => void;
@@ -5137,6 +5137,7 @@ interface ClubCard {
 	onCancelNegation?: (C: ClubCardPlayer) => void;
 	WhenDrawn?: (C: ClubCardPlayer) => void;
 	OnActive?: (C: ClubCardPlayer) => void;
+	OnGameStart?: (C: ClubCardPlayer) => void;
 }
 
 type ClubCardDefaultDecks =

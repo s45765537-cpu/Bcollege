@@ -127,7 +127,7 @@ Text LARP Queen,"<F>For my next quest, I need enchanted ropes, love potions and 
 Title Local Influencer,Local Influencer
 Text Local Influencer,You lose 2 Money and draw a card when she enters your club.
 Title Wannabe Princess,Wannabe Princess
-Text Wannabe Princess,"+2 Fame/turn if your building level is a Manor, +1 Money/turn if you have LARP Queen, +1 Money/turn if you have Throne Room Servant."
+Text Wannabe Princess,"+2 Fame/turn if your building level is a Manor."
 Title Waitress,Waitress
 Text Waitress,+1 Money per turn if Party Animal is present.  +1 Money per turn if Tourist is present.
 Title Bouncer,Bouncer
@@ -242,7 +242,7 @@ Title Pandora Infiltrator,Pandora Infiltrator
 Text Pandora Infiltrator,"Randomly gets -1 Fame/Money when a member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
 Prerequisite Pandora Infiltrator,"Select a member to copy their type(s)"
 Title Uncontrollable Sub,Uncontrollable Sub
-Text Uncontrollable Sub,"Leaves after 2 turns. Each member you play gets -1 fame."
+Text Uncontrollable Sub,"Leaves after 2 turns. Each member you play gets -1 fame. Enters: -8 Fame."
 Title Baby Girl,Baby Girl
 Text Baby Girl,+1 Money per turn if at least one ABDL Mommy is present.
 Title Caring Mother,Caring Mother
@@ -356,7 +356,7 @@ Effect Pandora Box,"SOURCEPLAYER opens Pandora's Box and discard their hand. All
 Title Toy Box,Toy Box
 Text Toy Box,Receive 3 Fame and Money and Draw a card.
 Title Restrain,Restrain
-Text Restrain,"For 2 turns, both players cannot use events and negate the effect of all events present."
+Text Restrain,"For 2 turns, both players cannot use events and negate the effect of all events present. If your club tier is lower by 2, last for 1 less turn"
 Title Detective,Detective
 Text Detective,"When your opponent takes the draw action, Receive 2 Money. If no Liability present, also receive 1 Fame."
 Title Launder,Launder
@@ -411,7 +411,7 @@ Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
 Title Sophie,Sophie
-Text Sophie,"+1 Money/turn if you have 3+ Kemonomimi. +1 Fame/turn if you have LARP Queen. Enters: Double the stats of target non-Liability member."
+Text Sophie,"+1 Money/turn if you have 3+ Kemonomimi. +2 Fame/turn if you have LARP Queen. Enters: Double the stats of target non-Liability member."
 Effect Sophie,CARDNAME got their fame and money boosted by the lovely Sophie~
 Prerequisite Sophie,Select a member to enhance before Sophie enters.
 Title Hypnotherapist,Hypnotherapist
@@ -582,6 +582,7 @@ Text Fetish Flick,"Return 2 random Porn actresses from your club to your hand, t
 Title Ball Buster,Ball Buster
 Text Ball Buster,"Return two random porn actresses from your club to your hand. Your opponent cannot play events or liabilities for 2 turns."
 GroupTimedEvent,Timed Event
+GroupContinuousEvent,Continuous Event
 GroupAuction,Auction
 Title Kira,Kira
 Text Kira,Can't leave. Gets +1 Fame per 2 members present (Max 8). Joins: Set the Fame & Money of a member in your club and those adjacent to 0/-2.
@@ -734,7 +735,7 @@ Text Suit polisher,"Gains +1 base Money each time you take the draw action (Max 
 Title Latex Lover,Latex Lover
 Text Latex Lover,"When you take the draw action, you gain 1 money for each latex member in your club (Max=club level)"
 Title Color Mixer,Color Mixer
-Text Color Mixer,"Enters: Choose a member from your club, this member gains all of the selected member's types."
+Text Color Mixer,"Enters: Choose a non-Liability member from your club, this member gains all of the selected member's types."
 Prerequisite Color Mixer,Select a member from your club.
 Title Vac-bed Patient,Vac-bed Patient
 Text Vac-bed Patient,"When you take the draw action, gain 1 fame and 1 money."
@@ -789,3 +790,6 @@ Title arella,arella
 Text arella,"Enters: All submissive, college students, and slaves present gets +1 Money."
 Title Ramona,Ramona
 Text Ramona,<F>I am just a simple girl trying to make my way in the universe.
+Title Debt Slave,Debt Slave
+Text Debt Slave,"-1 Money if your club tier is 3+. When a member would leave your club to your streets, shuffle it into your deck instead and remove this card."
+
