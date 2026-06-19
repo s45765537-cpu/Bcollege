@@ -101,8 +101,21 @@ function AsylumTherapyBondageTherapyRestrain() {
  * @returns {void} - Nothing
  */
 function AsylumTherapyTherapyEnd() {
-	CharacterRelease(Player);
-	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples");
+	CharacterRelease(Player, false);
+	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples", false);
+	if (!Player.CanTalk()) {
+		/**
+		 * From {@link SpeechTransformGagGarbleIntensity}
+		 * @type {AssetGroupItemName[]}
+		 */
+		const groups = ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemHood", "ItemNeck", "ItemDevices"];
+		const blocksMouth = Player.Appearance.filter(a => groups.some(g => a.Asset.Block.includes(g)));
+		for (const item of blocksMouth) {
+			InventoryRemove(Player, item.Asset.Group.Name, false);
+		}
+
+	}
+	CharacterRefresh(Player, true);
 	InventoryRemove(AsylumTherapyNurse, "ItemHandheld");
 	PoseSetActive(Player, null);
 }
