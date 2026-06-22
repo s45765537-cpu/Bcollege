@@ -638,18 +638,16 @@ function DialogStartKinkyDungeon() {
 			}
 		}
 		DialogGamingReturnScreen = CommonGetScreen();
-		MiniGameStart("KinkyDungeon", 0, "DialogEndKinkyDungeon");
+		MiniGameStart("KinkyDungeon", 0, () => DialogEndKinkyDungeon());
 	}
 }
 
-
 /**
  * Return to previous room
- * @returns {void}
  */
-function DialogEndKinkyDungeon() {
+async function DialogEndKinkyDungeon() {
 	if (DialogGamingReturnScreen) {
-		CommonSetScreen(...DialogGamingReturnScreen);
+		await CommonSetScreen(...DialogGamingReturnScreen);
 	}
 }
 

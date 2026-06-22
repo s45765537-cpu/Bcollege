@@ -534,9 +534,8 @@ function KidnapLeagueTransferToRoom() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueRandomClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderPornDeck;
-	MiniGameStart("ClubCard", 0, "KidnapLeagueRandomClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderPornDeck, () => KidnapLeagueRandomClubCardEnd());
 }
 
 /**

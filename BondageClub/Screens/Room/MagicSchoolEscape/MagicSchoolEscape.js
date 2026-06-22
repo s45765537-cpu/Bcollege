@@ -69,7 +69,7 @@ function MagicSchoolEscapeClick() {
 			if ((InventoryGet(Player, "ItemArms") != null) || (InventoryGet(Player, "ItemTorso") != null)) MagicPuzzleSpell = 4;
 			if ((InventoryGet(Player, "ItemMouth") != null) || (InventoryGet(Player, "ItemHead") != null)) MagicPuzzleSpell = 0;
 			MagicPuzzleAutoExit = true;
-			MiniGameStart("MagicPuzzle", MagicBattleSpellDifficulty[MagicPuzzleSpell] * MagicSchoolEscapeSeconds / 30, "MagicSchoolEscapeSpellEnd");
+			MiniGameStart("MagicPuzzle", MagicBattleSpellDifficulty[MagicPuzzleSpell] * MagicSchoolEscapeSeconds / 30, () => MagicSchoolEscapeSpellEnd());
 		}
 
 	}

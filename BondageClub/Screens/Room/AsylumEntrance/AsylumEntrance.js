@@ -617,18 +617,15 @@ function AsylumEntrancePayTenMinutes() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderAsylumDeck;
-	MiniGameStart("ClubCard", 0, "AsylumEntranceClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderAsylumDeck, () => AsylumEntranceClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function AsylumEntranceClubCardEnd() {
-	CommonSetScreen("Room", "AsylumEntrance").then(() => {
-		CharacterSetCurrent(AsylumEntranceNurse);
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function AsylumEntranceClubCardEnd() {
+	await CommonSetScreen("Room", "AsylumEntrance");
+	CharacterSetCurrent(AsylumEntranceNurse);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

@@ -1649,18 +1649,17 @@ function PandoraChestLockpickStart() {
 	ChestLockpickChestImage = ((CurrentCharacter == null) || (CurrentCharacter.FixedImage == null)) ? "Screens/Room/Pandora/Chest" + Math.floor(Math.random() * 3).toString() + ".png" : CurrentCharacter.FixedImage;
 	ChestLockpickBackground = PandoraBackground;
 	DialogLeave();
-	MiniGameStart("ChestLockpick", InfiltrationDifficulty, "PandoraChestLockEnd");
+	MiniGameStart("ChestLockpick", InfiltrationDifficulty, () => PandoraChestLockEnd());
 }
 
 /**
  * When the picklock mini-game ends, adds 30 seconds to the timer
- * @returns {void} - Nothing
  */
-function PandoraChestLockEnd() {
+async function PandoraChestLockEnd() {
 	PandoraTimer = PandoraTimer - 30000;
 	PandoraCurrentRoom.Character[0].Stage = (MiniGameVictory) ? "100" : "0";
 	CharacterSetCurrent(PandoraCurrentRoom.Character[0]);
-	CommonSetScreen("Room", "Pandora");
+	await CommonSetScreen("Room", "Pandora");
 }
 
 /**
@@ -1703,15 +1702,14 @@ function PandoraClubCardStart() {
 	PandoraFightCharacter = /** @type {NPCCharacter} */ (CurrentCharacter);
 	ClubCardOpponent = CurrentCharacter;
 	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
-	MiniGameStart("ClubCard", 0, "PandoraClubCardEnd");
+	MiniGameStart("ClubCard", 0, () => PandoraClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function PandoraClubCardEnd() {
-	CommonSetScreen("Room", "Pandora");
+async function PandoraClubCardEnd() {
+	await CommonSetScreen("Room", "Pandora");
 	CharacterSetCurrent(PandoraFightCharacter);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

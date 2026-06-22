@@ -144,7 +144,7 @@ function MagicBattleSpellStart(S) {
 	// Launches the magic puzzle mini game for that spell
 	MagicPuzzleSpell = S;
 	MagicPuzzleAutoExit = false;
-	MiniGameStart("MagicPuzzle", Difficulty, "MagicBattleSpellEnd");
+	MiniGameStart("MagicPuzzle", Difficulty, () => MagicBattleSpellEnd());
 
 }
 
@@ -233,14 +233,13 @@ function MagicSpellEffect(C, Spell) {
 
 /**
  * When the spell ends, we apply the effect of the spell on the loser
- * @returns {void} - Nothing
  */
-function MagicBattleSpellEnd() {
+async function MagicBattleSpellEnd() {
 	let Spell = MiniGameVictory ? MagicPuzzleSpell : MagicBattleOpponentSpell;
 	let C = MiniGameVictory ? MagicBattleOpponent : Player;
 	MagicSpellEffect(C, Spell);
 	if (MiniGameVictory) MagicBattleAvailSpell = MagicBattleGetAvailSpells(MagicBattleOpponent);
-	CommonSetScreen("MiniGame", "MagicBattle");
+	await CommonSetScreen("MiniGame", "MagicBattle");
 }
 
 /**

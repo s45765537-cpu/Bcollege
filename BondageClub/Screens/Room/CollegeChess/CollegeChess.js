@@ -63,7 +63,7 @@ function CollegeChessGameStart(Difficulty, Bet) {
 	const playerStarts = Math.random() < 0.5;
 	ChessCharacterWhite = playerStarts ? Player : CollegeChessOpponent;
 	ChessCharacterBlack = playerStarts ? CollegeChessOpponent : Player;
-	MiniGameStart("Chess", CollegeChessDifficulty, "CollegeChessGameEnd");
+	MiniGameStart("Chess", CollegeChessDifficulty, () => CollegeChessGameEnd());
 	document.addEventListener("chessOnMove", CollegeChessGameProgress);
 }
 
@@ -148,10 +148,9 @@ function CollegeChessGameConcede() {
 
 /**
  * Triggered when the chess game ends.
- * @returns {void} - Nothing
  */
-function CollegeChessGameEnd() {
-	CommonSetScreen("Room", "CollegeChess");
+async function CollegeChessGameEnd() {
+	await CommonSetScreen("Room", "CollegeChess");
 	if ((CollegeChessBet == "Money") && (ChessEndStatus == "Draw")) CharacterChangeMoney(Player, CollegeChessDifficulty * 10);
 	if ((CollegeChessBet == "Money") && (ChessEndStatus == "Victory")) CharacterChangeMoney(Player, CollegeChessDifficulty * 20);
 	if (((CollegeChessBet == "Bondage") || (CollegeChessBet == "Strip")) && (ChessEndStatus == "Draw")) CollegeChessRestoreAppearance();
