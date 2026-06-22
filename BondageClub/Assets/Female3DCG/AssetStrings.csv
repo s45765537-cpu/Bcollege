@@ -7003,7 +7003,6 @@ WingsSeraphWingsOptionshow20,Show
 WingsSeraphWingsOptionshow21,Hide
 WingsSeraphWingsOptionshow30,Show
 WingsSeraphWingsOptionshow31,Hide
-YourRoom,<i>Your private room</i>
 ZipBondageZipFeetFull,Full Binding
 ZipBondageZipFeetLight,Light Binding
 ZipBondageZipFeetMedium,Medium Binding
@@ -7538,7 +7537,7 @@ ItemHandsFullMittensOptionr4,Harness belts
 ItemHandsFullMittensOptionr5,Armbinder mode
 ItemHandsFullMittensOptionr6,Ankle shackles combo
 ItemHandsFullMittensSetr0,SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
-ItemHandsFullMittensSetr1,SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+ItemHandsFullMittensSetr1,SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose.
 ItemHandsFullMittensSetr2,SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
 ItemHandsFullMittensSetr3,SourceCharacter binds DestinationCharacterName arms as straitjacket style.
 ItemHandsFullMittensSetr4,SourceCharacter binds DestinationCharacterName hands in the back and put some harness belt on TargetPronounObject torso.
@@ -8522,7 +8521,7 @@ NecklaceRuffledCollarNone,No choker
 NecklaceRuffledCollarChoker,Choker added
 ItemMouthCompGagSelectBase,Customize this gagging process following these steps:
 ItemMouthCompGagModuleFoamBall,Foam balls
-ItemMouthCompGagSelectFoamBall,How much foam balls going inside the mouth? 
+ItemMouthCompGagSelectFoamBall,How much foam balls going inside the mouth?
 ItemMouthCompGagOptionb0,Just a single ball
 ItemMouthCompGagOptionb1,Two foam balls
 ItemMouthCompGagOptionb2,Three foam balls
@@ -8569,7 +8568,7 @@ ItemMouthCompGagSetm3,SourceCharacter hoods the DestinationCharacter head but Ta
 ItemMouthCompGagSetm4,SourceCharacter hoods completely the DestinationCharacter head with foam tape.
 ItemMouth2CompGagSelectBase,Customize this gagging process following these steps:
 ItemMouth2CompGagModuleFoamBall,Foam balls
-ItemMouth2CompGagSelectFoamBall,How much foam balls going inside the mouth? 
+ItemMouth2CompGagSelectFoamBall,How much foam balls going inside the mouth?
 ItemMouth2CompGagOptionb0,Just a single ball
 ItemMouth2CompGagOptionb1,Two foam balls
 ItemMouth2CompGagOptionb2,Three foam balls

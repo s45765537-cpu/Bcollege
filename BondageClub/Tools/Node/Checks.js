@@ -84,9 +84,10 @@ function runCheck(name) {
 			case "scripts:typecheck:strict":
 				env.CI = "1";
 				break;
-			case "files:csvtypescript":
+			case "files:csvtypescript": {
 				// Filter and _only_ look at `csvtypescript_tmp_output`-related content
-				onData = (chunk) => chunk.includes("csvtypescript_tmp_output") ? output.push(chunk) : undefined;
+				const textKeys = /'TextKeys([a-zA-Z0-9_]+)'/;
+				onData = (chunk) => chunk.includes("csvtypescript_tmp_output") || textKeys.test(chunk) ? output.push(chunk) : undefined;
 				onClose = () => {
 					resolve({
 						name,
@@ -96,6 +97,7 @@ function runCheck(name) {
 					});
 				};
 				break;
+			}
 		}
 
 		const startTime = performance.now();

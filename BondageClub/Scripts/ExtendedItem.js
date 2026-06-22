@@ -533,7 +533,7 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 		let RequiredLevel = Option.SelfBondageLevel;
 		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel);
 		if (SkillGetLevelReal(Player, "SelfBondage") < RequiredLevel) {
-			return InterfaceTextGet("RequireSelfBondage" + RequiredLevel);
+			return InterfaceTextGet("RequireSelfBondage").replace("ReqLevel", RequiredLevel.toString());
 		}
 	} else {
 		let RequiredLevel = Option.BondageLevel || 0;

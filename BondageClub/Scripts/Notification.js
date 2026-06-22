@@ -104,7 +104,7 @@ class NotificationEventHandler {
 		if (data.chatRoomName) titleEnd = InterfaceTextGet("NotificationTitleFromRoom").replace("ChatRoomName", "'" + data.chatRoomName + "'");
 
 		// Define the (supported) options of the popup and create it
-		let title = titleStart + InterfaceTextGet("NotificationTitle" + this.eventType) + titleEnd;
+		let title = titleStart + InterfaceTextGet(`NotificationTitle${this.eventType}`) + titleEnd;
 		let options = {};
 		if ('silent' in Notification.prototype) options.silent = true;
 		if ('body' in Notification.prototype && data.body) options.body = data.body;

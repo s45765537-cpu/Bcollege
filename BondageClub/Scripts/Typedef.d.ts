@@ -351,7 +351,7 @@ type DialogMenuMode = (
 );
 
 type DialogMenuButtonType = "Activity" |
-	"ColorCancel" | "ColorChange" | "ColorChangeDisabled" | "ColorChangeMulti" | "ColorChangeMultiDisabled" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
+	"ColorCancel" | "ColorChange" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
 	"Crafting" |
 	"NormalMode" | "PermissionMode" |
 	"Dismount" | "Escape" | "Remove" |
@@ -360,12 +360,17 @@ type DialogMenuButtonType = "Activity" |
 	"InspectLock" | "InspectLockDisabled" |
 	"Layering" |
 	"Lock" | "LockDisabled" | "LockMenu" |
-	"Swap" | "Next" | "Prev" | `PickLock${PickLockAvailability}` |
-	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
-	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen" |
-	// Wardrobe buttons
-	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy" | "Paste" | "Naked" | "Accept" | "Cancel" | "Character"
+	`PickLock${PickLockAvailability}` |
+	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${Exclude<VibratorRemoteAvailability, "Available" | "InvalidItem">}` |
+	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen"
 	;
+
+type AppearanceMenuButtonType = (
+	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy"
+	| "Paste" | "Naked" | "Accept" | "Cancel" | "Character" | "Next" | "Prev" | "Swap"
+	| "Use" | "UseDisabled" | "PermissionMode" | "ColorChange" | "ColorChangeDisabled"
+	| "ColorChangeMulti" | "ColorChangeMultiDisabled"
+);
 
 declare namespace ElementDOMScreen {
 	/** Options for customizing the {@link ElementDOMScreen.GetTemplate} output */
@@ -488,6 +493,7 @@ type DialogStruggleActionType = "ActionUse" | "ActionSwap" | "ActionRemove" | "A
 type CharacterType = "player" | "online" | "npc" | "simple";
 
 type CharacterPronouns = "SheHer" | "HeHim" | "TheyThem" | "ItIt";
+type CharacterPronounType = "Possessive" | "Self" | "Subject" | "Object";
 
 type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 
@@ -1549,6 +1555,10 @@ interface InventoryBundle {
 }
 interface InventoryItem extends InventoryBundle {
 	Asset: Asset;
+}
+
+declare namespace InventoryPrerequisiteConflicts {
+	type ErrMessage = "" | "CannotBeUsedOverGag" | "MustBeUsedOverGag";
 }
 
 type SkillType = "Bondage" | "SelfBondage" | "LockPicking" | "Evasion" | "Willpower" | "Infiltration" | "Dressage";

@@ -2015,10 +2015,10 @@ function CharacterResetFacialExpression(C) {
  * @param {Character} C
  * @param {Item} Item
  * @param {null | ExpressionName} Expression
- * @returns {null | string} - An exit status or `null` if the expression is otherwise allowed
+ * @returns {null | "InternalError" | "IllegalExpression" | ReturnType<typeof InventoryPrerequisiteMessage>}- An exit status or `null` if the expression is otherwise allowed
  */
 function CharacterIsExpressionDisallowed(C, Item, Expression) {
-	if (!C || !Item) return "Internal error: missing character or item";
+	if (!C || !Item) return "InternalError";
 
 	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true) ?? [];
 	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true) ?? [];
@@ -2026,7 +2026,7 @@ function CharacterIsExpressionDisallowed(C, Item, Expression) {
 	const prereqMessage = !exprPre ? null : InventoryPrerequisiteMessage(C, exprPre, Item.Asset);
 
 	if (Expression != null && !allowedExpr.includes(Expression)) {
-		return `Illegal expression "${Expression}"`;
+		return "IllegalExpression";
 	} else if (prereqMessage) {
 		return prereqMessage;
 	} else {
@@ -2454,18 +2454,19 @@ function CharacterNickname(C) {
 /**
  * Returns dialog text for a character based on their chosen pronouns. Default to She/Her entries
  * @param {Character} C - The character to fetch dialog for
- * @param {string} DialogKey - The type of dialog entry to look for
+ * @param {CharacterPronounType} DialogKey - The type of dialog entry to look for
  * @param {boolean} HideIdentity - Whether to use generic they/them pronouns
  * @returns {string} - The text to use
  */
 function CharacterPronoun(C, DialogKey, HideIdentity) {
+	/** @type {CharacterPronouns} */
 	let pronounName;
 	if (HideIdentity && ChatSearchGetSpace() == ChatRoomSpaceType.MIXED || C == null) {
 		pronounName = "TheyThem";
 	} else {
 		pronounName = C.GetPronouns();
 	}
-	return InterfaceTextGet("Pronoun" + DialogKey + pronounName);
+	return InterfaceTextGet(`Pronoun${DialogKey}${pronounName}`);
 }
 
 /**

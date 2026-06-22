@@ -1014,15 +1014,16 @@ var ChatRoomSep = {
 	 * @returns {(string | HTMLElement)[]}
 	 */
 	_GetDisplayName: function _GetDisplayName(button) {
-		const namespace = FriendListIconMapping[button.dataset.space];
+		const key = /** @type {ServerChatRoomSpace} */(button.dataset.space);
+		const namespace = FriendListIconMapping[key];
 		return [
 			namespace ? [
 				ElementCreate({
 					tag: "div",
-					attributes: { role: "img", "aria-label": InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`) },
+					attributes: { role: "img", "aria-label": InterfaceTextGet(`ChatRoomSpace${key || "F"}`) },
 					classList: ["chat-room-sep-image"],
 					style: { mask: `url(${namespace.src}) center/contain` },
-					children: [{ tag: "span", children: [InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`)] }],
+					children: [{ tag: "span", children: [InterfaceTextGet(`ChatRoomSpace${key || "F"}`)] }],
 				}),
 				" - ",
 			] : undefined,
@@ -4507,7 +4508,8 @@ function ChatRoomMessage(data) {
 			break;
 		}
 		case "ServerMessage":
-			msg = InterfaceTextGet("ServerMessage" + msg);
+			// TODO: Enumerate the various valid server messages for the files:csvtypescript tests
+			msg = InterfaceTextGet(/** @type {TextKeysInterface} */(`ServerMessage${msg}`));
 			break;
 
 		case "Activity": {
@@ -6831,7 +6833,7 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 
 	/** @type {CommonSubtituteSubstitution[]} */
 	let repls = [];
-	for (const pronounType of ["Possessive", "Self", "Subject", "Object"]) {
+	for (const pronounType of /** @type {const} */(["Possessive", "Self", "Subject", "Object"])) {
 		repls.push([key + pronounType, CharacterPronoun(C, pronounType, hideIdentity), replacer]);
 	}
 	return repls;

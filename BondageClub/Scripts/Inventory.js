@@ -264,7 +264,7 @@ function InventoryAvailable(C, Name, Group) {
  * @param {Character} C - The character on which we check for prerequisites
  * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
  * @param {null | Asset} asset - The asset (if any) for whom the prerequisite is checked
- * @returns {string} - The error tag, can be converted to an error message
+ * @returns - The error tag, can be converted to an error message
  */
 function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 	switch (Prerequisite) {
@@ -535,9 +535,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {PropertiesArray[T]} blockingPrereqs - The prerequisites we check for on lower gags
 	 * @param {Asset|null} asset - The new gag
 	 * @param {object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	_GagCheck: function _GagCheck(fieldName, C, blockingPrereqs, asset=null, options) {
 		/** @type {readonly unknown[] | undefined | null} */
@@ -567,9 +567,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {readonly AssetPrerequisite[]} blockingPrereqs - The prerequisites we check for on lower gags
 	 * @param {Asset|null} asset - The new gag
 	 * @param {Object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	GagPrerequisite: function GagPrerequisite(C, blockingPrereqs, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Prerequisite", C, blockingPrereqs, asset, options);
@@ -581,9 +581,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {readonly EffectName[]} blockingEffects - The prerequisites we check for on lower gags
 	 * @param {Asset|null} [asset] - The new gag
 	 * @param {object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	GagEffect: function GagEffect(C, blockingEffects, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Effect", C, /** @type {EffectName[]} */(blockingEffects), asset, options);
@@ -617,6 +617,7 @@ function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowAc
 	CharacterLoadEffect(checkCharacter);
 	PoseRefresh(checkCharacter);
 
+	/** @type {ReturnType<typeof InventoryPrerequisiteMessage>} */
 	let Msg = "";
 	const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
 	if (posePrereq.length === 0) {
@@ -1786,4 +1787,13 @@ function InventoryExtractLockProperties(property) {
 		}
 	}
 	return lockProperties;
+}
+
+/**
+ * Check whether the passed inventory icon belongs to a padlock
+ * @param {InventoryIcon} icon
+ * @returns {icon is AssetLockType}
+ */
+function InventoryIconIsPadlock(icon) {
+	return icon.endsWith("Padlock");
 }
