@@ -1410,13 +1410,14 @@ async function ChatRoomLoad() {
 	TextPrefetch("Room", "Shop2");
 
 	if (CommonVersionUpdated) {
-		CommonGet("./changelog.html", (xhr) => {
-			if (xhr.status === 200) {
-				const changelog = CommandsChangelog.Publish(xhr.responseText);
+		CommonFetch("./changelog.html")
+			.then(async (response) => {
+				if (response.status !== 200) return;
+				const text = await response.text();
+				const changelog = CommandsChangelog.Publish(text);
 				changelog.querySelectorAll(".chat-room-changelog-button-collapse[data-level='2']").forEach(e => e.dispatchEvent(new Event("click")));
 				CommonVersionUpdated = false;
-			}
-		});
+			});
 	}
 }
 

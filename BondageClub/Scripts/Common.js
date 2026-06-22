@@ -213,19 +213,22 @@ function CommonReadCSV(url) {
 	const temp = CommonCSVCache[url] = [];
 
 	// Opens the file, parse it and returns the result in an Object
-	CommonGet(url, function () {
-		if (this.status == 200) {
-			const parsed = CommonParseCSV(this.responseText);
-			temp.push(...parsed);
-		}
+	CommonFetch(url).then(async response => {
+		if (response.status !== 200) return;
+		const text = await response.text();
+		const parsed = CommonParseCSV(text);
+		temp.push(...parsed);
 	});
 
 	// If a translation file is available, we open the txt file and keep it in cache
 	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
-	if (TranslationAvailable(TranslationPath))
-		CommonGet(TranslationPath, function () {
-			if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
+	if (TranslationAvailable(TranslationPath)) {
+		CommonFetch(TranslationPath).then(async (response) => {
+			if (response.status !== 200) return;
+			const text = await response.text();
+			TranslationCache[TranslationPath] = TranslationParseTXT(text);
 		});
+	}
 
 	return temp;
 }
@@ -266,6 +269,49 @@ const FETCH_MAX_RETRIES = 10;
  */
 const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
 
+const FETCH_RETRY_JITTER_MIN = 0.25;
+
+const FETCH_RETRY_JITTER_MAX = 1.75;
+
+/**
+ * @param {number} status
+ */
+function CommonRequestShouldRetry(status) {
+	return status === 408 || status === 429 || status >= 500;
+}
+
+/**
+ * @param {number} attempt
+ */
+function CommonRequestRetryDelay(attempt) {
+	const baseDelay = Math.min(2 ** attempt, FETCH_MAX_RETRY_BACKOFF_TIME);
+
+	const jitter = FETCH_RETRY_JITTER_MIN
+		+ Math.random() * (FETCH_RETRY_JITTER_MAX - FETCH_RETRY_JITTER_MIN);
+
+	return baseDelay * jitter;
+}
+
+/**
+ * @param {string | null} value
+ * @returns
+ */
+function CommonRequestParseRetryAfter(value) {
+	if (!value) return null;
+
+	const seconds = Number(value);
+	if (Number.isFinite(seconds)) {
+		return seconds;
+	}
+
+	const date = Date.parse(value);
+	if (Number.isFinite(date)) {
+		return Math.max(0, (date - Date.now()) / 1000);
+	}
+
+	return null;
+}
+
 /**
  * Fetch a remote resource
  *
@@ -273,66 +319,94 @@ const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
  * @returns {Promise<Response>}
  */
 async function CommonFetch(request) {
-	let retries = FETCH_MAX_RETRIES;
-	const isRequestObject = CommonIsObject(request) && typeof request === 'object' && 'method' in request;
+	const isRequestObject = CommonIsObject(request) && typeof request === 'object' && "method" in request;
 	const method = isRequestObject && request.method || "GET";
 	const url = isRequestObject && request.url || request;
 
-	let reply = await fetch(request);
-	while (retries-- > 0) {
-		if (reply.status >= 400) {
-			const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - retries)), FETCH_MAX_RETRY_BACKOFF_TIME);
-			console.warn(`${method} request to ${url} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
-			await CommonSleep(retrySeconds * 1000);
+	for (let attempt = 0; attempt <= FETCH_MAX_RETRIES; attempt++) {
+		let retryAfter;
+		/** @type {Response | undefined} */
+		let reply;
+		try {
 			reply = await fetch(request);
-			continue;
+
+			if (!CommonRequestShouldRetry(reply.status)) {
+				return reply;
+			}
+
+			if (attempt === FETCH_MAX_RETRIES) {
+				console.error(`${method} request to ${url} failed (${reply.status}) - no more retries`);
+				return reply;
+			}
+
+			retryAfter = CommonRequestParseRetryAfter(reply.headers.get("Retry-After"));
 		}
-		break;
+		catch (err) {
+			if (attempt === FETCH_MAX_RETRIES) {
+				throw err;
+			}
+		}
+
+		const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
+		if (attempt !== FETCH_MAX_RETRIES) {
+			console.warn(`${method} request to ${url} failed (${reply?.status}) - retrying in ${delay.toFixed(1)}s`);
+		}
+		await CommonSleep(delay * 1000);
 	}
-	if (retries <= 0) {
-		console.error(`${method} request to ${url} failed - no more retries`);
-	}
-	return reply;
+
+	throw new Error("CommonFetch exhausted retry loop unexpectedly");
 }
 
 /**
  * AJAX utility to get a file and return its content. By default will retry requests 10 times
- * @param {string} Path - Path of the resource to request
- * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} Callback - Callback to execute once the resource is received
- * @param {number} [RetriesLeft] - How many more times to retry if the request fails - after this hits zero, an error will be logged
+ * @param {string} url - Path of the resource to request
+ * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} callback - Callback to execute once the resource is received
+ * @param {number} [retries] - How many more times to retry if the request fails - after this hits zero, an error will be logged
  * @returns {void} - Nothing
  */
-function CommonGet(Path, Callback, RetriesLeft) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", Path);
-	xhr.onloadend = function() {
-		// For non-error responses, call the callback
-		if (this.status < 400) Callback.bind(this)(xhr);
-		// Otherwise, retry
-		else CommonGetRetry(Path, Callback, RetriesLeft);
+function CommonGet(url, callback, retries = FETCH_MAX_RETRIES) {
+	const xhr = new XMLHttpRequest();
+
+	xhr.open("GET", url);
+
+	/**
+	 * @param {number} [retriesLeft]
+	 */
+	function retry(retriesLeft) {
+		retriesLeft ??= FETCH_MAX_RETRIES;
+		if (retriesLeft <= 0) {
+			console.error(`GET request to ${url} failed - no more retries`);
+		} else {
+			const attempt = FETCH_MAX_RETRIES - retriesLeft;
+
+			const retryAfter = CommonRequestParseRetryAfter(xhr.getResponseHeader("Retry-After"));
+			const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
+
+			console.warn(`GET request to ${url} failed - retrying in ${delay.toFixed(1)}s`);
+			setTimeout(() => CommonGet(url, callback, retriesLeft - 1), delay * 1000);
+		}
+	}
+
+	xhr.onload = function() {
+		if (CommonRequestShouldRetry(this.status)) {
+			return retry(retries);
+		}
+
+		callback.call(this, xhr);
 	};
-	xhr.onerror = function() { CommonGetRetry(Path, Callback, RetriesLeft); };
-	xhr.send(null);
+
+	xhr.onerror = xhr.ontimeout = function() {
+		retry(retries);
+	};
+
+	xhr.timeout = 30000;
+	xhr.send();
 }
 
 /**
- * Retry handler for CommonGet requests. Exponentially backs off retry attempts up to a limit of 1 minute. By default,
- * retries up to a maximum of 10 times.
- * @param {string} Path - The path of the resource to request
- * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} Callback - Callback to execute once the resource is received
- * @param {number} [RetriesLeft] - How many more times to retry - after this hits zero, an error will be logged
- * @returns {void} - Nothing
+ * @deprecated
  */
-function CommonGetRetry(Path, Callback, RetriesLeft) {
-	if (typeof RetriesLeft !== "number") RetriesLeft = FETCH_MAX_RETRIES;
-	if (RetriesLeft <= 0) {
-		console.error(`GET request to ${Path} failed - no more retries`);
-	} else {
-		const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - RetriesLeft)), FETCH_MAX_RETRY_BACKOFF_TIME);
-		console.warn(`GET request to ${Path} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
-		setTimeout(() => CommonGet(Path, Callback, RetriesLeft - 1), retrySeconds * 1000);
-	}
-}
+function CommonGetRetry() {}
 
 /** @type {MouseEventListener} */
 function CommonMouseDown(event) {

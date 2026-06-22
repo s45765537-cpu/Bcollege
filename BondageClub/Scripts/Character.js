@@ -976,9 +976,9 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
  * Loads the content of a CSV file to build the character dialog. Can override the current screen.
  * @param {Character} C - Character for which to build the dialog objects
  * @param {DialogInfo<any>} [info]
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function CharacterLoadCSVDialog(C, info) {
+async function CharacterLoadCSVDialog(C, info) {
 
 	/** @type {DialogInfo<any>} */
 	let dialog;
@@ -1018,13 +1018,13 @@ function CharacterLoadCSVDialog(C, info) {
 	}
 
 	// Opens the file, parse it and returns the result it to build the dialog
-	CommonGet(FullPath, function () {
-		if (this.status == 200) {
-			CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
+	return CommonFetch(FullPath)
+		.then(async (response) => {
+			if (response.status !== 200) return;
+			const text = await response.text();
+			CommonCSVCache[FullPath] = CommonParseCSV(text);
 			buildDialog();
-		}
-	});
-
+		});
 }
 
 /**
