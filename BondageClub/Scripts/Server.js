@@ -1427,32 +1427,32 @@ var ServerAccountDataSyncedValidate = {
 				...arg,
 				Pos: ServerAccountDataSyncedValidate.MapData.Pos(arg?.Pos, C),
 				PrivateState: ServerAccountDataSyncedValidate.MapData.PrivateState(arg?.Pos, C),
-			}
+			};
 			return data;
 		}, {
-		/**
-		 * Validate a ChatRoomMapPos object
-		 *
-		 * Note that because the position needs the actual room data (for the entry flag position),
-		 * you might get slightly incorrect results from this if run from outside a chat room.
-		 *
-		 * @type {(arg: ChatRoomMapData["Pos"], C: Character) => ChatRoomMapData["Pos"]}
-		 */
-		Pos: (arg, C) => {
-			const defaultPos = ChatRoomMapViewGetEntryFlagPosition() ?? { X: ChatRoomMapViewWidth / 2, Y: ChatRoomMapViewHeight / 2 };
-			/** @type {ChatRoomMapPos} */
-			if (!CommonIsObject(arg)
-				|| !CommonIsInteger(arg.X, 0, ChatRoomMapViewWidth)
-				|| !CommonIsInteger(arg.Y, 0, ChatRoomMapViewHeight)) {
+			/**
+			 * Validate a ChatRoomMapPos object
+			 *
+			 * Note that because the position needs the actual room data (for the entry flag position),
+			 * you might get slightly incorrect results from this if run from outside a chat room.
+			 *
+			 * @type {(arg: ChatRoomMapData["Pos"], C: Character) => ChatRoomMapData["Pos"]}
+			 */
+			Pos: (arg, C) => {
+				const defaultPos = ChatRoomMapViewGetEntryFlagPosition() ?? { X: ChatRoomMapViewWidth / 2, Y: ChatRoomMapViewHeight / 2 };
+				/** @type {ChatRoomMapPos} */
+				if (!CommonIsObject(arg)
+					|| !CommonIsInteger(arg.X, 0, ChatRoomMapViewWidth)
+					|| !CommonIsInteger(arg.Y, 0, ChatRoomMapViewHeight)) {
 					return defaultPos;
 				}
-			return arg;
-		},
-		/** @type {(arg: ChatRoomMapData["PrivateState"], C: Character) => ChatRoomMapData["PrivateState"]} */
-		PrivateState: (arg, C) => {
-			return CommonIsObject(arg?.PrivateState) ? arg?.PrivateState : {};
-		}
-	}),
+				return arg;
+			},
+			/** @type {(arg: ChatRoomMapData["PrivateState"], C: Character) => ChatRoomMapData["PrivateState"]} */
+			PrivateState: (arg, C) => {
+				return CommonIsObject(arg?.PrivateState) ? arg?.PrivateState : {};
+			}
+		}),
 	/**
 	 * @param {ServerAccountDataSynced["ChatSearchSettings"]} arg
 	 * @param {Character} C
