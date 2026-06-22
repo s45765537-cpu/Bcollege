@@ -89,7 +89,7 @@ var ChatRoomSlowStop = false;
  * Default position of the entire chat panel
  * @type {RectTuple}
  */
-var ChatRoomDivRect = [1005, 62, 988, 938];
+var ChatRoomDivRect = [1005, 2, 988, 998];
 
 /**
  * The last approximate height (_i.e._ {@link HTMLElement.clientHeight} as opposed to {@link DOMRect.height}) of the `InputChat` element.
@@ -1186,7 +1186,64 @@ var ChatRoomSep = {
 function ChatRoomCreateElement() {
 	// NOTE: If you want to add any custom buttons, make sure append them to the `#chat-room-buttons` grid
 
-	ChatRoomTopMenuEnsure();
+	let topMenu = document.getElementById("chat-room-top-menu");
+	if (!topMenu) {
+		topMenu = ElementMenu.Create("chat-room-top-menu", [], { role: "menubar" });
+		ChatRoomTopMenuBuiltSig = "";
+	} else {
+		topMenu.removeAttribute("hidden");
+	}
+
+	let struggleBar = document.getElementById("chat-room-struggle-bar");
+	if (!struggleBar) {
+		struggleBar = ElementCreate({
+			tag: "div",
+			attributes: { id: "chat-room-struggle-bar", hidden: true, role: "region", "aria-label": TextGet("ChatRoomStruggleStruggling") },
+			classList: ["chat-room-struggle-bar"],
+			children: [
+				{
+					tag: "img",
+					attributes: { id: "chat-room-struggle-item", alt: "" },
+					classList: ["chat-room-struggle-item", "no-select"],
+				},
+				{
+					tag: "span",
+					attributes: { id: "chat-room-struggle-label" },
+					classList: ["chat-room-struggle-label", "no-select"],
+				},
+				{
+					tag: "div",
+					attributes: {
+						id: "chat-room-struggle-progress",
+						role: "progressbar",
+						"aria-valuemin": "0",
+						"aria-valuemax": "100",
+						"aria-valuenow": "0",
+					},
+					classList: ["chat-room-struggle-progress"],
+					children: [{ tag: "div", classList: ["chat-room-struggle-progress-fill"] }],
+				},
+				{
+					tag: "div",
+					classList: ["chat-room-struggle-actions"],
+					children: [
+						ElementButton.Create(
+							"chat-room-struggle-loosen",
+							StruggleChatRoomLoosenStart,
+							{ label: TextGet("ChatRoomStruggleLoosen") },
+							{ button: { classList: ["chat-room-struggle-btn", "chat-room-struggle-loosen-btn"], attributes: { hidden: true } } },
+						),
+						ElementButton.Create(
+							"chat-room-struggle-give-up",
+							StruggleChatRoomStop,
+							{ label: TextGet("ChatRoomStruggleGiveUp") },
+							{ button: { classList: ["chat-room-struggle-btn", "chat-room-struggle-give-up-btn"] } },
+						),
+					],
+				},
+			],
+		});
+	}
 
 	let elem = /** @type {null | HTMLDivElement} */(document.getElementById("chat-room-div"));
 	if (!elem) {
@@ -1199,6 +1256,7 @@ function ChatRoomCreateElement() {
 			parent: document.body,
 			classList: ["HideOnPopup"],
 			children: [
+				topMenu,
 				{
 					tag: "div",
 					attributes: { id: "TextAreaChatLog", role: "log" },
@@ -1293,6 +1351,12 @@ function ChatRoomCreateElement() {
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
 	}
+	if (topMenu.parentElement !== elem) {
+		elem.prepend(topMenu);
+	}
+	if (struggleBar.parentElement !== elem) {
+		topMenu.insertAdjacentElement("afterend", struggleBar);
+	}
 	ChatRoomChatHidden = false;
 
 	return elem;
@@ -1317,7 +1381,6 @@ function ChatRoomShowElements() {
 /** Show the UI elements of the chatroom screen */
 function ChatRoomHideElements() {
 	document.getElementById("chat-room-div")?.toggleAttribute("hidden", true);
-	document.getElementById("chat-room-top-menu")?.toggleAttribute("hidden", true);
 	ChatRoomChatHidden = true;
 }
 
@@ -1433,11 +1496,10 @@ function ChatRoomClearAllElements() {
 		ChatRoomHideElements();
 	} else {
 		ElementRemove("chat-room-div");
+		ChatRoomTopMenuBuiltSig = "";
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 		ChatRoomDivInputPrevHeight = NaN;
 	}
-	ElementRemove("chat-room-top-menu");
-	ChatRoomTopMenuBuiltSig = "";
 }
 
 /**
@@ -1897,7 +1959,6 @@ function ChatRoomStimulationMessage(Action) {
  * @type {ScreenResizeHandler}
  */
 function ChatRoomResize(load) {
-	ChatRoomTopMenuPosition();
 	const chatInput = document.getElementById("InputChat");
 	if (chatInput) {
 		/** @type {RectTuple} */
@@ -2226,19 +2287,16 @@ function ChatRoomInputResize(chatInput) {
 
 	const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
 	let height = parent.getBoundingClientRect().height;
-	let nGaps = 0;
 	for (const i of parent.children) {
 		if (!ElementCheckVisibility(i, { checkVisibilityCSS: false })) {
 			continue;
 		}
 
-		nGaps++;
 		if (i !== chatLog) {
 			height -= i.getBoundingClientRect().height;
 		}
 	}
-	const gap = globalThis.getComputedStyle(chatLog).marginBottom;
-	chatLog.style.height = `calc(${Math.max(0, height)}px - (${nGaps} * ${gap}))`;
+	chatLog.style.height = `${Math.max(0, height)}px`;
 
 	if (isScrolledToEnd) {
 		ElementScrollToEnd("TextAreaChatLog");
@@ -2309,12 +2367,10 @@ function ChatRoomCustomizationRun() {}
 
 /** @type {ScreenDrawHandler} */
 function ChatRoomDraw() {
-	// Top-right menu (DOM) or struggle UI (canvas)
 	if (ChatRoomStruggleData == null) {
 		ChatRoomTopMenuSync();
 	} else {
-		document.getElementById("chat-room-top-menu")?.toggleAttribute("hidden", true);
-		ChatRoomStruggleDraw();
+		ChatRoomStruggleSync();
 	}
 }
 
@@ -2411,10 +2467,15 @@ function ChatRoomDrawArousalOverlay()
 }
 
 /**
- * Draws the chat room struggle progress bar and buttons
+ * @deprecated Use {@link ChatRoomStruggleSync} instead
+ */
+function ChatRoomStruggleDraw() {}
+
+/**
+ * Updates struggle progress and syncs the DOM struggle bar with {@link ChatRoomStruggleData}.
  * @returns {void} - Nothing
  */
-function ChatRoomStruggleDraw() {
+function ChatRoomStruggleSync() {
 
 	// Increments the progress based on the time
 	let Time = CommonTime();
@@ -2436,7 +2497,7 @@ function ChatRoomStruggleDraw() {
 		return;
 	}
 
-	// Draw the controls, we allow loosening the item beyond progress 50% if the difficulty allows it
+	// Sync the controls; loosening allowed beyond 50% progress when difficulty permits
 	if ((Player.Status == null) || (Player.Status !== "Talk")) ChatRoomStatusUpdate("Struggle");
 	let Impossible = ((ChatRoomStruggleData.Difficulty < -6) && (ChatRoomStruggleData.Start + 60000 <= Time));
 	if (!ChatRoomStruggleData.AllowLoosen && !ChatRoomStruggleData.LoosenMode)
@@ -2444,17 +2505,39 @@ function ChatRoomStruggleDraw() {
 	let Text = "Struggling";
 	if (Impossible) Text = "Impossible";
 	if (ChatRoomStruggleData.LoosenMode) Text = "Loosening";
-	let Path = `${AssetGetPreviewPath(ChatRoomStruggleData.Item.Asset)}/${ChatRoomStruggleData.Item.Asset.Name}.png`;
-	DrawImageResize(Path, 1010, 5, 50, 50);
-	DrawText(TextGet("ChatRoomStruggle" + Text), 1175, 30, "White", "Silver");
-	if (ChatRoomStruggleData.AllowLoosen) {
-		DrawProgressBar(1300, 3, 390, 55, ChatRoomStruggleData.Progress);
-		DrawButton(1700, 0, 145, 60, TextGet("ChatRoomStruggleLoosen"), "White");
-		DrawButton(1850, 0, 145, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
-	} else {
-		DrawProgressBar(1300, 3, 490, 55, ChatRoomStruggleData.Progress);
-		DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+
+	const bar = ElementWrap("chat-room-struggle-bar");
+	if (!bar) return;
+
+	ElementWrap("chat-room-top-menu")?.toggleAttribute("hidden", true);
+	bar.removeAttribute("hidden");
+
+	const imgPath = `${AssetGetPreviewPath(ChatRoomStruggleData.Item.Asset)}/${ChatRoomStruggleData.Item.Asset.Name}.png`;
+	const itemImg = ElementWrap("chat-room-struggle-item");
+	if (itemImg instanceof HTMLImageElement && !itemImg.src.endsWith(encodeURI(imgPath))) {
+		itemImg.src = imgPath;
 	}
+
+	const statusText = TextGet("ChatRoomStruggle" + Text);
+	const label = ElementWrap("chat-room-struggle-label");
+	if (label && label.textContent !== statusText) {
+		label.textContent = statusText;
+		bar.setAttribute("aria-label", statusText);
+	}
+
+	const progressValue = Math.round(ChatRoomStruggleData.Progress);
+	const progressBar = ElementWrap("chat-room-struggle-progress");
+	const progressFill = progressBar?.querySelector(".chat-room-struggle-progress-fill");
+	if (progressBar) {
+		progressBar.setAttribute("aria-valuenow", progressValue.toString());
+	}
+	if (progressFill instanceof HTMLElement) {
+		progressFill.style.width = `${progressValue}%`;
+	}
+
+	const loosenBtn = ElementWrap("chat-room-struggle-loosen");
+	loosenBtn?.toggleAttribute("hidden", !ChatRoomStruggleData.AllowLoosen);
+	bar.querySelector(".chat-room-struggle-actions")?.toggleAttribute("data-dual", ChatRoomStruggleData.AllowLoosen);
 
 	// Generates a struggle animation
 	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions && ChatRoomStruggleData.NextAnim <= Time) {
@@ -2584,43 +2667,15 @@ function ChatRoomMenuButtonVisualState(menuId) {
 }
 
 /**
- * @returns {void}
- */
-function ChatRoomTopMenuPosition() {
-	const elem = document.getElementById("chat-room-top-menu");
-	if (elem) {
-		ElementPositionFix(elem, ChatRoomFontSize, ChatRoomDivRect[0], 2, ChatRoomDivRect[2], 60);
-	}
-}
-
-/**
- * @returns {void}
- */
-function ChatRoomTopMenuEnsure() {
-	if (!document.getElementById("chat-room-top-menu")) {
-		ElementMenu.Create("chat-room-top-menu", [], { role: "menubar" });
-		ChatRoomTopMenuBuiltSig = "";
-		ChatRoomTopMenuPosition();
-	}
-	document.getElementById("chat-room-top-menu")?.removeAttribute("hidden");
-}
-
-/**
  * Syncs the DOM top menu with {@link ChatRoomMenuButtons} and per-button visuals.
  * @returns {void}
  */
 function ChatRoomTopMenuSync() {
-	const bar = document.getElementById("chat-room-top-menu");
+	const bar = ElementWrap("chat-room-top-menu");
 	if (!bar) return;
 
-	if (ChatRoomStruggleData != null) {
-		bar.toggleAttribute("hidden", true);
-		return;
-	}
-
-	const wasHidden = bar.hasAttribute("hidden");
+	ElementWrap("chat-room-struggle-bar")?.toggleAttribute("hidden", true);
 	bar.toggleAttribute("hidden", false);
-	if (wasHidden) ChatRoomTopMenuPosition();
 
 	const sig = ChatRoomMenuButtons.join("\0");
 	if (sig !== ChatRoomTopMenuBuiltSig) {
@@ -2743,18 +2798,6 @@ function ChatRoomClick(event) {
 	if (MouseIn(0, 0, 1000, 1000))
 		if (ChatRoomActiveView.Click)
 			return ChatRoomActiveView.Click(event);
-
-	// If the user wants to stop struggling (smaller button)
-	if (MouseIn(1700, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
-		return StruggleChatRoomLoosenStart();
-
-	// If the user wants to stop struggling (smaller button)
-	if (MouseIn(1850, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
-		return StruggleChatRoomStop();
-
-	// If the user wants to stop struggling (big button)
-	if (MouseIn(1800, 0, 195, 60) && (ChatRoomStruggleData != null) && !ChatRoomStruggleData.AllowLoosen)
-		return StruggleChatRoomStop();
 
 }
 
@@ -6706,7 +6749,6 @@ function ChatRoomDataChanged() {
 
 function ChatRoomRefreshFontSize() {
 	ChatRoomFontSize = ChatRoomFontSizes[Player.ChatSettings.FontSize || "Medium"];
-	if (CurrentScreen === "ChatRoom") ChatRoomTopMenuPosition();
 }
 
 /**
