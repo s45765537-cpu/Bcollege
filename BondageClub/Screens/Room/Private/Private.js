@@ -2521,9 +2521,10 @@ function PrivateClubCardVsCharacterStart() {
  * When the club card game against a friend NPC ends
  */
 async function PrivateClubCardVsCharacterEnd() {
-	if (!CurrentCharacter || !ClubCardOpponent) return;
+	if (!ClubCardOpponent) return;
 	await CommonSetScreen("Room", "Private");
 	CharacterSetCurrent(ClubCardOpponent);
+	if (!CurrentCharacter) return;
 	if (CurrentCharacter.IsOwner()) {
 		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsOwnerVictory" : "ClubCardVsOwnerDefeat");
 		CurrentCharacter.Stage = MiniGameVictory ? "1110" : "1120";
