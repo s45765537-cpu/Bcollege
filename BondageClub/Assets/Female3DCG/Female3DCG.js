@@ -4060,7 +4060,10 @@ var AssetFemale3DCG = [
 				Priority: 23,
 				Value: 50,
 				ParentGroup: "BodyUpper",
-				PoseMapping: {},
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -4853,25 +4856,24 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Yoked: "Yoked",
 					OverTheHead: "OverTheHead",
-					AllFours: PoseType.HIDE,
 				},
 				Layer: [
 					{ Name: "LShoulder", ColorGroup: "Shirt" },
 					{
 						Name: "LWaist",
 						ColorGroup: "Shirt",
-						PoseMapping: { Hogtied: PoseType.HIDE },
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 					},
 					{ Name: "RShoulder", ColorGroup: "Shirt" },
 					{
 						Name: "RWaist",
 						ColorGroup: "Shirt",
-						PoseMapping: { Hogtied: PoseType.HIDE },
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 					},
 					{
 						Name: "Buttons",
 						ParentGroup: {},
-						PoseMapping: { Hogtied: "Hide" },
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 					},
 					{ Name: "Tie1", PoseMapping: {}, AllowTypes: { t: 0 } },
 				],
@@ -10851,6 +10853,10 @@ var AssetFemale3DCG = [
 				Value: 25,
 				Left: 0,
 				Top: 0,
+				PoseMapping: {
+					Yoked: PoseType.DEFAULT,
+					AllFours: PoseType.DEFAULT,
+				},
 				Hide: ["ItemNipples"],
 				Layer: [
 					{ Name: "Fabric" },
@@ -12475,6 +12481,7 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				BuyGroup: "HarnessPanties1",
 				PoseMapping: {
+					...AssetPoseMapping.ItemPelvis,
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 					LegsClosed: "LegsClosed",
