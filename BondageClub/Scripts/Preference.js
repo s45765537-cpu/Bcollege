@@ -196,8 +196,8 @@ function PreferenceSetArousalZone(C, ZoneName, Factor, CanOrgasm) {
 	if (!Zone) return;
 
 	const Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	if (!Group || !Group.ArousalZoneID) {
-		console.error('PreferenceSetArousalZone: Invalid group name or missing group ID');
+	if (!Group || typeof Group.ArousalZoneID !== "number") {
+		console.error('PreferenceSetArousalZone: Invalid group name or missing group ID', Group?.ArousalZoneID);
 		return;
 	}
 
