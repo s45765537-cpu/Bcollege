@@ -125,7 +125,7 @@ Text Rope Sensei,<F>ロープを尊重する
 Title LARP Queen,LARP Queen
 Text LARP Queen,"<F>For my next quest, I need enchanted ropes, love potions and a cursed chastity belt."
 Title Local Influencer,Local Influencer
-Text Local Influencer,You lose 2 Money and draw a card when she enters your club.
+Text Local Influencer,You lose 4 Money and draw a card when she enters your club.
 Title Wannabe Princess,Wannabe Princess
 Text Wannabe Princess,"+2 Fame/turn if your building level is a Manor."
 Title Waitress,Waitress
@@ -205,7 +205,7 @@ Text Novice Nurse,+1 Fame per turn for each Asylum Patient present. Max 3
 Title Commited Patient,Commited Patient
 Text Commited Patient,<F>My jacket is never tight enough.
 Title Veteran Nurse,Veteran Nurse
-Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present (max = club tier + 1).
+Text Veteran Nurse,"+2 Fame/turn and -1 Money/turn per Patient ally (max = club tier + 3)."
 Title Permanent Patient,Permanent Patient
 Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
@@ -237,7 +237,7 @@ Text College Dropout,"Gets -2 fame if you have more fame than the opponent, and 
 Title Union Leader,Union Leader
 Text Union Leader,"Gain +1 Fame for each member present. Gain -1 Fame for each member in your opponent's club. (Max +/- 5)"
 Title No-Fap Advocate,No-Fap Advocate
-Text No-Fap Advocate,"When you play a non-timed event, shuffle a random card from your hand into your deck to draw a card."
+Text No-Fap Advocate,"-1 Fame/turn per Play Action taken this turn."
 Title Pandora Infiltrator,Pandora Infiltrator
 Text Pandora Infiltrator,"Randomly gets -1 Fame/Money when a member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
 Prerequisite Pandora Infiltrator,"Select a member to copy their type(s)"
@@ -293,7 +293,7 @@ Text Second Mortgage,+20 Money.
 Title Foreign Investment,Foreign Investment
 Text Foreign Investment,+30 Money.
 Title Cat Burglar,Cat Burglar
-Text Cat Burglar,"Steal 1 Money per member in your opponent's club, then steal the same amount again unless your opponent has Police."
+Text Cat Burglar,"Played: Steal Money and Fame equal to Opponent's club tier. Repeat if there's no Police rivals."
 Title Money Heist,Money Heist
 Text Money Heist,"Steal 6 Money. Then steal 2 Money if a Criminal is present. Then steal 4 Money if your opponent doesn't have Police."
 Title BDSM Ball,BDSM Ball
@@ -520,7 +520,7 @@ Prerequisite Moon,Choose a member to create an illusory copy of that card in you
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"Enters: Steal 2 Fame. When you steal with another effect, steal 1 Fame and Money."
 Title Earner,Earner
-Text Earner,"Gain +1 Money for each member in your streets. (Max +7) Enters: Discard a random member from your deck."
+Text Earner,"+1 Money/turn per ally in the streets (max +5). Enters: Discard a random ally from your deck to get +Money equal to its tiers."
 Title Naughty Baby,Naughty Baby
 Text Naughty Baby,"Enters: Steal 4 money if no Police are present. Then steal 4 fame if no Police are present in opponent's club."
 Title Consigliere,Consigliere
@@ -729,67 +729,66 @@ DrawThisCard,Draw This Card.
 SendToStreets,Send To Streets.
 GroupLatex,Latex
 Title Latex Amateur,Latex Amateur
-Text Latex Amateur,"Gains +1 Base fame each time you take the draw action (Max 3), resets to 0 base fame when you play a card."
+Text Latex Amateur,"Draw Action: +1/+0 (max 3 Fame). Allied Card Played: Set this card's Fame to 0. At tier 3+, set it to 1 instead."
 Title Suit polisher,Suit polisher
-Text Suit polisher,"Gains +1 base Money each time you take the draw action (Max 3), resets to 0 base Money when you play a card."
+Text Suit polisher,"Draw Action: +0/+1 (max 3 Money). Allied Card Played: Set this card's Money to 0. At tier 3+, set it to 1 instead."
 Title Latex Lover,Latex Lover
-Text Latex Lover,"When you take the draw action, you gain 1 money for each latex member in your club (Max=club level)"
+Text Latex Lover,"Draw Action: +1 Money per Latex ally (max = club tier)."
 Title Color Mixer,Color Mixer
-Text Color Mixer,"Enters: Choose a non-Liability member from your club, this member gains all of the selected member's types."
+Text Color Mixer,"Enters: This card gets the types of target non-Liability ally."
 Prerequisite Color Mixer,Select a member from your club.
 Title Vac-bed Patient,Vac-bed Patient
-Text Vac-bed Patient,"When you take the draw action, gain 1 fame and 1 money."
+Text Vac-bed Patient,"Draw Action: +1 Fame. +1 Money."
 Title Shine Simp,Shine Simp
-Text Shine Simp,"When you take the draw action, for each Latex member present, players lose 1 Fame. (Max 4)"
+Text Shine Simp,"Draw Action: Players get -1 Fame per Latex ally (max -4)."
 Title Latex Drone,Latex Drone
 Text Latex Drone,"<F>1684 :: Code 050 :: Statement :: This drone is ready to obey"
 Title Encased,Encased
-Text Encased,Leaves your club if you play a non-latex or dominant Member.
+Text Encased,"Non-Latex Non-Dominant Ally Enters: Leaves unless you have Fully Encased."
 Title Condom Suit,Condom Suit
-Text Exquisite Suit,"When you take the draw action, gets +1 Fame and Money (Max 5). When you play a non-latex member, negates herself."
+Text Exquisite Suit,"+1 Fame/turn if you have Suit polisher. Draw Action: +1/-1 (max 6/-5). Non-Latex Ally Enters: Negate this card."
 Title Latex Nurse,Latex Nurse
-Text Latex Nurse,"Enters: Select a member from your hand to discard to summon a "Vac-bed Patient" to your club."
+Text Latex Nurse,"Enters: Discard target ally to summon a Vac-Bed Patient."
 Prerequisite Latex Nurse,Select a member from your hand.
 Title Exquisite Suit,Exquisite Suit
-Text Condom Suit,"Other Latex members cant be removed from either club"
+Text Condom Suit,"Other Latexes can't leave."
 Title Full Catsuit,Full Catsuit
-Text Full Catsuit,"On draw action: Gets +2/+2 and opponent loses 1 Fame and Money."
-Title Goddess Gleem,Goddess Gleem
-Text Goddess Gleem,"On draw action: Discard a random card from hand, gets +3/-2, and opponent loses 3 Fame"
+Text Full Catsuit,"Draw Action: +3/+3 (max 16/16)."
+Title Goddess Gleam,Goddess Gleam
+Text Goddess Gleam,"Draw Action: +4/-2 (max 22/-12)."
 Title Polish and Shine,Polish and Shine
-Text Polish and Shine,"Put 2 random tier 3 or lower members in your hand into your club, gain 5 money for each Fetishist or Latex member played this way."
+Text Polish and Shine,"Played: Play 2 random t3- allies, then +3 Money and Fame per Fetishist or Latex played."
 Title Fully Encased,Fully Encased
-Text Fully Encased,"For the next 9 turns, each time you take the draw action you gain 3 + 1 Fame for each turn this card has been on the field."
+Text Fully Encased,"Lasts 9 turns. Players get -50% Money&Fame/turn if you have a Latex unless they took the Draw Action."
 Title Intense Training,Intense Training
-Text Intense Training,Play a Shibari card of your choice from your streets. 
+Text Intense Training,"Played: Return a target Shibari card from your streets to your hand. +1 action."
 Prerequisite Intense Training,Select a Shibari card from your streets.
 Title The Butler,The Butler
-Text The Butler,"Police no longer prevent steal effects. When your opponent plays a criminal, they steal 1 Money."
+Text The Butler,"Rival cards can steal even if there's a Police. Criminal Rival Enters: Opponent steals 1 Money."
 Title Reverse Prayer,Reverse Prayer
-Text Reverse Prayer,"Enters: Select a tier, if you would discard a card of chosen tier, keep it instead."
+Text Reverse Prayer,"+1 Money/turn if your Fame is 40 or less. Enters: Select a tier. You can't discard cards of target tier"
 Effect Reverse Prayer,Tier AMOUNT was selected for Reverse Prayer.
 Title Creaking,Creaking
-Text Creaking,"For 6 turns: select and negate a latex member from your club. When you take the draw action, gain +2 Fame per Latex member present (Max 2*club tier)"
+Text Creaking,"Lasts 5 turns. Negate target Latex ally. Draw Action: +2 Fame per Latex ally (max = club tier * 3)."
 Prerequisite Creaking,Select a latex member from your club.
 Your Decks,Your Decks
 Default Decks,Preconstructed
 Title Plushie,Plushie
-Text Plushie,"Enters: Sets its Money to the amount of plushies present (max = club tier), and both players gain 2 Fame."
+Text Plushie,"Enters: Set its Money equal to the number of Plushie allies (max = club tier). Players get +2 Fame."
 Title Delta,Delta
-Text Delta,"If 9 plushies present, win the game. Game start: If your deck has 40 cards, shuffle 9 plushies into your deck."
+Text Delta,"You win once you have 9+ Plushies. Game Start: Add 9 Plushies to your deck if it has 40 cards."
 Title Felix,Felix
-Text Felix,"Enters: Add a random Player Card to shuffle into the top 6 cards of your deck"
+Text Felix,"Enters: Add a random Player Card to the top 6 cards of your deck."
 Title Jae,Jae
-Text Jae,"Once per turn, when a member leaves your club, gain Fame and Money equal to Jae's Fame and Money."
+Text Jae,"Ally Leaves (once/turn): +Fame and +Money equal to this card's stats."
 Title anna,anna
-Text anna,Show the top card of your deck.
+Text anna,You can see the top card of your deck.
 Play Precon,Play Precon
 Title Clare,Clare the Trickster Auctioneer
-Text Clare,"Active (once per tier): Choose a member from your deck to discard, steal Money equal to its tier and play again."
+Text Clare,"Active (once/tier): +1 action. Discard target ally from your deck, then steal Money equal to its tier."
 Title arella,arella
-Text arella,"Enters: All submissive, college students, and slaves present gets +1 Money."
+Text arella,"Enters: All Submissive, Student, and Slave allies get +0/+1."
 Title Ramona,Ramona
 Text Ramona,<F>I am just a simple girl trying to make my way in the universe.
 Title Debt Slave,Debt Slave
-Text Debt Slave,"-1 Money if your club tier is 3+. When a member would leave your club to your streets, shuffle it into your deck instead and remove this card."
-
+Text Debt Slave,"-1 Money/turn at tier 3+. Ally Leaves: Return them to the deck. Remove this card."
