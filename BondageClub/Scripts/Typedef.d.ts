@@ -4007,12 +4007,8 @@ interface GameLARPParameters {
 	}[];
 }
 
-type GameLARPOptionName = "Pass" | "Seduce" | "Struggle" | "Hide" | "Cover" |
-	"Strip" | "Tighten" | "RestrainArms" | "RestrainLegs" | "RestrainMouth" |
-	"Silence" | "Immobilize" | "Detain" | "Dress" | "Costume" | "";
-
 interface GameLARPOption {
-	Name: GameLARPOptionName;
+	Name: GameLARPActionName;
 	Odds: number;
 }
 

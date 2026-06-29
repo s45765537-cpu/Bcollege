@@ -37,14 +37,14 @@ var GameLARPTeamList = ["None", "Red", "Green", "Blue", "Yellow", "Cyan", "Purpl
 var GameLARPTimerDelay = [20, 60];
 var GameLARPEntryClass = "";
 var GameLARPEntryTeam = "";
-/** @type { { Sender: number, Time: number, RNG: number, Data: ServerChatRoomGameResponse["Data"], Success?: boolean }[] } */
+/** @type { { Sender: number, Time: number, RNG: number, Data: ServerChatRoomGameResponseBase<ServerGameLARPData>["Data"], Success?: boolean }[] } */
 var GameLARPProgress = [];
 /** @type {Character[]} */
 var GameLARPPlayer = [];
 /** @type {GameLARPOption[]} */
 var GameLARPOption = [];
-/** @type {GameLARPOptionName | ""} */
-var GameLARPAction = "";
+/** @type {GameLARPActionName | null} */
+var GameLARPAction = null;
 /** @type {Asset[]} */
 var GameLARPInventory = [];
 var GameLARPInventoryOffset = 0;
@@ -258,7 +258,7 @@ function GameLARPBuildInventory(FocusGroup) {
 
 /**
  * Triggered when an option is selected for the current target character. The inventory for it is built and the action is published
- * @param {GameLARPOptionName} Name - Name of the selected option
+ * @param {GameLARPActionName} Name - Name of the selected option
  * @returns {void} - Nothing
  */
 function GameLARPClickOption(Name) {
@@ -473,13 +473,15 @@ function GameLARPGetBonus(Target, BonusType) {
 
 	// The ability bonuses only work for a full cycle (GameLARPPlayer.length * 2)
 	var AbilityBonus = 0;
-	for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++)
-		if ((GameLARPProgress[P].Success != null) && (GameLARPProgress[P].Data.GameProgress == "Action")) {
-			var Source = GameLARPGetPlayer(GameLARPProgress[P].Sender);
-			if ((Source.Game.LARP.Team == Target.Game.LARP.Team) && (GameLARPProgress[P].Data.Action == "Charge") && (BonusType == 0)) AbilityBonus = 0.25;
-			if ((Source.Game.LARP.Team == Target.Game.LARP.Team) && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Support") && (BonusType == 1)) AbilityBonus = 0.25;
-			if ((GameLARPProgress[P].Data.Target == Target.MemberNumber) && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Cheer")) AbilityBonus = 0.25;
+	for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++) {
+		const progress = GameLARPProgress[P];
+		if ((progress.Success != null) && (progress.Data.GameProgress == "Action")) {
+			var Source = GameLARPGetPlayer(progress.Sender);
+			if (Source.Game.LARP.Team == Target.Game.LARP.Team && progress.Data.Action == "Charge" && BonusType == 0) AbilityBonus = 0.25;
+			if (Source.Game.LARP.Team == Target.Game.LARP.Team && progress.Data.GameProgress == "Action" && progress.Data.Action == "Support" && BonusType == 1) AbilityBonus = 0.25;
+			if (progress.Data.Target == Target.MemberNumber && progress.Data.GameProgress == "Action" && progress.Data.Action == "Cheer") AbilityBonus = 0.25;
 		}
+	}
 
 	// Returns both bonuses
 	return ClassBonus + LevelBonus + AbilityBonus;
@@ -501,13 +503,15 @@ function GameLARPGetOdds(Action, Source, Target) {
 	// Struggling starts at 10% + 10% for each new unsuccessful tries, tightening the bonds will reset it to 10%
 	if (Action == "Struggle") {
 		Odds = 0.05;
-		for (let P = 0; P < GameLARPProgress.length; P++)
-			if ((GameLARPProgress[P].Success != null) && (GameLARPProgress[P].Data.GameProgress == "Action")) {
-				if ((GameLARPProgress[P].Sender == Source.MemberNumber) && (GameLARPProgress[P].Data.Target == Source.MemberNumber) && (GameLARPProgress[P].Data.Action == "Struggle") && !GameLARPProgress[P].Success) Odds = Odds + 0.05;
-				if ((GameLARPProgress[P].Sender == Source.MemberNumber) && (GameLARPProgress[P].Data.Target == Source.MemberNumber) && (GameLARPProgress[P].Data.Action == "Struggle") && GameLARPProgress[P].Success) Odds = 0.05;
-				if ((GameLARPProgress[P].Data.Target == Source.MemberNumber) && (GameLARPProgress[P].Data.Action == "RestrainArms") && GameLARPProgress[P].Success) Odds = 0.05;
-				if ((GameLARPProgress[P].Data.Target == Source.MemberNumber) && (GameLARPProgress[P].Data.Action == "Tighten") && GameLARPProgress[P].Success) Odds = 0.05;
+		for (let P = 0; P < GameLARPProgress.length; P++) {
+			const progress = GameLARPProgress[P];
+			if ((progress.Success != null) && (progress.Data.GameProgress == "Action")) {
+				if (progress.Sender == Source.MemberNumber && progress.Data.Target == Source.MemberNumber && progress.Data.Action == "Struggle" && !progress.Success) Odds = Odds + 0.05;
+				if (progress.Sender == Source.MemberNumber && progress.Data.Target == Source.MemberNumber && progress.Data.Action == "Struggle" && progress.Success) Odds = 0.05;
+				if (progress.Data.Target == Source.MemberNumber && progress.Data.Action == "RestrainArms" && progress.Success) Odds = 0.05;
+				if (progress.Data.Target == Source.MemberNumber && progress.Data.Action == "Tighten" && progress.Success) Odds = 0.05;
 			}
+		}
 	}
 
 	// Many actions have fixed %
@@ -576,15 +580,17 @@ function GameLARPBuildOptionAbility(Source, Target, Option, Ability) {
 	// If the ability was already used in that battle, it cannot be used again, the ability "Inspire" makes it usable once again
 	var AlreadyUsed = false;
 	for (let P = 0; P < GameLARPProgress.length; P++) {
-		if ((GameLARPProgress[P].Sender == Source.MemberNumber) && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == Ability)) AlreadyUsed = true;
-		if ((GameLARPProgress[P].Success != null) && GameLARPProgress[P].Success && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Inspire") && (GameLARPProgress[P].Data.Target == Source.MemberNumber)) AlreadyUsed = false;
+		const progress = GameLARPProgress[P];
+		if (progress.Sender == Source.MemberNumber && progress.Data.GameProgress == "Action" && progress.Data.Action == Ability) AlreadyUsed = true;
+		if (progress.Success != null && progress.Success && progress.Data.GameProgress == "Action" && progress.Data.Action == "Inspire" && progress.Data.Target == Source.MemberNumber) AlreadyUsed = false;
 	}
 	if (AlreadyUsed) return;
 
 	// If "Control" or "Confuse" is in progress for this cycle, no class abilities can be used
 	for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++) {
-		if ((GameLARPProgress[P].Success != null) && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Control")) return;
-		if ((GameLARPProgress[P].Success != null) && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Confuse") && (GameLARPProgress[P].Data.Target == Source.MemberNumber)) return;
+		const progress = GameLARPProgress[P];
+		if (progress.Success != null && progress.Data.GameProgress == "Action" && progress.Data.Action == "Control") return;
+		if (progress.Success != null && progress.Data.GameProgress == "Action" && progress.Data.Action == "Confuse" && progress.Data.Target == Source.MemberNumber) return;
 	}
 
 	// If the player targets herself
@@ -646,8 +652,9 @@ function GameLARPBuildOption(Source, Target) {
 	// If seduce is in progress on the source, all she can do is pass her turn
 	var PassTurn = false;
 	for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++) {
-		if ((GameLARPProgress[P].Success != null) && GameLARPProgress[P].Success && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Seduce") && (GameLARPProgress[P].Data.Target == Source.MemberNumber)) PassTurn = true;
-		if ((GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Pass") && (GameLARPProgress[P].Sender == Source.MemberNumber)) PassTurn = false;
+		const progress = GameLARPProgress[P];
+		if (progress.Success && progress.Data.GameProgress == "Action" && progress.Data.Action == "Seduce" && progress.Data.Target == Source.MemberNumber) PassTurn = true;
+		if (progress.Data.GameProgress == "Action" && progress.Data.Action == "Pass" && progress.Sender == Source.MemberNumber) PassTurn = false;
 	}
 	if (PassTurn) return Option;
 
@@ -659,16 +666,20 @@ function GameLARPBuildOption(Source, Target) {
 	if (Source.Game.LARP.Team != Target.Game.LARP.Team) {
 
 		// Checks for "Hide"
-		var CanTarget = true;
-		for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++)
-			if (GameLARPProgress[P].Sender == Target.MemberNumber)
-				CanTarget = !((GameLARPProgress[P].Success != null) && GameLARPProgress[P].Success && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Hide") && (GameLARPProgress[P].Sender == Target.MemberNumber));
+		let CanTarget = true;
+		for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++) {
+			const progress = GameLARPProgress[P];
+			if (progress.Sender == Target.MemberNumber)
+				CanTarget = !(progress.Success && progress.Data.GameProgress == "Action" && progress.Data.Action == "Hide" && progress.Sender == Target.MemberNumber);
+		}
 		if (!CanTarget) return Option;
 
 		// Checks for "Cover"
-		for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++)
-			if ((GameLARPProgress[P].Success != null) && GameLARPProgress[P].Success && (GameLARPProgress[P].Data.GameProgress == "Action") && (GameLARPProgress[P].Data.Action == "Cover") && (GameLARPProgress[P].Data.Target == Target.MemberNumber))
+		for (let P = ((GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 > 0) ? GameLARPProgress.length - GameLARPPlayer.length * 2 + 1 : 0); P < GameLARPProgress.length; P++) {
+			const progress = GameLARPProgress[P];
+			if (progress.Success && progress.Data.GameProgress == "Action" && progress.Data.Action == "Cover" && progress.Data.Target == Target.MemberNumber)
 				return Option;
+		}
 
 	}
 
@@ -1024,54 +1035,89 @@ function GameLARPContinue() {
 
 }
 
+
+/**
+ * @param {unknown} data
+ * @returns {data is ServerGameLARPDataStart}
+ */
+function GameLARPIsStartPacket(data) {
+	return CommonIsObject(data)
+		&& data.GameProgress === "Start";
+}
+
+/**
+ * @param {unknown} data
+ * @returns {data is ServerGameLARPDataSkip}
+ */
+function GameLARPIsSkipPacket(data) {
+	return CommonIsObject(data)
+		&& data.GameProgress === "Skip";
+}
+
+/**
+ *
+ * @param {unknown} data
+ * @returns {data is ServerGameLARPDataAction}
+ */
+function GameLARPIsActionPacket(data) {
+	const obj = /** @type {ServerGameLARPDataAction} */ (data);
+	return CommonIsObject(obj)
+		&& obj.GameProgress === "Action"
+		&& typeof obj.Action === "string"
+		&& CommonIsNonNegativeInteger(obj.Target)
+		&& (obj.Item === undefined || typeof obj.Item === "string");
+}
+
 /**
  * Processes the LARP game messages for turns and actions.
- * @param {ServerChatRoomGameResponse} P - Data object containing the message data.
+ * @param {number} sender
+ * @param {number} rng
+ * @param {unknown} data - Data object containing the message data.
  * @returns {void} - Nothing
  */
-function GameLARPProcess(P) {
-	if ((P != null) && (typeof P === "object") && (P.Data != null) && (typeof P.Data === "object") && (P.Sender != null) && (typeof P.Sender === "number") && (P.RNG != null) && (typeof P.RNG === "number")) {
+function GameLARPProcess(sender, rng, data) {
+	// The administrator can start the LARP game, he becomes the turn admin in the process
+	if (GameLARPIsStartPacket(data)) {
+		if (!ChatRoomCharacterIsAdmin(sender)) return;
+		GameLARPSetStatus("Running");
+		GameLARPTurnAdmin = sender;
+		GameLARPTurnPosition = -1;
+		GameLARPTurnAscending = true;
+		GameLARPBuildPlayerList();
+		GameLARPProgress = [];
+		for (let C = 0; C < GameLARPPlayer.length; C++)
+			if (ChatRoomData.Admin.includes(GameLARPPlayer[C].MemberNumber))
+				GameLARPTurnTimerDelay = GameLARPPlayer[C].Game.LARP.TimerDelay;
+		if ((typeof GameLARPTurnTimerDelay !== "number") || (GameLARPTurnTimerDelay < GameLARPTimerDelay[0]) || (GameLARPTurnTimerDelay > GameLARPTimerDelay[GameLARPTimerDelay.length - 1])) GameLARPTurnTimerDelay = GameLARPTimerDelay[0];
+		GameLARPNewTurn("TurnStart");
+	}
 
-		// The administrator can start the LARP game, he becomes the turn admin in the process
-		if ((ChatRoomData.Admin.indexOf(P.Sender) >= 0) && (P.Data.GameProgress == "Start")) {
-			GameLARPSetStatus("Running");
-			GameLARPTurnAdmin = P.Sender;
-			GameLARPTurnPosition = -1;
-			GameLARPTurnAscending = true;
-			GameLARPBuildPlayerList();
-			GameLARPProgress = [];
-			for (let C = 0; C < GameLARPPlayer.length; C++)
-				if (ChatRoomData.Admin.indexOf(GameLARPPlayer[C].MemberNumber) >= 0)
-					GameLARPTurnTimerDelay = GameLARPPlayer[C].Game.LARP.TimerDelay;
-			if ((typeof GameLARPTurnTimerDelay !== "number") || (GameLARPTurnTimerDelay < GameLARPTimerDelay[0]) || (GameLARPTurnTimerDelay > GameLARPTimerDelay[GameLARPTimerDelay.length - 1])) GameLARPTurnTimerDelay = GameLARPTimerDelay[0];
-			GameLARPNewTurn("TurnStart");
-		}
+	// The turn administrator can skip turns after the delay has ran out
+	if (GameLARPIsSkipPacket(data)) {
+		if (GameLARPGetStatus() !== "Running" || GameLARPTurnAdmin !== sender) return;
+		GameLARPProgress.push({ Sender: sender, Time: CurrentTime, RNG: rng, Data: data });
+		if (GameLARPContinue()) GameLARPNewTurn("TurnSkip");
+	}
 
-		// The turn administrator can skip turns after the delay has ran out
-		if ((GameLARPGetStatus() == "Running") && (GameLARPTurnAdmin == P.Sender) && (P.Data.GameProgress == "Skip")) {
-			GameLARPProgress.push({ Sender: P.Sender, Time: CurrentTime, RNG: P.RNG, Data: P.Data });
-			if (GameLARPContinue()) GameLARPNewTurn("TurnSkip");
-		}
+	// The current turn player can trigger an action
+	if (GameLARPIsActionPacket(data)) {
+		if (GameLARPGetStatus() !== "Running") return;
+		if (GameLARPPlayer.length === 0 || GameLARPPlayer[GameLARPTurnPosition].MemberNumber !== sender) return;
+		if (typeof data.Action !== "string" || !CommonIsNonNegativeInteger(data.Target)) return;
 
-		// The current turn player can trigger an action
-		if ((GameLARPGetStatus() == "Running") && (GameLARPPlayer.length > 0) && (GameLARPPlayer[GameLARPTurnPosition].MemberNumber == P.Sender) && (P.Data.GameProgress == "Action") && (P.Data.Action != null) && (P.Data.Target != null)) {
+		// Before we process it, we make sure the action is valid by checking all possible options
+		const Source = GameLARPGetPlayer(sender);
+		const Target = GameLARPGetPlayer(data.Target);
+		if (!Source || !Target) return;
 
-			// Before we process it, we make sure the action is valid by checking all possible options
-			var Source = GameLARPGetPlayer(P.Sender);
-			var Target = GameLARPGetPlayer(P.Data.Target);
-			if ((Source != null) && (Target != null)) {
-				var Option = GameLARPBuildOption(Source, Target);
-				for (let O = 0; O < Option.length; O++)
-					if (Option[O].Name == P.Data.Action) {
-						GameLARPProgress.push({ Sender: P.Sender, Time: CurrentTime, RNG: P.RNG, Data: P.Data });
-						GameLARPProcessAction(P.Data.Action, P.Data.Item, Source, Target, P.RNG);
-						if (GameLARPContinue()) GameLARPNewTurn("TurnNext");
-						return;
-					}
-			}
+		const Options = GameLARPBuildOption(Source, Target);
+		const option = Options.find(o => o.Name === data.Action);
+		if (!option) return;
 
-		}
+		GameLARPProgress.push({ Sender: sender, Time: CurrentTime, RNG: rng, Data: data });
+		GameLARPProcessAction(data.Action, data.Item, Source, Target, rng);
 
+		if (GameLARPContinue()) GameLARPNewTurn("TurnNext");
 	}
 }
 
