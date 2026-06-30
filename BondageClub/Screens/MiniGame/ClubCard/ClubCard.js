@@ -230,7 +230,7 @@ var ClubCardList = [
 	{
 		ID: 1008,
 		Name: "Diplomat",
-		MoneyPerTurn: 5,
+		MoneyPerTurn: 6,
 		FamePerTurn: 3,
 		RequiredLevel: 5
 	},
@@ -430,7 +430,6 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			this.MoneyPerTurn = Math.min(ClubCardNameCountOnBoard(CCPlayer, "Plushie"), CCPlayer.Level);
 			ClubCardPlayerAddFame(CCPlayer, 2);
-			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), 2);
 		}
 	},
 
@@ -492,8 +491,10 @@ var ClubCardList = [
 		Group: ["Staff"],
 		MoneyPerTurn: -1,
 		FamePerTurn: 1,
-		ExtraDraw: 1,
-		RequiredLevel: 3
+		RequiredLevel: 3,
+		onDrawAction: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+		}
 	},
 
 	// 3000 - Police / Criminal Members (Cancel each others and offer protections against events)
@@ -1316,20 +1317,10 @@ var ClubCardList = [
 		Group: ["AsylumNurse"],
 		Reward: "NPC_AsylumMeeting_PatientRight",
 		RequiredLevel: 2,
-		CanActive: false,
-		OnPlay: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			let fame = 0;
 			for (const card of CCPlayer.Board) if (ClubCardCardHasGroup(card, "AsylumPatient")) fame = Math.max(fame, card.RequiredLevel ?? 1);
-			this.FamePerTurn = fame;
-		},
-		OnActive: function(CCPlayer) {
-			let fame = 0;
-			for (const card of CCPlayer.Board) if (ClubCardCardHasGroup(card, "AsylumPatient")) fame = Math.max(fame, card.RequiredLevel ?? 1);
-			CCPlayer.Board[CCPlayer.Board.findIndex(c => c.UniqueID === this.UniqueID)].FamePerTurn = fame;
-			CCPlayer.Board[this.ArrayIndex].CanActive = false;
-		},
-		turnStart: function() {
-			this.CanActive = true;
+			ClubCardPlayerAddFame(CCPlayer, fame);
 		}
 	},
 	{
@@ -1876,12 +1867,11 @@ var ClubCardList = [
 		Name: "Student Custodian",
 		Group: ["CollegeStudent", "Staff"],
 		RequiredLevel: 2,
-		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (!ClubCardIsLiability(cardPlayed) && (ClubCardCardHasGroup(cardPlayed, "Staff") || ClubCardCardHasGroup(cardPlayed, "CollegeTeacher"))) {
-				if ((cardPlayed.RequiredLevel ?? 1) > (CCPlayer.Board[this.ArrayIndex].MoneyPerTurn ?? 0)) {
-					CCPlayer.Board[this.ArrayIndex].MoneyPerTurn = (CCPlayer.Board[this.ArrayIndex].MoneyPerTurn ?? 0) + 1;
-				}
-			}
+		MoneyPerTurn: 1,
+		BeforeTurnEnd: function(CCPlayer) {
+			let effectAmount = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "Staff") + ClubCardGroupOnBoardCount(CCPlayer, "CollegeTeacher"), Math.floor(ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") / 2));
+			if (CCPlayer.Level < 4) ClubCardPlayerAddMoney(CCPlayer, effectAmount);
+			else ClubCardPlayerAddFame(CCPlayer, effectAmount);
 		}
 	},
 	{
@@ -2112,8 +2102,7 @@ var ClubCardList = [
 		Group: ["Player", "Maid", "Kemonomimi"],
 		RewardMemberNumber: 177177,
 		Prerequisite: "SelectOwnMember",
-		MoneyPerTurn: 2,
-		FamePerTurn: 1,
+		FamePerTurn: 2,
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
 			const fameBonus = 1 + (ClubCardGroupIsOnBoard(CCPlayer, "ABDLMommy") ? 1 : 0);
@@ -2434,6 +2423,7 @@ var ClubCardList = [
 				}
 			}
 			CCPlayer.Board[this.ArrayIndex].CanActive = false;
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Rope Slinger", undefined, CCPlayer);
 		},
 		turnStart: function() {
 			this.CanActive = true;
@@ -2809,10 +2799,11 @@ var ClubCardList = [
 		ID: 16003,
 		Name: "Yunari",
 		Group: ["Kemonomimi"],
-		RequiredLevel: 3,
-		FamePerTurn: 3,
+		RequiredLevel: 4,
+		FamePerTurn: 5,
+		MoneyPerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
-			if (CCPlayer.DiscardPile.length < ClubCardGetOpponent(CCPlayer).DiscardPile.length) ClubCardRemoveFromBoard(CCPlayer, this);
+			if (CCPlayer.DiscardPile.length < 4) ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
 	{
@@ -2880,7 +2871,7 @@ var ClubCardList = [
 	// 17000 Exhibitionists
 	{
 		ID: 17000,
-		Name: "Sexibitionist",
+		Name: "Sexhibitionist",
 		Group: ["Exhibitionist"],
 		Revealed: true,
 		RequiredLevel: 5,
@@ -3150,7 +3141,7 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		MoneyPerTurn: 6,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (!ClubCardEventNameIsInEvents(CCPlayer, "Fully Encased")) if (!ClubCardCardHasGroup(cardPlayed, "Latex") && !ClubCardCardHasGroup(cardPlayed, "Dominant") && cardPlayed.Type !== "Event") ClubCardRemoveFromBoard(CCPlayer, this);
+			if (!ClubCardCardHasGroup(cardPlayed, "Latex") && !ClubCardCardHasGroup(cardPlayed, "Dominant") && cardPlayed.Type !== "Event") ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
 	{
@@ -3194,7 +3185,7 @@ var ClubCardList = [
 		Group: ["Latex"],
 		RequiredLevel: 4,
 		FamePerTurn: 3,
-		MoneyPerTurn: 2
+		MoneyPerTurn: 1
 	},
 	{
 		ID: 18011,
@@ -3657,7 +3648,9 @@ var ClubCardList = [
 		Type: "Event",
 		Group: ["TimedEvent"],
 		Time: 4,
-		ExtraDraw: 1
+		onDrawAction: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+		}
 	},
 	{
 		ID: 31005,
@@ -4314,38 +4307,14 @@ var ClubCardList = [
 	},
 	{
 		ID: 31043,
-		Name: "Fully Encased",
+		Name: "Shiny Parade",
 		Type: "Event",
-		Group: ["TimedEvent"],
 		RequiredLevel: 4,
-		Time: 9,
-		AfterTurnEnd: function (CCPlayer) {
-			if (ClubCardTurnCardPlayed > 0 && ClubCardGroupIsOnBoard(CCPlayer, "Latex")) {
-				let Fame = CCPlayer.LastFamePerTurn;
-				if (Fame > 0) {
-					ClubCardPlayerAddFame(CCPlayer, Math.floor(-0.5 * Fame));
-					CCPlayer.LastFamePerTurn = Fame + (Math.floor(-0.5 * Fame));
-				}
-				let Money = CCPlayer.LastMoneyPerTurn;
-				if (Money > 0) {
-					ClubCardPlayerAddMoney(CCPlayer, Math.floor(-0.5 * Money));
-					CCPlayer.LastMoneyPerTurn = Money + (Math.floor(-0.5 * Money));
-				}
-			}
-		},
-		AfterOpponentTurnEnd: function (CCPlayer) {
-			if (ClubCardTurnCardPlayed > 0 && ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Latex")) {
-				let Fame = CCPlayer.LastFamePerTurn;
-				if (Fame > 0) {
-					ClubCardPlayerAddFame(CCPlayer, Math.floor(-0.5 * Fame));
-					CCPlayer.LastFamePerTurn = Fame + (Math.floor(-0.5 * Fame));
-				}
-				let Money = CCPlayer.LastMoneyPerTurn;
-				if (Money > 0) {
-					ClubCardPlayerAddMoney(CCPlayer, Math.floor(-0.5 * Money));
-					CCPlayer.LastMoneyPerTurn = Money + (Math.floor(-0.5 * Money));
-				}
-			}
+		OnPlay: function(CCPlayer) {
+			const draw = Math.min(Math.floor(ClubCardGroupOnBoardCount(CCPlayer, "Latex") / 2), 2);
+			ClubCardPlayerDrawCard(CCPlayer, 1 + draw);
+			ClubCardOnDrawAction(CCPlayer);
+			ClubCardTurnCardPlayed = ClubCardTurnPlayableCardCount(CCPlayer);
 		}
 	},
 	{
@@ -5373,8 +5342,6 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 		return;
 	}
 
-	Amount = Amount ?? ClubCardDrawCardCount(CCPlayer);
-
 	let FocusCard = ((CCPlayer.Index == 0) && (Amount == 1));
 	while (Amount > 0) {
 		if (CCPlayer.Deck.length > 0) {
@@ -6048,7 +6015,7 @@ function ClubCardEndTurn(Draw = false) {
 	if (Draw) {
 		//TODO EndDrawPlayer look not good without wrapping to a new line
 		ClubCardMessageAdd(ClubCardMessageType.FAMEMONEYINFO, "EndDrawPlayer", {[ClubCardPlaceholderKeys.FAMEMONEY]: FameMoneyText}, CCPlayer);
-		ClubCardPlayerDrawCard(ClubCardPlayer[ClubCardTurnIndex]);
+		ClubCardPlayerDrawCard(CCPlayer, 1);
 	} else {
 		ClubCardMessageAdd(ClubCardMessageType.FAMEMONEYINFO, "EndTurnPlayer", {[ClubCardPlaceholderKeys.FAMEMONEY]: FameMoneyText}, CCPlayer);
 	}
@@ -6198,25 +6165,6 @@ function ClubCardTurnPlayableCardCount(CCPlayer) {
 		for (let Card of CCPlayer.Event)
 			if (Card.ExtraPlay != null && !Card.Negated)
 				Count = Count + Card.ExtraPlay;
-	if (Count < 1) Count = 1;
-	return Count;
-}
-
-/**
- * Returns the number of cards that will be drawn when the player choses to draw instead of playing
- * @param {ClubCardPlayer} CCPlayer - The club card player
- * @returns {Number} - The number of cards to draw
- */
-function ClubCardDrawCardCount(CCPlayer) {
-	if ((CCPlayer == null) || (CCPlayer.Board == null)) return 1;
-	let Count = 1;
-	for (let Card of CCPlayer.Board)
-		if (Card.ExtraDraw != null && !Card.Negated)
-			Count = Count + Card.ExtraDraw;
-	if (CCPlayer.Event != null)
-		for (let Card of CCPlayer.Event)
-			if (Card.ExtraDraw != null && !Card.Negated)
-				Count = Count + Card.ExtraDraw;
 	if (Count < 1) Count = 1;
 	return Count;
 }

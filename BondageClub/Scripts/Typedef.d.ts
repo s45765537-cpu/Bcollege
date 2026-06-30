@@ -5081,7 +5081,6 @@ interface ClubCard {
 	RequiredLevel?: number;
 	Time?: number;
 	ExtraTime?: number;
-	ExtraDraw?: number;
 	ExtraPlay?: number;
 	Group?: string[];
 	Location?: string;

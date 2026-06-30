@@ -119,7 +119,7 @@ Text Blue Twin,Gain +1 Fame per turn if Red Twin is present.
 Title Rope Bunny,Rope Bunny
 Text Rope Bunny,+2 Money per turn if at least one Dominant is present.
 Title Shy Submissive,Shy Submissive
-Text Shy Submissive,Will leave your club at start of turn if there are more than 6 members.
+Text Shy Submissive,Will leave your club at start of turn if there are more than 5 members.
 Title Rope Sensei,Rope Sensei
 Text Rope Sensei,<F>ロープを尊重する
 Title LARP Queen,LARP Queen
@@ -211,7 +211,7 @@ Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
 Text Doctor,+3 Fame per turn for each Asylum Patient present. Max 12
 Title Picky Nurse,Picky Nurse
-Text Picky Nurse,"Enters and Active (once per turn): Set her fame to the tier of the highest tier patient present."
+Text Picky Nurse,"+Fame/turn equal to the highest-tier Patient ally."
 Title Amateur Rigger,Amateur Rigger
 Text Amateur Rigger,<F>Purple hands?  I'm sure it's normal.
 Title Domme,Domme
@@ -265,9 +265,9 @@ Title Jennifer,Jennifer
 Text Jennifer,Select and remove one member from your club before she enters.
 Prerequisite Jennifer,Select a member from your club to remove before Jennifer enters.
 Title College Freshwoman,College Freshwoman
-Text College Freshwoman,+1 Fame per turn if Julia is present.  +1 Fame per turn if Yuki is present.
+Text College Freshwoman,+1 Fame/turn if you have Julia or Yuki.
 Title College Nerd,College Nerd
-Text College Nerd,+1 Money per turn if Julia is present.  +1 Money per turn if Yuki is present.
+Text College Nerd,+1 Money/turn if you have Julia or Yuki.
 Title College Hidden Genius,Hidden Genius
 Text College Hidden Genius,+4 Fame per turn if Mildred is present.
 Title Substitute Teacher,Substitute Teacher
@@ -381,7 +381,7 @@ Text Teacher's Aide,<F>Aiding her teacher day and night
 Title Homeroom,Homeroom
 Text Homeroom,Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
 Title Student Custodian,Student Custodian
-Text Student Custodian,"When teacher or staff enters, if their tier is higher than this member's Money, gets +1  Money "
+Text Student Custodian,"+1 Money/turn per 2 Student Allies. at t4+, +1 Fame/turn instead (max = number of Teacher and Staff Allies)."
 Title Recess,Recess
 Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
 Title Med Student,Med Student
@@ -468,6 +468,7 @@ Title Goddess of Ropes,Goddess of Ropes
 Text Goddess of Ropes,"When you play a Shibari card, play a random Knot from your deck." 
 Title Rope Slinger,Rope Slinger
 Text Rope Slinger,"Active (once per turn): Play all knots in your hand."
+Effect Rope Slinger,Rope Slinger played all knots from SOURCEPLAYER's hand.
 Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Play all Knots in your hand, deck, and streets and shuffle them into your deck."
 Title Living Art,Living Art
@@ -497,7 +498,7 @@ Prerequisite Feline Fatale,Select a member from your opponent club to remove.
 Title Wolf Girl,Wolf Girl
 Text Wolf Girl,"Enters: Lose 7 Money & opponent randomly discards a card. +1 Fame per 2 of your building levels. +1 Money if an owner is present."
 Title Pet toys,Pet toys
-Text Pet toys,"Lose 1 Money and gain 2 Fame per Pet present, gain 1 more if and Owner is present."
+Text Pet toys,"Played: +2 Fame and -1 Money per Pet ally. +1 Fame per Pet ally if you have an Owner."
 Title Pet Sitter,Pet Sitter
 Text Pet Sitter,"Gains +1 money for each pet in either club (Max 5). If your opponent has any Pets in their club, they gain 1 money each turn."
 Title Pet Rock,Pet Rock
@@ -632,13 +633,13 @@ Text Rizom,"Enters: Select a member from your club to get 1 Fame and Money, 1 mo
 Prerequisite Rizom,'Select a member from your club to enhance.'
 Effect Rizom,"CARDNAME got a massage from Rizom, their fame and money got boosted."
 Title Chirumi,Chirumi
-Text Chirumi,Gain +1 fame equal to your club tier. Leaves your club if your streets have more than 3 cards.
+Text Chirumi,"+1 Fame/turn per club tier. Turn End: Leaves if your streets have more than 2 cards."
 Title Pack Member,Pack Member
 Text Pack Member,"Enters: Add a Pack member to your hand if you have fewer members in your club than the opponent."
 Title Brutus,Brutus
 Text Brutus,"<F>I usually use these cuffs outside of work."
 Title Yunari,Yunari
-Text Yunari,"If your streets have fewer cards than your opponent's, leaves your club at the end of your turn."
+Text Yunari,"Turn End: Leaves if your streets have less than 4 cards."
 Title Pack Leader,Pack Leader
 Text Pack Leader,"Gain +1 Fame for each Pack Member in your club (Max +5). Gain +2 Fame if a Pack Member is in your streets."
 Title Mama Bear,Mama Bear
@@ -688,40 +689,40 @@ Text Stalker,"If this card is in your hand and you play a revealed member, she e
 Title Lewd Photographer,Lewd Photographer
 Text Lewd Photographer,"When an exhibitionist enters your club, lose 1 Money and add Nude Photos into your opponent deck."
 Title Streaker,Streaker
-Text Streaker,"Enters: add a New Clothes to your opponent's deck. Returns to your hand after 4 turns and both players draw a card."
+Text Streaker,"Enters: Add a New Clothes to the opponent's deck. 4th Turn Start: Returns to hand. Players draw a card."
 Title Exotic Dancer,Exotic Dancer
-Text Exotic Dancer,"Gains +1 Fame if there are at least 16 members in your club, gains +1 Money if you have Procuress in your club."
+Text Exotic Dancer,"+1 Fame/turn if you have 16+ members. +1 Money/turn if you have Procuress."
 Title Flasher,Flasher
-Text Flasher,"Receive 1 Fame when a member enters your club. Enters: Add 2 Nude Photos to your opponent's deck."
+Text Flasher,"Ally Enters: +1 Fame. Enters: Add 2 Nude Photos to the opponent's deck."
 Title Window Shopper,Window Shopper
-Text Window Shopper,"Gain +4 Fame if there are at least 12 visible exhibitionists. Once per turn: When you play streaker, exotic dancer, or nudist, play again."
+Text Window Shopper,"+4 Fame/turn if there's 12+ Exhibitionists visible. Streaker, Exotic Dancer, or Nudist Ally Enters (once/turn): +1 action."
 Title Lingerie Model,Lingerie Model
-Text Lingerie Model,"Enters: Add 3 New Clothes to your opponent's deck."
+Text Lingerie Model,"Enters: Add 3 New Clothes to the opponent's deck."
 Title Procuress,Procuress
-Text Procuress,"For every 6 members present, lose 2 Money and add Exotic Dancer to your hand."
+Text Procuress,"Every 6th Ally: -2 Money. Add an Exotic Dancer to your hand."
 Title Covert Canvas,Covert Canvas
-Text Covert Canvas,"Receive 1 Fame for each card a player draws. Enters: Both players draw 3 cards."
+Text Covert Canvas,"Card Drawn: +1 Fame. Enters: Players draw 3 cards."
 Title Temptress,Temptress
-Text Temptress,"When your opponent draws a card, steal 1 fame. If their deck is empty, they lose 7 Fame at the end of their turn."
-Title Sexibitionist,Sexibitionist 
-Text Sexibitionist,"Enters: Add 3 Nude Photos to your opponent's deck, then both players draw 3 cards."
+Text Temptress,"Opponent gets -7 Fame/turn if their deck is empty. Rival Card Drawn: Steal 1 Fame."
+Title Sexhibitionist,Sexhibitionist 
+Text Sexhibitionist,"Enters: Add 3 Nude Photos to the opponent's deck, then players draw 3 cards."
 Title New Clothes,New Clothes
-Text New Clothes,"When Drawn: Remove this card, draw a card, lose 3 Money and your opponent receive 3 Fame."
+Text New Clothes,"Drawn: Exile this card. Draw a card. -3 Money. Opponent gets +3 Fame."
 Title Nude Photos,Nude Photos
-Text Nude Photos,"When Drawn: Remove this card, draw a card, lose 4 Fame and your opponent receive 2 Money."
+Text Nude Photos,"Drawn: Exile this card. Draw a card. -4 Fame. Opponent gets +2 Money."
 Title Walkies,Walkies
-Text Walkies,"Send a pet or an exhibitionist from your hand to your streets. Take 4 actions. You can only play pets or exhibitionists this turn."
+Text Walkies,"Played: Send a target Pet or Exhibitionist to your streets. +4 actions. You can only play Pets or Exhibitionists this turn."
 Prerequisite Walkies,Select a pet or an exhibitionist in your hand.
 Title Peek Performance,Peek Performance
-Text Peek Performance,"Both players draw 1 card, and 1 more per 3 visible exhibitionists."
+Text Peek Performance,"Played: Players draw a card. Repeat per 3 Exhibitionists visible."
 Title Unlucky Undresser,Unlucky Undresser
-Text Unlucky Undresser,"Enters: add New Clothes and 2 Nude Photos to your opponent's deck."
+Text Unlucky Undresser,"Enters: Add a New Clothes and 2 Nude Photos to the opponent's deck."
 Title Lumi,Lumi
-Text Lumi,"Active (Once per tier): Play again, Players reveal their hands, the player with higher sum of tiers receive Fame equal to their club tier."
+Text Lumi,"Active (once/tier): +1 action. Players reveal their hands, then the player with higher sum of tiers gets +Fame equal to their club tier."
 Title Public Advertisement,Public Advertisement
-Text Public Advertisement,"When a member enters your club receive 1 Money and opponent receives 2 Fame."
+Text Public Advertisement,"Ally Enters: +1 Money. Opponent gets +2 Fame."
 Title Tifa,Tifa
-Text Tifa,"Active (Once per turn): Lose 3 Money, look at top card of your deck, Draw it or send it to streets and draw another card."
+Text Tifa,"Active (once/turn): -3 Money. Look at the top card of your deck, then you may send it to your streets, then draw a card."
 Effect Tifa Discard,"SOURCEPLAYER send a card to streets and draw from Tifa"
 Effect Tifa Draw,"SOURCEPLAYER draw a card from Tifa"
 ActiveEffect,Activate Effect.
@@ -744,7 +745,7 @@ Text Shine Simp,"Draw Action: Players get -1 Fame per Latex ally (max -4)."
 Title Latex Drone,Latex Drone
 Text Latex Drone,"<F>1684 :: Code 050 :: Statement :: This drone is ready to obey"
 Title Encased,Encased
-Text Encased,"Non-Latex Non-Dominant Ally Enters: Leaves unless you have Fully Encased."
+Text Encased,"Non-Latex Non-Dominant Ally Enters: Leaves."
 Title Condom Suit,Condom Suit
 Text Exquisite Suit,"+1 Fame/turn if you have Suit polisher. Draw Action: +1/-1 (max 6/-5). Non-Latex Ally Enters: Negate this card."
 Title Latex Nurse,Latex Nurse
@@ -758,8 +759,8 @@ Title Goddess Gleam,Goddess Gleam
 Text Goddess Gleam,"Draw Action: +4/-2 (max 22/-12)."
 Title Polish and Shine,Polish and Shine
 Text Polish and Shine,"Played: Play 2 random t3- allies, then +3 Money and Fame per Fetishist or Latex played."
-Title Fully Encased,Fully Encased
-Text Fully Encased,"Lasts 9 turns. Players get -50% Money&Fame/turn if you have a Latex unless they took the Draw Action."
+Title Shiny Parade,Shiny Parade
+Text Shiny Parade,"Played: Draw a card. Draw a card per 2 Latex allies (max 2). End your turn (this count as draw action)."
 Title Intense Training,Intense Training
 Text Intense Training,"Played: Return a target Shibari card from your streets to your hand. +1 action."
 Prerequisite Intense Training,Select a Shibari card from your streets.
@@ -774,7 +775,7 @@ Prerequisite Creaking,Select a latex member from your club.
 Your Decks,Your Decks
 Default Decks,Preconstructed
 Title Plushie,Plushie
-Text Plushie,"Enters: Set its Money equal to the number of Plushie allies (max = club tier). Players get +2 Fame."
+Text Plushie,"Enters: +2 Fame. Set its Money equal to the number of Plushie allies (max = club tier)."
 Title Delta,Delta
 Text Delta,"You win once you have 9+ Plushies. Game Start: Add 9 Plushies to your deck if it has 40 cards."
 Title Felix,Felix
