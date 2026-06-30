@@ -5181,6 +5181,57 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "MaidApron",
+				InventoryID: 1354,
+				Random: false,
+				Value: 15,
+				Top: 0,
+				Left: 0,
+				Priority: 32,
+				DefaultColor: ["Default", "Default", "Default", "Default", "#000000"],
+				ParentGroup: "BodyUpper",
+				PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+				DynamicGroupName: "Cloth",
+				Layer: [
+					{
+						Name: "Innerstrap",
+						ParentGroup: {},
+					},
+					{
+						Name: "Outerstrap",
+						ParentGroup: {},
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+							Yoked: "Yoked",
+							OverTheHead: "OverTheHead",
+						},
+					},
+					{
+						Name: "Skirt",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "Ruffle",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "Topedge",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "Bottomedge",
+						ParentGroup: {},
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "女仆围裙",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
