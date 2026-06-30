@@ -7883,6 +7883,48 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Plugsuit",
+				InventoryID: 1352,
+				Value: 24,
+				Gender: "F",
+				Random: false,
+				Top: 200,
+				Left: 170,
+				Priority: 14,
+				DynamicGroupName: "Suit",
+				Layer: [
+					{
+						Name: "Suit",
+						PoseMapping: { Hogtied: "Hogtied", AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "WaistInnerLayer",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "WaistStructure",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "UnderBraInnerLayer",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "UnderBraStructure",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+					},
+					{
+						Name: "UpperBraStructure",
+						PoseMapping: { Hogtied: "Hogtied", AllFours: PoseType.HIDE },
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "连体衣",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",

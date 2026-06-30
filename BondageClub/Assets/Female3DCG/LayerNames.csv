@@ -3815,6 +3815,12 @@ SuitPilotSuitLayer2,Highlights
 SuitPilotSuitLayer3,Center
 SuitPilotSuitLayer4,Arms
 SuitPilotSuitOpaqueGloves,Gloves
+SuitPlugsuitSuit,Suit
+SuitPlugsuitUnderBraInnerLayer,Under-Bra Inner Layer
+SuitPlugsuitUnderBraStructure,Under-Bra Structure
+SuitPlugsuitUpperBraStructure,Upper-Bra Structure
+SuitPlugsuitWaistInnerLayer,Waist Inner Layer
+SuitPlugsuitWaistStructure,Waist Structure
 SuitReverseBunnySuitOpaqueGloves,Gloves
 SuitReverseBunnySuitSuit,Suit
 SuitSeamlessCatsuitOpaqueGloves,Gloves
