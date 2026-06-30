@@ -1477,11 +1477,11 @@ GwenHoodStylef1,Smooth
 GwenHoodChangeStyleFinish,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHair,SourceCharacter changes the style of DestinationCharacter gwen hood.
 HairAccessory1AntennaLeft,Left
-HairAccessory1AntennaLeftGlowing,Left Glowing
-HairAccessory1AntennaLeftRight,Left Right
-HairAccessory1AntennaLeftRightGlowing,Left Right Glowing
+HairAccessory1AntennaLeftGlowing,Left Glow
+HairAccessory1AntennaLeftRight,Both
+HairAccessory1AntennaLeftRightGlowing,Both Glow
 HairAccessory1AntennaRight,Right
-HairAccessory1AntennaRightGlowing,Right Glowing
+HairAccessory1AntennaRightGlowing,Right Glow
 HairAccessory1AntennaSelect,Select Pattern
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair

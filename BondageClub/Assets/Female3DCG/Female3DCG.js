@@ -21009,6 +21009,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "A1",
+						ColorGroup: "Right",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 0 },
@@ -21019,6 +21020,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "A2",
+						ColorGroup: "Right",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 0 },
@@ -21029,6 +21031,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "A3",
+						ColorGroup: "Right",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 0 },
@@ -21039,6 +21042,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "A4",
+						ColorGroup: "Right",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 0 },
@@ -21049,12 +21053,14 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "A5",
+						ColorGroup: "Right",
 						Priority: 55,
 						AllowTypes: [{ typed: 1 }, { typed: 5 }],
 					},
 
 					{
 						Name: "B1",
+						ColorGroup: "Left",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 2 },
@@ -21065,6 +21071,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "B2",
+						ColorGroup: "Left",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 2 },
@@ -21075,6 +21082,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "B3",
+						ColorGroup: "Left",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 2 },
@@ -21085,6 +21093,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "B4",
+						ColorGroup: "Left",
 						Priority: 55,
 						AllowTypes: [
 							{ typed: 2 },
@@ -21095,6 +21104,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "B5",
+						ColorGroup: "Left",
 						Priority: 55,
 						AllowTypes: [{ typed: 3 }, { typed: 5 }],
 					},
