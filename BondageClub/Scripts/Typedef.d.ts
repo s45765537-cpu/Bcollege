@@ -1064,7 +1064,10 @@ type Prettify<T> = {
 /**
  * A type that can be a value or a function returning that value.
  */
-type Thunk<T> = T | (() => T);
+type Thunk<T, A extends readonly unknown[] = []> = T | ((...args: A) => T);
+
+declare function CommonUnwrapThunk<T>(thunk: Thunk<T>): T;
+declare function CommonUnwrapThunk<T, A extends readonly unknown[]>(thunk: Thunk<T, A>, ...args: A): T;
 
 //#region Assets
 
