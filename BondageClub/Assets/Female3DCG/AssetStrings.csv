@@ -6817,6 +6817,10 @@ SuitLowerMaleSeamlessCatsuitLock,Null Bulge
 SuitLowerMaleSeamlessCatsuitSelect,Select Bulge Type.
 SuitLowerMaleSeamlessCatsuitSkinTight,Skin Tight Bulge
 SuitLowerMaleSeamlessCatsuitTucked,Tucked
+SuitTransparentBunnyGirlMiddleTrans,Middle Trans
+SuitTransparentBunnyGirlOpaque,Opaque
+SuitTransparentBunnyGirlOverallTrans,Overall Trans
+SuitTransparentBunnyGirlSelect,Select Transparent Bunny Girl Style
 SuspensionChange,SourceCharacter uses AssetName to suspend TargetCharacter from the ceiling.
 SuspensionChangeLower,SourceCharacter lowers the height of DestinationCharacter suspension.
 SuspensionChangeRaise,SourceCharacter raises the height of DestinationCharacter suspension.

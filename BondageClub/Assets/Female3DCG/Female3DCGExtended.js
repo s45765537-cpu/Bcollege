@@ -21227,6 +21227,24 @@ var AssetFemale3DCGExtended = {
 				{ Name: "ChestStyle", Key: "b", Options: [{}, {}] },
 			],
 		}, // GlossyBodystocking
+		TransparentBunnyGirl: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "MiddleTrans",
+					Property: { Opacity: [0.4, 1, 1, 1, 1, 1, 1] },
+				},
+				{
+					Name: "OverallTrans",
+					Property: { Opacity: [0.4, 0, 1, 1, 1, 1, 1] },
+				},
+				{
+					Name: "Opaque",
+					Property: { Opacity: [1, 1, 1, 1, 1, 1, 1] },
+				},
+			],
+		}, // TransparentBunnyGirl
 	}, // Suit
 	SuitLower: {
 		MaleSeamlessCatsuit: {
