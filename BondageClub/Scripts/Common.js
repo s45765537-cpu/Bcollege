@@ -2578,12 +2578,12 @@ function CommonStringSplice(string, index, value, defaultValue) {
 /**
  * Unwraps a thunk into a value
  *
- * @template T
- * @param {Thunk<T>} thunk
- * @returns {T}
+ * @param {Thunk<unknown, unknown[]>} thunk
+ * @param {...unknown} args
+ * @returns {unknown}
  */
-function CommonUnwrapThunk(thunk) {
-	return typeof thunk === "function" ? /** @type {() => T} */ (thunk)() : thunk;
+function CommonUnwrapThunk(thunk, ...args) {
+	return typeof thunk === "function" ? thunk(...args) : thunk;
 }
 
 /**
