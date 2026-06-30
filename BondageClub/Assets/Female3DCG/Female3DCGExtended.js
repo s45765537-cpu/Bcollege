@@ -316,6 +316,16 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PirateHat
+		NPCBalloon: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{ Name: "ExclamationMark" },
+				{ Name: "QuestionMark" },
+				{ Name: "Heart" },
+				{ Name: "Arrow" },
+			],
+		}, // NPCBalloon
 	},
 	HandAccessoryLeft: {
 		Rings: {

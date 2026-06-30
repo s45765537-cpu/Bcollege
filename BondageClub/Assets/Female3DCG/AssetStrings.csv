@@ -2770,6 +2770,11 @@ HatLatexHabitSelect,Choose Fit
 HatLatexHabitSetLoose,SourceCharacter loosens DestinationCharacter latex habit.
 HatLatexHabitSetTight,SourceCharacter tightens DestinationCharacter latex habit.
 HatLatexHabitTight,Tight
+HatNPCBalloonSelect,Select the balloon type
+HatNPCBalloonExclamationMark,Exclamation
+HatNPCBalloonQuestionMark,Question
+HatNPCBalloonHeart,Heart
+HatNPCBalloonArrow,Arrow
 HatNunHabitAss,Ass
 HatNunHabitBlank,Blank
 HatNunHabitBreasts,Breasts
