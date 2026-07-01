@@ -13914,6 +13914,13 @@ var AssetFemale3DCGExtended = {
 		VibeHeartPiercings: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // VibeHeartPiercings
+		PiercingNameBadge: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChangeWhenLocked: false,
+			DrawImages: false,
+			Options: [{ Name: "RightNipple" }, { Name: "LeftNipple" }],
+		}, // PiercingNameBadge
 	}, // ItemNipplesPiercings
 	ItemNipples: {
 		ChainClamp: {

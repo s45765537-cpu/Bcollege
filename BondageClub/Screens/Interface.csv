@@ -150,6 +150,8 @@ Intensity0,Item intensity: Low
 Intensity1,Item intensity: Medium
 Intensity2,Item intensity: High
 Intensity3,Item intensity: Maximum
+ItemNipplesPiercingsPiercingNameBadgeSetRightNipple,SourceCharacter puts the AssetName on DestinationCharacter right nipple.
+ItemNipplesPiercingsPiercingNameBadgeSetLeftNipple,SourceCharacter puts the AssetName on DestinationCharacter left nipple.
 LayeringAsset,Configure {asset} priority
 LayeringExit,Exit
 LayeringHide,Hide hidden layers

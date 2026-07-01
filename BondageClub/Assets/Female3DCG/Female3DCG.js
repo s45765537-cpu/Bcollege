@@ -39002,6 +39002,43 @@ var AssetFemale3DCG = [
 					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
 				],
 			},
+			{
+				Name: "PiercingNameBadge",
+				InventoryID: 1357,
+				Random: false,
+				Value: 6,
+				Fetish: ["Masochism"],
+				Difficulty: 10,
+				Time: 15,
+				Left: 150,
+				Top: 200,
+				AllowLock: true,
+				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"],
+				DynamicGroupName: "ItemNipplesPiercings",
+				ExpressionTrigger: [
+					{ Name: "Closed", Group: "Eyes", Timer: 5 },
+					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
+				],
+				PoseMapping: {
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+				},
+				Layer: [
+					{
+						Name: "RightNipple",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "LeftNipple",
+						AllowTypes: { typed: 1 },
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "穿环胸牌",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
