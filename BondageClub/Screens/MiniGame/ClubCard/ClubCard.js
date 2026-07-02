@@ -426,7 +426,6 @@ var ClubCardList = [
 	{
 		ID: 1028,
 		Name: "Plushie",
-		MoneyPerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			this.MoneyPerTurn = Math.min(ClubCardNameCountOnBoard(CCPlayer, "Plushie"), CCPlayer.Level);
 			ClubCardPlayerAddFame(CCPlayer, 2);
@@ -1554,7 +1553,6 @@ var ClubCardList = [
 		ID: 9007,
 		Name: "Pandora Infiltrator",
 		Group: ["Liability"],
-		FamePerTurn: -1,
 		RequiredLevel: 3,
 		Prerequisite: "SelectAnyMember",
 		OnPlay: function(CCPlayer) {
@@ -1584,17 +1582,15 @@ var ClubCardList = [
 		},
 		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
 			if (cardPlayed.Type != "Event" && ClubCardIsLiability(cardPlayed)) {
-				if (cardPlayed.UniqueID != this.UniqueID) {
-					if ((this.FamePerTurn ?? 0) > -3 && (this.MoneyPerTurn ?? 0) > -2) {
-						let randomStat = Math.floor(Math.random() * 2);
-						if (randomStat == 1) this.FamePerTurn = (this.FamePerTurn ?? 0) - 1;
-						else this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 1;
-					} else if ((this.FamePerTurn ?? 0) > -3) {
-						this.FamePerTurn = (this.FamePerTurn ?? 0) - 1;
-					} else if ((this.MoneyPerTurn ?? 0) > -2) {
-						this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 1;
-					}
-				}
+				if ((this.FamePerTurn ?? 0) > -3 && (this.MoneyPerTurn ?? 0) > -2) {
+					let randomStat = Math.floor(Math.random() * 2);
+					if (randomStat == 1) this.FamePerTurn = (this.FamePerTurn ?? 0) - 1;
+					else this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 1;
+				} else if ((this.FamePerTurn ?? 0) > -3) {
+					this.FamePerTurn = (this.FamePerTurn ?? 0) - 1;
+				} else if ((this.MoneyPerTurn ?? 0) > -2) {
+					this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 1;
+				}		
 			}
 		}
 	},
@@ -3163,6 +3159,7 @@ var ClubCardList = [
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Suit Polisher")) ClubCardPlayerAddFame(CCPlayer, 1);
+			if (ClubCardNameIsOnBoard(CCPlayer, "Suit Polisher")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
 	{
@@ -3192,11 +3189,13 @@ var ClubCardList = [
 		Name: "Full Catsuit",
 		Group: ["Latex"],
 		RequiredLevel: 5,
-		FamePerTurn: 1,
-		MoneyPerTurn: 1,
-		onDrawAction: function() {
-			if((this.FamePerTurn ?? 0) < 16) this.FamePerTurn = Math.min((this.FamePerTurn ?? 0) + 3, 16);
-			if((this.MoneyPerTurn ?? 0) < 16) this.MoneyPerTurn = Math.min((this.MoneyPerTurn ?? 0) + 3, 16);
+		FamePerTurn: 3,
+		MoneyPerTurn: 3,
+		onDrawAction: function(CCPlayer) {
+			if((this.FamePerTurn ?? 0) < 13) this.FamePerTurn = Math.min((this.FamePerTurn ?? 0) + 2, 13);
+			if((this.MoneyPerTurn ?? 0) < 13) this.MoneyPerTurn = Math.min((this.MoneyPerTurn ?? 0) + 2, 13);
+			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), -1);
+			ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer), -1);
 		}
 	},
 	{
@@ -3204,11 +3203,11 @@ var ClubCardList = [
 		Name: "Goddess Gleam",
 		Group: ["Latex"],
 		RequiredLevel: 5,
-		FamePerTurn: 2,
-		MoneyPerTurn: -2,
-		onDrawAction: function() {
-			if((this.FamePerTurn ?? 0) < 24) this.FamePerTurn = Math.min((this.FamePerTurn ?? 0) + 4, 24);
-			if((this.MoneyPerTurn ?? 0) > -12) this.MoneyPerTurn = Math.max((this.MoneyPerTurn ?? 0) - 2, -12);
+		FamePerTurn: 3,
+		onDrawAction: function(CCPlayer) {
+			if((this.FamePerTurn ?? 0) < 18) this.FamePerTurn = Math.min((this.FamePerTurn ?? 0) + 3, 18);
+			if((this.MoneyPerTurn ?? 0) > -10) this.MoneyPerTurn = Math.max((this.MoneyPerTurn ?? 0) - 2, -10);
+			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), -2);
 		}
 	},
 
@@ -6293,6 +6292,7 @@ function ClubCardCardsSelectConditions(Card, CCPlayer, AICard = null) {
 	if ((AICard ?? ClubCardPending).Name === "Walkies" && !(ClubCardCardHasGroup(Card, "Exhibitionist") || ClubCardCardHasGroup(Card, "Pet"))) return false;
 	if ((AICard ?? ClubCardPending).Name === "Latex Nurse" && Card.Type === "Event") return false;
 	if ((AICard ?? ClubCardPending).Name === "Color Mixer" && ClubCardIsLiability(Card)) return false;
+	if ((AICard ?? ClubCardPending).Name === "Creaking" && !ClubCardCardHasGroup(Card, "Latex")) return false;
 	return true;
 }
 
