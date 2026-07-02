@@ -734,6 +734,8 @@ var ClubCardList = [
 				}
 				cardsToReturn--;
 			}
+			CCPlayer.Deck = ClubCardShuffle(CCPlayer.Deck);
+			opponent.Deck = ClubCardShuffle(opponent.Deck);
 		}
 	},
 	{
@@ -3202,7 +3204,8 @@ var ClubCardList = [
 		Name: "Goddess Gleam",
 		Group: ["Latex"],
 		RequiredLevel: 5,
-		FamePerTurn: 3,
+		FamePerTurn: 4,
+		MoneyPerTurn: -2,
 		onDrawAction: function(CCPlayer) {
 			if((this.FamePerTurn ?? 0) < 18) this.FamePerTurn = Math.min((this.FamePerTurn ?? 0) + 3, 18);
 			if((this.MoneyPerTurn ?? 0) > -10) this.MoneyPerTurn = Math.max((this.MoneyPerTurn ?? 0) - 2, -10);
