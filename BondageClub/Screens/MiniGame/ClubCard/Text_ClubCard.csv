@@ -730,9 +730,9 @@ DrawThisCard,Draw This Card.
 SendToStreets,Send To Streets.
 GroupLatex,Latex
 Title Latex Amateur,Latex Amateur
-Text Latex Amateur,"Draw Action: +1/+0 (max 3 Fame). Allied Card Played: Set this card's Fame to 0. At tier 3+, set it to 1 instead."
+Text Latex Amateur,"Draw Action: +1/+0 (max 3 Fame). Allied Card Played: Set this card's Fame to 0."
 Title Suit polisher,Suit polisher
-Text Suit polisher,"Draw Action: +0/+1 (max 3 Money). Allied Card Played: Set this card's Money to 0. At tier 3+, set it to 1 instead."
+Text Suit polisher,"+1 Fame/turn if you have Exquisite Suit. Draw Action: +0/+1 (max 3 Money). Allied Card Played: Set this card's Money to 0."
 Title Latex Lover,Latex Lover
 Text Latex Lover,"Draw Action: +1 Money per Latex ally (max = club tier)."
 Title Color Mixer,Color Mixer
@@ -747,7 +747,7 @@ Text Latex Drone,"<F>1684 :: Code 050 :: Statement :: This drone is ready to obe
 Title Encased,Encased
 Text Encased,"Non-Latex Non-Dominant Ally Enters: Leaves."
 Title Condom Suit,Condom Suit
-Text Exquisite Suit,"+1 Fame/turn and +1 Money/turn if you have Suit polisher. Draw Action: +1/-1 (max 6/-5). Non-Latex Ally Enters: Negate this card."
+Text Exquisite Suit,"Draw Action: +1/-1 (max 6/-4). Non-Latex Ally Enters: Negate this card."
 Title Latex Nurse,Latex Nurse
 Text Latex Nurse,"Enters: Discard target ally to summon a Vac-Bed Patient."
 Prerequisite Latex Nurse,Select a member from your hand.
@@ -770,7 +770,7 @@ Title Reverse Prayer,Reverse Prayer
 Text Reverse Prayer,"+1 Money/turn if your Fame is 40 or less. Enters: Select a tier. You can't discard cards of target tier"
 Effect Reverse Prayer,Tier AMOUNT was selected for Reverse Prayer.
 Title Creaking,Creaking
-Text Creaking,"Lasts 5 turns. Negate target Latex ally. Draw Action: +2 Fame per Latex ally (max = club tier * 3)."
+Text Creaking,"Lasts 6 turns. Negate target Latex ally. Draw Action: +2 Fame per Latex ally (max = club tier * 3)."
 Prerequisite Creaking,Select a latex member from your club.
 Your Decks,Your Decks
 Default Decks,Preconstructed

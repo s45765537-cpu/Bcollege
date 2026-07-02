@@ -3077,6 +3077,9 @@ var ClubCardList = [
 		},
 		onPlayedCard: function() {
 			if ((this.MoneyPerTurn ?? 0) > 0) this.MoneyPerTurn = 0;
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardNameIsOnBoard(CCPlayer, "Exquisite Suit")) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
 	},
 	{
@@ -3149,17 +3152,13 @@ var ClubCardList = [
 		MoneyPerTurn: -1,
 		onDrawAction: function() {
 			if ((this.FamePerTurn ?? 0) < 6) this.FamePerTurn = (this.FamePerTurn ?? 0) + 1;
-			if ((this.MoneyPerTurn ?? 0) > -5) this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 1;
+			if ((this.MoneyPerTurn ?? 0) > -4) this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 1;
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (!ClubCardCardHasGroup(cardPlayed, "Latex") && cardPlayed.Type !== "Event") {
 				this.Negated = true;
 				this.Negating = this.UniqueID;
 			}
-		},
-		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardNameIsOnBoard(CCPlayer, "Suit Polisher")) ClubCardPlayerAddFame(CCPlayer, 1);
-			if (ClubCardNameIsOnBoard(CCPlayer, "Suit Polisher")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
 	{
@@ -4370,7 +4369,7 @@ var ClubCardList = [
 		Type: "Event",
 		Group: ["TimedEvent"],
 		Prerequisite: "SelectOwnMember",
-		Time: 5,
+		Time: 6,
 		OnPlay: function(CCPlayer) {
 			CCPlayer.Board[ClubCardSelection.ArrayIndex].Negated = true;
 			this.Negating = ClubCardSelection.UniqueID;
