@@ -22538,6 +22538,24 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DragonWings
+		Spider: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{ Name: "Biped" },
+				{
+					Name: "Arachnid",
+					Property: {
+						Hide: ["Pussy", "BodyLower"],
+						OverrideHeight: {
+							Height: -200,
+							Priority: 21,
+							HeightRatioProportion: 0,
+						},
+					},
+				},
+			],
+		}, // Spider
 	}, // Wings
 	ItemHandheld: {
 		Smartphone: {

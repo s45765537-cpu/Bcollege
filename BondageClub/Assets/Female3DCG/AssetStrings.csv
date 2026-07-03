@@ -7013,6 +7013,9 @@ WebBondageSuspended,Suspended
 WebBondageSuspensionHogtied,Suspension Hogtied
 WebBondageTangled,Tangled
 WebBondageWrapped,Wrapped
+WingsSpiderArachnid,Arachnid
+WingsSpiderBiped,Biped
+WingsSpiderSelect,Select
 WingsSteampunkWingsOff,Off
 WingsSteampunkWingsOn,On
 WingsSteampunkWingsSelect,Select the state.
