@@ -3728,6 +3728,9 @@ ItemDevicesLockerSetVentless,SourceCharacter removes vents to DestinationCharact
 ItemDevicesLockerSetVents,SourceCharacter adds vents to DestinationCharacter locker.
 ItemDevicesLockerVentless,Ventless
 ItemDevicesLockerVents,Vents
+ItemDevicesLongBagOpaque,Opaque
+ItemDevicesLongBagSelect,Select Appearance
+ItemDevicesLongBagTranslucent,Translucent
 ItemDevicesLuckyWheelModuleArrow,Arrow
 ItemDevicesLuckyWheelModuleGame,Game
 ItemDevicesLuckyWheelModuleMisc,Extras

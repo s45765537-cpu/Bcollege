@@ -156,6 +156,8 @@ ItemDevicesInflatableRestraintBagSett0,SourceCharacter removes the hood on Targe
 ItemDevicesInflatableRestraintBagSett1,SourceCharacter adds a hood on TargetCharacter
 ItemDevicesInflatableRestraintBagSetg0,SourceCharacter removes the canister on TargetCharacter
 ItemDevicesInflatableRestraintBagSetg1,SourceCharacter adds a canister on TargetCharacter
+ItemDevicesLongBagSetOpaque,SourceCharacter made DestinationCharacter sack opaque.
+ItemDevicesLongBagSetTranslucent,SourceCharacter made DestinationCharacter sack translucent.
 ItemNipplesPiercingsPiercingNameBadgeSetRightNipple,SourceCharacter puts the AssetName on DestinationCharacter right nipple.
 ItemNipplesPiercingsPiercingNameBadgeSetLeftNipple,SourceCharacter puts the AssetName on DestinationCharacter left nipple.
 LayeringAsset,Configure {asset} priority

@@ -12836,6 +12836,11 @@ var AssetFemale3DCGExtended = {
 				Exit: PropertyOpacityExit,
 			},
 		}, // InflatableRestraintBag
+		LongBag: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Translucent" }, { Name: "Opaque" }],
+		}, // LongBag
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

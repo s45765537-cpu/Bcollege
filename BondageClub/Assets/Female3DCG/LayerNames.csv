@@ -1754,6 +1754,11 @@ ItemDevicesLeatherCageMetal,Metal
 ItemDevicesLeatherCageCuff,Collar cuff
 ItemDevicesLeatherCageFloor,Floor
 ItemDevicesLeatherCageLock,Padlocks
+ItemDevicesLongBagBack,Back
+ItemDevicesLongBagLongBag,Long Bag
+ItemDevicesLongBagRope,Rope
+ItemDevicesLongBagTransparent,Transparent
+ItemDevicesLongBagBurlapMask,Burlap Mask
 ItemDevicesLuckyWheelArrow,Arrow
 ItemDevicesLuckyWheelBack,Wheel Border
 ItemDevicesLuckyWheelBase,Wooden Stand
