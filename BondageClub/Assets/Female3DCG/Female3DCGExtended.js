@@ -1161,6 +1161,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // WhiteDress
+		Transparentraincoat: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Transparent" }, { Name: "Opaque" }],
+		}, // Transparentraincoat
 	}, // Cloth
 	Decals: {
 		MissMariasManor: {

@@ -1027,6 +1027,9 @@ ClothStarryOceanEveningGownOptionM0,Right side
 ClothStarryOceanEveningGownOptionM1,Left side
 ClothStarryOceanEveningGownSelectBase,Put the gown on which side
 ClothStarryOceanEveningGownSelectMirror,Put the gown on which side
+ClothTransparentraincoatOpaque,Opaque
+ClothTransparentraincoatSelect,Choose the raincoat appearance
+ClothTransparentraincoatTransparent,Transparent
 ClothTShirt2BCLogo,Club Logo
 ClothTShirt2BDSM,BD-SM
 ClothTShirt2Gag,The Moaning Groans
