@@ -12805,6 +12805,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //XFrame
+		InflatableRestraintBag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Inflate",
+					DrawImages: false,
+					Key: "o",
+					Options: [{}, {}],
+				},
+				{
+					Name: "Hood",
+					DrawImages: false,
+					Key: "t",
+					Options: [{}, {}],
+				},
+				{
+					Name: "LinkCanister",
+					DrawImages: false,
+					Key: "g",
+					Options: [{}, {}],
+				},
+			],
+			BaselineProperty: { Opacity: 1 },
+			ScriptHooks: {
+				Init: PropertyOpacityInit,
+				Load: PropertyOpacityLoad,
+				Draw: PropertyOpacityDraw,
+				Exit: PropertyOpacityExit,
+			},
+		}, // InflatableRestraintBag
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -13916,7 +13947,11 @@ var AssetFemale3DCGExtended = {
 		}, // VibeHeartPiercings
 		PiercingNameBadge: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			ChangeWhenLocked: false,
 			DrawImages: false,
 			Options: [{ Name: "RightNipple" }, { Name: "LeftNipple" }],
