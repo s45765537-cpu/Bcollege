@@ -25,6 +25,11 @@ const ChatRoomAccessMode = {
 	ADMIN: ["Admin"],
 };
 
+/**
+ * The chat room screen background
+ *
+ * It shall never be set, as doing so will break the code actually checking for the room data's background.
+ */
 var ChatRoomBackground = "";
 /**
  * The data for the current chatroom, as recieved from the server.
@@ -84,7 +89,7 @@ var ChatRoomSlowStop = false;
  * Default position of the entire chat panel
  * @type {RectTuple}
  */
-var ChatRoomDivRect = [1005, 62, 988, 938];
+var ChatRoomDivRect = [1005, 2, 988, 998];
 
 /**
  * The last approximate height (_i.e._ {@link HTMLElement.clientHeight} as opposed to {@link DOMRect.height}) of the `InputChat` element.
@@ -134,14 +139,23 @@ var ChatRoomLeashPlayer = null;
  * @type {string}
  */
 var ChatRoomJoinLeash = "";
+
+/**
+ * Whether the chat room customization settings are user-enabled or not
+ */
 var ChatRoomCustomized = false;
-var ChatRoomCustomBackground = "";
-var ChatRoomCustomFilter = "";
-var ChatRoomCustomSizeMode = null;
+
+/** @satisfies {Record<"Never" | "DisabledByDefault" | "EnabledByDefault" | "Always", ChatRoomCustomizationType>} */
+const ChatRoomCustomization = /** @type {const} */ (Object.freeze({
+	Never: 0,
+	DisabledByDefault: 1,
+	EnabledByDefault: 2,
+	Always: 3,
+}));
 
 /**
  * The list of chat room views
- * @type {Record<"Character"|"Map", ChatRoomView>}
+ * @type {Record<string, ChatRoomView>}
  */
 var ChatRoomViews = {
 	Character: {
@@ -166,7 +180,7 @@ var ChatRoomViews = {
 		MouseWheel: ChatRoomMapViewMouseWheel,
 		KeyDown: ChatRoomMapViewKeyDown,
 		KeyUp: ChatRoomMapViewKeyUp,
-		SyncRoomProperties: ChatRoomMapViewSyncRoomProperties,
+		RoomUpdated: ChatRoomMapViewRoomUpdated,
 		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
 		CanLeave: ChatRoomMapViewCanLeave,
 		Screenshot: ChatRoomMapViewScreenshot
@@ -174,9 +188,9 @@ var ChatRoomViews = {
 };
 /**
  * The active chat room view
- * @type {ChatRoomView}
+ * @type {ChatRoomView | null}
  */
-var ChatRoomActiveView = ChatRoomViews[ChatRoomCharacterViewName];
+var ChatRoomActiveView = null;
 
 /**
  * Chances of a chat message popping up reminding you of some stimulation.
@@ -257,6 +271,11 @@ var ChatRoomHideIconState = 0;
  * @type {ChatRoomMenuButton[]}
  * */
 var ChatRoomMenuButtons = [];
+/**
+ * A stringified, `\0`-joined list of menu button names. Used for determining whether the top menubar needs to be refreshed.
+ * @type {string}
+ */
+let ChatRoomTopMenuBuiltSig = "";
 let ChatRoomFontSize = 30;
 const ChatRoomFontSizes = {
 	Small: 28,
@@ -334,16 +353,35 @@ let ChatRoomResizeManager = {
 };
 
 /**
+ * Update the active view based on the room state
+ */
+function ChatRoomRefreshActiveView() {
+	if (!ChatRoomData) {
+		ChatRoomActiveView?.Deactivate?.();
+		ChatRoomActiveView = null;
+	} else if ((ChatRoomData?.MapData?.Type ?? "Never") === "Never") {
+		ChatRoomActivateView(ChatRoomCharacterViewName);
+	} else if (ChatRoomData?.MapData?.Type == "Always") {
+		ChatRoomActivateView(ChatRoomMapViewName);
+	} else if (!ChatRoomActiveView) {
+		ChatRoomActivateView(ChatRoomCharacterViewName);
+	}
+}
+
+/**
  * Activates the chat room view with the passed name
- * @param {string} viewName - The name of the view to activate
+ * @param {keyof ChatRoomViews} viewName - The name of the view to activate
  * @returns {void}
  */
 function ChatRoomActivateView(viewName)
 {
-	if(!(viewName in ChatRoomViews)) { throw Error(`Tried to change to not existing view ${viewName}`); }
-	if(ChatRoomActiveView.Deactivate) ChatRoomActiveView.Deactivate();
+	if (!(viewName in ChatRoomViews)) {
+		throw Error(`Tried to change to non-existing view ${viewName}`);
+	}
+	if (ChatRoomIsViewActive(viewName)) return;
+	ChatRoomActiveView?.Deactivate?.();
 	ChatRoomActiveView = ChatRoomViews[viewName];
-	if(ChatRoomActiveView.Activate) ChatRoomActiveView.Activate();
+	ChatRoomActiveView.Activate?.();
 }
 
 /**
@@ -353,7 +391,9 @@ function ChatRoomActivateView(viewName)
  */
 function ChatRoomIsViewActive(viewName)
 {
-	if(!(viewName in ChatRoomViews)) { return false; }
+	if (!(viewName in ChatRoomViews)) {
+		return false;
+	}
 	return ChatRoomActiveView === ChatRoomViews[viewName];
 }
 
@@ -386,7 +426,9 @@ function ChatRoomCanAddFriend() { return CurrentCharacter && !CurrentCharacter.I
  * Checks if the player can remove the current character from her friendlist.
  * @returns {boolean} - TRUE if the current character is in the player's friendlist.
  */
-function ChatRoomCanRemoveFriend() { return CurrentCharacter && CurrentCharacter.IsFriend(); }
+function ChatRoomCanRemoveFriend() {
+	return CurrentCharacter && FriendListCanDelete(CurrentCharacter.MemberNumber);
+}
 /**
  * Checks if the player can add the current character to her ghostlist
  * @returns {boolean} - TRUE if the current character is not in the player's ghostlist yet.
@@ -421,11 +463,6 @@ function ChatRoomOwnershipOptionIs(Option) { return (Option == ChatRoomOwnership
  * @returns {boolean} - TRUE if the current lover option is the specified one.
  */
 function ChatRoomLovershipOptionIs(Option) { return (Option == ChatRoomLovershipOption); }
-/**
- * Returns TRUE if the room customization button can be used
- * @returns {boolean} - TRUE if can be used
- */
-function ChatRoomCustomizationButton() { return (((ChatRoomData != null) && (ChatRoomData.Custom != null)) && ((Player.OnlineSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization == 1) || (Player.OnlineSettings.ShowRoomCustomization == 2))); }
 /**
  * Checks if the player can take a drink from the current character's tray.
  * @returns {boolean} - TRUE if the current character is wearing a drinks tray and the player can interact.
@@ -483,11 +520,6 @@ function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(Cur
  * @returns {boolean} - TRUE if the character is in the chatroom whitelist.
  */
 function ChatRoomCharacterIsWhitelisted(C) { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (C != null && C.MemberNumber != null) && (ChatRoomData.Whitelist.indexOf(C.MemberNumber) >= 0)); }
-/**
- * Checks if the player is in the chatroom whitelist.
- * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
- */
-function ChatRoomPlayerIsWhitelisted() { return ChatRoomCharacterIsWhitelisted(Player); }
 /**
  * Checks if the current character is in the chatroom whitelist.
  * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
@@ -604,6 +636,41 @@ function ChatRoomReceiveSuitcaseMoney() {
 	KidnapLeagueOnlineBountyTargetStartedTime = 0;
 }
 
+/**
+ *
+ * Handler for hidden suitcase message
+ * @param {Character} character
+ * @returns {void}
+ */
+function ChatRoomTakeSuitcase(character) {
+	if (Player.CanInteract() || !ServerChatRoomGetAllowItem(character, Player)) return;
+
+	if (KidnapLeagueSearchingPlayers.length == 0) {
+		if (InventoryIsWorn(Player, "ItemMisc", "BountySuitcase")) {
+			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
+				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			]);
+		} else if (InventoryIsWorn(Player, "ItemMisc", "BountySuitcaseEmpty")) {
+			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
+				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
+				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
+			]);
+		}
+	} else {
+		ServerSend("ChatRoomGame", {
+			OnlineBounty: {
+				finishTime: KidnapLeagueSearchFinishTime,
+				target: character.MemberNumber,
+			}
+		});
+	}
+	if (!KidnapLeagueSearchingPlayers.includes(character.MemberNumber)) {
+		KidnapLeagueSearchingPlayers.push(character.MemberNumber);
+	}
+}
 /**
  * Checks if the player can give the target character her high security keys.
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
@@ -776,6 +843,7 @@ function ChatRoomCanAssistKneel() {
 /**
  * Checks if the player character is kneeling and can stand up.
  * Will return true if there are any available transitions from {@link PoseAllKneeling} to {@link PoseAllStanding}.
+ * @deprecated
  * @returns {boolean} - Whether or not the player character can stand
  */
 function ChatRoomCanAttemptStand() {
@@ -785,6 +853,7 @@ function ChatRoomCanAttemptStand() {
 /**
  * Checks if the player character is standing and can kneel down.
  * Will return true if there are any available transitions from {@link PoseAllStanding} to {@link PoseAllKneeling}.
+ * @deprecated
  * @returns {boolean} - Whether or not the player character can stand
  */
 function ChatRoomCanAttemptKneel() {
@@ -945,15 +1014,16 @@ var ChatRoomSep = {
 	 * @returns {(string | HTMLElement)[]}
 	 */
 	_GetDisplayName: function _GetDisplayName(button) {
-		const namespace = FriendListIconMapping[button.dataset.space];
+		const key = /** @type {ServerChatRoomSpace} */(button.dataset.space);
+		const namespace = FriendListIconMapping[key];
 		return [
 			namespace ? [
 				ElementCreate({
 					tag: "div",
-					attributes: { role: "img", "aria-label": InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`) },
+					attributes: { role: "img", "aria-label": InterfaceTextGet(`ChatRoomSpace${key || "F"}`) },
 					classList: ["chat-room-sep-image"],
 					style: { mask: `url(${namespace.src}) center/contain` },
-					children: [{ tag: "span", children: [InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`)] }],
+					children: [{ tag: "span", children: [InterfaceTextGet(`ChatRoomSpace${key || "F"}`)] }],
 				}),
 				" - ",
 			] : undefined,
@@ -1116,6 +1186,65 @@ var ChatRoomSep = {
 function ChatRoomCreateElement() {
 	// NOTE: If you want to add any custom buttons, make sure append them to the `#chat-room-buttons` grid
 
+	let topMenu = document.getElementById("chat-room-top-menu");
+	if (!topMenu) {
+		topMenu = ElementMenu.Create("chat-room-top-menu", [], { role: "menubar" });
+		ChatRoomTopMenuBuiltSig = "";
+	} else {
+		topMenu.removeAttribute("hidden");
+	}
+
+	let struggleBar = document.getElementById("chat-room-struggle-bar");
+	if (!struggleBar) {
+		struggleBar = ElementCreate({
+			tag: "div",
+			attributes: { id: "chat-room-struggle-bar", hidden: true, role: "region", "aria-label": TextGet("ChatRoomStruggleStruggling") },
+			classList: ["chat-room-struggle-bar"],
+			children: [
+				{
+					tag: "img",
+					attributes: { id: "chat-room-struggle-item", alt: "" },
+					classList: ["chat-room-struggle-item", "no-select"],
+				},
+				{
+					tag: "span",
+					attributes: { id: "chat-room-struggle-label" },
+					classList: ["chat-room-struggle-label", "no-select"],
+				},
+				{
+					tag: "div",
+					attributes: {
+						id: "chat-room-struggle-progress",
+						role: "progressbar",
+						"aria-valuemin": "0",
+						"aria-valuemax": "100",
+						"aria-valuenow": "0",
+					},
+					classList: ["chat-room-struggle-progress"],
+					children: [{ tag: "div", classList: ["chat-room-struggle-progress-fill"] }],
+				},
+				{
+					tag: "div",
+					classList: ["chat-room-struggle-actions"],
+					children: [
+						ElementButton.Create(
+							"chat-room-struggle-loosen",
+							StruggleChatRoomLoosenStart,
+							{ label: TextGet("ChatRoomStruggleLoosen") },
+							{ button: { classList: ["chat-room-struggle-btn", "chat-room-struggle-loosen-btn"], attributes: { hidden: true } } },
+						),
+						ElementButton.Create(
+							"chat-room-struggle-give-up",
+							StruggleChatRoomStop,
+							{ label: TextGet("ChatRoomStruggleGiveUp") },
+							{ button: { classList: ["chat-room-struggle-btn", "chat-room-struggle-give-up-btn"] } },
+						),
+					],
+				},
+			],
+		});
+	}
+
 	let elem = /** @type {null | HTMLDivElement} */(document.getElementById("chat-room-div"));
 	if (!elem) {
 		elem = ElementCreate({
@@ -1127,6 +1256,7 @@ function ChatRoomCreateElement() {
 			parent: document.body,
 			classList: ["HideOnPopup"],
 			children: [
+				topMenu,
 				{
 					tag: "div",
 					attributes: { id: "TextAreaChatLog", role: "log" },
@@ -1220,6 +1350,12 @@ function ChatRoomCreateElement() {
 		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
+	}
+	if (topMenu.parentElement !== elem) {
+		elem.prepend(topMenu);
+	}
+	if (struggleBar.parentElement !== elem) {
+		topMenu.insertAdjacentElement("afterend", struggleBar);
 	}
 	ChatRoomChatHidden = false;
 
@@ -1322,6 +1458,8 @@ async function ChatRoomLoad() {
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
 		ChatRoomCharacterUpdate(Player);
 		ActivityChatRoomArousalSync(Player);
+		ChatRoomUpdateCustomization(Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault
+			|| Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.Always);
 		ChatRoomJustEntered = false;
 	}
 
@@ -1335,13 +1473,14 @@ async function ChatRoomLoad() {
 	TextPrefetch("Room", "Shop2");
 
 	if (CommonVersionUpdated) {
-		CommonGet("./changelog.html", (xhr) => {
-			if (xhr.status === 200) {
-				const changelog = CommandsChangelog.Publish(xhr.responseText);
+		CommonFetch("./changelog.html")
+			.then(async (response) => {
+				if (response.status !== 200) return;
+				const text = await response.text();
+				const changelog = CommandsChangelog.Publish(text);
 				changelog.querySelectorAll(".chat-room-changelog-button-collapse[data-level='2']").forEach(e => e.dispatchEvent(new Event("click")));
 				CommonVersionUpdated = false;
-			}
-		});
+			});
 	}
 }
 
@@ -1357,6 +1496,7 @@ function ChatRoomClearAllElements() {
 		ChatRoomHideElements();
 	} else {
 		ElementRemove("chat-room-div");
+		ChatRoomTopMenuBuiltSig = "";
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 		ChatRoomDivInputPrevHeight = NaN;
 	}
@@ -1418,8 +1558,13 @@ function ChatRoomMenuBuild() {
 			}
 		}
 	}
-	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
-	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
+	if (ChatRoomData?.Custom && (Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.DisabledByDefault || Player.OnlineSettings.ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault)) {
+		if (ChatRoomCustomized) {
+			ChatRoomMenuButtons.push("CustomizationOff");
+		} else {
+			ChatRoomMenuButtons.push("CustomizationOn");
+		}
+	}
 	ChatRoomMenuButtons.push("Dress");
 	ChatRoomMenuButtons.push("Profile");
 	if (OnlineGameHasOptions()) ChatRoomMenuButtons.push("GameOption");
@@ -1595,7 +1740,6 @@ function ChatRoomFocusCharacter(C, options=null) {
 	if (ChatRoomOwnerPresenceRule("BlockAccessOther", C)) return;
 	if (C == null) return;
 	ChatRoomHideElements();
-	ChatRoomBackground = ChatRoomData.Background;
 	C.AllowItem = C.IsPlayer() || ServerChatRoomGetAllowItem(Player, C);
 	ChatRoomOwnershipOption = null;
 	ChatRoomLovershipOption = null;
@@ -1664,7 +1808,7 @@ function ChatRoomTarget() {
 
 /**
  * Updates the account to set the last chat room
- * @param {ChatRoom|null} room - room to set it to. null to reset.
+ * @param {ChatRoomData|null} room - room to set it to. null to reset.
  * @returns {void} - Nothing
  */
 function ChatRoomSetLastChatRoom(room) {
@@ -1673,7 +1817,7 @@ function ChatRoomSetLastChatRoom(room) {
 			Player.LastChatRoom = ChatRoomGetSettings(room);
 			ServerAccountUpdate.QueueData({ LastChatRoom: Player.LastChatRoom });
 		}
-	} else {
+	} else if (Player.LastChatRoom !== null || Player.LastMapData !== null) {
 		Player.LastChatRoom = null;
 		Player.LastMapData = null;
 		ServerAccountUpdate.QueueData({ LastChatRoom: null, LastMapData: null });
@@ -2143,19 +2287,16 @@ function ChatRoomInputResize(chatInput) {
 
 	const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
 	let height = parent.getBoundingClientRect().height;
-	let nGaps = 0;
 	for (const i of parent.children) {
 		if (!ElementCheckVisibility(i, { checkVisibilityCSS: false })) {
 			continue;
 		}
 
-		nGaps++;
 		if (i !== chatLog) {
 			height -= i.getBoundingClientRect().height;
 		}
 	}
-	const gap = globalThis.getComputedStyle(chatLog).marginBottom;
-	chatLog.style.height = `calc(${Math.max(0, height)}px - (${nGaps} * ${gap}))`;
+	chatLog.style.height = `${Math.max(0, height)}px`;
 
 	if (isScrolledToEnd) {
 		ElementScrollToEnd("TextAreaChatLog");
@@ -2182,25 +2323,54 @@ function ChatRoomStatusCheckExpiration() {
  * @returns {void} - Nothing.
  */
 function ChatRoomCustomizationClear() {
-	ChatRoomCustomBackground = "";
-	ChatRoomCustomFilter = "";
-	ChatAdminRoomCustomizationPlayMusic("");
-	ChatRoomCustomSizeMode = null;
+	ChatRoomUpdateCustomization(false);
+}
+
+/**
+ * Returns whether the current chat room has customization enabled or not
+ */
+function ChatRoomIsCustomized() {
+	const { ShowRoomCustomization } = Player.OnlineSettings;
+	return ChatRoomData?.Custom
+		&& (ShowRoomCustomization === ChatRoomCustomization.Always
+			|| ChatRoomCustomized
+			&& (ShowRoomCustomization === ChatRoomCustomization.DisabledByDefault
+				|| ShowRoomCustomization === ChatRoomCustomization.EnabledByDefault)
+		);
+}
+
+/**
+ * Update the state of the room customization
+ * @param {boolean | undefined} toggle
+ * @returns
+ */
+function ChatRoomUpdateCustomization(toggle = undefined) {
+	if (typeof toggle === "boolean") {
+		ChatRoomCustomized = toggle;
+	}
+
+	if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.MusicURL) {
+		const songStartedSince = ChatRoomData.Custom.MusicStart ? CurrentTime - ChatRoomData.Custom.MusicStart : undefined;
+		const songLocation = songStartedSince ? songStartedSince / 1000 : undefined;
+		AudioBackgroundMusicPlay(ChatRoomData.Custom.MusicURL, songLocation);
+	} else {
+		AudioBackgroundMusicStop();
+	}
 }
 
 /**
  * Use the room customization features if needed
+ * @deprecated
  * @returns {void} - Nothing.
  */
-function ChatRoomCustomizationRun() {
-	if ((Player.ImmersionSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 3)) ChatRoomCustomized = true;
-	if (ChatRoomCustomized) {
-		if ((Player.ImmersionSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization >= 1)) {
-			ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, null, null);
-		} else {
-			ChatRoomCustomized = false;
-			ChatRoomCustomizationClear();
-		}
+function ChatRoomCustomizationRun() {}
+
+/** @type {ScreenDrawHandler} */
+function ChatRoomDraw() {
+	if (ChatRoomStruggleData == null) {
+		ChatRoomTopMenuSync();
+	} else {
+		ChatRoomStruggleSync();
 	}
 }
 
@@ -2226,8 +2396,6 @@ function ChatRoomRun(time) {
 	DrawRect(0, 0, 2000, 1000, "Black");
 
 	// Draw the room characters or the map depending on the map type
-	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomActivateView(ChatRoomCharacterViewName);
-	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
 	ChatRoomActiveView.Run(time);
 	ChatRoomActiveView.Draw();
 	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
@@ -2235,10 +2403,6 @@ function ChatRoomRun(time) {
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
-
-	// Draw the buttons at the top-right
-	if (ChatRoomStruggleData == null) ChatRoomMenuDraw();
-	else ChatRoomStruggleDraw();
 
 	// Process attempts at leaving slowly
 	ChatRoomProcessSlowLeave();
@@ -2303,10 +2467,15 @@ function ChatRoomDrawArousalOverlay()
 }
 
 /**
- * Draws the chat room struggle progress bar and buttons
+ * @deprecated Use {@link ChatRoomStruggleSync} instead
+ */
+function ChatRoomStruggleDraw() {}
+
+/**
+ * Updates struggle progress and syncs the DOM struggle bar with {@link ChatRoomStruggleData}.
  * @returns {void} - Nothing
  */
-function ChatRoomStruggleDraw() {
+function ChatRoomStruggleSync() {
 
 	// Increments the progress based on the time
 	let Time = CommonTime();
@@ -2328,7 +2497,7 @@ function ChatRoomStruggleDraw() {
 		return;
 	}
 
-	// Draw the controls, we allow loosening the item beyond progress 50% if the difficulty allows it
+	// Sync the controls; loosening allowed beyond 50% progress when difficulty permits
 	if ((Player.Status == null) || (Player.Status !== "Talk")) ChatRoomStatusUpdate("Struggle");
 	let Impossible = ((ChatRoomStruggleData.Difficulty < -6) && (ChatRoomStruggleData.Start + 60000 <= Time));
 	if (!ChatRoomStruggleData.AllowLoosen && !ChatRoomStruggleData.LoosenMode)
@@ -2336,17 +2505,39 @@ function ChatRoomStruggleDraw() {
 	let Text = "Struggling";
 	if (Impossible) Text = "Impossible";
 	if (ChatRoomStruggleData.LoosenMode) Text = "Loosening";
-	let Path = `${AssetGetPreviewPath(ChatRoomStruggleData.Item.Asset)}/${ChatRoomStruggleData.Item.Asset.Name}.png`;
-	DrawImageResize(Path, 1010, 5, 50, 50);
-	DrawText(TextGet("ChatRoomStruggle" + Text), 1175, 30, "White", "Silver");
-	if (ChatRoomStruggleData.AllowLoosen) {
-		DrawProgressBar(1300, 3, 390, 55, ChatRoomStruggleData.Progress);
-		DrawButton(1700, 0, 145, 60, TextGet("ChatRoomStruggleLoosen"), "White");
-		DrawButton(1850, 0, 145, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
-	} else {
-		DrawProgressBar(1300, 3, 490, 55, ChatRoomStruggleData.Progress);
-		DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+
+	const bar = ElementWrap("chat-room-struggle-bar");
+	if (!bar) return;
+
+	ElementWrap("chat-room-top-menu")?.toggleAttribute("hidden", true);
+	bar.removeAttribute("hidden");
+
+	const imgPath = `${AssetGetPreviewPath(ChatRoomStruggleData.Item.Asset)}/${ChatRoomStruggleData.Item.Asset.Name}.png`;
+	const itemImg = ElementWrap("chat-room-struggle-item");
+	if (itemImg instanceof HTMLImageElement && !itemImg.src.endsWith(encodeURI(imgPath))) {
+		itemImg.src = imgPath;
 	}
+
+	const statusText = TextGet("ChatRoomStruggle" + Text);
+	const label = ElementWrap("chat-room-struggle-label");
+	if (label && label.textContent !== statusText) {
+		label.textContent = statusText;
+		bar.setAttribute("aria-label", statusText);
+	}
+
+	const progressValue = Math.round(ChatRoomStruggleData.Progress);
+	const progressBar = ElementWrap("chat-room-struggle-progress");
+	const progressFill = progressBar?.querySelector(".chat-room-struggle-progress-fill");
+	if (progressBar) {
+		progressBar.setAttribute("aria-valuenow", progressValue.toString());
+	}
+	if (progressFill instanceof HTMLElement) {
+		progressFill.style.width = `${progressValue}%`;
+	}
+
+	const loosenBtn = ElementWrap("chat-room-struggle-loosen");
+	loosenBtn?.toggleAttribute("hidden", !ChatRoomStruggleData.AllowLoosen);
+	bar.querySelector(".chat-room-struggle-actions")?.toggleAttribute("data-dual", ChatRoomStruggleData.AllowLoosen);
 
 	// Generates a struggle animation
 	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions && ChatRoomStruggleData.NextAnim <= Time) {
@@ -2389,80 +2580,165 @@ function ChatRoomStruggleDraw() {
 
 /**
  * Draws the chat room menu buttons
+ * @deprecated Use {@link ChatRoomTopMenuSync} instead
  * @returns {void} - Nothing
  */
-function ChatRoomMenuDraw() {
-	const Space = 992 / (ChatRoomMenuButtons.length);
-	for (let [idx, name] of Object.entries(ChatRoomMenuButtons)) {
-		let color = "White";
-		let suffix = "";
-		let hoverText = "";
-		const buttonX = 1005 + Space * Number(idx);
-		switch (name) {
-			case "Exit":
-				if (!ChatRoomCanLeave()) {
-					color = "Pink";
-				} else if (ChatRoomIsLeavingSlowly()) {
-					color = "Yellow";
-					name = "Cancel";
-				} else {
-					color = Player.IsSlow() ? "Yellow" : "White";
-				}
-				break;
-			case "Icons":
-				suffix = ChatRoomHideIconState.toString();
-				break;
-			case "Kneel": {
-				let status = 0;
-				if (Player.IsKneeling()) {
-					status = Math.max(...PoseAllStanding.map(p => PoseCanChangeUnaidedStatus(Player, p)));
-				} else if (Player.IsStanding()) {
-					status = Math.max(...PoseAllKneeling.map(p => PoseCanChangeUnaidedStatus(Player, p)));
-				}
+function ChatRoomMenuDraw() {}
 
-				switch (status) {
-					case PoseChangeStatus.NEVER:
-					case PoseChangeStatus.NEVER_WITHOUT_AID:
-						color = "Pink";
-						break;
-					case PoseChangeStatus.ALWAYS_WITH_STRUGGLE:
-						color = ChatRoomGetUpTimer === 0 ? "Yellow" : "Pink";
-						break;
-					case PoseChangeStatus.ALWAYS:
-						color = "White";
-						break;
-				}
-				break;
+/**
+ * Icon/color/tooltip state for one top-menu entry.
+ * @param {ChatRoomMenuButton} menuId
+ * @returns {{ image: string, state: ChatRoom.TopBarButtonState, hoverText: string | Node | readonly (string | Node)[] }}
+ */
+function ChatRoomMenuButtonVisualState(menuId) {
+	let image = menuId;
+	let imageSrc = "";
+	/** @type {ChatRoom.TopBarButtonState} */
+	let state = "Default";
+	let suffix = "";
+	/** @type {string | undefined} */
+	let hoverText;
+	switch (menuId) {
+		case "Exit":
+			if (!ChatRoomCanLeave()) {
+				state = "Blocked";
+			} else if (ChatRoomIsLeavingSlowly()) {
+				state = "Limited";
+				image = "Cancel";
+			} else {
+				state = Player.IsSlow() ? "Limited" : "Default";
 			}
-			case "Dress":
-				if (!Player.CanChangeOwnClothes()) {
-					color = "Pink";
-					// Exploded version of `CanChangeClothesOn`
-					if (Player.IsRestrained()) {
-						hoverText = TextGet("MenuDressIsRestrained");
-					} else if (ManagementIsClubSlave()) {
-						hoverText = TextGet("MenuDressIsClubSlave");
-					} else if (!OnlineGameAllowChange()) {
-						hoverText = TextGet("MenuDressGameBlocked");
-					} else if (!AsylumGGTSAllowChange(Player)) {
-						hoverText = TextGet("MenuDressGGTSBlocked");
-					} else if (LogQuery("BlockChange", "Rule")) {
-						hoverText = TextGet("MenuDressRuleBlocked");
-					} else if (LogQuery("BlockChange", "OwnerRule") && !Player.IsFullyOwned()) {
-						hoverText = TextGet("MenuDressOwnerBlocked");
-					}
-				} else {
-					color = "White";
-				}
-				break;
-		}
-		hoverText ??= TextGet("Menu" + name);
-		DrawButton(buttonX, 2, Space - 2, 60, "", color, null, hoverText);
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
+			break;
+		case "Icons":
+			suffix = ChatRoomHideIconState.toString();
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
+			break;
+		case "Kneel": {
+			let status = 0;
+			if (Player.IsKneeling()) {
+				status = Math.max(...PoseAllStanding.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+			} else if (Player.IsStanding()) {
+				status = Math.max(...PoseAllKneeling.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+			}
 
-		const imageWidth = Math.min(114, Space - 4);
-		DrawImageEx("Icons/Rectangle/" + name + suffix + ".png", MainCanvas, buttonX + 1 + (Space - 4 - imageWidth) / 2, 4,
-			{ SourcePos: [(114 - imageWidth) / 2, 0, imageWidth, 56] }
-		);
+			switch (status) {
+				case PoseChangeStatus.NEVER:
+				case PoseChangeStatus.NEVER_WITHOUT_AID:
+					state = "Blocked";
+					break;
+				case PoseChangeStatus.ALWAYS_WITH_STRUGGLE:
+					state = ChatRoomGetUpTimer === 0 ? "Limited" : "Blocked";
+					break;
+				case PoseChangeStatus.ALWAYS:
+					state = "Default";
+					break;
+			}
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
+			break;
+		}
+		case "Dress":
+			if (!Player.CanChangeOwnClothes()) {
+				state = "Blocked";
+				if (Player.IsRestrained()) {
+					hoverText = TextGet("MenuDressIsRestrained");
+				} else if (ManagementIsClubSlave()) {
+					hoverText = TextGet("MenuDressIsClubSlave");
+				} else if (!OnlineGameAllowChange()) {
+					hoverText = TextGet("MenuDressGameBlocked");
+				} else if (!AsylumGGTSAllowChange(Player)) {
+					hoverText = TextGet("MenuDressGGTSBlocked");
+				} else if (LogQuery("BlockChange", "Rule")) {
+					hoverText = TextGet("MenuDressRuleBlocked");
+				} else if (LogQuery("BlockChange", "OwnerRule") && !Player.IsFullyOwned()) {
+					hoverText = TextGet("MenuDressOwnerBlocked");
+				}
+			} else {
+				state = "Default";
+			}
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
+			break;
+		default:
+			imageSrc = "Icons/Rectangle/" + image + suffix + ".png";
+			break;
+	}
+	hoverText ??= TextGet("Menu" + image);
+	return { image: imageSrc, state, hoverText };
+}
+
+/**
+ * Syncs the DOM top menu with {@link ChatRoomMenuButtons} and per-button visuals.
+ * @returns {void}
+ */
+function ChatRoomTopMenuSync() {
+	const bar = ElementWrap("chat-room-top-menu");
+	if (!bar) return;
+
+	ElementWrap("chat-room-struggle-bar")?.toggleAttribute("hidden", true);
+	bar.toggleAttribute("hidden", false);
+
+	const sig = ChatRoomMenuButtons.join("\0");
+	if (sig !== ChatRoomTopMenuBuiltSig) {
+		ChatRoomTopMenuBuiltSig = sig;
+		bar.replaceChildren();
+		for (const name of ChatRoomMenuButtons) {
+			const state = ChatRoomMenuButtonVisualState(name);
+			const id = `chat-room-menu-${name}`;
+			const btn = ElementButton.Create(
+				id,
+				function(ev) {
+					ChatRoomMenuPerformAction(name, ev);
+				},
+				{
+					image: state.image,
+					tooltip: state.hoverText,
+					disabled: state.state === "Blocked",
+					name,
+				},
+				{
+					button: {
+						classList: ["chat-room-top-menu-btn"],
+						dataAttributes: { color: state.state },
+					},
+				},
+			);
+			bar.appendChild(btn);
+		}
+	}
+
+	for (const name of ChatRoomMenuButtons) {
+		const state = ChatRoomMenuButtonVisualState(name);
+		/** @type {HTMLButtonElement | null} */
+		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
+		/** @type {HTMLDivElement | null} */
+		const tooltip = btn?.querySelector(".button-tooltip");
+		/** @type {HTMLElement | null} */
+		const img = btn?.querySelector(".button-image");
+
+		if (!btn || !tooltip || !img) continue;
+		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
+		const areEqual = hoverParts.every((part, i) => {
+			const node = tooltip.childNodes[i];
+			return typeof part === "string" ? part === node?.textContent : node?.isEqualNode(part);
+		});
+		if (!areEqual) {
+			tooltip.replaceChildren(...hoverParts);
+		}
+
+		if (btn.dataset.color !== state.state) {
+			btn.dataset.color = state.state;
+			btn.setAttribute("aria-disabled", state.state === "Blocked" ? "true" : "false");
+		}
+
+		const imgSrc = state.image;
+		if (img instanceof HTMLImageElement) {
+			if (!img.src.endsWith(imgSrc)) {
+				img.src = imgSrc;
+			}
+		} else if (img.style.backgroundImage !== imgSrc) {
+			img.style.backgroundImage = `url("${imgSrc}")`;
+			img.style.maskImage = `url("${imgSrc}")`;
+		}
 	}
 }
 
@@ -2523,22 +2799,6 @@ function ChatRoomClick(event) {
 		if (ChatRoomActiveView.Click)
 			return ChatRoomActiveView.Click(event);
 
-	// When the user clicks a menu button in the top-right
-	if ((MouseYIn(0, 62)) && (ChatRoomStruggleData == null))
-		return ChatRoomMenuClick(event);
-
-	// If the user wants to stop struggling (smaller button)
-	if (MouseIn(1700, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
-		return StruggleChatRoomLoosenStart();
-
-	// If the user wants to stop struggling (smaller button)
-	if (MouseIn(1850, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
-		return StruggleChatRoomStop();
-
-	// If the user wants to stop struggling (big button)
-	if (MouseIn(1800, 0, 195, 60) && (ChatRoomStruggleData != null) && !ChatRoomStruggleData.AllowLoosen)
-		return StruggleChatRoomStop();
-
 }
 
 /**
@@ -2586,7 +2846,7 @@ function ChatRoomToggleKneel() {
 			if (diff > 9) diff = 9;
 
 			// Starts the mini-game
-			MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+			MiniGameStart("GetUp", diff, () => ChatRoomAttemptStandMinigameEnd());
 			return;
 
 		}
@@ -2629,103 +2889,105 @@ function ChatRoomOpenAdminScreen() {
 
 /**
  * Process chat room menu button clicks
+ * @deprecated Use {@link ChatRoomMenuPerformAction} instead
  * @type {MouseEventListener}
  */
-function ChatRoomMenuClick(event) {
-	const Space = 992 / (ChatRoomMenuButtons.length);
-	for (let B = 0; B < ChatRoomMenuButtons.length; B++) {
-		if (MouseXIn(1005 + Space * B, Space - 2)) {
-			switch (ChatRoomMenuButtons[B]) {
-				case "Exit": {
-					ChatRoomAttemptLeave();
-					break;
-				}
-				case "Cut": {
-					const roomSeps = document.querySelectorAll("#TextAreaChatLog .chat-room-sep");
-					switch (roomSeps.length) {
-						case 0:
-							// No room separators? Move along
-							break;
-						case 1: {
-							// We got one room separator (the current room): remove all but 20 messages
-							const roomSep = roomSeps[0];
-							const parent = roomSep.parentElement;
-							while (roomSep.nextSibling && parent.childElementCount > 20) {
-								parent.removeChild(roomSep.nextSibling);
-							}
-							break;
-						}
-						default: {
-							// We got multiple room separators:
-							// remove all content belong the first room or, if shift is pressed, all but the last room
-							const roomSep = event.shiftKey ? roomSeps[roomSeps.length - 1] : roomSeps[1];
-							const parent = roomSep.parentElement;
-							while (roomSep.previousSibling) {
-								parent.removeChild(roomSep.previousSibling);
-							}
-							break;
-						}
-					}
-					ElementScrollToEnd("TextAreaChatLog");
-					break;
-				}
-				case "GameOption":
-					// The cut button can become the game option button if there's an online game going on
-					CommonSetScreen("Online", /** @type {ModuleScreens["Online"]} */("Game" + ChatRoomData.Game));
-					break;
-				case "Kneel":
-					ChatRoomToggleKneel();
-					break;
-				case "Icons":
-					// When the user toggles icon visibility
-					ChatRoomHideIconState += 1;
-					if (ChatRoomHideIconState > 3) ChatRoomHideIconState = 0;
-					break;
-				case "ClearFocus":
-					// When the user wants to exit focus mode (clear their focus list)
-					ChatRoomDrawFocusListClear();
-					break;
-				case "Camera":
-					// When the user takes a photo of the room
-					ChatRoomPhotoFullRoom();
-					break;
-				case "Dress":
-					ChatRoomOpenWardrobeScreen();
-					break;
-				case "Profile":
-					ChatRoomOpenInformationScreen();
-					break;
-				case "RoomAdmin":
-					ChatRoomOpenAdminScreen();
-					break;
-				case "CustomizationOn":
-					ChatRoomCustomized = true;
-					ChatRoomCustomizationClear();
-					break;
-				case "CustomizationOff":
-					ChatRoomCustomized = false;
-					ChatRoomCustomizationClear();
-					break;
-				case "CharacterView":
-					ChatRoomActivateView(ChatRoomCharacterViewName);
-					break;
-				case "MapView":
-					ChatRoomActivateView(ChatRoomMapViewName);
-					break;
-				case "NextCharacters":
-					ChatRoomCharacterViewOffset = 10;
-					ChatRoomUpdateDisplay();
-					break;
-				case "PreviousCharacters":
-					ChatRoomCharacterViewOffset = 0;
-					ChatRoomUpdateDisplay();
-					break;
-			}
+function ChatRoomMenuClick(event) {}
+
+/**
+ * Runs the action for one top-menu button (formerly canvas hit-test + switch).
+ * @param {ChatRoomMenuButton} action
+ * @param {MouseEvent} event
+ * @returns {void}
+ */
+function ChatRoomMenuPerformAction(action, event) {
+	switch (action) {
+		case "Exit": {
+			ChatRoomAttemptLeave();
+			break;
 		}
+		case "Cut": {
+			const roomSeps = document.querySelectorAll("#TextAreaChatLog .chat-room-sep");
+			switch (roomSeps.length) {
+				case 0:
+					// No room separators? Move along
+					break;
+				case 1: {
+					// We got one room separator (the current room): remove all but 20 messages
+					const roomSep = roomSeps[0];
+					const parent = roomSep.parentElement;
+					while (roomSep.nextSibling && parent.childElementCount > 20) {
+						parent.removeChild(roomSep.nextSibling);
+					}
+					break;
+				}
+				default: {
+					// We got multiple room separators:
+					// remove all content belong the first room or, if shift is pressed, all but the last room
+					const roomSep = event.shiftKey ? roomSeps[roomSeps.length - 1] : roomSeps[1];
+					const parent = roomSep.parentElement;
+					while (roomSep.previousSibling) {
+						parent.removeChild(roomSep.previousSibling);
+					}
+					break;
+				}
+			}
+			ElementScrollToEnd("TextAreaChatLog");
+			break;
+		}
+		case "GameOption":
+			// The cut button can become the game option button if there's an online game going on
+			CommonSetScreen("Online", /** @type {ModuleScreens["Online"]} */("Game" + ChatRoomData.Game));
+			break;
+		case "Kneel":
+			ChatRoomToggleKneel();
+			break;
+		case "Icons":
+			// When the user toggles icon visibility
+			ChatRoomHideIconState += 1;
+			if (ChatRoomHideIconState > 3) ChatRoomHideIconState = 0;
+			break;
+		case "ClearFocus":
+			// When the user wants to exit focus mode (clear their focus list)
+			ChatRoomDrawFocusListClear();
+			break;
+		case "Camera":
+			// When the user takes a photo of the room
+			ChatRoomPhotoFullRoom();
+			break;
+		case "Dress":
+			ChatRoomOpenWardrobeScreen();
+			break;
+		case "Profile":
+			ChatRoomOpenInformationScreen();
+			break;
+		case "RoomAdmin":
+			ChatRoomOpenAdminScreen();
+			break;
+		case "CustomizationOn":
+			ChatRoomUpdateCustomization(true);
+			break;
+		case "CustomizationOff":
+			ChatRoomUpdateCustomization(false);
+			break;
+		case "CharacterView":
+			ChatRoomActivateView(ChatRoomCharacterViewName);
+			break;
+		case "MapView":
+			ChatRoomActivateView(ChatRoomMapViewName);
+			break;
+		case "NextCharacters":
+			ChatRoomCharacterViewOffset = 10;
+			ChatRoomUpdateDisplay();
+			break;
+		case "PreviousCharacters":
+			ChatRoomCharacterViewOffset = 0;
+			ChatRoomUpdateDisplay();
+			break;
 	}
 }
 
-function ChatRoomAttemptStandMinigameEnd() {
+async function ChatRoomAttemptStandMinigameEnd() {
 
 	if (MiniGameVictory)  {
 		if (MiniGameType == "GetUp"){
@@ -2751,16 +3013,16 @@ function ChatRoomAttemptStandMinigameEnd() {
 		}
 	}
 
-	CommonSetScreen("Online", "ChatRoom");
+	await CommonSetScreen("Online", "ChatRoom");
 }
 
 /**
  * Checks if the given chat room visibility property causes it to be "private" (has any form of visibility control)
- * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The visibility property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings | null | undefined} room - The visibility property to check
  * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or visibility is not set.
  */
 function ChatRoomDataIsPrivate(room) {
-	return !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
+	return !!room && !!room.Visibility && !CommonArraysEqual(room.Visibility, ChatRoomVisibilityMode.PUBLIC);
 }
 
 /**
@@ -2773,11 +3035,11 @@ function ChatRoomIsPrivate() {
 
 /**
  * Checks if the given chat room access property causes it to be "locked" (has any form of access control)
- * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The access property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings | null | undefined} room - The access property to check
  * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or access is not set.
  */
 function ChatRoomDataIsLocked(room) {
-	return !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
+	return !!room && !!room.Access && !CommonArraysEqual(room.Access, ChatRoomAccessMode.PUBLIC);
 }
 
 /**
@@ -2815,42 +3077,11 @@ function ChatRoomCharacterHasAnyRole(C, room, role) {
 }
 
 /**
- * Checks if a given character can see the room (meets the visibility list requirements)
- * @param {Character} C - The character to check
- * @returns {boolean} - Returns TRUE if the player can see the room.
- */
-function ChatRoomCharacterCanSeeRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "visible"); }
-
-/**
- * Checks if the player can see the room (meets the visibility list requirements)
- * @returns {boolean} - Returns TRUE if the player can see the room.
- */
-function ChatRoomPlayerCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(Player); }
-
-/**
- * Checks if the current character can see the room (meets the visibility list requirements)
- * @returns {boolean} - Returns TRUE if the current character can see the room.
- */
-function ChatRoomCurrentCharacterCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(CurrentCharacter); }
-
-/**
  * Checks if a given character has access to the room (can enter/leave) (meets the access list requirements)
  * @param {Character} C - The character to check
  * @returns {boolean} - Returns TRUE if the player has access to the room.
  */
 function ChatRoomCharacterCanAccessRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "access"); }
-
-/**
- * Checks if the player has access to the room (can enter/leave) (meets the access list requirements)
- * @returns {boolean} - Returns TRUE if the player has access to the room.
- */
-function ChatRoomPlayerCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(Player); }
-
-/**
- * Checks if the current character has access to the room (can enter/leave) (meets the access list requirements)
- * @returns {boolean} - Returns TRUE if the current character has access to the room.
- */
-function ChatRoomCurrentCharacterCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(CurrentCharacter); }
 
 /**
  * Checks if the player can leave the chatroom.
@@ -2863,13 +3094,15 @@ function ChatRoomCanLeave() {
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
-	if (ChatRoomIsLocked() && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
+	// Cannot leave if locked down in Pandora Penitentiary
+	if (ChatRoomData.Game == "Prison" && PandoraPenitentiaryIsInmate(Player)) return false;
+	// GGTS game can forbid anyone to leave
+	if (ChatRoomData.Game == "GGTS" && ChatRoomIsLocked()) return false;
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
-	if (ChatRoomPlayerCanAccessRoom()) return true;
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
-			return false; // Cannot leave if the room is locked and there's an administrator inside
+	// Can leave if we're the room admin or on the whitelist
+	if (ChatRoomCharacterCanAccessRoom(Player)) return true;
+	// Cannot leave if the room is locked and there's an administrator inside
+	if (ChatRoomIsLocked() && ChatRoomCharacter.some(c => ChatRoomCharacterIsAdmin(c))) return false;
 	return true; // Can leave if the room is locked and there's no administrator inside
 }
 
@@ -2970,12 +3203,15 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomData = null;
-	Player.MapData = null;
+	delete Player.MapData;
 	ChatRoomCharacter = [];
 	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = null;
 	ChatRoomMapViewObjectFog = null;
+	ChatRoomMapViewEditMode = "";
+	ChatRoomMapViewEditBackup = [];
+	ChatRoomRefreshActiveView();
 	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();
 	ChatRoomSetLastChatRoom(null);
@@ -3012,7 +3248,6 @@ function ChatRoomKeyDown(event) {
 	if (
 		document.activeElement === null
 		|| document.activeElement === document.body
-		|| document.activeElement.id === "MainCanvas"
 	) {
 		const chatInput = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
 		const chatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog"));
@@ -3289,8 +3524,8 @@ function ChatRoomSendAttemptEmote(msg) {
  *
  * @param {Character} C - Character on which the action is done.
  * @param {string} Action - Action modifier
- * @param {Item | null} PrevItem - The item that has been removed.
- * @param {Item | null} NextItem - The item that has been added.
+ * @param {Item | null | undefined} PrevItem - The item that has been removed.
+ * @param {Item | null | undefined} NextItem - The item that has been added.
  * @returns {boolean} - whether we published anything to the chat.
  */
 function ChatRoomPublishAction(C, Action, PrevItem, NextItem) {
@@ -3421,47 +3656,21 @@ function ChatRoomCharacterUpdate(C) {
 }
 
 /**
- * Regex used to split out a string at word boundaries
- *
- * Note that due to a bug in Safari, we can't use the one that handles chinese characters properly.
- */
-// const mentionNameSplitter = /(?<=[^\w\u0000\u007F])|(?=[^\w\u0000\u007F])/gu;
-const mentionNameSplitter = /\b/gu;
-
-/**
  * Checks if the message contains mentions of the character. Case-insensitive.
  * @param {Character} C - Character to check mentions of
  * @param {string} msg - The message to check for mentions
  * @returns {boolean} - msg contains mention of C
  */
 function ChatRoomMessageMentionsCharacter(C, msg) {
-	const normalizeText = (text) => text.normalize('NFKC').toLowerCase();
-	const nameParts = normalizeText(C.Name).split(mentionNameSplitter);
-	const nickParts = C.Nickname ? normalizeText(C.Nickname).split(mentionNameSplitter) : [];
-	const msgParts = normalizeText(msg).split(mentionNameSplitter);
-	for (let i = 0; i < msgParts.length - (nameParts.length - 1); i++) {
-		if (msgParts[i] === nameParts[0]) {
-			let match = true;
-			for (let j = 0; j < nameParts.length; j++) {
-				if (msgParts[i + j] !== nameParts[j]) {
-					match = false;
-					break;
-				}
-			}
-			if (match) return true;
-		}
-		if (msgParts[i] === nickParts[0]) {
-			let match = true;
-			for (let j = 0; j < nickParts.length; j++) {
-				if (msgParts[i + j] !== nickParts[j]) {
-					match = false;
-					break;
-				}
-			}
-			if (match) return true;
-		}
-	}
-	return false;
+	const name = C.Name.normalize('NFKC').toLowerCase();
+	const nickname = C.Nickname?.normalize('NFKC')?.toLowerCase();
+
+	const regexCJK = /[\u4E00-\u9FFF\uAC00-\uD7AF]/;
+	const nameComponent = (!name || regexCJK.test(name)) ? name : `\\b${name}\\b`;
+	const nicknameComponent = (!nickname || regexCJK.test(nickname)) ? nickname : `\\b${nickname}\\b`;
+	const regex = new RegExp([nameComponent, nicknameComponent ].filter(Boolean).join("|"), 'i');
+
+	return regex.test(msg);
 }
 
 /**
@@ -3820,6 +4029,7 @@ var ChatRoomMessageHandlers = [
  * Adds a function to the list of message extractors.
  *
  * @see ChatRoomMessageExtractor for more info.
+ * @public
  *
  * @param {ChatRoomMessageExtractor} func - The extractor to register
  */
@@ -3836,6 +4046,7 @@ function ChatRoomRegisterMessageExtractor(func) {
  * Adds a function to the list of message handlers
  *
  * @see ChatRoomMessageHandler for more info.
+ * @public
  *
  * @param {ChatRoomMessageHandler} handler - The handler to register
  */
@@ -3856,24 +4067,72 @@ function ChatRoomRegisterMessageHandler(handler) {
  * @returns {boolean}
  */
 function ChatRoomMessageProcessHidden(data, SenderCharacter) {
-	if (data.Content == "RuleInfoGet") ChatRoomGetLoadRules(SenderCharacter);
-	else if (data.Content == "RuleInfoSet") {
-		// @ts-expect-error That message uses .Dictionary as storage for LogRecord[]
-		ChatRoomSetLoadRules(SenderCharacter, data.Dictionary);
+	switch (data.Content) {
+		case "RuleInfoGet":
+			ChatRoomGetLoadRules(SenderCharacter);
+			break;
+		case "RuleInfoSet":
+			// @ts-expect-error That message uses .Dictionary as storage for LogRecord[]
+			ChatRoomSetLoadRules(SenderCharacter, data.Dictionary);
+			break;
+		case "SlowStop":
+			ChatRoomSlowtimer = CurrentTime + 45000;
+			ChatRoomSlowStop = true;
+			break;
+		case "OnlineStruggleInterrupt":
+			StruggleChatRoomEndAmination();
+			break;
+		case "HoldLeash":
+			ChatRoomDoHoldLeash(SenderCharacter);
+			break;
+		case "StopHoldLeash":
+			ChatRoomDoStopHoldLeash(SenderCharacter);
+			break;
+		case "PingHoldLeash":
+			ChatRoomDoPingLeashedPlayers(SenderCharacter);
+			break;
+		case "RemoveLeash":
+			ChatRoomDoRemoveLeash(SenderCharacter);
+			break;
+		case "GiveLockpicks":
+			DialogLentLockpicks = true;
+			break;
+		case "TakeSuitcase":
+			ChatRoomTakeSuitcase(SenderCharacter);
+			break;
+		case "ReceiveSuitcaseMoney":
+			ChatRoomReceiveSuitcaseMoney();
+			break;
+		case "ClubCardGameConceded":
+			ClubCardPlayerConceded(data.Sender);
+			break;
+		case "ClubCardAdminResetGameHidden":
+			ClubCardResetGameStatus();
+			break;
+		case "ChatRoomMapViewTeleport":
+			ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomMapViewChangeKey":
+			ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
+			break;
+		case "ChatRoomFriendRequestAdd":
+			ChatRoomFriendMessage(SenderCharacter, data);
+			break;
+		case "AsylumGGTSHiddenMessage":
+			AsylumGGTSHiddenMessage(SenderCharacter, data);
+			break;
+		case "ModSdkModsQuery":
+		case "ModSdkModsReply":
+			CommandsModsList.ProcessHiddenRemote(data, SenderCharacter);
+			break;
 	}
-	else if (data.Content.startsWith("StruggleAssist")) {
+
+	if (data.Content.startsWith("StruggleAssist")) {
 		let A = parseInt(data.Content.substr("StruggleAssist".length));
 		if ((A >= 1) && (A <= 7)) {
 			ChatRoomStruggleAssistTimer = CurrentTime + 60000;
 			ChatRoomStruggleAssistBonus = A;
 		}
-	}
-	else if (data.Content == "SlowStop") {
-		ChatRoomSlowtimer = CurrentTime + 45000;
-		ChatRoomSlowStop = true;
-	}
-	else if (data.Content == "OnlineStruggleInterrupt") {
-		StruggleChatRoomEndAmination();
 	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
 		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
@@ -3885,75 +4144,10 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	}
 	else if (data.Content.startsWith("OwnerRule") || data.Content.startsWith("LoverRule")) {
 		ChatRoomSetRule(data);
-	}
-	else if (data.Content == "HoldLeash") {
-		ChatRoomDoHoldLeash(SenderCharacter);
-	}
-	else if (data.Content == "StopHoldLeash") {
-		ChatRoomDoStopHoldLeash(SenderCharacter);
-	}
-	else if (data.Content == "PingHoldLeash") {
-		ChatRoomDoPingLeashedPlayers(SenderCharacter);
-	}
-	else if (data.Content == "RemoveLeash") {
-		ChatRoomDoRemoveLeash(SenderCharacter);
-	}
-	else if (data.Content == "GiveLockpicks") DialogLentLockpicks = true;
-	else if (data.Content == "RequestFullKinkyDungeonData") {
-		if (CurrentScreen == "KinkyDungeon") {
-			KinkyDungeonStreamingPlayers.push(SenderCharacter.MemberNumber);
-			KinkyDungeonSendData(KinkyDungeonPackData(true, true, true, true));
-		}
-	}
-	else if (data.Content == "TakeSuitcase") {
-		if (!Player.CanInteract() && ServerChatRoomGetAllowItem(SenderCharacter, Player)) {
-			let misc = InventoryGet(Player, "ItemMisc");
-			if (KidnapLeagueSearchingPlayers.length == 0) {
-				if (misc && misc.Asset && misc.Asset.Name == "BountySuitcase") {
-					KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-					ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
-						{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
-						{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
-					]);
-				} else if (misc && misc.Asset && misc.Asset.Name == "BountySuitcaseEmpty") {
-					KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-					ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
-						{ Tag: "SourceCharacter", Text: CharacterNickname(SenderCharacter), MemberNumber: SenderCharacter.MemberNumber },
-						{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
-					]);
-				}
-			} else {
-				ServerSend("ChatRoomGame", {
-					OnlineBounty: {
-						finishTime: KidnapLeagueSearchFinishTime,
-						target: SenderCharacter.MemberNumber,
-					}
-				});
-			}
-			if (!KidnapLeagueSearchingPlayers.includes(SenderCharacter.MemberNumber)) {
-				KidnapLeagueSearchingPlayers.push(SenderCharacter.MemberNumber);
-			}
-
-		}
-	}
-	else if (data.Content == "ReceiveSuitcaseMoney") {
-		ChatRoomReceiveSuitcaseMoney();
-	} else if (data.Content.substr(0, 4) == "GGTS") {
-		AsylumGGTSHiddenMessage(SenderCharacter, data.Content, data);
-	} else if (data.Content.substr(0, 7) == "Pandora") {
+	} else if (data.Content.startsWith("Pandora")) {
 		PandoraPenitentiaryHiddenMessage(SenderCharacter, data.Content);
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
-	} else if (data.Content == "ClubCardGameConceded") {
-		ClubCardPlayerConceded(data.Sender);
-	} else if (data.Content == "ClubCardAdminResetGameHidden") {
-		ClubCardResetGameStatus();
-	} else if (data.Content == "ChatRoomMapViewTeleport") {
-		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
-	} else if (data.Content == "ChatRoomMapViewChangeKey") {
-		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
-	} else if (data.Content == "ChatRoomFriendRequestAdd") {
-		ChatRoomFriendMessage(SenderCharacter, data);
 	}
 	return true;
 }
@@ -4062,10 +4256,12 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			}
 			substitutions.push([Tag, Text.toString()]);
 		} else if (IsTextLookupDictionaryEntry(entry)) {
-			let text = AssetTextGet(entry.TextToLookUp);
-			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-				text = InterfaceTextGet(entry.TextToLookUp);
-			} else {
+			let text = TextQueryMultiple(
+				entry.TextToLookUp,
+				[TextAllScreenCache.get(AssetStringsPath), TextAllScreenCache.get(InterfaceStringsPath)],
+				{ logMissing: false },
+			);
+			if (!text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
 				// We lower-case here to blend in asset names in messages
 				text = text.toLowerCase();
 			}
@@ -4344,29 +4540,33 @@ function ChatRoomMessage(data) {
 
 	// Substitute actions and server messages for their fulltext version
 	switch (data.Type) {
-		case "Action":
-			{
-				let text;
-				if (msg.startsWith("GGTS")) {
-					text = AsylumGGTSGetMessage(msg);
-				}
-				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-					text = AssetTextGet(msg);
-				}
-				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
-					text = InterfaceTextGet(msg);
-				}
-				msg = text;
-			}
+		case "Action": {
+			msg = TextQueryMultiple(
+				msg,
+				[
+					msg.startsWith("GGTS") ? TextPrefetchFile(ScreenFileGetPath("GGTSMessages.csv", "Room", "AsylumGGTS")) : undefined,
+					TextAllScreenCache.get(AssetStringsPath),
+					TextAllScreenCache.get(InterfaceStringsPath),
+				],
+			);
 			break;
-
+		}
 		case "ServerMessage":
-			msg = InterfaceTextGet("ServerMessage" + msg);
+			// TODO: Enumerate the various valid server messages for the files:csvtypescript tests
+			msg = InterfaceTextGet(/** @type {TextKeysInterface} */(`ServerMessage${msg}`));
 			break;
 
-		case "Activity":
-			msg = ActivityDictionaryText(msg);
+		case "Activity": {
+			/** @type {string | undefined} */
+			let txt = undefined;
+			if (metadata.ActivityAsset) {
+				// Is this optional? Required? Who knows
+				txt = TextAllScreenCache.get(AssetStringsPath)?.getOptional(`${metadata.ActivityAsset.Group.Name}${metadata.ActivityAsset.Name}Activity${metadata.ActivityName}`);
+			}
+			txt ??= ActivityDictionaryText(msg);
+			msg = txt;
 			break;
+		}
 	}
 
 	// Apply requested substitutions
@@ -4800,11 +5000,11 @@ function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 /**
  * Handles the reception of the complete room data from the server.
  * @param {unknown} obj - Room object containing the updated chatroom data.
- * @returns {obj is ChatRoom} - Returns true if the passed properties are valid and false if they're invalid.
+ * @returns {obj is ChatRoomData} - Returns true if the passed properties are valid and false if they're invalid.
  */
 function ChatRoomValidateProperties(obj)
 {
-	const room = /** @type {ChatRoom} */ (obj);
+	const room = /** @type {ChatRoomData} */ (obj);
 	return room != null && typeof room === "object"
 		&& typeof room.Name === "string"
 		&& typeof room.Description === "string"
@@ -4863,6 +5063,8 @@ async function ChatRoomSync(data) {
 	ChatRoomData = data;
 	ChatRoomJustEntered = true;
 
+	ChatRoomMapViewInitializeCharacter(Player);
+
 	// Loads the room
 	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
 		await CommonSetScreen("Online", "ChatRoom");
@@ -4890,6 +5092,8 @@ async function ChatRoomSync(data) {
 		OnlineGameReset();
 	}
 
+	ChatRoomUpdateCustomization();
+
 	ChatRoomPingLeashedPlayers();
 
 	// Check whether the player's last chatroom data needs updating
@@ -4901,8 +5105,9 @@ async function ChatRoomSync(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
-	// Parse the new chat room map data, if any
-	ChatRoomMapManager.OnMapDataUpdated();
+	ChatRoomRefreshActiveView();
+
+	ChatRoomActiveView.RoomUpdated?.();
 }
 
 
@@ -5022,8 +5227,14 @@ function ChatRoomSyncRoomProperties(data) {
 	}
 
 	// Copy the received properties to chat room data
-	// This uses Object.assign because the character data is missing in that case
-	Object.assign(ChatRoomData, data);
+	// We keep the packed character data around
+	ChatRoomData = {
+		...data,
+		Character: ChatRoomData.Character,
+	};
+
+	ChatRoomMapViewInitializeCharacter(Player);
+
 	if (ChatRoomSep.ActiveElem) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
 	}
@@ -5031,6 +5242,8 @@ function ChatRoomSyncRoomProperties(data) {
 	if (ChatRoomData.Game != null) {
 		ChatRoomGame = ChatRoomData.Game;
 	}
+
+	ChatRoomUpdateCustomization();
 
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();
@@ -5041,12 +5254,12 @@ function ChatRoomSyncRoomProperties(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
-	if(ChatRoomActiveView.SyncRoomProperties) ChatRoomActiveView.SyncRoomProperties(data);
-
 	// Update our leash state
 	CharacterRefreshLeash(Player);
 
-	ChatRoomMapManager.OnMapDataUpdated();
+	ChatRoomRefreshActiveView();
+
+	ChatRoomActiveView.RoomUpdated?.();
 }
 
 /**
@@ -5598,8 +5811,12 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	const substitutions = [
 		["SourceCharacter", CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")"],
 	];
+	/** @type {Parameters<typeof TextSubstitute>[2]} this is ass x2 */
+	const textSubstituteOptions = { textCache: TextPrefetch("Online", "ChatRoom") };
+	/** Temporary helper to get the corresponding Online/ChatRoom text for the given key @param {string} key */
+	const GetChatRoomText = (key) => TextGetInScope(textSubstituteOptions.textCache.path, key);
 	if (Player.FriendList.includes(SenderCharacter.MemberNumber)) {
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAcceptMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendAcceptMessage"), substitutions));
 		return;
 	}
 	let id = CommonGenerateUniqueID();
@@ -5608,20 +5825,21 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 	};
 	const addBack = () => {
 		ChatRoomListUpdate(Player.FriendList, true, SenderCharacter.MemberNumber, "FriendRequest");
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendAddbackMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendAddbackMessage"), substitutions));
 		hide();
 	};
 	const ghost = () => {
-		ChatRoomSendLocal(CommonStringSubstitute(TextGet("FriendGhostMessage"), substitutions));
+		ChatRoomSendLocal(CommonStringSubstitute(GetChatRoomText("FriendGhostMessage"), substitutions));
 		hide();
 	};
 	ChatRoomSendLocal(
 		ElementCreate({
 			tag: "div",
-			children: TextSubstitute("FriendRequestMessage", {
-				"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
-				"{buttons}": ElementCreate(
-					{
+			children: TextSubstitute(
+				"FriendRequestMessage",
+				{
+					"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
+					"{buttons}": ElementCreate({
 						tag: "div",
 						classList: ["chat-room-friendrequest-buttons"],
 						attributes: {id},
@@ -5629,34 +5847,38 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-add-back"],
-									children: [TextGet("FriendAddback")],
+									children: [GetChatRoomText("FriendAddback")],
 								}
 							}),
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-hide"],
-									children: [TextGet("FriendIgnore")],
+									children: [GetChatRoomText("FriendIgnore")],
 								}
 							}),
 							ElementButton.Create(null, null, null, {
 								button: {
 									classList: ["chat-room-friendrequest-ghost"],
-									children: TextSubstitute("FriendGhost", {
-										"SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")",
-									}),
+									children: TextSubstitute(
+										"FriendGhost",
+										{ "SourceCharacter": CharacterNickname(SenderCharacter) + " (" + SenderCharacter.MemberNumber + ")" },
+										textSubstituteOptions,
+									),
 								}
 							}),
 						],
-					})
-			}),
+					}),
+				},
+				textSubstituteOptions,
+			),
 		}).outerHTML
 	);
 
 	const button = document.getElementById(id);
 	if (button) {
-		document.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
-		document.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
-		document.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
+		button.querySelector(`.chat-room-friendrequest-add-back`)?.addEventListener("click", addBack);
+		button.querySelector(`.chat-room-friendrequest-ghost`)?.addEventListener("click", ghost);
+		button.querySelector(`.chat-room-friendrequest-hide`)?.addEventListener("click", hide);
 	}
 }
 
@@ -5667,9 +5889,10 @@ function ChatRoomFriendMessage(SenderCharacter, data) {
  * @param {boolean} adding - If TRUE adding to the list, if FALSE removing from the list
  * @param {number} memberNumber - The member number to add/remove
  * @param {"FriendRequest"} [notification] - used to send notifications
+ * @param {boolean} [sync = true] - if true, will sync the list to the server
  * @returns {void} - Nothing
  */
-function ChatRoomListUpdate(list, adding, memberNumber, notification) {
+function ChatRoomListUpdate(list, adding, memberNumber, notification, sync = true) {
 	if (memberNumber === Player.MemberNumber) return;
 	if (!CommonIsNonNegativeInteger(memberNumber)) return;
 	const numIdx = list.indexOf(memberNumber);
@@ -5695,7 +5918,7 @@ function ChatRoomListUpdate(list, adding, memberNumber, notification) {
 		}
 	}
 
-	ServerPlayerRelationsSync();
+	if (sync) ServerPlayerRelationsSync();
 	// The server will take care of pushing out updated character if the blacklist or whitelist was touched
 }
 
@@ -6282,6 +6505,7 @@ function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
  * @param {("Owner" | "Lovers")[]} [IncludesTypes] - The types of lists to concatenate to the adminlist
  * @param {readonly number[]} [ExistingList] - The existing Admin list, if applicable
  * @returns {number[]} Complete array of admin members
+ * @deprecated
  */
 function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
 	/** @type {readonly number[]} */
@@ -6652,7 +6876,7 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 
 	/** @type {CommonSubtituteSubstitution[]} */
 	let repls = [];
-	for (const pronounType of ["Possessive", "Self", "Subject", "Object"]) {
+	for (const pronounType of /** @type {const} */(["Possessive", "Self", "Subject", "Object"])) {
 		repls.push([key + pronounType, CharacterPronoun(C, pronounType, hideIdentity), replacer]);
 	}
 	return repls;
@@ -6660,7 +6884,7 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
 
 /**
  * Gets only the settings/configurable properties of a chat room.
- * @param {ChatRoom} room
+ * @param {ChatRoomData} room
  * @return {ChatRoomSettings}
  */
 function ChatRoomGetSettings(room) {
@@ -6692,4 +6916,18 @@ function ChatRoomGetCharacter(spec) {
  */
 function ChatRoomGetGame() {
 	return ChatRoomData?.Game ?? null;
+}
+
+/**
+ * Returns the chatroom's current background
+ * @returns {string}
+ */
+function ChatRoomGetBackgroundURL() {
+	if (!ChatRoomData) {
+		return "";
+	} else if (ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageURL) {
+		return ChatRoomData?.Custom.ImageURL;
+	} else {
+		return `Backgrounds/${ChatRoomData.Background}.jpg`;
+	}
 }

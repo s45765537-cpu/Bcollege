@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData>} */
@@ -18,7 +17,7 @@ function AssetsClothAccessoryBibAfterDrawHook(data, originalFunction, {
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
 		TextItem.Init(data, C, CA, false, false);
-		const [text1, text2] = [CA.Property.Text, CA.Property.Text2];
+		const [text1, text2] = [CA.Property?.Text ?? "", CA.Property?.Text2 ?? ""];
 		const isAlone = !text1 || !text2;
 
 		const drawOptions = {
@@ -30,6 +29,7 @@ function AssetsClothAccessoryBibAfterDrawHook(data, originalFunction, {
 
 		// We draw the desired info on that canvas
 		let ctx = TempCanvas.getContext('2d');
+		if (!ctx) return;
 		DynamicDrawText(text1, ctx, Width / 2, Height / (isAlone ? 2 : 2.5), drawOptions);
 		DynamicDrawText(text2, ctx, Width / 2, Height / (isAlone ? 2 : 1.5), drawOptions);
 

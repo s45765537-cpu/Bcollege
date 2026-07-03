@@ -5668,6 +5668,7 @@ function PlatformDialogRelationshipChange() {
 
 /**
  * Called manually to output the full dialog text to the console for text proofing
+ * @public
  * @returns {void} - Nothing
  */
 function PlatformDialogOutputAll() {

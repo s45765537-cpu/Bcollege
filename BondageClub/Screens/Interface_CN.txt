@@ -280,13 +280,13 @@ Item intensity: High
 物品强度：高
 Item intensity: Maximum
 物品强度：最大
-Configure total priority
+Configure {asset} priority
 配置总优先级
 Exit
 退出
 Hide hidden layers
 隐藏隐藏层
-Configure layer-specific priority
+Layer priority
 配置特定层的优先级
 Item configuration locked
 物品配置已锁定
@@ -610,7 +610,7 @@ Requires a hip harness.
 需要臀部束带。
 Requires round piercings on nipples.
 需要乳头上是圆形穿环。
-Unchain mittens
+Unchain mittens.
 移除手套链子
 Remove the chain first.
 先移除锁链
@@ -734,26 +734,8 @@ Need Bondage ReqLevel
 需要束缚技能等级ReqLevel
 Requires the player character
 需要玩家角色
-Requires self-bondage 1.
-需要自缚技能等级1
-Requires self-bondage 10.
-需要自缚技能等级10
-Requires self-bondage 2.
-需要自缚技能等级2
-Requires self-bondage 3.
-需要自缚技能等级3
-Requires self-bondage 4.
-需要自缚技能等级4
-Requires self-bondage 5.
-需要自缚技能等级5
-Requires self-bondage 6.
-需要自缚技能等级6
-Requires self-bondage 7.
-需要自缚技能等级7
-Requires self-bondage 8.
-需要自缚技能等级8
-Requires self-bondage 9.
-需要自缚技能等级9
+Requires self-bondage ReqLevel.
+需要自缚技能等级ReqLevel
 Active owner/lover rules
 启用的主人/恋人规则
 Cannot change:

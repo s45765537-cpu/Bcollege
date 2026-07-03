@@ -1,14 +1,25 @@
-// @ts-strict-ignore
 "use strict";
 
-const MistressTimerChooseList = [5, 10, 15, 30, 60, 120, 180, 240, -180, -120, -60, -30, -15];
-let MistressTimerChooseIndex = 0;
+const MistressTimerChooseOptions = [
+	{ unit: TimeUnits.MINUTES, values: [5, 10, 15, 30, 60, -30, -15, -10, -5] },
+	{ unit: TimeUnits.HOURS, values: [1, 2, 3, 4, -3, -2, -1] },
+];
+let MistressTimerChooseOptionsIndex = 0; // default is minutes
+let MistressTimerChooseIndexes = [0, 0]; // defaults: [5 minutes, 1 hour]
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemMiscMistressTimerPadlockDrawHook({ asset }, originalFunction) {
-	const property = DialogFocusSourceItem.Property;
 
-	if (!DialogFocusItem || property.RemoveTimer < CurrentTime) {
+	// const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	const lockItem = DialogFocusItem;
+	if (!item || !lockItem) {
+		return;
+	}
+
+	const property = item.Property;
+
+	if (property?.RemoveTimer === undefined || property.RemoveTimer < CurrentTime) {
 		DialogLeaveFocusItem();
 		return;
 	}
@@ -21,30 +32,41 @@ function InventoryItemMiscMistressTimerPadlockDrawHook({ asset }, originalFuncti
 	}
 
 	// Draw the settings
-	if (Player.CanInteract() && (Player.MemberNumber == property.LockMemberNumber)) {
+	if (Player.CanInteract() && (Player.MemberNumber == property?.LockMemberNumber)) {
 		MainCanvas.textAlign = "left";
-		DrawButton(1100, 666, 64, 64, "", "White", (property.RemoveItem) ? "Icons/Checked.png" : "");
+		DrawButton(1100, 666, 64, 64, "", "White", (property?.RemoveItem) ? "Icons/Checked.png" : "");
 		DrawText(InterfaceTextGet("RemoveItemWithTimer"), 1200, 698, "white", "gray");
-		DrawButton(1100, 746, 64, 64, "", "White", (property.ShowTimer) ? "Icons/Checked.png" : "");
+		DrawButton(1100, 746, 64, 64, "", "White", (property?.ShowTimer) ? "Icons/Checked.png" : "");
 		DrawText(InterfaceTextGet("ShowItemWithTimerRemaining"), 1200, 778, "white", "gray");
-		DrawButton(1100, 828, 64, 64, "", "White", (property.EnableRandomInput) ? "Icons/Checked.png" : "");
+		DrawButton(1100, 828, 64, 64, "", "White", (property?.EnableRandomInput) ? "Icons/Checked.png" : "");
 		DrawText(InterfaceTextGet("EnableRandomInput"), 1200, 858, "white", "gray");
 		MainCanvas.textAlign = "center";
 	} else {
-		if (property.LockMemberNumber != null) {
+		if (typeof property?.LockMemberNumber === "number") {
 			DrawText(InterfaceTextGet("LockMemberNumber") + " " + property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
 		}
-		DrawText(InterfaceTextGet((property.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
+		DrawText(InterfaceTextGet((property?.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
 	}
 
 	// Draw buttons to add/remove time if available
-	if (Player.CanInteract() && (LogQuery("ClubMistress", "Management") || Player.MemberNumber === property.LockMemberNumber)) {
+	if (Player.CanInteract() && (LogQuery("ClubMistress", "Management") || Player.MemberNumber === property?.LockMemberNumber)) {
 		DrawButton(1100, 910, 250, 70, InterfaceTextGet("AddTimerTime"), "White");
-		DrawBackNextButton(1400, 910, 250, 70, MistressTimerChooseList[MistressTimerChooseIndex] + " " + InterfaceTextGet("Minutes"), "White", "",
-			() => MistressTimerChooseList[(MistressTimerChooseList.length + MistressTimerChooseIndex - 1) % MistressTimerChooseList.length] + " " + InterfaceTextGet("Minutes"),
-			() => MistressTimerChooseList[(MistressTimerChooseIndex + 1) % MistressTimerChooseList.length] + " " + InterfaceTextGet("Minutes")
+		const selectedOption = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex];
+		const timeList = selectedOption.values;
+		const unit = selectedOption.unit;
+		const selectedIndex = MistressTimerChooseIndexes[MistressTimerChooseOptionsIndex];
+		const selectedUnitLabel = InterfaceTextGet(unit.label);
+		DrawBackNextButton(1400, 910, 250, 70, timeList[selectedIndex] + " " + selectedUnitLabel, "White", "",
+			() => timeList[(timeList.length + selectedIndex - 1) % timeList.length] + " " + selectedUnitLabel,
+			() => timeList[(selectedIndex + 1) % timeList.length] + " " + selectedUnitLabel,
 		);
-	} else if (Player.CanInteract() && property.EnableRandomInput && !property.MemberNumberList.includes(Player.MemberNumber)) {
+		const previousUnit = MistressTimerChooseOptions[(MistressTimerChooseOptions.length + MistressTimerChooseOptionsIndex - 1) % MistressTimerChooseOptions.length].unit;
+		const nextUnit = MistressTimerChooseOptions[(MistressTimerChooseOptionsIndex + 1) % MistressTimerChooseOptions.length].unit;
+		DrawBackNextButton(1700, 910, 250, 70, selectedUnitLabel, "White", "",
+			() => InterfaceTextGet(previousUnit.label),
+			() => InterfaceTextGet(nextUnit.label),
+		);
+	} else if (Player.CanInteract() && property?.EnableRandomInput && !property?.MemberNumberList?.includes(Player.MemberNumber)) {
 		DrawButton(1100, 910, 250, 70, "- " + asset.RemoveTimer * 3 / 60 + " " + InterfaceTextGet("Minutes"), "White");
 		DrawButton(1400, 910, 250, 70, InterfaceTextGet("Random"), "White");
 		DrawButton(1700, 910, 250, 70, "+ " + asset.RemoveTimer * 3 / 60 + " " + InterfaceTextGet("Minutes"), "White");
@@ -54,13 +76,20 @@ function InventoryItemMiscMistressTimerPadlockDrawHook({ asset }, originalFuncti
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
 function InventoryItemMiscMistressTimerPadlockClickHook(data, originalFunction) {
 	originalFunction();
-	if (!Player.CanInteract() || DialogFocusSourceItem == null) {
+
+	const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	const lockItem = DialogFocusItem;
+	if (!C || !C.FocusGroup || !item || !lockItem) {
 		return;
 	}
 
-	const C = CharacterGetCurrent();
-	const property = DialogFocusSourceItem.Property;
-	const isLockedByPlayer = property.LockMemberNumber === Player.MemberNumber;
+	if (!Player.CanInteract()) {
+		return;
+	}
+
+	const property = item.Property;
+	const isLockedByPlayer = property?.LockMemberNumber === Player.MemberNumber;
 	const isClubMistress = LogQuery("ClubMistress", "Management");
 
 	if (isLockedByPlayer) { // If the player's number is on the lock, they can control toggles
@@ -80,60 +109,43 @@ function InventoryItemMiscMistressTimerPadlockClickHook(data, originalFunction) 
 	}
 	if (isLockedByPlayer || isClubMistress) { // If the player is a Club Mistress or their number is on the lock, they can add/remove time
 		if (MouseIn(1100, 910, 250, 70)) { // Add time button
-			InventoryItemMiscMistressTimerPadlockAdd(MistressTimerChooseList[MistressTimerChooseIndex] * 60, false);
+			const selectedOption = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex];
+			const selectedTime = selectedOption.values[MistressTimerChooseIndexes[MistressTimerChooseOptionsIndex]];
+			const selectedUnit = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex].unit;
+			InventoryItemMiscTimerPadlockAdd(C, item, lockItem, selectedTime * selectedUnit.seconds, selectedUnit, false, false);
 		} else if (MouseIn(1400, 910, 125, 70)) { // Previous time option
-			MistressTimerChooseIndex = (MistressTimerChooseList.length + MistressTimerChooseIndex - 1) % MistressTimerChooseList.length;
+			const selectedOption = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex];
+			const values = selectedOption.values;
+			const selectedIndex = MistressTimerChooseIndexes[MistressTimerChooseOptionsIndex];
+			MistressTimerChooseIndexes[MistressTimerChooseOptionsIndex] = (values.length + selectedIndex - 1) % values.length;
 		} else if (MouseIn(1525, 910, 125, 70)) { // Next time option
-			MistressTimerChooseIndex = (MistressTimerChooseIndex + 1) % MistressTimerChooseList.length;
+			const selectedOption = MistressTimerChooseOptions[MistressTimerChooseOptionsIndex];
+			const selectedIndex = MistressTimerChooseIndexes[MistressTimerChooseOptionsIndex];
+			MistressTimerChooseIndexes[MistressTimerChooseOptionsIndex] = (selectedIndex + 1) % selectedOption.values.length;
+		} else if (MouseIn(1700, 910, 125, 70)) { // Previous time mode option
+			MistressTimerChooseOptionsIndex = (MistressTimerChooseOptions.length + MistressTimerChooseOptionsIndex - 1) % MistressTimerChooseOptions.length;
+		} else if (MouseIn(1825, 910, 125, 70)) { // Next time mode option
+			MistressTimerChooseOptionsIndex = (MistressTimerChooseOptionsIndex + 1) % MistressTimerChooseOptions.length;
 		}
-	} else if (property.EnableRandomInput && !property.MemberNumberList.includes(Player.MemberNumber)) {
+	} else if (property?.EnableRandomInput && !property?.MemberNumberList?.includes(Player.MemberNumber)) {
 		// Everyone else can add/remove time if permitted, and they've not already done so
 		if (MouseIn(1100, 910, 250, 70)) { // Remove time
-			InventoryItemMiscMistressTimerPadlockAdd(-DialogFocusItem.Asset.RemoveTimer * 2, true);
+			InventoryItemMiscTimerPadlockAdd(C, item, lockItem, -lockItem.Asset.RemoveTimer * 2, TimeUnits.MINUTES, true);
 		} else if (MouseIn(1400, 910, 250, 70)) { // Random
-			InventoryItemMiscMistressTimerPadlockAdd(DialogFocusItem.Asset.RemoveTimer * 4 * ((Math.random() >= 0.5) ? 1 : -1), true);
+			InventoryItemMiscTimerPadlockAdd(C, item, lockItem, lockItem.Asset.RemoveTimer * 4 * ((Math.random() >= 0.5) ? 1 : -1), TimeUnits.MINUTES, true);
 		} else if (MouseIn(1700, 910, 250, 70)) { // Add time
-			InventoryItemMiscMistressTimerPadlockAdd(DialogFocusItem.Asset.RemoveTimer * 2, true);
+			InventoryItemMiscTimerPadlockAdd(C, item, lockItem, lockItem.Asset.RemoveTimer * 2, TimeUnits.MINUTES, true);
 		}
 	}
 }
 
-// When a value is added to the timer, can be a negative one
-/**
- *
- * @param {number} TimeToAdd
- * @param {boolean} PlayerMemberNumberToList
- */
-function InventoryItemMiscMistressTimerPadlockAdd(TimeToAdd, PlayerMemberNumberToList=false) {
+/** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
+function InventoryItemMiscMistressTimerPadlockExitHook(Data, OriginalFunction) {
+	if (OriginalFunction) {
+		OriginalFunction();
+	}
 	const C = CharacterGetCurrent();
-	const property = DialogFocusSourceItem.Property;
-	const TimerBefore = property.RemoveTimer;
-
-	if (PlayerMemberNumberToList) {
-		property.MemberNumberList.push(Player.MemberNumber);
-	}
-	if (DialogFocusItem.Asset.RemoveTimer > 0) {
-		property.RemoveTimer = Math.round(Math.min(property.RemoveTimer + (TimeToAdd * 1000), CurrentTime + (DialogFocusItem.Asset.MaxTimer * 1000)));
-	}
-	if (CurrentScreen === "ChatRoom") {
-		const timeAdded = (property.RemoveTimer - TimerBefore) / (1000 * 60);
-		let msg = "TimerAddRemoveUnknownTime";
-		if (property.ShowTimer) {
-			msg = timeAdded < 0 ? "TimerRemoveTime" : "TimerAddTime";
-		}
-
-		const dictionary = new DictionaryBuilder()
-			.sourceCharacter(Player)
-			.destinationCharacter(C)
-			.focusGroup(C.FocusGroup.Name)
-			.if(property.ShowTimer)
-			.text("TimerTime", Math.round(Math.abs(timeAdded)).toString())
-			.textLookup("TimerUnit", "Minutes")
-			.endif()
-			.build();
-
-		ChatRoomPublishCustomAction(msg, true, dictionary);
-	} else {
-		DialogLeaveFocusItem();
-	}
+	const item = DialogFocusSourceItem;
+	if (!C || !item) return;
+	InventoryItemMiscSendTimerPadlockChangeMessage(C, item);
 }

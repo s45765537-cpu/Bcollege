@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 const PreferenceSubscreenSecurityIDs = Object.freeze({
@@ -103,6 +102,7 @@ function PreferenceSubscreenSecurityExit() {
 function PreferenceSubscreenSecurityUnload() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenSecurityResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
 

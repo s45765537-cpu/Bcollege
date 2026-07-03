@@ -37,7 +37,7 @@ ItemPelvisCrop,,,(You lash the leather crop pretty hard on her.)  Oooow!  I'm gl
 10,,Can I make my room bigger?,"Yes, you can get two room expansions.  Each of them will allow you to receive four more friends.",,
 10,,What are the improvements I can get?,"Wardrobe, fancy beds, cages, security and expansions for now.  But the club is always improving, you can check again later.",,
 10,0,That's all the questions I had.,Alright.  What can I do for you then?,,
-20,0,Can I tie you up?,"Alright, you can use anything you want on me.  I won't complain too much.",DialogAllowItem(true),"DialogReputationGreater(""Dominant"", -29)"
+20,0,Can I tie you up?,"Alright, you can use anything you want on me.  I won't complain too much.",DialogSetAllowItem(true),"DialogReputationGreater(""Dominant"", -29)"
 20,0,Can I tie you up?,A subbie like you?  No way!  (She grabs your arms and restrains them.)  This is much better.,"DialogWearRandomItem(""ItemArms"")","DialogReputationLess(""Dominant"", -30)"
 20,0,Will you tie me up?,Sure!  Give me your hands.  (She restrains your arms.)  Anything else I can do for you?,"DialogWearRandomItem(""ItemArms"")","DialogReputationLess(""Dominant"", 29)"
 20,0,Will you tie me up?,"Miss, I cannot tie you up.  I don't want to get in trouble with a Domme.",,"DialogReputationGreater(""Dominant"", 30)"

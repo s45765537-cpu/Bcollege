@@ -196,6 +196,9 @@ ClothBusinessSuitTie,Tie
 ClothButtonShirtBottom,Lower Gradient
 ClothButtonShirtButtons,Buttons
 ClothButtonShirtTop,Upper Gradient
+ClothCasualDroppedSuitbase,base
+ClothCasualDroppedSuitplain,plain
+ClothCasualDroppedSuitshadow,shadow
 ClothCheerleaderTopBase,Top
 ClothCheerleaderTopInnerstrips,Inner Trim
 ClothCheerleaderTopStraps,Trim
@@ -247,11 +250,20 @@ ClothEveningGownBack,Back
 ClothEveningGownBottom,Bottom
 ClothEveningGownSilk,Silk
 ClothEveningGownTop,Top
+ClothFeatherLingerieLeft2,Left
+ClothFeatherLingerieRight2,Right
 ClothGardenDressBottomLace,Bottom Lace
 ClothGardenDressBowknot,Bowknot
 ClothGardenDressChest,Chest
 ClothGardenDressDress,Dress
 ClothGardenDressShoulderLace,Shoulder Lace
+ClothLaceBraNightgownBase,Base
+ClothLaceBraNightgownBraBase,Bra Top
+ClothLaceBraNightgownBraBaseShadow,Bra Base Shadow
+ClothLaceBraNightgownBraLace,Bra Center
+ClothLaceBraNightgownBraShadow,Bra Shadow
+ClothLaceBraNightgownEdge,Lines
+ClothLaceBraNightgownHemShadow,Hem Shadow
 ClothLatexHobbleDressTop,Top
 ClothLatexHobbleDressCorset,Corset
 ClothLatexHobbleDressBuckles,Corset Buckles
@@ -260,6 +272,12 @@ ClothLatexHobbleDressBelt,Lower Belts
 ClothLatexHobbleDressBBuckles,Lower Belt Buckles
 ClothLatexHobbleDressCollar,Collar
 ClothLatexHobbleDressCBuckle,Collar Buckle
+ClothLittleFormalShirtButtons,Buttons
+ClothLittleFormalShirtLShoulder,L. Shoulder
+ClothLittleFormalShirtLWaist,L. Waist
+ClothLittleFormalShirtRShoulder,R. Shoulder
+ClothLittleFormalShirtRWaist,R. Waist
+ClothLittleFormalShirtTie1,Tie
 ClothLolitaShortDressChest1,Chest
 ClothLolitaShortDressChest2,Chest
 ClothLolitaShortDressChestStrap1,Chest Strap
@@ -288,6 +306,19 @@ ClothLolitaShortDressSideBowShadow,Side Bow Shadow
 ClothLolitaShortDressStrap,Strap
 ClothLolitaShortDressWaist1,Waist
 ClothLolitaShortDressWaist2,Waist
+ClothLongQipaoDressA1,Dress
+ClothLongQipaoDressA2,Dress
+ClothLongQipaoDressA3,Dress
+ClothLongQipaoDressB1,Dress
+ClothLongQipaoDressB2,Dress
+ClothLongQipaoDressC1,Collar
+ClothLongQipaoDressC2,Collar
+ClothLongQipaoDressC3,Collar
+ClothLongQipaoDressC4,Collar
+ClothLongQipaoDressC5,Collar
+ClothLongQipaoDressD1,Left Bow
+ClothLongQipaoDressD2,Right Bow
+ClothLongQipaoDressD3,Collar Bow
 ClothLowerBlackButterflySkirtLeft1,Left
 ClothLowerBlackButterflySkirtLeft2,Left
 ClothLowerBlackButterflySkirtLeft3,Left
@@ -309,6 +340,13 @@ ClothLowerShapewear2Top,Top
 ClothLowerShapewear2TopCenter,Top Center
 ClothLowerShapewear2TopLine,Top Line
 ClothLowerShapewear2TopPattern,Top Pattern
+ClothLowerSideCutoutYogaPantsBase,Base
+ClothLowerSideCutoutYogaPantsCrotchSeam,Crotch Seam
+ClothLowerSideCutoutYogaPantsDarkTone,Dark Tone
+ClothLowerSideCutoutYogaPantsDetailDarkTone,Detail Dark Tone
+ClothLowerSideCutoutYogaPantsLeft2,Left
+ClothLowerSideCutoutYogaPantsOutline,Outline
+ClothLowerSideCutoutYogaPantsRight2,Right
 ClothLowerSlitColumnSkirtBase,Base
 ClothLowerSlitColumnSkirtBottomGloss,Bottom Gloss
 ClothLowerSlitColumnSkirtBottomHighlight,Bottom Highlight
@@ -318,9 +356,31 @@ ClothLowerSlitColumnSkirtTopGloss,Top Gloss
 ClothLowerSlitColumnSkirtTopHighlight,Top Highlight
 ClothLowerSlitColumnSkirtTopSkirt,Top Skirt
 ClothLowerSlitColumnSkirtTopZipper,Top Zipper
+ClothLowerSuspenderPantsLeft_A0,Left_A0
+ClothLowerSuspenderPantsLeft_A1,Left_A1
+ClothLowerSuspenderPantsLeft_B1,Left_B1
+ClothLowerSuspenderPantsLeft_B2,Left_B2
+ClothLowerSuspenderPantsLeft_C1,Left_C1
+ClothLowerSuspenderPantsLeft_C2,Left_C2
+ClothLowerSuspenderPantsLeft_C3,Left_C3
+ClothLowerSuspenderPantsLeft_C4,Left_C4
+ClothLowerSuspenderPantsRight_A0,Right_A0
+ClothLowerSuspenderPantsRight_A1,Right_A1
+ClothLowerSuspenderPantsRight_B1,Right_B1
+ClothLowerSuspenderPantsRight_B2,Right_B2
+ClothLowerSuspenderPantsRight_C1,Right_C1
+ClothLowerSuspenderPantsRight_C2,Right_C2
+ClothLowerSuspenderPantsRight_C3,Right_C3
+ClothLowerSuspenderPantsRight_C4,Right_C4
 ClothLowerWoolenHighWaistSkirtBottom,Bottom
 ClothLowerWoolenHighWaistSkirtButtons,Buttons
 ClothLowerWoolenHighWaistSkirtTop,Top
+ClothMaidApronInnerstrap,Inner strap
+ClothMaidApronOuterstrap,Outer strap
+ClothMaidApronSkirt,Skirt
+ClothMaidApronRuffle,Ruffle
+ClothMaidApronTopedge,Top Edge
+ClothMaidApronBottomedge,Bottom Edge
 ClothMaidDress3ApronDarkPart,Apron Dark Part
 ClothMaidDress3ApronTone,Apron Tone
 ClothMaidDress3BackBow,Back Bow
@@ -336,6 +396,9 @@ ClothMaidDress4Skirt,Skirt
 ClothMaidDress4Top,Top
 ClothMaidDress4Waist,Waist
 ClothMaidDress4WaistRope,Waist Rope
+ClothOuterLabCoatLeft2,Left
+ClothOuterLabCoatLining,Back
+ClothOuterLabCoatRight2,Right
 ClothOuterLeatherJacketJacket,Jacket
 ClothOuterLeatherJacketMetal,Metal
 ClothOuterLeatherJacketShineJacket,Shine Jacket
@@ -348,6 +411,11 @@ ClothOuterJacketHoodieHips,Hips
 ClothOuterJacketHoodieSleeves,Sleeve
 ClothOuterJacketHoodieWrist,Wrist
 ClothOuterJacketHoodieHoodDownBack,Hood
+ClothOuterWoolCoatBelt,Belt
+ClothOuterWoolCoatBuckle,Buckle
+ClothOuterWoolCoatButtons,Buttons
+ClothOuterWoolCoatCoat,Coat
+ClothOuterWoolCoatCollar,Collar
 ClothRibbonCorsetCorset,Corset
 ClothRibbonCorsetRivets,Rivets
 ClothRibbonCorsetRibbon,Ribbon
@@ -365,6 +433,35 @@ ClothRuffledDressCorsetLeft,Corset Left
 ClothRuffledDressCorsetRight,Corset Right
 ClothRuffledDressLaceTrim,Lace Trim
 ClothRuffledDressSkirt,Skirt
+ClothStarryOceanEveningGown1,Fabric
+ClothStarryOceanEveningGown2,Crown
+ClothStarryOceanEveningGown3,Top Laces
+ClothStarryOceanEveningGown4,Bottom Laces
+ClothStarryOceanEveningGownI0,Front
+ClothStarryOceanEveningGownI1,Back
+ClothWhiteDressBeads,Beads
+ClothWhiteDressChest,Chest
+ClothWhiteDressChestStrap,Chest Strap
+ClothWhiteDressFloralAcc,Floral Acc.
+ClothWhiteDressHip,Hip
+ClothWhiteDressMain,Main
+ClothWhiteDressPattern,Pattern
+ClothWhiteDressShoulderStrap,Shoulder Strap
+ClothWhiteDressWaist,Waist
+ClothXmas2025A1,Interior
+ClothXmas2025A2,Border
+ClothXmas2025B1,Fabric
+ClothXmas2025B2,Tint
+ClothXmas2025Button,Button
+ClothXmas2025C1,Fabric
+ClothXmas2025C2,Tint
+ClothXmas2025D1,Corset Inner
+ClothXmas2025D2,Corset Outer
+ClothXmas2025E1,Dress Inner
+ClothXmas2025E2,Dress Outer
+ClothXmas2025F1,Top
+ClothXmas2025F2,Right
+ClothXmas2025F3,Left
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
@@ -636,20 +733,24 @@ GlovesHaremGloveFabric,Fabric
 GlovesLatexShortGloves,Glove
 GlovesWarmGlovesMain,Gloves
 GlovesWarmGlovesFur,Fur
-HairAccessory1AntennaA1,A1
-HairAccessory1AntennaA2,A2
-HairAccessory1AntennaA3,A3
-HairAccessory1AntennaA4,A4
-HairAccessory1AntennaA5,A5
-HairAccessory1AntennaB1,B1
-HairAccessory1AntennaB2,B2
-HairAccessory1AntennaB3,B3
-HairAccessory1AntennaB4,B4
-HairAccessory1AntennaB5,B5
+HairAccessory1AntennaA1,Right Cushion
+HairAccessory1AntennaA2,Right Frame
+HairAccessory1AntennaA3,Right Pole
+HairAccessory1AntennaA4,Right Tip
+HairAccessory1AntennaA5,Right Glow
+HairAccessory1AntennaB1,Left Cushion
+HairAccessory1AntennaB2,Left Frame
+HairAccessory1AntennaB3,Left Pole
+HairAccessory1AntennaB4,Left Tip
+HairAccessory1AntennaB5,Left Glow
 HairAccessory1BigLynxEarsInner,Inner Ear
 HairAccessory1BigLynxEarsLine,Line
 HairAccessory1BigLynxEarsOuter,Outer Ear
 HairAccessory1BigLynxEarsTuft,Tuft
+HairAccessory1BlackCatEarsMirrorInner,Inner
+HairAccessory1BlackCatEarsMirrorInnerShort,InnerShort
+HairAccessory1BlackCatEarsMirrorOuter,Outer
+HairAccessory1BlackCatEarsMirrorOuterShort,OuterShort
 HairAccessory1BunnyEars2Inner,Inner
 HairAccessory1BunnyEars2Outer,Outer
 HairAccessory1CowEarsEars,Ears
@@ -870,6 +971,9 @@ HairAccessory1CustomizableCowEarsBigRing1Left,BigRing1 Left
 HairAccessory1CustomizableCowEarsBigRing1Right,BigRing1 Right
 HairAccessory1CustomizableCowEarsBigRing2Left,BigRing2 Left
 HairAccessory1CustomizableCowEarsBigRing2Right,BigRing2 Right
+HairAccessory1WingedHeadpieceW1,Wings
+HairAccessory1WingedHeadpieceW2,Tails
+HairAccessory1WingedHeadpieceW3,Button
 HairAccessory2BunnyEars2Inner,Inner
 HairAccessory2BunnyEars2Outer,Outer
 HairAccessory2FoxEars2Inner,Inner Ear
@@ -932,6 +1036,8 @@ HairBackHairBack58bLeft,Left
 HairBackHairBack58bLeftTip,Left Tip
 HairBackHairBack60FrontRight,Right
 HairBackHairBack60FrontLeft,Left
+HairBackHairBack60FrontLeftStreak,Left Streak
+HairBackHairBack60FrontRightStreak,Right Streak
 HairBackHairBack61FrontRight,Right
 HairBackHairBack61FrontLeft,Left
 HairBackHairBack62Braid,Braid
@@ -940,6 +1046,9 @@ HairBackHairBack63Braid,Left
 HairBackHairBack63BraidRight,Right
 HairBackHairBack63Band,Scrunchies
 HairBackHairBack63Ribbon,Ribbons
+HairBackHairBack64Left,Base
+HairBackHairBack64LeftStreak,Left Streak
+HairBackHairBack64RightStreak,Right Streak
 HairBackHairBack65Right,Right
 HairBackHairBack65Left,Left
 HairBackHairBack65bRight,Right
@@ -1138,6 +1247,9 @@ HairFrontHairFront63Back_Tips_Middle,Lower Front Bang
 HairFrontHairFront63Back_Tips_Sides,Lower Side Bangs
 HairFrontHairFront64Main,Main
 HairFrontHairFront64Clip,Clip
+HairFrontHairFront64bMain,Main
+HairFrontHairFront64bClip,Clip
+HairFrontHairFront64bStreaks,Streaks
 HairFrontHairFront65Full,Full
 HairFrontHairFront65Highlights,Highlights
 HairFrontHairFront65Shadows,Shadows
@@ -1194,6 +1306,12 @@ HatLatexHabitCollar,Collar
 HatLatexHabitCowl,Cowl
 HatMaidLatexHairbandDetail,Detail
 HatMaidLatexHairbandMain,Main
+HatNPCBalloonArrow,Arrow
+HatNPCBalloonConnection,Connection
+HatNPCBalloonExclamationMark,Exclamation Mark
+HatNPCBalloonHeadband,Headband
+HatNPCBalloonHeart,Heart
+HatNPCBalloonQuestionMark,Question Mark
 HatNunHabitCowl,Cowl
 HatNunHabitShawl,Shawl
 HatNunHabitShoulders,Shoulders
@@ -1306,6 +1424,10 @@ ItemArmsFuturisticStraitjacketSides,Sides
 ItemArmsHeavyYokeCuffs,Cuffs
 ItemArmsHeavyYokeFrame,Frame
 ItemArmsHempRope,Ropes
+ItemArmsHempRopeRopes,Ropes
+ItemArmsHempRopeRopeCuffsLink,Rope cuffs link
+ItemArmsHempRopeLeash,Leash
+ItemArmsHempRopeLeashKnot,Leash knot
 ItemArmsHempRopeInvertedSuspension,Inv. Suspension Rope
 ItemArmsHempRopeSuspension,Suspension Rope
 ItemArmsHighSecurityStraitJacketCrotch,Crotch Panel
@@ -1817,6 +1939,10 @@ ItemHandheldAnimeGirlWandDetail2,Spheres
 ItemHandheldAnimeGirlWandSwitch,Power switch
 ItemHandheldBunPlushBase1,Base
 ItemHandheldBunPlushBase2,Accent
+ItemHandheldChocolateAluminumFoil,Aluminum Foil
+ItemHandheldChocolateChocolateBar,Chocolate Bar
+ItemHandheldChocolateGoldTicket,Gold Ticket
+ItemHandheldChocolateWrappingPaper,Wrapping Paper
 ItemHandheldCigaretteSmoke,Smoke
 ItemHandheldCigaretteLit,Lit
 ItemHandheldCigaretteFilter,Filter
@@ -1832,6 +1958,18 @@ ItemHandheldDragonPlushGemsColor,Gems Color
 ItemHandheldDragonPlushEyesMainColor,Eyes Main Color
 ItemHandheldDragonPlushEyesGlowColor,Eyes Glow Color
 ItemHandheldDragonPlushShadows,Shadows
+ItemHandheldElectricGuitarA1,Hip
+ItemHandheldElectricGuitarA2,Shoulder
+ItemHandheldElectricGuitarA3,Strap Button
+ItemHandheldElectricGuitarB1,Wood body
+ItemHandheldElectricGuitarB2,B2
+ItemHandheldElectricGuitarB3,Plastic body
+ItemHandheldElectricGuitarB4,Chords
+ItemHandheldElectricGuitarB5,Pickups
+ItemHandheldElectricGuitarB6,Borders
+ItemHandheldElectricGuitarB7,Tuners
+ItemHandheldElectricGuitarB8,Frets
+ItemHandheldElectricGuitarB9,B9
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
 ItemHandheldGiftBoxBox,Box
@@ -1844,6 +1982,8 @@ ItemHandheldKyosensuFan2,Fan paper 3rd color
 ItemHandheldKyosensuBase,Fan base
 ItemHandheldKyosensuDetail,Fan detail
 ItemHandheldKyosensuFanSurface,Fan folding
+ItemHandheldLaptopDot,Dot
+ItemHandheldLaptopMain,Main
 ItemHandheldMugFluids,Fluids
 ItemHandheldMugMug,Mug
 ItemHandheldPlushies,Plushies
@@ -2809,6 +2949,8 @@ ItemMouthPremiumMuzzleMuzzleStraps,Extra Muzzle Straps
 ItemMouthOverfilledGagClothmask,Cloth mask
 ItemMouthOverfilledGagPanties,Stuffing
 ItemMouthOverfilledGagTape1,Tape
+ItemMouthBallGag2BasicStrap,Strap
+ItemMouthBallGag2RegularSizeBall,Ball
 ItemNeckAccessoriesCollarButterflyMetal,Metal
 ItemNeckAccessoriesCollarButterflyStones,Jewels
 ItemNeckAccessoriesCollarRoseAmuletMetal,Metal
@@ -2955,6 +3097,8 @@ ItemNipplesNippleClamps2RubberTips,Rubber Tips
 ItemNipplesPiercingsNecklacePiercingChainChain,Chain
 ItemNipplesPiercingsNecklacePiercingChainHeart,Heart
 ItemNipplesPiercingsNecklacePiercingChainPiercing,Piercing
+ItemNipplesPiercingsPiercingNameBadgeLeftNipple,Left Nipple
+ItemNipplesPiercingsPiercingNameBadgeRightNipple,Right Nipple
 ItemNipplesPiercingsRoundPiercingChain,Chain
 ItemNipplesPiercingsRoundPiercingPiercings,Piercings
 ItemNipplesPiercingsRoundPiercingWeights,Weights
@@ -2966,11 +3110,19 @@ ItemNipplesTapedVibeEggsEgg1,Left Vibe Egg
 ItemNipplesTapedVibeEggsEgg2,Right Vibe Egg
 ItemNipplesTapedVibeEggsTape1,Left Tape Strip
 ItemNipplesTapedVibeEggsTape2,Right Tape Strip
+ItemNipplesXmasBellBell,Bell
+ItemNipplesXmasBellBow,Bow
 ItemNoseNoseClipClip,Clip
 ItemNoseNoseClipRod,Rod
 ItemNoseNoseClipSkin,Nose
 ItemNoseNoseHookBand,Strap
 ItemNoseNoseHookHook,Hook
+ItemNoseNoseShackleMain,Shackle Body
+ItemNoseNoseShackleSingle,Shackle Pins
+ItemNoseNoseShackleChainlong,Metal Attachments
+ItemNoseNoseShackleLeash,Leash
+ItemNoseNoseShackleHandle,Leash Handle
+ItemNoseNoseShackleLock,Padlocks
 ItemNosePigNoseHookBand,Band
 ItemNosePigNoseHookHook,Hook
 ItemNosePigNoseNose,Nose
@@ -3207,6 +3359,10 @@ ItemVulvaPiercingsCockRingLeashBase,Ring
 ItemVulvaPiercingsCockRingLeashLeash,Leash
 ItemVulvaPiercingsCockRingLeashHandle,Handle
 ItemVulvaPiercingsCockRingLeashLock,Lock
+ItemVulvaPiercingsModularVulvaPiercingsRivets,Tunnels
+ItemVulvaPiercingsModularVulvaPiercingsBarbells,Barbells
+ItemVulvaPiercingsModularVulvaPiercingsRings,Rings
+ItemVulvaPiercingsModularVulvaPiercingsShield,Shield
 ItemVulvaPlasticChastityCage1Cage,Cage
 ItemVulvaPlasticChastityCage1Lock,Lock
 ItemVulvaPlasticChastityCage1Penis,Penis
@@ -3219,6 +3375,8 @@ ItemVulvaStitchesThread,Thread
 ItemVulvaTechnoChastityCageCage,Cage
 ItemVulvaTechnoChastityCageLock,Lock Icon
 ItemVulvaTechnoChastityCageRing,Ring
+ItemVulvaUsedCondomCondom,Condom
+ItemVulvaUsedCondomDrip,Drip
 ItemVulvaVibeEggPenisBaseEgg,Vibe Egg
 ItemVulvaVibeEggPenisBaseStrap,Strap
 ItemVulvaVibratingDildoDildo,Dildo
@@ -3421,6 +3579,11 @@ PantiesUntrainersThinMiddle,Middle
 PantiesUntrainersThinTabs,Tabs
 PantiesUntrainersThinWet,Wet
 PantiesUntrainersThinIndicator,Indicator
+PantiesRoyalDiaperBase,Base
+PantiesRoyalDiaperTabs,Tabs
+PantiesRoyalDiaperMotiv,Motiv
+PantiesRoyalDiaperWet,Wet
+PantiesRoyalDiaperIndicator,Indicator
 AnkletRightLegFurAnkle,Fur Ankle
 AnkletRightLegFurKnee,Fur Knee
 HandAccessoryRightClawsColor,Color
@@ -3435,6 +3598,8 @@ HandAccessoryRightRingsPinkieSteel,Pinkie Ring
 HandAccessoryRightRingsRingSteel,Ring Finger Ring
 HandAccessoryRightRingsThumbSteel,Thumb Ring
 HandAccessoryRightRingsWedding,Wedding Ring
+HandAccessoryRightRingsWeddingGem,Ring Finger Gem
+HandAccessoryRightRingsWeddingShine,Ring Finger Shine
 HandAccessoryRightRingsFingernailsColor,Nails Color
 HandAccessoryRightRingsFingernailsOutline,Nails Outline
 HandAccessoryRightRingsClawsColor,Claws Color
@@ -3516,6 +3681,8 @@ ShoesTallerBootsMetal,Chains Details
 ShoesThighBootsBand,Band
 ShoesThighBootsBase,Boot
 ShoesThighBootsThigh,Sock
+ShoesToeNailsLeft1,Left
+ShoesToeNailsRight1,Right
 ShoesWitchShoesShoes,Main
 ShoesWitchShoesToes,Front detail
 ShoesWitchShoesBelt,Straps
@@ -3524,6 +3691,11 @@ ShoesZipperLeatherBootsBaseLeft,Base (Left)
 ShoesZipperLeatherBootsBaseRight,Base (Right)
 ShoesZipperLeatherBootsOpenLeft,Open (Left)
 ShoesZipperLeatherBootsOpenRight,Open (Right)
+SocksCuteKittenPrintedSocksBaseColor,Base Color
+SocksCuteKittenPrintedSocksBow,Face
+SocksCuteKittenPrintedSocksCatPattern,Whiskers
+SocksCuteKittenPrintedSocksCatTail,Tail
+SocksCuteKittenPrintedSocksEars,Ears
 SocksGradientPantyhoseLower,Lower
 SocksGradientPantyhoseUpper,Upper
 SocksHaremStockingsBands,Bands
@@ -3537,6 +3709,8 @@ SocksNetSocksUpperNet,Upper Net
 SocksNetSocksUpperPattern,Upper Pattern
 SocksNetSocksUpperSocks,Upper Socks
 SocksNetSocksWaistline,Waistline
+SocksStripedSocksSocks,Socks
+SocksStripedSocksStripes,Stripes
 SocksYuletideVelvetWarmthSock,Sock
 SocksYuletideVelvetWarmthSock,Fuzz
 SocksRippedPantyhoseBaseUpper,Upper
@@ -3554,6 +3728,8 @@ SocksLeftSocksFurFabric,Sock
 SocksLeftSocksFurFur,Fur
 SocksLeftSocksStriped1Dark,Dark Stripes
 SocksLeftSocksStriped1Light,Light Stripes
+SocksLegWarmers1Socks,Sock
+SocksLegWarmers1Bowknot,Bow
 SocksRightGradientPantyhoseLower,Lower
 SocksRightGradientPantyhoseUpper,Upper
 SocksRightHaremStockingsBands,Bands
@@ -3582,6 +3758,43 @@ SuitCatsuitBase,Suit
 SuitCatsuitOpaqueGloves,Gloves
 SuitCatsuitZip,Zip
 SuitFishnetTop,Fishnet Top
+SuitGlossyBodystockingA2,Tummy
+SuitGlossyBodystockingA3,Shoulders
+SuitGlossyBodystockingA4,Hips
+SuitGlossyBodystockingamL,Seams
+SuitGlossyBodystockingBaseColor,Base Color
+SuitGlossyBodystockingbmask,bmask
+SuitGlossyBodystockingbmL,Seams
+SuitGlossyBodystockingBodyHue,Body Hue
+SuitGlossyBodystockingC1,Neck
+SuitGlossyBodystockingC10,Bottom
+SuitGlossyBodystockingC11,Belly
+SuitGlossyBodystockingC12,Button
+SuitGlossyBodystockingC2,Shoulders
+SuitGlossyBodystockingC3,Torso
+SuitGlossyBodystockingC4,Breast Outer
+SuitGlossyBodystockingC5,Breast Middle
+SuitGlossyBodystockingC6,Breast Inner
+SuitGlossyBodystockingC7,Breast Under
+SuitGlossyBodystockingC8,Tummy
+SuitGlossyBodystockingC9,Ribs
+SuitGlossyBodystockingD1,Lines
+SuitGlossyBodystockingD2,Main
+SuitGlossyBodystockingD3,Shoulders
+SuitGlossyBodystockingD4,Breast
+SuitGlossyBodystockingD5,Cleavage
+SuitGlossyBodystockingD6,Chest
+SuitGlossyBodystockingD7,Support
+SuitGlossyBodystockingE1,Gloves
+SuitGlossyBodystockingEdgeLine,Edge Line
+SuitGlossyBodystockingEdgeShade,Edge Shade
+SuitGlossyBodystockingF1,Hands Line
+SuitGlossyBodystockingF2,Hands Main
+SuitGlossyBodystockingG1,Gloves Line
+SuitGlossyBodystockingG2,Gloves Main
+SuitGlossyBodystockinggmask,Mask
+SuitGlossyBodystockingL,Seams
+SuitGlossyBodystockingmmL,Seams
 SuitLatexCatsuitBase,Suit
 SuitLatexCatsuitPP,Label
 SuitLatexCatsuitText,Text
@@ -3612,6 +3825,12 @@ SuitPilotSuitLayer2,Highlights
 SuitPilotSuitLayer3,Center
 SuitPilotSuitLayer4,Arms
 SuitPilotSuitOpaqueGloves,Gloves
+SuitPlugsuitSuit,Suit
+SuitPlugsuitUnderBraInnerLayer,Under-Bra Inner Layer
+SuitPlugsuitUnderBraStructure,Under-Bra Structure
+SuitPlugsuitUpperBraStructure,Upper-Bra Structure
+SuitPlugsuitWaistInnerLayer,Waist Inner Layer
+SuitPlugsuitWaistStructure,Waist Structure
 SuitReverseBunnySuitOpaqueGloves,Gloves
 SuitReverseBunnySuitSuit,Suit
 SuitSeamlessCatsuitOpaqueGloves,Gloves
@@ -3623,6 +3842,12 @@ SuitSeethroughSuitZipOpaqueGloves,Gloves
 SuitSeethroughSuitZipZip,Zip
 SuitShinyLeotardLatex,Base
 SuitShinyLeotardShine,Shine
+SuitTransparentBunnyGirlMiddleBaseColor,Middle Base
+SuitTransparentBunnyGirlSideBaseColor,Side Base
+SuitTransparentBunnyGirlToneHighlight,Tone Highlight
+SuitTransparentBunnyGirlAbdomenHighlight,Abdomen Highlight
+SuitTransparentBunnyGirlChestReflection,Chest Reflection
+SuitTransparentBunnyGirlEdgeLine,Edge Line
 TailStrapsDragonsTailBase,Base
 TailStrapsDragonsTailBaseShine,Base Shine
 TailStrapsDragonsTailScales,Scales

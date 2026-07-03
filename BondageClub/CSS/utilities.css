@@ -1,47 +1,94 @@
 .light-label {
-  color: white;
+	color: white;
 }
 
 .dark-label {
-  color: black;
+	color: black;
 }
 
 .center-label {
-  text-align: center;
+	text-align: center;
 }
 
 .left-label {
-  text-align: left;
+	text-align: left;
 }
 
 .right-label {
-  text-align: right;
+	text-align: right;
 }
 
 .flex {
-  display: flex;
+	display: flex;
 }
 
 .vertical {
-  flex-direction: column;
+	flex-direction: column;
 }
 
 .horizontal {
-  flex-direction: row;
+	flex-direction: row;
 }
 
 .space-between {
-  justify-content: space-between;
+	justify-content: space-between;
 }
 
 .space-around {
-  justify-content: space-around;
+	justify-content: space-around;
 }
 
 .center {
-  justify-content: center;
+	justify-content: center;
 }
 
 [concealed] {
 	visibility: hidden !important;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.truncated-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+
+.no-select,
+.NoSelect {
+	touch-action: manipulation;
+	/* iOS Safari */
+	-webkit-touch-callout: none;
+	/* Safari */
+	-webkit-user-select: none;
+	/* Konqueror HTML */
+	-khtml-user-select: none;
+	/* Old versions of Firefox */
+	-moz-user-select: none;
+	/* Internet Explorer/Edge */
+	-ms-user-select: none;
+	/* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+	user-select: none;
+}
+
+/* A scrollable container with a standardized-ish scrollbar layout */
+.scroll-box {
+	overflow: hidden auto;
+	scroll-padding: 3px;
+	scrollbar-gutter: stable;
+	scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
+}
+
+@media (hover: hover) {
+	.scroll-box {
+		scrollbar-color: rgb(149, 149, 149, 0.9) rgb(0, 0, 0, 0.4);
+		transition: scrollbar-color 0.3s ease;
+	}
+
+	.scroll-box:hover {
+		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
+	}
 }

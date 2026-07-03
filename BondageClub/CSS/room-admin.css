@@ -1,0 +1,63 @@
+#chatroom-admin-subscreen *,
+#chatroom-admin-subscreen-header *,
+#chatroom-admin-subscreen-hgroup *,
+#chatroom-admin-subscreen .screen-main-container * {
+	pointer-events: auto;
+}
+
+#chatroom-admin-subscreen,
+#chatroom-admin-subscreen-header,
+#chatroom-admin-subscreen-hgroup,
+#chatroom-admin-subscreen .screen-main-container,
+#chatroom-admin-subscreen .button > * {
+	pointer-events: none;
+}
+
+#chatroom-admin-subscreen-hgroup {
+	color: black;
+	justify-content: flex-end;
+	display: flex;
+}
+
+#chatroom-admin-subscreen .screen-main-container {
+	padding: 0em 2.6em;
+}
+
+#chatroom-admin-subscreen-hgroup h1 {
+	padding: 2.2em 0em 0 2.7em;
+}
+
+#chatroom-admin-subscreen-grid {
+	padding: 0;
+	padding-top: 1em;
+	border: none;
+}
+
+#chatroom-admin-subscreen-grid input,
+#chatroom-admin-subscreen-grid button,
+#chatroom-admin-subscreen-grid select {
+	vertical-align: middle;
+}
+
+#chatroom-admin-subscreen-grid p.element-note {
+	font-size: 0.7em;
+	margin-top: 4px;
+}
+
+#chatroom-admin-subscreen-grid .setting-group {
+	margin: 0.5em 0;
+}
+
+#chatroom-admin-subscreen-grid #InputImageURL {
+	width: 70%;
+}
+
+#chatroom-admin-subscreen-grid #InputMusicURL {
+	width: 70%;
+}
+
+#chatroom-admin-subscreen-grid #OpenLibraryButton {
+	width: calc(1.15em + var(--border-width));
+	height: calc(1.15em + var(--border-width));
+	margin-left: 0.2em;
+}

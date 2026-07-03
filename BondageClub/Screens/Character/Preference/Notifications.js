@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -88,7 +87,7 @@ function PreferenceSubscreenNotificationsRun() {
  * @returns {void} - Nothing
  */
 function PreferenceNotificationsDrawSetting(Left, Top, Text, Setting) {
-	DrawBackNextButton(Left, Top, 164, 64, TextGet("NotificationsAlertType" + Setting.AlertType.toString()), "White", null, () => "", () => "");
+	DrawBackNextButton(Left, Top, 164, 64, TextGet("NotificationsAlertType" + Setting.AlertType.toString()), "White", undefined, () => "", () => "");
 	const Enabled = Setting.AlertType > 0;
 	if (Enabled) {
 		DrawButton(Left + 200, Top, 64, 64, "", "White", "Icons/Audio" + Setting.Audio.toString() + ".png");
@@ -188,7 +187,7 @@ function PreferenceSubscreenNotificationsExit() {
 function PreferenceSubscreenNotificationsUnload() {
 	// If any of the settings now have audio enabled, enable the AudioSettings setting as well
 	let enableAudio = false;
-	for (const setting in Player.NotificationSettings) {
+	for (const setting of CommonKeys(Player.NotificationSettings)) {
 		let audio = Player.NotificationSettings[setting]?.Audio;
 		if (typeof audio === 'number' && audio > 0) enableAudio = true;
 	}

@@ -262,13 +262,13 @@ Item intensity: High
 Интенсивность предмета: Высокая
 Item intensity: Maximum
 Интенсивность предмета: Максимальная
-Configure total priority
+Configure {asset} priority
 Настроить общий приоритет
 Exit
 Выход
 Hide hidden layers
 Скрыть скрытые слои
-Configure layer-specific priority
+Layer priority
 Настройка приоритета уровня
 Item configuration locked
 Конфигурация предмета заблокирована
@@ -456,8 +456,8 @@ Requires a hip harness.
 Требуется набедренная сбруя.
 Requires round piercings on nipples.
 Требуется круглый пирсинг на сосках.
-Unchain mittens
-Развязать варежки
+Unchain mittens.
+Развязать варежки.
 Remove the chain first.
 Сначала снимите цепь.
 Must remove chastity first.
@@ -572,26 +572,8 @@ Removing...
 Удаление...
 Need Bondage ReqLevel
 Нужен требуемый уровень бондажа
-Requires self-bondage 1.
-Требуется самобондаж 1.
-Requires self-bondage 10.
-Требуется самобондаж 10.
-Requires self-bondage 2.
-Требуется самобондаж 2.
-Requires self-bondage 3.
-Требуется самобондаж 3.
-Requires self-bondage 4.
-Требуется самобондаж 4.
-Requires self-bondage 5.
-Требуется самобондаж 5.
-Requires self-bondage 6.
-Требуется самобондаж 6.
-Requires self-bondage 7.
-Требуется самобондаж 7.
-Requires self-bondage 8.
-Требуется самобондаж 8.
-Requires self-bondage 9.
-Требуется самобондаж 9.
+Requires self-bondage ReqLevel.
+Требуется самобондаж ReqLevel.
 Active Rules
 Активные правила
 Cannot change:

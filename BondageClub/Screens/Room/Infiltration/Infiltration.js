@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 "use strict";
 var InfiltrationBackground = "Infiltration";
-/** @type {NPCCharacter} */
+/** @type {null | NPCCharacter} */
 var InfiltrationSupervisor = null;
 var InfiltrationDifficulty = 0;
 /** @type {InfiltrationMissionType | ""} */
@@ -13,14 +13,15 @@ var InfiltrationObjectType = ["USBKey", "BDSMPainting", "GoldCollar", "GeneralLe
 /** @type {InfiltrationMissionTarget | null} */
 var InfiltrationTarget = null;
 var InfiltrationCollectRansom = false;
-/** @type {NPCCharacter} */
+/** @type {null | NPCCharacter} */
 var InfiltrationKidnapper = null;
-/** @type {NPCCharacter} */
+/** @type {null | NPCCharacter} */
 var InfiltrationPandoraPrisoner = null;
-/** @type {NPCCharacter} */
+/** @type {null | NPCCharacter} */
 var InfiltrationPartyPrisoner = null;
 var InfiltrationPenitentiaryMinutes = 0;
 var InfiltrationPenitentiaryAmount = 0;
+/** @type {"G" | "I"} */
 var InfiltrationPenitentiaryRole = "I";
 
 /**
@@ -161,11 +162,11 @@ function InfiltrationClick() {
 
 /**
  * Sets the infiltration mission challenge difficulty
- * @param {string} Difficulty
+ * @param {number} Difficulty
  * @returns {void} - Nothing
  */
 function InfiltrationSelectChallenge(Difficulty) {
-	InfiltrationDifficulty = parseInt(Difficulty);
+	InfiltrationDifficulty = Difficulty;
 }
 
 /**
@@ -353,7 +354,7 @@ function InfiltrationEndKidnapping(Reward) {
 	if (Reward === "Skill") SkillProgress(Player, "Infiltration", 400);
 	if (Reward === "Private") {
 		const isMistress = InventoryIsWorn(CurrentCharacter, "Shoes", "MistressBoots");
-		const C = PrivateAddCharacter(CurrentCharacter, isMistress ? "Mistress" : "", null);
+		const C = PrivateAddCharacter(/** @type {NPCCharacter} */ (CurrentCharacter), isMistress ? "Mistress" : "", null);
 		C.Love = -80;
 		C.FromPandora = true;
 		if (isMistress) {
@@ -496,12 +497,12 @@ function InfiltrationStartNPCRescue() {
 
 /**
  * Dresses the player as a maid for the reverse maid mission
- * @param {string} Rep - The reputation change to apply
+ * @param {number} Rep - The reputation change to apply
  * @returns {void} - Nothing
  */
 function InfiltrationDressMaid(Rep) {
 	PandoraDress(Player, "Maid");
-	if (Rep != "0") ReputationProgress("Dominant", parseInt(Rep));
+	if (Rep) ReputationProgress("Dominant", Rep);
 	PandoraClothes = "Maid";
 }
 
@@ -560,20 +561,17 @@ function InfiltrationSetPandoraPrisoner() {
  * @returns {void} - Nothing
  */
 function InfiltrationClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderLiabilityDeck;
-	MiniGameStart("ClubCard", 0, "InfiltrationClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderLiabilityDeck, () => InfiltrationClubCardEnd());
 }
 
 /**
  * When the player ends a club card game against the supervisor
- * @returns {void} - Nothing
  */
-function InfiltrationClubCardEnd() {
-	CommonSetScreen("Room", "Infiltration").then(() => {
-		CharacterSetCurrent(InfiltrationSupervisor);
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function InfiltrationClubCardEnd() {
+	await CommonSetScreen("Room", "Infiltration");
+	CharacterSetCurrent(InfiltrationSupervisor);
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
 
 /**
@@ -588,20 +586,20 @@ function InfiltrationPenitentiaryRoleIs(Role) {
 
 /**
  * Starts the Pandora's padlock special mission, cannot be given randomly
- * @param {string} Minutes - The number of minutes to lock the player
- * @param {string} Amount - The money amount and infiltration skill gained
- * @param {string} Role - The role to take (I for Inmate or G for Guard)
+ * @param {number} Minutes - The number of minutes to lock the player
+ * @param {number} Amount - The money amount and infiltration skill gained
+ * @param {"G" | "I"} Role - The role to take (I for Inmate or G for Guard)
  * @returns {void} - Nothing
  */
 function InfiltrationPreparePenitentiary(Minutes, Amount, Role) {
-	InfiltrationPenitentiaryMinutes = parseInt(Minutes);
-	InfiltrationPenitentiaryAmount = parseInt(Amount);
+	InfiltrationPenitentiaryMinutes = Minutes;
+	InfiltrationPenitentiaryAmount = Amount;
 	InfiltrationPenitentiaryRole = Role;
 }
 
 /**
  * Starts the Pandora's padlock special mission, cannot be given randomly
- * @param {string} Param - An optional NEW param to create a new room
+ * @param {"New"} [Param] - An optional NEW param to create a new room
  * @returns {void} - Nothing
  */
 function InfiltrationStartPenitentiary(Param) {

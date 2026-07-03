@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -210,10 +209,10 @@ function ControllerLoadMapping(buttonsMapping, axisMapping) {
 			}
 		}
 	}
-	for (const btnIdx of Object.keys(ControllerButtonMapping)) {
+	for (const btnIdx of CommonKeys(ControllerButtonMapping)) {
 		ControllerButtonMapping[btnIdx] = buttonsMapping[btnIdx] ?? -1;
 	}
-	for (const axisIdx of Object.keys(ControllerAxisMapping)) {
+	for (const axisIdx of CommonKeys(ControllerAxisMapping)) {
 		ControllerAxisMapping[axisIdx] = axisMapping[axisIdx] ?? -1;
 	}
 }
@@ -306,6 +305,12 @@ function ControllerProcessAxis(axes) {
 		}
 	}
 
+	/**
+	 *
+	 * @param {ControllerAxis} axisId
+	 * @param {(val: number) => void} handler
+	 * @returns
+	 */
 	function handleAxis(axisId, handler) {
 		const padAxisId = ControllerAxisMapping[axisId];
 		const val = axes[padAxisId] ?? undefined;
@@ -342,12 +347,13 @@ function ControllerProcessAxis(axes) {
 function ControllerManagedByGame(buttons) {
 
 	// Map the gamepad button indexes to the game's button names
+	/** @type {GamepadButton[]} */
 	const mappedButtons = [];
 	for (const btnId of Object.values(ControllerButton)) {
 		const padBtnId = ControllerButtonMapping[btnId];
 		if (padBtnId === -1) continue;
 		// Grab either the actual button or make a dummy, in case the player has it unmapped
-		mappedButtons[btnId] ??= buttons[padBtnId] ?? { pressed: false, repeat: false };
+		mappedButtons[btnId] ??= buttons[padBtnId] ?? { pressed: false, repeat: false, touched: false, value: 0 };
 	}
 
 	// If the screen manages the controller, we call it
@@ -373,6 +379,8 @@ function ControllerProcessButton(buttons) {
 
 	/**
 	 * Helper function to process a button press
+	 * @param {ControllerButton} btnId
+	 * @param {() => void} handler
 	 */
 	function handleButton(btnId, handler) {
 		if (ControllerButtonsWaitRelease) return;
@@ -394,7 +402,7 @@ function ControllerProcessButton(buttons) {
 
 	handleButton(ControllerButton.A, () => {
 		if (!ControllerDPadAsAxisWorkaround) return;
-		// Trigger a fake click event
+		// @ts-ignore Strict-TS: Trigger a fake click event
 		CommonClick(null);
 	});
 	handleButton(ControllerButton.B, () => {
@@ -467,8 +475,10 @@ function ControllerCalibrationNextStage(skip = false) {
 	if (skip) {
 		// We're skipping, unset the value for that input
 		if (isAxis) {
+			// @ts-ignore Strict-TS: the initialization above and the check below should ensure we stay in bounds
 			ControllerAxisMapping[stage] = -1;
 		} else {
+			// @ts-ignore Strict-TS: the initialization above and the check below should ensure we stay in bounds
 			ControllerButtonMapping[stage] = -1;
 		}
 	}
@@ -557,6 +567,7 @@ function ControllerCalibrationStageLabel() {
 		case ControllerAxis.StickRH:
 			return TextGet("MoveRightStickRight");
 	}
+	return "";
 }
 
 const ControllerCalibrationLowWatermark = 0.05;

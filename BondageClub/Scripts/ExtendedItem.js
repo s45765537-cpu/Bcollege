@@ -194,10 +194,9 @@ function ExtendedItemInit(C, Item, Push=true, Refresh=true) {
 		return false;
 	}
 
-	const functionName = `Inventory${Item.Asset.Group.Name}${Item.Asset.Name}Init`;
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
 	const args = [C, Item, Push, Refresh];
-	return CommonCallFunctionByNameWarn(functionName, ...args);
+	return CommonCallFunctionByNameWarn(`Inventory${Item.Asset.Group.Name}${Item.Asset.Name}Init`, ...args);
 }
 
 /**
@@ -430,11 +429,6 @@ function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSel
  * @returns {void} - Nothing
  */
 function ExtendedItemExit() {
-	// Check if an `Exit` function has already been called
-	if (DialogFocusItem == null) {
-		return;
-	}
-
 	// invalidate the cache
 	ExtendedItemRequirementCheckMessageMemo.clearCache();
 
@@ -443,9 +437,15 @@ function ExtendedItemExit() {
 		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Exit`);
 		ExtendedItemSubscreen = null;
 		ExtendedItemPermissionMode = false;
-	} else {
+	} else if (DialogFocusItem) {
 		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}Exit`);
 		DialogFocusItem = null;
+		DialogFocusItemName = null;
+		DialogExtendedMessage = "";
+	} else {
+		CommonCallFunctionByName(`Inventory${DialogFocusItemName}Exit`);
+		DialogFocusItem = null;
+		DialogFocusItemName = null;
 		DialogExtendedMessage = "";
 	}
 }
@@ -533,7 +533,7 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 		let RequiredLevel = Option.SelfBondageLevel;
 		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel);
 		if (SkillGetLevelReal(Player, "SelfBondage") < RequiredLevel) {
-			return InterfaceTextGet("RequireSelfBondage" + RequiredLevel);
+			return InterfaceTextGet("RequireSelfBondage").replace("ReqLevel", RequiredLevel.toString());
 		}
 	} else {
 		let RequiredLevel = Option.BondageLevel || 0;
@@ -611,11 +611,11 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
  * extended item functions (e.g. if the currently focused it is the hemp rope arm restraint, this will return
  * "InventoryItemArmsHempRope", allowing functions like InventoryItemArmsHempRopeLoad to be called)
  * @param {Item} Item - The extended item in question; defaults to {@link DialogFocusItem}
- * @returns {string} The extended item function prefix for the currently focused item
+ * @returns {`Inventory${AssetGroupName}${string}`} The extended item function prefix for the currently focused item
  */
 function ExtendedItemFunctionPrefix(Item=DialogFocusItem) {
 	const Asset = Item.Asset;
-	return "Inventory" + Asset.Group.Name + Asset.Name;
+	return `Inventory${Asset.Group.Name}${Asset.Name}`;
 }
 
 /**
@@ -889,7 +889,7 @@ function ExtendedItemDrawHeader(X=1387, Y=55, Item=DialogFocusItem) {
  * @param {Asset} asset - The item whose data should be extracted
  * @param {Archetype} Archetype - The archetype corresponding to the lookup table
  * @param {string} Type - The item's type. Only relevant in the case of {@link VariableHeightData}
- * @returns {null | ExtendedDataLookupStruct[Archetype]} The item's data or `null` if the lookup failed
+ * @returns {null | AssetArchetypeGetData<Archetype>} The item's data or `null` if the lookup failed
  */
 function ExtendedItemGetData(asset, Archetype, Type=null) {
 	if (asset == null) {

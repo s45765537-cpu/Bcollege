@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.SetOption<ModularItemData, ModularItemOption>} */
@@ -13,13 +12,13 @@ function InventoryItemHandheldPlushiesSetOptionHook(
 	refresh,
 ) {
 	// Toggle the new option within the active module as per usual
-	originalFunction(C, item, newOption, previousOption, false, false);
+	originalFunction?.(C, item, newOption, previousOption, false, false);
 
 	// Set the options within all other modules to 0
 	const currentModuleName = newOption.ModuleName;
 	const currentOptionIndices = ModularItemParseCurrent(
 		data,
-		item.Property.TypeRecord,
+		item.Property?.TypeRecord ?? null,
 	);
 	for (const [
 		otherModuleIndex,
@@ -31,7 +30,7 @@ function InventoryItemHandheldPlushiesSetOptionHook(
 			const otherOldOption =
 				data.modules[otherModuleIndex].Options[otherOptionIndex];
 			const otherNewOption = data.modules[otherModuleIndex].Options[0];
-			originalFunction(C, item, otherNewOption, otherOldOption, false, false);
+			originalFunction?.(C, item, otherNewOption, otherOldOption, false, false);
 		}
 	}
 	CharacterRefresh(C, push, false);

@@ -1,8 +1,8 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<TypedItemData>} */
 function InventoryItemDevicesWoodenBoxLoadHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -14,6 +14,7 @@ function InventoryItemDevicesWoodenBoxLoadHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
 function InventoryItemDevicesWoodenBoxDrawHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -25,6 +26,7 @@ function InventoryItemDevicesWoodenBoxDrawHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<TypedItemData>} */
 function InventoryItemDevicesWoodenBoxExitHook(data, originalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -34,7 +36,7 @@ function InventoryItemDevicesWoodenBoxExitHook(data, originalFunction) {
 	PropertyOpacityExit(data, originalFunction, false);
 
 	// Apply extra opacity-specific effects
-	const Property = DialogFocusItem.Property;
+	const Property = DialogFocusItem.Property ??= {};
 	const Transparent = CommonIsNumeric(Property.Opacity) ? Property.Opacity < 0.15 : false;
 	if (Transparent) {
 		delete Property.Effect;
@@ -43,6 +45,7 @@ function InventoryItemDevicesWoodenBoxExitHook(data, originalFunction) {
 	}
 
 	const C = CharacterGetCurrent();
+	if (!C) return;
 	CharacterRefresh(C, true, false);
 	ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
 }
@@ -51,7 +54,7 @@ function InventoryItemDevicesWoodenBoxExitHook(data, originalFunction) {
 function InventoryItemDevicesWoodenBoxPublishActionHook(data, originalFunction, C, item, newOption, previousOption) {
 	switch (newOption.OptionType) {
 		case "TypedItemOption":
-			originalFunction(C, item, newOption, previousOption);
+			originalFunction?.(C, item, newOption, previousOption);
 			return;
 		case "TextItemOption": {
 			const textData = ExtendedItemGetData(item.Asset, ExtendedArchetype.TEXT);
@@ -79,9 +82,10 @@ function AssetsItemDevicesWoodenBoxAfterDrawHook(
 		const width = 310;
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const ctx = tmpCanvas.getContext("2d");
+		if (!ctx) return;
 
 		TextItem.Init(data, C, CA, false, false);
-		const text = CA.Property.Text;
+		const text = CA.Property?.Text ?? "";
 
 		let from;
 		let to;

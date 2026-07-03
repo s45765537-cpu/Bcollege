@@ -39,22 +39,6 @@ textarea {
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.NoSelect {
-	touch-action: manipulation;
-	/* iOS Safari */
-	-webkit-touch-callout: none;
-	/* Safari */
-	-webkit-user-select: none;
-	/* Konqueror HTML */
-	-khtml-user-select: none;
-	/* Old versions of Firefox */
-	-moz-user-select: none;
-	/* Internet Explorer/Edge */
-	-ms-user-select: none;
-	/* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-	user-select: none;
-}
-
 .custom-select {
 	/* Default background color */
 	--button-color: white;
@@ -144,27 +128,27 @@ input[type="search"]::-webkit-calendar-picker-indicator {
 	transform: rotate(90deg);
 }
 
-.range-input[data-thumb=lock]::-webkit-slider-thumb {
+.range-input[data-thumb="lock"]::-webkit-slider-thumb {
 	background-image: url("../Assets/Female3DCG/ItemMisc/Preview/MetalPadlock.png");
 	width: 0.5em;
 }
 
-.range-input[data-thumb=blindfold]::-webkit-slider-thumb {
+.range-input[data-thumb="blindfold"]::-webkit-slider-thumb {
 	background-image: url("../Assets/Female3DCG/ItemHead/Preview/StuddedBlindfold.png");
 }
 
-.range-input[data-thumb=lightbulb]::-webkit-slider-thumb {
+.range-input[data-thumb="lightbulb"]::-webkit-slider-thumb {
 	background-image: url("../Icons/Lightbulb.png");
 	width: 0.6em;
 }
 
-.range-input[data-thumb=player]::-webkit-slider-thumb {
+.range-input[data-thumb="player"]::-webkit-slider-thumb {
 	background-image: url("../Icons/Player.png");
 	width: 1.2em;
 	height: 1.2em;
 }
 
-.range-input[data-thumb=rope]::-webkit-slider-thumb {
+.range-input[data-thumb="rope"]::-webkit-slider-thumb {
 	background-image: url("../Icons/Rope.png");
 	width: 1.2em;
 	height: 1.2em;
@@ -205,27 +189,27 @@ input[type="search"]::-webkit-calendar-picker-indicator {
 	transform: rotate(90deg);
 }
 
-.range-input[data-thumb=lock]::-moz-range-thumb {
+.range-input[data-thumb="lock"]::-moz-range-thumb {
 	background-image: url("../Assets/Female3DCG/ItemMisc/Preview/MetalPadlock.png");
 	width: 0.5em;
 }
 
-.range-input[data-thumb=blindfold]::-moz-range-thumb {
+.range-input[data-thumb="blindfold"]::-moz-range-thumb {
 	background-image: url("../Assets/Female3DCG/ItemHead/Preview/StuddedBlindfold.png");
 }
 
-.range-input[data-thumb=lightbulb]::-moz-range-thumb {
+.range-input[data-thumb="lightbulb"]::-moz-range-thumb {
 	background-image: url("../Icons/Lightbulb.png");
 	width: 0.6em;
 }
 
-.range-input[data-thumb=player]::-moz-range-thumb {
+.range-input[data-thumb="player"]::-moz-range-thumb {
 	background-image: url("../Icons/Player.png");
 	width: 1.2em;
 	height: 1.2em;
 }
 
-.range-input[data-thumb=rope]::-moz-range-thumb {
+.range-input[data-thumb="rope"]::-moz-range-thumb {
 	background-image: url("../Icons/Rope.png");
 	width: 1.2em;
 	height: 1.2em;
@@ -286,19 +270,19 @@ input[type="search"]::-webkit-calendar-picker-indicator {
 }
 
 .checkbox-pair {
-  display: grid;
-  gap: var(--gap);
-  min-height: min(7vh, 3.5vw);
-  height: fit-content;
-  align-items: center;
+	display: grid;
+	gap: var(--gap);
+	min-height: min(7vh, 3.5vw);
+	height: fit-content;
+	align-items: center;
 }
 
 .checkbox-pair-vertical {
-  grid-template-rows: min-content auto;
+	grid-template-rows: min-content auto;
 }
 
 .checkbox-pair-horizontal {
-  grid-template-columns: min-content auto;
+	grid-template-columns: min-content auto;
 }
 
 /* Dropdown */
@@ -341,36 +325,6 @@ input[type="search"]::-webkit-calendar-picker-indicator {
 	padding-left: min(2vh, 1vw);
 }
 
-.truncated-text {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-}
-
-/* A scrollable container with a standardized-ish scrollbar layout */
-.scroll-box {
-	overflow: hidden auto;
-	scroll-padding: 3px;
-	scrollbar-gutter: stable;
-	scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-}
-
-@media (hover: hover) {
-	.scroll-box {
-		scrollbar-color: rgb(149, 149, 149, 0.9) rgb(0, 0, 0, 0.4);
-		transition: scrollbar-color 0.3s ease;
-	}
-
-	.scroll-box:hover {
-		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-	}
-}
-
-[hidden] {
-	display: none !important;
-}
-
 bc-tint-input {
 	--hue: 0;
 
@@ -384,9 +338,7 @@ bc-tint-input {
 	border-color: gray;
 	box-sizing: border-box;
 	background-blend-mode: multiply;
-	background:
-		linear-gradient(90deg, white, hsl(var(--hue), 100%, 50%)),
-		linear-gradient(white, black);
+	background: linear-gradient(90deg, white, hsl(var(--hue), 100%, 50%)), linear-gradient(white, black);
 }
 
 bc-tint-input:invalid {

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 const PreferenceSubscreenAudioIDs = {
@@ -6,32 +5,24 @@ const PreferenceSubscreenAudioIDs = {
 };
 
 function PreferenceSubscreenAudioLoad() {
-	const ranges = ["AudioVolume", "MusicVolume"];
-	const checkboxes = ["PlayItem", "PlayItemPlayerOnly", "Notifications"];
+	const ranges = /** @type {const} */ (["Volume", "MusicVolume"]);
+	const checkboxes = /** @type {const} */ (["PlayItem", "PlayItemPlayerOnly", "Notifications"]);
 
 	const rangeElements = ranges.map(setting => {
-		const settingName = setting === "AudioVolume" ? "Volume" : setting;
-		const settingValue = Player.AudioSettings[settingName];
+		const settingValue = Player.AudioSettings[setting];
 		const range = ElementCreateRangeInput(`preferences-${setting}`, settingValue * 100, 0, 100, 1);
 		const labelText = TextGet(setting);
 
 		range.addEventListener("input", (ev) => {
 			const value = parseInt(/** @type {HTMLInputElement} */ (ev.target).value);
-			Player.AudioSettings[settingName] = value / 100;
-			ElementWrap(`preferences-${setting}-value`).textContent = `${value}%`;
+			Player.AudioSettings[setting] = value / 100;
+			const e = ElementWrap(`preferences-${setting}-value`);
+			if (e) e.textContent = `${value}%`;
 		});
 
 		if (setting === "MusicVolume") {
 			range.addEventListener("input", () => {
-				if (!ChatAdminRoomCustomizationMusic?.src) return;
-
-				if (Player.AudioSettings.MusicVolume > -1)
-					ChatAdminRoomCustomizationMusic.volume = Math.min(Player.AudioSettings.MusicVolume, 0) * 0.25;
-
-				if (Player.AudioSettings.MusicVolume <= 0)
-					ChatAdminRoomCustomizationMusic.pause();
-				else if (Player.AudioSettings.MusicVolume > 0)
-					ChatAdminRoomCustomizationPlayMusic(ChatAdminRoomCustomizationMusic.src);
+				AudioBackgroundMusicSetVolume(Player.AudioSettings.MusicVolume);
 			});
 		}
 
@@ -82,7 +73,7 @@ function PreferenceSubscreenAudioLoad() {
 		]
 	});
 
-	ElementWrap(PreferenceIDs.subscreen).append(grid);
+	ElementWrap(PreferenceIDs.subscreen)?.append(grid);
 }
 
 /**
@@ -111,13 +102,14 @@ function PreferenceSubscreenAudioExit() {
 function PreferenceSubscreenAudioUnload() {
 	// If audio has been disabled for notifications, disable each individual notification audio setting
 	if (!Player.AudioSettings.Notifications) {
-		for (const setting in Player.NotificationSettings) {
+		for (const setting of CommonKeys(Player.NotificationSettings)) {
 			let audio = Player.NotificationSettings[setting]?.Audio;
 			if (typeof audio === 'number' && audio > 0) Player.NotificationSettings[setting].Audio = NotificationAudioType.NONE;
 		}
 	}
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenAudioResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenAudioIDs.grid, x, y);

@@ -1127,8 +1127,11 @@ function TranslationString(S, T) {
  */
 function TranslationDialogArray(C, T) {
 	for (let D = 0; D < C.Dialog.length; D++) {
-		C.Dialog[D].Option = TranslationString(C.Dialog[D].Option, T);
-		C.Dialog[D].Result = TranslationString(C.Dialog[D].Result, T);
+		const { Option, Result } = C.Dialog[D];
+		if (Option)
+			C.Dialog[D].Option = TranslationString(Option, T);
+		if (Result)
+			C.Dialog[D].Result = TranslationString(Result, T);
 	}
 }
 
@@ -1137,6 +1140,7 @@ function TranslationDialogArray(C, T) {
  * @param {readonly { Tag: string, Value: string }[]} S - Array of current tag-value pairs
  * @param {readonly string[]} T - The active translation dictionary
  * @returns {void} - Nothing
+ * @deprecated
  */
 function TranslationTextArray(S, T) {
 	for (let P = 0; P < S.length; P++)
@@ -1169,12 +1173,13 @@ function TranslationLoadDialog(C, cb) {
 
 	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
 	if (TranslationAvailable(FullPath)) {
-		CommonGet(FullPath, function() {
-			if (this.status == 200) {
-				TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+		CommonFetch(FullPath)
+			.then(async (response) => {
+				if (response.status !== 200) return;
+				const text = await response.text();
+				TranslationCache[FullPath] = TranslationParseTXT(text);
 				cb();
-			}
-		});
+			});
 	}
 }
 
@@ -1196,6 +1201,7 @@ function TranslationTranslateDialog(C) {
  * Translate an array of tags in the current selected language
  * @param {readonly {Tag: string, Value: string}[]} Text - Array of current tag-value pairs
  * @returns {void} - Nothing
+ * @deprecated
  */
 function TranslationText(Text) {
 	// If we play in a foreign language
@@ -1211,13 +1217,15 @@ function TranslationText(Text) {
 		}
 
 		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+		if (TranslationAvailable(FullPath)) {
+			CommonFetch(FullPath)
+				.then(async (response) => {
+					if (response.status !== 200) return;
+					const text = await response.text();
+					TranslationCache[FullPath] = TranslationParseTXT(text);
 					TranslationTextArray(Text, TranslationCache[FullPath]);
-				}
-			});
+				});
+		}
 
 	}
 
@@ -1258,14 +1266,15 @@ function TranslationAsset(Family) {
 		}
 
 		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
+		if (TranslationAvailable(FullPath)) {
+			CommonFetch(FullPath)
+				.then(async (response) => {
+					if (response.status !== 200) return;
+					const text = await response.text();
+					TranslationCache[FullPath] = TranslationParseTXT(text);
 					TranslationAssetProcess(TranslationCache[FullPath]);
-				}
-			});
-
+				});
+		}
 	}
 
 }

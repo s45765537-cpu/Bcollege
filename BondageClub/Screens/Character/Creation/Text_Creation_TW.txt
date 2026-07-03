@@ -31,6 +31,9 @@ Invalid server answer, it could be outdated.
 Your character name
 你的角色名
 
+Your character name is permanent and cannot be changed. You can set a nickname later.
+角色名稱是永久的，無法更改。之後你可以設定暱稱。
+
 ########################
 ### DEPRECATED LINES ###
 ########################

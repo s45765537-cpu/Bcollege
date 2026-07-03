@@ -19,6 +19,12 @@ let TempCanvas;
 let ColorCanvas;
 
 var BlindFlash = false;
+
+/**
+ * Whether a blindfold removal screen flash should _potentially_ be performed the next time the player character is refreshed.
+ * Generally assigned by {@link InventoryRemove}.
+ */
+var BlindFlashQueue = false;
 var DrawingBlindFlashTimer = 0;
 
 // A bank of all the chached images
@@ -1085,9 +1091,10 @@ function DrawText(Text, X, Y, Color, BackColor) {
  * @param {null | string} [Image] - URL of the image to draw inside the button, if applicable
  * @param {null | string} [HoveringText] - Text of the tooltip, if applicable
  * @param {boolean} [Disabled] - Disables the hovering options if set to true
+ * @param {null | Rect} [tooltipPosition] - The position of the tooltip
  * @returns {void} - Nothing
  */
-function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, HoveringText=null, Disabled=false) {
+function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, HoveringText=null, Disabled=false, tooltipPosition=null) {
 
 	ControllerAddActiveArea(Left, Top);
 
@@ -1108,7 +1115,10 @@ function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, Hovering
 
 	// Draw the hovering text
 	if ((HoveringText != null) && (MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !CommonIsMobile && !CommonPhotoMode) {
-		DrawHoverElements.push(() => DrawButtonHover(Left, Top, Width, Height, HoveringText));
+		DrawHoverElements.push(() => {
+			const rect = tooltipPosition ?? RectMakeRect(Left, Top, Width, Height);
+			DrawButtonHover(...RectGetFrame(rect), HoveringText);
+		});
 	}
 }
 
@@ -1142,9 +1152,10 @@ function DrawCheckbox(Left, Top, Width, Height, Text, IsChecked, Disabled = fals
  * @param {null | (() => string)} [NextText] - Text for the next button tooltip
  * @param {boolean} [Disabled] - Disables the hovering options if set to true
  * @param {null | number} [ArrowWidth] - How much of the button the previous/next sections cover. By default, half each.
+ * @param {null | Rect} [tooltipPosition] - The position of the tooltip
  * @returns {void} - Nothing
  */
-function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image=null, BackText=null, NextText=null, Disabled=false, ArrowWidth=null) {
+function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image=null, BackText=null, NextText=null, Disabled=false, ArrowWidth=null, tooltipPosition=null) {
 	// Set the widths of the previous/next sections to be colored cyan when hovering over them
 	// By default each covers half the width, together covering the whole button
 	if (ArrowWidth == null || ArrowWidth > Width / 2) ArrowWidth = Width / 2;
@@ -1217,7 +1228,8 @@ function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image=null, 
 	if ((MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !Disabled) {
 		DrawHoverElements.push(() => {
 			const tooltip = MouseX < LeftSplit ? BackText() : MouseX >= RightSplit ? NextText() : "";
-			DrawButtonHover(Left, Top, Width, Height, tooltip);
+			const rect = tooltipPosition ?? RectMakeRect(Left, Top, Width, Height);
+			DrawButtonHover(...RectGetFrame(rect), tooltip);
 		});
 	}
 }
@@ -1354,7 +1366,8 @@ function DrawLineCorner(x0, y0, x1, y1, x2, y2, lineWidth = 2, color = "black") 
  * Gets a character's custom background from the assets it wears
  *
  * @param {Character} C - The character to get the background for
- * @returns {string | undefined} - Path to the custom background, or undefined if none
+ * @returns {string | undefined} either `undefined` for no custom background, `""` for black, or
+ * the filename to a background in the Backgrounds directory
  */
 function DrawGetCustomBackground(C) {
 	return C?.CustomBackground;
@@ -1393,8 +1406,8 @@ function DrawRoomBackground(URL, bounds, opts) {
 
 		DrawImageZoomCanvas(URL, MainCanvas, ...sourceRect, ...destRect, inverted);
 
-		if (ChatRoomCustomized && (ChatRoomCustomFilter != null) && (ChatRoomCustomFilter != "")) {
-			DrawRect(...destRect, ChatRoomCustomFilter);
+		if (CurrentScreen === "ChatRoom" && ChatRoomIsCustomized() && ChatRoomData?.Custom?.ImageFilter) {
+			DrawRect(...destRect, ChatRoomData.Custom.ImageFilter);
 		}
 
 		// Resetting the filter is expensive, even if there's no change. Only change the filter if we need to.
@@ -1466,7 +1479,7 @@ function DrawGetDarkFactor() {
 	let darken = CharacterGetDarkFactor(Player);
 	if (darken == 1 && CurrentCharacter != null && !CommonPhotoMode) darken = 0.5;
 
-	const isItemBG = !!DrawGetCustomBackground(Player);
+	const isItemBG = DrawGetCustomBackground(Player) !== undefined;
 	if (isItemBG && (darken === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 		darken = CharacterGetDarkFactor(Player, true);
 	}
@@ -1495,7 +1508,7 @@ function DrawLoadingScreen(time) {
 }
 
 /**
- *
+ * Returns the background URL
  * @param {boolean} skipVFX
  * @returns {undefined | string}
  */
@@ -1503,10 +1516,12 @@ function DrawGetBackgroundURL(skipVFX) {
 	let bgName = window[`${CurrentScreen}Background`];
 
 	const itemBackground = DrawGetCustomBackground(Player);
-	if (!skipVFX && itemBackground) {
-		return `Backgrounds/${itemBackground}.jpg`;
+	if (!skipVFX && itemBackground !== undefined) {
+		return itemBackground !== "" ? `Backgrounds/${itemBackground}.jpg` : "";
 	} else if (bgName) {
 		return `Backgrounds/${bgName}.jpg`;
+	} else if (ChatRoomData) {
+		return ChatRoomGetBackgroundURL();
 	}
 	return undefined;
 }
@@ -1642,7 +1657,7 @@ function DrawProcess(time) {
 function DrawShowChatRoomCustomBackground() {
 	return CurrentModule === "Online"
 		&& CurrentScreen === "ChatRoom"
-		&& (!CurrentCharacter || (ChatRoomCustomBackground !== "" && !DrawGetCustomBackground(Player)));
+		&& (!CurrentCharacter || (!!ChatRoomData?.Custom?.ImageURL && DrawGetCustomBackground(Player) !== undefined));
 }
 
 /**
@@ -1657,7 +1672,7 @@ function DrawProcessScreenFlash() {
 		}
 	}
 
-	if ((Player.ImmersionSettings != null && Player.GraphicsSettings != null) && (Player.ImmersionSettings.StimulationEvents && Player.GraphicsSettings.StimulationFlash) && DrawScreenFlashTime > CommonTime()) {
+	if (Player.ImmersionSettings.StimulationEvents && Player.GraphicsSettings.StimulationFlash && DrawScreenFlashTime > CommonTime()) {
 		// DrawScreenFlashTime is the end of the flash. The flash is brighter based on the distance to the end.
 		let FlashTime = DrawScreenFlashTime - CommonTime();
 		let PinkFlashAlpha = DrawGetScreenFlashAlpha(FlashTime);
@@ -1806,11 +1821,14 @@ function DrawPreviewIcons(icons, X, Y) {
 		icons.forEach((icon, index) => {
 			const iconX = X + (iconSize + 5) * Math.floor(index / iconsPerCol);
 			const iconY = Y + (iconSize + 5) * (index % iconsPerCol);
-			let path = `Icons/Previews/${icon}.png`;
-			let text = InterfaceTextGet("PreviewIcon" + icon);
-			if (icon.endsWith("Padlock")) {
+			let path = "";
+			let text = "";
+			if (InventoryIconIsPadlock(icon)) {
 				path = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 				text = InterfaceTextGet("PreviewIconPadlock").replace("AssetName", AssetGet("Female3DCG", "ItemMisc", icon)?.Description ?? "AssetName");
+			} else {
+				path = `Icons/Previews/${icon}.png`;
+				text = InterfaceTextGet(`PreviewIcon${icon}`);
 			}
 			DrawImageResize(path, iconX, iconY, iconSize, iconSize);
 			if (MouseIn(iconX, iconY, iconSize * 0.9, iconSize * 0.9)) {

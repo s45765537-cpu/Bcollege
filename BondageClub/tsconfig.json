@@ -5,6 +5,8 @@
 		"lib": ["es2021", "dom", "DOM.Iterable"],
 		"checkJs": true,
 		"noEmit": true,
+		"incremental": true,
+		"tsBuildInfoFile": ".cache/tsc-main.tsbuildinfo",
 		"types": [],
 		"strict": false,
 		"skipLibCheck": true,
@@ -15,5 +17,11 @@
 		],
 	},
 	"include": ["Scripts/**/*", "Screens/**/*", "Assets/**/*", "Backgrounds/**/*.js"],
-	"exclude": ["Scripts/lib/**/*.js", "Scripts/MessagesPatch.d.ts", "node_modules/**/*"],
+	"exclude": [
+		"Scripts/lib/**/*.js",
+		"Scripts/MessagesPatch.d.ts",
+		"Scripts/DeclarationsExpensive.d.ts",
+		"node_modules/**/*",
+		"Tools/Node/csvtypescript_tmp_output"
+	],
 }

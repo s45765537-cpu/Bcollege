@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 'use strict';
 
 /**
- * @typedef {{ State?: number, StateGears?: number, Modifier?: number, ModifierGears?: number, ChangeTime?: number, FrameTime?: number, DrawRequested?: boolean }} SteampunkWingsPersistentData
+ * @typedef {{ State?: number, StateGears?: number, Modifier?: number, ModifierGears?: number, ChangeTime?: number, FrameTime?: number, DrawRequested?: boolean } & AnimationPersistentData} SteampunkWingsPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<SteampunkWingsPersistentData>} */
@@ -26,7 +25,7 @@ function AssetsWingsSteampunkWingsBeforeDraw({ PersistentData, L, LayerType: lt 
 	// Wings
 
 	if (Data.DrawRequested) {
-		if (Data.FrameTime > 250) {
+		if ((Data.FrameTime ?? 0) > 250) {
 			Data.State = Math.floor(Math.random() * MaxFrame);
 			Data.StateGears = Math.floor(Math.random() * MaxFrameGears);
 		} else {

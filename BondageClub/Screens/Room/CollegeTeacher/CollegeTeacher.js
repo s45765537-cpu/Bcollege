@@ -14,10 +14,10 @@ function CollegeTeacherCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); 
 
 /**
  * Checks, if Mildred's love level is higher than a given value
- * @param {string} LoveLevel - The level of love to check against
+ * @param {number} LoveLevel - The level of love to check against
  * @returns {boolean} - Returns true, if Mildred's love is equal or higher than the given level, false otherwise
  */
-function CollegeTeacherMildredLoveIs(LoveLevel) { return (CollegeTeacherMildredLove >= parseInt(LoveLevel)); }
+function CollegeTeacherMildredLoveIs(LoveLevel) { return CollegeTeacherMildredLove >= LoveLevel; }
 
 /**
  * Checks, if Mildred won the Literature Class quiz and player is not owned
@@ -103,12 +103,12 @@ function CollegeTeacherClick() {
 /**
  * When Mildred love towards the player changes, it can also trigger an event.
  * When a good or bad move is done, her expression will change quickly.
- * @param {string} LoveChange - The amount, the teacher's love changes
- * @param {string} Event - The event to trigger
+ * @param {number} LoveChange - The amount, the teacher's love changes
+ * @param {"Pillory" | "Lock" | "Crop" | "Hit" | "Gag"} [Event] - The event to trigger
  * @returns {void} - Nothing
  */
 function CollegeTeacherMildredLoveChange(LoveChange, Event) {
-	if (LoveChange != null) CollegeTeacherMildredLove = CollegeTeacherMildredLove + parseInt(LoveChange);
+	if (LoveChange != null) CollegeTeacherMildredLove += LoveChange;
 	if ((LoveChange != null) && (parseInt(LoveChange) < 0)) CharacterSetFacialExpression(CollegeTeacherMildred, "Eyes", "Dazed", 2);
 	if ((LoveChange != null) && (parseInt(LoveChange) > 0)) CharacterSetFacialExpression(CollegeTeacherMildred, "Blush", "Low", 2);
 	if (Event == "Pillory") InventoryWear(Player, "Pillory", "ItemArms");

@@ -23,12 +23,23 @@ var DailyJobDojoTeacher = null;
 function DailyJobPlayerFullRestrain() { CharacterFullRandomRestrain(Player, "ALL"); }
 
 /**
+ * @typedef {{
+ *  "0": PlayerCharacter;
+ *  "1": NPCCharacter;
+ *  "2": NPCCharacter;
+ *  "3": NPCCharacter;
+ *  "4": NPCCharacter;
+ * }} DailyJobPuppyNums
+ */
+
+/**
  * Loads a puppy girl and fully restrain her
- * @param {"0"|"1"|"2"|"3"|"4"} GirlNum - Number of the puppy to load
- * @returns {Character} - The generated puppy girl
+ * @template {keyof DailyJobPuppyNums} Num
+ * @param {Num} GirlNum - Number of the puppy to load
+ * @returns {DailyJobPuppyNums[Num]} - The generated puppy girl
  */
 function DailyJobPuppyLoad(GirlNum) {
-	var C = (GirlNum == "0") ? Player : CharacterLoadNPC("NPC_DailyJob_PuppyGirl" + GirlNum);
+	const C = (GirlNum == "0") ? Player : CharacterLoadNPC("NPC_DailyJob_PuppyGirl" + GirlNum);
 	CharacterNaked(C);
 	InventoryWearRandom(C, "ItemArms", 8, null, false, true, ["BitchSuit", "HempRope", "Chains", "ArmbinderJacket", "StraitLeotard", "LeatherStraitJacket", "BoxTieArmbinder", "Bolero", "PantyhoseBodyOpen", "SeamlessStraitDress", "SeamlessStraitDressOpen"], true);
 	InventoryWearRandom(C, "HairAccessory1", 8, null, false, true, ["Ears1", "Ears2", "PonyEars1", "BunnyEars1", "BunnyEars2", "PuppyEars1", "FoxEars1", "WolfEars1", "WolfEars2", "FoxEars2", "FoxEars3", "PuppyEars2"], true);
@@ -37,7 +48,7 @@ function DailyJobPuppyLoad(GirlNum) {
 	if (InventoryGet(C, "ItemNeck") == null) InventoryWearRandom(C, "ItemNeck", 8);
 	if (InventoryGet(C, "ItemNeckRestraints") == null) InventoryWear(C, "ChainLeash", "ItemNeckRestraints", null, 8);
 	if (GirlNum != "0") PoseSetActive(C, "Kneel", true);
-	return C;
+	return /** @type {PlayerCharacter} */(C);
 }
 
 /**
@@ -165,15 +176,14 @@ function DailyJobKidnapFail() {
  * @returns {void} - Nothing
  */
 function DailyJobPuppyGameStart() {
-	MiniGameStart("PuppyWalker", 0, "DailyJobPuppyGameEnd");
+	MiniGameStart("PuppyWalker", 0, () => DailyJobPuppyGameEnd());
 }
 
 /**
  * Triggered at the end of the puppy walker job fight mini-game
- * @returns {void} - Nothing
  */
-function DailyJobPuppyGameEnd() {
-	CommonSetScreen("Room", "DailyJob");
+async function DailyJobPuppyGameEnd() {
+	await CommonSetScreen("Room", "DailyJob");
 	DailyJobPuppyMistress.Stage = (MiniGameVictory) ? "100" : "200";
 	CharacterSetCurrent(DailyJobPuppyMistress);
 	if (MiniGameVictory) IntroductionJobDone();
@@ -216,15 +226,14 @@ function DailyJobDojoRestrainPlayer() {
  * @returns {void} - Nothing
  */
 function DailyJobDojoGameStart() {
-	MiniGameStart("DojoStruggle", 0, "DailyJobDojoGameEnd");
+	MiniGameStart("DojoStruggle", 0, () => DailyJobDojoGameEnd());
 }
 
 /**
  * Triggered at the end of the dojo struggle job minigame
- * @returns {void} - Nothing
  */
-function DailyJobDojoGameEnd() {
-	CommonSetScreen("Room", "DailyJob");
+async function DailyJobDojoGameEnd() {
+	await CommonSetScreen("Room", "DailyJob");
 
 	DailyJobDojoTeacher.Stage = (MiniGameVictory) ? "100" : "200";
 	CharacterSetCurrent(DailyJobDojoTeacher);

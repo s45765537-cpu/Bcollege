@@ -349,6 +349,7 @@ function SpeechIndexInOocRange(index, oocRanges)
  * Check if the gag garbling speech transform should apply
  * @param {Character} C
  * @returns {boolean}
+ * @deprecated
  */
 function SpeechTransformShouldGagGarble(C) {
 	return SpeechTransformGagGarbleIntensity(C) > 0;
@@ -615,6 +616,7 @@ function SpeechTransformGagGarble(text, intensity, ignoreOOC = false) {
  * Check if the stutter talk speech transform should apply
  * @param {Character} C
  * @returns {boolean}
+ * @deprecated
  */
 function SpeechTransformShouldStutter(C) {
 	return SpeechTransformStutterIntensity(C) > 0;

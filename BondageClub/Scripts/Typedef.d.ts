@@ -118,7 +118,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	 */
 	dataAttributes?: Partial<Record<string, number | string | boolean>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
-	style?: Record<string, string>;
+	style?: Record<string, string | undefined>;
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
 	eventListeners?: { [k in keyof HTMLElementEventMap]?: (this: HTMLElementTagNameMap[T], event: HTMLElementEventMap[k]) => any };
 	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
@@ -192,7 +192,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton" | "menuitem" | "switch";
+		role?: "radio" | "combobox" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton" | "menuitem" | "switch" | "none";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */
@@ -350,8 +350,8 @@ type DialogMenuMode = (
 	| "tighten"
 );
 
-type DialogMenuButton = "Activity" |
-	"ColorCancel" | "ColorChange" | "ColorChangeMulti" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
+type DialogMenuButtonType = "Activity" |
+	"ColorCancel" | "ColorChange" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
 	"Crafting" |
 	"NormalMode" | "PermissionMode" |
 	"Dismount" | "Escape" | "Remove" |
@@ -360,12 +360,17 @@ type DialogMenuButton = "Activity" |
 	"InspectLock" | "InspectLockDisabled" |
 	"Layering" |
 	"Lock" | "LockDisabled" | "LockMenu" |
-	"Swap" | "Next" | "Prev" | `PickLock${PickLockAvailability}` |
-	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
-	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen" |
-	// Wardrobe buttons
-	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy" | "Paste" | "Naked" | "Accept" | "Cancel" | "Character"
+	`PickLock${PickLockAvailability}` |
+	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${Exclude<VibratorRemoteAvailability, "Available" | "InvalidItem">}` |
+	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen"
 	;
+
+type AppearanceMenuButtonType = (
+	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy"
+	| "Paste" | "Naked" | "Accept" | "Cancel" | "Character" | "Next" | "Prev" | "Swap"
+	| "Use" | "UseDisabled" | "PermissionMode" | "ColorChange" | "ColorChangeDisabled"
+	| "ColorChangeMulti" | "ColorChangeMultiDisabled"
+);
 
 declare namespace ElementDOMScreen {
 	/** Options for customizing the {@link ElementDOMScreen.GetTemplate} output */
@@ -381,7 +386,7 @@ declare namespace ElementDOMScreen {
 		/** Whether an extra `aside.screen-aside-r` section should be added to the right of `.screen-main` */
 		rightContent?: readonly (Node | string | HTMLOptionsUnion)[];
 		/** Text content for within the heading (see `.screen-hgroup h1`) */
-		header?: string;
+		header?: string | Node | readonly (Node | string)[];
 		/**
 		 * Which section should be marked as `<main>` (if any).
 		 * Defaults to `center` if unspecified.
@@ -405,7 +410,7 @@ declare namespace DialogMenu {
 		/** Whether to hard reset and reconstruct the button grid, rather than just re-evaluating the existing button's states via a soft reset. */
 		reset?: boolean;
 		/** The to-be assigned custom status message */
-		status?: string;
+		status?: string | null;
 		/** Display the {@link ReloadOptions.status} message on a timer; units are in ms */
 		statusTimer?: number;
 		/**
@@ -488,6 +493,7 @@ type DialogStruggleActionType = "ActionUse" | "ActionSwap" | "ActionRemove" | "A
 type CharacterType = "player" | "online" | "npc" | "simple";
 
 type CharacterPronouns = "SheHer" | "HeHim" | "TheyThem" | "ItIt";
+type CharacterPronounType = "Possessive" | "Self" | "Subject" | "Object";
 
 type VibratorIntensity = -1 | 0 | 1 | 2 | 3;
 
@@ -621,6 +627,7 @@ interface AssetPoseMap {
 
 type AssetPoseCategory = keyof AssetPoseMap;
 type AssetPoseName = AssetPoseMap[keyof AssetPoseMap];
+type NullPoseType = null | ""; // XXX: we're not always consistent there
 
 /**
  * A record mapping pose names to the actually to-be drawn poses.
@@ -648,15 +655,18 @@ type CraftingPropertyType =
 	"Flexible" | "Nimble" | "Arousing" | "Dull" | "Edging" | "Heavy" | "Light"
 	;
 
+type AssetGenericSize = "Small" | "Medium" | "Large";
 type AssetAttribute =
-	"Skirt" | "SuitLower" | "UpperLarge" | "Diaper" |
-	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
-	"CanAttachMittens" |
-	"IsChestHarness" | "IsHipHarness" |
-	"PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3" |
-	"CagePlastic2" | "CageTechno" | "CageFlat" |
-	"FuturisticRecolor" | "FuturisticRecolorDisplay" |
-	"PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
+	| "Skirt" | "SuitLower" | "UpperLarge"
+	| "ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix"
+	| "CanAttachMittens"
+	| "IsChestHarness" | "IsHipHarness"
+	| "PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3"
+	| "CagePlastic2" | "CageTechno" | "CageFlat"
+	| "FuturisticRecolor" | "FuturisticRecolorDisplay" | "FuturisticLock"
+	| "PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
+	| "Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
+	| "PetSuit"
 	;
 
 type PosePrerequisite = `Can${AssetPoseName}`;
@@ -680,25 +690,6 @@ type ItemColorMode = "Default" | "ColorPicker";
 
 type CharacterHook = "BeforeSortLayers" | "AfterLoadCanvas";
 
-type ChatColorThemeType = "Light" | "Dark" | "Light2" | "Dark2";
-type ChatEnterLeaveType = "Normal" | "Smaller" | "Hidden";
-type ChatMemberNumbersType = "Always" | "Never" | "OnMouseover";
-type ChatFontSizeType = "Small" | "Medium" | "Large";
-
-type ArousalActiveName = "Inactive" | "NoMeter" | "Manual" | "Hybrid" | "Automatic";
-type ArousalVisibleName = "All" | "Access" | "Self";
-type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
-
-type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
-type SettingsVFXName = "VFXInactive" | "VFXSolid" | "VFXAnimatedTemp" | "VFXAnimated";
-type SettingsVFXVibratorName = "VFXVibratorInactive" | "VFXVibratorSolid" | "VFXVibratorAnimated";
-type SettingsVFXFilterName = "VFXFilterLight" | "VFXFilterMedium" | "VFXFilterHeavy" | "VFXFilterNone";
-
-type GraphicsFontName =
-	"Arial" | "TimesNewRoman" | "Papyrus" | "ComicSans" | "Impact" | "HelveticaNeue" | "Verdana" |
-	"CenturyGothic" | "Georgia" | "CourierNew" | "Copperplate"
-	;
-
 type AnimationDataKey = string;
 type AnimationPersistentData = {
 	[key in `GroupData${string}` | "Group"]?: { Subscriptions: AnimationDataKey[] };
@@ -715,33 +706,6 @@ interface AnimationPersistentStorage extends Record<string, Record<string, any>>
 	readonly RefreshRate: Record<AnimationDataKey, number>,
 }
 type AnimationDataTypes = keyof AnimationPersistentStorage;
-
-type PreferenceSubscreenName =
-	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
-	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
-	"Gender" | "Scripts" | "Extensions" | "Main" | "Keybindings"
-	;
-
-interface PreferenceSubscreen {
-	name: PreferenceSubscreenName;
-	description?: string;
-	icon?: string;
-	hidden?: boolean;
-	load?: () => void | Promise<void>;
-	run: () => void;
-	click: () => void;
-	exit?: () => boolean | Promise<boolean>;
-	unload?: () => void;
-	resize?: (onLoad: boolean) => void;
-	keyUp?: (event: KeyboardEvent) => void;
-}
-
-interface PreferenceGenderSetting {
-	/** Whether the setting is active for female cases */
-	Female: boolean;
-	/** Whether the setting is active for male cases */
-	Male: boolean;
-}
 
 type FetishName =
 	"Bondage" | "Gagged" | "Blindness" | "Deafness" | "Chastity" | "Exhibitionist" | "Masochism" |
@@ -881,7 +845,7 @@ type ChatRoomOwnershipEvent =
 	| "CanOfferEndTrial"
 	| "CanEndTrial";
 
-type ChatRoom = ServerChatRoomData;
+type ChatRoomData = ServerChatRoomData;
 // TODO: Review the partial nature of the `Custom` and `Space` fields
 type ChatRoomSettings = Prettify<
 	Omit<ServerChatRoomData, "Character" | "Custom" | "Space">
@@ -1100,7 +1064,10 @@ type Prettify<T> = {
 /**
  * A type that can be a value or a function returning that value.
  */
-type Thunk<T> = T | (() => T);
+type Thunk<T, A extends readonly unknown[] = []> = T | ((...args: A) => T);
+
+declare function CommonUnwrapThunk<T>(thunk: Thunk<T>): T;
+declare function CommonUnwrapThunk<T, A extends readonly unknown[]>(thunk: Thunk<T, A>, ...args: A): T;
 
 //#region Assets
 
@@ -1113,8 +1080,6 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	/** An object mapping pose names to group names from which to inherit body sizes. */
-	readonly ParentGroup: ParentGroup.Data;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
 	readonly IsDefault: boolean;
 	readonly IsRestraint: boolean;
@@ -1142,18 +1107,11 @@ interface AssetGroup {
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
 	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
-	readonly EditOpacity: boolean;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly DrawingPriority: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
-	readonly StyleOverride?: string [];
-	readonly CreateLayerTypesOverride?: number [];
 	readonly Reposition?: {
 				Group?: string;
 				ShiftX?: number;
@@ -1164,9 +1122,6 @@ interface AssetGroup {
 	readonly ArousalZone?: AssetGroupItemName;
 	readonly ArousalZoneID?: number;
 
-	/** A dict mapping colors to custom filename suffices.
-	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
-	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>>;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly HasPreviewImages: boolean;
 	/** Return whether this group belongs to the `Appearance` {@link AssetGroup.Category} */
@@ -1175,6 +1130,7 @@ interface AssetGroup {
 	IsItem(): this is AssetItemGroup;
 	/** Return whether this group belongs to the `Script` {@link AssetGroup.Category} */
 	IsScript(): this is AssetScriptGroup;
+	HasExpression(): this is AssetExpressionGroup;
 }
 
 /** An AssetGroup subtype for the `Appearance` {@link AssetGroup.Category} */
@@ -1204,6 +1160,13 @@ interface AssetScriptGroup extends AssetGroup {
 	readonly Underwear: false;
 	readonly Clothing: false;
 	readonly IsDefault: false;
+}
+
+
+/** An AssetGroup subtype for groups that allows expressions */
+interface AssetExpressionGroup extends AssetAppearanceGroup {
+	readonly Name: ExpressionGroupName;
+	readonly AllowExpression: readonly ExpressionName[];
 }
 
 /** A type mapping all asset group names to their respective, {@link AssetGroup.Category}-specific group type */
@@ -1239,6 +1202,7 @@ interface AssetLayer {
 	readonly Priority: number;
 	readonly InheritColor: AssetGroupName | null;
 	readonly Alpha: readonly Alpha.Data[];
+	readonly FullAlpha: boolean;
 	/** The asset that this layer belongs to */
 	readonly Asset: Asset;
 	readonly DrawingLeft: TopLeft.Data;
@@ -1271,6 +1235,10 @@ interface AssetLayer {
 	readonly ShowForAttribute: readonly AssetAttribute[] | null;
 	/** Used along with a hook to make layers of an asset disappear in some cases. */
 	readonly Visibility: "Player" | "AllExceptPlayerDialog" | "Others" | "OthersExceptDialog" | "Owner" | "Lovers" | "Mistresses" | null;
+	/**
+	 * A dict mapping colors to custom filename suffices.
+	 * The "HEX_COLOR" key is special-cased to apply to all color hex codes.
+	 */
 	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>> | null;
 }
 
@@ -1314,8 +1282,6 @@ interface Asset {
 	readonly Description: string;
 	readonly Group: AssetGroup;
 	readonly ParentItem?: string;
-	/** An object mapping pose names to group names from which to inherit body sizes. */
-	readonly ParentGroup: ParentGroup.Data;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
 	readonly NotVisibleOnScreen?: readonly string[];
@@ -1337,9 +1303,7 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
-	readonly StyleOverride?: BodyStyle[];
-	readonly SupportedStyles?: BodyStyle[];
-	readonly CreateLayerTypesOverride?: number[];
+	// Only on BodyStyle
 	readonly DrawOffset?: {
 				Group?: AssetGroupName;
 				Asset?: string;
@@ -1347,7 +1311,6 @@ interface Asset {
 				X?: number;
 				Y?: number;
 		}[];
-	readonly PoseMapping: Readonly<AssetPoseMapping>;
 	readonly AllowActivePose?: readonly AssetPoseName[];
 	readonly Value: number;
 	readonly NeverSell: boolean;
@@ -1361,9 +1324,6 @@ interface Asset {
 	readonly RemoveTime: number;
 	readonly RemoveTimer: number;
 	readonly MaxTimer: number;
-	readonly DrawingPriority?: number;
-	readonly DrawingLeft: TopLeft.Data;
-	readonly DrawingTop: TopLeft.Data;
 	readonly HeightModifier: number;
 	/**
 	 * The height of the character as set in the special `Height` appearance group.
@@ -1371,7 +1331,6 @@ interface Asset {
 	 * Is represented by a number in the `[0.9, 1.0]` interval.
 	 */
 	readonly ZoomModifier: number;
-	readonly Alpha: null | readonly Alpha.Data[];
 	readonly Prerequisite: readonly AssetPrerequisite[];
 	readonly Extended: boolean;
 	readonly AlwaysExtend: boolean;
@@ -1394,9 +1353,6 @@ interface Asset {
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
 	 */
 	readonly DefaultColor: readonly BCColor[];
-	readonly Opacity: number;
-	readonly MinOpacity: number;
-	readonly MaxOpacity: number;
 	readonly EditOpacity: boolean;
 	readonly Audio?: string;
 	readonly Category?: readonly AssetCategory[];
@@ -1442,8 +1398,6 @@ interface Asset {
 	readonly DefaultTint?: BCColor;
 	readonly Gender?: AssetGender;
 	readonly CraftGroup: string;
-	readonly ColorSuffix: Readonly<Partial<Record<"HEX_COLOR" | BCColor, BCColor>>>;
-	readonly FullAlpha: boolean;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];
 	readonly AllowColorize: boolean;
 }
@@ -1606,6 +1560,10 @@ interface InventoryItem extends InventoryBundle {
 	Asset: Asset;
 }
 
+declare namespace InventoryPrerequisiteConflicts {
+	type ErrMessage = "" | "CannotBeUsedOverGag" | "MustBeUsedOverGag";
+}
+
 type SkillType = "Bondage" | "SelfBondage" | "LockPicking" | "Evasion" | "Willpower" | "Infiltration" | "Dressage";
 
 interface Skill {
@@ -1743,29 +1701,6 @@ interface ScreenFunctions {
 	Exit?: ScreenExitHandler;
 }
 
-// Explicitly insert all backgrounds & screen functions into the window namespace such that they can
-// easily be looked up with the likes of `window[`${CurrentScreen}Background`]`.
-// Note that most of them can still be undefined
-/** See {@link CommonTestSatisfies} */
-type ScreenFunctionsSymbols = Prettify<(
-	{ [key in `${RoomName}Background`]?: string }
-	& { [key in `${RoomName}Run`]: ScreenRunHandler }
-	& { [key in `${RoomName}MouseDown`]?: MouseEventListener }
-	& { [key in `${RoomName}MouseUp`]?: MouseEventListener }
-	& { [key in `${RoomName}MouseMove`]?: MouseEventListener }
-	& { [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }
-	& { [key in `${RoomName}Click`]: MouseEventListener }
-	& { [key in `${RoomName}Load`]?: ScreenLoadHandler }
-	& { [key in `${RoomName}Unload`]?: ScreenUnloadHandler }
-	& { [key in `${RoomName}Draw`]?: ScreenDrawHandler }
-	& { [key in `${RoomName}Resize`]?: ScreenResizeHandler }
-	& { [key in `${RoomName}KeyDown`]?: KeyboardEventListener }
-	& { [key in `${RoomName}KeyUp`]?: KeyboardEventListener }
-	& { [key in `${RoomName}Paste`]?: ClipboardEventListener }
-	& { [key in `${RoomName}Exit`]?: ScreenExitHandler }
-)>;
-interface Window extends ScreenFunctionsSymbols {}
-
 //#region Characters
 
 /** The different types of (mutually exclusive) permissions an item or item option can have */
@@ -1795,13 +1730,13 @@ type ScriptPermissions = Record<ScriptPermissionProperty, ScriptPermission>;
 
 interface DialogLine {
 	Stage: string;
-	NextStage: string;
-	Option: string;
-	Result: string;
-	Function: string;
-	Prerequisite: string;
-	Group: string;
-	Trait: string;
+	NextStage: string | null;
+	Option: string | null;
+	Result: string | null;
+	Function: string | null;
+	Prerequisite: string | null;
+	Group: string | null;
+	Trait: string | null;
 }
 
 interface DialogInfo<T extends ModuleType> {
@@ -1835,6 +1770,36 @@ interface PrivateCharacterData {
 	FromPandora?: boolean;
 }
 
+type PrivateActivityType =
+	| "Kiss"
+	| "FrenchKiss"
+	| "Caress"
+	| "Rub"
+	| `Masturbate${"Hand" | "Tongue" | "Player" | "Self"}`
+	| "Underwear"
+	| "Naked"
+	| "Bed"
+	| `Egg${"Insert" | "SpeedUp" | "SpeedDown"}`
+	| `Lover${"Lock" | "Unlock"}`
+	| `${"Lock" | "Unlock"}Belt`
+	| "Skip1" | "Skip2"
+	;
+
+type PrivatePunishmentType =
+	| "Cage"
+	| "Bound"
+	| "BoundPet"
+	| "ChastityBra"
+	| "ChastityBelt"
+	| "ForceNaked"
+	| `Confiscate${"Key" | "Crop" | "Whip"}`
+	| "SleepCage"
+	| "LockOut"
+	| "Cell"
+	| "OwnerLocks"
+	| "Asylum"
+	| ""
+;
 interface Character {
 	/**
 	 * The character's cache slot ID in the Character array
@@ -2075,8 +2040,8 @@ interface Character {
 	CanPickLocks: () => boolean;
 	IsEdged: () => boolean;
 	IsPlayer: () => this is PlayerCharacter;
-	get X(): number | null;
-	get Y(): number | null;
+	get X(): number;
+	get Y(): number;
 	set X(X: number);
 	set Y(Y: number);
 	get Position(): ChatRoomMapPos | null;
@@ -2114,19 +2079,19 @@ interface Character {
 	/**
 	 * Check if the player is ghosting the given target character (or member number)
 	 */
-	HasOnGhostlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	HasOnGhostlist: (this: PlayerCharacter, target: Character | number) => boolean;
 	/**
 	 * Check if the player is blacklisting the given target character (or member number)
 	 */
-	HasOnBlacklist: (target?: Character | number) => boolean;
+	HasOnBlacklist: (target: Character | number) => boolean;
 	/**
 	 * Check if the player is whitelisting the given target character (or member number)
 	 */
-	HasOnWhitelist: (target?: Character | number) => boolean;
+	HasOnWhitelist: (target: Character | number) => boolean;
 	/**
 	 * Check if the player is friend with the given target character (or member number)
 	 */
-	HasOnFriendlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	HasOnFriendlist: (this: PlayerCharacter, target: Character | number) => boolean;
 	/**
 	 * Check if this character is ghosted by the player
 	 */
@@ -2169,7 +2134,7 @@ interface Character {
 	MapData?: ChatRoomMapData;
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
-	Cage?: boolean;
+	Cage?: true;
 	Difficulty?: { Level: number }; // technically never as it is Online-only
 	ArousalZoom?: boolean;
 	FixedImage?: string;
@@ -2180,7 +2145,7 @@ interface Character {
 	LastMapData?: ChatRoomMapData;
 	/**
 	 * The custom background to use for the current room
-	 * Only valid on {@link Player}
+	 * Only valid on {@link Player}, see {@link DrawGetCustomBackground}
 	 */
 	CustomBackground?: string;
 }
@@ -2210,6 +2175,8 @@ interface CharacterOnlineSharedSettings {
 	ScriptPermissions: ScriptPermissions;
 	WheelFortune: string;
 }
+
+type NicknameStatus = "NicknameTooLong" | "NicknameTooShort" | "NicknameInvalidChars" | "NicknameLocked";
 
 type NPCArchetype =
 	/* Pandora NPCs */
@@ -2268,9 +2235,14 @@ interface Character {
 	PrivateBedAppearance?: string;
 }
 
+type PrivatePunishment = (
+	"Cage" | "Bound" | "BoundPet" | "ChastityBra" | "ForceNaked" | "ConfiscateKey" | "ConfiscateCrop" | "ConfiscateWhip"
+	| "SleepCage" | "LockOut" | "Cell" | "OwnerLocks" | "Asylum" | "ChastityBelt"
+);
+
 interface KidnapCard {
 	Move: number;
-	Value?: number;
+	Value: number;
 }
 
 /** Kidnap minigame */
@@ -2278,8 +2250,10 @@ interface Character {
 	KidnapWillpower?: number;
 	KidnapMaxWillpower?: number;
 	KidnapCard?: KidnapCard[];
-	KidnapStat?: [number, number, number, number];
+	KidnapStat?: [Strength: number, Charisma: number, Initiative: number, number];
 }
+
+type KidnapModeType = "Intro" | "SelectItem" | "SelectMove" | "ShowMove" | "UpperHand" | "SuddenDeath" | "End";
 
 type PandoraPrisonActivity = "Beat" | "Water" | "Transfer" | "Quickie" | "Strip" | "Chastity" | "Tickle" | "ChangeBondage";
 
@@ -2386,7 +2360,7 @@ interface PlayerCharacter extends Character {
 	GhostList: number[];
 	Wardrobe: (ItemBundle[] | null)[];
 	WardrobeCharacterNames: string[];
-	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
+	SavedExpressions: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	SavedColors: HSVColor[];
 	FriendList: number[];
 	FriendNames: Map<number, string>;
@@ -2509,7 +2483,7 @@ interface ChatSettingsType {
 }
 
 interface GameplaySettingsType {
-	SensDepChatLog: SettingsSensDepName;
+	SensDepChatLog: ImmersionSensDepName;
 	BlindDisableExamine: boolean;
 	DisableAutoRemoveLogin: boolean;
 	ImmersionLockSetting: boolean;
@@ -2543,6 +2517,8 @@ interface VisualSettingsType {
 	PrivateRoomBackground?: string;
 }
 
+type ChatRoomCustomizationType = 0 | 1 | 2 | 3;
+
 /**
  * The player's online settings.
  * @see {@link Player.OnlineSettings}
@@ -2550,21 +2526,27 @@ interface VisualSettingsType {
 interface PlayerOnlineSettings {
 	AutoBanBlackList: boolean;
 	AutoBanGhostList: boolean;
+	/**
+	 * When true, respond to `/mods remote` hidden queries with your Mod SDK list and a declined reply otherwise
+	 * @default true
+	 */
+	RespondRemoteModListQueries: boolean;
 	DisableAnimations: boolean;
 	SearchFriendsFirst: boolean;
 	SendStatus: boolean;
 	ShowStatus: boolean;
 	EnableAfkTimer: boolean;
-	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
+	ShowRoomCustomization: ChatRoomCustomizationType;
 	FriendListAutoRefresh: boolean;
 	DefaultChatRoomBackground: string;
-	/**
-	 * @deprecated
-	 */
-	SearchShowsFullRooms: never;
 }
 
 /** Pandora Player extension */
+type InfiltrationPerks = (
+	"Strength" | "Charisma" | "Agility" | "Resilience" | "Endurance" | "Investigation" | "Bribery" | "Negotiation"
+	| "Recruiter" | "Forgery" | "Recovery" | "Cartographer" | "Lockpicker" | "Detector"
+);
+
 interface PlayerCharacter {
 	Infiltration?: InfiltrationType;
 }
@@ -2577,7 +2559,7 @@ interface InfiltrationType {
 		Difficulty: number;
 		FightDone?: boolean;
 	}
-	Perks?: string;
+	Perks?: "" | `${number}`;
 }
 
 /** Kinky Dungeon Player extension */
@@ -2871,7 +2853,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A non-empty message string if the item failed validation, or an empty string otherwise
 	 */
 	type Validate<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string>;
 	/**
 	 * Callback for extended item `PublishAction` functions.
@@ -2882,7 +2864,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param previousOption The previously selected extended item option
 	 */
 	type PublishAction<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType]>;
 	/**
 	 * Callback for extended item `Init` functions.
@@ -2904,7 +2886,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param refresh Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
 	 */
 	type SetOption<
-		OptionType extends ExtendedItemOption
+		OptionType extends ExtendedItemOption = ExtendedItemOption
 	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, push: boolean, refresh: boolean]>;
 	/**
 	 * Callback for extended item `AfterDraw` functions.
@@ -2912,7 +2894,7 @@ declare namespace ExtendedItemCallbacks {
 	 * @param drawData The dynamic draw data
 	 */
 	type AfterDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -2921,15 +2903,15 @@ declare namespace ExtendedItemCallbacks {
 	 * @returns A record with any and all to-be overriden draw data
 	 */
 	type BeforeDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
-	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
+	> = ExtendedItemCallback<[drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides | undefined>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
 	 * Relevant for assets that define {@link Asset.DynamicScriptDraw}.
 	 * @param drawData The dynamic draw data
 	 */
 	type ScriptDraw<
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemCallback<[drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -3044,7 +3026,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type AfterDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>]>;
 	/**
 	 * Callback for extended item `BeforeDraw` functions.
@@ -3056,7 +3038,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type BeforeDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicDrawingData<PersistentData>], DynamicBeforeDrawOverrides>;
 	/**
 	 * Callback for extended item `ScriptDraw` functions.
@@ -3067,7 +3049,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	 */
 	type ScriptDraw<
 		DataType extends ExtendedItemData<any>,
-		PersistentData extends Record<string, any> = Record<string, unknown>
+		PersistentData extends AnimationPersistentData = AnimationPersistentData
 	> = ExtendedItemScriptHookCallback<DataType, [drawData: DynamicScriptCallbackData<PersistentData>]>;
 }
 
@@ -3100,9 +3082,9 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	/** A key uniquely identifying the asset */
 	key: string;
 	/** The common prefix used for all extended item functions associated with the asset */
-	functionPrefix: string;
+	functionPrefix: `Inventory${AssetGroupName}${string}`;
 	/** The common prefix used for all dynamic asset hook functions for the asset */
-	dynamicAssetsFunctionPrefix: string;
+	dynamicAssetsFunctionPrefix: `Assets${AssetGroupName}${string}`;
 	/** An array of the chat message tags that should be included in the item's chatroom messages. */
 	chatTags: CommonChatTags[];
 	/** Contains custom dictionary entries in the event that the base ones do not suffice. */
@@ -3129,16 +3111,6 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	 * for sub screens and the name of the archetype in case of the (outer-most) super screen.
 	 */
 	name: string;
-}
-
-/** A struct-type that maps archetypes to their respective extended item data.  */
-interface ExtendedDataLookupStruct {
-	[ExtendedArchetype.TYPED]: TypedItemData;
-	[ExtendedArchetype.MODULAR]: ModularItemData;
-	[ExtendedArchetype.VIBRATING]: VibratingItemData;
-	[ExtendedArchetype.VARIABLEHEIGHT]: VariableHeightData;
-	[ExtendedArchetype.TEXT]: TextItemData;
-	[ExtendedArchetype.NOARCH]: NoArchItemData;
 }
 
 interface AssetOverrideHeight {
@@ -3270,12 +3242,6 @@ interface AssetDefinitionProperties {
 	 * @see {@link Asset.Opacity}
 	 */
 	Opacity?: number | number[];
-
-	/**
-	 * A custom background for this option that overrides the default
-	 * @see {@link Asset.CustomBlindBackground}
-	 */
-	CustomBlindBackground?: string;
 
 	/**
 	 * A list of fetishes affected by the item
@@ -3902,6 +3868,9 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
+/** The {@link Window} type with all non-function values removed (though they may still be optional) */
+type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends Function ? k : never]: Window[k] };
+
 // #region Struggle Minigame
 
 type StruggleKnownMinigames = "Strength" | "Flexibility" | "Dexterity" | "Loosen" | "LockPick";
@@ -4010,7 +3979,7 @@ interface GamePrisonParameters {
 interface GameMagicSchoolFindsAroundParameters {
     KitsuneQuestProgress?: number;
     TheresaQuestProgress?: number;
-    TheresaBadWords?: string[];
+    TheresaBadWords?: number[];
     TheresaTooRude?: boolean;
     TheresaHideUntil?: number;
 }
@@ -4244,7 +4213,7 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	G: string;
 	AG: AssetGroup;
 	L: string;
-	Pose: AssetPoseName;
+	Pose: AssetPoseName | NullPoseType;
 	LayerType: string;
 	BlinkExpression: string;
 	drawCanvas: DrawCanvasCallback;
@@ -4267,12 +4236,12 @@ interface DynamicBeforeDrawOverrides {
 	LayerType?: string;
 	L?: string;
 	AlphaMasks?: RectTuple[];
-	Pose?: AssetPoseName;
+	Pose?: AssetPoseName | NullPoseType;
 }
 
 type DynamicDrawTextEffect = "burn";
 
-interface DynamicScriptCallbackData<T extends Record<string, any> = Record<string, unknown>> {
+interface DynamicScriptCallbackData<T extends AnimationPersistentData = AnimationPersistentData> {
 	C: Character;
 	Item: Item;
 	PersistentData: () => T;
@@ -4442,9 +4411,9 @@ interface CraftingItem {
 	/** The crafted item effects mapped to their effect strength. */
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/**
-	* The crafted item effect.
-	* @deprecated superseded by {@link CraftingItem.Effects}
-	*/
+	 * The crafted item effect.
+	 * @deprecated superseded by {@link CraftingItem.Effects}
+	 */
 	Property?: CraftingPropertyType;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
@@ -4656,8 +4625,8 @@ interface ItemColorStateType {
 	pageCount: number;
 	/** Whether the opacity is user-configurable */
 	editOpacity: boolean;
-	drawImport: () => Promise<string>;
-	drawExport: (data: string) => Promise<void>;
+	drawImport?: () => Promise<string>;
+	drawExport?: (data: string) => Promise<void>;
 }
 
 /** A hexadecimal color code */
@@ -4720,14 +4689,14 @@ interface ColorPickerInitOptions {
 	dispatch?: boolean;
 }
 
-//#end region
+// #end region
 
 // #region Log
 
 interface LogRecord {
 	Name: LogNameType[LogGroupType];
 	Group: LogGroupType;
-	Value: number;
+	Value: number | undefined;
 }
 
 /** The logging groups as supported by the {@link LogRecord.Group} */
@@ -4809,6 +4778,7 @@ interface LogNameType {
 	SlaveMarket: "Auctioned",
 	Trainer: "JoinedStable",
 	TrainerExam: "JoinedStable",
+	Disclaimer: "Accepted",
 }
 
 // #end region
@@ -4818,7 +4788,7 @@ interface LogNameType {
 interface FavoriteState {
 	TargetFavorite: boolean;
 	PlayerFavorite: boolean;
-	Icon: FavoriteIcon;
+	Icon?: FavoriteIcon;
 	UsableOrder: DialogSortOrder;
 	UnusableOrder: DialogSortOrder;
 }
@@ -4865,159 +4835,6 @@ interface NotificationBeep {
 	Silent?: boolean;
 	/** Internal use; timer that is set when the beep first appears on screen */
 	Timer?: number;
-}
-
-// #end region
-
-// #region preference
-
-interface ActivityEnjoyment {
-	/** The relevant activity type */
-	Name: ActivityName,
-	/** The arousal factor for when the activity is performed on the player character */
-	Self: ArousalFactor,
-	/** The arousal factor for when the activity is performed on someone else */
-	Other: ArousalFactor,
-}
-
-interface ArousalZone {
-	/** The relevant zone */
-	Name: AssetGroupItemName,
-	/** The arousal factor associated with the zone */
-	Factor: ArousalFactor,
-	/** Whether one can orgasm from stimulating the zone */
-	Orgasm: boolean,
-}
-
-interface ArousalFetish {
-	/** The name of the fetish */
-	Name: FetishName,
-	/** The arousal factor associated with the fetish */
-	Factor: ArousalFactor,
-}
-
-/** The factor of the sexual activity (0 is horrible, 2 is normal, 4 is great) */
-type ArousalFactor = 0 | 1 | 2 | 3 | 4;
-
-interface ArousalSettingsType {
-	Active: ArousalActiveName;
-	Visible: ArousalVisibleName;
-	ShowOtherMeter: boolean;
-	AffectExpression: boolean;
-	AffectStutter: ArousalAffectStutterName;
-	VFX: SettingsVFXName;
-	VFXVibrator: SettingsVFXVibratorName;
-	VFXFilter: SettingsVFXFilterName;
-	Progress: number;
-	ProgressTimer: number;
-	VibratorLevel: 0 | 1 | 2 | 3 | 4;
-	ChangeTime: number;
-	Activity: string;
-	Zone: string;
-	Fetish: string;
-	OrgasmTimer?: number;
-	OrgasmStage?: 0 | 1 | 2;
-	OrgasmCount?: number;
-	DisableAdvancedVibes: boolean;
-}
-
-/** Preference Menu info for extensions settings*/
-interface PreferenceExtensionsSettingItem {
-	/**
-	 * The identifier of the extension.
-	 * This is used to identify the extension and must be unique.
-	 */
-	Identifier: string;
-
-	/**
-	 * The label for the extension button.
-	 * If it's a Function, it will be called once when entering
-	 * the extension setting menu. Use the return value as button text.
-	 */
-	ButtonText: string | (()=>string);
-
-	/**
-	 * The image path of the extension.
-	 *
-	 * This is passed to {@link DrawButton} directly. You can use a `data` URL here.
-	 *
-	 * If it's a Function, it will be called once when entering
-	 * the extension setting menu. Use the return value as image
-	 * path.
-	 * If it's undefined, there will be no image for the button
-	 */
-	Image?: string | (()=>string);
-
-	/**
-	 * Called when the extension screen is about to be displayed.
-	 *
-	 * You can create your own HTML elements in here, or load your data.
-	 *
-	 * Note that HTML elements with the `HideOnPopup` class will be hidden
-	 * automatically when a popup is shown.
-	 */
-	load?: () => void;
-
-	/**
-	 * Called when a click happens on the extension screen.
-	 *
-	 * Note: your exit button handling *must* call {@link PreferenceSubscreenExit};
-	 */
-	click: () => void;
-
-	/**
-	 * Called every frame while the extension screen is shown.
-	 */
-	run: () => void;
-
-	/**
-	 * Called when the extension screen is about to be closed.
-	 *
-	 * Handles the unloading of the extension setting, usually when the user clicks the exit button,
-	 * but it can also be called by the relog screen being triggered because of a disconnect.
-	 *
-	 * If you created any HTML elements in {@link PreferenceExtensionsSettingItem.load}, this is a good place to remove them.
-	 */
-	unload?: () => void;
-
-	/**
-	 * Called when the extension screen is about to exit.
-	 *
-	 * Happens either through a click of the exit button, or the ESC key.
-	 * This will **not** be called if a disconnect happens, so clean up should be
-	 * done in {@link PreferenceExtensionsSettingItem.unload}.
-	 *
-	 * @returns {boolean | void} If you have some validation that needs to happen
-	 * (for example, ensuring that a textfield contains a valid color code), return false;
-	 * this will stop the subscreen from exiting.
-	 * You might want to show a message to the user explaining why "nothing is happening" in that case,
-	 * either through your own means or by setting `PreferenceMessage` to a string.
-	 *
-	 * If you return true or nothing, your screen's {@link PreferenceExtensionsSettingItem.unload} handler
-	 * will be called afterward. And the setting screen for the extension will be closed.
-	 */
-	exit: () => boolean | void;
-
-	resize?: (onLoad: boolean) => void;
-}
-
-/** Preference Menu info for extensions settings*/
-type PreferenceExtensionsMenuButtonInfo = {
-	Button: string;
-	Image?: string;
-	click: () => void;
-}
-
-interface PreferenceChatDropdownOption {
-	list: string[];
-	current: () => string;
-	onChange: (value: string) => void;
-}
-
-interface PreferenceChatCheckboxOption {
-	label: string,
-	check: () => boolean,
-	click: () => void
 }
 
 // #end region
@@ -5256,7 +5073,7 @@ interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "Mous
 	Deactivate?: () => void;
 	Draw: () => void;
 	DrawUi: () => void;
-	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
+	RoomUpdated?: () => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;
 	Screenshot: () => void;
@@ -5288,7 +5105,7 @@ type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
 interface ChatRoomMapDoodad {
 	ID: number;
 	Style: string;
-	OccupiedStyle?: "WoodOpen" | "MetalOpen";
+	OccupiedStyle?: "WoodOpen" | "MetalOpen" | "RoyalDoorOpen" | "SteelDoorOpen" | "GrayDoorOpen" | "BrownDoorOpen";
 	CanEnter?: (direction: ChatRoomMapDirection) => boolean;
 	OnEnter?: () => void;
 }

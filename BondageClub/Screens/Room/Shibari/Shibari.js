@@ -212,11 +212,11 @@ function ShibariStartTeacherBondage() {
 
 /**
  * Triggered when the player gets restrained by the teacher, the teacher will not release the player for a minute after this.
- * @param {string} Level
+ * @param {number} Level
  * @returns {void} - Nothing
  */
 function ShibariRestrainPlayer(Level) {
-	ShibariRandomBondage(Player, parseInt(Level));
+	ShibariRandomBondage(Player, Level);
 	ShibariTeacherReleaseTimer = CommonTime() + 60000;
 }
 
@@ -323,17 +323,15 @@ function ShibariPayForTraining(SkillType) {
  * @returns {void} - Nothing
  */
 function ShibariClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
-	MiniGameStart("ClubCard", 0, "ShibariClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderDominantDeck, () => ShibariClubCardEnd());
 }
 
 /**
  * When the player ends a club card game against the shibari student
- * @returns {void} - Nothing
  */
-function ShibariClubCardEnd() {
-	CommonSetScreen("Room", "Shibari");
+async function ShibariClubCardEnd() {
+	await CommonSetScreen("Room", "Shibari");
 	CharacterSetCurrent(ShibariStudent);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

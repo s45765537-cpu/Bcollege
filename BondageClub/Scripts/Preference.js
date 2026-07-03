@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -187,16 +186,20 @@ function PreferenceGetZoneFactor(C, ZoneName) {
  * Sets the arousal zone data for a specific body zone on the player
  * @param {Character} C - The character, for whom the love factor of a particular zone should be set
  * @param {AssetGroupItemName} ZoneName - The name of the zone, the factor should be set for
- * @param {ArousalFactor} Factor - The factor of the zone (0 is horrible, 2 is normal, 4 is great)
- * @param {boolean} CanOrgasm - Sets, if the character can cum from the given zone (true) or not (false)
+ * @param {null | ArousalFactor} [Factor] - The factor of the zone (0 is horrible, 2 is normal, 4 is great)
+ * @param {null | boolean} [CanOrgasm] - Sets, if the character can cum from the given zone (true) or not (false)
  * @returns {void} - Nothing
  */
-function PreferenceSetArousalZone(C, ZoneName, Factor = null, CanOrgasm = null) {
+function PreferenceSetArousalZone(C, ZoneName, Factor, CanOrgasm) {
 	// Gets the zone object
 	let Zone = PreferenceGetArousalZone(C, ZoneName);
 	if (!Zone) return;
 
 	const Group = AssetGroupGet(C.AssetFamily, ZoneName);
+	if (!Group || typeof Group.ArousalZoneID !== "number") {
+		console.error('PreferenceSetArousalZone: Invalid group name or missing group ID', Group?.ArousalZoneID);
+		return;
+	}
 
 	if (typeof Factor === "number") {
 		Zone.Factor = Factor;
@@ -323,6 +326,7 @@ function PreferenceInitPlayer(C, data) {
 			"ControllerDPadRight",
 		];
 		for (const old of oldKeys) {
+			// @ts-ignore Strict-TS: key-based access to delete old properties
 			delete data.ControllerSettings[old];
 		}
 		// @ts-expect-error we don't have all the buttons
@@ -348,27 +352,6 @@ function PreferenceInitPlayer(C, data) {
 	C.OnlineSharedSettings = ValidationApplyRecord(data.OnlineSharedSettings, C, PreferenceOnlineSharedSettingsValidate, true);
 	C.RestrictionSettings = ValidationApplyRecord(data.RestrictionSettings, C, PreferenceRestrictionSettingsValidate);
 	C.VisualSettings = ValidationApplyRecord(data.VisualSettings, C, PreferenceVisualSettingsValidate);
-
-	// Convert old version of notification settings
-	let NS = /** @type {Partial<NotificationSettingsType>} */ (data.NotificationSettings ?? {});
-
-	if (typeof NS.Beeps !== "object") NS.Beeps = PreferenceInitNotificationSetting(NS.Beeps, NotificationAudioType.FIRST, NotificationAlertType.POPUP);
-	// @ts-expect-error object gets its missing properties afterwards
-	if (typeof NS.ChatMessage !== "object") NS.ChatMessage = PreferenceInitNotificationSetting(NS.ChatMessage, NotificationAudioType.FIRST);
-	if (typeof NS.ChatMessage.Normal !== "boolean") NS.ChatMessage.Normal = true;
-	if (typeof NS.ChatMessage.Whisper !== "boolean") NS.ChatMessage.Whisper = true;
-	if (typeof NS.ChatMessage.Activity !== "boolean") NS.ChatMessage.Activity = false;
-	// @ts-expect-error object gets its missing properties afterwards
-	if (typeof NS.ChatJoin !== "object") NS.ChatJoin = PreferenceInitNotificationSetting(NS.ChatJoin, NotificationAudioType.FIRST);
-	if (typeof NS.ChatJoin.Owner !== "boolean") NS.ChatJoin.Owner = false;
-	if (typeof NS.ChatJoin.Lovers !== "boolean") NS.ChatJoin.Lovers = false;
-	if (typeof NS.ChatJoin.Friendlist !== "boolean") NS.ChatJoin.Friendlist = false;
-	if (typeof NS.ChatJoin.Subs !== "boolean") NS.ChatJoin.Subs = false;
-	if (typeof NS.Disconnect !== "object") NS.Disconnect = PreferenceInitNotificationSetting(NS.Disconnect, NotificationAudioType.FIRST);
-	if (typeof NS.Larp !== "object") NS.Larp = PreferenceInitNotificationSetting(NS.Larp, NotificationAudioType.FIRST, NotificationAlertType.NONE);
-	if (typeof NS.Test !== "object") NS.Test = PreferenceInitNotificationSetting(NS.Test, NotificationAudioType.FIRST, NotificationAlertType.TITLEPREFIX);
-	data.NotificationSettings = /** @type {NotificationSettingsType} */ (NS);
-
 	C.NotificationSettings = ValidationApplyRecord(data.NotificationSettings, C, PreferenceNotificationSettingsValidate);
 
 	// Forces some preferences depending on difficulty
@@ -414,7 +397,8 @@ function PreferenceInitPlayer(C, data) {
 
 	for (const [prop, stringPrefBefore] of CommonEntries(PrefBefore))
 		if (JSON.stringify(C[prop]) !== stringPrefBefore)
-			toUpdate[/** @type {string} */(prop)] = data[prop];
+			// @ts-expect-error Comparing objects key by key
+			toUpdate[prop] = data[prop];
 
 	if (CommonVersionUpdated && (toUpdate != null) && (toUpdate.OnlineSharedSettings != null))
 		toUpdate.OnlineSharedSettings.GameVersion = GameVersion;
@@ -429,6 +413,7 @@ function PreferenceInitPlayer(C, data) {
  * @param {NotificationAudioType} audio - The audio setting
  * @param {NotificationAlertType} [defaultAlertType] - The default AlertType to use
  * @returns {NotificationSetting} - The setting to use
+ * @deprecated
  */
 function PreferenceInitNotificationSetting(setting, audio, defaultAlertType) {
 	const alertType = typeof setting === "boolean" && setting === true ? NotificationAlertType.TITLEPREFIX : defaultAlertType ?? NotificationAlertType.NONE;
@@ -436,24 +421,4 @@ function PreferenceInitNotificationSetting(setting, audio, defaultAlertType) {
 		AlertType: alertType,
 		Audio: audio,
 	};
-}
-
-/**
- * Migrates a named preference from one preference object to another if not already migrated
- * @param {object} from - The preference object to migrate from
- * @param {object} to - The preference object to migrate to
- * @param {string} prefName - The name of the preference to migrate
- * @param {any} defaultValue - The default value for the preference if it doesn't exist
- * @returns {void} - Nothing
- */
-function PreferenceMigrate(from, to, prefName, defaultValue) {
-	// Check that there's something to migrate (new characters) and that
-	// we're not already migrated.
-
-	if (typeof from !== "object" || typeof to !== "object") return;
-	if (to[prefName] == null) {
-		to[prefName] = from[prefName];
-		if (to[prefName] == null) to[prefName] = defaultValue;
-		if (from[prefName] != null) delete from[prefName];
-	}
 }

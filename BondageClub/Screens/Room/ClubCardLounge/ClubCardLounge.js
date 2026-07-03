@@ -49,19 +49,15 @@ function ClubCardLoungeClick() {
  * @returns {void} - Nothing
  */
 function ClubCardLoungePraticeGameStart() {
-	ClubCardOpponent = ClubCardLoungeTutor;
-	ClubCardOpponentDeck = ClubCardBuilderDefaultDeck;
-	MiniGameStart("ClubCard", 0, "ClubCardLoungePraticeGameEnd");
+	ClubCardStart(ClubCardLoungeTutor, ClubCardBuilderDefaultDeck, () => ClubCardLoungePraticeGameEnd());
 }
 
 /**
  * When the practice game ends
- * @returns {void} - Nothing
  */
-function ClubCardLoungePraticeGameEnd() {
-	CommonSetScreen("Room", "ClubCardLounge").then(() => {
-		CharacterSetCurrent(ClubCardLoungeTutor);
-		ClubCardLoungeTutor.CurrentDialog = DialogFind(ClubCardLoungeTutor, MiniGameVictory ? "AfterVictory" : "AfterDefeat");
-		ClubCardLoungeTutor.Stage = "50";
-	});
+async function ClubCardLoungePraticeGameEnd() {
+	await CommonSetScreen("Room", "ClubCardLounge");
+	CharacterSetCurrent(ClubCardLoungeTutor);
+	ClubCardLoungeTutor.CurrentDialog = DialogFind(ClubCardLoungeTutor, MiniGameVictory ? "AfterVictory" : "AfterDefeat");
+	ClubCardLoungeTutor.Stage = "50";
 }

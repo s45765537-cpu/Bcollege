@@ -43,9 +43,11 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemDevices/DollBox/DollBox.js",
 	"Screens/Inventory/ItemDevices/PetBowl/PetBowl.js",
 	"Screens/Inventory/ItemHead/DroneMask/DroneMask.js",
+	"Screens/Inventory/ItemHead/InteractiveVRHeadset/InteractiveVRHeadset.js",
 	"Screens/Inventory/ItemHandheld/Plushies/Plushies.js",
 	"Screens/Inventory/ItemMisc/WoodenSign/WoodenSign.js",
 	"Screens/Inventory/ItemHood/CanvasHood/CanvasHood.js",
+	"Screens/Inventory/ItemHood/TechnoHelmet1/TechnoHelmet1.js",
 	"Screens/Inventory/ItemPelvis/ObedienceBelt/ObedienceBelt.js",
 	"Screens/Inventory/ItemPelvis/ModularChastityBelt/ModularChastityBelt.js",
 	"Screens/Inventory/ItemNeckAccessories/CustomCollarTag/CustomCollarTag.js",
@@ -108,7 +110,7 @@ export const errorState = {
  * @param {string} text The error
  */
 export function error(text) {
-	console.log("ERROR:", text);
+	console.error("ERROR:", text);
 	process.exitCode = 1;
 	errorState.local = true;
 	errorState.global = true;
@@ -143,7 +145,7 @@ export function parseCSV(str) {
 	let c;
 	let col;
 	// We remove whitespace on start and end
-	str = str.trim() + "\n";
+	str = str.trim().replace(/\r\n/g, "\n") + "\n";
 
 	// iterate over each character, keep track of current row and column (of the returned array)
 	for (let row = (col = c = 0); c < str.length; c++) {

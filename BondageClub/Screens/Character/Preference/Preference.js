@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 /**
  * The background to use for the settings screen
@@ -14,9 +13,9 @@ var PreferenceMessage = "";
 /**
  * The currently active subscreen
  *
- * @type {PreferenceSubscreen?}
+ * @type {PreferenceSubscreen | null}
  */
-var PreferenceSubscreen = null;
+var PreferenceSubscreen;
 
 /**
  * All the base settings screens
@@ -29,7 +28,7 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenMainLoad(),
 		run: () => PreferenceSubscreenMainRun(),
 		click: () => PreferenceSubscreenMainClick(),
-		resize: () => PreferenceSubscreenMainResize(),
+		resize: (onLoad) => PreferenceSubscreenMainResize(onLoad),
 		unload: () => PreferenceSubscreenMainUnload(),
 		exit: () => PreferenceSubscreenMainExit(),
 	},
@@ -40,7 +39,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenGeneralClick(),
 		exit: () => PreferenceSubscreenGeneralExit(),
 		unload: () => PreferenceSubscreenGeneralUnload(),
-		resize: () => PreferenceSubscreenGeneralResize(),
+		resize: (onLoad) => PreferenceSubscreenGeneralResize(onLoad),
 	},
 	{
 		name: "Difficulty",
@@ -48,14 +47,14 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenDifficultyRun(),
 		click: () => PreferenceSubscreenDifficultyClick(),
 		exit: () => PreferenceSubscreenDifficultyExit(),
-		resize: () => PreferenceSubscreenDifficultyResize(),
+		resize: (onLoad) => PreferenceSubscreenDifficultyResize(onLoad),
 	},
 	{
 		name: "Restriction",
 		load: () => PreferenceSubscreenRestrictionLoad(),
 		run: () => PreferenceSubscreenRestrictionRun(),
 		click: () => PreferenceSubscreenRestrictionClick(),
-		resize: () => PreferenceSubscreenRestrictionResize(),
+		resize: (onLoad) => PreferenceSubscreenRestrictionResize(onLoad),
 	},
 	{
 		name: "Chat",
@@ -63,7 +62,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenChatRun(),
 		click: () => PreferenceSubscreenChatClick(),
 		exit: () => PreferenceSubscreenChatExit(),
-		resize: () => PreferenceSubscreenChatResize(),
+		resize: (onLoad) => PreferenceSubscreenChatResize(onLoad),
 	},
 	{
 		name: "CensoredWords",
@@ -72,7 +71,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenCensoredWordsClick(),
 		exit: () => PreferenceSubscreenCensoredWordsExit(),
 		unload: () => PreferenceSubscreenCensoredWordsUnload(),
-		resize: () => PreferenceSubscreenCensoredWordsResize(),
+		resize: (onLoad) => PreferenceSubscreenCensoredWordsResize(onLoad),
 	},
 	{
 		name: "Audio",
@@ -81,7 +80,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenAudioClick(),
 		exit: () => PreferenceSubscreenAudioExit(),
 		unload: () => PreferenceSubscreenAudioUnload(),
-		resize: () => PreferenceSubscreenAudioResize(),
+		resize: (onLoad) => PreferenceSubscreenAudioResize(onLoad),
 	},
 	{
 		name: "Arousal",
@@ -98,29 +97,29 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenSecurityClick(),
 		exit: () => PreferenceSubscreenSecurityExit(),
 		unload: () => PreferenceSubscreenSecurityUnload(),
-		resize: () => PreferenceSubscreenSecurityResize(),
+		resize: (onLoad) => PreferenceSubscreenSecurityResize(onLoad),
 	},
 	{
 		name: "Online",
 		load: () => PreferenceSubscreenOnlineLoad(),
 		run: () => PreferenceSubscreenOnlineRun(),
 		click: () => PreferenceSubscreenOnlineClick(),
-		resize: () => PreferenceSubscreenOnlineResize(),
+		resize: (onLoad) => PreferenceSubscreenOnlineResize(onLoad),
 	},
 	{
 		name: "Visibility",
 		load: () => PreferenceSubscreenVisibilityLoad(),
 		run: () => PreferenceSubscreenVisibilityRun(),
 		click: () => PreferenceSubscreenVisibilityClick(),
-		exit: () => PreferenceSubscreenVisibilityExit(),
 		unload: () => PreferenceSubscreenVisibilityUnload(),
+		resize: () => PreferenceSubscreenVisibilityResize(),
 	},
 	{
 		name: "Immersion",
 		load: () => PreferenceSubscreenImmersionLoad(),
 		run: () => PreferenceSubscreenImmersionRun(),
 		click: () => PreferenceSubscreenImmersionClick(),
-		resize: () => PreferenceSubscreenImmersionResize(),
+		resize: (onLoad) => PreferenceSubscreenImmersionResize(onLoad),
 	},
 	{
 		name: "Graphics",
@@ -129,6 +128,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenGraphicsClick(),
 		exit: () => PreferenceSubscreenGraphicsExit(),
 		unload: () => PreferenceSubscreenGraphicsUnload(),
+		resize: (onLoad) => PreferenceSubscreenGraphicsResize(onLoad),
 	},
 	{
 		name: "Controller",
@@ -151,7 +151,7 @@ const PreferenceSubscreens = [
 		load: () => PreferenceSubscreenGenderLoad(),
 		run: () => PreferenceSubscreenGenderRun(),
 		click: () => PreferenceSubscreenGenderClick(),
-		resize: () => PreferenceSubscreenGenderResize(),
+		resize: (onLoad) => PreferenceSubscreenGenderResize(onLoad),
 	},
 	{
 		name: "Scripts",
@@ -160,7 +160,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenScriptsClick(),
 		exit: () => PreferenceSubscreenScriptsExit(),
 		unload: () => PreferenceSubscreenScriptsUnload(),
-		resize: () => PreferenceSubscreenScriptsResize(),
+		resize: (onLoad) => PreferenceSubscreenScriptsResize(onLoad),
 	},
 	{
 		name: "Keybindings",
@@ -169,7 +169,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenKeybindingsRun(),
 		click: () => PreferenceSubscreenKeybindingsClick(),
 		exit: () => PreferenceSubscreenKeybindingsExit(),
-		resize: () => PreferenceSubscreenKeybindingsResize(),
+		resize: (onLoad) => PreferenceSubscreenKeybindingsResize(onLoad),
 	},
 	{
 		name: "Extensions",
@@ -178,7 +178,7 @@ const PreferenceSubscreens = [
 		click: () => PreferenceSubscreenExtensionsClick(),
 		exit: () => PreferenceSubscreenExtensionsExit(),
 		unload: () => PreferenceSubscreenExtensionsUnload(),
-		resize: () => PreferenceSubscreenExtensionsResize(),
+		resize: (onLoad) => PreferenceSubscreenExtensionsResize(onLoad),
 	},
 ];
 
@@ -208,9 +208,8 @@ async function PreferenceOpenSubscreen(subscreen, page = 1) {
 	if (!CommonIsNonNegativeInteger(page)) page = 1;
 	PreferencePageCurrent = page;
 	PreferenceMessage = "";
-	const subscreenTitle = subscreen === "Main" ? "Preferences" : `${subscreen}Preferences`;
 
-	PreferenceSubscreenCreateSubscreen(TextGet(subscreenTitle));
+	PreferenceSubscreenCreateSubscreen(subscreen);
 	await PreferenceSubscreen?.load?.();
 	PreferenceResize(true);
 }
@@ -239,10 +238,14 @@ function PreferenceRun() {
 	// Backward-compatibility: automatically substitute strings for the actual subscreen
 	if (typeof PreferenceSubscreen === "string") {
 		const subscreenName = PreferenceSubscreen === "" ? "Main" : PreferenceSubscreen;
-		PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === subscreenName);
-		if (!PreferenceSubscreen) PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+		const screen = PreferenceSubscreens.find(s => s.name === subscreenName);
+		if (screen) {
+			PreferenceSubscreen = screen;
+		} else {
+			PreferenceSubscreen = /** @type {PreferenceSubscreen} */ (PreferenceSubscreens.find(s => s.name === "Main"));
+		}
 	}
-	PreferenceSubscreen.run();
+	PreferenceSubscreen?.run();
 }
 
 /**
@@ -262,7 +265,7 @@ function PreferenceClick() {
  * @type {ScreenExitHandler}
  */
 function PreferenceExit() {
-	if (PreferenceSubscreen.name !== "Main") {
+	if (PreferenceSubscreen?.name !== "Main") {
 		// If we are in a subscreen, the only exit is to the main preference screen
 		PreferenceSubscreenExit();
 		return;
@@ -307,44 +310,47 @@ function PreferenceUnload() {
 /** @type {ScreenResizeHandler} */
 function PreferenceResize(onLoad) {
 	PreferenceSubscreenResize?.(onLoad);
-	PreferenceSubscreen.resize?.(onLoad);
+	PreferenceSubscreen?.resize?.(onLoad);
 }
 
 /** @type {KeyboardEventListener} */
 function PreferenceKeyUp(event) {
-	// @ts-expect-error: TS, please stop pretending that `void` and `undefined` are distinct
+	// @ts-ignore Strict-TS: TS, please stop pretending that `void` and `undefined` are distinct
 	return PreferenceSubscreen?.keyUp?.(event) ?? false;
 }
 
 /**
- * @param {string} subscreenName
+ * @param {PreferenceSubscreenName} subscreenName
  * @returns
  */
 function PreferenceSubscreenCreateSubscreen(subscreenName) {
+	const subscreenTitle = subscreenName === "Main" ? "Preferences" : `${subscreenName}Preferences`;
 	const subscreen = ElementDOMScreen.getTemplate(
 		PreferenceIDs.subscreen,
 		{
 			menubarButtons: [ElementButton.Create(PreferenceIDs.exit, PreferenceSubscreenExit, { image: "Icons/Exit.png" })],
-			header: subscreenName,
+			header: TextGet(subscreenTitle),
 			parent: document.body,
 			hgroupInHeader: true,
 		},
 	);
+	subscreen.setAttribute("data-subscreen", subscreenName);
 
 	return subscreen;
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenResize(onLoad) {
 	ElementPositionFixed(PreferenceIDs.subscreen, 0, 0, 2000, 1000);
-	ElementPositionFixed(PreferenceIDs.exit, 1815, 75, 90, 90);
 	ElementPositionFixed(PreferenceIDs.title, 500, 100, 1000, 45);
+	ElementSetPosition(`${PreferenceIDs.subscreen}-menu`, 1905, 75, "top-right");
 }
 
 /**
  * Exit from a specific subscreen by running its handler and checking its validity
  */
 async function PreferenceSubscreenExit() {
-	const validExit = await PreferenceSubscreen.exit?.();
+	const validExit = await PreferenceSubscreen?.exit?.();
 
 	// Only when the results is false (not undefined)
 	// The exit is just a exit of the subscreen's substate, return to block more exit.
@@ -431,8 +437,7 @@ function PreferenceGetNextIndex(List, Index) {
  * @namespace
  */
 var PreferenceActivityEnjoymentDefault = {
-	/** @type {ActivityName | undefined} */
-	Name: undefined,
+	Name: /** @type {never} */ (undefined),
 	/** @type {ArousalFactor} */
 	Self: 2,
 	/** @type {ArousalFactor} */
@@ -445,8 +450,7 @@ var PreferenceActivityEnjoymentDefault = {
  * @namespace
  */
 var PreferenceArousalFetishDefault = {
-	/** @type {FetishName | undefined} */
-	Name: undefined,
+	Name: /** @type {never} */ (undefined),
 	/** @type {ArousalFactor} */
 	Factor: 2,
 };
@@ -457,8 +461,7 @@ var PreferenceArousalFetishDefault = {
  * @namespace
  */
 var PreferenceArousalZoneDefault = {
-	/** @type {AssetGroupItemName | undefined} */
-	Name: undefined,
+	Name: /** @type {never} */ (undefined),
 	/** @type {ArousalFactor} */
 	Factor: 2,
 	/** @type {boolean} */
@@ -506,7 +509,9 @@ function PreferenceArousalUpdateValidation() {
 	const activities = AssetAllActivities("Female3DCG")
 		.filter(a => a.ActivityID != null)
 		.map(({ Name }) => ({ ...PreferenceActivityEnjoymentDefault, Name }))
-		.sort(({ Name: aName }, { Name: bName }) => AssetGetActivity("Female3DCG", aName).ActivityID - AssetGetActivity("Female3DCG", bName).ActivityID);
+		.sort(({ Name: aName }, { Name: bName }) =>
+			// @ts-ignore Strict-TS: We're guaranteed to only have known activities
+			AssetGetActivity("Female3DCG", aName).ActivityID - AssetGetActivity("Female3DCG", bName).ActivityID);
 	PreferenceArousalSettingsDefault.Activity = activities
 		.map((act) => PreferenceArousalActivityToChar(act.Self, act.Other))
 		.join("");
@@ -519,7 +524,9 @@ function PreferenceArousalUpdateValidation() {
 			Orgasm: PreferenceArousalZoneOrgasmDefault.includes(group.Name),
 		}))
 		.filter(({ Name }) => Name !== undefined)
-		.sort(({ Name: aName }, { Name: bName }) => AssetGroupGet("Female3DCG", aName).ArousalZoneID - AssetGroupGet("Female3DCG", bName).ArousalZoneID);
+		.sort(({ Name: aName }, { Name: bName }) =>
+			// @ts-ignore Strict-TS: We're guaranteed to only have arousal groups in there
+			AssetGroupGet("Female3DCG", aName).ArousalZoneID - AssetGroupGet("Female3DCG", bName).ArousalZoneID);
 	PreferenceArousalSettingsDefault.Zone = zones
 		.map(act => PreferenceArousalZoneToChar(act.Factor, act.Orgasm))
 		.join("");
@@ -527,7 +534,9 @@ function PreferenceArousalUpdateValidation() {
 	const fetishes = AssetAllFetishes("Female3DCG")
 		.filter(f => f.FetishID != null)
 		.map(({ Name }) => ({ ...PreferenceArousalFetishDefault, Name }))
-		.sort(({ Name: aName }, { Name: bName }) => AssetGetFetish("Female3DCG", aName).FetishID - AssetGetFetish("Female3DCG", bName).FetishID);
+		.sort(({ Name: aName }, { Name: bName }) =>
+			// @ts-ignore Strict-TS: We're guaranteed to only have known fetishes
+			AssetGetFetish("Female3DCG", aName).FetishID - AssetGetFetish("Female3DCG", bName).FetishID);
 	PreferenceArousalSettingsDefault.Fetish = fetishes
 		.map(fet => PreferenceArousalFetishToChar(fet.Factor))
 		.join("");
@@ -614,7 +623,7 @@ var PreferenceArousalSettingsValidate = {
 				if (!CommonIsObject(oldZone) || typeof oldZone.Name !== "string" || typeof oldZone.Factor !== "number" || typeof oldZone.Orgasm !== "boolean") continue;
 
 				const group = AssetGroupGet(C.AssetFamily, oldZone.Name);
-				if (!group || !group.IsItem()) return;
+				if (!group || !group.IsItem() || group.ArousalZoneID === undefined) continue;
 
 				newZone = newZone.substring(0, group.ArousalZoneID) + PreferenceArousalZoneToChar(oldZone.Factor, oldZone.Orgasm) + newZone.substring(group.ArousalZoneID + 1);
 			}
@@ -801,7 +810,7 @@ var PreferenceChatSettingsValidate = {
 
 /**
  * Namespace with default values for {@link VisualSettingsType} properties.
- * @type {Required<VisualSettingsType>}
+ * @type {VisualSettingsType}
  * @namespace
  */
 var PreferenceVisualSettingsDefault = {
@@ -987,6 +996,7 @@ var PreferenceRestrictionSettingsValidate = {
 var PreferenceOnlineSettingsDefault = {
 	AutoBanBlackList: false,
 	AutoBanGhostList: true,
+	RespondRemoteModListQueries: true,
 	DisableAnimations: false,
 	SearchFriendsFirst: false,
 	EnableAfkTimer: true,
@@ -1007,6 +1017,7 @@ var PreferenceOnlineSettingsDefault = {
 var PreferenceOnlineSettingsValidate = {
 	AutoBanBlackList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
 	AutoBanGhostList: ServerValidation.isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
+	RespondRemoteModListQueries: ServerValidation.isBool(PreferenceOnlineSettingsDefault.RespondRemoteModListQueries),
 	DisableAnimations: ServerValidation.isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
 	SearchFriendsFirst: ServerValidation.isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
 	EnableAfkTimer: ServerValidation.isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
@@ -1017,8 +1028,6 @@ var PreferenceOnlineSettingsValidate = {
 	DefaultChatRoomBackground: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceOnlineSettingsDefault.DefaultChatRoomBackground;
 	},
-	// @ts-expect-error Deprecated
-	SearchShowsFullRooms: (arg) => undefined,
 };
 
 /**
@@ -1108,7 +1117,7 @@ var PreferenceNotificationSettingsDefault = {
 
 /**
  * Namespace with functions for validating {@link NotificationSettingsType} properties
- * @type {{ [k in keyof Required<NotificationSettingsType>]: (arg: NotificationSettingsType[k], C: Character) => NotificationSettingsType[k] }}
+ * @type {{ [k in keyof Required<NotificationSettingsType>]: (arg: Partial<NotificationSettingsType[k]>, C: Character) => NotificationSettingsType[k] }}
  * @namespace
  */
 var PreferenceNotificationSettingsValidate = {
@@ -1116,19 +1125,19 @@ var PreferenceNotificationSettingsValidate = {
 	ChatMessage: (arg) => {
 		return {
 			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatMessage)(arg),
-			Normal: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg.Normal),
-			Whisper: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg.Whisper),
-			Activity: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg.Activity),
-			Mention: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg.Mention),
+			Normal: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg?.Normal),
+			Whisper: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg?.Whisper),
+			Activity: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg?.Activity),
+			Mention: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg?.Mention),
 		};
 	},
 	ChatJoin: (arg) => {
 		return {
 			...ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.ChatJoin)(arg),
-			Owner: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg.Owner),
-			Lovers: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg.Lovers),
-			Friendlist: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg.Friendlist),
-			Subs: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg.Subs),
+			Owner: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg?.Owner),
+			Lovers: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg?.Lovers),
+			Friendlist: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg?.Friendlist),
+			Subs: ServerValidation.isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg?.Subs),
 		};
 	},
 	Disconnect: ServerValidation.isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
@@ -1138,6 +1147,7 @@ var PreferenceNotificationSettingsValidate = {
 
 /**
  * Registers a new extension setting to the preference screen
+ * @public
  * @param {PreferenceExtensionsSettingItem} Setting - The extension setting to register
  * @returns {void} - Nothing
  */

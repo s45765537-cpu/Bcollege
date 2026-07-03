@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R127";
+var GameVersion = "R129";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -17,7 +17,7 @@ var CommonTouchList = null;
 
 const DEFAULT_FRAMERATE = 60;
 
-function GameStart() {
+async function GameStart() {
 	ServerURL = CommonGetServer();
 	//CheatImport();
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
@@ -32,12 +32,13 @@ function GameStart() {
 	AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
-	TextPrefetchFile(InterfaceStringsPath);
+	await TextPrefetchFile(InterfaceStringsPath).loadedPromise;
 	CommonSetScreen("Character", "Login");
 	ServerInit();
 
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
 	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
+	PreferenceInitPlayer(Player, {});
 
 	// Those event listeners are all going through a lambda so that mods can
 	// correctly hook into them. Using the functions directly causes a copy of
@@ -51,7 +52,6 @@ function GameStart() {
 		// Canvas is already initialized by index.html; this code path should _never_ occur
 		throw new Error("Canvas is null");
 	}
-	canvas.tabIndex = 1000;
 
 	canvas.addEventListener("wheel", (e) => GameMouseWheel(e));
 
@@ -77,9 +77,9 @@ const GameReadyState = {
 	 * @readonly
 	 * @type {Promise<void>}
 	 */
-	load: new Promise(resolve => window.addEventListener("load", () => {
+	load: new Promise(resolve => window.addEventListener("load", async () => {
 		// When the code is loaded, we start the game engine
-		GameStart();
+		await GameStart();
 		resolve();
 	})),
 	/**
@@ -215,7 +215,7 @@ function GameKeyDown(event) {
 		}
 
 		if (CommonKey.IsPressed(event, "Escape")) {
-			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
+			if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
 				document.activeElement.blur();
 				handled = true;
 				break handleKeyDown;

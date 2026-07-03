@@ -395,7 +395,7 @@ function PandoraGenerateNPC(Group, Archetype, Name, AllowItem) {
 
 /**
  * Dress a character in the Rival Club fashion
- * @param {NPCCharacter} C
+ * @param {Character} C
  * @param {string} Type
  * @returns {void} - Nothing
  */
@@ -838,7 +838,7 @@ function PandoraCharacterJoin() {
 	if (PandoraParty.length == 1)
 		PandoraCurrentRoom.Character.push(PandoraParty[0]);
 	PandoraParty = [];
-	PandoraParty.push(CurrentCharacter);
+	PandoraParty.push(/** @type {NPCCharacter} */ (CurrentCharacter));
 	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
 		if (PandoraCurrentRoom.Character[C].ID == CurrentCharacter.ID) {
 			PandoraCurrentRoom.Character.splice(C, 1);
@@ -851,7 +851,7 @@ function PandoraCharacterJoin() {
  * @returns {void} - Nothing
  */
 function PandoraCharacterLeave() {
-	PandoraCurrentRoom.Character.push(CurrentCharacter);
+	PandoraCurrentRoom.Character.push(/** @type {NPCCharacter} */ (CurrentCharacter));
 	PandoraParty = [];
 }
 
@@ -860,7 +860,7 @@ function PandoraCharacterLeave() {
  * @returns {void} - Nothing
  */
 function PandoraCharacterFight() {
-	PandoraFightCharacter = CurrentCharacter;
+	PandoraFightCharacter = /** @type {NPCCharacter} */ (CurrentCharacter);
 	let Difficulty = (InfiltrationDifficulty * 2) + Math.floor(Math.random() * 3);
 	if (CurrentCharacter.AccountName.indexOf("RandomMistress") >= 0) Difficulty = InfiltrationDifficulty + 6;
 	KidnapStart(CurrentCharacter, PandoraBackground, Difficulty, "PandoraCharacterFightEnd()");
@@ -962,34 +962,33 @@ function PandoraCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
  * @returns {void} - Nothing
  */
 function PandoraCharacterJoinPrivateRoom() {
-	const C = PrivateAddCharacter(CurrentCharacter, (CurrentCharacter.Archetype === "Slave") ? "Submissive" : null, null);
+	const C = PrivateAddCharacter(/** @type {NPCCharacter} */ (CurrentCharacter), (CurrentCharacter.Archetype === "Slave") ? "Submissive" : null, null);
 	C.FromPandora = true;
 	PandoraRemoveCurrentCharacter();
 }
 
 /**
  * Checks if the mission is the one provided in the parameter
- * @param {string} Type - The mission type
+ * @param {InfiltrationMissionType} Type - The mission type
  * @returns {boolean} - Returns TRUE if it's the current mission
  */
 function PandoraMissionIs(Type) { return (InfiltrationMission === Type); }
 
 /**
  * Checks if the perk specified is currently selected
- * @param {string} Type - The perk type
+ * @param {InfiltrationPerks} Type - The perk type
  * @returns {boolean} - Returns TRUE if it's selected
  */
 function PandoraHasPerk(Type) { return InfiltrationPerksActive(Type); }
 
 /**
  * Prepares an information text based on the bribe amount provided
- * @param {string} Amount - The bribe amount
- * @param {string} Type - The perk type
+ * @param {number} Amount - The bribe amount
+ * @param {"Little" | "Full"} Type - The perk type
  * @returns {void} - Nothing
  */
 function PandoraBribeInfo(Amount, Type) {
-	let Money = parseInt(Amount);
-	CharacterChangeMoney(Player, Money * -1);
+	CharacterChangeMoney(Player, Amount * -1);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "BribeInfo" + InfiltrationMission + Type);
 	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("LevelName", TextGet("LevelName" + PandoraTargetRoom.Floor));
 	let Room = PandoraTargetRoom;
@@ -1011,7 +1010,7 @@ function PandoraRecruitBoost() {
 
 /**
  * Starts the player punishment process and jumps to the punishment Dominatrix
- * @param {Boolean} FromKidnapper
+ * @param {Boolean} [FromKidnapper]
  * @param {string} [FixIntro]
  * @returns {void} - Nothing
  */
@@ -1093,11 +1092,11 @@ function PandoraQuizNext() {
 
 /**
  * When the player gives an answer to the guard quiz, the guard will give a visual hint if the answer is incorrect
- * @param {string} Answer
+ * @param {number} Answer
  * @returns {void} - Nothing
  */
 function PandoraQuizAnswer(Answer) {
-	if (Answer != "1") {
+	if (Answer != 1) {
 		CurrentCharacter.QuizFail++;
 		CharacterSetFacialExpression(CurrentCharacter, "Blush", "Low", 3);
 		CharacterSetFacialExpression(CurrentCharacter, "Eyes", "Angry", 3);
@@ -1618,11 +1617,11 @@ function PandoraPenitentiaryHiddenMessage(SenderCharacter, Interaction) {
 
 /**
  * When an NPC pays the player for a service
- * @param {string} Amount - The paid amount
+ * @param {number} Amount - The paid amount
  * @returns {void} - Nothing
  */
 function PandoraPlayerPay(Amount) {
-	CharacterChangeMoney(Player, parseInt(Amount));
+	CharacterChangeMoney(Player, Amount);
 }
 
 /**
@@ -1650,18 +1649,17 @@ function PandoraChestLockpickStart() {
 	ChestLockpickChestImage = ((CurrentCharacter == null) || (CurrentCharacter.FixedImage == null)) ? "Screens/Room/Pandora/Chest" + Math.floor(Math.random() * 3).toString() + ".png" : CurrentCharacter.FixedImage;
 	ChestLockpickBackground = PandoraBackground;
 	DialogLeave();
-	MiniGameStart("ChestLockpick", InfiltrationDifficulty, "PandoraChestLockEnd");
+	MiniGameStart("ChestLockpick", InfiltrationDifficulty, () => PandoraChestLockEnd());
 }
 
 /**
  * When the picklock mini-game ends, adds 30 seconds to the timer
- * @returns {void} - Nothing
  */
-function PandoraChestLockEnd() {
+async function PandoraChestLockEnd() {
 	PandoraTimer = PandoraTimer - 30000;
 	PandoraCurrentRoom.Character[0].Stage = (MiniGameVictory) ? "100" : "0";
 	CharacterSetCurrent(PandoraCurrentRoom.Character[0]);
-	CommonSetScreen("Room", "Pandora");
+	await CommonSetScreen("Room", "Pandora");
 }
 
 /**
@@ -1701,18 +1699,17 @@ function PandoraGetPaint() {
  * @returns {void} - Nothing
  */
 function PandoraClubCardStart() {
-	PandoraFightCharacter = CurrentCharacter;
+	PandoraFightCharacter = /** @type {NPCCharacter} */ (CurrentCharacter);
 	ClubCardOpponent = CurrentCharacter;
 	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
-	MiniGameStart("ClubCard", 0, "PandoraClubCardEnd");
+	MiniGameStart("ClubCard", 0, () => PandoraClubCardEnd());
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
  */
-function PandoraClubCardEnd() {
-	CommonSetScreen("Room", "Pandora");
+async function PandoraClubCardEnd() {
+	await CommonSetScreen("Room", "Pandora");
 	CharacterSetCurrent(PandoraFightCharacter);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

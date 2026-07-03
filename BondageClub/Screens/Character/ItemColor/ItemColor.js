@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** A configuration object containing constants used by the ItemColor UI scripts */
@@ -17,21 +16,33 @@ const ItemColorMode = /** @type {const} */({
 	COLOR_PICKER: "ColorPicker",
 });
 
-/** @type {null | Character} */
-let ItemColorCharacter = null;
-/** @type {null | ItemColorItem} */
-let ItemColorItem = null;
+/**
+ * Initialized in {@link ItemColorLoad} and valid until {@link ItemColorReset} is called
+ * @type {Character}
+ */
+let ItemColorCharacter = /** @type {never} */ (null);
+/**
+ * Initialized in {@link ItemColorLoad} and valid until {@link ItemColorReset} is called
+ * @type {Item}
+ */
+let ItemColorItem = /** @type {never} */ (null);
 /** @type {null | ItemColorMode} */
 let ItemColorCurrentMode = ItemColorMode.DEFAULT;
-/** @type {null | string} */
-let ItemColorStateKey = null;
-/** @type {null | ItemColorStateType} */
-let ItemColorState = null;
+/**
+ * Initialized in {@link ItemColorStateBuild} and valid until {@link ItemColorReset} is called
+ * @type {string}
+ */
+let ItemColorStateKey = /** @type {never} */ (null);
+/**
+ * Initialized in {@link ItemColorStateBuild} and valid until {@link ItemColorReset} is called
+ * @type {ItemColorStateType}
+ */
+let ItemColorState = /** @type {never} */ (null);
 /** @type {number} */
 let ItemColorPage = 0;
 /** @type {Record<string, number>} */
 let ItemColorLayerPages = {};
-/** @type {null | string} */
+/** @type {string | null} */
 let ItemColorPickerBackup = null;
 /**
  * The indices of to-be colored layers within a {@link Item.Color}/{@link ItemColorGetColorableLayers}-returned array.
@@ -47,13 +58,19 @@ let ItemColorPickerIndices = [];
 const ItemColorPickerLayers = new Map();
 /** @type {ItemColorExitListener[]} */
 let ItemColorExitListeners = [];
-/** @type {null | string} */
-let ItemColorBackup = null;
+/** @type {string} */
+let ItemColorBackup;
 let ItemColorText = new TextCache("Screens/Character/ItemColor/ItemColor.csv");
-/** @type {null | TextCache} */
-let ItemColorLayerNames = null;
-/** @type {null | TextCache} */
-let ItemColorGroupNames = null;
+/**
+ * Initialized in {@link ItemColorLoad} and valid until {@link ItemColorReset} is called
+ * @type {TextCache}
+ */
+let ItemColorLayerNames;
+/**
+ * Initialized in {@link ItemColorLoad} and valid until {@link ItemColorReset} is called
+ * @type {TextCache}
+ */
+let ItemColorGroupNames;
 /**
  * All (hex code) colors used within the current lifetime of the ItemColor subscreen.
  * @type {Set<BCColor>}
@@ -89,21 +106,31 @@ function ItemColorSanitizeColor(item) {
  * @returns {ItemColorProperties} - The validated item properties
  */
 function ItemColorSanitizeProperty(item) {
-	let opacity = item.Asset.Layer.map(l => l.Opacity);
+	let layerOpacities = item.Asset.Layer.map(l => l.Opacity);
+	item.Property ??= {};
+	const opacity = item.Property?.Opacity;
+	if (CommonIsFinite(opacity)) {
+		if (item.Asset.Layer.some(l => CommonClamp(opacity, l.MinOpacity, l.MaxOpacity) === opacity)) {
+			// The value fits in all of our layers min/max, use that
+			layerOpacities.fill(opacity);
+		} else {
+			// It doesn't, so make a fake array with that value and let the next block validate it
+			item.Property.Opacity = Array(item.Asset.Layer.length).fill(item.Property?.Opacity);
+		}
+	}
 	if (Array.isArray(item.Property?.Opacity)) {
 		for (const [i, opacityValue] of item.Property.Opacity.entries()) {
-			if (i >= opacity.length) {
+			if (i >= layerOpacities.length) {
 				break;
-			} if (!CommonIsFinite(opacityValue)) {
+			}
+			if (!CommonIsFinite(opacityValue)) {
 				continue;
 			} else {
-				opacity[i] = CommonClamp(opacityValue, item.Asset.Layer[i].MinOpacity, item.Asset.Layer[i].MaxOpacity);
+				layerOpacities[i] = CommonClamp(opacityValue, item.Asset.Layer[i].MinOpacity, item.Asset.Layer[i].MaxOpacity);
 			}
 		}
-	} else if (CommonIsFinite(item.Property?.Opacity)) {
-		opacity.fill(CommonClamp(item.Property.Opacity, item.Asset.MinOpacity, item.Asset.MaxOpacity));
 	}
-	return Object.assign(item.Property ?? {}, { Opacity: opacity });
+	return Object.assign(item.Property, { Opacity: layerOpacities });
 }
 
 /**
@@ -125,10 +152,13 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
 	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
 
+	await ItemColorText.loadedPromise;
+
+	const state = /** @type {ItemColorStateType} */ (ItemColorState);
 	// Add 25 from the width to correct for the hard-coded scrollbar gutter
 	const shape = /** @type {const} */([x, y, width + 25, height]);
-	if (ItemColorState.simpleMode) {
-		await ItemColorOpenPicker(ItemColorState.colorGroups[0], { shape });
+	if (state.simpleMode) {
+		await ItemColorOpenPicker(state.colorGroups[0], { shape });
 	} else {
 		// Pre-loaded (and hide) the color picker subscreen again
 		await ColorPickerInit({ shape, dispatch: false });
@@ -148,7 +178,7 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
  */
 function ItemColorDraw(c, group, x, y, width, height) {
 	const item = InventoryGet(c, group);
-	if (!item) {
+	if (!item || !ItemColorState || !ItemColorItem) {
 		return;
 	}
 
@@ -189,6 +219,7 @@ function ItemColorDraw(c, group, x, y, width, height) {
  * @returns {void} - Nothing
  */
 function ItemColorDrawDefault(x, y) {
+	if (!ItemColorState || !ItemColorItem || !ItemColorLayerNames) return;
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
 	const buttonSpacing = ItemColorConfig.buttonSpacing;
 	const colorDisplayWidth = ItemColorConfig.colorDisplayWidth;
@@ -202,7 +233,9 @@ function ItemColorDrawDefault(x, y) {
 
 	colorGroups.forEach((colorGroup, i) => {
 		const groupY = y + (i * (buttonHeight + buttonSpacing));
-		const asset = ItemColorItem.Asset;
+		const asset = /** @type {Item} */ (ItemColorItem).Asset;
+		const layerNames = /** @type {TextCache} */ (ItemColorLayerNames);
+		const groupNames = /** @type {TextCache} */ (ItemColorGroupNames);
 		let groupName, buttonText, buttonColor;
 		let isBackNextButton = false;
 		if (colorGroup.name === null) {
@@ -210,27 +243,27 @@ function ItemColorDrawDefault(x, y) {
 			buttonText = ItemColorGetColorButtonText(colors);
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 		} else if (colorGroup.layers.length === 1) {
-			groupName = ItemColorLayerNames.get(asset.DynamicGroupName + asset.Name + colorGroup.name);
+			groupName = layerNames.get(asset.DynamicGroupName + asset.Name + colorGroup.name);
 			buttonText = colors[colorGroup.layers[0].ColorIndex];
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 		} else {
 			let currentColors;
 			const layerPage = ItemColorLayerPages[colorGroup.name];
-			const colorGroupName = ItemColorGroupNames.get(asset.DynamicGroupName + asset.Name + colorGroup.name);
+			const colorGroupName = groupNames.get(asset.DynamicGroupName + asset.Name + colorGroup.name);
 			if (layerPage === 0) {
 				currentColors = colorGroup.layers.map(layer => colors[layer.ColorIndex]);
 				groupName = colorGroupName + ": " + ItemColorText.get("All");
 			} else {
 				const layer = colorGroup.layers[layerPage - 1];
 				currentColors = colors[layer.ColorIndex];
-				groupName = colorGroupName + ": " + ItemColorLayerNames.get(asset.DynamicGroupName + asset.Name + (layer.Name || ""));
+				groupName = colorGroupName + ": " + layerNames.get(asset.DynamicGroupName + asset.Name + (layer.Name || ""));
 			}
 			buttonText = ItemColorGetColorButtonText(currentColors);
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 			isBackNextButton = true;
 		}
 		if (isBackNextButton) {
-			DrawBackNextButton(x, groupY, groupButtonWidth, buttonHeight, groupName, "#fff", null, () => "Previous", () => "Next");
+			DrawBackNextButton(x, groupY, groupButtonWidth, buttonHeight, groupName, "#fff", undefined, () => "Previous", () => "Next");
 		} else {
 			DrawButton(x, groupY, groupButtonWidth, buttonHeight, groupName, "#fff");
 		}
@@ -259,7 +292,7 @@ const ItemColorOnPickerChange = () => undefined;
  */
 function ItemColorClick(c, group, x, y, width, height) {
 	const item = InventoryGet(c, group);
-	if (!item || ItemColorCurrentMode === ItemColorMode.COLOR_PICKER) {
+	if (!item || !ItemColorState || ItemColorCurrentMode === ItemColorMode.COLOR_PICKER) {
 		return;
 	}
 
@@ -294,6 +327,7 @@ function ItemColorClick(c, group, x, y, width, height) {
  * @returns {void} - Nothing
  */
 function ItemColorClickDefault(x, y, width, shape) {
+	if (!ItemColorState) return;
 	const pageStart = ItemColorPage * ItemColorState.pageSize;
 	const colorGroups = ItemColorState.colorGroups.slice(pageStart, pageStart + ItemColorState.pageSize);
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
@@ -336,7 +370,7 @@ function ItemColorClickDefault(x, y, width, shape) {
  * @returns {void} - Nothing
  */
 function ItemColorPaginationClick() {
-	ItemColorPage = (ItemColorPage + 1) % ItemColorState.pageCount;
+	ItemColorPage = (ItemColorPage + 1) % (ItemColorState?.pageCount ?? 1);
 }
 
 /**
@@ -344,6 +378,7 @@ function ItemColorPaginationClick() {
  *  @returns {void} - Nothing
  */
 function ItemColorExitClick() {
+	if (!ItemColorItem) return;
 	switch (ItemColorCurrentMode) {
 		case ItemColorMode.COLOR_PICKER:
 			return ItemColorPickerCancel();
@@ -398,18 +433,24 @@ function ItemColorSaveClick() {
 function ItemColorRevert(type) {
 	const colorField = /** @type {const} */(`${type}Colors`);
 	const opacityField = /** @type {const} */(`${type}Opacity`);
-	if (!ItemColorState) {
+	const C = ItemColorCharacter;
+	const state = ItemColorState;
+	const item = ItemColorItem;
+	if (!state || !item || !ItemColorCharacter) {
 		return;
 	}
-	ItemColorPickerIndices.forEach(i => {
-		ItemColorState.colors[i] = ItemColorState[colorField][i];
-		ItemColorItem.Color[i] = ItemColorState[colorField][i];
-	});
+	for (const i of ItemColorPickerIndices) {
+		state.colors[i] = state[colorField][i];
+		// @ts-ignore Strict-TS: trust me bro
+		item.Color[i] = state[colorField][i];
+	}
 	for (const i of ItemColorPickerLayers.keys()) {
 		ItemColorState.opacity[i] = ItemColorState[opacityField][i];
-		ItemColorItem.Property.Opacity[i] = ItemColorState[opacityField][i];
+		item.Property ??= {};
+		// @ts-ignore Strict-TS: trust me bro
+		item.Property.Opacity[i] = ItemColorState[opacityField][i];
 	}
-	CharacterLoadCanvas(ItemColorCharacter);
+	CharacterLoadCanvas(C);
 }
 
 /**
@@ -428,6 +469,7 @@ function ItemColorPickerCancel() {
  * @returns {void} - Nothing
  */
 function ItemColorCloseColorPicker(save) {
+	if (!ItemColorState) return;
 	if (ItemColorState.simpleMode) {
 		ItemColorFireExit(save);
 	} else {
@@ -447,6 +489,7 @@ function ItemColorCloseColorPicker(save) {
  * @returns {number[]} - A list of color indices for any layers within the provided color group
  */
 function ItemColorGetColorIndices(colorGroup) {
+	if (!ItemColorState) return [];
 	if (colorGroup.name === null) {
 		return ItemColorState.colors.map((c, i) => i);
 	} else if (colorGroup.layers.length === 1) {
@@ -469,12 +512,14 @@ function ItemColorGetColorIndices(colorGroup) {
  * @returns {Promise<HTMLElement>} - The root element of the color picker subscreen
  */
 function ItemColorOpenPicker(colorGroup, options=null) {
+	if (!ItemColorItem) throw new Error("eh");
+
 	ItemColorCurrentMode = ItemColorMode.COLOR_PICKER;
 	ItemColorPickerBackup = AppearanceItemStringify(ItemColorItem);
 	ItemColorPickerIndices = ItemColorGetColorIndices(colorGroup);
 	const asset = ItemColorItem.Asset;
 
-	const layerPage = ItemColorLayerPages[colorGroup.name];
+	const layerPage = ItemColorLayerPages[colorGroup.name ?? 0];
 	const protoLayers = colorGroup.name === null ? asset.Layer : (layerPage === 0 ? colorGroup.layers : [colorGroup.layers[layerPage - 1]]);
 	const layers = new Set(protoLayers.flatMap(layer => asset.Layer.filter(l => l.ColorIndex === layer.ColorIndex)));
 	ItemColorPickerLayers.clear();
@@ -503,9 +548,11 @@ function ItemColorOpenPicker(colorGroup, options=null) {
 				nameList.push(ItemColorLayerNames.get(`${asset.DynamicGroupName}${asset.Name}${layer.Name ?? ""}`));
 			}
 		}
+
 		options.heading = TextSubstitute(
 			"Heading",
 			{ "{item}": ElementCreate({ tag: "q", children: [nameList.join("/")] }) },
+			{ textCache: ItemColorText }
 		);
 	}
 	options.onExit ??= (_, save) => ItemColorCloseColorPicker(save);
@@ -519,6 +566,7 @@ function ItemColorOpenPicker(colorGroup, options=null) {
  * @returns {void} - Nothing
  */
 function ItemColorNextColor(colorGroup) {
+	if (!ItemColorState || !ItemColorItem || !ItemColorCharacter) return;
 	const colorIndicesToSet = ItemColorGetColorIndices(colorGroup);
 	const groupColors = ItemColorState.colors.filter((c, i) => colorIndicesToSet.includes(i));
 	const defaultGroupColors = ItemColorState.defaultColors.filter((c, i) => colorIndicesToSet.includes(i));
@@ -527,16 +575,10 @@ function ItemColorNextColor(colorGroup) {
 	const schema = ItemColorItem.Asset.Group.ColorSchema;
 	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length;
 	const nextColor = schema[nextIndex];
-	if (nextColor === "Default") {
-		colorIndicesToSet.forEach(i => {
-			ItemColorItem.Color[i] = ItemColorState.defaultColors[i];
-			ItemColorState.colors[i] = ItemColorState.defaultColors[i];
-		});
-	} else {
-		colorIndicesToSet.forEach(i => {
-			ItemColorItem.Color[i] = nextColor;
-			ItemColorState.colors[i] = nextColor;
-		});
+	for (const i of colorIndicesToSet) {
+		// @ts-ignore Strict-TS: trust me bro
+		ItemColorItem.Color[i] = nextColor === "Default" ? ItemColorState.defaultColors[i] : nextColor;
+		ItemColorState.colors[i] = nextColor === "Default" ? ItemColorState.defaultColors[i] : nextColor;
 	}
 	CharacterLoadCanvas(ItemColorCharacter);
 }
@@ -547,6 +589,7 @@ function ItemColorNextColor(colorGroup) {
  * @returns {void} - Nothing
  */
 function ItemColorNextLayer(colorGroup) {
+	if (colorGroup.name === null) return;
 	const currentPage = ItemColorLayerPages[colorGroup.name];
 	ItemColorLayerPages[colorGroup.name] = (currentPage + 1) % (colorGroup.layers.length + 1);
 }
@@ -557,6 +600,7 @@ function ItemColorNextLayer(colorGroup) {
  * @returns {void} - Nothing
  */
 function ItemColorPreviousLayer(colorGroup) {
+	if (colorGroup.name === null) return;
 	const currentPage = ItemColorLayerPages[colorGroup.name];
 	const totalPages = colorGroup.layers.length + 1;
 	ItemColorLayerPages[colorGroup.name] = (currentPage + totalPages - 1) % totalPages;
@@ -577,11 +621,11 @@ function ItemColorGetGroups(item, colorableLayers) {
 	const colorGroups = Object.keys(groupMap)
 		.map(key => {
 			ItemColorLayerPages[key] = ItemColorLayerPages[key] || 0;
-			return {
+			return /** @type {ColorGroup} */ ({
 				name: key,
 				layers: groupMap[key],
 				colorIndex: groupMap[key].reduce((min, layer) => Math.min(min, layer.ColorIndex), Infinity),
-			};
+			});
 		})
 		.sort((g1, g2) => g1.colorIndex - g2.colorIndex);
 	colorGroups.unshift({ name: null, layers: [], colorIndex: -1 });
@@ -619,8 +663,8 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	const buttonHeight = ItemColorConfig.buttonSize;
 	const headerButtonSize = ItemColorConfig.headerButtonSize;
 
-	const drawExport = typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText;
-	const drawImport = typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.readText;
+	const drawExport = navigator?.clipboard?.writeText;
+	const drawImport = navigator?.clipboard?.readText;
 	const paginationButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
 	const cancelButtonX = x + width - 2 * headerButtonSize - buttonSpacing;
 	const saveButtonX = x + width - headerButtonSize;
@@ -634,11 +678,15 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 
 	ItemColorState = {
 		colorGroups,
+		// @ts-ignore Strict-TS: trust me bro
 		colors: ItemColorItem.Color,
+		// @ts-ignore Strict-TS: trust me bro
 		initialColors: [...ItemColorItem.Color],
 		defaultColors: ItemColorItem.Asset.DefaultColor,
-		opacity: ItemColorItem.Property.Opacity,
-		initialOpacity: [...ItemColorItem.Property.Opacity],
+		// @ts-ignore Strict-TS: trust me bro
+		opacity: ItemColorItem.Property?.Opacity,
+		// @ts-ignore Strict-TS: trust me bro
+		initialOpacity: [...(ItemColorItem.Property?.Opacity ?? [])],
 		defaultOpacity: ItemColorItem.Asset.Layer.map(l => l.Opacity),
 		simpleMode,
 		paginationButtonX,
@@ -662,7 +710,7 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	}
 
 	// Add all currently active colors within the item
-	ItemColorState.initialColors.forEach(color => {
+	/** @type {ItemColorStateType} */ (ItemColorState).initialColors.forEach(color => {
 		if (CommonIsColor(color)) {
 			ItemColorHistory.add(color);
 		}
@@ -694,10 +742,7 @@ function ItemColorGetColorableLayers(item) {
  * @returns {boolean} - Whether the item only allows one color
  */
 function ItemColorIsSimple(item) {
-	if (item && item.Asset && item.Asset.Layer) {
-		return ItemColorGetColorableLayers(item).length === 1;
-	}
-	else return true;
+	return ItemColorGetColorableLayers(item).length === 1;
 }
 
 /**
@@ -708,7 +753,7 @@ function ItemColorIsSimple(item) {
  */
 function ItemColorGetColorButtonTextKey(color) {
 	if (CommonIsArray(color)) {
-		const initialColor = color[0];
+		const initialColor = color[0] ?? "Default";
 		return color.some(c => c !== initialColor) ? "Many" : initialColor;
 	} else if (typeof color !== "string" || color === "None") {
 		return "Default";
@@ -748,23 +793,25 @@ function ItemColorOnExit(callback) {
  * @returns {void} - Nothing
  */
 function ItemColorFireExit(save) {
+	const item = ItemColorItem;
+	const state = ItemColorState;
+	if (!state || !item) return;
 	const colorState = {
-		colors: [...ItemColorState.colors],
-		opacity: [...ItemColorState.opacity],
-		initialColors: [...ItemColorState.initialColors],
-		initialOpacity: [...ItemColorState.initialOpacity],
-		defaultColors: [...ItemColorState.defaultColors],
-		defaultOpacity: [...ItemColorState.defaultOpacity],
-		editOpacity: ItemColorState.editOpacity,
+		colors: [...state.colors],
+		opacity: [...state.opacity],
+		initialColors: [...state.initialColors],
+		initialOpacity: [...state.initialOpacity],
+		defaultColors: [...state.defaultColors],
+		defaultOpacity: [...state.defaultOpacity],
+		editOpacity: state.editOpacity,
 	};
 	ItemColorExitListeners.forEach(listener => listener(colorState, save, null));
 
 	// Minify the opacity property if possible
-	/** @type {Item} */
-	const item = ItemColorItem;
 	if (CommonArraysEqual(colorState.opacity, colorState.defaultOpacity)) {
-		delete item.Property.Opacity;
+		delete item.Property?.Opacity;
 	} else if (colorState.opacity.every(opacity => opacity === colorState.opacity[0])) {
+		item.Property ??= {};
 		item.Property.Opacity = colorState.opacity[0];
 	}
 
@@ -777,10 +824,14 @@ function ItemColorFireExit(save) {
  * @returns {void} - Nothing
  */
 function ItemColorReset() {
+	// @ts-ignore Strict-TS: screen lifetime
 	ItemColorCharacter = null;
+	// @ts-ignore Strict-TS: screen lifetime
 	ItemColorItem = null;
-	ItemColorCurrentMode = null;
+	ItemColorCurrentMode = ItemColorMode.DEFAULT;
+	// @ts-ignore Strict-TS: screen lifetime
 	ItemColorStateKey = null;
+	// @ts-ignore Strict-TS: screen lifetime
 	ItemColorState = null;
 	ItemColorPage = 0;
 	ItemColorLayerPages = {};
@@ -789,8 +840,11 @@ function ItemColorReset() {
 	ItemColorPickerLayers.clear();
 	ItemColorHistory.clear();
 	ItemColorExitListeners = [];
+	// @ts-ignore Strict-TS: screen lifetime
 	ItemColorBackup = null;
+	// @ts-ignore Strict-TS: screen lifetime
 	ItemColorLayerNames = null;
+	// @ts-ignore Strict-TS: screen lifetime
 	ItemColorGroupNames = null;
 }
 

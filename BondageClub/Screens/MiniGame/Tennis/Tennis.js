@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 "use strict";
 var TennisBackground = "CollegeTennisPlay";
-/** @type {null | NPCCharacter} */
+/** @type {null | PlayerCharacter | NPCCharacter} */
 var TennisCharacterLeft = null;
 /** @type {null | NPCCharacter} */
 var TennisCharacterRight = null;
@@ -68,11 +67,15 @@ async function TennisLoad() {
 function TennisRun() {
 
 	// Draw the characters
-	DrawCharacter(TennisCharacterLeft, 0, 100, 0.9);
-	DrawText(TennisCharacterLeft.Name, 225, 30, "white");
+	if (TennisCharacterLeft) {
+		DrawCharacter(TennisCharacterLeft, 0, 100, 0.9);
+		DrawText(TennisCharacterLeft.Name, 225, 30, "white");
+	}
 	DrawText(TennisGetScore(TennisCharacterLeftPoint, TennisCharacterRightPoint), 225, 80, "white");
-	DrawCharacter(TennisCharacterRight, 1550, 100, 0.9);
-	DrawText(TennisCharacterRight.Name, 1775, 30, "white");
+	if (TennisCharacterRight) {
+		DrawCharacter(TennisCharacterRight, 1550, 100, 0.9);
+		DrawText(TennisCharacterRight.Name, 1775, 30, "white");
+	}
 	DrawText(TennisGetScore(TennisCharacterRightPoint, TennisCharacterLeftPoint), 1775, 80, "white");
 
 	// If the mini game is running
@@ -128,10 +131,7 @@ function TennisRun() {
 				MiniGameProgress = -1;
 				TennisServe(true);
 				TennisCharacterRightPoint++;
-				if ((TennisCharacterRightPoint >= 4) && (TennisCharacterRightPoint >= TennisCharacterLeftPoint + 2)) {
-					MiniGameVictory = false;
-					MiniGameEnded = true;
-				}
+				TennisVerifyEnd();
 			}
 
 			// If the player scores
@@ -139,10 +139,7 @@ function TennisRun() {
 				MiniGameProgress = -1;
 				TennisServe(false);
 				TennisCharacterLeftPoint++;
-				if ((TennisCharacterLeftPoint >= 4) && (TennisCharacterLeftPoint >= TennisCharacterRightPoint + 2)) {
-					MiniGameVictory = true;
-					MiniGameEnded = true;
-				}
+				TennisVerifyEnd();
 			}
 
 		}
@@ -166,6 +163,10 @@ function TennisRun() {
 function TennisVerifyEnd() {
 	if ((TennisCharacterLeftPoint >= 4) && (TennisCharacterLeftPoint >= TennisCharacterRightPoint + 2)) {
 		MiniGameVictory = true;
+		MiniGameEnded = true;
+	}
+	if ((TennisCharacterRightPoint >= 4) && (TennisCharacterRightPoint >= TennisCharacterLeftPoint + 2)) {
+		MiniGameVictory = false;
 		MiniGameEnded = true;
 	}
 }

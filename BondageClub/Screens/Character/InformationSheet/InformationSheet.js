@@ -1,7 +1,11 @@
-// @ts-strict-ignore
 "use strict";
 var InformationSheetBackground = "Sheet";
-/** @type {null | Character | NPCCharacter} */
+/**
+ * The character we're showing the information of.
+ *
+ * Also used by OnlineProfile.js
+ * @type {null | Character | NPCCharacter}
+ */
 var InformationSheetSelection = null;
 /** @type {ScreenSpecifier | null} */
 var InformationSheetReturnScreen = null;
@@ -12,9 +16,13 @@ var InformationSheetSecondScreen = false;
  * @type {ScreenLoadHandler}
  */
 async function InformationSheetLoad() {
-	TextPrefetch("Character", "FriendList");
-	TextPrefetch("Character", "Preference");
-	TextPrefetch("Character", "Title");
+	if (!InformationSheetSelection) throw new Error("No character selected");
+
+	await Promise.all([
+		TextPrefetch("Character", "FriendList").loadedPromise,
+		TextPrefetch("Character", "Preference").loadedPromise,
+		TextPrefetch("Character", "Title").loadedPromise,
+	]);
 
 	const C = InformationSheetSelection;
 
@@ -72,11 +80,11 @@ async function InformationSheetLoad() {
  * @returns {void} - Nothing
  */
 function InformationSheetRun() {
-
-	// Draw the character base values
 	const C = InformationSheetSelection;
+	if (!C) return;
 	const CurrentTitle = TitleGet(C);
 
+	// Draw the character base values
 	DrawCharacter(C, 50, 50, 0.9);
 	MainCanvas.textAlign = "left";
 
@@ -91,7 +99,7 @@ function InformationSheetRun() {
 		currentY += spacing;
 	}
 	if (CurrentTitle !== "None") {
-		DrawTextFit(TextGet("Title") + " " + TextGet("Title" + CurrentTitle), 550, currentY, 450, TitleIsForced(CurrentTitle) ? "Red" : TitleIsEarned(CurrentTitle) ? "#0000BF" : "Black", "Gray");
+		DrawTextFit(TextGet("Title") + " " + TitleGetName(CurrentTitle), 550, currentY, 450, TitleIsForced(CurrentTitle) ? "Red" : TitleIsEarned(CurrentTitle) ? "#0000BF" : "Black", "Gray");
 		currentY += spacing;
 	}
 	if (C.MemberNumber != null) {
@@ -102,7 +110,7 @@ function InformationSheetRun() {
 
 	currentY += spacingLarge;
 
-	if ((C.IsPlayer() || C.IsOnline()) && C.Creation !== null) {
+	if ((C.IsPlayer() || C.IsOnline()) && C.Creation !== undefined) {
 		const memberLabel = TextGet(C.IsBirthday() ? "Birthday" : "MemberFor");
 		const creationFormatted = CommonFormatDurationRange(CurrentTime, C.Creation, { showFull: true, includeYears: true, includeMonths: true, includeDays: true });
 		const memberForLabel = `${memberLabel} ${creationFormatted}`;
@@ -145,18 +153,19 @@ function InformationSheetRun() {
 		}
 		currentY += spacing;
 
+		const Love = C.Love ?? 0;
 		let relationshipQualifier = "";
-		if (C.Love >= 100) relationshipQualifier = "RelationshipPerfect";
-		else if (C.Love >= 75) relationshipQualifier = "RelationshipGreat";
-		else if (C.Love >= 50) relationshipQualifier = "RelationshipGood";
-		else if (C.Love >= 25) relationshipQualifier = "RelationshipFair";
-		else if (C.Love > -25) relationshipQualifier = "RelationshipNeutral";
-		else if (C.Love > -50) relationshipQualifier = "RelationshipPoor";
-		else if (C.Love > -75) relationshipQualifier = "RelationshipBad";
-		else if (C.Love > -100) relationshipQualifier = "RelationshipHorrible";
+		if (Love >= 100) relationshipQualifier = "RelationshipPerfect";
+		else if (Love >= 75) relationshipQualifier = "RelationshipGreat";
+		else if (Love >= 50) relationshipQualifier = "RelationshipGood";
+		else if (Love >= 25) relationshipQualifier = "RelationshipFair";
+		else if (Love > -25) relationshipQualifier = "RelationshipNeutral";
+		else if (Love > -50) relationshipQualifier = "RelationshipPoor";
+		else if (Love > -75) relationshipQualifier = "RelationshipBad";
+		else if (Love > -100) relationshipQualifier = "RelationshipHorrible";
 		else relationshipQualifier = "RelationshipAtrocious";
 
-		let loveLine = TextGet("Relationship") + " " + C.Love.toString() + " " + TextGet(relationshipQualifier);
+		let loveLine = TextGet("Relationship") + " " + Love.toString() + " " + TextGet(relationshipQualifier);
 		DrawTextFit(loveLine, 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
 	}
@@ -254,18 +263,19 @@ function InformationSheetRun() {
 		const lovership = C.GetLovership();
 		if (lovership.length < 1) DrawText(TextGet("None"), 1200, 200, "Black", "Gray");
 		for (let [L, lover] of lovership.entries()) {
-			const stageText = stageQualifier[lover.Stage];
+			const loveStart = lover.Start ?? 0;
+			const stageText = stageQualifier[lover.Stage ?? 0];
 			const relationStageLabel = `${TextGet(`${stageText}With`)} ${lover.Name}${lover.MemberNumber ? ` (${lover.MemberNumber})` : ""}`;
 			DrawTextFit(relationStageLabel, 1200, 200 + L * 150, 600, "Black", "Gray");
-			const relationDurationLabel = `${TextGet("For")} ${CommonFormatDurationRange(CurrentTime, lover.Start, { showFull: true, includeYears: true, includeMonths: true, includeDays: true })}`;
+			const relationDurationLabel = `${TextGet("For")} ${CommonFormatDurationRange(CurrentTime, loveStart, { showFull: true, includeYears: true, includeMonths: true, includeDays: true })}`;
 			DrawTextFit(relationDurationLabel, 1200, 260 + L * 150, 600, "Black", "Gray");
 			const hoverY = 260 + L * 150 - 20;
 			if (MouseIn(1200, hoverY, 600, 40)) {
-				const relationStartDate = new Date(lover.Start).toLocaleString(undefined, {
+				const relationStartDate = new Date(loveStart).toLocaleString(undefined, {
 					dateStyle: "medium",
 					timeStyle: "short",
 				});
-				const relationDurationLabelShort = CommonFormatDurationRange(CurrentTime, lover.Start, { showFull: true });
+				const relationDurationLabelShort = CommonFormatDurationRange(CurrentTime, loveStart, { showFull: true });
 
 				DrawHoverElements.push(() => {
 					DrawButtonHover(1200, hoverY, 450, 40, `${relationStartDate} – ${relationDurationLabelShort}`);
@@ -287,21 +297,22 @@ function InformationSheetRun() {
 			currentY += spacing;
 		}
 		if (playerLove) {
-			const stageText = stageQualifier[playerLove.Stage];
+			const stageText = stageQualifier[playerLove.Stage ?? 0];
+			const loveStart = playerLove.Start ?? 0;
 
 			const loverStageLabel = `${TextGet(`${stageText}With`)} ${C.LoverName()}`;
 			DrawText(loverStageLabel, 550, currentY, "Black", "Gray");
 			currentY += spacing;
-			const loverDurationLabel = `${TextGet("For")} ${CommonFormatDurationRange(CurrentTime,  playerLove.Start, { showFull: true, includeYears: true, includeMonths: true, includeDays: true })}`;
+			const loverDurationLabel = `${TextGet("For")} ${CommonFormatDurationRange(CurrentTime, loveStart, { showFull: true, includeYears: true, includeMonths: true, includeDays: true })}`;
 			DrawText(loverDurationLabel, 550, currentY, "Black", "Gray");
 			const y = currentY - 20;
 			if (MouseIn(550, y, 450, 40))
 				DrawHoverElements.push(() => {
-					const loverStartDate = new Date(playerLove.Start).toLocaleString(undefined, {
+					const loverStartDate = new Date(loveStart).toLocaleString(undefined, {
 						dateStyle: "medium",
 						timeStyle: "short",
 					});
-					const loverDurationTooltip = `${loverStartDate} – ${CommonFormatDurationRange(CurrentTime, playerLove.Start, { showFull: true })}`;
+					const loverDurationTooltip = `${loverStartDate} – ${CommonFormatDurationRange(CurrentTime, loveStart, { showFull: true })}`;
 					DrawButtonHover(550, y, 450, 40, loverDurationTooltip);
 				});
 			currentY += spacing;
@@ -338,11 +349,10 @@ function InformationSheetRun() {
 		// After one week we show the traits, after two weeks we show the level
 		if (CurrentTime >= NPCEventGet(C, "PrivateRoomEntry") * CheatFactor("AutoShowTraits", 0) + 604800000) {
 			let Pos = 0;
-			for (let T = 0; T < C.Trait.length; T++)
-				if ((C.Trait[T].Value != null) && (C.Trait[T].Value != 0)) {
-					DrawText(TextGet("Trait" + ((C.Trait[T].Value > 0) ? C.Trait[T].Name : NPCTraitReverse(C.Trait[T].Name))) + " " + ((CurrentTime >= NPCEventGet(C, "PrivateRoomEntry") * CheatFactor("AutoShowTraits", 0) + 1209600000) ? Math.abs(C.Trait[T].Value).toString() : "??"), 1000, 200 + Pos * 75, "Black", "Gray");
-					Pos++;
-				}
+			for (const trait of C.Trait ?? []) {
+				DrawText(TextGet("Trait" + ((trait.Value > 0) ? trait.Name : NPCTraitReverse(trait.Name))) + " " + ((CurrentTime >= NPCEventGet(C, "PrivateRoomEntry") * CheatFactor("AutoShowTraits", 0) + 1209600000) ? Math.abs(trait.Value).toString() : "??"), 1000, 200 + Pos * 75, "Black", "Gray");
+				Pos++;
+			}
 		} else DrawText(TextGet("TraitUnknown"), 1000, 200, "Black", "Gray");
 
 	}
@@ -355,9 +365,9 @@ function InformationSheetRun() {
  * @returns {void} - Nothing
  */
 function InformationSheetSecondScreenRun() {
-
+	const C = InformationSheetSelection;
+	if (!C) return;
 	// For current player and online characters
-	var C = InformationSheetSelection;
 	if (C.IsPlayer() || C.IsOnline()) {
 		const lineHeight = 55;
 		// Draw the reputation section
@@ -414,10 +424,11 @@ function InformationSheetSecondScreenRun() {
 
 /**
  * Handles the click events on the screen
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function InformationSheetClick() {
-	var C = InformationSheetSelection;
+	const C = InformationSheetSelection;
+	if (!C) return;
 	if (MouseIn(1815, 75, 90, 90)) InformationSheetExit();
 	if (C.IsPlayer()) {
 		if (MouseIn(1815, 190, 90, 90) && !TitleIsForced(TitleGet(C))) CommonSetScreen("Character", "Title");
@@ -467,6 +478,7 @@ function InformationSheetLoadCharacter(C) {
 }
 
 function InformationSheetResize() {
+	if (!InformationSheetSelection) return;
 	const C = InformationSheetSelection;
 	if (C.IsPlayer()) {
 		ElementSetPosition("AllowedInteractions-dropdown-container", 550, 800);

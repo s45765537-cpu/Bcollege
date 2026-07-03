@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {PreferenceExtensionsMenuButtonInfo[]} */
@@ -18,13 +17,13 @@ const PreferenceExtensionsIDs = Object.freeze({
 function PreferenceSubscreenExtensionsLoad() {
 	PreferenceExtensionsDisplay = Object.keys(PreferenceExtensionsSettings).map(
 		k => (
-			s=>({
+			s => ({
 				Button: typeof s.ButtonText === "function" ? s.ButtonText() : s.ButtonText,
 				Image: s.Image && (typeof s.Image === "function" ? s.Image() : s.Image),
 				click: () => {
 					PreferenceExtensionsCurrent = s;
-					ElementWrap(PreferenceIDs.subscreen).hidden = true;
-					s?.load();
+					ElementWrap(PreferenceIDs.subscreen)?.toggleAttribute("hidden", true);
+					s?.load?.();
 				},
 			}))(PreferenceExtensionsSettings[k]));
 
@@ -34,7 +33,7 @@ function PreferenceSubscreenExtensionsLoad() {
 			attributes: { id: PreferenceExtensionsIDs.noExtensionLabel },
 			children: [TextGet("ExtensionsNotFound")],
 		});
-		ElementWrap(PreferenceIDs.subscreen).append(noExtensionLabel);
+		ElementWrap(PreferenceIDs.subscreen)?.append(noExtensionLabel);
 	} else {
 		ElementWrap(PreferenceExtensionsIDs.grid)?.remove();
 		const buttonsGrid = ElementCreate({
@@ -54,7 +53,7 @@ function PreferenceSubscreenExtensionsLoad() {
 					});
 			}),
 		});
-		ElementWrap(PreferenceIDs.subscreen).append(buttonsGrid);
+		ElementWrap(PreferenceIDs.subscreen)?.append(buttonsGrid);
 	}
 }
 
@@ -103,7 +102,7 @@ async function PreferenceSubscreenExtensionsClear() {
 	PreferenceExtensionsCurrent.unload?.();
 	PreferenceExtensionsCurrent = null;
 	// Reload the extension settings
-	ElementWrap(PreferenceIDs.subscreen).hidden = false;
+	ElementWrap(PreferenceIDs.subscreen)?.toggleAttribute("hidden", false);
 	await PreferenceOpenSubscreen("Extensions");
 }
 
@@ -116,6 +115,7 @@ function PreferenceSubscreenExtensionsUnload() {
 	PreferenceExtensionsCurrent = null;
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenExtensionsResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 
@@ -129,6 +129,8 @@ function PreferenceSubscreenExtensionsResize(onLoad) {
 }
 
 /**
+ * Open a given subscreen
+ * @public
  * @param {string} screenIdentifier
  * @param {ScreenSpecifier} returnScreen
  */
@@ -145,6 +147,6 @@ async function PreferenceSubscreenExtensionsOpen(screenIdentifier, returnScreen)
 	if (!screen) return;
 
 	PreferenceExtensionsCurrent = screen;
-	screen.load();
-	ElementWrap(PreferenceIDs.subscreen).hidden = true;
+	screen.load?.();
+	ElementWrap(PreferenceIDs.subscreen)?.toggleAttribute("hidden", true);
 }

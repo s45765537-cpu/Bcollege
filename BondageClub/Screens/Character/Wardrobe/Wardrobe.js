@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var WardrobeBackground = "Private";
 /** @type {Character[]} */
@@ -214,13 +213,16 @@ function WardrobeClick() {
 						}
 						break;
 
-					case "Place":
-						WardrobeSwapSlots (WardrobeReorderList.shift(), C + WardrobeOffset);
+					case "Place": {
+						const slot = WardrobeReorderList.shift();
+						if (slot === undefined) return;
+						WardrobeSwapSlots(slot, C + WardrobeOffset);
 
 						if (WardrobeReorderList.length <= 0) {
 							WardrobeReorderModeSet ("None");
 						}
 						break;
+					}
 				}
 			}
 		}
@@ -232,7 +234,7 @@ function WardrobeClick() {
  * value.  The reordering mode cycles through the values:
  * "None" -> "Select" -> "Place"
  *
- * @param {WardrobeReorderType} newmode - The mode to set.  If null, advance to next mode.
+ * @param {WardrobeReorderType | null} newmode - The mode to set.  If null, advance to next mode.
  */
 function WardrobeReorderModeSet (newmode=null)
 {
@@ -323,7 +325,8 @@ function WardrobeAssetBundle(A) {
  * @returns {void} - Nothing
  */
 function WardrobeFastLoad(C, W, Update) {
-	var savedExpression = {};
+	/** @type {Partial<Record<ExpressionGroupName, ExpressionName>>} */
+	let savedExpression = {};
 	if (C == Player) savedExpression = WardrobeGetExpression(Player);
 	if ((Player.Wardrobe != null) && (Player.Wardrobe[W] != null) && (Player.Wardrobe[W].length > 0)) {
 		C.Appearance = C.Appearance
@@ -340,12 +343,13 @@ function WardrobeFastLoad(C, W, Update) {
 					&& InventoryAvailable(Player, A.Name, A.Group.Name)
 				) {
 					CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0);
-					if (w.Property && InventoryGet(C, w.Group)) {
-						var item = InventoryGet(C, w.Group);
-						if (item.Property == null) item.Property = {};
-						for (const key of Object.keys(w.Property)) {
-							if (key !== "Expression") item.Property[key] = w.Property[key];
-						}
+					if (!w.Property) return;
+					const item = InventoryGet(C, w.Group);
+					if (!item) return;
+					item.Property ??= {};
+					for (const key of Object.keys(w.Property)) {
+						// @ts-ignore Strict-TS
+						if (key !== "Expression") item.Property[key] = w.Property[key];
 					}
 				}
 			});
@@ -365,7 +369,7 @@ function WardrobeFastLoad(C, W, Update) {
 					} else {
 						CharacterAppearanceSetItem(
 							C, g.Name,
-							AssetGroupGet(C.AssetFamily, g.Name)?.Asset[0],
+							AssetGroupGet(C.AssetFamily, g.Name)?.Asset[0] ?? null,
 						);
 					}
 				}
@@ -373,6 +377,7 @@ function WardrobeFastLoad(C, W, Update) {
 		// Restores the expressions the player had previously per item in the appearance
 		if (C == Player) {
 			Player.Appearance.forEach(item => {
+				if (!item.Asset.Group.HasExpression()) return;
 				if (savedExpression[item.Asset.Group.Name] != null) {
 					if (item.Property == null) item.Property = {};
 					item.Property.Expression = savedExpression[item.Asset.Group.Name];
@@ -475,8 +480,11 @@ function WardrobePushAll() {
  */
 function WardrobeGetExpression(C) {
 	/** @type {Partial<Record<ExpressionGroupName, ExpressionName>>} */
-	var characterExpression = {};
-	ServerAppearanceBundle(C.Appearance).filter(item => item.Property != null && item.Property.Expression != null).forEach(item => characterExpression[item.Group] = item.Property.Expression);
+	const characterExpression = {};
+	for (const item of C.Appearance) {
+		if (!item.Asset.Group.HasExpression()) continue;
+		characterExpression[item.Asset.Group.Name] = item.Property?.Expression;
+	}
 	return characterExpression;
 }
 

@@ -1349,10 +1349,10 @@ Unknown time left
 剩餘時間未知
 Restart Timer
 重新啟動計時器
-SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
-SourceCharacter在DestinationCharacterFocusAssetGroup上的鎖的計時器上增加了TimerTime TimerUnit。
-SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
-SourceCharacter從DestinationCharacterFocusAssetGroup上的鎖的計時器上移除了TimerTime TimerUnit。
+SourceCharacter adds TimerTime to the padlock on DestinationCharacter FocusAssetGroup.
+SourceCharacter在DestinationCharacterFocusAssetGroup上的鎖的計時器上增加了TimerTime。
+SourceCharacter removes TimerTime from the padlock on DestinationCharacter FocusAssetGroup.
+SourceCharacter從DestinationCharacterFocusAssetGroup上的鎖的計時器上移除了TimerTime。
 SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
 SourceCharacter在DestinationCharacterFocusAssetGroup上的鎖的計時器上增加了不知多久時間。
 The LockName on DestinationCharacterName FocusAssetGroup opens with a click

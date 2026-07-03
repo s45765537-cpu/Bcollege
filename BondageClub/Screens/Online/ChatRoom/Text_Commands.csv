@@ -45,6 +45,12 @@ whitelistremove,[MemberNumber]: Remove a player from your whitelist
 forbiddenwords,Display your forbidden words set by your owner
 wheel,Spin your Wheel of Fortune
 release,[MemberNumber]: Release a submissive from your ownership
+roomcustom,View or change the room's custom configuration.
+roomcustom-enable|disable-desc,Enables the room customization
+roomcustom-image [URL|-]-desc,Use URL as the room background. `-` to unset
+roomcustom-filter [#hexcode|-]-desc,Use #hexcode as the room effect. `-` to unset
+roomcustom-music [URL|-]-desc,Use URL as the room background music. `-` to unset
+roomcustom-sync [on|off]-desc,Enable/disable music syncing
 customimage,[URL]: Set the http address of the background jpg/png image to use
 customfilter,[Color]: Set the color code of the background filter (ex: #0000FF40)
 custommusic,[URL]: Set the http address of the background mp3/mp4 music to use
@@ -61,5 +67,10 @@ mapgivekey, [MemberNumber] [bronze] [silver] [gold]: Give any map key to a playe
 maptakekey, [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
 clear,Removes all messages from the chat
 arousal,Sets your arousal level
+mods,Show Mod SDK related commands
+mods-list,Show Mod SDK mods loaded in your client in the chat log
+mods-remote,[MemberNumber|Name|Nickname] Ask others (or one player) for their Mod SDK list; results appear after replies or timeout.
+mods-remote-target,target player
+mods-remote-target-desc,Optional player in this room (name or member number); omit to query everyone else
 sos,Toggle SOS emote
 brb,Toggle Be-right-back emote

@@ -1,9 +1,9 @@
-// @ts-strict-ignore
 "use strict";
 
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<TypedItemData>} */
 function InventoryItemArmsTransportJacketLoadHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -15,6 +15,7 @@ function InventoryItemArmsTransportJacketLoadHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<TypedItemData>} */
 function InventoryItemArmsTransportJacketDrawHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData === null) {
 		return;
@@ -41,13 +42,14 @@ function InventoryItemArmsTransportJacketPublishActionHook(data, originalFunctio
 			return;
 		}
 		case "TypedItemOption":
-			originalFunction(C, item, newOption, previousOption);
+			originalFunction?.(C, item, newOption, previousOption);
 			return;
 	}
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<TypedItemData>} */
 function InventoryItemArmsTransportJacketExitHook(Data, OriginalFunction) {
+	if (!DialogFocusItem) return;
 	const textData = ExtendedItemGetData(DialogFocusItem.Asset, ExtendedArchetype.TEXT);
 	if (textData !== null) {
 		TextItem.Exit(textData);
@@ -64,9 +66,10 @@ function AssetsItemArmsTransportJacketAfterDraw(
 		const height = 60;
 		const flatCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const flatCtx = flatCanvas.getContext("2d");
+		if (!flatCtx) return;
 
 		TextItem.Init(data, C, CA, false, false);
-		const text = CA.Property.Text;
+		const text = CA.Property?.Text ?? "";
 
 		DynamicDrawText(text, flatCtx, width / 2, height / 2, {
 			fontSize: 40,

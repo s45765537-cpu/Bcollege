@@ -3240,8 +3240,10 @@ function PlatformDrawGiftButtons() {
  * @returns {void} - Nothing
  */
 function PlatformRun() {
-	if ((document.activeElement == null) || (document.activeElement.id !== "MainCanvas")) document.getElementById("MainCanvas").focus();
-	if ((document.activeElement == null) || (document.activeElement.id !== "MainCanvas")) PlatformKeys = [];
+	if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
+		document.activeElement.blur();
+		PlatformKeys = [];
+	}
 	PlatformDrawGame();
 	DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	if (PlatformHeal != null) DrawButton(1800, 10, 90, 90, "", "White", "Icons/Save.png", TextGet("Save"));
@@ -3485,18 +3487,15 @@ function PlatformLoadGame(Slot) {
 	// Gets the saved JSON object and make sure it's valid
 	let LoadStr = localStorage.getItem("BondageBrawlSave" + Slot.toString());
 	if (LoadStr == null) return;
-	let LoadObj;
-	try {
-		const data = JSON.parse(LoadStr);
-		if (!CommonIsObject(LoadObj)) throw new Error();
-		LoadObj = /** @type {Platform.SaveData} */ (data);
-	} catch (err) {
-		console.error(`invalid save game in slot ${Slot}`, err);
+	let LoadObj = JSON.parse(LoadStr);
+	if (
+		!CommonIsObject(LoadObj)
+		|| LoadObj.Character == null
+		|| LoadObj.Status == null
+		|| LoadObj.Room == null
+	) {
 		return;
 	}
-	if (LoadObj.Character == null) return;
-	if (LoadObj.Status == null) return;
-	if (LoadObj.Room == null) return;
 
 	// Load the game parameters and inventory
 	PlatformChar = [];

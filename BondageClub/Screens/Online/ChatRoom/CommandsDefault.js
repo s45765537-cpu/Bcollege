@@ -78,6 +78,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.FriendList, true, number);
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to friend list",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsFriend).map(c => c.MemberNumber.toString()),
@@ -91,6 +92,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.FriendList, true, number, "FriendRequest");
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of the player to request friendship with",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsFriend).map(c => c.MemberNumber.toString()),
@@ -104,6 +106,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.FriendList, false, number);
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to remove from friend list",
 			suggestions: () => Player.FriendList.map(c => c.toString()),
@@ -117,6 +120,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.GhostList, true, number);
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to ghost list",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsGhosted).map(c => c.MemberNumber.toString()),
@@ -130,6 +134,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.GhostList, false, number);
 		},
 		Arguments: [{
+			id: "Member number",
 			name: "Member number",
 			description: "Member number of player to remove from ghost list",
 			suggestions: () => Player.GhostList.map(c => c.toString()),
@@ -143,6 +148,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.WhiteList, true, number);
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to whitelist",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsWhitelisted).map(c => c.MemberNumber.toString()),
@@ -156,6 +162,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.WhiteList, false, number);
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to remove from whitelist",
 			suggestions: () => Player.WhiteList.map(c => c.toString()),
@@ -169,6 +176,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.BlackList, true, number);
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to blacklist",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsBlacklisted).map(c => c.MemberNumber.toString()),
@@ -182,6 +190,7 @@ const CommonCommands = [
 			ChatRoomListUpdate(Player.BlackList, false, number);
 		},
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to remove from blacklist",
 			suggestions: () => Player.BlackList.map(c => c.toString()),
@@ -232,6 +241,7 @@ const CommonCommands = [
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Ban", args),
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to ban",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !ChatRoomData.Ban.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
@@ -242,6 +252,7 @@ const CommonCommands = [
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Unban", args),
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to unban",
 			suggestions: () => ChatRoomData.Ban.map(c => c.toString()),
@@ -252,6 +263,7 @@ const CommonCommands = [
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Kick", args),
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to kick",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer()).map(c => c.MemberNumber.toString()),
@@ -262,6 +274,7 @@ const CommonCommands = [
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Promote", args),
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to promote",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !ChatRoomData.Admin.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
@@ -272,6 +285,7 @@ const CommonCommands = [
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Demote", args),
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to demote",
 			suggestions: () => ChatRoomData.Admin.map(c => c.toString()),
@@ -282,6 +296,7 @@ const CommonCommands = [
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Whitelist", args),
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to whitelist",
 			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !ChatRoomData.Whitelist.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
@@ -292,6 +307,7 @@ const CommonCommands = [
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Unwhitelist", args),
 		Arguments: [{
+			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to unwhitelist",
 			suggestions: () => ChatRoomData.Whitelist.map(c => c.toString()),
@@ -448,6 +464,7 @@ const CommonCommands = [
 		Tag: 'pandora',
 		Action: args => PandoraPenitentiaryDoActivity(args),
 		Arguments: [{
+			id: "activity",
 			name: "Activity",
 			description: "Activity to perform",
 			suggestions: () => PandoraPenitentiaryActivityList
@@ -457,6 +474,7 @@ const CommonCommands = [
 		Tag: 'help',
 		Action: args => CommandsHelp.ShowForPartial(args),
 		Arguments: [{
+			id: "subcommand",
 			name: "subcommand",
 			description: "The subcommand to print help for",
 			suggestions: () => GetCommands().map(c => c.Tag)
@@ -686,16 +704,44 @@ const CommonCommands = [
 		},
 	},
 	{
+		Tag: "roomcustom",
+		Action: (cmd, msg, args) => {
+			ChatAdminRoomCustomizationCommand(args);
+		},
+		Arguments: [
+			{
+				id: "enable|disable",
+				description: "Enable/disable the room customization",
+			},
+			{
+				id: "image [URL|-]",
+				description: "Use URL as the room background. `-` to unset",
+			},
+			{
+				id: "filter [#hexcode|-]",
+				description: "Use hexcode as the room effect. `-` to unset",
+			},
+			{
+				id: "music [URL|-]",
+				description: "Use URL as the room background music. `-` to unset",
+			},
+			{
+				id: "sync [on|off]",
+				description: "Enable/disable music syncing",
+			},
+		],
+	},
+	{
 		Tag: "customimage",
-		Action: args => { ChatAdminRoomCustomizationCommand("Image", args); },
+		Action: args => { ChatAdminRoomCustomizationCommand(["image", args]); },
 	},
 	{
 		Tag: "customfilter",
-		Action: args => { ChatAdminRoomCustomizationCommand("Filter", args); },
+		Action: args => { ChatAdminRoomCustomizationCommand(["filter", args]); },
 	},
 	{
 		Tag: "custommusic",
-		Action: args => { ChatAdminRoomCustomizationCommand("Music", args); },
+		Action: args => { ChatAdminRoomCustomizationCommand(["music", args]); },
 	},
 	{
 		Tag: "appcopy",
@@ -852,11 +898,11 @@ const CommonCommands = [
 				}
 			}
 
-			CommonGet("./changelog.html", (xhr) => {
-				if (xhr.status === 200) {
-					CommandsChangelog.Publish(xhr.responseText, { id: "chat-room-changelog", startID, stopID });
-				}
-			});
+			CommonFetch("./changelog.html")
+				.then(async (response) => {
+					if (response.status !== 200) return;
+					CommandsChangelog.Publish(await response.text(), { id: "chat-room-changelog", startID, stopID });
+				});
 		},
 	},
 	{
@@ -864,6 +910,7 @@ const CommonCommands = [
 		Action: args => StableDoActivity(args),
 		Arguments: [
 			{
+				id: "activity",
 				name: "Activity",
 				description: "Activity to perform",
 				suggestions: () => StableActivityList
@@ -880,7 +927,7 @@ const CommonCommands = [
 			if (!CommonIsNonNegativeInteger(target)) {
 				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', target)}</span>`, 5000);
 				return;
-			} else if (!Player.FriendNames.get(target)) {
+			} else if (!Player.HasOnFriendlist(target)) {
 				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`, 5000);
 				return;
 			} else if (!msg) {
@@ -1081,5 +1128,26 @@ const CommonCommands = [
 			if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
 			if (Player.ArousalSettings.Progress === 100) ActivityOrgasmPrepare(Player);
 		}
+	},
+	{
+		Tag: 'mods',
+		Action: function () {
+			CommandsHelp.ShowFor(CommonUnwrapThunk(this), {
+				setCommand: this[0].Tag,
+				command: this[0],
+			});
+		},
+		Subcommands: [{
+			Tag: 'list',
+			Action: () => CommandsModsList.ShowLocal(),
+		},
+		{
+			Tag: 'remote',
+			Action: args => CommandsModsList.StartRemote(args),
+			Arguments: [{
+				id: "target",
+				suggestions: () => ChatRoomCharacter.flatMap(c => [CharacterNickname(c), String(c.MemberNumber)]),
+			}],
+		}]
 	}
 ];

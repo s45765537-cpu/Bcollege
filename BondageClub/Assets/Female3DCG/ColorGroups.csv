@@ -18,19 +18,42 @@ ClothCrimsonCloudsInkRhymeQipaoDressQipaoEdge,Qipao Edge
 ClothCrimsonCloudsInkRhymeQipaoDressQipaoFabric,Qipao Fabric
 ClothCrimsonCloudsInkRhymeQipaoDressQipaoOutline,Qipao Outline
 ClothCrimsonCloudsInkRhymeQipaoDressQipaoShadow,Qipao Shadow
+ClothLittleFormalShirtShirt,Shirt
 ClothLolitaShortDressBow,Bow
 ClothLolitaShortDressBowShadow,Bow Shadow
 ClothLolitaShortDressFlower,Flower
 ClothLolitaShortDressFlowerShadow,Flower Shadow
+ClothLongQipaoDressAccessory,Accessory
+ClothLongQipaoDressBase,Base
+ClothLongQipaoDressHighlight,Highlight
+ClothLongQipaoDressOutline,Outline
+ClothLongQipaoDressShade,Shade
+ClothLongQipaoDressTrim,Trim
 ClothLowerBlackButterflySkirtBottomSkirtLining,Bottom Skirt Lining
 ClothLowerBlackButterflySkirtButterflySkirtHem,Butterfly Skirt Hem
 ClothLowerBlackButterflySkirtFrontSkirtHem,Front Skirt Hem
 ClothLowerBlackButterflySkirtWaistband,Waistband
+ClothLowerSideCutoutYogaPantsString,String
+ClothLowerSuspenderPantsBeltLower,Belt (Lower)
+ClothLowerSuspenderPantsBeltUpper,Belt (Upper)
+ClothLowerSuspenderPantsBuckleLower,Buckle (Lower)
+ClothLowerSuspenderPantsBuckleUpper,Buckle (Upper)
+ClothLowerSuspenderPantsInner,Inner
+ClothLowerSuspenderPantsOuter,Outer
+ClothLowerSuspenderPantsStraps,Straps
 ClothLowerTutuTutu,Tutu
 ClothRuffledDressSleeves,Sleeves
 ClothRuffledDressHem,Hem
 ClothRuffledDressCorset,Corset
 ClothRuffledDressLace,Lace
+ClothStarryOceanEveningGownLining,Lining
+ClothWhiteDressChain,Chain
+ClothWhiteDressStrap,Strap
+ClothXmas2025Bow,Bow
+ClothXmas2025Fur,Fur
+ClothXmas2025Skirt,Skirt
+ClothXmas2025SkirtEdge,Skirt Edge
+ClothXmas2025Strap,Strap
 GartersLaceLegRingRing,Ring
 GartersLaceLegRingLace,Lace
 GartersLaceLegRingBow,Bow
@@ -82,6 +105,7 @@ ItemDevicesXFrameFrame, Wood
 ItemDevicesXFrameMetal, Metal
 ItemFeetSturdyLeatherBeltsBelts,Belts
 ItemFeetSturdyLeatherBeltsMetal,Metal
+ItemHandheldElectricGuitarStrap,Strap
 ItemHandheldKyosensuFan,Fan paper
 ItemHandhelddKyosensuFan1,Fan paper 2nd color
 ItemHandhelddKyosensuFan2,Fan paper 3rd color
@@ -150,6 +174,9 @@ ItemTorsoBarrelCorsetBelly,Belly belt
 ItemTorsoBarrelCorsetLegs,Legs belts
 ItemTorsoBarrelCorsetNeck,Corset collar
 ItemVulvaPiercingsRoundClitPiercingAddons,Addons
+ItemVulvaPiercingsModularVulvaPiercingsFastenings,Fastenings
+HairAccessory1AntennaLeft,Left
+HairAccessory1AntennaRight,Right
 HairAccessory1CustomizableFluffyEars1Extras,Extras Left
 HairAccessory1CustomizableFluffyEars1ExtrasRight,Extras Right
 HairAccessory1CustomizableFluffyEars2Extras,Extras Left
@@ -169,6 +196,9 @@ NecklaceBeadNecklaceShine,Shine
 ShoesCustomHeelsStraps,Straps
 ShoesZipperLeatherBootsLeft,Left
 ShoesZipperLeatherBootsRight,Right
+SuitGlossyBodystockingBodyCurveShade,Body Curve Shade
+SuitGlossyBodystockingBodyHighlightDetails,Body Highlight Details
+SuitGlossyBodystockingBodyShadeDetails,Body Shade Details
 TailStrapsKitsuneTailStrapsTails,Tails
 TailStrapsKitsuneTailStrapsTips,Tips
 WingsSeraphWingsBases,Bases
@@ -178,3 +208,5 @@ HatJesterHatFabric,Fabric
 HatJesterHatBell,Bell
 HatJesterHatStripes,Stripes
 HatJesterHatDots,Dots
+HairFrontHairFront64bMain,Main
+HairFrontHairFront64bStreaks,Streaks

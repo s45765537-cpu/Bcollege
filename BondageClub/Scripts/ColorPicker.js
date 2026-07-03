@@ -332,6 +332,7 @@ var ColorPicker = {
 					const colorState = ItemColorState;
 					ItemColorPickerIndices.forEach(i => {
 						colorState.colors[i] = colorState.initialColors[i];
+						// @ts-ignore Strict-TS: trust me bro
 						item.Color[i] = colorState.initialColors[i];
 					});
 
@@ -421,6 +422,7 @@ var ColorPicker = {
 			savedColorOutput.replaceChildren(`${index.toString().padStart(2, " ")}:${rgb}`);
 
 			Player.SavedColors[index - 1] = ColorPickerCSSToHSV(rgb);
+			ServerSend("AccountUpdate", { SavedColors: Player.SavedColors });
 		},
 
 		/**
@@ -595,11 +597,13 @@ var ColorPicker = {
 				const hexColorValue = CommonColorTrimAlpha(colorValue);
 				ItemColorPickerIndices.forEach(i => {
 					colorState.colors[i] = hexColorValue;
+					// @ts-ignore Strict-TS: trust me bro
 					item.Color[i] = hexColorValue;
 				});
 			} else if (CommonIncludes(item.Asset.Group.ColorSchema, colorValue)) {
 				ItemColorPickerIndices.forEach(i => {
 					colorState.colors[i] = colorValue;
+					// @ts-ignore Strict-TS: trust me bro
 					item.Color[i] = colorValue;
 				});
 			}
@@ -608,6 +612,7 @@ var ColorPicker = {
 				for (const [i, layer] of ItemColorPickerLayers.entries()) {
 					const opacityValue = CommonClamp(opacityInput.valueAsNumber / 255, layer.MinOpacity, layer.MaxOpacity);
 					colorState.opacity[i] = opacityValue;
+					// @ts-ignore Strict-TS: trust me bro
 					item.Property.Opacity[i] = opacityValue;
 				}
 			}

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var PuppyWalkerBackground = "Garden1";
 var PuppyWalkerMoves = [0, 0, 0, 0];
@@ -39,11 +38,11 @@ function PuppyWalkerDrawPuppy(Puppy, X, Fail) {
 function PuppyWalkerRun() {
 
 	// Draw the characters
-	PuppyWalkerDrawPuppy(DailyJobPuppy1, -50, PuppyWalkerEscape[0]);
-	PuppyWalkerDrawPuppy(DailyJobPuppy2, 350, PuppyWalkerEscape[1]);
+	if (DailyJobPuppy1) PuppyWalkerDrawPuppy(DailyJobPuppy1, -50, PuppyWalkerEscape[0]);
+	if (DailyJobPuppy2) PuppyWalkerDrawPuppy(DailyJobPuppy2, 350, PuppyWalkerEscape[1]);
 	DrawCharacter(Player, 750, 0, 1);
-	PuppyWalkerDrawPuppy(DailyJobPuppy3, 1150, PuppyWalkerEscape[2]);
-	PuppyWalkerDrawPuppy(DailyJobPuppy4, 1550, PuppyWalkerEscape[3]);
+	if (DailyJobPuppy3) PuppyWalkerDrawPuppy(DailyJobPuppy3, 1150, PuppyWalkerEscape[2]);
+	if (DailyJobPuppy4) PuppyWalkerDrawPuppy(DailyJobPuppy4, 1550, PuppyWalkerEscape[3]);
 	if (MiniGameStarted)
 		MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
 

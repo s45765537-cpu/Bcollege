@@ -9,7 +9,13 @@ type ChatRoomMapPos = {
 
 type ChatRoomMapData = {
 	Pos: ChatRoomMapPos
-	PrivateState: Record<string, Object>
+	PrivateState: {
+		HasKeyBronze?: boolean;
+		HasKeySilver?: boolean;
+		HasKeyGold?: boolean;
+
+		[key: string]: any;
+	}
 }
 
 interface ServerAccountImmutableData {
@@ -231,7 +237,7 @@ type ServerChatRoomData = {
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
 	MapData?: ServerChatRoomMapData;
-	Custom: ServerChatRoomCustomData;
+	Custom?: ServerChatRoomCustomData;
 	Character: ServerAccountDataSynced[];
 }
 
@@ -247,6 +253,11 @@ interface ServerChatRoomCustomData {
 	ImageURL?: string;
 	ImageFilter?: string;
 	MusicURL?: string;
+	/**
+	 * A timestamp representing when the music track was set, for synced playback.
+	 * `undefined` means unsynced.
+	 */
+	MusicStart?: number;
 	SizeMode?: number
 }
 
@@ -318,6 +329,8 @@ interface ServerFriendInfo {
     MemberName: string;
     ChatRoomSpace?: ServerChatRoomSpace | null;
     ChatRoomName?: string | null;
+	ChatRoomLimit?: number;
+	ChatRoomMemberCount?: number;
     Private?: true | undefined;
 }
 
@@ -772,6 +785,21 @@ interface MsgIdDictionaryEntry {
 }
 
 /**
+ * A dictionary entry for GGTS information.
+ */
+interface GGTSDictionaryEntry {
+	Tag: "GGTSData";
+	Action: {
+		type: "GGTSNewTask"
+	} | {
+		type: "GGTSSetSpeed"
+		speed: number
+	} | {
+		type: "GGTSPause"
+		duration: number
+	}
+}
+/**
  * A dictionary entry for teleport events
  */
 interface MapViewTeleportEventDictionaryEntry {
@@ -788,6 +816,20 @@ interface MapViewChangeKeyEventDictionaryEntry {
 	Key: "gold" | "silver" | "bronze";
 	/** Whether to give (true) or take the key (false) */
 	Bool: boolean;
+}
+
+/** Payload for hidden Mod SDK remote mods query messages */
+interface ModSdkModsQueryPayloadDictionaryEntry {
+	Tag: "ModSdkModsQueryPayload";
+	RequestId: string;
+}
+
+/** Payload for hidden Mod SDK remote mods reply messages */
+interface ModSdkModsReplyPayloadDictionaryEntry {
+	Tag: "ModSdkModsReplyPayload";
+	RequestId: string;
+	Status: CommandsModListStatus;
+	ModsJson: string;
 }
 
 /**
@@ -821,7 +863,10 @@ type ChatMessageDictionaryEntry =
 	| MsgIdDictionaryEntry
 	| ReplyIdDictionaryEntry
 	| MapViewTeleportEventDictionaryEntry
-	| MapViewChangeKeyEventDictionaryEntry;
+	| MapViewChangeKeyEventDictionaryEntry
+	| GGTSDictionaryEntry
+	| ModSdkModsQueryPayloadDictionaryEntry
+	| ModSdkModsReplyPayloadDictionaryEntry;
 
 
 type ChatMessageDictionary = ChatMessageDictionaryEntry[];

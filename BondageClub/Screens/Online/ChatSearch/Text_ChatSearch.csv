@@ -14,6 +14,8 @@ ResponseAccountError,Account Error
 ResponseInvalidRoomData,Invalid Room Data
 ResponseJoinedRoom,Entering the room...
 ResponseAlreadyInRoom,Duplicate join request
+ResponseServerTimeoutError,Request timeout
+ResponseServerInProgressError,Request already in progress!
 FilterMode,Remove unwanted rooms
 TempHideOnClick,Filter on click
 GhostPlayerOnClick,Ghost player on click

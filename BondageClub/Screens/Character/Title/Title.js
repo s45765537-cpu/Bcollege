@@ -1,9 +1,11 @@
-// @ts-strict-ignore
 "use strict";
 var TitleBackground = "Sheet";
-/** @type {null | TitleName} */
-var TitleSelectedTitle = null;
-/** @type {null | "NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} */
+/**
+ * Bound to screen lifetime
+ * @type {TitleName}
+ */
+var TitleSelectedTitle;
+/** @type {null | NicknameStatus} */
 var TitleNicknameStatus = null;
 /** @deprecated */
 let TitleOffset = 0;
@@ -47,9 +49,9 @@ function TitleSet(NewTitle) {
 function TitleSelect(title) {
 	if (title === TitleSelectedTitle) return;
 
-	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle)).toggleAttribute("active", false);
+	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle))?.toggleAttribute("active", false);
 	TitleSelectedTitle = title;
-	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle)).toggleAttribute("active", true);
+	ElementWrap(TitleSelec.titleButtonId(TitleSelectedTitle))?.toggleAttribute("active", true);
 }
 
 /**
@@ -77,7 +79,18 @@ function TitleGet(C) {
 
 	// If the title is invalid, we set it to none
 	return TitleSet("None");
+}
 
+/**
+ * Returns the title as a localized string
+ *
+ * The title translation file must be prefetched with `TextPrefetch("Character", "Title")`
+ *
+ * @param {string} title
+ */
+function TitleGetName(title) {
+	const file = ScreenFileGetPath("Text_Title.csv", "Character", "Title");
+	return TextGetInScope(file, `Title${title}`);
 }
 
 /**
@@ -128,8 +141,11 @@ async function TitleLoad() {
 		nicknameInput.setAttribute("disabled", "disabled");
 	}
 	nicknameInput.addEventListener("input", () => {
-		TitleNicknameStatus = CharacterValidateNickname(Player, nicknameInput.value, false);
-		nicknameInput.setCustomValidity(TitleNicknameStatus ?? "");
+		const value = nicknameInput.value.trim();
+		if (value !== "") {
+			TitleNicknameStatus = CharacterValidateNickname(Player, value, false);
+			nicknameInput.setCustomValidity(TitleNicknameStatus ?? "");
+		}
 	});
 
 	const labeledInput = ElementCreate({
@@ -202,10 +218,9 @@ function TitleUnload() {
  * @returns {void} - Nothing
  */
 function TitleRun() {
-	if (TitleNicknameStatus)
-		ElementWrap(TitleSelec.titleStatus).textContent = TextGet(TitleNicknameStatus);
-	else
-		ElementWrap(TitleSelec.titleStatus).textContent = "";
+	const e = ElementWrap(TitleSelec.titleStatus);
+	if (!e) return;
+	e.textContent = TitleNicknameStatus ? TextGet(TitleNicknameStatus) : "";
 }
 
 /**

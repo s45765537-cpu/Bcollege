@@ -141,6 +141,29 @@ function ElementParseChildren(children) {
 }
 
 /**
+ * Create a reusable animated loader element.
+ * @param {"dots" | "circle"} [variant] - Visual style of loader
+ * @param {Omit<HTMLOptions<"span">, "tag">} [options] - Additional element options
+ * @returns {HTMLSpanElement}
+ */
+function ElementCreateLoader(variant = "dots", options = {}) {
+	/** @type {readonly (HTMLOptionsUnion)[]} */
+	const loaderChildren = variant === "dots"
+		? [{ tag: "span" }, { tag: "span" }, { tag: "span" }]
+		: [];
+	return ElementCreate({
+		...options,
+		tag: "span",
+		attributes: {
+			"aria-hidden": "true",
+			...(options.attributes ?? {}),
+		},
+		classList: ["element-loader", `element-loader-${variant}`, ...(options.classList ?? [])],
+		children: [...loaderChildren, ...(options.children ?? [])],
+	});
+}
+
+/**
  * Creates a new from element in the main document.
  *
  * @param {string | null} ID - The id of the form to create
@@ -334,6 +357,7 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 
 /**
  * Construct a `<select>`-based dropdown menu.
+ * @deprecated - Use {@link ElementDropdown.Create} instead
  * @param {string | null} id - The name of the select item.
  * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
  * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
@@ -342,65 +366,439 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
  * @returns {HTMLSelectElement} - The created element
  */
 function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOptions=null) {
-	id ??= ElementGenerateID();
-	let select = /** @type {null | HTMLSelectElement} */(document.getElementById(id));
-	if (select != null) {
-		console.error(`Element "${id}" already exists`);
+	return ElementDropdown.Create(id, optionsList, onChange, options, htmlOptions);
+}
+
+/**
+ * Namespace for creating `<select>`-based dropdown menus.
+ * @namespace
+ */
+var ElementDropdown = {
+	/**
+	 * Construct a `<select>`-based dropdown menu.
+	 * @param {string | null} id - The name of the select item.
+	 * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+	 * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
+	 * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number, name?: string }} [options] - Additional `<select>`-specific properties
+	 * @param {null | Partial<Record<"select", Omit<HTMLOptions<"select">, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLSelectElement} - The created element
+	 */
+	Create(id, optionsList, onChange, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
+		let select = /** @type {null | HTMLSelectElement} */(document.getElementById(id));
+		if (select != null) {
+			console.error(`Element "${id}" already exists`);
+			return select;
+		}
+
+		options ??= {};
+		const booleanAttributes = Object.fromEntries(/** @type {const} */([
+			["required", options.required],
+			["multiple", options.multiple],
+			["disabled", options.disabled],
+			["size", options.size],
+			["name", options.name],
+		]).filter(i => i[1] != null));
+
+		const selectOptions = htmlOptions?.select ?? {};
+		select = ElementCreate({
+			...htmlOptions,
+			tag: "select",
+			classList: [
+				...(selectOptions.classList ?? []),
+				"HideOnPopup",
+				"custom-select",
+			],
+			attributes: {
+				...(selectOptions.attributes ?? {}),
+				id,
+				["screen-generated"]: CurrentScreen,
+				...booleanAttributes,
+			},
+			parent: selectOptions.parent ?? document.body,
+			eventListeners: {
+				...(selectOptions.eventListeners ?? {}),
+				change(ev) {
+					if (!this.matches(":focus-visible")) {
+						this.blur();
+					}
+					if (!this.validity.valid) {
+						ev.stopImmediatePropagation();
+						return;
+					}
+				},
+			},
+			children: [
+				...(selectOptions.children ?? []),
+				...optionsList.map(content => {
+					if (typeof content === "string") {
+						return { tag: /** @type {const} */("option"), children: [content] };
+					} else if ("tag" in content && content.tag === "hr") {
+						return /** @type {HTMLOptions<"hr">} */(content);
+					} else {
+						return { tag: /** @type {const} */("option"), ...content };
+					}
+				}),
+			],
+		});
+		select.addEventListener("change", onChange);
 		return select;
+	},
+
+	/**
+	 * Construct a `<select>`-based dropdown menu.
+	 * @param {string | null} id - The name of the select item.
+	 * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+	 * @param {string} label - The label of the dropdown menu.
+	 * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
+	 * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number, name?: string }} [options] - Additional `<select>`-specific properties
+	 * @param {null | Partial<Record<"select" | "label" | "container", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLLabelElement} - The created element
+	 */
+	CreateLabelled(id, optionsList, label, onChange, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
+		const checkbox = document.getElementById(id);
+		if (checkbox) {
+			console.error(`Element "${id}" already exists`);
+			return /** @type {HTMLLabelElement} */(checkbox);
+		}
+
+		options ??= {};
+		const labelOptions = htmlOptions?.label ?? {};
+		const containerOptions = htmlOptions?.container ?? {};
+
+		return ElementCreate({
+			...containerOptions,
+			tag: "label",
+			classList: ["dropdown-pair", ...(containerOptions.classList ?? [])],
+			attributes: { id: `dropdown-pair-${id}`, for: id, ...(containerOptions.attributes ?? {}) },
+			children: [
+				{
+					...labelOptions,
+					tag: "span",
+					attributes: {
+						id: `${id}-label`,
+						...labelOptions.attributes
+					},
+					classList: ["dropdown-label", ...(labelOptions.classList ?? [])],
+					children: [label, ...(labelOptions.children ?? [])],
+				},
+				this.Create(id, optionsList, onChange, options, htmlOptions),
+				...(containerOptions.children ?? []),
+			],
+		});
+	},
+};
+
+/**
+ * Construct a custom searchable dropdown menu.
+ *
+ * The element comprises a button trigger displaying the current selection,
+ * and a popup containing a search input and a scrollable list of options.
+ * Options can optionally be grouped via the `group` field, which inserts a
+ * interactive header before each group of options sharing the same value.
+ *
+ * @example
+ * <div id="..." class="searchable-dropdown">
+ *     <button class="searchable-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+ *         <span class="searchable-dropdown-trigger-label">Selected label</span>
+ *         <span class="searchable-dropdown-trigger-arrow">▾</span>
+ *     </button>
+ *     <div class="searchable-dropdown-popup" hidden>
+ *         <input type="search" class="searchable-dropdown-search">
+ *         <ul role="listbox" class="searchable-dropdown-list">
+ *             <li role="option" data-value="..." aria-selected="true">label</li>
+ *             ...
+ *         </ul>
+ *     </div>
+ * </div>
+ *
+ * @param {string | null} id - The id of the root container; sub-element ids are derived from it.
+ * @param {readonly ElementSearchableDropdown.OptionItem[]} optionsList - The available options.
+ * @param {(value: string) => void} onChange - Called when the selection changes.
+ * @param {ElementSearchableDropdown.CreateOptions | null} [options]
+ * @returns {ElementSearchableDropdown.SearchableDropdownElement}
+ */
+function ElementCreateSearchableDropdown(id, optionsList, onChange, options) {
+	id ??= ElementGenerateID();
+	const existing = /** @type {ElementSearchableDropdown.SearchableDropdownElement | null} */ (ElementWrap(id));
+	if (existing) {
+		console.error(`Element "${id}" already exists`);
+		return existing;
 	}
+	options = options ?? {};
 
-	options ??= {};
-	const booleanAttributes = Object.fromEntries(/** @type {const} */([
-		["required", options.required],
-		["multiple", options.multiple],
-		["disabled", options.disabled],
-		["size", options.size],
-		["name", options.name],
-	]).filter(i => i[1] != null));
+	const triggerId = `${id}-trigger`;
+	const labelId = `${id}-label`;
+	const popupId = `${id}-popup`;
+	const searchId = `${id}-search`;
+	const listId = `${id}-list`;
 
-	const selectOptions = htmlOptions?.select ?? {};
-	select = ElementCreate({
-		...htmlOptions,
-		tag: "select",
-		classList: [
-			...(selectOptions.classList ?? []),
-			"HideOnPopup",
-			"custom-select",
-		],
-		attributes: {
-			...(selectOptions.attributes ?? {}),
-			id,
-			["screen-generated"]: CurrentScreen,
-			...booleanAttributes,
+	/** @type {readonly ElementSearchableDropdown.OptionItem[]} */
+	let _options = [...optionsList];
+	/** @type {string | null} */
+	let _value = options.value ?? null;
+	/** @type {HTMLLIElement[]} */
+	let _renderedItems = [];
+	let _highlightIndex = -1;
+
+	const placeholder = options.placeholder ?? "";
+	const searchPlaceholder = options.searchPlaceholder ?? "";
+	const emptyText = options.emptyText ?? "";
+
+	const trigger = ElementButton.Create(
+		triggerId,
+		function searchableDropdownTriggerClick(ev) {
+			ev.preventDefault();
+			_toggle();
 		},
-		parent: selectOptions.parent ?? document.body,
-		eventListeners: {
-			...(selectOptions.eventListeners ?? {}),
-			change(ev) {
-				if (!this.matches(":focus-visible")) {
-					this.blur();
-				}
-				if (!this.validity.valid) {
-					ev.stopImmediatePropagation();
-					return;
-				}
+		{
+			disabled: options.disabled,
+		},
+		{
+			button: {
+				classList: ["searchable-dropdown-trigger"],
+				attributes: {
+					"aria-haspopup": "listbox",
+					"aria-expanded": "false",
+					"aria-controls": popupId,
+				},
+				children: [
+					{
+						tag: "span",
+						attributes: { id: labelId },
+						classList: ["searchable-dropdown-trigger-label"],
+						children: [placeholder],
+					},
+					{
+						tag: "span",
+						attributes: { "aria-hidden": "true" },
+						classList: ["searchable-dropdown-trigger-arrow"],
+						children: ["\u25BE"],
+					},
+				],
 			},
 		},
-		children: [
-			...(selectOptions.children ?? []),
-			...optionsList.map(content => {
-				if (typeof content === "string") {
-					return { tag: /** @type {const} */("option"), children: [content] };
-				} else if ("tag" in content && content.tag === "hr") {
-					return /** @type {HTMLOptions<"hr">} */(content);
-				} else {
-					return { tag: /** @type {const} */("option"), ...content };
+	);
+
+	const search = ElementCreate({
+		tag: "input",
+		classList: ["searchable-dropdown-search"],
+		attributes: {
+			id: searchId,
+			type: "search",
+			placeholder: searchPlaceholder,
+			spellcheck: "false",
+			autocomplete: "off",
+		},
+		eventListeners: {
+			input: () => _renderList(),
+			keydown: (ev) => {
+				switch (ev.key) {
+					case "ArrowDown":
+						ev.preventDefault();
+						if (_renderedItems.length === 0) return;
+						_setHighlight((_highlightIndex + 1) % _renderedItems.length);
+						break;
+					case "ArrowUp":
+						ev.preventDefault();
+						if (_renderedItems.length === 0) return;
+						_setHighlight((_highlightIndex - 1 + _renderedItems.length) % _renderedItems.length);
+						break;
+					case "Enter":
+						ev.preventDefault();
+						if (_highlightIndex >= 0 && _renderedItems[_highlightIndex]) {
+							_renderedItems[_highlightIndex].click();
+						}
+						break;
+					case "Escape":
+						ev.preventDefault();
+						_close();
+						trigger.focus();
+						break;
 				}
-			}),
-		],
+			}
+		}
 	});
-	select.addEventListener("change", onChange);
-	return select;
+
+	const list = ElementCreate({
+		tag: "ul",
+		attributes: { id: listId, role: "listbox", tabindex: "-1" },
+		classList: ["searchable-dropdown-list", "scroll-box"],
+	});
+
+	const popup = ElementCreate({
+		tag: "div",
+		attributes: { id: popupId, hidden: true, role: "dialog" },
+		classList: ["searchable-dropdown-popup"],
+		children: [search, list],
+	});
+
+	const root = ElementCreate({
+		tag: "div",
+		attributes: { id, "screen-generated": CurrentScreen },
+		classList: ["searchable-dropdown", "HideOnPopup"],
+		parent: options.parent ?? document.body,
+		children: [trigger, popup],
+	});
+
+	/** @type {HTMLSpanElement | null} */
+	const labelSpan =  trigger.querySelector(`#${CSS.escape(labelId)}`);
+
+	const _refreshLabel = () => {
+		const current = _options.find(o => o.value === _value);
+		if (!labelSpan) return;
+		labelSpan.textContent = current ? current.label : placeholder;
+		labelSpan.classList.toggle("searchable-dropdown-trigger-placeholder", !current);
+	};
+
+	/**
+	 * @param {number} idx - The index of the item to highlight.
+	 */
+	const _setHighlight = (idx) => {
+		if (_highlightIndex >= 0 && _renderedItems[_highlightIndex]) {
+			_renderedItems[_highlightIndex].classList.remove("searchable-dropdown-item-active");
+		}
+		_highlightIndex = idx;
+		if (idx >= 0 && _renderedItems[idx]) {
+			_renderedItems[idx].classList.add("searchable-dropdown-item-active");
+			_renderedItems[idx].scrollIntoView({ block: "end" });
+		}
+	};
+
+	const _renderList = () => {
+		const query = search.value.trim().toLowerCase();
+		list.replaceChildren();
+		_renderedItems = [];
+
+		/** @type {string | undefined} */
+		let lastGroup;
+		for (const opt of _options) {
+			const labelLower = opt.label.toLowerCase();
+			const groupLower = (opt.group ?? "").toLowerCase();
+			if (query && !labelLower.includes(query) && !groupLower.includes(query)) continue;
+
+			const li = ElementCreate({
+				tag: "li",
+				attributes: {
+					role: "option",
+					"aria-selected": opt.value === _value ? "true" : "false",
+					"aria-disabled": opt.disabled ? "true" : null,
+					"data-value": opt.value,
+				},
+				classList: [
+					"searchable-dropdown-item",
+					opt.value === _value ? "searchable-dropdown-item-selected" : null,
+					opt.disabled ? "searchable-dropdown-item-disabled" : null,
+				],
+				children: [opt.label],
+				eventListeners: {
+					mousedown: (ev) => ev.preventDefault(),
+					click: () => {
+						if (opt.disabled) return;
+						if (_value !== opt.value) {
+							_value = opt.value;
+							_refreshLabel();
+							onChange?.(opt.value);
+						}
+						_close();
+					},
+				},
+			});
+
+			if (opt.group && opt.group !== lastGroup) {
+				list.appendChild(ElementCreate({
+					tag: "li",
+					attributes: { role: "presentation" },
+					classList: ["searchable-dropdown-group-header"],
+					children: [opt.group],
+					eventListeners: {
+						click: function() {
+							const listRect = list.getBoundingClientRect();
+							const rowRect = li.getBoundingClientRect();
+							const delta = rowRect.top - listRect.top - rowRect.height;
+							const scrollTop = Math.max(0, Math.min(list.scrollHeight - list.clientHeight, list.scrollTop + delta));
+							list.scrollTo({ top: scrollTop, behavior: "smooth" });
+						}
+					}
+				}));
+				lastGroup = opt.group;
+			}
+
+			list.appendChild(li);
+			_renderedItems.push(li);
+		}
+
+		if (_renderedItems.length === 0) {
+			list.appendChild(ElementCreate({
+				tag: "li",
+				attributes: { role: "presentation" },
+				classList: ["searchable-dropdown-empty"],
+				children: [emptyText],
+			}));
+		}
+
+		_highlightIndex = -1;
+		if (_renderedItems.length > 0) {
+			const sel = _renderedItems.findIndex(li => li.classList.contains("searchable-dropdown-item-selected"));
+			_setHighlight(sel >= 0 ? sel : 0);
+		}
+	};
+
+	/**
+	 * @param {MouseEvent} ev
+	 */
+	const _onDocumentMouseDown = (ev) => {
+		if (!root.contains(/** @type {Node} */ (ev.target))) {
+			_close();
+		}
+	};
+
+	const _open = () => {
+		if (trigger.disabled) return;
+		if (!popup.hasAttribute("hidden")) return;
+		popup.toggleAttribute("hidden", false);
+		trigger.setAttribute("aria-expanded", "true");
+		search.value = "";
+		_renderList();
+		setTimeout(() => search.focus(), 0);
+		document.addEventListener("mousedown", _onDocumentMouseDown, true);
+	};
+
+	const _close = () => {
+		if (popup.hasAttribute("hidden")) return;
+		popup.toggleAttribute("hidden", true);
+		trigger.setAttribute("aria-expanded", "false");
+		document.removeEventListener("mousedown", _onDocumentMouseDown, true);
+	};
+
+	const _toggle = () => {
+		if (popup.hasAttribute("hidden")) _open();
+		else _close();
+	};
+
+	if (_value == null && _options.length > 0) _value = _options[0].value;
+	_refreshLabel();
+
+	const api = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (root);
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetOptions"]} */
+	api.bcSetOptions = (newOptions, newValue) => {
+		_options = [...newOptions];
+		if (newValue !== undefined) _value = newValue;
+		if (!_options.find(o => o.value === _value)) _value = _options[0]?.value ?? null;
+		_refreshLabel();
+		if (!popup.hasAttribute("hidden")) _renderList();
+	};
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetValue"]} */
+	api.bcSetValue = (newValue) => {
+		_value = newValue;
+		_refreshLabel();
+		if (!popup.hasAttribute("hidden")) _renderList();
+	};
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetDisabled"]} */
+	api.bcSetDisabled = (disabled) => { trigger.disabled = !!disabled; };
+
+	return api;
 }
 
 /**
@@ -665,12 +1063,15 @@ function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
 /**
  * Create a label for a given element
  * @param {string} label
- * @param {'left' | 'top'} position
+ * @param {HTMLElement | string} forId
+ * @param {object} [options]
+ * @param {'left' | 'top'} [options.position='top']
  */
-function ElementCreateSettingsLabel(label, position="top") {
+function ElementCreateSettingsLabel(label, forId, options) {
 	return ElementCreate({
-		tag: "span",
-		classList:  [`element-settings-label-${position}`],
+		tag: "label",
+		attributes: { for: typeof forId === "string" ? forId : (forId.id ||= ElementGenerateID()) },
+		classList:  ['element-settings-label', `element-settings-label-position-${options?.position ?? "top"}`],
 		children: [
 			label,
 		],
@@ -1338,7 +1739,7 @@ var ElementButton = {
 			let src;
 			/** @type {(string | Node | HTMLOptions<any>)[]} */
 			let tooltipChildren;
-			if (typeof icon === "string" && icon.endsWith("Padlock")) {
+			if (typeof icon === "string" && InventoryIconIsPadlock(icon)) {
 				name = icon;
 				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 				tooltipChildren = [InterfaceTextGet("PreviewIconPadlock").replace(
@@ -1814,7 +2215,7 @@ var ElementButton = {
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
 		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
-		/** @type {(InventoryIcon | null)[]} */
+		/** @type {(InventoryIcon | null | undefined)[]} */
 		const iconNamesNew = [
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
@@ -2240,6 +2641,41 @@ var ElementCheckbox = {
 };
 
 /**
+ * Namespace for creating text-based elements
+ */
+var ElementText = {
+	/**
+	 * Creates a paragraph node, optionally describing another element
+	 * @param {string} contents
+	 * @param {{ describes?: string | HTMLElement } | undefined} opts
+	 * @returns
+	 */
+	CreateNote: function CreateNote(contents, opts = undefined) {
+		let id;
+		if (opts?.describes) {
+			const target = ElementWrap(opts.describes);
+			if (!target) {
+				console.warn(`Unable to locate element ${opts.describes}`);
+			} else {
+				id = ElementGenerateID();
+				const attrVals = (target.getAttribute("aria-describedby") ?? "").split(" ");
+				attrVals.push(id);
+				target.setAttribute("aria-describedby", attrVals.join(" "));
+			}
+		}
+		const element = ElementCreate({
+			tag: "p",
+			classList: ["element-note"],
+			attributes: { id },
+			children: [
+				contents,
+			],
+		});
+		return element;
+	},
+};
+
+/**
  * Returns the element's document- or shadow-root.
  *
  * If an element is not part of the DOM tree, thus lacking a document- or shadow-root, then {@link document} is returned.
@@ -2558,12 +2994,13 @@ var ElementDOMScreen = {
 	 */
 	getTemplate(id, options=null) {
 		options ??= {};
+		const header = CommonIsArray(options.header) ? options.header : [options.header];
 		const hgroup = ElementCreate({
 			tag: "hgroup",
 			classList: ["scroll-box", "screen-hgroup"],
 			attributes: { id: `${id}-hgroup` },
 			children: [
-				{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
+				{ tag: "h1", attributes: { id: `${id}-h1` }, children: header },
 				{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
 			],
 		});

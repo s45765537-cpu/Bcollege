@@ -92,7 +92,7 @@ DisplayTimestamps,Display timestamps
 ColorNames,Color names
 ColorActions,Color actions
 ColorEmotes,Color emotes
-ColorActivities,Color Activities
+ColorActivities,Color activities
 ShrinkNonDialogue,Shrink all messages except dialogue
 ShowActivities,Show sexual activities & orgasms
 MuStylePoses,Use : as alias for /me and *
@@ -107,10 +107,10 @@ ShowBeepChat,Show beep notifications in chat
 PreserveChat,Preserve chat logs between rooms
 DisableReplies,Disable reply feature
 ShowFriendRequestMessages,Show friend request messages
-DefaultChatRoomBackground,Default Chatroom Background: 
+DefaultChatRoomBackground,Default chatroom background: 
 ChatSettingsPage0,Page 1/2
 ChatSettingsPage1,Page 2/2
-AudioVolume,Audio volume
+Volume,Audio volume
 MusicVolume,Music volume
 AudioPlayBeeps,Audio alarm for beeps
 AudioPlayItem,Play item sounds in chatrooms
@@ -154,7 +154,8 @@ GeneralAnimationQuality100,Medium
 GeneralAnimationQuality200,Low
 GeneralAnimationQuality2000,Lower
 GeneralAnimationQuality10000,Lowest
-GeneralAnimationQualityText,Animation quality (reduce if inputs such as sliders are slow to respond)
+GeneralAnimationQualityText,Animation quality
+GeneralAnimationQualityHint,Reduce if inputs such as sliders are slow to respond
 ForceFullHeight,Display all characters at maximum height
 EnableAfkTimer,Show AFK bubble if idle for 5 minutes
 EnableSafeword,Allow Safeword use (Cannot enable while bound)
@@ -163,6 +164,7 @@ AllowFullWardrobeAccess,Allow others to alter your whole appearance
 BlockBodyCosplay,Prevent others from changing cosplay items
 ShowStatus,Show status bubble
 SendStatus,Send your status
+RespondRemoteModListQueries,Answer mod list queries from others
 UpdateEmailDescription,Linking an email will allow password recovery
 UpdateEmail,Update Email
 UpdateEmailOld,Current email:
@@ -181,18 +183,18 @@ ArousalActiveManual,Allow with a manual meter
 ArousalActiveHybrid,Allow with a hybrid meter
 ArousalActiveAutomatic,Allow with a locked meter
 VFX,Arousal meter visuals
-VFXInactive,Bare Meter
-VFXSolid,Solid Glow
-VFXAnimatedTemp,Temporary Animation
-VFXAnimated,Constant Animation
-VFXVibrator,Vibrator Screen Filters
+VFXInactive,Bare meter
+VFXSolid,Solid glow
+VFXAnimatedTemp,Temporary animation
+VFXAnimated,Constant animation
+VFXVibrator,Vibrator screen filters
 VFXVibratorInactive,None
-VFXVibratorSolid,Solid Glow
-VFXVibratorAnimated,Flickering Glow
-VFXFilter,Arousal Screen Filter
-VFXFilterHeavy,Strong Gradient
-VFXFilterMedium,Solid Color Filter
-VFXFilterLight,Solid Filter at High Arousal
+VFXVibratorSolid,Solid glow
+VFXVibratorAnimated,Flickering glow
+VFXFilter,Arousal screen filter
+VFXFilterHeavy,Strong gradient
+VFXFilterMedium,Solid color filter
+VFXFilterLight,Solid filter at high arousal
 VFXFilterNone,None
 ArousalVisible,Meter visibility:
 ArousalVisibleAll,Show arousal to everyone
@@ -269,11 +271,13 @@ VisibilityCheckboxHide,Hide
 VisibilityCheckboxBlock,Block
 VisibilityWarning,This icon will appear beside a character that's wearing a hidden item
 VisibilityReset,Reset All
-VisibilityResetDescription,This will reset all items to be visible. Click again to confirm and exit.
+VisibilityResetDescription,"Reset every item preference so hidden items become visible again, then exit and save?"
 VisibilityLocked,All items are forced visible under the Extreme difficulty mode
+VisibilitySearchPlaceholder,Search...
+VisibilityNoResults,No items match your search
 LeaveSave,Accept changes
 LeaveNoSave,Cancel changes
-GraphicsFont,Game Font
+GraphicsFont,Game font
 GraphicsFontDisclaimer,Fallback fonts will be used if your chosen font is unsupported on your device.
 Arial,Arial
 TimesNewRoman,Times New Roman
@@ -288,9 +292,10 @@ CourierNew,Courier New
 Copperplate,Copperplate
 GraphicsInvertRoom,Flip the room vertically when upside-down
 GraphicsStimulationFlash,Flash the screen for certain effects
-GraphicsAntialiasing,"Enable antialiasing (For this browser, if supported)"
+GraphicsAntialiasing,Enable antialiasing
+GraphicsSupportHint,"For this browser, if supported"
 GraphicsNoWebGL,"Not running on WebGL, cannot edit rendering configurations."
-GraphicsPowerMode,"Preferred power consumption mode (For this browser, if supported)"
+GraphicsPowerMode,Preferred power consumption mode
 PowerModelow-power,"Low consumption, slower rendering"
 PowerModedefault,Default
 PowerModehigh-performance,"High consumption, faster rendering"
@@ -347,7 +352,8 @@ NotificationsTestMessage,Hello there!
 Page,Page
 AllowTints,Allow item tint effects
 ChatRoomMapLeaveOnExit,Can only leave a map near an entry or exit
-AllowBlur,Allow item blur effects (turn off if experiencing frame rate drops)
+AllowBlur,Allow item blur effects
+AllowBlurHint,Turn off if experiencing frame rate drops
 GenderFemales,Females
 GenderMales,Males
 GenderAutoJoinSearch,Automatically enter the chatroom area for:

@@ -14,13 +14,6 @@ var CollegeDetentionYukiWillReleaseAt = 0;
 function CollegeDetentionCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
- * Checks Yuki's current love level
- * @param {string} LoveLevel - The love level that should be checked
- * @returns {boolean} - Returns true, if Yuki's love is greater or equal the given level, false otherwise
- */
-function CollegeDetentionYukiLoveIs(LoveLevel) { return (CollegeDetentionYukiLove >= parseInt(LoveLevel)); }
-
-/**
  * Adds the sleeping pill to the player's invertory
  * @returns {void} - Nothing
  */
@@ -121,12 +114,11 @@ function CollegeDetentionClick() {
 /**
  * When Yuki's love towards the player changes, it can also trigger an event.
  * When a good or bad move is done, her expression will change quickly.
- * @param {string} LoveChange - The amount the love of Yuki towards the player is altered
- * @param {*} Event - This parameter is never used. Perhaps legacy code from the college?
+ * @param {number} LoveChange - The amount the love of Yuki towards the player is altered
  * @returns {void} - Nothing
  */
-function CollegeDetentionYukiLoveChange(LoveChange, Event) {
-	if (LoveChange != null) CollegeDetentionYukiLove = CollegeDetentionYukiLove + parseInt(LoveChange);
+function CollegeDetentionYukiLoveChange(LoveChange) {
+	if (LoveChange != null) CollegeDetentionYukiLove += LoveChange;
 	if ((LoveChange != null) && (parseInt(LoveChange) < 0)) {
 		CharacterSetFacialExpression(CollegeDetentionYuki, "Eyes", "Dazed", 2);
 		if (CollegeDetentionYukiLove <= -5) {
@@ -167,12 +159,12 @@ function CollegeDetentionBothNaked() {
 
 /**
  * When the player pleases Yuki, it's a race against the clock to make her orgasm
- * @param {string} Factor - The factor that alters Yuki's love towards the player
+ * @param {number} Factor - The factor that alters Yuki's love towards the player
  * @returns {void} - Nothing
  */
 function CollegeDetentionPleaseYuki(Factor) {
 	CollegeDetentionYukiWillReleaseAt++;
-	CollegeDetentionYukiLove = CollegeDetentionYukiLove + parseInt(Factor);
+	CollegeDetentionYukiLove += Factor;
 	if (CollegeDetentionYukiLove >= 6) {
 		CollegeDetentionYuki.Stage = "2100";
 		CollegeDetentionYuki.CurrentDialog = DialogFind(CollegeDetentionYuki, "Orgasm");

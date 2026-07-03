@@ -878,7 +878,7 @@ var CraftingEventListeners = {
 			document.getElementById(CraftingID.privateCheckbox),
 			document.getElementById(CraftingID.asciiDescriptionCheckbox),
 		]);
-		priorityInput.defaultValue = priorityInput.placeholder = (asset.DrawingPriority ?? asset.Group.DrawingPriority).toString();
+		priorityInput.defaultValue = priorityInput.placeholder = asset.Group.DrawingPriority.toString();
 		colorsInput.defaultValue = colorsInput.placeholder = asset.DefaultColor.join(",");
 		nameInput.defaultValue = nameInput.placeholder = asset.Description;
 		nameInput.value = CraftingSelectedItem.Name;
@@ -1720,7 +1720,7 @@ function CraftingRun() {
 	}
 
 	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
-		TightenLoosenItemDraw();
+		TightenLoosenItemDraw(DialogTightenLoosenItem);
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
 	}
@@ -1858,6 +1858,7 @@ function CraftingUpdateFromItem(item) {
 
 /**
  * Return a list of all searchable asset names.
+ * @deprecated
  * @returns {string[]}
  */
 function CraftingGetAllAssetNames() {
@@ -1921,7 +1922,7 @@ function CraftingSerialize(craft) {
 	/** @type {string[]} */
 	const stringData = [
 		craft.Item,
-		(craft.Property == null) ? "" : craft.Property,
+		"", // Old field as used by the deprecated `Property` crafted craft property, DO NOT REMOVE!
 		(craft.Lock == null) ? "" : craft.Lock,
 		(craft.Name == null) ? "" : craft.Name.substring(0, 30),
 		(craft.Description == null) ? "" : craft.Description.substring(0, 200),
@@ -2105,12 +2106,13 @@ function CraftingClick(event) {
 	}
 
 	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
-		TightenLoosenItemClick();
+		TightenLoosenItemClick(CraftingPreview, DialogTightenLoosenItem);
 	}
 }
 
 /**
  * Refreshes the preview model with a slight delay so the item color process is done
+ * @deprecated
  * @returns {void} - Nothing
  * */
 function CraftingRefreshPreview() {
@@ -2314,6 +2316,7 @@ function CraftingExit(allowPanelClose=true) {
 
 /**
  * Applies the craft to all matching items
+ * @deprecated
  * @param {CraftingItem} Craft
  * @param {Asset} Item
  */
@@ -2452,31 +2455,13 @@ var CraftingValidationRecord = {
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Property: {
-		Validate: function (c, a) {
-			if (c.Property == null) {
-				return true;
-			} else if (a == null) {
-				return CraftingPropertyMap.has(c.Property);
-			} else {
-				const Allow = CraftingPropertyMap.get(c.Property);
-				return (Allow !== undefined) ? Allow(a) : false;
-			}
-		},
+		Validate: (c, a) => c.Property === undefined,
 		GetDefault: (c, a) => undefined,
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Effects: {
 		Validate: function (c, a) {
 			if (!CommonIsObject(c.Effects)) {
-				return false;
-			}
-			// Check for desyncs between `Property` and `Effects`
-			if (
-				c.Property != null
-				&& c.Property !== "Normal"
-				&& CraftingPropertyMap.has(c.Property)
-				&& !c.Effects[c.Property]
-			) {
 				return false;
 			}
 
@@ -2502,21 +2487,7 @@ var CraftingValidationRecord = {
 		},
 		GetDefault: (c, a) => {
 			if (!CommonIsObject(c.Effects)) {
-				if (c.Property != null && CraftingPropertyMap.has(c.Property)) {
-					return { [c.Property]: 1 };
-				} else {
-					return {};
-				}
-			}
-
-			// Fix desyncs between `Property` and `Effects`
-			if (
-				c.Property != null
-				&& c.Property !== "Normal"
-				&& CraftingPropertyMap.has(c.Property)
-				&& !c.Effects[c.Property]
-			) {
-				c.Effects[c.Property] = 1;
+				return {};
 			}
 
 			/** @type {CraftingItem["Effects"]} */
@@ -2533,11 +2504,8 @@ var CraftingValidationRecord = {
 					|| !CommonIsInteger(effectValue, 1) // Value is either not an integer or otherwise illegal (<0)
 					|| (prerequisite.isDisabled?.({ ...c, Effects: ret }) ?? false) // Conflict with other crafting effects
 					|| (a && !validateProp(a)) // Conflict with some asset property
+					|| nEffects >= CraftingEffectsDefaultMaximumEffects // Too many effects
 				) {
-					continue;
-				} else if (nEffects >= CraftingEffectsDefaultMaximumEffects) { // Too many effects
-					// Precaution against `Effects`/`Property` desyncs potentially triggering recursive validation loops
-					c.Property = undefined;
 					continue;
 				}
 				// We can be a bit more lenient with values that are too large and just clamp them w.r.t. the max
@@ -2701,8 +2669,13 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 		assets = [asset];
 	}
 
+	// Conversions of deprecated fields
 	if (asset != null && Craft.TypeRecord == null && typeof Craft.Type === "string") {
 		Craft.TypeRecord = ExtendedItemTypeToRecord(asset, Craft.Type);
+	}
+	if (Craft.Property !== "Normal" && CommonHas(CraftingPropertyMap, Craft.Property) && !Craft.Effects?.[Craft.Property]) {
+		Craft.Effects ??= {};
+		Craft.Effects[Craft.Property] = 1;
 	}
 
 	/**

@@ -6,10 +6,12 @@ MemberNickname,Nickname
 MemberNumber,Member number
 ChatRoomName,Chat room
 ChatRoomType,Room type
+ChatRoomMemberCount,Chat room size
 RelationType,Relation type
 ActionFriends,Send a Beep
 ActionRead,Read a Beep
-ActionDelete,Delete a Friend
+ActionActions,Actions
+ActionsNone,No actions available
 AutoRefresh,Toggle 30 sec auto-refresh
 Refresh,Refresh
 ResetSorting,Reset sorting
@@ -22,8 +24,16 @@ TypeOwner,Owner
 TypeLover,Lover
 TypeSubmissive,Submissive
 TypeFriend,Friend
-TypeFemale,Femaly-only room
+TypePending,Pending friend...
+TypeFemale,Female-only room
 TypeMale,Male-only room
 TypeMixed,Mixed male/female room
 TypeAsylum,Asylum room
 TypePrivate,Private room
+AddFriends,Add friends
+AddFriendsPrompt,Add friends (comma separated list of member numbers)
+AddFriendsError,No valid member numbers were provided.
+AddFriendsSuccess,Added friends numbers: $addedMembers.
+AddFriendsNoNewFriends,No new friends were added.
+ConfirmDelete,Are you sure you want to delete $memberName ($memberNumber)?
+Unknown,Unknown

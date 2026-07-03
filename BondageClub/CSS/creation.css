@@ -1,0 +1,110 @@
+.creation-form {
+	display: grid;
+	gap: var(--gap);
+}
+
+.creation-fields {
+	display: grid;
+	gap: var(--gap);
+}
+
+.creation-field {
+	display: grid;
+	gap: var(--half-gap);
+	color: white;
+	position: relative;
+}
+
+.creation-label-row {
+	display: flex;
+	align-items: center;
+	gap: var(--half-gap);
+}
+
+.creation-name-info {
+	width: 1.15em;
+	height: 1.15em;
+	padding: 0;
+}
+
+.creation-name-info img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.creation-name-info-tooltip {
+	inset: auto;
+	transform: none;
+	text-wrap: wrap;
+	max-width: min(35dvh, 70dvw);
+}
+
+.creation-input-wrapper {
+	position: relative;
+	display: grid;
+	align-items: center;
+}
+
+.creation-password-toggle {
+	position: absolute;
+	right: 0;
+	height: 100%;
+	width: 2em;
+}
+
+.creation-password-toggle > .button-image {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 1em;
+	width: unset;
+	aspect-ratio: 2/1;
+}
+
+.creation-error {
+	display: block;
+	background: rgba(34, 0, 0, 0.85);
+	color: #ffd1d1;
+	border: var(--border-width) solid #c22;
+	padding: min(0.2dvh, 0.1dvw) min(0.4dvh, 0.2dvw);
+	font-size: 0.85em;
+	line-height: 1.2;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.creation-actions,
+.creation-login-row {
+	display: grid;
+	justify-items: center;
+	gap: var(--gap);
+}
+
+.creation-login-row {
+	margin-top: var(--gap);
+}
+
+.creation-login-row .creation-label {
+	color: white;
+}
+
+.creation-actions .button,
+.creation-login-row .button {
+	padding: var(--half-gap) var(--gap);
+}
+
+.creation-actions .button-label,
+.creation-login-row .button-label {
+	display: contents;
+}
+
+.creation-import-row {
+	display: grid;
+	justify-items: center;
+	color: white;
+}
+
+.creation-import-checkbox .checkbox-label {
+	text-align: center;
+}

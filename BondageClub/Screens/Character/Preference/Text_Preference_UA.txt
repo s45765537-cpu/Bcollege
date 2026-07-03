@@ -204,8 +204,8 @@ Color actions
 Color actions
 Color emotes
 Color emotes
-Color Activities
-Color Activities
+Color activities
+Color activities
 Shrink all messages except dialogue
 Shrink all messages except dialogue
 Show sexual activities & orgasms
@@ -312,8 +312,10 @@ Lower
 Lower
 Lowest
 Lowest
-Animation quality (reduce if inputs such as sliders are slow to respond)
-Animation quality (reduce if inputs such as sliders are slow to respond)
+Animation quality
+Animation quality
+Reduce if inputs such as sliders are slow to respond
+Reduce if inputs such as sliders are slow to respond
 Display all characters at maximum height
 Display all characters at maximum height
 Show AFK bubble if idle for 5 minutes
@@ -366,28 +368,28 @@ Allow with a locked meter
 Allow with a locked meter
 Arousal meter visuals
 Arousal meter visuals
-Bare Meter
-Bare Meter
-Solid Glow
-Solid Glow
-Temporary Animation
-Temporary Animation
-Constant Animation
-Constant Animation
-Vibrator Screen Filters
-Vibrator Screen Filters
+Bare meter
+Bare meter
+Solid glow
+Solid glow
+Temporary animation
+Temporary animation
+Constant animation
+Constant animation
+Vibrator screen filters
+Vibrator screen filters
 None
 None
-Flickering Glow
-Flickering Glow
-Arousal Screen Filter
-Arousal Screen Filter
-Strong Gradient
-Strong Gradient
-Solid Color Filter
-Solid Color Filter
-Solid Filter at High Arousal
-Solid Filter at High Arousal
+Flickering glow
+Flickering glow
+Arousal screen filter
+Arousal screen filter
+Strong gradient
+Strong gradient
+Solid color filter
+Solid color filter
+Solid filter at high arousal
+Solid filter at high arousal
 Meter visibility:
 Meter visibility:
 Show arousal to everyone
@@ -536,8 +538,8 @@ Accept changes
 Accept changes
 Cancel changes
 Cancel changes
-Game Font
-Game Font
+Game font
+Game font
 Fallback fonts will be used if your chosen font is unsupported on your device.
 Fallback fonts will be used if your chosen font is unsupported on your device.
 Arial
@@ -566,12 +568,14 @@ Flip the room vertically when upside-down
 Flip the room vertically when upside-down
 Flash the screen for certain effects
 Flash the screen for certain effects
-Enable antialiasing (For this browser, if supported)
-Enable antialiasing (For this browser, if supported)
+Enable antialiasing
+Enable antialiasing
+For this browser, if supported
+For this browser, if supported
 Not running on WebGL, cannot edit rendering configurations.
 Not running on WebGL, cannot edit rendering configurations.
-Preferred power consumption mode (For this browser, if supported)
-Preferred power consumption mode (For this browser, if supported)
+Preferred power consumption mode
+Preferred power consumption mode
 Low consumption, slower rendering
 Low consumption, slower rendering
 Default
@@ -684,8 +688,10 @@ Allow item tint effects
 Allow item tint effects
 Can only leave a map near an entry or exit
 Can only leave a map near an entry or exit
-Allow item blur effects (turn off if experiencing frame rate drops)
-Allow item blur effects (turn off if experiencing frame rate drops)
+Allow item blur effects
+Allow item blur effects
+Turn off if experiencing frame rate drops
+Turn off if experiencing frame rate drops
 Females
 Females
 Males

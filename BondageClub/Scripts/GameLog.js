@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 /** @type {LogRecord[]} */
 var Log = [];
@@ -12,34 +11,26 @@ var Log = [];
  * @param {boolean} [Push=true] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
-function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push) {
-
+function LogAdd(NewLogName, NewLogGroup, NewLogValue, Push=true) {
 	// Makes sure the value is numeric
-	if (NewLogValue != null) NewLogValue = parseInt(NewLogValue);
+	if (typeof NewLogValue === "string") NewLogValue = CommonParseInt(NewLogValue) ?? undefined;
 
 	// Checks to make sure we don't duplicate a log
-	var AddToLog = true;
-	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == NewLogName) && (Log[L].Group == NewLogGroup)) {
-			Log[L].Value = NewLogValue;
-			AddToLog = false;
-			break;
-		}
-
-	// Adds a new log object if we need to
-	if (AddToLog) {
-		var NewLog = {
+	const entry = Log.find(l => l.Group === NewLogGroup && l.Name === NewLogName);
+	if (entry) {
+		entry.Value = NewLogValue;
+	} else {
+		/** @type {LogRecord} */
+		const newEntry = {
 			Name: NewLogName,
 			Group: NewLogGroup,
 			Value: NewLogValue
 		};
-		Log.push(NewLog);
+		Log.push(newEntry);
 	}
 
 	// Sends the log to the server
-	if ((Push == null) || Push)
-		ServerPlayerLogSync();
-
+	if (Push) ServerPlayerLogSync();
 }
 
 /**
@@ -104,11 +95,11 @@ function LogDeleteGroup(DelLogGroup, Push) {
  * @returns {boolean} - Returns TRUE if there is an existing log matching the Name/Group with no value or a value above the current time in ms.
  */
 function LogQuery(QueryLogName, QueryLogGroup) {
-	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == QueryLogName) && (Log[L].Group == QueryLogGroup))
-			if ((Log[L].Value == null) || (Log[L].Value >= CurrentTime))
-				return true;
-	return false;
+	const entry = Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
+	if (!entry) return false;
+
+	// Loose null-check here in case there's a null or an undefined stuck in there
+	return entry.Value == null || entry.Value >= CurrentTime;
 }
 
 /**
@@ -133,13 +124,12 @@ function LogContain(LogName, LogGroup, ID) {
  * @template {LogGroupType} T
  * @param {LogNameType[T]} QueryLogName - The name of the log to query the value
  * @param {T} QueryLogGroup - The name of the log's group
- * @returns {number | null} - Returns the value of the log which is a date represented in ms or undefined. Returns null if no matching log is found.
+ * @returns {number | null | undefined} - Returns the value of the log which is a date represented in ms or undefined. Returns null if no matching log is found.
  */
 function LogValue(QueryLogName, QueryLogGroup) {
-	for (let L = 0; L < Log.length; L++)
-		if ((Log[L].Name == QueryLogName) && (Log[L].Group == QueryLogGroup))
-			return Log[L].Value;
-	return null;
+	const entry = Log.find(l => l.Group === QueryLogGroup && l.Name === QueryLogName);
+	if (!entry) return null;
+	return entry.Value;
 }
 
 /**

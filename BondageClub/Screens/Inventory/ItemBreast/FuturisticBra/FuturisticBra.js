@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -42,6 +41,7 @@ function InventoryItemBreastFuturisticBraDrawHook(Data, OriginalFunction) {
 
 	const Prefix = Data.dialogPrefix.option;
 	const C = CharacterGetCurrent();
+	if (!C) return;
 	const {bpm, breathing, temp} = InventoryItemBreastFuturisticBraUpdate(C);
 
 	DrawText(`${AssetTextGet(`${Prefix}Desc`)} ${C.MemberNumber}`, 1500, 625, "White", "Gray");
@@ -60,7 +60,7 @@ function InventoryItemBreastFuturisticBraDrawHook(Data, OriginalFunction) {
 }
 
 /**
- * @typedef {{ UpdateTime?: number, ShowHeart?: boolean }} FuturisticBraPersistentData
+ * @typedef {{ UpdateTime?: number, ShowHeart?: boolean } & AnimationPersistentData} FuturisticBraPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<FuturisticBraPersistentData>} */
@@ -69,6 +69,7 @@ function AssetsItemBreastFuturisticBraBeforeDraw(data) {
 		const ShowHeart = data.PersistentData().ShowHeart;
 		return { Opacity: ShowHeart ? 1 : 0 };
 	}
+	return data;
 }
 
 /** @type {ExtendedItemCallbacks.AfterDraw<FuturisticBraPersistentData>} */
@@ -92,6 +93,7 @@ function AssetsItemBreastFuturisticBraAfterDraw({
 
 		// We draw the desired info on that canvas
 		let context = TempCanvas.getContext('2d');
+		if (!context) return;
 		context.font = "bold 14px sansserif";
 		context.fillStyle = "Black";
 		context.textAlign = "center";

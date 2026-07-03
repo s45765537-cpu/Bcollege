@@ -1,6 +1,11 @@
-// @ts-strict-ignore
 "use strict";
+/** @deprecated */
 var AudioDialog = new Audio();
+
+/** @type {HTMLAudioElement & { _playState?: { location?: number } }} */
+var AudioBackgroundMusic = new Audio();
+
+const AudioSupportedMusicFormats = [".mp3", ".mp4"];
 
 /** @type AudioEffect[] */
 var AudioList = [
@@ -520,6 +525,7 @@ function AudioPlayInstantSound(src, volume) {
 /**
  * Begins to play a sound when applying/removing an item
  * @param {string} SourceFile - Source of the audio file to play
+ * @deprecated
  * @returns {void} - Nothing
  */
 function AudioDialogStart(SourceFile) {
@@ -533,6 +539,7 @@ function AudioDialogStart(SourceFile) {
 
 /**
  * Stops playing the sound when done applying/removing an item
+ * @deprecated
  * @returns {void} - Nothing
  */
 function AudioDialogStop() {
@@ -588,11 +595,11 @@ function AudioPlaySoundForChatMessage(data, sender, msg, metadata) {
 	if (!data || !sender || !metadata || !["Activity", "Action", "ServerMessage"].includes(data.Type))
 		return false;
 
-	if (AudioShouldSilenceSound(ChatRoomMessageInvolvesPlayer(data))) return;
+	if (AudioShouldSilenceSound(ChatRoomMessageInvolvesPlayer(data))) return false;
 
 	// Instant actions can trigger a sound depending on the action.
 	let Action = AudioActions.find(CA => CA.IsAction && CA.IsAction(data));
-	/** @type AudioSoundEffect */
+	/** @type {AudioSoundEffect | null} */
 	let soundEffect = null;
 	if (Action) {
 		let snd = Action.GetSoundEffect(data, metadata);
@@ -616,7 +623,7 @@ function AudioPlaySoundForChatMessage(data, sender, msg, metadata) {
 
 /**
  * Low-level function to play a sound effect.
- * @param {AudioSoundEffect|string} soundEffect
+ * @param {AudioSoundEffect|string|null} soundEffect
  * @param {number} [volumeModifier]
  * @returns {boolean} if a sound was played or not.
  */
@@ -657,7 +664,7 @@ function AudioPlaySoundEffect(soundEffect, volumeModifier) {
  * @returns {boolean} Whether a sound was played.
  */
 function AudioPlaySoundForAsset(character, asset) {
-	if (AudioShouldSilenceSound()) return;
+	if (AudioShouldSilenceSound()) return false;
 
 	let sound = AudioGetSoundFromAsset(character, asset.Group.Name, asset.Name);
 	return AudioPlaySoundEffect(sound, 0);
@@ -669,7 +676,7 @@ function AudioPlaySoundForAsset(character, asset) {
  * @param {Character} character
  * @param {AssetGroupName} groupName
  * @param {string} assetName
- * @returns {AudioSoundEffect?}
+ * @returns {AudioSoundEffect | null}
  */
 function AudioGetSoundFromAsset(character, groupName, assetName) {
 	let asset = AssetGet(character.AssetFamily, groupName, assetName);
@@ -680,7 +687,7 @@ function AudioGetSoundFromAsset(character, groupName, assetName) {
 		sound = asset.DynamicAudio(character);
 	}
 
-	return [sound, 0];
+	return sound ? [sound, 0] : null;
 }
 
 /**
@@ -702,7 +709,7 @@ function AudioGetFileName(sound) {
  * Processes which sound should be played for items
  * @param {ServerChatRoomMessage} data - Data content triggering the potential sound
  * @param {IChatRoomMessageMetadata} metadata - The chat message metadata
- * @returns {AudioSoundEffect | undefined} - The name of the sound to play, followed by the noise modifier
+ * @returns {AudioSoundEffect | null} - The name of the sound to play, followed by the noise modifier
  */
 function AudioGetSoundFromChatMessage(data, metadata) {
 	const sender = metadata.SourceCharacter;
@@ -710,34 +717,35 @@ function AudioGetSoundFromChatMessage(data, metadata) {
 
 	if (data.Type === "Activity" && metadata.ActivityAsset) {
 		let item = InventoryGet(sender, metadata.ActivityAsset.Group.Name);
-		if (!item || item.Asset.Name !== metadata.ActivityAsset.Name) return;
+		if (!item || item.Asset.Name !== metadata.ActivityAsset.Name) return null;
 
 		// Workaround for the shock remote; select the item on the target instead
-		if (item.Asset.Name === "ShockRemote" && metadata.FocusGroup) {
+		if (item.Asset.Name === "ShockRemote" && metadata.FocusGroup && metadata.TargetCharacter) {
 			item = InventoryGet(metadata.TargetCharacter, metadata.FocusGroup.Name);
 		}
 
-		if (!item || !item.Asset.ActivityAudio) return;
+		if (!item || !item.Asset.ActivityAudio) return null;
 
-		const idx = item.Asset.AllowActivity.findIndex(a => a === metadata.ActivityName);
+		const idx = item.Asset.AllowActivity?.findIndex(a => a === metadata.ActivityName) ?? -1;
 		const soundEffect = item.Asset.ActivityAudio[idx];
 
-		if (!soundEffect) return;
+		if (!soundEffect) return null;
 
 		return [soundEffect, 0];
 	} else if (data.Type === "Action") {
 		const NextAsset = metadata.Assets && metadata.Assets.NextAsset;
-		if (!NextAsset) return;
+		if (!NextAsset) return null;
 
 		return AudioGetSoundFromAsset(sender, NextAsset.Group.Name, NextAsset.Name);
 	}
+	return null;
 }
 
 /**
  * Processes the sound for vibrators
  * @param {ServerChatRoomMessage} data - Represents the chat message received
  * @param {IChatRoomMessageMetadata} metadata - The metadata from the recieved message
- * @returns {[string, number]} - The name of the sound to play, followed by the noise modifier
+ * @returns {[string, number] | null} - The name of the sound to play, followed by the noise modifier
  */
 function AudioVibratorSounds(data, metadata) {
 	var Sound = "";
@@ -798,4 +806,91 @@ function AudioShockSounds(data) {
 	let Modifier = parseInt(data.Content.slice(-1));
 	if (isNaN(Modifier)) Modifier = 0;
 	return ["Shocks", Modifier];
+}
+
+/**
+ * Sets the volume of the background music
+ * @param {number} volume
+ */
+function AudioBackgroundMusicSetVolume(volume) {
+	AudioBackgroundMusic.volume = CommonClamp(volume, 0, 1);
+
+	if (volume === 0) {
+		AudioBackgroundMusicStop();
+		return;
+	}
+	AudioBackgroundMusic.play();
+}
+
+/**
+ * Stops the background music
+ */
+function AudioBackgroundMusicStop() {
+	AudioBackgroundMusic.pause();
+}
+
+/**
+ * Plays the background music
+ * @param {string} Music - The URL of the music to play
+ * @param {number | undefined} Location - Where to start playing from in the file
+ * @returns {void} - Nothing
+ */
+function AudioBackgroundMusicPlay(Music, Location = undefined) {
+	Music = Music.trim();
+
+	// If no music should play
+	if (Music === "") {
+		AudioBackgroundMusicStop();
+		return;
+	}
+
+	// Only allows .mp3 and .mp4 files for now
+	if (!CommonURLHasExtension(Music, AudioSupportedMusicFormats)) {
+		AudioBackgroundMusicStop();
+		return;
+	}
+
+	// We're already playing that
+	const isNew = AudioBackgroundMusic.src !== Music;
+	if (!isNew && !AudioBackgroundMusic.paused) return;
+
+	if (isNew) {
+		AudioBackgroundMusic.src = Music;
+		AudioBackgroundMusic.loop = true;
+		AudioBackgroundMusic.load();
+	}
+
+	if (!AudioBackgroundMusic._playState) {
+		AudioBackgroundMusic._playState = {};
+
+		/** @param {typeof AudioBackgroundMusic} audio  */
+		function syncPlayback(audio) {
+			if (Location !== undefined && isNaN(audio.duration)) {
+				console.warn(`audio source ${Music} has no duration; cannot sync playback`);
+				return false;
+			}
+
+			const time = audio._playState?.location !== undefined ? audio._playState.location % audio.duration : audio.currentTime ?? 0;
+			audio.currentTime = time;
+			return true;
+		}
+
+		AudioBackgroundMusic.addEventListener('play', function () {
+			const self = /** @type {typeof AudioBackgroundMusic} */ (this);
+
+			if (!syncPlayback(self)) {
+				// We started playing without having the metadata, try syncing again when we have it
+				self.addEventListener('loadedmetadata', () => syncPlayback(self), { once: true });
+			}
+		});
+	}
+
+	AudioBackgroundMusic._playState.location = Location;
+
+	AudioBackgroundMusic.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
+	if (AudioBackgroundMusic.volume > 0) {
+		AudioBackgroundMusic.play();
+	} else {
+		AudioBackgroundMusic.pause();
+	}
 }

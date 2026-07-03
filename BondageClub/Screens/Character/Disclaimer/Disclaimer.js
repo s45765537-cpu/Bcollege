@@ -7,6 +7,9 @@ const DisclaimerIDs = Object.freeze({
 	accept: "disclaimer-accept",
 	buttons: "disclaimer-buttons",
 });
+const DisclaimerVersion = 1;
+/** @type {null | ((accepted: boolean) => void)} */
+var DisclaimerCloseCallback = null;
 
 /**
  * Loads the disclaimer screen
@@ -78,13 +81,13 @@ async function DisclaimerLoad() {
 
 	disclaimerTextSection.replaceChildren(introLine1, tosList, outroLine);
 
-	const returnButton = ElementButton.Create(DisclaimerIDs.return, DisclaimerExit, {
+	const returnButton = ElementButton.Create(DisclaimerIDs.return, () => DisclaimerClose(false), {
 		label: TextGet("TosReturn"),
 	},
 	{
 		button: { classList: ["disclaimer-button"] },
 	});
-	const acceptButton = ElementButton.Create(DisclaimerIDs.accept, DisclaimerAccept, {
+	const acceptButton = ElementButton.Create(DisclaimerIDs.accept, () => DisclaimerClose(true), {
 		label: TextGet("TosAccept"),
 	},
 	{
@@ -112,27 +115,39 @@ function DisclaimerUnload() {
 }
 
 /**
- * Does the cleanup, if the user exits the screen
- * @returns {void} - Nothing
+ * Opens the disclaimer screen and optionally runs a callback when the player closes it.
+ * @param {(accepted: boolean) => void} closeCallback
+ * @returns {boolean} Whether the player has already accepted the disclaimer
  */
-function DisclaimerExit() {
-	CommonSetScreen("Character", "Login");
+function DisclaimerOpen(closeCallback) {
+	if (!closeCallback) {
+		throw Error("DisclaimerOpen: closeCallback is required");
+	}
+	// Check if the player has already accepted the disclaimer and just trying to log in
+	const accepted = (LogValue("Accepted", "Disclaimer") ?? 0) >= DisclaimerVersion;
+	if (accepted) {
+		closeCallback(accepted);
+		return true;
+	}
+	DisclaimerCloseCallback = closeCallback;
+	CommonSetScreen("Character", "Disclaimer");
+
+	return false;
 }
 
-function DisclaimerAccept() {
-	CharacterCreatePlayer();
-	InventoryRemove(Player, "ItemFeet");
-	InventoryRemove(Player, "ItemLegs");
-	InventoryRemove(Player, "ItemArms");
-	CharacterAppearanceSetDefault(Player);
-
-	// Redirect the player to the login screen after they have their character created
-	CharacterAppearanceLoadCharacter(Player, (result) => {
-		if (result)
-			CommonSetScreen("Character", "Creation");
-		else
-			CommonSetScreen("Character", "Login");
-	});
+/**
+ * @param {boolean} accepted
+ */
+function DisclaimerClose(accepted) {
+	if (accepted) {
+		LogAdd("Accepted", "Disclaimer", DisclaimerVersion);
+	}
+	const closeCallback = DisclaimerCloseCallback;
+	if (!closeCallback) {
+		throw Error("DisclaimeExit: closeCallback is missing");
+	}
+	DisclaimerCloseCallback = null;
+	closeCallback(accepted);
 }
 
 function DisclaimerResize() {

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {boolean} */
@@ -37,7 +36,8 @@ const PreferenceSubscreenGeneralCheckboxes = [
 			checkbox.checked = Player.GameplaySettings.EnableSafeword;
 
 			const label = TextGet(PreferenceSafewordConfirm ? "ConfirmSafeword" : "EnableSafeword");
-			ElementWrap("preference-immersion-EnableSafeword-label").textContent = label;
+			const e = ElementWrap("preference-immersion-EnableSafeword-label");
+			if (e) e.textContent = label;
 		},
 		disabled: (onHighDifficulty) => onHighDifficulty
 	},
@@ -103,26 +103,18 @@ function PreferenceSubscreenGeneralLoad() {
 			}
 		}));
 
-	const dropdown = ElementCreate({
-		tag: "div",
-		classList: ["preference-settings-dropdown"],
-		attributes: {
-			id: "AllowedInteractions-dropdown-container"
-		},
-		children: [
-			{
-				tag: "label",
-				children: [TextGet("AllowedInteractions")],
-				attributes: { for: "AllowedInteractions-dropdown" },
-			},
-			ElementCreateDropdown("AllowedInteractions-dropdown", dropdownOptions, function (ev) {
-				ev.preventDefault();
-				if (this.value in Object.values(AllowedInteractions) === false) return;
-				Player.AllowedInteractions = /** @type {AllowedInteractions} */ (CommonParseInt(this.value));
-				if (Player.GetDifficulty() >= Difficulty.EXTREME) LoginExtremeItemSettings(Player.AllowedInteractions === AllowedInteractions.Everyone);
-			})
-		]
-	});
+	const dropdown = ElementDropdown.CreateLabelled("AllowedInteractions-dropdown", dropdownOptions, TextGet("AllowedInteractions"),
+		function (ev) {
+			ev.preventDefault();
+			if (this.value in Object.values(AllowedInteractions) === false) return;
+			Player.AllowedInteractions = /** @type {AllowedInteractions} */ (CommonParseInt(this.value));
+			if (Player.GetDifficulty() >= Difficulty.EXTREME) LoginExtremeItemSettings(Player.AllowedInteractions === AllowedInteractions.Everyone);
+		}, null, {
+			container: {
+				classList: ["preference-settings-dropdown"],
+			}
+		}
+	);
 
 	const onHighDifficulty = Player.GetDifficulty() >= Difficulty.HARDCORE;
 
@@ -171,7 +163,6 @@ function PreferenceSubscreenGeneralRun() {
 	MainCanvas.textAlign = "left";
 	if (PreferenceMessage != "") DrawText(TextGet(PreferenceMessage), 920, 125, "Red", "Black");
 	MainCanvas.textAlign = "center";
-
 }
 
 /**
@@ -182,7 +173,8 @@ function PreferenceSubscreenGeneralClick() {
 	PreferenceSafewordConfirm = false;
 
 	const label = TextGet(PreferenceSafewordConfirm ? "ConfirmSafeword" : "EnableSafeword");
-	ElementWrap("preference-immersion-EnableSafeword-label").textContent = label;
+	const e = ElementWrap("preference-immersion-EnableSafeword-label");
+	if (e) e.textContent = label;
 }
 
 /**
@@ -225,7 +217,8 @@ function PreferenceSubscreenGeneralUnload() {
 	ColorPickerExit(true);
 }
 
-function PreferenceSubscreenGeneralResize() {
+/** @type {ScreenResizeHandler} */
+function PreferenceSubscreenGeneralResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenGeneralIDs.grid, x, y);
 	ColorPickerResize(false);

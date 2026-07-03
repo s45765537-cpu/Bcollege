@@ -57,17 +57,24 @@
 	grid-template-areas: "image label";
 }
 
+.button:has(.button-label-right) .button-image {
+	margin-left: var(--inner-border-width);
+}
+
 .button:has(.button-label-left) {
 	grid-template-areas: "label image";
+}
+.button:has(.button-label-left) .button-image {
+	margin-right: var(--inner-border-width);
 }
 
 .button-horizontal .button-image {
 	position: static;
 	transform: unset;
-	width: 96%;
-	height: 96%;
-	max-height: 221px;
-	max-width: 221px;
+	max-width: min(221px, calc(100% - 2 * var(--inner-border-width)));
+	width: unset;
+	max-height: unset;
+	height: min(221px, calc(100% - 2 * var(--inner-border-width)));
 }
 
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
@@ -79,7 +86,7 @@
 .button-tooltip {
 	pointer-events: none;
 	cursor: auto;
-	background-color: #FFFF88;
+	background-color: #ffff88;
 	color: black;
 	border: var(--border-width) solid black;
 	box-shadow: var(--inner-border-width) var(--inner-border-width) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
@@ -115,12 +122,12 @@
 	grid-area: image;
 	position: absolute;
 	pointer-events: none;
-	top: 2%;
+	top: var(--inner-border-width);
 	left: 50%;
 	transform: translateX(-50%);
-	width: min(221px, 96%);
-	max-height: min(221px, 96%);
-	aspect-ratio: 1 /1;
+	width: min(221px, calc(100% - 2 * var(--inner-border-width)));
+	max-height: min(221px, calc(100% - 2 * var(--inner-border-width)));
+	aspect-ratio: 1 / 1;
 }
 
 .button-image[role="img"] {
@@ -147,30 +154,52 @@
 }
 
 .button[data-vibrating] > .button-image:not([data-hidden]) {
-	  animation: button-shake calc(1s / 6);
-	  animation-iteration-count: infinite;
+	animation: button-shake calc(1s / 6);
+	animation-iteration-count: infinite;
 }
 
 @keyframes button-shake {
-	0% { transform: translate(-49.666%, 0.333%); }
-	10% { transform: translate(-50.333%, -0.666%); }
-	20% { transform: translate(-51%, 0%); }
-	30% { transform: translate(-49%, 0.666%); }
-	40% { transform: translate(-49.666%, -0.333%); }
-	50% { transform: translate(-50.333%, 0.666%); }
-	60% { transform: translate(-51%, 0.333%); }
-	70% { transform: translate(-49%, 0.333%); }
-	80% { transform: translate(-50.333%, -0.333%); }
-	90% { transform: translate(-49.666%, 0.666%); }
-	100% { transform: translate(-49.666%, -0.666%); }
+	0% {
+		transform: translate(-49.666%, 0.333%);
+	}
+	10% {
+		transform: translate(-50.333%, -0.666%);
+	}
+	20% {
+		transform: translate(-51%, 0%);
+	}
+	30% {
+		transform: translate(-49%, 0.666%);
+	}
+	40% {
+		transform: translate(-49.666%, -0.333%);
+	}
+	50% {
+		transform: translate(-50.333%, 0.666%);
+	}
+	60% {
+		transform: translate(-51%, 0.333%);
+	}
+	70% {
+		transform: translate(-49%, 0.333%);
+	}
+	80% {
+		transform: translate(-50.333%, -0.333%);
+	}
+	90% {
+		transform: translate(-49.666%, 0.666%);
+	}
+	100% {
+		transform: translate(-49.666%, -0.666%);
+	}
 }
 
 .button-label {
 	grid-area: label;
 	position: absolute;
-	left: 2%;
-	width: 96%;
-	max-height: 98%;
+	left: var(--inner-border-width);
+	width: calc(100% - 2 * var(--inner-border-width));
+	max-height: calc(100% - 2 * var(--inner-border-width));
 	pointer-events: none;
 	cursor: inherit;
 	overflow: hidden;
@@ -238,7 +267,7 @@
 }
 
 .button-label-top {
-	top: 1%;
+	top: var(--inner-border-width);
 }
 
 .button-label-center {
@@ -249,12 +278,21 @@
 .button-label-left,
 .button-label-right {
 	position: static;
-	width: unset;
+	width: 100%;
 	left: unset;
+	text-overflow: ellipsis;
+}
+
+.button-label-left {
+	margin-left: var(--inner-border-width);
+}
+
+.button-label-right {
+	margin-right: var(--inner-border-width);
 }
 
 .button-label-bottom {
-	bottom: 1%;
+	bottom: var(--inner-border-width);
 }
 
 /* selectors */
@@ -296,7 +334,8 @@
 	}
 
 	.button:hover > .button-tooltip,
-	.button:focus > .button-tooltip {
+	.button:active > .button-tooltip,
+	.button:focus-visible > .button-tooltip {
 		visibility: visible;
 	}
 }

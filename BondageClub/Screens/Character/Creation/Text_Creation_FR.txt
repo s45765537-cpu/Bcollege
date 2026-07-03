@@ -28,3 +28,5 @@ Import Bondage College data
 Importer vos données de Bondage College
 Invalid server answer, it could be outdated.
 Réponse au serveur invalide, il pourrait avoir une nouvelle version.
+Your character name is permanent and cannot be changed. You can set a nickname later.
+Le nom de votre personnage est permanent et ne peut pas être modifié. Vous pourrez définir un surnom plus tard.

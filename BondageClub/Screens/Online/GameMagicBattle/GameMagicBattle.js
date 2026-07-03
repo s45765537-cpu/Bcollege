@@ -167,7 +167,7 @@ function GameMagicBattleClickProcess() {
 					MagicPuzzleSpell = MagicBattleAvailSpell[B];
 					MagicPuzzleAutoExit = true;
 					MagicPuzzleBackground = ChatRoomData.Background;
-					MiniGameStart("MagicPuzzle", Time - 5, "GameMagicBattlePuzzleEnd");
+					MiniGameStart("MagicPuzzle", Time - 5, () => GameMagicBattlePuzzleEnd());
 					return true;
 				}
 	}
@@ -176,13 +176,12 @@ function GameMagicBattleClickProcess() {
 
 /**
  * When the magic puzzle ends, we go back to the chat room
- * @returns {void}
  */
-function GameMagicBattlePuzzleEnd() {
+async function GameMagicBattlePuzzleEnd() {
 	ServerSend("ChatRoomGame", { GameProgress: "Action", Action: (MiniGameVictory ? "SpellSuccess" : "SpellFail"), Spell: MagicPuzzleSpell, Time: MagicPuzzleFinish - MagicPuzzleStart, Target: GameMagicBattleFocusCharacter.MemberNumber });
 	GameMagicBattleFocusCharacter = null;
 	GameMagicBattleTurnDone = true;
-	CommonSetScreen("Online", "ChatRoom");
+	await CommonSetScreen("Online", "ChatRoom");
 }
 
 /**

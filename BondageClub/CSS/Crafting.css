@@ -21,7 +21,8 @@
 	grid-template:
 		"crafting-property-button crafting-left-panel-expanded" calc(2.5 * var(--menu-button-size))
 		"crafting-asset-button crafting-left-panel-expanded" calc(2.5 * var(--menu-button-size))
-		"crafting-lock-button crafting-left-panel-expanded" auto / calc(1.8 * var(--menu-button-size)) auto;
+		"crafting-lock-button crafting-left-panel-expanded" auto / calc(1.8 * var(--menu-button-size))
+		auto;
 }
 
 #crafting-left-panel input[type="search"] {
@@ -137,7 +138,8 @@
 	user-select: none;
 }
 
-.crafting-label input, .crafting-label textarea {
+.crafting-label input,
+.crafting-label textarea {
 	font: inherit;
 }
 
@@ -147,10 +149,11 @@
 
 .crafting-label:has(:disabled) {
 	cursor: auto;
-	color: gray
+	color: gray;
 }
 
-#crafting-name-label, #crafting-description-label {
+#crafting-name-label,
+#crafting-description-label {
 	grid-template-rows: repeat(2, min-content);
 }
 
@@ -163,7 +166,8 @@
 	grid-column: 1 / 3;
 }
 
-#crafting-name-input, #crafting-colors-input {
+#crafting-name-input,
+#crafting-colors-input {
 	height: calc(0.75 * var(--menu-button-size));
 }
 
@@ -200,7 +204,7 @@
 
 .crafting-property-list-item {
 	display: flex;
-  	height: 2.7em;
+	height: 2.7em;
 	background-color: white;
 	justify-content: space-between;
 	margin-right: var(--scrollbar-gutter);
@@ -236,11 +240,11 @@
 
 .crafting-property-value input::-webkit-outer-spin-button,
 .crafting-property-value input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
-.crafting-property-value input[type=number] {
-  -moz-appearance: textfield;
+.crafting-property-value input[type="number"] {
+	-moz-appearance: textfield;
 }
 
 .crafting-property-button {

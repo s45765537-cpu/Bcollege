@@ -1,7 +1,7 @@
-PlayerGagged,,,(You can use or remove items by selecting specific body regions.),,DialogDoAllowItem()
-PlayerGagged,,,(You don't have access to use or remove items on DialogCharacterObject.),,DialogDontAllowItemPermission()
-0,,,(You can use or remove items by selecting specific body regions.),,DialogDoAllowItem()
-0,,,(You don't have access to use or remove items on DialogCharacterObject.),,DialogDontAllowItemPermission()
+PlayerGagged,,,(You can use or remove items by selecting specific body regions.),,DialogAllowsItem()
+PlayerGagged,,,(You don't have access to use or remove items on DialogCharacterObject.),,!DialogAllowsItem()
+0,,,(You can use or remove items by selecting specific body regions.),,DialogAllowsItem()
+0,,,(You don't have access to use or remove items on DialogCharacterObject.),,!DialogAllowsItem()
 0,,(View DialogCharacterPossessive profile.),,DialogViewProfile(),
 0,,(Change DialogCharacterPossessive clothes.),,DialogChangeClothes(),DialogCanChangeClothes()
 0,10,(Manage your relationship.),"(You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)",,
@@ -109,11 +109,11 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 40,0,(Spin the Wheel of Fortune.),,StartWheelFortune(),CanStartWheelFortune()
 40,0,(Force DialogCharacterObject to spin your Wheel of Fortune.),"(DialogCharacterSubject will be required to spin your Wheel of Fortune.)",SendOwnerRule(""ForceWheelFortune""),CanForceWheelFortune()
 40,0,(Back to main menu.),(Main menu.),,
-50,0,(Generate a new GGTS task.),,"DialogGGTSInteraction(""NewTask"")",
-50,0,(Give DialogCharacterObject a five minutes pause.),,"DialogGGTSInteraction(""Pause5"")",
-50,0,(Slow pace for GGTS demands.),,"DialogGGTSInteraction(""Speed20"")",
-50,0,(Normal pace for GGTS demands.),,"DialogGGTSInteraction(""Speed10"")",
-50,0,(Fast pace for GGTS demands.),,"DialogGGTSInteraction(""Speed5"")",
+50,0,(Generate a new GGTS task.),,AsylumGGTSDialogNewTask(),
+50,0,(Give DialogCharacterObject a five minutes pause.),,AsylumGGTSDialogPause(300000),
+50,0,(Slow pace for GGTS demands.),,AsylumGGTSDialogSpeed(2),
+50,0,(Normal pace for GGTS demands.),,AsylumGGTSDialogSpeed(1),
+50,0,(Fast pace for GGTS demands.),,AsylumGGTSDialogSpeed(0.5),
 50,0,(Back to main menu.),(Main menu.),,
 100,110,(Wardrobe access.),(Select DialogCharacterPossessive wardrobe access.),,
 100,120,(Owner presence rules.),(Select the rules that will be enforced when you two are in the same room.),,

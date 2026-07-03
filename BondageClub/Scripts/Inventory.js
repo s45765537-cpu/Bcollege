@@ -264,7 +264,7 @@ function InventoryAvailable(C, Name, Group) {
  * @param {Character} C - The character on which we check for prerequisites
  * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
  * @param {null | Asset} asset - The asset (if any) for whom the prerequisite is checked
- * @returns {string} - The error tag, can be converted to an error message
+ * @returns - The error tag, can be converted to an error message
  */
 function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 	switch (Prerequisite) {
@@ -345,7 +345,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "NoErection": return C.HasEffect("ForcedErection") ? "MustNotHaveForcedErection" : "";
 
 		// Checks for penis protruding items, to block chastity cages.
-		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", ["HighSecurityStraitJacket"]) ? "MustHaveFullPenisAccess" : "";
+		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", []) ? "MustHaveFullPenisAccess" : "";
 
 		// Checks for torso access based on clothes
 		case "AccessTorso": return !InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth", "ClothOuter"]) ? "RemoveClothesForItem" : "";
@@ -361,7 +361,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "AccessVulva": {
 			const target = Prerequisite === "AccessVulva" ? "ItemVulva" : "ItemButt";
 
-			if (InventoryDoItemsBlockGroup(C, target, ["Cloth", "Panties", "Socks"]) || !InventoryDoItemsExposeGroup(C, target, ["ClothLower", "Panties"]))
+			if (InventoryDoItemsBlockGroup(C, target, ["Cloth", "Panties", "Socks", "ClothLower"]) || !InventoryDoItemsExposeGroup(C, target, ["ClothLower", "Panties"]))
 				return "RemoveClothesForItem";
 
 			// Some chastity belts have removable vulva shields. This checks for those for items that wish to add something externally.
@@ -454,6 +454,7 @@ function InventoryIsItemInList(C, ItemGroup, ItemList) {
  * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite to look for
  * @returns {boolean} - TRUE if the character has an item equipped in the named slot which has the named prerequisite,
  * FALSE otherwise
+ * @deprecated
  */
 function InventoryDoesItemHavePrerequisite(C, ItemGroup, Prerequisite) {
 	const Item = InventoryGet(C, ItemGroup);
@@ -534,9 +535,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {PropertiesArray[T]} blockingPrereqs - The prerequisites we check for on lower gags
 	 * @param {Asset|null} asset - The new gag
 	 * @param {object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	_GagCheck: function _GagCheck(fieldName, C, blockingPrereqs, asset=null, options) {
 		/** @type {readonly unknown[] | undefined | null} */
@@ -566,9 +567,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {readonly AssetPrerequisite[]} blockingPrereqs - The prerequisites we check for on lower gags
 	 * @param {Asset|null} asset - The new gag
 	 * @param {Object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	GagPrerequisite: function GagPrerequisite(C, blockingPrereqs, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Prerequisite", C, blockingPrereqs, asset, options);
@@ -580,9 +581,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {readonly EffectName[]} blockingEffects - The prerequisites we check for on lower gags
 	 * @param {Asset|null} [asset] - The new gag
 	 * @param {object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	GagEffect: function GagEffect(C, blockingEffects, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Effect", C, /** @type {EffectName[]} */(blockingEffects), asset, options);
@@ -616,6 +617,7 @@ function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowAc
 	CharacterLoadEffect(checkCharacter);
 	PoseRefresh(checkCharacter);
 
+	/** @type {ReturnType<typeof InventoryPrerequisiteMessage>} */
 	let Msg = "";
 	const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
 	if (posePrereq.length === 0) {
@@ -658,14 +660,14 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	const errMessage = InventoryDisallow(C, asset, prerequisites, allowActivePose);
 
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
-	if (errMessage && setDialog) DialogSetStatus(InterfaceTextGet(`Prerequisite${errMessage}`), DialogTextDefaultDuration);
+	if (errMessage && setDialog) DialogSetStatus(errMessage, DialogTextDefaultDuration);
 	return errMessage === null;
 }
 
 /**
 * Gets the current item / cloth worn a specific area (AssetGroup)
 * @param {Character} C - The character on which we must check the appearance
-* @param {AssetGroupName} AssetGroup - The name of the asset group to scan
+* @param {AssetGroupName|null|undefined} AssetGroup - The name of the asset group to scan
 * @returns {Item|null} - Returns the appearance which is the item / cloth asset, color and properties
 */
 function InventoryGet(C, AssetGroup) {
@@ -1016,6 +1018,9 @@ function InventoryRemove(C, AssetGroup, Refresh=true) {
 	for (let E = 0; E < C.Appearance.length; E++)
 		if (C.Appearance[E].Asset.Group.Name == AssetGroup) {
 			C.Appearance.splice(E, 1);
+			if (C.IsPlayer()) {
+				BlindFlashQueue = true;
+			}
 			if (Refresh) CharacterRefresh(C);
 			return;
 		}
@@ -1184,7 +1189,7 @@ function InventoryItemIsPickable(Item) {
 
 /** @satisfies {Set<keyof PropertiesArray>} */
 const PropertiesArrayLike = new Set(/** @type {const} */([
-	"Alpha", "Attribute", "Block", "Category", "DefaultColor", "Effect", "Expose", "ExpressionTrigger", "Prerequisite", "Require", "Fetish", "Tint",
+	"Attribute", "Block", "Category", "DefaultColor", "Effect", "Expose", "ExpressionTrigger", "Prerequisite", "Require", "Fetish", "Tint",
 	"AllowActivePose", "SetPose",
 	"AllowActivity", "AllowActivityOn",
 	"Hide", "HideItem", "HideItemExclude", "UnHide",
@@ -1387,7 +1392,7 @@ function InventoryDoesItemAllowLock(item) {
 /**
  * Applies a lock to an appearance item of a character
  * @param {Character} C - The character on which the lock must be applied
- * @param {Item|AssetGroupName} ItemOrGroupName - The item from appearance to lock
+ * @param {Item|AssetGroupName|null} ItemOrGroupName - The item from appearance to lock
  * @param {Item|AssetLockType} LockOrLockType - The asset of the lock or the name of the lock asset
  * @param {null|Character|string} [AppliedBy] - The character applying the lock, or message to show
  * @param {boolean} [Update=true] - Whether or not to update the character
@@ -1632,7 +1637,7 @@ function InventoryTogglePermission(Item, Type=null, Worn=false, push=true) {
 * @param {Character} C - The character on which we check the permissions
 * @param {string} AssetName - The asset / item name to scan
 * @param {AssetGroupName} AssetGroup - The asset group name to scan
-* @param {string} [AssetType] - The asset type to scan
+* @param {string | null} [AssetType] - The asset type to scan
 * @returns {boolean} - TRUE if asset / item is blocked
 */
 function InventoryIsPermissionBlocked(C, AssetName, AssetGroup, AssetType) {
@@ -1649,7 +1654,7 @@ function InventoryIsPermissionBlocked(C, AssetName, AssetGroup, AssetType) {
 * @param {Character} C - The character on which we check the permissions
 * @param {string} AssetName - The asset / item name to scan
 * @param {AssetGroupName} AssetGroup - The asset group name to scan
-* @param {string} [AssetType] - The asset type to scan
+* @param {string | null} [AssetType] - The asset type to scan
 * @returns {boolean} - TRUE if asset / item is a favorite
 */
 function InventoryIsFavorite(C, AssetName, AssetGroup, AssetType) {
@@ -1665,7 +1670,7 @@ function InventoryIsFavorite(C, AssetName, AssetGroup, AssetType) {
  * @param {Character} C - The character on which we check the permissions
  * @param {string} AssetName - The asset / item name to scan
  * @param {AssetGroupName} AssetGroup - The asset group name to scan
- * @param {string} [AssetType] - The asset type to scan
+ * @param {string | null} [AssetType] - The asset type to scan
  * @returns {boolean} - TRUE if asset / item is limited
  */
 function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
@@ -1680,7 +1685,7 @@ function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
  * Returns TRUE if the item is not limited, if the player is an owner or a lover of the character, or on their whitelist
  * @param {Character} C - The character on which we check the limited permissions for the item
  * @param {Item} Item - The item being interacted with
- * @param {string} [ItemType] - The asset type to scan
+ * @param {string | null} [ItemType] - The asset type to scan
  * @returns {boolean} - TRUE if item is allowed
  */
 function InventoryCheckLimitedPermission(C, Item, ItemType) {
@@ -1694,7 +1699,7 @@ function InventoryCheckLimitedPermission(C, Item, ItemType) {
  * Returns TRUE if a specific item / asset is blocked or limited for the player by the character item permissions
  * @param {Character} C - The character on which we check the permissions
  * @param {Item} Item - The item being interacted with
- * @param {string | undefined} [ItemType] - The asset type to scan
+ * @param {string | undefined | null} [ItemType] - The asset type to scan
  * @returns {boolean} - Returns TRUE if the item cannot be used
  */
 function InventoryBlockedOrLimited(C, Item, ItemType) {
@@ -1708,7 +1713,7 @@ function InventoryBlockedOrLimited(C, Item, ItemType) {
  * used by the player)
  * @param {Character} C - The character whose permissions to check
  * @param {Item} item - The item to check
- * @param {string | undefined} [type] - the item type to check
+ * @param {string | undefined | null} [type] - the item type to check
  * @returns {boolean} - Returns TRUE if the given item & type is limited but allowed for the player
  */
 function InventoryIsAllowedLimited(C, item, type) {
@@ -1770,6 +1775,7 @@ function InventoryShockExpression(C) {
  * @param {ItemProperties} property - The property object to extract from
  * @returns {ItemProperties} - A property object containing only the lock-related properties from the provided property
  * object
+ * @deprecated
  */
 function InventoryExtractLockProperties(property) {
 	/** @type {ItemProperties} */
@@ -1781,4 +1787,13 @@ function InventoryExtractLockProperties(property) {
 		}
 	}
 	return lockProperties;
+}
+
+/**
+ * Check whether the passed inventory icon belongs to a padlock
+ * @param {InventoryIcon} icon
+ * @returns {icon is AssetLockType}
+ */
+function InventoryIconIsPadlock(icon) {
+	return icon.endsWith("Padlock");
 }

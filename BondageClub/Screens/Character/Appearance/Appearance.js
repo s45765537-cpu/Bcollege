@@ -69,7 +69,7 @@ var CharacterAppearanceMode = "";
 var CharacterAppearanceMenuMode = "";
 /** @type {null | Item} */
 var CharacterAppearanceCloth = null;
-/** @type {DialogMenuButton[]} */
+/** @type {AppearanceMenuButtonType[]} */
 var AppearanceMenu = [];
 /** @type {Character[]} */
 var AppearancePreviews = [];
@@ -565,7 +565,7 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		return true;
 	}
 
-	if (C.Pose.some(p => assetToCheck && assetToCheck.PoseMapping[p] === PoseType.HIDE)) return false;
+	if (C.Pose.some(p => assetToCheck && assetToCheck.Layer.every(l => l.PoseMapping[p] === PoseType.HIDE))) return false;
 
 	for (const item of C.DrawAppearance) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;
@@ -803,9 +803,14 @@ function AppearanceMenuBuild(C) {
 			if (C.IsPlayer()) AppearanceMenu.push("PermissionMode");
 			if (C.FocusGroup.AllowNone) AppearanceMenu.push("Naked");
 			if (Item && DialogCanColor(C, Item)) {
-				let ButtonName = ItemColorIsSimple(Item) ? "ColorChange" : "ColorChangeMulti";
-				if (InventoryBlockedOrLimited(C, Item)) ButtonName += "Disabled";
-				AppearanceMenu.push(/** @type {DialogMenuButton} */(ButtonName));
+				/** @type {AppearanceMenuButtonType} */
+				let ButtonName;
+				if (ItemColorIsSimple(Item)) {
+					ButtonName = InventoryBlockedOrLimited(C, Item) ? "ColorChangeDisabled" : "ColorChange";
+				} else {
+					ButtonName = InventoryBlockedOrLimited(C, Item) ? "ColorChangeMultiDisabled" : "ColorChangeMulti";
+				}
+				AppearanceMenu.push(ButtonName);
 			}
 			if (DialogInventory.length > CharacterAppearanceNumClothPerPage) AppearanceMenu.push("Prev", "Next");
 			break;
@@ -1210,9 +1215,6 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * @returns {Item | null} - Thew newly created item or `undefined` if the asset does not exist
  */
 function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, DifficultyFactor=null, ItemMemberNumber=null) {
-	if (!ItemAsset) {
-		return null;
-	}
 
 	// Sets the difficulty factor
 	DifficultyFactor ??= 0;
@@ -1224,8 +1226,15 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
 	);
 
 	if (prevItem) {
-		NewColor ??= !prevItem.item.Color || prevItem.item.Color === "Default" ? [...ItemAsset.DefaultColor] : prevItem.item.Color;
 		C.Appearance.splice(prevItem.index, 1);
+	}
+
+	if (!ItemAsset) {
+		return null;
+	}
+
+	if (prevItem) {
+		NewColor ??= !prevItem.item.Color || prevItem.item.Color === "Default" ? [...ItemAsset.DefaultColor] : prevItem.item.Color;
 	} else {
 		NewColor ??= [...ItemAsset.DefaultColor];
 	}

@@ -94,7 +94,7 @@
 }
 
 .screen-hgroup h1,
-.screen-hgroup [role='status'] {
+.screen-hgroup [role="status"] {
 	font-size: 1em;
 	font-weight: normal;
 	margin: unset;

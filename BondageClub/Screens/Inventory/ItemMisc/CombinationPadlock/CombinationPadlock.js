@@ -1,6 +1,6 @@
-// @ts-strict-ignore
 "use strict";
 let CombinationPadlockPlayerIsBlind = false;
+/** @type {number | null} */
 let CombinationPadlockBlindCombinationOffset = null;
 let CombinationPadlockCombinationLastValue = "";
 let CombinationPadlockNewCombinationLastValue = "";
@@ -9,6 +9,9 @@ let CombinationPadlockLoaded = false;
 /** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
 function InventoryItemMiscCombinationPadlockLoadHook(data, originalFunction) {
 	originalFunction();
+
+	const C = CharacterGetCurrent();
+	if (!C || !C.FocusGroup) return;
 
 	CombinationPadlockPlayerIsBlind = Player.IsBlind();
 	// Only update on initial load, not update loads
@@ -24,7 +27,6 @@ function InventoryItemMiscCombinationPadlockLoadHook(data, originalFunction) {
 		CombinationPadlockBlindCombinationOffset = null;
 	}
 
-	var C = CharacterGetCurrent();
 
 	// Only create the inputs if the zone isn't blocked
 	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
@@ -37,11 +39,11 @@ function InventoryItemMiscCombinationPadlockLoadHook(data, originalFunction) {
 			combinationInput.addEventListener("input", InventoryItemMiscCombinationPadlockModifyInput);
 			// the current code is shown for owners, lovers and the member whose number is on the padlock
 			if (
-				Player.MemberNumber === DialogFocusSourceItem.Property.LockMemberNumber ||
+				Player.MemberNumber === DialogFocusSourceItem?.Property?.LockMemberNumber ||
 				C.IsOwnedByPlayer() ||
 				C.IsLoverOfPlayer()
 			) {
-				combinationInput.setAttribute("placeholder", DialogFocusSourceItem.Property.CombinationNumber);
+				combinationInput.setAttribute("placeholder", DialogFocusSourceItem?.Property?.CombinationNumber);
 			}
 		} else {
 			/** @type {HTMLInputElement} */(document.getElementById('CombinationNumber')).type = CombinationPadlockPlayerIsBlind ? "password" : "text";
@@ -59,15 +61,16 @@ function InventoryItemMiscCombinationPadlockLoadHook(data, originalFunction) {
 }
 
 /**
- * @param {Event & { target: { value: string }}} e
+ * @param {Event} e
  */
 function InventoryItemMiscCombinationPadlockModifyInput(e) {
+	const target = /** @type {HTMLInputElement} */ (e.target);
 	const clumsiness = Player.GetClumsiness();
 
 	// If the player is either blind or impaired by restraints, modify the input accordingly
 	if (CombinationPadlockPlayerIsBlind || clumsiness > 0) {
 		const previousValue = CombinationPadlockCombinationLastValue;
-		const newValue = e.target.value;
+		const newValue = target.value;
 		let prefix = "";
 		let suffix = "";
 		for (let i = 0; i < previousValue.length && previousValue[i] === newValue[i]; i++) {
@@ -87,17 +90,19 @@ function InventoryItemMiscCombinationPadlockModifyInput(e) {
 			return String((Number(digit) + offset) % 10);
 		});
 
-		e.target.value = prefix + inserted + suffix;
+		target.value = prefix + inserted + suffix;
 	}
 
-	CombinationPadlockCombinationLastValue = e.target.value;
+	CombinationPadlockCombinationLastValue = target.value;
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
 	originalFunction();
 
-	var C = CharacterGetCurrent();
+	const C = CharacterGetCurrent();
+	if (!C || !C.FocusGroup || !DialogFocusItem) return;
+
 	const playerBlind = Player.IsBlind();
 	if (playerBlind !== CombinationPadlockPlayerIsBlind) {
 		InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction);
@@ -149,14 +154,15 @@ function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
 		return;
 	}
 
-	var C = CharacterGetCurrent();
+	const C = CharacterGetCurrent();
+	if (!C || !C.FocusGroup) return;
 
 	// If the zone is blocked, cannot interact with the lock
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) return;
 
 	// Opens the padlock
 	if (MouseIn(1600, 771, 350, 64)) {
-		if (ElementValue("CombinationNumber") == DialogFocusSourceItem.Property.CombinationNumber) {
+		if (ElementValue("CombinationNumber") == DialogFocusSourceItem?.Property?.CombinationNumber) {
 			CommonPadlockUnlock(C, DialogFocusSourceItem);
 			DialogLeaveFocusItem();
 		}
@@ -175,7 +181,7 @@ function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
 	// Changes the code
 	else if (MouseIn(1600, 871, 350, 64)) {
 		// Succeeds to change
-		if (ElementValue("CombinationNumber") == DialogFocusSourceItem.Property.CombinationNumber) {
+		if (ElementValue("CombinationNumber") == DialogFocusSourceItem?.Property?.CombinationNumber) {
 			var NewCode = ElementValue("NewCombinationNumber");
 			// We only accept code made of digits and of 4 numbers
 			if (ValidationCombinationNumberRegex.test(NewCode)) {

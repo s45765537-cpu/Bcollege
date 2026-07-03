@@ -85,6 +85,7 @@ CraftingProperty,Effects: CraftProperty
 CurrentMode,Current Mode:
 Decoding,Decoding the lock...
 Delete,Delete
+Add,Add
 DialogGroupNameItemGlans,Glans
 DialogGroupNameItemPenis,Penis
 DialogMenuActivity,Sexual activities
@@ -139,6 +140,8 @@ ExtendedItemUnlockBeforeChange,Remove locks before changing
 FacialExpression,Facial expression
 Hacking,Hacking the item...
 Hours,hours
+Days,days
+Random,Random
 InAsylum,in the Asylum
 InRoom,in room
 Intensity,Intensity:
@@ -147,10 +150,12 @@ Intensity0,Item intensity: Low
 Intensity1,Item intensity: Medium
 Intensity2,Item intensity: High
 Intensity3,Item intensity: Maximum
-LayeringAsset,Configure total priority
+ItemNipplesPiercingsPiercingNameBadgeSetRightNipple,SourceCharacter puts the AssetName on DestinationCharacter right nipple.
+ItemNipplesPiercingsPiercingNameBadgeSetLeftNipple,SourceCharacter puts the AssetName on DestinationCharacter left nipple.
+LayeringAsset,Configure {asset} priority
 LayeringExit,Exit
 LayeringHide,Hide hidden layers
-LayeringLayer,Configure layer-specific priority
+LayeringLayer,Layer priority
 LayeringLock,Item configuration locked
 LayeringReset,Reset layering
 LayeringShow,Show hidden layers
@@ -286,6 +291,7 @@ PrerequisiteCannotSuspension,Cannot change to the Suspension pose.
 PrerequisiteCannotTapedHands,Cannot change to the TapedHands pose.
 PrerequisiteCannotYoked,Cannot change to the Yoked pose.
 PrerequisiteCantCloseOnShaft,Cannot close on shaft.
+PrerequisiteCantHaveErection,Cannot have an erection.
 PrerequisiteMustBeAbleToKneel,Must be able to kneel.
 PrerequisiteMustBeArmCuffedFirst,Must be wearing a set of arm cuffs first.
 PrerequisiteMustBeFeetCuffedFirst,Must be wearing a set of ankle cuffs first.
@@ -322,6 +328,11 @@ PrerequisiteRemoveRestraintsFirst,Remove some restraints first.
 PrerequisiteRemoveShacklesFirst,Must remove shackles first.
 PrerequisiteRemoveSuspensionForItem,Remove the suspension first.
 PrerequisiteUnZipSuitForItem,Unzip the suit first.
+PrerequisiteCantBeLimp,Penis may not be limp.
+PrerequisiteOwnerBlockedRemotes,The use of remotes is forbidden by your owner.
+PrerequisiteCantAttachMittens,Item does not support mitten attachment.
+PrerequisiteInternalError,Internal error: missing character or item.
+PrerequisiteIllegalExpression,Illegal expression "{Expression}".
 PrettyArrayJoin,", "
 PrettyArrayJoinFinal,", and "
 PrevExpressions,View previous expressions
@@ -380,16 +391,7 @@ RemoveItemWithTimer,Remove item when the lock timer runs out
 Removing,Removing...
 RequireBondageLevel,Need Bondage ReqLevel
 RequirePlayer,Requires the player character
-RequireSelfBondage1,Requires self-bondage 1.
-RequireSelfBondage10,Requires self-bondage 10.
-RequireSelfBondage2,Requires self-bondage 2.
-RequireSelfBondage3,Requires self-bondage 3.
-RequireSelfBondage4,Requires self-bondage 4.
-RequireSelfBondage5,Requires self-bondage 5.
-RequireSelfBondage6,Requires self-bondage 6.
-RequireSelfBondage7,Requires self-bondage 7.
-RequireSelfBondage8,Requires self-bondage 8.
-RequireSelfBondage9,Requires self-bondage 9.
+RequireSelfBondage,Requires self-bondage ReqLevel.
 RulesMenu,Active owner/lover rules
 RulesMenuBlockChange,Cannot change:
 RulesMenuBlockFamilyKey,Blocked: Family keys
@@ -510,15 +512,18 @@ Tightness,Tightness:
 TryLoosen,Try to loosen the item
 TimerLeft,Time left:
 TimerUnknown,Unknown time left
+TimerHidden,Timer hidden
 Unlocked,Unlocked
 Unlocking,Unlocking...
 Using0,Using none of your skill...
 Using25,Using 25% of your skill...
 Using50,Using 50% of your skill...
 Using75,Using 75% of your skill...
+Using100,Using all of your skill...
 WinkFacialExpressions,Wink/Blink
 WillRemoveItemWithTimer,The item will be removed when the lock timer runs out
 WontRemoveItemWithTimer,The item will stay when the lock timer runs out
+YourRoom,Your private room
 ZoneBlocked,This zone is out of reach from another item
 ZoneBlockedOwner,Your owner doesn't allow you to access that zone
 ZoneBlockedRange,You're too far to reach DialogCharacterObject's body and items.

@@ -46,6 +46,16 @@ const CommonChatTags = {
 	AUTOMATIC: "Automatic",
 };
 
+/**
+ * An enum holding values of time units that might be used with their respective label of Interface.csv and seconds
+ * contained in said time unit.
+ */
+const TimeUnits = /** @type {const} */({
+	MINUTES: { label: "Minutes", seconds: 60 },
+	HOURS: { label: "Hours", seconds: 3600 },
+	DAYS: { label: "Days", seconds: 86400 },
+});
+
 /** @type {(this: string, index: number, character: string) => string} */
 String.prototype.replaceAt=function(index, character) {
 	return this.substr(0, index) + character + this.substr(index+character.length);
@@ -89,6 +99,7 @@ function CommonIsNumeric(n) {
 /**
  * Gets the current time as a string
  * @returns {string} - Returns the current date and time in a yyyy-mm-dd hh:mm:ss format
+ * @deprecated
  */
 function CommonGetFormatDate() {
 	var d = new Date();
@@ -106,7 +117,7 @@ function CommonGetFormatDate() {
  * @returns {boolean} - Returns TRUE if the user is on a mobile browser
  */
 function CommonDetectMobile() {
-	return globalThis.matchMedia("(hover: none)").matches;
+	return globalThis.matchMedia("(pointer: coarse)").matches;
 }
 
 /**
@@ -202,19 +213,22 @@ function CommonReadCSV(url) {
 	const temp = CommonCSVCache[url] = [];
 
 	// Opens the file, parse it and returns the result in an Object
-	CommonGet(url, function () {
-		if (this.status == 200) {
-			const parsed = CommonParseCSV(this.responseText);
-			temp.push(...parsed);
-		}
+	CommonFetch(url).then(async response => {
+		if (response.status !== 200) return;
+		const text = await response.text();
+		const parsed = CommonParseCSV(text);
+		temp.push(...parsed);
 	});
 
 	// If a translation file is available, we open the txt file and keep it in cache
 	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
-	if (TranslationAvailable(TranslationPath))
-		CommonGet(TranslationPath, function () {
-			if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
+	if (TranslationAvailable(TranslationPath)) {
+		CommonFetch(TranslationPath).then(async (response) => {
+			if (response.status !== 200) return;
+			const text = await response.text();
+			TranslationCache[TranslationPath] = TranslationParseTXT(text);
 		});
+	}
 
 	return temp;
 }
@@ -255,6 +269,49 @@ const FETCH_MAX_RETRIES = 10;
  */
 const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
 
+const FETCH_RETRY_JITTER_MIN = 0.25;
+
+const FETCH_RETRY_JITTER_MAX = 1.75;
+
+/**
+ * @param {number} status
+ */
+function CommonRequestShouldRetry(status) {
+	return status === 408 || status === 429 || status >= 500;
+}
+
+/**
+ * @param {number} attempt
+ */
+function CommonRequestRetryDelay(attempt) {
+	const baseDelay = Math.min(2 ** attempt, FETCH_MAX_RETRY_BACKOFF_TIME);
+
+	const jitter = FETCH_RETRY_JITTER_MIN
+		+ Math.random() * (FETCH_RETRY_JITTER_MAX - FETCH_RETRY_JITTER_MIN);
+
+	return baseDelay * jitter;
+}
+
+/**
+ * @param {string | null} value
+ * @returns
+ */
+function CommonRequestParseRetryAfter(value) {
+	if (!value) return null;
+
+	const seconds = Number(value);
+	if (Number.isFinite(seconds)) {
+		return seconds;
+	}
+
+	const date = Date.parse(value);
+	if (Number.isFinite(date)) {
+		return Math.max(0, (date - Date.now()) / 1000);
+	}
+
+	return null;
+}
+
 /**
  * Fetch a remote resource
  *
@@ -262,64 +319,94 @@ const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
  * @returns {Promise<Response>}
  */
 async function CommonFetch(request) {
-	let retries = FETCH_MAX_RETRIES;
-	const method = request instanceof Request ? request.method : "GET";
-	const url = request instanceof Request ? request.url : request;
-	let reply = await fetch(request);
-	while (retries-- > 0) {
-		if (reply.status >= 400) {
-			const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - retries)), FETCH_MAX_RETRY_BACKOFF_TIME);
-			console.warn(`${method} request to ${url} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
-			await CommonSleep(retrySeconds * 1000);
+	const isRequestObject = CommonIsObject(request) && typeof request === 'object' && "method" in request;
+	const method = isRequestObject && request.method || "GET";
+	const url = isRequestObject && request.url || request;
+
+	for (let attempt = 0; attempt <= FETCH_MAX_RETRIES; attempt++) {
+		let retryAfter;
+		/** @type {Response | undefined} */
+		let reply;
+		try {
 			reply = await fetch(request);
-			continue;
+
+			if (!CommonRequestShouldRetry(reply.status)) {
+				return reply;
+			}
+
+			if (attempt === FETCH_MAX_RETRIES) {
+				console.error(`${method} request to ${url} failed (${reply.status}) - no more retries`);
+				return reply;
+			}
+
+			retryAfter = CommonRequestParseRetryAfter(reply.headers.get("Retry-After"));
 		}
-		break;
+		catch (err) {
+			if (attempt === FETCH_MAX_RETRIES) {
+				throw err;
+			}
+		}
+
+		const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
+		if (attempt !== FETCH_MAX_RETRIES) {
+			console.warn(`${method} request to ${url} failed (${reply?.status}) - retrying in ${delay.toFixed(1)}s`);
+		}
+		await CommonSleep(delay * 1000);
 	}
-	if (retries <= 0) {
-		console.error(`${method} request to ${url} failed - no more retries`);
-	}
-	return reply;
+
+	throw new Error("CommonFetch exhausted retry loop unexpectedly");
 }
 
 /**
  * AJAX utility to get a file and return its content. By default will retry requests 10 times
- * @param {string} Path - Path of the resource to request
- * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} Callback - Callback to execute once the resource is received
- * @param {number} [RetriesLeft] - How many more times to retry if the request fails - after this hits zero, an error will be logged
+ * @param {string} url - Path of the resource to request
+ * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} callback - Callback to execute once the resource is received
+ * @param {number} [retries] - How many more times to retry if the request fails - after this hits zero, an error will be logged
  * @returns {void} - Nothing
  */
-function CommonGet(Path, Callback, RetriesLeft) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", Path);
-	xhr.onloadend = function() {
-		// For non-error responses, call the callback
-		if (this.status < 400) Callback.bind(this)(xhr);
-		// Otherwise, retry
-		else CommonGetRetry(Path, Callback, RetriesLeft);
+function CommonGet(url, callback, retries = FETCH_MAX_RETRIES) {
+	const xhr = new XMLHttpRequest();
+
+	xhr.open("GET", url);
+
+	/**
+	 * @param {number} [retriesLeft]
+	 */
+	function retry(retriesLeft) {
+		retriesLeft ??= FETCH_MAX_RETRIES;
+		if (retriesLeft <= 0) {
+			console.error(`GET request to ${url} failed - no more retries`);
+		} else {
+			const attempt = FETCH_MAX_RETRIES - retriesLeft;
+
+			const retryAfter = CommonRequestParseRetryAfter(xhr.getResponseHeader("Retry-After"));
+			const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
+
+			console.warn(`GET request to ${url} failed - retrying in ${delay.toFixed(1)}s`);
+			setTimeout(() => CommonGet(url, callback, retriesLeft - 1), delay * 1000);
+		}
+	}
+
+	xhr.onload = function() {
+		if (CommonRequestShouldRetry(this.status)) {
+			return retry(retries);
+		}
+
+		callback.call(this, xhr);
 	};
-	xhr.onerror = function() { CommonGetRetry(Path, Callback, RetriesLeft); };
-	xhr.send(null);
+
+	xhr.onerror = xhr.ontimeout = function() {
+		retry(retries);
+	};
+
+	xhr.timeout = 30000;
+	xhr.send();
 }
 
 /**
- * Retry handler for CommonGet requests. Exponentially backs off retry attempts up to a limit of 1 minute. By default,
- * retries up to a maximum of 10 times.
- * @param {string} Path - The path of the resource to request
- * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} Callback - Callback to execute once the resource is received
- * @param {number} [RetriesLeft] - How many more times to retry - after this hits zero, an error will be logged
- * @returns {void} - Nothing
+ * @deprecated
  */
-function CommonGetRetry(Path, Callback, RetriesLeft) {
-	if (typeof RetriesLeft !== "number") RetriesLeft = FETCH_MAX_RETRIES;
-	if (RetriesLeft <= 0) {
-		console.error(`GET request to ${Path} failed - no more retries`);
-	} else {
-		const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - RetriesLeft)), FETCH_MAX_RETRY_BACKOFF_TIME);
-		console.warn(`GET request to ${Path} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
-		setTimeout(() => CommonGet(Path, Callback, RetriesLeft - 1), retrySeconds * 1000);
-	}
-}
+function CommonGetRetry() {}
 
 /** @type {MouseEventListener} */
 function CommonMouseDown(event) {
@@ -407,7 +494,7 @@ function CommonDynamicFunction(FunctionName) {
 /**
  * Calls a dynamic function with parameters (if it exists), also allow ! in front to reverse the result. The dynamic function is the provided function name in the dialog option object and it is prefixed by the current screen.
  * @param {string} FunctionName - Function name to call dynamically
- * @returns {unknown | boolean} - Returns what the dynamic function returns or FALSE if the function does not exist
+ * @returns {unknown} - Returns what the dynamic function returns, or throws if it can't be called
  */
 function CommonDynamicFunctionParams(FunctionName) {
 
@@ -420,27 +507,33 @@ function CommonDynamicFunctionParams(FunctionName) {
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
 	var ParamsString = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex);
-	var Params = ParamsString.length === 0 ? [] : ParamsString.split(",");
-	for (let P = 0; P < Params.length; P++)
-		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
+
+	// Convert stringified numbers to actual numbers where possible
+	/** @type {(string | number)[]} */
+	var Params = [];
+	if (ParamsString) {
+		for (let param of ParamsString.split(",")) {
+			param = param.trim().replace('"', '').replace('"', '');
+			const paramNumber = parseFloat(param);
+			Params.push(isFinite(paramNumber) ? paramNumber : param);
+		}
+	}
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
-	if ((FunctionName.indexOf("Dialog") != 0) && (FunctionName.indexOf("Inventory") != 0) && (FunctionName.indexOf(CurrentScreen) != 0)) FunctionName = CurrentScreen + FunctionName;
+	if (["Dialog", "Inventory", CurrentScreen].every(s => !FunctionName.startsWith(s))) {
+		FunctionName = CurrentScreen + FunctionName;
+	}
 
 	// If it's really a function, we continue
 	/** @type {Record<string, any>} */
 	const namespace = window;
 	const func = namespace[FunctionName];
-	if (typeof func === "function") {
-
-		// Launches the function with the params and returns the result
-		const res = func(...Params);
-		return Reverse ? !res : res;
-	} else {
-
-		// Log the error in the console
-		console.log("Trying to launch invalid function: " + FunctionName);
-		return false;
+	if (typeof func !== "function") {
+		throw new Error("CommonDynamicFunctionParams: Invalid function name: " + FunctionName);
 	}
+
+	// Launches the function with the params and returns the result
+	const res = func(...Params);
+	return Reverse ? !res : res;
 }
 
 
@@ -449,33 +542,36 @@ function CommonDynamicFunctionParams(FunctionName) {
  *  CommonDynamicFunctionParams in that arguments are not parsed from the passed in FunctionName string, but
  *  passed directly into the function call, allowing for more complex JS objects to be passed in. This
  *  function will not log to console if the provided function name does not exist as a global function.
- * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
- * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
+ * @template {keyof WindowFunctions} T
+ * @param {T} FunctionName - The name of the global function to call
+ * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
+ * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByName(FunctionName, ...args) {
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	const func = namespace[FunctionName];
+	const func = window[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
+	} else {
+		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
+		return undefined;
 	}
 }
 
 /**
  * Behaves exactly like CommonCallFunctionByName, but logs a warning if the function name is invalid.
- * @param {string} FunctionName - The name of the global function to call
- * @param {readonly any[]} args - zero or more arguments to be passed to the function (optional)
- * @returns {any} - returns the result of the function call, or undefined if the function name isn't valid
+ * @template {keyof WindowFunctions} T
+ * @param {T} FunctionName - The name of the global function to call
+ * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
+ * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByNameWarn(FunctionName, ...args) {
-	/** @type {Record<string, any>} */
-	const namespace = window;
-	const func = namespace[FunctionName];
+	const func = window[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
 		console.warn(`Attempted to call invalid function "${FunctionName}"`);
+		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
+		return undefined;
 	}
 }
 
@@ -578,30 +674,52 @@ function CommonTime() {
 }
 
 /**
+ * @overload
+ * @param {string | undefined} Value
+ * @param {{ allowAlpha?: boolean, schema: readonly BCColor[] }} options
+ * @returns {Value is BCColor}
+ *//**
+ * @overload
+ * @param {string | undefined} Value
+ * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
+ * @returns {Value is HexColor}
+ *//**
  * Checks if a given value is a valid HEX color code (optionally with alpha channel)
  * @param {string | undefined} Value - Potential HEX color code
- * @param {null | { allowAlpha?: boolean }} [options]
- * @returns {Value is HexColor} - Returns TRUE if the string is a valid HEX color
+ * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
+ * @returns {Value is HexColor} - Returns TRUE if the string is a valid hex color (or general BC color if it matches the optional schema)
  */
 function CommonIsColor(Value, options=null) {
 	options ??= {};
 	if ((Value == null) || (Value.length < 3)) return false;
 	//convert short hand hex color to standard format
 	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];
-	return options.allowAlpha ? /^#[0-9A-F]{6,8}$/i.test(Value) : /^#[0-9A-F]{6}$/i.test(Value);
+
+	if (options.schema?.includes(Value)) {
+		return true;
+	} else if (options.allowAlpha) {
+		return /^#[0-9A-F]{6,8}$/i.test(Value);
+	} else {
+		return /^#[0-9A-F]{6}$/i.test(Value);
+	}
 }
 
 /**
  * Checks whether an item's color has a valid value that can be interpreted by the drawing
- * functions. Valid values are null, undefined, strings, and an array containing any of the
+ * functions. Valid values are null, undefined, color strings, and an array containing any of the
  * aforementioned types.
- * @param {null | string | readonly (null | string)[]} [Color] - The Color value to check
- * @returns {boolean} - Returns TRUE if the color is a valid item color
+ * @param {null | ItemColor} [color] - The Color value to check
+ * @param {null | { schema?: readonly BCColor[] }} [options]
+ * @returns {color is (null | undefined | ItemColor)} - Returns TRUE if the color is a valid item color
  */
-function CommonColorIsValid(Color) {
-	if (Color == null || typeof Color === "string") return true;
-	if (Array.isArray(Color)) return Color.every(C => C == null || typeof C === "string");
-	return false;
+function CommonColorIsValid(color, options=null) {
+	if (color == null) {
+		return true;
+	} else if (CommonIsArray(color)) {
+		return color.every(c => CommonIsColor(c, options));
+	} else {
+		return CommonIsColor(color, options);
+	}
 }
 
 /**
@@ -670,6 +788,16 @@ function CommonRandomItemFromList(ItemPrevious, ItemList) {
 		if( previousIndex > -1 && randomIndex >= previousIndex) randomIndex++;
 		return ItemList[randomIndex];
 	} else return ItemPrevious;
+}
+
+/**
+ * Get a random item from an array.
+ * @template T
+ * @param {readonly T[]} list - List for which to pick a random item from
+ * @returns {T} - The randomly selected item from the list
+ */
+function CommonGetRandomItemFromList(list) {
+	return list[Math.floor(Math.random() * list.length)];
 }
 
 /**
@@ -764,12 +892,8 @@ function CommonArraysEqual(a1, a2, ignoreOrder = false) {
 function CommonDebounce(func) {
 	/** @type {null | number} */
 	let timeout;
-	/** @type {number} */
-	let timestamp;
 	/** @type {retT} */
 	let result;
-	/** @type {number} */
-	let wait;
 
 	// Just a `setTimeout()` alias with some proper function-specific argument typing tailored around `later()`
 	/** @type {(handler: TimerHandler, timeout: number, context: unknown, args: argsT) => number} */
@@ -777,22 +901,18 @@ function CommonDebounce(func) {
 
 	/** @type {(context: unknown, args: argsT) => void} */
 	function later(context, args) {
-		const last = CommonTime() - timestamp;
-		if (last >= 0 && last < wait) {
-			timeout = laterSetTimeout(later, wait - last, context, args);
-		} else {
-			timeout = null;
-			result = func.apply(context, args);
-		}
+		timeout = null;
+		result = func.apply(context, args);
 	}
 
 	/** @type {(this: unknown, waitInterval: number, ...args: argsT) => retT} */
 	return function (waitInterval, ...args) {
-		wait = waitInterval;
-		timestamp = CommonTime();
-		if (!timeout) {
-			timeout = laterSetTimeout(later, wait, this, args);
+		if (timeout) {
+			clearTimeout(timeout);
 		}
+
+		timeout = laterSetTimeout(later, waitInterval, this, args);
+
 		return result;
 	};
 }
@@ -1792,7 +1912,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			root.activeElement === null
 			|| root.activeElement === document.body
-			|| root.activeElement.id === "MainCanvas"
 			|| root.activeElement instanceof HTMLDialogElement
 		);
 
@@ -1834,7 +1953,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			activeElement === null
 			|| activeElement === document.body
-			|| activeElement.id === "MainCanvas"
 			|| activeElement instanceof HTMLDialogElement
 		);
 
@@ -1881,7 +1999,6 @@ var CommonKey = /** @type {const} */({
 		const noFocus = (
 			activeElement === null
 			|| activeElement === document.body
-			|| activeElement.id === "MainCanvas"
 			|| activeElement instanceof HTMLDialogElement
 		);
 
@@ -2026,6 +2143,15 @@ function CommonScreenName(screen) {
 	return cache?.get(screen);
 }
 
+/**
+ * Generates the path to a translation CSV file for a screen
+ *
+ * @overload
+ * @param {string} module - The screen's module
+ * @param {string} screen - The screen's name
+ * @param {string} group - The text group
+ * @returns {string}
+ */
 /**
  * Generates the path to a translation CSV file for a screen
  *
@@ -2256,13 +2382,13 @@ function CommonFormatDurationRange(end, start, options = {}) {
 
 	/** @type {[string, boolean, number][]} */
 	const pairs = [
-		[InterfaceTextGet("DurationFormatYear" + full), includeYears, years],
-		[InterfaceTextGet("DurationFormatMonth" + full), includeMonths, months],
-		[InterfaceTextGet("DurationFormatWeek" + full), includeWeeks, weeks],
-		[InterfaceTextGet("DurationFormatDay" + full), includeDays, days],
-		[InterfaceTextGet("DurationFormatHour" + full), includeHours, hours],
-		[InterfaceTextGet("DurationFormatMinute" + full), includeMinutes, minutes],
-		[InterfaceTextGet("DurationFormatSecond" + full), includeSeconds, seconds],
+		[InterfaceTextGet(`DurationFormatYear${full}`), includeYears, years],
+		[InterfaceTextGet(`DurationFormatMonth${full}`), includeMonths, months],
+		[InterfaceTextGet(`DurationFormatWeek${full}`), includeWeeks, weeks],
+		[InterfaceTextGet(`DurationFormatDay${full}`), includeDays, days],
+		[InterfaceTextGet(`DurationFormatHour${full}`), includeHours, hours],
+		[InterfaceTextGet(`DurationFormatMinute${full}`), includeMinutes, minutes],
+		[InterfaceTextGet(`DurationFormatSecond${full}`), includeSeconds, seconds],
 	]
 		.filter(([, enabled]) => enabled)
 		.map(([label, , value]) => /** @type {[string, boolean, number]} */ ([label, true, value]));
@@ -2283,7 +2409,7 @@ function CommonFormatDurationRange(end, start, options = {}) {
 /**
  * Formats a duration in ms to a human readable string of days, months, and years.
  * Defaults to showing days.
- * @deprecated Use CommonFormatDurationRange instead
+ * @deprecated Use {@link CommonFormatDurationRange} instead
  * @param {number} ms
  * @param {{
  *   includeYears?: boolean;
@@ -2378,7 +2504,7 @@ function CommonGetDatePartsRange(end, start, options = {}) {
  * Break duration into real-calendar components (y, m, d, h, min, s),
  * optionally rolling excluded components into the next smaller unit.
  *
- * @deprecated Use CommonGetDatePartsRange instead.
+ * @deprecated Use {@link CommonGetDatePartsRange} instead.
  * @param {number} ms
  * @param {{
  *   includeYears?: boolean,
@@ -2452,12 +2578,12 @@ function CommonStringSplice(string, index, value, defaultValue) {
 /**
  * Unwraps a thunk into a value
  *
- * @template T
- * @param {Thunk<T>} thunk
- * @returns {T}
+ * @param {Thunk<unknown, unknown[]>} thunk
+ * @param {...unknown} args
+ * @returns {unknown}
  */
-function CommonUnwrapThunk(thunk) {
-	return typeof thunk === "function" ? /** @type {() => T} */ (thunk)() : thunk;
+function CommonUnwrapThunk(thunk, ...args) {
+	return typeof thunk === "function" ? thunk(...args) : thunk;
 }
 
 /**
@@ -2526,46 +2652,3 @@ class Result {
 		}
 	}
 }
-
-/**
- * I am a testing function for typescript to evaluate and should not be executed during runtime nor removed.
- *
- * Checks whether all all `window`-defined backgrounds and screen functions have an appropriate signature.
- * @returns {void}
- */
-function CommonTestSatisfies() {
-	// eslint-disable-next-line
-	const foo = {
-		/** @type {{ [key in `${RoomName}Background`]?: string }} */
-		Background: globalThis,
-		/** @type {{ [key in `${RoomName}Run`]: ScreenRunHandler }} */
-		Run: globalThis,
-		/** @type {{ [key in `${RoomName}MouseDown`]?: MouseEventListener }} */
-		MouseDown: globalThis,
-		/** @type {{ [key in `${RoomName}MouseUp`]?: MouseEventListener }} */
-		MouseUp: globalThis,
-		/** @type {{ [key in `${RoomName}MouseMove`]?: MouseEventListener }} */
-		MouseMove: globalThis,
-		/** @type {{ [key in `${RoomName}MouseWheel`]?: MouseWheelEventListener }} */
-		MouseWheel: globalThis,
-		/** @type {{ [key in `${RoomName}Click`]: MouseEventListener }} */
-		Click: globalThis,
-		/** @type {{ [key in `${RoomName}Load`]?: ScreenLoadHandler }} */
-		Load: globalThis,
-		/** @type {{ [key in `${RoomName}Unload`]?: ScreenUnloadHandler }} */
-		Unload: globalThis,
-		/** @type {{ [key in `${RoomName}Draw`]?: ScreenDrawHandler }} */
-		Draw: globalThis,
-		/** @type {{ [key in `${RoomName}Resize`]?: ScreenResizeHandler }} */
-		Resize: globalThis,
-		/** @type {{ [key in `${RoomName}KeyDown`]?: KeyboardEventListener }} */
-		KeyDown: globalThis,
-		/** @type {{ [key in `${RoomName}KeyUp`]?: KeyboardEventListener }} */
-		KeyUp: globalThis,
-		/** @type {{ [key in `${RoomName}Paste`]?: ClipboardEventListener }} */
-		Paste: globalThis,
-		/** @type {{ [key in `${RoomName}Exit`]?: ScreenExitHandler }} */
-		Exit: globalThis,
-	};
-}
-

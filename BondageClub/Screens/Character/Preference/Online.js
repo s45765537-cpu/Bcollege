@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 
-/** @type {null | string[]} */
-var PreferenceOnlineDefaultBackgroundList = null;
+/** @type {string[]} */
+var PreferenceOnlineDefaultBackgroundList = /** @type {never} */ (null);
 var PreferenceOnlineDefaultBackgroundIndex = 0;
 var PreferenceOnlineDefaultBackground = "";
 
@@ -20,6 +19,7 @@ const PreferenceSubscreenOnlineCheckboxes = [
 	{ label: "BlockBodyCosplay", check: () => Player.OnlineSharedSettings.BlockBodyCosplay, click: () => Player.OnlineSharedSettings.BlockBodyCosplay = !Player.OnlineSharedSettings.BlockBodyCosplay },
 	{ label: "ShowStatus", check: () => Player.OnlineSettings.ShowStatus, click: () => Player.OnlineSettings.ShowStatus = !Player.OnlineSettings.ShowStatus },
 	{ label: "SendStatus", check: () => Player.OnlineSettings.SendStatus, click: () => Player.OnlineSettings.SendStatus = !Player.OnlineSettings.SendStatus },
+	{ label: "RespondRemoteModListQueries", check: () => Player.OnlineSettings.RespondRemoteModListQueries, click: () => Player.OnlineSettings.RespondRemoteModListQueries = !Player.OnlineSettings.RespondRemoteModListQueries },
 ];
 
 const PreferenceSubscreenOnlineIDs = Object.freeze({
@@ -34,48 +34,39 @@ function PreferenceSubscreenOnlineLoad() {
 	PreferenceOnlineDefaultBackgroundList = BackgroundsGenerateList(BackgroundsTagList);
 	PreferenceOnlineDefaultBackgroundIndex = PreferenceOnlineDefaultBackgroundList.indexOf(PreferenceOnlineDefaultBackground);
 
+	const checkboxHtmlOptions = { container: { classList: ["preference-settings-checkbox"] } };
+
 	const checkboxElements = PreferenceSubscreenOnlineCheckboxes.map((checkbox) => {
 		const checked = checkbox.check();
 		const label = TextGet(checkbox.label);
 
 		return ElementCheckbox.CreateLabelled(`${checkbox.label}-checkbox`, label, checkbox.click, {
 			checked
-		});
+		}, checkboxHtmlOptions);
 	});
 
 	const dropdownOptions = [0, 1, 2, 3].map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */ ({attributes: { value: e.toString(), label: TextGet("RoomCustomizationLevel" + e.toString()), selected: e === Player.OnlineSettings.ShowRoomCustomization }}));
 
-	const dropdown = ElementCreate({
-		tag: "div",
-		classList: ["preference-settings-dropdown"],
-		attributes: {
-			id: `RoomCustomizationLevel-dropdown-container`
-		},
-		children: [
-			{
-				tag: "label",
-				children: [TextGet("RoomCustomizationLabel")],
-				attributes: { for: "RoomCustomizationLevel" },
-			},
-			ElementCreateDropdown("RoomCustomizationLevel", dropdownOptions, (ev) => {
-				ev.preventDefault();
-				const value = parseInt(/** @type {HTMLSelectElement} */ (ev.target).value);
-				if (!value) return;
-				Player.OnlineSettings.ShowRoomCustomization = /** @type {0 | 1 | 2 | 3} */ (value);
-			})
-		]
+	const dropdown = ElementDropdown.CreateLabelled("RoomCustomizationLevel", dropdownOptions, TextGet("RoomCustomizationLabel"), function (ev) {
+		Player.OnlineSettings.ShowRoomCustomization = /** @type {ChatRoomCustomizationType} */ (CommonParseInt(this.value));
+	},
+	null,
+	{
+		container: {
+			classList: ["preference-settings-dropdown"],
+		}
 	});
 
 	const grid = ElementCreate({
 		tag: "div",
-		classList: ["preference-settings-grid", "scroll-box"],
+		classList: ["preference-settings-grid", "preference-settings-aligned-grid", "scroll-box"],
 		attributes: { id: PreferenceSubscreenOnlineIDs.grid },
 		children: [
 			...checkboxElements,
 			dropdown
 		]
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(grid);
+	ElementWrap(PreferenceIDs.subscreen)?.append(grid);
 
 	const subtitle = ElementCreate({
 		tag: "label",
@@ -105,7 +96,7 @@ function PreferenceSubscreenOnlineLoad() {
 			selection
 		]
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(grid2);
+	ElementWrap(PreferenceIDs.subscreen)?.append(grid2);
 }
 /**
  * Sets the online preferences for the player. Redirected to from the main Run function if the player is in the online
@@ -116,8 +107,8 @@ function PreferenceSubscreenOnlineRun() {
 	DrawCharacter(Player, 50, 50, 0.9);
 	MainCanvas.textAlign = "center";
 	PreferencePageChangeDraw(1595, 75, 2);
-	ElementWrap(PreferenceSubscreenOnlineIDs.grid).toggleAttribute("hidden", PreferencePageCurrent !== 1);
-	ElementWrap(PreferenceSubscreenOnlineIDs.grid2).toggleAttribute("hidden", PreferencePageCurrent !== 2);
+	ElementWrap(PreferenceSubscreenOnlineIDs.grid)?.toggleAttribute("hidden", PreferencePageCurrent !== 1);
+	ElementWrap(PreferenceSubscreenOnlineIDs.grid2)?.toggleAttribute("hidden", PreferencePageCurrent !== 2);
 
 	if (PreferencePageCurrent === 2) {
 		DrawImageResize("Backgrounds/" + PreferenceOnlineDefaultBackground + ".jpg", 500, 210, 300, 185);
@@ -132,9 +123,11 @@ function PreferenceSubscreenOnlineClick() {
 	PreferencePageChangeClick(1595, 75, 2);
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenOnlineResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
-	ElementSetPosition(PreferenceSubscreenOnlineIDs.grid, x, y);
+	ElementSetPosition(PreferenceSubscreenOnlineIDs.grid, x, y + 10);
+	ElementSetSize(PreferenceSubscreenOnlineIDs.grid, 1400, 800);
 	ElementSetPosition(PreferenceSubscreenOnlineIDs.subtitle, 500, 150);
 	ElementPositionFixed(PreferenceSubscreenOnlineIDs.selection, 820, 210, 90, 90);
 }

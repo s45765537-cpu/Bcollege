@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {{ Name: TitleName; Requirement: () => boolean; Earned?: boolean, Force?: boolean }[]} */
@@ -7,9 +6,9 @@ var TitleList = [
 	{ Name: "Mistress", Requirement: function () { return LogQuery("ClubMistress", "Management") && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
 	{ Name: "Master", Requirement: function () { return LogQuery("ClubMistress", "Management") && !Player.GenderSettings.HideTitles.Male; }, Earned: true },
 	{ Name: "Queen", Requirement: function () { return (ReputationGet("Dominant") >= 75) && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
-	{ Name: "King", Requirement: function () { return (ReputationGet ("Dominant") >= 75) && !Player.GenderSettings.HideTitles.Male; }, Earned: true },
-	{ Name: "Goddess", Requirement: function () { return (ReputationGet("Dominant") >=100) && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
-	{ Name: "God", Requirement: function () { return (ReputationGet("Dominant") >=100) && !Player.GenderSettings.HideTitles.Male; }, Earned: true },
+	{ Name: "King", Requirement: function () { return (ReputationGet("Dominant") >= 75) && !Player.GenderSettings.HideTitles.Male; }, Earned: true },
+	{ Name: "Goddess", Requirement: function () { return (ReputationGet("Dominant") >= 100) && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
+	{ Name: "God", Requirement: function () { return (ReputationGet("Dominant") >= 100) && !Player.GenderSettings.HideTitles.Male; }, Earned: true },
 	{ Name: "Mistree", Requirement: function () { return LogQuery("ClubMistress", "Management"); }, Earned: true },
 	{ Name: "ClubSlave", Requirement: function () { return ManagementIsClubSlave(); }, Force: true },
 	{ Name: "FreeUse", Requirement: function () { return (ReputationGet("Dominant") <= -100); }, Earned: true },
@@ -28,7 +27,7 @@ var TitleList = [
 	{ Name: "MasterKidnapper", Requirement: function () { return (ReputationGet("Kidnap") >= 100); }, Earned: true },
 	{ Name: "Patient", Requirement: function () { return ((ReputationGet("Asylum") <= -50) && (ReputationGet("Asylum") > -100)); }, Earned: true },
 	{ Name: "PermanentPatient", Requirement: function () { return (ReputationGet("Asylum") <= -100); }, Earned: true },
-	{ Name: "EscapedPatient", Requirement: function () { return (LogValue("Escaped", "Asylum") >= CurrentTime); }, Force: true },
+	{ Name: "EscapedPatient", Requirement: function () { return ((LogValue("Escaped", "Asylum") ?? 0) >= CurrentTime); }, Force: true },
 	{ Name: "Nurse", Requirement: function () { return ((ReputationGet("Asylum") >= 50) && (ReputationGet("Asylum") < 100)); }, Earned: true },
 	{ Name: "Doctor", Requirement: function () { return (ReputationGet("Asylum") >= 100); }, Earned: true },
 	{ Name: "AnimeGirl", Requirement: function () { return InventoryAvailable(Player, "AnimeGirl", "Cloth") && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
@@ -79,6 +78,9 @@ var TitleList = [
 	{ Name: "GoodOne", Requirement: function () { return true; } },
 	{ Name: "Pet", Requirement: function () { return true; } },
 	{ Name: "Dragon", Requirement: function () { return true; } },
+	{ Name: "Wolf", Requirement: function () { return true; } },
+	{ Name: "Monster", Requirement: function () { return true; } },
+	{ Name: "Shapeshifter", Requirement: function () { return true; } },
 	{ Name: "Vampire", Requirement: function () { return true; } },
 	{ Name: "Brat", Requirement: function () { return true; } },
 	{ Name: "Kitten", Requirement: function () { return true; } },

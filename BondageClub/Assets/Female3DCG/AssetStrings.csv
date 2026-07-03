@@ -39,7 +39,8 @@ ArmsRopeSetHogtied,SourceCharacter uses rope to hogtie TargetCharacter.
 ArmsRopeSetInvertedSuspensionAllFours,SourceCharacter uses rope on TargetCharacter to suspend and have TargetPronounObject crawling on all fours upside down.
 ArmsRopeSetInvertedSuspensionHogtied,SourceCharacter uses rope to suspend and hogtie TargetCharacter upside down.
 ArmsRopeSetKneelingHogtie,SourceCharacter uses rope to hogtie TargetCharacter on TargetPronounPossessive knees.
-ArmsRopeSetRopeCuffs,SourceCharacter uses rope to tie rope cuffs on DestinationCharacter wrists
+ArmsRopeSetRopeCuffsBack,SourceCharacter uses rope to tie rope cuffs on DestinationCharacter wrists
+ArmsRopeSetRopeCuffsFront,SourceCharacter uses rope to tie rope cuffs in front of DestinationCharacter wrists
 ArmsRopeSetSimpleHogtie,SourceCharacter uses rope to hogtie TargetCharacter.
 ArmsRopeSetSuspensionAllFours,SourceCharacter uses rope on TargetCharacter to suspend and have TargetPronounObject crawling on all fours.
 ArmsRopeSetSuspensionHogtied,SourceCharacter uses rope to suspend and hogtie TargetCharacter.
@@ -592,6 +593,11 @@ ClothAllureSidecutTransparent,Transparent
 ClothBrocadeCloudsSnowEmbroideryQipaoNo,No
 ClothBrocadeCloudsSnowEmbroideryQipaoSelect,Select Lining Skirt
 ClothBrocadeCloudsSnowEmbroideryQipaoYes,Yes
+ClothLittleFormalShirtOptiont0,Yes
+ClothLittleFormalShirtSelectBase,Select Shirt Style
+ClothLittleFormalShirtSelectTie,Include a tie
+ClothLittleFormalShirtModuleTie,Tie
+ClothLittleFormalShirtOptiont1,No
 ClothOffTheShoulderTopSelect,Choose Style:
 ClothOffTheShoulderTopRight,Right
 ClothOffTheShoulderTopLeft,Left
@@ -814,6 +820,15 @@ ClothAccessoryHoodedCloakSelectHood,Hood
 ClothAccessoryHoodedCloakOptionh0,Down
 ClothAccessoryHoodedCloakOptionh1,Over Head
 ClothAccessoryHoodedCloakOptionh2,Over Eyes
+ClothCasualDroppedSuitSelectBase,Configure the suit
+ClothCasualDroppedSuitSelectColor,Select the color type
+ClothCasualDroppedSuitSelectSide,Wear on which side
+ClothCasualDroppedSuitModuleColor,Color
+ClothCasualDroppedSuitModuleSide,Side
+ClothCasualDroppedSuitOptionM0,Right
+ClothCasualDroppedSuitOptionM1,Left
+ClothCasualDroppedSuitOptiontyped0,Opaque
+ClothCasualDroppedSuitOptiontyped1,Matte
 ClothCheerleaderTopTextLabel,Change Text:
 ClothChineseDress2Pink,Style 3
 ClothChineseDress2Purple,Style 2
@@ -1007,6 +1022,11 @@ ClothSlaveRagsSetc0,SourceCharacter puts some old rags over DestinationCharacter
 ClothSlaveRagsSetc1,SourceCharacter puts some old and filthy rags over DestinationCharacter body.
 ClothSlaveRagsSetc2,SourceCharacter puts some torn rags over DestinationCharacter body.
 ClothSlaveRagsSetc3,SourceCharacter puts some torn and filthy rags over DestinationCharacter body.
+ClothStarryOceanEveningGownModuleMirror,Select side
+ClothStarryOceanEveningGownOptionM0,Right side
+ClothStarryOceanEveningGownOptionM1,Left side
+ClothStarryOceanEveningGownSelectBase,Put the gown on which side
+ClothStarryOceanEveningGownSelectMirror,Put the gown on which side
 ClothTShirt2BCLogo,Club Logo
 ClothTShirt2BDSM,BD-SM
 ClothTShirt2Gag,The Moaning Groans
@@ -1016,6 +1036,11 @@ ClothTShirt2Rock,Rock
 ClothTShirt2Select,Select your design
 ClothTShirt2Smile,Smiley
 ClothTShirt2Tick,Check
+ClothWhiteDressOptionhn0,Hide
+ClothWhiteDressOptionhn1,Show
+ClothWhiteDressSelectHideNipples,Nipples Visibility
+ClothWhiteDressSelectBase,Configure White Dress
+ClothWhiteDressModuleHideNipples,Nipples
 ClubCardGameStart,SourceCharacter has started the Club Card game.
 ClubCardGameEnd,Congratulations! SourceCharacter has won the Club Card game.
 ClubCardGameConcede,Congratulations! SourceCharacter has won the Club Card game after TargetCharacterName conceded.
@@ -1452,11 +1477,11 @@ GwenHoodStylef1,Smooth
 GwenHoodChangeStyleFinish,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHair,SourceCharacter changes the style of DestinationCharacter gwen hood.
 HairAccessory1AntennaLeft,Left
-HairAccessory1AntennaLeftGlowing,Left Glowing
-HairAccessory1AntennaLeftRight,Left Right
-HairAccessory1AntennaLeftRightGlowing,Left Right Glowing
+HairAccessory1AntennaLeftGlowing,Left Glow
+HairAccessory1AntennaLeftRight,Both
+HairAccessory1AntennaLeftRightGlowing,Both Glow
 HairAccessory1AntennaRight,Right
-HairAccessory1AntennaRightGlowing,Right Glowing
+HairAccessory1AntennaRightGlowing,Right Glow
 HairAccessory1AntennaSelect,Select Pattern
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
@@ -2690,6 +2715,7 @@ HandAccessoryRightRingsModuleIndex,Index
 HandAccessoryRightRingsModuleMiddle,Middle finger
 HandAccessoryRightRingsModulePinkie,Pinkie
 HandAccessoryRightRingsModuleRing,Ring finger
+HandAccessoryRightRingsModuleRingGem,Ring Gem
 HandAccessoryRightRingsModuleThumb,Thumb
 HandAccessoryRightRingsModuleFingernails,Nails/Claws
 HandAccessoryRightRingsOptioni0,None
@@ -2702,6 +2728,8 @@ HandAccessoryRightRingsOptionp2,Honor Ring
 HandAccessoryRightRingsOptionr0,None
 HandAccessoryRightRingsOptionr1,Steel Ring
 HandAccessoryRightRingsOptionr2,Wedding Ring
+HandAccessoryRightRingsOptiong0,None
+HandAccessoryRightRingsOptiong1,Gem
 HandAccessoryRightRingsOptiont0,None
 HandAccessoryRightRingsOptiont1,Steel Ring
 HandAccessoryRightRingsOptionf0,None
@@ -2712,6 +2740,7 @@ HandAccessoryRightRingsSelectIndex,Choose a ring for the Index
 HandAccessoryRightRingsSelectMiddle,Choose a ring for the Middle finger
 HandAccessoryRightRingsSelectPinkie,Choose a ring for the Pinkie
 HandAccessoryRightRingsSelectRing,Choose a ring for the Ring finger
+HandAccessoryRightRingsSelectRingGem,Add a gem to the ring finger?
 HandAccessoryRightRingsSelectThumb,Choose a ring for the Thumb
 HandAccessoryRightRingsSelectFingernails,Add right hand nails or claws?
 HatBallCapBackSelect,Select strap location.
@@ -2741,6 +2770,11 @@ HatLatexHabitSelect,Choose Fit
 HatLatexHabitSetLoose,SourceCharacter loosens DestinationCharacter latex habit.
 HatLatexHabitSetTight,SourceCharacter tightens DestinationCharacter latex habit.
 HatLatexHabitTight,Tight
+HatNPCBalloonSelect,Select the balloon type
+HatNPCBalloonExclamationMark,Exclamation
+HatNPCBalloonQuestionMark,Question
+HatNPCBalloonHeart,Heart
+HatNPCBalloonArrow,Arrow
 HatNunHabitAss,Ass
 HatNunHabitBlank,Blank
 HatNunHabitBreasts,Breasts
@@ -3891,6 +3925,22 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldLaptopClosed,Closed
+ItemHandheldLaptopOpen,Open
+ItemHandheldLaptopSelect,Select the laptop style
+ItemHandheldLaptopSetOpen,SourceCharacter opens DestinationCharacter AssetName.
+ItemHandheldLaptopSetClosed,SourceCharacter closes DestinationCharacter AssetName.
+ItemHandheldChocolateModuleType,Change
+ItemHandheldChocolateOptionp0,Wrapped
+ItemHandheldChocolateOptionp1,Foiled
+ItemHandheldChocolateOptionp2,Golden ticket
+ItemHandheldChocolateOptionp3,Chocolate
+ItemHandheldChocolateSetp0,SourceCharacter makes DestinationCharacter AssetName show fully wrapped.
+ItemHandheldChocolateSetp1,SourceCharacter makes DestinationCharacter AssetName show aluminum foil inside the wrapping paper.
+ItemHandheldChocolateSetp2,SourceCharacter opened DestinationCharacter AssetName and found a gold ticket inside!
+ItemHandheldChocolateSetp3,SourceCharacter reveals DestinationCharacter AssetName from the wrapping paper.
+ItemHandheldChocolateSelectBase,Change your bar type
+ItemHandheldChocolateSelectType,Chocolate bar type...
 ItemHandheldDragonPlushSelect,Select Position
 ItemHandheldDragonPlushSetHolding,SourceCharacter holds a cute Dragon Plush!
 ItemHandheldDragonPlushHolding,Holding
@@ -5522,6 +5572,11 @@ ItemNeckTechnoCollarSetc4,SourceCharacter sets DestinationCharacter collar to a 
 ItemNeckTechnoCollarSets0,SourceCharacter sets DestinationCharacter shock unit to low intensity.
 ItemNeckTechnoCollarSets1,SourceCharacter sets DestinationCharacter shock unit to moderate intensity.
 ItemNeckTechnoCollarSets2,SourceCharacter sets DestinationCharacter shock unit to high intensity.
+ItemNipplesPiercingsPiercingNameBadgeLeftNipple,Left Nipple
+ItemNipplesPiercingsPiercingNameBadgeRightNipple,Right Nipple
+ItemNipplesPiercingsPiercingNameBadgeSelect,Select The Wearing Position
+ItemNipplesPiercingsPiercingNameBadgeSourceCharacterputDestinationCharacterAssetNameontheleftbreast,SourceCharacter put DestinationCharacter AssetName on the left breast
+ItemNipplesPiercingsPiercingNameBadgeSourceCharacterputDestinationCharacterAssetNameontherightbreast,SourceCharacter put DestinationCharacter AssetName on the right breast
 ItemNipplesPlateClampsLoose,SourceCharacter loosens DestinationCharacter clamps.
 ItemNipplesPlateClampsSelectTightness,Select Tightness
 ItemNipplesPlateClampsTight,SourceCharacter tigthens DestinationCharacter clamps.
@@ -5963,6 +6018,13 @@ ItemVulvaStitchesSetZigZag,SourceCharacter stitches DestinationCharacter pussy s
 ItemVulvaStitchesSkewed,Skewed
 ItemVulvaStitchesStraight,Straight
 ItemVulvaStitchesZigZag,Zig Zag
+ItemVulvaUsedCondomSelect,Select the style
+ItemVulvaUsedCondomA,Sperm
+ItemVulvaUsedCondomB,Drip
+ItemVulvaUsedCondomC,Clean
+ItemVulvaUsedCondomSetA,SourceCharacter makes DestinationCharacter AssetName have a single drop of fluid.
+ItemVulvaUsedCondomSetB,SourceCharacter makes DestinationCharacter AssetName drip a long stream.
+ItemVulvaUsedCondomSetC,SourceCharacter makes DestinationCharacter AssetName have no fluid.
 ItemVulvaVibratingWand,(You slowly massage your pussy with the wand.  Trembling from pleasure and excitement.)
 JewelryJewelrySetModuleEars1,Right Ear
 JewelryJewelrySetModuleEars2,Left Ear
@@ -6401,6 +6463,12 @@ PantiesMaleCatsuitPantiesTucked,Tucked
 PantiesPoofyDiaperPoofy,Extra Padding
 PantiesPoofyDiaperRegularPadding,Regular Padding
 PantiesPoofyDiaperSelect,Select the amount of padding.
+PantiesRoyalDiaperHerMajesty,Her Majesty
+PantiesRoyalDiaperHisMajesty,His Majesty
+PantiesRoyalDiaperSimple,Simple
+PantiesRoyalDiaperSelect,Select a diaper motiv.
+PantiesRoyalDiaperLock,Lock
+PantiesRoyalDiaperNone,Plain
 PantiesPullDownPantiesPutOn,Put On
 PantiesPullDownPantiesPulledAside,Pulled Aside
 PantiesPullDownPantiesCrotchExposed,Crotch Exposed
@@ -6537,7 +6605,8 @@ RopeBondageKneesThighs,Knees and Thighs Tie
 RopeBondageLink,Link Tie
 RopeBondageMermaid,Mermaid Tie
 RopeBondageOverPanties,Over Panties
-RopeBondageRopeCuffs,Rope Cuffs
+RopeBondageRopeCuffsBack,Rope Cuffs (Behind Back)
+RopeBondageRopeCuffsFront,Rope Cuffs (In Front)
 RopeBondageSimpleHogtie,Simple Hogtie
 RopeBondageStar,Star Harness Tie
 RopeBondageSuspension,Suspension Tie
@@ -6714,6 +6783,24 @@ SuctionLevelLight,Light
 SuctionLevelLoose,Loose
 SuctionLevelMaximum,Maximum
 SuctionLevelMedium,Medium
+SuitGlossyBodystockingModuleChestStyle,Breast
+SuitGlossyBodystockingModuleHandStyle,Gloves
+SuitGlossyBodystockingModuleTailorStyle,Seams
+SuitGlossyBodystockingOptionb0,Covered
+SuitGlossyBodystockingOptionb1,Exposed
+SuitGlossyBodystockingOptionh0,Full
+SuitGlossyBodystockingOptionh1,No Gloves
+SuitGlossyBodystockingOptionh2,Fingerless
+SuitGlossyBodystockingOptionh3,Cutout
+SuitGlossyBodystockingOptionm0,Sleeves
+SuitGlossyBodystockingOptionm1,Torso Only
+SuitGlossyBodystockingOptionm2,All Seams
+SuitGlossyBodystockingOptionm3,No Torso
+SuitGlossyBodystockingOptionm4,No Seams
+SuitGlossyBodystockingSelectBase,Glossy Bodystocking Style
+SuitGlossyBodystockingSelectChestStyle,Breast Style
+SuitGlossyBodystockingSelectHandStyle,Seams Style
+SuitGlossyBodystockingSelectTailorStyle,Seams Style
 SuitGloveTypeNoGloves,No Gloves
 SuitGloveTypeOpaqueGloves,Opaque Gloves
 SuitGloveTypeTransparentGloves,See-through Gloves
@@ -6735,6 +6822,10 @@ SuitLowerMaleSeamlessCatsuitLock,Null Bulge
 SuitLowerMaleSeamlessCatsuitSelect,Select Bulge Type.
 SuitLowerMaleSeamlessCatsuitSkinTight,Skin Tight Bulge
 SuitLowerMaleSeamlessCatsuitTucked,Tucked
+SuitTransparentBunnyGirlMiddleTrans,Middle Trans
+SuitTransparentBunnyGirlOpaque,Opaque
+SuitTransparentBunnyGirlOverallTrans,Overall Trans
+SuitTransparentBunnyGirlSelect,Select Transparent Bunny Girl Style
 SuspensionChange,SourceCharacter uses AssetName to suspend TargetCharacter from the ceiling.
 SuspensionChangeLower,SourceCharacter lowers the height of DestinationCharacter suspension.
 SuspensionChangeRaise,SourceCharacter raises the height of DestinationCharacter suspension.
@@ -6830,11 +6921,11 @@ TextItemChange,"SourceCharacter changes the text on DestinationCharacterName Ass
 TextItemRemove,SourceCharacter removes the text from DestinationCharacterName AssetName
 TextItemSelect,Configure item text
 tightens,tightens
-TimerAddRemoveUnknownTime,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
-TimerAddTime,SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
+TimerAddRemoveUnknownTime,SourceCharacter changes the timer on the padlock on DestinationCharacter FocusAssetGroup
+TimerAddTime,SourceCharacter adds TimerTime to the padlock on DestinationCharacter FocusAssetGroup.
 TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
-TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
+TimerRemoveTime,SourceCharacter removes TimerTime from the padlock on DestinationCharacter FocusAssetGroup.
 TimerRestart,SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
 ToeTapePoseFull,Full
 ToeTapePoseToes,Toes
@@ -6926,7 +7017,6 @@ WingsSeraphWingsOptionshow20,Show
 WingsSeraphWingsOptionshow21,Hide
 WingsSeraphWingsOptionshow30,Show
 WingsSeraphWingsOptionshow31,Hide
-YourRoom,<i>Your private room</i>
 ZipBondageZipFeetFull,Full Binding
 ZipBondageZipFeetLight,Light Binding
 ZipBondageZipFeetMedium,Medium Binding
@@ -7461,7 +7551,7 @@ ItemHandsFullMittensOptionr4,Harness belts
 ItemHandsFullMittensOptionr5,Armbinder mode
 ItemHandsFullMittensOptionr6,Ankle shackles combo
 ItemHandsFullMittensSetr0,SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
-ItemHandsFullMittensSetr1,SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+ItemHandsFullMittensSetr1,SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose.
 ItemHandsFullMittensSetr2,SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
 ItemHandsFullMittensSetr3,SourceCharacter binds DestinationCharacterName arms as straitjacket style.
 ItemHandsFullMittensSetr4,SourceCharacter binds DestinationCharacterName hands in the back and put some harness belt on TargetPronounObject torso.
@@ -8100,13 +8190,24 @@ ItemHandheldPlushieOptionVagrants9,Takao
 ItemHandheldPlushieSetVagrants9,SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
 ItemHandheldPlushieOptionVagrants10,Carol
 ItemHandheldPlushieSetVagrants10,SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
-ItemHandheldPlushieModuleNelsStorage,Nel's Stroage Room
+ItemHandheldPlushieOptionVagrants11,Brioche
+ItemHandheldPlushieSetVagrants11,SourceCharacter places a cute Brioche plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants12,Flare
+ItemHandheldPlushieSetVagrants12,SourceCharacter places a cute Flare plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants13,Lara
+ItemHandheldPlushieSetVagrants13,SourceCharacter places a cute Lara plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVagrants14,Kitty
+ItemHandheldPlushieSetVagrants14,SourceCharacter places a cute Kitty plushie in DestinationCharacter hands.
+ItemHandheldPlushieModuleNelsStorage,Nel's Storage Room
 ItemHandheldPlushieSelectNelsStorage,Nel's Storage Room
 ItemHandheldPlushieOptionNelsStorage0,None
-ItemHandheldPlushieSetVagrants0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieSetNelsStorage0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionNelsStorage1,Nel
 ItemHandheldPlushieSetNelsStorage1,SourceCharacter places a cute Nel plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage2,Fallen
+ItemHandheldPlushieSetNelsStorage2,SourceCharacter places a cute Fallen plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage3,Reina
+ItemHandheldPlushieSetNelsStorage3,SourceCharacter places a cute Reina plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleCCLounge,CC's Lounge
 ItemHandheldPlushieSelectCCLounge,CC's Lounge
 ItemHandheldPlushieOptionCCLounge0,None
@@ -8127,6 +8228,15 @@ ItemHandheldPlushieOptionSakisDen1,Saki
 ItemHandheldPlushieSetSakisDen1,SourceCharacter places a pretty Saki plushie in DestinationCharacter hands.
 ItemHandheldPlushieGroup,Choose the plushie group:
 ItemHandheldPlushieDenofSinSelect,Choose the plushie:
+ItemHandheldPlushieModuleSarahsWorld,Sarah's World
+ItemHandheldPlushieSelectSarahsWorld,Sarah's World
+ItemHandheldPlushieSarahsWorldSelect,Choose the plushie:
+ItemHandheldPlushieOptionSarahsWorld0,None
+ItemHandheldPlushieSetSarahsWorld0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionSarahsWorld1,Sarah
+ItemHandheldPlushieSetSarahsWorld1,SourceCharacter places a sexy Sarah plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionSarahsWorld2,Samantha
+ItemHandheldPlushieSetSarahsWorld2,SourceCharacter places a sexy Samantha plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
@@ -8158,6 +8268,29 @@ ItemHandheldUchiwaSetType3,SourceCharacter chooses a sun art for DestinationChar
 ItemHandheldUchiwaSetType4,SourceCharacter chooses a wave art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType5,SourceCharacter chooses a moon art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Uchiwa fan.
+ItemHandheldCustomPaddleSelectBase,
+ItemHandheldCustomPaddleModuleCustomText,Custom Text
+ItemHandheldCustomPaddleSelectCustomText,Pick your Custom Text:
+ItemHandheldCustomPaddleOptionc0,Blank
+ItemHandheldCustomPaddleOptionc1,Brat
+ItemHandheldCustomPaddleOptionc2,Hearts
+ItemHandheldCustomPaddleOptionc3,Owned
+ItemHandheldCustomPaddleOptionc4,Pet
+ItemHandheldCustomPaddleOptionc5,Slave
+ItemHandheldCustomPaddleOptionc6,Slut
+ItemHandheldCustomPaddleOptionc7,Toy
+ItemHandheldCustomPaddleOptionc8,Bitch
+ItemHandheldCustomPaddleSetc0,SourceCharacter removed the Custom Text from DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc1,SourceCharacter set the Custom Text to "Brat" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc2,SourceCharacter set the Custom Text to "Hearts" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc3,SourceCharacter set the Custom Text to "Owned" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc4,SourceCharacter set the Custom Text to "Pet" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc5,SourceCharacter set the Custom Text to "Slave" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc6,SourceCharacter set the Custom Text to "Slut" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc7,SourceCharacter set the Custom Text to "Toy" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleSetc8,SourceCharacter set the Custom Text to "Bitch" on DestinationCharacter Custom paddle.
+ItemHandheldCustomPaddleActivitySpankItem,SourceCharacter hits DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset leaving a mark.
+ItemHandheldCustomPaddleActivityRubItem,SourceCharacter rubs DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset.
 ItemDevicesLeatherCageSelectBase,Leather cage main menu:
 ItemDevicesLeatherCageModuleFace,Belts
 ItemDevicesLeatherCageSelectFace,Belts options:
@@ -8402,7 +8535,7 @@ NecklaceRuffledCollarNone,No choker
 NecklaceRuffledCollarChoker,Choker added
 ItemMouthCompGagSelectBase,Customize this gagging process following these steps:
 ItemMouthCompGagModuleFoamBall,Foam balls
-ItemMouthCompGagSelectFoamBall,How much foam balls going inside the mouth? 
+ItemMouthCompGagSelectFoamBall,How much foam balls going inside the mouth?
 ItemMouthCompGagOptionb0,Just a single ball
 ItemMouthCompGagOptionb1,Two foam balls
 ItemMouthCompGagOptionb2,Three foam balls
@@ -8449,7 +8582,7 @@ ItemMouthCompGagSetm3,SourceCharacter hoods the DestinationCharacter head but Ta
 ItemMouthCompGagSetm4,SourceCharacter hoods completely the DestinationCharacter head with foam tape.
 ItemMouth2CompGagSelectBase,Customize this gagging process following these steps:
 ItemMouth2CompGagModuleFoamBall,Foam balls
-ItemMouth2CompGagSelectFoamBall,How much foam balls going inside the mouth? 
+ItemMouth2CompGagSelectFoamBall,How much foam balls going inside the mouth?
 ItemMouth2CompGagOptionb0,Just a single ball
 ItemMouth2CompGagOptionb1,Two foam balls
 ItemMouth2CompGagOptionb2,Three foam balls
@@ -8740,3 +8873,50 @@ ItemMouthBishopGagOpen,Open
 ItemMouthBishopGagCovered,Covered
 ItemMouthBishopGagSetOpen,SourceCharacter removes the panel from DestinationCharacter gag.
 ItemMouthBishopGagSetCovered,SourceCharacter attaches the panel to DestinationCharacter gag.
+ItemMouthBallGag2SelectBase,Configure the ball gag
+ItemMouthBallGag2SelectStrapType,Configure the strap
+ItemMouthBallGag2SelectBallType,Configure the ball
+ItemMouthBallGag2ModuleStrapType,Strap type
+ItemMouthBallGag2ModuleBallType,Ball type
+ItemMouthBallGag2Options0,Basic
+ItemMouthBallGag2Options1,Harness
+ItemMouthBallGag2Optionb0,Regular
+ItemMouthBallGag2Optionb1,Large
+ItemMouthBallGag2Optionb2,XL
+ItemMouthBallGag2Sets0,SourceCharacter changes the strap to a basic strap on DestinationCharacter gag.
+ItemMouthBallGag2Sets1,SourceCharacter changes the strap to a harness on DestinationCharacter gag.
+ItemMouthBallGag2Setb0,SourceCharacter changes the ball to a regular sized one on DestinationCharacter gag.
+ItemMouthBallGag2Setb1,SourceCharacter changes the ball to a large sized one on DestinationCharacter gag.
+ItemMouthBallGag2Setb2,SourceCharacter changes the ball to a XL sized one on DestinationCharacter gag.
+ItemNoseNoseShackleModuleShackle,Shackle
+ItemNoseNoseShackleModuleAttachment,Attachment
+ItemNoseNoseShackleOptions0,Single Bar
+ItemNoseNoseShackleOptions1,Double Bar
+ItemNoseNoseShackleOptiona0,None
+ItemNoseNoseShackleOptiona1,Long Chain
+ItemNoseNoseShackleOptiona2,Short Chain
+ItemNoseNoseShackleOptiona3,Leash
+ItemNoseNoseShackleSelectBase,Choose Appearance
+ItemNoseNoseShackleSelectShackle,Choose Shackle Type
+ItemNoseNoseShackleSelectAttachment,Choose Attachment
+ItemNoseNoseShackleSets0,SourceCharacter fits a single-bar shackle into DestinationCharacter nose.
+ItemNoseNoseShackleSets1,SourceCharacter fits a double-bar shackle into DestinationCharacter nose.
+ItemNoseNoseShackleSeta0,SourceCharacter removes the attachment from DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta1,SourceCharacter attaches a long chain to DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta2,SourceCharacter attaches a short chain to DestinationCharacter nose shackle.
+ItemNoseNoseShackleSeta3,SourceCharacter attaches a leash to DestinationCharacter nose shackle.
+ItemVulvaPiercingsModularVulvaPiercingsModuleFastening,Fastening
+ItemVulvaPiercingsModularVulvaPiercingsModuleShield,Attach Shield
+ItemVulvaPiercingsModularVulvaPiercingsOptionf0,No Fastening
+ItemVulvaPiercingsModularVulvaPiercingsOptionf1,Barbells
+ItemVulvaPiercingsModularVulvaPiercingsOptionf2,Rings
+ItemVulvaPiercingsModularVulvaPiercingsOptions0,No
+ItemVulvaPiercingsModularVulvaPiercingsOptions1,Yes
+ItemVulvaPiercingsModularVulvaPiercingsSelectBase,Choose Options
+ItemVulvaPiercingsModularVulvaPiercingsSelectFastening,Choose Fastening
+ItemVulvaPiercingsModularVulvaPiercingsSelectShield,Attach Clit Shield?
+ItemVulvaPiercingsModularVulvaPiercingsSetf0,SourceCharacter unfastens DestinationCharacter chastity piercings.
+ItemVulvaPiercingsModularVulvaPiercingsSetf1,SourceCharacter fastens DestinationCharacter chastity piercings with barbells.
+ItemVulvaPiercingsModularVulvaPiercingsSetf2,SourceCharacter fastens DestinationCharacter chastity piercings with rings.
+ItemVulvaPiercingsModularVulvaPiercingsSets0,SourceCharacter removes the shield from DestinationCharacter chastity piercings.
+ItemVulvaPiercingsModularVulvaPiercingsSets1,SourceCharacter adds a shield to DestinationCharacter chastity piercings.

@@ -157,8 +157,8 @@ function CollegeTheaterUnderwear(C) {
 
 /**
  * Triggered when Julia's love towards the player changes, it can also trigger an event.  When a good or bad move is done, her expression will change quickly.
- * @param {string} LoveChange - Number representing the change in love
- * @param {string} Event - The event that may have occured for the love factor to change.
+ * @param {number} LoveChange - Number representing the change in love
+ * @param {string} [Event] - The event that may have occured for the love factor to change.
  * @returns {void} - Nothing
  */
 function CollegeTheaterJuliaLoveChange(LoveChange, Event) {

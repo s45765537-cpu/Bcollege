@@ -1,20 +1,15 @@
-// @ts-strict-ignore
 "use strict";
 
-/**
- * @typedef LactationPumpPersistentData
- * @property {number} [LastSuction]
- * @property {number} [SuctionDuration]
- */
+/** @typedef {{ LastSuction?: number, SuctionDuration?: number } & AnimationPersistentData} LactationPumpPersistentData */
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<LactationPumpPersistentData>} */
 function AssetsItemNipplesLactationPumpBeforeDraw(data) {
 	// If suspended off the ground, use the normal pose image
-	if (data.C.IsSuspended() && data.C.HeightRatioProportion < 1) {
+	if (data.C.IsSuspended() && (data.C.HeightRatioProportion ?? 1) < 1) {
 		return { Pose: null };
 	}
 
-	return null;
+	return data;
 }
 
 /** Minimum time (in ms) the pump waits between its messages. Max is two times that. */
@@ -28,6 +23,7 @@ function LactationPumpGetRandomDuration() {
 function AssetsItemNipplesLactationPumpScriptDraw(data) {
 	const { Item, C } = data;
 	const persist = data.PersistentData();
+	Item.Property ??= {};
 
 	// We do nothing if suction is disabled or if we're rendering someone else
 	if (!Item.Property.SuctionLevel || !C.IsPlayer() || !Item.Asset.Group.IsItem()) return;
@@ -40,9 +36,12 @@ function AssetsItemNipplesLactationPumpScriptDraw(data) {
 	}
 
 	if ((CurrentTime - persist.LastSuction) >= persist.SuctionDuration) {
-		/** @type {ItemActivity} */
-		const activity = { Activity: AssetGetActivity("Female3DCG", "Suck"), Item: Item, Group: Item.Asset.Group.MirrorActivitiesFrom ?? Item.Asset.Group.Name };
-		ActivityRun(C, C, Item.Asset.Group, activity, false);
+		const activity = AssetGetActivity("Female3DCG", "Suck");
+		if (activity) {
+			/** @type {ItemActivity} */
+			const itemActivity = { Activity: activity, Item: Item, Group: Item.Asset.Group.MirrorActivitiesFrom ?? Item.Asset.Group.Name };
+			ActivityRun(C, C, Item.Asset.Group, itemActivity, false);
+		}
 
 		const dict = new DictionaryBuilder()
 			.targetCharacterName(C)

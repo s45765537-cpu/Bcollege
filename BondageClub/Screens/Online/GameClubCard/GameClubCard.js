@@ -460,14 +460,9 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
  * Assigns both club card players based on the players selection
  * @param {ServerChatRoomGameResponse} Packet - The data packet to process
  * @param {Character} Char - The character that's sending the packet
- * @returns {Promise<void>} - Nothing
+ * @returns {void} - Nothing
  */
-async function GameClubCardAssignPlayers(Packet, Char) {
-	if (CurrentScreen === "ChatAdmin") ChatAdminExit();
-	if (CurrentScreen === "FriendList") FriendListExit();
-	if (CurrentScreen === "Preference") PreferenceExit();
-	GameClubCardSetStatus("Running");
-	await MiniGameStart("ClubCard", 0, "GameClubCardEnd");
+function GameClubCardAssignPlayers(Packet, Char) {
 	ClubCardPlayer[0].Deck = [];
 	ClubCardPlayer[0].FullDeck = [];
 	ClubCardPlayer[1].Deck = [];
@@ -542,9 +537,9 @@ function GameClubCardLoadData(Packet) {
 /**
  * Processes the club card game data received from the server
  * @param {ServerChatRoomGameResponse} Packet - The data packet to process
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function GameClubCardProcess(Packet) {
+async function GameClubCardProcess(Packet) {
 
 	// Filters out invalid packets
 	if ((Packet == null) || (Packet.Data == null) || (Packet.Sender == null)) return;
@@ -558,20 +553,32 @@ function GameClubCardProcess(Packet) {
 
 	// If a room admin started the game
 	if ((Packet.Data.GameProgress === "Start") && GameClubCardIsAdmin(Char)) {
-		if ((Packet.Data.Player1 == Player.MemberNumber || Packet.Data.Player2 == Player.MemberNumber)) GameClubCardAssignPlayers(Packet, Char);
-		if ((Player.Game.ClubCard.Settings == undefined || Player.Game.ClubCard.Settings.AutoSpectate == undefined || Player.Game.ClubCard.Settings.AutoSpectate) && CurrentScreen != "Appearance" && CurrentScreen != "ClubCardBuilder") GameClubCardAssignPlayers(Packet, Char);
+		if (Packet.Data.Player1 == Player.MemberNumber
+			|| Packet.Data.Player2 == Player.MemberNumber
+			|| (
+				(Player.Game?.ClubCard?.Settings?.AutoSpectate ?? true)
+				&& CurrentScreen !== "Appearance"
+				&& CurrentScreen !== "ClubCardBuilder")
+		) {
+			if (CurrentScreen !== "ChatRoom") window[`${CurrentScreen}Exit`]?.();
+			GameClubCardSetStatus("Running");
+			await MiniGameStart("ClubCard", 0, () => GameClubCardEnd());
+			GameClubCardAssignPlayers(Packet, Char);
+		}
 	}
 
 	// If a player wants to query the game status to join it
 	if ((Packet.Data.GameProgress === "Query") && (Packet.Sender != Player.MemberNumber) && GameClubCardExpectQuery) {
-		GameClubCardAssignPlayers(Packet, Char).then(() => {
-			GameClubCardLoadData(Packet);
-			let msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "JoinedClubCardGame");
-			msg = msg.replace("PLAYERNAME", CharacterNickname(Player));
-			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
-			GameClubCardExpectQuery = false;
-			ClubCardDestroyPopup();
-		});
+		if (CurrentScreen !== "ChatRoom") window[`${CurrentScreen}Exit`]?.();
+		GameClubCardSetStatus("Running");
+		await MiniGameStart("ClubCard", 0, () => GameClubCardEnd());
+		GameClubCardAssignPlayers(Packet, Char);
+		GameClubCardLoadData(Packet);
+		let msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "JoinedClubCardGame");
+		msg = msg.replace("PLAYERNAME", CharacterNickname(Player));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
+		GameClubCardExpectQuery = false;
+		ClubCardDestroyPopup();
 	}
 
 	// If the admin must send the current state of the game to the player

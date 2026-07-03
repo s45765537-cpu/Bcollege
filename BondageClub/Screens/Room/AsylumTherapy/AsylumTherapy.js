@@ -101,8 +101,21 @@ function AsylumTherapyBondageTherapyRestrain() {
  * @returns {void} - Nothing
  */
 function AsylumTherapyTherapyEnd() {
-	CharacterRelease(Player);
-	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples");
+	CharacterRelease(Player, false);
+	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples", false);
+	if (!Player.CanTalk()) {
+		/**
+		 * From {@link SpeechTransformGagGarbleIntensity}
+		 * @type {AssetGroupItemName[]}
+		 */
+		const groups = ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemHood", "ItemNeck", "ItemDevices"];
+		const blocksMouth = Player.Appearance.filter(a => groups.some(g => a.Asset.Block.includes(g)));
+		for (const item of blocksMouth) {
+			InventoryRemove(Player, item.Asset.Group.Name, false);
+		}
+
+	}
+	CharacterRefresh(Player, true);
 	InventoryRemove(AsylumTherapyNurse, "ItemHandheld");
 	PoseSetActive(Player, null);
 }
@@ -172,7 +185,7 @@ function AsylumTherapyOrgasmTherapyRestrain() {
 /**
  * Initiates the bondage therapy as a nurse
  * @param {number} RepChange - The amount, the player's reputation changes
- * @param {"FEW" | "LOT" | "ALL" } RestraintsLevel - The level of restraints to use
+ * @param {"FEW" | "LOT" | "ALL" } [RestraintsLevel] - The level of restraints to use
  * @returns {void} - Nothing
  */
 function AsylumTherapyPatientBondageIntro(RepChange, RestraintsLevel) {
@@ -224,46 +237,44 @@ function AsylumTherapyPatientOrgasmIntro(RepChange) {
 
 /**
  * Starts the therapy mini-game as a nurse
- * @param {number} Difficulty - The difficulty of the mini game
+ * @param {"Easy" | "Normal" | "Hard"} Difficulty - The difficulty of the mini game
  * @returns {void} - Nothing
  */
 function AsylumTherapyTherapyStart(Difficulty) {
 	TherapyCharacterLeft = Player;
 	TherapyCharacterRight = AsylumTherapyPatient;
-	MiniGameStart("Therapy", Difficulty, "AsylumTherapyTherapyMiniGameEnd");
+	MiniGameStart("Therapy", Difficulty, () => AsylumTherapyTherapyMiniGameEnd());
 }
 
 /**
  * Ends the therapy mini-game as a nurse, plays with reputation and money
- * @returns {void} - Nothing
  */
-function AsylumTherapyTherapyMiniGameEnd() {
-	CommonSetScreen("Room", "AsylumTherapy").then(() => {
-		PoseSetActive(AsylumTherapyPatient, null);
-		InventoryRemove(AsylumTherapyPatient, "ItemHead");
-		InventoryRemove(AsylumTherapyPatient, "ItemHood");
-		InventoryRemove(AsylumTherapyPatient, "ItemMouth");
-		CharacterSetCurrent(AsylumTherapyPatient);
-		AsylumTherapyPatient.Stage = MiniGameVictory ? "1100" : "1200";
-		AsylumTherapyPatient.CurrentDialog = DialogFind(AsylumTherapyPatient, MiniGameVictory ? "TherapyVictory" : "TherapyDefeat");
-		if (!MiniGameVictory) {
-			DialogChangeReputation("Asylum", -2);
-			if (ReputationGet("Asylum") <= 0) DialogSetReputation("Asylum", 1);
-		}
-		if (MiniGameVictory && (MiniGameDifficultyMode == "Easy")) {
-			DialogChangeReputation("Asylum", 2);
-			CharacterChangeMoney(Player, 15);
-		}
-		if (MiniGameVictory && (MiniGameDifficultyMode == "Normal")) {
-			DialogChangeReputation("Asylum", 4);
-			CharacterChangeMoney(Player, 20);
-		}
-		if (MiniGameVictory && (MiniGameDifficultyMode == "Hard")) {
-			DialogChangeReputation("Asylum", 6);
-			CharacterChangeMoney(Player, 25);
-		}
-		if (MiniGameVictory) IntroductionJobProgress("DomTrainer");
-	});
+async function AsylumTherapyTherapyMiniGameEnd() {
+	await CommonSetScreen("Room", "AsylumTherapy");
+	PoseSetActive(AsylumTherapyPatient, null);
+	InventoryRemove(AsylumTherapyPatient, "ItemHead");
+	InventoryRemove(AsylumTherapyPatient, "ItemHood");
+	InventoryRemove(AsylumTherapyPatient, "ItemMouth");
+	CharacterSetCurrent(AsylumTherapyPatient);
+	AsylumTherapyPatient.Stage = MiniGameVictory ? "1100" : "1200";
+	AsylumTherapyPatient.CurrentDialog = DialogFind(AsylumTherapyPatient, MiniGameVictory ? "TherapyVictory" : "TherapyDefeat");
+	if (!MiniGameVictory) {
+		DialogChangeReputation("Asylum", -2);
+		if (ReputationGet("Asylum") <= 0) DialogSetReputation("Asylum", 1);
+	}
+	if (MiniGameVictory && (MiniGameDifficultyMode == "Easy")) {
+		DialogChangeReputation("Asylum", 2);
+		CharacterChangeMoney(Player, 15);
+	}
+	if (MiniGameVictory && (MiniGameDifficultyMode == "Normal")) {
+		DialogChangeReputation("Asylum", 4);
+		CharacterChangeMoney(Player, 20);
+	}
+	if (MiniGameVictory && (MiniGameDifficultyMode == "Hard")) {
+		DialogChangeReputation("Asylum", 6);
+		CharacterChangeMoney(Player, 25);
+	}
+	if (MiniGameVictory) IntroductionJobProgress("DomTrainer");
 }
 
 /**

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type { "Description" | "OwnersNotes" } */
@@ -35,6 +34,7 @@ function OnlineProfileStart(mode) {
  * @returns {void}
  */
 function OnlineProfileLoadTextArea(element) {
+	if (!InformationSheetSelection) return;
 	switch (OnlineProfileMode) {
 		case "OwnersNotes":
 			/*  Editable only by this player's owner.  */
@@ -58,6 +58,9 @@ function OnlineProfileLoadTextArea(element) {
  * @type {ScreenLoadHandler}
  */
 async function OnlineProfileLoad() {
+	if (!InformationSheetSelection) {
+		throw new Error('Missing "InformationSheetSelection" data');
+	}
 	OnlineProfileTextDesc = typeof InformationSheetSelection.Description === "string"  ? InformationSheetSelection.Description : "";
 	OnlineProfileTextOwnersNotes = typeof InformationSheetSelection.Ownership?.Notes === "string"  ? InformationSheetSelection.Ownership.Notes : "";
 	OnlineProfileNotesAvailable = InformationSheetSelection.IsFullyOwnedByPlayer() || OnlineProfileTextOwnersNotes != "";
@@ -85,6 +88,7 @@ function OnlineProfileUnload() {
  * @returns {void} - Nothing
  */
 function OnlineProfileRun() {
+	if (!InformationSheetSelection) return;
 	// Sets the screen controls
 	let legend = "";
 	let maxlen = 0;
@@ -122,6 +126,7 @@ function OnlineProfileRun() {
  * @returns {void} - Nothing
  */
 function OnlineProfileClick() {
+	if (!InformationSheetSelection) return;
 	if (OnlineProfileNotesAvailable && MouseIn(1620, 60, 90, 90)) {
 		/*  Toggle between Description and Owner's Notes.  */
 		const ev = ElementValue("DescriptionInput").trim();
@@ -149,6 +154,7 @@ function OnlineProfileClick() {
  * @returns {void} - Nothing
  */
 function OnlineProfileExit(Save=false) {
+	if (!InformationSheetSelection) return;
 	if (Save) {
 		const ev = ElementValue("DescriptionInput").trim();
 		if (OnlineProfileMode == "Description") {

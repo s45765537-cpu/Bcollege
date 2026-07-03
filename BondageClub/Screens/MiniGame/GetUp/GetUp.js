@@ -27,7 +27,7 @@ function GetUpEnd(Victory) {
  * @type {ScreenLoadHandler}
  */
 async function GetUpLoad() {
-	GetUpBackground = ChatRoomBackground;
+	GetUpBackground = ChatRoomGetBackgroundURL();
 
 	GetUpVelocity = 0;
 	GetUpPosition = 0;
@@ -63,7 +63,7 @@ function GetUpPhysics(delta) {
  * @returns {void} - Nothing
  */
 function GetUpRun() {
-	GetUpBackground = ChatRoomBackground;
+	GetUpBackground = ChatRoomGetBackgroundURL();
 
 	DrawRect(0, 0, 1000, 1000, "Black");
 
