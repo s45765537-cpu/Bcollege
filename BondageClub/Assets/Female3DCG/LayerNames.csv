@@ -3299,6 +3299,16 @@ ItemTorsoBarrelCorsetNeckM,Collar link metal
 ItemTorsoClassicLatexCorsetBelt,Belt
 ItemTorsoClassicLatexCorsetBuckles,Buckles
 ItemTorsoClassicLatexCorsetCorset,Corset
+ItemTorsoFullBodyStrapsTopMask,Top Mask
+ItemTorsoFullBodyStrapsBottomMask,Bottom Mask
+ItemTorsoFullBodyStrapsA1_U,Body Rings
+ItemTorsoFullBodyStrapsB1,Collar Strap
+ItemTorsoFullBodyStrapsB2,Collar Shadow
+ItemTorsoFullBodyStrapsB3,Collar Edge
+ItemTorsoFullBodyStrapsC1,Collar Ring
+ItemTorsoFullBodyStrapsD1_U,Body Straps
+ItemTorsoFullBodyStrapsD2_U,Body Shadows
+ItemTorsoFullBodyStrapsD3_U,Body Edges
 ItemTorsoFuturisticHarnessBand,Straps
 ItemTorsoFuturisticHarnessDisplay,Display
 ItemTorsoFuturisticHarnessLock,Lock
