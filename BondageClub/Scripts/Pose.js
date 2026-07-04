@@ -11,7 +11,7 @@ const PoseAllKneeling = Object.freeze(["Kneel", "KneelingSpread"]);
  * A list with all standing {@link AssetPoseMap["BodyLower"]} pose names.
  * @satisfies {readonly AssetPoseMap["BodyLower"][]}
  */
-const PoseAllStanding = Object.freeze(["BaseLower", "LegsOpen", "LegsClosed", "Spread"]);
+const PoseAllStanding = Object.freeze(["BaseLower", "LegsClosed", "Spread"]);
 
 /**
  * Namespace with functions for converting pose name arrays into records
