@@ -155,6 +155,10 @@ ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopShirt,Shirt
 ClothAdmiralTopTrim,Trim
+ClothMilitaryFatigueShirt,Fatigue
+ClothMilitaryFatigueCamo1,CamoPaint1
+ClothMilitaryFatigueCamo2,CamoPaint2
+ClothMilitaryFatigueTiger3,TigerStripe
 ClothAdultBabyDress1Dress,Dress
 ClothAdultBabyDress1Sash,Sash
 ClothAdultBabyDress1Trim,Trim
@@ -370,6 +374,12 @@ ClothLowerSuspenderPantsRight_C1,Right_C1
 ClothLowerSuspenderPantsRight_C2,Right_C2
 ClothLowerSuspenderPantsRight_C3,Right_C3
 ClothLowerSuspenderPantsRight_C4,Right_C4
+ClothLowerMilitaryPantsPants,Pants
+ClothLowerMilitaryPantsBelt,Belt
+ClothLowerMilitaryPantsBuckle,Buckle
+ClothLowerMilitaryPantsCamo1,CamoPaint1
+ClothLowerMilitaryPantsCamo2,CamoPaint2
+ClothLowerMilitaryPantsTiger3,TigerStripe
 ClothLowerWoolenHighWaistSkirtBottom,Bottom
 ClothLowerWoolenHighWaistSkirtButtons,Buttons
 ClothLowerWoolenHighWaistSkirtTop,Top
@@ -1345,6 +1355,9 @@ HatJesterHatStripesTop,Stripes (Top)
 HatJesterHatDotsLeft,Dots (Left)
 HatJesterHatDotsRight,Dots (Right)
 HatJesterHatDotsTop,Dots (Top)
+HatGIBeretLong,Base
+HatGIBeretLongBand,Band
+HatGIBeretString,String
 ItemAddonCeilingNeckCuffCuff,Metal cuff
 ItemAddonCeilingNeckCuffLock,Padlock
 ItemAddonCoversInner,Inner
