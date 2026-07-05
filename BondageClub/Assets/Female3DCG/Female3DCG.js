@@ -10310,8 +10310,8 @@ var AssetFemale3DCG = [
 					AllFours: "AllFours",
 				},
 				// Left: {
-				// 	[PoseType.DEFAULT]: 20,
-				// 	KneelingSpread: 20,
+				// [PoseType.DEFAULT]: 20,
+				// KneelingSpread: 20,
 				// },
 				Layer: [
 					{ Name: "Pants" },
