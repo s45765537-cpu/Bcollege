@@ -1205,6 +1205,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				StyleOverride: ["EchoV2"],
 				Prerequisite: ["HasBreasts"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -1706,7 +1707,13 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				Value: 50,
 				Hide: ["Panties", "ItemVulva", "ItemVulvaPiercings"],
-				Expose: ["ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+				Expose: [
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 			},
 			{
 				Name: "LeatherCorsetTop1",
@@ -1781,6 +1788,7 @@ var AssetFemale3DCG = [
 				InventoryID: 116,
 				Gender: "F",
 				Fetish: ["Lingerie"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				Value: 40,
 				HideItem: ["ItemNipplesLactationPump"],
 			},
@@ -1792,6 +1800,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie"],
 				Value: 20,
 				DefaultColor: ["#1C1A21"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2221,6 +2230,7 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Value: 40,
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2255,7 +2265,13 @@ var AssetFemale3DCG = [
 				Value: 60,
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
 				HideItem: ["ClothAccessoryPoncho", "ItemArmsBondageBra"],
-				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+				Expose: [
+					"ItemVulva",
+					"ItemVulvaPiercings",
+					"ItemButt",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 			},
 			{
 				Name: "WeddingDress1",
@@ -2915,6 +2931,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				BuyGroup: "BondageDress1",
 				Value: -1,
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2930,6 +2947,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BondageDress2",
 				Value: -1,
 				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -3131,7 +3149,8 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Priority: 22,
 				Value: 35,
-				Hide: ["Corset", "ItemNipples"],
+				Expose: ["ItemTorso", "ItemTorso2"],
+				Hide: ["ItemNipples"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -3221,6 +3240,7 @@ var AssetFemale3DCG = [
 					Hogtied: "Hogtied",
 					AllFours: PoseType.HIDE,
 				},
+				Expose: ["ItemTorso", "ItemTorso2"],
 				Hide: ["ItemNipplesPiercings"],
 				HideItem: ["ItemNipplesLactationPump"],
 				Layer: [{ Name: "Blouse" }, { Name: "Design" }],
@@ -3580,6 +3600,7 @@ var AssetFemale3DCG = [
 				Top: 200,
 				Left: 160,
 				DefaultColor: ["#c91616", "#e0b51d", "#c91616", "#242485", "#f5f5f5"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					Hogtied: PoseType.DEFAULT,
 					AllFours: PoseType.DEFAULT,
@@ -3622,6 +3643,13 @@ var AssetFemale3DCG = [
 				Value: 30,
 				DefaultColor: ["#1C1C1C"],
 				BuyGroup: "FishnetTop",
+				Expose: [
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
 					TapedHands: PoseType.DEFAULT,
@@ -4060,6 +4088,7 @@ var AssetFemale3DCG = [
 				Priority: 23,
 				Value: 50,
 				ParentGroup: "BodyUpper",
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
@@ -4920,6 +4949,7 @@ var AssetFemale3DCG = [
 				Priority: 31,
 				ParentGroup: { BackCuffs: "BodyUpper" },
 				DynamicGroupName: "Cloth",
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
@@ -5080,6 +5110,7 @@ var AssetFemale3DCG = [
 				Priority: 21,
 				Gender: "F",
 				ParentGroup: "BodyUpper",
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					Hogtied: "Hogtied",
 					AllFours: PoseType.HIDE,
@@ -7631,6 +7662,13 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#1C1C1C"],
 				BuyGroup: "FishnetTop",
 				DynamicGroupName: "Cloth",
+				Expose: [
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
 					TapedHands: PoseType.DEFAULT,

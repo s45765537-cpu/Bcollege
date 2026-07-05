@@ -345,9 +345,17 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 
 		// Checks for penis protruding items, to block chastity cages.
 		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", []) ? "MustHaveFullPenisAccess" : "";
-
 		// Checks for torso access based on clothes
-		case "AccessTorso": return !InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth", "ClothOuter"]) ? "RemoveClothesForItem" : "";
+		case "AccessTorso": {
+			const doItemsExposeGroup = InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth", "ClothOuter"]);
+			if (doItemsExposeGroup) return "";
+
+			if (asset) {
+				const itemsRequireExposing = ["HarnessBra1", "LeatherBreastBinder", "LeatherStrapBra1", "HarnessBra2", "NavelBar1"];
+				return itemsRequireExposing.some(name => asset.Name === name) ? "RemoveClothesForItem" : "";
+			}
+			return "RemoveClothesForItem";
+		}
 
 		// Breast items can be blocked by clothes
 		case "AccessBreast": return !InventoryDoItemsExposeGroup(C, "ItemBreast", ["Cloth", "ClothOuter"]) || !InventoryDoItemsExposeGroup(
