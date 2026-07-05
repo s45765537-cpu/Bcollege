@@ -239,6 +239,29 @@ export function isObject(obj) {
 }
 
 /**
+ * @typedef {{ version?: number, assets?: Record<string, { migratedAt?: string, groups?: string[] }> }} Manifest
+ */
+
+/**
+ * Return whether the value is a migration manifest.
+ * @param {unknown} value
+ * @returns {value is Manifest}
+ */
+export function isManifest(value) {
+	if (!isObject(value)) return false;
+	if (value.version !== undefined && typeof value.version !== "number") return false;
+	if (value.assets === undefined) return true;
+	if (!isObject(value.assets)) return false;
+	return Object.values(value.assets).every((entry) => {
+		if (!isObject(entry)) return false;
+		if (entry.migratedAt !== undefined && typeof entry.migratedAt !== "string") return false;
+		return entry.groups === undefined || (
+			Array.isArray(entry.groups) && entry.groups.every((group) => typeof group === "string")
+		);
+	});
+}
+
+/**
  * Parse a CSV file content into an array
  * @param {string} str - Content of the CSV
  * @returns {string[][]} Array representing each line of the parsed content, each line itself is split by commands and stored within an array.
