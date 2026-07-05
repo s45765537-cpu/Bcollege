@@ -1650,7 +1650,17 @@ function CharacterRefreshDialog(C) {
 
 		// We were looking at an extended screen
 		const wasLock = DialogFocusItem && DialogFocusItem.Asset.IsLock;
-		const sourceItem = wasLock ? DialogFocusSourceItem : DialogFocusItem;
+
+		/** @type {Item | null} */
+		let sourceItem;
+
+		// Checks if we got on the tighten/loosen screen via the button in items screen
+		if (DialogMenuMode === "tighten" && DialogTightenLoosenItem) {
+			sourceItem = DialogTightenLoosenItem;
+		} else {
+			sourceItem = wasLock ? DialogFocusSourceItem : DialogFocusItem;
+		}
+
 		const previousItem = sourceItem ? InventoryGet(C, sourceItem.Asset.Group.Name) : null;
 		if (!previousItem || previousItem.Asset.Name !== focusItem.Asset.Name) {
 			// Unable to reload the source item, or it's different now
