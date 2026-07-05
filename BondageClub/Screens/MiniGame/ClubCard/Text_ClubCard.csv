@@ -137,13 +137,13 @@ Text Accountant,"+1 Money/turn at tier 3+. +1 Money/turn at tier 5."
 Title Secretary,Secretary
 Text Secretary,Your Timed Events last 1 more turn.
 Title Associate,Associate
-Text Associate,+1 action/turn.
+Text Associate,+1 action each turn.
 Title Human Resource,Human Resource
 Text Human Resource,Draw Action: Draw an extra card.
 Title Policewoman,Policewoman
 Text Policewoman,<F>I took the job for the free handcuffs.
 Title Pusher,Pusher
-Text Pusher,"+1 Money/turn if there's Sidney ally. Turn End: Leaves if there's a Police ally."
+Text Pusher,"+1 Money/turn if there's a Sidney ally. Turn End: Leaves if there's a Police ally."
 Title Junkie,Junkie
 Text Junkie,"+2 Money/turn if there's a Pusher ally. Turn End: Leaves if there's a Police ally."
 Title Zealous Cop,Zealous Cop
@@ -242,7 +242,7 @@ Title Pandora Infiltrator,Pandora Infiltrator
 Text Pandora Infiltrator,"Enters: Select a member to get their types. Ally Enters: -1/-0 or -0/-1 at random if it shares a type (max -3/-2)."
 Prerequisite Pandora Infiltrator,"Select a member to get their type(s)"
 Title Uncontrollable Sub,Uncontrollable Sub
-Text Uncontrollable Sub,"Stays 2 turns. Non-Liability Ally Enters: They get -1 Fame. Enters: -8 Fame."
+Text Uncontrollable Sub,"Stays 2 turns. Non-Liability Ally Enters: They get -1/0. Enters: -8 Fame."
 Title Baby Girl,Baby Girl
 Text Baby Girl,+1 Money/turn if there's a Mommy ally.
 Title Caring Mother,Caring Mother
@@ -265,9 +265,9 @@ Title Jennifer,Jennifer
 Text Jennifer,Enters: Select an ally to remove.
 Prerequisite Jennifer,Select a member from your club to remove before Jennifer enters.
 Title College Freshwoman,College Freshwoman
-Text College Freshwoman,+1 Fame/turn if there's Julia or Yuki ally.
+Text College Freshwoman,+1 Fame/turn if there's a Julia or Yuki ally.
 Title College Nerd,College Nerd
-Text College Nerd,+1 Money/turn if there's Julia or Yuki ally.
+Text College Nerd,+1 Money/turn if there's a Julia or Yuki ally.
 Title College Hidden Genius,Hidden Genius
 Text College Hidden Genius,+4 Fame/turn if there's a Mildred ally.
 Title Substitute Teacher,Substitute Teacher
@@ -303,15 +303,15 @@ Text Vampire Ball,"Played: +2 Fame per ally that's not a Dominant, Liability, Ke
 Title Straitjacket Saturday,Straitjacket Saturday
 Text Straitjacket Saturday,Played: +4 Money per Patient ally and draw a random Nurse.
 Title Charity Auction,Charity Auction
-Text Charity Auction,"Played: Select an ally to remove, then get +1 Fame per club tier."
+Text Charity Auction,"Played: Select an ally to remove to get +1 Fame per club tier."
 Prerequisite Charity Auction,Select a member from your club to remove for Fame.
 Title Slave Auction,Slave Auction
-Text Slave Auction,"Played: Select an ally to remove, then get +1 Money per club tier."
+Text Slave Auction,"Played: Select an ally to remove to get +1 Money per club tier."
 Prerequisite Slave Auction,Select a member from your club to remove for Money.
 Title College Bash,College Bash
-Text College Bash,"Played: +2 Fame and -1 Money per Student ally, then +1 more Fame per Student ally if there's Sidney ally."
+Text College Bash,"Played: +2 Fame and -1 Money per Student ally, then +1 more Fame per Student ally if there's a Sidney ally."
 Title Ransomware,Ransomware
-Text Ransomware,"Played: Opponent loses Money equal to 4 * their club tier, or half as much if there's Amanda or Jennifer rivals."
+Text Ransomware,"Played: Opponent loses Money equal to 4 * their club tier, or half as much if there's a Jennifer or Amanda rivals."
 Title Shibari Evening,Shibari Evening
 Text Shibari Evening,Played: +1 Fame per non-Dominant ally and +1 Fame per Shibari ally.
 Title Moving Out of Town,Moving Out of Town
@@ -345,7 +345,7 @@ Effect Bank Loan,Money gained is doubled because of SOURCEPLAYER Bank Loan event
 Title Teamwork,Teamwork
 Text Teamwork,"Lasts 4 turns. Draw Action: Draw an extra card."
 Title Overtime,Overtime
-Text Overtime,"Lasts 3 turns. +1 action/turn."
+Text Overtime,"Lasts 3 turns. +1 action each turn."
 Title Porn Convention,Porn Convention
 Text Porn Convention,"Lasts 3 turns. Players get +3 Fame/turn per Porn Actress in their club (max +12 each)."
 Title Kidnapping,Kidnapping
@@ -403,7 +403,7 @@ Title Gangbang Banger,Gangbang Banger
 Text Gangbang Banger,"Played: Return all Porn Actresses allies to hand, then play all Porn Members in your hand."
 Effect Gangbang Banger,The porn actresses from SOURCEPLAYER’s club leave… and instantly strut right back in!
 Title Alvin,Alvin
-Text Alvin,"You Play Restrain, Shibari Event, or Kidnapping a Dominant or Mistress: Summon a Rope Slave (max 3 in club)."
+Text Alvin,"You Play Restrain or Shibari Event, or Kidnapping a Dominant or Mistress: Summon a Rope Slave (max 3 in club)."
 Title Rope Slave,Rope Slave
 Text Rope Slave,You Play A Shibari Event or Knot: +1 Money.
 Effect Rope Slave,"SOURCEPLAYER gained AMOUNT money from Rope Slave."
@@ -428,7 +428,7 @@ Text Theatre Nurse,"Patient Ally Enters: +3 Money and draw a card."
 Title Knot Nut,Knot Nut
 Text Knot Nut,"<F>These ropes wont hold me forever... better add more."
 Title Quality Maid,Quality Maid
-Text Quality Maid,Cost -10 Money to upgrade your club.
+Text Quality Maid,Lower your club upgrade cost by 10 Money.
 Title Public Spanking,Public Spanking
 Text Public Spanking,"Lasts 3 turns. Turn End: Opponent loses Fame equal to 4 + the highest tier among Dominant allies."
 Effect Public Spanking,SOURCEPLAYER lost AMOUNT Fame because of public spanking.
@@ -450,7 +450,7 @@ Effect Closed Hitch,SOURCEPLAYER draws a card from Closed Hitch.
 Title Struggler's Knot,Struggler's Knot
 Text Struggler's Knot,Played: +1 action. 
 Title Quick Release Knot,Quick Release Knot
-Text Quick Release Knot,"Played: +4 Money, +1 Money per Knot in your streets, then return all Knots from your streets to the deck."
+Text Quick Release Knot,"Played: +4 Money, +1 Money per Knot in your streets, then return this card and all Knots from your streets to the deck."
 Effect Quick Release Knot,SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
 Title Master Class,Master Class
 Text Master Class,"Lasts 4 turns. Turn Start: Play a random Knot from your deck if there's a Sensei ally."
@@ -458,7 +458,7 @@ Title Tie Tight,Tie Tight
 Text Tie Tight,"Played: Select a rival to return to the deck, then opponent draws a card unless there's a Sensei ally."
 Prerequisite Tie Tight,Select a member from your opponent club to remove.
 Title Rope Auction,Rope Auction
-Text Rope Auction,"Played: Select an ally to remove, then play a random Knot from your deck."
+Text Rope Auction,"Played: Select an ally to remove to play a random Knot from your deck."
 Prerequisite Rope Auction,Select a member from your club to remove.
 GroupSensei,Sensei
 GroupKnot,Knot
@@ -493,7 +493,7 @@ Text Puppy,"+1 Money/turn per 2 of your club tiers. +1 Fame/turn if there's an O
 Title Protective Owner,Protective Owner
 Text Protective Owner,"Pets treat your club tier as 1 higher. You Discard A Pet: Return them to the deck."
 Title Feline Fatale,Feline Fatale
-Text Feline Fatale,"Enters: -13 Money, then select rival to remove if there's a higher- or equal-tier Owner ally."
+Text Feline Fatale,"Enters: -13 Money, then select a rival to remove if there's a higher- or equal-tier Owner ally."
 Prerequisite Feline Fatale,Select a member from your opponent club to remove.
 Title Wolf Girl,Wolf Girl
 Text Wolf Girl,"+1 Fame/turn per 2 of your club tiers. +1 Money/turn if there's an Owner ally. Enters: -7 Money and Opponent discards a random card."
@@ -506,22 +506,22 @@ Text Pet Rock,<F>Just a rock...
 Title Tips,Tips
 Text Tips,"Lasts 5 turns. Turn Start: +1 Money."
 Title Pet Trainer,Pet Trainer
-Text Pet Trainer,"+3 Fame/turn if there's Show Dog ally. Pet Ally Enters: +2 Fame."
+Text Pet Trainer,"+3 Fame/turn if there's a Show Dog ally. Pet Ally Enters: +2 Fame."
 Title Show Dog,Show Dog
-Text Show Dog,"Enters: -15 Money and Reveal your hand."
+Text Show Dog,"Enters: -15 Money and reveal your hand."
 Title Miss Mouse,Miss Mouse
 Text Miss Mouse,"+1 Fame/turn if there's an Owner ally. Pet Ally Enters: Opponent loses 1 Fame per 2 of your club tiers. Enters: -1 Money."
 Title Rich Owner,Rich Owner
 Text Rich Owner,"Pets treat your club tier as 1 higher. +1 Fame/turn if there's a Maid ally. Pet Ally Enters: +1 Money per Pet ally (max +5)."
 Title Tour Guide,Tour Guide
-Text Tour Guide,"+3 Money/turn if there's Tourist ally. +3 Fame/turn if there's Diplomat ally. Enters: Draw a card."
+Text Tour Guide,"+3 Money/turn if there's a Tourist ally. +3 Fame/turn if there's a Diplomat ally. Enters: Draw a card."
 Title Moon,"Moon"
 Text Moon,"Can't be targeted. Enters: -16 Money and select a member to copy to your hand."
 Prerequisite Moon,Choose a member to create an illusory copy of that card in your hand. 
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"Enters: Steal 2 Fame. You Steal With Another Effect: Steal 1 Fame and Money."
 Title Earner,Earner
-Text Earner,"+1 Money/turn per ally in the streets (max +5). Enters: Discard a random ally from your deck, then get +Money equal to its tier."
+Text Earner,"+1 Money/turn per ally in your streets (max +5). Enters: Discard a random ally from your deck, then get +Money equal to its tier."
 Title Naughty Baby,Naughty Baby
 Text Naughty Baby,"Enters: Steal 4 Money if there's no Police ally, then steal 4 Fame if there's no Police rivals."
 Title Consigliere,Consigliere
@@ -529,7 +529,7 @@ Text Consigliere,"Turn End: Spend 8 Money to draw a card and get +3 Fame."
 Title Con Artist,Con Artist
 Text Con Artist,"Draw Action: Steal 1 Fame if there's no Police rivals."
 Title Inspector,Inspector 
-Text Inspector,"Cost +10 Money to players to upgrade their club unless your club tier is higher" 
+Text Inspector,"Raise both club upgrade costs by 10 unless your club tier is higher." 
 Title Troublemaker,Troublemaker
 Text Troublemaker,Opponent Upgrade: Opponent loses 3 Fame unless they have Bouncer.
 Title Housekeeper,Housekeeper
@@ -605,7 +605,7 @@ InfoLiabilitiesDescription1,"Played into opponent's club, take up space and caus
 InfoStreetsTitle,"Streets"
 InfoStreetsDescription1,"Used cards that are no longer in play will go to the streets."
 Title Drunkard,Drunkard
-Text Drunkard,"You Draw: -1 Fame unless there's Bouncer ally and -1 Fame unless there's Waitress ally."
+Text Drunkard,"You Draw: -1 Fame unless there's a Bouncer ally and -1 Fame unless there's a Waitress ally."
 GroupSlave,Slave
 GroupSubmissive,Submissive
 Title Country Gal,Country Gal
@@ -618,7 +618,7 @@ Title Miss N Spection,Miss N Spection
 Text Miss N Spection,"Draw Action: Draw 2 extra cards if your hand is empty. Enters: Select a card in hand to discard, then draw a card."
 Prerequisite Miss N Spection,Select a card in your hand to discard.
 Title Bottom Bitch,Bottom Bitch
-Text Bottom Bitch,"+2 Fame/turn per other Submissive ally (max +10). Turn End: Leaves if there's no Mistresse ally."
+Text Bottom Bitch,"+2 Fame/turn per other Submissive ally (max +10). Turn End: Leaves if there's no Mistress allies."
 Title Nadu Nyla,Nadu Nyla
 Text Nadu Nyla,+2 Fame/turn and +1 Money/turn if you have an active Event.
 Title Surrender,Surrender
@@ -627,13 +627,13 @@ Title Hands Out,Hands Out
 Text Hands Out,"Played: Select a card in hand, then discard your hand, keep the selected card if there's a Slave ally, then Draw a card per card discarded + 1."
 Prerequisite Hands Out,Select a card in your hand.
 Title Carol,Carol
-Text Carol,"Enters: Play a random Patient from your streets if there's another Nurse ally, if you can't, play one from your deck instead."
+Text Carol,"Enters: Play a random Asylum Patient from your streets if there's another Asylum Nurse ally, if you can't, play one from your deck instead."
 Title Rizom,Rizom
 Text Rizom,"Enters: Select an ally to get +1/+1, then +1/+0 if there's a Mommy ally, then +0/+1 if there's an Owner ally."
 Prerequisite Rizom,'Select a member from your club to enhance.'
 Effect Rizom,"CARDNAME got a massage from Rizom, their fame and money got boosted."
 Title Chirumi,Chirumi
-Text Chirumi,"+Fame/turn equal to club tier. Turn End: Leaves if your streets have 2+ cards."
+Text Chirumi,"+Fame/turn equal to club tier. Turn End: Leaves if your streets have 3+ cards."
 Title Pack Member,Pack Member
 Text Pack Member,"Enters: Add a Pack Member to your hand if you have fewer members."
 Title Brutus,Brutus
@@ -647,13 +647,13 @@ Text Mama Bear,"Enters: +1 Fame per unique allied type and +1 Money per Baby all
 Title Instincts,Instincts
 Text Instincts,"You can't gain Fame/turn. Ends if there's a Kemonomimi ally. Played: -12 Fame and draw 3 cards."
 Title Pack Tactics,Pack Tactics
-Text Pack Tactics,"Lasts 2 turns. Turn End: Opponent lose 1 Fame per Pack Member ally. Played: Summon a Pack Member."
+Text Pack Tactics,"Lasts 2 turns. Turn End: Opponent loses 1 Fame per Pack Member ally. Played: Summon a Pack Member."
 Title Conservation Efforts,Conservation Efforts
 Text Conservation Efforts,"Lasts 4 turns. You Draw: +2 Fame and +2 Money if there's a Kemonomimi ally."
 Title Artie, Artie
 Text Artie,"+1 Fame/turn per 2 of your club tiers. Enters: -6 Money and draw a random Owner."
 Title Cute Bunny,Cute Bunny
-Text Cute Bunny,"Leaves if there's more allied Cute Bunnies than your club tier. Enters: Add a Cute Bunny to your hand and opponent gets +2 Fame."
+Text Cute Bunny,"Leaves if there's more Cute Bunny allies than your club tier. Enters: Add a Cute Bunny to your hand and opponent gets +2 Fame."
 Title Ganguro Girl,Ganguro Girl
 Text Ganguro Girl,"Turn End: The player with more non-Liability members loses 1 Fame."
 Title Collector,Collector
@@ -663,7 +663,7 @@ Text Sewer Rat,"Turn End: Leaves if your streets have 7+ members, then opponent 
 Title Hustler,Hustler
 Text Hustler,"You Steal: +1 Fame or +1 Money at random per Criminal in your streets (max +2 each)."
 Title Enforcer,Enforcer
-Text Enforcer,"+1 Fame/turn per member in the streets (max +7). Enters: Discard 3 random members from your deck, then get +Money equal to their tiers."
+Text Enforcer,"+1 Fame/turn per member in your streets (max +7). Enters: Discard 3 random members from your deck, then get +Money equal to their tiers."
 Title Ball Gag,Ball Gag
 Text Ball Gag,"Needs a Mistress to play. Played: Select a member to negate, then -Money equal to their tier ^ 2."
 Prerequisite Ball Gag,Select a member to gag.
@@ -689,9 +689,9 @@ Text Stalker,"Revealed Member Enters (while in hand): Enters."
 Title Lewd Photographer,Lewd Photographer
 Text Lewd Photographer,"Exhibitionist Ally Enters: -1 Money and add a Nude Photos to the opponent's deck."
 Title Streaker,Streaker
-Text Streaker,"Enters: Add a New Clothes to the opponent's deck. after 4 turns returns to hand and players draw a card."
+Text Streaker,"Enters: Add a New Clothes to the opponent's deck. after 4 turns, returns to hand and players draw a card."
 Title Exotic Dancer,Exotic Dancer
-Text Exotic Dancer,"+1 Fame/turn if there's 16+ allies. +1 Money/turn if there's Procuress ally."
+Text Exotic Dancer,"+1 Fame/turn if there's 16+ allies. +1 Money/turn if there's a Procuress ally."
 Title Flasher,Flasher
 Text Flasher,"Ally Enters: +1 Fame. Enters: Add 2 Nude Photos to the opponent's deck."
 Title Window Shopper,Window Shopper
@@ -720,9 +720,9 @@ Text Unlucky Undresser,"Enters: Add a New Clothes and 2 Nude Photos to the oppon
 Title Lumi,Lumi
 Text Lumi,"Active (once/tier): +1 action, players reveal their hands, then the player with higher sum of tiers gets +Fame equal to their club tier."
 Title Public Advertisement,Public Advertisement
-Text Public Advertisement,"Ally Enters: +1 Money, and opponent gets +2 Fame."
+Text Public Advertisement,"Ally Enters: +1 Money and opponent gets +2 Fame."
 Title Tifa,Tifa
-Text Tifa,"Active (once/turn): -3 Money, look at the top card of your deck, you may send it to your streets, then draw a card."
+Text Tifa,"Active (once/turn): -3 Money, look at the top card of your deck, then you may send it to your streets, then draw a card."
 Effect Tifa Discard,"SOURCEPLAYER send a card to streets and draw from Tifa"
 Effect Tifa Draw,"SOURCEPLAYER draw a card from Tifa"
 ActiveEffect,Activate Effect.
@@ -730,9 +730,9 @@ DrawThisCard,Draw This Card.
 SendToStreets,Send To Streets.
 GroupLatex,Latex
 Title Latex Amateur,Latex Amateur
-Text Latex Amateur,"Draw Action: +1/+0 (max 3 Fame). When You Play A Card: Set this card's Fame to 0."
+Text Latex Amateur,"Draw Action: +1/+0 (max 3 Fame). You Play A Card: Set this card's Fame to 0."
 Title Suit polisher,Suit polisher
-Text Suit polisher,"+1 Fame/turn if there's an Exquisite Suit ally. Draw Action: +0/+1 (max 3 Money). When You Play A Card: Set this card's Money to 0."
+Text Suit polisher,"+1 Fame/turn if there's an Exquisite Suit ally. Draw Action: +0/+1 (max 3 Money). You Play A Card: Set this card's Money to 0."
 Title Latex Lover,Latex Lover
 Text Latex Lover,"Draw Action: +1 Money per Latex ally (max = club tier)."
 Title Color Mixer,Color Mixer
@@ -745,9 +745,9 @@ Text Shine Simp,"Draw Action: Players lose 1 Fame per Latex ally (max -4)."
 Title Latex Drone,Latex Drone
 Text Latex Drone,"<F>1684 :: Code 050 :: Statement :: This drone is ready to obey"
 Title Encased,Encased
-Text Encased,"When You Play A Non-Latex Non-Dominant Member: Leaves."
+Text Encased,"You Play A Non-Latex Non-Dominant Member: Leaves."
 Title Condom Suit,Condom Suit
-Text Exquisite Suit,"Draw Action: +1/-1 (max 6/-4). When You Play A Non-Latex Member: Negates this card."
+Text Exquisite Suit,"Draw Action: +1/-1 (max 6/-4). You Play A Non-Latex Member: Negate this card."
 Title Latex Nurse,Latex Nurse
 Text Latex Nurse,"Enters: Select a member in hand to discard to summon a Vac-Bed Patient."
 Prerequisite Latex Nurse,Select a member from your hand.
