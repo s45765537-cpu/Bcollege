@@ -92,7 +92,7 @@ function PrivateBedDrawCharacter(C) {
 	if (C.PrivateBedMoveTimer == null) C.PrivateBedMoveTimer = 0;
 	if (C.PrivateBedMoveTimer < CommonTime()) {
 		PoseSetActive(C, CommonRandomItemFromList(undefined, ["OverTheHead", "Yoked", "BackBoxTie", null, null, null]));
-		PoseSetActive(C, CommonRandomItemFromList(null, ["LegsOpen", "LegsClosed"]));
+		PoseSetActive(C, CommonRandomItemFromList(null, ["BaseLower", "LegsClosed"]));
 		C.PrivateBedMoveTimer = CommonTime() + 10000 + Math.round(Math.random() * 20000);
 	}
 	if (C.IsNpc() && (C.PrivateBedActivityTimer < CommonTime())) PrivateBedNPCActivity(C);

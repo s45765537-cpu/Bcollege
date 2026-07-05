@@ -290,7 +290,6 @@ PrerequisiteCannotHogtied,Cannot change to the Hogtied pose.
 PrerequisiteCannotKneel,Cannot change to the Kneel pose.
 PrerequisiteCannotKneelingSpread,Cannot change to the KneelingSpread pose.
 PrerequisiteCannotLegsClosed,Cannot change to the LegsClosed pose.
-PrerequisiteCannotLegsOpen,Cannot change to the LegsOpen pose.
 PrerequisiteCannotOverTheHead,Cannot change to the OverTheHead pose.
 PrerequisiteCannotSelfSelect,Cannot use this option when wearing the item
 PrerequisiteCannotSpread,Cannot change to the Spread pose.

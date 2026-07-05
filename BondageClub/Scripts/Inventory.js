@@ -280,7 +280,6 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "CanKneel": return !PoseAvailable(C, "BodyLower", "Kneel") ? "CannotKneel" : "";
 		case "CanKneelingSpread": return !PoseAvailable(C, "BodyLower", "KneelingSpread") ? "CannotKneelingSpread" : "";
 		case "CanLegsClosed": return !PoseAvailable(C, "BodyLower", "LegsClosed") ? "CannotLegsClosed" : "";
-		case "CanLegsOpen": return !PoseAvailable(C, "BodyLower", "LegsOpen") ? "CannotLegsOpen" : "";
 		case "CanSpread": return !PoseAvailable(C, "BodyLower", "Spread") ? "CannotSpread" : "";
 		case "CanHogtied": return !PoseAvailable(C, "BodyFull", "Hogtied") ? "CannotHogtied" : "";
 		case "CanAllFours": return !PoseAvailable(C, "BodyFull", "AllFours") ? "CannotAllFours" : "";
