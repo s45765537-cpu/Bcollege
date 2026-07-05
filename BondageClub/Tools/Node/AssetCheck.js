@@ -2,7 +2,8 @@ import vm from "vm";
 import fs from "fs";
 import path from "path";
 
-import { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries, errorState } from "./Common.js";
+import { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries, errorState, loadDefaultPoseFolderByGroup } from "./Common.js";
+import { isManifest } from "./AssetMigrate.js";
 
 // XXX: this must all be checked
 const knownMissingOverrides = new Set([
@@ -475,7 +476,7 @@ function testModularItemPropertyDisjoint(dataRecord) {
 /**
  * @param {string} dir
  * @param {Set<string>} pathSet
- * @param {(file: string) => boolean} filter
+ * @param {(file: string, filePath: string) => boolean} filter
  */
 function recursivelyListDir(dir, pathSet, filter) {
 	fs.readdirSync(dir).forEach(f => {
@@ -483,7 +484,7 @@ function recursivelyListDir(dir, pathSet, filter) {
 		const isDirectory = fs.statSync(dirPath).isDirectory();
 		if (isDirectory) {
 			recursivelyListDir(dirPath, pathSet, filter);
-		} else if (filter(f)) {
+		} else if (filter(f, dirPath)) {
 			const offset = BASE_PATH.length;
 			pathSet.add(`${dir.slice(offset)}/${f}`);
 		}
@@ -508,6 +509,11 @@ function testExtendedItemButtonImage(dataSuperRecord) {
 	/** @type {Set<string>} */
 	const availableImages = new Set();
 	recursivelyListDir(`${BASE_PATH}Screens/Inventory`, availableImages, i => i.endsWith(".png"));
+	recursivelyListDir(
+		`${BASE_PATH}Assets/Female3DCG`,
+		availableImages,
+		(fileName, filePath) => fileName.endsWith(".png") && filePath.includes("/Previews/"),
+	);
 
 	// Gather all expected image paths
 	/** @type {Set<string>} */
@@ -992,8 +998,12 @@ function testActivePose(assets, poseMap) {
  * @param {readonly Asset[]} assets
  */
 function testHasPreview(assets) {
+	const migrationManifest = loadMigrationManifest();
 	for (const asset of assets) {
-		const assetPath = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
+		const isMigrated = assetCheckIsMigrated(migrationManifest, asset.Name, asset.DynamicGroupName);
+		const pathRoot = isMigrated ? `PaperDoll/${asset.Name}-${asset.DynamicGroupName}` : asset.DynamicGroupName;
+		const previewDir = isMigrated ? "Previews" : "Preview";
+		const assetPath = `${BASE_PATH}Assets/${asset.Group.Family}/${pathRoot}/${previewDir}/${asset.Name}.png`;
 		if (asset.Visible && asset.Group.AllowNone && !fs.existsSync(assetPath)) {
 			error(`${asset.Group.Name}:${asset.Name}: Missing preview image at "${assetPath}"`);
 		}
@@ -1059,12 +1069,73 @@ function padPoseMapping(poseMapping, poseRecord) {
 }
 
 /**
+ * @returns {ReadonlyMap<string, ReadonlySet<string>>}
+ */
+function loadMigrationManifest() {
+	const manifestPath = path.join(BASE_PATH, "Assets/Female3DCG/Migration.json");
+	if (!fs.existsSync(manifestPath)) {
+		return new Map();
+	}
+	try {
+		const manifest = JSON.parse(fs.readFileSync(manifestPath, { encoding: "utf8" }));
+		if (!isManifest(manifest) || !manifest.assets) {
+			return new Map();
+		}
+		/** @type {Map<string, ReadonlySet<string>>} */
+		const migratedAssets = new Map();
+		for (const [assetName, manifestEntry] of Object.entries(manifest.assets)) {
+			if (manifestEntry.groups && manifestEntry.groups.length > 0) {
+				migratedAssets.set(assetName, new Set(manifestEntry.groups));
+			}
+		}
+		return migratedAssets;
+	} catch {
+		return new Map();
+	}
+}
+
+/**
+ * @param {ReadonlyMap<string, ReadonlySet<string>>} migrationManifest
+ * @param {string} assetName
+ * @param {string} groupName
+ * @returns {boolean}
+ */
+function assetCheckIsMigrated(migrationManifest, assetName, groupName) {
+	const migratedGroups = migrationManifest.get(assetName);
+	return migratedGroups?.has(groupName) ?? false;
+}
+
+/**
+ * @param {Asset} asset
+ * @param {string | null} style
+ * @param {boolean} isMigrated
+ * @returns {string}
+ */
+function assetCheckLayerRoot(asset, style, isMigrated) {
+	const DEFAULT_STYLE = "DEFAULT_STYLE";
+	const family = asset.Group.Family;
+	if (isMigrated) {
+		const pathRoot = `PaperDoll/${asset.Name}-${asset.DynamicGroupName}`;
+		if (style !== DEFAULT_STYLE) {
+			return `${BASE_PATH}Assets/${family}/${pathRoot}/Override/${style}/`;
+		}
+		return `${BASE_PATH}Assets/${family}/${pathRoot}/`;
+	}
+	if (style !== DEFAULT_STYLE) {
+		return `${BASE_PATH}Assets/${family}/Override/${style}/${asset.DynamicGroupName}/`;
+	}
+	return `${BASE_PATH}Assets/${family}/${asset.DynamicGroupName}/`;
+}
+
+/**
  * Check that all assets have the expected .png images.
  * @param {readonly Asset[]} assets
  * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} extendedDataRecords
  * @param {Record<AssetPoseName, Pose>} poseRecord
  */
 function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
+	const migrationManifest = loadMigrationManifest();
+	const defaultPoseFolderByGroup = loadDefaultPoseFolderByGroup();
 	const expressionGroups = new Set(assets.filter(a => a.Group.AllowExpression).map(a => a.Group.Name));
 	const assetGroups = /** @type {Record<AssetGroupName, AssetGroup>} */({});
 	const assetGroupMap = /** @type {Record<AssetGroupName, { F: Set<string>, M: Set<string>, FM: Set<string> }>} */({});
@@ -1089,6 +1160,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 		if (!asset.Visible) {
 			continue;
 		}
+		const isMigrated = assetCheckIsMigrated(migrationManifest, asset.Name, asset.DynamicGroupName);
 
 		for (const layer of asset.Layer) {
 			if (!layer.HasImage) {
@@ -1201,8 +1273,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 			bodyStyles.splice(0, 0, DEFAULT_STYLE);
 
 			for (const style of bodyStyles) {
-				const styleSubpath = style !== DEFAULT_STYLE ? `Override/${style}/` : "";
-				const root = `${BASE_PATH}Assets/${asset.Group.Family}/${styleSubpath}${asset.DynamicGroupName}/`;
+				const root = assetCheckLayerRoot(asset, style, isMigrated);
 				for (const color of colors) {
 					for (const expression of expressions) {
 						for (const [type, poseList] of layerTypes) {
@@ -1215,13 +1286,19 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 								}
 
 								for (const parent of parentNames) {
+									const defaultPose = !pose && isMigrated
+										? defaultPoseFolderByGroup[asset.Group.Name]
+										: null;
+									const expressionFolder = expression
+										? expression
+										: (isMigrated && expressions.length > 1 ? "Default" : "");
 									const pngPath = (
 										root
-										+ (pose ? `${pose}/` : "")
-										+ (expression ? `${expression}/` : "")
+										+ (pose ? `${pose}/` : defaultPose ? `${defaultPose}/` : "")
+										+ (expressionFolder ? `${expressionFolder}/` : "")
 									);
 									const fileParts = [];
-									if (asset.Name) fileParts.push(asset.Name);
+									if (asset.Name && !isMigrated) fileParts.push(asset.Name);
 									if (parent) fileParts.push(parent);
 									if (type) fileParts.push(type);
 									if (color) fileParts.push(color);
