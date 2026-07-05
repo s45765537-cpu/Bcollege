@@ -3219,7 +3219,7 @@ var ClubCardList = [
 		Name: "Scratch and Win",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, 7 + Math.floor(Math.random() * 2), this.Name);
+			ClubCardPlayerAddMoney(CCPlayer, 7 + Math.floor(Math.random() * 3), this.Name);
 		}
 	},
 	{
@@ -3228,7 +3228,7 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, 14, this.Name);
+			ClubCardPlayerAddMoney(CCPlayer, 15, this.Name);
 		}
 	},
 	{
