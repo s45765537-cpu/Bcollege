@@ -803,7 +803,7 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		RequiredLevel: 2,
 		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
-			if (ClubCardCardHasGroup(cardPlayed, "Criminal")) ClubCardPlayerSteal(ClubCardGetOpponent(CCPlayer), 1, 0)
+			if (ClubCardCardHasGroup(cardPlayed, "Criminal")) ClubCardPlayerSteal(ClubCardGetOpponent(CCPlayer), 1, 0);
 		}
 	},
 
@@ -923,7 +923,7 @@ var ClubCardList = [
 					const randomMember = membersToPlay[Math.floor(Math.random() * membersToPlay.length)];
 					const cardIndexInHand = CCPlayer.Hand.findIndex(value => value.ID === randomMember.ID);
 					CCPlayer.Hand.splice(cardIndexInHand, 1);
-					ClubCardSummonCard(CCPlayer, randomMember);		
+					ClubCardSummonCard(CCPlayer, randomMember);
 				}
 			}
 		}
@@ -1592,7 +1592,7 @@ var ClubCardList = [
 					this.FamePerTurn = (this.FamePerTurn ?? 0) - 1;
 				} else if ((this.MoneyPerTurn ?? 0) > -2) {
 					this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) - 1;
-				}		
+				}
 			}
 		}
 	},
@@ -3057,7 +3057,7 @@ var ClubCardList = [
 			ClubCardAddCardsToDeck(ClubCardGetOpponent(CCPlayer), "Nude Photos", 2);
 		}
 	},
-	
+
 	// 18000 Latex
 	{
 		ID: 18000,
