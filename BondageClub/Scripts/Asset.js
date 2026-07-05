@@ -1191,6 +1191,9 @@ function AssetGroupIsHideable(group) {
  * @returns {string} - The path to the asset's preview image directory
  */
 function AssetGetPreviewPath(A) {
+	if (A.Group.Family === "Female3DCG" && CommonAssetIsMigrated(A.Name, A.DynamicGroupName)) {
+		return `Assets/${A.Group.Family}/PaperDoll/${A.Name}-${A.DynamicGroupName}/Previews`;
+	}
 	return `Assets/${A.Group.Family}/${A.DynamicGroupName}/Preview`;
 }
 
@@ -1201,6 +1204,9 @@ function AssetGetPreviewPath(A) {
  * @returns {string} - The path to the asset's inventory directory
  */
 function AssetGetInventoryPath(A) {
+	if (A.Group.Family === "Female3DCG" && CommonAssetIsMigrated(A.Name, A.DynamicGroupName)) {
+		return `Assets/${A.Group.Family}/PaperDoll/${A.Name}-${A.DynamicGroupName}`;
+	}
 	return `Screens/Inventory/${A.DynamicGroupName}/${A.Name}`;
 }
 
