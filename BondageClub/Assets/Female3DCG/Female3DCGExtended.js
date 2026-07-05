@@ -2464,7 +2464,8 @@ var AssetFemale3DCGExtended = {
 			DrawData: {
 				elementData: [
 					{
-						imagePath: "Screens/Inventory/ClothLower/MilitaryPants/BeltPreview.png",
+						imagePath:
+							"Screens/Inventory/ClothLower/MilitaryPants/BeltPreview.png",
 					}, // Belt
 					{}, //Camoflauge
 				],

@@ -1536,32 +1536,33 @@ var AssetFemale3DCG = [
 					"ClothAccessoryPoncho",
 					"NecklaceCatsuitCollar",
 				],
-				DefaultColor: ["Default", "#7B836D73", "#4D403880", "#000000BC"],
+				DefaultColor: ["Default", "#7a826c", "#4d4038", "#000000"],
 				// Require: ["ClothLower"],
 				Extended: true,
 				Layer: [
-					{ Name: "Shirt", AllowTypes: { s: [0] } }, 
-					{ 
+					{ Name: "Shirt", AllowTypes: { s: [0] } },
+					{
 						Name: "Cropped",
 						CopyLayerColor: "Shirt",
-						AllowTypes: { s: [1] }, 
-					}, 
-					{ 
+						AllowTypes: { s: [1] },
+					},
+					{
 						Name: "Camo1",
 						Opacity: 0.5,
 						// BlendingMode: "screen",
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [1] },
-					}, { 
-						Name: "Camo2", 
+					},
+					{
+						Name: "Camo2",
 						Opacity: 0.5,
 						// BlendingMode: "screen",
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [1] },
 					},
-					{ 
+					{
 						Name: "Tiger1",
 						Opacity: 0.5,
 						Priority: 30,
@@ -1570,8 +1571,9 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [2] },
-					}, { 
-						Name: "Tiger2", 
+					},
+					{
+						Name: "Tiger2",
 						Opacity: 0.5,
 						Priority: 31,
 						CopyLayerColor: "Camo2",
@@ -1579,8 +1581,9 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [2] },
-					}, { 
-						Name: "Tiger3", 
+					},
+					{
+						Name: "Tiger3",
 						Priority: 32,
 						Opacity: 0.8,
 						// BlendingMode: "screen",
@@ -1588,7 +1591,7 @@ var AssetFemale3DCG = [
 						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [2] },
 					},
-					{ 
+					{
 						Name: "CropCamo1",
 						Opacity: 0.5,
 						CopyLayerColor: "Camo1",
@@ -1596,8 +1599,9 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [1] },
-					}, { 
-						Name: "CropCamo2", 
+					},
+					{
+						Name: "CropCamo2",
 						Opacity: 0.5,
 						CopyLayerColor: "Camo2",
 						// BlendingMode: "screen",
@@ -1605,7 +1609,7 @@ var AssetFemale3DCG = [
 						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [1] },
 					},
-					{ 
+					{
 						Name: "CropTiger1",
 						Opacity: 0.5,
 						Priority: 30,
@@ -1614,8 +1618,9 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [2] },
-					}, { 
-						Name: "CropTiger2", 
+					},
+					{
+						Name: "CropTiger2",
 						Opacity: 0.5,
 						Priority: 31,
 						CopyLayerColor: "Camo2",
@@ -1623,8 +1628,9 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [2] },
-					}, { 
-						Name: "CropTiger3", 
+					},
+					{
+						Name: "CropTiger3",
 						Priority: 32,
 						Opacity: 0.8,
 						CopyLayerColor: "Tiger3",
@@ -1632,7 +1638,7 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [2] },
-					}
+					},
 				],
 			},
 			{
@@ -10281,7 +10287,14 @@ var AssetFemale3DCG = [
 				// Prerequisite: ["HasBreasts"],
 				Value: 60,
 				Hide: ["Pussy"],
-				DefaultColor: ["Default","Default","Default","#7B836D73", "#4D403880", "#000000BC"],
+				DefaultColor: [
+					"Default",
+					"Default",
+					"Default",
+					"#7a826c",
+					"#4d4038",
+					"#000000",
+				],
 				// Require: ["ClothLower"],
 				Extended: true,
 				Left: {
@@ -10301,60 +10314,61 @@ var AssetFemale3DCG = [
 				// 	KneelingSpread: 20,
 				// },
 				Layer: [
-					{ Name: "Pants" }, 
-					{ 
+					{ Name: "Pants" },
+					{
 						Name: "Belt",
 						Left: {
 							[PoseType.DEFAULT]: 150,
-							KneelingSpread: 90+150,
+							KneelingSpread: 90 + 150,
 						},
 						Top: 403,
 						Priority: 33,
 						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
-						ParentGroup: "", 
+						ParentGroup: "",
 						AllowTypes: { b: [2] },
 					},
-					{ 
+					{
 						Name: "StrappedBelt",
 						Left: {
 							[PoseType.DEFAULT]: 150,
-							KneelingSpread: 90+150,
+							KneelingSpread: 90 + 150,
 						},
 						Top: 403,
 						Priority: 33,
 						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
-						ParentGroup: "", 
+						ParentGroup: "",
 						AllowTypes: { b: [1] },
 						CopyLayerColor: "Belt",
 					},
-					{ 
+					{
 						Name: "Buckle",
 						Left: {
 							[PoseType.DEFAULT]: 150,
-							KneelingSpread: 90+150,
+							KneelingSpread: 90 + 150,
 						},
 						Top: 403,
 						Priority: 33,
 						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
-						ParentGroup: "", 
-						AllowTypes: { b: [1,2] },
+						ParentGroup: "",
+						AllowTypes: { b: [1, 2] },
 					},
-					{ 
+					{
 						Name: "Camo1",
 						Opacity: 0.5,
 						// BlendingMode: "screen",
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { c: [1] },
-					}, { 
-						Name: "Camo2", 
+					},
+					{
+						Name: "Camo2",
 						Opacity: 0.5,
 						// BlendingMode: "screen",
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { c: [1] },
 					},
-					{ 
+					{
 						Name: "Tiger1",
 						Opacity: 0.5,
 						Priority: 30,
@@ -10363,8 +10377,9 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { c: [2] },
-					}, { 
-						Name: "Tiger2", 
+					},
+					{
+						Name: "Tiger2",
 						Opacity: 0.5,
 						Priority: 31,
 						CopyLayerColor: "Camo2",
@@ -10372,15 +10387,16 @@ var AssetFemale3DCG = [
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { c: [2] },
-					}, { 
-						Name: "Tiger3", 
+					},
+					{
+						Name: "Tiger3",
 						Priority: 32,
 						Opacity: 0.8,
 						// BlendingMode: "screen",
 						// PoseMapping: {},
 						// ParentGroup: "",
 						AllowTypes: { c: [2] },
-					}
+					},
 				],
 			},
 			{
@@ -17877,21 +17893,6 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Beret2",
-				PoseMapping: {
-					Suspension: PoseType.HIDE,
-				},
-				Layer: [
-					{ Name: "Long", HideForAttribute: ["ShortHair"] },
-					{
-						Name: "Short",
-						ShowForAttribute: ["ShortHair"],
-						CopyLayerColor: "Long",
-						Top: 10,
-					},
-				],
-			},
-			{
 				Name: "MaidHairband1",
 				InventoryID: 380,
 				Fetish: ["Lingerie"],
@@ -19033,9 +19034,9 @@ var AssetFemale3DCG = [
 				},
 				Left: 100,
 				Layer: [
-					{ 
-						Name: "Long", 
-						HideForAttribute: ["ShortHair"], 
+					{
+						Name: "Long",
+						HideForAttribute: ["ShortHair"],
 						Top: -10,
 					},
 					{
@@ -19055,7 +19056,7 @@ var AssetFemale3DCG = [
 						Top: 0,
 					},
 					{
-						Name: "String", 
+						Name: "String",
 						Priority: 6,
 						CopyLayerColor: "LongBand",
 						// ShowForAttribute: ["ShortHair"],
