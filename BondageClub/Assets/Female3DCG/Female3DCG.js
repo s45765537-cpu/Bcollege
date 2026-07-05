@@ -26174,7 +26174,6 @@ var AssetFemale3DCG = [
 									"Kneel",
 									"KneelingSpread",
 									"Spread",
-									"LegsOpen",
 								],
 							},
 						],
@@ -38305,6 +38304,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				AllowActivePose: ["BackElbowTouch", "Kneel", "LegsClosed"],
+				PoseMapping: { AllFours: PoseType.HIDE, Hogtied: PoseType.HIDE },
 				ParentGroup: {},
 				DefaultColor: [
 					"Default",
@@ -53843,6 +53843,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Time: 20,
 				AllowLock: true,
+				DrawLocks: false,
 				AllowTighten: true,
 				DynamicGroupName: "ItemMouth",
 				Effect: [E.BlockMouth, E.ProtrudingMouth],
