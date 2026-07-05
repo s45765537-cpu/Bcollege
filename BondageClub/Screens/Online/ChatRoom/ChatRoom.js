@@ -500,10 +500,14 @@ function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && Current
 function ChatRoomCanGiveMoneyForOwner() { return (CurrentCharacter != null && Player.IsOwnedByCharacter(CurrentCharacter) && Player.IsFullyOwned() && ChatRoomMoneyForOwner > 0); }
 /**
  * Checks if a given character is a chatroom admin.
- * @param {Character} C - The character to check
+ * @param {Character | number} C - The character to check
  * @returns {boolean} - TRUE if the character is an admin of the current chatroom.
  */
-function ChatRoomCharacterIsAdmin(C) { return ((ChatRoomData != null && ChatRoomData.Admin != null) && (C != null && C.MemberNumber != null) && (ChatRoomData.Admin.indexOf(C.MemberNumber) >= 0)); }
+function ChatRoomCharacterIsAdmin(C) {
+	if (!ChatRoomData) return false;
+	const number = typeof C === "number" ? C : C.MemberNumber;
+	return ChatRoomData.Admin.includes(number);
+}
 /**
  * Checks if the player is a chatroom admin.
  * @returns {boolean} - TRUE if the player is an admin of the current chatroom.
@@ -6377,7 +6381,7 @@ function ChatRoomPayQuest(questGiverNumber, paymentAmount) {
 
 /**
  * Triggered when online game data comes in
- * @param {ServerChatRoomGameBountyUpdateRequest["OnlineBounty"]} data - Game data to process, sent to the current game handler.
+ * @param {ServerGameOnlineBountyData["OnlineBounty"]} data - Game data to process, sent to the current game handler.
  * @param {number} sender
  * @returns {void} - Nothing
  */
@@ -6396,20 +6400,64 @@ function ChatRoomOnlineBountyHandleData(data, sender) {
 }
 
 /**
+ *
+ * @param {unknown} packet
+ * @return {packet is ServerChatRoomGameResponseBase<unknown>}
+ */
+function ServerPacketIsChatRoomGameResponse(packet) {
+	const obj = /** @type {ServerChatRoomGameResponseBase<unknown>} */ (packet);
+	return CommonIsObject(obj)
+		&& CommonIsObject(obj.Data)
+		&& CommonIsNumeric(obj.RNG)
+		&& CommonIsNumeric(obj.Sender);
+}
+
+/**
+ * @param {ServerChatRoomGameResponseBase<unknown>} packet
+ * @returns {packet is ServerChatRoomGameResponseBase<ServerGameKinkyDungeonData>}
+ */
+function ServerPacketIsChatRoomGameKinkyDungeon(packet) {
+	return CommonIsObject(packet.Data)
+		&& "KinkyDungeon" in packet.Data
+		&& typeof packet.Data.KinkyDungeon === "string";
+}
+
+/**
+ * @param {ServerChatRoomGameResponseBase<unknown>} packet
+ * @returns {packet is ServerChatRoomGameResponseBase<ServerGameOnlineBountyData>}
+ */
+function ServerPacketIsChatRoomGameOnlineBounty(packet) {
+	const packet_ = /** @type {ServerChatRoomGameResponseBase<ServerGameOnlineBountyData>} */ (packet);
+	return CommonIsObject(packet_.Data)
+		&& "OnlineBounty" in packet_.Data
+		&& CommonIsObject(packet_.Data.OnlineBounty)
+		&& "finishTime" in packet_.Data.OnlineBounty
+		&& typeof packet_.Data.OnlineBounty.finishTime === "number"
+		&& "target" in packet_.Data.OnlineBounty
+		&& typeof packet_.Data.OnlineBounty.target === "number";
+}
+
+/**
  * Triggered when a game message comes in, we forward it to the current online game being played.
- * @param {ServerChatRoomGameResponse} data - Game data to process, sent to the current game handler.
+ * @param {unknown} data - Game data to process, sent to the current game handler.
  * @returns {void} - Nothing
  */
 function ChatRoomGameResponse(data) {
-	if (data.Data.KinkyDungeon) {
-		if (CurrentScreen == "KinkyDungeon") {
-			KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
+	if (!ServerPacketIsChatRoomGameResponse(data)) return;
+
+	if (ServerPacketIsChatRoomGameKinkyDungeon(data)) {
+		KinkyDungeonHandleData(data.Data.KinkyDungeon, data.Sender);
+	} else if (ServerPacketIsChatRoomGameOnlineBounty(data)) {
+		if (KidnapLeagueOnlineBountyTarget) {
+			ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
 		}
-	} else if (KidnapLeagueOnlineBountyTarget && data.Data.OnlineBounty)
-		ChatRoomOnlineBountyHandleData(data.Data.OnlineBounty, data.Sender);
-	else if (ChatRoomData.Game == "LARP") GameLARPProcess(data);
-	else if (ChatRoomData.Game == "MagicBattle") GameMagicBattleProcess(data);
-	else if (ChatRoomData.Game == "ClubCard") GameClubCardProcess(data);
+	} else if (ChatRoomData.Game === "LARP") {
+		GameLARPProcess(data.Sender, data.RNG, data.Data);
+	} else if (ChatRoomData.Game == "MagicBattle") {
+		GameMagicBattleProcess(data.Sender, data.Data);
+	} else if (ChatRoomData.Game == "ClubCard") {
+		GameClubCardProcess(data.Sender, data.RNG, data.Data);
+	}
 }
 
 /**
