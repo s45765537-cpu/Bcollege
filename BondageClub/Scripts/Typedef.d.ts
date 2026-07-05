@@ -620,7 +620,7 @@ type AssetGroupName = AssetGroupBodyName | AssetGroupItemName | AssetGroupScript
 interface AssetPoseMap {
 	BodyHands: 'TapedHands',
 	BodyUpper: 'BaseUpper' | 'BackBoxTie' | 'BackCuffs' | 'BackElbowTouch' | 'OverTheHead' | 'Yoked',
-	BodyLower: 'BaseLower' | 'Kneel' | 'KneelingSpread' | 'LegsClosed' | 'LegsOpen' | 'Spread',
+	BodyLower: 'BaseLower' | 'Kneel' | 'KneelingSpread' | 'LegsClosed' | 'Spread',
 	BodyFull: 'Hogtied' | 'AllFours',
 	BodyAddon: 'Suspension',
 }
@@ -4010,12 +4010,8 @@ interface GameLARPParameters {
 	}[];
 }
 
-type GameLARPOptionName = "Pass" | "Seduce" | "Struggle" | "Hide" | "Cover" |
-	"Strip" | "Tighten" | "RestrainArms" | "RestrainLegs" | "RestrainMouth" |
-	"Silence" | "Immobilize" | "Detain" | "Dress" | "Costume" | "";
-
 interface GameLARPOption {
-	Name: GameLARPOptionName;
+	Name: GameLARPActionName;
 	Odds: number;
 }
 

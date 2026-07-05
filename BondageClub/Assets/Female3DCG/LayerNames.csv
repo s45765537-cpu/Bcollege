@@ -257,6 +257,9 @@ ClothGardenDressBowknot,Bowknot
 ClothGardenDressChest,Chest
 ClothGardenDressDress,Dress
 ClothGardenDressShoulderLace,Shoulder Lace
+ClothGhostCloakBack,Inside
+ClothGhostCloakFront,Outside
+ClothGhostCloakPattern,Eyes
 ClothLaceBraNightgownBase,Base
 ClothLaceBraNightgownBraBase,Bra Top
 ClothLaceBraNightgownBraBaseShadow,Bra Base Shadow
@@ -439,6 +442,8 @@ ClothStarryOceanEveningGown3,Top Laces
 ClothStarryOceanEveningGown4,Bottom Laces
 ClothStarryOceanEveningGownI0,Front
 ClothStarryOceanEveningGownI1,Back
+ClothTransparentraincoatRaincoat,Opaque Version
+ClothTransparentraincoatTransparent,Transparent Version
 ClothWhiteDressBeads,Beads
 ClothWhiteDressChest,Chest
 ClothWhiteDressChestStrap,Chest Strap
@@ -1718,6 +1723,25 @@ ItemDevicesFuturisticCrateLock,Lock
 ItemDevicesFuturisticCrateStrapsArms,Restraint Frame
 ItemDevicesFuturisticCrateStrapsArmsMesh,Restraint Padding
 ItemDevicesFuturisticCrateStrapsHarness,Harness Straps
+ItemDevicesInflatableRestraintBagCanister,Canister
+ItemDevicesInflatableRestraintBagCanisterHighlight,Canister Highlight
+ItemDevicesInflatableRestraintBagCanisterHose,Canister Hose
+ItemDevicesInflatableRestraintBagClamp,Clamp
+ItemDevicesInflatableRestraintBagConnector,Connector
+ItemDevicesInflatableRestraintBagDefault1,Default
+ItemDevicesInflatableRestraintBagDefault2,Default
+ItemDevicesInflatableRestraintBagDefault3,Default
+ItemDevicesInflatableRestraintBagDefault4,Default
+ItemDevicesInflatableRestraintBagHead1,Head
+ItemDevicesInflatableRestraintBagHead2,Head
+ItemDevicesInflatableRestraintBagHead3,Head
+ItemDevicesInflatableRestraintBagHead4,Head
+ItemDevicesInflatableRestraintBagInflated1,Inflated
+ItemDevicesInflatableRestraintBagInflated2,Inflated
+ItemDevicesInflatableRestraintBagInflated3,Inflated
+ItemDevicesInflatableRestraintBagInflated4,Inflated
+ItemDevicesInflatableRestraintBagLiquid,Liquid
+ItemDevicesInflatableRestraintBagTube,Tube
 ItemDevicesKabeshiriWallCuffsBody,Cuffs
 ItemDevicesKabeshiriWallCumButt,Cum
 ItemDevicesKabeshiriWallMonitor,Portrait Frame
@@ -1735,6 +1759,11 @@ ItemDevicesLeatherCageMetal,Metal
 ItemDevicesLeatherCageCuff,Collar cuff
 ItemDevicesLeatherCageFloor,Floor
 ItemDevicesLeatherCageLock,Padlocks
+ItemDevicesLongBagBack,Back
+ItemDevicesLongBagLongBag,Long Bag
+ItemDevicesLongBagRope,Rope
+ItemDevicesLongBagTransparent,Transparent
+ItemDevicesLongBagBurlapMask,Burlap Mask
 ItemDevicesLuckyWheelArrow,Arrow
 ItemDevicesLuckyWheelBack,Wheel Border
 ItemDevicesLuckyWheelBase,Wooden Stand
@@ -2910,6 +2939,12 @@ ItemMouthQualityHarnessGagMetal,Metal
 ItemMouthRoseBallGagRose,Rose
 ItemMouthRoseBallGagMetal,Metal
 ItemMouthRoseBallGagStraps,Straps
+ItemMouthShapedMouthCageBuckle,Buckle
+ItemMouthShapedMouthCageCage,Cage
+ItemMouthShapedMouthCageLining,Lining
+ItemMouthShapedMouthCageRivet,Rivet
+ItemMouthShapedMouthCageShade,Shade
+ItemMouthShapedMouthCageStrap,Strap
 ItemMouthShoeGagShoe,Shoe
 ItemMouthShoeGagStrap,Strap
 ItemMouthStitchesFakeMouth,Lips
@@ -3274,6 +3309,16 @@ ItemTorsoBarrelCorsetNeckM,Collar link metal
 ItemTorsoClassicLatexCorsetBelt,Belt
 ItemTorsoClassicLatexCorsetBuckles,Buckles
 ItemTorsoClassicLatexCorsetCorset,Corset
+ItemTorsoFullBodyStrapsTopMask,Top Mask
+ItemTorsoFullBodyStrapsBottomMask,Bottom Mask
+ItemTorsoFullBodyStrapsA1_U,Body Rings
+ItemTorsoFullBodyStrapsB1,Collar Strap
+ItemTorsoFullBodyStrapsB2,Collar Shadow
+ItemTorsoFullBodyStrapsB3,Collar Edge
+ItemTorsoFullBodyStrapsC1,Collar Ring
+ItemTorsoFullBodyStrapsD1_U,Body Straps
+ItemTorsoFullBodyStrapsD2_U,Body Shadows
+ItemTorsoFullBodyStrapsD3_U,Body Edges
 ItemTorsoFuturisticHarnessBand,Straps
 ItemTorsoFuturisticHarnessDisplay,Display
 ItemTorsoFuturisticHarnessLock,Lock
@@ -3911,6 +3956,15 @@ WingsCyberWingsHighlights,Highlights
 WingsCyberWingsShade,Shade
 WingsPixieWingsVeins,Veins
 WingsPixieWingsWings,Wings
+WingsSpiderBack1,Back
+WingsSpiderBack2,Back
+WingsSpiderBellyArachnid,Belly (Arachnid)
+WingsSpiderBellyConnectionArachnid,Belly Connection (Arachnid)
+WingsSpiderFront1,Front
+WingsSpiderFront2,Front
+WingsSpiderMiddle1,Middle
+WingsSpiderMiddle2,Middle
+WingsSpiderMask,Mask
 WingsSteampunkWingsBase,Base
 WingsSteampunkWingsGears,Gears
 WingsSteampunkWingsWingFrames,Frame

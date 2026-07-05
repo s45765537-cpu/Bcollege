@@ -1027,6 +1027,9 @@ ClothStarryOceanEveningGownOptionM0,Right side
 ClothStarryOceanEveningGownOptionM1,Left side
 ClothStarryOceanEveningGownSelectBase,Put the gown on which side
 ClothStarryOceanEveningGownSelectMirror,Put the gown on which side
+ClothTransparentraincoatOpaque,Opaque
+ClothTransparentraincoatSelect,Choose the raincoat appearance
+ClothTransparentraincoatTransparent,Transparent
 ClothTShirt2BCLogo,Club Logo
 ClothTShirt2BDSM,BD-SM
 ClothTShirt2Gag,The Moaning Groans
@@ -3663,6 +3666,19 @@ ItemDevicesInflatableBodyBagSetBloated,SourceCharacter adjusts DestinationCharac
 ItemDevicesInflatableBodyBagSetInflated,SourceCharacter adjusts DestinationCharacter inflatable body bag to be half filled.
 ItemDevicesInflatableBodyBagSetLight,SourceCharacter adjusts DestinationCharacter inflatable body bag to be only lightly filled.
 ItemDevicesInflatableBodyBagSetMax,SourceCharacter adjusts DestinationCharacter inflatable body bag to fill the maximum amount.
+ItemDevicesInflatableRestraintBagModuleHood,Hood
+ItemDevicesInflatableRestraintBagModuleInflate,Inflation
+ItemDevicesInflatableRestraintBagModuleLinkCanister,Canister
+ItemDevicesInflatableRestraintBagSelectBase,Configure the Inflatable Restraint Bag
+ItemDevicesInflatableRestraintBagSelectInflate,Set Inflation
+ItemDevicesInflatableRestraintBagSelectHood,Set Hood
+ItemDevicesInflatableRestraintBagSelectLinkCanister,Set Canister
+ItemDevicesInflatableRestraintBagOptiono0,Deflated
+ItemDevicesInflatableRestraintBagOptiono1,Inflated
+ItemDevicesInflatableRestraintBagOptiont0,No Hood
+ItemDevicesInflatableRestraintBagOptiont1,Hood
+ItemDevicesInflatableRestraintBagOptiong0,No Canister
+ItemDevicesInflatableRestraintBagOptiong1,Canister
 ItemDevicesKabeshiriWallModuleArms,Arms
 ItemDevicesKabeshiriWallModuleCum,Cum Options
 ItemDevicesKabeshiriWallModuleLegs,Legs
@@ -3715,6 +3731,9 @@ ItemDevicesLockerSetVentless,SourceCharacter removes vents to DestinationCharact
 ItemDevicesLockerSetVents,SourceCharacter adds vents to DestinationCharacter locker.
 ItemDevicesLockerVentless,Ventless
 ItemDevicesLockerVents,Vents
+ItemDevicesLongBagOpaque,Opaque
+ItemDevicesLongBagSelect,Select Appearance
+ItemDevicesLongBagTranslucent,Translucent
 ItemDevicesLuckyWheelModuleArrow,Arrow
 ItemDevicesLuckyWheelModuleGame,Game
 ItemDevicesLuckyWheelModuleMisc,Extras
@@ -6997,6 +7016,9 @@ WebBondageSuspended,Suspended
 WebBondageSuspensionHogtied,Suspension Hogtied
 WebBondageTangled,Tangled
 WebBondageWrapped,Wrapped
+WingsSpiderArachnid,Arachnid
+WingsSpiderBiped,Biped
+WingsSpiderSelect,Select
 WingsSteampunkWingsOff,Off
 WingsSteampunkWingsOn,On
 WingsSteampunkWingsSelect,Select the state.

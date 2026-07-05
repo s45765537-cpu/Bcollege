@@ -144,6 +144,7 @@ Cloth,FrilledShirt,Latex Frilled Shirt
 Cloth,FurCoat,Fur Coat
 Cloth,FuzzyDress,Fuzzy Dress
 Cloth,GardenDress,Garden Dress
+Cloth,GhostCloak,Ghost Poncho
 Cloth,Gown1,Puffball Gown
 Cloth,Gown2Top,Hobble Gown
 Cloth,Gown3,Shiny Gown
@@ -194,6 +195,7 @@ Cloth,SuspenderTop1,Suspender Top
 Cloth,Sweater1,Sweater
 Cloth,TeacherOutfit1,Teacher
 Cloth,TennisShirt1,Tennis
+Cloth,Transparentraincoat,Transparent Raincoat
 Cloth,TShirt1,T-Shirt
 Cloth,TShirt2,Classic T-Shirt
 Cloth,VirginKiller1,Virgin Killer
@@ -1058,11 +1060,13 @@ ItemDevices,FurBlanketWrap,Fur Blanket Wrap
 ItemDevices,FuturisticCrate,Futuristic Crate
 ItemDevices,GlueFloor,Glue's Puddle
 ItemDevices,InflatableBodyBag,Inflatable Body Bag
+ItemDevices,InflatableRestraintBag,Inflatable Restraint Bag
 ItemDevices,KabeshiriWall,Kabeshiri Wall
 ItemDevices,Kennel,Heavy Kennel
 ItemDevices,LeatherCage,Leather Cage
 ItemDevices,LittleMonster,Halloween Monster Set
 ItemDevices,Locker,Locker
+ItemDevices,LongBag,Long Burlap Sack
 ItemDevices,LowCage,Kennel
 ItemDevices,LuckyWheel,Lucky Wheel
 ItemDevices,MedicalBed,Medical Bed
@@ -1493,6 +1497,7 @@ ItemMouth,RopeBallGag,Rope Ball Gag
 ItemMouth,RopeGag,Rope Gag
 ItemMouth,RoseBallGag,Rose Ball Gag
 ItemMouth,ScarfGag,Scarf
+ItemMouth,ShapedMouthCage,Cage Muzzle Gag
 ItemMouth,ShoeGag,Shoe Gag
 ItemMouth,Slime,Slime
 ItemMouth,SockStuffing,Sock Stuffing
@@ -1688,6 +1693,7 @@ ItemTorso,AdultBabyHarness,Adult Baby Harness
 ItemTorso,BarrelCorset,Barrel Corset
 ItemTorso,ClassicLatexCorset,Classic Latex Corset
 ItemTorso,CrotchChain, Crotch Chain
+ItemTorso,FullBodyStraps,Full Body Straps
 ItemTorso,FuturisticHarness,Futuristic Harness
 ItemTorso,HarnessBra1,Bondage Harness
 ItemTorso,HarnessBra2,Leather Strap Harness
@@ -2090,6 +2096,7 @@ Wings,DevilWings,Devil Wings
 Wings,FairyWings,Fairy Wings
 Wings,FallenAngelWings,Fallen Angel Wings
 Wings,PixieWings,Pixie Wings
+Wings,Spider,Spider
 Wings,SteampunkWings,Steampunk Wings
 Wings,SuccubusFeather,Succubus Feather
 Wings,SuccubusWings,Succubus Wings

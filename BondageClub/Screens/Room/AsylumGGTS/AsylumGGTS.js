@@ -513,7 +513,7 @@ function AsylumGGTSTaskDone(C, T) {
 		case "PoseLegsClosed":
 			return C.PoseMapping != null && C.PoseMapping.BodyLower === "LegsClosed";
 		case "PoseLegsOpen":
-			return C.PoseMapping == null || C.PoseMapping.BodyLower == null || C.PoseMapping.BodyLower === "LegsOpen" || C.PoseMapping.BodyLower === "BaseLower";
+			return C.PoseMapping == null || C.PoseMapping.BodyLower == null || C.PoseMapping.BodyLower === "BaseLower";
 		default:
 			return false;
 	}
@@ -588,7 +588,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "PoseOverHead") && !C.CanInteract()) return false; // Must be able to use hands for hands poses
 	if ((T == "PoseBehindBack") && (((C.PoseMapping != null) && ["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) || !C.CanInteract())) return false; // Must be able to use hands for hands poses
 	if ((T == "PoseLegsClosed") && (((C.PoseMapping != null) && (C.PoseMapping.BodyLower === "LegsClosed")) || C.IsKneeling() || !C.CanChangeToPose("LegsClosed"))) return false; // Close legs only if standing and able to do so
-	if ((T == "PoseLegsOpen") && ((C.PoseMapping == null) || (C.PoseMapping.BodyLower == null) || (C.PoseMapping.BodyLower === "LegsOpen") || (C.PoseMapping.BodyLower === "BaseLower") || C.IsKneeling() || !C.CanChangeToPose("LegsOpen"))) return false; // Open legs only if standing and able to do so
+	if ((T == "PoseLegsOpen") && ((C.PoseMapping == null) || (C.PoseMapping.BodyLower == null) || (C.PoseMapping.BodyLower === "BaseLower") || C.IsKneeling() || !C.CanChangeToPose("BaseLower"))) return false; // Open legs only if standing and able to do so
 	if ((T == "LockRoom") && (ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "UnlockRoom") && (!ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact

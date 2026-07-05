@@ -1161,6 +1161,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // WhiteDress
+		Transparentraincoat: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Transparent" }, { Name: "Opaque" }],
+		}, // Transparentraincoat
 	}, // Cloth
 	Decals: {
 		MissMariasManor: {
@@ -2402,7 +2407,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								AllowActivePose: [
 									"BaseLower",
-									"LegsOpen",
 									"LegsClosed",
 									"Kneel",
 									"Hogtied",
@@ -2604,7 +2608,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 0,
 						SetPose: ["BaseLower", "BackElbowTouch"],
-						AllowActivePose: ["Kneel", "LegsOpen", "LegsClosed"],
+						AllowActivePose: ["Kneel", "LegsClosed"],
 					},
 				},
 				{
@@ -3508,12 +3512,7 @@ var AssetFemale3DCGExtended = {
 							// b4 - Full bind plus link legs
 							Property: {
 								SetPose: ["BackElbowTouch"],
-								AllowActivePose: [
-									"BaseLower",
-									"LegsOpen",
-									"LegsClosed",
-									"Kneel",
-								],
+								AllowActivePose: ["BaseLower", "LegsClosed", "Kneel"],
 								Effect: [E.Slow],
 								Difficulty: 9,
 							},
@@ -11381,7 +11380,7 @@ var AssetFemale3DCGExtended = {
 							AllowLock: true,
 							Property: {
 								Difficulty: 12,
-								SetPose: ["LegsOpen"],
+								SetPose: ["BaseLower"],
 								Block: ["ItemFeet"],
 								Effect: [E.BlockWardrobe],
 								Hide: ["ItemBoots", "Shoes"],
@@ -11833,7 +11832,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Stand",
 					AllowSelfSelect: false,
-					Prerequisite: ["CanLegsOpen"],
+					Prerequisite: ["CanBaseLower"],
 				},
 				{
 					Name: "LegsClosed",
@@ -12805,6 +12804,42 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //XFrame
+		InflatableRestraintBag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Inflate",
+					DrawImages: false,
+					Key: "o",
+					Options: [{}, {}],
+				},
+				{
+					Name: "Hood",
+					DrawImages: false,
+					Key: "t",
+					Options: [{}, {}],
+				},
+				{
+					Name: "LinkCanister",
+					DrawImages: false,
+					Key: "g",
+					Options: [{}, {}],
+				},
+			],
+			BaselineProperty: { Opacity: 1 },
+			ScriptHooks: {
+				Init: PropertyOpacityInit,
+				Load: PropertyOpacityLoad,
+				Draw: PropertyOpacityDraw,
+				Exit: PropertyOpacityExit,
+			},
+		}, // InflatableRestraintBag
+		LongBag: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Translucent" }, { Name: "Opaque" }],
+		}, // LongBag
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -13916,7 +13951,11 @@ var AssetFemale3DCGExtended = {
 		}, // VibeHeartPiercings
 		PiercingNameBadge: {
 			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			ChangeWhenLocked: false,
 			DrawImages: false,
 			Options: [{ Name: "RightNipple" }, { Name: "LeftNipple" }],
@@ -18068,7 +18107,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Narrow",
 					Property: {
-						SetPose: ["LegsOpen"],
+						SetPose: ["BaseLower"],
 					},
 				},
 				{
@@ -18306,7 +18345,7 @@ var AssetFemale3DCGExtended = {
 					Name: "LegsOpen",
 					Property: {
 						Difficulty: 2,
-						SetPose: ["LegsOpen"],
+						SetPose: ["BaseLower"],
 						SelfUnlock: true,
 					},
 				},
@@ -18509,7 +18548,7 @@ var AssetFemale3DCGExtended = {
 							// r3 - Strap Limiter
 							Property: {
 								AllowActivePose: [
-									"LegsOpen",
+									"BaseLower",
 									"LegsClosed",
 									"Kneel",
 									"AllFours",
@@ -18522,7 +18561,7 @@ var AssetFemale3DCGExtended = {
 						{
 							// r4 - Spread Bar Stand
 							Property: {
-								SetPose: ["LegsOpen"],
+								SetPose: ["BaseLower"],
 								AllowActivePose: ["Kneel"],
 								Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile],
 								Difficulty: 7,
@@ -22498,6 +22537,24 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DragonWings
+		Spider: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{ Name: "Biped" },
+				{
+					Name: "Arachnid",
+					Property: {
+						Hide: ["Pussy", "BodyLower"],
+						OverrideHeight: {
+							Height: -200,
+							Priority: 21,
+							HeightRatioProportion: 0,
+						},
+					},
+				},
+			],
+		}, // Spider
 	}, // Wings
 	ItemHandheld: {
 		Smartphone: {
