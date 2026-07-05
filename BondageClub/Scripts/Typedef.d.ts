@@ -5708,3 +5708,8 @@ declare namespace BrowserCache {
 }
 
 type ScreenCheckCallback = (module: ModuleType, screen: ScreenName) => boolean;
+
+type Manifest = {
+	version?: number;
+	assets?: Record<string, { migratedAt?: string; groups?: string[] }>;
+};
