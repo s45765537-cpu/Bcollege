@@ -69022,7 +69022,6 @@ var AssetFemale3DCG = [
 				SelfBondage: 0,
 				Time: 10,
 				RemoveTime: 10,
-
 				Effect: [E.Tethered, E.MapImmobile],
 				FixedPosition: true,
 				Extended: true,
