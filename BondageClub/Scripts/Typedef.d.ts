@@ -4875,6 +4875,7 @@ type ClubCardTag =
 	| "Kemonomimi"
 	| "Submissive / Slave"
 	| "Exhibitionist"
+	| "Latex"
 	| "Reward";
 
 interface ClubCard {
@@ -4893,7 +4894,6 @@ interface ClubCard {
 	RequiredLevel?: number;
 	Time?: number;
 	ExtraTime?: number;
-	ExtraDraw?: number;
 	ExtraPlay?: number;
 	Group?: string[];
 	Location?: string;
@@ -4934,6 +4934,8 @@ interface ClubCard {
 	 * @param C Player that owns the card
 	 */
 	onLeaveClub?: (C: ClubCardPlayer) => void;
+	onMemberLeaveClub?: (C: ClubCardPlayer, Card: ClubCard, DidntDiscard: boolean) => void;
+	onRender?: (C: ClubCardPlayer, X: number, Y: number, W: number) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
 	onLevelUp?: (C: ClubCardPlayer) => void;
 	onOpponentLevelUp?: (C: ClubCardPlayer) => void;
@@ -4947,7 +4949,14 @@ interface ClubCard {
 	onCancelNegation?: (C: ClubCardPlayer) => void;
 	WhenDrawn?: (C: ClubCardPlayer) => void;
 	OnActive?: (C: ClubCardPlayer) => void;
+	OnGameStart?: (C: ClubCardPlayer) => void;
 }
+
+type ClubCardDefaultDecks =
+	| "Default"
+	| "Princess Treatment"
+	| "Permanent Stay"
+	| "Pound Town"
 
 interface ClubCardPlayer {
 	Character: Character;

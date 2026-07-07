@@ -15,6 +15,17 @@ var ClubCardBuilderMaxDeckSize = 40;
 var ClubCardBuilderSelectedTag = "All";
 
 /**
+ * @type {Record<ClubCardDefaultDecks, number[]>}
+ */
+const ClubCardBuilderDefaultDecksList = {
+	["Default"]: [1000, 1001, 1004, 1006, 1007, 1010, 1011, 1012, 1014, 1020, 2000, 2002, 4000, 6000, 6001, 6002, 6003, 6004, 6006, 6008, 8000, 8002, 8003, 8004, 13001, 30000, 30014, 30016, 31000, 31004],
+	["Princess Treatment"]: [1010, 1011, 10000, 10007, 10004, 10006, 10002, 10008, 6001, 6002, 6000, 6003, 8003, 1013, 18004, 7000, 7003, 7004, 7002, 7001, 18003, 8002, 30024, 16000, 10001, 3000, 30023, 3017, 1014, 2001],
+	["Permanent Stay"]: [7006, 7011, 7004, 7009, 7005, 7003, 7008, 7001, 7000, 30017, 31001, 31000, 30016, 31005, 13001, 2004, 1023, 1004, 2000, 1024, 6006, 18009, 18005, 18004, 2005, 17001, 30008, 31002, 30003, 9000],
+	["Pound Town"]: [14000, 14010, 4010, 14005, 4011, 14004, 14007, 14006, 14013, 14012, 14009, 14003, 14002, 30017, 30016, 31000, 31003, 31005, 2004, 1023, 1024, 14011, 30025, 3007, 3011, 3004, 3001, 3002, 3014, 3013],
+};
+
+
+/**
  * @type {Record<ClubCardTag, (card: ClubCard) => boolean>}
  */
 const ClubCardBuilderFilterGroupFilters = {
@@ -38,6 +49,7 @@ const ClubCardBuilderFilterGroupFilters = {
 	Kemonomimi: (card) => card.Group?.includes("Kemonomimi"),
 	["Submissive / Slave"]: (card) => ["Submissive", "Slave"].some(g => card.Group?.includes(g)),
 	Exhibitionist: (card) => card.Group?.includes("Exhibitionist"),
+	Latex: (card) => card.Group?.includes("Latex"),
 	Reward: (card) => !!card.Reward,
 };
 
@@ -69,6 +81,7 @@ let ClubCardBuilderReturnToChatroom = false;
 function ClubCardBuilderLoadDeck(Deck) {
 	// create the editor's elements
 	ElementCreateDropdown("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), ClubCardBuilderTagChanged);
+	ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), ClubCardBuilderLoadPrecon);
 	ElementCreateSearchInput(
 		"CardsSearchFilter",
 		() => ClubCardList.map(i => ClubCardTextGet(i)),
@@ -90,6 +103,10 @@ function ClubCardBuilderLoadDeck(Deck) {
 
 	// Prepares the filtered list
 	ClubCardBuilderFilterLoad();
+}
+
+function ClubCardBuilderLoadPrecon () {
+	ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDecksList[this.value].slice();
 }
 
 /**
@@ -158,6 +175,7 @@ function ClubCardBuilderFinishEdit() {
 	ClubCardBuilderView = ClubCardList.slice();
 	ElementRemove("CardsTagsDropdown");
 	ElementRemove("CardsSearchFilter");
+	ElementRemove("DefaultDecksDropdown");
 	ClubCardBuilderSelectedTag = "All";
 }
 
@@ -309,12 +327,12 @@ function ClubCardBuilderRun() {
 	if (ClubCardBuilderFocus == null) DrawTextWrap(TextGet("ClickCard"), 1560, 400, 430, 300, "White");
 	ElementPositionFix("CardsTagsDropdown", 36, 5, 5, 305, 61);
 	ElementPositionFix("CardsSearchFilter", 36, 312, 5, 305, 61);
+	ElementPositionFix("DefaultDecksDropdown", 36, 619, 5, 150, 60);
 	DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
 	DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));
 	DrawButton(1665, 5, 90, 90, null, "White", "Icons/Next.png", TextGet("NextCards"));
 	DrawButton(1550, 5, 90, 90, null, "White", "Icons/Prev.png", TextGet("PreviousCards"));
-	DrawButton(619, 5, 150, 60, TextGet("Clear"), "White", "", TextGet("ClearHover"));
-	DrawButton(773, 5, 150, 60, TextGet("Default"), "White", "", TextGet("DefaultHover"));
+	DrawButton(773, 5, 150, 60, TextGet("Clear"), "White", "", TextGet("ClearHover"));
 }
 
 /**
@@ -411,8 +429,7 @@ function ClubCardBuilderClick() {
 	}
 
 	// When we need to clear all the cards or reset to the default deck
-	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(619, 5, 150, 60)) ClubCardBuilderDeckCurrent = [];
-	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(773, 5, 150, 60)) ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDeck.slice();
+	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(773, 5, 150, 60)) ClubCardBuilderDeckCurrent = [];
 
 	// If the user clicks to select a deck
 	if (ClubCardBuilderDeckIndex == -1)
