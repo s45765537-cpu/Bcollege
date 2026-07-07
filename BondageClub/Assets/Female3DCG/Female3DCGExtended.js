@@ -11282,7 +11282,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 6,
 								SetPose: ["Yoked"],
-								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: [E.BlockWardrobe, E.Block],
 							},
@@ -11292,7 +11291,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 6,
 								SetPose: ["OverTheHead"],
-								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: [E.BlockWardrobe, E.Block],
 							},
@@ -11303,7 +11301,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 10,
 								SetPose: ["Yoked"],
-								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: [E.BlockWardrobe, E.Block],
 							},
@@ -11314,7 +11311,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 10,
 								SetPose: ["OverTheHead"],
-								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: [E.BlockWardrobe, E.Block],
 							},
@@ -11324,7 +11320,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 12,
 								SetPose: ["Yoked"],
-								AllowActivePose: [...PoseAllStanding],
 								Block: ["ItemArms"],
 								Effect: [E.BlockWardrobe],
 							},

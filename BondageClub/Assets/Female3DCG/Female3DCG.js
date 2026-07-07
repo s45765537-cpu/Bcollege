@@ -67330,6 +67330,17 @@ var AssetFemale3DCG = [
 				BuyGroup: "WoodenRack",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
 				Effect: [E.Freeze, E.Mounted, E.OnBed],
+				AllowActivePose: [
+					"BaseUpper",
+					"BackBoxTie",
+					"BackCuffs",
+					"BackElbowTouch",
+					"OverTheHead",
+					"Yoked",
+					"Spread",
+					"LegsClosed",
+					"BaseLower",
+				],
 				Layer: [
 					{
 						Name: "Back",
