@@ -2838,6 +2838,8 @@ Bat Wings
 Крила кажана
 Bee Wings
 Крила бджоли
+Bot Energy Wings
+Крила Енергії Бота
 Cyber Wings
 Кібер крила
 Devil Wings

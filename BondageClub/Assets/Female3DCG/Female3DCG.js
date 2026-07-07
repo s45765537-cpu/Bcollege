@@ -25611,6 +25611,26 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "BotEnergyWings",
+				InventoryID: 1365,
+				Value: 150,
+				Priority: 5,
+				Top: 50,
+				DefaultColor: ["#5DF6FF", "#52E4D2", "#008DD9", "#987731", "#41514E"],
+				Layer: [
+					{ Name: "Frame", Priority: 5, AllowColorize: false },
+					{ Name: "EnergyHighlight", Priority: 4 },
+					{ Name: "EnergyShine", Priority: 3 },
+					{ Name: "EnergyBase", Priority: 2 },
+					{ Name: "Mechanics", Priority: 1 },
+					{ Name: "Metal", Priority: 0 },
+				],
+				Attribution: {
+					Author: "Shanon (Cinderheart)",
+					License: "CC0 1.0 Universal/Public domain",
+				},
+			},
+			{
 				Name: "SeraphWings",
 				InventoryID: 1324,
 				DefaultColor: [],
