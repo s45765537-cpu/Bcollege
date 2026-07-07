@@ -1517,7 +1517,7 @@ var AssetFemale3DCG = [
 				Name: "MilitaryFatigue",
 				Gender: "F",
 				// Prerequisite: ["HasBreasts"],
-				InventoryID: 1351,
+				InventoryID: 1368,
 				Value: 60,
 				HideItem: [
 					"ItemArmsLeatherCuffs",
@@ -10540,7 +10540,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MilitaryPants",
 				Gender: "F",
-				InventoryID: 1352,
+				InventoryID: 1366,
 				// Prerequisite: ["HasBreasts"],
 				Value: 60,
 				Hide: ["Pussy"],
@@ -19276,7 +19276,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GIBeret",
-				InventoryID: 1353,
+				InventoryID: 1367,
 				Value: 20,
 				PoseMapping: {
 					Suspension: PoseType.HIDE,
