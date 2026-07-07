@@ -8915,7 +8915,6 @@ var AssetFemale3DCG = [
 				InventoryID: 1355,
 				Value: 25,
 				// StyleOverride: ["EchoV2"],
-				Priority: 22,
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaHempRopeBelt",
@@ -8947,7 +8946,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Button",
 						ParentGroup: "",
-						Priority: 23,
+						Priority: 27,
 						Left: {
 							[PoseType.DEFAULT]: 100,
 							KneelingSpread: 190,
@@ -8958,7 +8957,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Button2",
 						ParentGroup: "",
-						Priority: 23,
+						Priority: 27,
 						Left: {
 							[PoseType.DEFAULT]: 100,
 							KneelingSpread: 190,
