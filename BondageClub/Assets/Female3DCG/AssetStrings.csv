@@ -975,6 +975,9 @@ ClothLowerPantBootsSetb0,SourceCharacter removes pants from DestinationCharacter
 ClothLowerPantBootsSetb1,SourceCharacter adds pants to DestinationCharacter boots.
 ClothLowerPantBootsSets0,SourceCharacter removes the stripes on DestinationCharacter boots.
 ClothLowerPantBootsSets1,SourceCharacter reveals the stripes on DestinationCharacter boots.
+ClothLowerDenimShortsSelect,Choose Shorts Style:
+ClothLowerDenimShortsNormal,Normal
+ClothLowerDenimShortsUnbuttoned,Unbuttoned
 ClothMeshTopModuleSleeves,Sleeves
 ClothMeshTopModuleTop,Top
 ClothMeshTopOptions0,Sleeves

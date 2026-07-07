@@ -2412,6 +2412,29 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PVCHobbleSkirt
+		DenimShorts: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {
+						Block: [],
+					},
+				},
+				{
+					Name: "Unbuttoned",
+					Property: {
+						Block: [
+							"ItemPelvis",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+					},
+				},
+			],
+		}, // DenimShorts
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
