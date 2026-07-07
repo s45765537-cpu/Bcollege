@@ -23158,6 +23158,21 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "DollMakerClub",
+					Key: "DollMakerClub",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Courtney
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Courtney.png" },
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,

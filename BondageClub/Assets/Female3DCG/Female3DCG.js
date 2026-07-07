@@ -48107,6 +48107,10 @@ var AssetFemale3DCG = [
 						Name: "Samantha",
 						AllowTypes: { SarahsWorld: 2 },
 					},
+					{
+						Name: "Courtney",
+						AllowTypes: { DollMakerClub: 1 },
+					},
 				],
 			},
 			{
