@@ -2485,6 +2485,29 @@ var AssetFemale3DCGExtended = {
 				],
 			},
 		}, // MilitaryPants
+		DenimShorts: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {
+						Block: [],
+					},
+				},
+				{
+					Name: "Unbuttoned",
+					Property: {
+						Block: [
+							"ItemPelvis",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+					},
+				},
+			],
+		}, // DenimShorts
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {

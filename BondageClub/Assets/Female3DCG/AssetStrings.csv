@@ -996,6 +996,9 @@ ClothLowerMilitaryPantsSelectBelt,Choose a type of belt.
 ClothLowerMilitaryPantsOptionb0,None
 ClothLowerMilitaryPantsOptionb1,Strapped
 ClothLowerMilitaryPantsOptionb2,Overlapped
+ClothLowerDenimShortsSelect,Choose Shorts Style:
+ClothLowerDenimShortsNormal,Normal
+ClothLowerDenimShortsUnbuttoned,Unbuttoned
 ClothMeshTopModuleSleeves,Sleeves
 ClothMeshTopModuleTop,Top
 ClothMeshTopOptions0,Sleeves
