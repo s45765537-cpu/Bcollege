@@ -207,6 +207,7 @@ Cloth,YuletideVelvetWarmth,Yuletide Velvet Warmth
 Cloth,Yukata1,Yukata
 Cloth,CocktailDress,Cocktail Dress
 Cloth,MaidBikini,Maid Bikini
+Cloth,MilitaryFatigue,Military Fatigue
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
@@ -318,6 +319,7 @@ ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
 ClothLower,WoolenHighWaistSkirt,High Waist Skirt
 ClothLower,YogaPants,Yoga Pants - Basic
+ClothLower,MilitaryPants,Military Pants
 ClothOuter,,Cloth Outer
 ClothOuter,LabCoat,Lab Coat
 ClothOuter,LeatherJacket,Leather Jacket
@@ -848,6 +850,7 @@ Hat,Veil2,Veil Full Face
 Hat,VintageHat,Vintage Hat
 Hat,WitchHat1,Witch Hat
 Hat,JesterHat, Jester Hat
+Hat,GIBeret,GI beret
 Head,,Head
 Head,Default,Regular Ears
 Head,NoEars,Subtle Ears

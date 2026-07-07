@@ -837,6 +837,16 @@ ClothChineseDress2Select,Select a dress pattern.
 ClothCorsetDressNormal,Corset plus skirt
 ClothCorsetDressNoSkirt,Only corset
 ClothCorsetDressSelect,Choose your corset dress style:
+ClothMilitaryFatigueSelectBase,Uniform Option:
+ClothMilitaryFatigueModuleType,Type
+ClothMilitaryFatigueSelectType,Select a clothing type.
+ClothMilitaryFatigueOptions0,Standard
+ClothMilitaryFatigueOptions1,Cropped
+ClothMilitaryFatigueModuleCamouflage,Camouflage
+ClothMilitaryFatigueSelectCamouflage,Select a camouflage pattern.
+ClothMilitaryFatigueOptionc0,None
+ClothMilitaryFatigueOptionc1,Basic
+ClothMilitaryFatigueOptionc2,Tigerstripe
 ClothCustomTShirtModuleShirt,Position
 ClothCustomTShirtModuleStamp,Stamp
 ClothCustomTShirtOptionh0,Default
@@ -975,6 +985,17 @@ ClothLowerPantBootsSetb0,SourceCharacter removes pants from DestinationCharacter
 ClothLowerPantBootsSetb1,SourceCharacter adds pants to DestinationCharacter boots.
 ClothLowerPantBootsSets0,SourceCharacter removes the stripes on DestinationCharacter boots.
 ClothLowerPantBootsSets1,SourceCharacter reveals the stripes on DestinationCharacter boots.
+ClothLowerMilitaryPantsSelectBase,Uniform Option:
+ClothLowerMilitaryPantsModuleCamouflage,Camouflage
+ClothLowerMilitaryPantsSelectCamouflage,Select a camouflage pattern.
+ClothLowerMilitaryPantsOptionc0,None
+ClothLowerMilitaryPantsOptionc1,Basic
+ClothLowerMilitaryPantsOptionc2,Tigerstripe
+ClothLowerMilitaryPantsModuleBelt,Belt
+ClothLowerMilitaryPantsSelectBelt,Choose a type of belt.
+ClothLowerMilitaryPantsOptionb0,None
+ClothLowerMilitaryPantsOptionb1,Strapped
+ClothLowerMilitaryPantsOptionb2,Overlapped
 ClothMeshTopModuleSleeves,Sleeves
 ClothMeshTopModuleTop,Top
 ClothMeshTopOptions0,Sleeves

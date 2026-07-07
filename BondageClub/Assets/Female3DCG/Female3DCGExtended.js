@@ -753,6 +753,30 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // CustomTShirt
+		MilitaryFatigue: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Type",
+					Key: "s",
+					Options: [
+						{}, // s0 - Full
+						{}, // s1 - Cropped
+					],
+					DrawImages: true,
+				},
+				{
+					Name: "Camouflage",
+					Key: "c",
+					Options: [
+						{}, // c0 - None
+						{}, // c1 - Normal
+						{}, // c2 - TigerStripe
+					],
+					DrawImages: true,
+				},
+			],
+		}, // MilitaryFatigue
 		ChineseDress2: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -2426,6 +2450,41 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PVCHobbleSkirt
+		MilitaryPants: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{}, // b0 - None
+						{}, // b1 - Strapped
+						{}, // b2 - Overlapped
+					],
+					DrawImages: false,
+				},
+				{
+					Name: "Camouflage",
+					Key: "c",
+					Options: [
+						{}, // c0 - None
+						{}, // c1 - Normal
+						{}, // c2 - TigerStripe
+					],
+					DrawImages: true,
+				},
+			],
+			DrawImages: true,
+			DrawData: {
+				elementData: [
+					{
+						imagePath:
+							"Screens/Inventory/ClothLower/MilitaryPants/BeltPreview.png",
+					}, // Belt
+					{}, //Camoflauge
+				],
+			},
+		}, // MilitaryPants
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
