@@ -28171,6 +28171,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairFront56",
+				Top: 30,
 				Layer: [
 					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
 					{
@@ -28186,10 +28187,25 @@ var AssetFemale3DCG = [
 					{
 						Name: "MainTip",
 					},
+				],
+			},
+			{
+				Name: "HairFront56b",
+				Top: 30,
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
 					{
-						Name: "Back",
+						Name: "SmallEars",
 						CopyLayerColor: "Main",
-						Priority: 5,
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+					{
+						Name: "MainTip",
 					},
 				],
 			},
