@@ -4332,7 +4332,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CropTopShirt",
-				InventoryID: 1334,
+				InventoryID: 1370,
 				Value: 35,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -9336,7 +9336,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DenimShorts",
-				InventoryID: 1355,
+				InventoryID: 1369,
 				Value: 25,
 				// StyleOverride: ["EchoV2"],
 				HideItem: [
