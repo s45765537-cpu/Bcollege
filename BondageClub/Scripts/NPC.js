@@ -23,7 +23,7 @@ var NPCTrait = [
 function NPCTraitSet(C, TraitName, TraitValue) {
 	if (!C.IsNpc()) return;
 	const ReverseName = NPCTraitReverse(TraitName);
-	C.Trait = [];
+	C.Trait ??= [];
 	for (let T = 0; T < C.Trait.length; T++)
 		if ((C.Trait[T].Name == TraitName) || (C.Trait[T].Name == ReverseName))
 			C.Trait.splice(T, 1);
