@@ -4302,6 +4302,21 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Bottom" }, { Name: "Top" }, { Name: "Buttons" }],
 			},
 			{
+				Name: "CropTopShirt",
+				InventoryID: 1334,
+				Value: 35,
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				HideItem: [
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+					"BraRibbons",
+					"ItemBreastRibbons",
+				],
+				Layer: [{ Name: "Shirt" }],
+			},
+			{
 				Name: "RuffledDress",
 				Attribution: {
 					Author: "XinLian (SugarChain)",
@@ -9279,6 +9294,64 @@ var AssetFemale3DCG = [
 					"ItemVulvaShockDildo",
 					"PantiesPoofyDiaper",
 					"PantiesBulkyDiaper",
+				],
+			},
+			{
+				Name: "DenimShorts",
+				InventoryID: 1355,
+				Value: 25,
+				// StyleOverride: ["EchoV2"],
+				HideItem: [
+					"ItemButtAnalBeads2",
+					"ItemVulvaHempRopeBelt",
+					"ItemVulvaVibratingDildo",
+					"ItemVulvaInflatableVibeDildo",
+					"ItemVulvaClitSuctionCup",
+					"ItemVulvaHeavyWeightClamp",
+					"ItemVulvaClitAndDildoVibratorbelt",
+					"ItemVulvaShockDildo",
+					"PantiesPoofyDiaper",
+					"PantiesBulkyDiaper",
+				],
+				Left: {
+					[PoseType.DEFAULT]: 100,
+					KneelingSpread: 190,
+				},
+				Top: 350,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Shorts",
+						AllowTypes: { typed: [0] },
+					},
+					{
+						Name: "Shorts2",
+						AllowTypes: { typed: [1] },
+						CopyLayerColor: "Shorts",
+					},
+					{
+						Name: "Button",
+						ParentGroup: "",
+						Priority: 27,
+						Left: {
+							[PoseType.DEFAULT]: 100,
+							KneelingSpread: 190,
+						},
+						Top: 350,
+						AllowTypes: { typed: [0] },
+					},
+					{
+						Name: "Button2",
+						ParentGroup: "",
+						Priority: 27,
+						Left: {
+							[PoseType.DEFAULT]: 100,
+							KneelingSpread: 190,
+						},
+						Top: 350,
+						AllowTypes: { typed: [1] },
+						CopyLayerColor: "Button",
+					},
 				],
 			},
 			{
