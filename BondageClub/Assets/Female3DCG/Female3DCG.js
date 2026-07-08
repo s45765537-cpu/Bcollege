@@ -28520,6 +28520,10 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront75",
+				Top: 30,
+			},
 		],
 		Color: [
 			"#6a3628",
