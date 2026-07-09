@@ -29887,8 +29887,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairBack85",
-				Top: 0,
-				Left: 53,
+				Top: 40,
+				Left: 49,
 				Layer: [
 					{
 						Name: "Base",
