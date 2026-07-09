@@ -29885,6 +29885,19 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairBack85",
+				Top: 0,
+				Left: 53,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Clip",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
