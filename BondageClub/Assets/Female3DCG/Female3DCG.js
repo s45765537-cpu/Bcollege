@@ -29123,6 +29123,43 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "HairBack61b",
+				Extended: true,
+				Layer: [
+					{
+						Name: "FrontLeft",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						AllowTypes: { typed: [0, 2] },
+						CopyLayerColor: "FrontRight",
+					},
+					{
+						Name: "ClipRight",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "ClipLeft",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "ClipRight",
+						Priority: 48,
+					},
+				],
+			},
+			{
 				Name: "HairBack62",
 				Top: {
 					[PoseType.DEFAULT]: 0,
