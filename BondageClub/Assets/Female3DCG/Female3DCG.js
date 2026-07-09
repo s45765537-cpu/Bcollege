@@ -28538,11 +28538,25 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairFront75",
-				Top: 30,
+				Top: 27,
+				Left: 148,
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{
+						Name: "SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+				],
 			},
 			{
 				Name: "HairFront76a",
-				Top: 30,
+				Top: 33,
 				Random: false,
 				Extended: true,
 				Layer: [
@@ -28569,7 +28583,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairFront76b",
-				Top: 30,
+				Top: 33,
 				Random: false,
 				Extended: true,
 				Layer: [
