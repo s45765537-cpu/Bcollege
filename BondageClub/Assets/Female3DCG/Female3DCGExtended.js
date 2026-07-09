@@ -6269,7 +6269,52 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			ChangeWhenLocked: false,
-		},
+		}, // OldGasMask
+		CybertechMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Visor",
+					Key: "v",
+					Options:[{}, {}, {}],
+				},
+				{
+					Name: "Canteen",
+					Key: "c",
+					Options:[
+						{},
+						{ Property: { Effect: [E.GagEasy] } },
+						],
+				},
+				{
+					Name: "Layering",
+					Key: "l",
+					Options:[
+						{},
+						{ Property: {
+							OverridePriority: {
+								base: 53,
+								straps: 44,
+								sideAttachments: 53,
+								attachmentPoint: 53,
+								top: 53,
+								exhalationValve: 53,
+								visorOpaque: 52,
+								visorReflection: 53,
+								visorTransparent: 52,
+								visorReflectionTransparent: 53,
+								hypno1: 52,
+								hypno2: 52,
+								tube: 53,
+								canteen: 53,
+								liquid: 53,
+								},
+							},
+						},
+					],
+				},
+			],
+		}, // CybertechMask
 		InflatedBallHood: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -17394,6 +17439,72 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // DroneMask
+		CybertechMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Visor",
+					Key: "v",
+					Options:[{}, {}, {}],
+				},
+				{
+					Name: "Canteen",
+					Key: "c",
+					Options:[
+						{},
+						{ Property: { Effect: [E.GagEasy] } },
+						],
+				},
+				{
+					Name: "Layering",
+					Key: "l",
+					Options:[
+						{
+							Property: {
+							OverridePriority: {
+								base: 44,
+								straps: 44,
+								nose: 42,
+								sideAttachments: 44,
+								attachmentPoint: 44,
+								top: 44,
+								exhalationValve: 44,
+								visorOpaque: 43,
+								visorReflection: 44,
+								visorTransparent: 43,
+								visorReflectionTransparent: 44,
+								hypno1: 43,
+								hypno2: 43,
+								tube: 44,
+								canteen: 44,
+								liquid: 44,
+								},
+							},
+						},
+						{ Property: {
+							OverridePriority: {
+								base: 53,
+								straps: 44,
+								sideAttachments: 53,
+								attachmentPoint: 53,
+								top: 53,
+								exhalationValve: 53,
+								visorOpaque: 52,
+								visorReflection: 53,
+								visorTransparent: 52,
+								visorReflectionTransparent: 53,
+								hypno1: 52,
+								hypno2: 52,
+								tube: 53,
+								canteen: 53,
+								liquid: 53,
+								},
+							},
+						},
+					],
+				},
+			],
+		}, // CybertechMask
 		RubberMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -21557,6 +21668,19 @@ var AssetFemale3DCGExtended = {
 				Validate: FuturisticAccessValidate,
 			},
 		}, // FuturisticMask
+		CybertechMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "ItemHood",
+				AssetName: "CybertechMask",
+			},
+			DialogPrefix: {
+				Header: "ItemHoodCybertechMaskSelect",
+				Module: "ItemHoodCybertechMaskModule",
+				Option: "ItemHoodCybertechMaskOption",
+				Chat: "ItemHoodCybertechMaskSet",
+			},
+		}, // CybertechMask
 		InteractiveVisor: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [

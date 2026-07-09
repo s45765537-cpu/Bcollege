@@ -2334,6 +2334,20 @@ ItemHoodLeatherHoodSnaps,Snaps
 ItemHoodOldGasMaskLenses,Blinding Lenses
 ItemHoodOldGasMaskMask,Mask
 ItemHoodOldGasMaskTubeA,Breathing Attachment
+ItemHoodCybertechMaskbase,Base
+ItemHoodCybertechMasknose,Nose
+ItemHoodCybertechMaskstraps,Straps
+ItemHoodCybertechMasksideAttachments,Side Attachment Points
+ItemHoodCybertechMaskattachmentPoint,Main Attachment Point
+ItemHoodCybertechMasktop,Top
+ItemHoodCybertechMaskexhalationValve,Exhalation Valve
+ItemHoodCybertechMaskvisorOpaque,Visor
+ItemHoodCybertechMaskvisorReflection,Reflection
+ItemHoodCybertechMaskhypno1,Hypno visor 1
+ItemHoodCybertechMaskhypno2,Hypno visor 2
+ItemHoodCybertechMasktube,Tube
+ItemHoodCybertechMaskcanteen,Canteen
+ItemHoodCybertechMaskliquid,Liquid
 ItemHoodOpenMouthPlugHoodHood,Hood
 ItemHoodOpenMouthPlugHoodLenses,Lenses
 ItemHoodOpenMouthPlugHoodPlug,Plug
@@ -3477,6 +3491,20 @@ MaskDroneMaskBase,Mask
 MaskDroneMaskEyeRegular,Eyes
 MaskDroneMaskMouthOnahole,Mouth
 MaskDroneMaskShine,Shine
+MaskCybertechMaskbase,Base
+MaskCybertechMasknose,Nose
+MaskCybertechMaskstraps,Straps
+MaskCybertechMasksideAttachments,Side Attachment Points
+MaskCybertechMaskattachmentPoint,Main Attachment Point
+MaskCybertechMasktop,Top
+MaskCybertechMaskexhalationValve,Exhalation Valve
+MaskCybertechMaskvisorOpaque,Visor
+MaskCybertechMaskvisorReflection,Reflection
+MaskCybertechMaskhypno1,Hypno visor 1
+MaskCybertechMaskhypno2,Hypno visor 2
+MaskCybertechMasktube,Tube
+MaskCybertechMaskcanteen,Canteen
+ItemHoodCybertechMaskliquid,Liquid
 MaskFaceVeilFabric,Fabric
 MaskFaceVeilString,String
 MaskFestivalFoxMaskBase,Base
