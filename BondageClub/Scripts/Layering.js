@@ -363,7 +363,7 @@ var Layering = {
 	 */
 	_ApplyReadonly(isReadonly) {
 		/** @type {NodeListOf<HTMLFieldSetElement>} */
-		const elements = document.querySelectorAll(`${this.ID.root} fieldset`);
+		const elements = document.querySelectorAll(`#${Layering.ID.root} fieldset`);
 
 		document.getElementById(this.ID.resetButton)?.setAttribute("aria-disabled", isReadonly);
 		for (const e of elements) {
