@@ -4663,6 +4663,27 @@ ItemHoodOldGasMaskSeta2,SourceCharacter attaches a tube to DestinationCharacter 
 ItemHoodOldGasMaskSeta3,SourceCharacter attaches a rebreather to DestinationCharacter gas mask.
 ItemHoodOldGasMaskSetl0,SourceCharacter removes the blinding lenses from DestinationCharacter gas mask.
 ItemHoodOldGasMaskSetl1,SourceCharacter attaches blinding lenses to DestinationCharacter gas mask.
+ItemHoodCybertechMaskModuleVisor,Visor
+ItemHoodCybertechMaskModuleCanteen,Canteen
+ItemHoodCybertechMaskModuleLayering,Position
+ItemHoodCybertechMaskSelectBase,Select mask configuration.
+ItemHoodCybertechMaskSelectVisor,Select visor type.
+ItemHoodCybertechMaskSelectCanteen,Select canteen attachment.
+ItemHoodCybertechMaskSelectLayering,Select mask position.
+ItemHoodCybertechMaskSetv0,SourceCharacter switches DestinationCharacter visor out for a see-through one.
+ItemHoodCybertechMaskSetv1,SourceCharacter switches DestinationCharacter visor out for a tinted one.
+ItemHoodCybertechMaskSetv2,SourceCharacter switches the hypnotic program on DestinationCharacter visor on.
+ItemHoodCybertechMaskOptionv0,See-through
+ItemHoodCybertechMaskOptionv1,Tinted
+ItemHoodCybertechMaskOptionv2,Hypnosis Program
+ItemHoodCybertechMaskSetc0,SourceCharacter removes DestinationCharacter canteen.
+ItemHoodCybertechMaskSetc1,SourceCharacter plugs a canteen into DestinationCharacter straw hole.
+ItemHoodCybertechMaskOptionc0,None
+ItemHoodCybertechMaskOptionc1,On
+ItemHoodCybertechMaskSetl0,SourceCharacter positions DestinationCharacter mask under DestinationCharacter hair.
+ItemHoodCybertechMaskSetl1,SourceCharacter positions DestinationCharacter mask over DestinationCharacter hair.
+ItemHoodCybertechMaskOptionl0,Under hair
+ItemHoodCybertechMaskOptionl1,Over hair
 ItemHoodOpenFaceHoodSetHideBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenFaceHoodSetShowBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenMouthPlugHoodModuleFakeMouth,Fake Mouth
@@ -7492,6 +7513,20 @@ MaskFaceScarsSelect8,Apply
 MaskFaceScarsSelect9,Apply
 MaskFaceScarsSelect10,Apply
 MaskFaceScarsSelect11,Apply
+MaskCybertechMaskModuleVisor,Visor
+MaskCybertechMaskModuleCanteen,Canteen
+MaskCybertechMaskModuleLayering,Position
+MaskCybertechMaskSelectBase,Select mask configuration.
+MaskCybertechMaskSelectVisor,Select visor type.
+MaskCybertechMaskSelectCanteen,Select canteen attachment.
+MaskCybertechMaskSelectLayering,Select mask position.
+MaskCybertechMaskOptionv0,See-through
+MaskCybertechMaskOptionv1,Tinted
+MaskCybertechMaskOptionv2,Hypnosis Program
+MaskCybertechMaskOptionc0,None
+MaskCybertechMaskOptionc1,On
+MaskCybertechMaskOptionl0,Under hair
+MaskCybertechMaskOptionl1,Over hair
 ItemDevicesBrickWallSelect,Build and choose the brick wall's height:
 ItemDevicesBrickWallNone,No brick
 ItemDevicesBrickWallLegs,Up to the hips

@@ -23929,6 +23929,15 @@ var AssetFemale3DCG = [
 				],
 			}, //HeadHarness
 			{
+				Name: "CybertechMask",
+				CopyConfig: {
+					GroupName: "ItemHood",
+					AssetName: "CybertechMask",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "ItemHood",
+			}, //CybertechMask
+			{
 				Name: "FestivalFoxMask",
 				Audio: "TightLeatherStretch",
 				InventoryID: 495,
@@ -59018,6 +59027,15 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "CybertechMask",
+				CopyConfig: {
+					GroupName: "ItemHood",
+					AssetName: "CybertechMask",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "ItemHood",
+			},
+			{
 				Name: "LeatherSlimMask",
 				InventoryID: 975,
 				Fetish: ["Leather"],
@@ -60610,6 +60628,79 @@ var AssetFemale3DCG = [
 						],
 					},
 				],
+			},
+			{
+				Name: "CybertechMask",
+				InventoryID: 1371,
+				Value: 85,
+				Difficulty: 20,
+				Time: 10,
+				Random: false,
+				AllowLock: true,
+				DrawLocks: false,
+				Left: 190,
+				Top: 80,
+				Prerequisite: ["GasMask", "NotProtrudingFromMouth"],
+				DefaultColor: ['#242424', '#333333', '#472418', '#C0C0C0', '#363636', '#151515', '#494949', '#0E0E0E', '#9A9A9A', '#F200FF', '#780E7E', '#A1A1A1', '#363636', '#6490C6'],
+				Hide: [
+					"Glasses",
+					"ItemMouth",
+					"ItemMouth2",
+					"ItemMouth3",
+				],
+				Layer:
+				[
+					{ Name: "base" },
+					{ 
+					Name : "nose",
+					},
+					{ Name : "straps" },
+					{ Name : "sideAttachments" },
+					{ Name : "attachmentPoint" },
+					{ 
+					Name : "top",
+					},
+					{ Name : "exhalationValve" },
+					{ 
+						Name : "visorOpaque", 
+						AllowTypes: { v: 1 },
+					},
+					{ 
+						Name : "visorReflection", 
+						AllowTypes: { v: 1 },
+					},
+					{ 
+						Name : "visorTransparent", 
+						AllowTypes: { v: 0 }, 
+						CopyLayerColor: "visorOpaque",
+					},
+					{ 
+						Name : "visorReflectionTransparent", 
+						AllowTypes: { v: 0 }, 
+						CopyLayerColor: "visorReflection",
+					},
+					{ 
+						Name : "hypno1", 
+						AllowTypes: { v: 2 },
+					},
+					{ 
+						Name : "hypno2", 
+						AllowTypes: { v: 2 },
+					},
+					{
+						Name: "tube",
+						AllowTypes: { c: 1 },
+					},
+					{
+						Name: "canteen",
+						AllowTypes: { c: 1 },
+					},
+					{
+						Name: "liquid",
+						AllowTypes: { c: 1 },
+					},
+				],
+				Extended: true,
 			},
 			{
 				Name: "KirugumiMask",
