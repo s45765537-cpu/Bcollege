@@ -60641,50 +60641,59 @@ var AssetFemale3DCG = [
 				Left: 190,
 				Top: 80,
 				Prerequisite: ["GasMask", "NotProtrudingFromMouth"],
-				DefaultColor: ['#242424', '#333333', '#472418', '#C0C0C0', '#363636', '#151515', '#494949', '#0E0E0E', '#9A9A9A', '#F200FF', '#780E7E', '#A1A1A1', '#363636', '#6490C6'],
-				Hide: [
-					"Glasses",
-					"ItemMouth",
-					"ItemMouth2",
-					"ItemMouth3",
+				DefaultColor: [
+					"#242424",
+					"#333333",
+					"#472418",
+					"#C0C0C0",
+					"#363636",
+					"#151515",
+					"#494949",
+					"#0E0E0E",
+					"#9A9A9A",
+					"#F200FF",
+					"#780E7E",
+					"#A1A1A1",
+					"#363636",
+					"#6490C6",
 				],
-				Layer:
-				[
+				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3"],
+				Layer: [
 					{ Name: "base" },
-					{ 
-					Name : "nose",
+					{
+						Name: "nose",
 					},
-					{ Name : "straps" },
-					{ Name : "sideAttachments" },
-					{ Name : "attachmentPoint" },
-					{ 
-					Name : "top",
+					{ Name: "straps" },
+					{ Name: "sideAttachments" },
+					{ Name: "attachmentPoint" },
+					{
+						Name: "top",
 					},
-					{ Name : "exhalationValve" },
-					{ 
-						Name : "visorOpaque", 
+					{ Name: "exhalationValve" },
+					{
+						Name: "visorOpaque",
 						AllowTypes: { v: 1 },
 					},
-					{ 
-						Name : "visorReflection", 
+					{
+						Name: "visorReflection",
 						AllowTypes: { v: 1 },
 					},
-					{ 
-						Name : "visorTransparent", 
-						AllowTypes: { v: 0 }, 
+					{
+						Name: "visorTransparent",
+						AllowTypes: { v: 0 },
 						CopyLayerColor: "visorOpaque",
 					},
-					{ 
-						Name : "visorReflectionTransparent", 
-						AllowTypes: { v: 0 }, 
+					{
+						Name: "visorReflectionTransparent",
+						AllowTypes: { v: 0 },
 						CopyLayerColor: "visorReflection",
 					},
-					{ 
-						Name : "hypno1", 
+					{
+						Name: "hypno1",
 						AllowTypes: { v: 2 },
 					},
-					{ 
-						Name : "hypno2", 
+					{
+						Name: "hypno2",
 						AllowTypes: { v: 2 },
 					},
 					{
