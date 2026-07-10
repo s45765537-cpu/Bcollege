@@ -1059,6 +1059,9 @@ HairBackHairBack60FrontLeftStreak,Left Streak
 HairBackHairBack60FrontRightStreak,Right Streak
 HairBackHairBack61FrontRight,Right
 HairBackHairBack61FrontLeft,Left
+HairBackHairBack61bFrontRight,Right
+HairBackHairBack61bFrontLeft,Left
+HairBackHairBack61bClipRight,Clip
 HairBackHairBack62Braid,Braid
 HairBackHairBack62Ribbon,Ribbon
 HairBackHairBack63Braid,Left
@@ -1152,6 +1155,8 @@ HairBackHairBack84Left,Left
 HairBackHairBack84Right,Right
 HairBackHairBack84LeftStreak,Left Streak
 HairBackHairBack84RightStreak,Right Streak
+HairBackHairBack85Base,Base
+HairBackHairBack85Clip,Clip
 HairFrontHairFront20Main,Base
 HairFrontHairFront20Braid,Braid
 HairFrontHairFront20SmallEarsBraid,Braid

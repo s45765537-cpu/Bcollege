@@ -2535,6 +2535,13 @@ HairBackHairBack61SetRightOnly,SourceCharacter changes DestinationCharacter hair
 HairBackHairBack61Both,Both
 HairBackHairBack61LeftOnly,Left Only
 HairBackHairBack61RightOnly,Right Only
+HairBackHairBack61bSelect,Select Type.
+HairBackHairBack61bSetBoth,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61bSetLeftOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61bSetRightOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61bBoth,Both
+HairBackHairBack61bLeftOnly,Left Only
+HairBackHairBack61bRightOnly,Right Only
 HairBackHairBack65Select,Select Type.
 HairBackHairBack65SetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack65SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
