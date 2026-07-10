@@ -29254,6 +29254,16 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "ClipRight",
 						Priority: 48,
 					},
+					{
+						Name: "Basic",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "BasicClip",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "ClipRight",
+					},
 				],
 			},
 			{
@@ -29985,7 +29995,16 @@ var AssetFemale3DCG = [
 			{
 				Name: "HairBack85",
 				Top: 40,
-				Left: 49,
+				Left: {
+					[PoseType.Default]: 49,
+					Kneel: 132,
+					KneelingSpread: 132,
+				},
+				PoseMapping: { 
+					Kneel: "Kneel",
+					KneelingSpread: "Kneel",
+				},
+				Priority: 1,
 				Layer: [
 					{
 						Name: "Base",
