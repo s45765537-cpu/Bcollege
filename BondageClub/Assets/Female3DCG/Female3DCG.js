@@ -28171,6 +28171,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairFront56",
+				Top: 30,
 				Layer: [
 					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
 					{
@@ -28186,10 +28187,25 @@ var AssetFemale3DCG = [
 					{
 						Name: "MainTip",
 					},
+				],
+			},
+			{
+				Name: "HairFront56b",
+				Top: 30,
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
 					{
-						Name: "Back",
+						Name: "SmallEars",
 						CopyLayerColor: "Main",
-						Priority: 5,
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+					{
+						Name: "MainTip",
 					},
 				],
 			},
@@ -28517,6 +28533,78 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Streak",
+					},
+				],
+			},
+			{
+				Name: "HairFront75",
+				Top: 27,
+				Left: 148,
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{
+						Name: "SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+				],
+			},
+			{
+				Name: "HairFront76a",
+				Top: 33,
+				Random: false,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tips",
+					},
+					{
+						Name: "Strands",
+						AllowTypes: { Strands: 0 },
+					},
+					{
+						Name: "Braids",
+						AllowTypes: { Extra: 0 },
+					},
+					{
+						Name: "Extra",
+						CopyLayerColor: "Braids",
+						AllowTypes: { Extra: 1 },
+					},
+				],
+			},
+			{
+				Name: "HairFront76b",
+				Top: 33,
+				Random: false,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tips",
+					},
+					{
+						Name: "Strands",
+						AllowTypes: { Strands: 0 },
+					},
+					{
+						Name: "Braids",
+						AllowTypes: { Extra: 0 },
+					},
+					{
+						Name: "Extra",
+						CopyLayerColor: "Braids",
+						AllowTypes: { Extra: 1 },
 					},
 				],
 			},
