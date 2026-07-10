@@ -7249,9 +7249,17 @@ GlassesPincenezSelectAccessory,Accessory options:
 GlassesPincenezOptiona0,No accessory
 GlassesPincenezOptiona1,Accessory added
 QualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+QualityHarnessGagSetLargeBallGag,SourceCharacter attaches large ball gag to DestinationCharacter gag harness.
 QualityHarnessGagSetRingGag,SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+QualityHarnessGagSetLargeRingGag,SourceCharacter attaches large ring gag to DestinationCharacter gag harness.
+QualityHarnessGagSetWiffleGag,SourceCharacter attaches wiffle gag to DestinationCharacter gag harness.
+QualityHarnessGagSetBitGag,SourceCharacter attaches bit gag to DestinationCharacter gag harness.
 QualityHarnessGagTypeRingGag,Ring Gag
+QualityHarnessGagTypeLargeRingGag,Large Ring Gag
 QualityHarnessGagTypeBallGag,Ball Gag
+QualityHarnessGagTypeLargeBallGag,Large Ball Gag
+QualityHarnessGagTypeBitGag,Bit Gag
+QualityHarnessGagTypeWiffleGag,Wiffle Gag
 ItemArmsArmbinderSuitSelectBase,Armbinder Suit customization menu:
 ItemArmsArmbinderSuitModuleCollar,Collar
 ItemArmsArmbinderSuitSelectCollar,Collar menu

@@ -16391,6 +16391,30 @@ var AssetFemale3DCGExtended = {
 						Effect: [E.OpenMouth],
 					},
 				},
+				{
+					Name: "WiffleGag",
+					Property: {
+						Effect: [E.BlockMouth],
+					},
+				},
+				{
+					Name: "BitGag",
+					Property: {
+						Effect: [E.BlockMouth],
+					},
+				},
+				{
+					Name: "LargeBallGag",
+					Property: {
+						Effect: [E.BlockMouth],
+					},
+				},
+				{
+					Name: "LargeRingGag",
+					Property: {
+						Effect: [E.OpenMouth],
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectGagType",
