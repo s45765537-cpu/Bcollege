@@ -12,7 +12,7 @@ var ClubCardBuilderDeckCurrent = [];
 var ClubCardBuilderMinDeckSize = 30;
 var ClubCardBuilderMaxDeckSize = 40;
 /** @type {ClubCardTag} */
-var ClubCardBuilderSelectedTag = "All";
+var ClubCardBuilderSelectedTag = "All Cards";
 
 /**
  * @type {Record<ClubCardDefaultDecks, number[]>}
@@ -29,28 +29,29 @@ const ClubCardBuilderDefaultDecksList = {
  * @type {Record<ClubCardTag, (card: ClubCard) => boolean>}
  */
 const ClubCardBuilderFilterGroupFilters = {
-	All: () => true,
+	["All Cards"]: () => true,
 	["Selected Cards"]: (card) => ClubCardBuilderDeckCurrent.includes(card.ID),
-	Event: (card) => card.Type === "Event",
-	NoGroup: (card) => !card.Group && !card.Type,
-	Liability: (card) => card.Group?.includes("Liability"),
-	Staff: (card) => card.Group?.includes("Staff"),
-	Police: (card) => card.Group?.includes("Police"),
-	Criminal: (card) => card.Group?.includes("Criminal"),
-	Fetishist: (card) => card.Group?.includes("Fetishist"),
-	Porn: (card) => ["PornActress", "Porn", "Video"].some(g => card.Group?.includes(g)),
-	Maid: (card) => card.Group?.includes("Maid"),
-	Asylum: (card) => ["AsylumPatient", "AsylumNurse"].some(g => card.Group?.includes(g)),
-	["Dominant / Mistress"]: (card) => ["Dominant", "Mistress"].some(g => card.Group?.includes(g)),
+	["Reward Cards"]: (card) => !!card.Reward,
+	["Event Cards"]: (card) => card.Type === "Event",
+	Ungrouped: (card) => !card.Group && !card.Type,
+	["Online Player"]: (card) => card.Group?.includes("Player"),
 	ABDL: (card) => ["ABDLBaby", "ABDLMommy"].some(g => card.Group?.includes(g)),
+	Asylum: (card) => ["AsylumPatient", "AsylumNurse"].some(g => card.Group?.includes(g)),
 	College: (card) => ["CollegeStudent", "CollegeTeacher"].some(g => card.Group?.includes(g)),
-	Shibari: (card) => ["Shibari", "Knot", "Sensei"].some(g => card.Group?.includes(g)),
-	["Pet / Owner"]: (card) => ["Pet", "Owner"].some(g => card.Group?.includes(g)),
-	Kemonomimi: (card) => card.Group?.includes("Kemonomimi"),
-	["Submissive / Slave"]: (card) => ["Submissive", "Slave"].some(g => card.Group?.includes(g)),
+	Criminal: (card) => card.Group?.includes("Criminal"),
+	["Dominant / Mistress"]: (card) => ["Dominant", "Mistress"].some(g => card.Group?.includes(g)),
 	Exhibitionist: (card) => card.Group?.includes("Exhibitionist"),
+	Fetishist: (card) => card.Group?.includes("Fetishist"),
+	Kemonomimi: (card) => card.Group?.includes("Kemonomimi"),
 	Latex: (card) => card.Group?.includes("Latex"),
-	Reward: (card) => !!card.Reward,
+	Liability: (card) => card.Group?.includes("Liability"),
+	Maid: (card) => card.Group?.includes("Maid"),
+	["Pet / Owner"]: (card) => ["Pet", "Owner"].some(g => card.Group?.includes(g)),
+	Police: (card) => card.Group?.includes("Police"),
+	Porn: (card) => ["PornActress", "Porn", "Video"].some(g => card.Group?.includes(g)),
+	Shibari: (card) => ["Shibari", "Knot", "Sensei"].some(g => card.Group?.includes(g)),
+	Staff: (card) => card.Group?.includes("Staff"),
+	["Submissive / Slave"]: (card) => ["Submissive", "Slave"].some(g => card.Group?.includes(g)),
 };
 
 var ClubCardBuilderRenameIndex = -1;
@@ -176,7 +177,7 @@ function ClubCardBuilderFinishEdit() {
 	ElementRemove("CardsTagsDropdown");
 	ElementRemove("CardsSearchFilter");
 	ElementRemove("DefaultDecksDropdown");
-	ClubCardBuilderSelectedTag = "All";
+	ClubCardBuilderSelectedTag = "All Cards";
 }
 
 /**
