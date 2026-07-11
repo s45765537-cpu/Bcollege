@@ -6740,7 +6740,6 @@ async function ClubCardLoad() {
 	ClubCardIsAnimationOn = Player.Game.ClubCard.Settings.IsAnimation;
 
 	ClubCardCreatePopup("DECK");
-	ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), ClubCardSelectDefaultDeck);
 }
 
 /**
