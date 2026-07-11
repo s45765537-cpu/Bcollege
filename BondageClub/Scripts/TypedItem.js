@@ -417,6 +417,8 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
 	let PermissionFailure = false;
 	switch (option.OptionType) {
 		case "ModularItemOption":
+			PermissionFailure = /** @type {ModularItemOption} */(/** @type {unknown} */(option)).Index !== 0 && InventoryBlockedOrLimited(C, item, option.Name);
+			break;
 		case "TypedItemOption":
 		case "VibratingItemOption": {
 			const optionIndex = option.Property.TypeRecord[data.name];
