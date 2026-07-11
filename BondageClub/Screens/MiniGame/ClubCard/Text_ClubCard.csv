@@ -161,7 +161,7 @@ Text Sheriff,Enters: Draw 2 cards.
 Title Maid Lover,Maid Lover
 Text Maid Lover,"+1 Money/turn per Maid ally (max +3). +2 Fame/turn and -2 Money/turn if there's a tier 4+ Maid ally."
 Title Diaper Lover,Diaper Lover
-Text Diaper Lover,"+1 Money/turn per Baby ally (max +3). Baby Ally Enters: Draw a card if there's 3+ other allied Babies."
+Text Diaper Lover,"+1 Money/turn per Baby ally (max +3). Baby Ally Enters: Draw a card if there's 3+ other Baby allies."
 Title Masochist,Masochist
 Text Masochist,"+1 Fame/turn and +1 Money/turn if there's a Dominant ally. You Discard A Card: +1 Money."
 Title Feet Worshiper,Feet Worshiper
@@ -239,7 +239,7 @@ Text Union Leader,"+1 Fame/turn per ally and -1 Fame/turn per rival (max +/- 5).
 Title No-Fap Advocate,No-Fap Advocate
 Text No-Fap Advocate,"-1 Fame/turn per Play Action taken this turn."
 Title Pandora Infiltrator,Pandora Infiltrator
-Text Pandora Infiltrator,"Enters: Select a member to get their types. Ally Enters: -1/-0 or -0/-1 at random if it shares a type (max -3/-2)."
+Text Pandora Infiltrator,"Enters: Select a member, then gain their types. Ally Enters: -1/-0 or -0/-1 at random if it shares a type (max -3/-2)."
 Prerequisite Pandora Infiltrator,"Select a member to get their type(s)"
 Title Uncontrollable Sub,Uncontrollable Sub
 Text Uncontrollable Sub,"Stays 2 turns. Non-Liability Ally Enters: They get -1/0. Enters: -8 Fame."
@@ -547,7 +547,7 @@ Text Afterhours Service,"Lasts 3 turns. +2 Fame/turn and -2 Money/turn per Maid 
 Title Night Maid,Night Maid
 Text Night Maid,+4 Fame/turn and +2 Money/turn if you have an active Event.
 Title Tax Auditor,Tax Auditor
-Text Tax Auditor,"Enters: Select a tier 3- rival's and set its Money to 1."
+Text Tax Auditor,"Enters: Select a tier 3 or lower rival's and set its Money to 1."
 Prerequisite Tax Auditor,Select a member from your opponent club to set its money to 1
 GroupKemonomimi,Kemonomimi
 Title Beat Cop,Beat Cop
@@ -566,7 +566,7 @@ Effect Eden,Eden prevents the opponent from playing tier AMOUNT.
 Title Adoption,Adoption
 Text Adoption,"Played: Put a random Pet from your deck or streets into your hand, then +1 action unless its tier is higher than your club tier."
 Title Loving Owner,Loving Owner
-Text Loving Owner,"Pets treat your club tier as 1 higher. +1 Money/turn if there's a Maid ally. +2 Fame/turn if there's 6+ allied Pets."
+Text Loving Owner,"Pets treat your club tier as 1 higher. +1 Money/turn if there's a Maid ally. +2 Fame/turn if there's 6+ Pet allies."
 Title Cheeky Hamster,Cheeky Hamster
 Text Cheeky Hamster,"+Fame/turn equal to club tier. Enters: -10 Money."
 Title Vanilla Classic,Vanilla Classic
@@ -579,7 +579,7 @@ Text Skye,"Another Ally Enters (once/turn): If it has a new type, -2 Money and d
 Title Vintage Maid,Vintage Maid
 Text Vintage Maid,"Can't be targeted. Enters: You may select an ally from the streets to return to your hand."
 Title Fetish Flick,Fetish Flick
-Text Fetish Flick,"Played: Return 2 random allied Porn Actresses ally to hand, then +3 actions."
+Text Fetish Flick,"Played: Return 2 random Porn Actress allies to hand, then +3 actions."
 Title Ball Buster,Ball Buster
 Text Ball Buster,"Lasts 2 turns. Opponent can't play Events or Liabilities. Played: Return 2 random Porn Actress allies to hand."
 GroupTimedEvent,Timed Event
@@ -613,7 +613,7 @@ Text Country Gal,"<F>Every bounce it gets tighter… my grip on bull, duh!"
 Title Kneeling Sub,Kneeling Sub
 Text Kneeling Sub,"<F>I'm on my knees so much, that I needed kneepads"
 Title Humbled Harper,Humbled Harper
-Text Humbled Harper,"Opponent Draws: +1 Money, and if there's 6+ allied members, +1 Fame."
+Text Humbled Harper,"Opponent Draws: +1 Money, and if there's 6+ allies, +1 Fame."
 Title Miss N Spection,Miss N Spection
 Text Miss N Spection,"Draw Action: Draw 2 extra cards if your hand is empty. Enters: Select a card in hand to discard, then draw a card."
 Prerequisite Miss N Spection,Select a card in your hand to discard.
@@ -731,12 +731,12 @@ SendToStreets,Send To Streets.
 GroupLatex,Latex
 Title Latex Amateur,Latex Amateur
 Text Latex Amateur,"Draw Action: +1/+0 (max 3 Fame). You Play A Card: Set this card's Fame to 0."
-Title Suit polisher,Suit polisher
-Text Suit polisher,"+1 Fame/turn if there's an Exquisite Suit ally. Draw Action: +0/+1 (max 3 Money). You Play A Card: Set this card's Money to 0."
+Title Suit Polisher,Suit Polisher
+Text Suit Polisher,"+1 Fame/turn if there's an Exquisite Suit ally. Draw Action: +0/+1 (max 3 Money). You Play A Card: Set this card's Money to 0."
 Title Latex Lover,Latex Lover
 Text Latex Lover,"Draw Action: +1 Money per Latex ally (max = club tier)."
 Title Color Mixer,Color Mixer
-Text Color Mixer,"Enters: Select a non-Liability ally to get their types."
+Text Color Mixer,"Enters: Select a non-Liability ally, then gain their types."
 Prerequisite Color Mixer,Select a member from your club.
 Title Vac-bed Patient,Vac-bed Patient
 Text Vac-bed Patient,"Draw Action: +1 Fame and Money."
@@ -758,7 +758,7 @@ Text Full Catsuit,"Draw Action: +2/+2 (max 13/13), and opponent loses 1 Fame and
 Title Goddess Gleam,Goddess Gleam
 Text Goddess Gleam,"Draw Action: +3/-2 (max 18/-10), and opponent loses 2 Fame."
 Title Polish and Shine,Polish and Shine
-Text Polish and Shine,"Played: Play 2 random tier 3- allies, then +3 Money and Fame per Fetishist or Latex played."
+Text Polish and Shine,"Played: Play 2 random tier 3 or lower allies, then +3 Money and Fame per Fetishist or Latex played."
 Title Shiny Parade,Shiny Parade
 Text Shiny Parade,"Played: Draw a card per 2 Latex allies (max 2), then take the Draw Action."
 Title Intense Training,Intense Training
@@ -777,7 +777,7 @@ Default Decks,Preconstructed
 Title Plushie,Plushie
 Text Plushie,"Enters: +2 Fame and set its Money equal to the number of Plushie allies (max = club tier)."
 Title Delta,Delta
-Text Delta,"You win once there's 9+ allied Plushies. Game Start: Add 9 Plushies to your deck if it has 40 cards."
+Text Delta,"You win once there's 9+ Plushie allies. Game Start: Add 9 Plushies to your deck if it has 40 cards."
 Title Felix,Felix
 Text Felix,"Enters: Add a random Player Card to the top 6 cards of your deck."
 Title Jae,Jae
