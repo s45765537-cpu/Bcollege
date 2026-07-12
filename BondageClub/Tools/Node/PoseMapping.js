@@ -149,8 +149,8 @@ function runVM() {
 	const context = vm.createContext({
 		OuterArray: Array,
 		Object: Object,
-		TestingColorLayers: new Set(loadCSV("Assets/Female3DCG/LayerNames.csv", 2).map(i => i[0])),
-		TestingColorGroups: new Set(loadCSV("Assets/Female3DCG/ColorGroups.csv", 2).map(i => i[0])),
+		TestingColorLayers: new Set(loadCSV("Assets/LayerNames.csv", 2).map(i => i[0])),
+		TestingColorGroups: new Set(loadCSV("Assets/ColorGroups.csv", 2).map(i => i[0])),
 	});
 	vm.runInContext(fs.readFileSync(BASE_PATH + commonFile, { encoding: "utf-8" }), context, {
 		filename: commonFile,

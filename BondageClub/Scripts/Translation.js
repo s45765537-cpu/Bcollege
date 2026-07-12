@@ -25,7 +25,7 @@ var TranslationDictionary = /** @type {const} */([
 		EnglishName: "German",
 		Icon: "🇩🇪",
 		Files: [
-			"Assets/Female3DCG/Female3DCG_DE.txt",
+			"Assets/Female3DCG_DE.txt",
 			"Backgrounds/Backgrounds_DE.txt",
 			"Screens/Character/Appearance/Text_Appearance_DE.txt",
 			"Screens/Character/Cheat/Text_Cheat_DE.txt",
@@ -126,9 +126,9 @@ var TranslationDictionary = /** @type {const} */([
 		EnglishName: "French",
 		Icon: "🇫🇷",
 		Files: [
-			"Assets/Female3DCG/ColorGroups_FR.txt",
-			"Assets/Female3DCG/Female3DCG_FR.txt",
-			"Assets/Female3DCG/LayerNames_FR.txt",
+			"Assets/ColorGroups_FR.txt",
+			"Assets/Female3DCG_FR.txt",
+			"Assets/LayerNames_FR.txt",
 			"Backgrounds/Backgrounds_FR.txt",
 			"Screens/Character/Appearance/Text_Appearance_FR.txt",
 			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_FR.txt",
@@ -211,10 +211,10 @@ var TranslationDictionary = /** @type {const} */([
 		EnglishName: "Russian",
 		Icon: "🇷🇺",
 		Files: [
-			"Assets/Female3DCG/Female3DCG_RU.txt",
-			"Assets/Female3DCG/ColorGroups_RU.txt",
-			"Assets/Female3DCG/LayerNames_RU.txt",
-			"Assets/Female3DCG/AssetStrings_RU.txt",
+			"Assets/Female3DCG_RU.txt",
+			"Assets/ColorGroups_RU.txt",
+			"Assets/LayerNames_RU.txt",
+			"Assets/AssetStrings_RU.txt",
 			"Backgrounds/Backgrounds_RU.txt",
 			"Screens/Interface_RU.txt",
 			"Screens/Character/Appearance/Text_Appearance_RU.txt",
@@ -409,10 +409,10 @@ var TranslationDictionary = /** @type {const} */([
 		EnglishName: "Chinese",
 		Icon: "🇨🇳",
 		Files: [
-			"Assets/Female3DCG/AssetStrings_CN.txt",
-			"Assets/Female3DCG/ColorGroups_CN.txt",
-			"Assets/Female3DCG/Female3DCG_CN.txt",
-			"Assets/Female3DCG/LayerNames_CN.txt",
+			"Assets/AssetStrings_CN.txt",
+			"Assets/ColorGroups_CN.txt",
+			"Assets/Female3DCG_CN.txt",
+			"Assets/LayerNames_CN.txt",
 			"Backgrounds/Backgrounds_CN.txt",
 			"Screens/Interface_CN.txt",
 			"Screens/Character/Appearance/Text_Appearance_CN.txt",
@@ -671,9 +671,9 @@ var TranslationDictionary = /** @type {const} */([
 		EnglishName: "TraditionalChinese",
 		Icon: "🇹🇼",
 		Files: [
-			"Assets/Female3DCG/ColorGroups_TW.txt",
-			"Assets/Female3DCG/Female3DCG_TW.txt",
-			"Assets/Female3DCG/LayerNames_TW.txt",
+			"Assets/ColorGroups_TW.txt",
+			"Assets/Female3DCG_TW.txt",
+			"Assets/LayerNames_TW.txt",
 			"Backgrounds/Backgrounds_TW.txt",
 			"Screens/Character/Appearance/Text_Appearance_TW.txt",
 			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_TW.txt",
@@ -858,9 +858,9 @@ var TranslationDictionary = /** @type {const} */([
 		EnglishName: "Ukrainian",
 		Icon: "🇺🇦",
 		Files: [
-			"Assets/Female3DCG/Female3DCG_UA.txt",
-			"Assets/Female3DCG/ColorGroups_UA.txt",
-			//"Assets/Female3DCG/LayerNames_UA.txt",
+			"Assets/Female3DCG_UA.txt",
+			"Assets/ColorGroups_UA.txt",
+			//"Assets/LayerNames_UA.txt",
 			"Screens/Interface_UA.txt",
 			"Screens/Character/Appearance/Text_Appearance_UA.txt",
 			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_UA.txt",
@@ -1261,7 +1261,7 @@ function TranslationAsset(Family) {
 	if (!TranslationEnabled()) return;
 
 	// Finds the full path of the translation file to use
-	var FullPath = "Assets/" + Family + "/" + Family + "_" + TranslationLanguage + ".txt";
+	var FullPath = "Assets/" + Family + "_" + TranslationLanguage + ".txt";
 
 	// If the translation file is already loaded, we translate from it
 	if (TranslationCache[FullPath]) {

@@ -957,7 +957,7 @@ function AssetBuildDescription(Family, CSV) {
  */
 async function AssetLoadDescription(Family) {
 	// Finds the full path of the CSV file to use cache
-	const path = "Assets/" + Family + "/" + Family + ".csv";
+	const path = "Assets/" + Family + ".csv";
 	if (!CommonCSVCache[path]) {
 		const response = await CommonFetch(path);
 		if (response.status !== 200) {
@@ -1201,7 +1201,7 @@ function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
 	return defaultColor;
 }
 
-const AssetStringsPath = "Assets/Female3DCG/AssetStrings.csv";
+const AssetStringsPath = "Assets/AssetStrings.csv";
 
 /**
  * Get the translated string for an asset-specific message

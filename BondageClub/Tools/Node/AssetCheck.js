@@ -127,7 +127,7 @@ function testExtendedItemDialog(dataSuperRecord, dialogArray) {
 			if (missingDialog.size !== 0) {
 				if (first) {
 					first = false;
-					console.error('\nERROR: Missing dialog key(s) in "BondageClub/Assets/Female3DCG/AssetStrings.csv":');
+					console.error('\nERROR: Missing dialog key(s) in "BondageClub/Assets/AssetStrings.csv":');
 				}
 
 				const missingString = Array.from(missingDialog).sort();
@@ -303,7 +303,7 @@ function testColorGroups(missingGroups) {
 	} else if (!missingGroups.length) {
 		return;
 	} else {
-		console.error('\nERROR: Missing color group(s) in "BondageClub/Assets/Female3DCG/ColorGroups.csv":');
+		console.error('\nERROR: Missing color group(s) in "BondageClub/Assets/ColorGroups.csv":');
 	}
 
 	for (const { Group, Name, Invalid } of missingGroups) {
@@ -322,7 +322,7 @@ function testColorLayers(missingLayers) {
 	} else if (!missingLayers.length) {
 		return;
 	} else {
-		console.error('\nERROR: Missing color layer(s) in "BondageClub/Assets/Female3DCG/LayerNames.csv":');
+		console.error('\nERROR: Missing color layer(s) in "BondageClub/Assets/LayerNames.csv":');
 	}
 
 	for (const { Group, Name, Invalid } of missingLayers) {
@@ -1447,8 +1447,8 @@ function sanitizeVMOutput(input) {
 	const context = vm.createContext({
 		OuterArray: Array,
 		Object: Object,
-		TestingColorLayers: new Set(loadCSV("Assets/Female3DCG/LayerNames.csv", 2).map(i => i[0])),
-		TestingColorGroups: new Set(loadCSV("Assets/Female3DCG/ColorGroups.csv", 2).map(i => i[0])),
+		TestingColorLayers: new Set(loadCSV("Assets/LayerNames.csv", 2).map(i => i[0])),
+		TestingColorGroups: new Set(loadCSV("Assets/ColorGroups.csv", 2).map(i => i[0])),
 		CharacterMoneyFactor : 1.0,
 		PreferenceArousalUpdateValidation: () => null,
 		setTimeout: setTimeout,
@@ -1544,8 +1544,8 @@ function sanitizeVMOutput(input) {
 		return;
 	}
 
-	const assetDescriptions = loadCSV("Assets/Female3DCG/Female3DCG.csv", 3);
-	const dialogArray = loadCSV("Assets/Female3DCG/AssetStrings.csv", 2);
+	const assetDescriptions = loadCSV("Assets/Female3DCG.csv", 3);
+	const dialogArray = loadCSV("Assets/AssetStrings.csv", 2);
 
 	// No further checks if initial data load failed
 	if (errorState.local) {
@@ -1611,7 +1611,7 @@ function sanitizeVMOutput(input) {
 		if (descriptionIndex < 0) {
 			if (descriptionFirst) {
 				descriptionFirst = false;
-				console.error('\nERROR: Missing asset- and/or group-description(s) in "BondageClub/Assets/Female3DCG/Female3DCG.csv":');
+				console.error('\nERROR: Missing asset- and/or group-description(s) in "BondageClub/Assets/Female3DCG.csv":');
 			}
 			error(`No description for group "${Group.Name}"`);
 		} else {
@@ -1633,7 +1633,7 @@ function sanitizeVMOutput(input) {
 			if (descriptionIndexAsset < 0) {
 				if (descriptionFirst) {
 					descriptionFirst = false;
-					console.error('\nERROR: Missing asset- and/or group-description(s) in "BondageClub/Assets/Female3DCG/Female3DCG.csv":');
+					console.error('\nERROR: Missing asset- and/or group-description(s) in "BondageClub/Assets/Female3DCG.csv":');
 				}
 				error(`No description for asset "${Group.Name}:${Asset.Name}"`);
 			} else {

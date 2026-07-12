@@ -8,7 +8,7 @@ Game.load("../Scripts/ColorPicker.js"); // GetDefaultSavedColors
 Game.load("../Scripts/Dialog.js"); // DialogSelfMenuSelected
 Game.load("../Scripts/Asset.js"); // PoseType
 Game.load("../Scripts/Pose.js"); // PoseAllKneeling
-Game.load("../Assets/Female3DCG/Female3DCG.js"); // We need the poses
+Game.load("../Assets/Female3DCG.js"); // We need the poses
 Game.load("../Scripts/Common.js"); //  CurrentModule, CurrentScreen
 
 // Mock that so we don't depend on the renderer
