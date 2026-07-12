@@ -106,8 +106,11 @@ export const NEEDED_FILES = [
 /** The base path for any BC asset/script lookup. */
 export const BASE_PATH = "../../";
 
-/** Subdirectory under Assets/Female3DCG for asset-first migrated art. */
-export const FEMALE3DCG_MIGRATED_RESOURCES_DIR = "PaperDoll";
+/** Subdirectory under Assets for asset-first migrated art. */
+export const ASSETS_PAPERDOLL_DIR = "PaperDoll";
+
+/** @type {string} */
+export const ASSETS_FEMALE3DCG_JS = "Assets/Female3DCG.js";
 
 /**
  * @param {string} assetGroupFolder
@@ -115,7 +118,7 @@ export const FEMALE3DCG_MIGRATED_RESOURCES_DIR = "PaperDoll";
  * @returns {string}
  */
 export function female3DCGMigratedFolderRel(assetGroupFolder, ...segments) {
-	return path.posix.join("Assets", "Female3DCG", FEMALE3DCG_MIGRATED_RESOURCES_DIR, assetGroupFolder, ...segments);
+	return path.posix.join("Assets", ASSETS_PAPERDOLL_DIR, assetGroupFolder, ...segments);
 }
 
 /**
@@ -136,7 +139,7 @@ export function loadDefaultPoseFolderByGroup(rootPath = BASE_PATH) {
 	/** @type {Record<string, string>} */
 	const map = {};
 	let currentGroup = null;
-	for (const line of fs.readFileSync(path.join(rootPath, "Assets/Female3DCG/Female3DCG.js"), { encoding: "utf8" }).split("\n")) {
+	for (const line of fs.readFileSync(path.join(rootPath, ASSETS_FEMALE3DCG_JS), { encoding: "utf8" }).split("\n")) {
 		const groupMatch = line.match(/^\t\tGroup: "([^"]+)"/);
 		if (groupMatch) {
 			currentGroup = groupMatch[1];
@@ -163,7 +166,7 @@ export function loadExpressionGroups(rootPath = BASE_PATH) {
 	const groups = new Set();
 	let currentGroup = null;
 	let seenAsset = false;
-	for (const line of fs.readFileSync(path.join(rootPath, "Assets/Female3DCG/Female3DCG.js"), { encoding: "utf8" }).split("\n")) {
+	for (const line of fs.readFileSync(path.join(rootPath, ASSETS_FEMALE3DCG_JS), { encoding: "utf8" }).split("\n")) {
 		const groupMatch = line.match(/^\t\tGroup: "([^"]+)"/);
 		if (groupMatch) {
 			currentGroup = groupMatch[1];
@@ -190,7 +193,7 @@ export function loadSingletonAssetGroups(rootPath = BASE_PATH) {
 	/** @type {Set<string>} */
 	const groups = new Set();
 	let currentGroup = null;
-	for (const line of fs.readFileSync(path.join(rootPath, "Assets/Female3DCG/Female3DCG.js"), { encoding: "utf8" }).split("\n")) {
+	for (const line of fs.readFileSync(path.join(rootPath, ASSETS_FEMALE3DCG_JS), { encoding: "utf8" }).split("\n")) {
 		const groupMatch = line.match(/^\t\tGroup: "([^"]+)"/);
 		if (groupMatch) {
 			currentGroup = groupMatch[1];

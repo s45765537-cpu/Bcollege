@@ -43,11 +43,13 @@ function AssetBaseURL(C, group, groupName, pose, layer, layerType, asset, parent
 	if (!poseSegment && migrated && group.BasePose) {
 		poseSegment = `${group.BasePose}/`;
 	}
-	let baseURL = `Assets/${group.Family}/${pathRoot}/${poseSegment}`;
+	let baseURL = migrated
+		? `Assets/${pathRoot}/${poseSegment}`
+		: `Assets/${group.Family}/${pathRoot}/${poseSegment}`;
 	if (bodyStyle?.Layer[0].StyleOverride?.includes(groupName) || layer.StyleOverride?.includes(bodyStyle.Name)) {
 		if (!layer.CreateLayerTypesOverride?.length || layer.CreateLayerTypesOverride?.includes(layerTypeNumber)) {
 			if (migrated) {
-				baseURL = `Assets/${group.Family}/${pathRoot}/Override/${bodyStyle.Name}/${poseSegment}`;
+				baseURL = `Assets/${pathRoot}/Override/${bodyStyle.Name}/${poseSegment}`;
 			} else {
 				baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
 			}

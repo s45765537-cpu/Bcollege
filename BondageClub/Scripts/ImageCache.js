@@ -573,10 +573,11 @@ class ImageCache {
 		let pathPos = parts.indexOf("Assets");
 		if (pathPos === -1) return;
 
-		if (parts[++pathPos] !== "Female3DCG") return;
-
-		if (parts[pathPos + 1] === "PaperDoll") {
-			pathPos++;
+		const segment = parts[++pathPos];
+		if (segment === "PaperDoll") {
+			// Migrated assets live at Assets/PaperDoll/<asset>-<group>/...
+		} else if (segment !== "Female3DCG") {
+			return;
 		}
 
 		const rootSegment = parts[++pathPos];

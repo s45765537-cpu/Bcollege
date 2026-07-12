@@ -2,8 +2,8 @@ import vm from "vm";
 import fs from "fs";
 import path from "path";
 
-import { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries, errorState, loadDefaultPoseFolderByGroup } from "./Common.js";
-import { isManifest } from "./AssetMigrate.js";
+import { NEEDED_FILES, BASE_PATH, ASSETS_PAPERDOLL_DIR, error, loadCSV, fromEntries, enumerate, keys, entries, errorState, loadDefaultPoseFolderByGroup } from "./Common.js";
+import { isManifest } from "./Common.js";
 
 // XXX: this must all be checked
 const knownMissingOverrides = new Set([
@@ -1001,9 +1001,9 @@ function testHasPreview(assets) {
 	const migrationManifest = loadMigrationManifest();
 	for (const asset of assets) {
 		const isMigrated = assetCheckIsMigrated(migrationManifest, asset.Name, asset.DynamicGroupName);
-		const pathRoot = isMigrated ? `PaperDoll/${asset.Name}-${asset.DynamicGroupName}` : asset.DynamicGroupName;
-		const previewDir = isMigrated ? "Previews" : "Preview";
-		const assetPath = `${BASE_PATH}Assets/${asset.Group.Family}/${pathRoot}/${previewDir}/${asset.Name}.png`;
+		const assetPath = isMigrated
+			? `${BASE_PATH}Assets/${ASSETS_PAPERDOLL_DIR}/${asset.Name}-${asset.DynamicGroupName}/Previews/${asset.Name}.png`
+			: `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
 		if (asset.Visible && asset.Group.AllowNone && !fs.existsSync(assetPath)) {
 			error(`${asset.Group.Name}:${asset.Name}: Missing preview image at "${assetPath}"`);
 		}
@@ -1072,7 +1072,7 @@ function padPoseMapping(poseMapping, poseRecord) {
  * @returns {ReadonlyMap<string, ReadonlySet<string>>}
  */
 function loadMigrationManifest() {
-	const manifestPath = path.join(BASE_PATH, "Assets/Female3DCG/Migration.json");
+	const manifestPath = path.join(BASE_PATH, "Assets/Migration.json");
 	if (!fs.existsSync(manifestPath)) {
 		return new Map();
 	}
@@ -1109,17 +1109,18 @@ function assetCheckIsMigrated(migrationManifest, assetName, groupName) {
  * @param {Asset} asset
  * @param {string | null} style
  * @param {boolean} isMigrated
+ * @param {string} [effectiveAssetName] Asset name used for migrated folders, including a parent body asset
  * @returns {string}
  */
-function assetCheckLayerRoot(asset, style, isMigrated) {
+function assetCheckLayerRoot(asset, style, isMigrated, effectiveAssetName = asset.Name) {
 	const DEFAULT_STYLE = "DEFAULT_STYLE";
 	const family = asset.Group.Family;
 	if (isMigrated) {
-		const pathRoot = `PaperDoll/${asset.Name}-${asset.DynamicGroupName}`;
+		const pathRoot = `${ASSETS_PAPERDOLL_DIR}/${effectiveAssetName}-${asset.DynamicGroupName}`;
 		if (style !== DEFAULT_STYLE) {
-			return `${BASE_PATH}Assets/${family}/${pathRoot}/Override/${style}/`;
+			return `${BASE_PATH}Assets/${pathRoot}/Override/${style}/`;
 		}
-		return `${BASE_PATH}Assets/${family}/${pathRoot}/`;
+		return `${BASE_PATH}Assets/${pathRoot}/`;
 	}
 	if (style !== DEFAULT_STYLE) {
 		return `${BASE_PATH}Assets/${family}/Override/${style}/${asset.DynamicGroupName}/`;
@@ -1160,7 +1161,6 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 		if (!asset.Visible) {
 			continue;
 		}
-		const isMigrated = assetCheckIsMigrated(migrationManifest, asset.Name, asset.DynamicGroupName);
 
 		for (const layer of asset.Layer) {
 			if (!layer.HasImage) {
@@ -1273,7 +1273,6 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 			bodyStyles.splice(0, 0, DEFAULT_STYLE);
 
 			for (const style of bodyStyles) {
-				const root = assetCheckLayerRoot(asset, style, isMigrated);
 				for (const color of colors) {
 					for (const expression of expressions) {
 						for (const [type, poseList] of layerTypes) {
@@ -1286,6 +1285,14 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 								}
 
 								for (const parent of parentNames) {
+									// Placeholder groups (ArmsLeft, HandsRight, ...) store art on the parent body asset.
+									const effectiveAssetName = asset.Name || parent || "";
+									const isMigrated = assetCheckIsMigrated(
+										migrationManifest,
+										effectiveAssetName,
+										asset.DynamicGroupName,
+									);
+									const root = assetCheckLayerRoot(asset, style, isMigrated, effectiveAssetName);
 									const defaultPose = !pose && isMigrated
 										? defaultPoseFolderByGroup[asset.Group.Name]
 										: null;
@@ -1297,12 +1304,16 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 										+ (pose ? `${pose}/` : defaultPose ? `${defaultPose}/` : "")
 										+ (expressionFolder ? `${expressionFolder}/` : "")
 									);
-									const fileParts = [];
-									if (asset.Name && !isMigrated) fileParts.push(asset.Name);
-									if (parent) fileParts.push(parent);
-									if (type) fileParts.push(type);
-									if (color) fileParts.push(color);
-									if (layer.Name) fileParts.push(layer.Name);
+									const fileParts = [
+										...(!isMigrated ? [asset.Name] : []),
+										...(isMigrated && !asset.Name && parent ? [] : [parent]),
+										type,
+										color,
+										layer.Name,
+									].filter((part) => part);
+									if (isMigrated && fileParts.length === 0) {
+										fileParts.push(effectiveAssetName);
+									}
 									const file = pngPath + fileParts.join("_") + ".png";
 									const key = `${asset.DynamicGroupName}:${asset.Name}:${layer.Name}`;
 									if (!fs.existsSync(file)) {
@@ -1482,7 +1493,7 @@ function sanitizeVMOutput(input) {
 	));
 }
 
-(function () {
+await (async function () {
 	const [commonFile, ...neededFiles] = NEEDED_FILES;
 
 	/** @type {Record<"warn" | "error", [src: string, ...rest: unknown[]][]>} */
@@ -1538,6 +1549,7 @@ function sanitizeVMOutput(input) {
 		};
 		return obj;
 	};
+	await context.CommonAssetMigrationLoadAsync();
 	for (const file of neededFiles) {
 		vm.runInContext(fs.readFileSync(BASE_PATH + file, { encoding: "utf-8" }), context, {
 			filename: file,

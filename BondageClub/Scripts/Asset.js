@@ -1217,7 +1217,7 @@ function AssetParseMigratedRoot(rootSegment) {
  */
 function AssetGetPreviewPath(A) {
 	if (A.Group.Family === "Female3DCG" && CommonAssetIsMigrated(A.Name, A.DynamicGroupName)) {
-		return `Assets/${A.Group.Family}/PaperDoll/${A.Name}-${A.DynamicGroupName}/Previews`;
+		return `Assets/PaperDoll/${A.Name}-${A.DynamicGroupName}/Previews`;
 	}
 	return `Assets/${A.Group.Family}/${A.DynamicGroupName}/Preview`;
 }
@@ -1230,7 +1230,7 @@ function AssetGetPreviewPath(A) {
  */
 function AssetGetInventoryPath(A) {
 	if (A.Group.Family === "Female3DCG" && CommonAssetIsMigrated(A.Name, A.DynamicGroupName)) {
-		return `Assets/${A.Group.Family}/PaperDoll/${A.Name}-${A.DynamicGroupName}`;
+		return `Assets/PaperDoll/${A.Name}-${A.DynamicGroupName}`;
 	}
 	return `Screens/Inventory/${A.DynamicGroupName}/${A.Name}`;
 }

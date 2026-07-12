@@ -2923,7 +2923,7 @@ function CommonMin(arg0, ...args) {
 }
 
 var { CommonAssetMigrationLoadAsync, CommonAssetIsMigrated } = (() => {
-	const migrationPath = "Assets/Female3DCG/Migration.json";
+	const migrationPath = "Assets/Migration.json";
 	/** @type {ReadonlyMap<string, ReadonlySet<string>>} */
 	let migratedAssets = new Map();
 	/** @type {null | Promise<void>} */

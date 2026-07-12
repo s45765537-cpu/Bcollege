@@ -6,16 +6,14 @@ import { pathToFileURL } from "node:url";
 import minimist from "minimist";
 
 import {
+	ASSETS_PAPERDOLL_DIR,
 	BASE_PATH,
-	FEMALE3DCG_MIGRATED_RESOURCES_DIR,
 	female3DCGMigratedFolderRel,
 	isManifest,
 	loadDefaultPoseFolderByGroup,
 	loadExpressionGroups,
 	loadSingletonAssetGroups,
 } from "./Common.js";
-
-export { isManifest };
 
 /**
  * True when this file is the Node entry point.
@@ -94,9 +92,11 @@ if (isCli && assets.length === 0) {
 }
 
 const rootAbs = path.resolve(process.cwd(), BASE_PATH);
-const femaleRootAbs = path.join(rootAbs, "Assets", "Female3DCG");
-const migratedAssetsRootAbs = path.join(femaleRootAbs, "PaperDoll");
-const manifestRel = "Assets/Female3DCG/Migration.json";
+const assetsRootAbs = path.join(rootAbs, "Assets");
+const femaleRootAbs = path.join(assetsRootAbs, "Female3DCG");
+const migratedAssetsRootAbs = path.join(assetsRootAbs, ASSETS_PAPERDOLL_DIR);
+const legacyMigratedAssetsRootAbs = path.join(femaleRootAbs, ASSETS_PAPERDOLL_DIR);
+const manifestRel = "Assets/Migration.json";
 const manifestAbs = path.join(rootAbs, manifestRel);
 const scriptReferenceFiles = ["index.html", "brawl.html", "Tools/Node/Common.js"];
 const dryRun = !!args["dry-run"];
@@ -106,9 +106,9 @@ const defaultPoseFolderByGroup = loadDefaultPoseFolderByGroup(rootAbs);
 const expressionGroups = loadExpressionGroups(rootAbs);
 const singletonAssetGroups = loadSingletonAssetGroups(rootAbs);
 /** Assets that intentionally keep the legacy group-first layout. */
-const nonMigratableAssets = new Set([""]);
+const nonMigratableAssets = new Set(["Icon"]);
 /** Groups whose art should not be moved to the asset-first layout. */
-const nonMigratableGroups = new Set(["Activity", "Blush", "Mouth", "Fluids"]);
+const nonMigratableGroups = new Set(["Activity"]);
 /** Body-style overrides that only restyle other assets. */
 const nonMigratableBodyStyles = new Set(["EchoV1", "EchoV2", "Original"]);
 /** Pronoun settings without standalone art. */
@@ -228,7 +228,9 @@ async function planAssetMigration(asset, migratedRootSegments) {
 
 	for (const move of await collectMigratedRootPaths(asset)) {
 		addMove(moves, moveMap, move.source, move.destination);
-		const rootSegment = move.source.split("/")[2];
+		const parts = move.source.split("/");
+		const paperDollPos = parts.indexOf(ASSETS_PAPERDOLL_DIR);
+		const rootSegment = paperDollPos >= 0 ? parts[paperDollPos + 1] : null;
 		if (rootSegment?.startsWith(`${asset}-`)) {
 			groups.add(rootSegment.slice(asset.length + 1));
 		}
@@ -353,6 +355,7 @@ function getLegacyPngIndex() {
 	 * @returns {void}
 	 */
 	const visit = (directory) => {
+		if (!fs.existsSync(directory)) return;
 		for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
 			const absolute = path.join(directory, entry.name);
 			if (entry.isDirectory()) {
@@ -361,13 +364,15 @@ function getLegacyPngIndex() {
 			}
 			if (!entry.name.endsWith(".png")) continue;
 			const relative = path.relative(rootAbs, absolute).split(path.sep).join("/");
-			if (!relative.startsWith("Assets/Female3DCG/")) continue;
+			if (!relative.startsWith("Assets/Female3DCG/") && !relative.startsWith(`Assets/${ASSETS_PAPERDOLL_DIR}/`)) continue;
 			const parts = relative.split("/");
-			const femalePos = parts.indexOf("Female3DCG");
-			if (femalePos < 0) continue;
-			let rootPos = femalePos + 1;
-			if (parts[rootPos] === "PaperDoll") {
+			const assetsPos = parts.indexOf("Assets");
+			if (assetsPos < 0) continue;
+			let rootPos = assetsPos + 1;
+			if (parts[rootPos] === ASSETS_PAPERDOLL_DIR) {
 				rootPos++;
+			} else if (parts[rootPos] === "Female3DCG" && parts[rootPos + 1] === ASSETS_PAPERDOLL_DIR) {
+				rootPos += 2;
 			}
 			out.push({
 				relative,
@@ -377,6 +382,8 @@ function getLegacyPngIndex() {
 		}
 	};
 	visit(femaleRootAbs);
+	visit(migratedAssetsRootAbs);
+	visit(legacyMigratedAssetsRootAbs);
 	legacyPngIndex = out;
 	return legacyPngIndex;
 }
@@ -425,8 +432,8 @@ function listMigratedAssetDirs() {
 			dirs.push({ name: entry.name, abs: path.join(parentAbs, entry.name) });
 		}
 	};
-	collect(femaleRootAbs);
 	collect(migratedAssetsRootAbs);
+	collect(legacyMigratedAssetsRootAbs);
 	return dirs;
 }
 
@@ -620,7 +627,7 @@ async function collectInventoryAssetMoves(asset, groups) {
 		const sourceDirRel = `Screens/Inventory/${group}/${asset}`;
 		const sourceDirAbs = path.join(rootAbs, sourceDirRel);
 		if (!fs.existsSync(sourceDirAbs)) continue;
-		const targetRootRel = `Assets/Female3DCG/PaperDoll/${asset}-${group}`;
+		const targetRootRel = female3DCGMigratedFolderRel(`${asset}-${group}`);
 		await collectFileMoves(sourceDirAbs, (relativePath) => {
 			return relativePath.endsWith(".png")
 				? `${targetRootRel}/Previews/${relativePath}`
@@ -665,6 +672,7 @@ function collectInventoryCleanupDirs(moves) {
 function collectAssetCleanupDirs(moves) {
 	return [
 		...collectCleanupDirsForPrefix(moves, "Assets/Female3DCG/"),
+		...collectCleanupDirsForPrefix(moves, `Assets/${ASSETS_PAPERDOLL_DIR}/`),
 	];
 }
 
@@ -805,8 +813,7 @@ function buildTargetPath(asset, parsed) {
 
 	return [
 		"Assets",
-		"Female3DCG",
-		"PaperDoll",
+		ASSETS_PAPERDOLL_DIR,
 		`${asset}-${parsed.group}`,
 		...(parsed.style ? ["Override", parsed.style] : []),
 		...(parsed.isPreview ? ["Previews"] : between),
@@ -883,3 +890,4 @@ function updateMigrationManifestBatch(manifestPath, plans) {
 	fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
 	fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, "\t") + "\n");
 }
+
