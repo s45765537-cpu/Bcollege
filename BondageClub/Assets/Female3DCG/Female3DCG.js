@@ -29254,6 +29254,16 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "ClipRight",
 						Priority: 48,
 					},
+					{
+						Name: "Basic",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "BasicClip",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "ClipRight",
+					},
 				],
 			},
 			{
@@ -29985,7 +29995,16 @@ var AssetFemale3DCG = [
 			{
 				Name: "HairBack85",
 				Top: 40,
-				Left: 49,
+				Left: {
+					[PoseType.Default]: 49,
+					Kneel: 132,
+					KneelingSpread: 132,
+				},
+				PoseMapping: { 
+					Kneel: "Kneel",
+					KneelingSpread: "Kneel",
+				},
+				Priority: 1,
 				Layer: [
 					{
 						Name: "Base",
@@ -53857,8 +53876,13 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 0 },
 					},
 					{
+						Name: "WiffleBall",
+						AllowTypes: { typed: 2},
+						CopyLayerColor: "Ball",
+					},
+					{
 						Name: "BallShine",
-						AllowTypes: { typed: 0 },
+						AllowTypes: { typed: [0, 2] },
 					},
 					{
 						Name: "Ring",
@@ -53870,9 +53894,45 @@ var AssetFemale3DCG = [
 						AllowColorize: false,
 					},
 					{ Name: "Straps" },
+					{
+						Name: "Bit",
+						AllowTypes: { typed: 3},
+						CopyLayerColor: "Ball",
+					},
+					{
+						Name: "BitShine",
+						AllowTypes: { typed: 3},
+						CopyLayerColor: "BallShine",
+					},
+					{
+						Name: "LargeBall",
+						AllowTypes: { typed: 4},
+						CopyLayerColor: "Ball",
+					},
+					{
+						Name: "LargeBallShine",
+						AllowTypes: { typed: 4},
+						CopyLayerColor: "BallShine",
+					},
+					{
+						Name: "LargeMouth",
+						AllowTypes: { typed: 5},
+						AllowColorize: false,
+					},
+					{
+						Name: "LargeRing",
+						AllowTypes: { typed: 5},
+						CopyLayerColor: "Ring",
+					},
 					{ Name: "Metal" },
 					{
 						Name: "Teeth",
+						AllowTypes: { typed: [0, 1, 2, 3]},
+						AllowColorize: false,
+					},
+					{
+						Name: "Teeth2",
+						AllowTypes: { typed: [4, 5]},
 						AllowColorize: false,
 					},
 				],

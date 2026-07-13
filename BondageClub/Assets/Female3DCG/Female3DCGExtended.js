@@ -1864,7 +1864,7 @@ var AssetFemale3DCGExtended = {
 		HairBack61b: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }, {Name: "Behind"}],
 		}, // HairBack61b
 		HairBack65: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -16387,6 +16387,30 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "RingGag",
+					Property: {
+						Effect: [E.OpenMouth],
+					},
+				},
+				{
+					Name: "WiffleGag",
+					Property: {
+						Effect: [E.BlockMouth],
+					},
+				},
+				{
+					Name: "BitGag",
+					Property: {
+						Effect: [E.BlockMouth],
+					},
+				},
+				{
+					Name: "LargeBallGag",
+					Property: {
+						Effect: [E.BlockMouth],
+					},
+				},
+				{
+					Name: "LargeRingGag",
 					Property: {
 						Effect: [E.OpenMouth],
 					},
