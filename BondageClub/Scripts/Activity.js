@@ -41,10 +41,10 @@ function ActivityAllowed() {
 
 /**
  * Loads the activity dictionary that will be used throughout the game to output messages. Loads from cache first if possible.
- * @return {void} - Nothing
+ * @return {TextCache} - The activity dictionary
  */
 function ActivityDictionaryLoad() {
-	TextPrefetchFile(ScreenFileGetPath("ActivityDictionary.csv", "Character", "Preference"));
+	return TextPrefetchFile(ScreenFileGetPath("ActivityDictionary.csv", "Character", "Preference"));
 }
 
 /**
