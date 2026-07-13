@@ -2878,11 +2878,11 @@ function ChatRoomOpenInformationScreen() {
  * The handler for the "Admin" button
  */
 function ChatRoomOpenAdminScreen() {
-	if ((ChatRoomData != null) && ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) {
+	if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] === "AsylumGGTS") {
 		AsylumGGTSMessage("NoAdminPrivate");
 		return;
 	}
-	if ((ChatRoomData != null) && ChatRoomIsLocked() && (ChatRoomData.Game == "GGTS")) {
+	if (ChatRoomIsLocked() && ChatRoomData.Game === "GGTS") {
 		AsylumGGTSMessage("NoAdminLocked");
 		return;
 	}
