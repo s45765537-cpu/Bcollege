@@ -4021,8 +4021,10 @@ interface GameMagicBattleParameters {
 	TeamType: "FreeForAll" | "House";
 }
 
+type GameGGTSLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
 interface GameGGTSParameters {
-	Level: number;
+	Level: GameGGTSLevel;
 	Time: number;
 	Strike: number;
 	Rule: string[];

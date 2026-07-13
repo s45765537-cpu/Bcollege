@@ -63,19 +63,19 @@ function AsylumGGTSIsEnabled() {
  * @returns {boolean} - TRUE if level is completed with 3 strikes on record
  */
 function AsylumGGTSLevelCompleted() {
-	if (AsylumGGTSGetStrikes(Player) >= 3) return false;
 	let Level = AsylumGGTSGetLevel(Player);
-	if ((Level <= 0) || (Level >= 6)) return false;
+	if (Level === 0) return false;
+	if (AsylumGGTSGetStrikes(Player) >= 3) return false;
 	return AsylumGGTSGetLevelTime(Player) >= AsylumGGTSLevelTime[Level];
 }
 
 /**
  * Returns the character GGTS level
  * @param {Character} C - The character to evaluate
- * @returns {number} - Nothing
+ * @returns {GameGGTSLevel} - Nothing
  */
 function AsylumGGTSGetLevel(C) {
-	return ((C != null) && (C.Game != null) && (C.Game.GGTS != null) && (C.Game.GGTS.Level != null) && (C.Game.GGTS.Level >= 1) && (C.Game.GGTS.Level <= 10)) ? C.Game.GGTS.Level : 0;
+	return /** @type {GameGGTSLevel} */ (CommonClamp(C.Game?.GGTS?.Level ?? 0, 0, 6));
 }
 
 /**
@@ -83,9 +83,7 @@ function AsylumGGTSGetLevel(C) {
  * @param {Character} C
  */
 function AsylumGGTSGetLevelTime(C) {
-	if (C != null && C.Game != null && C.Game.GGTS != null && typeof C.Game.GGTS.Time === "number")
-		return C.Game.GGTS.Time;
-	return 0;
+	return CommonIsNumeric(C.Game?.GGTS?.Time) ? C.Game?.GGTS?.Time : 0;
 }
 
 /**
@@ -93,9 +91,7 @@ function AsylumGGTSGetLevelTime(C) {
  * @param {Character} C
  */
 function AsylumGGTSGetStrikes(C) {
-	if (C != null && C.Game != null && C.Game.GGTS != null && typeof C.Game.GGTS.Strike === "number")
-		return C.Game.GGTS.Strike;
-	return 0;
+	return CommonIsNumeric(C.Game?.GGTS?.Strike) ? C.Game?.GGTS?.Strike : 0;
 }
 
 /**
@@ -103,9 +99,7 @@ function AsylumGGTSGetStrikes(C) {
  * @param {Character} C
  */
 function AsylumGGTSGetRules(C) {
-	if (C != null && C.Game != null && C.Game.GGTS != null && Array.isArray(C.Game.GGTS.Rule))
-		return C.Game.GGTS.Rule;
-	return [];
+	return Array.isArray(C.Game?.GGTS?.Rule) ? C.Game.GGTS.Rule : [];
 }
 
 /**
@@ -224,12 +218,12 @@ function AsylumGGTSSAddItems() {
 
 /**
  * Starts a new GGTS level for the player
- * @param {number} Level - The new level to set
+ * @param {GameGGTSLevel} Level - The new level to set
  * @returns {void} - Nothing
  */
 function AsylumGGTSStartLevel(Level) {
-	Level = parseInt(Level);
-	if (Player.Game == null) Player.Game = {};
+	Level = /** @type {GameGGTSLevel} */ (CommonClamp(Level, 0, 6));
+	Player.Game ??= {};
 	Player.Game.GGTS = { Level: Level, Time: 0, Strike: 0, Rule: [] };
 	AsylumGGTSSAddItems();
 	AsylumGGTSComputerImage(Level);
@@ -326,7 +320,7 @@ function AsylumGGTSMessage(Msg, Target) {
  */
 function AsylumGGTSSetTimer() {
 	let Factor = 1;
-	if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) Factor = Factor / 3;
+	if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] === "AsylumGGTS") Factor = Factor / 3;
 	if (AsylumGGTSTimer == 0) Factor = Factor / 3;
 	AsylumGGTSTimer = Math.round(CommonTime() + 24000 * AsylumGGTSSpeed * Factor + Math.random() * 36000 * AsylumGGTSSpeed * Factor);
 }
@@ -930,7 +924,7 @@ function AsylumGGTSAutomaticTask() {
 function AsylumGGTSFindTaskTarget(T) {
 
 	// Only in public GGTS when there's at least another character and the player isn't blind
-	if ((ChatSearchReturnToScreen == "AsylumGGTS") || (ChatRoomCharacter.length <= 1) || Player.IsBlind()) return null;
+	if (ChatSearchReturnScreen[1] == "AsylumGGTS" || ChatRoomCharacter.length <= 1 || Player.IsBlind()) return null;
 
 	// Nurses can use items on other players with less reputation or herself
 	if ((ReputationGet("Asylum") > 0) && (T.substr(0, 4) == "Item") && (T.length >= 15)) {
@@ -1019,7 +1013,7 @@ function AsylumGGTSEndTaskSave(Fail) {
 	AsylumGGTSTask = null;
 	if ((Fail == null) || (Fail == false)) {
 		let Factor = 1;
-		if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS") && (ChatRoomCharacter.length <= 1)) Factor = 3;
+		if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] == "AsylumGGTS" && ChatRoomCharacter.length <= 1) Factor = 3;
 		let AddedTime;
 		if (AsylumGGTSTaskEnd > 0) AddedTime = CommonTime() - AsylumGGTSTaskEnd;
 		else AddedTime = CommonTime() - AsylumGGTSTaskStart;
@@ -1168,7 +1162,7 @@ function AsylumGGTSProcess() {
 		if (ChatSearchGetSpace() !== "Asylum") AsylumGGTSMessage("IntroOnlyInAsylum");
 		else if (AsylumGGTSGetLevel(Player) <= 0) AsylumGGTSMessage("IntroNotPlaying");
 		else if (AsylumGGTSGetStrikes(Player) >= 3) AsylumGGTSMessage("IntroPendingPunishment");
-		else if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
+		else if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] == "AsylumGGTS") AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
 		else AsylumGGTSMessage("IntroPublic");
 		AsylumGGTSIntroDone = true;
 		return;

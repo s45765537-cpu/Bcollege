@@ -155,6 +155,10 @@ ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopShirt,Shirt
 ClothAdmiralTopTrim,Trim
+ClothMilitaryFatigueShirt,Fatigue
+ClothMilitaryFatigueCamo1,CamoPaint1
+ClothMilitaryFatigueCamo2,CamoPaint2
+ClothMilitaryFatigueTiger3,TigerStripe
 ClothAdultBabyDress1Dress,Dress
 ClothAdultBabyDress1Sash,Sash
 ClothAdultBabyDress1Trim,Trim
@@ -375,6 +379,12 @@ ClothLowerSuspenderPantsRight_C1,Right_C1
 ClothLowerSuspenderPantsRight_C2,Right_C2
 ClothLowerSuspenderPantsRight_C3,Right_C3
 ClothLowerSuspenderPantsRight_C4,Right_C4
+ClothLowerMilitaryPantsPants,Pants
+ClothLowerMilitaryPantsBelt,Belt
+ClothLowerMilitaryPantsBuckle,Buckle
+ClothLowerMilitaryPantsCamo1,CamoPaint1
+ClothLowerMilitaryPantsCamo2,CamoPaint2
+ClothLowerMilitaryPantsTiger3,TigerStripe
 ClothLowerWoolenHighWaistSkirtBottom,Bottom
 ClothLowerWoolenHighWaistSkirtButtons,Buttons
 ClothLowerWoolenHighWaistSkirtTop,Top
@@ -601,6 +611,10 @@ ClothLowerUtilityKiltLeftPanel,Left Panel
 ClothLowerUtilityKiltRightPanel,Right Panel
 ClothLowerYogaPantsWaist,Waist
 ClothLowerYogaPantsLeggings,Leggings
+ClothLowerDenimShortsShorts,"Shorts"
+ClothLowerDenimShortsShorts2,"Shorts"
+ClothLowerDenimShortsButton,"Button"
+ClothLowerDenimShortsButton2,"Button"
 ClothMaidLatexApron,Apron
 ClothMaidLatexDress,Dress
 ClothMaidLatexTie,Tie
@@ -1045,6 +1059,9 @@ HairBackHairBack60FrontLeftStreak,Left Streak
 HairBackHairBack60FrontRightStreak,Right Streak
 HairBackHairBack61FrontRight,Right
 HairBackHairBack61FrontLeft,Left
+HairBackHairBack61bFrontRight,Right
+HairBackHairBack61bFrontLeft,Left
+HairBackHairBack61bClipRight,Clip
 HairBackHairBack62Braid,Braid
 HairBackHairBack62Ribbon,Ribbon
 HairBackHairBack63Braid,Left
@@ -1138,6 +1155,8 @@ HairBackHairBack84Left,Left
 HairBackHairBack84Right,Right
 HairBackHairBack84LeftStreak,Left Streak
 HairBackHairBack84RightStreak,Right Streak
+HairBackHairBack85Base,Base
+HairBackHairBack85Clip,Clip
 HairFrontHairFront20Main,Base
 HairFrontHairFront20Braid,Braid
 HairFrontHairFront20SmallEarsBraid,Braid
@@ -1226,6 +1245,8 @@ HairFrontHairFront52bFade,Fade
 HairFrontHairFront52bMain,Main
 HairFrontHairFront56Main,Main
 HairFrontHairFront56MainTip,Tips
+HairFrontHairFront56bMain,Main
+HairFrontHairFront56bMainTip,Tips
 HairFrontHairFront57Main,Main
 HairFrontHairFront57Tone,Tips
 HairFrontHairFront58Main,Main
@@ -1272,6 +1293,14 @@ HairFrontHairFront73Main,Main
 HairFrontHairFront73Tone,Tone
 HairFrontHairFront74Main,Main
 HairFrontHairFront74Streak,Streak
+HairFrontHairFront76aBase,Base
+HairFrontHairFront76aTips,Ends
+HairFrontHairFront76aStrands,Strands
+HairFrontHairFront76aBraids,Extra
+HairFrontHairFront76bBase,Base
+HairFrontHairFront76bTips,Ends
+HairFrontHairFront76bStrands,Strands
+HairFrontHairFront76bBraids,Extra
 HatAnimeGirlTiaraMain,Tiara
 HatAnimeGirlTiaraDetail,Detail
 HatAnimeGirlTiaraJewel,Jewel
@@ -1364,6 +1393,9 @@ HatJesterHatStripesTop,Stripes (Top)
 HatJesterHatDotsLeft,Dots (Left)
 HatJesterHatDotsRight,Dots (Right)
 HatJesterHatDotsTop,Dots (Top)
+HatGIBeretLong,Base
+HatGIBeretLongBand,Band
+HatGIBeretString,String
 ItemAddonCeilingNeckCuffCuff,Metal cuff
 ItemAddonCeilingNeckCuffLock,Padlock
 ItemAddonCoversInner,Inner
@@ -2317,6 +2349,20 @@ ItemHoodLeatherHoodSnaps,Snaps
 ItemHoodOldGasMaskLenses,Blinding Lenses
 ItemHoodOldGasMaskMask,Mask
 ItemHoodOldGasMaskTubeA,Breathing Attachment
+ItemHoodCybertechMaskbase,Base
+ItemHoodCybertechMasknose,Nose
+ItemHoodCybertechMaskstraps,Straps
+ItemHoodCybertechMasksideAttachments,Side Attachment Points
+ItemHoodCybertechMaskattachmentPoint,Main Attachment Point
+ItemHoodCybertechMasktop,Top
+ItemHoodCybertechMaskexhalationValve,Exhalation Valve
+ItemHoodCybertechMaskvisorOpaque,Visor
+ItemHoodCybertechMaskvisorReflection,Reflection
+ItemHoodCybertechMaskhypno1,Hypno visor 1
+ItemHoodCybertechMaskhypno2,Hypno visor 2
+ItemHoodCybertechMasktube,Tube
+ItemHoodCybertechMaskcanteen,Canteen
+ItemHoodCybertechMaskliquid,Liquid
 ItemHoodOpenMouthPlugHoodHood,Hood
 ItemHoodOpenMouthPlugHoodLenses,Lenses
 ItemHoodOpenMouthPlugHoodPlug,Plug
@@ -2931,8 +2977,8 @@ ItemMouthPumpkinHarnessGagEyes,Eyes
 ItemMouthPumpkinHarnessGagMetal,Metal
 ItemMouthPumpkinHarnessGagPumpkin,Pumpkin
 ItemMouthPumpkinHarnessGagStraps,Straps
-ItemMouthQualityHarnessGagBall,Ball
-ItemMouthQualityHarnessGagBallShine,Ball Shine
+ItemMouthQualityHarnessGagBall,Base
+ItemMouthQualityHarnessGagBallShine,Shine
 ItemMouthQualityHarnessGagRing,Ring
 ItemMouthQualityHarnessGagStraps,Straps
 ItemMouthQualityHarnessGagMetal,Metal
@@ -3460,6 +3506,20 @@ MaskDroneMaskBase,Mask
 MaskDroneMaskEyeRegular,Eyes
 MaskDroneMaskMouthOnahole,Mouth
 MaskDroneMaskShine,Shine
+MaskCybertechMaskbase,Base
+MaskCybertechMasknose,Nose
+MaskCybertechMaskstraps,Straps
+MaskCybertechMasksideAttachments,Side Attachment Points
+MaskCybertechMaskattachmentPoint,Main Attachment Point
+MaskCybertechMasktop,Top
+MaskCybertechMaskexhalationValve,Exhalation Valve
+MaskCybertechMaskvisorOpaque,Visor
+MaskCybertechMaskvisorReflection,Reflection
+MaskCybertechMaskhypno1,Hypno visor 1
+MaskCybertechMaskhypno2,Hypno visor 2
+MaskCybertechMasktube,Tube
+MaskCybertechMaskcanteen,Canteen
+ItemHoodCybertechMaskliquid,Liquid
 MaskFaceVeilFabric,Fabric
 MaskFaceVeilString,String
 MaskFestivalFoxMaskBase,Base
@@ -3951,6 +4011,12 @@ WesternBoots,Shoes
 WingsBeeWingsBone,Bone
 WingsBeeWingsVeins,Veins
 WingsBeeWingsWings,Wings
+WingsBotEnergyWingsEnergyBase,Energy Base
+WingsBotEnergyWingsEnergyHighlight,Energy Highlight
+WingsBotEnergyWingsEnergyShine,Energy Shine
+WingsBotEnergyWingsFrame,Frame
+WingsBotEnergyWingsMechanics,Mechanics
+WingsBotEnergyWingsMetal,Metal
 WingsCyberWingsBase,Base
 WingsCyberWingsHighlights,Highlights
 WingsCyberWingsShade,Shade

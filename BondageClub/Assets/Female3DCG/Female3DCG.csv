@@ -207,6 +207,8 @@ Cloth,YuletideVelvetWarmth,Yuletide Velvet Warmth
 Cloth,Yukata1,Yukata
 Cloth,CocktailDress,Cocktail Dress
 Cloth,MaidBikini,Maid Bikini
+Cloth,MilitaryFatigue,Military Fatigue
+Cloth,CropTopShirt,Crop Top Shirt
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
@@ -318,6 +320,8 @@ ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
 ClothLower,WoolenHighWaistSkirt,High Waist Skirt
 ClothLower,YogaPants,Yoga Pants - Basic
+ClothLower,DenimShorts,Denim Shorts
+ClothLower,MilitaryPants,Military Pants
 ClothOuter,,Cloth Outer
 ClothOuter,LabCoat,Lab Coat
 ClothOuter,LeatherJacket,Leather Jacket
@@ -642,6 +646,7 @@ HairBack,HairBack58b,Style 58b
 HairBack,HairBack59,Style 59
 HairBack,HairBack60,Style 60
 HairBack,HairBack61,Style 61
+HairBack,HairBack61b,Style 61b
 HairBack,HairBack62,Style 62
 HairBack,HairBack63,Style 63
 HairBack,HairBack64,Style 64
@@ -674,6 +679,7 @@ HairBack,HairBack81,Style 81
 HairBack,HairBack82,Style 82
 HairBack,HairBack83,Style 83
 HairBack,HairBack84,Style 84
+HairBack,HairBack85,Style 85
 HairBack,HairNone,None
 HairFront,,Front Hair
 HairFront,HairFront1,Style 1
@@ -766,6 +772,7 @@ HairFront,HairFront9b,Style 9b
 HairFront,HairFront54,Style 54
 HairFront,HairFront55,Style 55
 HairFront,HairFront56,Style 56
+HairFront,HairFront56b,Style 56b
 HairFront,HairFront57,Style 57
 HairFront,HairFront58,Style 58
 HairFront,HairFront59,Style 59
@@ -787,6 +794,9 @@ HairFront,HairFront71,Style 71
 HairFront,HairFront72,Style 72
 HairFront,HairFront73,Style 73
 HairFront,HairFront74,Style 74
+HairFront,HairFront75,Style 75
+HairFront,HairFront76a,Style 76a
+HairFront,HairFront76b,Style 76b
 HandAccessoryLeft,,Hand Accessory (Left)
 HandAccessoryLeft,CatsuitGloves,Catsuit Gloves
 HandAccessoryLeft,Claws,Claws
@@ -848,6 +858,7 @@ Hat,Veil2,Veil Full Face
 Hat,VintageHat,Vintage Hat
 Hat,WitchHat1,Witch Hat
 Hat,JesterHat, Jester Hat
+Hat,GIBeret,GI beret
 Head,,Head
 Head,Default,Regular Ears
 Head,NoEars,Subtle Ears
@@ -1328,6 +1339,7 @@ ItemHood,LeatherHoodOpenMouth,Leather Hood Mouth
 ItemHood,LeatherHoodSealed,Sealed Leather Hood
 ItemHood,LeatherHoodSensDep,Sensory Deprivation Hood
 ItemHood,OldGasMask,Gas Mask
+ItemHood,CybertechMask,Cybertech Gas Mask
 ItemHood,OpenFaceHood,Open Face Hood
 ItemHood,OpenMouthPlugHood,Latex Open Mouth Plug Hood
 ItemHood,PantyHood,Panty Hood
@@ -2091,6 +2103,7 @@ Wings,AngelFeather,Angel Feather
 Wings,AngelWings,Angel Wings
 Wings,BatWings,Bat Wings
 Wings,BeeWings,Bee Wings
+Wings,BotEnergyWings,Bot Energy Wings
 Wings,CyberWings,Cyber Wings
 Wings,DevilWings,Devil Wings
 Wings,FairyWings,Fairy Wings

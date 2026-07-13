@@ -747,6 +747,9 @@ function LoginValidCollar() {
 
 		if (!item) {
 			// Now make sure we're wearing the slave collar
+			// …unless GGTS, because it doesn't use those, and having a forced one
+			// would impact its drone mode and its collar task.
+			if (Player.IsOwned() === "ggts") return;
 			InventoryWear(Player, "SlaveCollar", "ItemNeck");
 			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}

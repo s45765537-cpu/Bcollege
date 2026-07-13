@@ -85,6 +85,8 @@
 	overflow-y: scroll;
 	scrollbar-gutter: auto;
 	height: max-content;
+	margin-bottom: var(--gap-size);
+	box-sizing: border-box;
 }
 
 #chat-room-bot {

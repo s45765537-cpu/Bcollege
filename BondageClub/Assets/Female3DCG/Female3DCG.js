@@ -880,6 +880,29 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Transparentraincoat",
+				DynamicGroupName: "Cloth",
+				Extended: true,
+				Layer: [
+					{ Name: "Transparent", AllowTypes: { typed: 0 } },
+					{ Name: "Raincoat", AllowTypes: { typed: 1 } },
+				],
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Transparentraincoat",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "GhostCloak",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "GhostCloak",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -1205,6 +1228,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				StyleOverride: ["EchoV2"],
 				Prerequisite: ["HasBreasts"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -1514,6 +1538,134 @@ var AssetFemale3DCG = [
 				Require: ["ClothLower"],
 			},
 			{
+				Name: "MilitaryFatigue",
+				Gender: "F",
+				// Prerequisite: ["HasBreasts"],
+				InventoryID: 1368,
+				Value: 60,
+				HideItem: [
+					"ItemArmsLeatherCuffs",
+					"ItemArmsLeatherDeluxeCuffs",
+					"ItemArmsFuturisticCuffs",
+					"ItemArmsOrnateCuffs",
+					"ItemArmsHighStyleSteelCuffs",
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+					"PantiesPoofyDiaper",
+					"PantiesBulkyDiaper",
+					"ItemPelvisPoofyDiaper",
+					"ItemPelvisBulkyDiaper",
+					"ClothLowerTutu",
+					"ClothAccessoryPoncho",
+					"NecklaceCatsuitCollar",
+				],
+				DefaultColor: ["Default", "#7a826c", "#4d4038", "#000000"],
+				// Require: ["ClothLower"],
+				Extended: true,
+				Layer: [
+					{ Name: "Shirt", AllowTypes: { s: [0] } },
+					{
+						Name: "Cropped",
+						CopyLayerColor: "Shirt",
+						AllowTypes: { s: [1] },
+					},
+					{
+						Name: "Camo1",
+						Opacity: 0.5,
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [0], c: [1] },
+					},
+					{
+						Name: "Camo2",
+						Opacity: 0.5,
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [0], c: [1] },
+					},
+					{
+						Name: "Tiger1",
+						Opacity: 0.5,
+						Priority: 30,
+						CopyLayerColor: "Camo1",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [0], c: [2] },
+					},
+					{
+						Name: "Tiger2",
+						Opacity: 0.5,
+						Priority: 31,
+						CopyLayerColor: "Camo2",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [0], c: [2] },
+					},
+					{
+						Name: "Tiger3",
+						Priority: 32,
+						Opacity: 0.8,
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [0], c: [2] },
+					},
+					{
+						Name: "CropCamo1",
+						Opacity: 0.5,
+						CopyLayerColor: "Camo1",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [1], c: [1] },
+					},
+					{
+						Name: "CropCamo2",
+						Opacity: 0.5,
+						CopyLayerColor: "Camo2",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [1], c: [1] },
+					},
+					{
+						Name: "CropTiger1",
+						Opacity: 0.5,
+						Priority: 30,
+						CopyLayerColor: "Camo1",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [1], c: [2] },
+					},
+					{
+						Name: "CropTiger2",
+						Opacity: 0.5,
+						Priority: 31,
+						CopyLayerColor: "Camo2",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [1], c: [2] },
+					},
+					{
+						Name: "CropTiger3",
+						Priority: 32,
+						Opacity: 0.8,
+						CopyLayerColor: "Tiger3",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { s: [1], c: [2] },
+					},
+				],
+			},
+			{
 				Name: "AdultBabyDress1",
 				InventoryID: 106,
 				Gender: "F",
@@ -1706,7 +1858,13 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				Value: 50,
 				Hide: ["Panties", "ItemVulva", "ItemVulvaPiercings"],
-				Expose: ["ItemNipples", "ItemNipplesPiercings", "ItemBreast"],
+				Expose: [
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 			},
 			{
 				Name: "LeatherCorsetTop1",
@@ -1781,6 +1939,7 @@ var AssetFemale3DCG = [
 				InventoryID: 116,
 				Gender: "F",
 				Fetish: ["Lingerie"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				Value: 40,
 				HideItem: ["ItemNipplesLactationPump"],
 			},
@@ -1792,6 +1951,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie"],
 				Value: 20,
 				DefaultColor: ["#1C1A21"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2221,6 +2381,7 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Value: 40,
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2255,7 +2416,13 @@ var AssetFemale3DCG = [
 				Value: 60,
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
 				HideItem: ["ClothAccessoryPoncho", "ItemArmsBondageBra"],
-				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+				Expose: [
+					"ItemVulva",
+					"ItemVulvaPiercings",
+					"ItemButt",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 			},
 			{
 				Name: "WeddingDress1",
@@ -2915,6 +3082,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				BuyGroup: "BondageDress1",
 				Value: -1,
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2930,6 +3098,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BondageDress2",
 				Value: -1,
 				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
+				Expose: ["ItemTorso", "ItemTorso2"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -3131,7 +3300,8 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Priority: 22,
 				Value: 35,
-				Hide: ["Corset", "ItemNipples"],
+				Expose: ["ItemTorso", "ItemTorso2"],
+				Hide: ["ItemNipples"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -3221,6 +3391,7 @@ var AssetFemale3DCG = [
 					Hogtied: "Hogtied",
 					AllFours: PoseType.HIDE,
 				},
+				Expose: ["ItemTorso", "ItemTorso2"],
 				Hide: ["ItemNipplesPiercings"],
 				HideItem: ["ItemNipplesLactationPump"],
 				Layer: [{ Name: "Blouse" }, { Name: "Design" }],
@@ -3580,6 +3751,7 @@ var AssetFemale3DCG = [
 				Top: 200,
 				Left: 160,
 				DefaultColor: ["#c91616", "#e0b51d", "#c91616", "#242485", "#f5f5f5"],
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					Hogtied: PoseType.DEFAULT,
 					AllFours: PoseType.DEFAULT,
@@ -3622,6 +3794,13 @@ var AssetFemale3DCG = [
 				Value: 30,
 				DefaultColor: ["#1C1C1C"],
 				BuyGroup: "FishnetTop",
+				Expose: [
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
 					TapedHands: PoseType.DEFAULT,
@@ -4060,6 +4239,7 @@ var AssetFemale3DCG = [
 				Priority: 23,
 				Value: 50,
 				ParentGroup: "BodyUpper",
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
@@ -4172,6 +4352,21 @@ var AssetFemale3DCG = [
 					"ItemBreastRibbons",
 				],
 				Layer: [{ Name: "Bottom" }, { Name: "Top" }, { Name: "Buttons" }],
+			},
+			{
+				Name: "CropTopShirt",
+				InventoryID: 1370,
+				Value: 35,
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				HideItem: [
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+					"BraRibbons",
+					"ItemBreastRibbons",
+				],
+				Layer: [{ Name: "Shirt" }],
 			},
 			{
 				Name: "RuffledDress",
@@ -4920,6 +5115,7 @@ var AssetFemale3DCG = [
 				Priority: 31,
 				ParentGroup: { BackCuffs: "BodyUpper" },
 				DynamicGroupName: "Cloth",
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
@@ -5080,6 +5276,7 @@ var AssetFemale3DCG = [
 				Priority: 21,
 				Gender: "F",
 				ParentGroup: "BodyUpper",
+				Expose: ["ItemTorso", "ItemTorso2"],
 				PoseMapping: {
 					Hogtied: "Hogtied",
 					AllFours: PoseType.HIDE,
@@ -5276,8 +5473,6 @@ var AssetFemale3DCG = [
 				],
 				Prerequisite: ["HasBreasts"],
 				SetPose: ["BackElbowTouch"],
-				LayerVisibility: true,
-				DynamicGroupName: "Cloth",
 				PoseMapping: {
 					BackCuffs: "Hide",
 					OverTheHead: "Hide",
@@ -5305,8 +5500,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				ParentGroup: {},
-				Hide: ["HairFront"],
-				DynamicGroupName: "Cloth",
+				Hide: ["HairFront", "HairBack"],
 				AllowActivePose: [
 					"BaseUpper",
 					"BackBoxTie",
@@ -5328,6 +5522,15 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "白布",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "Plugsuit",
+				DynamicGroupName: "Suit",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "Plugsuit",
+					BuyGroup: true,
 				},
 			},
 		],
@@ -7631,6 +7834,13 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#1C1C1C"],
 				BuyGroup: "FishnetTop",
 				DynamicGroupName: "Cloth",
+				Expose: [
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
 					TapedHands: PoseType.DEFAULT,
@@ -8139,6 +8349,15 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "透明兔女郎",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "FeatherLingerie",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FeatherLingerie",
+					BuyGroup: true,
 				},
 			},
 		],
@@ -9151,6 +9370,64 @@ var AssetFemale3DCG = [
 					"ItemVulvaShockDildo",
 					"PantiesPoofyDiaper",
 					"PantiesBulkyDiaper",
+				],
+			},
+			{
+				Name: "DenimShorts",
+				InventoryID: 1369,
+				Value: 25,
+				// StyleOverride: ["EchoV2"],
+				HideItem: [
+					"ItemButtAnalBeads2",
+					"ItemVulvaHempRopeBelt",
+					"ItemVulvaVibratingDildo",
+					"ItemVulvaInflatableVibeDildo",
+					"ItemVulvaClitSuctionCup",
+					"ItemVulvaHeavyWeightClamp",
+					"ItemVulvaClitAndDildoVibratorbelt",
+					"ItemVulvaShockDildo",
+					"PantiesPoofyDiaper",
+					"PantiesBulkyDiaper",
+				],
+				Left: {
+					[PoseType.DEFAULT]: 100,
+					KneelingSpread: 190,
+				},
+				Top: 350,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Shorts",
+						AllowTypes: { typed: [0] },
+					},
+					{
+						Name: "Shorts2",
+						AllowTypes: { typed: [1] },
+						CopyLayerColor: "Shorts",
+					},
+					{
+						Name: "Button",
+						ParentGroup: "",
+						Priority: 27,
+						Left: {
+							[PoseType.DEFAULT]: 100,
+							KneelingSpread: 190,
+						},
+						Top: 350,
+						AllowTypes: { typed: [0] },
+					},
+					{
+						Name: "Button2",
+						ParentGroup: "",
+						Priority: 27,
+						Left: {
+							[PoseType.DEFAULT]: 100,
+							KneelingSpread: 190,
+						},
+						Top: 350,
+						AllowTypes: { typed: [1] },
+						CopyLayerColor: "Button",
+					},
 				],
 			},
 			{
@@ -10410,6 +10687,125 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "MilitaryPants",
+				Gender: "F",
+				InventoryID: 1366,
+				// Prerequisite: ["HasBreasts"],
+				Value: 60,
+				Hide: ["Pussy"],
+				DefaultColor: [
+					"Default",
+					"Default",
+					"Default",
+					"#7a826c",
+					"#4d4038",
+					"#000000",
+				],
+				// Require: ["ClothLower"],
+				Extended: true,
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 90,
+				},
+				Top: {
+					[PoseType.DEFAULT]: 400,
+					AllFours: 0,
+				},
+				PoseMapping: {
+					...AssetPoseMapping.ClothLower,
+					AllFours: "AllFours",
+				},
+				// Left: {
+				// [PoseType.DEFAULT]: 20,
+				// KneelingSpread: 20,
+				// },
+				Layer: [
+					{ Name: "Pants" },
+					{
+						Name: "Belt",
+						Left: {
+							[PoseType.DEFAULT]: 150,
+							KneelingSpread: 90 + 150,
+						},
+						Top: 403,
+						Priority: 33,
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+						ParentGroup: "",
+						AllowTypes: { b: [2] },
+					},
+					{
+						Name: "StrappedBelt",
+						Left: {
+							[PoseType.DEFAULT]: 150,
+							KneelingSpread: 90 + 150,
+						},
+						Top: 403,
+						Priority: 33,
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+						ParentGroup: "",
+						AllowTypes: { b: [1] },
+						CopyLayerColor: "Belt",
+					},
+					{
+						Name: "Buckle",
+						Left: {
+							[PoseType.DEFAULT]: 150,
+							KneelingSpread: 90 + 150,
+						},
+						Top: 403,
+						Priority: 33,
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+						ParentGroup: "",
+						AllowTypes: { b: [1, 2] },
+					},
+					{
+						Name: "Camo1",
+						Opacity: 0.5,
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { c: [1] },
+					},
+					{
+						Name: "Camo2",
+						Opacity: 0.5,
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { c: [1] },
+					},
+					{
+						Name: "Tiger1",
+						Opacity: 0.5,
+						Priority: 30,
+						CopyLayerColor: "Camo1",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { c: [2] },
+					},
+					{
+						Name: "Tiger2",
+						Opacity: 0.5,
+						Priority: 31,
+						CopyLayerColor: "Camo2",
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { c: [2] },
+					},
+					{
+						Name: "Tiger3",
+						Priority: 32,
+						Opacity: 0.8,
+						// BlendingMode: "screen",
+						// PoseMapping: {},
+						// ParentGroup: "",
+						AllowTypes: { c: [2] },
+					},
+				],
+			},
+			{
 				Name: "SideCutoutYogaPants",
 				InventoryID: 1283,
 				Random: false,
@@ -11549,6 +11945,15 @@ var AssetFemale3DCG = [
 						Name: "Shine",
 					},
 				],
+			},
+			{
+				Name: "FeatherLingerie",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FeatherLingerie",
+					BuyGroup: true,
+				},
 			},
 		],
 		Color: [
@@ -19028,6 +19433,44 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "GIBeret",
+				InventoryID: 1367,
+				Value: 20,
+				PoseMapping: {
+					Suspension: PoseType.HIDE,
+				},
+				Left: 100,
+				Layer: [
+					{
+						Name: "Long",
+						HideForAttribute: ["ShortHair"],
+						Top: -10,
+					},
+					{
+						Name: "LongBand",
+						HideForAttribute: ["ShortHair"],
+						Top: -10,
+					},
+					{
+						Name: "Short",
+						ShowForAttribute: ["ShortHair"],
+						CopyLayerColor: "Long",
+					},
+					{
+						Name: "ShortBand",
+						ShowForAttribute: ["ShortHair"],
+						CopyLayerColor: "LongBand",
+						Top: 0,
+					},
+					{
+						Name: "String",
+						Priority: 6,
+						CopyLayerColor: "LongBand",
+						// ShowForAttribute: ["ShortHair"],
+					},
+				],
+			},
+			{
 				Name: "CheapHelmet",
 				InventoryID: 1161,
 				Value: -1,
@@ -23533,6 +23976,15 @@ var AssetFemale3DCG = [
 				],
 			}, //HeadHarness
 			{
+				Name: "CybertechMask",
+				CopyConfig: {
+					GroupName: "ItemHood",
+					AssetName: "CybertechMask",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "ItemHood",
+			}, //CybertechMask
+			{
 				Name: "FestivalFoxMask",
 				Audio: "TightLeatherStretch",
 				InventoryID: 495,
@@ -25611,6 +26063,26 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "BotEnergyWings",
+				InventoryID: 1365,
+				Value: 150,
+				Priority: 5,
+				Top: 50,
+				DefaultColor: ["#5DF6FF", "#52E4D2", "#008DD9", "#987731", "#41514E"],
+				Layer: [
+					{ Name: "Frame", Priority: 5, AllowColorize: false },
+					{ Name: "EnergyHighlight", Priority: 4 },
+					{ Name: "EnergyShine", Priority: 3 },
+					{ Name: "EnergyBase", Priority: 2 },
+					{ Name: "Mechanics", Priority: 1 },
+					{ Name: "Metal", Priority: 0 },
+				],
+				Attribution: {
+					Author: "Shanon (Cinderheart)",
+					License: "CC0 1.0 Universal/Public domain",
+				},
+			},
+			{
 				Name: "SeraphWings",
 				InventoryID: 1324,
 				DefaultColor: [],
@@ -26174,7 +26646,6 @@ var AssetFemale3DCG = [
 									"Kneel",
 									"KneelingSpread",
 									"Spread",
-									"LegsOpen",
 								],
 							},
 						],
@@ -27756,6 +28227,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairFront56",
+				Top: 30,
 				Layer: [
 					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
 					{
@@ -27771,10 +28243,25 @@ var AssetFemale3DCG = [
 					{
 						Name: "MainTip",
 					},
+				],
+			},
+			{
+				Name: "HairFront56b",
+				Top: 30,
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
 					{
-						Name: "Back",
+						Name: "SmallEars",
 						CopyLayerColor: "Main",
-						Priority: 5,
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+					{
+						Name: "MainTip",
 					},
 				],
 			},
@@ -28102,6 +28589,78 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Streak",
+					},
+				],
+			},
+			{
+				Name: "HairFront75",
+				Top: 27,
+				Left: 148,
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{
+						Name: "SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+				],
+			},
+			{
+				Name: "HairFront76a",
+				Top: 33,
+				Random: false,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tips",
+					},
+					{
+						Name: "Strands",
+						AllowTypes: { Strands: 0 },
+					},
+					{
+						Name: "Braids",
+						AllowTypes: { Extra: 0 },
+					},
+					{
+						Name: "Extra",
+						CopyLayerColor: "Braids",
+						AllowTypes: { Extra: 1 },
+					},
+				],
+			},
+			{
+				Name: "HairFront76b",
+				Top: 33,
+				Random: false,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tips",
+					},
+					{
+						Name: "Strands",
+						AllowTypes: { Strands: 0 },
+					},
+					{
+						Name: "Braids",
+						AllowTypes: { Extra: 0 },
+					},
+					{
+						Name: "Extra",
+						CopyLayerColor: "Braids",
+						AllowTypes: { Extra: 1 },
 					},
 				],
 			},
@@ -28704,6 +29263,53 @@ var AssetFemale3DCG = [
 						Name: "BackRight",
 						AllowTypes: { typed: [0, 2] },
 						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
+			{
+				Name: "HairBack61b",
+				Extended: true,
+				Layer: [
+					{
+						Name: "FrontLeft",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						AllowTypes: { typed: [0, 2] },
+						CopyLayerColor: "FrontRight",
+					},
+					{
+						Name: "ClipRight",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "ClipLeft",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "ClipRight",
+						Priority: 48,
+					},
+					{
+						Name: "Basic",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "BasicClip",
+						AllowTypes: { typed: 3 },
+						CopyLayerColor: "ClipRight",
 					},
 				],
 			},
@@ -29430,6 +30036,28 @@ var AssetFemale3DCG = [
 					{
 						Name: "RightStreak",
 						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack85",
+				Top: 40,
+				Left: {
+					[PoseType.Default]: 49,
+					Kneel: 132,
+					KneelingSpread: 132,
+				},
+				PoseMapping: { 
+					Kneel: "Kneel",
+					KneelingSpread: "Kneel",
+				},
+				Priority: 1,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Clip",
 					},
 				],
 			},
@@ -38305,6 +38933,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				AllowActivePose: ["BackElbowTouch", "Kneel", "LegsClosed"],
+				PoseMapping: { AllFours: PoseType.HIDE, Hogtied: PoseType.HIDE },
 				ParentGroup: {},
 				DefaultColor: [
 					"Default",
@@ -48087,6 +48716,10 @@ var AssetFemale3DCG = [
 						Name: "Samantha",
 						AllowTypes: { SarahsWorld: 2 },
 					},
+					{
+						Name: "Courtney",
+						AllowTypes: { DollMakerClub: 1 },
+					},
 				],
 			},
 			{
@@ -53290,8 +53923,13 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 0 },
 					},
 					{
+						Name: "WiffleBall",
+						AllowTypes: { typed: 2},
+						CopyLayerColor: "Ball",
+					},
+					{
 						Name: "BallShine",
-						AllowTypes: { typed: 0 },
+						AllowTypes: { typed: [0, 2] },
 					},
 					{
 						Name: "Ring",
@@ -53303,9 +53941,45 @@ var AssetFemale3DCG = [
 						AllowColorize: false,
 					},
 					{ Name: "Straps" },
+					{
+						Name: "Bit",
+						AllowTypes: { typed: 3},
+						CopyLayerColor: "Ball",
+					},
+					{
+						Name: "BitShine",
+						AllowTypes: { typed: 3},
+						CopyLayerColor: "BallShine",
+					},
+					{
+						Name: "LargeBall",
+						AllowTypes: { typed: 4},
+						CopyLayerColor: "Ball",
+					},
+					{
+						Name: "LargeBallShine",
+						AllowTypes: { typed: 4},
+						CopyLayerColor: "BallShine",
+					},
+					{
+						Name: "LargeMouth",
+						AllowTypes: { typed: 5},
+						AllowColorize: false,
+					},
+					{
+						Name: "LargeRing",
+						AllowTypes: { typed: 5},
+						CopyLayerColor: "Ring",
+					},
 					{ Name: "Metal" },
 					{
 						Name: "Teeth",
+						AllowTypes: { typed: [0, 1, 2, 3]},
+						AllowColorize: false,
+					},
+					{
+						Name: "Teeth2",
+						AllowTypes: { typed: [4, 5]},
 						AllowColorize: false,
 					},
 				],
@@ -53843,6 +54517,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Time: 20,
 				AllowLock: true,
+				DrawLocks: false,
 				AllowTighten: true,
 				DynamicGroupName: "ItemMouth",
 				Effect: [E.BlockMouth, E.ProtrudingMouth],
@@ -58459,6 +59134,15 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "CybertechMask",
+				CopyConfig: {
+					GroupName: "ItemHood",
+					AssetName: "CybertechMask",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "ItemHood",
+			},
+			{
 				Name: "LeatherSlimMask",
 				InventoryID: 975,
 				Fetish: ["Leather"],
@@ -60051,6 +60735,88 @@ var AssetFemale3DCG = [
 						],
 					},
 				],
+			},
+			{
+				Name: "CybertechMask",
+				InventoryID: 1371,
+				Value: 85,
+				Difficulty: 20,
+				Time: 10,
+				Random: false,
+				AllowLock: true,
+				DrawLocks: false,
+				Left: 190,
+				Top: 80,
+				Prerequisite: ["GasMask", "NotProtrudingFromMouth"],
+				DefaultColor: [
+					"#242424",
+					"#333333",
+					"#472418",
+					"#C0C0C0",
+					"#363636",
+					"#151515",
+					"#494949",
+					"#0E0E0E",
+					"#9A9A9A",
+					"#F200FF",
+					"#780E7E",
+					"#A1A1A1",
+					"#363636",
+					"#6490C6",
+				],
+				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3"],
+				Layer: [
+					{ Name: "base" },
+					{
+						Name: "nose",
+					},
+					{ Name: "straps" },
+					{ Name: "sideAttachments" },
+					{ Name: "attachmentPoint" },
+					{
+						Name: "top",
+					},
+					{ Name: "exhalationValve" },
+					{
+						Name: "visorOpaque",
+						AllowTypes: { v: 1 },
+					},
+					{
+						Name: "visorReflection",
+						AllowTypes: { v: 1 },
+					},
+					{
+						Name: "visorTransparent",
+						AllowTypes: { v: 0 },
+						CopyLayerColor: "visorOpaque",
+					},
+					{
+						Name: "visorReflectionTransparent",
+						AllowTypes: { v: 0 },
+						CopyLayerColor: "visorReflection",
+					},
+					{
+						Name: "hypno1",
+						AllowTypes: { v: 2 },
+					},
+					{
+						Name: "hypno2",
+						AllowTypes: { v: 2 },
+					},
+					{
+						Name: "tube",
+						AllowTypes: { c: 1 },
+					},
+					{
+						Name: "canteen",
+						AllowTypes: { c: 1 },
+					},
+					{
+						Name: "liquid",
+						AllowTypes: { c: 1 },
+					},
+				],
+				Extended: true,
 			},
 			{
 				Name: "KirugumiMask",
@@ -67306,6 +68072,17 @@ var AssetFemale3DCG = [
 				BuyGroup: "WoodenRack",
 				OverrideHeight: { Height: 0, HeightRatioProportion: 1, Priority: 21 },
 				Effect: [E.Freeze, E.Mounted, E.OnBed],
+				AllowActivePose: [
+					"BaseUpper",
+					"BackBoxTie",
+					"BackCuffs",
+					"BackElbowTouch",
+					"OverTheHead",
+					"Yoked",
+					"Spread",
+					"LegsClosed",
+					"BaseLower",
+				],
 				Layer: [
 					{
 						Name: "Back",
@@ -69022,7 +69799,6 @@ var AssetFemale3DCG = [
 				SelfBondage: 0,
 				Time: 10,
 				RemoveTime: 10,
-
 				Effect: [E.Tethered, E.MapImmobile],
 				FixedPosition: true,
 				Extended: true,

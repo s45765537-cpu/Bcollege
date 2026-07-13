@@ -837,6 +837,16 @@ ClothChineseDress2Select,Select a dress pattern.
 ClothCorsetDressNormal,Corset plus skirt
 ClothCorsetDressNoSkirt,Only corset
 ClothCorsetDressSelect,Choose your corset dress style:
+ClothMilitaryFatigueSelectBase,Uniform Option:
+ClothMilitaryFatigueModuleType,Type
+ClothMilitaryFatigueSelectType,Select a clothing type.
+ClothMilitaryFatigueOptions0,Standard
+ClothMilitaryFatigueOptions1,Cropped
+ClothMilitaryFatigueModuleCamouflage,Camouflage
+ClothMilitaryFatigueSelectCamouflage,Select a camouflage pattern.
+ClothMilitaryFatigueOptionc0,None
+ClothMilitaryFatigueOptionc1,Basic
+ClothMilitaryFatigueOptionc2,Tigerstripe
 ClothCustomTShirtModuleShirt,Position
 ClothCustomTShirtModuleStamp,Stamp
 ClothCustomTShirtOptionh0,Default
@@ -915,15 +925,6 @@ ClothHoodieSetHood,SourceCharacter adjusts the hood of DestinationCharacter hood
 ClothHoodieSetHood,SourceCharacter adjusts the length of DestinationCharacter hoodie.
 ClothHoodieSetp0,SourceCharacter takes DestinationCharacter hands out of the hoodie's pouch.
 ClothHoodieSetp1,SourceCharacter puts DestinationCharacter hands into the hoodie's pouch.
-ClothOuterJacketHoodieModuleHood,Hood
-ClothOuterJacketHoodieModuleSleeve,Sleeve
-ClothOuterJacketHoodieOptionh0,Hood Down
-ClothOuterJacketHoodieOptionh1,Hood Up
-ClothOuterJacketHoodieOptions0,Sleeved
-ClothOuterJacketHoodieOptions1,Sleeveless
-ClothOuterJacketHoodieSelectBase,Select Jacket Hoodie Options
-ClothOuterJacketHoodieSelectHood,Select Hood Position
-ClothOuterJacketHoodieSelectSleeve,Adjust Sleeves
 ClothJacketHooded,Hooded
 ClothJacketHoodedEarsOut,Hooded (ears visible)
 ClothJacketNormal,None
@@ -975,6 +976,20 @@ ClothLowerPantBootsSetb0,SourceCharacter removes pants from DestinationCharacter
 ClothLowerPantBootsSetb1,SourceCharacter adds pants to DestinationCharacter boots.
 ClothLowerPantBootsSets0,SourceCharacter removes the stripes on DestinationCharacter boots.
 ClothLowerPantBootsSets1,SourceCharacter reveals the stripes on DestinationCharacter boots.
+ClothLowerMilitaryPantsSelectBase,Uniform Option:
+ClothLowerMilitaryPantsModuleCamouflage,Camouflage
+ClothLowerMilitaryPantsSelectCamouflage,Select a camouflage pattern.
+ClothLowerMilitaryPantsOptionc0,None
+ClothLowerMilitaryPantsOptionc1,Basic
+ClothLowerMilitaryPantsOptionc2,Tigerstripe
+ClothLowerMilitaryPantsModuleBelt,Belt
+ClothLowerMilitaryPantsSelectBelt,Choose a type of belt.
+ClothLowerMilitaryPantsOptionb0,None
+ClothLowerMilitaryPantsOptionb1,Strapped
+ClothLowerMilitaryPantsOptionb2,Overlapped
+ClothLowerDenimShortsSelect,Choose Shorts Style:
+ClothLowerDenimShortsNormal,Normal
+ClothLowerDenimShortsUnbuttoned,Unbuttoned
 ClothMeshTopModuleSleeves,Sleeves
 ClothMeshTopModuleTop,Top
 ClothMeshTopOptions0,Sleeves
@@ -998,6 +1013,18 @@ ClothMeshTopSett3,SourceCharacter switches to DestinationCharacterName AssetName
 ClothMeshTopSett4,SourceCharacter switches to DestinationCharacterName AssetName to a leotard top.
 ClothMeshTopSett5,SourceCharacter switches to DestinationCharacterName AssetName to a ripped top.
 ClothMeshTopSett6,SourceCharacter switches to DestinationCharacterName AssetName to a none top.
+ClothOuterJacketHoodieModuleHood,Hood
+ClothOuterJacketHoodieModuleSleeve,Sleeve
+ClothOuterJacketHoodieOptionh0,Hood Down
+ClothOuterJacketHoodieOptionh1,Hood Up
+ClothOuterJacketHoodieOptions0,Sleeved
+ClothOuterJacketHoodieOptions1,Sleeveless
+ClothOuterJacketHoodieSelectBase,Select Jacket Hoodie Options
+ClothOuterJacketHoodieSelectHood,Select Hood Position
+ClothOuterJacketHoodieSelectSleeve,Adjust Sleeves
+ClothOuterTransparentraincoatOpaque,Opaque
+ClothOuterTransparentraincoatSelect,Choose the raincoat appearance
+ClothOuterTransparentraincoatTransparent,Transparent
 ClothPriorityTypeNormal,Revealed
 ClothPriorityTypeTucked,Tucked in
 ClothRetroGirdleGarters,With Garters.
@@ -2511,6 +2538,16 @@ HairBackHairBack61SetRightOnly,SourceCharacter changes DestinationCharacter hair
 HairBackHairBack61Both,Both
 HairBackHairBack61LeftOnly,Left Only
 HairBackHairBack61RightOnly,Right Only
+HairBackHairBack61RightOnly,Right Only
+HairBackHairBack61bSelect,Select Type.
+HairBackHairBack61bSetBoth,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61bSetLeftOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61bSetRightOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61bSetBehind,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61bBoth,Both
+HairBackHairBack61bLeftOnly,Left Only
+HairBackHairBack61bRightOnly,Right Only
+HairBackHairBack61bBehind,Behind
 HairBackHairBack65Select,Select Type.
 HairBackHairBack65SetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack65SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
@@ -4632,6 +4669,27 @@ ItemHoodOldGasMaskSeta2,SourceCharacter attaches a tube to DestinationCharacter 
 ItemHoodOldGasMaskSeta3,SourceCharacter attaches a rebreather to DestinationCharacter gas mask.
 ItemHoodOldGasMaskSetl0,SourceCharacter removes the blinding lenses from DestinationCharacter gas mask.
 ItemHoodOldGasMaskSetl1,SourceCharacter attaches blinding lenses to DestinationCharacter gas mask.
+ItemHoodCybertechMaskModuleVisor,Visor
+ItemHoodCybertechMaskModuleCanteen,Canteen
+ItemHoodCybertechMaskModuleLayering,Position
+ItemHoodCybertechMaskSelectBase,Select mask configuration.
+ItemHoodCybertechMaskSelectVisor,Select visor type.
+ItemHoodCybertechMaskSelectCanteen,Select canteen attachment.
+ItemHoodCybertechMaskSelectLayering,Select mask position.
+ItemHoodCybertechMaskSetv0,SourceCharacter switches DestinationCharacter visor out for a see-through one.
+ItemHoodCybertechMaskSetv1,SourceCharacter switches DestinationCharacter visor out for a tinted one.
+ItemHoodCybertechMaskSetv2,SourceCharacter switches the hypnotic program on DestinationCharacter visor on.
+ItemHoodCybertechMaskOptionv0,See-through
+ItemHoodCybertechMaskOptionv1,Tinted
+ItemHoodCybertechMaskOptionv2,Hypnosis Program
+ItemHoodCybertechMaskSetc0,SourceCharacter removes DestinationCharacter canteen.
+ItemHoodCybertechMaskSetc1,SourceCharacter plugs a canteen into DestinationCharacter straw hole.
+ItemHoodCybertechMaskOptionc0,None
+ItemHoodCybertechMaskOptionc1,On
+ItemHoodCybertechMaskSetl0,SourceCharacter positions DestinationCharacter mask under DestinationCharacter hair.
+ItemHoodCybertechMaskSetl1,SourceCharacter positions DestinationCharacter mask over DestinationCharacter hair.
+ItemHoodCybertechMaskOptionl0,Under hair
+ItemHoodCybertechMaskOptionl1,Over hair
 ItemHoodOpenFaceHoodSetHideBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenFaceHoodSetShowBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenMouthPlugHoodModuleFakeMouth,Fake Mouth
@@ -7197,9 +7255,17 @@ GlassesPincenezSelectAccessory,Accessory options:
 GlassesPincenezOptiona0,No accessory
 GlassesPincenezOptiona1,Accessory added
 QualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+QualityHarnessGagSetLargeBallGag,SourceCharacter attaches large ball gag to DestinationCharacter gag harness.
 QualityHarnessGagSetRingGag,SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+QualityHarnessGagSetLargeRingGag,SourceCharacter attaches large ring gag to DestinationCharacter gag harness.
+QualityHarnessGagSetWiffleGag,SourceCharacter attaches wiffle gag to DestinationCharacter gag harness.
+QualityHarnessGagSetBitGag,SourceCharacter attaches bit gag to DestinationCharacter gag harness.
 QualityHarnessGagTypeRingGag,Ring Gag
+QualityHarnessGagTypeLargeRingGag,Large Ring Gag
 QualityHarnessGagTypeBallGag,Ball Gag
+QualityHarnessGagTypeLargeBallGag,Large Ball Gag
+QualityHarnessGagTypeBitGag,Bit Gag
+QualityHarnessGagTypeWiffleGag,Wiffle Gag
 ItemArmsArmbinderSuitSelectBase,Armbinder Suit customization menu:
 ItemArmsArmbinderSuitModuleCollar,Collar
 ItemArmsArmbinderSuitSelectCollar,Collar menu
@@ -7461,6 +7527,20 @@ MaskFaceScarsSelect8,Apply
 MaskFaceScarsSelect9,Apply
 MaskFaceScarsSelect10,Apply
 MaskFaceScarsSelect11,Apply
+MaskCybertechMaskModuleVisor,Visor
+MaskCybertechMaskModuleCanteen,Canteen
+MaskCybertechMaskModuleLayering,Position
+MaskCybertechMaskSelectBase,Select mask configuration.
+MaskCybertechMaskSelectVisor,Select visor type.
+MaskCybertechMaskSelectCanteen,Select canteen attachment.
+MaskCybertechMaskSelectLayering,Select mask position.
+MaskCybertechMaskOptionv0,See-through
+MaskCybertechMaskOptionv1,Tinted
+MaskCybertechMaskOptionv2,Hypnosis Program
+MaskCybertechMaskOptionc0,None
+MaskCybertechMaskOptionc1,On
+MaskCybertechMaskOptionl0,Under hair
+MaskCybertechMaskOptionl1,Over hair
 ItemDevicesBrickWallSelect,Build and choose the brick wall's height:
 ItemDevicesBrickWallNone,No brick
 ItemDevicesBrickWallLegs,Up to the hips
@@ -7542,6 +7622,26 @@ HairFrontHairFront71SetBasic,SourceCharacter changes DestinationCharacter hair.
 HairFrontHairFront71SetTranslucent,SourceCharacter changes DestinationCharacter hair.
 HairFrontHairFront71Basic,Basic
 HairFrontHairFront71Translucent,Translucent
+HairFrontHairFront76aModuleStrands,Strands
+HairFrontHairFront76aModuleExtra,Extra
+HairFrontHairFront76aOptionStrands0,Colored Strands
+HairFrontHairFront76aOptionStrands1,No Strands
+HairFrontHairFront76aOptionExtra0,Braids
+HairFrontHairFront76aOptionExtra1,Extra
+HairFrontHairFront76aOptionExtra2,None
+HairFrontHairFront76aSelectBase,Select Options
+HairFrontHairFront76aSelectStrands,Select Strands
+HairFrontHairFront76aSelectExtra,Select Extras
+HairFrontHairFront76bModuleStrands,Strands
+HairFrontHairFront76bModuleExtra,Extra
+HairFrontHairFront76bOptionStrands0,Colored Strands
+HairFrontHairFront76bOptionStrands1,No Strands
+HairFrontHairFront76bOptionExtra0,Braids
+HairFrontHairFront76bOptionExtra1,Extra
+HairFrontHairFront76bOptionExtra2,None
+HairFrontHairFront76bSelectBase,Select Options
+HairFrontHairFront76bSelectStrands,Select Strands
+HairFrontHairFront76bSelectExtra,Select Extras
 PremiumMuzzleMouthSetCrossStraps,SourceCharacter adds extra straps to DestinationCharacter muzzle
 PremiumMuzzleMouthSetNormal,SourceCharacter turns DestinationCharacter muzzle back to normal.
 PremiumMuzzleMouthSetExtraMuzzle,SourceCharacter attaches an extra panel over DestinationCharacter muzzle.
@@ -8259,6 +8359,13 @@ ItemHandheldPlushieOptionSarahsWorld1,Sarah
 ItemHandheldPlushieSetSarahsWorld1,SourceCharacter places a sexy Sarah plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionSarahsWorld2,Samantha
 ItemHandheldPlushieSetSarahsWorld2,SourceCharacter places a sexy Samantha plushie in DestinationCharacter hands.
+ItemHandheldPlushieModuleDollMakerClub,Doll Maker Club
+ItemHandheldPlushieSelectDollMakerClub,Doll Maker Club
+ItemHandheldPlushieDollMakerClubSelect,Choose the plushie:
+ItemHandheldPlushieOptionDollMakerClub0,None
+ItemHandheldPlushieSetDollMakerClub0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionDollMakerClub1,Courtney
+ItemHandheldPlushieSetDollMakerClub1,SourceCharacter places a cute Courtney plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
@@ -8942,3 +9049,13 @@ ItemVulvaPiercingsModularVulvaPiercingsSetf1,SourceCharacter fastens Destination
 ItemVulvaPiercingsModularVulvaPiercingsSetf2,SourceCharacter fastens DestinationCharacter chastity piercings with rings.
 ItemVulvaPiercingsModularVulvaPiercingsSets0,SourceCharacter removes the shield from DestinationCharacter chastity piercings.
 ItemVulvaPiercingsModularVulvaPiercingsSets1,SourceCharacter adds a shield to DestinationCharacter chastity piercings.
+ItemDevicesInflatableRestraintBagSeto0,SourceCharacter deflates the bag on TargetCharacter
+ItemDevicesInflatableRestraintBagSeto1,SourceCharacter inflates the bag on TargetCharacter
+ItemDevicesInflatableRestraintBagSett0,SourceCharacter removes the hood on TargetCharacter
+ItemDevicesInflatableRestraintBagSett1,SourceCharacter adds a hood on TargetCharacter
+ItemDevicesInflatableRestraintBagSetg0,SourceCharacter removes the canister on TargetCharacter
+ItemDevicesInflatableRestraintBagSetg1,SourceCharacter adds a canister on TargetCharacter
+ItemDevicesLongBagSetOpaque,SourceCharacter made DestinationCharacter sack opaque.
+ItemDevicesLongBagSetTranslucent,SourceCharacter made DestinationCharacter sack translucent.
+ItemNipplesPiercingsPiercingNameBadgeSetRightNipple,SourceCharacter puts the AssetName on DestinationCharacter right nipple.
+ItemNipplesPiercingsPiercingNameBadgeSetLeftNipple,SourceCharacter puts the AssetName on DestinationCharacter left nipple.
