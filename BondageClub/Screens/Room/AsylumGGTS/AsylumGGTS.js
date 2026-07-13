@@ -326,7 +326,7 @@ function AsylumGGTSMessage(Msg, Target) {
  */
 function AsylumGGTSSetTimer() {
 	let Factor = 1;
-	if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) Factor = Factor / 3;
+	if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] === "AsylumGGTS") Factor = Factor / 3;
 	if (AsylumGGTSTimer == 0) Factor = Factor / 3;
 	AsylumGGTSTimer = Math.round(CommonTime() + 24000 * AsylumGGTSSpeed * Factor + Math.random() * 36000 * AsylumGGTSSpeed * Factor);
 }
@@ -930,7 +930,7 @@ function AsylumGGTSAutomaticTask() {
 function AsylumGGTSFindTaskTarget(T) {
 
 	// Only in public GGTS when there's at least another character and the player isn't blind
-	if ((ChatSearchReturnToScreen == "AsylumGGTS") || (ChatRoomCharacter.length <= 1) || Player.IsBlind()) return null;
+	if (ChatSearchReturnScreen[1] == "AsylumGGTS" || ChatRoomCharacter.length <= 1 || Player.IsBlind()) return null;
 
 	// Nurses can use items on other players with less reputation or herself
 	if ((ReputationGet("Asylum") > 0) && (T.substr(0, 4) == "Item") && (T.length >= 15)) {
@@ -1019,7 +1019,7 @@ function AsylumGGTSEndTaskSave(Fail) {
 	AsylumGGTSTask = null;
 	if ((Fail == null) || (Fail == false)) {
 		let Factor = 1;
-		if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS") && (ChatRoomCharacter.length <= 1)) Factor = 3;
+		if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] == "AsylumGGTS" && ChatRoomCharacter.length <= 1) Factor = 3;
 		let AddedTime;
 		if (AsylumGGTSTaskEnd > 0) AddedTime = CommonTime() - AsylumGGTSTaskEnd;
 		else AddedTime = CommonTime() - AsylumGGTSTaskStart;
@@ -1168,7 +1168,7 @@ function AsylumGGTSProcess() {
 		if (ChatSearchGetSpace() !== "Asylum") AsylumGGTSMessage("IntroOnlyInAsylum");
 		else if (AsylumGGTSGetLevel(Player) <= 0) AsylumGGTSMessage("IntroNotPlaying");
 		else if (AsylumGGTSGetStrikes(Player) >= 3) AsylumGGTSMessage("IntroPendingPunishment");
-		else if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
+		else if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] == "AsylumGGTS") AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
 		else AsylumGGTSMessage("IntroPublic");
 		AsylumGGTSIntroDone = true;
 		return;
