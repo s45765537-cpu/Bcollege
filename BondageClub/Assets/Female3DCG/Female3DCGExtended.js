@@ -639,6 +639,11 @@ var AssetFemale3DCGExtended = {
 				Option: "ClothHoodieOption",
 			},
 		}, // Hoodie
+		Transparentraincoat: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Transparent" }, { Name: "Opaque" }],
+		}, // Transparentraincoat
 	},
 	Cloth: {
 		TShirt2: {

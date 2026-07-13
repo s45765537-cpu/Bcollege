@@ -880,6 +880,29 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Transparentraincoat",
+				DynamicGroupName: "Cloth",
+				Extended: true,
+				Layer: [
+					{ Name: "Transparent", AllowTypes: { typed: 0 } },
+					{ Name: "Raincoat", AllowTypes: { typed: 1 } },
+				],
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Transparentraincoat",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "GhostCloak",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "GhostCloak",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -5450,8 +5473,6 @@ var AssetFemale3DCG = [
 				],
 				Prerequisite: ["HasBreasts"],
 				SetPose: ["BackElbowTouch"],
-				LayerVisibility: true,
-				DynamicGroupName: "Cloth",
 				PoseMapping: {
 					BackCuffs: "Hide",
 					OverTheHead: "Hide",
@@ -5479,8 +5500,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				ParentGroup: {},
-				Hide: ["HairFront"],
-				DynamicGroupName: "Cloth",
+				Hide: ["HairFront", "HairBack"],
 				AllowActivePose: [
 					"BaseUpper",
 					"BackBoxTie",
@@ -5502,6 +5522,15 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "白布",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "Plugsuit",
+				DynamicGroupName: "Suit",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "Plugsuit",
+					BuyGroup: true,
 				},
 			},
 		],
@@ -8320,6 +8349,15 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "透明兔女郎",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "FeatherLingerie",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FeatherLingerie",
+					BuyGroup: true,
 				},
 			},
 		],
@@ -11907,6 +11945,15 @@ var AssetFemale3DCG = [
 						Name: "Shine",
 					},
 				],
+			},
+			{
+				Name: "FeatherLingerie",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FeatherLingerie",
+					BuyGroup: true,
+				},
 			},
 		],
 		Color: [
