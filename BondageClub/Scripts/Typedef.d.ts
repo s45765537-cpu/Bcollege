@@ -4857,10 +4857,10 @@ interface WheelFortuneOptionType {
 // #region ClubCard
 
 type ClubCardTag =
-	| "All"
+	| "All Cards"
 	| "Selected Cards"
-	| "Event"
-	| "NoGroup"
+	| "Event Cards"
+	| "Ungrouped"
 	| "Liability"
 	| "Staff"
 	| "Police"
@@ -4878,7 +4878,8 @@ type ClubCardTag =
 	| "Submissive / Slave"
 	| "Exhibitionist"
 	| "Latex"
-	| "Reward";
+	| "Online Player"
+	| "Reward Cards";
 
 interface ClubCard {
 	ID: number;

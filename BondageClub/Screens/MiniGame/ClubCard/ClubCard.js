@@ -2324,9 +2324,6 @@ var ClubCardList = [
 				ClubCardMoveCardToPending(ClubCardPending, null);
 			}
 			ClubCardFocus = null;
-			const index = this.ArrayIndex;
-			CCPlayer.Board[index].CanActive = false;
-			CCPlayer.Board[index].ExtraPlay++;
 			ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.filter(card => card.Type != "Event")));
 		},
 		onLevelUp: function() {
@@ -3072,7 +3069,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 18001,
-		Name: "Suit polisher",
+		Name: "Suit Polisher",
 		Group: ["Latex"],
 		onDrawAction: function() {
 			if ((this.MoneyPerTurn ?? 0) < 3) this.MoneyPerTurn = (this.MoneyPerTurn ?? 0) + 1;
@@ -5647,6 +5644,9 @@ function ClubCardTifaSelection(CCPlayer, Selection) {
 function ClubCardClareSelection(CCPlayer, Card) {
 	if (ClubCardIsAnimationOn === false || ClubCardFocus?.AnimationState != "moving") ClubCardClickResetFocusCard();
 	ClubCardFocus = null;
+	const index = ClubCardPending.ArrayIndex;
+	CCPlayer.Board[index].CanActive = false;
+	CCPlayer.Board[index].ExtraPlay++;
 	ClubCardPlayerSteal(CCPlayer, Card.RequiredLevel ?? 1, 0);
 	ClubCardDiscardCard(CCPlayer, CCPlayer.Deck.findIndex(c => c.ID === Card.ID), "Deck");
 	ClubCardClickResetPendingCard();
@@ -6740,7 +6740,6 @@ async function ClubCardLoad() {
 	ClubCardIsAnimationOn = Player.Game.ClubCard.Settings.IsAnimation;
 
 	ClubCardCreatePopup("DECK");
-	ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), ClubCardSelectDefaultDeck);
 }
 
 /**
