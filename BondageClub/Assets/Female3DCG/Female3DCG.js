@@ -30043,11 +30043,11 @@ var AssetFemale3DCG = [
 				Name: "HairBack85",
 				Top: 40,
 				Left: {
-					[PoseType.Default]: 49,
+					[PoseType.DEFAULT]: 49,
 					Kneel: 132,
 					KneelingSpread: 132,
 				},
-				PoseMapping: { 
+				PoseMapping: {
 					Kneel: "Kneel",
 					KneelingSpread: "Kneel",
 				},
