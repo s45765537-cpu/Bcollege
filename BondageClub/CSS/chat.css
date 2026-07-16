@@ -808,7 +808,6 @@
 	display: flex;
 	flex-direction: row;
 	gap: var(--gap-size);
-	height: 2em;
 	width: 100%;
 	box-sizing: border-box;
 	z-index: 1;
@@ -824,8 +823,13 @@
 	box-sizing: border-box;
 	z-index: 1;
 	background-color: black;
-	min-height: 2em;
 	padding-inline: 0.2em;
+}
+
+#chat-room-top-menu,
+#chat-room-struggle-bar {
+	/* Keep synced _or_ fire up `ChatRoomInputResize()` after unhiding on of these elements */
+	height: 2em;
 }
 
 .chat-room-struggle-item {
