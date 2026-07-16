@@ -652,7 +652,6 @@ async function CommonSetScreen(...spec) {
 			return CommonSetScreen(.../** @type {ScreenSpecifier} */([OldModule, OldScreen, { recursive: true }]));
 		} else {
 			// Plan B: can't even reload the old screen; things are FUBAR at this point ¯\_(ツ)_/¯
-			// @ts-expect-error: `options.cause` requires es2022, though is inert and harmless on older browsers
 			throw new Error(`Failed to reload previous "${NewModule}/${NewScreen}" screen`, { cause: error });
 		}
 	}

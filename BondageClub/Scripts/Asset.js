@@ -358,7 +358,11 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	if (ExtendedConfig) {
 		const assetBaseConfig = AssetFindExtendedConfig(ExtendedConfig, A.Group.Name, A.Name);
 		if (assetBaseConfig != null) {
-			AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
+			try {
+				AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
+			} catch (e) {
+				throw new Error(`${A.Group.Name}:${A.Name}: Failed to load extended config`, { cause: e });
+			}
 		}
 	}
 
