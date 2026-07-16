@@ -806,6 +806,12 @@ function DialogLeave(options=null) {
 	DialogMenuMode = null;
 	Object.values(DialogMenuMapping).forEach(obj => obj.Exit());
 
+	// Clear dialog struggle data
+	DialogStruggleAction = null;
+	DialogStrugglePrevItem = null;
+	DialogStruggleNextItem = null;
+	DialogStruggleSelectMinigame = false;
+
 	// Stop sounds & expressions from struggling/swapping items
 	AudioDialogStop();
 

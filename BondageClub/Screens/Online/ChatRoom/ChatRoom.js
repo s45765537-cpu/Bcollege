@@ -3219,6 +3219,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();
 	ChatRoomSetLastChatRoom(null);
+	StruggleChatRoomEndAmination();
 	ServerSend("ChatRoomLeave", "");
 	if (clearCharacters)
 		CharacterDeleteAllOnline();
