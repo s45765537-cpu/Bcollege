@@ -1227,6 +1227,9 @@ function LoginSetupPlayer(C) {
 		CommonVersionUpdated = true;
 		Player.OnlineSharedSettings.GameVersion = GameVersion;
 		ServerAccountUpdate.QueueData({ OnlineSharedSettings: Player.OnlineSharedSettings });
+	} else if (CommonCompareVersion(GameVersion, Player.OnlineSharedSettings.GameVersion ?? "R0") > 0) {
+		Player.OnlineSharedSettings.GameVersion = GameVersion;
+		ServerAccountUpdate.QueueData({ OnlineSharedSettings: Player.OnlineSharedSettings });
 	}
 }
 
