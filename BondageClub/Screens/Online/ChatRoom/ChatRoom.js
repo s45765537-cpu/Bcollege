@@ -2291,6 +2291,7 @@ function ChatRoomInputResize(chatInput) {
 
 	const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
 	let height = parent.getBoundingClientRect().height;
+	let nVisibleSibblings = 0;
 	for (const i of parent.children) {
 		if (!ElementCheckVisibility(i, { checkVisibilityCSS: false })) {
 			continue;
@@ -2298,9 +2299,11 @@ function ChatRoomInputResize(chatInput) {
 
 		if (i !== chatLog) {
 			height -= i.getBoundingClientRect().height;
+			nVisibleSibblings++;
 		}
 	}
-	chatLog.style.height = `${Math.max(0, height)}px`;
+	height = Math.max(0, height);
+	chatLog.style.height = `calc(${height}px - ${nVisibleSibblings} * var(--gap-size))`;
 
 	if (isScrolledToEnd) {
 		ElementScrollToEnd("TextAreaChatLog");
@@ -3219,6 +3222,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();
 	ChatRoomSetLastChatRoom(null);
+	StruggleChatRoomEndAmination();
 	ServerSend("ChatRoomLeave", "");
 	if (clearCharacters)
 		CharacterDeleteAllOnline();
