@@ -7649,6 +7649,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "DiaperSuit",
 				Extended: true,
+				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Value: 100,
 				Top: 215,
@@ -69153,6 +69154,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Stroller",
+				Category: ["ABDL"],
+				Fetish: ["ABDL"],
 				Priority: 2,
 				InventoryID: 1372,
 				Value: 300,
