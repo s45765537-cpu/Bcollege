@@ -7647,6 +7647,36 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "DiaperSuit",
+				Extended: true,
+				Fetish: ["ABDL"],
+				Value: 100,
+				Top: 215,
+				InventoryID: 1373,
+				Left: 136,
+				BuyGroup: "DiaperSuit",
+				DefaultColor: ["#989898", "#9B9399", "#ABABAB"],
+				HideItem: ["ItemNipplesChopStickNippleClamps"],
+				PoseMapping: {
+					...AssetPoseMapping.Suit,
+					BackBoxTie: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					Hogtied: "Hogtied",
+					AllFours: "Hogtied",
+				},
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Overlay" },
+					{ Name: "Tabs", ParentGroup: "" },
+					{
+						Name: "Text",
+						HasImage: false,
+					},
+				],
+			},
+			{
 				Name: "LatexCatsuit",
 				InventoryID: 201,
 				Gender: "F",
@@ -8594,6 +8624,37 @@ var AssetFemale3DCG = [
 				HideItem: ["SocksPantyhose1"],
 				Attribute: ["SuitLower"],
 				Layer: [{ Name: "Base" }, { Name: "Zip" }],
+			},
+			{
+				Name: "DiaperSuit",
+				CopyConfig: {
+					AssetName: "DiaperSuit",
+					GroupName: "Suit",
+					BuyGroup: true
+				},
+				Extended: false,
+				DefaultColor: ["#989898", "#9B9399", "#ABABAB","#EAD889"],
+				Top: 400,
+				Left: 136,
+				PoseMapping: {
+					...AssetPoseMapping.SuitLower,
+					Kneel: "LegsClosed",
+					Spread: PoseType.DEFAULT,
+					Hogtied: PoseType.HIDE
+				},
+				Attribute: ["SuitLower", "Diaper", "DiaperMedium"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Overlay" },
+					{ Name: "Tabs",  ParentGroup: "" },
+					{
+						Name: "Gradient",
+						ParentGroup: "",
+						Opacity: 0,
+						MinOpacity: 0,
+						MaxOpacity: 1,
+					},
+				],
 			},
 			{
 				Name: "LatexCatsuit",
@@ -52584,6 +52645,37 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "PacifierClip",
+				InventoryID: 1374,
+				Top: 183,
+				Left: 226,
+				Category: ["ABDL"],
+				Fetish: ["ABDL"],
+				Attribute: ["Pacifier"],
+				Value: 50,
+				Random: false,
+				BuyGroup: "PacifierClip",
+				Audio: "PolyesterWoosh1",
+				DefaultColor: ["#B76290","#CB6A9E"],
+				Prerequisite: "GagUnique",
+				Effect: [E.BlockMouth],
+				ExpressionTrigger: [
+					{ Name: "Low", Group: "Blush", Timer: 5 },
+					{ Name: "Closed", Group: "Eyes", Timer: 5 },
+				],
+				Extended: true,
+				Layer: [
+					{
+						Name: "Harness",
+						CreateLayerTypes: ["typed"]
+					},
+					{
+						Name: "Pacifier",
+						CreateLayerTypes: ["typed"],
+					},
+				],
+			},
+			{
 				Name: "HarnessPacifierGag",
 				InventoryID: 915,
 				Category: ["ABDL"],
@@ -55956,6 +56048,14 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "PacifierClip",
+				CopyConfig: {
+					AssetName: "PacifierClip",
+					GroupName: "ItemMouth",
+					BuyGroup: true,
+				},
+			},
+			{
 				Name: "DusterGag",
 				InventoryID: 916,
 				Fetish: ["Leather"],
@@ -58071,6 +58171,14 @@ var AssetFemale3DCG = [
 				Effect: [E.BlockMouth, E.GagEasy],
 				AllowActivity: ["ChewItem"],
 				Layer: [{ Name: "Panel" }, { Name: "Straps" }, { Name: "Metal" }],
+			},
+			{
+				Name: "PacifierClip",
+				CopyConfig: {
+					AssetName: "PacifierClip",
+					GroupName: "ItemMouth",
+					BuyGroup: true,
+				},
 			},
 			{
 				Name: "RingGag",
@@ -69041,6 +69149,57 @@ var AssetFemale3DCG = [
 						Priority: 2,
 						AllowTypes: { typed: 1 },
 					},
+				],
+			},
+			{
+				Name: "Stroller",
+				Priority: 2,
+				InventoryID: 1372,
+				Value: 300,
+				Top: 22,
+				Left: 33,
+				Difficulty: -2,
+				SelfBondage: 2,
+				Time: 15,
+				RemoveTime: 10,
+				DrawLocks: false,
+				AllowLock: true,
+				Audio: "SoftCloth1",
+				AllowActivePose: [
+					"BaseUpper",
+					"BackBoxTie",
+					"BackCuffs",
+					"BackElbowTouch",
+					"OverTheHead",
+					"Yoked",
+					"Kneel",
+					"KneelingSpread",
+					"Spread",
+					"LegsClosed",
+					"BaseLower",
+				],
+				DefaultColor: ["#2B2B2B", "#191718", "#8B8589", "#343233", "#474244", "#968692", "#4C445D"],
+				Effect: [E.Freeze, E.Leash],
+				OverrideHeight: {
+					Height: 0,
+					Priority: 60,
+					HeightRatioProportion: 0.95,
+				},
+				Alpha: [{
+					Group: ["HandsLeft", "HandsRight"], Masks: [
+						[0, 0, 86, 200],
+						[414, 0, 500, 200],
+						[0, 0, 500, 88],
+					]
+				}],
+				Layer: [
+					{ Name: "Parts" },
+					{ Name: "Back" },
+					{ Name: "Frame" },
+					{ Name: "Seat" },
+					{ Name: "Harness", Priority: 50 },
+					{ Name: "Tray", Priority: 26 },
+					{ Name: "Hood", Priority: 70 },
 				],
 			},
 			{

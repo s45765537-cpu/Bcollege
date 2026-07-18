@@ -1136,6 +1136,7 @@ ItemDevices,Potty,Potty
 ItemDevices,Enema,Enema Fixture
 ItemDevices,GiftBox,Gift Box
 ItemDevices,XFrame,X-Frame
+ItemDevices,Stroller,Stroller
 ItemEars,,Ears
 ItemEars,BluetoothEarbuds,Bluetooth Earbuds
 ItemEars,FuturisticEarphones,Futuristic Earphones
@@ -1542,6 +1543,7 @@ ItemMouth,PremiumMuzzle,Premium Muzzle Gag
 ItemMouth,OverfilledGag,Overfilling Gag
 ItemMouth,XmasStickerGag,Christmas Sticker Gag
 ItemMouth,BallGag2,Adjustable Ball Gag
+ItemMouth,PacifierClip,Pacifier Clip
 ItemMouth2,,Mouth
 ItemMouth3,,Mouth
 ItemNeck,,Neck
@@ -2073,6 +2075,7 @@ Suit,SleevelessCatsuit, Sleeveless Catsuit
 Suit,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
 Suit,ShinyLeotard,Shiny Latex Leotard
 Suit,TransparentBunnyGirl,Transparent Bunny Girl
+Suit,DiaperSuit,Diaper Suit
 SuitLower,,Suit (Lower)
 SuitLower,Catsuit,Catsuit
 SuitLower,CatsuitPanties, Catsuit Panties
@@ -2084,6 +2087,7 @@ SuitLower,ReverseBunnySuit,Reverse Bunny Suit
 SuitLower,SeamlessCatsuit, Seamless Catsuit
 SuitLower,SeethroughSuit,See-through Suit
 SuitLower,SeethroughSuitZip,See-through Zipsuit
+SuitLower,DiaperSuit,Diaper Suit
 TailStraps,,Tail Strap
 TailStraps,BunnyTailStrap,Bunny Tail Strap
 TailStraps,CowtailStrap,Cow Tail Strap

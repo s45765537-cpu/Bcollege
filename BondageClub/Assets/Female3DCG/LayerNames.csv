@@ -1997,6 +1997,15 @@ ItemDevicesXFrameTopLocks,Locks
 ItemDevicesXFrameFrameRopeTop,Rope
 ItemDevicesXFrameStains,Stains
 ItemDevicesXFrameBolts,Bolts
+ItemDevicesXFrameFrame,Wood
+ItemDevicesXFrameMetal,Metal
+ItemDevicesStrollerParts,Parts
+ItemDevicesStrollerBack,Back
+ItemDevicesStrollerFrame,Frame
+ItemDevicesStrollerSeat,Seat
+ItemDevicesStrollerHarness,Harness
+ItemDevicesStrollerTray,Tray
+ItemDevicesStrollerHood,Hood
 ItemEarsCTHeadsetearHighlight,Hightlights
 ItemEarsCTHeadsetcushions,Cushions
 ItemEarsCTHeadsetears,Earphones
@@ -3103,6 +3112,8 @@ ItemMouthOverfilledGagPanties,Stuffing
 ItemMouthOverfilledGagTape1,Tape
 ItemMouthBallGag2BasicStrap,Strap
 ItemMouthBallGag2RegularSizeBall,Ball
+ItemMouthPacifierClipHarness,Harness
+ItemMouthPacifierClipPacifier,Pacifier
 ItemNeckAccessoriesCollarButterflyMetal,Metal
 ItemNeckAccessoriesCollarButterflyStones,Jewels
 ItemNeckAccessoriesCollarRoseAmuletMetal,Metal
@@ -3983,6 +3994,10 @@ SuitGlossyBodystockingG2,Gloves Main
 SuitGlossyBodystockinggmask,Mask
 SuitGlossyBodystockingL,Seams
 SuitGlossyBodystockingmmL,Seams
+SuitDiaperSuitBase,Base
+SuitDiaperSuitOverlay,Wrapping
+SuitDiaperSuitTabs,Tabs
+SuitDiaperSuitText,Text
 SuitLatexBodysuitCloth,Cloth
 SuitLatexBodysuitHighlight,Highlight
 SuitLatexBodysuitShadow,Shadow
@@ -4008,6 +4023,10 @@ SuitLowerPilotSuitLayer3,Center
 SuitLowerPilotSuitLayer4,Underlayment
 SuitLowerSeethroughSuitZipBase,Suit
 SuitLowerSeethroughSuitZipZip,Zip
+SuitLowerDiaperSuitBase,Base
+SuitLowerDiaperSuitOverlay,Wrapping
+SuitLowerDiaperSuitTabs,Tabs
+SuitLowerDiaperSuitGradient,Gradient
 SuitMaleSeamlessCatsuitBase,Catsuit
 SuitMaleSeamlessCatsuitOpaqueGloves,Gloves
 SuitPilotSuitFeet,Feet

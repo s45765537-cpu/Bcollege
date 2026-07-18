@@ -15555,6 +15555,22 @@ var AssetFemale3DCGExtended = {
 				Chat: "BallGagMouthSet",
 			},
 		}, // WiffleGag
+		PacifierClip: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "PacifierIn",
+				},
+				{
+					Name: "PacifierOut",
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectGagType",
+				Option: "BallGagMouthType",
+				Chat: "BallGagMouthSet",
+			},
+		}, // PacifierClip
 		BallGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -16959,6 +16975,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "WiffleGag" },
 		},
+		PacifierClip: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PacifierClip" },
+		},
 		BallGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGag" },
@@ -17164,6 +17184,10 @@ var AssetFemale3DCGExtended = {
 		WiffleGag: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "WiffleGag" },
+		},
+		PacifierClip: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PacifierClip" },
 		},
 		BallGag: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -21713,6 +21737,37 @@ var AssetFemale3DCGExtended = {
 				Exit: InventorySuitLatexCatsuitExitHook,
 				PublishAction: InventorySuitLatexCatsuitPublishActionHook,
 			},
+		}, // LatexCatsuit
+		DiaperSuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Text",
+					Key: "e",
+					Options: [
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 11 },
+								Font: "Impact",
+								ScriptHooks: {
+									AfterDraw: (...args) =>
+										TextItem.GenericTextArcDrawHook(...args, {
+											XOffset: 52,
+											YOffset: 45,
+											drawOptions: {
+												fontSize: 15,
+												radius: 120,
+												effect: DynamicDrawTextEffect.BURN,
+											},
+										}),
+								},
+							},
+						},
+					],
+				},
+			],
 		}, // LatexCatsuit
 		SeamlessCatsuit: {
 			Archetype: ExtendedArchetype.TYPED,
