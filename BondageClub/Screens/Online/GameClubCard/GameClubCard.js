@@ -497,7 +497,7 @@ function GameClubCardAssignPlayers(data, rng, Char) {
 		ClubCardTurnIndex = Math.floor(rng * 2);
 		ClubCardDestroyPopup();
 	}
-	if (ClubCardIsPlaying()) ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), ClubCardSelectDefaultDeck);
+	if (ClubCardPopup?.Mode != "DECK") ElementRemove("DefaultDecksDropdown");
 
 	let Msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "SelectedPlayerToStart");
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
