@@ -1132,9 +1132,9 @@ const CommonCommands = [
 	{
 		Tag: 'mods',
 		Action: function () {
-			CommandsHelp.ShowFor(CommonUnwrapThunk(this), {
-				setCommand: this[0].Tag,
-				command: this[0],
+			CommandsHelp.ShowFor([this], {
+				setCommand: this.Tag,
+				command: this,
 			});
 		},
 		Subcommands: [{

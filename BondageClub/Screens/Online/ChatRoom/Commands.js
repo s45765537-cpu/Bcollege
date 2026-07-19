@@ -153,7 +153,7 @@ function CommandExecute(msg) {
 	const args = currentCommandParsed.join(' ');
 
 	const action = CommandResolveProperty(command[commandDepth], "Action");
-	action?.call(command, args, msg, currentCommandParsed);
+	action?.call(command[commandDepth], args, msg, currentCommandParsed);
 
 	if (CommandResolveProperty(command[commandDepth], "Clear") !== false) CommandChangeChatInputContent('');
 	return true;
