@@ -84,7 +84,7 @@ const Shop2Vars = CommonVariableContainer(
 		 */
 		get Mode() { return Shop2Vars._Mode; },
 		set Mode(value) {
-			ElementContent("Shop2InputSearch-datalist", "");
+			ElementClearContents("Shop2InputSearch-datalist");
 			Shop2Vars._Mode = value;
 		},
 
@@ -549,7 +549,7 @@ var Shop2 = {
 		}
 
 		if (clearDatalist) {
-			ElementContent("Shop2InputSearch-datalist", "");
+			ElementClearContents("Shop2InputSearch-datalist");
 		}
 	},
 

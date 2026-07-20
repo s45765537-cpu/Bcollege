@@ -177,7 +177,7 @@ function BackgroundSelectionInputChanged() {
 function BackgroundSelectionTagChanged() {
 	BackgroundSelectionList = BackgroundsGenerateList(this.value !== BackgroundsTagNone ? [/** @type {BackgroundTag} */(this.value)] : BackgroundSelectionTagList);
 	BackgroundSelectionView = BackgroundSelectionList.slice().sort(BackgroundSelectionSort);
-	ElementContent(`${Background.elementID.searchFilter}-datalist`, "");
+	ElementClearContents(`${Background.elementID.searchFilter}-datalist`);
 	BackgroundSelectionInputChanged();
 	if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
 }

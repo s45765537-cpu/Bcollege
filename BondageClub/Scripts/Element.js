@@ -38,6 +38,7 @@ function ElementValue(ID, Value) {
  * @param {string | null} ID - The id of the element for which we want to get/set the value.
  * @param {string} [Content] - The content/inner HTML to give to the element (if applicable)
  * @returns {string} - The content of the element (When no Content parameter was passed to the function)
+ * @deprecated Use {@link ElementClearContents} or {@link ElementCreate} instead.
  */
 function ElementContent(ID, Content) {
 	ID ??= ElementGenerateID();
@@ -53,6 +54,16 @@ function ElementContent(ID, Content) {
 	// eslint-disable-next-line nounsanitized/property
 	e.innerHTML = Content;
 	return "";
+}
+
+/**
+ * Clears the contents of an HTML element
+ * @param {string} ID
+ */
+function ElementClearContents(ID) {
+	const e = ElementWrap(ID);
+	if (!e) return;
+	e.replaceChildren();
 }
 
 /** @satisfies {ElementNoParent} */
