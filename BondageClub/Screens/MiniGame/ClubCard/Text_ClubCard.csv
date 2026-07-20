@@ -167,7 +167,7 @@ Text Masochist,"+1 Fame/turn and +1 Money/turn if there's a Dominant ally. You D
 Title Feet Worshiper,Feet Worshiper
 Text Feet Worshiper,+2 Money/turn if there's a Porn Actress or Mommy ally.
 Title Fin-Dom Simp,Fin-Dom Simp
-Text Fin-Dom Simp,"+Money/turn equal to the highest-tier among Dominant allies. Enters: +3 Money."
+Text Fin-Dom Simp,"+Money/turn equal to the highest tier among Dominant allies. Enters: +3 Money."
 Title Fin-Dom Whale,Fin-Dom Whale
 Text Fin-Dom Whale,+2 Money/turn per Mistress ally. Enters: Draw a card.
 Title Porn Addict,Porn Addict
@@ -211,7 +211,7 @@ Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
 Text Doctor,+3 Fame/turn per Patient ally (max +12).
 Title Picky Nurse,Picky Nurse
-Text Picky Nurse,"+Fame/turn equal to the highest-tier among Patient allies."
+Text Picky Nurse,"+Fame/turn equal to the highest tier among Patient allies."
 Title Amateur Rigger,Amateur Rigger
 Text Amateur Rigger,<F>Purple hands?  I'm sure it's normal.
 Title Domme,Domme
@@ -254,7 +254,7 @@ Text Sugar Baby,<F>This baby wants a diamond pacifier.
 Title Babysitter,Babysitter
 Text Babysitter,+2 Fame/turn per Baby ally (max +4).
 Title Soap Opera Mother,Soap Opera Mother
-Text Soap Opera Mother,Enters: +25 Money if there's a Baby ally.
+Text Soap Opera Mother,Enters: +25 Fame if there's a Baby ally.
 Title Amanda,Amanda
 Text Amanda,<F>I never thought I would find a second home in this perverted place.
 Title Sarah,Sarah
@@ -540,7 +540,7 @@ Text Maid Manager,"+1 Money/turn per 2 Maid allies. At tier 4+, +1 Fame/turn ins
 Title Throne Room Servant,Throne Room Servant
 Text Throne Room Servant,"+2 Fame/turn per tier 5 ally (max +7)."
 Title Feather Duster,Feather Duster
-Text Feather Duster,"Played: Select an active Event to end to get +Money equal to its tier, then draw a card if there's a Maid ally."
+Text Feather Duster,"Played: Select an active Event to end, then +Money equal to its tier and draw a card if there's a Maid ally."
 Prerequisite Feather Duster,Select an ongoing event to end.
 Title Afterhours Service,Afterhours Service
 Text Afterhours Service,"Lasts 3 turns. +2 Fame/turn and -2 Money/turn per Maid or Staff ally (max +/- 18)."
