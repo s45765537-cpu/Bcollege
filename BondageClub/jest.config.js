@@ -2,5 +2,5 @@
 module.exports = {
 	verbose: true,
 	testEnvironment: "jsdom",
-	setupFilesAfterEnv: ["./tests/setup.js"],
+	setupFilesAfterEnv: ["./Tests/setup.js"],
 };

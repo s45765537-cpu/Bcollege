@@ -26,6 +26,7 @@ const CHEAP_CHECKS = /** @type {const} */([
 	"scripts:lint",
 	"files:case",
 	"files:csvtypescript",
+	"test",
 ]);
 
 const FULL_CHECKS = /** @type {const} */([
