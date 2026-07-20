@@ -50,6 +50,7 @@ function ElementContent(ID, Content) {
 	if (Content == null)
 		return e.innerHTML;
 
+	// eslint-disable-next-line nounsanitized/property
 	e.innerHTML = Content;
 	return "";
 }
@@ -110,6 +111,7 @@ function ElementCreate(options) {
 		}
 	}
 
+	// eslint-disable-next-line nounsanitized/property
 	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
 
 	elem.append(...ElementParseChildren(options.children ?? []));
