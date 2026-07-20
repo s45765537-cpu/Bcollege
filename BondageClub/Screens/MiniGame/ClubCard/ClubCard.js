@@ -4461,31 +4461,25 @@ function ClubCardSendRequestResetGame() {
  * @param {string} MessageType - Message type (constant)
  * @param {Record<string, any>} placeholders - Dynamic data for text replacement
  * @param {ClubCardPlayer|null} TargetPlayer - The source player
- * @param {string} MessageText - if TextGetKey is not used
  */
-function ClubCardMessageAdd(MessageType, TextGetKey, placeholders = {}, TargetPlayer = null, MessageText = null) {
+function ClubCardMessageAdd(MessageType, TextGetKey, placeholders = {}, TargetPlayer = null) {
 	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
-	//self message
-	const PlayerName = CharacterNickname(CCPlayer.Character);
-	//target message
-	const SourcePlayer = TargetPlayer ? CharacterNickname(TargetPlayer.Character) : null;
-	const OpponentPlayer = TargetPlayer ? CharacterNickname(ClubCardGetOpponent(TargetPlayer).Character) : null;
 	let playerId = (CCPlayer.Control === "AI")
-			? "ControlAI"
-			: `${CCPlayer.Character.MemberNumber}`;
+		? "ControlAI"
+		: `${CCPlayer.Character.MemberNumber}`;
 
+	if (TargetPlayer) {
+		placeholders.SOURCEPLAYER = CharacterNickname(TargetPlayer.Character);
+		placeholders.OPPONENTPLAYER = CharacterNickname(ClubCardGetOpponent(TargetPlayer).Character);
+	}
 
+	/** @type {ClubCardMessage} */
 	const messageEntry = {
 		TextGetKey: TextGetKey,
-		MessageText: MessageText,
 		MessageType: MessageType,
 		PlayerId: playerId,
 		TurnCounter: CCPlayer.ClubCardTurnCounter,
 		Placeholders: placeholders,
-
-		PlayerName: PlayerName,
-		SourcePlayer: SourcePlayer,
-		OpponentPlayer: OpponentPlayer
 	};
 
 	// If the message type is immediate, send it directly and don't store it
@@ -4675,15 +4669,14 @@ function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
  * @returns {string} MessageText
  */
 function ClubCardMessageGetText(ClubCardMessage) {
-	let messageText = ClubCardMessage.TextGetKey
-		? TextGet(ClubCardMessage.TextGetKey)
-		: ClubCardMessage.MessageText;
+	let messageText = TextGet(ClubCardMessage.TextGetKey);
+	if (messageText.startsWith(TEXT_NOT_FOUND_PREFIX)) return "";
 
-	if (ClubCardMessage.PlayerName) messageText = messageText.replace("PLAYERNAME", ClubCardMessage.PlayerName);
-	if (ClubCardMessage.SourcePlayer) messageText = messageText.replace("SOURCEPLAYER", ClubCardMessage.SourcePlayer);
-	if (ClubCardMessage.OpponentPlayer) messageText = messageText.replace("OPPONENTPLAYER", ClubCardMessage.OpponentPlayer);
-	if (ClubCardMessage.TurnCounter) messageText = messageText.replace("TURNNUMBER", `${ClubCardMessage.TurnCounter}`);
+	const playerNumber = CommonParseInt(ClubCardMessage.PlayerId);
+	const player = ClubCardPlayer.find(p => playerNumber !== null ? p.Character.MemberNumber === playerNumber : p.Control === "AI")?.Character;
 
+	ClubCardMessage.Placeholders.TURNNUMBER ??= `${ClubCardMessage.TurnCounter}`;
+	ClubCardMessage.Placeholders.PLAYERNAME ??= CharacterNickname(player);
 
 	for (const [key, value] of Object.entries(ClubCardMessage.Placeholders)) {
 		if (key == ClubCardPlaceholderKeys.CARDNAME) {
@@ -5754,13 +5747,11 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		const deckSources = Player?.Game?.ClubCard?.Deck ?? [];
 		const isValid = deckSources.length > DeckNum && deckSources[DeckNum]?.length >= ClubCardBuilderMinDeckSize && deckSources[DeckNum]?.length <= ClubCardBuilderMaxDeckSize;
 		if (isValid) {
-			let msg = TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player));
-			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
+			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "UsingDeck");
 			for (let i = 0; i < Player.Game.ClubCard?.Deck[DeckNum]?.length; i++)
 				Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
 		} else {
-			let msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
-			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
+			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "NoValidDeckFound");
 			Deck = ClubCardBuilderDefaultDeck.slice();
 		}
 	}
@@ -5828,7 +5819,7 @@ function ClubCardLoadDeckNumber(DeckNum) {
 /**
  * Draw the club card player hand on screen, show only sleeves if not controlled by player
  * @param {Character} Char - The character to link to that club card player
- * @param {String} Cont - The control linked to that player
+ * @param {"Player" | "AI" | "Online"} Cont - The control linked to that player
  * @param {readonly number[]} Cards - The cards to build the deck with
  * @returns {void} - Nothing
  */
@@ -6152,8 +6143,12 @@ function ClubCardEndGameSyncAndMessage(CCPlayer) {
 	const textGetKey = ClubCardIsOnline()
 		? "VictoryFor" + CCPlayer.Control
 		: "VictoryOnline";
-	if (textGetKey == "VictoryForOnline") ClubCardMessageAdd(ClubCardMessageType.VICTORYINFO, null, {}, null, TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
-	else ClubCardMessageAdd(ClubCardMessageType.VICTORYINFO, textGetKey);
+	if (textGetKey == "VictoryForOnline") {
+		ClubCardMessageAdd(ClubCardMessageType.VICTORYINFO, "VictoryOnline");
+	} else {
+		// XXX: this is always VictoryOnline
+		ClubCardMessageAdd(ClubCardMessageType.VICTORYINFO, textGetKey);
+	}
 	ClubCardMessageSendAll();
 	GameClubCardSyncOnlineData();
 	// Notices everyone in the room that the game end
@@ -6570,8 +6565,7 @@ function ClubCardAIStart() {
 function ClubCardConcede() {
 	if (ClubCardIsOnline()) {
 		const textGetKey = ClubCardIsPlaying() ? "OnlineConcede" : "OnlineStopWatch";
-		const Msg = TextGet(textGetKey).replace("PLAYERNAME", CharacterNickname(Player));
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, textGetKey);
 		if (ClubCardIsPlaying() && MiniGameEnded === false) {
 			MiniGameEnded = true;
 			if (ClubCardIsOnline()) {
@@ -7284,17 +7278,11 @@ function ClubCardRenderPanel() {
 
 	if (ClubCardRenderLog.length > 0) {
 		for (let messageLogItem of ClubCardRenderLog) {
-
-			messageLogItem.MessageText = messageLogItem.MessageText
-				? messageLogItem.MessageText
-				: ClubCardMessageGetText(messageLogItem);
-
-
-			if (messageLogItem == null || messageLogItem.MessageText == "") continue;
+			const msg = ClubCardMessageGetText(messageLogItem);
+			if (msg === "") continue;
 
 			//fix bug double Turn Message in start game
-			if (messageLogItem.MessageType == ClubCardMessageType.STARTTURNINFO)
-				if (ClubCardLog.some(item => item.MessageText === messageLogItem.MessageText)) continue;
+			if (messageLogItem.MessageType === ClubCardMessageType.STARTTURNINFO && ClubCardLog.some(item => ClubCardMessageGetText(item) === msg)) continue;
 			//one style for all these types message
 			const isOneDivContainer = messageLogItem.MessageType == ClubCardMessageType.SYSTEM
 				|| messageLogItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE
@@ -7454,7 +7442,7 @@ function ClubCardCreateOneDivContainer(MessageItem) {
 	elementDiv.style.borderRadius = "5px";
 	elementDiv.style.lineHeight = "1.4";
 	elementDiv.style.overflowWrap = "break-word";
-	elementDiv.textContent = MessageItem.MessageText;
+	elementDiv.textContent = ClubCardMessageGetText(MessageItem);
 
 	if (MessageItem.MessageType == ClubCardMessageType.SYSTEM)
 		elementDiv.style.backgroundColor = systemMessageBackground;
@@ -7492,7 +7480,7 @@ function ClubCardCreateTurnDivContainer(MessageItem) {
 	messageElement.style.marginBottom = "2px";
 	messageElement.style.lineHeight = "1.4";
 	messageElement.style.overflowWrap = "break-word";
-	messageElement.textContent = MessageItem.MessageText;
+	messageElement.textContent = ClubCardMessageGetText(MessageItem);
 
 	if (MessageItem.MessageType == ClubCardMessageType.STARTTURNINFO) {
 		messageElement.id = `Message ${ClubCardMessageType.STARTTURNINFO}`;
@@ -7503,9 +7491,12 @@ function ClubCardCreateTurnDivContainer(MessageItem) {
 		messageElement.style.backgroundColor = ActionSeparatorBackgound;
 		messageElement.style.borderTop = "1px solid white";
 		messageElement.style.borderBottom = "1px solid white";
+	} else if (MessageItem.MessageType === ClubCardMessageType.PLAYERSMESSAGE) {
+		// Because you never want ClubCardGetFormatTextForInnerHTML to run over attacker-controller inputs
 	} else {
 		messageElement.textContent = null;
-		messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(MessageItem.MessageText);
+		// XXX: this is terrible. If anything in a message ever looks like HTML, it's gonna get injected here
+		messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(ClubCardMessageGetText(MessageItem));
 	}
 	document.getElementById(turnDivName).appendChild(messageElement);
 }
@@ -8076,8 +8067,7 @@ function ClubCardKeyDown(event) {
 	if (CommonKey.IsPressed(event, "Enter")) {
 		let Value = ElementValue("CCChat").trim();
 		if (Value != "") {
-			const Msg = CharacterNickname(Player) + ": " + Value;
-			ClubCardMessageAdd(ClubCardMessageType.PLAYERSMESSAGE, null, {}, null, Msg);
+			ClubCardMessageAdd(ClubCardMessageType.PLAYERSMESSAGE, "PlayerMessage", { "PLAYERNAME": CharacterNickname(Player), "MSG": Value });
 			ElementValue("CCChat", "");
 			return true;
 		}
