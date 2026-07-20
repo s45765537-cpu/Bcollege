@@ -8631,23 +8631,23 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					AssetName: "DiaperSuit",
 					GroupName: "Suit",
-					BuyGroup: true
+					BuyGroup: true,
 				},
 				Extended: false,
-				DefaultColor: ["#989898", "#9B9399", "#ABABAB","#EAD889"],
+				DefaultColor: ["#989898", "#9B9399", "#ABABAB", "#EAD889"],
 				Top: 400,
 				Left: 136,
 				PoseMapping: {
 					...AssetPoseMapping.SuitLower,
 					Kneel: "LegsClosed",
 					Spread: PoseType.DEFAULT,
-					Hogtied: PoseType.HIDE
+					Hogtied: PoseType.HIDE,
 				},
 				Attribute: ["SuitLower", "Diaper", "DiaperMedium"],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Overlay" },
-					{ Name: "Tabs",  ParentGroup: "" },
+					{ Name: "Tabs", ParentGroup: "" },
 					{
 						Name: "Gradient",
 						ParentGroup: "",
@@ -52657,7 +52657,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				BuyGroup: "PacifierClip",
 				Audio: "PolyesterWoosh1",
-				DefaultColor: ["#B76290","#CB6A9E"],
+				DefaultColor: ["#B76290", "#CB6A9E"],
 				Prerequisite: "GagUnique",
 				Effect: [E.BlockMouth],
 				ExpressionTrigger: [
@@ -52668,7 +52668,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Harness",
-						CreateLayerTypes: ["typed"]
+						CreateLayerTypes: ["typed"],
 					},
 					{
 						Name: "Pacifier",
@@ -69181,20 +69181,31 @@ var AssetFemale3DCG = [
 					"LegsClosed",
 					"BaseLower",
 				],
-				DefaultColor: ["#2B2B2B", "#191718", "#8B8589", "#343233", "#474244", "#968692", "#4C445D"],
+				DefaultColor: [
+					"#2B2B2B",
+					"#191718",
+					"#8B8589",
+					"#343233",
+					"#474244",
+					"#968692",
+					"#4C445D",
+				],
 				Effect: [E.Freeze, E.Leash],
 				OverrideHeight: {
 					Height: 0,
 					Priority: 60,
 					HeightRatioProportion: 0.95,
 				},
-				Alpha: [{
-					Group: ["HandsLeft", "HandsRight"], Masks: [
-						[0, 0, 86, 200],
-						[414, 0, 500, 200],
-						[0, 0, 500, 88],
-					]
-				}],
+				Alpha: [
+					{
+						Group: ["HandsLeft", "HandsRight"],
+						Masks: [
+							[0, 0, 86, 200],
+							[414, 0, 500, 200],
+							[0, 0, 500, 88],
+						],
+					},
+				],
 				Layer: [
 					{ Name: "Parts" },
 					{ Name: "Back" },
