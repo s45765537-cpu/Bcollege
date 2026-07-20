@@ -739,7 +739,7 @@ function FriendListLoadFriendList(data) {
 		for (const friend of data) {
 			const originalChatRoomName = friend.ChatRoomName || '';
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${friend.ChatRoomSpace || "F"}`);
-			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? "");
+			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName ?? "");
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (friend.ChatRoomSpace ?? "");
 
 			friendRawData.push({
@@ -772,7 +772,7 @@ function FriendListLoadFriendList(data) {
 		for (let i = FriendListBeepLog.length - 1; i >= 0; i--) {
 			const beepData = FriendListBeepLog[i];
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${beepData.ChatRoomSpace || "F"}`);
-			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') ?? "");
+			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName ?? "");
 			let beepCaption = '';
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatSearchGetSpace() === (beepData.ChatRoomSpace ?? "");
 
@@ -941,7 +941,7 @@ function FriendListLoadFriendList(data) {
 					ElementCreate({
 						tag: "td",
 						classList: ['friend-list-column', 'ChatRoomName'],
-						innerHTML: friend.chatRoom.caption, // TODO: review `innerHTML` usage and consider replacing with `children`
+						children: [friend.chatRoom.caption],
 						style: { "user-select": friend.chatRoom.caption === "-" ? "none" : undefined },
 					}),
 				);
@@ -997,7 +997,7 @@ function FriendListLoadFriendList(data) {
 					ElementCreate({
 						tag: "td",
 						classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'ChatRoomName'],
-						innerHTML: friend.chatRoom.caption,
+						children: [friend.chatRoom.caption],
 						style: { "user-select": friend.chatRoom.caption === "-" ? "none" : undefined },
 						eventListeners: {
 							click: () => FriendListChatSearch(friend.chatRoom?.name),
