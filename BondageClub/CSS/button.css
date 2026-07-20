@@ -73,8 +73,7 @@
 	transform: unset;
 	max-width: min(221px, calc(100% - 2 * var(--inner-border-width)));
 	width: unset;
-	max-height: unset;
-	height: min(221px, calc(100% - 2 * var(--inner-border-width)));
+	max-height: min(221px, calc(100% - 2 * var(--inner-border-width)));
 }
 
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
