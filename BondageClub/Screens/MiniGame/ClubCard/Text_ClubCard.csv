@@ -73,6 +73,9 @@ StealFameMoney,SOURCEPLAYER stole FAMEAMOUNT Fame and MONEYAMOUNT Money from OPP
 MemberLeaveClub,CARDNAME leaves SOURCEPLAYER's club.
 EventRemoved,CARDNAME event is removed.
 EventExpired,CARDNAME event has expired.
+SelectedPlayerToStart,PLAYERNAME has been selected randomly to start the game.
+JoinedClubCardGame,PLAYERNAME has joined the Club Card game.
+PlayerMessage,PLAYERNAME: MSG
 ChatHere,Chat here...
 GroupLiability,Liability
 GroupStaff,Staff

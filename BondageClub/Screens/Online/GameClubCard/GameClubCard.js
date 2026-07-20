@@ -499,14 +499,11 @@ function GameClubCardAssignPlayers(data, rng, Char) {
 	}
 	if (ClubCardPopup?.Mode != "DECK") ElementRemove("DefaultDecksDropdown");
 
-	let Msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "SelectedPlayerToStart");
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
-		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C1));
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "SelectedPlayerToStart", { "PLAYERNAME": CharacterNickname(C1) });
 	}
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) {
-		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C2));
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "SelectedPlayerToStart", { "PLAYERNAME": CharacterNickname(C2) });
 	}
 }
 
@@ -623,9 +620,7 @@ async function GameClubCardProcess(senderNumber, rng, data) {
 		await MiniGameStart("ClubCard", 0, () => GameClubCardEnd());
 		GameClubCardAssignPlayers(data, rng, sender);
 		GameClubCardLoadData(data);
-		let msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "JoinedClubCardGame");
-		msg = msg.replace("PLAYERNAME", CharacterNickname(Player));
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", { "PLAYERNAME": CharacterNickname(Player) });
 		GameClubCardExpectQuery = false;
 		ClubCardDestroyPopup();
 	}
