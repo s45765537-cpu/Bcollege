@@ -207,7 +207,7 @@ function PrivateBedActivityStart(Source, Target, Group, Activity) {
 	if (Target.HasPenis() && (GroupName == "ItemVulva")) GroupName = "ItemPenis";
 	if (Target.HasPenis() && (GroupName == "ItemVulvaPiercings")) GroupName = "ItemGlans";
 	let Text = ActivityDictionaryText(((Source.ID == Target.ID) ? "ChatSelf" : "ChatOther") + "-" + GroupName + "-" + Activity);
-	if (Text.startsWith("MISSING ACTIVITY DESCRIPTION FOR")) return false;
+	if (Text.startsWith(TEXT_NOT_FOUND_PREFIX)) return false;
 
 	// Sets the next timer and effect
 	Source.PrivateBedActivityTimer = CommonTime() + PrivateBedActivityDelay + ((Source.IsPlayer()) ? 0 : Math.round(Math.random() * PrivateBedActivityDelay));
@@ -243,6 +243,7 @@ function PrivateBedGroupActivityIsValid(Source, Target, Group, Activity) {
 	if (Group.Name == "ItemNose") return false; // Skip the noses activities
 	if (!Group.IsItem()) return false; // Skip groupes that cannot be clicked
 	if (Group.MirrorActivitiesFrom) return false; // No mirror zones
+	// XXX: Extend ActivityCanBeDone with a source/target and use it here
 	if (!AssetActivitiesForGroup("Female3DCG", Group.Name).length) return false; // Make sure the activity is valid for that group
 	if (!ActivityHasValidTarget(Target, Activity, Group)) return false; // Make sure the target is valid
 	if (!ActivityCheckPrerequisites(Activity, Source, Target, Group)) return false; // Check if the source/target has the proper prerequisites
