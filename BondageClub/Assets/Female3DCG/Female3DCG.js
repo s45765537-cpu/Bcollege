@@ -22595,18 +22595,18 @@ var AssetFemale3DCG = [
 				*/
 				Name: "Rings",
 				DefaultColor: [
-					"Default",
-					"Default",
-					"Default",
-					"Default",
-					"#A48537",
-					"Default",
-					"#707070",
-					"#00D307",
-					"#222222",
-					"#CC3333",
-					"#222222",
-					"#CC3333",
+					"Default", // Thumb
+					"Default", // Index
+					"Default", // Middle
+					"Default", // Ring
+					"#A48537", // Wedding
+					"Default", // Pinkie
+					"#707070", // Honor Base
+					"#00D307", // Honor Jewels
+					"#222222", // Fingernails Outline
+					"#CC3333", // Fingernails Color
+					"#222222", // Claws Outline
+					"#CC3333", // Claws Color
 				],
 				PoseMapping: {
 					...AssetPoseMapping.HandAccessoryLeft,
@@ -22616,20 +22616,14 @@ var AssetFemale3DCG = [
 				},
 				Extended: true,
 				Layer: [
-					//Thumb
 					{ Name: "ThumbSteel", AllowTypes: { t: 1 } },
-					//Index
 					{ Name: "IndexSteel", AllowTypes: { i: 1 } },
-					//Middle
 					{ Name: "MiddleSteel", AllowTypes: { m: 1 } },
-					//Ring
 					{ Name: "RingSteel", AllowTypes: { r: 1 } },
 					{ Name: "Wedding", AllowTypes: { r: 2 } },
-					//Pinkie
 					{ Name: "PinkieSteel", AllowTypes: { p: 1 } },
 					{ Name: "HonorBase", AllowTypes: { p: 2 } },
 					{ Name: "HonorJewels", AllowTypes: { p: 2 } },
-					//Fingernails
 					{ Name: "FingernailsOutline", AllowTypes: { f: 1 }, Priority: 29 },
 					{ Name: "FingernailsColor", AllowTypes: { f: 1 }, Priority: 28 },
 					{ Name: "ClawsOutline", AllowTypes: { f: 2 }, Priority: 29 },
@@ -22724,19 +22718,21 @@ var AssetFemale3DCG = [
 				*/
 				Name: "Rings",
 				DefaultColor: [
-					"Default",
-					"Default",
-					"Default",
-					"Default",
-					"#A48537",
-					"#707070",
-					"#00D307",
-					"#222222",
-					"#CC3333",
-					"#222222",
-					"#CC3333",
-					"#737373",
-					"#C2C2C2",
+					"Default", // Thumb
+					"Default", // Index
+					"Default", // Middle
+					"Default", // Ring
+					"#A48537", // Wedding
+					"Default", // Pinkie
+					"#707070", // Honor Base
+					"#00D307", // Honor Jewels
+					"#222222", // Fingernails Outline
+					"#CC3333", // Fingernails Color
+					"#222222", // Claws Outline
+					"#CC3333", // Claws Color
+					"#737373", // Wedding Crown
+					"#C2C2C2", // Wedding Gem
+					"Default", // Wedding Shine
 				],
 				PoseMapping: {
 					...AssetPoseMapping.HandAccessoryRight,
@@ -22747,26 +22743,18 @@ var AssetFemale3DCG = [
 				},
 				Extended: true,
 				Layer: [
-					//Thumb
 					{ Name: "ThumbSteel", AllowTypes: { t: 1 } },
-					//Index
 					{ Name: "IndexSteel", AllowTypes: { i: 1 } },
-					//Middle
 					{ Name: "MiddleSteel", AllowTypes: { m: 1 } },
-					//Ring
 					{ Name: "RingSteel", AllowTypes: { r: 1 } },
-					//Wedding
 					{ Name: "Wedding", AllowTypes: { r: 2 } },
-					//Pinkie
 					{ Name: "PinkieSteel", AllowTypes: { p: 1 } },
 					{ Name: "HonorBase", AllowTypes: { p: 2 } },
 					{ Name: "HonorJewels", AllowTypes: { p: 2 } },
-					//Fingernails
 					{ Name: "FingernailsOutline", AllowTypes: { f: 1 }, Priority: 29 },
 					{ Name: "FingernailsColor", AllowTypes: { f: 1 }, Priority: 28 },
 					{ Name: "ClawsOutline", AllowTypes: { f: 2 }, Priority: 29 },
 					{ Name: "ClawsColor", AllowTypes: { f: 2 }, Priority: 28 },
-					//Wedding Ring Gem
 					{
 						Name: "WeddingCrown",
 						AllowTypes: { r: [1, 2] },
