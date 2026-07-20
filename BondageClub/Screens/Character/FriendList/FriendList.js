@@ -1469,9 +1469,13 @@ function FriendListSearchByProperties(text) {
  */
 function FriendListHighlightProperty(element, text) {
 	const textContent = element.textContent;
-	if (!text) return textContent;
+	if (!text) return ChatRoomHTMLEntities(textContent);
 	const regex = new RegExp(text.toLowerCase(), 'gi');
-	return `${textContent.replace(regex, match => `<b class="highlight">${match}</b>`)}`;
+	if (regex.test(textContent)) {
+		return `${textContent.replace(regex, match => `<b class="highlight">${ChatRoomHTMLEntities(match)}</b>`)}`;
+	} else {
+		return ChatRoomHTMLEntities(textContent);
+	}
 }
 
 /**
