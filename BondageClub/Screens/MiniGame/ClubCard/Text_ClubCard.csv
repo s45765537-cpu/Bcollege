@@ -4,8 +4,8 @@ Level2,Cottage
 Level3,House
 Level4,Mansion
 Level5,Manor
-Fame,Fame:
-Money,Money:
+Fame,Fame
+Money,Money
 PlayCard,Play this card
 GameEnded,Game has ended.
 SelectOption,Select an option.
@@ -52,24 +52,24 @@ StartPlayer,You've been chosen to start the game.  Select a card to play or end 
 StartOpponent,Your opponent has been chosen to start the game.  Please wait for her move.
 StartOnline,PLAYERNAME has been selected to start.  Both players must pick a deck.
 StartTurnLogChat,Turn TURNNUMBER - PLAYERNAME
-EndTurnPlayer,SOURCEPLAYER FAMEMONEY.
-EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.
-UpgradeToLevel2,Get Cottage (MONEY)
-UpgradeToLevel3,Get House (MONEY)
-UpgradeToLevel4,Get Mansion (MONEY)
-UpgradeToLevel5,Get Manor (MONEY)
-UpgradedToLevel2,PLAYERNAME upgraded to Cottage for MONEYAMOUNT Money.
-UpgradedToLevel3,PLAYERNAME upgraded to House for MONEYAMOUNT Money.
-UpgradedToLevel4,PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
-UpgradedToLevel5,PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
-GainFame,SOURCEPLAYER gained AMOUNT Fame from CARDNAME.
-GainMoney,SOURCEPLAYER gained AMOUNT Money from CARDNAME.
-GainFameMoney,SOURCEPLAYER gained FAMEAMOUNT Fame and MONEYAMOUNT Money from CARDNAME.
-LoseFame,SOURCEPLAYER lost AMOUNT Fame.
-LoseMoney,SOURCEPLAYER lost AMOUNT Money.
-StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
-StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
-StealFameMoney,SOURCEPLAYER stole FAMEAMOUNT Fame and MONEYAMOUNT Money from OPPONENTPLAYER.
+EndTurnPlayer,"SOURCEPLAYER FAMELABEL, MONEYLABEL."
+EndDrawPlayer,"SOURCEPLAYER draws a card. FAMELABEL, MONEYLABEL."
+UpgradeToLevel2,Get Cottage (MONEYAMOUNT)
+UpgradeToLevel3,Get House (MONEYAMOUNT)
+UpgradeToLevel4,Get Mansion (MONEYAMOUNT)
+UpgradeToLevel5,Get Manor (MONEYAMOUNT)
+UpgradedToLevel2,PLAYERNAME upgraded to Cottage for MONEYLABEL.
+UpgradedToLevel3,PLAYERNAME upgraded to House for MONEYLABEL.
+UpgradedToLevel4,PLAYERNAME upgraded to Mansion for MONEYLABEL.
+UpgradedToLevel5,PLAYERNAME upgraded to Manor for MONEYLABEL.
+GainFame,SOURCEPLAYER gained FAMELABEL from CARDNAME.
+GainMoney,SOURCEPLAYER gained MONEYLABEL from CARDNAME.
+GainFameMoney,SOURCEPLAYER gained FAMELABEL and MONEYLABEL from CARDNAME.
+LoseFame,SOURCEPLAYER lost FAMELABEL.
+LoseMoney,SOURCEPLAYER lost MONEYLABEL.
+StealFame,SOURCEPLAYER stole FAMELABEL from OPPONENTPLAYER.
+StealMoney,SOURCEPLAYER stole MONEYLABEL from OPPONENTPLAYER.
+StealFameMoney,SOURCEPLAYER stole FAMELABEL and MONEYLABEL from OPPONENTPLAYER.
 MemberLeaveClub,CARDNAME leaves SOURCEPLAYER's club.
 EventRemoved,CARDNAME event is removed.
 EventExpired,CARDNAME event has expired.
@@ -399,7 +399,7 @@ Effect Debuter Draw,SOURCEPLAYER draws 1 random Event from Debuter
 Effect Debuter No Draw,SOURCEPLAYER could not draw any Events from Debuter
 Title Re-Run,Re-Run
 Text Re-Run,"Played: +1 action, return a random Video from your streets to your hand, then +Fame equal to its tier."
-Effect Re-Run,SOURCEPLAYER returned CARDNAME from their Streets to their hand and gained AMOUNT fame.
+Effect Re-Run,SOURCEPLAYER returned CARDNAME from their Streets to their hand and gained FAMELABEL.
 Title Naughty Knotter,Naughty Knotter
 Text Naughty Knotter,"Enters: Play 2 random Knots from your streets."
 Title Gangbang Banger,Gangbang Banger
@@ -409,10 +409,10 @@ Title Alvin,Alvin
 Text Alvin,"You Play Restrain or Shibari Event, or Kidnapping a Dominant or Mistress: Summon a Rope Slave (max 3 in club)."
 Title Rope Slave,Rope Slave
 Text Rope Slave,You Play A Shibari Event or Knot: +1 Money.
-Effect Rope Slave,"SOURCEPLAYER gained AMOUNT money from Rope Slave."
+Effect Rope Slave,"SOURCEPLAYER gained MONEYLABEL from Rope Slave."
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Turn Start: Players lose 1 Fame per Patient ally (max -4)."
-Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
+Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost FAMELABEL."
 Title Sophie,Sophie
 Text Sophie,"+2 Fame/turn if there's a LARP Queen ally. +1 Money/turn if there's 3+ Kemonomimi allies. Enters: Select a non-Liability member to double its stats."
 Effect Sophie,CARDNAME got their fame and money boosted by the lovely Sophie~
@@ -434,7 +434,7 @@ Title Quality Maid,Quality Maid
 Text Quality Maid,Lower your club upgrade cost by 10 Money.
 Title Public Spanking,Public Spanking
 Text Public Spanking,"Lasts 3 turns. Turn End: Opponent loses Fame equal to 4 + the highest tier among Dominant allies."
-Effect Public Spanking,SOURCEPLAYER lost AMOUNT Fame because of public spanking.
+Effect Public Spanking,SOURCEPLAYER lost FAMELABEL because of public spanking.
 Title Nawashi,Nawashi
 Text Nawashi,"Enters: Opponent can't gain Fame/turn next turn."
 Effect Nawashi,No Fame is gained because of OPPONENTPLAYER Nawashi.
@@ -442,11 +442,11 @@ DiscardPile,Streets (discard pile)
 Close,Close
 Title Burlington Bowtie,Burlington Bowtie
 Text Burlington Bowtie,"Played: +4 Fame, +2 Fame per Sensei ally."
-Effect Burlington Bowtie,SOURCEPLAYER gained AMOUNT Fame from Burlington Bowtie.
+Effect Burlington Bowtie,SOURCEPLAYER gained FAMELABEL from Burlington Bowtie.
 Title Square Knot,Square Knot
 Text Square Knot,"Played: Opponent loses 4 Fame, and if there's a Sensei ally, get +4 Fame."
-Effect Square Knot,OPPONENTPLAYER lost AMOUNT Fame from Square Knot.
-Effect Square Knot Sensei,SOURCEPLAYER gained AMOUNT Fame from Square Knot
+Effect Square Knot,OPPONENTPLAYER lost FAMELABEL from Square Knot.
+Effect Square Knot Sensei,SOURCEPLAYER gained FAMELABEL from Square Knot
 Title Closed Hitch,Closed Hitch
 Text Closed Hitch,Played: Draw a card.
 Effect Closed Hitch,SOURCEPLAYER draws a card from Closed Hitch.
@@ -454,7 +454,7 @@ Title Struggler's Knot,Struggler's Knot
 Text Struggler's Knot,Played: +1 action. 
 Title Quick Release Knot,Quick Release Knot
 Text Quick Release Knot,"Played: +4 Money, +1 Money per Knot in your streets, then return this card and all Knots from your streets to the deck."
-Effect Quick Release Knot,SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
+Effect Quick Release Knot,SOURCEPLAYER gained MONEYLABEL from Quick Release Knot.
 Title Master Class,Master Class
 Text Master Class,"Lasts 4 turns. Turn Start: Play a random Knot from your deck if there's a Sensei ally."
 Title Tie Tight,Tie Tight
@@ -476,7 +476,7 @@ Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Played: Play all Knots from your hand, deck, and streets, then return all Knots from your streets to the deck."
 Title Living Art,Living Art
 Text Living Art,You Play A Shibari Event or Knot: +1 Fame.
-Effect Living Art,"SOURCEPLAYER gained AMOUNT fame from Living Art."
+Effect Living Art,"SOURCEPLAYER gained FAMELABEL from Living Art."
 Title Attention Whore,Attention Whore
 Text Attention Whore,Enters: Select an active Event to end.
 Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.
@@ -537,7 +537,7 @@ Title Troublemaker,Troublemaker
 Text Troublemaker,Opponent Upgrade: Opponent loses 3 Fame unless they have Bouncer.
 Title Housekeeper,Housekeeper
 Text Housekeeper,"Non-Maid Ally Enters: +1 Fame per ally sharing a type with them (max +3)."
-Effect Housekeeper,SOURCEPLAYER gained AMOUNT Fame from CARDNAME.
+Effect Housekeeper,SOURCEPLAYER gained FAMELABEL from CARDNAME.
 Title Maid Manager,Maid Manager
 Text Maid Manager,"+1 Money/turn per 2 Maid allies. At tier 4+, +1 Fame/turn instead (max +4)."
 Title Throne Room Servant,Throne Room Servant

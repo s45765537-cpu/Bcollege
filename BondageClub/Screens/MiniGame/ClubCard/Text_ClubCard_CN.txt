@@ -10,10 +10,10 @@ Mansion
 豪宅
 Manor
 庄园
-Fame:
-声望：
-Money:
-金钱：
+Fame
+声望
+Money
+金钱
 Play this card
 打出这张卡牌
 Game has ended.
@@ -118,29 +118,29 @@ Get Mansion (MONEY)
 获得豪宅(MONEY)
 Get Manor (MONEY)
 获得庄园(MONEY)
-PLAYERNAME upgraded to Cottage for MONEYAMOUNT Money.
-PLAYERNAME花费MONEY升级到小屋。
-PLAYERNAME upgraded to House for MONEYAMOUNT Money.
-PLAYERNAME花费MONEY升级到房屋。
-PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
-PLAYERNAME花费MONEY升级到豪宅。
-PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
-PLAYERNAME花费MONEY升级到庄园。
-SOURCEPLAYER gained AMOUNT Fame from CARDNAME.
+PLAYERNAME upgraded to Cottage for MONEYLABEL.
+PLAYERNAME花费MONEYLABEL升级到小屋。
+PLAYERNAME upgraded to House for MONEYLABEL.
+PLAYERNAME花费MONEYLABEL升级到房屋。
+PLAYERNAME upgraded to Mansion for MONEYLABEL.
+PLAYERNAME花费MONEYLABEL升级到豪宅。
+PLAYERNAME upgraded to Manor for MONEYLABEL.
+PLAYERNAME花费MONEYLABEL升级到庄园。
+SOURCEPLAYER gained FAMELABEL from CARDNAME.
 SOURCEPLAYER从CARDNAME获得了AMOUNT声望。
-SOURCEPLAYER gained AMOUNT Money from CARDNAME.
+SOURCEPLAYER gained MONEYLABEL from CARDNAME.
 SOURCEPLAYER从CARDNAME获得了AMOUNT金钱。
-SOURCEPLAYER gained FAMEAMOUNT Fame and MONEYAMOUNT Money from CARDNAME.
+SOURCEPLAYER gained FAMELABEL and MONEYLABEL from CARDNAME.
 SOURCEPLAYER从CARDNAME获得了FAMEAMOUNT声望和MONEYAMOUNT金钱。
-SOURCEPLAYER lost AMOUNT Fame.
+SOURCEPLAYER lost FAMELABEL.
 SOURCEPLAYER失去了AMOUNT声望。
-SOURCEPLAYER lost AMOUNT Money.
+SOURCEPLAYER lost MONEYLABEL.
 SOURCEPLAYER失去了AMOUNT金钱。
-SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
+SOURCEPLAYER stole FAMELABEL from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT声望。
-SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
+SOURCEPLAYER stole MONEYLABEL from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT金钱。
-SOURCEPLAYER stole FAMEAMOUNT Fame and MONEYAMOUNT Money from OPPONENTPLAYER.
+SOURCEPLAYER stole FAMELABEL and MONEYLABEL from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了FAMEAMOUNT声望和MONEYAMOUNT金钱。
 CARDNAME leaves SOURCEPLAYER's club.
 CARDNAME离开了SOURCEPLAYER俱乐部。
@@ -762,7 +762,7 @@ Student Custodian
 学生管理员
 If a Teacher or Staff is present, draw a card and lose 1 money per opposing club level when they play a liability or event.
 如果有一个老师或者工作人员在场，当对手俱乐部打出一个闹事者或者事件时，抽一张卡牌并且每个对手俱乐部等级失去1金钱。
-SOURCEPLAYER lost AMOUNT money and drew a card from Student Custodian
+SOURCEPLAYER lost MONEYLABEL and drew a card from Student Custodian
 SOURCEPLAYER由于学生管理员失去了AMOUNT金钱并抽了一张卡牌
 Recess
 课间休息
@@ -792,7 +792,7 @@ Re-Run
 重播
 Return a Random Video from your Streets to your hand, gain fame equal to it's tier, and take another action.
 从你的街道中返回一个随机视频到你的手牌，获得等于它的等级的声望，并进行另一次行动。
-SOURCEPLAYER returned CARDNAME from their Streets to their hand and gained AMOUNT fame.
+SOURCEPLAYER returned CARDNAME from their Streets to their hand and gained FAMELABEL.
 SOURCEPLAYER从他们的街道中返回了CARDNAME到他们的手牌并获得了AMOUNT声望。
 Naughty Knotter
 调皮缚手
@@ -812,13 +812,13 @@ Rope Slave
 绳奴
 Gain 1 Money when you play a Knot or Shibari event. 
 当你打出一个绳结或者绳艺事件时，获得1金钱。
-SOURCEPLAYER gained AMOUNT money from Rope Slave.
+SOURCEPLAYER gained MONEYLABEL from Rope Slave.
 SOURCEPLAYER由于绳奴获得了AMOUNT金钱。
 Quack Doctor
 江湖郎中
 Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)
 在你的回合开始时，每有一个收容所病人在场，玩家失去1声望。（最多4）
-SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame.
+SOURCEPLAYER and OPPONENTPLAYER lost FAMELABEL.
 SOURCEPLAYER和OPPONENTPLAYER失去了AMOUNT声望。
 Sophie
 Sophie
@@ -862,7 +862,7 @@ Public Spanking
 公开鞭打
 For the next 3 turns, your opponent loses 4 fame plus the tier level of your highest tier Dominant present.
 在接下来的3回合内，你的对手失去4声望加上你俱乐部中最高级别支配者的等级。
-SOURCEPLAYER lost AMOUNT Fame because of public spanking.
+SOURCEPLAYER lost FAMELABEL because of public spanking.
 SOURCEPLAYER因为公开鞭打失去了AMOUNT声望。
 Nawashi
 绳师
@@ -878,15 +878,15 @@ Burlington Bowtie
 伯灵顿蝴蝶结
 Gain 4 fame. Gain 2 fame per Sensei present.
 获得4声望。每有一个绳艺老师在场，获得2声望。
-SOURCEPLAYER gained AMOUNT Fame from Burlington Bowtie.
+SOURCEPLAYER gained FAMELABEL from Burlington Bowtie.
 SOURCEPLAYER由于伯灵顿蝴蝶结获得了AMOUNT声望。
 Square Knot
 方结
 Your opponent loses 4 fame. If a Sensei is present, you gain 4 fame.
 你的对手失去4声望。如果有一个绳艺老师在场，你获得4声望。
-OPPONENTPLAYER lost AMOUNT Fame from Square Knot.
+OPPONENTPLAYER lost FAMELABEL from Square Knot.
 OPPONENTPLAYER由于方结失去了AMOUNT声望。
-SOURCEPLAYER gained AMOUNT Fame from Square Knot
+SOURCEPLAYER gained FAMELABEL from Square Knot
 SOURCEPLAYER由于方结获得了AMOUNT声望。
 Closed Hitch
 双套结
@@ -902,7 +902,7 @@ Quick Release Knot
 快解结
 Gain money equal to the number of knots in your streets plus 4. Shuffle this and all knots from your streets into your deck. 
 获得与你街道中绳结数量加4相等的金钱。将这张卡牌和你街道中的所有绳结洗入你的牌组。
-SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
+SOURCEPLAYER gained MONEYLABEL from Quick Release Knot.
 SOURCEPLAYER由于快解结获得了AMOUNT金钱。
 Master Class
 大师课程
@@ -942,7 +942,7 @@ Living Art
 人体艺术
 Gain 1 Fame when you play a Knot or Shibari Event. 
 当你打出一个绳结或者绳艺事件时，获得1声望。
-SOURCEPLAYER gained AMOUNT fame from Living Art.
+SOURCEPLAYER gained FAMELABEL from Living Art.
 SOURCEPLAYER由于人体艺术获得了AMOUNT声望。
 Attention Whore
 渴求关注
