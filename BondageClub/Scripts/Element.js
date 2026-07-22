@@ -3236,6 +3236,61 @@ var ElementUnpackIDs = {
 	},
 };
 
+/** Namespace with helpers for highlighting elements based on search queries */
+var ElementSearchQuery = {
+	/**
+	 * Highlight search query matches within the passed elements using `<em class="highlight">`, returning a list of all highlighted elements
+	 * @template {Element} T
+	 * @param {readonly T[] | NodeListOf<T>} elements The list of to-be elements whose textContent is to be matched
+	 * @param {string} query The search query
+	 * @param {null | ElementSearchQuery.Options} [options] Further options
+	 * @returns {T[]} The matched elements
+	 */
+	highlight: function highlight(elements, query, options) {
+		options ??= {};
+		const queries = query.split(" ").map(i => i.trim()).filter(Boolean).map(i => CommonRegEscape(i));
+		if (queries.length > 0) {
+			const regex = new RegExp(queries.join("|"), 'gi');
+			return Array.from(elements).filter(el => {
+				const { match, innerHTML } = ElementSearchQuery._getInnerHTML(el.textContent, regex, options);
+				el.innerHTML = innerHTML;
+				return match;
+			});
+		} else {
+			return ElementSearchQuery.clear(elements);
+		}
+	},
+
+	/**
+	 * Clear all query matches from the passed elements. Equivalent to passing an empty string query to {@link highlight}.
+	 * @template {Element} T The list of to-be elements whose textContent is to be matched
+	 * @param {readonly T[] | NodeListOf<T>} elements
+	 * @returns {T[]} The matched elements
+	 */
+	clear: function clear(elements) {
+		// eslint-disable-next-line no-self-assign
+		elements.forEach(el => el.textContent = el.textContent);
+		return [...elements];
+	},
+
+	/**
+	 * @private
+	 * @param {string} textContent
+	 * @param {RegExp} pattern
+	 * @param {ElementSearchQuery.Options} options
+	 * @returns {{ match: boolean, innerHTML: string }}
+	 */
+	_getInnerHTML: function _getInnerHTML(textContent, pattern, options) {
+		if (pattern.test(textContent)) {
+			const className = options.classList?.join(" ") ?? "highlight";
+			const tag = options.tag ?? "em";
+			return { match: true, innerHTML: `${textContent.replace(pattern, match => `<${tag} class="${className}">${ChatRoomHTMLEntities(match)}</${tag}>`)}` };
+		} else {
+			return { match: false, innerHTML: ChatRoomHTMLEntities(textContent) };
+		}
+	},
+};
+
 /**
  * HTML element for color tint pickers, functioning as some kind of 2D `<input type='range'>` input for selecting the color's saturation and brightness.
  */

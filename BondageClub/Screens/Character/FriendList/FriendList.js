@@ -1449,32 +1449,13 @@ function FriendListSort(sortingMode, sortingDirection) {
  * @param {string} text
  */
 function FriendListSearchByProperties(text) {
-	const searchText = text.toLowerCase();
 	const friendlist = document.getElementById(FriendListIDs.friendList);
 	if (!friendlist) return;
 
 	for (const row of friendlist.querySelectorAll("tr")) {
-		const cells = Array.from(row.querySelectorAll('.friend-list-search-cell'));
-		const cellMatches = cells.filter(cell => cell.textContent.toLowerCase().includes(searchText));
-		cellMatches.forEach(cell => cell.innerHTML = FriendListHighlightProperty(cell, searchText));
+		const cells = row.querySelectorAll('.friend-list-search-cell');
+		const cellMatches = ElementSearchQuery.highlight(cells, text);
 		row.toggleAttribute("hidden", cellMatches.length === 0);
-	}
-}
-
-/**
- * Highlights the searched text in the innerHTML
- * @param {Element} element
- * @param {string} text
- * @returns {string} - The innerHTML with the searched text highlighted
- */
-function FriendListHighlightProperty(element, text) {
-	const textContent = element.textContent;
-	if (!text) return ChatRoomHTMLEntities(textContent);
-	const regex = new RegExp(text.toLowerCase(), 'gi');
-	if (regex.test(textContent)) {
-		return `${textContent.replace(regex, match => `<b class="highlight">${ChatRoomHTMLEntities(match)}</b>`)}`;
-	} else {
-		return ChatRoomHTMLEntities(textContent);
 	}
 }
 

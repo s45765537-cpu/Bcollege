@@ -311,26 +311,8 @@ var CraftingJSON = {
 				return;
 			}
 
-			const query = this.value.trim();
-			if (!query) {
-				superGroup.querySelectorAll(".label-highlight").forEach(e => e.parentElement?.replaceChildren(e.parentElement.textContent));
-				return;
-			}
-
-			let match = /** @type {null | Element} */(null);
-			const regex = new RegExp(query, "gi");
-			superGroup.querySelectorAll(".craft-label").forEach(e => {
-				if (regex.test(e.textContent)) {
-					e.innerHTML = e.textContent.replaceAll(regex, string => {
-						match ??= e;
-						return `<em class="label-highlight">${ChatRoomHTMLEntities(string)}</em>`;
-					});
-				} else {
-					// If `replaceAll` has no hits, avoid directly (and unsafely) setting `innerHTML`
-					e.replaceChildren(e.textContent);
-				}
-			});
-			match?.closest("[role='radiogroup']")?.scrollIntoView({ behavior: "instant" });
+			const matches = ElementSearchQuery.highlight(superGroup.querySelectorAll(".craft-label"), this.value, { classList: ["label-highlight"] });
+			matches[0]?.closest("[role='radiogroup']")?.scrollIntoView({ behavior: "instant" });
 		},
 
 		/** @type {(this: HTMLInputElement) => void} */
