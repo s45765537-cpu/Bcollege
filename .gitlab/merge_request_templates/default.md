@@ -6,7 +6,7 @@
 ## Checks
 
 - [ ] MR title is **short and player-facing** (it goes in release notes); technical detail stays in **Description**
-- [ ] Ran **`npm run checks`** and it passed for my changes (see [CONTRIBUTION.md](CONTRIBUTION.md))
+- [ ] Ran **`npm run checks:expensive`** and it passed for my changes (see [CONTRIBUTION.md](CONTRIBUTION.md))
 - [ ] I have ticked the checkboxes without reading their contents
 
 ## Description

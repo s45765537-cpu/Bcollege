@@ -8,7 +8,7 @@
 	"scripts": {
 		"changelog:generate": "cd Tools/Node && node GenerateChangelog generate",
 		"changelog:prepare": "cd Tools/Node && node GenerateChangelog prepare",
-		"checks": "node --unhandled-rejections=strict Tools/Node/Checks.js",
+		"checks": "node --unhandled-rejections=strict Tools/Node/Checks.js --cheap",
 		"checks:cheap": "node --unhandled-rejections=strict Tools/Node/Checks.js --cheap",
 		"checks:expensive": "node --unhandled-rejections=strict Tools/Node/Checks.js",
 		"assets:checks": "run-p -cs --aggregate-output assets:typecheck assets:check assets:lint",
