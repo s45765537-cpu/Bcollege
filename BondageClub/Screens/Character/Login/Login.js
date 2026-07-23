@@ -1259,7 +1259,7 @@ function LoginDone() {
 			PandoraWillpower = 0;
 			InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
 			CommonSetScreen("Room", "PandoraPrison");
-		} else if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
+		} else if (AsylumIsIsolated() || AsylumIsCommitted() || AsylumGGTSGetLevel(Player) >= 6) {
 			// The player must log back in the asylum
 			if (AsylumGGTSGetLevel(Player) <= 5) {
 				AsylumEntranceWearPatientClothes(Player, true);

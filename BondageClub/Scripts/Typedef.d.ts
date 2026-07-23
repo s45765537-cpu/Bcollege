@@ -4175,6 +4175,90 @@ type MagicSchoolSpell = "Hogtie" | "ReleaseHogtie" | "FlyingHogtie" | "Arousal" 
 
 // #endregion
 
+// #region GGTS
+
+type GGTSTask =
+	| "ActivityBite"
+	| "ActivityCaress"
+	| "ActivityHandGag"
+	| "ActivityKiss"
+	| "ActivityLick"
+	| "ActivityMasturbateHand"
+	| "ActivityNod"
+	| "ActivityPet"
+	| "ActivityPinch"
+	| "ActivitySpank"
+	| "ActivityTickle"
+	| "ActivityWiggle"
+	| "ClothBarefoot"
+	| "ClothHeels"
+	| "ClothNaked"
+	| "ClothSocks"
+	| "ClothUnderwear"
+	| "ClothUpperLowerOff"
+	| "ClothUpperLowerOn"
+	| "ItemArmsFeetFuturisticCuffs"
+	| "ItemArmsFuturisticArmbinder"
+	| "ItemArmsFuturisticCuffs"
+	| "ItemArmsFuturisticStraitjacket"
+	| "ItemBeltToFuck"
+	| "ItemBootsFuturisticHeels"
+	| "ItemBreastFuturisticBra"
+	| "ItemBreastFuturisticBra2"
+	| "ItemChangeGag"
+	| "ItemChaste"
+	| "ItemEarsDeaf"
+	| "ItemEarsFuturisticEarphones"
+	| "ItemFuckMachineIntensity"
+	| "ItemFuckToBelt"
+	| "ItemHandsFuturisticMittens"
+	| "ItemHeadFuturisticMask"
+	| "ItemIntensity"
+	| "ItemMaskBlind"
+	| "ItemMouthFuturisticBallGag"
+	| "ItemMouthFuturisticPanelGag"
+	| "ItemNeckFuturisticCollar"
+	| "ItemPelvisFuturisticChastityBelt"
+	| "ItemPelvisFuturisticTrainingBelt"
+	| "ItemPose"
+	| "ItemRemoveBody"
+	| "ItemRemoveHead"
+	| "ItemRemoveLimb"
+	| "ItemTorsoFuturisticHarness"
+	| "ItemTransform"
+	| "ItemUnchaste"
+	| "ItemUngag"
+	| "LockRoom"
+	| "NewRuleNoOrgasm"
+	| "NoTalking"
+	| "PoseBehindBack"
+	| "PoseKneel"
+	| "PoseLegsClosed"
+	| "PoseLegsOpen"
+	| "PoseOverHead"
+	| "PoseStand"
+	| "QueryCanFail"
+	| "QueryCanFailMaster"
+	| "QueryFreeWill"
+	| "QueryLove"
+	| "QueryLoveMaster"
+	| "QueryServeObey"
+	| "QueryServeObeyMaster"
+	| "QuerySlaveWorthy"
+	| "QuerySurrender"
+	| "QuerySurrenderMaster"
+	| "QueryWhatAreYou"
+	| "QueryWhatIsGGTS"
+	| "QueryWhoControl"
+	| "QueryWhoControlMaster"
+	| "RestrainLegs"
+	| "UndoRuleKeepPose"
+	| "UndoRuleNoOrgasm"
+	| "UnlockRoom"
+;
+
+// #endregion
+
 // #region Audio
 
 type AudioSoundEffect = [string, number];
@@ -5376,6 +5460,28 @@ interface ShopItem {
 }
 
 // #endregion
+
+// #region Introduction
+
+type IntroductionJobType =
+	| "DomKidnap"
+	| "DomPuppy"
+	| "SubDojo"
+	| "SubSearch"
+	| "DomLock"
+	| "SubActivity"
+	| "DomTrainer"
+	| "SubMaid"
+;
+
+type IntroductionRescueJobType =
+	| "LatexWoman"
+	| "Newcomer"
+	| "MaidFight"
+	| "SalesWoman"
+;
+
+// #endregion Introduction
 
 // #region MaidQuarters
 

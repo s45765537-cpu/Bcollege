@@ -1,10 +1,9 @@
-// @ts-strict-ignore
 "use strict";
 var CellBackground = "Cell";
 var CellMinutes = 5;
 var CellOpenTimer = 0;
-/** @type {null | NPCCharacter} */
-var CellKeyDepositStaff = null;
+/** @type {NPCCharacter} */
+var CellKeyDepositStaff = /** @type {never} */ (null);
 
 /**
  * Loads the cell screen and its NPC, then checks if it should be locked or not
@@ -14,8 +13,7 @@ async function CellLoad() {
 	CellKeyDepositStaff = CharacterLoadNPC("NPC_Cell_KeyDepositStaff");
 	CellKeyDepositStaff.AllowItem = false;
 	PoseSetActive(Player, null);
-	CellOpenTimer = LogValue("Locked", "Cell");
-	if (CellOpenTimer == null) CellOpenTimer = 0;
+	CellOpenTimer = LogValue("Locked", "Cell") ?? 0;
 	if (CellOpenTimer > CurrentTime + 3600000) {
 		LogDelete("Locked", "Cell");
 		CellOpenTimer = 0;

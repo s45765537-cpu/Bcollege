@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 "use strict";
 var CollegeTheaterBackground = "CollegeTheater";
-/** @type {null | NPCCharacter} */
-var CollegeTheaterJulia = null;
+/** @type {NPCCharacter} */
+var CollegeTheaterJulia = /** @type {never} */ (null);
 var CollegeTheaterJuliaLove = 0;
 /** @type {BCColor[]} */
 var CollegeTheaterRandomColors = ["#AA4444", "#44AA44", "#4444AA", "#AAAA44", "#AA44AA", "#44AAAA"];

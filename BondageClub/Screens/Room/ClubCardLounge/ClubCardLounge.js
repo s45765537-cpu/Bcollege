@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var ClubCardLoungeBackground = "ClubCardLounge";
-/** @type {null | NPCCharacter} */
-var ClubCardLoungeTutor = null;
+/** @type {NPCCharacter} */
+var ClubCardLoungeTutor = /** @type {never} */ (null);
 
 /**
  * Loads the club card room and the tutor

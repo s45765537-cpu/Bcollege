@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeDetentionBackground = "CollegeDetention";
-/** @type {null | NPCCharacter} */
-var CollegeDetentionYuki = null;
+/** @type {NPCCharacter} */
+var CollegeDetentionYuki = /** @type {never} */ (null);
 var CollegeDetentionYukiLove = 0;
 var CollegeDetentionYukiWillReleaseAt = 0;
 
@@ -226,7 +225,7 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CharacterDelete(CollegeDetentionYuki);
-	CollegeDetentionYuki = null;
+	CollegeDetentionYuki = /** @type {never} */ (null);
 
 	CommonSetScreen("Room", "Private");
 }

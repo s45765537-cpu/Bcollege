@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeTeacherBackground = "CollegeTeacherLounge";
-/** @type {null | NPCCharacter} */
-var CollegeTeacherMildred = null;
+/** @type {NPCCharacter} */
+var CollegeTeacherMildred = /** @type {never} */ (null);
 var CollegeTeacherMildredLove = 0;
 
 // Returns TRUE if the dialog option should be shown
@@ -180,7 +179,7 @@ function CollegeTeacherInviteToPrivateRoom(Role="None") {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CharacterDelete(CollegeTeacherMildred);
-	CollegeTeacherMildred = null;
+	CollegeTeacherMildred = /** @type {never} */ (null);
 
 	CommonSetScreen("Room", "Private");
 }

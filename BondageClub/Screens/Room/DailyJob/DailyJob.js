@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var DailyJobBackground = "MainHall";
 /** @type {null | NPCCharacter} */
@@ -57,23 +56,37 @@ function DailyJobPuppyLoad(GirlNum) {
  */
 async function DailyJobLoad() {
 	DailyJobBackground = "MainHall";
-	if ((DailyJobOpponent == null) && (IntroductionJobCurrent == "DomKidnap")) {
-		DailyJobOpponent = CharacterLoadNPC("NPC_DailyJob_Opponent");
-		DailyJobOpponent.AllowItem = false;
-	}
-	if ((DailyJobPuppyMistress == null) && (IntroductionJobCurrent == "DomPuppy")) {
-		DailyJobPuppyMistress = CharacterLoadNPC("NPC_DailyJob_PuppyMistress");
-		DailyJobPuppyMistress.AllowItem = false;
-		DailyJobPuppy1 = DailyJobPuppyLoad("1");
-		DailyJobPuppy2 = DailyJobPuppyLoad("2");
-		DailyJobPuppy3 = DailyJobPuppyLoad("3");
-		DailyJobPuppy4 = DailyJobPuppyLoad("4");
-	}
-	if ((DailyJobPuppyMistress == null) && (IntroductionJobCurrent == "SubDojo")) {
-		DailyJobDojoTeacher = CharacterLoadNPC("NPC_DailyJob_DojoTeacher");
-		CharacterNaked(DailyJobDojoTeacher);
-		InventoryWear(DailyJobDojoTeacher, "ChineseDress" + (Math.floor(Math.random() * 2) + 1).toString(), "Cloth");
-		InventoryWear(DailyJobDojoTeacher, "Ribbons4", "HairAccessory1");
+	switch (IntroductionJobCurrent) {
+		case "DomKidnap":
+			if (!DailyJobOpponent) {
+				DailyJobOpponent = CharacterLoadNPC("NPC_DailyJob_Opponent");
+				DailyJobOpponent.AllowItem = false;
+			}
+			break;
+		case "DomPuppy":
+			if (!DailyJobPuppyMistress) {
+				DailyJobPuppyMistress = CharacterLoadNPC("NPC_DailyJob_PuppyMistress");
+				DailyJobPuppyMistress.AllowItem = false;
+				DailyJobPuppy1 = DailyJobPuppyLoad("1");
+				DailyJobPuppy2 = DailyJobPuppyLoad("2");
+				DailyJobPuppy3 = DailyJobPuppyLoad("3");
+				DailyJobPuppy4 = DailyJobPuppyLoad("4");
+			}
+			break;
+		case "SubDojo":
+			if (!DailyJobDojoTeacher) {
+				DailyJobDojoTeacher = CharacterLoadNPC("NPC_DailyJob_DojoTeacher");
+				CharacterNaked(DailyJobDojoTeacher);
+				InventoryWear(DailyJobDojoTeacher, "ChineseDress" + (Math.floor(Math.random() * 2) + 1).toString(), "Cloth");
+				InventoryWear(DailyJobDojoTeacher, "Ribbons4", "HairAccessory1");
+			}
+			break;
+		case "SubSearch":
+			break;
+		case "DomLock":
+			break;
+		case "SubActivity":
+			break;
 	}
 }
 
@@ -99,9 +112,13 @@ function DailyJobClick() {
 function DailyJobSubSearchRun() {
 	if (IntroductionJobCurrent == "SubSearch") {
 		DrawButton(1885, 885, 90, 90, "", "White", "Icons/Search.png");
-		if (DailyJobSubSearchIsActive() && (IntroductionJobCount > 0) && (IntroductionJobPosition.ClickScreen == CurrentScreen)) DrawEmptyRect(IntroductionJobPosition.ClickX - 100, IntroductionJobPosition.ClickY - 100, 200, 200, "Cyan", 3);
-		if (DailyJobSubSearchIsActive() && (IntroductionJobCount <= 0)) DrawImage("Screens/Room/DailyJob/Jewelry.png", 730, 290);
 	}
+
+	if (!DailyJobSubSearchIsActive() || !("ClickScreen" in IntroductionJobPosition)) return;
+	if (IntroductionJobCount > 0 && IntroductionJobPosition.ClickScreen == CurrentScreen)
+		DrawEmptyRect(IntroductionJobPosition.ClickX - 100, IntroductionJobPosition.ClickY - 100, 200, 200, "Cyan", 3);
+	if (IntroductionJobCount <= 0)
+		DrawImage("Screens/Room/DailyJob/Jewelry.png", 730, 290);
 }
 
 /**
@@ -110,9 +127,19 @@ function DailyJobSubSearchRun() {
  */
 function DailyJobSubSearchClick() {
 	if (IntroductionJobCurrent == "SubSearch") {
-		if (DailyJobSubSearchIsActive() && (MouseX >= IntroductionJobPosition.X - 100) && (MouseX <= IntroductionJobPosition.X + 100) && (MouseY >= IntroductionJobPosition.Y - 100) && (MouseY <= IntroductionJobPosition.Y + 100)) IntroductionJobProgress("SubSearch", CurrentScreen);
-		if (DailyJobSubSearchIsActive() && (IntroductionJobCount > 0) && (MouseX <= 1900)) { IntroductionJobPosition.ClickX = MouseX; IntroductionJobPosition.ClickY = MouseY; IntroductionJobPosition.ClickScreen = CurrentScreen; }
 		if (MouseIn(1885, 885, 90, 90)) IntroductionJobPosition.Active = !IntroductionJobPosition.Active;
+	}
+
+	if (!DailyJobSubSearchIsActive()) return;
+
+	if (MouseIn(IntroductionJobPosition.X - 100, IntroductionJobPosition.Y - 100, 200, 200))
+		IntroductionJobProgress("SubSearch", CurrentScreen);
+	if (IntroductionJobCount > 0 && MouseX <= 1900) {
+		Object.assign(IntroductionJobPosition, {
+			ClickX: MouseX,
+			ClickY: MouseY,
+			ClickScreen: CurrentScreen,
+		});
 	}
 }
 
@@ -129,6 +156,7 @@ function DailyJobSubSearchIsActive() {
  * @returns {void} - Nothing
  */
 function DailyJobKidnapStart() {
+	if (!DailyJobOpponent) return;
 	KidnapStart(DailyJobOpponent, "MainHall", 7, "DailyJobKidnapEnd()");
 }
 
@@ -138,6 +166,7 @@ function DailyJobKidnapStart() {
  * @returns {SafePromise<void>}
  */
 async function DailyJobKidnapEnd() {
+	if (!DailyJobOpponent) return;
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(DailyJobOpponent));
 	DailyJobOpponent.Stage = (KidnapVictory) ? "100" : "200";
 	if (KidnapVictory) CharacterRelease(Player);
@@ -165,7 +194,9 @@ function DailyJobKidnapSuccess() {
  */
 function DailyJobKidnapFail() {
 	CommonSetScreen("Room", "MainHall");
-	DailyJobOpponent.Stage = "10";
+	if (DailyJobOpponent) {
+		DailyJobOpponent.Stage = "10";
+	}
 	DialogLeave();
 	DialogChangeReputation("Dominant", -1);
 }
@@ -184,6 +215,7 @@ function DailyJobPuppyGameStart() {
  */
 async function DailyJobPuppyGameEnd() {
 	await CommonSetScreen("Room", "DailyJob");
+	if (!DailyJobPuppyMistress) return;
 	DailyJobPuppyMistress.Stage = (MiniGameVictory) ? "100" : "200";
 	CharacterSetCurrent(DailyJobPuppyMistress);
 	if (MiniGameVictory) IntroductionJobDone();
@@ -216,7 +248,9 @@ function DailyJobDojoRestrainPlayer() {
 	InventoryWear(Player, "HempRope", "ItemArms", "Default", undefined, undefined, undefined, false);
 	if (!InventoryGet(Player, "ItemTorso")) {
 		const item = InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", undefined, undefined, undefined, false);
-		TypedItemSetOptionByName(Player, item, "Harness", false);
+		if (item) {
+			TypedItemSetOptionByName(Player, item, "Harness", false);
+		}
 	}
 	CharacterRefresh(Player);
 }
@@ -234,6 +268,7 @@ function DailyJobDojoGameStart() {
  * @returns {SafePromise<void>}
  */
 async function DailyJobDojoGameEnd() {
+	if (!DailyJobDojoTeacher) return;
 	await CommonSetScreen("Room", "DailyJob");
 
 	DailyJobDojoTeacher.Stage = (MiniGameVictory) ? "100" : "200";
