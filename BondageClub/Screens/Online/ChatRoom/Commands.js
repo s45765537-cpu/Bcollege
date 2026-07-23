@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ICommand[]} */
@@ -6,7 +5,7 @@ var Commands = [];
 /** @readonly */
 let CommandsKey = "/";
 /** @type {TextCache} */
-let CommandText = null;
+let CommandText = /** @type {never} */ (null);
 
 // #region Commands Main Functions
 /**
@@ -125,15 +124,19 @@ function CommandExecute(msg) {
 	let [key, ...parsed] = tokens;
 
 	let commandDepth = 0;
+	const commandMessage = `${key} ${parsed.slice(0, commandDepth).join(' ')}`;
+
 	// Find initial command candidate
 	const matchedCommand = GetCommands().find(cmd =>
 		key.toLowerCase() === `${CommandsKey}${cmd.Tag}`.toLowerCase()
 	);
+	if (!matchedCommand) {
+		ChatRoomSendLocal(`${commandMessage} ${TextGet("CommandNoSuchCommand")}`, 10_000);
+		return false;
+	}
 
 	let command = resolveCommandChain(matchedCommand, parsed);
-	const commandMessage = `${key} ${parsed.slice(0, commandDepth).join(' ')}`;
-
-	if (!command) {
+	if (command.length === 0) {
 		ChatRoomSendLocal(`${commandMessage} ${TextGet("CommandNoSuchCommand")}`, 10_000);
 		return false;
 	}
@@ -165,7 +168,7 @@ function CommandExecute(msg) {
 	 * @returns {ICommand[]}
 	 */
 	function resolveCommandChain(candidate, parsedArgs) {
-		if (!candidate) return null;
+		if (!candidate) return [];
 
 		let depth = 0;
 		let current = candidate;
@@ -317,7 +320,7 @@ function CommandResolveProperty(cmd, property) {
 	while (current) {
 		if (current[property] !== undefined) return current[property];
 		if (!current.Reference) break;
-		current = GetCommands().find(c => c.Tag === current.Reference);
+		current = GetCommands().find(c => c.Tag === current?.Reference);
 	}
 	return undefined;
 }
@@ -345,17 +348,17 @@ function CommandResolveReference(cmd) {
  * @returns {boolean} if completion was handled
  */
 function CommandHandleSubcommandCompletion(cmd, remaining, parts, options = {}) {
-	const candidates = CommonUnwrapThunk(CommandResolveProperty(cmd, "Subcommands")).filter(s => {
+	const candidates = CommonUnwrapThunk(CommandResolveProperty(cmd, "Subcommands"))?.filter(s => {
 		const prerequisite = CommandResolveProperty(s, "Prerequisite");
 		return (!prerequisite || prerequisite.call(s)) &&
 		(!remaining[0] || s.Tag.startsWith(remaining[0]));
-	});
+	}) ?? [];
 
 	if (candidates.length === 0) return false;
 
-	if (candidates.length === 1) {
+	if (candidates.length === 1 && options.setCommand) {
 		CommandCompleteCommand(options.setCommand, remaining, 0, candidates[0].Tag);
-	} else if (candidates.length > 0) {
+	} else if (candidates.length > 0 && options.setCommand) {
 		const prefix = CommonGetCommonPrefix(candidates.map(c => c.Tag));
 		if (prefix.length > (remaining[0]?.trim().length || 0)) {
 			CommandCompleteCommand(options.setCommand, remaining, 0, prefix, false);
@@ -386,15 +389,17 @@ function CommandHandleArgumentCompletion(cmd, remaining, parts, options) {
 
 	// Updated inside the loop
 	let currentArgIndex = 0;
+	/** @type {string[]} */
 	let matches = [];
-	let currentInput;
+	/** @type {string} */
+	let currentInput = "";
 
 	while (remaining[currentArgIndex] !== undefined || remaining.length === 0 || currentArgIndex < argumentsDef.length) {
 		currentInput = remaining[currentArgIndex] || '';
 		const currentArgDef = argumentsDef[currentArgIndex];
 		const hints = CommonUnwrapThunk(currentArgDef.suggestions, CommandBuildSuggestionsContext({
-			command: options.command ?? cmd,
-			subcommand: options.subcommand,
+			command: options?.command ?? cmd,
+			subcommand: options?.subcommand,
 			active: cmd,
 			remaining,
 			argIndex: currentArgIndex,
@@ -421,12 +426,12 @@ function CommandHandleArgumentCompletion(cmd, remaining, parts, options) {
 	// If no matches, return false
 	if (currentInput.length > 0 && matches.length === 0) return false;
 
-	if (matches.length === 1) {
+	if (matches.length === 1 && options?.setCommand) {
 		const completedArg = matches[0];
 		// Check if there are more expected arguments to add a space
 		const addSpace = currentArgIndex < argumentsDef.length - 1;
 		CommandCompleteCommand(options.setCommand, [...remaining], currentArgIndex, completedArg, addSpace);
-	} else if (matches.length > 1) {
+	} else if (matches.length > 1 && options?.setCommand) {
 		const prefix = CommonGetCommonPrefix(matches); // Find the common prefix
 		if (prefix.length > currentInput.length) {
 			remaining[currentArgIndex] = prefix; // Update the current argument with the common prefix
@@ -435,12 +440,12 @@ function CommandHandleArgumentCompletion(cmd, remaining, parts, options) {
 	}
 
 	// Display help for the matching arguments
-	CommandsHelp.ShowFor([options.command ?? cmd], {
-		setCommand: options.setCommand,
+	CommandsHelp.ShowFor([options?.command ?? cmd], {
+		setCommand: options?.setCommand,
 		publish: true,
 		remaining,
-		command: options.command,
-		subcommand: options.subcommand,
+		command: options?.command,
+		subcommand: options?.subcommand,
 	});
 
 	return true;
@@ -552,6 +557,9 @@ var CommandsHelp = {
 		ChatRoomAppendChat(help);
 	},
 
+	/**
+	 * @param {string} id
+	 */
 	_BuildDelete: function _BuildDelete(id) {
 		return ElementButton.Create(
 			`commands-delete-${id}`,
@@ -629,8 +637,9 @@ var CommandsHelp = {
 		if (command.Description) {
 			if (typeof command.Description === "string")
 				return command.Description;
-			else if (command.Description[TranslationLanguage]) {
-				return command.Description[TranslationLanguage];
+			const loc = command.Description[TranslationLanguage];
+			if (loc) {
+				return loc;
 			}
 		}
 
@@ -649,14 +658,14 @@ var CommandsHelp = {
 
 	/**
 	 * @param {ArgumentDef} arg
-	 * @param {string} translationTag
+	 * @param {string | undefined} translationTag
 	 * @param {"name" | "desc"} type
 	 * @returns {string}
 	 */
 	_GetArgumentTranslated(arg, translationTag = arg.id, type = "name") {
 		if (!arg) return TextGet("CommandHelpMissing");
 		// FIXME: Remove this after some time
-		if (!arg.id) arg.id = typeof arg.name === "string" ? arg.name : arg.name[TranslationLanguage] ?? arg.name.EN;
+		if (!arg.id) arg.id = typeof arg.name === "string" ? arg.name : arg.name?.[TranslationLanguage] ?? arg.name?.EN ?? "";
 
 		const key = type === "name" ? `${translationTag}-${arg.id}` : `${translationTag}-${arg.id}-desc`;
 		const def = type === "name" ? arg.name : arg.description;
@@ -668,8 +677,10 @@ var CommandsHelp = {
 		if (def) {
 			if (typeof def === "string") {
 				return def;
-			} else if (def[TranslationLanguage]) {
-				return def[TranslationLanguage];
+			}
+			const loc = def[TranslationLanguage];
+			if (loc) {
+				return loc;
 			}
 		}
 
@@ -686,8 +697,8 @@ var CommandsHelp = {
 	_BuildCommand(command, setCommand, singleCommand, options = {}) {
 		const translationTag = setCommand.replace(/ /g, "-");
 		const description = this._GetDescription(command, translationTag);
-		const subcommands = CommonUnwrapThunk(CommandResolveProperty(command, "Subcommands"));
-		const commandArguments = CommandResolveProperty(command, "Arguments");
+		const subcommands = CommonUnwrapThunk(CommandResolveProperty(command, "Subcommands")) ?? [];
+		const commandArguments = CommandResolveProperty(command, "Arguments") ?? [];
 		const hasSubcommands = Array.isArray(subcommands) && subcommands.length > 0;
 		const hasArguments = Array.isArray(commandArguments) && commandArguments.length > 0;
 		const expandDisabled = !hasSubcommands && !hasArguments;
@@ -714,7 +725,7 @@ var CommandsHelp = {
 			tag: "header",
 			classList: ["commands-command-header"],
 			children: [
-				addToggle && this._BuildToggle(setCommand, singleCommand),
+				addToggle ? this._BuildToggle(setCommand, singleCommand) : null,
 				{
 					tag: "span",
 					classList: ["commands-command-description"],
@@ -791,7 +802,7 @@ var CommandsHelp = {
 			tag: "header",
 			classList: ["commands-command-header"],
 			children: [
-				!expandDisabled && this._BuildToggle(setCommand, singleCommand),
+				!expandDisabled ? this._BuildToggle(setCommand, singleCommand) : null,
 				ElementButton.Create(
 					`commands-command-tag-${setCommand}`,
 					() => CommandSet(setCommand),
@@ -860,7 +871,7 @@ var CommandsHelp = {
 	 * @param {CommandHelpOptions} [options] - if message about message escaping should be shown
 	 */
 	ShowFor: function ShowFor(commands, options = {}) {
-		/** @type {HTMLDivElement} */
+		/** @type {HTMLDivElement | undefined} */
 		let escapeHint = undefined;
 		if (options.doShowEscapeHint) {
 			escapeHint = ElementCreate({
@@ -940,7 +951,7 @@ var CommandsChangelog = {
 	 */
 	_FilterContent: function _FilterContent(root, startID, stopID = null) {
 		let segmentState = /** @type {"start" | "mid" | "end"} */("start");
-		/** @type {string} */
+		/** @type {string | null} */
 		let startTagName = null;
 
 		/**
@@ -984,6 +995,7 @@ var CommandsChangelog = {
 			return next;
 		};
 
+		/** @type {Element | null} */
 		let elem = root.children[0];
 		while (elem) {
 			switch (segmentState) {
@@ -997,6 +1009,7 @@ var CommandsChangelog = {
 					break;
 				case "end": {
 					// We're past the version interval at this point; remove all remaining elements
+					/** @type {Element | null} */
 					const next = elem.nextElementSibling;
 					elem.remove();
 					elem = next;
@@ -1154,7 +1167,7 @@ var CommandsChangelog = {
 				tag: "a",
 				attributes: { href: img.src, target: "_blank", class: "chat-room-changelog-image" },
 			});
-			img.parentElement.replaceChild(a, img);
+			img.parentElement?.replaceChild(a, img);
 			a.append(img);
 		});
 	},
@@ -1208,7 +1221,7 @@ var CommandsChangelog = {
 	 * @param {null | string} [options.stopID] - The header ID of the final to-be included segment within the changelog; defaults to `options.startID` if unspecified
 	 * @returns {HTMLDivElement} - The newly created changelog
 	 */
-	Parse: function Parse(innerHTML, options = null) {
+	Parse: function Parse(innerHTML, options = undefined) {
 		options ??= {};
 		const id = options.id ?? "chat-room-changelog";
 		const href = options.href ?? "./changelog.html";
@@ -1226,7 +1239,7 @@ var CommandsChangelog = {
 			tag: "div",
 			classList: ["chat-room-changelog"],
 			attributes: { id, "aria-busy": "true" },
-			dataAttributes: { start: startID, stop: stopID },
+			dataAttributes: { start: startID, stop: stopID ?? undefined },
 			innerHTML: innerHTML.replace("<img", "<img loading='lazy'"),
 		});
 
@@ -1256,7 +1269,7 @@ var CommandsChangelog = {
 	 * @param {null | string} [options.stopID] - The header ID of the final to-be included segment within the changelog; defaults to `options.startID` if unspecified
 	 * @returns {HTMLDivElement} - The newly created changelog
 	 */
-	Publish(innerHTML, options = null) {
+	Publish(innerHTML, options = undefined) {
 		const changelog = CommandsChangelog.Parse(innerHTML, options);
 		changelog.setAttribute("data-sender", Player.MemberNumber);
 		changelog.setAttribute("data-time", ChatRoomCurrentTime());
@@ -1339,7 +1352,7 @@ var CommandsModsList = {
 
 	/**
 	 * @param {ServerChatRoomMessage} data
-	 * @param {Character} senderCharacter
+	 * @param {OnlineCharacter} senderCharacter
 	 */
 	ProcessHiddenRemote(data, senderCharacter) {
 		if (data.Content === "ModSdkModsQuery") {
@@ -1474,7 +1487,7 @@ var CommandsModsList = {
 	/**
 	 * @param {string} id
 	 * @param {ModSDKModInfo[]} mods
-	 * @param {Character} char
+	 * @param {OnlineCharacter} char
 	 */
 	_BuildCopyButton(id, mods, char) {
 		return ElementButton.Create(
@@ -1585,6 +1598,7 @@ var CommandsModsList = {
 					return a.memberNumber - b.memberNumber;
 				})
 				.map(({ label, result, memberNumber, character }, index, array) => {
+					if (!character) return;
 					const statusLabel = (() => {
 						if (memberNumber === Player.MemberNumber)
 							return TextGet("CommandModsRemoteStatusYou");
@@ -1668,7 +1682,7 @@ var CommandsModsList = {
 
 	/** @param {ServerChatRoomMessage} data */
 	_HandleRemoteQuery(data) {
-		const payload = data.Dictionary.find(IsModSdkModsQueryPayload);
+		const payload = data.Dictionary?.find(IsModSdkModsQueryPayload);
 		if (!payload?.RequestId || data.Sender === Player.MemberNumber) return;
 		const isDeclined = Player.OnlineSettings.RespondRemoteModListQueries === false;
 		ServerSend("ChatRoomChat", {
@@ -1686,10 +1700,10 @@ var CommandsModsList = {
 
 	/**
 	 * @param {ServerChatRoomMessage} data
-	 * @param {Character} senderCharacter
+	 * @param {OnlineCharacter} senderCharacter
 	 */
 	_HandleRemoteReply(data, senderCharacter) {
-		const payload = data.Dictionary.find(IsModSdkModsReplyPayload);
+		const payload = data.Dictionary?.find(IsModSdkModsReplyPayload);
 		const active = this._ActiveRemoteRequest;
 		if (!payload?.RequestId || !active || active.finalized || payload.RequestId !== active.requestId || !active.pending.has(senderCharacter.MemberNumber)) return;
 		active.pending.delete(senderCharacter.MemberNumber);

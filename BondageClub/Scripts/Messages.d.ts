@@ -824,7 +824,7 @@ interface ModSdkModsReplyPayloadDictionaryEntry {
 	Tag: "ModSdkModsReplyPayload";
 	RequestId: string;
 	Status: CommandsModListStatus;
-	ModsJson: string;
+	ModsJson?: string;
 }
 
 /**
