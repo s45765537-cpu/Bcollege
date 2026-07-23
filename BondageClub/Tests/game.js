@@ -6,6 +6,7 @@ const { TextEncoder, TextDecoder } = require("util");
 
 /** @type {object} */
 let Game = {
+	...global,
 	window: window,
 	document: document,
 	console: console,
@@ -36,7 +37,7 @@ let Game = {
 	},
 };
 
-const domGlobals = ["HTMLElement"];
+const domGlobals = ["HTMLElement", "HTMLCanvasElement"];
 
 domGlobals.forEach((key) => {
 	if (global[key]) {

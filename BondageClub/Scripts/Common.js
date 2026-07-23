@@ -737,7 +737,7 @@ function CommonColorTrimAlpha(color) {
  * @returns {boolean}
  */
 function CommonEmailIsValid(Email) {
-	if (Email.length < 5 || Email.length > 100) return false;
+	if (!Email || Email.length < 5 || Email.length > 100) return false;
 
 	const parts = Email.split("@");
 	if (parts.length !== 2) return false;
@@ -843,14 +843,10 @@ function CommonGenerateUniqueID() {
  * Converts an array to a string separated by commas (equivalent of .join(","))
  * @param {readonly any[]} Arr - Array to convert to a joined string
  * @returns {string} - String of all the array items joined together
+ * @deprecated - use .join(",");
  */
 function CommonConvertArrayToString(Arr) {
-	var S = "";
-	for (let P = 0; P < Arr.length; P++) {
-		if (P != 0) S = S + ",";
-		S = S + Arr[P].toString();
-	}
-	return S;
+	return Arr.join(",");
 }
 
 /**
@@ -1322,17 +1318,18 @@ function CommonStringTitlecase(str) {
 /**
  * Censors a string or words in that string based on the player preferences
  * @param {string} S - The string to censor
+ * @param {Character & { ChatSettings: ChatSettingsType }} C
  * @returns {String} - The censored string
  */
-function CommonCensor(S) {
+function CommonCensor(S, C=Player) {
 
 	// Validates that we must apply censoring
-	if ((Player.ChatSettings == null) || (Player.ChatSettings.CensoredWordsLevel == null) || (Player.ChatSettings.CensoredWordsList == null)) return S;
-	let WordList = PreferenceCensoredWordsList = Player.ChatSettings.CensoredWordsList.split("|");
+	if ((C.ChatSettings == null) || (C.ChatSettings.CensoredWordsLevel == null) || (C.ChatSettings.CensoredWordsList == null)) return S;
+	let WordList = PreferenceCensoredWordsList = C.ChatSettings.CensoredWordsList.split("|");
 	if (WordList.length <= 0) return S;
 
 	// At level zero, we replace the word with ***
-	if (Player.ChatSettings.CensoredWordsLevel == 0)
+	if (C.ChatSettings.CensoredWordsLevel == 0)
 		for (let W of WordList)
 			if ((W != "") && (W != " ") && !W.includes("*") && S.toUpperCase().includes(W.toUpperCase())) {
 				let searchMask = W;
@@ -1342,10 +1339,10 @@ function CommonCensor(S) {
 			}
 
 	// At level one, we replace the full phrase with ***, at level two we return a ¶¶¶ string indicating to filter out
-	if (Player.ChatSettings.CensoredWordsLevel >= 1)
+	if (C.ChatSettings.CensoredWordsLevel >= 1)
 		for (let W of WordList)
 			if ((W != "") && (W != " ") && !W.includes("*") && S.toUpperCase().includes(W.toUpperCase()))
-				return (Player.ChatSettings.CensoredWordsLevel >= 2) ? "¶¶¶" : "***";
+				return (C.ChatSettings.CensoredWordsLevel >= 2) ? "¶¶¶" : "***";
 
 	// Returns the mashed string
 	return S;
