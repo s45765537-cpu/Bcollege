@@ -3563,7 +3563,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		const dataAttr = ["data-craft", "data-hidden", "data-vibrating"];
 		const checkedButton = grid.querySelector(".dialog-grid-button[aria-checked='true']");
 		if (checkedButton) {
-			icon.innerHTML = checkedButton.innerHTML;
+			icon.replaceChildren(...checkedButton.cloneNode().children);
 			dataAttr.forEach(attr => icon.toggleAttribute(attr, checkedButton.hasAttribute(attr)));
 		} else {
 			icon.innerHTML = "";

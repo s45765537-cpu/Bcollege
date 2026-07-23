@@ -69,6 +69,11 @@ interface GamepadButton {
 	repeat: boolean;
 }
 
+// Workaround for https://github.com/microsoft/TypeScript/issues/283
+interface Node {
+	cloneNode(deep?: boolean): this;
+}
+
 interface RGBColor {
 	r: number;
 	g: number;

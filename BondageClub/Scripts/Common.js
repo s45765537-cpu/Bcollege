@@ -1081,7 +1081,14 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 	// Open the image in a new window
 	let newWindow = window.open('about:blank', '_blank');
 	if (newWindow) {
-		newWindow.document.write("<img src='" + PhotoImg + "' alt='from canvas'/>");
+		ElementCreate({
+			tag: "img",
+			attributes: {
+				src: PhotoImg,
+				alt: "from canvas",
+			},
+			parent: newWindow.document.body,
+		});
 		newWindow.document.close();
 	} else {
 		console.warn("Popups blocked: Cannot open photo in new tab.");

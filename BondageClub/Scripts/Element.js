@@ -3266,6 +3266,7 @@ var ElementSearchQuery = {
 			const regex = new RegExp(queries.join("|"), 'gi');
 			return Array.from(elements).filter(el => {
 				const { match, innerHTML } = ElementSearchQuery._getInnerHTML(el.textContent, regex, options);
+				// eslint-disable-next-line nounsanitized/property
 				el.innerHTML = innerHTML;
 				return match;
 			});
