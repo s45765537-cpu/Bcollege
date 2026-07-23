@@ -4695,7 +4695,7 @@ interface ColorPickerInitOptions {
 interface LogRecord {
 	Name: LogNameType[LogGroupType];
 	Group: LogGroupType;
-	Value: number | undefined;
+	Value: number | string[] | undefined;
 }
 
 /** The logging groups as supported by the {@link LogRecord.Group} */

@@ -17,21 +17,33 @@ function LogGet(Name, Group) {
 	return Player.Log.find(l => l.Group === Group && l.Name === Name);
 }
 
+const LogMaxStringArrayLength = 100;
+const LogMaxStringLength = 100;
+
 /**
  * Adds a new entry to the player's logs, renews the value if it already exists.
  * @template {LogGroupType} T
  * @param {LogNameType[T]} Name - The name of the log
  * @param {T} Group - The name of the log's group
- * @param {number} [Value] - Value for the log as the time in ms. Is undefined if the value is permanent
+ * @param {number|string[]} [Value] - Value for the log as the time in ms. Is undefined if the value is permanent
  * @param {boolean} [Push=true] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
 function LogAdd(Name, Group, Value, Push=true) {
 	if (typeof Name !== "string" || typeof Group !== "string") return;
 
-	// Makes sure the value is numeric
-	if (!CommonIsNumeric(Value) && Value !== undefined) {
+	if (typeof Value === "string") {
 		Value = CommonParseInt(Value, 10) ?? undefined;
+	} else if (typeof Value === "number") {
+		// Numbers are fine
+	} else if (Array.isArray(Value)) {
+		Value = Value.filter(v => typeof v === "string" && v.length <= LogMaxStringLength);
+		Value = Value.slice(0, LogMaxStringArrayLength);
+	} else if (!Value) {
+		// Anything else falsy ends up as undefined
+		Value = undefined;
+	} else {
+		return;
 	}
 
 	// Checks to make sure we don't duplicate a log
@@ -114,11 +126,13 @@ function LogQuery(Name, Group) {
 	if (value === null) return false;
 
 	// Loose null-check here in case there's a null or an undefined stuck in there
-	return entry.Value == null || entry.Value >= CurrentTime;
+	return CommonIsNumeric(value) && value >= CurrentTime;
 }
 
 /**
- * Checks if there's a log entry with extra ID characters in the log of the player (Exemple: BlockScreenABC return true for ID: A, B or C)
+ * Checks if the wanted record contains the given ID.
+ *
+ * This will only return true for stringarray records.
  *
  * @template {LogGroupType} T
  * @param {LogNameType[T]} Name - The log name to scan
@@ -127,24 +141,50 @@ function LogQuery(Name, Group) {
  * @returns {boolean} - Returns true, if the log contains that ID
  */
 function LogContain(Name, Group, ID) {
-	if (Player.Log == null) return false;
-	for (let L of Player.Log)
-		if (Group == L.Group)
-			if (L.Name.substring(0, Name.length) == Name)
-				return (L.Name.substring(Name.length, 100).indexOf(ID) >= 0);
-	return false;
+	if (typeof Name !== "string" || typeof Group !== "string" || typeof ID !== "string") return false;
+	const log = Player.Log.find(l => l.Group === Group && l.Name.startsWith(Name));
+	if (!log || !Array.isArray(log.Value)) return false;
+
+	return log.Value.includes(ID);
 }
 
 /**
- * Returns the value associated to a log.
+ * Returns the numeric value associated to a log.
  * @template {LogGroupType} T
  * @param {LogNameType[T]} Name - The name of the log to query the value
  * @param {T} Group - The name of the log's group
- * @returns {number | null | undefined} - Returns the value of the requested log if it exists, or null. Returns undefined if the log is not found.
+ * @returns {number | null} - The log's numeric value if it exists, or null.
  */
 function LogValue(Name, Group) {
 	const entry = LogGet(Name, Group);
-	if (!entry) return null;
+	if (!entry || !CommonIsNumeric(entry.Value)) return null;
+
+	return entry.Value;
+}
+
+/**
+ * Returns the string associated to a log.
+ * @template {LogGroupType} T
+ * @param {LogNameType[T]} Name - The name of the log to query the value
+ * @param {T} Group - The name of the log's group
+ * @returns {string | null} - The log's string value if it exists, or null.
+ */
+function LogGetString(Name, Group) {
+	const entry = LogGet(Name, Group);
+	if (!entry || typeof entry.Value !== "string") return null;
+	return entry.Value;
+}
+
+/**
+ * Returns the string array associated to a log.
+ * @template {LogGroupType} T
+ * @param {LogNameType[T]} Name - The name of the log to query the value
+ * @param {T} Group - The name of the log's group
+ * @returns {string[] | null} - The log's string array value if it exists, or null.
+ */
+function LogGetStringArray(Name, Group) {
+	const entry = LogGet(Name, Group);
+	if (!entry || !Array.isArray(entry.Value)) return null;
 	return entry.Value;
 }
 
