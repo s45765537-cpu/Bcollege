@@ -1935,6 +1935,14 @@ ItemDevicesXFrameTopLocks,Locks
 ItemDevicesXFrameFrameRopeTop,Rope
 ItemDevicesXFrameStains,Stains
 ItemDevicesXFrameBolts,Bolts
+ItemEarsCTHeadsetearHighlight,Hightlights
+ItemEarsCTHeadsetcushions,Cushions
+ItemEarsCTHeadsetears,Earphones
+ItemEarsCTHeadsetheadband,Headband
+ItemEarsCTHeadsethinges,Hinges
+ItemEarsCTHeadsetmic,Microphone
+ItemEarsCTHeadsetcear,Cat ears
+ItemEarsCTHeadsetglow,Highlight glow
 ItemEarsFuturisticEarphonesBand,Band
 ItemEarsFuturisticEarphonesDisplay,Display
 ItemEarsFuturisticEarphonesLock,Lock
@@ -2355,11 +2363,12 @@ ItemHoodCybertechMaskstraps,Straps
 ItemHoodCybertechMasksideAttachments,Side Attachment Points
 ItemHoodCybertechMaskattachmentPoint,Main Attachment Point
 ItemHoodCybertechMasktop,Top
+ItemHoodCybertechMaskfilter,Attachments
 ItemHoodCybertechMaskexhalationValve,Exhalation Valve
 ItemHoodCybertechMaskvisorOpaque,Visor
 ItemHoodCybertechMaskvisorReflection,Reflection
-ItemHoodCybertechMaskhypno1,Hypno visor 1
-ItemHoodCybertechMaskhypno2,Hypno visor 2
+ItemHoodCybertechMaskhypno1,Hypno pattern 1
+ItemHoodCybertechMaskhypno2,Hypno pattern 2
 ItemHoodCybertechMasktube,Tube
 ItemHoodCybertechMaskcanteen,Canteen
 ItemHoodCybertechMaskliquid,Liquid
@@ -3512,6 +3521,7 @@ MaskCybertechMaskstraps,Straps
 MaskCybertechMasksideAttachments,Side Attachment Points
 MaskCybertechMaskattachmentPoint,Main Attachment Point
 MaskCybertechMasktop,Top
+MaskCybertechMaskfilter,Attachments
 MaskCybertechMaskexhalationValve,Exhalation Valve
 MaskCybertechMaskvisorOpaque,Visor
 MaskCybertechMaskvisorReflection,Reflection

@@ -6336,15 +6336,41 @@ var AssetFemale3DCGExtended = {
 					Name: "Layering",
 					Key: "l",
 					Options: [
-						{},
+						{
+							Property: {
+								OverridePriority: {
+									base: 45,
+									nose: 44,
+									straps: 44,
+									sideAttachments: 45,
+									attachmentPoint: 45,
+									top: 45,
+									filter: 46,
+									tubes: 46,
+									exhalationValve: 45,
+									visorOpaque: 44,
+									visorReflection: 45,
+									visorTransparent: 44,
+									visorReflectionTransparent: 45,
+									hypno1: 44,
+									hypno2: 44,
+									tube: 44,
+									canteen: 45,
+									liquid: 46,
+								},
+							},
+						},
 						{
 							Property: {
 								OverridePriority: {
 									base: 53,
+									nose: 44,
 									straps: 44,
 									sideAttachments: 53,
 									attachmentPoint: 53,
-									top: 53,
+									top: 52,
+									filter: 54,
+									tubes: 54,
 									exhalationValve: 53,
 									visorOpaque: 52,
 									visorReflection: 53,
@@ -6359,6 +6385,11 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 					],
+				},
+				{
+					Name: "Attachments",
+					Key: "at",
+					Options: [{}, {}, {}],
 				},
 			],
 		}, // CybertechMask
@@ -17530,22 +17561,24 @@ var AssetFemale3DCGExtended = {
 						{
 							Property: {
 								OverridePriority: {
-									base: 44,
+									base: 45,
+									nose: 44,
 									straps: 44,
-									nose: 42,
-									sideAttachments: 44,
-									attachmentPoint: 44,
-									top: 44,
-									exhalationValve: 44,
-									visorOpaque: 43,
-									visorReflection: 44,
-									visorTransparent: 43,
-									visorReflectionTransparent: 44,
-									hypno1: 43,
-									hypno2: 43,
+									sideAttachments: 45,
+									attachmentPoint: 45,
+									top: 45,
+									filter: 46,
+									tubes: 46,
+									exhalationValve: 45,
+									visorOpaque: 44,
+									visorReflection: 45,
+									visorTransparent: 44,
+									visorReflectionTransparent: 45,
+									hypno1: 44,
+									hypno2: 44,
 									tube: 44,
-									canteen: 44,
-									liquid: 44,
+									canteen: 45,
+									liquid: 46,
 								},
 							},
 						},
@@ -17553,10 +17586,13 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								OverridePriority: {
 									base: 53,
+									nose: 44,
 									straps: 44,
 									sideAttachments: 53,
 									attachmentPoint: 53,
-									top: 53,
+									top: 52,
+									filter: 54,
+									tubes: 54,
 									exhalationValve: 53,
 									visorOpaque: 52,
 									visorReflection: 53,
@@ -17571,6 +17607,11 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 					],
+				},
+				{
+					Name: "Attachments",
+					Key: "at",
+					Options: [{}, {}, {}],
 				},
 			],
 		}, // CybertechMask
@@ -20420,6 +20461,48 @@ var AssetFemale3DCGExtended = {
 				Npc: "ItemEarsHeadphonePlugs",
 			},
 		}, // HeadphoneEarPlugs
+		CTHeadset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}],
+				},
+				{
+					Name: "Ears",
+					Key: "e",
+					Options: [{}, {}],
+				},
+				{
+					Name: "Mic",
+					Key: "m",
+					Options: [{}, {}],
+				},
+				{
+					Name: "Noisecancel",
+					Key: "nc",
+					Options: [
+						{},
+						{
+							Property: {
+								Effect: [E.DeafLight],
+							},
+						},
+						{
+							Property: {
+								Effect: [E.DeafHeavy],
+							},
+						},
+						{
+							Property: {
+								Effect: [E.DeafTotal],
+							},
+						},
+					],
+				},
+			],
+		}, // CTHeadset
 		Headphones: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "HeadphoneEarPlugs" },
