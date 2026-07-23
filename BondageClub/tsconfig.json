@@ -1,8 +1,8 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "ES2021",
-		"lib": ["es2021", "dom", "DOM.Iterable"],
+		"target": "es2022",
+		"lib": ["ES2022", "DOM"],
 		"checkJs": true,
 		"noEmit": true,
 		"incremental": true,
