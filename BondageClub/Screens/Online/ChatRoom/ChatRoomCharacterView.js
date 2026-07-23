@@ -357,12 +357,12 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 
 	// Draw the ghostlist/friendlist, whitelist/blacklist, admin icons, etc. above the character
-	if (ChatRoomHideIconState == 0) {
+	if (ChatRoomHideIconState == ChatRoomHideIconStateType.SHOW_ALL) {
 		ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom);
 	}
 
 	// Draws the whisper bubble if we hover over a character
-	if (ChatRoomTargetMemberNumber == C.MemberNumber && ChatRoomHideIconState <= 1) {
+	if (ChatRoomTargetMemberNumber == C.MemberNumber && ChatRoomHideIconState <= ChatRoomHideIconStateType.NO_ICONS) {
 		DrawImage("Icons/Small/Whisper.png", CharX + 75 * Zoom, CharY + 950 * Zoom);
 	}
 
