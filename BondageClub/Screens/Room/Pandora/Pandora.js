@@ -1088,6 +1088,7 @@ function PandoraQuizNext() {
 		Question = Math.floor(Math.random() * 11);
 	CurrentCharacter.QuizLog.push(Question);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "QuizQuestion" + Question.toString());
+	CharacterRefreshDialog(CurrentCharacter);
 }
 
 /**
