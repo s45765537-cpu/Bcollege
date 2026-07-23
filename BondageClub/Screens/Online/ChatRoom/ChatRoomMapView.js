@@ -1244,7 +1244,7 @@ function ChatRoomMapViewFloorWallEffect(X, Y) {
 	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1);
 
 	// If here is halfWall
-	if (ChatRoomMapViewGetTileAtPos(X,Y).Style == "HalfWall"){
+	if (ChatRoomMapViewGetTileAtPos(X,Y)?.Style == "HalfWall"){
 
 		//Finds the proper effect and returns it
 		if (!SW && SC && !SE) return 11;
