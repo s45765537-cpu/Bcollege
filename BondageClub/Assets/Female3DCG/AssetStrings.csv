@@ -2885,6 +2885,35 @@ HatJesterHatSelectBase,Customise your Jester Hat
 HatJesterHatSelectLeftPart,Choose left style
 HatJesterHatSelectRightPart,Choose right style
 HatJesterHatSelectTopPart,Choose top style
+ItemEarsCTHeadsetModuleGlow,Glow
+ItemEarsCTHeadsetModuleEars,Ears
+ItemEarsCTHeadsetModuleMic,Mic
+ItemEarsCTHeadsetModuleNoisecancel,Noise cancelling
+ItemEarsCTHeadsetSelectBase,Select headset configuration.
+ItemEarsCTHeadsetSelectGlow,Turn the highlight LED on and off.
+ItemEarsCTHeadsetSelectEars,Add or remove cat ears.
+ItemEarsCTHeadsetSelectMic,Add or remove microphone.
+ItemEarsCTHeadsetSelectNoisecancel,Select the level of noise cancelling of the headset.
+ItemEarsCTHeadsetOptiong0,Off
+ItemEarsCTHeadsetOptiong1,On
+ItemEarsCTHeadsetOptione0,Off
+ItemEarsCTHeadsetOptione1,On
+ItemEarsCTHeadsetOptionm0,Off
+ItemEarsCTHeadsetOptionm1,On
+ItemEarsCTHeadsetOptionnc0,None
+ItemEarsCTHeadsetOptionnc1,Light
+ItemEarsCTHeadsetOptionnc2,Heavy
+ItemEarsCTHeadsetOptionnc3,Total
+ItemEarsCTHeadsetSetg0,SourceCharacter turns the LEDs on DestinationCharacter headset off.
+ItemEarsCTHeadsetSetg1,SourceCharacter turns the LEDs on DestinationCharacter headset on.
+ItemEarsCTHeadsetSete0,SourceCharacter removes the cat ears from DestinationCharacter headset.
+ItemEarsCTHeadsetSete1,SourceCharacter adds cat ears to DestinationCharacter headset.
+ItemEarsCTHeadsetSetm0,SourceCharacter unplugs the microphone from DestinationCharacter headset.
+ItemEarsCTHeadsetSetm1,SourceCharacter adds a microphone to DestinationCharacter headset.
+ItemEarsCTHeadsetSetnc0,SourceCharacter turns the noise cancelling from DestinationCharacter headset off completely.
+ItemEarsCTHeadsetSetnc1,SourceCharacter turns the noise cancelling from DestinationCharacter headset up by a bit.
+ItemEarsCTHeadsetSetnc2,SourceCharacter turns the noise cancelling from DestinationCharacter headset up by a lot.
+ItemEarsCTHeadsetSetnc3,SourceCharacter turns the noise cancelling from DestinationCharacter headset on fully.
 HeadphoneEarPlugsPoseHeavy,Heavy
 HeadphoneEarPlugsPoseLight,Light
 HeadphoneEarPlugsPoseNoiseCancelling,Noise-Cancelling
@@ -4672,10 +4701,12 @@ ItemHoodOldGasMaskSetl1,SourceCharacter attaches blinding lenses to DestinationC
 ItemHoodCybertechMaskModuleVisor,Visor
 ItemHoodCybertechMaskModuleCanteen,Canteen
 ItemHoodCybertechMaskModuleLayering,Position
+ItemHoodCybertechMaskModuleAttachments,Attachments
 ItemHoodCybertechMaskSelectBase,Select mask configuration.
 ItemHoodCybertechMaskSelectVisor,Select visor type.
 ItemHoodCybertechMaskSelectCanteen,Select canteen attachment.
 ItemHoodCybertechMaskSelectLayering,Select mask position.
+ItemHoodCybertechMaskSelectAttachments,Select attachment point add-ons.
 ItemHoodCybertechMaskSetv0,SourceCharacter switches DestinationCharacter visor out for a see-through one.
 ItemHoodCybertechMaskSetv1,SourceCharacter switches DestinationCharacter visor out for a tinted one.
 ItemHoodCybertechMaskSetv2,SourceCharacter switches the hypnotic program on DestinationCharacter visor on.
@@ -4690,6 +4721,12 @@ ItemHoodCybertechMaskSetl0,SourceCharacter positions DestinationCharacter mask u
 ItemHoodCybertechMaskSetl1,SourceCharacter positions DestinationCharacter mask over DestinationCharacter hair.
 ItemHoodCybertechMaskOptionl0,Under hair
 ItemHoodCybertechMaskOptionl1,Over hair
+ItemHoodCybertechMaskSetat0,SourceCharacter removes DestinationCharacter attachments.
+ItemHoodCybertechMaskSetat1,SourceCharacter screws a filter onto DestinationCharacter attachment point.
+ItemHoodCybertechMaskSetat2,SourceCharacter attaches breathing tubes onto DestinationCharacter attachment points.
+ItemHoodCybertechMaskOptionat0,None
+ItemHoodCybertechMaskOptionat1,Filter
+ItemHoodCybertechMaskOptionat2,Tubes
 ItemHoodOpenFaceHoodSetHideBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenFaceHoodSetShowBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenMouthPlugHoodModuleFakeMouth,Fake Mouth
@@ -7530,10 +7567,12 @@ MaskFaceScarsSelect11,Apply
 MaskCybertechMaskModuleVisor,Visor
 MaskCybertechMaskModuleCanteen,Canteen
 MaskCybertechMaskModuleLayering,Position
+MaskCybertechMaskModuleAttachments,Attachments
 MaskCybertechMaskSelectBase,Select mask configuration.
 MaskCybertechMaskSelectVisor,Select visor type.
 MaskCybertechMaskSelectCanteen,Select canteen attachment.
 MaskCybertechMaskSelectLayering,Select mask position.
+MaskCybertechMaskSelectAttachments,Select attachment point add-ons.
 MaskCybertechMaskOptionv0,See-through
 MaskCybertechMaskOptionv1,Tinted
 MaskCybertechMaskOptionv2,Hypnosis Program
@@ -7541,6 +7580,9 @@ MaskCybertechMaskOptionc0,None
 MaskCybertechMaskOptionc1,On
 MaskCybertechMaskOptionl0,Under hair
 MaskCybertechMaskOptionl1,Over hair
+MaskCybertechMaskOptionat0,None
+MaskCybertechMaskOptionat1,Filter
+MaskCybertechMaskOptionat2,Tubes
 ItemDevicesBrickWallSelect,Build and choose the brick wall's height:
 ItemDevicesBrickWallNone,No brick
 ItemDevicesBrickWallLegs,Up to the hips
