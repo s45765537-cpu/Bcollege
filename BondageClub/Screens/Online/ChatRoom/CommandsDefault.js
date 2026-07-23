@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 'use strict';
 
 /**
@@ -244,7 +243,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to ban",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !ChatRoomData.Ban.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !!ChatRoomData && !ChatRoomData.Ban.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
@@ -255,7 +254,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to unban",
-			suggestions: () => ChatRoomData.Ban.map(c => c.toString()),
+			suggestions: () => ChatRoomData?.Ban.map(c => c.toString()) ?? [],
 		}]
 	},
 	{
@@ -277,7 +276,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to promote",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !ChatRoomData.Admin.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !!ChatRoomData && !ChatRoomData.Admin.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
@@ -288,7 +287,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to demote",
-			suggestions: () => ChatRoomData.Admin.map(c => c.toString()),
+			suggestions: () => ChatRoomData?.Admin.map(c => c.toString()) ?? [],
 		}]
 	},
 	{
@@ -299,7 +298,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to whitelist",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !ChatRoomData.Whitelist.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !!ChatRoomData && !ChatRoomData.Whitelist.includes(c.MemberNumber)).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
@@ -310,7 +309,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to unwhitelist",
-			suggestions: () => ChatRoomData.Whitelist.map(c => c.toString()),
+			suggestions: () => ChatRoomData?.Whitelist.map(c => c.toString()) ?? [],
 		}]
 	},
 	{
@@ -579,7 +578,7 @@ const CommonCommands = [
 			}
 			let AcceptCmd = false;
 			/** @type {ExpressionNameMap["Eyes"] | "Open"} */
-			let NewExpression;
+			let NewExpression = "Open";
 			let TargetLeft = false;
 			let TargetRight = false;
 			let Cmds;
@@ -587,8 +586,8 @@ const CommonCommands = [
 				AcceptCmd = true;
 				if (args[0] == "r" || args[0] == "b") TargetRight = true;
 				if (args[0] == "l" || args[0] == "b") TargetLeft = true;
-				let LeftClosed = InventoryGet(Player, "Eyes").Property.Expression == "Closed";
-				let RightClosed = InventoryGet(Player, "Eyes2").Property.Expression == "Closed";
+				let LeftClosed = InventoryGet(Player, "Eyes")?.Property?.Expression == "Closed";
+				let RightClosed = InventoryGet(Player, "Eyes2")?.Property?.Expression == "Closed";
 				let Close = (TargetLeft && !LeftClosed);
 				Close = Close || (TargetRight && !RightClosed);
 				NewExpression = Close ? "Closed" : "Open";
@@ -637,8 +636,8 @@ const CommonCommands = [
 				}
 			} else {
 				// Apply new expression only to eyes that are opened
-				let LeftClosed = InventoryGetItemProperty(InventoryGet(Player, "Eyes"), "Expression") === "Closed";
-				let RightClosed = InventoryGetItemProperty(InventoryGet(Player, "Eyes2"), "Expression") === "Closed";
+				let LeftClosed = InventoryGet(Player, "Eyes")?.Property?.Expression === "Closed";
+				let RightClosed = InventoryGet(Player, "Eyes2")?.Property?.Expression === "Closed";
 				if (!LeftClosed) {
 					CharacterSetFacialExpression(Player, "Eyes1", NewExpression);
 					Player.ActiveExpression.Eyes = NewExpression;
@@ -689,7 +688,7 @@ const CommonCommands = [
 		Action: () => {
 			if (!InventoryAvailable(Player, "WheelFortune", "ItemDevices")) return;
 			WheelFortuneReturnScreen = CommonGetScreen();
-			WheelFortuneBackground = ChatRoomData.Background;
+			WheelFortuneBackground = ChatRoomData?.Background ?? "";
 			WheelFortuneCharacter = Player;
 			CommonSetScreen("MiniGame", "WheelFortune");
 		},
@@ -755,7 +754,7 @@ const CommonCommands = [
 				return;
 			}
 			CommonClipboardRead((res) => {
-				if (res.ok) {
+				if (res.value) {
 					CharacterAppearancePaste(Player, res.value, true);
 				} else {
 					ToastManager.error(res.errorAsDOM(InterfaceTextGet("AppPasteError")));
@@ -776,7 +775,7 @@ const CommonCommands = [
 				return;
 			}
 			CommonClipboardRead((res) => {
-				if (res.ok) {
+				if (res.value) {
 					ChatRoomMapViewPaste(res.value);
 				} else {
 					ToastManager.error(res.errorAsDOM(TextGet("MapPasteError")));
@@ -857,7 +856,7 @@ const CommonCommands = [
 			/** @type {null | string} */
 			let background = null;
 			if (ServerPlayerIsInChatRoom()) {
-				background = ChatRoomData?.Background;
+				background = ChatRoomData?.Background ?? null;
 				ChatRoomStatusUpdate("Shop");
 			}
 			Shop2.Init(background, screen);
@@ -926,11 +925,11 @@ const CommonCommands = [
 		Tag: 'beep',
 		Action: (args) => {
 			const parts = args.split(" ");
-			const target = parseInt(parts.shift(), 10);
+			const target = CommonParseInt(parts.shift() ?? "");
 			const msg = parts.join(" ");
 
 			if (!CommonIsNonNegativeInteger(target)) {
-				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', target)}</span>`, 5000);
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', String(target))}</span>`, 5000);
 				return;
 			} else if (!Player.HasOnFriendlist(target)) {
 				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`, 5000);
@@ -949,7 +948,7 @@ const CommonCommands = [
 				`beep-reply-${beepId}`,
 				() => {
 					ElementValue("InputChat", `/beep ${target} ${ElementValue("InputChat").replace(/^\/(beep|w) \S+ ?/u, '')}`);
-					document.getElementById('InputChat').focus();
+					document.getElementById('InputChat')?.focus();
 				},
 				{ noStyling: true },
 				{ button: { classList: ["ReplyButton"], children: ['\u21a9\ufe0f'] } },
@@ -989,14 +988,17 @@ const CommonCommands = [
 			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
 			const parsed = args.split(" ");
-			const isCoordinateX = (value) => value && !isNaN(Number(value)) && Number(value) >= 0 && Number(value) < ChatRoomMapViewWidth;
-			const isCoordinateY = (value) => value && !isNaN(Number(value)) && Number(value) >= 0 && Number(value) < ChatRoomMapViewHeight;
+			/** @param {string} value */
+			const isCoordinateX = (value) => CommonIsInteger(CommonParseInt(value), 0, ChatRoomMapViewWidth);
+			/** @param {string} value */
+			const isCoordinateY = (value) => CommonIsInteger(CommonParseInt(value), 0, ChatRoomMapViewHeight);
 
+			/** @param {string} value */
 			const isIdentifier = (value) => value && !(isCoordinateX(value) || isCoordinateY(value));
 
 			if (isCoordinateX(parsed[0]) && isCoordinateY(parsed[1])) {
 				// maptp <x> <y>
-				const position = { X: Number(parsed[0]), Y: Number(parsed[1]) };
+				const position = { X: CommonParseInt(parsed[0]) ?? 0, Y: CommonParseInt(parsed[1]) ?? 0 };
 				if (ChatRoomMapViewIsOutOfBounds(position)) return ChatRoomSendLocal(`Teleport: Cannot teleport to ${position.X}, ${position.Y} because out of bounds.`);
 				ChatRoomSendLocal(`Teleporting to ${position.X}, ${position.Y}`);
 				return ChatRoomMapViewTeleport(Player, position);
@@ -1018,7 +1020,7 @@ const CommonCommands = [
 				const fromPlayer = ChatRoomGetCharacter(parsed[0].replace('@', ''));
 				const toPlayer = ChatRoomGetCharacter(parsed[1].replace('@', ''));
 				if (!fromPlayer) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
-				if (!toPlayer) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
+				if (!toPlayer || !toPlayer.Position) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
 				ChatRoomSendLocal(`Teleporting ${fromPlayer.Nickname ?? fromPlayer.Name} to ${toPlayer.Nickname ?? toPlayer.Name}`);
 				return ChatRoomMapViewTeleport(fromPlayer, toPlayer.Position);
 			}
@@ -1026,7 +1028,7 @@ const CommonCommands = [
 			if (isIdentifier(parsed[0])) {
 				// maptp <player>
 				const character = ChatRoomGetCharacter(parsed[0].replace('@', ''));
-				if (!character) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} because no such player.`);
+				if (!character || !character.Position) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} because no such player.`);
 				ChatRoomSendLocal(`Teleporting to ${character.Nickname ?? character.Name}`);
 				return ChatRoomMapViewTeleport(Player, character.Position);
 			}
@@ -1098,19 +1100,19 @@ const CommonCommands = [
 		Tag: 'clear',
 		Action: () => {
 			const chatLog = document.querySelector("#TextAreaChatLog");
-			const seps = chatLog.querySelectorAll(".chat-room-sep");
+			const seps = chatLog?.querySelectorAll(".chat-room-sep") ?? [];
 
 			if (seps.length > 0) {
 				const lastSep = seps[seps.length - 1];
 
 				// Remove everything before the last separator
-				while (chatLog.firstChild !== lastSep) {
-					chatLog.removeChild(chatLog.firstChild);
+				while (chatLog?.firstChild && chatLog.firstChild !== lastSep) {
+					chatLog?.removeChild(chatLog.firstChild);
 				}
 
 				// Remove everything after the last separator
 				while (lastSep.nextSibling) {
-					chatLog.removeChild(lastSep.nextSibling);
+					chatLog?.removeChild(lastSep.nextSibling);
 				}
 			}
 
