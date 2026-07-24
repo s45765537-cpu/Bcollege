@@ -58,36 +58,31 @@ function MaidQuartersCanDoWorkButMaidsDisabled() { return (DialogReputationGreat
  * @returns {boolean} - Returns true if the player wears a maid dress and a maid hair band, false otherwise
  */
 function MaidQuartersPlayerInMaidUniform() {
-	const Cloth = CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name");
-	const Hat = CharacterAppearanceGetCurrentValue(Player, "Hat", "Name");
-	var NakedOrWithApron =
-		(CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "None"
-		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron1"
-		|| CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name") == "MaidApron2");
+	const NakedOrWithApron = InventoryIsWorn(Player, "Cloth", ["MaidApron1", "MaidApron2", "None"]);
 	return (
-		// Wearing regular maid hairhand  or latex hairhand
-		(Hat == "MaidHairband1" || Hat == "MaidLatexHairband")
+		// Wearing regular maid hairhand or latex hairhand
+		InventoryIsWorn(Player, "Hat", ["MaidHairband1", "MaidLatexHairband"])
 		&& (
 			// Either regular maid outfits or latex outfit
-			(Cloth == "MaidOutfit1" || Cloth == "MaidOutfit2" || Cloth == "MaidDress3" || Cloth == "MaidDress4" || Cloth == "MaidLatex")
+			InventoryIsWorn(Player, "Cloth", ["MaidOutfit1", "MaidOutfit2", "MaidDress3", "MaidDress4", "MaidLatex"])
 			// Or mostly naked
 			|| (NakedOrWithApron
-			&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Garters", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Shoes", "Name") == "None")
+			&& !InventoryGet(Player, "ClothLower")
+			&& !InventoryGet(Player, "Suit")
+			&& !InventoryGet(Player, "SuitLower")
+			&& !InventoryGet(Player, "Bra")
+			&& !InventoryGet(Player, "Corset")
+			&& !InventoryGet(Player, "Panties")
+			&& !InventoryGet(Player, "Garters")
+			&& !InventoryGet(Player, "Shoes"))
 			// Or in maid underwears
 			|| (NakedOrWithApron
-			&& CharacterAppearanceGetCurrentValue(Player, "ClothLower", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Suit", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "SuitLower", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1"
-			&& CharacterAppearanceGetCurrentValue(Player, "Corset", "Name") == "None"
-			&& CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2")
+			&& !InventoryGet(Player, "ClothLower")
+			&& !InventoryGet(Player, "Suit")
+			&& !InventoryGet(Player, "SuitLower")
+			&& InventoryIsWorn(Player, "Bra", "MaidBra1")
+			&& !InventoryGet(Player, "Corset")
+			&& InventoryIsWorn(Player, "Panties", "MaidPanties2"))
 		)
 	);
 }
@@ -96,9 +91,9 @@ function MaidQuartersPlayerInMaidUniform() {
  * @returns {boolean} - Retruns true, if the player is wearing a maid uniform, has her legs and arms restrained, is gagged and wearing a serving tray
  */
 function MaidQuartersPlayerInDrinksUniform() {
-	const legsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemLegs", "ID") != "None");
-	const armsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemArms", "ID") != "None");
-	const hasTray = (InventoryGet(Player, "ItemMisc") && InventoryGet(Player, "ItemMisc").Asset.Name == "ServingTray");
+	const legsRestrained = !!InventoryGet(Player, "ItemLegs");
+	const armsRestrained = !!InventoryGet(Player, "ItemArms");
+	const hasTray = InventoryIsWorn(Player, "ItemMisc", "ServingTray");
 	return (MaidQuartersPlayerInMaidUniform() && legsRestrained && armsRestrained && hasTray && Player.CanWalk() && !Player.CanTalk());
 }
 /**
@@ -113,10 +108,12 @@ function MaidQuartersPlayerCanChangeForDrinks() {
  * @returns {boolean} - Returns true, if the player is wearing a maid uniform, has her feet, legs and arms restrained and is wearing a duster gag
  */
 function MaidQuartersPlayerInCleaningUniform() {
-	const feetRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemFeet", "ID") != "None");
-	const legsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemLegs", "ID") != "None");
-	const armsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemArms", "ID") != "None");
-	const hasDusterGag = (CharacterAppearanceGetCurrentValue(Player, "ItemMouth", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth2", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth3", "Name") == "DusterGag");
+	const feetRestrained = !!InventoryGet(Player, "ItemFeet");
+	const legsRestrained = !!InventoryGet(Player, "ItemLegs");
+	const armsRestrained = !!InventoryGet(Player, "ItemArms");
+	/** @type {AssetGroupName[]} */
+	const mouthGroups = ["ItemMouth", "ItemMouth2", "ItemMouth3"];
+	const hasDusterGag = mouthGroups.some(g => InventoryIsWorn(Player, g, "DusterGag"));
 	return (MaidQuartersPlayerInMaidUniform() && feetRestrained && legsRestrained && armsRestrained && hasDusterGag);
 }
 /**
@@ -137,9 +134,9 @@ function MaidQuartersPlayerCanChangeForRescue() {
  * Update the maid current dialog to give an advice about why the player's current outfit isn't a maid outfit
  */
 function MaidQuartersAdviceMaidUniform() {
-	if (!(CharacterAppearanceGetCurrentValue(Player, "Hat", "Name") == "MaidHairband1")) {
+	if (!InventoryIsWorn(Player, "Hat", "MaidHairband1")) {
 		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "NoHairband");
-	} else if (CharacterAppearanceGetCurrentValue(Player, "Bra", "Name") == "MaidBra1" && CharacterAppearanceGetCurrentValue(Player, "Panties", "Name") == "MaidPanties2") {
+	} else if (!InventoryIsWorn(Player, "Bra", "MaidBra1") || !InventoryIsWorn(Player, "Panties", "MaidPanties2")) {
 		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "NoDress");
 	} else {
 		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "WrongOutfit");
@@ -307,13 +304,13 @@ function MaidQuartersClick() {
 		if (!MaidQuartersPlayerInMaidUniform()) {
 			MaidQuartersWearMaidUniform();
 		} else {
-			switch (CharacterAppearanceGetCurrentValue(Player, "Cloth", "Name")){
-				case "MaidOutfit1": InventoryWear(Player,"MaidOutfit2","Cloth"); break;
+			switch (InventoryGet(Player, "Cloth")?.Asset.Name) {
+				case "MaidOutfit1": InventoryWear(Player, "MaidOutfit2", "Cloth"); break;
 				case "MaidOutfit2": InventoryWear(Player,"MaidDress3","Cloth"); break;
 				case "MaidDress3": InventoryWear(Player,"MaidDress4","Cloth"); break;
-				case "MaidDress4": InventoryWear(Player,"MaidApron1","Cloth"); break;
-				case "MaidApron1": InventoryWear(Player,"MaidApron2","Cloth"); break;
-				case "MaidApron2": InventoryWear(Player,"MaidOutfit1","Cloth"); break;
+				case "MaidDress4": InventoryWear(Player, "MaidApron1", "Cloth"); break;
+				case "MaidApron1": InventoryWear(Player, "MaidApron2", "Cloth"); break;
+				case "MaidApron2": InventoryWear(Player, "MaidOutfit1", "Cloth"); break;
 			}
 		}
 	}

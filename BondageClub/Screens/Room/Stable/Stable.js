@@ -872,7 +872,7 @@ async function StableTrainerWhipEnd() {
 
 function StablePonyStraightens(C) {
 	C = C ? C : StablePony;
-	var Color = CharacterAppearanceGetCurrentValue(C,"HairBack", "Color");
+	var Color = ItemGetColor(C, "HairBack");
 	CharacterAppearanceNextItem(C, "HairBack");
 	for (let A = 0; A < C.Appearance.length;A++) {
 		if (C.Appearance[A].Asset.Group.Name == "HairBack") {
