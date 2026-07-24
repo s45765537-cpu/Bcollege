@@ -308,13 +308,12 @@ function WardrobeSetCharacterName(W, Name, Push) {
  * @returns {ItemBundle} - The bundled asset
  */
 function WardrobeAssetBundle(A) {
-	let Property;
-	if (A.Property) {
-		Property = Object.assign({}, A.Property);
-		delete Property.Expression; // Don't add expressions to the wardrobe
-		if (Object.keys(Property).length === 0) Property = undefined; // Don't save empty properties
+	const bundle = ServerBundledItemFromAppearanceItem(A);
+	if (bundle.Property?.Expression) {
+		delete bundle.Property.Expression; // Don't add expressions to the wardrobe
+		if (Object.keys(bundle.Property).length === 0) delete bundle.Property;
 	}
-	return { Name: A.Asset.Name, Group: A.Asset.Group.Name, Color: A.Color, Property };
+	return bundle;
 }
 
 /**

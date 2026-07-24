@@ -658,19 +658,7 @@ function ServerPlayerExtensionSettingsSync(dataKeyName, _force = false) {
  * @returns {AppearanceBundle} - The appearance bundle created from the given appearance array
  */
 function ServerAppearanceBundle(Appearance) {
-	var Bundle = [];
-	for (let A = 0; A < Appearance.length; A++)
-		if (Appearance[A].Asset != null) {
-			var N = {};
-			N.Group = Appearance[A].Asset.Group.Name;
-			N.Name = Appearance[A].Asset.Name;
-			if ((Appearance[A].Color != null) && (Appearance[A].Color != "Default")) N.Color = Appearance[A].Color;
-			if ((Appearance[A].Difficulty != null) && (Appearance[A].Difficulty != 0)) N.Difficulty = Appearance[A].Difficulty;
-			if (Appearance[A].Property != null) N.Property = Appearance[A].Property;
-			if (Appearance[A].Craft != null) N.Craft = Appearance[A].Craft;
-			Bundle.push(N);
-		}
-	return Bundle;
+	return CommonFilterMap(Appearance, (item) => item.Asset == null ? null : ServerBundledItemFromAppearanceItem(item));
 }
 
 /**
@@ -766,6 +754,33 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
 		Color: ServerParseColor(asset, item.Color, asset.Group.ColorSchema),
 		Craft: item.Craft,
 		Property: item.Property,
+	};
+}
+
+/**
+ * Convert an item into a (JSON-safe) item bundle
+ * @param {Item} item The to-be converted item
+ * @returns {ItemBundle} The matching item bundle
+ */
+function ServerBundledItemFromAppearanceItem(item) {
+	/** @type {undefined | ItemColor} */
+	const inputColor = item.Color;
+	/** @type {undefined | ItemColor} */
+	let outputColor;
+	if (ItemColorIsDefault(item)) {
+		outputColor = undefined;
+	} else if (CommonIsArray(inputColor) && inputColor.every(c => c === inputColor[0])) {
+		outputColor = inputColor[0];
+	} else {
+		outputColor = inputColor;
+	}
+	return {
+		Group: item.Asset.Group.Name,
+		Name: item.Asset.Name,
+		Difficulty: item.Difficulty === 0 ? undefined : item.Difficulty,
+		Color: outputColor,
+		Property: Object.keys(item.Property).length > 0 ? item.Property : undefined,
+		Craft: item.Craft,
 	};
 }
 
