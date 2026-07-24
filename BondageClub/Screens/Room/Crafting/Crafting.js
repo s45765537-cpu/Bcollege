@@ -977,10 +977,10 @@ var CraftingEventListeners = {
 		}
 
 		if (this.getAttribute("aria-checked") === "true") {
-			controlButton.innerHTML = this.innerHTML;
+			controlButton.replaceChildren(...this.cloneNode().children);
 			return;
 		} else {
-			controlButton.innerHTML = "";
+			controlButton.replaceChildren();
 		}
 
 		switch (controlButton.id) {

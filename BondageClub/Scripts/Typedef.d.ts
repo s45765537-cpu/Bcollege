@@ -69,6 +69,11 @@ interface GamepadButton {
 	repeat: boolean;
 }
 
+// Workaround for https://github.com/microsoft/TypeScript/issues/283
+interface Node {
+	cloneNode(deep?: boolean): this;
+}
+
 interface RGBColor {
 	r: number;
 	g: number;
@@ -4980,13 +4985,45 @@ interface ClubCardPlayer {
 	CardsPlayedThisTurn: Record<number, ClubCard[]>
 }
 
+type ClubCardMessageType =
+  | "Prerequisite"
+  | "StartTurnInfo"
+  | "SystemMessage"
+  | "PlayersMessage"
+  | "PlayersDisconnected"
+  | "CardsEffect"
+  | "TurnEndEffect"
+  | "KnotEvent"
+  | "Actions"
+  | "ActionSeparator"
+  | "FameMoneyInfo"
+  | "StartTurnEvent"
+  | "VictoryInfo"
+;
+
+type ClubCardPlaceholderKeysType =
+	| "MONEYLABEL"
+	| "FAMELABEL"
+	| "AMOUNT"
+	| "CARDNAME"
+	| "MONEYAMOUNT"
+	| "FAMEAMOUNT"
+	| "TURNNUMBER"
+	| "PLAYERNAME"
+;
+
 interface ClubCardMessage {
-	TextGetKey: string;         // Localization key
-	MessageType: string;        // Type of message (e.g., ACTION, SYSTEM, IMMEDIATE)
-	PlayerId: string;           // ID of the player who triggered the message
-	TurnCounter: number;        // Turn number when the message was created
-	Placeholders: {             // Dynamic data for text replacement
-		[key: string]: string | number;
+	/** Localization key */
+	TextGetKey: string;
+	/** Type of message (e.g., ACTION, SYSTEM, IMMEDIATE) */
+	MessageType: ClubCardMessageType;
+	/** ID of the player who triggered the message */
+	PlayerId: string;
+	/** Turn number when the message was created */
+	TurnCounter: number;
+	/** Dynamic data for text replacement */
+	Placeholders: {
+		[key in ClubCardPlaceholderKeysType]?: string;
 	};
 }
 

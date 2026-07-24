@@ -9,6 +9,7 @@ const globals = require("globals");
 const sortKeysCustom = require("eslint-plugin-sort-keys-custom");
 const compatPlugin = require("eslint-plugin-compat");
 const js = require("@eslint/js");
+const nounsanitized = require("eslint-plugin-no-unsanitized");
 
 const {
 	FlatCompat,
@@ -26,6 +27,7 @@ const common = {
 
 	plugins: {
 		"sort-keys-custom": sortKeysCustom,
+		nounsanitized,
 		"compat": compatPlugin,
 	},
 
@@ -75,6 +77,9 @@ const common = {
 		}],
 
 		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+
+		"nounsanitized/method": "error",
+		"nounsanitized/property": "error",
 
 		// Until globals are properly documented
 		"no-undef": "off",

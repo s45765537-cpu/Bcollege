@@ -870,7 +870,7 @@ function GameLARPAddChatLog(Msg, Source, Target, Description, RNG, Odds, Color) 
 	div.setAttribute('class', 'ChatMessage ChatMessageServerMessage');
 	div.setAttribute('data-time', ChatRoomCurrentTime());
 	if ((Color != null) && (Color != "")) div.style.color = Color;
-	div.innerHTML = Msg;
+	div.textContent = Msg;
 	ChatRoomAppendChat(div);
 }
 

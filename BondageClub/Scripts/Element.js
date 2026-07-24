@@ -38,6 +38,7 @@ function ElementValue(ID, Value) {
  * @param {string | null} ID - The id of the element for which we want to get/set the value.
  * @param {string} [Content] - The content/inner HTML to give to the element (if applicable)
  * @returns {string} - The content of the element (When no Content parameter was passed to the function)
+ * @deprecated Use {@link ElementClearContents} or {@link ElementCreate} instead.
  */
 function ElementContent(ID, Content) {
 	ID ??= ElementGenerateID();
@@ -50,8 +51,19 @@ function ElementContent(ID, Content) {
 	if (Content == null)
 		return e.innerHTML;
 
+	// eslint-disable-next-line nounsanitized/property
 	e.innerHTML = Content;
 	return "";
+}
+
+/**
+ * Clears the contents of an HTML element
+ * @param {string} ID
+ */
+function ElementClearContents(ID) {
+	const e = ElementWrap(ID);
+	if (!e) return;
+	e.replaceChildren();
 }
 
 /** @satisfies {ElementNoParent} */
@@ -110,6 +122,7 @@ function ElementCreate(options) {
 		}
 	}
 
+	// eslint-disable-next-line nounsanitized/property
 	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
 
 	elem.append(...ElementParseChildren(options.children ?? []));
@@ -3233,6 +3246,62 @@ var ElementUnpackIDs = {
 	fromAttribute: function fromAttribute(element, attrName, options=null) {
 		options ??= {};
 		return ElementUnpackIDs.fromString(element.getAttribute(attrName) ?? "", { ...options, root: element });
+	},
+};
+
+/** Namespace with helpers for highlighting elements based on search queries */
+var ElementSearchQuery = {
+	/**
+	 * Highlight search query matches within the passed elements using `<em class="highlight">`, returning a list of all highlighted elements
+	 * @template {Element} T
+	 * @param {readonly T[] | NodeListOf<T>} elements The list of to-be elements whose textContent is to be matched
+	 * @param {string} query The search query
+	 * @param {null | ElementSearchQuery.Options} [options] Further options
+	 * @returns {T[]} The matched elements
+	 */
+	highlight: function highlight(elements, query, options) {
+		options ??= {};
+		const queries = query.split(" ").map(i => i.trim()).filter(Boolean).map(i => CommonRegEscape(i));
+		if (queries.length > 0) {
+			const regex = new RegExp(queries.join("|"), 'gi');
+			return Array.from(elements).filter(el => {
+				const { match, innerHTML } = ElementSearchQuery._getInnerHTML(el.textContent, regex, options);
+				// eslint-disable-next-line nounsanitized/property
+				el.innerHTML = innerHTML;
+				return match;
+			});
+		} else {
+			return ElementSearchQuery.clear(elements);
+		}
+	},
+
+	/**
+	 * Clear all query matches from the passed elements. Equivalent to passing an empty string query to {@link highlight}.
+	 * @template {Element} T The list of to-be elements whose textContent is to be matched
+	 * @param {readonly T[] | NodeListOf<T>} elements
+	 * @returns {T[]} The matched elements
+	 */
+	clear: function clear(elements) {
+		// eslint-disable-next-line no-self-assign
+		elements.forEach(el => el.textContent = el.textContent);
+		return [...elements];
+	},
+
+	/**
+	 * @private
+	 * @param {string} textContent
+	 * @param {RegExp} pattern
+	 * @param {ElementSearchQuery.Options} options
+	 * @returns {{ match: boolean, innerHTML: string }}
+	 */
+	_getInnerHTML: function _getInnerHTML(textContent, pattern, options) {
+		if (pattern.test(textContent)) {
+			const className = options.classList?.join(" ") ?? "highlight";
+			const tag = options.tag ?? "em";
+			return { match: true, innerHTML: `${textContent.replace(pattern, match => `<${tag} class="${className}">${ChatRoomHTMLEntities(match)}</${tag}>`)}` };
+		} else {
+			return { match: false, innerHTML: ChatRoomHTMLEntities(textContent) };
+		}
 	},
 };
 

@@ -1821,7 +1821,7 @@ function ChatSearchResultResponse(data) {
 		PandoraPenitentiaryResult(ChatSearchParseResponse(data));
 		return;
 	}
-	ElementContent("InputSearch-datalist", "");
+	ElementClearContents("InputSearch-datalist");
 	ChatSearchResult = ChatSearchParseResponse(data);
 	ChatSearchResultOffset = 0;
 	ChatSearchQuerySort();

@@ -6905,11 +6905,24 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {
-		const div = document.createElement("div");
-		div.setAttribute('class', 'ChatMessage ChatMessageServerMessage');
-		div.setAttribute('data-time', ChatRoomCurrentTime());
-		div.setAttribute('data-sender', Player.MemberNumber.toString());
-		div.innerHTML = "<b><i>" + TextGet("OwnerPresence" + RuleName) + "</i></b>";
+		const div = ElementCreate({
+			tag: "div",
+			classList: ['ChatMessage', 'ChatMessageServerMessage'],
+			attributes: {
+				"data-time": ChatRoomCurrentTime(),
+				"data-sender": Player.MemberNumber.toString(),
+			},
+			children: [
+				ElementCreate({
+					tag: "span",
+					style: {
+						"font-style": "italic",
+						"font-weight": "bold",
+					},
+					children: [TextGet(`OwnerPresence${RuleName}`)],
+				}),
+			],
+		});
 		ChatRoomAppendChat(div);
 	}
 
