@@ -162,9 +162,9 @@ let KDEventMapInventory = {
 				data.color[0] = "#9A7F76";
 				if (KinkyDungeonPlayer && KinkyDungeonPlayer.Appearance) {
 					let color = InventoryGet(KinkyDungeonPlayer, "BodyUpper").Color;
-					if (color == "Asian") {
+					if (color.includes("Asian")) {
 						data.color[0] = "#8B7B70";
-					} else if (color == "Black") {
+					} else if (color.includes("Black")) {
 						data.color[0] = "#684832";
 					}
 				}

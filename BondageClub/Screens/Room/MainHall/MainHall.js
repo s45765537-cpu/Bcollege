@@ -818,7 +818,7 @@ function MainHallMaidChangeCollarPlayer() {
 	for (let A = 0; A < Player.Appearance.length; A++)
 		if (Player.Appearance[A].Asset.Name == "SlaveCollar") {
 			Player.Appearance[A].Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
-			Player.Appearance[A].Color = "Default";
+			Player.Appearance[A].Color = [...Player.Appearance[A].Asset.DefaultColor];
 		}
 	MainHallHasSlaveCollar = false;
 	MainHallMaidPunishmentPlayer();

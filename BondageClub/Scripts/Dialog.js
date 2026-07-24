@@ -675,7 +675,7 @@ function DialogHasKey(C, Item) {
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + Item.Property.LockedBy);
 
-	const key = Asset.find(a => InventoryItemHasEffect({ Asset: a }, UnlockName));
+	const key = Asset.find(a => InventoryItemHasEffect(InventoryItem.fromAsset(a), UnlockName));
 	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
 		if (lock != null) {
 			if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
@@ -1626,7 +1626,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	if (C.FocusGroup == null) return;
 
 	if (locks) {
-		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, { Asset: a }, false));
+		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, InventoryItem.fromAsset(a), false));
 		DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));
 		DialogInventorySort();
 		return;
@@ -1642,10 +1642,10 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 			if (A.Wear) {
 				const isWorn = CurItem?.Asset.Name === A.Name && CurItem?.Asset.Group.Name === A.Group.Name;
-				DialogInventoryAdd(Player, { Asset: A }, isWorn, DialogSortOrder.Enabled);
+				DialogInventoryAdd(Player, InventoryItem.fromAsset(A), isWorn, DialogSortOrder.Enabled);
 			} else if (A.IsLock) {
 				const LockIsWorn = InventoryCharacterIsWearingLock(C, /** @type {AssetLockType} */ (A.Name));
-				DialogInventoryAdd(Player, { Asset: A }, LockIsWorn, DialogSortOrder.Enabled);
+				DialogInventoryAdd(Player, InventoryItem.fromAsset(A), LockIsWorn, DialogSortOrder.Enabled);
 			}
 		}
 	} else {
@@ -1668,7 +1668,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		for (const A of Asset)
 			if (A.Group.Name === C.FocusGroup.Name && A.DynamicAllowInventoryAdd(C))
 				if (InventoryAvailable(C, A.Name, A.Group.Name))
-					DialogInventoryAdd(C, { Asset: A }, false);
+					DialogInventoryAdd(C, InventoryItem.fromAsset(A), false);
 
 		// Fifth, we add all crafted items for the player that matches that slot
 		for (const Craft of (Player.Crafting ?? [])) {
@@ -1678,7 +1678,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 			for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 				if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-					DialogInventoryAdd(C, { Asset, Craft: CommonCloneDeep(Craft) }, false);
+					DialogInventoryAdd(C, InventoryItem.fromAsset(Asset, { craft: Craft }), false);
 				}
 			}
 		}
@@ -1695,7 +1695,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 				Craft.MemberNumber = C.MemberNumber;
 				for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 					if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-						DialogInventoryAdd(C, { Asset, Craft }, false);
+						DialogInventoryAdd(C, InventoryItem.fromAsset(Asset, { craft: Craft }), false);
 					}
 				}
 			}
@@ -1707,7 +1707,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
 					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))
-						DialogInventoryAdd(C, { Asset: A }, false);
+						DialogInventoryAdd(C, InventoryItem.fromAsset(A), false);
 		}
 
 	}
@@ -1764,14 +1764,12 @@ function DialogBuildSavedExpressionsMenu() {
 	return Player.SavedExpressions.map((expression, i) => {
 		if (expression) {
 			const PreviewCharacter = CharacterLoadSimple("SavedExpressionPreview-" + i);
-			PreviewCharacter.Appearance = BaseAppearance.slice();
-			ExpressionGroups.forEach(I =>
-				PreviewCharacter.Appearance.push({
-					Asset: I.Asset,
-					Color: I.Color,
-					Property: I.Property ? { ...I.Property } : undefined,
-				})
-			);
+			PreviewCharacter.Appearance = [
+				...BaseAppearance,
+				...ExpressionGroups.map(item => {
+					return { Asset: item.Asset, ...CommonCloneDeep(CommonOmit(item, ["Asset"])) };
+				}),
+			];
 
 			for (let x = 0; x < expression.length; x++) {
 				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression ?? null);
@@ -2579,7 +2577,7 @@ function DialogChangeItemColor(C, Color) {
 	if (InventoryItemHasEffect(Item, "Enclose", true) && (C.IsPlayer())) return;
 
 	// Apply the color & redraw the character after 100ms.  Prevent unnecessary redraws to reduce performance impact
-	Item.Color = Color;
+	Item.Color = Array(Item.Asset.ColorableLayerCount).fill(Color);
 	clearTimeout(DialogFocusItemColorizationRedrawTimer);
 	DialogFocusItemColorizationRedrawTimer = setTimeout(function () { CharacterAppearanceBuildCanvas(C); }, 100);
 

@@ -576,7 +576,6 @@ function ItemColorNextColor(colorGroup) {
 	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length;
 	const nextColor = schema[nextIndex];
 	for (const i of colorIndicesToSet) {
-		// @ts-ignore Strict-TS: trust me bro
 		ItemColorItem.Color[i] = nextColor === "Default" ? ItemColorState.defaultColors[i] : nextColor;
 		ItemColorState.colors[i] = nextColor === "Default" ? ItemColorState.defaultColors[i] : nextColor;
 	}

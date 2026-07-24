@@ -70,9 +70,8 @@ function InventoryAddMany(C, NewItems, Push) {
  *     found in the named group
  */
 function InventoryItemCreate(C, Group, Name) {
-	var NewItemAsset = AssetGet(C.AssetFamily, Group, Name);
-	if (NewItemAsset) return { Name, Group, Asset: NewItemAsset };
-	return null;
+	const item = InventoryItem.fromName(Group, Name);
+	return item ? Object.assign(item, { Group: item.Asset.Group.Name, Name: item.Asset.Name }) : null;
 }
 
 /**
@@ -812,9 +811,10 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor=null, Difficulty=null
 	if (Craft) {
 		// Restore the item color if it has been explicitly passed; keep using the `Craft.Color`-assigned color otherwise
 		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
+		const backupColor = item.Color;
 		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
 		if (ItemColor !== "Default") {
-			item.Color = color;
+			item.Color = backupColor;
 		}
 	}
 
@@ -1247,7 +1247,7 @@ function InventoryGetLock(Item) {
 	if (!Item?.Property?.LockedBy) return null;
 	const asset = Asset.find(a => a.IsLock && a.Name === Item.Property?.LockedBy);
 	if (!asset) return null;
-	return { Asset: asset };
+	return InventoryItem.fromAsset(asset);
 }
 
 /**
@@ -1389,7 +1389,7 @@ function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Upd
 	if (typeof LockOrLockType === 'string') {
 		const lock = AssetGet(C.AssetFamily, "ItemMisc", LockOrLockType);
 		if (lock) {
-			Lock = { Asset: lock };
+			Lock = InventoryItem.fromAsset(lock);
 		}
 	} else {
 		Lock = LockOrLockType;
@@ -1466,7 +1466,7 @@ function InventoryLockRandom(C, Item, AppliedBy) {
 	const locks = Asset.filter(a => a.IsLock && a.Random && !a.LoverOnly && !a.FamilyOnly && (AppliedBy.IsOwner() || !a.OwnerOnly));
 	const randomLock = InventoryGetRandom(C, undefined, locks);
 	if (!randomLock) return false;
-	InventoryLock(C, Item, { Asset: randomLock }, AppliedBy);
+	InventoryLock(C, Item, InventoryItem.fromAsset(randomLock), AppliedBy);
 }
 
 /**

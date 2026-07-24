@@ -57,10 +57,10 @@ function InventoryItemMiscHighSecurityPadlockLoadHook(data, originalFunction) {
  */
 function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
 	if (LogQuery("KeyDeposit", "Cell")) return false;
-	let UnlockName = "Unlock" + Item.Asset.Name;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null)) UnlockName = "Unlock" + Item.Property.LockedBy;
+	let UnlockName = /** @type {const} */(`Unlock${Item.Asset.Name}`);
+	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null)) UnlockName = `Unlock${Item.Property.LockedBy}`;
 
-	const key = Asset.find(a => InventoryItemHasEffect({ Asset: a }, /** @type {EffectName} */ (UnlockName)));
+	const key = Asset.find(a => InventoryItemHasEffect(InventoryItem.fromAsset(a), /** @type {EffectName} */ (UnlockName)));
 	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
 		var Lock = InventoryGetLock(Item);
 		if (Lock != null) {

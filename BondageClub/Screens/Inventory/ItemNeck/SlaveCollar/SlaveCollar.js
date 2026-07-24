@@ -125,7 +125,7 @@ function InventoryItemNeckSlaveCollarDrawHook(data, originalFunction) {
 		originalFunction();
 		ColorPickerHide();
 		DrawButton(1665, 25, 90, 90, "", "White", "Icons/Next.png");
-		DrawButton(1775, 25, 90, 90, "", (item.Color != null && item.Color != "Default") ? item.Color.toString() : "White", "Icons/ColorChange.png");
+		DrawButton(1775, 25, 90, 90, "", !ItemColorIsDefault(item) ? item.Color.toString() : "White", "Icons/ColorChange.png");
 		for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
 			const A = item.Asset;
 			const Type = InventoryItemNeckSlaveCollarTypes[I];

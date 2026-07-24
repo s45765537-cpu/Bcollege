@@ -690,7 +690,7 @@ function KDInventoryWear(AssetName, AssetGroup, par, color, filters) {
 	if ((StandalonePatched && !M) || (!StandalonePatched && !A)) return;
 	let item = StandalonePatched ?
 		KDAddModel(KinkyDungeonPlayer, AssetGroup, M, color || "Default", filters)
-		: KDAddAppearance(KinkyDungeonPlayer, AssetGroup, A, /** @type {ItemColor} */ (color || A.DefaultColor));
+		: KDAddAppearance(KinkyDungeonPlayer, AssetGroup, A, color || [...A.DefaultColor]);
 	//CharacterAppearanceSetItem(KinkyDungeonPlayer, AssetGroup, A, color || A.DefaultColor,0,-1, false);
 	CharacterRefresh(KinkyDungeonPlayer, true);
 	return item;

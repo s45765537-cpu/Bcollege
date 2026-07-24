@@ -1448,7 +1448,7 @@ interface ClipboardItemBundle {
 	/** The item's asset name */
 	A: string;
 	/** The item's color */
-	C?: ItemColor;
+	C: BCColor[];
 }
 
 type ClipboardAppearanceBundle = ClipboardItemBundle[];
@@ -1526,10 +1526,10 @@ type ItemColor = BCColor | BCColor[];
  */
 interface Item {
 	Asset: Asset;
-	Color?: ItemColor;
-	Difficulty?: number;
+	Color: BCColor[];
+	Difficulty: number;
 	Craft?: CraftingItem;
-	Property?: ItemProperties;
+	Property: ItemProperties;
 }
 
 /** An item properties subtype with a guaranteed opacity field. */
@@ -1565,9 +1565,8 @@ interface InventoryBundle {
 	Group: AssetGroupName;
 	Name: string
 }
-interface InventoryItem extends InventoryBundle {
-	Asset: Asset;
-}
+
+type InventoryItem = InventoryBundle & Item;
 
 declare namespace InventoryPrerequisiteConflicts {
 	type ErrMessage = "" | "CannotBeUsedOverGag" | "MustBeUsedOverGag";
