@@ -1776,3 +1776,41 @@ function InventoryExtractLockProperties(property) {
 function InventoryIconIsPadlock(icon) {
 	return icon.endsWith("Padlock");
 }
+
+/**
+ * Namespace for constructing {@link Item} objects.
+*/
+var InventoryItem = {
+	/**
+	 * Construct an item from the passed asset
+	 * @param {Asset} asset The asset in question
+	 * @param {null | InventoryItem.Options} options Further options
+	 * @returns {Item} The new item
+	 */
+	fromAsset: function fromAsset(asset, options=null) {
+		options ??= {};
+		return {
+			Asset: asset,
+			Color: options.color ? ServerParseColor(asset, options.color, asset.Group.ColorSchema) : [...asset.DefaultColor],
+			Difficulty: options.difficulty ?? 0,
+			Property: options.property ? CommonCloneDeep(options.property) : {},
+			Craft: options.craft ? CommonCloneDeep(options.craft) : undefined,
+		};
+	},
+
+	/**
+	 * Construct an item from the passed group- and asset names
+	 * @param {AssetGroupName} groupName The asset's group name
+	 * @param {string} assetName The asset's name
+	 * @param {null | InventoryItem.Options} options Further options
+	 * @returns {null | Item} The new item or `null` if no matching asset can be found
+	 */
+	fromName: function fromName(groupName, assetName, options=null) {
+		const asset = AssetGet("Female3DCG", groupName, assetName);
+		if (!asset) {
+			return null;
+		} else {
+			return InventoryItem.fromAsset(asset, options);
+		}
+	},
+};

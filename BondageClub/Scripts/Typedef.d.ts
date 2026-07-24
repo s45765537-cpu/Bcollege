@@ -1519,7 +1519,11 @@ interface ItemActivity {
 
 type ItemColor = BCColor | BCColor[];
 
-/** An item is a pair of asset and its dynamic properties that define a worn asset. */
+/**
+ * An item is a pair of asset and its dynamic properties that define a worn asset.
+ *
+ * See the {@link InventoryItem} namespace for item construction helpers.
+ */
 interface Item {
 	Asset: Asset;
 	Color?: ItemColor;
@@ -5251,3 +5255,13 @@ interface LayeringDisplay extends Rect {
 }
 
 // #endregion
+
+declare namespace InventoryItem {
+	interface Options {
+		/** The color of the item */
+		color?: Readonly<ItemColor>;
+		difficulty?: number;
+		craft?: Readonly<CraftingItem>;
+		property?: Readonly<ItemProperties>;
+	}
+}

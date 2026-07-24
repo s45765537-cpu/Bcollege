@@ -7,6 +7,7 @@ export const NEEDED_FILES = [
 	"Scripts/Common.js",
 	"Scripts/Dialog.js",
 	"Scripts/Pose.js",
+	"Scripts/Inventory.js",
 	"Scripts/Asset.js",
 	"Scripts/ExtendedItem.js",
 	"Scripts/ModularItem.js",
