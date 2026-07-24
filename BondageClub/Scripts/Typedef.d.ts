@@ -3269,6 +3269,12 @@ interface ExpressionQueueItem {
 	Expression: ExpressionName;
 }
 
+type VoiceTriggerType =
+	| "Increase" | "Decrease" | "Disable"
+	| "Inflate" | "Deflate" | "Empty"
+	| "Shock"
+;
+
 /**
  * Base properties for extended items
  *

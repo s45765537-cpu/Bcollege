@@ -5872,7 +5872,7 @@ ItemPelvisModularChastityBeltSetp1,DestinationCharacterName AssetName plug(s) ar
 ItemPelvisModularChastityBeltSetp2,DestinationCharacterName AssetName plug(s) are inflated and are heavily teasing DestinationCharacter with every move.
 ItemPelvisModularChastityBeltSetp3,DestinationCharacterName AssetName plug(s) are bloated and make DestinationCharacter every move a chore.
 ItemPelvisModularChastityBeltSetp4,DestinationCharacterName AssetName plug(s) are almost bursting and make DestinationCharacter movement almost impossible.
-ItemPelvisModularChastityBeltSets0,SourceCharacter sets DestinationCharacter AssetName shock module to level 1 and turns off automatic shocks.
+ItemPelvisModularChastityBeltSets0,SourceCharacter sets DestinationCharacter AssetName turns off automatic shocks.
 ItemPelvisModularChastityBeltSets1,SourceCharacter sets DestinationCharacter AssetName shock module to level 1.
 ItemPelvisModularChastityBeltSets2,SourceCharacter sets DestinationCharacter AssetName shock module to level 2.
 ItemPelvisModularChastityBeltSets3,SourceCharacter sets DestinationCharacter AssetName shock module to level 3.
@@ -6103,6 +6103,43 @@ ItemVulvaUsedCondomSetA,SourceCharacter makes DestinationCharacter AssetName hav
 ItemVulvaUsedCondomSetB,SourceCharacter makes DestinationCharacter AssetName drip a long stream.
 ItemVulvaUsedCondomSetC,SourceCharacter makes DestinationCharacter AssetName have no fluid.
 ItemVulvaVibratingWand,(You slowly massage your pussy with the wand.  Trembling from pleasure and excitement.)
+ItemVulvaTechnoChastityCageModuleIntensity,Pleasure module
+ItemVulvaTechnoChastityCageSelectIntensity,Select pleasure intensity
+ItemVulvaTechnoChastityCageSelectBase,Select options
+ItemVulvaTechnoChastityCageOptioni0,Off
+ItemVulvaTechnoChastityCageOptioni1,Low
+ItemVulvaTechnoChastityCageOptioni2,Medium
+ItemVulvaTechnoChastityCageOptioni3,High
+ItemVulvaTechnoChastityCageOptioni4,Maximum
+ItemVulvaTechnoChastityCageSeti0,DestinationCharacterName AssetName stops vibrating.
+ItemVulvaTechnoChastityCageSeti1,DestinationCharacterName AssetName teases lightly.
+ItemVulvaTechnoChastityCageSeti2,DestinationCharacterName AssetName hums moderately.
+ItemVulvaTechnoChastityCageSeti3,DestinationCharacterName AssetName buzzes strongly.
+ItemVulvaTechnoChastityCageSeti4,DestinationCharacterName AssetName vibrates at maximum speed.
+ItemVulvaTechnoChastityCageSelectShockModule,Set up shock module
+ItemVulvaTechnoChastityCageModuleShockModule,Shock module
+ItemVulvaTechnoChastityCageOptions0,Off
+ItemVulvaTechnoChastityCageOptions1,Low
+ItemVulvaTechnoChastityCageOptions2,Medium
+ItemVulvaTechnoChastityCageOptions3,High
+ItemVulvaTechnoChastityCageSets0,SourceCharacter sets DestinationCharacter turns off automatic shocks.
+ItemVulvaTechnoChastityCageSets1,SourceCharacter sets DestinationCharacter AssetName shock module to level 1.
+ItemVulvaTechnoChastityCageSets2,SourceCharacter sets DestinationCharacter AssetName shock module to level 2.
+ItemVulvaTechnoChastityCageSets3,SourceCharacter sets DestinationCharacter AssetName shock module to level 3.
+ItemVulvaTechnoChastityCageSelectOrgasmLock,Select orgasm lock
+ItemVulvaTechnoChastityCageModuleOrgasmLock,Orgasm lock
+ItemVulvaTechnoChastityCageOptiono0,Allow
+ItemVulvaTechnoChastityCageOptiono1,Edge
+ItemVulvaTechnoChastityCageOptiono2,Deny
+ItemVulvaTechnoChastityCageSeto0,SourceCharacter deactivates orgasm prevention system on DestinationCharacter AssetName.
+ItemVulvaTechnoChastityCageSeto1,SourceCharacter sets orgasm prevention system on DestinationCharacter AssetName to edging mode.
+ItemVulvaTechnoChastityCageSeto2,SourceCharacter sets orgasm prevention system on DestinationCharacter AssetName to denial mode.
+ItemVulvaTechnoChastityCageModuleVoiceControl,Voice module
+ItemVulvaTechnoChastityCageSelectVoiceControl,Set up voice module
+ItemVulvaTechnoChastityCageSetv0,SourceCharacter turns off voice module of DestinationCharacter AssetName.
+ItemVulvaTechnoChastityCageSetv1,SourceCharacter turns on voice module of DestinationCharacter AssetName.
+ItemVulvaTechnoChastityCageOptionv0,Off
+ItemVulvaTechnoChastityCageOptionv1,On
 JewelryJewelrySetModuleEars1,Right Ear
 JewelryJewelrySetModuleEars2,Left Ear
 JewelryJewelrySetModuleFace,Face

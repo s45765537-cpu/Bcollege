@@ -13302,6 +13302,91 @@ var AssetFemale3DCGExtended = {
 		}, // SingleBalletBoot
 	}, // ItemBoots
 	ItemVulva: {
+		TechnoChastityCage: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.DEST_CHAR_NAME,
+				CommonChatTags.ASSET_NAME,
+			],
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Intensity",
+					Key: "i",
+					DrawImages: false,
+					Options: [
+						{ Property: { Intensity: -1, Effect: ["Egged"] } }, // i0 - Turn Off
+						{ Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] } }, // i1 - Low
+						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } }, // i2 - Medium
+						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } }, // i3 - High
+						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } }, // i4 - Maximum
+					],
+				},
+				{
+					Name: "ShockModule",
+					Key: "s",
+					DrawImages: false,
+					Options: [
+						{ Property: { ShockLevel: 0 } }, // s0 - Off
+						{ Property: { ShockLevel: 0 } }, // s1 - Level 1
+						{ Property: { ShockLevel: 1 } }, // s2 - Level 2
+						{ Property: { ShockLevel: 2 } }, // s3 - Level 3
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[8][0] },
+							{ position: ExtendedXYWithoutImages[8][1] },
+							{ position: ExtendedXYWithoutImages[8][2] },
+							{ position: ExtendedXYWithoutImages[8][3] },
+						],
+					},
+				},
+				{
+					Name: "OrgasmLock",
+					Key: "o",
+					DrawImages: false,
+					Options: [
+						{}, // o0 - Normal
+						{ Property: { Effect: ["DenialMode"] } }, // o1 - Edge
+						{ Property: { Effect: ["DenialMode", "RuinOrgasms"] } }, // o2 - Deny
+					],
+				},
+				{
+					Name: "VoiceControl",
+					Key: "v",
+					DrawImages: false,
+					Options: [
+						{}, //v0 - Off
+						{}, //v1 - On
+					],
+				},
+			],
+			BaselineProperty: {
+				TriggerCount: 0,
+				OrgasmCount: 0,
+				RuinedOrgasmCount: 0,
+				TimeWorn: CommonTime(),
+				TimeSinceLastOrgasm: CommonTime(),
+				ShowText: true,
+				ShockLevel: 0,
+				PunishOrgasm: false,
+				PunishStandup: false,
+				PunishStruggle: false,
+				PunishStruggleOther: false,
+				AccessMode: "",
+				TriggerValues: CommonConvertArrayToString(
+					InventoryItemVulvaTechnoChastityCageVoiceTriggers,
+				),
+			},
+			ScriptHooks: {
+				Click: InventoryItemVulvaTechnoChastityCageClickHook,
+				Draw: InventoryItemVulvaTechnoChastityCageDrawHook,
+				Exit: InventoryItemVulvaTechnoChastityCageExitHook,
+				ScriptDraw: InventoryItemVulvaChastityCageScriptDrawHook,
+			},
+		},
 		ClitSuctionCup: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
