@@ -28,19 +28,19 @@ var StableExamPoint = 0;
 ////////////////////////////////////////////////////////////////////////////////////////////
 // functions for Dialogs
 function StablePlayerIsPony() {
-	return (LogQuery("JoinedStable", "Pony") && (ReputationGet("Dominant") < -30)) && !StablePlayerIsWearingOutfit("Pony");
+	return (LogQuery("Pony", "JoinedStable") && (ReputationGet("Dominant") < -30)) && !StablePlayerIsWearingOutfit("Pony");
 }
 
 function StablePlayerIsExamPony() {
-	return LogQuery("JoinedStable", "PonyExam");
+	return LogQuery("PonyExam", "JoinedStable");
 }
 
 function StablePlayerIsTrainer() {
-	return (LogQuery("JoinedStable", "Trainer") && (ReputationGet("Dominant") > 30));
+	return (LogQuery("Trainer", "JoinedStable") && (ReputationGet("Dominant") > 30));
 }
 
 function StablePlayerIsExamTrainer() {
-	return LogQuery("JoinedStable", "TrainerExam");
+	return LogQuery("TrainerExam", "JoinedStable");
 }
 
 function StablePlayerCanTrainPony() {
@@ -52,7 +52,7 @@ function StablePlayerIsReadyToTrain() {
 }
 
 function StablePlayerIsNewby() {
-	return (!LogQuery("JoinedStable", "Pony") && !LogQuery("JoinedStable", "Trainer"));
+	return (!LogQuery("Pony", "JoinedStable") && !LogQuery("Trainer", "JoinedStable"));
 }
 /**
  * Check what outfit the player is currently wearing.
@@ -608,7 +608,7 @@ function StableDressPonyStart() {
 // When the player becomes a pony
 function StableBecomePonyFin() {
 	InventoryWear(Player, "Ears2", "Hat");
-	LogAdd("JoinedStable", "Pony");
+	LogAdd("Pony", "JoinedStable");
 }
 
 //Stop the Traning and Remove some Items
@@ -722,7 +722,7 @@ function StablePlayerExamDressage() {
 }
 
 function StablePlayerExamPass() {
-	LogAdd("JoinedStable", "PonyExam");
+	LogAdd("PonyExam", "JoinedStable");
 	LoginStableItems();
 	StablePlayerExamEnd();
 	StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableExamAwardIntro");
@@ -773,7 +773,7 @@ function StableCanBecomeTrainer() {
 //Player become a Trainer
 function StableBecomeTrainer() {
 	StablePayTheFee("BecomeTrainer");
-	LogAdd("JoinedStable", "Trainer");
+	LogAdd("Trainer", "JoinedStable");
 	if (!StablePlayerAppearance) StablePlayerAppearance = Player.Appearance.slice();
 	StableWearTrainerEquipment(Player);
 	StableTrainerTrainingExercises = 3 + SkillGetLevel(Player, "Dressage");
@@ -942,7 +942,7 @@ async function StablePlayerTExamHurdlesEnd() {
 }
 
 function StablePlayerTExamPass() {
-	LogAdd("JoinedStable", "TrainerExam");
+	LogAdd("TrainerExam", "JoinedStable");
 	LoginStableItems();
 	StablePayTheFee("WhiskeyRounds");
 	StablePlayerTExamEnd();
@@ -1143,7 +1143,7 @@ var StableActivityList = ["Stand", "Trot", "Gallop", "Passage", "Pirouette"];
 function StableDoActivity(Activity) {
 
 	// Make sur the source/player is a pony
-	if (!LogQuery("JoinedStable", "Pony"))
+	if (!LogQuery("Pony", "JoinedStable"))
 		return ChatRoomSendLocal(TextGet("PonyNotJoin"), 10_000);
 
 	// Make sure the activity is valid

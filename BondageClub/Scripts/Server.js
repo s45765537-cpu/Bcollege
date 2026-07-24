@@ -591,7 +591,7 @@ function ServerPlayerBlockItemsSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerLogSync() {
-	ServerAccountUpdate.QueueData({ Log });
+	ServerAccountUpdate.QueueData({ Log: Player.Log });
 }
 
 /**

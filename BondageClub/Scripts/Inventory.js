@@ -1083,39 +1083,11 @@ function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
 	if (!C.IsPlayer()) return false;
 	if (!Player.IsOwned()) return false;
 	if (CurrentCharacter == null) return false;
-	const Dict = [
-		["A", "ItemBoots"],
-		["B", "ItemFeet"],
-		["C", "ItemLegs"],
-		["D", "ItemVulva"],
-		["E", "ItemVulvaPiercings"],
-		["F", "ItemButt"],
-		["G", "ItemPelvis"],
-		["H", "ItemTorso"],
-		["I", "ItemTorso2"],
-		["J", "ItemNipples"],
-		["K", "ItemNipplesPiercings"],
-		["L", "ItemBreast"],
-		["M", "ItemHands"],
-		["N", "ItemArms"],
-		["O", "ItemNeck"],
-		["P", "ItemNeckAccessories"],
-		["Q", "ItemNeckRestraints"],
-		["R", "ItemMouth"],
-		["S", "ItemMouth2"],
-		["T", "ItemMouth3"],
-		["U", "ItemNose"],
-		["V", "ItemEars"],
-		["W", "ItemHead"],
-		["X", "ItemHood"],
-		["0", "ItemMisc"],
-		["1", "ItemDevices"],
-		["2", "ItemAddon"]
-	];
-	for (let D of Dict)
-		if (D[1] == GroupName)
-			return LogContain("BlockItemGroup", "OwnerRule", D[0]);
-	return false;
+
+	const blocked = LogGetString("BlockItemGroup", "OwnerRule");
+	if (!blocked || !Array.isArray(blocked)) return true;
+
+	return blocked.includes(GroupName);
 }
 
 /**
