@@ -38,7 +38,9 @@ var CharacterAppearanceGroups = [];
  */
 var CharacterAppearanceAssets = [];
 /** @type {AssetGroupName} */
-var CharacterAppearanceColorPickerGroupName;
+var CharacterAppearanceColorPickerGroupName = /** @type {never} */ (null);
+/** @type {ItemColor | undefined} */
+var CharacterAppearanceColorPickerBackup = undefined;
 var CharacterAppearanceColorPickerRefreshTimer = undefined;
 /**
  * The character we're editing the appearance of.
@@ -139,14 +141,14 @@ function CharacterAppearanceValidate(C) {
 
 
 	// Dress back if there are missing appearance items
-	for (let A = 0; A < AssetGroup.length; A++)
-		if (!AssetGroup[A].AllowNone && (CharacterAppearanceGetCurrentValue(C, AssetGroup[A].Name, "Name") == "None"))
-			for (let B = 0; B < Asset.length; B++)
-				if (Asset[B].Group.Name == AssetGroup[A].Name) {
-					CharacterAppearanceSetItem(C, Asset[B].Group.Name, Asset[B], Asset[B].Group.DefaultColor);
-					Refresh = true;
-					break;
-				}
+	for (const group of AssetGroup) {
+		if (group.AllowNone || InventoryGet(C, group.Name) !== null) continue;
+		for (const asset of group.Asset) {
+			CharacterAppearanceSetItem(C, group.Name, asset, group.DefaultColor);
+			Refresh = true;
+			break;
+		}
+	}
 
 	// Updates the character's leash state
 	CharacterRefreshLeash(C);
@@ -238,12 +240,10 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 
 	// For each item group (non default items only show at a 8% rate, if it can occasionally happen)
 	for (const group of assetGroupList) {
-		if (group.IsAppearance() && (group.IsDefault || (group.Random && Math.random() < 0.08) || CharacterAppearanceRequired(C, group.Name)) && (!CharacterAppearanceMustHide(C, group.Name) || !group.AllowNone) && (CharacterAppearanceGetCurrentValue(C, group.Name, "Name") == "None") && AppearanceGroupAllowed(C, group.Name)) {
+		if (group.IsAppearance() && (group.IsDefault || (group.Random && Math.random() < 0.08) || CharacterAppearanceRequired(C, group.Name)) && (!CharacterAppearanceMustHide(C, group.Name) || !group.AllowNone) && InventoryGet(C, group.Name) === null && AppearanceGroupAllowed(C, group.Name)) {
 
 			// Get the parent size
-			var ParentSize = "";
-			if (group.ParentSize != "")
-				ParentSize = CharacterAppearanceGetCurrentValue(C, group.ParentSize, "Name");
+			const ParentSize = group.ParentSize != "" ? InventoryGet(C, group.ParentSize)?.Asset.Name : "";
 
 			// Check for a parent
 			var R = [];
@@ -265,15 +265,12 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 				// If we found no asset, just move to next group
 				if (!SelectedAsset)
 					continue;
-				/** @type {ItemColor} */
+				/** @type {ItemColor | undefined} */
 				let SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
 				if ((SelectedAsset.Group.DefaultColor == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
 				if (SelectedAsset.Group.InheritColor != null) SelectedColor = "Default";
 				else if (SelectedAsset.Group.ParentColor != "") {
-					const color = CharacterAppearanceGetCurrentValue(C, SelectedAsset.Group.ParentColor, "Color");
-					if (color !== "None") {
-						SelectedColor = color;
-					}
+					SelectedColor = ItemGetColor(C, SelectedAsset.Group.ParentColor);
 				}
 				// Rare chance of keeping eyes of a different color
 				if (SelectedAsset.Group.Name == "Eyes2" && Math.random() < 0.995) {
@@ -646,8 +643,7 @@ function CharacterAppearanceSetHeightModifiers(C) {
 	}
 
 	// Set the height ratio here to avoid lookin it up when drawing. The setting can make all characters full height
-	const zoomModifier = CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
-	C.HeightRatio = Player.VisualSettings?.ForceFullHeight || zoomModifier === "None" ? 1 : zoomModifier;
+	C.HeightRatio = Player.VisualSettings?.ForceFullHeight ? 1 : CharacterGetHeight(C);
 }
 
 /**
@@ -685,11 +681,28 @@ function CharacterAppearanceBuildCanvas(C) {
 }
 
 /**
+ * Get the current color of an item.
+ *
+ * @param {Character} C
+ * @param {Item | AssetGroupName} itemOrGroupName
+ * @returns {BCColor[] | undefined}
+ */
+function ItemGetColor(C, itemOrGroupName) {
+	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
+	if (!item) return undefined;
+	if (typeof item.Color === "string") {
+		return Array(item.Asset.ColorableLayerCount).fill(item.Color);
+	}
+	return !item.Color || CommonColorsEqual(item.Color, item.Asset.DefaultColor) ? [...item.Asset.DefaultColor] : item.Color;
+}
+
+/**
  * Returns a value from the character current appearance
  * @template {keyof CharacterAppearanceValues} T
  * @param {Character} C - The character to get values from
  * @param {AssetGroupName} Group - The name of the group, whose values we want to get
  * @param {T} Type - The name of the value, we want to get
+ * @deprecated Use {@link InventoryGet}, {@link InventoryIsWorn}, {@link ItemGetColor}, etc.
  * @returns {CharacterAppearanceValues[T] | "None"} - The return value
  */
 function CharacterAppearanceGetCurrentValue(C, Group, Type) {
@@ -705,7 +718,7 @@ function CharacterAppearanceGetCurrentValue(C, Group, Type) {
 					ret = item.Asset.Description;
 					break;
 				case "Color":
-					ret = !item.Color || CommonColorsEqual(item.Color, item.Asset.DefaultColor) ? [...item.Asset.DefaultColor] : item.Color;
+					ret = ItemGetColor(C, item) ?? "Default";
 					break;
 				case "ID":
 					ret = i;
@@ -974,19 +987,19 @@ function AppearanceRun() {
 			const prevNextButtonHandler = (prev) => {
 				if (canAccess) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, prev);
-					return asset ? asset.Description : "None";
+					return asset ? asset.Description : TextGet("None");
 				}
 				return "";
 			};
-			const buttonLabel = Group.Description + ": " + CharacterAppearanceGetCurrentValue(C, Group.Name, "Description");
+			const buttonLabel = Group.Description + ": " + (InventoryGet(C, Group.Name)?.Asset.Description ?? TextGet("None"));
 			DrawBackNextButton(1210, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65, buttonLabel, ButtonColor, "",
 				() => prevNextButtonHandler(false),
 				() => prevNextButtonHandler(true),
 				!canAccess,
 				Group.AllowNone || AppearancePreviewUseCharacter(Group) ? 65 : undefined);
 
-			var Color = CharacterAppearanceGetCurrentValue(C, Group.Name, "Color");
-			const ColorButtonText = ItemColorGetColorButtonText(Color === "None" || Color.length === 0 ? "Default" : Color);
+			const Color = ItemGetColor(C, Group.Name) ?? "Default";
+			const ColorButtonText = ItemColorGetColorButtonText(Color);
 			const ColorButtonColor = ColorButtonText.startsWith("#") ? ColorButtonText : "#fff";
 			const CanCycleColors = !!Item && canAccess && (Item.Asset.ColorableLayerCount > 0 || Item.Asset.Group.ColorSchema.length > 1) && !InventoryBlockedOrLimited(C, Item);
 			const CanPickColor = CanCycleColors && Group.AllowColorize;
@@ -1259,10 +1272,10 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
  * @returns {Asset|null} - The next item to select, or null if there's none applicable
  */
 function CharacterAppearanceNextItem(C, Group, Forward) {
-	var Current = CharacterAppearanceGetCurrentValue(C, Group, "Name");
-	var CAA = CharacterAppearanceAssets.filter(a => a.Group.Name == Group && InventoryAllow(C, a, a.Prerequisite, false));
+	const Current = InventoryGet(C, Group)?.Asset.Name;
+	const CAA = CharacterAppearanceAssets.filter(a => a.Group.Name == Group && InventoryAllow(C, a, a.Prerequisite, false));
 	if (CAA.length == 0) return null;
-	if (Current != "None") {
+	if (Current) {
 		// If we found the item we move forward or backward if possible
 		var I = CAA.findIndex(a => a.Name == Current);
 		if (I >= 0) {
@@ -1279,7 +1292,7 @@ function CharacterAppearanceNextItem(C, Group, Forward) {
 	}
 	// Since we didn't found any item, we pick "None" if we had an item or the first or last item
 	var AG = AssetGroup.find(g => g.Name == Group);
-	if (Current != "None" && AG != null && AG.AllowNone) {
+	if (Current && AG?.AllowNone) {
 		return null;
 	} else if (Forward == null || Forward) {
 		return CAA[0];
@@ -1297,21 +1310,24 @@ function CharacterAppearanceNextItem(C, Group, Forward) {
 function CharacterAppearanceNextColor(C, Group) {
 
 	// For each item, we first find the item and pick the next one
-	let Color = CharacterAppearanceGetCurrentValue(C, Group, "Color");
-	const G = AssetGroupGet(C.AssetFamily, Group);
-	if (!G || Color === "None") return;
+	const item = InventoryGet(C, Group);
+	if (!item) return;
+
+	let Color = item.Color;
+	const G = item.Asset.Group;
 
 	// Finds the next color
-	let Pos = typeof Color === "string" ? G.ColorSchema.indexOf(Color) + 1 : 0;
-	if ((Pos < 0) || (Pos >= G.ColorSchema.length)) Pos = 0;
+	let Pos = 0;
+	if (typeof Color === "string") {
+		Pos = CommonClamp(G.ColorSchema.indexOf(Color) + 1, 0, G.ColorSchema.length);
+	}
 	Color = G.ColorSchema[Pos];
 
 	// Sets the color
-	for (Pos = 0; Pos < C.Appearance.length; Pos++)
-		if ((C.Appearance[Pos].Asset.Group.Name == Group) && (C.Appearance[Pos].Asset.Group.Family == C.AssetFamily)) {
-			if (Color == "Default") Color = [...C.Appearance[Pos].Asset.DefaultColor];
-			C.Appearance[Pos].Color = Color;
-		}
+	if (Color == "Default") {
+		Color = [...item.Asset.DefaultColor];
+	}
+	item.Color = Color;
 
 	// Reloads the character canvas
 	CharacterLoadCanvas(C);
@@ -1984,6 +2000,7 @@ function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
 	// Keeps the previous color in backup and creates a text box to enter the color
 	CharacterAppearanceMode = "Color";
 	CharacterAppearanceColorPickerGroupName = AssetGroup;
+	CharacterAppearanceColorPickerBackup = ItemGetColor(C, CharacterAppearanceColorPickerGroupName);
 	ItemColorLoad(C, Item, 1095, 25, 880, 950, true);
 	ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
 		CharacterAppearanceMode = CurrentMode;

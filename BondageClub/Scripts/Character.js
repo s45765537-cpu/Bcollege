@@ -2714,3 +2714,12 @@ function CharacterIsOnList(listOwner, listTarget, list) {
 			return listOwner.IsPlayer() && !!listOwner.FriendList?.includes(num);
 	}
 }
+
+/**
+ * Get the character's height
+ * @param {Character} C
+ */
+function CharacterGetHeight(C) {
+	const height = C ? InventoryGet(C, "Height") : null;
+	return CommonClamp(height?.Asset.ZoomModifier ?? 1, 0, 1);
+}
