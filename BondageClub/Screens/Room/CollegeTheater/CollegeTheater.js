@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeTheaterBackground = "CollegeTheater";
 /** @type {NPCCharacter} */
@@ -239,5 +238,5 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CharacterDelete(CollegeTheaterJulia);
-	CollegeTheaterJulia = null;
+	CollegeTheaterJulia = /** @type {never} */ (null);
 }
