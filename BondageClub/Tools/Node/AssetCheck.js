@@ -953,7 +953,7 @@ function testAssetLayerNames(assets) {
 		/** @type {Record<string, number>} */
 		const layerCount = {};
 		for (const layer of asset.Layer) {
-			layerCount[layer.Name] = 1 + (layerCount[layer.Name] || 0);
+			layerCount[layer.Name ?? ""] = 1 + (layerCount[layer.Name ?? ""] || 0);
 		}
 
 		const duplicateLayers = Object.entries(layerCount).filter(([_, j]) => j > 1).map(([i, _]) => i);
