@@ -112,15 +112,15 @@ function CafeRun() {
 function CafeClick() {
 	if (MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000)) {
-		if (MaidQuartersMaid != null) {
-			if ((MaidQuartersMaid.Stage == "285" || MaidQuartersMaid.Stage == "286") && InventoryIsWorn(Player, "ItemMisc", ["WoodenMaidTrayFull", "WoodenMaidTray"])) {
-				if (!CafeMaid.IsRestrained()) {
-					CafeMaid.Stage = "100";
-					CafeMaid.AllowItem = false;
-				}
-				else CafeMaid.Stage = "90";
+		if ((MaidQuartersMaid?.Stage === "285" || MaidQuartersMaid?.Stage === "286") && InventoryIsWorn(Player, "ItemMisc", ["WoodenMaidTrayFull", "WoodenMaidTray"])) {
+			if (!CafeMaid.IsRestrained()) {
+				CafeMaid.Stage = "100";
+				CafeMaid.AllowItem = false;
+			} else {
+				CafeMaid.Stage = "90";
 			}
-			else CafeMaid.Stage = "0";
+		} else {
+			CafeMaid.Stage = "0";
 		}
 		CharacterSetCurrent(CafeMaid);
 	}

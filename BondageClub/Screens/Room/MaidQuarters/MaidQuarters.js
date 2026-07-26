@@ -1,11 +1,10 @@
-// @ts-strict-ignore
 "use strict";
 var MaidQuartersBackground = "MaidQuarters";
 /** @type {null | NPCCharacter} */
 var MaidQuartersMaid = null;
-/** @type {null | NPCCharacter} */
-var MaidQuartersMaidInitiation = null;
-/** @type {{ Cloth?: Item, Hat?: Item, ItemArms?: Item, ItemLegs?: Item, ItemFeet?: Item }} */
+/** @type {NPCCharacter} */
+var MaidQuartersMaidInitiation = /** @type {never} */ (null);
+/** @type {{ Cloth: Item | null, Hat: Item | null, ItemArms: Item | null, ItemLegs: Item | null, ItemFeet: Item | null }} */
 var MaidQuartersItemClothPrev = { Cloth: null, Hat: null, ItemArms: null, ItemLegs: null, ItemFeet: null };
 var MaidQuartersMaidReleasedPlayer = false;
 var MaidQuartersSelfBondageMaidDrinksAccepted = false;
@@ -53,7 +52,7 @@ function MaidQuartersHeadMaidCanGetLatex() {
  * Checks if the player is helpless (maids disabled) or not.
  * @returns {boolean} - Returns true if the player still has time remaining after asking the maids to stop helping
  */
-function MaidQuartersIsMaidsDisabled() { var expire = LogValue("MaidsDisabled", "Maid") - CurrentTime ; return (expire > 0 ); }
+function MaidQuartersIsMaidsDisabled() { const expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime ; return (expire > 0 ); }
 /**
  * Checks if the player is helpless (maids disabled) or not and also if they have reputation to do work
  * @returns {boolean} - Returns true if the player has maids enabled and also has rep
@@ -145,12 +144,13 @@ function MaidQuartersPlayerCanChangeForRescue() {
  * Update the maid current dialog to give an advice about why the player's current outfit isn't a maid outfit
  */
 function MaidQuartersAdviceMaidUniform() {
+	const maid = MaidQuartersGetMaid();
 	if (!InventoryIsWorn(Player, "Hat", "MaidHairband1")) {
-		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "NoHairband");
+		maid.CurrentDialog = DialogFind(maid, "NoHairband");
 	} else if (!InventoryIsWorn(Player, "Bra", "MaidBra1") || !InventoryIsWorn(Player, "Panties", "MaidPanties2")) {
-		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "NoDress");
+		maid.CurrentDialog = DialogFind(maid, "NoDress");
 	} else {
-		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "WrongOutfit");
+		maid.CurrentDialog = DialogFind(maid, "WrongOutfit");
 	}
 }
 
@@ -158,12 +158,12 @@ function MaidQuartersAdviceMaidUniform() {
  * Checks, if the player is able to do the 'serve drinks' job
  * @returns {boolean} - Returns true, if the player can do the job, false otherwise
  */
-function MaidQuartersAllowMaidDrinks() { return (!Player.IsRestrained() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management")); }
+function MaidQuartersAllowMaidDrinks() { return (!Player.IsRestrained() && !MaidQuartersGetMaid().IsRestrained() && !LogQuery("ClubMistress", "Management")); }
 /**
  * Checks, if the player is ready for the 'serve drinks' job and is allowed to do it
  * @returns {boolean} - Returns true, if the player is ready for the job, false otherwise
  */
-function MaidQuartersAllowSelfBondageMaidDrinks() { return (MaidQuartersPlayerInDrinksUniform() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management")); }
+function MaidQuartersAllowSelfBondageMaidDrinks() { return (MaidQuartersPlayerInDrinksUniform() && !MaidQuartersGetMaid().IsRestrained() && !LogQuery("ClubMistress", "Management")); }
 /**
  * Accept to start the 'serve drinks' job when self prepared for it
  * @returns {void} - Nothing
@@ -177,13 +177,13 @@ function MaidQuartersAcceptSelfBondageMaidDrinks() {
  * Checks, if the player can do the 'clean room job'
  * @returns {boolean} - Returns true, if the player can do the job, false otherwise
  */
-function MaidQuartersAllowMaidCleaning() { return (!Player.IsRestrained() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management")); }
+function MaidQuartersAllowMaidCleaning() { return (!Player.IsRestrained() && !MaidQuartersGetMaid().IsRestrained() && !LogQuery("ClubMistress", "Management")); }
 /**
  * Checks, if the player is ready for the 'clean room job' and is allowed to do it
  * @returns {boolean} - Returns true, if the player is ready for the job, false otherwise
  */
 function MaidQuartersAllowSelfBondageMaidCleaning() {
-	return (MaidQuartersPlayerInCleaningUniform() && !MaidQuartersMaid.IsRestrained() && !LogQuery("ClubMistress", "Management"));
+	return (MaidQuartersPlayerInCleaningUniform() && !MaidQuartersGetMaid().IsRestrained() && !LogQuery("ClubMistress", "Management"));
 }
 
 /**
@@ -218,17 +218,17 @@ function MaidQuartersCanFreeSarah() { return (SarahUnlockQuest && LogQuery("Lead
  * Checks, if the maid can release the player from her restraint
  * @returns {boolean} - Returns true, if the player can be released, false otherwise
  */
-function MaidQuartersCanReleasePlayer() { return (Player.IsRestrained() && !InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLockedRestraint(Player) && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract()) && !MaidQuartersIsMaidsDisabled();}
+function MaidQuartersCanReleasePlayer() { return (Player.IsRestrained() && !InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLockedRestraint(Player) && !!CurrentCharacter && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract()) && !MaidQuartersIsMaidsDisabled();}
 /**
  * Checks, if the maid is unable to free the player
  * @returns {boolean} - Returns true, if the maid is unable to free the player, false otherwise
  */
-function MaidQuartersCannotReleasePlayer() { return (Player.IsRestrained() && (InventoryCharacterHasOwnerOnlyRestraint(Player) || InventoryCharacterHasLockedRestraint(Player) || !CurrentCharacter.CanTalk() || !CurrentCharacter.CanInteract())); }
+function MaidQuartersCannotReleasePlayer() { return (Player.IsRestrained() && !!CurrentCharacter && (InventoryCharacterHasOwnerOnlyRestraint(Player) || InventoryCharacterHasLockedRestraint(Player) || !CurrentCharacter.CanTalk() || !CurrentCharacter.CanInteract())); }
 /**
  * Checks, if the player can get the duster gag
  * @returns {boolean} - Returns true, if the player can get the duster gag, false otherwise
  */
-function MaidQuartersCanGetDusterGag() { return (!SarahUnlockQuest && LogQuery("JoinedSorority", "Maid") && Player.CanTalk() && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && (!InventoryAvailable(Player, "DusterGag", "ItemMouth") || !InventoryAvailable(Player, "DusterGag", "ItemMouth2") || !InventoryAvailable(Player, "DusterGag", "ItemMouth3"))); }
+function MaidQuartersCanGetDusterGag() { return (!SarahUnlockQuest && LogQuery("JoinedSorority", "Maid") && Player.CanTalk() && !!CurrentCharacter && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && (!InventoryAvailable(Player, "DusterGag", "ItemMouth") || !InventoryAvailable(Player, "DusterGag", "ItemMouth2") || !InventoryAvailable(Player, "DusterGag", "ItemMouth3"))); }
 /**
  * Checks, if the player has finished the 'serve drinks' job
  * @returns {boolean} - Returns true, if the job is finished, false otherwise
@@ -258,10 +258,26 @@ function MaidQuartersCannotUngagAndMaidsNotDisabled() { return !MaidQuartersIsMa
 async function MaidQuartersLoad() {
 
 	// Creates the maid that gives work and the initiation maids
-	MaidQuartersMaid = CharacterLoadNPC("NPC_MaidQuarters_Maid");
+	MaidQuartersGetMaid(true);
 	MaidQuartersMaidInitiation = CharacterLoadNPC("NPC_MaidQuarters_InitiationMaids");
 	InventoryWear(MaidQuartersMaidInitiation, "WoodenPaddle", "ItemMisc");
 
+}
+
+/**
+ * Create the greeting Maid.
+ *
+ * @param {boolean} [newMaid=false] Swap in a new maid
+ */
+function MaidQuartersGetMaid(newMaid = false) {
+	if (newMaid && MaidQuartersMaid) {
+		CharacterDelete(MaidQuartersMaid);
+		MaidQuartersMaid = null;
+	}
+	if (!MaidQuartersMaid) {
+		MaidQuartersMaid = CharacterLoadNPC("NPC_MaidQuarters_Maid");
+	}
+	return MaidQuartersMaid;
 }
 
 /**
@@ -271,7 +287,7 @@ async function MaidQuartersLoad() {
  */
 function MaidQuartersRun() {
 	if (!DailyJobSubSearchIsActive()) DrawCharacter(Player, 500, 0, 1);
-	if (!DailyJobSubSearchIsActive()) DrawCharacter(MaidQuartersMaid, 1000, 0, 1);
+	if (!DailyJobSubSearchIsActive()) DrawCharacter(MaidQuartersGetMaid(), 1000, 0, 1);
 	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 	if (Player.CanChangeOwnClothes()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Dress.png", TextGet("Change"));
@@ -284,22 +300,23 @@ function MaidQuartersRun() {
  * @returns {void} - Nothing
  */
 function MaidQuartersClick() {
+	const maid = MaidQuartersGetMaid();
 	if (!DailyJobSubSearchIsActive() && (MouseX >= 500) && (MouseX < 1000) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(Player);
 	if (!DailyJobSubSearchIsActive() && (MouseX >= 1000) && (MouseX < 1500) && (MouseY >= 0) && (MouseY < 1000)) {
-		ManagementClubSlaveDialog(MaidQuartersMaid);
-		CharacterSetCurrent(MaidQuartersMaid);
-		if (MaidQuartersMaid.Stage == "285") {
+		ManagementClubSlaveDialog(maid);
+		CharacterSetCurrent(maid);
+		if (maid.Stage == "285") {
 			let MaidDialog = "";
 			if (MaidQuartersOnlineDrinkCompleted()) MaidDialog = "MaidDrinkOnlineComplete";
 			if (!MaidQuartersOnlineDrinkCompleted()) {
-				if (!InventoryGet(Player, "ItemMisc") || InventoryGet(Player, "ItemMisc").Asset.Name !== "WoodenMaidTrayFull") {
+				if (!InventoryIsWorn(Player, "ItemMisc", "WoodenMaidTrayFull")) {
 					MaidDialog = "MaidDrinkOnlineIncompleteMissingTray";
 					InventoryWear(Player, "WoodenMaidTrayFull", "ItemMisc");
 				} else {
 					MaidDialog = "MaidDrinkOnlineIncomplete";
 				}
 			}
-			MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, MaidDialog);
+			maid.CurrentDialog = DialogFind(maid, MaidDialog);
 		}
 	}
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
@@ -327,7 +344,8 @@ function MaidQuartersClick() {
  * @returns {void} - Nothing
  */
 function MaidQuartersMaidUngagPlayer() {
-	if (MaidQuartersMaid.CanInteract()) {
+	const maid = MaidQuartersGetMaid();
+	if (maid.CanInteract()) {
 		if (!MaidQuartersMaidReleasedPlayer) {
 			ReputationProgress("Dominant", -1);
 			MaidQuartersMaidReleasedPlayer = true;
@@ -337,7 +355,9 @@ function MaidQuartersMaidUngagPlayer() {
 		InventoryRemove(Player, "ItemMouth3");
 		InventoryRemove(Player, "ItemHead");
 		InventoryRemove(Player, "ItemHood");
-	} else MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "CantReleasePlayer");
+	} else {
+		maid.CurrentDialog = DialogFind(maid, "CantReleasePlayer");
+	}
 }
 
 /**
@@ -370,14 +390,18 @@ function MaidQuartersRemoveMaidUniform() {
 		MaidQuartersSelfBondageMaidDrinksAccepted = false;
 	} else {
 		for (let ItemAssetGroupName of CommonKeys(MaidQuartersItemClothPrev)) {
-			var PreviousItem = MaidQuartersItemClothPrev[ItemAssetGroupName];
-			InventoryRemove(Player, ItemAssetGroupName);
-			if (PreviousItem) InventoryWear(Player, PreviousItem.Asset.Name, ItemAssetGroupName, PreviousItem.Color);
-			if (PreviousItem && PreviousItem.Property) InventoryGet(Player, ItemAssetGroupName).Property = PreviousItem.Property;
+			const PreviousItem = MaidQuartersItemClothPrev[ItemAssetGroupName];
+			if (PreviousItem) {
+				InventoryRemove(Player, ItemAssetGroupName, false);
+				const item = InventoryWear(Player, PreviousItem.Asset.Name, ItemAssetGroupName, PreviousItem.Color);
+				if (item) {
+					item.Property = PreviousItem.Property;
+				}
+			}
 			MaidQuartersItemClothPrev[ItemAssetGroupName] = null;
 		}
 	}
-	InventoryRemove(Player, "ItemMisc");
+	InventoryRemove(Player, "ItemMisc", false);
 	CharacterRefresh(Player);
 }
 
@@ -397,23 +421,23 @@ function MaidQuartersMiniGameStart(GameType, Difficulty) {
  * @returns {SafePromise<void>}
  */
 async function MaidQuartersMiniGameEnd() {
-
 	// Goes back to the quest maid
 	await CommonSetScreen("Room", "MaidQuarters");
-	CharacterSetCurrent(MaidQuartersMaid);
+	const maid = MaidQuartersGetMaid();
+	CharacterSetCurrent(maid);
 
 	// The latex maid outfit can be rewarded to sorority maid players that scored a perfect run in the maid drinks game
 	if (MiniGameVictory && MiniGamePerfect && (MiniGameType == "MaidDrinks") && LogQuery("JoinedSorority", "Maid") && (!InventoryAvailable(Player, "MaidLatex", "Cloth") || !InventoryAvailable(Player, "MaidLatexHairband", "Hat"))) {
-		MaidQuartersMaid.Stage = "LatexMaid0";
-		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "LatexMaidIntro");
+		maid.Stage = "LatexMaid0";
+		maid.CurrentDialog = DialogFind(maid, "LatexMaidIntro");
 	} else {
-		if (MiniGameVictory && (MiniGameType == "MaidDrinks")) MaidQuartersMaid.Stage = "281";
-		if (!MiniGameVictory && (MiniGameType == "MaidDrinks")) MaidQuartersMaid.Stage = "282";
-		if (MiniGameVictory && (MiniGameType == "MaidCleaning")) MaidQuartersMaid.Stage = "481";
-		if (!MiniGameVictory && (MiniGameType == "MaidCleaning")) MaidQuartersMaid.Stage = "482";
-		if (MiniGameVictory && (MiniGameType == "RhythmGame")) MaidQuartersMaid.Stage = "590";
-		if (!MiniGameVictory && (MiniGameType == "RhythmGame")) MaidQuartersMaid.Stage = "591";
-		MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, MiniGameType + (MiniGameVictory ? "Victory" : "Defeat"));
+		if (MiniGameVictory && (MiniGameType == "MaidDrinks")) maid.Stage = "281";
+		if (!MiniGameVictory && (MiniGameType == "MaidDrinks")) maid.Stage = "282";
+		if (MiniGameVictory && (MiniGameType == "MaidCleaning")) maid.Stage = "481";
+		if (!MiniGameVictory && (MiniGameType == "MaidCleaning")) maid.Stage = "482";
+		if (MiniGameVictory && (MiniGameType == "RhythmGame")) maid.Stage = "590";
+		if (!MiniGameVictory && (MiniGameType == "RhythmGame")) maid.Stage = "591";
+		maid.CurrentDialog = DialogFind(maid, MiniGameType + (MiniGameVictory ? "Victory" : "Defeat"));
 	}
 
 }
@@ -433,10 +457,11 @@ function MaidQuartersGetLatexMaid() {
  */
 function MaidQuartersMiniGamePay() {
 	ReputationProgress("Maid", 4);
-	var M = 14;
+	let M = 14;
 	if (MiniGameDifficultyMode == "Normal") M = M * 1.5;
 	if (MiniGameDifficultyMode == "Hard") M = M * 2;
-	MaidQuartersMaid.CurrentDialog = MaidQuartersMaid.CurrentDialog.replace("REPLACEMONEY", M.toString());
+	const maid = MaidQuartersGetMaid();
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", M.toString());
 	CharacterChangeMoney(Player, M);
 	IntroductionJobProgress("SubMaid");
 }
@@ -447,7 +472,8 @@ function MaidQuartersMiniGamePay() {
  */
 function MaidQuartersMiniGamePayAdvanced() {
 	ReputationProgress("Maid", 4);
-	MaidQuartersMaid.CurrentDialog = MaidQuartersMaid.CurrentDialog.replace("REPLACEMONEY", MiniGameAdvancedPayment.toString());
+	const maid = MaidQuartersGetMaid();
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", MiniGameAdvancedPayment.toString());
 	CharacterChangeMoney(Player, MiniGameAdvancedPayment);
 	IntroductionJobProgress("SubMaid");
 }
@@ -459,8 +485,9 @@ function MaidQuartersMiniGamePayAdvanced() {
 function MaidQuartersRescuePay() {
 	MaidQuartersRemoveMaidUniform();
 	ReputationProgress("Maid", 4);
-	var M = 15 + Math.floor(Math.random() * 11);
-	MaidQuartersMaid.CurrentDialog = MaidQuartersMaid.CurrentDialog.replace("REPLACEMONEY", M.toString());
+	let M = 15 + Math.floor(Math.random() * 11);
+	const maid = MaidQuartersGetMaid();
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", M.toString());
 	CharacterChangeMoney(Player, M);
 	IntroductionJobProgress("SubMaid");
 	DialogTheresaGiveEssence(1);
@@ -471,13 +498,14 @@ function MaidQuartersRescuePay() {
  * @returns {void} - Nothing
  */
 function MaidQuartersMaidReleasePlayer() {
-	if (MaidQuartersMaid.CanInteract()) {
+	const maid = MaidQuartersGetMaid();
+	if (maid.CanInteract()) {
 		if (!MaidQuartersMaidReleasedPlayer) {
 			ReputationProgress("Dominant", -1);
 			MaidQuartersMaidReleasedPlayer = true;
 		}
 		CharacterReleaseNoLock(Player);
-	} else MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "CantReleasePlayer");
+	} else maid.CurrentDialog = DialogFind(maid, "CantReleasePlayer");
 }
 
 /**
@@ -495,7 +523,8 @@ function MaidQuartersDominantRepChange(Value) {
  * @param {string} MaidType - Name of the current maid type
  */
 function MaidQuartersInitiationTransition(MaidType) {
-	var C = ((MaidType == "MainMaid") ? MaidQuartersMaid : MaidQuartersMaidInitiation);
+	const maid = MaidQuartersGetMaid();
+	const C = ((MaidType == "MainMaid") ? maid : MaidQuartersMaidInitiation);
 	CharacterSetCurrent(C);
 	C.CurrentDialog = DialogFind(C, "MaidInitiationTransition");
 }
@@ -532,7 +561,8 @@ function MaidQuartersBecomMaid() {
  * @returns {void} - Nothing
  */
 function MaidQuartersBecomHeadMaid() {
-	MaidQuartersMaid.AllowItem = true;
+	const maid = MaidQuartersGetMaid();
+	maid.AllowItem = true;
 	LogAdd("LeadSorority", "Maid");
 }
 
@@ -542,11 +572,11 @@ function MaidQuartersBecomHeadMaid() {
  * @returns {void} - Nothing
  */
 function MaidQuartersStartRescue() {
-
+	const maid = MaidQuartersGetMaid();
 	MaidQuartersCurrentRescue = CommonRandomItemFromList(MaidQuartersCurrentRescue, MaidQuartersRescueList);
 	if ((MaidQuartersCurrentRescue == "IntroductionClass") && (IntroductionJobCurrent == "SubMaid")) MaidQuartersCurrentRescue = CommonRandomItemFromList(MaidQuartersCurrentRescue, ["ShibariDojo", "Shop", "Gambling"]);
-	MaidQuartersMaid.Stage = MaidQuartersRescueStage[MaidQuartersRescueList.indexOf(MaidQuartersCurrentRescue)];
-	MaidQuartersMaid.CurrentDialog = DialogFind(MaidQuartersMaid, "Rescue" + MaidQuartersCurrentRescue);
+	maid.Stage = MaidQuartersRescueStage[MaidQuartersRescueList.indexOf(MaidQuartersCurrentRescue)];
+	maid.CurrentDialog = DialogFind(maid, "Rescue" + MaidQuartersCurrentRescue);
 	MaidQuartersCurrentRescueStarted = false;
 	MaidQuartersCurrentRescueCompleted = false;
 	MaidQuartersWearMaidUniform();
@@ -560,7 +590,7 @@ function MaidQuartersCancelRescue() {
 	MaidQuartersRemoveMaidUniform();
 	if (MaidQuartersCurrentRescue == "IntroductionClass") { IntroductionCompleteRescue(); IntroductionMaid.Stage = "0"; }
 	if (MaidQuartersCurrentRescue == "ShibariDojo") { ShibariCompleteRescue(); ShibariTeacher.Stage = "0"; }
-	if (MaidQuartersCurrentRescue == "Shop") { ShopCompleteRescue(); ShopVendor.Stage = "0"; }
+	if (MaidQuartersCurrentRescue == "Shop") { ShopCompleteRescue(); if (ShopVendor) ShopVendor.Stage = "0"; }
 	if (MaidQuartersCurrentRescue == "Gambling") { GamblingCompleteRescue(); GamblingFirstSub.Stage = "0"; }
 }
 
@@ -622,8 +652,9 @@ function MaidQuartersOnlineDrinkPick(MemberNumber, DrinkValue) {
  * @returns {void} - Nothing
  */
 function MaidQuartersOnlineDrinkPay() {
-	var M = 15 + Math.floor(MaidQuartersOnlineDrinkValue * 0.4);
-	MaidQuartersMaid.CurrentDialog = MaidQuartersMaid.CurrentDialog.replace("REPLACEMONEY", M.toString());
+	let M = 15 + Math.floor(MaidQuartersOnlineDrinkValue * 0.4);
+	const maid = MaidQuartersGetMaid();
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", M.toString());
 	if (!MaidQuartersOnlineDrinkFromOwner) CharacterChangeMoney(Player, M);
 	else ChatRoomMoneyForOwner = M;
 	ReputationProgress("Maid", 4);
@@ -639,6 +670,9 @@ function MaidQuartersNotFromOwner() {
 	MaidQuartersOnlineDrinkFromOwner = false;
 }
 
+/**
+ * @param {number} minutes
+ */
 function MaidQuartersSetMaidsDisabled(minutes) {
 	var millis = minutes * 60000;
 	LogAdd("MaidsDisabled", "Maid", CurrentTime + millis);
