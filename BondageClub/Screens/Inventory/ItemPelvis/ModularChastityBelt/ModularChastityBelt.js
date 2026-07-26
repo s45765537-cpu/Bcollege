@@ -1,5 +1,6 @@
 "use strict";
 
+/** @type {VoiceTriggerType[]} */
 var InventoryItemPelvisModularChastityBeltVoiceTriggers = ["Increase", "Decrease", "Disable", "Inflate", "Deflate", "Empty", "Shock"];
 /** @type {string[]} */
 var InventoryItemPelvisModularChastityBeltVoiceTriggerValues = [];
@@ -353,23 +354,36 @@ function InventoryItemPelvisModularChastityBeltClickShockModule(C, item, _offset
 }
 
 /**
- * @typedef {{Cooldown?: number, ShockCooldown?: number, LastMessage?: number, DenyDetected?: boolean, OrgasmDetected?: boolean, ChatroomCheck?: boolean, SyncNeeded?: boolean, SyncCooldown?: number} & AnimationPersistentData} ModularChastityBeltPersistentData
+ * @typedef {{Cooldown?: number, LastMessage?: number, DenyDetected?: boolean, OrgasmDetected?: boolean, ChatroomCheck?: boolean, SyncNeeded?: boolean, SyncCooldown?: number} & AnimationPersistentData} ModularChastityBeltPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ModularItemData, ModularChastityBeltPersistentData>} */
 function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunction, drawData) {
+	InventoryItemPelvisModularChastityBeltScriptDrawHookHandler(data, drawData, InventoryItemPelvisModularChastityBeltVoiceTriggers);
+}
+
+/**
+ * @param {ModularItemData} data
+ * @param {DynamicScriptCallbackData<ModularChastityBeltPersistentData>} drawData
+ * @param {VoiceTriggerType[]} voiceTriggers
+ */
+function InventoryItemPelvisModularChastityBeltScriptDrawHookHandler(data, drawData, voiceTriggers) {
 	// Only run updates on the player and NPCs
 	if (!drawData.C.IsPlayer() && drawData.C.MemberNumber !== null) return;
 
+	const Item = drawData.Item;
+	const C = drawData.C;
+	const property = (Item.Property ??= {});
 	const persistentData = drawData.PersistentData();
+
 	if (typeof persistentData.Cooldown !== "number") persistentData.Cooldown = 0;
-	if (typeof persistentData.ShockCooldown !== "number") persistentData.ShockCooldown = 0;
 	if (typeof persistentData.LastMessage !== "number") persistentData.LastMessage = CommonTime();
 	if (typeof persistentData.DenyDetected !== "boolean") persistentData.DenyDetected = false;
 	if (typeof persistentData.OrgasmDetected !== "boolean") persistentData.OrgasmDetected = false;
 	if (typeof persistentData.ChatroomCheck !== "boolean") persistentData.ChatroomCheck = false;
 	if (typeof persistentData.SyncNeeded !== "boolean") persistentData.SyncNeeded = false;
 	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + 60000;
+	if (typeof Item.Property.NextShockTime !== "number") Item.Property.NextShockTime = 0;
 
 	//Cooldown check
 	if (persistentData.Cooldown > CommonTime()) {
@@ -378,18 +392,15 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 
 	const isPlayerInChatRoom = ServerPlayerIsInChatRoom();
 
-	const property = (drawData.Item.Property ??= {});
 
 	if (!persistentData.ChatroomCheck) {
 		//Player freshly entered a room
-		persistentData.ShockCooldown = CommonTime() + 5000;
+		Item.Property.NextShockTime = CommonTime() + 500;
 	}
 	persistentData.Cooldown = CommonTime() + 500;
 	persistentData.ChatroomCheck = isPlayerInChatRoom;
 
 	const itemType = property.TypeRecord ?? {};
-	const Item = drawData.Item;
-	const C = drawData.C;
 
 	//Orgasm is comming check
 	if (C.ArousalSettings.OrgasmTimer > 0) {
@@ -427,7 +438,10 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	let lastMsgIndex = ChatRoomChatLog.length - 1;
 	if (lastMsgIndex >= 0 && ChatRoomChatLog[lastMsgIndex].Time > persistentData.LastMessage) {
 		if (itemType.v !== 0) {
-			InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, persistentData.LastMessage, itemType);
+			let TriggerValues = Item.Property?.TriggerValues?.split(',') ?? [];
+			if (!TriggerValues) TriggerValues = voiceTriggers;
+			const triggers = ItemModuleVoiceCommandHandle(C, Item, persistentData.LastMessage, voiceTriggers, TriggerValues);
+			InventoryItemPelvisModularChastityBeltHandleChat(C, Item, triggers);
 		}
 		persistentData.LastMessage = ChatRoomChatLog[lastMsgIndex].Time;
 	}
@@ -435,8 +449,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	//Shock check
 	if (itemType.s !== 0) {
 		//Automatic shock can happen once every 0.5 seconds and only if Shock Module is not off
-
-		const punishment = InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, persistentData.OrgasmDetected, isPlayerInChatRoom, persistentData.ShockCooldown);
+		const punishment = ItemModulePunishCheck(C, Item, FuturisticChastityBeltShockCooldownOrgasm, InventoryItemPelvisFuturisticChastityBeltTamperZones);
 		if (punishment) {
 			switch (punishment) {
 				case "Orgasm":
@@ -470,215 +483,103 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 }
 
 /**
- * @param {ModularItemData} data
  * @param {Character} C
  * @param {Item} Item
- * @param {number} LastTime
- * @param {TypeRecord} ItemType
+ * @param {VoiceTriggerType[]} triggers
  */
-function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTime, ItemType) {
-	if (!Item) return;
-	if (!Item.Property) {
-		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-		const args = [C, Item, true, true];
-		CommonCallFunctionByNameWarn(`${data.functionPrefix}Init`, ...args);
+function InventoryItemPelvisModularChastityBeltHandleChat(C, Item, triggers) {
+	Item.Property ??= {};
+	const ItemType = (Item.Property.TypeRecord ??= {});
+	//vibrator modes, can only pick one
+	let chatMessageV;
+	if (triggers.includes("Increase") && ItemType.i < 4) {
+		ItemType.i = ItemType.i + 1;
+		chatMessageV = `${Item.Asset.Group.Name}${Item.Asset.Name}Seti${ItemType.i}`;
+	} else if (triggers.includes("Decrease") && ItemType.i > 0) {
+		ItemType.i = ItemType.i - 1;
+		chatMessageV = `${Item.Asset.Group.Name}${Item.Asset.Name}Seti${ItemType.i}`;
+	} else if (triggers.includes("Disable") && ItemType.i !== 0) {
+		ItemType.i = 0;
+		chatMessageV = `${Item.Asset.Group.Name}${Item.Asset.Name}Seti${ItemType.i}`;
 	}
 
-	let TriggerValues = Item.Property?.TriggerValues?.split(',') ?? [];
-	if (!TriggerValues) TriggerValues = InventoryItemPelvisModularChastityBeltVoiceTriggers;
+	//plug modes, can only pick one
+	let chatMessageP;
+	if (triggers.includes("Inflate") && ItemType.p < 4) {
+		console.log(triggers.includes("Inflate"));
+		ItemType.p = ItemType.p + 1;
+		chatMessageP = `${Item.Asset.Group.Name}${Item.Asset.Name}Setp${ItemType.p}`;
+	} else if (triggers.includes("Deflate") && ItemType.p > 0) {
+		ItemType.p = ItemType.p - 1;
+		chatMessageP = `${Item.Asset.Group.Name}${Item.Asset.Name}Setp${ItemType.p}`;
+	} else if (triggers.includes("Empty") && ItemType.p !== 0) {
+		ItemType.p = 0;
+		chatMessageP = `${Item.Asset.Group.Name}${Item.Asset.Name}Setp${ItemType.p}`;
+	}
 
-	// Search from latest message backwards, allowing early exit
-	for (let CH = ChatRoomChatLog.length - 1; CH >= 0; CH--) {
-		const logEntry = ChatRoomChatLog[CH];
-
-		// Messages are in order, no need to keep looping
-		if (logEntry.Time <= LastTime) break;
-
-		// Skip messages from unauthorized users
-		const sender = ChatRoomCharacter.find(c => c.MemberNumber === logEntry.SenderMemberNumber);
-		if (!sender || !ServerChatRoomGetAllowItem(sender, C)) continue;
-		if (Item.Property?.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
-		if (Item.Property?.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
-
-		var msg = InventoryItemPelvisModularChastityBeltDetectMsg(logEntry.Chat.toUpperCase(), TriggerValues);
-
-		if (msg.length > 0) {
-			const triggers = [];
-			for (let i = 0; i < msg.length; i++) {
-				triggers.push(InventoryItemPelvisModularChastityBeltVoiceTriggers[msg[i]]);
-			}
-
-
-			//vibrator modes, can only pick one
-			let chatMessageV;
-			if (triggers.includes("Increase") && ItemType.i < 4) {
-				ItemType.i = ItemType.i + 1;
-				chatMessageV = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
-			} else if (triggers.includes("Decrease") && ItemType.i > 0) {
-				ItemType.i = ItemType.i - 1;
-				chatMessageV = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
-			} else if (triggers.includes("Disable") && ItemType.i !== 0) {
-				ItemType.i = 0;
-				chatMessageV = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
-			}
-
-			//plug modes, can only pick one
-			let chatMessageP;
-			if (triggers.includes("Inflate") && ItemType.p < 4) {
-				ItemType.p = ItemType.p + 1;
-				chatMessageP = `ItemPelvisModularChastityBeltSetp${ItemType.p}`;
-			} else if (triggers.includes("Deflate") && ItemType.p > 0) {
-				ItemType.p = ItemType.p - 1;
-				chatMessageP = `ItemPelvisModularChastityBeltSetp${ItemType.p}`;
-			} else if (triggers.includes("Empty") && ItemType.p !== 0) {
-				ItemType.p = 0;
-				chatMessageP = `ItemPelvisModularChastityBeltSetp${ItemType.p}`;
-			}
-
-			if (chatMessageV || chatMessageP) {
-				// WORKAROUND: This will remove "Vibrating" effect from the item if vibrator is supposed to be off
-				// Should be harmless even after the FIXME is resolved.
-				if (ItemType.i === 0) {
-					let index = Item.Property?.Effect?.indexOf("Vibrating") ?? -1;
-					if (index !== -1) {
-						Item.Property?.Effect?.splice(index, 1);
-					}
-				}
-
-				// WORKAROUND: This will remove "Slow", "FillVulva" and "IsPlugged" effect from the item and blocking bodyparts "ItemVulva" and "ItemButt" if plugs are not bloated enough or deflated
-				// Should be harmless even after the FIXME is resolved.
-				if (ItemType.p < 3) {
-					let index = Item.Property?.Effect?.indexOf("Slow") ?? -1;
-					if (index !== -1) {
-						Item.Property?.Effect?.splice(index, 1);
-					}
-				}
-				if (ItemType.p === 0) {
-					let index = Item.Property?.Block?.indexOf("ItemVulva") ?? -1;
-					if (index !== -1) {
-						Item.Property?.Block?.splice(index, 1);
-					}
-					index = Item.Property?.Block?.indexOf("ItemButt") ?? -1;
-					if (index !== -1) {
-						Item.Property?.Block?.splice(index, 1);
-					}
-
-					index = Item.Property?.Effect?.indexOf("FillVulva") ?? -1;
-					if (index !== -1) {
-						Item.Property?.Effect?.splice(index, 1);
-					}
-					index = Item.Property?.Effect?.indexOf("IsPlugged") ?? -1;
-					if (index !== -1) {
-						Item.Property?.Effect?.splice(index, 1);
-					}
-				}
-
-				// FIXME: this needs to cause an actual update of the item's effects
-				ExtendedItemSetOptionByRecord(C, Item, ItemType, {push: true});
-
-				if (chatMessageV) {
-					const Dictionary = new DictionaryBuilder()
-						.sourceCharacter(Player)
-						.destinationCharacter(C)
-						.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
-						.build();
-					ChatRoomPublishCustomAction(chatMessageV, true, Dictionary);
-				}
-				if (chatMessageP) {
-					const Dictionary = new DictionaryBuilder()
-						.sourceCharacter(Player)
-						.destinationCharacter(C)
-						.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
-						.build();
-					ChatRoomPublishCustomAction(chatMessageP, true, Dictionary);
-				}
-			}
-
-			//triggered actions
-			if (triggers.includes("Shock")) {
-				PropertyShockPublishAction(C, Item, true);
+	if (chatMessageV || chatMessageP) {
+		// WORKAROUND: This will remove "Vibrating" effect from the item if vibrator is supposed to be off
+		// Should be harmless even after the FIXME is resolved.
+		if (ItemType.i === 0) {
+			let index = Item.Property?.Effect?.indexOf("Vibrating") ?? -1;
+			if (index !== -1) {
+				Item.Property?.Effect?.splice(index, 1);
 			}
 		}
-	}
-}
 
-/**
- * @param {string} msg
- * @param {readonly string[]} TriggerValues
- * @returns {number[]}
- */
-function InventoryItemPelvisModularChastityBeltDetectMsg(msg, TriggerValues) {
-	/** @type {number[]} */
-	var commandsReceived = [];
-
-	// If the message is OOC, just return immediately
-	if (msg.indexOf('(') == 0) return commandsReceived;
-
-	for (let I = 0; I < TriggerValues.length; I++) {
-		// Don't execute arbitrary regex
-		let regexString = TriggerValues[I].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-		// Allow `*` wildcard, and normalize case
-		regexString = regexString.replace(/\*/g, ".*");//regexString.replaceAll("\\*", ".*")
-		regexString = regexString.toUpperCase();
-
-		const nonLatinCharRegex = new RegExp('^([^\\x20-\\x7F]|\\\\.\\*)+$');
-		let triggerRegex;
-
-		// In general, in most of the Asian language, the full sentence will be considered as one whole word
-		// Because how regex consider word boundaries to be position between \w -> [A-Za-z0-9_] and \W.
-
-		// So if commands are set to those languages, the command will never be triggered.
-		// Or if the command is not a word
-		// This enhancement should allow Asian language commands, and also emoji/special characters
-		// (e.g. A symbol such as ↑ or ↓, Languages in CJK group such as Chinese, Japanese, and Korean.)
-		// This should be a fun addition to boost the user's experience.
-		if (nonLatinCharRegex.test(regexString)) {
-			triggerRegex = new RegExp(regexString);
-		} else {
-			triggerRegex = new RegExp(`\\b${regexString}\\b`);
+		// WORKAROUND: This will remove "Slow", "FillVulva" and "IsPlugged" effect from the item and blocking bodyparts "ItemVulva" and "ItemButt" if plugs are not bloated enough or deflated
+		// Should be harmless even after the FIXME is resolved.
+		if (ItemType.p < 3) {
+			let index = Item.Property?.Effect?.indexOf("Slow") ?? -1;
+			if (index !== -1) {
+				Item.Property?.Effect?.splice(index, 1);
+			}
 		}
-		const success = triggerRegex.test(msg);
+		if (ItemType.p === 0) {
+			let index = Item.Property?.Block?.indexOf("ItemVulva") ?? -1;
+			if (index !== -1) {
+				Item.Property?.Block?.splice(index, 1);
+			}
+			index = Item.Property?.Block?.indexOf("ItemButt") ?? -1;
+			if (index !== -1) {
+				Item.Property?.Block?.splice(index, 1);
+			}
 
-		if (success) commandsReceived.push(I);
+			index = Item.Property?.Effect?.indexOf("FillVulva") ?? -1;
+			if (index !== -1) {
+				Item.Property?.Effect?.splice(index, 1);
+			}
+			index = Item.Property?.Effect?.indexOf("IsPlugged") ?? -1;
+			if (index !== -1) {
+				Item.Property?.Effect?.splice(index, 1);
+			}
+		}
+
+		// FIXME: this needs to cause an actual update of the item's effects
+		ExtendedItemSetOptionByRecord(C, Item, ItemType, {push: true});
+
+		if (chatMessageV) {
+			const Dictionary = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.destinationCharacter(C)
+				.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
+				.build();
+			ChatRoomPublishCustomAction(chatMessageV, true, Dictionary);
+		}
+		if (chatMessageP) {
+			const Dictionary = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.destinationCharacter(C)
+				.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
+				.build();
+			ChatRoomPublishCustomAction(chatMessageP, true, Dictionary);
+		}
 	}
-	return commandsReceived;
-}
 
-/**
- * @param {Item} Item
- * @param {Character} C
- * @param {boolean} OrgasmDetected
- * @param {boolean} isPlayerInChatRoom
- * @param {number} ShockCooldown
- */
-function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetected, isPlayerInChatRoom, ShockCooldown) {
-	const { PunishOrgasm, PunishStruggle, PunishStruggleOther, PunishStandup } = Item.Property ?? {};
-	if (PunishOrgasm && C.ArousalSettings.OrgasmStage > 1 && !OrgasmDetected) {
-		// Punish the player if they orgasm
-		return "Orgasm";
-	} else if (PunishStruggleOther && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
-		// Punish the player if they Struggle with any item
-		return "StruggleOther";
-	} else if (PunishStruggle && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
-		if (InventoryItemPelvisFuturisticChastityBeltTamperZones.some(zone => C.FocusGroup && C.FocusGroup.Name === zone))
-			return "Struggle";
-	} else if (InventoryItemPelvisModularChastityBeltCheckStanding(!!PunishStandup, C, isPlayerInChatRoom, ShockCooldown)) {
-		// Punish the player if they stand up
-		return "StandUp";
+	//triggered actions
+	if (triggers.includes("Shock")) {
+		PropertyShockPublishAction(C, Item, true);
 	}
-	return null;
-}
-
-/**
- * @param {boolean} PunishStandup
- * @param {Character} C
- * @param {boolean} isPlayerInChatRoom
- * @param {number} ShockCooldown
- * @returns {boolean}
- */
-function InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom, ShockCooldown) {
-	return PunishStandup && C.CanKneel(PoseChangeStatus.NEVER_WITHOUT_AID) && C.IsStanding() && isPlayerInChatRoom && ShockCooldown < CommonTime();
 }
 
 /**

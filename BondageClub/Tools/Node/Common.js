@@ -54,6 +54,7 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemNeckAccessories/ElectronicTag/ElectronicTag.js",
 	"Screens/Inventory/ItemNeckRestraints/PetPost/PetPost.js",
 	"Screens/Inventory/ItemVulva/FuturisticVibrator/FuturisticVibrator.js",
+	"Screens/Inventory/ItemVulva/TechnoChastityCage/TechnoChastityCage.js",
 	"Screens/Inventory/ItemPelvis/FuturisticTrainingBelt/FuturisticTrainingBelt.js",
 	"Screens/Inventory/ItemDevices/KabeshiriWall/KabeshiriWall.js",
 	"Screens/Inventory/ItemDevices/FuckMachine/FuckMachine.js",
@@ -95,6 +96,7 @@ export const NEEDED_FILES = [
 	"Screens/Character/ItemColor/ItemColor.js",
 	"Screens/Room/Crafting/Crafting.js",
 	"Scripts/Testing.js",
+	"Scripts/Item.js",
 ];
 
 /** The base path for any BC asset/script lookup. */
