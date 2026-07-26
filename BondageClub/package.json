@@ -63,6 +63,7 @@
 		"@types/gulp-imagemin": "^8.0.6",
 		"@types/gulp-size": "^4.0.3",
 		"@types/imagemin-jpegtran": "^5.0.4",
+		"@types/jest": "^30.0.0",
 		"@types/lodash.template": "^4.5.3",
 		"@types/minimist": "^1.2.5",
 		"@types/node": "^24.10.0",

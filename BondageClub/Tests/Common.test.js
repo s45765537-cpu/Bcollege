@@ -138,6 +138,7 @@ describe("CommonRemoveItemFromList", () => {
 	});
 
 	it("should return undefined for empty array", () => {
+		/** @type {unknown[]} */
 		const arr = [];
 		const result = Game.CommonRemoveItemFromList(arr, 0);
 		expect(result).toBeUndefined();
@@ -154,6 +155,7 @@ describe("CommonRemoveRandomItemFromList", () => {
 	});
 
 	it("should return undefined for empty array and not change it", () => {
+		/** @type {unknown[]} */
 		const arr = [];
 		const result = Game.CommonRemoveRandomItemFromList(arr);
 		expect(result).toBeUndefined();
