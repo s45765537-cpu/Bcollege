@@ -56,7 +56,7 @@ function CommandCombine(add) {
 	if (!add) return;
 	const arr = Array.isArray(add) ? add : [add];
 	Commands = Commands.filter(C => !arr.some(A => A.Tag == C.Tag)).concat(arr);
-	Commands.sort((A, B) => String.prototype.localeCompare.call(A.Tag, B.Tag));
+	Commands.sort((A, B) => A.Tag.localeCompare(B.Tag));
 }
 
 /**

@@ -529,12 +529,11 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("RoomType"), "chat-search-search-menu-room-type-radio-group"),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-type-radio-group",
-							/** @type {(this: HTMLButtonElement, ev: Event, key: "None" | ChatRoomMapType) => void} */
-							(ev, key) => {
+							function() {
+								const key = /** @type {"None" | ChatRoomMapType} */ (this.value);
 								if (key === "None") {
 									Player.ChatSearchSettings.MapTypes = "";
-								}
-								else {
+								} else {
 									Player.ChatSearchSettings.MapTypes = key;
 								}
 								ChatSearchUpdateSearchSettings();
@@ -571,7 +570,8 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("Lobby"), "chat-search-search-menu-room-lobby-radio-group"),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
-							(ev, key) => {
+							function() {
+								const key = /** @type {ServerChatRoomSpace} */ (this.value);
 								Player.ChatSearchSettings.Space = ChatSearchSpace = key;
 								ChatSearchUpdateSearchSettings();
 							},
