@@ -109,6 +109,7 @@ function createCharacter(name, opts=null) {
 }
 Game.load = load;
 Game.load("index.html");
+Game.AssetLoadAll();
 
 Game.createCharacter = createCharacter;
 
