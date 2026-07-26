@@ -6303,14 +6303,9 @@ var AssetFemale3DCG = [
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 				PoseMapping: {
-					BackBoxTie: "BackBoxTie",
-					BackCuffs: "BackCuffs",
-					BackElbowTouch: "BackElbowTouch",
-					Hogtied: "Hogtied",
-					OverTheHead: "OverTheHead",
-					TapedHands: "TapedHands",
-					Yoked: "Yoked",
-					AllFours: "AllFours",
+					...AssetPoseMapping.Cloth,
+					OverTheHead: "BackCuffs",
+					Yoked: "BackCuffs",
 				},
 			},
 			{
@@ -39295,6 +39290,14 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "FullBodyStraps",
+				CopyConfig: {
+					AssetName: "FullBodyStraps",
+					GroupName: "ItemTorso",
+					BuyGroup: true,
+				},
+			},
 		],
 	},
 	// #endregion
@@ -45400,7 +45403,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "DuctTape",
 				InventoryID: 540,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Tape"],
 				Value: 50,
 				Difficulty: 5,
