@@ -854,12 +854,14 @@ function ItemColorReset() {
  * @returns {boolean} - Whether the item has default color(s)
  */
 function ItemColorIsDefault(Item) {
-	const Color = Item.Color;
-	const AssetDefault = Item.Asset.DefaultColor;
-	if (typeof Color === "string") {
-		return (Color === "Default" || (AssetDefault.length === 1 && Color === AssetDefault[0]));
-	} else if (Array.isArray(Color)) {
-		return Color.slice(0, AssetDefault.length).every((c, i) => c === "Default" || c === AssetDefault[i]);
+	/** @type {readonly BCColor[]} */
+	let colorArray;
+	if (typeof Item.Color === "string") {
+		colorArray = Array(Item.Asset.ColorableLayerCount).fill(Item.Color);
+	} else if (CommonIsArray(Item.Color)) {
+		colorArray = Item.Color;
+	} else {
+		return Item.Color == null;
 	}
-	return true;
+	return Item.Asset.DefaultColor.every((defaultColor, i) => defaultColor === colorArray[i]);
 }
