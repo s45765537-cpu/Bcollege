@@ -11,9 +11,9 @@ const asset = {
 	},
 };
 
-describe("InventoryItem.fromAsset", () => {
+describe("Item.fromAsset", () => {
 	it("item from asset", () => {
-		expect(Game.InventoryItem.fromAsset(asset, {
+		expect(Game.Item.fromAsset(asset, {
 			color: "Black",
 			difficulty: 5,
 			property: { Difficulty: 3 },
@@ -26,7 +26,7 @@ describe("InventoryItem.fromAsset", () => {
 	});
 
 	it("item with invalid color", () => {
-		expect(Game.InventoryItem.fromAsset(asset, { color: "Blegh" })).toMatchObject({
+		expect(Game.Item.fromAsset(asset, { color: "Blegh" })).toMatchObject({
 			Color: ["Default", "#112233"],
 			Difficulty: 0,
 			Property: {},
@@ -34,7 +34,7 @@ describe("InventoryItem.fromAsset", () => {
 	});
 
 	it("item with too short of a color array", () => {
-		expect(Game.InventoryItem.fromAsset(asset, { color: ["#445566"] })).toMatchObject({
+		expect(Game.Item.fromAsset(asset, { color: ["#445566"] })).toMatchObject({
 			Color: ["#445566", "#112233"],
 			Difficulty: 0,
 			Property: {},
@@ -42,7 +42,7 @@ describe("InventoryItem.fromAsset", () => {
 	});
 
 	it("item with too long of a color array", () => {
-		expect(Game.InventoryItem.fromAsset(asset, { color: ["#444444", "#555555", "#666666"] })).toMatchObject({
+		expect(Game.Item.fromAsset(asset, { color: ["#444444", "#555555", "#666666"] })).toMatchObject({
 			Color: ["#444444", "#555555"],
 			Difficulty: 0,
 			Property: {},
@@ -50,9 +50,9 @@ describe("InventoryItem.fromAsset", () => {
 	});
 });
 
-describe("InventoryItem.fromName", () => {
+describe("Item.fromName", () => {
 	it("item from group- and asset name", () => {
-		expect(Game.InventoryItem.fromName("ItemArms", "NylonRope", { color: "#778899" })).toMatchObject({
+		expect(Game.Item.fromName("ItemArms", "NylonRope", { color: "#778899" })).toMatchObject({
 			Color: ["#778899"],
 			Difficulty: 0,
 			Property: {},
@@ -60,6 +60,6 @@ describe("InventoryItem.fromName", () => {
 	});
 
 	it("item from invalid group- and/or asset name", () => {
-		expect(Game.InventoryItem.fromName("Foo", "Bar")).toBe(null);
+		expect(Game.Item.fromName("Foo", "Bar")).toBe(null);
 	});
 });

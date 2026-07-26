@@ -70,7 +70,7 @@ function InventoryAddMany(C, NewItems, Push) {
  *     found in the named group
  */
 function InventoryItemCreate(C, Group, Name) {
-	const item = InventoryItem.fromName(Group, Name);
+	const item = Item.fromName(Group, Name);
 	return item ? Object.assign(item, { Group: item.Asset.Group.Name, Name: item.Asset.Name }) : null;
 }
 
@@ -1240,14 +1240,14 @@ function InventoryExpressionTriggerApply(C, expressions) {
 
 /**
 * Returns the padlock item that locks another item
-* @param {Item} Item - The item from appearance that must be scanned
+* @param {Item} item - The item from appearance that must be scanned
 * @returns {Item|null} - A padlock item or NULL if none
 */
-function InventoryGetLock(Item) {
-	if (!Item?.Property?.LockedBy) return null;
-	const asset = Asset.find(a => a.IsLock && a.Name === Item.Property?.LockedBy);
+function InventoryGetLock(item) {
+	if (!item?.Property?.LockedBy) return null;
+	const asset = Asset.find(a => a.IsLock && a.Name === item.Property?.LockedBy);
 	if (!asset) return null;
-	return InventoryItem.fromAsset(asset);
+	return Item.fromAsset(asset);
 }
 
 /**
@@ -1378,36 +1378,36 @@ function InventoryDoesItemAllowLock(item) {
 */
 function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Update = true) {
 	/** @type {Item | null} */
-	let Item;
+	let item;
 	/** @type {Item | null} */
 	let Lock = null;
 	if (typeof ItemOrGroupName === 'string') {
-		Item = InventoryGet(C, ItemOrGroupName);
+		item = InventoryGet(C, ItemOrGroupName);
 	} else {
-		Item = ItemOrGroupName;
+		item = ItemOrGroupName;
 	}
 	if (typeof LockOrLockType === 'string') {
 		const lock = AssetGet(C.AssetFamily, "ItemMisc", LockOrLockType);
 		if (lock) {
-			Lock = InventoryItem.fromAsset(lock);
+			Lock = Item.fromAsset(lock);
 		}
 	} else {
 		Lock = LockOrLockType;
 	}
-	if (!Item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(Item)) return;
+	if (!item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(item)) return;
 
 	// Protect against using the PortalLink lock on incompatible items
-	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(Item, "Attribute")?.includes("PortalLinkLockable"))
+	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(item, "Attribute")?.includes("PortalLinkLockable"))
 		return;
 
-	if (Item.Property == null) Item.Property = {};
-	if (Item.Property.Effect == null) Item.Property.Effect = [];
-	if (Item.Property.Effect.indexOf("Lock") < 0) Item.Property.Effect.push("Lock");
+	if (item.Property == null) item.Property = {};
+	if (item.Property.Effect == null) item.Property.Effect = [];
+	if (item.Property.Effect.indexOf("Lock") < 0) item.Property.Effect.push("Lock");
 
-	Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
+	item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
 
 	if (typeof AppliedBy === "string") {
-		Item.Property.LockMessage = AppliedBy;
+		item.Property.LockMessage = AppliedBy;
 	} else {
 		/** @type {Character | undefined} */
 		let char;
@@ -1417,19 +1417,19 @@ function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Upd
 			char = AppliedBy;
 		}
 		if (char?.IsNpc()) {
-			Item.Property.LockMemberNumber = -1;
-			Item.Property.LockMemberName = `${char.Title ? char.Title + " " : ""}${char.Name}`;
+			item.Property.LockMemberNumber = -1;
+			item.Property.LockMemberName = `${char.Title ? char.Title + " " : ""}${char.Name}`;
 		} else if (char?.IsOnline() || char?.IsPlayer()) {
-			Item.Property.LockMemberNumber = char.MemberNumber;
-			Item.Property.LockMemberName = char.Name;
+			item.Property.LockMemberNumber = char.MemberNumber;
+			item.Property.LockMemberName = char.Name;
 		}
 	}
 
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-	const args = [C, Item, false, false];
+	const args = [C, item, false, false];
 	CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
 	if (Update) {
-		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);
+		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, item.Asset.Group.Name, Lock.Asset.RemoveTimer);
 		CharacterRefresh(C, true, false);
 	}
 }
@@ -1457,16 +1457,16 @@ function InventoryUnlock(C, ItemOrGroupName, refreshDialog=true) {
 /**
 * Applies a random lock on an item
 * @param {Character} C - The character on which the item must be locked
-* @param {Item} Item - The item from appearance to lock
+* @param {Item} item - The item from appearance to lock
 * @param {Character} AppliedBy - Set to TRUE if the source is the owner, to apply owner locks
 */
-function InventoryLockRandom(C, Item, AppliedBy) {
-	if (!InventoryDoesItemAllowLock(Item)) return false;
+function InventoryLockRandom(C, item, AppliedBy) {
+	if (!InventoryDoesItemAllowLock(item)) return false;
 
 	const locks = Asset.filter(a => a.IsLock && a.Random && !a.LoverOnly && !a.FamilyOnly && (AppliedBy.IsOwner() || !a.OwnerOnly));
 	const randomLock = InventoryGetRandom(C, undefined, locks);
 	if (!randomLock) return false;
-	InventoryLock(C, Item, InventoryItem.fromAsset(randomLock), AppliedBy);
+	InventoryLock(C, item, Item.fromAsset(randomLock), AppliedBy);
 }
 
 /**
@@ -1776,41 +1776,3 @@ function InventoryExtractLockProperties(property) {
 function InventoryIconIsPadlock(icon) {
 	return icon.endsWith("Padlock");
 }
-
-/**
- * Namespace for constructing {@link Item} objects.
-*/
-var InventoryItem = {
-	/**
-	 * Construct an item from the passed asset
-	 * @param {Asset} asset The asset in question
-	 * @param {null | InventoryItem.Options} options Further options
-	 * @returns {Item} The new item
-	 */
-	fromAsset: function fromAsset(asset, options=null) {
-		options ??= {};
-		return {
-			Asset: asset,
-			Color: options.color ? ServerParseColor(asset, options.color, asset.Group.ColorSchema) : [...asset.DefaultColor],
-			Difficulty: options.difficulty ?? 0,
-			Property: options.property ? CommonCloneDeep(options.property) : {},
-			Craft: options.craft ? CommonCloneDeep(options.craft) : undefined,
-		};
-	},
-
-	/**
-	 * Construct an item from the passed group- and asset names
-	 * @param {AssetGroupName} groupName The asset's group name
-	 * @param {string} assetName The asset's name
-	 * @param {null | InventoryItem.Options} options Further options
-	 * @returns {null | Item} The new item or `null` if no matching asset can be found
-	 */
-	fromName: function fromName(groupName, assetName, options=null) {
-		const asset = AssetGet("Female3DCG", groupName, assetName);
-		if (!asset) {
-			return null;
-		} else {
-			return InventoryItem.fromAsset(asset, options);
-		}
-	},
-};

@@ -7,7 +7,6 @@ export const NEEDED_FILES = [
 	"Scripts/Common.js",
 	"Scripts/Dialog.js",
 	"Scripts/Pose.js",
-	"Scripts/Inventory.js",
 	"Scripts/Asset.js",
 	"Scripts/ExtendedItem.js",
 	"Scripts/ModularItem.js",
@@ -89,6 +88,7 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemNeckRestraints/CollarLeash/CollarLeash.js",
 	"Screens/Inventory/ItemDevices/Kennel/Kennel.js",
 	"Assets/Female3DCG/Female3DCG.js",
+	"Scripts/Item.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
 	"Screens/Room/Shop2/Shop2.js",
 	"Scripts/Preference.js",
@@ -97,7 +97,6 @@ export const NEEDED_FILES = [
 	"Screens/Character/ItemColor/ItemColor.js",
 	"Screens/Room/Crafting/Crafting.js",
 	"Scripts/Testing.js",
-	"Scripts/Item.js",
 ];
 
 /** The base path for any BC asset/script lookup. */

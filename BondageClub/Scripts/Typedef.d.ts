@@ -5255,7 +5255,7 @@ interface LayeringDisplay extends Rect {
 
 // #endregion
 
-declare namespace InventoryItem {
+declare namespace Item {
 	interface Options {
 		/** The color of the item */
 		color?: Readonly<ItemColor>;

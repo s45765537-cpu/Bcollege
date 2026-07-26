@@ -3976,7 +3976,7 @@ function KDAddAppearance(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMe
 
 	// Add the new item to the character appearance
 	if (ItemAsset != null) {
-		const NA = InventoryItem.fromAsset(ItemAsset, {
+		const NA = Item.fromAsset(ItemAsset, {
 			color: data.color,
 			difficulty: (ItemAsset.Difficulty ?? 0) + parseInt(DifficultyFactor),
 		});
