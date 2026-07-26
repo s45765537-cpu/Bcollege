@@ -588,3 +588,13 @@ describe("CommonObjectEqual", () => {
 
 // half of Common.js is tested,
 // all functions after CommonObjectEqual are not tested
+
+describe("CommonFilterMap", () => {
+	it("return all `>= 2` values multiplied by 10", () => {
+		expect(Game.CommonFilterMap([0, 1, 1, 2, 3], (i) => i >= 2 ? i * 10 : null)).toEqual([20, 30]);
+	});
+
+	it("return an empty array", () => {
+		expect(Game.CommonFilterMap([0, 1, 1, 2, 3], (i) => i >= 99 ? i * 10 : null)).toEqual([]);
+	});
+});

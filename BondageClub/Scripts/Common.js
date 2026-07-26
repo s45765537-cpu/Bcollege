@@ -2561,6 +2561,34 @@ function CommonFindMap(array, predicateMapper, thisArg=null) {
 }
 
 /**
+ * Take an array and find all element that map to a user-specified value, returning the mapped value.
+ *
+ * Effectively combines {@link array.filter} and {@link array.map}.
+ * @template Tinp
+ * @template Tout
+ * @param {readonly Tinp[]} array - The array in question
+ * @param {(value: Tinp, index: number, obj: readonly Tinp[]) => undefined | null | Tout} predicateMapper - A mapping
+ * predicate. All non-nullish return value will be returned by the outer function.
+ * @param {any} [thisArg] - If provided, it will be used as the this value for each invocation of
+ * predicate. If it is not provided, undefined is used instead.
+ * @returns {Tout[]} - All successfully mapped value
+ */
+function CommonFilterMap(array, predicateMapper, thisArg=null) {
+	if (thisArg != null) {
+		predicateMapper = predicateMapper.bind(thisArg);
+	}
+	/** @type {Tout[]} */
+	const ret = [];
+	for (const [i, elem] of array.entries()) {
+		const result = predicateMapper(elem, i, array);
+		if (result != null) {
+			ret.push(result);
+		}
+	}
+	return ret;
+}
+
+/**
  * Splice a string into a string at a specific index.
  *
  * The string will be automatically extended using {@link defaultValue} if the index falls outside its bounds.
