@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "esnext",
+		"lib": ["esnext", "DOM"],
+		"checkJs": true,
+		"noEmit": true,
+		"incremental": true,
+		"tsBuildInfoFile": "../.cache/tsc-main.tsbuildinfo",
+		"types": ["node", "jest"],
+		"skipLibCheck": true,
+		"strict": true,
+	},
+	"include": ["../Scripts/**/*.d.ts", "../Asset/**/*.d.ts", "**/*.js"]
+}
