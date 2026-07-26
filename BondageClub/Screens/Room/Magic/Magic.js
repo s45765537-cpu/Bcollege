@@ -1,19 +1,18 @@
-// @ts-strict-ignore
 "use strict";
 
 var MagicBackground = "Magic";
-/** @type {null | NPCCharacter} */
-var MagicPerformer = null;
-/** @type {null | Item[]} */
-var MagicPerformerAppearance = null;
+/** @type {NPCCharacter} */
+var MagicPerformer = /** @type {never} */ (null);
+/** @type {Item[]} */
+var MagicPerformerAppearance = [];
 
-/** @type {null | NPCCharacter} */
-var MagicAssistant = null;
-/** @type {null | Item[]} */
-var MagicAssistantAppearance = null;
+/** @type {NPCCharacter} */
+var MagicAssistant = /** @type {never} */ (null);
+/** @type {Item[]} */
+var MagicAssistantAppearance = [];
 
-/** @type {null | Item[]} */
-var MagicPlayerAppearance = null;
+/** @type {Item[]} */
+var MagicPlayerAppearance = [];
 
 /** @type {null | string} */
 var MagicTrick = null;
@@ -353,8 +352,11 @@ function MagicTrickBoxMilkCan() {
 function MagicTrickBoxWaterCell() {
 	InventoryWear(Player, "HempRope", "ItemFeet");
 	const item = InventoryGet(Player, "ItemFeet");
-	TypedItemSetOptionByName(Player, item, "Suspension");
-	item.Property.OverrideHeight = { Height: -150, Priority: 41, HeightRatioProportion: 0 };
+	if (item) {
+		TypedItemSetOptionByName(Player, item, "Suspension");
+		item.Property ??= {};
+		item.Property.OverrideHeight = { Height: -150, Priority: 41, HeightRatioProportion: 0 };
+	}
 	InventoryWear(Player, "HempRope", "ItemLegs");
 	InventoryWear(Player, "HempRope", "ItemArms");
 	InventoryWear(Player, "WaterCell", "ItemDevices");
