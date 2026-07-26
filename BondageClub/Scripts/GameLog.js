@@ -122,11 +122,10 @@ function LogDeleteStarting(Name, Group, Push) {
  * @returns {boolean} - Returns false if there's no record, or if the found record's numeric value is less than the current time.
  */
 function LogQuery(Name, Group) {
-	const value = LogValue(Name, Group);
-	if (value === null) return false;
+	const entry = LogGet(Name, Group);
+	if (!entry) return false;
 
-	// Loose null-check here in case there's a null or an undefined stuck in there
-	return CommonIsNumeric(value) && value >= CurrentTime;
+	return !CommonIsNumeric(entry.Value) || entry.Value >= CurrentTime;
 }
 
 /**
