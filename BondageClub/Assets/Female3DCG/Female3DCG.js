@@ -11974,6 +11974,32 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "Pasties1",
+				Random: false,
+				InventoryID: 1374,
+				Value: 4,
+				Top: {
+					[PoseType.DEFAULT]: 290,
+					AllFours: 330,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 180,
+					AllFours: 190,
+				},
+				ParentGroup: "BodyUpper",
+				DefaultColor: ["#B16565", "#B16565"],
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				Expose: ["ItemBreast", "ItemNipples", "ItemNipplesPiercings"],
+				PoseMapping: { AllFours: "AllFours" },
+				Layer: [{ Name: "Left1" }, { Name: "Right1" }],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "乳贴1",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
