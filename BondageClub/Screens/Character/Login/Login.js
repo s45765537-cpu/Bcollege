@@ -1031,6 +1031,7 @@ function LoginSetupPlayer(C) {
 	if (shouldSync) {
 		ServerPlayerBlockItemsSync();
 	}
+	LogLoad(C.Log ?? []);
 
 	// Sets the default language when creating or searching for chat rooms
 	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
@@ -1178,8 +1179,6 @@ function LoginSetupPlayer(C) {
 		ServerPlayerAppearanceSync();
 	}
 
-	// Loads the current appearance, log, reputation and skills
-	LogLoad(C.Log ?? []);
 	ReputationLoad(C.Reputation);
 	SkillLoad(C.Skill);
 	Player.ConfiscatedItems = C.ConfiscatedItems ?? [];
