@@ -1,8 +1,7 @@
 "use strict";
 const fs = require("fs");
 const vm = require("vm");
-// eslint-disable-next-line no-redeclare
-const { TextEncoder, TextDecoder } = require("util");
+const { TextEncoder: NodeTextEncoder, TextDecoder: NodeTextDecoder } = require("util");
 
 /** @type {typeof globalThis & Record<string, any>} */
 const Game = {
@@ -12,9 +11,9 @@ const Game = {
 	console: console,
 	XMLHttpRequest: XMLHttpRequest,
 	Image: Image,
-	TextEncoder: TextEncoder,
+	TextEncoder: NodeTextEncoder,
 	// @ts-expect-error: Minor type mismatch between `window.TextDecoder` and `util.TextDecoder`
-	TextDecoder: TextDecoder,
+	TextDecoder: NodeTextDecoder,
 	// @ts-expect-error: _SIGNIFICANT_ type mismatch between `window.Audio` and the `Audio` replacement here due to missing properties
 	Audio: class {
 		/**
