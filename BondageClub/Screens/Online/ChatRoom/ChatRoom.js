@@ -5316,12 +5316,12 @@ function ChatRoomSyncReorderPlayers(data) {
 	if(ChatRoomCharacter.length > 0) // If we forgot about some characters for some reason...
 	{
 		//Push the missed entries to the end
-		Array.prototype.push.apply(newChatRoomCharacter, ChatRoomCharacter);
+		newChatRoomCharacter.push(...ChatRoomCharacter);
 	}
 	if(ChatRoomData.Character.length > 0) // If we forgot about some entries for some reason...
 	{
 		//Push the missed entries to the end
-		Array.prototype.push.apply(newChatRoomDataCharacter, ChatRoomData.Character);
+		newChatRoomDataCharacter.push(...ChatRoomData.Character);
 	}
 
 	//Update the origin arrays

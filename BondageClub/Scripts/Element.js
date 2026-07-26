@@ -1077,15 +1077,15 @@ function ElementCreateSettingsLabel(label, forId, options) {
 		],
 	});
 }
+
 /**
  * Create a group of radio buttons
  * @param {string} id
  * @param {string} defaultValue
- * @param {(this: HTMLButtonElement, ev: PointerEvent, key: any) => any} onclick
+ * @param {(this: HTMLButtonElement, ev: PointerEvent) => void} onclick
  * @param {{
  * htmlOptions?: Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>,
  * options?: ElementButton.Options,
- * onClick?: (this: HTMLButtonElement, ev: PointerEvent, key: string) => any
  * }[]} options
  */
 function ElementCreateRadioButtonGroup(id, onclick, defaultValue, options) {
@@ -1097,11 +1097,7 @@ function ElementCreateRadioButtonGroup(id, onclick, defaultValue, options) {
 			role: "radiogroup",
 			id: id
 		},
-		children: options.map((entry) => ElementButton.Create(null, function (ev) {
-			if (onclick) {
-				onclick.call(this, ev, entry?.htmlOptions?.button?.attributes?.value);
-			}
-		}, {
+		children: options.map((entry) => ElementButton.Create(null, onclick, {
 			noStyling: true,
 			tooltipPosition: "bottom",
 			...entry?.options,
