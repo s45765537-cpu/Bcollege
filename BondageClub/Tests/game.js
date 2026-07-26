@@ -71,6 +71,7 @@ function load(file) {
 
 	if (file.endsWith(".html")) {
 		// Inject HTML into the JSDOM environment
+		// eslint-disable-next-line nounsanitized/property
 		document.documentElement.innerHTML = contents;
 		const scripts = document.querySelectorAll("script[src]");
 		scripts.forEach((s) => {
