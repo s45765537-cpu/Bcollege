@@ -1,7 +1,7 @@
 "use strict";
 const Game = require("./game");
 
-/** @type {Partial<Asset>} */
+/** @satisfies {ColorAssetMock} */
 const asset = {
 	Name: "Foo",
 	get ColorableLayerCount() { return this.DefaultColor.length; },

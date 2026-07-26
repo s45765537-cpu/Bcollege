@@ -1,13 +1,13 @@
 "use strict";
 const Game = require("./game");
 
-/** @type {Partial<Omit<Asset, "Group">> & { Group: Partial<AssetGroup> }} */
+/** @satisfies {ColorAssetMock} */
 const asset = {
 	Name: "Foo",
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "Default"],
 	Group: {
-		Name: "Bar",
+		Name: "ItemArms",
 	},
 };
 
@@ -20,7 +20,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Property: {},
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "Bar",
+			Group: "ItemArms",
 			Name: "Foo",
 			Difficulty: 5,
 		});
@@ -33,7 +33,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Property: { Difficulty: 5 },
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "Bar",
+			Group: "ItemArms",
 			Name: "Foo",
 			Property: { Difficulty: 5 },
 		});
@@ -57,7 +57,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			},
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "Bar",
+			Group: "ItemArms",
 			Name: "Foo",
 			Craft: {
 				Name: "Bob",
@@ -80,7 +80,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Property: {},
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "Bar",
+			Group: "ItemArms",
 			Name: "Foo",
 			Color: ["#001122", "Default"],
 		});
@@ -94,7 +94,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Property: {},
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "Bar",
+			Group: "ItemArms",
 			Name: "Foo",
 			Color: "#001122",
 		});
@@ -108,7 +108,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Property: {},
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "Bar",
+			Group: "ItemArms",
 			Name: "Foo",
 		});
 	});
@@ -121,7 +121,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Property: {},
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "Bar",
+			Group: "ItemArms",
 			Name: "Foo",
 		});
 	});

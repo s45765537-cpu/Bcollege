@@ -11,5 +11,5 @@
 		"skipLibCheck": true,
 		"strict": true,
 	},
-	"include": ["../Scripts/**/*.d.ts", "../Asset/**/*.d.ts", "**/*.js"]
+	"include": ["../Scripts/**/*.d.ts", "../Asset/**/*.d.ts", "."]
 }

@@ -1,13 +1,13 @@
 "use strict";
 const Game = require("./game");
 
-/** @type {Partial<Asset>} */
+/** @satisfies {ColorAssetMock} */
 const partialAsset1 = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "#112233"],
 };
 
-/** @type {Partial<Asset>} */
+/** @satisfies {ColorAssetMock} */
 const partialAsset2 = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "Default"],
