@@ -1,10 +1,10 @@
 "use strict";
 const Game = require("./game");
 
-Game.load("./Scripts/Common.js");
+Game.load("../Scripts/Common.js");
 
-Game.load("./Scripts/Drawing.js"); // DrawingResizeMode
-Game.load("./Scripts/Server.js"); // ServerAccountEmailRegex
+Game.load("../Scripts/Drawing.js"); // DrawingResizeMode
+Game.load("../Scripts/Server.js"); // ServerAccountEmailRegex
 
 Game.PreferenceCensoredWordsList = [];
 

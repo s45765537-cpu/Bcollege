@@ -1,6 +1,11 @@
 "use strict";
 const Game = require("./game");
 
+Game.load("../Scripts/Common.js");
+Game.load("../Scripts/Translation.js");
+Game.load("../Scripts/Text.js");
+Game.load("../Screens/Character/ItemColor/ItemColor.js");
+
 /** @satisfies {ColorAssetMock} */
 const partialAsset1 = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },

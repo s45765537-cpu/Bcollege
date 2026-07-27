@@ -28,7 +28,7 @@ Game.ChatRoomMapViewScreenshot = () => {};
 Game.ChatRoomMapViewActivate = () => {};
 Game.ChatRoomMapViewDeactivate = () => {};
 
-Game.load("./Screens/Online/ChatRoom/ChatRoom.js");
+Game.load("../Screens/Online/ChatRoom/ChatRoom.js");
 
 describe("ChatRoomMessageMentionsCharacter", () => {
 	it("should return true when Chinese name attached to greeting", () => {
