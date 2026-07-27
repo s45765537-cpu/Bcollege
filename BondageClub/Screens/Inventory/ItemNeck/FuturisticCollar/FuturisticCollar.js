@@ -212,7 +212,7 @@ function InventoryItemNeckFuturisticCollarCanLock(C, LockType) {
 		LockAsset = InventoryAvailable(C, LockType, "ItemMisc") ? AssetGet(C.AssetFamily, "ItemMisc", LockType) : null;
 	}
 
-	if (LockAsset && !(InventoryBlockedOrLimited(C, { Asset: LockAsset }))) {
+	if (LockAsset && !(InventoryBlockedOrLimited(C, Item.fromAsset(LockAsset)))) {
 		// Make sure we do not add owner/lover only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
 		if (LockAsset.OwnerOnly && !C.IsOwnedByPlayer())
 			if (!C.IsPlayer() || !C.IsOwned() || (C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
@@ -395,7 +395,7 @@ function InventoryItemNeckFuturisticCollarColor(C, FromItem) {
 					FromItem.Color ??= [];
 					if (!item.Asset.Layer[L].Name) {
 						if (FromItem.Color[3] != "Default")
-							item.Color = (canRecolorDisplay) ? fromColors[0] : fromColors[3];
+							item.Color = Array(item.Asset.ColorableLayerCount).fill(canRecolorDisplay ? fromColors[0] : fromColors[3]);
 					} else if (item.Asset.Layer[L].Name == "Lock") {
 						if (FromItem.Color[3] != "Default")
 							colors[L] = fromColors[3];

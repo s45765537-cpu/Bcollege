@@ -658,19 +658,7 @@ function ServerPlayerExtensionSettingsSync(dataKeyName, _force = false) {
  * @returns {AppearanceBundle} - The appearance bundle created from the given appearance array
  */
 function ServerAppearanceBundle(Appearance) {
-	var Bundle = [];
-	for (let A = 0; A < Appearance.length; A++)
-		if (Appearance[A].Asset != null) {
-			var N = {};
-			N.Group = Appearance[A].Asset.Group.Name;
-			N.Name = Appearance[A].Asset.Name;
-			if ((Appearance[A].Color != null) && (Appearance[A].Color != "Default")) N.Color = Appearance[A].Color;
-			if ((Appearance[A].Difficulty != null) && (Appearance[A].Difficulty != 0)) N.Difficulty = Appearance[A].Difficulty;
-			if (Appearance[A].Property != null) N.Property = Appearance[A].Property;
-			if (Appearance[A].Craft != null) N.Craft = Appearance[A].Craft;
-			Bundle.push(N);
-		}
-	return Bundle;
+	return CommonFilterMap(Appearance, (item) => item.Asset == null ? null : ServerBundledItemFromAppearanceItem(item));
 }
 
 /**
@@ -759,13 +747,38 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
 
 	const asset = AssetGet(assetFamily, item.Group, item.Name);
 	if (!asset) return null;
+	return Item.fromAsset(asset, {
+		difficulty: item.Difficulty,
+		color: item.Color,
+		craft: item.Craft,
+		property: item.Property,
+	});
+}
 
+/**
+ * Convert an item into a (JSON-safe) item bundle
+ * @param {Item} item The to-be converted item
+ * @returns {ItemBundle} The matching item bundle
+ */
+function ServerBundledItemFromAppearanceItem(item) {
+	/** @type {undefined | ItemColor} */
+	const inputColor = item.Color;
+	/** @type {undefined | ItemColor} */
+	let outputColor;
+	if (ItemColorIsDefault(item)) {
+		outputColor = undefined;
+	} else if (CommonIsArray(inputColor) && inputColor.every(c => c === inputColor[0])) {
+		outputColor = inputColor[0];
+	} else {
+		outputColor = inputColor;
+	}
 	return {
-		Asset: asset,
-		Difficulty: parseInt(item.Difficulty == null ? 0 : item.Difficulty),
-		Color: ServerParseColor(asset, item.Color, asset.Group.ColorSchema),
+		Group: item.Asset.Group.Name,
+		Name: item.Asset.Name,
+		Difficulty: item.Difficulty === 0 ? undefined : item.Difficulty,
+		Color: outputColor,
+		Property: Object.keys(item.Property).length > 0 ? item.Property : undefined,
 		Craft: item.Craft,
-		Property: item.Property,
 	};
 }
 
@@ -774,16 +787,15 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
  * @param {Asset} asset - The asset on which the color is set
  * @param {BCColor | readonly BCColor[]} color - The color value to parse
  * @param {readonly BCColor[]} schema - The color schema to validate against
- * @returns {undefined | BCColor | BCColor[]} - A parsed valid item color
+ * @returns {BCColor[]} - A parsed valid item color
  */
 function ServerParseColor(asset, color, schema) {
 	if (typeof color === "string") {
-		return CommonIsColor(color, { schema }) ? color : schema[0];
+		return CommonIsColor(color, { schema }) ? Array(asset.ColorableLayerCount).fill(color) : [...asset.DefaultColor];
 	} else if (CommonIsArray(color)) {
-		if (color.length > asset.ColorableLayerCount) color = color.slice(0, asset.ColorableLayerCount);
-		return color.map(c => CommonIsColor(c, { schema }) ? c : schema[0]);
+		return asset.DefaultColor.map((fallback, i) => CommonIsColor(color[i], { schema }) ? color[i] : fallback);
 	} else {
-		return undefined;
+		return [...asset.DefaultColor];
 	}
 }
 
@@ -809,13 +821,13 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
 			if (itemToMirror) {
 				const mirroredAsset = AssetGet(assetFamily, group.Name, itemToMirror.Asset.Name);
 				// If there is an item to mirror, copy it and its color
-				if (mirroredAsset) diff[0] = { Asset: mirroredAsset, Color: itemToMirror.Color };
+				if (mirroredAsset) diff[0] = Item.fromAsset(mirroredAsset, { color: itemToMirror.Color });
 			}
 		}
 
 		// If the item still hasn't been filled, use the first item from the group's asset list
 		if (!diff[0]) {
-			diff[0] = { Asset: group.Asset[0], Color: group.DefaultColor };
+			diff[0] = Item.fromAsset(group.Asset[0]);
 		}
 	});
 }

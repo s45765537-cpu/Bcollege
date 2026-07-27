@@ -52,17 +52,17 @@ function InventoryItemMiscHighSecurityPadlockLoadHook(data, originalFunction) {
 // FIXME: should be merged into either DialogHasKey or DialogCanUnlock
 /**
  * @param {Character} C
- * @param {Item} Item
+ * @param {Item} item
  * @returns {boolean}
  */
-function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
+function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, item) {
 	if (LogQuery("KeyDeposit", "Cell")) return false;
-	let UnlockName = "Unlock" + Item.Asset.Name;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null)) UnlockName = "Unlock" + Item.Property.LockedBy;
+	let UnlockName = /** @type {const} */(`Unlock${item.Asset.Name}`);
+	if ((item != null) && (item.Property != null) && (item.Property.LockedBy != null)) UnlockName = `Unlock${item.Property.LockedBy}`;
 
-	const key = Asset.find(a => InventoryItemHasEffect({ Asset: a }, /** @type {EffectName} */ (UnlockName)));
+	const key = Asset.find(a => InventoryItemHasEffect(Item.fromAsset(a), /** @type {EffectName} */ (UnlockName)));
 	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
-		var Lock = InventoryGetLock(Item);
+		var Lock = InventoryGetLock(item);
 		if (Lock != null) {
 			if (Lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
 			if (Lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
