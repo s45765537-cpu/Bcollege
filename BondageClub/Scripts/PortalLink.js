@@ -327,26 +327,24 @@ function PortalLinkSyncCodeInputClick(reciever) {
 
 		const code = ElementValue(PortalLinkCodeInputID);
 		if (MouseIn(...PortalLinkCopyCodeButton) && code.length > 0) {
-			navigator.clipboard
-				.writeText(ElementValue(PortalLinkCodeInputID))
-				.catch(err => {
+			CommonClipboardWrite(ElementValue(PortalLinkCodeInputID), (res) => {
+				if (!res.ok) {
 					PortalLinkTransmitterStatus = "PortalLinkClipboardError";
-					console.error("Clipboard write error: " + err);
-				});
+					console.error("Clipboard write error", res.error);
+				}});
 
 			return;
 		}
 	} else {
 		if (MouseIn(...PortalLinkPasteCodeButton)) {
-			navigator.clipboard.readText()
-				.then(txt => {
-					ElementValue(PortalLinkCodeInputID, txt);
-					PortalLinkCodeChanged(Player, DialogFocusItem, reciever);
-				})
-				.catch(err => {
+			CommonClipboardRead((res) => {
+				if (!res.ok) {
 					PortalLinkTransmitterStatus = "PortalLinkClipboardError";
-					console.error("Clipboard read error: " + err);
-				});
+					return;
+				}
+				ElementValue(PortalLinkCodeInputID, res.value);
+				PortalLinkCodeChanged(Player, DialogFocusItem, reciever);
+			});
 
 			return;
 		}

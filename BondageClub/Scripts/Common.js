@@ -2683,3 +2683,55 @@ class Result {
 		}
 	}
 }
+
+class ClipboardError extends Error {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message, options = {}) {
+		super(message);
+		this.name = "ClipboardError";
+	}
+}
+
+/**
+ * Read text data from the browser's clipboard.
+ *
+ * @param {(result: Result<string | null, ClipboardError>) => void} cb}
+ */
+function CommonClipboardRead(cb) {
+	navigator.clipboard.readText()
+		.then(data => {
+			cb(Result.success(data));
+		})
+		.catch(e => {
+			console.error("Failed to read clipboard:", e);
+			if (e instanceof DOMException) {
+				const err = new ClipboardError(e.message, { cause: e });
+				cb(Result.failure(err));
+			}
+		});
+}
+
+/**
+ * Write text data to the browser's clipboard.
+ *
+ * @param {string} data
+ * @param {undefined | ((result: Result<null, ClipboardError>) => void)} [cb]
+ */
+function CommonClipboardWrite(data, cb = undefined) {
+	navigator.clipboard.writeText(data)
+		.then(() => {
+			cb?.(Result.success(null));
+		})
+		.catch(e => {
+			if (e instanceof DOMException) {
+				if (!cb) {
+					console.error("Failed to write clipboard:", e);
+				} else {
+					const err = new ClipboardError(e.message, { cause: e });
+					cb(Result.failure(err));
+				}
+			}
+		});
+}
