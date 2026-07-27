@@ -320,7 +320,7 @@ var ServerPlayerChatRoom = {
 
 ServerPlayerChatRoom.register(
 	{ screen: "ChatRoom" },
-	{ screen: "ChatAdmin" },
+	{ screen: "ChatAdmin", callback: () => !!ChatRoomData },
 	{ screen: "GameLARP" },
 	{ screen: "GameMagicBattle" },
 	{ screen: "GameClubCard" },

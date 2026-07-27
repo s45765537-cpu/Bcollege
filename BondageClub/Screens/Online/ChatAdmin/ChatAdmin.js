@@ -682,6 +682,7 @@ function ChatEditorCreateRoom() {
 	}
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatAdminMessage = "CreatingRoom";
+	// ChatRoomSync is in charge of switching the screen to ChatRoom
 }
 
 /**
