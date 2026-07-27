@@ -11,5 +11,6 @@
 		"skipLibCheck": true,
 		"strict": true,
 	},
-	"include": ["../Scripts/**/*.d.ts", "../Asset/**/*.d.ts", "."]
+	"include": ["../Scripts/**/*.d.ts", "../Asset/**/*.d.ts", "."],
+	"exclude": ["../Scripts/MessagesPatch.d.ts"],
 }

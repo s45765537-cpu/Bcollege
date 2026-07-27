@@ -107,9 +107,13 @@ function createCharacter(name, opts=null) {
 	Game.PreferenceInit(char);
 	return char;
 }
+
 Game.load = load;
-Game.load("index.html");
-Game.AssetLoadAll();
+
+Game.loadAll = function() {
+	this.load("index.html");
+	Game.AssetLoadAll();
+};
 
 Game.createCharacter = createCharacter;
 

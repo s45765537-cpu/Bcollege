@@ -1,6 +1,34 @@
 "use strict";
 const Game = require("./game");
 
+// Mock out all the stuff that's required before ChatRoom.js can load
+Game.ChatRoomCharacterViewRun = () => {};
+Game.ChatRoomCharacterViewDraw = () => {};
+Game.ChatRoomCharacterViewDrawUi = () => {};
+Game.ChatRoomCharacterViewClick = () => {};
+Game.ChatRoomCharacterViewKeyDown = () => {};
+Game.ChatRoomCharacterViewCanLeave = () => {};
+Game.ChatRoomCharacterViewScreenshot = () => {};
+Game.ChatRoomCharacterViewActivate = () => {};
+
+Game.ChatRoomMapViewRun = () => {};
+Game.ChatRoomMapViewDraw = () => {};
+Game.ChatRoomMapViewDrawUi = () => {};
+Game.ChatRoomMapViewClick = () => {};
+Game.ChatRoomMapViewKeyDown = () => {};
+Game.ChatRoomMapViewKeyUp = () => {};
+Game.ChatRoomMapViewMouseDown = () => {};
+Game.ChatRoomMapViewMouseUp = () => {};
+Game.ChatRoomMapViewMouseMove = () => {};
+Game.ChatRoomMapViewMouseWheel = () => {};
+Game.ChatRoomMapViewRoomUpdated = () => {};
+Game.ChatRoomMapViewCanStartWhisper = () => {};
+Game.ChatRoomMapViewCanLeave = () => {};
+Game.ChatRoomMapViewScreenshot = () => {};
+Game.ChatRoomMapViewActivate = () => {};
+Game.ChatRoomMapViewDeactivate = () => {};
+
+Game.load("./Screens/Online/ChatRoom/ChatRoom.js");
 
 describe("ChatRoomMessageMentionsCharacter", () => {
 	it("should return true when Chinese name attached to greeting", () => {
