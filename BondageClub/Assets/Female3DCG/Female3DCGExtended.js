@@ -2333,6 +2333,11 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "None" }, { Name: "Choker" }],
 		}, //RuffledCollar
+		DollHandle: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "B" }, { Name: "S" }, { Name: "T" }],
+		}, // DollHandle
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {

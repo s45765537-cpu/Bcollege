@@ -601,6 +601,10 @@ ClothLittleFormalShirtOptiont1,No
 ClothOffTheShoulderTopSelect,Choose Style:
 ClothOffTheShoulderTopRight,Right
 ClothOffTheShoulderTopLeft,Left
+ClothAccessoryDollHandleSelect,Display which handles
+ClothAccessoryDollHandleB,Both
+ClothAccessoryDollHandleS,Shoulder
+ClothAccessoryDollHandleT,Thigh
 ClothAccessoryBibModulePattern,Pattern
 ClothAccessoryBibModuleTxt,Text
 ClothAccessoryBibOptionp0,None
