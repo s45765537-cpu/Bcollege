@@ -21810,6 +21810,28 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "DaggerRibbon",
+				InventoryID: 1376,
+				Random: false,
+				Value: 6,
+				Left: 230,
+				Top: 50,
+				ParentGroup: {},
+				PoseMapping: {},
+				DynamicGroupName: "HairAccessory1",
+				Layer: [
+					{ Name: "Ribbon" },
+					{ Name: "MetalOrnament" },
+					{ Name: "GemBase" },
+					{ Name: "Gem" },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "MMelodia",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
