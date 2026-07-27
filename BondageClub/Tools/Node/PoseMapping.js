@@ -198,8 +198,7 @@ function runVM() {
 	}
 
 	if (kwargs.compare) {
-		/** @type {null | Record<string, any> | any[]} */
-		const poseMappingOld = JSON.parse(fs.readFileSync(kwargs.compare, { encoding: "utf8" }));
+		const poseMappingOld = /** @type {null | Record<string, any> | any[]} */(JSON.parse(fs.readFileSync(kwargs.compare, { encoding: "utf8" })));
 		if (!isObject(poseMappingOld)) {
 			throw new Error(`Invalid "${kwargs.compare}" JSON data expected a nested record`);
 		}
