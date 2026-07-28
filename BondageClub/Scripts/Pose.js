@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -200,7 +199,8 @@ function PoseSetByItems(C, category, poseName) {
  * @returns {void} - Nothing
  */
 function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
-	const newPose = PoseRecord[poseName];
+	/** @type {Pose | undefined} */
+	const newPose = poseName == null ? undefined : PoseRecord[poseName];
 	if (
 		poseName == null
 		|| ForceChange
@@ -217,6 +217,10 @@ function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 	// Validate the pre-existing activated poses before setting the new pose
 	if (newPose) {
 		for (const [category, name] of CommonEntries(C.ActivePoseMapping)) {
+			if (!name) {
+				delete C.ActivePoseMapping[category];
+				continue;
+			}
 			const pose = PoseRecord[name];
 			if (!pose || !pose.AllowMenu || pose.Category === "BodyFull") {
 				delete C.ActivePoseMapping[category];
@@ -257,14 +261,17 @@ function PoseRefresh(C) {
 	const setPose = {};
 	for (const item of C.Appearance) {
 		const allowActivePoseList = InventoryGetItemProperty(item, "AllowActivePose");
-		if (allowActivePoseList.length === 0) {
+		if (!allowActivePoseList || allowActivePoseList.length === 0) {
 			continue;
 		}
 		const itemAllowActivePose = PoseToMapping.Array(allowActivePoseList, "Item.AllowActivePose");
-		const itemSetPose = PoseToMapping.Array(InventoryGetItemProperty(item, "SetPose"), "Item.SetPose");
+		const itemSetPose = PoseToMapping.Array(InventoryGetItemProperty(item, "SetPose") ?? [], "Item.SetPose");
 
 		// Update the allowed pose intersections
 		for (const [category, poses] of CommonEntries(itemAllowActivePose)) {
+			if (!poses) {
+				continue;
+			}
 			const poseList = C.AllowedActivePoseMapping[category];
 			if (poseList) {
 				C.AllowedActivePoseMapping[category] = poseList.filter(i => poses.includes(i));
@@ -280,8 +287,12 @@ function PoseRefresh(C) {
 
 		// Update the setpose union
 		for (const [category, poses] of CommonEntries(itemSetPose)) {
-			if (category in setPose) {
-				poses.forEach(p => setPose[category].add(p));
+			if (!poses) {
+				continue;
+			}
+			const poseSet = setPose[category];
+			if (poseSet) {
+				poses.forEach(p => poseSet.add(p));
 			} else {
 				setPose[category] = new Set(poses);
 			}
@@ -291,6 +302,9 @@ function PoseRefresh(C) {
 	// Ammend the `SetPose` union with `ActivePose` members, letting the latter take priority (within the limits of `AllowedActivePose`)
 	const activePose = PoseToMapping.Array(C.ActivePose, "Character.ActivePose");
 	for (const [category, poses] of CommonEntries(setPose)) {
+		if (!poses) {
+			continue;
+		}
 		if (activePose[category]) {
 			activePose[category].push(...poses);
 		} else {

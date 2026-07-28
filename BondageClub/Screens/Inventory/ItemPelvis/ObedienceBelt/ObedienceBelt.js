@@ -39,7 +39,7 @@ function InventoryItemPelvisObedienceBelts1ClickHook(data, originalFunction) {
 	} else if (MouseIn(1100, 730, 64, 64)) {
 		ExtendedItemCustomClickAndPush(C, item, "PunishStandup", () => property.PunishStandup = !property.PunishStandup, false, false);
 	} else if (MouseIn(1387, 800, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction, false, false);
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item), false, false);
 	}
 }
 

@@ -1,12 +1,11 @@
-// @ts-strict-ignore
 "use strict";
 var AsylumEntranceBackground = "AsylumEntrance";
-/** @type {null | NPCCharacter} */
-var AsylumEntranceNurse = null;
-/** @type {null | NPCCharacter} */
-var AsylumEntranceKidnapNurse = null;
-/** @type {null | NPCCharacter} */
-var AsylumEntranceEscapedPatient = null;
+/** @type {NPCCharacter} */
+var AsylumEntranceNurse = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var AsylumEntranceKidnapNurse = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var AsylumEntranceEscapedPatient = /** @type {never} */ (null);
 var AsylumEntranceEscapedPatientWillBribe = false;
 var AsylumEntranceEscapedPatientWillJoin = false;
 
@@ -14,7 +13,7 @@ var AsylumEntranceEscapedPatientWillJoin = false;
  * Checks, if the player is able to leave the Asylum
  * @returns {boolean} - Returns true, if the player is able to leave, false otherwise
  */
-function AsylumEntranceCanWander() { return (Player.CanWalk() && ((LogValue("Committed", "Asylum") >= CurrentTime) || (LogValue("Isolated", "Asylum") >= CurrentTime) || (AsylumGGTSGetLevel(Player) >= 6) || ((ReputationGet("Asylum") >= 1) && AsylumEntranceIsWearingNurseClothes()))); }
+function AsylumEntranceCanWander() { return (Player.CanWalk() && (!AsylumIsCommitted() || !AsylumIsIsolated() || (AsylumGGTSGetLevel(Player) >= 6) || ((ReputationGet("Asylum") >= 1) && AsylumEntranceIsWearingNurseClothes()))); }
 /**
  * Checks, if the player can bring the nurse to her private room
  * @returns {boolean} - Returns true, if the player can drag the nurse to her private roo, false otherwise
@@ -24,7 +23,7 @@ function AsylumEntranceCanTransferToRoom() { return PrivateHasEmptySlot(); }
  * CHecks if the player can kiss the nurse
  * @returns {boolean} - Returns true, if the player can kiss the nurse, false otherwise
  */
-function AsylumEntranceCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function AsylumEntranceCanKiss() { return (Player.CanTalk() && !!CurrentCharacter?.CanTalk()); }
 /**
  * Checks if the player can have a nurse uniform of her own
  * @returns {boolean} - Returns true, if the player can have her own nurse uniform, false otherwise
@@ -39,7 +38,31 @@ function AsylumEntranceNurseHasGGTSCollar() { return (AsylumGGTSGetLevel(Player)
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function AsylumEntranceCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function AsylumEntranceCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter?.IsRestrained() && !Player.IsGagged() && !CurrentCharacter?.IsGagged()); }
+
+/**
+ * Whether the player has been isolated to the asylum
+ * @returns {boolean}
+ */
+function AsylumIsIsolated() { return (LogValue("Isolated", "Asylum") ?? 0) >= CurrentTime; }
+
+/**
+ * Whether the player is committed to the asylum
+ * @returns {boolean}
+ */
+function AsylumIsCommitted() { return (LogValue("Committed", "Asylum") ?? 0) >= CurrentTime; }
+
+/**
+ * Whether the player is forced to do GGTS time
+ * @returns {boolean}
+ */
+function AsylumHasForcedGGTSTime() { return (LogValue("ForceGGTS", "Asylum") ?? 0) > 0; }
+
+/**
+ * Whether the player has escaped the asylum
+ * @returns {boolean}
+ */
+function AsylumHasEscaped() { return (LogValue("Escaped", "Asylum") ?? 0) >= CurrentTime; }
 
 /**
  * Loads the room and generates the nurse. Is called dynamically
@@ -47,7 +70,7 @@ function AsylumEntranceCanPlayClubCard() { return (!Player.IsRestrained() && !Cu
  */
 async function AsylumEntranceLoad() {
 	AsylumEntranceBackground = "AsylumEntrance";
-	if (AsylumEntranceNurse == null) {
+	if (!AsylumEntranceNurse) {
 		AsylumEntranceNurse = CharacterLoadNPC("NPC_AsylumEntrance_Nurse");
 		AsylumEntranceWearNurseClothes(AsylumEntranceNurse);
 		AsylumEntranceNurse.AllowItem = false;
@@ -63,25 +86,24 @@ async function AsylumEntranceLoad() {
 function AsylumEntranceRun() {
 	DrawCharacter(Player, 500, 0, 1);
 	DrawCharacter(AsylumEntranceNurse, 1000, 0, 1);
-	if (Player.CanWalk() && (LogValue("Isolated", "Asylum") < CurrentTime) && (LogValue("Committed", "Asylum") < CurrentTime) && (AsylumGGTSGetLevel(Player) <= 5) && (LogValue("ForceGGTS", "Asylum") <= 0)) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
+	if (Player.CanWalk() && !AsylumIsIsolated() && !AsylumIsCommitted() && AsylumGGTSGetLevel(Player) <= 5 && !AsylumHasForcedGGTSTime())
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
 	if (AsylumEntranceCanWander()) DrawButton(1885, 265, 90, 90, "", "White", "Icons/Chat.png", TextGet("ChatRoom"));
 	if (AsylumEntranceCanWander()) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Bedroom.png", TextGet("Bedroom"));
 	if (AsylumEntranceCanWander()) DrawButton(1885, 505, 90, 90, "", "White", "Icons/FriendList.png", TextGet("Meeting"));
 	if (AsylumEntranceCanWander()) DrawButton(1885, 625, 90, 90, "", "White", "Icons/Therapy.png", TextGet("Therapy"));
-	if (AsylumEntranceCanWander() || (LogValue("ForceGGTS", "Asylum") > 0)) DrawButton(1885, 745, 90, 90, "", "White", "Icons/GGTS.png", TextGet("GGTS"));
-	if (LogValue("Isolated", "Asylum") >= CurrentTime) {
+	if (AsylumEntranceCanWander() || AsylumHasForcedGGTSTime()) DrawButton(1885, 745, 90, 90, "", "White", "Icons/GGTS.png", TextGet("GGTS"));
+	if (AsylumIsIsolated()) {
 		DrawText(TextGet("IsolationTime"), 1800, 915, "white", "gray");
-		DrawText(TimerToString(LogValue("Isolated", "Asylum") - CurrentTime), 1800, 965, "white", "gray");
-	} else {
-		if (LogValue("Committed", "Asylum") >= CurrentTime) {
-			DrawText(TextGet("RemainingTime"), 1800, 915, "white", "gray");
-			DrawText(TimerToString(LogValue("Committed", "Asylum") - CurrentTime), 1800, 965, "white", "gray");
-		}
+		DrawText(TimerToString((LogValue("Isolated", "Asylum") ?? 0) - CurrentTime), 1800, 965, "white", "gray");
+	} else if (AsylumIsCommitted()) {
+		DrawText(TextGet("RemainingTime"), 1800, 915, "white", "gray");
+		DrawText(TimerToString((LogValue("Committed", "Asylum") ?? 0) - CurrentTime), 1800, 965, "white", "gray");
 	}
-	if (LogValue("ForceGGTS", "Asylum") > 0) {
+	if (AsylumHasForcedGGTSTime()) {
 		DrawText(TextGet("ForceGGTS"), 200, 915, "white", "gray");
-		DrawText(TimerToString(LogValue("ForceGGTS", "Asylum")), 200, 965, "white", "gray");
+		DrawText(TimerToString(LogValue("ForceGGTS", "Asylum") ?? 0), 200, 965, "white", "gray");
 	}
 }
 
@@ -93,20 +115,21 @@ function AsylumEntranceClick() {
 	if (MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000)) {
 		if (AsylumGGTSGetLevel(Player) >= 6) AsylumEntranceNurse.Stage = "400";
-		else if (LogValue("Isolated", "Asylum") >= CurrentTime) AsylumEntranceNurse.Stage = "200";
-		else if (LogValue("Committed", "Asylum") >= CurrentTime) AsylumEntranceNurse.Stage = "100";
+		else if (AsylumIsIsolated()) AsylumEntranceNurse.Stage = "200";
+		else if (AsylumIsCommitted()) AsylumEntranceNurse.Stage = "100";
 		else if (AsylumEntranceNurse.Stage == "100") AsylumEntranceNurse.Stage = "0";
-		if ((LogValue("Isolated", "Asylum") < CurrentTime) && (LogValue("Escaped", "Asylum") >= CurrentTime) && !AsylumEntranceNurse.IsRestrained()) AsylumEntranceNurse.Stage = "140";
+		if (!AsylumIsIsolated() && AsylumHasEscaped() && !AsylumEntranceNurse.IsRestrained()) AsylumEntranceNurse.Stage = "140";
 		ManagementClubSlaveDialog(AsylumEntranceNurse);
 		CharacterSetCurrent(AsylumEntranceNurse);
 	}
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk() && (LogValue("Isolated", "Asylum") < CurrentTime) && (LogValue("Committed", "Asylum") < CurrentTime) && (AsylumGGTSGetLevel(Player) <= 5) && (LogValue("ForceGGTS", "Asylum") <= 0)) CommonSetScreen("Room", "MainHall");
+	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk() && !AsylumIsCommitted() && !AsylumIsIsolated() && AsylumGGTSGetLevel(Player) <= 5 && !AsylumHasForcedGGTSTime())
+		CommonSetScreen("Room", "MainHall");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 	if (MouseIn(1885, 265, 90, 90) && AsylumEntranceCanWander()) AsylumEntranceStartChat();
 	if (MouseIn(1885, 385, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumBedroom");
 	if (MouseIn(1885, 505, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumMeeting");
 	if (MouseIn(1885, 625, 90, 90) && AsylumEntranceCanWander()) CommonSetScreen("Room", "AsylumTherapy");
-	if (MouseIn(1885, 745, 90, 90) && (AsylumEntranceCanWander() || (LogValue("ForceGGTS", "Asylum") > 0))) CommonSetScreen("Room", "AsylumGGTS");
+	if (MouseIn(1885, 745, 90, 90) && (AsylumEntranceCanWander() || AsylumHasForcedGGTSTime())) CommonSetScreen("Room", "AsylumGGTS");
 }
 
 /**
@@ -160,7 +183,7 @@ function AsylumEntranceWearPatientClothes(C, ExtraEvent) {
 	InventoryRemove(C, "Hat");
 
 	// Wears the GGTS items based on the player level
-	if (ExtraEvent && LogQuery("Isolated", "Asylum")) {
+	if (ExtraEvent && AsylumIsIsolated()) {
 		CharacterRelease(C);
 		if (AsylumGGTSGetLevel(C) >= 2) {
 			InventoryWear(C, "FuturisticCuffs", "ItemArms");
@@ -194,9 +217,9 @@ function AsylumEntranceWearPatientClothes(C, ExtraEvent) {
  * @returns {boolean} - Returns true, if the player is dressed as a patient, false otherwise
  */
 function AsylumEntranceIsWearingPatientClothes() {
-	if ((InventoryGet(Player, "Cloth") == null) || (InventoryGet(Player, "Cloth").Asset.Name != "TShirt1")) return false;
-	if ((InventoryGet(Player, "ClothLower") == null) || (InventoryGet(Player, "ClothLower").Asset.Name != "Pajama1")) return false;
-	if ((InventoryGet(Player, "Socks") == null) || (InventoryGet(Player, "Socks").Asset.Name != "Socks2")) return false;
+	if (InventoryGet(Player, "Cloth")?.Asset.Name !== "TShirt1") return false;
+	if (InventoryGet(Player, "ClothLower")?.Asset.Name !== "Pajama1") return false;
+	if (InventoryGet(Player, "Socks")?.Asset.Name !== "Socks2") return false;
 	if (InventoryGet(Player, "Shoes") != null) return false;
 	if (InventoryGet(Player, "Gloves") != null) return false;
 	if (InventoryGet(Player, "HairAccessory1") != null) return false;
@@ -213,9 +236,9 @@ function AsylumEntranceIsWearingPatientClothes() {
  * @returns {boolean} - Returns true, if the player is dressed as a nurse, false otherwise
  */
 function AsylumEntranceIsWearingNurseClothes() {
-	if ((InventoryGet(Player, "Cloth") == null) || (InventoryGet(Player, "Cloth").Asset.Name != "NurseUniform")) return false;
-	if ((InventoryGet(Player, "Hat") == null) || (InventoryGet(Player, "Hat").Asset.Name != "NurseCap")) return false;
-	if ((InventoryGet(Player, "Socks") == null) || (InventoryGet(Player, "Socks").Asset.Name != "Stockings2")) return false;
+	if (InventoryGet(Player, "Cloth")?.Asset.Name !== "NurseUniform") return false;
+	if (InventoryGet(Player, "Hat")?.Asset.Name !== "NurseCap") return false;
+	if (InventoryGet(Player, "Socks")?.Asset.Name !== "Stockings2") return false;
 	return true;
 }
 
@@ -286,9 +309,10 @@ function AsylumEntranceFightNurseEnd() {
  * @returns {void} - Nothing
  */
 function AsylumEntrancePlayerJacket(Pose) {
-	InventoryWear(Player, "StraitJacket", "ItemArms", "Default", 3);
-	const item = InventoryGet(Player, "ItemArms");
-	TypedItemSetOptionByName(Player, item, Pose);
+	const item = InventoryWear(Player, "StraitJacket", "ItemArms", "Default", 3);
+	if (item) {
+		TypedItemSetOptionByName(Player, item, Pose);
+	}
 }
 
 /**
@@ -627,5 +651,5 @@ function AsylumEntranceClubCardStart() {
 async function AsylumEntranceClubCardEnd() {
 	await CommonSetScreen("Room", "AsylumEntrance");
 	CharacterSetCurrent(AsylumEntranceNurse);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	AsylumEntranceNurse.CurrentDialog = DialogFind(AsylumEntranceNurse, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

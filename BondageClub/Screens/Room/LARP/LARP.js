@@ -1,14 +1,13 @@
-// @ts-strict-ignore
 "use strict";
 var LARPBackground = "WrestlingRing";
-/** @type {null | NPCCharacter} */
-var LARPOrganiser = null;
+/** @type {NPCCharacter} */
+var LARPOrganiser = /** @type {never} */ (null);
 
 /**
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function LARPCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function LARPCanPlayClubCard() { return !Player.IsRestrained() && !Player.IsGagged() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !CurrentCharacter.IsGagged(); }
 
 /**
  * Loads the LARP introduction room NPC
@@ -83,5 +82,7 @@ function LARPClubCardStart() {
 async function LARPClubCardEnd() {
 	await CommonSetScreen("Room", "LARP");
 	CharacterSetCurrent(LARPOrganiser);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	if (CurrentCharacter) {
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	}
 }

@@ -51,7 +51,7 @@ function InventoryItemPelvisSciFiPleasurePantiesClickHook(Data, OriginalFunction
 			const property = item.Property;
 			ExtendedItemCustomClickAndPush(C, item, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		} else if (MouseIn(1637, 825, 225, 55)) {
-			ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
+			ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 		}
 	}
 }

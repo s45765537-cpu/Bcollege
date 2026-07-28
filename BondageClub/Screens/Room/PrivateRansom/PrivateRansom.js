@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var PrivateRansomBackground = "Sheet";
 /** @type {null | NPCCharacter} */
@@ -50,6 +49,7 @@ async function PrivateRansomLoad() {
 function PrivateRansomRun() {
 
 	// Draw the ransomed character on the left
+	if (!PrivateRansomCharacter) return;
 	DrawCharacter(PrivateRansomCharacter, 150, 100, 0.8);
 
 	// Draw the ransom note, in 5 lines
@@ -71,9 +71,10 @@ function PrivateRansomClick() {
 	if (MouseIn(1800, 215, 90, 90)) {
 		let Intro = TextGet("InfiltrationIntro");
 		CommonSetScreen("Room", "Infiltration").then(() => {
-			InfiltrationSupervisor.Stage = "100";
-			InfiltrationSupervisor.CurrentDialog = Intro;
-			CharacterSetCurrent(InfiltrationSupervisor);
+			const supervisor = /** @type {Character} */ (InfiltrationSupervisor);
+			supervisor.Stage = "100";
+			supervisor.CurrentDialog = Intro;
+			CharacterSetCurrent(supervisor);
 		});
 	}
 }

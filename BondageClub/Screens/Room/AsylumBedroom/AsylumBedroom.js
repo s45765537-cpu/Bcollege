@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var AsylumBedroomBackground = "AsylumBedroom";
 
@@ -24,18 +23,13 @@ async function AsylumBedroomLoad() {
  */
 function AsylumBedroomRun() {
 	DrawCharacter(Player, 750, 0, 1);
-	if ((LogValue("Isolated", "Asylum") < CurrentTime) && Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Entrance"));
+	const timeRemaining = AsylumIsIsolated() ? (LogValue("Isolated", "Asylum") ?? 0) - CurrentTime : (LogValue("Committed", "Asylum") ?? 0) - CurrentTime;
+	if (!AsylumIsIsolated() && Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Entrance"));
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png", TextGet("Profile"));
-	if (LogValue("Isolated", "Asylum") >= CurrentTime) {
+	if (AsylumIsIsolated() || AsylumIsCommitted()) {
 		DrawButton(1885, 265, 90, 90, "", "White", "Icons/Bedroom.png", TextGet("Sleep"));
-		DrawText(TextGet("IsolationTime"), 1800, 915, "white", "gray");
-		DrawText(TimerToString(LogValue("Isolated", "Asylum") - CurrentTime), 1800, 965, "white", "gray");
-	} else {
-		if (LogValue("Committed", "Asylum") >= CurrentTime) {
-			DrawButton(1885, 265, 90, 90, "", "White", "Icons/Bedroom.png", TextGet("Sleep"));
-			DrawText(TextGet("RemainingTime"), 1800, 915, "white", "gray");
-			DrawText(TimerToString(LogValue("Committed", "Asylum") - CurrentTime), 1800, 965, "white", "gray");
-		}
+		DrawText(TextGet(AsylumIsIsolated() ? "IsolationTime" : "RemainingTime"), 1800, 915, "white", "gray");
+		DrawText(TimerToString(timeRemaining), 1800, 965, "white", "gray");
 	}
 }
 
@@ -46,9 +40,9 @@ function AsylumBedroomRun() {
  */
 function AsylumBedroomClick() {
 	if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
-	if (MouseIn(1885, 25, 90, 90) && (LogValue("Isolated", "Asylum") < CurrentTime) && Player.CanWalk()) CommonSetScreen("Room", "AsylumEntrance");
+	if (MouseIn(1885, 25, 90, 90) && !AsylumIsIsolated() && Player.CanWalk()) CommonSetScreen("Room", "AsylumEntrance");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && ((LogValue("Committed", "Asylum") >= CurrentTime) || (LogValue("Isolated", "Asylum") >= CurrentTime))) {
+	if (MouseIn(1885, 265, 90, 90) && (AsylumIsCommitted() || AsylumIsIsolated())) {
 		window.location.reload();
 	}
 }

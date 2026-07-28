@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -294,7 +293,8 @@ function NotificationDrawFavicon(resetingAll) {
 	if (totalRaisedCount > 0 && !resetingAll) {
 		// Draw the normal icon first
 		const iconLength = 75;
-		let IconCanvas = document.createElement("canvas").getContext("2d");
+		const IconCanvas = document.createElement("canvas").getContext("2d");
+		if (!IconCanvas) return;
 		IconCanvas.canvas.width = iconLength;
 		IconCanvas.canvas.height = iconLength;
 		DrawImageCanvas(iconUrl, IconCanvas, 0, 0);

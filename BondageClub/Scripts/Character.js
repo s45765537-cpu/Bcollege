@@ -1823,7 +1823,7 @@ function CharacterUnderwear(C, Appearance) {
 /**
  * Redresses a character based on a given appearance array
  * @param {Character} C - Character to redress
- * @param {Array.<*>} Appearance - Appearance array to redress the character with
+ * @param {readonly Item[]} Appearance - Appearance array to redress the character with
  * @returns {void} - Nothing
  */
 function CharacterDress(C, Appearance) {

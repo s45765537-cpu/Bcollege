@@ -38,7 +38,7 @@ let KDUnlockedPerks = [];
 
 let KinkyDungeonBackground = "BrickWall";
 /**
- * @type {Character}
+ * @type {Character | null}
  */
 let KinkyDungeonPlayer = null;
 let KinkyDungeonState = "Consent";
@@ -144,7 +144,7 @@ let KDDefaultKB = {
 };
 
 let KinkyDungeonRootDirectory = "Screens/MiniGame/KinkyDungeon/";
-/** @type {Character} */
+/** @type {Character | null} */
 let KinkyDungeonPlayerCharacter = null; // Other player object
 let KinkyDungeonGameData = null; // Data sent by other player
 let KinkyDungeonGameDataNullTimer = 4000; // If data is null, we query this often
