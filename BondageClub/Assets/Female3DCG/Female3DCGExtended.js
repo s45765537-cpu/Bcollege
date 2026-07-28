@@ -2338,6 +2338,14 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "B" }, { Name: "S" }, { Name: "T" }],
 		}, // DollHandle
+		Epaulet: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{ Name: "Cord", Key: "c", Options: [{}, {}] },
+				{ Name: "Side", Key: "t", Options: [{}, {}, {}] },
+			],
+		}, // Epaulet
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {

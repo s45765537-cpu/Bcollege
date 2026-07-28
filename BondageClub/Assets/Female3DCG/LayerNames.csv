@@ -114,6 +114,11 @@ ClothAccessoryDollHandles_base,Shoulder Handles
 ClothAccessoryDollHandles_hlight,Shoulder Highlights
 ClothAccessoryDollHandlet_base,Thigh Handles
 ClothAccessoryDollHandlet_hlight,Thigh Highlights
+ClothAccessoryEpauletCord,Cord
+ClothAccessoryEpauletFringe_Right,Right Fringe
+ClothAccessoryEpauletFringe_Left,Left Fringe
+ClothAccessoryEpauletShoulder_Right,Right Shoulder
+ClothAccessoryEpauletShoulder_Left,Left Shoulder
 ClothAccessoryGlitterFreckles,Color One
 ClothAccessoryGlitterFreckles2,Color Two
 ClothAccessoryLargeBeltMain,Belt
