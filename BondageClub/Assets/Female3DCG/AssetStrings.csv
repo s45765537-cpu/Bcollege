@@ -6191,6 +6191,11 @@ ItemVulvaTechnoChastityCageSetv0,SourceCharacter turns off voice module of Desti
 ItemVulvaTechnoChastityCageSetv1,SourceCharacter turns on voice module of DestinationCharacter AssetName.
 ItemVulvaTechnoChastityCageOptionv0,Off
 ItemVulvaTechnoChastityCageOptionv1,On
+JewelryAnkletAModuleStyle,Jewels
+JewelryAnkletAOptions0,Diamond
+JewelryAnkletAOptions1,Pearl
+JewelryAnkletASelectBase,Select the anklet style
+JewelryAnkletASelectStyle,Jewels type
 JewelryJewelrySetModuleEars1,Right Ear
 JewelryJewelrySetModuleEars2,Left Ear
 JewelryJewelrySetModuleFace,Face

@@ -10601,6 +10601,13 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //JewelrySet
+		AnkletA: {
+			Archetype: "modular",
+			DrawImages: false,
+			Modules: [
+				{ Name: "Style", Key: "s", Options: [{}, {}] },
+			],
+		}, // AnkletA
 	}, // Jewelry
 	Eyebrows: {
 		Eyebrows2: {
