@@ -24,15 +24,16 @@ function InventoryItemNeckAccessoriesCollarShockUnitDrawHook(Data, OriginalFunct
 function InventoryItemNeckAccessoriesCollarShockUnitClickHook(Data, OriginalFunction) {
 	OriginalFunction();
 
+	const C = CharacterGetCurrent();
 	const item = DialogFocusItem;
-	if (!item) return;
+	if (!C || !item) return;
 	item.Property ??= {};
 	if (MouseIn(1175, 618, 64, 64) && !ExtendedItemPermissionMode) {
 		item.Property.ShowText = !item.Property.ShowText;
 	} else if (MouseIn(1635, 550, 225, 55)) {
 		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
 	} else if (MouseIn(1635, 625, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 	}
 }
 

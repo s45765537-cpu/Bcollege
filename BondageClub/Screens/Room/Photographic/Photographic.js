@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 "use strict";
 
 var PhotographicBackground = "grey";
-/** @type {null | NPCCharacter} */
-var PhotographicSub = null;
+/** @type {NPCCharacter} */
+var PhotographicSub = /** @type {never} */ (null);
 var PhotographicGroupStarted = false;
 var PhotographicCurrendGroup = null;
 /** @type {null | Item[]} */
@@ -16,7 +15,7 @@ var PhotographicSelectText = "";
  * Checks if the player is helpless (maids disabled) or not.
  * @returns {boolean} - Returns true if the player still has time remaining after asking the maids to stop helping
  */
-function PhotographicIsMaidsDisabled() { var expire = LogValue("MaidsDisabled", "Maid") - CurrentTime ; return (expire > 0 ); }
+function PhotographicIsMaidsDisabled() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime ; return (expire > 0 ); }
 
 function PhotographicPlayerCanChangeCloth() {return Player.CanChangeOwnClothes();}
 function PhotographicPlayerHatAvailable() {return PhotographicAppearanceAvailable(Player, "Hat");}
@@ -140,7 +139,7 @@ function PhotographicPlayerDressBack() {
 }
 
 function PhotographicSubDressBack() {
-	CharacterDress(PhotographicSub, PhotographicSubAppearance);
+	CharacterDress(PhotographicSub, PhotographicSubAppearance ?? []);
 }
 
 /**

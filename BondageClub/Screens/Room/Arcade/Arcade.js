@@ -1,15 +1,11 @@
-// @ts-strict-ignore
 "use strict";
 var ArcadeBackground = "PartyBasement";
-/** @type {null | NPCCharacter} */
-var ArcadeEmployee = null;
-/** @type {null | NPCCharacter} */
-var ArcadePlayer = null;
-var ArcadeAskedFor = null;
-var ArcadePrice = 0;
+/** @type {NPCCharacter} */
+var ArcadeEmployee = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var ArcadePlayer = /** @type {never} */ (null);
 var ArcadeDeviousChallenge = false;
 var ArcadeCannotDoDeviousChallenge = false;
-//
 
 /**
  * Determines whether or not the player is bound and can plead to have their own headset put on them
@@ -34,8 +30,7 @@ function ArcadeCanAskForHeadsetHelpGagged() {
  * @returns {boolean} - Whether or not the player has a headset
  */
 function ArcadeCanPlayGames() {
-	var head = InventoryGet(Player, "ItemHead");
-	return head && head.Asset && (head.Asset.Name == "InteractiveVRHeadset" || head.Asset.Name == "InteractiveVisor");
+	return CharacterHasItemWithAttribute(Player, "ArcadeGaming");
 }
 
 /**
@@ -43,8 +38,7 @@ function ArcadeCanPlayGames() {
  * @returns {boolean} - Whether or not the player has a headset and is gagged
  */
 function ArcadeCanPlayGamesAndGagged() {
-	var head = InventoryGet(Player, "ItemHead");
-	return !Player.CanTalk() && head && head.Asset && (head.Asset.Name == "InteractiveVRHeadset" || head.Asset.Name == "InteractiveVisor");
+	return !Player.CanTalk() && ArcadeCanPlayGames();
 }
 
 /**
@@ -52,7 +46,7 @@ function ArcadeCanPlayGamesAndGagged() {
  * @returns {boolean} - Whether or not the player needs to rent a headset
  */
 function ArcadeNeedToRent() {
-	return !ArcadeCanPlayGames() && !DialogInventoryAvailable("InteractiveVRHeadset", "ItemHead");
+	return !ArcadeCanPlayGames() && !InventoryAvailable(Player, "InteractiveVRHeadset", "ItemHead");
 }
 
 
@@ -115,15 +109,9 @@ function ArcadeDeviousChallengeEnabled() {
 async function ArcadeLoad() {
 	ArcadeEmployee = CharacterLoadNPC("NPC_Arcade_Employee");
 	ArcadePlayer = CharacterLoadNPC("NPC_Arcade_Player");
-	InventoryWear(ArcadePlayer, "InteractiveVRHeadset","ItemHead");
+	InventoryWear(ArcadePlayer, "InteractiveVRHeadset", "ItemHead");
 
-	//if (!InventoryCharacterHasOwnerOnlyRestraint(Player) && !InventoryCharacterHasLoverOnlyRestraint(Player)) {
 	ArcadeDeviousChallenge = LogValue("DeviousChallenge", "Arcade") == 1;
-	//ArcadeCannotDoDeviousChallenge = false
-	//}
-	//else
-	//ArcadeCannotDoDeviousChallenge = true
-
 }
 
 /**
@@ -132,6 +120,7 @@ async function ArcadeLoad() {
  * @returns {void} - Nothing
  */
 function ArcadeRun() {
+	if (!ArcadeEmployee || !ArcadePlayer) return;
 	DrawCharacter(Player, 750, 0, 1);
 	DrawCharacter(ArcadeEmployee, 250, 0, 1);
 	DrawCharacter(ArcadePlayer, 1250, 0, 1);
@@ -147,6 +136,7 @@ function ArcadeRun() {
  * @returns {void} - Nothing
  */
 function ArcadeClick() {
+	if (!ArcadeEmployee || !ArcadePlayer) return;
 	if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(250, 0, 500, 1000)) {
 		ArcadeEmployee.Stage = "0";
@@ -273,7 +263,7 @@ var KinkyDungeonReady = false;
 
 async function ArcadeKinkyDungeonStartLoad() {
 	for (const file of KinkyDungeonFiles) {
-		await new Promise((resolve, reject) => {
+		await /** @type {Promise<void>} */ (new Promise((resolve, reject) => {
 			const script = document.createElement("script");
 			script.onerror = reject;
 			script.onload = () => resolve();
@@ -281,7 +271,7 @@ async function ArcadeKinkyDungeonStartLoad() {
 			script.setAttribute("crossorigin", "anonymous");
 			script.setAttribute("src", file);
 			document.head.appendChild(script);
-		});
+		}));
 	}
 }
 

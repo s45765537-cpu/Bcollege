@@ -321,7 +321,7 @@ function InventoryItemPelvisModularChastityBeltResetDeny(C, item) {
 function InventoryItemPelvisModularChastityBeltClickShockModule(C, item, _offset){
 	//Click Manual Shock
 	if (MouseIn(1010, 550-27 + 0*75 + _offset, 225, 55)) {
-		ExtendedItemCustomClick("ModularChastityBeltTriggerShock", PropertyShockPublishAction, false, false);
+		ExtendedItemCustomClick("ModularChastityBeltTriggerShock", () => PropertyShockPublishAction(C, item), false, false);
 		return;
 	}
 	//Click Shock Reset

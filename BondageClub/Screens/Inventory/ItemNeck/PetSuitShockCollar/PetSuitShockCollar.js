@@ -50,7 +50,7 @@ function InventoryItemNeckPetSuitShockCollars1ClickHook(data, originalFunction) 
 	} else if (MouseIn(1635, 550, 225, 55)) {
 		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckPetSuitShockCollarResetCount);
 	} else if (MouseIn(1635, 625, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 	} else if (MouseIn(1100, 700, 64, 64)) {
 		item.Property.PunishActivity = !item.Property.PunishActivity;
 		if (item.Property.PunishActivity) {

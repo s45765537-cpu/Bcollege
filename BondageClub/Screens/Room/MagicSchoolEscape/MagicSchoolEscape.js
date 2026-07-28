@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var MagicSchoolEscapeBackground = "MagicSchoolEscape";
-/** @type {null | NPCCharacter} */
-var MagicSchoolEscapeInstructor = null;
+/** @type {NPCCharacter} */
+var MagicSchoolEscapeInstructor = /** @type {never} */ (null);
 var MagicSchoolEscapeSeconds = 120;
 var MagicSchoolEscapeTimer = 0;
 
@@ -12,7 +11,7 @@ var MagicSchoolEscapeTimer = 0;
  */
 async function MagicSchoolEscapeLoad() {
 	MagicPuzzleBackground = MagicSchoolEscapeBackground;
-	if (MagicSchoolEscapeInstructor == null) {
+	if (!MagicSchoolEscapeInstructor) {
 		MagicSchoolEscapeInstructor = CharacterLoadNPC("NPC_MagicSchoolEscape_Instructor");
 		MagicSchoolLaboratoryPrepareNPC(MagicSchoolEscapeInstructor, "");
 	}
@@ -23,7 +22,6 @@ async function MagicSchoolEscapeLoad() {
  * @returns {void} - Nothing
  */
 function MagicSchoolEscapeRun() {
-
 	// If the challenge was failed
 	if ((MagicSchoolEscapeTimer > 0) && (MagicSchoolEscapeTimer < CommonTime())) {
 		CharacterAppearanceRestore(Player, MagicBattlePlayerAppearance);
@@ -54,7 +52,6 @@ function MagicSchoolEscapeRun() {
  * @returns {void} - Nothing
  */
 function MagicSchoolEscapeClick() {
-
 	// Outside of challenge, we have the side buttons and the characters
 	if (MagicSchoolEscapeTimer < CommonTime()) {
 		if (MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(MagicSchoolEscapeInstructor);

@@ -1,15 +1,14 @@
-// @ts-strict-ignore
 "use strict";
 var SlaveMarketBackground = "SlaveMarket";
-/** @type {null | NPCCharacter} */
-var SlaveMarketMistress = null;
-/** @type {null | NPCCharacter} */
-var SlaveMarketSlave = null;
+/** @type {NPCCharacter} */
+var SlaveMarketMistress = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var SlaveMarketSlave = /** @type {never} */ (null);
 /** @type {null | NPCCharacter} */
 var SlaveMarketSlaveToTrain = null;
 var SlaveMarketTrainingBackgroundList = ["BDSMRoomBlue", "BDSMRoomPurple", "BDSMRoomRed"];
-/** @type {null | NPCCharacter} */
-var SlaveMarketBuyer = null;
+/** @type {NPCCharacter} */
+var SlaveMarketBuyer = /** @type {never} */ (null);
 
 /**
  * Checks if an auction can be started.
@@ -33,9 +32,10 @@ function SlaveMarketCannotStartAuctionRoom() { return ((ReputationGet("Dominant"
 function SlaveMarketCanBeAuctioned() { return (!Player.IsOwned() && !PrivateOwnerInRoom() && !Player.IsRestrained() && !Player.IsChaste() && (ReputationGet("Dominant") < 0) && !LogQuery("Auctioned", "SlaveMarket") && ManagementCanTransferToRoom()); }
 /**
  * Checks if the character has a specific title
+ * @param {TitleName} Title - The title to check for
  * @returns {boolean} - TRUE if the character has the title in the parameter
  */
-function SlaveMarketSlaveTitleIs(Title) { return ((SlaveMarketSlave.Title != null) && (SlaveMarketSlave.Title == Title)); }
+function SlaveMarketSlaveTitleIs(Title) { return SlaveMarketSlave.Title === Title; }
 
 /**
  * Loads the Slave Market room, generates the Mistress and slave
@@ -118,13 +118,13 @@ function SlaveMarketNewSlave() {
 	CharacterAppearanceFullRandom(SlaveMarketSlave);
 	CharacterNaked(SlaveMarketSlave);
 	if (Math.random() >= 0.85) {
-		let Color = CommonRandomItemFromList(null, /** @type {const} */(["Default", "#222222", "#BBBBBB", "#882222"]));
-		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
+		let Color = CommonGetRandomItemFromList(/** @type {const} */(["Default", "#222222", "#BBBBBB", "#882222"]));
+		InventoryWear(SlaveMarketSlave, CommonGetRandomItemFromList(["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
 		InventoryWear(SlaveMarketSlave, "SuccubusHorns", "HairAccessory1", Color);
-		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);
-		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["BatWings", "DevilWings", "SuccubusWings"]), "Wings", Color);
+		InventoryWear(SlaveMarketSlave, CommonGetRandomItemFromList(["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);
+		InventoryWear(SlaveMarketSlave, CommonGetRandomItemFromList(["BatWings", "DevilWings", "SuccubusWings"]), "Wings", Color);
 		SlaveMarketSlave.Title = "Succubus";
-	} else SlaveMarketSlave.Title = null;
+	} else SlaveMarketSlave.Title = undefined;
 	InventoryWear(SlaveMarketSlave, "LeatherCollar", "ItemNeck");
 	InventoryWear(SlaveMarketSlave, "CollarChainLong", "ItemNeckRestraints");
 	if (CurrentCharacter != null) DialogLeave();
@@ -158,19 +158,17 @@ function SlaveMarketTrainingStart() {
 	if (Intro >= 3) InventoryWear(SlaveMarketSlaveToTrain, "SlaveCollar", "ItemNeck");
 	CharacterNaked(SlaveMarketSlaveToTrain);
 	DialogLeave();
-	EmptyBackground = CommonRandomItemFromList("", SlaveMarketTrainingBackgroundList);
+	EmptyBackground = CommonGetRandomItemFromList(SlaveMarketTrainingBackgroundList);
 	EmptyCharacterOffset = 0;
 	EmptyCharacter = [];
 	EmptyCharacter.push(Player);
 	EmptyCharacter.push(SlaveMarketSlaveToTrain);
 	CommonSetScreen("Room", "Empty").then(() => {
 		// Force rebuild the dialog after one second to make sure the functions are loaded properly for the "Empty" room
-		function delay(time) {
-			return new Promise(resolve => setTimeout(resolve, time));
-		}
-		delay(1000).then(() =>
-			CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty")
-		);
+		CommonSleep(1000).then(() => {
+			if (!SlaveMarketSlaveToTrain) return;
+			CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty");
+		});
 	});
 }
 
