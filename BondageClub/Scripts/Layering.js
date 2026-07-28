@@ -349,8 +349,7 @@ var Layering = {
 		}
 
 		// Recreate the items default state (given a provided type record) and extract its default priority
-		/** @type {Item} */
-		const item = { Asset: this.Item.Asset };
+		const item = Item.fromAsset(this.Item.Asset);
 		ExtendedItemInit(this.Character, item, false, false);
 		ExtendedItemSetOptionByRecord(this.Character, item, this.Item.Property.TypeRecord, { push: false, refresh: false });
 		return item.Property.OverridePriority;

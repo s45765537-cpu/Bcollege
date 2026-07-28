@@ -644,6 +644,10 @@ ClothLittleFormalShirtOptiont1,No
 ClothOffTheShoulderTopSelect,Choose Style:
 ClothOffTheShoulderTopRight,Right
 ClothOffTheShoulderTopLeft,Left
+ClothAccessoryDollHandleSelect,Display which handles
+ClothAccessoryDollHandleB,Both
+ClothAccessoryDollHandleS,Shoulder
+ClothAccessoryDollHandleT,Thigh
 ClothAccessoryBibModulePattern,Pattern
 ClothAccessoryBibModuleTxt,Text
 ClothAccessoryBibOptionp0,None
@@ -682,6 +686,16 @@ ClothAccessoryBunnyCollarCuffsBoth,Both
 ClothAccessoryBunnyCollarCuffsCollar,Collar Only
 ClothAccessoryBunnyCollarCuffsCuffs,Cuffs Only
 ClothAccessoryBunnyCollarCuffsSelect,Select a style.
+ClothAccessoryEpauletModuleCord,Cord
+ClothAccessoryEpauletModuleSide,Side
+ClothAccessoryEpauletOptionc0,Show
+ClothAccessoryEpauletOptionc1,Hide
+ClothAccessoryEpauletOptiont0,Both
+ClothAccessoryEpauletOptiont1,Left
+ClothAccessoryEpauletOptiont2,Right
+ClothAccessoryEpauletSelectBase,Epaulet style
+ClothAccessoryEpauletSelectCord,Show or hide the cord
+ClothAccessoryEpauletSelectSide,Show epaulet on which side
 ClothAccessoryFaceWritingsModulePosition,Position
 ClothAccessoryFaceWritingsModuleStyle,Style
 ClothAccessoryFaceWritingsModuleText,Text

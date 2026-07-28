@@ -672,7 +672,7 @@ var CraftingSlots = {
 			let button;
 			const asset = craft ? CraftingAssets[craft.Item]?.[0] : undefined;
 			if (craft && asset) {
-				const item = { Asset: asset, Craft: craft };
+				const item = Item.fromAsset(asset, { craft });
 				button = ElementButton.CreateForAsset(
 					null, item, null, null,
 					{ labelPosition: "right", },

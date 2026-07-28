@@ -1479,13 +1479,13 @@ var CommandsModsList = {
 		return ElementButton.Create(
 			`chat-room-mods-copy-${id}`,
 			function () {
-				navigator.clipboard
-					.writeText(CommandsModsList._FormatModListForCopy(mods, char))
-					.then(() => ToastManager.success(TextGet("CommandModsListCopyDone")))
-					.catch((e) => {
-						console.error("Mod list copy error:", e);
+				CommonClipboardWrite(CommandsModsList._FormatModListForCopy(mods, char), (res) => {
+					if (res.err) {
 						ToastManager.error(TextGet("CommandModsListCopyError"));
-					});
+						return;
+					}
+					ToastManager.success(TextGet("CommandModsListCopyDone"));
+				});
 			},
 			{
 				tooltip: TextGet("CommandModsListCopyTooltip"),

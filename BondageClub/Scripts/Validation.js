@@ -233,11 +233,7 @@ function ValidationResolveAddDiff(newItem, params) {
 		console.warn(`Invalid addition of ${ValidationItemWarningMessage(newItem, params)}`);
 		return { item: null, valid: false };
 	}
-	const itemWithoutProperties = {
-		Asset: newItem.Asset,
-		Difficulty: newItem.Difficulty,
-		Color: newItem.Color,
-	};
+	const itemWithoutProperties = Item.fromAsset(newItem.Asset, { color: newItem.Color, difficulty: newItem.Difficulty });
 	return ValidationResolveModifyDiff(itemWithoutProperties, newItem, params);
 }
 
@@ -702,6 +698,7 @@ function ValidationSanitizeProperties(C, item) {
 
 	// Sanitize various properties
 	changed = ValidationSanitizeEffects(C, item);
+	changed = ValidationSanitizeColor(item) || changed;
 	changed = ValidationSanitizeAllowedPropertyArray(C, item, "Block", "AllowBlock") || changed;
 	changed = ValidationSanitizeAllowedPropertyArray(C, item, "Hide", "AllowHide") || changed;
 	changed = ValidationSanitizeAllowedPropertyArray(C, item, "HideItem", "AllowHideItem") || changed;
@@ -766,6 +763,21 @@ function ValidationSanitizeProperties(C, item) {
 		}
 	}
 
+	return changed;
+}
+
+/**
+ * Sanitize the `Color` array on the item, converting the old `undefined | string | string[]` format to `string[]` if so required
+ * @param {Item} item - The item whose `Color` should be sanitized
+ * @returns {boolean} - TRUE if the item's `Color` was modified as part of the sanitization process
+ * (indicating it was not a valid string array), FALSE otherwise
+ */
+function ValidationSanitizeColor(item) {
+	const color = ServerParseColor(item.Asset, item.Color, item.Asset.Group.ColorSchema);
+	const changed = !CommonColorsEqual(color, item.Color);
+	if (changed) {
+		item.Color = color;
+	}
 	return changed;
 }
 

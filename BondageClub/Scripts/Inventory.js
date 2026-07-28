@@ -70,9 +70,8 @@ function InventoryAddMany(C, NewItems, Push) {
  *     found in the named group
  */
 function InventoryItemCreate(C, Group, Name) {
-	var NewItemAsset = AssetGet(C.AssetFamily, Group, Name);
-	if (NewItemAsset) return { Name, Group, Asset: NewItemAsset };
-	return null;
+	const item = Item.fromName(Group, Name);
+	return item ? Object.assign(item, { Group: item.Asset.Group.Name, Name: item.Asset.Name }) : null;
 }
 
 /**
@@ -812,9 +811,10 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor=null, Difficulty=null
 	if (Craft) {
 		// Restore the item color if it has been explicitly passed; keep using the `Craft.Color`-assigned color otherwise
 		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
+		const backupColor = item.Color;
 		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
 		if (ItemColor !== "Default") {
-			item.Color = color;
+			item.Color = backupColor;
 		}
 	}
 
@@ -1240,14 +1240,14 @@ function InventoryExpressionTriggerApply(C, expressions) {
 
 /**
 * Returns the padlock item that locks another item
-* @param {Item} Item - The item from appearance that must be scanned
+* @param {Item} item - The item from appearance that must be scanned
 * @returns {Item|null} - A padlock item or NULL if none
 */
-function InventoryGetLock(Item) {
-	if (!Item?.Property?.LockedBy) return null;
-	const asset = Asset.find(a => a.IsLock && a.Name === Item.Property?.LockedBy);
+function InventoryGetLock(item) {
+	if (!item?.Property?.LockedBy) return null;
+	const asset = Asset.find(a => a.IsLock && a.Name === item.Property?.LockedBy);
 	if (!asset) return null;
-	return { Asset: asset };
+	return Item.fromAsset(asset);
 }
 
 /**
@@ -1378,36 +1378,36 @@ function InventoryDoesItemAllowLock(item) {
 */
 function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Update = true) {
 	/** @type {Item | null} */
-	let Item;
+	let item;
 	/** @type {Item | null} */
 	let Lock = null;
 	if (typeof ItemOrGroupName === 'string') {
-		Item = InventoryGet(C, ItemOrGroupName);
+		item = InventoryGet(C, ItemOrGroupName);
 	} else {
-		Item = ItemOrGroupName;
+		item = ItemOrGroupName;
 	}
 	if (typeof LockOrLockType === 'string') {
 		const lock = AssetGet(C.AssetFamily, "ItemMisc", LockOrLockType);
 		if (lock) {
-			Lock = { Asset: lock };
+			Lock = Item.fromAsset(lock);
 		}
 	} else {
 		Lock = LockOrLockType;
 	}
-	if (!Item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(Item)) return;
+	if (!item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(item)) return;
 
 	// Protect against using the PortalLink lock on incompatible items
-	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(Item, "Attribute")?.includes("PortalLinkLockable"))
+	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(item, "Attribute")?.includes("PortalLinkLockable"))
 		return;
 
-	if (Item.Property == null) Item.Property = {};
-	if (Item.Property.Effect == null) Item.Property.Effect = [];
-	if (Item.Property.Effect.indexOf("Lock") < 0) Item.Property.Effect.push("Lock");
+	if (item.Property == null) item.Property = {};
+	if (item.Property.Effect == null) item.Property.Effect = [];
+	if (item.Property.Effect.indexOf("Lock") < 0) item.Property.Effect.push("Lock");
 
-	Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
+	item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
 
 	if (typeof AppliedBy === "string") {
-		Item.Property.LockMessage = AppliedBy;
+		item.Property.LockMessage = AppliedBy;
 	} else {
 		/** @type {Character | undefined} */
 		let char;
@@ -1417,19 +1417,19 @@ function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Upd
 			char = AppliedBy;
 		}
 		if (char?.IsNpc()) {
-			Item.Property.LockMemberNumber = -1;
-			Item.Property.LockMemberName = `${char.Title ? char.Title + " " : ""}${char.Name}`;
+			item.Property.LockMemberNumber = -1;
+			item.Property.LockMemberName = `${char.Title ? char.Title + " " : ""}${char.Name}`;
 		} else if (char?.IsOnline() || char?.IsPlayer()) {
-			Item.Property.LockMemberNumber = char.MemberNumber;
-			Item.Property.LockMemberName = char.Name;
+			item.Property.LockMemberNumber = char.MemberNumber;
+			item.Property.LockMemberName = char.Name;
 		}
 	}
 
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-	const args = [C, Item, false, false];
+	const args = [C, item, false, false];
 	CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
 	if (Update) {
-		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);
+		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, item.Asset.Group.Name, Lock.Asset.RemoveTimer);
 		CharacterRefresh(C, true, false);
 	}
 }
@@ -1457,16 +1457,16 @@ function InventoryUnlock(C, ItemOrGroupName, refreshDialog=true) {
 /**
 * Applies a random lock on an item
 * @param {Character} C - The character on which the item must be locked
-* @param {Item} Item - The item from appearance to lock
+* @param {Item} item - The item from appearance to lock
 * @param {Character} AppliedBy - Set to TRUE if the source is the owner, to apply owner locks
 */
-function InventoryLockRandom(C, Item, AppliedBy) {
-	if (!InventoryDoesItemAllowLock(Item)) return false;
+function InventoryLockRandom(C, item, AppliedBy) {
+	if (!InventoryDoesItemAllowLock(item)) return false;
 
 	const locks = Asset.filter(a => a.IsLock && a.Random && !a.LoverOnly && !a.FamilyOnly && (AppliedBy.IsOwner() || !a.OwnerOnly));
 	const randomLock = InventoryGetRandom(C, undefined, locks);
 	if (!randomLock) return false;
-	InventoryLock(C, Item, { Asset: randomLock }, AppliedBy);
+	InventoryLock(C, item, Item.fromAsset(randomLock), AppliedBy);
 }
 
 /**

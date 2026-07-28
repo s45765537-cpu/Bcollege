@@ -265,7 +265,7 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 				// If we found no asset, just move to next group
 				if (!SelectedAsset)
 					continue;
-				/** @type {ItemColor | undefined} */
+				/** @type {Readonly<ItemColor> | undefined} */
 				let SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
 				if ((SelectedAsset.Group.DefaultColor == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
 				if (SelectedAsset.Group.InheritColor != null) SelectedColor = "Default";
@@ -279,12 +279,8 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 						SelectedColor = eye.Color;
 					}
 				}
-				if (SelectedColor == "Default") SelectedColor = [...SelectedAsset.DefaultColor];
-				/** @type {Item} */
-				var NA = {
-					Asset: SelectedAsset,
-					Color: SelectedColor
-				};
+				if (SelectedColor == "Default") SelectedColor = SelectedAsset.DefaultColor;
+				const NA = Item.fromAsset(SelectedAsset, { color: SelectedColor });
 				C.Appearance.push(NA);
 			}
 		}
@@ -693,7 +689,7 @@ function ItemGetColor(C, itemOrGroupName) {
 	if (typeof item.Color === "string") {
 		return Array(item.Asset.ColorableLayerCount).fill(item.Color);
 	}
-	return !item.Color || CommonColorsEqual(item.Color, item.Asset.DefaultColor) ? [...item.Asset.DefaultColor] : item.Color;
+	return !item.Color || ItemColorIsDefault(item) ? [...item.Asset.DefaultColor] : item.Color;
 }
 
 /**
@@ -1246,19 +1242,12 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
 		return null;
 	}
 
-	if (prevItem) {
-		NewColor ??= !prevItem.item.Color || prevItem.item.Color === "Default" ? [...ItemAsset.DefaultColor] : prevItem.item.Color;
-	} else {
-		NewColor ??= [...ItemAsset.DefaultColor];
+	if (prevItem && !ItemColorIsDefault(prevItem.item)) {
+		NewColor ??= prevItem.item.Color;
 	}
 
 	// Add the new item to the character appearance
-	/** @type {Item} */
-	const NA = {
-		Asset: ItemAsset,
-		Difficulty: ItemAsset.Difficulty + DifficultyFactor,
-		Color: NewColor,
-	};
+	const NA = Item.fromAsset(ItemAsset, { color: NewColor ?? undefined, difficulty: ItemAsset.Difficulty + DifficultyFactor });
 	ExtendedItemInit(C, NA, false, false);
 	C.Appearance.push(NA);
 	return NA;
@@ -1313,21 +1302,24 @@ function CharacterAppearanceNextColor(C, Group) {
 	const item = InventoryGet(C, Group);
 	if (!item) return;
 
-	let Color = item.Color;
+	const Color = item.Color;
 	const G = item.Asset.Group;
 
 	// Finds the next color
 	let Pos = 0;
-	if (typeof Color === "string") {
-		Pos = CommonClamp(G.ColorSchema.indexOf(Color) + 1, 0, G.ColorSchema.length);
+	if (ItemColorIsDefault(item)) {
+		Pos = CommonClamp(1, 0, G.ColorSchema.length);
+	} else if (Color.every(c => c === Color[0])) {
+		Pos = CommonClamp(G.ColorSchema.indexOf(Color[0]) + 1, 0, G.ColorSchema.length);
 	}
-	Color = G.ColorSchema[Pos];
+	const newColor = G.ColorSchema[Pos];
 
 	// Sets the color
-	if (Color == "Default") {
-		Color = [...item.Asset.DefaultColor];
+	if (newColor == "Default") {
+		item.Color = [...item.Asset.DefaultColor];
+	} else {
+		item.Color = Array(item.Asset.ColorableLayerCount).fill(newColor);
 	}
-	item.Color = Color;
 
 	// Reloads the character canvas
 	CharacterLoadCanvas(C);
@@ -1355,10 +1347,11 @@ function CharacterAppearanceMoveGroup(C, Move) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceSetColorForGroup(C, Color, Group) {
-	for (let A = 0; A < C.Appearance.length; A++)
-		if (C.Appearance[A].Asset.Group.Name == Group)
-			C.Appearance[A].Color = Color;
-	CharacterLoadCanvas(C);
+	const item = InventoryGet(C, Group);
+	if (item) {
+		item.Color = Array(item.Asset.ColorableLayerCount).fill(Color);
+		CharacterLoadCanvas(C);
+	}
 }
 
 
@@ -1654,11 +1647,11 @@ function AppearanceMenuClick(C) {
 					if (Button === "Character")  AppearanceUseCharacterInPreviewsSetting = !AppearanceUseCharacterInPreviewsSetting;
 					if (Button === "Copy") CharacterAppearanceCopyToClipboard(C);
 					if (Button === "Paste") {
-						try {
-							navigator.clipboard.readText().then(ClipData => CharacterAppearancePaste(C, ClipData, false));
-						} catch (err) {
-							console.error('Failed to read clipboard contents:', err);
-						}
+						CommonClipboardRead((res) => {
+							if (res.ok && res.value) {
+								CharacterAppearancePaste(C, res.value, false);
+							}
+						});
 					}
 					if (Button === "Prev") CharacterAppearanceMoveGroup(C, -1);
 					if (Button === "Next") CharacterAppearanceMoveGroup(C, 1);
@@ -2117,18 +2110,14 @@ function CharacterAppearanceCopyToClipboard(C) {
 	let App = [];
 	for (let A of C.Appearance)
 		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance") && A.Asset.Group.AllowCustomize) {
-			/** @type {{ A: string, G: AssetGroupName, C?: ItemColor }} */
-			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name, C: undefined };
-			if (Array.isArray(A.Color)) Obj.C = CommonCloneDeep(A.Color);
-			if (typeof A.Color == "string" && A.Color && A.Color.toLowerCase() != "default") Obj.C = A.Color;
-			App.push(Obj);
+			App.push({ A: A.Asset.Name, G: A.Asset.Group.Name, C: A.Color });
 		}
 
 	// Stringify and compress the clothing data in a string
 	if (App.length == 0) return;
 	let S = JSON.stringify(App);
 	S = LZString.compressToBase64(S);
-	navigator.clipboard.writeText(S);
+	CommonClipboardWrite(S);
 	ChatRoomSendLocal(InterfaceTextGet("AppCopyDone"));
 
 }

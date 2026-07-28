@@ -526,9 +526,8 @@ var PropertyLayerOrigin = {
 	 */
 	getOriginal: function getOriginal(item, fieldName) {
 		if (item.Asset.Extended && item.Property.TypeRecord) {
-			/** @type {Item} */
-			const itemOriginal = { Asset: item.Asset, Property: {} };
-			ExtendedItemSetOptionByRecord(Player, itemOriginal, { ...item.Property.TypeRecord }, { refresh: false });
+			const itemOriginal = Item.fromAsset(item.Asset);
+			ExtendedItemSetOptionByRecord(Player, itemOriginal, { ...item.Property?.TypeRecord }, { refresh: false });
 			return PropertyLayerOrigin.resolveItem(itemOriginal, fieldName);
 		} else {
 			return PropertyLayerOrigin.resolveItem(item, fieldName);

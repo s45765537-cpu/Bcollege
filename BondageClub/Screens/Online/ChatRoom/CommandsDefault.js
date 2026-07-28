@@ -749,16 +749,17 @@ const CommonCommands = [
 	},
 	{
 		Tag: "apppaste",
-		Action: async (_, msg) => {
+		Action: (_, msg) => {
 			let CompApp = msg.substring("/apppaste".length).trim();
-			if (!CompApp.length) {
-				try {
-					CompApp = await navigator.clipboard.readText();
-				} catch (err) {
-					console.error('Failed to read clipboard contents:', err);
-				}
+			if (CompApp.length) {
+				CharacterAppearancePaste(Player, CompApp, true);
+				return;
 			}
-			CharacterAppearancePaste(Player, CompApp, true);
+			CommonClipboardRead((res) => {
+				if (res.ok) {
+					CharacterAppearancePaste(Player, res.value, true);
+				}
+			});
 		},
 	},
 	{
@@ -767,16 +768,17 @@ const CommonCommands = [
 	},
 	{
 		Tag: "mappaste",
-		Action: async (_, msg) => {
+		Action: (_, msg) => {
 			let MapData = msg.substring("/mappaste".length).trim();
-			if (!MapData.length) {
-				try {
-					MapData = await navigator.clipboard.readText();
-				} catch (err) {
-					console.error('Failed to read clipboard contents:', err);
-				}
+			if (MapData.length) {
+				ChatRoomMapViewPaste(MapData);
+				return;
 			}
-			ChatRoomMapViewPaste(MapData);
+			CommonClipboardRead((res) => {
+				if (res.ok) {
+					ChatRoomMapViewPaste(res.value);
+				}
+			});
 		},
 	},
 	{

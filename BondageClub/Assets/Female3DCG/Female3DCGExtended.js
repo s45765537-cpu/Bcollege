@@ -2376,6 +2376,19 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "None" }, { Name: "Choker" }],
 		}, //RuffledCollar
+		DollHandle: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "B" }, { Name: "S" }, { Name: "T" }],
+		}, // DollHandle
+		Epaulet: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{ Name: "Cord", Key: "c", Options: [{}, {}] },
+				{ Name: "Side", Key: "t", Options: [{}, {}, {}] },
+			],
+		}, // Epaulet
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {

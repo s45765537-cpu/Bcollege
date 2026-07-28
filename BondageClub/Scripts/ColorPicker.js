@@ -509,7 +509,7 @@ var ColorPicker = {
 				color += Math.round(opacity * 255).toString(16).padStart(2, "0");
 			}
 
-			navigator.clipboard.writeText(color);
+			CommonClipboardWrite(color);
 
 			/** @type {Element} */
 			let colorTextElem;
@@ -538,18 +538,15 @@ var ColorPicker = {
 				return;
 			}
 
-			/** @type {Promise<string>} */
-			let promise;
-			try {
-				promise = navigator.clipboard.readText();
-			} catch (error) {
-				ElementDOMScreen.setStatus(root, ItemColorText.get("PasteFailBrowser"));
-				console.error("Browser does not support color pasting", error);
-				return;
-			}
+			CommonClipboardRead((res) => {
+				if (!res.ok) {
+					ElementDOMScreen.setStatus(root, ItemColorText.get("PasteFailBrowser"));
+					return;
+				}
+				const color = res.value;
+				if (!color) return;
 
-			const colorSchema = ItemColorItem?.Asset.Group.ColorSchema ?? [];
-			promise.then((color) => {
+				const colorSchema = ItemColorItem?.Asset.Group.ColorSchema ?? [];
 				/** @type {Element} */
 				let colorTextElem;
 				let statusKey = "";

@@ -1448,7 +1448,7 @@ interface ClipboardItemBundle {
 	/** The item's asset name */
 	A: string;
 	/** The item's color */
-	C?: ItemColor;
+	C: BCColor[];
 }
 
 type ClipboardAppearanceBundle = ClipboardItemBundle[];
@@ -1519,13 +1519,17 @@ interface ItemActivity {
 
 type ItemColor = BCColor | BCColor[];
 
-/** An item is a pair of asset and its dynamic properties that define a worn asset. */
+/**
+ * An item is a pair of asset and its dynamic properties that define a worn asset.
+ *
+ * See the {@link InventoryItem} namespace for item construction helpers.
+ */
 interface Item {
 	Asset: Asset;
-	Color?: ItemColor;
-	Difficulty?: number;
+	Color: BCColor[];
+	Difficulty: number;
 	Craft?: CraftingItem;
-	Property?: ItemProperties;
+	Property: ItemProperties;
 }
 
 /** An item properties subtype with a guaranteed opacity field. */
@@ -1561,9 +1565,8 @@ interface InventoryBundle {
 	Group: AssetGroupName;
 	Name: string
 }
-interface InventoryItem extends InventoryBundle {
-	Asset: Asset;
-}
+
+type InventoryItem = InventoryBundle & Item;
 
 declare namespace InventoryPrerequisiteConflicts {
 	type ErrMessage = "" | "CannotBeUsedOverGag" | "MustBeUsedOverGag";
@@ -5251,3 +5254,13 @@ interface LayeringDisplay extends Rect {
 }
 
 // #endregion
+
+declare namespace Item {
+	interface Options {
+		/** The color of the item */
+		color?: Readonly<ItemColor>;
+		difficulty?: number;
+		craft?: Readonly<CraftingItem>;
+		property?: Readonly<ItemProperties>;
+	}
+}

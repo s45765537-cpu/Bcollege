@@ -110,6 +110,15 @@ ClothAccessoryCapeFront,Front
 ClothAccessoryComboBeltBelt,Belt
 ClothAccessoryComboBeltDetail,Metal details
 ClothAccessoryComboBeltChain,Chain details
+ClothAccessoryDollHandles_base,Shoulder Handles
+ClothAccessoryDollHandles_hlight,Shoulder Highlights
+ClothAccessoryDollHandlet_base,Thigh Handles
+ClothAccessoryDollHandlet_hlight,Thigh Highlights
+ClothAccessoryEpauletCord,Cord
+ClothAccessoryEpauletFringe_Right,Right Fringe
+ClothAccessoryEpauletFringe_Left,Left Fringe
+ClothAccessoryEpauletShoulder_Right,Right Shoulder
+ClothAccessoryEpauletShoulder_Left,Left Shoulder
 ClothAccessoryGlitterFreckles,Color One
 ClothAccessoryGlitterFreckles2,Color Two
 ClothAccessoryLargeBeltMain,Belt
@@ -1347,6 +1356,8 @@ HatCrown2Crown,Crown
 HatCrown2Jewels,Jewels
 HatCrown3Crown,Crown
 HatCrown3Jewels,Jewels
+HatFeatheredHeadpieceLeft,Left
+HatFeatheredHeadpieceRight,Right
 HatFlatCapMain,Hat
 HatFlatCapStripes,Hat stripes
 HatFlowerCrownMainFlowers,Main Flowers
@@ -3555,6 +3566,10 @@ MaskFestivalFoxMaskBase,Base
 MaskFestivalFoxMaskEyeLeft,Left Eye
 MaskFestivalFoxMaskEyeRight,Right Eye
 MaskFestivalFoxMaskMarkings,Markings
+MaskForeheadJewelryMainGem,Main Gem
+MaskForeheadJewelryMetal,Metal
+MaskForeheadJewelryPearl,Pearl
+MaskForeheadJewelrySmallGem,Small Gems
 MaskFoxMaskLower,Lower
 MaskFoxMaskUpper,Upper
 MaskGlitterFreckles,Color One

@@ -55,16 +55,16 @@ function ItemModuleVoiceCommandDetect(msg, TriggerValues) {
  * from the last time the chat log was processed.
  *
  * @param {Character} C
- * @param {Item} Item
+ * @param {Item} item
  * @param {number} LastTime
  * @param {readonly VoiceTriggerType[]} VoiceTriggers
  * @param {readonly string[]} TriggerValues
  * @returns {VoiceTriggerType[]}
  */
-function ItemModuleVoiceCommandHandle(C, Item, LastTime, VoiceTriggers, TriggerValues) {
+function ItemModuleVoiceCommandHandle(C, item, LastTime, VoiceTriggers, TriggerValues) {
 	/** @type {VoiceTriggerType[]} */
 	const triggers = [];
-	if (!Item) return triggers;
+	if (!item) return triggers;
 
 	// Search from latest message backwards, allowing early exit
 	for (let CH = ChatRoomChatLog.length - 1; CH >= 0; CH--) {
@@ -76,8 +76,8 @@ function ItemModuleVoiceCommandHandle(C, Item, LastTime, VoiceTriggers, TriggerV
 		// Skip messages from unauthorized users
 		const sender = ChatRoomCharacter.find(c => c.MemberNumber === logEntry.SenderMemberNumber);
 		if (!sender || !ServerChatRoomGetAllowItem(sender, C)) continue;
-		if (Item.Property?.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
-		if (Item.Property?.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
+		if (item.Property?.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
+		if (item.Property?.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== item.Property.LockMemberNumber) continue;
 
 		let msg = ItemModuleVoiceCommandDetect(logEntry.Chat.toUpperCase(), TriggerValues);
 
@@ -92,16 +92,16 @@ function ItemModuleVoiceCommandHandle(C, Item, LastTime, VoiceTriggers, TriggerV
 
 
 /**
- * @param {Item} Item
+ * @param {Item} item
  * @param {Character} C
  * @param {number} shockCooldown
  * @param {AssetGroupItemName[]} tamperZones
  */
-function ItemModulePunishCheck(C, Item, shockCooldown, tamperZones) {
-	const { PunishOrgasm, PunishStruggle, PunishStruggleOther, PunishStandup, NextShockTime = 0} = Item.Property ??= {};
+function ItemModulePunishCheck(C, item, shockCooldown, tamperZones) {
+	const { PunishOrgasm, PunishStruggle, PunishStruggleOther, PunishStandup, NextShockTime = 0} = item.Property ??= {};
 	if ((CommonTime() > NextShockTime) && PunishOrgasm && C.ArousalSettings && C.ArousalSettings.OrgasmStage > 1) {
 		// Punish the player if they orgasm
-		Item.Property.NextShockTime = CurrentTime + shockCooldown;
+		item.Property.NextShockTime = CurrentTime + shockCooldown;
 		return "Orgasm";
 	} else if (PunishStruggleOther && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
 		// Punish the player if they Struggle with any item
@@ -115,3 +115,41 @@ function ItemModulePunishCheck(C, Item, shockCooldown, tamperZones) {
 	}
 	return null;
 }
+
+/**
+ * Namespace for constructing {@link Item} objects.
+*/
+var Item = {
+	/**
+	 * Construct an item from the passed asset
+	 * @param {Asset} asset The asset in question
+	 * @param {null | Item.Options} options Further options
+	 * @returns {Item} The new item
+	 */
+	fromAsset: function fromAsset(asset, options=null) {
+		options ??= {};
+		return {
+			Asset: asset,
+			Color: options.color ? ServerParseColor(asset, options.color, asset.Group.ColorSchema) : [...asset.DefaultColor],
+			Difficulty: options.difficulty ?? 0,
+			Property: options.property ? CommonCloneDeep(options.property) : {},
+			Craft: options.craft ? CommonCloneDeep(options.craft) : undefined,
+		};
+	},
+
+	/**
+	 * Construct an item from the passed group- and asset names
+	 * @param {AssetGroupName} groupName The asset's group name
+	 * @param {string} assetName The asset's name
+	 * @param {null | Item.Options} options Further options
+	 * @returns {null | Item} The new item or `null` if no matching asset can be found
+	 */
+	fromName: function fromName(groupName, assetName, options=null) {
+		const asset = AssetGet("Female3DCG", groupName, assetName);
+		if (!asset) {
+			return null;
+		} else {
+			return Item.fromAsset(asset, options);
+		}
+	},
+};

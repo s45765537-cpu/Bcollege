@@ -1,0 +1,128 @@
+"use strict";
+const Game = require("./game");
+
+/** @satisfies {ColorAssetMock} */
+const asset = {
+	Name: "Foo",
+	get ColorableLayerCount() { return this.DefaultColor.length; },
+	DefaultColor: ["Default", "Default"],
+	Group: {
+		Name: "ItemArms",
+	},
+};
+
+describe("ServerBundledItemFromAppearanceItem", () => {
+	it("non-default difficulty", () => {
+		const item = {
+			Asset: asset,
+			Difficulty: 5,
+			Color: ["Default", "Default"],
+			Property: {},
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+			Difficulty: 5,
+		});
+	});
+
+	it("non-default property", () => {
+		const item = {
+			Asset: asset,
+			Color: ["Default", "Default"],
+			Property: { Difficulty: 5 },
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+			Property: { Difficulty: 5 },
+		});
+	});
+
+	it("non-default craft", () => {
+		const item = {
+			Asset: asset,
+			Difficulty: 0,
+			Color: ["Default", "Default"],
+			Property: {},
+			Craft: {
+				Name: "Bob",
+				Description: "I am a description",
+				Effects: {},
+				Color: "Default",
+				Lock: "",
+				Item: "Foo",
+				Private: false,
+				ItemProperty: { Difficulty: 5 },
+			},
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+			Craft: {
+				Name: "Bob",
+				Description: "I am a description",
+				Effects: {},
+				Color: "Default",
+				Lock: "",
+				Item: "Foo",
+				Private: false,
+				ItemProperty: { Difficulty: 5 },
+			},
+		});
+	});
+
+	it("non-default color: array-based", () => {
+		const item = {
+			Asset: asset,
+			Difficulty: 0,
+			Color: ["#001122", "Default"],
+			Property: {},
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+			Color: ["#001122", "Default"],
+		});
+	});
+
+	it("non-default color: string-based (backwards compatibility)", () => {
+		const item = {
+			Asset: asset,
+			Difficulty: 0,
+			Color: "#001122",
+			Property: {},
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+			Color: "#001122",
+		});
+	});
+
+	it("default color: string-based (backwards compatibility)", () => {
+		const item = {
+			Asset: asset,
+			Difficulty: 0,
+			Color: "Default",
+			Property: {},
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+		});
+	});
+
+	it("default color: undefined (backwards compatibility)", () => {
+		const item = {
+			Asset: asset,
+			Difficulty: 0,
+			Color: undefined,
+			Property: {},
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+		});
+	});
+});

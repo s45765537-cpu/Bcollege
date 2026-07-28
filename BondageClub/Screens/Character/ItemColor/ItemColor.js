@@ -576,7 +576,6 @@ function ItemColorNextColor(colorGroup) {
 	const nextIndex = (schema.indexOf(colorTextKey === defaultColorTextKey ? "Default" : colorTextKey) + 1) % schema.length;
 	const nextColor = schema[nextIndex];
 	for (const i of colorIndicesToSet) {
-		// @ts-ignore Strict-TS: trust me bro
 		ItemColorItem.Color[i] = nextColor === "Default" ? ItemColorState.defaultColors[i] : nextColor;
 		ItemColorState.colors[i] = nextColor === "Default" ? ItemColorState.defaultColors[i] : nextColor;
 	}
@@ -854,12 +853,14 @@ function ItemColorReset() {
  * @returns {boolean} - Whether the item has default color(s)
  */
 function ItemColorIsDefault(Item) {
-	const Color = Item.Color;
-	const AssetDefault = Item.Asset.DefaultColor;
-	if (typeof Color === "string") {
-		return (Color === "Default" || (AssetDefault.length === 1 && Color === AssetDefault[0]));
-	} else if (Array.isArray(Color)) {
-		return Color.slice(0, AssetDefault.length).every((c, i) => c === "Default" || c === AssetDefault[i]);
+	/** @type {readonly BCColor[]} */
+	let colorArray;
+	if (typeof Item.Color === "string") {
+		colorArray = Array(Item.Asset.ColorableLayerCount).fill(Item.Color);
+	} else if (CommonIsArray(Item.Color)) {
+		colorArray = Item.Color;
+	} else {
+		return Item.Color == null;
 	}
-	return true;
+	return Item.Asset.DefaultColor.every((defaultColor, i) => defaultColor === colorArray[i]);
 }

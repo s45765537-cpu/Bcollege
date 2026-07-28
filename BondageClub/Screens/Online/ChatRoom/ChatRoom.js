@@ -5091,6 +5091,8 @@ async function ChatRoomSync(data) {
 	ChatRoomMapViewInitializeCharacter(Player);
 
 	// Loads the room
+	// Even though ServerPlayerIsInChatRoom handles ChatAdmin, we have to force it here
+	// as we've just set ChatRoomData above.
 	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
 		await CommonSetScreen("Online", "ChatRoom");
 	}

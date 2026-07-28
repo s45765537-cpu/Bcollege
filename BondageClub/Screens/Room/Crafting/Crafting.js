@@ -751,8 +751,13 @@ var CraftingEventListeners = {
 			return;
 		}
 		const craft = CraftingConvertSelectedToItem(CraftingSelectedItem);
-		navigator.clipboard.writeText(LZString.compressToBase64(JSON.stringify(craft)));
-		alert(TextGet("DownloadSuccess"));
+		CommonClipboardWrite(LZString.compressToBase64(JSON.stringify(craft)), (res) => {
+			if (res.ok) {
+				ToastManager.success("DownloadSuccess");
+			} else {
+				ToastManager.error("DownloadFailed");
+			}
+		});
 	},
 
 	/**
@@ -934,7 +939,7 @@ var CraftingEventListeners = {
 		]);
 		extendedButton.disabled = !asset.Extended;
 		tightenButton.disabled = !asset.AllowTighten;
-		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, { Asset: asset });
+		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, Item.fromAsset(asset));
 		layeringButton.disabled = false;
 		priorityInput.disabled = false;
 

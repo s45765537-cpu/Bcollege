@@ -359,9 +359,13 @@ function ChatAdminClick() {
 		ChatAdminMessage = "UploadSuccess";
 	} else if (MouseIn(1174, 160, 48, 48)) { // Download (Export)
 		const code = LZString.compressToBase64(JSON.stringify(ChatEditorGetAdminSettings()));
-		navigator.clipboard.writeText(code)
-			.then(() => ChatAdminMessage = "DownloadSuccess")
-			.catch(() => ChatAdminMessage = "DownloadFailed");
+		CommonClipboardWrite(code, (res) => {
+			if (res.ok) {
+				ChatAdminMessage = "DownloadSuccess";
+			} else {
+				ChatAdminMessage = "DownloadFailed";
+			}
+		});
 		return;
 	}
 
@@ -678,6 +682,7 @@ function ChatEditorCreateRoom() {
 	}
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatAdminMessage = "CreatingRoom";
+	// ChatRoomSync is in charge of switching the screen to ChatRoom
 }
 
 /**
