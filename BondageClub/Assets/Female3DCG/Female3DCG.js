@@ -19745,6 +19745,23 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "FeatheredHeadpiece",
+				Random: false,
+				InventoryID: 1379,
+				Value: 12,
+				Left: 150,
+				Top: 60,
+				ParentGroup: {},
+				PoseMapping: {},
+				DynamicGroupName: "Hat",
+				Layer: [{ Name: "Right" }, { Name: "Left" }],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "羽翼头饰",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -25005,7 +25022,6 @@ var AssetFemale3DCG = [
 				PoseMapping: {},
 				Priority: 53,
 				DefaultColor: ["#966C2D", "#368DBF", "#368DBF", "Default"],
-				DynamicGroupName: "Mask",
 				Layer: [
 					{ Name: "Metal" },
 					{ Name: "SmallGem" },
@@ -25017,6 +25033,15 @@ var AssetFemale3DCG = [
 					OriginalName: "眉心坠",
 					License: "CC BY-SA-NC 4.0",
 				},
+			},
+			{
+				Name: "FeatheredHeadpiece",
+				CopyConfig: {
+					GroupName: "Hat",
+					AssetName: "FeatheredHeadpiece",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "Hat",
 			},
 		],
 		Color: [
