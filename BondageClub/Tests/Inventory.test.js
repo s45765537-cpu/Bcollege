@@ -1,6 +1,8 @@
 "use strict";
 const Game = require("./game");
 
+Game.loadAll();
+
 /** @satisfies {ColorAssetMock} */
 const asset = {
 	Name: "Foo",

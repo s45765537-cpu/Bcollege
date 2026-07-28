@@ -1,6 +1,12 @@
 "use strict";
 const Game = require("./game");
 
+Game.load("../Scripts/Common.js");
+Game.load("../Scripts/Drawing.js");
+Game.load("../Scripts/Server.js");
+
+Game.load("../Scripts/Validation.js");
+
 /** @satisfies {ColorAssetMock} */
 const partialAsset = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },

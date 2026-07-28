@@ -68,7 +68,8 @@ function resolvePath(parentFile, relativePath) {
 
 /** @type {(file: string) => void} */
 function load(file) {
-	const contents = fs.readFileSync(file, { encoding: "utf8" });
+	const realFile = path.resolve(__dirname, file);
+	const contents = fs.readFileSync(realFile, { encoding: "utf8" });
 	for (const key in global) {
 		if (
 			Object.prototype.hasOwnProperty.call(global, key) &&
@@ -107,9 +108,13 @@ function createCharacter(name, opts=null) {
 	Game.PreferenceInit(char);
 	return char;
 }
+
 Game.load = load;
-Game.load("index.html");
-Game.AssetLoadAll();
+
+Game.loadAll = function() {
+	this.load("../index.html");
+	Game.AssetLoadAll();
+};
 
 Game.createCharacter = createCharacter;
 

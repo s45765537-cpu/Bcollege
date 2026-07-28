@@ -1,6 +1,13 @@
 "use strict";
 const Game = require("./game");
 
+Game.load("../Scripts/Common.js");
+
+Game.load("../Scripts/Drawing.js"); // DrawingResizeMode
+Game.load("../Scripts/Server.js"); // ServerAccountEmailRegex
+
+Game.PreferenceCensoredWordsList = [];
+
 describe("CommonIsNumeric", () => {
 	it("should return true for string of digits", () => {
 		expect(Game.CommonIsNumeric("123")).toBe(true);

@@ -33,7 +33,7 @@ function LogAdd(Name, Group, Value, Push=true) {
 	if (typeof Name !== "string" || typeof Group !== "string") return;
 
 	if (typeof Value === "string") {
-		Value = CommonParseInt(Value, 10) ?? undefined;
+		Value = CommonParseInt(Value, 10) ?? Value;
 	} else if (typeof Value === "number") {
 		// Numbers are fine
 	} else if (Array.isArray(Value)) {

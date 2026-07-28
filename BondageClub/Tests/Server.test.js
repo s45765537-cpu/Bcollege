@@ -1,6 +1,14 @@
 "use strict";
 const Game = require("./game");
 
+Game.load("../Scripts/Common.js");
+Game.load("../Scripts/Drawing.js");
+Game.load("../Scripts/Server.js");
+
+Game.load("../Scripts/Translation.js");
+Game.load("../Scripts/Text.js");
+Game.load("../Screens/Character/ItemColor/ItemColor.js");
+
 /** @satisfies {ColorAssetMock} */
 const asset = {
 	Name: "Foo",
