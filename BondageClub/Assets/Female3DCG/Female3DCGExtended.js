@@ -1751,42 +1751,42 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // Animal Noses
 		FaceCrests: {
-            Archetype: ExtendedArchetype.MODULAR,
-            ChatSetting: ModularItemChatSetting.PER_MODULE,
-            DrawImages: true,
-            Modules: [
-                {
-                    Name: "Outer",
-                    Key: "o",
-                    Options: [{}, {}, {}, {}, {}, {}, {}], // none, carved, fins, boomerang, headpiece, circuits, dots
-                },
-                {
-                    Name: "Middle",
-                    Key: "m",
-                    Options: [{}, {}, {}, {}, {}, {}, {}], // none, pincers, open heart, jaws, crown, fangs, aquatic
-                },
-                {
-                    Name: "Center",
-                    Key: "c",
-                    Options: [{}, {}, {}, {}, {}, {}, {}, {}], // none, chevron, arrow, dots, diamond, oval, open heart, closed heart
-                },
-                {
-                    Name: "Special",
-                    Key: "s",
-                    Options: [{}, {}, {}, {}], // none, waves, wings, shell
-                },
-                {
-                    Name: "Glow",
-                    Key: "g",
-                    Options: [{}, {}], // off, on
-                },
-                {
-                    Name: "Holo",
-                    Key: "h",
-                    Options: [{}, {}], // off, on
-                },
-            ],
-        },// Face Crests		
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: true,
+			Modules: [
+				{
+					Name: "Outer",
+					Key: "o",
+					Options: [{}, {}, {}, {}, {}, {}, {}], // none, carved, fins, boomerang, headpiece, circuits, dots
+				},
+				{
+					Name: "Middle",
+					Key: "m",
+					Options: [{}, {}, {}, {}, {}, {}, {}], // none, pincers, open heart, jaws, crown, fangs, aquatic
+				},
+				{
+					Name: "Center",
+					Key: "c",
+					Options: [{}, {}, {}, {}, {}, {}, {}, {}], // none, chevron, arrow, dots, diamond, oval, open heart, closed heart
+				},
+				{
+					Name: "Special",
+					Key: "s",
+					Options: [{}, {}, {}, {}], // none, waves, wings, shell
+				},
+				{
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}], // off, on
+				},
+				{
+					Name: "Holo",
+					Key: "h",
+					Options: [{}, {}], // off, on
+				},
+			],
+		}, // Face Crests
 	},
 	HairFront: {
 		HairFront60: {
@@ -10647,9 +10647,7 @@ var AssetFemale3DCGExtended = {
 		AnkletA: {
 			Archetype: "modular",
 			DrawImages: false,
-			Modules: [
-				{ Name: "Style", Key: "s", Options: [{}, {}] },
-			],
+			Modules: [{ Name: "Style", Key: "s", Options: [{}, {}] }],
 		}, // AnkletA
 	}, // Jewelry
 	Eyebrows: {

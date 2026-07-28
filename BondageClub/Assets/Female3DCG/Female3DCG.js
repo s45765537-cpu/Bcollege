@@ -27516,7 +27516,7 @@ var AssetFemale3DCG = [
 					AssetName: "FaceCrests",
 					BuyGroup: true,
 				},
-			},	
+			},
 		],
 		Color: [
 			"Default",
@@ -27620,480 +27620,480 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
-                Name: "FaceCrests",
-                Value: 1,
-                Priority: 45,
+				Name: "FaceCrests",
+				Value: 1,
+				Priority: 45,
 				Left: 195,
 				Top: 85,
-                BuyGroup: "FaceCrests",
-                Category: ["SciFi"],
-                DefaultColor: ["#00F4FD", "#00F4FD", "#00F4FD", "#00F4FD",],
-                Extended: true,
-                Layer: [
-                    // Outer (Base, Glow, Holo, GlowHolo)
-                    // Carved
-                    {
-                        Name: "OCarved",
-                        AllowTypes: { o: 1, h: 0 },
-                    },
-                   {
-                        Name: "OCarvedGlow",
-                        AllowTypes: { o: 1, g: 1, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },                    
-                    {
-                        Name: "OCarvedHolo",
-                        AllowTypes: { o: 1, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                   {
-                        Name: "OCarvedGlowHolo",
-                        AllowTypes: { o: 1, g: 1, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    // Fins
-                    {
-                        Name: "OFins",
-                        AllowTypes: { o: 2, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OFinsGlow",
-                        AllowTypes: { o: 2, g: 1, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },                    
-                    {
-                        Name: "OFinsHolo",
-                        AllowTypes: { o: 2, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OFinsGlowHolo",
-                        AllowTypes: { o: 2, g: 1, h: 1},
-                        CopyLayerColor: "OCarved",
-                    },
-                    // Boomerang
-                    {
-                        Name: "OBoomerang",
-                        AllowTypes: { o: 3, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OBoomerangGlow",
-                        AllowTypes: { o: 3, g: 1, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },                    
-                    {
-                        Name: "OBoomerangHolo",
-                        AllowTypes: { o: 3, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OBoomerangGlowHolo",
-                        AllowTypes: { o: 3, g: 1, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    // Headpiece
-                    {
-                        Name: "OHeadpiece",
-                        AllowTypes: { o: 4, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OHeadpieceGlow",
-                        AllowTypes: { o: 4, g: 1, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },                    
-                    {
-                        Name: "OHeadpieceHolo",
-                        AllowTypes: { o: 4, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OHeadpieceGlowHolo",
-                        AllowTypes: { o: 4, g: 1, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    // Circuits
-                    {
-                        Name: "OCircuits",
-                        AllowTypes: { o: 5, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OCircuitsGlow",
-                        AllowTypes: { o: 5, g: 1, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },                    
-                    {
-                        Name: "OCircuitsHolo",
-                        AllowTypes: { o: 5, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "OCircuitsGlowHolo",
-                        AllowTypes: { o: 5, g: 1, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    // Dots (Outer)
-                    {
-                        Name: "ODots",
-                        AllowTypes: { o: 6, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "ODotsGlow",
-                        AllowTypes: { o: 6, g: 1, h: 0 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "ODotsHolo",
-                        AllowTypes: { o: 6, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },
-                    {
-                        Name: "ODotsGlowHolo",
-                        AllowTypes: { o: 6, g: 1, h: 1 },
-                        CopyLayerColor: "OCarved",
-                    },                    
-                    // Middle (Base, Glow, Holo, GlowHolo)
-                    // Pincers
-                    {
-                        Name: "MPincers",
-                        AllowTypes: { m: 1, h: 0 },
-                    },
-                    {
-                        Name: "MPincersGlow",
-                        AllowTypes: { m: 1, g: 1, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    {
-                        Name: "MPincersHolo",
-                        AllowTypes: { m: 1, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MPincersGlowHolo",
-                        AllowTypes: { m: 1, g: 1, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    // Open Heart                    
-                    {
-                        Name: "MOpenheart",
-                        AllowTypes: { m: 2, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MOpenheartGlow",
-                        AllowTypes: { m: 2, g: 1, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    {
-                        Name: "MOpenheartHolo",
-                        AllowTypes: { m: 2, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MOpenheartGlowHolo",
-                        AllowTypes: { m: 2, g: 1, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    // Jaws
-                    {
-                        Name: "MJaws",
-                        AllowTypes: { m: 3, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MJawsGlow",
-                        AllowTypes: { m: 3, g: 1, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    {
-                        Name: "MJawsHolo",
-                        AllowTypes: { m: 3, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MJawsGlowHolo",
-                        AllowTypes: { m: 3, g: 1, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    // Crown
-                    {
-                        Name: "MCrown",
-                        AllowTypes: { m: 4, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MCrownGlow",
-                        AllowTypes: { m: 4, g: 1, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    {
-                        Name: "MCrownHolo",
-                        AllowTypes: { m: 4, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MCrownGlowHolo",
-                        AllowTypes: { m: 4, g: 1, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    // Fangs
-                    {
-                        Name: "MFangs",
-                        AllowTypes: { m: 5, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MFangsGlow",
-                        AllowTypes: { m: 5, g: 1, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    {
-                        Name: "MFangsHolo",
-                        AllowTypes: { m: 5, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MFangsGlowHolo",
-                        AllowTypes: { m: 5, g: 1, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    // Aquatic
-                    {
-                        Name: "MAquatic",
-                        AllowTypes: { m: 6, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MAquaticGlow",
-                        AllowTypes: { m: 6, g: 1, h: 0 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    {
-                        Name: "MAquaticHolo",
-                        AllowTypes: { m: 6, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },
-                    {
-                        Name: "MAquaticGlowHolo",
-                        AllowTypes: { m: 6, g: 1, h: 1 },
-                        CopyLayerColor: "MPincers",
-                    },                    
-                    // Center (Base, Glow, Holo, GlowHolo)
-                    // Chevron
-                    {
-                        Name: "CChevron",
-                        AllowTypes: { c: 1, h: 0 },
-                    },
-                    {
-                        Name: "CChevronGlow",
-                        AllowTypes: { c: 1, g: 1, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    {
-                        Name: "CChevronHolo",
-                        AllowTypes: { c: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CChevronGlowHolo",
-                        AllowTypes: { c: 1, g: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    // Arrow
-                    {
-                        Name: "CArrow",
-                        AllowTypes: { c: 2, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CArrowGlow",
-                        AllowTypes: { c: 2, g: 1, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    {
-                        Name: "CArrowHolo",
-                        AllowTypes: { c: 2, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CArrowGlowHolo",
-                        AllowTypes: { c: 2, g: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    // Dots
-                    {
-                        Name: "CDots",
-                        AllowTypes: { c: 3, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CDotsGlow",
-                        AllowTypes: { c: 3, g: 1, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    {
-                        Name: "CDotsHolo",
-                        AllowTypes: { c: 3, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CDotsGlowHolo",
-                        AllowTypes: { c: 3, g: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    // Diamond
-                    {
-                        Name: "CDiamond",
-                        AllowTypes: { c: 4, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CDiamondGlow",
-                        AllowTypes: { c: 4, g: 1, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    {
-                        Name: "CDiamondHolo",
-                        AllowTypes: { c: 4, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CDiamondGlowHolo",
-                        AllowTypes: { c: 4, g: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    // Oval
-                    {
-                        Name: "COval",
-                        AllowTypes: { c: 5, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "COvalGlow",
-                        AllowTypes: { c: 5, g: 1, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    {
-                        Name: "COvalHolo",
-                        AllowTypes: { c: 5, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "COvalGlowHolo",
-                        AllowTypes: { c: 5, g: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    // Open Heart 
-                    {
-                        Name: "COpenHeart",
-                        AllowTypes: { c: 6, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "COpenHeartGlow",
-                        AllowTypes: { c: 6, g: 1, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    {
-                        Name: "COpenHeartHolo",
-                        AllowTypes: { c: 6, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "COpenHeartGlowHolo",
-                        AllowTypes: { c: 6, g: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    // Closed Heart
-                    {
-                        Name: "CHeart",
-                        AllowTypes: { c: 7, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CHeartGlow",
-                        AllowTypes: { c: 7, g: 1, h: 0 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    {
-                        Name: "CHeartHolo",
-                        AllowTypes: { c: 7, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },
-                    {
-                        Name: "CHeartGlowHolo",
-                        AllowTypes: { c: 7, g: 1, h: 1 },
-                        CopyLayerColor: "CChevron",
-                    },                    
-                    // Special (Base, Glow, Holo, GlowHolo)
-                    // Waves
-                    {
-                        Name: "SWaves",
-                        AllowTypes: { s: 1, h: 0 },
-                    },
-                    {
-                        Name: "SWavesGlow",
-                        AllowTypes: { s: 1, g: 1, h: 0 },
-                        CopyLayerColor: "SWaves",
-                    },                    
-                    {
-                        Name: "SWavesHolo",
-                        AllowTypes: { s: 1, h: 1 },
-                        CopyLayerColor: "SWaves",
-                    },
-                    {
-                        Name: "SWavesGlowHolo",
-                        AllowTypes: { s: 1, g: 1, h: 1 },
-                        CopyLayerColor: "SWaves",
-                    },
-                    // Wings
-                    {
-                        Name: "SWings",
-                        AllowTypes: { s: 2, h: 0 },
-                        CopyLayerColor: "SWaves",
-                    },
-                    {
-                        Name: "SWingsGlow",
-                        AllowTypes: { s: 2, g: 1, h: 0 },
-                        CopyLayerColor: "SWaves",
-                    },                    
-                    {
-                        Name: "SWingsHolo",
-                        AllowTypes: { s: 2, h: 1 },
-                        CopyLayerColor: "SWaves",
-                    },
-                    {
-                        Name: "SWingsGlowHolo",
-                        AllowTypes: { s: 2, g: 1, h: 1 },
-                        CopyLayerColor: "SWaves",
-                    },                    
-                    // Shell
-                    {
-                        Name: "SShell",
-                        AllowTypes: { s: 3, h: 0 },
-                        CopyLayerColor: "SWaves",
-                    },
-                    {
-                        Name: "SShellGlow",
-                        AllowTypes: { s: 3, g: 1, h: 0 },
-                        CopyLayerColor: "SWaves",
-                    },                    
-                    {
-                        Name: "SShellHolo",
-                        AllowTypes: { s: 3, h: 1 },
-                        CopyLayerColor: "SWaves",
-                    },
-                    {
-                        Name: "SShellGlowHolo",
-                        AllowTypes: { s: 3, g: 1, h: 1 },
-                        CopyLayerColor: "SWaves",
-                    },                    
-                ],
-            },
+				BuyGroup: "FaceCrests",
+				Category: ["SciFi"],
+				DefaultColor: ["#00F4FD", "#00F4FD", "#00F4FD", "#00F4FD"],
+				Extended: true,
+				Layer: [
+					// Outer (Base, Glow, Holo, GlowHolo)
+					// Carved
+					{
+						Name: "OCarved",
+						AllowTypes: { o: 1, h: 0 },
+					},
+					{
+						Name: "OCarvedGlow",
+						AllowTypes: { o: 1, g: 1, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OCarvedHolo",
+						AllowTypes: { o: 1, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OCarvedGlowHolo",
+						AllowTypes: { o: 1, g: 1, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					// Fins
+					{
+						Name: "OFins",
+						AllowTypes: { o: 2, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OFinsGlow",
+						AllowTypes: { o: 2, g: 1, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OFinsHolo",
+						AllowTypes: { o: 2, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OFinsGlowHolo",
+						AllowTypes: { o: 2, g: 1, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					// Boomerang
+					{
+						Name: "OBoomerang",
+						AllowTypes: { o: 3, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OBoomerangGlow",
+						AllowTypes: { o: 3, g: 1, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OBoomerangHolo",
+						AllowTypes: { o: 3, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OBoomerangGlowHolo",
+						AllowTypes: { o: 3, g: 1, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					// Headpiece
+					{
+						Name: "OHeadpiece",
+						AllowTypes: { o: 4, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OHeadpieceGlow",
+						AllowTypes: { o: 4, g: 1, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OHeadpieceHolo",
+						AllowTypes: { o: 4, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OHeadpieceGlowHolo",
+						AllowTypes: { o: 4, g: 1, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					// Circuits
+					{
+						Name: "OCircuits",
+						AllowTypes: { o: 5, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OCircuitsGlow",
+						AllowTypes: { o: 5, g: 1, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OCircuitsHolo",
+						AllowTypes: { o: 5, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "OCircuitsGlowHolo",
+						AllowTypes: { o: 5, g: 1, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					// Dots (Outer)
+					{
+						Name: "ODots",
+						AllowTypes: { o: 6, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "ODotsGlow",
+						AllowTypes: { o: 6, g: 1, h: 0 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "ODotsHolo",
+						AllowTypes: { o: 6, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					{
+						Name: "ODotsGlowHolo",
+						AllowTypes: { o: 6, g: 1, h: 1 },
+						CopyLayerColor: "OCarved",
+					},
+					// Middle (Base, Glow, Holo, GlowHolo)
+					// Pincers
+					{
+						Name: "MPincers",
+						AllowTypes: { m: 1, h: 0 },
+					},
+					{
+						Name: "MPincersGlow",
+						AllowTypes: { m: 1, g: 1, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MPincersHolo",
+						AllowTypes: { m: 1, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MPincersGlowHolo",
+						AllowTypes: { m: 1, g: 1, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					// Open Heart
+					{
+						Name: "MOpenheart",
+						AllowTypes: { m: 2, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MOpenheartGlow",
+						AllowTypes: { m: 2, g: 1, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MOpenheartHolo",
+						AllowTypes: { m: 2, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MOpenheartGlowHolo",
+						AllowTypes: { m: 2, g: 1, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					// Jaws
+					{
+						Name: "MJaws",
+						AllowTypes: { m: 3, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MJawsGlow",
+						AllowTypes: { m: 3, g: 1, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MJawsHolo",
+						AllowTypes: { m: 3, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MJawsGlowHolo",
+						AllowTypes: { m: 3, g: 1, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					// Crown
+					{
+						Name: "MCrown",
+						AllowTypes: { m: 4, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MCrownGlow",
+						AllowTypes: { m: 4, g: 1, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MCrownHolo",
+						AllowTypes: { m: 4, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MCrownGlowHolo",
+						AllowTypes: { m: 4, g: 1, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					// Fangs
+					{
+						Name: "MFangs",
+						AllowTypes: { m: 5, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MFangsGlow",
+						AllowTypes: { m: 5, g: 1, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MFangsHolo",
+						AllowTypes: { m: 5, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MFangsGlowHolo",
+						AllowTypes: { m: 5, g: 1, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					// Aquatic
+					{
+						Name: "MAquatic",
+						AllowTypes: { m: 6, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MAquaticGlow",
+						AllowTypes: { m: 6, g: 1, h: 0 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MAquaticHolo",
+						AllowTypes: { m: 6, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					{
+						Name: "MAquaticGlowHolo",
+						AllowTypes: { m: 6, g: 1, h: 1 },
+						CopyLayerColor: "MPincers",
+					},
+					// Center (Base, Glow, Holo, GlowHolo)
+					// Chevron
+					{
+						Name: "CChevron",
+						AllowTypes: { c: 1, h: 0 },
+					},
+					{
+						Name: "CChevronGlow",
+						AllowTypes: { c: 1, g: 1, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CChevronHolo",
+						AllowTypes: { c: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CChevronGlowHolo",
+						AllowTypes: { c: 1, g: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					// Arrow
+					{
+						Name: "CArrow",
+						AllowTypes: { c: 2, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CArrowGlow",
+						AllowTypes: { c: 2, g: 1, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CArrowHolo",
+						AllowTypes: { c: 2, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CArrowGlowHolo",
+						AllowTypes: { c: 2, g: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					// Dots
+					{
+						Name: "CDots",
+						AllowTypes: { c: 3, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CDotsGlow",
+						AllowTypes: { c: 3, g: 1, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CDotsHolo",
+						AllowTypes: { c: 3, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CDotsGlowHolo",
+						AllowTypes: { c: 3, g: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					// Diamond
+					{
+						Name: "CDiamond",
+						AllowTypes: { c: 4, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CDiamondGlow",
+						AllowTypes: { c: 4, g: 1, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CDiamondHolo",
+						AllowTypes: { c: 4, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CDiamondGlowHolo",
+						AllowTypes: { c: 4, g: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					// Oval
+					{
+						Name: "COval",
+						AllowTypes: { c: 5, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "COvalGlow",
+						AllowTypes: { c: 5, g: 1, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "COvalHolo",
+						AllowTypes: { c: 5, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "COvalGlowHolo",
+						AllowTypes: { c: 5, g: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					// Open Heart
+					{
+						Name: "COpenHeart",
+						AllowTypes: { c: 6, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "COpenHeartGlow",
+						AllowTypes: { c: 6, g: 1, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "COpenHeartHolo",
+						AllowTypes: { c: 6, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "COpenHeartGlowHolo",
+						AllowTypes: { c: 6, g: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					// Closed Heart
+					{
+						Name: "CHeart",
+						AllowTypes: { c: 7, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CHeartGlow",
+						AllowTypes: { c: 7, g: 1, h: 0 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CHeartHolo",
+						AllowTypes: { c: 7, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					{
+						Name: "CHeartGlowHolo",
+						AllowTypes: { c: 7, g: 1, h: 1 },
+						CopyLayerColor: "CChevron",
+					},
+					// Special (Base, Glow, Holo, GlowHolo)
+					// Waves
+					{
+						Name: "SWaves",
+						AllowTypes: { s: 1, h: 0 },
+					},
+					{
+						Name: "SWavesGlow",
+						AllowTypes: { s: 1, g: 1, h: 0 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SWavesHolo",
+						AllowTypes: { s: 1, h: 1 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SWavesGlowHolo",
+						AllowTypes: { s: 1, g: 1, h: 1 },
+						CopyLayerColor: "SWaves",
+					},
+					// Wings
+					{
+						Name: "SWings",
+						AllowTypes: { s: 2, h: 0 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SWingsGlow",
+						AllowTypes: { s: 2, g: 1, h: 0 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SWingsHolo",
+						AllowTypes: { s: 2, h: 1 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SWingsGlowHolo",
+						AllowTypes: { s: 2, g: 1, h: 1 },
+						CopyLayerColor: "SWaves",
+					},
+					// Shell
+					{
+						Name: "SShell",
+						AllowTypes: { s: 3, h: 0 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SShellGlow",
+						AllowTypes: { s: 3, g: 1, h: 0 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SShellHolo",
+						AllowTypes: { s: 3, h: 1 },
+						CopyLayerColor: "SWaves",
+					},
+					{
+						Name: "SShellGlowHolo",
+						AllowTypes: { s: 3, g: 1, h: 1 },
+						CopyLayerColor: "SWaves",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
