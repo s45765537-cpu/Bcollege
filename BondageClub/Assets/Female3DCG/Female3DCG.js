@@ -6961,7 +6961,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "StrapFront", Priority: 55 },
 					{ Name: "Bag" },
-					{ Name: "StrapB", CopyLayerColor: "StrapF" },
+					{ Name: "StrapB", CopyLayerColor: "StrapFront" },
 					{ Name: "BuckleStrap" },
 					{ Name: "Buckle" },
 				],
