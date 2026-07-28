@@ -10604,9 +10604,7 @@ var AssetFemale3DCGExtended = {
 		AnkletA: {
 			Archetype: "modular",
 			DrawImages: false,
-			Modules: [
-				{ Name: "Style", Key: "s", Options: [{}, {}] },
-			],
+			Modules: [{ Name: "Style", Key: "s", Options: [{}, {}] }],
 		}, // AnkletA
 	}, // Jewelry
 	Eyebrows: {
@@ -15352,6 +15350,11 @@ var AssetFemale3DCGExtended = {
 				{ Name: "LeftRightGlowing" },
 			],
 		}, // Antenna
+		TongqianHairpin: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [{ Name: "Position", Key: "m", Options: [{}, {}, {}] }],
+		}, // TongqianHairpin
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {
