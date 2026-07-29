@@ -2280,7 +2280,7 @@ interface Character {
 }
 
 /** Private Room & Private Bed */
-interface Character {
+interface PrivateBedCharacter {
 	PrivateBed?: boolean;
 	PrivateBedActivityTimer?: number;
 	PrivateBedLeft?: number;
@@ -2288,6 +2288,8 @@ interface Character {
 	PrivateBedMoveTimer?: number;
 	PrivateBedAppearance?: string;
 }
+
+interface Character extends PrivateBedCharacter {}
 
 type PrivatePunishment = (
 	"Cage" | "Bound" | "BoundPet" | "ChastityBra" | "ForceNaked" | "ConfiscateKey" | "ConfiscateCrop" | "ConfiscateWhip"
