@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 "use strict";
 var ManagementBackground = "Management";
-/** @type {null | NPCCharacter} */
-var ManagementMistress = null;
+/** @type {NPCCharacter} */
+var ManagementMistress = /** @type {never} */ (null);
 /** @type {null | NPCCharacter} */
 var ManagementSub = null;
 var ManagementMistressAngryCount = 0;
