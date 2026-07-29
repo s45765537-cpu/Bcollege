@@ -34,6 +34,19 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		});
 	});
 
+	it("nullish difficulty", () => {
+		const item = {
+			Asset: asset,
+			Difficulty: null,
+			Color: ["Default", "Default"],
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+			Difficulty: undefined,
+		});
+	});
+
 	it("non-default property", () => {
 		const item = {
 			Asset: asset,
@@ -44,6 +57,19 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Group: "ItemArms",
 			Name: "Foo",
 			Property: { Difficulty: 5 },
+		});
+	});
+
+	it("nullish property", () => {
+		const item = {
+			Asset: asset,
+			Color: ["Default", "Default"],
+			Property: null,
+		};
+		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
+			Group: "ItemArms",
+			Name: "Foo",
+			Property: undefined,
 		});
 	});
 
