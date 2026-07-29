@@ -24856,7 +24856,6 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Eyes",
-						Priority: 26,
 						CreateLayerTypes: ["e"],
 						AllowTypes: { e: [0, 1, 2, 3, 4, 5, 6] },
 					},
@@ -64930,7 +64929,6 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Eyes",
-						Priority: 26,
 						CreateLayerTypes: ["e"],
 						AllowTypes: { e: [0, 1, 2, 3, 4, 5, 6] },
 					},
