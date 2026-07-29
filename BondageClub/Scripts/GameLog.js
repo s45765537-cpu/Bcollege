@@ -187,6 +187,122 @@ function LogGetStringArray(Name, Group) {
 	return entry.Value;
 }
 
+const MainHallAllowIDToScreenMap = /** @type {const} */ ({
+	"Shop": "A",
+	"Private": "B",
+	"Introduction": "C",
+	"MaidQuarters": "D",
+	"KidnapLeague": "E",
+	"ShibariDojo": "F",
+	"Sarah": "G",
+	"Trouble": "H",
+	"SlaveMarket": "I",
+	"Cell": "J",
+	"LARPBattle": "K",
+	"College": "L",
+	"Asylum": "M",
+	"Poker": "N",
+	"Infiltration": "O",
+	"MovieStudio": "P",
+	"MagicSchool": "Q",
+	"Platform": "R",
+	"Crafting": "S",
+	"ClubCard": "T",
+	"Gambling": "0",
+	"Prison": "1",
+	"Photographic": "2",
+	"Stable": "3",
+	"Magic": "4",
+	"Nursery": "5",
+	"Cafe": "6",
+	"Arcade": "7",
+});
+
+const allowIdToScreenMap = CommonFromEntries(CommonEntries(MainHallAllowIDToScreenMap).map(([key, value]) => [value, key]));
+
+/**
+ * A list of conversions to apply to rules, for backward-compatibility with
+ * how Advanced Rules were set.
+ */
+var AdvancedRulesBackCompat = /** @type {const} */ ({
+	BlockScreen: allowIdToScreenMap,
+	BlockAppearance: {
+		"A": "Cloth",
+		"B": "ClothAccessory",
+		"C": "Necklace",
+		"D": "Suit",
+		"E": "ClothLower",
+		"F": "SuitLower",
+		"G": "Bra",
+		"H": "Corset",
+		"I": "Panties",
+		"J": "Socks",
+		"(": "SocksRight",
+		")": "SocksLeft",
+		"K": "AnkletRight",
+		"L": "AnkletLeft",
+		"M": "Garters",
+		"N": "Shoes",
+		"O": "Hat",
+		"P": "HairAccessory3",
+		"Q": "HairAccessory1",
+		"R": "HairAccessory2",
+		"S": "Gloves",
+		"!": "HandAccessoryLeft",
+		"$": "HandAccessoryRight",
+		"T": "Bracelet",
+		"U": "Glasses",
+		"[": "Jewelry",
+		"V": "Mask",
+		"W": "TailStraps",
+		"X": "Wings",
+		"0": "Height",
+		"1": "BodyUpper",
+		"2": "BodyLower",
+		"3": "HairFront",
+		"?": "FacialHair",
+		"4": "HairBack",
+		"*": "Eyebrows",
+		"]": "Head",
+		"5": "Eyes",
+		"6": "Eyes2",
+		"7": "Mouth",
+		"8": "Nipples",
+		"9": "Pussy",
+		"%": "Pronouns",
+		"^": "EyeShadow",
+	},
+	BlockItemGroup: {
+		"A": "ItemBoots",
+		"B": "ItemFeet",
+		"C": "ItemLegs",
+		"D": "ItemVulva",
+		"E": "ItemVulvaPiercings",
+		"F": "ItemButt",
+		"G": "ItemPelvis",
+		"H": "ItemTorso",
+		"I": "ItemTorso2",
+		"J": "ItemNipples",
+		"K": "ItemNipplesPiercings",
+		"L": "ItemBreast",
+		"M": "ItemHands",
+		"N": "ItemArms",
+		"O": "ItemNeck",
+		"P": "ItemNeckAccessories",
+		"Q": "ItemNeckRestraints",
+		"R": "ItemMouth",
+		"S": "ItemMouth2",
+		"T": "ItemMouth3",
+		"U": "ItemNose",
+		"V": "ItemEars",
+		"W": "ItemHead",
+		"X": "ItemHood",
+		"0": "ItemMisc",
+		"1": "ItemDevices",
+		"2": "ItemAddon",
+	},
+});
+
 /**
  * Loads the account log.
  * @param {readonly LogRecord[]} NewLog - Existing logs received by the server
@@ -198,12 +314,42 @@ function LogLoad(NewLog) {
 
 	if (NewLog == null) return;
 
+	let needsSync = false;
+
 	for (const log of NewLog) {
+		// Automatically upgrade the letter-based advanced rules to something that's more generic
+		if (log.Group === "OwnerRule") {
+			const upgradePrefix = CommonKeys(AdvancedRulesBackCompat).find(type => log.Name.startsWith(type) && log.Name.length !== type.length);
+			if (upgradePrefix) {
+
+				const ruleIDs = log.Name.substring(upgradePrefix.length).split("");
+				// @ts-ignore-error Forcing the types here because `ruleIDs` should only be letters from `AdvancedRulesBackCompat[upgradePrefix]`
+				const updatedRule = ruleIDs.map(id => AdvancedRulesBackCompat[upgradePrefix][id]).filter(Boolean);
+
+				if (updatedRule) {
+					log.Name = upgradePrefix;
+					log.Value = updatedRule;
+					needsSync = true;
+				}
+			}
+			if (log.Name.startsWith("ForbiddenWords") && log.Name.length > "ForbiddenWords".length) {
+				const data = log.Name.substring("ForbiddenWords".length).split("|");
+				log.Name = "ForbiddenWords";
+				log.Value = data;
+				needsSync = true;
+			}
+		}
+
 		if (/** @type {string} */ (log.Name) === "JoinedStable") {
 			// Workaround for the swapped name and group for Stables
 			[log.Name, log.Group] = /** @type {any} */ ([log.Group, log.Name]);
+			needsSync = true;
 		}
 		LogAdd(log.Name, log.Group, log.Value, false);
+	}
+
+	if (needsSync) {
+		ServerPlayerLogSync();
 	}
 }
 

@@ -4715,12 +4715,11 @@ interface LogRecord {
 /** The logging groups as supported by the {@link LogRecord.Group} */
 type LogGroupType = keyof LogNameType;
 
-type LogNameAdvanced = (
-	`BlockScreen${string}`
-	| `BlockAppearance${string}`
-	| `BlockItemGroup${string}`
-	| `ForbiddenWords${string}`
-);
+type LogNameAdvanced =
+	| `BlockScreen`
+	| `BlockAppearance`
+	| `BlockItemGroup`
+;
 
 /** An interface mapping {@link LogRecord.Group} types to valid {@link LogRecord.Name} types */
 interface LogNameType {
@@ -4747,7 +4746,6 @@ interface LogNameType {
 	"NPC-Julia": "Dominant" | "Submissive",
 	"NPC-Yuki": "Dominant" | "Submissive",
 	"NPC-Mildred": "Dominant" | "Submissive",
-	// NOTE: A number of owner rules can have arbitrary suffices, and can thus not be fully expressed as string literals
 	OwnerRule: (
 		"BlockChange"
 		| "BlockTalk"
@@ -4763,12 +4761,8 @@ interface LogNameType {
 		| "BlockRemoteSelf"
 		| "BlockNickname"
 		| "ReleasedCollar"
-		| "BlockScreen"
-		| "BlockAppearance"
-		| "BlockItemGroup"
-		| "ForbiddenWords"
-		| "BlockTalkForbiddenWords"
 		| LogNameAdvanced
+		| "ForbiddenWords"
 	),
 	PrivateRoom: (
 		"RentRoom"

@@ -673,11 +673,9 @@ const CommonCommands = [
 			if (!Player.IsOwned()) return;
 
 			// Gets the forbidden words list from the log
-			let ForbiddenList = [];
-			for (let L of Player.Log)
-				if ((L.Group == "OwnerRule") && L.Name.startsWith("ForbiddenWords"))
-					ForbiddenList = L.Name.substring("ForbiddenWords".length, 10000).split("|");
-			if (ForbiddenList.length <= 1) return true;
+			let ForbiddenList = LogGetStringArray("ForbiddenWords", "OwnerRule");
+			if (!ForbiddenList || ForbiddenList.length <= 1) return;
+			// Remove the punishment
 			ForbiddenList.splice(0, 1);
 
 			// Shows the list in the chat window

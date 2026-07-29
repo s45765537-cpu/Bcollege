@@ -131,37 +131,6 @@ function MainHallHasFamilyItemAndMaidsNotDisabled() { return MainHallHasFamilyLo
 function MainHallHasSlaveCollarAndMaidsNotDisabled() { return MainHallHasSlaveCollar && !MainHallIsMaidsDisabled(); }
 function MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return  MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItem() && !MainHallIsMaidsDisabled(); }
 
-const MainHallAllowIDToScreenMap = {
-	"Shop": "A",
-	"Private": "B",
-	"Introduction": "C",
-	"MaidQuarters": "D",
-	"KidnapLeague": "E",
-	"ShibariDojo": "F",
-	"Sarah": "G",
-	"Trouble": "H",
-	"SlaveMarket": "I",
-	"Cell": "J",
-	"LARPBattle": "K",
-	"College": "L",
-	"Asylum": "M",
-	"Poker": "N",
-	"Infiltration": "O",
-	"MovieStudio": "P",
-	"MagicSchool": "Q",
-	"Platform": "R",
-	"Crafting": "S",
-	"ClubCard": "T",
-	"Gambling": "0",
-	"Prison": "1",
-	"Photographic": "2",
-	"Stable": "3",
-	"Magic": "4",
-	"Nursery": "5",
-	"Cafe": "6",
-	"Arcade": "7",
-};
-
 /**
  * Returns TRUE if the main hall sub-screen is allowed for the player, check for owner rules
  * @param {keyof typeof MainHallAllowIDToScreenMap} room - The screen ID to validate (A is club shop)
