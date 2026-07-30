@@ -775,9 +775,9 @@ function ServerBundledItemFromAppearanceItem(item) {
 	return {
 		Group: item.Asset.Group.Name,
 		Name: item.Asset.Name,
-		Difficulty: item.Difficulty === 0 ? undefined : item.Difficulty,
+		Difficulty: !item.Difficulty ? undefined : item.Difficulty,
 		Color: outputColor,
-		Property: Object.keys(item.Property).length > 0 ? item.Property : undefined,
+		Property: Object.keys(item.Property ?? {}).length > 0 ? item.Property : undefined,
 		Craft: item.Craft,
 	};
 }

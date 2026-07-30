@@ -351,8 +351,6 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 		});
 	}
 
-	if (!Object.keys(newProperty).length) delete newItem.Property;
-
 	return { item: newItem, valid };
 }
 
@@ -692,7 +690,7 @@ function ValidationSanitizeProperties(C, item) {
 	// If the property is not an object, remove it and return
 	if (typeof property !== "object") {
 		console.warn("Removing invalid property:", property);
-		delete item.Property;
+		item.Property = {};
 		return true;
 	}
 
