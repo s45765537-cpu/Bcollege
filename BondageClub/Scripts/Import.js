@@ -23,8 +23,7 @@ function ImportBondageCollege(C) {
 			if ((localStorage.getItem("BondageClubImportSource") != null) && (localStorage.getItem("BondageClubImportSource") == "BondageCollege")) {
 				const npcNames = /** @type {const} */(["Amanda", "Sarah", "Sidney", "Jennifer", "AmandaSarah", "SarahIntro", "Julia", "Yuki", "Mildred"]);
 				for (const storyline of npcNames) {
-					/** @type {any} */
-					const value = localStorage.getItem("BondageCollegeExport" + storyline);
+					const value = /** @type {LogNameType[`NPC-${storyline}`]} */(localStorage.getItem("BondageCollegeExport" + storyline));
 					if (value)
 						LogAdd(value, `NPC-${storyline}`);
 				}

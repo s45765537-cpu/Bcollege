@@ -1085,7 +1085,7 @@ function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
 	if (CurrentCharacter == null) return false;
 
 	const blocked = LogGetString("BlockItemGroup", "OwnerRule");
-	if (!blocked || !Array.isArray(blocked)) return true;
+	if (!blocked || !Array.isArray(blocked)) return false;
 
 	return blocked.includes(GroupName);
 }

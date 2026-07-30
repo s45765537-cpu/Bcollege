@@ -4153,7 +4153,7 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	}
 
 	if (data.Content.startsWith("StruggleAssist")) {
-		let A = parseInt(data.Content.substr("StruggleAssist".length));
+		let A = parseInt(data.Content.substring("StruggleAssist".length));
 		if ((A >= 1) && (A <= 7)) {
 			ChatRoomStruggleAssistTimer = CurrentTime + 60000;
 			ChatRoomStruggleAssistBonus = A;
@@ -6290,30 +6290,50 @@ function ChatRoomSetRule(data) {
 		}
 
 		// Advanced rules - Block screens
-		if (data.Content.startsWith("OwnerRuleBlockScreen")) {
-			LogDeleteStarting("BlockScreen", "OwnerRule");
-			LogAdd(`BlockScreen${data.Content.substring("OwnerRuleBlockScreen".length, 100)}`, "OwnerRule");
+		if (data.Content === "OwnerRuleBlockScreen") {
+			const entry = data.Dictionary.find(e => IsStringListDictionaryEntry("BlockScreen", e));
+			if (!entry) return;
+
+			let values = entry.Strings.filter(v => AdvancedRuleScreens.includes(v));
+			LogDelete("BlockScreen", "OwnerRule");
+			LogAdd("BlockScreen", "OwnerRule", values);
+
 			data.Content = "OwnerRuleBlockScreen";
 		}
 
 		// Advanced rules - Block appearance zones
 		if (data.Content.startsWith("OwnerRuleBlockAppearance")) {
-			LogDeleteStarting("BlockAppearance", "OwnerRule");
-			LogAdd(`BlockAppearance${data.Content.substring("OwnerRuleBlockAppearance".length, 100)}`, "OwnerRule");
+			const entry = data.Dictionary.find(e => IsStringListDictionaryEntry("BlockAppearance", e));
+			if (!entry) return;
+
+			const values = entry.Strings.filter(v => AssetGroup.find(g => g.Name === v));
+			LogDelete("BlockAppearance", "OwnerRule");
+			LogAdd("BlockAppearance", "OwnerRule", values);
+
 			data.Content = "OwnerRuleBlockAppearance";
 		}
 
 		// Advanced rules - Block item groups
 		if (data.Content.startsWith("OwnerRuleBlockItemGroup")) {
-			LogDeleteStarting("BlockItemGroup", "OwnerRule");
-			LogAdd(`BlockItemGroup${data.Content.substring("OwnerRuleBlockItemGroup".length, 100)}`, "OwnerRule");
+			const entry = data.Dictionary.find(e => IsStringListDictionaryEntry("BlockItemGroup", e));
+			if (!entry) return;
+
+			const values = entry.Strings.filter(v => AssetGroup.find(g => g.Name === v));
+			LogDelete("BlockItemGroup", "OwnerRule");
+			LogAdd("BlockItemGroup", "OwnerRule", values);
+
 			data.Content = "OwnerRuleBlockItemGroup";
 		}
 
 		// Advanced rules - Forbidden Words List
 		if (data.Content.startsWith("OwnerRuleForbiddenWords")) {
-			LogDeleteStarting("ForbiddenWords", "OwnerRule");
-			LogAdd(`ForbiddenWords${data.Content.substring("OwnerRuleForbiddenWords".length, 10000)}`, "OwnerRule");
+			let entry = data.Dictionary.find(e => IsStringListDictionaryEntry("ForbiddenWords", e));
+			if (!entry) return;
+
+			const words = entry.Strings.filter(v => typeof v === "string");
+			LogDelete("ForbiddenWords", "OwnerRule");
+			LogAdd("ForbiddenWords", "OwnerRule", words);
+
 			data.Content = "OwnerRuleForbiddenWords";
 		}
 
@@ -6832,14 +6852,11 @@ function ChatRoomOwnerForbiddenWordCheck(Message) {
 	// Exits right away if not owned
 	if (CurrentScreen != "ChatRoom") return true;
 	if (!Player.IsOwned()) return true;
-	if (LogQuery("BlockTalkForbiddenWords", "OwnerRule")) return false;
+	if (LogQuery("ForbiddenWords", "OwnerRule")) return false;
 
 	// Gets the forbidden words list from the log
-	let ForbiddenList = [];
-	for (let L of Player.Log)
-		if ((L.Group == "OwnerRule") && L.Name.startsWith("ForbiddenWords"))
-			ForbiddenList = L.Name.substring("ForbiddenWords".length, 10000).split("|");
-	if (ForbiddenList.length <= 1) return true;
+	let ForbiddenList = LogGetStringArray("ForbiddenWords", "OwnerRule");
+	if (!ForbiddenList || ForbiddenList.length <= 1) return true;
 
 	// Gets the consequence for saying the forbidden word
 	let Consequence = ForbiddenList[0].trim();
@@ -6877,7 +6894,7 @@ function ChatRoomOwnerForbiddenWordCheck(Message) {
 		if (isNaN(Minutes)) Minutes = 5;
 		if ((Minutes != 5) && (Minutes != 15) && (Minutes != 30)) Minutes = 5;
 		ChatRoomMessage({Type: "ServerMessage", Content: "ForbiddenWordsMute" + Minutes.toString(), Sender: Player.MemberNumber});
-		LogAdd("BlockTalkForbiddenWords", "OwnerRule",  CurrentTime + Minutes * 60 * 1000);
+		LogAdd("ForbiddenWords", "OwnerRule",  CurrentTime + Minutes * 60 * 1000);
 		return true;
 	}
 
