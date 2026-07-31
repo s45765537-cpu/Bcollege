@@ -2237,7 +2237,7 @@ var ElementButton = {
 
 		options ??= {};
 		options.label ??= ActivityDictionaryText(ActivityBuildChatTag(C, group, activity.Activity, true));
-		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
+		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Icons/Activity/${activity.Activity.Name}.png`);
 		options.icons = [
 			...(options.icons ?? []),
 			activity.Blocked === "blocked" ? "Blocked" : undefined,
