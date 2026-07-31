@@ -16262,6 +16262,96 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "SocksBow",
+				InventoryID: 1388,
+				Value: 12,
+				Left: 120,
+				Top: 640,
+				ParentGroup: {},
+				DefaultColor: [
+					"#991d1d",
+					"#991d1d",
+					"#991d1d",
+					"#991d1d",
+					"#991d1d",
+					"#991d1d",
+					"#991d1d",
+					"#991d1d",
+				],
+				Priority: 22,
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+				},
+				Layer: [
+					{ Name: "LeftBow1Bottom" },
+					{
+						Name: "LeftBow2",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "LeftBow3",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "LeftBow4",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+					{ Name: "RightBow1Bottom" },
+					{
+						Name: "RightBow2",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "RightBow3",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "RightBow4",
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "袜子蝴蝶结",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
