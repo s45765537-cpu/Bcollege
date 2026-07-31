@@ -3969,6 +3969,9 @@ SuitGlossyBodystockingG2,Gloves Main
 SuitGlossyBodystockinggmask,Mask
 SuitGlossyBodystockingL,Seams
 SuitGlossyBodystockingmmL,Seams
+SuitLatexBodysuitCloth,Cloth
+SuitLatexBodysuitHighlight,Highlight
+SuitLatexBodysuitShadow,Shadow
 SuitLatexCatsuitBase,Suit
 SuitLatexCatsuitPP,Label
 SuitLatexCatsuitText,Text

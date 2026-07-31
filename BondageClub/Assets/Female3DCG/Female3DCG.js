@@ -8502,6 +8502,27 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "LatexBodysuit",
+				InventoryID: 1385,
+				Value: 18,
+				Gender: "F",
+				Random: false,
+				Top: 0,
+				Left: 0,
+				Priority: 16,
+				ParentGroup: "BodyUpper",
+				PoseMapping: {
+					Hogtied: "Hogtied",
+					AllFours: PoseType.HIDE,
+				},
+				Layer: [{ Name: "Cloth" }, { Name: "Shadow" }, { Name: "Highlight" }],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "乳胶紧身衣",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
