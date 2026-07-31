@@ -21395,6 +21395,11 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Leftleg" }, { Name: "Rightleg" }, { Name: "Both" }],
 		}, // LaceLegRing
+		XLegStraps: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "Leftleg" }, { Name: "Rightleg" }],
+		}, // XLegStraps
 	}, // Garters
 	AnkletRight: {
 		LegFur: {

@@ -1572,6 +1572,10 @@ GartersLaceLegRingBoth,Both
 GartersLaceLegRingLeftleg,Left leg
 GartersLaceLegRingRightleg,Right leg
 GartersLaceLegRingSelect,Select
+GartersXLegStrapsBoth,Both
+GartersXLegStrapsLeftleg,Left leg
+GartersXLegStrapsRightleg,Right leg
+GartersXLegStrapsSelect,Leg Selection
 GiveLockpicks,SourceCharacter gives TargetCharacter some lockpicks to help TargetPronounSelf with.
 GlassesMonocleSelect,Choose Style
 GlassesMonocleLeft,Left
