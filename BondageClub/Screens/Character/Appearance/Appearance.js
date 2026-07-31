@@ -1166,7 +1166,7 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * Sets an item in the character appearance
  * @param {Character} C - The character whose appearance should be changed
  * @param {AssetGroupName} Group - The name of the corresponding groupr for the item
- * @param {Asset|null} ItemAsset - The asset collection of the item to be changed
+ * @param {Asset|null} ItemAsset - The asset collection of the item to be changed. Passing a `null` is equivalent to removing an item (see {@link InventoryRemove})
  * @param {null | ItemColor} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
  * @param {null | number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
  * to the item
