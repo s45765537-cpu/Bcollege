@@ -3034,6 +3034,11 @@ HatJesterHatSelectBase,Customise your Jester Hat
 HatJesterHatSelectLeftPart,Choose left style
 HatJesterHatSelectRightPart,Choose right style
 HatJesterHatSelectTopPart,Choose top style
+HatWitchHatModuleHairMasking,Hair Masking
+HatWitchHatOptionz0,None
+HatWitchHatOptionz1,Mask
+HatWitchHatSelectBase,Hat Configuration
+HatWitchHatSelectHairMasking,Hair Masking
 ItemEarsCTHeadsetModuleGlow,Glow
 ItemEarsCTHeadsetModuleEars,Ears
 ItemEarsCTHeadsetModuleMic,Mic

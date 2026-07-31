@@ -326,7 +326,18 @@ var AssetFemale3DCGExtended = {
 				{ Name: "Arrow" },
 			],
 		}, // NPCBalloon
-	},
+		WitchHat: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "HairMasking",
+					Key: "z",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+			],
+		}, // WitchHat
+	}, // Hat
 	HandAccessoryLeft: {
 		Rings: {
 			Archetype: ExtendedArchetype.MODULAR,

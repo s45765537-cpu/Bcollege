@@ -19793,6 +19793,93 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "WitchHat",
+				Random: false,
+				InventoryID: 1383,
+				Value: 23,
+				Top: -60,
+				Left: 0,
+				Extended: true,
+				DefaultColor: [
+					"#111111",
+					"#111111",
+					"#111111",
+					"#111111",
+					"#5e5c5c",
+					"#828282",
+					"#f1c4c4",
+					"#A9AFAF",
+				],
+				Layer: [
+					{
+						Name: "HatTip",
+						Priority: 55,
+						AllowTypes: { z: 1 },
+						Alpha: [
+							{
+								Group: ["HairBack"],
+								Masks: [
+									[300, 0, 200, 100],
+									[300, 100, 200, 40],
+									[360, 140, 100, 14],
+									[391, 153, 100, 5],
+									[158, 0, 100, 54],
+									[158 + 6, 54, 100, 5],
+									[158 + 6 + 7, 54 + 5, 100, 5],
+									[158 + 6 + 7 + 8, 54 + 5 + 5, 100, 6],
+								],
+							},
+						],
+					},
+					{
+						Name: "HatTip2",
+						Priority: 55,
+						AllowTypes: { z: 0 },
+						CopyLayerColor: "HatTip",
+					},
+					{
+						Name: "HatBrim",
+						Priority: 56,
+						Alpha: [
+							{
+								Group: ["HairAccessory1", "HairAccessory2", "HairAccessory3"],
+								Masks: [
+									[161, 0, 254, 59],
+									[173, 59, 242, 7],
+									[186, 65, 229, 10],
+									[265, 74, 150, 69],
+								],
+							},
+						],
+					},
+					{
+						Name: "HatLining",
+						Priority: 3,
+					},
+					{
+						Name: "HatLiningDecoration",
+						Priority: 3,
+					},
+					{
+						Name: "Bow",
+						Priority: 57,
+					},
+					{
+						Name: "Strap",
+						Priority: 55,
+					},
+					{
+						Name: "Pendant",
+						Priority: 55,
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "女巫帽子",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -27687,7 +27774,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FaceCrests",
-				Value: 1,
+				InventoryID: 1384,
+				Value: 30,
 				Priority: 45,
 				Left: 195,
 				Top: 85,
