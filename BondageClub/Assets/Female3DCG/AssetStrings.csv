@@ -1572,6 +1572,10 @@ GartersLaceLegRingBoth,Both
 GartersLaceLegRingLeftleg,Left leg
 GartersLaceLegRingRightleg,Right leg
 GartersLaceLegRingSelect,Select
+GartersLaceLegStrapBoth,Both
+GartersLaceLegStrapLeftleg,Left leg
+GartersLaceLegStrapRightleg,Right leg
+GartersLaceLegStrapSelect,Leg Selection
 GartersXLegStrapsBoth,Both
 GartersXLegStrapsLeftleg,Left leg
 GartersXLegStrapsRightleg,Right leg
