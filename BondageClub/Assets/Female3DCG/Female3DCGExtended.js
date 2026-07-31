@@ -20420,12 +20420,12 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// v1 - With wand
-							Property: { Difficulty: 2 },
+							Property: { Difficulty: 2, Effect: [E.Egged] },
 						},
 						// v2 to v6 - Wand intensity
-						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v2 - Low
-						{ Property: { Intensity: 1, Effect: [E.Vibrating] } }, // v3 - Mid-Low
-						{ Property: { Intensity: 2, Effect: [E.Vibrating] } }, // v4 - Medium
+						{ Property: { Intensity: 0, Effect: [E.Egged, E.Vibrating] } }, // v2 - Low
+						{ Property: { Intensity: 1, Effect: [E.Egged, E.Vibrating] } }, // v3 - Mid-Low
+						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v4 - Medium
 						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v5 - High
 						{ Property: { Intensity: 3, Effect: [E.Egged, E.Vibrating] } }, // v6 - Maximum
 					],
