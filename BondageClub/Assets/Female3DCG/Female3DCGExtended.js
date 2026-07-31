@@ -2608,12 +2608,6 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Normal",
 					Property: {
-						Block: [],
-					},
-				},
-				{
-					Name: "Unbuttoned",
-					Property: {
 						Block: [
 							"ItemPelvis",
 							"ItemVulva",
@@ -2621,6 +2615,9 @@ var AssetFemale3DCGExtended = {
 							"ItemButt",
 						],
 					},
+				},
+				{
+					Name: "Unbuttoned",
 				},
 			],
 		}, // DenimShorts
@@ -3437,7 +3434,7 @@ var AssetFemale3DCGExtended = {
 						{
 							// a2- Arms side
 							Property: {
-								AllowActivePose: ["BackElbowTouch"],
+								AllowActivePose: ["BackElbowTouch", "AllFours"],
 							},
 						},
 					],
@@ -13889,6 +13886,7 @@ var AssetFemale3DCGExtended = {
 		}, // UrethralSound
 		ModularVulvaPiercings: {
 			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
 			Modules: [
 				{
 					Name: "Fastening",

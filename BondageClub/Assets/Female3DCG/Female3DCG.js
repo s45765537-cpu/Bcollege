@@ -562,6 +562,26 @@ const AssetPoseMapping = /** @type {const} */ ({
 	},
 });
 
+/** @type {string[]} */
+const AssetMalePantiesList = [
+	"PantiesBoxerShorts",
+	"PantiesBriefs",
+	"PantiesCockSock",
+	"PantiesJockstrap",
+	"PantiesMaleCatsuitPanties",
+];
+
+/** @type {string[]} */
+const AssetMaleChasityCagesList = [
+	"ItemVulvaPlasticChastityCage2",
+	"ItemVulvaPlasticChastityCage1",
+	"ItemVulvaTechnoChastityCage",
+	"ItemVulvaFlatChastityCage",
+	"ItemVulvaBallspreader",
+	"ItemVulvaChastityPouch",
+	"ItemVulvaFullCasingCage",
+];
+
 /**
  * 3D Custom Girl based assets
  * @type {AssetGroupDefinition[]}
@@ -9197,6 +9217,8 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				Hide: ["ItemVulvaPiercings", "Garters", "Pussy"],
 				HideItem: [
+					...AssetMalePantiesList,
+					...AssetMaleChasityCagesList,
 					"ItemButtAnalBeads2",
 					"SocksSocksFur",
 					"SocksSocks1",
@@ -9523,6 +9545,8 @@ var AssetFemale3DCG = [
 				Priority: 22,
 				Hide: ["ItemVulvaPiercings", "Pussy"],
 				HideItem: [
+					...AssetMalePantiesList,
+					...AssetMaleChasityCagesList,
 					"ItemButtAnalBeads2",
 					"ItemVulvaHempRopeBelt",
 					"ItemVulvaVibratingDildo",
@@ -9541,6 +9565,8 @@ var AssetFemale3DCG = [
 				Value: 25,
 				// StyleOverride: ["EchoV2"],
 				HideItem: [
+					...AssetMalePantiesList,
+					...AssetMaleChasityCagesList,
 					"ItemButtAnalBeads2",
 					"ItemVulvaHempRopeBelt",
 					"ItemVulvaVibratingDildo",
@@ -9558,6 +9584,7 @@ var AssetFemale3DCG = [
 				},
 				Top: 350,
 				Extended: true,
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Layer: [
 					{
 						Name: "Shorts",
@@ -9600,8 +9627,10 @@ var AssetFemale3DCG = [
 				Priority: 21,
 				StyleOverride: ["EchoV2"],
 				DefaultColor: "#4499c4",
-				Hide: ["ItemVulvaPiercings", "Panties"],
+				Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
 				HideItem: [
+					...AssetMalePantiesList,
+					...AssetMaleChasityCagesList,
 					"ItemButtAnalBeads2",
 					"SocksSocksFur",
 					"SocksSocks4",
@@ -9625,8 +9654,10 @@ var AssetFemale3DCG = [
 				Priority: 21,
 				StyleOverride: ["EchoV2"],
 				DefaultColor: "#4499c4",
-				Hide: ["ItemVulvaPiercings"],
+				Hide: ["ItemVulvaPiercings", "Pussy"],
 				HideItem: [
+					...AssetMalePantiesList,
+					...AssetMaleChasityCagesList,
 					"ItemButtAnalBeads2",
 					"SocksSocksFur",
 					"SocksSocks1",
@@ -10016,7 +10047,7 @@ var AssetFemale3DCG = [
 					[PoseType.DEFAULT]: 115,
 					KneelingSpread: 205,
 				},
-				HideItem: ["Pussy"],
+				HideItem: [...AssetMalePantiesList, ...AssetMaleChasityCagesList],
 				Layer: [
 					{ Name: "Pants" },
 					{ Name: "Trim" },
@@ -10152,6 +10183,8 @@ var AssetFemale3DCG = [
 					[PoseType.DEFAULT]: 120,
 					KneelingSpread: 109,
 				},
+				Hide: ["Pussy"],
+				HideItem: [...AssetMalePantiesList, ...AssetMaleChasityCagesList],
 				Top: 450,
 				Priority: 22,
 				Extended: true,
@@ -10381,6 +10414,7 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Value: 22,
 				Hide: ["Pussy"],
+				HideItem: [...AssetMalePantiesList, ...AssetMaleChasityCagesList],
 				StyleOverride: ["EchoV2"],
 				PoseMapping: {
 					...AssetPoseMapping.ClothLower,
@@ -10456,6 +10490,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ClothLower,
 				},
 				Hide: ["Pussy"],
+				HideItem: [...AssetMalePantiesList, ...AssetMaleChasityCagesList],
 				Layer: [
 					{
 						Name: "Waist",
@@ -10975,6 +11010,8 @@ var AssetFemale3DCG = [
 				Value: 100,
 				BuyGroup: "YogaPants",
 				Top: 420,
+				Hide: ["Pussy"],
+				HideItem: [...AssetMalePantiesList, ...AssetMaleChasityCagesList],
 				Left: {
 					[PoseType.DEFAULT]: 100,
 					KneelingSpread: 190,
@@ -34606,7 +34643,6 @@ var AssetFemale3DCG = [
 				AllowRemoveExclusive: true,
 				DynamicScriptDraw: true,
 			},
-
 			{
 				Name: "LoversVibratorRemote",
 				InventoryID: 594,
@@ -41702,6 +41738,7 @@ var AssetFemale3DCG = [
 					BackCuffs: "BackCuffs",
 					BackElbowTouch: PoseType.HIDE,
 					Hogtied: "Hogtied",
+					AllFours: PoseType.HIDE,
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 				},
@@ -46293,6 +46330,9 @@ var AssetFemale3DCG = [
 						Name: "Extras2",
 						AllowTypes: { a: 2 },
 						CopyLayerColor: "Extras1",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+						},
 					},
 					{
 						Name: "Buckles",
@@ -46312,6 +46352,9 @@ var AssetFemale3DCG = [
 						Name: "Extras2Buckles",
 						AllowTypes: { a: 2 },
 						CopyLayerColor: "Buckles",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+						},
 					},
 					{
 						Name: "Lock",
