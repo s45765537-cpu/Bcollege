@@ -2965,9 +2965,8 @@ function ChatRoomMenuPerformAction(action, event) {
 		case "Icons":
 			// When the user toggles icon visibility
 			ChatRoomHideIconState = /** @type {typeof ChatRoomHideIconState} */ (
-				CommonClamp(ChatRoomHideIconState + 1,
-					ChatRoomHideIconStateType.NO_NAME,
-					ChatRoomHideIconStateType.SHOW_ALL
+				CommonModulo(ChatRoomHideIconState + 1,
+					ChatRoomHideIconStateType.NO_NAME + 1
 				)
 			);
 			break;
