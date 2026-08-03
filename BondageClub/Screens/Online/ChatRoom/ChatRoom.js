@@ -3518,9 +3518,11 @@ function ChatRoomSendEmote(msg) {
 		const attemptSucceeded = random <= chance;
 		msg += attemptSucceeded ? ": ✔" : ": ❌";
 		msg += " (" + chance + "%)";
-	} else if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) {
-		msg = msg.substring(1);
 	} else {
+		// Convert Mu-style :/:: (and trailing) to */** so /me and /action formatting apply
+		if (Player.ChatSettings.MuStylePoses && msg.startsWith(":")) {
+			msg = msg.replace(/^(:+)/, (_, colons) => "*".repeat(colons.length));
+		}
 		msg = msg.replace(/^\*/, "").replace(/\*$/, "");
 	}
 	msg = msg.trim();

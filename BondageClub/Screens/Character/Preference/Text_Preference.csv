@@ -95,7 +95,7 @@ ColorEmotes,Color emotes
 ColorActivities,Color activities
 ShrinkNonDialogue,Shrink all messages except dialogue
 ShowActivities,Show sexual activities & orgasms
-MuStylePoses,Use : as alias for /me and *
+MuStylePoses,Use :/:: as alias for /me/*/action/**
 AutoBanBlackList,Ban blacklist when creating a room
 AutoBanGhostList,Ban ghostlist when creating a room
 SearchFriendsFirst,Order rooms by number of friends
