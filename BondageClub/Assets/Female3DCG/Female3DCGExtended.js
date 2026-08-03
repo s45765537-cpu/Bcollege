@@ -13934,11 +13934,7 @@ var AssetFemale3DCGExtended = {
 					DrawImages: false,
 					Options: [
 						{}, //s0 - No
-						{
-							Property: {
-								Effect: [E.Chaste],
-							},
-						}, //s1 - Yes
+						{}, //s1 - Yes
 					],
 				},
 			],
