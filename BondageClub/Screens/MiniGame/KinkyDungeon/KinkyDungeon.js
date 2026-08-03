@@ -753,7 +753,7 @@ async function KinkyDungeonLoad() {
  * @returns {boolean} - If the player is in the arcade
  */
 function KinkyDungeonDeviousDungeonAvailable() {
-	return KinkyDungeonIsPlayer() && (DialogGamingReturnScreen?.[1] == "Arcade" || MiniGameReturnFunction == "ArcadeKinkyDungeonEnd") && !KDPatched;
+	return KinkyDungeonIsPlayer() && (DialogGamingReturnScreen?.[1] === "Arcade") && !KDPatched;
 }
 
 /**
@@ -2659,7 +2659,7 @@ function KinkyDungeonClick() {
  */
 function KinkyDungeonExit() {
 	KinkyDungeonGameKey.removeKeyListener();
-	CommonDynamicFunction(MiniGameReturnFunction + "()");
+	MiniGameEnd();
 
 	// Refresh the player character if needed
 	if (ArcadeDeviousChallenge && KinkyDungeonPlayerNeedsRefresh) {
