@@ -6674,45 +6674,45 @@ var AssetFemale3DCGExtended = {
 					Key: "v",
 					Options: [
 						{
-							//v0 No Visor
 							Property: {
+								CustomBlindBackground: "",
 								Effect: [],
 							},
-						},
+						}, //v0 No Visor
 						{
-							// v1 Transparent Visor
 							Property: {
+								CustomBlindBackground: "",
 								Effect: [],
 								Tint: [{ Color: 0, Strength: 0.1 }],
 							},
-						},
+						}, // v1 Transparent Visor
 						{
-							// v2 Lightly Tinted Visor
 							Property: {
+								CustomBlindBackground: "",
 								Effect: [E.BlindLight, E.BlockWardrobe],
 								Tint: [{ Color: 0, Strength: 0.2 }],
 							},
-						},
+						}, // v2 Lightly Tinted Visor
 						{
-							// v3 Heavily Tinted Visor
 							Property: {
+								CustomBlindBackground: "",
 								Effect: [E.BlindNormal, E.BlockWardrobe],
 								Tint: [{ Color: 0, Strength: 0.5 }],
 							},
-						},
+						}, // v3 Heavily Tinted Visor
 						{
-							// v4 Opaque Visor
 							Property: {
+								CustomBlindBackground: "",
 								Effect: [E.BlindHeavy, E.BlockWardrobe],
 								Tint: [{ Color: 0, Strength: 1 }],
 							},
-						},
+						}, // v4 Opaque Visor
 						{
-							// v5 Hypnotic Visor
 							Property: {
+								CustomBlindBackground: "HypnoSpiral2",
 								Effect: [E.BlindHeavy, E.BlockWardrobe],
 							},
-						},
+						}, // v5 Hypnotic Visor
 					],
 				},
 				{
@@ -22115,18 +22115,47 @@ var AssetFemale3DCGExtended = {
 					Name: "Background",
 					Key: "b",
 					Options: [
-						// b0 - None
-						{},
-						// b1 - SynthWave
-						{},
-						// b2 - Dungeon
-						{},
-						// b3 - SciFiCell
-						{},
-						// b4 - AncientRuins
-						{},
-						// b5 - HypnoticSpiral
-						{},
+						{
+							// b0 - Passthrough
+							Property: {
+								CustomBlindBackground: "",
+							},
+						},
+						{
+							// b1 - SynthWave
+							Property: {
+								CustomBlindBackground: "SynthWave",
+								Effect: [],
+							},
+						},
+						{
+							// b2 - Dungeon
+							Property: {
+								CustomBlindBackground: "Dungeon",
+								Effect: [],
+							},
+						},
+						{
+							// b3 - SciFiCell
+							Property: {
+								CustomBlindBackground: "SciFiCell",
+								Effect: [],
+							},
+						},
+						{
+							// b4 - AncientRuins
+							Property: {
+								CustomBlindBackground: "AncientRuins",
+								Effect: [],
+							},
+						},
+						{
+							// b5 - HypnoticSpiral
+							Property: {
+								CustomBlindBackground: "HypnoticSpiral",
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
