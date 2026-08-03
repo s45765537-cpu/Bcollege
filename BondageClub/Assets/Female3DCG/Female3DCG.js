@@ -34954,15 +34954,47 @@ var AssetFemale3DCG = [
 				Left: 200,
 				Top: 410,
 				Layer: [
+					// Penis
 					{
 						Name: "Penis",
 						InheritColor: "Pussy",
 						HideColoring: true,
 						ColorSuffix: { HEX_COLOR: "White" },
+						AllowTypes: { t: 0 },
 					},
+					{
+						Name: "PenisSmall",
+						InheritColor: "Pussy",
+						CopyLayerColor: "Penis",
+						AllowTypes: { t: 1 },
+					},
+					{
+						Name: "PenisNub",
+						InheritColor: "Pussy",
+						CopyLayerColor: "Penis",
+						HideColoring: true,
+						AllowTypes: { t: 2 },
+					},
+					// Ring is always there
 					{ Name: "Ring" },
-					{ Name: "Cage" },
-					{ Name: "Lock", LockLayer: true },
+					// Cage Types
+					{ Name: "Cage", AllowTypes: { t: 0 } },
+					{ Name: "CageSmall", CopyLayerColor: "Cage", AllowTypes: { t: 1 } },
+					{ Name: "CageNub", CopyLayerColor: "Cage", AllowTypes: { t: 2 } },
+					// Locks
+					{ Name: "Lock", AllowTypes: { a: 0 }, LockLayer: true },
+					{
+						Name: "LockSmall",
+						CopyLayerColor: "Lock",
+						AllowTypes: { t: 1 },
+						LockLayer: true,
+					},
+					{
+						Name: "LockNub",
+						CopyLayerColor: "Lock",
+						AllowTypes: { t: 2 },
+						LockLayer: true,
+					},
 				],
 			},
 			{

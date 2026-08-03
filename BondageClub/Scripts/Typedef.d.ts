@@ -512,6 +512,10 @@ type PickLockAvailability = "" | "Disabled" | "PermissionsDisabled" | "Inaccessi
 
 type ItemVulvaFuturisticVibratorAccessMode = "" | "ProhibitSelf" | "LockMember";
 
+type ItemVulvaChastityCageExcitementLevel = "Excited" | "Aroused" | "Horny";
+
+type ItemVulvaChastityCageArousalPunishmentType = "Warning" | "Shrink" | "";
+
 type SpeechTransformName = "gagGarble" | "stutter" | "babyTalk" | "deafen";
 
 /** The {@link EffectName} values for all gag-related effects. */
@@ -3505,6 +3509,21 @@ interface ItemPropertiesCustom {
 
 	/** Override the left-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
 	DrawingLeft?: TopLeft.ItemData;
+
+	// #region Techno Chastity Cage settings */
+
+	/** Time when autoshrink will happen */
+	NextShrinkTime?: number;
+	/** Time when last shrink warning happened */
+	LastShrinkWarningTime?: number;
+	/** Time before next warning or shrinkage will happen again */
+	ShrinkCooldown?: number;
+	/** A boolean to whether show messages related to shrink or warning */
+	ShowShrinkText?: boolean;
+	/** A threshold passing which going to trigger auto shrink/warning */
+	ArousalLvl?: ItemVulvaChastityCageExcitementLevel;
+
+	// #endregion
 }
 
 interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, ItemPropertiesCustom { }
