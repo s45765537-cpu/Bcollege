@@ -752,10 +752,10 @@ var CraftingEventListeners = {
 		}
 		const craft = CraftingConvertSelectedToItem(CraftingSelectedItem);
 		CommonClipboardWrite(LZString.compressToBase64(JSON.stringify(craft)), (res) => {
-			if (res.ok) {
-				ToastManager.success("DownloadSuccess");
+			if (res.err) {
+				ToastManager.error(res.errorAsDOM(TextGet("DownloadFailed")));
 			} else {
-				ToastManager.error("DownloadFailed");
+				ToastManager.success(TextGet("DownloadSuccess"));
 			}
 		});
 	},

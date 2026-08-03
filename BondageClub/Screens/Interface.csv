@@ -34,6 +34,7 @@ AddTimerTimeMinutes,Add TimerTime minutes to the Timer
 AdjustTightness,Tighten / Loosen
 AlreadySet,Option already set
 AppCopyDone,Your appearance data has been copied to your clipboard.  Paste it somewhere else to save it.
+AppCopyError,Your appearance data cannot be copied.
 AppPasteDone,Your pasted appearance is loaded.
 AppPasteError,Your pasted appearance cannot be loaded.
 AppPasteBlocked,You cannot change your appearance.

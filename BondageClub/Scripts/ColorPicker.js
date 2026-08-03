@@ -509,23 +509,28 @@ var ColorPicker = {
 				color += Math.round(opacity * 255).toString(16).padStart(2, "0");
 			}
 
-			CommonClipboardWrite(color);
+			CommonClipboardWrite(color, (res) => {
+				if (res.err) {
+					ElementDOMScreen.setStatus(root, res.errorAsDOM(ItemColorText.get("CopyFailBrowser")));
+					return;
+				}
 
-			/** @type {Element} */
-			let colorTextElem;
-			if (isHexColor) {
-				colorTextElem = ElementCreate({ tag: "q", children: [
-					{ tag: "span", children: ["◼ "], style: { "color": color.slice(0, 7) } },
-					{ tag: "span", children: [color], style: { "font-family": "monospace" } },
-				]});
-			} else {
-				colorTextElem = ElementCreate({ tag: "q", children: [color] });
-			}
-			ElementDOMScreen.setStatus(root, TextSubstitute(
-				"CopySuccess",
-				{ "{color}": colorTextElem },
-				{ textCache: ItemColorText },
-			));
+				/** @type {Element} */
+				let colorTextElem;
+				if (isHexColor) {
+					colorTextElem = ElementCreate({ tag: "q", children: [
+						{ tag: "span", children: ["◼ "], style: { "color": color.slice(0, 7) } },
+						{ tag: "span", children: [color], style: { "font-family": "monospace" } },
+					]});
+				} else {
+					colorTextElem = ElementCreate({ tag: "q", children: [color] });
+				}
+				ElementDOMScreen.setStatus(root, TextSubstitute(
+					"CopySuccess",
+					{ "{color}": colorTextElem },
+					{ textCache: ItemColorText },
+				));
+			});
 		},
 
 		/**
@@ -540,7 +545,7 @@ var ColorPicker = {
 
 			CommonClipboardRead((res) => {
 				if (!res.ok) {
-					ElementDOMScreen.setStatus(root, ItemColorText.get("PasteFailBrowser"));
+					ElementDOMScreen.setStatus(root, res.errorAsDOM(ItemColorText.get("PasteFailBrowser")));
 					return;
 				}
 				const color = res.value;

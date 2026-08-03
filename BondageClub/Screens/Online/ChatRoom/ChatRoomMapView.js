@@ -2590,10 +2590,10 @@ function ChatRoomMapViewCopy() {
 
 	CommonClipboardWrite(mapString, (res) => {
 		if (res.err) {
-			ChatRoomSendLocal(TextGet("MapCopyError"));
-			return;
+			ToastManager.error(res.errorAsDOM(TextGet("MapCopyError")));
+		} else {
+			ToastManager.success(TextGet("MapCopyDone"));
 		}
-		ChatRoomSendLocal(TextGet("MapCopyDone"));
 	});
 }
 
@@ -2605,24 +2605,24 @@ function ChatRoomMapViewCopy() {
 function ChatRoomMapViewPaste(Param) {
 	// Validates the data first
 	if (typeof Param !== "string" || Param.length === 0) {
-		ChatRoomSendLocal(TextGet("MapPasteError"));
+		ToastManager.error(TextGet("MapPasteError"));
 		return;
 	}
 
 	// Only admins can paste/edit the map
 	if (!ChatRoomPlayerIsAdmin()) {
-		ChatRoomSendLocal(TextGet("MapPasteAdmin"));
+		ToastManager.error(TextGet("MapPasteAdmin"));
 		return;
 	}
 
 	if (!ChatRoomMapManager.Map.importString(Param)) {
-		ChatRoomSendLocal(TextGet("MapPasteError"));
+		ToastManager.error(TextGet("MapPasteError"));
 		return;
 	}
 
 	ChatRoomMapViewUpdateFlag();
 	ChatRoomMapViewCalculatePerceptionMasks();
-	ChatRoomSendLocal(TextGet("MapPasteDone"));
+	ToastManager.info(TextGet("MapPasteDone"));
 }
 
 /**

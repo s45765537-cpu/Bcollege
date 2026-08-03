@@ -2639,6 +2639,28 @@ class Result {
 	}
 
 	/**
+	 * Convert the {@link Result.Error} message into a list of DOM elements as usable by the likes of {@link ElementDOMScreen.setStatus}).
+	 *
+	 * Always returns an empty list for nullish errors
+	 * @param {null | string | Element | readonly (string | Element)[]} customMessage A custom message to be used as prefix
+	 * @returns {(string | Element)[]} The list of DOM elements
+	 */
+	errorAsDOM(customMessage=null) {
+		if (!this.error) {
+			return [];
+		}
+
+		const errorMessage = ElementCreate({ tag: "q", children: [this.error.message] });
+		if (customMessage == null) {
+			return [errorMessage];
+		} else if (!CommonIsArray(customMessage)) {
+			return [customMessage, `: `, errorMessage];
+		} else {
+			return [...customMessage, `: `, errorMessage];
+		}
+	}
+
+	/**
 	 * Build a Result for a successful operation
 	 * @template T
 	 * @param {T} value
@@ -2720,6 +2742,10 @@ function CommonClipboardRead(cb) {
  * @param {undefined | ((result: Result<null, ClipboardError>) => void)} [cb]
  */
 function CommonClipboardWrite(data, cb = undefined) {
+	if (!document.hasFocus()) {
+		// Chrome requires document focus for `writeText` operations; get rid of an any dialog- or alert focus
+		document.body.focus();
+	}
 	navigator.clipboard.writeText(data)
 		.then(() => {
 			cb?.(Result.success(null));

@@ -26,7 +26,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show an info toast, because you need to know stuff.
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	info(msg, opts = {}) { this._show({ icon: '../Icons/info_circle.svg', ...opts, message: msg, type: 'info' }); }
@@ -34,7 +34,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show a success toast. It's time to celebrate! 🎉
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	success(msg, opts = {}) { this._show({ icon: '../Icons/check_circle.svg', ...opts, message: msg, type: 'success' }); }
@@ -42,7 +42,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show a warning toast. Watch out, things might explode!
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	warning(msg, opts = {}) { this._show({ icon: '../Icons/exclamation_triangle.svg', ...opts, message: msg, type: 'warning' }); }
@@ -50,7 +50,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show an error toast. Oh noes, something broke.
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	error(msg, opts = {}) { this._show({ icon: '../Icons/cross_circle.svg', ...opts, message: msg, type: 'error' }); }
@@ -58,7 +58,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show a custom toast, because you're special.
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Toasts.Type} type - Custom type string or one of the predefined types.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
@@ -192,6 +192,7 @@ var ToastManager = new class ToastManager {
 		};
 
 		const clampClass = _.clampMessage ? 'toast-clamp-message' : 'scroll-box';
+		const messageArray = CommonIsArray(_.message) ? _.message : [_.message];
 
 		/** @type {Toasts.ToastElement} */
 		const toast = ElementCreate({
@@ -223,7 +224,7 @@ var ToastManager = new class ToastManager {
 						{
 							tag: 'span',
 							classList: ['toast-message', clampClass],
-							children: [_.message],
+							children: messageArray,
 						},
 						Array.isArray(_.buttons) ? {
 							tag: 'div',

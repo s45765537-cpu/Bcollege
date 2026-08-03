@@ -756,6 +756,8 @@ const CommonCommands = [
 			CommonClipboardRead((res) => {
 				if (res.ok) {
 					CharacterAppearancePaste(Player, res.value, true);
+				} else {
+					ToastManager.error(res.errorAsDOM(InterfaceTextGet("AppPasteError")));
 				}
 			});
 		},
@@ -775,6 +777,8 @@ const CommonCommands = [
 			CommonClipboardRead((res) => {
 				if (res.ok) {
 					ChatRoomMapViewPaste(res.value);
+				} else {
+					ToastManager.error(res.errorAsDOM(TextGet("MapPasteError")));
 				}
 			});
 		},
