@@ -62,9 +62,13 @@ AutoPunish,Sensitivity:
 BallGagMouthSetNormal,SourceCharacter loosens the gag on DestinationCharacter mouth.
 BallGagMouthSetShiny,SourceCharacter polishes the gag on DestinationCharacter mouth.
 BallGagMouthSetTight,SourceCharacter tightens the gag on DestinationCharacter mouth.
+BallGagMouthSetPacifierIn,SourceCharacter puts DestinationCharacter's pacifier in DestinationCharacter's mouth.
+BallGagMouthSetPacifierOut,SourceCharacter takes out DestinationCharacter's pacifier.
 BallGagMouthTypeNormal,Normal
 BallGagMouthTypeShiny,Shiny
 BallGagMouthTypeTight,Tight
+BallGagMouthTypePacifierIn,In Mouth
+BallGagMouthTypePacifierOut,Outside Mouth
 BeltDecreaseTo-1,DestinationCharacterName vibrating wand stops vibrating.
 BeltDecreaseTo0,DestinationCharacterName vibrating wand slows down into a light tease.
 BeltDecreaseTo1,DestinationCharacterName vibrating wand returns to a moderate pace.
@@ -7144,6 +7148,10 @@ SuitTransparentBunnyGirlMiddleTrans,Middle Trans
 SuitTransparentBunnyGirlOpaque,Opaque
 SuitTransparentBunnyGirlOverallTrans,Overall Trans
 SuitTransparentBunnyGirlSelect,Select Transparent Bunny Girl Style
+SuitDiaperSuitSelectBase,Diaper Suit Options
+SuitDiaperSuitSelectText,Change text
+SuitDiaperSuitModuleText,Text
+SuitDiaperSuitOptione0,Text
 SuspensionChange,SourceCharacter uses AssetName to suspend TargetCharacter from the ceiling.
 SuspensionChangeLower,SourceCharacter lowers the height of DestinationCharacter suspension.
 SuspensionChangeRaise,SourceCharacter raises the height of DestinationCharacter suspension.
