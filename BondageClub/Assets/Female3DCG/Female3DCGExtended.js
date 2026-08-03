@@ -13413,6 +13413,24 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 			Modules: [
 				{
+					Name: "CageType",
+					Key: "t",
+					Options: [
+						{}, // 0 - Standard
+						{}, // 1 - Small
+						{}, // 2 - Nub
+					],
+				},
+				{
+					Name: "Arousal",
+					DrawImages: false,
+					Key: "a",
+					Options: [
+						{}, //e0 - Off
+						{}, //e1 - On
+					],
+				},
+				{
 					Name: "Intensity",
 					Key: "i",
 					DrawImages: false,
@@ -13476,6 +13494,8 @@ var AssetFemale3DCGExtended = {
 				PunishStruggle: false,
 				PunishStruggleOther: false,
 				AccessMode: "",
+				ShowShrinkText: true,
+				ArousalLvl: "Horny",
 				TriggerValues: CommonConvertArrayToString(
 					InventoryItemVulvaTechnoChastityCageVoiceTriggers,
 				),

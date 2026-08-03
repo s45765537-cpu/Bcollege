@@ -92,8 +92,8 @@ function ItemModuleVoiceCommandHandle(C, item, LastTime, VoiceTriggers, TriggerV
 
 
 /**
- * @param {Item} item
  * @param {Character} C
+ * @param {Item} item
  * @param {number} shockCooldown
  * @param {AssetGroupItemName[]} tamperZones
  */
