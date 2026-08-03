@@ -156,7 +156,7 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	await ItemColorGroupNames.loadedPromise;
 	await ItemColorText.loadedPromise;
 
-	const state = /** @type {ItemColorStateType} */ (ItemColorState);
+	const state = ItemColorState;
 	// Add 25 from the width to correct for the hard-coded scrollbar gutter
 	const shape = /** @type {const} */([x, y, width + 25, height]);
 	if (state.simpleMode) {
