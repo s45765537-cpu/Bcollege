@@ -6,7 +6,7 @@
 		"checkJs": true,
 		"noEmit": true,
 		"incremental": true,
-		"tsBuildInfoFile": "../.cache/tsc-main.tsbuildinfo",
+		"tsBuildInfoFile": "../.cache/tsc-jest.tsbuildinfo",
 		"types": ["node", "jest"],
 		"skipLibCheck": true,
 		"strict": true,
