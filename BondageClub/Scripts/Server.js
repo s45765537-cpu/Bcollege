@@ -1438,7 +1438,7 @@ var ServerAccountDataSyncedValidate = {
 			const data = {
 				...arg,
 				Pos: ServerAccountDataSyncedValidate.MapData.Pos(arg?.Pos, C),
-				PrivateState: ServerAccountDataSyncedValidate.MapData.PrivateState(arg?.Pos, C),
+				PrivateState: ServerAccountDataSyncedValidate.MapData.PrivateState(arg?.PrivateState, C),
 			};
 			return data;
 		}, {
