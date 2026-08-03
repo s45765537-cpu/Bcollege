@@ -24234,8 +24234,20 @@ var AssetFemale3DCG = [
 				PoseMapping: {},
 				Layer: [
 					{ Name: "Chain" },
+					{ Name: "ChainBlend", BlendingMode: "screen", AllowColorize: false },
 					{ Name: "Triskelion" },
-					{ Name: "bd", CopyLayerColor: "2d", Priority: 5 },
+					{
+						Name: "TriskelionBlend",
+						BlendingMode: "screen",
+						AllowColorize: false,
+					},
+					{ Name: "Collar", Priority: 5 },
+					{
+						Name: "CollarBlend",
+						BlendingMode: "screen",
+						AllowColorize: false,
+						Priority: 5,
+					},
 				],
 				Attribution: {
 					Author: "Echo (SugarChain)",
