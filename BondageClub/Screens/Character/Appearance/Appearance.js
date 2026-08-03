@@ -1600,6 +1600,8 @@ function AppearanceMenuClick(C) {
 						CommonClipboardRead((res) => {
 							if (res.ok && res.value) {
 								CharacterAppearancePaste(C, res.value, false);
+							} else if (res.err) {
+								ToastManager.error(res.errorAsDOM(TextGet("AppPasteError")));
 							}
 						});
 					}
@@ -2067,9 +2069,13 @@ function CharacterAppearanceCopyToClipboard(C) {
 	if (App.length == 0) return;
 	let S = JSON.stringify(App);
 	S = LZString.compressToBase64(S);
-	CommonClipboardWrite(S);
-	ChatRoomSendLocal(InterfaceTextGet("AppCopyDone"));
-
+	CommonClipboardWrite(S, (res) => {
+		if (res.err) {
+			ToastManager.error(res.errorAsDOM(TextGet("AppCopyError")));
+		} else {
+			ToastManager.success(TextGet("AppCopyDone"));
+		}
+	});
 }
 
 /**
@@ -2085,12 +2091,16 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
 
 	// If the player cannot change, we show an error in chat
-	if (!C.CanChangeOwnClothes())
-		return ChatRoomSendLocal(InterfaceTextGet("AppPasteBlocked"));
+	if (!C.CanChangeOwnClothes()) {
+		ToastManager.error(InterfaceTextGet("AppPasteBlocked"));
+		return;
+	}
 
 	// Validates the compressed string first
-	if (typeof CompApp !== "string" || CompApp.length === 0)
-		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
+	if (typeof CompApp !== "string" || CompApp.length === 0) {
+		ToastManager.error(InterfaceTextGet("AppPasteError"));
+		return;
+	}
 
 	// Try to decompress the data
 	let DecompressedData = null;
@@ -2101,8 +2111,10 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	}
 
 	// If we failed to decompress
-	if (DecompressedData == null)
-		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
+	if (DecompressedData == null) {
+		ToastManager.error(InterfaceTextGet("AppPasteError"));
+		return;
+	}
 
 	// Tries to get the appearance bundle object
 	/** @type {ClipboardAppearanceBundle | null} */
@@ -2116,8 +2128,10 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	}
 
 	// If the loaded data is invalid
-	if ((App == null) || !Array.isArray(App) || (App.length == 0))
-		return ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
+	if ((App == null) || !Array.isArray(App) || (App.length == 0)) {
+		ToastManager.error(InterfaceTextGet("AppPasteError"));
+		return;
+	}
 
 	// Restores the appearance rows that are valid
 	let MustRefresh = false;
@@ -2150,9 +2164,9 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	if (MustRefresh) {
 		CharacterRefresh(C, false);
 		if (ChatRoomRefresh) ChatRoomCharacterUpdate(C);
-		ChatRoomSendLocal(InterfaceTextGet("AppPasteDone"));
+		ToastManager.info(InterfaceTextGet("AppPasteDone"));
 	} else {
-		ChatRoomSendLocal(InterfaceTextGet("AppPasteError"));
+		ToastManager.error(InterfaceTextGet("AppPasteError"));
 	}
 
 }

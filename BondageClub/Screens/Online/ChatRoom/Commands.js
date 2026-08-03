@@ -1481,10 +1481,10 @@ var CommandsModsList = {
 			function () {
 				CommonClipboardWrite(CommandsModsList._FormatModListForCopy(mods, char), (res) => {
 					if (res.err) {
-						ToastManager.error(TextGet("CommandModsListCopyError"));
-						return;
+						ToastManager.error(res.errorAsDOM(TextGet("CommandModsListCopyError")));
+					} else {
+						ToastManager.success(TextGet("CommandModsListCopyDone"));
 					}
-					ToastManager.success(TextGet("CommandModsListCopyDone"));
 				});
 			},
 			{

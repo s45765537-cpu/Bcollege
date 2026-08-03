@@ -3,6 +3,7 @@ Cancel,Cancel
 Reset,Reset to default
 Copy,Copy color
 CopyFail,Failed to copy colors of item with {nColors} distinct colors
+CopyFailBrowser,Browser does not support color copying
 CopySuccess,Color {color} successfully copied
 Paste,Paste color
 PasteFailBrowser,Browser does not support color pasting
