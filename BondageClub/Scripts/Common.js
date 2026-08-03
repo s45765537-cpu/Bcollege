@@ -2742,6 +2742,10 @@ function CommonClipboardRead(cb) {
  * @param {undefined | ((result: Result<null, ClipboardError>) => void)} [cb]
  */
 function CommonClipboardWrite(data, cb = undefined) {
+	if (!document.hasFocus()) {
+		// Chrome requires document focus for `writeText` operations; get rid of an any dialog- or alert focus
+		document.body.focus();
+	}
 	navigator.clipboard.writeText(data)
 		.then(() => {
 			cb?.(Result.success(null));
