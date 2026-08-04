@@ -59,6 +59,7 @@ async function GameStart() {
 	canvas.addEventListener("pointerup", (e) => GamePointerUp(e, canvas));
 	canvas.addEventListener("pointermove", (e) => GamePointerMove(e));
 	canvas.addEventListener("pointercancel", (e) => GamePointerCancel(e, canvas));
+	canvas.addEventListener("pointerout", (e) => GamePointerOut(e));
 	canvas.addEventListener("touchend", (e) => GameTouchEnd(e));
 
 	canvas.addEventListener("click", (e) => GameClick(e));
@@ -336,4 +337,12 @@ function GamePointerCancel(event, canvas) {
 	MouseY = -1;
 	CommonTouchList = null;
 	canvas.releasePointerCapture(event.pointerId);
+}
+
+/**
+ * @param {PointerEvent} event
+ */
+function GamePointerOut(event) {
+	MouseX = -1;
+	MouseY = -1;
 }
