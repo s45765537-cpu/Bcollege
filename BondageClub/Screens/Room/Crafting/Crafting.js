@@ -982,7 +982,7 @@ var CraftingEventListeners = {
 		}
 
 		if (this.getAttribute("aria-checked") === "true") {
-			controlButton.replaceChildren(...this.cloneNode().children);
+			controlButton.replaceChildren(...this.cloneNode(true).children);
 			return;
 		} else {
 			controlButton.replaceChildren();
