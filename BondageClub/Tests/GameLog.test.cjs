@@ -1,6 +1,6 @@
 "use strict";
 
-const Game = require("./game");
+const { Game } = require("./Utils");
 
 Game.load("../Scripts/Common.js");
 
