@@ -1,20 +1,71 @@
 "use strict";
+
+const path = require("path");
 const fs = require("fs");
 const vm = require("vm");
 const { TextEncoder: NodeTextEncoder, TextDecoder: NodeTextDecoder } = require("util");
 
-/** @type {typeof globalThis & Record<string, any>} */
-const Game = {
+/**
+ * @param {string} parentFile - The path to the file
+ * @param {string} relativePath - The src
+ * @returns {string} The absolute or relative path
+ */
+function resolvePath(parentFile, relativePath) {
+	const parentDir = path.dirname(parentFile);
+	return path.join(parentDir, relativePath);
+}
+
+/** Required BC symbol overrides to be inserted after the VM has run its course (see {@link Game.load}) */
+const postVMMocks = {
+	/** @type {(file: string, callback: (this: XMLHttpRequest, xhr: XMLHttpRequest) => void) => void} */
+	CommonGet: (file, callback) => {
+		const data = fs.readFileSync(file, "utf8");
+		const obj = /** @type {XMLHttpRequest} */({
+			status: 200,
+			responseText: data,
+		});
+		callback.call(obj, obj);
+	},
+	/** @type {(request: RequestInfo | URL) => Promise<Response>} */
+	CommonFetch: async (url) => {
+		const data = fs.readFileSync(`${url}`, "utf8");
+		const obj = /** @type {Response} */({
+			status: 200,
+			async text() { return data; },
+		});
+		return obj;
+	},
+	/** @type {() => string} */
+	CommonGetServer: () => Game.ServerURL,
+	/** @type {() => void} */
+	ServerInit: () => undefined,
+};
+
+const _Game = {
 	...global,
 	window: window,
 	document: document,
 	console: console,
 	XMLHttpRequest: XMLHttpRequest,
 	Image: Image,
+	HTMLElement,
+	HTMLCanvasElement,
+	HTMLImageElement,
 	TextEncoder: NodeTextEncoder,
-	// @ts-expect-error: Minor type mismatch between `window.TextDecoder` and `util.TextDecoder`
 	TextDecoder: NodeTextDecoder,
-	// @ts-expect-error: _SIGNIFICANT_ type mismatch between `window.Audio` and the `Audio` replacement here due to missing properties
+	Worker: class {
+		/**
+		 * @param {string | URL} scriptURL
+		 * @param {WorkerOptions} [options]
+		 */
+		constructor(scriptURL, options) {
+		}
+		terminate() {}
+	},
+	/** @type {(query: string) => MediaQueryList} */
+	matchMedia(query) {
+		return /** @type {MediaQueryList} */({ matches: false });
+	},
 	Audio: class {
 		/**
 		 * @param {string | undefined} [src]
@@ -40,82 +91,49 @@ const Game = {
 		// #TODO: implement fetch functionality
 		return new Promise((resolve, reject) => {});
 	},
-};
-
-const domGlobals = /** @type {const} */([
-	"HTMLElement",
-	"HTMLCanvasElement",
-]);
-
-domGlobals.forEach((key) => {
-	if (key in global) {
-		Game[/** @type {string} */(key)] = global[key];
-	}
-});
-
-const path = require("path");
-
-/**
- * @param {string} parentFile - The path to the file
- * @param {string} relativePath - The src
- * @returns {string} The absolute or relative path
- */
-function resolvePath(parentFile, relativePath) {
-	const parentDir = path.dirname(parentFile);
-
-	return path.join(parentDir, relativePath);
-}
-
-/** @type {(file: string) => void} */
-function load(file) {
-	const realFile = path.resolve(__dirname, file);
-	const contents = fs.readFileSync(realFile, { encoding: "utf8" });
-	for (const key in global) {
-		if (
-			Object.prototype.hasOwnProperty.call(global, key) &&
-			Game[key] === undefined
-		) {
-			Game[key] = global[/** @type {keyof globalThis} */(key)];
+	/** @type {(file: string) => void} */
+	load(file) {
+		const realFile = path.resolve(path.dirname(__dirname), file);
+		const contents = fs.readFileSync(realFile, { encoding: "utf8" });
+		for (const _key in global) {
+			const key = /** @type {keyof globalThis} */(_key);
+			if (
+				Object.prototype.hasOwnProperty.call(global, key) &&
+				this[key] === undefined
+			) {
+				// @ts-expect-error: TS is bad at iterating over interfaces
+				this[key] = global[key];
+			}
 		}
-	}
 
-	if (file.endsWith(".html")) {
-		// Inject HTML into the JSDOM environment
-		// eslint-disable-next-line nounsanitized/property
-		document.documentElement.innerHTML = contents;
-		const scripts = document.querySelectorAll("script[src]");
-		scripts.forEach((s) => {
-			const src = /** @type {string} */(s.getAttribute("src"));
-			load(resolvePath(file, src));
-		});
-	} else {
-		const script = new vm.Script(contents, { filename: file });
-		script.runInNewContext(Game);
-	}
-}
+		if (file.endsWith(".html")) {
+			// Inject HTML into the JSDOM environment
+			// eslint-disable-next-line nounsanitized/property
+			document.documentElement.innerHTML = contents;
+			const scripts = document.querySelectorAll("script[src]");
+			scripts.forEach((s) => {
+				const src = /** @type {string} */(s.getAttribute("src"));
+				this.load(resolvePath(file, src));
+			});
+		} else {
+			const script = new vm.Script(contents, { filename: file });
+			script.runInNewContext(this);
+			Object.assign(this, postVMMocks);
+		}
+	},
+	/** @type {() => Promise<void>} */
+	async loadAll() {
+		this.load("../index.html");
+		/** @type {Promise<void>} */
+		const promise = this.GameStart(true);
+		return promise;
+	},
 
-/**
- * @param {string} name
- * @param {null | { isPlayer?: boolean }} opts
- * @returns {Character}
- */
-function createCharacter(name, opts=null) {
-	/** @type {Character} */
-	const char = Game.CharacterReset(opts?.isPlayer ? 0 : name, "Female3DCG");
-
-	char.Name = char.AccountName = name;
-
-	Game.PreferenceInit(char);
-	return char;
-}
-
-Game.load = load;
-
-Game.loadAll = function() {
-	this.load("../index.html");
-	Game.AssetLoadAll();
+	// Symbol initialized after `loadAll`
+	/** @type {(isNode?: boolean) => Promise<void>} */
+	GameStart: /** @type {never} */(undefined),
 };
 
-Game.createCharacter = createCharacter;
+const Game = /** @type {typeof _Game & Record<string, any>} */(_Game);
 
-module.exports = Game;
+module.exports = { Game };

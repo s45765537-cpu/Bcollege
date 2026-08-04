@@ -1,17 +1,20 @@
 "use strict";
 const { Game } = require("./Utils");
 
-Game.loadAll();
+/** @type {ColorAssetMock} */
+let asset;
 
-/** @satisfies {ColorAssetMock} */
-const asset = {
-	Name: "Foo",
-	get ColorableLayerCount() { return this.DefaultColor.length; },
-	DefaultColor: ["Default", "#112233"],
-	Group: {
-		ColorSchema: ["Default", "White", "Asian", "Black"],
-	},
-};
+beforeAll(async () => {
+	await Game.loadAll();
+	asset = {
+		Name: "Foo",
+		get ColorableLayerCount() { return this.DefaultColor.length; },
+		DefaultColor: ["Default", "#112233"],
+		Group: {
+			ColorSchema: ["Default", "White", "Asian", "Black"],
+		},
+	};
+});
 
 describe("Item.fromAsset", () => {
 	it("item from asset", () => {
