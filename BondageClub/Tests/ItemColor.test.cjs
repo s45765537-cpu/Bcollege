@@ -10,12 +10,14 @@ Game.load("../Screens/Character/ItemColor/ItemColor.js");
 const partialAsset1 = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "#112233"],
+	Group: {},
 };
 
 /** @satisfies {ColorAssetMock} */
 const partialAsset2 = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "Default"],
+	Group: {},
 };
 
 describe("ItemColorIsDefault", () => {
