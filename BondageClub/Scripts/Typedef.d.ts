@@ -3257,6 +3257,12 @@ interface AssetDefinitionProperties {
 	Opacity?: number | number[];
 
 	/**
+	 * A custom background for this option that overrides the default
+	 * @see {@link Asset.CustomBlindBackground}
+	 */
+	CustomBlindBackground?: string;
+
+	/**
 	 * A list of fetishes affected by the item
 	 * @see {@link Asset.Fetish}
 	 */
