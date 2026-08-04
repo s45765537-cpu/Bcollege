@@ -2,7 +2,9 @@
 
 // Keep this file as .cjs
 // TS is only able to handle `require("./Utils")` calls when index.js is present and not index.cjs
-const Game = require("./game.cjs");
+const { Game } = require("./game.cjs");
+const character = require("./character.cjs");
+const utils = require("./utils.cjs");
 
 module.exports = {
 	character,
