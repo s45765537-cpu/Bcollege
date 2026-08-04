@@ -2867,7 +2867,7 @@ declare namespace ExtendedItemCallbacks {
 	 */
 	type Validate<
 		OptionType extends ExtendedItemOption = ExtendedItemOption
-	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string>;
+	> = ExtendedItemCallback<[C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string | null>;
 	/**
 	 * Callback for extended item `PublishAction` functions.
 	 * `PublishAction` functions are responsible for reporting any changes to an item's properties via a chat message.
@@ -2985,7 +2985,7 @@ declare namespace ExtendedItemScriptHookCallbacks {
 	type Validate<
 		DataType extends ExtendedItemData<any>,
 		OptionType extends ExtendedItemOption
-	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string>;
+	> = ExtendedItemScriptHookCallback<DataType, [C: Character, item: Item, newOption: OptionType, previousOption: OptionType, permitExisting?: boolean], string | undefined>;
 	/**
 	 * Callback for extended item `PublishAction` script hooks.
 	 * `PublishAction` functions are responsible for reporting any changes to an item's properties via a chat message.

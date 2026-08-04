@@ -51,7 +51,7 @@ var FuturisticAccessChastityGroups = ["ItemPelvis", "ItemTorso", "ItemButt", "It
 function FuturisticAccess(data, OriginalFunction, DeniedFunction) {
 	const C = CharacterGetCurrent();
 	if (!C) return false;
-	if (InventoryItemFuturisticValidate(C) !== "") {
+	if (InventoryItemFuturisticValidate(C)) {
 		DialogExtendedMessage = AssetTextGet("FuturisticItemLoginScreen");
 		DeniedFunction(data);
 		return false;
@@ -185,10 +185,10 @@ function InventoryItemFuturisticClickAccessDenied(data) {
  * @param {Character} C - The character to validate the option
  * @param {Item | null} Item - The equipped item
  * @param {boolean} [changeWhenLocked] - See {@link ExtendedItemOption.ChangeWhenLocked}
- * @returns {string} - Returns false and sets DialogExtendedMessage, if the chosen option is not possible.
+ * @returns {string | null} - Returns an explanation for the failed validation if the chosen option is not possible, or null.
  */
 function InventoryItemFuturisticValidate(C, Item = DialogFocusItem, changeWhenLocked=false) {
-	var Allowed = "";
+	let Allowed = null;
 
 	/**
 	 * TODO: Find a better way for dealing with the crafting preview character rather
