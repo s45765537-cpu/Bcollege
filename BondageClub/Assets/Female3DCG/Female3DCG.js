@@ -9629,7 +9629,6 @@ var AssetFemale3DCG = [
 				// StyleOverride: ["EchoV2"],
 				HideItem: [
 					...AssetMalePantiesList,
-					...AssetMaleChasityCagesList,
 					"ItemButtAnalBeads2",
 					"ItemVulvaHempRopeBelt",
 					"ItemVulvaVibratingDildo",

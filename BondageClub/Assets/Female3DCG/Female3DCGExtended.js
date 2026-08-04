@@ -2608,6 +2608,16 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Normal",
 					Property: {
+						Hide: ["Pussy"],
+						HideItem: [
+							"ItemVulvaPlasticChastityCage2",
+							"ItemVulvaPlasticChastityCage1",
+							"ItemVulvaTechnoChastityCage",
+							"ItemVulvaFlatChastityCage",
+							"ItemVulvaBallspreader",
+							"ItemVulvaChastityPouch",
+							"ItemVulvaFullCasingCage",
+						],
 						Block: [
 							"ItemPelvis",
 							"ItemVulva",
