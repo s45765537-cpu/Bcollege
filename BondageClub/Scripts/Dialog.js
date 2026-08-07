@@ -4461,7 +4461,6 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 
 	/**
 	 * Get an object with all UI-configurable expression group names mapped to their respective expressions.
-	 * @readonly
 	 * @type {Readonly<Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>>}
 	 */
 	get facialExpressions() {
@@ -4867,7 +4866,6 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 
 	/**
 	 * An object mapping all (potentially) button-valid pose categories to their respective poses.
-	 * @readonly
 	 * @type {Readonly<Partial<Record<AssetPoseCategory, readonly Pose[]>>>}
 	 */
 	get poses() {
@@ -5105,7 +5103,6 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 	_expressionPreviews = null;
 
 	/**
-	 * @readonly
 	 * @type {readonly (null | Character)[]}
 	 */
 	get expressionPreviews() {
