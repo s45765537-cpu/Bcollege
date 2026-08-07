@@ -5256,7 +5256,7 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 		empty: "dialog-owner-rules-empty",
 	});
 
-	/** @type {DialogMenu<ModeType, number>["clickStatusCallbacks"]} */
+	/** @type {DialogMenu<ModeType, null>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {};
 
 	/** @type {_DialogSelfMenu["IsAvailable"]} */
