@@ -2721,7 +2721,7 @@ interface ExtendedItemDialog<
 	OptionType extends ExtendedItemOption,
 > {
 	/** The dialogue prefix for the player prompt that is displayed on each module's menu screen */
-	header: string | ExtendedItemHeaderCallback<DataType>;
+	header?: string | ExtendedItemHeaderCallback<DataType>;
 	/** The dialogue prefix for the name of each module */
 	module?: string;
 	/** The dialogue prefix for the name of each option */
@@ -3896,7 +3896,7 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 	drawData: ExtendedItemDrawData<ElementMetaData.NoArch>;
 	dialogPrefix: {
 		/** The dialog key for the item's load text (usually a prompt to select the type) */
-		header: string | ExtendedItemHeaderCallback<NoArchItemData>;
+		header?: string | ExtendedItemHeaderCallback<NoArchItemData>;
 		/** The prefix used for dialog keys representing the display names of the item's types */
 		option?: string;
 		/** The prefix used for dialog keys representing the item's chatroom messages when its type is changed */
