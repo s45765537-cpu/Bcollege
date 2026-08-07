@@ -80,7 +80,7 @@ function NoArchCreateNoArchItemData(asset, {
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,
 		dialogPrefix: {
-			header: DialogPrefix.Header || `${key}Select`,
+			header: DialogPrefix.Header,
 			option: DialogPrefix.Option,
 			chat: DialogPrefix.Chat,
 		},
