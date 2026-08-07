@@ -218,7 +218,9 @@ const MainHallAllowIDToScreenMap = /** @type {const} */ ({
 	"Arcade": "7",
 });
 
-const allowIdToScreenMap = CommonFromEntries(CommonEntries(MainHallAllowIDToScreenMap).map(([key, value]) => [value, key]));
+const allowIdToScreenMap = /** @type {{ [k in keyof typeof MainHallAllowIDToScreenMap as typeof MainHallAllowIDToScreenMap[k]]: k }} */(
+	CommonFromEntries(CommonEntries(MainHallAllowIDToScreenMap).map(([key, value]) => [value, key]))
+);
 
 /**
  * A list of conversions to apply to rules, for backward-compatibility with
