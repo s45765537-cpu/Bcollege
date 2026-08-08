@@ -5,13 +5,13 @@
  * @returns {T}
  */
 function filterNullValues(obj) {
-    const ret = /** @type {typeof obj} */({});
-    for (const [k, v] of entries(obj)) {
-        if (v !== undefined) {
-            ret[k] = v;
-        }
-    }
-    return ret;
+	const ret = /** @type {typeof obj} */({});
+	for (const [k, v] of entries(obj)) {
+		if (v !== undefined) {
+			ret[k] = v;
+		}
+	}
+	return ret;
 }
 
 /**

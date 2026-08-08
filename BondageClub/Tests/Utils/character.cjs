@@ -16,18 +16,17 @@ function create(name, options=null) {
 		case "simple":
 			C = Game.CharacterLoadSimple(name);
 			break;
-        case "player":
-            // FIXME - WIP
-            /** @type {Character} */
-            C = Game.CharacterReset(0, "Female3DCG");
-            C.Name = C.AccountName = name;
-            Game.PreferenceInit(C);
-            throw new Error(`Character type support "${options.type}" not yet implemented`);
-            break;
+		case "player":
+			// FIXME - WIP
+			/** @type {Character} */
+			C = Game.CharacterReset(0, "Female3DCG");
+			C.Name = C.AccountName = name;
+			Game.PreferenceInit(C);
+			throw new Error(`Character type support "${options.type}" not yet implemented`);
 		default:
 			throw new Error(`Character type support "${options.type}" not yet implemented`);
 	}
-    appearanceReset(C);
+	appearanceReset(C);
 	return C;
 }
 
@@ -36,7 +35,7 @@ function create(name, options=null) {
  * @param {Character} C
  */
 function destroy(C) {
-    Game.CharacterDelete(C);
+	Game.CharacterDelete(C);
 }
 
 /**
@@ -44,7 +43,7 @@ function destroy(C) {
  * @param {Character} C
  */
 function refresh(C) {
-    Game.CharacterRefresh(C, true);
+	Game.CharacterRefresh(C, true);
 }
 
 /**
@@ -63,14 +62,14 @@ function appearanceReset(C) {
  * @returns {Item}
  */
 function inventoryWear(C, itemBundle) {
-    itemBundle = cloneDeep(itemBundle);
-    /** @type {null | Item} */
-    const item = Game.InventoryWear(C, itemBundle.Name, itemBundle.Group, itemBundle.Color, itemBundle.Difficulty, null, itemBundle.Craft, false);
-    if (item == null) {
-        throw new Error(`Failed to equip "${JSON.stringify(itemBundle)}" bundle`);
-    }
-    Object.assign(item.Property, itemBundle.Property ?? {});
-    return item;
+	itemBundle = cloneDeep(itemBundle);
+	/** @type {null | Item} */
+	const item = Game.InventoryWear(C, itemBundle.Name, itemBundle.Group, itemBundle.Color, itemBundle.Difficulty, null, itemBundle.Craft, false);
+	if (item == null) {
+		throw new Error(`Failed to equip "${JSON.stringify(itemBundle)}" bundle`);
+	}
+	Object.assign(item.Property, itemBundle.Property ?? {});
+	return item;
 }
 
 /**
@@ -80,11 +79,11 @@ function inventoryWear(C, itemBundle) {
  */
 function appearancePack(items) {
 	return cloneDeep(items.map(item => {
-        /** @type {ItemBundle} */
-        const itemBundle = Game.ServerBundledItemFromAppearanceItem(item);
-        // Remove undefined values in order to make Jest's `toMatchObject()` output easier to evaluate
-        return filterNullValues(itemBundle);
-    }));
+		/** @type {ItemBundle} */
+		const itemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		// Remove undefined values in order to make Jest's `toMatchObject()` output easier to evaluate
+		return filterNullValues(itemBundle);
+	}));
 }
 
 /**
@@ -94,13 +93,13 @@ function appearancePack(items) {
  */
 function appearanceUnpack(items) {
 	return items.map(itemBundle => {
-        /** @type {null | Item} */
-        const item = Game.ServerBundledItemToAppearanceItem("Female3DCG", cloneDeep(itemBundle));
-        if (item == null) {
-            throw new Error(`Failed to unpack "${JSON.stringify(itemBundle)}" bundle`);
-        }
-        return filterNullValues(item);
-    });
+		/** @type {null | Item} */
+		const item = Game.ServerBundledItemToAppearanceItem("Female3DCG", cloneDeep(itemBundle));
+		if (item == null) {
+			throw new Error(`Failed to unpack "${JSON.stringify(itemBundle)}" bundle`);
+		}
+		return filterNullValues(item);
+	});
 }
 
 module.exports = {
