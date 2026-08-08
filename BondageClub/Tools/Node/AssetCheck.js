@@ -484,8 +484,7 @@ function testExtendedItemDialog(dataSuperRecord, dialogArray) {
 					missingDialog = testModularItemDialog(groupName, assetName, data, dialogSet);
 					break;
 				default:
-					continue;
-					throw new Error(`Unknown archetype "${data.archetype}"`);
+					throw new Error(`Unknown archetype "${/** @type {any} */(data).archetype}"`);
 			}
 
 			if (missingDialog.size !== 0) {
