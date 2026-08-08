@@ -15935,6 +15935,7 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: "BigMouthSelectMouthStyle",
 				Option: "BigMouthMouthStyle",
+				Chat: "ItemMouthBigMouthSet",
 			},
 		}, // BigMouth
 		FuturisticMuzzle: {
@@ -16671,6 +16672,11 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 			],
+			DialogPrefix: {
+				Header: "ItemMouthGenitalGagSelect",
+				Option: "ItemMouthGenitalGag",
+				Chat: "ItemMouthGenitalGagSet",
+			},
 			DrawImages: false,
 		}, // GenitalGag
 		PremiumMuzzle: {
