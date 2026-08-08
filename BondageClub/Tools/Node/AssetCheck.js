@@ -473,7 +473,11 @@ function testExtendedItemDialog(dataSuperRecord, dialogArray) {
 			/** @type {Set<string>} */
 			let missingDialog;
 			switch (data.archetype) {
+				case "vibrating":
 				case "typed":
+				case "variableheight":
+				case "text":
+				case "noarch":
 					missingDialog = testTypedItemDialog(groupName, assetName, data, dialogSet);
 					break;
 				case "modular":
@@ -553,12 +557,12 @@ function gatherDifferenceFromTo(prefixIter, suffixIter, referenceSet, diffSet) {
  * Helper function for {@link testExtendedItemDialog}.
  * @param {AssetGroupName} groupName
  * @param {string} assetName
- * @param {TypedItemData} data
+ * @param {TypedItemData | VibratingItemData | VariableHeightData | TextItemData | NoArchItemData} data
  * @param {ReadonlySet<string>} dialogSet The set of all `AssetStrings.csv` dialog keys
  * @returns {Set<string>} The missing dialog keys
  */
 function testTypedItemDialog(groupName, assetName, data, dialogSet) {
-	/** @type {Partial<TypedItemData["dialogPrefix"]>} */
+	/** @type {Partial<(typeof data)["dialogPrefix"]>} */
 	const dialogConfig = { ...data.dialogPrefix };
 
 	if (
@@ -574,17 +578,34 @@ function testTypedItemDialog(groupName, assetName, data, dialogSet) {
 
 	/** @type {Set<string>} */
 	const missingDialog = new Set();
-	const optionNames = data.options.map(o => !o.HasSubscreen ? o.Name : undefined);
-	gatherDifference([dialogConfig.option], optionNames, dialogSet, missingDialog);
-	if (dialogConfig.header) {
-		gatherDifference([dialogConfig.header], [""], dialogSet, missingDialog);
+
+	/** @type {(undefined | string)[]} */
+	let optionSuffices = [];
+	/** @type {(undefined | string)[]} */
+	let chatSuffices = [];
+	switch (data.archetype) {
+		case "typed":
+			optionSuffices = chatSuffices = data.options.map(o => !o.HasSubscreen ? o.Name : undefined);
+			break;
+		case "vibrating": {
+			const direction = ["Increase", "Decrease"];
+			/** @type {VibratorIntensity[]} */
+			const intensity = [-1, 0, 1, 2, 3];
+			chatSuffices = direction.flatMap(dir => intensity.map(i => `${dir}To${i}`));
+			chatSuffices.push(...data.options.filter(o => o.Advanced).map(o => o.Name));
+			optionSuffices = data.options.map(o => !o.HasSubscreen ? o.Name : undefined);
+		}
 	}
+	if ("option" in dialogConfig) {
+		gatherDifference([dialogConfig.option], optionSuffices, dialogSet, missingDialog);
+	}
+	gatherDifference([dialogConfig.header], [""], dialogSet, missingDialog);
 	switch (data.chatSetting) {
 		case "default":
-			gatherDifference([dialogConfig.chat], optionNames, dialogSet, missingDialog);
+			gatherDifference([dialogConfig.chat], chatSuffices, dialogSet, missingDialog);
 			break;
 		case "fromTo":
-			gatherDifferenceFromTo([dialogConfig.chat], optionNames, dialogSet, missingDialog);
+			gatherDifferenceFromTo([dialogConfig.chat], chatSuffices, dialogSet, missingDialog);
 			break;
 	}
 	return missingDialog;
