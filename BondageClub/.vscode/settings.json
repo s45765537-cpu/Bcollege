@@ -5,5 +5,6 @@
     "js/ts.tsdk.path": "node_modules/typescript/lib",
 	"[javascript][typescript]": {
 		"editor.insertSpaces": false
-	}
+    },
+    "files.eol": "\n"
 }
