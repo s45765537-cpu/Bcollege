@@ -321,6 +321,7 @@ function VibratorModeGetOptions(data, modeSet) {
 				...CommonOmit(protoOption, ["ArchetypeConfig"]),
 				OptionType: "VibratingItemOption",
 				ParentData: data,
+				Advanced: VibratorModesAdvanced.includes(protoOption.Name),
 				Property: {
 					...CommonCloneDeep(protoOption.Property),
 					TypeRecord: { [data.name]: i },
