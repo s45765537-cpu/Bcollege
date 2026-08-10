@@ -3486,8 +3486,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Block: [
 							"ItemPelvis",
-							"ItemTorso",
-							"ItemTorso2",
 							"ItemLegs",
 							"ItemFeet",
 							"ItemHands",
@@ -3522,8 +3520,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Block: [
 							"ItemPelvis",
-							"ItemTorso",
-							"ItemTorso2",
 							"ItemLegs",
 							"ItemFeet",
 							"ItemHands",
