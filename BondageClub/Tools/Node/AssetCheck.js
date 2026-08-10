@@ -1482,6 +1482,10 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				} else if (layer.AllowTypes) {
 					// Filter out `undefined` in case someone messes up `layer.AllowTypes`
 					options = Object.entries(layer.AllowTypes.AllTypes).flatMap(([screenKey, indexSet]) => {
+						if (!optionsRecord[screenKey]) {
+							error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: missing extended options. Possibly a missing CopyConfig directive?`);
+							return /** @type {never} */({});
+						}
 						return Array.from(indexSet).map(i => {
 							partialLayerTypes.push(`${screenKey}${i}`);
 							return optionsRecord[screenKey][i];
