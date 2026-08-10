@@ -7316,6 +7316,7 @@ VibeModeActionDecreaseTo-1,DestinationCharacterName AssetName stops vibrating.
 VibeModeActionDecreaseTo0,DestinationCharacterName AssetName slows down into a light tease.
 VibeModeActionDecreaseTo1,DestinationCharacterName AssetName returns to a moderate pace.
 VibeModeActionDecreaseTo2,DestinationCharacterName AssetName slows down a tiny bit.
+VibeModeActionDecreaseTo3,DestinationCharacterName AssetName keeps on going.
 VibeModeActionDeny,DestinationCharacterName AssetName switches to a denying pattern
 VibeModeActionEdge,DestinationCharacterName AssetName switches to an edging pattern
 VibeModeActionEscalate,DestinationCharacterName AssetName switches to a escalating pattern

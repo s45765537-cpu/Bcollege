@@ -459,38 +459,43 @@ function* flattenExtendedConfig(extendedItemConfig) {
 
 /**
  * Checks for the option names of typed items
- * @param {ExtendedItemMainConfig} extendedItemConfig
- * @param {string[][]} dialogArray
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord The extended item data
+ * @param {string[][]} dialogArray The dialog array as created from `AssetStrings.csv`
  */
-function testExtendedItemDialog(extendedItemConfig, dialogArray) {
+function testExtendedItemDialog(dataSuperRecord, dialogArray) {
 	const dialogSet = new Set(dialogArray.map(i => i[0]));
 	let first = true;
-	for (const { groupName, assetName, assetConfig } of flattenExtendedConfig(extendedItemConfig)) {
-		// Skip if dialog keys if they are set via CopyConfig;
-		// they will be checked when validating the parent item
-		if (assetConfig.CopyConfig && !assetConfig?.DialogPrefix) {
-			continue;
-		}
+	for (const dataRecord of Object.values(dataSuperRecord)) {
+		for (const data of Object.values(dataRecord)) {
+			const groupName = data.asset.Group.Name;
+			const assetName = data.asset.Name;
 
-		/** @type {Set<string>} */
-		let missingDialog = new Set();
-		switch (assetConfig.Archetype) {
-			case "typed":
-				missingDialog = testTypedItemDialog(groupName, assetName, assetConfig, dialogSet);
-				break;
-			case "modular":
-				missingDialog = testModularItemDialog(groupName, assetName, assetConfig, dialogSet);
-				break;
-		}
-
-		if (missingDialog.size !== 0) {
-			if (first) {
-				first = false;
-				console.error('\nERROR: Missing dialog key(s) in "BondageClub/Assets/Female3DCG/AssetStrings.csv":');
+			/** @type {Set<string>} */
+			let missingDialog;
+			switch (data.archetype) {
+				case "vibrating":
+				case "typed":
+				case "variableheight":
+				case "text":
+				case "noarch":
+					missingDialog = testTypedItemDialog(groupName, assetName, data, dialogSet);
+					break;
+				case "modular":
+					missingDialog = testModularItemDialog(groupName, assetName, data, dialogSet);
+					break;
+				default:
+					throw new Error(`Unknown archetype "${/** @type {any} */(data).archetype}"`);
 			}
 
-			const missingString = Array.from(missingDialog).sort();
-			error(`${groupName}:${assetName}: found ${missingDialog.size} missing dialog keys: ${missingString}`);
+			if (missingDialog.size !== 0) {
+				if (first) {
+					first = false;
+					console.error('\nERROR: Missing dialog key(s) in "BondageClub/Assets/Female3DCG/AssetStrings.csv":');
+				}
+
+				const missingString = Array.from(missingDialog).sort();
+				error(`${groupName}:${assetName}: found ${missingDialog.size} missing dialog keys: ${missingString}`);
+			}
 		}
 	}
 }
@@ -500,7 +505,7 @@ function testExtendedItemDialog(extendedItemConfig, dialogArray) {
  * Performs an inplace update of `diffSet`.
  * @param {readonly (undefined | string)[]} prefixIter
  * @param {readonly (undefined | string)[]} suffixIter
- * @param {Readonly<Set<string>>} referenceSet
+ * @param {ReadonlySet<string>} referenceSet
  * @param {Set<string>} diffSet
  */
 function gatherDifference(prefixIter, suffixIter, referenceSet, diffSet) {
@@ -524,7 +529,7 @@ function gatherDifference(prefixIter, suffixIter, referenceSet, diffSet) {
  * Version of {@link gatherDifference} designed for handling the `fromTo` typed item chat setting.
  * @param {readonly (undefined | string)[]} prefixIter
  * @param {readonly (undefined | string)[]} suffixIter
- * @param {Readonly<Set<string>>} referenceSet
+ * @param {ReadonlySet<string>} referenceSet
  * @param {Set<string>} diffSet
  */
 function gatherDifferenceFromTo(prefixIter, suffixIter, referenceSet, diffSet) {
@@ -549,91 +554,105 @@ function gatherDifferenceFromTo(prefixIter, suffixIter, referenceSet, diffSet) {
 /**
  * Return a set of all expected typed item dialog keys that are absent for a given iten.
  * Helper function for {@link testExtendedItemDialog}.
- * @param {string} groupName
+ * @param {AssetGroupName} groupName
  * @param {string} assetName
- * @param {TypedItemConfig} config
- * @param {Readonly<Set<string>>} dialogSet
- * @returns {Set<string>}
+ * @param {TypedItemData | VibratingItemData | VariableHeightData | TextItemData | NoArchItemData} data
+ * @param {ReadonlySet<string>} dialogSet The set of all `AssetStrings.csv` dialog keys
+ * @returns {Set<string>} The missing dialog keys
  */
-function testTypedItemDialog(groupName, assetName, config, dialogSet) {
-	const chatSetting = config.ChatSetting ?? "default";
-	/** @type {Partial<TypedItemConfig["DialogPrefix"]>} */
-	const dialogConfig = {
-		Header: `${groupName}${assetName}Select`,
-		Option: `${groupName}${assetName}`,
-		Chat: `${groupName}${assetName}Set`,
-		...(config.DialogPrefix ?? {}),
-	};
+function testTypedItemDialog(groupName, assetName, data, dialogSet) {
+	/** @type {Partial<(typeof data)["dialogPrefix"]>} */
+	const dialogConfig = { ...data.dialogPrefix };
+
 	if (
-		typeof dialogConfig.Chat === "function"  // Can't validate callables via the CI
-		|| chatSetting === "silent"  // No dialog when silent
+		typeof dialogConfig.chat === "function"  // Can't validate callables via the CI
+		|| data.chatSetting === "silent"  // No dialog when silent
 		|| !groupName.includes("Item")  // Type changes of clothing based items never have a chat message
 	) {
-		dialogConfig.Chat = undefined;
+		dialogConfig.chat = undefined;
 	}
-	if (typeof dialogConfig.Header === "function") {
-		dialogConfig.Header = undefined;
+	if (typeof dialogConfig.header === "function") {
+		dialogConfig.header = undefined;
 	}
 
 	/** @type {Set<string>} */
-	const ret = new Set();
-	const optionNames = config.Options?.map(o => !o.HasSubscreen ? o.Name : undefined) ?? [];
-	gatherDifference([dialogConfig.Option], optionNames, dialogSet, ret);
-	if (dialogConfig.Header)
-		gatherDifference([dialogConfig.Header], [""], dialogSet, ret);
-	if (chatSetting === "default") {
-		gatherDifference([dialogConfig.Chat], optionNames, dialogSet, ret);
-	} else if (chatSetting === "fromTo") {
-		gatherDifferenceFromTo([dialogConfig.Chat], optionNames, dialogSet, ret);
+	const missingDialog = new Set();
+
+	/** @type {(undefined | string)[]} */
+	let optionSuffices = [];
+	/** @type {(undefined | string)[]} */
+	let chatSuffices = [];
+	switch (data.archetype) {
+		case "typed":
+			optionSuffices = chatSuffices = data.options.map(o => !o.HasSubscreen ? o.Name : undefined);
+			break;
+		case "vibrating": {
+			const direction = ["Increase", "Decrease"];
+			/** @type {VibratorIntensity[]} */
+			const intensity = [-1, 0, 1, 2, 3];
+			chatSuffices = direction.flatMap(dir => intensity.map(i => `${dir}To${i}`));
+			chatSuffices.push(...data.options.filter(o => o.Advanced).map(o => o.Name));
+			optionSuffices = data.options.map(o => !o.HasSubscreen ? o.Name : undefined);
+		}
 	}
-	return ret;
+	if ("option" in dialogConfig) {
+		gatherDifference([dialogConfig.option], optionSuffices, dialogSet, missingDialog);
+	}
+	gatherDifference([dialogConfig.header], [""], dialogSet, missingDialog);
+	switch (data.chatSetting) {
+		case "default":
+			gatherDifference([dialogConfig.chat], chatSuffices, dialogSet, missingDialog);
+			break;
+		case "fromTo":
+			gatherDifferenceFromTo([dialogConfig.chat], chatSuffices, dialogSet, missingDialog);
+			break;
+	}
+	return missingDialog;
 }
 
 /**
  * Return a set of all expected modular item dialog keys that are absent for a given iten.
  * Helper function for {@link testExtendedItemDialog}.
- * @param {string} groupName
+ * @param {AssetGroupName} groupName
  * @param {string} assetName
- * @param {ModularItemConfig} config
- * @param {Readonly<Set<string>>} dialogSet
- * @returns {Set<string>}
+ * @param {ModularItemData} data
+ * @param {ReadonlySet<string>} dialogSet The set of all `AssetStrings.csv` dialog keys
+ * @returns {Set<string>} The missing dialog keys
  */
-function testModularItemDialog(groupName, assetName, config, dialogSet) {
-	const chatSetting = config.ChatSetting ?? "default";
-	/** @type {Partial<ModularItemConfig["DialogPrefix"]>} */
-	const dialogConfig = {
-		Header: `${groupName}${assetName}Select`,
-		Module: `${groupName}${assetName}Module`,
-		Option: `${groupName}${assetName}Option`,
-		Chat: `${groupName}${assetName}Set`,
-		...(config.DialogPrefix ?? {}),
-	};
-	if (typeof dialogConfig.Chat === "function" || !groupName.includes("Item")) {
-		dialogConfig.Chat = undefined;
+function testModularItemDialog(groupName, assetName, data, dialogSet) {
+	/** @type {Partial<ModularItemData["dialogPrefix"]>} */
+	const dialogConfig = { ...data.dialogPrefix };
+
+	if (typeof dialogConfig.chat === "function" || !groupName.includes("Item")) {
+		dialogConfig.chat = undefined;
 	}
-	if (typeof dialogConfig.Header === "function") {
-		dialogConfig.Header = undefined;
+	if (typeof dialogConfig.header === "function") {
+		dialogConfig.header = undefined;
 	}
 
-	const modulesNames = config.Modules?.map(m => m.Name) ?? [];
+	const modulesNames = data.modules.map(m => m.Name);
 	/** @type {(string | undefined)[]} */
 	const optionNames = [];
-	for (const module of config.Modules ?? []) {
-		optionNames.push(...(module.Options.map((o, i) => !o.HasSubscreen ? `${module.Key}${i}` : undefined) ?? []));
+	for (const module of data.modules) {
+		optionNames.push(...module.Options.map((o, i) => !o.HasSubscreen ? o.Name : undefined));
 	}
 
 	/** @type {Set<string>} */
-	const ret = new Set();
-	gatherDifference([dialogConfig.Header, dialogConfig.Module], modulesNames, dialogSet, ret);
-	gatherDifference([dialogConfig.Option], optionNames, dialogSet, ret);
-	if (chatSetting === "default") {
-		gatherDifference([dialogConfig.Chat], optionNames, dialogSet, ret);
-	} else if (chatSetting === "perModule") {
-		// Ignore a module if every single one of its options links to a subscreen
-		const modulesNamesNoSubscreen = config.Modules?.map(m => m.Options.every(o => o.HasSubscreen) ? undefined : m.Name) ?? [];
-		gatherDifference([dialogConfig.Chat], modulesNamesNoSubscreen, dialogSet, ret);
+	const missingDialog = new Set();
+	gatherDifference([dialogConfig.header, dialogConfig.module], modulesNames, dialogSet, missingDialog);
+	gatherDifference([dialogConfig.option], optionNames, dialogSet, missingDialog);
+	switch (data.chatSetting) {
+		case "default":
+			gatherDifference([dialogConfig.chat], optionNames, dialogSet, missingDialog);
+			break;
+		case "perModule": {
+			// Ignore a module if every single one of its options links to a subscreen
+			const modulesNamesNoSubscreen = data.modules.map(m => m.Options.every(o => o.HasSubscreen) ? undefined : m.Name) ?? [];
+			gatherDifference([dialogConfig.chat], modulesNamesNoSubscreen, dialogSet, missingDialog);
+			break;
+		}
 	}
-	return ret;
+	return missingDialog;
 }
 
 /**
@@ -1990,7 +2009,7 @@ function sanitizeVMOutput(input) {
 	testExtendedItemGroupName(AssetFemale3DCGExtended, assetList);
 	testDrawCallbacks(assetList, context);
 	testDynamicGroupName(AssetFemale3DCG);
-	testExtendedItemDialog(AssetFemale3DCGExtended, dialogArray);
+	testExtendedItemDialog(extendedItemSuperRecord, dialogArray);
 	testColorGroups(missingColorGroups);
 	testColorLayers(missingColorLayers);
 	testModuleOptionLength(AssetFemale3DCGExtended);
