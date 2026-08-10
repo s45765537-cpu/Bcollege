@@ -340,8 +340,7 @@ function VibratorModeGetOptions(data, modeSet) {
  * @param {VibratingItemOption} previousOption - The previously applied option
  * @param {boolean} permitExisting - Determines whether the validation should allow the new option and previous option
  * to be identical. Defaults to `false`.
- * @returns {string} - undefined or an empty string if the validation passes. Otherwise, returns a string
- * message informing the player of the requirements that are not met.
+ * @returns {string | null} - Returns a string message informing the player of the requirements that are not met, null otherwise.
  */
 function VibratorModeValidate(data, C, item, newOption, previousOption, permitExisting=false) {
 	if (

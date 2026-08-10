@@ -410,8 +410,7 @@ function TypedItemGetOption(groupName, assetName, optionName) {
  * @param {T} previousOption - The previously applied option
  * @param {boolean} [permitExisting] - Determines whether the validation should allow the new option and previous option
  * to be identical. Defaults to false.
- * @returns {string|undefined} - undefined or an empty string if the validation passes. Otherwise, returns a string
- * message informing the player of the requirements that are not met.
+ * @returns {string|null} - Returns a string message informing the player of the requirements that are not met, null otherwise.
  */
 function TypedItemValidateOption(data, C, item, option, previousOption, permitExisting = false) {
 	let PermissionFailure = false;

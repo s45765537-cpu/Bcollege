@@ -511,12 +511,13 @@ function ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOptio
  * wearer may select the option)
  * @param {Character} C - The character on whom the bondage is applied
  * @param {ExtendedItemOption} Option - The option whose requirements should be checked against
- * @returns {string | undefined} - undefined if the
+ * @returns {string | null} - undefined if the
  */
 function ExtendedItemCheckSelfSelect(C, Option) {
 	if (C.IsPlayer() && Option.AllowSelfSelect === false) {
 		return InterfaceTextGet("CannotSelfSelect");
 	}
+	return null;
 }
 
 /**
@@ -524,8 +525,7 @@ function ExtendedItemCheckSelfSelect(C, Option) {
  * @param {Character} C - The character on whom the bondage is applied
  * @param {Item} Item - The item whose options are being checked
  * @param {ExtendedItemOption} Option - The option whose requirements should be checked against
- * @returns {string|undefined} - undefined if the player meets the option's skill level requirements. Otherwise returns
- * a string message informing them of the requirements they do not meet.
+ * @returns {string|null} - Returns a string message informing them of the requirements they do not meet, otherwise null.
  */
 function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 	const SelfBondage = C.IsPlayer();
@@ -541,12 +541,13 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 			return InterfaceTextGet("RequireBondageLevel").replace("ReqLevel", `${RequiredLevel}`);
 		}
 	}
+	return null;
 }
 
 /**
  * Checks whether the character meets an option's required bought items
  * @param {ExtendedItemOption} Option - The option being checked
- * @returns {string|undefined} undefined if the requirement is met, otherwise the error message
+ * @returns {string|null} undefined if the requirement is met, otherwise the error message
  */
 function ExtendedItemCheckBuyGroups(Option) {
 	if (Option.PrerequisiteBuyGroup) {
@@ -555,6 +556,7 @@ function ExtendedItemCheckBuyGroups(Option) {
 			return InterfaceTextGet("OptionNeedsToBeBought");
 		}
 	}
+	return null;
 }
 
 /**
@@ -567,7 +569,7 @@ function ExtendedItemCheckBuyGroups(Option) {
  * @param {T} previousOption - The currently applied option on the item
  * @param {boolean} [permitExisting] - Determines whether the validation should allow the new option and previous option
  * to be identical. Defaults to false.
- * @returns {string} - Returns a non-empty message string if the item failed validation, or an empty string otherwise
+ * @returns {string | null} - Returns a reason if the item failed validation, or null otherwise
  */
 function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitExisting = false) {
 	// In the case of subscreens the super screens `ChangeWhenLocked` value takes priority
@@ -603,7 +605,7 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 		return InterfaceTextGet("ExtendedItemNoCraftingScreen");
 	}
 
-	return "";
+	return null;
 }
 
 /**
