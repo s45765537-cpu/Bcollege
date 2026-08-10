@@ -1635,6 +1635,10 @@ var AssetFemale3DCGExtended = {
 				Chat: "BodyMarkingsSplattersSet",
 			},
 		},
+		BabyPowderDust: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "Light" }, { Name: "Heavy" }],
+		},
 		FacePaints: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -13915,6 +13919,30 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // RoundClitPiercings
+		Catheter: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Length",
+					Key: "l",
+					DrawImages: false,
+					Options: [
+						{}, // l0 - long
+						{}, // l1 - short
+					],
+				},
+				{
+					Name: "OpenEnded",
+					Key: "o",
+					DrawImages: false,
+					Options: [
+						{}, // o0 - open
+						{ Property: { Effect: ["DenialMode", "RuinOrgasms"] } }, // o1 - closed
+					],
+				},
+			],
+		},
 		VibeHeartClitPiercing: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // VibeHeartClitPiercing
