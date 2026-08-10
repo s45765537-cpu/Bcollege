@@ -325,8 +325,20 @@ function PreferenceSubscreenVisibilityOnGroupChange(value) {
 	PreferenceVisibilityAssetIndex = 0;
 
 	const assetOptions = PreferenceSubscreenVisibilityGetAssetOptions(PreferenceVisibilityGroupIndex);
-	const dropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.assetSelect));
-	dropdown?.bcSetOptions?.(assetOptions, assetOptions[0]?.value);
+	const dropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement | HTMLSelectElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.assetSelect));
+	const dropdownReplacement = ElementCreateSearchableDropdown(
+		null,
+		assetOptions,
+		(i) => PreferenceSubscreenVisibilityOnAssetChange(i),
+		{
+			value: assetOptions[PreferenceVisibilityAssetIndex]?.value,
+			placeholder: TextGet("VisibilityAsset"),
+			searchPlaceholder: TextGet("VisibilitySearchPlaceholder"),
+			emptyText: TextGet("VisibilityNoResults"),
+		}
+	);
+	dropdown.replaceWith(dropdownReplacement);
+	dropdownReplacement.id = PreferenceSubscreenVisibilityIDs.assetSelect;
 
 	PreferenceVisibilityAssetChanged(true);
 	PreferenceSubscreenVisibilityRefreshUI();
@@ -386,13 +398,25 @@ function PreferenceSubscreenVisibilityRefreshUI() {
 
 	ElementWrap(PreferenceSubscreenVisibilityIDs.hideWarning)?.toggleAttribute("concealed", !PreferenceVisibilityHideChecked);
 
-	const groupDropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.groupSelect));
+	const groupDropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement | HTMLSelectElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.groupSelect));
 	const currentGroup = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex]?.Group.Name;
-	if (groupDropdown && currentGroup) groupDropdown.bcSetValue?.(currentGroup);
+	if (groupDropdown && currentGroup) {
+		if (groupDropdown instanceof HTMLSelectElement) {
+			groupDropdown.value = currentGroup;
+		} else {
+			groupDropdown.bcSetValue?.(currentGroup);
+		}
+	}
 
-	const assetDropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.assetSelect));
+	const assetDropdown = /** @type {ElementSearchableDropdown.SearchableDropdownElement | HTMLSelectElement} */ (ElementWrap(PreferenceSubscreenVisibilityIDs.assetSelect));
 	const currentAsset = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex]?.Assets[PreferenceVisibilityAssetIndex]?.Asset.Name;
-	if (assetDropdown && currentAsset) assetDropdown.bcSetValue?.(currentAsset);
+	if (assetDropdown && currentAsset) {
+		if (assetDropdown instanceof HTMLSelectElement) {
+			assetDropdown.value = currentAsset;
+		} else {
+			assetDropdown.bcSetValue?.(currentAsset);
+		}
+	}
 
 	PreferenceSubscreenVisibilityRefreshPreview();
 }
