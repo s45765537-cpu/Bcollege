@@ -38837,7 +38837,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				RemoveTime: 10,
 				AllowLock: true,
-				Prerequisite: "AccessTorso",
+				Prerequisite: ["AccessTorso", "HasBreasts"],
 			},
 			{
 				Name: "LeatherStrapHarness",
@@ -38853,7 +38853,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				DefaultColor: "#101010",
 				AllowLock: true,
-				Prerequisite: "AccessTorso",
+				Prerequisite: ["AccessTorso", "HasBreasts"],
 				Attribute: ["CanAttachMittens"],
 			},
 			{
