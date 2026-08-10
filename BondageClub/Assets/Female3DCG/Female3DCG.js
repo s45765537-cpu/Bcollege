@@ -1567,8 +1567,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MilitaryFatigue",
-				Gender: "F",
-				// Prerequisite: ["HasBreasts"],
 				InventoryID: 1368,
 				Value: 60,
 				HideItem: [
@@ -2719,7 +2717,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexHobbleDress",
 				InventoryID: 1155,
-				Gender: "F",
 				Value: 105,
 				Random: false,
 				SetPose: ["LegsClosed"],
@@ -3228,7 +3225,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "GrandMage",
 				InventoryID: 144,
-				Gender: "F",
 				Value: 90,
 				DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"],
 				PoseMapping: {
@@ -10949,9 +10945,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MilitaryPants",
-				Gender: "F",
 				InventoryID: 1366,
-				// Prerequisite: ["HasBreasts"],
 				Value: 60,
 				Hide: ["Pussy"],
 				DefaultColor: [
@@ -10962,7 +10956,6 @@ var AssetFemale3DCG = [
 					"#4d4038",
 					"#000000",
 				],
-				// Require: ["ClothLower"],
 				Extended: true,
 				Left: {
 					[PoseType.DEFAULT]: 0,
@@ -10976,10 +10969,6 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ClothLower,
 					AllFours: "AllFours",
 				},
-				// Left: {
-				// [PoseType.DEFAULT]: 20,
-				// KneelingSpread: 20,
-				// },
 				Layer: [
 					{ Name: "Pants" },
 					{
