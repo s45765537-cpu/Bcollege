@@ -695,6 +695,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsInFamilyOfMemberNumber: function (MemberNum) {
 			if (this.MemberNumber === MemberNum) return false;
 
+			/** @type {Character | undefined} */
 			let C = ChatRoomCharacter.find(c => c.MemberNumber === MemberNum);
 			if (!C) C = PrivateCharacter.find(c => c.MemberNumber === MemberNum);
 			if (!C) C = Character.find(c => c.MemberNumber === MemberNum);
@@ -706,7 +707,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
 		},
-		/** @type {() => this is Character} */
+		/** @type {() => this is OnlineCharacter} */
 		IsOnline: function () {
 			return this.Type === CharacterType.ONLINE;
 		},
@@ -960,7 +961,6 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 
 		// Prefix with the current screen unless this is a Dialog function or an online character
 		if (D.Function) {
-			// @ts-expect-error Not sure why the online || player check errors here
 			D.Function = (D.Function.startsWith("Dialog") ? "" : (C.IsOnline() || C.IsPlayer()) ? "ChatRoom" : functionPrefix) + D.Function;
 		}
 
@@ -1275,13 +1275,13 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
  * Loads an online character and flags it for a refresh if any data was changed
  * @param {ServerAccountDataSynced} data - Character data received
  * @param {number} SourceMemberNumber - Source number of the load trigger
- * @returns {Character} - The reloaded character
+ * @returns {OnlineCharacter} - The reloaded character
  */
 function CharacterLoadOnline(data, SourceMemberNumber) {
 
 	// Check if the character already exists to reuse it
-	/** @type {Character | undefined} */
-	let Char = data.ID.toString() == Player.CharacterID ? Player : Character.find(c => c.CharacterID === data.ID);
+	/** @type {OnlineCharacter | undefined} */
+	let Char = data.ID.toString() == Player.CharacterID ? Player : /** @type {OnlineCharacter | undefined} */ (Character.find(c => c.CharacterID === data.ID));
 
 	// We have to do that validation here because Description is one of the keys we check to decide
 	// whether to refresh or not; our currently in-memory character has it decoded, so we have to decode
@@ -1304,7 +1304,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		}
 
 		// Creates the new character from the online template
-		Char = CharacterCreate("Female3DCG", CharacterType.ONLINE, data.ID);
+		Char = /** @type {OnlineCharacter} */ (CharacterCreate("Female3DCG", CharacterType.ONLINE, data.ID));
 		Char.Name = data.Name;
 		Char.Lover = ServerAccountDataSyncedValidate.Lover(data.Lover, Char);
 		Char.Owner = ServerAccountDataSyncedValidate.Owner(data.Owner, Char);
@@ -1993,7 +1993,6 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	const isTransient = Timer != null || fromQueue;
 
 	CharacterRefresh(C, !inChatRoom && !isTransient, false);
-	// @ts-expect-error Not sure why the online || player check errors here
 	if (inChatRoom && (C.IsOnline() || C.IsPlayer())) {
 		if (isTransient || C.IsPlayer()) {
 			ChatRoomCharacterExpressionUpdate(C, AssetGroup);
