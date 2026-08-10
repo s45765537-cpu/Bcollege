@@ -350,6 +350,10 @@ function GamePointerCancel(event, canvas) {
  * @param {PointerEvent} event
  */
 function GamePointerOut(event) {
-	MouseX = -1;
-	MouseY = -1;
+	// Cannot reliably use `pointerout` on mobile as it fires after every `pointerdown` (why?)
+	// This breaks things badly on Chromium, this listener firing _before_ `click` and thus resetting the mouse coordinates
+	if (!CommonIsMobile) {
+		MouseX = -1;
+		MouseY = -1;
+	}
 }
