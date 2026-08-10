@@ -151,7 +151,7 @@ Intensity0,Item intensity: Low
 Intensity1,Item intensity: Medium
 Intensity2,Item intensity: High
 Intensity3,Item intensity: Maximum
-LayeringAsset,Configure {asset} priority
+LayeringAsset,Configure {asset}
 LayeringExit,Exit
 LayeringHide,Hide hidden layers
 LayeringLayer,Layer priority
