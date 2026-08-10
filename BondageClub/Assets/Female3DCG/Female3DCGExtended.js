@@ -657,6 +657,25 @@ var AssetFemale3DCGExtended = {
 		}, // Transparentraincoat
 	},
 	Cloth: {
+		CuteBikini1: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { AssetName: "SexyBikini1", GroupName: "Bra" },
+		}, // CuteBikini1
+		SexyBikini1: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: {
+				AssetName: "SexyBikini1",
+				GroupName: "Bra",
+			},
+		}, // SexyBikini1
+		Swimsuit1: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { AssetName: "Swimsuit1", GroupName: "Bra" },
+		}, // Swimsuit1
+		SportSwimsuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { AssetName: "SportSwimsuit", GroupName: "Bra" },
+		}, // SportSwimsuit
 		TShirt2: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -20839,7 +20858,11 @@ var AssetFemale3DCGExtended = {
 					Name: "Dull",
 				},
 			],
-		}, // ChineseDress2
+			DialogPrefix: {
+				Option: "BraSwimsuit1",
+				Header: "BraSwimsuit1Select",
+			},
+		}, // Swimsuit1
 		MeshTop: {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: {
@@ -20866,7 +20889,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-		}, //Sport Bra
+			DialogPrefix: {
+				Header: "BraSportSwimsuitSelect",
+				Module: "BraSportSwimsuitModule",
+				Option: "BraSportSwimsuitOption",
+			},
+		}, //SportSwimsuit
 	}, // Bra
 	Panties: {
 		Diapers4: {
@@ -21706,6 +21734,25 @@ var AssetFemale3DCGExtended = {
 		}, // RuffledCollar
 	}, // Necklace
 	Suit: {
+		CuteBikini1: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { AssetName: "SexyBikini1", GroupName: "Bra" },
+		}, // CuteBikini1
+		SexyBikini1: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: {
+				AssetName: "SexyBikini1",
+				GroupName: "Bra",
+			},
+		}, // SexyBikini1
+		Swimsuit1: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { AssetName: "Swimsuit1", GroupName: "Bra" },
+		}, // Swimsuit1
+		SportSwimsuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { AssetName: "SportSwimsuit", GroupName: "Bra" },
+		}, // SportSwimsuit
 		Catsuit: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
