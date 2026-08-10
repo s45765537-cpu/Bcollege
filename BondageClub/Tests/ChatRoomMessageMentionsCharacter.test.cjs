@@ -1,5 +1,5 @@
 "use strict";
-const Game = require("./game");
+const { Game } = require("./Utils");
 
 // Mock out all the stuff that's required before ChatRoom.js can load
 Game.ChatRoomCharacterViewRun = () => {};

@@ -17,12 +17,17 @@ var CommonTouchList = null;
 
 const DEFAULT_FRAMERATE = 60;
 
-async function GameStart() {
+/**
+ * Start BC after the webpage has fully loaded
+ * @param {boolean} isNode Whether BC is run through the browser or via Node (_i.e._ the testing suite)
+ */
+async function GameStart(isNode=false) {
 	ServerURL = CommonGetServer();
 	//CheatImport();
-	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
-	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
-
+	if (!isNode) {
+		console.log("Version: " + GameVersion + ", Server: " + ServerURL);
+		if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
+	}
 	CurrentTime = CommonTime();
 
 	CommonIsMobile = CommonDetectMobile();
@@ -33,7 +38,9 @@ async function GameStart() {
 	CommandsLoad();
 	ControllerStart();
 	await TextPrefetchFile(InterfaceStringsPath).loadedPromise;
-	CommonSetScreen("Character", "Login");
+	if (!isNode) {
+		CommonSetScreen("Character", "Login");
+	}
 	ServerInit();
 
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens

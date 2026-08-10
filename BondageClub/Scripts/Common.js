@@ -482,7 +482,7 @@ function CommonTouchActive(X, Y, W, H, TL=null) {
  */
 function CommonDynamicFunction(FunctionName) {
 	/** @type {Record<string, any>} */
-	const namespace = window;
+	const namespace = globalThis;
 	const func = namespace[FunctionName.substr(0, FunctionName.indexOf("("))];
 	if (typeof func === "function")
 		func();
@@ -525,7 +525,7 @@ function CommonDynamicFunctionParams(FunctionName) {
 
 	// If it's really a function, we continue
 	/** @type {Record<string, any>} */
-	const namespace = window;
+	const namespace = globalThis;
 	const func = namespace[FunctionName];
 	if (typeof func !== "function") {
 		throw new Error("CommonDynamicFunctionParams: Invalid function name: " + FunctionName);
@@ -548,7 +548,8 @@ function CommonDynamicFunctionParams(FunctionName) {
  * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByName(FunctionName, ...args) {
-	const func = window[FunctionName];
+	const namespace = /** @type {typeof window} */(globalThis);
+	const func = namespace[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
@@ -565,7 +566,8 @@ function CommonCallFunctionByName(FunctionName, ...args) {
  * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByNameWarn(FunctionName, ...args) {
-	const func = window[FunctionName];
+	const namespace = /** @type {typeof window} */(globalThis);
+	const func = namespace[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
@@ -599,14 +601,14 @@ async function CommonSetScreen(...spec) {
 		ControllerClearAreas();
 	}
 
-
+	const namespace = /** @type {typeof window} */(globalThis);
 	const [NewModule, NewScreen] = spec;
 	const [OldModule, OldScreen] = [CurrentModule, CurrentScreen];
 	// Check for required functions
-	if (typeof window[`${NewScreen}Run`] !== "function") {
+	if (typeof namespace[`${NewScreen}Run`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Run function`);
 	}
-	if (typeof window[`${NewScreen}Click`] !== "function") {
+	if (typeof namespace[`${NewScreen}Click`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Click function`);
 	}
 
@@ -614,20 +616,20 @@ async function CommonSetScreen(...spec) {
 	CurrentModule = NewModule;
 	CurrentScreen = NewScreen;
 	CurrentScreenFunctions = {
-		Run: (time) => window[`${NewScreen}Run`](time),
-		Click: (e) => window[`${NewScreen}Click`](e),
-		MouseDown: (e) => window[`${NewScreen}MouseDown`]?.(e),
-		MouseUp: (e) => window[`${NewScreen}MouseUp`]?.(e),
-		MouseMove: (e) => window[`${NewScreen}MouseMove`]?.(e),
-		MouseWheel: (e) => window[`${NewScreen}MouseWheel`]?.(e),
-		Draw: () => window[`${NewScreen}Draw`]?.(),
-		Load: async () => window[`${NewScreen}Load`]?.(),
-		Unload: () => window[`${NewScreen}Unload`]?.(),
-		Resize: (load) => window[`${NewScreen}Resize`]?.(load),
-		KeyDown: (e) => window[`${NewScreen}KeyDown`]?.(e) ?? false,
-		KeyUp: (e) => window[`${NewScreen}KeyUp`]?.(e) ?? false,
-		Exit: () => window[`${NewScreen}Exit`]?.(),
-		Paste: (e) => window[`${NewScreen}Paste`]?.(e),
+		Run: (time) => namespace[`${NewScreen}Run`](time),
+		Click: (e) => namespace[`${NewScreen}Click`](e),
+		MouseDown: (e) => namespace[`${NewScreen}MouseDown`]?.(e),
+		MouseUp: (e) => namespace[`${NewScreen}MouseUp`]?.(e),
+		MouseMove: (e) => namespace[`${NewScreen}MouseMove`]?.(e),
+		MouseWheel: (e) => namespace[`${NewScreen}MouseWheel`]?.(e),
+		Draw: () => namespace[`${NewScreen}Draw`]?.(),
+		Load: async () => namespace[`${NewScreen}Load`]?.(),
+		Unload: () => namespace[`${NewScreen}Unload`]?.(),
+		Resize: (load) => namespace[`${NewScreen}Resize`]?.(load),
+		KeyDown: (e) => namespace[`${NewScreen}KeyDown`]?.(e) ?? false,
+		KeyUp: (e) => namespace[`${NewScreen}KeyUp`]?.(e) ?? false,
+		Exit: () => namespace[`${NewScreen}Exit`]?.(),
+		Paste: (e) => namespace[`${NewScreen}Paste`]?.(e),
 	};
 
 	CurrentDarkFactor = 1.0;
