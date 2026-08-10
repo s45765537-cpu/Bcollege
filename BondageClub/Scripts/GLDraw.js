@@ -489,9 +489,31 @@ function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
 
 	if (Mirror) dstX = 500 - dstX;
 	if (Invert) dstY = gl.canvas.height - dstY + 550;
+
+	// Extract transformations
+	const { TranslationX, TranslationY, ScaleX, ScaleY, Rotation } = options;
+
 	let matrix = m4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
-	matrix = m4.translate(matrix, dstX + offsetX, dstY, 0);
-	matrix = m4.scale(matrix, (Mirror ? -1 : 1) * tex.width, (Invert ? -1 : 1) * tex.height, 1);
+
+	// Move to draw position (Translation)
+	matrix = m4.translate(matrix, dstX + offsetX + (TranslationX || 0), dstY + (TranslationY || 0), 0);
+
+	// Apply Rotation (around center)
+	if (Rotation && Rotation !== 0) {
+		matrix = m4.translate(matrix, tex.width / 2, tex.height / 2, 0);
+		matrix = m4.zRotate(matrix, Rotation * Math.PI / 180);
+		matrix = m4.translate(matrix, -tex.width / 2, -tex.height / 2, 0);
+	}
+
+	// Apply Scale (dimensions)
+	// We need to scale the *dimensions* relative to the center,
+	// so we translate to center, scale, translate back
+	matrix = m4.translate(matrix, tex.width / 2, tex.height / 2, 0);
+	matrix = m4.scale(matrix, (Mirror ? -1 : 1) * (ScaleX ?? 1), (Invert ? -1 : 1) * (ScaleY ?? 1), 1);
+	matrix = m4.translate(matrix, -tex.width / 2, -tex.height / 2, 0);
+
+	// Finally, apply original texture dimensions
+	matrix = m4.scale(matrix, tex.width, tex.height, 1);
 
 	gl.uniformMatrix4fv(program.u_matrix, false, matrix);
 

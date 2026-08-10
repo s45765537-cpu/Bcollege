@@ -477,8 +477,51 @@ function CommonDrawAppearanceBuild(
 				(m) => m.Priority < 0 || m.Priority >= layer.Priority,
 			);
 
+			const getTransform = (/** @type {"TranslationX" | "TranslationY" | "ScaleX" | "ScaleY" | "Rotation"} */ propName, /** @type {number} */ defaultValue) => {
+				const layerName = layer.Name ?? asset.Name;
+				/** @type {ItemProperties} */
+				const props = item.Property ?? {};
+				const key = /** @type {const} */(`Layer${propName}`);
+				const layerVal = props[key]?.[layerName];
+				const assetVal = props[propName];
+
+				const safeVal = (/** @type {any} */ v) => (v === undefined || v === null || Number.isNaN(v)) ? undefined : v;
+
+				const safeLayerVal = safeVal(layerVal);
+				const safeAssetVal = safeVal(assetVal);
+
+				// Translation and Rotation: Additive blending
+				if (propName === "TranslationX" || propName === "TranslationY" || propName === "Rotation") {
+					const combined = (safeLayerVal ?? 0) + (safeAssetVal ?? 0);
+					if (propName === "Rotation") {
+						return Math.max(-180, Math.min(180, combined));
+					}
+					return combined;
+				}
+
+				// Scale: Multiplicative blending
+				if (propName === "ScaleX" || propName === "ScaleY") {
+					let val = safeAssetVal ?? 1;
+					if (safeLayerVal !== undefined) val *= safeLayerVal;
+					return Math.max(0.01, Math.min(3.0, val));
+				}
+
+				return safeLayerVal ?? safeAssetVal ?? defaultValue;
+			};
+
+			const transforms = {
+				TranslationX: getTransform("TranslationX", 0),
+				TranslationY: getTransform("TranslationY", 0),
+				ScaleX: getTransform("ScaleX", 1),
+				ScaleY: getTransform("ScaleY", 1),
+				Rotation: getTransform("Rotation", 0),
+			};
+
+			const drawX = X + transforms.TranslationX;
+			const drawY = Y + transforms.TranslationY;
+
 			if (shouldColorize(layerColor)) {
-				drawImageColorize(baseURLExpression + layerURL, X, Y, {
+				drawImageColorize(baseURLExpression + layerURL, drawX, drawY, {
 					HexColor: layerColor,
 					FullAlpha: layer.FullAlpha,
 					AlphaMasks: masks,
@@ -487,8 +530,9 @@ function CommonDrawAppearanceBuild(
 					Mirror: mirrored,
 					BlendingMode: blendingMode,
 					TextureAlphaMask: maskLayer,
+					...transforms,
 				});
-				drawImageColorizeBlink(baseURLBlink + layerURL, X, Y, {
+				drawImageColorizeBlink(baseURLBlink + layerURL, drawX, drawY, {
 					HexColor: layerColor,
 					FullAlpha: layer.FullAlpha,
 					AlphaMasks: masks,
@@ -497,23 +541,26 @@ function CommonDrawAppearanceBuild(
 					Mirror: mirrored,
 					BlendingMode: blendingMode,
 					TextureAlphaMask: maskLayerBlink,
+					...transforms,
 				});
 			} else {
-				drawImage(baseURLExpression + layerURL, X, Y, {
+				drawImage(baseURLExpression + layerURL, drawX, drawY, {
 					AlphaMasks: masks,
 					Alpha: opacity,
 					Invert: inverted,
 					Mirror: mirrored,
 					BlendingMode: blendingMode,
 					TextureAlphaMask: maskLayer,
+					...transforms,
 				});
-				drawImageBlink(baseURLBlink + layerURL, X, Y, {
+				drawImageBlink(baseURLBlink + layerURL, drawX, drawY, {
 					AlphaMasks: masks,
 					Alpha: opacity,
 					Invert: inverted,
 					Mirror: mirrored,
 					BlendingMode: blendingMode,
 					TextureAlphaMask: maskLayerBlink,
+					...transforms,
 				});
 			}
 		}

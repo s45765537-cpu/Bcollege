@@ -4,7 +4,7 @@
 	background-color: rgba(0, 0, 0, 0.45);
 }
 
-#layering fieldset:not(.layering-layer-inner-grid) {
+#layering fieldset:not(.layering-layer-inner-grid):not(.layering-layer-fieldset) {
 	border: unset;
 	margin: unset;
 	padding: unset;
@@ -72,17 +72,19 @@
 
 .layering-layer-inner-grid {
 	display: grid;
-	grid-template-columns: 50% 50%;
+	grid-template-columns: 1fr 1fr;
 	gap: var(--gap) 0.5em;
 	width: 100%;
 	box-sizing: border-box;
+	align-items: center;
 }
 
 .layering-pair {
+	justify-content: space-between;
 	align-items: center;
 	display: grid;
 	gap: 0.5em;
-	grid-template-columns: min-content auto;
+	grid-template-columns: auto min-content;
 }
 
 .layering-pair:not(:has(input:disabled)) > .layering-pair-text:hover {
@@ -97,4 +99,59 @@
 
 .layering-button-pink[data-pose] {
 	--button-color: pink;
+}
+
+.layering-inputs-container,
+.layering-inputs-group {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.layering-input-wrapper {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.layering-input-wrapper label {
+	color: white;
+}
+
+.layering-layer-name {
+	flex-grow: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: auto;
+	display: block;
+}
+
+#layering fieldset.layering-layer-fieldset {
+	margin-bottom: var(--half-gap);
+	padding: var(--half-gap);
+}
+
+.layering-tabs {
+	display: flex;
+	flex-direction: row;
+	gap: var(--gap);
+	align-items: center;
+	margin-bottom: var(--gap);
+}
+
+.layering-tabs .layering-tab-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	width: 100%;
+	height: calc(1.15em + 4px);
+}
+
+.layering-tabs .layering-tab-button.layering-tab-active {
+	border: 2px solid white;
+	background-color: white;
+	color: black;
 }
