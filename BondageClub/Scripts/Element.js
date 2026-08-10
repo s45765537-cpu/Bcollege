@@ -218,8 +218,7 @@ function ElementCreateTextArea(ID, form) {
 
 /**
  * Blur event listener for `number`-based `<input>` elements that automatically sanitizes the input value the moment the element is deselected.
- * @this {HTMLInputElement}
- * @param {FocusEvent} event
+ * @type {(this: HTMLInputElement, event: FocusEvent) => void}
  */
 function ElementNumberInputBlur(event) {
 	let value = "";
@@ -245,8 +244,7 @@ function ElementNumberInputBlur(event) {
 
 /**
  * Wheel event listener for `number`-based `<input>` elements. Allows one to increment/decrement the value
- * @this {HTMLInputElement}
- * @param {WheelEvent} event
+ * @type {(this: HTMLInputElement, event: WheelEvent) => void}
  */
 function ElementNumberInputWheel(event) {
 	if (this.disabled || this.readOnly) {

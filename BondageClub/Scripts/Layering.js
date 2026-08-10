@@ -120,6 +120,7 @@ var Layering = {
 
 	/**
 	 * Return whether the layering sub screen has currently been initialized (be it either active or unloaded)
+	 * @this {typeof Layering}
 	 * @returns {this is typeof this & Pick<Required<typeof this>, "Character" | "Display" | "Item">}
 	 */
 	IsActive() { return !!document.getElementById(this.ID.root); },

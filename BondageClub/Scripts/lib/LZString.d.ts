@@ -4,8 +4,6 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 declare var LZString: LZString.LZStringStatic;
-export = LZString;
-export as namespace LZString;
 
 declare namespace LZString {
     /**

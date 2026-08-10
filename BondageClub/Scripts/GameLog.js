@@ -218,14 +218,12 @@ const MainHallAllowIDToScreenMap = /** @type {const} */ ({
 	"Arcade": "7",
 });
 
-const allowIdToScreenMap = CommonFromEntries(CommonEntries(MainHallAllowIDToScreenMap).map(([key, value]) => [value, key]));
-
 /**
  * A list of conversions to apply to rules, for backward-compatibility with
  * how Advanced Rules were set.
  */
 var AdvancedRulesBackCompat = /** @type {const} */ ({
-	BlockScreen: allowIdToScreenMap,
+	BlockScreen: CommonFromEntries(CommonEntries(MainHallAllowIDToScreenMap).map(([key, value]) => [value, key])),
 	BlockAppearance: {
 		"A": "Cloth",
 		"B": "ClothAccessory",

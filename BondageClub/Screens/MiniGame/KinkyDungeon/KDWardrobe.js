@@ -76,7 +76,7 @@ let KDSavedColors = [
 ];
 if (localStorage.getItem("kdcolorfilters")) {
 	const filters = JSON.parse(localStorage.getItem("kdcolorfilters"));
-	if (CommonIsArray(filters)) {
+	if (Array.isArray(filters)) {
 		KDSavedColors = filters;
 	}
 }

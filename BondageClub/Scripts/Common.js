@@ -1436,9 +1436,8 @@ function CommonIsFinite(value, min=-Infinity, max=Infinity) {
 
 /**
  * A version of {@link Array.isArray} more friendly towards readonly arrays.
- * @template {unknown} T
- * @param {T} arg - The to-be validated object
- * @returns {arg is (arg extends readonly unknown[] ? readonly unknown[] : unknown[])} Whether the passed object is a (potentially readonly) array
+ * @param {unknown} arg - The to-be validated object
+ * @returns {arg is readonly unknown[]} Whether the passed object is a (potentially readonly) array
  */
 function CommonIsArray(arg) {
 	return Array.isArray(arg);
