@@ -1819,6 +1819,16 @@ var AssetFemale3DCGExtended = {
 		}, // Face Crests
 	},
 	HairFront: {
+		HairFront56: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Type_1" }, { Name: "Type_2" }],
+		},
+		HairFront56b: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Type_1" }, { Name: "Type_2" }],
+		},
 		HairFront60: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
