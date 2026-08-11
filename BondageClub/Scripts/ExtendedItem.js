@@ -19,6 +19,29 @@
 var ExtendedItemOffsets = {};
 
 /**
+ * A set of properties to-be ignored by the `Init()` validation.
+ * This more relaxed validation is required as these properties can be fully configured by the user in one way or another
+ * and are thus not guaranteed to be linked to specific `TypeRecord` values
+ * @type {ReadonlySet<keyof ItemProperties>}
+ */
+const ExtendedItemInitPropertyIgnore = new Set(/** @type {const} */([
+	"OverridePriority",
+	"DrawingTop",
+	"DrawingLeft",
+	"Opacity",
+	"LayerTranslationX",
+	"LayerTranslationY",
+	"LayerScaleX",
+	"LayerScaleY",
+	"LayerRotation",
+	"TranslationX",
+	"TranslationY",
+	"ScaleX",
+	"ScaleY",
+	"Rotation",
+]));
+
+/**
  * The X & Y co-ordinates of each option's button, based on the number to be displayed per page.
  * @type {[number, number][][]}
  */
@@ -1358,12 +1381,10 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 
 	/** @type {Set<keyof ItemProperties>} */
 	const propertyKeys = new Set();
-	const whiteListKeys = new Set(/** @type {(null | keyof ItemProperties)[]} */([
-		"OverridePriority",
-		"DrawingTop",
-		"DrawingLeft",
-		item.Asset.EditOpacity ? "Opacity" : null,
-	].filter(Boolean)));
+	const whiteListKeys = new Set(ExtendedItemInitPropertyIgnore);
+	if (!item.Asset.EditOpacity) {
+		whiteListKeys.delete("Opacity");
+	}
 
 	for (const key of whiteListKeys) {
 		if (properties?.[key]) {

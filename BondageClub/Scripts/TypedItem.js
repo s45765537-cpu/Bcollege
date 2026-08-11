@@ -591,10 +591,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		// Check if all the expected properties are present; extra properties are ignored
 		const option = options[optionIndex];
 		const newProps = CommonCloneDeep(option.Property);
-		delete newProps.OverridePriority;
-		delete newProps.DrawingTop;
-		delete newProps.DrawingLeft;
-		delete newProps.Opacity;
+		ExtendedItemInitPropertyIgnore.forEach(propName => delete newProps[propName]);
 		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
 			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
 			delete newProps.Intensity;
