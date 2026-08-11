@@ -3,8 +3,6 @@
 var CafeBackground = "MaidCafe";
 /** @type {null | NPCCharacter} */
 var CafeMaid = null;
-var CafeIsMaid = false;
-var CafeIsHeadMaid = false;
 var CafeVibeIncreased = false;
 var CafeEnergyDrinkPrice = 5;
 var CafeGlassMilkPrice = 5;
@@ -41,31 +39,31 @@ function CafeOnlineDrinkCompleted() { return (MaidQuartersOnlineDrinkCount >= 5)
  * Checks, if the player is a head maid and gagged
  * @returns {boolean} - Returns true, if the player is a head maid and gagged
  */
-function CafeIsGaggedHeadMaid() { return (!Player.CanTalk() && CafeIsHeadMaid && !Player.IsBlind()); }
+function CafeIsGaggedHeadMaid() { return (!Player.CanTalk() && DialogIsHeadMaid() && !Player.IsBlind()); }
 
 /**
  * Checks if the player is gagged and an experienced maid (reputation higher than 50)
  * @returns {boolean} - Returns true, if the player is gagged and a senior maid, false otherwise
  */
-function CafeIsGaggedSeniorMaid() { return (!Player.CanTalk() && !CafeIsHeadMaid && ReputationGet("Maid") >= 50 && !Player.IsBlind()); }
+function CafeIsGaggedSeniorMaid() { return (!Player.CanTalk() && !DialogIsHeadMaid() && ReputationGet("Maid") >= 50 && !Player.IsBlind()); }
 
 /**
  * Checks if the player is gagged and an ordinary maid
  * @returns {boolean} - Returns true if the player is gagged and an ordinary maid, false otherwise
  */
-function CafeIsGaggedRookieMaid() { return (!Player.CanTalk() && !CafeIsHeadMaid && ReputationGet("Maid") < 50 && !Player.IsBlind()); }
+function CafeIsGaggedRookieMaid() { return (!Player.CanTalk() && !DialogIsHeadMaid() && ReputationGet("Maid") < 50 && !Player.IsBlind()); }
 
 /**
  * Checks if the player is an experinced maid, but no head maid
  * @returns {boolean} - Returns true, if the player is no head maid and has a reputation of more than 50, false otherwise
  */
-function CafeIsMaidChoice() { return (ReputationGet("Maid") >= 50 && !CafeIsHeadMaid); }
+function CafeIsMaidChoice() { return (ReputationGet("Maid") >= 50 && !DialogIsHeadMaid()); }
 
 /**
  * Checks, if the player is an ordinary maid
  * @returns {boolean} - Returns true if the player is no head maid and has a reputation of less than 50
  */
-function CafeIsMaidNoChoice() { return (ReputationGet("Maid") < 50 && !CafeIsHeadMaid); }
+function CafeIsMaidNoChoice() { return (ReputationGet("Maid") < 50 && !DialogIsHeadMaid()); }
 
 /**
  * Checks, if a dildo can be applied to the player
@@ -93,9 +91,7 @@ function CafeCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentChara
  */
 async function CafeLoad() {
 	CafeMaid = CharacterLoadNPC("NPC_Cafe_Maid");
-	CafeIsMaid = LogQuery("JoinedSorority", "Maid");
-	CafeIsHeadMaid = LogQuery("LeadSorority", "Maid");
-	CafeMaid.AllowItem = CafeIsHeadMaid;
+	CafeMaid.AllowItem = DialogIsHeadMaid();
 }
 
 /**

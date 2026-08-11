@@ -30,9 +30,9 @@ ItemBreastCrop,,,(You whip her breast with the leather crop as she whimpers and 
 ItemPelvisWhip,,,(You whip her butt hard as she sighs.)  I promise I'll work harder Miss Head Maid.,,
 ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid work isn't easy.,,
 0,,,Greetings Mistress DialogPlayerName.  Welcome to the cafe.  How may I serve you?  (She does curtsies for you.),,"DialogLogQuery(""ClubMistress"", ""Management"")"
-0,,,Greetings head maid DialogPlayerName.  Welcome to the cafe.  How may I serve you?  (She does curtsies for you.),,IsHeadMaid
-0,,,"Hi sister, are you off duty? I'm sure you deserve a break.",,IsMaid
-0,,,Hello and welcome to the cafe. Can I get you anything to eat or drink?,,!IsMaid
+0,,,Greetings head maid DialogPlayerName.  Welcome to the cafe.  How may I serve you?  (She does curtsies for you.),,DialogIsHeadMaid()
+0,,,"Hi sister, are you off duty? I'm sure you deserve a break.",,DialogIsMaid()
+0,,,Hello and welcome to the cafe. Can I get you anything to eat or drink?,,!DialogIsMaid()
 0,,Can I take drinks out of the bar to my friends?,"If you want to do that, I suggest you ask at the maid's quarter first.  They can set you up with a tray for carrying drinks.",,
 0,10,What does the cafe serve?,"We have a range of food and drink on offer today, including some speciality items.",,
 0,20,I would like to buy a regular drink.,"You could buy them here, but it's better for the maids serving these drinks if you buy from them instead.  Then they get a nice tip.",,
@@ -76,7 +76,7 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid wo
 100,0,I'm fine thanks.  (Leave her.),,DialogLeave(),
 110,,Can I choose my restraints?,"No, you can not. Basic maids need to learn to accept their role with good grace and humility.",,IsMaidNoChoice()
 110,121,Can I choose my restraints?,"I suppose you may, given how much you have served our sorority.",,IsMaidChoice()
-110,120,I want some different bondage.,"Certainly, head maid DialogPlayerName. What style of bondage would you like to work in?",,IsHeadMaid
+110,120,I want some different bondage.,"Certainly, head maid DialogPlayerName. What style of bondage would you like to work in?",,DialogIsHeadMaid()
 110,,(Stare at her and mumble into your gag.),(She removes your gag.) What is it head maid DialogPlayerName?,UngagPlayer(),IsGaggedHeadMaid()
 110,,(Stare at her and mumble into your gag.),"(She removes your gag.) Seeing as how you have such a good rep in the sorority, I will let you talk for now.",UngagPlayer(),IsGaggedSeniorMaid()
 110,,(Stare at her and mumble into your gag.),(She shakes her head.)  Maids should remain gagged while serving drinks.,,IsGaggedRookieMaid()

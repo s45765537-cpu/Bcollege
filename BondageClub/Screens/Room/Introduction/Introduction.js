@@ -8,8 +8,6 @@ var IntroductionSub = null;
 var IntroductionMaidOpinion = 0;
 var IntroductionHasBasicItems = false;
 var IntroductionSubRestrained = false;
-var IntroductionIsMaid = false;
-var IntroductionIsHeadMaid = false;
 var IntroductionRescueScenario = "";
 var IntroductionRescueScenarioList = ["LatexWoman", "Newcomer", "MaidFight", "SalesWoman"];
 var IntroductionJobList = ["DomPuppy", "DomLock", "DomKidnap", "DomTrainer", "SubSearch", "SubDojo", "SubActivity", "SubMaid"];
@@ -78,8 +76,6 @@ async function IntroductionLoad() {
 
 	// Checks if the player already has the basic items
 	IntroductionHasBasicItems = (InventoryAvailable(Player, "NylonRope", "ItemFeet") && InventoryAvailable(Player, "NylonRope", "ItemLegs") && InventoryAvailable(Player, "NylonRope", "ItemArms") && InventoryAvailable(Player, "ClothGag", "ItemMouth"));
-	IntroductionIsMaid = LogQuery("JoinedSorority", "Maid");
-	IntroductionIsHeadMaid = LogQuery("LeadSorority", "Maid");
 
 	// Creates two characters to begin with
 	IntroductionMaid = CharacterLoadNPC("NPC_Introduction_Maid");
@@ -204,7 +200,7 @@ function IntroductionAllowRestrainPlayer() {
  * @returns {void} - Nothing
  */
 function IntroductionGagPlayer() {
-	if (IntroductionIsHeadMaid) {
+	if (DialogIsHeadMaid()) {
 		CharacterRelease(Player);
 		IntroductionMaid.CurrentDialog = DialogFind(IntroductionMaid, "ReleaseHeadMaid");
 		IntroductionMaid.Stage = "370";

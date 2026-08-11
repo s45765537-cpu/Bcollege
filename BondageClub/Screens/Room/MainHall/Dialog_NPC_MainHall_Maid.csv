@@ -26,10 +26,10 @@ ItemBreastCrop,,,(You whip her breast with the leather crop as she whimpers and 
 ItemPelvisWhip,,,(You whip her butt hard as she sighs.)  I promise I'll work harder Miss Head Maid.,,
 ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid work isn't easy.,,
 0,,,"(A maid walks by and greets you.)  Hi naked girl, are you in trouble?  Do you need help?",,Player.IsNaked()
-0,,,"(A maid walks by and greets you.)  Greetings head maid DialogPlayerName, are you in trouble?  Do you need help?",,IsHeadMaid
-0,,,"(A maid walks by and greets you.)  Hi Sister, are you in trouble?  Do you need help?",,IsMaid
-0,,,(A maid walks by and greets you.)  Are you in trouble?  Do you need help?,,!IsMaid
-0,,Who are you?,"I'm DialogCharacterName, I work here as a maid to help submissives in trouble.  Do you need help?",DialogRemove(),!IsMaid
+0,,,"(A maid walks by and greets you.)  Greetings head maid DialogPlayerName, are you in trouble?  Do you need help?",,DialogIsHeadMaid()
+0,,,"(A maid walks by and greets you.)  Hi Sister, are you in trouble?  Do you need help?",,DialogIsMaid()
+0,,,(A maid walks by and greets you.)  Are you in trouble?  Do you need help?,,!DialogIsMaid()
+0,,Who are you?,"I'm DialogCharacterName, I work here as a maid to help submissives in trouble.  Do you need help?",DialogRemove(),!DialogIsMaid()
 0,,(Nod yes.),(She releases you and smiles.)  Here you go!  Everything is ok now?,MaidReleasePlayer(),PlayerNeedsHelpAndHasNoOwnerOrLoverItemAndMaidsNotDisabled()
 0,,"Yes, can you release me?",(She releases you and smiles.)  Here you go!  Everything is ok now?,MaidReleasePlayer(),PlayerNeedsHelpAndHasNoOwnerOrLoverItemAndMaidsNotDisabled()
 0,40,(Nod yes.),(She checks your locks and frowns.)  Is that an owner lock?  Your Mistress might not be pleased if I release you.,,HasOwnerItemAndMaidsNotDisabled()
@@ -161,9 +161,9 @@ ClubUpdated,,,Welcome back! The Club went through some renovation since you last
 1010,1002,What are the most important rules again?,The first rule is that the club is only for adults.  This place isn't for minors.  Are you an adult in your country?,,
 1010,,(Thank her and leave her.),,DialogLeave(),
 1100,,,(A pair of maids cut you loose and bring you to the main hall.)  You poor thing...,,Player.IsNaked()
-1100,,,"(A pair of maids cut you loose and drag you to the main hall.)  Oh how the tables have turned, head maid DialogPlayerName...",,IsHeadMaid
-1100,,,"(A pair of maids cut you loose and drag you to the main hall.)  My my, what have we here...",,IsMaid
-1100,,,"(A pair of maids cut you loose and bring you to the main hall.)  Hello there, are you in trouble? Do you need help?",,!IsMaid
+1100,,,"(A pair of maids cut you loose and drag you to the main hall.)  Oh how the tables have turned, head maid DialogPlayerName...",,DialogIsHeadMaid()
+1100,,,"(A pair of maids cut you loose and drag you to the main hall.)  My my, what have we here...",,DialogIsMaid()
+1100,,,"(A pair of maids cut you loose and bring you to the main hall.)  Hello there, are you in trouble? Do you need help?",,!DialogIsMaid()
 1100,1101,(Blush and plead for help.),Sure. But first we need to have a talk.,,!HasOwnerOrLoverItem()
 1100,1101,Please help me...,Sure. But first we need to have a talk.,,!HasOwnerOrLoverItem()
 1100,1101,(Shake your head and refuse help),"Not so fast, girl. We need to talk.",,!HasOwnerOrLoverItem()
