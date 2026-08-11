@@ -662,7 +662,7 @@ function DialogHasKey(C, item) {
 	if (C.IsOwnedByPlayer() && InventoryAvailable(Player, "OwnerPadlockKey", "ItemMisc") && item.Asset.Enable) return true;
 	const lock = InventoryGetLock(item);
 	if (lock && lock.Asset.FamilyOnly && item.Asset.Enable && LogQuery("BlockFamilyKey", "OwnerRule") && Player.IsFullyOwned()) return false;
-	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && item.Asset.Enable && item.Property && item.Property.LockedBy && !item.Property.LockedBy.startsWith("Owner")) return true;
+	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && item.Asset.Enable && !item.Property.LockedBy?.startsWith("Owner")) return true;
 	if (lock && lock.Asset.ExclusiveUnlock) {
 		// Locks with exclusive access (intricate, high-sec)
 		const allowedMembers = CommonConvertStringToArray(item.Property?.MemberNumberListKeys ?? "");
@@ -692,17 +692,18 @@ function DialogHasKey(C, item) {
 /**
  * Checks whether the player is able to unlock the provided item on the provided character
  * @param {Character} C - The character on whom the item is equipped
- * @param {Item} Item - The item that should be unlocked
+ * @param {Item} item - The item that should be unlocked
  * @returns {boolean} - Returns true, if the player can unlock the given item, false otherwise
  */
-function DialogCanUnlock(C, Item) {
+function DialogCanUnlock(C, item) {
 	if ((!C.IsPlayer()) && !Player.CanInteract()) return false;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy === "ExclusivePadlock")) return (!C.IsPlayer());
+	if (!item) return true;
+	if (item.Property.LockedBy === "ExclusivePadlock") return !C.IsPlayer();
 	if (LogQuery("KeyDeposit", "Cell")) return false;
-	if ((Item != null) && (Item.Asset != null) && (Item.Asset.OwnerOnly == true)) return Item.Asset.Enable && C.IsOwnedByPlayer();
-	if ((Item != null) && (Item.Asset != null) && (Item.Asset.LoverOnly == true)) return Item.Asset.Enable && C.IsLoverOfPlayer();
-	if ((Item != null) && (Item.Asset != null) && (Item.Asset.FamilyOnly == true)) return Item.Asset.Enable && C.IsFamilyOfPlayer();
-	return DialogHasKey(C, Item);
+	if (item.Asset.OwnerOnly) return item.Asset.Enable && C.IsOwnedByPlayer();
+	if (item.Asset.LoverOnly) return item.Asset.Enable && C.IsLoverOfPlayer();
+	if (item.Asset.FamilyOnly) return item.Asset.Enable && C.IsFamilyOfPlayer();
+	return DialogHasKey(C, item);
 }
 
 /**

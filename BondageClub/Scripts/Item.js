@@ -118,7 +118,7 @@ function ItemModulePunishCheck(C, item, shockCooldown, tamperZones) {
 
 /**
  * Namespace for constructing {@link Item} objects.
-*/
+ */
 var Item = {
 	/**
 	 * Construct an item from the passed asset
