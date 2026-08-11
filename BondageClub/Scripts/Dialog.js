@@ -675,7 +675,7 @@ function DialogHasKey(C, item) {
 	if ((item.Property != null) && (item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + item.Property.LockedBy);
 
-	const key = Asset.find(a => InventoryItemHasEffect(Item.fromAsset(a), UnlockName));
+	const key = Asset.find(a => InventoryItemHasEffect(AppearanceItem.fromAsset(a), UnlockName));
 	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
 		if (lock != null) {
 			if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
@@ -1627,7 +1627,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	if (C.FocusGroup == null) return;
 
 	if (locks) {
-		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, Item.fromAsset(a), false));
+		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, AppearanceItem.fromAsset(a), false));
 		DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));
 		DialogInventorySort();
 		return;
@@ -1643,10 +1643,10 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 			if (A.Wear) {
 				const isWorn = CurItem?.Asset.Name === A.Name && CurItem?.Asset.Group.Name === A.Group.Name;
-				DialogInventoryAdd(Player, Item.fromAsset(A), isWorn, DialogSortOrder.Enabled);
+				DialogInventoryAdd(Player, AppearanceItem.fromAsset(A), isWorn, DialogSortOrder.Enabled);
 			} else if (A.IsLock) {
 				const LockIsWorn = InventoryCharacterIsWearingLock(C, /** @type {AssetLockType} */ (A.Name));
-				DialogInventoryAdd(Player, Item.fromAsset(A), LockIsWorn, DialogSortOrder.Enabled);
+				DialogInventoryAdd(Player, AppearanceItem.fromAsset(A), LockIsWorn, DialogSortOrder.Enabled);
 			}
 		}
 	} else {
@@ -1669,7 +1669,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		for (const A of Asset)
 			if (A.Group.Name === C.FocusGroup.Name && A.DynamicAllowInventoryAdd(C))
 				if (InventoryAvailable(C, A.Name, A.Group.Name))
-					DialogInventoryAdd(C, Item.fromAsset(A), false);
+					DialogInventoryAdd(C, AppearanceItem.fromAsset(A), false);
 
 		// Fifth, we add all crafted items for the player that matches that slot
 		for (const Craft of (Player.Crafting ?? [])) {
@@ -1679,7 +1679,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 			for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 				if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-					DialogInventoryAdd(C, Item.fromAsset(Asset, { craft: Craft }), false);
+					DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
 				}
 			}
 		}
@@ -1696,7 +1696,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 				Craft.MemberNumber = C.MemberNumber;
 				for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 					if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-						DialogInventoryAdd(C, Item.fromAsset(Asset, { craft: Craft }), false);
+						DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
 					}
 				}
 			}
@@ -1708,7 +1708,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
 					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))
-						DialogInventoryAdd(C, Item.fromAsset(A), false);
+						DialogInventoryAdd(C, AppearanceItem.fromAsset(A), false);
 		}
 
 	}

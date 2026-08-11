@@ -70,7 +70,7 @@ function InventoryAddMany(C, NewItems, Push) {
  *     found in the named group
  */
 function InventoryItemCreate(C, Group, Name) {
-	const item = Item.fromName(Group, Name);
+	const item = AppearanceItem.fromName(Group, Name);
 	return item ? Object.assign(item, { Group: item.Asset.Group.Name, Name: item.Asset.Name }) : null;
 }
 
@@ -1247,7 +1247,7 @@ function InventoryGetLock(item) {
 	if (!item?.Property?.LockedBy) return null;
 	const asset = Asset.find(a => a.IsLock && a.Name === item.Property?.LockedBy);
 	if (!asset) return null;
-	return Item.fromAsset(asset);
+	return AppearanceItem.fromAsset(asset);
 }
 
 /**
@@ -1389,7 +1389,7 @@ function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Upd
 	if (typeof LockOrLockType === 'string') {
 		const lock = AssetGet(C.AssetFamily, "ItemMisc", LockOrLockType);
 		if (lock) {
-			Lock = Item.fromAsset(lock);
+			Lock = AppearanceItem.fromAsset(lock);
 		}
 	} else {
 		Lock = LockOrLockType;
@@ -1466,7 +1466,7 @@ function InventoryLockRandom(C, item, AppliedBy) {
 	const locks = Asset.filter(a => a.IsLock && a.Random && !a.LoverOnly && !a.FamilyOnly && (AppliedBy.IsOwner() || !a.OwnerOnly));
 	const randomLock = InventoryGetRandom(C, undefined, locks);
 	if (!randomLock) return false;
-	InventoryLock(C, item, Item.fromAsset(randomLock), AppliedBy);
+	InventoryLock(C, item, AppearanceItem.fromAsset(randomLock), AppliedBy);
 }
 
 /**

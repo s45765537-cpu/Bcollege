@@ -280,7 +280,7 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 					}
 				}
 				if (SelectedColor == "Default") SelectedColor = SelectedAsset.DefaultColor;
-				const NA = Item.fromAsset(SelectedAsset, { color: SelectedColor });
+				const NA = AppearanceItem.fromAsset(SelectedAsset, { color: SelectedColor });
 				C.Appearance.push(NA);
 			}
 		}
@@ -1197,7 +1197,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
 	}
 
 	// Add the new item to the character appearance
-	const NA = Item.fromAsset(ItemAsset, { color: NewColor ?? undefined, difficulty: ItemAsset.Difficulty + DifficultyFactor });
+	const NA = AppearanceItem.fromAsset(ItemAsset, { color: NewColor ?? undefined, difficulty: ItemAsset.Difficulty + DifficultyFactor });
 	ExtendedItemInit(C, NA, false, false);
 	C.Appearance.push(NA);
 	return NA;

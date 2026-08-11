@@ -16,9 +16,9 @@ beforeAll(async () => {
 	};
 });
 
-describe("Item.fromAsset", () => {
+describe("AppearanceItem.fromAsset", () => {
 	it("item from asset", () => {
-		expect(Game.Item.fromAsset(asset, {
+		expect(Game.AppearanceItem.fromAsset(asset, {
 			color: "Black",
 			difficulty: 5,
 			property: { Difficulty: 3 },
@@ -31,7 +31,7 @@ describe("Item.fromAsset", () => {
 	});
 
 	it("item with invalid color", () => {
-		expect(Game.Item.fromAsset(asset, { color: "Blegh" })).toMatchObject({
+		expect(Game.AppearanceItem.fromAsset(asset, { color: "Blegh" })).toMatchObject({
 			Color: ["Default", "#112233"],
 			Difficulty: 0,
 			Property: {},
@@ -39,7 +39,7 @@ describe("Item.fromAsset", () => {
 	});
 
 	it("item with too short of a color array", () => {
-		expect(Game.Item.fromAsset(asset, { color: ["#445566"] })).toMatchObject({
+		expect(Game.AppearanceItem.fromAsset(asset, { color: ["#445566"] })).toMatchObject({
 			Color: ["#445566", "#112233"],
 			Difficulty: 0,
 			Property: {},
@@ -47,7 +47,7 @@ describe("Item.fromAsset", () => {
 	});
 
 	it("item with too long of a color array", () => {
-		expect(Game.Item.fromAsset(asset, { color: ["#444444", "#555555", "#666666"] })).toMatchObject({
+		expect(Game.AppearanceItem.fromAsset(asset, { color: ["#444444", "#555555", "#666666"] })).toMatchObject({
 			Color: ["#444444", "#555555"],
 			Difficulty: 0,
 			Property: {},
@@ -55,9 +55,9 @@ describe("Item.fromAsset", () => {
 	});
 });
 
-describe("Item.fromName", () => {
+describe("AppearanceItem.fromName", () => {
 	it("item from group- and asset name", () => {
-		expect(Game.Item.fromName("ItemArms", "NylonRope", { color: "#778899" })).toMatchObject({
+		expect(Game.AppearanceItem.fromName("ItemArms", "NylonRope", { color: "#778899" })).toMatchObject({
 			Color: ["#778899"],
 			Difficulty: 0,
 			Property: {},
@@ -65,6 +65,6 @@ describe("Item.fromName", () => {
 	});
 
 	it("item from invalid group- and/or asset name", () => {
-		expect(Game.Item.fromName("Foo", "Bar")).toBe(null);
+		expect(Game.AppearanceItem.fromName("Foo", "Bar")).toBe(null);
 	});
 });

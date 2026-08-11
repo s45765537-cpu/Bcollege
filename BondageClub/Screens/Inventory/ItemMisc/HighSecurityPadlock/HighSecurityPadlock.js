@@ -60,7 +60,7 @@ function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, item) {
 	let UnlockName = /** @type {const} */(`Unlock${item.Asset.Name}`);
 	if ((item != null) && (item.Property != null) && (item.Property.LockedBy != null)) UnlockName = `Unlock${item.Property.LockedBy}`;
 
-	const key = Asset.find(a => InventoryItemHasEffect(Item.fromAsset(a), /** @type {EffectName} */ (UnlockName)));
+	const key = Asset.find(a => InventoryItemHasEffect(AppearanceItem.fromAsset(a), /** @type {EffectName} */ (UnlockName)));
 	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
 		var Lock = InventoryGetLock(item);
 		if (Lock != null) {
