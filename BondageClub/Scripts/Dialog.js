@@ -665,7 +665,7 @@ function DialogHasKey(C, item) {
 	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && item.Asset.Enable && item.Property && item.Property.LockedBy && !item.Property.LockedBy.startsWith("Owner")) return true;
 	if (lock && lock.Asset.ExclusiveUnlock) {
 		// Locks with exclusive access (intricate, high-sec)
-		const allowedMembers = CommonConvertStringToArray(Item.Property?.MemberNumberListKeys ?? "");
+		const allowedMembers = CommonConvertStringToArray(item.Property?.MemberNumberListKeys ?? "");
 		// High-sec, check if we're in the keyholder list
 		if (item.Property?.MemberNumberListKeys != null) return allowedMembers.includes(Player.MemberNumber);
 		// Intricate, check that we added that lock
