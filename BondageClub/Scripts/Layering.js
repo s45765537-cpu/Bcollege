@@ -326,10 +326,10 @@ var Layering = {
 			else if (Layering.activeTab === "scale") propsToRemove.push("ScaleX", "ScaleY");
 			else if (Layering.activeTab === "rotate") propsToRemove.push("Rotation");
 
-            for (const key of propsToRemove) {
-                delete Layering.Item.Property[key];
-                delete Layering.Item.Property[`Layer${key}`];
-            }
+			for (const key of propsToRemove) {
+				delete Layering.Item.Property[key];
+				delete Layering.Item.Property[`Layer${key}`];
+			}
 		}
 
 		// Rebuild the content container
