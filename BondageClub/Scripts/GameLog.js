@@ -184,7 +184,7 @@ function LogGetString(Name, Group) {
 function LogGetStringArray(Name, Group) {
 	const entry = LogGet(Name, Group);
 	if (!entry || !Array.isArray(entry.Value)) return null;
-	return entry.Value;
+	return [...entry.Value];
 }
 
 const MainHallAllowIDToScreenMap = /** @type {const} */ ({
@@ -330,7 +330,7 @@ function LogLoad(NewLog) {
 					needsSync = true;
 				}
 			}
-			if (log.Name.startsWith("ForbiddenWords") && log.Name.length > "ForbiddenWords".length) {
+			if (log.Name.startsWith("ForbiddenWords") && log.Name.length > "ForbiddenWords".length && log.Name.includes("|")) {
 				const data = log.Name.substring("ForbiddenWords".length).split("|");
 				log.Name = "ForbiddenWords";
 				log.Value = data;

@@ -6853,7 +6853,12 @@ function ChatRoomOwnerForbiddenWordCheck(Message) {
 	// Exits right away if not owned
 	if (CurrentScreen != "ChatRoom") return true;
 	if (!Player.IsOwned()) return true;
-	if (LogQuery("ForbiddenWords", "OwnerRule")) return false;
+	if (LogQuery("ForbiddenWordsMute", "OwnerRule")) {
+		const dict = new DictionaryBuilder();
+		dict.text("TIMEREMAINING", CommonFormatDurationRange(CurrentTime, LogValue("ForbiddenWordsMute", "OwnerRule"), { includeMinutes: true, includeSeconds: true }));
+		ChatRoomMessage({ Type: "ServerMessage", Content: "ForbiddenWordsMuted", Sender: Player.MemberNumber, Dictionary: dict.build() });
+		return false;
+	}
 
 	// Gets the forbidden words list from the log
 	let ForbiddenList = LogGetStringArray("ForbiddenWords", "OwnerRule");
@@ -6891,15 +6896,14 @@ function ChatRoomOwnerForbiddenWordCheck(Message) {
 
 	// If we must mute the player after she said the words
 	if (Consequence.startsWith("Mute")) {
-		let Minutes = parseInt(Consequence.substring(4, 100));
-		if (isNaN(Minutes)) Minutes = 5;
+		let Minutes = CommonParseInt(Consequence.substring(4, 100)) ?? 5;
 		if ((Minutes != 5) && (Minutes != 15) && (Minutes != 30)) Minutes = 5;
 		ChatRoomMessage({Type: "ServerMessage", Content: "ForbiddenWordsMute" + Minutes.toString(), Sender: Player.MemberNumber});
-		LogAdd("ForbiddenWords", "OwnerRule",  CurrentTime + Minutes * 60 * 1000);
+		LogAdd("ForbiddenWordsMute", "OwnerRule",  CurrentTime + Minutes * 60 * 1000);
 		return true;
 	}
 
-	// If no valid consquence, we continue
+	// If no valid consequence, we continue
 	return true;
 
 }
