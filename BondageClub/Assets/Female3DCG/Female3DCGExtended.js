@@ -11728,6 +11728,7 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			BaselineProperty: { Text: "" },
 		},
 		Sybian: {
 			Archetype: ExtendedArchetype.VIBRATING,
