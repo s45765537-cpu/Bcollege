@@ -14743,9 +14743,9 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Unity",
-					BondageLevel: 4,
+					BondageLevel: 8,
 					Property: {
-						Difficulty: 4,
+						Difficulty: 8,
 						Effect: [E.CrotchRope],
 						Attribute: ["IsHipHarness"],
 					},
