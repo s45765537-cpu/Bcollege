@@ -1835,24 +1835,24 @@ function CraftingUpdateFromItem(item) {
 		CraftingSelectedItem.TypeRecord = item.Property.TypeRecord;
 	}
 
-	/** @type {Set<keyof ItemProperties>} */
-	const keys = new Set(["OverridePriority"]);
+	// Initialize it with the known set of (legal) fully user-customizable properties
+	const allowedProperties = new Set(ExtendedItemInitPropertyIgnore);
 	if (item.Asset.Archetype) {
 		const options = ExtendedItemGatherOptions(item);
 		for (const option of options) {
 			if (option.OptionType === "VariableHeightOption") {
-				keys.add("OverrideHeight");
+				allowedProperties.add("OverrideHeight");
 			}
 			for (const key of CommonKeys(option.ParentData.baselineProperty || {})) {
 				if (!CraftingPropertyExclude.has(key)) {
-					keys.add(key);
+					allowedProperties.add(key);
 				}
 			}
 		}
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
-	for (const key of keys) {
+	for (const key of allowedProperties) {
 		const propValue = item.Property[key];
 		if (propValue != null) {
 			// Use some creative `never` casting as TS _loathes_ anything related to iterating heterogeneous objects
@@ -2545,6 +2545,24 @@ var CraftingValidationRecord = {
 				}
 			}
 
+			/** @satisfies {Set<keyof ItemProperties>} */
+			const layeringScalar = new Set(/** @type {const} */([
+				"TranslationX",
+				"TranslationY",
+				"ScaleX",
+				"ScaleY",
+				"Rotation",
+			]));
+			/** @satisfies {Set<keyof ItemProperties>} */
+			const layeringObject = new Set(/** @type {const} */([
+				"LayerTranslationX",
+				"LayerTranslationY",
+				"LayerScaleX",
+				"LayerScaleY",
+				"LayerRotation",
+			]));
+			/** @type {null | string[]} */
+			let layers = null;
 			for (const [key, value] of CommonEntries(property)) {
 				if (value == null) {
 					continue;
@@ -2554,7 +2572,7 @@ var CraftingValidationRecord = {
 					if (Number.isInteger(value)) {
 						continue;
 					} else if (CommonIsObject(value)) {
-						const layers = a.Layer.map(l => l.Name);
+						layers ??= a.Layer.map(l => l.Name ?? a.Name);
 						for (const [layerName, priority] of Object.entries(value)) {
 							if (!(layers.includes(layerName) && Number.isInteger(priority))) {
 								return false;
@@ -2562,6 +2580,22 @@ var CraftingValidationRecord = {
 						}
 					} else {
 						return false;
+					}
+				} else if (layeringScalar.has(key)) {
+					if (!Number.isInteger(value)) {
+						return false;
+					}
+				} else if (layeringObject.has(key)) {
+					if (!CommonIsObject(value)) {
+						return false;
+					}
+					layers ??= a.Layer.map(l => l.Name ?? a.Name);
+					for (const [layerName, i] of Object.entries(value)) {
+						if (!layers.includes(layerName)) {
+							return false;
+						} else if (!(i === undefined || Number.isInteger(i))) {
+							return false;
+						}
 					}
 				} else if (typeof value !== typeof baseline[key]) {
 					return false;

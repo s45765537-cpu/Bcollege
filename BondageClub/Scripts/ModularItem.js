@@ -125,10 +125,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		// Check if all the expected properties are present; extra properties are ignored
 		const currentModuleValues = ModularItemParseCurrent(Data, Item.Property.TypeRecord);
 		const newProps = ModularItemMergeModuleValues(Data, currentModuleValues);
-		delete newProps.OverridePriority;
-		delete newProps.DrawingTop;
-		delete newProps.DrawingLeft;
-		delete newProps.Opacity;
+		ExtendedItemInitPropertyIgnore.forEach(propName => delete newProps[propName]);
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;

@@ -52,6 +52,25 @@
  */
 var Layering = {
 	/**
+	 * A set with all item property names that one may or may not assign via the layering subscreen
+	 * @readonly
+	 * @type {ReadonlySet<keyof ItemProperties>}
+	 */
+	PropertyNames: new Set(/** @type {const} */([
+		"OverridePriority",
+		"LayerTranslationX",
+		"LayerTranslationY",
+		"LayerScaleX",
+		"LayerScaleY",
+		"LayerRotation",
+		"TranslationX",
+		"TranslationY",
+		"ScaleX",
+		"ScaleY",
+		"Rotation",
+	])),
+
+	/**
      * The character in question
      * @type {null | Character}
      */
@@ -307,10 +326,10 @@ var Layering = {
 			else if (Layering.activeTab === "scale") propsToRemove.push("ScaleX", "ScaleY");
 			else if (Layering.activeTab === "rotate") propsToRemove.push("Rotation");
 
-            for (const key of propsToRemove) {
-                delete Layering.Item.Property[key];
-                delete Layering.Item.Property[`Layer${key}`];
-            }
+			for (const key of propsToRemove) {
+				delete Layering.Item.Property[key];
+				delete Layering.Item.Property[`Layer${key}`];
+			}
 		}
 
 		// Rebuild the content container
@@ -990,7 +1009,7 @@ Layering.RegisterExitCallbacks(
 	{
 		screen: "Crafting",
 		callback: (_C, item) => {
-			CraftingSelectedItem.ItemProperty.OverridePriority = item.Property.OverridePriority;
+			Layering.PropertyNames.forEach(propName => CraftingSelectedItem.ItemProperty[propName] = /** @type {never} */(item.Property[propName]));
 			CraftingModeSet("Name");
 		},
 	},
