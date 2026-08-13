@@ -428,6 +428,7 @@ ServerMessageEndOwnership,The Bondage Club announces that SourceCharacter releas
 ServerMessageEndOwnershipTrial,The Bondage Club announces that SourceCharacter canceled the trial ownership of TargetCharacter.
 ServerMessageEndTrial,The Bondage Club is proud to announce that SourceCharacter is now fully collared. PronounPossessive fate is in PronounPossessive owners hands.
 ServerMessageForbiddenWordsBlocked,Saying a forbidden word is blocked by your owner.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsMuted,You said a forbidden word and are still muted for TIMEREMAINING.  You can use /forbiddenwords to review the words.
 ServerMessageForbiddenWordsMute15,You said a forbidden word and will be silenced for 15 minutes.  You can use /forbiddenwords to review the words.
 ServerMessageForbiddenWordsMute30,You said a forbidden word and will be silenced for 30 minutes.  You can use /forbiddenwords to review the words.
 ServerMessageForbiddenWordsMute5,You said a forbidden word and will be silenced for 5 minutes.  You can use /forbiddenwords to review the words.
