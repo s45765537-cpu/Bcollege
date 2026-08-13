@@ -563,7 +563,7 @@ var Layering = {
      * @returns {boolean}
      */
 	_IsBlacklisted(group) {
-		return !group.AllowNone;
+		return !group.AllowNone && !this._IsPussy(group);
 	},
 
 	/**
