@@ -233,7 +233,7 @@ function ValidationResolveAddDiff(newItem, params) {
 		console.warn(`Invalid addition of ${ValidationItemWarningMessage(newItem, params)}`);
 		return { item: null, valid: false };
 	}
-	const itemWithoutProperties = Item.fromAsset(newItem.Asset, { color: newItem.Color, difficulty: newItem.Difficulty });
+	const itemWithoutProperties = AppearanceItem.fromAsset(newItem.Asset, { color: newItem.Color, difficulty: newItem.Difficulty });
 	return ValidationResolveModifyDiff(itemWithoutProperties, newItem, params);
 }
 

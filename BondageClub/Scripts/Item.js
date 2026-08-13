@@ -118,8 +118,8 @@ function ItemModulePunishCheck(C, item, shockCooldown, tamperZones) {
 
 /**
  * Namespace for constructing {@link Item} objects.
-*/
-var Item = {
+ */
+var AppearanceItem = {
 	/**
 	 * Construct an item from the passed asset
 	 * @param {Asset} asset The asset in question
@@ -149,7 +149,7 @@ var Item = {
 		if (!asset) {
 			return null;
 		} else {
-			return Item.fromAsset(asset, options);
+			return AppearanceItem.fromAsset(asset, options);
 		}
 	},
 };

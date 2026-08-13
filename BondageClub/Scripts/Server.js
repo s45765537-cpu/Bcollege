@@ -747,7 +747,7 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
 
 	const asset = AssetGet(assetFamily, item.Group, item.Name);
 	if (!asset) return null;
-	return Item.fromAsset(asset, {
+	return AppearanceItem.fromAsset(asset, {
 		difficulty: item.Difficulty,
 		color: item.Color,
 		craft: item.Craft,
@@ -821,13 +821,13 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
 			if (itemToMirror) {
 				const mirroredAsset = AssetGet(assetFamily, group.Name, itemToMirror.Asset.Name);
 				// If there is an item to mirror, copy it and its color
-				if (mirroredAsset) diff[0] = Item.fromAsset(mirroredAsset, { color: itemToMirror.Color });
+				if (mirroredAsset) diff[0] = AppearanceItem.fromAsset(mirroredAsset, { color: itemToMirror.Color });
 			}
 		}
 
 		// If the item still hasn't been filled, use the first item from the group's asset list
 		if (!diff[0]) {
-			diff[0] = Item.fromAsset(group.Asset[0]);
+			diff[0] = AppearanceItem.fromAsset(group.Asset[0]);
 		}
 	});
 }

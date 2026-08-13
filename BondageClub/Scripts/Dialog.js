@@ -662,10 +662,10 @@ function DialogHasKey(C, item) {
 	if (C.IsOwnedByPlayer() && InventoryAvailable(Player, "OwnerPadlockKey", "ItemMisc") && item.Asset.Enable) return true;
 	const lock = InventoryGetLock(item);
 	if (lock && lock.Asset.FamilyOnly && item.Asset.Enable && LogQuery("BlockFamilyKey", "OwnerRule") && Player.IsFullyOwned()) return false;
-	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && item.Asset.Enable && item.Property && item.Property.LockedBy && !item.Property.LockedBy.startsWith("Owner")) return true;
+	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && item.Asset.Enable && !item.Property.LockedBy?.startsWith("Owner")) return true;
 	if (lock && lock.Asset.ExclusiveUnlock) {
 		// Locks with exclusive access (intricate, high-sec)
-		const allowedMembers = CommonConvertStringToArray(Item.Property?.MemberNumberListKeys ?? "");
+		const allowedMembers = CommonConvertStringToArray(item.Property?.MemberNumberListKeys ?? "");
 		// High-sec, check if we're in the keyholder list
 		if (item.Property?.MemberNumberListKeys != null) return allowedMembers.includes(Player.MemberNumber);
 		// Intricate, check that we added that lock
@@ -675,7 +675,7 @@ function DialogHasKey(C, item) {
 	if ((item.Property != null) && (item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + item.Property.LockedBy);
 
-	const key = Asset.find(a => InventoryItemHasEffect(Item.fromAsset(a), UnlockName));
+	const key = Asset.find(a => InventoryItemHasEffect(AppearanceItem.fromAsset(a), UnlockName));
 	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
 		if (lock != null) {
 			if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
@@ -692,17 +692,18 @@ function DialogHasKey(C, item) {
 /**
  * Checks whether the player is able to unlock the provided item on the provided character
  * @param {Character} C - The character on whom the item is equipped
- * @param {Item} Item - The item that should be unlocked
+ * @param {Item} item - The item that should be unlocked
  * @returns {boolean} - Returns true, if the player can unlock the given item, false otherwise
  */
-function DialogCanUnlock(C, Item) {
+function DialogCanUnlock(C, item) {
 	if ((!C.IsPlayer()) && !Player.CanInteract()) return false;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy === "ExclusivePadlock")) return (!C.IsPlayer());
+	if (!item) return true;
+	if (item.Property.LockedBy === "ExclusivePadlock") return !C.IsPlayer();
 	if (LogQuery("KeyDeposit", "Cell")) return false;
-	if ((Item != null) && (Item.Asset != null) && (Item.Asset.OwnerOnly == true)) return Item.Asset.Enable && C.IsOwnedByPlayer();
-	if ((Item != null) && (Item.Asset != null) && (Item.Asset.LoverOnly == true)) return Item.Asset.Enable && C.IsLoverOfPlayer();
-	if ((Item != null) && (Item.Asset != null) && (Item.Asset.FamilyOnly == true)) return Item.Asset.Enable && C.IsFamilyOfPlayer();
-	return DialogHasKey(C, Item);
+	if (item.Asset.OwnerOnly) return item.Asset.Enable && C.IsOwnedByPlayer();
+	if (item.Asset.LoverOnly) return item.Asset.Enable && C.IsLoverOfPlayer();
+	if (item.Asset.FamilyOnly) return item.Asset.Enable && C.IsFamilyOfPlayer();
+	return DialogHasKey(C, item);
 }
 
 /**
@@ -1626,7 +1627,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	if (C.FocusGroup == null) return;
 
 	if (locks) {
-		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, Item.fromAsset(a), false));
+		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, AppearanceItem.fromAsset(a), false));
 		DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));
 		DialogInventorySort();
 		return;
@@ -1642,10 +1643,10 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 			if (A.Wear) {
 				const isWorn = CurItem?.Asset.Name === A.Name && CurItem?.Asset.Group.Name === A.Group.Name;
-				DialogInventoryAdd(Player, Item.fromAsset(A), isWorn, DialogSortOrder.Enabled);
+				DialogInventoryAdd(Player, AppearanceItem.fromAsset(A), isWorn, DialogSortOrder.Enabled);
 			} else if (A.IsLock) {
 				const LockIsWorn = InventoryCharacterIsWearingLock(C, /** @type {AssetLockType} */ (A.Name));
-				DialogInventoryAdd(Player, Item.fromAsset(A), LockIsWorn, DialogSortOrder.Enabled);
+				DialogInventoryAdd(Player, AppearanceItem.fromAsset(A), LockIsWorn, DialogSortOrder.Enabled);
 			}
 		}
 	} else {
@@ -1668,7 +1669,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		for (const A of Asset)
 			if (A.Group.Name === C.FocusGroup.Name && A.DynamicAllowInventoryAdd(C))
 				if (InventoryAvailable(C, A.Name, A.Group.Name))
-					DialogInventoryAdd(C, Item.fromAsset(A), false);
+					DialogInventoryAdd(C, AppearanceItem.fromAsset(A), false);
 
 		// Fifth, we add all crafted items for the player that matches that slot
 		for (const Craft of (Player.Crafting ?? [])) {
@@ -1678,7 +1679,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 			for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 				if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-					DialogInventoryAdd(C, Item.fromAsset(Asset, { craft: Craft }), false);
+					DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
 				}
 			}
 		}
@@ -1695,7 +1696,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 				Craft.MemberNumber = C.MemberNumber;
 				for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 					if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-						DialogInventoryAdd(C, Item.fromAsset(Asset, { craft: Craft }), false);
+						DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
 					}
 				}
 			}
@@ -1707,7 +1708,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
 					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))
-						DialogInventoryAdd(C, Item.fromAsset(A), false);
+						DialogInventoryAdd(C, AppearanceItem.fromAsset(A), false);
 		}
 
 	}

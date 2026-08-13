@@ -212,7 +212,7 @@ function InventoryItemNeckFuturisticCollarCanLock(C, LockType) {
 		LockAsset = InventoryAvailable(C, LockType, "ItemMisc") ? AssetGet(C.AssetFamily, "ItemMisc", LockType) : null;
 	}
 
-	if (LockAsset && !(InventoryBlockedOrLimited(C, Item.fromAsset(LockAsset)))) {
+	if (LockAsset && !(InventoryBlockedOrLimited(C, AppearanceItem.fromAsset(LockAsset)))) {
 		// Make sure we do not add owner/lover only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
 		if (LockAsset.OwnerOnly && !C.IsOwnedByPlayer())
 			if (!C.IsPlayer() || !C.IsOwned() || (C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule")))

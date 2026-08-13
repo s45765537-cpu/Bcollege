@@ -374,7 +374,7 @@ var Shop2 = {
 				} else {
 					options.Background = "white";
 				}
-				const previewItem = Object.assign(Item.fromAsset(Asset), { Icons });
+				const previewItem = Object.assign(AppearanceItem.fromAsset(Asset), { Icons });
 				DrawItemPreview(previewItem, C, x, y, options);
 				break;
 			}
@@ -401,7 +401,7 @@ var Shop2 = {
 					label = `$${money}`;
 				}
 
-				const previewItem = Object.assign(Item.fromAsset(Asset), { Icons });
+				const previewItem = Object.assign(AppearanceItem.fromAsset(Asset), { Icons });
 				DrawItemPreview(previewItem, C, x, y, options);
 				Shop2.DrawPriceRibbon(label, x, y, w, Shop2Vars.Mode === "Buy" ? "Red" : "Green");
 				break;

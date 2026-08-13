@@ -2076,7 +2076,7 @@ var ElementButton = {
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	CreateForAsset: function CreateForAsset(idPrefix, asset, C, onClick, options=null, htmlOptions=null) {
-		const item = "Asset" in asset ? asset : Item.fromAsset(asset);
+		const item = "Asset" in asset ? asset : AppearanceItem.fromAsset(asset);
 		asset = item.Asset;
 
 		const id = idPrefix == null ? ElementGenerateID() : `${idPrefix}-${asset.Group.Name}-${asset.Name}`;
@@ -2254,7 +2254,7 @@ var ElementButton = {
 	 * @returns {boolean} - Whether the icons were updated or not
 	 */
 	ReloadAssetIcons: function ReloadAssetIcons(button, asset, C) {
-		const item = "Asset" in asset ? asset : Item.fromAsset(asset);
+		const item = "Asset" in asset ? asset : AppearanceItem.fromAsset(asset);
 		asset = item.Asset;
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
