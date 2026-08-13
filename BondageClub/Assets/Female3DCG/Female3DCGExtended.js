@@ -14741,6 +14741,15 @@ var AssetFemale3DCGExtended = {
 						Attribute: ["IsHipHarness"],
 					},
 				},
+				{
+					Name: "Unity",
+					BondageLevel: 4,
+					Property: {
+						Difficulty: 4,
+						Effect: [E.CrotchRope],
+						Attribute: ["IsHipHarness"],
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectRopeBondage",

@@ -39285,6 +39285,19 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AllowTighten: true,
 				CreateLayerTypes: ["typed"],
+				Layer: [
+					{},  // default layers don't have any additional layers.
+					...[ // Typed 6's additional layers.
+						{ CopyLayerColor: "left"  }, // default layer
+						{ Name: "left" },
+						{ Name: "right"},
+						{ Name: "right_hip",    CopyLayerColor: "right" },
+						{ Name: "left_thigh",   CopyLayerColor: "right" },
+						{ Name: "right_thigh",  CopyLayerColor: "left"  },
+						{ Name: "left_thread",  CopyLayerColor: "right" },
+						{ Name: "right_thread", CopyLayerColor: "left"  },
+					].map(layer => ({ ...layer, AllowTypes: { typed: [6] }}))
+				],
 			},
 			{
 				Name: "LeatherHarness",
