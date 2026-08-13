@@ -29872,20 +29872,47 @@ var AssetFemale3DCG = [
 			{
 				Name: "HairFront56",
 				Top: 30,
+				Extended: true,
 				Layer: [
-					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"], AllowTypes: {typed: 0} },
 					{
 						Name: "SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
+						AllowTypes: {typed: 0},
 					},
 					{
 						Name: "NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
+						AllowTypes: {typed: 0},
 					},
 					{
 						Name: "MainTip",
+						AllowTypes: {typed: 0},
+					},
+					{ 
+						Name: "Texture_Main", 
+						HideForAttribute: ["SmallEars", "NoEars"], 
+						AllowTypes: {typed: 1},
+						CopyLayerColor: "Main",
+					},
+					{
+						Name: "Texture_SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+						AllowTypes: {typed: 1},
+					},
+					{
+						Name: "Texture_NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+						AllowTypes: {typed: 1},
+					},
+					{
+						Name: "Texture_MainTip",
+						AllowTypes: {typed: 1},
+						CopyLayerColor: "MainTip",
 					},
 				],
 			},
@@ -29893,19 +29920,45 @@ var AssetFemale3DCG = [
 				Name: "HairFront56b",
 				Top: 30,
 				Layer: [
-					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"], AllowTypes: {typed: 0} },
 					{
 						Name: "SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
+						AllowTypes: {typed: 0},
 					},
 					{
 						Name: "NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
+						AllowTypes: {typed: 0},
 					},
 					{
 						Name: "MainTip",
+						AllowTypes: {typed: 0},
+					},
+					{ 
+						Name: "Texture_Main", 
+						HideForAttribute: ["SmallEars", "NoEars"], 
+						AllowTypes: {typed: 1},
+						CopyLayerColor: "Main",
+					},
+					{
+						Name: "Texture_SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+						AllowTypes: {typed: 1},
+					},
+					{
+						Name: "Texture_NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+						AllowTypes: {typed: 1},
+					},
+					{
+						Name: "Texture_MainTip",
+						AllowTypes: {typed: 1},
+						CopyLayerColor: "MainTip",
 					},
 				],
 			},

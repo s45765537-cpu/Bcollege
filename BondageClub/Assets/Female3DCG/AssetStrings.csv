@@ -7851,6 +7851,16 @@ ItemMouthGenitalGagPussy,Pussy
 ItemMouthGenitalGagSetPussy,SourceCharacter attaches a fake pussy in the DestinationCharacterName mouth.
 ItemMouthGenitalGagButthole,A butthole
 ItemMouthGenitalGagSetButthole,SourceCharacter attaches a fake butthole in the DestinationCharacterName mouth. (Damn!)
+HairFrontHairFront56Select,Select Hair Type.
+HairFrontHairFront56SetType_1,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront56SetType_2,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront56Type_1,Type 1
+HairFrontHairFront56Type_2,Type 2
+HairFrontHairFront56bSelect,Select Hair Type.
+HairFrontHairFront56bSetType_1,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront56bSetType_2,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront56bType_1,Type 1
+HairFrontHairFront56bType_2,Type 2
 HairFrontHairFront60Select,Select Accessory.
 HairFrontHairFront60SetBand,SourceCharacter changes DestinationCharacter hair.
 HairFrontHairFront60SetNoBand,SourceCharacter changes DestinationCharacter hair.
