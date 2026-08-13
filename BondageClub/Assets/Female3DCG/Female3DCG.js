@@ -29874,44 +29874,48 @@ var AssetFemale3DCG = [
 				Top: 30,
 				Extended: true,
 				Layer: [
-					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"], AllowTypes: {typed: 0} },
+					{
+						Name: "Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 0 },
+					},
 					{
 						Name: "SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "MainTip",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
-					{ 
-						Name: "Texture_Main", 
-						HideForAttribute: ["SmallEars", "NoEars"], 
-						AllowTypes: {typed: 1},
+					{
+						Name: "Texture_Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Main",
 					},
 					{
 						Name: "Texture_SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_MainTip",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "MainTip",
 					},
 				],
@@ -29920,44 +29924,48 @@ var AssetFemale3DCG = [
 				Name: "HairFront56b",
 				Top: 30,
 				Layer: [
-					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"], AllowTypes: {typed: 0} },
+					{
+						Name: "Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 0 },
+					},
 					{
 						Name: "SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "MainTip",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
-					{ 
-						Name: "Texture_Main", 
-						HideForAttribute: ["SmallEars", "NoEars"], 
-						AllowTypes: {typed: 1},
+					{
+						Name: "Texture_Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Main",
 					},
 					{
 						Name: "Texture_SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_MainTip",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "MainTip",
 					},
 				],
@@ -39263,9 +39271,73 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				Extended: true,
 				AllowTighten: true,
-				DefaultColor: ["#CCCCCC"],
+				DefaultColor: [
+					"#CCCCCC", // Base Rope
+					"#580000", // Unity Left Side
+					"#200045", // UnityRight Side
+					"#200045", // Unity Left Thigh
+					"#580000", // Unity Right Thigh
+				],
 				CreateLayerTypes: ["typed"],
-				Layer: [{ Name: "Rope" }, { Name: "Shine", AllowColorize: false }],
+				Layer: [
+					{
+						Name: "Rope",
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5] },
+						HideColoring: true,
+					},
+					{
+						Name: "Shine",
+						AllowColorize: false,
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5] },
+					},
+					// Unity Tie (Typed 6) additional layers.
+					.../** @type {AssetLayerDefinition[]} */ (
+						[
+							{ Name: "Left", AllowColorize: true },
+							{ Name: "Right", Priority: 17, AllowColorize: true },
+							{ Name: "LeftThread", CopyLayerColor: "LeftThigh", Priority: 17 },
+							{
+								Name: "RightThread",
+								CopyLayerColor: "RightThigh",
+								Priority: 16,
+							},
+							{ Name: "BodyShine", AllowColorize: false },
+							{
+								Name: "LeftThigh",
+								ParentGroup: "BodyLower",
+								AllowColorize: true,
+								PoseMapping: {
+									...AssetPoseMapping.ItemTorso,
+									LegsClosed: "LegsClosed",
+									Kneel: "LegsClosed",
+									KneelingSpread: "KneelingSpread",
+								},
+							},
+							{
+								Name: "RightThigh",
+								ParentGroup: "BodyLower",
+								AllowColorize: true,
+								PoseMapping: {
+									...AssetPoseMapping.ItemTorso,
+									LegsClosed: "LegsClosed",
+									Kneel: "LegsClosed",
+									KneelingSpread: "KneelingSpread",
+								},
+							},
+							{
+								Name: "ThighShine",
+								AllowColorize: false,
+								ParentGroup: "BodyLower",
+								PoseMapping: {
+									...AssetPoseMapping.ItemTorso,
+									LegsClosed: "LegsClosed",
+									Kneel: "LegsClosed",
+									KneelingSpread: "KneelingSpread",
+								},
+							},
+						].map((layer) => ({ ...layer, AllowTypes: { typed: [6] } }))
+					),
+				],
 			},
 			{
 				Name: "HempRopeHarness",
@@ -39277,7 +39349,13 @@ var AssetFemale3DCG = [
 				Difficulty: 3,
 				Time: 20,
 				RemoveTime: 25,
-				DefaultColor: "#956B1C",
+				DefaultColor: [
+					"#956B1C", // Base Rope
+					"#580000", // Unity Left Side
+					"#200045", // Unity Right Side
+					"#200045", // Unity Left Thigh
+					"#580000", // Unity Right Thigh
+				],
 				BuyGroup: "HempRope",
 				CraftGroup: "HempRope",
 				Audio: "RopeShort",
@@ -39286,17 +39364,45 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				CreateLayerTypes: ["typed"],
 				Layer: [
-					{},  // default layers don't have any additional layers.
-					...[ // Typed 6's additional layers.
-						{ CopyLayerColor: "left"  }, // default layer
-						{ Name: "left" },
-						{ Name: "right"},
-						{ Name: "right_hip",    CopyLayerColor: "right" },
-						{ Name: "left_thigh",   CopyLayerColor: "right" },
-						{ Name: "right_thigh",  CopyLayerColor: "left"  },
-						{ Name: "left_thread",  CopyLayerColor: "right" },
-						{ Name: "right_thread", CopyLayerColor: "left"  },
-					].map(layer => ({ ...layer, AllowTypes: { typed: [6] }}))
+					{ HideColoring: true },
+
+					// Unity Tie (Typed 6) additional layers.
+					.../** @type {AssetLayerDefinition[]} */ (
+						[
+							// Typed 6's additional layers.
+							{ CopyLayerColor: "Left" }, // default layer
+							{ Name: "Left", AllowColorize: true },
+							{ Name: "Right", Priority: 17, AllowColorize: true },
+							{
+								Name: "LeftThigh",
+								ParentGroup: "BodyLower",
+								AllowColorize: true,
+								PoseMapping: {
+									...AssetPoseMapping.ItemTorso,
+									LegsClosed: "LegsClosed",
+									Kneel: "LegsClosed",
+									KneelingSpread: "KneelingSpread",
+								},
+							},
+							{
+								Name: "RightThigh",
+								ParentGroup: "BodyLower",
+								AllowColorize: true,
+								PoseMapping: {
+									...AssetPoseMapping.ItemTorso,
+									LegsClosed: "LegsClosed",
+									Kneel: "LegsClosed",
+									KneelingSpread: "KneelingSpread",
+								},
+							},
+							{ Name: "LeftThread", CopyLayerColor: "LeftThigh", Priority: 17 },
+							{
+								Name: "RightThread",
+								CopyLayerColor: "RightThigh",
+								Priority: 16,
+							},
+						].map((layer) => ({ ...layer, AllowTypes: { typed: [6] } }))
+					),
 				],
 			},
 			{
