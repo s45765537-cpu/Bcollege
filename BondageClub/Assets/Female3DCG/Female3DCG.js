@@ -7102,6 +7102,21 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "ChainBelt",
+				Priority: 25,
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					BackCuffs: PoseType.DEFAULT,
+					BackBoxTie: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					Yoked: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+			},
+			{
 				Name: "BowAccessory",
 				InventoryID: 167,
 				Random: false,
@@ -16539,6 +16554,17 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ClothAccessory",
 					AssetName: "BowBelt",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ChainBelt",
+				ParentGroup: "",
+				Top: 0,
+				DynamicGroupName: "ClothAccessory",
+				CopyConfig: {
+					GroupName: "ClothAccessory",
+					AssetName: "ChainBelt",
 					BuyGroup: true,
 				},
 			},
