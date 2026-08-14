@@ -45,6 +45,7 @@ async function GameStart(isNode=false) {
 
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
 	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
+	Player.Log = [];
 	PreferenceInitPlayer(Player, {});
 
 	// Those event listeners are all going through a lambda so that mods can
