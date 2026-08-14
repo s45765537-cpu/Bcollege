@@ -39401,9 +39401,9 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				CreateLayerTypes: ["typed"],
 				Layer: [
-					{ 
-						HideColoring: true, 
-						AllowTypes: { typed: [0, 1, 2, 3, 4, 5] } 
+					{
+						HideColoring: true,
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5] },
 					},
 
 					// Unity Tie (Typed 6) additional layers.
