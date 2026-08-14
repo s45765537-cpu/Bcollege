@@ -3521,10 +3521,16 @@ interface ItemPropertiesCustom {
 	/** PortalLink: Used to link a remote to its target asset. */
 	PortalLinkCode?: string;
 
-	/** Override the top-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
+	/**
+	 * Override the top-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually.
+	 * @deprecated Superseded by {@link ItemProperties.TranslationY} and {@link ItemProperties.LayerTranslationY}
+	 */
 	DrawingTop?: TopLeft.ItemData;
 
-	/** Override the left-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
+	/**
+	 * Override the left-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually.
+	 * @deprecated Superseded by {@link ItemProperties.TranslationX} and {@link ItemProperties.LayerTranslationX}
+	 */
 	DrawingLeft?: TopLeft.ItemData;
 
 	// #region Techno Chastity Cage settings */
