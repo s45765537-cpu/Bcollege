@@ -101,7 +101,7 @@ var StruggleProgressPrevItem = null;
  * which can happen if someone else removes the item we're currently
  * struggling with. Changes made to it might be ignored!
  *
- * @type {Item | null}
+ * @type {DialogInventoryItem | null}
  */
 var StruggleProgressNextItem = null;
 
@@ -519,7 +519,7 @@ function StruggleMinigameIsRunning() {
  * @param {Character} C - The character currently doing the struggling, either on itself (ie. as Player), or on someone else.
  * @param {StruggleKnownMinigames} MiniGame - The minigame to start
  * @param {Item | null} PrevItem - The item currently being present on the character, or null if none
- * @param {Item | null} NextItem - The item currently being added on the character, or null if it's a removal
+ * @param {DialogInventoryItem | null} NextItem - The item currently being added on the character, or null if it's a removal
  * @param {StruggleCompletionCallback} Completion - A callback that will be called when the minigame ends
  */
 function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
