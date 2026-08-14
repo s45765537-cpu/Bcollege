@@ -1119,7 +1119,6 @@ function FriendListDelete(MemberNumber) {
 	}).join("");
 	if (confirm(confirmMessage)) {
 		ChatRoomListUpdate(Player.FriendList, false, MemberNumber);
-		Player.FriendNames.delete(MemberNumber);
 		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	}
 }
