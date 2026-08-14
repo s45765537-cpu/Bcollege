@@ -3500,7 +3500,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 				clickedItem,
 				C,
 				this.eventListeners._ClickButton,
-				{ clickDisabled: this.eventListeners._ClickDisabledButton },
+				{ clickDisabled: this.eventListeners._ClickDisabledButton, _craftIsWorn: false },
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
