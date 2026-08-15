@@ -7298,7 +7298,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
@@ -20546,6 +20546,17 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "ForeheadJewelry",
+				ParentGroup: "",
+				Top: 101,
+				DynamicGroupName: "Mask",
+				CopyConfig: {
+					GroupName: "Mask",
+					AssetName: "ForeheadJewelry",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -20673,7 +20684,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
@@ -22768,7 +22779,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
@@ -23162,7 +23173,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
