@@ -5939,10 +5939,24 @@ function ChatRoomListUpdate(list, adding, memberNumber, notification, sync = tru
 		});
 	}
 
-	if (list == Player.GhostList) {
-		const C = Character.find(Char => Char.MemberNumber == memberNumber);
-		if (C) {
-			CharacterRefresh(C, false);
+	switch (list) {
+		case Player.GhostList: {
+			const C = Character.find(Char => Char.MemberNumber == memberNumber);
+			if (C) {
+				CharacterRefresh(C, false);
+			}
+			break;
+		}
+		case Player.FriendList: {
+			if (adding) {
+				const C = Character.find(Char => Char.MemberNumber == memberNumber);
+				if (C) {
+					Player.FriendNames.set(memberNumber, C.Name);
+				}
+			} else {
+				Player.FriendNames.delete(memberNumber)
+			}
+			break;
 		}
 	}
 
