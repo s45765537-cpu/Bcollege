@@ -590,6 +590,17 @@ describe("CommonModulo", () => {
 	it("works with non-integer divisor", () => {
 		expect(Game.CommonModulo(8.25, 0.5)).toBe(0.25);
 	});
+
+	it("can cycle between divisor and min", () => {
+		let val = 1;
+		expect(Game.CommonModulo(++val, 3, 1)).toBe(2);
+		expect(Game.CommonModulo(++val, 3, 1)).toBe(3);
+		expect(Game.CommonModulo(++val, 3, 1)).toBe(1);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(3);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(2);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(1);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(3);
+	});
 });
 
 describe("CommonObjectEqual", () => {

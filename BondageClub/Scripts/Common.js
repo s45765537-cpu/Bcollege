@@ -1682,9 +1682,10 @@ function CommonClamp(value, min, max) {
  *
  * @param {number} value
  * @param {number} divisor
+ * @param {number} [min]
  */
-function CommonModulo(value, divisor) {
-	return Math.abs((divisor + value) % divisor);
+function CommonModulo(value, divisor, min = 0) {
+	return Math.abs((divisor + value - min) % divisor) + min;
 }
 
 /**
