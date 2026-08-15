@@ -4012,22 +4012,32 @@ type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends An
 
 type StruggleKnownMinigames = "Strength" | "Flexibility" | "Dexterity" | "Loosen" | "LockPick";
 
+interface StruggleEventTypes {
+	Click: null;
+	MouseDown: PointerEvent;
+	KeyDown: KeyboardEvent;
+}
+
+type StruggleEventListener = (
+	...args: {
+		[K in keyof StruggleEventTypes]: [EventType: K, event: StruggleEventTypes[K]]
+	}[keyof StruggleEventTypes]
+) => boolean;
+
 interface StruggleMinigame {
-	Setup: (C: Character, PrevItem: Item, NextItem: Item) => void;
+	Setup: (C: Character, PrevItem: Item | null, NextItem: Item | null) => void;
 	Draw: (C: Character) => void;
-	HandleEvent?: (EventType: "KeyDown"|"Click", event: Event) => boolean;
+	HandleEvent?: StruggleEventListener;
 	DisablingCraftedProperty?: CraftingPropertyType;
 }
 
-interface StruggleCompletionData {
+type StruggleCompletionData = {
 	Progress: number;
-	PrevItem: Item;
-	NextItem?: DialogInventoryItem;
 	Skill: number;
 	Attempts: number;
 	Interrupted: boolean;
 	Auto?: boolean;
-}
+} & ({ PrevItem: Item; NextItem: DialogInventoryItem; } | { PrevItem: null; NextItem: DialogInventoryItem; } | { PrevItem: Item; NextItem: null; })
 
 type StruggleCompletionCallback = (character: Character, game: StruggleKnownMinigames, data: StruggleCompletionData) => void;
 
@@ -4041,10 +4051,10 @@ interface StruggleOnlineData {
 	LoosenMode: boolean;
 	Item: Item;
 	NextAnim: number;
-	StartExpressionEyes: ExpressionName; // technically ExpressionNameMap["Eyes"];
-	StartExpressionBlush: ExpressionName;
-	StartExpressionMouth: ExpressionName;
-	StartExpressionEyebrows: ExpressionName;
+	StartExpressionEyes: ExpressionName | undefined; // technically ExpressionNameMap["Eyes"];
+	StartExpressionBlush: ExpressionName | undefined;
+	StartExpressionMouth: ExpressionName | undefined;
+	StartExpressionEyebrows: ExpressionName | undefined;
 }
 
 // #endregion

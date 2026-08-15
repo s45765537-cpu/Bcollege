@@ -2368,7 +2368,7 @@ function DialogClick(event) {
 					DialogMenuButtonBuild(C);
 				}
 			}
-			if ((CurrentScreen === "ChatRoom") && MouseIn(1300, 880, 400, 65)) StruggleChatRoomStart();
+			if ((CurrentScreen === "ChatRoom") && MouseIn(1300, 880, 400, 65)) StruggleChatRoomStart(DialogStrugglePrevItem);
 		}
 		return;
 	}
