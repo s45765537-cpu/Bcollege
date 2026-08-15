@@ -336,6 +336,7 @@ async function LoginLoad() {
 	},
 	{
 		label: TextGet("NewCharacter"),
+		name: "register",
 	});
 
 	const resetPassword = ElementButton.Create(LoginIDs.passwordReset, () => {

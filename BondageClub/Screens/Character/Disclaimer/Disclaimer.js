@@ -16,7 +16,6 @@ var DisclaimerCloseCallback = null;
  * @type {ScreenLoadHandler}
  */
 async function DisclaimerLoad() {
-
 	const disclaimerTextSection = ElementCreate({
 		tag: "section",
 		attributes: { id: DisclaimerIDs.text },
@@ -83,12 +82,14 @@ async function DisclaimerLoad() {
 
 	const returnButton = ElementButton.Create(DisclaimerIDs.return, () => DisclaimerClose(false), {
 		label: TextGet("TosReturn"),
+		name: "reject",
 	},
 	{
 		button: { classList: ["disclaimer-button"] },
 	});
 	const acceptButton = ElementButton.Create(DisclaimerIDs.accept, () => DisclaimerClose(true), {
 		label: TextGet("TosAccept"),
+		name: "accept",
 	},
 	{
 		button: { classList: ["disclaimer-button"] },

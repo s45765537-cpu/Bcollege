@@ -196,7 +196,7 @@ async function CreationLoad() {
 			ElementButton.Create(
 				CreationIDs.createButton,
 				CreationSubmit,
-				{ label: TextGet("CreateAccount") },
+				{ label: TextGet("CreateAccount"), name: "Create" },
 			),
 		],
 		parent: form,
@@ -215,7 +215,7 @@ async function CreationLoad() {
 			ElementButton.Create(
 				CreationIDs.loginButton,
 				CreationExit,
-				{ label: TextGet("Login") },
+				{ label: TextGet("Login"), name: "Login" },
 			)
 		],
 		parent: main,
