@@ -222,6 +222,17 @@ declare namespace ElementButton {
 		/** The {@link HTMLButtonElement.ariaHasPopup} of the button */
 		ariaHasPopup?: boolean | "true" | "false" | "menu" | "listbox" | "tree" | "grid" | "dialog";
 	}
+
+	interface AssetOptions extends Options {
+		/**
+		 * Whether the crafted item is currently worn.
+		 *
+		 * Used for determining whether the presence of a lock will be inferred from `Item.Property` ("worn") or `Item.Craft` ("not worn").
+		 * @default true
+		 * @deprecated To-be removed for R132
+		 */
+		_craftIsWorn?: boolean;
+	}
 }
 
 declare namespace ElementCheckbox {
