@@ -2,5 +2,5 @@
 module.exports = {
 	verbose: true,
 	testEnvironment: "jsdom",
-	setupFilesAfterEnv: ["./Tests/setup.cjs"],
+	setupFilesAfterEnv: ["./Tests/setup.cjs", "jest-expect-message"],
 };

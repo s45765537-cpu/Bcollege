@@ -13,4 +13,5 @@
 	},
 	"include": ["../Scripts/**/*.d.ts", "../Asset/**/*.d.ts", "."],
 	"exclude": ["../Scripts/MessagesPatch.d.ts"],
+    "files": ["../node_modules/jest-expect-message/types/index.d.ts"],
 }
