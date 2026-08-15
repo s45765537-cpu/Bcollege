@@ -27,6 +27,16 @@ function entries(obj) {
 }
 
 /**
+ * A {@link Object.keys} variant annotated to return respect literal key types
+ * @template {object} T
+ * @param {T} obj A record with string-based keys
+ * @returns {(keyof T)[]} The keys in the passed record
+ */
+function keys(obj) {
+	return /** @type {(keyof T)[]} */(Object.keys(obj));
+}
+
+/**
  * Deep-clones an object
  * @todo JSON serialization will break things like functions, Sets and Maps.
  * @template T
@@ -44,5 +54,6 @@ function cloneDeep(obj, reviver=null, replacer=null) {
 module.exports = {
   filterNullValues,
   entries,
+  keys,
   cloneDeep,
 };
