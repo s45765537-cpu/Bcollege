@@ -1,3 +1,5 @@
+"use_strict";
+
 const { Game } = require("./game.cjs");
 const { filterNullValues, cloneDeep } = require("./utils.cjs");
 

@@ -1,3 +1,5 @@
+"use_strict";
+
 /**
  * Take an object and remove all entries with (explicit) undefined values
  * @template {object} T
