@@ -1,5 +1,4 @@
-"use strict";
-const { Game } = require("./Utils");
+import { Game } from "./Utils";
 
 Game.load("../Scripts/Common.js");
 Game.load("../Scripts/Drawing.js");
@@ -9,7 +8,6 @@ Game.load("../Scripts/Translation.js");
 Game.load("../Scripts/Text.js");
 Game.load("../Screens/Character/ItemColor/ItemColor.js");
 
-/** @satisfies {ColorAssetMock} */
 const asset = {
 	Name: "Foo",
 	get ColorableLayerCount() { return this.DefaultColor.length; },
@@ -17,7 +15,7 @@ const asset = {
 	Group: {
 		Name: "ItemArms",
 	},
-};
+} satisfies ColorAssetMock;
 
 describe("ServerBundledItemFromAppearanceItem", () => {
 	it("non-default difficulty", () => {

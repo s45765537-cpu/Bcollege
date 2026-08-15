@@ -1,24 +1,21 @@
-"use strict";
-const { Game } = require("./Utils");
+import { Game } from "./Utils";
 
 Game.load("../Scripts/Common.js");
 Game.load("../Scripts/Translation.js");
 Game.load("../Scripts/Text.js");
 Game.load("../Screens/Character/ItemColor/ItemColor.js");
 
-/** @satisfies {ColorAssetMock} */
 const partialAsset1 = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "#112233"],
 	Group: {},
-};
+} satisfies ColorAssetMock;
 
-/** @satisfies {ColorAssetMock} */
 const partialAsset2 = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "Default"],
 	Group: {},
-};
+} satisfies ColorAssetMock;
 
 describe("ItemColorIsDefault", () => {
 	it("equivalent to non-default color: string-based", () => {

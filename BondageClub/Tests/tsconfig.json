@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "esnext",
 		"target": "esnext",
-		"lib": ["esnext", "DOM"],
+		"lib": ["esnext"],
 		"checkJs": true,
 		"noEmit": true,
 		"incremental": true,
 		"tsBuildInfoFile": "../.cache/tsc-jest.tsbuildinfo",
-		"types": ["node", "jest"],
+		"types": ["node", "jest", "jsdom"],
 		"skipLibCheck": true,
 		"strict": true,
 	},

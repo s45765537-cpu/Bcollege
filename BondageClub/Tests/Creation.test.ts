@@ -1,7 +1,6 @@
-const { Game, screen, utils, element, socket } = require("./Utils");
+import { Game, screen, utils, element, socket } from "./Utils";
 
-/** @type {Record<string, Partial<AccountCreationData> & { status: AccountCreationStatus }>} */
-const testParameters = {
+const testParameters: Record<string, Partial<AccountCreationData> & { status: AccountCreationStatus }> = {
 	"valid": {
 		InputCharacter: "Test123",
 		InputName: "Test456",
@@ -40,27 +39,23 @@ const testParameters = {
 	},
 };
 
-/** @satisfies {Record<keyof AccountCreationData, "text" | "password" | "email">} */
 const expectedInputTypes = {
 	InputCharacter: "text",
 	InputName: "text",
 	InputPassword1: "password",
 	InputPassword2: "password",
 	InputEmail: "email",
-}
+} satisfies Record<keyof AccountCreationData, "text" | "password" | "email">;
 
-/** @type {(name: keyof AccountCreationData) => HTMLInputElement} */
-function queryInput(name) {
+function queryInput(name: keyof AccountCreationData): HTMLInputElement {
 	return element.querySelector(`input[name="${name}"][type="${expectedInputTypes[name]}"]`)
 }
 
-/** @type {(name: string) => HTMLButtonElement} */
-function queryButton(name) {
+function queryButton(name: string): HTMLButtonElement {
 	return element.querySelector(`button[name="${name}"]`);
 }
 
-/** @type {(data: Partial<AccountCreationData>) => AccountCreationData} */
-function getCreationData(data) {
+function getCreationData(data: Partial<AccountCreationData>): AccountCreationData {
 	return {
 		InputCharacter: data.InputCharacter ?? "",
 		InputName: data.InputName ?? data.InputCharacter ?? "",
@@ -70,8 +65,7 @@ function getCreationData(data) {
 	};
 }
 
-/** @type {Record<AccountCreationStatus, (creationData: Required<AccountCreationData>) => Promise<void>>} */
-const statusResponsesCallbacks = {
+const statusResponsesCallbacks: Record<AccountCreationStatus, (creationData: Required<AccountCreationData>) => Promise<void>> = {
 	async ok(creationData) {
 		socket.mockResponse("CreationResponse", {
 			ServerAnswer: "AccountCreated",
@@ -123,7 +117,7 @@ describe("Create a new Character", () => {
 		await screen.awaitScreenChange();
 
 		expect(Game.CurrentScreen).toBe("Appearance");
-		const acceptButtonCoords = /** @type {const} */([1883, 25]);
+		const acceptButtonCoords = [1883, 25] as const;
 		screen.canvasClick(...acceptButtonCoords);
 		await screen.awaitScreenChange();
 

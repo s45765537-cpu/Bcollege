@@ -23,8 +23,8 @@
 		"assets:check": "cd Tools/Node && node --unhandled-rejections=strict AssetCheck",
 		"assets:typecheck": "tsc -p Tools/Node/tsconfig-assetcheck.json",
 		"assets:posemapping": "cd Tools/Node && node --unhandled-rejections=strict PoseMapping",
-		"scripts:lint": "eslint --cache --cache-location .cache/eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\" \"Tests/**/*.js\"",
-		"scripts:lint:fix": "eslint --cache --cache-location .cache/eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\" \"Tests/**/*.js\"",
+		"scripts:lint": "eslint --cache --cache-location .cache/eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
+		"scripts:lint:fix": "eslint --cache --cache-location .cache/eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:typecheck": "run-p -cs --aggregate-output scripts:typecheck:tsc scripts:typecheck:strict",
 		"scripts:typecheck:tsc": "tsc -p tsconfig.json",
 		"scripts:typecheck:strict": "cross-env CI=1 tsc-strict -p tsconfig.json",
@@ -52,6 +52,8 @@
 		"Chrome >= 109"
 	],
 	"devDependencies": {
+		"@babel/preset-env": "^7.29.7",
+		"@babel/preset-typescript": "^7.29.7",
 		"@eslint/eslintrc": "^3.3.1",
 		"@eslint/js": "^9.39.4",
 		"@total-typescript/ts-reset": "^0.6.1",
@@ -64,6 +66,7 @@
 		"@types/gulp-size": "^4.0.3",
 		"@types/imagemin-jpegtran": "^5.0.4",
 		"@types/jest": "^30.0.0",
+		"@types/jsdom": "^30.0.0",
 		"@types/lodash.template": "^4.5.3",
 		"@types/minimist": "^1.2.5",
 		"@types/node": "^24.10.0",
