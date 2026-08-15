@@ -7298,7 +7298,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
@@ -20546,6 +20546,17 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "ForeheadJewelry",
+				ParentGroup: "",
+				Top: 101,
+				DynamicGroupName: "Mask",
+				CopyConfig: {
+					GroupName: "Mask",
+					AssetName: "ForeheadJewelry",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -20673,7 +20684,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
@@ -22768,7 +22779,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
@@ -23162,7 +23173,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
@@ -29874,44 +29885,48 @@ var AssetFemale3DCG = [
 				Top: 30,
 				Extended: true,
 				Layer: [
-					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"], AllowTypes: {typed: 0} },
+					{
+						Name: "Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 0 },
+					},
 					{
 						Name: "SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "MainTip",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
-					{ 
-						Name: "Texture_Main", 
-						HideForAttribute: ["SmallEars", "NoEars"], 
-						AllowTypes: {typed: 1},
+					{
+						Name: "Texture_Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Main",
 					},
 					{
 						Name: "Texture_SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_MainTip",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "MainTip",
 					},
 				],
@@ -29920,44 +29935,48 @@ var AssetFemale3DCG = [
 				Name: "HairFront56b",
 				Top: 30,
 				Layer: [
-					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"], AllowTypes: {typed: 0} },
+					{
+						Name: "Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 0 },
+					},
 					{
 						Name: "SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "MainTip",
-						AllowTypes: {typed: 0},
+						AllowTypes: { typed: 0 },
 					},
-					{ 
-						Name: "Texture_Main", 
-						HideForAttribute: ["SmallEars", "NoEars"], 
-						AllowTypes: {typed: 1},
+					{
+						Name: "Texture_Main",
+						HideForAttribute: ["SmallEars", "NoEars"],
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Main",
 					},
 					{
 						Name: "Texture_SmallEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["SmallEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_NoEars",
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Texture_MainTip",
-						AllowTypes: {typed: 1},
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "MainTip",
 					},
 				],
