@@ -496,7 +496,14 @@ function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
 	let matrix = m4.orthographic(0, gl.canvas.width, gl.canvas.height, 0, -1, 1);
 
 	// Move to draw position (Translation)
-	matrix = m4.translate(matrix, dstX + offsetX + (TranslationX || 0), dstY + (TranslationY || 0), 0);
+	// FIXME: There seems to be some double (triple?) counting going on between `dstX` and `TranslationX` when mirroring is enabled,
+	// thus requiring a factor 3 correction (why?)
+	matrix = m4.translate(
+		matrix,
+		dstX + offsetX + (TranslationX || 0) * (Mirror ? 3 : 1),
+		dstY + (1 * TranslationY || 0),
+		0,
+	);
 
 	// Apply Rotation (around center)
 	if (Rotation && Rotation !== 0) {
@@ -508,8 +515,10 @@ function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
 	// Apply Scale (dimensions)
 	// We need to scale the *dimensions* relative to the center,
 	// so we translate to center, scale, translate back
-	matrix = m4.translate(matrix, tex.width / 2, tex.height / 2, 0);
-	matrix = m4.scale(matrix, (Mirror ? -1 : 1) * (ScaleX ?? 1), (Invert ? -1 : 1) * (ScaleY ?? 1), 1);
+	const xSign = Mirror ? -1 : 1;
+	const ySign = Invert ? -1 : 1;
+	matrix = m4.translate(matrix, xSign * tex.width / 2, ySign * tex.height / 2, 0);
+	matrix = m4.scale(matrix, xSign * (ScaleX ?? 1), ySign * (ScaleY ?? 1), 1);
 	matrix = m4.translate(matrix, -tex.width / 2, -tex.height / 2, 0);
 
 	// Finally, apply original texture dimensions
