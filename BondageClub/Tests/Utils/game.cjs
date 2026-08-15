@@ -99,6 +99,8 @@ const _Game = {
 	HTMLSelectElement,
 	HTMLTextAreaElement,
 	customElements,
+	MutationObserver,
+	Node,
 	TextEncoder: NodeTextEncoder,
 	TextDecoder: NodeTextDecoder,
 	Worker: class {
