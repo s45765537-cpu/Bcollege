@@ -2582,7 +2582,7 @@ var CraftingValidationRecord = {
 						return false;
 					}
 				} else if (layeringScalar.has(key)) {
-					if (!Number.isInteger(value)) {
+					if (!Number.isFinite(value)) {
 						return false;
 					}
 				} else if (layeringObject.has(key)) {
@@ -2593,7 +2593,7 @@ var CraftingValidationRecord = {
 					for (const [layerName, i] of Object.entries(value)) {
 						if (!layers.includes(layerName)) {
 							return false;
-						} else if (!(i === undefined || Number.isInteger(i))) {
+						} else if (!(i === undefined || Number.isFinite(i))) {
 							return false;
 						}
 					}
