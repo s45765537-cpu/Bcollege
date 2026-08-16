@@ -450,7 +450,7 @@ var Layering = {
 				tag: /** @type {const} */("fieldset"),
 				children: [{
 					tag: /** @type {const} */("div"),
-					classList: ["layering-pair"],
+					classList: ["layering-pair", "layering-asset-pair"],
 					children: [
 						{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [InterfaceTextGet(`Layering${propType}`)] },
 						{
@@ -634,7 +634,7 @@ var Layering = {
 						children: [
 							{
 								tag: /** @type {const} */("div"),
-								classList: ["layering-pair"],
+								classList: ["layering-pair", "layering-asset-pair"],
 								children: [
 									{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [InterfaceTextGet("LayeringPriority")] },
 									{

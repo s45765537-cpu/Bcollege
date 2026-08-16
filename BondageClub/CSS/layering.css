@@ -92,6 +92,11 @@
 	color: yellow;
 }
 
+.layering-asset-pair {
+	/* Matches the fieldset positioned underneath in terms of padding, border-width and margin */
+	padding-inline: calc(0.75em + 2px + 2px);
+}
+
 .layering-pair-text {
 	color: white;
 	overflow-x: hidden;
@@ -130,7 +135,7 @@
 
 #layering fieldset.layering-layer-fieldset {
 	margin-bottom: var(--half-gap);
-	padding: var(--half-gap);
+	padding: var(--half-gap) 0.75em;
 }
 
 .layering-tabs {
