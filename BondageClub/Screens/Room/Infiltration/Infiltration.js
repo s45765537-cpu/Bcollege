@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var InfiltrationBackground = "Infiltration";
-/** @type {null | NPCCharacter} */
-var InfiltrationSupervisor = null;
+/** @type {NPCCharacter} */
+var InfiltrationSupervisor = /** @type {never} */ (null);
 var InfiltrationDifficulty = 0;
 /** @type {InfiltrationMissionType | ""} */
 var InfiltrationMission = "";
@@ -52,7 +51,7 @@ function InfiltrationCanGetPandoraLock() { return (SkillGetLevel(Player, "Infilt
  * Returns TRUE if the player can ask to get Pandora's locks as a reward for the mission
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanAskForPandoraLock() { return ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Type == "PandoraPadlockKeys")); }
+function InfiltrationCanAskForPandoraLock() { return !!InfiltrationTarget && ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Type == "PandoraPadlockKeys")); }
 
 /**
  * Returns TRUE if the player can turn in the cat burglar mission
@@ -76,7 +75,7 @@ function InfiltrationPandoraPrisonerPresent() { return (InfiltrationPandoraPriso
  * Returns TRUE if the player brought back a Mistress from Pandoras Box
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationPartyPrisonerIsMistress() { return (InfiltrationPartyPrisoner.Archetype === "Mistress");}
+function InfiltrationPartyPrisonerIsMistress() { return !!InfiltrationPartyPrisoner && (InfiltrationPartyPrisoner.Archetype === "Mistress");}
 
 /**
  * Returns TRUE if there is still free space in private room.
@@ -87,7 +86,7 @@ function InfiltrationCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained and gagged
  */
-function InfiltrationCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function InfiltrationCanPlayClubCard() { return !!CurrentCharacter && (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * Returns TRUE if the player has free space and is skilled enough.
@@ -235,9 +234,11 @@ function InfiltrationCompleteMission() {
 	Money = Money + Math.round(PandoraMoney / 2);
 	if (InfiltrationPerksActive("Negotiation")) Money = Math.round(Money * 1.2);
 	CharacterChangeMoney(Player, Money);
-	if ((InfiltrationMission == "Rescue") && (InfiltrationTarget.Type == "NPC") && InfiltrationTarget.PrivateRoom) {
-		NPCEventAdd(PrivateRansomCharacter, "Kidnap", CurrentTime);
-		if (PrivateRansomCharacter.Love < 50) PrivateRansomCharacter.Love = 50;
+	if ((InfiltrationMission == "Rescue") && InfiltrationTarget && (InfiltrationTarget.Type == "NPC") && InfiltrationTarget.PrivateRoom) {
+		if (PrivateRansomCharacter) {
+			NPCEventAdd(PrivateRansomCharacter, "Kidnap", CurrentTime);
+			if ((PrivateRansomCharacter.Love ?? 0) < 50) PrivateRansomCharacter.Love = 50;
+		}
 		ServerPrivateCharacterSync();
 	}
 }
@@ -285,7 +286,7 @@ function InfiltrationPayRansom(Type) {
 	if (Type == "Money") {
 		let Money = 10 + (InfiltrationDifficulty * 4);
 		if (InfiltrationPerksActive("Negotiation")) Money = Math.round(Money * 1.2);
-		if (InfiltrationPartyPrisoner.Archetype != "Mistress") Money = Math.round(Money / 2); //Pay half as much for non-mistress
+		if (InfiltrationPartyPrisoner && InfiltrationPartyPrisoner.Archetype != "Mistress") Money = Math.round(Money / 2); //Pay half as much for non-mistress
 		CharacterChangeMoney(Player, Money);
 	} else if (Type == "Skill") {
 		if (InfiltrationDifficulty == 0) SkillProgress(Player, "Infiltration", 100);
@@ -294,15 +295,16 @@ function InfiltrationPayRansom(Type) {
 		if (InfiltrationDifficulty == 3) SkillProgress(Player, "Infiltration", 300);
 		if (InfiltrationDifficulty == 4) SkillProgress(Player, "Infiltration", 400);
 	} else if (Type == "Private") {
+		if (!InfiltrationPartyPrisoner) return;
 		//Add prisoner to private room
-		/** @type {NPCArchetype} */
-		var PrisonerArchetype = null;
+		/** @type {NPCArchetype | undefined} */
+		let PrisonerArchetype = undefined;
 		if (InfiltrationPartyPrisoner.Archetype === "Slave") {
 			PrisonerArchetype = "Submissive";
 		} else if (InfiltrationPartyPrisoner.Archetype === "Mistress") {
 			PrisonerArchetype = "Mistress";
 		}
-		const C = PrivateAddCharacter(InfiltrationPartyPrisoner, PrisonerArchetype, null);
+		const C = PrivateAddCharacter(InfiltrationPartyPrisoner, PrisonerArchetype, true);
 		C.FromPandora = true;
 		NPCEventAdd(C,"LastInteraction",CurrentTime+20000);
 		//Set PandoraPrisoner to new private room character and send to interrogation
@@ -329,7 +331,9 @@ async function InfiltrationStartKidnapping() {
 	IntroText = IntroText.replace("DialogPlayerName", CharacterNickname(Player));
 	await CommonSetScreen("Room", "Infiltration");
 	InfiltrationBackground = MainHallBackground;
-	CharacterDelete(InfiltrationKidnapper);
+	if (InfiltrationKidnapper) {
+		CharacterDelete(InfiltrationKidnapper);
+	}
 
 	InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
 	CharacterRelease(InfiltrationKidnapper);
@@ -348,11 +352,12 @@ async function InfiltrationStartKidnapping() {
  * @returns {void} - Nothing
  */
 function InfiltrationEndKidnapping(Reward) {
+	if (!CurrentCharacter || !CurrentCharacter.IsNpc()) return;
 	if (Reward === "Money") CharacterChangeMoney(Player, 18);
 	if (Reward === "Skill") SkillProgress(Player, "Infiltration", 400);
 	if (Reward === "Private") {
 		const isMistress = InventoryIsWorn(CurrentCharacter, "Shoes", "MistressBoots");
-		const C = PrivateAddCharacter(/** @type {NPCCharacter} */ (CurrentCharacter), isMistress ? "Mistress" : "", null);
+		const C = PrivateAddCharacter(CurrentCharacter, isMistress ? "Mistress" : "");
 		C.Love = -80;
 		C.FromPandora = true;
 		if (isMistress) {
@@ -381,6 +386,7 @@ function InfiltrationKidnapperSurrender() {
  * @returns {void} - Nothing
  */
 function InfiltrationKidnapperStartFight() {
+	if (!CurrentCharacter) return;
 	let Difficulty = SkillGetLevel(Player, "Infiltration") - 3 + Math.floor(Math.random() * 7);
 	if (Difficulty < 0) Difficulty = 0;
 	if (Difficulty > 10) Difficulty = 10;
@@ -392,14 +398,17 @@ function InfiltrationKidnapperStartFight() {
  * @returns {SafePromise<void>}
  */
 async function InfiltrationKidnapperEndFight() {
+	if (!InfiltrationKidnapper) return;
 	CharacterSetCurrent(InfiltrationKidnapper);
-	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CurrentCharacter));
-	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
-	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
-	CurrentCharacter.AllowItem = KidnapVictory;
+	if (!CurrentCharacter) return;
+	const C = CurrentCharacter;
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(C));
+	C.Stage = (KidnapVictory) ? "100" : "200";
+	CharacterRelease(KidnapVictory ? Player : C);
+	C.AllowItem = KidnapVictory;
 	await CommonSetScreen("Room", "Infiltration");
 	InfiltrationBackground = MainHallBackground;
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	C.CurrentDialog = DialogFind(C, (KidnapVictory) ? "FightVictory" : "FightDefeat");
 }
 
 /**
@@ -416,6 +425,7 @@ async function InfiltrationKidnapperEnterPandora() {
  * @returns {void} - Nothing
  */
 function InfiltrationKidnapperUngag() {
+	if (!CurrentCharacter) return;
 	InventoryRemove(CurrentCharacter, "ItemHead");
 	InventoryRemove(CurrentCharacter, "ItemHood");
 	InventoryRemove(CurrentCharacter, "ItemNose");
@@ -469,8 +479,9 @@ function InfiltrationGetPandoraLock() {
  * @returns {void} - Nothing
  */
 function InfiltrationRansomFriend() {
+	if (!PrivateRansomCharacter) return;
 	NPCEventAdd(PrivateRansomCharacter, "Kidnap", CurrentTime);
-	if (PrivateRansomCharacter.Love < 0) PrivateRansomCharacter.Love = 0;
+	if (PrivateRansomCharacter.Love ?? 0 < 0) PrivateRansomCharacter.Love = 0;
 	ServerPrivateCharacterSync();
 	CharacterChangeMoney(Player, -100);
 }
@@ -480,6 +491,7 @@ function InfiltrationRansomFriend() {
  * @returns {void} - Nothing
  */
 function InfiltrationStartNPCRescue() {
+	if (!PrivateRansomCharacter) return;
 	InfiltrationMission = "Rescue";
 	InfiltrationTarget = {
 		Type: "NPC",
@@ -509,6 +521,7 @@ function InfiltrationDressMaid(Rep) {
 
 function InfiltrationPandoraPrisonerBrainwash() {
 	var C = InfiltrationPandoraPrisoner;
+	if (!C) return;
 	//Hide character for 1 day
 	NPCEventAdd(C, "NPCBrainwashing", CurrentTime + MS_PER_DAY);
 	//Remove Pandora flag
@@ -568,6 +581,7 @@ function InfiltrationClubCardStart() {
 async function InfiltrationClubCardEnd() {
 	await CommonSetScreen("Room", "Infiltration");
 	CharacterSetCurrent(InfiltrationSupervisor);
+	if (!CurrentCharacter) return;
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
 
