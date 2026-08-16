@@ -78,7 +78,7 @@ var Layering = {
 
 	/**
      * The currently active tab
-     * @type {string}
+     * @type {"priority" | "translation" | "scale" | "rotate"}
      */
 	activeTab: "priority",
 
@@ -431,13 +431,14 @@ var Layering = {
 
 	/**
      * @private
-     * @param {string} propType
-     * @param {string[]} properties
+     * @param {"Scale" | "Rotation" | "Translation"} propType
+     * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
      * @param {number} min
      * @param {number} max
      * @param {number} step
      * @param {number} defaultValue
-     * @param {Record<string, [number, number]>} [constraints={}]
+	 * @param {boolean} isShowingHiddenLayers
+     * @param {Record<string, [min: number, max: number]>} [constraints={}]
      * @returns {Element[]}
      */
 	_CreateTabContent(propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints = {}) {
@@ -600,7 +601,7 @@ var Layering = {
 
 	/**
      * @private
-     * @param {string} tabKey
+     * @param {"priority" | "translation" | "scale" | "rotate"} tabKey
      * @returns {Element[]}
      */
 	_GetTabContents(tabKey) {
@@ -625,6 +626,7 @@ var Layering = {
 			}
 		} else {
 			// Regular tabs
+			/** @satisfies {Record<typeof tabKey, Element[]>} */
 			const tabMap = {
 				priority: [
 					ElementCreate({
@@ -869,7 +871,7 @@ var Layering = {
 			children: [
 				ElementMenu.Create(
 					ElementGenerateID(),
-					Object.entries(tabs).map(([key, label]) => {
+					CommonEntries(tabs).map(([key, label]) => {
 						const btn = ElementButton.Create(
 							`layering-tab-${key}`,
 							() => {
