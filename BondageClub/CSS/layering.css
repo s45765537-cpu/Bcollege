@@ -152,7 +152,7 @@
 	justify-content: center;
 	cursor: pointer;
 	width: 100%;
-	height: calc(1.15em + 4px);
+	height: calc(1.15em + 2 * var(--inner-border-width) + 2 * var(--border-width));
 }
 
 .layering-tabs .layering-tab-button.layering-tab-active {
