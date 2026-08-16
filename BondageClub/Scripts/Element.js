@@ -1858,10 +1858,11 @@ var ElementButton = {
 	 * Set the `[role]` attribute of the passed button
 	 * @param {HTMLButtonElement} button
 	 * @param {null | ElementButton.Options["role"]} role
+	 * @param {null | { force?: boolean }} options
 	 */
-	SetRole: function SetRole(button, role) {
+	SetRole: function SetRole(button, role, options=null) {
 		const oldRole = button.getAttribute("role");
-		if (oldRole === role) {
+		if (oldRole === role && !options?.force) {
 			return;
 		}
 
@@ -2042,7 +2043,7 @@ var ElementButton = {
 
 		const role = /** @type {ElementButton.Options["role"]} */(buttonOptions.attributes?.role ?? options.role);
 		if (role) {
-			ElementButton.SetRole(elem, role);
+			ElementButton.SetRole(elem, role, { force: true });
 		}
 
 		for (const [name, listener] of Object.entries(buttonOptions.eventListeners ?? {})) {
