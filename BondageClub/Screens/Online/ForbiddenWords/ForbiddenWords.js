@@ -1,6 +1,6 @@
 "use strict";
 var ForbiddenWordsBackground = "Sheet";
-/** @type {null | Character } */
+/** @type {null | OnlineCharacter} */
 var ForbiddenWordsTarget = null;
 /** @type {string[]} */
 var ForbiddenWordsList = [];
@@ -38,6 +38,7 @@ function ForbiddenWordsUnload() {
  * @returns {void} - Nothing
  */
 function ForbiddenWordsOpen() {
+	if (!CurrentCharacter || !CurrentCharacter.IsOnline()) return;
 	ForbiddenWordsTarget = CurrentCharacter;
 	DialogLeave();
 	CommonSetScreen("Online", "ForbiddenWords");

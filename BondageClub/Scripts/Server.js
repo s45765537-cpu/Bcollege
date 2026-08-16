@@ -750,7 +750,7 @@ function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
  * Maps a bundled appearance item, as stored on the server and used for appearance update messages, into a full
  * appearance item, as used by the game client
  * @param {IAssetFamily} assetFamily - The asset family of the appearance item
- * @param {ItemBundle} itemBundle - The bundled appearance item
+ * @param {ItemBundle | ServerCharacterItemUpdate} itemBundle - The bundled appearance item
  * @returns {null | Item} - A full appearance item representation of the provided bundled appearance item
  */
 function ServerBundledItemToAppearanceItem(assetFamily, itemBundle) {

@@ -31,7 +31,7 @@ var ChatRoomMapViewUpdateRoomNext = null;
 var ChatRoomMapViewUpdatePlayerNext = null;
 /** @type {null | number} */
 var ChatRoomMapViewUpdateLastMapDataNext = null;
-/** @type {null | Character} */
+/** @type {null | OnlineCharacter} */
 var ChatRoomMapViewFocusedCharacter = null;
 var ChatRoomMapViewFocusedCharacterX = 0;
 var ChatRoomMapViewFocusedCharacterY = 0;
@@ -69,9 +69,9 @@ var ChatRoomMapViewKeysPressed = {
 	East: false,
 };
 var ChatRoomMapViewStartOfKeyPress = 0;
-/** @type {Map<number, Character[]>} - The characters on each tile, the player first */
+/** @type {Map<number, OnlineCharacter[]>} */
 var ChatRoomMapViewCharacterMap = new Map();
-/** @type {{ C: Character, rect: RectTuple, charX: number, charY: number }[]} */
+/** @type {{ C: OnlineCharacter, rect: RectTuple, charX: number, charY: number }[]} */
 var ChatRoomMapViewNameTags = [];
 /** TRUE while an admin picks where the selected teleport pad sends to */
 var ChatRoomMapViewTeleportPadPicking = false;
@@ -1236,7 +1236,7 @@ function ChatRoomMapViewCollision() {
  * Find the first {@link ChatRoomCharacter} members at the specified X & Y position
  * @param {number} X - The X position on the screen
  * @param {number} Y - The Y position on the screen
- * @returns {null | Character} A character at the specified X & Y position or, if none can be found, `null`
+ * @returns {null | OnlineCharacter} A character at the specified X & Y position or, if none can be found, `null`
  */
 function ChatRoomMapViewGetCharacterAtPos(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return null;
@@ -1279,7 +1279,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			stack.push(C);
 		}
 	}
-	/** @type {{ stack: Character[], x: number, y: number, charX: number, charY: number }[]} */
+	/** @type {{ stack: OnlineCharacter[], x: number, y: number, charX: number, charY: number }[]} */
 	const sharedTiles = [];
 	// While a teleport pad's menu is open, the pad and where it sends to are outlined
 	const padMenuIndex = ChatRoomMapViewTeleportPadIndex != null && !ChatRoomMapViewDialogMenu?.hidden ? ChatRoomMapViewTeleportPadIndex : null;
@@ -1569,7 +1569,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	const editing = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode);
 	MainCanvas.font = CommonGetFont(24);
 	if (!editing) {
-		/** @type {{ C: Character, name: string, rect: RectTuple, charX: number, charY: number }[]} */
+		/** @type {{ C: OnlineCharacter, name: string, rect: RectTuple, charX: number, charY: number }[]} */
 		const placed = [];
 		/** @type {(rect: RectTuple) => boolean} */
 		const overlaps = (rect) => placed.some(tag => RectOverlapsWithRect(rect, tag.rect));
@@ -1900,7 +1900,7 @@ function ChatRoomMapViewChangeKey(target, keys, give) {
 
 /**
  * Change a key from a character from a hidden message - reciver
- * @param {Character} sender
+ * @param {OnlineCharacter} sender
  * @param {ServerChatRoomMessage} data
  */
 function ChatRoomMapViewChangeKeyHiddenMessage(sender, data) {
@@ -1929,7 +1929,7 @@ function ChatRoomMapViewTeleport(target, position) {
 
 /**
  * Teleport a character to a specific tile from a hidden message
- * @param {Character} sender
+ * @param {OnlineCharacter} sender
  * @param {ServerChatRoomMessage} data
  */
 function ChatRoomMapViewTeleportHiddenMessage(sender, data) {

@@ -1916,6 +1916,19 @@ type PrivatePunishmentType =
 	| "Asylum"
 	| ""
 ;
+
+type CharacterOnlineStatus =
+	| "Crawl"
+	| "Preference"
+	| "Shop"
+	| "Struggle"
+	| "Talk"
+	| "Wardrobe"
+	| ""
+	| "null"
+	| null
+;
+
 interface Character {
 	/**
 	 * The character's cache slot ID in the Character array
@@ -2260,7 +2273,7 @@ interface Character {
 	ArousalZoom?: boolean;
 	FixedImage?: string;
 	Rule?: LogRecord[];
-	Status?: string | null;
+	Status?: CharacterOnlineStatus;
 	StatusTimer?: number;
 	Crafting?: (CraftingItem | null)[];
 	LastMapData?: ChatRoomMapData;
@@ -2460,7 +2473,7 @@ interface OnlineCharacter extends Character {
 		LastChange?: number;
 	};
 	Rule?: LogRecord[];
-	Status?: string | null;
+	Status?: CharacterOnlineStatus;
 	StatusTimer?: number;
 	LastMapData?: ChatRoomMapData;
 	Crafting: (CraftingItem | null)[];
