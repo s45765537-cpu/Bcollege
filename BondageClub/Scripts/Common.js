@@ -2773,11 +2773,12 @@ class Result {
 
 	/**
 	 * Build a Result for a failed operation
-	 * @param {Error} error
-	 * @returns {Result<never, Error>}
+	 * @template {Error} T
+	 * @param {T} error
+	 * @returns {Result<never, T>}
 	 */
 	static failure(error) {
-		return /** @type {Result<never, Error>} */ (new Result(null, error));
+		return /** @type {Result<never, T>} */ (new Result(null, error));
 	}
 
 	/**

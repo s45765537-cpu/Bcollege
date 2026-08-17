@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {SocketIO.Socket} */
-var ServerSocket = null;
+var ServerSocket = /** @type {never} */ (null);
 var ServerURL = "http://localhost:4288";
 /** @type {NotificationBeep[] } */
 var ServerBeepQueue = [];
@@ -100,6 +99,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 
 		const Queue = this.Queue;
 		this.Queue = new Map;
+		/** @type {Record<string, any>} */
 		const Data = {};
 		Queue.forEach((value, key) => Data[key] = value);
 
@@ -244,7 +244,7 @@ function ServerDisconnect(data, close = false) {
 
 	if (ShouldRelog && CurrentScreen != "Relog") {
 		if (ServerPlayerIsInChatRoom()) {
-			RelogData = { Screen: "ChatSearch", Module: "Online", Character: null, ChatRoomName: ChatRoomData?.Name };
+			RelogData = { Screen: "ChatSearch", Module: "Online", Character: null, ChatRoomName: ChatRoomData?.Name ?? null };
 			ChatRoomData = null;
 		} else {
 			// Forcing cast here because CurrentModule & CurrentScreen can't meaningfully be type-linked
@@ -275,14 +275,13 @@ function ServerHandleRelog(C) {
 
 	// In relog mode, we jump back to the previous screen, keeping the current game flow
 	// For chatroom relogs, just drop the player into the lobby since its state should still be valid
-	const isChatRoomRelog = !!RelogData.ChatRoomName;
 	/** @type {ScreenSpecifier} */
-	const screen = isChatRoomRelog ? ["Online", "ChatSearch"] : /** @type {ScreenSpecifier} */ ([RelogData.Module, RelogData.Screen]);
+	const screen = RelogData.ChatRoomName ? ["Online", "ChatSearch"] : /** @type {ScreenSpecifier} */ ([RelogData.Module, RelogData.Screen]);
 
 	CommonPromiseCatch(
 		CommonSetScreen(...screen)
 			.then(async () => {
-				if (isChatRoomRelog) {
+				if (RelogData?.ChatRoomName) {
 					const ret = await ServerRoomJoin(RelogData.ChatRoomName);
 					if (ret.err) {
 						console.error(ret.error);
@@ -314,10 +313,11 @@ var ServerPlayerChatRoom = {
 	register(...options) {
 		for (let { screen, module, callback } of options) {
 			if (screen) {
-				callback ??= () => true;
-				this.callbacks.push((currentModule, currentScreen) => (module && currentModule === module || screen && currentScreen === screen) && callback());
+				const cb = callback ??= () => true;
+				this.callbacks.push((currentModule, currentScreen) => (module && currentModule === module || screen && currentScreen === screen) && cb());
 			} else if (callback) {
-				this.callbacks.push(() => callback());
+				const cb = callback;
+				this.callbacks.push(() => cb());
 			}
 		}
 	},
@@ -333,7 +333,7 @@ ServerPlayerChatRoom.register(
 	{ screen: "InformationSheet", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "Title", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "OnlineProfile", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
-	{ screen: "FriendList", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
+	{ screen: "FriendList", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" && (FriendListReturn == null || !!FriendListReturn.IsInChatRoom) },
 	{ screen: "Preference", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
 	{ module: "MiniGame", callback: () => DialogGamingReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "Crafting", callback: () => CraftingReturnToChatroom },
@@ -443,7 +443,7 @@ function ServerPlayerInventorySync() {
  * @returns {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} - The unpacked item permission data
  */
 function ServerPackItemPermissions(permissionItems) {
-	/** @type {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} */
+	/** @type {Record<"BlockItems" | "LimitedItems" | "FavoriteItems", ServerItemPermissionsPacked> & { HiddenItems: []}} */
 	const data = {
 		BlockItems: {},
 		LimitedItems: {},
@@ -452,14 +452,16 @@ function ServerPackItemPermissions(permissionItems) {
 	};
 
 	/** @type {ServerAccountUpdateRequest["HiddenItems"]} */
-	const HiddenItems = data.HiddenItems;
+	const HiddenItems = data.HiddenItems ?? [];
 
 	for (const [name, permission] of CommonEntries(permissionItems)) {
 		const [groupName, assetName] = /** @type {[AssetGroupName, AssetName]} */(name.split("/"));
+		if (!permission) continue;
 
 		if (permission.Hidden) {
 			HiddenItems.push({ Name: assetName, Group: groupName });
 		}
+		if (permission.Permission === "Default") continue;
 
 		const assetField = /** @type {const} */(`${permission.Permission}Items`);
 		if (data[assetField]) {
@@ -469,6 +471,7 @@ function ServerPackItemPermissions(permissionItems) {
 		}
 
 		for (const [type, typePermission] of Object.entries(permission.TypePermissions)) {
+			if (typePermission === "Default") continue;
 			const typeField = /** @type {const} */(`${typePermission}Items`);
 			if (!data[typeField]) {
 				continue;
@@ -692,17 +695,17 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 	ServerAddRequiredAppearance(AssetFamily, appearanceDiffs);
 
 	if (SourceMemberNumber == null) SourceMemberNumber = C.MemberNumber;
-	const updateParams = ValidationCreateDiffParams(C, SourceMemberNumber);
+	const updateParams = ValidationCreateDiffParams(C, SourceMemberNumber ?? -1);
 
 	let { appearance, updateValid } = CommonKeys(appearanceDiffs)
 		// eslint-disable-next-line
 		.reduce(({ appearance, updateValid }, groupName) => {
 			const diff = appearanceDiffs[groupName];
-			const { item, valid } = ValidationResolveAppearanceDiff(groupName, diff[0], diff[1], updateParams, false);
+			const { item, valid } = ValidationResolveAppearanceDiff(groupName, diff?.[0] ?? null, diff?.[1] ?? null, updateParams, false);
 			if (item) appearance.push(item);
 			updateValid = updateValid && valid;
 			return { appearance, updateValid };
-		}, { appearance: [], updateValid: true });
+		}, { appearance: /** @type {Item[]} */ ([]), updateValid: true });
 
 	const cyclicBlockSanitizationResult = ValidationResolveCyclicBlocks(appearance, appearanceDiffs);
 	appearance = cyclicBlockSanitizationResult.appearance;
@@ -832,13 +835,13 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
 		// If it's not in the appearance category or is allowed to empty, return
 		if (group.Category !== "Appearance" || group.AllowNone) return;
 		// If the current source already has an item in the group, return
-		if (diffMap[group.Name] && diffMap[group.Name][0]) return;
+		if (diffMap[group.Name] && diffMap[group.Name]?.[0]) return;
 
 		const diff = diffMap[group.Name] = diffMap[group.Name] || [null, null];
 
 		if (group.MirrorGroup) {
 			// If we need to mirror an item, see if it exists
-			const itemToMirror = diffMap[group.MirrorGroup] && diffMap[group.MirrorGroup][0];
+			const itemToMirror = diffMap[group.MirrorGroup] && diffMap[group.MirrorGroup]?.[0];
 			if (itemToMirror) {
 				const mirroredAsset = AssetGet(assetFamily, group.Name, itemToMirror.Asset.Name);
 				// If there is an item to mirror, copy it and its color
@@ -882,21 +885,22 @@ function ServerPrivateCharacterSync() {
 	/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
 	const D = { PrivateCharacter: [] };
 	for (let ID = 1; ID < PrivateCharacter.length; ID++) {
+		const privateChar = PrivateCharacter[ID];
 		var C = {
-			Name: PrivateCharacter[ID].Name,
-			Love: PrivateCharacter[ID].Love,
-			Title: PrivateCharacter[ID].Title,
-			Trait: PrivateCharacter[ID].Trait,
-			Cage: PrivateCharacter[ID].Cage,
-			Owner: PrivateCharacter[ID].Owner,
-			Lover: PrivateCharacter[ID].Lover,
-			AssetFamily: PrivateCharacter[ID].AssetFamily,
-			Appearance: ServerAppearanceBundle(PrivateCharacter[ID].Appearance),
-			AppearanceFull: ServerAppearanceBundle(PrivateCharacter[ID].AppearanceFull),
-			ArousalSettings: PrivateCharacter[ID].ArousalSettings,
-			Event: PrivateCharacter[ID].Event
+			Name: privateChar.Name,
+			Love: privateChar.Love ?? 0,
+			Title: privateChar.Title,
+			Trait: privateChar.Trait ?? [],
+			Cage: privateChar.Cage ?? false,
+			Owner: privateChar.Owner,
+			Lover: privateChar.Lover,
+			AssetFamily: privateChar.AssetFamily,
+			Appearance: ServerAppearanceBundle(privateChar.Appearance),
+			AppearanceFull: privateChar.AppearanceFull ? ServerAppearanceBundle(privateChar.AppearanceFull) : undefined,
+			ArousalSettings: privateChar.ArousalSettings,
+			Event: privateChar.Event ?? [],
+			FromPandora: privateChar.FromPandora === true ? true : undefined,
 		};
-		if (PrivateCharacter[ID].FromPandora != null) C.FromPandora = PrivateCharacter[ID].FromPandora;
 		D.PrivateCharacter.push(C);
 	}
 	ServerAccountUpdate.QueueData(D);
@@ -951,17 +955,14 @@ function ServerAccountBeep(data) {
 			if (typeof data.Message === "string") {
 				data.Message = FriendListBeepLimitMessageText(data.Message);
 			} else {
-				delete data.Message;
+				data.Message = "";
 			}
 			let title = `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`;
-			let message;
+			const message = data.Message;
 			// We make a copy here since we want to keep opening the correct beep, even if more get added
 			const beepIdx = FriendListBeepLog.length;
 			if (data.ChatRoomName) {
 				title += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}"${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
-			}
-			if (data.Message) {
-				message = data.Message;
 			}
 
 			/**
@@ -986,7 +987,7 @@ function ServerAccountBeep(data) {
 							FriendListShowBeep(beepIdx);
 						}
 					})
-				}, data.Message ? title : null);
+				}, data.Message ? title : undefined);
 			}
 
 			const incomingMsgId = parsedMessage?.metadata?.messageId;
@@ -1019,7 +1020,7 @@ function ServerAccountBeep(data) {
 					`beep-reply-${beepIdx}`, // or just leave to null for an ID auto assignment
 					() => {
 						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \S+ ?/u, '')}`);
-						document.getElementById('InputChat').focus();
+						document.getElementById('InputChat')?.focus();
 					},
 					{ noStyling: true },
 					{ button: { classList: ["ReplyButton"], children: ['\u21a9\ufe0f'] } },
@@ -1146,7 +1147,7 @@ function ServerSendBeepMessage(target, msg, options) {
 		ChatRoomName: options?.includeRoom ? ChatRoomData?.Name : undefined,
 		ChatRoomSpace: options?.includeRoom ? ChatRoomData?.Space : undefined,
 		Sent: true,
-		Private: options?.includeRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
+		Private: options?.includeRoom ? !ChatRoomData?.Visibility.includes("All") : false,
 		Read: true,
 		Time: new Date(),
 		Message: messageToSend,
@@ -1196,7 +1197,7 @@ async function ServerHandleLeashBeep(data) {
 	// This is not our leash holder
 	if (ChatRoomLeashPlayer !== data.MemberNumber) return;
 
-	if (ServerPlayerIsInChatRoom() && ChatRoomData.Name === data.ChatRoomName) {
+	if (ServerPlayerIsInChatRoom() && ChatRoomData?.Name === data.ChatRoomName) {
 		// We're already in the room
 		return;
 	}
@@ -1283,28 +1284,72 @@ async function ServerHandleLeashBeep(data) {
 
 // TODO: `data: object` -> `data: ServerAccountOwnershipResponse`
 /**
+ *
+ * @param {unknown} data
+ * @return {data is ServerAccountOwnershipStatus}
+ */
+function ServerPacketIsOwnershipStatus(data) {
+	const arg = /** @type {ServerAccountOwnershipStatus} */ (data);
+	/** @type {ServerAccountOwnershipStatus["Result"][]} */
+	const validResults = ["CanOfferStartTrial", "CanStartTrial", "CanOfferEndTrial", "CanEndTrial"];
+	return CommonIsObject(arg)
+		&& CommonIsNonNegativeInteger(arg.MemberNumber)
+		&& typeof arg.Result === "string"
+		&& validResults.includes(arg.Result);
+}
+
+/**
+ *
+ * @param {unknown} data
+ * @return {data is ServerAccountOwnershipComplete}
+ */
+function ServerPacketIsOwnershipComplete(data) {
+	const arg = /** @type {ServerAccountOwnershipComplete} */ (data);
+	if (!CommonIsObject(arg)
+		|| typeof arg.Owner !== "string"
+		|| !CommonIsObject(arg.Ownership)) return false;
+
+	const { Name, MemberNumber, Notes, Stage, Start } = arg.Ownership;
+	return typeof Name === "string"
+		&& CommonIsInteger(MemberNumber, 0)
+		&& (!Notes || typeof Notes === "string")
+		&& (Stage === 0 || Stage === 1)
+		&& CommonIsInteger(Start, 0, CommonTime());
+}
+
+/**
+ * @param {unknown} data
+ * @return {data is ServerAccountOwnershipClear}
+ */
+function ServerPacketIsOwnershipClear(data) {
+	const arg = /** @type {ServerAccountOwnershipClear} */ (data);
+	return CommonIsObject(arg)
+		&& arg.ClearOwnership === true;
+}
+/**
  * Callback used to parse received information related to the player ownership data
- * @param {object} data - Data object containing the Owner name and Ownership object
+ * @param {ServerAccountOwnershipResponse} data - Data object containing the Owner name and Ownership object
  * @returns {void} - Nothing
  */
 function ServerAccountOwnership(data) {
+	if (!CommonIsObject(data)) return;
+
 	// If we get a result for a specific member number, we show that option in the online dialog
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.Result != null) && (typeof data.Result === "string"))
-		if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber == data.MemberNumber))
+	if (ServerPacketIsOwnershipStatus(data)) {
+		if (CurrentCharacter && CurrentCharacter.MemberNumber === data.MemberNumber)
 			ChatRoomOwnershipOption = data.Result;
+	}
 
 	// If we must update the character ownership data
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Owner != null) && (typeof data.Owner === "string") && (data.Ownership != null) && (typeof data.Ownership === "object")) {
+	if (ServerPacketIsOwnershipComplete(data)) {
+		const ownership = ServerAccountDataSyncedValidate.Ownership(data.Ownership, Player);
 		Player.Owner = data.Owner;
-		Player.Ownership = data.Ownership;
-		if (typeof Player.Ownership?.Notes === "string") {
-			data.Ownership.Notes = LZString.decompressFromUTF16 (data.Ownership.Notes);
-		}
+		Player.Ownership = ownership;
 		LoginValidCollar();
 	}
 
 	// If we must clear the character ownership data
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.ClearOwnership === true)) {
+	if (ServerPacketIsOwnershipClear(data)) {
 		CharacterClearOwnership(Player, false);
 	}
 
@@ -1313,24 +1358,49 @@ function ServerAccountOwnership(data) {
 	}
 }
 
-// TODO: `data: object` -> `data: ServerAccountLovershipResponse`
+/**
+ * @param {unknown} data
+ * @return {data is ServerAccountLovershipStatus}
+ */
+function ServerPacketIsLovershipStatus(data) {
+	const arg = /** @type {ServerAccountLovershipStatus} */ (data);
+	/** @type {ServerAccountLovershipStatus["Result"][]} */
+	const validResults = ["CanOfferBeginDating", "CanBeginDating", "CanOfferBeginEngagement", "CanBeginEngagement", "CanOfferBeginWedding", "CanBeginWedding"];
+	return CommonIsObject(arg)
+		&& CommonIsNonNegativeInteger(arg.MemberNumber)
+		&& validResults.includes(arg.Result);
+}
+
+/**
+ * @param {unknown} data
+ * @return {data is ServerAccountLovershipInfo}
+ */
+function ServerPacketIsLovershipInfo(data) {
+	const arg = /** @type {ServerAccountLovershipInfo} */ (data);
+	return CommonIsObject(arg)
+		&& Array.isArray(arg.Lovership);
+}
+
 /**
  * Callback used to parse received information related to the player lovership data
- * @param {object} data - Data object containing the Lovership array
+ * @param {ServerAccountLovershipResponse} data - Data object containing the Lovership array
  * @returns {void} - Nothing
  */
 function ServerAccountLovership(data) {
 
 	// If we get a result for a specific member number, we show that option in the online dialog
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.Result != null) && (typeof data.Result === "string"))
-		if ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber == data.MemberNumber))
+	if (ServerPacketIsLovershipStatus(data)) {
+		if (CurrentCharacter && CurrentCharacter.MemberNumber === data.MemberNumber)
 			ChatRoomLovershipOption = data.Result;
+	}
 
 	// If we must update the character lovership data
-	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Lovership != null) && (typeof data.Lovership === "object")) {
-		Player.Lovership = data.Lovership;
+	if (ServerPacketIsLovershipInfo(data)) {
+		Player.Lovership = ServerAccountDataSyncedValidate.Lovership(data.Lovership, Player);
 		LoginLoversItems();
 	}
+
+	// XXX: where's ServerAccountLovershipComplete?
 
 	if (DialogMenuMode === "dialog") {
 		CommonPromiseCatch(DialogMenuMapping.dialog.Reload());
@@ -1371,7 +1441,6 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 	// No valid combo, we don't allow the item
 	return false;
 }
-
 var ServerValidation = {
 	/**
 	 * Private helper to quickly check boolean settings
@@ -1991,7 +2060,7 @@ class ServerError extends Error {}
 
 class ServerTimeoutError extends ServerError {
 	/**
-	 * @param {string} message
+	 * @param {string} [message]
 	 */
 	constructor(message = undefined) {
 		super(message);
@@ -2001,7 +2070,7 @@ class ServerTimeoutError extends ServerError {
 
 class ServerInProgressError extends ServerError {
 	/**
-	 * @param {string} message
+	 * @param {string} [message]
 	 */
 	constructor(message = undefined) {
 		super(message);
@@ -2081,8 +2150,11 @@ async function ServerRoomSearch(queryString, options) {
 			ServerSend("ChatRoomSearch", request);
 		});
 	} catch (e) {
-		return Result.failure(e);
+		if (e instanceof Error) {
+			return Result.failure(e);
+		}
 	}
+	return Result.failure(new Error("Wut"));
 }
 
 let ServerRoomJoinLastQuery = "";
@@ -2117,8 +2189,11 @@ async function ServerRoomJoin(roomName) {
 			ServerSend("ChatRoomJoin", { Name: roomName });
 		});
 	} catch (e) {
-		return Result.failure(e);
+		if (e instanceof Error) {
+			return Result.failure(e);
+		}
 	}
+	return Result.failure(new Error("Wut"));
 }
 
 /**

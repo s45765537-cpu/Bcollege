@@ -185,14 +185,14 @@ interface ServerItemBundle {
 interface ServerPrivateCharacterData {
 	Name: string;
 	Love: number;
-	Title: TitleName;
+	Title?: TitleName;
 	Trait: NPCTrait[];
 	Cage: boolean;
 	Owner: string;
-	Lover: string;
+	Lover: string | undefined;
 	AssetFamily: "Female3DCG";
 	Appearance: ServerAppearanceBundle;
-	AppearanceFull: ServerAppearanceBundle;
+	AppearanceFull: ServerAppearanceBundle | undefined;
 	ArousalSettings: ArousalSettingsType;
 	Event: NPCEvent[];
 	FromPandora?: boolean;
