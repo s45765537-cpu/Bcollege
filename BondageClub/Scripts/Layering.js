@@ -393,38 +393,43 @@ var Layering = {
      */
 	_UpdateLimits() {
 		const props = ["TranslationX", "TranslationY", "ScaleX", "ScaleY", "Rotation"];
+		const isPussy = this._IsPussy(this.Asset.Group);
 
 		for (const prop of props) {
 			const isScale = prop.startsWith('Scale');
 			const isRotation = prop === 'Rotation';
 
-			const minBound = isScale ? 0.01 : (isRotation ? -180 : -500);
-			const maxBound = isScale ? 3.0 : (isRotation ? 180 : 500);
+			const minBound = isScale ? (isPussy ? 0.5 : 0.01) : (isRotation ? -180 : -500);
+			const maxBound = isScale ? (isPussy ? 1.5 : 3.0) : (isRotation ? 180 : 500);
 
-			// Get asset-level value
-			const assetVal = this.Item.Property[prop] ?? (isScale ? 1 : 0);
+			// For Pussy/Penis uniform scale, use ScaleX as base for limits
+			const baseProp = (isPussy && isScale) ? "ScaleX" : prop;
+			// We need the *other* component to calculate the limit for the current component
+			const otherComponent = prop === "ScaleX" ? "ScaleY" : (prop === "ScaleY" ? "ScaleX" : null);
 
-			// Iterate over cached layers for this property
+			// Logic: CombinedScale = AssetScale * LayerScale
+			// AllowedCombined = [0.5, 1.5]
+			// Constraint: Min <= AssetScale * LayerScale <= Max
+
 			const inputs = this._inputCache[prop] || [];
 			for (const input of inputs) {
-				// For scale, multiplicative: assetVal * layerVal = total
-				// So layerVal <= maxBound / assetVal
-				// For translation/rotation, additive: assetVal + layerVal = total
-				// So layerVal <= maxBound - assetVal
-
-				let maxAllowedForLayer;
-				let minAllowedForLayer;
+				// Identify if this is an asset-level input or layer-level input
+				const isLayer = input.id.includes('Layer');
+				
+				let minAllowed, maxAllowed;
 
 				if (isScale) {
-					maxAllowedForLayer = maxBound / Math.max(0.01, assetVal);
-					minAllowedForLayer = minBound / Math.max(0.01, assetVal);
+					maxAllowed = maxBound / Math.max(0.1, assetVal);
+					minAllowed = minBound / Math.max(0.1, assetVal);
 				} else {
-					maxAllowedForLayer = maxBound - assetVal;
-					minAllowedForLayer = minBound - assetVal;
+					// Translate/Rotate - Additive
+					const assetVal = this.Item.Property[prop] ?? 0;
+					maxAllowed = maxBound - assetVal;
+					minAllowed = minBound - assetVal;
 				}
 
-				input.max = maxAllowedForLayer.toString();
-				input.min = minAllowedForLayer.toString();
+				input.max = maxAllowed.toString();
+				input.min = minAllowed.toString();
 			}
 		}
 	},
@@ -471,7 +476,7 @@ var Layering = {
 											tag: "input",
 											attributes: {
 												type: "number",
-												value: (this.Item.Property[prop] ?? defaultValue),
+												value: (this._IsPussy(this.Asset.Group) && prop === "Scale" ? (this.Item.Property["ScaleX"] ?? defaultValue) : (this.Item.Property[prop] ?? defaultValue)),
 												step, min: propMin, max: propMax,
 												id: `layering-input-${prop}-item`,
 												class: `layering-input-${prop.replace(/[XY]/, '')} layering-number-input`,
@@ -481,8 +486,17 @@ var Layering = {
 												input: (/** @type {Event} */ event) => {
 													const target = /** @type {HTMLInputElement} */(event.target);
 													const val = target.valueAsNumber;
-													const clampedVal = Number.isNaN(val) ? defaultValue : Math.max(propMin, Math.min(propMax, val));
-													this.Item.Property[prop] = clampedVal;
+													const minLimit = parseFloat(target.min);
+													const maxLimit = parseFloat(target.max);
+													const clampedVal = Number.isNaN(val) ? defaultValue : Math.max(minLimit, Math.min(maxLimit, val));
+
+													// Uniform scale for Pussy/Penis
+													if (this._IsPussy(this.Asset.Group) && propType === "Scale") {
+														this.Item.Property["ScaleX"] = clampedVal;
+														this.Item.Property["ScaleY"] = clampedVal;
+													} else {
+														this.Item.Property[prop] = clampedVal;
+													}
 													target.value = clampedVal.toString();
 													this._CharacterRefresh(this.Character, false, false);
 													this._UpdateLimits();
@@ -536,7 +550,7 @@ var Layering = {
 									tag: "input",
 									attributes: {
 										type: "number",
-										value: ((this.Item.Property[`Layer${prop}`] ?? {})[layerName] ?? (layer[prop] ?? defaultValue)),
+										value: (this._IsPussy(this.Asset.Group) && prop === "Scale" ? ((this.Item.Property[`LayerScaleX`] ?? {})[layerName] ?? (layer["ScaleX"] ?? defaultValue)) : ((this.Item.Property[`Layer${prop}`] ?? {})[layerName] ?? (layer[prop] ?? defaultValue))),
 										step, min: propMin, max: propMax,
 										id: `layering-input-${prop}-${layerName}`,
 										class: `layering-input-${prop.replace(/[XY]/, '')} layering-number-input`,
@@ -548,7 +562,13 @@ var Layering = {
 											const val = target.valueAsNumber;
 											const clampedVal = Number.isNaN(val) ? defaultValue : Math.max(propMin, Math.min(propMax, val));
 
-											(this.Item.Property[`Layer${prop}`] ??= {})[layerName] = clampedVal;
+											// Uniform scale for Pussy/Penis layers
+											if (this._IsPussy(this.Asset.Group) && propType === "Scale") {
+												(this.Item.Property[`LayerScaleX`] ??= {})[layerName] = clampedVal;
+												(this.Item.Property[`LayerScaleY`] ??= {})[layerName] = clampedVal;
+											} else {
+												(this.Item.Property[`Layer${prop}`] ??= {})[layerName] = clampedVal;
+											}
 											target.value = clampedVal.toString();
 											this._CharacterRefresh(this.Character, false, false);
 											this._UpdateLimits();
@@ -620,7 +640,8 @@ var Layering = {
 			if (tabKey === 'translation') {
 				content = this._CreateTabContent("Translation", ["TranslationX", "TranslationY"], 0, 0, 1, 0, isShowingHiddenLayers, { TranslationY: [-20, 20] });
 			} else if (tabKey === 'scale') {
-				content = this._CreateTabContent("Scale", ["ScaleX", "ScaleY"], -0.5, 2.0, 0.1, 1.0, isShowingHiddenLayers);
+				// Pussy/Penis uniform scale, 0.5 - 1.5 cap
+				content = this._CreateTabContent("Scale", ["Scale"], 0.5, 1.5, 0.1, 1.0, isShowingHiddenLayers);
 			} else {
 				return [ElementCreate({ tag: "h2", children: [InterfaceTextGet("LayeringTransformationDisabled")] })];
 			}
