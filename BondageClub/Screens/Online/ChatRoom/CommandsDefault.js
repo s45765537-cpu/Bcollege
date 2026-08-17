@@ -458,6 +458,7 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'action',
+		PreserveCase: true,
 		Action: (msg) => ChatRoomSendEmote(`**${msg}`),
 	},
 	{
