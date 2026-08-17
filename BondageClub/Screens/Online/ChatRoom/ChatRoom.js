@@ -5954,7 +5954,7 @@ function ChatRoomListUpdate(list, adding, memberNumber, notification, sync = tru
 					Player.FriendNames.set(memberNumber, C.Name);
 				}
 			} else {
-				Player.FriendNames.delete(memberNumber)
+				Player.FriendNames.delete(memberNumber);
 			}
 			break;
 		}

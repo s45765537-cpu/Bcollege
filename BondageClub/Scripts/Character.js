@@ -76,6 +76,7 @@ function CharacterCreatePlayer() {
 	// Our old 0-ID'ed character was the player dummy before login
 	const oldId = Player.ID;
 	Player.ID = 0;
+	Player.Log = [];
 	Character[0] = Player;
 	Character.splice(oldId, 1);
 	CharacterNextId--;
