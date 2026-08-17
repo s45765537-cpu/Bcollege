@@ -27,7 +27,7 @@
 
 #layering input[type="number"] {
 	/* Add an absolute 16px marigin to better deal with the increment/decrement button scaling upon resizing */
-	width: calc(2em + 16px);
+	width: calc(2.5em + 16px);
 }
 
 #layering input[type="number"]:focus {
@@ -92,6 +92,11 @@
 	color: yellow;
 }
 
+.layering-asset-pair {
+	/* Matches the fieldset positioned underneath in terms of padding, border-width and margin */
+	padding-inline: calc(0.75em + 2px + 2px);
+}
+
 .layering-pair-text {
 	color: white;
 	overflow-x: hidden;
@@ -130,7 +135,7 @@
 
 #layering fieldset.layering-layer-fieldset {
 	margin-bottom: var(--half-gap);
-	padding: var(--half-gap);
+	padding: var(--half-gap) 0.75em;
 }
 
 .layering-tabs {
@@ -147,7 +152,7 @@
 	justify-content: center;
 	cursor: pointer;
 	width: 100%;
-	height: calc(1.15em + 4px);
+	height: calc(1.15em + 2 * var(--inner-border-width) + 2 * var(--border-width));
 }
 
 .layering-tabs .layering-tab-button.layering-tab-active {

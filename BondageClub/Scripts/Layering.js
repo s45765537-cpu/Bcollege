@@ -78,7 +78,7 @@ var Layering = {
 
 	/**
      * The currently active tab
-     * @type {string}
+     * @type {"priority" | "translation" | "scale" | "rotate"}
      */
 	activeTab: "priority",
 
@@ -431,13 +431,14 @@ var Layering = {
 
 	/**
      * @private
-     * @param {string} propType
-     * @param {string[]} properties
+     * @param {"Scale" | "Rotation" | "Translation"} propType
+     * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
      * @param {number} min
      * @param {number} max
      * @param {number} step
      * @param {number} defaultValue
-     * @param {Record<string, [number, number]>} [constraints={}]
+	 * @param {boolean} isShowingHiddenLayers
+     * @param {Record<string, [min: number, max: number]>} [constraints={}]
      * @returns {Element[]}
      */
 	_CreateTabContent(propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints = {}) {
@@ -449,9 +450,9 @@ var Layering = {
 				tag: /** @type {const} */("fieldset"),
 				children: [{
 					tag: /** @type {const} */("div"),
-					classList: ["layering-pair"],
+					classList: ["layering-pair", "layering-asset-pair"],
 					children: [
-						{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [propType] },
+						{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [InterfaceTextGet(`Layering${propType}`)] },
 						{
 							tag: /** @type {const} */("div"),
 							classList: ["layering-inputs-group"],
@@ -461,7 +462,11 @@ var Layering = {
 									tag: "span",
 									classList: ["layering-input-wrapper"],
 									children: [
-										{ tag: "label", children: [propType === "Rotation" ? "" : (prop.endsWith('X') ? 'X:' : prop.endsWith('Y') ? 'Y:' : prop)], for: `layering-input-${prop}-item` },
+										{
+											tag: "label",
+											children: [propType === "Rotation" ? "" : (prop.endsWith('X') ? 'X:' : prop.endsWith('Y') ? 'Y:' : prop)],
+											for: `layering-input-${prop}-item`,
+										},
 										{
 											tag: "input",
 											attributes: {
@@ -491,7 +496,7 @@ var Layering = {
 					],
 				}],
 			},
-			{ tag: /** @type {const} */("h2"), children: ["Per-Layer " + propType] },
+			{ tag: /** @type {const} */("h2"), children: [InterfaceTextGet(`LayeringLayer${propType}`)] },
 			...this.Asset.Layer.map(layer => this._CreateLayerFieldset(layer, propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints))
 		].map(/** @type {any} */(ElementCreate));
 	},
@@ -596,7 +601,7 @@ var Layering = {
 
 	/**
      * @private
-     * @param {string} tabKey
+     * @param {"priority" | "translation" | "scale" | "rotate"} tabKey
      * @returns {Element[]}
      */
 	_GetTabContents(tabKey) {
@@ -606,7 +611,7 @@ var Layering = {
 
 		// Block transformations for blacklisted groups or DynamicAfterDraw assets
 		if ((this._IsBlacklisted(this.Asset.Group) || this.Asset.DynamicAfterDraw) && tabKey !== 'priority') {
-			return [ElementCreate({ tag: "h2", children: ["Transformations are disabled for this item."] })];
+			return [ElementCreate({ tag: "h2", children: [InterfaceTextGet("LayeringTransformationDisabled")] })];
 		}
 
 		// Pussy constraints
@@ -617,10 +622,11 @@ var Layering = {
 			} else if (tabKey === 'scale') {
 				content = this._CreateTabContent("Scale", ["ScaleX", "ScaleY"], -0.5, 2.0, 0.1, 1.0, isShowingHiddenLayers);
 			} else {
-				return [ElementCreate({ tag: "h2", children: ["Transformations are disabled for this item."] })];
+				return [ElementCreate({ tag: "h2", children: [InterfaceTextGet("LayeringTransformationDisabled")] })];
 			}
 		} else {
 			// Regular tabs
+			/** @satisfies {Record<typeof tabKey, Element[]>} */
 			const tabMap = {
 				priority: [
 					ElementCreate({
@@ -628,9 +634,9 @@ var Layering = {
 						children: [
 							{
 								tag: /** @type {const} */("div"),
-								classList: ["layering-pair"],
+								classList: ["layering-pair", "layering-asset-pair"],
 								children: [
-									{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [this.Asset.Description] },
+									{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [InterfaceTextGet("LayeringPriority")] },
 									{
 										tag: /** @type {const} */("input"),
 										attributes: { type: "number", value: itemPriority, id: "layering-input-asset", inputmode: "numeric" },
@@ -646,7 +652,7 @@ var Layering = {
 							},
 						],
 					}),
-					ElementCreate({ tag: /** @type {const} */("h2"), children: ["Per-Layer Priority"] }),
+					ElementCreate({ tag: /** @type {const} */("h2"), children: [InterfaceTextGet("LayeringLayerPriority")] }),
 					this._BuildLayerPriorityFieldset(isShowingHiddenLayers),
 				],
 				translation: this._CreateTabContent("Translation", ["TranslationX", "TranslationY"], -500, 500, 1, 0, isShowingHiddenLayers),
@@ -865,7 +871,7 @@ var Layering = {
 			children: [
 				ElementMenu.Create(
 					ElementGenerateID(),
-					Object.entries(tabs).map(([key, label]) => {
+					CommonEntries(tabs).map(([key, label]) => {
 						const btn = ElementButton.Create(
 							`layering-tab-${key}`,
 							() => {

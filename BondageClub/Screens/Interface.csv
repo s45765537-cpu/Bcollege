@@ -154,10 +154,18 @@ Intensity3,Item intensity: Maximum
 LayeringAsset,Configure {asset}
 LayeringExit,Exit
 LayeringHide,Hide hidden layers
-LayeringLayer,Layer priority
 LayeringLock,Item configuration locked
 LayeringReset,Reset layering
 LayeringShow,Show hidden layers
+LayeringPriority,Item priority
+LayeringScale,Item scale
+LayeringRotation,Item rotation
+LayeringTranslation,Item translation
+LayeringLayerPriority,Per-layer priority
+LayeringLayerScale,Per-layer scale
+LayeringLayerRotation,Per-layer rotation
+LayeringLayerTranslation,Per-layer translation
+LayeringTransformationDisabled,Transformations are disabled for this item.
 Locking,Locking...
 LockMemberNumber,Member number on lock:
 LockZoneBlocked,Another item is blocking access to this lock
