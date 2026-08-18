@@ -7306,6 +7306,14 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "TriskelionNecklace",
+				DynamicGroupName: "Jewelry",
+				CopyConfig: {
+					GroupName: "Jewelry",
+					AssetName: "TriskelionNecklace"
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -7779,6 +7787,14 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "SND项链",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "TriskelionNecklace",
+				DynamicGroupName: "Jewelry",
+				CopyConfig: {
+					GroupName: "Jewelry",
+					AssetName: "TriskelionNecklace"
 				},
 			},
 		],
