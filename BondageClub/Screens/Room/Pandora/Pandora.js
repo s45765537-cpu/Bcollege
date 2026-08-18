@@ -1111,8 +1111,10 @@ function PandoraPlayerUngag() {
  * @returns {void} - Nothing
  */
 function PandoraPunishmentSentence(Minutes) {
+	const minutes = typeof Minutes === "string" ? CommonParseInt(Minutes) : CommonIsNonNegativeInteger(Minutes) ? Minutes : null;
+	if (minutes === null) return;
 	Player.Infiltration.Punishment = {
-		Minutes: parseInt(Minutes),
+		Minutes: minutes,
 		Background: PandoraBackground,
 		Difficulty: InfiltrationDifficulty,
 	};

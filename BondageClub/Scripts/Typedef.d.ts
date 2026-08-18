@@ -2702,7 +2702,7 @@ type InfiltrationPerks = (
 );
 
 interface PlayerCharacter {
-	Infiltration?: InfiltrationType;
+	Infiltration: InfiltrationType;
 }
 
 interface InfiltrationType {
@@ -2710,10 +2710,10 @@ interface InfiltrationType {
 		Minutes: number;
 		Timer?: number;
 		Background: string;
-		Difficulty: number;
+		Difficulty: 0 | 1 | 2 | 3 | 4;
 		FightDone?: boolean;
 	}
-	Perks?: "" | `${number}`;
+	Perks: "" | `${number}`;
 }
 
 /** Kinky Dungeon Player extension */

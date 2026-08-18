@@ -1845,7 +1845,31 @@ var ServerAccountDataSyncedValidate = {
 			arg = arg.slice(-16);
 		}
 		return /** @type {ChatRoomMapDoodad[]} */ (arg);
-	}
+	},
+	/**
+	 * @param {Partial<InfiltrationType> | undefined} arg
+	 * @param {Character} C
+	 * @returns {InfiltrationType}
+	 */
+	Infiltration: (arg, C) => {
+		/** @type {InfiltrationType} */
+		const defaultValue = { Perks: "" };
+		if (!CommonIsObject(arg)) return defaultValue;
+		if (typeof arg.Perks !== "string") return defaultValue;
+		arg.Perks = /** @type {`${number}`} */ (arg.Perks.split("").filter(s => /\d/.test(s)).join(""));
+
+		if (!CommonIsObject(arg.Punishment)
+			|| typeof arg.Punishment.Background !== "string"
+			|| !ServerValidation.isInt(0, 4, /** @type {number} */ (0))(arg.Punishment.Difficulty)
+			|| !ServerValidation.isInt(0, Infinity, /** @type {number} */ (0))(arg.Punishment.Minutes)
+			|| (arg.Punishment.FightDone === undefined || !ServerValidation.isBool(false)(arg.Punishment.FightDone))
+			|| (arg.Punishment.Timer === undefined || !ServerValidation.isInt(0, Infinity, /** @type {number} */ (0))(arg.Punishment.Timer))
+		) {
+			return { Perks: arg.Perks };
+		}
+
+		return /** @type {InfiltrationType} */ (arg);
+	},
 };
 
 /**

@@ -1146,7 +1146,7 @@ function LoginSetupPlayer(C) {
 		}
 	}
 	Player.SubmissivesList = submissivesList ?? new Set();
-	Player.Infiltration = C.Infiltration;
+	Player.Infiltration = ServerAccountDataSyncedValidate.Infiltration(C.Infiltration, Player);
 	LoginDifficulty(false);
 
 	// Loads the inventory data

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var InfiltrationPerksBackground = "Sheet";
 /** @type {InfiltrationPerks[]} */

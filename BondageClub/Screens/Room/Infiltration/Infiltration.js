@@ -2,6 +2,7 @@
 var InfiltrationBackground = "Infiltration";
 /** @type {NPCCharacter} */
 var InfiltrationSupervisor = /** @type {never} */ (null);
+/** @type {0 | 1 | 2 | 3 | 4} */
 var InfiltrationDifficulty = 0;
 /** @type {InfiltrationMissionType | ""} */
 var InfiltrationMission = "";
@@ -127,10 +128,6 @@ async function InfiltrationLoad() {
 		InventoryWear(InfiltrationSupervisor, "BondageDress1", "Cloth");
 		InventoryWear(InfiltrationSupervisor, "LatexAnkleShoes", "Shoes", "#222222");
 	}
-
-	// Make sure the infiltration data is setup
-	if (Player.Infiltration == null) Player.Infiltration = {};
-	if (Player.Infiltration.Perks == null) Player.Infiltration.Perks = "";
 }
 
 /**
@@ -161,7 +158,7 @@ function InfiltrationClick() {
 
 /**
  * Sets the infiltration mission challenge difficulty
- * @param {number} Difficulty
+ * @param {0 | 1 | 2 | 3 | 4} Difficulty
  * @returns {void} - Nothing
  */
 function InfiltrationSelectChallenge(Difficulty) {
