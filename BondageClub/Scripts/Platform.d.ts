@@ -41,7 +41,7 @@ declare namespace Platform {
 	}
 
 	interface CharacterTemplate {
-		Name: string;
+		Name: Platform.CharacterName;
 		Status: string;
 
 		Width: number;
@@ -169,9 +169,9 @@ declare namespace Platform {
 		Immunity: number;
 		Damage: { Value: number, Expire: number }[];
 		RiseTime: number;
-		ProjectileAim: number;
+		ProjectileAim?: number;
 
-		Action: { Name: AnimationName, Start: number, Expire: number, Target?: number, Done?: boolean };
+		Action?: { Name: AnimationName, Start: number, Expire: number, Target?: number, Done?: boolean };
 		Effect?: { Name: EffectType, End: number };
 
 		Anim?: AnimationSpec;
@@ -184,6 +184,28 @@ declare namespace Platform {
 		Experience: number;
 		Perk: string;
 	}
+
+	type CharacterName =
+		| "Melody"
+		| "Olivia"
+		| "Isabella"
+		| "Camille"
+		| "Edlaran"
+		| "Yuna"
+		| "Hazel"
+		| "Lucy"
+		| "Vera"
+		| "Lyn"
+		| "Zara"
+		| "Chest"
+		| "Crate"
+		| "Arrow"
+		| "Dagger"
+		| "Barrel"
+		| "Treasure"
+		| "Vulture"
+		| "Scorpion"
+	;
 
 	interface DialogCharacter {
 		Name: string;
