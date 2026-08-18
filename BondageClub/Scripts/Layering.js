@@ -415,15 +415,17 @@ var Layering = {
 			for (const input of inputs) {
 				// Identify if this is an asset-level input or layer-level input
 				const isLayer = input.id.includes('Layer');
-				
-				let minAllowed, maxAllowed;
 
+				/** @type {number} */
+				let minAllowed;
+				/** @type {number} */
+				let maxAllowed;
+				const assetVal = this.Item.Property[prop] ?? 0;
 				if (isScale) {
 					maxAllowed = maxBound / Math.max(0.1, assetVal);
 					minAllowed = minBound / Math.max(0.1, assetVal);
 				} else {
 					// Translate/Rotate - Additive
-					const assetVal = this.Item.Property[prop] ?? 0;
 					maxAllowed = maxBound - assetVal;
 					minAllowed = minBound - assetVal;
 				}
@@ -476,7 +478,7 @@ var Layering = {
 											tag: "input",
 											attributes: {
 												type: "number",
-												value: (this._IsPussy(this.Asset.Group) && prop === "Scale" ? (this.Item.Property["ScaleX"] ?? defaultValue) : (this.Item.Property[prop] ?? defaultValue)),
+												value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? (this.Item.Property.ScaleX ?? defaultValue) : (this.Item.Property[prop] ?? defaultValue)),
 												step, min: propMin, max: propMax,
 												id: `layering-input-${prop}-item`,
 												class: `layering-input-${prop.replace(/[XY]/, '')} layering-number-input`,
@@ -518,7 +520,8 @@ var Layering = {
 	/**
      * @private
      * @param {AssetLayer} layer
-     * @param {string[]} properties
+	 * @param {"Rotation" | "Scale" | "Translation"} propType
+     * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
      * @param {number} min
      * @param {number} max
      * @param {number} step
@@ -550,7 +553,7 @@ var Layering = {
 									tag: "input",
 									attributes: {
 										type: "number",
-										value: (this._IsPussy(this.Asset.Group) && prop === "Scale" ? ((this.Item.Property[`LayerScaleX`] ?? {})[layerName] ?? (layer["ScaleX"] ?? defaultValue)) : ((this.Item.Property[`Layer${prop}`] ?? {})[layerName] ?? (layer[prop] ?? defaultValue))),
+										value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? ((this.Item.Property[`LayerScaleX`] ?? {})[layerName] ?? defaultValue) : ((this.Item.Property[`Layer${prop}`] ?? {})[layerName] ?? defaultValue)),
 										step, min: propMin, max: propMax,
 										id: `layering-input-${prop}-${layerName}`,
 										class: `layering-input-${prop.replace(/[XY]/, '')} layering-number-input`,
@@ -641,7 +644,7 @@ var Layering = {
 				content = this._CreateTabContent("Translation", ["TranslationX", "TranslationY"], 0, 0, 1, 0, isShowingHiddenLayers, { TranslationY: [-20, 20] });
 			} else if (tabKey === 'scale') {
 				// Pussy/Penis uniform scale, 0.5 - 1.5 cap
-				content = this._CreateTabContent("Scale", ["Scale"], 0.5, 1.5, 0.1, 1.0, isShowingHiddenLayers);
+				content = this._CreateTabContent("Scale", ["ScaleX", "ScaleY"], 0.5, 1.5, 0.1, 1.0, isShowingHiddenLayers);
 			} else {
 				return [ElementCreate({ tag: "h2", children: [InterfaceTextGet("LayeringTransformationDisabled")] })];
 			}
