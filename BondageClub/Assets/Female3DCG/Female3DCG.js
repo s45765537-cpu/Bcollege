@@ -7311,7 +7311,7 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "Jewelry",
 				CopyConfig: {
 					GroupName: "Jewelry",
-					AssetName: "TriskelionNecklace"
+					AssetName: "TriskelionNecklace",
 				},
 			},
 		],
@@ -7794,7 +7794,7 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "Jewelry",
 				CopyConfig: {
 					GroupName: "Jewelry",
-					AssetName: "TriskelionNecklace"
+					AssetName: "TriskelionNecklace",
 				},
 			},
 		],
