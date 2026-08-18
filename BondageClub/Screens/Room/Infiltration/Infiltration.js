@@ -2,16 +2,12 @@
 var InfiltrationBackground = "Infiltration";
 /** @type {NPCCharacter} */
 var InfiltrationSupervisor = /** @type {never} */ (null);
-/** @type {0 | 1 | 2 | 3 | 4} */
-var InfiltrationDifficulty = 0;
-/** @type {InfiltrationMissionType | ""} */
-var InfiltrationMission = "";
+/** @type {InfiltrationMissionStateType | null } */
+var InfiltrationMissionState = null;
 /** @type {InfiltrationMissionType[]} */
 var InfiltrationMissionType = ["Rescue", "Kidnap", "Retrieve", "CatBurglar", "ReverseMaid"];
-/** @type {InfiltrationTargetType[]} */
-var InfiltrationObjectType = ["USBKey", "BDSMPainting", "GoldCollar", "GeneralLedger", "SilverVibrator", "DiamondRing", "SignedPhoto"];
-/** @type {InfiltrationMissionTarget | null} */
-var InfiltrationTarget = null;
+/** @type {InfiltrationObjectListType[]} */
+var InfiltrationObjectList = ["USBKey", "BDSMPainting", "GoldCollar", "GeneralLedger", "SilverVibrator", "DiamondRing", "SignedPhoto"];
 var InfiltrationCollectRansom = false;
 /** @type {null | NPCCharacter} */
 var InfiltrationKidnapper = null;
@@ -28,19 +24,19 @@ var InfiltrationPenitentiaryRole = "I";
  * Returns TRUE if the mission can complete as a success
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanSuccess() { return ((InfiltrationTarget != null) && (InfiltrationTarget.Found === true)); }
+function InfiltrationCanSuccess() { return InfiltrationMissionState?.Found === true; }
 
 /**
  * Returns TRUE if the mission can complete as a failure
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanFail() { return ((InfiltrationTarget == null) || (InfiltrationTarget.Found == null) || (InfiltrationTarget.Found == false)); }
+function InfiltrationCanFail() { return !!InfiltrationMissionState && InfiltrationMissionState.Found !== true; }
 
 /**
  * Returns TRUE if the player can go back to Pandora's Box to pursue her mission
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanGoBack() { return (((InfiltrationTarget == null) || (InfiltrationTarget.Fail == null) || (InfiltrationTarget.Fail == false)) && !InfiltrationCanSuccess()); }
+function InfiltrationCanGoBack() { return !!InfiltrationMissionState && InfiltrationMissionState.Fail !== true && !InfiltrationCanSuccess(); }
 
 /**
  * Returns TRUE if the player can start the Pandora Padlock Mission, needs to be missing the item and infiltration 6 or more
@@ -52,7 +48,7 @@ function InfiltrationCanGetPandoraLock() { return (SkillGetLevel(Player, "Infilt
  * Returns TRUE if the player can ask to get Pandora's locks as a reward for the mission
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanAskForPandoraLock() { return !!InfiltrationTarget && ((InfiltrationMission == "Retrieve") && (InfiltrationTarget.Type == "PandoraPadlockKeys")); }
+function InfiltrationCanAskForPandoraLock() { return InfiltrationMissionState?.Mission === "Retrieve" && InfiltrationMissionState?.Target === "PandoraPadlockKeys"; }
 
 /**
  * Returns TRUE if the player can turn in the cat burglar mission
@@ -64,7 +60,7 @@ function InfiltrationCatBurglarHasMoney() { return (PandoraMoney > 0); }
  * Returns TRUE if the player can complete the reverse maid mission, at least 50% of the job must be done
  * @returns {boolean} - TRUE if possible
  */
-function InfiltrationReverseMaidCanComplete() { return ((PandoraReverseMaidDone * 2 >= PandoraReverseMaidTotal) && (InfiltrationMission == "ReverseMaid")); }
+function InfiltrationReverseMaidCanComplete() { return PandoraReverseMaidDone * 2 >= PandoraReverseMaidTotal && InfiltrationMissionState?.Mission === "ReverseMaid"; }
 
 /**
  * Returns TRUE if the player hasat least 1 NPC from Pandora in their private room and has reached 5 infiltration
@@ -108,7 +104,7 @@ async function InfiltrationLoad() {
 	InfiltrationCollectRansom = false;
 	if ((PandoraParty != null) && (PandoraParty.length > 0)) {
 		for (let P = 0; P < PandoraParty.length; P++) {
-			if (InfiltrationTarget && PandoraParty[P].Name == InfiltrationTarget.Name) InfiltrationTarget.Found = true;
+			if (InfiltrationMissionState && "Target" in InfiltrationMissionState && InfiltrationMissionState?.Target === "NPC" && PandoraParty[P].Name == InfiltrationMissionState.Name) InfiltrationMissionState.Found = true;
 			if (PandoraParty[P].Archetype === "Mistress" || PandoraParty[P].Archetype === "Maid" || PandoraParty[P].Archetype === "Guard") {
 				InfiltrationCollectRansom = true;
 				InfiltrationPartyPrisoner = PandoraParty[P]; //If party is employed by Pandora, stash NPC for possible interrogation
@@ -162,7 +158,8 @@ function InfiltrationClick() {
  * @returns {void} - Nothing
  */
 function InfiltrationSelectChallenge(Difficulty) {
-	InfiltrationDifficulty = Difficulty;
+	if (!InfiltrationMissionState) return;
+	InfiltrationMissionState.Difficulty = Difficulty;
 }
 
 /**
@@ -170,25 +167,43 @@ function InfiltrationSelectChallenge(Difficulty) {
  * @returns {void} - Nothing
  */
 function InfiltrationPrepareMission() {
-	InfiltrationMission = CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
-	//InfiltrationMission = "ReverseMaid"; // DEBUG
-	if ((InfiltrationMission == "Rescue") || (InfiltrationMission == "Kidnap")) {
-		InfiltrationTarget = {
-			Type: "NPC",
+	const lastMission = InfiltrationMissionState?.Mission ?? "";
+	const Mission = /** @type {InfiltrationMissionType} */ (CommonRandomItemFromList(lastMission, InfiltrationMissionType));
+	/** @type {InfiltrationMissionStateType} */
+	let state;
+	if (Mission === "Rescue" || Mission === "Kidnap") {
+		state = {
+			Mission,
+			Difficulty: 0,
+			Target: "NPC",
 			Name: CharacterGenerateRandomName(),
-			PrivateRoom: false
+			PrivateRoom: false,
+			Found: false,
+		};
+	} else if (Mission === "Retrieve" || Mission === "Steal") {
+		let PreviousTarget = InfiltrationMissionState && "Target" in InfiltrationMissionState ? InfiltrationMissionState.Target : "";
+		if (PreviousTarget === "NPC") PreviousTarget = "";
+		const Target = /** @type {InfiltrationObjectListType} */ (CommonRandomItemFromList(PreviousTarget, InfiltrationObjectList));
+		state = {
+			Mission,
+			Difficulty: 0,
+			Target,
+			Name: DialogFind(InfiltrationSupervisor, "Object" + Target),
+			Found: false,
 		};
 	} else {
-		const PreviousTarget = InfiltrationTarget && InfiltrationTarget.Type || "";
-		const Type = /** @type {InfiltrationTargetType} */(CommonRandomItemFromList(PreviousTarget, InfiltrationObjectType));
-		InfiltrationTarget = {
-			Type: Type,
-			Name: DialogFind(InfiltrationSupervisor, "Object" + Type),
+		state = {
+			Mission,
+			Difficulty: 0,
+			Found: false,
 		};
 	}
-	InfiltrationSupervisor.Stage = InfiltrationMission;
-	InfiltrationSupervisor.CurrentDialog = DialogFind(InfiltrationSupervisor, InfiltrationMission + "Intro");
-	InfiltrationSupervisor.CurrentDialog = InfiltrationSupervisor.CurrentDialog.replace("TargetName", InfiltrationTarget.Name);
+	InfiltrationMissionState = state;
+	InfiltrationSupervisor.Stage = state.Mission;
+	InfiltrationSupervisor.CurrentDialog = DialogFind(InfiltrationSupervisor, state.Mission + "Intro");
+	if ("Name" in state) {
+		InfiltrationSupervisor.CurrentDialog = InfiltrationSupervisor.CurrentDialog.replace("TargetName", state.Name);
+	}
 }
 
 /**
@@ -221,17 +236,18 @@ function InfiltrationReturnMission() {
  * @returns {void} - Nothing
  */
 function InfiltrationCompleteMission() {
-	if (InfiltrationDifficulty == 0) SkillProgress(Player, "Infiltration", 100);
-	if (InfiltrationDifficulty == 1) SkillProgress(Player, "Infiltration", 200);
-	if (InfiltrationDifficulty == 2) SkillProgress(Player, "Infiltration", 350);
-	if (InfiltrationDifficulty == 3) SkillProgress(Player, "Infiltration", 600);
-	if (InfiltrationDifficulty == 4) SkillProgress(Player, "Infiltration", 1000);
-	let Money = (InfiltrationMission != "CatBurglar") ? 12 + (InfiltrationDifficulty * 6) : 0;
-	if ((InfiltrationMission == "ReverseMaid") && (PandoraReverseMaidDone >= PandoraReverseMaidTotal)) Money = Math.round(Money * 1.5);
+	if (!InfiltrationMissionState) return;
+	if (InfiltrationMissionState.Difficulty == 0) SkillProgress(Player, "Infiltration", 100);
+	if (InfiltrationMissionState.Difficulty == 1) SkillProgress(Player, "Infiltration", 200);
+	if (InfiltrationMissionState.Difficulty == 2) SkillProgress(Player, "Infiltration", 350);
+	if (InfiltrationMissionState.Difficulty == 3) SkillProgress(Player, "Infiltration", 600);
+	if (InfiltrationMissionState.Difficulty == 4) SkillProgress(Player, "Infiltration", 1000);
+	let Money = (InfiltrationMissionState.Mission != "CatBurglar") ? 12 + (InfiltrationMissionState.Difficulty * 6) : 0;
+	if ((InfiltrationMissionState.Mission == "ReverseMaid") && (PandoraReverseMaidDone >= PandoraReverseMaidTotal)) Money = Math.round(Money * 1.5);
 	Money = Money + Math.round(PandoraMoney / 2);
 	if (InfiltrationPerksActive("Negotiation")) Money = Math.round(Money * 1.2);
 	CharacterChangeMoney(Player, Money);
-	if ((InfiltrationMission == "Rescue") && InfiltrationTarget && (InfiltrationTarget.Type == "NPC") && InfiltrationTarget.PrivateRoom) {
+	if (InfiltrationMissionState.Mission === "Rescue" && InfiltrationMissionState.Target == "NPC" && InfiltrationMissionState.PrivateRoom) {
 		if (PrivateRansomCharacter) {
 			NPCEventAdd(PrivateRansomCharacter, "Kidnap", CurrentTime);
 			if ((PrivateRansomCharacter.Love ?? 0) < 50) PrivateRansomCharacter.Love = 50;
@@ -280,17 +296,18 @@ function InfiltrationCatBurglarClothes() {
  */
 function InfiltrationPayRansom(Type) {
 	InfiltrationCollectRansom = false;
+	if (!InfiltrationMissionState) return;
 	if (Type == "Money") {
-		let Money = 10 + (InfiltrationDifficulty * 4);
+		let Money = 10 + (InfiltrationMissionState.Difficulty * 4);
 		if (InfiltrationPerksActive("Negotiation")) Money = Math.round(Money * 1.2);
 		if (InfiltrationPartyPrisoner && InfiltrationPartyPrisoner.Archetype != "Mistress") Money = Math.round(Money / 2); //Pay half as much for non-mistress
 		CharacterChangeMoney(Player, Money);
 	} else if (Type == "Skill") {
-		if (InfiltrationDifficulty == 0) SkillProgress(Player, "Infiltration", 100);
-		if (InfiltrationDifficulty == 1) SkillProgress(Player, "Infiltration", 150);
-		if (InfiltrationDifficulty == 2) SkillProgress(Player, "Infiltration", 225);
-		if (InfiltrationDifficulty == 3) SkillProgress(Player, "Infiltration", 300);
-		if (InfiltrationDifficulty == 4) SkillProgress(Player, "Infiltration", 400);
+		if (InfiltrationMissionState.Difficulty == 0) SkillProgress(Player, "Infiltration", 100);
+		if (InfiltrationMissionState.Difficulty == 1) SkillProgress(Player, "Infiltration", 150);
+		if (InfiltrationMissionState.Difficulty == 2) SkillProgress(Player, "Infiltration", 225);
+		if (InfiltrationMissionState.Difficulty == 3) SkillProgress(Player, "Infiltration", 300);
+		if (InfiltrationMissionState.Difficulty == 4) SkillProgress(Player, "Infiltration", 400);
 	} else if (Type == "Private") {
 		if (!InfiltrationPartyPrisoner) return;
 		//Add prisoner to private room
@@ -310,8 +327,8 @@ function InfiltrationPayRansom(Type) {
 		InfiltrationPandoraPrisonerBrainwash();
 	}
 
-	if ((InfiltrationMission == "CatBurglar") || (InfiltrationMission == "ReverseMaid")) {
-		InfiltrationSupervisor.Stage = InfiltrationMission + "End";
+	if ((InfiltrationMissionState.Mission == "CatBurglar") || (InfiltrationMissionState.Mission == "ReverseMaid")) {
+		InfiltrationSupervisor.Stage = InfiltrationMissionState.Mission + "End";
 	} else {
 		InfiltrationSupervisor.Stage = "End";
 	}
@@ -452,13 +469,13 @@ function InfiltrationStealItems() {
  * @returns {void} - Nothing
  */
 function InfiltrationStartPandoraLock() {
-	InfiltrationMission = "Retrieve";
-	InfiltrationTarget = {
-		Type: "PandoraPadlockKeys",
+	InfiltrationMissionState = {
+		Mission: "Retrieve",
+		Difficulty: 4,
+		Target: "PandoraPadlockKeys",
 		Name: DialogFind(InfiltrationSupervisor, "ObjectPandoraPadlockKeys"),
-		Found: false
+		Found: false,
 	};
-	InfiltrationDifficulty = 4;
 	InfiltrationRandomClothes();
 }
 
@@ -478,7 +495,7 @@ function InfiltrationGetPandoraLock() {
 function InfiltrationRansomFriend() {
 	if (!PrivateRansomCharacter) return;
 	NPCEventAdd(PrivateRansomCharacter, "Kidnap", CurrentTime);
-	if (PrivateRansomCharacter.Love ?? 0 < 0) PrivateRansomCharacter.Love = 0;
+	if ((PrivateRansomCharacter.Love ?? 0) < 0) PrivateRansomCharacter.Love = 0;
 	ServerPrivateCharacterSync();
 	CharacterChangeMoney(Player, -100);
 }
@@ -489,14 +506,14 @@ function InfiltrationRansomFriend() {
  */
 function InfiltrationStartNPCRescue() {
 	if (!PrivateRansomCharacter) return;
-	InfiltrationMission = "Rescue";
-	InfiltrationTarget = {
-		Type: "NPC",
+	InfiltrationMissionState = {
+		Mission: "Rescue",
+		Difficulty: 2,
+		Target: "NPC",
 		Name: PrivateRansomCharacter.Name,
 		PrivateRoom: true,
-		Found: false
+		Found: false, // XXX
 	};
-	InfiltrationDifficulty = 2;
 	InfiltrationRandomClothes();
 }
 

@@ -4715,9 +4715,61 @@ interface DynamicScriptCallbackData<T extends AnimationPersistentData = Animatio
 
 //#region Infiltration/Pandora
 
+interface InfiltrationMissionStateBase {
+	// Mission: InfiltrationMissionType;
+	Difficulty: 0 | 1 | 2 | 3 | 4;
+	Found: boolean;
+	Fail?: boolean;
+}
+
+interface InfiltrationMissionStateRescue extends InfiltrationMissionStateBase {
+	Mission: "Rescue";
+	Target: "NPC";
+	Name: string;
+	PrivateRoom: boolean;
+}
+
+interface InfiltrationMissionStateKidnap extends InfiltrationMissionStateBase {
+	Mission: "Kidnap";
+	Target: "NPC";
+	Name: string;
+	PrivateRoom: boolean;
+}
+
+interface InfiltrationMissionStateRetrieve extends InfiltrationMissionStateBase {
+	Mission: "Retrieve";
+	Target: InfiltrationObjectListType;
+	Name: string;
+}
+
+interface InfiltrationMissionStateCatBurglar extends InfiltrationMissionStateBase {
+	Mission: "CatBurglar";
+}
+
+interface InfiltrationMissionStateReverseMaid extends InfiltrationMissionStateBase {
+	Mission: "ReverseMaid";
+}
+
+interface InfiltrationMissionStateSteal extends InfiltrationMissionStateBase {
+	Mission: "Steal";
+	Target: InfiltrationObjectListType;
+	Name: string;
+}
+
+type InfiltrationMissionStateType =
+	| InfiltrationMissionStateRescue
+	| InfiltrationMissionStateKidnap
+	| InfiltrationMissionStateRetrieve
+	| InfiltrationMissionStateCatBurglar
+	| InfiltrationMissionStateReverseMaid
+	| InfiltrationMissionStateSteal
+;
+
 type InfiltrationMissionType = "Rescue" | "Kidnap" | "Retrieve" | "CatBurglar" | "ReverseMaid" | "Steal";
 
-type InfiltrationTargetType = "NPC" | "USBKey" | "BDSMPainting" | "GoldCollar" | "GeneralLedger" | "SilverVibrator" | "DiamondRing" | "SignedPhoto" | "PandoraPadlockKeys";
+type InfiltrationObjectListType = "USBKey" | "BDSMPainting" | "GoldCollar" | "GeneralLedger" | "SilverVibrator" | "DiamondRing" | "SignedPhoto" | "PandoraPadlockKeys";
+
+type InfiltrationTargetType = "NPC";
 
 interface InfiltrationMissionTarget {
 	Type: InfiltrationTargetType;
