@@ -1822,7 +1822,7 @@ var AssetFemale3DCGExtended = {
 		HairFront56: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Type_1" }, { Name: "Type_2" }, {Name: "Type_3"}],
+			Options: [{ Name: "Type_1" }, { Name: "Type_2" }, { Name: "Type_3" }],
 		},
 		HairFront56b: {
 			Archetype: ExtendedArchetype.TYPED,

@@ -403,9 +403,9 @@ var Layering = {
 			const maxBound = isScale ? (isPussy ? 1.5 : 3.0) : (isRotation ? 180 : 500);
 
 			// For Pussy/Penis uniform scale, use ScaleX as base for limits
-			const baseProp = (isPussy && isScale) ? "ScaleX" : prop;
+			// FIXME: const baseProp = (isPussy && isScale) ? "ScaleX" : prop;
 			// We need the *other* component to calculate the limit for the current component
-			const otherComponent = prop === "ScaleX" ? "ScaleY" : (prop === "ScaleY" ? "ScaleX" : null);
+			// FIXME: const otherComponent = prop === "ScaleX" ? "ScaleY" : (prop === "ScaleY" ? "ScaleX" : null);
 
 			// Logic: CombinedScale = AssetScale * LayerScale
 			// AllowedCombined = [0.5, 1.5]
@@ -414,7 +414,7 @@ var Layering = {
 			const inputs = this._inputCache[prop] || [];
 			for (const input of inputs) {
 				// Identify if this is an asset-level input or layer-level input
-				const isLayer = input.id.includes('Layer');
+				// FIXME: const isLayer = input.id.includes('Layer');
 
 				/** @type {number} */
 				let minAllowed;
@@ -494,8 +494,8 @@ var Layering = {
 
 													// Uniform scale for Pussy/Penis
 													if (this._IsPussy(this.Asset.Group) && propType === "Scale") {
-														this.Item.Property["ScaleX"] = clampedVal;
-														this.Item.Property["ScaleY"] = clampedVal;
+														this.Item.Property.ScaleX = clampedVal;
+														this.Item.Property.ScaleY = clampedVal;
 													} else {
 														this.Item.Property[prop] = clampedVal;
 													}
@@ -553,7 +553,7 @@ var Layering = {
 									tag: "input",
 									attributes: {
 										type: "number",
-										value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? ((this.Item.Property[`LayerScaleX`] ?? {})[layerName] ?? defaultValue) : ((this.Item.Property[`Layer${prop}`] ?? {})[layerName] ?? defaultValue)),
+										value: (this._IsPussy(this.Asset.Group) && propType === "Scale" ? ((this.Item.Property.LayerScaleX ?? {})[layerName] ?? defaultValue) : ((this.Item.Property[`Layer${prop}`] ?? {})[layerName] ?? defaultValue)),
 										step, min: propMin, max: propMax,
 										id: `layering-input-${prop}-${layerName}`,
 										class: `layering-input-${prop.replace(/[XY]/, '')} layering-number-input`,
@@ -567,8 +567,8 @@ var Layering = {
 
 											// Uniform scale for Pussy/Penis layers
 											if (this._IsPussy(this.Asset.Group) && propType === "Scale") {
-												(this.Item.Property[`LayerScaleX`] ??= {})[layerName] = clampedVal;
-												(this.Item.Property[`LayerScaleY`] ??= {})[layerName] = clampedVal;
+												(this.Item.Property.LayerScaleX ??= {})[layerName] = clampedVal;
+												(this.Item.Property.LayerScaleY ??= {})[layerName] = clampedVal;
 											} else {
 												(this.Item.Property[`Layer${prop}`] ??= {})[layerName] = clampedVal;
 											}
