@@ -2392,6 +2392,8 @@ interface Character {
 
 type KidnapModeType = "Intro" | "SelectItem" | "SelectMove" | "ShowMove" | "UpperHand" | "SuddenDeath" | "End";
 
+type KidnapActivity = "AddGag" | "RemoveGag" | "AddFeet" | "RemoveFeet" | "AddLegs" | "RemoveLegs" | "Tickle" | "Spank" | "Kiss" | "Fondle";
+
 type PandoraPrisonActivity = "Beat" | "Water" | "Transfer" | "Quickie" | "Strip" | "Chastity" | "Tickle" | "ChangeBondage";
 
 /** Pandora NPCs */
