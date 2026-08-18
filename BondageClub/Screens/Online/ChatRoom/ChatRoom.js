@@ -35,7 +35,7 @@ var ChatRoomBackground = "";
  * The data for the current chatroom, as recieved from the server.
  * @type {null | ServerChatRoomData}
  */
-let ChatRoomData = null;
+var ChatRoomData = null;
 /**
  * The list of chatroom characters.
  * This is unpacked characters from the data recieved from the server in {@link ChatRoomData.Character}.

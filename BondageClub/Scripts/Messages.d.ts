@@ -78,7 +78,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	SavedColors?: HSVColor[];
 	/** @deprecated */
 	ChatSearchFilterTerms?: string;
-	Difficulty?: { Level: DifficultyLevel; LastChange: number };
+	Difficulty?: { Level: DifficultyLevel; LastChange?: number };
 	MapData?: ChatRoomMapData;
 	PrivateCharacter?: ServerPrivateCharacterData[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
