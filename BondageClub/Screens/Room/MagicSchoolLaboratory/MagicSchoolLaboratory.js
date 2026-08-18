@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var MagicSchoolLaboratoryBackground = "MagicSchoolLaboratory";
-/** @type {null | NPCCharacter} */
-var MagicSchoolLaboratoryTeacher = null;
+/** @type {NPCCharacter} */
+var MagicSchoolLaboratoryTeacher = /** @type {never} */ (null);
 /** @type {null | NPCCharacter} */
 var MagicSchoolLaboratoryStudent = null;
 var MagicSchoolLaboratoryBattleWage = "";
@@ -39,13 +38,14 @@ function MagicSchoolLaboratoryPrepareNPC(C, House) {
 	InventoryRemove(C, "Socks");
 	let hands = InventoryGet(C, "ItemHandheld");
 	if (hands && hands.Asset.Name !== "RainbowWand") {
-		const itemMap = {
+		const itemMap = /** @type {const} */ ({
+			"": undefined,
 			"Maiestas": "Whip",
 			"Vincula": "Belt",
 			"Amplector": "Feather",
 			"Corporis": "CandleWax",
-		};
-		const item = itemMap[House] || "Broom";
+		});
+		const item = itemMap[House] ?? "Broom";
 		InventoryWear(C, item, "ItemHandheld");
 	}
 	InventoryWear(C, "Bra1", "Bra", LightColor);
@@ -82,7 +82,7 @@ function MagicSchoolLaboratoryPrepareNPC(C, House) {
  */
 async function MagicSchoolLaboratoryLoad() {
 	MagicPuzzleBackground = MagicSchoolLaboratoryBackground;
-	if (MagicSchoolLaboratoryTeacher == null) {
+	if (!MagicSchoolLaboratoryTeacher) {
 		MagicSchoolLaboratoryTeacher = CharacterLoadNPC("NPC_MagicSchoolLaboratory_Teacher");
 		MagicSchoolLaboratoryPrepareNPC(MagicSchoolLaboratoryTeacher, "");
 	}
@@ -256,12 +256,15 @@ function MagicSchoolLaboratoryBuildSister() {
 	if (ReputationGet("HouseVincula") > 0) NPCHouse = "Vincula";
 	if (ReputationGet("HouseAmplector") > 0) NPCHouse = "Amplector";
 	if (ReputationGet("HouseCorporis") > 0) NPCHouse = "Corporis";
-	CharacterDelete(MagicSchoolLaboratoryStudent);
+	if (MagicSchoolLaboratoryStudent) {
+		CharacterDelete(MagicSchoolLaboratoryStudent);
+		MagicSchoolLaboratoryStudent = null;
+	}
 
 	MagicSchoolLaboratoryStudent = CharacterLoadNPC("NPC_MagicSchoolLaboratory_Sister");
 	CharacterRelease(MagicSchoolLaboratoryStudent);
 	MagicSchoolLaboratoryPrepareNPC(MagicSchoolLaboratoryStudent, NPCHouse);
-	setTimeout(() => CharacterSetCurrent(MagicSchoolLaboratoryStudent), 500);
+	CharacterSetCurrent(MagicSchoolLaboratoryStudent);
 }
 
 /**
@@ -306,11 +309,13 @@ function MagicSchoolLaboratoryFindStudent() {
 	}
 
 	// Creates the student NPC and gives her a house
-	/** @type {MagicSchoolHouse} */
-	let NPCHouse = CommonRandomItemFromList(null, Houses);
+	let NPCHouse = CommonGetRandomItemFromList(Houses);
 	let NPCType = (ReputationGet(`House${NPCHouse}`) >= 100) ? "Master" : "Student";
 
-	CharacterDelete(MagicSchoolLaboratoryStudent);
+	if (MagicSchoolLaboratoryStudent) {
+		CharacterDelete(MagicSchoolLaboratoryStudent);
+		MagicSchoolLaboratoryStudent = null;
+	}
 
 	MagicSchoolLaboratoryStudent = CharacterLoadNPC("NPC_MagicSchoolLaboratory_" + NPCType);
 	CharacterRelease(MagicSchoolLaboratoryStudent);
@@ -321,7 +326,7 @@ function MagicSchoolLaboratoryFindStudent() {
 		InventoryWear(MagicSchoolLaboratoryStudent, "RainbowWand", "ItemHandheld");
 		CharacterRefresh(MagicSchoolLaboratoryStudent);
 	}
-	setTimeout(() => CharacterSetCurrent(MagicSchoolLaboratoryStudent), 500);
+	CharacterSetCurrent(MagicSchoolLaboratoryStudent);
 
 }
 
@@ -331,6 +336,7 @@ function MagicSchoolLaboratoryFindStudent() {
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryBattleStudentStart(Type) {
+	if (!MagicSchoolLaboratoryStudent) return;
 	MagicSchoolLaboratoryBattleWage = Type;
 	if (Type == "Wage25") CharacterChangeMoney(Player, -25);
 	let Difficulty = 2;
@@ -346,6 +352,7 @@ function MagicSchoolLaboratoryBattleStudentStart(Type) {
  */
 async function MagicSchoolLaboratoryBattleStudentEnd() {
 	await CommonSetScreen("Room", "MagicSchoolLaboratory");
+	if (!MagicSchoolLaboratoryStudent) return;
 	CharacterSetCurrent(MagicSchoolLaboratoryStudent);
 	if (MiniGameVictory) {
 		MagicSchoolLaboratoryStudent.AllowItem = true;
@@ -393,6 +400,7 @@ async function MagicSchoolLaboratoryBattleStudentEnd() {
  * @returns {void}
  */
 function MagicSchoolLaboratoryStudentEmote(Blush, Eyes) {
+	if (!MagicSchoolLaboratoryStudent) return;
 	CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Blush", Blush, 5);
 	CharacterSetFacialExpression(MagicSchoolLaboratoryStudent, "Eyes", Eyes, 5);
 }
@@ -408,6 +416,7 @@ function MagicSchoolLaboratoryCanTransferToRoom() { return PrivateHasEmptySlot()
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryTransferToRoom() {
+	if (!MagicSchoolLaboratoryStudent) return;
 	DialogLeave();
 	CommonSetScreen("Room", "Private");
 	PrivateAddCharacter(MagicSchoolLaboratoryStudent, MagicSchoolLaboratoryStudent.House);
@@ -418,6 +427,7 @@ function MagicSchoolLaboratoryTransferToRoom() {
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryUngagStudent() {
+	if (!MagicSchoolLaboratoryStudent) return;
 	InventoryRemove(MagicSchoolLaboratoryStudent, "ItemMouth");
 	InventoryRemove(MagicSchoolLaboratoryStudent, "ItemMouth2");
 	InventoryRemove(MagicSchoolLaboratoryStudent, "ItemMouth3");
@@ -484,8 +494,8 @@ function MagicSchoolLaboratoryApplyRandomSpellEffects(npc, lastSpell) {
 		if ((Spell == "Hogtie") && Player.PoseMapping.BodyFull === "Hogtied") Spell = undefined;
 		if ((Spell == "ReleaseHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = undefined;
 		if ((Spell == "FlyingHogtie") && Player.PoseMapping.BodyFull !== "Hogtied") Spell = undefined;
-		if ((Spell == "SwitchRope") && ((InventoryGet(Player, "ItemArms").Asset.Name == "HempRope") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = undefined;
-		if ((Spell == "SwitchChain") && ((InventoryGet(Player, "ItemArms").Asset.Name == "Chains") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = undefined;
+		if (Spell == "SwitchRope" && (InventoryIsWorn(Player, "ItemArms", "HempRope") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = undefined;
+		if (Spell == "SwitchChain" && (InventoryIsWorn(Player, "ItemArms", "Chains") || Player.PoseMapping.BodyFull === "Hogtied")) Spell = undefined;
 	}
 
 	// Applies the spell effect
@@ -496,10 +506,11 @@ function MagicSchoolLaboratoryApplyRandomSpellEffects(npc, lastSpell) {
 	if (Spell == "Fail") { CharacterSetFacialExpression(npc, "Blush", "Medium", 8); CharacterSetFacialExpression(npc, "Eyes", "Angry", 8); }
 	if (Spell == "FlyingHogtie") {
 		const item = InventoryGet(Player, "ItemArms");
+		if (!item) return;
 		TypedItemSetOptionByName(Player, item, "SuspensionHogtied");
 		const Height = 0.67 * Math.random();
 		item.Property.OverrideHeight = {
-			Height: Height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
+			Height: Height * (Pose.find(p => p.Name === "Hogtied")?.OverrideHeight?.Height ?? 1),
 			HeightRatioProportion: Height,
 			Priority: 0,
 		};
@@ -536,7 +547,7 @@ function MagicSchoolLaboratoryApplyRandomSpellEffects(npc, lastSpell) {
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryLoserSpell(RepChange) {
-
+	if (!MagicSchoolLaboratoryStudent) return;
 	// If we must change the player dom/sub reputation
 	DialogChangeReputation("Dominant", RepChange);
 
@@ -570,6 +581,7 @@ function MagicSchoolLaboratoryPlayerMainHall() {
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryBattleMasterStart() {
+	if (!MagicSchoolLaboratoryStudent) return;
 	MagicBattleStart(MagicSchoolLaboratoryStudent, 10, MagicSchoolLaboratoryBackground, "MagicSchoolLaboratoryBattleMasterEnd");
 }
 
@@ -578,6 +590,7 @@ function MagicSchoolLaboratoryBattleMasterStart() {
  * @returns {Promise<void>} - Nothing
  */
 async function MagicSchoolLaboratoryBattleMasterEnd() {
+	if (!MagicSchoolLaboratoryStudent) return;
 	await CommonSetScreen("Room", "MagicSchoolLaboratory");
 	CharacterSetCurrent(MagicSchoolLaboratoryStudent);
 	CharacterAppearanceRestore(Player, MagicBattlePlayerAppearance);
@@ -598,6 +611,7 @@ async function MagicSchoolLaboratoryBattleMasterEnd() {
  * @returns {void} - Nothing
  */
 function MagicSchoolLaboratoryLearnMastery() {
+	if (!MagicSchoolLaboratoryStudent) return;
 	CharacterAppearanceRestore(MagicSchoolLaboratoryStudent, MagicBattleOpponentAppearance);
 	CharacterRefresh(MagicSchoolLaboratoryStudent);
 	LogAdd("Mastery", "MagicSchool");
@@ -608,5 +622,6 @@ function MagicSchoolLaboratoryLearnMastery() {
  * @returns {boolean} - TRUE if it can be waged
  */
 function MagicSchoolLaboratoryCanWageWand() {
+	if (!MagicSchoolLaboratoryStudent) return false;
 	return InventoryIsWorn(MagicSchoolLaboratoryStudent, "ItemHandheld", "RainbowWand");
 }
