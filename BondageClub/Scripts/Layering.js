@@ -16,38 +16,38 @@
  *
  * // Make sure the fancy screen mode is changed back to its default upon exiting the layering subscreen
  * Layering.RegisterExitCallbacks({
- *      screen: "FancyScreen",
- *      callback: () => FancyScreenMode = "default",
+ * 	screen: "FancyScreen",
+ * 	callback: () => FancyScreenMode = "default",
  * });
  *
  * function FancyScreenClick() {
- *      const C: Character;
- *      const item: Item;
- *      switch (FancyScreenMode) {
- *          case "default": {
- *              if Mousein(...) {
- *                  FancyScreenMode = "layering";
- *                  Layering.Init(C, item);
- *              }
- *              return;
- *          }
- *      }
+ * 	const C: Character;
+ * 	const item: Item;
+ * 		switch (FancyScreenMode) {
+ * 		case "default": {
+ * 			if Mousein(...) {
+ * 				FancyScreenMode = "layering";
+ * 				Layering.Init(C, item);
+ * 			}
+ * 			return;
+ * 		}
+ * 	}
  * }
  *
  * function FancyScreenResize(load) {
- *      switch (FancyScreenMode) {
- *          case "layering":
- *              Layering.Resize(load);
- *              return;
- *      }
+ * 	switch (FancyScreenMode) {
+ * 		case "layering":
+ * 			Layering.Resize(load);
+ * 			return;
+ * 	}
  * }
  *
  * function FancyScreenExit() {
- *      switch (FancyScreenMode) {
- *          case "layering":
- *              Layering.Exit();
- *              return;
- *      }
+ * 	switch (FancyScreenMode) {
+ * 		case "layering":
+ * 			Layering.Exit();
+ * 			return;
+ * 	}
  * }
  */
 var Layering = {
@@ -71,33 +71,33 @@ var Layering = {
 	])),
 
 	/**
-     * The character in question
-     * @type {null | Character}
-     */
+	 * The character in question
+	 * @type {null | Character}
+	 */
 	Character: null,
 
 	/**
-     * The currently active tab
-     * @type {"priority" | "translation" | "scale" | "rotate"}
-     */
+	 * The currently active tab
+	 * @type {"priority" | "translation" | "scale" | "rotate"}
+	 */
 	activeTab: "priority",
 
 	/**
-     * The (rectangular) shape and inter-button gap of the layering screen
-     * @type {null | LayeringDisplay}
-     */
+	 * The (rectangular) shape and inter-button gap of the layering screen
+	 * @type {null | LayeringDisplay}
+	 */
 	Display: null,
 
 	/**
-     * The selected item in question
-     * @type {null | Item}
-     */
+	 * The selected item in question
+	 * @type {null | Item}
+	 */
 	Item: null,
 
 	/**
-     * Get or set whether the layering screen is readonly
-     * @type {Boolean}
-     */
+	 * Get or set whether the layering screen is readonly
+	 * @type {Boolean}
+	 */
 	get Readonly() {
 		return this._Readonly;
 	},
@@ -109,16 +109,16 @@ var Layering = {
 	},
 
 	/**
-     * Get the item's asset
-     * @readonly
-     * @type {Asset}
-     */
+	 * Get the item's asset
+	 * @readonly
+	 * @type {Asset}
+	 */
 	get Asset() { return this.Item.Asset; },
 
 	/**
-     * Get or set the items `Property.OverridePriority`
-     * @returns {undefined | AssetLayerOverridePriority}
-     */
+	 * Get or set the items `Property.OverridePriority`
+	 * @returns {undefined | AssetLayerOverridePriority}
+	 */
 	get OverridePriority() {
 		return this.Item.Property.OverridePriority;
 	},
@@ -127,20 +127,20 @@ var Layering = {
 	},
 
 	/**
-     * The items default `Property.OverridePriority` value.
-     *
-     * This is generally `undefined`, though certain extended item options do overwrite it.
-     * @private
-     * @type {undefined | AssetLayerOverridePriority}
-     */
+	 * The items default `Property.OverridePriority` value.
+	 *
+	 * This is generally `undefined`, though certain extended item options do overwrite it.
+	 * @private
+	 * @type {undefined | AssetLayerOverridePriority}
+	 */
 	_PriorityDefault: undefined,
 
 	/**
-     * Whether the layering screen is readonly or not
-     * @private
-     * @see {@link Layering.Readonly}
-     * @type {Boolean}
-     */
+	 * Whether the layering screen is readonly or not
+	 * @private
+	 * @see {@link Layering.Readonly}
+	 * @type {Boolean}
+	 */
 	_Readonly: false,
 
 	/**
@@ -167,16 +167,16 @@ var Layering = {
 	},
 
 	/**
-     * Return whether the layering sub screen has currently been initialized (be it either active or unloaded)
-     * @returns {this is typeof this & Pick<Required<typeof this>, "Character" | "Display" | "Item">}
-     */
+	 * Return whether the layering sub screen has currently been initialized (be it either active or unloaded)
+	 * @returns {this is typeof this & Pick<Required<typeof this>, "Character" | "Display" | "Item">}
+	 */
 	IsActive() { return !!document.getElementById(this.ID.root); },
 
 	/**
-     * The default (rectangular) shape and inter-button gap of the layering screen
-     * @readonly
-     * @type {Readonly<LayeringDisplay>}
-     */
+	 * The default (rectangular) shape and inter-button gap of the layering screen
+	 * @readonly
+	 * @type {Readonly<LayeringDisplay>}
+	 */
 	DisplayDefault: Object.freeze({
 		buttonGap: 20,
 		x: 2000 - (9 * 110),
@@ -186,9 +186,9 @@ var Layering = {
 	}),
 
 	/**
-     * The IDs of layering-specific DOM elements
-     * @readonly
-     */
+	 * The IDs of layering-specific DOM elements
+	 * @readonly
+	 */
 	ID: Object.freeze({
 		root: "layering",
 
@@ -207,20 +207,20 @@ var Layering = {
 	}),
 
 	/**
-     * Screen-specific callbacks that will be executed after calling {@link Layering.Exit}.
-     *
-     * Used as helpers for setting up the next screen.
-     * @private
-     * @readonly
-     * @type {((screen: string, C: Character, item: Item) => void)[]}
-     * @see {@link Layering.RegisterExitCallbacks}
-     */
+	 * Screen-specific callbacks that will be executed after calling {@link Layering.Exit}.
+	 *
+	 * Used as helpers for setting up the next screen.
+	 * @private
+	 * @readonly
+	 * @type {((screen: string, C: Character, item: Item) => void)[]}
+	 * @see {@link Layering.RegisterExitCallbacks}
+	 */
 	_ExitCallbacks: [],
 
 	/**
-     * @private
-     * Initialize the object-based variant of {@link AssetLayerOverridePriority}
-     */
+	 * @private
+	 * Initialize the object-based variant of {@link AssetLayerOverridePriority}
+	 */
 	_InitOverridePriorityObject() {
 		this.OverridePriority = {};
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
@@ -233,11 +233,11 @@ var Layering = {
 	},
 
 	/**
-     * @private
-     * @param {string} name - The name of the layer
-     * @param {number} priority - The stringified layer priority
-     * @param {string} defaultPriority - The stringified default priority of the layer
-     */
+	 * @private
+	 * @param {string} name - The name of the layer
+	 * @param {number} priority - The stringified layer priority
+	 * @param {string} defaultPriority - The stringified default priority of the layer
+	 */
 	_ApplyLayerPriority(name, priority, defaultPriority) {
 		const old = this.OverridePriority?.[name];
 		if (!CommonIsObject(this.OverridePriority)) {
@@ -257,10 +257,10 @@ var Layering = {
 	},
 
 	/**
-     * @private
-     * @param {number} priority - The layer priority
-     * @param {string} defaultPriority - The stringified default priority of the layer
-     */
+	 * @private
+	 * @param {number} priority - The layer priority
+	 * @param {string} defaultPriority - The stringified default priority of the layer
+	 */
 	_ApplyAssetPriority(priority, defaultPriority) {
 		const old = this.OverridePriority;
 		if (!Number.isInteger(old)) {
@@ -279,37 +279,37 @@ var Layering = {
 	},
 
 	/**
-     * Event listener for `input` events involving layer priorities
-     * @private
-     * @param {Event} event
-     */
+	 * Event listener for `input` events involving layer priorities
+	 * @private
+	 * @param {Event} event
+	 */
 	_LayerInputListener(event) {
 		const target = /** @type {HTMLInputElement} */(event.target);
 		this._ApplyLayerPriority(target.dataset.name, target.valueAsNumber, target.dataset.layerPriority);
 	},
 
 	/**
-     * Event listener for `input` events involving asset priorities
-     * @private
-     * @param {Event} event
-     */
+	 * Event listener for `input` events involving asset priorities
+	 * @private
+	 * @param {Event} event
+	 */
 	_AssetInputListener(event) {
 		const target = /** @type {HTMLInputElement} */(event.target);
 		this._ApplyAssetPriority(target.valueAsNumber, target.dataset.assetPriority);
 	},
 
 	/**
-     * A limited version of {@link CharacterRefresh}
-     * @private
-     */
+	 * A limited version of {@link CharacterRefresh}
+	 * @private
+	 */
 	_CharacterRefresh: CommonLimitFunction(CharacterRefresh, 100, 100),
 
 	/**
-     * Event listener for `click` events of the reset button
-     * @this {HTMLButtonElement}
-     * @param {Event} _event
-     * @private
-     */
+	 * Event listener for `click` events of the reset button
+	 * @this {HTMLButtonElement}
+	 * @param {Event} _event
+	 * @private
+	 */
 	_ResetClickListener(_event) {
 		if (Layering.activeTab === "priority") {
 			Layering.OverridePriority = Layering._PriorityDefault == null ? undefined : CommonCloneDeep(Layering._PriorityDefault);
@@ -346,11 +346,11 @@ var Layering = {
 
 
 	/**
-     * Event listener for `click` events of the show hidden layers button
-     * @this {HTMLButtonElement}
-     * @param {Event} _event
-     * @private
-     */
+	 * Event listener for `click` events of the show hidden layers button
+	 * @this {HTMLButtonElement}
+	 * @param {Event} _event
+	 * @private
+	 */
 	_ShowLayersClickListener(_event) {
 		const container = document.getElementById("layering-content-container");
 		if (container) {
@@ -364,10 +364,10 @@ var Layering = {
 	},
 
 	/**
-     * Update the background colors of the `number`-based input elements, the color change depending on whether one is changing an asset- or layer-specific priority.
-     * @private
-     * @param {"layer-priority" | "asset-priority"} activeType
-     */
+	 * Update the background colors of the `number`-based input elements, the color change depending on whether one is changing an asset- or layer-specific priority.
+	 * @private
+	 * @param {"layer-priority" | "asset-priority"} activeType
+	 */
 	_UpdateInputColors(activeType) {
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
 		const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
@@ -388,9 +388,9 @@ var Layering = {
 	_inputCache: {},
 
 	/**
-     * Updates the input validation limits for all relevant inputs based on the current combined values.
-     * @private
-     */
+	 * Updates the input validation limits for all relevant inputs based on the current combined values.
+	 * @private
+	 */
 	_UpdateLimits() {
 		const props = ["TranslationX", "TranslationY", "ScaleX", "ScaleY", "Rotation"];
 		const isPussy = this._IsPussy(this.Asset.Group);
@@ -437,17 +437,17 @@ var Layering = {
 	},
 
 	/**
-     * @private
-     * @param {"Scale" | "Rotation" | "Translation"} propType
-     * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
-     * @param {number} min
-     * @param {number} max
-     * @param {number} step
-     * @param {number} defaultValue
+	 * @private
+	 * @param {"Scale" | "Rotation" | "Translation"} propType
+	 * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
+	 * @param {number} min
+	 * @param {number} max
+	 * @param {number} step
+	 * @param {number} defaultValue
 	 * @param {boolean} isShowingHiddenLayers
-     * @param {Record<string, [min: number, max: number]>} [constraints={}]
-     * @returns {Element[]}
-     */
+	 * @param {Record<string, [min: number, max: number]>} [constraints={}]
+	 * @returns {Element[]}
+	 */
 	_CreateTabContent(propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints = {}) {
 		// Reset cache for this tab
 		this._inputCache = {};
@@ -518,17 +518,17 @@ var Layering = {
 	},
 
 	/**
-     * @private
-     * @param {AssetLayer} layer
+	 * @private
+	 * @param {AssetLayer} layer
 	 * @param {"Rotation" | "Scale" | "Translation"} propType
-     * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
-     * @param {number} min
-     * @param {number} max
-     * @param {number} step
-     * @param {number} defaultValue
-     * @param {boolean} isShowingHiddenLayers
-     * @param {Record<string, [number, number]>} constraints
-     */
+	 * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
+	 * @param {number} min
+	 * @param {number} max
+	 * @param {number} step
+	 * @param {number} defaultValue
+	 * @param {boolean} isShowingHiddenLayers
+	 * @param {Record<string, [number, number]>} constraints
+	 */
 	_CreateLayerFieldset(layer, propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints) {
 		const layerName = layer.Name ?? this.Asset.Name;
 		const isVisible = CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord);
@@ -605,28 +605,28 @@ var Layering = {
 	},
 
 	/**
-     * @private
-     * @param {AssetGroup} group
-     * @returns {boolean}
-     */
+	 * @private
+	 * @param {AssetGroup} group
+	 * @returns {boolean}
+	 */
 	_IsBlacklisted(group) {
 		return !group.AllowNone && !this._IsPussy(group);
 	},
 
 	/**
-     * @private
-     * @param {AssetGroup} group
-     * @returns {boolean}
-     */
+	 * @private
+	 * @param {AssetGroup} group
+	 * @returns {boolean}
+	 */
 	_IsPussy(group) {
 		return group.Name === "Pussy";
 	},
 
 	/**
-     * @private
-     * @param {"priority" | "translation" | "scale" | "rotate"} tabKey
-     * @returns {Element[]}
-     */
+	 * @private
+	 * @param {"priority" | "translation" | "scale" | "rotate"} tabKey
+	 * @returns {Element[]}
+	 */
 	_GetTabContents(tabKey) {
 		const itemPriority = typeof this.OverridePriority === "number" ? this.OverridePriority : this.Asset.Group.DrawingPriority;
 		const hideButton = document.getElementById(this.ID.hideButton);
@@ -759,11 +759,11 @@ var Layering = {
 	},
 
 	/**
-     * Group all layers by their {@link AssetLayer.CopyLayerColor} properties
-     * @private
-     * @param {readonly AssetLayer[]} layers
-     * @returns {Record<string, AssetLayer[]>}
-     */
+	 * Group all layers by their {@link AssetLayer.CopyLayerColor} properties
+	 * @private
+	 * @param {readonly AssetLayer[]} layers
+	 * @returns {Record<string, AssetLayer[]>}
+	 */
 	_GroupLayers(layers) {
 		/** @type {Record<string, AssetLayer[]>} */
 		const ret = {};
@@ -784,12 +784,12 @@ var Layering = {
 	},
 
 	/**
-     * Return the default `Property.OverridePriority` of the current item.
-     *
-     * This is generally `undefined`, though certain extended item options do overwrite it.
-     * @private
-     * @returns {undefined | AssetLayerOverridePriority}
-     */
+	 * Return the default `Property.OverridePriority` of the current item.
+	 *
+	 * This is generally `undefined`, though certain extended item options do overwrite it.
+	 * @private
+	 * @returns {undefined | AssetLayerOverridePriority}
+	 */
 	_GetDefaultPriority() {
 		if (!this.Item.Property.TypeRecord) {
 			return undefined;
@@ -803,10 +803,10 @@ var Layering = {
 	},
 
 	/**
-     * Update all input elements and buttons with the passed {@link Layering.Readonly} status.
-     * @param {boolean} isReadonly
-     * @private
-     */
+	 * Update all input elements and buttons with the passed {@link Layering.Readonly} status.
+	 * @param {boolean} isReadonly
+	 * @private
+	 */
 	_ApplyReadonly(isReadonly) {
 		/** @type {NodeListOf<HTMLFieldSetElement>} */
 		const elements = document.querySelectorAll(`#${Layering.ID.root} fieldset`);
@@ -981,9 +981,9 @@ var Layering = {
 	},
 
 	/**
-     * Can be also be used, alternatively, as a {@link ScreenFunctions.Draw} function
-     * @type {ScreenResizeHandler}
-     */
+	 * Can be also be used, alternatively, as a {@link ScreenFunctions.Draw} function
+	 * @type {ScreenResizeHandler}
+	 */
 	Resize(_load) {
 		ElementPositionFixed(this.ID.root, this.Display.x, this.Display.y, this.Display.w, this.Display.h);
 	},
@@ -995,9 +995,9 @@ var Layering = {
 	},
 
 	/**
-     * @satisfies {ScreenExitHandler}
-     * @param {boolean} reload - Whether the exit call is part of a reload (see {@link Layering.Init})
-     */
+	 * @satisfies {ScreenExitHandler}
+	 * @param {boolean} reload - Whether the exit call is part of a reload (see {@link Layering.Init})
+	 */
 	Exit(reload=false) {
 		ElementRemove(this.ID.root);
 		ChatRoomCharacterItemUpdate(this.Character, this.Asset.Group.Name);
@@ -1017,12 +1017,12 @@ var Layering = {
 	},
 
 	/**
-     * Register screen-specific callbacks to-be executed after calling {@link Layering.Exit}.
-     *
-     * Callbacks registered herein must be used _exclusively_ for setting up the next screen, and not for tearing down the layering sub screen.
-     * As such, they are ignored when performing a reload of the layering sub screen (see {@link Layering.Init})
-     * @param {readonly LayeringExitOptions[]} options
-     */
+	 * Register screen-specific callbacks to-be executed after calling {@link Layering.Exit}.
+	 *
+	 * Callbacks registered herein must be used _exclusively_ for setting up the next screen, and not for tearing down the layering sub screen.
+	 * As such, they are ignored when performing a reload of the layering sub screen (see {@link Layering.Init})
+	 * @param {readonly LayeringExitOptions[]} options
+	 */
 	RegisterExitCallbacks(...options) {
 		for (let { screen, callback } of options) {
 			if (screen) {
