@@ -161,10 +161,14 @@ function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 			if (InventoryItemNeckSlaveCollarOffset >= InventoryItemNeckSlaveCollarTypes.length) InventoryItemNeckSlaveCollarOffset = 0;
 		}
 		if ((MouseX >= 1775) && (MouseX <= 1865) && (MouseY >= 25) && (MouseY <= 110)) {
-			InventoryItemNeckSlaveCollarColorMode = true;
-			ItemColorLoad(C, item, 1090, 15, 900, 965, true);
-			ItemColorOnExit(() => {
-				InventoryItemNeckSlaveCollarColorMode = false;
+			ItemColorLoad(C, item, 1090, 15, 900, 965, true).then(() => {
+				InventoryItemNeckSlaveCollarColorMode = true;
+				ItemColorOnExit(() => {
+					InventoryItemNeckSlaveCollarColorMode = false;
+				});
+			}).catch(err => {
+				console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+				ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 			});
 		}
 		for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {

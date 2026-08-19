@@ -1942,18 +1942,22 @@ function AppearanceItemParse(stringified) {
  * @returns {void}
  */
 function AppearanceItemColor(C, Item, AssetGroup, CurrentMode) {
-	// Keeps the previous color in backup and creates a text box to enter the color
-	CharacterAppearanceMode = "Color";
-	CharacterAppearanceColorPickerGroupName = AssetGroup;
-	CharacterAppearanceColorPickerBackup = ItemGetColor(C, CharacterAppearanceColorPickerGroupName);
-	ItemColorLoad(C, Item, 1095, 25, 880, 950, true);
-	ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
-		CharacterAppearanceMode = CurrentMode;
-		if (AppearancePreviewUseCharacter(C.FocusGroup)) {
-			if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
-				AppearancePreviewBuild(C, true);
+	ItemColorLoad(C, Item, 1095, 25, 880, 950, true).then(() => {
+		// Keeps the previous color in backup and creates a text box to enter the color
+		CharacterAppearanceMode = "Color";
+		CharacterAppearanceColorPickerGroupName = AssetGroup;
+		CharacterAppearanceColorPickerBackup = ItemGetColor(C, CharacterAppearanceColorPickerGroupName);
+		ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
+			CharacterAppearanceMode = CurrentMode;
+			if (AppearancePreviewUseCharacter(C.FocusGroup)) {
+				if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
+					AppearancePreviewBuild(C, true);
+				}
 			}
-		}
+		});
+	}).catch((err) => {
+		console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+		ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 	});
 }
 

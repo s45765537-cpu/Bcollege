@@ -652,14 +652,18 @@ var CraftingEventListeners = {
 		if (CraftingPreview && selectedItem?.Asset) {
 			const item = InventoryGet(CraftingPreview, selectedItem.Asset.DynamicGroupName);
 			if (item) {
-				CraftingModeSet("Color");
-				ItemColorLoad(CraftingPreview, item, 1100, 15, 875, 970, true);
-				ItemColorOnExit(({ colors }, save) => {
-					if (save) {
-						selectedItem.Color = colors.join(",") || "Default";
-						ElementValue(CraftingID.colorsInput, selectedItem.Color);
-					}
-					CraftingModeSet("Name");
+				ItemColorLoad(CraftingPreview, item, 1100, 15, 875, 970, true).then(() => {
+					CraftingModeSet("Color");
+					ItemColorOnExit(({ colors }, save) => {
+						if (save) {
+							selectedItem.Color = colors.join(",") || "Default";
+							ElementValue(CraftingID.colorsInput, selectedItem.Color);
+						}
+						CraftingModeSet("Name");
+					});
+				}).catch(err => {
+					console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+					ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 				});
 			}
 		}

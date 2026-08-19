@@ -1033,13 +1033,17 @@ var Shop2 = {
 			Click: () => {
 				const C = Shop2InitVars.Preview;
 				if (Shop2Vars.EquippedItem && Shop2Vars.Mode === "Preview" && C) {
-					Shop2Unload();
-					ItemColorLoad(C, Shop2Vars.EquippedItem, ...Shop2Consts.ItemColorCoords, true);
-					ItemColorOnExit(() => {
-						Shop2Vars.Mode = "Preview";
-						Shop2Load();
+					ItemColorLoad(C, Shop2Vars.EquippedItem, ...Shop2Consts.ItemColorCoords, true).then(() => {
+						Shop2Unload();
+						ItemColorOnExit(() => {
+							Shop2Vars.Mode = "Preview";
+							Shop2Load();
+						});
+						Shop2Vars.Mode = "Color";
+					}).catch(err => {
+						console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+						ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 					});
-					Shop2Vars.Mode = "Color";
 				}
 			},
 		},

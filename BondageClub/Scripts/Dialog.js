@@ -1892,14 +1892,18 @@ function DialogMenuButtonClick() {
 
 			// Starts picking colors for the item, keeps the original color and shows it at the bottom
 			else if (button === "ColorChange" && Item != null) {
-				DialogChangeMode("colorItem");
-				ItemColorLoad(C, Item, 1090, 15, 885, 970);
-				ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
-					DialogChangeMode("items");
-					if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
-						if (C.IsPlayer()) ServerPlayerAppearanceSync();
-						ChatRoomPublishAction(C, "ActionChangeColor", Object.assign({}, Item, { Color: colors }), Item);
-					}
+				ItemColorLoad(C, Item, 1090, 15, 885, 970).then(() => {
+					DialogChangeMode("colorItem");
+					ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
+						DialogChangeMode("items");
+						if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
+							if (C.IsPlayer()) ServerPlayerAppearanceSync();
+							ChatRoomPublishAction(C, "ActionChangeColor", Object.assign({}, Item, { Color: colors }), Item);
+						}
+					});
+				}).catch(err => {
+					console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+					ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 				});
 				return true;
 			}
@@ -4529,16 +4533,20 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						return;
 					}
 
-					const groupName = equippedItem.Asset.Group.Name;
-					DialogChangeMode("colorExpression");
-					Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, groupName));
-					ItemColorLoad(Player, equippedItem, 1090, 15, 885, 970, true);
-					ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
-						DialogMenuBack();
-						if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
-							ServerPlayerAppearanceSync();
-							ChatRoomCharacterItemUpdate(Player, groupName);
-						}
+					ItemColorLoad(Player, equippedItem, 1090, 15, 885, 970, true).then(() => {
+						const groupName = equippedItem.Asset.Group.Name;
+						DialogChangeMode("colorExpression");
+						Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, groupName));
+						ItemColorOnExit(({ colors, initialColors, opacity, initialOpacity }, save) => {
+							DialogMenuBack();
+							if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
+								ServerPlayerAppearanceSync();
+								ChatRoomCharacterItemUpdate(Player, groupName);
+							}
+						});
+					}).catch(err => {
+						console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+						ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 					});
 				},
 			},
