@@ -1462,7 +1462,7 @@ var ServerAccountDataSyncedValidate = {
 			},
 			/** @type {(arg: ChatRoomMapData["PrivateState"], C: Character) => ChatRoomMapData["PrivateState"]} */
 			PrivateState: (arg, C) => {
-				return CommonIsObject(arg?.PrivateState) ? arg?.PrivateState : {};
+				return CommonIsObject(arg) ? arg : {};
 			}
 		}),
 	/**
