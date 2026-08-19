@@ -3897,7 +3897,6 @@ var AssetFemale3DCGExtended = {
 					Name: "Behind",
 					Property: {
 						SetPose: ["BackCuffs"],
-						Effect: [E.Block],
 						Difficulty: 3,
 					},
 				},
@@ -3905,7 +3904,6 @@ var AssetFemale3DCGExtended = {
 					Name: "Overhead",
 					Property: {
 						SetPose: ["OverTheHead"],
-						Effect: [E.Block],
 						Difficulty: 3,
 					},
 				},
