@@ -430,7 +430,7 @@ function ItemColorSaveClick() {
 
 /**
  * Revert the {@link ItemColorItem} colors and opacity.
- * @param {"initial" | "default"} type - The type of revertion: the initial state prior to opening the color picker or the assets default
+ * @param {"initial" | "default" | "intermediateSaved"} type - The type of revertion: the initial state prior to opening the color picker or the assets default
  */
 function ItemColorRevert(type) {
 	const colorField = /** @type {const} */(`${type}Colors`);
@@ -457,7 +457,7 @@ function ItemColorRevert(type) {
  * @returns {void} - Nothing
  */
 function ItemColorPickerCancel() {
-	ItemColorRevert("initial");
+	ItemColorRevert("intermediateSaved");
 	ItemColorCloseColorPicker(false);
 }
 
@@ -474,11 +474,15 @@ function ItemColorCloseColorPicker(save) {
 	} else {
 		ColorPickerHide();
 		ItemColorCurrentMode = ItemColorMode.DEFAULT;
-		ItemColorState.colors.forEach(color => {
-			if (CommonIsColor(color)) {
-				ItemColorHistory.add(color);
-			}
-		});
+		if (save) {
+			ItemColorState.colors.forEach(color => {
+				if (CommonIsColor(color)) {
+					ItemColorHistory.add(color);
+				}
+			});
+			ItemColorState.intermediateSavedColors = [...ItemColorState.colors];
+			ItemColorState.intermediateSavedOpacity = [...ItemColorState.opacity];
+		}
 	}
 }
 
@@ -678,9 +682,11 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 		colorGroups,
 		colors: ItemColorItem.Color,
 		initialColors: [...ItemColorItem.Color],
+		intermediateSavedColors: [...ItemColorItem.Color],
 		defaultColors: ItemColorItem.Asset.DefaultColor,
 		opacity: ItemColorItem.Property.Opacity,
 		initialOpacity: [...ItemColorItem.Property.Opacity],
+		intermediateSavedOpacity: [...ItemColorItem.Property.Opacity],
 		defaultOpacity: ItemColorItem.Asset.Layer.map(l => l.Opacity),
 		simpleMode,
 		paginationButtonX,
