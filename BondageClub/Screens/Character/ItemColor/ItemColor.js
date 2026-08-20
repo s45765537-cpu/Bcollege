@@ -23,7 +23,7 @@ const ItemColorMode = /** @type {const} */({
 let ItemColorCharacter = /** @type {never} */ (null);
 /**
  * Initialized in {@link ItemColorLoad} and valid until {@link ItemColorReset} is called
- * @type {Item}
+ * @type {ItemColorItem}
  */
 let ItemColorItem = /** @type {never} */ (null);
 /** @type {null | ItemColorMode} */
@@ -443,13 +443,10 @@ function ItemColorRevert(type) {
 	}
 	for (const i of ItemColorPickerIndices) {
 		state.colors[i] = state[colorField][i];
-		// @ts-ignore Strict-TS: trust me bro
 		item.Color[i] = state[colorField][i];
 	}
 	for (const i of ItemColorPickerLayers.keys()) {
 		ItemColorState.opacity[i] = ItemColorState[opacityField][i];
-		item.Property ??= {};
-		// @ts-ignore Strict-TS: trust me bro
 		item.Property.Opacity[i] = ItemColorState[opacityField][i];
 	}
 	CharacterLoadCanvas(C);
@@ -679,15 +676,11 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 
 	ItemColorState = {
 		colorGroups,
-		// @ts-ignore Strict-TS: trust me bro
 		colors: ItemColorItem.Color,
-		// @ts-ignore Strict-TS: trust me bro
 		initialColors: [...ItemColorItem.Color],
 		defaultColors: ItemColorItem.Asset.DefaultColor,
-		// @ts-ignore Strict-TS: trust me bro
-		opacity: ItemColorItem.Property?.Opacity,
-		// @ts-ignore Strict-TS: trust me bro
-		initialOpacity: [...(ItemColorItem.Property?.Opacity ?? [])],
+		opacity: ItemColorItem.Property.Opacity,
+		initialOpacity: [...ItemColorItem.Property.Opacity],
 		defaultOpacity: ItemColorItem.Asset.Layer.map(l => l.Opacity),
 		simpleMode,
 		paginationButtonX,
@@ -794,6 +787,7 @@ function ItemColorOnExit(callback) {
  * @returns {void} - Nothing
  */
 function ItemColorFireExit(save) {
+	/** @type {Item} */
 	const item = ItemColorItem;
 	const state = ItemColorState;
 	if (!state || !item) return;
