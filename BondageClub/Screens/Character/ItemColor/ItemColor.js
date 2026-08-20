@@ -201,6 +201,10 @@ function ItemColorDraw(c, group, x, y, width, height) {
 		DrawButton(
 			ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Accept.png",
 		);
+
+		DrawButton(
+			ItemColorState.resetButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Reset.png",
+		);
 	}
 
 	const contentY = ItemColorState.contentY;
@@ -306,6 +310,11 @@ function ItemColorClick(c, group, x, y, width, height) {
 
 	if (MouseIn(ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize)) {
 		return ItemColorSaveClick();
+	}
+
+	if (MouseIn(ItemColorState.resetButtonX, y, headerButtonSize, headerButtonSize)) {
+		ItemColorRevert("initial");
+		return;
 	}
 
 	if (
@@ -667,7 +676,8 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 
 	const drawExport = navigator?.clipboard?.writeText;
 	const drawImport = navigator?.clipboard?.readText;
-	const paginationButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
+	const paginationButtonX = x + width - 4 * headerButtonSize - 3 * buttonSpacing;
+	const resetButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
 	const cancelButtonX = x + width - 2 * headerButtonSize - buttonSpacing;
 	const saveButtonX = x + width - headerButtonSize;
 	const colorPickerButtonX = x + width - colorPickerButtonWidth;
@@ -692,6 +702,7 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 		paginationButtonX,
 		cancelButtonX,
 		saveButtonX,
+		resetButtonX,
 		colorPickerButtonX,
 		colorDisplayButtonX,
 		contentY,

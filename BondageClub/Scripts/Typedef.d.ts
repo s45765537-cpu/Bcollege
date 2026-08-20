@@ -4719,6 +4719,7 @@ interface ItemColorStateType {
 	paginationButtonX: number;
 	cancelButtonX: number;
 	saveButtonX: number;
+	resetButtonX: number;
 	colorPickerButtonX: number;
 	colorDisplayButtonX: number;
 	contentY: number;
