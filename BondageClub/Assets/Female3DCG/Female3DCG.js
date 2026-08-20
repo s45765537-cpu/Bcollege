@@ -5550,10 +5550,17 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Plugsuit",
-				DynamicGroupName: "Suit",
 				CopyConfig: {
 					GroupName: "Suit",
 					AssetName: "Plugsuit",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TransparentBunnyGirl",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "TransparentBunnyGirl",
 					BuyGroup: true,
 				},
 			},
@@ -11536,6 +11543,7 @@ var AssetFemale3DCG = [
 				Priority: 20,
 				Hide: ["ItemNipples"],
 				PoseMapping: {
+					...AssetPoseMapping.Bra,
 					AllFours: "AllFours",
 				},
 			},
@@ -12135,7 +12143,7 @@ var AssetFemale3DCG = [
 				Hide: ["ItemNipples"],
 				Layer: [{ Name: "Bra" }, { Name: "Shine" }],
 				PoseMapping: {
-					Hogtied: "",
+					Hogtied: PoseType.DEFAULT,
 				},
 			},
 			{
@@ -12148,6 +12156,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Top: 0,
 				PoseMapping: {
+					...AssetPoseMapping.Bra,
 					Yoked: PoseType.DEFAULT,
 					AllFours: PoseType.DEFAULT,
 				},
@@ -12621,6 +12630,52 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "乳贴1",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "HeartPasties",
+				InventoryID: 689,
+				Value: 20,
+				Top: {
+					AllFours: 235,
+				},
+				PoseMapping: {
+					AllFours: "AllFours",
+				},
+				DynamicGroupName: "ItemNipples",
+				BuyGroup: "HeartPasties",
+				DefaultColor: "#800000",
+				Hide: ["ItemNipplesPiercings"],
+			},
+			{
+				Name: "KittyPasties",
+				InventoryID: 694,
+				Value: 20,
+				Top: {
+					AllFours: 235,
+				},
+				PoseMapping: {
+					AllFours: "AllFours",
+				},
+				DynamicGroupName: "ItemNipples",
+				BuyGroup: "KittyPasties",
+				DefaultColor: "#444444",
+				Hide: ["ItemNipplesPiercings"],
+			},
+			{
+				Name: "Plugsuit",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "Plugsuit",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TransparentBunnyGirl",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "TransparentBunnyGirl",
+					BuyGroup: true,
 				},
 			},
 		],
@@ -41176,16 +41231,6 @@ var AssetFemale3DCG = [
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
 			},
 			{
-				Name: "HeartPasties",
-				InventoryID: 689,
-				Value: 20,
-				Time: 10,
-				DefaultColor: "#800000",
-				Prerequisite: ["AccessBreast"],
-				Hide: ["ItemNipplesPiercings"],
-				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
-			},
-			{
 				Name: "TapedVibeEggs",
 				InventoryID: 690,
 				Audio: "DuctTape",
@@ -41239,16 +41284,6 @@ var AssetFemale3DCG = [
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
 				],
-			},
-			{
-				Name: "KittyPasties",
-				InventoryID: 694,
-				Value: 20,
-				Time: 10,
-				DefaultColor: "#444444",
-				Prerequisite: ["AccessBreast"],
-				Hide: ["ItemNipplesPiercings"],
-				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
 			},
 			{
 				Name: "Clothespins",
@@ -41415,6 +41450,28 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "铃铛P",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "HeartPasties",
+				Time: 10,
+				Prerequisite: ["AccessBreast"],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
+				CopyConfig: {
+					GroupName: "Bra",
+					AssetName: "HeartPasties",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "KittyPasties",
+				Time: 10,
+				Prerequisite: ["AccessBreast"],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
+				CopyConfig: {
+					GroupName: "Bra",
+					AssetName: "KittyPasties",
+					BuyGroup: true,
 				},
 			},
 		],
