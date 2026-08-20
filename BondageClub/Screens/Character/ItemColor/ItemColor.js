@@ -755,7 +755,9 @@ function ItemColorIsSimple(item) {
 function ItemColorGetColorButtonTextKey(color) {
 	if (CommonIsArray(color)) {
 		const initialColor = color[0] ?? "Default";
-		return color.some(c => c !== initialColor) ? "Many" : initialColor;
+		// FIXME: Add an explicit `typeof` check for when sub-arrays have somehow made their way into the color array
+		// xref https://gitgud.io/zorgjeanbe/Bondage-College/-/work_items/19
+		return color.some(c => typeof c !== "string" || c !== initialColor) ? "Many" : initialColor;
 	} else if (typeof color !== "string" || color === "None") {
 		return "Default";
 	}
