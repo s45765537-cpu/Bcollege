@@ -1243,6 +1243,10 @@ var AssetFemale3DCGExtended = {
 		},
 	}, // Decals
 	BodyMarkings: {
+		NavelBar1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "NavelBar1" },
+		}, // NavelBar1
 		WombTattoos: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -10616,6 +10620,10 @@ var AssetFemale3DCGExtended = {
 		}, // TransparentLatexHood
 	}, // ItemHood
 	Jewelry: {
+		NavelBar1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "NavelBar1" },
+		}, // NavelBar1
 		JewelrySet: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -14807,6 +14815,11 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DialogPrefix: {
+				Option: "ItemTorsoNavelBar1Option",
+				Header: "ItemTorsoNavelBar1Select",
+				Module: "ItemTorsoNavelBar1Module",
+			},
 		}, // NavelBar1
 		SteelBelt: {
 			Archetype: ExtendedArchetype.MODULAR,

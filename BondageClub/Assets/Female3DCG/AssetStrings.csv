@@ -6176,16 +6176,6 @@ ItemTorso2LockingSwimsuitSelect,Select Shine
 ItemTorso2LockingSwimsuitSetDull,SourceCharacter dulls DestinationCharacter locking swimsuit.
 ItemTorso2LockingSwimsuitSetShiny,SourceCharacter shines DestinationCharacter locking swimsuit.
 ItemTorso2LockingSwimsuitShiny,Shiny
-ItemTorso2NavelBar1ModuleChain,Chain
-ItemTorso2NavelBar1ModuleJewel,Jewel
-ItemTorso2NavelBar1Optionc0,Detached
-ItemTorso2NavelBar1Optionc1,Single Chain
-ItemTorso2NavelBar1Optionc2,Waist Chain
-ItemTorso2NavelBar1Optionj0,Detached
-ItemTorso2NavelBar1Optionj1,Attached
-ItemTorso2NavelBar1SelectBase,Customise Navel Bar.
-ItemTorso2NavelBar1SelectChain,Choose Chain Option.
-ItemTorso2NavelBar1SelectJewel,Choose Jewel Option.
 ItemTorso2NavelBar1Setc0,SourceCharacter removes the chain from DestinationCharacter navel bar.
 ItemTorso2NavelBar1Setc1,SourceCharacter adds a single chain to DestinationCharacter navel bar.
 ItemTorso2NavelBar1Setc2,SourceCharacter adds a waist chain to DestinationCharacter navel bar.

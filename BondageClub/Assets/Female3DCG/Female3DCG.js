@@ -24669,6 +24669,37 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "NavelBar1",
+				InventoryID: 683,
+				Fetish: ["Lingerie", "Metal"],
+				Priority: 14,
+				Value: 30,
+				BuyGroup: "NavelBar1",
+				DefaultColor: ["#CDCCCA", "#CDCCCA", "#5C7ABE"],
+				DynamicGroupName: "ItemTorso",
+				ParentGroup: {
+					[PoseType.DEFAULT]: "BodyUpper",
+				},
+				PoseMapping: {
+					OverTheHead: "OverTheHead",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				Left: 150,
+				Top: 212,
+				Extended: true,
+				Layer: [
+					{ Name: "Main" },
+					{ Name: "Chain", AllowTypes: { c: 1 } },
+					{
+						Name: "WaistChain",
+						AllowTypes: { c: 2 },
+						CopyLayerColor: "Chain",
+					},
+					{ Name: "Jewel", AllowTypes: { j: 1 } },
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -28383,6 +28414,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "FaceMarkings",
 					AssetName: "FaceCrests",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "NavelBar1",
+				CopyConfig: {
+					AssetName: "NavelBar1",
+					GroupName: "Jewelry",
 					BuyGroup: true,
 				},
 			},
@@ -40176,35 +40215,16 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NavelBar1",
-				InventoryID: 683,
-				Fetish: ["Lingerie", "Metal"],
-				Priority: 14,
-				Value: 30,
-				BuyGroup: "NavelBar1",
-				DefaultColor: ["#CDCCCA", "#CDCCCA", "#5C7ABE"],
 				Time: 10,
 				RemoveTime: 5,
 				AllowLock: true,
 				DrawLocks: false,
 				Prerequisite: ["AccessTorso"],
-				PoseMapping: {
-					OverTheHead: "OverTheHead",
-					Hogtied: PoseType.HIDE,
-					AllFours: PoseType.HIDE,
+				CopyConfig: {
+					AssetName: "NavelBar1",
+					GroupName: "Jewelry",
+					BuyGroup: true,
 				},
-				Left: 150,
-				Top: 212,
-				Extended: true,
-				Layer: [
-					{ Name: "Main" },
-					{ Name: "Chain", AllowTypes: { c: 1 } },
-					{
-						Name: "WaistChain",
-						AllowTypes: { c: 2 },
-						CopyLayerColor: "Chain",
-					},
-					{ Name: "Jewel", AllowTypes: { j: 1 } },
-				],
 			},
 			{
 				Name: "TightCorset",
