@@ -8,12 +8,6 @@ var MaidQuartersMaidInitiation = null;
 /** @type {{ Cloth?: Item, Hat?: Item, ItemArms?: Item, ItemLegs?: Item, ItemFeet?: Item }} */
 var MaidQuartersItemClothPrev = { Cloth: null, Hat: null, ItemArms: null, ItemLegs: null, ItemFeet: null };
 var MaidQuartersMaidReleasedPlayer = false;
-var MaidQuartersCanBecomeMaid = false;
-var MaidQuartersCannotBecomeMaidYet = false;
-var MaidQuartersCanBecomeHeadMaid = false;
-var MaidQuartersCannotBecomeHeadMaidYet = false;
-var MaidQuartersIsMaid = false;
-var MaidQuartersIsHeadMaid = false;
 var MaidQuartersSelfBondageMaidDrinksAccepted = false;
 var MaidQuartersSelfBondageMaidCleaningAccepted = false;
 var MaidQuartersDominantRep = 0;
@@ -30,6 +24,23 @@ var MaidQuartersOnlineDrinkValue = 0;
 /** @type {number[]} */
 var MaidQuartersOnlineDrinkCustomer = [];
 var MaidQuartersOnlineDrinkFromOwner = false;
+
+
+function MaidQuartersCanBecomeMaid() {
+	return !LogQuery("JoinedSorority", "Maid") && (ReputationGet("Maid") >= 50);
+}
+
+function MaidQuartersCannotBecomeMaidYet() {
+	return (ReputationGet("Maid") > 0) && (ReputationGet("Maid") < 50) && !LogQuery("JoinedSorority", "Maid");
+}
+
+function MaidQuartersCanBecomeHeadMaid() {
+	return ((ReputationGet("Maid") >= 100) && (ReputationGet("Dominant") >= 50) && LogQuery("JoinedSorority", "Maid") && !LogQuery("LeadSorority", "Maid"));
+}
+
+function MaidQuartersCannotBecomeHeadMaidYet() {
+	return ((ReputationGet("Maid") < 100) || (ReputationGet("Dominant") < 50)) && LogQuery("JoinedSorority", "Maid") && !LogQuery("LeadSorority", "Maid");
+}
 
 /**
  * Returns TRUE if the player is head maid and can receive the latex uniform
@@ -101,7 +112,7 @@ function MaidQuartersPlayerInDrinksUniform() {
  * @returns {boolean} - Returns true, if the player is a maid, not wearing her uniform and was not forced to do the job
  */
 function MaidQuartersPlayerCanChangeForDrinks() {
-	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform() && !MaidQuartersOnlineDrinkFromOwner);
+	return (DialogIsMaid() && !MaidQuartersPlayerInMaidUniform() && !MaidQuartersOnlineDrinkFromOwner);
 }
 /**
  * Checks, if the player is fully dressed for the 'clean room job'
@@ -121,14 +132,14 @@ function MaidQuartersPlayerInCleaningUniform() {
  * @returns {boolean} - Returns true, if the player is a maid and not wearing her uniform
  */
 function MaidQuartersPlayerCanChangeForCleaning() {
-	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform());
+	return (DialogIsMaid() && !MaidQuartersPlayerInMaidUniform());
 }
 /**
  * Checks, if the player can leave the maid to wear her uniform for the 'rescue job'
  * @returns {boolean} - Returns true, if the player is a maid and not wearing her uniform
  */
 function MaidQuartersPlayerCanChangeForRescue() {
-	return (MaidQuartersIsMaid && !MaidQuartersPlayerInMaidUniform());
+	return (DialogIsMaid() && !MaidQuartersPlayerInMaidUniform());
 }
 /**
  * Update the maid current dialog to give an advice about why the player's current outfit isn't a maid outfit
@@ -259,12 +270,6 @@ async function MaidQuartersLoad() {
  * @returns {void} - Nothing
  */
 function MaidQuartersRun() {
-	MaidQuartersCanBecomeMaid = (!LogQuery("JoinedSorority", "Maid") && (ReputationGet("Maid") >= 50));
-	MaidQuartersCannotBecomeMaidYet = ((ReputationGet("Maid") > 0) && (ReputationGet("Maid") < 50) && !LogQuery("JoinedSorority", "Maid"));
-	MaidQuartersCanBecomeHeadMaid = ((ReputationGet("Maid") >= 100) && (ReputationGet("Dominant") >= 50) && LogQuery("JoinedSorority", "Maid") && !LogQuery("LeadSorority", "Maid"));
-	MaidQuartersCannotBecomeHeadMaidYet = (((ReputationGet("Maid") < 100) || (ReputationGet("Dominant") < 50)) && LogQuery("JoinedSorority", "Maid") && !LogQuery("LeadSorority", "Maid"));
-	MaidQuartersIsMaid = LogQuery("JoinedSorority", "Maid");
-	MaidQuartersIsHeadMaid = LogQuery("LeadSorority", "Maid");
 	if (!DailyJobSubSearchIsActive()) DrawCharacter(Player, 500, 0, 1);
 	if (!DailyJobSubSearchIsActive()) DrawCharacter(MaidQuartersMaid, 1000, 0, 1);
 	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
@@ -520,8 +525,6 @@ function MaidQuartersBecomMaid() {
 	InventoryWear(Player, "MaidOutfit1", "Cloth", "Default");
 	InventoryWear(Player, "MaidHairband1", "Hat", "Default");
 	ReputationProgress("Dominant", MaidQuartersDominantRep);
-	MaidQuartersCanBecomeMaid = false;
-	MaidQuartersIsMaid = true;
 }
 
 /**
@@ -529,7 +532,6 @@ function MaidQuartersBecomMaid() {
  * @returns {void} - Nothing
  */
 function MaidQuartersBecomHeadMaid() {
-	MaidQuartersIsHeadMaid = true;
 	MaidQuartersMaid.AllowItem = true;
 	LogAdd("LeadSorority", "Maid");
 }

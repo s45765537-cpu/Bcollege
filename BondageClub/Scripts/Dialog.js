@@ -523,6 +523,14 @@ function DialogCanStartGGTSInteractions() {
 	return (AsylumGGTSIsEnabled() && (CurrentCharacter != null) && (AsylumGGTSGetLevel(CurrentCharacter) >= 1) && !DialogCanWatchKinkyDungeon() && (ReputationGet("Asylum") > 0));
 }
 
+function DialogIsMaid() {
+	return LogQuery("JoinedSorority", "Maid");
+}
+
+function DialogIsHeadMaid() {
+	return LogQuery("LeadSorority", "Maid");
+}
+
 /**
  * Nurses can ask GGTS for specific interactions with other players
  * @param {string} Interaction - The interaction to trigger

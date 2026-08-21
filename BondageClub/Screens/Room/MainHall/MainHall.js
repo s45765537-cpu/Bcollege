@@ -8,12 +8,6 @@ var MainHallNextEventTimer = null;
 var MainHallRandomEventOdds = 0;
 /** @type {null | NPCCharacter} */
 var MainHallMaid = null;
-var MainHallIsMaid = false;
-var MainHallIsHeadMaid = false;
-var MainHallHasOwnerLock = false;
-var MainHallHasLoverLock = false;
-var MainHallHasFamilyLock = false;
-var MainHallHasSlaveCollar = false;
 /** The max number of known tips */
 var MainHallMaxTip = 36;
 /** The index of the current tip */
@@ -122,14 +116,14 @@ function MainHallCanTrickMaid() { return (ManagementIsClubSlave() && SarahUnlock
  * Checks, if the player has an owner or lover lock on her
  * @returns {boolean} - Returns true, if the player has either a lover or owner item on herself, false otherwise
  */
-function MainHallHasOwnerOrLoverItem() { return MainHallHasOwnerLock || MainHallHasLoverLock || MainHallHasFamilyLock; }
-function MainHallHasOwnerOrLoverItemAndMaidsNotDisabled() { return MainHallHasOwnerOrLoverItem() && !MainHallIsMaidsDisabled(); }
-function MainHallHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallHasOwnerOrLoverItem() && !MainHallIsMaidsDisabled(); }
-function MainHallHasOwnerItemAndMaidsNotDisabled() { return MainHallHasOwnerLock && !MainHallIsMaidsDisabled(); }
-function MainHallHasLoverItemAndMaidsNotDisabled() { return MainHallHasLoverLock && !MainHallIsMaidsDisabled(); }
-function MainHallHasFamilyItemAndMaidsNotDisabled() { return MainHallHasFamilyLock && !MainHallIsMaidsDisabled(); }
-function MainHallHasSlaveCollarAndMaidsNotDisabled() { return MainHallHasSlaveCollar && !MainHallIsMaidsDisabled(); }
-function MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return  MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItem() && !MainHallIsMaidsDisabled(); }
+function MainHallHasOwnerOrLoverItem() { return InventoryCharacterHasOwnerOnlyRestraint(Player) || InventoryCharacterHasLoverOnlyRestraint(Player) || InventoryCharacterHasFamilyOnlyRestraint(Player); }
+function MainHallHasOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && MainHallHasOwnerOrLoverItem(); }
+function MainHallHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && !MainHallHasOwnerOrLoverItem(); }
+function MainHallHasOwnerItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryCharacterHasOwnerOnlyRestraint(Player); }
+function MainHallHasLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryCharacterHasLoverOnlyRestraint(Player); }
+function MainHallHasFamilyItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryCharacterHasFamilyOnlyRestraint(Player); }
+function MainHallHasSlaveCollarAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryIsWorn(Player, "ItemNeck", "SlaveCollar"); }
+function MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItem(); }
 
 /**
  * Returns TRUE if the main hall sub-screen is allowed for the player, check for owner rules
@@ -161,12 +155,6 @@ async function MainHallLoad() {
 	MainHallNextEventTimer = null;
 	MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
 	MainHallMaid.AllowItem = false;
-	MainHallIsMaid = LogQuery("JoinedSorority", "Maid");
-	MainHallIsHeadMaid = LogQuery("LeadSorority", "Maid");
-	MainHallHasOwnerLock = InventoryCharacterHasOwnerOnlyRestraint(Player);
-	MainHallHasLoverLock = InventoryCharacterHasLoverOnlyRestraint(Player);
-	MainHallHasFamilyLock = InventoryCharacterHasFamilyOnlyRestraint(Player);
-	MainHallHasSlaveCollar = InventoryGet(Player, "ItemNeck")?.Asset.Name === "SlaveCollar";
 	CommonReadCSV(ScreenFileGetDialog("NPC_Management_RandomGirl", "Room", "Management"));
 	CommonReadCSV(ScreenFileGetDialog("NPC_KidnapLeague_RandomKidnapper", "Room", "KidnapLeague"));
 	CommonReadCSV(ScreenFileGetDialog("NPC_Private_Custom", "Room", "Private"));
@@ -558,7 +546,7 @@ function MainHallMaidReleasePlayer() {
  * @returns {void} - Nothing
  */
 function MainHallMaidAngry() {
-	if ((ReputationGet("Dominant") < 30) && !MainHallIsHeadMaid) {
+	if ((ReputationGet("Dominant") < 30) && !DialogIsHeadMaid()) {
 		for (let D = 0; D < MainHallMaid.Dialog.length; D++)
 			if ((MainHallMaid.Dialog[D].Stage == "PlayerGagged") && (MainHallMaid.Dialog[D].Option === null))
 				MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "LearnedLesson");
@@ -590,9 +578,6 @@ function MainHallPunishFromChatroom() {
 	MainHallMaid.Stage = "1100";
 	CharacterRelease(MainHallMaid);
 	CharacterSetCurrent(MainHallMaid);
-	MainHallHasOwnerLock = InventoryCharacterHasOwnerOnlyRestraint(Player);
-	MainHallHasLoverLock = InventoryCharacterHasLoverOnlyRestraint(Player);
-	MainHallHasFamilyLock = InventoryCharacterHasFamilyOnlyRestraint(Player);
 	if (ReputationGet("Dominant") > 10) ReputationProgress("Dominant", -10);
 	if (ReputationGet("Dominant") < -10) ReputationProgress("Dominant", 10);
 }
@@ -775,7 +760,6 @@ function MainHallPunishFromChatroomRest() {
  */
 function MainHallMaidShamePlayer() {
 	CharacterRelease(Player);
-	MainHallHasOwnerLock = false;
 	MainHallMaidPunishmentPlayer();
 }
 
@@ -789,7 +773,6 @@ function MainHallMaidChangeCollarPlayer() {
 			Player.Appearance[A].Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
 			Player.Appearance[A].Color = [...Player.Appearance[A].Asset.DefaultColor];
 		}
-	MainHallHasSlaveCollar = false;
 	MainHallMaidPunishmentPlayer();
 }
 
