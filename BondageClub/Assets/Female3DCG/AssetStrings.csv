@@ -6966,12 +6966,14 @@ RopeBondageWaist,Waist Rope
 RopeBondageWristElbowHarnessTie,Wrist & Elbow Harness Tie
 RopeBondageWristElbowTie,Wrist and Elbow Tie
 RopeBondageWristTie,Wrist Tie
+RopeBondageUnity,Unity
 RopeHarnessSetCrotch,SourceCharacter uses the rope on TargetCharacter to do a crotch rope tie.
 RopeHarnessSetDiamond,SourceCharacter uses the rope on TargetCharacter to do a diamond style harness.
 RopeHarnessSetHishi,SourceCharacter uses the rope on TargetCharacter to do a Hishi style harness.
 RopeHarnessSetHarness,SourceCharacter uses the rope on TargetCharacter to do a body harness.
 RopeHarnessSetStar,SourceCharacter uses the rope on TargetCharacter to tie a star harness.
 RopeHarnessSetWaist,SourceCharacter uses the rope on TargetCharacter to tie a waist rope on TargetPronounObject.
+RopeHarnessSetUnity,SourceCharacter uses the rope on TargetCharacter to tie a Unity harness on TargetPronounObject.
 RoundPiercingActionAdds,adds
 RoundPiercingActionRemoves,detaches
 RoundPiercingPoseBase,Base

@@ -39400,9 +39400,110 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				Extended: true,
 				AllowTighten: true,
-				DefaultColor: ["#CCCCCC"],
+				DefaultColor: [
+					"#CCCCCC", // Base Rope
+					"#580000", // Unity Left Side
+					"#200045", // UnityRight Side
+					"#200045", // Unity Left Thigh
+					"#580000", // Unity Right Thigh
+				],
 				CreateLayerTypes: ["typed"],
-				Layer: [{ Name: "Rope" }, { Name: "Shine", AllowColorize: false }],
+				Layer: [
+					{
+						Name: "Rope",
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5] },
+						HideColoring: true,
+					},
+					{
+						Name: "Shine",
+						AllowColorize: false,
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5] },
+					},
+					// Unity Tie (Typed 6) additional layers.
+					{
+						Name: "Left",
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Right",
+						Priority: 17,
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "LeftThread",
+						CopyLayerColor: "LeftThigh",
+						Priority: 17,
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "RightThread",
+						CopyLayerColor: "RightThigh",
+						Priority: 16,
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "BodyShine",
+						AllowColorize: false,
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "LeftThigh",
+						ParentGroup: "BodyLower",
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+							KneelingSpread: "KneelingSpread",
+						},
+					},
+					{
+						Name: "RightThigh",
+						ParentGroup: "BodyLower",
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+							KneelingSpread: "KneelingSpread",
+						},
+					},
+					{
+						Name: "ThighShine",
+						AllowColorize: false,
+						AllowTypes: { typed: [6] },
+						ParentGroup: "BodyLower",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+							KneelingSpread: "KneelingSpread",
+						},
+					},
+				],
 			},
 			{
 				Name: "HempRopeHarness",
@@ -39414,7 +39515,13 @@ var AssetFemale3DCG = [
 				Difficulty: 3,
 				Time: 20,
 				RemoveTime: 25,
-				DefaultColor: "#956B1C",
+				DefaultColor: [
+					"#956B1C", // Base Rope
+					"#580000", // Unity Left Side
+					"#200045", // Unity Right Side
+					"#200045", // Unity Left Thigh
+					"#580000", // Unity Right Thigh
+				],
 				BuyGroup: "HempRope",
 				CraftGroup: "HempRope",
 				Audio: "RopeShort",
@@ -39422,6 +39529,75 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AllowTighten: true,
 				CreateLayerTypes: ["typed"],
+				Layer: [
+					{
+						HideColoring: true,
+						AllowTypes: { typed: [0, 1, 2, 3, 4, 5] },
+					},
+
+					// Unity Tie (Typed 6) additional layers.
+					{
+						Name: "Left",
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Right",
+						Priority: 17,
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "LeftThigh",
+						ParentGroup: "BodyLower",
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+							KneelingSpread: "KneelingSpread",
+						},
+					},
+					{
+						Name: "RightThigh",
+						ParentGroup: "BodyLower",
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: "LegsClosed",
+							KneelingSpread: "KneelingSpread",
+						},
+					},
+					{
+						Name: "LeftThread",
+						CopyLayerColor: "LeftThigh",
+						Priority: 17,
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "RightThread",
+						CopyLayerColor: "RightThigh",
+						Priority: 16,
+						AllowTypes: { typed: [6] },
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "LeatherHarness",
