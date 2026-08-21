@@ -592,12 +592,12 @@ function CommonGetScreen() {
 var ScreenIsLoading = false;
 
 /**
- * A promise or null that resolves upon async loading a screen via {@link CommonSetScreen}
+ * A promise that resolves upon async loading a screen via {@link CommonSetScreen}.
  *
- * See {@link ScreenIsLoading}  for a promise-based variant of this variable for sync checking.
- * @type {null | Promise<void>}
+ * See {@link ScreenIsLoading} for a promise-based variant of this variable for sync checking.
+ * @type {SafePromise<void>}
  */
-var ScreenIsLoadingPromise = null;
+var ScreenIsLoadingPromise = Promise.resolve();
 
 /**
  * Sets the current screen and calls the loading script if needed
@@ -607,15 +607,16 @@ var ScreenIsLoadingPromise = null;
 async function CommonSetScreen(...spec) {
 	const promise = ScreenIsLoadingPromise = CommonSetScreenWrapped(...spec);
 	return promise.finally(() => {
-		ScreenIsLoadingPromise = null;
+		ScreenIsLoadingPromise = Promise.resolve();
 	});
 }
 
 /**
  * Screen setting implementation.
  * Do not use; use {@link CommonSetScreen} instead.
+ * @private
  * @param {ScreenSpecifier} spec
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
 async function CommonSetScreenWrapped(...spec) {
 	const { recursive } = spec[2] ?? {};
