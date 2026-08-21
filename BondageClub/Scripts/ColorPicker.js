@@ -331,9 +331,8 @@ var ColorPicker = {
 					const item = ItemColorItem;
 					const colorState = ItemColorState;
 					ItemColorPickerIndices.forEach(i => {
-						colorState.colors[i] = colorState.initialColors[i];
-						// @ts-ignore Strict-TS: trust me bro
-						item.Color[i] = colorState.initialColors[i];
+						colorState.colors[i] = colorState.intermediateSavedColors[i];
+						item.Color[i] = colorState.intermediateSavedColors[i];
 					});
 
 					const colors = ItemColorPickerIndices.map(i => colorState.colors[i] ?? colorState.defaultColors[i]);
@@ -434,7 +433,7 @@ var ColorPicker = {
 			const state = root ? ColorPicker.getColor(root) : null;
 			const save = this.name === "accept";
 			if (!save) {
-				ItemColorRevert("initial");
+				ItemColorRevert("intermediateSaved");
 			}
 			if (root && state) {
 				ColorPickerExitCallback?.(state, save, root);
@@ -1070,8 +1069,8 @@ var ColorPicker = {
 			exitState = {
 				colors: ItemColorPickerIndices.map(i => colorState.colors[i]),
 				opacity: layerIndices.map(i => colorState.opacity[i]),
-				initialColors: ItemColorPickerIndices.map(i => colorState.initialColors[i]),
-				initialOpacity: layerIndices.map(i => colorState.initialOpacity[i]),
+				initialColors: ItemColorPickerIndices.map(i => colorState.intermediateSavedColors[i]),
+				initialOpacity: layerIndices.map(i => colorState.intermediateSavedOpacity[i]),
 				defaultColors: [...colorState.defaultColors],
 				defaultOpacity: [...colorState.defaultOpacity],
 				editOpacity: colorState.editOpacity,
@@ -1247,8 +1246,8 @@ function ColorPickerReload(options=null) {
 		const colorState = ItemColorState;
 		opacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.opacity[i]);
 		colors = ItemColorPickerIndices.map(i => colorState.colors[i]);
-		defaultOpacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.defaultOpacity[i]);
-		defaultColors = ItemColorPickerIndices.map(i => colorState.defaultColors[i]);
+		defaultOpacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.intermediateSavedOpacity[i]);
+		defaultColors = ItemColorPickerIndices.map(i => colorState.intermediateSavedColors[i]);
 	} else {
 		return null;
 	}

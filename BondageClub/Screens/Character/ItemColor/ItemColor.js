@@ -23,7 +23,7 @@ const ItemColorMode = /** @type {const} */({
 let ItemColorCharacter = /** @type {never} */ (null);
 /**
  * Initialized in {@link ItemColorLoad} and valid until {@link ItemColorReset} is called
- * @type {Item}
+ * @type {ItemColorItem}
  */
 let ItemColorItem = /** @type {never} */ (null);
 /** @type {null | ItemColorMode} */
@@ -201,6 +201,10 @@ function ItemColorDraw(c, group, x, y, width, height) {
 		DrawButton(
 			ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Accept.png",
 		);
+
+		DrawButton(
+			ItemColorState.resetButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Reset.png",
+		);
 	}
 
 	const contentY = ItemColorState.contentY;
@@ -306,6 +310,11 @@ function ItemColorClick(c, group, x, y, width, height) {
 
 	if (MouseIn(ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize)) {
 		return ItemColorSaveClick();
+	}
+
+	if (MouseIn(ItemColorState.resetButtonX, y, headerButtonSize, headerButtonSize)) {
+		ItemColorRevert("initial");
+		return;
 	}
 
 	if (
@@ -430,7 +439,7 @@ function ItemColorSaveClick() {
 
 /**
  * Revert the {@link ItemColorItem} colors and opacity.
- * @param {"initial" | "default"} type - The type of revertion: the initial state prior to opening the color picker or the assets default
+ * @param {"initial" | "default" | "intermediateSaved"} type - The type of revertion: the initial state prior to opening the color picker or the assets default
  */
 function ItemColorRevert(type) {
 	const colorField = /** @type {const} */(`${type}Colors`);
@@ -443,13 +452,10 @@ function ItemColorRevert(type) {
 	}
 	for (const i of ItemColorPickerIndices) {
 		state.colors[i] = state[colorField][i];
-		// @ts-ignore Strict-TS: trust me bro
 		item.Color[i] = state[colorField][i];
 	}
 	for (const i of ItemColorPickerLayers.keys()) {
 		ItemColorState.opacity[i] = ItemColorState[opacityField][i];
-		item.Property ??= {};
-		// @ts-ignore Strict-TS: trust me bro
 		item.Property.Opacity[i] = ItemColorState[opacityField][i];
 	}
 	CharacterLoadCanvas(C);
@@ -460,7 +466,7 @@ function ItemColorRevert(type) {
  * @returns {void} - Nothing
  */
 function ItemColorPickerCancel() {
-	ItemColorRevert("initial");
+	ItemColorRevert("intermediateSaved");
 	ItemColorCloseColorPicker(false);
 }
 
@@ -477,11 +483,15 @@ function ItemColorCloseColorPicker(save) {
 	} else {
 		ColorPickerHide();
 		ItemColorCurrentMode = ItemColorMode.DEFAULT;
-		ItemColorState.colors.forEach(color => {
-			if (CommonIsColor(color)) {
-				ItemColorHistory.add(color);
-			}
-		});
+		if (save) {
+			ItemColorState.colors.forEach(color => {
+				if (CommonIsColor(color)) {
+					ItemColorHistory.add(color);
+				}
+			});
+			ItemColorState.intermediateSavedColors = [...ItemColorState.colors];
+			ItemColorState.intermediateSavedOpacity = [...ItemColorState.opacity];
+		}
 	}
 }
 
@@ -666,7 +676,8 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 
 	const drawExport = navigator?.clipboard?.writeText;
 	const drawImport = navigator?.clipboard?.readText;
-	const paginationButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
+	const paginationButtonX = x + width - 4 * headerButtonSize - 3 * buttonSpacing;
+	const resetButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
 	const cancelButtonX = x + width - 2 * headerButtonSize - buttonSpacing;
 	const saveButtonX = x + width - headerButtonSize;
 	const colorPickerButtonX = x + width - colorPickerButtonWidth;
@@ -679,20 +690,19 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 
 	ItemColorState = {
 		colorGroups,
-		// @ts-ignore Strict-TS: trust me bro
 		colors: ItemColorItem.Color,
-		// @ts-ignore Strict-TS: trust me bro
 		initialColors: [...ItemColorItem.Color],
+		intermediateSavedColors: [...ItemColorItem.Color],
 		defaultColors: ItemColorItem.Asset.DefaultColor,
-		// @ts-ignore Strict-TS: trust me bro
-		opacity: ItemColorItem.Property?.Opacity,
-		// @ts-ignore Strict-TS: trust me bro
-		initialOpacity: [...(ItemColorItem.Property?.Opacity ?? [])],
+		opacity: ItemColorItem.Property.Opacity,
+		initialOpacity: [...ItemColorItem.Property.Opacity],
+		intermediateSavedOpacity: [...ItemColorItem.Property.Opacity],
 		defaultOpacity: ItemColorItem.Asset.Layer.map(l => l.Opacity),
 		simpleMode,
 		paginationButtonX,
 		cancelButtonX,
 		saveButtonX,
+		resetButtonX,
 		colorPickerButtonX,
 		colorDisplayButtonX,
 		contentY,
@@ -796,6 +806,7 @@ function ItemColorOnExit(callback) {
  * @returns {void} - Nothing
  */
 function ItemColorFireExit(save) {
+	/** @type {Item} */
 	const item = ItemColorItem;
 	const state = ItemColorState;
 	if (!state || !item) return;
