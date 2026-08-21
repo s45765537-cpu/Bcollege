@@ -122,7 +122,7 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, pr
 	Item.Property ??= {};
 	let OriginalSetting = /** @type {NonNullable<ItemProperties["OriginalSetting"]>} */ (Item.Property.OriginalSetting);
 	if (module.Options[OriginalSetting] === undefined) {
-		console.warn(`[${Item.Asset.Group.Name}:${Item.Asset.Name}] Sanitizing illegal "OriginalSetting" property value: ${OriginalSetting}`);
+		console.error(`[${Item.Asset.Group.Name}:${Item.Asset.Name}] Sanitizing illegal "OriginalSetting" property value: ${OriginalSetting}`);
 		OriginalSetting = Item.Property.OriginalSetting = 0;
 	}
 

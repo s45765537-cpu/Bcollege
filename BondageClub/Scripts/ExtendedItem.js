@@ -169,7 +169,7 @@ function ExtendedItemCreateCallbacks(data, defaults) {
 
 	const extraKeys = CommonKeys(defaults).filter(i => !ExtendedItemCreate.includes(i));
 	if (extraKeys.length !== 0) {
-		console.warn(`Found ${extraKeys.length} non-existent script hooks in the passed ${data.asset.Name} extended item data`);
+		console.error(`Found ${extraKeys.length} non-existent script hooks in the passed ${data.asset.Name} extended item data`);
 	}
 
 	ExtendedItemCreate.forEach(k => ExtendedItemCreateCallback(data, k, /** @type {ExtendedItemCallback<any[], any>} */(defaults[k])));
@@ -694,7 +694,7 @@ function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, { Asset, Craft }
 		case CommonChatTags.AUTOMATIC:
 			return dictionary.markAutomatic();
 		default:
-			console.warn(`Unknown ${Asset.Group.Name}:${Asset.Name} chat tag "${tag}"`);
+			console.error(`Unknown ${Asset.Group.Name}:${Asset.Name} chat tag "${tag}"`);
 			return dictionary;
 	}
 }
@@ -948,7 +948,7 @@ function ExtendedItemGetData(asset, Archetype, Type=null) {
 	}
 
 	if (Data === undefined) {
-		console.warn(`No key "${Key}" in "${Archetype}" lookup table`);
+		console.error(`No key "${Key}" in "${Archetype}" lookup table`);
 		return null;
 	} else {
 		// @ts-ignore It works but I don't know why.
@@ -1301,7 +1301,7 @@ const ExtendedItemGatherOptions = (function () {
 				}
 				break;
 			default:
-				console.warn(`Unsupported archetype: "${archetype}"`);
+				console.error(`Unsupported archetype: "${archetype}"`);
 				break;
 		}
 
@@ -1435,7 +1435,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 
 			const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
 			if (requirementMessage && newOption.Name !== previousOption.Name) {
-				console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
+				console.error(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
 			} else {
 				ExtendedItemSetOption(newOption.ParentData, C, item, newOption, previousOption, false, false);
 			}
@@ -1454,7 +1454,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 	if (properties != null) {
 		const invalidProperties = CommonKeys(properties).filter(i => !propertyKeys.has(i));
 		if (invalidProperties.length > 0) {
-			console.warn("Ignoring unsanctioned/invalid item properties", invalidProperties.sort());
+			console.error("Ignoring unsanctioned/invalid item properties", invalidProperties.sort());
 		}
 		Object.assign((item.Property ??= {}), CommonPick(properties, propertyKeys));
 	}

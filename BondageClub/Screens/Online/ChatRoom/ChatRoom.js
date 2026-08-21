@@ -4448,7 +4448,7 @@ function ChatRoomGetFocusGroupSubstitutions(data, focusGroup, targetCharacter) {
 	if (targetCharacter) {
 		return [["FocusAssetGroup", DialogActualNameForGroup(targetCharacter, focusGroup).toLowerCase()]];
 	} else {
-		console.warn(`Received message "${data.Content}" with focus group but no target character, assuming target's biology...`);
+		console.error(`Received message "${data.Content}" with focus group but no target character, assuming target's biology...`);
 		return [["FocusAssetGroup", focusGroup.Description]];
 	}
 }
@@ -4902,7 +4902,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			break;
 
 		default:
-			console.warn(`unknown message type ${data.Type}, ignoring`);
+			console.error(`unknown message type ${data.Type}, ignoring`);
 			return;
 	}
 
@@ -5503,7 +5503,7 @@ function ChatRoomSyncItem(data) {
 
 	// If the update was invalid, send a correction update
 	if (targetChar.IsPlayer() && !valid) {
-		console.warn(`Invalid appearance update to group ${data.Item.Group}. Updating with sanitized appearance.`);
+		console.error(`Invalid appearance update to group ${data.Item.Group}. Updating with sanitized appearance.`);
 		ChatRoomCharacterUpdate(targetChar);
 	} else {
 		CharacterRefresh(targetChar);
@@ -6017,7 +6017,7 @@ function ChatRoomDrawFocusListClear() {
 function ChatRoomAllowItem(data) {
 	if ((data != null) && (typeof data === "object") && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.AllowItem != null) && (typeof data.AllowItem === "boolean"))
 		if (CurrentCharacter != null && CurrentCharacter.MemberNumber == data.MemberNumber && data.AllowItem !== CurrentCharacter.AllowItem) {
-			console.warn(`ChatRoomGetAllowItem mismatch trying to access ${CurrentCharacter.Name} (${CurrentCharacter.MemberNumber})`);
+			console.error(`ChatRoomGetAllowItem mismatch trying to access ${CurrentCharacter.Name} (${CurrentCharacter.MemberNumber})`);
 			CurrentCharacter.AllowItem = data.AllowItem;
 			CharacterSetCurrent(CurrentCharacter);
 		}

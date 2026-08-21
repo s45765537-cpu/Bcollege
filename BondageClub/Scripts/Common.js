@@ -349,7 +349,7 @@ async function CommonFetch(request) {
 
 		const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
 		if (attempt !== FETCH_MAX_RETRIES) {
-			console.warn(`${method} request to ${url} failed (${reply?.status}) - retrying in ${delay.toFixed(1)}s`);
+			console.error(`${method} request to ${url} failed (${reply?.status}) - retrying in ${delay.toFixed(1)}s`);
 		}
 		await CommonSleep(delay * 1000);
 	}
@@ -382,7 +382,7 @@ function CommonGet(url, callback, retries = FETCH_MAX_RETRIES) {
 			const retryAfter = CommonRequestParseRetryAfter(xhr.getResponseHeader("Retry-After"));
 			const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
 
-			console.warn(`GET request to ${url} failed - retrying in ${delay.toFixed(1)}s`);
+			console.error(`GET request to ${url} failed - retrying in ${delay.toFixed(1)}s`);
 			setTimeout(() => CommonGet(url, callback, retriesLeft - 1), delay * 1000);
 		}
 	}
@@ -571,7 +571,7 @@ function CommonCallFunctionByNameWarn(FunctionName, ...args) {
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
-		console.warn(`Attempted to call invalid function "${FunctionName}"`);
+		console.error(`Attempted to call invalid function "${FunctionName}"`);
 		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
 		return undefined;
 	}
@@ -1088,7 +1088,7 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 		});
 		newWindow.document.close();
 	} else {
-		console.warn("Popups blocked: Cannot open photo in new tab.");
+		console.error("Popups blocked: Cannot open photo in new tab.");
 	}
 
 	CommonPhotoMode = false;
@@ -1814,7 +1814,7 @@ function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
 		enumerable: true,
 		configurable: true,
 		get: function() {
-			console.warn(`"${oldName}" is deprecated, use "${newName}" instead`);
+			console.error(`"${oldName}" is deprecated, use "${newName}" instead`);
 			return namespace[privateName];
 		},
 		set: function(val) { namespace[privateName] = val; },

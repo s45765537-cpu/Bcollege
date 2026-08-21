@@ -224,11 +224,11 @@ function ServerInfo(data) {
  */
 function ServerDisconnect(data, close = false) {
 	if (!ServerIsConnected) return;
-	console.warn("Server connection lost");
+	console.error("Server connection lost");
 	const ShouldRelog = Player.Name != "";
 	let msg = ShouldRelog ? "Disconnected" : "ErrorDisconnectedFromServer";
 	if (data) {
-		console.warn(data);
+		console.error(data);
 		msg = data;
 	}
 	ServerSetConnected(false, msg);
@@ -705,7 +705,7 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 
 	// If the appearance update was invalid, send another update to correct any issues
 	if (!updateValid && C.IsPlayer()) {
-		console.warn("Invalid appearance update bundle received. Updating with sanitized appearance.");
+		console.error("Invalid appearance update bundle received. Updating with sanitized appearance.");
 		ChatRoomCharacterUpdate(C);
 	}
 	return updateValid;

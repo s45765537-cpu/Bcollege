@@ -6922,7 +6922,7 @@ function ClubCardMoveCard(card, priority,startPosition, endPosition, hideOrigina
 	if (typeof onStart === "function") onStart();
 
 	const safetyTimeout = setTimeout(() => {
-		console.warn(`⚠️ Fallback: Restore ${card.Name} state manually!`);
+		console.error(`⚠️ Fallback: Restore ${card.Name} state manually!`);
 		if (originalCard && !keepOriginalHidden) {
 			originalCard.IsVisible = true;
 			originalCard.AnimationState = "idle";

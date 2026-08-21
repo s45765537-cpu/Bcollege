@@ -188,7 +188,7 @@ async function fetchMergeRequests(page) {
 			const response = await fetch(`https://gitgud.io/api/v4/projects/${GIT_GUD_PROJECT_ID}/merge_requests?page=${page}`);
 			return /** @type {any} */ (await response.json());
 		} catch {
-			console.warn(`Fetch of merge request page ${page} failed. Retrying...`);
+			console.error(`Fetch of merge request page ${page} failed. Retrying...`);
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 		}
 	}
@@ -281,7 +281,7 @@ async function prepareChangelog(release = "") {
 			while (!mergeRequest) {
 				const nextPage = await fetchMergeRequests(++mergeRequestPage);
 				if (!nextPage || !nextPage.length) {
-					console.warn(`Could not retrieve merge request ${PR} from GitLab API`);
+					console.error(`Could not retrieve merge request ${PR} from GitLab API`);
 					break;
 				} else {
 					mergeRequests.push(...nextPage);
@@ -300,7 +300,7 @@ async function prepareChangelog(release = "") {
 			if (mergeRequest && mergeRequest.author && mergeRequest.author.name) {
 				author = mergeRequest.author.name;
 			} else {
-				console.warn(`Could not find merge request author for merge request ${PR}`);
+				console.error(`Could not find merge request author for merge request ${PR}`);
 			}
 		} else if (GithubPRMatch && GithubPRMatch[2]) {
 			PR = GithubPRMatch[2];
@@ -315,7 +315,7 @@ async function prepareChangelog(release = "") {
 		newLastCommit = commit.hash;
 
 		if (CONTRIBUTOR_NAMES[author] === undefined) {
-			console.warn(`Unknown commit author "${author}"`);
+			console.error(`Unknown commit author "${author}"`);
 			CONTRIBUTOR_NAMES[author] = author;
 		}
 

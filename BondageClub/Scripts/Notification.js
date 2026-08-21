@@ -123,7 +123,7 @@ class NotificationEventHandler {
 				};
 			}
 		} catch (error) {
-			console.warn("Failed to create new Notification:\n", error);
+			console.error("Failed to create new Notification:\n", error);
 		}
 	}
 

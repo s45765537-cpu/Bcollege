@@ -2120,7 +2120,7 @@ function CharacterDecompressWardrobe(Wardrobe) {
 			if (typeof Property?.Type === "string" && !CommonIsObject(Property?.TypeRecord)) {
 				const asset = AssetGet("Female3DCG", Group, Name);
 				if (!asset) {
-					console.warn(`unable to find ${Group}/${Name}, ignoring`);
+					console.error(`unable to find ${Group}/${Name}, ignoring`);
 				} else {
 					Property.TypeRecord = ExtendedItemTypeToRecord(asset, Property.Type);
 				}

@@ -29,14 +29,14 @@ const PoseToMapping = /** @type {const} */({
 		/** @type {Partial<Record<AssetPoseCategory, AssetPoseName[]>>} */
 		const poseMapping = {};
 		if (!CommonIsArray(poses)) {
-			console.warn(`${prefix}Invalid pose array type: ${typeof poses}`);
+			console.error(`${prefix}Invalid pose array type: ${typeof poses}`);
 			return poseMapping;
 		}
 
 		for (const poseName of poses) {
 			const pose = PoseRecord[poseName];
 			if (!pose) {
-				console.warn(`${prefix}Ignoring invalid "${poseName}" pose`);
+				console.error(`${prefix}Ignoring invalid "${poseName}" pose`);
 				continue;
 			}
 
@@ -62,19 +62,19 @@ const PoseToMapping = /** @type {const} */({
 		/** @type {Partial<Record<AssetPoseCategory, AssetPoseName>>} */
 		const poseMapping = {};
 		if (!CommonIsArray(poses)) {
-			console.warn(`${prefix}Invalid pose array type: ${typeof poses}`);
+			console.error(`${prefix}Invalid pose array type: ${typeof poses}`);
 			return poseMapping;
 		}
 
 		for (const poseName of poses) {
 			const pose = PoseRecord[poseName];
 			if (!pose) {
-				console.warn(`${prefix}Ignoring invalid "${poseName}" pose`);
+				console.error(`${prefix}Ignoring invalid "${poseName}" pose`);
 				continue;
 			}
 			if (poseMapping[pose.Category]) {
 				const invalidPoses = [poseMapping[pose.Category], poseName];
-				console.warn(`${prefix}Found two or more poses within the ${pose.Category} category: ${invalidPoses}`);
+				console.error(`${prefix}Found two or more poses within the ${pose.Category} category: ${invalidPoses}`);
 			}
 			poseMapping[pose.Category] = poseName;
 		}

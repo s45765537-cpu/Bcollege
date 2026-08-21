@@ -2026,7 +2026,7 @@ function CraftingDecompressServerData(Data) {
 		DecompressedData = null;
 	}
 	if (DecompressedData == null) {
-		console.warn("An error occurred while decompressing Crafting data, entries have been reset.");
+		console.error("An error occurred while decompressing Crafting data, entries have been reset.");
 		return [];
 	}
 
@@ -2077,7 +2077,7 @@ function CraftingLoadServer(Packet) {
 	if (Refresh) {
 		const nCritical = Object.keys(CriticalErrors).length;
 		if (nCritical > 0) {
-			console.warn(`Removing ${nCritical} corrupted crafted items`, CriticalErrors);
+			console.error(`Removing ${nCritical} corrupted crafted items`, CriticalErrors);
 		}
 		CraftingSaveServer();
 	}
@@ -2730,7 +2730,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 		if (!assets.some(a => Validate(Craft, a, checkPlayerInventory))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
-				console.warn(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
+				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
 			}
 			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory));
 			StatusMap.set(AttrName, StatusCode);
@@ -2753,7 +2753,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 	for (const AttrName of CommonKeys(Craft)) {
 		if (!LegalAttributes.includes(AttrName)) {
 			if (Warn) {
-				console.warn(`Invalid extra "Craft.${AttrName}" attribute for crafted item "${Name}"`);
+				console.error(`Invalid extra "Craft.${AttrName}" attribute for crafted item "${Name}"`);
 			}
 			delete Craft[AttrName];
 			StatusMap.set(AttrName, CraftingStatusType.ERROR);

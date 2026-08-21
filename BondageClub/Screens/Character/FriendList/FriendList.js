@@ -1129,7 +1129,7 @@ function FriendListDelete(MemberNumber) {
  */
 function FriendListRegisterAction(action) {
 	if (FriendListActionDefinitions[action.id])
-		return console.warn(`Action "${action.id}" already registered`);
+		return console.error(`Action "${action.id}" already registered`);
 	FriendListActionDefinitions[action.id] = action;
 }
 
