@@ -902,10 +902,10 @@ function ServerAccountQueryResult(data) {
 			}
 			break;
 		case "EmailStatus":
-			SecurityEmailStatus(data)
+			SecurityEmailStatus(data);
 			break;
 		case "EmailUpdate":
-			SecurityEmailUpdate(data)
+			SecurityEmailUpdate(data);
 			break;
 	}
 }
@@ -1720,7 +1720,7 @@ function ServerUpdateFriendList(data) {
 	data.forEach(friend => {
 		if (!Player.FriendNames.has(friend.MemberNumber)) {
 			Player.FriendNames.set(friend.MemberNumber, friend.MemberName);
-			infoChanged = true
+			infoChanged = true;
 		}
 		if (Player.SubmissivesList.has(friend.MemberNumber) != (friend.Type == "Submissive")) {
 			if (friend.Type == "Submissive") {

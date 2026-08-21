@@ -1827,12 +1827,12 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								OverridePriority: 45,
 							}, // Above mask layers
-						}, 
+						},
 						{
 							Property: {
 								OverridePriority: 8,
 							}, // Below eye layers
-						}
+						},
 					], // Mask Layer (45), Face Layer (8)
 				},
 			],
