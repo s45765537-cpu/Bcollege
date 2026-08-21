@@ -23307,6 +23307,8 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Gloves,
 					BackElbowTouch: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+					OverTheHead: PoseType.HIDE,
 				},
 			},
 			{
@@ -23342,6 +23344,9 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Gloves,
 					BackElbowTouch: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+					OverTheHead: PoseType.HIDE,
+					Yoked: PoseType.HIDE,
 				},
 				Layer: [{ Name: "Fabric" }, { Name: "Fur" }],
 			},
@@ -23405,8 +23410,6 @@ var AssetFemale3DCG = [
 				Name: "LatexShortGloves",
 				InventoryID: 456,
 				Fetish: ["Latex"],
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 75,
 				Top: 8,
 				PoseMapping: {
@@ -23463,10 +23466,12 @@ var AssetFemale3DCG = [
 						Name: "Buckles",
 						AllowColorize: false,
 						PoseMapping: {
+							BackBoxTie: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
+							BackElbowTouch: PoseType.HIDE,
 						},
 					},
 				],
