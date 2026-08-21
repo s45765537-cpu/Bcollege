@@ -785,7 +785,7 @@ function ServerBundledItemFromAppearanceItem(item) {
 /**
  * Parses an item color, based on the allowed colorable layers on an asset, and the asset's color schema
  * @param {Asset} asset - The asset on which the color is set
- * @param {BCColor | readonly BCColor[]} color - The color value to parse
+ * @param {undefined | BCColor | readonly BCColor[]} color - The color value to parse
  * @param {readonly BCColor[]} schema - The color schema to validate against
  * @returns {BCColor[]} - A parsed valid item color
  */

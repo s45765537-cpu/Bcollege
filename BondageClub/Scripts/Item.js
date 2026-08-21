@@ -130,7 +130,7 @@ var AppearanceItem = {
 		options ??= {};
 		return {
 			Asset: asset,
-			Color: options.color ? ServerParseColor(asset, options.color, asset.Group.ColorSchema) : [...asset.DefaultColor],
+			Color: ServerParseColor(asset, options.color, asset.Group.ColorSchema),
 			Difficulty: options.difficulty ?? 0,
 			Property: options.property ? CommonCloneDeep(options.property) : {},
 			Craft: options.craft ? CommonCloneDeep(options.craft) : undefined,
