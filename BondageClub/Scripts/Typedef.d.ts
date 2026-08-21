@@ -1041,7 +1041,7 @@ interface ChatRoomMessageHandler {
 	 * @param metadata - The collected metadata from the message's dictionary, only available in "post" mode.
 	 * @returns {boolean} true if the message was handled and the processing should stop, false otherwise.
 	 */
-	Callback: (data: ServerChatRoomMessage, sender: Character, msg: string, metadata?: IChatRoomMessageMetadata) => boolean | { msg?: string; skip?: (handler: ChatRoomMessageHandler) => boolean };
+	Callback: (data: ServerChatRoomMessage, sender: OnlineCharacter, msg: string, metadata?: IChatRoomMessageMetadata) => boolean | { msg?: string; skip?: (handler: ChatRoomMessageHandler) => boolean };
 }
 
 //#endregion
@@ -2073,7 +2073,7 @@ interface Character {
 		IsSiblingOfCharacter: (C: Character) => boolean;
 	IsFamilyOfPlayer: () => boolean;
 	IsInFamilyOfMemberNumber: (MemberNum: number) => boolean;
-	IsOnline: () => this is Character;
+	IsOnline: () => this is OnlineCharacter;
 	IsNpc: () => this is NPCCharacter;
 	IsSimple: () => boolean;
 	GetDifficulty: () => number;
@@ -2343,20 +2343,29 @@ type DifficultyLevel =
 	| 3 // Extreme
 	;
 
-interface PlayerCharacter extends Character {
-	// All the following are guaranteed to be set on login
+interface OnlineCharacter extends Character {
 	MemberNumber: number;
 	Nickname?: string;
+	Title: TitleName | undefined;
 	LabelColor: HexColor;
-	Game: CharacterGameParameters;
-	Description: string;
 	Creation: number;
+	Description: string;
+	OnlineSharedSettings: CharacterOnlineSharedSettings;
+	Game: CharacterGameParameters;
+	AllowedInteractions: AllowedInteractions;
+	MapData: ChatRoomMapData;
 	Difficulty: {
 		Level: DifficultyLevel;
 		LastChange?: number;
 	};
-	Crafting: (null | CraftingItem)[];
-	AllowedInteractions: AllowedInteractions;
+	Rule?: LogRecord[];
+	Status?: string | null;
+	StatusTimer?: number;
+	LastMapData?: ChatRoomMapData;
+}
+
+interface PlayerCharacter extends OnlineCharacter {
+	// All the following are guaranteed to be set on login
 
 	// PreferenceInitPlayer() must be updated with defaults, when adding a new setting
 	ChatSettings: ChatSettingsType;
