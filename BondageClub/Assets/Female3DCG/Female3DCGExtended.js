@@ -1819,6 +1819,22 @@ var AssetFemale3DCGExtended = {
 					Key: "h",
 					Options: [{}, {}], // off, on
 				},
+				{
+					Name: "Layering",
+					Key: "l",
+					Options: [
+						{
+							Property: {
+								OverridePriority: 45,
+							}, // Above mask layers
+						}, 
+						{
+							Property: {
+								OverridePriority: 8,
+							}, // Below eye layers
+						}
+					], // Mask Layer (45), Face Layer (8)
+				},
 			],
 		}, // Face Crests
 	},
@@ -21308,6 +21324,18 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			DrawImages: true,
+			DrawData: {
+				elementData: [
+					{ position: ExtendedXY[7][0] },
+					{ position: ExtendedXY[7][1] },
+					{ position: ExtendedXY[7][2] },
+					{ position: ExtendedXY[7][3] },
+					{ position: ExtendedXY[7][4] },
+					{ position: ExtendedXY[7][5] },
+					{ position: ExtendedXY[7][6] },
+				],
+				itemsPerPage: 7,
+			},
 			CopyConfig: { GroupName: "FaceMarkings", AssetName: "FaceCrests" },
 		}, //FaceCrests
 	}, // Glasses

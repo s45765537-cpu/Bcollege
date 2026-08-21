@@ -413,6 +413,7 @@ BodyMarkingsFaceCrestsModuleCenter,Center Pattern
 BodyMarkingsFaceCrestsModuleSpecial,Special Pattern
 BodyMarkingsFaceCrestsModuleGlow,Glow Switch
 BodyMarkingsFaceCrestsModuleHolo,Hologram
+BodyMarkingsFaceCrestsModuleLayering,Layering
 BodyMarkingsFaceCrestsOptiono0,None
 BodyMarkingsFaceCrestsOptiono1,Carved
 BodyMarkingsFaceCrestsOptiono2,Fins
@@ -443,6 +444,8 @@ BodyMarkingsFaceCrestsOptiong0,Glow Off
 BodyMarkingsFaceCrestsOptiong1,Glow On
 BodyMarkingsFaceCrestsOptionh0,Hologram Off
 BodyMarkingsFaceCrestsOptionh1,Hologram On
+BodyMarkingsFaceCrestsOptionl0,Mask Layer (45)
+BodyMarkingsFaceCrestsOptionl1,Face Layer (8)
 BodyMarkingsFaceCrestsSelectBase,Select Patterns
 BodyMarkingsFaceCrestsSelectOuter,Select Outer Pattern
 BodyMarkingsFaceCrestsSelectMiddle,Select Middle Pattern
@@ -450,6 +453,7 @@ BodyMarkingsFaceCrestsSelectCenter,Select Center Pattern
 BodyMarkingsFaceCrestsSelectSpecial,Select Special Pattern
 BodyMarkingsFaceCrestsSelectGlow,Switch Glow Function
 BodyMarkingsFaceCrestsSelectHolo,Switch Hologram Function
+BodyMarkingsFaceCrestsSelectLayering,See item layering for more options
 BodyUpperFlatMediumDefault,Default
 BodyUpperFlatMediumSelect,Select body overlay.
 BodyUpperFlatSmallDefault,Default
@@ -1355,6 +1359,7 @@ FaceMarkingsFaceCrestsModuleCenter,Center Pattern
 FaceMarkingsFaceCrestsModuleSpecial,Special Pattern
 FaceMarkingsFaceCrestsModuleGlow,Glow Switch
 FaceMarkingsFaceCrestsModuleHolo,Hologram
+FaceMarkingsFaceCrestsModuleLayering,Layering
 FaceMarkingsFaceCrestsOptiono0,None
 FaceMarkingsFaceCrestsOptiono1,Carved
 FaceMarkingsFaceCrestsOptiono2,Fins
@@ -1385,6 +1390,8 @@ FaceMarkingsFaceCrestsOptiong0,Glow Off
 FaceMarkingsFaceCrestsOptiong1,Glow On
 FaceMarkingsFaceCrestsOptionh0,Hologram Off
 FaceMarkingsFaceCrestsOptionh1,Hologram On
+FaceMarkingsFaceCrestsOptionl0,Mask Layer (45)
+FaceMarkingsFaceCrestsOptionl1,Face Layer (8)
 FaceMarkingsFaceCrestsSelectBase,Select Patterns
 FaceMarkingsFaceCrestsSelectOuter,Select Outer Pattern
 FaceMarkingsFaceCrestsSelectMiddle,Select Middle Pattern
@@ -1392,6 +1399,7 @@ FaceMarkingsFaceCrestsSelectCenter,Select Center Pattern
 FaceMarkingsFaceCrestsSelectSpecial,Select Special Pattern
 FaceMarkingsFaceCrestsSelectGlow,Switch Glow Function
 FaceMarkingsFaceCrestsSelectHolo,Switch Hologram Function
+FaceMarkingsFaceCrestsSelectLayering,See item layering for more options
 FeetRopeSetAnkles,SourceCharacter ties the rope around TargetCharacter's ankles.
 FeetRopeSetAnklesKnees,SourceCharacter ties the ropes around TargetCharacter's ankles and knees.
 FeetRopeSetBedSpreadEagle,SourceCharacter uses the ropes on TargetCharacter to tie TargetPronounPossessive legs to the bedposts.
@@ -1604,6 +1612,7 @@ GlassesFaceCrestsModuleCenter,Center Pattern
 GlassesFaceCrestsModuleSpecial,Special Pattern
 GlassesFaceCrestsModuleGlow,Glow Switch
 GlassesFaceCrestsModuleHolo,Hologram
+GlassesFaceCrestsModuleLayering,Layering
 GlassesFaceCrestsOptiono0,None
 GlassesFaceCrestsOptiono1,Carved
 GlassesFaceCrestsOptiono2,Fins
@@ -1634,6 +1643,8 @@ GlassesFaceCrestsOptiong0,Glow Off
 GlassesFaceCrestsOptiong1,Glow On
 GlassesFaceCrestsOptionh0,Hologram Off
 GlassesFaceCrestsOptionh1,Hologram On
+GlassesFaceCrestsOptionl0,Mask Layer (45)
+GlassesFaceCrestsOptionl1,Face Layer (8)
 GlassesFaceCrestsSelectBase,Select Patterns
 GlassesFaceCrestsSelectOuter,Select Outer Pattern
 GlassesFaceCrestsSelectMiddle,Select Middle Pattern
@@ -1641,6 +1652,7 @@ GlassesFaceCrestsSelectCenter,Select Center Pattern
 GlassesFaceCrestsSelectSpecial,Select Special Pattern
 GlassesFaceCrestsSelectGlow,Switch Glow Function
 GlassesFaceCrestsSelectHolo,Switch Hologram Function
+GlassesFaceCrestsSelectLayering,See item layering for more options
 GlovesWarmGlovesFur,Normal
 GlovesWarmGlovesNoFur,Without fur
 GlovesWarmGlovesSelect,Choose your gloves style:
