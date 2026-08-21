@@ -72,9 +72,8 @@ const common = {
 		"unicode-bom": ["error", "never"],
 		"eol-last": "error",
 
-		"no-tabs": ["warn", {
-			"allowIndentationTabs": true,
-		}],
+		// Cannot be disabled in _just_ comments and docstrings, thus producing false positives
+		"no-tabs": "off",
 
 		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 
