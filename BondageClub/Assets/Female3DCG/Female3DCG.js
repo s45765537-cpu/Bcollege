@@ -35280,6 +35280,7 @@ var AssetFemale3DCG = [
 				Value: 30,
 				Time: 5,
 				Prerequisite: ["AccessVulva", "HasVagina"],
+				Effect: [E.UseRemote],
 				PoseMapping: {
 					...AssetPoseMapping.ItemVulva,
 					KneelingSpread: "KneelingSpread",
@@ -37300,6 +37301,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessCrotch", "CanCoverVulva"],
 				Hide: ["ItemVulva", "Pussy"],
+				HideItemExclude: ["ItemVulvaWiredEgg"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -37340,6 +37342,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessCrotch", "CanCoverVulva"],
 				Hide: ["ItemVulva", "Pussy"],
 				DefaultColor: ["Default", "Default", "Default", "Default", "#4FFF00"],
+				HideItemExclude: ["ItemVulvaWiredEgg"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -37748,6 +37751,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessCrotch", "CanCoverVulva"],
 				Hide: ["ItemVulva", "Pussy"],
+				HideItemExclude: ["ItemVulvaWiredEgg"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -37781,6 +37785,7 @@ var AssetFemale3DCG = [
 				Audio: "MetalStraps",
 				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
 				Hide: ["ItemVulva", "ItemVulvaPiercings"],
+				HideItemExclude: ["ItemVulvaWiredEgg"],
 				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
