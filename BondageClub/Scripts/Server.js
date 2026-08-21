@@ -1285,16 +1285,20 @@ var ServerAccountDataSyncedValidate = {
 		return typeof arg === "string" && ServerCharacterNicknameRegex.test(arg) ? arg.trim() : undefined;
 	},
 	Money: (arg, C) => {
-		return CommonIsNumeric(arg) ? arg : 0;
+		return CommonIsNonNegativeInteger(arg) ? arg : 0;
 	},
 	AllowedInteractions: (arg, C) => {
 		return CommonIsInteger(arg, 0, 5) ? /** @type {AllowedInteractions} */(arg) : 2;
 	},
 	Difficulty: (arg, C) => {
-		return {
-			Level: CommonIsInteger(arg?.Level, 0, 5) ? arg.Level : 1,
-			LastChange: CommonIsNonNegativeInteger(arg?.LastChange) ? arg.LastChange : undefined,
+		/** @type {ServerAccountData["Difficulty"]} */
+		const diff = {
+			Level: CommonIsInteger(arg?.Level, Difficulty.ROLEPLAY, Difficulty.EXTREME) ? arg.Level : Difficulty.REGULAR,
 		};
+		if (CommonIsNonNegativeInteger(arg?.LastChange)) {
+			diff.LastChange = arg.LastChange;
+		}
+		return diff;
 	},
 	ArousalSettings: (arg, C) => {
 		return ValidationApplyRecord(arg, C, PreferenceArousalSettingsValidate);

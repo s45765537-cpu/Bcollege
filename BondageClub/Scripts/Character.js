@@ -29,6 +29,7 @@ const CharacterBlurLevels = new Map([
 	["BlurLight", 3],
 ]);
 
+/** @satisfies {Record<string, DifficultyLevel>} */
 const Difficulty = {
 	ROLEPLAY: 0,
 	REGULAR: 1,
