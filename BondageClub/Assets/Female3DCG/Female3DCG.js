@@ -10876,6 +10876,7 @@ var AssetFemale3DCG = [
 						PoseMapping: {
 							Kneel: PoseType.DEFAULT,
 							KneelingSpread: PoseType.DEFAULT,
+							LegsClosed: "LegsClosed",
 						},
 					},
 				],
