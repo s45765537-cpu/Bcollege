@@ -33950,14 +33950,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: ["#222", "Default"],
-				Hide: [
-					"Shoes",
-					"Socks",
-					"SocksRight",
-					"SocksLeft",
-					"ClothLower",
-					"Garters",
-				],
 				HideItem: [
 					"ItemFeetOrnateAnkleCuffs",
 					"HighStyleSteelAnkleCuffs",
@@ -33994,7 +33986,6 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DefaultColor: ["Default", "Default", "Default", "Default", "#FFFFFF"],
 				Attribute: ["HoodieFix"],
-				Hide: ["Shoes", "ClothLower", "Garters"],
 				HideItem: [
 					"ItemFeetOrnateAnkleCuffs",
 					"HighStyleSteelAnkleCuffs",
@@ -34126,14 +34117,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: ["#222", "Default"],
-				Hide: [
-					"Shoes",
-					"Socks",
-					"SocksRight",
-					"SocksLeft",
-					"ClothLower",
-					"Garters",
-				],
 				HideItem: [
 					"ItemFeetOrnateAnkleCuffs",
 					"HighStyleSteelAnkleCuffs",
@@ -34172,7 +34155,6 @@ var AssetFemale3DCG = [
 				RemoveTime: 20,
 				AllowLock: true,
 				DefaultColor: "#222222",
-				Hide: ["Shoes", "Garters"],
 				HideItem: [
 					"ItemFeetOrnateAnkleCuffs",
 					"HighStyleSteelAnkleCuffs",
@@ -34207,7 +34189,6 @@ var AssetFemale3DCG = [
 				RemoveTime: 20,
 				AllowLock: true,
 				DefaultColor: "#222222",
-				Hide: ["Shoes", "Garters"],
 				HideItem: [
 					"ItemFeetOrnateAnkleCuffs",
 					"HighStyleSteelAnkleCuffs",
@@ -34288,7 +34269,6 @@ var AssetFemale3DCG = [
 				RemoveTime: 25,
 				BuyGroup: "PlasticWrap",
 				SetPose: ["LegsClosed"],
-				Hide: ["ClothLower", "Garters"],
 				AllowActivePose: ["Kneel"],
 			},
 			{
