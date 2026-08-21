@@ -8470,7 +8470,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				PoseMapping: {
 					...AssetPoseMapping.Suit,
-					TapedHands: PoseType.HIDE,
+					TapedHands: PoseType.DEFAULT,
 				},
 				DefaultColor: [
 					"#111111",
@@ -8551,6 +8551,7 @@ var AssetFemale3DCG = [
 							BackBoxTie: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
 						},
 					},
 					{
@@ -8567,6 +8568,7 @@ var AssetFemale3DCG = [
 							BackBoxTie: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
 						},
 					},
 					{
@@ -8583,6 +8585,7 @@ var AssetFemale3DCG = [
 							BackBoxTie: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
 						},
 					},
 					{
@@ -8599,6 +8602,7 @@ var AssetFemale3DCG = [
 							BackBoxTie: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
 						},
 					},
 					{
@@ -8615,6 +8619,7 @@ var AssetFemale3DCG = [
 							BackBoxTie: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
 						},
 					},
 					{
