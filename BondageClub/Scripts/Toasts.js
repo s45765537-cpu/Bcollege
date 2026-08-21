@@ -196,6 +196,11 @@ var ToastManager = new class ToastManager {
 				};
 				toast.addEventListener('transitionend', listener);
 				toast.addEventListener('transitioncancel', listener);
+				setTimeout(() => {
+					if (document.contains(toast)) {
+						removeAndProcess();
+					}
+				}, _.duration * 2); // Double the normal animation duration for the sake of extra error margin
 			}
 		};
 
