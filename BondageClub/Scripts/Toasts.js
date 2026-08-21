@@ -172,7 +172,15 @@ var ToastManager = new class ToastManager {
 		const remove = (reason) => {
 			_.onClose?.(toast, reason);
 
+			// Need some manual book keeping here to keep things from only running once
+			// Cannot rely on the `addEventListener`'s `once` parameter, as one pair of `end`/`cancel` events
+			// is allowed to fire per entry in the CSS `will-change` property
+			let transitionEventFired = false;
 			const removeAndProcess = () => {
+				if (transitionEventFired) {
+					return;
+				}
+				transitionEventFired = true;
 				toast._timeoutTimerRemove?.();
 				toast.remove();
 				this.active--;
@@ -186,8 +194,8 @@ var ToastManager = new class ToastManager {
 				const listener = () => {
 					removeAndProcess();
 				};
-				toast.addEventListener('transitionend', listener, { once: true });
-				toast.addEventListener('transitioncancel', listener, { once: true });
+				toast.addEventListener('transitionend', listener);
+				toast.addEventListener('transitioncancel', listener);
 			}
 		};
 
