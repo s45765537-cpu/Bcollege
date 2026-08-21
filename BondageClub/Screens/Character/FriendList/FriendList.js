@@ -686,23 +686,7 @@ function FriendListLoadFriendList(data) {
 	FriendListCloseActionsMenu();
 
 	const mode = FriendListMode[FriendListModeIndex];
-
-	let infoChanged = false;
-	data.forEach(friend => {
-		if (!Player.FriendNames.has(friend.MemberNumber)) {
-			Player.FriendNames.set(friend.MemberNumber, friend.MemberName);
-			infoChanged = true;
-		}
-		if (Player.SubmissivesList.has(friend.MemberNumber) != (friend.Type == "Submissive")) {
-			if (friend.Type == "Submissive") {
-				Player.SubmissivesList.add(friend.MemberNumber);
-			} else {
-				Player.SubmissivesList.delete(friend.MemberNumber);
-			}
-			infoChanged = true;
-		}
-	});
-	if (infoChanged) ServerPlayerRelationsSync();
+	ServerUpdateFriendList(data);
 
 	const dataMap = new Map(data.map(friend => [friend.MemberNumber, friend]));
 
