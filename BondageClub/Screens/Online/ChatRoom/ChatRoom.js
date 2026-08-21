@@ -665,13 +665,13 @@ function ChatRoomTakeSuitcase(character) {
 	if (KidnapLeagueSearchingPlayers.length == 0) {
 		if (InventoryIsWorn(Player, "ItemMisc", "BountySuitcase")) {
 			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-			ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", true, [
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStart", false, [
 				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
 				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
 			]);
 		} else if (InventoryIsWorn(Player, "ItemMisc", "BountySuitcaseEmpty")) {
 			KidnapLeagueSearchFinishTime = CommonTime() + KidnapLeagueSearchFinishDuration;
-			ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", true, [
+			ChatRoomPublishCustomAction("OnlineBountySuitcaseStartOpened", false, [
 				{ Tag: "SourceCharacter", Text: CharacterNickname(character), MemberNumber: character.MemberNumber },
 				{ Tag: "DestinationCharacterName", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber },
 			]);
