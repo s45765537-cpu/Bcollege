@@ -33,10 +33,15 @@ var CharacterAppearanceInProgressBackup = undefined;
 var CharacterAppearanceGroups = [];
 /**
  * The list of all assets (owned or available)
- *
- * @type {Asset[]}
+ * @deprecated
+ * @type {never[]}
  */
 var CharacterAppearanceAssets = [];
+/**
+ * The list of all appearance assets (owned or available) grouped by group name
+ * @type {Map<AssetGroupBodyName, Asset[]>}
+ */
+var CharacterAppearanceGroupedAssets = new Map();
 /** @type {AssetGroupName} */
 var CharacterAppearanceColorPickerGroupName = /** @type {never} */ (null);
 /** @type {ItemColor | undefined} */
@@ -106,14 +111,16 @@ const AppearancePermissionColors = {
  */
 function CharacterAppearanceBuildAssets(C) {
 
-	CharacterAppearanceAssets = [];
+	CharacterAppearanceGroupedAssets = new Map();
 	// Adds all items with 0 value and from the appearance category
-	const availableAssets = Asset.filter(a =>
-		a.Group.Family === C.AssetFamily &&
-		a.Group.IsAppearance() &&
-		CharacterAppearanceGenderAllowed(a) &&
-		InventoryAvailable(C, a.Name, a.Group.Name));
-	CharacterAppearanceAssets.push(...availableAssets);
+	for (const a of Asset) {
+		if (a.Group.Family === C.AssetFamily
+			&& a.Group.IsAppearance()
+			&& CharacterAppearanceGenderAllowed(a)
+			&& InventoryAvailable(C, a.Name, a.Group.Name)) {
+			CommonMapGetOrInsert(CharacterAppearanceGroupedAssets, a.Group.Name, []).push(a);
+		}
+	}
 }
 
 /**
@@ -169,26 +176,23 @@ function CharacterAppearanceSetDefault(C) {
 	if (!AppearanceGroupAllowed(C, "ALL")) return;
 	C.Appearance = [];
 	C.PoseMapping = {};
-	if (CharacterAppearanceAssets.length == 0) CharacterAppearanceBuildAssets(C);
+	if (CharacterAppearanceGroupedAssets.size == 0) CharacterAppearanceBuildAssets(C);
 
 	// For each items in the character appearance assets
-	for (let I = 0; I < CharacterAppearanceAssets.length; I++) {
-		if (CharacterAppearanceAssets[I].Group.IsDefault) {
+	for (const group of CharacterAppearanceGroupedAssets.keys()) {
+		const assets = CharacterAppearanceGroupedAssets.get(group) ?? [];
+		if (!assets[0].Group.IsDefault) continue;
 
-			// If there's no item in a slot, the first one becomes the default
-			var MustWear = true;
-			for (let A = 0; A < C.Appearance.length; A++)
-				if (C.Appearance[A].Asset.Group.Name == CharacterAppearanceAssets[I].Group.Name)
-					MustWear = false;
+		// If there's no item in a slot, the first one becomes the default
+		const MustWear = InventoryGet(C, group) === null;
 
-			// No item, we wear it with the default color
-			if (MustWear) {
-				CharacterAppearanceSetItem(
-					C,
-					CharacterAppearanceAssets[I].Group.Name,
-					CharacterAppearanceAssets[I]
-				);
-			}
+		// No item, we wear it with the default color
+		if (MustWear) {
+			CharacterAppearanceSetItem(
+				C,
+				group,
+				assets[0],
+			);
 		}
 	}
 
@@ -246,18 +250,26 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 			const ParentSize = group.ParentSize != "" ? InventoryGet(C, group.ParentSize)?.Asset.Name : "";
 
 			// Check for a parent
-			var R = [];
-			for (let I = 0; I < CharacterAppearanceAssets.length; I++)
-				if ((CharacterAppearanceAssets[I].Group.Name == group.Name) && (CharacterAppearanceAssets[I].ParentItem != null) && ((ParentSize == "") || (CharacterAppearanceAssets[I].Name == ParentSize)))
-					for (let P = 0; P < C.Appearance.length; P++)
-						if (C.Appearance[P].Asset.Name == CharacterAppearanceAssets[I].ParentItem)
-							R.push(CharacterAppearanceAssets[I]);
+			/** @type {Asset[]} */
+			const R = [];
+			for (const asset of CharacterAppearanceGroupedAssets.get(group.Name) ?? []) {
+				if (asset.ParentItem && (ParentSize == "") || (asset.Name === ParentSize)) {
+					const parentAsset = C.Appearance.find(item => item.Asset.Name === asset.ParentItem);
+					if (parentAsset) {
+						R.push(asset);
+						break;
+					}
+				}
+			}
 
 			// Since there was no parent, get all the possible items
-			if (R.length == 0)
-				for (let I = 0; I < CharacterAppearanceAssets.length; I++)
-					if ((CharacterAppearanceAssets[I].Group.Name == group.Name) && CharacterAppearanceAssets[I].Random && (CharacterAppearanceAssets[I].ParentItem == null) && ((ParentSize == "") || (CharacterAppearanceAssets[I].Name == ParentSize)))
-						R.push(CharacterAppearanceAssets[I]);
+			if (R.length == 0) {
+				for (const asset of CharacterAppearanceGroupedAssets.get(group.Name) ?? []) {
+					if (asset.Random && !asset.ParentItem && (ParentSize == "" || asset.Name == ParentSize)) {
+						R.push(asset);
+					}
+				}
+			}
 
 			// Picks a random item and color and add it
 			if (R.length > 0) {
@@ -904,6 +916,7 @@ function AppearanceRun() {
 		// Creates buttons for all groups
 		for (let A = CharacterAppearanceOffset; A < CharacterAppearanceGroups.length && A < CharacterAppearanceOffset + CharacterAppearanceNumGroupPerPage; A++) {
 			const Group = CharacterAppearanceGroups[A];
+			if (!Group.IsAppearance()) continue;
 
 			// If it's a locked group, just draw a label and continue
 			if (!AppearanceGroupAllowed(C, Group.Name)) {
@@ -1206,13 +1219,13 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
 /**
  * Cycle in the appearance assets to find the next item in a group
  * @param {Character} C - The character whose assets are used
- * @param {AssetGroupName} Group - The name of the group to cycle
+ * @param {AssetGroupBodyName} Group - The name of the group to cycle
  * @param {boolean} [Forward=true] - Sets the direction of the cycling
  * @returns {Asset|null} - The next item to select, or null if there's none applicable
  */
 function CharacterAppearanceNextItem(C, Group, Forward) {
 	const Current = InventoryGet(C, Group)?.Asset.Name;
-	const CAA = CharacterAppearanceAssets.filter(a => a.Group.Name == Group && InventoryAllow(C, a, a.Prerequisite, false));
+	const CAA = (CharacterAppearanceGroupedAssets.get(Group) ?? []).filter(a => a.Group.Name == Group && InventoryAllow(C, a, a.Prerequisite, false));
 	if (CAA.length == 0) return null;
 	if (Current) {
 		// If we found the item we move forward or backward if possible
@@ -1385,7 +1398,7 @@ function AppearanceClick() {
 
 		for (let A = CharacterAppearanceOffset; A < CharacterAppearanceGroups.length && A < CharacterAppearanceOffset + CharacterAppearanceNumGroupPerPage; A++) {
 			const Group = CharacterAppearanceGroups[A];
-			if (!WardrobeGroupAccessible(C, Group) || !AppearanceGroupAllowed(C, Group.Name))
+			if (!Group.IsAppearance() || !WardrobeGroupAccessible(C, Group) || !AppearanceGroupAllowed(C, Group.Name))
 				continue;
 
 			const Item = InventoryGet(C, Group.Name);
@@ -1406,7 +1419,7 @@ function AppearanceClick() {
 
 				if (clickOn === "Use") {
 					// Set the focus, as changing extended items depends on that
-					C.FocusGroup = /** @type {AssetItemGroup} */ (Group);
+					C.FocusGroup = /** @type {AssetItemGroup} */ (/** @type {unknown} */ (Group));
 					DialogExtendItem(Item);
 					return;
 				} else if (clickOn === "Strip") {
@@ -1440,7 +1453,7 @@ function AppearanceClick() {
 				else {
 					// Open the clothing group screen
 					// This is a cheat to get DialogInventoryBuild to work and reuse its output. We don't actually need the group.
-					C.FocusGroup = /** @type {AssetItemGroup} */ (Group);
+					C.FocusGroup = /** @type {AssetItemGroup} */ (/** @type {unknown} */ (Group));
 					DialogInventoryBuild(C, true, false);
 					AppearancePreviewBuild(C, true);
 					CharacterAppearanceCloth = InventoryGet(C, C.FocusGroup.Name);
