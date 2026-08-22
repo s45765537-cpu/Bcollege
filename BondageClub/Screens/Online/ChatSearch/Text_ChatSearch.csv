@@ -16,6 +16,17 @@ ResponseJoinedRoom,Entering the room...
 ResponseAlreadyInRoom,Duplicate join request
 ResponseServerTimeoutError,Request timeout
 ResponseServerInProgressError,Request already in progress!
+LeashBreakAlreadyInRoom,The leash has broken you're already in a room
+LeashBreakRoomLocked,The leash has broken because the room is locked
+LeashBreakRoomBanned,The leash has broken because you're banned from the room
+LeashBreakRoomBlocked,The leash has broken because you're blocked from entering it
+LeashBreakRoomFull,The leash has broken because the room is full
+LeashBreakCannotFindRoom,The leash has broken because that room doesn't exist
+LeashBreakAccountError,The leash was broken because of an account error
+LeashBreakInvalidRoomData,The leash was broken because the joined room is invalid
+LeashBreakGhostList,The leash was broken because you're ghosting the room owner
+LeashBreakTempHidden,The leash was broken because you've hidden the room
+LeashBreakTimeout,The leash has broken because of a timeout error
 FilterMode,Remove unwanted rooms
 TempHideOnClick,Filter on click
 GhostPlayerOnClick,Ghost player on click
