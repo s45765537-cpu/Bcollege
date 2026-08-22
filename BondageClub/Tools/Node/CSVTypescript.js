@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
+import vm from "vm";
 
-import { parseCSV, BASE_PATH } from "./Common.js";
+import { parseCSV, BASE_PATH, NEEDED_FILES } from "./Common.js";
 
 /**
  *
@@ -142,9 +143,63 @@ function AllCsvToTS(root, output) {
 	return status;
 }
 
+/**
+ * Resolve and return all assets.
+ *
+ * See {@link interfaceCsvToTS}.
+ */
+function _runVM() {
+	const [commonFile, ...neededFiles] = NEEDED_FILES;
+	neededFiles.splice(neededFiles.findIndex(i => i === "Scripts/Testing.js"), 1);
+
+	const context = vm.createContext({
+		OuterArray: Array,
+		Object: Object,
+		PreferenceArousalUpdateValidation: () => null,
+		setTimeout: setTimeout,
+	});
+	vm.runInContext(fs.readFileSync(BASE_PATH + commonFile, { encoding: "utf-8" }), context, {
+		filename: commonFile,
+	});
+
+	// Only patch `CommonGet` after loading `Common`, lest our monkey patch will be overriden again
+	context.CommonGet = (file, callback) => {
+		const data = fs.readFileSync(`../../${file}`, "utf8");
+		const obj = {
+			status: 200,
+			responseText: data,
+		};
+		callback.bind(obj)(obj);
+	};
+	context.CommonFetch = async (url) => {
+		const data = fs.readFileSync(`../../${url}`, "utf8");
+		// Quacks like a Request object
+		const obj = {
+			status: 200,
+			text: async function() {
+				return data;
+			}
+		};
+		return obj;
+	};
+	for (const file of neededFiles) {
+		vm.runInContext(fs.readFileSync(BASE_PATH + file, { encoding: "utf-8" }), context, {
+			filename: file,
+		});
+	}
+	context.AssetLoadAll();
+	/** @type {Asset[]} */
+	const assets = context.Asset;
+	return { assets };
+}
+
 const declarationsTemplate = `
 type TextKeysInterface = (
 	{csvKeys}
+);
+
+type AssetName = (
+	{assetNames}
 );
 `.trim();
 
@@ -154,13 +209,22 @@ type TextKeysInterface = (
  * @param {string} output
  */
 function interfaceCsvToTS(root, output) {
+	// NOTE: Keeping `runVM()` and the comment code around for future reference
+	// Replacing the `AssetName` type with a union of literal strings (the actual asset names) works,
+	// but the sheer size of the union (>1500) means TS often shits the bed when combinatorics are involved
+
+	// const vmOutput = _runVM();
+	// const assetsNames = new Set(vmOutput.assets.map(a => a.Name));
+	// const assetNamesType = Array.from(assetsNames).sort().map(i => `"${i}"`).join("\n\t| ");
+	const assetNamesType = "string";
+
 	root = fs.existsSync(root) ? root : path.join(BASE_PATH, root);
 	const outputName = path.join(output, "Interface.csv.d.ts");
 	const inputName = path.join(root, "Screens", "Interface.csv");
 
 	const csv = parseCSV(fs.readFileSync(inputName, { encoding: "utf8" }));
 	const csvKeyUnion = csv.map(i => i[0]).filter(Boolean).sort().map(i => `"${i}"`).join("\n\t| ");
-	const declarations = declarationsTemplate.replace("{csvKeys}", csvKeyUnion);
+	const declarations = declarationsTemplate.replace("{csvKeys}", csvKeyUnion).replace("{assetNames}", assetNamesType);
 	fs.writeFileSync(outputName, declarations, { encoding: "utf8" });
 }
 
