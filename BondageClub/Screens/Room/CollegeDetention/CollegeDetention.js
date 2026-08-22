@@ -55,7 +55,7 @@ function CollegeDetentionYukiClothes(C) {
 	InventoryWear(C, "Eyes1", "Eyes", "#a57b78");
 	InventoryWear(C, "Eyes1", "Eyes2", "#a57b78");
 	InventoryWear(C, "Glasses1", "Glasses", "#333333");
-	InventoryWear(C, "Mouth", "Mouth", "Default");
+	InventoryWear(C, "Regular", "Mouth", "Default");
 	InventoryWear(C, "H0920", "Height", "Default");
 	InventoryWear(C, "Small", "BodyUpper", "Asian");
 	InventoryWear(C, "Small", "BodyLower", "Asian");

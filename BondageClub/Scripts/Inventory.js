@@ -1502,8 +1502,6 @@ function InventoryFullLock(C, LockType, AppliedBy) {
 function InventoryConfiscateKey() {
 	InventoryDelete(Player, "MetalCuffsKey", "ItemMisc");
 	InventoryDelete(Player, "MetalPadlockKey", "ItemMisc");
-	InventoryDelete(Player, "IntricatePadlockKey", "ItemMisc");
-	InventoryDelete(Player, "HighSecurityPadlockKey", "ItemMisc");
 	InventoryDelete(Player, "Lockpicks", "ItemMisc");
 }
 

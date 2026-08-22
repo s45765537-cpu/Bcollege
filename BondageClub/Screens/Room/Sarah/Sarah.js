@@ -127,7 +127,7 @@ async function SarahLoad() {
 			InventoryWear(Sarah, "Pussy1", "Pussy", "#edd6b0");
 			InventoryWear(Sarah, "Eyes1", "Eyes", "#b98364");
 			InventoryWear(Sarah, "Eyes1", "Eyes2", "#b98364");
-			InventoryWear(Sarah, "Mouth", "Mouth", "Default");
+			InventoryWear(Sarah, "Regular", "Mouth", "Default");
 			InventoryWear(Sarah, "H0930", "Height", "Default");
 			InventoryWear(Sarah, "Small", "BodyUpper", "White");
 			InventoryWear(Sarah, "Small", "BodyLower", "White");
@@ -161,10 +161,10 @@ async function SarahLoad() {
 		Amanda.AllowItem = true;
 		CharacterNaked(Amanda);
 		InventoryWear(Amanda, "Nipples3", "Nipples", "Default");
-		InventoryWear(Amanda, "PussyLight3", "Pussy", "#623123");
+		InventoryWear(Amanda, "Pussy3", "Pussy", "#623123");
 		InventoryWear(Amanda, "Eyes7", "Eyes", "#3f289f");
 		InventoryWear(Amanda, "Eyes7", "Eyes2", "#3f289f");
-		InventoryWear(Amanda, "Mouth", "Mouth", "Default");
+		InventoryWear(Amanda, "Regular", "Mouth", "Default");
 		InventoryWear(Amanda, "H0950", "Height", "Default");
 		InventoryWear(Amanda, "Normal", "BodyUpper", "White");
 		InventoryWear(Amanda, "Normal", "BodyLower", "White");
@@ -202,7 +202,7 @@ async function SarahLoad() {
 		InventoryWear(Sophie, "Eyes1", "Eyes", "#b08061");
 		InventoryWear(Sophie, "Eyes1", "Eyes2", "#b08061");
 		InventoryWear(Sophie, "Glasses5", "Glasses", "#222222");
-		InventoryWear(Sophie, "Mouth", "Mouth", "Default");
+		InventoryWear(Sophie, "Regular", "Mouth", "Default");
 		InventoryWear(Sophie, "H0970", "Height", "Default");
 		InventoryWear(Sophie, "Large", "BodyUpper", "White");
 		InventoryWear(Sophie, "Large", "BodyLower", "White");
@@ -520,7 +520,6 @@ function SarahTransferSophieToRoom(Love) {
 	/** @type {ItemBundle[]} */
 	var ItemsToEarn = [];
 	ItemsToEarn.push({Name: "LeatherCuffs", Group: "ItemArms"});
-	ItemsToEarn.push({Name: "LeatherCuffsKey", Group: "ItemArms"});
 	ItemsToEarn.push({Name: "Baguette", Group: "ItemHandheld"});
 	InventoryAddMany(Player, ItemsToEarn);
 	CharacterRelease(Sophie);
@@ -801,7 +800,6 @@ function SarahGiveThirdSlaveItem(C) {
 		if (SarahAmandaIsInside()) SarahGiveThirdSlaveItem(Amanda);
 	} else {
 		InventoryAdd(C, "LeatherCuffs", "ItemArms");
-		InventoryAdd(C, "LeatherCuffsKey", "ItemArms");
 	}
 }
 

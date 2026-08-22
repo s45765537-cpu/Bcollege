@@ -373,8 +373,8 @@ function NurseryRandomColor(character, colors=NurseryDressColors) {
 
 // Remove baby dresses from inventory for testing only
 function NurseryDeleteItem() {
-	InventoryDelete(Player, "Padlock", "ItemArms");
-	InventoryDelete(Player, "PadlockKey", "ItemArms");
+	//InventoryDelete(Player, "Padlock", "ItemArms");
+	//InventoryDelete(Player, "PadlockKey", "ItemArms");
 	//InventoryDelete(Player, "AdultBabyDress3", "Cloth");
 }
 
