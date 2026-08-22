@@ -206,6 +206,7 @@ function CafeServiceBound(Style) {
 	if (Style == "Shibari") {
 
 		// Base items
+		/** @type {AssetName} */
 		let item = CommonGetRandomItemFromList(["NylonRope", "HempRope"]);
 		InventoryWear(Player, item, "ItemArms", null, 20);
 		InventoryWear(Player, item, "ItemLegs", null, 20);
@@ -241,6 +242,7 @@ function CafeServiceBound(Style) {
 
 		// Arms
 		// RandomNumber = Math.floor(Math.random() * 3);
+		/** @type {AssetName} */
 		let item = CommonGetRandomItemFromList(["LeatherArmbinder", "LeatherCuffs", "Bolero"]);
 		InventoryWear(Player, item, "ItemArms", item === "Bolero" ? "#191919" : undefined, 15);
 
@@ -269,6 +271,7 @@ function CafeServiceBound(Style) {
 		let color = /** @type {const} */ (`#${Math.floor(Math.random()*16777215).toString(16)}`);
 
 		// Arms
+		/** @type {AssetName} */
 		let item = CommonGetRandomItemFromList(["StraitLeotard", "Bolero", "StraitDress", "StraitDressOpen"]);
 		InventoryWear(Player, item, "ItemArms", color, 20);
 
@@ -290,6 +293,7 @@ function CafeServiceBound(Style) {
 	if (Style == "Heavy") {
 
 		// Arms
+		/** @type {AssetName} */
 		let item = CommonGetRandomItemFromList(["LeatherArmbinder", "StraitJacket", "BitchSuit", "StraitDressOpen"]);
 		let color = item === "BitchSuit" || item === "StraitDressOpen" ?
 			/** @type {const} */ (`#${Math.floor(Math.random()*16777215).toString(16)}`)
@@ -314,6 +318,7 @@ function CafeServiceBound(Style) {
 		}
 
 		// Gag
+		/** @type {AssetName} */
 		item = CommonGetRandomItemFromList(["HarnessPanelGag", "PumpGag", "MuzzleGag", "LeatherCorsetCollar", "PlugGag", "DildoGag", "HarnessBallGag1"]);
 		InventoryWear(Player, item, "ItemMouth");
 

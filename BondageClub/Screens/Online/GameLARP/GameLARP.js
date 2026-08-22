@@ -753,7 +753,7 @@ function GameLARPGetPlayer(MemberNumber) {
 /**
  * Processes an action for a player.
  * @param {string} Action - Action attempted.
- * @param {string} ItemName - Name of the item to attempt to use.
+ * @param {AssetName} ItemName - Name of the item to attempt to use.
  * @param {Character} Source - Source character of the action
  * @param {Character} Target - Character targetted by the action
  * @param {number} RNG - Random odds received for which the character's odds will be compared.

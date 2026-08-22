@@ -148,7 +148,7 @@ async function ShibariLoad() {
 	if (ShibariTeacher == null) {
 		ShibariTeacher = CharacterLoadNPC("NPC_Shibari_Teacher");
 		ShibariTeacher.AllowItem = ShibariAllowTeacherItem;
-		InventoryWear(ShibariTeacher, "ChineseDress" + (Math.floor(Math.random() * 2) + 1).toString(), "Cloth");
+		InventoryWear(ShibariTeacher, CommonGetRandomItemFromList(["ChineseDress1", "ChineseDress2"]), "Cloth");
 		InventoryRemove(ShibariTeacher, "ClothLower");
 		ShibariTeacherAppearance = ShibariTeacher.Appearance.slice();
 		ShibariStudent = CharacterLoadNPC("NPC_Shibari_Student");

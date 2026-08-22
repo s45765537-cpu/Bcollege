@@ -573,7 +573,7 @@ function ValidationCanAddItem(newItem, params) {
  * @param {Character} C - The target character
  * @param {number} sourceMemberNumber - The member number of the source character
  * @param {AssetGroupName} groupName - The name of the asset group for the intended item
- * @param {string} assetName - The asset name of the intended item
+ * @param {AssetName} assetName - The asset name of the intended item
  * @param {string|null} [type] - The type of the intended item
  * @returns {boolean} - TRUE if the character with the provided source member number is _not_ allowed to equip the
  * described asset on the target character, FALSE otherwise.

@@ -7,7 +7,7 @@ const AssetOverride = "ASSET_OVERRIDE";
 var Asset = [];
 /** @type {AssetGroup[]} */
 var AssetGroup = [];
-/** @type {Map<`${AssetGroupName}/${string}`, Asset>} */
+/** @type {Map<`${AssetGroupName}/${AssetName}`, Asset>} */
 var AssetMap = new Map();
 /** @type {Map<AssetGroupName, AssetGroup>} */
 var AssetGroupMap = new Map();
@@ -529,11 +529,11 @@ var AssetResolveCopyConfig = {
 
 	/**
 	 * Merge the passed config with all it's to-be copied super configs (per its `CopyConfig` settings)
-	 * @template {{ CopyConfig?: { GroupName?: AssetGroupName, AssetName: string }, BuyGroup?: string, Value?: number, Name?: string }} T
+	 * @template {{ CopyConfig?: { GroupName?: AssetGroupName, AssetName: AssetName }, BuyGroup?: string, Value?: number, Name?: string }} T
 	 * @param {T} config - The (extended) asset config
-	 * @param {string} assetName - The name of the corresponding asset
+	 * @param {AssetName} assetName - The name of the corresponding asset
 	 * @param {AssetGroupName} groupName - The name of the corresponding asset group
-	 * @param {Partial<Record<AssetGroupName, Record<string, T>>>} configRecord - A (nested) record containing the configs of all assets
+	 * @param {Partial<Record<AssetGroupName, Partial<Record<AssetName, T>>>>} configRecord - A (nested) record containing the configs of all assets
 	 * @param {string} configType - The name of the config type. Used for error reporting
 	 * @param {null | AssetCopyConfigValidator<T>} configValidator - An optional validator for comparing the config with its to-be copied counterpart(s)
 	 * @param {boolean} setBuyGroup - Whether to automatically assign a buygroup to the config and, if required, all `CopyConfig`-referenced super configs
@@ -594,7 +594,7 @@ var AssetResolveCopyConfig = {
 	 * Construct the items asset config, merging via {@link AssetDefinition.CopyConfig} if required.
 	 * @param {AssetDefinition} assetDef - The asset definition
 	 * @param {AssetGroupName} groupName - The name of the asset group
-	 * @param {Partial<Record<AssetGroupName, Record<string, AssetDefinition>>>} assetRecord - A record containg all asset definitions
+	 * @param {Partial<Record<AssetGroupName, Record<AssetName, AssetDefinition>>>} assetRecord - A record containg all asset definitions
 	 * @returns {null | AssetDefinition} - The oiginally passed base item configuration.
 	 * Returns `null` insstead if an error was encountered.
 	 */
@@ -670,7 +670,7 @@ function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, cr
  * Finds the extended item configuration for the provided group and asset name, if any exists
  * @param {ExtendedItemMainConfig} ExtendedConfig - The full extended item configuration object
  * @param {AssetGroupName} GroupName - The name of the asset group to find extended configuration for
- * @param {string} AssetName - The name of the asset to find extended configuration fo
+ * @param {AssetName} AssetName - The name of the asset to find extended configuration fo
  * @returns {AssetArchetypeConfig | undefined} - The extended asset configuration object for the specified asset, if
  * any exists, or undefined otherwise
  */
@@ -967,13 +967,13 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 	/**
 	 * Pass one: Resolve all string-based asset definitions and convert the entire thing into a
 	 * nested record mapping group names, to asset names, to asset definitions.
-	 * @type {Record<AssetGroupName, Record<string, AssetDefinition>>}
+	 * @type {Record<AssetGroupName, Record<AssetName, AssetDefinition>>}
 	 */
 	const assetDefsParsed = CommonFromEntries(Groups.map(g => {
 		return [
 			g.Group,
 			CommonFromEntries(g.Asset.map(a => {
-				/** @type {[name: string, config: AssetDefinition]} */
+				/** @type {[name: AssetName, config: AssetDefinition]} */
 				const ret = typeof a === "string" ? [a, { Name: a }] : [a.Name, a];
 				return ret;
 			})),
@@ -1023,7 +1023,7 @@ function AssetLoadAll() {
  * Gets a specific asset by family/group/name
  * @param {IAssetFamily} Family - The family to search in (Ignored until other family is added)
  * @param {AssetGroupName} Group - Name of the group of the searched asset
- * @param {string} Name - Name of the searched asset
+ * @param {AssetName} Name - Name of the searched asset
  * @returns {Asset | null}
  */
 function AssetGet(Family, Group, Name) {
@@ -1272,7 +1272,7 @@ async function AssetInventoryIDValidate() {
 }
 
 function AssetLoadCheckActivities() {
-	/** @type {Map<number, string[]>} */
+	/** @type {Map<number, ActivityName[]>} */
 	const ids = new Map();
 	let report = false;
 	for (const act of ActivityFemale3DCG) {

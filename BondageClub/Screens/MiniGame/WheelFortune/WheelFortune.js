@@ -16,6 +16,7 @@ var WheelFortuneInitY = 0;
 var WheelFortuneInitTime = 0;
 var WheelFortuneValue = "";
 var WheelFortuneList = "";
+/** @type {AssetName[]} */
 var WheelFortuneEncaseList = ["Coffin", "VacBedDeluxe", "CryoCapsule", "DisplayCase", "DollBox", "WoodenBox", "SmallWoodenBox", "Locker", "SmallLocker", "Cage", "LowCage", "TransportWoodenBox", "TheDisplayFrame"];
 var WheelFortuneEncaseClosedList = ["Coffin", "CryoCapsule"];
 var WheelFortunePasswordChar = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
@@ -530,7 +531,7 @@ var WheelFortuneOption = [
 
 /**
  * Returns TRUE if the wheel of fortune can add an item on the specified asset slot
- * @param {String} AssetName - The asset name
+ * @param {AssetName} AssetName - The asset name
  * @param {AssetGroupName} GroupName - The asset group to focus
  * @returns {boolean} - TRUE if we can add
  */
@@ -548,7 +549,8 @@ function WheelFortuneCanWear(AssetName, GroupName) {
  */
 function WheelFortuneFuturisticBondage() {
 	CharacterNaked(Player);
-	let AssetName = CommonRandomItemFromList("", ["FuturisticArmbinder", "FuturisticStraitjacket"]);
+	/** @type {AssetName} */
+	let AssetName = CommonGetRandomItemFromList(["FuturisticArmbinder", "FuturisticStraitjacket"]);
 	if (WheelFortuneCanWear(AssetName, "ItemArms")) InventoryWear(Player, AssetName, "ItemArms", "Default", 15);
 	if (WheelFortuneCanWear("FuturisticAnkleCuffs", "ItemFeet")) InventoryWear(Player, "FuturisticAnkleCuffs", "ItemFeet", "Default", 15);
 	if (WheelFortuneCanWear("FuturisticLegCuffs", "ItemLegs")) InventoryWear(Player, "FuturisticLegCuffs", "ItemLegs", "Default", 15);
@@ -556,7 +558,7 @@ function WheelFortuneFuturisticBondage() {
 	if (WheelFortuneCanWear("FuturisticTrainingBelt", "ItemPelvis")) InventoryWear(Player, "FuturisticTrainingBelt", "ItemPelvis", "Default", 15);
 	if (WheelFortuneCanWear("FuturisticBra", "ItemBreast")) InventoryWear(Player, "FuturisticBra", "ItemBreast", "Default", 15);
 	if (WheelFortuneCanWear("FuturisticHarness", "ItemTorso")) InventoryWear(Player, "FuturisticHarness", "ItemTorso", "Default", 15);
-	AssetName = CommonRandomItemFromList("", ["FuturisticPanelGag", "FuturisticHarnessPanelGag", "FuturisticHarnessBallGag"]);
+	AssetName = CommonGetRandomItemFromList(["FuturisticPanelGag", "FuturisticHarnessPanelGag", "FuturisticHarnessBallGag"]);
 	if (WheelFortuneCanWear(AssetName, "ItemMouth")) InventoryWear(Player, AssetName, "ItemMouth", "Default", 15);
 	if (WheelFortuneCanWear("FuturisticMask", "ItemHead")) InventoryWear(Player, "FuturisticMask", "ItemHead", "Default", 15);
 	if (WheelFortuneCanWear("FuturisticCollar", "ItemNeck")) InventoryWear(Player, "FuturisticCollar", "ItemNeck", "Default", 15);
@@ -570,7 +572,8 @@ function WheelFortuneFuturisticBondage() {
  * @returns {void} - Nothing
  */
 function WheelFortuneHogtie() {
-	let ItemName = CommonRandomItemFromList("", ["HempRope", "LeatherCuffs", "OrnateCuffs", "WoodenCuffs", "ThinLeatherStraps"]);
+	/** @type {AssetName} */
+	let ItemName = CommonGetRandomItemFromList(["HempRope", "LeatherCuffs", "OrnateCuffs", "WoodenCuffs", "ThinLeatherStraps"]);
 	if (!WheelFortuneCanWear(ItemName, "ItemArms")) return;
 	InventoryRemove(Player, "ItemArms");
 	let Type = (ItemName == "ThinLeatherStraps") ? "Hogtie" : "Hogtied";
@@ -677,7 +680,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 	while (((Item == null) || (Item.Asset == null) || (Item.Asset.AllowLock == false)) && (Try <= 30)) {
 		InventoryRemove(Player, Group, false);
 		if (Group == "ItemDevices") {
-			const assetName = CommonRandomItemFromList("", WheelFortuneEncaseList);
+			const assetName = CommonGetRandomItemFromList(WheelFortuneEncaseList);
 			Item = (Item != null && InventoryBlockedOrLimited(Player, Item)) ? null : InventoryWear(Player, assetName, "ItemDevices", "Default", 20);
 		} else {
 			Item = InventoryWearRandom(Player, Group, undefined, false);

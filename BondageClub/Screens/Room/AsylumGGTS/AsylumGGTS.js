@@ -880,11 +880,12 @@ function AsylumGGTSAutomaticTask() {
 		case "ItemTransform": {
 			let Item = InventoryGet(Player, "ItemArms");
 			if (Item && (Item.Asset.Name === "FuturisticCuffs" || Item.Asset.Name === "FuturisticArmbinder" || Item.Asset.Name === "FuturisticStraitjacket")) {
+				/** @type {AssetName[]} */
 				let List = [];
 				if (Item.Asset.Name !== "FuturisticCuffs") List.push("FuturisticCuffs");
 				if (Item.Asset.Name !== "FuturisticArmbinder") List.push("FuturisticArmbinder");
 				if ((Item.Asset.Name !== "FuturisticStraitjacket") && (AsylumGGTSGetLevel(Player) >= 5)) List.push("FuturisticStraitjacket");
-				InventoryWear(Player, CommonRandomItemFromList("", List), "ItemArms", null, 10, -1, null, false);
+				InventoryWear(Player, CommonGetRandomItemFromList(List), "ItemArms", null, 10, -1, null, false);
 			}
 			AsylumGGTSTransformGag("ItemMouth");
 			AsylumGGTSTransformGag("ItemMouth2");

@@ -41,7 +41,7 @@ let CraftingReturnToChatroom = false;
  * Eligible assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
  *
  * The first asset in each list is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
- * @type {Record<string, Asset[]>}
+ * @type {Partial<Record<AssetName, Asset[]>>}
  */
 let CraftingAssets = {};
 
@@ -1849,8 +1849,11 @@ function CraftingGetAllAssetNames() {
 	const visited = new Set();
 
 	return Object.values(CraftingAssets).flat().sort((asset1, asset2) => {
-		return asset1.Description.localeCompare(asset2.Description);
-	}).filter((asset) => {
+		return asset1 && asset2 ? asset1.Description.localeCompare(asset2.Description) : 0;
+	}).filter(/** @type {(asset?: Asset) => asset is Asset} */(asset) => {
+		if (!asset) {
+			return false;
+		}
 		const status = InventoryAvailable(Player, asset.Name, asset.Group.Name) && !visited.has(asset.Description);
 		if (status) {
 			visited.add(asset.Description);
@@ -2318,9 +2321,9 @@ function CraftingAppliesToItem(Craft, Item) {
  * @returns {Asset[]} - Nothing
  */
 function CraftingItemListBuild() {
-	const assets = new Set(Object.values(CraftingAssets).map(i => i[0]));
-	return Array.from(assets).filter(a => {
-		return InventoryAvailable(Player, a.Name, a.DynamicGroupName);
+	const assets = new Set(Object.values(CraftingAssets).map(i => i?.[0]));
+	return Array.from(assets).filter(/** @type {(a?: Asset) => a is Asset} */a => {
+		return a != null && InventoryAvailable(Player, a.Name, a.DynamicGroupName);
 	}).sort((a1, a2) => {
 		return a1.Description.localeCompare(a2.Description);
 	});
@@ -2557,7 +2560,7 @@ var CraftingValidationRecord = {
 				"LayerScaleY",
 				"LayerRotation",
 			]));
-			/** @type {null | string[]} */
+			/** @type {null | (LayerName | AssetName)[]} */
 			let layers = null;
 			for (const [key, value] of CommonEntries(property)) {
 				if (value == null) {

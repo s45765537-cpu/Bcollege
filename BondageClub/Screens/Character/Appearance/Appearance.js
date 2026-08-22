@@ -302,7 +302,8 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 
 	// Random December hats (25% odds)
 	if ((new Date().getMonth() == 11) && (Math.random() < 0.25) && (InventoryGet(C, "Hat") == null)) {
-		const randomItem = CommonRandomItemFromList("", ["Santa1", "ReindeerBand"]);
+		/** @type {AssetName} */
+		const randomItem = CommonGetRandomItemFromList(["Santa1", "ReindeerBand"]);
 		if (randomItem) {
 			InventoryWear(C, randomItem, "Hat");
 		}
@@ -538,7 +539,7 @@ function CharacterAppearanceBuildMasks(C) {
 /**
  * Determines whether an item or a whole item group is visible or not
  * @param {Character} C - The character whose assets are checked
- * @param {string | undefined} AssetName - The name of the asset to check
+ * @param {AssetName | undefined} AssetName - The name of the asset to check
  * @param {AssetGroupName} GroupName - The name of the item group to check
  * @param {boolean} Recursive - If TRUE, then other items which are themselves hidden will not hide this item. Parameterising this prevents
  *     infinite loops.
@@ -594,7 +595,7 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 
 /**
  * Determines whether the player has set this item to not appear on screen
- * @param {string} AssetName - The name of the asset to check
+ * @param {AssetName} AssetName - The name of the asset to check
  * @param {AssetGroupName} GroupName - The name of the item group to check
  * @returns {boolean} - TRUE if the item is hidden
  */

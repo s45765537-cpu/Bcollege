@@ -828,7 +828,7 @@ function StablePlayerExamEnd() {
 ////////////////////////////////////////////////////////////////////////////////////////////
 //Check if the Player can become a Trainer
 function StableCanBecomeTrainer() {
-	/** @type {[string, AssetGroupItemName][]} */
+	/** @type {[AssetName, AssetGroupItemName][]} */
 	const needed = [
 		["Crop", "ItemHandheld"],
 		["Whip", "ItemHandheld"],

@@ -64,7 +64,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	Nickname?: string;
 	Crafting?: string;
 	/** String-based values have been deprecated as of BondageProjects/Bondage-College#2138 */
-	Inventory?: string | Partial<Record<AssetGroupName, string[]>>;
+	Inventory?: string | Partial<Record<AssetGroupName, AssetName[]>>;
 	InventoryData?: string;
 	/** Initialized by {@link CharacterCreate} */
 	AssetFamily: "Female3DCG";
@@ -76,7 +76,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	MapData?: ChatRoomMapData;
 	PrivateCharacter?: ServerPrivateCharacterData[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
-	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
+	ConfiscatedItems?: { Group: AssetGroupName, Name: AssetName }[];
 	RoomCreateLanguage?: ServerChatRoomLanguage;
 	/** @deprecated */
 	RoomSearchLanguage?: "" | ServerChatRoomLanguage;
@@ -123,7 +123,7 @@ type ServerAccountDataDeprecations = (
 type ServerAccountDataNoDeprecated = ServerAccountData & { [k in ServerAccountDataDeprecations]?: never } & {
 	// Fields with one or more deprecated union members removed
 	LastChatRoom?: null | ServerChatRoomSettings;
-	Inventory?: Partial<Record<AssetGroupName, string[]>>;
+	Inventory?: Partial<Record<AssetGroupName, AssetName[]>>;
 };
 
 /**
@@ -132,7 +132,7 @@ type ServerAccountDataNoDeprecated = ServerAccountData & { [k in ServerAccountDa
  */
 interface ServerItemPermissions {
 	/** The {@link Asset.Name} of the item */
-	Name: string;
+	Name: AssetName;
 	/** The {@link AssetGroup.Name} of the item */
 	Group: AssetGroupName;
 	/**
@@ -143,7 +143,7 @@ interface ServerItemPermissions {
 }
 
 /** A packed record-based version of {@link ServerItemPermissions}. */
-type ServerItemPermissionsPacked = Partial<Record<AssetGroupName, Record<string, (undefined | null | string)[]>>>;
+type ServerItemPermissionsPacked = Partial<Record<AssetGroupName, Record<AssetName, (undefined | null | string)[]>>>;
 
 interface ServerMapDataResponse {
 	MemberNumber: number;
@@ -175,7 +175,7 @@ interface ServerLovership {
 /** An ItemBundle is a minified version of the normal Item */
 interface ServerItemBundle {
 	Group: AssetGroupName;
-	Name: string;
+	Name: AssetName;
 	Difficulty?: number;
 	Color?: ItemColor;
 	Property?: ItemPropertiesMinimized;
@@ -694,7 +694,7 @@ interface GroupReferenceDictionaryEntry extends TaggedDictionaryEntry {
  */
 interface AssetReferenceDictionaryEntry extends GroupReferenceDictionaryEntry {
 	/** The name of the asset being referenced */
-	AssetName: string;
+	AssetName: AssetName;
 	/** The (optional) {@link CraftingItem.Name} in case the asset was referenced via a crafted item */
 	CraftName?: string;
 }
@@ -937,7 +937,7 @@ interface ServerGameLARPDataAction {
 	GameProgress: "Action";
 	Action: GameLARPActionName;
 	Target: number;
-	Item: string;
+	Item: AssetName;
 }
 
 interface ServerGameLARPDataQuery {
@@ -1069,29 +1069,29 @@ interface ServerChatRoomReorderResponse {
 
 interface ServerCharacterUpdate {
 	ID: string;
-	ActivePose: readonly string[];
+	ActivePose: readonly AssetPoseName[];
 	Appearance: ServerAppearanceBundle;
 }
 
 interface ServerCharacterExpressionUpdate {
-	Name: string;
-	Group: string;
+	Name: ExpressionName;
+	Group: ExpressionGroupName;
 	Appearance: ServerAppearanceBundle;
 }
 
 interface ServerCharacterExpressionResponse {
     MemberNumber: number;
-    Name: string;
-    Group: string
+    Name: ExpressionName;
+    Group: ExpressionGroupName;
 }
 
 interface ServerCharacterPoseUpdate {
-	Pose: string | readonly string[] | null;
+	Pose: AssetPoseName | readonly AssetPoseName[] | null;
 }
 
 interface ServerCharacterPoseResponse {
     MemberNumber: number;
-    Pose: readonly string[];
+    Pose: readonly AssetPoseName[];
 }
 
 interface ServerCharacterArousalUpdate {
@@ -1111,7 +1111,7 @@ interface ServerCharacterArousalResponse {
 
 interface ServerCharacterItemUpdate extends Omit<ServerItemBundle, "Name"> {
 	Target: number;
-	Name: undefined | string;
+	Name: AssetName | string;
 }
 
 interface ServerChatRoomSyncItemResponse {

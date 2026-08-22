@@ -548,7 +548,7 @@ function LoginReloadLanguageText() {
  * If it's an asset merge (say 3 into one typed asset), it will either set
  * the fixed up item to the specified `Option` or the first one if unspecified.
  *
- * @type {{ Old: { Group: string, Name: string | '*' }, New: { Group: AssetGroupName, Name?: string, Option?: string } }[]}
+ * @type {{ Old: { Group: string, Name: string | '*' }, New: { Group: AssetGroupName, Name?: AssetName, Option?: string } }[]}
  */
 let LoginInventoryFixups = [
 	{ Old: { Group: "ItemLegs", Name: "WoodenHorse" }, New: { Group: "ItemDevices", Name: "WoodenHorse" } },
@@ -721,7 +721,7 @@ function LoginPerformCraftingFixups(Crafting) {
 		// Move crafts over to the new name
 		for (const craft of Crafting) {
 			if (!craft || craft.Item !== fixup.Old.Name) continue;
-			craft.Item = /** @type {string} */(fixup.New.Name);
+			craft.Item = /** @type {AssetName} */(fixup.New.Name);
 		}
 	}
 }

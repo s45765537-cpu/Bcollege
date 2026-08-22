@@ -1080,7 +1080,7 @@ function ExtendedItemSetOption(data, C, item, newOption, previousOption, push=fa
 
 /** A temporary hack for registering extra archetypes for a single screen. */
 function ExtendedItemManualRegister() {
-	/** @type {{ group: AssetGroupName, name: string, config: AssetArchetypeConfig }[]} */
+	/** @type {{ group: AssetGroupName, name: AssetName, config: AssetArchetypeConfig }[]} */
 	const items = [
 		{
 			group: "ItemArms",

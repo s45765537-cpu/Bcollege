@@ -183,7 +183,7 @@ var DialogSelfMenuOptions = [
 var DialogLeaveFocusItemHandlers = {
 	/**
 	 * Screen setup callbacks for after exiting the tighten/loosen menu; screen names are used as keys.
-	 * @type {Record<string, (item: Item) => void>}
+	 * @type {Partial<Record<ScreenName, (item: Item) => void>>}
 	 */
 	DialogTightenLoosenItem: {
 		Crafting: (item) => {
@@ -201,7 +201,7 @@ var DialogLeaveFocusItemHandlers = {
 
 	/**
 	 * Screen setup callbacks for after exiting the extended item menu; screen names are used as keys.
-	 * @type {Record<string, (item: Item) => void>}
+	 * @type {Partial<Record<ScreenName, (item: Item) => void>>}
 	 */
 	DialogFocusItem: {
 		Appearance: () => {
@@ -296,7 +296,7 @@ function DialogChangeReputation(RepType, Value) { ReputationProgress(RepType, Va
 
 /**
  * Equips a specific item on the player from dialog
- * @param {string} AssetName - The name of the asset that should be equipped
+ * @param {AssetName} AssetName - The name of the asset that should be equipped
  * @param {AssetGroupName} AssetGroup - The name of the corresponding asset group
  * @returns {void} - Nothing
  */
@@ -453,7 +453,7 @@ function DialogSkillGreater(SkillType, Value) { return SkillGetLevel(Player, Ski
 
 /**
  * Checks, if a given item is available in the player's inventory
- * @param {string} InventoryName
+ * @param {AssetName} InventoryName
  * @param {AssetGroupName} InventoryGroup
  * @returns {boolean} - Returns true, if the item is available, false otherwise
  */
