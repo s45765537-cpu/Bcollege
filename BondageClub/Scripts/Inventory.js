@@ -1104,12 +1104,15 @@ var InventoryUnequip = {
  * @param {Character} C - The character on which we must remove the item
  * @param {AssetGroupName} AssetGroup - The name of the asset group (body area)
  * @param {boolean} [Refresh] - Whether or not to trigger a character refresh. Defaults to true
+ * @returns {null | Item} - The removed item
  * @see {@link InventoryUnequip} for a namespace with more extensive item removal logic
  */
 function InventoryRemove(C, AssetGroup, Refresh=true) {
-	if (InventoryUnequip.group(C, AssetGroup) && Refresh) {
+	const item = InventoryUnequip.group(C, AssetGroup);
+	if (item && Refresh) {
 		CharacterRefresh(C);
 	}
+	return item;
 }
 
 /**
