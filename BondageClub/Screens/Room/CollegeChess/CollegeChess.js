@@ -63,7 +63,7 @@ function CollegeChessGameStart(Difficulty, Bet) {
 	const playerStarts = Math.random() < 0.5;
 	ChessCharacterWhite = playerStarts ? Player : CollegeChessOpponent;
 	ChessCharacterBlack = playerStarts ? CollegeChessOpponent : Player;
-	MiniGameStart("Chess", CollegeChessDifficulty, () => CollegeChessGameEnd());
+	MiniGameStart("Chess", CollegeChessDifficulty, () => { CollegeChessGameEnd(); });
 	document.addEventListener("chessOnMove", CollegeChessGameProgress);
 }
 
@@ -148,6 +148,7 @@ function CollegeChessGameConcede() {
 
 /**
  * Triggered when the chess game ends.
+ * @returns {SafePromise<void>}
  */
 async function CollegeChessGameEnd() {
 	await CommonSetScreen("Room", "CollegeChess");

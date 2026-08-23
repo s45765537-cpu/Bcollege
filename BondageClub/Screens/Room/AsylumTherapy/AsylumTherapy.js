@@ -246,11 +246,12 @@ function AsylumTherapyPatientOrgasmIntro(RepChange) {
 function AsylumTherapyTherapyStart(Difficulty) {
 	TherapyCharacterLeft = Player;
 	TherapyCharacterRight = AsylumTherapyPatient;
-	MiniGameStart("Therapy", Difficulty, () => AsylumTherapyTherapyMiniGameEnd());
+	MiniGameStart("Therapy", Difficulty, () => { AsylumTherapyTherapyMiniGameEnd(); });
 }
 
 /**
  * Ends the therapy mini-game as a nurse, plays with reputation and money
+ * @returns {SafePromise<void>}
  */
 async function AsylumTherapyTherapyMiniGameEnd() {
 	await CommonSetScreen("Room", "AsylumTherapy");

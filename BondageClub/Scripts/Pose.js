@@ -209,7 +209,7 @@ function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 		C.ActivePoseMapping = (newPose == null) ? { BodyLower: "BaseLower", BodyUpper: "BaseUpper" } : { [newPose.Category]: newPose.Name };
 		CharacterRefresh(C, false);
 		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
-			DialogSelfMenuMapping.Pose.Reload();
+			CommonPromiseCatch(DialogSelfMenuMapping.Pose.Reload());
 		}
 		return;
 	}
@@ -241,7 +241,7 @@ function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 
 	CharacterRefresh(C, false);
 	if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
-		DialogSelfMenuMapping.Pose.Reload();
+		CommonPromiseCatch(DialogSelfMenuMapping.Pose.Reload());
 	}
 }
 

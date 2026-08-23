@@ -49,11 +49,12 @@ function ClubCardLoungeClick() {
  * @returns {void} - Nothing
  */
 function ClubCardLoungePraticeGameStart() {
-	ClubCardStart(ClubCardLoungeTutor, ClubCardBuilderDefaultDeck, () => ClubCardLoungePraticeGameEnd());
+	ClubCardStart(ClubCardLoungeTutor, ClubCardBuilderDefaultDeck, () => { ClubCardLoungePraticeGameEnd(); });
 }
 
 /**
  * When the practice game ends
+ * @returns {SafePromise<void>}
  */
 async function ClubCardLoungePraticeGameEnd() {
 	await CommonSetScreen("Room", "ClubCardLounge");

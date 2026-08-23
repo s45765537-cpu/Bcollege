@@ -358,7 +358,7 @@ function ItemColorClickDefault(x, y, width, shape) {
 		if (MouseYIn(y + i * rowHeight, buttonHeight)) {
 			if (MouseXIn(colorPickerButtonX, colorPickerButtonWidth)) {
 				// Color picker button
-				ItemColorOpenPicker(colorGroup, { shape });
+				CommonPromiseCatch(ItemColorOpenPicker(colorGroup, { shape }));
 			} else if (MouseXIn(colorDisplayButtonX, colorDisplayWidth)) {
 				// Cycle through the color schema
 				ItemColorNextColor(colorGroup);

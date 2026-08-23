@@ -147,9 +147,9 @@ function CollegeCafeteriaFightStart() {
 
 /**
  * Resolves the fight between the player and Sidney
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function CollegeCafeteriaFightEnd() {
+async function CollegeCafeteriaFightEnd() {
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CollegeCafeteriaSidney));
 	CollegeCafeteriaSidney.Stage = (KidnapVictory) ? "300" : "400";
 	CharacterRelease(Player);
@@ -158,10 +158,9 @@ function CollegeCafeteriaFightEnd() {
 	InventoryWear(Player, "CollegeSkirt", "ClothLower", "Default");
 	InventoryWear(CollegeCafeteriaSidney, "CollegeOutfit1", "Cloth", "Default");
 	InventoryWear(CollegeCafeteriaSidney, "CollegeSkirt", "ClothLower", "Default");
-	CommonSetScreen("Room", "CollegeCafeteria").then(() => {
-		CharacterSetCurrent(CollegeCafeteriaSidney);
-		CollegeCafeteriaSidney.CurrentDialog = DialogFind(CollegeCafeteriaSidney, (KidnapVictory) ? "FightVictory" : "FightDefeat");
-	});
+	await CommonSetScreen("Room", "CollegeCafeteria");
+	CharacterSetCurrent(CollegeCafeteriaSidney);
+	CollegeCafeteriaSidney.CurrentDialog = DialogFind(CollegeCafeteriaSidney, (KidnapVictory) ? "FightVictory" : "FightDefeat");
 }
 
 /**

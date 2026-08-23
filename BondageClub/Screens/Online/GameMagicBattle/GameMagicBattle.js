@@ -39,7 +39,7 @@ function GameMagicBattleSetStatus(NewStatus) {
 	let ForceUpdate = false;
 	if (Player.Game == null || Player.Game.MagicBattle == null) {
 		ForceUpdate = true;
-		GameMagicBattleLoad();
+		GameMagicBattleInitialize();
 	}
 
 	if (ForceUpdate || (NewStatus !== Player.Game.MagicBattle.Status)) {
@@ -76,10 +76,14 @@ function GameMagicBattleDrawIcon(C, X, Y, Zoom) {
  * @type {ScreenLoadHandler}
  */
 async function GameMagicBattleLoad() {
+	GameMagicBattleInitialize();
+}
+
+function GameMagicBattleInitialize() {
 	if (Player.Game == null) Player.Game = {};
 	let game = Player.Game.MagicBattle;
 	Player.Game.MagicBattle = {
-		Status: "",
+		Status: /** @type {const} */ (""),
 		House: (game && typeof game.House === "string" ? game.House : "NotPlaying"),
 		TeamType: (game && ["FreeForAll", "House"].includes(game.TeamType) ? game.TeamType : "House"),
 	};
@@ -168,7 +172,7 @@ function GameMagicBattleClickProcess() {
 					MagicPuzzleSpell = MagicBattleAvailSpell[B];
 					MagicPuzzleAutoExit = true;
 					MagicPuzzleBackground = ChatRoomData.Background;
-					MiniGameStart("MagicPuzzle", Time - 5, () => GameMagicBattlePuzzleEnd());
+					MiniGameStart("MagicPuzzle", Time - 5, () => { GameMagicBattlePuzzleEnd(); });
 					return true;
 				}
 	}
@@ -177,6 +181,7 @@ function GameMagicBattleClickProcess() {
 
 /**
  * When the magic puzzle ends, we go back to the chat room
+ * @returns {SafePromise<void>}
  */
 async function GameMagicBattlePuzzleEnd() {
 	ServerSend("ChatRoomGame", { GameProgress: "Action", Action: (MiniGameVictory ? "SpellSuccess" : "SpellFail"), Spell: MagicPuzzleSpell, Time: MagicPuzzleFinish - MagicPuzzleStart, Target: GameMagicBattleFocusCharacter.MemberNumber });

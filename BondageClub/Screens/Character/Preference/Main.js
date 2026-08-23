@@ -28,7 +28,7 @@ function PreferenceSubscreenMainLoad() {
 			subscreenButtons.map((screen) => {
 				return ElementButton.Create(`preference-main-${screen.name}`,
 					() => {
-						PreferenceOpenSubscreen(screen.name);
+						CommonPromiseCatch(PreferenceOpenSubscreen(screen.name));
 					},
 					{
 						image: screen.icon || `Icons/${screen.name}.png`,

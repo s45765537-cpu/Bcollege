@@ -1467,7 +1467,7 @@ function AppearanceClick() {
 
 			if (MouseIn(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
 				if (Item && !C.IsNpc()) {
-					Layering.Init(Item, C, { x: Layering.DisplayDefault.x - 2, buttonGap: 27 });
+					CommonPromiseCatch(Layering.Init(Item, C, { x: Layering.DisplayDefault.x - 2, buttonGap: 27 }));
 				}
 				return;
 			}
@@ -1832,7 +1832,7 @@ function CharacterAppearanceReady(C) {
 		const oldPronouns = pronounGroup ? pronounGroup.Asset.Name : "SheHer";
 
 		if (oldPronouns != C.GetPronouns()) {
-			CharacterLoadCSVDialog(C);
+			CommonPromiseCatch(CharacterLoadCSVDialog(C));
 		}
 	}
 	CharacterAppearanceResultCallback(true);

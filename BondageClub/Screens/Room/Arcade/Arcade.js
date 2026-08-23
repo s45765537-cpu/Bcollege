@@ -167,11 +167,12 @@ function ArcadeKinkyDungeonStart(PlayerLevel) {
 		KinkyDungeonGameRunning = false; // Reset the game to prevent carrying over spectator data
 		KinkyDungeonPlayerCharacter = null;
 	}
-	MiniGameStart("KinkyDungeon", PlayerLevel, () => ArcadeKinkyDungeonEnd());
+	MiniGameStart("KinkyDungeon", PlayerLevel, () => { ArcadeKinkyDungeonEnd(); });
 }
 
 /**
  * Ends the therapy mini-game as a nurse, plays with reputation and money
+ * @returns {SafePromise<void>}
  */
 async function ArcadeKinkyDungeonEnd() {
 	await CommonSetScreen("Room", "Arcade");

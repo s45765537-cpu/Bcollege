@@ -72,12 +72,12 @@ function LARPSelectClass(NewClass) {
  */
 function LARPClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderABDLDeck, () => LARPClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderABDLDeck, () => { LARPClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>}
  */
 async function LARPClubCardEnd() {
 	await CommonSetScreen("Room", "LARP");

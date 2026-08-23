@@ -228,15 +228,14 @@ function KidnapLeagueBountyRemind() {
 
 /**
  * Starts the bounty hunter mission in the kidnap league screen.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function KidnapLeagueBountyStart() {
-	CommonSetScreen("Room", "KidnapLeague").then(() => {
-		KidnapLeagueBackground = KidnapLeagueBountyLocation;
-		KidnapLeagueBounty.Stage = "50";
-		CharacterSetCurrent(KidnapLeagueBounty);
-		KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, "Bounty" + KidnapLeagueBountyLocation);
-	});
+async function KidnapLeagueBountyStart() {
+	await CommonSetScreen("Room", "KidnapLeague");
+	KidnapLeagueBackground = KidnapLeagueBountyLocation;
+	KidnapLeagueBounty.Stage = "50";
+	CharacterSetCurrent(KidnapLeagueBounty);
+	KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, "Bounty" + KidnapLeagueBountyLocation);
 }
 
 /**
@@ -249,9 +248,9 @@ function KidnapLeagueBountyFightStart() {
 
 /**
  * Ends the bounty hunter fight and goes back to the kidnap league screen.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function KidnapLeagueBountyFightEnd() {
+async function KidnapLeagueBountyFightEnd() {
 	CurrentDarkFactor = 1.0;
 	KidnapLeagueRandomActivityCount = 0;
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueBounty));
@@ -260,12 +259,11 @@ function KidnapLeagueBountyFightEnd() {
 	KidnapLeagueBounty.Stage = (KidnapVictory) ? "101" : "201";
 	KidnapLeagueRandomKidnapper = KidnapLeagueBounty;
 	if (!KidnapVictory) CharacterRelease(KidnapLeagueBounty);
-	CommonSetScreen("Room", "KidnapLeague").then(() => {
-		KidnapLeagueBackground = KidnapLeagueBountyLocation;
-		CharacterSetCurrent(KidnapLeagueBounty);
-		KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, (KidnapVictory) ? "BountyVictory" : "BountyDefeat");
-		KidnapLeagueWillPayForFreedom = false;
-	});
+	await CommonSetScreen("Room", "KidnapLeague");
+	KidnapLeagueBackground = KidnapLeagueBountyLocation;
+	CharacterSetCurrent(KidnapLeagueBounty);
+	KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, (KidnapVictory) ? "BountyVictory" : "BountyDefeat");
+	KidnapLeagueWillPayForFreedom = false;
 }
 
 /**
@@ -301,17 +299,16 @@ function KidnapLeagueStartKidnap(Difficulty) {
 
 /**
  * Ends a kidnap match ends. Send the player to the kidnap league screen and sets the right trainer dialog.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function KidnapLeagueEndKidnap() {
+async function KidnapLeagueEndKidnap() {
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueTrainer));
 	KidnapLeagueTrainer.AllowItem = KidnapVictory;
 	KidnapLeagueTrainer.Stage = (KidnapVictory) ? "100" : "200";
 	if (!KidnapVictory) CharacterRelease(KidnapLeagueTrainer);
-	CommonSetScreen("Room", "KidnapLeague").then(() => {
-		CharacterSetCurrent(KidnapLeagueTrainer);
-		KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
-	});
+	await CommonSetScreen("Room", "KidnapLeague");
+	CharacterSetCurrent(KidnapLeagueTrainer);
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
 }
 
 /**
@@ -376,7 +373,7 @@ async function KidnapLeagueRandomIntro() {
 /**
  * Triggered at the end of a match, sets a random outro sequence.
  * @param {boolean} Surrender - Whether or not the player surrendered.
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
 async function KidnapLeagueRandomOutro(Surrender) {
 	KidnapLeagueRandomActivityCount = 0;
@@ -535,12 +532,12 @@ function KidnapLeagueTransferToRoom() {
  */
 function KidnapLeagueRandomClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderPornDeck, () => KidnapLeagueRandomClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderPornDeck, () => { KidnapLeagueRandomClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>}
  */
 async function KidnapLeagueRandomClubCardEnd() {
 	await CommonSetScreen("Room", "KidnapLeague");

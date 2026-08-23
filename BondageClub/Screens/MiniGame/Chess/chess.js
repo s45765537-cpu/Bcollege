@@ -65,7 +65,7 @@ function MiniGameChessStart(Depth, PlayerColor) {
 	 * @param {Number} alpha
 	 * @param {Number} beta
 	 * @param {Boolean} isMaximizingPlayer - If current turn is maximizing or minimizing player
-	 * @return {Promise<[number, number]>} The best move value, and the best move
+	 * @return {SafePromise<[number, number]>} The best move value, and the best move
 	 */
 	async function calcBestMove(
 		depth,
@@ -212,7 +212,7 @@ function MiniGameChessStart(Depth, PlayerColor) {
 
 				// make move for black
 				window.setTimeout(function () {
-					makeMove(MinMaxDepth);
+					CommonPromiseCatch(makeMove(MinMaxDepth));
 				}, 200);
 			}
 		}
@@ -226,7 +226,7 @@ function MiniGameChessStart(Depth, PlayerColor) {
 	// Opponent starts
 	if (PlayerColor === "b") {
 		window.setTimeout(function () {
-			makeMove(MinMaxDepth);
+			CommonPromiseCatch(makeMove(MinMaxDepth));
 		}, board.props.animationDuration);
 	}
 }

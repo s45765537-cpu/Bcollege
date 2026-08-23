@@ -2514,11 +2514,12 @@ function PrivateGetClubCardDeck(C) {
  */
 function PrivateClubCardVsCharacterStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => PrivateClubCardVsCharacterEnd());
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => { PrivateClubCardVsCharacterEnd(); });
 }
 
 /**
  * When the club card game against a friend NPC ends
+ * @returns {SafePromise<void>}
  */
 async function PrivateClubCardVsCharacterEnd() {
 	if (!ClubCardOpponent) return;
@@ -2549,7 +2550,7 @@ async function PrivateClubCardVsCharacterEnd() {
  */
 function PrivateClubCardVsOwnerStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => PrivateClubCardVsCharacterEnd());
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => { PrivateClubCardVsCharacterEnd(); });
 }
 
 /**
@@ -2568,7 +2569,7 @@ function PrivateClubCardVsOwnerEnd() {
  */
 function PrivateClubCardVsSubStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => PrivateClubCardVsCharacterEnd());
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => { PrivateClubCardVsCharacterEnd(); });
 }
 
 /**

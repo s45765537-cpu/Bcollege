@@ -84,21 +84,20 @@ function EmptyShopRelease() {
 /**
  * Releases the player from the item she was trying to sell, and sets the following dialog.
  * @param {string|boolean} Sold - Whether or not the item was sold, "true" if sold
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function EmptyShopEnd(Sold) {
+async function EmptyShopEnd(Sold) {
 	if (!ShopVendor) return;
 	const WasSold = (Sold == "true");
 	ShopVendor.Stage = (WasSold) ? "33" : "34";
 	if (WasSold) CharacterChangeMoney(Player, ShopDemoItemPayment);
 	DialogLeave();
-	CommonSetScreen("Room", "Shop").then(() => {
-		if (!ShopVendor || !ShopCustomer) return;
-		CharacterSetCurrent(ShopVendor);
-		ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
-		CharacterAppearanceFullRandom(ShopCustomer, false);
-		ShopCustomer.Name = CharacterGenerateRandomName();
-	});
+	await CommonSetScreen("Room", "Shop");
+	if (!ShopVendor || !ShopCustomer) return;
+	CharacterSetCurrent(ShopVendor);
+	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
+	CharacterAppearanceFullRandom(ShopCustomer, false);
+	ShopCustomer.Name = CharacterGenerateRandomName();
 }
 
 /**
@@ -164,9 +163,9 @@ function EmptySlaveMarketTrainingProgress(Intensity) {
 /**
  * Triggered when the slave market training ends
  * @param {string} Status - The status the game ended with, "Success" if won
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function EmptySlaveMarketTrainingEnd(Status) {
+async function EmptySlaveMarketTrainingEnd(Status) {
 	var Money = (CurrentCharacter?.TrainingCountPerfect ?? 0) * 3;
 	DialogLeave();
 	if (Status != "Success") DialogChangeReputation("Dominant", -1);
@@ -174,14 +173,13 @@ function EmptySlaveMarketTrainingEnd(Status) {
 		CharacterChangeMoney(Player, Money);
 		IntroductionJobProgress("DomTrainer");
 	}
-	CommonSetScreen("Room", "SlaveMarket").then(() => {
-		if (!SlaveMarketMistress || !SlaveMarketSlaveToTrain) return;
-		SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
-		SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
+	await CommonSetScreen("Room", "SlaveMarket");
+	if (!SlaveMarketMistress || !SlaveMarketSlaveToTrain) return;
+	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
+	SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
 
-		CharacterDelete(SlaveMarketSlaveToTrain);
-		SlaveMarketSlaveToTrain = null;
+	CharacterDelete(SlaveMarketSlaveToTrain);
+	SlaveMarketSlaveToTrain = null;
 
-		CharacterSetCurrent(SlaveMarketMistress);
-	});
+	CharacterSetCurrent(SlaveMarketMistress);
 }

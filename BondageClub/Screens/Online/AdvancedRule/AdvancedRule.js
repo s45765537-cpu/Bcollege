@@ -133,13 +133,15 @@ function AdvancedRuleClick() {
  * @type {ScreenExitHandler}
  */
 function AdvancedRuleExit() {
-	CommonSetScreen("Online", "ChatRoom").then(() => {
-		if (AdvancedRuleTarget) {
-			const builder = new DictionaryBuilder();
-			builder.stringList(AdvancedRuleType, [...AdvancedRuleSelection.values()]);
-			ServerSend("ChatRoomChat", { Content: "OwnerRule" + AdvancedRuleType, Type: "Hidden", Target: AdvancedRuleTarget.MemberNumber, Dictionary: builder.build() });
-			ChatRoomFocusCharacter(AdvancedRuleTarget);
-			AdvancedRuleTarget = null;
-		}
-	});
+	CommonPromiseCatch(
+		CommonSetScreen("Online", "ChatRoom").then(() => {
+			if (AdvancedRuleTarget) {
+				const builder = new DictionaryBuilder();
+				builder.stringList(AdvancedRuleType, [...AdvancedRuleSelection.values()]);
+				ServerSend("ChatRoomChat", { Content: "OwnerRule" + AdvancedRuleType, Type: "Hidden", Target: AdvancedRuleTarget.MemberNumber, Dictionary: builder.build() });
+				ChatRoomFocusCharacter(AdvancedRuleTarget);
+				AdvancedRuleTarget = null;
+			}
+		})
+	);
 }

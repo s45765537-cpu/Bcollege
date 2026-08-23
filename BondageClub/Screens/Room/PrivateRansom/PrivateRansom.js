@@ -68,15 +68,19 @@ function PrivateRansomRun() {
  */
 function PrivateRansomClick() {
 	if (MouseIn(1800, 100, 90, 90)) PrivateRansomExit();
-	if (MouseIn(1800, 215, 90, 90)) {
-		let Intro = TextGet("InfiltrationIntro");
-		CommonSetScreen("Room", "Infiltration").then(() => {
-			const supervisor = /** @type {Character} */ (InfiltrationSupervisor);
-			supervisor.Stage = "100";
-			supervisor.CurrentDialog = Intro;
-			CharacterSetCurrent(supervisor);
-		});
-	}
+	if (MouseIn(1800, 215, 90, 90)) PrivateRansomTalkSupervisor();
+}
+
+/**
+ * @returns {SafePromise<void>}
+ */
+async function PrivateRansomTalkSupervisor() {
+	let Intro = TextGet("InfiltrationIntro");
+	await CommonSetScreen("Room", "Infiltration");
+	const supervisor = /** @type {Character} */ (InfiltrationSupervisor);
+	supervisor.Stage = "100";
+	supervisor.CurrentDialog = Intro;
+	CharacterSetCurrent(supervisor);
 }
 
 /**

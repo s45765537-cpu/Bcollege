@@ -163,9 +163,12 @@ function StableTrialPonyTraining() {
 
 //Start the Demo for a Trainer-training
 function StableTrialTrainerTraining() {
-	MiniGameStart("HorseWalk", "WhipPony", () => StableTrialTrainerTrainingEnd());
+	MiniGameStart("HorseWalk", "WhipPony", () => { StableTrialTrainerTrainingEnd(); });
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function StableTrialTrainerTrainingEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
@@ -378,10 +381,13 @@ function StablePlayerTrainingDance(Behavior) {
 //Start Traning Hurdle
 function StablePlayerTrainingHurdles(Behavior) {
 	StablePlayerTrainingBehavior += parseInt(Behavior);
-	MiniGameStart("HorseWalk", "Hurdle", () => StablePlayerTrainingHurdlesEnd());
+	MiniGameStart("HorseWalk", "Hurdle", () => { StablePlayerTrainingHurdlesEnd(); });
 	StablePlayerTrainingLessons += 2;
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function StablePlayerTrainingHurdlesEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
@@ -471,11 +477,14 @@ function StablePlayerTrainingStrongRace(Behavior) {
 //Start Traning Carrots - MiniGame
 function StablePlayerTrainingCarrots(Behavior) {
 	StablePlayerTrainingBehavior += parseInt(Behavior);
-	MiniGameStart("HorseWalk", "Carrot", () => StablePlayerTrainingCarrotsEnd());
+	MiniGameStart("HorseWalk", "Carrot", () => { StablePlayerTrainingCarrotsEnd(); });
 	StablePlayerTrainingLessons += 2;
 }
 
-//End Traning Carrots - MiniGame
+/**
+ * End Traning Carrots - MiniGame
+ * @returns {SafePromise<void>}
+ */
 async function StablePlayerTrainingCarrotsEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
@@ -686,9 +695,12 @@ function StablePlayerStartExam() {
 }
 
 function StablePlayerExamHurdles() {
-	MiniGameStart("HorseWalk", "Hurdle", () => StablePlayerExamHurdlesEnd());
+	MiniGameStart("HorseWalk", "Hurdle", () => { StablePlayerExamHurdlesEnd(); });
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function StablePlayerExamHurdlesEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
@@ -832,10 +844,13 @@ function StablePonyTraining(probability) {
 
 //Start Traning Hurdle for Player as Trainer
 function StablePonyTrainingHurdles() {
-	MiniGameStart("HorseWalk", "HurdleTraining", () => StablePonyTrainingHurdlesEnd());
+	MiniGameStart("HorseWalk", "HurdleTraining", () => { StablePonyTrainingHurdlesEnd(); });
 	StableTrainerTrainingExercises -= 2;
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function StablePonyTrainingHurdlesEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StablePony);
@@ -852,10 +867,13 @@ async function StablePonyTrainingHurdlesEnd() {
 
 //Start the Trainer-training
 function StableTrainerWhip() {
-	MiniGameStart("HorseWalk", "WhipPony", () => StableTrainerWhipEnd());
+	MiniGameStart("HorseWalk", "WhipPony", () => { StableTrainerWhipEnd(); });
 	StableTrainerTrainingExercises -= 2;
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function StableTrainerWhipEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StablePony);
@@ -910,9 +928,12 @@ function StablePlayerTExamKnow() {
 }
 
 function StablePlayerTExamWhip() {
-	MiniGameStart("HorseWalk", "WhipPony", () => StablePlayerTExamWhipEnd());
+	MiniGameStart("HorseWalk", "WhipPony", () => { StablePlayerTExamWhipEnd(); });
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function StablePlayerTExamWhipEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
@@ -926,9 +947,12 @@ async function StablePlayerTExamWhipEnd() {
 }
 
 function StablePlayerTExamHurdles() {
-	MiniGameStart("HorseWalk", "HurdleTraining", () => StablePlayerTExamHurdlesEnd());
+	MiniGameStart("HorseWalk", "HurdleTraining", () => { StablePlayerTExamHurdlesEnd(); });
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function StablePlayerTExamHurdlesEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
@@ -1118,11 +1142,12 @@ function StableHideDice() {
  */
 function StableClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderABDLDeck, () => StableClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderABDLDeck, () => { StableClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
+ * @returns {SafePromise<void>}
  */
 async function StableClubCardEnd() {
 	await CommonSetScreen("Room", "Stable");

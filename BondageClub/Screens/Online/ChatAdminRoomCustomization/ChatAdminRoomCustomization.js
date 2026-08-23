@@ -431,7 +431,7 @@ function ChatAdminRoomCustomizationPreviewMusic() {
 			ChatAdminRoomCustomizationAudio = new Audio();
 			ChatAdminRoomCustomizationAudio.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
 			ChatAdminRoomCustomizationAudio.src = data.MusicURL;
-			ChatAdminRoomCustomizationAudio.play();
+			CommonPromiseCatch(ChatAdminRoomCustomizationAudio.play());
 		}
 	} else {
 		ChatAdminRoomCustomizationAudio?.pause();

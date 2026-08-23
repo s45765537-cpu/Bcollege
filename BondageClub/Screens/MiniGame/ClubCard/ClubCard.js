@@ -4408,7 +4408,7 @@ function ClubCardIsPlaying() {
  * @param {Character} opponent
  * @param {number[]} deck
  * @param {() => void} completion
- * @returns
+ * @returns {SafePromise<void>}
  */
 async function ClubCardStart(opponent, deck, completion) {
 	ClubCardOpponent = opponent;

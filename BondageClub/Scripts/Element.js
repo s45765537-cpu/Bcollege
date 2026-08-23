@@ -2189,12 +2189,14 @@ var ElementButton = {
 			],
 		});
 
-		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
-			const dfn = list.querySelectorAll("dfn");
-			for (const d of dfn) {
-				d.parentElement?.append(textCache.get(`Description${d.textContent}`));
-			}
-		});
+		CommonPromiseCatch(
+			TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
+				const dfn = list.querySelectorAll("dfn");
+				for (const d of dfn) {
+					d.parentElement?.append(textCache.get(`Description${d.textContent}`));
+				}
+			})
+		);
 		return [label, list];
 	},
 
@@ -2341,7 +2343,7 @@ var ElementMenu = {
 				}
 				if (roles.includes(role)) {
 					// @ts-ignore
-					menuitem.addEventListener("keydown", ElementMenu._KeyDown);
+					menuitem.addEventListener("keydown", (e) => { CommonPromiseCatch(ElementMenu._KeyDown(e)); });
 					menuitem.setAttribute("tabindex", "-1");
 				}
 			}

@@ -267,7 +267,7 @@ function PreferenceClick() {
 function PreferenceExit() {
 	if (PreferenceSubscreen?.name !== "Main") {
 		// If we are in a subscreen, the only exit is to the main preference screen
-		PreferenceSubscreenExit();
+		CommonPromiseCatch(PreferenceSubscreenExit());
 		return;
 	}
 

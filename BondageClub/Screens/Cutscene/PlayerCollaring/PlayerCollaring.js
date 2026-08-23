@@ -46,10 +46,14 @@ function PlayerCollaringClick() {
 	if (CutsceneStage == 2) CharacterNaked(Player);
 	if (CutsceneStage == 4) PoseSetActive(Player, "Kneel", true);
 	if (CutsceneStage == 6) InventoryWear(Player, "SlaveCollar", "ItemNeck");
-	if (CutsceneStage > 8) {
-		CommonSetScreen("Room", "Private").then(() => {
-			CharacterSetCurrent(PlayerCollaringMistress);
-			PlayerCollaringMistress.CurrentDialog = DialogFind(PlayerCollaringMistress, "MistressVow");
-		});
-	}
+	if (CutsceneStage > 8) PlayerCollaringReturnToMistress();
+}
+
+/**
+ * @returns {SafePromise<void>}
+ */
+async function PlayerCollaringReturnToMistress() {
+	await CommonSetScreen("Room", "Private");
+	CharacterSetCurrent(PlayerCollaringMistress);
+	PlayerCollaringMistress.CurrentDialog = DialogFind(PlayerCollaringMistress, "MistressVow");
 }

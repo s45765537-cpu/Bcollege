@@ -983,7 +983,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		}
 	}
 
-	AssetLoadDescription(Family);
+	CommonPromiseCatch(AssetLoadDescription(Family));
 }
 
 // Reset and load all the assets

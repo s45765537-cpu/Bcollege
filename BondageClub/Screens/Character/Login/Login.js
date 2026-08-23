@@ -213,7 +213,7 @@ async function LoginLoad() {
 	LoginDoNextThankYou();
 	LoginStatusReset();
 	if (LoginCredits == null) {
-		LoginCredits = CommonReadCSV(ScreenFileGetPath("GameCredits.csv"));
+		LoginCredits = await CommonReadCSV(ScreenFileGetPath("GameCredits.csv"));
 	}
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
@@ -366,13 +366,13 @@ async function LoginLoad() {
 		TranslationSwitchLanguage(/** @type {"" | "TW" | ServerChatRoomLanguage} */(this.value) || "EN");
 		TextLoad();
 		ActivityDictionaryLoad();
-		AssetLoadDescription("Female3DCG");
-		const timer = TimerCreate(() => {
-			TextScreenCache?.loadedPromise.then(() => {
-				LoginReloadLanguageText();
-				timer?.();
-			});
-		}, 50, true, "universal");
+		CommonPromiseCatch(
+			AssetLoadDescription("Female3DCG")
+				.then(() => TextScreenCache?.loadedPromise)
+				.then(() => {
+					LoginReloadLanguageText();
+				})
+		);
 	});
 
 	ElementCreate({

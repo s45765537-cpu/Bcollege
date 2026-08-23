@@ -235,37 +235,39 @@ function PreferenceSubscreenGeneralColorPickerToggle() {
 			ColorPicker.defaultShape[2],
 			1000 - paddingTop * 2,
 		]);
-		ColorPickerInit({
-			colorState: {
-				colors: [Player.LabelColor || "#ffffff"],
-				defaultColors: ["#ffffff"],
-				opacity: [1],
-				editOpacity: false,
-			},
-			heading: TextGet("CharacterLabelColor"),
-			shape,
-			onInput: () => null,
-			onExit: ({ colors }, save) => {
-				if (save) {
-					ElementValue("InputCharacterLabelColor", colors[0]);
+		CommonPromiseCatch(
+			ColorPickerInit({
+				colorState: {
+					colors: [Player.LabelColor || "#ffffff"],
+					defaultColors: ["#ffffff"],
+					opacity: [1],
+					editOpacity: false,
+				},
+				heading: TextGet("CharacterLabelColor"),
+				shape,
+				onInput: () => null,
+				onExit: ({ colors }, save) => {
+					if (save) {
+						ElementValue("InputCharacterLabelColor", colors[0]);
+					}
+					PreferenceSubscreenGeneralColorPicker = false;
+					document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", true);
+				},
+			}).then(colorPicker => {
+				let backdrop = document.getElementById("preference-general-color-picker-backdrop");
+				if (!backdrop) {
+					ElementCreate({
+						tag: "div",
+						attributes: { id: "preference-general-color-picker-backdrop" },
+						children: [colorPicker],
+						parent: document.body,
+						style: { "background-color": "rgba(0, 0, 0, 0.3)", width: "100%", height: "100%", position: "absolute" },
+					});
+				} else {
+					backdrop.toggleAttribute("hidden", false);
 				}
-				PreferenceSubscreenGeneralColorPicker = false;
-				document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", true);
-			},
-		}).then(colorPicker => {
-			let backdrop = document.getElementById("preference-general-color-picker-backdrop");
-			if (!backdrop) {
-				ElementCreate({
-					tag: "div",
-					attributes: { id: "preference-general-color-picker-backdrop" },
-					children: [colorPicker],
-					parent: document.body,
-					style: { "background-color": "rgba(0, 0, 0, 0.3)", width: "100%", height: "100%", position: "absolute" },
-				});
-			} else {
-				backdrop.toggleAttribute("hidden", false);
-			}
-		});
+			})
+		);
 	} else {
 		ColorPickerHide();
 		document.getElementById("preference-general-color-picker-backdrop")?.toggleAttribute("hidden", true);

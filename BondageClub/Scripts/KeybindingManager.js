@@ -134,11 +134,13 @@ class KeybindManager {
 	 */
 	constructor() {
 		const cache = TextPrefetchFile(ScreenFileGetTranslation("Character", "Preference", "Keybindings"));
-		cache.loadedPromise.then(() => {
-			KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
-			KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
-			KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
-		});
+		CommonPromiseCatch(
+			cache.loadedPromise.then(() => {
+				KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
+				KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
+				KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
+			})
+		);
 	}
 
 	/**

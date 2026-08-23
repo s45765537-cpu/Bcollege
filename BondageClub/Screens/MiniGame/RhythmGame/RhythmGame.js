@@ -149,14 +149,12 @@ let RhythmGameAudio =  {
 				let audioData = mp3.response;
 				const ctx = RhythmGameAudio.audioCtx = new window.AudioContext();
 				const source = RhythmGameAudio.bufferSource = RhythmGameAudio.audioCtx.createBufferSource();
-				RhythmGameAudio.audioCtx.decodeAudioData(
-					audioData,
-					function(buffer) {
+				RhythmGameAudio.audioCtx.decodeAudioData(audioData)
+					.then((buffer) => {
 						source.buffer = buffer;
 						source.connect(ctx.destination);
 						RhythmGameAudio.preloadComplted = true;
-					},
-					function(){ console.log("Error with decoding audio data");});
+					}).catch(() => console.log("Error with decoding audio data"));
 			}
 		};
 		mp3.open("GET", url, true);

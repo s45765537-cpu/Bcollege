@@ -86,65 +86,63 @@ async function BackgroundSelectionLoad() {
 		parent: document.body,
 	});
 
-	TextScreenCache?.loadedPromise.then(() => {
-		const searchFilter = ElementCreateSearchInput(
-			Background.elementID.searchFilter,
-			() => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort(),
-			{ onInput: BackgroundSelectionInputChanged },
-		);
+	await TextScreenCache?.loadedPromise;
+	const searchFilter = ElementCreateSearchInput(
+		Background.elementID.searchFilter,
+		() => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort(),
+		{ onInput: BackgroundSelectionInputChanged },
+	);
 
-		const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
-		if (BackgroundSelectionTagList.length < 2) {
-			tagFilter.toggleAttribute("hidden", true);
-		}
-		root.append(
-			searchFilter,
-			tagFilter,
-			ElementButton.Create(Background.elementID.btnPrev,
-				() => {
-					BackgroundSelectionOffset = CommonClamp(BackgroundSelectionOffset - BackgroundSelectionSize,
-						0,
-						Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize
-					);
-				},
-				{
-					tooltip: TextGet("Prev"),
-					image: "Icons/Prev.png",
-				},
-			),
-			ElementButton.Create(Background.elementID.btnNext,
-				() => {
-					BackgroundSelectionOffset = CommonClamp(BackgroundSelectionOffset + BackgroundSelectionSize,
-						0,
-						Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize
-					);
-				},
-				{
-					tooltip: TextGet("Next"),
-					image: "Icons/Next.png",
-				},
-			),
-			ElementButton.Create(Background.elementID.btnCancel,
-				() => {
-					BackgroundSelectionExit(false);
-				},
-				{
-					tooltip: TextGet("Cancel"),
-					image: "Icons/Cancel.png",
-				},
-			),
-			ElementButton.Create(Background.elementID.btnAccept,
-				() => {
-					BackgroundSelectionExit(true);
-				},
-				{
-					tooltip: TextGet("Accept"),
-					image: "Icons/Accept.png",
-				},
-			),
-		);
-		BackgroundSelectionResize(false);
-	});
+	const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
+	if (BackgroundSelectionTagList.length < 2) {
+		tagFilter.toggleAttribute("hidden", true);
+	}
+	root.append(
+		searchFilter,
+		tagFilter,
+		ElementButton.Create(Background.elementID.btnPrev,
+			() => {
+				BackgroundSelectionOffset = CommonClamp(BackgroundSelectionOffset - BackgroundSelectionSize,
+					0,
+					Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize
+				);
+			},
+			{
+				tooltip: TextGet("Prev"),
+				image: "Icons/Prev.png",
+			},
+		),
+		ElementButton.Create(Background.elementID.btnNext,
+			() => {
+				BackgroundSelectionOffset = CommonClamp(BackgroundSelectionOffset + BackgroundSelectionSize,
+					0,
+					Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize
+				);
+			},
+			{
+				tooltip: TextGet("Next"),
+				image: "Icons/Next.png",
+			},
+		),
+		ElementButton.Create(Background.elementID.btnCancel,
+			() => {
+				BackgroundSelectionExit(false);
+			},
+			{
+				tooltip: TextGet("Cancel"),
+				image: "Icons/Cancel.png",
+			},
+		),
+		ElementButton.Create(Background.elementID.btnAccept,
+			() => {
+				BackgroundSelectionExit(true);
+			},
+			{
+				tooltip: TextGet("Accept"),
+				image: "Icons/Accept.png",
+			},
+		),
+	);
 }
 
 function BackgroundSelectionUnload() {
@@ -186,8 +184,6 @@ function BackgroundSelectionTagChanged() {
  * @type {ScreenResizeHandler}
  */
 function BackgroundSelectionResize(load) {
-	// We skip here because the DOM hasn't been set up yet
-	if (load) return;
 	ElementPositionFix(Background.elementID.tagFilter, 36, 550, 35, 300, 65);
 	ElementPosition(Background.elementID.searchFilter, 1350, 60, 400);
 	ElementPositionFix(Background.elementID.btnPrev, 36, 1585, 25, 90, 90);

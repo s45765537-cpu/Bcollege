@@ -155,12 +155,12 @@ async function MainHallLoad() {
 	MainHallNextEventTimer = null;
 	MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
 	MainHallMaid.AllowItem = false;
-	CommonReadCSV(ScreenFileGetDialog("NPC_Management_RandomGirl", "Room", "Management"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_KidnapLeague_RandomKidnapper", "Room", "KidnapLeague"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_Private_Custom", "Room", "Private"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_KidnapNurse", "Room", "AsylumEntrance"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_EscapedPatient", "Room", "AsylumEntrance"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_Prison_Police", "Room", "Prison"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_Management_RandomGirl", "Room", "Management"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_KidnapLeague_RandomKidnapper", "Room", "KidnapLeague"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_Private_Custom", "Room", "Private"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_KidnapNurse", "Room", "AsylumEntrance"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_EscapedPatient", "Room", "AsylumEntrance"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_Prison_Police", "Room", "Prison"));
 	TextPrefetch("Character", "Appearance");
 	TextPrefetch("Character", "InformationSheet");
 	TextPrefetch("Character", "Relog");
@@ -231,7 +231,6 @@ function MainHallRun() {
 
 			// If the player is a Mistress but her Dominant reputation has fallen & stage is not
 			if (LogQuery("ClubMistress", "Management") && (ReputationGet("Dominant") < 50) && (CheatFactor("CantLoseMistress", 0) == 1) && Player.CanTalk()) {
-				ManagementLoad();
 				CharacterSetCurrent(MainHallMaid);
 				MainHallMaid.Stage = "60";
 				MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "MistressExpulsionIntro");
@@ -395,11 +394,11 @@ function MainHallWalk(RoomName) {
 		// Starts the event with the highest value (picked at random)
 		if ((MeetNPCOwner > PandoraRevenge) && (MeetNPCOwner > MeetPolice) && (MeetNPCOwner > PlayerClubSlave) && (MeetNPCOwner > PlayerEscapedAsylum) && (MeetNPCOwner > MeetEscapedPatient) && (MeetNPCOwner > MeetKidnapper) && (MeetNPCOwner > MeetClubSlave)) PrivateOwnerInMainHall();
 		else if ((PandoraRevenge > MeetPolice) && (PandoraRevenge > PlayerClubSlave) && (PandoraRevenge > PlayerEscapedAsylum) && (PandoraRevenge > MeetEscapedPatient) && (PandoraRevenge > MeetKidnapper) && (PandoraRevenge > MeetClubSlave)) InfiltrationStartKidnapping();
-		else if ((MeetPolice > PlayerClubSlave) && (MeetPolice > PlayerEscapedAsylum) && (MeetPolice > MeetEscapedPatient) && (MeetPolice > MeetKidnapper) && (MeetPolice > MeetClubSlave)) PrisonMeetPoliceIntro("MainHall");
+		else if ((MeetPolice > PlayerClubSlave) && (MeetPolice > PlayerEscapedAsylum) && (MeetPolice > MeetEscapedPatient) && (MeetPolice > MeetKidnapper) && (MeetPolice > MeetClubSlave)) CommonPromiseCatch(PrisonMeetPoliceIntro("MainHall"));
 		else if ((PlayerClubSlave > PlayerEscapedAsylum) && (PlayerClubSlave > MeetEscapedPatient) && (PlayerClubSlave > MeetKidnapper) && (PlayerClubSlave > MeetClubSlave)) ManagementClubSlaveRandomIntro();
 		else if ((PlayerEscapedAsylum > MeetEscapedPatient) && (PlayerEscapedAsylum > MeetKidnapper) && (PlayerEscapedAsylum > MeetClubSlave)) AsylumEntranceNurseCatchEscapedPlayer();
 		else if ((MeetEscapedPatient > MeetKidnapper) && (MeetEscapedPatient > MeetClubSlave)) AsylumEntranceEscapedPatientMeet();
-		else if (MeetKidnapper > MeetClubSlave) KidnapLeagueRandomIntro();
+		else if (MeetKidnapper > MeetClubSlave) CommonPromiseCatch(KidnapLeagueRandomIntro());
 		else ManagementFindClubSlaveRandomIntro();
 
 	} else {

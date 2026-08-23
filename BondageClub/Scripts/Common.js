@@ -202,9 +202,9 @@ function CommonParseCSV(str) {
  * array you'll get back won't be populated until the fetch completes
  *
  * @param {string} url - URL to load
- * @returns {string[][]}
+ * @returns {Promise<string[][]>}
  */
-function CommonReadCSV(url) {
+async function CommonReadCSV(url) {
 	if (CommonCSVCache[url]) {
 		return CommonCSVCache[url];
 	}
@@ -212,22 +212,20 @@ function CommonReadCSV(url) {
 	/** @type {string[][]} */
 	const temp = CommonCSVCache[url] = [];
 
+	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
+
 	// Opens the file, parse it and returns the result in an Object
-	CommonFetch(url).then(async response => {
-		if (response.status !== 200) return;
-		const text = await response.text();
-		const parsed = CommonParseCSV(text);
-		temp.push(...parsed);
-	});
+	let response = await CommonFetch(url);
+	if (response.status !== 200) return [];
+	const text = await response.text();
+	const parsed = CommonParseCSV(text);
+	temp.push(...parsed);
 
 	// If a translation file is available, we open the txt file and keep it in cache
-	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
 	if (TranslationAvailable(TranslationPath)) {
-		CommonFetch(TranslationPath).then(async (response) => {
-			if (response.status !== 200) return;
-			const text = await response.text();
-			TranslationCache[TranslationPath] = TranslationParseTXT(text);
-		});
+		response = await CommonFetch(TranslationPath);
+		if (response.status !== 200) return [];
+		TranslationCache[TranslationPath] = TranslationParseTXT(await response.text());
 	}
 
 	return temp;
@@ -237,7 +235,7 @@ function CommonReadCSV(url) {
 /**
  * Sleep for a number of milliseconds
  * @param {number} ms
- * @returns {Promise<number>}
+ * @returns {SafePromise<number>}
  */
 async function CommonSleep(ms) {
 	return new Promise(resolve => window.setTimeout(resolve, ms));
@@ -2635,6 +2633,15 @@ function CommonStringSplice(string, index, value, defaultValue) {
  */
 function CommonUnwrapThunk(thunk, ...args) {
 	return typeof thunk === "function" ? thunk(...args) : thunk;
+}
+
+/**
+ * Catch a promise and make it log
+ *
+ * @param {Promise<any> | undefined} p
+ */
+function CommonPromiseCatch(p) {
+	p?.catch(e => console.error("Caught an unhandled promise:", e));
 }
 
 /**

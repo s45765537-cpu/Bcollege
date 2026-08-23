@@ -993,7 +993,7 @@ var Shop2 = {
 				}
 
 				Shop2Unload();
-				Layering.Init(item, C, { x: 1115, w: 2000 - 1115 - 25 });
+				CommonPromiseCatch(Layering.Init(item, C, { x: 1115, w: 2000 - 1115 - 25 }));
 				Shop2Vars.Mode = "Layering";
 			},
 		},
@@ -1037,7 +1037,7 @@ var Shop2 = {
 						Shop2Unload();
 						ItemColorOnExit(() => {
 							Shop2Vars.Mode = "Preview";
-							Shop2Load();
+							CommonPromiseCatch(Shop2Load());
 						});
 						Shop2Vars.Mode = "Color";
 					}).catch(err => {
@@ -1255,7 +1255,7 @@ async function Shop2Load() {
 
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
-			e.Load?.();
+			CommonPromiseCatch(e.Load?.());
 		}
 	});
 }
