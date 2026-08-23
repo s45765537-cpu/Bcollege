@@ -229,7 +229,7 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 
 	// Clear the current appearance
 	const items = C.Appearance.filter(item => item.Asset.Group.IsAppearance() && (!ClothOnly || item.Asset.Group.AllowNone) && AppearanceGroupAllowed(C, item.Asset.Group.Name));
-	InventoryUnequip.items(C, items);
+	InventoryRemoveItems(C, items, { refresh: false });
 
 	// Need to add chest and genitals first to allow associated Has<BodyPart> prerequisites on clothing to pass
 	const firstGroups = ["BodyUpper", "Pussy"];
@@ -360,7 +360,7 @@ function CharacterAppearanceStripLayer(C) {
 			if (HasClothes) items.push(item);
 		}
 	}
-	InventoryUnequip.items(C, items);
+	InventoryRemoveItems(C, items, { refresh: false });
 
 	// Loads the new character canvas
 	CharacterLoadCanvas(C);
@@ -1175,7 +1175,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
 	if (prevItem) {
 		// Do not remove any sub items if the new asset also supports them (e.g. don't remove bed-specific restraints when swapping the bed for the medical bed)
 		const removeItemOnRemove = AssetGetRemoveOnItemRemoveDiff(prevItem.Asset.RemoveItemOnRemove, ItemAsset?.RemoveItemOnRemove ?? []);
-		InventoryUnequip.item(C, prevItem, { removeItemOnRemove });
+		InventoryRemoveItems(C, prevItem, { removeItemOnRemove, refresh: false });
 	}
 
 	if (!ItemAsset) {
@@ -1818,7 +1818,7 @@ function CharacterAppearanceCopy(FromC, ToC) {
 
 	// Removes any previous appearance asset
 	const items = ToC.Appearance.filter(item => item.Asset.Group.IsAppearance());
-	InventoryUnequip.items(ToC, items);
+	InventoryRemoveItems(ToC, items, { refresh: false });
 
 	// Adds all appearance assets from the first character to the second
 	for (let A = 0; A < FromC.Appearance.length; A++)
@@ -2129,7 +2129,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 			// On the first update, we clear the current appearance
 			if (!MustRefresh) {
 				const items = C.Appearance.filter(({ Asset: { Group } }) => Group.IsAppearance() && Group.AllowCustomize && Group.AllowNone && AppearanceGroupAllowed(C, Group.Name));
-				InventoryUnequip.items(C, items);
+				InventoryRemoveItems(C, items, { refresh: false });
 			}
 
 			// Apply potential fixups when pasting

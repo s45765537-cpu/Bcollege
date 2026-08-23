@@ -732,7 +732,7 @@ function KDCharacterAppearanceNaked() {
 			}
 		}
 	}
-	InventoryUnequip.items(KinkyDungeonPlayer, items);
+	InventoryRemoveItems(KinkyDungeonPlayer, items, { refresh: false });
 
 	// Loads the new character canvas
 	CharacterLoadCanvas(KinkyDungeonPlayer);

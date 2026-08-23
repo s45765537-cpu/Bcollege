@@ -1789,7 +1789,7 @@ function CharacterRandomUnderwear(C) {
 
 	// Clear the current clothes
 	const items = C.Appearance.filter(item => item.Asset.Group.IsAppearance() && item.Asset.Group.AllowNone);
-	InventoryUnequip.items(C, items);
+	InventoryRemoveItems(C, items);
 
 	// Generate random undies at a random color
 	/** @type {"" | BCColor} */
@@ -1841,14 +1841,12 @@ function CharacterDress(C, Appearance) {
 /**
  * Removes all binding items from a given character
  * @param {Character} C - Character to release
- * @param {boolean} [Refresh=true] - do not call CharacterRefresh if false
+ * @param {boolean} [refresh=true] - do not call CharacterRefresh if false
  * @returns {void} - Nothing
  */
-function CharacterRelease(C, Refresh=true) {
+function CharacterRelease(C, refresh=true) {
 	const items = C.Appearance.filter(item => item.Asset.IsRestraint);
-	if (InventoryUnequip.items(C, items) && Refresh) {
-		CharacterRefresh(C);
-	}
+	InventoryRemoveItems(C, items, { refresh });
 }
 
 /**
@@ -1870,9 +1868,7 @@ function CharacterReleaseFromLock(C, LockName) {
  */
 function CharacterReleaseNoLock(C) {
 	const items = C.Appearance.filter(item => item.Asset.IsRestraint && !item.Property?.LockedBy);
-	if (InventoryUnequip.items(C, items)) {
-		CharacterRefresh(C);
-	}
+	InventoryRemoveItems(C, items);
 }
 
 /**
@@ -1893,9 +1889,7 @@ function CharacterReleaseTotal(C, refresh=true) {
 			return item.Asset.Group.IsItem();
 		}
 	});
-	if (InventoryUnequip.items(C, items) && refresh) {
-		CharacterRefresh(C);
-	}
+	InventoryRemoveItems(C, items, { refresh });
 }
 
 /**

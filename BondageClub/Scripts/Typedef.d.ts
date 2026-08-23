@@ -1596,15 +1596,19 @@ declare namespace InventoryPrerequisiteConflicts {
 	type ErrMessage = "" | "CannotBeUsedOverGag" | "MustBeUsedOverGag";
 }
 
-declare namespace InventoryUnequip {
-	interface Options {
-		/**
-		 * A custom list of sub-item removals; generally useful when _swapping_ an item for one with an intersecting {@link Asset.RemoveItemOnRemove}.
-		 *
-		 * Defaults to {@link Asset.RemoveItemOnRemove}.
-		 */
-		removeItemOnRemove?: readonly RemoveOnItemRemove[];
-	}
+/** Options for {@link InventoryRemove} */
+interface InventoryRemoveOptions {
+	/**
+	 * A custom list of sub-item removals; generally useful when _swapping_ an item for one with an intersecting {@link Asset.RemoveItemOnRemove}.
+	 *
+	 * Defaults to {@link Asset.RemoveItemOnRemove}.
+	 */
+	removeItemOnRemove?: readonly RemoveOnItemRemove[];
+	/**
+	 * Whether to trigger a character refresh on a successful item removal.
+	 * @default true
+	 */
+	refresh?: boolean;
 }
 
 type SkillType = "Bondage" | "SelfBondage" | "LockPicking" | "Evasion" | "Willpower" | "Infiltration" | "Dressage";

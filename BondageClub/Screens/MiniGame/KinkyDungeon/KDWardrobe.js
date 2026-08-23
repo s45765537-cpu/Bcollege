@@ -464,7 +464,7 @@ function KDDrawModelList(X, C) {
 				if (item?.Model?.Name == name) {
 					if (KDModelList_Sublevel_index == index) {
 						KDChangeWardrobe(C);
-						InventoryUnequip.item(C, item);
+						InventoryRemoveItems(C, item, { refresh: false });
 						UpdateModels(C);
 					}
 					removed = true;

@@ -619,7 +619,7 @@ function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowAc
 
 	// Create/load a simple character for prerequisite checking
 	const checkCharacter = CharacterLoadSimple("InventoryAllow");
-	InventoryUnequip.group(checkCharacter, asset.Group.Name);
+	InventoryRemove(checkCharacter, asset.Group.Name, false);
 	CharacterLoadEffect(checkCharacter);
 	PoseRefresh(checkCharacter);
 
@@ -985,134 +985,102 @@ function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = f
 }
 
 /**
- * Namespace for unequipping items
- * @namespace
+ * See {@link InventoryRemove}
+ * @private
+ * @param {Character} C
+ * @param {Set<number>} outputIndices
+ * @param {Item[]} outputItems
+ * @param {Item} superItem
+ * @param {null | readonly RemoveOnItemRemove[]} removeItemOnRemove
  */
-var InventoryUnequip = {
-	/**
-	 * @private
-	 * @param {Character} C
-	 * @param {Set<number>} outputIndices
-	 * @param {Item[]} outputItems
-	 * @param {Item} superItem
-	 * @param {null | readonly RemoveOnItemRemove[]} removeItemOnRemove
-	 */
-	_dfs: function (C, outputIndices, outputItems, superItem, removeItemOnRemove=null) {
-		removeItemOnRemove ??= superItem.Asset.RemoveItemOnRemove;
-		for (const { Name, Group, TypeRecord } of removeItemOnRemove) {
-			const subItem = CommonFindMap(
-				C.Appearance,
-				(item, index) => item.Asset.Group.Name === Group ? { item, index } : undefined,
-			);
-			if (!subItem || outputIndices.has(subItem.index)) {
-				// Item was not found or we've got some cyclic `Asset.RemoveItemOnRemove` logic going on
-				continue;
-			}
-
-			let isMatch = true;
-			if (Name) {
-				isMatch &&= Name === subItem.item.Asset.Name;
-			}
-			if (TypeRecord) {
-				isMatch &&= CommonObjectIsSubset(TypeRecord, subItem.item.Property?.TypeRecord ?? {});
-			}
-
-			if (isMatch) {
-				outputIndices.add(subItem.index);
-				outputItems.push(subItem.item);
-				InventoryUnequip._dfs(C, outputIndices, outputItems, subItem.item);
-			}
-		}
-	},
-
-	/**
-	 * Remove a single item from a character body area
-	 * @param {Character} C The character on which we must remove the item
-	 * @param {Item} item The to-be removed item
-	 * @param {null | InventoryUnequip.Options} options Further options
-	 * @returns {null | Item} The removed item (if any)
-	 */
-	item: function (C, item, options=null) {
-		return InventoryUnequip.items(C, [item], options)[0] ?? null;
-	},
-
-	/**
-	 * Remove multiple items from a character body area
-	 * @param {Character} C The character on which we must remove the item
-	 * @param {readonly Item[]} items The to-be removed items
-	 * @param {null | InventoryUnequip.Options} options Further options
-	 * @returns {Item[]} The removed items
-	 */
-	items: function (C, items, options=null) {
-		/** @type {Set<number>} */
-		const removalIndices = new Set;
-		/** @type {Item[]} */
-		const removalItems = [];
-		const itemEntries = items.map(item => /** @type {const} */([C.Appearance.indexOf(item), item]));
-
-		for (const [i, item] of itemEntries) {
-			if (i === -1 || removalIndices.has(i)) {
-				continue;
-			}
-			removalItems.push(item);
-			removalIndices.add(i);
-			InventoryUnequip._dfs(C, removalIndices, removalItems, item, options?.removeItemOnRemove);
-		}
-		if (!removalIndices.size) {
-			return [];
+function _InventoryRemoveDFS(C, outputIndices, outputItems, superItem, removeItemOnRemove=null) {
+	removeItemOnRemove ??= superItem.Asset.RemoveItemOnRemove;
+	for (const { Name, Group, TypeRecord } of removeItemOnRemove) {
+		const subItem = CommonFindMap(
+			C.Appearance,
+			(item, index) => item.Asset.Group.Name === Group ? { item, index } : undefined,
+		);
+		if (!subItem || outputIndices.has(subItem.index)) {
+			// Item was not found or we've got some cyclic `Asset.RemoveItemOnRemove` logic going on
+			continue;
 		}
 
-		const removalsSorted = Array.from(removalIndices).sort((a, b) => b - a);
-		for (const index of removalsSorted) {
-			// NOTE: This is the _only_ place in the codebase where entries should be removed from the Appearance array
-			// TODO: Review `Appearance.filter` usage throughout the code base
-			C.Appearance.splice(index, 1);
+		let isMatch = true;
+		if (Name) {
+			isMatch &&= Name === subItem.item.Asset.Name;
 		}
-		if (C.IsPlayer()) {
-			BlindFlashQueue = true;
+		if (TypeRecord) {
+			isMatch &&= CommonObjectIsSubset(TypeRecord, subItem.item.Property?.TypeRecord ?? {});
 		}
-		return removalItems;
-	},
 
-	/**
-	 * Remove a single item from a character body area via its group name
-	 * @param {Character} C The character on which we must remove the item
-	 * @param {AssetGroupName} group The to-be removed group name
-	 * @param {null | InventoryUnequip.Options} options Further options
-	 * @returns {null | Item} The removed item (if any)
-	 */
-	group: function (C, group, options=null) {
-		const item = InventoryGet(C, group);
-		return item ? InventoryUnequip.items(C, [item], options)[0] ?? null : null;
-	},
-
-	/**
-	 * Remove multiple items from a character body area via their group names
-	 * @param {Character} C The character on which we must remove the item
-	 * @param {readonly AssetGroupName[]} groups The to-be removed group names
-	 * @param {null | InventoryUnequip.Options} options Further options
-	 * @returns {Item[]} The removed items
-	 */
-	groups: function (C, groups, options=null) {
-		const items = groups.map(group => InventoryGet(C, group)).filter(i => i != null);
-		return InventoryUnequip.items(C, items, options);
-	},
-};
+		if (isMatch) {
+			outputIndices.add(subItem.index);
+			outputItems.push(subItem.item);
+			_InventoryRemoveDFS(C, outputIndices, outputItems, subItem.item);
+		}
+	}
+}
 
 /**
- * Removes a specific item from a character body area via its group name
+ * Removes one or more specific items from a character body area via their group name(s)
  * @param {Character} C - The character on which we must remove the item
- * @param {AssetGroupName} AssetGroup - The name of the asset group (body area)
- * @param {boolean} [Refresh] - Whether or not to trigger a character refresh. Defaults to true
- * @returns {null | Item} - The removed item
- * @see {@link InventoryUnequip} for a namespace with more extensive item removal logic
+ * @param {AssetGroupName | readonly AssetGroupName[]} AssetGroup - The name of the asset group(s)
+ * @param {boolean | null | InventoryRemoveOptions} [options] - Further options. A boolean is interpreted as the `refresh` option.
+ * @returns {Item[]} - The removed items
  */
-function InventoryRemove(C, AssetGroup, Refresh=true) {
-	const item = InventoryUnequip.group(C, AssetGroup);
-	if (item && Refresh) {
+function InventoryRemove(C, AssetGroup, options=null) {
+	if (!CommonIsArray(AssetGroup)) {
+		AssetGroup = [AssetGroup];
+	}
+	const items = AssetGroup.map(group => InventoryGet(C, group)).filter(i => i != null);
+	const optionsObject = typeof options === "boolean" ? { refresh: options } : options;
+	return InventoryRemoveItems(C, items, optionsObject);
+}
+
+/**
+ * Removes one or more specific items from a character
+ * @param {Character} C - The character on which we must remove the item
+ * @param {Item | readonly Item[]} items - The item(s) in question
+ * @param {null | InventoryRemoveOptions} [options] - Further options
+ * @returns {Item[]} - The removed items
+ */
+function InventoryRemoveItems(C, items, options=null) {
+	if (!CommonIsArray(items)) {
+		items = [items];
+	}
+
+	/** @type {Set<number>} */
+	const removalIndices = new Set;
+	/** @type {Item[]} */
+	const removalItems = [];
+	const itemEntries = items.map(item => /** @type {const} */([C.Appearance.indexOf(item), item]));
+
+	for (const [i, item] of itemEntries) {
+		if (i === -1 || removalIndices.has(i)) {
+			continue;
+		}
+		removalItems.push(item);
+		removalIndices.add(i);
+		_InventoryRemoveDFS(C, removalIndices, removalItems, item, options?.removeItemOnRemove);
+	}
+	if (!removalIndices.size) {
+		return [];
+	}
+
+	const removalsSorted = Array.from(removalIndices).sort((a, b) => b - a);
+	for (const index of removalsSorted) {
+		// NOTE: This is the _only_ place in the codebase where entries should be removed from the Appearance array
+		// TODO: Review `Appearance.filter` usage throughout the code base
+		C.Appearance.splice(index, 1);
+	}
+	if (C.IsPlayer()) {
+		BlindFlashQueue = true;
+	}
+
+	if (options?.refresh ?? true) {
 		CharacterRefresh(C);
 	}
-	return item;
+	return removalItems;
 }
 
 /**

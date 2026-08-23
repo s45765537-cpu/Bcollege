@@ -801,7 +801,7 @@ function KinkyDungeonRun() {
 
 	if (KinkyDungeonPlayer?.Appearance) {
 		const items = KinkyDungeonPlayer.Appearance.filter(item => item.Asset.Name.includes("Penis"))
-		InventoryUnequip.items(KinkyDungeonPlayer, items);
+		InventoryRemoveItems(KinkyDungeonPlayer, items, { refresh: false });
 	}
 	if (StandalonePatched && KDCurrentModels) {
 		let refresh = false;

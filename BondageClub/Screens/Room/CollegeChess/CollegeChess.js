@@ -70,7 +70,7 @@ function CollegeChessGameStart(Difficulty, Bet) {
 /**
  * In strip or bondage chess, a player can lose one piece of cloth
  * @param {Character} C
- * @returns {null | Item} - The removed item (if any)
+ * @returns {Item[]} - The removed items (if any)
  */
 function CollegeChessStrip(C) {
 	if (InventoryGet(C, "Shoes") != null) return InventoryRemove(C, "Shoes");

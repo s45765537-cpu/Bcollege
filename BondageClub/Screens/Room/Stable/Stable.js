@@ -631,7 +631,7 @@ function StableDressBackPlayer() {
 	CharacterRelease(Player);
 	CharacterNaked(Player);
 	//Release Harnes, Plug, Ears2
-	InventoryUnequip.groups(Player, ["ItemTorso", "Hat", "ItemButt"]);
+	InventoryRemove(Player, ["ItemTorso", "Hat", "ItemButt"], { refresh: false });
 	CharacterDress(Player, StablePlayerAppearance);
 	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
@@ -731,7 +731,7 @@ function StablePlayerExamEnd() {
 	CharacterRelease(Player);
 	CharacterNaked(Player);
 	//Release Harnes, Plug, Ears2
-	InventoryUnequip.groups(Player, ["ItemTorso", "Hat", "ItemButt"]);
+	InventoryRemove(Player, ["ItemTorso", "Hat", "ItemButt"], false);
 	CharacterDress(Player, StablePlayerAppearance);
 	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;

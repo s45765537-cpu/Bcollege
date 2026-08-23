@@ -3,7 +3,7 @@
 const { character, Game } = require("./Utils");
 
 const appearances = /** @type {Record<string, { items: ItemBundle[], removalGroups: AssetGroupName[], actuallyRemovedGroups: AssetGroupName[] }>} */(
-	require("./InventoryUnequip.json")
+	require("./InventoryRemove.json")
 );
 
 /** @type {Character} */
@@ -73,21 +73,21 @@ function postUnequip(removedItems, expectedPeristingItems, expectedRemovedItems)
 	expect(removedItemNames, "Invalid removed items").toMatchObject(expectedRemovedItems);
 }
 
-describe("InventoryUnequip", () => {
+describe("InventoryRemove", () => {
 	const param = Object.entries(appearances).map(([k, v]) => { return { name: k, ...v }; });
 
-    it.each(param)("InventoryUnequip.groups: $name", (data) => {
+    it.each(param)("InventoryRemove: $name", (data) => {
 		const { expectedPeristingItems, expectedRemovedItems } = preUnequip(data);
         /** @type {Item[]} */
-        const removedItems = Game.InventoryUnequip.groups(C, data.removalGroups);
+        const removedItems = Game.InventoryRemove(C, data.removalGroups);
 		postUnequip(removedItems, expectedPeristingItems, expectedRemovedItems);
     });
 
-    it.each(param)("InventoryUnequip.items: $name", (data) => {
+    it.each(param)("InventoryRemoveItems: $name", (data) => {
 		const { expectedPeristingItems, expectedRemovedItems } = preUnequip(data);
 		const removalItems = C.Appearance.filter(item => data.removalGroups.includes(item.Asset.Group.Name));
         /** @type {Item[]} */
-        const removedItems = Game.InventoryUnequip.items(C, removalItems);
+        const removedItems = Game.InventoryRemoveItems(C, removalItems);
 		postUnequip(removedItems, expectedPeristingItems, expectedRemovedItems);
     });
 });
