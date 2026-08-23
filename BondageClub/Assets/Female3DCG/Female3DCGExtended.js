@@ -22388,53 +22388,6 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name: "Background",
-					Key: "b",
-					Options: [
-						{
-							// b0 - Passthrough
-							Property: {
-								CustomBlindBackground: "",
-							},
-						},
-						{
-							// b1 - SynthWave
-							Property: {
-								CustomBlindBackground: "SynthWave",
-								Effect: [],
-							},
-						},
-						{
-							// b2 - Dungeon
-							Property: {
-								CustomBlindBackground: "Dungeon",
-								Effect: [],
-							},
-						},
-						{
-							// b3 - SciFiCell
-							Property: {
-								CustomBlindBackground: "SciFiCell",
-								Effect: [],
-							},
-						},
-						{
-							// b4 - AncientRuins
-							Property: {
-								CustomBlindBackground: "AncientRuins",
-								Effect: [],
-							},
-						},
-						{
-							// b5 - HypnoticSpiral
-							Property: {
-								CustomBlindBackground: "HypnoticSpiral",
-								Effect: [],
-							},
-						},
-					],
-				},
-				{
 					// Use `BlindTotal` for VR avatars to ensure that the `thin` property never reduces the blindness level below `BlindHeavy`,
 					// as lowering it any more will result in visual oddities related to partial blindness
 					Name: "Function",
@@ -22449,6 +22402,7 @@ var AssetFemale3DCGExtended = {
 						{
 							// f1 - Off
 							Property: {
+								CustomBlindBackground: "",
 								Effect: [E.BlindHeavy, E.BlockWardrobe],
 							},
 						},
@@ -22465,6 +22419,66 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 					],
+				},
+				{
+					Name: "Background",
+					Key: "b",
+					Options: [
+						{
+							// b0 - Passthrough
+							Property: {
+								CustomBlindBackground: undefined,
+							},
+						},
+						{
+							// b1 - SynthWave
+							Property: {
+								CustomBlindBackground: "SynthWave",
+							},
+						},
+						{
+							// b2 - Dungeon
+							Property: {
+								CustomBlindBackground: "Dungeon",
+							},
+						},
+						{
+							// b3 - SciFiCell
+							Property: {
+								CustomBlindBackground: "SciFiCell",
+							},
+						},
+						{
+							// b4 - AncientRuins
+							Property: {
+								CustomBlindBackground: "AncientRuins",
+							},
+						},
+						{
+							// b5 - HypnoticSpiral
+							Property: {
+								CustomBlindBackground: "HypnoticSpiral",
+							},
+						},
+						{
+							// b6 - Black
+							Property: {
+								CustomBlindBackground: "",
+							},
+						},
+					],
+					DrawData: {
+						// Shuffle "b6 - Black" back into the 2nd spot
+						elementData: [
+							{ position: ExtendedXY[7][0] },
+							{ position: ExtendedXY[7][2] },
+							{ position: ExtendedXY[7][3] },
+							{ position: ExtendedXY[7][4] },
+							{ position: ExtendedXY[7][5] },
+							{ position: ExtendedXY[7][6] },
+							{ position: ExtendedXY[7][1] },
+						],
+					},
 				},
 				{
 					Name: "Game",

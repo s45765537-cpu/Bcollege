@@ -3279,9 +3279,13 @@ interface AssetDefinitionProperties {
 
 	/**
 	 * A custom background for this option that overrides the default
+	 *
+	 * `undefined` means allow any other value. `null` means disable (swallowing any other value),
+	 * `''` means solid black, and a string is any background from Backgrounds/.
+	 *
 	 * @see {@link Asset.CustomBlindBackground}
 	 */
-	CustomBlindBackground?: string;
+	CustomBlindBackground?: string | null;
 
 	/**
 	 * A list of fetishes affected by the item

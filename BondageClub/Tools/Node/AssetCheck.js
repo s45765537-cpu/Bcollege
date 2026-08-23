@@ -786,7 +786,7 @@ function testModularItemPropertyDisjoint(dataRecord) {
 	}
 
 	// Non-array item properties with special casing for dealing with inter-module intersections
-	const propertyWhitelist = new Set(["Difficulty", "OverrideHeight", "TypeRecord", "OverridePriority"]);
+	const propertyWhitelist = new Set(["Difficulty", "OverrideHeight", "TypeRecord", "OverridePriority", "CustomBlindBackground"]);
 	const assetWhitelist = new Set([
 		// `Intensity` intersection explicitly handled by a `...SetOption` script hook
 		"ItemVulva:ClitAndDildoVibratorbelt",
