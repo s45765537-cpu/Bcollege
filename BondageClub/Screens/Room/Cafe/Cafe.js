@@ -211,13 +211,12 @@ function CafeServiceBound(Style) {
 	if (Style == "Shibari") {
 
 		// Base items
-		RandomNumber = Math.floor(Math.random() * 3);
+		RandomNumber = Math.floor(Math.random() * 2);
 		if (RandomNumber >= 0) Bondage = "NylonRope";
 		if (RandomNumber >= 1) Bondage = "HempRope";
 		InventoryWear(Player, Bondage, "ItemArms", null, 20);
 		if (RandomNumber >= 0) Bondage = "NylonRope";
 		if (RandomNumber >= 1) Bondage = "HempRope";
-		if (RandomNumber >= 2) Bondage = "MermaidRopeTie";
 		InventoryWear(Player, Bondage, "ItemLegs");
 		RandomNumber = Math.floor(Math.random() * 4);
 		if (RandomNumber >= 0) Bondage = "ClothGag";
@@ -281,7 +280,7 @@ function CafeServiceBound(Style) {
 		RandomNumber = Math.floor(Math.random() * 5);
 		if (RandomNumber >= 0) Bondage = "HarnessBallGag";
 		if (RandomNumber >= 1) Bondage = "HarnessPanelGag";
-		if (RandomNumber >= 2) Bondage = "NeckCorsetGag";
+		if (RandomNumber >= 2) Bondage = "LeatherCorsetCollar";
 		if (RandomNumber >= 3) Bondage = "PlugGag";
 		if (RandomNumber >= 4) Bondage = "MuzzleGag";
 		if (RandomNumber >= 4) RandomColor = "#292929";
@@ -316,7 +315,7 @@ function CafeServiceBound(Style) {
 		if (RandomNumber >= 0) Bondage = "HarnessBallGag";
 		if (RandomNumber >= 1) Bondage = "CarrotGag";
 		if (RandomNumber >= 2) Bondage = "MuzzleGag";
-		if (RandomNumber >= 3) Bondage = "NeckCorsetGag";
+		if (RandomNumber >= 3) Bondage = "LeatherCorsetCollar";
 		if (RandomNumber >= 4) Bondage = "DildoGag";
 		if (RandomNumber >= 5) Bondage = "PumpGag";
 		InventoryWear(Player, Bondage, "ItemMouth", RandomColor);
@@ -362,7 +361,7 @@ function CafeServiceBound(Style) {
 		if (RandomNumber >= 0) Bondage = "HarnessPanelGag";
 		if (RandomNumber >= 1) Bondage = "PumpGag";
 		if (RandomNumber >= 2) Bondage = "MuzzleGag";
-		if (RandomNumber >= 3) Bondage = "NeckCorsetGag";
+		if (RandomNumber >= 3) Bondage = "LeatherCorsetCollar";
 		if (RandomNumber >= 4) Bondage = "PlugGag";
 		if (RandomNumber >= 5) Bondage = "DildoGag";
 		if (RandomNumber >= 6) Bondage = "HarnessBallGag1";

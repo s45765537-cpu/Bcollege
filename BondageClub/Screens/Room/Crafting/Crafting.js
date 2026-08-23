@@ -1337,7 +1337,7 @@ async function CraftingLoad() {
 		}
 
 		const asset = CraftingAssets[item.Item]?.[0];
-		if (item.Disabled && asset && InventoryAvailable(Player, item.Name, asset.DynamicGroupName)) {
+		if (item.Disabled && asset && InventoryAvailable(Player, item.Item, asset.DynamicGroupName)) {
 			delete item.Disabled;
 		}
 	}

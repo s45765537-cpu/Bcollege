@@ -50,8 +50,8 @@ function PrisonPlayerIsStriped()    {return !InventoryGet(Player, "Cloth");}
 function PrisonPlayerIsBadGirl()    {return LogQuery("Joined", "BadGirl");}
 function PrisonPlayerIsBadGirlThief() {return (LogQuery("Joined", "BadGirl") && (LogQuery("Stolen", "BadGirl") || LogQuery("Hide", "BadGirl") || LogQuery("Caught", "BadGirl")));}
 function PrisonPlayerHasSleepingPills() {return (InventoryAvailable(Player, "RegularSleepingPill", "ItemMouth"));}
-function PrisonPlayerHasSpankingToys() {return (InventoryAvailable(Player, "*", "ItemHandheld"));}
-function PrisonPlayerHasKeys() {return (InventoryAvailable(Player, "MetalPadlockKey", "ItemMisc") || InventoryAvailable(Player, "IntricatePadlockKey", "ItemMisc") ||  InventoryAvailable(Player, "MetalCuffsKey", "ItemMisc"));}
+function PrisonPlayerHasSpankingToys() {return (InventoryAvailable(Player, "Crop", "ItemHandheld"));}
+function PrisonPlayerHasKeys() {return (InventoryAvailable(Player, "MetalPadlockKey", "ItemMisc") || InventoryAvailable(Player, "MetalCuffsKey", "ItemMisc"));}
 function PrisonSubIsHandcuffedOut() {return (PrisonSubSelfCuffed && !PrisonSubBehindBars);}
 function PrisonSubIsBehindBars()    {return PrisonSubBehindBars;}
 function PrisonSubIsFree()          {return (!PrisonSubBehindBars && !PrisonSubSelfCuffed);}
@@ -417,7 +417,7 @@ function PrisonMaidHevyTorture() {
  * @param {Character} C
  */
 function PrisonDisableKey(C) {
-	const keys = ["MetalCuffsKey", "MetalPadlockKey", "IntricatePadlockKey"];
+	const keys = ["MetalCuffsKey", "MetalPadlockKey"];
 
 	for (const keyName of keys) {
 		const item = InventoryDelete(Player, keyName, "ItemMisc", false);

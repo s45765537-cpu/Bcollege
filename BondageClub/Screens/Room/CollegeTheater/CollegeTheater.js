@@ -51,7 +51,7 @@ function CollegeTheaterJuliaClothes(C) {
 	InventoryWear(C, "Pussy1", "Pussy", "#e86e37");
 	InventoryWear(C, "Eyes3", "Eyes", "#f85e27");
 	InventoryWear(C, "Eyes3", "Eyes2", "#f85e27");
-	InventoryWear(C, "Mouth", "Mouth", "Default");
+	InventoryWear(C, "Regular", "Mouth", "Default");
 	InventoryWear(C, "H0990", "Height", "Default");
 	InventoryWear(C, "XLarge", "BodyUpper", "White");
 	InventoryWear(C, "XLarge", "BodyLower", "White");
