@@ -7864,7 +7864,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForeheadJewelry",
 				ParentGroup: "",
-				Top: 0,
+				Top: 101,
 				DynamicGroupName: "Mask",
 				CopyConfig: {
 					GroupName: "Mask",
