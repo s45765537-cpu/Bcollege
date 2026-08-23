@@ -1619,12 +1619,13 @@ function DialogCanUseFamilyLockOn(target) {
  * Build the inventory listing for the dialog which is what's equipped,
  * the player's inventory and the character's inventory for that group
  * @param {Character} C - The character whose inventory must be built
+ * @param {AssetGroup} focusGroup - The group whose inventory to build
  * @param {boolean} [resetOffset=false] - The offset to be at, if specified.
  * @param {boolean} [locks=false] - If TRUE we build a list of locks instead.
  * @param {boolean} reload - Perform a {@link DialogMenu.Reload} hard reset of the active `items`, `locking` or `permissions` mode
  * @returns {void} - Nothing
  */
-function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
+function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, reload=true) {
 
 	if (resetOffset)
 		DialogInventoryOffset = 0;
@@ -1632,7 +1633,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	DialogInventory = [];
 
 	// Make sure there's a focused group
-	if (C.FocusGroup == null) return;
+	if (focusGroup == null) return;
 
 	if (locks) {
 		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, AppearanceItem.fromAsset(a), false));
@@ -1641,11 +1642,11 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		return;
 	}
 
-	const CurItem = C.Appearance.find(A => A.Asset.Group.Name == C.FocusGroup?.Name && A.Asset.DynamicAllowInventoryAdd(C));
+	const CurItem = C.Appearance.find(A => A.Asset.Group.Name === focusGroup.Name && A.Asset.DynamicAllowInventoryAdd(C));
 
 	// In item permission mode we add all the enable items except the ones already on, unless on Extreme difficulty
 	if (DialogMenuMode === "permissions") {
-		for (const A of C.FocusGroup.Asset) {
+		for (const A of focusGroup.Asset) {
 			if (!A.Enable)
 				continue;
 
@@ -1664,18 +1665,18 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 
 		// Second, we add everything from the victim inventory
 		for (const I of C.Inventory)
-			if ((I.Asset != null) && (I.Asset.Group.Name == C.FocusGroup.Name) && I.Asset.DynamicAllowInventoryAdd(C))
+			if (I.Asset.Group.Name === focusGroup.Name && I.Asset.DynamicAllowInventoryAdd(C))
 				DialogInventoryAdd(C, I, false);
 
 		// Third, we add everything from the player inventory if the player isn't the victim
 		if (!C.IsPlayer())
 			for (const I of Player.Inventory)
-				if ((I.Asset != null) && (I.Asset.Group.Name == C.FocusGroup.Name) && I.Asset.DynamicAllowInventoryAdd(C))
+				if (I.Asset.Group.Name === focusGroup.Name && I.Asset.DynamicAllowInventoryAdd(C))
 					DialogInventoryAdd(C, I, false);
 
 		// Fourth, we add all free items (especially useful for clothes), or location-specific always available items
 		for (const A of Asset)
-			if (A.Group.Name === C.FocusGroup.Name && A.DynamicAllowInventoryAdd(C))
+			if (A.Group.Name === focusGroup.Name && A.DynamicAllowInventoryAdd(C))
 				if (InventoryAvailable(C, A.Name, A.Group.Name))
 					DialogInventoryAdd(C, AppearanceItem.fromAsset(A), false);
 
@@ -1686,7 +1687,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			}
 
 			for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
-				if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
+				if (Asset.Group.Name === focusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
 					DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
 				}
 			}
@@ -1703,7 +1704,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 				Craft.MemberName = CharacterNickname(C);
 				Craft.MemberNumber = C.MemberNumber;
 				for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
-					if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
+					if (Asset.Group.Name === focusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
 						DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
 					}
 				}
@@ -1715,7 +1716,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			let Obj = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
-					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))
+					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === focusGroup.Name))
 						DialogInventoryAdd(C, AppearanceItem.fromAsset(A), false);
 		}
 
@@ -3507,7 +3508,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 	_ReloadButtonGrid(root, buttonGrid, properties, options) {
 		const { C, focusGroup } = properties;
 		if (options.resetDialogItems) {
-			DialogInventoryBuild(C, false, false, false);
+			DialogInventoryBuild(C, focusGroup, false, false, false);
 		}
 
 		if (options.reset) {
@@ -3672,7 +3673,7 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 	_ReloadButtonGrid(root, buttonGrid, properties, options) {
 		const { C, focusGroup } = properties;
 		if (options.resetDialogItems) {
-			DialogInventoryBuild(C, false, true, false);
+			DialogInventoryBuild(C, focusGroup, false, true, false);
 		}
 
 		if (options.reset) {
@@ -3786,7 +3787,7 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 	_ReloadButtonGrid(root, buttonGrid, properties, options) {
 		const { C, focusGroup } = properties;
 		if (options.resetDialogItems) {
-			DialogInventoryBuild(C, false, false, false);
+			DialogInventoryBuild(C, focusGroup, false, false, false);
 		}
 
 		if (options.reset) {
