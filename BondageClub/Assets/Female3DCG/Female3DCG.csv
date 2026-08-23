@@ -25,6 +25,7 @@ BodyMarkings,BodyWritings,Body Writings
 BodyMarkings,FaceScars,Face Scars
 BodyMarkings,FacePaints,Face paints
 BodyMarkings,Splatters,Splatters
+BodyMarkings,BabyPowderDust,Baby Powder
 BodyStyle,,Body Style
 BodyStyle,Original,Original
 BodyStyle,EchoV1,Echo V1
@@ -1799,6 +1800,7 @@ ItemVulvaPiercings,UrethralSound,Urethral Sound
 ItemVulvaPiercings,VibeHeartClitPiercing,Vibrating Heart Clitoris Piercing
 ItemVulvaPiercings,CockRingLeash,Cock Ring Leash
 ItemVulvaPiercings,ModularVulvaPiercings,Chastity Tunnel Piercings
+ItemVulvaPiercings,Catheter,Catheter Tube
 Jewelry,,Jewelry
 Jewelry,AnkletA,Jeweled Anklets
 Jewelry,JewelrySet,Piercing Set
