@@ -3,7 +3,7 @@
 	"js/ts.tsserver.experimental.enableProjectDiagnostics": true,
 	"liveServer.settings.root": "../",
     "js/ts.tsdk.path": "node_modules/typescript/lib",
-	"[javascript][typescript]": {
+	"[javascript][typescript][json]": {
 		"editor.insertSpaces": false
     },
     "files.eol": "\n"

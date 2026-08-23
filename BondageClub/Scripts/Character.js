@@ -1791,10 +1791,8 @@ function CharacterNaked(C, refresh=true) {
 function CharacterRandomUnderwear(C) {
 
 	// Clear the current clothes
-	for (let A = C.Appearance.length - 1; A >= 0; A--)
-		if ((C.Appearance[A].Asset.Group.Category == "Appearance") && C.Appearance[A].Asset.Group.AllowNone) {
-			C.Appearance.splice(A, 1);
-		}
+	const items = C.Appearance.filter(item => item.Asset.Group.IsAppearance() && item.Asset.Group.AllowNone);
+	InventoryRemoveItems(C, items);
 
 	// Generate random undies at a random color
 	/** @type {"" | BCColor} */
@@ -1846,15 +1844,12 @@ function CharacterDress(C, Appearance) {
 /**
  * Removes all binding items from a given character
  * @param {Character} C - Character to release
- * @param {boolean} [Refresh=false] - do not call CharacterRefresh if false
+ * @param {boolean} [refresh=true] - do not call CharacterRefresh if false
  * @returns {void} - Nothing
  */
-function CharacterRelease(C, Refresh) {
-	for (let E = C.Appearance.length - 1; E >= 0; E--)
-		if (C.Appearance[E].Asset.IsRestraint) {
-			C.Appearance.splice(E, 1);
-		}
-	if (Refresh || Refresh == null) CharacterRefresh(C);
+function CharacterRelease(C, refresh=true) {
+	const items = C.Appearance.filter(item => item.Asset.IsRestraint);
+	InventoryRemoveItems(C, items, { refresh });
 }
 
 /**
@@ -1875,11 +1870,8 @@ function CharacterReleaseFromLock(C, LockName) {
  * @returns {void} - Nothing
  */
 function CharacterReleaseNoLock(C) {
-	for (let E = C.Appearance.length - 1; E >= 0; E--)
-		if (C.Appearance[E].Asset.IsRestraint && !C.Appearance[E].Property?.LockedBy) {
-			C.Appearance.splice(E, 1);
-		}
-	CharacterRefresh(C);
+	const items = C.Appearance.filter(item => item.Asset.IsRestraint && !item.Property?.LockedBy);
+	InventoryRemoveItems(C, items);
 }
 
 /**
@@ -1889,23 +1881,18 @@ function CharacterReleaseNoLock(C) {
  * @returns {void} - Nothing
  */
 function CharacterReleaseTotal(C, refresh=true) {
-	for (let E = C.Appearance.length - 1; E >= 0; E--) {
-		if (C.Appearance[E].Asset.Group.Category != "Appearance") {
-			if (C.IsOwned() && C.Appearance[E].Asset.Name == "SlaveCollar") {
-				// Reset slave collar to the default model if it has a gameplay effect (such as gagging the player)
-				const effects = InventoryGetItemProperty(C.Appearance[E], "Effect");
-				if (effects?.length) {
-					C.Appearance[E].Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
-				}
+	const items = C.Appearance.filter(item => {
+		if (item.Asset.Name === "SlaveCollar" && C.IsOwned()) {
+			// Reset slave collar to the default model if it has a gameplay effect (such as gagging the player)
+			if (item.Property?.Effect?.length) {
+				item.Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
 			}
-			else {
-				C.Appearance.splice(E, 1);
-			}
+			return false;
+		} else {
+			return item.Asset.Group.IsItem();
 		}
-	}
-	if (refresh) {
-		CharacterRefresh(C);
-	}
+	});
+	InventoryRemoveItems(C, items, { refresh });
 }
 
 /**

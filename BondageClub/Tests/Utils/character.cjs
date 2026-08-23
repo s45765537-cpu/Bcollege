@@ -102,11 +102,21 @@ function appearanceUnpack(items) {
 	});
 }
 
+/**
+ * Convert a list of items into asset strings represented via their group- and asset name
+ * @param {readonly Item[]} items
+ * @returns {AssetString[]}
+ */
+function appearanceStringify(items) {
+	return items.map(item => /** @type {const} */(`${item.Asset.Group.Name}/${item.Asset.Name}`));
+}
+
 module.exports = {
   create,
   destroy,
   refresh,
   appearanceReset,
+  appearanceStringify,
   inventoryWear,
   appearancePack,
   appearanceUnpack,

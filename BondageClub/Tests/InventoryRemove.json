@@ -1,0 +1,31 @@
+{
+    "basic test": {
+        "items": [
+			{ "Group": "ItemLegs", "Name": "FuturisticLegCuffs" },
+			{ "Group": "ItemFeet", "Name": "FuturisticAnkleCuffs" }
+		],
+        "removalGroups": ["ItemLegs"],
+        "actuallyRemovedGroups": ["ItemLegs"]
+    },
+    "bed with Asset.RemoveItemOnRemove": {
+        "items": [
+            { "Group": "ItemMouth", "Name": "BallGag" },
+			{ "Group": "ItemDevices", "Name": "Bed" },
+			{ "Group": "ItemAddon", "Name": "Covers" },
+            { "Group": "ItemArms", "Name": "MedicalBedRestraints" },
+            { "Group": "ItemFeet", "Name": "MedicalBedRestraints" },
+            { "Group": "ItemLegs", "Name": "MedicalBedRestraints" }
+		],
+        "removalGroups": ["ItemDevices"],
+        "actuallyRemovedGroups": ["ItemDevices", "ItemAddon", "ItemArms", "ItemFeet", "ItemLegs"]
+    },
+    "cyclic Asset.RemoveItemOnRemove reference": {
+        "items": [
+            { "Group": "ItemMouth", "Name": "BallGag" },
+			{ "Group": "ItemLegs", "Name": "MockCyclicAsset1" },
+			{ "Group": "ItemFeet", "Name": "MockCyclicAsset2" }
+		],
+        "removalGroups": ["ItemLegs"],
+        "actuallyRemovedGroups": ["ItemLegs", "ItemFeet"]
+    }
+}

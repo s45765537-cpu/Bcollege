@@ -460,10 +460,11 @@ function KDDrawModelList(X, C) {
 
 			let removed = false;
 			for (let appIndex = 0; appIndex < C.Appearance.length; appIndex++) {
-				if (C.Appearance[appIndex]?.Model?.Name == name) {
+				const item = C.Appearance[appIndex];
+				if (item?.Model?.Name == name) {
 					if (KDModelList_Sublevel_index == index) {
 						KDChangeWardrobe(C);
-						C.Appearance.splice(appIndex, 1);
+						InventoryRemoveItems(C, item, { refresh: false });
 						UpdateModels(C);
 					}
 					removed = true;

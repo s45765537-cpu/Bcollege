@@ -707,6 +707,8 @@ function KDCharacterNaked() {
  */
 function KDCharacterAppearanceNaked() {
 	// For each item group (non default items only show at a 20% rate)
+	/** @type {Item[]} */
+	const items = [];
 	for (let A = KinkyDungeonPlayer.Appearance.length - 1; A >= 0; A--) {
 		if (StandalonePatched) {
 			if (!KinkyDungeonPlayer.Appearance[A].Model.Restraint){
@@ -717,7 +719,7 @@ function KDCharacterAppearanceNaked() {
 						|| KinkyDungeonPlayer.Appearance[A].Model.Protected
 						|| KinkyDungeonPlayer.Appearance[A].Model.SuperProtected));
 				if (!f){continue;}
-				KinkyDungeonPlayer.Appearance.splice(A, 1);
+				items.push(KinkyDungeonPlayer.Appearance[A]);
 			}
 		} else {
 			if (KinkyDungeonPlayer.Appearance[A].Asset.Group.AllowNone &&
@@ -726,11 +728,11 @@ function KDCharacterAppearanceNaked() {
 				let f = !(KinkyDungeonPlayer.Appearance[A].Asset.Group.BodyCosplay
 					&& (KDProtectedCosplay.includes(KinkyDungeonPlayer.Appearance[A].Asset.Group.Name)));
 				if (!f){continue;}
-				KinkyDungeonPlayer.Appearance.splice(A, 1);
+				items.push(KinkyDungeonPlayer.Appearance[A]);
 			}
 		}
 	}
-
+	InventoryRemoveItems(KinkyDungeonPlayer, items, { refresh: false });
 
 	// Loads the new character canvas
 	CharacterLoadCanvas(KinkyDungeonPlayer);

@@ -800,12 +800,8 @@ let KDGlobalRefresh = false;
 function KinkyDungeonRun() {
 
 	if (KinkyDungeonPlayer?.Appearance) {
-		for (let A = 0; A < KinkyDungeonPlayer.Appearance.length; A++) {
-			if (KinkyDungeonPlayer.Appearance[A]?.Asset?.Name?.includes("Penis")) {
-				KinkyDungeonPlayer.Appearance.splice(A, 1);
-				A--;
-			}
-		}
+		const items = KinkyDungeonPlayer.Appearance.filter(item => item.Asset.Name.includes("Penis"))
+		InventoryRemoveItems(KinkyDungeonPlayer, items, { refresh: false });
 	}
 	if (StandalonePatched && KDCurrentModels) {
 		let refresh = false;
