@@ -386,6 +386,11 @@ ScriptsPermissionPropertyBlock,Block
 FPSFocusedLimit,FPS Limit
 FPSUnfocusedLimit,Unfocused FPS limit
 ShowFPS,Display FPS Counter
+ShowFullscreenButton,Show fullscreen button
+ShowFullscreenButtonHint,Display a small button for entering fullscreen mode. On mobile is recommended; desktop browsers usually already provide a fullscreen shortcut.
+ShowFullscreenButtonon,Always
+ShowFullscreenButtonoff,Never
+ShowFullscreenButtonon_when_mobile,On mobile
 MaxFPS0,Unlimited
 MaxFPS10,10 FPS
 MaxFPS15,15 FPS

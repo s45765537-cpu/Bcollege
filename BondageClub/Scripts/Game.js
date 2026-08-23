@@ -42,6 +42,7 @@ async function GameStart(isNode=false) {
 		CommonSetScreen("Character", "Login");
 	}
 	ServerInit();
+	Fullscreen.Init();
 
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
 	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));

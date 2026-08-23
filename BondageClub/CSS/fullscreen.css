@@ -1,0 +1,45 @@
+.bc-fullscreen-button {
+	--bc-fullscreen-size: min(6dvh, 3dvw, 44px);
+
+	position: fixed;
+	right: max(var(--gap), env(safe-area-inset-right, 0px));
+	bottom: max(var(--gap), env(safe-area-inset-bottom, 0px));
+	width: var(--bc-fullscreen-size);
+	height: var(--bc-fullscreen-size);
+	border: var(--border-width) solid rgb(255 255 255 / 35%);
+	border-radius: min(1.2dvh, 0.6dvw);
+	background: rgb(0 0 0 / 35%);
+	opacity: 0.45;
+	transition:
+		opacity 0.2s ease,
+		background-color 0.2s ease,
+		border-color 0.2s ease;
+}
+
+.bc-fullscreen-button .button-image {
+	filter: invert(1);
+}
+
+.bc-fullscreen-button:hover,
+.bc-fullscreen-button:focus-visible {
+	opacity: 0.95;
+	background: rgb(0 0 0 / 65%);
+	border-color: rgb(255 255 255 / 70%);
+	outline: 2px solid rgb(255 255 255 / 80%);
+	outline-offset: 2px;
+}
+
+.bc-fullscreen-button[aria-checked="true"] {
+	opacity: 0.7;
+	background: rgb(0 0 0 / 55%);
+}
+
+@media (hover: none) and (pointer: coarse) {
+	.bc-fullscreen-button {
+		--bc-fullscreen-size: max(24px, min(8dvh, 4dvw));
+		right: max(16px, var(--gap), env(safe-area-inset-right, 0px));
+		bottom: max(16px, var(--gap), env(safe-area-inset-bottom, 0px));
+		opacity: 0.6;
+		border-radius: min(1.8dvh, 1dvw);
+	}
+}

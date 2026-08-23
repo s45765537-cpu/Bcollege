@@ -1280,6 +1280,8 @@ function LoginDone() {
 		} else {
 			CommonSetScreen("Room", "MainHall");
 		}
+
+		Fullscreen.UpdateButton();
 	});
 }
 
