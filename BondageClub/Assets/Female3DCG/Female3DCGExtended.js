@@ -618,6 +618,94 @@ var AssetFemale3DCGExtended = {
 		},
 	},
 	ClothOuter: {
+		CheerleaderTop: {
+			Archetype: ExtendedArchetype.TEXT,
+			MaxLength: { Text: 8 },
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "CheerleaderTop",
+			},
+		}, // CheerleaderTop
+		WhiteDress: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "WhiteDress",
+			},
+		}, // WhiteDress
+		LatexHobbleDress: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "LatexHobbleDress",
+			},
+		}, // LatexHobbleDress
+		StarryOceanEveningGown: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "StarryOceanEveningGown",
+			},
+		}, // StarryOceanEveningGown
+		SlaveRags: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "SlaveRags",
+			},
+		}, // SlaveRags
+		MilitaryFatigue: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "MilitaryFatigue",
+			},
+		}, // MilitaryFatigue
+		OffTheShoulderTop: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "OffTheShoulderTop",
+			},
+		}, // OffTheShoulderTop
+		MeshTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "MeshTop",
+			},
+		}, // Mesh Top
+		LittleFormalShirt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "Cloth", AssetName: "LittleFormalShirt" },
+		}, // LittleFormalShirt
+		Jacket: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Cloth", AssetName: "Jacket" },
+		}, // Jacket
+		FishnetTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "Cloth", AssetName: "FishnetTop" },
+		}, // FishnetTop
+		AllureSidecut: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Cloth", AssetName: "AllureSidecut" },
+		}, // AllureSidecut
+		ChineseDress2: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Cloth", AssetName: "ChineseDress2" },
+		}, // ChineseDress2
+		BrocadeCloudsSnowEmbroideryQipao: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "BrocadeCloudsSnowEmbroideryQipao",
+			},
+		}, // BrocadeCloudsSnowEmbroideryQipao
+		CasualDroppedSuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "Cloth", AssetName: "CasualDroppedSuit" },
+		}, // CasualDroppedSuit
 		JacketHoodie: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -811,6 +899,11 @@ var AssetFemale3DCGExtended = {
 					DrawImages: true,
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothMilitaryFatigueSelect",
+				Option: "ClothMilitaryFatigueOption",
+				Module: "ClothMilitaryFatigueModule",
+			},
 		}, // MilitaryFatigue
 		ChineseDress2: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -825,6 +918,10 @@ var AssetFemale3DCGExtended = {
 					Name: "Pink",
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothChineseDress2Select",
+				Option: "ClothChineseDress2",
+			},
 		}, // ChineseDress2
 		LatexLacedSuit: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -888,6 +985,10 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothJacketSelect",
+				Option: "ClothJacket",
+			},
 		}, // Jacket
 		SlaveRags: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -912,6 +1013,11 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothSlaveRagsSelect",
+				Option: "ClothSlaveRagsOption",
+				Module: "ClothSlaveRagsModule",
+			},
 		}, //SlaveRags
 		Hoodie: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -1041,6 +1147,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothFishnetTopSelect",
+				Module: "ClothFishnetTopModule",
+				Option: "ClothFishnetTopOption",
+				Chat: "ClothFishnetTopSet",
+			},
 		}, // FishnetTop
 		MeshTop: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -1072,6 +1184,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothMeshTopSelect",
+				Module: "ClothMeshTopModule",
+				Option: "ClothMeshTopOption",
+				Chat: "ClothMeshTopSet",
+			},
 		}, // MeshTop
 		CorsetDress: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -1159,6 +1277,11 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothLatexHobbleDressSelect",
+				Option: "ClothLatexHobbleDressOption",
+				Module: "ClothLatexHobbleDressModule",
+			},
 		}, // LatexHobbleDress
 		OffTheShoulderTop: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -1170,24 +1293,41 @@ var AssetFemale3DCGExtended = {
 					Name: "Right",
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothOffTheShoulderTopSelect",
+				Option: "ClothOffTheShoulderTop",
+			},
 		}, // OffTheShoulderTop
 		BrocadeCloudsSnowEmbroideryQipao: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
 			Options: [{ Name: "Yes" }, { Name: "No" }],
+			DialogPrefix: {
+				Header: "ClothBrocadeCloudsSnowEmbroideryQipaoSelect",
+				Option: "ClothBrocadeCloudsSnowEmbroideryQipao",
+			},
 		}, // BrocadeCloudsSnowEmbroideryQipao
 		AllureSidecut: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChangeWhenLocked: false,
 			DrawImages: false,
 			Options: [{ Name: "Default" }, { Name: "Transparent" }],
+			DialogPrefix: {
+				Header: "ClothAllureSidecutSelect",
+				Option: "ClothAllureSidecut",
+			},
 		}, // AllureSidecut
 		LittleFormalShirt: {
-			Archetype: "modular",
+			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [{ Name: "Tie", Key: "t", Options: [{}, {}] }],
+			DialogPrefix: {
+				Option: "ClothLittleFormalShirtOption",
+				Header: "ClothLittleFormalShirtSelect",
+				Module: "ClothLittleFormalShirtModule",
+			},
 		}, // LittleFormalShirt
 		StarryOceanEveningGown: {
-			Archetype: "modular",
+			Archetype: ExtendedArchetype.MODULAR,
 			DrawImages: false,
 			Modules: [
 				{
@@ -1196,6 +1336,11 @@ var AssetFemale3DCGExtended = {
 					Options: [{}, { DrawOptions: { Mirror: true } }],
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothStarryOceanEveningGownSelect",
+				Option: "ClothStarryOceanEveningGownOption",
+				Module: "ClothStarryOceanEveningGownModule",
+			},
 		}, // StarryOceanEveningGown
 		CasualDroppedSuit: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -1208,6 +1353,11 @@ var AssetFemale3DCGExtended = {
 					Options: [{}, { DrawOptions: { Mirror: true } }],
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothCasualDroppedSuitSelect",
+				Option: "ClothCasualDroppedSuitOption",
+				Module: "ClothCasualDroppedSuitModule",
+			},
 		}, // CasualDroppedSuit
 		WhiteDress: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -1219,6 +1369,11 @@ var AssetFemale3DCGExtended = {
 					Options: [{ Property: { Hide: ["Nipples"] } }, {}],
 				},
 			],
+			DialogPrefix: {
+				Header: "ClothWhiteDressSelect",
+				Option: "ClothWhiteDressOption",
+				Module: "ClothWhiteDressModule",
+			},
 		}, // WhiteDress
 		Transparentraincoat: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -20921,12 +21076,6 @@ var AssetFemale3DCGExtended = {
 				GroupName: "Cloth",
 				AssetName: "MeshTop",
 			},
-			DialogPrefix: {
-				Header: "ClothMeshTopSelect",
-				Module: "ClothMeshTopModule",
-				Option: "ClothMeshTopOption",
-				Chat: "ClothMeshTopSet",
-			},
 		}, //Mesh Top
 		SportSwimsuit: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -21947,15 +22096,9 @@ var AssetFemale3DCGExtended = {
 		FishnetTop: {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "Cloth", AssetName: "FishnetTop" },
-			DialogPrefix: {
-				Header: "ClothFishnetTopSelect",
-				Module: "ClothFishnetTopModule",
-				Option: "ClothFishnetTopOption",
-				Chat: "ClothFishnetTopSet",
-			},
 		}, // FishnetTop
 		GlossyBodystocking: {
-			Archetype: "modular",
+			Archetype: ExtendedArchetype.MODULAR,
 			DrawImages: false,
 			Modules: [
 				{ Name: "HandStyle", Key: "h", Options: [{}, {}, {}, {}] },

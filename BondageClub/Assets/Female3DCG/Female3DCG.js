@@ -931,6 +931,607 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "AllureSidecut",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "AllureSidecut",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Blouse1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Blouse1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BondageDress1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "BondageDress1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BondageDress2",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "BondageDress2",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "AdultBabyDress2",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "AdultBabyDress2",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BridesmaidDress1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "BridesmaidDress1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BrocadeCloudsSnowEmbroideryQipao",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "BrocadeCloudsSnowEmbroideryQipao",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CasualDroppedSuit",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "CasualDroppedSuit",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ChineseDress1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "ChineseDress1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ChineseDress2",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "ChineseDress2",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Xmas2025",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Xmas2025",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CocktailDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "CocktailDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CorsetShirt",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "CorsetShirt",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CrimsonCloudsInkRhymeQipaoDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "CrimsonCloudsInkRhymeQipaoDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CrossStrapDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "CrossStrapDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DressFur",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "DressFur",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "EveningGown",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "EveningGown",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "FishnetTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FishnetTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "FlowerDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FlowerDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "FuzzyDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FuzzyDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "GardenDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "GardenDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "GrandMage",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "GrandMage",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "HeavyLeatherDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "HeavyLeatherDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Gown2Top",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Gown2Top",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Jacket",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Jacket",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LeatherBolero",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "LeatherBolero",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LeatherCropTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "LeatherCropTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LittleFormalShirt",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "LittleFormalShirt",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LolitaShortDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "LolitaShortDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Dress3",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Dress3",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LongQipaoDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "LongQipaoDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MeshTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "MeshTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MilitaryFatigue",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "MilitaryFatigue",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Dress2",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Dress2",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "NunRobes",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "NunRobes",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "OffTheShoulderTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "OffTheShoulderTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Gown1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Gown1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "AdultBabyDress1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "AdultBabyDress1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RuffledDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "RuffledDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SeethroughTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "SeethroughTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "AdultBabyDress4",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "AdultBabyDress4",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Gown3",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Gown3",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ShoulderlessTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "ShoulderlessTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "WeddingDress2",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "WeddingDress2",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SlaveRags",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "SlaveRags",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ComfyTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "ComfyTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SleevelessTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "SleevelessTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "StarryOceanEveningGown",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "StarryOceanEveningGown",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LatexHobbleDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "LatexHobbleDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "StudentOutfit1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "StudentOutfit1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "StudentOutfit2",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "StudentOutfit2",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "StudentOutfit3",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "StudentOutfit3",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SummerDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "SummerDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "AdultBabyDress3",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "AdultBabyDress3",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Sweater1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Sweater1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TShirt1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "TShirt1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TeacherOutfit1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "TeacherOutfit1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TennisShirt1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "TennisShirt1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BodyTowel1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "BodyTowel1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MaidApron",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "MaidApron",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "VirginKiller1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "VirginKiller1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "WeddingDress1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "WeddingDress1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "WhiteDress",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "WhiteDress",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Yukata1",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Yukata1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "YuletideVelvetWarmth",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "YuletideVelvetWarmth",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CropTopShirt",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "CropTopShirt",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CheerleaderTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "CheerleaderTop",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -1201,7 +1802,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "OffTheShoulderTop",
 				Gender: "F",
-				//Value: 1,
 				Priority: 22,
 				Extended: true,
 				DefaultColor: ["#F2AADC", "#F2AADC"],
@@ -1587,7 +2187,6 @@ var AssetFemale3DCG = [
 					"NecklaceCatsuitCollar",
 				],
 				DefaultColor: ["Default", "#7a826c", "#4d4038", "#000000"],
-				// Require: ["ClothLower"],
 				Extended: true,
 				Layer: [
 					{ Name: "Shirt", AllowTypes: { s: [0] } },
@@ -1599,17 +2198,11 @@ var AssetFemale3DCG = [
 					{
 						Name: "Camo1",
 						Opacity: 0.5,
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [1] },
 					},
 					{
 						Name: "Camo2",
 						Opacity: 0.5,
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [1] },
 					},
 					{
@@ -1617,9 +2210,6 @@ var AssetFemale3DCG = [
 						Opacity: 0.5,
 						Priority: 30,
 						CopyLayerColor: "Camo1",
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [2] },
 					},
 					{
@@ -1627,36 +2217,24 @@ var AssetFemale3DCG = [
 						Opacity: 0.5,
 						Priority: 31,
 						CopyLayerColor: "Camo2",
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [2] },
 					},
 					{
 						Name: "Tiger3",
 						Priority: 32,
 						Opacity: 0.8,
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [0], c: [2] },
 					},
 					{
 						Name: "CropCamo1",
 						Opacity: 0.5,
 						CopyLayerColor: "Camo1",
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [1] },
 					},
 					{
 						Name: "CropCamo2",
 						Opacity: 0.5,
 						CopyLayerColor: "Camo2",
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [1] },
 					},
 					{
@@ -1664,9 +2242,6 @@ var AssetFemale3DCG = [
 						Opacity: 0.5,
 						Priority: 30,
 						CopyLayerColor: "Camo1",
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [2] },
 					},
 					{
@@ -1674,9 +2249,6 @@ var AssetFemale3DCG = [
 						Opacity: 0.5,
 						Priority: 31,
 						CopyLayerColor: "Camo2",
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [2] },
 					},
 					{
@@ -1684,9 +2256,6 @@ var AssetFemale3DCG = [
 						Priority: 32,
 						Opacity: 0.8,
 						CopyLayerColor: "Tiger3",
-						// BlendingMode: "screen",
-						// PoseMapping: {},
-						// ParentGroup: "",
 						AllowTypes: { s: [1], c: [2] },
 					},
 				],
@@ -2030,10 +2599,10 @@ var AssetFemale3DCG = [
 						PoseMapping: {
 							Kneel: "Kneel",
 							KneelingSpread: "KneelingSpread",
-							LegsClosed: "",
-							Spread: "",
-							AllFours: "Hide",
-							Hogtied: "Hide",
+							LegsClosed: PoseType.DEFAULT,
+							Spread: PoseType.DEFAULT,
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
 						},
 					},
 					{
@@ -2056,12 +2625,12 @@ var AssetFemale3DCG = [
 						Name: "Silk",
 						Priority: 32,
 						PoseMapping: {
-							TapedHands: "",
+							TapedHands: PoseType.DEFAULT,
 							Yoked: "Yoked",
-							OverTheHead: "",
-							BackBoxTie: "",
-							BackElbowTouch: "",
-							BackCuffs: "",
+							OverTheHead: PoseType.DEFAULT,
+							BackBoxTie: PoseType.DEFAULT,
+							BackElbowTouch: PoseType.DEFAULT,
+							BackCuffs: PoseType.DEFAULT,
 							AllFours: "AllFours",
 							Hogtied: "Hogtied",
 						},
@@ -2073,10 +2642,10 @@ var AssetFemale3DCG = [
 						PoseMapping: {
 							Kneel: "Kneel",
 							KneelingSpread: "Kneel",
-							LegsClosed: "",
-							Spread: "",
-							AllFours: "Hide",
-							Hogtied: "Hide",
+							LegsClosed: PoseType.DEFAULT,
+							Spread: PoseType.DEFAULT,
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
 						},
 					},
 				],
@@ -2221,12 +2790,12 @@ var AssetFemale3DCG = [
 						Name: "Band",
 						Priority: 33,
 						PoseMapping: {
-							TapedHands: "",
-							Yoked: "",
-							OverTheHead: "",
-							BackBoxTie: "",
-							BackElbowTouch: "",
-							BackCuffs: "",
+							TapedHands: PoseType.DEFAULT,
+							Yoked: PoseType.DEFAULT,
+							OverTheHead: PoseType.DEFAULT,
+							BackBoxTie: PoseType.DEFAULT,
+							BackElbowTouch: PoseType.DEFAULT,
+							BackCuffs: PoseType.DEFAULT,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
@@ -2235,12 +2804,12 @@ var AssetFemale3DCG = [
 						Name: "Shawl",
 						Priority: 34,
 						PoseMapping: {
-							TapedHands: "",
+							TapedHands: PoseType.DEFAULT,
 							Yoked: "Yoked",
 							OverTheHead: "OverTheHead",
-							BackBoxTie: "",
-							BackElbowTouch: "",
-							BackCuffs: "",
+							BackBoxTie: PoseType.DEFAULT,
+							BackElbowTouch: PoseType.DEFAULT,
+							BackCuffs: PoseType.DEFAULT,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
@@ -2250,12 +2819,12 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Cloth",
 						Priority: 5,
 						PoseMapping: {
-							TapedHands: "",
-							Yoked: "",
-							OverTheHead: "",
-							BackBoxTie: "",
-							BackElbowTouch: "",
-							BackCuffs: "",
+							TapedHands: PoseType.DEFAULT,
+							Yoked: PoseType.DEFAULT,
+							OverTheHead: PoseType.DEFAULT,
+							BackBoxTie: PoseType.DEFAULT,
+							BackElbowTouch: PoseType.DEFAULT,
+							BackCuffs: PoseType.DEFAULT,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
@@ -2264,12 +2833,12 @@ var AssetFemale3DCG = [
 						Name: "Interior",
 						Priority: 4,
 						PoseMapping: {
-							TapedHands: "",
-							Yoked: "",
-							OverTheHead: "",
-							BackBoxTie: "",
-							BackElbowTouch: "",
-							BackCuffs: "",
+							TapedHands: PoseType.DEFAULT,
+							Yoked: PoseType.DEFAULT,
+							OverTheHead: PoseType.DEFAULT,
+							BackBoxTie: PoseType.DEFAULT,
+							BackElbowTouch: PoseType.DEFAULT,
+							BackCuffs: PoseType.DEFAULT,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
@@ -2364,7 +2933,6 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				BuyGroup: "BondageDress1",
 				Value: 90,
-				Hide: ["ClothLower"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2386,7 +2954,6 @@ var AssetFemale3DCG = [
 				BuyGroup: "BondageDress2",
 				Value: 90,
 				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
-				Hide: ["ClothLower"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2421,7 +2988,6 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 80,
-				Hide: ["ClothLower"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2459,17 +3025,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie"],
 				Priority: 30,
 				Value: 150,
-				Hide: [
-					"ClothLower",
-					"Garters",
-					"BodyLower",
-					"Panties",
-					"Shoes",
-					"ItemBoots",
-					"AnkletRight",
-					"AnkletLeft",
-					"ItemNipples",
-				],
+				Hide: ["ItemNipples"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemDevicesStrapOnSmooth",
@@ -2519,17 +3075,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie"],
 				Priority: 30,
 				Value: 150,
-				Hide: [
-					"ClothLower",
-					"Garters",
-					"BodyLower",
-					"Panties",
-					"Shoes",
-					"ItemBoots",
-					"AnkletRight",
-					"AnkletLeft",
-					"ItemNipples",
-				],
+				Hide: ["ItemNipples"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemDevicesStrapOnSmooth",
@@ -2577,7 +3123,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Lingerie"],
 				Value: 100,
-				Hide: ["ClothLower"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -2671,6 +3216,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 85,
+				Priority: 27,
 				Random: false,
 				DefaultColor: ["#808080", "#505050", "#808080"],
 				Layer: [
@@ -3034,7 +3580,7 @@ var AssetFemale3DCG = [
 				],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
-					AllFours: PoseType.HIDE,
+					AllFours: "Hogtied",
 				},
 			},
 			{
@@ -3225,11 +3771,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "GrandMage",
 				InventoryID: 144,
+				StyleOverride: ["EchoV2"],
 				Value: 90,
 				DefaultColor: ["#720DBB", "#3C0C5E", "#DFDFEC", "#682E0F", "#858482"],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
-					AllFours: PoseType.HIDE,
+					AllFours: "Hogtied",
 				},
 				HideItem: ["ClothAccessoryPoncho"],
 				Alpha: [
@@ -3243,18 +3790,19 @@ var AssetFemale3DCG = [
 					},
 				],
 				Layer: [
-					{ Name: "Base", StyleOverride: ["EchoV2"] },
+					{ Name: "Base" },
 					{
 						Name: "BackSkirt",
 						ParentGroup: "",
 						Priority: 3,
+						StyleOverride: [],
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
 					},
-					{ Name: "Trim", StyleOverride: ["EchoV2"] },
+					{ Name: "Trim" },
 					{
 						Name: "Belt",
 						PoseMapping: {
@@ -3262,7 +3810,6 @@ var AssetFemale3DCG = [
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
-						StyleOverride: ["EchoV2"],
 					},
 					{
 						Name: "Buckle",
@@ -3271,7 +3818,6 @@ var AssetFemale3DCG = [
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
-						StyleOverride: ["EchoV2"],
 					},
 				],
 			},
@@ -3392,7 +3938,11 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Dress", PoseMapping: {}, Priority: 26 },
+					{
+						Name: "Dress",
+						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
+						Priority: 26,
+					},
 					{
 						Name: "TopFur",
 						PoseMapping: {
@@ -3471,7 +4021,7 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				PoseMapping: {
 					Hogtied: "Hogtied",
-					AllFours: PoseType.HIDE,
+					AllFours: "Hogtied",
 				},
 				HideItem: ["ItemNipplesLactationPump"],
 				Layer: [{ Name: "Lace" }, { Name: "Design" }],
@@ -4306,7 +4856,6 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 				},
 				ParentGroup: "BodyUpper",
-
 				DefaultColor: ["#951B16", "#90662B"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
@@ -5342,8 +5891,8 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Top: {
 					[PoseType.DEFAULT]: 210,
-					AllFours: 190,
-					Hogtied: 190,
+					AllFours: 200,
+					Hogtied: 210,
 				},
 				Left: {
 					[PoseType.DEFAULT]: 170,
@@ -5738,6 +6287,16 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					AssetName: "Swimsuit3",
 					GroupName: "Bra",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LatexBodysuit",
+				DynamicGroupName: "Suit",
+				Priority: 21,
+				CopyConfig: {
+					AssetName: "LatexBodysuit",
+					GroupName: "Suit",
 					BuyGroup: true,
 				},
 			},
@@ -8187,14 +8746,13 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Blouse1",
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
-				InventoryID: 145,
-				Value: -1,
-				Top: 1,
 				Priority: 29,
-				BuyGroup: "Blouse1",
 				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "Blouse1",
+					BuyGroup: true,
+				},
 				Alpha: [
 					{
 						Group: ["Panties", "ItemPelvis", "Bra", "Corset"],
@@ -8204,97 +8762,26 @@ var AssetFemale3DCG = [
 						],
 					},
 				],
-				HideItem: [
-					"ItemNipplesPiercingsRoundPiercing",
-					"ItemNipplesPiercingsNecklacePiercingChain",
-					"ItemNipplesLactationPump",
-					"ItemArmsBondageBra",
-					"NecklaceBodyChainNecklace",
-				],
 			},
 			{
 				Name: "SleevelessSlimLatexLeotard",
-				StyleOverride: ["EchoV2"],
-				InventoryID: 204,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
-				Value: 50,
-				Top: 0,
-				Left: 0,
-				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
-				HideItemExclude: [
-					"ItemVulvaWandBelt",
-					"ItemVulvaFullLatexSuitWand",
-					"ItemVulvaWiredEgg",
-				],
-				PoseMapping: {
-					Yoked: PoseType.DEFAULT,
-					BackBoxTie: PoseType.DEFAULT,
-					BackCuffs: PoseType.DEFAULT,
-					BackElbowTouch: PoseType.DEFAULT,
-					OverTheHead: PoseType.DEFAULT,
-					TapedHands: PoseType.DEFAULT,
-					Hogtied: "Hogtied",
-					AllFours: "Hogtied",
+				Priority: 21,
+				DynamicGroupName: "Bra",
+				CopyConfig: {
+					AssetName: "SleevelessSlimLatexLeotard",
+					GroupName: "Bra",
+					BuyGroup: true,
 				},
-				Layer: [
-					{ Name: "Latex" },
-					{ Name: "Shine", AllowColorize: false },
-					{ Name: "BreastShade", AllowColorize: false },
-				],
 			},
 			{
 				Name: "FishnetTop",
-				InventoryID: 160,
-				Value: -1,
-				DefaultColor: ["#1C1C1C"],
-				BuyGroup: "FishnetTop",
+				Priority: 30,
 				DynamicGroupName: "Cloth",
-				Expose: [
-					"ItemNipples",
-					"ItemNipplesPiercings",
-					"ItemBreast",
-					"ItemTorso",
-					"ItemTorso2",
-				],
-				PoseMapping: {
-					...AssetPoseMapping.Cloth,
-					TapedHands: PoseType.DEFAULT,
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "FishnetTop",
+					BuyGroup: true,
 				},
-				Layer: [
-					{ Name: "Chest" },
-					{
-						Name: "Full",
-						AllowTypes: { t: 0 },
-						CopyLayerColor: "Chest",
-						HideColoring: true,
-						PoseMapping: {
-							...AssetPoseMapping.Cloth,
-							TapedHands: PoseType.DEFAULT,
-							Hogtied: PoseType.HIDE,
-							AllFours: PoseType.HIDE,
-						},
-					},
-					{
-						Name: "Crop",
-						AllowTypes: { t: 1 },
-						CopyLayerColor: "Chest",
-						HideColoring: true,
-						PoseMapping: {
-							...AssetPoseMapping.Cloth,
-							TapedHands: PoseType.DEFAULT,
-							Hogtied: PoseType.HIDE,
-							AllFours: PoseType.HIDE,
-						},
-					},
-					{
-						Name: "Sleeves",
-						AllowTypes: { s: 0 },
-						CopyLayerColor: "Chest",
-						HideColoring: true,
-						Priority: 27,
-					},
-				],
 			},
 			{
 				Name: "ShinyLeotard",
@@ -8793,7 +9280,7 @@ var AssetFemale3DCG = [
 				ParentGroup: "BodyUpper",
 				PoseMapping: {
 					Hogtied: "Hogtied",
-					AllFours: PoseType.HIDE,
+					AllFours: "Hogtied",
 				},
 				Layer: [{ Name: "Cloth" }, { Name: "Shadow" }, { Name: "Highlight" }],
 				Attribution: {
@@ -12123,6 +12610,7 @@ var AssetFemale3DCG = [
 				Hide: ["ItemNipples"],
 				PoseMapping: {
 					...AssetPoseMapping.Bra,
+					AllFours: PoseType.DEFAULT,
 					Yoked: PoseType.DEFAULT,
 				},
 			},
@@ -12257,7 +12745,7 @@ var AssetFemale3DCG = [
 				Value: 50,
 				Top: 0,
 				Left: 0,
-				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				Hide: ["ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
 				HideItemExclude: [
 					"ItemVulvaWandBelt",
 					"ItemVulvaFullLatexSuitWand",
@@ -12681,6 +13169,16 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "Suit",
 					AssetName: "TransparentBunnyGirl",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LatexBodysuit",
+				DynamicGroupName: "Suit",
+				Priority: 21,
+				CopyConfig: {
+					AssetName: "LatexBodysuit",
+					GroupName: "Suit",
 					BuyGroup: true,
 				},
 			},
@@ -23477,6 +23975,7 @@ var AssetFemale3DCG = [
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
 							BackElbowTouch: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
 						},
 					},
 				],
