@@ -1026,7 +1026,7 @@ var InventoryUnequip = {
 	},
 
 	/**
-	 * Remove a single item from a character body area via its group name
+	 * Remove a single item from a character body area
 	 * @param {Character} C The character on which we must remove the item
 	 * @param {Item} item The to-be removed item
 	 * @param {null | InventoryUnequip.Options} options Further options
