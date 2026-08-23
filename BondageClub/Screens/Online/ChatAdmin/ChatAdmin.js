@@ -30,108 +30,6 @@ var ChatAdminData = null;
 var ChatAdminMode = null;
 
 /**
- * Show the room editor screen in creation mode
- */
-function ChatAdminShowCreate() {
-	ChatAdminStart("create");
-}
-
-/**
- * Show the room editor screen in update mode
- * @param {ServerChatRoomData} roomData
- */
-function ChatAdminShowEdit(roomData) {
-	/** @type {ChatRoomSettings} */
-	const copy = {
-		Name: roomData.Name,
-		Description: roomData.Description,
-		Admin: roomData.Admin,
-		Whitelist: roomData.Whitelist,
-		Ban: roomData.Ban,
-		Background: roomData.Background,
-		Limit: roomData.Limit,
-		Game: roomData.Game,
-		Visibility: roomData.Visibility,
-		Access: roomData.Access,
-		BlockCategory: roomData.BlockCategory,
-		Language: roomData.Language,
-		Space: roomData.Space,
-		MapData: roomData.MapData,
-		Custom: roomData.Custom,
-	};
-	ChatAdminStart("update", copy);
-}
-
-/**
- * Sets up the chat room editor screen and switches to it
- *
- * This should not be called directly; use {@link ChatAdminShowCreate} or {@link ChatAdminShowEdit}
- *
- * @param {"create" | "update"} mode
- * @param {ChatRoomSettings | null} roomData
- */
-function ChatAdminStart(mode, roomData = null) {
-	ChatAdminMode = mode;
-	if (mode === "create") {
-		/** @type {("BlackList" | "GhostList")[]} */
-		const banTypes = [];
-		if (Player.OnlineSettings.AutoBanBlackList) {
-			banTypes.push("BlackList");
-		}
-		if (Player.OnlineSettings.AutoBanGhostList) {
-			banTypes.push("GhostList");
-		}
-		const banList = ChatRoomConcatenateBanList(banTypes);
-		ChatAdminData = {
-			Name: "",
-			Description: "",
-			Admin: [Player.MemberNumber],
-			Whitelist: [],
-			Ban: banList,
-			Background: "",
-			Limit: 10,
-			Game: "",
-			Visibility: ChatRoomVisibilityMode.PUBLIC,
-			Access: ChatRoomAccessMode.PUBLIC,
-			BlockCategory: [],
-			Language: ChatAdminDefaultLanguage,
-			Space: ChatSearchGetSpace() ?? undefined,
-			MapData: { Type: "Never" },
-			// Custom: {},
-		};
-	} else if (mode === "update") {
-		if (roomData == null) {
-			throw new Error(`missing room data for mode "${mode}"!`);
-		}
-		const MapData = {
-			...(roomData.MapData ?? {}),
-			Type: roomData.MapData?.Type ?? "Never",
-		};
-		ChatAdminData = { ...roomData, MapData };
-	} else {
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		throw new Error(`invalid mode "${mode}"!`);
-	}
-	CommonSetScreen("Online", "ChatAdmin");
-}
-
-/**
- * Return whether the editor can actually modify the data
- * @returns {boolean}
- */
-function ChatAdminCanEdit() {
-	return ChatAdminMode === "create" || !!ChatAdminData?.Admin.includes(Player.MemberNumber);
-}
-
-/**
- * Return whether the data in the editor can actually be committed
- * @returns {boolean}
- */
-function ChatAdminCanCommit() {
-	return ChatAdminCanEdit() && ChatAdminMessage !== "UpdatingRoom" && ChatAdminMessage !== "CreatingRoom";
-}
-
-/**
  * Loads the given room data and sets up the UI for it
  * @type {ScreenLoadHandler}
  */
@@ -207,19 +105,6 @@ async function ChatAdminLoad() {
 		ChatAdminMessage = "QuickaddExplanation";
 	}
 	TextPrefetch("Online", "ChatBlockItem");
-}
-
-/**
- * Handles unloading the editor screen
- * @type {ScreenUnloadHandler}
- */
-function ChatAdminUnload() {
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
 }
 
 /**
@@ -487,17 +372,6 @@ function ChatAdminClick() {
 }
 
 /**
- * Handles accepting the room editor
- */
-function ChatAdminCommit() {
-	if (ChatAdminMode === "update") {
-		ChatEditorUpdateRoom();
-	} else {
-		ChatEditorCreateRoom();
-	}
-}
-
-/**
  * Handles the key presses while in the creation screen. When the user presses enter, we create the room.
  * @type {KeyboardEventListener}
  */
@@ -524,6 +398,132 @@ function ChatAdminExit() {
 	} else {
 		CommonSetScreen("Online", "ChatSearch");
 	}
+}
+
+/**
+ * Handles unloading the editor screen
+ * @type {ScreenUnloadHandler}
+ */
+function ChatAdminUnload() {
+	ElementRemove("InputName");
+	ElementRemove("InputDescription");
+	ElementRemove("InputSize");
+	ElementRemove("InputAdminList");
+	ElementRemove("InputWhitelist");
+	ElementRemove("InputBanList");
+}
+
+/**
+ * Show the room editor screen in creation mode
+ */
+function ChatAdminShowCreate() {
+	ChatAdminStart("create");
+}
+
+/**
+ * Show the room editor screen in update mode
+ * @param {ServerChatRoomData} roomData
+ */
+function ChatAdminShowEdit(roomData) {
+	/** @type {ChatRoomSettings} */
+	const copy = {
+		Name: roomData.Name,
+		Description: roomData.Description,
+		Admin: roomData.Admin,
+		Whitelist: roomData.Whitelist,
+		Ban: roomData.Ban,
+		Background: roomData.Background,
+		Limit: roomData.Limit,
+		Game: roomData.Game,
+		Visibility: roomData.Visibility,
+		Access: roomData.Access,
+		BlockCategory: roomData.BlockCategory,
+		Language: roomData.Language,
+		Space: roomData.Space,
+		MapData: roomData.MapData,
+		Custom: roomData.Custom,
+	};
+	ChatAdminStart("update", copy);
+}
+
+/**
+ * Sets up the chat room editor screen and switches to it
+ *
+ * This should not be called directly; use {@link ChatAdminShowCreate} or {@link ChatAdminShowEdit}
+ *
+ * @param {"create" | "update"} mode
+ * @param {ChatRoomSettings | null} roomData
+ */
+function ChatAdminStart(mode, roomData = null) {
+	ChatAdminMode = mode;
+	if (mode === "create") {
+		/** @type {("BlackList" | "GhostList")[]} */
+		const banTypes = [];
+		if (Player.OnlineSettings.AutoBanBlackList) {
+			banTypes.push("BlackList");
+		}
+		if (Player.OnlineSettings.AutoBanGhostList) {
+			banTypes.push("GhostList");
+		}
+		const banList = ChatRoomConcatenateBanList(banTypes);
+		ChatAdminData = {
+			Name: "",
+			Description: "",
+			Admin: [Player.MemberNumber],
+			Whitelist: [],
+			Ban: banList,
+			Background: "",
+			Limit: 10,
+			Game: "",
+			Visibility: ChatRoomVisibilityMode.PUBLIC,
+			Access: ChatRoomAccessMode.PUBLIC,
+			BlockCategory: [],
+			Language: ChatAdminDefaultLanguage,
+			Space: ChatSearchGetSpace() ?? undefined,
+			MapData: { Type: "Never" },
+			// Custom: {},
+		};
+	} else if (mode === "update") {
+		if (roomData == null) {
+			throw new Error(`missing room data for mode "${mode}"!`);
+		}
+		const MapData = {
+			...(roomData.MapData ?? {}),
+			Type: roomData.MapData?.Type ?? "Never",
+		};
+		ChatAdminData = { ...roomData, MapData };
+	} else {
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+		throw new Error(`invalid mode "${mode}"!`);
+	}
+	CommonSetScreen("Online", "ChatAdmin");
+}
+
+/**
+ * Return whether the editor can actually modify the data
+ * @returns {boolean}
+ */
+function ChatAdminCanEdit() {
+	return ChatAdminMode === "create" || !!ChatAdminData?.Admin.includes(Player.MemberNumber);
+}
+
+/**
+ * Handles accepting the room editor
+ */
+function ChatAdminCommit() {
+	if (ChatAdminMode === "update") {
+		ChatEditorUpdateRoom();
+	} else {
+		ChatEditorCreateRoom();
+	}
+}
+
+/**
+ * Return whether the data in the editor can actually be committed
+ * @returns {boolean}
+ */
+function ChatAdminCanCommit() {
+	return ChatAdminCanEdit() && ChatAdminMessage !== "UpdatingRoom" && ChatAdminMessage !== "CreatingRoom";
 }
 
 /**
