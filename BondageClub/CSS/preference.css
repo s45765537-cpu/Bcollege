@@ -693,7 +693,8 @@ label:has(#InputCharacterLabelColor) {
 
 /* #region Graphics */
 
-#preference-graphics-font-hint-tooltip {
+#preference-graphics-font-hint-tooltip,
+#preference-graphics-show-fullscreen-button-hint-tooltip {
 	text-wrap: wrap;
 	width: min(80vh, 40vw);
 	width: min(80dvh, 40dvw);

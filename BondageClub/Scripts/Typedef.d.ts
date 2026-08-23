@@ -2451,6 +2451,7 @@ interface GraphicsSettingsType {
 	CenterChatrooms: boolean;
 	AllowBlur: boolean;
 	ShowFPS: boolean;
+	ShowFullscreenButton: GraphicsShowFullscreenButton;
 	/** 0 means unlimited */
 	MaxFPS: number;
 	MaxUnfocusedFPS: number;

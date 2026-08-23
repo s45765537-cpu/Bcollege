@@ -550,3 +550,5 @@ DurationFormatMinuteFull,$value$ minute(s)
 DurationFormatSecondFull,$value$ second(s)
 CommaDelimiter,", "
 DurationFormatError,Duration error
+FullscreenEnter,Enter fullscreen
+FullscreenExit,Exit fullscreen

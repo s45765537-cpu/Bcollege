@@ -29,6 +29,8 @@ var PreferenceGraphicsPowerModeIndex = -1;
 var PreferenceGraphicsWebGLOptions;
 var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
 var PreferenceGraphicsFrameLimit = [0, 10, 15, 30, 60];
+/** @type {GraphicsShowFullscreenButton[]} */
+var PreferenceGraphicsFullscreenButtonList = ["on", "off", "on_when_mobile"];
 
 const PreferenceSubscreenGraphicsIDs = Object.freeze({
 	grid: "preference-graphics-grid",
@@ -303,6 +305,33 @@ function PreferenceSubscreenGraphicsLoad() {
 		checkboxHtmlOptions
 	);
 
+	const showFullscreenButtonOptions = PreferenceGraphicsFullscreenButtonList.map((v) => ({
+		attributes: {
+			value: v,
+			label: TextGet("ShowFullscreenButton" + v),
+			selected: v === Player.GraphicsSettings.ShowFullscreenButton,
+		},
+	}));
+
+	const showFullscreenButton = ElementDropdown.CreateLabelled("preference-graphics-show-fullscreen-button", showFullscreenButtonOptions, TextGet("ShowFullscreenButton"),
+		function (ev) {
+			ev.preventDefault();
+			const next = /** @type {GraphicsShowFullscreenButton} */ (this.value);
+			if (!PreferenceGraphicsFullscreenButtonList.includes(next)) return;
+			Player.GraphicsSettings.ShowFullscreenButton = next;
+			Fullscreen.UpdateButton();
+		},
+		null,
+		{
+			container: {
+				classList: ["preference-settings-dropdown"],
+				children: [
+					GraphicsCreateHint("preference-graphics-show-fullscreen-button-hint", TextGet("ShowFullscreenButtonHint"), "left"),
+				],
+			},
+		}
+	);
+
 	ElementCreate({
 		tag: "div",
 		classList: ["preference-settings-grid", "preference-settings-aligned-grid", "scroll-box"],
@@ -323,6 +352,7 @@ function PreferenceSubscreenGraphicsLoad() {
 			maxFpsDropdown,
 			maxUnfocusedFpsDropdown,
 			showFps,
+			showFullscreenButton,
 		],
 		parent: ElementWrap(PreferenceIDs.subscreen)
 	});

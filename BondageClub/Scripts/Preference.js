@@ -405,6 +405,8 @@ function PreferenceInitPlayer(C, data) {
 
 	if (Object.keys(toUpdate).length > 0)
 		ServerAccountUpdate.QueueData(toUpdate);
+
+	Fullscreen.UpdateButton();
 }
 
 /**
