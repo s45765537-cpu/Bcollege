@@ -3165,7 +3165,7 @@ const ChatRoomMapManager = (function () {
 						readLen += runLen;
 					}
 				} catch (e) {
-					console.warn("Attempt to decode invalid map data:", e);
+					console.error("Attempt to decode invalid map data:", e);
 					return undefined;
 				}
 
@@ -3252,7 +3252,7 @@ const ChatRoomMapManager = (function () {
 			return decodeModernExportedMap(s);
 		}
 
-		console.warn("Impossible exported map string value");
+		console.error("Impossible exported map string value");
 		return {
 			LegacyMapData: undefined,
 			MapData: undefined,
@@ -3361,7 +3361,7 @@ const ChatRoomMapManager = (function () {
 		};
 
 		if (s[0] !== MAP_EXPORT_VERSION_TAG) {
-			console.warn(
+			console.error(
 				"Invalid modern exported map: missing MAP_EXPORT_VERSION_TAG in the beginning.",
 			);
 			return err;
@@ -3392,7 +3392,7 @@ const ChatRoomMapManager = (function () {
 				MapData: map,
 			};
 		} catch (e) {
-			console.warn("Error decoding modern exported map:", e);
+			console.error("Error decoding modern exported map:", e);
 			return err;
 		}
 	}
@@ -3428,7 +3428,7 @@ const ChatRoomMapManager = (function () {
 				MAP_SYNC_VERSION_BIT_SIZE,
 			);
 			if (!codec.write(map, writer)) {
-				console.warn("Failed to encode MapData into the BitString");
+				console.error("Failed to encode MapData into the BitString");
 				return undefined;
 			}
 

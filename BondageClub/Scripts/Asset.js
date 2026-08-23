@@ -888,11 +888,11 @@ function AssetBuildDescription(Family, CSV) {
 	for (const line of CSV) {
 		if (Array.isArray(line) && line.length === 3) {
 			if (map.has(`${line[0]}:${line[1]}`)) {
-				console.warn("Duplicate Asset Description: ", line);
+				console.error("Duplicate Asset Description: ", line);
 			}
 			map.set(`${line[0]}:${line[1]}`, line[2].trim());
 		} else {
-			console.warn("Bad Asset Description line: ", line);
+			console.error("Bad Asset Description line: ", line);
 		}
 	}
 
@@ -1207,11 +1207,11 @@ async function AssetInventoryIDValidate() {
 		const isFreeOrUnbuyableAsset = (A.Value == null || A.Value === 0 || A.Enable === false);
 
 		if (A.InventoryID && isFreeOrUnbuyableAsset) {
-			console.warn(`Unnecessary InventoryID on asset "${A.Name}", remove it`);
+			console.error(`Unnecessary InventoryID on asset "${A.Name}", remove it`);
 		} else if (!A.InventoryID && !isFreeOrUnbuyableAsset && !A.BuyGroup && A.Value !== -1 && !A.RemoveAtLogin) {
 			// Additional checks are for scenario-only items
 			lastId++;
-			console.warn(`Missing InventoryID on asset "${A.Name}", suggesting ${lastId}`);
+			console.error(`Missing InventoryID on asset "${A.Name}", suggesting ${lastId}`);
 		}
 
 		// Warn for all Inventory IDs that are duplicated out of a buy group
@@ -1220,9 +1220,9 @@ async function AssetInventoryIDValidate() {
 			let match;
 			if ((match = buyAssets.find(asset => asset.InventoryID !== A.InventoryID))) {
 				lastId++;
-				console.warn(`InventoryID should be the same within BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID}), suggesting ${lastId}`);
+				console.error(`InventoryID should be the same within BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID}), suggesting ${lastId}`);
 			} else if ((match = allAssets.find(asset => asset.InventoryID === A.InventoryID && asset.BuyGroup !== A.BuyGroup))) {
-				console.warn(`InventoryID matching without being in the same BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID})`);
+				console.error(`InventoryID matching without being in the same BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID})`);
 			}
 			buyAssets.push(A);
 			buyGroups.set(A.BuyGroup, buyAssets);
@@ -1235,7 +1235,7 @@ async function AssetInventoryIDValidate() {
 			// Find matches with different names that either have no buygroup or aren't part of the same buygroup
 			if ((match = inventoryAssets.find(asset => (!asset.BuyGroup || !A.BuyGroup || asset.BuyGroup !== A.BuyGroup) && asset.Name !== A.Name))) {
 				lastId++;
-				console.warn(`InventoryID should be different between different BuyGroups: asset "${A.Name}", buyGroup: ${A.BuyGroup}, ID ${A.InventoryID}, doesn't match: "${match.Name}", buyGroup: ${match.BuyGroup}, ID: ${match.InventoryID}, suggesting ${lastId}`);
+				console.error(`InventoryID should be different between different BuyGroups: asset "${A.Name}", buyGroup: ${A.BuyGroup}, ID ${A.InventoryID}, doesn't match: "${match.Name}", buyGroup: ${match.BuyGroup}, ID: ${match.InventoryID}, suggesting ${lastId}`);
 			}
 			inventoryAssets.push(A);
 			inventoryIDs[A.InventoryID] = inventoryAssets;
@@ -1248,7 +1248,7 @@ async function AssetInventoryIDValidate() {
 		for (let index = 100; index < inventoryIDs.length; index++) {
 			if (!inventoryIDs[index]) holes.add(index);
 		}
-		console.warn(`Known holes in InventoryIDs: ${[...holes.values()]}`);
+		console.error(`Known holes in InventoryIDs: ${[...holes.values()]}`);
 	}
 }
 
@@ -1259,7 +1259,7 @@ function AssetLoadCheckActivities() {
 	for (const act of ActivityFemale3DCG) {
 		const dup = ids.get(act.ActivityID);
 		if (dup) {
-			console.warn(`Activity ${act.Name} has the same ID as ${dup}!`);
+			console.error(`Activity ${act.Name} has the same ID as ${dup}!`);
 			dup.push(act.Name);
 			report = true;
 		} else {

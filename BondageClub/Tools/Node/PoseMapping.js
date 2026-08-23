@@ -104,7 +104,7 @@ function gatherPoseMappings(assets) {
 function getPoseMappingsDiff(newData, oldData) {
 	const getDiff = DIFF.PoseMapping;
 	if (!getDiff) {
-		console.warn(`Unsupported layer property`);
+		console.error(`Unsupported layer property`);
 		return null;
 	}
 

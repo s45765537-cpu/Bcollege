@@ -2211,7 +2211,7 @@ function DialogChangeMode(mode, reset=false) {
 		}
 
 		default:
-			console.warn(`Asked to change to mode ${DialogMenuMode}, but setup missing`);
+			console.error(`Asked to change to mode ${DialogMenuMode}, but setup missing`);
 			break;
 	}
 

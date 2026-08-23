@@ -2267,7 +2267,7 @@ function PlatformGetAnim(C, Pose, Cycle = null) {
 				Mirror: ((C.FaceLeft === true) && (C.Animation[A].CycleLeft == null))
 			};
 		}
-	console.warn("Anim: " + Pose + " not found for character: " + C.Name);
+	console.error("Anim: " + Pose + " not found for character: " + C.Name);
 	return null;
 }
 

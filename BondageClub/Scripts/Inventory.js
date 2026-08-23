@@ -188,7 +188,7 @@ function InventoryLoadCompressedData(Data) {
 		if (A) {
 			items.push({ Group: A.Group.Name, Name: A.Name });
 		} else {
-			console.warn(`unable to find asset for InventoryID: ${ID}, skipping`);
+			console.error(`unable to find asset for InventoryID: ${ID}, skipping`);
 		}
 
 		// Keeps the last ID for ranges and jump to the next position
@@ -432,7 +432,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		// Returns no message, indicating that all prerequisites are fine
 		case "GagFlat": return "";
 		default: {
-			console.warn(`Unknown asset prerequisite "${Prerequisite}"`);
+			console.error(`Unknown asset prerequisite "${Prerequisite}"`);
 			return "";
 		}
 	}

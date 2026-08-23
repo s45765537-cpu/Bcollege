@@ -347,7 +347,7 @@ function PreferenceInitPlayer(C, data) {
 	C.OnlineSettings = ValidationApplyRecord(data.OnlineSettings, C, PreferenceOnlineSettingsValidate, true);
 	const extraKeys = CommonKeys(C.OnlineSettings).filter(i => !(i in PreferenceOnlineSettingsValidate));
 	if (extraKeys.length) {
-		console.warn(`Found extra keys ${extraKeys} in Player.OnlineSettings. Please move those to Player.ExtensionSettings`);
+		console.error(`Found extra keys ${extraKeys} in Player.OnlineSettings. Please move those to Player.ExtensionSettings`);
 	}
 	C.OnlineSharedSettings = ValidationApplyRecord(data.OnlineSharedSettings, C, PreferenceOnlineSharedSettingsValidate, true);
 	C.RestrictionSettings = ValidationApplyRecord(data.RestrictionSettings, C, PreferenceRestrictionSettingsValidate);

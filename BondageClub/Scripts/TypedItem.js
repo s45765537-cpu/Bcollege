@@ -482,7 +482,7 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 			break;
 		default: {
 			const msg = `${warningMessage}: item does not use the typed or vibrating archetype`;
-			console.warn(msg);
+			console.error(msg);
 			return msg;
 		}
 	}
@@ -492,7 +492,7 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 	const newOption = options.find(o => o.Name === optionName);
 	if (!newOption) {
 		const msg = `${warningMessage}: option "${optionName}" does not exist`;
-		console.warn(msg);
+		console.error(msg);
 		return msg;
 	}
 
@@ -527,7 +527,7 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item || item.Asset.Archetype !== ExtendedArchetype.TYPED) {
-		console.warn("Cannot set random option: item does not exist or does not use the typed archetype");
+		console.error("Cannot set random option: item does not exist or does not use the typed archetype");
 		return;
 	}
 

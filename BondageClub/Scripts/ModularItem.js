@@ -572,7 +572,7 @@ function ModularItemParseCurrent({ asset, modules }, typeRecord) {
 	return modules.map(module => {
 		const index = typeRecord[module.Key];
 		if (module.Options[index] === undefined) {
-			console.warn(`${asset.Group.Name}:${asset.Name}: invalid key for module "${module.Key}": ${index}`);
+			console.error(`${asset.Group.Name}:${asset.Name}: invalid key for module "${module.Key}": ${index}`);
 			return 0;
 		} else {
 			return index;
@@ -642,7 +642,7 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 		let valid = true;
 		for (const layerName of Object.keys(Property.OverridePriority)) {
 			if (!layerNames.has(layerName)) {
-				console.warn(`invalid OverridePriority property: unknown layer name ${layerName}`);
+				console.error(`invalid OverridePriority property: unknown layer name ${layerName}`);
 				valid = false;
 				break;
 			}

@@ -118,7 +118,7 @@ var ToastManager = new class ToastManager {
 	 */
 	_show(options) {
 		if (!options.message) {
-			console.warn('What are you even trying to show? Missing toast message.');
+			console.error('What are you even trying to show? Missing toast message.');
 			return;
 		}
 

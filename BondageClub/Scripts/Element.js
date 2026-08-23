@@ -889,14 +889,14 @@ function ElementPosition(ElementOrID, X, Y, W, H) {
 	const E = ElementWrap(ElementOrID);
 
 	if (!E) {
-		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementOrID + "'");
+		console.error("A call to ElementPosition was made on non-existent element with ID '" + ElementOrID + "'");
 		return;
 	}
 
 	// For a vertical slider, swap the width and the height (the transformation is handled by CSS)
 	if (E.tagName.toLowerCase() === "input" && E.getAttribute("type") === "range" && E.classList.contains("Vertical")) {
 		if (!H) {
-			console.warn("ElementPosition: missing H parameter for a vertical slider");
+			console.error("ElementPosition: missing H parameter for a vertical slider");
 			return;
 		}
 		[W, H] = [H, W];
@@ -940,7 +940,7 @@ function ElementPositionFixed(ElementOrID, X, Y, W, H, anchorPosition = 'top-lef
 	// Verify the element exists
 	if (!E) {
 		const id = typeof ElementOrID === "string" ? ElementOrID : ElementOrID?.id;
-		console.warn(`A call to ElementPositionFix was made on non-existent element with ID "${id}"`);
+		console.error(`A call to ElementPositionFix was made on non-existent element with ID "${id}"`);
 		return;
 	}
 
@@ -964,7 +964,7 @@ function ElementPositionFix(ElementOrID, Font, X, Y, W, H, anchorPosition = 'top
 	const E = ElementWrap(ElementOrID);
 	// Verify the element exists
 	if (!E) {
-		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementOrID + "'");
+		console.error("A call to ElementPositionFix was made on non-existent element with ID '" + ElementOrID + "'");
 		return;
 	}
 
@@ -2700,7 +2700,7 @@ var ElementText = {
 		if (opts?.describes) {
 			const target = ElementWrap(opts.describes);
 			if (!target) {
-				console.warn(`Unable to locate element ${opts.describes}`);
+				console.error(`Unable to locate element ${opts.describes}`);
 			} else {
 				id = ElementGenerateID();
 				const attrVals = (target.getAttribute("aria-describedby") ?? "").split(" ");
@@ -2821,7 +2821,7 @@ function ElementSetPosition(elementOrId, xPos = 0, yPos = 0, anchorPosition = 't
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.warn("A call to ElementSetPosition was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetPosition was made on non-existent element with ID '" + elementOrId + "'");
 		return;
 	}
 
@@ -2848,7 +2848,7 @@ function ElementSetSize(elementOrId, width = null, height = null) {
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.warn("A call to ElementSetSize was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetSize was made on non-existent element with ID '" + elementOrId + "'");
 		return;
 	}
 
@@ -2874,7 +2874,7 @@ function ElementSetFontSize(elementOrId, targetFontSize = 'auto') {
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.warn("A call to ElementSetFontSize was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetFontSize was made on non-existent element with ID '" + elementOrId + "'");
 		return;
 	}
 

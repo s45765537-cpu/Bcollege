@@ -42,7 +42,7 @@ function ReputationChange(RepType, RepValue, Push) {
 	}
 
 	else {
-		console.warn(`Invalid reputation type "${RepType}"`);
+		console.error(`Invalid reputation type "${RepType}"`);
 	}
 }
 

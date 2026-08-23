@@ -485,7 +485,7 @@ function PortalLinkGetFunctions(item) {
 			const act = /** @type {ActivityName} */ (attr.substring("PortalLinkActivity".length));
 			let attrTarget = attrs.find(a => a.startsWith("PortalLinkTarget"));
 			if (!attrTarget) {
-				console.warn("No target specified for PortalLinkActivity. Add PortalLinkTarget${groupName} to your assets' attributes");
+				console.error("No target specified for PortalLinkActivity. Add PortalLinkTarget${groupName} to your assets' attributes");
 				continue;
 			}
 			features.push(`PortalLinkFunctionActivity${act}`);
@@ -579,7 +579,7 @@ function PortalLinkProcessMessage(sender, data) {
 
 		const attrTarget = InventoryGetItemProperty(item, "Attribute").find(attr => attr.startsWith("PortalLinkTarget"));
 		if (!attrTarget) {
-			console.warn("No target specified for PortalLinkActivity. Add PortalLinkTarget${groupName} to your assets' attributes");
+			console.error("No target specified for PortalLinkActivity. Add PortalLinkTarget${groupName} to your assets' attributes");
 			return;
 		}
 		const group = AssetGroupGet("Female3DCG", /** @type {AssetGroupName} */ (attrTarget.substring("PortalLinkTarget".length)));

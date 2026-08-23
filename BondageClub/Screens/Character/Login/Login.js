@@ -1144,7 +1144,7 @@ function LoginSetupPlayer(C) {
 			const json = /** @type {[number, string][]} */(JSON.parse(data));
 			friendNames = new Map(json);
 		} catch (_err) {
-			console.warn("An error occured while parsing friendnames, entries have been reset.");
+			console.error("An error occured while parsing friendnames, entries have been reset.");
 		}
 	}
 	Player.FriendNames = friendNames ?? new Map();
@@ -1159,7 +1159,7 @@ function LoginSetupPlayer(C) {
 			const numbers = /** @type {number[]} */(json.filter(Number));
 			submissivesList = new Set(numbers);
 		} catch (_err) {
-			console.warn("An error occured while parsing submissives, entries have been reset.");
+			console.error("An error occured while parsing submissives, entries have been reset.");
 		}
 	}
 	Player.SubmissivesList = submissivesList ?? new Set();

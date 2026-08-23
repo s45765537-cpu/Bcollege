@@ -32,7 +32,7 @@ function SkillGet(C, skillType) {
 function SkillChange(C, SkillType, SkillLevel, Progress, Push) {
 
 	if (!SkillValidSkills.includes(SkillType)) {
-		console.warn(`Invalid skill type "${SkillType}"`);
+		console.error(`Invalid skill type "${SkillType}"`);
 		return;
 	}
 
