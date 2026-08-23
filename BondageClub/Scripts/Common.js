@@ -1231,6 +1231,25 @@ function CommonArrayConcatDedupe(dest, src) {
 }
 
 /**
+ * Push a new value into a map of arrays
+ *
+ * A backport of Map.getOrInsert
+ * @template K
+ * @template V
+ * @param {Map<K, V>} map
+ * @param {K} key
+ * @param {V} defaultValue
+ */
+function CommonMapGetOrInsert(map, key, defaultValue) {
+	let arr = map.get(key);
+	if (!arr) {
+		arr = defaultValue;
+		map.set(key, arr);
+	}
+	return arr;
+}
+
+/**
  * Common function for removing a padlock from an item and publishing a corresponding chat message (must be called with
  * the item's group focused)
  * @param {Character} C - The character on whom the item is equipped
