@@ -136,13 +136,10 @@ var ChatRoomLeashList = [];
 var ChatRoomLeashPlayer = null;
 /**
  * The room name to join when being leashed
- * @type {string}
+ * @deprecated
+ * @type {never}
  */
-var ChatRoomJoinLeash = "";
-
-/**
- * Whether the chat room customization settings are user-enabled or not
- */
+var ChatRoomJoinLeash;
 var ChatRoomCustomized = false;
 
 /** @satisfies {Record<"Never" | "DisabledByDefault" | "EnabledByDefault" | "Always", ChatRoomCustomizationType>} */
@@ -5656,26 +5653,35 @@ function ChatRoomStopHoldLeash() {
 }
 
 /**
+ * Handle breaking off a leash
+ * @param {null | Exclude<ServerChatRoomJoinResponse, "JoinedRoom"> | "RoomBlocked" | "GhostList" | "TempHidden" | "Timeout"} event
+ */
+function ChatRoomBreakLeash(event) {
+	ChatRoomLeashPlayer = null;
+	CharacterRefreshLeash(Player);
+	if (event) {
+		ToastManager.error(TextGet(`LeashBreak${event}`));
+	}
+}
+
+/**
  * Handle the reply to a leash being released
  * @param {Character} SenderCharacter
  */
 function ChatRoomDoStopHoldLeash(SenderCharacter) {
 	if (SenderCharacter.MemberNumber == ChatRoomLeashPlayer) {
-		ChatRoomLeashPlayer = null;
-		CharacterRefreshLeash(Player);
+		ChatRoomBreakLeash(null);
 	}
 }
 
 /**
- * Triggered when a dom enters the room
+ * Triggered when a leash holder changes rooms
  * @returns {void} - Nothing.
  */
 function ChatRoomPingLeashedPlayers() {
-	if (ChatRoomLeashList && ChatRoomLeashList.length > 0) {
-		for (let P = 0; P < ChatRoomLeashList.length; P++) {
-			ServerSend("ChatRoomChat", { Content: "PingHoldLeash", Type: "Hidden", Target: ChatRoomLeashList[P] });
-			ServerSend("AccountBeep", { MemberNumber: ChatRoomLeashList[P], BeepType:"Leash"});
-		}
+	for (const target of ChatRoomLeashList) {
+		ServerSend("ChatRoomChat", { Content: "PingHoldLeash", Type: "Hidden", Target: target });
+		ServerSend("AccountBeep", { MemberNumber: target, BeepType: "Leash" });
 	}
 }
 

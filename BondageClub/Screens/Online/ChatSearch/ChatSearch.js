@@ -1745,6 +1745,10 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 function ChatSearchResponse(data) {
 	if (typeof data !== "string") return;
 	if (((data == "RoomBanned") || (data == "RoomKicked")) && ServerPlayerIsInChatRoom()) {
+		// Break all leashes when that happens
+		// Can't do a proper ChatRoomStopHoldLeash() here because we're already gone from the room
+		ChatRoomBreakLeash(null);
+		ChatRoomLeashList = [];
 		// This will cause us to send an extra ChatRoomLeave message
 		ChatRoomLeave(true);
 		CommonSetScreen("Online", "ChatSearch");
@@ -1835,17 +1839,6 @@ function ChatSearchResultResponse(data) {
  * @returns {void} - Nothing
  */
 function ChatSearchAutoJoinRoom() {
-	if (ChatRoomJoinLeash != "") {
-		// This is a search triggered after entering the lobby while being leashed
-		// Join the room and unset the special leash-to-room flag
-		const leashRoom = ChatSearchResult.find(r => r.Name === ChatRoomJoinLeash);
-		if (leashRoom) {
-			ChatSearchJoin(leashRoom.Name);
-		}
-		ChatRoomJoinLeash = "";
-		return;
-	}
-
 	// This is a search triggered from a relog
 	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && !PandoraPenitentiaryIsInmate(Player) && ((ChatSearchReturnScreen?.[1] !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
 		let roomFound = false;
@@ -1930,12 +1923,11 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
  * @returns {Promise<void>} - Nothing
  */
 async function ChatSearchQuery(Query) {
-	if (ChatRoomJoinLeash !== "") {
-		Query = ChatRoomJoinLeash.toUpperCase().trim();
-	} else if (Player.ImmersionSettings.ReturnToChatRoom) {
-		if (Player.LastChatRoom?.Name) {
-			Query = Player.LastChatRoom.Name?.toUpperCase().trim() ?? "";
+	if (Player.LastChatRoom?.Name) {
+		if (Player.ImmersionSettings.ReturnToChatRoom) {
+			Query = Player.LastChatRoom.Name.toUpperCase().trim();
 		} else {
+			// Just blank that out; the setting's disabled
 			ChatRoomSetLastChatRoom(null);
 		}
 	} else {
