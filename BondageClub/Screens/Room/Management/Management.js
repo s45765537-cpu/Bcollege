@@ -395,7 +395,7 @@ function ManagementFriendIsChaste() {
  */
 async function ManagementLoad() {
 	ManagementBackground = "Management";
-	if ((ManagementMistress == null) && (TextGet("Mistress") != "")) {
+	if (!ManagementMistress) {
 		ManagementMistress = CharacterLoadNPC("NPC_Management_Mistress", null, "Room", "Management");
 		ManagementMistress.Name = TextGet("Mistress") + " " + ManagementMistress.Name;
 		ManagementMistress.AllowItem = false;
@@ -418,7 +418,6 @@ async function ManagementLoad() {
  * @returns {void} - Nothing.
  */
 function ManagementRun() {
-	ManagementLoad();
 	DrawCharacter(Player, 250, 0, 1);
 	if (!ManagementEmpty) DrawCharacter(ManagementMistress, 750, 0, 1);
 	if (!ManagementEmpty) DrawCharacter(ManagementSub, 1250, 0, 1);

@@ -4408,7 +4408,7 @@ function ClubCardIsPlaying() {
  * @param {Character} opponent
  * @param {number[]} deck
  * @param {() => void} completion
- * @returns
+ * @returns {SafePromise<void>}
  */
 async function ClubCardStart(opponent, deck, completion) {
 	ClubCardOpponent = opponent;
@@ -6902,8 +6902,8 @@ function ClubCardUpdateCardAnimations(Timestamp) {
  * @param {Object} endPosition - The target position {x, y, w}.
  * @param {boolean} hideOriginal - Whether to hide the original card during animation.
  * @param {boolean} keepOriginalHidden - If true, the original card stays hidden after animation.
- * @param {Function|null} [onStart] - Function called before the animation starts.
- * @param {Function|null} [onComplete] - Function called after the animation completes.
+ * @param {AnyFunction|null} [onStart] - Function called before the animation starts.
+ * @param {AnyFunction|null} [onComplete] - Function called after the animation completes.
  * @param {number} [duration=200] - Animation duration in milliseconds.
  */
 function ClubCardMoveCard(card, priority,startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 150) {
@@ -7004,8 +7004,8 @@ function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, 
 /**
  * Moves a card from preview to pending state.
  * @param {ClubCard} card - The card to be moved.
- * @param {Function|null} [onStart] - A function called before the animation starts.
- * @param {Function|null} [onComplete] - A function called after the animation completes.
+ * @param {AnyFunction|null} [onStart] - A function called before the animation starts.
+ * @param {AnyFunction|null} [onComplete] - A function called after the animation completes.
  * @param {number} [duration=150] - The animation duration in milliseconds.
  */
 function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, duration = 150) {

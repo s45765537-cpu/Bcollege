@@ -1301,6 +1301,7 @@ const ExtendedItemGatherOptions = (function () {
 				}
 				break;
 			default:
+				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 				console.error(`Unsupported archetype: "${archetype}"`);
 				break;
 		}

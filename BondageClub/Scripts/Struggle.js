@@ -462,8 +462,8 @@ function StruggleMinigameHandleExpression(Decrease) {
 		}
 
 		// Each click accelerates ExpressionQueue timers 1 second.
-		for (var i in Player.ExpressionQueue) {
-			Player.ExpressionQueue[i].Time += -1000;
+		for (const item of Player.ExpressionQueue) {
+			item.Time += -1000;
 		}
 	}
 }

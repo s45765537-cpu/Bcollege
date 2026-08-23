@@ -29,7 +29,7 @@ async function MiniGameLoad() {
  * @param {ModuleScreens["MiniGame"]} GameType - Name of the mini-game to launch
  * @param {number|string} Difficulty - Difficulty Ration for the mini-game
  * @param {(() => void)} ReturnFunction - Callback name to execute once the mini-game is over
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
 async function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 	MiniGameType = GameType;

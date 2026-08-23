@@ -663,6 +663,7 @@ function PrisonWantedPlayer() {
 
 /**
  * Catch by Police in MainHall
+ * @returns {SafePromise<void>}
  */
 async function PrisonMeetPoliceIntro(RoomBackground) {
 	var aggressive = PrisonWantedPlayer() >= 4;

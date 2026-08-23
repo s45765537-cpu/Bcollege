@@ -249,11 +249,13 @@ function NotificationPopupsEnabled(eventType, data) {
 	} else if (Notification.permission === 'denied') {
 		return false;
 	} else if (Notification.permission === 'default') {
-		Notification.requestPermission().then(() => {
-			if (Notification.permission === "granted") {
-				NotificationRaise(eventType, data);
-			}
-		});
+		CommonPromiseCatch(
+			Notification.requestPermission().then(() => {
+				if (Notification.permission === "granted") {
+					NotificationRaise(eventType, data);
+				}
+			})
+		);
 		return false;
 	} else {
 		return false;

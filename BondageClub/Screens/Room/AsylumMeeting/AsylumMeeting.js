@@ -239,16 +239,15 @@ function AsylumMeetingQuitGGTSMainHall() {
  */
 function AsylumMeetingClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderAsylumDeck, () => AsylumMeetingClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderAsylumDeck, () => { AsylumMeetingClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function AsylumMeetingClubCardEnd() {
-	CommonSetScreen("Room", "AsylumMeeting").then(() => {
-		CharacterSetCurrent(AsylumMeetingPatientRight);
-		AsylumMeetingPatientRight.CurrentDialog = DialogFind(AsylumMeetingPatientRight, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function AsylumMeetingClubCardEnd() {
+	await CommonSetScreen("Room", "AsylumMeeting");
+	CharacterSetCurrent(AsylumMeetingPatientRight);
+	AsylumMeetingPatientRight.CurrentDialog = DialogFind(AsylumMeetingPatientRight, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

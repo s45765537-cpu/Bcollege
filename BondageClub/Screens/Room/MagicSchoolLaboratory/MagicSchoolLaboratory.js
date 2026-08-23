@@ -125,12 +125,12 @@ function MagicSchoolLaboratoryClick() {
 function MagicSchoolLaboratorySpellPractice(SpellNumber) {
 	MagicPuzzleSpell = SpellNumber;
 	MagicPuzzleAutoExit = false;
-	MiniGameStart("MagicPuzzle", 0, () => MagicSchoolLaboratorySpellPracticeEnd());
+	MiniGameStart("MagicPuzzle", 0, () => { MagicSchoolLaboratorySpellPracticeEnd(); });
 }
 
 /**
  * When the magic spell practice puzzle ends
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>}
  */
 async function MagicSchoolLaboratorySpellPracticeEnd() {
 	await CommonSetScreen("Room", "MagicSchoolLaboratory");

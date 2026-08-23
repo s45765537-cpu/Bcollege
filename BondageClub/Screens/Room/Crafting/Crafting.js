@@ -631,13 +631,15 @@ var CraftingEventListeners = {
 		if (CraftingPreview && CraftingSelectedItem?.Asset) {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
-				Layering.Init(item, CraftingPreview, {
-					x: Layering.DisplayDefault.x,
-					y: Layering.DisplayDefault.y - 10,
-					w: Layering.DisplayDefault.w,
-					h: Layering.DisplayDefault.h + 10,
-					buttonGap: 15,
-				});
+				CommonPromiseCatch(
+					Layering.Init(item, CraftingPreview, {
+						x: Layering.DisplayDefault.x,
+						y: Layering.DisplayDefault.y - 10,
+						w: Layering.DisplayDefault.w,
+						h: Layering.DisplayDefault.h + 10,
+						buttonGap: 15,
+					})
+				);
 				CraftingModeSet("OverridePriority");
 			}
 		}
@@ -1655,7 +1657,7 @@ async function CraftingLoad() {
 	});
 	itemScreen.hidden = true;
 
-	CraftingSlots.Load();
+	CommonPromiseCatch(CraftingSlots.Load());
 }
 
 /**
@@ -2730,7 +2732,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 		if (!assets.some(a => Validate(Craft, a, checkPlayerInventory))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
-				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
+				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}":`, AttrValue);
 			}
 			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory));
 			StatusMap.set(AttrName, StatusCode);

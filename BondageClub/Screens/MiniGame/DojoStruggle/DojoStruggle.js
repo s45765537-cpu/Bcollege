@@ -10,6 +10,10 @@ var DojoStruggleRope = [];
  * @type {ScreenLoadHandler}
  */
 async function DojoStruggleLoad() {
+	DojoStruggleReset();
+}
+
+function DojoStruggleReset() {
 	DojoStrugglePosition = 450;
 	if (MiniGameProgress < 0) MiniGameProgress = 0;
 	MiniGameTimer = 0;
@@ -63,7 +67,7 @@ function DojoStruggleRun() {
 					MiniGameStarted = false;
 					MiniGameTimer = 0;
 					MiniGameProgress++;
-					DojoStruggleLoad();
+					DojoStruggleReset();
 					if (MiniGameProgress >= 3) {
 						MiniGameVictory = false;
 						MiniGameEnded = true;

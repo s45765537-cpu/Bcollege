@@ -5,7 +5,7 @@
  * Maintains a queue of toasts to display and limits the number of
  * concurrently visible toasts.
  */
-var ToastManager = new class ToastManager {
+var ToastManager = new class {
 	/**
 	 * Queue of toast options waiting to be displayed.
 	 * @type {Required<Toasts.Options>[]}
@@ -16,12 +16,13 @@ var ToastManager = new class ToastManager {
 	 * @type {number}
 	 */
 	active = 0;
+
 	/**
 	 * Maximum number of toast buddies that can chill together in one spot.
 	 * @type {number}
 	 * @static
 	 */
-	static maxStack = 3;
+	maxStack = 3;
 
 	/**
 	 * Show an info toast, because you need to know stuff.
@@ -147,7 +148,7 @@ var ToastManager = new class ToastManager {
 		for (let i = 0; i < this.queue.length; i++) {
 			const toast = this.queue[i];
 			const count = this.active || 0;
-			if (count < ToastManager.maxStack) {
+			if (count < this.maxStack) {
 				this.queue.splice(i, 1);
 				this._display(toast);
 				i--;

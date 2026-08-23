@@ -1395,16 +1395,15 @@ function AsylumGGTSOrgasmResist() {
  * When the player is sent to do GGTS by her owner
  * @param {number} LockTime - The number of minutes to do
  * @param {string} Msg - The nurse intro message
- * @return {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function AsylumGGTSLock(LockTime, Msg) {
+async function AsylumGGTSLock(LockTime, Msg) {
 	AsylumGGTSUngag();
 	LogAdd("ForceGGTS", "Asylum", LockTime * 60000);
-	CommonSetScreen("Room", "AsylumEntrance").then(() => {
-		AsylumEntranceNurse.Stage = "300";
-		CharacterSetCurrent(AsylumEntranceNurse);
-		AsylumEntranceNurse.CurrentDialog = Msg;
-	});
+	await CommonSetScreen("Room", "AsylumEntrance");
+	AsylumEntranceNurse.Stage = "300";
+	CharacterSetCurrent(AsylumEntranceNurse);
+	AsylumEntranceNurse.CurrentDialog = Msg;
 }
 
 /**
@@ -1600,5 +1599,5 @@ function AsylumGGTSReset() {
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 	// Do that here in the hope it'll happen quickly enough that it'll be
 	// be ready when we try to show a message.
-	AsylumGGTSLoadMessages();
+	CommonPromiseCatch(AsylumGGTSLoadMessages());
 }

@@ -32,7 +32,7 @@ function InventoryItemPelvisModularChastityBeltDrawHook(data, OriginalFunction) 
 
 /**
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltDrawBase(item, _offset) {
 	MainCanvas.textAlign = "left";
@@ -52,7 +52,7 @@ function InventoryItemPelvisModularChastityBeltDrawBase(item, _offset) {
 
 /**
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltDrawIntensity(item, _offset)
 {
@@ -76,7 +76,7 @@ function InventoryItemPelvisModularChastityBeltDrawIntensity(item, _offset)
 
 /**
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltDrawShockModule(item, _offset)
 {
@@ -108,7 +108,7 @@ function InventoryItemPelvisModularChastityBeltDrawShockModule(item, _offset)
 
 /**
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltDrawVoiceControl(item, _offset)
 {
@@ -178,7 +178,7 @@ function InventoryItemPelvisModularChastityBeltClickHook(data, OriginalFunction)
 /**
  * @param {Character} C
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltClickIntensity(C, item, _offset){
 	//Click Orgasm Reset
@@ -197,7 +197,7 @@ function InventoryItemPelvisModularChastityBeltClickIntensity(C, item, _offset){
 /**
  * @param {Character} C
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltClickVoiceControl(C, item, _offset){
 	//Click Save
@@ -316,7 +316,7 @@ function InventoryItemPelvisModularChastityBeltResetDeny(C, item) {
 /**
  * @param {Character} C
  * @param {Item} item
- * @param {number} _offset //How many pixels down will the UI be shifted
+ * @param {number} _offset - How many pixels down will the UI be shifted
  */
 function InventoryItemPelvisModularChastityBeltClickShockModule(C, item, _offset){
 	//Click Manual Shock

@@ -450,11 +450,12 @@ function CafeTurnDildoUp() {
  */
 function CafeClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderMaidDeck, () => CafeClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderMaidDeck, () => { CafeClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
+ * @returns {SafePromise<void>}
  */
 async function CafeClubCardEnd() {
 	await CommonSetScreen("Room", "Cafe");

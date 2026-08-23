@@ -889,7 +889,7 @@ function ElementPosition(ElementOrID, X, Y, W, H) {
 	const E = ElementWrap(ElementOrID);
 
 	if (!E) {
-		console.error("A call to ElementPosition was made on non-existent element with ID '" + ElementOrID + "'");
+		console.error("A call to ElementPosition was made on non-existent element with ID", ElementOrID);
 		return;
 	}
 
@@ -964,7 +964,7 @@ function ElementPositionFix(ElementOrID, Font, X, Y, W, H, anchorPosition = 'top
 	const E = ElementWrap(ElementOrID);
 	// Verify the element exists
 	if (!E) {
-		console.error("A call to ElementPositionFix was made on non-existent element with ID '" + ElementOrID + "'");
+		console.error("A call to ElementPositionFix was made on non-existent element with ID", ElementOrID);
 		return;
 	}
 
@@ -1062,7 +1062,7 @@ function ElementIsScrolledToEnd(ElementOrId) {
 function ElementSetScrollPercentage(ElementOrId, scrollPercentage, scrollBehavior = 'auto') {
 	const element = ElementWrap(ElementOrId);
 	if (!element) {
-		console.error(`Element with ID "${ElementOrId}" not found.`);
+		console.error("A call to ElementSetScrollPercentage was made on non-existent element with ID", ElementOrId);
 		return;
 	}
 
@@ -2189,12 +2189,14 @@ var ElementButton = {
 			],
 		});
 
-		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
-			const dfn = list.querySelectorAll("dfn");
-			for (const d of dfn) {
-				d.parentElement?.append(textCache.get(`Description${d.textContent}`));
-			}
-		});
+		CommonPromiseCatch(
+			TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
+				const dfn = list.querySelectorAll("dfn");
+				for (const d of dfn) {
+					d.parentElement?.append(textCache.get(`Description${d.textContent}`));
+				}
+			})
+		);
 		return [label, list];
 	},
 
@@ -2341,7 +2343,7 @@ var ElementMenu = {
 				}
 				if (roles.includes(role)) {
 					// @ts-ignore
-					menuitem.addEventListener("keydown", ElementMenu._KeyDown);
+					menuitem.addEventListener("keydown", (e) => { CommonPromiseCatch(ElementMenu._KeyDown(e)); });
 					menuitem.setAttribute("tabindex", "-1");
 				}
 			}
@@ -2700,7 +2702,7 @@ var ElementText = {
 		if (opts?.describes) {
 			const target = ElementWrap(opts.describes);
 			if (!target) {
-				console.error(`Unable to locate element ${opts.describes}`);
+				console.error("Unable to locate element", opts.describes);
 			} else {
 				id = ElementGenerateID();
 				const attrVals = (target.getAttribute("aria-describedby") ?? "").split(" ");
@@ -2821,7 +2823,7 @@ function ElementSetPosition(elementOrId, xPos = 0, yPos = 0, anchorPosition = 't
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.error("A call to ElementSetPosition was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetPosition was made on non-existent element with ID", elementOrId);
 		return;
 	}
 
@@ -2848,7 +2850,7 @@ function ElementSetSize(elementOrId, width = null, height = null) {
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.error("A call to ElementSetSize was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetSize was made on non-existent element with ID", elementOrId);
 		return;
 	}
 
@@ -2874,7 +2876,7 @@ function ElementSetFontSize(elementOrId, targetFontSize = 'auto') {
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.error("A call to ElementSetFontSize was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetFontSize was made on non-existent element with ID", elementOrId);
 		return;
 	}
 

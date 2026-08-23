@@ -1050,7 +1050,7 @@ Layering.RegisterExitCallbacks(
 		screen: "Shop2",
 		callback: () => {
 			Shop2Vars.Mode = "Preview";
-			Shop2Load();
+			CommonPromiseCatch(Shop2Load());
 		},
 	},
 );

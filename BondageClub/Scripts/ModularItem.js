@@ -167,7 +167,10 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
  * @param {ModularItemData} data
  */
 function ModularItemLoad(data) {
-	DialogExtendedMessage = AssetTextGet(`${data.dialogPrefix.header}${data.currentModule}`);
+	const header = typeof data.dialogPrefix.header === "function" ?
+		data.dialogPrefix.header(data, CurrentCharacter, DialogFocusItem)
+		: data.dialogPrefix.header;
+	DialogExtendedMessage = AssetTextGet(`${header}${data.currentModule}`);
 }
 
 /**
@@ -556,7 +559,10 @@ function ModularItemChangePage(moduleName, delta, data, { pageCount }) {
  */
 function ModularItemModuleTransition(newModule, data) {
 	data.currentModule = newModule;
-	DialogExtendedMessage = AssetTextGet(data.dialogPrefix.header + newModule);
+	const header = typeof data.dialogPrefix.header === "function" ?
+		data.dialogPrefix.header(data, CurrentCharacter, DialogFocusItem)
+		: data.dialogPrefix.header;
+	DialogExtendedMessage = AssetTextGet(header + newModule);
 }
 
 /**

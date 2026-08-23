@@ -34,13 +34,10 @@ async function GameStart(isNode=false) {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
-	AssetInventoryIDValidate();
+	await AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
 	await TextPrefetchFile(InterfaceStringsPath).loadedPromise;
-	if (!isNode) {
-		CommonSetScreen("Character", "Login");
-	}
 	ServerInit();
 	Fullscreen.Init();
 
@@ -77,6 +74,11 @@ async function GameStart(isNode=false) {
 	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
 	GameWorker = new Worker("Scripts/GameWorker.js");
 	GameWorker.onmessage = GameFallbackTimer;
+
+	if (isNode) {
+		return;
+	}
+	return CommonSetScreen("Character", "Login");
 }
 
 /** Promises that resolve upon reaching specific stages of the BC loading and login process. */
@@ -87,10 +89,9 @@ const GameReadyState = {
 	 * @readonly
 	 * @type {Promise<void>}
 	 */
-	load: new Promise(resolve => window.addEventListener("load", async () => {
+	load: new Promise(resolve => window.addEventListener("load", () => {
 		// When the code is loaded, we start the game engine
-		await GameStart();
-		resolve();
+		CommonPromiseCatch(GameStart().then(resolve));
 	})),
 	/**
 	 * @private

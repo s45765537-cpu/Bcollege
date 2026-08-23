@@ -197,9 +197,9 @@ function InfiltrationPrepareMission() {
 
 /**
  * Starts the mission and jumps to Pandora's box
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function InfiltrationStartMission() {
+async function InfiltrationStartMission() {
 	PandoraWillpower = 20 + (SkillGetLevel(Player, "Willpower") * 2) + (InfiltrationPerksActive("Resilience") ? 5 : 0) + (InfiltrationPerksActive("Endurance") ? 5 : 0);
 	PandoraMaxWillpower = PandoraWillpower;
 	PandoraTimer = CommonTime() + 3600000;
@@ -207,9 +207,8 @@ function InfiltrationStartMission() {
 	PandoraMoney = 0;
 	PandoraPaint = false;
 	DialogLeave();
-	CommonSetScreen("Room", "Pandora").then(() => {
-		PandoraBuildMainHall();
-	});
+	await CommonSetScreen("Room", "Pandora");
+	PandoraBuildMainHall();
 }
 
 /**
@@ -321,27 +320,26 @@ function InfiltrationPayRansom(Type) {
 
 /**
  * The revenge kidnapping can happen when infiltration level is at 4 or more, in that case, a Pandora girl can try to kidnap the player from the club and bring her to a Pandora's Box prison
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function InfiltrationStartKidnapping() {
+async function InfiltrationStartKidnapping() {
 	let Type = "Kidnapper";
 	if ((InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") || InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc")) && (Math.random() >= 0.5)) Type = "Dominatrix";
 	let IntroText = TextGet("Pandora" + Type + "Intro" + Math.floor(Math.random() * 5));
 	IntroText = IntroText.replace("DialogPlayerName", CharacterNickname(Player));
-	CommonSetScreen("Room", "Infiltration").then(() => {
-		InfiltrationBackground = MainHallBackground;
-		CharacterDelete(InfiltrationKidnapper);
+	await CommonSetScreen("Room", "Infiltration");
+	InfiltrationBackground = MainHallBackground;
+	CharacterDelete(InfiltrationKidnapper);
 
-		InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
-		CharacterRelease(InfiltrationKidnapper);
-		InfiltrationKidnapper.Stage = "0";
-		if (Type == "Kidnapper") {
-			CharacterAppearanceFullRandom(InfiltrationKidnapper);
-			CharacterRefresh(InfiltrationKidnapper, false);
-		} else PandoraDress(InfiltrationKidnapper, "Mistress");
-		CharacterSetCurrent(InfiltrationKidnapper);
-		InfiltrationKidnapper.CurrentDialog = IntroText;
-	});
+	InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
+	CharacterRelease(InfiltrationKidnapper);
+	InfiltrationKidnapper.Stage = "0";
+	if (Type == "Kidnapper") {
+		CharacterAppearanceFullRandom(InfiltrationKidnapper);
+		CharacterRefresh(InfiltrationKidnapper, false);
+	} else PandoraDress(InfiltrationKidnapper, "Mistress");
+	CharacterSetCurrent(InfiltrationKidnapper);
+	InfiltrationKidnapper.CurrentDialog = IntroText;
 }
 
 /**
@@ -391,28 +389,26 @@ function InfiltrationKidnapperStartFight() {
 
 /**
  * Ends the fight with the NPC kidnapper
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function InfiltrationKidnapperEndFight() {
+async function InfiltrationKidnapperEndFight() {
 	CharacterSetCurrent(InfiltrationKidnapper);
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CurrentCharacter));
 	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
 	CurrentCharacter.AllowItem = KidnapVictory;
-	CommonSetScreen("Room", "Infiltration").then(() => {
-		InfiltrationBackground = MainHallBackground;
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
-	});
+	await CommonSetScreen("Room", "Infiltration");
+	InfiltrationBackground = MainHallBackground;
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
 }
 
 /**
  * Enter Pandora's Box as the kidnapper victim
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function InfiltrationKidnapperEnterPandora() {
-	CommonSetScreen("Room", "Pandora").then(() => {
-		PandoraPunishmentIntro(true);
-	});
+async function InfiltrationKidnapperEnterPandora() {
+	await CommonSetScreen("Room", "Pandora");
+	PandoraPunishmentIntro(true);
 }
 
 /**
@@ -562,11 +558,12 @@ function InfiltrationSetPandoraPrisoner() {
  */
 function InfiltrationClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderLiabilityDeck, () => InfiltrationClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderLiabilityDeck, () => { InfiltrationClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game against the supervisor
+ * @returns {SafePromise<void>}
  */
 async function InfiltrationClubCardEnd() {
 	await CommonSetScreen("Room", "Infiltration");

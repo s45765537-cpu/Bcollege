@@ -518,7 +518,7 @@ function AudioPlayInstantSound(src, volume) {
 		var audio = new Audio();
 		audio.src = src;
 		audio.volume = Math.min(vol, 1);
-		audio.play();
+		CommonPromiseCatch(audio.play());
 	}
 }
 
@@ -534,7 +534,7 @@ function AudioDialogStart(SourceFile) {
 	AudioDialog.currentTime = 0;
 	AudioDialog.src = SourceFile;
 	AudioDialog.volume = Player.AudioSettings.Volume;
-	AudioDialog.play();
+	CommonPromiseCatch(AudioDialog.play());
 }
 
 /**
@@ -819,7 +819,7 @@ function AudioBackgroundMusicSetVolume(volume) {
 		AudioBackgroundMusicStop();
 		return;
 	}
-	AudioBackgroundMusic.play();
+	CommonPromiseCatch(AudioBackgroundMusic.play());
 }
 
 /**
@@ -889,7 +889,7 @@ function AudioBackgroundMusicPlay(Music, Location = undefined) {
 
 	AudioBackgroundMusic.volume = CommonClamp(Player.AudioSettings.MusicVolume, 0, 1);
 	if (AudioBackgroundMusic.volume > 0) {
-		AudioBackgroundMusic.play();
+		CommonPromiseCatch(AudioBackgroundMusic.play());
 	} else {
 		AudioBackgroundMusic.pause();
 	}

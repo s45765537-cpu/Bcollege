@@ -314,37 +314,34 @@ function IntroductionJobProgress(JobName, Param, UniqueMember) {
 
 /**
  * Starts the daily kidnapping job.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function IntroductionJobBouncerStart() {
-	CommonSetScreen("Room", "DailyJob").then(() => {
-		CharacterSetCurrent(DailyJobOpponent);
-		CharacterRelease(DailyJobOpponent);
-		DailyJobOpponent.CurrentDialog = DialogFind(IntroductionMaid, "JobKidnapIntro" + DailyJobOpponent.Stage.toString() + Math.floor(Math.random() * 4).toString());
-	});
+async function IntroductionJobBouncerStart() {
+	await CommonSetScreen("Room", "DailyJob");
+	CharacterSetCurrent(DailyJobOpponent);
+	CharacterRelease(DailyJobOpponent);
+	DailyJobOpponent.CurrentDialog = DialogFind(IntroductionMaid, "JobKidnapIntro" + DailyJobOpponent.Stage.toString() + Math.floor(Math.random() * 4).toString());
 }
 
 /**
  * Starts the daily dog walking job.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function IntroductionJobPuppyStart() {
-	CommonSetScreen("Room", "DailyJob").then(() => {
-		CharacterSetCurrent(DailyJobPuppyMistress);
-		DailyJobPuppyMistress.CurrentDialog = DialogFind(IntroductionMaid, "JobPuppyIntro" + DailyJobPuppyMistress.Stage.toString() + Math.floor(Math.random() * 4).toString());
-	});
+async function IntroductionJobPuppyStart() {
+	await CommonSetScreen("Room", "DailyJob");
+	CharacterSetCurrent(DailyJobPuppyMistress);
+	DailyJobPuppyMistress.CurrentDialog = DialogFind(IntroductionMaid, "JobPuppyIntro" + DailyJobPuppyMistress.Stage.toString() + Math.floor(Math.random() * 4).toString());
 }
 
 /**
  * Starts the Shibari dojo daily job.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function IntroductionJobDojoStart() {
-	CommonSetScreen("Room", "DailyJob").then(() => {
-		DailyJobBackground = "Shibari";
-		CharacterSetCurrent(DailyJobDojoTeacher);
-		DailyJobDojoTeacher.CurrentDialog = DialogFind(IntroductionMaid, "JobDojoIntro" + DailyJobDojoTeacher.Stage.toString() + Math.floor(Math.random() * 4).toString());
-	});
+async function IntroductionJobDojoStart() {
+	await CommonSetScreen("Room", "DailyJob");
+	DailyJobBackground = "Shibari";
+	CharacterSetCurrent(DailyJobDojoTeacher);
+	DailyJobDojoTeacher.CurrentDialog = DialogFind(IntroductionMaid, "JobDojoIntro" + DailyJobDojoTeacher.Stage.toString() + Math.floor(Math.random() * 4).toString());
 }
 
 /**
@@ -353,11 +350,12 @@ function IntroductionJobDojoStart() {
  */
 function IntroductionClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderMaidDeck, () => IntroductionClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderMaidDeck, () => { IntroductionClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
+ * @returns {SafePromise<void>}
  */
 async function IntroductionClubCardEnd() {
 	await CommonSetScreen("Room", "Introduction");

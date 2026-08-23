@@ -907,7 +907,7 @@ const CommonCommands = [
 				.then(async (response) => {
 					if (response.status !== 200) return;
 					CommandsChangelog.Publish(await response.text(), { id: "chat-room-changelog", startID, stopID });
-				});
+				}).catch((e) => console.error('Failed to fetch changelog', e));
 		},
 	},
 	{

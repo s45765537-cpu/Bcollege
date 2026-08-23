@@ -25,8 +25,9 @@ function CommandsLoad() {
 function CommandsTranslate() {
 	if (!CommandText) {
 		CommandText = new TextCache("Screens/Online/ChatRoom/Text_Commands.csv");
+	} else {
+		CommonPromiseCatch(CommandText.buildCache());
 	}
-	else CommandText.buildCache();
 }
 
 /**
@@ -748,7 +749,7 @@ var CommandsHelp = {
 			children: [
 				buildSectionHeader("Arguments:", commandArguments.length > 0),
 				...commandArguments.flatMap((arg, argIndex) =>
-				/** @type {HTMLOptionsUnion} */
+					/** @type {HTMLOptionsUnion} */
 					({
 						tag: "section",
 						classList: ["commands-command-arguments"],
@@ -781,9 +782,7 @@ var CommandsHelp = {
 								],
 							}
 						]
-					})
-
-				),
+					})),
 			],
 		});
 
@@ -1172,24 +1171,26 @@ var CommandsChangelog = {
 	 * Set all translation-sensitive text in the changelog.
 	 * @param {Element} changelog
 	 */
-	_SetTranslationText: async function _SetTranslationText(changelog) {
-		const cache = await TextCache.buildAsync("Screens/Online/ChatRoom/Text_ChatRoom.csv");
+	_SetTranslationText: function _SetTranslationText(changelog) {
+		CommonPromiseCatch(
+			TextCache.buildAsync("Screens/Online/ChatRoom/Text_ChatRoom.csv").then(cache => {
+				const clear = cache.get("CommandChangeLogClear");
+				changelog.querySelectorAll(".chat-room-changelog-button-delete > .button-tooltip")?.forEach(e => e.textContent = clear);
 
-		const clear = cache.get("CommandChangeLogClear");
-		changelog.querySelectorAll(".chat-room-changelog-button-delete > .button-tooltip")?.forEach(e => e.textContent = clear);
+				const collapse = cache.get("CommandChangeLogCollapse");
+				const collapseShift = cache.get("CommandChangeLogCollapseShift").split("{shift}")[1] ?? "";
+				changelog.querySelectorAll(".chat-room-changelog-button-collapse > .button-tooltip")?.forEach(e => {
+					e.append(
+						collapse,
+						ElementCreate({ tag: "br" }),
+						ElementCreate({ tag: "kbd", children: ["shift"] }),
+						collapseShift,
+					);
+				});
 
-		const collapse = cache.get("CommandChangeLogCollapse");
-		const collapseShift = cache.get("CommandChangeLogCollapseShift").split("{shift}")[1] ?? "";
-		changelog.querySelectorAll(".chat-room-changelog-button-collapse > .button-tooltip")?.forEach(e => {
-			e.append(
-				collapse,
-				ElementCreate({ tag: "br" }),
-				ElementCreate({ tag: "kbd", children: ["shift"] }),
-				collapseShift,
-			);
-		});
-
-		changelog.removeAttribute("aria-busy");
+				changelog.removeAttribute("aria-busy");
+			})
+		);
 	},
 
 	/**

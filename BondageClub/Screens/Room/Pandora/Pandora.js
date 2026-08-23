@@ -1192,9 +1192,9 @@ function PandoraPenitentiaryIsGuard(C) {
 
 /**
  * Called from MainHall and ChatSearch - Checks if we must create the Pandora prison and creates it
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function PandoraPenitentiaryCreate() {
+async function PandoraPenitentiaryCreate() {
 
 	// Exits right away if the prison should not be loaded, there's a 10 seconds delay between each retry
 	if (PandoraPenitentiaryCreateTimer > CommonTime() || CurrentCharacter != null || ServerPlayerIsInChatRoom()) return;
@@ -1210,12 +1210,11 @@ function PandoraPenitentiaryCreate() {
 		PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
 
 		// The inmate first search for a prison that already exists
-		ChatSearchStart(ChatRoomSpaceType.MIXED, ["Room", "Infiltration"], {
+		await ChatSearchStart(ChatRoomSpaceType.MIXED, ["Room", "Infiltration"], {
 			BackgroundTagList: [BackgroundsTagPandora],
 			Game: "Prison",
-		}).then(() => {
-			ChatSearchQuery("");
 		});
+		ChatSearchQuery("");
 	}
 }
 
@@ -1650,11 +1649,12 @@ function PandoraChestLockpickStart() {
 	ChestLockpickChestImage = ((CurrentCharacter == null) || (CurrentCharacter.FixedImage == null)) ? "Screens/Room/Pandora/Chest" + Math.floor(Math.random() * 3).toString() + ".png" : CurrentCharacter.FixedImage;
 	ChestLockpickBackground = PandoraBackground;
 	DialogLeave();
-	MiniGameStart("ChestLockpick", InfiltrationDifficulty, () => PandoraChestLockEnd());
+	MiniGameStart("ChestLockpick", InfiltrationDifficulty, () => { PandoraChestLockEnd(); });
 }
 
 /**
  * When the picklock mini-game ends, adds 30 seconds to the timer
+ * @returns {SafePromise<void>}
  */
 async function PandoraChestLockEnd() {
 	PandoraTimer = PandoraTimer - 30000;
@@ -1703,11 +1703,12 @@ function PandoraClubCardStart() {
 	PandoraFightCharacter = /** @type {NPCCharacter} */ (CurrentCharacter);
 	ClubCardOpponent = CurrentCharacter;
 	ClubCardOpponentDeck = ClubCardBuilderDominantDeck;
-	MiniGameStart("ClubCard", 0, () => PandoraClubCardEnd());
+	MiniGameStart("ClubCard", 0, () => { PandoraClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
+ * @returns {SafePromise<void>}
  */
 async function PandoraClubCardEnd() {
 	await CommonSetScreen("Room", "Pandora");

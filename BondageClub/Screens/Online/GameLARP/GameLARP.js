@@ -81,7 +81,7 @@ function GameLARPSetStatus(NewStatus) {
 	let ForceUpdate = false;
 	if (Player.Game == null || Player.Game.LARP == null) {
 		ForceUpdate = true;
-		GameLARPLoad();
+		GameLARPInitialize();
 	}
 
 	if (ForceUpdate || (NewStatus !== Player.Game.LARP.Status)) {
@@ -121,13 +121,17 @@ function GameLARPDrawIcon(C, X, Y, Zoom) {
  * @type {ScreenLoadHandler}
  */
 async function GameLARPLoad() {
-	if (Player.Game == null) Player.Game = {};
+	GameLARPInitialize();
+}
+
+function GameLARPInitialize() {
+	Player.Game ??= {};
 	let game = Player.Game.LARP;
 	Player.Game.LARP = {
 		Class: (game && typeof game.Class === "string" ? game.Class : GameLARPClass[0].Name),
 		Team: (game && typeof game.Team === "string" ? game.Team : GameLARPTeamList[0]),
 		TimerDelay: (game && typeof game.TimerDelay === "number" ? game.TimerDelay : GameLARPTimerDelay[0]),
-		Status: "",
+		Status: /** @type {const} */ (""),
 		Level: (game && Array.isArray(game.Level) ? game.Level : []),
 	};
 

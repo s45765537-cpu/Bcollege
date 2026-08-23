@@ -1129,7 +1129,7 @@ var ChatRoomSep = {
 	 * Uncollapse the passed room separator
 	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 */
-	Uncollapse: async function Uncollapse(roomSep) {
+	Uncollapse: function Uncollapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
 		if (!button || button.getAttribute("aria-expanded") === "true") {
 			return;
@@ -1154,7 +1154,7 @@ var ChatRoomSep = {
 	 * Collapse the passed room separator
 	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 */
-	Collapse: async function Collapse(roomSep) {
+	Collapse: function Collapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
 		if (!button || button.getAttribute("aria-expanded") === "false") {
 			return;
@@ -1174,7 +1174,7 @@ var ChatRoomSep = {
 	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 * @param {Pick<ServerChatRoomData, "Name" | "Visibility" | "Space">} data - The data of the room
 	 */
-	SetRoomData: async function SetRoomData(roomSep, data) {
+	SetRoomData: function SetRoomData(roomSep, data) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
 		if (!button) {
 			return;
@@ -1187,7 +1187,7 @@ var ChatRoomSep = {
 	},
 
 	/** Update all the displayed room names based on the player's degree of sensory deprivation. */
-	UpdateDisplayNames: async function UpdateDisplayNames() {
+	UpdateDisplayNames: function UpdateDisplayNames() {
 		const roomLabels = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep-header")));
 		roomLabels.forEach(e => e.replaceChildren(...ChatRoomSep._GetDisplayName(e)));
 	},
@@ -1494,7 +1494,7 @@ async function ChatRoomLoad() {
 				const changelog = CommandsChangelog.Publish(text);
 				changelog.querySelectorAll(".chat-room-changelog-button-collapse[data-level='2']").forEach(e => e.dispatchEvent(new Event("click")));
 				CommonVersionUpdated = false;
-			});
+			}).catch(e => console.error("Failed to fetch changelog", e));
 	}
 }
 
@@ -2863,7 +2863,7 @@ function ChatRoomToggleKneel() {
 			if (diff > 9) diff = 9;
 
 			// Starts the mini-game
-			MiniGameStart("GetUp", diff, () => ChatRoomAttemptStandMinigameEnd());
+			MiniGameStart("GetUp", diff, () => { ChatRoomAttemptStandMinigameEnd(); });
 			return;
 
 		}
@@ -3007,6 +3007,9 @@ function ChatRoomMenuPerformAction(action, event) {
 	}
 }
 
+/**
+ * @returns {SafePromise<void>}
+ */
 async function ChatRoomAttemptStandMinigameEnd() {
 
 	if (MiniGameVictory)  {
@@ -5519,8 +5522,8 @@ function ChatRoomSyncItem(data) {
  */
 function ChatRoomRefreshChatSettings() {
 	if (Player.ChatSettings) {
-		for (let property in Player.ChatSettings)
-			ElementSetDataAttribute("TextAreaChatLog", property, Player.ChatSettings[property]);
+		for (let property of CommonKeys(Player.ChatSettings))
+			ElementSetDataAttribute("TextAreaChatLog", property, `${Player.ChatSettings[property]}`);
 
 		ChatRoomSep.UpdateDisplayNames();
 		if (Player.GameplaySettings &&
@@ -5554,15 +5557,14 @@ function DialogViewProfile() {
 
 /**
  * Brings the player into the main hall and starts the maid punishment sequence
- * @returns {void}
+ * @returns {SafePromise<void>}
  */
-function DialogCallMaids() {
+async function DialogCallMaids() {
 	ChatRoomLeave(true);
-	CommonSetScreen("Room", "MainHall").then(() => {
-		if (!Player.RestrictionSettings.BypassNPCPunishments) {
-			MainHallPunishFromChatroom();
-		}
-	});
+	await CommonSetScreen("Room", "MainHall");
+	if (!Player.RestrictionSettings.BypassNPCPunishments) {
+		MainHallPunishFromChatroom();
+	}
 }
 
 
@@ -6039,23 +6041,31 @@ function ChatRoomAppearanceLoadCharacter(C) {
 	if (inChatRoom) {
 		ChatRoomStatusUpdate("Wardrobe");
 	}
-	CharacterAppearanceLoadCharacter(C, (ready) => {
-		CommonSetScreen(...screen);
-		if (inChatRoom) {
-			ChatRoomShowElements();
-			ChatRoomStatusUpdate(null);
-			if (ready) {
-				ChatRoomCharacterUpdate(C);
-				if (!C.IsPlayer()) {
-					// Send a notification if we've changed clothes on someone else
-					const Dictionary = new DictionaryBuilder()
-						.sourceCharacter(Player)
-						.destinationCharacter(C)
-						.build();
-					ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
-				}
-			}
+
+	/**
+	 * @param {boolean} result
+	 * @returns {SafePromise<void>}
+	 */
+	const returnHandler = async (result) => {
+		await CommonSetScreen(...screen);
+		if (!inChatRoom) return;
+		ChatRoomShowElements();
+		ChatRoomStatusUpdate(null);
+		if (!result) return;
+
+		ChatRoomCharacterUpdate(C);
+		if (!C.IsPlayer()) {
+			// Send a notification if we've changed clothes on someone else
+			const Dictionary = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.destinationCharacter(C)
+				.build();
+			ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
 		}
+	};
+
+	CharacterAppearanceLoadCharacter(C, (result) => {
+		returnHandler(result);
 	});
 }
 
@@ -6188,6 +6198,24 @@ function ChatRoomChangeNickname() {
 }
 
 /**
+ * @returns {SafePromise<void>}
+ */
+async function ChatRoomMaidSentOutForDrinks() {
+	PoseSetActive(Player, null);
+	const D = TextGet("ActionGrabbedToServeDrinksIntro");
+	const Dictionary = new DictionaryBuilder()
+		.targetCharacterName(CurrentCharacter)
+		.build();
+	ServerSend("ChatRoomChat", { Content: "ActionGrabbedToServeDrinks", Type: "Action", Dictionary });
+	ChatRoomLeave();
+	await CommonSetScreen("Room", "MaidQuarters");
+	CharacterSetCurrent(MaidQuartersMaid);
+	MaidQuartersMaid.CurrentDialog = D;
+	MaidQuartersMaid.Stage = "205";
+	MaidQuartersOnlineDrinkFromOwner = true;
+}
+
+/**
  * Gets a rule from the current character
  * @param {LogNameType["OwnerRule" | "LoverRule"]} RuleType - The name of the rule to retrieve.
  * @param {"Owner" | "Lover"} Sender - Type of the sender
@@ -6196,7 +6224,6 @@ function ChatRoomChangeNickname() {
 function ChatRoomGetRule(RuleType, Sender) {
 	return LogQueryRemote(CurrentCharacter, RuleType, `${Sender}Rule`);
 }
-
 
 /**
  * Processes a rule sent to the player from her owner or from her lover.
@@ -6360,18 +6387,7 @@ function ChatRoomSetRule(data) {
 
 		// Forced labor
 		if (data.Content == "OwnerRuleLaborMaidDrinks" && Player.CanTalk()) {
-			PoseSetActive(Player, null);
-			var D = TextGet("ActionGrabbedToServeDrinksIntro");
-			const Dictionary = new DictionaryBuilder()
-				.targetCharacterName(CurrentCharacter)
-				.build();
-			ServerSend("ChatRoomChat", { Content: "ActionGrabbedToServeDrinks", Type: "Action", Dictionary });
-			ChatRoomLeave();
-			CommonSetScreen("Room", "MaidQuarters");
-			CharacterSetCurrent(MaidQuartersMaid);
-			MaidQuartersMaid.CurrentDialog = D;
-			MaidQuartersMaid.Stage = "205";
-			MaidQuartersOnlineDrinkFromOwner = true;
+			ChatRoomMaidSentOutForDrinks();
 		}
 
 		// Forced Wheel of Fortune
@@ -6520,7 +6536,9 @@ function ChatRoomGameResponse(data) {
 	} else if (ChatRoomData.Game == "MagicBattle") {
 		GameMagicBattleProcess(data.Sender, data.Data);
 	} else if (ChatRoomData.Game == "ClubCard") {
-		GameClubCardProcess(data.Sender, data.RNG, data.Data);
+		CommonPromiseCatch(
+			GameClubCardProcess(data.Sender, data.RNG, data.Data)
+		);
 	}
 }
 

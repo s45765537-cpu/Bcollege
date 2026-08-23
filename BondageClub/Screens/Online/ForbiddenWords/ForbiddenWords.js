@@ -116,20 +116,22 @@ function ForbiddenWordsClick() {
 
 /**
  * Handles exiting from the screen, updates the sub rules
- * @type {ScreenExitHandler}
+ * @satisfies {ScreenExitHandler}
+ * @returns {SafePromise<void>}
  */
-function ForbiddenWordsExit() {
+async function ForbiddenWordsExit() {
 	const C = ForbiddenWordsTarget;
-	if (C) {
-		const data = ForbiddenWordsList.concat();
-		if (data.length > 0) {
-			data.splice(0, 0, ForbiddenWordsConsequence);
-		}
-		const builder = new DictionaryBuilder();
-		builder.stringList("ForbiddenWords", data);
-		ServerSend("ChatRoomChat", { Content: "OwnerRuleForbiddenWords", Type: "Hidden", Target: C.MemberNumber, Dictionary: builder.build() });
-		CommonSetScreen("Online", "ChatRoom").then(() => ChatRoomFocusCharacter(C));
-	} else {
-		CommonSetScreen("Online", "ChatRoom");
+	if (!C) {
+		return CommonSetScreen("Online", "ChatRoom");
 	}
+	const data = ForbiddenWordsList.concat();
+	if (data.length > 0) {
+		data.splice(0, 0, ForbiddenWordsConsequence);
+	}
+	const builder = new DictionaryBuilder();
+	builder.stringList("ForbiddenWords", data);
+	ServerSend("ChatRoomChat", { Content: "OwnerRuleForbiddenWords", Type: "Hidden", Target: C.MemberNumber, Dictionary: builder.build() });
+	await CommonSetScreen("Online", "ChatRoom");
+	ChatRoomFocusCharacter(C);
+	return;
 }

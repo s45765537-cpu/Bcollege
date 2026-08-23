@@ -81,7 +81,7 @@ function PreferenceSubscreenOnlineLoad() {
 				Player.OnlineSettings.DefaultChatRoomBackground = Name;
 				PreferenceOnlineDefaultBackgroundIndex = PreferenceOnlineDefaultBackgroundList.indexOf(PreferenceOnlineDefaultBackground);
 			}
-			PreferenceOpenSubscreen("Online", 2);
+			CommonPromiseCatch(PreferenceOpenSubscreen("Online", 2));
 		});
 	}, {
 		image: "Icons/Preference.png",

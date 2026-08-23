@@ -273,12 +273,11 @@ function AsylumEntranceFightNurse() {
 	KidnapStart(AsylumEntranceNurse, "AsylumEntrance", 7, "AsylumEntranceFightNurseEnd()");
 }
 
-// When the fight against the nurse ends
 /**
  * Resolves the result of the fight against the nurse
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function AsylumEntranceFightNurseEnd() {
+async function AsylumEntranceFightNurseEnd() {
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceNurse));
 	AsylumEntranceNurse.Stage = (KidnapVictory) ? "120" : "130";
 	DialogChangeReputation("Asylum", -6);
@@ -297,10 +296,9 @@ function AsylumEntranceFightNurseEnd() {
 	InventoryRemove(Player, "ItemNose");
 	InventoryRemove(Player, "ItemMouth");
 	InventoryRemove(Player, "ItemFeet");
-	CommonSetScreen("Room", "AsylumEntrance").then(() => {
-		CharacterSetCurrent(AsylumEntranceNurse);
-		AsylumEntranceNurse.CurrentDialog = DialogFind(AsylumEntranceNurse, (KidnapVictory) ? "FightVictory" : "FightDefeat");
-	});
+	await CommonSetScreen("Room", "AsylumEntrance");
+	CharacterSetCurrent(AsylumEntranceNurse);
+	AsylumEntranceNurse.CurrentDialog = DialogFind(AsylumEntranceNurse, (KidnapVictory) ? "FightVictory" : "FightDefeat");
 }
 
 /**
@@ -366,20 +364,19 @@ function AsylumEntranceRecommit() {
 
 /**
  * Handles the player being caught by a nurse, after escaping the Asylum. The player is brought back and the doors locked
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function AsylumEntranceNurseCatchEscapedPlayer() {
-	CommonSetScreen("Room", "AsylumEntrance").then(() => {
-		AsylumEntranceBackground = "MainHall";
-		CharacterDelete(AsylumEntranceKidnapNurse);
+async function AsylumEntranceNurseCatchEscapedPlayer() {
+	await CommonSetScreen("Room", "AsylumEntrance");
+	AsylumEntranceBackground = "MainHall";
+	CharacterDelete(AsylumEntranceKidnapNurse);
 
-		AsylumEntranceKidnapNurse = CharacterLoadNPC("NPC_AsylumEntrance_KidnapNurse");
-		AsylumEntranceWearNurseClothes(AsylumEntranceKidnapNurse);
-		AsylumEntranceKidnapNurse.Stage = "0";
-		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, (Player.CanInteract() ? "Intro" : "Automatic") + (Math.floor(Math.random() * 3)).toString());
-		AsylumEntranceKidnapNurse.AllowItem = false;
-		CharacterSetCurrent(AsylumEntranceKidnapNurse);
-	});
+	AsylumEntranceKidnapNurse = CharacterLoadNPC("NPC_AsylumEntrance_KidnapNurse");
+	AsylumEntranceWearNurseClothes(AsylumEntranceKidnapNurse);
+	AsylumEntranceKidnapNurse.Stage = "0";
+	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, (Player.CanInteract() ? "Intro" : "Automatic") + (Math.floor(Math.random() * 3)).toString());
+	AsylumEntranceKidnapNurse.AllowItem = false;
+	CharacterSetCurrent(AsylumEntranceKidnapNurse);
 }
 
 /**
@@ -394,17 +391,16 @@ function AsylumEntranceKidnapNurseFight() {
 /**
  * Resolved the fight against the kidnap nurse
  * @param {boolean} Surrender - Wether the player surrendered or not
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function AsylumEntranceKidnapNurseFightOutro(Surrender) {
-	CommonSetScreen("Room", "AsylumEntrance").then(() => {
-		SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceKidnapNurse));
-		if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
-		AsylumEntranceKidnapNurse.Stage = (KidnapVictory) ? "100" : "200";
-		if (!KidnapVictory) CharacterRelease(AsylumEntranceKidnapNurse);
-		CharacterSetCurrent(AsylumEntranceKidnapNurse);
-		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, ((KidnapVictory) ? "Victory" : "Defeat"));
-	});
+async function AsylumEntranceKidnapNurseFightOutro(Surrender) {
+	await CommonSetScreen("Room", "AsylumEntrance");
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceKidnapNurse));
+	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
+	AsylumEntranceKidnapNurse.Stage = (KidnapVictory) ? "100" : "200";
+	if (!KidnapVictory) CharacterRelease(AsylumEntranceKidnapNurse);
+	CharacterSetCurrent(AsylumEntranceKidnapNurse);
+	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, ((KidnapVictory) ? "Victory" : "Defeat"));
 }
 
 /**
@@ -469,22 +465,21 @@ function AsylumEntranceBackAsPatient() {
 
 /**
  * The player meets  an escaped patient while on nurse duty
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function AsylumEntranceEscapedPatientMeet() {
-	CommonSetScreen("Room", "AsylumEntrance").then(() => {
-		AsylumEntranceBackground = "MainHall";
-		CharacterDelete(AsylumEntranceEscapedPatient);
+async function AsylumEntranceEscapedPatientMeet() {
+	await CommonSetScreen("Room", "AsylumEntrance");
+	AsylumEntranceBackground = "MainHall";
+	CharacterDelete(AsylumEntranceEscapedPatient);
 
-		AsylumEntranceEscapedPatient = CharacterLoadNPC("NPC_AsylumEntrance_EscapedPatient");
-		AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
-		AsylumEntranceEscapedPatient.Stage = "0";
-		AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, "Intro" + (Math.floor(Math.random() * 3)).toString());
-		AsylumEntranceEscapedPatient.AllowItem = false;
-		AsylumEntranceEscapedPatientWillBribe = (Math.random() > 0.667);
-		AsylumEntranceEscapedPatientWillJoin = ((Math.random() > 0.667) && AsylumEntranceCanTransferToRoom());
-		CharacterSetCurrent(AsylumEntranceEscapedPatient);
-	});
+	AsylumEntranceEscapedPatient = CharacterLoadNPC("NPC_AsylumEntrance_EscapedPatient");
+	AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
+	AsylumEntranceEscapedPatient.Stage = "0";
+	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, "Intro" + (Math.floor(Math.random() * 3)).toString());
+	AsylumEntranceEscapedPatient.AllowItem = false;
+	AsylumEntranceEscapedPatientWillBribe = (Math.random() > 0.667);
+	AsylumEntranceEscapedPatientWillJoin = ((Math.random() > 0.667) && AsylumEntranceCanTransferToRoom());
+	CharacterSetCurrent(AsylumEntranceEscapedPatient);
 }
 
 /**
@@ -497,24 +492,22 @@ function AsylumEntranceEscapedPatientFight() {
 	KidnapStart(AsylumEntranceEscapedPatient, "MainHall", 4, "AsylumEntranceEscapedPatientFightOutro()");
 }
 
-// When the player fight ends against the escaped patient
 /**
  * Resolves the fight against an escaped patient
  * @param {boolean} Surrender - Wether the player surrendered or not
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function AsylumEntranceEscapedPatientFightOutro(Surrender) {
-	CommonSetScreen("Room", "AsylumEntrance").then(() => {
-		AsylumEntranceBackground = "MainHall";
-		SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceEscapedPatient));
-		if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
-		AsylumEntranceEscapedPatient.Stage = (KidnapVictory) ? "100" : "200";
-		if (!KidnapVictory) CharacterRelease(AsylumEntranceEscapedPatient);
-		InventoryRemove(Player, "ItemMouth");
-		InventoryRemove(AsylumEntranceEscapedPatient, "ItemMouth");
-		CharacterSetCurrent(AsylumEntranceEscapedPatient);
-		AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, ((KidnapVictory) ? "Victory" : "Defeat"));
-	});
+async function AsylumEntranceEscapedPatientFightOutro(Surrender) {
+	await CommonSetScreen("Room", "AsylumEntrance");
+	AsylumEntranceBackground = "MainHall";
+	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceEscapedPatient));
+	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
+	AsylumEntranceEscapedPatient.Stage = (KidnapVictory) ? "100" : "200";
+	if (!KidnapVictory) CharacterRelease(AsylumEntranceEscapedPatient);
+	InventoryRemove(Player, "ItemMouth");
+	InventoryRemove(AsylumEntranceEscapedPatient, "ItemMouth");
+	CharacterSetCurrent(AsylumEntranceEscapedPatient);
+	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, ((KidnapVictory) ? "Victory" : "Defeat"));
 }
 
 /**
@@ -642,11 +635,12 @@ function AsylumEntrancePayTenMinutes() {
  */
 function AsylumEntranceClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderAsylumDeck, () => AsylumEntranceClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderAsylumDeck, () => { AsylumEntranceClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
+ * @returns {SafePromise<void>}
  */
 async function AsylumEntranceClubCardEnd() {
 	await CommonSetScreen("Room", "AsylumEntrance");

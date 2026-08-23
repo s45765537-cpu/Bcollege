@@ -81,7 +81,7 @@ function CharacterCreatePlayer() {
 	Character[0] = Player;
 	Character.splice(oldId, 1);
 	CharacterNextId--;
-	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+	CommonPromiseCatch(CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" }));
 	PreferenceInitPlayer(Player, {});
 }
 
@@ -125,7 +125,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			this._Stage = value;
 			if (DialogMenuMode === "dialog") {
-				DialogMenuMapping.dialog.Reload();
+				CommonPromiseCatch(DialogMenuMapping.dialog.Reload());
 			}
 		},
 		_CurrentDialog: "",
@@ -863,13 +863,13 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		{
 			set(...args) {
 				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
-					DialogSelfMenuMapping.Expression.Reload();
+					CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 				}
 				return Reflect.set(...args);
 			},
 			deleteProperty(...args) {
 				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
-					DialogSelfMenuMapping.Expression.Reload();
+					CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 				}
 				return Reflect.deleteProperty(...args);
 			},
@@ -970,7 +970,7 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 	}
 
 	if (reload && DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload(null, { reset: true });
+		CommonPromiseCatch(DialogMenuMapping.dialog.Reload(null, { reset: true }));
 	}
 }
 
@@ -1182,7 +1182,8 @@ function CharacterLoadNPC(CharacterID, NPCType=null, module=null, screen=null) {
 	// Randomize the new character
 	const C = /** @type {NPCCharacter} */ (CharacterCreate("Female3DCG", CharacterType.NPC, CharacterID));
 	C.AccountName = NPCType;
-	CharacterLoadCSVDialog(C, { module: module ?? CurrentModule, screen: screen ?? CurrentScreen, name: NPCType });
+	// XXX: should be awaited here
+	CommonPromiseCatch(CharacterLoadCSVDialog(C, { module: module ?? CurrentModule, screen: screen ?? CurrentScreen, name: NPCType }));
 	C.Name = CharacterGenerateRandomName();
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
@@ -1267,7 +1268,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (oldPronouns !== undefined && oldPronouns !== newPronouns) {
 		// Reload the dialog so the new gender takes effect
 		// Don't reload in initialization (when oldPronouns is undefined), which breaks translation
-		CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" });
+		CommonPromiseCatch(CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" }));
 	}
 	CharacterLoadEffect(Char);
 	CharacterRefresh(Char);
@@ -1316,7 +1317,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		Char.MemberNumber = data.MemberNumber;
 		Char.Difficulty = ServerAccountDataSyncedValidate.Difficulty(data.Difficulty, Char);
 		Char.AllowItem = false;
-		CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" });
+		CommonPromiseCatch(CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" }));
 		CharacterOnlineRefresh(Char, data, SourceMemberNumber);
 	} else {
 
@@ -1647,7 +1648,7 @@ function CharacterRefreshDialog(C) {
 
 	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions" || DialogMenuMode === "dialog") {
 		// We were looking at some inventory, perform a soft reload to update the UI
-		DialogMenuMapping[DialogMenuMode].Reload();
+		CommonPromiseCatch(DialogMenuMapping[DialogMenuMode].Reload());
 	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
 		if (!focusItem) {
 			// Focused item was removed

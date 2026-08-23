@@ -104,7 +104,7 @@ var ChatSearchFilterHelpScreenElement;
  * @param {ServerChatRoomSpace} space - Name of the chatroom space
  * @param {ScreenSpecifier | undefined} returnScreen - Screen to go back to when exiting leaving the lobby.
  * @param {ChatSearchLobbyOptions} [options]
- * @returns {Promise<void>} - Nothing.
+ * @returns {SafePromise<void>} - Nothing.
  */
 async function ChatSearchStart(space, returnScreen, options) {
 	const validSpaces = /** @type {ServerChatRoomSpace[]} */ (["X", "", "M", "Asylum"]);
@@ -113,7 +113,7 @@ async function ChatSearchStart(space, returnScreen, options) {
 		return;
 	}
 	if (!returnScreen) {
-		console.error(`invalid return screen ${returnScreen}`);
+		console.error("invalid return screen:", returnScreen);
 		return;
 	}
 	ChatSearchSpace = space;
@@ -1374,7 +1374,7 @@ function ChatSearchCreateGridRoomTooltip(room, index) {
 			tag: "span",
 			classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
 			children: [
-				TextGet("FilteredBecause") + " " + filterReasons.map(r => TextGet(`FilterReason${r}`)),
+				TextGet("FilteredBecause") + " " + filterReasons.map(r => TextGet(`FilterReason${r}`)).join(", "),
 			]
 		});
 	}
@@ -1920,7 +1920,7 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
 /**
  * Sends the search query data to the server. The response will be handled by ChatSearchResponse once it is received
  * @param {string} Query - The search term to look for
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
 async function ChatSearchQuery(Query) {
 	if (Player.LastChatRoom?.Name) {

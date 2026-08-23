@@ -116,7 +116,7 @@ function PreferenceVisibilityExit(SaveChanges) {
 	if (SaveChanges) ServerPlayerBlockItemsSync();
 	PreferenceVisibilityRecord = {};
 
-	PreferenceSubscreenExit();
+	CommonPromiseCatch(PreferenceSubscreenExit());
 }
 
 /**

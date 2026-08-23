@@ -146,7 +146,7 @@ function PreferenceSubscreenDifficultyConfirm() {
 	ServerSend("AccountDifficulty", PreferenceDifficultyLevel);
 	LoginDifficulty(true);
 	PreferenceDifficultyLevel = null;
-	PreferenceSubscreenExit();
+	CommonPromiseCatch(PreferenceSubscreenExit());
 }
 
 /**

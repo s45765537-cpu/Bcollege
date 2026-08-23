@@ -291,22 +291,19 @@ class TextCache {
 			return Promise.resolve(CommonCSVCache[this.path]);
 		}
 		this.log("fetchCsv: fetching from server");
-		return new Promise((resolve, reject) => {
-			CommonFetch(this.path)
-				.then(async (response) => {
-					if (response.status !== 200) {
-						// We say we're loaded even though that's wrong because we want `.get()`
-						// to return the "MISSING" string
-						this.loaded = true;
-						reject(new Error(`Failed to fetch csv file "${this.path}"`));
-						return;
-					}
-					const data = await response.text();
-					CommonCSVCache[this.path] = CommonParseCSV(data);
-					this.log("fetchCsv: parsing");
-					return resolve(CommonCSVCache[this.path]);
-				});
-		});
+		return CommonFetch(this.path)
+			.then(async (response) => {
+				if (response.status !== 200) {
+					// We say we're loaded even though that's wrong because we want `.get()`
+					// to return the "MISSING" string
+					this.loaded = true;
+					throw new Error(`Failed to fetch csv file "${this.path}"`);
+				}
+				const data = await response.text();
+				CommonCSVCache[this.path] = CommonParseCSV(data);
+				this.log("fetchCsv: parsing");
+				return CommonCSVCache[this.path];
+			});
 	}
 
 	/**

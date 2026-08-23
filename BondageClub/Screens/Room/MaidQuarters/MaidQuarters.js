@@ -388,13 +388,13 @@ function MaidQuartersRemoveMaidUniform() {
  * @returns {void} - Nothing
  */
 function MaidQuartersMiniGameStart(GameType, Difficulty) {
-	MiniGameStart(GameType, Difficulty, () => MaidQuartersMiniGameEnd());
+	MiniGameStart(GameType, Difficulty, () => { MaidQuartersMiniGameEnd(); });
 }
 
 /**
  * Is called when the mini game ends and sends the player back to the maid quarters.
  * Depending on the choosen game, the next dialog option is selected
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>}
  */
 async function MaidQuartersMiniGameEnd() {
 

@@ -47,7 +47,7 @@ function ServerInit() {
 	ServerSocket.on("ChatRoomSearchResponse", function (data) { ChatSearchResponse(data); });
 	ServerSocket.on("ChatRoomCreateResponse", function (data) { ChatCreateResponse(data); });
 	ServerSocket.on("ChatRoomUpdateResponse", function (data) { ChatAdminResponse(data); });
-	ServerSocket.on("ChatRoomSync", function (data) { ChatRoomSync(data); });
+	ServerSocket.on("ChatRoomSync", function (data) { CommonPromiseCatch(ChatRoomSync(data)); });
 	ServerSocket.on("ChatRoomSyncMemberJoin", function (data) { ChatRoomSyncMemberJoin(data); });
 	ServerSocket.on("ChatRoomSyncMemberLeave", function (data) { ChatRoomSyncMemberLeave(data); });
 	ServerSocket.on("ChatRoomSyncRoomProperties", function (data) { ChatRoomSyncRoomProperties(data); });
@@ -171,7 +171,7 @@ function ServerIsLoggedIn() {
  */
 async function ServerIsLoggedInAsync() {
 	await GameReadyState.load;
-	if (!GameReadyState.login) {
+	if (typeof GameReadyState.login === "undefined") {
 		// An unreachable path under normal circumstances as the property is
 		// assigned via `GameStart()` -> `ServerInit()` in synchronous fashion
 		throw new Error("GameReadyState.login is undefined");
@@ -276,15 +276,17 @@ function ServerHandleRelog(C) {
 	/** @type {ScreenSpecifier} */
 	const screen = isChatRoomRelog ? ["Online", "ChatSearch"] : /** @type {ScreenSpecifier} */ ([RelogData.Module, RelogData.Screen]);
 
-	// XXX: Using `.then()` here because I don't want asyncness to spread to LoginResponse just yet
-	CommonSetScreen(...screen).then(async () => {
-		if (isChatRoomRelog) {
-			const ret = await ServerRoomJoin(RelogData.ChatRoomName);
-			if (ret.err) {
-				console.error(ret.error);
-			}
-		}
-	});
+	CommonPromiseCatch(
+		CommonSetScreen(...screen)
+			.then(async () => {
+				if (isChatRoomRelog) {
+					const ret = await ServerRoomJoin(RelogData.ChatRoomName);
+					if (ret.err) {
+						console.error(ret.error);
+					}
+				}
+			})
+	);
 	return true;
 }
 
@@ -1013,7 +1015,7 @@ function ServerAccountBeep(data) {
 				ChatRoomAppendChat(div);
 			}
 		} else if (data.BeepType === "Leash") {
-			ServerHandleLeashBeep(data);
+			CommonPromiseCatch(ServerHandleLeashBeep(data));
 		}
 	}
 }
@@ -1201,7 +1203,7 @@ function ServerAccountOwnership(data) {
 	}
 
 	if (DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload();
+		CommonPromiseCatch(DialogMenuMapping.dialog.Reload());
 	}
 }
 
@@ -1225,7 +1227,7 @@ function ServerAccountLovership(data) {
 	}
 
 	if (DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload();
+		CommonPromiseCatch(DialogMenuMapping.dialog.Reload());
 	}
 }
 

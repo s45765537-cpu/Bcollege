@@ -16,10 +16,24 @@ interface String {
 
 declare function parseInt(s: string | number, radix?: number): number;
 
-type MemoizedFunction<T extends Function> = T & {
+type MemoizedFunction<T extends AnyFunction> = T & {
 	/** Clears the cache of the memoized function */
 	clearCache(): void;
 };
+
+/**
+ * This is a typealias for Promise that indicates to eslint that that kind of promise
+ * can skip needing a .catch/never throws or does so in so scuh extraordinary conditions
+ * that it can be bubbled up.
+ *
+ * A good example of that is {@link CommonSetScreen}, where it'll only fail if the screen
+ * configuration is missing callbacks, meaning something's severely wrong with the browser's
+ * loading. The one "runtime" case for it (the loading of the screen's text translation),
+ * is actually silenced there, so it won't bubble up.
+ *
+ * This allows skipping all the places that call CommonSetScreen from having to handle a `.catch`.
+ */
+type SafePromise<T> = Promise<T>;
 
 // GL shim
 interface WebGLTextureData {
@@ -629,7 +643,7 @@ type AssetGroupBodyName =
 	'BodyStyle' | 'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
 	'ClothAccessory' | 'ClothLower' | 'ClothOuter' | 'Corset' | 'Decals' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
 	'HairAccessory1' | 'HairAccessory2' | 'HairAccessory3' | 'HairBack' |
-	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
+	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
 	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' |
 	'Shoes' | 'Socks' | 'SocksLeft' | 'SocksRight' | 'Suit' | 'SuitLower' | 'TailStraps' | 'Wings' |
 	'HandsLeft' | 'HandsRight' | 'FaceMarkings'
@@ -1079,6 +1093,7 @@ type Mutable<T> = {
  */
 type Prettify<T> = {
   [K in keyof T]: T[K];
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 } & unknown;
 
 /**
@@ -2231,7 +2246,7 @@ type NPCArchetype =
 	/* Pandora Special */
 	"Victim"|"Target"|"Chest"|
 	// Misc
-	"Dominatrix" | "Nurse" | "Submissive" | "Mistress" | "Patient" | "Maid" | "Mistress" | "Maiestas" | "Vincula" | "Amplector" | "Corporis" | "AnimeGirl" | "Bunny" | "Succubus"
+	"Dominatrix" | "Nurse" | "Submissive" | /* "Mistress" |*/ "Patient" | /* "Maid" | */ "Maiestas" | "Vincula" | "Amplector" | "Corporis" | "AnimeGirl" | "Bunny" | "Succubus"
 	;
 
 /** NPC Character extension */
@@ -2361,7 +2376,7 @@ interface ControllerSettingsOld {
 }
 
 type DifficultyLevel =
- 	| 0 // Roleplay
+	| 0 // Roleplay
 	| 1 // Regular
 	| 2 // Hardcore
 	| 3 // Extreme
@@ -2732,7 +2747,7 @@ interface ExtendedItemConfigDrawData<MetaData extends ElementMetaData> {
 }
 
 /** @see {@link ExtendedItemDrawData} */
-interface VariableHeightConfigDrawData extends ExtendedItemConfigDrawData<{}> {
+interface VariableHeightConfigDrawData extends ExtendedItemConfigDrawData<object> {
 	elementData: { position: RectTuple, icon: ThumbIcon }[],
 }
 
@@ -3155,7 +3170,7 @@ interface ExtendedItemData<OptionType extends ExtendedItemOption> {
 	/** The extended item option of the super screen that this archetype was initialized from (if any) */
 	parentOption: null | ExtendedItemOption;
 	/** An interface with element-specific drawing data for a given screen. */
-	drawData: ExtendedItemDrawData<{}>;
+	drawData: ExtendedItemDrawData<object>;
 	/**
 	 * A list with extra to-be allowed effect names.
 	 * Should only defined when there are effects that are exclusively managed by script hooks and thus cannot be extracted from the normal extended item options.
@@ -3624,6 +3639,7 @@ declare namespace PropertiesNoArray {
 	/** All {@link ItemProperties} properties with array-based values removed */
 	type Item = { [k in keyof ItemProperties as NonNullable<ItemProperties[k]> extends readonly any[] ? never : k]: ItemProperties[k] };
 	/** All {@link Asset} properties with array-based values removed */
+	// eslint-disable-next-line @typescript-eslint/no-shadow
 	type Asset = { [k in keyof globalThis.Asset as NonNullable<globalThis.Asset[k]> extends readonly any[] ? never : k]: globalThis.Asset[k] };
 	/** All {@link Group} properties with array-based values removed */
 	type Group = { [k in keyof AssetGroup as NonNullable<AssetGroup[k]> extends readonly any[] ? never : k]: AssetGroup[k] };
@@ -3635,6 +3651,7 @@ declare namespace PropertiesArray {
 	/** All {@link ItemProperties} properties with array-based values */
 	type Item = { [k in keyof ItemProperties as NonNullable<ItemProperties[k]> extends readonly any[] ? k : never]: ItemProperties[k] };
 	/** All {@link Asset} properties with array-based values */
+	// eslint-disable-next-line @typescript-eslint/no-shadow
 	type Asset = { [k in keyof globalThis.Asset as NonNullable<globalThis.Asset[k]> extends readonly any[] ? k : never]: globalThis.Asset[k] };
 	/** All {@link Group} properties with array-based values */
 	type Group = { [k in keyof AssetGroup as NonNullable<AssetGroup[k]> extends readonly any[] ? k : never]: AssetGroup[k] };
@@ -3649,6 +3666,7 @@ declare namespace PropertiesRecord {
 	/** All {@link ItemProperties} properties with record-based values. */
 	type Item = { [k in keyof ItemProperties as NonNullable<ItemProperties[k]> extends Record<string, any> ? k : never]: ItemProperties[k] };
 	/** All {@link Asset} properties with record-based values. */
+	// eslint-disable-next-line @typescript-eslint/no-shadow
 	type Asset = { [k in keyof globalThis.Asset as NonNullable<globalThis.Asset[k]> extends Record<string, any> ? k : never]: globalThis.Asset[k] };
 	/** All {@link Group} properties with record-based values. */
 	type Group = { [k in keyof AssetGroup as NonNullable<AssetGroup[k]> extends Record<string, any> ? k : never]: AssetGroup[k] };
@@ -3985,7 +4003,7 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 /** The {@link Window} type with all non-function values removed (though they may still be optional) */
-type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends Function ? k : never]: Window[k] };
+type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends AnyFunction ? k : never]: Window[k] };
 
 // #region Struggle Minigame
 
@@ -5182,7 +5200,7 @@ interface ClubCardActiveAnimation {
 		/** Timeout ID for fallback handling (used to restore the card state in case of failure). */
 		SafetyTimeout: number;
 		/** Callback function called when the animation completes. */
-		OnComplete?: Function|null;
+		OnComplete?: AnyFunction|null;
 		// Processed elsewhere
 		// /** Callback function called when the animation starts. */
 	// OnStart?: Function|null;

@@ -9,13 +9,7 @@ type ChatRoomMapPos = {
 
 type ChatRoomMapData = {
 	Pos: ChatRoomMapPos
-	PrivateState: {
-		HasKeyBronze?: boolean;
-		HasKeySilver?: boolean;
-		HasKeyGold?: boolean;
-
-		[key: string]: any;
-	}
+	PrivateState: Record<string, any>
 }
 
 interface ServerAccountImmutableData {

@@ -116,7 +116,7 @@ var Fullscreen = (function () {
 		if (!ElementWrap(buttonId)) {
 			ElementButton.Create(
 				buttonId,
-				() => { toggle(); },
+				() => { CommonPromiseCatch(toggle()); },
 				{
 					noStyling: true,
 					role: "checkbox",

@@ -432,6 +432,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		// Returns no message, indicating that all prerequisites are fine
 		case "GagFlat": return "";
 		default: {
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			console.error(`Unknown asset prerequisite "${Prerequisite}"`);
 			return "";
 		}

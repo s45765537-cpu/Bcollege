@@ -135,18 +135,17 @@ function DailyJobKidnapStart() {
 
 /**
  * Triggered at the end of the kidnap daily job fight mini-game
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function DailyJobKidnapEnd() {
+async function DailyJobKidnapEnd() {
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(DailyJobOpponent));
 	DailyJobOpponent.Stage = (KidnapVictory) ? "100" : "200";
 	if (KidnapVictory) CharacterRelease(Player);
 	else CharacterRelease(DailyJobOpponent);
 	if (KidnapVictory) DailyJobOpponent.AllowItem = true;
-	CommonSetScreen("Room", "DailyJob").then(() => {
-		CharacterSetCurrent(DailyJobOpponent);
-		DailyJobOpponent.CurrentDialog = DialogFind(DailyJobOpponent, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
-	});
+	await CommonSetScreen("Room", "DailyJob");
+	CharacterSetCurrent(DailyJobOpponent);
+	DailyJobOpponent.CurrentDialog = DialogFind(DailyJobOpponent, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
 }
 
 /**
@@ -176,11 +175,12 @@ function DailyJobKidnapFail() {
  * @returns {void} - Nothing
  */
 function DailyJobPuppyGameStart() {
-	MiniGameStart("PuppyWalker", 0, () => DailyJobPuppyGameEnd());
+	MiniGameStart("PuppyWalker", 0, () => { DailyJobPuppyGameEnd(); });
 }
 
 /**
  * Triggered at the end of the puppy walker job fight mini-game
+ * @returns {SafePromise<void>}
  */
 async function DailyJobPuppyGameEnd() {
 	await CommonSetScreen("Room", "DailyJob");
@@ -226,11 +226,12 @@ function DailyJobDojoRestrainPlayer() {
  * @returns {void} - Nothing
  */
 function DailyJobDojoGameStart() {
-	MiniGameStart("DojoStruggle", 0, () => DailyJobDojoGameEnd());
+	MiniGameStart("DojoStruggle", 0, () => { DailyJobDojoGameEnd(); });
 }
 
 /**
  * Triggered at the end of the dojo struggle job minigame
+ * @returns {SafePromise<void>}
  */
 async function DailyJobDojoGameEnd() {
 	await CommonSetScreen("Room", "DailyJob");

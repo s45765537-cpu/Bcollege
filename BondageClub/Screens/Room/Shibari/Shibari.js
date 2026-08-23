@@ -324,11 +324,12 @@ function ShibariPayForTraining(SkillType) {
  */
 function ShibariClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderDominantDeck, () => ShibariClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderDominantDeck, () => { ShibariClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game against the shibari student
+ * @returns {SafePromise<void>}
  */
 async function ShibariClubCardEnd() {
 	await CommonSetScreen("Room", "Shibari");

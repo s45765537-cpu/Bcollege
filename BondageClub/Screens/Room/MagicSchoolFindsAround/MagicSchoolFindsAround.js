@@ -493,11 +493,12 @@ async function MagicSchoolFindsAroundKitsuneMagicBattleEnd() {
  */
 function MagicSchoolFindsAroundClubCardStart() {
 	if (!CurrentCharacter) return;
-	ClubCardStart(CurrentCharacter, ClubCardBuilderDefaultDeck, () => MagicSchoolFindsAroundClubCardEnd());
+	ClubCardStart(CurrentCharacter, ClubCardBuilderDefaultDeck, () => { MagicSchoolFindsAroundClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
+ * @returns {SafePromise<void>}
  */
 async function MagicSchoolFindsAroundClubCardEnd() {
 	await CommonSetScreen("Room", "MagicSchoolFindsAround");

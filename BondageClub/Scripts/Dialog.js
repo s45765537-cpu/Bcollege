@@ -221,7 +221,7 @@ var DialogLeaveFocusItemHandlers = {
 		},
 		Shop2: () => {
 			Shop2Vars.Mode = "Preview";
-			Shop2Load();
+			CommonPromiseCatch(Shop2Load());
 		},
 	},
 };
@@ -240,6 +240,7 @@ function DialogGetCharacter(C) {
 			return CurrentCharacter;
 		default:
 			if (typeof C === "string") {
+				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 				throw new Error(`Unknown character type "${C}"`);
 			} else {
 				return C;
@@ -646,12 +647,13 @@ function DialogStartKinkyDungeon() {
 			}
 		}
 		DialogGamingReturnScreen = CommonGetScreen();
-		MiniGameStart("KinkyDungeon", 0, () => DialogEndKinkyDungeon());
+		MiniGameStart("KinkyDungeon", 0, () => { DialogEndKinkyDungeon(); });
 	}
 }
 
 /**
  * Return to previous room
+ * @returns {SafePromise<void>}
  */
 async function DialogEndKinkyDungeon() {
 	if (DialogGamingReturnScreen) {
@@ -851,13 +853,17 @@ function DialogLeave(options=null) {
 	// FIXME: Can't safely call `Load()` here again as many screens are ill equipped for reloads;
 	// limit it the `ChatRoom` screen for now unless _explicitly_ requested otherwise
 	if (options.reload === true) {
-		CurrentScreenFunctions.Load()
-			.then(() => CurrentScreenFunctions.Resize(true));
+		CommonPromiseCatch(
+			CurrentScreenFunctions.Load()
+				.then(() => CurrentScreenFunctions.Resize(true))
+		);
 	} else if (options.reload == null) {
 		switch (CurrentScreen) {
 			case "ChatRoom":
-				CurrentScreenFunctions.Load()
-					.then(() => CurrentScreenFunctions.Resize(true));
+				CommonPromiseCatch(
+					CurrentScreenFunctions.Load()
+						.then(() => CurrentScreenFunctions.Resize(true))
+				);
 				break;
 		}
 	}
@@ -960,6 +966,7 @@ function DialogMenuBack() {
 			break;
 
 		default:
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			console.trace(`Unknown menu mode "${DialogMenuMode}, resetting`);
 			DialogLeave();
 			break;
@@ -1384,7 +1391,7 @@ function DialogBuildActivities(C, reload=true) {
 	if (reload) {
 		switch (DialogMenuMode) {
 			case "activities":
-				DialogMenuMapping.activities.Reload(null, { reset: true, resetDialogItems: false });
+				CommonPromiseCatch(DialogMenuMapping.activities.Reload(null, { reset: true, resetDialogItems: false }));
 				break;
 		}
 	}
@@ -1730,7 +1737,7 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 			case "items":
 			case "locking":
 			case "permissions":
-				DialogMenuMapping[DialogMenuMode]?.Reload(null, { reset: true, resetDialogItems: false });
+				CommonPromiseCatch(DialogMenuMapping[DialogMenuMode]?.Reload(null, { reset: true, resetDialogItems: false }));
 				break;
 		}
 	}
@@ -1758,7 +1765,7 @@ function DialogFacialExpressionsLoad(Slot) {
 		Player.ActiveExpression.setWithoutReload(e.Group, e.CurrentExpression ?? null);
 	});
 	if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.IsPlayer()) {
-		DialogSelfMenuMapping.Expression.Reload();
+		CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 	}
 }
 
@@ -2167,24 +2174,26 @@ function DialogChangeMode(mode, reset=false) {
 			break;
 
 		case "colorDefault":
-			ColorPickerInit({
-				onInput: () => null,
-				onExit: ({ colors, initialColors }, save) => {
-					if (save && !CommonArraysEqual(colors, initialColors)) {
-						const color = colors[0];
-						DialogColorSelect = CommonIsColor(color) ? color : null;
-					}
-					DialogChangeMode("items");
-				},
-				colorState: {
-					opacity: [1],
-					colors: [DialogColorSelect ?? "Default"],
-					defaultColors: ["Default"],
-					editOpacity: false,
-				},
-				shape: [1090, 15, 910, 970],
-				heading: InterfaceTextGet("DialogMenuColorDefault"),
-			});
+			CommonPromiseCatch(
+				ColorPickerInit({
+					onInput: () => null,
+					onExit: ({ colors, initialColors }, save) => {
+						if (save && !CommonArraysEqual(colors, initialColors)) {
+							const color = colors[0];
+							DialogColorSelect = CommonIsColor(color) ? color : null;
+						}
+						DialogChangeMode("items");
+					},
+					colorState: {
+						opacity: [1],
+						colors: [DialogColorSelect ?? "Default"],
+						defaultColors: ["Default"],
+						editOpacity: false,
+					},
+					shape: [1090, 15, 910, 970],
+					heading: InterfaceTextGet("DialogMenuColorDefault"),
+				})
+			);
 			break;
 		case "colorItem":
 		case "colorExpression":
@@ -2200,17 +2209,20 @@ function DialogChangeMode(mode, reset=false) {
 			const item = InventoryGet(C, C?.FocusGroup?.Name);
 			if (item) {
 				const mutable = Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item));
-				Layering.Init(item, C, {
-					x: DialogInventoryGrid.x,
-					y: Layering.DisplayDefault.y - 10,
-					w: (Layering.DisplayDefault.x + Layering.DisplayDefault.w) - DialogInventoryGrid.x,
-					h: Layering.DisplayDefault.h + 10,
-				}, reset, !mutable);
+				CommonPromiseCatch(
+					Layering.Init(item, C, {
+						x: DialogInventoryGrid.x,
+						y: Layering.DisplayDefault.y - 10,
+						w: (Layering.DisplayDefault.x + Layering.DisplayDefault.w) - DialogInventoryGrid.x,
+						h: Layering.DisplayDefault.h + 10,
+					}, reset, !mutable)
+				);
 			}
 			break;
 		}
 
 		default:
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			console.error(`Asked to change to mode ${DialogMenuMode}, but setup missing`);
 			break;
 	}
@@ -2774,7 +2786,7 @@ class DialogMenu {
 		} else if (this.C.ID !== value.ID) {
 			this._initProperties.C = value;
 			elem?.setAttribute("data-character-id", value.ID);
-			this.Reload(null, { reset: true });
+			CommonPromiseCatch(this.Reload(null, { reset: true }));
 		}
 	}
 
@@ -2836,7 +2848,7 @@ class DialogMenu {
 				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
 					event.stopImmediatePropagation();
-					dialogMenu.Reload(null, { status, statusTimer: DialogTextDefaultDuration });
+					CommonPromiseCatch(dialogMenu.Reload(null, { status, statusTimer: DialogTextDefaultDuration }));
 					return status;
 				} else {
 					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, equippedItem);
@@ -2862,11 +2874,14 @@ class DialogMenu {
 					return status;
 				} else {
 					// Force a reload (and a new click event) if the click somehow _did not_ fail
-					dialogMenu.Reload().then((reloadStatus) => {
-						if (reloadStatus && this.getAttribute("aria-disabled") !== "true") {
-							this.dispatchEvent(new MouseEvent("click", event));
-						}
-					});
+					CommonPromiseCatch(
+						dialogMenu.Reload()
+							.then((reloadStatus) => {
+								if (reloadStatus && this.getAttribute("aria-disabled") !== "true") {
+									this.dispatchEvent(new MouseEvent("click", event));
+								}
+							})
+					);
 					event.stopImmediatePropagation();
 					return null;
 				}
@@ -2920,7 +2935,7 @@ class DialogMenu {
 		style ??= {};
 		this._initProperties = CommonPick(properties, this._initPropertyNames);
 		this._shape = style.shape ?? [...this.defaultShape];
-		this.Load();
+		CommonPromiseCatch(this.Load());
 		return /** @type {null | HTMLDivElement} */(document.getElementById(this.ids.root));
 	}
 
@@ -2948,19 +2963,22 @@ class DialogMenu {
 		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar realignment
 		const shape = this.shape;
 		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
-		this.Reload(null, { reset: true, resetScrollbar: false }).then((status) => {
-			if (status) {
-				ElementPositionFixed(root, ...shape);
-				const checkedButton = buttonGrid?.querySelector(`[aria-checked='true']`);
-				if (checkedButton) {
-					checkedButton.scrollIntoView({ behavior: "instant" });
-				} else {
-					buttonGrid?.scrollTo({ top: 0, behavior: "instant" });
-				}
-			} else {
-				this.Exit();
-			}
-		});
+		CommonPromiseCatch(
+			this.Reload(null, { reset: true, resetScrollbar: false })
+				.then((status) => {
+					if (status) {
+						ElementPositionFixed(root, ...shape);
+						const checkedButton = buttonGrid?.querySelector(`[aria-checked='true']`);
+						if (checkedButton) {
+							checkedButton.scrollIntoView({ behavior: "instant" });
+						} else {
+							buttonGrid?.scrollTo({ top: 0, behavior: "instant" });
+						}
+					} else {
+						this.Exit();
+					}
+				})
+		);
 	}
 
 	/**
@@ -3283,7 +3301,7 @@ class _DialogFocusMenu extends DialogMenu {
 		} else if (this.focusGroup.Name !== value.Name) {
 			this._initProperties.focusGroup = value;
 			elem?.setAttribute("data-group", value.Name);
-			this.Reload(null, { reset: true });
+			CommonPromiseCatch(this.Reload(null, { reset: true }));
 		}
 	}
 
@@ -3311,7 +3329,7 @@ class _DialogFocusMenu extends DialogMenu {
 				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
 					event.stopImmediatePropagation();
-					dialogMenu.Reload(null, { status, statusTimer: DialogTextDefaultDuration });
+					CommonPromiseCatch(dialogMenu.Reload(null, { status, statusTimer: DialogTextDefaultDuration }));
 					return status;
 				} else {
 					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, equippedItem);
@@ -3337,11 +3355,14 @@ class _DialogFocusMenu extends DialogMenu {
 					return status;
 				} else {
 					// Force a reload (and a new click event) if the click somehow _did not_ fail
-					dialogMenu.Reload().then((reloadStatus) => {
-						if (reloadStatus && this.getAttribute("aria-disabled") !== "true") {
-							this.dispatchEvent(new MouseEvent("click", event));
-						}
-					});
+					CommonPromiseCatch(
+						dialogMenu.Reload()
+							.then((reloadStatus) => {
+								if (reloadStatus && this.getAttribute("aria-disabled") !== "true") {
+									this.dispatchEvent(new MouseEvent("click", event));
+								}
+							})
+					);
 					event.stopImmediatePropagation();
 					return null;
 				}
@@ -4063,30 +4084,33 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		name.textContent = InterfaceTextGet("CraftingName").replace("CraftName", item.Craft.Name);
 		crafter.textContent = InterfaceTextGet("CraftingMember").replace("MemberName", item.Craft.MemberName).replace("MemberNumber", item.Craft.MemberNumber.toString());
 		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
-		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then(textCache => {
-			property.replaceChildren(
-				InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-				ElementCreate({
-					tag: "ul",
-					children: Object.entries(item.Craft.Effects ?? {}).map(([propertyKey, propertyValue]) => {
-						if (!propertyValue) {
-							return null;
-						}
-						return {
-							tag: "li",
-							children: [
-								{
-									tag: "dfn",
-									children: [propertyKey],
-								},
-								propertyValue > 1 ? ` ×${propertyValue} - ` : " - ",
-								textCache.get(`Description${propertyKey}`),
-							],
-						};
-					}),
-				}),
-			);
-		});
+		CommonPromiseCatch(
+			TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise
+				.then(textCache => {
+					property.replaceChildren(
+						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+						ElementCreate({
+							tag: "ul",
+							children: Object.entries(item.Craft.Effects ?? {}).map(([propertyKey, propertyValue]) => {
+								if (!propertyValue) {
+									return null;
+								}
+								return {
+									tag: "li",
+									children: [
+										{
+											tag: "dfn",
+											children: [propertyKey],
+										},
+										propertyValue > 1 ? ` ×${propertyValue} - ` : " - ",
+										textCache.get(`Description${propertyKey}`),
+									],
+								};
+							}),
+						}),
+					);
+				})
+		);
 
 		description.replaceChildren(
 			InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
@@ -4285,7 +4309,7 @@ class _DialogDialogMenu extends DialogMenu {
 			C._CurrentDialog = clickedDialog.Result;
 			if (clickedDialog.NextStage !== null) {
 				C._Stage = clickedDialog.NextStage;
-				this.Reload();
+				CommonPromiseCatch(this.Reload());
 			} else {
 				// manually reload the status
 				DialogSetStatus(C.CurrentDialog);
@@ -4369,7 +4393,7 @@ class _DialogSelfMenu extends DialogMenu {
 					const status = validator(this, param, equippedItem);
 					if (status?.state) {
 						ev.stopImmediatePropagation();
-						dialogMenu.Reload(null, { status: status.status, statusTimer: DialogTextDefaultDuration });
+						CommonPromiseCatch(dialogMenu.Reload(null, { status: status.status, statusTimer: DialogTextDefaultDuration }));
 						return;
 					}
 				}
@@ -4402,7 +4426,7 @@ class _DialogSelfMenu extends DialogMenu {
 						return;
 					}
 				}
-				dialogMenu.Reload(null);
+				CommonPromiseCatch(dialogMenu.Reload(null));
 			},
 		};
 

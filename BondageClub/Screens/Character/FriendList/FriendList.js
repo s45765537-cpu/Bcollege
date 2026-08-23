@@ -102,275 +102,274 @@ async function FriendListLoad() {
 		parent: document.body,
 	});
 
-	TextScreenCache?.loadedPromise.then(async () => {
-		root.replaceChildren(
-			ElementCreate({
-				tag: "div",
-				attributes: {
-					id: FriendListIDs.navBar
-				},
-				children: [
-					{
-						tag: "span",
-						attributes: {
-							id: FriendListIDs.modeTitle,
-						},
-						children: [
-							TextGet(mode),
-						]
-					},
-					{
-						tag: 'input',
-						attributes: {
-							id: FriendListIDs.searchInput,
-							type: 'search',
-							maxLength: 100,
-						},
-						eventListeners: {
-							/**
-							* @this {HTMLInputElement}
-							*/
-							input: function () {
-								FriendListSearchByProperties(this.value);
-							},
-						},
-					},
-					ElementMenu.Create(FriendListIDs.navButtons, [
-						ElementButton.Create(
-							FriendListIDs.btnAutoRefresh,
-							FriendListToggleAutoRefresh,
-							{
-								tooltip: TextGet("AutoRefresh"),
-								role: "checkbox",
-								image: "Icons/Wait.png"
-							},
-							{
-								button: {
-									classList: ['friend-list-button'],
-									attributes: { "aria-checked": Player.OnlineSettings.FriendListAutoRefresh.toString() },
-								}
-							}
-						),
-						ElementButton.Create(
-							FriendListIDs.btnRefresh,
-							() => {
-								ServerSend("AccountQuery", { Query: "OnlineFriends" });
-							},
-							{
-								tooltip: TextGet("Refresh"),
-								image: "Icons/Small/Reset.png"
-							},
-							{
-								button: {
-									classList: ['friend-list-button'],
-								}
-							}
-						),
-						ElementButton.Create(
-							FriendListIDs.btnAddFriend,
-							() => {
-								FriendListAddFriends();
-							},
-							{
-								tooltip: TextGet("AddFriends"),
-								image: "Icons/Plus.png",
-							},
-							{
-								button: {
-									classList: ['friend-list-button'],
-								}
-							}
-						),
-						ElementButton.Create(
-							FriendListIDs.btnPrev,
-							() => {
-								FriendListChangeMode(FriendListModeIndex - 1);
-							},
-							{
-								tooltip: TextGet("PrevMode"),
-								image: "Icons/Small/Prev.png"
-							},
-							{
-								button: {
-									classList: ['friend-list-button'],
-								}
-							}
-						),
-						ElementButton.Create(
-							FriendListIDs.btnNext,
-							() => {
-								FriendListChangeMode(FriendListModeIndex + 1);
-							},
-							{
-								tooltip: TextGet("NextMode"),
-								image: "Icons/Small/Next.png"
-							},
-							{
-								button: {
-									classList: ['friend-list-button'],
-								}
-							}
-						),
-						ElementButton.Create(
-							FriendListIDs.btnExit,
-							() => {
-								FriendListExit();
-							},
-							{
-								tooltip: TextGet("Exit"),
-								image: "Icons/Small/Exit.png"
-							},
-							{
-								button: {
-									classList: ['friend-list-button'],
-								}
-							}
-						)
-					])
-				]
-			}),
-			ElementCreate({
-				tag: "hr",
-				attributes: {
-					id: 'friend-list-nav-hr'
-				}
-			}),
-			ElementButton.Create(
-				FriendListIDs.btnResetSorting,
-				() => {
-					FriendListChangeSortingMode('None');
-				},
-				{
-					tooltip: TextGet("ResetSorting"),
-					tooltipPosition: 'right',
-					image: "Icons/Small/Remove.png"
-				},
-				{
-					button: {
-						classList: ['friend-list-button'],
-					}
-				}
-			),
-			ElementCreate({
-				tag: 'table',
-				attributes: {
-					id: FriendListIDs.friendListTable,
-					"aria-labelledby": FriendListIDs.modeTitle,
-				},
-				children: [
-					{
-						tag: 'thead',
-						attributes: {
-							id: FriendListIDs.header
-						},
-						children: [
-							{
-								tag: "tr",
-								classList: ["friend-list-row"],
-								children: [
-									ElementButton.Create(
-										"friend-list-member-name",
-										() => FriendListChangeSortingMode("MemberName"),
-										{ noStyling: true },
-										{
-											button: {
-												classList: ['friend-list-column', 'friend-list-link'],
-												attributes: { role: "columnheader" },
-											}
-										},
-									),
-									ElementButton.Create(
-										"friend-list-member-number",
-										() => FriendListChangeSortingMode("MemberNumber"),
-										{ noStyling: true },
-										{
-											button: {
-												classList: ['friend-list-column', 'friend-list-link'],
-												attributes: { role: "columnheader" },
-											}
-										},
-									),
-									ElementButton.Create(
-										"friend-list-chat-room-type",
-										() => FriendListChangeSortingMode("ChatRoomType"),
-										{ noStyling: true },
-										{
-											button: {
-												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-												attributes: { role: "columnheader" },
-											}
-										},
-									),
-									ElementButton.Create(
-										"friend-list-chat-room-name",
-										() => FriendListChangeSortingMode("ChatRoomName"),
-										{ noStyling: true },
-										{
-											button: {
-												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-												attributes: { role: "columnheader" },
-											}
-										},
-									),
-									ElementButton.Create(
-										"friend-list-chat-room-count",
-										() => FriendListChangeSortingMode("ChatRoomMemberCount"),
-										{ noStyling: true },
-										{ button: {
-											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-											attributes: { role: "columnheader" },
-										}},
-									),
-									ElementButton.Create(
-										"friend-list-relation-type",
-										() => FriendListChangeSortingMode("RelationType"),
-										{ noStyling: true },
-										{
-											button: {
-												classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
-												attributes: { role: "columnheader" },
-											}
-										},
-									),
-									{
-										tag: "th",
-										classList: ['friend-list-column', 'mode-specific-content', 'fl-beeps-content'],
-										attributes: { scope: "col" },
-										children: [TextGet("ActionRead")],
-									},
-									{
-										tag: "th",
-										classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content', 'fl-online-friends-content'],
-										attributes: { scope: "col" },
-										children: [TextGet("ActionActions")],
-									},
-								],
-							},
-						]
-					},
-					{
-						tag: 'hr',
-						attributes: {
-							id: 'friend-list-header-hr'
-						}
-					},
-					{
-						tag: 'tbody',
-						classList: ["scroll-box"],
-						attributes: {
-							id: FriendListIDs.friendList
-						},
-					}
-				]
-			}),
-		);
-
-		root.setAttribute("aria-busy", "false");
-		ServerSend("AccountQuery", { Query: "OnlineFriends" });
-	});
-
 	FriendListSortingMode = 'None';
 	FriendListSortingDirection = 'Asc';
+
+	await TextScreenCache?.loadedPromise;
+	root.replaceChildren(
+		ElementCreate({
+			tag: "div",
+			attributes: {
+				id: FriendListIDs.navBar
+			},
+			children: [
+				{
+					tag: "span",
+					attributes: {
+						id: FriendListIDs.modeTitle,
+					},
+					children: [
+						TextGet(mode),
+					]
+				},
+				{
+					tag: 'input',
+					attributes: {
+						id: FriendListIDs.searchInput,
+						type: 'search',
+						maxLength: 100,
+					},
+					eventListeners: {
+						/**
+						* @this {HTMLInputElement}
+						*/
+						input: function () {
+							FriendListSearchByProperties(this.value);
+						},
+					},
+				},
+				ElementMenu.Create(FriendListIDs.navButtons, [
+					ElementButton.Create(
+						FriendListIDs.btnAutoRefresh,
+						FriendListToggleAutoRefresh,
+						{
+							tooltip: TextGet("AutoRefresh"),
+							role: "checkbox",
+							image: "Icons/Wait.png"
+						},
+						{
+							button: {
+								classList: ['friend-list-button'],
+								attributes: { "aria-checked": Player.OnlineSettings.FriendListAutoRefresh.toString() },
+							}
+						}
+					),
+					ElementButton.Create(
+						FriendListIDs.btnRefresh,
+						() => {
+							ServerSend("AccountQuery", { Query: "OnlineFriends" });
+						},
+						{
+							tooltip: TextGet("Refresh"),
+							image: "Icons/Small/Reset.png"
+						},
+						{
+							button: {
+								classList: ['friend-list-button'],
+							}
+						}
+					),
+					ElementButton.Create(
+						FriendListIDs.btnAddFriend,
+						() => {
+							FriendListAddFriends();
+						},
+						{
+							tooltip: TextGet("AddFriends"),
+							image: "Icons/Plus.png",
+						},
+						{
+							button: {
+								classList: ['friend-list-button'],
+							}
+						}
+					),
+					ElementButton.Create(
+						FriendListIDs.btnPrev,
+						() => {
+							FriendListChangeMode(FriendListModeIndex - 1);
+						},
+						{
+							tooltip: TextGet("PrevMode"),
+							image: "Icons/Small/Prev.png"
+						},
+						{
+							button: {
+								classList: ['friend-list-button'],
+							}
+						}
+					),
+					ElementButton.Create(
+						FriendListIDs.btnNext,
+						() => {
+							FriendListChangeMode(FriendListModeIndex + 1);
+						},
+						{
+							tooltip: TextGet("NextMode"),
+							image: "Icons/Small/Next.png"
+						},
+						{
+							button: {
+								classList: ['friend-list-button'],
+							}
+						}
+					),
+					ElementButton.Create(
+						FriendListIDs.btnExit,
+						() => {
+							FriendListExit();
+						},
+						{
+							tooltip: TextGet("Exit"),
+							image: "Icons/Small/Exit.png"
+						},
+						{
+							button: {
+								classList: ['friend-list-button'],
+							}
+						}
+					)
+				])
+			]
+		}),
+		ElementCreate({
+			tag: "hr",
+			attributes: {
+				id: 'friend-list-nav-hr'
+			}
+		}),
+		ElementButton.Create(
+			FriendListIDs.btnResetSorting,
+			() => {
+				FriendListChangeSortingMode('None');
+			},
+			{
+				tooltip: TextGet("ResetSorting"),
+				tooltipPosition: 'right',
+				image: "Icons/Small/Remove.png"
+			},
+			{
+				button: {
+					classList: ['friend-list-button'],
+				}
+			}
+		),
+		ElementCreate({
+			tag: 'table',
+			attributes: {
+				id: FriendListIDs.friendListTable,
+				"aria-labelledby": FriendListIDs.modeTitle,
+			},
+			children: [
+				{
+					tag: 'thead',
+					attributes: {
+						id: FriendListIDs.header
+					},
+					children: [
+						{
+							tag: "tr",
+							classList: ["friend-list-row"],
+							children: [
+								ElementButton.Create(
+									"friend-list-member-name",
+									() => FriendListChangeSortingMode("MemberName"),
+									{ noStyling: true },
+									{
+										button: {
+											classList: ['friend-list-column', 'friend-list-link'],
+											attributes: { role: "columnheader" },
+										}
+									},
+								),
+								ElementButton.Create(
+									"friend-list-member-number",
+									() => FriendListChangeSortingMode("MemberNumber"),
+									{ noStyling: true },
+									{
+										button: {
+											classList: ['friend-list-column', 'friend-list-link'],
+											attributes: { role: "columnheader" },
+										}
+									},
+								),
+								ElementButton.Create(
+									"friend-list-chat-room-type",
+									() => FriendListChangeSortingMode("ChatRoomType"),
+									{ noStyling: true },
+									{
+										button: {
+											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+											attributes: { role: "columnheader" },
+										}
+									},
+								),
+								ElementButton.Create(
+									"friend-list-chat-room-name",
+									() => FriendListChangeSortingMode("ChatRoomName"),
+									{ noStyling: true },
+									{
+										button: {
+											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+											attributes: { role: "columnheader" },
+										}
+									},
+								),
+								ElementButton.Create(
+									"friend-list-chat-room-count",
+									() => FriendListChangeSortingMode("ChatRoomMemberCount"),
+									{ noStyling: true },
+									{ button: {
+										classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+										attributes: { role: "columnheader" },
+									}},
+								),
+								ElementButton.Create(
+									"friend-list-relation-type",
+									() => FriendListChangeSortingMode("RelationType"),
+									{ noStyling: true },
+									{
+										button: {
+											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
+											attributes: { role: "columnheader" },
+										}
+									},
+								),
+								{
+									tag: "th",
+									classList: ['friend-list-column', 'mode-specific-content', 'fl-beeps-content'],
+									attributes: { scope: "col" },
+									children: [TextGet("ActionRead")],
+								},
+								{
+									tag: "th",
+									classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content', 'fl-online-friends-content'],
+									attributes: { scope: "col" },
+									children: [TextGet("ActionActions")],
+								},
+							],
+						},
+					]
+				},
+				{
+					tag: 'hr',
+					attributes: {
+						id: 'friend-list-header-hr'
+					}
+				},
+				{
+					tag: 'tbody',
+					classList: ["scroll-box"],
+					attributes: {
+						id: FriendListIDs.friendList
+					},
+				}
+			]
+		}),
+	);
+
+	root.setAttribute("aria-busy", "false");
+	ServerSend("AccountQuery", { Query: "OnlineFriends" });
 }
 
 /** @type {ScreenResizeHandler} */
@@ -423,7 +422,10 @@ function FriendListKeyDown(event) {
 function FriendListUnload() {
 }
 
-/** @t ype {ScreenExitHandler} */
+/**
+ * @satisfies {ScreenExitHandler}
+ * @return {SafePromise<void>}
+ */
 async function FriendListExit() {
 	const beepMenu = document.getElementById(FriendListIDs.beepList);
 	if (beepMenu) {
@@ -591,6 +593,7 @@ function FriendListBeepMenuSend() {
 /**
  * Shows the wanted beep on click from beep list
  * @param {number} i index of the beep
+ * @returns {SafePromise<void>}
  */
 async function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
@@ -1520,6 +1523,7 @@ function FriendListCanAdd(memberNumber) {
 
 /**
  * Opens the friendlist from any screen
+ * @returns {SafePromise<void>}
  */
 async function FriendListShow() {
 	if (CurrentScreen === 'FriendList') return;

@@ -84,12 +84,13 @@ function SlaveMarketAuctionStart() {
 	InventoryWear(SlaveMarketSlave, "CollarChainShort", "ItemNeckRestraints");
 	SlaveAuctionVendor = SlaveMarketMistress;
 	SlaveAuctionSlave = SlaveMarketSlave;
-	MiniGameStart("SlaveAuction", "", () => SlaveMarketAuctionEnd());
+	MiniGameStart("SlaveAuction", "", () => { SlaveMarketAuctionEnd(); });
 }
 
 /**
  * Triggered when the auction ends.
  * If the player was the last bidder, she buys the slave and gets in a dialog with her, otherwise she returns to the main area of the slave market
+ * @returns {SafePromise<void>}
  */
 async function SlaveMarketAuctionEnd() {
 	await CommonSetScreen("Room", "SlaveMarket");
@@ -142,9 +143,9 @@ function SlaveMarketVisitRoom() {
 
 /**
  * Triggered when the slave training start. Sets the NPC and dialog before sending the player to an empty room with the trainee.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function SlaveMarketTrainingStart() {
+async function SlaveMarketTrainingStart() {
 	var Intro = Math.floor(Math.random() * 6);
 	SlaveMarketSlaveToTrain = CharacterLoadNPC("NPC_SlaveMarket_SlaveToTrain");
 	SlaveMarketSlaveToTrain.Stage = (Intro * 100).toString();
@@ -163,13 +164,9 @@ function SlaveMarketTrainingStart() {
 	EmptyCharacter = [];
 	EmptyCharacter.push(Player);
 	EmptyCharacter.push(SlaveMarketSlaveToTrain);
-	CommonSetScreen("Room", "Empty").then(() => {
-		// Force rebuild the dialog after one second to make sure the functions are loaded properly for the "Empty" room
-		CommonSleep(1000).then(() => {
-			if (!SlaveMarketSlaveToTrain) return;
-			CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty");
-		});
-	});
+	await CommonSetScreen("Room", "Empty");
+	if (!SlaveMarketSlaveToTrain) return;
+	CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty");
 }
 
 /**
@@ -191,11 +188,12 @@ function SlaveMarketAuctionPlayerStrip() {
  */
 function SlaveMarketAuctionPlayerStart() {
 	DialogLeave();
-	MiniGameStart("PlayerAuction", "", () => SlaveMarketPlayerAuctionEnd());
+	MiniGameStart("PlayerAuction", "", () => { SlaveMarketPlayerAuctionEnd(); });
 }
 
 /**
  * Triggered when the player auction ends, we create the buyer and activate her
+ * @returns {SafePromise<void>}
  */
 async function SlaveMarketPlayerAuctionEnd() {
 	CharacterRelease(Player);
