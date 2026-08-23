@@ -628,7 +628,14 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	const layerNames = new Set(Asset.Layer.map(l => l.Name ?? ""));
 	Property = Property || {};
 	mergedProperty.Difficulty += (Property.Difficulty || 0);
-	if (typeof Property.CustomBlindBackground === "string") mergedProperty.CustomBlindBackground = Property.CustomBlindBackground;
+	if (Property.CustomBlindBackground === null) {
+		mergedProperty.CustomBlindBackground = null;
+	} else if (typeof Property.CustomBlindBackground === "string" || Property.CustomBlindBackground === undefined) {
+		if (mergedProperty.CustomBlindBackground !== null) {
+			// We only allow propagating a blind background if another Property block hasn't disabled it
+			mergedProperty.CustomBlindBackground ??= Property.CustomBlindBackground;
+		}
+	}
 	if (Property.Block) CommonArrayConcatDedupe(mergedProperty.Block, Property.Block);
 	if (Property.Effect) CommonArrayConcatDedupe(mergedProperty.Effect, Property.Effect);
 	if (Property.Hide) CommonArrayConcatDedupe(mergedProperty.Hide, Property.Hide);
