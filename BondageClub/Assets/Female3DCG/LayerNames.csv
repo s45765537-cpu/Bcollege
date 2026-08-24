@@ -3909,6 +3909,16 @@ ShoesThighBootsBase,Boot
 ShoesThighBootsThigh,Sock
 ShoesToeNailsLeft1,Left
 ShoesToeNailsRight1,Right
+ShoesToeRingR1,Big Toe
+ShoesToeRingR2,Second Toe
+ShoesToeRingR3,Third Toe
+ShoesToeRingR4,Fourth Toe
+ShoesToeRingR5,Little Toe
+ShoesToeRingL1,Big Toe
+ShoesToeRingL2,Second Toe
+ShoesToeRingL3,Third Toe
+ShoesToeRingL4,Fourth Toe
+ShoesToeRingL5,Little Toe
 ShoesWitchShoesShoes,Main
 ShoesWitchShoesToes,Front detail
 ShoesWitchShoesBelt,Straps

@@ -15510,6 +15510,93 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // MaryJaneShoes
+		ToeRing: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "RightLittleToeRing",
+					DrawImages: false,
+					Key: "R5",
+					Options: [{}, {}],
+				},
+				{
+					Name: "RightFourthToeRing",
+					DrawImages: false,
+					Key: "R4",
+					Options: [{}, {}],
+				},
+				{
+					Name: "RightMiddleToeRing",
+					DrawImages: false,
+					Key: "R3",
+					Options: [{}, {}],
+				},
+				{
+					Name: "RightSecondToeRing",
+					DrawImages: false,
+					Key: "R2",
+					Options: [{}, {}],
+				},
+				{
+					Name: "RightBigToeRing",
+					DrawImages: false,
+					Key: "R1",
+					Options: [{}, {}],
+				},
+				{
+					Name: "LeftBigToeRing",
+					DrawImages: false,
+					Key: "L1",
+					Options: [{}, {}],
+				},
+				{
+					Name: "LeftSecondToeRing",
+					DrawImages: false,
+					Key: "L2",
+					Options: [{}, {}],
+				},
+				{
+					Name: "LeftMiddleToeRing",
+					DrawImages: false,
+					Key: "L3",
+					Options: [{}, {}],
+				},
+				{
+					Name: "LeftFourthToeRing",
+					DrawImages: false,
+					Key: "L4",
+					Options: [{}, {}],
+				},
+				{
+					Name: "LeftLittleToeRing",
+					DrawImages: false,
+					Key: "L5",
+					Options: [{}, {}],
+				},
+			],
+			DrawData: {
+				elementData: [
+					.../** @type {{position:[number,number]}[]} */ (
+						Array.from({ length: 5 }).map((_, idx) => ({
+							position: [
+								1135 + 250 * (idx % 3),
+								450 + 75 * Math.floor(idx / 3),
+							],
+						}))
+					),
+					.../** @type {{position:[number,number]}[]} */ (
+						Array.from({ length: 5 }).map((_, idx) => ({
+							position: [
+								1135 + 250 * (idx % 3),
+								450 + 75 * 3 + 75 * Math.floor(idx / 3),
+							],
+						}))
+					),
+				],
+				itemsPerPage: 10,
+			},
+		}, // ToeRing
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {

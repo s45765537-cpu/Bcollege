@@ -6391,6 +6391,47 @@ ShoesPrintedCrocsPattern2,Pattern 2
 ShoesPrintedCrocsPattern3,Pattern 3
 ShoesPrintedCrocsPlainColor,Plain
 ShoesPrintedCrocsSelect,Select the pattern
+ShoesToeRingModuleLeftBigToeRing,Left Big Toe
+ShoesToeRingModuleLeftFourthToeRing,Left Fourth Toe
+ShoesToeRingModuleLeftLittleToeRing,Left Little Toe
+ShoesToeRingModuleLeftMiddleToeRing,Left Middle Toe
+ShoesToeRingModuleLeftSecondToeRing,Left Second Toe
+ShoesToeRingModuleRightBigToeRing,Right Big Toe
+ShoesToeRingModuleRightFourthToeRing,Right Fourth Toe
+ShoesToeRingModuleRightLittleToeRing,Right Little Toe
+ShoesToeRingModuleRightMiddleToeRing,Right Middle Toe
+ShoesToeRingModuleRightSecondToeRing,Right Second Toe
+ShoesToeRingOptionL10,None
+ShoesToeRingOptionL11,Ring
+ShoesToeRingOptionL20,None
+ShoesToeRingOptionL21,Ring
+ShoesToeRingOptionL30,None
+ShoesToeRingOptionL31,Ring
+ShoesToeRingOptionL40,None
+ShoesToeRingOptionL41,Ring
+ShoesToeRingOptionL50,None
+ShoesToeRingOptionL51,Ring
+ShoesToeRingOptionR10,None
+ShoesToeRingOptionR11,Ring
+ShoesToeRingOptionR20,None
+ShoesToeRingOptionR21,Ring
+ShoesToeRingOptionR30,None
+ShoesToeRingOptionR31,Ring
+ShoesToeRingOptionR40,None
+ShoesToeRingOptionR41,Ring
+ShoesToeRingOptionR50,None
+ShoesToeRingOptionR51,Ring
+ShoesToeRingSelectBase,Select the toes that should wear a ring.
+ShoesToeRingSelectLeftBigToeRing,Left Big Toe
+ShoesToeRingSelectLeftFourthToeRing,Left Fourth Toe
+ShoesToeRingSelectLeftLittleToeRing,Left Little Toe
+ShoesToeRingSelectLeftMiddleToeRing,Left Middle Toe
+ShoesToeRingSelectLeftSecondToeRing,Left Second Toe
+ShoesToeRingSelectRightBigToeRing,Right Big Toe
+ShoesToeRingSelectRightFourthToeRing,Right Fourth Toe
+ShoesToeRingSelectRightLittleToeRing,Right Little Toe
+ShoesToeRingSelectRightMiddleToeRing,Right Middle Toe
+ShoesToeRingSelectRightSecondToeRing,Right Second Toe
 TechnoChastityCageArousalPunishmentExcited,Excited
 TechnoChastityCageArousalPunishmentAroused,Aroused
 TechnoChastityCageArousalPunishmentHorny,Horny
