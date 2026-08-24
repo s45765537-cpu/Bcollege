@@ -19672,6 +19672,37 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "HoofShoe",
+				InventoryID: 1393,
+				Random: false,
+				Value: 12,
+				Height: 14,
+				Top: 490,
+				Left: 120,
+				PoseMapping: {
+					Kneel: "Hide",
+					KneelingSpread: "Hide",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Hogtied: "Hide",
+					AllFours: "Hide",
+				},
+				DefaultColor: ["#000000", "#212121"],
+				Layer: [
+					{
+						Name: "Socks",
+					},
+					{
+						Name: "Sole",
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "兽蹄鞋",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -36530,8 +36561,8 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				InventoryID: 1401,
 				Name: "Catheter",
+				InventoryID: 1392,
 				BuyGroup: "Catheter",
 				Priority: 25,
 				Value: 30,
