@@ -1283,7 +1283,7 @@ function CommonNoop() {
  * @returns {String} - Returns the proper server to use in production or test
  */
 function CommonGetServer() {
-	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondage-europe") < 0) && (location.href.indexOf("bondage-asia") < 0)) return "https://bondage-club-server-test.herokuapp.com/";
+	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondageeurope") < 0) && (location.href.indexOf("bondage-europe") < 0) && (location.href.indexOf("bondage-asia") < 0)) return "https://bondage-club-server-test.herokuapp.com/";
 	if (location.protocol !== 'https:') location.replace(`https:${location.href.substring(location.protocol.length)}`);
 	return "https://bondage-club-server.herokuapp.com/";
 }
