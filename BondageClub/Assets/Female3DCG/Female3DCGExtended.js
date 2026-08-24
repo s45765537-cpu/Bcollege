@@ -15499,6 +15499,17 @@ var AssetFemale3DCGExtended = {
 				{ Name: "Pattern3" },
 			],
 		}, // PrintedCrocs
+		MaryJaneShoes: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "l",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+			],
+		}, // MaryJaneShoes
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
