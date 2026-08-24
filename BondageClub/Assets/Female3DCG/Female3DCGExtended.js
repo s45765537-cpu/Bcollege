@@ -15490,6 +15490,15 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ZipperLeatherBoots
+		PrintedCrocs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ Name: "PlainColor" },
+				{ Name: "Pattern1" },
+				{ Name: "Pattern2" },
+				{ Name: "Pattern3" },
+			],
+		}, // PrintedCrocs
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
