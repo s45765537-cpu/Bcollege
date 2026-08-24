@@ -19913,6 +19913,28 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "Laceupshoes",
+				InventoryID: 1397,
+				Random: false,
+				Value: 10,
+				Top: 0,
+				Left: 0,
+				PoseMapping: {
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				Priority: 23,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "绑带鞋",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
