@@ -19935,6 +19935,61 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "PeeptoeHeels",
+				InventoryID: 1398,
+				Random: false,
+				Value: 32,
+				Top: 850,
+				Left: 90,
+				PoseMapping: {
+					Kneel: "Hide",
+					KneelingSpread: "Hide",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Hogtied: "Hide",
+					AllFours: "Hide",
+				},
+				DefaultColor: [
+					"#FFFFFF",
+					"#FFFFFF",
+					"#000000",
+					"#000000",
+					"#000000",
+					"#000000",
+				],
+				Layer: [
+					{
+						Name: "Highlight",
+						Priority: 24,
+					},
+					{
+						Name: "Buckle",
+						Priority: 24,
+					},
+					{
+						Name: "Straps",
+						Priority: 23,
+					},
+					{
+						Name: "Upper",
+						Priority: 23,
+					},
+					{
+						Name: "Insole",
+						Priority: 7,
+					},
+					{
+						Name: "Sole",
+						Priority: 7,
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "鱼嘴高跟鞋",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
