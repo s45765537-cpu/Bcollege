@@ -837,8 +837,8 @@ function ElementCreateSearchableDropdown(id, optionsList, onChange, options) {
 		_refreshLabel();
 		if (!popup.hasAttribute("hidden")) _renderList();
 	};
-	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetValue"]} */
-	api.bcSetValue = (newValue) => {
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetNewValue"]} */
+	api.bcSetNewValue = (newValue) => {
 		_value = newValue;
 		_refreshLabel();
 		if (!popup.hasAttribute("hidden")) _renderList();
@@ -3751,3 +3751,42 @@ class HTMLColorTintElement extends HTMLElement {
 }
 
 customElements.define("bc-tint-input", HTMLColorTintElement);
+
+/**
+ * Sets an element's text content, skipping the write when it already matches.
+ * @param {ElementHelp.ElementOrId | null} ElementOrId
+ * @param {string} text
+ * @returns {void} - Nothing
+ */
+function ElementSetText(ElementOrId, text) {
+	const element = ElementWrap(ElementOrId);
+	if (!element || typeof text !== "string" || element.textContent === text) return;
+	element.textContent = text;
+}
+
+/**
+ * Sets the value of an input, select, or textarea, skipping the write when it already matches.
+ * @param {ElementHelp.ElementOrId | null} ElementOrId
+ * @param {string | number} value
+ * @returns {void} - Nothing
+ */
+function ElementSetValue(ElementOrId, value) {
+	const element = /** @type {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null} */ (ElementWrap(ElementOrId));
+	if (!element || !("value" in element) || value == null) return;
+	const next = value.toString();
+	if (element.value !== next) {
+		element.value = next;
+	}
+}
+
+/**
+ * Sets the checked state of an input, skipping the write when it already matches.
+ * @param {ElementHelp.ElementOrId | null} ElementOrId
+ * @param {boolean} checked
+ * @returns {void} - Nothing
+ */
+function ElementSetChecked(ElementOrId, checked) {
+	const element = /** @type {HTMLInputElement | null} */ (ElementWrap(ElementOrId));
+	if (!element || !("checked" in element) || element.checked === !!checked) return;
+	element.checked = !!checked;
+}

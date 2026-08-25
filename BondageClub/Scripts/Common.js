@@ -4,7 +4,7 @@
 var Player;
 /** @type {ModuleType} */
 var CurrentModule;
-/** @type {ModuleScreens[CurrentModule]} */
+/** @type {ModuleScreens[typeof CurrentModule]} */
 var CurrentScreen;
 /** @type {Required<ScreenFunctions>} */
 var CurrentScreenFunctions;

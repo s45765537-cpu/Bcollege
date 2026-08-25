@@ -1027,8 +1027,8 @@ function LoginSetupPlayer(C) {
 	Player.Description = ServerAccountDataSyncedValidate.Description(C.Description, Player);
 	Player.Creation = C.Creation;
 	Player.Wardrobe = C.Wardrobe ? CharacterDecompressWardrobe(C.Wardrobe) : [];
+	Player.WardrobeCharacterNames = ServerAccountDataSyncedValidate.WardrobeCharacterNames(C.WardrobeCharacterNames, Player);
 	WardrobeFixLength();
-	Player.WardrobeCharacterNames = C.WardrobeCharacterNames ?? [];
 	Player.CharacterID = C.ID.toString();
 	Player.OnlineID = C.ID.toString();
 	Player.MemberNumber = C.MemberNumber;

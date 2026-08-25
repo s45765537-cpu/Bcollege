@@ -1572,6 +1572,16 @@ var ServerAccountDataSyncedValidate = {
 	ChatSearchSettings: (arg, C) => {
 		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
 	},
+	WardrobeCharacterNames: (arg, C) => {
+		const names = new Array(WardrobeSize).fill(C.Name);
+		if (!Array.isArray(arg)) return names;
+		for (const [idx, name] of arg.entries()) {
+			if (idx >= WardrobeSize) break;
+			if (typeof name === "string")
+				names[idx] = name;
+		}
+		return names;
+	}
 };
 
 /**

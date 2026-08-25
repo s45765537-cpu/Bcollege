@@ -115,6 +115,8 @@ function AssetGroupAdd(Family, GroupDef) {
 		IsScript() { return this.Category === "Script"; },
 		/** @type {() => this is AssetExpressionGroup} */
 		HasExpression() { return (this.AllowExpression?.length ?? 0) !== 0; },
+		/** @type {() => this is AssetAppearanceGroup} */
+		IsBody() { return this.Category === "Appearance" && this.IsDefault && !this.Clothing; },
 	};
 	AssetGroupMap.set(A.Name, A);
 	AssetActivityMirrorGroupSet(A);
@@ -1271,6 +1273,25 @@ function AssetLoadCheckActivities() {
 	if (report) {
 		console.info(`Next available activity ID is ${Math.max(...ids.keys()) + 1}`);
 	}
+}
+
+/**
+ * Returns the complete list of character-appropriate assets
+ * @param {Character} char
+ */
+function AssetGetAllAppearanceForCharacter(char) {
+	/** @type {Map<AssetGroupBodyName, Asset[]>} */
+	const map = new Map();
+	// Adds all items with 0 value and from the appearance category
+	for (const a of Asset) {
+		if (a.Group.Family === char.AssetFamily
+			&& a.Group.IsAppearance()
+			&& CharacterAppearanceGenderAllowed(a)
+			&& InventoryAvailable(char, a.Name, a.Group.Name)) {
+			CommonMapGetOrInsert(map, a.Group.Name, []).push(a);
+		}
+	}
+	return map;
 }
 
 /**

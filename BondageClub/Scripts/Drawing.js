@@ -485,7 +485,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		}
 
 		// Draw the character name below herself
-		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(ServerPlayerIsInChatRoom() && ChatRoomHideIconState >= ChatRoomHideIconStateType.NO_NAME)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
+		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(ServerPlayerIsInChatRoom() && ChatRoomHideIconState >= ChatRoomHideIconStateType.NO_NAME))) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
 			if (!ServerPlayerIsInChatRoom() || !ChatRoomMapViewIsActive() || CurrentCharacter)
 				if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 					DrawCanvas.font = CommonGetFont(30);

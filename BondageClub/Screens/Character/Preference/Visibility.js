@@ -404,7 +404,7 @@ function PreferenceSubscreenVisibilityRefreshUI() {
 		if (groupDropdown instanceof HTMLSelectElement) {
 			groupDropdown.value = currentGroup;
 		} else {
-			groupDropdown.bcSetValue?.(currentGroup);
+			groupDropdown.bcSetNewValue?.(currentGroup);
 		}
 	}
 
@@ -414,7 +414,7 @@ function PreferenceSubscreenVisibilityRefreshUI() {
 		if (assetDropdown instanceof HTMLSelectElement) {
 			assetDropdown.value = currentAsset;
 		} else {
-			assetDropdown.bcSetValue?.(currentAsset);
+			assetDropdown.bcSetNewValue?.(currentAsset);
 		}
 	}
 

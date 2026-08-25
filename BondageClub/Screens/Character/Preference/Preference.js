@@ -816,6 +816,7 @@ var PreferenceChatSettingsValidate = {
 var PreferenceVisualSettingsDefault = {
 	ForceFullHeight: false,
 	UseCharacterInPreviews: false,
+	ShowCharactersInWardrobe: true,
 	MainHallBackground: undefined,
 	PrivateRoomBackground: undefined,
 };
@@ -828,6 +829,7 @@ var PreferenceVisualSettingsDefault = {
 var PreferenceVisualSettingsValidate = {
 	ForceFullHeight: ServerValidation.isBool(PreferenceVisualSettingsDefault.ForceFullHeight),
 	UseCharacterInPreviews: ServerValidation.isBool(PreferenceVisualSettingsDefault.UseCharacterInPreviews),
+	ShowCharactersInWardrobe: ServerValidation.isBool(PreferenceVisualSettingsDefault.ShowCharactersInWardrobe),
 	MainHallBackground: (arg, C) => {
 		return typeof arg === "string" && arg.length && arg !== "MainHall" ? arg : PreferenceVisualSettingsDefault.MainHallBackground;
 	},
