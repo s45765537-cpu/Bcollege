@@ -4654,6 +4654,7 @@ function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
 
 	mergedMessage.TextGetKey = "StealFameMoney";
 	mergedMessage.Placeholders = {
+		...newMessage.Placeholders,
 		[ClubCardPlaceholderKeys.MONEYAMOUNT]: totalMoney.toString(),
 		[ClubCardPlaceholderKeys.FAMEAMOUNT]: totalFame.toString(),
 	};
@@ -4691,7 +4692,11 @@ function ClubCardMessageGetHTML(message) {
 		placeholders.CARDNAME = `"${card.Title ? card.Title : card.Name}"`;
 	}
 	if (placeholders.FAMEAMOUNT) {
-		const amount = typeof placeholders.FAMEAMOUNT === "string" ? CommonParseInt(placeholders.FAMEAMOUNT) : 0;
+		const amount = CommonIsNumeric(placeholders.FAMEAMOUNT) ?
+			placeholders.FAMEAMOUNT
+			: typeof placeholders.FAMEAMOUNT === "string" ?
+				CommonParseInt(placeholders.FAMEAMOUNT)
+				: 0;
 		const amountStr = `${amount > 0 ? "+" : ""}${amount}`;
 		placeholders.FAMELABEL = ElementCreate({
 			tag: "span",
@@ -4702,7 +4707,11 @@ function ClubCardMessageGetHTML(message) {
 		});
 	}
 	if (placeholders.MONEYAMOUNT !== undefined) {
-		const amount = typeof placeholders.MONEYAMOUNT === "string" ? CommonParseInt(placeholders.MONEYAMOUNT) : 0;
+		const amount = CommonIsNumeric(placeholders.MONEYAMOUNT) ?
+			placeholders.MONEYAMOUNT
+			: typeof placeholders.MONEYAMOUNT === "string" ?
+				CommonParseInt(placeholders.MONEYAMOUNT)
+				: 0;
 		const amountStr = `${amount > 0 ? "+" : ""}${amount}`;
 		placeholders.MONEYLABEL = ElementCreate({
 			tag: "span",
