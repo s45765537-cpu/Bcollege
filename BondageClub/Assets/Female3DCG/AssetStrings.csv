@@ -4212,6 +4212,11 @@ ItemHandheldDragonPlushSetHolding,SourceCharacter holds a cute Dragon Plush!
 ItemHandheldDragonPlushHolding,Holding
 ItemHandheldDragonPlushSetFloor,SourceCharacter places PronounPossessive Dragon Plush on the floor
 ItemHandheldDragonPlushFloor,Floor
+ItemHandheldR18BatonSelect,Select the penis style
+ItemHandheldR18Baton1,Penis
+ItemHandheldR18Baton2,Dildo
+ItemHandheldR18BatonSet1,SourceCharacter changes DestinationCharacter AssetName to a large penis.
+ItemHandheldR18BatonSet2,SourceCharacter changes DestinationCharacter AssetName to a dildo.
 ItemHandheldSmartphoneModuleCase,Cases
 ItemHandheldSmartphoneOptionc0,No Case
 ItemHandheldSmartphoneOptionc1,Matte

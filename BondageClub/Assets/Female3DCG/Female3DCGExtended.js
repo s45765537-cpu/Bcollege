@@ -24291,6 +24291,19 @@ var AssetFemale3DCGExtended = {
 				CommonChatTags.ASSET_NAME,
 			],
 		}, // Laptop
+		R18Baton: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Options: [
+				{ Name: "1", Property: { AllowActivity: ["PenetrateItem", "SpankItem"] } },
+				{ Name: "2", Property: { AllowActivity: ["MasturbateItem", "PenetrateItem", "SpankItem"] } },
+			],
+		}, // R18Baton
 	}, // ItemHandheld
 	EyeShadow: {
 		Running: {

@@ -52094,6 +52094,28 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "R18Baton",
+				InventoryID: 1400,
+				Random: false,
+				Value: 10,
+				Priority: 26,
+				Left: 190,
+				Top: 270,
+				ParentGroup: {},
+				DefaultColor: ["Default", "Default", "Default", "#000000"],
+				Layer: [
+					{ Name: "HandleMetal" },
+					{ Name: "HandleColor2" },
+					{ Name: "HandleColor1" },
+					{ Name: "StickBase", CreateLayerTypes: ["typed"] },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "警棍",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
