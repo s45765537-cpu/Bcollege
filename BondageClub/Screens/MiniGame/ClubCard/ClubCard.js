@@ -4654,6 +4654,7 @@ function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
 
 	mergedMessage.TextGetKey = "StealFameMoney";
 	mergedMessage.Placeholders = {
+		...newMessage.Placeholders,
 		[ClubCardPlaceholderKeys.MONEYAMOUNT]: totalMoney.toString(),
 		[ClubCardPlaceholderKeys.FAMEAMOUNT]: totalFame.toString(),
 	};
