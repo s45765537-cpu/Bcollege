@@ -24308,6 +24308,22 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "FiveSpiceJuicyFlavor" }, { Name: "SmokyHoneyFlavor" }],
 		}, // GrilledSausage
+		Foldingfan: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "OpenFan",
+					Key: "n",
+					Options: [{}, {}],
+				},
+				{
+					Name: "Pattern",
+					Key: "p",
+					Options: [{}, {}, {}, {}, {}, {}, {}],
+				},
+			],
+		}, // Foldingfan
 	}, // ItemHandheld
 	EyeShadow: {
 		Running: {

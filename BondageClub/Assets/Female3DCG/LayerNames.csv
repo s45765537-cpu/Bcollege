@@ -2116,6 +2116,12 @@ ItemHandheldElectricGuitarB6,Borders
 ItemHandheldElectricGuitarB7,Tuners
 ItemHandheldElectricGuitarB8,Frets
 ItemHandheldElectricGuitarB9,B9
+ItemHandheldFoldingfanFanEdge,Fan Edge
+ItemHandheldFoldingfanFanSurface,Fan Surface
+ItemHandheldFoldingfanFoldingRibs,Folding Ribs
+ItemHandheldFoldingfanOpenRibs,Open Ribs
+ItemHandheldFoldingfanOpenRibsBack,Open Ribs Back
+ItemHandheldFoldingfanOpenShadow,Open Shadow
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
 ItemHandheldGiftBoxBox,Box

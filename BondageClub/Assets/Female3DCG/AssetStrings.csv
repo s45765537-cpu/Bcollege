@@ -4191,9 +4191,32 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldFoldingfanModuleOpenFan,Open / Close
+ItemHandheldFoldingfanModulePattern,Pattern
+ItemHandheldFoldingfanOptionn0,Close
+ItemHandheldFoldingfanOptionn1,Open
+ItemHandheldFoldingfanOptionp0,Plain
+ItemHandheldFoldingfanOptionp1,Plum
+ItemHandheldFoldingfanOptionp2,Orchid
+ItemHandheldFoldingfanOptionp3,Bamboo
+ItemHandheldFoldingfanOptionp4,Chrysanthemum
+ItemHandheldFoldingfanOptionp5,Scenery
+ItemHandheldFoldingfanOptionp6,Text
+ItemHandheldFoldingfanSelectBase,Configure the fan
+ItemHandheldFoldingfanSelectOpenFan,Open or close the fan
+ItemHandheldFoldingfanSelectPattern,Select the fan pattern
+ItemHandheldFoldingfanSetn0,SourceCharacter closes TargetCharacter fan.
+ItemHandheldFoldingfanSetn1,SourceCharacter opens TargetCharacter fan.
+ItemHandheldFoldingfanSetp0,SourceCharacter gave TargetCharacter a plain fan.
+ItemHandheldFoldingfanSetp1,SourceCharacter gave TargetCharacter a plum fan.
+ItemHandheldFoldingfanSetp2,SourceCharacter gave TargetCharacter an orchid fan.
+ItemHandheldFoldingfanSetp3,SourceCharacter gave TargetCharacter a bamboo fan.
+ItemHandheldFoldingfanSetp4,SourceCharacter gave TargetCharacter a chrysanthemum fan.
+ItemHandheldFoldingfanSetp5,SourceCharacter gave TargetCharacter a scenery fan.
+ItemHandheldFoldingfanSetp6,SourceCharacter gave TargetCharacter a text fan.
 ItemHandheldGrilledSausageFiveSpiceJuicyFlavor,Five Spices
-ItemHandheldGrilledSausageSelect,Select Grilled Sausage Flavor
 ItemHandheldGrilledSausageSmokyHoneyFlavor,Smoky Honey
+ItemHandheldGrilledSausageSelect,Select Grilled Sausage Flavor
 ItemHandheldGrilledSausageSetFiveSpiceJuicyFlavor,SourceCharacter gave TargetCharacter a five spices sausage.
 ItemHandheldGrilledSausageSetSmokyHoneyFlavor,SourceCharacter gave TargetCharacter a smoky honey sausage.
 ItemHandheldLaptopClosed,Closed
