@@ -4191,6 +4191,11 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
+ItemHandheldGrilledSausageFiveSpiceJuicyFlavor,Five Spices
+ItemHandheldGrilledSausageSelect,Select Grilled Sausage Flavor
+ItemHandheldGrilledSausageSmokyHoneyFlavor,Smoky Honey
+ItemHandheldGrilledSausageSetFiveSpiceJuicyFlavor,SourceCharacter gave TargetCharacter a five spices sausage.
+ItemHandheldGrilledSausageSetSmokyHoneyFlavor,SourceCharacter gave TargetCharacter a smoky honey sausage.
 ItemHandheldLaptopClosed,Closed
 ItemHandheldLaptopOpen,Open
 ItemHandheldLaptopSelect,Select the laptop style

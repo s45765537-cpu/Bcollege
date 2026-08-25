@@ -24304,6 +24304,10 @@ var AssetFemale3DCGExtended = {
 				{ Name: "2", Property: { AllowActivity: ["MasturbateItem", "PenetrateItem", "SpankItem"] } },
 			],
 		}, // R18Baton
+		GrilledSausage: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "FiveSpiceJuicyFlavor" }, { Name: "SmokyHoneyFlavor" }],
+		}, // GrilledSausage
 	}, // ItemHandheld
 	EyeShadow: {
 		Running: {
