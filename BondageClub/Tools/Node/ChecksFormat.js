@@ -47,7 +47,7 @@ export function formatDuration(durationMs) {
 	if (durationMs === undefined) {
 		return colors.gray("(—)");
 	}
-	return colors.gray(`(${durationMs.toFixed(0)}ms)`);
+	return colors.gray(`(${(durationMs / 1000).toFixed(1)}s)`);
 }
 
 /**
