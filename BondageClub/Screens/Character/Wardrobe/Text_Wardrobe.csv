@@ -1,3 +1,4 @@
+Wardrobe,Wardrobe
 Load,Load
 Save,Save
 Return,Return
@@ -5,3 +6,21 @@ SelectAppareance,Save or load your favorite appearance
 ReorderSlots,Reorder Slots
 ReorderSelect,Click to select slots to move
 ReorderPlace,Click on slots to place selections
+ExcludeBodyParts,Exclude body parts
+PreviousPage,Previous page
+NextPage,Next page
+OutfitSearch,Search outfits
+OutfitName,Outfit name
+OutfitSaved,Outfit saved
+OutfitNameError,"Outfit names can only use letters, numbers, and spaces"
+NoOutfitMatches,No outfits match your search
+LoadOutfitConfirm,Are you sure you want to load this outfit?
+SaveOutfitConfirm,Are you sure you want to save this outfit?
+Delete,Delete
+Rename,Rename
+DeleteOutfitConfirm,Are you sure you want to delete this outfit?
+OutfitDeleted,Outfit deleted
+OutfitRenamed,Outfit renamed
+Close,Close
+ShowCharacterPreviews,Show character previews
+EmptyOutfitSlot,Empty

@@ -1108,8 +1108,6 @@ declare function CommonUnwrapThunk<T, A extends readonly unknown[]>(thunk: Thunk
 
 type IAssetFamily = "Female3DCG";
 
-type WardrobeReorderType = "None" | "Select" | "Place";
-
 interface AssetGroup {
 	readonly Family: IAssetFamily;
 	readonly Name: AssetGroupName;
@@ -1166,6 +1164,8 @@ interface AssetGroup {
 	/** Return whether this group belongs to the `Script` {@link AssetGroup.Category} */
 	IsScript(): this is AssetScriptGroup;
 	HasExpression(): this is AssetExpressionGroup;
+	/** Return whether this is a body group (hair, eyes, etc.), as opposed to clothing. */
+	IsBody(): this is AssetAppearanceGroup;
 }
 
 /** An AssetGroup subtype for the `Appearance` {@link AssetGroup.Category} */
@@ -2578,6 +2578,8 @@ interface AudioSettingsType {
 interface VisualSettingsType {
 	ForceFullHeight: boolean;
 	UseCharacterInPreviews: boolean;
+	/** Whether the wardrobe screen shows character preview dummies instead of a named outfit button grid. */
+	ShowCharactersInWardrobe: boolean;
 	/**
 	 * Background to use for the MainHall screen
 	 * "MainHall" is used if undefined

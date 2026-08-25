@@ -1185,7 +1185,6 @@ function CharacterLoadNPC(CharacterID, NPCType=null, module=null, screen=null) {
 	// XXX: should be awaited here
 	CommonPromiseCatch(CharacterLoadCSVDialog(C, { module: module ?? CurrentModule, screen: screen ?? CurrentScreen, name: NPCType }));
 	C.Name = CharacterGenerateRandomName();
-	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
 	C.Love = 0;
 	C.Trait = [];
