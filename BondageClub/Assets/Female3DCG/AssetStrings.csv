@@ -4240,6 +4240,19 @@ ItemHandheldDragonPlushSetHolding,SourceCharacter holds a cute Dragon Plush!
 ItemHandheldDragonPlushHolding,Holding
 ItemHandheldDragonPlushSetFloor,SourceCharacter places PronounPossessive Dragon Plush on the floor
 ItemHandheldDragonPlushFloor,Floor
+ItemHandheldOilpaperumbrellaBamboo,Bamboo
+ItemHandheldOilpaperumbrellaCartoon,Cartoon
+ItemHandheldOilpaperumbrellaFlower1,Flower 1
+ItemHandheldOilpaperumbrellaFlower2,Flower 2
+ItemHandheldOilpaperumbrellaLandscape,Landscape
+ItemHandheldOilpaperumbrellaNoPattern,No Pattern
+ItemHandheldOilpaperumbrellaSelect,Select Pattern
+ItemHandheldOilpaperumbrellaSetBamboo,SourceCharacter gave TargetCharacter an AssetName with a bamboo pattern.
+ItemHandheldOilpaperumbrellaSetCartoon,SourceCharacter gave TargetCharacter an AssetName with a cartoon pattern.
+ItemHandheldOilpaperumbrellaSetFlower1,SourceCharacter gave TargetCharacter an AssetName with a flower pattern.
+ItemHandheldOilpaperumbrellaSetFlower2,SourceCharacter gave TargetCharacter an AssetName with a flower pattern.
+ItemHandheldOilpaperumbrellaSetLandscape,SourceCharacter gave TargetCharacter an AssetName with a landscape pattern.
+ItemHandheldOilpaperumbrellaSetNoPattern,SourceCharacter gave TargetCharacter an AssetName with no pattern.
 ItemHandheldR18BatonSelect,Select the penis style
 ItemHandheldR18Baton1,Penis
 ItemHandheldR18Baton2,Dildo

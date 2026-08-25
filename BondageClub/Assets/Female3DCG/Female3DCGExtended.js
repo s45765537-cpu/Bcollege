@@ -24300,8 +24300,16 @@ var AssetFemale3DCGExtended = {
 				CommonChatTags.ASSET_NAME,
 			],
 			Options: [
-				{ Name: "1", Property: { AllowActivity: ["PenetrateItem", "SpankItem"] } },
-				{ Name: "2", Property: { AllowActivity: ["MasturbateItem", "PenetrateItem", "SpankItem"] } },
+				{
+					Name: "1",
+					Property: { AllowActivity: ["PenetrateItem", "SpankItem"] },
+				},
+				{
+					Name: "2",
+					Property: {
+						AllowActivity: ["MasturbateItem", "PenetrateItem", "SpankItem"],
+					},
+				},
 			],
 		}, // R18Baton
 		GrilledSausage: {
@@ -24324,6 +24332,23 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Foldingfan
+		Oilpaperumbrella: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Options: [
+				{ Name: "NoPattern" },
+				{ Name: "Flower1" },
+				{ Name: "Flower2" },
+				{ Name: "Landscape" },
+				{ Name: "Bamboo" },
+				{ Name: "Cartoon" },
+			],
+		}, // Oilpaperumbrella
 	}, // ItemHandheld
 	EyeShadow: {
 		Running: {
