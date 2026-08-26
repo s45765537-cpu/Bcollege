@@ -1845,41 +1845,41 @@ function ChatRoomMapViewDrawUi() {
 
 	// Admins can grant themselves super powers (teleport, far hearing, etc.)
 	if (ChatRoomPlayerIsAdmin())
-		DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/" + ((ChatRoomMapViewSuperPowersActive) ? "SuperPowersActive" : "SuperPowersInactive") + ".png");
+		DrawButton(790, 860, 60, 60, "", "White", "Icons/" + ((ChatRoomMapViewSuperPowersActive) ? "SuperPowersActive" : "SuperPowersInactive") + ".png");
 
 	// Draw the movement buttons
 	if (ChatRoomMapViewMovement == null) {
-		DrawButton(860, 860, 60, 60, "", "White", "Icons/Small/North.png");
-		DrawButton(790, 930, 60, 60, "", "White", "Icons/Small/West.png");
-		DrawButton(860, 930, 60, 60, "", "White", "Icons/Small/South.png");
-		DrawButton(930, 930, 60, 60, "", "White", "Icons/Small/East.png");
+		DrawButton(860, 860, 60, 60, "", "White", "Icons/North.png");
+		DrawButton(790, 930, 60, 60, "", "White", "Icons/West.png");
+		DrawButton(860, 930, 60, 60, "", "White", "Icons/South.png");
+		DrawButton(930, 930, 60, 60, "", "White", "Icons/East.png");
 	} else {
-		DrawButton(860, 860, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "North") ? "White" : "#80FF80", "Icons/Small/North.png");
-		DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/Cancel.png");
-		DrawButton(790, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "West") ? "White" : "#80FF80", "Icons/Small/West.png");
-		DrawButton(860, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "South") ? "White" : "#80FF80", "Icons/Small/South.png");
-		DrawButton(930, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "East") ? "White" : "#80FF80", "Icons/Small/East.png");
+		DrawButton(860, 860, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "North") ? "White" : "#80FF80", "Icons/North.png");
+		DrawButton(930, 860, 60, 60, "", "White", "Icons/Cancel.png");
+		DrawButton(790, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "West") ? "White" : "#80FF80", "Icons/West.png");
+		DrawButton(860, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "South") ? "White" : "#80FF80", "Icons/South.png");
+		DrawButton(930, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "East") ? "White" : "#80FF80", "Icons/East.png");
 		let Progress = (CommonTime() - ChatRoomMapViewMovement.TimeStart) / (ChatRoomMapViewMovement.TimeEnd - ChatRoomMapViewMovement.TimeStart) * 100;
 		DrawProgressBar(790, 992, 200, 8, Progress);
 	}
 
 	// Out of edit mode, we draws the basic buttons
 	if (ChatRoomMapViewEditMode == "") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Plus.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Minus.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Plus.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/Minus.png");
 		if (ChatRoomPlayerIsAdmin()) {
-			DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/EditTile.png");
-			DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditObject.png");
-			DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/Light.png");
-			DrawButton(10, 360, 60, 60, "", "White", "Icons/Small/Undo.png");
-			DrawButton(10, 430, 60, 60, "", "White", "Icons/Small/Fog" + (ChatRoomMapFogIsActive() ? "Active" : "Inactive") + ".png");
+			DrawButton(10, 150, 60, 60, "", "White", "Icons/EditTile.png");
+			DrawButton(10, 220, 60, 60, "", "White", "Icons/EditObject.png");
+			DrawButton(10, 290, 60, 60, "", "White", "Icons/Light.png");
+			DrawButton(10, 360, 60, 60, "", "White", "Icons/Undo.png");
+			DrawButton(10, 430, 60, 60, "", "White", "Icons/Fog" + (ChatRoomMapFogIsActive() ? "Active" : "Inactive") + ".png");
 		}
 	}
 
 	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
 	if (ChatRoomMapViewEditMode == "TileType") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditObject.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/MapView.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/EditObject.png");
 		let X = 0;
 		let Y = 0;
 		let Type = "";
@@ -1897,7 +1897,7 @@ function ChatRoomMapViewDrawUi() {
 
 	// In tile edit mode, we show all tiles of a spectific tyle
 	if (ChatRoomMapViewEditMode == "Tile") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Edit.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
 		let X = 0;
 		let Y = 0;
@@ -1917,8 +1917,8 @@ function ChatRoomMapViewDrawUi() {
 
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
 	if (ChatRoomMapViewEditMode == "ObjectType") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditTile.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/MapView.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/EditTile.png");
 		let X = 0;
 		let Y = 0;
 		let Type = "";
@@ -1937,7 +1937,7 @@ function ChatRoomMapViewDrawUi() {
 
 	// In object edit mode, we show all objects of a spectific tyle
 	if (ChatRoomMapViewEditMode == "Object") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Edit.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
 		let X = 0;
 		let Y = 0;
@@ -1954,7 +1954,7 @@ function ChatRoomMapViewDrawUi() {
 	}
 
 	if (ChatRoomMapViewEditMode == "Effect") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png"); // Exit button
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/MapView.png"); // Exit button
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png"); // Draw range button
 
 		let X = 0;

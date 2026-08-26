@@ -1696,50 +1696,50 @@ function DrawStatus(C, X, Y, Zoom) {
 function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 {
 	if (C.IsWhitelisted()) {
-		DrawImageResize("Icons/Small/WhiteList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/WhiteList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	} else if (C.IsBlacklisted()) {
-		DrawImageResize("Icons/Small/BlackList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/BlackList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	// Unobtrusive but prominent warnings to alert user they are in focus mode -- drawn on player and all focused (visible) characters
 	if (ChatRoomPlayerIsInDrawFocus() && (C.IsPlayer() || ChatRoomDrawFocusList.includes(C)))
 	{
-		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
-		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY + 950 * Zoom, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY + 950 * Zoom, 40 * Zoom, 40 * Zoom);
 	}
 	if (C.IsGhosted()) {
-		DrawImageResize("Icons/Small/GhostList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/GhostList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	} else if (C.IsFriend()) {
-		DrawImageResize("Icons/Small/FriendList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/FriendList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	if (C.IsBirthday())
 	{
-		DrawImageResize("Icons/Small/Birthday.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Birthday.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	else if (!C.IsPlayer() && C.IsOwner() && (Player.IsOwned() == "online"))
 	{
-		DrawImageResize("Icons/Small/Owner.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Owner.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	else if (C.IsLoverOfPlayer())
 	{
-		DrawImageResize("Icons/Small/Lover.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Lover.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	else if (C.IsFamilyOfPlayer())
 	{
-		DrawImageResize("Icons/Small/Family.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Family.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	if (ChatRoomCarryingBounty(C))
 	{
-		DrawImageResize("Icons/Small/Money.png", CharX + 310 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Money.png", CharX + 310 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	if (C.OnlineSharedSettings && C.OnlineSharedSettings.GameVersion !== GameVersion)
 	{
-		DrawImageResize("Icons/Small/Warning.png", CharX + 350 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Warning.png", CharX + 350 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber))
 	{
-		DrawImageResize("Icons/Small/Admin.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Admin.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	} else if (Array.isArray(ChatRoomData.Whitelist) && ChatRoomData.Whitelist.includes(C.MemberNumber)) {
-		DrawImageResize("Icons/Small/RoomWhitelist.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/RoomWhitelist.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 }
 

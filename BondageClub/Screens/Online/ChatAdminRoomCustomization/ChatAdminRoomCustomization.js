@@ -488,7 +488,7 @@ function ChatAdminRoomCustomizationRun() {
 			let X = Math.floor(L % 3) * 600 + 115;
 			let Y = Math.floor(L / 3) * 100 + 210;
 			DrawButton(X, Y, 500, 65, TextGet("MusicLibrary" + ChatAdminRoomCustomizationMusicLibrary[L].Name), currentURL === ChatAdminRoomCustomizationMusicLibrary[L].URL ? "LightGreen" : "White");
-			DrawButton(X + 500, Y, 65, 65, "", "White", "Icons/Small/YouTube.png");
+			DrawButton(X + 500, Y, 65, 65, "", "White", "Icons/YouTube.png");
 		}
 	}
 }

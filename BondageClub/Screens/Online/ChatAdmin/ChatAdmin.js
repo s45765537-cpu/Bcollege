@@ -281,7 +281,7 @@ function ChatAdminRun() {
 		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? backgroundList[backgroundList.length - 1] : backgroundList[ChatAdminBackgroundIndex - 1]),
 		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= backgroundList.length - 1) ? backgroundList[0] : backgroundList[ChatAdminBackgroundIndex + 1]),
 		!canEdit);
-	DrawButton(1840, 450, 60, 60, "", ButtonBackground, "Icons/Small/Preference.png", null, !canEdit);
+	DrawButton(1840, 450, 60, 60, "", ButtonBackground, "Icons/Preference.png", null, !canEdit);
 	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
 	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + adminData.Game), ButtonBackground, null, () => "", () => "");
 	DrawButton(1300, 640, 275, 60, TextGet("RoomCustomization"), (adminData.Custom == null) ? "White" : "#B0FFB0");

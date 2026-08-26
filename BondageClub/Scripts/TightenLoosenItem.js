@@ -42,10 +42,10 @@ function TightenLoosenItemDraw(item) {
 	DrawText(InterfaceTextGet("Loosen"), 1250, 600, "White", "Silver");
 	DrawText(InterfaceTextGet("Tighten"), 1750, 600, "White", "Silver");
 	DrawButton(1040, 700, 180, 60, InterfaceTextGet("LoosenLot"), (difficulty <= TightenLoosenItemMinimumDifficulty + 2) ? "Gray": "White", null, null, (difficulty <= TightenLoosenItemMinimumDifficulty + 2));
-	DrawButton(1220, 700, 60, 60, "", "White", "Icons/Small/Prev.png", null, true);
+	DrawButton(1220, 700, 60, 60, "", "White", "Icons/Prev.png", null, true);
 	DrawButton(1280, 700, 180, 60, InterfaceTextGet("LoosenLittle"), (difficulty <= TightenLoosenItemMinimumDifficulty) ? "Gray": "White", null, null, (difficulty <= TightenLoosenItemMinimumDifficulty));
 	DrawButton(1540, 700, 180, 60, InterfaceTextGet("TightenLittle"), (difficulty >= TightenLoosenItemMaximumDifficulty) ? "Gray": "White", null, null, (difficulty >= TightenLoosenItemMaximumDifficulty));
-	DrawButton(1720, 700, 60, 60, "", "White", "Icons/Small/Next.png", null, true);
+	DrawButton(1720, 700, 60, 60, "", "White", "Icons/Next.png", null, true);
 	DrawButton(1780, 700, 180, 60, InterfaceTextGet("TightenLot"), (difficulty >= TightenLoosenItemMaximumDifficulty - 2) ? "Gray": "White", null, null, (difficulty >= TightenLoosenItemMaximumDifficulty - 2));
 	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 }

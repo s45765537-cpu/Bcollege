@@ -924,12 +924,12 @@ function AppearanceRun() {
 				let leftPos = 1120;
 				if (Item.Asset.Extended) {
 					const canUse = !InventoryBlockedOrLimited(C, Item);
-					DrawButton(leftPos, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", (canUse ? "White" : "#888"), "Icons/Small/Use.png", TextGet("Use"));
+					DrawButton(leftPos, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", (canUse ? "White" : "#888"), "Icons/Use.png", TextGet("Use"));
 					leftPos -= (65 + 25);
 				}
 
 				if (Group.AllowNone)
-					DrawButton(leftPos, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", ButtonColor, "Icons/Small/Naked.png", TextGet("StripItem"));
+					DrawButton(leftPos, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", ButtonColor, "Icons/Naked.png", TextGet("StripItem"));
 			}
 
 			// Draw Next/Previous widget
@@ -957,9 +957,9 @@ function AppearanceRun() {
 
 			// Draw color swatch and picker widgets
 			const layeringEnabled = Item && !C.IsNpc();
-			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", layeringEnabled ? "#fff" : "#aaa", "Icons/Small/Layering.png", TextGet("Layering"), !layeringEnabled);
+			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", layeringEnabled ? "#fff" : "#aaa", "Icons/Layering.png", TextGet("Layering"), !layeringEnabled);
 			DrawButton(1725, 145 + (A - CharacterAppearanceOffset) * 95, 160, 65, ColorButtonText, CanCycleColors ? ColorButtonColor : "#aaa", undefined, undefined, !CanCycleColors);
-			DrawButton(1910, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", CanPickColor ? "#fff" : "#aaa", CanPickColor ? ColorIsSimple ? "Icons/Small/ColorChange.png" : "Icons/Small/ColorChangeMulti.png" : "Icons/Small/ColorBlocked.png", undefined, !CanPickColor);
+			DrawButton(1910, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", CanPickColor ? "#fff" : "#aaa", CanPickColor ? ColorIsSimple ? "Icons/ColorChange.png" : "Icons/ColorChangeMulti.png" : "Icons/ColorBlocked.png", undefined, !CanPickColor);
 		}
 	}
 

@@ -98,8 +98,8 @@ Whitelist:
 白名单:
 Blacklist:
 黑名单:
-<img src='Icons/Small/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
-<img src='Icons/Small/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
+<img src='Icons/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
+<img src='Icons/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
 <strong>NOTICE</strong>: The FocusEnabledWarningIcon <strong>focus list</strong> FocusEnabledWarningIcon is now <strong>enabled</strong>. <i>Only characters on your focus list will be visible to you in the chatroom</i>. To disable this, use <code>/focus clear</code> or the button in the menu bar.
 <strong>注意</strong>: FocusEnabledWarningIcon <strong>focus list</strong> FocusEnabledWarningIcon 现在已经 <strong>启用</strong>. <i>只有在你的关注列表中的角色可以看到你在聊天室中</i>. 要关闭此选项，使用 <code>/focus clear</code> 或者菜单栏中的按钮.
 IGNORING 'Targeter': multiple matches found.
