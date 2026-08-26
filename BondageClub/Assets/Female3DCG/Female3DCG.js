@@ -17872,6 +17872,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
+					Spread: PoseType.HIDE,
 				},
 				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Effect: [E.MapSwim],
@@ -18206,7 +18207,17 @@ var AssetFemale3DCG = [
 				],
 				Layer: [
 					{ Name: "Main", Priority: 22 },
-					{ Name: "Rear", Priority: 6, CopyLayerColor: "Main" },
+					{
+						Name: "Rear",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						Priority: 6,
+						CopyLayerColor: "Main",
+					},
 				],
 			},
 			{
@@ -18368,8 +18379,30 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Dai", Priority: 6, StyleOverride: ["EchoV2"] },
-					{ Name: "Hanao", Priority: 22, StyleOverride: ["EchoV2"] },
+					{
+						Name: "Dai",
+						Priority: 6,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "Hanao",
+						Priority: 22,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						StyleOverride: ["EchoV2"],
+					},
 					{ Name: "DaiHogtied", Priority: 22, CopyLayerColor: "Dai" },
 				],
 			},
@@ -18410,22 +18443,42 @@ var AssetFemale3DCG = [
 					},
 				],
 				Layer: [
-					{ Name: "Boots", Priority: 23 },
+					{
+						Name: "Boots",
+						Priority: 23,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
 					{
 						Name: "Legs",
 						AllowTypes: { l: 1 },
 						Priority: 23,
 						CopyLayerColor: "Boots",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+						},
 					},
 					{
 						Name: "Belt",
 						AllowTypes: { b: 1 },
 						Priority: 26,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+						},
 					},
 					{
 						Name: "Metal",
 						AllowTypes: { m: 1 },
 						Priority: 26,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+						},
 					},
 				],
 			},
@@ -18486,7 +18539,12 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				Fetish: ["Latex"],
 				Value: 50,
-				Left: 91,
+				Left: {
+					[PoseType.DEFAULT]: 91,
+					LegsClosed: 93,
+					Hogtied: 120,
+					Spread: 104,
+				},
 				HideItem: [
 					"SocksSocks4",
 					"SocksSocks5",
@@ -18508,26 +18566,42 @@ var AssetFemale3DCG = [
 				Height: 35,
 				Extended: true,
 				PoseMapping: {
-					AllFours: PoseType.HIDE,
-					Kneel: "Kneel",
-					KneelingSpread: "KneelingSpread",
-					LegsClosed: "LegsClosed",
-					Spread: "Spread",
+					...AssetPoseMapping.Shoes,
 				},
 				Layer: [
 					{
 						Name: "Base",
 						PoseMapping: {
-							Kneel: "Kneel",
-							KneelingSpread: "KneelingSpread",
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
+							...AssetPoseMapping.Shoes,
 							Hogtied: "Hogtied",
 						},
 					},
-					{ Name: "Thigh", AllowTypes: { l: 1 } },
-					{ Name: "Layer", CopyLayerColor: "Base", AllowTypes: { l: 2 } },
-					{ Name: "Band", AllowTypes: { b: 1 } },
+					{
+						Name: "Thigh",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowTypes: { l: 1 },
+					},
+					{
+						Name: "Layer",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+						},
+						CopyLayerColor: "Base",
+						AllowTypes: { l: 2 },
+					},
+					{
+						Name: "Band",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						AllowTypes: { b: 1 },
+					},
 				],
 			},
 			{
@@ -20037,6 +20111,104 @@ var AssetFemale3DCG = [
 					Author: "Echo (SugarChain)",
 					OriginalName: "脚趾戒指",
 					License: "CC BY-SA-NC 4.0",
+				},
+			},
+			{
+				Name: "HighThighBoots",
+				InventoryID: 1145,
+				StyleOverride: ["EchoV2"],
+				Value: 100,
+				DynamicGroupName: "ItemBoots",
+				Left: 125,
+				PoseMapping: {
+					Hogtied: "Hogtied",
+					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+				},
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [[75, 680, 350, 320]],
+					},
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Pose: ["LegsClosed"],
+						Masks: [[75, 650, 350, 350]],
+					},
+				],
+				Height: 30,
+			},
+			{
+				Name: "BalletHeels",
+				InventoryID: 1132,
+				StyleOverride: ["EchoV2"],
+				Fetish: ["Leather"],
+				Value: 75,
+				Left: 75,
+				DynamicGroupName: "ItemBoots",
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [[75, 825, 350, 200]],
+					},
+				],
+				Height: 35,
+				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
+					Spread: "Spread",
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
+			},
+			{
+				Name: "BalletWedges",
+				InventoryID: 1135,
+				StyleOverride: ["EchoV2"],
+				Fetish: ["Leather"],
+				Value: 50,
+				Left: {
+					[PoseType.DEFAULT]: 75,
+					Hogtied: 125,
+				},
+				DynamicGroupName: "ItemBoots",
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [[75, 825, 350, 200]],
+					},
+				],
+				Height: 35,
+				PoseMapping: {
+					...AssetPoseMapping.ItemBoots,
+					Spread: "Spread",
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
 				},
 			},
 		],
@@ -74093,36 +74265,30 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "HighThighBoots",
+				Audio: "LeatherStretchingShort",
+				Time: 10,
+				RemoveTime: 10,
+				AllowLock: true,
+				Hide: ["Shoes"],
+				CopyConfig: {
+					GroupName: "Shoes",
+					AssetName: "HighThighBoots",
+					BuyGroup: true,
+				},
+			},
+			{
 				Name: "BalletHeels",
 				Audio: "LeatherCreakWithMetal",
-				InventoryID: 1132,
-				StyleOverride: ["EchoV2"],
-				Fetish: ["Leather"],
-				Value: 75,
 				Difficulty: 6,
 				Time: 10,
 				RemoveTime: 15,
-				Left: 75,
 				AllowLock: true,
 				AllowTighten: true,
-				Alpha: [
-					{
-						Group: [
-							"BodyLower",
-							"Socks",
-							"SocksRight",
-							"SocksLeft",
-							"SuitLower",
-						],
-						Masks: [[75, 825, 350, 200]],
-					},
-				],
-				Height: 35,
-				PoseMapping: {
-					...AssetPoseMapping.ItemBoots,
-					Spread: "Spread",
-					Kneel: PoseType.HIDE,
-					KneelingSpread: PoseType.HIDE,
+				CopyConfig: {
+					GroupName: "Shoes",
+					AssetName: "BalletHeels",
+					BuyGroup: true,
 				},
 			},
 			{
@@ -74355,34 +74521,15 @@ var AssetFemale3DCG = [
 			{
 				Name: "BalletWedges",
 				Audio: "TightLeatherStretch",
-				InventoryID: 1135,
-				StyleOverride: ["EchoV2"],
-				Fetish: ["Leather"],
-				Value: 50,
 				Difficulty: 6,
 				Time: 10,
 				RemoveTime: 15,
-				Left: 75,
 				AllowLock: true,
 				AllowTighten: true,
-				Alpha: [
-					{
-						Group: [
-							"BodyLower",
-							"Socks",
-							"SocksRight",
-							"SocksLeft",
-							"SuitLower",
-						],
-						Masks: [[75, 825, 350, 200]],
-					},
-				],
-				Height: 35,
-				PoseMapping: {
-					...AssetPoseMapping.ItemBoots,
-					Spread: "Spread",
-					Kneel: PoseType.HIDE,
-					KneelingSpread: PoseType.HIDE,
+				CopyConfig: {
+					GroupName: "Shoes",
+					AssetName: "BalletWedges",
+					BuyGroup: true,
 				},
 			},
 			{
@@ -74748,44 +74895,15 @@ var AssetFemale3DCG = [
 			{
 				Name: "HighThighBoots",
 				Audio: "LeatherStretchingShort",
-				InventoryID: 1145,
-				StyleOverride: ["EchoV2"],
-				Value: 100,
 				Time: 10,
 				RemoveTime: 10,
 				AllowLock: true,
 				Hide: ["Shoes"],
-				PoseMapping: {
-					Hogtied: "Hogtied",
-					Kneel: "Kneel",
-					KneelingSpread: "KneelingSpread",
-					LegsClosed: "LegsClosed",
-					Spread: "Spread",
+				CopyConfig: {
+					GroupName: "Shoes",
+					AssetName: "HighThighBoots",
+					BuyGroup: true,
 				},
-				Alpha: [
-					{
-						Group: [
-							"BodyLower",
-							"Socks",
-							"SocksRight",
-							"SocksLeft",
-							"SuitLower",
-						],
-						Masks: [[75, 680, 350, 320]],
-					},
-					{
-						Group: [
-							"BodyLower",
-							"Socks",
-							"SocksRight",
-							"SocksLeft",
-							"SuitLower",
-						],
-						Pose: ["LegsClosed"],
-						Masks: [[75, 650, 350, 350]],
-					},
-				],
-				Height: 30,
 			},
 			{
 				Name: "Slime",
