@@ -19722,7 +19722,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#6F8460", "#222", "Default"],
 				Layer: [
 					{
-						Name: "Sole",
+						Name: "Sole", // u
 						Priority: 7,
 						InheritPoseMappingFields: true,
 						PoseMapping: { Hogtied: "Hide" },
@@ -19730,7 +19730,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "t2",
 						Priority: 7,
-						CopyLayerColor: "t",
+						CopyLayerColor: "Upper",
 						AllowTypes: { typed: 0 },
 						InheritPoseMappingFields: true,
 						PoseMapping: { Hogtied: "Hide" },
@@ -19738,7 +19738,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "p2",
 						Priority: 7,
-						CopyLayerColor: "p",
+						CopyLayerColor: "PatternedUpper",
 						AllowTypes: { typed: [1, 2, 3] },
 						CreateLayerTypes: ["typed"],
 						InheritPoseMappingFields: true,
@@ -19756,13 +19756,13 @@ var AssetFemale3DCG = [
 						],
 					},
 					{
-						Name: "Upper",
+						Name: "Upper", // t
 						AllowTypes: { typed: 0 },
 						InheritPoseMappingFields: true,
 						PoseMapping: { Hogtied: "Hide" },
 					},
 					{
-						Name: "PatternedUpper",
+						Name: "PatternedUpper", // p
 						AllowTypes: { typed: [1, 2, 3] },
 						CreateLayerTypes: ["typed"],
 						InheritPoseMappingFields: true,
@@ -19773,7 +19773,7 @@ var AssetFemale3DCG = [
 						Top: 495,
 						Left: 200,
 						Priority: 7,
-						CopyLayerColor: "u",
+						CopyLayerColor: "Sole",
 						ParentGroup: {},
 						PoseMapping: { Hogtied: "Hide" },
 					},
