@@ -1,5 +1,5 @@
 "use strict";
-const { Game } = require("./Utils/game.cjs");
+const { Game } = require("./Utils");
 
 Game.load("../Scripts/Common.js");
 Game.load("../Scripts/Translation.js");

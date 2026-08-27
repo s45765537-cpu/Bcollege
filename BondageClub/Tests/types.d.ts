@@ -8,3 +8,13 @@ type ColorAssetMock = (
 
 type AssetName = string;
 type AssetString = `${AssetGroupName}/${AssetName}`;
+
+interface AccountCreationData {
+	InputCharacter: string;
+	InputName: string;
+	InputPassword1: string;
+	InputPassword2: string;
+	InputEmail: string;
+}
+
+type AccountCreationStatus = "ok" | "invalid_field" | "already_exists";

@@ -5,6 +5,49 @@ const fs = require("fs");
 const vm = require("vm");
 const { TextEncoder: NodeTextEncoder, TextDecoder: NodeTextDecoder } = require("util");
 
+class SocketMock {
+	/**
+	 * @private
+	 * @type {{ [k in keyof ServerToClientEvents]?: ServerToClientEvents[k][] }}
+	 */
+	listeners;
+
+	get io() {
+		return this;
+	}
+
+	constructor() {
+		this.listeners = {};
+	}
+
+	/**
+	 * @template {keyof ServerToClientEvents} T
+	 * @param {T} ev
+	 * @param {ServerToClientEvents[T]} listener
+	 */
+	on(ev, listener) {
+		// @ts-expect-error
+		(this.listeners[ev] ??= []).push(listener);
+	}
+
+	/**
+	 * @template {keyof ClientToServerEvents} T
+	 * @param {T} ev
+	 * @param  {Parameters<ClientToServerEvents[T]>} args
+	 */
+	emit(ev, ...args) {}
+
+	/**
+	 * @template {keyof ServerToClientEvents} T
+	 * @param {T} ev
+	 * @param {Parameters<ServerToClientEvents[T]>} args
+	 */
+	mockResponse(ev, ...args) {
+		// @ts-expect-error
+		this.listeners[ev]?.forEach(func => func(...args))
+	}
+}
+
 /**
  * @param {string} parentFile - The path to the file
  * @param {string} relativePath - The src
@@ -37,8 +80,8 @@ const postVMMocks = {
 	},
 	/** @type {() => string} */
 	CommonGetServer: () => Game.ServerURL,
-	/** @type {() => void} */
-	ServerInit: () => undefined,
+	/** @type {(url: string) => SocketIO.Socket} */
+	io: (url) => /** @type {never} */(new SocketMock()),
 };
 
 const _Game = {
@@ -56,6 +99,8 @@ const _Game = {
 	HTMLSelectElement,
 	HTMLTextAreaElement,
 	customElements,
+	MutationObserver,
+	Node,
 	TextEncoder: NodeTextEncoder,
 	TextDecoder: NodeTextDecoder,
 	Worker: class {

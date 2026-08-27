@@ -583,7 +583,21 @@ function CommonGetScreen() {
 	return /** @type {ScreenSpecifier} */([CurrentModule, CurrentScreen]);
 }
 
+/**
+ * Whether a screen is currently (async) loading via {@link CommonSetScreen}.
+ *
+ * See {@link ScreenIsLoadingPromise} for a promise-based variant of this variable for async checking.
+ * @type {boolean}
+ */
 var ScreenIsLoading = false;
+
+/**
+ * A promise that resolves upon async loading a screen via {@link CommonSetScreen}.
+ *
+ * See {@link ScreenIsLoading} for a promise-based variant of this variable for sync checking.
+ * @type {SafePromise<void>}
+ */
+var ScreenIsLoadingPromise = Promise.resolve();
 
 /**
  * Sets the current screen and calls the loading script if needed
@@ -591,6 +605,20 @@ var ScreenIsLoading = false;
  * @returns {SafePromise<void>} - Nothing
  */
 async function CommonSetScreen(...spec) {
+	const promise = ScreenIsLoadingPromise = CommonSetScreenWrapped(...spec);
+	return promise.finally(() => {
+		ScreenIsLoadingPromise = Promise.resolve();
+	});
+}
+
+/**
+ * Screen setting implementation.
+ * Do not use; use {@link CommonSetScreen} instead.
+ * @private
+ * @param {ScreenSpecifier} spec
+ * @returns {SafePromise<void>} - Nothing
+ */
+async function CommonSetScreenWrapped(...spec) {
 	const { recursive } = spec[2] ?? {};
 
 	// `CurrentScreenFunctions` is still undefined the _very_ first time a screen is set as BC launches
@@ -649,7 +677,7 @@ async function CommonSetScreen(...spec) {
 			// Plan A: failed to load the new screen; revert back to the old screen
 			console.error(`Failed to load "${NewModule}/${NewScreen}" screen:\n`, error);
 			ToastManager.error(`Failed to load "${NewModule}/${NewScreen}" screen`);
-			return CommonSetScreen(.../** @type {ScreenSpecifier} */([OldModule, OldScreen, { recursive: true }]));
+			return CommonSetScreenWrapped(.../** @type {ScreenSpecifier} */([OldModule, OldScreen, { recursive: true }]));
 		} else {
 			// Plan B: can't even reload the old screen; things are FUBAR at this point ¯\_(ツ)_/¯
 			throw new Error(`Failed to reload previous "${NewModule}/${NewScreen}" screen`, { cause: error });
