@@ -363,7 +363,7 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 
 	// Draws the whisper bubble if we hover over a character
 	if (ChatRoomTargetMemberNumber == C.MemberNumber && ChatRoomHideIconState <= ChatRoomHideIconStateType.NO_ICONS) {
-		DrawImage("Icons/Small/Whisper.png", CharX + 75 * Zoom, CharY + 950 * Zoom);
+		DrawImage("Icons/Whisper.png", CharX + 75 * Zoom, CharY + 950 * Zoom);
 	}
 
 	// Draws the move/swap buttons if there's a target to assign

@@ -139,7 +139,7 @@ function PreferenceSubscreenCensoredWordsBuildWords() {
 					PreferenceSubscreenCensoredWordsBuildWords();
 				},
 				{
-					image: "Icons/Small/Remove.png",
+					image: "Icons/Remove.png",
 					noStyling: true
 				},
 				{

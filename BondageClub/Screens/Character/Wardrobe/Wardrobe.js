@@ -956,8 +956,8 @@ function WardrobeCreateMenuButtons() {
 			tooltip: TextGet("ShowCharacterPreviews"),
 		}),
 		ElementButton.Create(WardrobeID.reorder, () => WardrobeReorderModeSet(), { image: "Icons/Swap.png", tooltip: TextGet("ReorderSlots") }),
-		ElementButton.Create(WardrobeID.next, () => WardrobeChangePage(1), { image: "Icons/Small/Next.png", tooltip: TextGet("NextPage") }),
-		ElementButton.Create(WardrobeID.previous, () => WardrobeChangePage(-1), { image: "Icons/Small/Prev.png", tooltip: TextGet("PreviousPage") }),
+		ElementButton.Create(WardrobeID.next, () => WardrobeChangePage(1), { image: "Icons/Next.png", tooltip: TextGet("NextPage") }),
+		ElementButton.Create(WardrobeID.previous, () => WardrobeChangePage(-1), { image: "Icons/Prev.png", tooltip: TextGet("PreviousPage") }),
 	];
 }
 

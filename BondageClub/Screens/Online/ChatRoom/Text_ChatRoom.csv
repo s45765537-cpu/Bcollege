@@ -49,7 +49,7 @@ CommandFriendlist,Friendlist:
 CommandGhostlist,Ghostlist:
 CommandWhitelist,Whitelist:
 CommandBlacklist,Blacklist:
-FocusEnabledWarningIcon,<img src='Icons/Small/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
+FocusEnabledWarningIcon,<img src='Icons/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
 FocusEnabled,"<strong>NOTICE</strong>: The FocusEnabledWarningIcon <strong>focus list</strong> FocusEnabledWarningIcon is now <strong>enabled</strong>. <i>Only characters on your focus list will be visible to you in the chatroom</i>. To disable this, use <code>/focus clear</code> or the button in the menu bar."
 CommandFocusTargeterAmbiguous,IGNORING 'Targeter': multiple matches found.
 CommandFocusTargeterDuplicate,IGNORING 'Targeter': result was previously matched.

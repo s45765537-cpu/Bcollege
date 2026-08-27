@@ -21,7 +21,7 @@ let FriendListSortingDirection = 'Asc';
 var FriendListActionDefinitions = {
 	delete: {
 		id: "delete",
-		getIcon: () => "Icons/Small/Remove.png",
+		getIcon: () => "Icons/Remove.png",
 		isVisible: () => FriendListModeIndex === 2 || FriendListModeIndex === 0,
 		isEnabled: (context) => !!context.canDelete,
 		getLabel: () => InterfaceTextGet("Delete"),
@@ -161,7 +161,7 @@ async function FriendListLoad() {
 						},
 						{
 							tooltip: TextGet("Refresh"),
-							image: "Icons/Small/Reset.png"
+							image: "Icons/Reset.png"
 						},
 						{
 							button: {
@@ -191,7 +191,7 @@ async function FriendListLoad() {
 						},
 						{
 							tooltip: TextGet("PrevMode"),
-							image: "Icons/Small/Prev.png"
+							image: "Icons/Prev.png"
 						},
 						{
 							button: {
@@ -206,7 +206,7 @@ async function FriendListLoad() {
 						},
 						{
 							tooltip: TextGet("NextMode"),
-							image: "Icons/Small/Next.png"
+							image: "Icons/Next.png"
 						},
 						{
 							button: {
@@ -221,7 +221,7 @@ async function FriendListLoad() {
 						},
 						{
 							tooltip: TextGet("Exit"),
-							image: "Icons/Small/Exit.png"
+							image: "Icons/Exit.png"
 						},
 						{
 							button: {
@@ -246,7 +246,7 @@ async function FriendListLoad() {
 			{
 				tooltip: TextGet("ResetSorting"),
 				tooltipPosition: 'right',
-				image: "Icons/Small/Remove.png"
+				image: "Icons/Remove.png"
 			},
 			{
 				button: {
@@ -635,23 +635,23 @@ const FriendListIconMapping = {
  */
 const FriendListTypeData = {
 	Owner: {
-		Icon: './Icons/Small/Owner.png',
+		Icon: './Icons/Owner.png',
 		SortingPriority: 1,
 	},
 	Lover: {
-		Icon: './Icons/Small/Lover.png',
+		Icon: './Icons/Lover.png',
 		SortingPriority: 2,
 	},
 	Submissive: {
-		Icon: './Icons/Small/Family.png',
+		Icon: './Icons/Family.png',
 		SortingPriority: 3,
 	},
 	Friend: {
-		Icon: './Icons/Small/FriendList.png',
+		Icon: './Icons/FriendList.png',
 		SortingPriority: 4,
 	},
 	Pending: {
-		Icon: './Icons/Small/Wait.png',
+		Icon: './Icons/Wait.png',
 		SortingPriority: 5,
 	},
 };

@@ -64,7 +64,7 @@ function ForbiddenWordsRun() {
 	for (let O = ForbiddenWordsOffset; O < ForbiddenWordsList.length && O < ForbiddenWordsOffset + 32; O++) {
 		let X = 100 + Math.floor((O - ForbiddenWordsOffset)/ 8) * 450;
 		let Y = 270 + ((O % 8) * 84);
-		DrawButton(X, Y, 60, 60, "", "White", "Icons/Small/Remove.png");
+		DrawButton(X, Y, 60, 60, "", "White", "Icons/Remove.png");
 		DrawText(ForbiddenWordsList[O], X + 100, Y + 30, "Black", "Gray");
 	}
 	MainCanvas.textAlign = "center";
