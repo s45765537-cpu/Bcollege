@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeTennisBackground = "CollegeTennis";
-/** @type {null | NPCCharacter} */
-var CollegeTennisJennifer = null;
+/** @type {NPCCharacter} */
+var CollegeTennisJennifer = /** @type {never} */ (null);
 var CollegeTennisJenniferStatus = "";
 var CollegeTennisJenniferWillJoinRoom = false;
 
@@ -167,5 +166,5 @@ function CollegeTennisInviteToPrivateRoom() {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CharacterDelete(CollegeTennisJennifer);
-	CollegeTennisJennifer = null;
+	CollegeTennisJennifer = /** @type {never} */ (null);
 }

@@ -1,14 +1,13 @@
-// @ts-strict-ignore
 "use strict";
 
 var StableBackground = "HorseStable";
-/** @type {null | NPCCharacter} */
-var StableTrainer = null;
-/** @type {null | NPCCharacter} */
-var StablePony = null;
+/** @type {NPCCharacter} */
+var StableTrainer = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var StablePony = /** @type {never} */ (null);
 var StablePonyPass = false;
 var StablePonyFail = false;
-/** @type {Item[]} */
+/** @type {Item[] | null} */
 var StablePlayerAppearance = null;
 /** @type {"Pony" | "Trainer" | null} */
 var StablePlayerOutfitWorn = null;
@@ -17,10 +16,10 @@ var StablePlayerTrainingLessons = 0;
 var StablePlayerTrainingBehavior = 0;
 var StableTrainerTrainingExercises = 0;
 var StablePlayerInIsolation = false;
-/** @type {null | number} */
-var StablePlayerInIsolationStart = null;
-/** @type {null | number} */
-var StablePlayerInIsolationEnd = null;
+/** @type {number} */
+var StablePlayerInIsolationStart = 0;
+/** @type {number} */
+var StablePlayerInIsolationEnd = 0;
 var StableExamPoint = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +60,7 @@ function StablePlayerIsNewby() {
 function StablePlayerIsWearingOutfit(Outfit) {
 	return Outfit == StablePlayerOutfitWorn;
 }
-function StablePlayerIsCollared() {return StableCharacterAppearanceGroupAvailable(Player, "ItemNeck");}
+function StablePlayerIsCollared() {return InventoryGet(Player, "ItemNeck") !== null;}
 function StablePlayerOtherPony()  {return StableTrainer.Stage == "StableTrainingOtherPoniesBack" || StableTrainer.Stage == "StableTrainingEnd";}
 function StablePlayerIsolation()  {return StableTrainer.Stage == "StableTrainingIsolationBack";}
 function StableTrainingExercisesAvailable() {return (StableTrainerTrainingExercises > 0);}
@@ -74,7 +73,7 @@ function StableCanHideDice() {return (LogQuery("Joined", "BadGirl") && LogQuery(
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function StableCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function StableCanPlayClubCard() { return (!Player.IsRestrained() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * Loads the stable characters with many restraints
@@ -157,7 +156,7 @@ function StableClick() {
 ////////////////////////////////////////////////////////////////////////////////////////////
 //Start the Demo for a Ponytraining
 function StableTrialPonyTraining() {
-	StableGenericProgressStart(60, 0, 0, "Screens/Room/Stable/toyhorse.png", "HorseStable", StableTrainer, null, 0, "StableTrainerToyHorseFin", 0, "StableTrainerToyHorseCancel", 2,  TextGet("Toyhorse"));
+	StableGenericProgressStart(60, 0, 0, "Screens/Room/Stable/toyhorse.png", "HorseStable", StableTrainer, null, "0", "StableTrainerToyHorseFin", "0", "StableTrainerToyHorseCancel", 2,  "Toyhorse");
 	SkillProgress(Player, "Dressage", 15);
 }
 
@@ -179,6 +178,10 @@ async function StableTrialTrainerTrainingEnd() {
 	}
 }
 
+/**
+ * @param {StableFeeType} Fee
+ * @returns
+ */
 function StableFeeValue(Fee) {
 	switch (Fee) {
 		case "PonyExam":
@@ -195,6 +198,10 @@ function StableFeeValue(Fee) {
 	return 0;
 }
 
+/**
+ * @param {StableFeeType} Fee
+ * @returns
+ */
 function StableCanPayTheFee(Fee) {
 	let value = StableFeeValue(Fee);
 	// When you succeed the Trainer exam, you pay the rounds to the other trainers
@@ -203,6 +210,9 @@ function StableCanPayTheFee(Fee) {
 	return Player.Money >= value;
 }
 
+/**
+ * @param {StableFeeType} Fee
+ */
 function StablePayTheFee(Fee) {
 	CharacterChangeMoney(Player, -StableFeeValue(Fee));
 }
@@ -214,7 +224,7 @@ function StableCanBecomePony() {
 	} else if (!(InventoryAvailable(Player, "HarnessBallGag", "ItemMouth") && InventoryAvailable(Player, "LeatherArmbinder", "ItemArms") && InventoryAvailable(Player, "LeatherHarness", "ItemTorso") && InventoryAvailable(Player, "HorsetailPlug", "ItemButt"))) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomePonyEquipmentIntro");
 		StableTrainer.Stage = "StableBecomePonyEquipment";
-	} else if (!StableCharacterAppearanceGroupAvailable(Player, "ItemNeck")) {
+	} else if (!InventoryGet(Player, "ItemNeck")) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomePonyCollarIntro");
 	} else if (!StableCanPayTheFee("PonyExam")) {
 		StableTrainer.CurrentDialog = DialogFind(StableTrainer, "StableBecomePonyMoneyIntro");
@@ -294,10 +304,14 @@ function StablePlayerGetTrainingLesson() {
 	}
 }
 
-//Start Traning Gallop
+/**
+ * Start Training Gallop
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingGallop(Behavior) {
 	StablePlayerTrainingLessons++;
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 3;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
@@ -322,10 +336,14 @@ function StablePlayerTrainingGallop(Behavior) {
 	}
 }
 
-//Start Traning Walk
+/**
+ * Start Training Walk
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingWalk(Behavior) {
 	StablePlayerTrainingLessons++;
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 6;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
@@ -350,10 +368,14 @@ function StablePlayerTrainingWalk(Behavior) {
 	}
 }
 
-//Start Traning Dance
+/**
+ * Start Training Dance
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingDance(Behavior) {
 	StablePlayerTrainingLessons++;
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 9;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
@@ -378,9 +400,13 @@ function StablePlayerTrainingDance(Behavior) {
 	}
 }
 
-//Start Traning Hurdle
+/**
+ * Start Training Hurdle
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingHurdles(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	MiniGameStart("HorseWalk", "Hurdle", () => { StablePlayerTrainingHurdlesEnd(); });
 	StablePlayerTrainingLessons += 2;
 }
@@ -412,71 +438,99 @@ async function StablePlayerTrainingHurdlesEnd() {
 	}
 }
 
-//Start Traning Treadmill
+/**
+ * Start Training Treadmill
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingTreadmill(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 6;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
-	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, TextGet("Treadmill"));
+	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, "Treadmill");
 	StablePlayerTrainingLessons += 2;
 }
 
-//Start Traning Strong Treadmill
+/**
+ * Start Training Strong Treadmill
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingStrongTreadmill(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 2;
 	InventoryWear(Player, "LeatherBelt", "ItemLegs");
 	SkillProgress(Player, "Dressage", (StableDifficulty + 6) * 10);
-	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage - 6, StableDressage, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, TextGet("Treadmill"));
+	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage - 6, StableDressage, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, "Treadmill");
 	StablePlayerTrainingLessons += 2;
 }
 
-//Start Traning Carriage
+/**
+ * Start Training Carriage
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingCarriage(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 9;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
-	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage, "Screens/Room/Stable/horsecarriage.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, TextGet("Carriage"));
+	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage, "Screens/Room/Stable/horsecarriage.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, "Carriage");
 	StablePlayerTrainingLessons += 2;
 }
 
-//Start Traning Strong Carriage
+/**
+ * Start Training Strong Carriage
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingStrongCarriage(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 3;
 	InventoryWear(Player, "LeatherBelt", "ItemLegs");
 	SkillProgress(Player, "Dressage", (StableDifficulty + 6) * 10);
-	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage - 6, StableDressage, "Screens/Room/Stable/horsecarriage.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, TextGet("Carriage"));
+	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage - 6, StableDressage, "Screens/Room/Stable/horsecarriage.png", "HorseStable", StableTrainer, null, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, "Carriage");
 	StablePlayerTrainingLessons += 2;
 }
 
-//Start Traning Race
+/**
+ * Start Training Race
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingRace(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 9;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
-	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage + 1, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, StablePony, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, TextGet("Treadmill"));
+	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage + 1, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, StablePony, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, "Treadmill");
 	StablePlayerTrainingLessons += 2;
 }
 
-//Start Traning Strong Race
+/**
+ * Start Training Strong Race
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingStrongRace(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 9;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
-	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage + 3, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, StablePony, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, TextGet("Treadmill"));
+	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage + 3, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, StablePony, "StableTrainingPass", "StableTrainingPassIntro", "StableTrainingFail", "StableTrainingFailIntro", 2, "Treadmill");
 	StablePlayerTrainingLessons += 2;
 }
 
-//Start Traning Carrots - MiniGame
+/**
+ * Start Training Carrots - MiniGame
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingCarrots(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	MiniGameStart("HorseWalk", "Carrot", () => { StablePlayerTrainingCarrotsEnd(); });
 	StablePlayerTrainingLessons += 2;
 }
@@ -509,9 +563,13 @@ async function StablePlayerTrainingCarrotsEnd() {
 	}
 }
 
-//Reward for passed
+/**
+ * Reward for passed
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingPass(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	if (StablePlayerTrainingBehavior <= 0) {
 		StableCheckEquipment();
 	} else {
@@ -550,9 +608,13 @@ function StablePlayerTrainingPass(Behavior) {
 	}
 }
 
-//Guarantee for failed
+/**
+ * Guarantee for failed
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerTrainingFail(Behavior) {
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	if (StablePlayerTrainingBehavior >= 0) {
 		StableCheckEquipment();
 	} else {
@@ -641,7 +703,9 @@ function StableDressBackPlayer() {
 	CharacterNaked(Player);
 	//Release Harnes, Plug, Ears2
 	InventoryRemove(Player, ["ItemTorso", "Hat", "ItemButt"], { refresh: false });
-	CharacterDress(Player, StablePlayerAppearance);
+	if (StablePlayerAppearance) {
+		CharacterDress(Player, StablePlayerAppearance);
+	}
 	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
@@ -654,16 +718,23 @@ function StableCheckEquipment() {
 	StableTrainer.Stage = "StableTrainingCheckEquipment";
 }
 
-//Dress the Equipment to the Player
+/**
+ * Dress the Equipment to the Player
+ *
+ * @param {number} Behavior
+ */
 function StablePlayerWearEquipment(Behavior) {
 	StablePlayerTrainingBehavior = 0;
-	StablePlayerTrainingBehavior += parseInt(Behavior);
+	StablePlayerTrainingBehavior += Behavior;
 	StableWearPonyEquipment(Player);
 	if (!StablePlayerIsCollared()) InventoryWear(Player, "LeatherCollar", "ItemNeck");
 	StablePlayerGetTrainingLesson();
 }
 
-//Dress Characker like a Pony
+/**
+ * Dress Character like a Pony
+ * @param {Character} C
+ */
 function StableWearPonyEquipment(C) {
 	CharacterNaked(C);
 	InventoryWear(C, "PonyEars1", "Hat");
@@ -715,7 +786,7 @@ function StablePlayerExamRace() {
 	var StableDressage = SkillGetLevel(Player, "Dressage");
 	var StableDifficulty = 9;
 	SkillProgress(Player, "Dressage", StableDifficulty * 5);
-	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage + 2, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, StablePony, "StableExamDressage", "StableExamDressageIntro", "StableExamFail", "StableExamFailIntro", 2, TextGet("Treadmill"));
+	StableGenericProgressStart((StableDifficulty + StableDressage) * 20, StableDressage, StableDressage + 2, "Screens/Room/Stable/treadmill.png", "HorseStable", StableTrainer, StablePony, "StableExamDressage", "StableExamDressageIntro", "StableExamFail", "StableExamFailIntro", 2, "Treadmill");
 }
 
 function StablePlayerExamDressage() {
@@ -744,7 +815,9 @@ function StablePlayerExamEnd() {
 	CharacterNaked(Player);
 	//Release Harnes, Plug, Ears2
 	InventoryRemove(Player, ["ItemTorso", "Hat", "ItemButt"], false);
-	CharacterDress(Player, StablePlayerAppearance);
+	if (StablePlayerAppearance) {
+		CharacterDress(Player, StablePlayerAppearance);
+	}
 	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
@@ -786,7 +859,10 @@ function StableBecomeTrainer() {
 	StablePlayerOutfitWorn = "Trainer";
 }
 
-//Dress as Trainer
+/**
+ * Dress as Trainer
+ * @param {Character} C
+ */
 function StableWearTrainerEquipment(C) {
 	InventoryWear(C, "Jeans1", "ClothLower", "#bbbbbb");
 	InventoryWear(C, "Boots1", "Shoes", "#3d0200");
@@ -822,6 +898,9 @@ function StablePonyWearEquipment() {
 	}
 }
 
+/**
+ * @param {number} probability
+ */
 function StablePonyTraining(probability) {
 	if (parseInt(probability) > Math.random() * 100) {
 		StablePony.CurrentDialog = DialogFind(StablePony, "StablePonyPassIntro");
@@ -882,14 +961,17 @@ async function StableTrainerWhipEnd() {
 	}
 }
 
+/**
+ *
+ * @param {Character | undefined} [C]
+ */
 function StablePonyStraightens(C) {
 	C = C ? C : StablePony;
-	var Color = ItemGetColor(C, "HairBack");
+	const Color = ItemGetColor(C, "HairBack");
 	CharacterAppearanceNextItem(C, "HairBack");
-	for (let A = 0; A < C.Appearance.length;A++) {
-		if (C.Appearance[A].Asset.Group.Name == "HairBack") {
-			C.Appearance[A].Color = Color;
-		}
+	const hairBack = InventoryGet(C, "HairBack");
+	if (hairBack && Color) {
+		hairBack.Color = Color;
 	}
 	CharacterRefresh(C);
 }
@@ -968,7 +1050,9 @@ function StablePlayerTExamPass() {
 
 function StablePlayerTExamEnd() {
 	StablePlayerTrainingActiv = false;
-	CharacterDress(Player, StablePlayerAppearance);
+	if (StablePlayerAppearance) {
+		CharacterDress(Player, StablePlayerAppearance);
+	}
 	StablePlayerOutfitWorn = null;
 	StablePony.AllowItem = false;
 	CharacterRefresh(Player);
@@ -982,19 +1066,38 @@ var StableSecondProgress = -1;
 var StableProgressAuto = 0;
 var StableSecondProgressAuto = 0;
 var StableProgressClick = 0;
-var StableProgressLastKeyPress = null;
+/** @type {string} */
+var StableProgressLastKeyPress = "";
 var StableProgressItem = '';
 var StableProgressFinished = false;
-var StableProgressCharacter = null;
+/** @type {Character} */
+var StableProgressCharacter = /** @type {never} */ (null);
+/** @type {Character | null} */
 var StableProgressSecondCharacter = null;
-var StableProgressEndStage = 0;
-var StableProgressEndDialog = null;
-var StableProgressCancelStage = null;
-var StableProgressCancelDialog = null;
+var StableProgressEndStage = "0";
+var StableProgressEndDialog = "";
+var StableProgressCancelStage = "";
+var StableProgressCancelDialog = "";
 var StableProgressBehavior = 0;
-var StableProgressOperation = null;
-var StableProgressStruggleCount = null;
+/** @type {StableProgressType | "StruggleImpossible"} */
+var StableProgressOperation = /** @type {never} */ (null);
+var StableProgressStruggleCount = 0;
 
+/**
+ * @param {number} Timer
+ * @param {number} S
+ * @param {number} S2
+ * @param {string} Item
+ * @param {string} Background
+ * @param {Character} Character
+ * @param {Character | null} SecondCharacter
+ * @param {string} Stage
+ * @param {string} CurrentDialog
+ * @param {string} CancelStage
+ * @param {string} CancelCurrentDialog
+ * @param {*} Behavior
+ * @param {StableProgressType} ProgressOperation
+ */
 function StableGenericProgressStart(Timer, S, S2, Item, Background, Character, SecondCharacter, Stage, CurrentDialog, CancelStage, CancelCurrentDialog, Behavior, ProgressOperation) {
 	DialogLeave();
 	if (Timer < 1) Timer = 1;
@@ -1038,7 +1141,8 @@ function StableGenericDrawProgress() {
 		if (StableProgressSecondCharacter == null) {
 			DrawRect(300, 25, 225, 225, "white");
 			DrawImage(StableProgressItem, 302, 27);
-			DrawText(StableProgressOperation, 1000, 50, "White", "Black");
+			const opName = StableProgressOperation === "StruggleImpossible" ? InterfaceTextGet("StruggleImpossible") : TextGet(StableProgressOperation);
+			DrawText(opName, 1000, 50, "White", "Black");
 			DrawText(InterfaceTextGet((CommonIsMobile) ? "ProgressClick" : "ProgressKeys"), 1000, 150, "White", "Black");
 			DrawRect(200, 300, 20, 675, "white");
 			DrawRect(1800, 300, 20, 675, "white");
@@ -1095,6 +1199,10 @@ function StableKeyDown(event) {
 	return false;
 }
 
+/**
+ *
+ * @param {boolean} Reverse
+ */
 function StableGenericRun(Reverse) {
 	if (StableProgressAuto >= 0)
 		StableProgress = StableProgress + StableProgressClick * (Reverse ? -1 : 1);
@@ -1102,20 +1210,12 @@ function StableGenericRun(Reverse) {
 		StableProgress = StableProgress + StableProgressClick * (Reverse ? -1 : 1) + ((100 - StableProgress) / 50);
 	if (StableProgress < 0) StableProgress = 0;
 	StableProgressStruggleCount++;
-	if ((StableProgressStruggleCount >= 50) && (StableProgressClick == 0)) StableProgressOperation = InterfaceTextGet("StruggleImpossible");
+	if ((StableProgressStruggleCount >= 50) && (StableProgressClick == 0)) StableProgressOperation = "StruggleImpossible";
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //Help function & BadGirlClub
 ////////////////////////////////////////////////////////////////////////////////////////////
-
-// Returns true if a Appearance Group for Character available
-function StableCharacterAppearanceGroupAvailable(C, AppearanceGroup) {
-	for (let I = 0; I < C.Appearance.length; I++)
-		if (C.Appearance[I].Asset.Group.Name == AppearanceGroup)
-			return true;
-	return false;
-}
 
 // Try to Hide the Dice for BadGirlsClub
 function StableHideDice() {
@@ -1146,6 +1246,7 @@ function StableClubCardStart() {
 async function StableClubCardEnd() {
 	await CommonSetScreen("Room", "Stable");
 	CharacterSetCurrent(StableTrainer);
+	if (!CurrentCharacter) return;
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
 
@@ -1170,11 +1271,9 @@ function StableDoActivity(Activity) {
 		Activity = Activity.trim();
 		Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
 	}
-	if ((Activity == null) || !StableActivityList.includes(Activity))
-		return ChatRoomSendLocal(TextGet("PonyInvalidActivity"), 10_000);
 
 	// Difficulty of the exercise
-	var StableDifficulty;
+	let StableDifficulty;
 	switch (Activity) {
 		case "Stand":
 			StableDifficulty = 0;
@@ -1191,6 +1290,8 @@ function StableDoActivity(Activity) {
 		case "Pirouette":
 			StableDifficulty = 8;
 			break;
+		default:
+			return ChatRoomSendLocal(TextGet("PonyInvalidActivity"), 10_000);
 	}
 
 	//result 2d6 + Skill - Difficulty, min 0 max 10

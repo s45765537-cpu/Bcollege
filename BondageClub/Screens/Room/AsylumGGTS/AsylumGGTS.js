@@ -1,20 +1,21 @@
-// @ts-strict-ignore
 "use strict";
 var AsylumGGTSBackground = "AsylumGGTSRoom";
-/** @type {null | NPCCharacter} */
-var AsylumGGTSComputer = null;
+/** @type {NPCCharacter} */
+var AsylumGGTSComputer = /** @type {never} */ (null);
 var AsylumGGTSIntroDone = false;
 var AsylumGGTSTimer = 0;
-/** @type {null | string} */
+/** @type {null | GGTSTask} */
 var AsylumGGTSTask = null;
 /** @type {null | Character} */
 var AsylumGGTSTaskTarget = null;
-var AsylumGGTSLastTask = "";
+/** @type {null | GGTSTask} */
+var AsylumGGTSLastTask = null;
 var AsylumGGTSTaskStart = 0;
 var AsylumGGTSTaskEnd = 0;
 var AsylumGGTSChatToParse = "";
 /**
  * The list of available tasks, partitioned by level.
+ * @type {GGTSTask[][]}
  */
 var AsylumGGTSTaskList = [
 	[],
@@ -47,7 +48,7 @@ function AsylumGGTSHasThreeStrikes() {
  * @returns {boolean} - TRUE if three strikes or more or in active punishment
  */
 function AsylumGGTSCanQuit() {
-	return (!AsylumGGTSHasThreeStrikes() && (LogValue("Isolated", "Asylum") < CurrentTime));
+	return !AsylumGGTSHasThreeStrikes() && !AsylumIsIsolated();
 }
 
 /**
@@ -87,11 +88,41 @@ function AsylumGGTSGetLevelTime(C) {
 }
 
 /**
+ * Returns the character's current level timer
+ * @param {Character} C
+ * @param {number} time
+ */
+function AsylumGGTSSetLevelTime(C, time, push=true) {
+	if (!C || !C.IsPlayer() || !C.Game?.GGTS) return;
+
+	C.Game.GGTS.Time = Math.round(CommonClamp(time, 0, Infinity));
+	if (push) {
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+}
+
+/**
  * Returns the character's current strike count
  * @param {Character} C
  */
 function AsylumGGTSGetStrikes(C) {
 	return CommonIsNumeric(C.Game?.GGTS?.Strike) ? C.Game?.GGTS?.Strike : 0;
+}
+
+/**
+ * Set the character's current strike count
+ * @param {Character} C
+ * @param {number} strikes
+ * @returns {number}
+ */
+function AsylumGGTSSetStrikes(C, strikes) {
+	if (!C || !C.IsPlayer() || !C.Game?.GGTS) return AsylumGGTSGetStrikes(C);
+	const startStrikes = C.Game.GGTS.Strike;
+	C.Game.GGTS.Strike = CommonClamp(strikes, 0, 3);
+	if (C.Game.GGTS.Strike !== startStrikes) {
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+	return C.Game.GGTS.Strike ?? 0;
 }
 
 /**
@@ -149,7 +180,7 @@ async function AsylumGGTSLoad() {
 		if (Level == 4) AsylumGGTSComputer.Stage = "3000";
 		if (Level == 5) AsylumGGTSComputer.Stage = "4000";
 		if (Level >= 6) AsylumGGTSComputer.Stage = "5000";
-		if (Level >= 6) Player.Game.GGTS.Strike = 0;
+		if (Level >= 6) AsylumGGTSSetStrikes(Player, 0);
 		AsylumGGTSComputerImage(Level);
 	}
 }
@@ -237,9 +268,8 @@ function AsylumGGTSStartLevel(Level) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSQuit() {
-	for (let G = 0; G < AssetGroup.length; G++)
-		if (AssetGroup[G].Name.substr(0, 4) == "Item")
-			AsylumGGTSTaskRemoveFuturisticItem(AssetGroup[G].Name);
+	const itemGroups = AssetGroup.filter(g => g.IsItem()).map(g => g.Name);
+	AsylumGGTSTaskRemoveFuturisticItem(itemGroups);
 	delete Player.Game.GGTS;
 	if (AsylumGGTSComputer != null) AsylumGGTSComputer.FixedImage = "Screens/Room/AsylumGGTS/Computer.png";
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
@@ -282,20 +312,21 @@ function AsylumGGTSBuildPrivate() {
  * @returns {string} - The new name for that character
  */
 function AsylumGGTSCharacterName(C) {
-	let Name = C.Nickname ?? C.Name;
+	let name = C.Nickname ?? C.Name;
+	const number = C.MemberNumber ?? 0;
 	let Level = AsylumGGTSGetLevel(C);
-	if (Level == 2) Name = Name + "-" + C.MemberNumber.toString();
-	if (Level == 3) Name = Name + "-GG-" + C.MemberNumber.toString();
-	if (Level == 4) Name = "GG-" + C.MemberNumber.toString();
-	if (Level == 5) Name = "GSG-" + C.MemberNumber.toString();
-	if (Level >= 6) Name = "GS-" + C.MemberNumber.toString();
-	return Name;
+	if (Level == 2) name = `${name}-${number}`;
+	if (Level == 3) name = `${name}-GG-${number}`;
+	if (Level == 4) name = `GG-${number}`;
+	if (Level == 5) name = `GSG-${number}`;
+	if (Level >= 6) name = `GS-${number}`;
+	return name;
 }
 
 /**
  * Sends a chat message from the GGTS.  GGTS slowly replaces the player name by the player number as level rises.
  * @param {string} Msg - The message to publish
- * @param {Character} [Target] - The member number of the target character
+ * @param {Character | null} [Target] - The member number of the target character
  * @returns {void} - Nothing
  */
 function AsylumGGTSMessage(Msg, Target) {
@@ -304,7 +335,8 @@ function AsylumGGTSMessage(Msg, Target) {
 
 	const Dict = new DictionaryBuilder()
 		.sourceCharacter(Player)
-		.if(Target != null)
+		.if(!!Target)
+		// @ts-ignore-error Strict-TS: We checked that but good luck making TS grasp that
 		.targetCharacter(Target)
 		.endif()
 		.build();
@@ -320,7 +352,7 @@ function AsylumGGTSMessage(Msg, Target) {
  */
 function AsylumGGTSSetTimer() {
 	let Factor = 1;
-	if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] === "AsylumGGTS") Factor = Factor / 3;
+	if (ChatRoomIsPrivate() && ChatSearchGetSpace() === "Asylum") Factor = Factor / 3;
 	if (AsylumGGTSTimer == 0) Factor = Factor / 3;
 	AsylumGGTSTimer = Math.round(CommonTime() + 24000 * AsylumGGTSSpeed * Factor + Math.random() * 36000 * AsylumGGTSSpeed * Factor);
 }
@@ -363,7 +395,7 @@ function AsylumGGTSQueryDone(Level, Text) {
 /**
  * Returns TRUE if the task T is currently done by character C
  * @param {Character} C - The character to evaluate
- * @param {string} T - The task to evaluate
+ * @param {GGTSTask | null} T - The task to evaluate
  * @returns {boolean} - TRUE if the is done
  */
 function AsylumGGTSTaskDone(C, T) {
@@ -372,10 +404,7 @@ function AsylumGGTSTaskDone(C, T) {
 
 	switch (T) {
 		case "ClothHeels":
-			return (
-				(InventoryGet(C, "Shoes")?.Asset.Name.includes("Heels")) ||
-				(InventoryGet(C, "ItemBoots")?.Asset.Name.includes("Heels"))
-			);
+			return !!(InventoryGet(C, "Shoes")?.Asset.Name.includes("Heels") || InventoryGet(C, "ItemBoots")?.Asset.Name.includes("Heels"));
 		case "ClothSocks":
 			return (
 				InventoryGet(C, "Socks") != null &&
@@ -501,13 +530,16 @@ function AsylumGGTSTaskDone(C, T) {
 		case "NoTalking":
 			return CommonTime() >= AsylumGGTSTimer - 1000;
 		case "PoseOverHead":
-			return ["Yoked", "OverTheHead"].includes(C.PoseMapping.BodyUpper);
+			return C.PoseMapping.BodyUpper === "Yoked" || C.PoseMapping.BodyUpper === "OverTheHead";
 		case "PoseBehindBack":
-			return C.PoseMapping != null && ["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper);
+			return C.PoseMapping.BodyUpper === "BackBoxTie"
+				|| C.PoseMapping.BodyUpper === "BackElbowTouch"
+				|| C.PoseMapping.BodyUpper === "BackCuffs";
 		case "PoseLegsClosed":
-			return C.PoseMapping != null && C.PoseMapping.BodyLower === "LegsClosed";
+			return C.PoseMapping.BodyLower === "LegsClosed";
 		case "PoseLegsOpen":
-			return C.PoseMapping == null || C.PoseMapping.BodyLower == null || C.PoseMapping.BodyLower === "BaseLower";
+			return C.PoseMapping.BodyLower === undefined
+				|| C.PoseMapping.BodyLower === "BaseLower";
 		default:
 			return false;
 	}
@@ -530,20 +562,21 @@ function AsylumGGTSCanRemove(C, Group) {
 /**
  * Returns TRUE if the task T can be done in character C predicament
  * @param {Character} C - The character to evaluate
- * @param {string} T - The task to evaluate
+ * @param {GGTSTask | null} T - The task to evaluate
  * @returns {boolean} - TRUE if the task can be done
  */
 function AsylumGGTSTaskCanBeDone(C, T) {
+	if (T === null) return false;
 	const level = AsylumGGTSGetLevel(C);
 	const strikes = AsylumGGTSGetStrikes(C);
 	const rules = AsylumGGTSGetRules(C);
 	if (level <= 0 && strikes >= 3) return false; // Must be playing GGTS without 3 strikes
 	if (((T == "QueryCanFail") || (T == "QueryLove") || (T == "QuerySurrender") || (T == "QueryWhoControl") || (T == "QueryServeObey")) && (level >= 6)) return false; // Some queries have the master version at level 6
-	if ((T.substr(0, 8) == "UndoRule") && !rules.includes(T.substr(8, 100))) return false; // Rule cannot be removed if not active
-	if ((T.substr(0, 7) == "NewRule") && rules.includes(T.substr(7, 100))) return false; // Rule cannot be added if already active
-	if ((T.substr(0, 5) == "Cloth") && !C.CanChangeOwnClothes()) return false; // Cloth tasks cannot be done if cannot change
-	if ((T.substr(0, 4) == "Pose") && !C.CanKneel()) return false; // If cannot kneel, we skip pose change activities
-	if ((T.substr(0, 8) == "Activity") && (!C.CanInteract() || !PreferenceArousalAtLeast(C, "NoMeter"))) return false; // Must allow activities and be able to interact
+	if (T.startsWith("UndoRule") && !rules.includes(T.substring(8, 100))) return false; // Rule cannot be removed if not active
+	if (T.startsWith("NewRule") && rules.includes(T.substring(7, 100))) return false; // Rule cannot be added if already active
+	if (T.startsWith("Cloth") && !C.CanChangeOwnClothes()) return false; // Cloth tasks cannot be done if cannot change
+	if (T.startsWith("Pose") && !C.CanKneel()) return false; // If cannot kneel, we skip pose change activities
+	if (T.startsWith("Activity") && (!C.CanInteract() || !PreferenceArousalAtLeast(C, "NoMeter"))) return false; // Must allow activities and be able to interact
 	if ((T == "ActivityNod") && !ActivityCanBeDone(C, "Nod", "ItemHead")) return false; // Must be able to nod to use that activity
 	if (((T == "ActivityKiss") || (T == "ActivityLick") || (T == "ActivityBite")) && !C.CanTalk()) return false; // Kiss, lick & bite require being able to talk
 	if (((T == "ActivityKiss") || (T == "ActivityLick") || (T == "ActivityBite")) && (Player.HasEffect("BlockMouth"))) return false; // Kiss, lick & bite require being able to use mouth
@@ -551,16 +584,16 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "ActivityMasturbateHand") && InventoryIsWorn(C, "ItemDevices", "FuckMachine")) return false; // Cannot masturbate if wearing the fuck machine
 	if (((T == "ClothHeels") || (T == "ClothSocks") || (T == "ClothBarefoot")) && (InventoryGet(C, "ItemBoots") != null)) return false; // No feet tasks if locked in boots
 	if ((T == "NewRuleNoOrgasm") && !PreferenceArousalAtLeast(C, "Hybrid")) return false; // Orgasm rule are only available on hybrid or auto
-	if (((T == "ItemRemoveLimb") || (T == "ItemRemoveBody") || (T == "ItemRemoveHead") || (T == "ItemUngag") || (T == "ItemUnchaste")) && (LogValue("Isolated", "Asylum") >= CurrentTime)) return false; // When punishment is active, items doesn't get removed
-	if (((T == "ItemRemoveLimb") || (T == "ItemRemoveBody") || (T == "ItemRemoveHead") || (T == "ItemUngag") || (T == "ItemUnchaste")) && (Math.random() * 6 < AsylumGGTSGetLevel(C))) return false; // The higher the level, the less likely GGTS will release
+	if ((T == "ItemRemoveLimb" || T == "ItemRemoveBody" || T == "ItemRemoveHead" || T == "ItemUngag" || T == "ItemUnchaste") && AsylumIsIsolated()) return false; // When punishment is active, items doesn't get removed
+	if ((T == "ItemRemoveLimb" || T == "ItemRemoveBody" || T == "ItemRemoveHead" || T == "ItemUngag" || T == "ItemUnchaste") && Math.random() * 6 < AsylumGGTSGetLevel(C)) return false; // The higher the level, the less likely GGTS will release
 	if ((T == "ItemPose") && !InventoryIsWorn(C, "ItemArms", "FuturisticCuffs") && !InventoryIsWorn(C, "ItemArms", "FuturisticStraitjacket") && !InventoryIsWorn(C, "ItemFeet", "FuturisticAnkleCuffs") && !InventoryIsWorn(C, "ItemLegs", "FuturisticLegCuffs")) return false;
 	if ((T == "ItemRemoveLimb") && !AsylumGGTSCanRemove(C, "ItemHands") && !AsylumGGTSCanRemove(C, "ItemArms") && !AsylumGGTSCanRemove(C, "ItemFeet") && !AsylumGGTSCanRemove(C, "ItemLegs") && !AsylumGGTSCanRemove(C, "ItemBoots")) return false;
 	if ((T == "ItemRemoveBody") && !AsylumGGTSCanRemove(C, "ItemPelvis") && !AsylumGGTSCanRemove(C, "ItemBreast") && !AsylumGGTSCanRemove(C, "ItemTorso") && !AsylumGGTSCanRemove(C, "ItemDevices")) return false;
 	if ((T == "ItemRemoveHead") && !AsylumGGTSCanRemove(C, "ItemNeck") && !AsylumGGTSCanRemove(C, "ItemHead") && !AsylumGGTSCanRemove(C, "ItemEars")) return false;
 	if ((T == "ItemUngag") && (
-		((InventoryGet(C, "ItemMouth") == null) || (InventoryGet(C, "ItemMouth").Asset.Name.substr(0, 10) != "Futuristic")) &&
-	((InventoryGet(C, "ItemMouth2") == null) || (InventoryGet(C, "ItemMouth2").Asset.Name.substr(0, 10) != "Futuristic")) &&
-	((InventoryGet(C, "ItemMouth3") == null) || (InventoryGet(C, "ItemMouth3").Asset.Name.substr(0, 10) != "Futuristic")))) return false;
+		((InventoryGet(C, "ItemMouth")?.Asset.Name.substring(0, 10) !== "Futuristic")) &&
+		((InventoryGet(C, "ItemMouth2")?.Asset.Name.substring(0, 10) !== "Futuristic")) &&
+		((InventoryGet(C, "ItemMouth3")?.Asset.Name.substring(0, 10) !== "Futuristic")))) return false;
 	if ((T == "ItemChaste") && (!InventoryIsWorn(C, "ItemPelvis", "FuturisticChastityBelt") || C.IsVulvaChaste())) return false; // Must have unchaste futuristic belt to chaste it
 	if ((T == "ItemUnchaste") && (!InventoryIsWorn(C, "ItemPelvis", "FuturisticChastityBelt") || !C.IsVulvaChaste())) return false; // Must have chaste futuristic belt to unchaste it
 	if ((T == "ItemIntensity") && !InventoryIsWorn(C, "ItemPelvis", "FuturisticTrainingBelt")) return false; // Must have training belt to change intensity
@@ -580,9 +613,9 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 		&& !InventoryIsWorn(C, "ItemMouth", "FuturisticHarnessPanelGag") && !InventoryIsWorn(C, "ItemMouth2", "FuturisticHarnessPanelGag") && !InventoryIsWorn(C, "ItemMouth3", "FuturisticHarnessPanelGag")
 	) return false; // Must be wearing a harness or panel gag
 	if ((T == "PoseOverHead") && !C.CanInteract()) return false; // Must be able to use hands for hands poses
-	if ((T == "PoseBehindBack") && (((C.PoseMapping != null) && ["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) || !C.CanInteract())) return false; // Must be able to use hands for hands poses
-	if ((T == "PoseLegsClosed") && (((C.PoseMapping != null) && (C.PoseMapping.BodyLower === "LegsClosed")) || C.IsKneeling() || !C.CanChangeToPose("LegsClosed"))) return false; // Close legs only if standing and able to do so
-	if ((T == "PoseLegsOpen") && ((C.PoseMapping == null) || (C.PoseMapping.BodyLower == null) || (C.PoseMapping.BodyLower === "BaseLower") || C.IsKneeling() || !C.CanChangeToPose("BaseLower"))) return false; // Open legs only if standing and able to do so
+	if ((T == "PoseBehindBack") && (((C.PoseMapping.BodyUpper === "BackBoxTie"|| C.PoseMapping.BodyUpper === "BackElbowTouch" || C.PoseMapping.BodyUpper === "BackCuffs") || !C.CanInteract()))) return false; // Must be able to use hands for hands poses
+	if ((T == "PoseLegsClosed") && (((C.PoseMapping.BodyLower === "LegsClosed")) || C.IsKneeling() || !C.CanChangeToPose("LegsClosed"))) return false; // Close legs only if standing and able to do so
+	if ((T == "PoseLegsOpen") && (C.PoseMapping.BodyLower === undefined || C.PoseMapping.BodyLower === "BaseLower" || C.IsKneeling() || !C.CanChangeToPose("BaseLower"))) return false; // Open legs only if standing and able to do so
 	if ((T == "LockRoom") && (ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "UnlockRoom") && (!ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
@@ -614,7 +647,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 /**
  * Returns TRUE if the task T was failed by character C
  * @param {Character} C - The character to evaluate
- * @param {string} T - The task to evaluate
+ * @param {GGTSTask | null} T - The task to evaluate
  * @returns {boolean} - TRUE if the task was failed
  */
 function AsylumGGTSTaskFail(C, T) {
@@ -632,14 +665,22 @@ function AsylumGGTSTaskFail(C, T) {
 
 /**
  * Checks if there's a futuristic item in the group slot and remove it if it's the case
- * @param {AssetGroupName} Group - The group name to validate
+ * @param {AssetGroupName[]} groups - The group name to validate
  * @returns {void} - Nothing
  */
-function AsylumGGTSTaskRemoveFuturisticItem(Group) {
-	let Item = InventoryGet(Player, Group);
-	if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name != null) && !InventoryOwnerOnlyItem(Item))
-		if ((Item.Asset.Name.substr(0, 10) == "Futuristic") || (Item.Asset.Name == "FuckMachine"))
-			InventoryRemove(Player, Group);
+function AsylumGGTSTaskRemoveFuturisticItem(groups) {
+	let doSync = false;
+	for (const group of groups) {
+		let Item = InventoryGet(Player, group);
+		if (!Item || InventoryOwnerOnlyItem(Item)) continue;
+		if (!Item.Asset.Name.startsWith("Futuristic") && Item.Asset.Name !== "FuckMachine") continue;
+		InventoryRemove(Player, group, false);
+		doSync = true;
+	}
+	if (doSync) {
+		CharacterRefresh(Player, true);
+		ChatRoomCharacterUpdate(Player);
+	}
 }
 
 /**
@@ -649,8 +690,9 @@ function AsylumGGTSTaskRemoveFuturisticItem(Group) {
  */
 function AsylumGGTSTransformGag(Group) {
 	let Item = InventoryGet(Player, Group);
-	if ((Item != null) && (Item.Asset != null) && ((Item.Asset.Name === "FuturisticHarnessBallGag") || (Item.Asset.Name === "FuturisticPanelGag")))
-		InventoryWear(Player, (Item.Asset.Name === "FuturisticHarnessBallGag") ? "FuturisticPanelGag" : "FuturisticHarnessBallGag", Group, null, 10);
+	if (Item?.Asset.Name === "FuturisticHarnessBallGag" || Item?.Asset.Name === "FuturisticPanelGag") {
+		InventoryWear(Player, (Item.Asset.Name === "FuturisticHarnessBallGag") ? "FuturisticPanelGag" : "FuturisticHarnessBallGag", Group, null, 10, -1, null, false);
+	}
 }
 
 /**
@@ -660,13 +702,13 @@ function AsylumGGTSTransformGag(Group) {
  */
 function AsylumGGTSConfigureGag(Group) {
 	let Item = InventoryGet(Player, Group);
-	//Do nothing if the slot is empty or not a configurable futuristic gag
-	if((Item == null) || (Item.Asset == null) || !((Item.Asset.Name === "FuturisticHarnessBallGag") || (Item.Asset.Name === "FuturisticPanelGag") || (Item.Asset.Name === "FuturisticHarnessPanelGag"))){
+	// Do nothing if the slot is empty or not a configurable futuristic gag
+	if (!Item || !["FuturisticHarnessBallGag", "FuturisticPanelGag", "FuturisticHarnessPanelGag"].includes(Item.Asset.Name)) {
 		return;
 	}
 
-	let TypeIndex = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.g) || 0;
-	if (Item.Asset.Name === "FuturisticHarnessBallGag"){
+	let TypeIndex = Item.Property?.TypeRecord?.g ?? 0;
+	if (Item.Asset.Name === "FuturisticHarnessBallGag") {
 		TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2]);
 	} else if ((Item.Asset.Name === "FuturisticPanelGag") || (Item.Asset.Name === "FuturisticHarnessPanelGag")){
 		TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2, 3]);
@@ -693,133 +735,124 @@ function AsylumGGTSConfigureGag(Group) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSAutomaticTask() {
+	if (AsylumGGTSTask === null) return;
 
 	switch (AsylumGGTSTask) {
 		// The ItemPose task automatically changes the futuristic items pose
 		case "ItemPose": {
 			let Item = InventoryGet(Player, "ItemArms");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticCuffs")) {
-				const typeOld = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			let doSync = false;
+			if (Item?.Asset.Name === "FuturisticCuffs") {
+				const typeOld = Item.Property?.TypeRecord?.typed ?? 0;
 				const typeNew = CommonRandomItemFromList(typeOld, [0, 1, 2]);
 				ExtendedItemSetOptionByRecord(Player, Item, { typed: typeNew });
+				doSync = true;
 			}
 
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticStraitjacket")) {
-				const typeRecord = Item.Property && Item.Property.TypeRecord;
-				if (typeRecord.a === 1) {
-					ExtendedItemSetOptionByRecord(Player, Item, { a: 0 });
-				} else {
-					ExtendedItemSetOptionByRecord(Player, Item, { a: 1 });
-				}
+			if (Item?.Asset.Name === "FuturisticStraitjacket") {
+				const typeRecord = Item.Property?.TypeRecord ?? {};
+				ExtendedItemSetOptionByRecord(Player, Item, { a: typeRecord.a === 1 ? 0 : 1 });
+				doSync = true;
 			}
 
 			Item = InventoryGet(Player, "ItemFeet");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticAnkleCuffs")) {
-				const typeOld = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			if (Item?.Asset.Name === "FuturisticAnkleCuffs") {
+				const typeOld = Item.Property?.TypeRecord?.typed ?? 0;
 				const typeNew = CommonRandomItemFromList(typeOld, [0, 1]);
 				ExtendedItemSetOptionByRecord(Player, Item, { typed: typeNew });
+				doSync = true;
 			}
 
 			Item = InventoryGet(Player, "ItemLegs");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name === "FuturisticLegCuffs")) {
-				const typeOld = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			if (Item?.Asset.Name === "FuturisticLegCuffs") {
+				const typeOld = Item.Property?.TypeRecord?.typed ?? 0;
 				const typeNew = CommonRandomItemFromList(typeOld, [0, 1]);
 				ExtendedItemSetOptionByRecord(Player, Item, { typed: typeNew });
+				doSync = true;
 			}
-
-			CharacterRefresh(Player);
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			if (doSync) {
+				CharacterRefresh(Player);
+				ChatRoomCharacterUpdate(Player);
+			}
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemRemoveLimb task automatically removes all futuristic arms and legs items
 		case "ItemRemoveLimb": {
-			AsylumGGTSTaskRemoveFuturisticItem("ItemHands");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemArms");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemLegs");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemFeet");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemBoots");
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSTaskRemoveFuturisticItem(["ItemHands", "ItemArms", "ItemLegs", "ItemFeet", "ItemBoots"]);
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemRemoveBody task automatically removes all futuristic bra, belt and harness
 		case "ItemRemoveBody": {
-			AsylumGGTSTaskRemoveFuturisticItem("ItemPelvis");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemTorso");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemBreast");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemDevices");
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSTaskRemoveFuturisticItem(["ItemPelvis", "ItemTorso", "ItemBreast", "ItemDevices"]);
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemRemoveHead task automatically removes all futuristic collar, mask and ear items
 		case "ItemRemoveHead": {
-			AsylumGGTSTaskRemoveFuturisticItem("ItemEars");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemNeck");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemHead");
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSTaskRemoveFuturisticItem(["ItemEars", "ItemNeck", "ItemHead"]);
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemUngag task automatically removes all futuristic gags
 		case "ItemUngag": {
-			AsylumGGTSTaskRemoveFuturisticItem("ItemMouth");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemMouth2");
-			AsylumGGTSTaskRemoveFuturisticItem("ItemMouth3");
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSTaskRemoveFuturisticItem(["ItemMouth", "ItemMouth2", "ItemMouth3"]);
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemChaste task automatically chasten the belt
 		case "ItemChaste": {
 			let Item = InventoryGet(Player, "ItemPelvis");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticChastityBelt")) {
-				ExtendedItemSetOptionByRecord(Player, Item, { f: 1, b: 1 });
+			if (Item?.Asset.Name == "FuturisticChastityBelt") {
 				Item.Color = ["#D06060", "#803030", "Default", "Default", "Default", "Default", "#222222", "Default"];
+				ExtendedItemSetOptionByRecord(Player, Item, { f: 1, b: 1 }, { push: true, refresh: true });
 			}
-			CharacterRefresh(Player);
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemUnchaste task automatically unchasten the belt
 		case "ItemUnchaste": {
 			let Item = InventoryGet(Player, "ItemPelvis");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticChastityBelt")) {
-				ExtendedItemSetOptionByRecord(Player, Item, { f: 0, b: 0 });
+			if (Item?.Asset.Name == "FuturisticChastityBelt") {
 				Item.Color = ["#93C48C", "#3B7F2C", "Default", "Default", "Default", "Default", "#222222", "Default"];
+				ExtendedItemSetOptionByRecord(Player, Item, { f: 0, b: 0 }, { push: true, refresh: true });
 			}
-			CharacterRefresh(Player);
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemIntensity task automatically changes the belt vibration intensity
 		case "ItemIntensity": {
 			let Item = InventoryGet(Player, "ItemPelvis");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticTrainingBelt")) {
+			if (Item?.Asset.Name == "FuturisticTrainingBelt") {
 				let Mode = (Item.Property && Item.Property.Mode) ? Item.Property.Mode : VibratorMode.OFF;
 				Mode = CommonRandomItemFromList(Mode, VibratorModeOptions[VibratorModeSet.STANDARD].map(o => o.Name));
-				VibratorModeSetOptionByName(Player, Item, Mode);
-				if (Item.Property.Intensity == -1) Item.Color = ["#3B7F2C", "#93C48C", "#93C48C", "Default", "Default", "Default"];
-				if (Item.Property.Intensity == 0) Item.Color = ["#4F7F2C", "#A3C48C", "#A3C48C", "Default", "Default", "Default"];
-				if (Item.Property.Intensity == 1) Item.Color = ["#6F6F2C", "#AFAF8C", "#AFAF8C", "Default", "Default", "Default"];
-				if (Item.Property.Intensity == 2) Item.Color = ["#7F4F2C", "#C4A38C", "#C4A38C", "Default", "Default", "Default"];
-				if (Item.Property.Intensity == 3) Item.Color = ["#7F2C2C", "#C48C8C", "#C48C8C", "Default", "Default", "Default"];
+				VibratorModeSetOptionByName(Player, Item, Mode, false, null, false);
+				if (Item.Property?.Intensity == -1) Item.Color = ["#3B7F2C", "#93C48C", "#93C48C", "Default", "Default", "Default"];
+				if (Item.Property?.Intensity == 0) Item.Color = ["#4F7F2C", "#A3C48C", "#A3C48C", "Default", "Default", "Default"];
+				if (Item.Property?.Intensity == 1) Item.Color = ["#6F6F2C", "#AFAF8C", "#AFAF8C", "Default", "Default", "Default"];
+				if (Item.Property?.Intensity == 2) Item.Color = ["#7F4F2C", "#C4A38C", "#C4A38C", "Default", "Default", "Default"];
+				if (Item.Property?.Intensity == 3) Item.Color = ["#7F2C2C", "#C48C8C", "#C48C8C", "Default", "Default", "Default"];
+				ChatRoomCharacterItemUpdate(Player, "ItemPelvis");
+				CharacterRefresh(Player);
 			}
-			CharacterRefresh(Player);
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemEarsDeaf task automatically changes the deaf level of the headphones
 		case "ItemEarsDeaf": {
 			let Item = InventoryGet(Player, "ItemEars");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticEarphones")) {
-				let Type = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
+			if (Item?.Asset.Name == "FuturisticEarphones") {
+				let Type = Item.Property?.TypeRecord?.typed ?? 0;
 				Type = CommonRandomItemFromList(Type, [0, 1, 2, 3]);
-				ExtendedItemSetOptionByRecord(Player, Item, { typed: 0 });
 				if (Type == 0) Item.Color = ["Default", "#50913C", "Default"];
 				if (Type == 1) Item.Color = ["Default", "#80713C", "Default"];
 				if (Type == 2) Item.Color = ["Default", "#B0513C", "Default"];
 				if (Type == 3) Item.Color = ["Default", "#E0313C", "Default"];
+				ExtendedItemSetOptionByRecord(Player, Item, { typed: 0 }, { push: true, refresh: true });
 			}
-			CharacterRefresh(Player);
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemMaskBlind task automatically changes the deaf level of the headphones
 		case "ItemMaskBlind": {
@@ -827,11 +860,10 @@ function AsylumGGTSAutomaticTask() {
 			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticMask")) {
 				let TypeIndex = (Item.Property && Item.Property.TypeRecord && Item.Property.TypeRecord.typed) || 0;
 				TypeIndex = CommonRandomItemFromList(TypeIndex, [0, 1, 2, 3]);
-				ExtendedItemSetOptionByRecord(Player, Item, { typed: TypeIndex });
+				ExtendedItemSetOptionByRecord(Player, Item, { typed: TypeIndex }, { push: true, refresh: true });
 			}
-			CharacterRefresh(Player);
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemFuckMachineIntensity task automatically changes the speed of the fuck machine
 		case "ItemFuckMachineIntensity": {
@@ -839,95 +871,105 @@ function AsylumGGTSAutomaticTask() {
 			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuckMachine")) {
 				let Mode = (Item.Property && Item.Property.Mode) ? Item.Property.Mode : VibratorMode.OFF;
 				Mode = CommonRandomItemFromList(Mode, VibratorModeOptions[VibratorModeSet.STANDARD].map(o => o.Name));
-				VibratorModeSetOptionByName(Player, Item, Mode);
+				VibratorModeSetOptionByName(Player, Item, Mode, true, null, true);
 			}
-			CharacterRefresh(Player);
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemTransform task automatically changes the restraint types
 		case "ItemTransform": {
 			let Item = InventoryGet(Player, "ItemArms");
-			if ((Item != null) && (Item.Asset != null) && ((Item.Asset.Name === "FuturisticCuffs") || (Item.Asset.Name === "FuturisticArmbinder") || (Item.Asset.Name === "FuturisticStraitjacket"))) {
+			if (Item && (Item.Asset.Name === "FuturisticCuffs" || Item.Asset.Name === "FuturisticArmbinder" || Item.Asset.Name === "FuturisticStraitjacket")) {
 				let List = [];
 				if (Item.Asset.Name !== "FuturisticCuffs") List.push("FuturisticCuffs");
 				if (Item.Asset.Name !== "FuturisticArmbinder") List.push("FuturisticArmbinder");
 				if ((Item.Asset.Name !== "FuturisticStraitjacket") && (AsylumGGTSGetLevel(Player) >= 5)) List.push("FuturisticStraitjacket");
-				InventoryWear(Player, CommonRandomItemFromList("", List), "ItemArms", null, 10);
+				InventoryWear(Player, CommonRandomItemFromList("", List), "ItemArms", null, 10, -1, null, false);
 			}
 			AsylumGGTSTransformGag("ItemMouth");
 			AsylumGGTSTransformGag("ItemMouth2");
 			AsylumGGTSTransformGag("ItemMouth3");
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			CharacterRefresh(Player);
+			ChatRoomCharacterItemUpdate(Player, "ItemMouth");
+			ChatRoomCharacterItemUpdate(Player, "ItemMouth2");
+			ChatRoomCharacterItemUpdate(Player, "ItemMouth3");
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		case "ItemChangeGag": {
 			AsylumGGTSConfigureGag("ItemMouth");
 			AsylumGGTSConfigureGag("ItemMouth2");
 			AsylumGGTSConfigureGag("ItemMouth3");
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			CharacterRefresh(Player);
+			ChatRoomCharacterItemUpdate(Player, "ItemMouth");
+			ChatRoomCharacterItemUpdate(Player, "ItemMouth2");
+			ChatRoomCharacterItemUpdate(Player, "ItemMouth3");
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemBeltToFuck task automatically remove the training belt and adds the fuck machine
 		case "ItemBeltToFuck": {
 			let Item = InventoryGet(Player, "ItemPelvis");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuturisticTrainingBelt")) {
-				InventoryRemove(Player, "ItemPelvis");
-				InventoryWear(Player, "FuckMachine", "ItemDevices", null, 150);
+			if (Item?.Asset.Name == "FuturisticTrainingBelt") {
+				InventoryRemove(Player, "ItemPelvis", false);
+				InventoryWear(Player, "FuckMachine", "ItemDevices", null, 150, -1, null, false);
 			}
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			CharacterRefresh(Player);
+			ChatRoomCharacterItemUpdate(Player, "ItemPelvis");
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		// The ItemFuckToBelt task automatically remove the fuck machine and adds the training belt
 		case "ItemFuckToBelt": {
 			let Item = InventoryGet(Player, "ItemDevices");
-			if ((Item != null) && (Item.Asset != null) && (Item.Asset.Name == "FuckMachine")) {
-				InventoryRemove(Player, "ItemDevices");
+			if (Item?.Asset.Name == "FuckMachine") {
+				InventoryRemove(Player, "ItemDevices", false);
 				InventoryWear(Player, "FuturisticTrainingBelt", "ItemPelvis", null, 10);
 			}
-			ChatRoomCharacterUpdate(Player);
-			return AsylumGGTSEndTaskSave();
+			CharacterRefresh(Player);
+			ChatRoomCharacterItemUpdate(Player, "ItemDevices");
+			AsylumGGTSEndTaskSave();
+			return;
 		}
 		default: {
 			// If we must enforce a new rule
-			if (AsylumGGTSTask.substr(0, 7) == "NewRule") {
-				AsylumGGTSAddRule(AsylumGGTSTask.substr(7, 100), false);
-				return AsylumGGTSEndTaskSave();
+			if (AsylumGGTSTask.substring(0, 7) == "NewRule") {
+				AsylumGGTSAddRule(AsylumGGTSTask.substring(7, 100), false);
+				AsylumGGTSEndTaskSave();
+				return;
 			}
 
 			// The UndoRule tasks removes a rule set by GGTS for the player to obey
-			if (AsylumGGTSTask.substr(0, 8) == "UndoRule") {
-				AsylumGGTSRemoveRule(AsylumGGTSTask.substr(8, 100));
-				return AsylumGGTSEndTaskSave();
+			if (AsylumGGTSTask.substring(0, 8) == "UndoRule") {
+				AsylumGGTSRemoveRule(AsylumGGTSTask.substring(8, 100));
+				AsylumGGTSEndTaskSave();
+				return;
 			}
 
 			// If we must lock or unlock the chat room, we send a server update room packet
-			if ((AsylumGGTSTask == "LockRoom") || (AsylumGGTSTask == "UnlockRoom")) {
+			if (ChatRoomData && (AsylumGGTSTask == "LockRoom" || AsylumGGTSTask == "UnlockRoom")) {
 				const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
 				UpdatedRoom.Access = AsylumGGTSTask == "LockRoom" ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
 				ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
-				return AsylumGGTSEndTaskSave();
+				AsylumGGTSEndTaskSave();
+				return;
 			}
 		}
 	}
-
-
-
-
 }
 
 /**
  * In a public room, some GGTS tasks can target another valid player.  Patients will do physical activities, nurses will restraint.
- * @param {string} T - The task to evaluate
- * @returns {Character} - The target character
+ * @param {GGTSTask} T - The task to evaluate
+ * @returns {Character | null} - The target character
  */
 function AsylumGGTSFindTaskTarget(T) {
 
 	// Only in public GGTS when there's at least another character and the player isn't blind
-	if (ChatSearchReturnScreen[1] == "AsylumGGTS" || ChatRoomCharacter.length <= 1 || Player.IsBlind()) return null;
+	if (ChatSearchGetSpace() === "Asylum" || ChatRoomCharacter.length <= 1 || Player.IsBlind()) return null;
 
 	// Nurses can use items on other players with less reputation or herself
-	if ((ReputationGet("Asylum") > 0) && (T.substr(0, 4) == "Item") && (T.length >= 15)) {
+	if (ReputationGet("Asylum") > 0 && T.startsWith("Item") && T.length >= 15) {
 		let Target = null;
 		let TargetOdds = -1;
 		for (let C = 0; C < ChatRoomCharacter.length; C++)
@@ -938,11 +980,11 @@ function AsylumGGTSFindTaskTarget(T) {
 					TargetOdds = Odds;
 				}
 			}
-		return (Player.MemberNumber == Target.MemberNumber) ? null : Target;
+		return (Player.MemberNumber === Target?.MemberNumber) ? null : Target;
 	}
 
 	// Patients can use activities on other patients or herself
-	if ((ReputationGet("Asylum") < 0) && (T.substr(0, 8) == "Activity") && (T != "ActivityWiggle") && (T != "ActivityNod")) {
+	if (ReputationGet("Asylum") < 0 && T.startsWith("Activity") && T !== "ActivityWiggle" && T !== "ActivityNod") {
 		let Target = null;
 		let TargetOdds = -1;
 		for (let C = 0; C < ChatRoomCharacter.length; C++)
@@ -953,7 +995,7 @@ function AsylumGGTSFindTaskTarget(T) {
 					TargetOdds = Odds;
 				}
 			}
-		return (Player.MemberNumber == Target.MemberNumber) ? null : Target;
+		return (Player.MemberNumber == Target?.MemberNumber) ? null : Target;
 	}
 
 	// No target found
@@ -979,6 +1021,7 @@ function AsylumGGTSNewTask() {
 	if (AsylumGGTSGetStrikes(Player) >= 3) return;
 
 	// Form a pool of all available tasks which have a level smaller or equal than the player's current level
+	/** @type {GGTSTask[]} */
 	let TaskList = [];
 	for (let L = 0; (L < AsylumGGTSTaskList.length) && (L <= Level); L++)
 		for (let T = 0; T < AsylumGGTSTaskList[L].length; T++)
@@ -1013,7 +1056,7 @@ function AsylumGGTSEndTaskSave(Fail) {
 	AsylumGGTSTask = null;
 	if ((Fail == null) || (Fail == false)) {
 		let Factor = 1;
-		if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] == "AsylumGGTS" && ChatRoomCharacter.length <= 1) Factor = 3;
+		if (ChatRoomIsPrivate() && ChatSearchGetSpace() === "Asylum" && ChatRoomCharacter.length <= 1) Factor = 3;
 		let AddedTime;
 		if (AsylumGGTSTaskEnd > 0) AddedTime = CommonTime() - AsylumGGTSTaskEnd;
 		else AddedTime = CommonTime() - AsylumGGTSTaskStart;
@@ -1028,10 +1071,8 @@ function AsylumGGTSEndTaskSave(Fail) {
 		if (AddedTime < 0) AddedTime = 0;
 		if (AddedTime > 120000) AddedTime = 120000;
 		AddedTime = AddedTime * Factor * CheatFactor("DoubleGGTSTime", 2);
-		Player.Game.GGTS.Time = Math.round(Player.Game.GGTS.Time + AddedTime);
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+		AsylumGGTSSetLevelTime(Player, AsylumGGTSGetLevelTime(Player) + AddedTime);
 	}
-	ChatRoomCharacterUpdate(Player);
 	AsylumGGTSTaskEnd = CommonTime();
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 }
@@ -1043,9 +1084,12 @@ function AsylumGGTSEndTaskSave(Fail) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSAddRule(NewRule, Publish) {
-	if (Player.Game.GGTS.Rule == null) Player.Game.GGTS.Rule = [];
-	if (Player.Game.GGTS.Rule.indexOf(NewRule) < 0) {
-		Player.Game.GGTS.Rule.push(NewRule);
+	if (!Player.Game.GGTS?.Rule) {
+		const ggts = (Player.Game.GGTS ??= /** @type {GameGGTSParameters} */ ({}));
+		ggts.Rule = [];
+	}
+	if (!Player.Game.GGTS?.Rule.includes(NewRule)) {
+		Player.Game.GGTS?.Rule.push(NewRule);
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 		ChatRoomCharacterUpdate(Player);
 		if (Publish) AsylumGGTSMessage("TaskNewRule" + NewRule);
@@ -1058,8 +1102,11 @@ function AsylumGGTSAddRule(NewRule, Publish) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSRemoveRule(Rule) {
-	if (Player.Game.GGTS.Rule == null) Player.Game.GGTS.Rule = [];
-	if (Player.Game.GGTS.Rule.indexOf(Rule) >= 0) {
+	if (!Player.Game.GGTS?.Rule) {
+		const ggts = (Player.Game.GGTS ??= /** @type {GameGGTSParameters} */ ({}));
+		ggts.Rule = [];
+	}
+	if (Player.Game.GGTS.Rule.includes(Rule)) {
 		Player.Game.GGTS.Rule.splice(Player.Game.GGTS.Rule.indexOf(Rule), 1);
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 		ChatRoomCharacterUpdate(Player);
@@ -1073,15 +1120,19 @@ function AsylumGGTSRemoveRule(Rule) {
 function AsylumGGTSEndTask() {
 	if (ChatSearchGetSpace() !== "Asylum") return;
 	if (AsylumGGTSGetStrikes(Player) >= 3) return;
-	if (AsylumGGTSTaskDone((AsylumGGTSTaskTarget == null) ? Player : AsylumGGTSTaskTarget, AsylumGGTSTask)) {
+	if (AsylumGGTSTaskDone(AsylumGGTSTaskTarget ?? Player, AsylumGGTSTask)) {
 		AsylumGGTSMessage("TaskDone");
-		if ((Math.random() >= 0.5) && (["PoseOverHead", "PoseKneel", "PoseBehindBack", "PoseLegsClosed"].indexOf(AsylumGGTSTask) >= 0) && (AsylumGGTSGetLevel(Player) >= 2)) AsylumGGTSAddRule("KeepPose", true);
-		return AsylumGGTSEndTaskSave();
+		if (Math.random() >= 0.5 && AsylumGGTSTask && ["PoseOverHead", "PoseKneel", "PoseBehindBack", "PoseLegsClosed"].includes(AsylumGGTSTask) && AsylumGGTSGetLevel(Player) >= 2) {
+			AsylumGGTSAddRule("KeepPose", true);
+		}
+		AsylumGGTSEndTaskSave();
+		return;
 	}
-	if ((CommonTime() >= AsylumGGTSTimer) || (AsylumGGTSTaskFail(Player, AsylumGGTSTask))) {
+	if (CommonTime() >= AsylumGGTSTimer || AsylumGGTSTaskFail(Player, AsylumGGTSTask)) {
 		AsylumGGTSAddStrike();
-		AsylumGGTSMessage(((CommonTime() >= AsylumGGTSTimer) ? "TimeOver" : "Failure") + "Strike" + Player.Game.GGTS.Strike.toString());
-		return AsylumGGTSEndTaskSave(true);
+		AsylumGGTSMessage(((CommonTime() >= AsylumGGTSTimer) ? "TimeOver" : "Failure") + "Strike" + AsylumGGTSGetStrikes(Player).toString());
+		AsylumGGTSEndTaskSave(true);
+		return;
 	}
 }
 
@@ -1125,8 +1176,8 @@ function AsylumGGTSForbiddenWord(C) {
 	// Builds the word list, at level the player name becomes a forbidden word
 	if (ChatRoomChatLog == null) return false;
 	let Level = AsylumGGTSGetLevel(C);
-	if (Level <= 2) return;
-	if (AsylumGGTSGetStrikes(Player) >= 3) return;
+	if (Level <= 2) return false;
+	if (AsylumGGTSGetStrikes(Player) >= 3) return false;
 	let WordList = AsylumGGTSGetMessage("GGTSBannedWordsLvl0").split("|");
 	if (Level >= 4) {
 		WordList.push(...AsylumGGTSGetMessage("GGTSBannedWordsLvl4").split("|"));
@@ -1137,14 +1188,15 @@ function AsylumGGTSForbiddenWord(C) {
 	if ((Level >= 6) && (Player.Name.length > 2)) WordList.push(Player.Name.trim().toLowerCase());
 
 	// Scans the original
-	for (let L = 0; L < ChatRoomChatLog.length; L++)
+	for (let L = 0; L < ChatRoomChatLog.length; L++) {
 		if ((ChatRoomChatLog[L].SenderMemberNumber == C.MemberNumber) && (ChatRoomChatLog[L].Time > LastCheck) && (FullList.indexOf(ChatRoomChatLog[L].Original) < 0)) {
 			let Chat = ChatRoomChatLog[L].Original.trim().toLowerCase();
 			for (let W = 0; W < WordList.length; W++)
 				if (Chat.indexOf(WordList[W]) >= 0)
 					return true;
 		}
-
+	}
+	return false;
 }
 
 /**
@@ -1162,7 +1214,7 @@ function AsylumGGTSProcess() {
 		if (ChatSearchGetSpace() !== "Asylum") AsylumGGTSMessage("IntroOnlyInAsylum");
 		else if (AsylumGGTSGetLevel(Player) <= 0) AsylumGGTSMessage("IntroNotPlaying");
 		else if (AsylumGGTSGetStrikes(Player) >= 3) AsylumGGTSMessage("IntroPendingPunishment");
-		else if (ChatRoomIsPrivate() && ChatSearchReturnScreen[1] == "AsylumGGTS") AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
+		else if (ChatRoomIsPrivate() && ChatSearchGetSpace() === "Asylum") AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
 		else AsylumGGTSMessage("IntroPublic");
 		AsylumGGTSIntroDone = true;
 		return;
@@ -1171,7 +1223,7 @@ function AsylumGGTSProcess() {
 	// Validates for forbidden words
 	if (AsylumGGTSForbiddenWord(Player)) {
 		AsylumGGTSAddStrike();
-		AsylumGGTSMessage("ForbiddenWordStrike" + Player.Game.GGTS.Strike.toString());
+		AsylumGGTSMessage("ForbiddenWordStrike" + AsylumGGTSGetStrikes(Player).toString());
 		return AsylumGGTSEndTaskSave(true);
 	}
 
@@ -1179,7 +1231,7 @@ function AsylumGGTSProcess() {
 	if (AsylumGGTSGetRules(Player).includes("KeepPose") && !CommonObjectEqual(AsylumGGTSPreviousPose, Player.PoseMapping))
 		if (!AsylumGGTSTaskDone(Player, AsylumGGTSTask)) {
 			AsylumGGTSAddStrike();
-			AsylumGGTSMessage("KeepPoseStrike" + Player.Game.GGTS.Strike.toString());
+			AsylumGGTSMessage("KeepPoseStrike" + AsylumGGTSGetStrikes(Player).toString());
 			AsylumGGTSRemoveRule("KeepPose");
 			return AsylumGGTSEndTaskSave(true);
 		}
@@ -1201,14 +1253,14 @@ function AsylumGGTSProcess() {
  * @return {void} - Nothing
  */
 function AsylumGGTSActivity(S, C, A, Z, Count) {
-	if ((AsylumGGTSTask == null) || (AsylumGGTSTask.substr(0, 8) != "Activity")) return;
+	if ((AsylumGGTSTask == null) || !AsylumGGTSTask.startsWith("Activity")) return;
 	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
 	if ((S == null) || !S.IsPlayer()) return;
 	if ((AsylumGGTSTaskTarget != null) && ((C == null) || (C.MemberNumber != AsylumGGTSTaskTarget.MemberNumber))) return;
 	if ((AsylumGGTSTaskTarget == null) && (C != null) && (C.MemberNumber != Player.MemberNumber)) return;
 	let Level = AsylumGGTSGetLevel(Player);
 	if (Level <= 0) return;
-	if (AsylumGGTSTask.substr(8, 100) === A) {
+	if (AsylumGGTSTask.substring(8, 100) === A) {
 		AsylumGGTSMessage("TaskDone");
 		return AsylumGGTSEndTaskSave();
 	}
@@ -1221,11 +1273,11 @@ function AsylumGGTSActivity(S, C, A, Z, Count) {
  */
 function AsylumGGTSPunishmentTime(Minute) {
 	let Time = Math.round(CurrentTime + parseInt(Minute) * 60000);
-	if (LogValue("Isolated", "Asylum") >= CurrentTime) Time = Time + Math.round(LogValue("Isolated", "Asylum") - CurrentTime);
+	const isolationTime = LogValue("Isolated", "Asylum") ?? 0;
+	if (isolationTime >= CurrentTime) Time = Time + Math.round(isolationTime - CurrentTime);
 	LogAdd("Isolated", "Asylum", Time);
-	Player.Game.GGTS.Time = 0;
-	Player.Game.GGTS.Strike = 0;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	AsylumGGTSSetLevelTime(Player, 0, false);
+	AsylumGGTSSetStrikes(Player, 0);
 }
 
 /**
@@ -1245,20 +1297,19 @@ function AsylumGGTSStartPunishment() {
  * @returns {boolean} - TRUE if the item is controlled by GGTS
  */
 function AsylumGGTSControlItem(C, Item) {
+	if (!C || !Item) return false;
+	if (!ServerPlayerIsInChatRoom() || ChatSearchGetSpace() !== "Asylum") return false;
 	let Level = AsylumGGTSGetLevel(C);
-	if (AsylumGGTSGetLevel(Player) > Level) Level = AsylumGGTSGetLevel(Player);
+	if (AsylumGGTSGetLevel(Player) > Level) {
+		Level = AsylumGGTSGetLevel(Player);
+	}
 	if (Level <= 0) return false;
-	if ((Level <= 2) && (LogValue("Isolated", "Asylum") < CurrentTime)) {
-		if (CurrentScreen != "ChatRoom") return false;
-		if (ChatSearchGetSpace() !== "Asylum") return false;
-		if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return false;
-		if ((Item == null) || (Item.Asset == null) || (Item.Asset.Name == null)) return false;
-		if ((Item.Asset.Name.substr(0, 10) == "Futuristic") || (Item.Asset.Name == "FuckMachine")) return true;
+	if (Level <= 2 && !AsylumIsIsolated()) {
+		if (ChatRoomGetGame() !== "GGTS") return false;
+		if (Item.Asset.Name.startsWith("Futuristic") || Item.Asset.Name === "FuckMachine") return true;
 	} else {
-		if ((Item == null) || (Item.Asset == null) || (Item.Asset.Name == null)) return false;
-		if ((Item.Asset.Name.substr(0, 10) != "Futuristic") && (Item.Asset.Name != "FuckMachine")) return false;
-		if (ServerPlayerIsInChatRoom() && ChatSearchGetSpace() == "Asylum") return true;
-		if (CurrentScreen.substr(0, 6) == "Asylum") return true;
+		if (!Item.Asset.Name.startsWith("Futuristic") && Item.Asset.Name != "FuckMachine") return false;
+		if (CurrentScreen.startsWith("Asylum")) return true;
 	}
 	return false;
 }
@@ -1268,16 +1319,17 @@ function AsylumGGTSControlItem(C, Item) {
  * @param {number} Minute - The number of minutes to compare
  * @returns {boolean} - TRUE if the player has enough minutes
  */
-function AsylumGGTSHasMinutes(Minute) { return ((AsylumGGTSGetLevel(Player) >= 6) && (Math.floor(Player.Game.GGTS.Time / 60000) >= Minute)); }
+function AsylumGGTSHasMinutes(Minute) { return ((AsylumGGTSGetLevel(Player) >= 6) && (Math.floor(AsylumGGTSGetLevelTime(Player) / 60000) >= Minute)); }
 
 /**
  * At level 6, the player can spend GGTS minutes for various reasons
+ * @param {number} Minute
  * @returns {void} - Nothing
  */
 function AsylumGGTSSpendMinute(Minute) {
-	Player.Game.GGTS.Time = Player.Game.GGTS.Time - (parseInt(Minute) * 60000);
-	if (Player.Game.GGTS.Time < 0) Player.Game.GGTS.Time = 0;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if (Minute < 0) Minute = 0;
+	const time = AsylumGGTSGetLevelTime(Player);
+	AsylumGGTSSetLevelTime(Player, time - (Minute * 60000));
 }
 
 /**
@@ -1287,37 +1339,44 @@ function AsylumGGTSSpendMinute(Minute) {
 function AsylumGGTSAddStrike() {
 
 	// Flash a red alert for the player for 5 seconds, if we are in the GGTS Room background
-	if (AsylumGGTSIsEnabled() && (ChatRoomData.Background === "AsylumGGTSRoom")) {
+	if (AsylumGGTSIsEnabled() && (ChatRoomData?.Background === "AsylumGGTSRoom")) {
 		ChatRoomData.Background = "AsylumGGTSRoomAlert";
-		setTimeout(function() { ChatRoomData.Background = "AsylumGGTSRoom"; }, 5000);
+		setTimeout(function() {
+			if (ChatRoomData?.Background === "AsylumGGTSRoomAlert")
+				ChatRoomData.Background = "AsylumGGTSRoom";
+		}, 5000);
 	}
 
 	// Level 6 is infinite, getting a strike subtract 1 hour
 	if (AsylumGGTSGetLevel(Player) >= 6) return AsylumGGTSSpendMinute(60);
 
+	let strikes = AsylumGGTSGetStrikes(Player);
+	// Adds the strike to the player record
+	strikes = AsylumGGTSSetStrikes(Player, ++strikes);
+
 	// On the third strike, we unlock the room if we can
-	if ((Player.Game.GGTS.Strike >= 2) && AsylumGGTSTaskCanBeDone(Player, "UnlockRoom")) {
+	if (strikes >= 3 && AsylumGGTSTaskCanBeDone(Player, "UnlockRoom")) {
 		AsylumGGTSTask = "UnlockRoom";
 		AsylumGGTSAutomaticTask();
 	}
 
-	// Adds the strike to the player record
-	Player.Game.GGTS.Strike++;
-	if (Player.Game.GGTS.Strike > 3) Player.Game.GGTS.Strike = 3;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-
 	// On the third strike, we open the leg cuffs if we can
-	if ((Player.Game.GGTS.Strike >= 3) && InventoryIsWorn(Player, "ItemFeet", "FuturisticAnkleCuffs")) {
-		InventoryGet(Player, "ItemFeet").Property = { SetPose: null, Difficulty: 0, Effect: [] };
+	const item = InventoryGet(Player, "ItemFeet");
+	if (strikes >= 3 && item && item.Asset.Name === "FuturisticAnkleCuffs") {
+		item.Property ??= {};
+		item.Property.SetPose = undefined;
+		item.Property.Difficulty = 0;
+		item.Property.Effect = [];
 		CharacterRefresh(Player);
-		ChatRoomCharacterUpdate(Player);
+		ChatRoomCharacterItemUpdate(Player, "ItemFeet");
 	}
 
 	// On the third strike, we change the fuck machine to a training belt if we can
-	if ((Player.Game.GGTS.Strike >= 3) && InventoryIsWorn(Player, "ItemDevices", "FuckMachine")) {
-		InventoryRemove(Player, "ItemDevices");
-		InventoryWear(Player, "FuturisticTrainingBelt", "ItemPelvis", null, 10);
-		ChatRoomCharacterUpdate(Player);
+	if (strikes >= 3 && InventoryIsWorn(Player, "ItemDevices", "FuckMachine")) {
+		InventoryRemove(Player, "ItemDevices", false);
+		InventoryWear(Player, "FuturisticTrainingBelt", "ItemPelvis", null, 10, null, null, false);
+		CharacterRefresh(Player);
+		ChatRoomCharacterItemUpdate(Player, "ItemDevices");
 	}
 
 }
@@ -1327,10 +1386,10 @@ function AsylumGGTSAddStrike() {
  * @returns {boolean} - Returns TRUE if the player is due for a punishment with a future gag
  */
 function AsylumGGTSFuturisticGaggedPunished() {
-	if (Player.Game.GGTS.Strike < 3) return false;
-	if ((InventoryGet(Player, "ItemMouth") != null) && (InventoryGet(Player, "ItemMouth").Asset.Name.substr(0, 10) == "Futuristic")) return true;
-	if ((InventoryGet(Player, "ItemMouth2") != null) && (InventoryGet(Player, "ItemMouth2").Asset.Name.substr(0, 10) == "Futuristic")) return true;
-	if ((InventoryGet(Player, "ItemMouth3") != null) && (InventoryGet(Player, "ItemMouth3").Asset.Name.substr(0, 10) == "Futuristic")) return true;
+	if (AsylumGGTSGetStrikes(Player) < 3) return false;
+	if (InventoryGet(Player, "ItemMouth")?.Asset.Name.startsWith("Futuristic")) return true;
+	if (InventoryGet(Player, "ItemMouth2")?.Asset.Name.startsWith("Futuristic")) return true;
+	if (InventoryGet(Player, "ItemMouth3")?.Asset.Name.startsWith("Futuristic")) return true;
 	return false;
 }
 
@@ -1339,12 +1398,13 @@ function AsylumGGTSFuturisticGaggedPunished() {
  * @returns {void} - Nothing
  */
 function AsylumGGTSUngag() {
-	InventoryRemove(Player, "ItemHead");
-	InventoryRemove(Player, "ItemHood");
-	InventoryRemove(Player, "ItemEars");
-	InventoryRemove(Player, "ItemMouth");
-	InventoryRemove(Player, "ItemMouth2");
-	InventoryRemove(Player, "ItemMouth3");
+	InventoryRemove(Player, "ItemHead", false);
+	InventoryRemove(Player, "ItemHood", false);
+	InventoryRemove(Player, "ItemEars", false);
+	InventoryRemove(Player, "ItemMouth", false);
+	InventoryRemove(Player, "ItemMouth2", false);
+	InventoryRemove(Player, "ItemMouth3", false);
+	CharacterRefresh(Player);
 }
 
 /**
@@ -1353,13 +1413,12 @@ function AsylumGGTSUngag() {
  * @return {void} - Nothing
  */
 function AsylumGGTSTOrgasm(C) {
-	if (ChatSearchGetSpace() !== "Asylum") return;
-	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
-	if ((C == null) || (!C.IsPlayer())) return;
+	if (!C || ChatSearchGetSpace() !== "Asylum" || ChatRoomGetGame() !== "GGTS") return;
+	if (!C.IsPlayer()) return;
 	if (AsylumGGTSGetStrikes(Player) >= 3 && AsylumGGTSGetLevel(Player) <= 0) return;
 	if (!AsylumGGTSGetRules(Player).includes("NoOrgasm")) return;
 	AsylumGGTSAddStrike();
-	AsylumGGTSMessage("OrgasmStrike" + Player.Game.GGTS.Strike.toString());
+	AsylumGGTSMessage(`OrgasmStrike${AsylumGGTSGetStrikes(Player)}`);
 	AsylumGGTSRemoveRule("NoOrgasm");
 }
 
@@ -1372,8 +1431,7 @@ function AsylumGGTSTOrgasm(C) {
  * @return {void} - TRUE if the character can change
  */
 function AsylumGGTSOrgasmResist() {
-	if (ChatSearchGetSpace() !== "Asylum") return;
-	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
+	if (ChatSearchGetSpace() !== "Asylum" || ChatRoomGetGame() !== "GGTS") return;
 	if (AsylumGGTSGetStrikes(Player) >= 3 && AsylumGGTSGetLevel(Player) <= 0) return;
 
 	let chance = 0.5;
@@ -1411,22 +1469,22 @@ async function AsylumGGTSLock(LockTime, Msg) {
  * @param {Character} [C] - The character to dress, if omitted, we use the player
  * @return {void} - Nothing
  */
-function AsylumGGTSDroneDress(C) {
-	if (C == null) C = Player;
-	CharacterRelease(C);
-	CharacterNaked(C);
-	InventoryWear(C, "FuturisticCuffs", "ItemArms");
-	InventoryWear(C, "FuturisticAnkleCuffs", "ItemFeet");
-	InventoryWear(C, "FuturisticLegCuffs", "ItemLegs");
-	InventoryWear(C, "FuturisticHeels2", "ItemBoots");
-	InventoryWear(C, "FuturisticTrainingBelt", "ItemPelvis");
-	InventoryWear(C, "FuturisticBra", "ItemBreast");
-	InventoryWear(C, "FuturisticHarness", "ItemTorso");
-	InventoryWear(C, "FuturisticPanelGag", "ItemMouth");
-	InventoryWear(C, "FuturisticMask", "ItemHead");
-	InventoryWear(C, "FuturisticHelmet", "ItemHood");
-	if ((InventoryGet(C, "ItemNeck") == null) || !C.IsOwned()) InventoryWear(C, "FuturisticCollar", "ItemNeck");
-	InventoryWear(C, "FuturisticEarphones", "ItemEars");
+function AsylumGGTSDroneDress(C=Player) {
+	CharacterRelease(C, false);
+	CharacterNaked(C, false);
+	InventoryWear(C, "FuturisticCuffs", "ItemArms", null, null, null, null, false);
+	InventoryWear(C, "FuturisticAnkleCuffs", "ItemFeet", null, null, null, null, false);
+	InventoryWear(C, "FuturisticLegCuffs", "ItemLegs", null, null, null, null, false);
+	InventoryWear(C, "FuturisticHeels2", "ItemBoots", null, null, null, null, false);
+	InventoryWear(C, "FuturisticTrainingBelt", "ItemPelvis", null, null, null, null, false);
+	InventoryWear(C, "FuturisticBra", "ItemBreast", null, null, null, null, false);
+	InventoryWear(C, "FuturisticHarness", "ItemTorso", null, null, null, null, false);
+	InventoryWear(C, "FuturisticPanelGag", "ItemMouth", null, null, null, null, false);
+	InventoryWear(C, "FuturisticMask", "ItemHead", null, null, null, null, false);
+	InventoryWear(C, "FuturisticHelmet", "ItemHood", null, null, null, null, false);
+	if (!InventoryGet(C, "ItemNeck") || !C.IsOwned()) InventoryWear(C, "FuturisticCollar", "ItemNeck", null, null, null, null, false);
+	InventoryWear(C, "FuturisticEarphones", "ItemEars", null, null, null, null, false);
+	CharacterRefresh(C, true);
 }
 
 /**
@@ -1435,40 +1493,43 @@ function AsylumGGTSDroneDress(C) {
  * @return {boolean} - TRUE if the character can change
  */
 function AsylumGGTSAllowChange(C) {
-	if (LogValue("Isolated", "Asylum") >= CurrentTime) return false;
+	if (AsylumIsIsolated()) return false;
 	if (AsylumGGTSGetLevel(C) >= 6) {
 		if (ServerPlayerIsInChatRoom() && ChatSearchGetSpace() == "Asylum") return false;
-		if (CurrentScreen.substr(0, 6) == "Asylum") return false;
+		if (CurrentScreen.startsWith("Asylum")) return false;
 	}
 	return true;
 }
 
 /**
  * Called from Dialog.js, triggers a specific action from GGTS game
- * @param {String} Action - The action to perform
- * @param {Number} Minute - The number of minutes to remove
+ * @param {GGTSTask | "MoneyForMinutes" | "GetHelmet"} Action - The action to perform
+ * @param {number} Minute - The number of minutes to remove
  * @returns {void} - Nothing
  */
 function AsylumGGTSDialogAction(Action, Minute) {
 
 	// Removes the minutes first
-	Minute = parseInt(Minute);
-	if (isNaN(Minute) || (Minute < 0)) Minute = 0;
 	AsylumGGTSSpendMinute(Minute);
 
-	// Adds $100 to the player money in exchange for 120 GGTS minutes
-	if (Action == "MoneyForMinutes") return CharacterChangeMoney(Player, 100);
-	if (Action == "GetHelmet") {
-		InventoryAdd(Player, "FuturisticHelmet", "ItemHood");
-		InventoryAdd(Player, "GGTSHelmet", "ItemHood");
-		return;
+	switch (Action) {
+		case "MoneyForMinutes":
+			// Adds $100 to the player money in exchange for 120 GGTS minutes
+			CharacterChangeMoney(Player, 100);
+			break;
+
+		case "GetHelmet":
+			InventoryAdd(Player, "FuturisticHelmet", "ItemHood");
+			InventoryAdd(Player, "GGTSHelmet", "ItemHood");
+			break;
+
+		default:
+			// Call a regular automated task
+			DialogLeave();
+			AsylumGGTSTask = Action;
+			AsylumGGTSAutomaticTask();
+			break;
 	}
-
-	// Call a regular automated task
-	DialogLeave();
-	AsylumGGTSTask = Action;
-	AsylumGGTSAutomaticTask();
-
 }
 
 /**
@@ -1482,6 +1543,8 @@ function AsylumGGTSDialogInteraction(Interaction) {
 }
 
 function AsylumGGTSDialogNewTask() {
+	if (!CurrentCharacter) return;
+
 	const dictionary = new DictionaryBuilder()
 		.targetCharacter(CurrentCharacter)
 		.addGGTSData({ type: "GGTSNewTask"})
@@ -1496,9 +1559,13 @@ function AsylumGGTSDialogNewTask() {
  * @param {string} stringSpeed
  */
 function AsylumGGTSDialogSpeed(stringSpeed) {
+	if (!CurrentCharacter) return;
+
 	const speed = CommonParseInt(stringSpeed);
 	let message = "Speed5";
-	if (speed >= 1) {
+	if (speed === null) {
+		return;
+	} else if (speed >= 1) {
 		message = "Speed10";
 	} else if (speed >= 2) {
 		message = "Speed20";
@@ -1516,9 +1583,12 @@ function AsylumGGTSDialogSpeed(stringSpeed) {
  * @param {string} pauseDuration
  */
 function AsylumGGTSDialogPause(pauseDuration) {
+	if (!CurrentCharacter) return;
+	const duration = CommonParseInt(pauseDuration);
+	if (duration === null) return;
 	const dictionary = new DictionaryBuilder()
 		.targetCharacter(CurrentCharacter)
-		.addGGTSData({ type: "GGTSPause", duration: CommonParseInt(pauseDuration)})
+		.addGGTSData({ type: "GGTSPause", duration })
 		.build();
 	ServerSend("ChatRoomChat", { Content: "AsylumGGTSHiddenMessage", Type: "Hidden", Dictionary: dictionary });
 	AsylumGGTSMessage("InteractionPause5", CurrentCharacter); // Is hardcoded to say 5 minutes
@@ -1529,7 +1599,7 @@ function AsylumGGTSDialogPause(pauseDuration) {
  * Called from chat room, processes hidden GGTS messages
  * @param {Character} SenderCharacter - The character sending the message
  * @param {ServerChatRoomMessage} data - The full message recieved
- * @returns {Object} - Nothing to be used
+ * @returns {void} - Nothing to be used
  */
 function AsylumGGTSHiddenMessage(SenderCharacter, data) {
 	const dictionary = data.Dictionary;

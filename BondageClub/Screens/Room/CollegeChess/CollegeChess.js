@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeChessBackground = "CollegeClass1";
-/** @type {null | NPCCharacter} */
-var CollegeChessOpponent = null;
+/** @type {NPCCharacter} */
+var CollegeChessOpponent = /** @type {never} */ (null);
 var CollegeChessDifficulty = 0;
 var CollegeChessBet = "";
 /** @type {null | Item[]} */
@@ -70,15 +69,10 @@ function CollegeChessGameStart(Difficulty, Bet) {
 /**
  * In strip or bondage chess, a player can lose one piece of cloth
  * @param {Character} C
- * @returns {Item[]} - The removed items (if any)
+ * @returns {void} - Nothing, the returns are quick exit short cuts
  */
 function CollegeChessStrip(C) {
-	if (InventoryGet(C, "Shoes") != null) return InventoryRemove(C, "Shoes");
-	if (InventoryGet(C, "Socks") != null) return InventoryRemove(C, "Socks");
-	if (InventoryGet(C, "Cloth") != null) return InventoryRemove(C, "Cloth");
-	if (InventoryGet(C, "ClothLower") != null) return InventoryRemove(C, "ClothLower");
-	if (InventoryGet(C, "Bra") != null) return InventoryRemove(C, "Bra");
-	if (InventoryGet(C, "Panties") != null) return InventoryRemove(C, "Panties");
+	InventoryRemove(C, ["Shoes", "Socks", "Cloth", "ClothLower", "Bra", "Panties"]);
 }
 
 /**
@@ -102,7 +96,7 @@ function CollegeChessRestrain(C) {
  */
 function CollegeChessGameProgress() {
 	if ((CollegeChessBet != "Strip") && (CollegeChessBet != "Bondage")) return;
-	if (MiniGameChessGame.board() == null) return;
+	if (!MiniGameChessGame || MiniGameChessGame.board() == null) return;
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterBlack);
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "w") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterWhite);
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Bondage")) {
@@ -167,9 +161,9 @@ async function CollegeChessGameEnd() {
  * @returns {void} - Nothing
  */
 function CollegeChessRestoreAppearance() {
-	CollegeChessOpponent.Appearance = CollegeChessOpponentAppearance.slice(0);
+	CollegeChessOpponent.Appearance = CollegeChessOpponentAppearance?.slice(0) ?? [];
 	CharacterRefresh(CollegeChessOpponent);
-	Player.Appearance = CollegeChessPlayerAppearance.slice(0);
+	Player.Appearance = CollegeChessPlayerAppearance?.slice(0) ?? [];
 	CharacterRefresh(Player, true);
 	CollegeChessOpponent.AllowItem = false;
 }

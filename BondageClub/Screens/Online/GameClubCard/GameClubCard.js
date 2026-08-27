@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var GameClubCardBackground = "Sheet";
 var GameClubCardEntryPlayerSlot = 0;
@@ -11,8 +10,8 @@ var GameClubCardChangedRunningSettings = false;
  * @returns {OnlineGameStatus}
  */
 function GameClubCardGetStatus() {
-	if (Player.Game && Player.Game.ClubCard && ["", "Running"].includes(Player.Game.ClubCard.Status))
-		return Player.Game.ClubCard.Status;
+	if (Player.Game.ClubCard && ["", "Running"].includes(Player.Game.ClubCard?.Status ?? ""))
+		return Player.Game.ClubCard.Status ?? "";
 	return "";
 }
 
@@ -31,8 +30,9 @@ function GameClubCardSetStatus(NewStatus) {
 		ClubCardCommonLoad();
 	}
 
-	if (ForceUpdate || (NewStatus !== Player.Game.ClubCard.Status)) {
-		Player.Game.ClubCard.Status = NewStatus;
+	if (ForceUpdate || (NewStatus !== Player.Game.ClubCard?.Status)) {
+		if (Player.Game.ClubCard)
+			Player.Game.ClubCard.Status = NewStatus;
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	}
 
@@ -44,7 +44,7 @@ function GameClubCardSetStatus(NewStatus) {
  * @returns {boolean} -  Returns TRUE if that character is an admin/the game administrator
  */
 function GameClubCardIsAdmin(C) {
-	return (ChatRoomData.Admin.indexOf(C.MemberNumber) >= 0);
+	return CommonIsNumeric(C.MemberNumber) && (ChatRoomData?.Admin.includes(C.MemberNumber) ?? false);
 }
 
 /**
@@ -84,8 +84,10 @@ async function GameClubCardLoad() {
 	GameClubCardExpectQuery = false;
 	GameClubCardQueryAdmin = false;
 	GameClubCardChangedRunningSettings = false;
-	Player.Game.ClubCard.PlayerSlot ??= 0;
-	GameClubCardEntryPlayerSlot = Player.Game.ClubCard.PlayerSlot;
+	if (Player.Game.ClubCard) {
+		Player.Game.ClubCard.PlayerSlot ??= 0;
+		GameClubCardEntryPlayerSlot = Player.Game.ClubCard.PlayerSlot;
+	}
 	GameClubCardLoadStatus();
 }
 
@@ -94,13 +96,14 @@ async function GameClubCardLoad() {
  * @returns {void} - Nothing
  */
 function GameClubCardRun() {
+	if (!Player.Game.ClubCard) return;
 	DrawCharacter(Player, 50, 50, 0.9);
 	DrawText(TextGet("Title"), 1100, 150, "Black", "Gray");
 	DrawText(TextGet("SelectPlayerSlot"), 750, 300, "Black", "Gray");
 	DrawText(TextGet((GameClubCardGetStatus() == "") ? "StartCondition" : "RunningGame"), 1100, 450, "Black", "Gray");
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	if (GameClubCardGetStatus() == "") DrawBackNextButton(1000, 268, 400, 64, TextGet("PlayerSlot" + Player.Game.ClubCard.PlayerSlot.toString()), "White", "", () => "", () => "");
-	else DrawText(TextGet("PlayerSlot" + Player.Game.ClubCard.PlayerSlot.toString()), 1200, 300, "Black", "Gray");
+	if (GameClubCardGetStatus() == "") DrawBackNextButton(1000, 268, 400, 64, TextGet("PlayerSlot" + Player.Game.ClubCard.PlayerSlot?.toString()), "White", "", () => "", () => "");
+	else DrawText(TextGet("PlayerSlot" + Player.Game.ClubCard.PlayerSlot?.toString()), 1200, 300, "Black", "Gray");
 	GameClubCardDrawIcon(Player, 1480, 210, 1.8);
 	if (GameClubCardCanLaunchGame()) DrawButton(900, 640, 400, 64, TextGet("StartGame"), "White");
 	if (GameClubCardCanJoinGame()) DrawButton(900, 640, 400, 64, TextGet("JoinGame"), "White");
@@ -113,12 +116,12 @@ function GameClubCardRun() {
 
 	//Auto Spectate Toggle
 	Player.Game.ClubCard.Settings.AutoSpectate ??= true;
-	DrawCheckbox(900, 800, 60, 60, null, Player.Game.ClubCard.Settings.AutoSpectate);
+	DrawCheckbox(900, 800, 60, 60, "", Player.Game.ClubCard.Settings.AutoSpectate);
 	DrawTextWrap(TextGet("AutoSpectate"), 970, 800, 350, 60, "Black");
 
 	//Animation Toggle
 	Player.Game.ClubCard.Settings.IsAnimation ??= true;
-	DrawCheckbox(900, 880, 60, 60, null, Player.Game.ClubCard.Settings.IsAnimation);
+	DrawCheckbox(900, 880, 60, 60, "", Player.Game.ClubCard.Settings.IsAnimation);
 	DrawTextWrap(TextGet("IsAnimation"), 970, 880, 350, 60, "Black");
 }
 
@@ -127,7 +130,8 @@ function GameClubCardRun() {
  * @returns {void} - Nothing
  */
 function GameClubCardClick() {
-
+	if (!Player.Game.ClubCard) return;
+	Player.Game.ClubCard.PlayerSlot ??= 0;
 	// When the user exits
 	if (MouseIn(1815, 75, 90, 90)) GameClubCardExit();
 
@@ -180,12 +184,14 @@ function GameClubCardClick() {
 	}
 
 	if (MouseIn(900, 800, 400, 64)) {
-		Player.Game.ClubCard.Settings.AutoSpectate = !Player.Game.ClubCard.Settings.AutoSpectate;
+		if (Player.Game.ClubCard.Settings)
+			Player.Game.ClubCard.Settings.AutoSpectate = !Player.Game.ClubCard.Settings.AutoSpectate;
 		GameClubCardChangedRunningSettings = true;
 	}
 
 	if (MouseIn(900, 880, 60, 60)) {
-		Player.Game.ClubCard.Settings.IsAnimation = !Player.Game.ClubCard.Settings.IsAnimation;
+		if (Player.Game.ClubCard.Settings)
+			Player.Game.ClubCard.Settings.IsAnimation = !Player.Game.ClubCard.Settings.IsAnimation;
 		GameClubCardChangedRunningSettings = true;
 	}
 }
@@ -198,12 +204,14 @@ function GameClubCardExit() {
 
 	if (GameClubCardGetStatus() == "" || GameClubCardChangedRunningSettings) {
 
+		if (!Player.Game.ClubCard) return;
+
 		// Inform everyone in the room that we changed our player slot
 		if (GameClubCardEntryPlayerSlot !== Player.Game.ClubCard.PlayerSlot) {
 			const Dictionary = new DictionaryBuilder()
 				.sourceCharacter(Player)
 				.build();
-			ServerSend("ChatRoomChat", { Content: "ClubCardNewPlayerSlot" + Player.Game.ClubCard.PlayerSlot.toString(), Type: "Action", Dictionary: Dictionary });
+			ServerSend("ChatRoomChat", { Content: "ClubCardNewPlayerSlot" + Player.Game.ClubCard.PlayerSlot?.toString(), Type: "Action", Dictionary: Dictionary });
 		}
 
 		// This is only safe because the UI locks up player slot changes if a game is running
@@ -223,9 +231,10 @@ function GameClubCardCanLaunchGame() {
 	let P2Count = 0;
 	if (GameClubCardGetStatus() != "") return false;
 	if (!GameClubCardIsAdmin(Player)) return false;
-	for (let C = 0; C < ChatRoomCharacter.length; C++) {
-		if ((ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.ClubCard != null) && (ChatRoomCharacter[C].Game.ClubCard.PlayerSlot === 1)) P1Count++;
-		if ((ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.ClubCard != null) && (ChatRoomCharacter[C].Game.ClubCard.PlayerSlot === 2)) P2Count++;
+	for (const char of ChatRoomCharacter) {
+		if (char.Game?.ClubCard?.PlayerSlot === 1) P1Count++;
+		if (char.Game?.ClubCard?.PlayerSlot === 2) P2Count++;
+
 	}
 	return ((P1Count == 1) && (P2Count == 1));
 }
@@ -235,11 +244,12 @@ function GameClubCardCanLaunchGame() {
  * @returns {boolean} - TRUE if the player can join
  */
 function GameClubCardCanJoinGame() {
-	if (GameClubCardCanLaunchGame()) return false;
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if ((ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0) && (Player.MemberNumber != ChatRoomCharacter[C].MemberNumber) && (ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.ClubCard != null) && (ChatRoomCharacter[C].Game.ClubCard.Status == "Running"))
-			return true;
-	return false;
+	return GameClubCardCanLaunchGame()
+		&& ChatRoomCharacter.some(char =>
+			Player.MemberNumber !== char.MemberNumber
+			&& ChatRoomCharacterIsAdmin(char)
+			&& char.Game?.ClubCard?.Status === "Running"
+		);
 }
 
 /**
@@ -255,11 +265,12 @@ function GameClubCardReset() {
  * @returns {void} - Nothing
  */
 function GameClubCardLoadStatus() {
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if ((ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0) && (ChatRoomCharacter[C].Game != null) && (ChatRoomCharacter[C].Game.ClubCard != null) && (ChatRoomCharacter[C].Game.ClubCard.Status != "")) {
-			GameClubCardSetStatus(ChatRoomCharacter[C].Game.ClubCard.Status);
+	for (const char of ChatRoomCharacter) {
+		if (ChatRoomCharacterIsAdmin(char) && char.Game?.ClubCard?.Status !== "") {
+			GameClubCardSetStatus(char.Game?.ClubCard?.Status ?? "");
 			return;
 		}
+	}
 	GameClubCardReset();
 }
 
@@ -332,7 +343,14 @@ function GameClubCardHandDoBundle(Cards) {
 	return Result;
 }
 
+/**
+ * @param {string} Bundle
+ * @param {boolean} [IncludeTime]
+ * @param {string | null} [Location]
+ * @returns {ClubCard[]}
+ */
 function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
+	/** @type {ClubCard[]} */
 	let Result = [];
 	if (!Bundle) return Result;
 
@@ -388,7 +406,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (EffectKey != undefined && EffectKey != '') card.EffectKey = Number(EffectKey);
 			if (CanActive != undefined && CanActive != '') card.CanActive = (CanActive === "true");
 			if (UniqueID != undefined && UniqueID != '') card.UniqueID = UniqueID;
-			if (Group) card.Group = Group.split('|');
+			if (Group) card.Group = /** @type {ClubCardGroup[]} */ (Group.split('|'));
 
 			result.push(card);
 		}
@@ -397,7 +415,14 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 	return result;
 }
 
+/**
+ *
+ * @param {string} Bundle
+ * @param {string | null} [Location]
+ * @returns {ClubCard[]}
+ */
 function GameClubCardHandUndoBundle(Bundle, Location = null) {
+	/** @type {ClubCard[]} */
 	let Result = [];
 	if (!Bundle) return Result;
 
@@ -449,7 +474,7 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (ClubCardIsAnimationOn && ClubCardFocus) {
 		let targetCard = [CCPlayer.Hand, CCPlayer.Board, CCPlayer.Event].
 			flatMap(collection => collection || []).
-			find(card => card.UniqueID === ClubCardFocus.UniqueID);
+			find(card => card.UniqueID === ClubCardFocus?.UniqueID);
 
 		if (targetCard) targetCard.IsVisible = false;
 	}
@@ -468,22 +493,18 @@ function GameClubCardAssignPlayers(data, rng, Char) {
 	ClubCardPlayer[0].FullDeck = [];
 	ClubCardPlayer[1].Deck = [];
 	ClubCardPlayer[1].FullDeck = [];
+	const C1 = ChatRoomCharacter.find(c => c.MemberNumber === data.Player1);
+	const C2 = ChatRoomCharacter.find(c => c.MemberNumber === data.Player2);
+	if (!C1 || !C2) return;
 	ClubCardOnlinePlayerMemberNumber1 = data.Player1;
 	ClubCardOnlinePlayerMemberNumber2 = data.Player2;
-	let C1 = null;
-	let C2 = null;
-	for (let C = 0; C < ChatRoomCharacter.length; C++) {
-		if (ChatRoomCharacter[C].MemberNumber === data.Player1) C1 = ChatRoomCharacter[C];
-		if (ChatRoomCharacter[C].MemberNumber === data.Player2) C2 = ChatRoomCharacter[C];
-	}
-	if (!C1 || !C2) return;
-	if (C1.IsPlayer()) {
+	if (C1?.IsPlayer()) {
 		ClubCardPlayer[0].Character = C1;
 		ClubCardPlayer[0].Control = "Player";
 		ClubCardPlayer[1].Character = C2;
 		ClubCardPlayer[1].Control = "Online";
 		ClubCardTurnIndex = Math.floor(rng * 2);
-	} else if (C2.IsPlayer()) {
+	} else if (C2?.IsPlayer()) {
 		ClubCardPlayer[0].Character = C2;
 		ClubCardPlayer[0].Control = "Player";
 		ClubCardPlayer[1].Character = C1;
@@ -523,7 +544,7 @@ function GameClubCardLoadData(data) {
 			if (P.MemberNumber == ClubCardPlayer[1].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[1], P);
 		}
 	}
-	if ("CCLog" in data) ClubCardMessageSend(data.CCLog, false);
+	if ("CCLog" in data && data.CCLog) ClubCardMessageSend(data.CCLog, false);
 
 	// Check the focused card is still in the player's hand / board
 	ClubCardDefocusCardIfDiscarded();
@@ -540,10 +561,11 @@ function GameClubCardLoadData(data) {
  * @returns {data is ServerGameClubCardDataStart}
  */
 function ClubCardIsStartPacket(data) {
-	return CommonIsObject(data)
-		&& data.GameProgress === "Start"
-		&& CommonIsNonNegativeInteger(data.Player1)
-		&& CommonIsNonNegativeInteger(data.Player2);
+	const obj = /** @type {ServerGameClubCardDataStart} */ (data);
+	return CommonIsObject(obj)
+		&& obj.GameProgress === "Start"
+		&& CommonIsNonNegativeInteger(obj.Player1)
+		&& CommonIsNonNegativeInteger(obj.Player2);
 }
 
 /**
@@ -563,11 +585,12 @@ function ClubCardIsQueryRequestPacket(data) {
  * @returns {data is ServerGameClubCardDataQueryResponse}
  */
 function ClubCardIsQueryResponsePacket(data) {
-	return CommonIsObject(data)
-		&& data.GameProgress === "Query"
-		&& Array.isArray(data.CCData)
-		&& CommonIsNonNegativeInteger(data.Player1)
-		&& CommonIsNonNegativeInteger(data.Player2);
+	const obj = /** @type {ServerGameClubCardDataQueryResponse} */ (data);
+	return CommonIsObject(obj)
+		&& obj.GameProgress === "Query"
+		&& Array.isArray(obj.CCData)
+		&& CommonIsNonNegativeInteger(obj.Player1)
+		&& CommonIsNonNegativeInteger(obj.Player2);
 }
 
 /**
@@ -576,10 +599,11 @@ function ClubCardIsQueryResponsePacket(data) {
  * @returns {data is ServerGameClubCardDataAction}
  */
 function ClubCardIsActionPacket(data) {
-	return CommonIsObject(data)
-		&& data.GameProgress === "Action"
-		&& (typeof data.CCData === "undefined" || Array.isArray(data.CCData))
-		&& (typeof data.CCLog === "undefined" || CommonIsObject(data.CCLog));
+	const obj = /** @type {ServerGameClubCardDataAction} */ (data);
+	return CommonIsObject(obj)
+		&& obj.GameProgress === "Action"
+		&& (typeof obj.CCData === "undefined" || Array.isArray(obj.CCData))
+		&& (typeof obj.CCLog === "undefined" || CommonIsObject(obj.CCLog));
 }
 
 /**
@@ -651,13 +675,13 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 	for (let CCPlayer of ClubCardPlayer) {
 		if (LocalPlayerOnly && CCPlayer.Character.MemberNumber !== Player.MemberNumber) continue;
 		Packet.push({
-			MemberNumber: CCPlayer.Character.MemberNumber,
+			MemberNumber: CCPlayer.Character.MemberNumber ?? -1,
 			Playing: (CCPlayer.Index == ClubCardTurnIndex),
 			Level: CCPlayer.Level,
 			Fame: CCPlayer.Fame,
 			Money: CCPlayer.Money,
-			LastFamePerTurn: CCPlayer.LastFamePerTurn,
-			LastMoneyPerTurn: CCPlayer.LastMoneyPerTurn,
+			LastFamePerTurn: CCPlayer.LastFamePerTurn ?? 0,
+			LastMoneyPerTurn: CCPlayer.LastMoneyPerTurn ?? 0,
 			FullDeck: GameClubCardDoBundle(CCPlayer.FullDeck),
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardHandDoBundle(CCPlayer.Hand),

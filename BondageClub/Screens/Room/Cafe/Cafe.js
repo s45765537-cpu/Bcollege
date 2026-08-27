@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CafeBackground = "MaidCafe";
-/** @type {null | NPCCharacter} */
-var CafeMaid = null;
+/** @type {NPCCharacter} */
+var CafeMaid = /** @type {never} */ (null);
 var CafeVibeIncreased = false;
 var CafeEnergyDrinkPrice = 5;
 var CafeGlassMilkPrice = 5;
@@ -82,7 +81,7 @@ function CafeEquired(Type) { return (Type == CafeAskedFor); }
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function CafeCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function CafeCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter?.IsRestrained() && !Player.IsGagged() && !CurrentCharacter?.IsGagged()); }
 
 //
 /**
@@ -114,7 +113,7 @@ function CafeClick() {
 	if (MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000)) {
 		if (MaidQuartersMaid != null) {
-			if ((MaidQuartersMaid.Stage == "285" || MaidQuartersMaid.Stage == "286") && InventoryGet(Player, "ItemMisc") && (InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenMaidTrayFull" || InventoryGet(Player, "ItemMisc").Asset.Name == "WoodenMaidTray")) {
+			if ((MaidQuartersMaid.Stage == "285" || MaidQuartersMaid.Stage == "286") && InventoryIsWorn(Player, "ItemMisc", ["WoodenMaidTrayFull", "WoodenMaidTray"])) {
 				if (!CafeMaid.IsRestrained()) {
 					CafeMaid.Stage = "100";
 					CafeMaid.AllowItem = false;
@@ -201,33 +200,23 @@ function CafeUngagPlayer() {
  * @returns {void} - Nothing
  */
 function CafeServiceBound(Style) {
-	var RandomNumber = 0;
-	/** @type {null | BCColor} */
-	var RandomColor = null;
-	var Bondage = null;
 
 	CharacterRelease(Player);
 
 	if (Style == "Shibari") {
 
 		// Base items
-		RandomNumber = Math.floor(Math.random() * 2);
-		if (RandomNumber >= 0) Bondage = "NylonRope";
-		if (RandomNumber >= 1) Bondage = "HempRope";
-		InventoryWear(Player, Bondage, "ItemArms", null, 20);
-		if (RandomNumber >= 0) Bondage = "NylonRope";
-		if (RandomNumber >= 1) Bondage = "HempRope";
-		InventoryWear(Player, Bondage, "ItemLegs");
-		RandomNumber = Math.floor(Math.random() * 4);
-		if (RandomNumber >= 0) Bondage = "ClothGag";
-		if (RandomNumber >= 1) Bondage = "WiffleGag";
-		if (RandomNumber >= 2) Bondage = "BambooGag";
-		if (RandomNumber >= 3) Bondage = "ChopstickGag";
-		if (RandomNumber <= 1) RandomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-		InventoryWear(Player, Bondage, "ItemMouth", RandomColor);
+		let item = CommonGetRandomItemFromList(["NylonRope", "HempRope"]);
+		InventoryWear(Player, item, "ItemArms", null, 20);
+		InventoryWear(Player, item, "ItemLegs", null, 20);
+		item = CommonGetRandomItemFromList(["ClothGag", "WiffleGag", "BambooGag", "ChopstickGag"]);
+		const color = item === "ClothGag" ?
+			/** @type {const} */ (`#${Math.floor(Math.random()*16777215).toString(16)}`)
+			: undefined;
+		InventoryWear(Player, item, "ItemMouth", color);
 
 		// Gag Sub Types
-		if (Bondage == "ClothGag") {
+		if (item == "ClothGag") {
 			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 	}
@@ -235,11 +224,11 @@ function CafeServiceBound(Style) {
 	if (Style == "Tape") {
 
 		// Base items
-		RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-		InventoryWear(Player, "DuctTape", "ItemArms", RandomColor, 15);
-		InventoryWear(Player, "DuctTape", "ItemHands", RandomColor, 15);
-		InventoryWear(Player, "DuctTape", "ItemLegs", RandomColor, 10);
-		InventoryWear(Player, "DuctTape", "ItemMouth", RandomColor, 10);
+		const color = /** @type {const} */(`#${Math.floor(Math.random()*16777215).toString(16)}`);
+		InventoryWear(Player, "DuctTape", "ItemArms", color, 15);
+		InventoryWear(Player, "DuctTape", "ItemHands", color, 15);
+		InventoryWear(Player, "DuctTape", "ItemLegs", color, 10);
+		InventoryWear(Player, "DuctTape", "ItemMouth", color, 10);
 
 		// Legs Sub Type
 		TypedItemSetRandomOption(Player, "ItemLegs");
@@ -251,40 +240,25 @@ function CafeServiceBound(Style) {
 	if (Style == "Leather") {
 
 		// Arms
-		RandomNumber = Math.floor(Math.random() * 3);
-		if (RandomNumber >= 0) Bondage = "LeatherArmbinder";
-		if (RandomNumber >= 1) Bondage = "LeatherCuffs";
-		if (RandomNumber >= 2) Bondage = "Bolero";
-		if (RandomNumber >= 2) RandomColor = "#191919";
-		else RandomColor = null;
-		InventoryWear(Player, Bondage, "ItemArms", RandomColor, 15);
+		// RandomNumber = Math.floor(Math.random() * 3);
+		let item = CommonGetRandomItemFromList(["LeatherArmbinder", "LeatherCuffs", "Bolero"]);
+		InventoryWear(Player, item, "ItemArms", item === "Bolero" ? "#191919" : undefined, 15);
 
-		if (Bondage == "LeatherCuffs") {
+		if (item == "LeatherCuffs") {
 			TypedItemSetRandomOption(Player, "ItemArms");
 		}
 
 		// Legs
-		RandomNumber = Math.floor(Math.random() * 3);
-		if (RandomNumber >= 0) Bondage = "LeatherBelt";
-		if (RandomNumber >= 1) Bondage = "LeatherLegCuffs";
-		if (RandomNumber >= 2) Bondage = "LegBinder";
-		if (RandomNumber >= 2) RandomColor = "#111111";
-		else RandomColor = null;
-		InventoryWear(Player, Bondage, "ItemLegs", RandomColor);
+		item = CommonGetRandomItemFromList(["LeatherBelt", "LeatherLegCuffs", "LegBinder"]);
+		InventoryWear(Player, item, "ItemLegs", item === "LegBinder" ? "#111111" : undefined);
 
-		if (Bondage == "LeatherLegCuffs") {
+		if (item == "LeatherLegCuffs") {
 			TypedItemSetOptionByName(Player, "ItemLegs", "Closed");
 		}
 
 		// Gag
-		RandomNumber = Math.floor(Math.random() * 5);
-		if (RandomNumber >= 0) Bondage = "HarnessBallGag";
-		if (RandomNumber >= 1) Bondage = "HarnessPanelGag";
-		if (RandomNumber >= 2) Bondage = "LeatherCorsetCollar";
-		if (RandomNumber >= 3) Bondage = "PlugGag";
-		if (RandomNumber >= 4) Bondage = "MuzzleGag";
-		if (RandomNumber >= 4) RandomColor = "#292929";
-		InventoryWear(Player, Bondage, "ItemMouth", RandomColor);
+		item = CommonGetRandomItemFromList(["HarnessBallGag", "HarnessPanelGag", "LeatherCorsetCollar", "PlugGag", "MuzzleGag"]);
+		InventoryWear(Player, item, "ItemMouth", item === "MuzzleGag" ? "#292929" : undefined);
 
 		// Locks
 		InventoryFullLockRandom(Player, CafeMaid);
@@ -292,35 +266,23 @@ function CafeServiceBound(Style) {
 
 	if (Style == "Latex") {
 
-		RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+		let color = /** @type {const} */ (`#${Math.floor(Math.random()*16777215).toString(16)}`);
 
 		// Arms
-		RandomNumber = Math.floor(Math.random() * 4);
-		if (RandomNumber >= 0) Bondage = "StraitLeotard";
-		if (RandomNumber >= 1) Bondage = "Bolero";
-		if (RandomNumber >= 2) Bondage = "StraitDress";
-		if (RandomNumber >= 3) Bondage = "StraitDressOpen";
-		InventoryWear(Player, Bondage, "ItemArms", RandomColor, 20);
+		let item = CommonGetRandomItemFromList(["StraitLeotard", "Bolero", "StraitDress", "StraitDressOpen"]);
+		InventoryWear(Player, item, "ItemArms", color, 20);
 
 		// Legs
-		if (Bondage == "Bolero" || Bondage == "StraitLeotard") {
-			RandomNumber = Math.floor(Math.random() * 3);
-			if (RandomNumber >= 1) Bondage = "LegBinder";
-			if (RandomNumber >= 2) Bondage = "HobbleSkirt";
-			InventoryWear(Player, Bondage, "ItemLegs", RandomColor);
+		if (item == "Bolero" || item == "StraitLeotard") {
+			item = CommonGetRandomItemFromList(["LegBinder", "HobbleSkirt"]);
+			InventoryWear(Player, item, "ItemLegs", color);
 		}
 
 		// Gag
-		RandomNumber = Math.floor(Math.random() * 6);
-		if (RandomNumber >= 0) Bondage = "HarnessBallGag";
-		if (RandomNumber >= 1) Bondage = "CarrotGag";
-		if (RandomNumber >= 2) Bondage = "MuzzleGag";
-		if (RandomNumber >= 3) Bondage = "LeatherCorsetCollar";
-		if (RandomNumber >= 4) Bondage = "DildoGag";
-		if (RandomNumber >= 5) Bondage = "PumpGag";
-		InventoryWear(Player, Bondage, "ItemMouth", RandomColor);
+		item = CommonGetRandomItemFromList(["HarnessBallGag", "CarrotGag", "MuzzleGag", "LeatherCorsetCollar", "DildoGag", "PumpGag"]);
+		InventoryWear(Player, item, "ItemMouth", color);
 
-		if (Bondage == "PumpGag") {
+		if (item == "PumpGag") {
 			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 	}
@@ -328,73 +290,67 @@ function CafeServiceBound(Style) {
 	if (Style == "Heavy") {
 
 		// Arms
-		RandomNumber = Math.floor(Math.random() * 4);
-		if (RandomNumber >= 0) Bondage = "LeatherArmbinder";
-		if (RandomNumber >= 1) Bondage = "StraitJacket";
-		if (RandomNumber >= 2) Bondage = "BitchSuit";
-		if (RandomNumber >= 3) Bondage = "StraitDressOpen";
-		if (RandomNumber >= 2) RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-		InventoryWear(Player, Bondage, "ItemArms", RandomColor, 20);
+		let item = CommonGetRandomItemFromList(["LeatherArmbinder", "StraitJacket", "BitchSuit", "StraitDressOpen"]);
+		let color = item === "BitchSuit" || item === "StraitDressOpen" ?
+			/** @type {const} */ (`#${Math.floor(Math.random()*16777215).toString(16)}`)
+			: undefined;
+		InventoryWear(Player, item, "ItemArms", color, 20);
 
-		if (Bondage == "StraitJacket") {
+		if (item == "StraitJacket") {
 			TypedItemSetRandomOption(Player, "ItemArms");
 		}
 
 		// Legs
-		if (Bondage != "BitchSuit") {
-			RandomNumber = Math.floor(Math.random() * 4);
-			if (RandomNumber >= 0) Bondage = "LeatherLegCuffs";
-			if (RandomNumber >= 1) Bondage = "LeatherBelt";
-			if (RandomNumber >= 2) Bondage = "LegBinder";
-			if (RandomNumber >= 3) Bondage = "HobbleSkirt";
-			if (RandomNumber >= 2) RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-			else RandomColor = null;
-			InventoryWear(Player, Bondage, "ItemLegs", RandomColor);
+		if (item !== "BitchSuit") {
+			item = CommonGetRandomItemFromList(["LeatherLegCuffs", "LeatherBelt", "LegBinder", "HobbleSkirt"]);
+			color = item === "LegBinder" || item === "HobbleSkirt" ?
+				/** @type {const} */ (`#${Math.floor(Math.random()*16777215).toString(16)}`)
+				: undefined;
+			InventoryWear(Player, item, "ItemLegs", color);
 
-			if (Bondage == "LeatherLegCuffs") {
+			if (item == "LeatherLegCuffs") {
 				TypedItemSetOptionByName(Player, "ItemLegs", "Closed");
 			}
 		}
 
 		// Gag
-		RandomNumber = Math.floor(Math.random() * 7);
-		if (RandomNumber >= 0) Bondage = "HarnessPanelGag";
-		if (RandomNumber >= 1) Bondage = "PumpGag";
-		if (RandomNumber >= 2) Bondage = "MuzzleGag";
-		if (RandomNumber >= 3) Bondage = "LeatherCorsetCollar";
-		if (RandomNumber >= 4) Bondage = "PlugGag";
-		if (RandomNumber >= 5) Bondage = "DildoGag";
-		if (RandomNumber >= 6) Bondage = "HarnessBallGag1";
-		InventoryWear(Player, Bondage, "ItemMouth");
+		item = CommonGetRandomItemFromList(["HarnessPanelGag", "PumpGag", "MuzzleGag", "LeatherCorsetCollar", "PlugGag", "DildoGag", "HarnessBallGag1"]);
+		InventoryWear(Player, item, "ItemMouth");
 
-		if (Bondage == "PumpGag") {
+		if (item == "PumpGag") {
 			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 
-		if (Bondage == "PlugGag") {
+		if (item == "PlugGag") {
 			TypedItemSetRandomOption(Player, "ItemMouth");
 		}
 
 		// Head
-		RandomNumber = Math.floor(Math.random() * 15);
-		if (RandomNumber >= 4) Bondage = "LeatherBlindfold";
-		if (RandomNumber >= 5) Bondage = "StuddedBlindfold";
-		if (RandomNumber >= 6) Bondage = "SmallBlindfold";
-		if (RandomNumber >= 7) Bondage = "FullBlindfold";
-		if (RandomNumber >= 8) Bondage = "LeatherHood";
-		if (RandomNumber >= 9) Bondage = "LeatherHoodOpenEyes";
-		if (RandomNumber >= 10) Bondage = "LeatherHoodOpenMouth";
-		if (RandomNumber >= 11) Bondage = "LeatherHoodSensDep";
-		if (RandomNumber >= 12) Bondage = "LeatherHoodSealed";
-		if (RandomNumber >= 8) InventoryWear(Player, Bondage, "ItemHood");
-		if (RandomNumber >= 4 && RandomNumber < 8) InventoryWear(Player, Bondage, "ItemHead");
+		if (Math.random() >= 0.5) {
+			item = CommonGetRandomItemFromList([
+				"LeatherBlindfold",
+				"StuddedBlindfold",
+				"SmallBlindfold",
+				"FullBlindfold",
+			]);
+			InventoryWear(Player, item, "ItemHead");
+		} else {
+			item = CommonGetRandomItemFromList([
+				"LeatherHood",
+				"LeatherHoodOpenEyes",
+				"LeatherHoodOpenMouth",
+				"LeatherHoodSensDep",
+				"LeatherHoodSealed"
+			]);
+			InventoryWear(Player, item, "ItemHood");
+		}
 
 		// Locks
 		InventoryFullLockRandom(Player, CafeMaid);
 	}
 
 	CharacterRefresh(Player);
-	Player.FocusGroup = undefined;
+	Player.FocusGroup = null;
 }
 
 /**
@@ -440,7 +396,9 @@ function CafeGivenDildo() {
  */
 function CafeTurnDildoUp() {
 	const vibe = InventoryGet(Player, "ItemVulva");
-	ExtendedItemSetOptionByRecord(Player, vibe, { i: 2 }, { push: true });
+	if (vibe) {
+		ExtendedItemSetOptionByRecord(Player, vibe, { i: 2 }, { push: true });
+	}
 	CafeVibeIncreased = true;
 }
 
@@ -460,9 +418,9 @@ function CafeClubCardStart() {
 async function CafeClubCardEnd() {
 	await CommonSetScreen("Room", "Cafe");
 	CharacterSetCurrent(CafeMaid);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	CurrentCharacter.AllowItem = MiniGameVictory;
-	CurrentCharacter.Stage = MiniGameVictory ? "0" : "51";
+	CafeMaid.CurrentDialog = DialogFind(CafeMaid, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	CafeMaid.AllowItem = MiniGameVictory;
+	CafeMaid.Stage = MiniGameVictory ? "0" : "51";
 	if (!MiniGameVictory) CharacterFullRandomRestrain(Player, "ALL", true);
 }
 

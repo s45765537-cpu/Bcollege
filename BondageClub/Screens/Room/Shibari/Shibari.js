@@ -1,13 +1,12 @@
-// @ts-strict-ignore
 "use strict";
 var ShibariBackground = "Shibari";
-/** @type {null | NPCCharacter} */
-var ShibariTeacher = null;
-/** @type {null | Item[]} */
-var ShibariTeacherAppearance = null;
+/** @type {NPCCharacter} */
+var ShibariTeacher = /** @type {never} */ (null);
+/** @type {Item[]} */
+var ShibariTeacherAppearance = [];
 var ShibariAllowTeacherItem = false;
-/** @type {null | NPCCharacter} */
-var ShibariStudent = null;
+/** @type {NPCCharacter} */
+var ShibariStudent = /** @type {never} */ (null);
 /** @type {null | Item[]} */
 var ShibariPlayerAppearance = null;
 var ShibariSubCommentDone = false;
@@ -40,7 +39,7 @@ function ShibariAllowPlayerBondage() { return !Player.IsRestrained() && !Shibari
  * Checks if the player can spank the Shibari dojo teacher.
  * @returns {boolean} - Returns TRUE if the player can spank the teacher.
  */
-function ShibariAllowSpank() { return (((CurrentCharacter.ID == ShibariTeacher.ID) ? ShibariTeacher.IsInverted() : ShibariStudent.IsInverted()) && Player.CanInteract()); }
+function ShibariAllowSpank() { return !!CurrentCharacter && (((CurrentCharacter.ID == ShibariTeacher.ID) ? ShibariTeacher.IsInverted() : ShibariStudent.IsInverted()) && Player.CanInteract()); }
 /**
  * Checks if the given maid rescue scenario name is currently active in the shibari dojo.
  * @param {string} ScenarioName - Name of the scenario to check for.
@@ -77,7 +76,7 @@ function ShibariCannotTrainDelay() { return (!Player.IsRestrained() && LogQuery(
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function ShibariCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function ShibariCanPlayClubCard() { return !Player.IsRestrained() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged(); }
 
 /**
  * Puts a character in a random bondage position.
@@ -105,6 +104,7 @@ function ShibariRandomBondage(C, Level) {
 		if (Level >= 2) InventoryWear(C, "HempRope", "ItemFeet", "Default", (Level - 1) * 3);
 		if ((Level >= 3) && (InventoryGet(C, "Cloth") == null) && (InventoryGet(C, "ItemTorso") == null)) {
 			const torsoItem = InventoryWear(C, "HempRopeHarness", "ItemTorso", "Default", (Level - 1) * 3);
+			if (!torsoItem) return;
 			if (Math.random() > 0.66) {
 				TypedItemSetOptionByName(C, torsoItem, "Diamond");
 			} else if (Math.random() > 0.5) {
@@ -122,10 +122,12 @@ function ShibariRandomBondage(C, Level) {
 				TypedItemSetOptionByName(C, "ItemArms", "Hogtied");
 			} else if (Level == 3) {
 				const armsItem = InventoryGet(C, "ItemArms");
+				if (!armsItem) return;
 				TypedItemSetOptionByName(C, armsItem, "SuspensionHogtied");
 				const height = 0.67 * Math.random();
+				armsItem.Property ??= {};
 				armsItem.Property.OverrideHeight = {
-					Height: height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
+					Height: height * (Pose.find(p => p.Name == "Hogtied")?.OverrideHeight?.Height ?? 1),
 					HeightRatioProportion: height,
 					Priority: 0,
 				};
@@ -192,9 +194,9 @@ function ShibariClick() {
 	if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(ShibariTeacher);
 	if (MouseIn(1250, 0, 500, 1000)) CharacterSetCurrent(ShibariStudent);
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && Player.CanChangeOwnClothes()) CharacterDress(Player, ShibariPlayerAppearance);
+	if (MouseIn(1885, 265, 90, 90) && Player.CanChangeOwnClothes() && ShibariPlayerAppearance) CharacterDress(Player, ShibariPlayerAppearance);
 	if (MouseIn(1885, 385, 90, 90) && Player.CanChangeOwnClothes()) CharacterNaked(Player);
-	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) {
+	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk() && ShibariPlayerAppearance) {
 		CharacterDress(Player, ShibariPlayerAppearance);
 		ShibariPlayerAppearance = null;
 		CommonSetScreen("Room", "MainHall");
@@ -247,7 +249,7 @@ function ShibariDomComment() {
  * @returns {void} - Nothing
  */
 function ShibariSurrenderToTeacher() {
-	if (CommonTime() >= ShibariTeacherReleaseTimer) {
+	if (ShibariTeacherReleaseTimer !== null && CommonTime() >= ShibariTeacherReleaseTimer) {
 		CharacterRelease(Player);
 		if (InventoryGet(Player, "Cloth") == null) InventoryRemove(Player, "ItemTorso");
 		if (!ShibariSurrenderDone) {
@@ -332,6 +334,7 @@ function ShibariClubCardStart() {
  * @returns {SafePromise<void>}
  */
 async function ShibariClubCardEnd() {
+	if (!CurrentCharacter) return;
 	await CommonSetScreen("Room", "Shibari");
 	CharacterSetCurrent(ShibariStudent);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -499,4 +498,5 @@ function PokerHandValueTextHandValue(Value) {
 		else if (Value < 11) return "RoyalFlush";
 		return "HighestCards";
 	}
+	return "";
 }

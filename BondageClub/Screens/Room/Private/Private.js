@@ -1455,11 +1455,11 @@ function PrivateLoadCharacter(data) {
  * Triggered when a new character is added to the player's private room.
  * @template {ModuleType} T
  * @param {NPCCharacter} Template - The base of the character, includes the name and appearance.
- * @param {"" | NPCArchetype} [Archetype] - The type of character such as maid or mistress.
- * @param {boolean} [CustomData=false] - Whether or not the character has non-random traits. Passing `true` will also skip calling {@link ServerPrivateCharacterSync()}.
+ * @param {"" | NPCArchetype | null} [Archetype] - The type of character such as maid or mistress.
+ * @param {boolean} [incomplete=false] - Whether the caller plans to customize the NPC more. Skips generating random traits and calling {@link ServerPrivateCharacterSync()}.
  * @returns {NPCCharacter} - The new private room character.
  */
-function PrivateAddCharacter(Template, Archetype, CustomData=false) {
+function PrivateAddCharacter(Template, Archetype, incomplete=false) {
 	const C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", "Room", "Private");
 	C.Name = Template.Name;
 	C.Appearance = Template.Appearance.slice();
@@ -1468,13 +1468,13 @@ function PrivateAddCharacter(Template, Archetype, CustomData=false) {
 	NPCTraitGenerate(C);
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
 	if ((Archetype === "Submissive") || (Archetype === "Bunny")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
-	if (!CustomData) NPCTraitDialog(C);
+	if (!incomplete) NPCTraitDialog(C);
 	NPCSetupArousal(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
 	NPCEventAdd(C, "NextKidnap", CurrentTime + 86400000);
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsRestrained() || !C.CanTalk());
 	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck")?.Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
-	if (!CustomData) ServerPrivateCharacterSync();
+	if (!incomplete) ServerPrivateCharacterSync();
 	CharacterRefresh(C);
 	PrivateCharacter.push(C);
 	return C;

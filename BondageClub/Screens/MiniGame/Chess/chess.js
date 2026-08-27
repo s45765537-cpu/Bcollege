@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 /*
 
@@ -13,13 +12,19 @@ Based on [Lauri Hartikka's tutorial](https://medium.freecodecamp.org/simple-ches
 */
 
 var MiniGameChessBoard = null;
-var MiniGameChessGame = null;
+/** @type {Chess} */
+var MiniGameChessGame = /** @type {never} */ (null);
 /**
  * Dummy name for the module in Scripts/lib/chessboard
  */
-var chess;
+// var chess;
 
-// Starts the chess with a depth (difficulty)
+/**
+ * Starts the chess with a depth (difficulty)
+ *
+ * @param {number} Depth
+ * @param {ChessPieceColor} PlayerColor
+ */
 function MiniGameChessStart(Depth, PlayerColor) {
 	const MinMaxDepth = Depth;
 	const PauseDepth = 2;
@@ -28,11 +33,13 @@ function MiniGameChessStart(Depth, PlayerColor) {
 
 	/**
 	 * Evaluates current chess board relative to player
-	 * @param {string} color - Players color, either 'b' or 'w'
-	 * @return {Number} board value relative to player
+	 * @param {ChessPiece[][]} chessboard
+	 * @param {ChessPieceColor} color - Players color, either 'b' or 'w'
+	 * @return {number} board value relative to player
 	 */
 	function evaluateBoard(chessboard, color) {
 		// Sets the value for each piece using standard piece value
+		/** @type {Record<ChessPieceType, number>} */
 		const pieceValue = {
 			p: 100,
 			n: 350,
@@ -60,12 +67,12 @@ function MiniGameChessStart(Depth, PlayerColor) {
 	/**
 	 * Calculates the best move using Minimax with Alpha Beta Pruning.
 	 * @param {Number} depth - How many moves ahead to evaluate
-	 * @param {Object} chessgame - The game to evaluate
-	 * @param {string} playerColor - Players color, either 'b' or 'w'
+	 * @param {Chess} chessgame - The game to evaluate
+	 * @param {ChessPieceColor} playerColor - Players color, either 'b' or 'w'
 	 * @param {Number} alpha
 	 * @param {Number} beta
 	 * @param {Boolean} isMaximizingPlayer - If current turn is maximizing or minimizing player
-	 * @return {SafePromise<[number, number]>} The best move value, and the best move
+	 * @return {SafePromise<[number, string]>} The best move value, and the best move
 	 */
 	async function calcBestMove(
 		depth,
@@ -80,7 +87,8 @@ function MiniGameChessStart(Depth, PlayerColor) {
 		// Base case: evaluate board
 		if (depth === 0) {
 			value = evaluateBoard(chessgame.board(), playerColor);
-			return [value, null];
+			// This is our recursion condition, so that null will never propagate out
+			return [value, /** @type {never} */ (null)];
 		}
 		if (depth >= PauseDepth) {
 			await sleep();
@@ -145,14 +153,14 @@ function MiniGameChessStart(Depth, PlayerColor) {
 		// Make the calculated move
 		game.move(move);
 		// Update board positions
-		await board.setPosition(game.fen(), true);
+		board.setPosition(game.fen(), true);
 
 		// Announce a move was made
 		document.dispatchEvent(chessOnMoveEvent);
 	}
 
+	/** @type {import("chess").Chessboard} */
 	let board;
-	// @ts-expect-error
 	let game = new Chess();
 
 	// Creates the board div

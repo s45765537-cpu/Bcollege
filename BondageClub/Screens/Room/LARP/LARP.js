@@ -7,7 +7,7 @@ var LARPOrganiser = /** @type {never} */ (null);
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function LARPCanPlayClubCard() { return !Player.IsRestrained() && !Player.IsGagged() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !CurrentCharacter.IsGagged(); }
+function LARPCanPlayClubCard() { return !Player.IsRestrained() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged(); }
 
 /**
  * Loads the LARP introduction room NPC
@@ -82,7 +82,6 @@ function LARPClubCardStart() {
 async function LARPClubCardEnd() {
 	await CommonSetScreen("Room", "LARP");
 	CharacterSetCurrent(LARPOrganiser);
-	if (CurrentCharacter) {
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	}
+	if (!CurrentCharacter) return;
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

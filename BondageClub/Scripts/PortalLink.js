@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+
 "use strict";
 
 /**
@@ -88,7 +88,8 @@ const PortalLinkFunctionGrid = {
 function PortalLinkRecieverLoadHook(data, originalFunction) {
 	if (originalFunction) originalFunction();
 	const item = DialogFocusItem;
-	const code = item.Property.PortalLinkCode;
+	if (!item) return;
+	const code = item.Property?.PortalLinkCode ?? "";
 	const input = ElementCreateInput(PortalLinkCodeInputID, "text", code, PortalLinkCodeLength);
 	if (input) {
 		input.autocomplete = "off";
@@ -111,7 +112,9 @@ function PortalLinkRecieverClickHook(data, originalFunction) {
 		return;
 	}
 
-	PortalLinkSyncCodeInputClick(true);
+	const item = DialogFocusItem;
+	if (!item) return;
+	PortalLinkSyncCodeInputClick(item, true);
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<ExtendedItemData<any>>} */
@@ -119,8 +122,10 @@ function PortalLinkRecieverExitHook(data, originalFunction) {
 	if (originalFunction) originalFunction();
 	const C = CharacterGetCurrent();
 	const Item = DialogFocusItem;
+	if (!C || !Item) return;
 	const code = ElementValue(PortalLinkCodeInputID);
 	if (code.trim().match(PortalLinkCodeRegex)) {
+		Item.Property ??= {};
 		Item.Property.PortalLinkCode = code;
 		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
 	}
@@ -143,9 +148,11 @@ function PortalLinkTransmitterLoadHook(data, originalFunction) {
 
 	const item = DialogFocusItem;
 	const C = CharacterGetCurrent();
+	if (!C || !item) return;
+
 	DialogExtendedMessage = AssetTextGet((!C.IsPlayer() || !C.CanInteract()) ? "PortalLinkInaccessibleLabel" : "PortalLinkScreenLabel");
 
-	const code = item.Property.PortalLinkCode;
+	const code = item.Property?.PortalLinkCode ?? "";
 	const assets = PortalLinkGetItemsWithCode(code);
 	// Force-establish if the code matches, otherwise trigger a link refresh
 	if (assets.length === 1) {
@@ -168,6 +175,7 @@ function PortalLinkTransmitterDrawHook(data, originalFunction) {
 	originalFunction();
 
 	const C = CharacterGetCurrent();
+	if (!C) return;
 	// Check the link status each frame
 	PortalLinkTransmitterCheckLinkStatus(C);
 
@@ -213,12 +221,13 @@ function PortalLinkTransmitterClickHook(data, originalFunction) {
 	}
 
 	const C = CharacterGetCurrent();
-	if (!C.IsPlayer() || !C.CanInteract()) {
+	const item = DialogFocusItem;
+	if (!C || !item || !C.IsPlayer() || !C.CanInteract()) {
 		// Only if we're the tablet wearer and we can interact with it
 		return;
 	}
 
-	PortalLinkSyncCodeInputClick(false);
+	PortalLinkSyncCodeInputClick(item, false);
 
 	// Click buttons only if the link is correct
 	if (PortalLinkTransmitterStatus !== "PortalLinkEstablished") return;
@@ -226,16 +235,16 @@ function PortalLinkTransmitterClickHook(data, originalFunction) {
 	const linked = PortalLinkGetItemsWithCode(PortalLinkGetTransmitterCode(C));
 	if (linked.length === 0) return;
 
-	const [target, item] = linked[0];
-	if (!target || !item) return;
+	const [target, linkedItem] = linked[0];
+	if (!target || !linkedItem) return;
 
-	const functions = PortalLinkGetFunctions(item);
+	const functions = PortalLinkGetFunctions(linkedItem);
 
 	if (functions.length <= 0) return;
 
 	CommonGenerateGrid(functions, 0, PortalLinkFunctionGrid, (func, x, y, w, h) => {
 		if (MouseIn(x, y, w, h)) {
-			PortalLinkPublishMessage(target, item, func);
+			PortalLinkPublishMessage(target, linkedItem, func);
 			return true;
 		}
 		return false;
@@ -312,8 +321,14 @@ function PortalLinkSyncCodeInputDraw(reciever) {
 	}
 }
 
-function PortalLinkSyncCodeInputClick(reciever) {
-	if (reciever) {
+/**
+ *
+ * @param {Item} item
+ * @param {boolean} receiver
+ * @returns
+ */
+function PortalLinkSyncCodeInputClick(item, receiver) {
+	if (receiver) {
 		if (MouseIn(...PortalLinkRandomCodeButton)) {
 			let newCode = "";
 			while (newCode.length < PortalLinkCodeLength) {
@@ -321,7 +336,7 @@ function PortalLinkSyncCodeInputClick(reciever) {
 			}
 			ElementValue(PortalLinkCodeInputID, newCode);
 
-			PortalLinkCodeChanged(Player, DialogFocusItem, reciever);
+			PortalLinkCodeChanged(Player, item, receiver);
 			return;
 		}
 
@@ -341,9 +356,10 @@ function PortalLinkSyncCodeInputClick(reciever) {
 				if (!res.ok) {
 					PortalLinkTransmitterStatus = "PortalLinkClipboardError";
 					return;
+				} else if (res.value !== null) {
+					ElementValue(PortalLinkCodeInputID, res.value);
+					PortalLinkCodeChanged(Player, item, receiver);
 				}
-				ElementValue(PortalLinkCodeInputID, res.value);
-				PortalLinkCodeChanged(Player, DialogFocusItem, reciever);
 			});
 
 			return;
@@ -361,6 +377,7 @@ function PortalLinkCodeChanged(C, Item, reciever) {
 	const target = /** @type {HTMLInputElement} */ (document.getElementById(PortalLinkCodeInputID));
 	const linkCode = target.value.trim();
 
+	Item.Property ??= {};
 	// Save the code and check the link
 	if (PortalLinkCodeRegex.test(linkCode)) {
 		Item.Property.PortalLinkCode = linkCode;
@@ -383,9 +400,9 @@ function PortalLinkCodeChanged(C, Item, reciever) {
  */
 function PortalLinkGetTransmitterCode(C) {
 	const tablet = InventoryGet(C, "ItemHandheld");
-	if (!tablet || tablet.Asset.Name !== "PortalTablet") return;
+	if (!tablet || tablet.Asset.Name !== "PortalTablet") return "";
 
-	return tablet.Property.PortalLinkCode;
+	return tablet.Property?.PortalLinkCode ?? "";
 }
 
 /**
@@ -402,7 +419,7 @@ function PortalLinkGetItemsWithCode(linkCode) {
 	for (const char of ChatRoomCharacter) {
 		/** @type {[Character, Item][]} */
 		const found = char.Appearance.filter(item => {
-			const supportsPortalLink = InventoryGetItemProperty(item, "Attribute").some(attr => attr.startsWith("PortalLink"));
+			const supportsPortalLink = InventoryGetItemProperty(item, "Attribute")?.some(attr => attr.startsWith("PortalLink"));
 			return (supportsPortalLink && InventoryGetItemProperty(item, "PortalLinkCode") === linkCode);
 		}).map(item => [char, item]);
 
@@ -472,11 +489,11 @@ function PortalLinkTransmitterCheckLinkStatus(C, newLink=false) {
  */
 function PortalLinkGetFunctions(item) {
 	if (!item) return [];
-	const attrs = InventoryGetItemProperty(item, "Attribute").filter(a => a.startsWith("PortalLink"));
+	const attrs = InventoryGetItemProperty(item, "Attribute")?.filter(a => a.startsWith("PortalLink")) ?? [];
 	/** @type {PortalLinkFunction[]} */
 	const features = [];
 	for (const attr of attrs) {
-		const locked = InventoryGetItemProperty(item, "Effect").includes("Lock");
+		const locked = InventoryGetItemProperty(item, "Effect")?.includes("Lock");
 		if (attr === "PortalLinkLockable") {
 			features.push(locked ? "PortalLinkFunctionUnlock" : "PortalLinkFunctionLock");
 		} else if (attr.startsWith("PortalLinkChastity")) {
@@ -520,7 +537,7 @@ function PortalLinkPublishMessage(target, item, func) {
  * @param {Item} item
  */
 function PortalLinkCycleChastityModule(sender, item) {
-	const attr = InventoryGetItemProperty(item, "Attribute").find(a => a.startsWith("PortalLinkChastity"));
+	const attr = InventoryGetItemProperty(item, "Attribute")?.find(a => a.startsWith("PortalLinkChastity"));
 	if (!attr) return;
 	const chastityTarget = attr.substring("PortalLinkChastity".length);
 	if (!chastityTarget) {
@@ -556,12 +573,12 @@ function PortalLinkProcessMessage(sender, data) {
 	const tablet = InventoryGet(sender, "ItemHandheld");
 	if (!tablet || tablet.Asset.Name !== "PortalTablet") return;
 
-	const assetRef = /** @type {AssetReferenceDictionaryEntry} */ (data.Dictionary.find(e => IsAssetReferenceDictionaryEntry(e)));
+	const assetRef = /** @type {AssetReferenceDictionaryEntry} */ (data.Dictionary?.find(e => IsAssetReferenceDictionaryEntry(e)));
 	if (!assetRef) return;
 
 	// Only proceed if our current item matches what was sent and its link code matches with the senders'
 	const item = InventoryGet(Player, assetRef.GroupName);
-	if (!item || item.Asset.Name !== assetRef.AssetName || item.Property.PortalLinkCode !== senderCode) return;
+	if (!item || item.Asset.Name !== assetRef.AssetName || item.Property?.PortalLinkCode !== senderCode) return;
 
 	// Use a special name reference because none of (Target|Destination)Character(Name)? cuts it, somehow
 	const playerNameRef = sender.MemberNumber === Player.MemberNumber ? CharacterPronoun(Player, "Possessive", false) : `${CharacterNickname(Player)}${InterfaceTextGet("'s")}`;
@@ -577,7 +594,7 @@ function PortalLinkProcessMessage(sender, data) {
 		const act = AssetGetActivity("Female3DCG", actName);
 		if (!act) return;
 
-		const attrTarget = InventoryGetItemProperty(item, "Attribute").find(attr => attr.startsWith("PortalLinkTarget"));
+		const attrTarget = InventoryGetItemProperty(item, "Attribute")?.find(attr => attr.startsWith("PortalLinkTarget"));
 		if (!attrTarget) {
 			console.error("No target specified for PortalLinkActivity. Add PortalLinkTarget${groupName} to your assets' attributes");
 			return;

@@ -492,12 +492,12 @@ function DialogGGTSCanSpendMinutes() { return (AsylumGGTSIsEnabled() && (AsylumG
 
 /**
  * The player can ask GGTS for specific actions at level 6, requiring minutes as currency
- * @param {string} Action - The action to trigger
+ * @param {GGTSTask | "MoneyForMinutes" | "GetHelmet"} Action - The action to trigger
  * @param {string} Minute - The number of minutes to spend
  * @returns {void}
  */
 function DialogGGTSAction(Action, Minute) {
-	AsylumGGTSDialogAction(Action, parseInt(Minute));
+	AsylumGGTSDialogAction(Action, CommonParseInt(Minute, 10) ?? 0);
 }
 
 /**
