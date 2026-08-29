@@ -1143,6 +1143,7 @@ ItemDevices,Enema,Enema Fixture
 ItemDevices,GiftBox,Gift Box
 ItemDevices,XFrame,X-Frame
 ItemDevices,Stroller,Stroller
+ItemDevices,BirdCage,Bird Cage
 ItemEars,,Ears
 ItemEars,BluetoothEarbuds,Bluetooth Earbuds
 ItemEars,FuturisticEarphones,Futuristic Earphones
@@ -1268,6 +1269,7 @@ ItemHandheld,BabyPowder,Baby Powder
 ItemHandheld,Wipes,Wipes
 ItemHandheld,Diaper,Diaper
 ItemHandheld,MiniDolls,Mini Dolls
+ItemHandheld,Rattle,Rattle
 ItemHandheld,ToyHammer,Toy Hammer
 ItemHands,,Hands
 ItemHands,BalletBootsMittens,Ballet Boots Mittens

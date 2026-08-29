@@ -352,6 +352,9 @@ function ActivityAllowedForGroup(character, groupname) {
 		}
 
 		ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: not handled by item stuff, adding in`);
+		if (activity.AsItem && targetedItem) {
+			return allowedActivities.concat({ Activity: activity, Group: group.Name, Item: targetedItem });
+		}
 		return allowedActivities.concat({ Activity: activity, Group: group.Name });
 	}, /** @type {ItemActivity[]} */ ([]));
 
@@ -880,7 +883,7 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 	if (actor.IsPlayer()) {
 		PropertyPunishActivityCache.add(Activity.Name);
 	}
-
+	ActivityRunLogic(actor, acted, group, ItemActivity);
 	// If the player does the activity on someone else, we calculate the progress for the player right away
 	ActivityRunSelf(actor, acted, Activity, group, UsedAsset);
 
@@ -905,6 +908,29 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 			ChatRoomStimulationMessage(Activity.StimulationAction);
 		}
 	}
+}
+
+/**
+ * Runs the logic for a given activity
+ * @param {Character} actor - Character which is performing the activity
+ * @param {Character} acted - Character on which the activity was triggered
+ * @param {AssetItemGroup} targetGroup - The group targetted by the activity
+ * @param {ItemActivity} ItemActivity - The activity performed, with its optional item used
+ */
+function ActivityRunLogic(actor, acted, targetGroup, ItemActivity) {
+	const activityItem = ItemActivity.Item;
+	switch (ItemActivity.Activity.Name) {
+		case "SpitOutGag":
+			if (!activityItem) return;
+			if(InventoryItemHasEffect(activityItem, "Lock", true) && !DialogCanUnlock(actor, activityItem)) return;
+			if (activityItem.Asset?.Name === "PacifierClip") {
+				ExtendedItemSetOptionByRecord(acted, activityItem, { typed: 1 }, { push: true });
+				return;
+			}
+			InventoryRemove(acted, targetGroup.Name, true);
+			break;
+	}
+
 }
 
 /**

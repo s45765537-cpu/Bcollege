@@ -1501,10 +1501,10 @@ type ActivityNameBasic = "Bite" | "Brush" | "Caress" | "Choke" | "Clean" | "Cudd
 	"PenetrateSlow" | "Pet" | "Pinch" | "PoliteKiss" | "Pull" |
 	"RestHead" | "Rub" | "Scratch" | "Sit" | "Slap" | "Spank" | "Step" | "StruggleArms" | "StruggleLegs" |
 	"Suck" | "SuckPenetrateItem" | "DeepThroat" | "TakeCare" | "Tickle" | "Whisper" | "Wiggle" |
-	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab"
+	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab" | "SpitOutGag"
 ;
 
-type ActivityNameItem = "Inject" | "MasturbateItem" | "PenetrateItem" | "ChewItem" | "PourItem" | "RollItem" | "RubItem" | "BrushItem" | "ShockItem" | "SipItem" | "SpankItem" | "SqueezeItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
+type ActivityNameItem = "PowderItem" | "ShakeItem" | "SpitItem" | "Inject" | "MasturbateItem" | "PenetrateItem" | "ChewItem" | "PourItem" | "RollItem" | "RubItem" | "BrushItem" | "ShockItem" | "SipItem" | "SpankItem" | "SqueezeItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
 
 type ActivityName = ActivityNameBasic | ActivityNameItem;
 
@@ -1531,6 +1531,8 @@ interface Activity {
 	StimulationAction?: StimulationAction;
 	/** The default expression for that activity. Can be overriden using ActivityExpression on the asset */
 	ActivityExpression?: ExpressionTrigger[];
+	/** If to always convert the Activity to ItemActivity */
+	AsItem?: Boolean;
 }
 
 type ItemActivityRestriction = "blocked" | "limited" | "unavail";

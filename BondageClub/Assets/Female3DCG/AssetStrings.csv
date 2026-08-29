@@ -8869,6 +8869,7 @@ ItemHandheldCustomPaddleSetc7,SourceCharacter set the Custom Text to "Toy" on De
 ItemHandheldCustomPaddleSetc8,SourceCharacter set the Custom Text to "Bitch" on DestinationCharacter Custom paddle.
 ItemHandheldCustomPaddleActivitySpankItem,SourceCharacter hits DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset leaving a mark.
 ItemHandheldCustomPaddleActivityRubItem,SourceCharacter rubs DestinationCharacter FocusAssetGroup with PronounPossessive ActivityAsset.
+ItemHandheldRattleActivityShakeItem,SourceCharacter shakes PronounPossessive rattle and it makes a jingle.
 ItemDevicesLeatherCageSelectBase,Leather cage main menu:
 ItemDevicesLeatherCageModuleFace,Belts
 ItemDevicesLeatherCageSelectFace,Belts options:

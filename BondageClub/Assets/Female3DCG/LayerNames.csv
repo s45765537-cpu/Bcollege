@@ -2215,6 +2215,15 @@ ItemHandheldWipesPackage,Package
 ItemHandheldWipesInlet,Inlet
 ItemHandheldWipesText,Text
 ItemHandheldMiniDollsHaruhi,Doll
+ItemHandheldRattleHandle,Handle
+ItemHandheldRattleDetail1,Ribbon & Head
+ItemHandheldRattleDetail2,Head detail
+ItemHandheldRattleRibbon1,Detail 1
+ItemHandheldRattleRibbon2,etail 2
+ItemHandheldRattleRibbon3,Detail 3
+ItemHandheldRattleRibbon4,Detail 4
+ItemHandheldRattleGlint,Glint
+ItemHandheldRattleLinework,Linework
 ItemHandheldToyHammerHandle,Handle
 ItemHandheldToyHammerHammer,Hammer
 ItemHandheldToyHammerHandleReflection,Handle Reflection
