@@ -711,57 +711,61 @@ function ActivityOrgasmPrepare(C, Bypass) {
  * @returns {void} - Nothing
  */
 function ActivityExpression(C, Progress) {
+	let refresh = false;
+
+	/** @type {Partial<ExpressionNameMap>} */
+	const expressions = {
+		Blush: null,
+		Eyebrows: null,
+		Fluids: null,
+		Eyes: null,
+		Eyes2: null,
+		Pussy: null,
+	};
 
 	// Floors the progress to the nearest 10 to pick the expression
 	Progress = Math.floor(Progress / 10) * 10;
 
 	// The blushes goes to red progressively
-	/** @type {null | ExpressionNameMap["Blush"]} */
-	var Blush = null;
-	if ((Progress == 10) || (Progress == 30) || (Progress == 50) || (Progress == 70)) Blush = "Low";
-	if ((Progress == 60) || (Progress == 80) || (Progress == 90)) Blush = "Medium";
-	if (Progress == 100) Blush = "High";
+	if ((Progress == 10) || (Progress == 30) || (Progress == 50) || (Progress == 70)) expressions.Blush = "Low";
+	if ((Progress == 60) || (Progress == 80) || (Progress == 90)) expressions.Blush = "Medium";
+	if (Progress == 100) expressions.Blush = "High";
 
 	// The eyebrows position changes
-	/** @type {null | ExpressionNameMap["Eyebrows"]} */
-	var Eyebrows = null;
-	if ((Progress == 20) || (Progress == 30)) Eyebrows = "Raised";
-	if ((Progress == 50) || (Progress == 60)) Eyebrows = "Lowered";
-	if ((Progress == 80) || (Progress == 90)) Eyebrows = "Soft";
+	if ((Progress == 20) || (Progress == 30)) expressions.Eyebrows = "Raised";
+	if ((Progress == 50) || (Progress == 60)) expressions.Eyebrows = "Lowered";
+	if ((Progress == 80) || (Progress == 90)) expressions.Eyebrows = "Soft";
 
 	// Drool can activate at a few stages
-	/** @type {null | ExpressionNameMap["Fluids"]} */
-	var Fluids = null;
-	if ((Progress == 40) || (C.ArousalSettings.Progress == 70)) Fluids = "DroolLow";
-	if (Progress == 100) Fluids = "DroolMedium";
+	if ((Progress == 40) || (C.ArousalSettings.Progress == 70)) expressions.Fluids = "DroolLow";
+	if (Progress == 100) expressions.Fluids = "DroolMedium";
 
 	// Eyes can activate at a few stages
-	/** @type {null | ExpressionNameMap["Eyes"]} */
-	var Eyes = null;
-	if (Progress == 20) Eyes = "Dazed";
-	if (Progress == 70) Eyes = "Horny";
-	if (Progress == 90) Eyes = "Surprised";
-	if (Progress == 100) Eyes = "Closed";
-
-	// Find the expression in the character appearance and alters it
-	for (let A = 0; A < C.Appearance.length; A++) {
-		if (C.Appearance[A].Asset.Group.Name == "Blush") C.Appearance[A].Property = { Expression: Blush };
-		if (C.Appearance[A].Asset.Group.Name == "Eyebrows") C.Appearance[A].Property = { Expression: Eyebrows };
-		if (C.Appearance[A].Asset.Group.Name == "Fluids") C.Appearance[A].Property = { Expression: Fluids };
-		if (C.Appearance[A].Asset.Group.Name == "Eyes") C.Appearance[A].Property = { Expression: Eyes };
-		if (C.Appearance[A].Asset.Group.Name == "Eyes2") C.Appearance[A].Property = { Expression: Eyes };
-	}
+	if (Progress == 20) expressions.Eyes = "Dazed";
+	if (Progress == 70) expressions.Eyes = "Horny";
+	if (Progress == 90) expressions.Eyes = "Surprised";
+	if (Progress == 100) expressions.Eyes = "Closed";
 
 	// Penis gets hard at arousal 30+
-	let Penis = InventoryGet(C, "Pussy");
-	if ((Penis != null) && (Penis.Asset != null) && (Penis.Asset.Name == "Penis")) {
-		if (Progress < 30) Penis.Property = { Expression: null };
-		else Penis.Property = { Expression: "Hard" };
+	if (InventoryGet(C, "Pussy")?.Asset.Name === "Penis") {
+		expressions.Pussy = Progress < 30 ? null : "Hard"; // Male and female genitals both use the `Pussy` group
+	}
+
+	// Find the expression in the character appearance and alters it
+	/** @type {Partial<Record<AssetGroupName, ExpressionName>>} */
+	const expressionsSuperType = expressions;
+	for (const item of C.Appearance) {
+		const expression = expressionsSuperType[item.Asset.Group.Name];
+		if (expression !== undefined && item.Property.Expression !== expression) {
+			item.Property.Expression = expression;
+			refresh = true;
+		}
 	}
 
 	// Refreshes the character
-	CharacterRefresh(C, false);
-
+	if (refresh) {
+		CharacterRefresh(C, false);
+	}
 }
 
 /**
