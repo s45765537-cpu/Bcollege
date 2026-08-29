@@ -265,15 +265,15 @@ async function ChatSearchLoad() {
 	ChatSearchSearchMenuButton = ElementButton.Create(
 		"chat-search-room-open-search-menu",
 		function () {
-			const img = this.querySelector('img');
+			const img = this.querySelector('.button-image');
 			if (!img) return;
 			const open = this.getAttribute("aria-expanded") === "true";
 			if (open) {
 				this.setAttribute("aria-expanded", "false");
-				img.src = `Icons/CaretUp.svg`;
+				ElementButton.SetImage(this, "Icons/CaretUp.svg");
 			} else {
 				this.setAttribute("aria-expanded", "true");
-				img.src = `Icons/CaretDown.svg`;
+				ElementButton.SetImage(this, "Icons/CaretDown.svg");
 				if (document.activeElement?.id !== "InputSearch") {
 					ElementFocus("InputSearch");
 				}

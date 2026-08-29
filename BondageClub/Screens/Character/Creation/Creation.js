@@ -405,8 +405,7 @@ function CreationCreateLabeledInput(labelKey, inputId, type, value, maxLength, p
 			const isVisible = input.type === "text";
 			input.type = isVisible ? "password" : "text";
 			this.setAttribute("aria-pressed", (!isVisible).toString());
-			const img = this.querySelector("img");
-			if (img) img.src = isVisible ? "Icons/Rectangle/Icons3.png" : "Icons/Rectangle/Icons0.png";
+			ElementButton.SetImage(this, isVisible ? "Icons/Rectangle/Icons3.png" : "Icons/Rectangle/Icons0.png");
 		},
 		{
 			image: 'Icons/Rectangle/Icons3.png',

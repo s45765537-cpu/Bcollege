@@ -4600,7 +4600,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				click(button) {
 					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
 					DialogFacialExpressionsSelectedBlindnessLevel = level;
-					button.querySelector("img.button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
+					ElementButton.SetImage(button, `Icons/BlindToggle${level}.png`);
 				},
 			},
 			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
@@ -4632,7 +4632,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 							break;
 					}
 					button.setAttribute("aria-valuetext", state);
-					button.querySelector("img.button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
+					ElementButton.SetImage(button, `Icons/Wink${state}.png`);
 				},
 			},
 			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
@@ -4805,9 +4805,9 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				if (expressionObj.Expression === currentExpression) {
 					button.setAttribute("aria-checked", "true");
 					button.setAttribute("tabindex", "0");
-					const src = button.querySelector("img.button-image")?.getAttribute("src");
-					if (src) {
-						owningButton.querySelector("img.button-image")?.setAttribute("src", src);
+					const src = ElementButton.GetImage(button);
+					if (src != null) {
+						ElementButton.SetImage(owningButton, src);
 					}
 				} else {
 					button.setAttribute("aria-checked", "false");
@@ -4850,7 +4850,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		}
 		button.setAttribute("aria-valuenow", level);
 		button.setAttribute("aria-valuetext", state);
-		button.querySelector("img.button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
+		ElementButton.SetImage(button, `Icons/Wink${state}.png`);
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
@@ -4872,10 +4872,10 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		CharacterSetFacialExpression(C, clickedObj.Group, clickedObj.Expression);
 		C.ActiveExpression.setWithoutReload(clickedObj.Group, clickedObj.Expression);
 
-		const thisImg = button.querySelector("img.button-image");
-		const controllerImg = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"] .button-image`);
-		if (thisImg && controllerImg) {
-			controllerImg.setAttribute("src", thisImg.getAttribute("src"));
+		const thisImg = ElementButton.GetImage(button);
+		const controller = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"]`);
+		if (thisImg != null && controller) {
+			ElementButton.SetImage(controller, thisImg);
 		}
 
 		// Reset the blinking button if the eyes aren't open
@@ -4883,7 +4883,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		if (blinkButton && blinkButton.getAttribute("aria-valuenow") !== "1") {
 			blinkButton.setAttribute("aria-valuenow", "1");
 			blinkButton.setAttribute("aria-valuetext", "None");
-			blinkButton.querySelector("img.button-image")?.setAttribute("src", "Icons/WinkNone.png");
+			ElementButton.SetImage(blinkButton, "Icons/WinkNone.png");
 		}
 	}
 }

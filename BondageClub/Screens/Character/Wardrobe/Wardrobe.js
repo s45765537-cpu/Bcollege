@@ -1290,9 +1290,9 @@ function WardrobeUpdateElements(filteredSlots = WardrobeGetFilteredSlots()) {
 	ElementSetValue(search, Wardrobe.search);
 	ElementSetChecked(WardrobeID.excludeBodyparts, Wardrobe.excludeBodyparts);
 
-	const previewsIcon = ElementWrap(WardrobeID.showPreviews)?.querySelector("img");
-	if (previewsIcon) {
-		previewsIcon.src = WardrobeShowsCharacters() ? "Icons/Character.png" : "Icons/CharacterOff.png";
+	const previewsButton = ElementWrap(WardrobeID.showPreviews);
+	if (previewsButton) {
+		ElementButton.SetImage(previewsButton, WardrobeShowsCharacters() ? "Icons/Character.png" : "Icons/CharacterOff.png");
 	}
 
 	const gridHidden = WardrobeSelection !== -1;
@@ -1322,13 +1322,13 @@ function WardrobeUpdateElements(filteredSlots = WardrobeGetFilteredSlots()) {
 		const shouldHideLoadButton = slot == null || isEmpty || WardrobeReorderMode !== "None";
 		loadBtn?.toggleAttribute("hidden", shouldHideLoadButton);
 
-		const slotIcon = /** @type {HTMLImageElement | null} */ (ElementWrap(WardrobeID.slotEmpty(C)));
+		const slotIcon = ElementWrap(WardrobeID.slotEmpty(C));
 		if (slotIcon) {
 			const showIcon = slot != null && (isEmpty || !showPreviews);
 			slotIcon.toggleAttribute("hidden", !showIcon);
-			const nextSrc = isEmpty ? Wardrobe.emptySlotImage : Wardrobe.filledSlotImage;
-			if (showIcon && slotIcon.getAttribute("src") !== nextSrc) {
-				slotIcon.src = nextSrc;
+			if (showIcon) {
+				const nextSrc = isEmpty ? Wardrobe.emptySlotImage : Wardrobe.filledSlotImage;
+				ElementButton.SetImage(slotIcon, nextSrc);
 			}
 		}
 
