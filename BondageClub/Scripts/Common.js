@@ -1222,8 +1222,8 @@ function CommonDeepIsSubset(subRec, superRec) {
 			return subRec.every(subValue => superRec.some(superValue => CommonDeepIsSubset(subValue, superValue)));
 		} else {
 			// Get the keys for the objects
-			const subKeys = Object.keys(subRec);
-			const superKeys = new Set(Object.keys(superRec));
+			const subKeys = CommonFilterMap(Object.entries(subRec), ([k, v]) => v !== undefined ? k : null);
+			const superKeys = new Set(CommonFilterMap(Object.entries(superRec), ([k, v]) => v !== undefined ? k : null));
 
 			// If the objects have different numbers of keys, they are not equal
 			if (!subKeys.every(k => superKeys.has(k))) {
