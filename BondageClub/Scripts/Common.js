@@ -1708,12 +1708,22 @@ function CommonObjectEqual(rec1, rec2) {
 		return false;
 	}
 
-	const entries1 = Object.entries(rec1);
-	const keys2 = Object.keys(rec2);
-	if (entries1.length !== keys2.length) {
-		return false;
+	/** @type {Set<keyof typeof rec1 | keyof typeof rec2>} */
+	const keyUnion = new Set();
+	for (const rec of [rec1, rec2]) {
+		for (const [k, v] of CommonEntries(rec)) {
+			if (v !== undefined) {
+				keyUnion.add(k);
+			}
+		}
 	}
-	return entries1.every(([k, v]) => /** @type {Record<string, any>} */ (rec2)[k] === v);
+	for (const k of keyUnion) {
+		// @ts-ignore
+		if (rec1[k] !== rec2[k]) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /**
