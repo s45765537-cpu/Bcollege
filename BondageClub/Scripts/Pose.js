@@ -194,37 +194,25 @@ function PoseSetByItems(C, category, poseName) {
  * Sets a new pose for the character
  * @param {Character} C - Character for which to set the pose
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @param {boolean} [ForceChange=false] - TRUE if the set pose should overwrite all current active poses
  * @param {boolean} [RefreshDialog] - Refresh {@link DialogSelfMenuMapping.Pose} if so required
  * @returns {void} - Nothing
  */
 function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
+	const before = { ...C.ActivePoseMapping };
+
 	/** @type {Pose | undefined} */
 	const newPose = poseName == null ? undefined : PoseRecord[poseName];
-	if (
-		poseName == null
-		|| ForceChange
-		|| (newPose && newPose.Category === "BodyFull")
-	) {
-		C.ActivePoseMapping = (newPose == null) ? { BodyLower: "BaseLower", BodyUpper: "BaseUpper" } : { [newPose.Category]: newPose.Name };
-		CharacterRefresh(C, false);
-		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
-			CommonPromiseCatch(DialogSelfMenuMapping.Pose.Reload());
-		}
-		return;
-	}
-
-	// Validate the pre-existing activated poses before setting the new pose
-	if (newPose) {
+	if (!newPose) {
+		C.ActivePoseMapping = { BodyLower: "BaseLower", BodyUpper: "BaseUpper" };
+	} else if (newPose.Category === "BodyFull" || ForceChange) {
+		C.ActivePoseMapping = { [newPose.Category]: newPose.Name };
+	} else {
+		// Clear out invalid- and `BodyFull` poses
 		for (const [category, name] of CommonEntries(C.ActivePoseMapping)) {
-			if (!name) {
-				delete C.ActivePoseMapping[category];
-				continue;
-			}
-			const pose = PoseRecord[name];
+			const pose = !name ? undefined : PoseRecord[name];
 			if (!pose || !pose.AllowMenu || pose.Category === "BodyFull") {
 				delete C.ActivePoseMapping[category];
-				continue;
 			}
 		}
 		C.ActivePoseMapping[newPose.Category] = newPose.Name;
@@ -235,13 +223,15 @@ function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 		delete C.ActivePoseMapping.BodyUpper;
 		delete C.ActivePoseMapping.BodyLower;
 	} else {
-	    C.PoseMapping.BodyUpper = C.PoseMapping.BodyUpper ?? "BaseUpper";
-	    C.PoseMapping.BodyLower = C.PoseMapping.BodyLower ?? "BaseLower";
+	    C.ActivePoseMapping.BodyUpper ??= "BaseUpper";
+	    C.ActivePoseMapping.BodyLower ??= "BaseLower";
 	}
 
-	CharacterRefresh(C, false);
-	if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
-		CommonPromiseCatch(DialogSelfMenuMapping.Pose.Reload());
+	if (!CommonObjectEqual(before, C.ActivePoseMapping)) {
+		CharacterRefresh(C, false);
+		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
+			CommonPromiseCatch(DialogSelfMenuMapping.Pose.Reload());
+		}
 	}
 }
 
