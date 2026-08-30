@@ -1680,7 +1680,7 @@ function CharacterRefreshDialog(C) {
 			// The lock on the focused item was removed
 			DialogLeaveFocusItem();
 			return;
-		} else if (!focusItem.Asset.Extended) {
+		} else if (!(wasLock ? (lock && lock.Asset.Extended) : focusItem.Asset.Extended)) {
 			// Shouldn't happen but we don't want to open an extended screen on that
 			DialogChangeMode("items");
 			return;
