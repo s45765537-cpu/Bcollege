@@ -3603,12 +3603,8 @@ function ChatRoomCharacterItemUpdate(C, Group) {
 	/** @type {ServerCharacterItemUpdate} */
 	const P = {
 		Target: C.MemberNumber,
-		Group: Group,
-		Name: (Item != null) ? Item.Asset.Name : undefined,
-		Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
+		...(Item != null ? ServerBundledItemFromAppearanceItem(Item) : { Group, Name: undefined }),
 		Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
-		Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
-		Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
 	};
 	ServerSend("ChatRoomCharacterItemUpdate", P);
 }

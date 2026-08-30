@@ -1109,14 +1109,9 @@ interface ServerCharacterArousalResponse {
     ProgressTimer: number;
 }
 
-interface ServerCharacterItemUpdate {
+interface ServerCharacterItemUpdate extends Omit<ServerItemBundle, "Name"> {
 	Target: number;
-	Group: AssetGroupName;
-	Name: string | undefined;
-	Color: ItemColor;
-	Difficulty: number;
-	Property?: ItemProperties;
-	Craft?: CraftingPartialItem;
+	Name: undefined | string;
 }
 
 interface ServerChatRoomSyncItemResponse {
