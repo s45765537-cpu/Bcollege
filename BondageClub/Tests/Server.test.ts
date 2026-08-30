@@ -3,6 +3,7 @@ import { Game } from "./Utils";
 Game.load("../Scripts/Common.js");
 Game.load("../Scripts/Drawing.js");
 Game.load("../Scripts/Server.js");
+Game.load("../Scripts/Item.js");
 
 Game.load("../Scripts/Translation.js");
 Game.load("../Scripts/Text.js");

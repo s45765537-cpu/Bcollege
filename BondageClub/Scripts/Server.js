@@ -741,20 +741,22 @@ function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
  * Maps a bundled appearance item, as stored on the server and used for appearance update messages, into a full
  * appearance item, as used by the game client
  * @param {IAssetFamily} assetFamily - The asset family of the appearance item
- * @param {ItemBundle} item - The bundled appearance item
+ * @param {ItemBundle} itemBundle - The bundled appearance item
  * @returns {null | Item} - A full appearance item representation of the provided bundled appearance item
  */
-function ServerBundledItemToAppearanceItem(assetFamily, item) {
-	if (!item || typeof item !== "object" || typeof item.Name !== "string" || typeof item.Group !== "string") return null;
+function ServerBundledItemToAppearanceItem(assetFamily, itemBundle) {
+	if (!CommonIsObject(itemBundle) || typeof itemBundle.Name !== "string" || typeof itemBundle.Group !== "string") return null;
 
-	const asset = AssetGet(assetFamily, item.Group, item.Name);
+	const asset = AssetGet(assetFamily, itemBundle.Group, itemBundle.Name);
 	if (!asset) return null;
-	return AppearanceItem.fromAsset(asset, {
-		difficulty: item.Difficulty,
-		color: item.Color,
-		craft: item.Craft,
-		property: item.Property,
+
+	const item = AppearanceItem.fromAsset(asset, {
+		difficulty: itemBundle.Difficulty,
+		color: itemBundle.Color,
+		craft: itemBundle.Craft,
 	});
+	item.Property = ItemPropertiesDecompress(item, itemBundle.Property);
+	return item;
 }
 
 /**
@@ -774,12 +776,14 @@ function ServerBundledItemFromAppearanceItem(item) {
 	} else {
 		outputColor = inputColor;
 	}
+
+	const property = ItemPropertiesCompress(item);
 	return {
 		Group: item.Asset.Group.Name,
 		Name: item.Asset.Name,
 		Difficulty: !item.Difficulty ? undefined : item.Difficulty,
 		Color: outputColor,
-		Property: Object.keys(item.Property ?? {}).length > 0 ? item.Property : undefined,
+		Property: Object.keys(property ?? {}).length > 0 ? property : undefined,
 		Craft: item.Craft,
 	};
 }

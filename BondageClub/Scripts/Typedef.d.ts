@@ -1464,7 +1464,7 @@ type WardrobeItemBundle = [
 	Name: string,
 	Group: AssetGroupName,
 	Color?: ItemColor,
-	Property?: ItemProperties,
+	Property?: ItemPropertiesMinimized,
 ];
 
 /** An AppearanceBundle is whole minified appearance of a character */
@@ -3619,6 +3619,13 @@ interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, 
 	LayerRotation?: Record<string, number | undefined>;
 }
 
+/** Properties in {@link ItemPropertiesMinimized} with a minimization format distinct from their representation {@link ItemProperties} */
+type ItemPropertiesCompressdKeys = never; // TODO: Add property names
+
+/** Minimization format for {@link ItemProperties} */
+interface ItemPropertiesMinimized extends Omit<ItemProperties, ItemPropertiesCompressdKeys> {
+}
+
 /** Base type for unparsed extended item properties */
 interface ItemPropertiesConfig extends Omit<ItemProperties, "DrawingTop" | "DrawingLeft"> {
 	/** Override the top-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
@@ -4672,7 +4679,7 @@ interface CraftingItem extends CraftingPartialItem {
 	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
 	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
-	ItemProperty: ItemProperties | null;
+	ItemProperty: ItemPropertiesMinimized | null;
 	/**
 	 * A record for extended items mapping screen names to option indices.
 	 * @see {@link ItemProperties.TypeRecord}
@@ -4734,7 +4741,7 @@ interface CraftingItemSelected {
 	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
 	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
-	ItemProperty: ItemProperties;
+	ItemProperty: ItemPropertiesMinimized;
 	/** Get or set the `OverridePriority` property of {@link CraftingItemSelected.ItemProperty} */
 	get OverridePriority(): undefined | AssetLayerOverridePriority;
 	set OverridePriority(value: undefined | AssetLayerOverridePriority);

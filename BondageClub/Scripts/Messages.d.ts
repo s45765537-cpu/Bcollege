@@ -178,7 +178,7 @@ interface ServerItemBundle {
 	Name: string;
 	Difficulty?: number;
 	Color?: ItemColor;
-	Property?: ItemProperties;
+	Property?: ItemPropertiesMinimized;
 	Craft?: CraftingPartialItem;
 }
 
