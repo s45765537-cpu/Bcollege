@@ -7,7 +7,7 @@ const AssetOverride = "ASSET_OVERRIDE";
 var Asset = [];
 /** @type {AssetGroup[]} */
 var AssetGroup = [];
-/** @type {Map<`${AssetGroupName}/${AssetName}`, Asset>} */
+/** @type {Map<AssetFullPath, Asset>} */
 var AssetMap = new Map();
 /** @type {Map<AssetGroupName, AssetGroup>} */
 var AssetGroupMap = new Map();

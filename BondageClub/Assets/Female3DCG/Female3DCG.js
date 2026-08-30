@@ -562,7 +562,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 	},
 });
 
-/** @type {readonly `${AssetGroupName}${AssetName}`[]} */
+/** @type {readonly AssetFullName[]} */
 const AssetMalePantiesList = [
 	"PantiesBoxerShorts",
 	"PantiesBriefs",
@@ -571,7 +571,7 @@ const AssetMalePantiesList = [
 	"PantiesMaleCatsuitPanties",
 ];
 
-/** @type {readonly `${AssetGroupName}${AssetName}`[]} */
+/** @type {readonly AssetFullName[]} */
 const AssetMaleChasityCagesList = [
 	"ItemVulvaPlasticChastityCage2",
 	"ItemVulvaPlasticChastityCage1",

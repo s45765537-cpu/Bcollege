@@ -14,7 +14,7 @@ var PreferenceVisibilityCanBlock = true;
 var PreferenceVisibilityPreviewAsset;
 /** @deprecated See {@link PreferenceSubscreenVisibilityOnResetClick}. */
 var PreferenceVisibilityResetClicked = false;
-/** @type {Partial<Record<`${AssetGroupName}/${AssetName}`, ItemPermissions>>} */
+/** @type {Partial<Record<AssetFullPath, ItemPermissions>>} */
 var PreferenceVisibilityRecord = {};
 
 const PreferenceSubscreenVisibilityIDs = Object.freeze({
@@ -498,7 +498,7 @@ function PreferenceVisibilityBlockChange() {
 
 /**
  * Adds or removes the current item to/from the list based on the new state of the corresponding checkbox
- * @param {Partial<Record<`${AssetGroupName}/${AssetName}`, ItemPermissions>>} permissionRecord - The record to add or remove the item from
+ * @param {Partial<Record<AssetFullPath, ItemPermissions>>} permissionRecord - The record to add or remove the item from
  * @param {boolean} CheckSetting - The new true/false setting of the checkbox
  * @param {"Hidden" | "Block"} Type
  */

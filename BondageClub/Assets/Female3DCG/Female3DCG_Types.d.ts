@@ -1,6 +1,12 @@
 /** A type representing layer names (yes this is just a `string` alias). */
 type LayerName = string;
 
+/** A group + asset name */
+type AssetFullName = `${AssetGroupName}${AssetName}`;
+
+/** A group + asset name separated by a dash */
+type AssetFullPath = `${AssetGroupName}/${AssetName}`;
+
 /** A special key for {@link ItemProperties["DrawingTop"]}/{@link ItemProperties["DrawingLeft"]} that overrides the _relative_ position of each and every layer individually */
 type AssetOverride = "ASSET_OVERRIDE";
 
@@ -578,10 +584,10 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	Expose?: AssetGroupItemName[];
 
 	/** A list of asset names that get hidden when the asset is worn. */
-	HideItem?: `${AssetGroupName}${AssetName}`[];
+	HideItem?: AssetFullName[];
 
 	/** A list of asset names that get shown when the asset is worn. Only useful when combined with Hide */
-	HideItemExclude?: `${AssetGroupName}${AssetName}`[];
+	HideItemExclude?: AssetFullName[];
 
 	/**
 	 * A list of body group that becomes required when this asset is worn.
@@ -677,7 +683,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	AllowEffect?: EffectName[];
 	AllowBlock?: AssetGroupItemName[];
 	AllowHide?: AssetGroupItemName[];
-	AllowHideItem?: `${AssetGroupName}${AssetName}`[];
+	AllowHideItem?: AssetFullName[];
 	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	CreateLayerTypes?: string[];
 	/**

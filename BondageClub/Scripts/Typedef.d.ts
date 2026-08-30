@@ -1332,8 +1332,8 @@ interface Asset {
 	readonly Block?: readonly AssetGroupItemName[];
 	readonly Expose: readonly AssetGroupItemName[];
 	readonly Hide?: readonly AssetGroupName[];
-	readonly HideItem?: readonly `${AssetGroupName}${AssetName}`[];
-	readonly HideItemExclude: readonly `${AssetGroupName}${AssetName}`[];
+	readonly HideItem?: readonly AssetFullName[];
+	readonly HideItemExclude: readonly AssetFullName[];
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
@@ -1381,7 +1381,7 @@ interface Asset {
 	readonly AllowEffect?: readonly EffectName[];
 	readonly AllowBlock?: readonly AssetGroupItemName[];
 	readonly AllowHide?: readonly AssetGroupName[];
-	readonly AllowHideItem?: readonly `${AssetGroupName}${AssetName}`[];
+	readonly AllowHideItem?: readonly AssetFullName[];
 	readonly AllowTighten: boolean;
 	/**
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
@@ -1991,7 +1991,7 @@ interface Character {
 	BlinkFactor: number;
 	AllowItem: boolean;
 	/** A record with all asset- and type-specific permission settings */
-	PermissionItems: Partial<Record<`${AssetGroupName}/${AssetName}`, ItemPermissions>>;
+	PermissionItems: Partial<Record<AssetFullPath, ItemPermissions>>;
 	HeightModifier: number;
 	MemberNumber?: number;
 	AllowedInteractions: AllowedInteractions;
@@ -3251,12 +3251,12 @@ interface AssetDefinitionProperties {
 	 * Items that should be hidden by this item
 	 * @see {@link Asset.HideItem}
 	 */
-	HideItem?: `${AssetGroupName}${AssetName}`[];
+	HideItem?: AssetFullName[];
 	/**
 	 * Items that should not be hidden by this item
 	 * @see {@link Asset.HideItemExclude}
 	 */
-	HideItemExclude?: `${AssetGroupName}${AssetName}`[];
+	HideItemExclude?: AssetFullName[];
 	/**
 	 * Items groups that should be hidden by this item
 	 * @see {@link Asset.Hide}
