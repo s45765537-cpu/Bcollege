@@ -1,5 +1,4 @@
-"use strict";
-const { Game } = require("./Utils");
+import { Game } from "./Utils";
 
 Game.load("../Scripts/Common.js");
 Game.load("../Scripts/Drawing.js");
@@ -7,14 +6,13 @@ Game.load("../Scripts/Server.js");
 
 Game.load("../Scripts/Validation.js");
 
-/** @satisfies {ColorAssetMock} */
 const partialAsset = {
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "#112233"],
 	Group: {
 		ColorSchema: ["Default"],
 	},
-};
+} satisfies ColorAssetMock;
 
 describe("ValidationSanitizeColor", () => {
 	it("invalid color: valid string - BC custom color", () => {

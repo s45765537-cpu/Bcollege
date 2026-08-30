@@ -1,26 +1,22 @@
-"use_strict";
-
-const { Game } = require("./game.cjs");
-const { filterNullValues, cloneDeep } = require("./utils.cjs");
+import { Game } from "./game";
+import { filterNullValues, cloneDeep } from "./utils";
 
 /**
  * Construct a character of the given type
- * @param {string} name The character game
- * @param {null | { type?: CharacterType }} options Further options
- * @returns {Character} The created character
+ * @param name The character game
+ * @param options Further options
+ * @returns The created character
  */
-function create(name, options=null) {
+export function create(name: string, options: null | { type?: CharacterType } = null): Character {
 	options ??= {};
 
-	/** @type {Character} */
-	let C;
+	let C: Character;
 	switch (options.type ?? "simple") {
 		case "simple":
 			C = Game.CharacterLoadSimple(name);
 			break;
 		case "player":
 			// FIXME - WIP
-			/** @type {Character} */
 			C = Game.CharacterReset(0, "Female3DCG");
 			C.Name = C.AccountName = name;
 			Game.PreferenceInit(C);
@@ -34,39 +30,31 @@ function create(name, options=null) {
 
 /**
  * Delete the passed character
- * @param {Character} C
  */
-function destroy(C) {
+export function destroy(C: Character): void {
 	Game.CharacterDelete(C);
 }
 
 /**
  * Refresh the passed character
- * @param {Character} C
  */
-function refresh(C) {
+export function refresh(C: Character): void {
 	Game.CharacterRefresh(C, true);
 }
 
 /**
  * Reset the appearance of the passed character
- * @param {Character} C
- * @returns {void}
  */
-function appearanceReset(C) {
+export function appearanceReset(C: Character): void {
 	Game.CharacterAppearanceSetDefault(C);
 }
 
 /**
  * Equip the passed item bundle
- * @param {Character} C
- * @param {ItemBundle} itemBundle
- * @returns {Item}
  */
-function inventoryWear(C, itemBundle) {
+export function inventoryWear(C: Character, itemBundle: ItemBundle): Item {
 	itemBundle = cloneDeep(itemBundle);
-	/** @type {null | Item} */
-	const item = Game.InventoryWear(C, itemBundle.Name, itemBundle.Group, itemBundle.Color, itemBundle.Difficulty, null, itemBundle.Craft, false);
+	const item: null | Item = Game.InventoryWear(C, itemBundle.Name, itemBundle.Group, itemBundle.Color, itemBundle.Difficulty, null, itemBundle.Craft, false);
 	if (item == null) {
 		throw new Error(`Failed to equip "${JSON.stringify(itemBundle)}" bundle`);
 	}
@@ -76,13 +64,10 @@ function inventoryWear(C, itemBundle) {
 
 /**
  * Convert the passed item list into item bundles, removing any undefined item properties
- * @param {readonly Item[]} items
- * @returns {ItemBundle[]}
  */
-function appearancePack(items) {
+export function appearancePack(items: readonly Item[]): ItemBundle[] {
 	return cloneDeep(items.map(item => {
-		/** @type {ItemBundle} */
-		const itemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemBundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
 		// Remove undefined values in order to make Jest's `toMatchObject()` output easier to evaluate
 		return filterNullValues(itemBundle);
 	}));
@@ -90,13 +75,10 @@ function appearancePack(items) {
 
 /**
  * Convert the passed item bundle list into items, removing any undefined item properties
- * @param {readonly ItemBundle[]} items
- * @returns {Item[]}
  */
-function appearanceUnpack(items) {
+export function appearanceUnpack(items: readonly ItemBundle[]): Item[] {
 	return items.map(itemBundle => {
-		/** @type {null | Item} */
-		const item = Game.ServerBundledItemToAppearanceItem("Female3DCG", cloneDeep(itemBundle));
+		const item: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", cloneDeep(itemBundle));
 		if (item == null) {
 			throw new Error(`Failed to unpack "${JSON.stringify(itemBundle)}" bundle`);
 		}
@@ -106,20 +88,7 @@ function appearanceUnpack(items) {
 
 /**
  * Convert a list of items into asset strings represented via their group- and asset name
- * @param {readonly Item[]} items
- * @returns {AssetString[]}
  */
-function appearanceStringify(items) {
-	return items.map(item => /** @type {const} */(`${item.Asset.Group.Name}/${item.Asset.Name}`));
+export function appearanceStringify(items: readonly Item[]): AssetString[] {
+	return items.map(item => `${item.Asset.Group.Name}/${item.Asset.Name}` as const);
 }
-
-module.exports = {
-  create,
-  destroy,
-  refresh,
-  appearanceReset,
-  appearanceStringify,
-  inventoryWear,
-  appearancePack,
-  appearanceUnpack,
-};

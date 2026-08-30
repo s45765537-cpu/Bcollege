@@ -1,15 +1,10 @@
-"use strict";
-
-const { Game } = require("./Utils");
+import { Game } from "./Utils";
 
 Game.load("../Scripts/Common.js");
-
 Game.load("../Scripts/GameLog.js");
 
-/** @type {PlayerCharacter} */
-let Player;
-/** @type {LogRecord[]} */
-let Log;
+let Player: PlayerCharacter;
+let Log: LogRecord[];
 
 beforeEach(() => {
 	// Build a dummy Player object just for its log

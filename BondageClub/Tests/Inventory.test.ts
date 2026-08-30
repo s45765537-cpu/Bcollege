@@ -1,8 +1,6 @@
-"use strict";
-const { Game } = require("./Utils");
+import { Game } from "./Utils";
 
-/** @type {ColorAssetMock} */
-let asset;
+let asset: ColorAssetMock;
 
 beforeAll(async () => {
 	await Game.loadAll();

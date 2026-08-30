@@ -1,5 +1,4 @@
-"use strict";
-const { Game } = require("./Utils");
+import { Game } from "./Utils";
 
 Game.load("../Scripts/Common.js");
 
@@ -145,8 +144,7 @@ describe("CommonRemoveItemFromList", () => {
 	});
 
 	it("should return undefined for empty array", () => {
-		/** @type {unknown[]} */
-		const arr = [];
+		const arr: unknown[] = [];
 		const result = Game.CommonRemoveItemFromList(arr, 0);
 		expect(result).toBeUndefined();
 		expect(arr).toEqual([]);
@@ -162,8 +160,7 @@ describe("CommonRemoveRandomItemFromList", () => {
 	});
 
 	it("should return undefined for empty array and not change it", () => {
-		/** @type {unknown[]} */
-		const arr = [];
+		const arr: unknown[] = [];
 		const result = Game.CommonRemoveRandomItemFromList(arr);
 		expect(result).toBeUndefined();
 		expect(arr).toEqual([]);
@@ -598,14 +595,12 @@ describe("CommonObjectEqual", () => {
 
 describe("CommonFilterMap", () => {
 	it("return all `>= 2` values multiplied by 10", () => {
-		/** @type {(i: number) => null | number} */
-		const callback = (i) => i >= 2 ? i * 10 : null;
+		const callback = (i: number): null | number => i >= 2 ? i * 10 : null;
 		expect(Game.CommonFilterMap([0, 1, 1, 2, 3], callback)).toEqual([20, 30]);
 	});
 
 	it("return an empty array", () => {
-		/** @type {(i: number) => null | number} */
-		const callback = (i) => i >= 99 ? i * 10 : null;
+		const callback = (i: number): null | number => i >= 99 ? i * 10 : null;
 		expect(Game.CommonFilterMap([0, 1, 1, 2, 3], callback)).toEqual([]);
 	});
 });
