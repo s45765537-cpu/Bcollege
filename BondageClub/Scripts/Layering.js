@@ -71,6 +71,14 @@ var Layering = {
 	])),
 
 	/**
+	 * Default, unmodified, item-specific property values.
+	 *
+	 * This value is purely dependant on the extended item's type, with all values being undefined for type-less or non-extended items.
+	 * @type {null | Readonly<ItemProperties>}
+	 */
+	Defaults: null,
+
+	/**
 	 * The character in question
 	 * @type {null | Character}
 	 */
@@ -125,15 +133,6 @@ var Layering = {
 	set OverridePriority(value) {
 		this.Item.Property.OverridePriority = value;
 	},
-
-	/**
-	 * The items default `Property.OverridePriority` value.
-	 *
-	 * This is generally `undefined`, though certain extended item options do overwrite it.
-	 * @private
-	 * @type {undefined | AssetLayerOverridePriority}
-	 */
-	_PriorityDefault: undefined,
 
 	/**
 	 * Whether the layering screen is readonly or not
@@ -311,36 +310,59 @@ var Layering = {
 	 * @private
 	 */
 	_ResetClickListener(_event) {
-		if (Layering.activeTab === "priority") {
-			Layering.OverridePriority = Layering._PriorityDefault == null ? undefined : CommonCloneDeep(Layering._PriorityDefault);
+		const item = Layering.Item;
+		const defaults = Layering.Defaults;
+		if (!item || !defaults) {
+			return;
+		}
 
-			const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
-			layerElements.forEach(e => e.value = e.dataset.layerPriority);
-
-			const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
-			assetElements.forEach(e => e.value = e.dataset.assetPriority);
-		} else {
-			// Reset transformation properties
-			const propsToRemove = [];
-			if (Layering.activeTab === "translation") propsToRemove.push("TranslationX", "TranslationY");
-			else if (Layering.activeTab === "scale") propsToRemove.push("ScaleX", "ScaleY");
-			else if (Layering.activeTab === "rotate") propsToRemove.push("Rotation");
-
-			for (const key of propsToRemove) {
-				delete Layering.Item.Property[key];
-				delete Layering.Item.Property[`Layer${key}`];
+		// Reset UI
+		switch (Layering.activeTab) {
+			case "priority": {
+				/** @type {NodeListOf<HTMLInputElement>} */
+				const layerElements = document.querySelectorAll("input[data-layer-priority]");
+				/** @type {NodeListOf<HTMLInputElement>} */
+				const assetElements = (document.querySelectorAll("input[data-asset-priority]"));
+				layerElements.forEach(e => e.value = e.dataset.layerPriority);
+				assetElements.forEach(e => e.value = e.dataset.assetPriority);
+				break;
+			}
+			case "rotate":
+			case "scale":
+			case "translation": {
+				const container = document.getElementById("layering-content-container");
+				if (container) {
+					container.innerHTML = "";
+					const content = Layering._GetTabContents(Layering.activeTab);
+					content.forEach(c => container.appendChild(c));
+					Layering._ApplyTranslations();
+				}
+				break;
 			}
 		}
 
-		// Rebuild the content container
-		const container = document.getElementById("layering-content-container");
-		if (container) {
-			container.innerHTML = "";
-			const content = Layering._GetTabContents(Layering.activeTab);
-			content.forEach(c => container.appendChild(c));
-			Layering._ApplyTranslations();
+		// Reset item property values
+		switch (Layering.activeTab) {
+			case "priority":
+				item.Property.OverridePriority = defaults.OverridePriority == null ? undefined : CommonCloneDeep(defaults.OverridePriority);
+				break;
+			case "rotate":
+				item.Property.Rotation = defaults.Rotation == null ? undefined : defaults.Rotation;
+				item.Property.LayerRotation = defaults.LayerRotation == null ? undefined : CommonCloneDeep(defaults.LayerRotation);
+				break;
+			case "scale":
+				item.Property.ScaleX = defaults.ScaleX == null ? undefined : defaults.ScaleX;
+				item.Property.ScaleY = defaults.ScaleY == null ? undefined : defaults.ScaleY;
+				item.Property.LayerScaleX = defaults.LayerScaleX == null ? undefined : CommonCloneDeep(defaults.LayerScaleX);
+				item.Property.LayerScaleY = defaults.LayerScaleY == null ? undefined : CommonCloneDeep(defaults.LayerScaleY);
+				break;
+			case "translation":
+				item.Property.TranslationX = defaults.TranslationX == null ? undefined : defaults.TranslationX;
+				item.Property.TranslationY = defaults.TranslationY == null ? undefined : defaults.TranslationY;
+				item.Property.LayerTranslationX = defaults.LayerTranslationX == null ? undefined : CommonCloneDeep(defaults.LayerTranslationX);
+				item.Property.LayerTranslationY = defaults.LayerTranslationY == null ? undefined : CommonCloneDeep(defaults.LayerTranslationY);
+				break;
 		}
-
 		Layering._CharacterRefresh(Layering.Character, false, false);
 	},
 
@@ -784,13 +806,13 @@ var Layering = {
 	},
 
 	/**
-	 * Return the default `Property.OverridePriority` of the current item.
+	 * Return the default item property values for those specified in {@link Layering.PropertyNames}.
 	 *
-	 * This is generally `undefined`, though certain extended item options do overwrite it.
+	 * Values are generally undefined, with the extended item options of certain items overwriting them.
 	 * @private
-	 * @returns {undefined | AssetLayerOverridePriority}
+	 * @returns {ItemProperties}
 	 */
-	_GetDefaultPriority() {
+	_GetDefaults() {
 		if (!this.Item.Property.TypeRecord) {
 			return undefined;
 		}
@@ -799,7 +821,7 @@ var Layering = {
 		const item = AppearanceItem.fromAsset(this.Item.Asset);
 		ExtendedItemInit(this.Character, item, false, false);
 		ExtendedItemSetOptionByRecord(this.Character, item, this.Item.Property.TypeRecord, { push: false, refresh: false });
-		return item.Property.OverridePriority;
+		return CommonPick(item.Property, Layering.PropertyNames);
 	},
 
 	/**
@@ -879,8 +901,7 @@ var Layering = {
 			return;
 		}
 
-
-		this._PriorityDefault = this._GetDefaultPriority();
+		this.Defaults = this._GetDefaults();
 
 		const tabs = {
 			priority: "Layer",
@@ -1013,7 +1034,7 @@ var Layering = {
 		this.Character = null;
 		this.Display = null;
 		this._Readonly = false;
-		this._PriorityDefault = undefined;
+		this.Defaults = null;
 	},
 
 	/**
