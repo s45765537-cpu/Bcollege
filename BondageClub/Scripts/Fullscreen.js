@@ -63,18 +63,7 @@ var Fullscreen = (function () {
 		const tooltip = button.querySelector(".button-tooltip");
 		if (tooltip) tooltip.textContent = label;
 
-		/** @type {HTMLElement | null} */
-		const image = button.querySelector(".button-image");
-		const src = active ? "Icons/FullscreenExit.svg" : "Icons/FullscreenEnter.svg";
-		if (!image) return;
-		if (image instanceof HTMLImageElement) {
-			if (!image.src.endsWith(src)) {
-				image.src = src;
-			}
-		} else if (image.style.backgroundImage !== src) {
-			image.style.backgroundImage = `url("${src}")`;
-			image.style.maskImage = `url("${src}")`;
-		}
+		ElementButton.SetImage(button, active ? "Icons/FullscreenExit.svg" : "Icons/FullscreenEnter.svg");
 	}
 
 	async function enter() {

@@ -2294,6 +2294,51 @@ var ElementButton = {
 		}
 		return true;
 	},
+
+	/**
+	 * Set the src of the button's image (`.button-image`).
+	 *
+	 * Supports both `<img>`- and `<div role="img">`-style button images.
+	 * @param {ElementHelp.ElementOrId} button The button in question  (`.button`) or its image  (`.button-image`). May be specified either as an element or its ID.
+	 * @param {string} src The new image source
+	 * @returns {null | HTMLElement} The updated `.button-image` element or null if it cannot be found
+	 */
+	SetImage: function SetImage(button, src) {
+		const element = ElementWrap(button);
+		const img = element?.matches(".button-image") ? element : element?.querySelector(".button-image");
+		if (img instanceof HTMLImageElement) {
+			img.src = src;
+			return img;
+		} else if (img instanceof HTMLElement) {
+			const imgURL = (src.startsWith("data:image") || src.startsWith("http")) ? `url("${src}")` : `url("./${src}")`;
+			img.style.setProperty("background-image", imgURL);
+			img.style.setProperty("mask-image", imgURL);
+			return img;
+		} else {
+			return null;
+		}
+	},
+
+	/**
+	 * Get the src of the button's image (`.button-image`).
+	 *
+	 * Supports both `<img>`- and `<div role="img">`-style button images.
+	 * @param {ElementHelp.ElementOrId} button The button in question  (`.button`) or its image  (`.button-image`). May be specified either as an element or its ID.
+	 * @returns {null | string} The src of the `.button-image` represented in a {@link HTMLImageElement.src}-compatible format or null if it cannot be found/is empty.
+	 */
+	GetImage: function GetImage(button) {
+		const element = ElementWrap(button);
+		const img = element?.matches(".button-image") ? element : element?.querySelector(".button-image");
+		if (img instanceof HTMLImageElement) {
+			return img.src || null;
+		} else if (img instanceof HTMLElement) {
+			const imgURL = img.style.getPropertyValue("background-image");
+			const srcMatch = imgURL.match(/url\((\.\/)?(['"]+)?(\S+)(['"]+)?\)/);
+			return srcMatch?.[3] ?? null;
+		} else {
+			return null;
+		}
+	},
 };
 
 /**

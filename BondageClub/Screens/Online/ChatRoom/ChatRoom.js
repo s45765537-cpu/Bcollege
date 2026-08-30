@@ -2729,10 +2729,8 @@ function ChatRoomTopMenuSync() {
 		const btn = bar.querySelector(`button[name="${CSS.escape(name)}"]`);
 		/** @type {HTMLDivElement | null} */
 		const tooltip = btn?.querySelector(".button-tooltip");
-		/** @type {HTMLElement | null} */
-		const img = btn?.querySelector(".button-image");
 
-		if (!btn || !tooltip || !img) continue;
+		if (!btn || !tooltip) continue;
 		const hoverParts = CommonIsArray(state.hoverText) ? state.hoverText : [state.hoverText];
 		const areEqual = hoverParts.every((part, i) => {
 			const node = tooltip.childNodes[i];
@@ -2747,15 +2745,7 @@ function ChatRoomTopMenuSync() {
 			btn.setAttribute("aria-disabled", state.state === "Blocked" ? "true" : "false");
 		}
 
-		const imgSrc = state.image;
-		if (img instanceof HTMLImageElement) {
-			if (!img.src.endsWith(imgSrc)) {
-				img.src = imgSrc;
-			}
-		} else if (img.style.backgroundImage !== imgSrc) {
-			img.style.backgroundImage = `url("${imgSrc}")`;
-			img.style.maskImage = `url("${imgSrc}")`;
-		}
+		ElementButton.SetImage(btn, state.image);
 	}
 }
 
