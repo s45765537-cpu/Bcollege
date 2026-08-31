@@ -21363,6 +21363,10 @@ var AssetFemale3DCGExtended = {
 							//d1 - ABU AlphaGatorz
 							Property: { DefaultColor: "Default" },
 						},
+						{
+							//d2 - ABU BunnyHopps
+							Property: { DefaultColor: "Default" },
+						},
 					]
 				},
 				{

@@ -14136,27 +14136,27 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Tabs",
-						Priority:20
+						Priority:27
 					},
 					{
 						Name: "None",
 						AllowTypes: { m: [0] },
 						ParentGroup: "",
-						Priority:20
+						Priority:27
 					},
 					{
 						Opacity: 0,
 						MinOpacity: 0,
 						MaxOpacity: 1,
 						Name: "Wet",
-						Priority:21
+						Priority:28
 					},
 					{
 						Opacity: 1,
 						Name: "Indicator",
 						MinOpacity: 0,
 						MaxOpacity: 1,
-						Priority:20
+						Priority:27
 					},
 					{
 						Name: "BaseAlpha",
@@ -14164,32 +14164,37 @@ var AssetFemale3DCG = [
 						CopyLayerColor:"Base",
 					},
 					{
+						Name: "BaseBunny",
+						AllowTypes:{d: [2]},
+						CopyLayerColor:"Base",
+					},
+					{
 						Name: "Simple",
 						AllowTypes: { m: [1], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:20
+						Priority:27
 					},
 					{
 						Name: "HisMajesty",
 						AllowTypes: { m: [2], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:20
+						Priority:27
 					},
 					{
 						Name: "HerMajesty",
 						AllowTypes: { m: [3], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:20
+						Priority:27
 					},
 					{
 						Name: "Lock",
 						AllowTypes: { m: [4], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:20
+						Priority:27
 					},
 				],
 			},
