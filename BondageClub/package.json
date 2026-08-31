@@ -34,6 +34,7 @@
 		"files:case": "cd Tools/Node && node --unhandled-rejections=strict FileCase",
 		"files:sortcsv": "cd Tools/Node && node --unhandled-rejections=strict SortCSV",
 		"files:csvtypescript": "cd Tools/Node && node --unhandled-rejections=strict CSVTypescript && cd ../../.. && tsc -p BondageClub/Tools/Node/tsconfig-csvtypescript.json",
+		"files:csvtypescript:unstable": "cd Tools/Node && node --unhandled-rejections=strict CSVTypescript -l && cd ../../.. && tsc -p BondageClub/Tools/Node/tsconfig-csvtypescript.json",
 		"test": "jest"
 	},
 	"repository": {

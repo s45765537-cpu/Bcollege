@@ -207,16 +207,17 @@ type AssetName = (
  *
  * @param {string} root
  * @param {string} output
+ * @param {boolean} literalAssets Whether to transform the `AssetName` type from a plain `string` into a union of _all_ literal asset names.
+ * Note that doing so will cause a number of type checks to fail due to literal combinatorics growing too large for TS to handle.
  */
-function interfaceCsvToTS(root, output) {
-	// NOTE: Keeping `runVM()` and the comment code around for future reference
-	// Replacing the `AssetName` type with a union of literal strings (the actual asset names) works,
-	// but the sheer size of the union (>1500) means TS often shits the bed when combinatorics are involved
-
-	// const vmOutput = _runVM();
-	// const assetsNames = new Set(vmOutput.assets.map(a => a.Name));
-	// const assetNamesType = Array.from(assetsNames).sort().map(i => `"${i}"`).join("\n\t| ");
-	const assetNamesType = "string";
+function interfaceCsvToTS(root, output, literalAssets=false) {
+	let assetNamesType = "string";
+	if (literalAssets) {
+		console.warn(`Warning: option "--literal-asset-names" enabled: failures are to be expected due to TS limitations\n`);
+		const vmOutput = _runVM();
+		const assetsNames = new Set(vmOutput.assets.map(a => a.Name));
+		assetNamesType = Array.from(assetsNames).sort().map(i => `"${i}"`).join("\n\t| ");
+	}
 
 	root = fs.existsSync(root) ? root : path.join(BASE_PATH, root);
 	const outputName = path.join(output, "Interface.csv.d.ts");
@@ -229,7 +230,8 @@ function interfaceCsvToTS(root, output) {
 }
 
 (function () {
+	const literalAssets = process.argv.includes("--literal-asset-names") || process.argv.includes("-l");
 	const output = path.join(BASE_PATH, "Tools", "Node", "csvtypescript_tmp_output");
 	AllCsvToTS(BASE_PATH, output);
-	interfaceCsvToTS(BASE_PATH, output);
+	interfaceCsvToTS(BASE_PATH, output, literalAssets);
 })();
