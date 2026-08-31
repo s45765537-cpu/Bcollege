@@ -63,6 +63,7 @@
 		"@types/gulp-cache": "^0.4.9",
 		"@types/gulp-filter": "^3.0.39",
 		"@types/gulp-imagemin": "^8.0.6",
+		"@types/gulp-match": "^1.1.6",
 		"@types/gulp-size": "^4.0.3",
 		"@types/imagemin-jpegtran": "^5.0.4",
 		"@types/jest": "^30.0.0",
