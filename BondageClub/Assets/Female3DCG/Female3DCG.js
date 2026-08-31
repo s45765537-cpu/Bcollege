@@ -13655,7 +13655,7 @@ var AssetFemale3DCG = [
 		Group: "Panties",
 		ParentGroup: "BodyLower",
 		ParentColor: "Bra",
-		Priority: 26, // was 19. If penis layer is at 25, then surely this should be above 25?
+		Priority: 19,
 		Clothing: true,
 		EditOpacity: true,
 		MinOpacity: 0,
@@ -13959,6 +13959,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BulkyDiapers",
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
+				Hide: ["Pussy"],
 				Attribute: ["GenitaliaCover", "Diaper", "DiaperLarge"],
 				Random: false,
 				Value: 30,
@@ -29207,6 +29208,7 @@ var AssetFemale3DCG = [
 				Name: "BabyPowderDust",
 				Top: 422,
 				Left: 138,
+				Priority: 12.1, // Just above "Pussy" group
 				Extended: true,
 				Layer: [
 					{
