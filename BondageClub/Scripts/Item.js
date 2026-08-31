@@ -175,6 +175,13 @@ function ItemPropertiesCompress(item, options=null) {
 
 	// Initialize it with the known set of (legal) fully user-customizable properties
 	const allowedProperties = new Set(ExtendedItemInitPropertyIgnore);
+	// FIXME: Temporary backwards compatiblity.
+	// Either port these properties over to BC or switch them out for a pre-existing BC equivalent.
+	// @ts-expect-error
+	allowedProperties.add("LayerOverrides"); // LSCG as of v0.8.17
+	// @ts-expect-error
+	allowedProperties.add("wceOverrideHide"); // WCE as of v6.3.19
+
 	/** @type {ItemProperties} */
 	const baseline = {};
 	if (item.Asset.Extended) {
