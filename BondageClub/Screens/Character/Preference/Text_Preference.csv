@@ -95,7 +95,7 @@ ColorEmotes,Color emotes
 ColorActivities,Color activities
 ShrinkNonDialogue,Shrink all messages except dialogue
 ShowActivities,Show sexual activities & orgasms
-MuStylePoses,Use : as alias for /me and *
+MuStylePoses,Use :/:: as alias for /me/*/action/**
 AutoBanBlackList,Ban blacklist when creating a room
 AutoBanGhostList,Ban ghostlist when creating a room
 SearchFriendsFirst,Order rooms by number of friends
@@ -110,7 +110,7 @@ ShowFriendRequestMessages,Show friend request messages
 DefaultChatRoomBackground,Default chatroom background: 
 ChatSettingsPage0,Page 1/2
 ChatSettingsPage1,Page 2/2
-AudioVolume,Audio volume
+Volume,Audio volume
 MusicVolume,Music volume
 AudioPlayBeeps,Audio alarm for beeps
 AudioPlayItem,Play item sounds in chatrooms
@@ -386,6 +386,11 @@ ScriptsPermissionPropertyBlock,Block
 FPSFocusedLimit,FPS Limit
 FPSUnfocusedLimit,Unfocused FPS limit
 ShowFPS,Display FPS Counter
+ShowFullscreenButton,Show fullscreen button
+ShowFullscreenButtonHint,Display a small button for entering fullscreen mode. On mobile is recommended; desktop browsers usually already provide a fullscreen shortcut.
+ShowFullscreenButtonon,Always
+ShowFullscreenButtonoff,Never
+ShowFullscreenButtonon_when_mobile,On mobile
 MaxFPS0,Unlimited
 MaxFPS10,10 FPS
 MaxFPS15,15 FPS

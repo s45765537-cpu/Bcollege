@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var SlaveAuctionBackground = "SlaveMarket";
 /** @type {null | NPCCharacter} */
@@ -54,11 +53,11 @@ async function SlaveAuctionLoad() {
 function SlaveAuctionRun() {
 
 	// Draw the characters
-	DrawCharacter(SlaveAuctionCustomerLeft, -25, 100, 0.9);
+	if (SlaveAuctionCustomerLeft) DrawCharacter(SlaveAuctionCustomerLeft, -25, 100, 0.9);
 	DrawCharacter(Player, 375, 100, 0.9);
-	DrawCharacter(SlaveAuctionSlave, 775, 100, 0.9);
-	DrawCharacter(SlaveAuctionVendor, 1175, 100, 0.9);
-	DrawCharacter(SlaveAuctionCustomerRight, 1575, 100, 0.9);
+	if (SlaveAuctionSlave) DrawCharacter(SlaveAuctionSlave, 775, 100, 0.9);
+	if (SlaveAuctionVendor) DrawCharacter(SlaveAuctionVendor, 1175, 100, 0.9);
+	if (SlaveAuctionCustomerRight) DrawCharacter(SlaveAuctionCustomerRight, 1575, 100, 0.9);
 
 	// Draw the bid info over the slave
 	DrawText(TextGet("CurrentBid") + " " + SlaveAuctionBidAmount.toString() + "$", 1000, 75, "White", "Black");

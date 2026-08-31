@@ -19,6 +19,29 @@
 var ExtendedItemOffsets = {};
 
 /**
+ * A set of properties to-be ignored by the `Init()` validation.
+ * This more relaxed validation is required as these properties can be fully configured by the user in one way or another
+ * and are thus not guaranteed to be linked to specific `TypeRecord` values
+ * @type {ReadonlySet<keyof ItemProperties>}
+ */
+const ExtendedItemInitPropertyIgnore = new Set(/** @type {const} */([
+	"OverridePriority",
+	"DrawingTop",
+	"DrawingLeft",
+	"Opacity",
+	"LayerTranslationX",
+	"LayerTranslationY",
+	"LayerScaleX",
+	"LayerScaleY",
+	"LayerRotation",
+	"TranslationX",
+	"TranslationY",
+	"ScaleX",
+	"ScaleY",
+	"Rotation",
+]));
+
+/**
  * The X & Y co-ordinates of each option's button, based on the number to be displayed per page.
  * @type {[number, number][][]}
  */
@@ -146,7 +169,7 @@ function ExtendedItemCreateCallbacks(data, defaults) {
 
 	const extraKeys = CommonKeys(defaults).filter(i => !ExtendedItemCreate.includes(i));
 	if (extraKeys.length !== 0) {
-		console.warn(`Found ${extraKeys.length} non-existent script hooks in the passed ${data.asset.Name} extended item data`);
+		console.error(`Found ${extraKeys.length} non-existent script hooks in the passed ${data.asset.Name} extended item data`);
 	}
 
 	ExtendedItemCreate.forEach(k => ExtendedItemCreateCallback(data, k, /** @type {ExtendedItemCallback<any[], any>} */(defaults[k])));
@@ -429,11 +452,6 @@ function ExtendedItemGetButtonColor(data, C, Option, CurrentOption, Hover, IsSel
  * @returns {void} - Nothing
  */
 function ExtendedItemExit() {
-	// Check if an `Exit` function has already been called
-	if (DialogFocusItem == null) {
-		return;
-	}
-
 	// invalidate the cache
 	ExtendedItemRequirementCheckMessageMemo.clearCache();
 
@@ -442,9 +460,15 @@ function ExtendedItemExit() {
 		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Exit`);
 		ExtendedItemSubscreen = null;
 		ExtendedItemPermissionMode = false;
-	} else {
+	} else if (DialogFocusItem) {
 		CommonCallFunctionByName(`${ExtendedItemFunctionPrefix()}Exit`);
 		DialogFocusItem = null;
+		DialogFocusItemName = null;
+		DialogExtendedMessage = "";
+	} else {
+		CommonCallFunctionByName(`Inventory${DialogFocusItemName}Exit`);
+		DialogFocusItem = null;
+		DialogFocusItemName = null;
 		DialogExtendedMessage = "";
 	}
 }
@@ -510,12 +534,13 @@ function ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOptio
  * wearer may select the option)
  * @param {Character} C - The character on whom the bondage is applied
  * @param {ExtendedItemOption} Option - The option whose requirements should be checked against
- * @returns {string | undefined} - undefined if the
+ * @returns {string | null} - undefined if the
  */
 function ExtendedItemCheckSelfSelect(C, Option) {
 	if (C.IsPlayer() && Option.AllowSelfSelect === false) {
 		return InterfaceTextGet("CannotSelfSelect");
 	}
+	return null;
 }
 
 /**
@@ -523,8 +548,7 @@ function ExtendedItemCheckSelfSelect(C, Option) {
  * @param {Character} C - The character on whom the bondage is applied
  * @param {Item} Item - The item whose options are being checked
  * @param {ExtendedItemOption} Option - The option whose requirements should be checked against
- * @returns {string|undefined} - undefined if the player meets the option's skill level requirements. Otherwise returns
- * a string message informing them of the requirements they do not meet.
+ * @returns {string|null} - Returns a string message informing them of the requirements they do not meet, otherwise null.
  */
 function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 	const SelfBondage = C.IsPlayer();
@@ -532,7 +556,7 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 		let RequiredLevel = Option.SelfBondageLevel;
 		if (typeof RequiredLevel !== "number") RequiredLevel = Math.max(Item.Asset.SelfBondage, Option.BondageLevel);
 		if (SkillGetLevelReal(Player, "SelfBondage") < RequiredLevel) {
-			return InterfaceTextGet("RequireSelfBondage" + RequiredLevel);
+			return InterfaceTextGet("RequireSelfBondage").replace("ReqLevel", RequiredLevel.toString());
 		}
 	} else {
 		let RequiredLevel = Option.BondageLevel || 0;
@@ -540,12 +564,13 @@ function ExtendedItemCheckSkillRequirements(C, Item, Option) {
 			return InterfaceTextGet("RequireBondageLevel").replace("ReqLevel", `${RequiredLevel}`);
 		}
 	}
+	return null;
 }
 
 /**
  * Checks whether the character meets an option's required bought items
  * @param {ExtendedItemOption} Option - The option being checked
- * @returns {string|undefined} undefined if the requirement is met, otherwise the error message
+ * @returns {string|null} undefined if the requirement is met, otherwise the error message
  */
 function ExtendedItemCheckBuyGroups(Option) {
 	if (Option.PrerequisiteBuyGroup) {
@@ -554,6 +579,7 @@ function ExtendedItemCheckBuyGroups(Option) {
 			return InterfaceTextGet("OptionNeedsToBeBought");
 		}
 	}
+	return null;
 }
 
 /**
@@ -566,7 +592,7 @@ function ExtendedItemCheckBuyGroups(Option) {
  * @param {T} previousOption - The currently applied option on the item
  * @param {boolean} [permitExisting] - Determines whether the validation should allow the new option and previous option
  * to be identical. Defaults to false.
- * @returns {string} - Returns a non-empty message string if the item failed validation, or an empty string otherwise
+ * @returns {string | null} - Returns a reason if the item failed validation, or null otherwise
  */
 function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitExisting = false) {
 	// In the case of subscreens the super screens `ChangeWhenLocked` value takes priority
@@ -602,7 +628,7 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 		return InterfaceTextGet("ExtendedItemNoCraftingScreen");
 	}
 
-	return "";
+	return null;
 }
 
 /**
@@ -668,7 +694,7 @@ function ExtendedItemMapChatTagToDictionaryEntry(dictionary, C, { Asset, Craft }
 		case CommonChatTags.AUTOMATIC:
 			return dictionary.markAutomatic();
 		default:
-			console.warn(`Unknown ${Asset.Group.Name}:${Asset.Name} chat tag "${tag}"`);
+			console.error(`Unknown ${Asset.Group.Name}:${Asset.Name} chat tag "${tag}"`);
 			return dictionary;
 	}
 }
@@ -922,7 +948,7 @@ function ExtendedItemGetData(asset, Archetype, Type=null) {
 	}
 
 	if (Data === undefined) {
-		console.warn(`No key "${Key}" in "${Archetype}" lookup table`);
+		console.error(`No key "${Key}" in "${Archetype}" lookup table`);
 		return null;
 	} else {
 		// @ts-ignore It works but I don't know why.
@@ -1275,7 +1301,8 @@ const ExtendedItemGatherOptions = (function () {
 				}
 				break;
 			default:
-				console.warn(`Unsupported archetype: "${archetype}"`);
+				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+				console.error(`Unsupported archetype: "${archetype}"`);
 				break;
 		}
 
@@ -1355,12 +1382,10 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 
 	/** @type {Set<keyof ItemProperties>} */
 	const propertyKeys = new Set();
-	const whiteListKeys = new Set(/** @type {(null | keyof ItemProperties)[]} */([
-		"OverridePriority",
-		"DrawingTop",
-		"DrawingLeft",
-		item.Asset.EditOpacity ? "Opacity" : null,
-	].filter(Boolean)));
+	const whiteListKeys = new Set(ExtendedItemInitPropertyIgnore);
+	if (!item.Asset.EditOpacity) {
+		whiteListKeys.delete("Opacity");
+	}
 
 	for (const key of whiteListKeys) {
 		if (properties?.[key]) {
@@ -1411,7 +1436,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 
 			const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
 			if (requirementMessage && newOption.Name !== previousOption.Name) {
-				console.warn(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
+				console.error(`Cannot set option for ${groupName}:${assetName} to ${newOption.Name}: ${requirementMessage}`);
 			} else {
 				ExtendedItemSetOption(newOption.ParentData, C, item, newOption, previousOption, false, false);
 			}
@@ -1430,7 +1455,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 	if (properties != null) {
 		const invalidProperties = CommonKeys(properties).filter(i => !propertyKeys.has(i));
 		if (invalidProperties.length > 0) {
-			console.warn("Ignoring unsanctioned/invalid item properties", invalidProperties.sort());
+			console.error("Ignoring unsanctioned/invalid item properties", invalidProperties.sort());
 		}
 		Object.assign((item.Property ??= {}), CommonPick(properties, propertyKeys));
 	}

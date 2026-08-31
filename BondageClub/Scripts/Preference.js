@@ -196,8 +196,8 @@ function PreferenceSetArousalZone(C, ZoneName, Factor, CanOrgasm) {
 	if (!Zone) return;
 
 	const Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	if (!Group || !Group.ArousalZoneID) {
-		console.error('PreferenceSetArousalZone: Invalid group name or missing group ID');
+	if (!Group || typeof Group.ArousalZoneID !== "number") {
+		console.error('PreferenceSetArousalZone: Invalid group name or missing group ID', Group?.ArousalZoneID);
 		return;
 	}
 
@@ -347,7 +347,7 @@ function PreferenceInitPlayer(C, data) {
 	C.OnlineSettings = ValidationApplyRecord(data.OnlineSettings, C, PreferenceOnlineSettingsValidate, true);
 	const extraKeys = CommonKeys(C.OnlineSettings).filter(i => !(i in PreferenceOnlineSettingsValidate));
 	if (extraKeys.length) {
-		console.warn(`Found extra keys ${extraKeys} in Player.OnlineSettings. Please move those to Player.ExtensionSettings`);
+		console.error(`Found extra keys ${extraKeys} in Player.OnlineSettings. Please move those to Player.ExtensionSettings`);
 	}
 	C.OnlineSharedSettings = ValidationApplyRecord(data.OnlineSharedSettings, C, PreferenceOnlineSharedSettingsValidate, true);
 	C.RestrictionSettings = ValidationApplyRecord(data.RestrictionSettings, C, PreferenceRestrictionSettingsValidate);
@@ -405,6 +405,8 @@ function PreferenceInitPlayer(C, data) {
 
 	if (Object.keys(toUpdate).length > 0)
 		ServerAccountUpdate.QueueData(toUpdate);
+
+	Fullscreen.UpdateButton();
 }
 
 /**

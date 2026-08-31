@@ -1,14 +1,23 @@
-// @ts-strict-ignore
 "use strict";
+
+/**
+ * @template {string} T
+ * @typedef DirectedGraphVertex
+ * @property {T} vertex
+ * @property {number} [index]
+ * @property {number} [lowLink]
+ * @property {boolean} [onStack]
+ */
 
 /**
  * A class representing a directed graph. The graph consists of string nodes, and edges defined by string to/from
  * 2-tuples
+ * @template {string} T
  */
 class DirectedGraph {
 	/**
-	 * @param {string[]} vertices
-	 * @param {[string, string][]} edges
+	 * @param {T[]} vertices
+	 * @param {[T, T][]} edges
 	 */
 	constructor(vertices, edges) {
 		this.vertices = vertices;
@@ -37,8 +46,8 @@ class DirectedGraph {
 
 	/**
 	 * Creates a new subgraph of this graph by removing a given vertex, along with all edges attached to that vertex
-	 * @param {string} vertex - The vertex to remove
-	 * @returns {DirectedGraph} - The subgraph of this graph obtained by removing the given vertex and all attached
+	 * @param {T} vertex - The vertex to remove
+	 * @returns {DirectedGraph<T>} - The subgraph of this graph obtained by removing the given vertex and all attached
 	 * edges
 	 */
 	removeVertex(vertex) {
@@ -50,8 +59,8 @@ class DirectedGraph {
 
 	/**
 	 * Creates a new subgraph of this graph by keeping only the given vertices and any edges between them
-	 * @param {string[]} vertices - The vertices to keep
-	 * @returns {DirectedGraph} - The subgraph of this graph obtained by only keeping the given vertices and any edges
+	 * @param {T[]} vertices - The vertices to keep
+	 * @returns {DirectedGraph<T>} - The subgraph of this graph obtained by only keeping the given vertices and any edges
 	 * between them
 	 */
 	subgraphFromVertices(vertices) {
@@ -64,19 +73,25 @@ class DirectedGraph {
 	/**
 	 * Calculates the strongly connected components of the graph using Tarjan's strongly connected components algorithm.
 	 * See https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm
-	 * @returns {string[][]} - An array containing the strongly connected components of this graph, each represented as
+	 * @returns {T[][]} - An array containing the strongly connected components of this graph, each represented as
 	 * an array of vertex numbers
 	 */
 	getStronglyConnectedComponents() {
 		let index = 0;
+		/** @type {DirectedGraphVertex<T>[]} */
 		const stack = [];
+		/** @type {T[][]} */
 		const components = [];
+		/** @type {Record<string, DirectedGraphVertex<T>>} */
 		const vertexMap = {};
 		for (const v of this.vertices) {
 			vertexMap[v] = { vertex: v };
 		}
 		const allEdges = this.edges.map(([v1, v2]) => [vertexMap[v1], vertexMap[v2]]);
 
+		/**
+		 * @param {DirectedGraphVertex<T>} v
+		 */
 		const strongConnect = (v) => {
 			v.index = index;
 			v.lowLink = index;
@@ -91,7 +106,7 @@ class DirectedGraph {
 			for (const w of successors) {
 				if (w.index == null) {
 					strongConnect(w);
-					v.lowLink = Math.min(v.lowLink, w.lowLink);
+					v.lowLink = Math.min(v.lowLink, w.lowLink ?? 0);
 				} else if (w.onStack) {
 					v.lowLink = Math.min(v.lowLink, w.index);
 				}
@@ -99,9 +114,10 @@ class DirectedGraph {
 
 			if (v.lowLink === v.index) {
 				const scc = [];
+				/** @type {DirectedGraphVertex<T>} */
 				let w;
 				do {
-					w = stack.pop();
+					w = /** @type {DirectedGraphVertex<T>} */ (stack.pop());
 					w.onStack = false;
 					scc.push(w.vertex);
 				} while (w !== v);
@@ -120,40 +136,51 @@ class DirectedGraph {
 
 	/**
 	 * Finds all simple cycles in this graph using Johnson's algorithm (see https://epubs.siam.org/doi/10.1137/0204007)
-	 * @returns {string[][]}
+	 * @returns {T[][]}
 	 */
 	findCycles() {
+		/** @type {T[]} */
 		const stack = [];
-		const blocked = [];
-		const blockMap = [];
+		/** @type {Map<T, boolean>} */
+		const blocked = new Map();
+		/** @type {Map<T, Set<T>>} */
+		const blockMap = new Map();
+		/** @type {T[][]} */
 		const cycles = [];
-		/** @type {DirectedGraph} */
+		/** @type {DirectedGraph<T>} */
 		let subgraph = this;
+		/** @type {T} */
 		let startVertex;
+		/** @type {T[]} */
 		let currentComponent;
+		/** @type {DirectedGraph<T>} */
 		let componentGraph;
 
-		for (let i = 0; i < this.size; i++) {
-			blockMap.push([]);
-		}
-
+		/**
+		 *
+		 * @param {T} v
+		 */
 		const unblock = (v) => {
-			blocked[v] = false;
-			for (const w of blockMap[v]) {
-				if (blocked[w]) unblock(w);
+			blocked.set(v, false);
+			const blocks = blockMap.get(v) ?? [];
+			for (const w of blocks) {
+				if (blocked.has(w)) unblock(w);
 			}
 		};
 
+		/**
+		 * @param {T} v
+		 */
 		const cycle = (v) => {
 			let f = false;
 			stack.push(v);
-			blocked[v] = true;
+			blocked.set(v, true);
 			for (const w of componentGraph.adjacencyList[v]) {
 				if (w === startVertex) {
 					cycles.push(stack.concat(startVertex));
 					f = true;
-				} else if (!blocked[w]) {
-					if (cycle(w)) {
+				} else if (!blocked.has(/** @type {T} */ (w))) {
+					if (cycle(/** @type {T} */ (w))) {
 						f = true;
 					}
 				}
@@ -162,8 +189,8 @@ class DirectedGraph {
 				unblock(v);
 			} else {
 				for (const w of componentGraph.adjacencyList[v]) {
-					if (!blockMap[w].includes(v)) {
-						blockMap[w].push(v);
+					if (!blockMap.get(/** @type {T} */ (w))?.has(v)) {
+						blockMap.get(/** @type {T} */ (w))?.add(v);
 					}
 				}
 			}
@@ -173,11 +200,11 @@ class DirectedGraph {
 
 		for (startVertex of this.vertices) {
 			const connectedComponents = subgraph.getStronglyConnectedComponents();
-			currentComponent = connectedComponents.find(c => c.includes(startVertex));
-			componentGraph = subgraph.subgraphFromVertices(currentComponent);
+			currentComponent = connectedComponents.find(c => c.includes(startVertex)) ?? [];
+			componentGraph = subgraph.subgraphFromVertices(currentComponent ?? []);
 			for (const vertex of currentComponent) {
-				blocked[vertex] = false;
-				blockMap[vertex] = [];
+				blocked.set(vertex, false);
+				blockMap.set(vertex, new Set());
 			}
 			cycle(startVertex);
 			subgraph = subgraph.removeVertex(startVertex);

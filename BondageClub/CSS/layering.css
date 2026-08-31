@@ -1,40 +1,33 @@
 #layering {
-	display: grid;
-	grid-template:
-		"asset-header button-grid" min-content
-		"asset-grid asset-grid" min-content
-		"layer-header layer-header" min-content
-		"layer-grid layer-grid" auto
-		/ auto min-content;
-	justify-items: center;
-	align-items: center;
-	gap: var(--gap);
+	padding-block: min(2.5vh, 1.25vw);
+	padding-block: min(2.5dvh, 1.25dvw);
 	background-color: rgba(0, 0, 0, 0.45);
 }
 
-#layering * {
-	font-family: inherit;
-	font-size: min(3.5vh, 1.75vw);
-	user-select: none;
-	text-overflow: ellipsis;
+#layering fieldset:not(.layering-layer-inner-grid):not(.layering-layer-fieldset) {
+	border: unset;
+	margin: unset;
+	padding: unset;
+}
+
+#layering h2,
+#layering legend {
+	color: white;
+	font-size: 1em;
+	font-weight: normal;
+	margin: unset;
+	padding: unset;
+	text-align: center;
 }
 
 #layering h2 {
-	margin: var(--gap);
-	color: white;
-}
-
-#layering h1 {
-	margin: 0;
-	color: white;
-	font-size: min(5vh, 2.5vw);
-	padding: var(--gap);
+	min-height: calc(var(--menu-button-size) - 0.5em);
+	align-content: end;
 }
 
 #layering input[type="number"] {
 	/* Add an absolute 16px marigin to better deal with the increment/decrement button scaling upon resizing */
-	width: calc(min(7vh, 3.5vw) + 16px);
-	padding: min(0.2vh, 0.1vw);
+	width: calc(2.5em + 16px);
 }
 
 #layering input[type="number"]:focus {
@@ -49,72 +42,22 @@
 	background-color: lightgray;
 }
 
-.layering-button-grid {
-	--max-rows: 3;
-
-	display: grid;
-	gap: var(--gap);
-	overflow: unset !important;
-	grid-template-columns: repeat(var(--max-rows), var(--menu-button-size));
-	direction: rtl;
-	width: 100%;
-	height: 100%;
-}
-
-.layering-button-grid > button {
-	width: var(--menu-button-size);
-	height: var(--menu-button-size);
-}
-
-#layering-button-grid {
-	grid-area: button-grid;
-}
-
-#layering-asset-header {
-	grid-area: asset-header;
-}
-
-#layering-reset-button {
-	background-image: url("../Icons/Swap.png");
-}
-
-#layering-exit-button {
-	background-image: url("../Icons/Exit.png");
-}
-
-#layering-lock-button {
-	background-image: url("../Icons/Lock.png");
-}
-
-#layering-hide-button {
-	background-image: url("../Icons/Visibility.png");
-}
-
-#layering-hide-button[aria-checked="false"] #layering-hide-button-tooltip-show {
-	display: none;
-}
-
+#layering-hide-button[aria-checked="false"] #layering-hide-button-tooltip-show,
 #layering-hide-button[aria-checked="true"] #layering-hide-button-tooltip-hide {
 	display: none;
 }
 
 #layering-asset-grid {
-	grid-area: asset-grid;
-	min-height: var(--menu-button-size);
+	display: flex;
+	justify-content: center;
+}
+
+#layering-asset-grid > .layering-pair {
+	width: fit-content;
 }
 
 #layering-layer-header {
 	grid-area: layer-header;
-}
-
-#layering-layer-div {
-	box-sizing: border-box;
-	grid-area: layer-grid;
-	width: 100%;
-	height: calc(100% - var(--gap));
-	padding-left: var(--gap);
-	padding-right: var(--gap);
-	align-self: self-start;
 }
 
 #layering-layer-outer-grid {
@@ -129,15 +72,19 @@
 
 .layering-layer-inner-grid {
 	display: grid;
-	grid-template-columns: 50% 50%;
-	gap: var(--gap) 0;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--gap) 0.5em;
 	width: 100%;
+	box-sizing: border-box;
+	align-items: center;
 }
 
 .layering-pair {
+	justify-content: space-between;
 	align-items: center;
 	display: grid;
-	grid-template-columns: min-content auto;
+	gap: 0.5em;
+	grid-template-columns: auto min-content;
 }
 
 .layering-pair:not(:has(input:disabled)) > .layering-pair-text:hover {
@@ -145,13 +92,71 @@
 	color: yellow;
 }
 
+.layering-asset-pair {
+	/* Matches the fieldset positioned underneath in terms of padding, border-width and margin */
+	padding-inline: calc(0.75em + 2px + 2px);
+}
+
 .layering-pair-text {
 	color: white;
 	overflow-x: hidden;
-	padding-left: var(--gap);
-	padding-right: var(--gap);
 }
 
 .layering-button-pink[data-pose] {
 	--button-color: pink;
+}
+
+.layering-inputs-container,
+.layering-inputs-group {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.layering-input-wrapper {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.layering-input-wrapper label {
+	color: white;
+}
+
+.layering-layer-name {
+	flex-grow: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: auto;
+	display: block;
+}
+
+#layering fieldset.layering-layer-fieldset {
+	margin-bottom: var(--half-gap);
+	padding: var(--half-gap) 0.75em;
+}
+
+.layering-tabs {
+	display: flex;
+	flex-direction: row;
+	gap: var(--gap);
+	align-items: center;
+	margin-bottom: var(--gap);
+}
+
+.layering-tabs .layering-tab-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	width: 100%;
+	height: calc(1.15em + 2 * var(--inner-border-width) + 2 * var(--border-width));
+}
+
+.layering-tabs .layering-tab-button.layering-tab-active {
+	border: 2px solid white;
+	background-color: white;
+	color: black;
 }

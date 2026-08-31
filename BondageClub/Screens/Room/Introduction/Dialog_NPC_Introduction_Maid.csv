@@ -73,10 +73,10 @@ JobDojoIntro2203,,,Konichiwa!  (She smiles and bows politely.)  I trust you want
 ClubCardVictory,,,Very good!  There are many other Club Card players throughout the Bondage Club.  Try to find all of them.,,
 ClubCardDefeat,,,"Don't be sad, practice makes perfect and I won't strap you up for losing.",,
 0,,,Greetings Mistress DialogPlayerName.  Welcome to the introduction class.  (She does curtsies for you.),,"DialogLogQuery(""ClubMistress"", ""Management"")"
-0,,,Greetings head maid DialogPlayerName.  Welcome to the introduction class.  (She does curtsies for you.),,IsHeadMaid
+0,,,Greetings head maid DialogPlayerName.  Welcome to the introduction class.  (She does curtsies for you.),,DialogIsHeadMaid()
 0,,,(She stares at you.)  Hello naked girl.  Welcome to the introduction class.,,Player.IsNaked()
-0,,,"Hi sister, welcome to the introduction class.",,IsMaid
-0,,,"Hello there, welcome to the introduction class.",,!IsMaid
+0,,,"Hi sister, welcome to the introduction class.",,DialogIsMaid()
+0,,,"Hello there, welcome to the introduction class.",,!DialogIsMaid()
 0,,"Hi, my name is DialogPlayerName.","Pleased to meet you.  I'm DialogCharacterName, I work here as a maid.",DialogRemove(),NoTitle()
 0,10,"Thanks, little maid.  What's going on here?","In here, you can learn how to restrain someone, and how to escape by yourself.",ChangeMaidOpinion(1),
 0,10,Introduction class?,"In this class, you can learn how to restrain someone, and how to free yourself.",,
@@ -90,7 +90,7 @@ ClubCardDefeat,,,"Don't be sad, practice makes perfect and I won't strap you up 
 10,20,This is great!,I'm glad you like it.  Let me teach you about the body parts your can restrain.,,
 10,20,It sounds kinky. (Blush a little.),It's kinky and it's fun!  Let me teach you first about the body parts your can restrain.,ChangeMaidOpinion(-1),
 10,15,Tell me about the club first.,The Bondage Club is a place for open minded adults to share their BDSM kinks.,,
-10,,You're both a maid and a teacher?,We maids do a lot of work here.  You'll see this with time.,DialogRemove(),!IsMaid
+10,,You're both a maid and a teacher?,We maids do a lot of work here.  You'll see this with time.,DialogRemove(),!DialogIsMaid()
 10,100,I already know that.,"Very well, would you like to practice with us then?",,
 15,20,Fair enough.,Very well.  Let me teach you about the body parts your can restrain.,,
 15,20,Awesome!,I'm glad you like it.  Let me teach you about the body parts your can restrain.,,
@@ -126,8 +126,8 @@ ClubCardDefeat,,,"Don't be sad, practice makes perfect and I won't strap you up 
 30Y,40,(Listen.),That's about everything. Remember that your arms need to be free to restrain someone.,ClearZone(),
 40,100,Thanks for the info.,"My pleasure! Now we can practice.  Would you prefer to restrain someone, or be tied up yourself?",,
 40,100,That makes sense.,"Of course! And now we can practice.  Would you prefer to restrain someone, or be tied up yourself?",,
-40,200,Can I strap you up now?,"Not me I'm afraid, but we have someone here who would certainly enjoy being your victim.",ChangeMaidOpinion(1),!IsHeadMaid
-40,100,Can I strap you up now?,"I'm all yours if you want me, head maid DialogPlayerName.  I will not resist you.",ChangeMaidOpinion(1),IsHeadMaid
+40,200,Can I strap you up now?,"Not me I'm afraid, but we have someone here who would certainly enjoy being your victim.",ChangeMaidOpinion(1),!DialogIsHeadMaid()
+40,100,Can I strap you up now?,"I'm all yours if you want me, head maid DialogPlayerName.  I will not resist you.",ChangeMaidOpinion(1),DialogIsHeadMaid()
 40,100,Can we practice?,"Absolutely.  Would you prefer to restrain someone, or be tied up yourself?",,
 40,300,Can you tie me up now?,I can certainly tie you up.  It's a good time to practice.,ChangeMaidOpinion(-1),
 90,,Tell me about the rules.,I'm not the best to do that.  Go back to the main hall and check for the Club Card Lounge to learn more about it.,,
@@ -136,8 +136,8 @@ ClubCardDefeat,,,"Don't be sad, practice makes perfect and I won't strap you up 
 90,,(Play Club Card with her.),,ClubCardStart(),
 90,0,Let's talk about something else.,(She nods and does a curtsy.)  How can I help you?,,
 100,,,"You can practice your bondage skills here.  Would you prefer to restrain someone, or be tied up yourself?",,
-100,,I want to practice tying you up.,"(She blushes.)  Yes, head maid DialogPlayerName.  I will not resist you.",,IsHeadMaid
-100,200,I want to practice tying you up.,"You can't tie me up, but we have someone here who would certainly enjoy being your subject.",ChangeMaidOpinion(1),!IsHeadMaid
+100,,I want to practice tying you up.,"(She blushes.)  Yes, head maid DialogPlayerName.  I will not resist you.",,DialogIsHeadMaid()
+100,200,I want to practice tying you up.,"You can't tie me up, but we have someone here who would certainly enjoy being your subject.",ChangeMaidOpinion(1),!DialogIsHeadMaid()
 100,200,Can I tie her up?,"Absolutely, you have the perfect candidate here to practice on.",ChangeMaidOpinion(1),
 100,300,I want to practice freeing myself.,Awesome!  If you're ready now I can get started.,ChangeMaidOpinion(-1),
 100,,Who runs this club?,The Head Mistress is in charge.  You should go present yourself if you haven't already.,DialogRemove(),
@@ -182,8 +182,8 @@ ClubCardDefeat,,,"Don't be sad, practice makes perfect and I won't strap you up 
 250,260,I would rather be restrained myself.,"Don't worry, I'm sure it will happen often.  I think you're ready to explore the club now.",ChangeMaidOpinion(-1),
 250,260,It's empowering!  I need to find a whip now...,A monster is born!  (She giggles.)  You're ready to explore the club now.,ChangeMaidOpinion(1),
 260,270,I can tie up anyone?,"Anyone that's into bondage, yes.  Have fun causing trouble.",SaveMaidOpinion(),
-260,270,Can I tie you up now?,"(She giggles.)  Not now, I have work to do here.  But I'm sure you'll find victims if you wander around.",SaveMaidOpinion(),!IsHeadMaid
-260,270,Can I tie you up now?,(She giggles.)  If you wish head maid DialogPlayerName.,SaveMaidOpinion(),IsHeadMaid
+260,270,Can I tie you up now?,"(She giggles.)  Not now, I have work to do here.  But I'm sure you'll find victims if you wander around.",SaveMaidOpinion(),!DialogIsHeadMaid()
+260,270,Can I tie you up now?,(She giggles.)  If you wish head maid DialogPlayerName.,SaveMaidOpinion(),DialogIsHeadMaid()
 270,,,Your introduction class is done.  I hope you have fun in the club!,,
 270,,You were a great teacher.,"Oh, well thank you!  (She smiles.)  You're a good student.",DialogRemove(),
 270,,Thanks!  Have a great time.  (Leave her.),,DialogLeave(),

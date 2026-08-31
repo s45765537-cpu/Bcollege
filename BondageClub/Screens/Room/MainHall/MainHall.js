@@ -8,12 +8,6 @@ var MainHallNextEventTimer = null;
 var MainHallRandomEventOdds = 0;
 /** @type {null | NPCCharacter} */
 var MainHallMaid = null;
-var MainHallIsMaid = false;
-var MainHallIsHeadMaid = false;
-var MainHallHasOwnerLock = false;
-var MainHallHasLoverLock = false;
-var MainHallHasFamilyLock = false;
-var MainHallHasSlaveCollar = false;
 /** The max number of known tips */
 var MainHallMaxTip = 36;
 /** The index of the current tip */
@@ -40,7 +34,7 @@ var MainHallPunishmentList = [
 	{ItemMouth:"HarnessBallGag", ItemArms:"LeatherArmbinder",ItemLegs:"LegBinder",ItemPelvis:"PolishedChastityBelt",ItemBreast:"PolishedChastityBra",ItemVulva:"VibratingDildo",ItemBoots:"LockingHeels", ItemHead: "LeatherBlindfold", ItemHands: "LeatherMittens"},
 	{ItemMouth:"DildoPlugGag", ItemArms:"LeatherArmbinder",ItemLegs:"LeatherLegCuffs",ItemFeet:"LeatherAnkleCuffs",ItemPelvis:"PolishedChastityBelt",ItemBreast:"PolishedChastityBra",ItemVulva:"VibratingEgg",ItemBoots:"LockingHeels", ItemHead: "LeatherBlindfold", ItemHands: "LeatherMittens"},
 	{ItemMouth:"LatexBallMuzzleGag", ItemArms:"LatexBoxtieLeotard",ItemLegs:"LegBinder",ItemPelvis:"PolishedChastityBelt",ItemBreast:"PolishedChastityBra",ItemVulva:"WiredEgg",ItemBoots:"LockingHeels", ItemHead: "LatexBlindfold", ItemHands: "LeatherMittens"},
-	{ItemMouth:"StitchedMuzzleGag", ItemArms:"StraitDress",ItemLegs:"HobbleSkirt",ItemPelvis:"PolishedChastityBelt",ItemBreast:"PolishedChastityBra",ItemVulva:"WiredEgg",ItemBoots:"LockingHeels", ItemHead: "SlimLeatherMask", ItemHands: "LeatherMittens"},
+	{ItemMouth:"StitchedMuzzleGag", ItemArms:"StraitDress",ItemLegs:"HobbleSkirt",ItemPelvis:"PolishedChastityBelt",ItemBreast:"PolishedChastityBra",ItemVulva:"WiredEgg",ItemBoots:"LockingHeels", ItemHead: "LeatherSlimMask", ItemHands: "LeatherMittens"},
 	{ItemMouth:"MuzzleGag", ItemArms:"BoxTieArmbinder",ItemLegs:"LeatherBelt",ItemPelvis:"PolishedChastityBelt",ItemBreast:"PolishedChastityBra",ItemVulva:"VibratingEgg",ItemBoots:"LockingHeels", ItemHead: "LeatherBlindfold", ItemHands: "LeatherMittens"},
 	{ItemMouth:"HarnessPanelGag", ItemArms:"OrnateCuffs",ItemLegs:"OrnateLegCuffs",ItemFeet:"OrnateAnkleCuffs",ItemPelvis:"OrnateChastityBelt",ItemBreast:"OrnateChastityBra",ItemVulva:"VibratingDildo",ItemBoots:"LockingHeels", ItemHead: "FullBlindfold", ItemHands: "PolishedMittens"}
 ];
@@ -122,45 +116,14 @@ function MainHallCanTrickMaid() { return (ManagementIsClubSlave() && SarahUnlock
  * Checks, if the player has an owner or lover lock on her
  * @returns {boolean} - Returns true, if the player has either a lover or owner item on herself, false otherwise
  */
-function MainHallHasOwnerOrLoverItem() { return MainHallHasOwnerLock || MainHallHasLoverLock || MainHallHasFamilyLock; }
-function MainHallHasOwnerOrLoverItemAndMaidsNotDisabled() { return MainHallHasOwnerOrLoverItem() && !MainHallIsMaidsDisabled(); }
-function MainHallHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallHasOwnerOrLoverItem() && !MainHallIsMaidsDisabled(); }
-function MainHallHasOwnerItemAndMaidsNotDisabled() { return MainHallHasOwnerLock && !MainHallIsMaidsDisabled(); }
-function MainHallHasLoverItemAndMaidsNotDisabled() { return MainHallHasLoverLock && !MainHallIsMaidsDisabled(); }
-function MainHallHasFamilyItemAndMaidsNotDisabled() { return MainHallHasFamilyLock && !MainHallIsMaidsDisabled(); }
-function MainHallHasSlaveCollarAndMaidsNotDisabled() { return MainHallHasSlaveCollar && !MainHallIsMaidsDisabled(); }
-function MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return  MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItem() && !MainHallIsMaidsDisabled(); }
-
-const MainHallAllowIDToScreenMap = {
-	"Shop": "A",
-	"Private": "B",
-	"Introduction": "C",
-	"MaidQuarters": "D",
-	"KidnapLeague": "E",
-	"ShibariDojo": "F",
-	"Sarah": "G",
-	"Trouble": "H",
-	"SlaveMarket": "I",
-	"Cell": "J",
-	"LARPBattle": "K",
-	"College": "L",
-	"Asylum": "M",
-	"Poker": "N",
-	"Infiltration": "O",
-	"MovieStudio": "P",
-	"MagicSchool": "Q",
-	"Platform": "R",
-	"Crafting": "S",
-	"ClubCard": "T",
-	"Gambling": "0",
-	"Prison": "1",
-	"Photographic": "2",
-	"Stable": "3",
-	"Magic": "4",
-	"Nursery": "5",
-	"Cafe": "6",
-	"Arcade": "7",
-};
+function MainHallHasOwnerOrLoverItem() { return InventoryCharacterHasOwnerOnlyRestraint(Player) || InventoryCharacterHasLoverOnlyRestraint(Player) || InventoryCharacterHasFamilyOnlyRestraint(Player); }
+function MainHallHasOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && MainHallHasOwnerOrLoverItem(); }
+function MainHallHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && !MainHallHasOwnerOrLoverItem(); }
+function MainHallHasOwnerItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryCharacterHasOwnerOnlyRestraint(Player); }
+function MainHallHasLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryCharacterHasLoverOnlyRestraint(Player); }
+function MainHallHasFamilyItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryCharacterHasFamilyOnlyRestraint(Player); }
+function MainHallHasSlaveCollarAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && InventoryIsWorn(Player, "ItemNeck", "SlaveCollar"); }
+function MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItemAndMaidsNotDisabled() { return !MainHallIsMaidsDisabled() && MainHallPlayerNeedsHelpAndHasNoOwnerOrLoverItem(); }
 
 /**
  * Returns TRUE if the main hall sub-screen is allowed for the player, check for owner rules
@@ -192,18 +155,12 @@ async function MainHallLoad() {
 	MainHallNextEventTimer = null;
 	MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
 	MainHallMaid.AllowItem = false;
-	MainHallIsMaid = LogQuery("JoinedSorority", "Maid");
-	MainHallIsHeadMaid = LogQuery("LeadSorority", "Maid");
-	MainHallHasOwnerLock = InventoryCharacterHasOwnerOnlyRestraint(Player);
-	MainHallHasLoverLock = InventoryCharacterHasLoverOnlyRestraint(Player);
-	MainHallHasFamilyLock = InventoryCharacterHasFamilyOnlyRestraint(Player);
-	MainHallHasSlaveCollar = InventoryGet(Player, "ItemNeck")?.Asset.Name === "SlaveCollar";
-	CommonReadCSV(ScreenFileGetDialog("NPC_Management_RandomGirl", "Room", "Management"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_KidnapLeague_RandomKidnapper", "Room", "KidnapLeague"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_Private_Custom", "Room", "Private"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_KidnapNurse", "Room", "AsylumEntrance"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_EscapedPatient", "Room", "AsylumEntrance"));
-	CommonReadCSV(ScreenFileGetDialog("NPC_Prison_Police", "Room", "Prison"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_Management_RandomGirl", "Room", "Management"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_KidnapLeague_RandomKidnapper", "Room", "KidnapLeague"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_Private_Custom", "Room", "Private"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_KidnapNurse", "Room", "AsylumEntrance"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_AsylumEntrance_EscapedPatient", "Room", "AsylumEntrance"));
+	await CommonReadCSV(ScreenFileGetDialog("NPC_Prison_Police", "Room", "Prison"));
 	TextPrefetch("Character", "Appearance");
 	TextPrefetch("Character", "InformationSheet");
 	TextPrefetch("Character", "Relog");
@@ -274,7 +231,6 @@ function MainHallRun() {
 
 			// If the player is a Mistress but her Dominant reputation has fallen & stage is not
 			if (LogQuery("ClubMistress", "Management") && (ReputationGet("Dominant") < 50) && (CheatFactor("CantLoseMistress", 0) == 1) && Player.CanTalk()) {
-				ManagementLoad();
 				CharacterSetCurrent(MainHallMaid);
 				MainHallMaid.Stage = "60";
 				MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "MistressExpulsionIntro");
@@ -438,11 +394,11 @@ function MainHallWalk(RoomName) {
 		// Starts the event with the highest value (picked at random)
 		if ((MeetNPCOwner > PandoraRevenge) && (MeetNPCOwner > MeetPolice) && (MeetNPCOwner > PlayerClubSlave) && (MeetNPCOwner > PlayerEscapedAsylum) && (MeetNPCOwner > MeetEscapedPatient) && (MeetNPCOwner > MeetKidnapper) && (MeetNPCOwner > MeetClubSlave)) PrivateOwnerInMainHall();
 		else if ((PandoraRevenge > MeetPolice) && (PandoraRevenge > PlayerClubSlave) && (PandoraRevenge > PlayerEscapedAsylum) && (PandoraRevenge > MeetEscapedPatient) && (PandoraRevenge > MeetKidnapper) && (PandoraRevenge > MeetClubSlave)) InfiltrationStartKidnapping();
-		else if ((MeetPolice > PlayerClubSlave) && (MeetPolice > PlayerEscapedAsylum) && (MeetPolice > MeetEscapedPatient) && (MeetPolice > MeetKidnapper) && (MeetPolice > MeetClubSlave)) PrisonMeetPoliceIntro("MainHall");
+		else if ((MeetPolice > PlayerClubSlave) && (MeetPolice > PlayerEscapedAsylum) && (MeetPolice > MeetEscapedPatient) && (MeetPolice > MeetKidnapper) && (MeetPolice > MeetClubSlave)) CommonPromiseCatch(PrisonMeetPoliceIntro("MainHall"));
 		else if ((PlayerClubSlave > PlayerEscapedAsylum) && (PlayerClubSlave > MeetEscapedPatient) && (PlayerClubSlave > MeetKidnapper) && (PlayerClubSlave > MeetClubSlave)) ManagementClubSlaveRandomIntro();
 		else if ((PlayerEscapedAsylum > MeetEscapedPatient) && (PlayerEscapedAsylum > MeetKidnapper) && (PlayerEscapedAsylum > MeetClubSlave)) AsylumEntranceNurseCatchEscapedPlayer();
 		else if ((MeetEscapedPatient > MeetKidnapper) && (MeetEscapedPatient > MeetClubSlave)) AsylumEntranceEscapedPatientMeet();
-		else if (MeetKidnapper > MeetClubSlave) KidnapLeagueRandomIntro();
+		else if (MeetKidnapper > MeetClubSlave) CommonPromiseCatch(KidnapLeagueRandomIntro());
 		else ManagementFindClubSlaveRandomIntro();
 
 	} else {
@@ -589,7 +545,7 @@ function MainHallMaidReleasePlayer() {
  * @returns {void} - Nothing
  */
 function MainHallMaidAngry() {
-	if ((ReputationGet("Dominant") < 30) && !MainHallIsHeadMaid) {
+	if ((ReputationGet("Dominant") < 30) && !DialogIsHeadMaid()) {
 		for (let D = 0; D < MainHallMaid.Dialog.length; D++)
 			if ((MainHallMaid.Dialog[D].Stage == "PlayerGagged") && (MainHallMaid.Dialog[D].Option === null))
 				MainHallMaid.Dialog[D].Result = DialogFind(MainHallMaid, "LearnedLesson");
@@ -621,9 +577,6 @@ function MainHallPunishFromChatroom() {
 	MainHallMaid.Stage = "1100";
 	CharacterRelease(MainHallMaid);
 	CharacterSetCurrent(MainHallMaid);
-	MainHallHasOwnerLock = InventoryCharacterHasOwnerOnlyRestraint(Player);
-	MainHallHasLoverLock = InventoryCharacterHasLoverOnlyRestraint(Player);
-	MainHallHasFamilyLock = InventoryCharacterHasFamilyOnlyRestraint(Player);
 	if (ReputationGet("Dominant") > 10) ReputationProgress("Dominant", -10);
 	if (ReputationGet("Dominant") < -10) ReputationProgress("Dominant", 10);
 }
@@ -806,7 +759,6 @@ function MainHallPunishFromChatroomRest() {
  */
 function MainHallMaidShamePlayer() {
 	CharacterRelease(Player);
-	MainHallHasOwnerLock = false;
 	MainHallMaidPunishmentPlayer();
 }
 
@@ -818,9 +770,8 @@ function MainHallMaidChangeCollarPlayer() {
 	for (let A = 0; A < Player.Appearance.length; A++)
 		if (Player.Appearance[A].Asset.Name == "SlaveCollar") {
 			Player.Appearance[A].Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
-			Player.Appearance[A].Color = "Default";
+			Player.Appearance[A].Color = [...Player.Appearance[A].Asset.DefaultColor];
 		}
-	MainHallHasSlaveCollar = false;
 	MainHallMaidPunishmentPlayer();
 }
 

@@ -3216,7 +3216,7 @@ function KDElementPosition(ElementID, X, Y, W, H) {
 	let E = document.getElementById(ElementID);
 
 	if (!E) {
-		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementID + "'");
+		console.error("A call to ElementPosition was made on non-existent element with ID '" + ElementID + "'");
 		return;
 	}
 

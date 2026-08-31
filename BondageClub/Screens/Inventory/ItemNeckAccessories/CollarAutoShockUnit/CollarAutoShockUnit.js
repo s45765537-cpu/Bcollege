@@ -1,45 +1,48 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
 function InventoryItemNeckAccessoriesCollarAutoShockUnitDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
-	if (Data.currentModule === ModularItemBase) {
-		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
-		const [ShockLevel, AutoPunish] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
+	const item = DialogFocusItem;
+	if (!item) return;
+	item.Property ??= {};
+	if (Data.currentModule !== ModularItemBase) return;
+	const typeRecord = item.Property.TypeRecord ?? {};
+	const [ShockLevel, AutoPunish] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] ?? 0}`);
 
-		// Display option information
-		MainCanvas.textAlign = "right";
-		DrawText(AssetTextGet("ShockLevel"), 1500, 550, "White", "Gray");
-		DrawText(AssetTextGet("AutoPunish"), 1500, 625, "White", "Gray");
-		DrawText(AssetTextGet("ShockCount"), 1500, 700, "White", "Gray");
-		MainCanvas.textAlign = "left";
-		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 550, "White", "Gray");
-		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${AutoPunish}`), 1510, 625, "White", "Gray");
-		DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 700, "White", "Gray");
-		MainCanvas.textAlign = "center";
+	// Display option information
+	MainCanvas.textAlign = "right";
+	DrawText(AssetTextGet("ShockLevel"), 1500, 550, "White", "Gray");
+	DrawText(AssetTextGet("AutoPunish"), 1500, 625, "White", "Gray");
+	DrawText(AssetTextGet("ShockCount"), 1500, 700, "White", "Gray");
+	MainCanvas.textAlign = "left";
+	DrawText(AssetTextGet(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 550, "White", "Gray");
+	DrawText(AssetTextGet(`${Data.dialogPrefix.option}${AutoPunish}`), 1510, 625, "White", "Gray");
+	DrawText(`${item.Property.TriggerCount}`, 1510, 700, "White", "Gray");
+	MainCanvas.textAlign = "center";
 
-		// Display the ShowText checkbox and reset/trigger buttons
-		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText);
-		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 773, "White", "Gray");
-		ExtendedItemCustomDraw("ResetShockCount", 1635, 675);
-		ExtendedItemCustomDraw("TriggerShock", 1635, 750);
-	}
+	// Display the ShowText checkbox and reset/trigger buttons
+	ExtendedItemDrawCheckbox("ShowText", 1175, 743, !!item.Property.ShowText);
+	DrawText(AssetTextGet("ShowMessageInChat"), 1420, 773, "White", "Gray");
+	ExtendedItemCustomDraw("ResetShockCount", 1635, 675);
+	ExtendedItemCustomDraw("TriggerShock", 1635, 750);
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>} */
 function InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook(Data, OriginalFunction) {
 	OriginalFunction();
-	if (DialogFocusItem && Data.currentModule === ModularItemBase) {
-		if (MouseIn(1175, 768, 64, 64) && !ExtendedItemPermissionMode) {
-			const C = CharacterGetCurrent();
-			const property = DialogFocusItem.Property;
-			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText);
-		} else if (MouseIn(1635, 700, 225, 55)) {
-			ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
-		} else if (MouseIn(1635, 775, 225, 55)) {
-			ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
-		}
+	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!C || !item) return;
+	if (Data.currentModule !== ModularItemBase) return;
+	item.Property ??= {};
+	if (MouseIn(1175, 768, 64, 64) && !ExtendedItemPermissionMode) {
+		const property = item.Property;
+		ExtendedItemCustomClickAndPush(C, item, "ShowText", () => property.ShowText = !property.ShowText);
+	} else if (MouseIn(1635, 700, 225, 55)) {
+		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
+	} else if (MouseIn(1635, 775, 225, 55)) {
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 	}
 }
 
@@ -47,15 +50,16 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook(Data, Original
  * @typedef {{ ChangeTime?: number, LastMessageLen?: number } & AnimationPersistentData} AutoShockUnitPersistentData
  */
 
-/** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, AutoShockUnitPersistentData>} */
+/** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData<any>, AutoShockUnitPersistentData>} */
 function AssetsItemNeckAccessoriesCollarAutoShockUnitBeforeDrawHook(data, originalFunction, drawData) {
 	if (drawData.L === "Light") {
 		const property = drawData.Property || {};
 		return { Color: "#2f0", Opacity: property.BlinkState ? 0 : 1 };
 	}
+	return drawData;
 }
 
-/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ExtendedItemData, AutoShockUnitPersistentData>} */
+/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ExtendedItemData<any>, AutoShockUnitPersistentData>} */
 function AssetsItemNeckAccessoriesCollarAutoShockUnitScriptDrawHook(data, originalFunction, drawData) {
 	const persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
@@ -63,7 +67,7 @@ function AssetsItemNeckAccessoriesCollarAutoShockUnitScriptDrawHook(data, origin
 	if (typeof persistentData.ChangeTime !== "number") persistentData.ChangeTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 
-	if (ChatRoomLastMessage && ChatRoomLastMessage.length != persistentData.LastMessageLen && drawData.Item && drawData.Item.Property && drawData.Item.Property.AutoPunish > 0)
+	if (ChatRoomLastMessage && ChatRoomLastMessage.length != persistentData.LastMessageLen && (drawData.Item.Property.AutoPunish ?? 0) > 0)
 		persistentData.ChangeTime = Math.min(persistentData.ChangeTime, CommonTime()); // Trigger immediately if the user speaks
 
 	if (persistentData.ChangeTime < CommonTime()) {

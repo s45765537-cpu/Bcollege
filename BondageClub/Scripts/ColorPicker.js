@@ -331,8 +331,8 @@ var ColorPicker = {
 					const item = ItemColorItem;
 					const colorState = ItemColorState;
 					ItemColorPickerIndices.forEach(i => {
-						colorState.colors[i] = colorState.initialColors[i];
-						item.Color[i] = colorState.initialColors[i];
+						colorState.colors[i] = colorState.intermediateSavedColors[i];
+						item.Color[i] = colorState.intermediateSavedColors[i];
 					});
 
 					const colors = ItemColorPickerIndices.map(i => colorState.colors[i] ?? colorState.defaultColors[i]);
@@ -433,7 +433,7 @@ var ColorPicker = {
 			const state = root ? ColorPicker.getColor(root) : null;
 			const save = this.name === "accept";
 			if (!save) {
-				ItemColorRevert("initial");
+				ItemColorRevert("intermediateSaved");
 			}
 			if (root && state) {
 				ColorPickerExitCallback?.(state, save, root);
@@ -508,23 +508,28 @@ var ColorPicker = {
 				color += Math.round(opacity * 255).toString(16).padStart(2, "0");
 			}
 
-			navigator.clipboard.writeText(color);
+			CommonClipboardWrite(color, (res) => {
+				if (res.err) {
+					ElementDOMScreen.setStatus(root, res.errorAsDOM(ItemColorText.get("CopyFailBrowser")));
+					return;
+				}
 
-			/** @type {Element} */
-			let colorTextElem;
-			if (isHexColor) {
-				colorTextElem = ElementCreate({ tag: "q", children: [
-					{ tag: "span", children: ["◼ "], style: { "color": color.slice(0, 7) } },
-					{ tag: "span", children: [color], style: { "font-family": "monospace" } },
-				]});
-			} else {
-				colorTextElem = ElementCreate({ tag: "q", children: [color] });
-			}
-			ElementDOMScreen.setStatus(root, TextSubstitute(
-				"CopySuccess",
-				{ "{color}": colorTextElem },
-				{ textCache: ItemColorText },
-			));
+				/** @type {Element} */
+				let colorTextElem;
+				if (isHexColor) {
+					colorTextElem = ElementCreate({ tag: "q", children: [
+						{ tag: "span", children: ["◼ "], style: { "color": color.slice(0, 7) } },
+						{ tag: "span", children: [color], style: { "font-family": "monospace" } },
+					]});
+				} else {
+					colorTextElem = ElementCreate({ tag: "q", children: [color] });
+				}
+				ElementDOMScreen.setStatus(root, TextSubstitute(
+					"CopySuccess",
+					{ "{color}": colorTextElem },
+					{ textCache: ItemColorText },
+				));
+			});
 		},
 
 		/**
@@ -537,18 +542,15 @@ var ColorPicker = {
 				return;
 			}
 
-			/** @type {Promise<string>} */
-			let promise;
-			try {
-				promise = navigator.clipboard.readText();
-			} catch (error) {
-				ElementDOMScreen.setStatus(root, ItemColorText.get("PasteFailBrowser"));
-				console.error("Browser does not support color pasting", error);
-				return;
-			}
+			CommonClipboardRead((res) => {
+				if (!res.ok) {
+					ElementDOMScreen.setStatus(root, res.errorAsDOM(ItemColorText.get("PasteFailBrowser")));
+					return;
+				}
+				const color = res.value;
+				if (!color) return;
 
-			const colorSchema = ItemColorItem?.Asset.Group.ColorSchema ?? [];
-			promise.then((color) => {
+				const colorSchema = ItemColorItem?.Asset.Group.ColorSchema ?? [];
 				/** @type {Element} */
 				let colorTextElem;
 				let statusKey = "";
@@ -596,11 +598,13 @@ var ColorPicker = {
 				const hexColorValue = CommonColorTrimAlpha(colorValue);
 				ItemColorPickerIndices.forEach(i => {
 					colorState.colors[i] = hexColorValue;
+					// @ts-ignore Strict-TS: trust me bro
 					item.Color[i] = hexColorValue;
 				});
 			} else if (CommonIncludes(item.Asset.Group.ColorSchema, colorValue)) {
 				ItemColorPickerIndices.forEach(i => {
 					colorState.colors[i] = colorValue;
+					// @ts-ignore Strict-TS: trust me bro
 					item.Color[i] = colorValue;
 				});
 			}
@@ -609,6 +613,7 @@ var ColorPicker = {
 				for (const [i, layer] of ItemColorPickerLayers.entries()) {
 					const opacityValue = CommonClamp(opacityInput.valueAsNumber / 255, layer.MinOpacity, layer.MaxOpacity);
 					colorState.opacity[i] = opacityValue;
+					// @ts-ignore Strict-TS: trust me bro
 					item.Property.Opacity[i] = opacityValue;
 				}
 			}
@@ -1064,8 +1069,8 @@ var ColorPicker = {
 			exitState = {
 				colors: ItemColorPickerIndices.map(i => colorState.colors[i]),
 				opacity: layerIndices.map(i => colorState.opacity[i]),
-				initialColors: ItemColorPickerIndices.map(i => colorState.initialColors[i]),
-				initialOpacity: layerIndices.map(i => colorState.initialOpacity[i]),
+				initialColors: ItemColorPickerIndices.map(i => colorState.intermediateSavedColors[i]),
+				initialOpacity: layerIndices.map(i => colorState.intermediateSavedOpacity[i]),
 				defaultColors: [...colorState.defaultColors],
 				defaultOpacity: [...colorState.defaultOpacity],
 				editOpacity: colorState.editOpacity,
@@ -1241,8 +1246,8 @@ function ColorPickerReload(options=null) {
 		const colorState = ItemColorState;
 		opacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.opacity[i]);
 		colors = ItemColorPickerIndices.map(i => colorState.colors[i]);
-		defaultOpacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.defaultOpacity[i]);
-		defaultColors = ItemColorPickerIndices.map(i => colorState.defaultColors[i]);
+		defaultOpacities = Array.from(ItemColorPickerLayers.keys()).map(i => colorState.intermediateSavedOpacity[i]);
+		defaultColors = ItemColorPickerIndices.map(i => colorState.intermediateSavedColors[i]);
 	} else {
 		return null;
 	}

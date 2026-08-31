@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -33,7 +32,7 @@ function TestingGetMissingColorLayersGroups() {
 		AssetLoadAll();
 	}
 	for (const a of Asset) {
-		const item = { Asset: a };
+		const item = AppearanceItem.fromAsset(a);
 		const Group = a.DynamicGroupName;
 		const Name = a.Name;
 		const colorableLayers = ItemColorGetColorableLayers(item);

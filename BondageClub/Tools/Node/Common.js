@@ -52,6 +52,7 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemNeckAccessories/ElectronicTag/ElectronicTag.js",
 	"Screens/Inventory/ItemNeckRestraints/PetPost/PetPost.js",
 	"Screens/Inventory/ItemVulva/FuturisticVibrator/FuturisticVibrator.js",
+	"Screens/Inventory/ItemVulva/TechnoChastityCage/TechnoChastityCage.js",
 	"Screens/Inventory/ItemPelvis/FuturisticTrainingBelt/FuturisticTrainingBelt.js",
 	"Screens/Inventory/ItemDevices/KabeshiriWall/KabeshiriWall.js",
 	"Screens/Inventory/ItemDevices/FuckMachine/FuckMachine.js",
@@ -85,6 +86,9 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemNeckRestraints/CollarLeash/CollarLeash.js",
 	"Screens/Inventory/ItemDevices/Kennel/Kennel.js",
 	"Assets/Female3DCG/Female3DCG.js",
+	"Scripts/Drawing.js",
+	"Scripts/Server.js",
+	"Scripts/Item.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
 	"Screens/Room/Shop2/Shop2.js",
 	"Scripts/Preference.js",
@@ -143,7 +147,7 @@ export function parseCSV(str) {
 	let c;
 	let col;
 	// We remove whitespace on start and end
-	str = str.trim() + "\n";
+	str = str.trim().replace(/\r\n/g, "\n") + "\n";
 
 	// iterate over each character, keep track of current row and column (of the returned array)
 	for (let row = (col = c = 0); c < str.length; c++) {

@@ -1,16 +1,15 @@
-// @ts-strict-ignore
 "use strict";
 var NPCSlaveAuctionBackground = "SlaveMarket";
-/** @type {null | NPCCharacter} */
-var NPCSlaveAuctionVendor = null;
-/** @type {null | NPCCharacter} */
-var NPCSlaveAuctionSlave = null;
-/** @type {null | NPCCharacter} */
-var NPCSlaveAuctionMistress = null;
-/** @type {null | NPCCharacter} */
-var NPCSlaveAuctionGirlLeft = null;
-/** @type {null | NPCCharacter} */
-var NPCSlaveAuctionGirlRight = null;
+/** @type {NPCCharacter | PlayerCharacter} */
+var NPCSlaveAuctionVendor = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCSlaveAuctionSlave = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCSlaveAuctionMistress = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCSlaveAuctionGirlLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCSlaveAuctionGirlRight = /** @type {never} */ (null);
 var NPCSlaveAuctionAmount = 0;
 
 /**

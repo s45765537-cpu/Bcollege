@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 /** @type {null | RelogData} */
 var RelogData = null;

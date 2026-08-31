@@ -1,0 +1,330 @@
+#wardrobe-screen,
+#wardrobe-screen *,
+#wardrobe-screen .button > * {
+	pointer-events: none;
+}
+
+#wardrobe-screen-header *,
+#wardrobe-screen-hgroup *,
+#wardrobe-screen aside *,
+#wardrobe-screen main * {
+	pointer-events: auto;
+}
+
+#wardrobe-screen-header {
+	grid-template-columns: min-content min-content auto;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+#wardrobe-screen-header .screen-hgroup {
+	display: block;
+	width: 100%;
+	min-width: 0;
+}
+
+#wardrobe-screen-header h1 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-left: var(--gap);
+	margin-left: var(--scrollbar-gutter);
+	text-align: left;
+	direction: ltr;
+}
+
+#wardrobe-screen-header .wardrobe-header-controls {
+	display: flex;
+	align-items: center;
+	gap: var(--gap);
+	color: white;
+	direction: ltr;
+}
+
+#wardrobe-search {
+	flex: 0 0 auto;
+	width: min(40vh, 20vw);
+	width: min(40dvh, 20dvw);
+	height: var(--menu-button-size);
+}
+
+#wardrobe-page {
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+
+#checkbox-pair-wardrobe-exclude-bodyparts {
+	color: white;
+}
+
+#wardrobe-no-matches {
+	color: white;
+	text-align: center;
+}
+
+#wardrobe-main-canvas,
+#wardrobe-side-canvas {
+	pointer-events: none !important;
+	object-fit: contain;
+	bottom: unset;
+	right: unset;
+	z-index: -1;
+}
+
+#wardrobe-preview-overlay {
+	--close-size: min(50px, 5vh, 2.5vw);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap);
+	padding: calc(var(--gap) + var(--close-size)) var(--gap) var(--gap);
+	background-color: #dddddd;
+	border: 1px solid #888888;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+#wardrobe-preview-overlay-close {
+	position: absolute;
+	top: var(--half-gap);
+	right: var(--half-gap);
+	z-index: 1;
+	width: var(--close-size);
+	height: var(--close-size);
+}
+
+#wardrobe-preview-overlay-close img {
+	filter: invert(1);
+}
+
+.outfit-naming {
+	display: flex;
+	flex-direction: row;
+	gap: var(--gap);
+	width: 100%;
+}
+
+.outfit-naming > input,
+.outfit-naming > button {
+	flex: 1;
+}
+
+.outfit-controls {
+	display: flex;
+	flex-direction: row;
+	gap: var(--gap);
+	min-height: 0;
+	height: 1.5em;
+	width: 100%;
+}
+
+.outfit-controls > button {
+	flex: 1;
+}
+
+.wardrobe-preview-overlay-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--gap);
+	min-height: 0;
+}
+
+#wardrobe-slot-grid {
+	display: grid;
+	gap: var(--gap);
+	box-sizing: border-box;
+	/* Match screen-header / menubar right inset */
+	padding-right: var(--scrollbar-gutter);
+	align-content: stretch;
+	justify-content: stretch;
+	isolation: isolate;
+}
+
+.wardrobe-slot {
+	position: relative;
+	min-width: 0;
+	min-height: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.wardrobe-slot-button {
+	box-sizing: border-box;
+	min-width: 0;
+	min-height: 0;
+	width: 100%;
+	height: 100%;
+	contain: layout style paint;
+}
+.wardrobe-slot-button .button-image {
+	font-size: 0.8em;
+}
+.wardrobe-slot-button .button-label {
+	display: flex;
+	align-items: baseline;
+	gap: 0.2em;
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 100%;
+	font-size: 0.8em;
+}
+
+.wardrobe-slot-index {
+	flex: 0 0 auto;
+}
+
+.wardrobe-slot-name {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.wardrobe-slot-button.wardrobe-slot-preview {
+	overflow: hidden;
+}
+
+.wardrobe-slot-button.wardrobe-slot-preview:hover {
+	outline: 2px solid cyan;
+	outline-offset: -2px;
+}
+
+.wardrobe-slot-button.wardrobe-slot-preview .button-label {
+	justify-content: center;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 1;
+}
+
+.wardrobe-slot-button.wardrobe-slot-preview .wardrobe-slot-name {
+	flex: 0 1 auto;
+}
+
+.wardrobe-slot-canvas {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	height: 100%;
+	max-width: 100%;
+	aspect-ratio: 1 / 2;
+	object-fit: contain;
+	contain: layout style paint;
+}
+
+.wardrobe-slot-empty {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+	height: 50%;
+	object-fit: contain;
+}
+
+.wardrobe-slot-button:not(.wardrobe-slot-preview) {
+	--slot-icon-size: 1.5em;
+	--slot-icon-inset: 0.4em;
+	--slot-icon-gap: 0.4em;
+}
+
+.wardrobe-slot-button:not(.wardrobe-slot-preview) .button-image {
+	width: var(--slot-icon-size);
+	height: var(--slot-icon-size);
+	opacity: 0.9;
+	z-index: 1;
+	top: 50%;
+	left: var(--slot-icon-inset);
+	transform: translate(0%, -50%);
+}
+
+.wardrobe-slot-button:not(.wardrobe-slot-preview) .button-label {
+	box-sizing: border-box;
+	text-align: left;
+	padding-left: calc(var(--slot-icon-inset) + var(--slot-icon-size) + var(--slot-icon-gap));
+	left: 0;
+}
+
+.wardrobe-slot-button.wardrobe-slot-empty-button .button-image {
+	opacity: 0.45;
+}
+
+.wardrobe-slot-button.wardrobe-slot-empty-button:not(.wardrobe-slot-preview) .button-label {
+	opacity: 0.85;
+}
+
+.wardrobe-slot-button.wardrobe-slot-empty-button .wardrobe-slot-name {
+	font-style: italic;
+}
+
+.wardrobe-slot-button.reorder-select {
+	outline: 3px solid chartreuse;
+	outline-offset: -3px;
+}
+
+.wardrobe-slot-button.reorder-place {
+	outline: 3px solid green;
+	outline-offset: -3px;
+}
+
+.wardrobe-slot:hover,
+.wardrobe-slot:focus-within {
+	z-index: 3;
+}
+
+.wardrobe-slot-load {
+	--slot-load-icon: 70%;
+	box-sizing: border-box;
+	flex: 0 0 auto;
+	overflow: visible;
+}
+
+.wardrobe-slot-load > .button-image {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: var(--slot-load-icon);
+	height: var(--slot-load-icon);
+	max-width: var(--slot-load-icon);
+	max-height: var(--slot-load-icon);
+}
+
+.wardrobe-slot-grid-preview {
+	--slot-load-size: min(62.5px, 6.25vh, 3.125vw);
+}
+
+@supports (height: 100dvh) {
+	.wardrobe-slot-grid-preview {
+		--slot-load-size: min(62.5px, 6.25dvh, 3.125dvw);
+	}
+}
+
+.wardrobe-slot-grid-preview .wardrobe-slot-load {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	width: var(--slot-load-size);
+	height: var(--slot-load-size);
+	box-shadow: 0 0 var(--half-gap) rgb(0 0 0 / 40%);
+}
+
+.wardrobe-slot-grid-labels .wardrobe-slot {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.wardrobe-slot-grid-labels .wardrobe-slot-button {
+	flex: 1 1 0;
+	width: auto;
+	min-width: 0;
+}
+
+.wardrobe-slot-grid-labels .wardrobe-slot-load {
+	height: 100%;
+	width: auto;
+	aspect-ratio: 1;
+	border-left: none;
+}

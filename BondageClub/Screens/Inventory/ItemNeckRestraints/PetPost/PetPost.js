@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData>} */
@@ -13,7 +12,7 @@ function AssetsItemNeckRestraintsPetPostAfterDrawHook(data, originalFunction, {
 		const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
 		TextItem.Init(data, C, CA, false, false);
-		const [text1, text2, text3] = [CA.Property.Text, CA.Property.Text2, CA.Property.Text3];
+		const [text1, text2, text3] = [CA.Property?.Text ?? "", CA.Property?.Text2 ?? "", CA.Property?.Text3 ?? ""];
 
 		/** @type {DynamicDrawOptions} */
 		const drawOptions = {
@@ -26,6 +25,7 @@ function AssetsItemNeckRestraintsPetPostAfterDrawHook(data, originalFunction, {
 
 		// We draw the desired info on that canvas
 		const ctx = TempCanvas.getContext('2d');
+		if (!ctx) return;
 		DynamicDrawText(text1, ctx, Width / 2, Height / 2, drawOptions);
 		DynamicDrawText(text2, ctx, Width / 2, Height / 2 + 24, drawOptions);
 		DynamicDrawText(text3, ctx, Width / 2, Height / 2 + 46, drawOptions);

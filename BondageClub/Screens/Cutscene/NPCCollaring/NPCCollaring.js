@@ -1,16 +1,15 @@
-// @ts-strict-ignore
 "use strict";
 var NPCCollaringBackground = "Management";
-/** @type {null | NPCCharacter} */
-var NPCCollaringSub = null;
-/** @type {null | NPCCharacter} */
-var NPCCollaringMistressLeft = null;
-/** @type {null | NPCCharacter} */
-var NPCCollaringMistressRight = null;
-/** @type {null | NPCCharacter} */
-var NPCCollaringGirlLeft = null;
-/** @type {null | NPCCharacter} */
-var NPCCollaringGirlRight = null;
+/** @type {NPCCharacter} */
+var NPCCollaringSub = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCCollaringMistressLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCCollaringMistressRight = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCCollaringGirlLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCCollaringGirlRight = /** @type {never} */ (null);
 
 /**
  * Loads the NPC collaring cutscene by creating the random NPCs and setting the stage
@@ -49,9 +48,12 @@ function NPCCollaringClick() {
 	if (CutsceneStage == 6) InventoryWear(NPCCollaringSub, "SlaveCollar", "ItemNeck");
 	if (CutsceneStage > 8) {
 		ServerPrivateCharacterSync();
-		CommonSetScreen("Room", "Private").then(() => {
-			CharacterSetCurrent(NPCCollaringSub);
-			NPCCollaringSub.CurrentDialog = DialogFind(NPCCollaringSub, "SubmissiveVow");
-		});
+		CommonPromiseCatch(
+			CommonSetScreen("Room", "Private")
+				.then(() => {
+					CharacterSetCurrent(NPCCollaringSub);
+					NPCCollaringSub.CurrentDialog = DialogFind(NPCCollaringSub, "SubmissiveVow");
+				})
+		);
 	}
 }

@@ -107,7 +107,9 @@ function NurseryIsRestrainedPacifier(item) {
 	return item?.Difficulty > 3;
 }
 
-function NurseryPlayerIsHarnessPacified() { return (CharacterAppearanceGetCurrentValue(Player, "ItemMouth", "Name") == "HarnessPacifierGag"); }
+// Returns TRUE if
+function NurseryPlayerIsPacified() { return InventoryIsWorn(Player, "ItemMouth", "PacifierGag"); }
+function NurseryPlayerIsHarnessPacified() { return InventoryIsWorn(Player, "ItemMouth", "HarnessPacifierGag"); }
 function NurseryPlayerLostBinky() { return Player.CanTalk() && !NurseryPlayerKeepsLoosingBinky; }
 function NurseryPlayerLostBinkyAgain() { return Player.CanTalk() && NurseryPlayerKeepsLoosingBinky; }
 function NurseryPlayerWearingBabyDress() {
@@ -116,6 +118,9 @@ function NurseryPlayerWearingBabyDress() {
 	return NurseryDresses.includes(dress.Asset.Name);
 }
 function NurseryPlayerReadyToAppologise() { return (NurseryPlayerBadBabyStatus <= 1); }
+function NurseryPlayerDiapered() {
+	return InventoryGet(Player, "Panties")?.Asset.Name.toLowerCase().includes("diaper");
+}
 function NurseryPlayerReadyDiapered() { return (NurseryIsDiapered(Player) && !NurseryIsClothingInappropriate()); }
 function NurseryPlayerCanRegress() { return !InventoryGet(Player, "ItemMouth3") && !InventoryGroupIsBlocked(Player, "ItemMouth3"); }
 
@@ -368,8 +373,8 @@ function NurseryRandomColor(character, colors=NurseryDressColors) {
 
 // Remove baby dresses from inventory for testing only
 function NurseryDeleteItem() {
-	InventoryDelete(Player, "Padlock", "ItemArms");
-	InventoryDelete(Player, "PadlockKey", "ItemArms");
+	//InventoryDelete(Player, "Padlock", "ItemArms");
+	//InventoryDelete(Player, "PadlockKey", "ItemArms");
 	//InventoryDelete(Player, "AdultBabyDress3", "Cloth");
 }
 

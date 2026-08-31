@@ -84,7 +84,7 @@ const Shop2Vars = CommonVariableContainer(
 		 */
 		get Mode() { return Shop2Vars._Mode; },
 		set Mode(value) {
-			ElementContent("Shop2InputSearch-datalist", "");
+			ElementClearContents("Shop2InputSearch-datalist");
 			Shop2Vars._Mode = value;
 		},
 
@@ -374,7 +374,8 @@ var Shop2 = {
 				} else {
 					options.Background = "white";
 				}
-				DrawItemPreview({ Asset, Icons }, C, x, y, options);
+				const previewItem = Object.assign(AppearanceItem.fromAsset(Asset), { Icons });
+				DrawItemPreview(previewItem, C, x, y, options);
 				break;
 			}
 			case "Sell":
@@ -400,7 +401,8 @@ var Shop2 = {
 					label = `$${money}`;
 				}
 
-				DrawItemPreview({ Asset, Icons }, C, x, y, options);
+				const previewItem = Object.assign(AppearanceItem.fromAsset(Asset), { Icons });
+				DrawItemPreview(previewItem, C, x, y, options);
 				Shop2.DrawPriceRibbon(label, x, y, w, Shop2Vars.Mode === "Buy" ? "Red" : "Green");
 				break;
 			}
@@ -549,7 +551,7 @@ var Shop2 = {
 		}
 
 		if (clearDatalist) {
-			ElementContent("Shop2InputSearch-datalist", "");
+			ElementClearContents("Shop2InputSearch-datalist");
 		}
 	},
 
@@ -991,7 +993,7 @@ var Shop2 = {
 				}
 
 				Shop2Unload();
-				Layering.Init(item, C, { x: 1115, w: 2000 - 1115 - 25 });
+				CommonPromiseCatch(Layering.Init(item, C, { x: 1115, w: 2000 - 1115 - 25 }));
 				Shop2Vars.Mode = "Layering";
 			},
 		},
@@ -1031,13 +1033,17 @@ var Shop2 = {
 			Click: () => {
 				const C = Shop2InitVars.Preview;
 				if (Shop2Vars.EquippedItem && Shop2Vars.Mode === "Preview" && C) {
-					Shop2Unload();
-					ItemColorLoad(C, Shop2Vars.EquippedItem, ...Shop2Consts.ItemColorCoords, true);
-					ItemColorOnExit(() => {
-						Shop2Vars.Mode = "Preview";
-						Shop2Load();
+					ItemColorLoad(C, Shop2Vars.EquippedItem, ...Shop2Consts.ItemColorCoords, true).then(() => {
+						Shop2Unload();
+						ItemColorOnExit(() => {
+							Shop2Vars.Mode = "Preview";
+							CommonPromiseCatch(Shop2Load());
+						});
+						Shop2Vars.Mode = "Color";
+					}).catch(err => {
+						console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+						ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 					});
-					Shop2Vars.Mode = "Color";
 				}
 			},
 		},
@@ -1249,7 +1255,7 @@ async function Shop2Load() {
 
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
-			e.Load?.();
+			CommonPromiseCatch(e.Load?.());
 		}
 	});
 }

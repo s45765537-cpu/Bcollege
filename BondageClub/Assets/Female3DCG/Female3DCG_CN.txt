@@ -3334,6 +3334,8 @@ Bat Wings
 蝙蝠翅膀
 Bee Wings
 蜜蜂翅膀
+Bot Energy Wings
+机器人能量翅膀
 Cyber Wings
 电子翅膀
 Devil Wings

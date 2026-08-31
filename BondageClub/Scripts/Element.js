@@ -38,6 +38,7 @@ function ElementValue(ID, Value) {
  * @param {string | null} ID - The id of the element for which we want to get/set the value.
  * @param {string} [Content] - The content/inner HTML to give to the element (if applicable)
  * @returns {string} - The content of the element (When no Content parameter was passed to the function)
+ * @deprecated Use {@link ElementClearContents} or {@link ElementCreate} instead.
  */
 function ElementContent(ID, Content) {
 	ID ??= ElementGenerateID();
@@ -50,8 +51,19 @@ function ElementContent(ID, Content) {
 	if (Content == null)
 		return e.innerHTML;
 
+	// eslint-disable-next-line nounsanitized/property
 	e.innerHTML = Content;
 	return "";
+}
+
+/**
+ * Clears the contents of an HTML element
+ * @param {string} ID
+ */
+function ElementClearContents(ID) {
+	const e = ElementWrap(ID);
+	if (!e) return;
+	e.replaceChildren();
 }
 
 /** @satisfies {ElementNoParent} */
@@ -110,6 +122,7 @@ function ElementCreate(options) {
 		}
 	}
 
+	// eslint-disable-next-line nounsanitized/property
 	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
 
 	elem.append(...ElementParseChildren(options.children ?? []));
@@ -205,8 +218,7 @@ function ElementCreateTextArea(ID, form) {
 
 /**
  * Blur event listener for `number`-based `<input>` elements that automatically sanitizes the input value the moment the element is deselected.
- * @this {HTMLInputElement}
- * @param {FocusEvent} event
+ * @type {(this: HTMLInputElement, event: FocusEvent) => void}
  */
 function ElementNumberInputBlur(event) {
 	let value = "";
@@ -232,8 +244,7 @@ function ElementNumberInputBlur(event) {
 
 /**
  * Wheel event listener for `number`-based `<input>` elements. Allows one to increment/decrement the value
- * @this {HTMLInputElement}
- * @param {WheelEvent} event
+ * @type {(this: HTMLInputElement, event: WheelEvent) => void}
  */
 function ElementNumberInputWheel(event) {
 	if (this.disabled || this.readOnly) {
@@ -491,7 +502,7 @@ var ElementDropdown = {
 };
 
 /**
- * Construct a custom searchable dropdown menu.
+ * Construct a custom searchable dropdown menu or, on mobile, a conventional `<select>` element.
  *
  * The element comprises a button trigger displaying the current selection,
  * and a popup containing a search input and a scrollable list of options.
@@ -517,16 +528,53 @@ var ElementDropdown = {
  * @param {readonly ElementSearchableDropdown.OptionItem[]} optionsList - The available options.
  * @param {(value: string) => void} onChange - Called when the selection changes.
  * @param {ElementSearchableDropdown.CreateOptions | null} [options]
- * @returns {ElementSearchableDropdown.SearchableDropdownElement}
+ * @returns {ElementSearchableDropdown.SearchableDropdownElement | HTMLSelectElement}
  */
 function ElementCreateSearchableDropdown(id, optionsList, onChange, options) {
 	id ??= ElementGenerateID();
-	const existing = /** @type {ElementSearchableDropdown.SearchableDropdownElement | null} */ (ElementWrap(id));
+	const existing = /** @type {ElementSearchableDropdown.SearchableDropdownElement | HTMLSelectElement | null} */ (ElementWrap(id));
 	if (existing) {
 		console.error(`Element "${id}" already exists`);
 		return existing;
 	}
 	options = options ?? {};
+
+	// Use a conventional `<select>` dropdown on mobile in order to benefit from their (generally) very mobile-specific layout
+	if (CommonIsMobile) {
+		/** @type {Record<string, HTMLOptionElement[]>} */
+		const selectGroups = {};
+		/** @type {HTMLOptionElement[]} */
+		const selectOptions = [];
+		for (const opt of optionsList) {
+			const option = ElementCreate({
+				tag: "option",
+				attributes: { value: opt.value, disabled: opt.disabled, selected: options.value === opt.value },
+				children: [opt.label],
+			});
+			if (opt.group != null) {
+				(selectGroups[opt.group] ??= []).push(option);
+			} else {
+				selectOptions.push(option);
+			}
+		}
+		return ElementDropdown.Create(
+			id,
+			[],
+			function (ev) { onChange(this.value); },
+			{ disabled: options.disabled },
+			{
+				select: {
+					parent: options.parent,
+					children: [
+						...Object.entries(selectGroups).map(([ label, children ]) => {
+							return ElementCreate({ tag: "optgroup", attributes: { label }, children });
+						}),
+						...selectOptions,
+					],
+				},
+			},
+		);
+	}
 
 	const triggerId = `${id}-trigger`;
 	const labelId = `${id}-label`;
@@ -789,8 +837,8 @@ function ElementCreateSearchableDropdown(id, optionsList, onChange, options) {
 		_refreshLabel();
 		if (!popup.hasAttribute("hidden")) _renderList();
 	};
-	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetValue"]} */
-	api.bcSetValue = (newValue) => {
+	/** @type {ElementSearchableDropdown.SearchableDropdownInstance["bcSetNewValue"]} */
+	api.bcSetNewValue = (newValue) => {
 		_value = newValue;
 		_refreshLabel();
 		if (!popup.hasAttribute("hidden")) _renderList();
@@ -841,14 +889,14 @@ function ElementPosition(ElementOrID, X, Y, W, H) {
 	const E = ElementWrap(ElementOrID);
 
 	if (!E) {
-		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementOrID + "'");
+		console.error("A call to ElementPosition was made on non-existent element with ID", ElementOrID);
 		return;
 	}
 
 	// For a vertical slider, swap the width and the height (the transformation is handled by CSS)
 	if (E.tagName.toLowerCase() === "input" && E.getAttribute("type") === "range" && E.classList.contains("Vertical")) {
 		if (!H) {
-			console.warn("ElementPosition: missing H parameter for a vertical slider");
+			console.error("ElementPosition: missing H parameter for a vertical slider");
 			return;
 		}
 		[W, H] = [H, W];
@@ -892,7 +940,7 @@ function ElementPositionFixed(ElementOrID, X, Y, W, H, anchorPosition = 'top-lef
 	// Verify the element exists
 	if (!E) {
 		const id = typeof ElementOrID === "string" ? ElementOrID : ElementOrID?.id;
-		console.warn(`A call to ElementPositionFix was made on non-existent element with ID "${id}"`);
+		console.error(`A call to ElementPositionFix was made on non-existent element with ID "${id}"`);
 		return;
 	}
 
@@ -916,7 +964,7 @@ function ElementPositionFix(ElementOrID, Font, X, Y, W, H, anchorPosition = 'top
 	const E = ElementWrap(ElementOrID);
 	// Verify the element exists
 	if (!E) {
-		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementOrID + "'");
+		console.error("A call to ElementPositionFix was made on non-existent element with ID", ElementOrID);
 		return;
 	}
 
@@ -1014,7 +1062,7 @@ function ElementIsScrolledToEnd(ElementOrId) {
 function ElementSetScrollPercentage(ElementOrId, scrollPercentage, scrollBehavior = 'auto') {
 	const element = ElementWrap(ElementOrId);
 	if (!element) {
-		console.error(`Element with ID "${ElementOrId}" not found.`);
+		console.error("A call to ElementSetScrollPercentage was made on non-existent element with ID", ElementOrId);
 		return;
 	}
 
@@ -1077,15 +1125,15 @@ function ElementCreateSettingsLabel(label, forId, options) {
 		],
 	});
 }
+
 /**
  * Create a group of radio buttons
  * @param {string} id
  * @param {string} defaultValue
- * @param {(this: HTMLButtonElement, ev: PointerEvent, key: any) => any} onclick
+ * @param {(this: HTMLButtonElement, ev: PointerEvent) => void} onclick
  * @param {{
  * htmlOptions?: Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>,
  * options?: ElementButton.Options,
- * onClick?: (this: HTMLButtonElement, ev: PointerEvent, key: string) => any
  * }[]} options
  */
 function ElementCreateRadioButtonGroup(id, onclick, defaultValue, options) {
@@ -1097,11 +1145,7 @@ function ElementCreateRadioButtonGroup(id, onclick, defaultValue, options) {
 			role: "radiogroup",
 			id: id
 		},
-		children: options.map((entry) => ElementButton.Create(null, function (ev) {
-			if (onclick) {
-				onclick.call(this, ev, entry?.htmlOptions?.button?.attributes?.value);
-			}
-		}, {
+		children: options.map((entry) => ElementButton.Create(null, onclick, {
 			noStyling: true,
 			tooltipPosition: "bottom",
 			...entry?.options,
@@ -1739,7 +1783,7 @@ var ElementButton = {
 			let src;
 			/** @type {(string | Node | HTMLOptions<any>)[]} */
 			let tooltipChildren;
-			if (typeof icon === "string" && icon.endsWith("Padlock")) {
+			if (typeof icon === "string" && InventoryIconIsPadlock(icon)) {
 				name = icon;
 				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 				tooltipChildren = [InterfaceTextGet("PreviewIconPadlock").replace(
@@ -1814,10 +1858,11 @@ var ElementButton = {
 	 * Set the `[role]` attribute of the passed button
 	 * @param {HTMLButtonElement} button
 	 * @param {null | ElementButton.Options["role"]} role
+	 * @param {null | { force?: boolean }} options
 	 */
-	SetRole: function SetRole(button, role) {
+	SetRole: function SetRole(button, role, options=null) {
 		const oldRole = button.getAttribute("role");
-		if (oldRole === role) {
+		if (oldRole === role && !options?.force) {
 			return;
 		}
 
@@ -1998,7 +2043,7 @@ var ElementButton = {
 
 		const role = /** @type {ElementButton.Options["role"]} */(buttonOptions.attributes?.role ?? options.role);
 		if (role) {
-			ElementButton.SetRole(elem, role);
+			ElementButton.SetRole(elem, role, { force: true });
 		}
 
 		for (const [name, listener] of Object.entries(buttonOptions.eventListeners ?? {})) {
@@ -2027,12 +2072,12 @@ var ElementButton = {
 	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
 	 * @param {null | Character} C - The character wearing the asset/item (if any)
 	 * @param {null | ((this: HTMLButtonElement, ev: PointerEvent) => any)} onClick - The click event listener to-be attached to the tooltip
-	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | ElementButton.AssetOptions} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	CreateForAsset: function CreateForAsset(idPrefix, asset, C, onClick, options=null, htmlOptions=null) {
-		const item = "Asset" in asset ? asset : { Asset: asset };
+		const item = "Asset" in asset ? asset : AppearanceItem.fromAsset(asset);
 		asset = item.Asset;
 
 		const id = idPrefix == null ? ElementGenerateID() : `${idPrefix}-${asset.Group.Name}-${asset.Name}`;
@@ -2070,7 +2115,7 @@ var ElementButton = {
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
 			InventoryIsAllowedLimited(C ?? Player, item) ? "AllowedLimited" : null,
-			...DialogGetLockIcon(item, "Property" in item),
+			...DialogGetLockIcon(item, options._craftIsWorn ?? true),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
 		];
@@ -2144,12 +2189,14 @@ var ElementButton = {
 			],
 		});
 
-		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
-			const dfn = list.querySelectorAll("dfn");
-			for (const d of dfn) {
-				d.parentElement?.append(textCache.get(`Description${d.textContent}`));
-			}
-		});
+		CommonPromiseCatch(
+			TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
+				const dfn = list.querySelectorAll("dfn");
+				for (const d of dfn) {
+					d.parentElement?.append(textCache.get(`Description${d.textContent}`));
+				}
+			})
+		);
 		return [label, list];
 	},
 
@@ -2210,7 +2257,7 @@ var ElementButton = {
 	 * @returns {boolean} - Whether the icons were updated or not
 	 */
 	ReloadAssetIcons: function ReloadAssetIcons(button, asset, C) {
-		const item = "Asset" in asset ? asset : { Asset: asset };
+		const item = "Asset" in asset ? asset : AppearanceItem.fromAsset(asset);
 		asset = item.Asset;
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
@@ -2246,6 +2293,51 @@ var ElementButton = {
 			button.querySelector(".button-tooltip")?.append(...tooltip);
 		}
 		return true;
+	},
+
+	/**
+	 * Set the src of the button's image (`.button-image`).
+	 *
+	 * Supports both `<img>`- and `<div role="img">`-style button images.
+	 * @param {ElementHelp.ElementOrId} button The button in question  (`.button`) or its image  (`.button-image`). May be specified either as an element or its ID.
+	 * @param {string} src The new image source
+	 * @returns {null | HTMLElement} The updated `.button-image` element or null if it cannot be found
+	 */
+	SetImage: function SetImage(button, src) {
+		const element = ElementWrap(button);
+		const img = element?.matches(".button-image") ? element : element?.querySelector(".button-image");
+		if (img instanceof HTMLImageElement) {
+			img.src = src;
+			return img;
+		} else if (img instanceof HTMLElement) {
+			const imgURL = (src.startsWith("data:image") || src.startsWith("http")) ? `url("${src}")` : `url("./${src}")`;
+			img.style.setProperty("background-image", imgURL);
+			img.style.setProperty("mask-image", imgURL);
+			return img;
+		} else {
+			return null;
+		}
+	},
+
+	/**
+	 * Get the src of the button's image (`.button-image`).
+	 *
+	 * Supports both `<img>`- and `<div role="img">`-style button images.
+	 * @param {ElementHelp.ElementOrId} button The button in question  (`.button`) or its image  (`.button-image`). May be specified either as an element or its ID.
+	 * @returns {null | string} The src of the `.button-image` represented in a {@link HTMLImageElement.src}-compatible format or null if it cannot be found/is empty.
+	 */
+	GetImage: function GetImage(button) {
+		const element = ElementWrap(button);
+		const img = element?.matches(".button-image") ? element : element?.querySelector(".button-image");
+		if (img instanceof HTMLImageElement) {
+			return img.src || null;
+		} else if (img instanceof HTMLElement) {
+			const imgURL = img.style.getPropertyValue("background-image");
+			const srcMatch = imgURL.match(/url\((\.\/)?(['"]+)?(\S+)(['"]+)?\)/);
+			return srcMatch?.[3] ?? null;
+		} else {
+			return null;
+		}
 	},
 };
 
@@ -2296,7 +2388,7 @@ var ElementMenu = {
 				}
 				if (roles.includes(role)) {
 					// @ts-ignore
-					menuitem.addEventListener("keydown", ElementMenu._KeyDown);
+					menuitem.addEventListener("keydown", (e) => { CommonPromiseCatch(ElementMenu._KeyDown(e)); });
 					menuitem.setAttribute("tabindex", "-1");
 				}
 			}
@@ -2655,7 +2747,7 @@ var ElementText = {
 		if (opts?.describes) {
 			const target = ElementWrap(opts.describes);
 			if (!target) {
-				console.warn(`Unable to locate element ${opts.describes}`);
+				console.error("Unable to locate element", opts.describes);
 			} else {
 				id = ElementGenerateID();
 				const attrVals = (target.getAttribute("aria-describedby") ?? "").split(" ");
@@ -2776,7 +2868,7 @@ function ElementSetPosition(elementOrId, xPos = 0, yPos = 0, anchorPosition = 't
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.warn("A call to ElementSetPosition was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetPosition was made on non-existent element with ID", elementOrId);
 		return;
 	}
 
@@ -2803,7 +2895,7 @@ function ElementSetSize(elementOrId, width = null, height = null) {
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.warn("A call to ElementSetSize was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetSize was made on non-existent element with ID", elementOrId);
 		return;
 	}
 
@@ -2829,7 +2921,7 @@ function ElementSetFontSize(elementOrId, targetFontSize = 'auto') {
 	const element = ElementWrap(elementOrId);
 
 	if (!element) {
-		console.warn("A call to ElementSetFontSize was made on non-existent element with ID '" + elementOrId + "'");
+		console.error("A call to ElementSetFontSize was made on non-existent element with ID", elementOrId);
 		return;
 	}
 
@@ -2994,12 +3086,13 @@ var ElementDOMScreen = {
 	 */
 	getTemplate(id, options=null) {
 		options ??= {};
+		const header = CommonIsArray(options.header) ? options.header : [options.header];
 		const hgroup = ElementCreate({
 			tag: "hgroup",
 			classList: ["scroll-box", "screen-hgroup"],
 			attributes: { id: `${id}-hgroup` },
 			children: [
-				{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
+				{ tag: "h1", attributes: { id: `${id}-h1` }, children: header },
 				{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
 			],
 		});
@@ -3232,6 +3325,62 @@ var ElementUnpackIDs = {
 	fromAttribute: function fromAttribute(element, attrName, options=null) {
 		options ??= {};
 		return ElementUnpackIDs.fromString(element.getAttribute(attrName) ?? "", { ...options, root: element });
+	},
+};
+
+/** Namespace with helpers for highlighting elements based on search queries */
+var ElementSearchQuery = {
+	/**
+	 * Highlight search query matches within the passed elements using `<em class="highlight">`, returning a list of all highlighted elements
+	 * @template {Element} T
+	 * @param {readonly T[] | NodeListOf<T>} elements The list of to-be elements whose textContent is to be matched
+	 * @param {string} query The search query
+	 * @param {null | ElementSearchQuery.Options} [options] Further options
+	 * @returns {T[]} The matched elements
+	 */
+	highlight: function highlight(elements, query, options) {
+		options ??= {};
+		const queries = query.split(" ").map(i => i.trim()).filter(Boolean).map(i => CommonRegEscape(i));
+		if (queries.length > 0) {
+			const regex = new RegExp(queries.join("|"), 'gi');
+			return Array.from(elements).filter(el => {
+				const { match, innerHTML } = ElementSearchQuery._getInnerHTML(el.textContent, regex, options);
+				// eslint-disable-next-line nounsanitized/property
+				el.innerHTML = innerHTML;
+				return match;
+			});
+		} else {
+			return ElementSearchQuery.clear(elements);
+		}
+	},
+
+	/**
+	 * Clear all query matches from the passed elements. Equivalent to passing an empty string query to {@link highlight}.
+	 * @template {Element} T The list of to-be elements whose textContent is to be matched
+	 * @param {readonly T[] | NodeListOf<T>} elements
+	 * @returns {T[]} The matched elements
+	 */
+	clear: function clear(elements) {
+		// eslint-disable-next-line no-self-assign
+		elements.forEach(el => el.textContent = el.textContent);
+		return [...elements];
+	},
+
+	/**
+	 * @private
+	 * @param {string} textContent
+	 * @param {RegExp} pattern
+	 * @param {ElementSearchQuery.Options} options
+	 * @returns {{ match: boolean, innerHTML: string }}
+	 */
+	_getInnerHTML: function _getInnerHTML(textContent, pattern, options) {
+		if (pattern.test(textContent)) {
+			const className = options.classList?.join(" ") ?? "highlight";
+			const tag = options.tag ?? "em";
+			return { match: true, innerHTML: `${textContent.replace(pattern, match => `<${tag} class="${className}">${ChatRoomHTMLEntities(match)}</${tag}>`)}` };
+		} else {
+			return { match: false, innerHTML: ChatRoomHTMLEntities(textContent) };
+		}
 	},
 };
 
@@ -3647,3 +3796,42 @@ class HTMLColorTintElement extends HTMLElement {
 }
 
 customElements.define("bc-tint-input", HTMLColorTintElement);
+
+/**
+ * Sets an element's text content, skipping the write when it already matches.
+ * @param {ElementHelp.ElementOrId | null} ElementOrId
+ * @param {string} text
+ * @returns {void} - Nothing
+ */
+function ElementSetText(ElementOrId, text) {
+	const element = ElementWrap(ElementOrId);
+	if (!element || typeof text !== "string" || element.textContent === text) return;
+	element.textContent = text;
+}
+
+/**
+ * Sets the value of an input, select, or textarea, skipping the write when it already matches.
+ * @param {ElementHelp.ElementOrId | null} ElementOrId
+ * @param {string | number} value
+ * @returns {void} - Nothing
+ */
+function ElementSetValue(ElementOrId, value) {
+	const element = /** @type {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null} */ (ElementWrap(ElementOrId));
+	if (!element || !("value" in element) || value == null) return;
+	const next = value.toString();
+	if (element.value !== next) {
+		element.value = next;
+	}
+}
+
+/**
+ * Sets the checked state of an input, skipping the write when it already matches.
+ * @param {ElementHelp.ElementOrId | null} ElementOrId
+ * @param {boolean} checked
+ * @returns {void} - Nothing
+ */
+function ElementSetChecked(ElementOrId, checked) {
+	const element = /** @type {HTMLInputElement | null} */ (ElementWrap(ElementOrId));
+	if (!element || !("checked" in element) || element.checked === !!checked) return;
+	element.checked = !!checked;
+}

@@ -4,8 +4,8 @@
 		"incremental": true,
 		"tsBuildInfoFile": "../../.cache/tsc-expensive.tsbuildinfo",
 		"module": "commonjs",
-		"target": "ES2021",
-		"lib": ["es2021", "dom", "DOM.Iterable"],
+		"target": "es2022",
+		"lib": ["ES2022", "DOM"],
 		"allowJs": true,
 		"strict": true,
 		"noImplicitAny": true

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var SkillModifier = 0;
 var SkillModifierMax = 5;
@@ -33,7 +32,7 @@ function SkillGet(C, skillType) {
 function SkillChange(C, SkillType, SkillLevel, Progress, Push) {
 
 	if (!SkillValidSkills.includes(SkillType)) {
-		console.warn(`Invalid skill type "${SkillType}"`);
+		console.error(`Invalid skill type "${SkillType}"`);
 		return;
 	}
 
@@ -86,7 +85,7 @@ function SkillLoad(NewSkill) {
 			SkillSetRatio(Player, skill.Type, skill.Ratio, false);
 		}
 		if (skill.ModifierLevel != null) {
-			SkillSetModifier(Player, skill.Type, skill.ModifierLevel, skill.ModifierTimeout - CurrentTime, false);
+			SkillSetModifier(Player, skill.Type, skill.ModifierLevel, (skill.ModifierTimeout ?? 0) - CurrentTime, false);
 		}
 	}
 }
@@ -101,7 +100,7 @@ function SkillGetModifier(C, SkillType) {
 	if (!skill) return 0;
 
 	let modifier = typeof skill.ModifierLevel === "number" ? skill.ModifierLevel : 0;
-	const timeout = skill.ModifierTimeout;
+	const timeout = skill.ModifierTimeout ?? 0;
 	if (CurrentTime > timeout) {
 		// Modifier expired, reset
 		delete skill.ModifierLevel;
@@ -123,7 +122,7 @@ function SkillGetModifierDuration(C, SkillType) {
 	const skill = SkillGet(C, SkillType);
 	if (!skill || !skill.ModifierLevel) return 0;
 
-	return skill.ModifierTimeout - CurrentTime;
+	return (skill.ModifierTimeout ?? 0) - CurrentTime;
 }
 
 /**
@@ -248,7 +247,7 @@ function SkillGetRatio(C, SkillType) {
 	let ratio = 1;
 	const skill = SkillGet(C, SkillType);
 	if (!skill) return 1;
-	ratio = skill.Ratio;
+	ratio = skill.Ratio ?? 0;
 	if (typeof skill.Ratio !== "number") ratio = 1;
 	return Math.max(0, Math.min(1, ratio));
 }

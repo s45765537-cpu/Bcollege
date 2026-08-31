@@ -2267,7 +2267,7 @@ function PlatformGetAnim(C, Pose, Cycle = null) {
 				Mirror: ((C.FaceLeft === true) && (C.Animation[A].CycleLeft == null))
 			};
 		}
-	console.warn("Anim: " + Pose + " not found for character: " + C.Name);
+	console.error("Anim: " + Pose + " not found for character: " + C.Name);
 	return null;
 }
 
@@ -2623,7 +2623,7 @@ function PlatformSoundEffect(Category, Sound, Factor = 0.3333) {
 		SoundEffect.currentTime = 0;
 		SoundEffect.src = "Screens/Room/Platform/Audio/" + Category + "/" + Select + ".mp3";
 		SoundEffect.volume = Math.min(vol, 1) * Factor;
-		SoundEffect.play();
+		CommonPromiseCatch(SoundEffect.play());
 	}
 
 }

@@ -204,10 +204,10 @@ const StruggleFacesList = {
 
 /**
  * Get the list of struggle minigames.
- * @returns {[StruggleKnownMinigames, StruggleMinigame][]}
+ * @returns {[Exclude<StruggleKnownMinigames, "LockPick" | "Loosen">, StruggleMinigame][]}
  */
 function StruggleGetMinigames() {
-	return CommonEntries(StruggleMinigames).filter(e => e[0] !== "LockPick" && e[0] !== "Loosen");
+	return CommonEntries(CommonOmit(StruggleMinigames, ["LockPick", "Loosen"]));
 }
 
 /**
@@ -229,6 +229,18 @@ function StruggleMinigameDraw(C) {
 }
 
 /**
+ * Construct and return the struggle text associated with using x% of a character's skill
+ * @param {Character} C - The character who acts
+ * @param {SkillType} skillType - Name of the skill to get the value of
+ * @returns {string}
+ */
+function StruggleGetSkillRatioText(C, skillType) {
+	const skill = SkillGetRatio(Player, skillType);
+	const skillRounded = /** @type {0 | 25 | 50 | 75 | 100} */(Math.round(skill * 4) * 25);
+	return InterfaceTextGet(`Using${skillRounded}`);
+}
+
+/**
  * Gets the correct label for the current operation (struggling, removing, swaping, adding, etc.)
  * @param {Character} C - The character who acts
  * @param {Item} PrevItem - The first item that's part of the action
@@ -237,14 +249,14 @@ function StruggleMinigameDraw(C) {
  */
 function StruggleProgressGetOperation(C, PrevItem, NextItem) {
 	if ((PrevItem != null) && (NextItem != null)) return InterfaceTextGet("Swapping");
-	if ((C.IsPlayer()) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return InterfaceTextGet("Using" + (SkillGetRatio(Player, "Evasion") * 100).toString());
+	if ((C.IsPlayer()) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return StruggleGetSkillRatioText(Player, "Evasion");
 	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) return InterfaceTextGet("Struggling");
 	if ((PrevItem != null) && !Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Block", true)) return InterfaceTextGet("Struggling");
 	if (InventoryItemHasEffect(PrevItem, "Lock", true)) return InterfaceTextGet("Unlocking");
 	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Mounted", true)) return InterfaceTextGet("Dismounting");
 	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Enclose", true)) return InterfaceTextGet("Escaping");
 	if (PrevItem != null) return InterfaceTextGet("Removing");
-	if ((PrevItem == null) && (NextItem != null) && (SkillGetRatio(Player, "Bondage") != 1)) return InterfaceTextGet("Using" + (SkillGetRatio(Player, "Bondage") * 100).toString());
+	if ((PrevItem == null) && (NextItem != null) && (SkillGetRatio(Player, "Bondage") != 1)) return StruggleGetSkillRatioText(Player, "Bondage");
 	if (InventoryItemHasEffect(NextItem, "Lock", true)) return InterfaceTextGet("Locking");
 	if ((PrevItem == null) && (NextItem != null)) return InterfaceTextGet("Adding");
 	return "...";
@@ -450,8 +462,8 @@ function StruggleMinigameHandleExpression(Decrease) {
 		}
 
 		// Each click accelerates ExpressionQueue timers 1 second.
-		for (var i in Player.ExpressionQueue) {
-			Player.ExpressionQueue[i].Time += -1000;
+		for (const item of Player.ExpressionQueue) {
+			item.Time += -1000;
 		}
 	}
 }
@@ -668,6 +680,7 @@ function StruggleStrengthDraw(C) {
 	if (StruggleAllowLoosen())
 		DrawButton(1300, 880, 400, 65, InterfaceTextGet("TryLoosen"), "White");
 	else {
+		/** @type {"ProgressKeys" | "ProgressClick" | "ProgressKeysController"} */
 		let msg = "ProgressKeys";
 		if (CommonIsMobile) {
 			msg = "ProgressClick";

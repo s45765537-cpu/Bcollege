@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeTeacherBackground = "CollegeTeacherLounge";
-/** @type {null | NPCCharacter} */
-var CollegeTeacherMildred = null;
+/** @type {NPCCharacter} */
+var CollegeTeacherMildred = /** @type {never} */ (null);
 var CollegeTeacherMildredLove = 0;
 
 // Returns TRUE if the dialog option should be shown
@@ -44,7 +43,7 @@ function CollegeTeacherMildredClothes(C) {
 	InventoryWear(C, "Eyes1", "Eyes", "#a57b78");
 	InventoryWear(C, "Eyes1", "Eyes2", "#a57b78");
 	InventoryWear(C, "Glasses4", "Glasses", "#333333");
-	InventoryWear(C, "Mouth", "Mouth", "Default");
+	InventoryWear(C, "Regular", "Mouth", "Default");
 	InventoryWear(C, "H0940", "Height", "Default");
 	InventoryWear(C, "Normal", "BodyUpper", "White");
 	InventoryWear(C, "Normal", "BodyLower", "White");
@@ -180,7 +179,7 @@ function CollegeTeacherInviteToPrivateRoom(Role="None") {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CharacterDelete(CollegeTeacherMildred);
-	CollegeTeacherMildred = null;
+	CollegeTeacherMildred = /** @type {never} */ (null);
 
 	CommonSetScreen("Room", "Private");
 }

@@ -1,9 +1,10 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
 function InventoryItemVulvaClitAndDildoVibratorbeltDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
+	if (!DialogFocusItem) return;
+	DialogFocusItem.Property ??= {};
 	if (Data.currentModule === ModularItemBase) {
 		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
 		const [DildoIntensity, EggIntensity] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
@@ -22,9 +23,10 @@ function InventoryItemVulvaClitAndDildoVibratorbeltDrawHook(Data, OriginalFuncti
 /** @type {ExtendedItemScriptHookCallbacks.SetOption<ModularItemData, ModularItemOption>} */
 function InventoryItemVulvaClitAndDildoVibratorbeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push, refresh) {
 	// Ensure that the vibrator intensity is set to the maximum of the egg and dildo intensity
-	originalFunction(C, item, newOption, previousOption, false, false);
-	const CurrentModuleValues = ModularItemParseCurrent(data, item.Property.TypeRecord);
-	const Intensities = data.modules.map((m, i) => m.Options[CurrentModuleValues[i]].Property.Intensity);
+	originalFunction?.(C, item, newOption, previousOption, false, false);
+	const CurrentModuleValues = ModularItemParseCurrent(data, item.Property?.TypeRecord);
+	const Intensities = data.modules.map((m, i) => m.Options[CurrentModuleValues[i]].Property.Intensity ?? -1);
+	item.Property ??= {};
 	item.Property.Intensity = /** @type {VibratorIntensity}*/(Math.max(...Intensities));
 	CharacterRefresh(C, push, false);
 }

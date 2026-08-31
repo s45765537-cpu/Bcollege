@@ -190,6 +190,11 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 387, Type: "FloorDecorationThemed", Style: "Television", Top: -0.3, Left: 0, Height: 1.3, Width: 1 },
 	{ ID: 388, Type: "FloorDecorationThemed", Style: "TelevisionBack", Top: -0.3, Left: 0, Height: 1.3, Width: 1 },
 	{ ID: 389, Type: "FloorDecorationThemed", Style: "Wardrobe", Top: -0.9, Left: 0, Height: 2, Width: 1 },
+	{ ID: 390, Type: "FloorDecorationThemed", Style: "StandingBellflowerBanner", Top: -1.1, Left: 0.15, Height: 1.7, Width: 0.7 },
+	{ ID: 391, Type: "FloorDecorationThemed", Style: "BondageClubBanner", Top: -1.1, Left: 0.15, Height: 1.7, Width: 0.7 },
+	{ ID: 392, Type: "FloorDecorationThemed", Style: "VoidOrderBanner", Top: -0.9, Left: 0.13, Height: 1.5, Width: 0.7 },
+	{ ID: 393, Type: "FloorDecorationThemed", Style: "KatanaOnStand", Top: -0.4, Left: 0.1, Height: 1.0, Width: 0.8 },
+	{ ID: 394, Type: "FloorDecorationThemed", Style: "MagicMark", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
 
 	{ ID: 500, Type: "FloorDecorationParty", Style: "Blank" },
 	{ ID: 510, Type: "FloorDecorationParty", Style: "BalloonFiveColor", Top: -0.6, Height: 1.5 },
@@ -670,6 +675,13 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 5014, Type: "Banners", Style: "Black", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5015, Type: "Banners", Style: "PaladinBanner", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 	{ ID: 5016, Type: "Banners", Style: "ServiOrdinisBanner", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5017, Type: "Banners", Style: "BellflowerBanner", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5018, Type: "Banners", Style: "BondageClub", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5019, Type: "Banners", Style: "Inquisition", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5020, Type: "Banners", Style: "MagesSacrosanctorum", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5021, Type: "Banners", Style: "MaidSorority", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5022, Type: "Banners", Style: "Priesthood", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
+	{ ID: 5023, Type: "Banners", Style: "VoidOrder", Top: 0.25, Left: 0.25, Height: 0.6, Width: 0.50, },
 
 ];
 
@@ -711,31 +723,26 @@ function ChatRoomMapViewInitialize(mode) {
 }
 
 /**
- * Initializes the player map data to its default blank state
+ * Initializes the character's map data to its default blank state
  * @param {Character} C - The character to be initialized
- * @returns {ChatRoomMapData}
+ * @returns {ChatRoomMapData | null}
  */
 function ChatRoomMapViewInitializeCharacter(C) {
-
-	let MapData = C.MapData ? C.MapData : null;
-	// Checks to see if we can load the previously saved position
-	if (C.IsPlayer() && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
-		// Restores the saved position
-		MapData = Player.LastMapData;
-	}
-	if (!MapData || !MapData.Pos || !MapData.PrivateState){
-		// Sets position in the middle of the scren by default, or at the entry flag if possible
-		let entryPosition = ChatRoomMapViewGetEntryFlagPosition();
-		if (entryPosition == null) {
-			entryPosition = {
-				X: ChatRoomMapViewWidth / 2,
-				Y: ChatRoomMapViewHeight / 2,
-			};
+	if (ChatRoomData?.MapData.Type === "Always" || ChatRoomData?.MapData.Type === "Hybrid") {
+		// We use LastMapData here in case it's a relog into the room
+		const oldData = C.MapData ??
+			(C.IsPlayer() && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name ?
+				Player.LastMapData
+				: undefined
+			);
+		C.LastMapData = C.MapData = ServerAccountDataSyncedValidate.MapData(oldData, C);
+		if (C.IsPlayer()) {
+			// We throw in an update so that everyone sees us at the proper location
+			ServerSend("ChatRoomCharacterMapDataUpdate", Player.MapData);
 		}
-
-		MapData = { Pos: entryPosition, PrivateState: {} };
+		return C.MapData;
 	}
-	return MapData;
+	return null;
 }
 
 /**
@@ -744,11 +751,7 @@ function ChatRoomMapViewInitializeCharacter(C) {
  * @returns {ChatRoomMapPos}
  */
 function ChatRoomMapViewValidatePosition(position) {
-	const ret = CommonIsObject(position) ? position : {};
-	return {
-		X: CommonIsInteger(ret.X, 0, ChatRoomMapViewWidth) ? ret.X : ChatRoomMapViewWidth / 2,
-		Y: CommonIsInteger(ret.Y, 0, ChatRoomMapViewHeight) ? ret.Y : ChatRoomMapViewHeight / 2,
-	};
+	return ServerAccountDataSyncedValidate.MapData.Pos(position, null);
 }
 
 /**
@@ -774,17 +777,6 @@ function ChatRoomMapViewLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewActivate() {
-
-	// Make sure the player position is valid
-	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapViewWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapViewWidth) {
-		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
-		// Update the change instantly so other players don't see this player on an invalid position
-		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
-
-	}
-	if (ChatRoomData.MapData?.Tiles?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight || ChatRoomData.MapData?.Objects?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
-		ChatRoomData.MapData = ChatRoomMapViewInitialize(ChatRoomData?.MapData?.Type ?? "Never");
-	}
 	ChatRoomMapManager.OnViewActivate();
 	ChatRoomMapViewCalculatePerceptionMasks();
 }
@@ -1252,7 +1244,7 @@ function ChatRoomMapViewFloorWallEffect(X, Y) {
 	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1);
 
 	// If here is halfWall
-	if (ChatRoomMapViewGetTileAtPos(X,Y).Style == "HalfWall"){
+	if (ChatRoomMapViewGetTileAtPos(X,Y)?.Style == "HalfWall"){
 
 		//Finds the proper effect and returns it
 		if (!SW && SC && !SE) return 11;
@@ -1348,7 +1340,7 @@ function ChatRoomMapViewGetCharacterAtPos(X, Y) {
  */
 function ChatRoomMapViewGetEntryFlagPosition() {
 
-	if (!ChatRoomData.MapData?.Objects) return null;
+	if (!ChatRoomData?.MapData?.Objects) return null;
 
 	const idx = ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(ChatRoomMapViewObjectEntryID));
 	if (idx < 0) return null;
@@ -1374,10 +1366,6 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		if (!C.MapData?.Pos) continue;
 		ChatRoomMapViewCharacterMap.set(C.MapData.Pos.X + C.MapData.Pos.Y * ChatRoomMapViewWidth, C);
 	}
-
-	// Make sure the player MapData is valid
-	if (Player.MapData == null)
-		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapViewCollision();
@@ -1857,41 +1845,41 @@ function ChatRoomMapViewDrawUi() {
 
 	// Admins can grant themselves super powers (teleport, far hearing, etc.)
 	if (ChatRoomPlayerIsAdmin())
-		DrawButton(790, 860, 60, 60, "", "White", "Icons/Small/" + ((ChatRoomMapViewSuperPowersActive) ? "SuperPowersActive" : "SuperPowersInactive") + ".png");
+		DrawButton(790, 860, 60, 60, "", "White", "Icons/" + ((ChatRoomMapViewSuperPowersActive) ? "SuperPowersActive" : "SuperPowersInactive") + ".png");
 
 	// Draw the movement buttons
 	if (ChatRoomMapViewMovement == null) {
-		DrawButton(860, 860, 60, 60, "", "White", "Icons/Small/North.png");
-		DrawButton(790, 930, 60, 60, "", "White", "Icons/Small/West.png");
-		DrawButton(860, 930, 60, 60, "", "White", "Icons/Small/South.png");
-		DrawButton(930, 930, 60, 60, "", "White", "Icons/Small/East.png");
+		DrawButton(860, 860, 60, 60, "", "White", "Icons/North.png");
+		DrawButton(790, 930, 60, 60, "", "White", "Icons/West.png");
+		DrawButton(860, 930, 60, 60, "", "White", "Icons/South.png");
+		DrawButton(930, 930, 60, 60, "", "White", "Icons/East.png");
 	} else {
-		DrawButton(860, 860, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "North") ? "White" : "#80FF80", "Icons/Small/North.png");
-		DrawButton(930, 860, 60, 60, "", "White", "Icons/Small/Cancel.png");
-		DrawButton(790, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "West") ? "White" : "#80FF80", "Icons/Small/West.png");
-		DrawButton(860, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "South") ? "White" : "#80FF80", "Icons/Small/South.png");
-		DrawButton(930, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "East") ? "White" : "#80FF80", "Icons/Small/East.png");
+		DrawButton(860, 860, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "North") ? "White" : "#80FF80", "Icons/North.png");
+		DrawButton(930, 860, 60, 60, "", "White", "Icons/Cancel.png");
+		DrawButton(790, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "West") ? "White" : "#80FF80", "Icons/West.png");
+		DrawButton(860, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "South") ? "White" : "#80FF80", "Icons/South.png");
+		DrawButton(930, 930, 60, 60, "", (ChatRoomMapViewMovement.Direction !== "East") ? "White" : "#80FF80", "Icons/East.png");
 		let Progress = (CommonTime() - ChatRoomMapViewMovement.TimeStart) / (ChatRoomMapViewMovement.TimeEnd - ChatRoomMapViewMovement.TimeStart) * 100;
 		DrawProgressBar(790, 992, 200, 8, Progress);
 	}
 
 	// Out of edit mode, we draws the basic buttons
 	if (ChatRoomMapViewEditMode == "") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Plus.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Minus.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Plus.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/Minus.png");
 		if (ChatRoomPlayerIsAdmin()) {
-			DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/EditTile.png");
-			DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditObject.png");
-			DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/Light.png");
-			DrawButton(10, 360, 60, 60, "", "White", "Icons/Small/Undo.png");
-			DrawButton(10, 430, 60, 60, "", "White", "Icons/Small/Fog" + (ChatRoomMapFogIsActive() ? "Active" : "Inactive") + ".png");
+			DrawButton(10, 150, 60, 60, "", "White", "Icons/EditTile.png");
+			DrawButton(10, 220, 60, 60, "", "White", "Icons/EditObject.png");
+			DrawButton(10, 290, 60, 60, "", "White", "Icons/Light.png");
+			DrawButton(10, 360, 60, 60, "", "White", "Icons/Undo.png");
+			DrawButton(10, 430, 60, 60, "", "White", "Icons/Fog" + (ChatRoomMapFogIsActive() ? "Active" : "Inactive") + ".png");
 		}
 	}
 
 	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
 	if (ChatRoomMapViewEditMode == "TileType") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditObject.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/MapView.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/EditObject.png");
 		let X = 0;
 		let Y = 0;
 		let Type = "";
@@ -1909,7 +1897,7 @@ function ChatRoomMapViewDrawUi() {
 
 	// In tile edit mode, we show all tiles of a spectific tyle
 	if (ChatRoomMapViewEditMode == "Tile") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Edit.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
 		let X = 0;
 		let Y = 0;
@@ -1929,8 +1917,8 @@ function ChatRoomMapViewDrawUi() {
 
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
 	if (ChatRoomMapViewEditMode == "ObjectType") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditTile.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/MapView.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/EditTile.png");
 		let X = 0;
 		let Y = 0;
 		let Type = "";
@@ -1949,7 +1937,7 @@ function ChatRoomMapViewDrawUi() {
 
 	// In object edit mode, we show all objects of a spectific tyle
 	if (ChatRoomMapViewEditMode == "Object") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Edit.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
 		let X = 0;
 		let Y = 0;
@@ -1966,7 +1954,7 @@ function ChatRoomMapViewDrawUi() {
 	}
 
 	if (ChatRoomMapViewEditMode == "Effect") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png"); // Exit button
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/MapView.png"); // Exit button
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png"); // Draw range button
 
 		let X = 0;
@@ -2600,13 +2588,13 @@ function ChatRoomMapViewCopy() {
 		return;
 	}
 
-	navigator.clipboard
-		.writeText(mapString)
-		.then(() => ChatRoomSendLocal(TextGet("MapCopyDone")))
-		.catch((e) => {
-			console.error("Map copy error:", e);
-			ChatRoomSendLocal(TextGet("MapCopyError"));
-		});
+	CommonClipboardWrite(mapString, (res) => {
+		if (res.err) {
+			ToastManager.error(res.errorAsDOM(TextGet("MapCopyError")));
+		} else {
+			ToastManager.success(TextGet("MapCopyDone"));
+		}
+	});
 }
 
 /**
@@ -2617,24 +2605,24 @@ function ChatRoomMapViewCopy() {
 function ChatRoomMapViewPaste(Param) {
 	// Validates the data first
 	if (typeof Param !== "string" || Param.length === 0) {
-		ChatRoomSendLocal(TextGet("MapPasteError"));
+		ToastManager.error(TextGet("MapPasteError"));
 		return;
 	}
 
 	// Only admins can paste/edit the map
 	if (!ChatRoomPlayerIsAdmin()) {
-		ChatRoomSendLocal(TextGet("MapPasteAdmin"));
+		ToastManager.error(TextGet("MapPasteAdmin"));
 		return;
 	}
 
 	if (!ChatRoomMapManager.Map.importString(Param)) {
-		ChatRoomSendLocal(TextGet("MapPasteError"));
+		ToastManager.error(TextGet("MapPasteError"));
 		return;
 	}
 
 	ChatRoomMapViewUpdateFlag();
 	ChatRoomMapViewCalculatePerceptionMasks();
-	ChatRoomSendLocal(TextGet("MapPasteDone"));
+	ToastManager.info(TextGet("MapPasteDone"));
 }
 
 /**
@@ -3177,7 +3165,7 @@ const ChatRoomMapManager = (function () {
 						readLen += runLen;
 					}
 				} catch (e) {
-					console.warn("Attempt to decode invalid map data:", e);
+					console.error("Attempt to decode invalid map data:", e);
 					return undefined;
 				}
 
@@ -3264,7 +3252,7 @@ const ChatRoomMapManager = (function () {
 			return decodeModernExportedMap(s);
 		}
 
-		console.warn("Impossible exported map string value");
+		console.error("Impossible exported map string value");
 		return {
 			LegacyMapData: undefined,
 			MapData: undefined,
@@ -3373,7 +3361,7 @@ const ChatRoomMapManager = (function () {
 		};
 
 		if (s[0] !== MAP_EXPORT_VERSION_TAG) {
-			console.warn(
+			console.error(
 				"Invalid modern exported map: missing MAP_EXPORT_VERSION_TAG in the beginning.",
 			);
 			return err;
@@ -3404,7 +3392,7 @@ const ChatRoomMapManager = (function () {
 				MapData: map,
 			};
 		} catch (e) {
-			console.warn("Error decoding modern exported map:", e);
+			console.error("Error decoding modern exported map:", e);
 			return err;
 		}
 	}
@@ -3440,7 +3428,7 @@ const ChatRoomMapManager = (function () {
 				MAP_SYNC_VERSION_BIT_SIZE,
 			);
 			if (!codec.write(map, writer)) {
-				console.warn("Failed to encode MapData into the BitString");
+				console.error("Failed to encode MapData into the BitString");
 				return undefined;
 			}
 

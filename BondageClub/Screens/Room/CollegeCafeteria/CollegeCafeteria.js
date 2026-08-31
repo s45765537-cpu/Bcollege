@@ -1,14 +1,16 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeCafeteriaBackground = "CollegeCafeteria";
-/** @type {null | NPCCharacter} */
-var CollegeCafeteriaSidney = null;
+/**
+ * Loaded in CollegeCafeteriaLoad; replaced with a random student when Sidney is away or after inviting her to the private room.
+ * @type {NPCCharacter}
+ */
+var CollegeCafeteriaSidney = /** @type {never} */ (null);
 var CollegeCafeteriaSidneyStatus = "";
 var CollegeCafeteriaSidneyLove = 0;
-/** @type {null | NPCCharacter} */
-var CollegeCafeteriaStudentRight = null;
-/** @type {null | NPCCharacter} */
-var CollegeCafeteriaStudentFarRight = null;
+/** @type {NPCCharacter} */
+var CollegeCafeteriaStudentRight = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var CollegeCafeteriaStudentFarRight = /** @type {never} */ (null);
 
 /**
  * Checks, if the query matches the current state of Sidney
@@ -54,7 +56,7 @@ async function CollegeCafeteriaLoad() {
 			InventoryWear(CollegeCafeteriaSidney, "Pussy1", "Pussy", "#505050");
 			InventoryWear(CollegeCafeteriaSidney, "Eyes10", "Eyes", "#FF0000");
 			InventoryWear(CollegeCafeteriaSidney, "Eyes10", "Eyes2", "#FF0000");
-			InventoryWear(CollegeCafeteriaSidney, "Mouth", "Mouth", "Default");
+			InventoryWear(CollegeCafeteriaSidney, "Regular", "Mouth", "Default");
 			InventoryWear(CollegeCafeteriaSidney, "H0960", "Height", "Default");
 			InventoryWear(CollegeCafeteriaSidney, "XLarge", "BodyUpper", "White");
 			InventoryWear(CollegeCafeteriaSidney, "XLarge", "BodyLower", "White");
@@ -75,14 +77,6 @@ async function CollegeCafeteriaLoad() {
 		CollegeEntranceWearStudentClothes(CollegeCafeteriaSidney);
 		CharacterRefresh(CollegeCafeteriaSidney);
 
-		// Generates two extra girls in the cafeteria line
-		CollegeCafeteriaStudentRight = CharacterLoadNPC("NPC_CollegeCafeteria_Right");
-		CollegeCafeteriaStudentRight.AllowItem = false;
-		CollegeEntranceWearStudentClothes(CollegeCafeteriaStudentRight);
-		CollegeCafeteriaStudentFarRight = CharacterLoadNPC("NPC_CollegeCafeteria_FarRight");
-		CollegeCafeteriaStudentFarRight.AllowItem = false;
-		CollegeEntranceWearStudentClothes(CollegeCafeteriaStudentFarRight);
-
 		// Sets the starting love level
 		if (CollegeCafeteriaSidneyStatus == "Lover") CollegeCafeteriaSidneyLove = 5;
 		if (CollegeCafeteriaSidneyStatus == "ExLover") CollegeCafeteriaSidneyLove = -2;
@@ -91,6 +85,18 @@ async function CollegeCafeteriaLoad() {
 		if (CollegeCafeteriaSidneyStatus == "Owner") CollegeCafeteriaSidneyLove = 3;
 		if (CollegeCafeteriaSidneyStatus == "ExOwner") CollegeCafeteriaSidneyLove = -2;
 
+	}
+
+	// Generates two extra girls in the cafeteria line
+	if (CollegeCafeteriaStudentRight == null) {
+		CollegeCafeteriaStudentRight = CharacterLoadNPC("NPC_CollegeCafeteria_Right");
+		CollegeCafeteriaStudentRight.AllowItem = false;
+		CollegeEntranceWearStudentClothes(CollegeCafeteriaStudentRight);
+	}
+	if (CollegeCafeteriaStudentFarRight == null) {
+		CollegeCafeteriaStudentFarRight = CharacterLoadNPC("NPC_CollegeCafeteria_FarRight");
+		CollegeCafeteriaStudentFarRight.AllowItem = false;
+		CollegeEntranceWearStudentClothes(CollegeCafeteriaStudentFarRight);
 	}
 
 }
@@ -141,9 +147,9 @@ function CollegeCafeteriaFightStart() {
 
 /**
  * Resolves the fight between the player and Sidney
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function CollegeCafeteriaFightEnd() {
+async function CollegeCafeteriaFightEnd() {
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(CollegeCafeteriaSidney));
 	CollegeCafeteriaSidney.Stage = (KidnapVictory) ? "300" : "400";
 	CharacterRelease(Player);
@@ -152,10 +158,9 @@ function CollegeCafeteriaFightEnd() {
 	InventoryWear(Player, "CollegeSkirt", "ClothLower", "Default");
 	InventoryWear(CollegeCafeteriaSidney, "CollegeOutfit1", "Cloth", "Default");
 	InventoryWear(CollegeCafeteriaSidney, "CollegeSkirt", "ClothLower", "Default");
-	CommonSetScreen("Room", "CollegeCafeteria").then(() => {
-		CharacterSetCurrent(CollegeCafeteriaSidney);
-		CollegeCafeteriaSidney.CurrentDialog = DialogFind(CollegeCafeteriaSidney, (KidnapVictory) ? "FightVictory" : "FightDefeat");
-	});
+	await CommonSetScreen("Room", "CollegeCafeteria");
+	CharacterSetCurrent(CollegeCafeteriaSidney);
+	CollegeCafeteriaSidney.CurrentDialog = DialogFind(CollegeCafeteriaSidney, (KidnapVictory) ? "FightVictory" : "FightDefeat");
 }
 
 /**
@@ -163,11 +168,10 @@ function CollegeCafeteriaFightEnd() {
  * @returns {void} - Nothing
  */
 function CollegeCafeteriaInviteToPrivateRoom() {
-
 	// Adds the dunce hat and removes it from Sidney before adding her to the player's room
 	InventoryAdd(Player, "CollegeDunce", "Hat");
 	InventoryRemove(CollegeCafeteriaSidney, "Hat");
-	const C = PrivateAddCharacter(CollegeCafeteriaSidney, null, true);
+	const C = PrivateAddCharacter(CollegeCafeteriaSidney, undefined, true);
 	NPCTraitSet(C, "Dominant", 30);
 	NPCTraitSet(C, "Violent", 60);
 	NPCTraitSet(C, "Dumb", 40);
@@ -192,8 +196,6 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();
-	CharacterDelete(CollegeCafeteriaSidney);
-	CollegeCafeteriaSidney = null;
 
 	// Generates a new random character at Sidney's spot
 	CharacterAppearanceFullRandom(CollegeCafeteriaSidney);

@@ -3976,12 +3976,10 @@ function KDAddAppearance(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMe
 
 	// Add the new item to the character appearance
 	if (ItemAsset != null) {
-		/** @type {Item} */
-		const NA = {
-			Asset: ItemAsset,
-			Difficulty: parseInt((ItemAsset.Difficulty == null) ? 0 : ItemAsset.Difficulty) + parseInt(DifficultyFactor),
-			Color: data.color,
-		};
+		const NA = AppearanceItem.fromAsset(ItemAsset, {
+			color: data.color,
+			difficulty: (ItemAsset.Difficulty ?? 0) + parseInt(DifficultyFactor),
+		});
 		C.Appearance.push(NA);
 		return NA;
 	}
@@ -4016,7 +4014,7 @@ function KDAddModel(C, Group, ItemModel, NewColor, filters, item) {
 		const NA = {
 			Model: CommonCloneDeep(ItemModel),
 			Difficulty: 0,//parseInt((ItemModel.Difficulty == null) ? 0 : ItemModel.Difficulty) + parseInt(DifficultyFactor),
-			Color: data.color,
+			Color: typeof data.color === "string" ? [data.color] : data.color,
 			Property: undefined,
 			Filters: filters,
 		};

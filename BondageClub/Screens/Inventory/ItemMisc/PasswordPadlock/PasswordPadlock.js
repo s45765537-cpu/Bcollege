@@ -1,60 +1,72 @@
-// @ts-strict-ignore
 "use strict";
 
 const InventoryItemMiscPasswordPadlockPasswordRegex = /^[A-Z]+$/;
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
 function InventoryItemMiscPasswordPadlockLoadHook(data, originalFunction) {
-	if (!DialogFocusSourceItem) return;
 	originalFunction();
-	const Property = DialogFocusSourceItem.Property;
+
 	const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	if (!C || !C.FocusGroup || !item) {
+		return;
+	}
 
 	// Only create the inputs if the zone isn't blocked
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) return;
 
-	if (InventoryItemMiscPasswordPadlockIsSet()) {
+	if (InventoryItemMiscPasswordPadlockIsSet(item)) {
 		// Normal lock interface
 		ElementCreateInput("Password", "text", "", "8");
 		// the current code is shown for owners, lovers and the member whose number is on the padlock
 		if (
-			Player.MemberNumber === Property.LockMemberNumber ||
+			Player.MemberNumber === item.Property?.LockMemberNumber ||
 			C.IsOwnedByPlayer() ||
 			C.IsLoverOfPlayer()
 		) {
-			document.getElementById("Password").setAttribute("placeholder", Property.Password);
+			document.getElementById("Password")?.setAttribute("placeholder", item.Property?.Password);
 		}
 	} else {
 		// Set a password and hint
 		ElementCreateInput("SetHint", "text", "", "140");
 		ElementCreateInput("SetPassword", "text", "", "8");
 		// the current code is shown for owners, lovers and the member whose number is on the padlock
-		document.getElementById("SetPassword").setAttribute("placeholder", Property.Password);
-		document.getElementById("SetHint").setAttribute("placeholder", Property.Hint);
+		document.getElementById("SetPassword")?.setAttribute("placeholder", item.Property?.Password);
+		document.getElementById("SetHint")?.setAttribute("placeholder", item.Property?.Hint);
 	}
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemMiscPasswordPadlockDrawHook(data, originalFunction) {
-	if (!DialogFocusItem || !DialogFocusSourceItem) return DialogLeaveFocusItem();
+	const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	if (!C || !C.FocusGroup || !item) {
+		return;
+	}
+
 	originalFunction();
 
-	const C = CharacterGetCurrent();
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
 		// If the zone is blocked, just display some text informing the player that they can't access the lock
 		DrawText(InterfaceTextGet("LockZoneBlocked"), 1500, 800, "white", "gray");
 	} else {
-		InventoryItemMiscPasswordPadlockDrawControls();
+		InventoryItemMiscPasswordPadlockDrawControls(C, item);
 	}
 }
 
-function InventoryItemMiscPasswordPadlockDrawControls() {
-	const Property = DialogFocusSourceItem.Property;
+/**
+ *
+ * @param {Character} C
+ * @param {Item} item
+ * @returns
+ */
+function InventoryItemMiscPasswordPadlockDrawControls(C, item) {
+	item.Property ??= {};
 
-	if (InventoryItemMiscPasswordPadlockIsSet()) {
+	if (InventoryItemMiscPasswordPadlockIsSet(item)) {
 		// Normal lock interface
-		if (Property && Property.Hint) {
-			DrawTextWrap("\"" + Property.Hint + "\"", 1000, 640, 1000, 120, "white", null, 2);
+		if (item.Property.Hint) {
+			DrawTextWrap("\"" + item.Property.Hint + "\"", 1000, 640, 1000, 120, "white", undefined, 2);
 		}
 		MainCanvas.textAlign = "right";
 		DrawText(AssetTextGet("PasswordPadlockOld"), 1350, 810, "white", "gray");
@@ -72,55 +84,59 @@ function InventoryItemMiscPasswordPadlockDrawControls() {
 		DrawButton(1360, 891, 250, 64, AssetTextGet("PasswordPadlockChangePassword"), "White", "");
 		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 963, "Red", "Black");
 
-		if (Property) {
-			DrawButton(1600, 820, 64, 64, "", "White", Property.RemoveOnUnlock ? "Icons/Checked.png" : "");
-			DrawText(AssetTextGet("PasswordPadlockRemoveOnUnlock"), 1400, 855, "White", "Gray");
-		}
+		DrawButton(1600, 820, 64, 64, "", "White", item.Property.RemoveOnUnlock ? "Icons/Checked.png" : "");
+		DrawText(AssetTextGet("PasswordPadlockRemoveOnUnlock"), 1400, 855, "White", "Gray");
 	}
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
 function InventoryItemMiscPasswordPadlockClickHook(data, originalFunction) {
 	originalFunction();
-	if (DialogFocusSourceItem == null) {
-		// TODO: Let the click handlers return a boolean flag indicating whether a button has been clicked or not.
-		// As a stop-gap measure simply check whether `DialogFocusSourceItem` has been de-initialized
+	const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	if (!C || !C.FocusGroup || !item) {
 		return;
 	}
 
-	const C = CharacterGetCurrent();
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) return;
-	InventoryItemMiscPasswordPadlockControlsClick();
+	InventoryItemMiscPasswordPadlockControlsClick(C, item);
 }
 
-function InventoryItemMiscPasswordPadlockControlsClick() {
-	if (!DialogFocusSourceItem) return;
+/**
+ *
+ * @param {Character} C
+ * @param {Item} item
+ * @returns
+ */
+function InventoryItemMiscPasswordPadlockControlsClick(C, item) {
+	item.Property ??= {};
 
-	if (InventoryItemMiscPasswordPadlockIsSet()) {
+	if (InventoryItemMiscPasswordPadlockIsSet(item)) {
 		if (MouseIn(1360, 871, 250, 64)) {
-			InventoryItemMiscPasswordPadlockHandleOpenClick();
+			InventoryItemMiscPasswordPadlockHandleOpenClick(C, item);
 		}
 	} else {
 		if (MouseIn(1600, 820, 250, 64)) {
-			DialogFocusSourceItem.Property.RemoveOnUnlock = !DialogFocusSourceItem.Property.RemoveOnUnlock;
+			item.Property.RemoveOnUnlock = !item.Property.RemoveOnUnlock;
 		} else if (MouseIn(1360, 891, 250, 64)) {
-			InventoryItemMiscPasswordPadlockHandleFirstSet();
+			InventoryItemMiscPasswordPadlockHandleFirstSet(C, item);
 			DialogLeaveFocusItem();
 		}
 	}
 }
 
-function InventoryItemMiscPasswordPadlockHandleOpenClick() {
-	const Property = DialogFocusSourceItem.Property;
-	const C = CharacterGetCurrent();
-
+/**
+ * @param {Character} C
+ * @param {Item} item
+ */
+function InventoryItemMiscPasswordPadlockHandleOpenClick(C, item) {
 	// Opens the padlock
-	if (ElementValue("Password").toUpperCase() === Property.Password) {
-		if (DialogFocusSourceItem.Property.RemoveOnUnlock) {
-			InventoryRemove(CurrentCharacter, C.FocusGroup.Name, true);
+	if (ElementValue("Password").toUpperCase() === item.Property?.Password) {
+		if (item.Property.RemoveOnUnlock) {
+			InventoryRemove(C, item.Asset.Group.Name, true);
 			ChatRoomCharacterUpdate(C);
 		}
-		CommonPadlockUnlock(C, DialogFocusSourceItem);
+		CommonPadlockUnlock(C, item);
 	}
 
 	// Send fail message if online
@@ -128,38 +144,38 @@ function InventoryItemMiscPasswordPadlockHandleOpenClick() {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.destinationCharacter(C)
-			.focusGroup(C.FocusGroup.Name)
+			.focusGroup(item.Asset.Group.Name)
 			.text("Password", ElementValue("Password"))
 			.build();
 		ChatRoomPublishCustomAction("PasswordFail", true, Dictionary);
 	} else { DialogExtendedMessage = "PasswordPadlockError"; }
 }
 
-function InventoryItemMiscPasswordPadlockHandleFirstSet() {
-	const Property = DialogFocusSourceItem.Property;
-	const C = CharacterGetCurrent();
+/**
+ *
+ * @param {Character} C
+ * @param {Item} item
+ */
+function InventoryItemMiscPasswordPadlockHandleFirstSet(C, item) {
+
+	item.Property ??= {};
 
 	const pw = ElementValue("SetPassword").toUpperCase();
 	const hint = ElementValue("SetHint");
 	// We only accept code made of letters
 	if (pw === "" || pw.match(InventoryItemMiscPasswordPadlockPasswordRegex)) {
-		Property.LockSet = true;
-		if (pw !== "") Property.Password = pw;
-		if (hint !== "") Property.Hint = hint;
-
-		for (let A = 0; A < C.Appearance.length; A++) {
-			if (C.Appearance[A].Asset.Group.Name == C.FocusGroup.Name) {
-				C.Appearance[A] = DialogFocusSourceItem;
-				break;
-			}
-		}
+		item.Property.LockSet = true;
+		if (pw !== "") item.Property.Password = pw;
+		if (hint !== "") item.Property.Hint = hint;
 
 		ChatRoomCharacterItemUpdate(C);
 		CharacterRefresh(C);
 
-		InventoryItemMiscPasswordPadlockPublishPasswordChange(C);
+		InventoryItemMiscPasswordPadlockPublishPasswordChange(C, item);
 
-	} else { DialogExtendedMessage = "PasswordPadlockErrorInput"; }
+	} else {
+		DialogExtendedMessage = "PasswordPadlockErrorInput";
+	}
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */
@@ -170,23 +186,26 @@ function InventoryItemMiscPasswordPadlockExitHook(data, originalFunction) {
 	ElementRemove("SetHint");
 }
 
-function InventoryItemMiscPasswordPadlockIsSet() {
-	if (!DialogFocusSourceItem || !DialogFocusSourceItem.Property) {
-		return false;
-	} else if (DialogFocusSourceItem.Property.LockSet) {
-		return true;
-	} else {
-		const { LockMemberNumber } = DialogFocusSourceItem.Property;
-		return LockMemberNumber != null && LockMemberNumber !== Player.MemberNumber;
-	}
+/**
+ *
+ * @param {Item} item
+ * @returns {boolean}
+ */
+function InventoryItemMiscPasswordPadlockIsSet(item) {
+	return item.Property?.LockSet || typeof item.Property?.LockMemberNumber === "number" && item.Property?.LockMemberNumber !== Player.MemberNumber;
 }
 
-function InventoryItemMiscPasswordPadlockPublishPasswordChange(C) {
+/**
+ *
+ * @param {Character} C
+ * @param {Item} item
+ */
+function InventoryItemMiscPasswordPadlockPublishPasswordChange(C, item) {
 	if (CurrentScreen === "ChatRoom") {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.destinationCharacter(C)
-			.focusGroup(C.FocusGroup.Name)
+			.focusGroup(item.Asset.Group.Name)
 			.build();
 		ChatRoomPublishCustomAction("PasswordChangeSuccess", true, Dictionary);
 	} else {

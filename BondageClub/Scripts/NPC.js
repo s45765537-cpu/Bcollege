@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 /**
  * List for all possible pairs of NPC traits. A pair defines opposites.
@@ -22,7 +21,9 @@ var NPCTrait = [
  * @returns {void} - Nothing
  */
 function NPCTraitSet(C, TraitName, TraitValue) {
-	var ReverseName = NPCTraitReverse(TraitName);
+	if (!C.IsNpc()) return;
+	const ReverseName = NPCTraitReverse(TraitName);
+	C.Trait ??= [];
 	for (let T = 0; T < C.Trait.length; T++)
 		if ((C.Trait[T].Name == TraitName) || (C.Trait[T].Name == ReverseName))
 			C.Trait.splice(T, 1);
@@ -51,28 +52,28 @@ function NPCTraitGenerate(C) {
 /**
  * Get the opposite trait of a specified trait.
  * @param {NPCTraitType} Trait - Name of the trait to find the opposite of.
- * @returns {NPCTraitType | null} - Name of the opposite trait.
+ * @returns {NPCTraitType} - Name of the opposite trait.
  */
 function NPCTraitReverse(Trait) {
-	for (let T = 0; T < NPCTrait.length; T++)
-		if (NPCTrait[T][1] != null) {
-			if (NPCTrait[T][0] == Trait) return NPCTrait[T][1];
-			if (NPCTrait[T][1] == Trait) return NPCTrait[T][0];
-		}
-	return null;
+	for (const [positiveTrait, negativeTrait] of NPCTrait) {
+		if (Trait === positiveTrait) return negativeTrait;
+		if (Trait === negativeTrait) return positiveTrait;
+	}
+	// NPCTrait covers all traits, so it's safe to return whatever
+	return /** @type {never} */ (null);
 }
 
 
 /**
  * Returns the weight value of the specified option (The higher the value, the higher the chances the option will be picked, an opposite trait will always result as an option that's not picked)
- * @param {string} Dialog - Specified dialog line with the affecting traits.
+ * @param {string} TraitSpec - Specified dialog line with the affecting traits.
  * @param {readonly NPCTrait[]} Trait - List of traits of the NPC.
  * @returns {number} - Weight of the dialog option
  */
-function NPCTraitGetOptionValue(Dialog, Trait) {
-	if ((Dialog != null) && (Trait != null)) {
+function NPCTraitGetOptionValue(TraitSpec, Trait) {
+	if ((TraitSpec != null) && (Trait != null)) {
 		var Value = 0;
-		var DialogTrait = Dialog.split("|");
+		var DialogTrait = TraitSpec.split("|");
 		for (let T = 0; T < DialogTrait.length; T++) {
 			const traitName = /** @type {NPCTraitType} */ (DialogTrait[T].trim());
 			for (let N = 0; N < Trait.length; N++)
@@ -94,15 +95,17 @@ function NPCTraitGetOptionValue(Dialog, Trait) {
  * @returns {void} - Nothing.
  */
 function NPCTraitKeepBestOption(C, Group) {
+	if (!C.IsNpc()) return;
 
 	// For each dialog option of that group
 	let Best = -1;
 	let Pos = -1;
-	for (let D = 0; D < C.Dialog.length; D++)
-		if (C.Dialog[D].Group === Group) {
-			var Value = NPCTraitGetOptionValue(C.Dialog[D].Trait, C.Trait);
+	for (const [D, dialog] of C.Dialog.entries()) {
+		if (dialog.Group === Group) {
+			const Value = NPCTraitGetOptionValue(dialog.Trait ?? "", C.Trait ?? []);
 			if (Value > Best) { Best = Value; Pos = D; }
 		}
+	}
 
 	// If we found the best possibility, we remove all the others
 	if (Pos >= 0)
@@ -117,22 +120,22 @@ function NPCTraitKeepBestOption(C, Group) {
 
 /**
  * Picks the dialog group option that fits mosts with the NPC traits
- * @param {Character} C - NPC to get the dialog options of
+ * @param {NPCCharacter} C - NPC to get the dialog options of
  * @returns {void} - Nothing.
  */
 function NPCTraitDialog(C) {
 
 	// For each dialog option
-	for (let D = 0; D < C.Dialog.length; D++) {
-		if (C.Dialog[D].Group !== null) NPCTraitKeepBestOption(C, C.Dialog[D].Group);
-		if (C.Dialog[D].Function !== null) C.Dialog[D].Function = C.Dialog[D].Function.replace("MainHall", "");
+	for (const dialog of C.Dialog) {
+		const { Group, Function } = dialog;
+		if (Group !== null) NPCTraitKeepBestOption(C, Group);
+		if (Function !== null) dialog.Function = Function.replace("MainHall", "");
 	}
-
 }
 
 /**
  * Sets the arousal settings for a NPC if it's not already done
- * @param {Character} C - NPC to set the arousal stats of
+ * @param {NPCCharacter} C - NPC to set the arousal stats of
  * @returns {void} - Nothing.
  */
 function NPCSetupArousal(C) {
@@ -152,7 +155,7 @@ function NPCSetupArousal(C) {
 		if (Horny + 125 < Math.random() * 250) LoveSelf -= 1;
 
 		// Dominant NPC usually prefer to do activities on others
-		let LoveOther = LoveSelf;
+		let LoveOther = /** @type {ArousalFactor} */(LoveSelf);
 		if (Dominant + 125 > Math.random() * 250) LoveSelf -= 1;
 		if (Dominant + 125 > Math.random() * 250) LoveOther += 1;
 		if (Dominant + 125 < Math.random() * 250) LoveSelf += 1;
@@ -176,6 +179,7 @@ function NPCSetupArousal(C) {
 	for (let group of zones) {
 		// Gets the current factors for that character
 		let Zone = PreferenceGetArousalZone(C, group.Name);
+		if (!Zone) continue;
 
 		// Orgasm zone is always maxed, if not it's randomized
 		if (Zone.Orgasm || Zone.Name == Orgasm) {
@@ -200,15 +204,12 @@ function NPCSetupArousal(C) {
  * @returns {number} - Value of the trait, returns 0 if it was never set.
  */
 function NPCTraitGet(C, TraitType) {
-
+	if (!C.IsNpc()) return 0;
 	// For each NPC trait
-	var Reverse = NPCTraitReverse(TraitType);
-	for (let T = 0; T < C.Trait.length; T++) {
-		if (TraitType == C.Trait[T].Name) return C.Trait[T].Value;
-		if (Reverse == C.Trait[T].Name) return C.Trait[T].Value * -1;
-	}
-	return 0;
-
+	const Reverse = NPCTraitReverse(TraitType);
+	const found = (C.Trait ?? []).find(trait => trait.Name === TraitType || trait.Name === Reverse);
+	if (!found) return 0;
+	return found.Name === Reverse ? -found.Value : found.Value;
 }
 
 /**
@@ -219,6 +220,7 @@ function NPCTraitGet(C, TraitType) {
  * @returns {void} - Nothing
  */
 function NPCEventAdd(C, EventName, EventValue) {
+	if (!C.IsNpc()) return;
 	if (C.Event == null) C.Event = [];
 	for (let E = 0; E < C.Event.length; E++)
 		if (C.Event[E].Name == EventName) {
@@ -240,6 +242,7 @@ function NPCEventAdd(C, EventName, EventValue) {
  * @returns {void} - Nothing
  */
 function NPCEventDelete(C, EventName) {
+	if (!C.IsNpc()) return;
 	if (C.Event == null) C.Event = [];
 	for (let E = C.Event.length - 1; E >= 0; E--)
 		if (C.Event[E].Name == EventName)
@@ -253,6 +256,7 @@ function NPCEventDelete(C, EventName) {
  * @returns {number} - Value of the event as the time in ms, returns 0 if it was never logged
  */
 function NPCEventGet(C, EventName) {
+	if (!C.IsNpc()) return 0;
 	if (C.Event != null)
 		for (let E = 0; E < C.Event.length; E++)
 			if (C.Event[E].Name == EventName)
@@ -291,6 +295,7 @@ function NPCLongLoverEventDelay(C) {
  * @returns {void} - Nothing
  */
 function NPCLoveChange(C, LoveFactor) {
+	if (!C.IsNpc()) return;
 	LoveFactor = parseInt(LoveFactor);
 	if (C.Love == null) C.Love = LoveFactor;
 	else C.Love = C.Love + LoveFactor;
@@ -301,7 +306,7 @@ function NPCLoveChange(C, LoveFactor) {
 
 /**
  * Raises the love factor progressively with interaction time
- * @param {Character} C
+ * @param {NPCCharacter} C
  * @returns {void} - Nothing
  */
 function NPCInteraction(C) {

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var PlatformIntroDrawAsset = -1;
 
@@ -27,7 +26,7 @@ function PlatformIntroRun() {
 	for (let Char of PlatformTemplate) {
 		for (let Anim of Char.Animation) {
 			LastAnimCycle = -1;
-			for (let C of Anim.Cycle) {
+			for (let C of Anim.Cycle ?? []) {
 				if (C <= LastAnimCycle) break;
 				LastAnimCycle = C;
 				Total++;

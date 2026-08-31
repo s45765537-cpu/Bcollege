@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ChatColorThemeType[]} */
@@ -117,7 +116,7 @@ function PreferenceSubscreenChatLoad() {
 		]
 	});
 
-	ElementWrap(PreferenceIDs.subscreen).append(grid);
+	ElementWrap(PreferenceIDs.subscreen)?.append(grid);
 }
 
 /**
@@ -143,6 +142,7 @@ function PreferenceSubscreenChatExit() {
 	return true;
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenChatResize(onLoad) {
 	const { x, y } = PreferenceSubscreenMainGrid;
 	ElementSetPosition(PreferenceSubscreenChatIDs.grid, x, y + 10);

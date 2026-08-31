@@ -125,10 +125,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		// Check if all the expected properties are present; extra properties are ignored
 		const currentModuleValues = ModularItemParseCurrent(Data, Item.Property.TypeRecord);
 		const newProps = ModularItemMergeModuleValues(Data, currentModuleValues);
-		delete newProps.OverridePriority;
-		delete newProps.DrawingTop;
-		delete newProps.DrawingLeft;
-		delete newProps.Opacity;
+		ExtendedItemInitPropertyIgnore.forEach(propName => delete newProps[propName]);
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;
@@ -170,7 +167,10 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
  * @param {ModularItemData} data
  */
 function ModularItemLoad(data) {
-	DialogExtendedMessage = AssetTextGet(`${data.dialogPrefix.header}${data.currentModule}`);
+	const header = typeof data.dialogPrefix.header === "function" ?
+		data.dialogPrefix.header(data, CurrentCharacter, DialogFocusItem)
+		: data.dialogPrefix.header;
+	DialogExtendedMessage = AssetTextGet(`${header}${data.currentModule}`);
 }
 
 /**
@@ -559,7 +559,10 @@ function ModularItemChangePage(moduleName, delta, data, { pageCount }) {
  */
 function ModularItemModuleTransition(newModule, data) {
 	data.currentModule = newModule;
-	DialogExtendedMessage = AssetTextGet(data.dialogPrefix.header + newModule);
+	const header = typeof data.dialogPrefix.header === "function" ?
+		data.dialogPrefix.header(data, CurrentCharacter, DialogFocusItem)
+		: data.dialogPrefix.header;
+	DialogExtendedMessage = AssetTextGet(header + newModule);
 }
 
 /**
@@ -575,7 +578,7 @@ function ModularItemParseCurrent({ asset, modules }, typeRecord) {
 	return modules.map(module => {
 		const index = typeRecord[module.Key];
 		if (module.Options[index] === undefined) {
-			console.warn(`${asset.Group.Name}:${asset.Name}: invalid key for module "${module.Key}": ${index}`);
+			console.error(`${asset.Group.Name}:${asset.Name}: invalid key for module "${module.Key}": ${index}`);
 			return 0;
 		} else {
 			return index;
@@ -631,7 +634,14 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	const layerNames = new Set(Asset.Layer.map(l => l.Name ?? ""));
 	Property = Property || {};
 	mergedProperty.Difficulty += (Property.Difficulty || 0);
-	if (typeof Property.CustomBlindBackground === "string") mergedProperty.CustomBlindBackground = Property.CustomBlindBackground;
+	if (Property.CustomBlindBackground === null) {
+		mergedProperty.CustomBlindBackground = null;
+	} else if (typeof Property.CustomBlindBackground === "string" || Property.CustomBlindBackground === undefined) {
+		if (mergedProperty.CustomBlindBackground !== null) {
+			// We only allow propagating a blind background if another Property block hasn't disabled it
+			mergedProperty.CustomBlindBackground ??= Property.CustomBlindBackground;
+		}
+	}
 	if (Property.Block) CommonArrayConcatDedupe(mergedProperty.Block, Property.Block);
 	if (Property.Effect) CommonArrayConcatDedupe(mergedProperty.Effect, Property.Effect);
 	if (Property.Hide) CommonArrayConcatDedupe(mergedProperty.Hide, Property.Hide);
@@ -645,7 +655,7 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 		let valid = true;
 		for (const layerName of Object.keys(Property.OverridePriority)) {
 			if (!layerNames.has(layerName)) {
-				console.warn(`invalid OverridePriority property: unknown layer name ${layerName}`);
+				console.error(`invalid OverridePriority property: unknown layer name ${layerName}`);
 				valid = false;
 				break;
 			}

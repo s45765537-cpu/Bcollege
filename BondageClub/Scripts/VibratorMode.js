@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -188,21 +187,22 @@ function VibratorModeRegister(asset, config, parentOption=null) {
  */
 function VibratorModeSetOption(data, C, item, newOption, previousOption, push=false) {
 	ExtendedItemSetOption(data, C, item, newOption, previousOption, false);
+	item.Property ??= {};
 	switch (newOption.Name) {
 		case "Random":
-			item.Property.Intensity = CommonRandomItemFromList(null, [-1, 0, 1, 2, 3]);
+			item.Property.Intensity = CommonRandomItemFromList(undefined, [-1, 0, 1, 2, 3]);
 			item.Property.Effect = CommonArrayConcatDedupe(
-				item.Property.Effect,
-				item.Property.Intensity >= 0 ? ["Egged", "Vibrating"] : ["Egged"],
+				item.Property.Effect ?? [],
+				(item.Property.Intensity ?? 0) >= 0 ? ["Egged", "Vibrating"] : ["Egged"],
 			);
 			break;
 		case "Tease":
 		case "Deny":
-			item.Property.Intensity = CommonRandomItemFromList(null, [0, 1, 2, 3]);
-			item.Property.Effect = CommonArrayConcatDedupe(item.Property.Effect, ["Vibrating"]);
+			item.Property.Intensity = CommonRandomItemFromList(undefined, [0, 1, 2, 3]);
+			item.Property.Effect = CommonArrayConcatDedupe(item.Property.Effect ?? [], ["Vibrating"]);
 			break;
 		case "Edge":
-			item.Property.Intensity = CommonRandomItemFromList(null, [0, 1]);
+			item.Property.Intensity = CommonRandomItemFromList(undefined, [0, 1]);
 			break;
 	}
 	CharacterRefresh(C, push, false);
@@ -271,7 +271,8 @@ function VibratorModeCreateData(
 		asset,
 		parentOption,
 		name,
-		options: null, // Initialized further down below
+		// @ts-ignore-error Strict-TS: Initialized further down below
+		options: /** @type {VibratingItemOption[]} */ (null),
 		modeSet: modeSet,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,
@@ -298,6 +299,7 @@ function VibratorModeCreateData(
 
 /** @type {ExtendedItemHeaderCallback<VibratingItemData>} */
 function VibratorModeDialogPrefix(data, C, item) {
+	// @ts-ignore Strict-TS
 	return InterfaceTextGet(`Intensity${item.Property.Intensity}`);
 }
 
@@ -319,6 +321,7 @@ function VibratorModeGetOptions(data, modeSet) {
 				...CommonOmit(protoOption, ["ArchetypeConfig"]),
 				OptionType: "VibratingItemOption",
 				ParentData: data,
+				Advanced: VibratorModesAdvanced.includes(protoOption.Name),
 				Property: {
 					...CommonCloneDeep(protoOption.Property),
 					TypeRecord: { [data.name]: i },
@@ -337,8 +340,7 @@ function VibratorModeGetOptions(data, modeSet) {
  * @param {VibratingItemOption} previousOption - The previously applied option
  * @param {boolean} permitExisting - Determines whether the validation should allow the new option and previous option
  * to be identical. Defaults to `false`.
- * @returns {string|undefined} - undefined or an empty string if the validation passes. Otherwise, returns a string
- * message informing the player of the requirements that are not met.
+ * @returns {string | null} - Returns a string message informing the player of the requirements that are not met, null otherwise.
  */
 function VibratorModeValidate(data, C, item, newOption, previousOption, permitExisting=false) {
 	if (
@@ -443,10 +445,11 @@ function VibratorModeScriptDraw(data, drawData) {
  * @returns {void} - Nothing
  */
 function VibratorModeUpdateStateBased(data, C, item, persistentData, transitionsFromDefault) {
+	item.Property ??= {};
 	var Arousal = C.ArousalSettings.Progress;
-	var TimeSinceLastChange = CommonTime() - persistentData.LastChange;
+	var TimeSinceLastChange = CommonTime() - (persistentData.LastChange ?? 0);
 	var OldState = item.Property.State || VibratorModeState.DEFAULT;
-	var OldIntensity = item.Property.Intensity;
+	var OldIntensity = /** @type {VibratorIntensity} */ (item.Property.Intensity);
 
 	const NewStateAndIntensity = VibratorModeStateUpdate[OldState](
 		C,
@@ -493,7 +496,7 @@ const VibratorModeUpdate = {
 	 * @returns {void} - Nothing
 	 */
 	Random: function (data, C, item, persistentData) {
-		const oldIntensity = item.Property.Intensity;
+		const oldIntensity = item.Property?.Intensity ?? -1;
 		/** @type {VibratorIntensity} */
 		const newIntensity = CommonRandomItemFromList(oldIntensity, [-1, 0, 1, 2, 3]);
 		/** @type {EffectName[]} */
@@ -524,7 +527,7 @@ const VibratorModeUpdate = {
 	 * @returns {void} - Nothing
 	 */
 	Escalate: function (data, C, item, persistentData) {
-		const oldIntensity = item.Property.Intensity;
+		const oldIntensity = item.Property?.Intensity ?? -1;
 		const newIntensity = /** @type {VibratorIntensity} */((oldIntensity + 1) % 4);
 		const option = data.options.find(o => o.Name === persistentData.Mode) || VibratorModeOff;
 		ExtendedItemSetProperty(
@@ -578,8 +581,8 @@ const VibratorModeUpdate = {
 	 * @returns {void} - Nothing
 	 */
 	Edge: function (data, C, item, persistentData) {
-		const oldIntensity = item.Property.Intensity;
-		const newIntensity = /** @type {VibratorIntensity} */(Math.min(item.Property.Intensity + 1, 3));
+		const oldIntensity = item.Property?.Intensity ?? -1;
+		const newIntensity = /** @type {VibratorIntensity} */(Math.min(oldIntensity + 1, 3));
 		const option = data.options.find(o => o.Name === persistentData.Mode) || VibratorModeOff;
 		ExtendedItemSetProperty(
 			C, item, option.Property,
@@ -728,7 +731,7 @@ function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
 	// If the intensity hasn't changed, don't publish a chat message
 	if (oldIntensity === newIntensity) return;
 
-	const option = data.options.find(o => o.Name === item.Property.Mode) || data.options[0];
+	const option = data.options.find(o => o.Name === item.Property?.Mode) || data.options[0];
 	const optionIndex = data.options.indexOf(option);
 	const chatData = {
 		C,

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var TightenLoosenItemMaximumDifficulty = 0;
 var TightenLoosenItemMinimumDifficulty = -10;
@@ -11,40 +10,43 @@ const TightenLoosenScreenBlacklist = new Set([
 
 /**
  * Loads the item properties
+ * @param {Item} item
  * @returns {void} Nothing
  */
-function TightenLoosenItemLoad() {
-	DialogTightenLoosenItem.Difficulty ??= DialogTightenLoosenItem.Asset.Difficulty;
-	TightenLoosenItemMaximumDifficulty = (
+function TightenLoosenItemLoad(item) {
+	item.Difficulty ??= item.Asset.Difficulty;
+	TightenLoosenItemMaximumDifficulty =
 		SkillGetLevel(Player, "Bondage")
 		+ 4
-		+ DialogTightenLoosenItem.Asset.Difficulty
-		+ (DialogTightenLoosenItem?.Craft?.Effects.Secure ?? 0) * 4
-	);
+		+ item.Asset.Difficulty
+		+ (item.Craft?.Effects.Secure ?? 0) * 4
+	;
 }
 
 /**
  * Draws the extended tighten / loosen menu
+ * @param {Item} item
  * @returns {void} Nothing
  */
-function TightenLoosenItemDraw() {
+function TightenLoosenItemDraw(item) {
 
 	// Draws the title, tightness and item image
+	const difficulty = item.Difficulty ?? 0;
 	DrawText(InterfaceTextGet("TightenLoosenTitle"), 1500, 70, "White", "Silver");
-	DrawItemPreview(DialogTightenLoosenItem, Player, 1200, 200);
-	DrawText(InterfaceTextGet("Tightness") + " " + DialogTightenLoosenItem.Difficulty.toString(), 1660, 240, "White", "Silver");
+	DrawItemPreview(item, Player, 1200, 200);
+	DrawText(InterfaceTextGet("Tightness") + " " + difficulty.toString(), 1660, 240, "White", "Silver");
 	DrawText(InterfaceTextGet("MaximumTightness") + " " + TightenLoosenItemMaximumDifficulty.toString(), 1660, 340, "White", "Silver");
 	DrawText(InterfaceTextGet("MinimumTightness") + " " + TightenLoosenItemMinimumDifficulty.toString(), 1660, 440, "White", "Silver");
 
 	// Draws the buttons
 	DrawText(InterfaceTextGet("Loosen"), 1250, 600, "White", "Silver");
 	DrawText(InterfaceTextGet("Tighten"), 1750, 600, "White", "Silver");
-	DrawButton(1040, 700, 180, 60, InterfaceTextGet("LoosenLot"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2));
-	DrawButton(1220, 700, 60, 60, null, "White", "Icons/Small/Prev.png", null, true);
-	DrawButton(1280, 700, 180, 60, InterfaceTextGet("LoosenLittle"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty));
-	DrawButton(1540, 700, 180, 60, InterfaceTextGet("TightenLittle"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty));
-	DrawButton(1720, 700, 60, 60, null, "White", "Icons/Small/Next.png", null, true);
-	DrawButton(1780, 700, 180, 60, InterfaceTextGet("TightenLot"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2));
+	DrawButton(1040, 700, 180, 60, InterfaceTextGet("LoosenLot"), (difficulty <= TightenLoosenItemMinimumDifficulty + 2) ? "Gray": "White", null, null, (difficulty <= TightenLoosenItemMinimumDifficulty + 2));
+	DrawButton(1220, 700, 60, 60, "", "White", "Icons/Prev.png", null, true);
+	DrawButton(1280, 700, 180, 60, InterfaceTextGet("LoosenLittle"), (difficulty <= TightenLoosenItemMinimumDifficulty) ? "Gray": "White", null, null, (difficulty <= TightenLoosenItemMinimumDifficulty));
+	DrawButton(1540, 700, 180, 60, InterfaceTextGet("TightenLittle"), (difficulty >= TightenLoosenItemMaximumDifficulty) ? "Gray": "White", null, null, (difficulty >= TightenLoosenItemMaximumDifficulty));
+	DrawButton(1720, 700, 60, 60, "", "White", "Icons/Next.png", null, true);
+	DrawButton(1780, 700, 180, 60, InterfaceTextGet("TightenLot"), (difficulty >= TightenLoosenItemMaximumDifficulty - 2) ? "Gray": "White", null, null, (difficulty >= TightenLoosenItemMaximumDifficulty - 2));
 	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 }
 
@@ -61,16 +63,24 @@ function TightenLoosenFacialExpression(C, Blush, Eyes, Eyebrows) {
 		return;
 	}
 
-	if ((Blush != "") && ((InventoryGet(C, "Blush") == null) || (InventoryGet(C, "Blush").Property == null) || (InventoryGet(C, "Blush").Property.Expression == null))) CharacterSetFacialExpression(C, "Blush", Blush, 7);
-	if ((Eyes != "") && ((InventoryGet(C, "Eyes") == null) || (InventoryGet(C, "Eyes").Property == null) || (InventoryGet(C, "Eyes").Property.Expression == null))) CharacterSetFacialExpression(C, "Eyes", Eyes, 3);
-	if ((Eyebrows != "") && ((InventoryGet(C, "Eyebrows") == null) || (InventoryGet(C, "Eyebrows").Property == null) || (InventoryGet(C, "Eyebrows").Property.Expression == null))) CharacterSetFacialExpression(C, "Eyebrows", Eyebrows, 5);
+	if (Blush !== "" && !InventoryGet(C, "Blush")?.Property?.Expression) {
+		CharacterSetFacialExpression(C, "Blush", Blush, 7);
+	}
+	if (Eyes !== "" && !InventoryGet(C, "Eyes")?.Property?.Expression) {
+		CharacterSetFacialExpression(C, "Eyes", Eyes, 3);
+	}
+	if (Eyebrows !== "" && !InventoryGet(C, "Eyebrows")?.Property?.Expression) {
+		CharacterSetFacialExpression(C, "Eyebrows", Eyebrows, 5);
+	}
 }
 
 /**
  * Handles clicks on the tighten / loosen menu
+ * @param {Character} C
+ * @param {Item} item
  * @returns {void} Nothing
  */
-function TightenLoosenItemClick() {
+function TightenLoosenItemClick(C, item) {
 
 	// Exit button
 	if (MouseIn(1885, 25, 90, 90)) {
@@ -81,38 +91,37 @@ function TightenLoosenItemClick() {
 	}
 
 	// Gets the current character and action to do
-	const C = CharacterGetCurrent();
 	let Action = "";
-	let Item = DialogTightenLoosenItem;
+	item.Difficulty ??= 0;
 
 	// Loosen a lot
-	if (MouseIn(1040, 700, 200, 60) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
-		Item.Difficulty = Item.Difficulty - 4;
-		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
+	if (MouseIn(1040, 700, 200, 60) && (item.Difficulty > TightenLoosenItemMinimumDifficulty + 2)) {
+		item.Difficulty = item.Difficulty - 4;
+		if (item.Difficulty < TightenLoosenItemMinimumDifficulty) item.Difficulty = TightenLoosenItemMinimumDifficulty;
 		TightenLoosenFacialExpression(C, "ShortBreath", "Closed", "Soft");
 		Action = "LoosenLot";
 	}
 
 	// Loosen a little
-	if (MouseIn(1280, 700, 200, 60) && (Item.Difficulty > TightenLoosenItemMinimumDifficulty)) {
-		Item.Difficulty = Item.Difficulty - 2;
-		if (Item.Difficulty < TightenLoosenItemMinimumDifficulty) Item.Difficulty = TightenLoosenItemMinimumDifficulty;
+	if (MouseIn(1280, 700, 200, 60) && (item.Difficulty > TightenLoosenItemMinimumDifficulty)) {
+		item.Difficulty = item.Difficulty - 2;
+		if (item.Difficulty < TightenLoosenItemMinimumDifficulty) item.Difficulty = TightenLoosenItemMinimumDifficulty;
 		TightenLoosenFacialExpression(C, "", "Shy", "Lowered");
 		Action = "LoosenLittle";
 	}
 
 	// Tighten a little
-	if (MouseIn(1540, 700, 200, 60) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty)) {
-		Item.Difficulty = Item.Difficulty + 2;
-		if (Item.Difficulty > TightenLoosenItemMaximumDifficulty) Item.Difficulty = TightenLoosenItemMaximumDifficulty;
+	if (MouseIn(1540, 700, 200, 60) && (item.Difficulty < TightenLoosenItemMaximumDifficulty)) {
+		item.Difficulty = item.Difficulty + 2;
+		if (item.Difficulty > TightenLoosenItemMaximumDifficulty) item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Low", "Angry", "Angry");
 		Action = "TightenLittle";
 	}
 
 	// Tighten a lot
-	if (MouseIn(1780, 700, 200, 60) && (Item.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
-		Item.Difficulty = Item.Difficulty + 4;
-		if (Item.Difficulty > TightenLoosenItemMaximumDifficulty) Item.Difficulty = TightenLoosenItemMaximumDifficulty;
+	if (MouseIn(1780, 700, 200, 60) && (item.Difficulty < TightenLoosenItemMaximumDifficulty - 2)) {
+		item.Difficulty = item.Difficulty + 4;
+		if (item.Difficulty > TightenLoosenItemMaximumDifficulty) item.Difficulty = TightenLoosenItemMaximumDifficulty;
 		TightenLoosenFacialExpression(C, "Medium", "Surprised", "Harsh");
 		Action = "TightenLot";
 	}
@@ -126,7 +135,7 @@ function TightenLoosenItemClick() {
 			if (((Action == "TightenLot") || (Action == "TightenLittle")) && C.IsPlayer()) SkillProgress(Player, "SelfBondage", 25);
 			if (((Action == "TightenLot") || (Action == "TightenLittle")) && !C.IsPlayer()) SkillProgress(Player, "Bondage", 25);
 			ChatRoomCharacterUpdate(C);
-			ChatRoomPublishAction(C, "Action" + Action, Item, null);
+			ChatRoomPublishAction(C, "Action" + Action, item, null);
 			DialogLeave();
 		}
 	}

@@ -4,7 +4,7 @@
 var Player;
 /** @type {ModuleType} */
 var CurrentModule;
-/** @type {ModuleScreens[CurrentModule]} */
+/** @type {ModuleScreens[typeof CurrentModule]} */
 var CurrentScreen;
 /** @type {Required<ScreenFunctions>} */
 var CurrentScreenFunctions;
@@ -50,11 +50,11 @@ const CommonChatTags = {
  * An enum holding values of time units that might be used with their respective label of Interface.csv and seconds
  * contained in said time unit.
  */
-const TimeUnits = {
+const TimeUnits = /** @type {const} */({
 	MINUTES: { label: "Minutes", seconds: 60 },
 	HOURS: { label: "Hours", seconds: 3600 },
 	DAYS: { label: "Days", seconds: 86400 },
-};
+});
 
 /** @type {(this: string, index: number, character: string) => string} */
 String.prototype.replaceAt=function(index, character) {
@@ -202,9 +202,9 @@ function CommonParseCSV(str) {
  * array you'll get back won't be populated until the fetch completes
  *
  * @param {string} url - URL to load
- * @returns {string[][]}
+ * @returns {Promise<string[][]>}
  */
-function CommonReadCSV(url) {
+async function CommonReadCSV(url) {
 	if (CommonCSVCache[url]) {
 		return CommonCSVCache[url];
 	}
@@ -212,20 +212,21 @@ function CommonReadCSV(url) {
 	/** @type {string[][]} */
 	const temp = CommonCSVCache[url] = [];
 
+	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
+
 	// Opens the file, parse it and returns the result in an Object
-	CommonGet(url, function () {
-		if (this.status == 200) {
-			const parsed = CommonParseCSV(this.responseText);
-			temp.push(...parsed);
-		}
-	});
+	let response = await CommonFetch(url);
+	if (response.status !== 200) return [];
+	const text = await response.text();
+	const parsed = CommonParseCSV(text);
+	temp.push(...parsed);
 
 	// If a translation file is available, we open the txt file and keep it in cache
-	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
-	if (TranslationAvailable(TranslationPath))
-		CommonGet(TranslationPath, function () {
-			if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
-		});
+	if (TranslationAvailable(TranslationPath)) {
+		response = await CommonFetch(TranslationPath);
+		if (response.status !== 200) return [];
+		TranslationCache[TranslationPath] = TranslationParseTXT(await response.text());
+	}
 
 	return temp;
 }
@@ -234,7 +235,7 @@ function CommonReadCSV(url) {
 /**
  * Sleep for a number of milliseconds
  * @param {number} ms
- * @returns {Promise<number>}
+ * @returns {SafePromise<number>}
  */
 async function CommonSleep(ms) {
 	return new Promise(resolve => window.setTimeout(resolve, ms));
@@ -266,6 +267,49 @@ const FETCH_MAX_RETRIES = 10;
  */
 const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
 
+const FETCH_RETRY_JITTER_MIN = 0.25;
+
+const FETCH_RETRY_JITTER_MAX = 1.75;
+
+/**
+ * @param {number} status
+ */
+function CommonRequestShouldRetry(status) {
+	return status === 408 || status === 429 || status >= 500;
+}
+
+/**
+ * @param {number} attempt
+ */
+function CommonRequestRetryDelay(attempt) {
+	const baseDelay = Math.min(2 ** attempt, FETCH_MAX_RETRY_BACKOFF_TIME);
+
+	const jitter = FETCH_RETRY_JITTER_MIN
+		+ Math.random() * (FETCH_RETRY_JITTER_MAX - FETCH_RETRY_JITTER_MIN);
+
+	return baseDelay * jitter;
+}
+
+/**
+ * @param {string | null} value
+ * @returns
+ */
+function CommonRequestParseRetryAfter(value) {
+	if (!value) return null;
+
+	const seconds = Number(value);
+	if (Number.isFinite(seconds)) {
+		return seconds;
+	}
+
+	const date = Date.parse(value);
+	if (Number.isFinite(date)) {
+		return Math.max(0, (date - Date.now()) / 1000);
+	}
+
+	return null;
+}
+
 /**
  * Fetch a remote resource
  *
@@ -273,66 +317,94 @@ const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
  * @returns {Promise<Response>}
  */
 async function CommonFetch(request) {
-	let retries = FETCH_MAX_RETRIES;
-	const isRequestObject = CommonIsObject(request) && typeof request === 'object' && 'method' in request;
-	const method = isRequestObject && request.method || "GET";
-	const url = isRequestObject && request.url || request;
+	const isRequestObject = request instanceof Request;
+	const method = isRequestObject ? request.method : "GET";
+	const url = isRequestObject ? request.url : request;
 
-	let reply = await fetch(request);
-	while (retries-- > 0) {
-		if (reply.status >= 400) {
-			const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - retries)), FETCH_MAX_RETRY_BACKOFF_TIME);
-			console.warn(`${method} request to ${url} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
-			await CommonSleep(retrySeconds * 1000);
+	for (let attempt = 0; attempt <= FETCH_MAX_RETRIES; attempt++) {
+		let retryAfter;
+		/** @type {Response | undefined} */
+		let reply;
+		try {
 			reply = await fetch(request);
-			continue;
+
+			if (!CommonRequestShouldRetry(reply.status)) {
+				return reply;
+			}
+
+			if (attempt === FETCH_MAX_RETRIES) {
+				console.error(`${method} request to ${url} failed (${reply.status}) - no more retries`);
+				return reply;
+			}
+
+			retryAfter = CommonRequestParseRetryAfter(reply.headers.get("Retry-After"));
 		}
-		break;
+		catch (err) {
+			if (attempt === FETCH_MAX_RETRIES) {
+				throw err;
+			}
+		}
+
+		const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
+		if (attempt !== FETCH_MAX_RETRIES) {
+			console.error(`${method} request to ${url} failed (${reply?.status}) - retrying in ${delay.toFixed(1)}s`);
+		}
+		await CommonSleep(delay * 1000);
 	}
-	if (retries <= 0) {
-		console.error(`${method} request to ${url} failed - no more retries`);
-	}
-	return reply;
+
+	throw new Error("CommonFetch exhausted retry loop unexpectedly");
 }
 
 /**
  * AJAX utility to get a file and return its content. By default will retry requests 10 times
- * @param {string} Path - Path of the resource to request
- * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} Callback - Callback to execute once the resource is received
- * @param {number} [RetriesLeft] - How many more times to retry if the request fails - after this hits zero, an error will be logged
+ * @param {string} url - Path of the resource to request
+ * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} callback - Callback to execute once the resource is received
+ * @param {number} [retries] - How many more times to retry if the request fails - after this hits zero, an error will be logged
  * @returns {void} - Nothing
  */
-function CommonGet(Path, Callback, RetriesLeft) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", Path);
-	xhr.onloadend = function() {
-		// For non-error responses, call the callback
-		if (this.status < 400) Callback.bind(this)(xhr);
-		// Otherwise, retry
-		else CommonGetRetry(Path, Callback, RetriesLeft);
+function CommonGet(url, callback, retries = FETCH_MAX_RETRIES) {
+	const xhr = new XMLHttpRequest();
+
+	xhr.open("GET", url);
+
+	/**
+	 * @param {number} [retriesLeft]
+	 */
+	function retry(retriesLeft) {
+		retriesLeft ??= FETCH_MAX_RETRIES;
+		if (retriesLeft <= 0) {
+			console.error(`GET request to ${url} failed - no more retries`);
+		} else {
+			const attempt = FETCH_MAX_RETRIES - retriesLeft;
+
+			const retryAfter = CommonRequestParseRetryAfter(xhr.getResponseHeader("Retry-After"));
+			const delay = retryAfter ?? CommonRequestRetryDelay(attempt);
+
+			console.error(`GET request to ${url} failed - retrying in ${delay.toFixed(1)}s`);
+			setTimeout(() => CommonGet(url, callback, retriesLeft - 1), delay * 1000);
+		}
+	}
+
+	xhr.onload = function() {
+		if (CommonRequestShouldRetry(this.status)) {
+			return retry(retries);
+		}
+
+		callback.call(this, xhr);
 	};
-	xhr.onerror = function() { CommonGetRetry(Path, Callback, RetriesLeft); };
-	xhr.send(null);
+
+	xhr.onerror = xhr.ontimeout = function() {
+		retry(retries);
+	};
+
+	xhr.timeout = 30000;
+	xhr.send();
 }
 
 /**
- * Retry handler for CommonGet requests. Exponentially backs off retry attempts up to a limit of 1 minute. By default,
- * retries up to a maximum of 10 times.
- * @param {string} Path - The path of the resource to request
- * @param {(this: XMLHttpRequest, xhr: XMLHttpRequest) => void} Callback - Callback to execute once the resource is received
- * @param {number} [RetriesLeft] - How many more times to retry - after this hits zero, an error will be logged
- * @returns {void} - Nothing
+ * @deprecated
  */
-function CommonGetRetry(Path, Callback, RetriesLeft) {
-	if (typeof RetriesLeft !== "number") RetriesLeft = FETCH_MAX_RETRIES;
-	if (RetriesLeft <= 0) {
-		console.error(`GET request to ${Path} failed - no more retries`);
-	} else {
-		const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - RetriesLeft)), FETCH_MAX_RETRY_BACKOFF_TIME);
-		console.warn(`GET request to ${Path} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
-		setTimeout(() => CommonGet(Path, Callback, RetriesLeft - 1), retrySeconds * 1000);
-	}
-}
+function CommonGetRetry() {}
 
 /** @type {MouseEventListener} */
 function CommonMouseDown(event) {
@@ -408,7 +480,7 @@ function CommonTouchActive(X, Y, W, H, TL=null) {
  */
 function CommonDynamicFunction(FunctionName) {
 	/** @type {Record<string, any>} */
-	const namespace = window;
+	const namespace = globalThis;
 	const func = namespace[FunctionName.substr(0, FunctionName.indexOf("("))];
 	if (typeof func === "function")
 		func();
@@ -451,7 +523,7 @@ function CommonDynamicFunctionParams(FunctionName) {
 
 	// If it's really a function, we continue
 	/** @type {Record<string, any>} */
-	const namespace = window;
+	const namespace = globalThis;
 	const func = namespace[FunctionName];
 	if (typeof func !== "function") {
 		throw new Error("CommonDynamicFunctionParams: Invalid function name: " + FunctionName);
@@ -474,7 +546,8 @@ function CommonDynamicFunctionParams(FunctionName) {
  * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByName(FunctionName, ...args) {
-	const func = window[FunctionName];
+	const namespace = /** @type {typeof window} */(globalThis);
+	const func = namespace[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
@@ -491,11 +564,12 @@ function CommonCallFunctionByName(FunctionName, ...args) {
  * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByNameWarn(FunctionName, ...args) {
-	const func = window[FunctionName];
+	const namespace = /** @type {typeof window} */(globalThis);
+	const func = namespace[FunctionName];
 	if (typeof func === "function") {
 		return func(...args);
 	} else {
-		console.warn(`Attempted to call invalid function "${FunctionName}"`);
+		console.error(`Attempted to call invalid function "${FunctionName}"`);
 		// @ts-ignore: strict TS fails to recognize that one may pass an optional function
 		return undefined;
 	}
@@ -509,14 +583,42 @@ function CommonGetScreen() {
 	return /** @type {ScreenSpecifier} */([CurrentModule, CurrentScreen]);
 }
 
+/**
+ * Whether a screen is currently (async) loading via {@link CommonSetScreen}.
+ *
+ * See {@link ScreenIsLoadingPromise} for a promise-based variant of this variable for async checking.
+ * @type {boolean}
+ */
 var ScreenIsLoading = false;
+
+/**
+ * A promise that resolves upon async loading a screen via {@link CommonSetScreen}.
+ *
+ * See {@link ScreenIsLoading} for a promise-based variant of this variable for sync checking.
+ * @type {SafePromise<void>}
+ */
+var ScreenIsLoadingPromise = Promise.resolve();
 
 /**
  * Sets the current screen and calls the loading script if needed
  * @param {ScreenSpecifier} spec
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
 async function CommonSetScreen(...spec) {
+	const promise = ScreenIsLoadingPromise = CommonSetScreenWrapped(...spec);
+	return promise.finally(() => {
+		ScreenIsLoadingPromise = Promise.resolve();
+	});
+}
+
+/**
+ * Screen setting implementation.
+ * Do not use; use {@link CommonSetScreen} instead.
+ * @private
+ * @param {ScreenSpecifier} spec
+ * @returns {SafePromise<void>} - Nothing
+ */
+async function CommonSetScreenWrapped(...spec) {
 	const { recursive } = spec[2] ?? {};
 
 	// `CurrentScreenFunctions` is still undefined the _very_ first time a screen is set as BC launches
@@ -525,14 +627,14 @@ async function CommonSetScreen(...spec) {
 		ControllerClearAreas();
 	}
 
-
+	const namespace = /** @type {typeof window} */(globalThis);
 	const [NewModule, NewScreen] = spec;
 	const [OldModule, OldScreen] = [CurrentModule, CurrentScreen];
 	// Check for required functions
-	if (typeof window[`${NewScreen}Run`] !== "function") {
+	if (typeof namespace[`${NewScreen}Run`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Run function`);
 	}
-	if (typeof window[`${NewScreen}Click`] !== "function") {
+	if (typeof namespace[`${NewScreen}Click`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Click function`);
 	}
 
@@ -540,20 +642,20 @@ async function CommonSetScreen(...spec) {
 	CurrentModule = NewModule;
 	CurrentScreen = NewScreen;
 	CurrentScreenFunctions = {
-		Run: (time) => window[`${NewScreen}Run`](time),
-		Click: (e) => window[`${NewScreen}Click`](e),
-		MouseDown: (e) => window[`${NewScreen}MouseDown`]?.(e),
-		MouseUp: (e) => window[`${NewScreen}MouseUp`]?.(e),
-		MouseMove: (e) => window[`${NewScreen}MouseMove`]?.(e),
-		MouseWheel: (e) => window[`${NewScreen}MouseWheel`]?.(e),
-		Draw: () => window[`${NewScreen}Draw`]?.(),
-		Load: async () => window[`${NewScreen}Load`]?.(),
-		Unload: () => window[`${NewScreen}Unload`]?.(),
-		Resize: (load) => window[`${NewScreen}Resize`]?.(load),
-		KeyDown: (e) => window[`${NewScreen}KeyDown`]?.(e) ?? false,
-		KeyUp: (e) => window[`${NewScreen}KeyUp`]?.(e) ?? false,
-		Exit: () => window[`${NewScreen}Exit`]?.(),
-		Paste: (e) => window[`${NewScreen}Paste`]?.(e),
+		Run: (time) => namespace[`${NewScreen}Run`](time),
+		Click: (e) => namespace[`${NewScreen}Click`](e),
+		MouseDown: (e) => namespace[`${NewScreen}MouseDown`]?.(e),
+		MouseUp: (e) => namespace[`${NewScreen}MouseUp`]?.(e),
+		MouseMove: (e) => namespace[`${NewScreen}MouseMove`]?.(e),
+		MouseWheel: (e) => namespace[`${NewScreen}MouseWheel`]?.(e),
+		Draw: () => namespace[`${NewScreen}Draw`]?.(),
+		Load: async () => namespace[`${NewScreen}Load`]?.(),
+		Unload: () => namespace[`${NewScreen}Unload`]?.(),
+		Resize: (load) => namespace[`${NewScreen}Resize`]?.(load),
+		KeyDown: (e) => namespace[`${NewScreen}KeyDown`]?.(e) ?? false,
+		KeyUp: (e) => namespace[`${NewScreen}KeyUp`]?.(e) ?? false,
+		Exit: () => namespace[`${NewScreen}Exit`]?.(),
+		Paste: (e) => namespace[`${NewScreen}Paste`]?.(e),
 	};
 
 	CurrentDarkFactor = 1.0;
@@ -575,10 +677,9 @@ async function CommonSetScreen(...spec) {
 			// Plan A: failed to load the new screen; revert back to the old screen
 			console.error(`Failed to load "${NewModule}/${NewScreen}" screen:\n`, error);
 			ToastManager.error(`Failed to load "${NewModule}/${NewScreen}" screen`);
-			return CommonSetScreen(.../** @type {ScreenSpecifier} */([OldModule, OldScreen, { recursive: true }]));
+			return CommonSetScreenWrapped(.../** @type {ScreenSpecifier} */([OldModule, OldScreen, { recursive: true }]));
 		} else {
 			// Plan B: can't even reload the old screen; things are FUBAR at this point ¯\_(ツ)_/¯
-			// @ts-expect-error: `options.cause` requires es2022, though is inert and harmless on older browsers
 			throw new Error(`Failed to reload previous "${NewModule}/${NewScreen}" screen`, { cause: error });
 		}
 	}
@@ -664,7 +765,7 @@ function CommonColorTrimAlpha(color) {
  * @returns {boolean}
  */
 function CommonEmailIsValid(Email) {
-	if (Email.length < 5 || Email.length > 100) return false;
+	if (!Email || Email.length < 5 || Email.length > 100) return false;
 
 	const parts = Email.split("@");
 	if (parts.length !== 2) return false;
@@ -770,14 +871,10 @@ function CommonGenerateUniqueID() {
  * Converts an array to a string separated by commas (equivalent of .join(","))
  * @param {readonly any[]} Arr - Array to convert to a joined string
  * @returns {string} - String of all the array items joined together
+ * @deprecated - use .join(",");
  */
 function CommonConvertArrayToString(Arr) {
-	var S = "";
-	for (let P = 0; P < Arr.length; P++) {
-		if (P != 0) S = S + ",";
-		S = S + Arr[P].toString();
-	}
-	return S;
+	return Arr.join(",");
 }
 
 /**
@@ -1007,10 +1104,17 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 	// Open the image in a new window
 	let newWindow = window.open('about:blank', '_blank');
 	if (newWindow) {
-		newWindow.document.write("<img src='" + PhotoImg + "' alt='from canvas'/>");
+		ElementCreate({
+			tag: "img",
+			attributes: {
+				src: PhotoImg,
+				alt: "from canvas",
+			},
+			parent: newWindow.document.body,
+		});
 		newWindow.document.close();
 	} else {
-		console.warn("Popups blocked: Cannot open photo in new tab.");
+		console.error("Popups blocked: Cannot open photo in new tab.");
 	}
 
 	CommonPhotoMode = false;
@@ -1118,8 +1222,8 @@ function CommonDeepIsSubset(subRec, superRec) {
 			return subRec.every(subValue => superRec.some(superValue => CommonDeepIsSubset(subValue, superValue)));
 		} else {
 			// Get the keys for the objects
-			const subKeys = Object.keys(subRec);
-			const superKeys = new Set(Object.keys(superRec));
+			const subKeys = CommonFilterMap(Object.entries(subRec), ([k, v]) => v !== undefined ? k : null);
+			const superKeys = new Set(CommonFilterMap(Object.entries(superRec), ([k, v]) => v !== undefined ? k : null));
 
 			// If the objects have different numbers of keys, they are not equal
 			if (!subKeys.every(k => superKeys.has(k))) {
@@ -1150,6 +1254,25 @@ function CommonArrayConcatDedupe(dest, src) {
 		}
 	}
 	return dest;
+}
+
+/**
+ * Push a new value into a map of arrays
+ *
+ * A backport of Map.getOrInsert
+ * @template K
+ * @template V
+ * @param {Map<K, V>} map
+ * @param {K} key
+ * @param {V} defaultValue
+ */
+function CommonMapGetOrInsert(map, key, defaultValue) {
+	let arr = map.get(key);
+	if (!arr) {
+		arr = defaultValue;
+		map.set(key, arr);
+	}
+	return arr;
 }
 
 /**
@@ -1188,7 +1311,7 @@ function CommonNoop() {
  * @returns {String} - Returns the proper server to use in production or test
  */
 function CommonGetServer() {
-	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondage-europe") < 0) && (location.href.indexOf("bondage-asia") < 0)) return "https://bondage-club-server-test.herokuapp.com/";
+	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondageeurope") < 0) && (location.href.indexOf("bondage-europe") < 0) && (location.href.indexOf("bondage-asia") < 0)) return "https://bondage-club-server-test.herokuapp.com/";
 	if (location.protocol !== 'https:') location.replace(`https:${location.href.substring(location.protocol.length)}`);
 	return "https://bondage-club-server.herokuapp.com/";
 }
@@ -1249,17 +1372,18 @@ function CommonStringTitlecase(str) {
 /**
  * Censors a string or words in that string based on the player preferences
  * @param {string} S - The string to censor
+ * @param {Character & { ChatSettings: ChatSettingsType }} C
  * @returns {String} - The censored string
  */
-function CommonCensor(S) {
+function CommonCensor(S, C=Player) {
 
 	// Validates that we must apply censoring
-	if ((Player.ChatSettings == null) || (Player.ChatSettings.CensoredWordsLevel == null) || (Player.ChatSettings.CensoredWordsList == null)) return S;
-	let WordList = PreferenceCensoredWordsList = Player.ChatSettings.CensoredWordsList.split("|");
+	if ((C.ChatSettings == null) || (C.ChatSettings.CensoredWordsLevel == null) || (C.ChatSettings.CensoredWordsList == null)) return S;
+	let WordList = PreferenceCensoredWordsList = C.ChatSettings.CensoredWordsList.split("|");
 	if (WordList.length <= 0) return S;
 
 	// At level zero, we replace the word with ***
-	if (Player.ChatSettings.CensoredWordsLevel == 0)
+	if (C.ChatSettings.CensoredWordsLevel == 0)
 		for (let W of WordList)
 			if ((W != "") && (W != " ") && !W.includes("*") && S.toUpperCase().includes(W.toUpperCase())) {
 				let searchMask = W;
@@ -1269,10 +1393,10 @@ function CommonCensor(S) {
 			}
 
 	// At level one, we replace the full phrase with ***, at level two we return a ¶¶¶ string indicating to filter out
-	if (Player.ChatSettings.CensoredWordsLevel >= 1)
+	if (C.ChatSettings.CensoredWordsLevel >= 1)
 		for (let W of WordList)
 			if ((W != "") && (W != " ") && !W.includes("*") && S.toUpperCase().includes(W.toUpperCase()))
-				return (Player.ChatSettings.CensoredWordsLevel >= 2) ? "¶¶¶" : "***";
+				return (C.ChatSettings.CensoredWordsLevel >= 2) ? "¶¶¶" : "***";
 
 	// Returns the mashed string
 	return S;
@@ -1357,9 +1481,8 @@ function CommonIsFinite(value, min=-Infinity, max=Infinity) {
 
 /**
  * A version of {@link Array.isArray} more friendly towards readonly arrays.
- * @template {unknown} T
- * @param {T} arg - The to-be validated object
- * @returns {arg is (arg extends readonly unknown[] ? readonly unknown[] : unknown[])} Whether the passed object is a (potentially readonly) array
+ * @param {unknown} arg - The to-be validated object
+ * @returns {arg is readonly unknown[]} Whether the passed object is a (potentially readonly) array
  */
 function CommonIsArray(arg) {
 	return Array.isArray(arg);
@@ -1585,12 +1708,22 @@ function CommonObjectEqual(rec1, rec2) {
 		return false;
 	}
 
-	const entries1 = Object.entries(rec1);
-	const keys2 = Object.keys(rec2);
-	if (entries1.length !== keys2.length) {
-		return false;
+	/** @type {Set<keyof typeof rec1 | keyof typeof rec2>} */
+	const keyUnion = new Set();
+	for (const rec of [rec1, rec2]) {
+		for (const [k, v] of CommonEntries(rec)) {
+			if (v !== undefined) {
+				keyUnion.add(k);
+			}
+		}
 	}
-	return entries1.every(([k, v]) => /** @type {Record<string, any>} */ (rec2)[k] === v);
+	for (const k of keyUnion) {
+		// @ts-ignore
+		if (rec1[k] !== rec2[k]) {
+			return false;
+		}
+	}
+	return true;
 }
 
 /**
@@ -1686,7 +1819,7 @@ function CommonProperty(propertyName, getter=undefined, setter=undefined) {
 	/** @type {Record<string, any>} */
 	const windowNamespace = window;
 	if (windowNamespace[propertyName] !== undefined) {
-		throw new Error(`The name ${setter} already exists.`);
+		throw new Error(`The name ${propertyName} already exists.`);
 	}
 
 	getter ??= function(){ throw Error(`Property "${propertyName}" has no getter defined`); };
@@ -1736,7 +1869,7 @@ function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
 		enumerable: true,
 		configurable: true,
 		get: function() {
-			console.warn(`"${oldName}" is deprecated, use "${newName}" instead`);
+			console.error(`"${oldName}" is deprecated, use "${newName}" instead`);
 			return namespace[privateName];
 		},
 		set: function(val) { namespace[privateName] = val; },
@@ -2308,13 +2441,13 @@ function CommonFormatDurationRange(end, start, options = {}) {
 
 	/** @type {[string, boolean, number][]} */
 	const pairs = [
-		[InterfaceTextGet("DurationFormatYear" + full), includeYears, years],
-		[InterfaceTextGet("DurationFormatMonth" + full), includeMonths, months],
-		[InterfaceTextGet("DurationFormatWeek" + full), includeWeeks, weeks],
-		[InterfaceTextGet("DurationFormatDay" + full), includeDays, days],
-		[InterfaceTextGet("DurationFormatHour" + full), includeHours, hours],
-		[InterfaceTextGet("DurationFormatMinute" + full), includeMinutes, minutes],
-		[InterfaceTextGet("DurationFormatSecond" + full), includeSeconds, seconds],
+		[InterfaceTextGet(`DurationFormatYear${full}`), includeYears, years],
+		[InterfaceTextGet(`DurationFormatMonth${full}`), includeMonths, months],
+		[InterfaceTextGet(`DurationFormatWeek${full}`), includeWeeks, weeks],
+		[InterfaceTextGet(`DurationFormatDay${full}`), includeDays, days],
+		[InterfaceTextGet(`DurationFormatHour${full}`), includeHours, hours],
+		[InterfaceTextGet(`DurationFormatMinute${full}`), includeMinutes, minutes],
+		[InterfaceTextGet(`DurationFormatSecond${full}`), includeSeconds, seconds],
 	]
 		.filter(([, enabled]) => enabled)
 		.map(([label, , value]) => /** @type {[string, boolean, number]} */ ([label, true, value]));
@@ -2484,6 +2617,34 @@ function CommonFindMap(array, predicateMapper, thisArg=null) {
 }
 
 /**
+ * Take an array and find all element that map to a user-specified value, returning the mapped value.
+ *
+ * Effectively combines {@link array.filter} and {@link array.map}.
+ * @template Tinp
+ * @template Tout
+ * @param {readonly Tinp[]} array - The array in question
+ * @param {(value: Tinp, index: number, obj: readonly Tinp[]) => undefined | null | Tout} predicateMapper - A mapping
+ * predicate. All non-nullish return value will be returned by the outer function.
+ * @param {any} [thisArg] - If provided, it will be used as the this value for each invocation of
+ * predicate. If it is not provided, undefined is used instead.
+ * @returns {Tout[]} - All successfully mapped value
+ */
+function CommonFilterMap(array, predicateMapper, thisArg=null) {
+	if (thisArg != null) {
+		predicateMapper = predicateMapper.bind(thisArg);
+	}
+	/** @type {Tout[]} */
+	const ret = [];
+	for (const [i, elem] of array.entries()) {
+		const result = predicateMapper(elem, i, array);
+		if (result != null) {
+			ret.push(result);
+		}
+	}
+	return ret;
+}
+
+/**
  * Splice a string into a string at a specific index.
  *
  * The string will be automatically extended using {@link defaultValue} if the index falls outside its bounds.
@@ -2504,12 +2665,21 @@ function CommonStringSplice(string, index, value, defaultValue) {
 /**
  * Unwraps a thunk into a value
  *
- * @template T
- * @param {Thunk<T>} thunk
- * @returns {T}
+ * @param {Thunk<unknown, unknown[]>} thunk
+ * @param {...unknown} args
+ * @returns {unknown}
  */
-function CommonUnwrapThunk(thunk) {
-	return typeof thunk === "function" ? /** @type {() => T} */ (thunk)() : thunk;
+function CommonUnwrapThunk(thunk, ...args) {
+	return typeof thunk === "function" ? thunk(...args) : thunk;
+}
+
+/**
+ * Catch a promise and make it log
+ *
+ * @param {Promise<any> | undefined} p
+ */
+function CommonPromiseCatch(p) {
+	p?.catch(e => console.error("Caught an unhandled promise:", e));
 }
 
 /**
@@ -2531,6 +2701,28 @@ class Result {
 	constructor(value, error = null) {
 		this.value = value;
 		this.error = error;
+	}
+
+	/**
+	 * Convert the {@link Result.Error} message into a list of DOM elements as usable by the likes of {@link ElementDOMScreen.setStatus}).
+	 *
+	 * Always returns an empty list for nullish errors
+	 * @param {null | string | Element | readonly (string | Element)[]} customMessage A custom message to be used as prefix
+	 * @returns {(string | Element)[]} The list of DOM elements
+	 */
+	errorAsDOM(customMessage=null) {
+		if (!this.error) {
+			return [];
+		}
+
+		const errorMessage = ElementCreate({ tag: "q", children: [this.error.message] });
+		if (customMessage == null) {
+			return [errorMessage];
+		} else if (!CommonIsArray(customMessage)) {
+			return [customMessage, `: `, errorMessage];
+		} else {
+			return [...customMessage, `: `, errorMessage];
+		}
 	}
 
 	/**
@@ -2577,4 +2769,60 @@ class Result {
 			throw this.error;
 		}
 	}
+}
+
+class ClipboardError extends Error {
+	/**
+	 * @param {string} message
+	 */
+	constructor(message, options = {}) {
+		super(message);
+		this.name = "ClipboardError";
+	}
+}
+
+/**
+ * Read text data from the browser's clipboard.
+ *
+ * @param {(result: Result<string | null, ClipboardError>) => void} cb}
+ */
+function CommonClipboardRead(cb) {
+	navigator.clipboard.readText()
+		.then(data => {
+			cb(Result.success(data));
+		})
+		.catch(e => {
+			console.error("Failed to read clipboard:", e);
+			if (e instanceof DOMException) {
+				const err = new ClipboardError(e.message, { cause: e });
+				cb(Result.failure(err));
+			}
+		});
+}
+
+/**
+ * Write text data to the browser's clipboard.
+ *
+ * @param {string} data
+ * @param {undefined | ((result: Result<null, ClipboardError>) => void)} [cb]
+ */
+function CommonClipboardWrite(data, cb = undefined) {
+	if (!document.hasFocus()) {
+		// Chrome requires document focus for `writeText` operations; get rid of an any dialog- or alert focus
+		document.body.focus();
+	}
+	navigator.clipboard.writeText(data)
+		.then(() => {
+			cb?.(Result.success(null));
+		})
+		.catch(e => {
+			if (e instanceof DOMException) {
+				if (!cb) {
+					console.error("Failed to write clipboard:", e);
+				} else {
+					const err = new ClipboardError(e.message, { cause: e });
+					cb(Result.failure(err));
+				}
+			}
+		});
 }

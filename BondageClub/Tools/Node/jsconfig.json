@@ -1,19 +1,24 @@
 {
 	"compilerOptions": {
 		"module": "NodeNext",
-		"target": "ES2022",
-		"lib": ["es2022"],
+		"target": "esnext",
+		"lib": ["esnext"],
 		"moduleResolution": "nodenext",
+		"incremental": true,
+		"tsBuildInfoFile": "../../.cache/tsc-asset.tsbuildinfo",
 		"checkJs": true,
 		"strict": true,
-		"noImplicitAny": false
+		"noImplicitAny": false,
+		"skipLibCheck": true
 	},
 	"include": [
-		"../../Assets/Female3DCG/Female3DCG_Types.d.ts",
-		"../../Scripts/Typedef.d.ts",
+		"../../Assets/**/*.d.ts",
+		"../../Scripts/**/*.d.ts",
 		".",
 	],
 	"exclude": [
-		"Scripts/MessagesPatch.d.ts"
+		"../../Scripts/MessagesPatch.d.ts",
+		"csvtypescript_tmp_output/**/*",
+		"TypecheckExpensive.js"
 	]
 }

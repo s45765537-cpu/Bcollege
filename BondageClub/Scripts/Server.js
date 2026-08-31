@@ -47,7 +47,7 @@ function ServerInit() {
 	ServerSocket.on("ChatRoomSearchResponse", function (data) { ChatSearchResponse(data); });
 	ServerSocket.on("ChatRoomCreateResponse", function (data) { ChatCreateResponse(data); });
 	ServerSocket.on("ChatRoomUpdateResponse", function (data) { ChatAdminResponse(data); });
-	ServerSocket.on("ChatRoomSync", function (data) { ChatRoomSync(data); });
+	ServerSocket.on("ChatRoomSync", function (data) { CommonPromiseCatch(ChatRoomSync(data)); });
 	ServerSocket.on("ChatRoomSyncMemberJoin", function (data) { ChatRoomSyncMemberJoin(data); });
 	ServerSocket.on("ChatRoomSyncMemberLeave", function (data) { ChatRoomSyncMemberLeave(data); });
 	ServerSocket.on("ChatRoomSyncRoomProperties", function (data) { ChatRoomSyncRoomProperties(data); });
@@ -171,7 +171,7 @@ function ServerIsLoggedIn() {
  */
 async function ServerIsLoggedInAsync() {
 	await GameReadyState.load;
-	if (!GameReadyState.login) {
+	if (typeof GameReadyState.login === "undefined") {
 		// An unreachable path under normal circumstances as the property is
 		// assigned via `GameStart()` -> `ServerInit()` in synchronous fashion
 		throw new Error("GameReadyState.login is undefined");
@@ -224,11 +224,11 @@ function ServerInfo(data) {
  */
 function ServerDisconnect(data, close = false) {
 	if (!ServerIsConnected) return;
-	console.warn("Server connection lost");
+	console.error("Server connection lost");
 	const ShouldRelog = Player.Name != "";
 	let msg = ShouldRelog ? "Disconnected" : "ErrorDisconnectedFromServer";
 	if (data) {
-		console.warn(data);
+		console.error(data);
 		msg = data;
 	}
 	ServerSetConnected(false, msg);
@@ -276,15 +276,17 @@ function ServerHandleRelog(C) {
 	/** @type {ScreenSpecifier} */
 	const screen = isChatRoomRelog ? ["Online", "ChatSearch"] : /** @type {ScreenSpecifier} */ ([RelogData.Module, RelogData.Screen]);
 
-	// XXX: Using `.then()` here because I don't want asyncness to spread to LoginResponse just yet
-	CommonSetScreen(...screen).then(async () => {
-		if (isChatRoomRelog) {
-			const ret = await ServerRoomJoin(RelogData.ChatRoomName);
-			if (ret.err) {
-				console.error(ret.error);
-			}
-		}
-	});
+	CommonPromiseCatch(
+		CommonSetScreen(...screen)
+			.then(async () => {
+				if (isChatRoomRelog) {
+					const ret = await ServerRoomJoin(RelogData.ChatRoomName);
+					if (ret.err) {
+						console.error(ret.error);
+					}
+				}
+			})
+	);
 	return true;
 }
 
@@ -320,7 +322,7 @@ var ServerPlayerChatRoom = {
 
 ServerPlayerChatRoom.register(
 	{ screen: "ChatRoom" },
-	{ screen: "ChatAdmin" },
+	{ screen: "ChatAdmin", callback: () => !!ChatRoomData },
 	{ screen: "GameLARP" },
 	{ screen: "GameMagicBattle" },
 	{ screen: "GameClubCard" },
@@ -591,7 +593,7 @@ function ServerPlayerBlockItemsSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerLogSync() {
-	ServerAccountUpdate.QueueData({ Log });
+	ServerAccountUpdate.QueueData({ Log: Player.Log });
 }
 
 /**
@@ -608,7 +610,7 @@ function ServerPlayerReputationSync() {
  */
 function ServerPlayerSkillSync() {
 	Player.Skill.forEach(s => {
-		if (s.ModifierTimeout <= CurrentTime) {
+		if ((s.ModifierTimeout ?? 0) <= CurrentTime) {
 			delete s.ModifierLevel;
 			delete s.ModifierTimeout;
 		}
@@ -658,19 +660,7 @@ function ServerPlayerExtensionSettingsSync(dataKeyName, _force = false) {
  * @returns {AppearanceBundle} - The appearance bundle created from the given appearance array
  */
 function ServerAppearanceBundle(Appearance) {
-	var Bundle = [];
-	for (let A = 0; A < Appearance.length; A++)
-		if (Appearance[A].Asset != null) {
-			var N = {};
-			N.Group = Appearance[A].Asset.Group.Name;
-			N.Name = Appearance[A].Asset.Name;
-			if ((Appearance[A].Color != null) && (Appearance[A].Color != "Default")) N.Color = Appearance[A].Color;
-			if ((Appearance[A].Difficulty != null) && (Appearance[A].Difficulty != 0)) N.Difficulty = Appearance[A].Difficulty;
-			if (Appearance[A].Property != null) N.Property = Appearance[A].Property;
-			if (Appearance[A].Craft != null) N.Craft = Appearance[A].Craft;
-			Bundle.push(N);
-		}
-	return Bundle;
+	return CommonFilterMap(Appearance, (item) => item.Asset == null ? null : ServerBundledItemFromAppearanceItem(item));
 }
 
 /**
@@ -717,7 +707,7 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 
 	// If the appearance update was invalid, send another update to correct any issues
 	if (!updateValid && C.IsPlayer()) {
-		console.warn("Invalid appearance update bundle received. Updating with sanitized appearance.");
+		console.error("Invalid appearance update bundle received. Updating with sanitized appearance.");
 		ChatRoomCharacterUpdate(C);
 	}
 	return updateValid;
@@ -759,31 +749,55 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
 
 	const asset = AssetGet(assetFamily, item.Group, item.Name);
 	if (!asset) return null;
+	return AppearanceItem.fromAsset(asset, {
+		difficulty: item.Difficulty,
+		color: item.Color,
+		craft: item.Craft,
+		property: item.Property,
+	});
+}
 
+/**
+ * Convert an item into a (JSON-safe) item bundle
+ * @param {Item} item The to-be converted item
+ * @returns {ItemBundle} The matching item bundle
+ */
+function ServerBundledItemFromAppearanceItem(item) {
+	/** @type {undefined | ItemColor} */
+	const inputColor = item.Color;
+	/** @type {undefined | ItemColor} */
+	let outputColor;
+	if (ItemColorIsDefault(item)) {
+		outputColor = undefined;
+	} else if (CommonIsArray(inputColor) && inputColor.every(c => c === inputColor[0])) {
+		outputColor = inputColor[0];
+	} else {
+		outputColor = inputColor;
+	}
 	return {
-		Asset: asset,
-		Difficulty: parseInt(item.Difficulty == null ? 0 : item.Difficulty),
-		Color: ServerParseColor(asset, item.Color, asset.Group.ColorSchema),
+		Group: item.Asset.Group.Name,
+		Name: item.Asset.Name,
+		Difficulty: !item.Difficulty ? undefined : item.Difficulty,
+		Color: outputColor,
+		Property: Object.keys(item.Property ?? {}).length > 0 ? item.Property : undefined,
 		Craft: item.Craft,
-		Property: item.Property,
 	};
 }
 
 /**
  * Parses an item color, based on the allowed colorable layers on an asset, and the asset's color schema
  * @param {Asset} asset - The asset on which the color is set
- * @param {BCColor | readonly BCColor[]} color - The color value to parse
+ * @param {undefined | BCColor | readonly BCColor[]} color - The color value to parse
  * @param {readonly BCColor[]} schema - The color schema to validate against
- * @returns {undefined | BCColor | BCColor[]} - A parsed valid item color
+ * @returns {BCColor[]} - A parsed valid item color
  */
 function ServerParseColor(asset, color, schema) {
 	if (typeof color === "string") {
-		return CommonIsColor(color, { schema }) ? color : schema[0];
+		return CommonIsColor(color, { schema }) ? Array(asset.ColorableLayerCount).fill(color) : [...asset.DefaultColor];
 	} else if (CommonIsArray(color)) {
-		if (color.length > asset.ColorableLayerCount) color = color.slice(0, asset.ColorableLayerCount);
-		return color.map(c => CommonIsColor(c, { schema }) ? c : schema[0]);
+		return asset.DefaultColor.map((fallback, i) => CommonIsColor(color[i], { schema }) ? color[i] : fallback);
 	} else {
-		return undefined;
+		return [...asset.DefaultColor];
 	}
 }
 
@@ -809,13 +823,13 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
 			if (itemToMirror) {
 				const mirroredAsset = AssetGet(assetFamily, group.Name, itemToMirror.Asset.Name);
 				// If there is an item to mirror, copy it and its color
-				if (mirroredAsset) diff[0] = { Asset: mirroredAsset, Color: itemToMirror.Color };
+				if (mirroredAsset) diff[0] = AppearanceItem.fromAsset(mirroredAsset, { color: itemToMirror.Color });
 			}
 		}
 
 		// If the item still hasn't been filled, use the first item from the group's asset list
 		if (!diff[0]) {
-			diff[0] = { Asset: group.Asset[0], Color: group.DefaultColor };
+			diff[0] = AppearanceItem.fromAsset(group.Asset[0]);
 		}
 	});
 }
@@ -881,9 +895,21 @@ function ServerAccountQueryResult(data) {
 	const { Query, Result } = data;
 	if (typeof Query !== "string" || Result == null) return;
 
-	if (Query == "OnlineFriends") FriendListLoadFriendList(Result);
-	else if (Query == "EmailStatus") SecurityEmailStatus(data);
-	else if (Query == "EmailUpdate") SecurityEmailUpdate(data);
+	switch (Query) {
+		case "OnlineFriends":
+			if (CurrentScreen === "FriendList") {
+				FriendListLoadFriendList(Result);
+			} else {
+				ServerUpdateFriendList(Result);
+			}
+			break;
+		case "EmailStatus":
+			SecurityEmailStatus(data);
+			break;
+		case "EmailUpdate":
+			SecurityEmailUpdate(data);
+			break;
+	}
 }
 
 /**
@@ -988,21 +1014,8 @@ function ServerAccountBeep(data) {
 
 				ChatRoomAppendChat(div);
 			}
-		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {
-			if (Player.OnlineSharedSettings.AllowPlayerLeashing && (!ServerPlayerIsInChatRoom() || ChatRoomData?.Name !== data.ChatRoomName)) {
-				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player) && ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders())) {
-					ChatRoomJoinLeash = data.ChatRoomName;
-
-					ChatRoomLeave();
-					if (ServerPlayerIsInChatRoom()) {
-						CommonSetScreen("Online", "ChatSearch");
-					} else {
-						ChatRoomStart(data.ChatRoomSpace, "", null, null, "Introduction", BackgroundsTagList);
-					}
-				} else {
-					ChatRoomLeashPlayer = null;
-				}
-			}
+		} else if (data.BeepType === "Leash") {
+			CommonPromiseCatch(ServerHandleLeashBeep(data));
 		}
 	}
 }
@@ -1068,6 +1081,100 @@ function ServerShowBeep(message, duration, options, title) {
 	}, 0, false, 'foreground');
 }
 
+/**
+ * Handle a leash beep from another player
+ *
+ * @param {ServerAccountBeepResponse} data
+ */
+async function ServerHandleLeashBeep(data) {
+	if (!Player.OnlineSharedSettings?.AllowPlayerLeashing) return;
+
+	// This is not our leash holder
+	if (ChatRoomLeashPlayer !== data.MemberNumber) return;
+
+	if (ServerPlayerIsInChatRoom() && ChatRoomData.Name === data.ChatRoomName) {
+		// We're already in the room
+		return;
+	}
+
+	// We can't actually be leashed
+	if (!ChatRoomCanBeLeashedBy(data.MemberNumber, Player)) {
+		ChatRoomBreakLeash(null);
+		return;
+	}
+
+	/** @type {Result<ServerChatRoomSearchResultResponse, ServerError>} */
+	let searchRes;
+	let retries = 5;
+	while (true) {
+		searchRes = await ServerRoomSearch(data.ChatRoomName, { Language: "", Space: data.ChatRoomSpace });
+		if (searchRes.ok) {
+			break;
+		}
+
+		if (searchRes.error instanceof ServerTimeoutError) {
+			ChatRoomBreakLeash("Timeout");
+		} else if (searchRes.error instanceof ServerInProgressError) {
+			continue;
+		} else {
+			ChatRoomBreakLeash(null);
+		}
+
+		if (--retries >= 0) {
+			CommonSleep(ServerDefaultTimeout);
+			continue;
+		}
+		return;
+	}
+
+	const room = searchRes.unwrap().find(r => r.Name === data.ChatRoomName);
+	if (!room) {
+		ChatRoomBreakLeash("CannotFindRoom");
+		return;
+	}
+
+	if (ChatSearchTempHiddenRooms.indexOf(room.CreatorMemberNumber) != -1) {
+		ChatRoomBreakLeash("TempHidden");
+		return;
+	}
+
+	if (Player.HasOnGhostlist(room.CreatorMemberNumber)) {
+		ChatRoomBreakLeash("GhostList");
+		return;
+	}
+
+	// The room we're entering is off-limit to us
+	if (!ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders()) || CharacterHasBlockedItem(Player, room.BlockCategory)) {
+		ChatRoomBreakLeash("RoomBlocked");
+		return;
+	}
+
+	ChatRoomLeave();
+	retries = 5;
+	while (true) {
+		const result = await ServerRoomJoin(room.Name);
+		if (result.ok) {
+			break;
+		}
+
+		if (result.error instanceof ServerJoinError) {
+			ChatRoomBreakLeash(result.error.name);
+		} else if (result.error instanceof ServerInProgressError) {
+			continue;
+		} else if (result.error instanceof ServerTimeoutError) {
+			ChatRoomBreakLeash("Timeout");
+		} else {
+			ChatRoomBreakLeash(null);
+		}
+
+		if (--retries >= 0) {
+			await CommonSleep(ServerDefaultTimeout);
+			continue;
+		}
+		return;
+	}
+}
+
 // TODO: `data: object` -> `data: ServerAccountOwnershipResponse`
 /**
  * Callback used to parse received information related to the player ownership data
@@ -1096,7 +1203,7 @@ function ServerAccountOwnership(data) {
 	}
 
 	if (DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload();
+		CommonPromiseCatch(DialogMenuMapping.dialog.Reload());
 	}
 }
 
@@ -1120,7 +1227,7 @@ function ServerAccountLovership(data) {
 	}
 
 	if (DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload();
+		CommonPromiseCatch(DialogMenuMapping.dialog.Reload());
 	}
 }
 
@@ -1273,16 +1380,20 @@ var ServerAccountDataSyncedValidate = {
 		return typeof arg === "string" && ServerCharacterNicknameRegex.test(arg) ? arg.trim() : undefined;
 	},
 	Money: (arg, C) => {
-		return CommonIsNumeric(arg) ? arg : 0;
+		return CommonIsNonNegativeInteger(arg) ? arg : 0;
 	},
 	AllowedInteractions: (arg, C) => {
 		return CommonIsInteger(arg, 0, 5) ? /** @type {AllowedInteractions} */(arg) : 2;
 	},
 	Difficulty: (arg, C) => {
-		return {
-			Level: CommonIsInteger(arg?.Level, 0, 5) ? arg.Level : 1,
-			LastChange: CommonIsNonNegativeInteger(arg?.LastChange) ? arg.LastChange : undefined,
+		/** @type {ServerAccountData["Difficulty"]} */
+		const diff = {
+			Level: CommonIsInteger(arg?.Level, Difficulty.ROLEPLAY, Difficulty.EXTREME) ? arg.Level : Difficulty.REGULAR,
 		};
+		if (CommonIsNonNegativeInteger(arg?.LastChange)) {
+			diff.LastChange = arg.LastChange;
+		}
+		return diff;
 	},
 	ArousalSettings: (arg, C) => {
 		return ValidationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
@@ -1411,23 +1522,48 @@ var ServerAccountDataSyncedValidate = {
 	BlackList: (arg, C) => {
 		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
 	},
-	MapData: (arg, C) => {
-		/** @type {ChatRoomMapData} */
-		const data = {
-			Pos: {
-				X: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.X, 0, ChatRoomMapViewWidth) ? arg.Pos.X : ChatRoomMapViewWidth / 2,
-				Y: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.Y, 0, ChatRoomMapViewHeight) ? arg.Pos.Y : ChatRoomMapViewHeight / 2,
+	/**
+	 * Validate a ChatRoomMapData object
+	 *
+	 * Note that because the position needs the actual room data (for the entry flag position),
+	 * you might get slightly incorrect results from this if run from outside a chat room.
+	 *
+	 * @type {((arg: ChatRoomMapData | undefined, C: Character) => ChatRoomMapData) & { [k in keyof ChatRoomMapData]: (arg: Partial<ChatRoomMapData[k]>, C: Character) => ChatRoomMapData[k] }}
+	 */
+	MapData: Object.assign(
+		/** @type {(arg: Partial<ChatRoomMapData> | undefined, C: Character) => ChatRoomMapData} */
+		(arg, C) => {
+			/** @type {ChatRoomMapData} */
+			const data = {
+				...arg,
+				Pos: ServerAccountDataSyncedValidate.MapData.Pos(arg?.Pos, C),
+				PrivateState: ServerAccountDataSyncedValidate.MapData.PrivateState(arg?.PrivateState, C),
+			};
+			return data;
+		}, {
+			/**
+			 * Validate a ChatRoomMapPos object
+			 *
+			 * Note that because the position needs the actual room data (for the entry flag position),
+			 * you might get slightly incorrect results from this if run from outside a chat room.
+			 *
+			 * @type {(arg: ChatRoomMapData["Pos"], C: Character) => ChatRoomMapData["Pos"]}
+			 */
+			Pos: (arg, C) => {
+				const defaultPos = ChatRoomMapViewGetEntryFlagPosition() ?? { X: ChatRoomMapViewWidth / 2, Y: ChatRoomMapViewHeight / 2 };
+				/** @type {ChatRoomMapPos} */
+				if (!CommonIsObject(arg)
+					|| !CommonIsInteger(arg.X, 0, ChatRoomMapViewWidth)
+					|| !CommonIsInteger(arg.Y, 0, ChatRoomMapViewHeight)) {
+					return defaultPos;
+				}
+				return arg;
 			},
-			PrivateState: CommonIsObject(arg?.PrivateState) ? arg.PrivateState : {},
-		};
-		if (CommonIsObject(arg)) {
-			const copy = { ... arg };
-			delete copy?.Pos;
-			delete copy?.PrivateState;
-			Object.assign(data, copy);
-		}
-		return data;
-	},
+			/** @type {(arg: ChatRoomMapData["PrivateState"], C: Character) => ChatRoomMapData["PrivateState"]} */
+			PrivateState: (arg, C) => {
+				return CommonIsObject(arg) ? arg : {};
+			}
+		}),
 	/**
 	 * @param {ServerAccountDataSynced["ChatSearchSettings"]} arg
 	 * @param {Character} C
@@ -1436,7 +1572,30 @@ var ServerAccountDataSyncedValidate = {
 	ChatSearchSettings: (arg, C) => {
 		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
 	},
+	WardrobeCharacterNames: (arg, C) => {
+		const names = new Array(WardrobeSize).fill(C.Name);
+		if (!Array.isArray(arg)) return names;
+		for (const [idx, name] of arg.entries()) {
+			if (idx >= WardrobeSize) break;
+			if (typeof name === "string")
+				names[idx] = name;
+		}
+		return names;
+	}
 };
+
+/**
+ * @param {unknown} arg
+ * @return {arg is ChatRoomMapData}
+ */
+function ServerIsMapData(arg) {
+	const data = /** @type {ChatRoomMapData} */ (arg);
+	return CommonIsObject(data)
+		&& "Pos" in data && CommonIsObject(data.Pos)
+		&& "X" in data.Pos && CommonIsInteger(data.Pos.X, 0, ChatRoomMapViewWidth)
+		&& "Y" in data.Pos && CommonIsInteger(data.Pos.Y, 0, ChatRoomMapViewHeight)
+		&& "PrivateState" in data && CommonIsObject(data.PrivateState);
+}
 
 /**
  * Namespace with default values for {@link ChatRoomSearchSettings} properties.
@@ -1642,4 +1801,29 @@ async function ServerRoomJoin(roomName) {
 	} catch (e) {
 		return Result.failure(e);
 	}
+}
+
+/**
+ * Update the player's friend- and submissive-related arrays based on the inc
+ * @param {ServerFriendInfo[]} data An array of data, we receive from the server
+ * @returns {boolean} Whether the player's {@link Player["FriendNames"]} and/or {@link Player["SubmissivesList"]} were updated
+ */
+function ServerUpdateFriendList(data) {
+	let infoChanged = false;
+	data.forEach(friend => {
+		if (!Player.FriendNames.has(friend.MemberNumber)) {
+			Player.FriendNames.set(friend.MemberNumber, friend.MemberName);
+			infoChanged = true;
+		}
+		if (Player.SubmissivesList.has(friend.MemberNumber) != (friend.Type == "Submissive")) {
+			if (friend.Type == "Submissive") {
+				Player.SubmissivesList.add(friend.MemberNumber);
+			} else {
+				Player.SubmissivesList.delete(friend.MemberNumber);
+			}
+			infoChanged = true;
+		}
+	});
+	if (infoChanged) ServerPlayerRelationsSync();
+	return infoChanged;
 }

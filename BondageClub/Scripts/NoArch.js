@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -115,11 +114,11 @@ const NoArch = {
 		}
 
 		let update = false;
-		const propertiesCopy = CommonCloneDeep(data.baselineProperty || {});
-		for (const [name, value] of Object.entries(propertiesCopy)) {
+		const baselineProperty = CommonCloneDeep(data.baselineProperty || {});
+		for (const [name, value] of CommonEntries(baselineProperty)) {
 			if (item.Property[name] === undefined) {
 				update = true;
-				item.Property[name] = value;
+				Object.assign(item.Property, { [name]: value });
 			}
 		}
 
@@ -158,7 +157,7 @@ const NoArch = {
 			true,
 		);
 
-		const item = (data.asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
+		const item = /** @type {Item} */ (data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem);
 		ExtendedItemTighten.Draw(data, item, [1050, 220, 300, 65]);
 	},
 	/**
@@ -173,7 +172,7 @@ const NoArch = {
 			return true;
 		}
 
-		const item = data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem;
+		const item =  /** @type {Item} */ (data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem);
 		if (ExtendedItemTighten.Click(data, item, [1050, 220, 300, 65])) {
 			return true;
 		}

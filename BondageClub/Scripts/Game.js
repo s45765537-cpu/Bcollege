@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R128";
+var GameVersion = "R131";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -17,27 +17,33 @@ var CommonTouchList = null;
 
 const DEFAULT_FRAMERATE = 60;
 
-function GameStart() {
+/**
+ * Start BC after the webpage has fully loaded
+ * @param {boolean} isNode Whether BC is run through the browser or via Node (_i.e._ the testing suite)
+ */
+async function GameStart(isNode=false) {
 	ServerURL = CommonGetServer();
 	//CheatImport();
-	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
-	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
-
+	if (!isNode) {
+		console.log("Version: " + GameVersion + ", Server: " + ServerURL);
+		if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
+	}
 	CurrentTime = CommonTime();
 
 	CommonIsMobile = CommonDetectMobile();
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
-	AssetInventoryIDValidate();
+	await AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
-	TextPrefetchFile(InterfaceStringsPath);
-	CommonSetScreen("Character", "Login");
+	await TextPrefetchFile(InterfaceStringsPath).loadedPromise;
 	ServerInit();
+	Fullscreen.Init();
 
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
 	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
+	Player.Log = [];
 	PreferenceInitPlayer(Player, {});
 
 	// Those event listeners are all going through a lambda so that mods can
@@ -59,6 +65,7 @@ function GameStart() {
 	canvas.addEventListener("pointerup", (e) => GamePointerUp(e, canvas));
 	canvas.addEventListener("pointermove", (e) => GamePointerMove(e));
 	canvas.addEventListener("pointercancel", (e) => GamePointerCancel(e, canvas));
+	canvas.addEventListener("pointerout", (e) => GamePointerOut(e));
 	canvas.addEventListener("touchend", (e) => GameTouchEnd(e));
 
 	canvas.addEventListener("click", (e) => GameClick(e));
@@ -67,6 +74,11 @@ function GameStart() {
 	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
 	GameWorker = new Worker("Scripts/GameWorker.js");
 	GameWorker.onmessage = GameFallbackTimer;
+
+	if (isNode) {
+		return;
+	}
+	return CommonSetScreen("Character", "Login");
 }
 
 /** Promises that resolve upon reaching specific stages of the BC loading and login process. */
@@ -79,8 +91,7 @@ const GameReadyState = {
 	 */
 	load: new Promise(resolve => window.addEventListener("load", () => {
 		// When the code is loaded, we start the game engine
-		GameStart();
-		resolve();
+		CommonPromiseCatch(GameStart().then(resolve));
 	})),
 	/**
 	 * @private
@@ -336,4 +347,16 @@ function GamePointerCancel(event, canvas) {
 	MouseY = -1;
 	CommonTouchList = null;
 	canvas.releasePointerCapture(event.pointerId);
+}
+
+/**
+ * @param {PointerEvent} event
+ */
+function GamePointerOut(event) {
+	// Cannot reliably use `pointerout` on mobile as it fires after every `pointerdown` (why?)
+	// This breaks things badly on Chromium, this listener firing _before_ `click` and thus resetting the mouse coordinates
+	if (event.pointerType === "mouse") {
+		MouseX = -1;
+		MouseY = -1;
+	}
 }

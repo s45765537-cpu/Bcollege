@@ -1,10 +1,9 @@
-// @ts-strict-ignore
 "use strict";
 var ChessBackground = "CollegeClass1";
-/** @type {null | Character} */
-var ChessCharacterWhite = null;
-/** @type {null | Character} */
-var ChessCharacterBlack = null;
+/** @type {Character} */
+var ChessCharacterWhite = /** @type {never} */ (null);
+/** @type {Character} */
+var ChessCharacterBlack = /** @type {never} */ (null);
 var ChessEndStatus = "";
 var ChessMinorPieceWhite = 8;
 var ChessMajorPieceWhite = 8;

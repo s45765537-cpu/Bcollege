@@ -38,7 +38,7 @@ let KDUnlockedPerks = [];
 
 let KinkyDungeonBackground = "BrickWall";
 /**
- * @type {Character}
+ * @type {Character | null}
  */
 let KinkyDungeonPlayer = null;
 let KinkyDungeonState = "Consent";
@@ -144,7 +144,7 @@ let KDDefaultKB = {
 };
 
 let KinkyDungeonRootDirectory = "Screens/MiniGame/KinkyDungeon/";
-/** @type {Character} */
+/** @type {Character | null} */
 let KinkyDungeonPlayerCharacter = null; // Other player object
 let KinkyDungeonGameData = null; // Data sent by other player
 let KinkyDungeonGameDataNullTimer = 4000; // If data is null, we query this often
@@ -753,7 +753,7 @@ async function KinkyDungeonLoad() {
  * @returns {boolean} - If the player is in the arcade
  */
 function KinkyDungeonDeviousDungeonAvailable() {
-	return KinkyDungeonIsPlayer() && (DialogGamingReturnScreen?.[1] == "Arcade" || MiniGameReturnFunction == "ArcadeKinkyDungeonEnd") && !KDPatched;
+	return KinkyDungeonIsPlayer() && (DialogGamingReturnScreen?.[1] === "Arcade") && !KDPatched;
 }
 
 /**
@@ -800,12 +800,8 @@ let KDGlobalRefresh = false;
 function KinkyDungeonRun() {
 
 	if (KinkyDungeonPlayer?.Appearance) {
-		for (let A = 0; A < KinkyDungeonPlayer.Appearance.length; A++) {
-			if (KinkyDungeonPlayer.Appearance[A]?.Asset?.Name?.includes("Penis")) {
-				KinkyDungeonPlayer.Appearance.splice(A, 1);
-				A--;
-			}
-		}
+		const items = KinkyDungeonPlayer.Appearance.filter(item => item.Asset.Name.includes("Penis"))
+		InventoryRemoveItems(KinkyDungeonPlayer, items, { refresh: false });
 	}
 	if (StandalonePatched && KDCurrentModels) {
 		let refresh = false;
@@ -2659,7 +2655,7 @@ function KinkyDungeonClick() {
  */
 function KinkyDungeonExit() {
 	KinkyDungeonGameKey.removeKeyListener();
-	CommonDynamicFunction(MiniGameReturnFunction + "()");
+	MiniGameEnd();
 
 	// Refresh the player character if needed
 	if (ArcadeDeviousChallenge && KinkyDungeonPlayerNeedsRefresh) {

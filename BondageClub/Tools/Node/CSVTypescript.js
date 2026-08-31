@@ -142,6 +142,30 @@ function AllCsvToTS(root, output) {
 	return status;
 }
 
+const declarationsTemplate = `
+type TextKeysInterface = (
+	{csvKeys}
+);
+`.trim();
+
+/**
+ *
+ * @param {string} root
+ * @param {string} output
+ */
+function interfaceCsvToTS(root, output) {
+	root = fs.existsSync(root) ? root : path.join(BASE_PATH, root);
+	const outputName = path.join(output, "Interface.csv.d.ts");
+	const inputName = path.join(root, "Screens", "Interface.csv");
+
+	const csv = parseCSV(fs.readFileSync(inputName, { encoding: "utf8" }));
+	const csvKeyUnion = csv.map(i => i[0]).filter(Boolean).sort().map(i => `"${i}"`).join("\n\t| ");
+	const declarations = declarationsTemplate.replace("{csvKeys}", csvKeyUnion);
+	fs.writeFileSync(outputName, declarations, { encoding: "utf8" });
+}
+
 (function () {
-	AllCsvToTS(BASE_PATH, path.join(BASE_PATH, "Tools", "Node", "csvtypescript_tmp_output"));
+	const output = path.join(BASE_PATH, "Tools", "Node", "csvtypescript_tmp_output");
+	AllCsvToTS(BASE_PATH, output);
+	interfaceCsvToTS(BASE_PATH, output);
 })();

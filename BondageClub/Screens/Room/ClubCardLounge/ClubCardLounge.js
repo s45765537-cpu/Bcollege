@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var ClubCardLoungeBackground = "ClubCardLounge";
-/** @type {null | NPCCharacter} */
-var ClubCardLoungeTutor = null;
+/** @type {NPCCharacter} */
+var ClubCardLoungeTutor = /** @type {never} */ (null);
 
 /**
  * Loads the club card room and the tutor
@@ -49,19 +48,16 @@ function ClubCardLoungeClick() {
  * @returns {void} - Nothing
  */
 function ClubCardLoungePraticeGameStart() {
-	ClubCardOpponent = ClubCardLoungeTutor;
-	ClubCardOpponentDeck = ClubCardBuilderDefaultDeck;
-	MiniGameStart("ClubCard", 0, "ClubCardLoungePraticeGameEnd");
+	ClubCardStart(ClubCardLoungeTutor, ClubCardBuilderDefaultDeck, () => { ClubCardLoungePraticeGameEnd(); });
 }
 
 /**
  * When the practice game ends
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function ClubCardLoungePraticeGameEnd() {
-	CommonSetScreen("Room", "ClubCardLounge").then(() => {
-		CharacterSetCurrent(ClubCardLoungeTutor);
-		ClubCardLoungeTutor.CurrentDialog = DialogFind(ClubCardLoungeTutor, MiniGameVictory ? "AfterVictory" : "AfterDefeat");
-		ClubCardLoungeTutor.Stage = "50";
-	});
+async function ClubCardLoungePraticeGameEnd() {
+	await CommonSetScreen("Room", "ClubCardLounge");
+	CharacterSetCurrent(ClubCardLoungeTutor);
+	ClubCardLoungeTutor.CurrentDialog = DialogFind(ClubCardLoungeTutor, MiniGameVictory ? "AfterVictory" : "AfterDefeat");
+	ClubCardLoungeTutor.Stage = "50";
 }

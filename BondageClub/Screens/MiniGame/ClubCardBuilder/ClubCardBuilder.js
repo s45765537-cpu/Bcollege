@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var ClubCardBuilderBackground = "ClubCardPlayBoard1";
 var ClubCardBuilderDeckIndex = -1;
@@ -12,38 +11,52 @@ var ClubCardBuilderDeckCurrent = [];
 var ClubCardBuilderMinDeckSize = 30;
 var ClubCardBuilderMaxDeckSize = 40;
 /** @type {ClubCardTag} */
-var ClubCardBuilderSelectedTag = "All";
+var ClubCardBuilderSelectedTag = "All Cards";
+
+/**
+ * @type {Record<ClubCardDefaultDecks, number[]>}
+ */
+const ClubCardBuilderDefaultDecksList = {
+	["Default"]: [1000, 1001, 1004, 1006, 1007, 1010, 1011, 1012, 1014, 1020, 2000, 2002, 4000, 6000, 6001, 6002, 6003, 6004, 6006, 6008, 8000, 8002, 8003, 8004, 13001, 30000, 30014, 30016, 31000, 31004],
+	["Princess Treatment"]: [1010, 1011, 10000, 10007, 10004, 10006, 10002, 10008, 6001, 6002, 6000, 6003, 8003, 1013, 18004, 7000, 7003, 7004, 7002, 7001, 18003, 8002, 30024, 16000, 10001, 3000, 30023, 3017, 1014, 2001],
+	["Permanent Stay"]: [7006, 7011, 7004, 7009, 7005, 7003, 7008, 7001, 7000, 30017, 31001, 31000, 30016, 31005, 13001, 2004, 1023, 1004, 2000, 1024, 6006, 18009, 18005, 18004, 2005, 17001, 30008, 31002, 30003, 9000],
+	["Pound Town"]: [14000, 14010, 4010, 14005, 4011, 14004, 14007, 14006, 14013, 14012, 14009, 14003, 14002, 30017, 30016, 31000, 31003, 31005, 2004, 1023, 1024, 14011, 30025, 3007, 3011, 3004, 3001, 3002, 3014, 3013],
+};
+
 
 /**
  * @type {Record<ClubCardTag, (card: ClubCard) => boolean>}
  */
 const ClubCardBuilderFilterGroupFilters = {
-	All: () => true,
+	["All Cards"]: () => true,
 	["Selected Cards"]: (card) => ClubCardBuilderDeckCurrent.includes(card.ID),
-	Event: (card) => card.Type === "Event",
-	NoGroup: (card) => !card.Group && !card.Type,
-	Liability: (card) => card.Group?.includes("Liability"),
-	Staff: (card) => card.Group?.includes("Staff"),
-	Police: (card) => card.Group?.includes("Police"),
-	Criminal: (card) => card.Group?.includes("Criminal"),
-	Fetishist: (card) => card.Group?.includes("Fetishist"),
-	Porn: (card) => ["PornActress", "Porn", "Video"].some(g => card.Group?.includes(g)),
-	Maid: (card) => card.Group?.includes("Maid"),
-	Asylum: (card) => ["AsylumPatient", "AsylumNurse"].some(g => card.Group?.includes(g)),
-	["Dominant / Mistress"]: (card) => ["Dominant", "Mistress"].some(g => card.Group?.includes(g)),
+	["Reward Cards"]: (card) => !!card.Reward,
+	["Event Cards"]: (card) => card.Type === "Event",
+	Ungrouped: (card) => !card.Group && !card.Type,
+	["Online Player"]: (card) => card.Group?.includes("Player") ?? false,
 	ABDL: (card) => ["ABDLBaby", "ABDLMommy"].some(g => card.Group?.includes(g)),
+	Asylum: (card) => ["AsylumPatient", "AsylumNurse"].some(g => card.Group?.includes(g)),
 	College: (card) => ["CollegeStudent", "CollegeTeacher"].some(g => card.Group?.includes(g)),
-	Shibari: (card) => ["Shibari", "Knot", "Sensei"].some(g => card.Group?.includes(g)),
+	Criminal: (card) => card.Group?.includes("Criminal") ?? false,
+	["Dominant / Mistress"]: (card) => ["Dominant", "Mistress"].some(g => card.Group?.includes(g)),
+	Exhibitionist: (card) => card.Group?.includes("Exhibitionist") ?? false,
+	Fetishist: (card) => card.Group?.includes("Fetishist") ?? false,
+	Kemonomimi: (card) => card.Group?.includes("Kemonomimi") ?? false,
+	Latex: (card) => card.Group?.includes("Latex") ?? false,
+	Liability: (card) => card.Group?.includes("Liability") ?? false,
+	Maid: (card) => card.Group?.includes("Maid") ?? false,
 	["Pet / Owner"]: (card) => ["Pet", "Owner"].some(g => card.Group?.includes(g)),
-	Kemonomimi: (card) => card.Group?.includes("Kemonomimi"),
+	Police: (card) => card.Group?.includes("Police") ?? false,
+	Porn: (card) => ["PornActress", "Porn", "Video"].some(g => card.Group?.includes(g)),
+	Shibari: (card) => ["Shibari", "Knot", "Sensei"].some(g => card.Group?.includes(g)),
+	Staff: (card) => card.Group?.includes("Staff") ?? false,
 	["Submissive / Slave"]: (card) => ["Submissive", "Slave"].some(g => card.Group?.includes(g)),
-	Exhibitionist: (card) => card.Group?.includes("Exhibitionist"),
-	Reward: (card) => !!card.Reward,
 };
 
 var ClubCardBuilderRenameIndex = -1;
 var ClubCardBuilderCustomizationIndex = "";
 var ClubCardBuilderSelectedCardBack = 0;
+/** @type {number | null} */
 var ClubCardBuilderCardBackFocus = null;
 var ClubCardBuilderCardBackCount = 14;
 var ClubCardBuilderView = ClubCardList;
@@ -68,16 +81,23 @@ let ClubCardBuilderReturnToChatroom = false;
  */
 function ClubCardBuilderLoadDeck(Deck) {
 	// create the editor's elements
-	ElementCreateDropdown("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), ClubCardBuilderTagChanged);
+	ElementCreateDropdown("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), function () {
+		ClubCardBuilderSelectedTag = /** @type {ClubCardTag} */ (this.value);
+		ClubCardBuilderFilterLoad();
+	});
+	ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), function () {
+		ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDecksList[/** @type {ClubCardDefaultDecks} */ (this.value)]?.slice();
+	});
 	ElementCreateSearchInput(
 		"CardsSearchFilter",
-		() => ClubCardList.map(i => ClubCardTextGet(i)),
+		() => ClubCardList.map(i => ClubCardTextGet(i.Name)),
 		{ onInput: ClubCardBuilderInputChanged },
 	);
 
 	// Loads the default deck if no deck exists or the deck is invalid
 	ClubCardBuilderDeckIndex = Deck;
-	if ((Player.Game.ClubCard.Deck.length <= Deck) || (Player.Game.ClubCard.Deck[Deck].length < ClubCardBuilderMinDeckSize) || (Player.Game.ClubCard.Deck[Deck].length > ClubCardBuilderMaxDeckSize)) {
+	const playerDecks = Player.Game.ClubCard?.Deck ?? [];
+	if ((playerDecks.length <= Deck) || (playerDecks[Deck].length < ClubCardBuilderMinDeckSize) || (playerDecks[Deck].length > ClubCardBuilderMaxDeckSize)) {
 		ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDeck.slice();
 		ClubCardBuilderFilterLoad();
 		return;
@@ -85,8 +105,8 @@ function ClubCardBuilderLoadDeck(Deck) {
 
 	// Loads the deck from the saved string
 	ClubCardBuilderDeckCurrent = [];
-	for (let Index = 0; Index < Player.Game.ClubCard.Deck[Deck].length; Index++)
-		ClubCardBuilderDeckCurrent.push(Player.Game.ClubCard.Deck[Deck].charCodeAt(Index));
+	for (let Index = 0; Index < playerDecks[Deck].length; Index++)
+		ClubCardBuilderDeckCurrent.push(playerDecks[Deck].charCodeAt(Index));
 
 	// Prepares the filtered list
 	ClubCardBuilderFilterLoad();
@@ -97,12 +117,13 @@ function ClubCardBuilderLoadDeck(Deck) {
  * @returns {void} - Nothing
  */
 function ClubCardBuilderSaveChanges() {
-	while (Player.Game.ClubCard.Deck.length <= 10)
-		Player.Game.ClubCard.Deck.push("");
+	const playerDecks = Player.Game.ClubCard?.Deck ?? [];
+	while (playerDecks.length <= 10)
+		playerDecks.push("");
 	let Deck = "";
 	for (let C of ClubCardBuilderDeckCurrent)
 		Deck = Deck + String.fromCharCode(C);
-	Player.Game.ClubCard.Deck[ClubCardBuilderDeckIndex] = Deck;
+	playerDecks[ClubCardBuilderDeckIndex] = Deck;
 	ClubCardBuilderDeckIndex = -1;
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 }
@@ -114,11 +135,13 @@ function ClubCardBuilderSaveChanges() {
  */
 function ClubCardBuilderSaveName(Save) {
 	if (Save) {
-		if (Player.Game.ClubCard.DeckName == null) Player.Game.ClubCard.DeckName = [];
-		while (Player.Game.ClubCard.DeckName.length <= 10)
-			Player.Game.ClubCard.DeckName.push("");
-		Player.Game.ClubCard.DeckName[ClubCardBuilderRenameIndex] = ElementValue("InputName").trim().substring(0, 20);
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+		if (Player.Game.ClubCard) {
+			Player.Game.ClubCard.DeckName ??= [];
+			while (Player.Game.ClubCard.DeckName.length <= 10)
+				Player.Game.ClubCard.DeckName.push("");
+			Player.Game.ClubCard.DeckName[ClubCardBuilderRenameIndex] = ElementValue("InputName").trim().substring(0, 20);
+			ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+		}
 	}
 	ClubCardBuilderRenameIndex = -1;
 	ElementRemove("InputName");
@@ -130,8 +153,10 @@ function ClubCardBuilderSaveName(Save) {
  * @returns {void} - Nothing
  */
 function ClubCardBuilderSaveCardBack(CardBack) {
-	Player.Game.ClubCard.CardBack = CardBack;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if (Player.Game.ClubCard) {
+		Player.Game.ClubCard.CardBack = CardBack;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
 	ClubCardBuilderCustomizationIndex = "";
 }
 
@@ -145,11 +170,6 @@ function ClubCardBuilderShowScreen(FromChatRoom) {
 	CommonSetScreen("MiniGame", "ClubCardBuilder");
 }
 
-function ClubCardBuilderTagChanged() {
-	ClubCardBuilderSelectedTag = this.value;
-	ClubCardBuilderFilterLoad();
-}
-
 /**
  * Resets the tag selection and remove the elements when we finish editing the deck
  * @returns {void} - Nothing
@@ -158,7 +178,8 @@ function ClubCardBuilderFinishEdit() {
 	ClubCardBuilderView = ClubCardList.slice();
 	ElementRemove("CardsTagsDropdown");
 	ElementRemove("CardsSearchFilter");
-	ClubCardBuilderSelectedTag = "All";
+	ElementRemove("DefaultDecksDropdown");
+	ClubCardBuilderSelectedTag = "All Cards";
 }
 
 /**
@@ -187,7 +208,7 @@ function ClubCardBuilderFilterLoad() {
 	ClubCardBuilderList = [];
 	ClubCardBuilderOffset = 0;
 	for (let Card of ClubCardBuilderView) {
-		if (!Card.Reward || Player.Game.ClubCard.Reward.indexOf(String.fromCharCode(Card.ID)) >= 0) {
+		if (!Card.Reward || (Player.Game.ClubCard?.Reward?.indexOf(String.fromCharCode(Card.ID)) ?? -1) >= 0) {
 			if (ClubCardBuilderFilterGroupFilters[ClubCardBuilderSelectedTag](Card)) ClubCardBuilderList.push({...Card});
 		}
 	}
@@ -195,7 +216,23 @@ function ClubCardBuilderFilterLoad() {
 	for (let Card of ClubCardBuilderList)
 		if (Card.RequiredLevel == null)
 			Card.RequiredLevel = 1;
-	ClubCardBuilderList.sort((a, b) => (((a.Type == null) || (a.Type == "Member")) ? 0 : 100) - (((b.Type == null) || (b.Type == "Member")) ? 0 : 100) + a.RequiredLevel * 10 - b.RequiredLevel * 10 + ((a.Name > b.Name) ? 1 : ((b.Name > a.Name) ? -1 : 0)));
+	ClubCardBuilderList.sort((a, b) => {
+		const aTypePriority = !a.Type || a.Type === "Member" ? 0 : 1;
+		const bTypePriority = !b.Type || b.Type === "Member" ? 0 : 1;
+
+		if (aTypePriority !== bTypePriority) {
+			return aTypePriority - bTypePriority;
+		}
+
+		const aLevel = a.RequiredLevel ?? 0;
+		const bLevel = b.RequiredLevel ?? 0;
+
+		if (aLevel !== bLevel) {
+			return aLevel - bLevel;
+		}
+
+		return a.Name.localeCompare(b.Name);
+	});
 	if (ClubCardBuilderList.length > 0) ClubCardBuilderFocus = ClubCardBuilderList[0];
 }
 
@@ -215,9 +252,7 @@ async function ClubCardBuilderLoad() {
  * @returns {string} - The deck name or Deck #X if no name is assigned
  */
 function ClubCardBuilderGetDeckName(Deck) {
-	if ((Player.Game.ClubCard.DeckName == null) || (Player.Game.ClubCard.DeckName.length < Deck + 1)) return TextGet("DeckNumber") + (Deck + 1).toString();
-	if ((Player.Game.ClubCard.DeckName[Deck] == null) || (Player.Game.ClubCard.DeckName[Deck] === "")) return TextGet("DeckNumber") + (Deck + 1).toString();
-	return Player.Game.ClubCard.DeckName[Deck];
+	return Player.Game.ClubCard?.DeckName?.[Deck] || TextGet("DeckNumber") + (Deck + 1).toString();
 }
 
 /**
@@ -242,8 +277,8 @@ function ClubCardBuilderRun() {
 	// In deck rename mode
 	if (ClubCardBuilderRenameIndex >= 0) {
 		DrawText(TextGet("RenameThisDeck"), 1000, 70, "White", "Black");
-		DrawButton(1885, 25, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
-		DrawButton(1770, 25, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Cancel.png", TextGet("UndoChanges"));
+		DrawButton(1770, 25, 90, 90, "", "White", "Icons/Accept.png", TextGet("SaveChanges"));
 		DrawText(ClubCardBuilderGetDeckName(ClubCardBuilderRenameIndex), 1000, 400, "White", "Black");
 		ElementPosition("InputName", 1000, 500, 500);
 		return;
@@ -263,8 +298,8 @@ function ClubCardBuilderRun() {
 			}
 			Index++;
 		}
-		DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
-		DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveCardBack"));
+		DrawButton(1895, 5, 90, 90, "", "White", "Icons/Cancel.png", TextGet("UndoChanges"));
+		DrawButton(1780, 5, 90, 90, "", "White", "Icons/Accept.png", TextGet("SaveCardBack"));
 
 		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardBuilderCardBackFocus + ".png", 1549, 109, 437, 882);
 		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1545, 105, 445, 890);
@@ -282,9 +317,9 @@ function ClubCardBuilderRun() {
 			DrawButton(150 + (Deck % 5) * 350, 300 + Math.floor(Deck / 5) * 300, 300, 60, ClubCardBuilderGetDeckName(Deck), "White");
 			DrawButton(150 + (Deck % 5) * 350, 390 + Math.floor(Deck / 5) * 300, 300, 60, TextGet("RenameDeck"), "White");
 		}
-		DrawButton(1885, 25, 90, 90, null, "White", "Icons/Exit.png", TextGet("Exit"));
-		DrawButton(1770, 25, 90, 90, null, "White", "Icons/ClubCard.png", TextGet("ChangeCardBack"));
-		DrawButton(1655, 25, 90, 90, null, "White", "Icons/Preference.png", TextGet("ChangeCardBackGround"));
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
+		DrawButton(1770, 25, 90, 90, "", "White", "Icons/ClubCard.png", TextGet("ChangeCardBack"));
+		DrawButton(1655, 25, 90, 90, "", "White", "Icons/Preference.png", TextGet("ChangeCardBackGround"));
 		return;
 
 	}
@@ -303,18 +338,22 @@ function ClubCardBuilderRun() {
 	}
 
 	// Draw the text, the zoomed card and buttons
-	ClubCardRenderCard(ClubCardBuilderFocus, 1545, 105, 445);
-	if ((ClubCardBuilderFocus != null) && (ClubCardBuilderDeckCurrent.indexOf(ClubCardBuilderFocus.ID) >= 0)) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", 1870, 200, 120, 120);
-	DrawText(ClubCardBuilderGetDeckName(ClubCardBuilderDeckIndex) + " (" + ClubCardBuilderDeckCurrent.length + " / " + ClubCardBuilderMinDeckSize.toString() + "-" + ClubCardBuilderMaxDeckSize.toString() + ")", 1235, 37, (ClubCardBuilderDeckCurrent.length >= ClubCardBuilderMinDeckSize && ClubCardBuilderDeckCurrent.length <= ClubCardBuilderMaxDeckSize) ? "White" : "Pink", "Black");
-	if (ClubCardBuilderFocus == null) DrawTextWrap(TextGet("ClickCard"), 1560, 400, 430, 300, "White");
+	if (ClubCardBuilderFocus) {
+		ClubCardRenderCard(ClubCardBuilderFocus, 1545, 105, 445);
+		if ((ClubCardBuilderDeckCurrent.indexOf(ClubCardBuilderFocus.ID) >= 0)) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", 1870, 200, 120, 120);
+	}
+	const cardName = ClubCardBuilderGetDeckName(ClubCardBuilderDeckIndex) + " (" + ClubCardBuilderDeckCurrent.length + " / " + ClubCardBuilderMinDeckSize.toString() + "-" + ClubCardBuilderMaxDeckSize.toString() + ")";
+	const decksCountInvalid = (ClubCardBuilderDeckCurrent.length >= ClubCardBuilderMinDeckSize && ClubCardBuilderDeckCurrent.length <= ClubCardBuilderMaxDeckSize);
+	DrawText(cardName, 1235, 37, decksCountInvalid ? "White" : "Pink", "Black");
+	if (!ClubCardBuilderFocus) DrawTextWrap(TextGet("ClickCard"), 1560, 400, 430, 300, "White");
 	ElementPositionFix("CardsTagsDropdown", 36, 5, 5, 305, 61);
 	ElementPositionFix("CardsSearchFilter", 36, 312, 5, 305, 61);
-	DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
-	DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));
-	DrawButton(1665, 5, 90, 90, null, "White", "Icons/Next.png", TextGet("NextCards"));
-	DrawButton(1550, 5, 90, 90, null, "White", "Icons/Prev.png", TextGet("PreviousCards"));
-	DrawButton(619, 5, 150, 60, TextGet("Clear"), "White", "", TextGet("ClearHover"));
-	DrawButton(773, 5, 150, 60, TextGet("Default"), "White", "", TextGet("DefaultHover"));
+	ElementPositionFix("DefaultDecksDropdown", 36, 619, 5, 150, 60);
+	DrawButton(1895, 5, 90, 90, "", "White", "Icons/Cancel.png", TextGet("UndoChanges"));
+	DrawButton(1780, 5, 90, 90, "", "White", "Icons/Accept.png", TextGet("SaveChanges"));
+	DrawButton(1665, 5, 90, 90, "", "White", "Icons/Next.png", TextGet("NextCards"));
+	DrawButton(1550, 5, 90, 90, "", "White", "Icons/Prev.png", TextGet("PreviousCards"));
+	DrawButton(773, 5, 150, 60, TextGet("Clear"), "White", "", TextGet("ClearHover"));
 }
 
 /**
@@ -382,17 +421,19 @@ function ClubCardBuilderClick() {
 	// if the click on change card back
 	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1770, 25, 90, 90)) {
 		ClubCardBuilderOffset = 0;
-		ClubCardBuilderCardBackFocus = (Player.Game.ClubCard.CardBack ? Player.Game.ClubCard.CardBack : 0);
+		ClubCardBuilderCardBackFocus = (Player.Game.ClubCard?.CardBack ? Player.Game.ClubCard.CardBack : 0);
 		ClubCardBuilderCustomizationIndex = "CardBack";
-		ClubCardBuilderSelectedCardBack = Player.Game.ClubCard.CardBack;
+		ClubCardBuilderSelectedCardBack = Player.Game.ClubCard?.CardBack ?? 0;
 	}
 	// if the user click on change background
 	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1655, 25, 90, 90)) {
 		let background = Player.Game?.ClubCard?.Background ?? "ClubCardPlayBoard1";
 		BackgroundSelectionMake(BackgroundsClubCardsTagList, background, (Name, setBackground) => {
 			if (setBackground) {
-				Player.Game.ClubCard.Background = Name;
-				ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+				if (Player.Game.ClubCard) {
+					Player.Game.ClubCard.Background = Name;
+					ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+				}
 			}
 			CommonSetScreen("MiniGame", "ClubCardBuilder");
 		});
@@ -411,8 +452,7 @@ function ClubCardBuilderClick() {
 	}
 
 	// When we need to clear all the cards or reset to the default deck
-	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(619, 5, 150, 60)) ClubCardBuilderDeckCurrent = [];
-	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(773, 5, 150, 60)) ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDeck.slice();
+	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(773, 5, 150, 60)) ClubCardBuilderDeckCurrent = [];
 
 	// If the user clicks to select a deck
 	if (ClubCardBuilderDeckIndex == -1)

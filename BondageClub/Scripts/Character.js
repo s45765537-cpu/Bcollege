@@ -29,6 +29,7 @@ const CharacterBlurLevels = new Map([
 	["BlurLight", 3],
 ]);
 
+/** @satisfies {Record<string, DifficultyLevel>} */
 const Difficulty = {
 	ROLEPLAY: 0,
 	REGULAR: 1,
@@ -76,10 +77,11 @@ function CharacterCreatePlayer() {
 	// Our old 0-ID'ed character was the player dummy before login
 	const oldId = Player.ID;
 	Player.ID = 0;
+	Player.Log = [];
 	Character[0] = Player;
 	Character.splice(oldId, 1);
 	CharacterNextId--;
-	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+	CommonPromiseCatch(CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" }));
 	PreferenceInitPlayer(Player, {});
 }
 
@@ -123,7 +125,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			this._Stage = value;
 			if (DialogMenuMode === "dialog") {
-				DialogMenuMapping.dialog.Reload();
+				CommonPromiseCatch(DialogMenuMapping.dialog.Reload());
 			}
 		},
 		_CurrentDialog: "",
@@ -265,7 +267,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		/** Look for blindness effects and return the worst (limited by settings), Light: 1, Normal: 2, Heavy: 3 */
 		GetBlindLevel: function (eyesOnly = false) {
 			let blindLevel = this._BlindLevel;
-			if (blindLevel != null) {
+			if (!eyesOnly && blindLevel != null) {
 				return blindLevel;
 			} else {
 				blindLevel = 0;
@@ -288,11 +290,15 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			// Light sensory deprivation setting limits blindness
 			if (this.IsPlayer() && this.GameplaySettings && this.GameplaySettings.SensDepChatLog == "SensDepLight") {
-				this._BlindLevel = Math.max(0, Math.min(2, blindLevel));
+				blindLevel = Math.max(0, Math.min(2, blindLevel));
 			} else {
-				this._BlindLevel = Math.max(0, Math.min(3, blindLevel));
+				blindLevel = Math.max(0, Math.min(3, blindLevel));
 			}
-			return this._BlindLevel;
+			// Only cache complete blind values
+			if (!eyesOnly) {
+				this._BlindLevel = blindLevel;
+			}
+			return blindLevel;
 		},
 		GetBlurLevel: function() {
 			if ((this.IsPlayer() && !this.GraphicsSettings.AllowBlur) || CommonPhotoMode) {
@@ -661,18 +667,15 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			this.Position = { X: this.X, Y: value };
 		},
 		get Position() {
-			if (!this.MapData?.Pos) return null;
-			if (this.MapData?.Pos?.X === null || this.MapData?.Pos?.Y === null) return null;
-			return { X: this.MapData.Pos.X, Y: this.MapData.Pos.Y };
+			return this.MapData?.Pos ?? null;
 		},
 		set Position(pos) {
 			if (pos === null) {
 				return;
 			}
-			const { X, Y } = pos;
-			if (!this.MapData) return;
-			if (!this.MapData.Pos) return;
-			this.MapData.Pos = ChatRoomMapViewValidatePosition({X, Y});
+			const newPos = ServerAccountDataSyncedValidate.MapData.Pos(pos, this);
+			this.MapData ??= { Pos: newPos, PrivateState: {}};
+			this.MapData.Pos = newPos;
 			ChatRoomMapViewCalculatePerceptionMasks();
 			ChatRoomMapViewUpdatePlayerFlag();
 		},
@@ -694,6 +697,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsInFamilyOfMemberNumber: function (MemberNum) {
 			if (this.MemberNumber === MemberNum) return false;
 
+			/** @type {Character | undefined} */
 			let C = ChatRoomCharacter.find(c => c.MemberNumber === MemberNum);
 			if (!C) C = PrivateCharacter.find(c => c.MemberNumber === MemberNum);
 			if (!C) C = Character.find(c => c.MemberNumber === MemberNum);
@@ -705,7 +709,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
 		},
-		/** @type {() => this is Character} */
+		/** @type {() => this is OnlineCharacter} */
 		IsOnline: function () {
 			return this.Type === CharacterType.ONLINE;
 		},
@@ -859,13 +863,13 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		{
 			set(...args) {
 				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
-					DialogSelfMenuMapping.Expression.Reload();
+					CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 				}
 				return Reflect.set(...args);
 			},
 			deleteProperty(...args) {
 				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
-					DialogSelfMenuMapping.Expression.Reload();
+					CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 				}
 				return Reflect.deleteProperty(...args);
 			},
@@ -959,7 +963,6 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 
 		// Prefix with the current screen unless this is a Dialog function or an online character
 		if (D.Function) {
-			// @ts-expect-error Not sure why the online || player check errors here
 			D.Function = (D.Function.startsWith("Dialog") ? "" : (C.IsOnline() || C.IsPlayer()) ? "ChatRoom" : functionPrefix) + D.Function;
 		}
 
@@ -967,7 +970,7 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 	}
 
 	if (reload && DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload(null, { reset: true });
+		CommonPromiseCatch(DialogMenuMapping.dialog.Reload(null, { reset: true }));
 	}
 }
 
@@ -975,9 +978,9 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
  * Loads the content of a CSV file to build the character dialog. Can override the current screen.
  * @param {Character} C - Character for which to build the dialog objects
  * @param {DialogInfo<any>} [info]
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function CharacterLoadCSVDialog(C, info) {
+async function CharacterLoadCSVDialog(C, info) {
 
 	/** @type {DialogInfo<any>} */
 	let dialog;
@@ -1017,13 +1020,13 @@ function CharacterLoadCSVDialog(C, info) {
 	}
 
 	// Opens the file, parse it and returns the result it to build the dialog
-	CommonGet(FullPath, function () {
-		if (this.status == 200) {
-			CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
+	return CommonFetch(FullPath)
+		.then(async (response) => {
+			if (response.status !== 200) return;
+			const text = await response.text();
+			CommonCSVCache[FullPath] = CommonParseCSV(text);
 			buildDialog();
-		}
-	});
-
+		});
 }
 
 /**
@@ -1179,10 +1182,12 @@ function CharacterLoadNPC(CharacterID, NPCType=null, module=null, screen=null) {
 	// Randomize the new character
 	const C = /** @type {NPCCharacter} */ (CharacterCreate("Female3DCG", CharacterType.NPC, CharacterID));
 	C.AccountName = NPCType;
-	CharacterLoadCSVDialog(C, { module: module ?? CurrentModule, screen: screen ?? CurrentScreen, name: NPCType });
+	// XXX: should be awaited here
+	CommonPromiseCatch(CharacterLoadCSVDialog(C, { module: module ?? CurrentModule, screen: screen ?? CurrentScreen, name: NPCType }));
 	C.Name = CharacterGenerateRandomName();
-	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
+	C.Love = 0;
+	C.Trait = [];
 
 	// Sets archetype clothes
 	if (NPCType.indexOf("Maid") >= 0) CharacterArchetypeClothes(C, "Maid");
@@ -1262,7 +1267,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (oldPronouns !== undefined && oldPronouns !== newPronouns) {
 		// Reload the dialog so the new gender takes effect
 		// Don't reload in initialization (when oldPronouns is undefined), which breaks translation
-		CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" });
+		CommonPromiseCatch(CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" }));
 	}
 	CharacterLoadEffect(Char);
 	CharacterRefresh(Char);
@@ -1272,13 +1277,13 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
  * Loads an online character and flags it for a refresh if any data was changed
  * @param {ServerAccountDataSynced} data - Character data received
  * @param {number} SourceMemberNumber - Source number of the load trigger
- * @returns {Character} - The reloaded character
+ * @returns {OnlineCharacter} - The reloaded character
  */
 function CharacterLoadOnline(data, SourceMemberNumber) {
 
 	// Check if the character already exists to reuse it
-	/** @type {Character | undefined} */
-	let Char = data.ID.toString() == Player.CharacterID ? Player : Character.find(c => c.CharacterID === data.ID);
+	/** @type {OnlineCharacter | undefined} */
+	let Char = data.ID.toString() == Player.CharacterID ? Player : /** @type {OnlineCharacter | undefined} */ (Character.find(c => c.CharacterID === data.ID));
 
 	// We have to do that validation here because Description is one of the keys we check to decide
 	// whether to refresh or not; our currently in-memory character has it decoded, so we have to decode
@@ -1301,7 +1306,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		}
 
 		// Creates the new character from the online template
-		Char = CharacterCreate("Female3DCG", CharacterType.ONLINE, data.ID);
+		Char = /** @type {OnlineCharacter} */ (CharacterCreate("Female3DCG", CharacterType.ONLINE, data.ID));
 		Char.Name = data.Name;
 		Char.Lover = ServerAccountDataSyncedValidate.Lover(data.Lover, Char);
 		Char.Owner = ServerAccountDataSyncedValidate.Owner(data.Owner, Char);
@@ -1311,7 +1316,7 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		Char.MemberNumber = data.MemberNumber;
 		Char.Difficulty = ServerAccountDataSyncedValidate.Difficulty(data.Difficulty, Char);
 		Char.AllowItem = false;
-		CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" });
+		CommonPromiseCatch(CharacterLoadCSVDialog(Char, { module: "Online", screen: "ChatRoom", name: "Online" }));
 		CharacterOnlineRefresh(Char, data, SourceMemberNumber);
 	} else {
 
@@ -1594,7 +1599,9 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	if (C.IsPlayer()) {
 		// Grab the first custom background that we can find
 		const customBGItem = C.Appearance.find(item => typeof item.Property?.CustomBlindBackground === "string");
-		C.CustomBackground = customBGItem ? customBGItem.Property?.CustomBlindBackground : undefined;
+		if (customBGItem?.Property?.CustomBlindBackground !== null) {
+			C.CustomBackground = customBGItem ? customBGItem.Property?.CustomBlindBackground : undefined;
+		}
 	}
 
 	if (C.IsPlayer() && Push) {
@@ -1640,7 +1647,7 @@ function CharacterRefreshDialog(C) {
 
 	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions" || DialogMenuMode === "dialog") {
 		// We were looking at some inventory, perform a soft reload to update the UI
-		DialogMenuMapping[DialogMenuMode].Reload();
+		CommonPromiseCatch(DialogMenuMapping[DialogMenuMode].Reload());
 	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
 		if (!focusItem) {
 			// Focused item was removed
@@ -1650,7 +1657,17 @@ function CharacterRefreshDialog(C) {
 
 		// We were looking at an extended screen
 		const wasLock = DialogFocusItem && DialogFocusItem.Asset.IsLock;
-		const sourceItem = wasLock ? DialogFocusSourceItem : DialogFocusItem;
+
+		/** @type {Item | null} */
+		let sourceItem;
+
+		// Checks if we got on the tighten/loosen screen via the button in items screen
+		if (DialogMenuMode === "tighten" && DialogTightenLoosenItem) {
+			sourceItem = DialogTightenLoosenItem;
+		} else {
+			sourceItem = wasLock ? DialogFocusSourceItem : DialogFocusItem;
+		}
+
 		const previousItem = sourceItem ? InventoryGet(C, sourceItem.Asset.Group.Name) : null;
 		if (!previousItem || previousItem.Asset.Name !== focusItem.Asset.Name) {
 			// Unable to reload the source item, or it's different now
@@ -1663,7 +1680,7 @@ function CharacterRefreshDialog(C) {
 			// The lock on the focused item was removed
 			DialogLeaveFocusItem();
 			return;
-		} else if (!focusItem.Asset.Extended) {
+		} else if (!(wasLock ? (lock && lock.Asset.Extended) : focusItem.Asset.Extended)) {
 			// Shouldn't happen but we don't want to open an extended screen on that
 			DialogChangeMode("items");
 			return;
@@ -1774,10 +1791,8 @@ function CharacterNaked(C, refresh=true) {
 function CharacterRandomUnderwear(C) {
 
 	// Clear the current clothes
-	for (let A = C.Appearance.length - 1; A >= 0; A--)
-		if ((C.Appearance[A].Asset.Group.Category == "Appearance") && C.Appearance[A].Asset.Group.AllowNone) {
-			C.Appearance.splice(A, 1);
-		}
+	const items = C.Appearance.filter(item => item.Asset.Group.IsAppearance() && item.Asset.Group.AllowNone);
+	InventoryRemoveItems(C, items);
 
 	// Generate random undies at a random color
 	/** @type {"" | BCColor} */
@@ -1813,7 +1828,7 @@ function CharacterUnderwear(C, Appearance) {
 /**
  * Redresses a character based on a given appearance array
  * @param {Character} C - Character to redress
- * @param {Array.<*>} Appearance - Appearance array to redress the character with
+ * @param {readonly Item[]} Appearance - Appearance array to redress the character with
  * @returns {void} - Nothing
  */
 function CharacterDress(C, Appearance) {
@@ -1829,15 +1844,12 @@ function CharacterDress(C, Appearance) {
 /**
  * Removes all binding items from a given character
  * @param {Character} C - Character to release
- * @param {boolean} [Refresh=false] - do not call CharacterRefresh if false
+ * @param {boolean} [refresh=true] - do not call CharacterRefresh if false
  * @returns {void} - Nothing
  */
-function CharacterRelease(C, Refresh) {
-	for (let E = C.Appearance.length - 1; E >= 0; E--)
-		if (C.Appearance[E].Asset.IsRestraint) {
-			C.Appearance.splice(E, 1);
-		}
-	if (Refresh || Refresh == null) CharacterRefresh(C);
+function CharacterRelease(C, refresh=true) {
+	const items = C.Appearance.filter(item => item.Asset.IsRestraint);
+	InventoryRemoveItems(C, items, { refresh });
 }
 
 /**
@@ -1858,11 +1870,8 @@ function CharacterReleaseFromLock(C, LockName) {
  * @returns {void} - Nothing
  */
 function CharacterReleaseNoLock(C) {
-	for (let E = C.Appearance.length - 1; E >= 0; E--)
-		if (C.Appearance[E].Asset.IsRestraint && !C.Appearance[E].Property?.LockedBy) {
-			C.Appearance.splice(E, 1);
-		}
-	CharacterRefresh(C);
+	const items = C.Appearance.filter(item => item.Asset.IsRestraint && !item.Property?.LockedBy);
+	InventoryRemoveItems(C, items);
 }
 
 /**
@@ -1872,23 +1881,18 @@ function CharacterReleaseNoLock(C) {
  * @returns {void} - Nothing
  */
 function CharacterReleaseTotal(C, refresh=true) {
-	for (let E = C.Appearance.length - 1; E >= 0; E--) {
-		if (C.Appearance[E].Asset.Group.Category != "Appearance") {
-			if (C.IsOwned() && C.Appearance[E].Asset.Name == "SlaveCollar") {
-				// Reset slave collar to the default model if it has a gameplay effect (such as gagging the player)
-				const effects = InventoryGetItemProperty(C.Appearance[E], "Effect");
-				if (effects?.length) {
-					C.Appearance[E].Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
-				}
+	const items = C.Appearance.filter(item => {
+		if (item.Asset.Name === "SlaveCollar" && C.IsOwned()) {
+			// Reset slave collar to the default model if it has a gameplay effect (such as gagging the player)
+			if (item.Property?.Effect?.length) {
+				item.Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
 			}
-			else {
-				C.Appearance.splice(E, 1);
-			}
+			return false;
+		} else {
+			return item.Asset.Group.IsItem();
 		}
-	}
-	if (refresh) {
-		CharacterRefresh(C);
-	}
+	});
+	InventoryRemoveItems(C, items, { refresh });
 }
 
 /**
@@ -1963,7 +1967,7 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	if (item.Property.Expression == Expression && (!Color || item.Color == Color)) return;
 
 	item.Property.Expression = Expression;
-	if (Color && CommonColorIsValid(Color)) item.Color = Color;
+	if (Color && CommonColorIsValid(Color)) item.Color = Array(item.Asset.ColorableLayerCount).fill(Color);;
 	// Remove all queued expression for that group if it's not coming from the queue
 	if (!fromQueue && C.ExpressionQueue) {
 		C.ExpressionQueue = C.ExpressionQueue.filter(({ Group }) => Group !== AssetGroup);
@@ -1980,7 +1984,6 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	const isTransient = Timer != null || fromQueue;
 
 	CharacterRefresh(C, !inChatRoom && !isTransient, false);
-	// @ts-expect-error Not sure why the online || player check errors here
 	if (inChatRoom && (C.IsOnline() || C.IsPlayer())) {
 		if (isTransient || C.IsPlayer()) {
 			ChatRoomCharacterExpressionUpdate(C, AssetGroup);
@@ -2015,10 +2018,10 @@ function CharacterResetFacialExpression(C) {
  * @param {Character} C
  * @param {Item} Item
  * @param {null | ExpressionName} Expression
- * @returns {null | string} - An exit status or `null` if the expression is otherwise allowed
+ * @returns {null | "InternalError" | "IllegalExpression" | ReturnType<typeof InventoryPrerequisiteMessage>}- An exit status or `null` if the expression is otherwise allowed
  */
 function CharacterIsExpressionDisallowed(C, Item, Expression) {
-	if (!C || !Item) return "Internal error: missing character or item";
+	if (!C || !Item) return "InternalError";
 
 	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true) ?? [];
 	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true) ?? [];
@@ -2026,7 +2029,7 @@ function CharacterIsExpressionDisallowed(C, Item, Expression) {
 	const prereqMessage = !exprPre ? null : InventoryPrerequisiteMessage(C, exprPre, Item.Asset);
 
 	if (Expression != null && !allowedExpr.includes(Expression)) {
-		return `Illegal expression "${Expression}"`;
+		return "IllegalExpression";
 	} else if (prereqMessage) {
 		return prereqMessage;
 	} else {
@@ -2106,7 +2109,7 @@ function CharacterDecompressWardrobe(Wardrobe) {
 			if (typeof Property?.Type === "string" && !CommonIsObject(Property?.TypeRecord)) {
 				const asset = AssetGet("Female3DCG", Group, Name);
 				if (!asset) {
-					console.warn(`unable to find ${Group}/${Name}, ignoring`);
+					console.error(`unable to find ${Group}/${Name}, ignoring`);
 				} else {
 					Property.TypeRecord = ExtendedItemTypeToRecord(asset, Property.Type);
 				}
@@ -2345,6 +2348,7 @@ function CharacterCheckHooks(C, IgnoreHooks) {
 			// Fancy logic is to use a different hook for when the character is focused
 			const layerVisibilityHook = () => {
 				const inDialog = (CurrentCharacter != null);
+				// @ts-ignore Strict-TS: Must always be called under CharacterLoadCanvas
 				C.AppearanceLayers = C.AppearanceLayers?.filter((Layer) => (
 					!Layer.Visibility ||
 					(Layer.Visibility == "Player" && C.IsPlayer()) ||
@@ -2429,7 +2433,7 @@ function CharacterClearOwnership(C, push=true) {
 		}
 
 		LoginValidCollar();
-		LogDeleteGroup("OwnerRule");
+		LogDelete(null, "OwnerRule");
 	}
 
 	C.Appearance = C.Appearance.filter(item => !item.Asset.OwnerOnly);
@@ -2453,18 +2457,19 @@ function CharacterNickname(C) {
 /**
  * Returns dialog text for a character based on their chosen pronouns. Default to She/Her entries
  * @param {Character} C - The character to fetch dialog for
- * @param {string} DialogKey - The type of dialog entry to look for
+ * @param {CharacterPronounType} DialogKey - The type of dialog entry to look for
  * @param {boolean} HideIdentity - Whether to use generic they/them pronouns
  * @returns {string} - The text to use
  */
 function CharacterPronoun(C, DialogKey, HideIdentity) {
+	/** @type {CharacterPronouns} */
 	let pronounName;
 	if (HideIdentity && ChatSearchGetSpace() == ChatRoomSpaceType.MIXED || C == null) {
 		pronounName = "TheyThem";
 	} else {
 		pronounName = C.GetPronouns();
 	}
-	return InterfaceTextGet("Pronoun" + DialogKey + pronounName);
+	return InterfaceTextGet(`Pronoun${DialogKey}${pronounName}`);
 }
 
 /**
@@ -2701,4 +2706,13 @@ function CharacterIsOnList(listOwner, listTarget, list) {
 		case "friend":
 			return listOwner.IsPlayer() && !!listOwner.FriendList?.includes(num);
 	}
+}
+
+/**
+ * Get the character's height
+ * @param {Character} C
+ */
+function CharacterGetHeight(C) {
+	const height = C ? InventoryGet(C, "Height") : null;
+	return CommonClamp(height?.Asset.ZoomModifier ?? 1, 0, 1);
 }

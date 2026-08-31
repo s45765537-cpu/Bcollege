@@ -4,6 +4,311 @@ import path from "path";
 
 import { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries, errorState } from "./Common.js";
 
+// XXX: this must all be checked
+const knownMissingOverrides = new Set([
+	"ClothLower:ASRubberSkirt:null",
+	"ClothLower:BaggyJeans:Button",
+	"ClothLower:BusinessTrousers:Down",
+	"ClothLower:CrossSkirt:Base",
+	"ClothLower:CrossSkirt:Belt",
+	"ClothLower:CrossSkirt:Cross",
+	"ClothLower:CrossSkirt:Metal",
+	"ClothLower:CrossSkirtLight:Base",
+	"ClothLower:CrossSkirtLight:Belt",
+	"ClothLower:CrossSkirtLight:Cross",
+	"ClothLower:CrossSkirtLight:Metal",
+	"ClothLower:ElegantSkirt:Design",
+	"ClothLower:ElegantSkirt:Skirt",
+	"ClothLower:LatexPants1:null",
+	"Corset:Corset1:null",
+	"Corset:Corset2:null",
+	"Corset:Corset3:null",
+	"Corset:Corset4:null",
+	"Corset:Corset5:null",
+	"Corset:Corset6:Cloth",
+	"Corset:LatexCorset1:Base",
+	"Corset:LatexCorset1:Garter",
+	"Corset:LatexCorset1:Lock",
+	"Corset:LeatherCorsetTop1:null",
+	"Corset:SteampunkCorsetTop1:null",
+	"Corset:TightCorset:Corset",
+	"Corset:Underbust:null",
+	"Gloves:CowPrintedGloves:null",
+	"Gloves:FishnetGloves:null",
+	"Gloves:Gloves2:null",
+	"Gloves:Gloves3:null",
+	"Gloves:GlovesFur:Fabric",
+	"Gloves:GlovesFur:Fur",
+	"Gloves:HaremGlove:Bands",
+	"Gloves:HaremGlove:Fabric",
+	"Gloves:LatexElbowGloves:null",
+	"Gloves:MistressGloves:null",
+	"Gloves:OperaGloves:Long",
+	"ItemArms:ArmbinderSuit:HBelts",
+	"ItemArms:ArmbinderSuit:LBelts",
+	"ItemArms:Chains:null",
+	"ItemArms:DuctTape:null",
+	"ItemArms:FullBodyLeatherHarness:Lock",
+	"ItemArms:FullLatexSuit:Lock",
+	"ItemArms:HempRope:null",
+	"ItemArms:InflatableStraightLeotard:Lock",
+	"ItemArms:LatexBoxtieLeotard:Lock",
+	"ItemArms:LatexButterflyLeotard:Lock",
+	"ItemArms:MedicalBedRestraints:Base",
+	"ItemArms:MedicalBedRestraints:Lock",
+	"ItemArms:MermaidSuit:Lock",
+	"ItemArms:SeamlessStraitDress:Lock",
+	"ItemArms:SeamlessStraitDressOpen:Lock",
+	"ItemArms:SleepSac:Lock",
+	"ItemArms:StraitDress:Lock",
+	"ItemArms:StraitDressOpen:Lock",
+	"ItemBoots:BalletHeels:Lock",
+	"ItemBoots:BalletHeels:null",
+	"ItemBoots:BalletWedges:Lock",
+	"ItemBoots:BalletWedges:null",
+	"ItemBoots:FuturisticHeels:Display",
+	"ItemBoots:FuturisticHeels:Lock",
+	"ItemBoots:FuturisticHeels:Shoes",
+	"ItemBoots:FuturisticHeels2:Cuffs",
+	"ItemBoots:FuturisticHeels2:Mesh",
+	"ItemBoots:FuturisticHeels2:Shine",
+	"ItemBoots:FuturisticHeels2:Soles",
+	"ItemBoots:FuturisticHeels2:Trim",
+	"ItemBoots:HighThighBoots:Lock",
+	"ItemBoots:HighThighBoots:null",
+	"ItemBoots:LeatherFootMitts1:Lock",
+	"ItemBoots:LeatherFootMitts1:Mitts",
+	"ItemBoots:LeatherFootMitts1:Straps",
+	"ItemBoots:LockingBoots1:Boots",
+	"ItemBoots:LockingBoots1:Lock",
+	"ItemBoots:LockingBoots1:Straps",
+	"ItemBoots:LockingHeels:Lock",
+	"ItemBoots:LockingHeels:null",
+	"ItemBoots:LockingHeels2:Lock",
+	"ItemBoots:LockingHeels2:null",
+	"ItemBoots:LockingShoes1:Lock",
+	"ItemBoots:LockingShoes1:null",
+	"ItemBoots:LockingShoes2:Lock",
+	"ItemBoots:LockingShoes2:null",
+	"ItemBoots:MetalBallet:Lock",
+	"ItemBoots:MetalBallet:null",
+	"ItemBoots:PonyBoots:Lock",
+	"ItemBoots:PonyBoots:null",
+	"ItemBoots:ShortPonyBoots:Ankle",
+	"ItemBoots:ShortPonyBoots:Foot",
+	"ItemBoots:ShortPonyBoots:Lock",
+	"ItemBoots:ShortPonyBoots:Toe",
+	"ItemBoots:ShortPonyBoots:U",
+	"ItemBoots:ToeTape:null",
+	"ItemBoots:TormentHeels:Boots",
+	"ItemBoots:TormentHeels:Heels",
+	"ItemBoots:TormentHeels:Lock",
+	"ItemFeet:AnkleShackles:Lock",
+	"ItemFeet:Chains:Lock",
+	"ItemFeet:FuturisticAnkleCuffs:Chain",
+	"ItemFeet:HighStyleSteelAnkleCuffs:Lock",
+	"ItemFeet:Irish8Cuffs:Lock",
+	"ItemFeet:NylonRope:BedSpreadEagleRope",
+	"ItemFeet:NylonRope:BedSpreadEagleShine",
+	"ItemFeet:OrnateAnkleCuffs:Chain",
+	"ItemFeet:OrnateAnkleCuffs:Lock",
+	"ItemFeet:SpreaderMetal:Lock",
+	"ItemFeet:SpreaderVibratingDildoBar:Lock",
+	"ItemHood:AccentHood:Lock",
+	"ItemHood:Balloon:Head",
+	"ItemHood:Balloon:Shine",
+	"ItemHood:CollarHood:Collar",
+	"ItemHood:CollarHood:Lock",
+	"ItemLegs:Chains:Lock",
+	"ItemLegs:FuturisticLegCuffs:Chain",
+	"ItemLegs:LeatherDeluxeLegCuffs:Chain",
+	"ItemLegs:OrnateLegCuffs:Chain",
+	"ItemLegs:SeamlessHobbleSkirt:Lock",
+	"ItemLegs:SeamlessLegBinder:Lock",
+	"ItemLegs:SturdyLeatherBelts:LowerBelt",
+	"ItemLegs:SturdyLeatherBelts:LowerMetal",
+	"ItemLegs:SturdyLeatherBelts:UpperBelt",
+	"ItemLegs:SturdyLeatherBelts:UpperMetal",
+	"ItemPelvis:DiaperHarness:Lock",
+	"ItemPelvis:HarnessPanties1:Lock",
+	"ItemPelvis:LeatherStrapPanties1:Lock",
+	"ItemPelvis:OrnateChastityBelt:Lock",
+	"ItemPelvis:SteelChastityPanties:Lock",
+	"ItemPelvis:StuddedChastityBelt:Lock",
+	"ItemTorso:AdultBabyHarness:null",
+	"ItemTorso:CrotchChain:Lock",
+	"ItemTorso:FuturisticHarness:Band",
+	"ItemTorso:HeavyLatexCorset:null",
+	"ItemTorso:HempRopeHarness:null",
+	"ItemTorso:LeatherHarness:Lock",
+	"ItemTorso:LeatherHarness:null",
+	"ItemTorso:LeatherStrapBra1:null",
+	"ItemTorso:LeatherStrapHarness:Lock",
+	"ItemTorso:LeatherStrapHarness:null",
+	"ItemTorso:LockingSwimsuit:null",
+	"ItemTorso:LockingSwimsuit2:null",
+	"ItemTorso:NylonRopeHarness:Rope",
+	"ItemTorso:NylonRopeHarness:Shine",
+	"ItemTorso:Ribbons:null",
+	"ItemTorso:ShinyLeotardLock:Latex",
+	"ItemTorso:ShinyLeotardLock:Shine",
+	"ItemTorso:StuddedHarness:Lock",
+	"ItemVulvaPiercings:CockRingLeash:Base",
+	"ItemVulvaPiercings:VibeEggGlans:Egg",
+	"ItemVulvaPiercings:VibeEggGlans:Strap",
+	"Panties:CrotchPanties1:null",
+	"Panties:WaistLegHarness:BeltsA",
+	"Panties:WaistLegHarness:BeltsA2",
+	"Panties:WaistLegHarness:BeltsB",
+	"Panties:WaistLegHarness:BeltsC",
+	"Panties:WaistLegHarness:MetalA",
+	"Panties:WaistLegHarness:MetalB",
+	"Panties:WaistLegHarness:MetalC",
+	"Shoes:AnimeGirlBoots:Boots",
+	"Shoes:AnimeGirlBoots:Detail",
+	"Shoes:AnkleBoots1:Laces",
+	"Shoes:AnkleStrapShoes:null",
+	"Shoes:BalletHeels1:null",
+	"Shoes:BarefootSandals1:null",
+	"Shoes:Boots1:Laces",
+	"Shoes:Boots1:Shoes",
+	"Shoes:Boots1:Sides",
+	"Shoes:Clogs:Main",
+	"Shoes:Clogs:Sole",
+	"Shoes:DeluxeBoots:Boots",
+	"Shoes:DeluxeBoots:Buckles",
+	"Shoes:DeluxeBoots:Heels",
+	"Shoes:DeluxeBoots:Straps",
+	"Shoes:DutyShoes:Main",
+	"Shoes:DutyShoes:Rear",
+	"Shoes:Flippers:Fins",
+	"Shoes:Flippers:Shoes",
+	"Shoes:FuzzyBoots:Boots",
+	"Shoes:FuzzyBoots:Fur",
+	"Shoes:FuzzyBoots:Heels",
+	"Shoes:Geta:Dai",
+	"Shoes:Geta:Hanao",
+	"Shoes:Heels1:null",
+	"Shoes:Heels2:null",
+	"Shoes:Heels3:null",
+	"Shoes:LatexAnkleShoes:null",
+	"Shoes:LatexHeels:Base",
+	"Shoes:MaryShoes:Main",
+	"Shoes:MistressBoots:null",
+	"Shoes:PawBoots:null",
+	"Shoes:PonyBoots:null",
+	"Shoes:Sandals:null",
+	"Shoes:SandalsRS:Soles",
+	"Shoes:SandalsRS:Top",
+	"Shoes:Shoes1:null",
+	"Shoes:Shoes4:null",
+	"Shoes:Sneakers1:Main",
+	"Shoes:Sneakers2:Shoes",
+	"Shoes:SneakersSport:Front",
+	"Shoes:SocialHeels:Main",
+	"Shoes:SocialHeels:Rear",
+	"Shoes:StilettoHeels:Heels",
+	"Shoes:StilettoHeels:Rounded",
+	"Shoes:StilettoHeels:Sole",
+	"Shoes:StilettoHeels:Top",
+	"Shoes:StreetBoots:null",
+	"Shoes:TallerBoots:Belt",
+	"Shoes:TallerBoots:Boots",
+	"Shoes:TallerBoots:Legs",
+	"Shoes:TallerBoots:Metal",
+	"Shoes:ThighBoots:Band",
+	"Shoes:ThighBoots:Base",
+	"Shoes:WesternBoots:null",
+	"Shoes:WoollyBootsTall:null",
+	"Socks:CowPrintedSocks:null",
+	"Socks:FootlessSocks1:null",
+	"Socks:GradientPantyhose:Lower",
+	"Socks:LatexSocks1:null",
+	"Socks:LongFishnets:null",
+	"Socks:Pantyhose1:null",
+	"Socks:Pantyhose2:null",
+	"Socks:RippedPantyhose:ALower",
+	"Socks:RippedPantyhose:BaseLower",
+	"Socks:RippedPantyhose:BLower",
+	"Socks:RippedPantyhose:CLower",
+	"Socks:Socks0:null",
+	"Socks:Socks1:null",
+	"Socks:Socks2:null",
+	"Socks:Socks3:null",
+	"Socks:Socks4:null",
+	"Socks:Socks5:null",
+	"Socks:Socks6:Frill",
+	"Socks:Socks6:Sock",
+	"Socks:SocksFur:Fabric",
+	"Socks:SocksStriped1:Dark",
+	"Socks:SocksStriped1:Light",
+	"Socks:Stockings1:null",
+	"Socks:Stockings2:null",
+	"Socks:Stockings3:null",
+	"Socks:Stockings4:null",
+	"Socks:VSocks1:null",
+	"SocksLeft:CowPrintedSocks:null",
+	"SocksLeft:FootlessSocks1:null",
+	"SocksLeft:LatexSocks1:null",
+	"SocksLeft:LooseSocks:Loose",
+	"SocksLeft:LooseSocks:Main",
+	"SocksLeft:Socks0:null",
+	"SocksLeft:Socks1:null",
+	"SocksLeft:Socks2:null",
+	"SocksLeft:Socks3:null",
+	"SocksLeft:Socks4:null",
+	"SocksLeft:Socks5:null",
+	"SocksLeft:Socks6:Frill",
+	"SocksLeft:Socks6:Sock",
+	"SocksLeft:SocksFur:Fabric",
+	"SocksLeft:SocksStriped1:Dark",
+	"SocksLeft:SocksStriped1:Light",
+	"SocksLeft:Stockings1:null",
+	"SocksLeft:Stockings2:null",
+	"SocksLeft:Stockings3:null",
+	"SocksLeft:Stockings4:null",
+	"SocksLeft:VSocks1:null",
+	"SocksRight:CowPrintedSocks:null",
+	"SocksRight:FootlessSocks1:null",
+	"SocksRight:LatexSocks1:null",
+	"SocksRight:LooseSocks:Loose",
+	"SocksRight:LooseSocks:Main",
+	"SocksRight:Socks0:null",
+	"SocksRight:Socks1:null",
+	"SocksRight:Socks2:null",
+	"SocksRight:Socks3:null",
+	"SocksRight:Socks4:null",
+	"SocksRight:Socks5:null",
+	"SocksRight:Socks6:Frill",
+	"SocksRight:Socks6:Sock",
+	"SocksRight:SocksFur:Fabric",
+	"SocksRight:SocksStriped1:Dark",
+	"SocksRight:SocksStriped1:Light",
+	"SocksRight:Stockings1:null",
+	"SocksRight:Stockings2:null",
+	"SocksRight:Stockings3:null",
+	"SocksRight:Stockings4:null",
+	"SocksRight:VSocks1:null",
+	"Suit:Catsuit:Base",
+	"Suit:PilotSuit:Layer1",
+	"Suit:PilotSuit:Layer2",
+	"Suit:ReverseBunnySuit:Suit",
+	"Suit:SeamlessCatsuit:Suit",
+	"Suit:SeethroughSuit:Suit",
+	"SuitLower:Catsuit:Base",
+	"SuitLower:Catsuit:Zip",
+	"SuitLower:CatsuitPanties:null",
+	"SuitLower:PilotSuit:Layer1",
+	"SuitLower:PilotSuit:Layer2",
+	"SuitLower:PilotSuit:Layer3",
+	"SuitLower:PilotSuit:Layer4",
+	"SuitLower:ReverseBunnySuit:null",
+	"SuitLower:SeamlessCatsuit:null",
+	"SuitLower:SeethroughSuit:null",
+	"SuitLower:SeethroughSuitZip:Base",
+	"SuitLower:SeethroughSuitZip:Zip",
+]);
+
 /**
  * Checks for {@link AssetDefinition.DynamicGroupName}
  * @param {readonly AssetGroupDefinition[]} groupDefinitions
@@ -46,38 +351,43 @@ function* flattenExtendedConfig(extendedItemConfig) {
 
 /**
  * Checks for the option names of typed items
- * @param {ExtendedItemMainConfig} extendedItemConfig
- * @param {string[][]} dialogArray
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord The extended item data
+ * @param {string[][]} dialogArray The dialog array as created from `AssetStrings.csv`
  */
-function testExtendedItemDialog(extendedItemConfig, dialogArray) {
+function testExtendedItemDialog(dataSuperRecord, dialogArray) {
 	const dialogSet = new Set(dialogArray.map(i => i[0]));
 	let first = true;
-	for (const { groupName, assetName, assetConfig } of flattenExtendedConfig(extendedItemConfig)) {
-		// Skip if dialog keys if they are set via CopyConfig;
-		// they will be checked when validating the parent item
-		if (assetConfig.CopyConfig && !assetConfig?.DialogPrefix) {
-			continue;
-		}
+	for (const dataRecord of Object.values(dataSuperRecord)) {
+		for (const data of Object.values(dataRecord)) {
+			const groupName = data.asset.Group.Name;
+			const assetName = data.asset.Name;
 
-		/** @type {Set<string>} */
-		let missingDialog = new Set();
-		switch (assetConfig.Archetype) {
-			case "typed":
-				missingDialog = testTypedItemDialog(groupName, assetName, assetConfig, dialogSet);
-				break;
-			case "modular":
-				missingDialog = testModularItemDialog(groupName, assetName, assetConfig, dialogSet);
-				break;
-		}
-
-		if (missingDialog.size !== 0) {
-			if (first) {
-				first = false;
-				console.error('\nERROR: Missing dialog key(s) in "BondageClub/Assets/Female3DCG/AssetStrings.csv":');
+			/** @type {Set<string>} */
+			let missingDialog;
+			switch (data.archetype) {
+				case "vibrating":
+				case "typed":
+				case "variableheight":
+				case "text":
+				case "noarch":
+					missingDialog = testTypedItemDialog(groupName, assetName, data, dialogSet);
+					break;
+				case "modular":
+					missingDialog = testModularItemDialog(groupName, assetName, data, dialogSet);
+					break;
+				default:
+					throw new Error(`Unknown archetype "${/** @type {any} */(data).archetype}"`);
 			}
 
-			const missingString = Array.from(missingDialog).sort();
-			error(`${groupName}:${assetName}: found ${missingDialog.size} missing dialog keys: ${missingString}`);
+			if (missingDialog.size !== 0) {
+				if (first) {
+					first = false;
+					console.error('\nERROR: Missing dialog key(s) in "BondageClub/Assets/Female3DCG/AssetStrings.csv":');
+				}
+
+				const missingString = Array.from(missingDialog).sort();
+				error(`${groupName}:${assetName}: found ${missingDialog.size} missing dialog keys: ${missingString}`);
+			}
 		}
 	}
 }
@@ -87,7 +397,7 @@ function testExtendedItemDialog(extendedItemConfig, dialogArray) {
  * Performs an inplace update of `diffSet`.
  * @param {readonly (undefined | string)[]} prefixIter
  * @param {readonly (undefined | string)[]} suffixIter
- * @param {Readonly<Set<string>>} referenceSet
+ * @param {ReadonlySet<string>} referenceSet
  * @param {Set<string>} diffSet
  */
 function gatherDifference(prefixIter, suffixIter, referenceSet, diffSet) {
@@ -111,7 +421,7 @@ function gatherDifference(prefixIter, suffixIter, referenceSet, diffSet) {
  * Version of {@link gatherDifference} designed for handling the `fromTo` typed item chat setting.
  * @param {readonly (undefined | string)[]} prefixIter
  * @param {readonly (undefined | string)[]} suffixIter
- * @param {Readonly<Set<string>>} referenceSet
+ * @param {ReadonlySet<string>} referenceSet
  * @param {Set<string>} diffSet
  */
 function gatherDifferenceFromTo(prefixIter, suffixIter, referenceSet, diffSet) {
@@ -136,91 +446,105 @@ function gatherDifferenceFromTo(prefixIter, suffixIter, referenceSet, diffSet) {
 /**
  * Return a set of all expected typed item dialog keys that are absent for a given iten.
  * Helper function for {@link testExtendedItemDialog}.
- * @param {string} groupName
+ * @param {AssetGroupName} groupName
  * @param {string} assetName
- * @param {TypedItemConfig} config
- * @param {Readonly<Set<string>>} dialogSet
- * @returns {Set<string>}
+ * @param {TypedItemData | VibratingItemData | VariableHeightData | TextItemData | NoArchItemData} data
+ * @param {ReadonlySet<string>} dialogSet The set of all `AssetStrings.csv` dialog keys
+ * @returns {Set<string>} The missing dialog keys
  */
-function testTypedItemDialog(groupName, assetName, config, dialogSet) {
-	const chatSetting = config.ChatSetting ?? "default";
-	/** @type {Partial<TypedItemConfig["DialogPrefix"]>} */
-	const dialogConfig = {
-		Header: `${groupName}${assetName}Select`,
-		Option: `${groupName}${assetName}`,
-		Chat: `${groupName}${assetName}Set`,
-		...(config.DialogPrefix ?? {}),
-	};
+function testTypedItemDialog(groupName, assetName, data, dialogSet) {
+	/** @type {Partial<(typeof data)["dialogPrefix"]>} */
+	const dialogConfig = { ...data.dialogPrefix };
+
 	if (
-		typeof dialogConfig.Chat === "function"  // Can't validate callables via the CI
-		|| chatSetting === "silent"  // No dialog when silent
+		typeof dialogConfig.chat === "function"  // Can't validate callables via the CI
+		|| data.chatSetting === "silent"  // No dialog when silent
 		|| !groupName.includes("Item")  // Type changes of clothing based items never have a chat message
 	) {
-		dialogConfig.Chat = undefined;
+		dialogConfig.chat = undefined;
 	}
-	if (typeof dialogConfig.Header === "function") {
-		dialogConfig.Header = undefined;
+	if (typeof dialogConfig.header === "function") {
+		dialogConfig.header = undefined;
 	}
 
 	/** @type {Set<string>} */
-	const ret = new Set();
-	const optionNames = config.Options?.map(o => !o.HasSubscreen ? o.Name : undefined) ?? [];
-	gatherDifference([dialogConfig.Option], optionNames, dialogSet, ret);
-	if (dialogConfig.Header)
-		gatherDifference([dialogConfig.Header], [""], dialogSet, ret);
-	if (chatSetting === "default") {
-		gatherDifference([dialogConfig.Chat], optionNames, dialogSet, ret);
-	} else if (chatSetting === "fromTo") {
-		gatherDifferenceFromTo([dialogConfig.Chat], optionNames, dialogSet, ret);
+	const missingDialog = new Set();
+
+	/** @type {(undefined | string)[]} */
+	let optionSuffices = [];
+	/** @type {(undefined | string)[]} */
+	let chatSuffices = [];
+	switch (data.archetype) {
+		case "typed":
+			optionSuffices = chatSuffices = data.options.map(o => !o.HasSubscreen ? o.Name : undefined);
+			break;
+		case "vibrating": {
+			const direction = ["Increase", "Decrease"];
+			/** @type {VibratorIntensity[]} */
+			const intensity = [-1, 0, 1, 2, 3];
+			chatSuffices = direction.flatMap(dir => intensity.map(i => `${dir}To${i}`));
+			chatSuffices.push(...data.options.filter(o => o.Advanced).map(o => o.Name));
+			optionSuffices = data.options.map(o => !o.HasSubscreen ? o.Name : undefined);
+		}
 	}
-	return ret;
+	if ("option" in dialogConfig) {
+		gatherDifference([dialogConfig.option], optionSuffices, dialogSet, missingDialog);
+	}
+	gatherDifference([dialogConfig.header], [""], dialogSet, missingDialog);
+	switch (data.chatSetting) {
+		case "default":
+			gatherDifference([dialogConfig.chat], chatSuffices, dialogSet, missingDialog);
+			break;
+		case "fromTo":
+			gatherDifferenceFromTo([dialogConfig.chat], chatSuffices, dialogSet, missingDialog);
+			break;
+	}
+	return missingDialog;
 }
 
 /**
  * Return a set of all expected modular item dialog keys that are absent for a given iten.
  * Helper function for {@link testExtendedItemDialog}.
- * @param {string} groupName
+ * @param {AssetGroupName} groupName
  * @param {string} assetName
- * @param {ModularItemConfig} config
- * @param {Readonly<Set<string>>} dialogSet
- * @returns {Set<string>}
+ * @param {ModularItemData} data
+ * @param {ReadonlySet<string>} dialogSet The set of all `AssetStrings.csv` dialog keys
+ * @returns {Set<string>} The missing dialog keys
  */
-function testModularItemDialog(groupName, assetName, config, dialogSet) {
-	const chatSetting = config.ChatSetting ?? "default";
-	/** @type {Partial<ModularItemConfig["DialogPrefix"]>} */
-	const dialogConfig = {
-		Header: `${groupName}${assetName}Select`,
-		Module: `${groupName}${assetName}Module`,
-		Option: `${groupName}${assetName}Option`,
-		Chat: `${groupName}${assetName}Set`,
-		...(config.DialogPrefix ?? {}),
-	};
-	if (typeof dialogConfig.Chat === "function" || !groupName.includes("Item")) {
-		dialogConfig.Chat = undefined;
+function testModularItemDialog(groupName, assetName, data, dialogSet) {
+	/** @type {Partial<ModularItemData["dialogPrefix"]>} */
+	const dialogConfig = { ...data.dialogPrefix };
+
+	if (typeof dialogConfig.chat === "function" || !groupName.includes("Item")) {
+		dialogConfig.chat = undefined;
 	}
-	if (typeof dialogConfig.Header === "function") {
-		dialogConfig.Header = undefined;
+	if (typeof dialogConfig.header === "function") {
+		dialogConfig.header = undefined;
 	}
 
-	const modulesNames = config.Modules?.map(m => m.Name) ?? [];
+	const modulesNames = data.modules.map(m => m.Name);
 	/** @type {(string | undefined)[]} */
 	const optionNames = [];
-	for (const module of config.Modules ?? []) {
-		optionNames.push(...(module.Options.map((o, i) => !o.HasSubscreen ? `${module.Key}${i}` : undefined) ?? []));
+	for (const module of data.modules) {
+		optionNames.push(...module.Options.map((o, i) => !o.HasSubscreen ? o.Name : undefined));
 	}
 
 	/** @type {Set<string>} */
-	const ret = new Set();
-	gatherDifference([dialogConfig.Header, dialogConfig.Module], modulesNames, dialogSet, ret);
-	gatherDifference([dialogConfig.Option], optionNames, dialogSet, ret);
-	if (chatSetting === "default") {
-		gatherDifference([dialogConfig.Chat], optionNames, dialogSet, ret);
-	} else if (chatSetting === "perModule") {
-		// Ignore a module if every single one of its options links to a subscreen
-		const modulesNamesNoSubscreen = config.Modules?.map(m => m.Options.every(o => o.HasSubscreen) ? undefined : m.Name) ?? [];
-		gatherDifference([dialogConfig.Chat], modulesNamesNoSubscreen, dialogSet, ret);
+	const missingDialog = new Set();
+	gatherDifference([dialogConfig.header, dialogConfig.module], modulesNames, dialogSet, missingDialog);
+	gatherDifference([dialogConfig.option], optionNames, dialogSet, missingDialog);
+	switch (data.chatSetting) {
+		case "default":
+			gatherDifference([dialogConfig.chat], optionNames, dialogSet, missingDialog);
+			break;
+		case "perModule": {
+			// Ignore a module if every single one of its options links to a subscreen
+			const modulesNamesNoSubscreen = data.modules.map(m => m.Options.every(o => o.HasSubscreen) ? undefined : m.Name) ?? [];
+			gatherDifference([dialogConfig.chat], modulesNamesNoSubscreen, dialogSet, missingDialog);
+			break;
+		}
 	}
-	return ret;
+	return missingDialog;
 }
 
 /**
@@ -402,7 +726,7 @@ function testModularItemPropertyDisjoint(dataRecord) {
 	}
 
 	// Non-array item properties with special casing for dealing with inter-module intersections
-	const propertyWhitelist = new Set(["Difficulty", "OverrideHeight", "TypeRecord", "OverridePriority"]);
+	const propertyWhitelist = new Set(["Difficulty", "OverrideHeight", "TypeRecord", "OverridePriority", "CustomBlindBackground"]);
 	const assetWhitelist = new Set([
 		// `Intensity` intersection explicitly handled by a `...SetOption` script hook
 		"ItemVulva:ClitAndDildoVibratorbelt",
@@ -540,7 +864,7 @@ function testAssetLayerNames(assets) {
 		/** @type {Record<string, number>} */
 		const layerCount = {};
 		for (const layer of asset.Layer) {
-			layerCount[layer.Name] = 1 + (layerCount[layer.Name] || 0);
+			layerCount[layer.Name ?? ""] = 1 + (layerCount[layer.Name ?? ""] || 0);
 		}
 
 		const duplicateLayers = Object.entries(layerCount).filter(([_, j]) => j > 1).map(([i, _]) => i);
@@ -1098,6 +1422,10 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				} else if (layer.AllowTypes) {
 					// Filter out `undefined` in case someone messes up `layer.AllowTypes`
 					options = Object.entries(layer.AllowTypes.AllTypes).flatMap(([screenKey, indexSet]) => {
+						if (!optionsRecord[screenKey]) {
+							error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: missing extended options. Possibly a missing CopyConfig directive?`);
+							return /** @type {never} */({});
+						}
 						return Array.from(indexSet).map(i => {
 							partialLayerTypes.push(`${screenKey}${i}`);
 							return optionsRecord[screenKey][i];
@@ -1154,33 +1482,46 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				}
 			}
 
-			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
-			for (const color of colors) {
-				for (const expression of expressions) {
-					for (const [type, poseList] of layerTypes) {
-						for (const pose of poseList) {
-							/** @type {undefined | "" | AssetGroupName} */
-							const parentGroup = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
-							const parentNames = !parentGroup ? new Set([null]) : assetGroupMap[parentGroup][asset.Gender ?? "FM"];
-							if (parentNames.size === 0) {
-								error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
-							}
+			// Combinations involving BodyStyle
+			const DEFAULT_STYLE = "DEFAULT_STYLE";
+			let bodyStyles = layer.StyleOverride ?? ["DEFAULT_STYLE"];
+			bodyStyles.splice(0, 0, DEFAULT_STYLE);
 
-							for (const parent of parentNames) {
-								const pngPath = (
-									root
-									+ (pose ? `${pose}/` : "")
-									+ (expression ? `${expression}/` : "")
-								);
-								const fileParts = [];
-								if (asset.Name) fileParts.push(asset.Name);
-								if (parent) fileParts.push(parent);
-								if (type) fileParts.push(type);
-								if (color) fileParts.push(color);
-								if (layer.Name) fileParts.push(layer.Name);
-								const file = pngPath + fileParts.join("_") + ".png";
-								if (!fs.existsSync(file)) {
-									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
+			for (const style of bodyStyles) {
+				const styleSubpath = style !== DEFAULT_STYLE ? `Override/${style}/` : "";
+				const root = `${BASE_PATH}Assets/${asset.Group.Family}/${styleSubpath}${asset.DynamicGroupName}/`;
+				for (const color of colors) {
+					for (const expression of expressions) {
+						for (const [type, poseList] of layerTypes) {
+							for (const pose of poseList) {
+								/** @type {undefined | "" | AssetGroupName} */
+								const parentGroup = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
+								const parentNames = !parentGroup ? new Set([null]) : assetGroupMap[parentGroup][asset.Gender ?? "FM"];
+								if (parentNames.size === 0) {
+									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
+								}
+
+								for (const parent of parentNames) {
+									const pngPath = (
+										root
+										+ (pose ? `${pose}/` : "")
+										+ (expression ? `${expression}/` : "")
+									);
+									const fileParts = [];
+									if (asset.Name) fileParts.push(asset.Name);
+									if (parent) fileParts.push(parent);
+									if (type) fileParts.push(type);
+									if (color) fileParts.push(color);
+									if (layer.Name) fileParts.push(layer.Name);
+									const file = pngPath + fileParts.join("_") + ".png";
+									const key = `${asset.DynamicGroupName}:${asset.Name}:${layer.Name}`;
+									if (!fs.existsSync(file)) {
+										if (style === DEFAULT_STYLE) {
+											error(`${key}: Missing layer file "${file}"`);
+										} else if (!knownMissingOverrides.has(key)) {
+											error(`${key}: Missing override layer file for style ${style} "${file}"`);
+										}
+									}
 								}
 							}
 						}
@@ -1373,7 +1714,7 @@ function sanitizeVMOutput(input) {
 				const source = trace ? trace.split("\n")[2].trim() : "";
 				logOutput.warn.push([source, ...args]);
 			},
-			// eslint-disable-next-line no-shadow
+			// eslint-disable-next-line @typescript-eslint/no-shadow
 			error: function error(...args) {
 				const trace = (new Error()).stack;
 				const source = trace ? trace.split("\n")[2].trim() : "";
@@ -1564,7 +1905,7 @@ function sanitizeVMOutput(input) {
 	testExtendedItemGroupName(AssetFemale3DCGExtended, assetList);
 	testDrawCallbacks(assetList, context);
 	testDynamicGroupName(AssetFemale3DCG);
-	testExtendedItemDialog(AssetFemale3DCGExtended, dialogArray);
+	testExtendedItemDialog(extendedItemSuperRecord, dialogArray);
 	testColorGroups(missingColorGroups);
 	testColorLayers(missingColorLayers);
 	testModuleOptionLength(AssetFemale3DCGExtended);

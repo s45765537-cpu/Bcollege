@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var PrivateBackground = "Private";
-/** @type {null | NPCCharacter} */
-var PrivateVendor = null;
+/** @type {NPCCharacter} */
+var PrivateVendor = /** @type {never} */ (null);
 /** @type {NPCCharacter[]} */
 var PrivateCharacter = [];
 var PrivateCharacterOffset = 0;
@@ -15,30 +14,33 @@ var PrivateActivityAffectLove = true;
 var PrivateActivityList = ["Gag", "Ungag", "Restrain", "RestrainOther", "FullRestrain", "FullRestrainOther", "Release", "Unchaste", "Tickle", "Spank", "Pet", "Slap", "Kiss", "Fondle", "Naked", "Underwear", "RandomClothes", "CollegeClothes", "Shibari", "Gift", "PetGirl", "Locks", "Bed", "Aftercare", "CollarType"];
 /** @type {null | NPCCharacter} */
 var PrivateActivityTarget = null;
-/** @type {"" | PrivatePunishment} */
-var PrivatePunishment = "";
-/** @type {PrivatePunishment[]} */
+/** @type {PrivatePunishmentType | null} */
+var PrivatePunishment = null;
+/** @type {PrivatePunishmentType[]} */
 var PrivatePunishmentList = ["Cage", "Bound", "BoundPet", "ChastityBelt", "ChastityBra", "ForceNaked", "ConfiscateKey", "ConfiscateCrop", "ConfiscateWhip", "SleepCage", "LockOut", "Cell", "OwnerLocks", "Asylum"];
-/** @type {null | NPCCharacter} */
-var PrivateCharacterNewClothes = null;
 /** @type {NPCTraitType | null} */
 var PrivateSlaveImproveType = null;
 var PrivateNextLoveYou = 0;
-var PrivateLoverActivity = "";
+/** @type {PrivateActivityType | null} */
+var PrivateLoverActivity = null;
+/** @type {PrivateActivityType[]} */
 var PrivateLoverActivityList = ["Skip1", "Skip2", "Kiss", "FrenchKiss", "Caress", "Rub", "MasturbateHand", "MasturbateTongue", "MasturbatePlayer", "MasturbateSelf", "Underwear", "Naked", "EggInsert", "LockBelt", "UnlockBelt", "EggSpeedUp", "EggSpeedDown", "Bed", "LoverLock", "LoverUnlock"];
 var PrivateBeltList = ["LeatherChastityBelt", "SleekLeatherChastityBelt", "StuddedChastityBelt", "MetalChastityBelt", "PolishedChastityBelt", "OrnateChastityBelt", "SteelChastityPanties"];
 var PrivateEntryEvent = true;
 var PrivateClubCardVictoryMode = false;
 var PrivateClubCardDefeatConsequence = ["Cage", "Bound", "BoundPet", "Chastity", "ForceNaked", "Spank", "Tickle", "Orgasm", "Shibari"];
+/** @type {Asset | null} */
 var PrivateGiftRegular = null;
+/** @type {Asset | null} */
 var PrivateGiftRestraint = null;
 var PrivateBaseDecay = 7200000; // Base NPC love decay is -1 love per 2 hours
+const PrivateCollegeNPCNames = /** @type {const} */ (["Amanda", "Sarah", "Jennifer", "Sidney"]);
 
 /**
  * Checks if the player is caged.
  * @returns {boolean} - TRUE if the player is in the cage.
  */
-function PrivateIsCaged() { return (!!CurrentCharacter.Cage); }
+function PrivateIsCaged() { return CurrentCharacter?.Cage ?? false; }
 /**
  * Checks if the player can get the second private room expansion.
  * @returns {boolean} - TRUE if the player has the first private room expansion, but not the second.
@@ -53,337 +55,610 @@ function PrivateVendorCanPlay() { return (LogQuery("RentRoom", "PrivateRoom") &&
  * Checks if the player can change her clothes.
  * @returns {boolean} - TRUE if the player is not restrained and is more dominant than the current character.
  */
-function PrivateAllowChange() { return (!CurrentCharacter.IsRestrained() && (ReputationGet("Dominant") + 25 >= NPCTraitGet(CurrentCharacter, "Dominant"))); }
+function PrivateAllowChange() { return !!CurrentCharacter && (!CurrentCharacter.IsRestrained() && (ReputationGet("Dominant") + 25 >= NPCTraitGet(CurrentCharacter, "Dominant"))); }
 /**
  * Checks if the player is not able to change.
  * @returns {boolean} - TRUE if the player is not restrained, but is not enough dominant to change.
  */
-function PrivateWontChange() { return (!CurrentCharacter.IsRestrained() && (ReputationGet("Dominant") + 25 < NPCTraitGet(CurrentCharacter, "Dominant"))); }
+function PrivateWontChange() { return !!CurrentCharacter && (!CurrentCharacter.IsRestrained() && (ReputationGet("Dominant") + 25 < NPCTraitGet(CurrentCharacter, "Dominant"))); }
 /**
  * Checks if the current character is restrained.
  * @returns {boolean} - TRUE if the character is restrained.
  */
-function PrivateIsRestrained() { return (CurrentCharacter.IsRestrained()); }
+function PrivateIsRestrained() { return CurrentCharacter?.IsRestrained() ?? false; }
 /**
  * Checks if the current character can be restrained.
  * @returns {boolean} - TRUE if the character can be restrained.
  */
-function PrivateAllowRestain() { return (CurrentCharacter.AllowItem); }
+function PrivateAllowRestain() { return !!CurrentCharacter && CurrentCharacter.AllowItem; }
 /**
  * Checks if both characters in the current dialog can talk.
  * @returns {boolean} - TRUE if both characters are not under a gagging effect.
  */
-function PrivateNobodyGagged() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function PrivateNobodyGagged() { return Player.CanTalk() && (CurrentCharacter?.CanTalk() ?? false); }
 /**
  * Checks if the player can masturbate the current character.
  * @returns {boolean} - TRUE if the player is not restrained, the character is not vulva chaste and the character is naked.
  */
-function PrivateCanMasturbate() { return (CharacterIsNaked(CurrentCharacter) && !CurrentCharacter.IsVulvaChaste() && !Player.IsRestrained()); }
+function PrivateCanMasturbate() { return !!CurrentCharacter && CharacterIsNaked(CurrentCharacter) && !CurrentCharacter.IsVulvaChaste() && !Player.IsRestrained(); }
 /**
  * Checks if the player can fondle the current character's breasts.
  * @returns {boolean} - TRUE if the player is not restrained and the character is not breast chaste.
  */
-function PrivateCanFondle() { return (!CurrentCharacter.IsBreastChaste() && !Player.IsRestrained()); }
+function PrivateCanFondle() { return !!CurrentCharacter && !CurrentCharacter.IsBreastChaste() && !Player.IsRestrained(); }
 /**
  * Checks if the player can be restrained by the current character.
  * @returns {boolean} - TRUE if both characters are not restrained and the player is less dominant than the NPC.
  */
-function PrivateAllowRestrainPlayer() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && (ReputationGet("Dominant") - 25 <= NPCTraitGet(CurrentCharacter, "Dominant"))); }
+function PrivateAllowRestrainPlayer() {
+	return !!CurrentCharacter
+		&& !Player.IsRestrained()
+		&& !CurrentCharacter.IsRestrained()
+		&& ReputationGet("Dominant") - 25 <= NPCTraitGet(CurrentCharacter, "Dominant");
+}
+
 /**
  * Checks if the player cannot be restrained by the current character.
  * @returns {boolean} - TRUE if both characters are not restrained, but the player is too dominant to be tied by the NPC.
  */
-function PrivateWontRestrainPlayer() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && (ReputationGet("Dominant") - 25 > NPCTraitGet(CurrentCharacter, "Dominant"))); }
+function PrivateWontRestrainPlayer() {
+	return !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsRestrained()
+		&& (ReputationGet("Dominant") - 25 > NPCTraitGet(CurrentCharacter, "Dominant"));
+}
 /**
  * Checks if the player can be released by the current character.
  * @returns {boolean} - TRUE if the player is not wearing owner restraints, the player is restrained, the release timer is up or the character is owned by the player, the current character is free and the player's owner is not around.
  */
-function PrivateAllowReleasePlayer() { return (Player.IsRestrained() && !InventoryCharacterHasOwnerOnlyRestraint(Player) && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && ((CommonTime() > PrivateReleaseTimer) || CurrentCharacter.IsOwnedByPlayer()) && !PrivateOwnerInRoom()); }
+function PrivateAllowReleasePlayer() {
+	return Player.IsRestrained()
+		&& !InventoryCharacterHasOwnerOnlyRestraint(Player)
+		&& !!CurrentCharacter
+		&& CurrentCharacter.CanTalk()
+		&& CurrentCharacter.CanInteract()
+		&& ((CommonTime() > PrivateReleaseTimer) || CurrentCharacter.IsOwnedByPlayer())
+		&& !PrivateOwnerInRoom();
+}
 /**
  * Checks if the player cannot be released by the current character due to time/character restrictions.
  * @returns {boolean} - TRUE if the player is restrained, but cannot be released due to the character not being owned by the player or the release timer not being expired yet.
  */
-function PrivateWontReleasePlayer() { return (Player.IsRestrained() && !InventoryCharacterHasOwnerOnlyRestraint(Player) && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && !((CommonTime() > PrivateReleaseTimer) || CurrentCharacter.IsOwnedByPlayer()) && !PrivateOwnerInRoom()); }
+function PrivateWontReleasePlayer() {
+	return Player.IsRestrained()
+		&& !InventoryCharacterHasOwnerOnlyRestraint(Player)
+		&& !!CurrentCharacter
+		&& CurrentCharacter.CanTalk()
+		&& CurrentCharacter.CanInteract()
+		&& !((CommonTime() > PrivateReleaseTimer) || CurrentCharacter.IsOwnedByPlayer())
+		&& !PrivateOwnerInRoom();
+}
 /**
  * Checks if the player cannot be released by the current character due to her owner being around.
  * @returns {boolean} - TRUE if the player is restrained, but cannot be released due to her owner being in the room.
  */
-function PrivateWontReleasePlayerOwner() { return (Player.IsRestrained() && !InventoryCharacterHasOwnerOnlyRestraint(Player) && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract() && PrivateOwnerInRoom()); }
+function PrivateWontReleasePlayerOwner() {
+	return Player.IsRestrained()
+		&& !InventoryCharacterHasOwnerOnlyRestraint(Player)
+		&& !!CurrentCharacter
+		&& CurrentCharacter.CanTalk()
+		&& CurrentCharacter.CanInteract()
+		&& PrivateOwnerInRoom();
+}
 /**
  * Checks if the player cannot be released by the current character due to worn owner only restraint(s).
  * @returns {boolean} - TRUE if the player is restrained, but is wearing owner-only restraints.
  */
-function PrivateWontReleasePlayerOwnerOnly() { return (Player.IsRestrained() && InventoryCharacterHasOwnerOnlyRestraint(Player) && CurrentCharacter.CanTalk() && CurrentCharacter.CanInteract()); }
+function PrivateWontReleasePlayerOwnerOnly() {
+	return Player.IsRestrained()
+		&& InventoryCharacterHasOwnerOnlyRestraint(Player)
+		&& !!CurrentCharacter
+		&& CurrentCharacter.CanTalk()
+		&& CurrentCharacter.CanInteract();
+}
 /**
  * Checks if the NPC will kneel willingly while not gagged.
  * @returns {boolean} - TRUE if the player is more dominant than the NPC or if the player owns the NPC.
  */
-function PrivateWillKneel() { return (CurrentCharacter.CanKneel() && CurrentCharacter.CanTalk() && !CurrentCharacter.IsKneeling() && ((ReputationGet("Dominant") > NPCTraitGet(CurrentCharacter, "Dominant")) || CurrentCharacter.IsOwnedByPlayer())); }
+function PrivateWillKneel() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.CanKneel()
+		&& CurrentCharacter.CanTalk()
+		&& !CurrentCharacter.IsKneeling()
+		&& ((ReputationGet("Dominant") > NPCTraitGet(CurrentCharacter, "Dominant")) || CurrentCharacter.IsOwnedByPlayer());
+}
 /**
  * Checks if the NPC will kneel willingly while gagged.
  * @returns {boolean} - TRUE if the player is more dominant than the NPC or if the player owns the NPC.
  */
-function PrivateWillKneelGagged() { return (CurrentCharacter.CanKneel() && !CurrentCharacter.CanTalk() && !CurrentCharacter.IsKneeling() && ((ReputationGet("Dominant") > NPCTraitGet(CurrentCharacter, "Dominant")) || CurrentCharacter.IsOwnedByPlayer())); }
+function PrivateWillKneelGagged() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.CanKneel()
+		&& !CurrentCharacter.CanTalk()
+		&& !CurrentCharacter.IsKneeling()
+		&& ((ReputationGet("Dominant") > NPCTraitGet(CurrentCharacter, "Dominant")) || CurrentCharacter.IsOwnedByPlayer());
+}
 /**
  * Checks if the NPC will not kneel willingly.
  * @returns {boolean} - TRUE if the player is less dominant than the NPC and if the player does owns the NPC.
  */
-function PrivateWontKneel() { return (CurrentCharacter.CanKneel() && !CurrentCharacter.IsKneeling() && (ReputationGet("Dominant") <= NPCTraitGet(CurrentCharacter, "Dominant")) && !CurrentCharacter.IsOwnedByPlayer()); }
+function PrivateWontKneel() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.CanKneel()
+		&& !CurrentCharacter.IsKneeling()
+		&& (ReputationGet("Dominant") <= NPCTraitGet(CurrentCharacter, "Dominant")) && !CurrentCharacter.IsOwnedByPlayer();
+}
 /**
  * Checks if the NPC cannot kneel.
  * @returns {boolean} - TRUE if the NPC cannot kneel.
  */
-function PrivateCannotKneel() { return (!CurrentCharacter.CanKneel() && !CurrentCharacter.IsKneeling()); }
+function PrivateCannotKneel() {
+	return !!CurrentCharacter && !CurrentCharacter.CanKneel() && !CurrentCharacter.IsKneeling();
+}
 /**
  * Checks if the NPC can stand.
  * @returns {boolean} - TRUE if the NPC can stand.
  */
-function PrivateCanStandUp() { return (CurrentCharacter.CanKneel() && CurrentCharacter.CanTalk() && CurrentCharacter.IsKneeling()); }
+function PrivateCanStandUp() { return !!CurrentCharacter && CurrentCharacter.CanKneel() && CurrentCharacter.CanTalk() && CurrentCharacter.IsKneeling(); }
 /**
  * Checks if the NPC can stand while gagged.
  * @returns {boolean} - TRUE if the NPC can stand.
  */
-function PrivateCanStandUpGagged() { return (CurrentCharacter.CanKneel() && !CurrentCharacter.CanTalk() && CurrentCharacter.IsKneeling()); }
+function PrivateCanStandUpGagged() { return !!CurrentCharacter && CurrentCharacter.CanKneel() && !CurrentCharacter.CanTalk() && CurrentCharacter.IsKneeling(); }
 /**
  * Checks if the NPC cannot stand up.
  * @returns {boolean} - TRUE if the NPC is not able to stand.
  */
-function PrivateCannotStandUp() { return (!CurrentCharacter.CanKneel() && CurrentCharacter.IsKneeling()); }
+function PrivateCannotStandUp() { return !!CurrentCharacter && !CurrentCharacter.CanKneel() && CurrentCharacter.IsKneeling(); }
 /**
  * Checks if the character would take the player as a sub.
  * @returns {boolean} - TRUE if the character is willing to own the player.
  */
-function PrivateWouldTakePlayerAsSub() { return (!Player.IsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateWouldTakePlayerAsSub() {
+	return !Player.IsOwned()
+		&& !PrivateIsCaged()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsKneeling()
+		&& !CurrentCharacter.IsRestrained()
+		&& NPCTraitGet(CurrentCharacter, "Dominant") >= -50
+		&& (CurrentCharacter.Love ?? 0) >= 50
+		&& ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the character will not take the player as a sub.
  * @returns {boolean} - TRUE if the character is not willing to own the player.
  */
-function PrivateWontTakePlayerAsSub() { return (!Player.IsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && ((ReputationGet("Dominant") + 50 > NPCTraitGet(CurrentCharacter, "Dominant")) || (CurrentCharacter.Love < 50))); }
+function PrivateWontTakePlayerAsSub() {
+	return !Player.IsOwned()
+		&& !PrivateIsCaged()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsKneeling()
+		&& !CurrentCharacter.IsRestrained()
+		&& NPCTraitGet(CurrentCharacter, "Dominant") >= -50
+		&& (ReputationGet("Dominant") + 50 > NPCTraitGet(CurrentCharacter, "Dominant") || (CurrentCharacter.Love ?? 0) < 50);
+}
 /**
  * Checks if the character would take the player has a sub, but the wait time is not over.
  * @returns {boolean} - TRUE if some time is still needed before the NPC can own the player.
  */
-function PrivateNeedTimeToTakePlayerAsSub() { return (!Player.IsOwned() && !PrivateIsCaged() && !CurrentCharacter.IsKneeling() && !CurrentCharacter.IsRestrained() && (NPCTraitGet(CurrentCharacter, "Dominant") >= -50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateNeedTimeToTakePlayerAsSub() {
+	return !Player.IsOwned()
+		&& !PrivateIsCaged()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsKneeling()
+		&& !CurrentCharacter.IsRestrained()
+		&& NPCTraitGet(CurrentCharacter, "Dominant") >= -50
+		&& (CurrentCharacter.Love ?? 0) >= 50
+		&& ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")
+		&& CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the character would never own the player.
  * @returns {boolean} - TRUE if the character is too submissive to own the player.
  */
-function PrivateNeverTakePlayerAsSub() { return (NPCTraitGet(CurrentCharacter, "Dominant") < -50); }
+function PrivateNeverTakePlayerAsSub() { return !!CurrentCharacter && (NPCTraitGet(CurrentCharacter, "Dominant") < -50); }
 /**
  * Checks if the character is currently on a trial.
  * @returns {boolean} - TRUE if the trial is in progress.
  */
-function PrivateTrialInProgress() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0)); }
+function PrivateTrialInProgress() {
+	return Player.IsOwned() === "npc"
+		&& !Player.IsFullyOwned()
+		&& !!CurrentCharacter
+		&& CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")
+		&& NPCEventGet(CurrentCharacter, "EndSubTrial") > 0;
+}
 /**
  * Checks if the trial period is over and the character likes the player enough.
  * @returns {boolean} - TRUE if the trial period is over and the character loves the player enough.
  */
-function PrivateTrialDoneEnoughLove() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0) && (CurrentCharacter.Love >= 90)); }
+function PrivateTrialDoneEnoughLove() {
+	return Player.IsOwned() === "npc"
+		&& !Player.IsFullyOwned()
+		&& !!CurrentCharacter
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")
+		&& NPCEventGet(CurrentCharacter, "EndSubTrial") > 0
+		&& (CurrentCharacter.Love ?? 0) >= 90;
+}
 /**
  * Checks if the trial period is over, but the character does not like the player enough.
  * @returns {boolean} - TRUE if the trial period is over, but the character does not like the player enough.
  */
-function PrivateTrialDoneNotEnoughLove() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")) && (NPCEventGet(CurrentCharacter, "EndSubTrial") > 0) && (CurrentCharacter.Love < 90)); }
+function PrivateTrialDoneNotEnoughLove() {
+	return Player.IsOwned() === "npc"
+		&& !Player.IsFullyOwned()
+		&& !!CurrentCharacter
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndSubTrial")
+		&& NPCEventGet(CurrentCharacter, "EndSubTrial") > 0
+		&& (CurrentCharacter.Love ?? 0) < 90;
+}
 /**
  * Checks if the player can cancel an active trial with the current NPC.
  * @returns {boolean} - TRUE if the player can cancel the trial.
  */
-function PrivateTrialCanCancel() { return (Player.IsOwned() === "npc" && !Player.IsFullyOwned() && NPCEventGet(CurrentCharacter, "EndSubTrial") > 0); }
+function PrivateTrialCanCancel() { return Player.IsOwned() === "npc" && !Player.IsFullyOwned() && !!CurrentCharacter && NPCEventGet(CurrentCharacter, "EndSubTrial") > 0; }
 /**
  * Checks if the current NPC will forgive the player for refusing to play.
  * @returns {boolean} - TRUE if the NPC forgives the player.
  */
-function PrivateWillForgive() { return (NPCEventGet(CurrentCharacter, "RefusedActivity") < CurrentTime - 60000); }
+function PrivateWillForgive() { return !!CurrentCharacter && NPCEventGet(CurrentCharacter, "RefusedActivity") < CurrentTime - 60000; }
 /**
  * Checks if the player can ask to be uncollared.
  * @returns {boolean} - TRUE if the NPC will allow the player to be uncollared.
  */
-function PrivateCanAskUncollar() { return (DialogIsOwner() && (NPCEventGet(CurrentCharacter, "PlayerCollaring") > 0) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PlayerCollaring") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateCanAskUncollar() {
+	return (DialogIsOwner()
+		&& !!CurrentCharacter
+		&& NPCEventGet(CurrentCharacter, "PlayerCollaring") > 0
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PlayerCollaring") + NPCLongEventDelay(CurrentCharacter));
+}
 /**
  * Checks if the player cannot ask to be uncollared.
  * @returns {boolean} - TRUE if the player cannot ask to be uncollared.
  */
-function PrivateCannotAskUncollar() { return (DialogIsOwner() && (NPCEventGet(CurrentCharacter, "PlayerCollaring") > 0) && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PlayerCollaring") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateCannotAskUncollar() {
+	return DialogIsOwner()
+		&& !!CurrentCharacter
+		&& NPCEventGet(CurrentCharacter, "PlayerCollaring") > 0
+		&& CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PlayerCollaring") + NPCLongEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the current character is a mistress.
  * @returns {boolean} - TRUE if the NPC is a club mistress.
  */
-function PrivateIsMistress() { return (CurrentCharacter.Title === "Mistress"); }
+function PrivateIsMistress() { return CurrentCharacter?.Title === "Mistress"; }
 /**
  * Checks if the NPC is willing to take the player as her owner.
  * @returns {boolean} - TRUE if the player can own the NPC
  */
-function PrivateWouldTakePlayerAsDom() { return (!Player.IsKneeling() && !Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !CurrentCharacter.IsOwned() && (NPCTraitGet(CurrentCharacter, "Dominant") <= 50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") - 50 >= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateWouldTakePlayerAsDom() {
+	return !Player.IsKneeling()
+		&& !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsRestrained()
+		&& !CurrentCharacter.IsOwned()
+		&& NPCTraitGet(CurrentCharacter, "Dominant") <= 50
+		&& (CurrentCharacter.Love ?? 0) >= 50
+		&& ReputationGet("Dominant") - 50 >= NPCTraitGet(CurrentCharacter, "Dominant")
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the NPC is not willing to take the player as her owner
  * @returns {boolean} - TRUE if the player cannot own the NPC
  */
-function PrivateWontTakePlayerAsDom() { return (!Player.IsKneeling() && !Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !CurrentCharacter.IsOwned() && (NPCTraitGet(CurrentCharacter, "Dominant") <= 50) && ((CurrentCharacter.Love < 50) || (ReputationGet("Dominant") - 50 < NPCTraitGet(CurrentCharacter, "Dominant")))); }
+function PrivateWontTakePlayerAsDom() {
+	return !Player.IsKneeling()
+		&& !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsRestrained()
+		&& !CurrentCharacter.IsOwned()
+		&& NPCTraitGet(CurrentCharacter, "Dominant") <= 50
+		&& ((CurrentCharacter.Love ?? 0) < 50
+			|| ReputationGet("Dominant") - 50 < NPCTraitGet(CurrentCharacter, "Dominant"));
+}
 /**
  * Checks if the NPC is willing to be own, but the waiting period is not over.
  * @returns {boolean} - TRUE if the NPC can be own, but more time is needed.
  */
-function PrivateNeedTimeToTakePlayerAsDom() { return (!Player.IsKneeling() && !Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !CurrentCharacter.IsOwned() && (NPCTraitGet(CurrentCharacter, "Dominant") <= 50) && (CurrentCharacter.Love >= 50) && (ReputationGet("Dominant") - 50 >= NPCTraitGet(CurrentCharacter, "Dominant")) && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter))); }
+function PrivateNeedTimeToTakePlayerAsDom() {
+	return !Player.IsKneeling()
+		&& !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsRestrained()
+		&& !CurrentCharacter.IsOwned()
+		&& NPCTraitGet(CurrentCharacter, "Dominant") <= 50
+		&& (CurrentCharacter.Love ?? 0) >= 50
+		&& ReputationGet("Dominant") - 50 >= NPCTraitGet(CurrentCharacter, "Dominant")
+		&& CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the NPC would never take the player as an owner
  * @returns {boolean} - TRUE if the character has a dominant reputation above 50
  */
-function PrivateNeverTakePlayerAsDom() { return (!CurrentCharacter.IsRestrained() && NPCTraitGet(CurrentCharacter, "Dominant") > 50); }
+function PrivateNeverTakePlayerAsDom() { return !!CurrentCharacter && !CurrentCharacter.IsRestrained() && NPCTraitGet(CurrentCharacter, "Dominant") > 50; }
 /**
  * Checks if the NPC is happy.
  * @returns {boolean} - TRUE if the love value is above 30.
  */
-function PrivateIsHappy() { return (CurrentCharacter.Love > 30); }
+function PrivateIsHappy() { return !!CurrentCharacter && (CurrentCharacter.Love ?? 0) > 30; }
 /**
  * Checks if the NPC is unhappy
  * @returns {boolean} - TRUE if the love value is below -30.
  */
-function PrivateIsUnhappy() { return (CurrentCharacter.Love < -30); }
+function PrivateIsUnhappy() { return !!CurrentCharacter && (CurrentCharacter.Love ?? 0) < -30; }
 /**
  * Checks if the NPC is in a neutral mood.
  * @returns {boolean} - TRUE if the love value is between -30 and 30
  */
-function PrivateIsNeutral() { return ((CurrentCharacter.Love >= -30) && (CurrentCharacter.Love <= 30)); }
+function PrivateIsNeutral() { return !!CurrentCharacter && (CurrentCharacter.Love ?? 0) >= -30 && (CurrentCharacter.Love ?? 0) <= 30; }
 /**
  * Checks if the lover NPC is happy.
  * @returns {boolean} - TRUE if the NPC is a lover and the love value is above 30
  */
-function PrivateIsLoverHappy() { return ((CurrentCharacter.Love > 30) && CurrentCharacter.IsLoverOfPlayer()); }
+function PrivateIsLoverHappy() { return !!CurrentCharacter && (CurrentCharacter.Love ?? 0) > 30 && CurrentCharacter.IsLoverOfPlayer(); }
 /**
  * Checks if the lover NPC is unhappy.
  * @returns {boolean} - TRUE if the NPC is a lover and the love value is below -30
  */
-function PrivateIsLoverUnhappy() { return ((CurrentCharacter.Love < -30) && CurrentCharacter.IsLoverOfPlayer()); }
+function PrivateIsLoverUnhappy() { return !!CurrentCharacter && (CurrentCharacter.Love ?? 0) < -30 && CurrentCharacter.IsLoverOfPlayer(); }
 /**
  * Checks if the lover NPC is in a neutral mood.
  * @returns {boolean} - TRUE if the NPC is a lover and the love value is between -30 and 30
  */
-function PrivateIsLoverNeutral() { return ((CurrentCharacter.Love >= -30) && (CurrentCharacter.Love <= 30) && CurrentCharacter.IsLoverOfPlayer()); }
+function PrivateIsLoverNeutral() {
+	return !!CurrentCharacter
+		&& (CurrentCharacter.Love ?? 0) >= -30
+		&& (CurrentCharacter.Love ?? 0) <= 30
+		&& CurrentCharacter.IsLoverOfPlayer();
+}
 /**
  * Checks if the sub trial for the NPC is over.
  * @returns {boolean} - TRUE if the trial period is over.
  */
-function PrivateSubTrialInProgress() { return ((NPCEventGet(CurrentCharacter, "EndDomTrial") > 0) && (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndDomTrial"))); }
+function PrivateSubTrialInProgress() {
+	return !!CurrentCharacter
+		&& NPCEventGet(CurrentCharacter, "EndDomTrial") > 0
+		&& (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndDomTrial"));
+}
 /**
  * Checks if the NPC is willing to be fully collared after the trial.
  * @returns {boolean} - TRUE if the NPC is willing to be fully collared after the trial.
  */
-function PrivateSubTrialOverWilling() { return ((NPCEventGet(CurrentCharacter, "EndDomTrial") > 0) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndDomTrial")) && (CurrentCharacter.Love >= 90)); }
+function PrivateSubTrialOverWilling() {
+	return !!CurrentCharacter
+		&& NPCEventGet(CurrentCharacter, "EndDomTrial") > 0
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndDomTrial")
+		&& (CurrentCharacter.Love ?? 0) >= 90;
+}
 /**
  * Checks if the NPC is not willing to be fully collared after the trial.
  * @returns {boolean} - TRUE if the NPC is not willing to be fully collared after the trial.
  */
-function PrivateSubTrialOverUnwilling() { return ((NPCEventGet(CurrentCharacter, "EndDomTrial") > 0) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndDomTrial")) && (CurrentCharacter.Love < 90)); }
+function PrivateSubTrialOverUnwilling() {
+	return !!CurrentCharacter
+		&& NPCEventGet(CurrentCharacter, "EndDomTrial") > 0
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "EndDomTrial")
+		&& (CurrentCharacter.Love ?? 0) < 90;
+}
 /**
  * Checks if the player can be pet by a NPC.
  * @returns {boolean} - TRUE if the player is restrained by a petsuit and the NPC is free.
  */
-function PrivateCanPet() { return ((CurrentCharacter.Love >= 0) && !CurrentCharacter.IsRestrained() && (InventoryGet(Player, "ItemArms") != null) && (InventoryGet(Player, "ItemArms").Asset.Name == "BitchSuit")); }
+function PrivateCanPet() {
+	return !!CurrentCharacter
+		&& (CurrentCharacter.Love ?? 0) >= 0
+		&& !CurrentCharacter.IsRestrained()
+		&& CharacterHasItemWithAttribute(Player, "PetSuit");
+}
 /**
  * Checks if the player can sell her slave.
  * @returns {boolean} - TRUE if the player is free and the slave is not a bondage college NPC.
  */
-function PrivateCanSellSlave() { return (!Player.IsRestrained() && (CurrentCharacter.Love >= 0) && (CurrentCharacter.Name != "Amanda") && (CurrentCharacter.Name != "Sarah") && (CurrentCharacter.Name != "Sophie") && (CurrentCharacter.Name != "Jennifer") && (CurrentCharacter.Name != "Sidney") && (NPCEventGet(CurrentCharacter, "NPCCollaring") > 0)); }
+function PrivateCanSellSlave() {
+	return !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& (CurrentCharacter.Love ?? 0) >= 0
+		&& !PrivateCollegeNPCNames.includes(CurrentCharacter.Name)
+		&& CurrentCharacter.Name !== "Sophie"
+		&& NPCEventGet(CurrentCharacter, "NPCCollaring") > 0;
+}
 /**
  * Checks if the player cannot sell her slave.
  * @returns {boolean} - TRUE if the player is free and the slave is not a bondage college NPC, but the current love value is negative.
  */
-function PrivateCannotSellSlave() { return (!Player.IsRestrained() && (CurrentCharacter.Love < 0) && (CurrentCharacter.Name != "Amanda") && (CurrentCharacter.Name != "Sarah") && (CurrentCharacter.Name != "Sophie") && (CurrentCharacter.Name != "Jennifer") && (CurrentCharacter.Name != "Sidney") && (NPCEventGet(CurrentCharacter, "NPCCollaring") > 0)); }
+function PrivateCannotSellSlave() {
+	return !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& (CurrentCharacter.Love ?? 0) < 0
+		&& !PrivateCollegeNPCNames.includes(CurrentCharacter.Name)
+		&& CurrentCharacter.Name !== "Sophie"
+		&& (NPCEventGet(CurrentCharacter, "NPCCollaring") > 0);
+}
 /**
  * Checks if the player can get the college outfit.
  * @returns {boolean} - TRUE if the player does not have the college outfit and the current NPC is a bondage college NPC.
  */
-function PrivateCanGetCollegeClothes() { return ((!InventoryAvailable(Player, "CollegeOutfit1", "Cloth") || !InventoryAvailable(Player, "CollegeSkirt", "ClothLower")) && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))); }
+function PrivateCanGetCollegeClothes() {
+	return !!CurrentCharacter
+		&& !(InventoryAvailable(Player, "CollegeOutfit1", "Cloth") && InventoryAvailable(Player, "CollegeSkirt", "ClothLower"))
+		&& PrivateCollegeNPCNames.includes(CurrentCharacter.Name);
+}
 /**
  * Checks if the current NPC is a lover of the player.
  * @returns {boolean} - TRUE if the NPC is a lover of the player.
  */
-function PrivateIsLover() { return CurrentCharacter.IsLoverOfPlayer(); }
+function PrivateIsLover() { return !!CurrentCharacter && CurrentCharacter.IsLoverOfPlayer(); }
 /**
  * Checks if the current NPC is a lover of the player and currently on the Fiancée stage.
  * @returns {boolean} - TRUE if the NPC is a fiancee for the player.
  */
-function PrivateIsFiancee() { return CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Fiancee") > 0) && (NPCEventGet(CurrentCharacter, "Wife") <= 0); }
+function PrivateIsFiancee() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.IsLoverOfPlayer()
+		&& NPCEventGet(CurrentCharacter, "Fiancee") > 0
+		&& NPCEventGet(CurrentCharacter, "Wife") <= 0;
+}
 /**
  * Checks if the current NPC is a lover of the player and currently on the Wife stage.
  * @returns {boolean} - TRUE if the NPC is a wife for the player.
  */
-function PrivateIsWife() { return CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Wife") > 0); }
+function PrivateIsWife() { return !!CurrentCharacter && CurrentCharacter.IsLoverOfPlayer() && NPCEventGet(CurrentCharacter, "Wife") > 0; }
 /**
  * Checks if the NPC will take the player as a lover.
  * @returns {boolean} - TRUE if the player can have one more lover, the NPC loves the player enough and the event delay has expired.
  */
-function PrivateWillTakePlayerAsLover() { return (((CurrentCharacter.Lover == null) || (CurrentCharacter.Lover == "")) && (Player.Lovership.length < 5) && (CurrentCharacter.Love >= 50) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongLoverEventDelay(CurrentCharacter))); }
+function PrivateWillTakePlayerAsLover() {
+	return !!CurrentCharacter
+		&& (CurrentCharacter.Lover == null || CurrentCharacter.Lover == "")
+		&& Player.Lovership.length < 5
+		&& (CurrentCharacter.Love ?? 0) >= 50
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongLoverEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the NPC will not take the player as a lover.
  * @returns {boolean} - TRUE if the player cannot have one more lover, the NPC does not love the player enough, or the event delay has not expired yet.
  */
-function PrivateWontTakePlayerAsLover() { return (((CurrentCharacter.Lover == null) || (CurrentCharacter.Lover == "")) && (Player.Lovership.length < 5) && ((CurrentCharacter.Love < 50) || (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongLoverEventDelay(CurrentCharacter)))); }
+function PrivateWontTakePlayerAsLover() {
+	return !!CurrentCharacter
+		&& (CurrentCharacter.Lover == null || CurrentCharacter.Lover == "")
+		&& Player.Lovership.length < 5
+		&& ((CurrentCharacter.Love ?? 0) < 50
+			|| (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "PrivateRoomEntry") + NPCLongLoverEventDelay(CurrentCharacter)));
+}
 /**
  * Checks if the NPC will not take the player as a lover because she is already dating someone.
  * @returns {boolean} - TRUE if the NPC is already dating something.
  */
-function PrivateWontTakePlayerAsLoverAlreadyDating() { return ((CurrentCharacter.Lover != null) && (CurrentCharacter.Lover != "") && (CurrentCharacter.Lover != Player.Name) && (Player.Lovership.length < 5)); }
+function PrivateWontTakePlayerAsLoverAlreadyDating() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.Lover != null
+		&& CurrentCharacter.Lover != ""
+		&& CurrentCharacter.Lover != Player.Name
+		&& Player.Lovership.length < 5;
+}
 /**
  * Checks if the NPC will not take the player as a lover because the player reached the lover limit.
  * @returns {boolean} - TRUE if the NPC is free, but the player has 5 lovers.
  */
-function PrivateWontTakePlayerAsLoverPlayerDating() { return (((CurrentCharacter.Lover == null) || (CurrentCharacter.Lover == "")) && (Player.Lovership.length >= 5)); }
+function PrivateWontTakePlayerAsLoverPlayerDating() {
+	return !!CurrentCharacter
+		&& (CurrentCharacter.Lover == null || CurrentCharacter.Lover == "")
+		&& (Player.Lovership.length >= 5);
+}
 /**
  * Checks if the NPC will upgrade her lovership from girlfriend to fiancée
  * @returns {boolean} - TRUE if the NPC is already a girlfriend, her love is at least 70 and enough time has gone by
  */
-function PrivateWillTakePlayerAsFiancee() { return (CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Girlfriend") > 0) && (NPCEventGet(CurrentCharacter, "Fiancee") <= 0) && (CurrentCharacter.Love >= 70) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Girlfriend") + NPCLongLoverEventDelay(CurrentCharacter))); }
+function PrivateWillTakePlayerAsFiancee() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.IsLoverOfPlayer()
+		&& NPCEventGet(CurrentCharacter, "Girlfriend") > 0
+		&& NPCEventGet(CurrentCharacter, "Fiancee") <= 0
+		&& (CurrentCharacter.Love ?? 0) >= 70
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Girlfriend") + NPCLongLoverEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the NPC will not upgrade her lovership from girlfriend to fiancée
  * @returns {boolean} - TRUE if the NPC is already a girlfriend, her love is below 70 or not enough time has gone by
  */
-function PrivateWontTakePlayerAsFiancee() { return (CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Girlfriend") > 0) && (NPCEventGet(CurrentCharacter, "Fiancee") <= 0) && ((CurrentCharacter.Love < 70) || (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Girlfriend") + NPCLongLoverEventDelay(CurrentCharacter)))); }
+function PrivateWontTakePlayerAsFiancee() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.IsLoverOfPlayer()
+			&& NPCEventGet(CurrentCharacter, "Girlfriend") > 0
+			&& NPCEventGet(CurrentCharacter, "Fiancee") <= 0
+			&& ((CurrentCharacter.Love ?? 0) < 70
+				|| CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Girlfriend") + NPCLongLoverEventDelay(CurrentCharacter));
+}
 /**
  * Checks if the NPC will upgrade her lovership from fiancée to wife
  * @returns {boolean} - TRUE if the NPC is already a fiancée, her love is at least 90 and enough time has gone by
  */
-function PrivateWillTakePlayerAsWife() { return (CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Fiancee") > 0) && (NPCEventGet(CurrentCharacter, "Wife") <= 0) && (CurrentCharacter.Love >= 90) && (CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Fiancee") + NPCLongLoverEventDelay(CurrentCharacter))); }
+function PrivateWillTakePlayerAsWife() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.IsLoverOfPlayer()
+		&& NPCEventGet(CurrentCharacter, "Fiancee") > 0
+		&& NPCEventGet(CurrentCharacter, "Wife") <= 0
+		&& (CurrentCharacter.Love ?? 0) >= 90
+		&& CurrentTime >= CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Fiancee") + NPCLongLoverEventDelay(CurrentCharacter);
+}
 /**
  * Checks if the NPC will not upgrade her lovership from fiancée to wife
  * @returns {boolean} - TRUE if the NPC is already a fiancée, her love is below 90 or not enough time has gone by
  */
-function PrivateWontTakePlayerAsWife() { return (CurrentCharacter.IsLoverOfPlayer() && (NPCEventGet(CurrentCharacter, "Fiancee") > 0) && (NPCEventGet(CurrentCharacter, "Wife") <= 0) && ((CurrentCharacter.Love < 90) || (CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Fiancee") + NPCLongLoverEventDelay(CurrentCharacter)))); }
+function PrivateWontTakePlayerAsWife() {
+	return !!CurrentCharacter
+		&& CurrentCharacter.IsLoverOfPlayer()
+		&& NPCEventGet(CurrentCharacter, "Fiancee") > 0
+		&& NPCEventGet(CurrentCharacter, "Wife") <= 0
+		&& ((CurrentCharacter.Love ?? 0) < 90
+			|| CurrentTime < CheatFactor("SkipTrialPeriod", 0) * NPCEventGet(CurrentCharacter, "Fiancee") + NPCLongLoverEventDelay(CurrentCharacter));
+}
 /**
  * Checks if it's possible for the player to turn the tables against her NPC owner
  * @returns {boolean} - TRUE if turning the tables is possible
  */
-function PrivatePlayerCanTurnTables() { return (!Player.IsRestrained() && (ReputationGet("Dominant") - 50 >= NPCTraitGet(CurrentCharacter, "Dominant")) && (NPCEventGet(CurrentCharacter, "PlayerCollaring") > 0)); }
+function PrivatePlayerCanTurnTables() {
+	return !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& ReputationGet("Dominant") - 50 >= NPCTraitGet(CurrentCharacter, "Dominant")
+		&& NPCEventGet(CurrentCharacter, "PlayerCollaring") > 0;
+}
 /**
  * Checks if it's possible for the submissive to turn the tables against her player owner
  * @returns {boolean} - TRUE if turning the tables is possible
  */
-function PrivateSubCanTurnTables() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsOwned() && !PrivateOwnerInRoom() && (ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")) && (NPCEventGet(CurrentCharacter, "NPCCollaring") > 0)); }
+function PrivateSubCanTurnTables() {
+	return !Player.IsRestrained()
+		&& !!CurrentCharacter
+		&& !CurrentCharacter.IsRestrained()
+		&& !Player.IsOwned()
+		&& !PrivateOwnerInRoom()
+		&& ReputationGet("Dominant") + 50 <= NPCTraitGet(CurrentCharacter, "Dominant")
+		&& NPCEventGet(CurrentCharacter, "NPCCollaring") > 0;
+}
 /**
  * Checks if it's possible to use cheats on an NPC
  * @returns {boolean} - TRUE if we allow NPC cheats
  */
-function PrivateNPCAllowCheat() { return (CheatFactor("ChangeNPCTrait", 0) == 0); }
+function PrivateNPCAllowCheat() { return CheatFactor("ChangeNPCTrait", 0) == 0; }
 /**
  * Checks if the character comes from Pandora's Box and she has a negative opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a negative opinion
  */
-function PrivateIsFromPandoraNegative() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love <= -40) && !CurrentCharacter.IsLoverOfPlayer()); }
+function PrivateIsFromPandoraNegative() {
+	return !!CurrentCharacter
+		&& !!CurrentCharacter.FromPandora
+		&& (CurrentCharacter.Love ?? 0) <= -40
+		&& !CurrentCharacter.IsLoverOfPlayer();
+}
 /**
  * Checks if the character comes from Pandora's Box and she has a neutral opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a neutral opinion
  */
-function PrivateIsFromPandoraNeutral() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love > -40) && (CurrentCharacter.Love < 40) && !CurrentCharacter.IsLoverOfPlayer()); }
+function PrivateIsFromPandoraNeutral() {
+	return !!CurrentCharacter
+		&& !!CurrentCharacter.FromPandora
+		&& (CurrentCharacter.Love ?? 0) > -40
+		&& (CurrentCharacter.Love ?? 0) < 40
+		&& !CurrentCharacter.IsLoverOfPlayer();
+}
 /**
  * Checks if the character comes from Pandora's Box and she has a positive opinion of the player
  * @returns {boolean} - TRUE if the character is from Pandora's Box and has a positive opinion
  */
-function PrivateIsFromPandoraPositive() { return ((CurrentCharacter.FromPandora === true) && (CurrentCharacter.Love >= 40) && !CurrentCharacter.IsLoverOfPlayer()); }
+function PrivateIsFromPandoraPositive() {
+	return !!CurrentCharacter
+		&& !!CurrentCharacter.FromPandora
+		&& (CurrentCharacter.Love ?? 0) >= 40
+		&& !CurrentCharacter.IsLoverOfPlayer();
+}
 /**
  * Checks if the private character has a specific title
+ * @param {string} Title
  * @returns {boolean} - TRUE if the character has the title in the parameter
  */
-function PrivateTitleIs(Title) { return ((CurrentCharacter.Title != null) && (CurrentCharacter.Title == Title)); }
+function PrivateTitleIs(Title) { return !!CurrentCharacter && CurrentCharacter.Title === Title; }
 /**
  * Returns TRUE if it's the player birthday of at least 1 year (based on same month and day, different year)
  * @returns {boolean} - TRUE if it's the birthday
@@ -396,35 +671,71 @@ function PrivateIsPlayerBirthday() {
  * @returns {boolean} - TRUE if she will join
  */
 function PrivateWillJoinBed() {
-	return (PrivateBedActive() && PrivateBedCount() <= 3) && !Player.IsGagged() && !CurrentCharacter.IsGagged() && !CurrentCharacter.PrivateBed && ((NPCTraitGet(CurrentCharacter, "Frigid") <= CurrentCharacter.Love) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime));
+	return PrivateBedActive()
+		&& PrivateBedCount() <= 3
+		&& !!CurrentCharacter
+		&& !Player.IsGagged()
+		&& !CurrentCharacter.IsGagged()
+		&& !CurrentCharacter.PrivateBed
+		&& NPCTraitGet(CurrentCharacter, "Frigid") <= (CurrentCharacter.Love ?? 0)
+		&& (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime);
 }
 /**
  * Returns TRUE if the private room friend will not join the player in bed, love must be positive and higher than frigid trait
  * @returns {boolean} - TRUE if she will not join
  */
 function PrivateWillNotJoinBed() {
-	return (PrivateBedActive() && PrivateBedCount() <= 3) && !Player.IsGagged() && !CurrentCharacter.IsGagged() && !CurrentCharacter.PrivateBed && !((NPCTraitGet(CurrentCharacter, "Frigid") <= CurrentCharacter.Love) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime));
+	return PrivateBedActive()
+		&& PrivateBedCount() <= 3
+		&& !!CurrentCharacter
+		&& !Player.IsGagged()
+		&& !CurrentCharacter.IsGagged()
+		&& !CurrentCharacter.PrivateBed
+		&& (
+			NPCTraitGet(CurrentCharacter, "Frigid") > (CurrentCharacter.Love ?? 0)
+			|| NPCEventGet(CurrentCharacter, "NextBed") >= CurrentTime
+		);
 }
 /**
  * Returns TRUE if the private room friend will join the player in bed, love must be positive and higher than frigid trait (gagged version)
  * @returns {boolean} - TRUE if she will join
  */
 function PrivateWillJoinBedGag() {
-	return (PrivateBedActive() && PrivateBedCount() <= 3) && (Player.IsGagged() || CurrentCharacter.IsGagged()) && !CurrentCharacter.PrivateBed && ((NPCTraitGet(CurrentCharacter, "Frigid") <= CurrentCharacter.Love) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime));
+	return PrivateBedActive()
+		&& PrivateBedCount() <= 3
+		&& !!CurrentCharacter
+		&& (Player.IsGagged() || CurrentCharacter.IsGagged())
+		&& !CurrentCharacter.PrivateBed
+		&& NPCTraitGet(CurrentCharacter, "Frigid") <= (CurrentCharacter.Love ?? 0)
+		&& NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime;
 }
 /**
  * Returns TRUE if the private room friend will not join the player in bed, love must be positive and higher than frigid trait (gagged version)
  * @returns {boolean} - TRUE if she will not join
  */
 function PrivateWillNotJoinBedGag() {
-	return (PrivateBedActive() && PrivateBedCount() <= 3) && (Player.IsGagged() || CurrentCharacter.IsGagged()) && !CurrentCharacter.PrivateBed && !((NPCTraitGet(CurrentCharacter, "Frigid") <= CurrentCharacter.Love) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime));
+	return PrivateBedActive()
+		&& PrivateBedCount() <= 3
+		&& !!CurrentCharacter
+		&& (Player.IsGagged() || CurrentCharacter.IsGagged())
+		&& !CurrentCharacter.PrivateBed
+		&& (
+			NPCTraitGet(CurrentCharacter, "Frigid") > (CurrentCharacter.Love ?? 0)
+			|| NPCEventGet(CurrentCharacter, "NextBed") >= CurrentTime
+		);
 }
 /**
  * Returns TRUE if the both players can play club cards (no restraints or gag)
  * @returns {boolean} - TRUE if both parties can play
  */
 function PrivateCanPlayClubCard() {
-	return (Player.CanTalk() && CurrentCharacter.CanTalk() && Player.CanInteract() && CurrentCharacter.CanInteract() && !Player.Cage && !CurrentCharacter.Cage);
+	return !!CurrentCharacter
+		&& Player.CanTalk()
+		&& CurrentCharacter.CanTalk()
+		&& Player.CanInteract()
+		&& CurrentCharacter.CanInteract()
+		&& !Player.Cage
+		&& !CurrentCharacter.Cage;
 }
 /**
  * Returns TRUE if the club card victory mode is active
@@ -438,49 +749,49 @@ function PrivateClubCardVictoryModeActive() {
  * @returns {boolean} - True if Player can ask and the friend can interact
  */
 function PrivateCanAskforAction() {
-	return (Player.CanTalk() && CurrentCharacter.CanInteract());
+	return !!CurrentCharacter && Player.CanTalk() && CurrentCharacter.CanInteract();
 }
 /**
  * Returns true if the Player can talk but the friend can not interact
  * @returns {boolean} - True if Player can ask and the friend can not interact
  */
 function PrivateCannotAskforAction() {
-	return (Player.CanTalk() && !CurrentCharacter.CanInteract());
+	return !!CurrentCharacter && Player.CanTalk() && !CurrentCharacter.CanInteract();
 }
 /**
  * Returns true if the Player can not talk and the friend can interact
  * @returns {boolean} - True if Player can not ask and the friend can interact
  */
 function PrivateCanTryforAction() {
-	return (!Player.CanTalk() && CurrentCharacter.CanInteract());
+	return !!CurrentCharacter && !Player.CanTalk() && CurrentCharacter.CanInteract();
 }
 /**
  * Returns true if the Player can not talk and the friend can not interact
  * @returns {boolean} - True if Player can not ask and the friend can not interact
  */
 function PrivateCannotTryforAction() {
-	return (!Player.CanTalk() && !CurrentCharacter.CanInteract());
+	return !!CurrentCharacter && !Player.CanTalk() && !CurrentCharacter.CanInteract();
 }
 /**
  * Returns TRUE if the current character is an anime girl / superheroine
  * @returns {boolean} - TRUE if archetype is AnimeGirl
  */
 function PrivateIsAnimeGirl() {
-	return (CurrentCharacter.Title === "AnimeGirl");
+	return !!CurrentCharacter && CurrentCharacter.Title === "AnimeGirl";
 }
 /**
  * Returns TRUE if the current character is a rope bunny
  * @returns {boolean} - TRUE if archetype is Bunny
  */
 function PrivateIsBunny() {
-	return (CurrentCharacter.Title === "Bunny");
+	return !!CurrentCharacter && CurrentCharacter.Title === "Bunny";
 }
 /**
  * Returns TRUE if the current character is a succubus
  * @returns {boolean} - TRUE if archetype is succubus
  */
 function PrivateIsSuccubus() {
-	return (CurrentCharacter.Title === "Succubus");
+	return !!CurrentCharacter && CurrentCharacter.Title === "Succubus";
 }
 
 /**
@@ -561,7 +872,7 @@ function PrivateNewCloth(C) {
 
 	// Validates and exits if needed
 	if (!C.CanInteract()) return; // No changing if bound
-	if (C.Cage != null) return; // No changing if caged
+	if (C.Cage) return; // No changing if caged
 	if (NPCEventGet(C, "PrivateRoomEntry") + 86400000 > CurrentTime) return; // No changing on first day
 	if (NPCEventGet(C, "NewCloth") + 86400000 > CurrentTime) return; // No chaning if changed in last 24 hours
 	if (C.IsOwnedByPlayer()) return; // No changing if owned
@@ -679,9 +990,9 @@ function PrivateDrawCharacter() {
 						if (NPCEventGet(PrivateCharacter[C], "Kidnap") <= CurrentTime) {
 
 							// Draw the NPC and the cage if needed
-							if (PrivateCharacter[C].Cage != null) DrawImage("Screens/Room/Private/CageBack.png", X + (C - PrivateCharacterOffset) * 470, 0);
+							if (PrivateCharacter[C].Cage) DrawImage("Screens/Room/Private/CageBack.png", X + (C - PrivateCharacterOffset) * 470, 0);
 							DrawCharacter(PrivateCharacter[C], X + (C - PrivateCharacterOffset) * 470, 0, 1);
-							if (PrivateCharacter[C].Cage != null) DrawImage("Screens/Room/Private/CageFront.png", X + (C - PrivateCharacterOffset) * 470, 0);
+							if (PrivateCharacter[C].Cage) DrawImage("Screens/Room/Private/CageFront.png", X + (C - PrivateCharacterOffset) * 470, 0);
 							if (LogQuery("Cage", "PrivateRoom") && !LogQuery("BlockCage", "Rule"))
 								if ((!Player.Cage) || (C == 0))
 									if (!PrivateCharacter[C].IsOwner())
@@ -816,7 +1127,7 @@ function PrivateClickCharacterButton() {
 				if (LogQuery("Cage", "PrivateRoom") && !LogQuery("BlockCage", "Rule"))
 					if ((!Player.Cage) || (C == 0))
 						if (!PrivateCharacter[C].IsOwner()) {
-							PrivateCharacter[C].Cage = (PrivateCharacter[C].Cage == null) ? true : null;
+							PrivateCharacter[C].Cage = (!PrivateCharacter[C].Cage ? true : undefined);
 							if (C > 0) ServerPrivateCharacterSync();
 						}
 
@@ -904,6 +1215,7 @@ function PrivateClickCharacter() {
 					NPCTraitDialog(PrivateCharacter[C]);
 				}
 				CharacterSetCurrent(PrivateCharacter[C]);
+				if (!CurrentCharacter) return;
 
 				// If the owner has beeped the player
 				if ((CurrentCharacter.Stage == "1000") && Player.IsOwnedByCharacter(CurrentCharacter) && LogQuery("OwnerBeepActive", "PrivateRoom")) {
@@ -928,7 +1240,7 @@ function PrivateClickCharacter() {
 				}
 
 				// Prerequisite conditions for NPC giving gifts to player
-				if (Player.CanTalk() && CurrentCharacter.CanTalk() && Player.CanInteract() && CurrentCharacter.CanInteract() && !Player.Cage && !CurrentCharacter.Cage && (CurrentCharacter.Love >= 80) && (Math.random() >= 0.85) && (NPCEventGet(CurrentCharacter, "NextGift") <= CurrentTime)) {
+				if (Player.CanTalk() && CurrentCharacter.CanTalk() && Player.CanInteract() && CurrentCharacter.CanInteract() && !Player.Cage && !CurrentCharacter.Cage && ((CurrentCharacter.Love ?? 0) >= 80) && (Math.random() >= 0.85) && (NPCEventGet(CurrentCharacter, "NextGift") <= CurrentTime)) {
 
 					// Lovers can offer non-restraint gifts to dominant players
 					if ((CurrentCharacter.Stage == "0") && (PrivateGiftRegular != null) && (ReputationGet("Dominant") >= NPCTraitGet(CurrentCharacter, "Dominant"))) {
@@ -984,7 +1296,7 @@ function PrivateClick() {
 	if (MouseIn(1885, PrivateButtonTop(1), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if (MouseIn(1885, PrivateButtonTop(2), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanWalk() && (!Player.Cage)) CharacterSetCurrent(PrivateVendor);
 	if (MouseIn(1885, PrivateButtonTop(3), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
-	if (MouseIn(1885, PrivateButtonTop(4), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes() && LogQuery("Wardrobe", "PrivateRoom")) CommonSetScreen("Character", "Wardrobe");
+	if (MouseIn(1885, PrivateButtonTop(4), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes() && LogQuery("Wardrobe", "PrivateRoom")) CommonPromiseCatch(WardrobeOpenCharacter(Player));
 	if (MouseIn(1885, PrivateButtonTop(5), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && (!Player.Cage) && PrivateBedActive()) CommonSetScreen("Room", "PrivateBed");
 	if (MouseIn(1885, PrivateButtonTop(6), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && LogQuery("Expansion", "PrivateRoom")) PrivateCharacterOffset = (PrivateCharacterOffset + 4 == PrivateCharacterMax) ? 0 : PrivateCharacterOffset + 4;
 	if (MouseIn(1885, PrivateButtonTop(7), 90, 90) && LogQuery("RentRoom", "PrivateRoom")) {
@@ -1107,14 +1419,14 @@ function PrivateLoadCharacter(data) {
 		updateRequired = updateRequired || !updateValid;
 	}
 	if (data.AppearanceFull != null) {
-		const updateValid = ServerAppearanceLoadFromBundle(C, data.AssetFamily, data.AppearanceFull, null, true);
+		const updateValid = ServerAppearanceLoadFromBundle(C, data.AssetFamily, data.AppearanceFull, undefined, true);
 		updateRequired = updateRequired || !updateValid;
 	}
-	if (data.Trait != null) C.Trait = data.Trait.slice();
-	if (data.Cage != null) C.Cage = data.Cage;
-	if (data.Event != null) C.Event = data.Event;
-	if (data.Lover != null) C.Lover = data.Lover;
-	if (data.Owner != null) C.Owner = data.Owner;
+	C.Trait = Array.isArray(data.Trait) ? data.Trait.slice() : [];
+	C.Cage = data.Cage ? true : undefined;
+	C.Event = Array.isArray(data.Event) ? data.Event : [];
+	C.Lover = typeof data.Lover === "string" ? data.Lover : undefined;
+	C.Owner = typeof data.Owner === "string" ? data.Owner : "";
 	if (data.ArousalSettings != null) C.ArousalSettings = data.ArousalSettings;
 	if (data.FromPandora != null) C.FromPandora = data.FromPandora;
 	C.Love = (data.Love == null) ? 0 : parseInt(data.Love);
@@ -1143,27 +1455,26 @@ function PrivateLoadCharacter(data) {
  * Triggered when a new character is added to the player's private room.
  * @template {ModuleType} T
  * @param {NPCCharacter} Template - The base of the character, includes the name and appearance.
- * @param {"" | NPCArchetype} [Archetype] - The type of character such as maid or mistress.
- * @param {boolean} [CustomData=false] - Whether or not the character has non-random traits. Passing `true` will also skip calling {@link ServerPrivateCharacterSync()}.
+ * @param {"" | NPCArchetype | null} [Archetype] - The type of character such as maid or mistress.
+ * @param {boolean} [incomplete=false] - Whether the caller plans to customize the NPC more. Skips generating random traits and calling {@link ServerPrivateCharacterSync()}.
  * @returns {NPCCharacter} - The new private room character.
  */
-function PrivateAddCharacter(Template, Archetype, CustomData=false) {
+function PrivateAddCharacter(Template, Archetype, incomplete=false) {
 	const C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", "Room", "Private");
 	C.Name = Template.Name;
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();
-	C.Love = 0;
 	if (Archetype && Archetype != "Submissive") C.Title = Archetype;
 	NPCTraitGenerate(C);
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
 	if ((Archetype === "Submissive") || (Archetype === "Bunny")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
-	if (!CustomData) NPCTraitDialog(C);
+	if (!incomplete) NPCTraitDialog(C);
 	NPCSetupArousal(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
 	NPCEventAdd(C, "NextKidnap", CurrentTime + 86400000);
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsRestrained() || !C.CanTalk());
-	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck").Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
-	if (!CustomData) ServerPrivateCharacterSync();
+	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck")?.Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
+	if (!incomplete) ServerPrivateCharacterSync();
 	CharacterRefresh(C);
 	PrivateCharacter.push(C);
 	return C;
@@ -1176,8 +1487,9 @@ function PrivateAddCharacter(Template, Archetype, CustomData=false) {
  */
 function PrivateGetCurrentID() {
 	for (let P = 1; P < PrivateCharacter.length; P++)
-		if (CurrentCharacter.Name == PrivateCharacter[P].Name)
+		if (CurrentCharacter?.Name == PrivateCharacter[P].Name)
 			return P;
+	return -1;
 }
 
 /**
@@ -1185,6 +1497,7 @@ function PrivateGetCurrentID() {
  * @returns {void} - Nothing.
  */
 function PrivateKickOut() {
+	if (!CurrentCharacter) return;
 	PrivateKickCharacterOut(CurrentCharacter);
 	DialogLeave();
 }
@@ -1194,6 +1507,7 @@ function PrivateKickOut() {
  * @returns {void} - Nothing.
  */
 function PrivateKickOutOwner() {
+	if (!CurrentCharacter) return;
 	Player.Owner = "";
 	ServerPlayerSync();
 	InventoryRemove(Player, "ItemNeck");
@@ -1226,9 +1540,10 @@ function PrivateKickCharacterOut(C) {
  * @returns {void} - Nothing.
  */
 function PrivateChange(NewCloth) {
+	if (!CurrentCharacter) return;
 	switch (NewCloth){
-		case "Cloth": CharacterDress(CurrentCharacter, CurrentCharacter.AppearanceFull); break;
-		case "Underwear": CharacterUnderwear(CurrentCharacter, CurrentCharacter.AppearanceFull); break;
+		case "Cloth": CharacterDress(CurrentCharacter, CurrentCharacter.AppearanceFull ?? []); break;
+		case "Underwear": CharacterUnderwear(CurrentCharacter, CurrentCharacter.AppearanceFull ?? []); break;
 		case "Naked": CharacterNaked(CurrentCharacter); break;
 		case "Maiestas":
 		case "Vincula":
@@ -1239,19 +1554,19 @@ function PrivateChange(NewCloth) {
 		case "Succubus":
 		case "AnimeGirl":
 			CharacterArchetypeClothes(CurrentCharacter, NewCloth); break;
-		case "Custom":
+		case "Custom": {
 			PrivateNPCInteraction(10);
 			if (CheatFactor("FreeNPCDress", 0) != 0) CharacterChangeMoney(Player, -50);
-			PrivateCharacterNewClothes = CurrentCharacter;
+			const NPC = /** @type {NPCCharacter} */ (CurrentCharacter);
 			DialogLeave();
-			CharacterAppearanceLoadCharacter(PrivateCharacterNewClothes, (result) => {
+			CharacterAppearanceLoadCharacter(NPC, (result) => {
 				CommonSetScreen("Room", "Private");
 				if (result) {
-					PrivateCharacterNewClothes.AppearanceFull = PrivateCharacterNewClothes.Appearance;
+					NPC.AppearanceFull = NPC.Appearance;
 					ServerPrivateCharacterSync();
-					PrivateCharacterNewClothes = null;
 				}
 			});
+		}
 	}
 }
 
@@ -1334,7 +1649,7 @@ function PrivateRelationDecay() {
 			/** @type {Set<EffectName>} */
 			const stuckingEffects = new Set([E.Freeze, E.Tethered, E.Mounted, E.IsChained, E.Shackled, E.Suspended]);
 			const isStuck = C.Cage || C.Effect.some(e => stuckingEffects.has(e));
-			if (C.Love <= -100 && !isStuck) {
+			if ((C.Love ?? 0) <= -100 && !isStuck) {
 				PrivateKickCharacterOut(C);
 			}
 
@@ -1351,8 +1666,9 @@ function PrivateRelationDecay() {
  * @returns {void} - Nothing.
  */
 function PrivateStartTrial(ChangeRep) {
+	if (!CurrentCharacter) return;
 	DialogChangeReputation("Dominant", ChangeRep);
-	CharacterDress(CurrentCharacter, CurrentCharacter.AppearanceFull);
+	CharacterDress(CurrentCharacter, CurrentCharacter.AppearanceFull ?? []);
 	NPCEventAdd(CurrentCharacter, "EndSubTrial", CurrentTime + NPCLongEventDelay(CurrentCharacter));
 	NPCLoveChange(CurrentCharacter, 30);
 	ServerPrivateCharacterSync();
@@ -1364,6 +1680,7 @@ function PrivateStartTrial(ChangeRep) {
  * @returns {void} - Nothing.
  */
 function PrivateStopTrial(ChangeRep) {
+	if (!CurrentCharacter) return;
 	DialogChangeReputation("Dominant", ChangeRep);
 	NPCEventDelete(CurrentCharacter, "EndSubTrial");
 	NPCLoveChange(CurrentCharacter, -60);
@@ -1375,6 +1692,7 @@ function PrivateStopTrial(ChangeRep) {
  * @returns {void} - Nothing.
  */
 function PrivateShowTrialHours() {
+	if (!CurrentCharacter) return;
 	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("DialogHours", Math.ceil((NPCEventGet(CurrentCharacter, "EndSubTrial") - CurrentTime) / 3600000).toString());
 }
 
@@ -1384,7 +1702,7 @@ function PrivateShowTrialHours() {
  * @returns {void} - Nothing.
  */
 function PrivateActivityRun(LoveFactor) {
-
+	if (!CurrentCharacter) return;
 	// Changes the love factor only once per activity (except if negative)
 	PrivateActivityCount++;
 	LoveFactor = parseInt(LoveFactor);
@@ -1423,13 +1741,13 @@ function PrivateActivityRun(LoveFactor) {
 	switch (PrivateActivity){
 		case "Gag": InventoryWearRandom(Player, "ItemMouth"); break;
 		case "Restrain": InventoryWearRandom(Player, "ItemArms"); break;
-		case "RestrainOther": InventoryWearRandom(PrivateActivityTarget, "ItemArms"); break;
+		case "RestrainOther": if (PrivateActivityTarget) InventoryWearRandom(PrivateActivityTarget, "ItemArms"); break;
 		case "FullRestrain": // The restraining activities are harsher for serious NPCs
 			if (NPCTraitGet(CurrentCharacter, "Playful") > 0) CharacterFullRandomRestrain(Player, "FEW");
 			else if (NPCTraitGet(CurrentCharacter, "Playful") === 0) CharacterFullRandomRestrain(Player);
 			else if (NPCTraitGet(CurrentCharacter, "Serious") > 0) CharacterFullRandomRestrain(Player, "LOT");
 			break;
-		case "FullRestrainOther": CharacterFullRandomRestrain(PrivateActivityTarget); break;
+		case "FullRestrainOther": if (PrivateActivityTarget) CharacterFullRandomRestrain(PrivateActivityTarget); break;
 		case "Release": CharacterRelease(Player); break;
 		case "Ungag":
 			InventoryRemove(Player, "ItemMouth");
@@ -1465,7 +1783,7 @@ function PrivateActivityRun(LoveFactor) {
 			if (Item !== null) {
 				let NewProperty = Item.Property;
 				while (NewProperty == Item.Property)
-					Item.Property = CommonCloneDeep(CommonRandomItemFromList(null, InventoryItemNeckSlaveCollarTypes).Property);
+					Item.Property = CommonCloneDeep(CommonGetRandomItemFromList(InventoryItemNeckSlaveCollarTypes).Property);
 				CharacterRefresh(Player, true);
 			}
 			break;
@@ -1514,13 +1832,14 @@ function PrivateActivityRun(LoveFactor) {
  * @returns {boolean} - Returns TRUE if someone else in the room can be restrained by the player's owner, keep that target in a variable to be used later
  */
 function PrivateCanRestrainOther() {
+	if (!CurrentCharacter) return false;
 	PrivateActivityTarget = null;
 	var List = [];
 	for (let C = 0; C < PrivateCharacter.length; C++)
 		if (!PrivateCharacter[C].IsPlayer() && (PrivateCharacter[C].ID != CurrentCharacter.ID) && (NPCTraitGet(CurrentCharacter, "Dominant") > NPCTraitGet(PrivateCharacter[C], "Dominant")) && (InventoryGet(PrivateCharacter[C], "ItemArms") == null))
 			List.push(PrivateCharacter[C]);
 	if (List.length > 0)
-		PrivateActivityTarget = List[Math.floor(Math.random() * List.length)];
+		PrivateActivityTarget = CommonGetRandomItemFromList(List);
 	return (PrivateActivityTarget != null);
 }
 
@@ -1529,6 +1848,8 @@ function PrivateCanRestrainOther() {
  * @returns {void} - Nothing.
  */
 function PrivateStartActivity() {
+	if (!CurrentCharacter) return;
+	CurrentCharacter.Love ??= 0;
 	// Remove previous activity from the list of possible Activities
 	let untestedActivities = [...PrivateActivityList]; // copy of list
 	let activity;
@@ -1599,7 +1920,7 @@ function PrivateBlockChange(Minutes) {
  * @returns {void} - Nothing.
  */
 function PrivateSelectPunishment() {
-
+	if (!CurrentCharacter) return;
 	// Release the player first
 	if (Player.IsRestrained() || !Player.CanTalk()) {
 		CharacterRelease(Player);
@@ -1618,10 +1939,12 @@ function PrivateSelectPunishment() {
 
 	// Finds a valid punishment for the player
 	let untestedPunishments = [...PrivatePunishmentList];
-	CommonRemoveItemFromList(untestedPunishments, untestedPunishments.indexOf(PrivatePunishment)); // remove previous punishment from selection
+	if (PrivatePunishment) {
+		CommonRemoveItemFromList(untestedPunishments, untestedPunishments.indexOf(PrivatePunishment));
+	}
 	testLoop: {
 		while (untestedPunishments.length > 0) {
-			PrivatePunishment = CommonRemoveRandomItemFromList(untestedPunishments);
+			PrivatePunishment = CommonRemoveRandomItemFromList(untestedPunishments) ?? null;
 			switch (PrivatePunishment) {
 				case "Bound": break testLoop;
 				case "Cell": break testLoop;
@@ -1630,7 +1953,7 @@ function PrivateSelectPunishment() {
 				case "ChastityBelt": if (!Player.IsVulvaChaste() && (NPCTraitGet(CurrentCharacter, "Frigid") >= 0)) break testLoop; break;
 				case "ChastityBra": if (!Player.IsBreastChaste() && (NPCTraitGet(CurrentCharacter, "Frigid") >= 0)) break testLoop; break;
 				case "ForceNaked": if (Player.CanChangeOwnClothes() && (NPCTraitGet(CurrentCharacter, "Horny") >= 0)) break testLoop; break;
-				case "ConfiscateKey": if ((InventoryAvailable(Player, "MetalCuffsKey", "ItemMisc") || InventoryAvailable(Player, "MetalPadlockKey", "ItemMisc") || InventoryAvailable(Player, "IntricatePadlockKey", "ItemMisc") || InventoryAvailable(Player, "HighSecurityPadlockKey", "ItemMisc"))) break testLoop; break;
+				case "ConfiscateKey": if ((InventoryAvailable(Player, "MetalCuffsKey", "ItemMisc") || InventoryAvailable(Player, "MetalPadlockKey", "ItemMisc"))) break testLoop; break;
 				case "ConfiscateCrop": if (InventoryAvailable(Player, "Crop", "ItemHandheld")) break testLoop; break;
 				case "ConfiscateWhip": if (InventoryAvailable(Player, "Whip", "ItemHandheld")) break testLoop; break;
 				case "SleepCage": if (LogQuery("Cage", "PrivateRoom") && !LogQuery("SleepCage", "Rule")) break testLoop; break;
@@ -1653,13 +1976,23 @@ function PrivateSelectPunishment() {
  * @returns {void} - Nothing.
  */
 function PrivateRunPunishment(LoveFactor) {
+	if (!CurrentCharacter) return;
 	NPCLoveChange(CurrentCharacter, LoveFactor);
 	NPCEventAdd(CurrentCharacter, "RefusedActivity", CurrentTime);
 
 	switch (PrivatePunishment) {
 		case "Cage": Player.Cage = true; LogAdd("BlockCage", "Rule", CurrentTime + 120000); DialogLeave(); break;
 		case "Bound": PrivateReleaseTimer = CommonTime() + 240000; CharacterFullRandomRestrain(Player, "ALL"); InventoryRemove(Player, "ItemArms"); InventoryWear(Player, "HempRope", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 12); break;
-		case "BoundPet": PrivateReleaseTimer = CommonTime() + 240000; PoseSetActive(Player, "Kneel", true); InventoryWear(Player, "LeatherBelt", "ItemLegs"); InventoryWear(Player, "TailButtPlug", "ItemButt"); InventoryWear(Player, "Ears" + (Math.floor(Math.random() * 2) + 1).toString(), "Hat"); InventoryWear(Player, "LeatherArmbinder", "ItemArms"); InventorySetDifficulty(Player, "ItemArms", 15); break;
+		case "BoundPet":{
+			PrivateReleaseTimer = CommonTime() + 240000;
+			PoseSetActive(Player, "Kneel", true);
+			InventoryWear(Player, "LeatherBelt", "ItemLegs");
+			InventoryWear(Player, "TailButtPlug", "ItemButt");
+			InventoryWear(Player, CommonGetRandomItemFromList(["Ears1", "Ears2"]), "Hat");
+			InventoryWear(Player, "LeatherArmbinder", "ItemArms");
+			InventorySetDifficulty(Player, "ItemArms", 15);
+			break;
+		}
 		case "ChastityBra":
 			InventoryWear(Player, "MetalChastityBra", "ItemBreast");
 			InventoryLock(Player, "ItemBreast", (Player.IsOwned() ? "OwnerPadlock" : "ExclusivePadlock"), CurrentCharacter);
@@ -1678,7 +2011,7 @@ function PrivateRunPunishment(LoveFactor) {
 				if (InventoryGet(Player, "ItemVulva") === null) InventoryWear(Player, "VibratingEgg", "ItemVulva");
 				if (InventoryGet(Player, "ItemButt") === null) InventoryWear(Player, "BlackButtPlug", "ItemButt");
 			}
-			InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
+			InventoryWearRandom(Player, "ItemPelvis", undefined, undefined, false, true, PrivateBeltList, true);
 			InventoryLock(Player, "ItemPelvis", (Player.IsOwned() ? "OwnerPadlock" : "ExclusivePadlock"), CurrentCharacter);
 			break;
 	}
@@ -1689,6 +2022,7 @@ function PrivateRunPunishment(LoveFactor) {
  * @returns {void} - Nothing.
  */
 function PrivatePlayerCollaring() {
+	if (!CurrentCharacter) return;
 	NPCEventDelete(CurrentCharacter, "EndSubTrial");
 	NPCEventAdd(CurrentCharacter, "PlayerCollaring", CurrentTime);
 	InventoryRemove(Player, "ItemNeck");
@@ -1700,7 +2034,7 @@ function PrivatePlayerCollaring() {
 	Player.Owner = "NPC-" + CurrentCharacter.Name;
 	ServerPrivateCharacterSync();
 	ServerPlayerSync();
-	PlayerCollaringMistress = CurrentCharacter;
+	PlayerCollaringMistress = /** @type {NPCCharacter} */ (CurrentCharacter);
 	CommonSetScreen("Cutscene", "PlayerCollaring");
 	DialogLeave();
 }
@@ -1711,6 +2045,7 @@ function PrivatePlayerCollaring() {
  * @returns {void} - Nothing.
  */
 function PrivateStartDomTrial(TrialTime) {
+	if (!CurrentCharacter) return;
 	DialogChangeReputation("Dominant", TrialTime);
 	NPCEventAdd(CurrentCharacter, "EndDomTrial", CurrentTime + TrialTime * 86400000);
 	NPCLoveChange(CurrentCharacter, TrialTime * 5);
@@ -1722,6 +2057,7 @@ function PrivateStartDomTrial(TrialTime) {
  * @returns {void} - Nothing.
  */
 function PrivateNPCCollaring() {
+	if (!CurrentCharacter) return;
 	CharacterChangeMoney(Player, -100);
 	NPCEventDelete(CurrentCharacter, "EndDomTrial");
 	NPCEventAdd(CurrentCharacter, "NPCCollaring", CurrentTime);
@@ -1733,7 +2069,7 @@ function PrivateNPCCollaring() {
 	ReputationProgress("Dominant", 10);
 	CurrentCharacter.Owner = Player.Name;
 	CurrentCharacter.Love = 100;
-	NPCCollaringSub = CurrentCharacter;
+	NPCCollaringSub = /** @type {NPCCharacter} */ (CurrentCharacter);
 	CommonSetScreen("Cutscene", "NPCCollaring");
 	DialogLeave();
 }
@@ -1743,6 +2079,7 @@ function PrivateNPCCollaring() {
  * @returns {void} - Nothing.
  */
 function PrivateStartGirlfriend() {
+	if (!CurrentCharacter) return;
 	NPCEventAdd(CurrentCharacter, "Girlfriend", CurrentTime);
 	CurrentCharacter.Lover = Player.Name;
 	NPCLoveChange(CurrentCharacter, 20);
@@ -1768,6 +2105,7 @@ function PrivateWearRing(C, Color) {
  * @returns {void} - Nothing.
  */
 function PrivateStartFiancee() {
+	if (!CurrentCharacter) return;
 	NPCEventAdd(CurrentCharacter, "Fiancee", CurrentTime);
 	NPCLoveChange(CurrentCharacter, 20);
 	PrivateWearRing(Player, "#B0B0B0");
@@ -1780,12 +2118,13 @@ function PrivateStartFiancee() {
  * @returns {void} - Nothing.
  */
 function PrivateStartWife() {
+	if (!CurrentCharacter) return;
 	NPCEventAdd(CurrentCharacter, "NewCloth", CurrentTime);
 	NPCEventAdd(CurrentCharacter, "Wife", CurrentTime);
 	NPCLoveChange(CurrentCharacter, 20);
 	InventoryAdd(Player, "WeddingDress1", "Cloth", true);
 	InventoryAdd(Player, "WeddingVeil1", "HairAccessory1", true);
-	NPCWeddingWife = CurrentCharacter;
+	NPCWeddingWife = /** @type {NPCCharacter} */ (CurrentCharacter);
 	CommonSetScreen("Cutscene", "NPCWedding");
 	DialogLeave();
 }
@@ -1796,7 +2135,8 @@ function PrivateStartWife() {
  * @returns {void} - Nothing.
  */
 function PrivateNPCInteraction(LoveFactor) {
-	if (CurrentCharacter.Love == null) CurrentCharacter.Love = 0;
+	if (!CurrentCharacter) return;
+	CurrentCharacter.Love ??= 0;
 	NPCLoveChange(CurrentCharacter, LoveFactor);
 }
 
@@ -1806,13 +2146,14 @@ function PrivateNPCInteraction(LoveFactor) {
  * @returns {void} - Nothing.
  */
 function PrivateSlaveMarketStart(AuctionType) {
+	if (!CurrentCharacter) return;
 	if (AuctionType == "Rent") NPCEventAdd(CurrentCharacter, "SlaveMarketRent", CurrentTime + 86400000);
 	else InventoryRemove(CurrentCharacter, "ItemNeck");
 	CharacterRelease(CurrentCharacter);
 	CharacterNaked(CurrentCharacter);
 	PoseSetActive(CurrentCharacter, "Kneel", true);
 	NPCSlaveAuctionVendor = Player;
-	NPCSlaveAuctionSlave = CurrentCharacter;
+	NPCSlaveAuctionSlave = /** @type {NPCCharacter} */ (CurrentCharacter);
 	NPCSlaveAuctionAmount = Math.floor((CurrentTime - NPCEventGet(CurrentCharacter, "NPCCollaring")) / 86400000);
 	if (NPCSlaveAuctionAmount > 90) NPCSlaveAuctionAmount = 90;
 	if (NPCSlaveAuctionAmount < 0) NPCSlaveAuctionAmount = 0;
@@ -1838,9 +2179,10 @@ function PrivateSlaveImproveSelect(Type) {
  * @returns {void} - Nothing.
  */
 function PrivateSlaveImproveSend() {
+	if (!CurrentCharacter || !PrivateSlaveImproveType) return;
 	CharacterChangeMoney(Player, -25);
-	var T = NPCTraitGet(CurrentCharacter, PrivateSlaveImproveType);
-	var N = T + 20 - Math.floor((T + 100) / 10);
+	const T = NPCTraitGet(CurrentCharacter, PrivateSlaveImproveType);
+	let N = T + 20 - Math.floor((T + 100) / 10);
 	if (N < 0) {
 		PrivateSlaveImproveType = NPCTraitReverse(PrivateSlaveImproveType);
 		N = N * -1;
@@ -1855,6 +2197,7 @@ function PrivateSlaveImproveSend() {
  * @returns {void} - Nothing.
  */
 function PrivateGetCollegeClothes() {
+	if (!CurrentCharacter) return;
 	NPCLoveChange(CurrentCharacter, -10);
 	InventoryAdd(Player, "CollegeOutfit1", "Cloth");
 	InventoryAdd(Player, "CollegeSkirt", "ClothLower");
@@ -1869,7 +2212,8 @@ function PrivateGetCollegeClothes() {
  * @returns {void} - Nothing.
  */
 function PrivateLoveYou() {
-
+	if (!CurrentCharacter) return;
+	CurrentCharacter.Love ??= 0;
 	// Once every minute, it will raise the love meter a little
 	if (PrivateNextLoveYou < CurrentTime) {
 		PrivateNextLoveYou = CurrentTime + 60000;
@@ -1882,10 +2226,13 @@ function PrivateLoveYou() {
 		// Finds a valid lover activity at random, some activities skip the loop and don't return any event
 		/** @type {"" | AssetGroupItemName} */
 		let Zone = "";
+		/** @type {PrivateActivityType | undefined} */
 		let Act;
 
 		let untestedActivityList = [...PrivateLoverActivityList];
-		CommonRemoveItemFromList(untestedActivityList, untestedActivityList.indexOf(PrivateLoverActivity));
+		if (PrivateLoverActivity) {
+			CommonRemoveItemFromList(untestedActivityList, untestedActivityList.indexOf(PrivateLoverActivity));
+		}
 
 		testLoop:
 		{
@@ -1906,9 +2253,24 @@ function PrivateLoveYou() {
 					case "Naked": if ((!CharacterIsNaked(Player) || !CharacterIsNaked(CurrentCharacter)) && Player.CanInteract() && CurrentCharacter.CanInteract()) break testLoop; break;
 					case "EggInsert": if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && !Player.IsVulvaChaste() && (!InventoryGet(Player, "ItemVulva")) && !CurrentCharacter.IsOwnedByPlayer() && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose()) break testLoop; break;
 					case "LockBelt": if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && !Player.IsVulvaChaste() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && !CurrentCharacter.IsOwnedByPlayer() && (NPCTraitGet(CurrentCharacter, "Dominant") >= 0) && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose()) break testLoop; break;
-					case "UnlockBelt": if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis")) && (InventoryGetLock(InventoryGet(Player, "ItemPelvis"))) && (InventoryGetLock(InventoryGet(Player, "ItemPelvis")).Asset.Name == "LoversPadlock") && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose()) break testLoop; break;
-					case "EggSpeedUp": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && ((!InventoryGet(Player, "ItemVulva").Property) || (InventoryGet(Player, "ItemVulva").Property.Intensity < 3))) break testLoop; break;
-					case "EggSpeedDown": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && (InventoryGet(Player, "ItemVulva").Property) && (InventoryGet(Player, "ItemVulva").Property.Intensity > -1)) break testLoop; break;
+					case "UnlockBelt": {
+						const item = InventoryGet(Player, "ItemPelvis");
+						if (CharacterIsNaked(Player) && CurrentCharacter.CanInteract() && Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis")) && item && (InventoryGetLock(item)?.Asset.Name == "LoversPadlock") && (!Player.Cage) && (!CurrentCharacter.Cage) && !Player.IsEnclose() && !CurrentCharacter.IsEnclose())
+							break testLoop;
+						break;
+					}
+					case "EggSpeedUp": {
+						const item = InventoryGet(Player, "ItemVulva");
+						if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && item && (item.Property?.Intensity ?? -1) < 3)
+							break testLoop;
+						break;
+					}
+					case "EggSpeedDown": {
+						const item = InventoryGet(Player, "ItemVulva");
+						if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryIsWorn(Player, "ItemVulva", "VibratingEgg") && item && (item.Property?.Intensity ?? -1) > -1)
+							break testLoop;
+						break;
+					}
 					case "Bed": if ((PrivateBedCount() == 1) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime) && PrivateBedActive() && (!Player.Cage) && (!CurrentCharacter.Cage)) break testLoop; break;
 					case "LoverLock": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryHasLockableItems(Player)) break testLoop; break;
 					case "LoverUnlock": if (CurrentCharacter.CanInteract() && !CurrentCharacter.IsOwnedByPlayer() && InventoryCharacterHasLoverOnlyRestraint(Player)) break testLoop; break;
@@ -1917,7 +2279,7 @@ function PrivateLoveYou() {
 		}
 
 		// For regular sexual activities
-		PrivateLoverActivity = Act;
+		PrivateLoverActivity = Act ?? null;
 		if (
 			Zone !== ""
 			&& ((PrivateLoverActivity == "Kiss") || (PrivateLoverActivity == "FrenchKiss") || (PrivateLoverActivity == "Caress") || (PrivateLoverActivity == "Rub") || (PrivateLoverActivity == "MasturbateHand") || (PrivateLoverActivity == "MasturbateTongue"))
@@ -1936,11 +2298,13 @@ function PrivateLoveYou() {
 			// When the NPC equips an egg or a belt on the player
 			case "EggInsert":  {
 				const item = InventoryWear(Player, "VibratingEgg", "ItemVulva");
-				VibratorModeSetOptionByName(Player, item, VibratorMode.LOW);
+				if (item) {
+					VibratorModeSetOptionByName(Player, item, VibratorMode.LOW);
+				}
 				break;
 			}
 			case "LockBelt":
-				InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
+				InventoryWearRandom(Player, "ItemPelvis", undefined, undefined, false, true, PrivateBeltList, true);
 				InventoryLock(Player, "ItemPelvis", "LoversPadlock", CurrentCharacter);
 				break;
 			case "UnlockBelt":  InventoryRemove(Player, "ItemPelvis"); break;
@@ -1950,11 +2314,13 @@ function PrivateLoveYou() {
 			case "EggSpeedUp":
 			case "EggSpeedDown": {
 				const egg = InventoryGet(Player, "ItemVulva");
-				const newMode = VibratorModeIntensityIncrement(
-					(egg.Property && egg.Property.Mode) || VibratorMode.OFF,
-					PrivateLoverActivity == "EggSpeedDown",
-				);
-				VibratorModeSetOptionByName(Player, egg, newMode);
+				if (egg) {
+					const newMode = VibratorModeIntensityIncrement(
+						(egg.Property && egg.Property.Mode) || VibratorMode.OFF,
+						PrivateLoverActivity == "EggSpeedDown",
+					);
+					VibratorModeSetOptionByName(Player, egg, newMode);
+				}
 				break;
 			}
 			// When the NPC lover enters the bed, waiting for the player
@@ -1988,6 +2354,7 @@ function PrivatePlayerTurnTablesStart() {
  * @returns {void} - Nothing.
  */
 function PrivatePlayerTurnTablesRemove() {
+	if (!CurrentCharacter) return;
 	PrivateNPCInteraction(-20);
 	NPCEventDelete(CurrentCharacter, "EndSubTrial");
 	ManagementReleaseFromOwner(8);
@@ -1998,6 +2365,7 @@ function PrivatePlayerTurnTablesRemove() {
  * @returns {void} - Nothing.
  */
 function PrivatePlayerTurnTablesCollar() {
+	if (!CurrentCharacter) return;
 	PrivateNPCInteraction(10);
 	ManagementReleaseFromOwner(15);
 	NPCEventDelete(CurrentCharacter, "EndSubTrial");
@@ -2012,6 +2380,7 @@ function PrivatePlayerTurnTablesCollar() {
  * @returns {void} - Nothing.
  */
 function PrivateSubTurnTablesStart() {
+	if (!CurrentCharacter) return;
 	PoseSetActive(CurrentCharacter, null);
 	PrivateNPCInteraction(-3);
 }
@@ -2021,6 +2390,7 @@ function PrivateSubTurnTablesStart() {
  * @returns {void} - Nothing.
  */
 function PrivateSubTurnTablesDone() {
+	if (!CurrentCharacter) return;
 
 	// Clears the submissive ownership
 	NPCEventDelete(CurrentCharacter, "EndSubTrial");
@@ -2047,9 +2417,11 @@ function PrivateSubTurnTablesDone() {
 
 /**
  * When the player triggers a cheat on a NPC
+ * @param {"TraitDominant" | "TraitSubmissive"} Type
  * @returns {void} - Nothing.
  */
 function PrivateNPCCheat(Type) {
+	if (!CurrentCharacter) return;
 	if (Type == "TraitDominant") NPCTraitSet(CurrentCharacter, "Dominant", (NPCTraitGet(CurrentCharacter, "Dominant") >= 90) ? 100 : NPCTraitGet(CurrentCharacter, "Dominant") + 10);
 	if (Type == "TraitSubmissive") NPCTraitSet(CurrentCharacter, "Dominant", (NPCTraitGet(CurrentCharacter, "Dominant") <= -90) ? -100 : NPCTraitGet(CurrentCharacter, "Dominant") - 10);
 }
@@ -2094,6 +2466,7 @@ function PrivateJoinInBed() {
  * @returns {void} - Nothing.
  */
 function PrivateEnterBed() {
+	if (!CurrentCharacter) return;
 	NPCEventAdd(CurrentCharacter, "NextBed", CurrentTime + 300000 + Math.round(Math.random() * 300000) + NPCTraitGet(CurrentCharacter, "Frigid") * 3000);
 	CurrentCharacter.PrivateBed = true;
 }
@@ -2148,21 +2521,30 @@ function PrivateGetClubCardDeck(C) {
  * When the club card game against a friend NPC starts
  * @returns {void} - Nothing
  */
-function PrivateClubCardVsFriendStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
-	MiniGameStart("ClubCard", 0, "PrivateClubCardVsFriendEnd");
+function PrivateClubCardVsCharacterStart() {
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => { PrivateClubCardVsCharacterEnd(); });
 }
 
 /**
  * When the club card game against a friend NPC ends
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function PrivateClubCardVsFriendEnd() {
-	CommonSetScreen("Room", "Private");
+async function PrivateClubCardVsCharacterEnd() {
+	if (!ClubCardOpponent) return;
+	await CommonSetScreen("Room", "Private");
 	CharacterSetCurrent(ClubCardOpponent);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsFriendVictory" : "ClubCardVsFriendDefeat");
-	CurrentCharacter.Stage = MiniGameVictory ? "110" : "120";
+	if (!CurrentCharacter) return;
+	if (CurrentCharacter.IsOwner()) {
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsOwnerVictory" : "ClubCardVsOwnerDefeat");
+		CurrentCharacter.Stage = MiniGameVictory ? "1110" : "1120";
+	} else if (CurrentCharacter.IsOwnedByPlayer()) {
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsSubVictory" : "ClubCardVsSubDefeat");
+		CurrentCharacter.Stage = MiniGameVictory ? "2110" : "2120";
+	} else {
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsFriendVictory" : "ClubCardVsFriendDefeat");
+		CurrentCharacter.Stage = MiniGameVictory ? "110" : "120";
+	}
 	if (MiniGameVictory) {
 		CurrentCharacter.AllowItem = true;
 		PrivateClubCardVictoryMode = true;
@@ -2172,47 +2554,40 @@ function PrivateClubCardVsFriendEnd() {
 
 /**
  * When the club card game against an owner NPC starts
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsOwnerStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
-	MiniGameStart("ClubCard", 0, "PrivateClubCardVsOwnerEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => { PrivateClubCardVsCharacterEnd(); });
 }
 
 /**
  * When the club card game against an owner NPC ends
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsOwnerEnd() {
-	CommonSetScreen("Room", "Private");
-	CharacterSetCurrent(ClubCardOpponent);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsOwnerVictory" : "ClubCardVsOwnerDefeat");
-	CurrentCharacter.Stage = MiniGameVictory ? "1110" : "1120";
-	if (MiniGameVictory) CurrentCharacter.AllowItem = true;
-	PrivateNPCInteraction(5);
+	PrivateClubCardVsCharacterEnd();
 }
 
 /**
  * When the club card game against a submissive NPC starts
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsSubStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = PrivateGetClubCardDeck(CurrentCharacter);
-	MiniGameStart("ClubCard", 0, "PrivateClubCardVsSubEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, PrivateGetClubCardDeck(CurrentCharacter), () => { PrivateClubCardVsCharacterEnd(); });
 }
 
 /**
  * When the club card game against a submissive NPC ends
+ * @deprecated
  * @returns {void} - Nothing
  */
 function PrivateClubCardVsSubEnd() {
-	CommonSetScreen("Room", "Private");
-	CharacterSetCurrent(ClubCardOpponent);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVsSubVictory" : "ClubCardVsSubDefeat");
-	CurrentCharacter.Stage = MiniGameVictory ? "2110" : "2120";
-	PrivateNPCInteraction(5);
+	PrivateClubCardVsCharacterEnd();
 }
 
 /**
@@ -2228,6 +2603,7 @@ function PrivateEndClubCardVictoryMode() {
  * @returns {void} - Nothing
  */
 function PrivateClubCardDefeatActivity() {
+	if (!CurrentCharacter) return;
 
 	// First, we find a valid activity / consequence to do (Bound will always work)
 	let Act = "";
@@ -2258,6 +2634,7 @@ function PrivateClubCardDefeatActivity() {
  * @returns {void} - Nothing.
  */
 function PrivateClubCardDoConsequence(Act, LoveFactor) {
+	if (!CurrentCharacter) return;
 
 	// Do the activity
 	switch (Act) {
@@ -2308,7 +2685,7 @@ function PrivateClubCardDoConsequence(Act, LoveFactor) {
 			CharacterNaked(Player);
 			InventoryWear(Player, "MetalChastityBra", "ItemBreast");
 			InventoryLock(Player, "ItemBreast", "ExclusivePadlock", CurrentCharacter);
-			InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
+			InventoryWearRandom(Player, "ItemPelvis", undefined, undefined, false, true, PrivateBeltList, true);
 			InventoryLock(Player, "ItemPelvis", "ExclusivePadlock", CurrentCharacter);
 			break;
 		}
@@ -2360,12 +2737,16 @@ function PrivateGiftReset() {
  * @returns {void} - Nothing.
  */
 function PrivateGiftGet(GiftType) {
+	if (!CurrentCharacter) return;
 	let Gift = (GiftType == "Regular") ? PrivateGiftRegular : PrivateGiftRestraint;
-	if ((Gift != null) && (Gift.BuyGroup == null)) InventoryAdd(Player, Gift.Name, Gift.Group.Name, false);
-	if ((Gift != null) && (Gift.BuyGroup != null))
+	if (!Gift) return;
+	if (Gift.BuyGroup) {
 		for (let A of Asset)
 			if (A.BuyGroup === Gift.BuyGroup)
 				InventoryAdd(Player, A.Name, A.Group.Name, false);
+	} else {
+		InventoryAdd(Player, Gift.Name, Gift.Group.Name, false);
+	}
 	ServerPlayerInventorySync();
 	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("GIFTNAME", Gift.Description);
 	NPCEventAdd(CurrentCharacter, "NextGift", Math.floor(CurrentTime + 86400000 + Math.random() * 432000000));
@@ -2431,8 +2812,9 @@ function PrivatePlayerUngag(LoveFactor) {
  * @returns {void} - Nothing.
  */
 function PrivateStartOwnerHallActivity() {
-	let Activity = CommonRandomItemFromList(null, ["BringToPrivate", "NudeParade", "Bondage"]);
-	CurrentCharacter.Stage = "MeetOwnerInMainHall" + Activity + "0";
+	if (!CurrentCharacter) return;
+	let Activity = CommonGetRandomItemFromList(["BringToPrivate", "NudeParade", "Bondage"]);
+	CurrentCharacter.Stage = `MeetOwnerInMainHall${Activity}0`;
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "MeetOwnerInMainHall" + Activity + "Intro");
 }
 
@@ -2474,7 +2856,7 @@ function PrivateOwnerHallLeash() {
 	if (Item !== null) {
 		let NewProperty = Item.Property;
 		while (NewProperty == Item.Property)
-			Item.Property = CommonCloneDeep(CommonRandomItemFromList(null, InventoryItemNeckSlaveCollarTypes).Property);
+			Item.Property = CommonCloneDeep(CommonGetRandomItemFromList(InventoryItemNeckSlaveCollarTypes).Property);
 		CharacterRefresh(Player, true);
 	}
 	CharacterSetFacialExpression(Player, "Eyes", "Sad", 10);

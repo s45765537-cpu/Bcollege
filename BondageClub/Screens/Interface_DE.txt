@@ -264,14 +264,14 @@ Item intensity: High
 Item Intensität: Hoch
 Item intensity: Maximum
 Item Intensität: Maximum
-Configure total priority
-Configure total priority
+Configure {asset} priority
+Configure {asset} priority
 Exit
 schließen
 Hide hidden layers
 versteckte Ebenen ausblenden
-Configure layer-specific priority
-Configure layer-specific priority
+Layer priority
+Layer priority
 Item configuration locked
 Item configuration locked
 Reset layering
@@ -458,8 +458,8 @@ Requires a hip harness.
 Requires a hip harness.
 Requires round piercings on nipples.
 Requires round piercings on nipples.
-Unchain mittens
-Unchain mittens
+Unchain mittens.
+Unchain mittens.
 Remove the chain first.
 Remove the chain first.
 Must remove chastity first.
@@ -574,26 +574,8 @@ Removing...
 entfernen...
 Need Bondage ReqLevel
 benötigt Bondage ReqLevel
-Requires self-bondage 1.
-benötigt self-bondage-Level 1.
-Requires self-bondage 10.
-benötigt self-bondage-Level 10.
-Requires self-bondage 2.
-benötigt self-bondage-Level 2.
-Requires self-bondage 3.
-benötigt self-bondage-Level 3.
-Requires self-bondage 4.
-benötigt self-bondage-Level 4.
-Requires self-bondage 5.
-benötigt self-bondage-Level 5.
-Requires self-bondage 6.
-benötigt self-bondage-Level 6.
-Requires self-bondage 7.
-benötigt self-bondage-Level 7.
-Requires self-bondage 8.
-benötigt self-bondage-Level 8.
-Requires self-bondage 9.
-benötigt self-bondage-Level 9.
+Requires self-bondage ReqLevel.
+benötigt self-bondage-Level ReqLevel.
 Active Rules
 aktive Regeln
 Cannot change:

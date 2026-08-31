@@ -1,16 +1,15 @@
-// @ts-strict-ignore
 "use strict";
 var PlayerCollaringBackground = "Management";
-/** @type {null | NPCCharacter} */
-var PlayerCollaringMistress = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringMistressLeft = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringMistressRight = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringGirlLeft = null;
-/** @type {null | NPCCharacter} */
-var PlayerCollaringGirlRight = null;
+/** @type {NPCCharacter} */
+var PlayerCollaringMistress = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringMistressLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringMistressRight = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringGirlLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerCollaringGirlRight = /** @type {never} */ (null);
 
 /**
  * Loads the Player collaring cutscene by creating the random NPCs and setting the stage
@@ -47,10 +46,14 @@ function PlayerCollaringClick() {
 	if (CutsceneStage == 2) CharacterNaked(Player);
 	if (CutsceneStage == 4) PoseSetActive(Player, "Kneel", true);
 	if (CutsceneStage == 6) InventoryWear(Player, "SlaveCollar", "ItemNeck");
-	if (CutsceneStage > 8) {
-		CommonSetScreen("Room", "Private").then(() => {
-			CharacterSetCurrent(PlayerCollaringMistress);
-			PlayerCollaringMistress.CurrentDialog = DialogFind(PlayerCollaringMistress, "MistressVow");
-		});
-	}
+	if (CutsceneStage > 8) PlayerCollaringReturnToMistress();
+}
+
+/**
+ * @returns {SafePromise<void>}
+ */
+async function PlayerCollaringReturnToMistress() {
+	await CommonSetScreen("Room", "Private");
+	CharacterSetCurrent(PlayerCollaringMistress);
+	PlayerCollaringMistress.CurrentDialog = DialogFind(PlayerCollaringMistress, "MistressVow");
 }

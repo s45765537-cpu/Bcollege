@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** Map the names of the love chastity belt front + black shield options to its scifi pleasure panties equivalent. */
@@ -16,8 +15,11 @@ const InventoryItemPelvisLoveChastityBeltCrotchShield = new Map([
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
 function InventoryItemPelvisLoveChastityBeltDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
+	const item = DialogFocusItem;
+	if (!item) return;
+	item.Property ??= {};
 	if (Data.currentModule === ModularItemBase) {
-		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
+		const typeRecord = item.Property.TypeRecord || {};
 		const [FrontShield, BackShield, Intensity, ShockLevel] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 		const CrotchShield = InventoryItemPelvisLoveChastityBeltCrotchShield.get(`${FrontShield}${BackShield}`);
 		const ShieldSuffix = (["f2", "f3"].includes(FrontShield)) ? "" : ` (${AssetTextGet(`${Data.dialogPrefix.option}${FrontShield}`)})`;
@@ -35,7 +37,7 @@ function InventoryItemPelvisLoveChastityBeltDrawHook(Data, OriginalFunction) {
 		MainCanvas.restore();
 
 		// Display the ShowText checkbox
-		ExtendedItemDrawCheckbox("ShowText", 1175, 818, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });
+		ExtendedItemDrawCheckbox("ShowText", 1175, 818, !!item.Property.ShowText, { changeWhenLocked: false });
 		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button
@@ -45,15 +47,15 @@ function InventoryItemPelvisLoveChastityBeltDrawHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.SetOption<ModularItemData, ModularItemOption>} */
 function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push, refresh) {
-	originalFunction(C, item, newOption, previousOption, false, false);
+	originalFunction?.(C, item, newOption, previousOption, false, false);
 
 	// Switch off the vibe module if the corresponding front shield is removed
 	if (previousOption.Name === "f2") { // 2 - close front & vibrator
 		ExtendedItemRequirementCheckMessageMemo.clearCache();
-		const previousModuleValues = ModularItemParseCurrent(data, item.Property.TypeRecord);
+		const previousModuleValues = ModularItemParseCurrent(data, item.Property?.TypeRecord);
 		const vibePreviousOption = data.modules[2].Options[previousModuleValues[2]];
 		const vibeNewOption = data.modules[2].Options[0];
-		return originalFunction(C, item, vibeNewOption, vibePreviousOption, push, refresh);
+		return originalFunction?.(C, item, vibeNewOption, vibePreviousOption, push, refresh);
 	} else {
 		CharacterRefresh(C, push, false);
 	}
@@ -63,7 +65,7 @@ function InventoryItemPelvisLoveChastityBeltSetOptionHook(data, originalFunction
 function InventoryItemPelvisLoveChastityBeltValidateHook(Data, OriginalFunction, C, Item, Option, CurrentOption) {
 	const Prefix = `${Item.Asset.Group.Name}${Item.Asset.Name}`;
 	const Module = Data.modules.find((m) => m.Key === Option.Name[0]) || { Name: null };
-	const FrontShield = ModularItemParseCurrent(Data, Item.Property.TypeRecord)[0];
+	const FrontShield = ModularItemParseCurrent(Data, Item.Property?.TypeRecord)[0];
 	/** @type {string} */
 	const optionName = Option.Name;
 
@@ -74,6 +76,6 @@ function InventoryItemPelvisLoveChastityBeltValidateHook(Data, OriginalFunction,
 	} else if (optionName === "TriggerShock" && FrontShield !== 3) {
 		return AssetTextGet(`${Prefix}ValidateTriggerShock`);
 	} else {
-		return OriginalFunction(C, Item, Option, CurrentOption);
+		return OriginalFunction?.(C, Item, Option, CurrentOption) ?? "";
 	}
 }

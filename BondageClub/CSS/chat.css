@@ -10,6 +10,10 @@
 	z-index: 2;
 }
 
+.chat-room-sep:first-child {
+	border-top: unset !important;
+}
+
 .chat-room-sep:has(.chat-room-sep-collapse[aria-expanded="false"]):not(.chat-room-sep-last) {
 	border-bottom: unset !important;
 }
@@ -62,17 +66,17 @@
 	text-align: center;
 }
 
-#chat-room-top-menu,
-#chat-room-div {
-	--gap-size: max(3px, min(0.4vh, 0.2vw));
-	--gap-size: max(3px, min(0.4dvh, 0.2dvw));
-}
-
 #chat-room-div {
 	--button-size: min(8vh, 4vw);
+	/* NOTE: Variable is also referenced in `ChatRoomInputResize()` */
+	--gap-size: max(3px, min(0.4vh, 0.2vw));
+	--gap-size: max(3px, min(0.4dvh, 0.2dvw));
+
+	pointer-events: none;
 }
 
 #chat-room-div > * {
+	pointer-events: auto;
 	margin-bottom: var(--gap-size);
 }
 
@@ -115,7 +119,7 @@
 #chat-room-buttons-div {
 	grid-area: chat-buttons-div;
 	width: 0;
-	border-left: var(--gap-size) solid black;
+	border-left: var(--border-width) solid black;
 	justify-self: center;
 }
 
@@ -590,8 +594,8 @@
 }
 
 .chat-room-changelog-button {
-	height: 1em;
-	width: 1em;
+	height: 1.15em;
+	width: 1.15em;
 }
 
 .chat-room-changelog-button > .button-label {
@@ -800,13 +804,80 @@
 	}
 }
 
-/* Top-right chat room toolbar (canvas coordinates via ElementPositionFix) */
 #chat-room-top-menu {
 	display: flex;
 	flex-direction: row;
 	gap: var(--gap-size);
+	width: 100%;
 	box-sizing: border-box;
 	z-index: 1;
+	background-color: black;
+}
+
+#chat-room-struggle-bar {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--gap-size);
+	width: 100%;
+	box-sizing: border-box;
+	z-index: 1;
+	background-color: black;
+	padding-inline: 0.2em;
+}
+
+#chat-room-top-menu,
+#chat-room-struggle-bar {
+	/* Keep synced _or_ fire up `ChatRoomInputResize()` after unhiding on of these elements */
+	height: 2em;
+}
+
+.chat-room-struggle-item {
+	flex: 0 0 auto;
+	width: 2em;
+	height: 2em;
+	object-fit: contain;
+	pointer-events: none;
+}
+
+.chat-room-struggle-label {
+	flex: 0 1 auto;
+	color: white;
+	white-space: nowrap;
+}
+
+.chat-room-struggle-progress {
+	flex: 1 1 0;
+	height: 1.8em;
+	border: var(--border-width) solid white;
+	box-sizing: border-box;
+	background-color: red;
+}
+
+.chat-room-struggle-progress-fill {
+	height: 100%;
+	background-color: #66ff66;
+	width: 0%;
+}
+
+.chat-room-struggle-actions {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--gap-size);
+	flex: 0 0 auto;
+	height: 2em;
+}
+
+.chat-room-struggle-btn {
+	flex: 0 0 auto;
+	min-width: 8em;
+	height: 1.8em;
+	box-sizing: border-box;
+}
+
+.chat-room-struggle-actions[data-dual] .chat-room-struggle-btn {
+	min-width: 6.25em;
 }
 
 .chat-room-top-menu-btn {

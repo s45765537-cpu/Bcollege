@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 var InventoryItemMiscHighSecurityPadlockPlayerCanUnlock = true;
@@ -27,20 +26,23 @@ function InventoryItemMiscHighSecurityPadlockInitHook({ asset }, originalFunctio
 /** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
 function InventoryItemMiscHighSecurityPadlockLoadHook(data, originalFunction) {
 	originalFunction();
-	var C = CharacterGetCurrent();
+	const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	const lockItem = DialogFocusItem;
+	if (!C || !C.FocusGroup || !lockItem || !item) return;
 	InventoryItemMiscHighSecurityPadlockPlayerCanUnlock = true;
 
 	// Only create the inputs if the zone isn't blocked
 	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
-		if (DialogFocusSourceItem != null && ((DialogFocusSourceItem.Property.MemberNumberListKeys && CommonConvertStringToArray("" + DialogFocusSourceItem.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) >= 0))) {
+		if (item != null && ((item.Property?.MemberNumberListKeys && CommonConvertStringToArray("" + item.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) >= 0))) {
 			if (!((document.getElementById("MemberNumberList") != null) && ElementValue("MemberNumberList") && ElementValue("MemberNumberList").length > 1)) { // Only update if there isnt text already..
 				ElementCreateTextArea("MemberNumberList");
-				document.getElementById("MemberNumberList").setAttribute("maxLength", 250);
-				document.getElementById("MemberNumberList").setAttribute("autocomplete", "off");
-				ElementValue("MemberNumberList", DialogFocusSourceItem.Property.MemberNumberListKeys);
+				document.getElementById("MemberNumberList")?.setAttribute("maxLength", 250);
+				document.getElementById("MemberNumberList")?.setAttribute("autocomplete", "off");
+				ElementValue("MemberNumberList", item.Property.MemberNumberListKeys);
 			}
 
-			if (!InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, DialogFocusItem)) {
+			if (!InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, lockItem)) {
 				InventoryItemMiscHighSecurityPadlockPlayerCanUnlock = false;
 			}
 		}
@@ -50,17 +52,17 @@ function InventoryItemMiscHighSecurityPadlockLoadHook(data, originalFunction) {
 // FIXME: should be merged into either DialogHasKey or DialogCanUnlock
 /**
  * @param {Character} C
- * @param {Item} Item
+ * @param {Item} item
  * @returns {boolean}
  */
-function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
+function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, item) {
 	if (LogQuery("KeyDeposit", "Cell")) return false;
-	let UnlockName = "Unlock" + Item.Asset.Name;
-	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null)) UnlockName = "Unlock" + Item.Property.LockedBy;
+	let UnlockName = /** @type {const} */(`Unlock${item.Asset.Name}`);
+	if ((item != null) && (item.Property != null) && (item.Property.LockedBy != null)) UnlockName = `Unlock${item.Property.LockedBy}`;
 
-	const key = Asset.find(a => InventoryItemHasEffect({ Asset: a }, /** @type {EffectName} */ (UnlockName)));
+	const key = Asset.find(a => InventoryItemHasEffect(AppearanceItem.fromAsset(a), /** @type {EffectName} */ (UnlockName)));
 	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
-		var Lock = InventoryGetLock(Item);
+		var Lock = InventoryGetLock(item);
 		if (Lock != null) {
 			if (Lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
 			if (Lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
@@ -76,17 +78,18 @@ function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemMiscHighSecurityPadlockDrawHook(data, originalFunction) {
 	originalFunction();
-	if (DialogFocusSourceItem == null) {
-		// TODO: Let the click handlers return a boolean flag indicating whether a button has been clicked or not.
-		// As a stop-gap measure simply check whether `DialogFocusSourceItem` has been de-initialized
+
+	const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	const lockItem = DialogFocusItem;
+	if (!C || !C.FocusGroup || !item || !lockItem) {
 		return;
 	}
 
-	var C = CharacterGetCurrent();
-	if ((DialogFocusSourceItem != null) && (DialogFocusSourceItem.Property != null) && (DialogFocusSourceItem.Property.LockMemberNumber != null))
-		DrawText(InterfaceTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 650, "white", "gray");
+	if (typeof item.Property?.LockMemberNumber === "number")
+		DrawText(InterfaceTextGet("LockMemberNumber") + " " + item.Property.LockMemberNumber.toString(), 1500, 650, "white", "gray");
 
-	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name)&& (DialogFocusSourceItem != null && ((DialogFocusSourceItem.Property.MemberNumberListKeys && CommonConvertStringToArray("" + DialogFocusSourceItem.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) >= 0)))) {
+	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name) && CommonConvertStringToArray(item.Property?.MemberNumberListKeys ?? "").includes(Player.MemberNumber)) {
 		DrawText(AssetTextGet("HighSecuritySaveIntro"), 1500, 600, "white", "gray");
 		ElementPosition("MemberNumberList", 1260, 780, 300, 170);
 		DrawButton(1135, 920, 230, 64, AssetTextGet("HighSecuritySave"), "White", "");
@@ -102,63 +105,54 @@ function InventoryItemMiscHighSecurityPadlockDrawHook(data, originalFunction) {
 			DrawText(AssetTextGet("HighSecurityWarning"), 1500, 550, "red", "gray");
 		}
 	} else {
-		DrawText(AssetTextGet(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 600, "white", "gray");
+		DrawText(AssetTextGet(lockItem.Asset.Group.Name + lockItem.Asset.Name + "Intro"), 1500, 600, "white", "gray");
 	}
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
 function InventoryItemMiscHighSecurityPadlockClickHook(data, originalFunction) {
 	originalFunction();
-	var C = CharacterGetCurrent();
-	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name)&& (DialogFocusSourceItem != null && ((DialogFocusSourceItem.Property.MemberNumberListKeys && CommonConvertStringToArray("" + DialogFocusSourceItem.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) >= 0)))) {
+
+	const C = CharacterGetCurrent();
+	const item = DialogFocusSourceItem;
+	const lockItem = DialogFocusItem;
+	if (!C || !C.FocusGroup || !item || !lockItem) {
+		return;
+	}
+	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name) && CommonConvertStringToArray(item.Property?.MemberNumberListKeys ?? "").includes(Player.MemberNumber)) {
 		if (MouseIn(1135, 920, 230, 64)) {
-			if (DialogFocusSourceItem != null && DialogFocusSourceItem.Property != null) {
-				var list = CommonConvertStringToArray("" + ElementValue("MemberNumberList").trim());
-				if (!InventoryItemMiscHighSecurityPadlockPlayerCanUnlock && list.length > 1 && list.indexOf(Player.MemberNumber) >= 0 ) {
-					list = list.filter(x => x !== Player.MemberNumber);
-				}
-
-				for (let A = 0; A < C.Appearance.length; A++) {
-					if (C.Appearance[A].Asset.Group.Name == C.FocusGroup.Name)
-						C.Appearance[A] = DialogFocusSourceItem;
-				}
-
-				if (HighSecurityPadlockConfigOwner && Player.IsOwned() == "online" && list.indexOf(Player.OwnerNumber()) < 0) {
-					list.push(Player.OwnerNumber());
-				}
-				if (HighSecurityPadlockConfigLover && Player.Lovership) {
-					for (let L = 0; L < Player.Lovership.length; L++) {
-						const lover = Player.Lovership[L];
-						if (lover.MemberNumber != null && list.indexOf(lover.MemberNumber) < 0)
-							list.push(Player.Lovership[L].MemberNumber);
-					}
-				}
-				if (HighSecurityPadlockConfigWhitelist && Player.WhiteList) {
-					for (let L = 0; L < Player.WhiteList.length; L++) {
-						if (list.indexOf(Player.WhiteList[L]) < 0)
-							list.push(Player.WhiteList[L]);
-					}
-				}
-
-				DialogFocusSourceItem.Property.MemberNumberListKeys = "" +
-					CommonConvertArrayToString(list); // Convert to array and back; can only save strings on server
-				ElementValue("MemberNumberList", DialogFocusSourceItem.Property.MemberNumberListKeys);
-
-				if (ServerPlayerIsInChatRoom()) {
-					const Dictionary = new DictionaryBuilder()
-						.sourceCharacter(Player)
-						.destinationCharacter(C)
-						.focusGroup(C.FocusGroup.Name)
-						.build();
-					ChatRoomPublishCustomAction("HighSecurityUpdate", true, Dictionary);
-				}
-				else {
-					CharacterRefresh(C);
-					DialogLeaveFocusItem();
-				}
+			let list = new Set(CommonConvertStringToArray("" + ElementValue("MemberNumberList").trim()));
+			if (!InventoryItemMiscHighSecurityPadlockPlayerCanUnlock && list.has(Player.MemberNumber)) {
+				list.delete(Player.MemberNumber);
 			}
 
+			if (HighSecurityPadlockConfigOwner && Player.IsOwned() == "online") {
+				list.add(Player.OwnerNumber());
+			}
+			if (HighSecurityPadlockConfigLover) {
+				Player.GetLoversNumbers(true).forEach(n => list.add(n));
+			}
+			if (HighSecurityPadlockConfigWhitelist) {
+				Player.WhiteList.forEach(n => list.add(n));
+			}
 
+			// Convert to array and back; can only save strings on server
+			item.Property ??= {};
+			item.Property.MemberNumberListKeys = CommonConvertArrayToString([...list.values()]);
+			ElementValue("MemberNumberList", item.Property.MemberNumberListKeys);
+
+			if (ServerPlayerIsInChatRoom()) {
+				const Dictionary = new DictionaryBuilder()
+					.sourceCharacter(Player)
+					.destinationCharacter(C)
+					.focusGroup(C.FocusGroup.Name)
+					.build();
+				ChatRoomPublishCustomAction("HighSecurityUpdate", true, Dictionary);
+			}
+			else {
+				CharacterRefresh(C);
+				DialogLeaveFocusItem();
+			}
 			return;
 		}
 		if (MouseIn(1450, 700, 64, 64)) {HighSecurityPadlockConfigOwner = !HighSecurityPadlockConfigOwner; return;}

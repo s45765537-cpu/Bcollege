@@ -196,7 +196,7 @@ async function CreationLoad() {
 			ElementButton.Create(
 				CreationIDs.createButton,
 				CreationSubmit,
-				{ label: TextGet("CreateAccount") },
+				{ label: TextGet("CreateAccount"), name: "Create" },
 			),
 		],
 		parent: form,
@@ -215,7 +215,7 @@ async function CreationLoad() {
 			ElementButton.Create(
 				CreationIDs.loginButton,
 				CreationExit,
-				{ label: TextGet("Login") },
+				{ label: TextGet("Login"), name: "Login" },
 			)
 		],
 		parent: main,
@@ -279,7 +279,7 @@ function CreationResponse(data) {
 				Creation: CurrentTime,
 				Appearance: appearance,
 				Money: 100,
-				Log: Log,
+				Log: Player.Log,
 			});
 
 			LoginSetupPlayer(createData);
@@ -302,6 +302,7 @@ function CreationResponse(data) {
 			CommonSetScreen("Room", "MainHall");
 
 		} else {
+			// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
 			CreationMessage = TextGet("Error") + " " + data.ServerAnswer;
 		}
 	} else {
@@ -404,8 +405,7 @@ function CreationCreateLabeledInput(labelKey, inputId, type, value, maxLength, p
 			const isVisible = input.type === "text";
 			input.type = isVisible ? "password" : "text";
 			this.setAttribute("aria-pressed", (!isVisible).toString());
-			const img = this.querySelector("img");
-			if (img) img.src = isVisible ? "Icons/Rectangle/Icons3.png" : "Icons/Rectangle/Icons0.png";
+			ElementButton.SetImage(this, isVisible ? "Icons/Rectangle/Icons3.png" : "Icons/Rectangle/Icons0.png");
 		},
 		{
 			image: 'Icons/Rectangle/Icons3.png',

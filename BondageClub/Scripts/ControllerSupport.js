@@ -203,9 +203,9 @@ function ControllerLoadMapping(buttonsMapping, axisMapping) {
 		for (const gamepad of navigator.getGamepads()) {
 			if (!gamepad) continue;
 			if (gamepad.buttons.length < MAX_KNOWN_BUTTONS || gamepad.axes.length < MAX_KNOWN_AXIS) {
-				console.warn(`Detected gamepad ${gamepad.index} doesn't have the minimum supported buttons/axis. Make sure to calibrate it properly in Preferences!`);
+				console.error(`Detected gamepad ${gamepad.index} doesn't have the minimum supported buttons/axis. Make sure to calibrate it properly in Preferences!`);
 			} else if (Object.keys(buttonsMapping).length !== gamepad.buttons.length || Object.keys(axisMapping).length !== gamepad.axes.length) {
-				console.warn(`Loaded controller mapping doesn't match gamepad ${gamepad.index} layout. Make sure to calibrate it properly in Preferences!`);
+				console.error(`Loaded controller mapping doesn't match gamepad ${gamepad.index} layout. Make sure to calibrate it properly in Preferences!`);
 			}
 		}
 	}
@@ -315,7 +315,7 @@ function ControllerProcessAxis(axes) {
 		const padAxisId = ControllerAxisMapping[axisId];
 		const val = axes[padAxisId] ?? undefined;
 		if (val === undefined && !ControllerMissingAxisWarning.has(axisId)) {
-			console.warn(`gamepad axis handler requested an unknown axis: ${axisId} (${padAxisId})`);
+			console.error(`gamepad axis handler requested an unknown axis: ${axisId} (${padAxisId})`);
 			ControllerMissingAxisWarning.add(axisId);
 			return;
 		}

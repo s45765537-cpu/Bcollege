@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var InventoryItemNeckSlaveCollarColorMode = false;
 var InventoryItemNeckSlaveCollarOffset = 0;
@@ -97,40 +96,44 @@ var InventoryItemNeckSlaveCollarTypes = [
 function InventoryItemNeckSlaveCollarLoadHook(data, originalFunction) {
 	originalFunction();
 
+	const C = CharacterGetCurrent();
+	if (!C) return;
+
 	InventoryItemNeckSlaveCollarColorMode = false;
-	var C = CharacterGetCurrent();
-	var SC = InventoryItemNeckSlaveCollarTypes.find(element => (element.Name == "LoveLeatherCollar"));
-	if (C && C.IsOwnedByPlayer() && C.IsLoverOfPlayer() && !SC) {
+	const SC = InventoryItemNeckSlaveCollarTypes.find(element => (element.Name == "LoveLeatherCollar"));
+	if (C.IsOwnedByPlayer() && C.IsLoverOfPlayer() && !SC) {
 		InventoryItemNeckSlaveCollarTypes.push({
 			Name: "LoveLeatherCollar",
 			Image: "LoveLeatherCollar",
 			Property: {TypeRecord: { noarch: 21 }, Effect: [], Block: []},
 		});
+	} else if (C.IsOwnedByPlayer() && !C.IsLoverOfPlayer() && SC) {
+		InventoryItemNeckSlaveCollarTypes.splice(InventoryItemNeckSlaveCollarTypes.indexOf(SC, 1));
 	}
-	else if (C && C.IsOwnedByPlayer && !C.IsLoverOfPlayer() && SC) { InventoryItemNeckSlaveCollarTypes.splice(InventoryItemNeckSlaveCollarTypes.indexOf(SC,1)); }
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemNeckSlaveCollarDrawHook(data, originalFunction) {
 	// Only the character owner can use the controls in that screen
-	var C = CharacterGetCurrent();
-	if (C && C.IsOwnedByPlayer()) {
-		if (InventoryItemNeckSlaveCollarColorMode) {
-			ItemColorDraw(C, DialogFocusItem.Asset.Group.Name, 1090, 15, 900, 965);
-		} else {
-			// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
-			originalFunction();
-			ColorPickerHide();
-			DrawButton(1665, 25, 90, 90, "", "White", "Icons/Next.png");
-			DrawButton(1775, 25, 90, 90, "", (DialogFocusItem.Color != null && DialogFocusItem.Color != "Default") ? DialogFocusItem.Color.toString() : "White", "Icons/ColorChange.png");
-			for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
-				const A = DialogFocusItem.Asset;
-				const Type = InventoryItemNeckSlaveCollarTypes[I];
-				const CollarTypeAsset = AssetGet(A.Group.Family, A.Group.Name, Type.Image);
-				const subType = DialogFocusItem.Property?.TypeRecord?.noarch ?? 0;
-				const [buttonX, buttonY] = ExtendedXY[8][I - InventoryItemNeckSlaveCollarOffset];
-				DrawPreviewBox(buttonX, buttonY, `${AssetGetPreviewPath(DialogFocusItem.Asset)}/${Type.Image}.png`, CollarTypeAsset.Description, {Hover: true, Disabled: subType === I});
-			}
+	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!C || !C.IsOwnedByPlayer() || !item) return;
+	if (InventoryItemNeckSlaveCollarColorMode) {
+		ItemColorDraw(C, item.Asset.Group.Name, 1090, 15, 900, 965);
+	} else {
+		// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
+		originalFunction();
+		ColorPickerHide();
+		DrawButton(1665, 25, 90, 90, "", "White", "Icons/Next.png");
+		DrawButton(1775, 25, 90, 90, "", !ItemColorIsDefault(item) ? item.Color.toString() : "White", "Icons/ColorChange.png");
+		for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
+			const A = item.Asset;
+			const Type = InventoryItemNeckSlaveCollarTypes[I];
+			const CollarTypeAsset = AssetGet(A.Group.Family, A.Group.Name, Type.Image);
+			if (!CollarTypeAsset) continue;
+			const subType = item.Property?.TypeRecord?.noarch ?? 0;
+			const [buttonX, buttonY] = ExtendedXY[8][I - InventoryItemNeckSlaveCollarOffset];
+			DrawPreviewBox(buttonX, buttonY, `${AssetGetPreviewPath(item.Asset)}/${Type.Image}.png`, CollarTypeAsset.Description, {Hover: true, Disabled: subType === I});
 		}
 	}
 }
@@ -144,45 +147,48 @@ function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
 	}
 
 	// Only the character owner can use the controls in that screen
-	var C = CharacterGetCurrent();
-	if (C != null && C.IsOwnedByPlayer()) {
-		if (InventoryItemNeckSlaveCollarColorMode) {
-			ItemColorClick(C, DialogFocusItem.Asset.Group.Name, 1090, 15, 900, 965);
-		} else {
-			originalFunction();
+	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!C || !C.IsOwnedByPlayer() || !item) return;
+	if (InventoryItemNeckSlaveCollarColorMode) {
+		ItemColorClick(C, item.Asset.Group.Name, 1090, 15, 900, 965);
+	} else {
+		originalFunction();
 
-			// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
-			if ((MouseX >= 1665) && (MouseX <= 1755) && (MouseY >= 25) && (MouseY <= 110)) {
-				InventoryItemNeckSlaveCollarOffset = InventoryItemNeckSlaveCollarOffset + 8;
-				if (InventoryItemNeckSlaveCollarOffset >= InventoryItemNeckSlaveCollarTypes.length) InventoryItemNeckSlaveCollarOffset = 0;
-			}
-			if ((MouseX >= 1775) && (MouseX <= 1865) && (MouseY >= 25) && (MouseY <= 110)) {
+		// In regular mode, the owner can select the collar model and change the offset to get the next 8 models
+		if ((MouseX >= 1665) && (MouseX <= 1755) && (MouseY >= 25) && (MouseY <= 110)) {
+			InventoryItemNeckSlaveCollarOffset = InventoryItemNeckSlaveCollarOffset + 8;
+			if (InventoryItemNeckSlaveCollarOffset >= InventoryItemNeckSlaveCollarTypes.length) InventoryItemNeckSlaveCollarOffset = 0;
+		}
+		if ((MouseX >= 1775) && (MouseX <= 1865) && (MouseY >= 25) && (MouseY <= 110)) {
+			ItemColorLoad(C, item, 1090, 15, 900, 965, true).then(() => {
 				InventoryItemNeckSlaveCollarColorMode = true;
-				ItemColorLoad(C, DialogFocusItem, 1090, 15, 900, 965, true);
 				ItemColorOnExit(() => {
 					InventoryItemNeckSlaveCollarColorMode = false;
 				});
-			}
-			for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
-				var subType = DialogFocusItem?.Property?.TypeRecord?.noarch ?? 0;
-				const [buttonX, buttonY] = ExtendedXY[8][I - InventoryItemNeckSlaveCollarOffset];
-				if (MouseIn(buttonX, buttonY, 225, 225) && subType != I)
-					InventoryItemNeckSlaveCollarSetType(I);
-			}
-
+			}).catch(err => {
+				console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+				ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
+			});
+		}
+		for (let I = InventoryItemNeckSlaveCollarOffset; I < InventoryItemNeckSlaveCollarTypes.length && I < InventoryItemNeckSlaveCollarOffset + 8; I++) {
+			const subType = item?.Property?.TypeRecord?.noarch ?? 0;
+			const [buttonX, buttonY] = ExtendedXY[8][I - InventoryItemNeckSlaveCollarOffset];
+			if (MouseIn(buttonX, buttonY, 225, 225) && subType != I)
+				InventoryItemNeckSlaveCollarSetType(C, item, I);
 		}
 	}
-
 }
 
 /**
  * Sets the slave collar model
+ * @param {Character} C
+ * @param {Item} item
  * @param {number} NewType
  */
-function InventoryItemNeckSlaveCollarSetType(NewType) {
-	var C = CharacterGetCurrent();
-	var Type = InventoryItemNeckSlaveCollarTypes[NewType] ?? InventoryItemNeckSlaveCollarTypes[0];
-	DialogFocusItem.Property = Type.Property;
+function InventoryItemNeckSlaveCollarSetType(C, item, NewType) {
+	const Type = InventoryItemNeckSlaveCollarTypes[NewType] ?? InventoryItemNeckSlaveCollarTypes[0];
+	item.Property = Type.Property;
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacter(C)

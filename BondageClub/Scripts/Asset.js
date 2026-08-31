@@ -113,6 +113,10 @@ function AssetGroupAdd(Family, GroupDef) {
 		IsItem() { return this.Category === "Item"; },
 		/** @type {() => this is AssetScriptGroup} */
 		IsScript() { return this.Category === "Script"; },
+		/** @type {() => this is AssetExpressionGroup} */
+		HasExpression() { return (this.AllowExpression?.length ?? 0) !== 0; },
+		/** @type {() => this is AssetAppearanceGroup} */
+		IsBody() { return this.Category === "Appearance" && this.IsDefault && !this.Clothing; },
 	};
 	AssetGroupMap.set(A.Name, A);
 	AssetActivityMirrorGroupSet(A);
@@ -149,6 +153,7 @@ function AssetParseTopLeft(value, fallback) {
  */
 function ItemParseTopLeft(value, propName=null) {
 	if (!CommonIsObject(value)) {
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		throw new TypeError(`Invalid ${propName ?? "DrawingTop or DrawingLeft"} property type: ${value}`);
 	}
 	return CommonFromEntries(CommonEntries(value).map(([layerName, protoConfig]) => {
@@ -159,6 +164,7 @@ function ItemParseTopLeft(value, propName=null) {
 		} else if (CommonIsObject(protoConfig)) {
 			config = protoConfig;
 		} else {
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			throw new TypeError(`Invalid ${propName ?? "Top or Left"} value for layer "${layerName}": ${protoConfig}`);
 		}
 		return [layerName, config];
@@ -356,14 +362,24 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	if (ExtendedConfig) {
 		const assetBaseConfig = AssetFindExtendedConfig(ExtendedConfig, A.Group.Name, A.Name);
 		if (assetBaseConfig != null) {
-			AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
+			try {
+				AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
+			} catch (e) {
+				throw new Error(`${A.Group.Name}:${A.Name}: Failed to load extended config`, { cause: e });
+			}
 		}
 	}
 
 	// Ensure that restraints do not have clothing-exclusive properties and vice versa
+	/** @type {AssetAppearancePrerequisite[]} */
+	const appearancePreqs = [
+		"HasBreasts", "HasFlatChest", "HasVagina", "HasPenis",
+		...Pose.map(i => /** @type {const} */(`Can${i.Name}`)),
+	];
 	switch (Group.Category) {
 		case "Item":
 			A.BodyCosplay = false;
+			A.ZoomModifier = 1;
 			break;
 		case "Appearance":
 			A.AllowLock = false;
@@ -372,6 +388,8 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 			A.AllowTighten = false;
 			A.AlwaysExtend = false;
 			A.AlwaysInteract = false;
+			A.Block = [];
+			A.CraftGroup = A.Name;
 			A.CustomBlindBackground = undefined;
 			A.Difficulty = 0;
 			A.DrawLocks = false;
@@ -383,6 +401,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 			A.MaxTimer = 0;
 			A.OwnerOnly = false;
 			A.PickDifficulty = 0;
+			A.Prerequisite = A.Prerequisite.filter(i => appearancePreqs.includes(i));
 			A.RemoveTime = 0;
 			A.RemoveTimer = 0;
 			A.SelfBondage = 0;
@@ -873,11 +892,11 @@ function AssetBuildDescription(Family, CSV) {
 	for (const line of CSV) {
 		if (Array.isArray(line) && line.length === 3) {
 			if (map.has(`${line[0]}:${line[1]}`)) {
-				console.warn("Duplicate Asset Description: ", line);
+				console.error("Duplicate Asset Description: ", line);
 			}
 			map.set(`${line[0]}:${line[1]}`, line[2].trim());
 		} else {
-			console.warn("Bad Asset Description line: ", line);
+			console.error("Bad Asset Description line: ", line);
 		}
 	}
 
@@ -966,7 +985,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		}
 	}
 
-	AssetLoadDescription(Family);
+	CommonPromiseCatch(AssetLoadDescription(Family));
 }
 
 // Reset and load all the assets
@@ -1192,11 +1211,11 @@ async function AssetInventoryIDValidate() {
 		const isFreeOrUnbuyableAsset = (A.Value == null || A.Value === 0 || A.Enable === false);
 
 		if (A.InventoryID && isFreeOrUnbuyableAsset) {
-			console.warn(`Unnecessary InventoryID on asset "${A.Name}", remove it`);
+			console.error(`Unnecessary InventoryID on asset "${A.Name}", remove it`);
 		} else if (!A.InventoryID && !isFreeOrUnbuyableAsset && !A.BuyGroup && A.Value !== -1 && !A.RemoveAtLogin) {
 			// Additional checks are for scenario-only items
 			lastId++;
-			console.warn(`Missing InventoryID on asset "${A.Name}", suggesting ${lastId}`);
+			console.error(`Missing InventoryID on asset "${A.Name}", suggesting ${lastId}`);
 		}
 
 		// Warn for all Inventory IDs that are duplicated out of a buy group
@@ -1205,9 +1224,9 @@ async function AssetInventoryIDValidate() {
 			let match;
 			if ((match = buyAssets.find(asset => asset.InventoryID !== A.InventoryID))) {
 				lastId++;
-				console.warn(`InventoryID should be the same within BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID}), suggesting ${lastId}`);
+				console.error(`InventoryID should be the same within BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID}), suggesting ${lastId}`);
 			} else if ((match = allAssets.find(asset => asset.InventoryID === A.InventoryID && asset.BuyGroup !== A.BuyGroup))) {
-				console.warn(`InventoryID matching without being in the same BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID})`);
+				console.error(`InventoryID matching without being in the same BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID})`);
 			}
 			buyAssets.push(A);
 			buyGroups.set(A.BuyGroup, buyAssets);
@@ -1220,7 +1239,7 @@ async function AssetInventoryIDValidate() {
 			// Find matches with different names that either have no buygroup or aren't part of the same buygroup
 			if ((match = inventoryAssets.find(asset => (!asset.BuyGroup || !A.BuyGroup || asset.BuyGroup !== A.BuyGroup) && asset.Name !== A.Name))) {
 				lastId++;
-				console.warn(`InventoryID should be different between different BuyGroups: asset "${A.Name}", buyGroup: ${A.BuyGroup}, ID ${A.InventoryID}, doesn't match: "${match.Name}", buyGroup: ${match.BuyGroup}, ID: ${match.InventoryID}, suggesting ${lastId}`);
+				console.error(`InventoryID should be different between different BuyGroups: asset "${A.Name}", buyGroup: ${A.BuyGroup}, ID ${A.InventoryID}, doesn't match: "${match.Name}", buyGroup: ${match.BuyGroup}, ID: ${match.InventoryID}, suggesting ${lastId}`);
 			}
 			inventoryAssets.push(A);
 			inventoryIDs[A.InventoryID] = inventoryAssets;
@@ -1233,7 +1252,7 @@ async function AssetInventoryIDValidate() {
 		for (let index = 100; index < inventoryIDs.length; index++) {
 			if (!inventoryIDs[index]) holes.add(index);
 		}
-		console.warn(`Known holes in InventoryIDs: ${[...holes.values()]}`);
+		console.error(`Known holes in InventoryIDs: ${[...holes.values()]}`);
 	}
 }
 
@@ -1244,7 +1263,7 @@ function AssetLoadCheckActivities() {
 	for (const act of ActivityFemale3DCG) {
 		const dup = ids.get(act.ActivityID);
 		if (dup) {
-			console.warn(`Activity ${act.Name} has the same ID as ${dup}!`);
+			console.error(`Activity ${act.Name} has the same ID as ${dup}!`);
 			dup.push(act.Name);
 			report = true;
 		} else {
@@ -1254,4 +1273,35 @@ function AssetLoadCheckActivities() {
 	if (report) {
 		console.info(`Next available activity ID is ${Math.max(...ids.keys()) + 1}`);
 	}
+}
+
+/**
+ * Returns the complete list of character-appropriate assets
+ * @param {Character} char
+ */
+function AssetGetAllAppearanceForCharacter(char) {
+	/** @type {Map<AssetGroupBodyName, Asset[]>} */
+	const map = new Map();
+	// Adds all items with 0 value and from the appearance category
+	for (const a of Asset) {
+		if (a.Group.Family === char.AssetFamily
+			&& a.Group.IsAppearance()
+			&& CharacterAppearanceGenderAllowed(a)
+			&& InventoryAvailable(char, a.Name, a.Group.Name)) {
+			CommonMapGetOrInsert(map, a.Group.Name, []).push(a);
+		}
+	}
+	return map;
+}
+
+/**
+ * Return all entries in `list` that are absent from `referenceList`
+ * @param {readonly RemoveOnItemRemove[]} list
+ * @param {readonly RemoveOnItemRemove[]} referenceList
+ * @returns {RemoveOnItemRemove[]}
+ */
+function AssetGetRemoveOnItemRemoveDiff(list, referenceList) {
+	return list.filter(rec => !referenceList.some(referenceRec => {
+		return rec.Name == referenceRec.Name && rec.Group == referenceRec.Group && CommonDeepEqual(rec.TypeRecord, referenceRec.TypeRecord);
+	}));
 }

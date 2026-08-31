@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -11,7 +10,7 @@ const PoseAllKneeling = Object.freeze(["Kneel", "KneelingSpread"]);
  * A list with all standing {@link AssetPoseMap["BodyLower"]} pose names.
  * @satisfies {readonly AssetPoseMap["BodyLower"][]}
  */
-const PoseAllStanding = Object.freeze(["BaseLower", "LegsOpen", "LegsClosed", "Spread"]);
+const PoseAllStanding = Object.freeze(["BaseLower", "LegsClosed", "Spread"]);
 
 /**
  * Namespace with functions for converting pose name arrays into records
@@ -30,14 +29,14 @@ const PoseToMapping = /** @type {const} */({
 		/** @type {Partial<Record<AssetPoseCategory, AssetPoseName[]>>} */
 		const poseMapping = {};
 		if (!CommonIsArray(poses)) {
-			console.warn(`${prefix}Invalid pose array type: ${typeof poses}`);
+			console.error(`${prefix}Invalid pose array type: ${typeof poses}`);
 			return poseMapping;
 		}
 
 		for (const poseName of poses) {
 			const pose = PoseRecord[poseName];
 			if (!pose) {
-				console.warn(`${prefix}Ignoring invalid "${poseName}" pose`);
+				console.error(`${prefix}Ignoring invalid "${poseName}" pose`);
 				continue;
 			}
 
@@ -63,19 +62,19 @@ const PoseToMapping = /** @type {const} */({
 		/** @type {Partial<Record<AssetPoseCategory, AssetPoseName>>} */
 		const poseMapping = {};
 		if (!CommonIsArray(poses)) {
-			console.warn(`${prefix}Invalid pose array type: ${typeof poses}`);
+			console.error(`${prefix}Invalid pose array type: ${typeof poses}`);
 			return poseMapping;
 		}
 
 		for (const poseName of poses) {
 			const pose = PoseRecord[poseName];
 			if (!pose) {
-				console.warn(`${prefix}Ignoring invalid "${poseName}" pose`);
+				console.error(`${prefix}Ignoring invalid "${poseName}" pose`);
 				continue;
 			}
 			if (poseMapping[pose.Category]) {
 				const invalidPoses = [poseMapping[pose.Category], poseName];
-				console.warn(`${prefix}Found two or more poses within the ${pose.Category} category: ${invalidPoses}`);
+				console.error(`${prefix}Found two or more poses within the ${pose.Category} category: ${invalidPoses}`);
 			}
 			poseMapping[pose.Category] = poseName;
 		}
@@ -195,32 +194,25 @@ function PoseSetByItems(C, category, poseName) {
  * Sets a new pose for the character
  * @param {Character} C - Character for which to set the pose
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
- * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @param {boolean} [ForceChange=false] - TRUE if the set pose should overwrite all current active poses
  * @param {boolean} [RefreshDialog] - Refresh {@link DialogSelfMenuMapping.Pose} if so required
  * @returns {void} - Nothing
  */
 function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
-	const newPose = PoseRecord[poseName];
-	if (
-		poseName == null
-		|| ForceChange
-		|| (newPose && newPose.Category === "BodyFull")
-	) {
-		C.ActivePoseMapping = (newPose == null) ? { BodyLower: "BaseLower", BodyUpper: "BaseUpper" } : { [newPose.Category]: newPose.Name };
-		CharacterRefresh(C, false);
-		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
-			DialogSelfMenuMapping.Pose.Reload();
-		}
-		return;
-	}
+	const before = { ...C.ActivePoseMapping };
 
-	// Validate the pre-existing activated poses before setting the new pose
-	if (newPose) {
+	/** @type {Pose | undefined} */
+	const newPose = poseName == null ? undefined : PoseRecord[poseName];
+	if (!newPose) {
+		C.ActivePoseMapping = { BodyLower: "BaseLower", BodyUpper: "BaseUpper" };
+	} else if (newPose.Category === "BodyFull" || ForceChange) {
+		C.ActivePoseMapping = { [newPose.Category]: newPose.Name };
+	} else {
+		// Clear out invalid- and `BodyFull` poses
 		for (const [category, name] of CommonEntries(C.ActivePoseMapping)) {
-			const pose = PoseRecord[name];
+			const pose = !name ? undefined : PoseRecord[name];
 			if (!pose || !pose.AllowMenu || pose.Category === "BodyFull") {
 				delete C.ActivePoseMapping[category];
-				continue;
 			}
 		}
 		C.ActivePoseMapping[newPose.Category] = newPose.Name;
@@ -231,13 +223,15 @@ function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 		delete C.ActivePoseMapping.BodyUpper;
 		delete C.ActivePoseMapping.BodyLower;
 	} else {
-	    C.PoseMapping.BodyUpper = C.PoseMapping.BodyUpper ?? "BaseUpper";
-	    C.PoseMapping.BodyLower = C.PoseMapping.BodyLower ?? "BaseLower";
+	    C.ActivePoseMapping.BodyUpper ??= "BaseUpper";
+	    C.ActivePoseMapping.BodyLower ??= "BaseLower";
 	}
 
-	CharacterRefresh(C, false);
-	if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
-		DialogSelfMenuMapping.Pose.Reload();
+	if (!CommonObjectEqual(before, C.ActivePoseMapping)) {
+		CharacterRefresh(C, false);
+		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
+			CommonPromiseCatch(DialogSelfMenuMapping.Pose.Reload());
+		}
 	}
 }
 
@@ -257,14 +251,17 @@ function PoseRefresh(C) {
 	const setPose = {};
 	for (const item of C.Appearance) {
 		const allowActivePoseList = InventoryGetItemProperty(item, "AllowActivePose");
-		if (allowActivePoseList.length === 0) {
+		if (!allowActivePoseList || allowActivePoseList.length === 0) {
 			continue;
 		}
 		const itemAllowActivePose = PoseToMapping.Array(allowActivePoseList, "Item.AllowActivePose");
-		const itemSetPose = PoseToMapping.Array(InventoryGetItemProperty(item, "SetPose"), "Item.SetPose");
+		const itemSetPose = PoseToMapping.Array(InventoryGetItemProperty(item, "SetPose") ?? [], "Item.SetPose");
 
 		// Update the allowed pose intersections
 		for (const [category, poses] of CommonEntries(itemAllowActivePose)) {
+			if (!poses) {
+				continue;
+			}
 			const poseList = C.AllowedActivePoseMapping[category];
 			if (poseList) {
 				C.AllowedActivePoseMapping[category] = poseList.filter(i => poses.includes(i));
@@ -280,8 +277,12 @@ function PoseRefresh(C) {
 
 		// Update the setpose union
 		for (const [category, poses] of CommonEntries(itemSetPose)) {
-			if (category in setPose) {
-				poses.forEach(p => setPose[category].add(p));
+			if (!poses) {
+				continue;
+			}
+			const poseSet = setPose[category];
+			if (poseSet) {
+				poses.forEach(p => poseSet.add(p));
 			} else {
 				setPose[category] = new Set(poses);
 			}
@@ -291,6 +292,9 @@ function PoseRefresh(C) {
 	// Ammend the `SetPose` union with `ActivePose` members, letting the latter take priority (within the limits of `AllowedActivePose`)
 	const activePose = PoseToMapping.Array(C.ActivePose, "Character.ActivePose");
 	for (const [category, poses] of CommonEntries(setPose)) {
+		if (!poses) {
+			continue;
+		}
 		if (activePose[category]) {
 			activePose[category].push(...poses);
 		} else {

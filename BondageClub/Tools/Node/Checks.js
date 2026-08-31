@@ -16,10 +16,7 @@ import {
 
 const ROOT = path.resolve(fileURLToPath(import.meta.url), "../..");
 
-/** @typedef {{ name: string, code: number, output: string, duration?: number }} CheckResult */
-
-/** @type {readonly string[]} */
-const CHEAP_CHECKS = [
+const CHEAP_CHECKS = /** @type {const} */([
 	"assets:typecheck",
 	"assets:check",
 	"assets:prettier",
@@ -29,14 +26,17 @@ const CHEAP_CHECKS = [
 	"scripts:lint",
 	"files:case",
 	"files:csvtypescript",
-];
+	"test",
+]);
 
-/** @type {readonly string[]} */
-const FULL_CHECKS = [
+const FULL_CHECKS = /** @type {const} */([
 	...CHEAP_CHECKS,
 	"scripts:typecheck-expensive",
 	"styles:prettier",
-];
+]);
+
+/** @typedef {typeof FULL_CHECKS[number]} CheckName */
+/** @typedef {{ name: CheckName, code: number, output: string, duration?: number }} CheckResult */
 
 // #endregion
 
@@ -44,7 +44,7 @@ const FULL_CHECKS = [
 
 /**
  * Creates a child process, buffering the output and resolving with the result.
- * @param {string} name
+ * @param {CheckName} name
  * @returns {Promise<CheckResult>}
  */
 function runCheck(name) {
@@ -59,10 +59,46 @@ function runCheck(name) {
 			? [npmExecPath, "run", "--silent", name]
 			: ["run", "--silent", name];
 
+		/** @type {(chunk: string) => any} */
+		let onData = (chunk) => output.push(chunk);
+		/** @type {(code?: number) => void} */
+		let onClose = (code) => {
+			resolve({
+				name,
+				code: code ?? 1,
+				output: output.join("").trimEnd(),
+				duration: performance.now() - startTime,
+			});
+		};
+		/** @type {(err: unknown) => void} */
+		const onError = (err) => {
+			resolve({
+				name,
+				code: 1,
+				output: String(err),
+				duration: performance.now() - startTime,
+			});
+		};
+
 		const env = { ...process.env };
-		if (name === "scripts:typecheck:strict") {
-			// kill tsc-strict spinner
-			env.CI = "1";
+		switch (name) {
+			case "scripts:typecheck:strict":
+				env.CI = "1";
+				break;
+			case "files:csvtypescript": {
+				// Filter and _only_ look at `csvtypescript_tmp_output`-related content
+				const textKeys = /'TextKeys([a-zA-Z0-9_]+)'/;
+				onData = (chunk) => chunk.includes("csvtypescript_tmp_output") || textKeys.test(chunk) ? output.push(chunk) : undefined;
+				onClose = () => {
+					resolve({
+						name,
+						code: output.length === 0 ? 0 : 1,
+						output: output.join("").trimEnd(),
+						duration: performance.now() - startTime,
+					});
+				};
+				break;
+			}
 		}
 
 		const startTime = performance.now();
@@ -74,32 +110,16 @@ function runCheck(name) {
 
 		child.stdout.setEncoding("utf8");
 		child.stderr.setEncoding("utf8");
-		child.stdout.on("data", (chunk) => output.push(chunk));
-		child.stderr.on("data", (chunk) => output.push(chunk));
-
-		child.on("close", (code) => {
-			resolve({
-				name,
-				code: code ?? 1,
-				output: output.join("").trimEnd(),
-				duration: performance.now() - startTime,
-			});
-		});
-
-		child.on("error", (err) => {
-			resolve({
-				name,
-				code: 1,
-				output: String(err),
-				duration: performance.now() - startTime,
-			});
-		});
+		child.stdout.on("data", onData);
+		child.stderr.on("data", onData);
+		child.on("close", onClose);
+		child.on("error", onError);
 	});
 }
 
 /**
  * Runs all checks in parallel and returns the results.
- * @param {readonly string[]} names
+ * @param {readonly CheckName[]} names
  * @returns {Promise<CheckResult[]>}
  */
 async function runChecks(names) {
@@ -168,7 +188,7 @@ function printSummary(results) {
 // #region Entry point
 
 /**
- * @param {readonly string[]} names
+ * @param {readonly CheckName[]} names
  * @param {boolean} silent
  * @returns {Promise<number>}
  */

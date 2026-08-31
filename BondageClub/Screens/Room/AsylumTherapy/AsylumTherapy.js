@@ -1,10 +1,9 @@
-// @ts-strict-ignore
 "use strict";
 var AsylumTherapyBackground = "AsylumTherapy";
-/** @type {null | NPCCharacter} */
-var AsylumTherapyNurse = null;
-/** @type {null | NPCCharacter} */
-var AsylumTherapyPatient = null;
+/** @type {NPCCharacter} */
+var AsylumTherapyNurse = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var AsylumTherapyPatient = /** @type {never} */ (null);
 
 /**
  * Checks if the therapy for the player can start
@@ -41,8 +40,10 @@ function AsylumTherapyRun() {
 	if (ReputationGet("Asylum") <= -1) DrawCharacter(AsylumTherapyNurse, 1000, 0, 1);
 	if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
-	if (Player.CanChangeOwnClothes() && (LogValue("Committed", "Asylum") >= CurrentTime)) DrawButton(1885, 265, 90, 90, "", "White", "Icons/DressReset.png");
-	if (Player.CanChangeOwnClothes() && (LogValue("Committed", "Asylum") >= CurrentTime)) DrawButton(1885, 385, 90, 90, "", "White", "Icons/Naked.png");
+	if (Player.CanChangeOwnClothes() && AsylumIsCommitted()) {
+		DrawButton(1885, 265, 90, 90, "", "White", "Icons/DressReset.png");
+		DrawButton(1885, 385, 90, 90, "", "White", "Icons/Naked.png");
+	}
 }
 
 /**
@@ -54,13 +55,13 @@ function AsylumTherapyClick() {
 	if (MouseIn(1000, 0, 500, 1000) && (ReputationGet("Asylum") >= 1)) CharacterSetCurrent(AsylumTherapyPatient);
 	if (MouseIn(1000, 0, 500, 1000) && (ReputationGet("Asylum") <= -1)) CharacterSetCurrent(AsylumTherapyNurse);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) {
-		if (Player.CanChangeOwnClothes() && (LogValue("Committed", "Asylum") >= CurrentTime)) AsylumEntranceWearPatientClothes(Player);
-		if ((ReputationGet("Asylum") <= -50) && (LogValue("Committed", "Asylum") >= CurrentTime) && Player.CanInteract()) InventoryWear(Player, "StraitJacket", "ItemArms", "Default", 3);
+		if (Player.CanChangeOwnClothes() && AsylumIsCommitted()) AsylumEntranceWearPatientClothes(Player);
+		if ((ReputationGet("Asylum") <= -50) && AsylumIsCommitted() && Player.CanInteract()) InventoryWear(Player, "StraitJacket", "ItemArms", "Default", 3);
 		CommonSetScreen("Room", "AsylumEntrance");
 	}
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 265, 90, 90) && Player.CanChangeOwnClothes() && (LogValue("Committed", "Asylum") >= CurrentTime)) AsylumEntranceWearPatientClothes(Player);
-	if (MouseIn(1885, 385, 90, 90) && Player.CanChangeOwnClothes() && (LogValue("Committed", "Asylum") >= CurrentTime)) CharacterNaked(Player);
+	if (MouseIn(1885, 265, 90, 90) && Player.CanChangeOwnClothes() && AsylumIsCommitted()) AsylumEntranceWearPatientClothes(Player);
+	if (MouseIn(1885, 385, 90, 90) && Player.CanChangeOwnClothes() && AsylumIsCommitted()) CharacterNaked(Player);
 }
 
 /**
@@ -69,11 +70,12 @@ function AsylumTherapyClick() {
  */
 function AsylumTherapyPlayerUngag() {
 	DialogChangeReputation("Dominant", -1);
-	InventoryRemove(Player, "ItemHead");
-	InventoryRemove(Player, "ItemHood");
-	InventoryRemove(Player, "ItemMouth");
-	InventoryRemove(Player, "ItemMouth2");
-	InventoryRemove(Player, "ItemMouth3");
+	InventoryRemove(Player, "ItemHead", false);
+	InventoryRemove(Player, "ItemHood", false);
+	InventoryRemove(Player, "ItemMouth", false);
+	InventoryRemove(Player, "ItemMouth2", false);
+	InventoryRemove(Player, "ItemMouth3", false);
+	CharacterRefresh(Player);
 }
 
 /**
@@ -81,8 +83,9 @@ function AsylumTherapyPlayerUngag() {
  * @returns {void} - Nothing
  */
 function AsylumTherapyStripPlayer() {
-	CharacterRelease(Player);
-	CharacterNaked(Player);
+	CharacterRelease(Player, false);
+	CharacterNaked(Player, false);
+	CharacterRefresh(Player);
 }
 
 /**
@@ -101,8 +104,21 @@ function AsylumTherapyBondageTherapyRestrain() {
  * @returns {void} - Nothing
  */
 function AsylumTherapyTherapyEnd() {
-	CharacterRelease(Player);
-	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples");
+	CharacterRelease(Player, false);
+	if (!Player.IsBreastChaste()) InventoryRemove(Player, "ItemNipples", false);
+	if (!Player.CanTalk()) {
+		/**
+		 * From {@link SpeechTransformGagGarbleIntensity}
+		 * @type {AssetGroupItemName[]}
+		 */
+		const groups = ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemHead", "ItemHood", "ItemNeck", "ItemDevices"];
+		const blocksMouth = Player.Appearance.filter(a => groups.some(g => a.Asset.Block?.includes(g)));
+		for (const item of blocksMouth) {
+			InventoryRemove(Player, item.Asset.Group.Name, false);
+		}
+
+	}
+	CharacterRefresh(Player, true);
 	InventoryRemove(AsylumTherapyNurse, "ItemHandheld");
 	PoseSetActive(Player, null);
 }
@@ -230,40 +246,39 @@ function AsylumTherapyPatientOrgasmIntro(RepChange) {
 function AsylumTherapyTherapyStart(Difficulty) {
 	TherapyCharacterLeft = Player;
 	TherapyCharacterRight = AsylumTherapyPatient;
-	MiniGameStart("Therapy", Difficulty, "AsylumTherapyTherapyMiniGameEnd");
+	MiniGameStart("Therapy", Difficulty, () => { AsylumTherapyTherapyMiniGameEnd(); });
 }
 
 /**
  * Ends the therapy mini-game as a nurse, plays with reputation and money
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function AsylumTherapyTherapyMiniGameEnd() {
-	CommonSetScreen("Room", "AsylumTherapy").then(() => {
-		PoseSetActive(AsylumTherapyPatient, null);
-		InventoryRemove(AsylumTherapyPatient, "ItemHead");
-		InventoryRemove(AsylumTherapyPatient, "ItemHood");
-		InventoryRemove(AsylumTherapyPatient, "ItemMouth");
-		CharacterSetCurrent(AsylumTherapyPatient);
-		AsylumTherapyPatient.Stage = MiniGameVictory ? "1100" : "1200";
-		AsylumTherapyPatient.CurrentDialog = DialogFind(AsylumTherapyPatient, MiniGameVictory ? "TherapyVictory" : "TherapyDefeat");
-		if (!MiniGameVictory) {
-			DialogChangeReputation("Asylum", -2);
-			if (ReputationGet("Asylum") <= 0) DialogSetReputation("Asylum", 1);
-		}
-		if (MiniGameVictory && (MiniGameDifficultyMode == "Easy")) {
-			DialogChangeReputation("Asylum", 2);
-			CharacterChangeMoney(Player, 15);
-		}
-		if (MiniGameVictory && (MiniGameDifficultyMode == "Normal")) {
-			DialogChangeReputation("Asylum", 4);
-			CharacterChangeMoney(Player, 20);
-		}
-		if (MiniGameVictory && (MiniGameDifficultyMode == "Hard")) {
-			DialogChangeReputation("Asylum", 6);
-			CharacterChangeMoney(Player, 25);
-		}
-		if (MiniGameVictory) IntroductionJobProgress("DomTrainer");
-	});
+async function AsylumTherapyTherapyMiniGameEnd() {
+	await CommonSetScreen("Room", "AsylumTherapy");
+	PoseSetActive(AsylumTherapyPatient, null);
+	InventoryRemove(AsylumTherapyPatient, "ItemHead");
+	InventoryRemove(AsylumTherapyPatient, "ItemHood");
+	InventoryRemove(AsylumTherapyPatient, "ItemMouth");
+	CharacterSetCurrent(AsylumTherapyPatient);
+	AsylumTherapyPatient.Stage = MiniGameVictory ? "1100" : "1200";
+	AsylumTherapyPatient.CurrentDialog = DialogFind(AsylumTherapyPatient, MiniGameVictory ? "TherapyVictory" : "TherapyDefeat");
+	if (!MiniGameVictory) {
+		DialogChangeReputation("Asylum", -2);
+		if (ReputationGet("Asylum") <= 0) DialogSetReputation("Asylum", 1);
+	}
+	if (MiniGameVictory && (MiniGameDifficultyMode == "Easy")) {
+		DialogChangeReputation("Asylum", 2);
+		CharacterChangeMoney(Player, 15);
+	}
+	if (MiniGameVictory && (MiniGameDifficultyMode == "Normal")) {
+		DialogChangeReputation("Asylum", 4);
+		CharacterChangeMoney(Player, 20);
+	}
+	if (MiniGameVictory && (MiniGameDifficultyMode == "Hard")) {
+		DialogChangeReputation("Asylum", 6);
+		CharacterChangeMoney(Player, 25);
+	}
+	if (MiniGameVictory) IntroductionJobProgress("DomTrainer");
 }
 
 /**

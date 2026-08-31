@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var PlayerAuctionBackground = "SlaveMarket";
-/** @type {null | NPCCharacter[]} */
-var PlayerAuctionCustomer = null;
+/** @type {NPCCharacter[]} */
+var PlayerAuctionCustomer = [];
 var PlayerAuctionBidCurrent = -1;
 var PlayerAuctionBidTime = 0;
 var PlayerAuctionBidNextTime = 0;
@@ -75,7 +74,9 @@ async function PlayerAuctionLoad() {
 function PlayerAuctionRun() {
 
 	// Draw the characters
-	DrawCharacter(SlaveMarketMistress, -25, 100, 0.9);
+	if (SlaveMarketMistress) {
+		DrawCharacter(SlaveMarketMistress, -25, 100, 0.9);
+	}
 	DrawCharacter(Player, 375, 100, 0.9);
 	DrawCharacter(PlayerAuctionCustomer[0], 775, 100, 0.9);
 	DrawCharacter(PlayerAuctionCustomer[1], 1175, 100, 0.9);

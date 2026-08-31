@@ -5,7 +5,7 @@
  * Maintains a queue of toasts to display and limits the number of
  * concurrently visible toasts.
  */
-var ToastManager = new class ToastManager {
+var ToastManager = new class {
 	/**
 	 * Queue of toast options waiting to be displayed.
 	 * @type {Required<Toasts.Options>[]}
@@ -16,17 +16,18 @@ var ToastManager = new class ToastManager {
 	 * @type {number}
 	 */
 	active = 0;
+
 	/**
 	 * Maximum number of toast buddies that can chill together in one spot.
 	 * @type {number}
 	 * @static
 	 */
-	static maxStack = 3;
+	maxStack = 3;
 
 	/**
 	 * Show an info toast, because you need to know stuff.
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	info(msg, opts = {}) { this._show({ icon: '../Icons/info_circle.svg', ...opts, message: msg, type: 'info' }); }
@@ -34,7 +35,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show a success toast. It's time to celebrate! 🎉
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	success(msg, opts = {}) { this._show({ icon: '../Icons/check_circle.svg', ...opts, message: msg, type: 'success' }); }
@@ -42,7 +43,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show a warning toast. Watch out, things might explode!
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	warning(msg, opts = {}) { this._show({ icon: '../Icons/exclamation_triangle.svg', ...opts, message: msg, type: 'warning' }); }
@@ -50,7 +51,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show an error toast. Oh noes, something broke.
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
 	error(msg, opts = {}) { this._show({ icon: '../Icons/cross_circle.svg', ...opts, message: msg, type: 'error' }); }
@@ -58,7 +59,7 @@ var ToastManager = new class ToastManager {
 	/**
 	 * Show a custom toast, because you're special.
 	 *
-	 * @param {string} msg - Text content of the toast.
+	 * @param {string | Element | readonly (string | Element)[]} msg - Text content of the toast.
 	 * @param {Toasts.Type} type - Custom type string or one of the predefined types.
 	 * @param {Omit<Toasts.Options, 'message' | 'type'>} [opts={}] - Other toast options.
 	 */
@@ -118,7 +119,7 @@ var ToastManager = new class ToastManager {
 	 */
 	_show(options) {
 		if (!options.message) {
-			console.warn('What are you even trying to show? Missing toast message.');
+			console.error('What are you even trying to show? Missing toast message.');
 			return;
 		}
 
@@ -147,7 +148,7 @@ var ToastManager = new class ToastManager {
 		for (let i = 0; i < this.queue.length; i++) {
 			const toast = this.queue[i];
 			const count = this.active || 0;
-			if (count < ToastManager.maxStack) {
+			if (count < this.maxStack) {
 				this.queue.splice(i, 1);
 				this._display(toast);
 				i--;
@@ -172,7 +173,15 @@ var ToastManager = new class ToastManager {
 		const remove = (reason) => {
 			_.onClose?.(toast, reason);
 
+			// Need some manual book keeping here to keep things from only running once
+			// Cannot rely on the `addEventListener`'s `once` parameter, as one pair of `end`/`cancel` events
+			// is allowed to fire per entry in the CSS `will-change` property
+			let transitionEventFired = false;
 			const removeAndProcess = () => {
+				if (transitionEventFired) {
+					return;
+				}
+				transitionEventFired = true;
 				toast._timeoutTimerRemove?.();
 				toast.remove();
 				this.active--;
@@ -186,12 +195,18 @@ var ToastManager = new class ToastManager {
 				const listener = () => {
 					removeAndProcess();
 				};
-				toast.addEventListener('transitionend', listener, { once: true });
-				toast.addEventListener('transitioncancel', listener, { once: true });
+				toast.addEventListener('transitionend', listener);
+				toast.addEventListener('transitioncancel', listener);
+				setTimeout(() => {
+					if (document.contains(toast)) {
+						removeAndProcess();
+					}
+				}, _.duration * 2); // Double the normal animation duration for the sake of extra error margin
 			}
 		};
 
 		const clampClass = _.clampMessage ? 'toast-clamp-message' : 'scroll-box';
+		const messageArray = CommonIsArray(_.message) ? _.message : [_.message];
 
 		/** @type {Toasts.ToastElement} */
 		const toast = ElementCreate({
@@ -223,7 +238,7 @@ var ToastManager = new class ToastManager {
 						{
 							tag: 'span',
 							classList: ['toast-message', clampClass],
-							children: [_.message],
+							children: messageArray,
 						},
 						Array.isArray(_.buttons) ? {
 							tag: 'div',

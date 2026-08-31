@@ -1,39 +1,38 @@
-// @ts-strict-ignore
 "use strict";
 var AsylumMeetingBackground = "AsylumMeeting";
-/** @type {null | NPCCharacter} */
-var AsylumMeetingPatientLeft = null;
+/** @type {NPCCharacter} */
+var AsylumMeetingPatientLeft = /** @type {never} */ (null);
 var AsylumMeetingPatientFled = false;
-/** @type {null | NPCCharacter} */
-var AsylumMeetingPatientRight = null;
+/** @type {NPCCharacter} */
+var AsylumMeetingPatientRight = /** @type {never} */ (null);
 
 /**
  * Checks if the player can be released
  * @returns {boolean} - Returns true, if the player can be released, false otherwise
  */
-function AsylumMeetingCanReleasePlayer() { return (Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && !InventoryIsWorn(Player, "ItemArms", "FuturisticCuffs") && (LogValue("Committed", "Asylum") >= CurrentTime)); }
+function AsylumMeetingCanReleasePlayer() { return (Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && !InventoryIsWorn(Player, "ItemArms", "FuturisticCuffs") && !AsylumIsCommitted()); }
 /**
  * Checks if the player cannot be released
  * @returns {boolean} - Returns true, if the player cannot be released, false otherwise
  */
-function AsylumMeetingCannotReleasePlayer() { return (Player.IsRestrained() && (AsylumMeetingPatientLeft.IsRestrained() || InventoryIsWorn(Player, "ItemArms", "FuturisticCuffs") || (LogValue("Committed", "Asylum") < CurrentTime))); }
+function AsylumMeetingCannotReleasePlayer() { return (Player.IsRestrained() && (AsylumMeetingPatientLeft.IsRestrained() || InventoryIsWorn(Player, "ItemArms", "FuturisticCuffs") || !AsylumIsCommitted())); }
 /**
  * Checks wether the player can be restrained or not
  * @returns {boolean} - Returns true, if the player can be restrained, flase otherwise
  */
-function AsylumMeetingCanRestrainPlayer() { return (!Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && (LogValue("Committed", "Asylum") >= CurrentTime)); }
+function AsylumMeetingCanRestrainPlayer() { return !Player.IsRestrained() && !AsylumMeetingPatientLeft.IsRestrained() && AsylumIsCommitted(); }
 /**
  * Returns TRUE if specific dialog conditions are met
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function AsylumMeetingCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
-function AsylumMeetingWearingGGTS() { return InventoryIsWorn(CurrentCharacter, "ItemArms", "FuturisticCuffs"); }
-function AsylumMeetingGGTSCollar() { return InventoryIsWorn(CurrentCharacter, "ItemNeck", "FuturisticCollar"); }
+function AsylumMeetingCanKiss() { return (Player.CanTalk() && !!CurrentCharacter?.CanTalk()); }
+function AsylumMeetingWearingGGTS() { return CurrentCharacter && InventoryIsWorn(CurrentCharacter, "ItemArms", "FuturisticCuffs"); }
+function AsylumMeetingGGTSCollar() { return CurrentCharacter && InventoryIsWorn(CurrentCharacter, "ItemNeck", "FuturisticCollar"); }
 /**
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained and gagged
  */
-function AsylumMeetingCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function AsylumMeetingCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter?.IsRestrained() && !Player.IsGagged() && !CurrentCharacter?.IsGagged()); }
 
 /**
  * Loads the room and it's patients
@@ -74,7 +73,9 @@ async function AsylumMeetingLoad() {
 		// At level 2 GGTS or more, the right patient joins the system
 		if (Level >= 2) {
 			const item = InventoryWear(AsylumMeetingPatientRight, "FuturisticCuffs", "ItemArms");
-			TypedItemSetOptionByName(AsylumMeetingPatientRight, item, "Wrist");
+			if (item) {
+				TypedItemSetOptionByName(AsylumMeetingPatientRight, item, "Wrist");
+			}
 			InventoryWear(AsylumMeetingPatientRight, "FuturisticAnkleCuffs", "ItemFeet");
 			InventoryAdd(AsylumMeetingPatientRight, "FuturisticCuffs", "ItemArms");
 			InventoryAdd(AsylumMeetingPatientRight, "FuturisticAnkleCuffs", "ItemFeet");
@@ -141,8 +142,7 @@ function AsylumMeetingSmoke() {
  * @returns {void} - Nothing
  */
 function AsylumMeetingBuyVibratingWand() {
-	let A = AssetGet("Female3DCG", "ItemHandheld", "VibratingWand");
-	InventoryAdd(Player, A.Name, A.Group.Name);
+	InventoryAdd(Player, "VibratingWand", "ItemHandheld");
 	CharacterChangeMoney(Player, -80);
 	DialogChangeReputation("Asylum", -5);
 }
@@ -176,7 +176,7 @@ function AsylumMeetingRunAway(RepChange) {
 	DialogLeave();
 	AsylumMeetingPatientFled = true;
 	CharacterDelete(AsylumMeetingPatientLeft);
-	AsylumMeetingPatientLeft = null;
+	AsylumMeetingPatientLeft = /** @type {never} */ (null);
 }
 
 /**
@@ -195,8 +195,10 @@ function AsylumMeetingRestrainPlayer(RestraintsType) {
  * @returns {void} - Nothing
  */
 function AsylumMeetingBlush(BlushType) {
-	CharacterSetFacialExpression(CurrentCharacter, "Blush", BlushType, 10);
-	CharacterSetFacialExpression(CurrentCharacter, "Eyebrows", "Lowered", 10);
+	if (CurrentCharacter) {
+		CharacterSetFacialExpression(CurrentCharacter, "Blush", BlushType, 10);
+		CharacterSetFacialExpression(CurrentCharacter, "Eyebrows", "Lowered", 10);
+	}
 }
 
 /**
@@ -236,18 +238,16 @@ function AsylumMeetingQuitGGTSMainHall() {
  * @returns {void} - Nothing
  */
 function AsylumMeetingClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderAsylumDeck;
-	MiniGameStart("ClubCard", 0, "AsylumMeetingClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderAsylumDeck, () => { AsylumMeetingClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function AsylumMeetingClubCardEnd() {
-	CommonSetScreen("Room", "AsylumMeeting").then(() => {
-		CharacterSetCurrent(AsylumMeetingPatientRight);
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function AsylumMeetingClubCardEnd() {
+	await CommonSetScreen("Room", "AsylumMeeting");
+	CharacterSetCurrent(AsylumMeetingPatientRight);
+	AsylumMeetingPatientRight.CurrentDialog = DialogFind(AsylumMeetingPatientRight, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

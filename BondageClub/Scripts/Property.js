@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -18,10 +17,11 @@ const PropertyOriginalValue = new Map([]);
 /**
  * Construct an item-specific ID for a properties input element (_e.g._ an opacity slider).
  * @param {string} Name - The name of the input element
- * @param {Item} Item - The item for whom the ID should be constructed; defaults to {@link DialogFocusItem}
+ * @param {Item | null} Item - The item for whom the ID should be constructed; defaults to {@link DialogFocusItem}
  * @returns {string} - The ID of the property
  */
 function PropertyGetID(Name, Item=DialogFocusItem) {
+	if (!Item) return "";
 	return `${Item.Asset.Group.Name}${Item.Asset.Name}${Name}`;
 }
 
@@ -82,11 +82,16 @@ function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIco
 	OriginalFunction();
 	const ID = PropertyGetID("Opacity");
 
-	if (!PropertyOriginalValue.has(ID)) {
+	if (!PropertyOriginalValue.has(ID) && DialogFocusItem?.Property?.Opacity) {
 		PropertyOriginalValue.set(ID, DialogFocusItem.Property.Opacity);
 	}
 
-	const opacity = CommonIsNumeric(DialogFocusItem.Property.Opacity) ? DialogFocusItem.Property.Opacity : 1;
+	/** @type {number | number[] | undefined} */
+	const propertyOpacity = DialogFocusItem?.Property?.Opacity;
+	const opacityValue = CommonIsArray(propertyOpacity) && CommonIsNumeric(propertyOpacity[0])
+			? propertyOpacity[0]
+			: (/** @type {number} */ (propertyOpacity ?? 1));
+	const opacity = CommonClamp(opacityValue, 0, 1);
 	const minOpacity = Math.min(...asset.Layer.map(l => l.MinOpacity));
 	const maxOpacity = Math.max(...asset.Layer.map(l => l.MaxOpacity));
 	const opacitySlider = ElementCreateRangeInput(
@@ -113,7 +118,7 @@ function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIco
  * @param {() => void} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @param {number} XOffset - An offset for all text and slider X coordinates
  * @param {number} YOffset - An offset for all text and slider Y coordinates
- * @param {string} LabelKeyword - The keyword of the opacity label
+ * @param {TextKeysInterface} LabelKeyword - The keyword of the opacity label
  * @returns {void} Nothing
  * @satisfies {ExtendedItemScriptHookCallbacks.Draw<any>}
  */
@@ -127,7 +132,12 @@ function PropertyOpacityDraw(Data, OriginalFunction, XOffset=0, YOffset=0, Label
 		400, "#FFFFFF", "#000",
 	);
 	ElementPosition(ID, 1625 + XOffset, 450 + YOffset, 400);
-	const opacity = CommonIsNumeric(DialogFocusItem.Property.Opacity) ? DialogFocusItem.Property.Opacity : 1;
+	/** @type {number | number[] | undefined} */
+	const propertyOpacity = DialogFocusItem?.Property?.Opacity;
+	const opacityValue = CommonIsArray(propertyOpacity) && CommonIsNumeric(propertyOpacity[0])
+			? propertyOpacity[0]
+			: (/** @type {number} */ (propertyOpacity ?? 1));
+	const opacity = CommonClamp(opacityValue, 0, 1);
 	DrawTextFit(
 		`${Math.round(opacity * 100)}%`, 1925 + XOffset, 450 + YOffset,
 		400, "#FFFFFF", "#000",
@@ -150,12 +160,13 @@ function PropertyOpacityExit({ asset }, OriginalFunction, Refresh=true) {
 
 	const ID = PropertyGetID("Opacity");
 	const C = CharacterGetCurrent();
+	if (!C) return false;
 	const Opacity = Number(ElementValue(ID));
 
 	// Restore the original opacity if the new opacity is invalid
 	const minOpacity = Math.min(...asset.Layer.map(l => l.MinOpacity));
 	const maxOpacity = Math.max(...asset.Layer.map(l => l.MaxOpacity));
-	if (!(Opacity <= maxOpacity && Opacity >= minOpacity)) {
+	if (!(Opacity <= maxOpacity && Opacity >= minOpacity) && DialogFocusItem?.Property) {
 		DialogFocusItem.Property.Opacity = PropertyOriginalValue.get(ID);
 		ElementRemove(ID);
 		PropertyOriginalValue.delete(ID);
@@ -179,18 +190,13 @@ function PropertyOpacityExit({ asset }, OriginalFunction, Refresh=true) {
  * @param {Item} Item - The shocking item; defaults to {@link DialogFocusItem}
  * @param {boolean} Automatic - Whether the shock was triggered automatically or otherwise manually
  */
-function PropertyShockPublishAction(C=null, Item=DialogFocusItem, Automatic=false) {
-	if (C == null) {
-		C = CharacterGetCurrent();
-	}
-	if (Item == null) {
-		return;
-	}
+function PropertyShockPublishAction(C, Item, Automatic=false) {
+	if (!C || !Item) return;
 
 	// Get item-specific properties and choose a suitable default if absent
-	const ShockLevel = (Item.Property.ShockLevel != null) ? Item.Property.ShockLevel : 1;
-	const ShowText = (Item.Property.ShowText != null) ? Item.Property.ShowText : true;
-	if (Item.Property.TriggerCount != null) {
+	const ShockLevel = (Item?.Property?.ShockLevel != null) ? Item.Property.ShockLevel : 1;
+	const ShowText = (Item?.Property?.ShowText != null) ? Item.Property.ShowText : true;
+	if (Item?.Property?.TriggerCount != null) {
 		Item.Property.TriggerCount++;
 	}
 
@@ -380,6 +386,19 @@ function PropertyPunishActivityCheck(name=null, clearCache=true) {
 }
 
 /**
+ * Assign a property on an {@link ItemProperties} record via dynamic key.
+ * Used by {@link PropertyUnion} and {@link PropertyDifference} where keys are only known at runtime.
+ * @template {ItemProperties} T
+ * @template {keyof T} K
+ * @param {T} output
+ * @param {K} key
+ * @param {T[K]} value
+ */
+function PropertyAssign(output, key, value) {
+	output[key] = value;
+}
+
+/**
  * Merge all passed item properties into the passed output, merging (and shallow copying) arrays if necessary.
  * @param {ItemProperties} output - The to be updated properties
  * @param {readonly ItemProperties[]} args - The additional item properties to be merged into the output
@@ -387,7 +406,7 @@ function PropertyPunishActivityCheck(name=null, clearCache=true) {
  */
 function PropertyUnion(output, ...args) {
 	for (const property of args) {
-		for (const [key, value] of Object.entries(property)) {
+		for (const [key, value] of CommonEntries(property)) {
 			switch (key) {
 				case "Tint": {
 					if (!Array.isArray(value)) {
@@ -402,24 +421,28 @@ function PropertyUnion(output, ...args) {
 				}
 				case "HeightModifier":
 				case "Difficulty": {
-					output[key] = (output[key] || 0) + (value || 0);
+					const newValue = (output[key] || 0) + (/** @type {number} */ (value) || 0);
+					PropertyAssign(output, key, newValue);
 					break;
 				}
-				case "TypeRecord":
-					output[key] = {
-						...(output[key] || {}),
-						...value,
+				case "TypeRecord": {
+					output.TypeRecord = {
+						...(output.TypeRecord || {}),
+						.../** @type {TypeRecord} */ (value),
 					};
 					break;
+				}
 				default: {
 					if (Array.isArray(value)) {
-						const previousValue = Array.isArray(output[key]) ? [...output[key]] : [];
-						output[key] = [
+						const arrayKey = /** @type {keyof PropertiesArray.Item} */ (key);
+						const previousValue = Array.isArray(output[arrayKey]) ? [...output[arrayKey]] : [];
+						PropertyAssign(output, arrayKey, /** @type {PropertiesArray.Item[typeof arrayKey]} */ ([
 							...previousValue,
 							...value.filter(i => !previousValue.includes(i)),
-						];
+						]));
 					} else {
-						output[key] = value;
+						const propertyKey = /** @type {keyof PropertiesNoArray.Item} */ (key);
+						PropertyAssign(output, propertyKey, /** @type {PropertiesNoArray.Item[typeof propertyKey]} */ (value));
 					}
 				}
 			}
@@ -436,7 +459,7 @@ function PropertyUnion(output, ...args) {
  */
 function PropertyDifference(output, ...args) {
 	for (const property of args) {
-		for (const [key, value] of Object.entries(property)) {
+		for (const [key, value] of CommonEntries(property)) {
 			switch (key) {
 				case "Tint": {
 					if (!Array.isArray(value)) {
@@ -448,21 +471,26 @@ function PropertyDifference(output, ...args) {
 				}
 				case "HeightModifier":
 				case "Difficulty": {
-					output[key] = (output[key] || 0) - (value || 0);
+					const newValue = (output[key] || 0) - (/** @type {number} */ (value) || 0);
+					PropertyAssign(output, key, newValue);
 					break;
 				}
-				case "TypeRecord":
-					output[key] = CommonOmit(output[key] || {}, Object.keys(value));
+				case "TypeRecord": {
+					output.TypeRecord = CommonOmit(output.TypeRecord || {}, Object.keys(/** @type {TypeRecord} */ (value)));
 					break;
+				}
 				default: {
 					if (Array.isArray(value)) {
-						const previousValue = Array.isArray(output[key]) ? output[key] : [];
-						output[key] = previousValue.filter(i => !value.includes(i));
-						if (output[key].length > 0) {
+						const arrayKey = /** @type {keyof PropertiesArray.Item} */ (key);
+						const previousValue = Array.isArray(output[arrayKey]) ? output[arrayKey] : [];
+						PropertyAssign(output, arrayKey, /** @type {PropertiesArray.Item[typeof arrayKey]} */ (
+							previousValue.filter(i => !value.includes(i))
+						));
+						if (output[arrayKey]?.length) {
 							break;
 						}
 					}
-					delete output[key];
+					delete /** @type {ItemProperties} */ (output)[/** @type {keyof ItemProperties} */ (key)];
 				}
 			}
 		}
@@ -525,10 +553,9 @@ var PropertyLayerOrigin = {
 	 * @returns {Partial<Record<LayerName, Mutable<TopLeft.Data>>>}
 	 */
 	getOriginal: function getOriginal(item, fieldName) {
-		if (item.Asset.Extended && item.Property.TypeRecord) {
-			/** @type {Item} */
-			const itemOriginal = { Asset: item.Asset, Property: {} };
-			ExtendedItemSetOptionByRecord(Player, itemOriginal, { ...item.Property.TypeRecord }, { refresh: false });
+		if (item.Asset.Extended && item.Property?.TypeRecord) {
+			const itemOriginal = AppearanceItem.fromAsset(item.Asset);
+			ExtendedItemSetOptionByRecord(Player, itemOriginal, { ...item.Property?.TypeRecord }, { refresh: false });
 			return PropertyLayerOrigin.resolveItem(itemOriginal, fieldName);
 		} else {
 			return PropertyLayerOrigin.resolveItem(item, fieldName);

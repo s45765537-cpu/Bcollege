@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeDetentionBackground = "CollegeDetention";
-/** @type {null | NPCCharacter} */
-var CollegeDetentionYuki = null;
+/** @type {NPCCharacter} */
+var CollegeDetentionYuki = /** @type {never} */ (null);
 var CollegeDetentionYukiLove = 0;
 var CollegeDetentionYukiWillReleaseAt = 0;
 
@@ -55,7 +54,7 @@ function CollegeDetentionYukiClothes(C) {
 	InventoryWear(C, "Eyes1", "Eyes", "#a57b78");
 	InventoryWear(C, "Eyes1", "Eyes2", "#a57b78");
 	InventoryWear(C, "Glasses1", "Glasses", "#333333");
-	InventoryWear(C, "Mouth", "Mouth", "Default");
+	InventoryWear(C, "Regular", "Mouth", "Default");
 	InventoryWear(C, "H0920", "Height", "Default");
 	InventoryWear(C, "Small", "BodyUpper", "Asian");
 	InventoryWear(C, "Small", "BodyLower", "Asian");
@@ -226,7 +225,7 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CharacterDelete(CollegeDetentionYuki);
-	CollegeDetentionYuki = null;
+	CollegeDetentionYuki = /** @type {never} */ (null);
 
 	CommonSetScreen("Room", "Private");
 }

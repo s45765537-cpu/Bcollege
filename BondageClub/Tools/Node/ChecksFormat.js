@@ -47,7 +47,7 @@ export function formatDuration(durationMs) {
 	if (durationMs === undefined) {
 		return colors.gray("(—)");
 	}
-	return colors.gray(`(${durationMs.toFixed(0)}ms)`);
+	return colors.gray(`(${(durationMs / 1000).toFixed(1)}s)`);
 }
 
 /**
@@ -269,7 +269,7 @@ export function colorizeOutput(output) {
 		return colors.dim("(no output)");
 	}
 
-	return output.split("\n").map(colorizeLine).join("\n");
+	return output.split(/\r?\n/g).map(colorizeLine).join("\n");
 }
 
 /**
@@ -311,7 +311,7 @@ export function lineHasWarning(line) {
  * @returns {boolean}
  */
 export function outputHasWarnings(output) {
-	return output.split("\n").some(lineHasWarning);
+	return output.split(/\r?\n/g).some(lineHasWarning);
 }
 
 // #endregion

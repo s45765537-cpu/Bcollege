@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeChessBackground = "CollegeClass1";
-/** @type {null | NPCCharacter} */
-var CollegeChessOpponent = null;
+/** @type {NPCCharacter} */
+var CollegeChessOpponent = /** @type {never} */ (null);
 var CollegeChessDifficulty = 0;
 var CollegeChessBet = "";
 /** @type {null | Item[]} */
@@ -63,21 +62,17 @@ function CollegeChessGameStart(Difficulty, Bet) {
 	const playerStarts = Math.random() < 0.5;
 	ChessCharacterWhite = playerStarts ? Player : CollegeChessOpponent;
 	ChessCharacterBlack = playerStarts ? CollegeChessOpponent : Player;
-	MiniGameStart("Chess", CollegeChessDifficulty, "CollegeChessGameEnd");
+	MiniGameStart("Chess", CollegeChessDifficulty, () => { CollegeChessGameEnd(); });
 	document.addEventListener("chessOnMove", CollegeChessGameProgress);
 }
 
 /**
  * In strip or bondage chess, a player can lose one piece of cloth
+ * @param {Character} C
  * @returns {void} - Nothing, the returns are quick exit short cuts
  */
 function CollegeChessStrip(C) {
-	if (InventoryGet(C, "Shoes") != null) return InventoryRemove(C, "Shoes");
-	if (InventoryGet(C, "Socks") != null) return InventoryRemove(C, "Socks");
-	if (InventoryGet(C, "Cloth") != null) return InventoryRemove(C, "Cloth");
-	if (InventoryGet(C, "ClothLower") != null) return InventoryRemove(C, "ClothLower");
-	if (InventoryGet(C, "Bra") != null) return InventoryRemove(C, "Bra");
-	if (InventoryGet(C, "Panties") != null) return InventoryRemove(C, "Panties");
+	InventoryRemove(C, ["Shoes", "Socks", "Cloth", "ClothLower", "Bra", "Panties"]);
 }
 
 /**
@@ -101,7 +96,7 @@ function CollegeChessRestrain(C) {
  */
 function CollegeChessGameProgress() {
 	if ((CollegeChessBet != "Strip") && (CollegeChessBet != "Bondage")) return;
-	if (MiniGameChessGame.board() == null) return;
+	if (!MiniGameChessGame || MiniGameChessGame.board() == null) return;
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterBlack);
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "w") && (CollegeChessBet == "Strip")) return CharacterNaked(ChessCharacterWhite);
 	if (MiniGameChessGame.in_checkmate() && (MiniGameChessGame.turn() == "b") && (CollegeChessBet == "Bondage")) {
@@ -148,10 +143,10 @@ function CollegeChessGameConcede() {
 
 /**
  * Triggered when the chess game ends.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function CollegeChessGameEnd() {
-	CommonSetScreen("Room", "CollegeChess");
+async function CollegeChessGameEnd() {
+	await CommonSetScreen("Room", "CollegeChess");
 	if ((CollegeChessBet == "Money") && (ChessEndStatus == "Draw")) CharacterChangeMoney(Player, CollegeChessDifficulty * 10);
 	if ((CollegeChessBet == "Money") && (ChessEndStatus == "Victory")) CharacterChangeMoney(Player, CollegeChessDifficulty * 20);
 	if (((CollegeChessBet == "Bondage") || (CollegeChessBet == "Strip")) && (ChessEndStatus == "Draw")) CollegeChessRestoreAppearance();
@@ -166,9 +161,9 @@ function CollegeChessGameEnd() {
  * @returns {void} - Nothing
  */
 function CollegeChessRestoreAppearance() {
-	CollegeChessOpponent.Appearance = CollegeChessOpponentAppearance.slice(0);
+	CollegeChessOpponent.Appearance = CollegeChessOpponentAppearance?.slice(0) ?? [];
 	CharacterRefresh(CollegeChessOpponent);
-	Player.Appearance = CollegeChessPlayerAppearance.slice(0);
+	Player.Appearance = CollegeChessPlayerAppearance?.slice(0) ?? [];
 	CharacterRefresh(Player, true);
 	CollegeChessOpponent.AllowItem = false;
 }

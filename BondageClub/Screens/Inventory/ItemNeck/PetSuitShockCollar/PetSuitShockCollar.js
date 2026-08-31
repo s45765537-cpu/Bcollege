@@ -1,28 +1,31 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
 function InventoryItemNeckPetSuitShockCollars1DrawHook(data, originalFunction) {
 	originalFunction();
 
-	ExtendedItemCustomDraw("Low", 1165, 470, null, DialogFocusItem.Property.ShockLevel === 0);
-	ExtendedItemCustomDraw("Medium", 1400, 470, null, DialogFocusItem.Property.ShockLevel === 1);
-	ExtendedItemCustomDraw("High", 1635, 470, null, DialogFocusItem.Property.ShockLevel === 2);
+	const item = DialogFocusItem;
+	if (!item) return;
+	item.Property ??= {};
+
+	ExtendedItemCustomDraw("Low", 1165, 470, null, item.Property.ShockLevel === 0);
+	ExtendedItemCustomDraw("Medium", 1400, 470, null, item.Property.ShockLevel === 1);
+	ExtendedItemCustomDraw("High", 1635, 470, null, item.Property.ShockLevel === 2);
 
 	MainCanvas.textAlign = "right";
 	DrawText(AssetTextGet("ShockCount"), 1500, 575, "White", "Gray");
 	MainCanvas.textAlign = "left";
-	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
+	DrawText(`${item.Property.TriggerCount}`, 1510, 575, "White", "Gray");
 
-	DrawCheckbox(1100, 618, 64, 64, AssetTextGet("ShowMessageInChat"), DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode, "White");
+	DrawCheckbox(1100, 618, 64, 64, AssetTextGet("ShowMessageInChat"), !!item.Property.ShowText, ExtendedItemPermissionMode, "White");
 
 	MainCanvas.textAlign = "center";
 	ExtendedItemCustomDraw("ResetShockCount", 1635, 550);
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625);
 	MainCanvas.textAlign = "left";
-	DrawCheckbox(1100, 700, 64, 64, AssetTextGet("PetSuitShockCollarPunishActivity"), DialogFocusItem.Property.PunishActivity, false, "White");
-	DrawCheckbox(1100, 770, 64, 64, AssetTextGet("PetSuitShockCollarPunishStandup"), DialogFocusItem.Property.PunishStandup, false, "White");
-	DrawCheckbox(1100, 840, 64, 64, AssetTextGet("PetSuitShockCollarPunishStruggle"), DialogFocusItem.Property.PunishStruggle, false, "White");
+	DrawCheckbox(1100, 700, 64, 64, AssetTextGet("PetSuitShockCollarPunishActivity"), !!item.Property.PunishActivity, false, "White");
+	DrawCheckbox(1100, 770, 64, 64, AssetTextGet("PetSuitShockCollarPunishStandup"), !!item.Property.PunishStandup, false, "White");
+	DrawCheckbox(1100, 840, 64, 64, AssetTextGet("PetSuitShockCollarPunishStruggle"), !!item.Property.PunishStruggle, false, "White");
 	MainCanvas.textAlign = "center";
 }
 
@@ -30,38 +33,41 @@ function InventoryItemNeckPetSuitShockCollars1DrawHook(data, originalFunction) {
 function InventoryItemNeckPetSuitShockCollars1ClickHook(data, originalFunction) {
 	if (originalFunction) originalFunction();
 	const C = CurrentCharacter;
+	if (!C) return;
 
-	if (!DialogFocusItem) {
-		return;
-	} else if (MouseIn(1165, 470, 225, 55)) {
-		DialogFocusItem.Property.ShockLevel = 0;
+	const item = DialogFocusItem;
+	if (!item) return;
+	item.Property ??= {};
+
+	if (MouseIn(1165, 470, 225, 55)) {
+		item.Property.ShockLevel = 0;
 	} else if (MouseIn(1400, 470, 225, 55)) {
-		DialogFocusItem.Property.ShockLevel = 1;
+		item.Property.ShockLevel = 1;
 	} else if (MouseIn(1635, 470, 225, 55)) {
-		DialogFocusItem.Property.ShockLevel = 2;
+		item.Property.ShockLevel = 2;
 	} else if (MouseIn(1100, 618, 64, 64) && !ExtendedItemPermissionMode) {
-		DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText;
+		item.Property.ShowText = !item.Property.ShowText;
 	} else if (MouseIn(1635, 550, 225, 55)) {
 		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckPetSuitShockCollarResetCount);
 	} else if (MouseIn(1635, 625, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 	} else if (MouseIn(1100, 700, 64, 64)) {
-		DialogFocusItem.Property.PunishActivity = !DialogFocusItem.Property.PunishActivity;
-		if (DialogFocusItem.Property.PunishActivity) {
+		item.Property.PunishActivity = !item.Property.PunishActivity;
+		if (item.Property.PunishActivity) {
 			// Clear the activity cache of `Bite` and `Kick` activities to prevent retro-active punishments
 			PropertyPunishActivityCache.delete("Bite");
 			PropertyPunishActivityCache.delete("Kick");
 		}
 
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 		return;
 	} else if (MouseIn(1100, 770, 64, 64)) {
-		DialogFocusItem.Property.PunishStandup = !DialogFocusItem.Property.PunishStandup;
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+		item.Property.PunishStandup = !item.Property.PunishStandup;
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 		return;
 	} else if (MouseIn(1100, 840, 64, 64)) {
-		DialogFocusItem.Property.PunishStruggle = !DialogFocusItem.Property.PunishStruggle;
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+		item.Property.PunishStruggle = !item.Property.PunishStruggle;
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 		return;
 	}
 }
@@ -69,15 +75,18 @@ function InventoryItemNeckPetSuitShockCollars1ClickHook(data, originalFunction) 
 // Resets the trigger count
 function InventoryItemNeckPetSuitShockCollarResetCount() {
 	// Gets the current item and character
-	DialogFocusItem.Property.TriggerCount = 0;
 	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!C || !item) return;
+	item.Property ??= {};
+	item.Property.TriggerCount = 0;
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacterName(C)
-		.asset(DialogFocusItem.Asset)
+		.asset(item.Asset)
 		.build();
 
-	if (DialogFocusItem.Property.ShowText) {
+	if (item.Property.ShowText) {
 		ChatRoomPublishCustomAction("ShockCountReset", false, Dictionary);
 	}
 }
@@ -91,9 +100,10 @@ function AssetsItemNeckPetSuitShockCollarBeforeDraw(data) {
 	if (data.L === "Light") {
 		const persistentData = data.PersistentData();
 		const property = data.Property || {};
-		const Triggered = persistentData.LastTriggerCount < property.TriggerCount;
+		const Triggered = (persistentData.LastTriggerCount ?? 0) < (property.TriggerCount ?? 0);
 		const intensity = property.ShockLevel || 0;
 		const wasBlinking = property.BlinkState;
+		persistentData.DisplayCount ??= 0;
 		if (wasBlinking && Triggered) persistentData.DisplayCount++;
 		if (persistentData.DisplayCount >= intensity * 1.5 + 3) {
 			persistentData.DisplayCount = 0;
@@ -101,6 +111,7 @@ function AssetsItemNeckPetSuitShockCollarBeforeDraw(data) {
 		}
 		return { Color: Triggered ? "#f00" : "#2f0", Opacity: wasBlinking ? 0 : 1 };
 	}
+	return data;
 }
 
 /**
@@ -108,7 +119,7 @@ function AssetsItemNeckPetSuitShockCollarBeforeDraw(data) {
  * @param {Character} C
  */
 function InventoryPetSuitShockCollarCheckPunish(Item, C) {
-	const { PunishActivity, PunishStandup, PunishStruggle} = Item.Property;
+	const { PunishActivity, PunishStandup, PunishStruggle} = Item.Property ?? {};
 
 	if (PunishActivity && PropertyPunishActivityCheck("Bite")) {
 		// Punish the player if they Activity
@@ -180,14 +191,14 @@ function AssetsItemNeckPetSuitShockCollarScriptDraw(data) {
 	if (lastMsgIndex >= 0 && ChatRoomChatLog[lastMsgIndex].Time > persistentData.CheckTime)
 		persistentData.UpdateTime = Math.min(persistentData.UpdateTime, CommonTime() + 200); // Trigger if the user speaks
 
-	const isTriggered = persistentData.LastTriggerCount < property.TriggerCount;
+	const isTriggered = (persistentData.LastTriggerCount ?? 0) < (property.TriggerCount ?? 0);
 	const newlyTriggered = isTriggered && persistentData.DisplayCount == 0;
 	if (newlyTriggered)
 		persistentData.UpdateTime = Math.min(persistentData.UpdateTime, CommonTime());
 
 	if (persistentData.UpdateTime < CommonTime()) {
 
-		if (data.C.IsPlayer() && CommonTime() > data.Item.Property.NextShockTime) {
+		if (data.C.IsPlayer() && CommonTime() > (data.Item.Property.NextShockTime ?? 0)) {
 			AssetsItemNeckPetSuitShockCollarUpdate(data, persistentData.CheckTime);
 			persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 		}
@@ -195,7 +206,7 @@ function AssetsItemNeckPetSuitShockCollarScriptDraw(data) {
 		// Set CheckTime to last processed chat message time
 		persistentData.CheckTime = (lastMsgIndex >= 0 ? ChatRoomChatLog[lastMsgIndex].Time : 0);
 
-		if (persistentData.LastTriggerCount > property.TriggerCount) persistentData.LastTriggerCount = 0;
+		if ((persistentData.LastTriggerCount ?? 0) > (property.TriggerCount ?? 0)) persistentData.LastTriggerCount = 0;
 		const wasBlinking = property.BlinkState;
 		property.BlinkState = wasBlinking && !newlyTriggered ? false : true;
 		const timeFactor = isTriggered ? 12 : 1;

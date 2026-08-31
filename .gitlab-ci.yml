@@ -5,7 +5,7 @@ check:
   stage: build
   only:
     - merge_requests
-  image: node:20
+  image: node:24
   cache:
     key:
       files:
@@ -15,4 +15,4 @@ check:
       - BondageClub/.cache/
   script:
     - npm --prefix $NPM_PREFIX ci --no-fund --no-audit --loglevel=error
-    - npm --prefix $NPM_PREFIX run checks
+    - npm --prefix $NPM_PREFIX run checks:expensive

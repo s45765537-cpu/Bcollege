@@ -104,7 +104,7 @@ var ChatSearchFilterHelpScreenElement;
  * @param {ServerChatRoomSpace} space - Name of the chatroom space
  * @param {ScreenSpecifier | undefined} returnScreen - Screen to go back to when exiting leaving the lobby.
  * @param {ChatSearchLobbyOptions} [options]
- * @returns {Promise<void>} - Nothing.
+ * @returns {SafePromise<void>} - Nothing.
  */
 async function ChatSearchStart(space, returnScreen, options) {
 	const validSpaces = /** @type {ServerChatRoomSpace[]} */ (["X", "", "M", "Asylum"]);
@@ -113,7 +113,7 @@ async function ChatSearchStart(space, returnScreen, options) {
 		return;
 	}
 	if (!returnScreen) {
-		console.error(`invalid return screen ${returnScreen}`);
+		console.error("invalid return screen:", returnScreen);
 		return;
 	}
 	ChatSearchSpace = space;
@@ -265,15 +265,15 @@ async function ChatSearchLoad() {
 	ChatSearchSearchMenuButton = ElementButton.Create(
 		"chat-search-room-open-search-menu",
 		function () {
-			const img = this.querySelector('img');
+			const img = this.querySelector('.button-image');
 			if (!img) return;
 			const open = this.getAttribute("aria-expanded") === "true";
 			if (open) {
 				this.setAttribute("aria-expanded", "false");
-				img.src = `Icons/CaretUp.svg`;
+				ElementButton.SetImage(this, "Icons/CaretUp.svg");
 			} else {
 				this.setAttribute("aria-expanded", "true");
-				img.src = `Icons/CaretDown.svg`;
+				ElementButton.SetImage(this, "Icons/CaretDown.svg");
 				if (document.activeElement?.id !== "InputSearch") {
 					ElementFocus("InputSearch");
 				}
@@ -529,12 +529,11 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("RoomType"), "chat-search-search-menu-room-type-radio-group"),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-type-radio-group",
-							/** @type {(this: HTMLButtonElement, ev: Event, key: "None" | ChatRoomMapType) => void} */
-							(ev, key) => {
+							function() {
+								const key = /** @type {"None" | ChatRoomMapType} */ (this.value);
 								if (key === "None") {
 									Player.ChatSearchSettings.MapTypes = "";
-								}
-								else {
+								} else {
 									Player.ChatSearchSettings.MapTypes = key;
 								}
 								ChatSearchUpdateSearchSettings();
@@ -571,7 +570,8 @@ async function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("Lobby"), "chat-search-search-menu-room-lobby-radio-group"),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
-							(ev, key) => {
+							function() {
+								const key = /** @type {ServerChatRoomSpace} */ (this.value);
 								Player.ChatSearchSettings.Space = ChatSearchSpace = key;
 								ChatSearchUpdateSearchSettings();
 							},
@@ -1374,7 +1374,7 @@ function ChatSearchCreateGridRoomTooltip(room, index) {
 			tag: "span",
 			classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
 			children: [
-				TextGet("FilteredBecause") + " " + filterReasons.map(r => TextGet(`FilterReason${r}`)),
+				TextGet("FilteredBecause") + " " + filterReasons.map(r => TextGet(`FilterReason${r}`)).join(", "),
 			]
 		});
 	}
@@ -1745,6 +1745,10 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 function ChatSearchResponse(data) {
 	if (typeof data !== "string") return;
 	if (((data == "RoomBanned") || (data == "RoomKicked")) && ServerPlayerIsInChatRoom()) {
+		// Break all leashes when that happens
+		// Can't do a proper ChatRoomStopHoldLeash() here because we're already gone from the room
+		ChatRoomBreakLeash(null);
+		ChatRoomLeashList = [];
 		// This will cause us to send an extra ChatRoomLeave message
 		ChatRoomLeave(true);
 		CommonSetScreen("Online", "ChatSearch");
@@ -1821,7 +1825,7 @@ function ChatSearchResultResponse(data) {
 		PandoraPenitentiaryResult(ChatSearchParseResponse(data));
 		return;
 	}
-	ElementContent("InputSearch-datalist", "");
+	ElementClearContents("InputSearch-datalist");
 	ChatSearchResult = ChatSearchParseResponse(data);
 	ChatSearchResultOffset = 0;
 	ChatSearchQuerySort();
@@ -1835,17 +1839,6 @@ function ChatSearchResultResponse(data) {
  * @returns {void} - Nothing
  */
 function ChatSearchAutoJoinRoom() {
-	if (ChatRoomJoinLeash != "") {
-		// This is a search triggered after entering the lobby while being leashed
-		// Join the room and unset the special leash-to-room flag
-		const leashRoom = ChatSearchResult.find(r => r.Name === ChatRoomJoinLeash);
-		if (leashRoom) {
-			ChatSearchJoin(leashRoom.Name);
-		}
-		ChatRoomJoinLeash = "";
-		return;
-	}
-
 	// This is a search triggered from a relog
 	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && !PandoraPenitentiaryIsInmate(Player) && ((ChatSearchReturnScreen?.[1] !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
 		let roomFound = false;
@@ -1927,15 +1920,14 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
 /**
  * Sends the search query data to the server. The response will be handled by ChatSearchResponse once it is received
  * @param {string} Query - The search term to look for
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
 async function ChatSearchQuery(Query) {
-	if (ChatRoomJoinLeash !== "") {
-		Query = ChatRoomJoinLeash.toUpperCase().trim();
-	} else if (Player.ImmersionSettings.ReturnToChatRoom) {
-		if (Player.LastChatRoom?.Name) {
-			Query = Player.LastChatRoom.Name?.toUpperCase().trim() ?? "";
+	if (Player.LastChatRoom?.Name) {
+		if (Player.ImmersionSettings.ReturnToChatRoom) {
+			Query = Player.LastChatRoom.Name.toUpperCase().trim();
 		} else {
+			// Just blank that out; the setting's disabled
 			ChatRoomSetLastChatRoom(null);
 		}
 	} else {

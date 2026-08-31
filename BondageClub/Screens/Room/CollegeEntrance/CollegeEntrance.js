@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var CollegeEntranceBackground = "CollegeEntrance";
-/** @type {null | NPCCharacter} */
-var CollegeEntranceStudent = null;
+/** @type {NPCCharacter} */
+var CollegeEntranceStudent = /** @type {never} */ (null);
 
 /**
  * Checks if the player can go to the tennis court
@@ -98,11 +97,12 @@ function CollegeEntranceWearStudentClothes(C) {
  * @returns {boolean} - Returns TRUE if the player is wearing tennis clothes
  */
 function CollegeEntranceIsWearingTennisClothes() {
-	if ((InventoryGet(Player, "Cloth") == null) || (InventoryGet(Player, "Cloth").Asset.Name != "TennisShirt1")) return false;
-	if ((InventoryGet(Player, "ClothLower") == null) || (InventoryGet(Player, "ClothLower").Asset.Name != "TennisSkirt1")) return false;
-	if ((InventoryGet(Player, "Shoes") == null) || ((InventoryGet(Player, "Shoes").Asset.Name != "Sneakers1") && (InventoryGet(Player, "Shoes").Asset.Name != "Sneakers2") && (InventoryGet(Player, "Shoes").Asset.Name != "SneakersSport"))) return false;
-	if (InventoryGet(Player, "Wings") != null) return false;
-	if (InventoryGet(Player, "TailStraps") != null) return false;
+	if (!InventoryIsWorn(Player, "Cloth", "TennisShirt1")
+		|| !InventoryIsWorn(Player, "ClothLower", "TennisSkirt1")) return false;
+	const shoes = InventoryGet(Player, "Shoes");
+	if (!["Sneakers1", "Sneakers2", "SneakersSport"].includes(shoes?.Asset.Name ?? "")) return false;
+	if (InventoryGet(Player, "Wings")) return false;
+	if (InventoryGet(Player, "TailStraps")) return false;
 	return true;
 }
 

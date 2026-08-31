@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var EmptyBackground = "MainHall";
 /** @type {Character[]} */
@@ -24,7 +23,7 @@ function EmptyStruggleProgress() { return ((Player.IsRestrained() || !Player.Can
  * Checks if the player can do a bondage training.
  * @returns {boolean} - Whether the player is ready to do a bondage training or not.
  */
-function EmptySlaveMarketReadyForBondageTraining() { return (Player.CanInteract() && !CurrentCharacter.CanTalk() && CurrentCharacter.IsBlind() && !CurrentCharacter.CanInteract() && !CurrentCharacter.CanWalk()); }
+function EmptySlaveMarketReadyForBondageTraining() { return Player.CanInteract() && !!CurrentCharacter && !CurrentCharacter.CanTalk() && CurrentCharacter.IsBlind() && !CurrentCharacter.CanInteract() && !CurrentCharacter.CanWalk(); }
 
 /**
  * Loads the empty room screen. Does nothing, required for future use and because it is called dynamically when loading the screen.
@@ -85,19 +84,20 @@ function EmptyShopRelease() {
 /**
  * Releases the player from the item she was trying to sell, and sets the following dialog.
  * @param {string|boolean} Sold - Whether or not the item was sold, "true" if sold
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function EmptyShopEnd(Sold) {
+async function EmptyShopEnd(Sold) {
+	if (!ShopVendor) return;
 	const WasSold = (Sold == "true");
 	ShopVendor.Stage = (WasSold) ? "33" : "34";
 	if (WasSold) CharacterChangeMoney(Player, ShopDemoItemPayment);
 	DialogLeave();
-	CommonSetScreen("Room", "Shop").then(() => {
-		CharacterSetCurrent(ShopVendor);
-		ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
-		CharacterAppearanceFullRandom(ShopCustomer, false);
-		ShopCustomer.Name = CharacterGenerateRandomName();
-	});
+	await CommonSetScreen("Room", "Shop");
+	if (!ShopVendor || !ShopCustomer) return;
+	CharacterSetCurrent(ShopVendor);
+	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
+	CharacterAppearanceFullRandom(ShopCustomer, false);
+	ShopCustomer.Name = CharacterGenerateRandomName();
 }
 
 /**
@@ -106,6 +106,7 @@ function EmptyShopEnd(Sold) {
  * @returns {void} - Nothing
  */
 function EmptySlaveMarketTrainingStart(TrainingType) {
+	if (!CurrentCharacter) return;
 	CurrentCharacter.CurrentTraining = parseInt(TrainingType);
 }
 
@@ -115,6 +116,7 @@ function EmptySlaveMarketTrainingStart(TrainingType) {
  * @returns {boolean} - Returns TRUE if the intensity level matches the level to test
  */
 function EmptySlaveMarketTrainingLevelIs(TestLevel) {
+	if (!CurrentCharacter || !CurrentCharacter.TrainingIntensity) return false;
 	if ((TestLevel == "Lowest") && (CurrentCharacter.TrainingIntensity <= 1)) return true;
 	if ((TestLevel == "Low") && (CurrentCharacter.TrainingIntensity >= 2) && (CurrentCharacter.TrainingIntensity <= 3)) return true;
 	if ((TestLevel == "Perfect") && (CurrentCharacter.TrainingIntensity >= 4) && (CurrentCharacter.TrainingIntensity <= 6)) return true;
@@ -129,6 +131,12 @@ function EmptySlaveMarketTrainingLevelIs(TestLevel) {
  * @returns {void} - Nothing
  */
 function EmptySlaveMarketTrainingProgress(Intensity) {
+	if (!CurrentCharacter) return;
+	if (!CurrentCharacter.TrainingIntensity) return;
+	if (!CurrentCharacter.TrainingCount) CurrentCharacter.TrainingCount = 0;
+	if (!CurrentCharacter.TrainingCountLow) CurrentCharacter.TrainingCountLow = 0;
+	if (!CurrentCharacter.TrainingCountPerfect) CurrentCharacter.TrainingCountPerfect = 0;
+	if (!CurrentCharacter.TrainingCountHigh) CurrentCharacter.TrainingCountHigh = 0;
 
 	// Intensity of activity gets added minus from 0 to 3 of random decay
 	CurrentCharacter.TrainingIntensity = CurrentCharacter.TrainingIntensity + parseInt(Intensity) - Math.floor(Math.random() * 4);
@@ -155,23 +163,23 @@ function EmptySlaveMarketTrainingProgress(Intensity) {
 /**
  * Triggered when the slave market training ends
  * @param {string} Status - The status the game ended with, "Success" if won
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function EmptySlaveMarketTrainingEnd(Status) {
-	var Money = CurrentCharacter.TrainingCountPerfect * 3;
+async function EmptySlaveMarketTrainingEnd(Status) {
+	var Money = (CurrentCharacter?.TrainingCountPerfect ?? 0) * 3;
 	DialogLeave();
 	if (Status != "Success") DialogChangeReputation("Dominant", -1);
 	else {
 		CharacterChangeMoney(Player, Money);
 		IntroductionJobProgress("DomTrainer");
 	}
-	CommonSetScreen("Room", "SlaveMarket").then(() => {
-		SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
-		SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
+	await CommonSetScreen("Room", "SlaveMarket");
+	if (!SlaveMarketMistress || !SlaveMarketSlaveToTrain) return;
+	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
+	SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
 
-		CharacterDelete(SlaveMarketSlaveToTrain);
-		SlaveMarketSlaveToTrain = null;
+	CharacterDelete(SlaveMarketSlaveToTrain);
+	SlaveMarketSlaveToTrain = null;
 
-		CharacterSetCurrent(SlaveMarketMistress);
-	});
+	CharacterSetCurrent(SlaveMarketMistress);
 }

@@ -1,8 +1,14 @@
 "use strict";
-/** @type {null | string[][]} */
-let OnlineGameDictionary = null;
+/**
+ * @type {null | string[][]}
+ * @deprecated
+ */
+let OnlineGameDictionary = [];
 
-/** @type {((gameDict: string[][]) => void) | undefined} */
+/**
+ * @type {((gameDict: string[][]) => void) | undefined}
+ * @deprecated
+ */
 let OnlineGameTranslateResolve = undefined;
 
 /**
@@ -10,69 +16,22 @@ let OnlineGameTranslateResolve = undefined;
  * @returns {void} - Nothing
  */
 function OnlneGameDictionaryLoad() {
-	if (OnlineGameDictionary == null) {
-
-		// Tries to read it from cache first
-		var FullPath = "Screens/Online/Game/OnlineGameDictionary.csv";
-		if (CommonCSVCache[FullPath]) {
-			OnlineGameDictionary = CommonCSVCache[FullPath];
-			return;
-		}
-
-		// Opens the file, parse it and returns the result in an object
-		CommonGet(FullPath, function () {
-			if (this.status == 200) {
-				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-				OnlineGameDictionary = CommonCSVCache[FullPath];
-				OnlineGameTranslateResolve?.(OnlineGameDictionary);
-			}
-		});
-
-		// If a translation file is available, we open the txt file and keep it in cache
-		var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
-		if (TranslationAvailable(TranslationPath))
-			CommonGet(TranslationPath, function() {
-				if (this.status == 200)
-				{
-					TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
-					OnlineGameTranslate(TranslationPath);
-				}
-
-			});
-	}
+	TextPrefetchFile(ScreenFileGetPath("OnlineGameDictionary.csv", "Online", "Game"));
 }
 
 /**
  * @param {string} CachePath
+ * @deprecated
  */
-function OnlineGameTranslate(CachePath) {
-	if (!Array.isArray(TranslationCache[CachePath])) return;
-	/** @type {typeof OnlineGameTranslateResolve} */
-	const DoTranslate = (gameDict) => {
-		for (let T = 0; T < gameDict.length; T++) {
-			if (gameDict[T][1]) {
-				let indexText = TranslationCache[CachePath].indexOf(gameDict[T][1].trim());
-				if (indexText >= 0) {
-					gameDict[T][1] = TranslationCache[CachePath][indexText + 1];
-				}
-			}
-		}
-	};
-	if(OnlineGameDictionary) DoTranslate(OnlineGameDictionary);
-	else OnlineGameTranslateResolve = DoTranslate;
-}
+function OnlineGameTranslate(CachePath) {}
+
 /**
  * Searches in the dictionary for a specific keyword and returns the message linked to it
  * @param {string} KeyWord - Keyword of the text to look for
  * @returns {string} The text attached to the keyword, will return a missing text if it was not found
  */
 function OnlineGameDictionaryText(KeyWord) {
-	if (OnlineGameDictionary) {
-		for (let D = 0; D < OnlineGameDictionary.length; D++)
-			if (OnlineGameDictionary[D][0] === ChatRoomGetGame() + KeyWord)
-				return OnlineGameDictionary[D][1].trim();
-	}
-	return "MISSING ONLINE GAME DESCRIPTION FOR KEYWORD " + KeyWord;
+	return TextGetInScope(ScreenFileGetPath("OnlineGameDictionary.csv", "Online", "Game"), ChatRoomGetGame() + KeyWord);
 }
 
 /**

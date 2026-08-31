@@ -102,6 +102,7 @@ function PreferenceSubscreenSecurityExit() {
 function PreferenceSubscreenSecurityUnload() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenSecurityResize() {
 	const { x, y } = PreferenceSubscreenMainGrid;
 

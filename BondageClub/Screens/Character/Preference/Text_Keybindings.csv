@@ -20,8 +20,8 @@ action:chatroom_open_profile:desc,Opens your profile.
 action:chatroom_open_profile:name,Open Your Profile
 action:chatroom_open_wardrobe:desc,Opens your wardrobe.
 action:chatroom_open_wardrobe:name,Open Your Wardrobe
-action:chatroom_previous_page:desc,Go to previous page.
-action:chatroom_previous_page:name,Previous page.
+action:chatroom_prev_page:desc,Go to previous page.
+action:chatroom_prev_page:name,Previous page.
 action:chatroom_next_page:desc,Go to next page.
 action:chatroom_next_page:name,Next page.
 action:chatroom_toggle_kneel:desc,Toggles the kneeling state.

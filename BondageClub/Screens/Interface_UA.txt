@@ -262,12 +262,12 @@ Item intensity: High
 Item intensity: High
 Item intensity: Maximum
 Item intensity: Maximum
-Configure total priority
-Configure total priority
+Configure {asset} priority
+Configure {asset} priority
 Exit
 Вихід
-Configure layer-specific priority
-Configure layer-specific priority
+Layer priority
+Layer priority
 Item configuration locked
 Item configuration locked
 Reset layering
@@ -450,8 +450,8 @@ Requires a harness.
 Requires a harness.
 Requires round piercings on nipples.
 Requires round piercings on nipples.
-Unchain mittens
-Unchain mittens
+Unchain mittens.
+Unchain mittens.
 Remove the chain first.
 Remove the chain first.
 Must remove chastity first.
@@ -566,26 +566,8 @@ Removing...
 Зняття...
 Need Bondage ReqLevel
 Need Bondage ReqLevel
-Requires self-bondage 1.
-Потребує селф-бондаж 1.
-Requires self-bondage 10.
-Потребує селф-бондаж 10.
-Requires self-bondage 2.
-Потребує селф-бондаж 2.
-Requires self-bondage 3.
-Потребує селф-бондаж 3.
-Requires self-bondage 4.
-Потребує селф-бондаж 4.
-Requires self-bondage 5.
-Потребує селф-бондаж 5.
-Requires self-bondage 6.
-Потребує селф-бондаж 6.
-Requires self-bondage 7.
-Потребує селф-бондаж 7.
-Requires self-bondage 8.
-Потребує селф-бондаж 8.
-Requires self-bondage 9.
-Потребує селф-бондаж 9.
+Requires self-bondage ReqLevel.
+Потребує селф-бондаж ReqLevel.
 Active Rules
 Активні правила
 Cannot change:

@@ -1436,14 +1436,13 @@ function MovieStudioGetMoney() {
  * @returns {void} - Nothing
  */
 function MovieStudioClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderPornDeck;
-	MiniGameStart("ClubCard", 0, "MovieStudioClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderPornDeck, () => { MovieStudioClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>}
  */
 async function MovieStudioClubCardEnd() {
 	await CommonSetScreen("Room", "MovieStudio");

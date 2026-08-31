@@ -410,13 +410,14 @@ function TypedItemGetOption(groupName, assetName, optionName) {
  * @param {T} previousOption - The previously applied option
  * @param {boolean} [permitExisting] - Determines whether the validation should allow the new option and previous option
  * to be identical. Defaults to false.
- * @returns {string|undefined} - undefined or an empty string if the validation passes. Otherwise, returns a string
- * message informing the player of the requirements that are not met.
+ * @returns {string|null} - Returns a string message informing the player of the requirements that are not met, null otherwise.
  */
 function TypedItemValidateOption(data, C, item, option, previousOption, permitExisting = false) {
 	let PermissionFailure = false;
 	switch (option.OptionType) {
 		case "ModularItemOption":
+			PermissionFailure = /** @type {ModularItemOption} */(/** @type {unknown} */(option)).Index !== 0 && InventoryBlockedOrLimited(C, item, option.Name);
+			break;
 		case "TypedItemOption":
 		case "VibratingItemOption": {
 			const optionIndex = option.Property.TypeRecord[data.name];
@@ -481,7 +482,7 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 			break;
 		default: {
 			const msg = `${warningMessage}: item does not use the typed or vibrating archetype`;
-			console.warn(msg);
+			console.error(msg);
 			return msg;
 		}
 	}
@@ -491,7 +492,7 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 	const newOption = options.find(o => o.Name === optionName);
 	if (!newOption) {
 		const msg = `${warningMessage}: option "${optionName}" does not exist`;
-		console.warn(msg);
+		console.error(msg);
 		return msg;
 	}
 
@@ -526,7 +527,7 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item || item.Asset.Archetype !== ExtendedArchetype.TYPED) {
-		console.warn("Cannot set random option: item does not exist or does not use the typed archetype");
+		console.error("Cannot set random option: item does not exist or does not use the typed archetype");
 		return;
 	}
 
@@ -590,10 +591,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		// Check if all the expected properties are present; extra properties are ignored
 		const option = options[optionIndex];
 		const newProps = CommonCloneDeep(option.Property);
-		delete newProps.OverridePriority;
-		delete newProps.DrawingTop;
-		delete newProps.DrawingLeft;
-		delete newProps.Opacity;
+		ExtendedItemInitPropertyIgnore.forEach(propName => delete newProps[propName]);
 		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
 			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
 			delete newProps.Intensity;

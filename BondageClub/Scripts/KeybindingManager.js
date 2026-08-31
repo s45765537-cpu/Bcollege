@@ -134,11 +134,13 @@ class KeybindManager {
 	 */
 	constructor() {
 		const cache = TextPrefetchFile(ScreenFileGetTranslation("Character", "Preference", "Keybindings"));
-		cache.loadedPromise.then(() => {
-			KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
-			KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
-			KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
-		});
+		CommonPromiseCatch(
+			cache.loadedPromise.then(() => {
+				KeybindingDefaults.DefaultCategories.forEach(c => this.registerCategory(c));
+				KeybindingDefaults.DefaultContexts.forEach(c => this.registerContext(c));
+				KeybindingDefaults.DefaultKeybindings.forEach(kb => this.registerKeybinding(kb));
+			})
+		);
 	}
 
 	/**
@@ -304,7 +306,7 @@ class KeybindManager {
 		const modifiers = keybinding.keyCombo?.modifiers;
 		if (keybinding.keyCombo && modifiers && modifiers.size > 2) {
 			keybinding.keyCombo.modifiers = new Set([...modifiers].slice(0, 2));
-			console.warn(`Keybinding '${keybinding.action.name}' has more than 2 modifiers. Only the first 2 will be used.`);
+			console.error(`Keybinding '${keybinding.action.name}' has more than 2 modifiers. Only the first 2 will be used.`);
 		}
 
 		this.keybindings.set(keybinding.id, keybinding);
@@ -593,7 +595,7 @@ class KeybindManager {
 
 		const conflictingKeybindings = this.getConflictingKeybindings(keybinding.id);
 		if (conflictingKeybindings.length > 0)
-			console.warn(`Keybinding '${keybinding.action.name}' conflicts with another keybinding(s).`, conflictingKeybindings);
+			console.error(`Keybinding '${keybinding.action.name}' conflicts with another keybinding(s).`, conflictingKeybindings);
 
 		/** @type {Keybindings.Keybinding} */
 		const finalized = {

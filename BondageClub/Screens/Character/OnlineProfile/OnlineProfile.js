@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type { "Description" | "OwnersNotes" } */
@@ -35,6 +34,7 @@ function OnlineProfileStart(mode) {
  * @returns {void}
  */
 function OnlineProfileLoadTextArea(element) {
+	if (!InformationSheetSelection) return;
 	switch (OnlineProfileMode) {
 		case "OwnersNotes":
 			/*  Editable only by this player's owner.  */

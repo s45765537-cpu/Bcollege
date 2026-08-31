@@ -46,24 +46,25 @@ function InventoryItemBreastForbiddenChastityBraClickHook(data, originalFunction
 	}
 
 	const C = CharacterGetCurrent();
-	if (!C || !DialogFocusItem) return;
+	const item = DialogFocusItem;
+	if (!C || !item) return;
 	if (MouseIn(1635, 550, 225, 55)) {
 		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount, false, false);
 		return;
 	} else if (MouseIn(1635, 625, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction, false, false);
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item ), false, false);
 		return;
 	}
 	if (!ExtendedItemPermissionMode) {
-		const property = /** @type {ItemProperties} */ (DialogFocusItem?.Property);
+		const property = /** @type {ItemProperties} */ (item?.Property);
 		if (MouseIn(1100, 618, 64, 64)) {
-			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
+			ExtendedItemCustomClickAndPush(C, item, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		} else if (MouseIn(1100, 700, 64, 64)) {
-			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishOrgasm", () => property.PunishOrgasm = !property.PunishOrgasm, false, false);
+			ExtendedItemCustomClickAndPush(C, item, "PunishOrgasm", () => property.PunishOrgasm = !property.PunishOrgasm, false, false);
 		} else if (MouseIn(1100, 770, 64, 64)) {
-			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishStandup", () => property.PunishStandup = !property.PunishStandup, false, false);
+			ExtendedItemCustomClickAndPush(C, item, "PunishStandup", () => property.PunishStandup = !property.PunishStandup, false, false);
 		} else if (MouseIn(1100, 840, 64, 64)) {
-			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishStruggle", () => property.PunishStruggle = !property.PunishStruggle, false, false);
+			ExtendedItemCustomClickAndPush(C, item, "PunishStruggle", () => property.PunishStruggle = !property.PunishStruggle, false, false);
 		}
 	}
 	originalFunction();

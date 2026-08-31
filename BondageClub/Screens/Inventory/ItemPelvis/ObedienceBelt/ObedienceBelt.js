@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<NoArchItemData>} */
@@ -6,16 +5,19 @@ function InventoryItemPelvisObedienceBelts1DrawHook(data, originalFunction) {
 	originalFunction();
 
 	MainCanvas.textAlign = "left";
+	const item = DialogFocusItem;
+	if (!item) return;
+	item.Property ??= {};
 	ExtendedItemDrawCheckbox(
-		"ShowText", 1100, 590, DialogFocusItem.Property.ShowText,
+		"ShowText", 1100, 590, !!item.Property.ShowText,
 		{ text: AssetTextGet("ObedienceBeltShowChatMessage"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
-		"PunishOrgasm", 1100, 660, DialogFocusItem.Property.PunishOrgasm,
+		"PunishOrgasm", 1100, 660, !!item.Property.PunishOrgasm,
 		{ text: AssetTextGet("ObedienceBeltPunishOrgasm"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
-		"PunishStandup", 1100, 730, DialogFocusItem.Property.PunishStandup,
+		"PunishStandup", 1100, 730, !!item.Property.PunishStandup,
 		{ text: AssetTextGet("ObedienceBeltPunishStandup"), textColor: "White", changeWhenLocked: false },
 	);
 	MainCanvas.textAlign = "center";
@@ -26,16 +28,18 @@ function InventoryItemPelvisObedienceBelts1DrawHook(data, originalFunction) {
 function InventoryItemPelvisObedienceBelts1ClickHook(data, originalFunction) {
 	originalFunction();
 
+	const item = DialogFocusItem;
 	const C = CharacterGetCurrent();
-	const property = DialogFocusItem.Property;
+	if (!item || !C) return;
+	const property = item.Property ??= {};
 	if (MouseIn(1100, 590, 64, 64)) {
-		ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
+		ExtendedItemCustomClickAndPush(C, item, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 	} else if (MouseIn(1100, 660, 64, 64)) {
-		ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishOrgasm", () => property.PunishOrgasm = !property.PunishOrgasm, false, false);
+		ExtendedItemCustomClickAndPush(C, item, "PunishOrgasm", () => property.PunishOrgasm = !property.PunishOrgasm, false, false);
 	} else if (MouseIn(1100, 730, 64, 64)) {
-		ExtendedItemCustomClickAndPush(C, DialogFocusItem, "PunishStandup", () => property.PunishStandup = !property.PunishStandup, false, false);
+		ExtendedItemCustomClickAndPush(C, item, "PunishStandup", () => property.PunishStandup = !property.PunishStandup, false, false);
 	} else if (MouseIn(1387, 800, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction, false, false);
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item), false, false);
 	}
 }
 
@@ -44,8 +48,9 @@ function InventoryItemPelvisObedienceBelts1ClickHook(data, originalFunction) {
  * @param {Character} C
  */
 function InventoryObedienceBeltCheckPunish(Item, C) {
+	Item.Property ??= {};
 	const { PunishOrgasm, PunishStruggle, PunishStandup } = Item.Property;
-	if (Item.Property.NextShockTime - CurrentTime <= 0 && PunishOrgasm && C.ArousalSettings && C.ArousalSettings.OrgasmStage > 1) {
+	if ((Item.Property.NextShockTime ?? 0) - CurrentTime <= 0 && PunishOrgasm && C.ArousalSettings && C.ArousalSettings.OrgasmStage > 1) {
 		// Punish the player if they orgasm
 		Item.Property.NextShockTime = CurrentTime + FuturisticChastityBeltShockCooldownOrgasm; // Difficult to have two orgasms in 10 seconds
 		return "Orgasm";
@@ -134,13 +139,14 @@ function AssetsItemPelvisObedienceBeltAfterDrawHook(data, originalFunction, {
 	// Fetch the text property and assert that it matches the character
 	// and length requirements
 	TextItem.Init(data, C, CA, false);
-	const text = CA.Property.Text;
+	const text = CA.Property?.Text ?? "";
 
 	// Prepare a temporary canvas to draw the text to
 	const height = 60;
 	const width = 130;
 	const tempCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 	const ctx = tempCanvas.getContext("2d");
+	if (!ctx) return;
 
 	DynamicDrawTextArc(text, ctx, width / 2, 42, {
 		fontSize: 28,

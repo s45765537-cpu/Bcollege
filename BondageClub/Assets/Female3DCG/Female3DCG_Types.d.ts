@@ -33,8 +33,10 @@ declare namespace TopLeft {
 	 */
 	type Definition = number | Partial<Record<AssetPoseName | PoseTypeDefault, number>>;
 	/** See {@link ItemProperties["DrawingTop"]} */
+	// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	type ItemData = Partial<Record<AssetOverride | LayerName, TopLeft.DataMutable>>;
 	/** See {@link ItemPropertiesConfig["DrawingTop"]} */
+	// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	type ItemDefinition = Partial<Record<AssetOverride | LayerName, TopLeft.Definition>>;
 }
 
@@ -773,6 +775,8 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	ExpressionPrerequisite?: AssetPrerequisite[];
 }
 
+type AssetAppearancePrerequisite = Extract<AssetPrerequisite, PosePrerequisite | "HasBreasts" | "HasFlatChest" | "HasVagina" | "HasPenis">;
+
 /** Input interface for constructing {@link Asset} objects. */
 declare namespace AssetDefinition {
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Item` category. */
@@ -806,6 +810,9 @@ declare namespace AssetDefinition {
 		SelfBondage?: never;
 		SelfUnlock?: false;
 		Time?: never;
+		Block?: never;
+		// We only allow a specific subset of those for clothing
+		Prerequisite?: AssetAppearancePrerequisite | AssetAppearancePrerequisite[];
 	}
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Script` category. */
 	interface Script extends AssetDefinitionBase {
@@ -991,7 +998,7 @@ interface ExtendedItemConfig<OptionType extends ExtendedItemOption> {
 	/** The group name and asset name of a configuration to copy - useful if multiple items share the same config */
 	CopyConfig?: { GroupName?: AssetGroupName, AssetName: string };
 	/** An interface with element-specific drawing data for a given screen. */
-	DrawData?: ExtendedItemConfigDrawData<{}>;
+	DrawData?: ExtendedItemConfigDrawData<object>;
 	/**
 	 * A list with extra to-be allowed effect names.
 	 * Should only defined when there are effects that are exclusively managed by script hooks and thus cannot be extracted from the normal extended item options.
@@ -1326,6 +1333,7 @@ interface VibratingItemOption extends Omit<VibratingItemOptionConfig, "Archetype
 	ParentData: VibratingItemData;
 	Property: ItemProperties & Pick<Required<ItemProperties>, "TypeRecord" | "Intensity" | "Effect">;
 	ArchetypeData?: null;
+	Advanced: boolean;
 }
 
 /** An object defining all of the required configuration for registering a vibrator item */

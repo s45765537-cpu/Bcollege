@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"module": "esnext",
+		"target": "esnext",
+		"lib": ["esnext"],
+		"checkJs": true,
+		"noEmit": true,
+		"incremental": true,
+		"tsBuildInfoFile": "../.cache/tsc-jest.tsbuildinfo",
+		"types": ["node", "jest", "jsdom"],
+		"skipLibCheck": true,
+		"strict": true,
+	},
+	"include": ["../Scripts/**/*.d.ts", "../Assets/**/*.d.ts", "."],
+	"exclude": ["../Scripts/MessagesPatch.d.ts"],
+	"files": ["../node_modules/jest-expect-message/types/index.d.ts"],
+}

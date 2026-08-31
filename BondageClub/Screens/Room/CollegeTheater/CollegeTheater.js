@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 "use strict";
 var CollegeTheaterBackground = "CollegeTheater";
-/** @type {null | NPCCharacter} */
-var CollegeTheaterJulia = null;
+/** @type {NPCCharacter} */
+var CollegeTheaterJulia = /** @type {never} */ (null);
 var CollegeTheaterJuliaLove = 0;
 /** @type {BCColor[]} */
 var CollegeTheaterRandomColors = ["#AA4444", "#44AA44", "#4444AA", "#AAAA44", "#AA44AA", "#44AAAA"];
@@ -51,7 +51,7 @@ function CollegeTheaterJuliaClothes(C) {
 	InventoryWear(C, "Pussy1", "Pussy", "#e86e37");
 	InventoryWear(C, "Eyes3", "Eyes", "#f85e27");
 	InventoryWear(C, "Eyes3", "Eyes2", "#f85e27");
-	InventoryWear(C, "Mouth", "Mouth", "Default");
+	InventoryWear(C, "Regular", "Mouth", "Default");
 	InventoryWear(C, "H0990", "Height", "Default");
 	InventoryWear(C, "XLarge", "BodyUpper", "White");
 	InventoryWear(C, "XLarge", "BodyLower", "White");

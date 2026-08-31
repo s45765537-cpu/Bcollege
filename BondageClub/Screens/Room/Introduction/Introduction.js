@@ -1,24 +1,27 @@
-// @ts-strict-ignore
 "use strict";
 var IntroductionBackground = "Introduction";
-/** @type {null | NPCCharacter} */
-var IntroductionMaid = null;
-/** @type {null | NPCCharacter} */
-var IntroductionSub = null;
+/** @type {NPCCharacter} */
+var IntroductionMaid = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var IntroductionSub = /** @type {never} */ (null);
 var IntroductionMaidOpinion = 0;
 var IntroductionHasBasicItems = false;
 var IntroductionSubRestrained = false;
-var IntroductionIsMaid = false;
-var IntroductionIsHeadMaid = false;
-var IntroductionRescueScenario = "";
+/** @type {IntroductionRescueJobType | null} */
+var IntroductionRescueScenario = null;
+/** @type {IntroductionRescueJobType[]} */
 var IntroductionRescueScenarioList = ["LatexWoman", "Newcomer", "MaidFight", "SalesWoman"];
+/** @type {IntroductionJobType[]} */
 var IntroductionJobList = ["DomPuppy", "DomLock", "DomKidnap", "DomTrainer", "SubSearch", "SubDojo", "SubActivity", "SubMaid"];
-var IntroductionJobCurrent = "";
+/** @type {IntroductionJobType | null} */
+var IntroductionJobCurrent = null;
 var IntroductionJobCount = 1;
 /** @type {null | string} */
 var IntroductionJobParam = null;
+/** @type {{ Active: boolean; X: number; Y: number } & ({} | { ClickScreen: string; ClickX: number; ClickY: number })} */
 var IntroductionJobPosition = { Active: false, X: 1000, Y: 1000 };
 var IntroductionJobLockList = ["MetalPadlock", "IntricatePadlock", "TimerPadlock", "CombinationPadlock", "ExclusivePadlock"];
+/** @type {ModuleScreens["Room"][]} */
 var IntroductionJobSearchList = ["MaidQuarters", "LARP", "KidnapLeague", "SlaveMarket"];
 /** @type {number[]} */
 var IntroductionJobMember = [];
@@ -28,7 +31,7 @@ var IntroductionJobMember = [];
  * @param {string} ScenarioName - Name of the rescue scenario to check for.
  * @returns {boolean} - Returns TRUE if the given scenario is the current active one.
  */
-function IntroductionIsRescueScenario(ScenarioName) { return (IntroductionRescueScenario == ScenarioName); }
+function IntroductionIsRescueScenario(ScenarioName) { return IntroductionRescueScenario === ScenarioName; }
 /**
  * Checks if the two NPCs in the introduction room are free.
  * @returns {boolean} - Returns TRUE if both the maid and the sub is free.
@@ -68,7 +71,7 @@ function IntroductionCannotTakeJobRestrained() { return (IntroductionJobAnyAvail
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function IntroductionCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function IntroductionCanPlayClubCard() { return !Player.IsRestrained() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged(); }
 
 /**
  * Loads the introduction room and its 2 NPCS
@@ -78,8 +81,6 @@ async function IntroductionLoad() {
 
 	// Checks if the player already has the basic items
 	IntroductionHasBasicItems = (InventoryAvailable(Player, "NylonRope", "ItemFeet") && InventoryAvailable(Player, "NylonRope", "ItemLegs") && InventoryAvailable(Player, "NylonRope", "ItemArms") && InventoryAvailable(Player, "ClothGag", "ItemMouth"));
-	IntroductionIsMaid = LogQuery("JoinedSorority", "Maid");
-	IntroductionIsHeadMaid = LogQuery("LeadSorority", "Maid");
 
 	// Creates two characters to begin with
 	IntroductionMaid = CharacterLoadNPC("NPC_Introduction_Maid");
@@ -151,6 +152,7 @@ function IntroductionChangeMaidOpinion(Bonus) {
  */
 function IntroductionSetZone(NewZone) {
 	// Force a focus group change to not break out of dialog mode while still showing the group outlines
+	if (!CurrentCharacter) return;
 	CurrentCharacter.FocusGroup = Player.FocusGroup = AssetGroupGet("Female3DCG", NewZone);
 }
 
@@ -159,6 +161,7 @@ function IntroductionSetZone(NewZone) {
  * @returns {void} - Nothing
  */
 function IntroductionClearZone() {
+	if (!CurrentCharacter) return;
 	Player.FocusGroup = null;
 	CurrentCharacter.FocusGroup = null;
 }
@@ -204,7 +207,7 @@ function IntroductionAllowRestrainPlayer() {
  * @returns {void} - Nothing
  */
 function IntroductionGagPlayer() {
-	if (IntroductionIsHeadMaid) {
+	if (DialogIsHeadMaid()) {
 		CharacterRelease(Player);
 		IntroductionMaid.CurrentDialog = DialogFind(IntroductionMaid, "ReleaseHeadMaid");
 		IntroductionMaid.Stage = "370";
@@ -231,7 +234,7 @@ function IntroductionJobDone() {
 	CharacterChangeMoney(Player, 120);
 	var NextDay = Math.floor(CurrentTime / (24 * 60 * 60 * 1000)) + 1;
 	LogAdd("DailyJobDone", "Introduction", NextDay * 24 * 60 * 60 * 1000);
-	IntroductionJobCurrent = "";
+	IntroductionJobCurrent = null;
 }
 
 /**
@@ -261,7 +264,7 @@ function IntroductionJobAnyAvailable() {
 
 /**
  * Starts a given daily job with the given goal.
- * @param {string} JobName - Name of the job to start
+ * @param {IntroductionJobType} JobName - Name of the job to start
  * @param {number} JobCount - Treshold to consider the job complete
  * @returns {void} - Nothing
  */
@@ -288,7 +291,7 @@ function IntroductionJobStart(JobName, JobCount) {
 function IntroductionJobGiveUp() {
 	if (ReputationGet("Dominant") < 0) DialogChangeReputation("Dominant", 1);
 	if (ReputationGet("Dominant") > 0) DialogChangeReputation("Dominant", -1);
-	IntroductionJobCurrent = "";
+	IntroductionJobCurrent = null;
 }
 
 /**
@@ -296,59 +299,60 @@ function IntroductionJobGiveUp() {
  * @returns {void} - Nothing
  */
 function IntroductionJobLockType() {
+	if (!IntroductionJobParam) return;
 	var Item = AssetGet(Player.AssetFamily, "ItemMisc", IntroductionJobParam);
 	if (Item != null) IntroductionMaid.CurrentDialog = DialogFind(IntroductionMaid, "JobLockType").replace("LockType", Item.Description);
 }
 
 /**
  * Validates progress for a daily job. When a member number needs to be unique, it may not progress.
- * @param {string} JobName - Name of the job for which to register progress
+ * @param {IntroductionJobType} JobName - Name of the job for which to register progress
  * @param {string} [Param] - Optional parameter for the job to check for. Can be the name of an asset or anything required by the specific job.
  * @param {boolean} [UniqueMember] - If the member number should be unique.
  * @returns {void} - Nothing
  */
 function IntroductionJobProgress(JobName, Param, UniqueMember) {
-	if ((UniqueMember == true) && (CurrentScreen != "ChatRoom")) return;
-	if ((IntroductionJobCurrent == JobName) && (IntroductionJobParam == Param)) {
-		if ((UniqueMember == true) && ((CurrentCharacter == null) || (CurrentCharacter.IsPlayer()) || (CurrentCharacter.MemberNumber == null) || (CurrentCharacter.MemberNumber < 1) || (IntroductionJobMember.indexOf(CurrentCharacter.MemberNumber) >= 0))) return;
-		if (UniqueMember == true) IntroductionJobMember.push(CurrentCharacter.MemberNumber);
+	if (UniqueMember && CurrentScreen !== "ChatRoom") return;
+	if (IntroductionJobCurrent === JobName && IntroductionJobParam === Param) {
+		if (UniqueMember && (!CurrentCharacter || CurrentCharacter.IsPlayer() || CurrentCharacter.MemberNumber !== undefined && IntroductionJobMember.indexOf(CurrentCharacter.MemberNumber) >= 0)) return;
+		if (UniqueMember && CurrentCharacter?.MemberNumber !== undefined) IntroductionJobMember.push(CurrentCharacter.MemberNumber);
 		IntroductionJobCount--;
 	}
 }
 
 /**
  * Starts the daily kidnapping job.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function IntroductionJobBouncerStart() {
-	CommonSetScreen("Room", "DailyJob").then(() => {
-		CharacterSetCurrent(DailyJobOpponent);
-		CharacterRelease(DailyJobOpponent);
-		DailyJobOpponent.CurrentDialog = DialogFind(IntroductionMaid, "JobKidnapIntro" + DailyJobOpponent.Stage.toString() + Math.floor(Math.random() * 4).toString());
-	});
+async function IntroductionJobBouncerStart() {
+	if (!DailyJobOpponent) return;
+	await CommonSetScreen("Room", "DailyJob");
+	CharacterSetCurrent(DailyJobOpponent);
+	CharacterRelease(DailyJobOpponent);
+	DailyJobOpponent.CurrentDialog = DialogFind(IntroductionMaid, "JobKidnapIntro" + DailyJobOpponent.Stage.toString() + Math.floor(Math.random() * 4).toString());
 }
 
 /**
  * Starts the daily dog walking job.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function IntroductionJobPuppyStart() {
-	CommonSetScreen("Room", "DailyJob").then(() => {
-		CharacterSetCurrent(DailyJobPuppyMistress);
-		DailyJobPuppyMistress.CurrentDialog = DialogFind(IntroductionMaid, "JobPuppyIntro" + DailyJobPuppyMistress.Stage.toString() + Math.floor(Math.random() * 4).toString());
-	});
+async function IntroductionJobPuppyStart() {
+	if (!DailyJobPuppyMistress) return;
+	await CommonSetScreen("Room", "DailyJob");
+	CharacterSetCurrent(DailyJobPuppyMistress);
+	DailyJobPuppyMistress.CurrentDialog = DialogFind(IntroductionMaid, "JobPuppyIntro" + DailyJobPuppyMistress.Stage.toString() + Math.floor(Math.random() * 4).toString());
 }
 
 /**
  * Starts the Shibari dojo daily job.
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>} - Nothing
  */
-function IntroductionJobDojoStart() {
-	CommonSetScreen("Room", "DailyJob").then(() => {
-		DailyJobBackground = "Shibari";
-		CharacterSetCurrent(DailyJobDojoTeacher);
-		DailyJobDojoTeacher.CurrentDialog = DialogFind(IntroductionMaid, "JobDojoIntro" + DailyJobDojoTeacher.Stage.toString() + Math.floor(Math.random() * 4).toString());
-	});
+async function IntroductionJobDojoStart() {
+	await CommonSetScreen("Room", "DailyJob");
+	DailyJobBackground = "Shibari";
+	if (!DailyJobDojoTeacher) return;
+	CharacterSetCurrent(DailyJobDojoTeacher);
+	DailyJobDojoTeacher.CurrentDialog = DialogFind(IntroductionMaid, "JobDojoIntro" + DailyJobDojoTeacher.Stage.toString() + Math.floor(Math.random() * 4).toString());
 }
 
 /**
@@ -356,18 +360,17 @@ function IntroductionJobDojoStart() {
  * @returns {void} - Nothing
  */
 function IntroductionClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderMaidDeck;
-	MiniGameStart("ClubCard", 0, "IntroductionClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderMaidDeck, () => { IntroductionClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function IntroductionClubCardEnd() {
-	CommonSetScreen("Room", "Introduction").then(() => {
-		CharacterSetCurrent(IntroductionMaid);
-		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	});
+async function IntroductionClubCardEnd() {
+	await CommonSetScreen("Room", "Introduction");
+	if (!IntroductionMaid) return;
+	CharacterSetCurrent(IntroductionMaid);
+	IntroductionMaid.CurrentDialog = DialogFind(IntroductionMaid, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

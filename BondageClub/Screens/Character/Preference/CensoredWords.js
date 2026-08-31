@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {string[]} */
@@ -28,7 +27,7 @@ function PreferenceSubscreenCensoredWordsLoad() {
 		attributes: { id: PreferenceCensoredWordsIDs.subtitle },
 		children: [TextGet("CensorTitle")],
 	});
-	ElementWrap(PreferenceIDs.subscreen).prepend(subtitle);
+	ElementWrap(PreferenceIDs.subscreen)?.prepend(subtitle);
 
 	ElementDropdown.CreateLabelled(
 		"CensoredWordsLevel",
@@ -62,7 +61,7 @@ function PreferenceSubscreenCensoredWordsLoad() {
 			ElementCreateInput("InputWord", "text", "", "50")
 		]
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(wordInputGroup);
+	ElementWrap(PreferenceIDs.subscreen)?.append(wordInputGroup);
 
 	const addButton = ElementButton.Create(PreferenceCensoredWordsIDs.add,
 		() => {
@@ -78,14 +77,14 @@ function PreferenceSubscreenCensoredWordsLoad() {
 			image: "Icons/Plus.png",
 			tooltip: TextGet("CensorAdd"),
 		});
-	ElementWrap(PreferenceIDs.subscreen).append(addButton);
+	ElementWrap(PreferenceIDs.subscreen)?.append(addButton);
 
 	const wordsGrid = ElementCreate({
 		tag: "div",
 		classList: ["preference-censored-words-grid", "scroll-box"],
 		attributes: { id: PreferenceCensoredWordsIDs.grid },
 	});
-	ElementWrap(PreferenceIDs.subscreen).append(wordsGrid);
+	ElementWrap(PreferenceIDs.subscreen)?.append(wordsGrid);
 
 	PreferenceSubscreenCensoredWordsBuildWords();
 }
@@ -116,6 +115,7 @@ function PreferenceSubscreenCensoredWordsUnload() {
 	Player.ChatSettings.CensoredWordsList = PreferenceCensoredWordsList.join("|");
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenCensoredWordsResize() {
 	ElementSetPosition(PreferenceCensoredWordsIDs.grid, 500, 400);
 	ElementPositionFix(PreferenceCensoredWordsIDs.subtitle, 26, 500, 160, 1300, 60);
@@ -139,7 +139,7 @@ function PreferenceSubscreenCensoredWordsBuildWords() {
 					PreferenceSubscreenCensoredWordsBuildWords();
 				},
 				{
-					image: "Icons/Small/Remove.png",
+					image: "Icons/Remove.png",
 					noStyling: true
 				},
 				{

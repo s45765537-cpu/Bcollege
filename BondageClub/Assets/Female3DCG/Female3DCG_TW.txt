@@ -952,6 +952,8 @@ Steampunk Wings
 賽博龐克翅膀
 Bee Wings
 蜜蜂翅膀
+Bot Energy Wings
+機器人能量翅膀
 Cyber Wings
 電子翅膀
 Pixie Wings

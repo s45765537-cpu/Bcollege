@@ -80,11 +80,11 @@ async function InformationSheetLoad() {
  * @returns {void} - Nothing
  */
 function InformationSheetRun() {
-	if (!InformationSheetSelection) return;
-	// Draw the character base values
 	const C = InformationSheetSelection;
+	if (!C) return;
 	const CurrentTitle = TitleGet(C);
 
+	// Draw the character base values
 	DrawCharacter(C, 50, 50, 0.9);
 	MainCanvas.textAlign = "left";
 
@@ -365,9 +365,9 @@ function InformationSheetRun() {
  * @returns {void} - Nothing
  */
 function InformationSheetSecondScreenRun() {
-	if (!InformationSheetSelection) return;
-	// For current player and online characters
 	const C = InformationSheetSelection;
+	if (!C) return;
+	// For current player and online characters
 	if (C.IsPlayer() || C.IsOnline()) {
 		const lineHeight = 55;
 		// Draw the reputation section
@@ -424,11 +424,11 @@ function InformationSheetSecondScreenRun() {
 
 /**
  * Handles the click events on the screen
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function InformationSheetClick() {
-	if (!InformationSheetSelection) return;
 	const C = InformationSheetSelection;
+	if (!C) return;
 	if (MouseIn(1815, 75, 90, 90)) InformationSheetExit();
 	if (C.IsPlayer()) {
 		if (MouseIn(1815, 190, 90, 90) && !TitleIsForced(TitleGet(C))) CommonSetScreen("Character", "Title");

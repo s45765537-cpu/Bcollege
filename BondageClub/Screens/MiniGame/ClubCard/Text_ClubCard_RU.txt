@@ -10,10 +10,10 @@ Mansion
 Особняк
 Manor
 Усадьба
-Fame:
-Слава:
-Money:
-Деньги:
+Fame
+Слава
+Money
+Деньги
 Play this card
 Разыграть эту карту
 Draw and end your turn
@@ -84,28 +84,28 @@ Get Mansion (MONEY)
 Получить Особняк (MONEY)
 Get Manor (MONEY)
 Получить Усадьбу (MONEY)
-PLAYERNAME upgraded to Cottage for MONEYAMOUNT Money.
-PLAYERNAME повышен до Коттеджа за MONEYAMOUNT Money.
-PLAYERNAME upgraded to House for MONEYAMOUNT Money.
-PLAYERNAME повышен до Дома за MONEYAMOUNT Money.
-PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
-PLAYERNAME повышен до Особняк за MONEYAMOUNT Money.
-PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
-PLAYERNAME повешен до Усадьбы за MONEYAMOUNT Money.
-SOURCEPLAYER gained AMOUNT Fame.
-SOURCEPLAYER получил AMOUNT Fame.
-SOURCEPLAYER gained AMOUNT Money.
-SOURCEPLAYER получил AMOUNT Money.
-SOURCEPLAYER lost AMOUNT Fame.
-SOURCEPLAYER потерял AMOUNT Fame.
-SOURCEPLAYER lost AMOUNT Money.
-SOURCEPLAYER потерял AMOUNT Money.
-SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
-SOURCEPLAYER украл AMOUNT Fame у OPPONENTPLAYER.
-SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
-SOURCEPLAYER украл AMOUNT Money у OPPONENTPLAYER.
-SOURCEPLAYER stole FAMEAMOUNT Fame and MONEYAMOUNT Money from OPPONENTPLAYER.
-SOURCEPLAYER украл FAMEAMOUNT Fame и MONEYAMOUNT Money у OPPONENTPLAYER.
+PLAYERNAME upgraded to Cottage for MONEYLABEL.
+PLAYERNAME повышен до Коттеджа за MONEYLABEL.
+PLAYERNAME upgraded to House for MONEYLABEL.
+PLAYERNAME повышен до Дома за MONEYLABEL.
+PLAYERNAME upgraded to Mansion for MONEYLABEL.
+PLAYERNAME повышен до Особняк за MONEYLABEL.
+PLAYERNAME upgraded to Manor for MONEYLABEL.
+PLAYERNAME повешен до Усадьбы за MONEYLABEL.
+SOURCEPLAYER gained FAMELABEL.
+SOURCEPLAYER получил FAMELABEL.
+SOURCEPLAYER gained MONEYLABEL.
+SOURCEPLAYER получил MONEYLABEL.
+SOURCEPLAYER lost FAMELABEL.
+SOURCEPLAYER потерял FAMELABEL.
+SOURCEPLAYER lost MONEYLABEL.
+SOURCEPLAYER потерял MONEYLABEL.
+SOURCEPLAYER stole FAMELABEL from OPPONENTPLAYER.
+SOURCEPLAYER украл FAMELABEL у OPPONENTPLAYER.
+SOURCEPLAYER stole MONEYLABEL from OPPONENTPLAYER.
+SOURCEPLAYER украл MONEYLABEL у OPPONENTPLAYER.
+SOURCEPLAYER stole FAMELABEL and MONEYLABEL from OPPONENTPLAYER.
+SOURCEPLAYER украл FAMELABEL и MONEYLABEL у OPPONENTPLAYER.
 CARDNAME leaves SOURCEPLAYER's club.
 CARDNAME покидает клуб SOURCEPLAYER.
 CARDNAME event is removed.
@@ -544,8 +544,8 @@ Living Art
 Живое искусство
 Gain 1 Fame when you play a Knot or Shibari Event.
 Получите 1 Славу, когда вы разыгрываете событие Узел или Шибари.
-SOURCEPLAYER gained AMOUNT fame from Living Art.
-SOURCEPLAYER получил AMOUNT fame от Living Art.
+SOURCEPLAYER gained FAMELABEL from Living Art.
+SOURCEPLAYER получил FAMELABEL от Living Art.
 Quack Doctor
 Врач-шарлатан
 Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)
@@ -554,8 +554,8 @@ Rope Slave
 Раб Узлов
 Gain 1 Money when you play a Knot or Shibari event.
 Получите 1 Денег, когда разыгрываете событие с Узлом или Шибари.
-SOURCEPLAYER gained AMOUNT money from Rope Slave.
-SOURCEPLAYER получил AMOUNT money от Rope Slave.
+SOURCEPLAYER gained MONEYLABEL from Rope Slave.
+SOURCEPLAYER получил MONEYLABEL от Rope Slave.
 Suki
 Suki
 +1 Fame per turn if at least one maid is present.
@@ -696,8 +696,8 @@ Burlington Bowtie
 Burlington Bowtie
 Gain 4 fame. Gain 2 fame per Sensei present.
 Получите 4 fame. Получите 2 fame за каждого Сенсея.
-SOURCEPLAYER gained AMOUNT Fame from Burlington Bowtie.
-SOURCEPLAYER получил AMOUNT Fame от Burlington Bowtie.
+SOURCEPLAYER gained FAMELABEL from Burlington Bowtie.
+SOURCEPLAYER получил FAMELABEL от Burlington Bowtie.
 Charity Auction
 Благотворительный аукцион
 Select and remove one member from your club, gain 1 Fame per building level.
@@ -736,8 +736,8 @@ Quick Release Knot
 Quick Release Knot
 Gain money equal to the number of knots in your streets plus 4. Shuffle this and all knots from your streets into your deck. 
 Получите money, равное количеству Узлов на ваших улицах плюс 4. Замешайте эту и все Узлы с ваших улиц в вашу колоду.
-SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
-SOURCEPLAYER получил AMOUNT Money от Quick Release Knot.
+SOURCEPLAYER gained MONEYLABEL from Quick Release Knot.
+SOURCEPLAYER получил MONEYLABEL от Quick Release Knot.
 Ransomware
 Вирус-Вымогатель
 Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
@@ -754,10 +754,10 @@ Square Knot
 Square Knot
 Your opponent loses 4 fame. If a Sensei is present, you gain 4 fame.
 Ваш соперник теряет 4 fame. Если у вас есть Сенсей, вы получаете 4 fame.
-OPPONENTPLAYER lost AMOUNT Fame from Square Knot.
-OPPONENTPLAYER потерял AMOUNT Fame от Square Knot.
-SOURCEPLAYER gained AMOUNT Fame from Square Knot
-SOURCEPLAYER получил AMOUNT Fame от Square Knot
+OPPONENTPLAYER lost FAMELABEL from Square Knot.
+OPPONENTPLAYER потерял FAMELABEL от Square Knot.
+SOURCEPLAYER gained FAMELABEL from Square Knot
+SOURCEPLAYER получил FAMELABEL от Square Knot
 Struggler's Knot
 Struggler's Knot
 Take another action.
@@ -840,8 +840,8 @@ Porn Convention
 Конвенция порноактрис
 For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn.
 В течение 3 ходов все игроки получают +3 Славы за каждую Порноактрису в своем клубе в конце хода.
-SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
-SOURCEPLAYER получает AMOUNT Fame от Конвенции Порно.
+SOURCEPLAYER gains FAMELABEL from the Porn Convention.
+SOURCEPLAYER получает FAMELABEL от Конвенции Порно.
 Sabotage
 Саботаж
 At the end of your opponent's next 3 turns: If the play action was taken, they randomly discard a card. If the draw action was taken, they lose 8 fame.
@@ -866,8 +866,8 @@ Jessica
 Джессика
 Pets treat your building level as 2 higher. When you play a pet, draw a card and gain 1 fame.
 Питомцы считают клуб на 2 уровня выше. При игре питомца: возьмите карту, +1 fame.
-SOURCEPLAYER gained AMOUNT fame from Jessica
-SOURCEPLAYER получил AMOUNT fame от Джессика.
+SOURCEPLAYER gained FAMELABEL from Jessica
+SOURCEPLAYER получил FAMELABEL от Джессика.
 MerMaid
 Русалка
 When she enters the club, lose 25 money. When she enters your club, draw a card and take another action.
@@ -910,8 +910,8 @@ Pet Trainer
 Дрессировщик
 When you play a pet you gain 2 fame. Gains +3 fame if show dog is present in your club.
 При игре питомца +2 fame. Если в клубе есть Шоу-Пес, в конце хода +3 fame.
-SOURCEPLAYER gained AMOUNT fame from Pet Trainer
-SOURCEPLAYER получил AMOUNT fame от Дрессировщика.
+SOURCEPLAYER gained FAMELABEL from Pet Trainer
+SOURCEPLAYER получил FAMELABEL от Дрессировщика.
 Show Dog
 Шоу-Пес
 When she enters the club, lose 15 money. Your opponent can see your hand as long as this member is in your club. 
@@ -920,14 +920,14 @@ Miss Mouse
 Мисс Мышь
 Costs 1 Money. When you play a pet, gain 1 Fame per 2 building tiers. Gains +1 Money if owner present.
 Вход: -1 money. При игре питомца +1 fame за каждые 2 уровня клуба. Если есть Хозяйка, в конце хода +1 money.
-SOURCEPLAYER gained AMOUNT fame from Miss Mouse
-SOURCEPLAYER получил AMOUNT fame от Мисс Мышь.
+SOURCEPLAYER gained FAMELABEL from Miss Mouse
+SOURCEPLAYER получил FAMELABEL от Мисс Мышь.
 Rich Owner
 Богатая Хозяйка
 Pets treat your building level as 1 higher. +1 Fame if a Maid is present. When a Pet enters, gain 1 Money per pet present (Max 5)
 Питомцы считают клуб на 1 уровень выше. В конце хода +1 fame с Горничной и +1 money за каждого питомца (макс. 5).
-SOURCEPLAYER gained AMOUNT money from Rich Owner
-SOURCEPLAYER получил AMOUNT money от Богатой Хозяйки.
+SOURCEPLAYER gained MONEYLABEL from Rich Owner
+SOURCEPLAYER получил MONEYLABEL от Богатой Хозяйки.
 Tour Guide
 Экскурсовод
 When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present.
@@ -974,8 +974,8 @@ Housekeeper
 Домработница
 When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level).
 Когда в клуб входит участник, не горничная, получите 1 Fame за каждого участника с таким же типом (Макс. = уровень клуба).
-SOURCEPLAYER gained AMOUNT fame from Housekeeper  
-SOURCEPLAYER получил AMOUNT fame от Домработницы 
+SOURCEPLAYER gained FAMELABEL from Housekeeper  
+SOURCEPLAYER получил FAMELABEL от Домработницы 
 Troublemaker
 Хулиганка
 Opponent loses 3 fame each time they upgrade unless they have a bouncer.

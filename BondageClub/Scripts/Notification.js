@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -104,7 +103,7 @@ class NotificationEventHandler {
 		if (data.chatRoomName) titleEnd = InterfaceTextGet("NotificationTitleFromRoom").replace("ChatRoomName", "'" + data.chatRoomName + "'");
 
 		// Define the (supported) options of the popup and create it
-		let title = titleStart + InterfaceTextGet("NotificationTitle" + this.eventType) + titleEnd;
+		let title = titleStart + InterfaceTextGet(`NotificationTitle${this.eventType}`) + titleEnd;
 		let options = {};
 		if ('silent' in Notification.prototype) options.silent = true;
 		if ('body' in Notification.prototype && data.body) options.body = data.body;
@@ -124,7 +123,7 @@ class NotificationEventHandler {
 				};
 			}
 		} catch (error) {
-			console.warn("Failed to create new Notification:\n", error);
+			console.error("Failed to create new Notification:\n", error);
 		}
 	}
 
@@ -250,11 +249,13 @@ function NotificationPopupsEnabled(eventType, data) {
 	} else if (Notification.permission === 'denied') {
 		return false;
 	} else if (Notification.permission === 'default') {
-		Notification.requestPermission().then(() => {
-			if (Notification.permission === "granted") {
-				NotificationRaise(eventType, data);
-			}
-		});
+		CommonPromiseCatch(
+			Notification.requestPermission().then(() => {
+				if (Notification.permission === "granted") {
+					NotificationRaise(eventType, data);
+				}
+			})
+		);
 		return false;
 	} else {
 		return false;
@@ -294,7 +295,8 @@ function NotificationDrawFavicon(resetingAll) {
 	if (totalRaisedCount > 0 && !resetingAll) {
 		// Draw the normal icon first
 		const iconLength = 75;
-		let IconCanvas = document.createElement("canvas").getContext("2d");
+		const IconCanvas = document.createElement("canvas").getContext("2d");
+		if (!IconCanvas) return;
 		IconCanvas.canvas.width = iconLength;
 		IconCanvas.canvas.height = iconLength;
 		DrawImageCanvas(iconUrl, IconCanvas, 0, 0);

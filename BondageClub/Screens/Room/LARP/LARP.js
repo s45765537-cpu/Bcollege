@@ -1,14 +1,13 @@
-// @ts-strict-ignore
 "use strict";
 var LARPBackground = "WrestlingRing";
-/** @type {null | NPCCharacter} */
-var LARPOrganiser = null;
+/** @type {NPCCharacter} */
+var LARPOrganiser = /** @type {never} */ (null);
 
 /**
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function LARPCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function LARPCanPlayClubCard() { return !Player.IsRestrained() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged(); }
 
 /**
  * Loads the LARP introduction room NPC
@@ -72,17 +71,17 @@ function LARPSelectClass(NewClass) {
  * @returns {void} - Nothing
  */
 function LARPClubCardStart() {
-	ClubCardOpponent = CurrentCharacter;
-	ClubCardOpponentDeck = ClubCardBuilderABDLDeck;
-	MiniGameStart("ClubCard", 0, "LARPClubCardEnd");
+	if (!CurrentCharacter) return;
+	ClubCardStart(CurrentCharacter, ClubCardBuilderABDLDeck, () => { LARPClubCardEnd(); });
 }
 
 /**
  * When the player ends a club card game
- * @returns {Promise<void>} - Nothing
+ * @returns {SafePromise<void>}
  */
 async function LARPClubCardEnd() {
 	await CommonSetScreen("Room", "LARP");
 	CharacterSetCurrent(LARPOrganiser);
+	if (!CurrentCharacter) return;
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

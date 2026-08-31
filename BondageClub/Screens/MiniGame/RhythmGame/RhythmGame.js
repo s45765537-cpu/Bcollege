@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var RhythmGameBackground = 'RhythmGameLoading';
 let RhythmGameBeatmap = '';
@@ -11,7 +10,7 @@ let RhythmGamePreloadCompleted = false;
 /**
  * Rhythm game initialization object: Handles pre and post loading, invokes initialization of other objects.
  * @constant
- * @type {object} - The game initialization object. Contains the functions required to load the game.
+ * The game initialization object. Contains the functions required to load the game.
  */
 let RhythmGameInit = {
 	RhythmGamePreload : function(){
@@ -29,7 +28,7 @@ let RhythmGameInit = {
 
 	RhythmGamePreloadCheck : function(){
 		RhythmGamePreloadCompleted = RhythmGameAudio.preloadComplted
-            && RhythmGameChart.preloadComplted
+            && RhythmGameChart.preloadCompleted
             && RhythmGameImage.preloadComplted;
 		if(RhythmGamePreloadCompleted) RhythmGameInit.RhythmGamePostLoad();
 	},
@@ -42,6 +41,9 @@ let RhythmGameInit = {
 		RhythmGameRender.load();
 		RhythmGameIntegration.load();
 
+		/**
+		 * @param {KeyboardEvent} event
+		 */
 		let pressToStart = function(event){
 			if(event.code === 'Space'){
 				RhythmGameBackground = 'RhythmGame';
@@ -83,17 +85,34 @@ let RhythmGameInit = {
 /**
  * Rhythm game image object: Loads and caches the image resources.
  * @constant
- * @type {object} - The game image object. Contains the functions required to load the images.
+ * The game image object. Contains the functions required to load the images.
  */
 let RhythmGameImage = {
-	preload : function () {
+	preloadTotal: 0,
+	preloadLoaded: 0,
+	preloadComplted: false,
+	/** @type {HTMLImageElement} */
+	stage_light: /** @type {never} */ (null),
+	/** @type {HTMLImageElement} */
+	key_black_up: /** @type {never} */ (null),
+	/** @type {HTMLImageElement} */
+	key_black_down: /** @type {never} */ (null),
+	/** @type {HTMLImageElement} */
+	key_white_up: /** @type {never} */ (null),
+	/** @type {HTMLImageElement} */
+	key_white_down: /** @type {never} */ (null),
+	preload: function () {
 		RhythmGameImage.preloadTotal = 5;
 		RhythmGameImage.preloadLoaded = 0;
 		RhythmGameImage.preloadComplted = false;
 		let loadImageComplete = function(){
 			RhythmGameImage.preloadLoaded++;
-			if(RhythmGameImage.preloadLoaded === RhythmGameImage.preloadTotal) RhythmGameImage.preloadComplted = true;
+			if (RhythmGameImage.preloadLoaded === RhythmGameImage.preloadTotal) RhythmGameImage.preloadComplted = true;
 		};
+		/**
+		 * @param {string} src
+		 * @returns
+		 */
 		let loadImage = function(src){
 			let img = new Image();
 			img.src = src;
@@ -111,9 +130,14 @@ let RhythmGameImage = {
 /**
  * Rhythm game audio object: Handles loading audio and starting the music
  * @constant
- * @type {object} - The game audio object. Contains the functions required to load, start and stop the audio files.
+ * The game audio object. Contains the functions required to load, start and stop the audio files.
  */
 let RhythmGameAudio =  {
+	preloadComplted: false,
+	/** @type {AudioContext | null} */
+	audioCtx: null,
+	/** @type {AudioBufferSourceNode | null} */
+	bufferSource: null,
 	preload : function () {
 		RhythmGameAudio.preloadComplted = false;
 		RhythmGameAudio.audioCtx = null;
@@ -123,38 +147,59 @@ let RhythmGameAudio =  {
 		mp3.onreadystatechange = function() {
 			if (mp3.readyState === 4 && mp3.status === 200) {
 				let audioData = mp3.response;
-				RhythmGameAudio.audioCtx = new window.AudioContext();
-				RhythmGameAudio.bufferSource = RhythmGameAudio.audioCtx.createBufferSource();
-				RhythmGameAudio.audioCtx.decodeAudioData(
-					audioData,
-					function(buffer) {
-						RhythmGameAudio.bufferSource.buffer = buffer;
-						RhythmGameAudio.bufferSource.connect(RhythmGameAudio.audioCtx.destination);
+				const ctx = RhythmGameAudio.audioCtx = new window.AudioContext();
+				const source = RhythmGameAudio.bufferSource = RhythmGameAudio.audioCtx.createBufferSource();
+				RhythmGameAudio.audioCtx.decodeAudioData(audioData)
+					.then((buffer) => {
+						source.buffer = buffer;
+						source.connect(ctx.destination);
 						RhythmGameAudio.preloadComplted = true;
-					},
-					function(){ console.log("Error with decoding audio data");});
+					}).catch(() => console.log("Error with decoding audio data"));
 			}
 		};
 		mp3.open("GET", url, true);
 		mp3.responseType = 'arraybuffer';
 		mp3.send();
 	},
-	play : function (offset) {
-		RhythmGameAudio.bufferSource.start(RhythmGameAudio.audioCtx.currentTime + offset);
+	/**
+	 * @param {number} offset
+	 */
+	play: function (offset) {
+		RhythmGameAudio.bufferSource?.start((RhythmGameAudio.audioCtx?.currentTime ?? 0) + offset);
 	},
-	stop : function (){
-		RhythmGameAudio.bufferSource.stop();
+	stop: function () {
+		RhythmGameAudio.bufferSource?.stop();
 	}
 };
 
 /**
  * Rhythm game chart object: Handles loading chart, parsing xml, caching chart for rendering and judging.
  * @constant
- * @type {object} - The game chart object. Contains the functions required to load the charts.
+ * The game chart object. Contains the functions required to load the charts.
  */
 let RhythmGameChart = {
-	preload : function () {
-		RhythmGameChart.preloadComplted = false;
+	preloadCompleted: false,
+	/** @type {Document | null} */
+	chartFile: null,
+	title: "",
+	artist: "",
+	creator: "",
+	bpm: 0,
+	length: 0,
+	/** @type {{id: number, key: number, time: number, para: number}[]} */
+	notes: [],
+	/** @type {{id: number, judge: string}[]} */
+	notes_state: [],
+	/** @type {{id: number, time: number, para: number}[][]} */
+	notes_judge: [[],[],[],[]],
+	/** @type {{id: number, time: number, para: number}[][]} */
+	notes_render: [[],[],[],[]],
+	/** @type {{id: number, time: number, data: number}[]} */
+	timestamps: [],
+	/** @type {{id: number, time: number, data: number}[]} */
+	timestamps_render: [],
+	preload: function () {
+		RhythmGameChart.preloadCompleted = false;
 		RhythmGameChart.chartFile = null;
 		let url = 'Screens/MiniGame/RhythmGame/res/beatmap/' + RhythmGameBeatmap + '/' + RhythmGameBeatmap + '-' + RhythmGameDifficulty + '.xml';
 
@@ -162,7 +207,7 @@ let RhythmGameChart = {
 		xml.onreadystatechange = function() {
 			if (xml.readyState === 4 && xml.status === 200) {
 				RhythmGameChart.chartFile = xml.responseXML;
-				RhythmGameChart.preloadComplted = true;
+				RhythmGameChart.preloadCompleted = true;
 			}
 		};
 		xml.open("GET", url, true);
@@ -183,11 +228,11 @@ let RhythmGameChart = {
 		RhythmGameChart.timestamps = []; //{id, time, data}
 		RhythmGameChart.timestamps_render = []; //{id, time, data}
 
-		let notes = RhythmGameChart.chartFile.getElementsByTagName('Notes')[0].children;
+		let notes = RhythmGameChart.chartFile?.getElementsByTagName('Notes')[0].children ?? [];
 		for(let i=0; i<notes.length; i++){
-			let key = parseInt(notes[i].getAttribute('Key'), 10);
-			let time = parseInt(notes[i].getAttribute('Time'), 10);
-			let para = parseInt(notes[i].getAttribute('Para'), 10);
+			let key = parseInt(notes[i].getAttribute('Key') ?? 0, 10);
+			let time = parseInt(notes[i].getAttribute('Time') ?? 0, 10);
+			let para = parseInt(notes[i].getAttribute('Para') ?? 0, 10);
 			RhythmGameChart.notes.push({
 				id : i,
 				key : key,
@@ -211,11 +256,11 @@ let RhythmGameChart = {
 			if(time + para > RhythmGameChart.length) RhythmGameChart.length = time + para;
 		}
 
-		let timings = RhythmGameChart.chartFile.getElementsByTagName('Timings')[0].children;
+		let timings = RhythmGameChart.chartFile?.getElementsByTagName('Timings')[0].children ?? [];
 		for(let i=0; i<timings.length; i++){
 			let type = timings[i].getAttribute('Type');
-			let time = parseInt(timings[i].getAttribute('Time'), 10);
-			let data = parseFloat(timings[i].getAttribute('Data'));
+			let time = parseInt(timings[i].getAttribute('Time') ?? 0, 10);
+			let data = parseFloat(timings[i].getAttribute('Data') ?? "");
 			if(RhythmGameChart.bpm === -1 && type === 'BPM'){
 				RhythmGameChart.bpm = data;
 			}
@@ -239,12 +284,13 @@ let RhythmGameChart = {
 /**
  * Rhythm game keyboard input handler object: Handles keyboard inputs.
  * @constant
- * @type {object} - The game keyboard input handler object. Contains the functions and properties required to handle key press events.
+ * The game keyboard input handler object. Contains the functions and properties required to handle key press events.
  */
 let RhythmGameKey = {
-	keyPressed : [false, false, false, false],
-	key_log : [], //{key,type,time}
-	key_log_ref : [], //{key,type,time}
+	keyPressed: [false, false, false, false],
+	/** @type {{ key: 0 | 1 | 2 | 3, type: "up" | "down", time: number }[]} */
+	key_log: [], //{key,type,time}
+	key_log_ref: [], //{key,type,time}
 
 	KEY_0 : 'KeyS',
 	KEY_1 : 'KeyD',
@@ -267,8 +313,12 @@ let RhythmGameKey = {
 		window.removeEventListener('keydown', RhythmGameKey.keyDownEvent);
 		window.removeEventListener('keyup', RhythmGameKey.keyUpEvent);
 	},
-	keyDownEvent : {
-		handleEvent : function (event) {
+	keyDownEvent: {
+		/**
+		 *
+		 * @param {KeyboardEvent} event
+		 */
+		handleEvent: function (event) {
 			let time = performance.now() - RhythmGameKernel.initTime;
 			switch(event.code){
 				case RhythmGameKey.KEY_0:
@@ -298,8 +348,12 @@ let RhythmGameKey = {
 			}
 		}
 	},
-	keyUpEvent : {
-		handleEvent : function (event) {
+	keyUpEvent: {
+		/**
+		 *
+		 * @param {KeyboardEvent} event
+		 */
+		handleEvent: function (event) {
 			let time = performance.now() - RhythmGameKernel.initTime;
 			switch(event.code){
 				case RhythmGameKey.KEY_0:
@@ -327,9 +381,17 @@ let RhythmGameKey = {
 /**
  * Rhythm game kernel object: Handles game timing.
  * @constant
- * @type {object} - The game kernel object. Contains the functions required to handle the game's timing.
+ * The game kernel object. Contains the functions required to handle the game's timing.
  */
 let RhythmGameKernel = {
+	offsetTime: 0,
+	onFirstInvoke: false,
+	pastTime: 0,
+	currentTime: 0,
+	initTime: 0,
+	elapsedTime: 0,
+	deltaTime: 0,
+	frame: 0,
 	load : function(){
 		RhythmGameKernel.offsetTime = 3000;
 
@@ -369,7 +431,7 @@ let RhythmGameKernel = {
 /**
  * Rhythm game script object: Handles game mechanics.
  * @constant
- * @type {object} - The game kernel object. Contains the functions related to game mechanics such as health, score and accuracy.
+ * The game kernel object. Contains the functions related to game mechanics such as health, score and accuracy.
  */
 let RhythmGameScript = {
 	judge_perfect : 50,
@@ -379,7 +441,9 @@ let RhythmGameScript = {
 
 	score  : 0,
 	acc    : {value : 0, perfect : 0, great : 0, miss : 0, endMiss : 0},
+	/** @type {{ value: number, rendered: boolean, max: number, startFrame?: number, frame?: number }} */
 	combo  : {value : 0, rendered : false, max : 0},
+	/** @type {{ judge: string, key: number, para: number }[]} */
 	judge  : [],
 	health : 1,
 
@@ -430,7 +494,9 @@ let RhythmGameScript = {
 			if(timeDiff <= RhythmGameScript.judge_miss){
 				if(note.para === 0){//Single Note
 					if(keyEvent.type === 'down'){
-						RhythmGameScript.setJudge(note.id, RhythmGameScript.judgeType(timeDiff));
+						const j = RhythmGameScript.judgeType(timeDiff);
+						if (j !== undefined)
+							RhythmGameScript.setJudge(note.id, j);
 					}
 					else if(keyEvent.type === 'up'){
 						RhythmGameChart.notes_judge[keyEvent.key].shift();
@@ -438,7 +504,9 @@ let RhythmGameScript = {
 				}
 				else{//Long Note
 					if(keyEvent.type === 'down') {
-						RhythmGameScript.setJudge(note.id, RhythmGameScript.judgeType(timeDiff));
+						const j = RhythmGameScript.judgeType(timeDiff);
+						if (j !== undefined)
+							RhythmGameScript.setJudge(note.id, j);
 					}
 					else if(keyEvent.type === 'up'){
 						if(timeDiff + note.para > RhythmGameScript.judge_end) {
@@ -453,14 +521,22 @@ let RhythmGameScript = {
 			RhythmGameKey.key_log.shift();
 		}
 	},
-	setJudge : function(noteID, judge){
+	/**
+	 * @param {number} noteID
+	 * @param {string} judge
+	 */
+	setJudge: function(noteID, judge){
 		RhythmGameChart.notes_state[noteID].judge = judge;
 		RhythmGameScript.judge.push({
-			judge : judge,
-			key : RhythmGameChart.notes[noteID].key,
-			para : RhythmGameChart.notes[noteID].para,
+			judge: judge,
+			key: RhythmGameChart.notes[noteID].key,
+			para: RhythmGameChart.notes[noteID].para,
 		});
 	},
+	/**
+	 * @param {number} timeDiff
+	 * @returns
+	 */
 	judgeType : function (timeDiff) {
 		if(       RhythmGameScript.judge_great   <= timeDiff && timeDiff <=  RhythmGameScript.judge_miss    ) return 'early miss';
 		else if(  RhythmGameScript.judge_perfect <= timeDiff && timeDiff <=  RhythmGameScript.judge_great   ) return 'early great';
@@ -470,6 +546,9 @@ let RhythmGameScript = {
 		else if(                                                timeDiff <= -RhythmGameScript.judge_great   ) return 'late miss';
 		// else return 'unhandled';
 	},
+	/**
+	 * @param {string} judge
+	 */
 	judgeToVal : function(judge){
 		if(judge === 'early miss' || judge === 'late miss') return 0;
 		else if(judge === 'end miss') return 1;
@@ -562,12 +641,14 @@ let RhythmGameScript = {
 /**
  * Rhythm game render object: Handles game rendering.
  * @constant
- * @type {object} - The game render object. Contains the functions related to game rendering such as the visual effects and notes.
+ * The game render object. Contains the functions related to game rendering such as the visual effects and notes.
  */
 let RhythmGameRender = {
 	scrollSpeed : 2.1,
 
+	/** @type {{ val: number, startFrame?: number }} */
 	cache_judge     : {val : 4},
+	/** @type {{judge: number, para?: number, startFrame?: number, frame?: number }[]} */
 	cache_hitEffect : [{judge :0},{judge :0},{judge :0},{judge :0}],
 	cache_sv        : {startFrame : 0, endFrame : 0, startSpeed : 0, endSpeed : 0},
 
@@ -624,7 +705,7 @@ let RhythmGameRender = {
 
 			if(obj.para === 0){
 				let maxFrame = 10;
-				obj.frame = RhythmGameKernel.frame - obj.startFrame;
+				obj.frame = RhythmGameKernel.frame - (obj.startFrame ?? RhythmGameKernel.frame);
 				if(obj.frame > maxFrame) continue;
 
 				let frame = maxFrame - obj.frame;
@@ -642,8 +723,8 @@ let RhythmGameRender = {
 				MainCanvas.closePath();
 			}
 			else{
-				let totalFrame = Math.round(obj.para/TimerRunInterval);
-				obj.frame = RhythmGameKernel.frame - obj.startFrame;
+				let totalFrame = Math.round((obj.para ?? 0)/TimerRunInterval);
+				obj.frame = RhythmGameKernel.frame - (obj.startFrame ?? RhythmGameKernel.frame);
 				if(obj.frame > totalFrame) continue;
 
 				let maxFrame = 10;
@@ -668,7 +749,8 @@ let RhythmGameRender = {
 		let renderTimeBot = RhythmGameKernel.elapsedTime;
 		let renderTimeTop = renderTimeBot + 1000/RhythmGameRender.scrollSpeed;
 
-		for(let k=0; k<4 ;k++){
+		for(let k_raw = 0; k_raw < 4; k_raw++) {
+			const k = /** @type {0 | 1 | 2 | 3} */ (k_raw);
 			for(let i = 0; i < RhythmGameChart.notes_render[k].length;){
 				let note = RhythmGameChart.notes_render[k][i];
 				if(note.time > renderTimeTop) break;
@@ -701,6 +783,11 @@ let RhythmGameRender = {
 			}
 		}
 	},
+	/**
+	 * @param {0 | 1 | 2 | 3} key
+	 * @param {number} y
+	 * @param {string} judge
+	 */
 	drawSingleNote : function(key, y, judge){
 		if(RhythmGameScript.judgeToVal(judge) !== 0){
 			switch(key){
@@ -723,6 +810,13 @@ let RhythmGameRender = {
 			}
 		}
 	},
+	/**
+	 *
+	 * @param {0 | 1 | 2 | 3} key
+	 * @param {number} y
+	 * @param {number} h
+	 * @param {string} judge
+	 */
 	drawLongNote : function(key, y, h, judge){
 		let c_green = '';
 		let c_purple = '';
@@ -788,15 +882,19 @@ let RhythmGameRender = {
 		RhythmGameRender.judgeRender(RhythmGameRender.cache_judge);
 
 	},
+	/**
+	 *
+	 * @param {{ startFrame?: number, frame?: number, val: number }} obj
+	 */
 	judgeRender : function(obj){
 		let maxFrame = 15;
-		obj.frame = RhythmGameKernel.frame - obj.startFrame;
+		obj.frame = RhythmGameKernel.frame - (obj.startFrame ?? 0);
 		if(obj.frame > maxFrame) return;
 
 		let text, font, fill, opacity, x, y;
 		let frame = maxFrame - obj.frame;
 		let step = 10 * frame / maxFrame;
-		switch(obj.val){
+		switch(obj.val) {
 			case 0:
 				text = 'MISS';
 				font = '70px Courier';
@@ -840,23 +938,22 @@ let RhythmGameRender = {
 	},
 
 	showCombo : function(){
-		if(!RhythmGameScript.combo.rendered){
-			RhythmGameScript.combo.startFrame = RhythmGameKernel.frame;
-			RhythmGameScript.combo.rendered = true;
+		const combo = RhythmGameScript.combo;
+		if (!combo.rendered) {
+			combo.startFrame = RhythmGameKernel.frame;
+			combo.rendered = true;
 		}
 
 		let maxFrame = 15;
-		RhythmGameScript.combo.frame = RhythmGameKernel.frame - RhythmGameScript.combo.startFrame;
-		let frame = maxFrame - RhythmGameScript.combo.frame >= 0 ? maxFrame - RhythmGameScript.combo.frame : 0;
+		combo.frame = RhythmGameKernel.frame - (combo.startFrame ?? 0);
+		let frame = maxFrame - combo.frame >= 0 ? maxFrame - combo.frame : 0;
 		let step = 10 * frame / maxFrame;
-
-		let text = RhythmGameScript.combo.value;
 
 		MainCanvas.font = '80px Courier';
 		MainCanvas.fillStyle = '#9F9F9F';
 		MainCanvas.globalAlpha = 1 - 0.09 * step;
 		MainCanvas.textAlign = 'center';
-		MainCanvas.fillText(text,1000,200);
+		MainCanvas.fillText(`${combo.value}`,1000,200);
 	},
 
 	showAcc : function(){
@@ -916,7 +1013,7 @@ let RhythmGameRender = {
 /**
  * Rhythm game integration object: Handles bondage club specific functions.
  * @constant
- * @type {object} - The game integration object. Contains the functions related to handling functions from the club such as punishing the player for being inaccurate.
+ * The game integration object. Contains the functions related to handling functions from the club such as punishing the player for being inaccurate.
  */
 let RhythmGameIntegration = {
 	punishment_level : 0,

@@ -1,7 +1,9 @@
 "use strict";
-/** @type {string[][]} */
-// @ts-ignore Strict-TS: Lying here because that's loaded by Login
-var ActivityDictionary = null;
+/**
+ * @type {string[][]}
+ * @deprecated
+ */
+var ActivityDictionary = [];
 var ActivityOrgasmGameButtonX = 0;
 var ActivityOrgasmGameButtonY = 0;
 var ActivityOrgasmGameProgress = 0;
@@ -11,7 +13,10 @@ var ActivityOrgasmGameTimer = 0;
 var ActivityOrgasmResistLabel = "";
 var ActivityOrgasmRuined = false; // If set to true, the orgasm will be ruined right before it happens
 
-/** @type { (() => void) | undefined } */
+/**
+ * @type { (() => void) | undefined }
+ * @deprecated
+ */
 let ActivityTranslateResolve = undefined;
 
 let ActivityDebug = false;
@@ -36,55 +41,18 @@ function ActivityAllowed() {
 
 /**
  * Loads the activity dictionary that will be used throughout the game to output messages. Loads from cache first if possible.
- * @return {void} - Nothing
+ * @return {TextCache} - The activity dictionary
  */
 function ActivityDictionaryLoad() {
-
-	// Tries to read it from cache first
-	var FullPath = "Screens/Character/Preference/ActivityDictionary.csv";
-	var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
-
-	if (CommonCSVCache[FullPath]) {
-		ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
-	} else {
-		// Opens the file, parse it and returns the result in an object
-		CommonGet(FullPath, function () {
-			if (this.status == 200) {
-				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-				ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
-				ActivityTranslateResolve?.();
-			}
-		});
-	}
-
-	// If a translation file is available, we open the txt file and keep it in cache
-	if (TranslationAvailable(TranslationPath))
-		CommonGet(TranslationPath, function () {
-			if (this.status == 200) {
-				TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
-				ActivityTranslate(TranslationPath);
-			}
-		});
+	return TextPrefetchFile(ScreenFileGetPath("ActivityDictionary.csv", "Character", "Preference"));
 }
 
 /**
  * Translates the activity dictionary.
  * @param {string} CachePath - Path to the language cache.
+ * @deprecated
  */
 function ActivityTranslate(CachePath) {
-	if (!Array.isArray(TranslationCache[CachePath])) return;
-	const DoTranslate = () => {
-		for (let T = 0; T < ActivityDictionary.length; T++) {
-			if (ActivityDictionary[T][1]) {
-				let indexText = TranslationCache[CachePath].indexOf(ActivityDictionary[T][1].trim());
-				if (indexText >= 0) {
-					ActivityDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
-				}
-			}
-		}
-	};
-	if(ActivityDictionary) DoTranslate();
-	else ActivityTranslateResolve = DoTranslate;
 }
 
 /**
@@ -93,10 +61,7 @@ function ActivityTranslate(CachePath) {
  * @returns {string} - Description associated to the given keyword
  */
 function ActivityDictionaryText(KeyWord) {
-	for (let D = 0; D < ActivityDictionary.length; D++)
-		if (ActivityDictionary[D][0] == KeyWord)
-			return ActivityDictionary[D][1].trim();
-	return "MISSING ACTIVITY DESCRIPTION FOR KEYWORD " + KeyWord;
+	return TextGetInScope(ScreenFileGetPath("ActivityDictionary.csv", "Character", "Preference"), KeyWord);
 }
 
 /**
@@ -746,57 +711,61 @@ function ActivityOrgasmPrepare(C, Bypass) {
  * @returns {void} - Nothing
  */
 function ActivityExpression(C, Progress) {
+	let refresh = false;
+
+	/** @type {Partial<ExpressionNameMap>} */
+	const expressions = {
+		Blush: null,
+		Eyebrows: null,
+		Fluids: null,
+		Eyes: null,
+		Eyes2: null,
+		Pussy: null,
+	};
 
 	// Floors the progress to the nearest 10 to pick the expression
 	Progress = Math.floor(Progress / 10) * 10;
 
 	// The blushes goes to red progressively
-	/** @type {null | ExpressionNameMap["Blush"]} */
-	var Blush = null;
-	if ((Progress == 10) || (Progress == 30) || (Progress == 50) || (Progress == 70)) Blush = "Low";
-	if ((Progress == 60) || (Progress == 80) || (Progress == 90)) Blush = "Medium";
-	if (Progress == 100) Blush = "High";
+	if ((Progress == 10) || (Progress == 30) || (Progress == 50) || (Progress == 70)) expressions.Blush = "Low";
+	if ((Progress == 60) || (Progress == 80) || (Progress == 90)) expressions.Blush = "Medium";
+	if (Progress == 100) expressions.Blush = "High";
 
 	// The eyebrows position changes
-	/** @type {null | ExpressionNameMap["Eyebrows"]} */
-	var Eyebrows = null;
-	if ((Progress == 20) || (Progress == 30)) Eyebrows = "Raised";
-	if ((Progress == 50) || (Progress == 60)) Eyebrows = "Lowered";
-	if ((Progress == 80) || (Progress == 90)) Eyebrows = "Soft";
+	if ((Progress == 20) || (Progress == 30)) expressions.Eyebrows = "Raised";
+	if ((Progress == 50) || (Progress == 60)) expressions.Eyebrows = "Lowered";
+	if ((Progress == 80) || (Progress == 90)) expressions.Eyebrows = "Soft";
 
 	// Drool can activate at a few stages
-	/** @type {null | ExpressionNameMap["Fluids"]} */
-	var Fluids = null;
-	if ((Progress == 40) || (C.ArousalSettings.Progress == 70)) Fluids = "DroolLow";
-	if (Progress == 100) Fluids = "DroolMedium";
+	if ((Progress == 40) || (C.ArousalSettings.Progress == 70)) expressions.Fluids = "DroolLow";
+	if (Progress == 100) expressions.Fluids = "DroolMedium";
 
 	// Eyes can activate at a few stages
-	/** @type {null | ExpressionNameMap["Eyes"]} */
-	var Eyes = null;
-	if (Progress == 20) Eyes = "Dazed";
-	if (Progress == 70) Eyes = "Horny";
-	if (Progress == 90) Eyes = "Surprised";
-	if (Progress == 100) Eyes = "Closed";
-
-	// Find the expression in the character appearance and alters it
-	for (let A = 0; A < C.Appearance.length; A++) {
-		if (C.Appearance[A].Asset.Group.Name == "Blush") C.Appearance[A].Property = { Expression: Blush };
-		if (C.Appearance[A].Asset.Group.Name == "Eyebrows") C.Appearance[A].Property = { Expression: Eyebrows };
-		if (C.Appearance[A].Asset.Group.Name == "Fluids") C.Appearance[A].Property = { Expression: Fluids };
-		if (C.Appearance[A].Asset.Group.Name == "Eyes") C.Appearance[A].Property = { Expression: Eyes };
-		if (C.Appearance[A].Asset.Group.Name == "Eyes2") C.Appearance[A].Property = { Expression: Eyes };
-	}
+	if (Progress == 20) expressions.Eyes = "Dazed";
+	if (Progress == 70) expressions.Eyes = "Horny";
+	if (Progress == 90) expressions.Eyes = "Surprised";
+	if (Progress == 100) expressions.Eyes = "Closed";
 
 	// Penis gets hard at arousal 30+
-	let Penis = InventoryGet(C, "Pussy");
-	if ((Penis != null) && (Penis.Asset != null) && (Penis.Asset.Name == "Penis")) {
-		if (Progress < 30) Penis.Property = { Expression: null };
-		else Penis.Property = { Expression: "Hard" };
+	if (InventoryGet(C, "Pussy")?.Asset.Name === "Penis") {
+		expressions.Pussy = Progress < 30 ? null : "Hard"; // Male and female genitals both use the `Pussy` group
+	}
+
+	// Find the expression in the character appearance and alters it
+	/** @type {Partial<Record<AssetGroupName, ExpressionName>>} */
+	const expressionsSuperType = expressions;
+	for (const item of C.Appearance) {
+		const expression = expressionsSuperType[item.Asset.Group.Name];
+		if (expression !== undefined && item.Property.Expression !== expression) {
+			item.Property.Expression = expression;
+			refresh = true;
+		}
 	}
 
 	// Refreshes the character
-	CharacterRefresh(C, false);
-
+	if (refresh) {
+		CharacterRefresh(C, false);
+	}
 }
 
 /**

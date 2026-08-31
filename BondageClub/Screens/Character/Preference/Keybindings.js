@@ -3,8 +3,8 @@
 var KeyGUI = {
 	/** @type {Keybindings.Keybinding['id'] | null} */
 	selectedAction: null,
-	/** @type {readonly Set<KeybindingScreen.FilteringMode>} */
-	searchingModes: new Set(['keyCombo', 'action', 'category']),
+	/** @type {ReadonlySet<KeybindingScreen.FilteringMode>} */
+	searchingModes: new Set(/** @type {const} */(['keyCombo', 'action', 'category'])),
 	/** @type {KeybindingScreen.FilteringMode} */
 	currentSearchingMode: 'keyCombo',
 	/** @type {boolean} */
@@ -555,6 +555,7 @@ function PreferenceSubscreenKeybindingsLoad() {
 function PreferenceSubscreenKeybindingsRun() {
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenKeybindingsResize() {
 	ElementPositionFixed(KeyGUI.selec.mainContent, 100, 175, 1800, 775);
 	const modal = ElementWrap(KeyGUI.selec.keybindModal);

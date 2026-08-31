@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -109,7 +108,7 @@ function TextItemCreateTextItemData(asset, {
 		key,
 		name,
 		maxLength: MaxLength,
-		font: typeof Font === "string" ? Font : null,
+		font: typeof Font === "string" ? Font : undefined,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,
 		dialogPrefix: {
@@ -160,7 +159,7 @@ const TextItem = {
 			if (!(typeof textProperty === "string" && DynamicDrawTextRegex.test(textProperty))) {
 				item.Property[field] = baselineProperty[field];
 				changed = true;
-			} else if (textProperty.length > length) {
+			} else if (textProperty.length > (length ?? 0)) {
 				item.Property[field] = textProperty.slice(0, textProperty.length);
 				changed = true;
 			}
@@ -187,6 +186,7 @@ const TextItem = {
 		const { asset, eventListeners, maxLength } = data;
 		const item = (asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
 		const C = CharacterGetCurrent();
+		if (!C || !item) return;
 
 		// Lock the UI if the validation fails (_e.g._ when the item is locked)
 		const { newOption, previousOption } = TextItemConstructOptions(data, item);
@@ -200,16 +200,17 @@ const TextItem = {
 		for (const [name, length] of CommonEntries(maxLength)) {
 			const ID = PropertyGetID(name, item);
 			if (!PropertyOriginalValue.has(ID)) {
-				PropertyOriginalValue.set(ID, item.Property[name]);
+				PropertyOriginalValue.set(ID, item.Property?.[name]);
 			}
 
-			const textInput = ElementCreateInput(ID, "text", item.Property[name], length);
+			const textInput = ElementCreateInput(ID, "text", item.Property?.[name], length);
 			if (textInput) {
 				const callback = eventListeners[name];
 				textInput.pattern = DynamicDrawTextInputPattern;
 				textInput.addEventListener("input", (e) => {
 					const innerItem = (asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
-					callback(C, innerItem, name, /** @type {HTMLInputElement} */ (e.target).value);
+					if (!innerItem) return;
+					callback?.(C, innerItem, name, /** @type {HTMLInputElement} */ (e.target).value);
 				});
 				if (disabled) {
 					textInput.setAttribute("disabled", true);
@@ -232,6 +233,7 @@ const TextItem = {
 		}
 
 		const item = (asset.IsLock) ? DialogFocusSourceItem : DialogFocusItem;
+		if (!item) return;
 		const offset = ExtendedItemGetOffset();
 		const elementData = drawData.elementData.slice(offset, offset + drawData.itemsPerPage);
 		elementData.forEach(({ position }, i) => {
@@ -247,15 +249,17 @@ const TextItem = {
 	 * @param {boolean} publishAction - Whether
 	 */
 	Exit: function (data, publishAction=true) {
+		const C = CharacterGetCurrent();
+		const item = DialogFocusItem;
+		if (!C || !item) return;
 		if (publishAction) {
-			const C = CharacterGetCurrent();
-			const { newOption, previousOption } = TextItemConstructOptions(data, DialogFocusItem);
-			const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
+			const { newOption, previousOption } = TextItemConstructOptions(data, item);
+			const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, item, newOption, previousOption);
 			if (requirementMessage) {
-				TextItemPropertyRevert(data, DialogFocusItem);
+				TextItemPropertyRevert(data, item);
 			} else {
 				/** @type {Parameters<ExtendedItemCallbacks.PublishAction<TextItemOption>>} */
-				const args = [C, DialogFocusItem, newOption, previousOption];
+				const args = [C, item, newOption, previousOption];
 				CommonCallFunctionByNameWarn(`${data.functionPrefix}PublishAction`, ...args);
 				if (data.pushOnPublish) {
 					CharacterRefresh(C, true, false);
@@ -265,7 +269,7 @@ const TextItem = {
 		}
 
 		for (const name of data.textNames) {
-			const ID = PropertyGetID(name, DialogFocusItem);
+			const ID = PropertyGetID(name, item);
 			ElementRemove(ID);
 			PropertyOriginalValue.delete(ID);
 		}
@@ -335,9 +339,10 @@ const TextItem = {
 			const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
 			TextItem.Init(data, C, CA, false, false);
-			const text = CA.Property.Text;
+			const text = CA.Property?.Text ?? "";
 
 			let ctx = TempCanvas.getContext("2d");
+			if (!ctx) return;
 
 			DynamicDrawText(text, ctx, Width / 2, Height / 2, {
 				fontFamily: data.font,
@@ -380,9 +385,10 @@ const TextItem = {
 			const TempCanvas = AnimationGenerateTempCanvas(C, A, Width, Height);
 
 			TextItem.Init(data, C, CA, false, false);
-			const text = CA.Property.Text;
+			const text = CA.Property?.Text ?? "";
 
 			let ctx = TempCanvas.getContext("2d");
+			if (!ctx) return;
 
 			DynamicDrawTextArc(text, ctx, Width / 2, Height / 2, {
 				fontFamily: data.font,
@@ -405,6 +411,7 @@ const TextItem = {
  */
 const TextItemChange = CommonLimitFunction((C, item, name, text) => {
 	if (DynamicDrawTextRegex.test(text)) {
+		item.Property ??= {};
 		item.Property[name] = text;
 		CharacterLoadCanvas(C);
 	}
@@ -416,6 +423,7 @@ const TextItemChange = CommonLimitFunction((C, item, name, text) => {
  */
 const TextItemChangeNoCanvas = CommonLimitFunction((C, item, name, text) => {
 	if (DynamicDrawTextRegex.test(text)) {
+		item.Property ??= {};
 		item.Property[name] = text;
 	}
 });
@@ -434,7 +442,7 @@ function TextItemConstructOptions(data, item) {
 	for (const name of data.textNames) {
 		const ID = PropertyGetID(name, item);
 		previousOption.Property[name] = PropertyOriginalValue.get(ID);
-		newOption.Property[name] = item.Property[name];
+		newOption.Property[name] = item.Property?.[name];
 	}
 	return { newOption, previousOption };
 }
@@ -445,6 +453,7 @@ function TextItemConstructOptions(data, item) {
  * @param {Item} item - The item in question
  */
 function TextItemPropertyRevert({ textNames }, item) {
+	item.Property ??= {};
 	for (const name of textNames) {
 		const ID = PropertyGetID(name, item);
 		item.Property[name] = PropertyOriginalValue.get(ID);

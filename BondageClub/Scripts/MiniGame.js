@@ -8,7 +8,8 @@ var MiniGameDifficulty = 0;
 var MiniGameDifficultyMode = "";
 var MiniGameDifficultyRatio = 1;
 var MiniGameAdvancedPayment = 0;
-var MiniGameReturnFunction = "";
+/** @type {string | (() => void) | null} */
+var MiniGameReturnFunction = null;
 var MiniGameProgress = -1;
 var MiniGameTimer = 0;
 var MiniGameStarted = false;
@@ -27,8 +28,8 @@ async function MiniGameLoad() {
  * Starts a given mini game at a set difficulty and keeps
  * @param {ModuleScreens["MiniGame"]} GameType - Name of the mini-game to launch
  * @param {number|string} Difficulty - Difficulty Ration for the mini-game
- * @param {string} ReturnFunction - Callback name to execute once the mini-game is over
- * @returns {Promise<void>} - Nothing
+ * @param {(() => void)} ReturnFunction - Callback name to execute once the mini-game is over
+ * @returns {SafePromise<void>} - Nothing
  */
 async function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 	MiniGameType = GameType;
@@ -57,7 +58,12 @@ async function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 }
 
 function MiniGameEnd() {
-	CommonDynamicFunction(MiniGameReturnFunction + "()");
+	if (typeof MiniGameReturnFunction === "string") {
+		CommonDynamicFunction(MiniGameReturnFunction + "()");
+	} else if (typeof MiniGameReturnFunction === "function") {
+		MiniGameReturnFunction();
+	}
+	MiniGameReturnFunction = null;
 }
 
 /**

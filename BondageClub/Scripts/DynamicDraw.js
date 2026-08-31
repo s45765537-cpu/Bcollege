@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -12,7 +11,7 @@
  * @type {object}
  * @property {number} [fontSize] - The target font size. Note that if space is constrained, the actual drawn font size will be reduced
  * automatically to fit. Defaults to 30px.
- * @property {string | null} [fontFamily] - The desired font family to draw text in. This can be a single font name, or a full CSS font stack
+ * @property {string} [fontFamily] - The desired font family to draw text in. This can be a single font name, or a full CSS font stack
  * (e.g. "'Helvetica', 'Arial', sans-serif"). Defaults to the player's chosen global font.
  * @property {CanvasTextAlign} [textAlign] - The text alignment to use. Can be any valid
  * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/text-align text alignment}. Not applicable to the {@link DynamicDrawTextArc}
@@ -63,23 +62,34 @@
  */
 
 /**
- * A common regex that can be used to check whether a given string is permitted for dynamic drawing (the character limitations are primarily
- * to restrict the use of control characters and unicode characters that would cause odd behavior).
+ * A common regex that can be used to check whether a given string is permitted for dynamic drawing.
+ *
+ * This is an *allowlist* (not a blocklist): it accepts Unicode letters (`\p{L}`) and numbers (`\p{N}`) so that scripts such
+ * as Chinese, Japanese, Korean, Cyrillic, Greek and accented (precomposed) Latin can be drawn, plus the legacy ASCII
+ * punctuation set (`_ ~!$#%*+` and the space). Because it is an allowlist, every other Unicode category is rejected by
+ * construction - in particular control characters (`\p{Cc}`), format characters (`\p{Cf}`, which covers bidirectional
+ * overrides such as U+202E and zero-width/invisible characters), private-use and surrogate code points, separators other
+ * than the literal space, symbols/emoji, and combining marks (`\p{M}`, the source of "Zalgo" rendering overflow). Keeping
+ * these out is what prevents hostile or malformed text - which reaches us from other players via the server - from causing
+ * odd rendering or visual spoofing when drawn onto a canvas.
  * @type {RegExp}
  */
-const DynamicDrawTextRegex = /^(?:\w|[ ~!$#%*+])*$/;
+const DynamicDrawTextRegex = /^[\p{L}\p{N}_ ~!$#%*+]*$/u;
 
 /**
- * A regex pattern that can be attached to HTML input elements to check for validity - matches the DynamicDrawTextRegex
+ * A regex pattern that can be attached to HTML input elements to check for validity - matches the {@link DynamicDrawTextRegex}.
+ * Note that this only drives the browser's native form-validity UI; the authoritative check is always {@link DynamicDrawTextRegex}.
  * @type {string}
  */
-const DynamicDrawTextInputPattern = "(?:\\w|[ ~!$#%*+])*";
+const DynamicDrawTextInputPattern = "[\\p{L}\\p{N}_ ~!$#%*+]*";
 
 /**
- * An array of valid printable characters that are permitted for dynamic drawing (used internally for text measurement purposes)
+ * An array of ASCII printable characters whose widths are pre-measured for each font (used internally for arc text
+ * measurement). Non-ASCII characters (e.g. CJK glyphs) are not listed here; their widths are measured on demand and cached
+ * by {@link DynamicDrawGetCharWeight}.
  * @type {string[]}
  */
-const DynamicDrawValidTextCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- ~!$#%*+".split("");
+const DynamicDrawMeasuredCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- ~!$#%*+".split("");
 
 /**
  * A padding multiplier for text when drawn in an arc. The extra padding helps ensure that the bottoms of characters don't collide
@@ -151,10 +161,10 @@ const DynamicDrawTextDefaultOptions = {
  */
 const DynamicDrawTextEffects = {
 	[DynamicDrawTextEffect.BURN]: {
-		before(text, ctx, x, y, { width }) {
+		before(text, ctx, x, y, options) {
 			ctx.save();
 			ctx.fillStyle = "#000";
-			ctx.fillText(text, x - 1, y - 1, width);
+			ctx.fillText(text, x - 1, y - 1, options?.width);
 			ctx.restore();
 		},
 	},
@@ -176,6 +186,7 @@ function DynamicDrawLoadFont(fontFamily) {
 	canvas.width = 20;
 	canvas.height = 20;
 	const ctx = canvas.getContext("2d");
+	if (!ctx) return;
 
 	// Dummy text fill to force the browser to load the font (otherwise it won't get loaded until after the first time
 	// the text has been populated, causing the first draw to fallback)
@@ -184,7 +195,7 @@ function DynamicDrawLoadFont(fontFamily) {
 
 	// Measure each of the valid characters in the given font and record the maximum width
 	let maxWidth = 0;
-	const measurements = DynamicDrawValidTextCharacters.map(char => {
+	const measurements = DynamicDrawMeasuredCharacters.map(char => {
 		const width = ctx.measureText(char).width;
 		if (width > maxWidth) maxWidth = width;
 		return width;
@@ -193,13 +204,38 @@ function DynamicDrawLoadFont(fontFamily) {
 	// Capture the maximum character width for the font, and set up a relative map for character weights
 	const weightMap = DynamicDrawFontMeasurements[fontFamily] = {
 		width: maxWidth,
+		/** @type {Record<string, number>} */
 		weights: {},
 	};
 
 	// Normalise the width of each character as a weight relative to the max width
-	DynamicDrawValidTextCharacters.forEach((char, i) => {
+	DynamicDrawMeasuredCharacters.forEach((char, i) => {
 		weightMap.weights[char] = measurements[i] / maxWidth;
 	});
+}
+
+/**
+ * Returns the width "weight" of a single character in the given font, relative to the font's widest pre-measured (ASCII)
+ * character. Characters that weren't part of the pre-measured ASCII set - most importantly CJK and other non-Latin glyphs,
+ * which are typically wider than ASCII characters - are measured on demand and cached, so that arc text spaces them
+ * correctly instead of assuming a fixed width.
+ * @param {{ width: number, weights: Record<string, number> }} weightMap - The font's measurement map
+ * @param {string} fontFamily - The font family the text is being drawn in
+ * @param {string} char - The single character to measure
+ * @returns {number} - The character's width relative to the font's widest pre-measured character
+ */
+function DynamicDrawGetCharWeight(weightMap, fontFamily, char) {
+	let weight = weightMap.weights[char];
+	if (weight === undefined) {
+		// Measure the character at a 1px font size (so the measured width is expressed in the same "em" units as the
+		// pre-measured ASCII widths) and normalise it against the font's widest pre-measured character
+		const canvas = document.createElement("canvas");
+		const ctx = canvas.getContext("2d");
+		if (!ctx) return 0;
+		ctx.font = `1px ${fontFamily}`;
+		weight = weightMap.weights[char] = ctx.measureText(char).width / (weightMap.width || 1);
+	}
+	return weight;
 }
 
 /**
@@ -301,13 +337,13 @@ function DynamicDrawTextArc(text, ctx, x, y, options) {
 	// Retrieve the character weight map for the font
 	const weightMap = DynamicDrawFontMeasurements[fontFamily] || {
 		width: 1,
-		weights: {},
+		weights: /** @type {Record<string, number>} */ ({}),
 	};
 
 	// Calculate the total weight of the desired text
 	let totalWeight = 0;
 	for (let i = 0; i < text.length; i++) {
-		totalWeight += weightMap.weights[text[i]] || 1;
+		totalWeight += DynamicDrawGetCharWeight(weightMap, fontFamily, text[i]);
 	}
 
 	if (width == null || width > 2 * radius + fontSize) {
@@ -341,7 +377,7 @@ function DynamicDrawTextArc(text, ctx, x, y, options) {
 	// Draw each character in turn, rotating a little before and after each character to space them out evenly
 	for (let n = 0; n < text.length; n++) {
 		const char = text[n];
-		const rotationAngle = direction * 0.5 * actualAngle * (weightMap.weights[char] || 1) / totalWeight;
+		const rotationAngle = direction * 0.5 * actualAngle * DynamicDrawGetCharWeight(weightMap, fontFamily, char) / totalWeight;
 		ctx.rotate(rotationAngle);
 		ctx.save();
 		ctx.translate(0, -radius);
@@ -366,23 +402,23 @@ function DynamicDrawTextArc(text, ctx, x, y, options) {
  */
 function DynamicDrawTextAndEffects(text, ctx, x, y, options) {
 	DynamicDrawApplyOptions(ctx, options);
-	const effect = DynamicDrawTextEffects[options.effect] || {};
-	if (typeof effect.before === "function") effect.before(text, ctx, x, y, options);
+	const effect = options?.effect && options.effect in DynamicDrawTextEffects ? DynamicDrawTextEffects[options.effect] : null;
+	if (typeof effect?.before === "function") effect.before(text, ctx, x, y, options);
 	ctx.fillText(text, x, y, options.width);
 	if (options.strokeColor) {
 		ctx.strokeText(text, x, y, options.width);
 	}
-	if (typeof effect.after === "function") effect.after(text, ctx, x, y, options);
+	if (typeof effect?.after === "function") effect.after(text, ctx, x, y, options);
 }
 
 /**
  * Parses a dynamic drawing options object, returning default values for properties that aren't defined.
  * @param {DynamicDrawOptions} [options] - The options object to parse
- * @returns {DynamicDrawOptions} - A complete options object, with default values where not specified
+ * @returns {Required<DynamicDrawOptions>} - A complete options object, with default values where not specified
  */
 function DynamicDrawParseOptions(options) {
 	options = options || {};
-	return Object.assign({}, DynamicDrawTextDefaultOptions, options);
+	return /** @type {Required<DynamicDrawOptions>} */ (Object.assign({}, DynamicDrawTextDefaultOptions, options));
 }
 
 /**
@@ -394,11 +430,15 @@ function DynamicDrawParseOptions(options) {
  */
 function DynamicDrawApplyOptions(ctx, { fontSize, fontFamily, textAlign, textBaseline, color, strokeColor, strokeWidth }) {
 	ctx.font = `${fontSize}px ${fontFamily}`;
-	ctx.textAlign = textAlign;
-	ctx.textBaseline = textBaseline;
-	ctx.fillStyle = color;
+	if (textAlign)
+		ctx.textAlign = textAlign;
+	if (textBaseline)
+		ctx.textBaseline = textBaseline;
+	if (color)
+		ctx.fillStyle = color;
 	if (strokeColor) {
 		ctx.strokeStyle = strokeColor;
-		ctx.lineWidth = strokeWidth;
+		if (strokeWidth)
+			ctx.lineWidth = strokeWidth;
 	}
 }

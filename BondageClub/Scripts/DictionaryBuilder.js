@@ -267,6 +267,18 @@ class DictionaryBuilder {
 		this._addEntry({ Tag: "GGTSData", Action: action });
 		return this;
 	}
+
+	/**
+	 * Add a tagged string list entry
+	 * @param {`ForbiddenWords` | `BlockScreen` | `BlockAppearance` | `BlockItemGroup`} tag
+	 * @param {string[]} words
+	 */
+	stringList(tag, words) {
+		// Not sure why a cast is needed there, but… that should work
+		this._addEntry(/** @type {StringListDictionaryEntry<"ForbiddenWords">} */ ({ Tag: tag, Strings: words }));
+		return this;
+	}
+
 	/**
 	 * Adds a dictionary entry to the builder
 	 * @param {ChatMessageDictionaryEntry} entry - The dictionary entry to add
@@ -333,6 +345,16 @@ class ConditionalDictionaryBuilder extends DictionaryBuilder {
  */
 function IsTaggedDictionaryEntry(entry) {
 	return CommonIsObject(entry) && "Tag" in entry && typeof entry.Tag === "string";
+}
+
+/**
+ * @param {ChatMessageDictionaryEntry | TaggedDictionaryEntry} entry
+ * @template {string} T
+ * @param {T} tag
+ * @returns {entry is StringListDictionaryEntry<T>}
+ */
+function IsStringListDictionaryEntry(tag, entry) {
+	return IsTaggedDictionaryEntry(entry) && entry.Tag === tag && "Strings" in entry && Array.isArray(entry.Strings) && entry.Strings.every(s => typeof s === "string");
 }
 
 /**

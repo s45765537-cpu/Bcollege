@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var MagicBattleBackground = "";
-/** @type {null | Character} */
-var MagicBattleOpponent = null;
+/** @type {Character} */
+var MagicBattleOpponent = /** @type {never} */ (null);
 var MagicBattleReturnFunction = "";
 var MagicBattleDifficulty = 0;
 var MagicBattleVictory = false;
@@ -145,7 +144,7 @@ function MagicBattleSpellStart(S) {
 	// Launches the magic puzzle mini game for that spell
 	MagicPuzzleSpell = S;
 	MagicPuzzleAutoExit = false;
-	MiniGameStart("MagicPuzzle", Difficulty, "MagicBattleSpellEnd");
+	MiniGameStart("MagicPuzzle", Difficulty, () => { MagicBattleSpellEnd(); });
 
 }
 
@@ -187,7 +186,9 @@ function MagicSpellEffect(C, Spell) {
 			InventoryWear(C, "HempRope", "ItemArms");
 		} else {
 			const item = InventoryWear(C, "HempRopeHarness", "ItemTorso");
-			TypedItemSetOptionByName(C, item, "Diamond", true);
+			if (item) {
+				TypedItemSetOptionByName(C, item, "Diamond", true);
+			}
 		}
 	}
 
@@ -232,14 +233,14 @@ function MagicSpellEffect(C, Spell) {
 
 /**
  * When the spell ends, we apply the effect of the spell on the loser
- * @returns {void} - Nothing
+ * @returns {SafePromise<void>}
  */
-function MagicBattleSpellEnd() {
+async function MagicBattleSpellEnd() {
 	let Spell = MiniGameVictory ? MagicPuzzleSpell : MagicBattleOpponentSpell;
 	let C = MiniGameVictory ? MagicBattleOpponent : Player;
 	MagicSpellEffect(C, Spell);
 	if (MiniGameVictory) MagicBattleAvailSpell = MagicBattleGetAvailSpells(MagicBattleOpponent);
-	CommonSetScreen("MiniGame", "MagicBattle");
+	await CommonSetScreen("MiniGame", "MagicBattle");
 }
 
 /**

@@ -631,13 +631,15 @@ var CraftingEventListeners = {
 		if (CraftingPreview && CraftingSelectedItem?.Asset) {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
-				Layering.Init(item, CraftingPreview, {
-					x: Layering.DisplayDefault.x,
-					y: Layering.DisplayDefault.y - 10,
-					w: Layering.DisplayDefault.w,
-					h: Layering.DisplayDefault.h + 10,
-					buttonGap: 15,
-				});
+				CommonPromiseCatch(
+					Layering.Init(item, CraftingPreview, {
+						x: Layering.DisplayDefault.x,
+						y: Layering.DisplayDefault.y - 10,
+						w: Layering.DisplayDefault.w,
+						h: Layering.DisplayDefault.h + 10,
+						buttonGap: 15,
+					})
+				);
 				CraftingModeSet("OverridePriority");
 			}
 		}
@@ -652,14 +654,18 @@ var CraftingEventListeners = {
 		if (CraftingPreview && selectedItem?.Asset) {
 			const item = InventoryGet(CraftingPreview, selectedItem.Asset.DynamicGroupName);
 			if (item) {
-				CraftingModeSet("Color");
-				ItemColorLoad(CraftingPreview, item, 1100, 15, 875, 970, true);
-				ItemColorOnExit(({ colors }, save) => {
-					if (save) {
-						selectedItem.Color = colors.join(",") || "Default";
-						ElementValue(CraftingID.colorsInput, selectedItem.Color);
-					}
-					CraftingModeSet("Name");
+				ItemColorLoad(CraftingPreview, item, 1100, 15, 875, 970, true).then(() => {
+					CraftingModeSet("Color");
+					ItemColorOnExit(({ colors }, save) => {
+						if (save) {
+							selectedItem.Color = colors.join(",") || "Default";
+							ElementValue(CraftingID.colorsInput, selectedItem.Color);
+						}
+						CraftingModeSet("Name");
+					});
+				}).catch(err => {
+					console.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen:\n`, err);
+					ToastManager.error(`Failed to load "${CurrentModule}/${CurrentScreen}" item color subscreen`);
 				});
 			}
 		}
@@ -751,8 +757,13 @@ var CraftingEventListeners = {
 			return;
 		}
 		const craft = CraftingConvertSelectedToItem(CraftingSelectedItem);
-		navigator.clipboard.writeText(LZString.compressToBase64(JSON.stringify(craft)));
-		alert(TextGet("DownloadSuccess"));
+		CommonClipboardWrite(LZString.compressToBase64(JSON.stringify(craft)), (res) => {
+			if (res.err) {
+				ToastManager.error(res.errorAsDOM(TextGet("DownloadFailed")));
+			} else {
+				ToastManager.success(TextGet("DownloadSuccess"));
+			}
+		});
 	},
 
 	/**
@@ -934,7 +945,7 @@ var CraftingEventListeners = {
 		]);
 		extendedButton.disabled = !asset.Extended;
 		tightenButton.disabled = !asset.AllowTighten;
-		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, { Asset: asset });
+		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, AppearanceItem.fromAsset(asset));
 		layeringButton.disabled = false;
 		priorityInput.disabled = false;
 
@@ -977,10 +988,10 @@ var CraftingEventListeners = {
 		}
 
 		if (this.getAttribute("aria-checked") === "true") {
-			controlButton.innerHTML = this.innerHTML;
+			controlButton.replaceChildren(...this.cloneNode(true).children);
 			return;
 		} else {
-			controlButton.innerHTML = "";
+			controlButton.replaceChildren();
 		}
 
 		switch (controlButton.id) {
@@ -1328,7 +1339,7 @@ async function CraftingLoad() {
 		}
 
 		const asset = CraftingAssets[item.Item]?.[0];
-		if (item.Disabled && asset && InventoryAvailable(Player, item.Name, asset.DynamicGroupName)) {
+		if (item.Disabled && asset && InventoryAvailable(Player, item.Item, asset.DynamicGroupName)) {
 			delete item.Disabled;
 		}
 	}
@@ -1646,7 +1657,7 @@ async function CraftingLoad() {
 	});
 	itemScreen.hidden = true;
 
-	CraftingSlots.Load();
+	CommonPromiseCatch(CraftingSlots.Load());
 }
 
 /**
@@ -1720,7 +1731,7 @@ function CraftingRun() {
 	}
 
 	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
-		TightenLoosenItemDraw();
+		TightenLoosenItemDraw(DialogTightenLoosenItem);
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
 	}
@@ -1830,24 +1841,24 @@ function CraftingUpdateFromItem(item) {
 		CraftingSelectedItem.TypeRecord = item.Property.TypeRecord;
 	}
 
-	/** @type {Set<keyof ItemProperties>} */
-	const keys = new Set(["OverridePriority"]);
+	// Initialize it with the known set of (legal) fully user-customizable properties
+	const allowedProperties = new Set(ExtendedItemInitPropertyIgnore);
 	if (item.Asset.Archetype) {
 		const options = ExtendedItemGatherOptions(item);
 		for (const option of options) {
 			if (option.OptionType === "VariableHeightOption") {
-				keys.add("OverrideHeight");
+				allowedProperties.add("OverrideHeight");
 			}
 			for (const key of CommonKeys(option.ParentData.baselineProperty || {})) {
 				if (!CraftingPropertyExclude.has(key)) {
-					keys.add(key);
+					allowedProperties.add(key);
 				}
 			}
 		}
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
-	for (const key of keys) {
+	for (const key of allowedProperties) {
 		const propValue = item.Property[key];
 		if (propValue != null) {
 			// Use some creative `never` casting as TS _loathes_ anything related to iterating heterogeneous objects
@@ -2017,7 +2028,7 @@ function CraftingDecompressServerData(Data) {
 		DecompressedData = null;
 	}
 	if (DecompressedData == null) {
-		console.warn("An error occurred while decompressing Crafting data, entries have been reset.");
+		console.error("An error occurred while decompressing Crafting data, entries have been reset.");
 		return [];
 	}
 
@@ -2068,7 +2079,7 @@ function CraftingLoadServer(Packet) {
 	if (Refresh) {
 		const nCritical = Object.keys(CriticalErrors).length;
 		if (nCritical > 0) {
-			console.warn(`Removing ${nCritical} corrupted crafted items`, CriticalErrors);
+			console.error(`Removing ${nCritical} corrupted crafted items`, CriticalErrors);
 		}
 		CraftingSaveServer();
 	}
@@ -2106,7 +2117,7 @@ function CraftingClick(event) {
 	}
 
 	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
-		TightenLoosenItemClick();
+		TightenLoosenItemClick(CraftingPreview, DialogTightenLoosenItem);
 	}
 }
 
@@ -2540,6 +2551,24 @@ var CraftingValidationRecord = {
 				}
 			}
 
+			/** @satisfies {Set<keyof ItemProperties>} */
+			const layeringScalar = new Set(/** @type {const} */([
+				"TranslationX",
+				"TranslationY",
+				"ScaleX",
+				"ScaleY",
+				"Rotation",
+			]));
+			/** @satisfies {Set<keyof ItemProperties>} */
+			const layeringObject = new Set(/** @type {const} */([
+				"LayerTranslationX",
+				"LayerTranslationY",
+				"LayerScaleX",
+				"LayerScaleY",
+				"LayerRotation",
+			]));
+			/** @type {null | string[]} */
+			let layers = null;
 			for (const [key, value] of CommonEntries(property)) {
 				if (value == null) {
 					continue;
@@ -2549,7 +2578,7 @@ var CraftingValidationRecord = {
 					if (Number.isInteger(value)) {
 						continue;
 					} else if (CommonIsObject(value)) {
-						const layers = a.Layer.map(l => l.Name);
+						layers ??= a.Layer.map(l => l.Name ?? a.Name);
 						for (const [layerName, priority] of Object.entries(value)) {
 							if (!(layers.includes(layerName) && Number.isInteger(priority))) {
 								return false;
@@ -2557,6 +2586,22 @@ var CraftingValidationRecord = {
 						}
 					} else {
 						return false;
+					}
+				} else if (layeringScalar.has(key)) {
+					if (!Number.isFinite(value)) {
+						return false;
+					}
+				} else if (layeringObject.has(key)) {
+					if (!CommonIsObject(value)) {
+						return false;
+					}
+					layers ??= a.Layer.map(l => l.Name ?? a.Name);
+					for (const [layerName, i] of Object.entries(value)) {
+						if (!layers.includes(layerName)) {
+							return false;
+						} else if (!(i === undefined || Number.isFinite(i))) {
+							return false;
+						}
 					}
 				} else if (typeof value !== typeof baseline[key]) {
 					return false;
@@ -2687,7 +2732,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 		if (!assets.some(a => Validate(Craft, a, checkPlayerInventory))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
-				console.warn(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
+				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}":`, AttrValue);
 			}
 			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory));
 			StatusMap.set(AttrName, StatusCode);
@@ -2710,7 +2755,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 	for (const AttrName of CommonKeys(Craft)) {
 		if (!LegalAttributes.includes(AttrName)) {
 			if (Warn) {
-				console.warn(`Invalid extra "Craft.${AttrName}" attribute for crafted item "${Name}"`);
+				console.error(`Invalid extra "Craft.${AttrName}" attribute for crafted item "${Name}"`);
 			}
 			delete Craft[AttrName];
 			StatusMap.set(AttrName, CraftingStatusType.ERROR);

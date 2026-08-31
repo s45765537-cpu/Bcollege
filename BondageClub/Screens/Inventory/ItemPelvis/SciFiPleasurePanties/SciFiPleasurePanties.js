@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
@@ -6,8 +5,11 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 	if (!FuturisticAccessDraw(Data, OriginalFunction)) {
 		return;
 	}
+	const item = DialogFocusItem;
+	if (!item) return;
+	item.Property ??= {};
 	if (Data.currentModule === ModularItemBase) {
-		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
+		const typeRecord = (item.Property.TypeRecord ??= {});
 		const [CrotchShield, Intensity, OrgasmLock, ShockLevel] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 		const IntensitySuffix = (OrgasmLock === "o0") ? "" : ` (${AssetTextGet(`${Data.dialogPrefix.option}${OrgasmLock}`)})`;
 
@@ -24,7 +26,7 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 		MainCanvas.restore();
 
 		// Display the ShowText checkbox
-		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });
+		ExtendedItemDrawCheckbox("ShowText", 1175, 743, !!item.Property.ShowText, { changeWhenLocked: false });
 		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button
@@ -35,18 +37,21 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 /** @type {ExtendedItemScriptHookCallback<ModularItemData, [Futuristic?: boolean]>} */
 function InventoryItemPelvisSciFiPleasurePantiesClickHook(Data, OriginalFunction, Futuristic=true) {
 	if (!Futuristic) {
-		OriginalFunction();
+		OriginalFunction?.();
 	} else if (!FuturisticAccessClick(Data, OriginalFunction)) {
 		return;
 	}
+	const item = DialogFocusItem;
+	const C = CharacterGetCurrent();
+	if (!C || !item) return;
+	item.Property ??= {};
 
-	if (DialogFocusItem && Data.currentModule === ModularItemBase) {
+	if (Data.currentModule === ModularItemBase) {
 		if (MouseIn(1175, 818, 64, 64) && !ExtendedItemPermissionMode) {
-			const C = CharacterGetCurrent();
-			const property = DialogFocusItem.Property;
-			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
+			const property = item.Property;
+			ExtendedItemCustomClickAndPush(C, item, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		} else if (MouseIn(1637, 825, 225, 55)) {
-			ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
+			ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 		}
 	}
 }

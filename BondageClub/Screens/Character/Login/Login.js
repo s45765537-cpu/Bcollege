@@ -11,50 +11,54 @@ var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
 "AlexG", 
+"Alpha", 
+"Amazing", 
+"Andres", 
 "asd1520456080", 
 "Asriel", 
-"Axiom", 
 "Aybes", 
 "Brad", 
 "bryce", 
 "Canti", 
 "Cerberus", 
 "Christian", 
-"Chuyan", 
-"Claudia", 
 "Cm382714", 
-"Deamonfox", 
+"Cool", 
 "Desch", 
 "Dragokahn", 
 "dynilath", 
-"EBXD", 
 "Exusiai", 
-"Fabian", 
 "fumoffu", 
 "George", 
 "Greendragon", 
 "Hhhhh", 
 "I.F.S.", 
+"Jacob", 
+"jamal", 
+"jazzybanana", 
 "Jerry", 
 "John", 
 "Jonas", 
 "Kim", 
+"koka", 
+"laach", 
 "Laurie", 
+"Megumin", 
 "Michel", 
+"micr0", 
 "Mindtie", 
 "Misa", 
+"Nejire", 
 "NeReFox", 
-"Nikita", 
-"Optical", 
-"PristessSakura", 
+"SaiZaro", 
+"Salix", 
 "Schrödingers", 
-"shadowhack", 
+"Signal_Flare", 
 "Soulcollar", 
-"Soulrunner", 
-"Spare2", 
+"Steuer", 
 "Sticks", 
-"Sunny", 
 "Tam", 
+"Taraly", 
 "Tarram1010", 
 "Teli", 
 "Thkdt", 
@@ -62,10 +66,11 @@ var LoginThankYouList = [
 "Troy", 
 "Ultimate", 
 "Verena", 
+"Vojta", 
+"walnus", 
 "WhiteSniper", 
 "XDWolfie", 
 "Xepherio", 
-"云雪", 
 ];
 
 /* eslint-enable */
@@ -208,7 +213,7 @@ async function LoginLoad() {
 	LoginDoNextThankYou();
 	LoginStatusReset();
 	if (LoginCredits == null) {
-		LoginCredits = CommonReadCSV(ScreenFileGetPath("GameCredits.csv"));
+		LoginCredits = await CommonReadCSV(ScreenFileGetPath("GameCredits.csv"));
 	}
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
@@ -331,6 +336,7 @@ async function LoginLoad() {
 	},
 	{
 		label: TextGet("NewCharacter"),
+		name: "register",
 	});
 
 	const resetPassword = ElementButton.Create(LoginIDs.passwordReset, () => {
@@ -361,13 +367,13 @@ async function LoginLoad() {
 		TranslationSwitchLanguage(/** @type {"" | "TW" | ServerChatRoomLanguage} */(this.value) || "EN");
 		TextLoad();
 		ActivityDictionaryLoad();
-		AssetLoadDescription("Female3DCG");
-		const timer = TimerCreate(() => {
-			TextScreenCache?.loadedPromise.then(() => {
-				LoginReloadLanguageText();
-				timer?.();
-			});
-		}, 50, true, "universal");
+		CommonPromiseCatch(
+			AssetLoadDescription("Female3DCG")
+				.then(() => TextScreenCache?.loadedPromise)
+				.then(() => {
+					LoginReloadLanguageText();
+				})
+		);
 	});
 
 	ElementCreate({
@@ -748,6 +754,9 @@ function LoginValidCollar() {
 
 		if (!item) {
 			// Now make sure we're wearing the slave collar
+			// …unless GGTS, because it doesn't use those, and having a forced one
+			// would impact its drone mode and its collar task.
+			if (Player.IsOwned() === "ggts") return;
 			InventoryWear(Player, "SlaveCollar", "ItemNeck");
 			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
@@ -818,7 +827,7 @@ function LoginClubCard() {
  * @returns {void} Nothing
  */
 function LoginStableItems() {
-	if (LogQuery("JoinedStable", "PonyExam") || LogQuery("JoinedStable", "TrainerExam")) {
+	if (LogQuery("PonyExam", "JoinedStable") || LogQuery("TrainerExam", "JoinedStable")) {
 		InventoryAdd(Player, "HarnessPonyBits", "ItemMouth", false);
 		InventoryAdd(Player, "HarnessPonyBits", "ItemMouth2", false);
 		InventoryAdd(Player, "HarnessPonyBits", "ItemMouth3", false);
@@ -853,6 +862,7 @@ function LoginMaidItems() {
 		InventoryAdd(Player, "FrillyApron", "ClothAccessory", false);
 		InventoryAdd(Player, "MaidHairband1", "Hat", false);
 		InventoryAdd(Player, "ServingTray", "ItemMisc", false);
+		InventoryAdd(Player, "MaidBracelet", "Bracelet", false);
 	} else {
 		InventoryDelete(Player, "MaidOutfit1", "Cloth", false);
 		InventoryDelete(Player, "MaidOutfit2", "Cloth", false);
@@ -864,6 +874,7 @@ function LoginMaidItems() {
 		InventoryDelete(Player, "FrillyApron", "ClothAccessory", false);
 		InventoryDelete(Player, "MaidHairband1", "Hat", false);
 		InventoryDelete(Player, "ServingTray", "ItemMisc", false);
+		InventoryDelete(Player, "MaidBracelet", "Bracelet", false);
 	}
 }
 
@@ -880,7 +891,7 @@ function LoginLoversItems() {
 		const Collar = InventoryGet(Player,"ItemNeck");
 		if (Collar && Collar.Property && (Collar.Asset.Name == "SlaveCollar") && (Collar.Property.Type == "LoveLeatherCollar")) {
 			Collar.Property = CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property);
-			Collar.Color = "Default";
+			Collar.Color = [...Collar.Asset.DefaultColor];
 		}
 	}
 }
@@ -1017,8 +1028,8 @@ function LoginSetupPlayer(C) {
 	Player.Description = ServerAccountDataSyncedValidate.Description(C.Description, Player);
 	Player.Creation = C.Creation;
 	Player.Wardrobe = C.Wardrobe ? CharacterDecompressWardrobe(C.Wardrobe) : [];
+	Player.WardrobeCharacterNames = ServerAccountDataSyncedValidate.WardrobeCharacterNames(C.WardrobeCharacterNames, Player);
 	WardrobeFixLength();
-	Player.WardrobeCharacterNames = C.WardrobeCharacterNames ?? [];
 	Player.CharacterID = C.ID.toString();
 	Player.OnlineID = C.ID.toString();
 	Player.MemberNumber = C.MemberNumber;
@@ -1028,6 +1039,7 @@ function LoginSetupPlayer(C) {
 	if (shouldSync) {
 		ServerPlayerBlockItemsSync();
 	}
+	LogLoad(C.Log ?? []);
 
 	// Sets the default language when creating or searching for chat rooms
 	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
@@ -1068,22 +1080,20 @@ function LoginSetupPlayer(C) {
 		ServerAccountUpdate.QueueData({ ChatSearchSettings: C.ChatSearchSettings });
 	}
 
-	// Load the last chat room
-	Player.LastMapData = C.LastMapData ?? undefined;
 	if (C.LastChatRoom != null && typeof C.LastChatRoom !== "string") {
 		// Backward compatability: Convert old-style "Private" to "Visibility" and "Locked" to "Access"
-		// @ts-ignore
-		if (typeof C.LastChatRoom.Private === "boolean")
-			// @ts-ignore
-			C.LastChatRoom.Visibility = C.LastChatRoom.Private ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC;
-		// @ts-ignore
-		if (typeof C.LastChatRoom.Locked === "boolean")
-			// @ts-ignore
-			C.LastChatRoom.Access = C.LastChatRoom.Locked ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
+		const data = /** @type {{Private?: boolean; Locked?: boolean }} */ (C.LastChatRoom);
+		if (typeof data.Private === "boolean")
+			C.LastChatRoom.Visibility = data.Private ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC;
+		if (typeof data.Locked === "boolean")
+			C.LastChatRoom.Access = data.Locked ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
 
 		if (ChatRoomValidateProperties(C.LastChatRoom))
 			Player.LastChatRoom = C.LastChatRoom;
 	}
+
+	// Load the last chat room; this is validated by ChatRoomSync/Properties once we re-enter the room
+	Player.LastMapData = ServerIsMapData(C.LastMapData) ? C.LastMapData : undefined;
 
 	// Loads the ownership data
 	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership, Player);
@@ -1135,7 +1145,7 @@ function LoginSetupPlayer(C) {
 			const json = /** @type {[number, string][]} */(JSON.parse(data));
 			friendNames = new Map(json);
 		} catch (_err) {
-			console.warn("An error occured while parsing friendnames, entries have been reset.");
+			console.error("An error occured while parsing friendnames, entries have been reset.");
 		}
 	}
 	Player.FriendNames = friendNames ?? new Map();
@@ -1150,7 +1160,7 @@ function LoginSetupPlayer(C) {
 			const numbers = /** @type {number[]} */(json.filter(Number));
 			submissivesList = new Set(numbers);
 		} catch (_err) {
-			console.warn("An error occured while parsing submissives, entries have been reset.");
+			console.error("An error occured while parsing submissives, entries have been reset.");
 		}
 	}
 	Player.SubmissivesList = submissivesList ?? new Set();
@@ -1177,8 +1187,6 @@ function LoginSetupPlayer(C) {
 		ServerPlayerAppearanceSync();
 	}
 
-	// Loads the current appearance, log, reputation and skills
-	LogLoad(C.Log ?? []);
 	ReputationLoad(C.Reputation);
 	SkillLoad(C.Skill);
 	Player.ConfiscatedItems = C.ConfiscatedItems ?? [];
@@ -1226,6 +1234,9 @@ function LoginSetupPlayer(C) {
 		CommonVersionUpdated = true;
 		Player.OnlineSharedSettings.GameVersion = GameVersion;
 		ServerAccountUpdate.QueueData({ OnlineSharedSettings: Player.OnlineSharedSettings });
+	} else if (CommonCompareVersion(GameVersion, Player.OnlineSharedSettings.GameVersion ?? "R0") > 0) {
+		Player.OnlineSharedSettings.GameVersion = GameVersion;
+		ServerAccountUpdate.QueueData({ OnlineSharedSettings: Player.OnlineSharedSettings });
 	}
 }
 
@@ -1249,7 +1260,7 @@ function LoginDone() {
 			PandoraWillpower = 0;
 			InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
 			CommonSetScreen("Room", "PandoraPrison");
-		} else if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
+		} else if (AsylumIsIsolated() || AsylumIsCommitted() || AsylumGGTSGetLevel(Player) >= 6) {
 			// The player must log back in the asylum
 			if (AsylumGGTSGetLevel(Player) <= 5) {
 				AsylumEntranceWearPatientClothes(Player, true);
@@ -1270,6 +1281,8 @@ function LoginDone() {
 		} else {
 			CommonSetScreen("Room", "MainHall");
 		}
+
+		Fullscreen.UpdateButton();
 	});
 }
 

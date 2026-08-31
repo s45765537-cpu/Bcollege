@@ -1,12 +1,11 @@
-// @ts-strict-ignore
 "use strict";
 var NPCWeddingBackground = "Management";
-/** @type {null | NPCCharacter} */
-var NPCWeddingWife = null;
-/** @type {null | NPCCharacter} */
-var NPCWeddingGirlLeft = null;
-/** @type {null | NPCCharacter} */
-var NPCWeddingGirlRight = null;
+/** @type {NPCCharacter} */
+var NPCWeddingWife = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCWeddingGirlLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var NPCWeddingGirlRight = /** @type {never} */ (null);
 
 /**
  * Puts a wedding dress on a specified character
@@ -95,9 +94,9 @@ function NPCWeddingClick() {
 		NPCWeddingDress(Player, "WeddingDress1");
 		NPCWeddingDress(NPCWeddingWife, "WeddingDress2");
 		CharacterDelete(NPCWeddingGirlLeft);
-		NPCWeddingGirlLeft = null;
+		NPCWeddingGirlLeft = /** @type {never} */ (null);
 		CharacterDelete(NPCWeddingGirlRight);
-		NPCWeddingGirlRight = null;
+		NPCWeddingGirlRight = /** @type {never} */ (null);
 		CommonSetScreen("Room", "Private");
 		ServerPrivateCharacterSync();
 	}

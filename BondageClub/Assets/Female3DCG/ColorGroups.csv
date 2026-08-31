@@ -58,6 +58,9 @@ GartersLaceLegRingRing,Ring
 GartersLaceLegRingLace,Lace
 GartersLaceLegRingBow,Bow
 GartersLaceLegRingShadow,Shadow
+HairAccessory1TongqianHairpinBead,Bead
+HairAccessory1TongqianHairpinCoin,Coin
+HairAccessory1TongqianHairpinChain,Chain
 ItemArmsArmbinderSuitSuit,Latex suit parts
 ItemArmsArmbinderSuitSuitShine,Latex shine
 ItemArmsArmbinderSuitBelts,Leather parts
@@ -94,6 +97,12 @@ ItemDevicesGiftBoxRibbon, Ribbon
 ItemDevicesGiftBoxRibbonReflection, Ribbon Reflection
 ItemDevicesGiftBoxInner, Inner
 ItemDevicesGiftBoxInnerReflection, Inner Reflection
+ItemDevicesInflatableRestraintBagBase,Base
+ItemDevicesInflatableRestraintBagCanister,Canister
+ItemDevicesInflatableRestraintBagHighlight,Highlight
+ItemDevicesInflatableRestraintBagShadow,Shadow
+ItemDevicesInflatableRestraintBagStraps,Straps
+ItemDevicesInflatableRestraintBagTube,Tube
 ItemDevicesKabeshiriWallWall,Wall
 ItemDevicesLuckyWheelMisc,Misc
 ItemDevicesLuckyWheelSection,Wheel Sections
@@ -173,7 +182,14 @@ ItemPelvisWaistLegHarnessVibrator,Vibrator Wand Device
 ItemTorsoBarrelCorsetBelly,Belly belt
 ItemTorsoBarrelCorsetLegs,Legs belts
 ItemTorsoBarrelCorsetNeck,Corset collar
+ItemTorsoFullBodyStrapsEdge,Edge
+ItemTorsoFullBodyStrapsRing,Ring
+ItemTorsoFullBodyStrapsShadow,Shadow
+ItemTorsoFullBodyStrapsStrap,Strap
 ItemVulvaPiercingsRoundClitPiercingAddons,Addons
+ItemVulvaPiercingsModularVulvaPiercingsFastenings,Fastenings
+HairAccessory1AntennaLeft,Left
+HairAccessory1AntennaRight,Right
 HairAccessory1CustomizableFluffyEars1Extras,Extras Left
 HairAccessory1CustomizableFluffyEars1ExtrasRight,Extras Right
 HairAccessory1CustomizableFluffyEars2Extras,Extras Left
@@ -191,6 +207,8 @@ NecklaceBeadNecklaceDragon,Dragon
 NecklaceBeadNecklaceCursedEye,Cursed Eye
 NecklaceBeadNecklaceShine,Shine
 ShoesCustomHeelsStraps,Straps
+ShoesToeRingLeft1,Left
+ShoesToeRingRight1,Right
 ShoesZipperLeatherBootsLeft,Left
 ShoesZipperLeatherBootsRight,Right
 SuitGlossyBodystockingBodyCurveShade,Body Curve Shade
@@ -205,3 +223,7 @@ HatJesterHatFabric,Fabric
 HatJesterHatBell,Bell
 HatJesterHatStripes,Stripes
 HatJesterHatDots,Dots
+HairFrontHairFront64bMain,Main
+HairFrontHairFront64bStreaks,Streaks
+WingsSpiderClawArachnid,Claw (Arachnid)
+WingsSpiderClawBiped,Claw (Biped)

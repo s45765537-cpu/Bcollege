@@ -99,7 +99,7 @@ function PreferenceSubscreenScriptsLoad() {
 				ev.stopPropagation();
 				if (PreferenceScriptTimer == null) {
 					PreferenceScriptWarningAccepted = true;
-					PreferenceSubscreenScriptsResize();
+					PreferenceSubscreenScriptsResize(false);
 				}
 			}, {
 				label: TextGet("ScriptsWarningAccept"),
@@ -314,6 +314,7 @@ function PreferenceSubscreenScriptsUnload() {
 	}
 }
 
+/** @type {ScreenResizeHandler} */
 function PreferenceSubscreenScriptsResize() {
 	const permissions = PreferenceSubscreenScriptsGetPermissionLevels();
 	const tableHeight = 90 * (permissions.length + 1);
@@ -416,23 +417,15 @@ function PreferenceSubscreenScriptsUpdateHelp() {
 }
 
 function PreferenceSubscreenScriptsUpdateHelpButtons() {
-	PreferenceSubscreenScriptsSetHelpIcon(
-		PreferenceSubscreenScriptsIDs.helpGlobal,
-		PreferenceScriptHelp === "global" ? "Icons/Question_Yellow.png" : "Icons/Question.png"
-	);
+	const helpButton = document.getElementById(PreferenceSubscreenScriptsIDs.helpGlobal);
+	if (helpButton) {
+		ElementButton.SetImage(helpButton, PreferenceScriptHelp === "global" ? "Icons/Question_Yellow.png" : "Icons/Question.png");
+	}
 	for (const property of PreferenceScriptPermissionProperties) {
 		const active = PreferenceScriptHelp === property;
-		PreferenceSubscreenScriptsSetHelpIcon(
-			PreferenceSubscreenScriptsIDs.scriptsHelpButtonId(property),
-			active ? "Icons/Question_Yellow.png" : "Icons/Question.png"
-		);
+		const propertyButton = document.getElementById(PreferenceSubscreenScriptsIDs.scriptsHelpButtonId(property));
+		if (propertyButton) {
+			ElementButton.SetImage(propertyButton, active ? "Icons/Question_Yellow.png" : "Icons/Question.png");
+		}
 	}
-}
-
-/**
- * @param {string} buttonId
- * @param {string} icon
- */
-function PreferenceSubscreenScriptsSetHelpIcon(buttonId, icon) {
-	ElementWrap(`${buttonId}-image`)?.setAttribute("src", icon);
 }

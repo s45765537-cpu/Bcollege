@@ -1171,15 +1171,21 @@ function TranslationLoadDialog(C, cb) {
 		return;
 	}
 
-	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-	if (TranslationAvailable(FullPath)) {
-		CommonGet(FullPath, function() {
-			if (this.status == 200) {
-				TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
-				cb();
-			}
-		});
+	if (!TranslationAvailable(FullPath)) {
+		cb();
+		return;
 	}
+
+	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
+	CommonPromiseCatch(
+		CommonFetch(FullPath)
+			.then(async (response) => {
+				if (response.status !== 200) return;
+				const text = await response.text();
+				TranslationCache[FullPath] = TranslationParseTXT(text);
+				cb();
+			})
+	);
 }
 
 /**
@@ -1204,28 +1210,29 @@ function TranslationTranslateDialog(C) {
  */
 function TranslationText(Text) {
 	// If we play in a foreign language
-	if (TranslationEnabled()) {
+	if (!TranslationEnabled()) return;
 
-		// Finds the full path of the translation file to use
-		var FullPath = "Screens/" + CurrentModule + "/" + CurrentScreen + "/Text_" + CurrentScreen + "_" + TranslationLanguage + ".txt";
+	// Finds the full path of the translation file to use
+	var FullPath = "Screens/" + CurrentModule + "/" + CurrentScreen + "/Text_" + CurrentScreen + "_" + TranslationLanguage + ".txt";
 
-		// If the translation file is already loaded, we translate from it
-		if (TranslationCache[FullPath]) {
-			TranslationTextArray(Text, TranslationCache[FullPath]);
-			return;
-		}
-
-		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
-					TranslationTextArray(Text, TranslationCache[FullPath]);
-				}
-			});
-
+	// If the translation file is already loaded, we translate from it
+	if (TranslationCache[FullPath]) {
+		TranslationTextArray(Text, TranslationCache[FullPath]);
+		return;
 	}
 
+	if (!TranslationAvailable(FullPath)) return;
+
+	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
+	CommonPromiseCatch(
+		CommonFetch(FullPath)
+			.then(async (response) => {
+				if (response.status !== 200) return;
+				const text = await response.text();
+				TranslationCache[FullPath] = TranslationParseTXT(text);
+				TranslationTextArray(Text, TranslationCache[FullPath]);
+			})
+	);
 }
 
 /**
@@ -1251,28 +1258,29 @@ function TranslationAssetProcess(T) {
 function TranslationAsset(Family) {
 
 	// If we play in a foreign language
-	if (TranslationEnabled()) {
+	if (!TranslationEnabled()) return;
 
-		// Finds the full path of the translation file to use
-		var FullPath = "Assets/" + Family + "/" + Family + "_" + TranslationLanguage + ".txt";
+	// Finds the full path of the translation file to use
+	var FullPath = "Assets/" + Family + "/" + Family + "_" + TranslationLanguage + ".txt";
 
-		// If the translation file is already loaded, we translate from it
-		if (TranslationCache[FullPath]) {
-			TranslationAssetProcess(TranslationCache[FullPath]);
-			return;
-		}
-
-		// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
-		if (TranslationAvailable(FullPath))
-			CommonGet(FullPath, function() {
-				if (this.status == 200) {
-					TranslationCache[FullPath] = TranslationParseTXT(this.responseText);
-					TranslationAssetProcess(TranslationCache[FullPath]);
-				}
-			});
-
+	// If the translation file is already loaded, we translate from it
+	if (TranslationCache[FullPath]) {
+		TranslationAssetProcess(TranslationCache[FullPath]);
+		return;
 	}
 
+	if (!TranslationAvailable(FullPath)) return;
+
+	// If the translation is available, we open the txt file, parse it and returns the result to build the dialog
+	CommonPromiseCatch(
+		CommonFetch(FullPath)
+			.then(async (response) => {
+				if (response.status !== 200) return;
+				const text = await response.text();
+				TranslationCache[FullPath] = TranslationParseTXT(text);
+				TranslationAssetProcess(TranslationCache[FullPath]);
+			})
+	);
 }
 
 /**

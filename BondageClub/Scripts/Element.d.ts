@@ -62,7 +62,7 @@ declare namespace ElementSearchableDropdown {
 	/** Imperative helpers attached to the root element returned from {@link ElementCreateSearchableDropdown}. */
 	interface SearchableDropdownInstance {
 		bcSetOptions(optionsList: readonly OptionItem[], newValue?: string): void;
-		bcSetValue(newValue: string): void;
+		bcSetNewValue(newValue: string): void;
 		bcSetDisabled(disabled: boolean): void;
 	}
 
@@ -76,5 +76,14 @@ declare namespace ElementSearchableDropdown {
 		emptyText?: string;
 		disabled?: boolean;
 		parent?: Node;
+	}
+}
+
+declare namespace ElementSearchQuery {
+	interface Options {
+		/** Custom classes to-be applied to the hightlighted text. Defaults to `"highlight"`. */
+		classList?: readonly string[];
+		/** Custom tag to-be applied to the hightlighted text. Defaults to `<em>`. */
+		tag?: keyof HTMLElementTagNameMap;
 	}
 }

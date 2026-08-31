@@ -70,9 +70,8 @@ function InventoryAddMany(C, NewItems, Push) {
  *     found in the named group
  */
 function InventoryItemCreate(C, Group, Name) {
-	var NewItemAsset = AssetGet(C.AssetFamily, Group, Name);
-	if (NewItemAsset) return { Name, Group, Asset: NewItemAsset };
-	return null;
+	const item = AppearanceItem.fromName(Group, Name);
+	return item ? Object.assign(item, { Group: item.Asset.Group.Name, Name: item.Asset.Name }) : null;
 }
 
 /**
@@ -189,7 +188,7 @@ function InventoryLoadCompressedData(Data) {
 		if (A) {
 			items.push({ Group: A.Group.Name, Name: A.Name });
 		} else {
-			console.warn(`unable to find asset for InventoryID: ${ID}, skipping`);
+			console.error(`unable to find asset for InventoryID: ${ID}, skipping`);
 		}
 
 		// Keeps the last ID for ranges and jump to the next position
@@ -264,7 +263,7 @@ function InventoryAvailable(C, Name, Group) {
  * @param {Character} C - The character on which we check for prerequisites
  * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
  * @param {null | Asset} asset - The asset (if any) for whom the prerequisite is checked
- * @returns {string} - The error tag, can be converted to an error message
+ * @returns - The error tag, can be converted to an error message
  */
 function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 	switch (Prerequisite) {
@@ -280,7 +279,6 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "CanKneel": return !PoseAvailable(C, "BodyLower", "Kneel") ? "CannotKneel" : "";
 		case "CanKneelingSpread": return !PoseAvailable(C, "BodyLower", "KneelingSpread") ? "CannotKneelingSpread" : "";
 		case "CanLegsClosed": return !PoseAvailable(C, "BodyLower", "LegsClosed") ? "CannotLegsClosed" : "";
-		case "CanLegsOpen": return !PoseAvailable(C, "BodyLower", "LegsOpen") ? "CannotLegsOpen" : "";
 		case "CanSpread": return !PoseAvailable(C, "BodyLower", "Spread") ? "CannotSpread" : "";
 		case "CanHogtied": return !PoseAvailable(C, "BodyFull", "Hogtied") ? "CannotHogtied" : "";
 		case "CanAllFours": return !PoseAvailable(C, "BodyFull", "AllFours") ? "CannotAllFours" : "";
@@ -346,9 +344,17 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 
 		// Checks for penis protruding items, to block chastity cages.
 		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", []) ? "MustHaveFullPenisAccess" : "";
-
 		// Checks for torso access based on clothes
-		case "AccessTorso": return !InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth", "ClothOuter"]) ? "RemoveClothesForItem" : "";
+		case "AccessTorso": {
+			const doItemsExposeGroup = InventoryDoItemsExposeGroup(C, "ItemTorso", ["Cloth", "ClothOuter"]);
+			if (doItemsExposeGroup) return "";
+
+			if (asset) {
+				const itemsRequireExposing = ["HarnessBra1", "LeatherBreastBinder", "LeatherStrapBra1", "HarnessBra2", "NavelBar1"];
+				return itemsRequireExposing.some(name => asset.Name === name) ? "RemoveClothesForItem" : "";
+			}
+			return "RemoveClothesForItem";
+		}
 
 		// Breast items can be blocked by clothes
 		case "AccessBreast": return !InventoryDoItemsExposeGroup(C, "ItemBreast", ["Cloth", "ClothOuter"]) || !InventoryDoItemsExposeGroup(
@@ -426,7 +432,8 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		// Returns no message, indicating that all prerequisites are fine
 		case "GagFlat": return "";
 		default: {
-			console.warn(`Unknown asset prerequisite "${Prerequisite}"`);
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+			console.error(`Unknown asset prerequisite "${Prerequisite}"`);
 			return "";
 		}
 	}
@@ -535,9 +542,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {PropertiesArray[T]} blockingPrereqs - The prerequisites we check for on lower gags
 	 * @param {Asset|null} asset - The new gag
 	 * @param {object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	_GagCheck: function _GagCheck(fieldName, C, blockingPrereqs, asset=null, options) {
 		/** @type {readonly unknown[] | undefined | null} */
@@ -567,9 +574,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {readonly AssetPrerequisite[]} blockingPrereqs - The prerequisites we check for on lower gags
 	 * @param {Asset|null} asset - The new gag
 	 * @param {Object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	GagPrerequisite: function GagPrerequisite(C, blockingPrereqs, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Prerequisite", C, blockingPrereqs, asset, options);
@@ -581,9 +588,9 @@ var InventoryPrerequisiteConflicts = {
 	 * @param {readonly EffectName[]} blockingEffects - The prerequisites we check for on lower gags
 	 * @param {Asset|null} [asset] - The new gag
 	 * @param {object} [options]
-	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {InventoryPrerequisiteConflicts.ErrMessage} [options.errMessage] - The to-be returned message if the gag is blocked
 	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
-	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 * @returns {InventoryPrerequisiteConflicts.ErrMessage} - Returns the error message if the gag is blocked, or an empty string if not
 	 */
 	GagEffect: function GagEffect(C, blockingEffects, asset=null, options) {
 		return InventoryPrerequisiteConflicts._GagCheck("Effect", C, /** @type {EffectName[]} */(blockingEffects), asset, options);
@@ -617,6 +624,7 @@ function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowAc
 	CharacterLoadEffect(checkCharacter);
 	PoseRefresh(checkCharacter);
 
+	/** @type {ReturnType<typeof InventoryPrerequisiteMessage>} */
 	let Msg = "";
 	const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
 	if (posePrereq.length === 0) {
@@ -659,7 +667,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	const errMessage = InventoryDisallow(C, asset, prerequisites, allowActivePose);
 
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
-	if (errMessage && setDialog) DialogSetStatus(InterfaceTextGet(`Prerequisite${errMessage}`), DialogTextDefaultDuration);
+	if (errMessage && setDialog) DialogSetStatus(errMessage, DialogTextDefaultDuration);
 	return errMessage === null;
 }
 
@@ -804,9 +812,10 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor=null, Difficulty=null
 	if (Craft) {
 		// Restore the item color if it has been explicitly passed; keep using the `Craft.Color`-assigned color otherwise
 		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
+		const backupColor = item.Color;
 		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
 		if (ItemColor !== "Default") {
-			item.Color = color;
+			item.Color = backupColor;
 		}
 	}
 
@@ -848,8 +857,8 @@ function InventoryLocked(C, AssetGroup, CheckProperties) {
  * @param {Character} C - The character that must wear the item
  * @param {AssetGroupName} GroupName - The name of the asset group (body area)
  * @param {number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
- * @param {boolean} [Refresh=true] - Do not call CharacterRefresh if false
- * @param {boolean} [MustOwn=false] - If TRUE, only assets that the character owns can be worn. Otherwise any asset can
+ * @param {null | boolean} [Refresh=true] - Do not call CharacterRefresh if false
+ * @param {null | boolean} [MustOwn=false] - If TRUE, only assets that the character owns can be worn. Otherwise any asset can
  * be used
  * @param {boolean} [Extend=true] - Whether or not to randomly extend the item (i.e. set the item type), provided it has
  * an archetype that supports random extension
@@ -977,53 +986,102 @@ function InventoryGetRandom(C, GroupName, AllowedAssets, IgnorePrerequisites = f
 }
 
 /**
-* Removes a specific item from a character body area
-* @param {Character} C - The character on which we must remove the item
-* @param {AssetGroupName} AssetGroup - The name of the asset group (body area)
-* @param {boolean} [Refresh] - Whether or not to trigger a character refresh. Defaults to true
-*/
-function InventoryRemove(C, AssetGroup, Refresh=true) {
-	// First loop to find the item and any sub item to remove with it
-	for (let E = 0; E < C.Appearance.length; E++)
-		if (C.Appearance[E].Asset.Group.Name == AssetGroup) {
-			let AssetToRemove = C.Appearance[E].Asset;
-			let AssetToCheck = null;
-			for (let R = 0; R < AssetToRemove.RemoveItemOnRemove.length; R++) {
-				AssetToCheck = AssetToRemove.RemoveItemOnRemove[R];
-				if (!AssetToCheck.Name) {
-					// Just try to force remove a group, if no item is specified
-					InventoryRemove(C, AssetToCheck.Group, false);
-				} else {
-					let AssetFound = InventoryGet(C, AssetToCheck.Group);
-					// If a name is specified check if the item is worn
-					if (AssetFound && (AssetFound.Asset.Name == AssetToCheck.Name))
-						// If there is no type check or there is a type check and the item type matches, remove it
-						if (AssetToCheck.TypeRecord) {
-							if (
-								AssetFound.Property
-								&& AssetFound.Property.TypeRecord
-								&& CommonObjectIsSubset(AssetToCheck.TypeRecord, AssetFound.Property.TypeRecord)
-							) {
-								InventoryRemove(C, AssetToCheck.Group, false);
-							}
-						} else {
-							InventoryRemove(C, AssetToCheck.Group, false);
-						}
-				}
-			}
+ * See {@link InventoryRemove}
+ * @private
+ * @param {Character} C
+ * @param {Set<number>} outputIndices
+ * @param {Item[]} outputItems
+ * @param {Item} superItem
+ * @param {null | readonly RemoveOnItemRemove[]} removeItemOnRemove
+ */
+function _InventoryRemoveDFS(C, outputIndices, outputItems, superItem, removeItemOnRemove=null) {
+	removeItemOnRemove ??= superItem.Asset.RemoveItemOnRemove;
+	for (const { Name, Group, TypeRecord } of removeItemOnRemove) {
+		const subItem = CommonFindMap(
+			C.Appearance,
+			(item, index) => item.Asset.Group.Name === Group ? { item, index } : undefined,
+		);
+		if (!subItem || outputIndices.has(subItem.index)) {
+			// Item was not found or we've got some cyclic `Asset.RemoveItemOnRemove` logic going on
+			continue;
 		}
 
-	// Second loop to find the item again, and remove it from the character appearance
-	for (let E = 0; E < C.Appearance.length; E++)
-		if (C.Appearance[E].Asset.Group.Name == AssetGroup) {
-			C.Appearance.splice(E, 1);
-			if (C.IsPlayer()) {
-				BlindFlashQueue = true;
-			}
-			if (Refresh) CharacterRefresh(C);
-			return;
+		let isMatch = true;
+		if (Name) {
+			isMatch &&= Name === subItem.item.Asset.Name;
+		}
+		if (TypeRecord) {
+			isMatch &&= CommonObjectIsSubset(TypeRecord, subItem.item.Property?.TypeRecord ?? {});
 		}
 
+		if (isMatch) {
+			outputIndices.add(subItem.index);
+			outputItems.push(subItem.item);
+			_InventoryRemoveDFS(C, outputIndices, outputItems, subItem.item);
+		}
+	}
+}
+
+/**
+ * Removes one or more specific items from a character body area via their group name(s)
+ * @param {Character} C - The character on which we must remove the item
+ * @param {AssetGroupName | readonly AssetGroupName[]} AssetGroup - The name of the asset group(s)
+ * @param {boolean | null | InventoryRemoveOptions} [options] - Further options. A boolean is interpreted as the `refresh` option.
+ * @returns {Item[]} - The removed items
+ */
+function InventoryRemove(C, AssetGroup, options=null) {
+	if (!CommonIsArray(AssetGroup)) {
+		AssetGroup = [AssetGroup];
+	}
+	const items = AssetGroup.map(group => InventoryGet(C, group)).filter(i => i != null);
+	const optionsObject = typeof options === "boolean" ? { refresh: options } : options;
+	return InventoryRemoveItems(C, items, optionsObject);
+}
+
+/**
+ * Removes one or more specific items from a character
+ * @param {Character} C - The character on which we must remove the item
+ * @param {Item | readonly Item[]} items - The item(s) in question
+ * @param {null | InventoryRemoveOptions} [options] - Further options
+ * @returns {Item[]} - The removed items
+ */
+function InventoryRemoveItems(C, items, options=null) {
+	if (!CommonIsArray(items)) {
+		items = [items];
+	}
+
+	/** @type {Set<number>} */
+	const removalIndices = new Set;
+	/** @type {Item[]} */
+	const removalItems = [];
+	const itemEntries = items.map(item => /** @type {const} */([C.Appearance.indexOf(item), item]));
+
+	for (const [i, item] of itemEntries) {
+		if (i === -1 || removalIndices.has(i)) {
+			continue;
+		}
+		removalItems.push(item);
+		removalIndices.add(i);
+		_InventoryRemoveDFS(C, removalIndices, removalItems, item, options?.removeItemOnRemove);
+	}
+	if (!removalIndices.size) {
+		return [];
+	}
+
+	const removalsSorted = Array.from(removalIndices).sort((a, b) => b - a);
+	for (const index of removalsSorted) {
+		// NOTE: This is the _only_ place in the codebase where entries should be removed from the Appearance array
+		// TODO: Review `Appearance.filter` usage throughout the code base
+		C.Appearance.splice(index, 1);
+	}
+	if (C.IsPlayer()) {
+		BlindFlashQueue = true;
+	}
+
+	if (options?.refresh ?? true) {
+		CharacterRefresh(C);
+	}
+	return removalItems;
 }
 
 /**
@@ -1075,39 +1133,11 @@ function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
 	if (!C.IsPlayer()) return false;
 	if (!Player.IsOwned()) return false;
 	if (CurrentCharacter == null) return false;
-	const Dict = [
-		["A", "ItemBoots"],
-		["B", "ItemFeet"],
-		["C", "ItemLegs"],
-		["D", "ItemVulva"],
-		["E", "ItemVulvaPiercings"],
-		["F", "ItemButt"],
-		["G", "ItemPelvis"],
-		["H", "ItemTorso"],
-		["I", "ItemTorso2"],
-		["J", "ItemNipples"],
-		["K", "ItemNipplesPiercings"],
-		["L", "ItemBreast"],
-		["M", "ItemHands"],
-		["N", "ItemArms"],
-		["O", "ItemNeck"],
-		["P", "ItemNeckAccessories"],
-		["Q", "ItemNeckRestraints"],
-		["R", "ItemMouth"],
-		["S", "ItemMouth2"],
-		["T", "ItemMouth3"],
-		["U", "ItemNose"],
-		["V", "ItemEars"],
-		["W", "ItemHead"],
-		["X", "ItemHood"],
-		["0", "ItemMisc"],
-		["1", "ItemDevices"],
-		["2", "ItemAddon"]
-	];
-	for (let D of Dict)
-		if (D[1] == GroupName)
-			return LogContain("BlockItemGroup", "OwnerRule", D[0]);
-	return false;
+
+	const blocked = LogGetString("BlockItemGroup", "OwnerRule");
+	if (!blocked || !Array.isArray(blocked)) return false;
+
+	return blocked.includes(GroupName);
 }
 
 /**
@@ -1260,14 +1290,14 @@ function InventoryExpressionTriggerApply(C, expressions) {
 
 /**
 * Returns the padlock item that locks another item
-* @param {Item} Item - The item from appearance that must be scanned
+* @param {Item} item - The item from appearance that must be scanned
 * @returns {Item|null} - A padlock item or NULL if none
 */
-function InventoryGetLock(Item) {
-	if (!Item?.Property?.LockedBy) return null;
-	const asset = Asset.find(a => a.IsLock && a.Name === Item.Property?.LockedBy);
+function InventoryGetLock(item) {
+	if (!item?.Property?.LockedBy) return null;
+	const asset = Asset.find(a => a.IsLock && a.Name === item.Property?.LockedBy);
 	if (!asset) return null;
-	return { Asset: asset };
+	return AppearanceItem.fromAsset(asset);
 }
 
 /**
@@ -1398,36 +1428,36 @@ function InventoryDoesItemAllowLock(item) {
 */
 function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Update = true) {
 	/** @type {Item | null} */
-	let Item;
+	let item;
 	/** @type {Item | null} */
 	let Lock = null;
 	if (typeof ItemOrGroupName === 'string') {
-		Item = InventoryGet(C, ItemOrGroupName);
+		item = InventoryGet(C, ItemOrGroupName);
 	} else {
-		Item = ItemOrGroupName;
+		item = ItemOrGroupName;
 	}
 	if (typeof LockOrLockType === 'string') {
 		const lock = AssetGet(C.AssetFamily, "ItemMisc", LockOrLockType);
 		if (lock) {
-			Lock = { Asset: lock };
+			Lock = AppearanceItem.fromAsset(lock);
 		}
 	} else {
 		Lock = LockOrLockType;
 	}
-	if (!Item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(Item)) return;
+	if (!item || !Lock || !Lock.Asset || !Lock.Asset.IsLock || !InventoryDoesItemAllowLock(item)) return;
 
 	// Protect against using the PortalLink lock on incompatible items
-	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(Item, "Attribute")?.includes("PortalLinkLockable"))
+	if (Lock.Asset.Name === "PortalLinkPadlock" && !InventoryGetItemProperty(item, "Attribute")?.includes("PortalLinkLockable"))
 		return;
 
-	if (Item.Property == null) Item.Property = {};
-	if (Item.Property.Effect == null) Item.Property.Effect = [];
-	if (Item.Property.Effect.indexOf("Lock") < 0) Item.Property.Effect.push("Lock");
+	if (item.Property == null) item.Property = {};
+	if (item.Property.Effect == null) item.Property.Effect = [];
+	if (item.Property.Effect.indexOf("Lock") < 0) item.Property.Effect.push("Lock");
 
-	Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
+	item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
 
 	if (typeof AppliedBy === "string") {
-		Item.Property.LockMessage = AppliedBy;
+		item.Property.LockMessage = AppliedBy;
 	} else {
 		/** @type {Character | undefined} */
 		let char;
@@ -1437,19 +1467,19 @@ function InventoryLock(C, ItemOrGroupName, LockOrLockType, AppliedBy = null, Upd
 			char = AppliedBy;
 		}
 		if (char?.IsNpc()) {
-			Item.Property.LockMemberNumber = -1;
-			Item.Property.LockMemberName = `${char.Title ? char.Title + " " : ""}${char.Name}`;
+			item.Property.LockMemberNumber = -1;
+			item.Property.LockMemberName = `${char.Title ? char.Title + " " : ""}${char.Name}`;
 		} else if (char?.IsOnline() || char?.IsPlayer()) {
-			Item.Property.LockMemberNumber = char.MemberNumber;
-			Item.Property.LockMemberName = char.Name;
+			item.Property.LockMemberNumber = char.MemberNumber;
+			item.Property.LockMemberName = char.Name;
 		}
 	}
 
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-	const args = [C, Item, false, false];
+	const args = [C, item, false, false];
 	CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
 	if (Update) {
-		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);
+		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, item.Asset.Group.Name, Lock.Asset.RemoveTimer);
 		CharacterRefresh(C, true, false);
 	}
 }
@@ -1477,16 +1507,16 @@ function InventoryUnlock(C, ItemOrGroupName, refreshDialog=true) {
 /**
 * Applies a random lock on an item
 * @param {Character} C - The character on which the item must be locked
-* @param {Item} Item - The item from appearance to lock
+* @param {Item} item - The item from appearance to lock
 * @param {Character} AppliedBy - Set to TRUE if the source is the owner, to apply owner locks
 */
-function InventoryLockRandom(C, Item, AppliedBy) {
-	if (!InventoryDoesItemAllowLock(Item)) return false;
+function InventoryLockRandom(C, item, AppliedBy) {
+	if (!InventoryDoesItemAllowLock(item)) return false;
 
 	const locks = Asset.filter(a => a.IsLock && a.Random && !a.LoverOnly && !a.FamilyOnly && (AppliedBy.IsOwner() || !a.OwnerOnly));
 	const randomLock = InventoryGetRandom(C, undefined, locks);
 	if (!randomLock) return false;
-	InventoryLock(C, Item, { Asset: randomLock }, AppliedBy);
+	InventoryLock(C, item, AppearanceItem.fromAsset(randomLock), AppliedBy);
 }
 
 /**
@@ -1522,8 +1552,6 @@ function InventoryFullLock(C, LockType, AppliedBy) {
 function InventoryConfiscateKey() {
 	InventoryDelete(Player, "MetalCuffsKey", "ItemMisc");
 	InventoryDelete(Player, "MetalPadlockKey", "ItemMisc");
-	InventoryDelete(Player, "IntricatePadlockKey", "ItemMisc");
-	InventoryDelete(Player, "HighSecurityPadlockKey", "ItemMisc");
 	InventoryDelete(Player, "Lockpicks", "ItemMisc");
 }
 
@@ -1786,4 +1814,13 @@ function InventoryExtractLockProperties(property) {
 		}
 	}
 	return lockProperties;
+}
+
+/**
+ * Check whether the passed inventory icon belongs to a padlock
+ * @param {InventoryIcon} icon
+ * @returns {icon is AssetLockType}
+ */
+function InventoryIconIsPadlock(icon) {
+	return icon.endsWith("Padlock");
 }

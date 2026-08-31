@@ -1,7 +1,7 @@
 /**
  * Type check whether all `window`-defined backgrounds, screen functions and (dynamic) extended item function have an appropriate signature.
  */
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const foo = {
 	/** @type {{ [key in `${RoomName}Background`]?: string }} */
 	Background: globalThis,

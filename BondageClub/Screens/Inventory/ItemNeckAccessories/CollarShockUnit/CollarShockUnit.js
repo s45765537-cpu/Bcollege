@@ -1,52 +1,60 @@
-// @ts-strict-ignore
 "use strict";
 
-/** @type {ExtendedItemScriptHookCallbacks.Draw<ExtendedItemData>} */
+/** @type {ExtendedItemScriptHookCallbacks.Draw<ExtendedItemData<any>>} */
 function InventoryItemNeckAccessoriesCollarShockUnitDrawHook(Data, OriginalFunction) {
 	OriginalFunction();
+
+	const item = DialogFocusItem;
+	if (!item) return;
+	item.Property ??= {};
 
 	MainCanvas.textAlign = "right";
 	DrawText(AssetTextGet("ShockCount"), 1500, 575, "White", "Gray");
 	MainCanvas.textAlign = "left";
-	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
+	DrawText(`${item.Property.TriggerCount}`, 1510, 575, "White", "Gray");
 	MainCanvas.textAlign = "center";
 
-	ExtendedItemDrawCheckbox("ShowText", 1175, 618, DialogFocusItem.Property.ShowText);
+	ExtendedItemDrawCheckbox("ShowText", 1175, 618, !!item.Property.ShowText);
 	DrawText(AssetTextGet("ShowMessageInChat"), 1420, 648, "White", "Gray");
 	ExtendedItemCustomDraw("ResetShockCount", 1635, 550);
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625);
 }
 
-/** @type {ExtendedItemScriptHookCallbacks.Click<ExtendedItemData>} */
+/** @type {ExtendedItemScriptHookCallbacks.Click<ExtendedItemData<any>>} */
 function InventoryItemNeckAccessoriesCollarShockUnitClickHook(Data, OriginalFunction) {
 	OriginalFunction();
 
-	if (!DialogFocusItem) {
-		return;
-	} else if (MouseIn(1175, 618, 64, 64) && !ExtendedItemPermissionMode) {
-		DialogFocusItem.Property.ShowText = !DialogFocusItem.Property.ShowText;
+	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!C || !item) return;
+	item.Property ??= {};
+	if (MouseIn(1175, 618, 64, 64) && !ExtendedItemPermissionMode) {
+		item.Property.ShowText = !item.Property.ShowText;
 	} else if (MouseIn(1635, 550, 225, 55)) {
 		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
 	} else if (MouseIn(1635, 625, 225, 55)) {
-		ExtendedItemCustomClick("TriggerShock", PropertyShockPublishAction);
+		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 	}
 }
 
 // Resets the trigger count
 function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
 	// Gets the current item and character
-	DialogFocusItem.Property.TriggerCount = 0;
 	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!item || !C) return;
+	item.Property ??= {};
+	item.Property.TriggerCount = 0;
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacterName(C)
-		.asset(DialogFocusItem.Asset, "AssetName", DialogFocusItem.Craft && DialogFocusItem.Craft.Name)
+		.asset(item.Asset, "AssetName", item.Craft && item.Craft.Name)
 		.build();
 
-	if (DialogFocusItem.Property.ShowText) {
+	if (item.Property.ShowText) {
 		ChatRoomPublishCustomAction("ShockCountReset", false, Dictionary);
 	} else {
-		ChatRoomCharacterItemUpdate(C, DialogFocusItem.Asset.Group.Name);
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 	}
 	if (C.IsPlayer()) {
 		ServerPlayerAppearanceSync();
@@ -57,14 +65,15 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
  * @typedef {{ ChangeTime?: number, DisplayCount?: number, LastTriggerCount?: number } & AnimationPersistentData} ShockUnitPersistentData
  */
 
-/** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, ShockUnitPersistentData>} */
+/** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData<any>, ShockUnitPersistentData>} */
 function AssetsItemNeckAccessoriesCollarShockUnitBeforeDrawHook(data, originalFunction, drawData) {
 	if (drawData.L === "Light") {
 		const persistentData = drawData.PersistentData();
 		const property = drawData.Property || {};
-		const Triggered = persistentData.LastTriggerCount < property.TriggerCount;
+		const Triggered = (persistentData.LastTriggerCount ?? 0) < (property.TriggerCount ?? 0);
 		const intensity = property.ShockLevel || 0;
 		const wasBlinking = property.BlinkState;
+		persistentData.DisplayCount ??= 0;
 		if (wasBlinking && Triggered) persistentData.DisplayCount++;
 		if (persistentData.DisplayCount >= intensity * 1.5 + 3) {
 			persistentData.DisplayCount = 0;
@@ -72,9 +81,10 @@ function AssetsItemNeckAccessoriesCollarShockUnitBeforeDrawHook(data, originalFu
 		}
 		return { Color: Triggered ? "#f00" : "#2f0", Opacity: wasBlinking ? 0 : 1 };
 	}
+	return drawData;
 }
 
-/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ExtendedItemData, ShockUnitPersistentData>} */
+/** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ExtendedItemData<any>, ShockUnitPersistentData>} */
 function AssetsItemNeckAccessoriesCollarShockUnitScriptDrawHook(data, originalFunction, drawData) {
 	const persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
@@ -83,13 +93,13 @@ function AssetsItemNeckAccessoriesCollarShockUnitScriptDrawHook(data, originalFu
 	if (typeof persistentData.DisplayCount !== "number") persistentData.DisplayCount = 0;
 	if (typeof persistentData.LastTriggerCount !== "number") persistentData.LastTriggerCount = property.TriggerCount;
 
-	const isTriggered = persistentData.LastTriggerCount < property.TriggerCount;
+	const isTriggered = (persistentData.LastTriggerCount ?? 0) < (property.TriggerCount ?? 0);
 	const newlyTriggered = isTriggered && persistentData.DisplayCount == 0;
 	if (newlyTriggered)
 		persistentData.ChangeTime = Math.min(persistentData.ChangeTime, CommonTime());
 
 	if (persistentData.ChangeTime < CommonTime()) {
-		if (persistentData.LastTriggerCount > property.TriggerCount) persistentData.LastTriggerCount = 0;
+		if ((persistentData.LastTriggerCount ?? 0) > (property.TriggerCount ?? 0)) persistentData.LastTriggerCount = 0;
 		const wasBlinking = property.BlinkState;
 		property.BlinkState = wasBlinking && !newlyTriggered ? false : true;
 		const timeFactor = isTriggered ? 12 : 1;

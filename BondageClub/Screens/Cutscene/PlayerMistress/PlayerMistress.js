@@ -1,14 +1,13 @@
-// @ts-strict-ignore
 "use strict";
 var PlayerMistressBackground = "Management";
-/** @type {null | NPCCharacter} */
-var PlayerMistressMistressLeft = null;
-/** @type {null | NPCCharacter} */
-var PlayerMistressMistressRight = null;
-/** @type {null | NPCCharacter} */
-var PlayerMistressMaidLeft = null;
-/** @type {null | NPCCharacter} */
-var PlayerMistressMaidRight = null;
+/** @type {NPCCharacter} */
+var PlayerMistressMistressLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerMistressMistressRight = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerMistressMaidLeft = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var PlayerMistressMaidRight = /** @type {never} */ (null);
 
 /**
  * Loads the mistress promotion cutscene by creating the random maids and mistress, and setting the stage

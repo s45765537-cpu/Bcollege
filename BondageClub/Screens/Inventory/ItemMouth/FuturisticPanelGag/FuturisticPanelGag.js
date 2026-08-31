@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
@@ -6,9 +5,11 @@ function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
 	if (!FuturisticAccessDraw(Data, OriginalFunction)) {
 		return;
 	}
+	if (!DialogFocusItem) return;
+	DialogFocusItem.Property ??= {};
 
 	if (Data.currentModule === ModularItemBase) {
-		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
+		const typeRecord = DialogFocusItem.Property.TypeRecord ?? {};
 		const [Gag, AutoPunish, AutoPunishUndoTimeSetting] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 		const AutoPunishUndoTime = DialogFocusItem.Property.AutoPunishUndoTime;
 		const UndoTimer =  AssetTextGet(`${Data.dialogPrefix.option}${AutoPunishUndoTimeSetting}`);
@@ -23,7 +24,7 @@ function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
 		DrawText(AutoPunishUndoTime ? TimerToString(AutoPunishUndoTime - CurrentTime) : "00:00", 1510, 700, "White", "Gray");
 		MainCanvas.textAlign = "center";
 
-		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText);
+		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText ?? false);
 		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 773, "White", "Gray");
 		ExtendedItemCustomDraw(`${Data.dialogPrefix.option}Pump`, 1637, 750);
 	}
@@ -31,27 +32,30 @@ function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<ModularItemData>} */
 function InventoryItemMouthFuturisticPanelGagClickHook(Data, OriginalFunction) {
-	const GagBefore = ModularItemParseCurrent(Data, DialogFocusItem.Property.TypeRecord)[0];
-	if (!FuturisticAccessClick(Data, OriginalFunction) || !DialogFocusItem) {
+	const C = CharacterGetCurrent();
+	const item = DialogFocusItem;
+	if (!item || !C) return;
+	item.Property ??= {};
+	const GagBefore = ModularItemParseCurrent(Data, item.Property.TypeRecord)[0];
+	if (!FuturisticAccessClick(Data, OriginalFunction) || !item) {
 		return;
 	}
-	const GagAfter = ModularItemParseCurrent(Data, DialogFocusItem.Property.TypeRecord)[0];
+	const GagAfter = ModularItemParseCurrent(Data, item.Property.TypeRecord)[0];
 
 	// Reset the remaining deflation time if someone manually changes the gag mode
 	if (GagBefore !== GagAfter) {
-		DialogFocusItem.Property.AutoPunishUndoTime = 0;
+		item.Property.AutoPunishUndoTime = 0;
 	}
 
 	if (Data.currentModule === ModularItemBase) {
-		const C = CharacterGetCurrent();
 		if (MouseIn(1637, 750, 225, 50)) {
 			ExtendedItemCustomClick(
 				`${Data.dialogPrefix.option}Pump`,
-				() => InventoryItemMouthFuturisticPanelGagTrigger(Data, C, DialogFocusItem, false),
+				() => InventoryItemMouthFuturisticPanelGagTrigger(Data, C, item, false),
 			);
 		} else if (MouseIn(1175, 743, 64, 64) && !ExtendedItemPermissionMode) {
-			const property = DialogFocusItem.Property;
-			ExtendedItemCustomClickAndPush(C, DialogFocusItem, "ShowText", () => property.ShowText = !property.ShowText, false, false);
+			const property = item.Property;
+			ExtendedItemCustomClickAndPush(C, item, "ShowText", () => property.ShowText = !property.ShowText, false, false);
 		}
 	}
 }
@@ -60,14 +64,15 @@ function InventoryItemMouthFuturisticPanelGagClickHook(Data, OriginalFunction) {
 function InventoryItemMouthFuturisticPanelGagSetOptionHook(data, originalFunction, C, item, newOption, previousOption, push, refresh) {
 	// NOTE: Use a `SetOption` + baseline properties rather in order to avoid triggering an `Init` validation.
 	if (newOption.ModuleName !== "Gag") {
-		originalFunction(C, item, newOption, previousOption, push, refresh);
+		originalFunction?.(C, item, newOption, previousOption, push, refresh);
 		return;
 	} else {
-		originalFunction(C, item, newOption, previousOption, false, false);
+		originalFunction?.(C, item, newOption, previousOption, false, false);
 	}
+	item.Property ??= {};
 
 	const module = data.modules.find(m => m.Name === "Gag");
-	const index = /** @type {-1 | 0 | 1 | 2 | 3} */(module.Options.findIndex(o => o.Name === newOption.Name));
+	const index = /** @type {-1 | 0 | 1 | 2 | 3} */(module?.Options.findIndex(o => o.Name === newOption.Name));
 	item.Property.OriginalSetting = index === -1 ? 0 : index;
 
 	if (refresh || push) {
@@ -94,7 +99,7 @@ function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, Optio
 		.markAutomatic()
 		.build();
 
-	if (Item.Property.ShowText) {
+	if (Item.Property?.ShowText) {
 		ChatRoomPublishCustomAction(ActionTag, false, Dictionary);
 	} else {
 		ChatRoomMessage({ Content: ActionTag, Type: "Action", Sender: Player.MemberNumber, Dictionary: Dictionary });
@@ -114,9 +119,10 @@ function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, Optio
 function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, previousOption, module, Deflate) {
 	let GagIndex = previousOption.Index;
 	const GagIndexMax = module.Options.length - 1;
-	let OriginalSetting = Item.Property.OriginalSetting;
+	Item.Property ??= {};
+	let OriginalSetting = /** @type {NonNullable<ItemProperties["OriginalSetting"]>} */ (Item.Property.OriginalSetting);
 	if (module.Options[OriginalSetting] === undefined) {
-		console.warn(`[${Item.Asset.Group.Name}:${Item.Asset.Name}] Sanitizing illegal "OriginalSetting" property value: ${OriginalSetting}`);
+		console.error(`[${Item.Asset.Group.Name}:${Item.Asset.Name}] Sanitizing illegal "OriginalSetting" property value: ${OriginalSetting}`);
 		OriginalSetting = Item.Property.OriginalSetting = 0;
 	}
 
@@ -169,13 +175,14 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, pr
  */
 function InventoryItemMouthFuturisticPanelGagTrigger(data, C, Item, Deflate) {
 	const module = data.modules[0];
-	const previousModuleValues = ModularItemParseCurrent(data, Item.Property.TypeRecord);
+	const previousModuleValues = ModularItemParseCurrent(data, Item.Property?.TypeRecord);
 	const previousOption = module.Options[previousModuleValues[0]];
 	const newOption = InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, previousOption, module, Deflate);
 
 	if (newOption.Name === previousOption.Name) {
 		return;
 	}
+	Item.Property ??= {};
 
 	// After automatically changing it, we store the original setting again
 	const OriginalSetting = Item.Property.OriginalSetting;
@@ -191,8 +198,10 @@ function InventoryItemMouthFuturisticPanelGagTrigger(data, C, Item, Deflate) {
 	];
 	InventoryExpressionTriggerApply(C, expressions);
 
-	Item.Property.AutoPunishUndoTime = CurrentTime + Item.Property.AutoPunishUndoTimeSetting; // Reset the deflation time
-	CharacterRefresh(C, true); // Does not sync appearance while in the wardrobe
+	// Reset the deflation time
+	Item.Property.AutoPunishUndoTime = CurrentTime + /** @type {NonNullable<ItemProperties["AutoPunishUndoTimeSetting"]>} */ (Item.Property.AutoPunishUndoTimeSetting);
+	// Does not sync appearance while in the wardrobe
+	CharacterRefresh(C, true);
 	ChatRoomCharacterUpdate(C);
 }
 
@@ -210,7 +219,7 @@ function AssetsItemMouthFuturisticPanelGagScriptUpdatePlayer(data, drawData) {
 
 	if (PropertyAutoPunishDetectSpeech(Item, LastMessages)) {
 		InventoryItemMouthFuturisticPanelGagTrigger(data, drawData.C, Item, false);
-	} else if (Item.Property.AutoPunishUndoTime - CurrentTime <= 0) {
+	} else if ((Item.Property?.AutoPunishUndoTime ?? 0) - CurrentTime <= 0) {
 		// Deflate the gag back to the original setting after a while
 		InventoryItemMouthFuturisticPanelGagTrigger(data, drawData.C, Item, true);
 	}
@@ -220,13 +229,13 @@ function AssetsItemMouthFuturisticPanelGagScriptUpdatePlayer(data, drawData) {
 function AssetsItemMouthFuturisticPanelGagScriptDrawHook(data, originalFunction, drawData) {
 	const persistentData = drawData.PersistentData();
 	/** @type {ItemProperties} */
-	const property = (drawData.Item.Property = drawData.Item.Property || {});
+	const property = (drawData.Item.Property ??= {});
 	if (typeof persistentData.UpdateTime !== "number") persistentData.UpdateTime = CommonTime() + 4000;
 	if (typeof persistentData.LastMessageLen !== "number") persistentData.LastMessageLen = (ChatRoomLastMessage) ? ChatRoomLastMessage.length : 0;
 	if (typeof property.BlinkState !== "boolean") property.BlinkState = false;
 
-	if (ChatRoomLastMessage && ChatRoomLastMessage.length != persistentData.LastMessageLen && drawData.Item && drawData.Item.Property && drawData.Item.Property.AutoPunish > 0)
-		persistentData.ChangeTime = Math.min(persistentData.ChangeTime, CommonTime() + 400); // Trigger shortly after if the user speaks
+	if (ChatRoomLastMessage && ChatRoomLastMessage.length != persistentData.LastMessageLen && (drawData.Item.Property.AutoPunish ?? 0) > 0)
+		persistentData.ChangeTime = Math.min(persistentData.ChangeTime ?? 0, CommonTime() + 400); // Trigger shortly after if the user speaks
 
 	if (persistentData.UpdateTime < CommonTime() && drawData.C == Player) {
 		if (ServerPlayerIsInChatRoom()) {
@@ -245,7 +254,7 @@ function AssetsItemMouthFuturisticPanelGagScriptDrawHook(data, originalFunction,
 
 /** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ModularItemData, FuturisticPanelGagPersistentData>} */
 function AssetsItemMouthFuturisticPanelGagBeforeDrawHook(data, originalFunction, drawData) {
-	if (drawData.L === "Light" && drawData.Property && drawData.Property.AutoPunish > 0) {
+	if (drawData.L === "Light" && (drawData.Property.AutoPunish ?? 0) > 0) {
 		const Opacity = (drawData.Property.BlinkState) ? 1 : 0;
 		if (drawData.Color && drawData.Color != "Default") {return { Opacity: Opacity };}
 		else if (drawData.Property.AutoPunish == 1) {return { Color : "#28ff28", Opacity: Opacity };}

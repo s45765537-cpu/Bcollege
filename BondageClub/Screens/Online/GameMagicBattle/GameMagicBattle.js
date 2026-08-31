@@ -12,6 +12,7 @@ var GameMagicBattleTurnDone = false;
 var GameMagicBattleTurnTimer = null;
 /** @type {null | Character} */
 var GameMagicBattleFocusCharacter = null;
+/** @type {{ Sender: number; Data: ServerGameMagicBattleDataAction }[]} */
 var GameMagicBattleLog = [];
 var GameMagicBattleButton = [];
 
@@ -38,7 +39,7 @@ function GameMagicBattleSetStatus(NewStatus) {
 	let ForceUpdate = false;
 	if (Player.Game == null || Player.Game.MagicBattle == null) {
 		ForceUpdate = true;
-		GameMagicBattleLoad();
+		GameMagicBattleInitialize();
 	}
 
 	if (ForceUpdate || (NewStatus !== Player.Game.MagicBattle.Status)) {
@@ -75,10 +76,14 @@ function GameMagicBattleDrawIcon(C, X, Y, Zoom) {
  * @type {ScreenLoadHandler}
  */
 async function GameMagicBattleLoad() {
+	GameMagicBattleInitialize();
+}
+
+function GameMagicBattleInitialize() {
 	if (Player.Game == null) Player.Game = {};
 	let game = Player.Game.MagicBattle;
 	Player.Game.MagicBattle = {
-		Status: "",
+		Status: /** @type {const} */ (""),
 		House: (game && typeof game.House === "string" ? game.House : "NotPlaying"),
 		TeamType: (game && ["FreeForAll", "House"].includes(game.TeamType) ? game.TeamType : "House"),
 	};
@@ -167,7 +172,7 @@ function GameMagicBattleClickProcess() {
 					MagicPuzzleSpell = MagicBattleAvailSpell[B];
 					MagicPuzzleAutoExit = true;
 					MagicPuzzleBackground = ChatRoomData.Background;
-					MiniGameStart("MagicPuzzle", Time - 5, "GameMagicBattlePuzzleEnd");
+					MiniGameStart("MagicPuzzle", Time - 5, () => { GameMagicBattlePuzzleEnd(); });
 					return true;
 				}
 	}
@@ -176,13 +181,13 @@ function GameMagicBattleClickProcess() {
 
 /**
  * When the magic puzzle ends, we go back to the chat room
- * @returns {void}
+ * @returns {SafePromise<void>}
  */
-function GameMagicBattlePuzzleEnd() {
+async function GameMagicBattlePuzzleEnd() {
 	ServerSend("ChatRoomGame", { GameProgress: "Action", Action: (MiniGameVictory ? "SpellSuccess" : "SpellFail"), Spell: MagicPuzzleSpell, Time: MagicPuzzleFinish - MagicPuzzleStart, Target: GameMagicBattleFocusCharacter.MemberNumber });
 	GameMagicBattleFocusCharacter = null;
 	GameMagicBattleTurnDone = true;
-	CommonSetScreen("Online", "ChatRoom");
+	await CommonSetScreen("Online", "ChatRoom");
 }
 
 /**
@@ -329,10 +334,7 @@ function GameMagicBattleNewTurn(Msg) {
  * @returns {Character | null} - The corresponding character, if it exists.
  */
 function GameMagicBattleGetPlayer(MemberNumber) {
-	for (let C = 0; C < GameMagicBattlePlayer.length; C++)
-		if (GameMagicBattlePlayer[C].MemberNumber == MemberNumber)
-			return GameMagicBattlePlayer[C];
-	return null;
+	return GameMagicBattlePlayer.find(c => c.MemberNumber === MemberNumber) ?? null;
 }
 
 /**
@@ -367,7 +369,7 @@ function GameMagicBattleCharacterClick(C) {
  * @param {string} Msg - Message tag
  * @param {Character} Source - Source character of the message
  * @param {Character} Target - Character targetted by the message
- * @param {ServerChatRoomGameResponse["Data"]} Data - The data linked to the packet
+ * @param {ServerGameMagicBattleDataAction} Data - The data linked to the packet
  * @param {string} [Color] - Color of the message to add.
  * @returns {void} - Nothing
  */
@@ -410,6 +412,7 @@ function GameMagicBattleCalculateTurnWinner() {
 
 	// Fetches the best time and the round winner
 	let WinTime = 999999;
+	/** @type {number | null} */
 	let WinNum = null;
 	let TieRound = false;
 	for (let L = 0; L < GameMagicBattleLog.length; L++)
@@ -463,49 +466,95 @@ function GameMagicBattleCalculateTurnWinner() {
 }
 
 /**
+ *
+ * @param {unknown} data
+ * @returns {data is ServerGameMagicBattleDataStart}
+ */
+function GameMagicBattleIsStartPacket(data) {
+	return CommonIsObject(data)
+		&& data.GameProgress === "Start";
+}
+
+/**
+ *
+ * @param {unknown} data
+ * @returns {data is ServerGameMagicBattleDataStop}
+ */
+function GameMagicBattleIsStopPacket(data) {
+	return CommonIsObject(data)
+		&& data.GameProgress === "Stop";
+}
+
+/**
+ *
+ * @param {unknown} data
+ * @returns {data is ServerGameMagicBattleDataNext}
+ */
+function GameMagicBattleIsNextPacket(data) {
+	return CommonIsObject(data)
+		&& data.GameProgress === "Next";
+}
+
+/**
+ *
+ * @param {unknown} data
+ * @returns {data is ServerGameMagicBattleDataAction}
+ */
+function GameMagicBattleIsActionPacket(data) {
+	return CommonIsObject(data)
+		&& data.GameProgress === "Action"
+		&& typeof data.Action === "string"
+		&& CommonIsNonNegativeInteger(data.Target)
+		&& CommonIsNonNegativeInteger(data.Spell)
+		&& CommonIsNonNegativeInteger(data.Time);
+}
+
+/**
  * Processes the Magic Battle game messages for turns and actions.
- * @param {ServerChatRoomGameResponse} P - Data object containing the message data.
+ * @param {number} sender
+ * @param {unknown} data - Data object containing the message data.
  * @returns {void} - Nothing
  */
-function GameMagicBattleProcess(P) {
-	if ((P != null) && (typeof P === "object") && (P.Data != null) && (typeof P.Data === "object") && (P.Sender != null) && (typeof P.Sender === "number") && (P.RNG != null) && (typeof P.RNG === "number")) {
+function GameMagicBattleProcess(sender, data) {
 
-		// An administrator can start the Magic Battle game, he becomes the turn admin in the process
-		if ((ChatRoomData.Admin.indexOf(P.Sender) >= 0) && (P.Data.GameProgress == "Start")) {
-			GameMagicBattleSetStatus("Running");
-			GameMagicBattleTurnAdmin = P.Sender;
-			GameMagicBattleBuildPlayerList();
-			GameMagicBattleNewTurn("GameStart" + GameMagicBattleGetTeamType());
+	// An administrator can start the Magic Battle game, he becomes the turn admin in the process
+	if (GameMagicBattleIsStartPacket(data)) {
+		if (!ChatRoomCharacterIsAdmin(sender)) return;
+		GameMagicBattleSetStatus("Running");
+		GameMagicBattleTurnAdmin = sender;
+		GameMagicBattleBuildPlayerList();
+		GameMagicBattleNewTurn("GameStart" + GameMagicBattleGetTeamType());
+	}
+
+	// An administrator can stop the game
+	if (GameMagicBattleIsStopPacket(data)) {
+		if (!ChatRoomCharacterIsAdmin(sender)) return;
+		let Source = GameMagicBattleGetPlayer(sender);
+		if (Source != null) {
+			GameMagicBattleAddChatLog("GameStop", Source, Source, null, "#0000A0");
+			GameMagicBattleSetStatus("");
 		}
+	}
 
-		// An administrator can stop the game
-		if ((ChatRoomData.Admin.indexOf(P.Sender) >= 0) && (P.Data.GameProgress == "Stop")) {
-			let Source = GameMagicBattleGetPlayer(P.Sender);
-			if (Source != null) {
-				GameMagicBattleAddChatLog("GameStop", Source, Source, null, "#0000A0");
-				GameMagicBattleSetStatus("");
-			}
-		}
+	// When the turn administrator sends the message to end the turn, we calculate the outcome
+	if (GameMagicBattleIsNextPacket(data)) {
+		if (GameMagicBattleGetStatus() !== "Running" || GameMagicBattleTurnAdmin !== sender) return;
+		if (GameMagicBattleCalculateTurnWinner() == "Running")
+			GameMagicBattleNewTurn("TurnNext");
+	}
 
-		// When the turn administrator sends the message to end the turn, we calculate the outcome
-		if ((GameMagicBattleGetStatus() == "Running") && (GameMagicBattleTurnAdmin == P.Sender) && (P.Data.GameProgress == "Next"))
-			if (GameMagicBattleCalculateTurnWinner() == "Running")
-				GameMagicBattleNewTurn("TurnNext");
+	// The current turn player can trigger an action, a spell cast by a user
+	if (GameMagicBattleIsActionPacket(data)) {
+		if (GameMagicBattleGetStatus() !== "Running") return;
 
-		// The current turn player can trigger an action, a spell cast by a user
-		if ((GameMagicBattleGetStatus() == "Running") && (P.Data.GameProgress == "Action") && (P.Data.Action != null) && (P.Data.Target != null)) {
+		// Keep the data in the game log for that turn
+		GameMagicBattleLog.push({ Sender: sender, Data: data });
 
-			// Keep the data in the game log for that turn
-			GameMagicBattleLog.push({ Sender: P.Sender, Data: P.Data });
-
-			// Before we process it, we make sure the action is valid by checking all possible options
-			let Source = GameMagicBattleGetPlayer(P.Sender);
-			let Target = GameMagicBattleGetPlayer(P.Data.Target);
-			if ((Source != null) && (Target != null))
-				GameMagicBattleAddChatLog(P.Data.Action, Source, Target, P.Data, (P.Data.Action == "SpellFail") ? "#A00000" : "#00A000");
-
-		}
-
+		// Before we process it, we make sure the action is valid by checking all possible options
+		let Source = GameMagicBattleGetPlayer(sender);
+		let Target = GameMagicBattleGetPlayer(data.Target);
+		if (!Source || !Target) return;
+		GameMagicBattleAddChatLog(data.Action, Source, Target, data, (data.Action == "SpellFail" ? "#A00000" : "#00A000"));
 	}
 }
 

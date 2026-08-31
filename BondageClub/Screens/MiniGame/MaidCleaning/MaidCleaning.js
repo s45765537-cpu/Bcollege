@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 "use strict";
 var MaidCleaningBackground = "";
-/** @type {null | { X: number, Y: number, T: number }[]} */
-var MaidCleaningSpots = null;
+/** @type {{ X: number, Y: number, T: number }[]} */
+var MaidCleaningSpots = [];
 var MaidCleaningPlayerX = 0;
 var MaidCleaningPlayerY = 0;
 var MaidCleaningSpotSize = 100;
@@ -111,6 +110,7 @@ function MaidCleaningEnd(Victory) {
 	MiniGameVictory = Victory;
 	MiniGameEnded = true;
 	MiniGameTimer = CommonTime();
+	MaidCleaningSpots = [];
 }
 
 /**

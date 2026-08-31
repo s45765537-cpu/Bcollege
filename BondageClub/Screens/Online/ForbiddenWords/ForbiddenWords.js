@@ -16,10 +16,11 @@ async function ForbiddenWordsLoad() {
 	ElementCreateInput("InputWord", "text", "", "50");
 	ForbiddenWordsOffset = 0;
 	ForbiddenWordsList = [];
-	if ((ForbiddenWordsTarget != null) && (ForbiddenWordsTarget.Rule != null))
-		for (let R of ForbiddenWordsTarget.Rule)
-			if (R.Name.startsWith("ForbiddenWords"))
-				ForbiddenWordsList = R.Name.substring("ForbiddenWords".length, 10000).split("|");
+	if (!ForbiddenWordsTarget || !ForbiddenWordsTarget.Rule) return;
+	const rule = ForbiddenWordsTarget.Rule.find(r => r.Name === "ForbiddenWords");
+	if (!rule || !Array.isArray(rule.Value)) return;
+
+	ForbiddenWordsList = rule.Value;
 	if (ForbiddenWordsList.length > 0) {
 		ForbiddenWordsConsequence = ForbiddenWordsList[0];
 		if (ForbiddenWordsConsequenceList.indexOf(ForbiddenWordsConsequence) < 0) ForbiddenWordsConsequence = ForbiddenWordsConsequenceList[0];
@@ -63,7 +64,7 @@ function ForbiddenWordsRun() {
 	for (let O = ForbiddenWordsOffset; O < ForbiddenWordsList.length && O < ForbiddenWordsOffset + 32; O++) {
 		let X = 100 + Math.floor((O - ForbiddenWordsOffset)/ 8) * 450;
 		let Y = 270 + ((O % 8) * 84);
-		DrawButton(X, Y, 60, 60, "", "White", "Icons/Small/Remove.png");
+		DrawButton(X, Y, 60, 60, "", "White", "Icons/Remove.png");
 		DrawText(ForbiddenWordsList[O], X + 100, Y + 30, "Black", "Gray");
 	}
 	MainCanvas.textAlign = "center";
@@ -115,15 +116,22 @@ function ForbiddenWordsClick() {
 
 /**
  * Handles exiting from the screen, updates the sub rules
- * @type {ScreenExitHandler}
+ * @satisfies {ScreenExitHandler}
+ * @returns {SafePromise<void>}
  */
-function ForbiddenWordsExit() {
+async function ForbiddenWordsExit() {
 	const C = ForbiddenWordsTarget;
-	let FW = ForbiddenWordsConsequence + "|" + ForbiddenWordsList.join("|");
-	if (C) {
-		ServerSend("ChatRoomChat", { Content: "OwnerRuleForbiddenWords" + FW, Type: "Hidden", Target: C.MemberNumber });
-		CommonSetScreen("Online", "ChatRoom").then(() => ChatRoomFocusCharacter(C));
-	} else {
-		CommonSetScreen("Online", "ChatRoom");
+	if (!C) {
+		return CommonSetScreen("Online", "ChatRoom");
 	}
+	const data = ForbiddenWordsList.concat();
+	if (data.length > 0) {
+		data.splice(0, 0, ForbiddenWordsConsequence);
+	}
+	const builder = new DictionaryBuilder();
+	builder.stringList("ForbiddenWords", data);
+	ServerSend("ChatRoomChat", { Content: "OwnerRuleForbiddenWords", Type: "Hidden", Target: C.MemberNumber, Dictionary: builder.build() });
+	await CommonSetScreen("Online", "ChatRoom");
+	ChatRoomFocusCharacter(C);
+	return;
 }
