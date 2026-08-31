@@ -1504,7 +1504,28 @@ type ActivityNameBasic = "Bite" | "Brush" | "Caress" | "Choke" | "Clean" | "Cudd
 	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab" | "SpitOutGag"
 ;
 
-type ActivityNameItem = "PowderItem" | "ShakeItem" | "SpitItem" | "Inject" | "MasturbateItem" | "PenetrateItem" | "ChewItem" | "PourItem" | "RollItem" | "RubItem" | "BrushItem" | "ShockItem" | "SipItem" | "SpankItem" | "SqueezeItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
+type ActivityNameItem =
+	| "PowderItem"
+	| "ShakeItem"
+	| "SpitItem"
+	| "Inject"
+	| "MasturbateItem"
+	| "PenetrateItem"
+	| "ChewItem"
+	| "PourItem"
+	| "RollItem"
+	| "RubItem"
+	| "BrushItem"
+	| "ShockItem"
+	| "SipItem"
+	| "SpankItem"
+	| "SqueezeItem"
+	| "TickleItem"
+	| "EatItem"
+	| "Scratch"
+	| "ThrowItem"
+	| "GagItem"
+;
 
 type ActivityName = ActivityNameBasic | ActivityNameItem;
 
@@ -1531,8 +1552,6 @@ interface Activity {
 	StimulationAction?: StimulationAction;
 	/** The default expression for that activity. Can be overriden using ActivityExpression on the asset */
 	ActivityExpression?: ExpressionTrigger[];
-	/** If to always convert the Activity to ItemActivity */
-	AsItem?: Boolean;
 }
 
 type ItemActivityRestriction = "blocked" | "limited" | "unavail";

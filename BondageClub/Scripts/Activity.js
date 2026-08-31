@@ -352,9 +352,6 @@ function ActivityAllowedForGroup(character, groupname) {
 		}
 
 		ActivityLog(`${Player.Name} on ${character.Name}, act: ${activity.Name}: not handled by item stuff, adding in`);
-		if (activity.AsItem && targetedItem) {
-			return allowedActivities.concat({ Activity: activity, Group: group.Name, Item: targetedItem });
-		}
 		return allowedActivities.concat({ Activity: activity, Group: group.Name });
 	}, /** @type {ItemActivity[]} */ ([]));
 
