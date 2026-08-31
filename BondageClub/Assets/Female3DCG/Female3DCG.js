@@ -13969,6 +13969,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BulkyDiapers",
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
+				Hide: ["Pussy"],
 				Attribute: ["GenitaliaCover", "Diaper", "DiaperLarge"],
 				Random: false,
 				Value: 30,
