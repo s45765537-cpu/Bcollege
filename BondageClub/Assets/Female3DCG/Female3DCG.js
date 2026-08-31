@@ -29045,6 +29045,7 @@ var AssetFemale3DCG = [
 				Name: "BabyPowderDust",
 				Top: 422,
 				Left: 138,
+				Priority: 12.1, // Just above "Pussy" group
 				Extended: true,
 				Layer: [
 					{
