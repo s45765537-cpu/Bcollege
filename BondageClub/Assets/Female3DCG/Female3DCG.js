@@ -13665,7 +13665,7 @@ var AssetFemale3DCG = [
 		Group: "Panties",
 		ParentGroup: "BodyLower",
 		ParentColor: "Bra",
-		Priority: 26, // was 19. If penis layer is at 25, then surely this should be above 25?
+		Priority: 19,
 		Clothing: true,
 		EditOpacity: true,
 		MinOpacity: 0,
