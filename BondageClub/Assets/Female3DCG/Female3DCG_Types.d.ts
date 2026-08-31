@@ -1,7 +1,12 @@
 /** A type representing layer names (yes this is just a `string` alias). */
 type LayerName = string;
 
-/** A group + asset name */
+// Do not remove, but do deprecate in order to discourage future usage
+/**
+ * A group + asset name.
+ *
+ * @deprecated Usage of {@link AssetFullPath} instead is strongly recommended for any and all future work.
+ */
 type AssetFullName = `${AssetGroupName}${AssetName}`;
 
 /** A group + asset name separated by a dash */
