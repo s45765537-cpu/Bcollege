@@ -209,7 +209,7 @@ function AssetParseName(name, errMsgSuffix) {
  * @param {AssetDefinition} AssetDef
  * @param {ExtendedItemMainConfig} ExtendedConfig
  * @param {AssetGroupDefinition} GroupDef
- * @returns {void} - Nothing
+ * @returns {Asset} - The created asset
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	if (!GroupDef) {
@@ -428,6 +428,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 			A.WearTime = 0;
 			break;
 	}
+	return A;
 }
 
 /**
@@ -997,10 +998,21 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 	}
 
 	// Pass three: finally parse the asset/group defs
+	let totalAssetValue = 0;
+	const maxAssetValue = 68106; // Sum of all positive asset values as of R131
 	for (const groupDef of Groups) {
 		const G = AssetGroupAdd(Family, groupDef);
 		for (const assetDef of Object.values(assetDefsParsed[G.Name])) {
-			AssetAdd(G, assetDef, ExtendedConfig, groupDef);
+			const asset = AssetAdd(G, assetDef, ExtendedConfig, groupDef);
+			totalAssetValue += asset.Value < 0 ? 0 : asset.Value;
+		}
+	}
+
+	// Pass four: normalize all asset values w.r.t. the R131 asset value sum
+	const valueNormalizer = maxAssetValue / totalAssetValue;
+	for (const asset of Asset) {
+		if (asset.Value > 0) {
+			/** @type {Mutable<Asset>} */(asset).Value = Math.max(1, Math.floor(asset.Value * valueNormalizer));
 		}
 	}
 
