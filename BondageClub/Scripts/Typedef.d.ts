@@ -236,17 +236,6 @@ declare namespace ElementButton {
 		/** The {@link HTMLButtonElement.ariaHasPopup} of the button */
 		ariaHasPopup?: boolean | "true" | "false" | "menu" | "listbox" | "tree" | "grid" | "dialog";
 	}
-
-	interface AssetOptions extends Options {
-		/**
-		 * Whether the crafted item is currently worn.
-		 *
-		 * Used for determining whether the presence of a lock will be inferred from `Item.Property` ("worn") or `Item.Craft` ("not worn").
-		 * @default true
-		 * @deprecated To-be removed for R132
-		 */
-		_craftIsWorn?: boolean;
-	}
 }
 
 declare namespace ElementCheckbox {
@@ -1567,7 +1556,7 @@ interface Item {
 	Asset: Asset;
 	Color: BCColor[];
 	Difficulty: number;
-	Craft?: CraftingItem;
+	Craft?: CraftingPartialItem;
 	Property: ItemProperties;
 }
 
@@ -4021,7 +4010,7 @@ interface StruggleMinigame {
 interface StruggleCompletionData {
 	Progress: number;
 	PrevItem: Item;
-	NextItem?: Item;
+	NextItem?: DialogInventoryItem;
 	Skill: number;
 	Attempts: number;
 	Interrupted: boolean;
@@ -4626,10 +4615,11 @@ interface CraftingSlotModeData extends Record<Extract<CraftingMode, "Slot" | "Re
 type CraftingSlotModes = keyof CraftingSlotModeData;
 
 /**
- * A struct with an items crafting-related information.
+ * An object representing fully parsed crafting-related information and, as such,
+ * lacks properties for pre-configuring items.
  * @see {@link Item.Craft}
  */
-interface CraftingItem {
+interface CraftingPartialItem {
 	/** The name of the crafted item. */
 	Name: string;
 	/** The name of the crafter. */
@@ -4638,21 +4628,31 @@ interface CraftingItem {
 	MemberNumber?: number;
 	/** The custom item description. */
 	Description: string;
-	/** The crafted item effects mapped to their effect strength. */
-	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/**
 	 * The crafted item effect.
 	 * @deprecated superseded by {@link CraftingItem.Effects}
 	 */
 	Property?: CraftingPropertyType;
+	/** The crafted item effects mapped to their effect strength. */
+	Effects: Partial<Record<CraftingPropertyType, number>>;
+	/** Whether the crafted item should be private or not. */
+	Private: boolean;
+	/** Whether the craft belongs to an equipped item. A value of `false` implies that the object is a full {@link CraftingItem}. */
+	Partial?: boolean;
+}
+
+/**
+ * An object representing unparsed crafting-related information, including properties for pre-configuring items.
+ * @see {@link DialogInventoryItem.Craft}
+ */
+interface CraftingItem extends CraftingPartialItem {
+	Partial: false;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
 	/** The name of the lock or, if absent, an empty string. */
 	Lock: "" | AssetLockType;
 	/** The name of the item; see {@link Asset.Name}. */
 	Item: string;
-	/** Whether the crafted item should be private or not. */
-	Private: boolean;
 	/**
 	 * The type of the crafted item; only relevant for extended items and should be an empty string otherwise.
 	 * @deprecated superseded by {@link CraftingItem.TypeRecord}. Old type strings can be convert to records via {@link ExtendedItemTypeToRecord}.
@@ -4737,16 +4737,16 @@ interface CraftingItemSelected {
 	set OverridePriority(value: undefined | AssetLayerOverridePriority);
  }
 
-/**
- * A struct with tools for validating {@link CraftingItem} properties.
- * @property {function} Validate - The validation function
- * @property {function} GetDefault - A function that creates default values for when the validation fails
- * @property {CraftingStatusType} - The {@link CraftingStatusType} code for when the validation fails
- */
+/** A struct with tools for validating {@link CraftingItem} properties. */
 interface CratingValidationStruct {
-	Validate: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory?: boolean) => boolean;
-	GetDefault: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory?: boolean) => any;
+	/** The validation function */
+	Validate: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory: boolean, partial: boolean) => boolean;
+	/** A function that creates default values for when the validation fails */
+	GetDefault: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory: boolean, partial: boolean) => any;
+	/** The {@link CraftingStatusType} code for when the validation fails */
 	StatusCode: CraftingStatusType;
+	/** Marker for properties present in both {@link CraftingItem} and {@link CraftingPartialItem}. Used for partial crafting item validation. */
+	Partial?: boolean;
 }
 
 declare namespace CraftingJSON {
@@ -5037,6 +5037,7 @@ interface DialogInventoryItem extends Item {
 	Icons: InventoryIcon[];
 	SortOrder: string;
 	Vibrating: boolean;
+	Craft?: CraftingItem;
 }
 
 type DialogSelfMenuName = "Expression" | "Pose" | "SavedExpressions" | "OwnerRules";
@@ -5317,7 +5318,7 @@ declare namespace Item {
 		/** The color of the item */
 		color?: Readonly<ItemColor>;
 		difficulty?: number;
-		craft?: Readonly<CraftingItem>;
+		craft?: Readonly<CraftingPartialItem>;
 		property?: Readonly<ItemProperties>;
 	}
 }

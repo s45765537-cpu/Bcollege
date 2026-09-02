@@ -2000,6 +2000,7 @@ function CraftingDeserialize(craftString) {
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
 		Effects: Effects ? /** @type {Partial<Record<CraftingPropertyType, number>>} */(CommonJSONParse(Effects) ?? {}) : {},
+		Partial: false,
 	};
 
 	const priority = Number.parseInt(OverridePriority, 10);
@@ -2154,6 +2155,7 @@ function CraftingConvertSelectedToItem(item) {
 		DifficultyFactor: item.DifficultyFactor || undefined,
 		ItemProperty: item.ItemProperty,
 		Effects: item.Effects,
+		Partial: false,
 	};
 }
 
@@ -2381,10 +2383,20 @@ var CraftingValidationRecord = {
 		},
 		StatusCode: CraftingStatusType.ERROR,
 	},
+	Partial: {
+		Validate: function (c, a, _, partial) {
+			return partial ? c.Partial === undefined : c.Partial === false;
+		},
+		GetDefault: function (c, a, _, partial) {
+			return partial ? undefined : false;
+		},
+		StatusCode: CraftingStatusType.ERROR,
+	},
 	Description: {
 		Validate: (c, a) => typeof c.Description === "string",
 		GetDefault: (c, a) => "",
 		StatusCode: CraftingStatusType.ERROR,
+		Partial: true,
 	},
 	DifficultyFactor: {
 		Validate: function (c, a) {
@@ -2444,16 +2456,19 @@ var CraftingValidationRecord = {
 		Validate: (c, a) => c.MemberName == null || typeof c.MemberName === "string",
 		GetDefault: (c, a) => null,
 		StatusCode: CraftingStatusType.ERROR,
+		Partial: true,
 	},
 	MemberNumber: {
 		Validate: (c, a) => c.MemberNumber == null || typeof c.MemberNumber === "number",
 		GetDefault: (c, a) => null,
 		StatusCode: CraftingStatusType.ERROR,
+		Partial: true,
 	},
 	Name: {
 		Validate: (c, a) => !!c.Name && typeof c.Name === "string",
 		GetDefault: (c, a) => a ? a.Description : "Crafted Item",
 		StatusCode: CraftingStatusType.ERROR,
+		Partial: true,
 	},
 	OverridePriority: {
 		Validate: (c, a) => (c.OverridePriority == null) || Number.isInteger(c.OverridePriority),
@@ -2464,11 +2479,13 @@ var CraftingValidationRecord = {
 		Validate: (c, a) => typeof c.Private === "boolean",
 		GetDefault: (c, a) => false,
 		StatusCode: CraftingStatusType.ERROR,
+		Partial: true,
 	},
 	Property: {
 		Validate: (c, a) => c.Property === undefined,
 		GetDefault: (c, a) => undefined,
 		StatusCode: CraftingStatusType.ERROR,
+		Partial: true,
 	},
 	Effects: {
 		Validate: function (c, a) {
@@ -2526,6 +2543,7 @@ var CraftingValidationRecord = {
 			return ret;
 		},
 		StatusCode: CraftingStatusType.ERROR,
+		Partial: true,
 	},
 	ItemProperty: {
 		Validate: function (c, a) {
@@ -2687,14 +2705,31 @@ var CraftingValidationRecord = {
 };
 
 /**
+ * @overload
+ * @param {CraftingPartialItem} Craft
+ * @param {Asset | null} [asset]
+ * @param {boolean} [Warn]
+ * @param {boolean} [checkPlayerInventory]
+ * @param {true} partial
+ * @return {CraftingStatusType}
+ *//**
+ * @overload
+ * @param {CraftingItem} Craft
+ * @param {Asset | null} [asset]
+ * @param {boolean} [Warn]
+ * @param {boolean} [checkPlayerInventory]
+ * @param {boolean} [partial]
+ * @return {CraftingStatusType}
+ *//**
  * Validate and sanitize crafting properties of the passed item inplace.
  * @param {CraftingItem} Craft - The crafted item properties or `null`
- * @param {Asset | null} asset - The matching Asset. Will be extracted from the player inventory if `null`
- * @param {boolean} Warn - Whether a warning should logged whenever the crafting validation fails
- * @param {boolean} checkPlayerInventory - Whether or not the player must own the crafted item's underlying asset
+ * @param {Asset | null} [asset] - The matching Asset. Will be extracted from the player inventory if `null`
+ * @param {boolean} [Warn] - Whether a warning should logged whenever the crafting validation fails
+ * @param {boolean} [checkPlayerInventory] - Whether or not the player must own the crafted item's underlying asset
+ * @param {boolean} [partial] - Whether only a subset of the craft's properties, corresponding to {@link CraftingPartialItem}, should be validated
  * @return {CraftingStatusType} - One of the {@link CraftingStatusType} status codes; 0 denoting an unrecoverable validation error
  */
-function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=false) {
+function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=false, partial=false) {
 	if (!CommonIsObject(Craft)) {
 		return CraftingStatusType.CRITICAL_ERROR;
 	}
@@ -2715,7 +2750,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 	}
 
 	// Conversions of deprecated fields
-	if (asset != null && Craft.TypeRecord == null && typeof Craft.Type === "string") {
+	if (asset != null && Craft.TypeRecord == null && typeof Craft.Type === "string" && !partial) {
 		Craft.TypeRecord = ExtendedItemTypeToRecord(asset, Craft.Type);
 	}
 	if (Craft.Property !== "Normal" && CommonHas(CraftingPropertyMap, Craft.Property) && !Craft.Effects?.[Craft.Property]) {
@@ -2728,13 +2763,16 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 	 * If `Asset == null` at this point then let all Asset-requiring checks pass, as we
 	 * can't properly validate them. Note that this will introduce the potential for false negatives.
 	 */
-	for (const [AttrName, { Validate, GetDefault, StatusCode }] of CommonEntries(CraftingValidationRecord)) {
-		if (!assets.some(a => Validate(Craft, a, checkPlayerInventory))) {
+	for (const [AttrName, { Validate, GetDefault, StatusCode, Partial: IsPartialProperty }] of CommonEntries(CraftingValidationRecord)) {
+		if (partial && !IsPartialProperty) {
+			// We only want to validate `CraftingPartialItem` here, rather than the full `CraftingItem`
+			continue;
+		} else if (!assets.some(a => Validate(Craft, a, checkPlayerInventory, partial))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
 				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}":`, AttrValue);
 			}
-			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory));
+			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory, partial));
 			StatusMap.set(AttrName, StatusCode);
 		} else {
 			StatusMap.set(AttrName, CraftingStatusType.OK);
@@ -2751,11 +2789,17 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 	}
 
 	// Check for extra attributes
-	const LegalAttributes = CommonKeys(CraftingValidationRecord);
+	const LegalProperties = CommonKeys(CraftingValidationRecord);
+	// TODO: narrow the legal property set for `partial` once >= R132 is live
+	// const LegalAttributes = (
+	// partial
+	// ? CommonFilterMap(CommonEntries(CraftingValidationRecord), ([k, v]) => v.Partial ? k : undefined)
+	// : CommonKeys(CraftingValidationRecord)
+	// );
 	for (const AttrName of CommonKeys(Craft)) {
-		if (!LegalAttributes.includes(AttrName)) {
+		if (!LegalProperties.includes(AttrName)) {
 			if (Warn) {
-				console.error(`Invalid extra "Craft.${AttrName}" attribute for crafted item "${Name}"`);
+				console.error(`Invalid extra "Craft.${AttrName}" attribute for ${partial ? "partial " : ""}crafted item "${Name}"`);
 			}
 			delete Craft[AttrName];
 			StatusMap.set(AttrName, CraftingStatusType.ERROR);

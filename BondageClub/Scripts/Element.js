@@ -2072,7 +2072,7 @@ var ElementButton = {
 	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
 	 * @param {null | Character} C - The character wearing the asset/item (if any)
 	 * @param {null | ((this: HTMLButtonElement, ev: PointerEvent) => any)} onClick - The click event listener to-be attached to the tooltip
-	 * @param {null | ElementButton.AssetOptions} [options] - High level options for the to-be created button
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
@@ -2115,7 +2115,7 @@ var ElementButton = {
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
 			InventoryIsAllowedLimited(C ?? Player, item) ? "AllowedLimited" : null,
-			...DialogGetLockIcon(item, options._craftIsWorn ?? true),
+			...DialogGetLockIcon(item, item.Craft?.Partial ?? true),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
 		];
@@ -2128,7 +2128,7 @@ var ElementButton = {
 	},
 
 	/**
-	 * @param {CraftingItem} craft
+	 * @param {CraftingPartialItem} craft
 	 * @returns {HTMLElement[]}
 	 */
 	CreateCraftTooltipContent: function CreateCraftTooltipContent(craft) {

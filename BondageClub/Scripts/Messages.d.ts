@@ -178,7 +178,7 @@ interface ServerItemBundle {
 	Difficulty?: number;
 	Color?: ItemColor;
 	Property?: ItemProperties;
-	Craft?: CraftingItem;
+	Craft?: CraftingPartialItem;
 }
 
 interface ServerPrivateCharacterData {
@@ -1115,7 +1115,7 @@ interface ServerCharacterItemUpdate {
 	Color: ItemColor;
 	Difficulty: number;
 	Property?: ItemProperties;
-	Craft?: CraftingItem;
+	Craft?: CraftingPartialItem;
 }
 
 interface ServerChatRoomSyncItemResponse {

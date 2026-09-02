@@ -123,7 +123,7 @@ let DialogStruggleAction = null;
 let DialogStrugglePrevItem = null;
 /**
  * The item we're swapping to.
- * @type {Item | null}
+ * @type {DialogInventoryItem | null}
  */
 let DialogStruggleNextItem = null;
 /** Whether we went through the struggle selection screen or went straight through. */
@@ -1047,12 +1047,13 @@ function DialogLeaveFocusItem(allowModeChange=true) {
  * @param {Item} item - The item to be added to the inventory
  * @param {boolean} isWorn - Should be true, if the item is currently being worn, false otherwise
  * @param {DialogSortOrder} [sortOrder] - Defines where in the inventory list the item is sorted
+ * @param {CraftingItem} [craft]
  * @returns {void} - Nothing
  */
-function DialogInventoryAdd(C, item, isWorn, sortOrder) {
+function DialogInventoryAdd(C, item, isWorn, sortOrder, craft) {
+	const inventoryItem = DialogInventoryCreateItem(C, item, isWorn, sortOrder, craft);
 	if (DialogMenuMode !== "permissions") {
-		const asset = item.Asset;
-
+		const asset = inventoryItem.Asset;
 		if (!isWorn && !asset.Enable)
 			return;
 
@@ -1073,28 +1074,29 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 		if (asset.FamilyOnly && asset.IsLock && C.IsPlayer() && (C.IsOwned() === false)) return;
 
 		// Do not show keys if they are in the deposit
-		if (LogQuery("KeyDeposit", "Cell") && InventoryIsKey(item)) return;
+		if (LogQuery("KeyDeposit", "Cell") && InventoryIsKey(inventoryItem)) return;
 
 		// Don't allow gendered assets in the opposite-gender-only space
 		if (!CharacterAppearanceGenderAllowed(asset)) return;
 
 		// Make sure we do not duplicate the item in the list
 		for (const invItem of DialogInventory) {
-			if (!DialogAllowItemClick(invItem, item)) {
+			if (!DialogAllowItemClick(invItem, inventoryItem)) {
 				return;
 			}
 		}
 	}
 
 	// Adds the item to the selection list
-	const inventoryItem = DialogInventoryCreateItem(C, item, isWorn, sortOrder);
-	if (item.Craft != null) {
-		inventoryItem.Craft = item.Craft;
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUsable}${item.Asset.Description}${item.Craft.Name ?? ""}`;
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUnusable}${item.Asset.Description}${item.Craft.Name ?? ""}`;
+	if (inventoryItem.Craft != null) {
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) {
+			inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUsable}${inventoryItem.Asset.Description}${inventoryItem.Craft.Name ?? ""}`;
+		};
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) {
+			inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUnusable}${inventoryItem.Asset.Description}${inventoryItem.Craft.Name ?? ""}`;
+		};
 	}
 	DialogInventory.push(inventoryItem);
-
 }
 
 /**
@@ -1103,9 +1105,10 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
  * @param {Item} item - The item to be added to the inventory
  * @param {boolean} isWorn - Should be true if the item is currently being worn, false otherwise
  * @param {DialogSortOrder} [sortOrder] - Defines where in the inventory list the item is sorted
+ * @param {CraftingItem} [craft]
  * @returns {DialogInventoryItem} - The inventory item
  */
-function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
+function DialogInventoryCreateItem(C, item, isWorn, sortOrder, craft) {
 	const asset = item.Asset;
 	const favoriteStateDetails = DialogGetFavoriteStateDetails(C, asset);
 
@@ -1129,23 +1132,25 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 		sortOrder = DialogSortOrder.Enabled;
 	}
 
-	// Determine the icons to display in the preview image
-	/** @type {InventoryIcon[]} */
-	let icons = [];
-	if (favoriteStateDetails.Icon) icons.push(favoriteStateDetails.Icon);
-	icons = icons.concat(DialogGetLockIcon(item, isWorn));
-	if (InventoryIsAllowedLimited(C, item)) icons.push("AllowedLimited");
-	icons = icons.concat(DialogGetAssetIcons(asset));
-	icons = icons.concat(DialogEffectIcons.GetIcons(item));
-
 	/** @type {DialogInventoryItem} */
-	return {
+	const dialogItem = {
 		...item,
+		Craft: craft,
 		Worn: isWorn,
-		Icons: icons,
-		SortOrder: `${sortOrder}${asset.Description}${item.Craft?.Name ?? ""}`,
+		Icons: [],
+		SortOrder: `${sortOrder}${asset.Description}${craft?.Name ?? ""}`,
 		Vibrating: isWorn && InventoryItemHasEffect(item, "Vibrating", true),
 	};
+
+	// Determine the icons to display in the preview image
+	dialogItem.Icons = [
+		favoriteStateDetails.Icon ? favoriteStateDetails.Icon : null,
+		...DialogGetLockIcon(dialogItem, isWorn),
+		InventoryIsAllowedLimited(C, dialogItem) ? /** @type {const} */("AllowedLimited") : null,
+		...DialogGetAssetIcons(asset),
+		...DialogEffectIcons.GetIcons(dialogItem),
+	].filter(i => i != null);
+	return dialogItem;
 }
 
 /**
@@ -1175,9 +1180,10 @@ function DialogGetLockIcon(item, isWorn) {
 		else
 			// One of the default-locked items
 			icons.push(isWorn ? "Locked" : "Unlocked");
-	} else if (item.Craft && item.Craft.Lock) {
+	} else if (item.Craft?.Partial === false && "Lock" in item.Craft && item.Craft.Lock) {
+		const lock = /** @type {Exclude<CraftingItem["Lock"], "">} >*/(item.Craft.Lock);
 		if (!isWorn || InventoryItemHasEffect(item, "Lock"))
-			icons.push(item.Craft.Lock);
+			icons.push(lock);
 	}
 	return icons;
 }
@@ -1695,7 +1701,7 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 
 			for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 				if (Asset.Group.Name === focusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-					DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
+					DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset), false, undefined, Craft);
 				}
 			}
 		}
@@ -1712,7 +1718,7 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 				Craft.MemberNumber = C.MemberNumber;
 				for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
 					if (Asset.Group.Name === focusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
-						DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset, { craft: Craft }), false);
+						DialogInventoryAdd(C, AppearanceItem.fromAsset(Asset), false, undefined, Craft);
 					}
 				}
 			}
@@ -2111,7 +2117,7 @@ function DialogInventoryTogglePermission(item, worn) {
 	// Refresh the inventory item
 	const itemIndex = DialogInventory.findIndex(i => i.Asset.Name == item.Asset.Name && i.Asset.Group.Name == item.Asset.Group.Name);
 	const sortOrder = /** @type {DialogSortOrder} */ (parseInt(item.SortOrder.replace(/[^0-9].+/gm, '') || DialogSortOrder.Usable)); // only keep the number at the start
-	DialogInventory[itemIndex] = DialogInventoryCreateItem(Player, item, item.Worn, sortOrder);
+	DialogInventory[itemIndex] = DialogInventoryCreateItem(Player, item, item.Worn, sortOrder, item.Craft);
 	return permission;
 }
 
@@ -3539,7 +3545,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 				clickedItem,
 				C,
 				this.eventListeners._ClickButton,
-				{ clickDisabled: this.eventListeners._ClickDisabledButton, _craftIsWorn: false },
+				{ clickDisabled: this.eventListeners._ClickDisabledButton },
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
@@ -5800,7 +5806,7 @@ function DialogActualNameForGroup(C, G) {
  * @param {Character} C
  * @param {DialogStruggleActionType} Action
  * @param {Item | null} PrevItem
- * @param {Item | null} NextItem
+ * @param {DialogInventoryItem | null} NextItem
  */
 function DialogStruggleStart(C, Action, PrevItem, NextItem) {
 
@@ -5885,27 +5891,29 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 
 		// Removes the item & associated items if needed, then wears the new one
 		InventoryRemove(C, C.FocusGroup.Name, false);
+		/** @type {null | Item} */
+		let nextWornItem = null;
 		if (NextItem != null) {
 			/** @type {BCColor} */
 			let Color = (DialogColorSelect == null) ? "Default" : DialogColorSelect;
 			if ((NextItem.Craft != null) && CommonIsColor(NextItem.Craft.Color))
 				Color = NextItem.Craft.Color;
 
-			NextItem = InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, false) ?? undefined;
+			nextWornItem = InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, false) ?? undefined;
 		}
 
 		CharacterRefresh(C, true, true);
 
 		// Handle skills
 		if (C.IsPlayer()) {
-			if (NextItem === null) {
+			if (nextWornItem === null) {
 				// We successfully removed one of our items
 				SkillProgress(Player, "Evasion", Skill);
 			} else if (PrevItem === null) {
 				// We successfully added an item
 				SkillProgress(Player, "SelfBondage", Skill);
 			}
-		} else if (NextItem !== null) {
+		} else if (nextWornItem !== null) {
 			// We successfully added an item on someone
 			SkillProgress(Player, "Bondage", Skill);
 		}
@@ -5919,11 +5927,11 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		// Update the dialog state
 		if (C.IsNpc()) {
 			// For NPCs, we need to show their reaction and never leave the dialog abruptly
-			C.CurrentDialog = DialogFind(C, (NextItem == null ? "Remove" + PrevItem.Asset.Name : NextItem.Asset.Name), (NextItem == null ? "Remove" : "") + C.FocusGroup.Name);
+			C.CurrentDialog = DialogFind(C, (nextWornItem == null ? "Remove" + PrevItem.Asset.Name : nextWornItem.Asset.Name), (nextWornItem == null ? "Remove" : "") + C.FocusGroup.Name);
 			DialogLeaveItemMenu();
-		} else if (NextItem === null) {
+		} else if (nextWornItem === null) {
 			// Removing an item, we move back to the menu
-			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, NextItem);
+			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, nextWornItem);
 			DialogChangeMode("items");
 		} else if (
 			NextItem != null
@@ -5935,11 +5943,11 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 			)
 		) {
 			// Applying an extended, non-crafted/typeless crafted item, refresh the inventory and open the extended UI
-			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, NextItem);
-			DialogExtendItem(NextItem);
+			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, nextWornItem);
+			DialogExtendItem(nextWornItem);
 		} else {
 			// Applying a non-extended or crafted-with-preset-type item, just exit the dialog altogether
-			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, NextItem);
+			ChatRoomPublishAction(C, DialogStruggleAction, PrevItem, nextWornItem);
 			DialogLeave();
 		}
 	}
