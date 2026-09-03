@@ -2108,8 +2108,10 @@ interface Character {
 	set Y(Y: number);
 	get Position(): ChatRoomMapPos | null;
 	set Position({ X, Y }: ChatRoomMapPos);
+	HasMapState(name: ChatRoomMapState): boolean;
+	SetMapState(name: ChatRoomMapState, state: boolean): void;
 	IsBirthday: () => boolean;
-		IsSiblingOfCharacter: (C: Character) => boolean;
+	IsSiblingOfCharacter: (C: Character) => boolean;
 	IsFamilyOfPlayer: () => boolean;
 	IsInFamilyOfMemberNumber: (MemberNum: number) => boolean;
 	IsOnline: () => this is OnlineCharacter;
@@ -2392,7 +2394,7 @@ interface OnlineCharacter extends Character {
 	OnlineSharedSettings: CharacterOnlineSharedSettings;
 	Game: CharacterGameParameters;
 	AllowedInteractions: AllowedInteractions;
-	MapData: ChatRoomMapData;
+	MapData?: ChatRoomMapData;
 	Difficulty: {
 		Level: DifficultyLevel;
 		LastChange?: number;
@@ -2444,6 +2446,7 @@ interface PlayerCharacter extends OnlineCharacter {
 	ConfiscatedItems: { Group: AssetGroupName, Name: string }[];
 	ExtensionSettings: ExtensionSettings;
 	ChatSearchSettings: ChatRoomSearchSettings;
+	RecentlyUsedMapElements: ChatRoomMapDoodad[];
 	KeybindingSettings: string;
 }
 
@@ -5132,7 +5135,7 @@ interface PreviewDrawOptions {
 
 // #region Chat Room Maps
 
-interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "MouseUp" | "MouseMove" | "MouseWheel" | "Click" | "Draw" | "KeyDown" | "KeyUp"> {
+interface ChatRoomView extends Pick<ScreenFunctions,"Resize" | "Run" | "MouseDown" | "MouseUp" | "MouseMove" | "MouseWheel" | "Click" | "Draw" | "KeyDown" | "KeyUp"> {
 	Activate?: () => void;
 	Deactivate?: () => void;
 	Draw: () => void;
@@ -5145,7 +5148,8 @@ interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "Mous
 
 type ChatRoomMapType = "Always" | "Hybrid" | "Never";
 
-type ChatRoomMapDirection = "" | "R" | "L" | "D" | "U";
+type ChatRoomMapDirectionWithEmptySpace = "" | "West" | "East" | "North" | "South";
+type ChatRoomMapDirection = "West" | "East" | "North" | "South";
 
 type ChatRoomMapObjectType = (
 	"FloorDecoration"
@@ -5160,50 +5164,65 @@ type ChatRoomMapObjectType = (
 	| "FloorLetter"
 	| "FloorIcon"
 	| "WallDecoration"
-	| "WallPath"
 	| "Banners"
+	| "FloorFoamTiles"
+	| "Functional"
+	| "WallPath"
+	| "Bedroom"
+	| "LivingRoom"
+	| "School"
+	| "ABDL"
+	| "Bathroom"
 );
 
 type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
 
 interface ChatRoomMapDoodad {
+	Type: string;
 	ID: number;
-	Style: string;
-	OccupiedStyle?: "WoodOpen" | "MetalOpen" | "RoyalDoorOpen" | "SteelDoorOpen" | "GrayDoorOpen" | "BrownDoorOpen";
-	CanEnter?: (direction: ChatRoomMapDirection) => boolean;
-	OnEnter?: () => void;
+	Unique?: boolean;
+	Name?: string; 
 }
 
-interface ChatRoomMapTile extends ChatRoomMapDoodad {
-	Type: ChatRoomMapTileType;
-	Transparency?: number;
+/** {@link ChatRoomMapViewIsChatRoomMapPhysicalElement }  */
+interface ChatRoomMapPhysicalElement extends ChatRoomMapDoodad {
+	Style: string;
+	Rotation?: number;
 	TransparencyCutoutHeight?: number;
+	Transparency?: number;
+	OccupiedStyle?: "WoodOpen" | "MetalOpen" | "RoyalDoorOpen" | "SteelDoorOpen" | "GrayDoorOpen" | "BrownDoorOpen";
+	CanEnter?: (direction: ChatRoomMapDirectionWithEmptySpace) => boolean;
+	OnEnter?: () => void;
 	BlockVision?: boolean;
 	BlockHearing?: boolean;
-}
-
-interface ChatRoomMapObject extends ChatRoomMapDoodad {
-	Type: ChatRoomMapObjectType;
 	Top?: number;
 	Left?: number;
 	Width?: number;
 	Height?: number;
-	Transparency?: number;
-	TransparencyCutoutHeight?: number;
+	CanPlaceOnFloors?: boolean; // default true
+	CanPlaceOnWalls?: boolean; // ex. Banners
+	CanPlaceInWalls?: boolean; // ex. Doors
+}
+
+/** {@link ChatRoomMapViewIsChatRoomMapTile }  */
+interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
+	Type: ChatRoomMapTileType;
+}
+
+/** {@link ChatRoomMapViewIsChatRoomMapObject }  */
+interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
+	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
-	Unique?: boolean;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: string;
-	BlockVision?: boolean;
-	BlockHearing?: boolean;
 	IsVisible?: () => boolean;
 	BuildImageName?: (X: number, Y: number) => string;
 }
 
-interface ChatRoomMapEffectStaticLighting {
+/** {@link ChatRoomMapViewIsChatRoomMapEffect }  */
+interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad{
 	Type: "StaticLighting";
 	TypeId: 1,
-	ID: number,
 	/**
 	 * R [0; 255], G [0; 255], B [0; 255], A [0.0; 1.0]
 	 */
@@ -5222,6 +5241,12 @@ interface ChatRoomMapMovement {
 	TimeStart: number;
 	TimeEnd: number;
 }
+
+type ChatRoomMapState =
+	| "BronzeKey"
+	| "SilverKey"
+	| "GoldKey"
+;
 
 // #endregion
 

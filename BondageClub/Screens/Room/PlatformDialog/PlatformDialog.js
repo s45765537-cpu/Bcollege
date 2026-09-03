@@ -5455,11 +5455,11 @@ function PlatformDialogKeyDown(event) {
 	} else if (event.code === "Space" || event.code === "Enter" || event.code === "KeyJ" || event.code === "KeyK" || event.code === "KeyL") {
 		PlatformDialogProcess();
 		return true;
-	} else if (CommonKeyMove(event) === "u") {
+	} else if (CommonKeyMove(event) === "North") {
 		PlatformDialogAnswerPosition--;
 		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswer.length - 1 : 0;
 		return true;
-	} else if (CommonKeyMove(event) === "d") {
+	} else if (CommonKeyMove(event) === "South") {
 		PlatformDialogAnswerPosition++;
 		if ((PlatformDialogAnswer != null) && (PlatformDialogAnswerPosition >= PlatformDialogAnswer.length)) PlatformDialogAnswerPosition = 0;
 		return true;

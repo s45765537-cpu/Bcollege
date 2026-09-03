@@ -1581,6 +1581,17 @@ var ServerAccountDataSyncedValidate = {
 				names[idx] = name;
 		}
 		return names;
+	},
+	/**
+	 * @param {ServerAccountDataSynced["RecentlyUsedMapElements"]} arg
+	 * @param {Character} C
+	 * @returns {ChatRoomMapDoodad[]}
+	 */
+	RecentlyUsedMapElements: (arg, C) => {
+		if (arg?.length > 16) {
+			return arg.slice(-16);
+		}
+		return CommonIsArray(arg) ? arg : [];
 	}
 };
 

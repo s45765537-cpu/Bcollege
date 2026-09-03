@@ -70469,7 +70469,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Left: -30,
 				Top: -235,
-				Effect: [E.Freeze, E.Leash, E.OnBed],
+				Effect: [E.Freeze, E.MapImmobile, E.Leash, E.OnBed],
 				HideItem: ["ShoesFlippers"],
 				RemoveAtLogin: true,
 				Extended: true,
