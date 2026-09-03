@@ -1582,13 +1582,23 @@ function CharacterSetCurrent(C, options=null) {
 }
 
 /**
+ * A scaling factor for all money gains, effectively introducing wage inflation as more and more items are added to the shop.
+ *
+ * Proportional to the sum of all asset values divided by `50_000`.
+ * @type {number}
+ */
+var CharacterMoneyFactor = 1.0;
+
+/**
  * Changes the character money and sync with the account server, factors in the cheaters version.
  * @param {Character} C - Character for which we are altering the money amount
  * @param {number} Value - Money to subtract/add
  * @returns {void} - Nothing
  */
 function CharacterChangeMoney(C, Value) {
-	C.Money = parseInt(C.Money) + parseInt(Value) * ((Value > 0) ? CheatFactor("DoubleMoney", 2) : 1);
+	if (!CommonIsFinite(Value)) { return; }
+	const moneyFactor = Value > 0 ? CharacterMoneyFactor * CheatFactor("DoubleMoney", 2) : 1;
+	C.Money += Math.ceil(Value * moneyFactor);
 	ServerPlayerSync();
 }
 
