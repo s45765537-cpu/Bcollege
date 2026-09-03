@@ -73929,6 +73929,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				RemoveTime: 10,
 				AllowLock: true,
+				DrawLocks: false,
 				Hide: ["Shoes"],
 				CopyConfig: {
 					GroupName: "Shoes",
@@ -74488,7 +74489,18 @@ var AssetFemale3DCG = [
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
-				Layer: [{ Name: "Boots" }, { Name: "Straps" }],
+				Layer: [
+					{ Name: "Boots" },
+					{
+						Name: "Straps",
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "LeatherFootMitts1",
@@ -74508,7 +74520,18 @@ var AssetFemale3DCG = [
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
-				Layer: [{ Name: "Mitts" }, { Name: "Straps" }],
+				Layer: [
+					{ Name: "Mitts" },
+					{
+						Name: "Straps",
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "ToeTape",
@@ -74549,19 +74572,6 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Kneel: PoseType.HIDE,
 					Hogtied: "Hogtied",
-				},
-			},
-			{
-				Name: "HighThighBoots",
-				Audio: "LeatherStretchingShort",
-				Time: 10,
-				RemoveTime: 10,
-				AllowLock: true,
-				Hide: ["Shoes"],
-				CopyConfig: {
-					GroupName: "Shoes",
-					AssetName: "HighThighBoots",
-					BuyGroup: true,
 				},
 			},
 			{
@@ -74681,7 +74691,16 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Toe" },
 					{ Name: "Foot" },
-					{ Name: "Ankle" },
+					{
+						Name: "Ankle",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
 					{ Name: "U" },
 				],
 			},
