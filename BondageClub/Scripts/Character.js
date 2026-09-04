@@ -922,6 +922,13 @@ function CharacterGenerateRandomName() {
 }
 
 /**
+ * An expression representing `{foo=bar}`-type of patterns.
+ *
+ * See {@link CharacterDialogPatternSubstitutor} for key-specific substitution logic.
+ */
+const CharacterDialogSubstitutionPattern = /\{(\s+)?(?<key>[a-zA-Z0-9_])(\s+)?=(\s+)?(?<value>.+)(\s+)?\}/i;
+
+/**
  * Substitute name and pronoun fields in dialog.
  * @param {Character} C - Character for which to build the dialog
  * @returns {void} - Nothing
@@ -931,6 +938,7 @@ function CharacterDialogSubstitution(C){
 	let subst = [
 		["DialogCharacterName", CharacterNickname(C)],
 		["DialogPlayerName", CharacterNickname(Player)],
+		[CharacterDialogSubstitutionPattern, "", CharacterDialogPatternSubstitutor] // expression for `"{foo=bar}"` patterns in the text
 	];
 	subst = subst.concat(ChatRoomPronounSubstitutions(C, "DialogCharacter", false));
 	subst = subst.concat(ChatRoomPronounSubstitutions(Player, "DialogPlayer", false));
@@ -1590,15 +1598,60 @@ function CharacterSetCurrent(C, options=null) {
 var CharacterMoneyFactor = 1.0;
 
 /**
+ * String subsitution helper for money changes referenced in character dialog
+ * @type {CommonSubstituteReplacer}
+ */
+function CharacterDialogPatternSubstitutor(match, offset, replacement, string, _groups) {
+	const { key: keyUnparsed, value: valueUnparsed } = /** @type {{ key?: string, value?: string }} */(_groups ?? {});
+	if (!keyUnparsed || !valueUnparsed) {
+		return "";
+	}
+
+	// Remove surrounding quotation marks
+	const value = (
+		(valueUnparsed.startsWith("'") && valueUnparsed.endsWith("'"))
+		|| (valueUnparsed.startsWith('"') && valueUnparsed.endsWith('"'))
+	) ? valueUnparsed.slice(1, valueUnparsed.length - 1) : valueUnparsed;
+	const key = keyUnparsed.toLowerCase();
+
+	switch (key) {
+		case "money":
+			// Need some explicit underscore special casing in order to support it as numeric superator here
+			return CharacterMoneyFormat(Number(value.replaceAll("_", "")));
+		default:
+			return "";
+	}
+}
+
+/**
+ * Apply scaling factors to a change in money and format into a string, returning the absolute value
+ * @param {number} value The money value
+ * @returns {string}
+ */
+function CharacterMoneyFormat(value) {
+	const money = CharacterMoneyApplyFactor(value);
+	return Math.abs(money).toLocaleString(TranslationLanguage);
+}
+
+/**
+ * Apply scaling factors to a change in money
+ * @param {number} value The money value
+ * @returns {number}
+ */
+function CharacterMoneyApplyFactor(value) {
+	if (!CommonIsFinite(value)) { return 0; }
+	const moneyFactor = value > 0 ? CharacterMoneyFactor * CheatFactor("DoubleMoney", 2) : 1;
+	return Math.ceil(moneyFactor * value);
+}
+
+/**
  * Changes the character money and sync with the account server, factors in the cheaters version.
  * @param {Character} C - Character for which we are altering the money amount
  * @param {number} Value - Money to subtract/add
  * @returns {void} - Nothing
  */
 function CharacterChangeMoney(C, Value) {
-	if (!CommonIsFinite(Value)) { return; }
-	const moneyFactor = Value > 0 ? CharacterMoneyFactor * CheatFactor("DoubleMoney", 2) : 1;
-	C.Money += Math.ceil(Value * moneyFactor);
+	C.Money += CharacterMoneyApplyFactor(Value);
 	ServerPlayerSync();
 }
 
