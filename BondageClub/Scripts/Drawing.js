@@ -599,10 +599,11 @@ function DrawImageZoomCanvas(Source, Canvas, SX, SY, SWidth, SHeight, X, Y, Widt
  * @param {number} Y - Position of the image on the Y axis
  * @param {number} Width - Width of the image after being resized
  * @param {number} Height - Height of the image after being resized
+ * @param {DrawOptions} [Options] Options to use when drawing
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawImageResize(Source, X, Y, Width, Height) {
-	return DrawImageEx(Source, MainCanvas, X, Y, { Width, Height });
+function DrawImageResize(Source, X, Y, Width, Height, Options) {
+	return DrawImageEx(Source, MainCanvas, X, Y, { Width, Height, ...Options });
 }
 
 /**
@@ -707,7 +708,7 @@ function DrawImageEx(
 	Y,
 	Options
 ) {
-	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode, Width, Height, SourcePos, TextureAlphaMask: TexureMasks } = Options || {};
+	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode, Width, Height, SourcePos, TextureAlphaMask: TexureMasks, Rotation } = Options || {};
 
 	let Img;
 
@@ -815,13 +816,28 @@ function DrawImageEx(
 	Canvas.globalCompositeOperation = BlendingMode;
 	Canvas.globalAlpha = Alpha;
 
+	const angleRad = (Rotation ?? 0) * (Math.PI / 180);  // Assumes Angle is in degrees
+	const cosA = Math.cos(angleRad);
+	const sinA = Math.sin(angleRad);
+
 	// Performance benefits from combining transforms is usually minimal to none but in cases with multiple transforms it adds up
 	const scaleHoriz = Zoom * (Mirror ? -1 : 1);   // Scaling and horizontal mirroring
 	const scaleVert = Zoom * (Invert ? -1 : 1);    // Scaling and vertical inversion
-	const translateX = X + (Mirror ? Width : 0);    // Translation in x
-	const translateY = Y + (Invert ? Height : 0);   // Translation in y
+	//const translateX = X + (Mirror ? Width : 0);    // Translation in x
+	//const translateY = Y + (Invert ? Height : 0);   // Translation in y
 
-	Canvas.transform(scaleHoriz, 0, 0, scaleVert, translateX, translateY);
+	const a = scaleHoriz * cosA;
+	const b = scaleHoriz * sinA;
+	const c = -scaleVert * sinA;
+	const d = scaleVert * cosA;
+
+	const centerX = Width / 2;
+	const centerY = Height / 2;
+
+	const translateX = X + (Mirror ? Width : 0) + centerX - (centerX * cosA - centerY * sinA) * (Mirror ? -1 : 1);
+	const translateY = Y + (Invert ? Height : 0) + centerY - (centerX * sinA + centerY * cosA) * (Invert ? -1 : 1);
+
+	Canvas.transform(a, b, c, d, translateX, translateY);
 
 	if (SourcePos) {
 		Canvas.drawImage(destCanvas, SourcePos[0], SourcePos[1], SourcePos[2], SourcePos[3], 0, 0, Width, Height);

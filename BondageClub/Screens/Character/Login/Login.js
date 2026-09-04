@@ -1106,6 +1106,8 @@ function LoginSetupPlayer(C) {
 	Player.Lovership = Array.isArray(C.Lovership) ? C.Lovership : C.Lovership != undefined ? [C.Lovership] : [];
 	Player.Lover = ServerAccountDataSyncedValidate.Lover(C.Lover, Player);
 
+	Player.RecentlyUsedMapElements = ServerAccountDataSyncedValidate.RecentlyUsedMapElements(C.RecentlyUsedMapElements ?? [], Player);
+
 	// Calls the preference init to make sure the preferences are loaded correctly
 	PreferenceInitPlayer(Player, C);
 	Player.AllowedInteractions = C.AllowedInteractions ?? C.ItemPermission ?? AllowedInteractions.OwnerLoversWhitelistAndDomsOnly;

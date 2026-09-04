@@ -135,3 +135,43 @@ CommandModsRemoteInvalidTarget,No matching player in this room for that name or 
 CommandModsListCopyDone,Mod list copied to your clipboard.
 CommandModsListCopyError,Could not copy mod list to clipboard.
 CommandModsListCopyTooltip,Copy mod list
+ChatRoomMapViewRecentItemsLabel,Recent Items
+
+TileTypeNameWall,Walls
+TileTypeNameFloor,Floors
+TileTypeNameFloorExterior,Exterior Floors 
+TileTypeNameWater,Water
+
+ObjectTypeNameLivingRoom,Living Room
+ObjectTypeNameBathroom,Bathroom
+ObjectTypeNameBedroom,Bedroom
+ObjectTypeNameSchool,School
+ObjectTypeNameABDL,ABDL
+ObjectTypeNameFloorDecorationThemed,Themed
+ObjectTypeNameFloorDecorationParty,Party
+ObjectTypeNameFloorDecorationCamping,Camping
+ObjectTypeNameFloorDecorationExpanding,Expanding
+ObjectTypeNameFloorDecorationAnimal,Animals
+ObjectTypeNameFloorItem,Items
+ObjectTypeNameFloorObstacle,Obstacles
+ObjectTypeNameFloorNumber,Numbers
+ObjectTypeNameFloorLetter,Letters
+ObjectTypeNameFloorIcon,Icons
+ObjectTypeNameWallDecoration,Wall Decorations
+ObjectTypeNameBanners,Banners
+ObjectTypeNameFloorFoamTiles,Foam Tiles
+ObjectTypeNameFunctional,Functional
+ObjectTypeNameDoor,Doors
+
+EffectTypeNameStaticLighting,Effects
+
+EditorButtonTextUndo,Undo
+EditorButtonTextEditRange,Edit Range
+EditorButtonTextZoomIn,Zoom In
+EditorButtonTextZoomOut,Zoom Out
+EditorButtonTextToggleFog,Toggle Fog
+
+EditorButtonTextEditTiles,Tiles
+EditorButtonTextEditObjects,Objects
+EditorButtonTextEditEffects,Effects
+EditorButtonTextBack,Back

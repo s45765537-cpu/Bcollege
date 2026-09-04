@@ -679,6 +679,25 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			ChatRoomMapViewCalculatePerceptionMasks();
 			ChatRoomMapViewUpdatePlayerFlag();
 		},
+		HasMapState(name) {
+			const mapping = {
+				"BronzeKey": "HasKeyBronze",
+				"SilverKey": "HasKeySilver",
+				"GoldKey": "HasKeyGold",
+			};
+			const key = mapping[name] ?? name;
+			return !!this.MapData?.PrivateState[key];
+		},
+		SetMapState(name, state) {
+			if (!this.MapData) return;
+			const mapping = {
+				"BronzeKey": "HasKeyBronze",
+				"SilverKey": "HasKeySilver",
+				"GoldKey": "HasKeyGold",
+			};
+			const key = mapping[name] ?? name;
+			this.MapData.PrivateState[key] = state;
+		},
 		IsBirthday: function () {
 			if (!this.Creation) return false;
 			const creation = new Date(this.Creation);
