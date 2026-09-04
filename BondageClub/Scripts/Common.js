@@ -2848,3 +2848,22 @@ function CommonClipboardWrite(data, cb = undefined) {
 function CommonAssign(target, ...src) {
 	return Object.assign(target, ...src.filter(i => i != null));
 }
+
+/**
+ * A decorator for converting the variadic parameter of {@link String.replace} functions into a string (_i.e._ the first element)
+ * @param {CommonSubstituteReplacer} func
+ * @returns {(match: string, ...args: any[]) => string}
+ */
+function CommonStringReplacer(func) {
+	// from:
+	// (match: string, ...p: string[], offfset: number, string: string, groups?: Partial<Record<string, string>>) => string
+	// to:
+	// (match: string, offfset: number, p_0: string, string: string, groups?: Partial<Record<string, string>>) => string
+	return function (match, ...args) {
+		const iMax = args.length - 1;
+		if (!(typeof args[iMax] === "object" || args[iMax] === undefined)) {
+			args.push(undefined); // Add a value for the `groups` parameter if absent
+		}
+		return func(match, args[iMax - 2], args[0], args[iMax - 1], args[iMax]);
+	};
+}
