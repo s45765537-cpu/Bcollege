@@ -1285,20 +1285,16 @@ const ExtendedItemGatherOptions = (function () {
 				newOptions.push(VariableHeightConstructOptions(data, item).newOption);
 				break;
 			case ExtendedArchetype.VIBRATING:
-			case ExtendedArchetype.TYPED:
-				for (const [name, index] of Object.entries(item.Property?.TypeRecord ?? [])) {
-					if (data.name === name) {
-						newOptions.push(data.options[index] || data.options[0]);
-					}
-				}
+			case ExtendedArchetype.TYPED: {
+				const index = item.Property?.TypeRecord?.[data.name] ?? 0;
+				newOptions.push(data.options[index] ?? data.options[0]);
 				break;
+			}
 			case ExtendedArchetype.MODULAR:
-				for (const [name, index] of Object.entries(item.Property?.TypeRecord ?? [])) {
-					const module = data.modules.find(mod => mod.Key === name);
-					if (module) {
-						newOptions.push(module.Options[index] || module.Options[0]);
-					}
-				}
+				newOptions.push(...data.modules.map(mod => {
+					const index = item.Property?.TypeRecord?.[mod.Key] ?? 0;
+					return mod.Options[index] ?? mod.Options[0];
+				}));
 				break;
 			default:
 				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
