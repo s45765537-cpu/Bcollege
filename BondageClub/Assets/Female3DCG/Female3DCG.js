@@ -14132,7 +14132,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Base",
-						AllowTypes:{d: [0], m: [0,1,2,3,4] },
+						AllowTypes:{d: [0] },
 					},
 					{
 						Name: "Tabs",
@@ -14160,43 +14160,43 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BaseAlpha",
-						AllowTypes:{d: [1]},
+						AllowTypes:{d: [1] },
 						CopyLayerColor:"Base",
 					},
 					{
 						Name: "BaseBunny",
-						AllowTypes:{d: [2]},
+						AllowTypes:{d: [2] },
 						CopyLayerColor:"Base",
 					},
 					{
 						Name: "BaseLacy",
-						AllowTypes:{d: [3]},
+						AllowTypes:{d: [3] },
 						CopyLayerColor:"Base",
 					},
 					{
 						Name: "Simple",
-						AllowTypes: { m: [1], d: [0]},
+						AllowTypes: { m: [1] },
 						ParentGroup: "",
 						CopyLayerColor:"None",
 						Priority:20
 					},
 					{
 						Name: "HisMajesty",
-						AllowTypes: { m: [2], d: [0]},
+						AllowTypes: { m: [2] },
 						ParentGroup: "",
 						CopyLayerColor:"None",
 						Priority:20
 					},
 					{
 						Name: "HerMajesty",
-						AllowTypes: { m: [3], d: [0]},
+						AllowTypes: { m: [3] },
 						ParentGroup: "",
 						CopyLayerColor:"None",
 						Priority:20
 					},
 					{
 						Name: "Lock",
-						AllowTypes: { m: [4], d: [0]},
+						AllowTypes: { m: [4] },
 						ParentGroup: "",
 						CopyLayerColor:"None",
 						Priority:20
