@@ -21352,7 +21352,7 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
 				{
-					Name:"Design",
+					Name: "Design",
 					Key: "d",
 					Options: [
 						{
@@ -21371,10 +21371,10 @@ var AssetFemale3DCGExtended = {
 							//d2 - LilComforts LacyLove
 							Property: { DefaultColor: "Default" },
 						},
-					]
+					],
 				},
 				{
-					Name:"Motiv",
+					Name: "Motiv",
 					Key: "m",
 					Options: [
 						{}, //m0 - None
@@ -21382,7 +21382,7 @@ var AssetFemale3DCGExtended = {
 						{}, //m2 - His Majesty
 						{}, //m3 - HerMajesty
 						{}, //m4 - Lock
-					]
+					],
 				},
 			],
 		}, // RoyalDiaper
