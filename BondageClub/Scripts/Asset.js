@@ -71,7 +71,7 @@ function AssetGroupAdd(Family, GroupDef) {
 	/** @type {AssetGroup} */
 	var A = {
 		Family: Family,
-		Name: GroupDef.Group,
+		Name: AssetParseName(GroupDef.Group, `Group name "${GroupDef.Group}"`),
 		Description: GroupDef.Group,
 		Asset: [],
 		Category: (GroupDef.Category == null) ? "Appearance" : GroupDef.Category,
@@ -189,6 +189,21 @@ function AssetActivityMirrorGroupSet(group) {
 }
 
 /**
+ * Validate the name of a group, asset or layer.
+ * @template {string | null} T
+ * @param {T} name The name in question
+ * @param {string} errMsgSuffix A suffix for any potential error messages
+ * @returns {T}
+ */
+function AssetParseName(name, errMsgSuffix) {
+	// Ban `$` as it can cause serious issues with mongo databases
+	if (name?.trim().startsWith("$")) {
+		throw new Error(`Illegal character "$" in ${errMsgSuffix}`);
+	}
+	return name;
+}
+
+/**
  * Adds a new asset to the main list
  * @param {AssetGroup} Group
  * @param {AssetDefinition} AssetDef
@@ -211,7 +226,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 
 	/** @type {Mutable<Asset>} */
 	var A = {
-		Name: AssetDef.Name,
+		Name: AssetParseName(AssetDef.Name, `Asset name "${Group.Name}/${AssetDef.Name}"`),
 		Description: AssetDef.Name,
 		Group: Group,
 		ParentItem: AssetDef.ParentItem,
@@ -680,7 +695,7 @@ function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 
 	/** @type {AssetLayer} */
 	const L = {
-		Name: Layer.Name || null,
+		Name: AssetParseName(Layer.Name || null, `Layer name "${A.Group.Name}/${A.Name}/${Layer.Name || null}"`),
 		AllowColorize: !Layer.TextureMask && (typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize),
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
 		ColorGroup: typeof Layer.ColorGroup === "string" ? Layer.ColorGroup : null,
