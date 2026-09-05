@@ -21367,6 +21367,10 @@ var AssetFemale3DCGExtended = {
 							//d2 - ABU BunnyHopps
 							Property: { DefaultColor: "Default" },
 						},
+						{
+							//d2 - LilComforts LacyLove
+							Property: { DefaultColor: "Default" },
+						},
 					]
 				},
 				{

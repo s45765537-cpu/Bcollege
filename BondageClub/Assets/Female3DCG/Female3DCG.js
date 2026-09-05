@@ -13655,7 +13655,7 @@ var AssetFemale3DCG = [
 		Group: "Panties",
 		ParentGroup: "BodyLower",
 		ParentColor: "Bra",
-		Priority: 26, // was 19. If penis layer is at 25, then surely this should be above 25?
+		Priority: 19, // was 19. If penis layer is at 25, then surely this should be above 25?
 		Clothing: true,
 		EditOpacity: true,
 		MinOpacity: 0,
@@ -14136,27 +14136,27 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Tabs",
-						Priority:27
+						Priority:20
 					},
 					{
 						Name: "None",
 						AllowTypes: { m: [0] },
 						ParentGroup: "",
-						Priority:27
+						Priority:20
 					},
 					{
 						Opacity: 0,
 						MinOpacity: 0,
 						MaxOpacity: 1,
 						Name: "Wet",
-						Priority:28
+						Priority:21
 					},
 					{
 						Opacity: 1,
 						Name: "Indicator",
 						MinOpacity: 0,
 						MaxOpacity: 1,
-						Priority:27
+						Priority:20
 					},
 					{
 						Name: "BaseAlpha",
@@ -14169,32 +14169,37 @@ var AssetFemale3DCG = [
 						CopyLayerColor:"Base",
 					},
 					{
+						Name: "BaseLacy",
+						AllowTypes:{d: [3]},
+						CopyLayerColor:"Base",
+					},
+					{
 						Name: "Simple",
 						AllowTypes: { m: [1], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:27
+						Priority:20
 					},
 					{
 						Name: "HisMajesty",
 						AllowTypes: { m: [2], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:27
+						Priority:20
 					},
 					{
 						Name: "HerMajesty",
 						AllowTypes: { m: [3], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:27
+						Priority:20
 					},
 					{
 						Name: "Lock",
 						AllowTypes: { m: [4], d: [0]},
 						ParentGroup: "",
 						CopyLayerColor:"None",
-						Priority:27
+						Priority:20
 					},
 				],
 			},
