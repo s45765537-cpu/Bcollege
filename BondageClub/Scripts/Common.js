@@ -775,6 +775,17 @@ function CommonEmailIsValid(Email) {
 }
 
 /**
+ * Splits a camelCase or PascalCase string into an array of lowercase words.
+ * @param {string} string
+ * @returns {string[]}
+ */
+function CommonUncamelize(string) {
+	return string.replace(/([a-z])([A-Z])/g, '$1 $2')
+		.toLowerCase()
+		.split(/\s+/);
+}
+
+/**
  * Remove item from list on given index and returns it
  * @template T
  * @param {T[]} list
@@ -1775,19 +1786,19 @@ function CommonJSONParse(data) {
  *
  * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
  * @param {KeyboardEvent} event
- * @returns {"u"|"d"|"l"|"r"|undefined}
+ * @returns {"North"|"South"|"West"|"East"|undefined}
  */
 function CommonKeyMove(event, allowArrowKeys = true, checkModifiers=true) {
 	if (checkModifiers && CommonKey.GetModifiers(event)) {
 		return undefined;
 	} else if (event.code === "KeyW" || allowArrowKeys && event.code === "ArrowUp") {
-		return "u";
+		return "North";
 	} else if (event.code === "KeyA" || allowArrowKeys && event.code === "ArrowLeft") {
-		return "l";
+		return "West";
 	} else if (event.code === "KeyS" || allowArrowKeys && event.code === "ArrowDown") {
-		return "d";
+		return "South";
 	} else if (event.code === "KeyD" || allowArrowKeys && event.code === "ArrowRight") {
-		return "r";
+		return "East";
 	}
 	return undefined;
 }

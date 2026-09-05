@@ -90,6 +90,7 @@ Game.load("../Scripts/BitString.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoomMapView.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoomCharacterView.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoom.js");
+Game.load("../Scripts/Map.js");
 
 
 describe("ServerAccountDataSyncedValidate", () => {

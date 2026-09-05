@@ -1191,7 +1191,7 @@ function StableGenericProgressEnd() {
 function StableKeyDown(event) {
 	if (event.repeat || CommonKey.GetModifiers(event)) return false;
 
-	if (StableProgress >= 0 && (CommonKeyMove(event) === "l" || CommonKeyMove(event) === "r")) {
+	if (StableProgress >= 0 && (CommonKeyMove(event) === "West" || CommonKeyMove(event) === "East")) {
 		StableGenericRun((StableProgressLastKeyPress == event.code));
 		StableProgressLastKeyPress = event.code;
 		return true;

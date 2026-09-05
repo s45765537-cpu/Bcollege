@@ -96,6 +96,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	SubmissivesList?: string;
 	KinkyDungeonExploredLore?: unknown[];
 	KeybindingSettings?: string;
+	RecentlyUsedMapElements?: ChatRoomMapDoodad[];
 }
 
 // TODO: Add `Lover` after figuring out why {@link ServerPlayerSync} still passes this field to the server
@@ -178,7 +179,7 @@ interface ServerItemBundle {
 	Difficulty?: number;
 	Color?: ItemColor;
 	Property?: ItemProperties;
-	Craft?: CraftingItem;
+	Craft?: CraftingPartialItem;
 }
 
 interface ServerPrivateCharacterData {
@@ -1115,7 +1116,7 @@ interface ServerCharacterItemUpdate {
 	Color: ItemColor;
 	Difficulty: number;
 	Property?: ItemProperties;
-	Craft?: CraftingItem;
+	Craft?: CraftingPartialItem;
 }
 
 interface ServerChatRoomSyncItemResponse {

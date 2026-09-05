@@ -180,7 +180,8 @@ var ChatRoomViews = {
 		RoomUpdated: ChatRoomMapViewRoomUpdated,
 		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
 		CanLeave: ChatRoomMapViewCanLeave,
-		Screenshot: ChatRoomMapViewScreenshot
+		Screenshot: ChatRoomMapViewScreenshot,
+		Resize: ChatRoomMapViewResize
 	}
 };
 /**
@@ -1985,6 +1986,7 @@ function ChatRoomResize(load) {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...shape);
 		chatInput.dispatchEvent(new InputEvent("input"));
 	}
+	ChatRoomActiveView?.Resize?.(false);
 }
 
 /**

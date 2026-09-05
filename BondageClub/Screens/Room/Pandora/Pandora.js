@@ -327,25 +327,7 @@ function PandoraKeyDown(event) {
 	let dir;
 	const movingAllowed = PandoraCurrentRoom?.Character.every(i => i.AllowMove == null || i.AllowMove);
 	if (movingAllowed && PandoraMode == "" && !CommonKey.GetModifiers(event)) {
-		switch (CommonKeyMove(event, true)) {
-			case 'u':
-				dir = "North";
-				break;
-
-			case 'l':
-				dir = "West";
-				break;
-
-			case 'd':
-				dir = "South";
-				break;
-
-			case 'r':
-				dir = "East";
-				// fallthrough
-			default:
-				break;
-		}
+		dir = CommonKeyMove(event, true);
 
 		if (dir !== undefined && PandoraDirectionAvailable(dir)) {
 			PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf(dir)], dir);

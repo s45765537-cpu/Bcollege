@@ -755,7 +755,7 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	if (item.Craft) {
-		const craftState = CraftingValidate(item.Craft, item.Asset, false, false);
+		const craftState = CraftingValidate(item.Craft, item.Asset, false, false, true);
 		switch (craftState) {
 			case CraftingStatusType.CRITICAL_ERROR:
 				delete item.Craft;

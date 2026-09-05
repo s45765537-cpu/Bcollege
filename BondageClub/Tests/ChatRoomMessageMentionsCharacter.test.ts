@@ -26,6 +26,7 @@ Game.ChatRoomMapViewCanLeave = () => {};
 Game.ChatRoomMapViewScreenshot = () => {};
 Game.ChatRoomMapViewActivate = () => {};
 Game.ChatRoomMapViewDeactivate = () => {};
+Game.ChatRoomMapViewResize = () => {};
 
 Game.load("../Screens/Online/ChatRoom/ChatRoom.js");
 

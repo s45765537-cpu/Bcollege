@@ -604,3 +604,17 @@ describe("CommonFilterMap", () => {
 		expect(Game.CommonFilterMap([0, 1, 1, 2, 3], callback)).toEqual([]);
 	});
 });
+
+describe("CommonUncamelize", () => {
+	it("uncamelizes a string", () => {
+		expect(Game.CommonUncamelize("fooBar")).toEqual(["foo", "bar"]);
+	});
+
+	it("uncamelizes a string with multiple words", () => {
+		expect(Game.CommonUncamelize("fooBarBaz")).toEqual(["foo", "bar", "baz"]);
+	});
+
+	it("uncamelizes a string with punctuation", () => {
+		expect(Game.CommonUncamelize("bee SAY Bzzz!")).toEqual(["bee", "say", "bzzz!"]);
+	});
+});
