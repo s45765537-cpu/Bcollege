@@ -8421,7 +8421,10 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Layer: [
 					{ Name: "Base", StyleOverride: ["EchoV2"] },
-					{ Name: "Zip" },
+					{
+						Name: "Zip",
+						PoseMapping: { ...AssetPoseMapping.Suit, Hogtied: PoseType.HIDE },
+					},
 					{
 						Name: "OpaqueGloves",
 						Priority: 27,
@@ -9509,7 +9512,16 @@ var AssetFemale3DCG = [
 				Hide: ["ItemVulvaPiercings", "BodyLower"],
 				HideItem: ["SocksPantyhose1"],
 				Attribute: ["SuitLower"],
-				Layer: [{ Name: "Base" }, { Name: "Zip" }],
+				Layer: [
+					{ Name: "Base" },
+					{
+						Name: "Zip",
+						PoseMapping: {
+							...AssetPoseMapping.SuitLower,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "DiaperSuit",
@@ -9608,7 +9620,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "Catsuit",
 				Hide: ["ItemVulvaPiercings"],
 				PoseMapping: {
-					Hogtied: "Hogtied",
+					Hogtied: PoseType.HIDE,
 				},
 				Attribute: ["SuitLower"],
 			},
@@ -9624,10 +9636,34 @@ var AssetFemale3DCG = [
 				HideItem: ["SocksPantyhose1"],
 				Attribute: ["SuitLower"],
 				Layer: [
-					{ Name: "Layer1" },
-					{ Name: "Layer2" },
-					{ Name: "Layer3" },
-					{ Name: "Layer4" },
+					{
+						Name: "Layer1",
+						PoseMapping: {
+							...AssetPoseMapping.SuitLower,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Layer2",
+						PoseMapping: {
+							...AssetPoseMapping.SuitLower,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Layer3",
+						PoseMapping: {
+							...AssetPoseMapping.SuitLower,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Layer4",
+						PoseMapping: {
+							...AssetPoseMapping.SuitLower,
+							Hogtied: PoseType.HIDE,
+						},
+					},
 				],
 			},
 			{
@@ -9666,7 +9702,16 @@ var AssetFemale3DCG = [
 				BuyGroup: "SeethroughSuit",
 				HideItem: ["SocksPantyhose1"],
 				Attribute: ["SuitLower"],
-				Layer: [{ Name: "Base" }, { Name: "Zip" }],
+				Layer: [
+					{ Name: "Base" },
+					{
+						Name: "Zip",
+						PoseMapping: {
+							...AssetPoseMapping.SuitLower,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "ReverseBunnySuit",
@@ -17909,7 +17954,15 @@ var AssetFemale3DCG = [
 							Hogtied: PoseType.HIDE,
 						},
 					},
-					{ Name: "Heels" },
+					{
+						Name: "Heels",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							KneelingSpread: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							LegsClosed: PoseType.HIDE,
+						},
+					},
 					{ Name: "Straps" },
 					{ Name: "Buckles", AllowColorize: false },
 				],
@@ -24392,6 +24445,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Gloves,
 					BackElbowTouch: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
 				},
 			},
 			{
