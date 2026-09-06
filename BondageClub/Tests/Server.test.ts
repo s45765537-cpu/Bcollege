@@ -1,13 +1,8 @@
 import { Game } from "./Utils";
 
-Game.load("../Scripts/Common.js");
-Game.load("../Scripts/Drawing.js");
-Game.load("../Scripts/Server.js");
+import extendedItemParam from "./Server.json";
 
-Game.load("../Scripts/Translation.js");
-Game.load("../Scripts/Text.js");
-Game.load("../Screens/Character/ItemColor/ItemColor.js");
-
+let extendedAsset: Asset;
 const asset = {
 	Name: "Foo",
 	get ColorableLayerCount() { return this.DefaultColor.length; },
@@ -16,6 +11,15 @@ const asset = {
 		Name: "ItemArms",
 	},
 } satisfies ColorAssetMock;
+
+beforeAll(async () => {
+	const ret = await Game.loadAll();
+	extendedAsset = Game.AssetGet("Female3DCG", "ItemPelvis", "ModularChastityBelt");
+	if (!extendedAsset) {
+		throw new Error(`Failed to retrieve asset "ItemPelvis/ModularChastityBelt"`);
+	}
+	return ret;
+});
 
 describe("ServerBundledItemFromAppearanceItem", () => {
 	it("non-default difficulty", () => {
@@ -47,14 +51,14 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("non-default property", () => {
 		const item = {
-			Asset: asset,
-			Color: ["Default", "Default"],
-			Property: { Difficulty: 5 },
+			Asset: extendedAsset,
+			Color: ["#CC43C8", "#818181", "#818181", "#818181", "#9A862D", "#BABABA"],
+			Property: { TriggerCount: 99, OverridePriority: 6, Difficulty: 5, ShowText: true },
 		};
 		expect(Game.ServerBundledItemFromAppearanceItem(item)).toEqual({
-			Group: "ItemArms",
-			Name: "Foo",
-			Property: { Difficulty: 5 },
+			Group: "ItemPelvis",
+			Name: "ModularChastityBelt",
+			Property: { TriggerCount: 99, OverridePriority: 6 },
 		});
 	});
 
@@ -156,5 +160,34 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Group: "ItemArms",
 			Name: "Foo",
 		});
+	});
+
+	const param = Object.entries(extendedItemParam).map(([k, v]) => { return { name: k, ...v }; });
+	it.each(param)("extended item: $name", ({ initialItemType, itemBundleType, finalItemType }) => {
+		const item = {
+			Asset: extendedAsset,
+			Property: { TypeRecord: initialItemType },
+		};
+
+		let bundle: ItemBundle;
+		let itemRestored: null | Item;
+		const consoleError = Game.console.error;
+		try {
+			// Silence `console.error()` calls due to expected invalid `TypeRecord` values
+			Game.console.error = () => undefined;
+			bundle = Game.ServerBundledItemFromAppearanceItem(item);
+			itemRestored = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+		} finally {
+			Game.console.error = consoleError;
+		}
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: "ItemPelvis",
+			Name: "ModularChastityBelt",
+			Property: itemBundleType ? { TypeRecord: itemBundleType } : undefined,
+		} satisfies ItemBundle);
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemType);
 	});
 });

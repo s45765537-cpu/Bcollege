@@ -1836,35 +1836,7 @@ function CraftingUpdateFromItem(item) {
 	if (!CraftingSelectedItem || !item.Property) {
 		return;
 	}
-
-	if (item.Property.TypeRecord) {
-		CraftingSelectedItem.TypeRecord = item.Property.TypeRecord;
-	}
-
-	// Initialize it with the known set of (legal) fully user-customizable properties
-	const allowedProperties = new Set(ExtendedItemInitPropertyIgnore);
-	if (item.Asset.Archetype) {
-		const options = ExtendedItemGatherOptions(item);
-		for (const option of options) {
-			if (option.OptionType === "VariableHeightOption") {
-				allowedProperties.add("OverrideHeight");
-			}
-			for (const key of CommonKeys(option.ParentData.baselineProperty || {})) {
-				if (!CraftingPropertyExclude.has(key)) {
-					allowedProperties.add(key);
-				}
-			}
-		}
-	}
-
-	// Basic property validation is conducted later on via CraftingValidate
-	for (const key of allowedProperties) {
-		const propValue = item.Property[key];
-		if (propValue != null) {
-			// Use some creative `never` casting as TS _loathes_ anything related to iterating heterogeneous objects
-			CraftingSelectedItem.ItemProperty[key] = /** @type {never} */(propValue);
-		}
-	}
+	CraftingSelectedItem.ItemProperty = ItemPropertiesCompress(item, { omit: CraftingPropertyExclude }) ?? {};
 }
 
 /**
@@ -1986,7 +1958,7 @@ function CraftingDeserialize(craftString) {
 		Effects,
 	] = craftString.split(CraftingSerializeFieldSep);
 
-	/** @type {CraftingItem & { ItemProperty: ItemProperties }} */
+	/** @type {CraftingItem & { ItemProperty: ItemPropertiesMinimized }} */
 	const craft = {
 		Item,
 		Name,
@@ -1995,7 +1967,7 @@ function CraftingDeserialize(craftString) {
 		Property: /** @type {CraftingPropertyType} */(Property) || undefined,
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
-		ItemProperty: ItemProperty ? /** @type {ItemProperties} */(CommonJSONParse(ItemProperty) ?? {}) : {},
+		ItemProperty: ItemProperty ? /** @type {ItemPropertiesMinimized} */(CommonJSONParse(ItemProperty) ?? {}) : {},
 		Type: Type || undefined,
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,

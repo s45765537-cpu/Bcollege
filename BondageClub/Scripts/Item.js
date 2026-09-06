@@ -153,3 +153,112 @@ var AppearanceItem = {
 		}
 	},
 };
+
+/**
+ * Dummy character for {@link ItemPropertiesDecompress} validation
+ * @type {null | Character}
+ */
+let ItemPropertiesDummy = null;
+
+/**
+ * Compress the passed item's properties in preparation for {@link ItemBundle} creation.
+ * @param {Item} item The item whose properties are to be minimized
+ * @param {null | { omit?: Iterable<keyof ItemProperties> }} options
+ * @returns {ItemPropertiesMinimized | undefined} The minimized item properties
+ */
+function ItemPropertiesCompress(item, options=null) {
+	options ??= {};
+	const propertyOmit = new Set(options.omit ?? []);
+	if (!item?.Property) {
+		return undefined;
+	}
+
+	// Initialize it with the known set of (legal) fully user-customizable properties
+	const allowedProperties = new Set(ExtendedItemInitPropertyIgnore);
+	// FIXME: Temporary backwards compatiblity.
+	// Either port these properties over to BC or switch them out for a pre-existing BC equivalent.
+	// @ts-expect-error
+	allowedProperties.add("LayerOverrides"); // LSCG as of v0.8.17
+	// @ts-expect-error
+	allowedProperties.add("wceOverrideHide"); // WCE as of v6.3.19
+
+	/** @type {ItemProperties} */
+	const baseline = {};
+	if (item.Asset.Extended) {
+		for (const option of ExtendedItemGatherOptions(item)) {
+			switch (option.OptionType) {
+				case "VariableHeightOption":
+					allowedProperties.add("OverrideHeight");
+					break;
+				case "TypedItemOption":
+				case "ModularItemOption":
+				case "VibratingItemOption":
+					allowedProperties.add("TypeRecord");
+					break;
+			}
+			Object.assign(baseline, option.Property ?? {}, option.ParentData.baselineProperty ?? {});
+			for (const key of CommonKeys(option.ParentData.baselineProperty ?? {})) {
+				if (!propertyOmit.has(key)) {
+					allowedProperties.add(key);
+				}
+			}
+		}
+	}
+
+	// Basic property validation is conducted later on via CraftingValidate
+	/** @type {ItemPropertiesMinimized} */
+	const ret = {};
+	for (const key of allowedProperties) {
+		switch (key) {
+			case "TypeRecord": {
+				let allDefault = true;
+				/** @type {TypeRecord} */
+				const typeRecord = {};
+				for (const [k, v] of Object.entries(item.Property[key] ?? {})) {
+					if (v) {
+						allDefault = false;
+						typeRecord[k] = v;
+					} else {
+						// TODO: Remove this `else` branch once R132 is live and rely on absent values implictly being 0
+						// This is needed due to `ModularItemInit()` failing to handle partial typerecords prior to this commit (<= R131)
+						typeRecord[k] = v;
+					}
+				}
+				if (!allDefault) {
+					ret[key] = typeRecord;
+				}
+				break;
+			}
+			default:
+				if (item.Property[key] !== baseline[key]) {
+					// @ts-expect-error
+					ret[key] = item.Property[key];
+				}
+				break;
+		}
+	}
+	return Object.values(ret).every(i => i === undefined) ? undefined : ret;
+}
+
+/**
+ * Decompress the passed item budle properties in preparation for {@link Item} creation.
+ * @param {Item} item The final item in which the properties will end up
+ * @param {undefined | ItemPropertiesMinimized} properties The minimized item properties
+ * @returns {ItemProperties} The maximized item properties
+ */
+function ItemPropertiesDecompress(item, properties) {
+	// For the sake of potential backwards compatibility issues both minimized and maximized properties must be handled
+	/** @type {ItemPropertiesMinimized | ItemProperties} */
+	const propertiesUnsanitized = properties ?? {};
+
+	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
+	Object.assign(item.Property, propertiesUnsanitized);
+	if (item.Asset.Extended) {
+		if (propertiesUnsanitized.TypeRecord) {
+			ExtendedItemSetOptionByRecord(C, item, propertiesUnsanitized.TypeRecord, { push: false, refresh: false });
+		} else {
+			ExtendedItemInit(C, item, false, false);
+		}
+	}
+	return item.Property;
+}

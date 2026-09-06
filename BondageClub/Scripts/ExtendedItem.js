@@ -1250,8 +1250,12 @@ const ExtendedItemGatherOptions = (function () {
 		/** @type {ExtendedItemOptionUnion[]} */
 		const options = [];
 		const data = ExtendedItemGetData(item.Asset, item.Asset.Archetype);
+		const typeKeySet = new Set(Object.keys(item.Property?.TypeRecord ?? {}));
 		if (data) {
-			_dfs(data, item, options);
+			_dfs(data, item, options, typeKeySet);
+		}
+		for (const unknownLeftoverKey of typeKeySet) {
+			delete item.Property?.TypeRecord?.[unknownLeftoverKey];
 		}
 		return options;
 	}
@@ -1262,9 +1266,10 @@ const ExtendedItemGatherOptions = (function () {
 	 * @param {AssetArchetypeData} data - The extended item data
 	 * @param {Item} item - The item in question
 	 * @param {ExtendedItemOption[]} optionList - The to-be populated list of extended item options
+	 * @param {Set<string>} typeKeySet - A set of all type record keys minus the ones that have already been visited
 	 * @returns {void}
 	 */
-	function _dfs(data, item, optionList) {
+	function _dfs(data, item, optionList, typeKeySet) {
 		/** @type {ExtendedItemOption[]} */
 		const newOptions = [];
 		const archetype = data.archetype;
@@ -1285,20 +1290,18 @@ const ExtendedItemGatherOptions = (function () {
 				newOptions.push(VariableHeightConstructOptions(data, item).newOption);
 				break;
 			case ExtendedArchetype.VIBRATING:
-			case ExtendedArchetype.TYPED:
-				for (const [name, index] of Object.entries(item.Property?.TypeRecord ?? [])) {
-					if (data.name === name) {
-						newOptions.push(data.options[index] || data.options[0]);
-					}
-				}
+			case ExtendedArchetype.TYPED: {
+				typeKeySet.delete(data.name);
+				const index = item.Property?.TypeRecord?.[data.name] ?? 0;
+				newOptions.push(data.options[index] ?? data.options[0]);
 				break;
+			}
 			case ExtendedArchetype.MODULAR:
-				for (const [name, index] of Object.entries(item.Property?.TypeRecord ?? [])) {
-					const module = data.modules.find(mod => mod.Key === name);
-					if (module) {
-						newOptions.push(module.Options[index] || module.Options[0]);
-					}
-				}
+				newOptions.push(...data.modules.map(mod => {
+					typeKeySet.delete(mod.Key);
+					const index = item.Property?.TypeRecord?.[mod.Key] ?? 0;
+					return mod.Options[index] ?? mod.Options[0];
+				}));
 				break;
 			default:
 				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -1309,7 +1312,7 @@ const ExtendedItemGatherOptions = (function () {
 		optionList.push(...newOptions);
 		for (const option of newOptions) {
 			if (option.ArchetypeData) {
-				_dfs(option.ArchetypeData, item, optionList);
+				_dfs(option.ArchetypeData, item, optionList, typeKeySet);
 			}
 		}
 	}

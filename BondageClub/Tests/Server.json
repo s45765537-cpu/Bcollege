@@ -1,0 +1,22 @@
+{
+	"default type record state": {
+		"initialItemType": { "a": 0, "c": 0, "i": 0, "p": 0, "s": 0, "v": 0, "o": 0 },
+		"itemBundleType": null,
+		"finalItemType": { "a": 0, "c": 0, "i": 0, "p": 0, "s": 0, "v": 0, "o": 0 }
+	},
+	"custom type record state": {
+		"initialItemType": { "a": 1, "c": 0, "i": 0, "p": 0, "s": 0, "v": 1, "o": 0 },
+		"itemBundleType": { "a": 1, "c": 0, "i": 0, "p": 0, "s": 0, "v": 1, "o": 0 },
+		"finalItemType": { "a": 1, "c": 0, "i": 0, "p": 0, "s": 0, "v": 1, "o": 0 }
+	},
+	"invalid type record values": {
+		"initialItemType": { "a": 1, "c": 1.5, "i": "oops", "p": null, "v": 999, "blieb": 99, "blarb": 4, "blob": 1 },
+		"itemBundleType": { "a": 1, "c": 1.5, "i": "oops", "p": null, "v": 999 },
+		"finalItemType": { "a": 1, "c": 0, "i": 0, "p": 0, "s": 0, "v": 0, "o": 0 }
+	},
+	"invalid type record type": {
+		"initialItemType": 5,
+		"itemBundleType": null,
+		"finalItemType": { "a": 0, "c": 0, "i": 0, "p": 0, "s": 0, "v": 0, "o": 0 }
+	}
+}

@@ -113,10 +113,9 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		}
 	}
 
-	validateType: if (
-		Data.modules.every(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined)
-		&& !Data.modules.some(m => InventoryIsPermissionBlocked(C, Item.Asset.Name, Item.Asset.Group.Name, `${m.Key}${Item.Property.TypeRecord[m.Key]}`))
-	) {
+	const validSubTypes = Data.modules.map(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined);
+	const permissionBlocked = Data.modules.map(m => InventoryIsPermissionBlocked(C, Item.Asset.Name, Item.Asset.Group.Name, `${m.Key}${Item.Property.TypeRecord[m.Key]}`));
+	validateType: if (validSubTypes.every(i => i) && !permissionBlocked.some(i => i)) {
 		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
 			// We cannot reliably validate properties of people in different versions
 			break validateType;
@@ -150,7 +149,11 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			Item.Property.Effect = CommonArrayConcatDedupe(Item.Property.Effect ?? [], ["Lock"]);
 		}
 	} else {
-		const currentModuleValues = ModularItemParseCurrent(Data, null);
+		const typeRecord = Object.fromEntries(Data.modules.map((mod, i) => {
+			const index = (validSubTypes[i] && !permissionBlocked[i]) ? Item.Property.TypeRecord[mod.Key] : 0;
+			return /** @type {const} */([mod.Key, index ?? 0]);
+		}));
+		const currentModuleValues = ModularItemParseCurrent(Data, typeRecord);
 		Item.Property = ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty);
 	}
 
