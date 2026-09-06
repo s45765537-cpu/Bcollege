@@ -6443,6 +6443,9 @@ var AssetFemale3DCG = [
 			{ Name: "CRABS", Left: 206, Top: 274 },
 			{ Name: "PirateRockRadio", Left: 206, Top: 268 },
 			{ Name: "MelodysBoutique", Left: 206, Top: 268 },
+			{ Name: "BellFlower", Left: 200, Top: 270 },
+            { Name: "VelvetBunny", Left: 183, Top: 270 },
+            { Name: "LMF", Left: 195, Top: 255 },
 		],
 	},
 	// #endregion
