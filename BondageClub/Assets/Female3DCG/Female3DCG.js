@@ -51588,6 +51588,10 @@ var AssetFemale3DCG = [
 						AllowTypes: { NelsStorage: 3 },
 					},
 					{
+						Name: "Viola",
+						AllowTypes: { NelsStorage: 4},
+					},
+					{
 						Name: "Dana",
 						AllowTypes: { CCLounge: 1 },
 					},

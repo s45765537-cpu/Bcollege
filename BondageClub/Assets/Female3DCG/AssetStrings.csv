@@ -8746,6 +8746,8 @@ ItemHandheldPlushieOptionNelsStorage2,Fallen
 ItemHandheldPlushieSetNelsStorage2,SourceCharacter places a cute Fallen plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionNelsStorage3,Reina
 ItemHandheldPlushieSetNelsStorage3,SourceCharacter places a cute Reina plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionNelsStorage4,Viola
+ItemHandheldPlushieSetNelsStorage4,SourceCharacter places a cute Viola plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleCCLounge,CC's Lounge
 ItemHandheldPlushieSelectCCLounge,CC's Lounge
 ItemHandheldPlushieOptionCCLounge0,None
