@@ -6924,12 +6924,20 @@ PantiesMaleCatsuitPantiesTucked,Tucked
 PantiesPoofyDiaperPoofy,Extra Padding
 PantiesPoofyDiaperRegularPadding,Regular Padding
 PantiesPoofyDiaperSelect,Select the amount of padding.
-PantiesRoyalDiaperHerMajesty,Her Majesty
-PantiesRoyalDiaperHisMajesty,His Majesty
-PantiesRoyalDiaperSimple,Simple
-PantiesRoyalDiaperSelect,Select a diaper motiv.
-PantiesRoyalDiaperLock,Lock
-PantiesRoyalDiaperNone,Plain
+PantiesRoyalDiaperModuleDesign,Design 
+PantiesRoyalDiaperModuleMotiv,Motiv
+PantiesRoyalDiaperOptiond0,Plain White
+PantiesRoyalDiaperOptiond1,ABU AlphaGatorz
+PantiesRoyalDiaperOptiond2,ABU BunnyHopps
+PantiesRoyalDiaperOptiond3,LilComforts LacyLove
+PantiesRoyalDiaperOptionm0,None
+PantiesRoyalDiaperOptionm1,Simple
+PantiesRoyalDiaperOptionm2,His Majesty
+PantiesRoyalDiaperOptionm3,Her Majesty
+PantiesRoyalDiaperOptionm4,Lock
+PantiesRoyalDiaperSelectBase,Your Diaper Options:
+PantiesRoyalDiaperSelectDesign,Choose Design
+PantiesRoyalDiaperSelectMotiv,Add Motiv
 PantiesPullDownPantiesPutOn,Put On
 PantiesPullDownPantiesPulledAside,Pulled Aside
 PantiesPullDownPantiesCrotchExposed,Crotch Exposed

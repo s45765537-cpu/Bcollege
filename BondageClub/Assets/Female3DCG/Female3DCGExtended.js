@@ -21349,22 +21349,40 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // PullDownPanties
 		RoyalDiaper: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
-					Name: "None",
+					Name: "Design",
+					Key: "d",
+					Options: [
+						{
+							//d0 - plain white
+							Property: { DefaultColor: "#f9f9f9" },
+						},
+						{
+							//d1 - ABU AlphaGatorz
+							Property: { DefaultColor: "Default" },
+						},
+						{
+							//d2 - ABU BunnyHopps
+							Property: { DefaultColor: "Default" },
+						},
+						{
+							//d2 - LilComforts LacyLove
+							Property: { DefaultColor: "Default" },
+						},
+					],
 				},
 				{
-					Name: "Simple",
-				},
-				{
-					Name: "HisMajesty",
-				},
-				{
-					Name: "HerMajesty",
-				},
-				{
-					Name: "Lock",
+					Name: "Motiv",
+					Key: "m",
+					Options: [
+						{}, //m0 - None
+						{}, //m1 - Simple
+						{}, //m2 - His Majesty
+						{}, //m3 - HerMajesty
+						{}, //m4 - Lock
+					],
 				},
 			],
 		}, // RoyalDiaper
