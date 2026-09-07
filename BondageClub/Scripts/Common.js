@@ -1341,18 +1341,15 @@ function CommonStringSubstitute(msg, substitutions) {
 	 *
 	 * @param {CommonSubstituteReplacer | undefined} replacer
 	 * @param {string} replacement
-	 * @returns {(match: string, offset: number, string: string) => string}
+	 * @returns {(substring: string, ...args: any[]) => string}
 	 */
 	function makeReplacer(replacer, replacement) {
-		if (typeof replacer === "function")
-			return (match, offset, string) => replacer(match, offset, replacement, string);
-		return () => replacement;
+		return typeof replacer === "function" ? CommonStringReplacer(replacer) : () => replacement;
 	}
 
-	substitutions = substitutions.sort((a, b) => b[0].length - a[0].length);
 	for (const [tag, subst, replacer] of substitutions) {
 		let repl = makeReplacer(replacer, subst);
-		msg = msg.replace(new RegExp(tag, "g"), repl);
+		msg = msg.replace(typeof tag === "string" ? new RegExp(tag, "g") : tag, repl);
 	}
 	return msg;
 }
