@@ -6444,8 +6444,8 @@ var AssetFemale3DCG = [
 			{ Name: "PirateRockRadio", Left: 206, Top: 268 },
 			{ Name: "MelodysBoutique", Left: 206, Top: 268 },
 			{ Name: "BellFlower", Left: 200, Top: 270 },
-            { Name: "VelvetBunny", Left: 183, Top: 270 },
-            { Name: "LMF", Left: 195, Top: 255 },
+			{ Name: "VelvetBunny", Left: 183, Top: 270 },
+			{ Name: "LMF", Left: 195, Top: 255 },
 		],
 	},
 	// #endregion
@@ -51592,7 +51592,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Viola",
-						AllowTypes: { NelsStorage: 4},
+						AllowTypes: { NelsStorage: 4 },
 					},
 					{
 						Name: "Dana",
