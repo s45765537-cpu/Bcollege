@@ -95,7 +95,7 @@ async function EmptyShopEnd(Sold) {
 	await CommonSetScreen("Room", "Shop");
 	if (!ShopVendor || !ShopCustomer) return;
 	CharacterSetCurrent(ShopVendor);
-	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
+	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", CharacterMoneyFormat(ShopDemoItemPayment));
 	CharacterAppearanceFullRandom(ShopCustomer, false);
 	ShopCustomer.Name = CharacterGenerateRandomName();
 }
@@ -175,7 +175,7 @@ async function EmptySlaveMarketTrainingEnd(Status) {
 	}
 	await CommonSetScreen("Room", "SlaveMarket");
 	if (!SlaveMarketMistress || !SlaveMarketSlaveToTrain) return;
-	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
+	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", CharacterMoneyFormat(Money));
 	SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
 
 	CharacterDelete(SlaveMarketSlaveToTrain);

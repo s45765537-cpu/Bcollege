@@ -83,7 +83,7 @@ RemoveSuspensionHempRope,,,(You let her down from the ceiling and untie her feet
 ClubCardVictory,,,"(She puts her deck away and surrenders to you.)  Well done, you're both a good player and kidnapper.",,
 ClubCardDefeat,,,(She puts her deck away and quickly restraints you.)  Enough cards!  It's time to play with my prey.,,
 0,,I don't want mercy and I won't show any.,,RandomStart(),
-0,,Wait!  Can we make a deal?  I'll give you $10.,No deal!  I'm eager for a fight.,DialogRemove(),
+0,,Wait!  Can we make a deal?  I'll give you ${money=-10}.,No deal!  I'm eager for a fight.,DialogRemove(),
 0,,(Fight her.),,RandomStart(),
 0,,(Surrender.),,RandomSurrender(),
 1,,How did you hear about me?,Never mind.  We need less chatting and more fighting.,DialogRemove(),
@@ -93,7 +93,7 @@ ClubCardDefeat,,,(She puts her deck away and quickly restraints you.)  Enough ca
 1,,(Surrender.),,RandomSurrender(),
 2,,Lady of Ropes?  You're mistaking me for someone else.,You can't fool me Lady.  You fit her description perfectly.  I will kidnap you and I will get the bounty.,DialogRemove(),
 2,,Yes!  The Lady of Ropes will fight you.,,RandomStart(),
-2,,A bounty hunter?  Here's $20.  Leave me alone.,,RandomBribe(20),DialogMoneyGreater(20)
+2,,A bounty hunter?  Here's ${money=-20}.  Leave me alone.,,RandomBribe(20),DialogMoneyGreater(20)
 2,,(Fight her.),,RandomStart(),
 2,,(Surrender.),,RandomSurrender(),
 3,,Sure!  Let's fight.,,RandomStart(),
@@ -106,7 +106,7 @@ ClubCardDefeat,,,(She puts her deck away and quickly restraints you.)  Enough ca
 4,,(Surrender.),,RandomSurrender(),
 5,,Who put a bounty on me?,"Who cares?  I'm here for the money, not to chat.",DialogRemove(),
 5,,No bounty hunter will ever get me.,,RandomStart(),
-5,,"Take this $20 and leave, bounty hunter.",,RandomBribe(20),DialogMoneyGreater(20)
+5,,"Take this ${money=-20} and leave, bounty hunter.",,RandomBribe(20),DialogMoneyGreater(20)
 5,,(Fight her.),,RandomStart(),
 5,,(Surrender.),,RandomSurrender(),
 6,GetAnimeGirl3,Sister!  I also follow the Heavenly Light.,My apologies sister.  I thought you were evil in disguise.  Are you on a quest for the Seven Prisms of the moon?,,PlayerIsAnimeGirl()

@@ -730,7 +730,7 @@ function PokerChallengeDone() {
 		if (OpponentPos > ProgressPos) {
 			let Money = 4 + OpponentPos;
 			CharacterChangeMoney(Player, Money);
-			PokerMessage = TextGet("WinChallenge").replace("MoneyAmount", Money.toString()).replace("OpponentName", PokerPlayer[2].Name);
+			PokerMessage = TextGet("WinChallenge").replace("MoneyAmount", CharacterMoneyFormat(Money)).replace("OpponentName", PokerPlayer[2].Name);
 			Player.Game ??= {};
 			Player.Game.Poker ??= {};
 			Player.Game.Poker.Challenge = PokerPlayer[2].Name;

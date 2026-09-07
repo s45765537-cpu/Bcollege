@@ -143,7 +143,7 @@ function KidnapLeagueOnlineBountyFinish() {
 	}
 
 	InventoryRemove(Player, "ItemMisc");
-	KidnapLeagueTrainer.CurrentDialog = KidnapLeagueTrainer.CurrentDialog.replace("MONEYAMOUNT", (money).toString());
+	KidnapLeagueTrainer.CurrentDialog = KidnapLeagueTrainer.CurrentDialog.replace("MONEYAMOUNT", CharacterMoneyFormat(money));
 	CharacterChangeMoney(Player, money);
 	ReputationProgress("Kidnap", 1);
 }
@@ -223,7 +223,7 @@ function KidnapLeagueTakeBounty(Difficulty) {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyRemind() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyLocation).replace("BOUNTYNAME", KidnapLeagueBounty.Name).replace("BOUNTYAMOUNT", (25 + KidnapLeagueBountyDifficulty * 2).toString());
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "Bounty" + KidnapLeagueBountyLocation).replace("BOUNTYNAME", KidnapLeagueBounty.Name).replace("BOUNTYAMOUNT", CharacterMoneyFormat(25 + KidnapLeagueBountyDifficulty * 2));
 }
 
 /**
@@ -271,7 +271,7 @@ async function KidnapLeagueBountyFightEnd() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyPay() {
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("BOUNTYAMOUNT", (25 + KidnapLeagueBountyDifficulty * 2).toString());
+	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, "BountyPay").replace("BOUNTYAMOUNT", CharacterMoneyFormat(25 + KidnapLeagueBountyDifficulty * 2));
 	CharacterChangeMoney(Player, 25 + KidnapLeagueBountyDifficulty * 2);
 	KidnapLeagueBountyReset();
 }
