@@ -1533,7 +1533,7 @@ function CommonIncludes(array, searchElement, fromIndex) {
  * @note The returned record is typed as being non-{@link Partial}, an assumption that may not hold in practice
  * @template {string} KT
  * @template VT
- * @param {Iterable<[key: KT, value: VT]>} iterable An iterable object that contains key-value entries for properties and methods
+ * @param {Iterable<readonly [key: KT, value: VT]>} iterable An iterable object that contains key-value entries for properties and methods
  * @returns {Record<KT, VT>} A record created from the passed key/value pairs
  */
 function CommonFromEntries(iterable) {
