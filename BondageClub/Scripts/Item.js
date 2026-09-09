@@ -169,7 +169,6 @@ let ItemPropertiesDummy = null;
 function ItemPropertiesCompress(item, options=null) {
 	options ??= {};
 	const allowLocks = options.allowLocks ?? true;
-	const propertyOmit = new Set(options.omit ?? []);
 	if (!item?.Property) {
 		return undefined;
 	}
@@ -199,18 +198,14 @@ function ItemPropertiesCompress(item, options=null) {
 			}
 			Object.assign(baseline, option.Property ?? {}, option.ParentData.baselineProperty ?? {});
 			for (const key of CommonKeys(option.ParentData.baselineProperty ?? {})) {
-				if (!propertyOmit.has(key)) {
-					allowedProperties.add(key);
-				}
+				allowedProperties.add(key);
 			}
 		}
 	}
 
 	if (item.Asset.AllowExpression) {
 		baseline.Expression = null;
-		if (!propertyOmit.has("Expression")) {
-			allowedProperties.add("Expression");
-		}
+		allowedProperties.add("Expression");
 	}
 
 	lockedBy: if (allowLocks && item.Property.LockedBy) {
@@ -225,10 +220,12 @@ function ItemPropertiesCompress(item, options=null) {
 		allowedProperties.add("LockMemberName");
 		allowedProperties.add("LockMessage");
 		for (const key of CommonKeys(lockData.baselineProperty ?? {})) {
-			if (!propertyOmit.has(key)) {
-				allowedProperties.add(key);
-			}
+			allowedProperties.add(key);
 		}
+	}
+
+	for (const prop of options.omit ?? []) {
+		allowedProperties.delete(prop);
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
