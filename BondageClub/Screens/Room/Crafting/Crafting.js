@@ -1836,7 +1836,7 @@ function CraftingUpdateFromItem(item) {
 	if (!CraftingSelectedItem || !item.Property) {
 		return;
 	}
-	CraftingSelectedItem.ItemProperty = ItemPropertiesCompress(item, { omit: CraftingPropertyExclude }) ?? {};
+	CraftingSelectedItem.ItemProperty = ItemPropertiesCompress(item, { omit: CraftingPropertyExclude, allowLocks: false }) ?? {};
 }
 
 /**
