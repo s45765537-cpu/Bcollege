@@ -1837,6 +1837,8 @@ function CraftingUpdateFromItem(item) {
 		return;
 	}
 	CraftingSelectedItem.ItemProperty = ItemPropertiesCompress(item, { omit: CraftingPropertyExclude, allowLocks: false }) ?? {};
+	CraftingSelectedItem.TypeRecord = CraftingSelectedItem.ItemProperty.TypeRecord ?? {};
+	delete CraftingSelectedItem.ItemProperty.TypeRecord;
 }
 
 /**
