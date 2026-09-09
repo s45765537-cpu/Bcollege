@@ -256,15 +256,16 @@ const CraftingLockList = ["", "MetalPadlock", "IntricatePadlock", "HighSecurityP
  * @type {Set<keyof ItemProperties>}
  */
 const CraftingPropertyExclude = new Set([
+	"AutoPunishUndoTime",
+	"BlinkState",
+	"Expression",
 	"HeartRate",
-	"TriggerCount",
+	"NextShockTime",
 	"OrgasmCount",
 	"RuinedOrgasmCount",
-	"TimeWorn",
 	"TimeSinceLastOrgasm",
-	"BlinkState",
-	"AutoPunishUndoTime",
-	"NextShockTime",
+	"TimeWorn",
+	"TriggerCount",
 ]);
 
 const CraftingID = /** @type {const} */({

@@ -206,6 +206,13 @@ function ItemPropertiesCompress(item, options=null) {
 		}
 	}
 
+	if (item.Asset.AllowExpression) {
+		baseline.Expression = null;
+		if (!propertyOmit.has("Expression")) {
+			allowedProperties.add("Expression");
+		}
+	}
+
 	lockedBy: if (allowLocks && item.Property.LockedBy) {
 		const lockData = NoArchItemDataLookup[`ItemMisc${item.Property.LockedBy}`];
 		if (!lockData) {
