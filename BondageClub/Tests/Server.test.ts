@@ -1,6 +1,6 @@
 import { Game } from "./Utils";
 
-import extendedItemParam from "./Server.json";
+import testParam from "./Server.json";
 
 let extendedAsset: Asset;
 const asset = {
@@ -162,8 +162,8 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		});
 	});
 
-	const param = Object.entries(extendedItemParam).map(([k, v]) => { return { name: k, ...v }; });
-	it.each(param)("extended item: $name", ({ initialItemType, itemBundleType, finalItemType }) => {
+	const extendedItemParam = Object.entries(testParam.extended_item).map(([k, v]) => { return { name: k, ...v }; });
+	it.each(extendedItemParam)("extended item: $name", ({ initialItemType, itemBundleType, finalItemType }) => {
 		const item = {
 			Asset: extendedAsset,
 			Property: { TypeRecord: initialItemType },
@@ -185,9 +185,36 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 			Group: "ItemPelvis",
 			Name: "ModularChastityBelt",
 			Property: itemBundleType ? { TypeRecord: itemBundleType } : undefined,
-		} satisfies ItemBundle);
+		});
 
 		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
 		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemType);
+	});
+
+	const lockParam = testParam.lock.assets.map(({ asset, group, comment }) => {
+		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...testParam.lock };
+	 });
+	it.each(lockParam)("locked item: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = {
+			Asset: asset,
+			Property: initialItemProperty,
+		};
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.LockedBy, "bundle to item re-conversion").toEqual(finalItemProperty.LockedBy);
+		expect(itemRestored?.Property?.LockMemberNumber, "bundle to item re-conversion").toEqual(finalItemProperty.LockMemberNumber);
+		expect(itemRestored?.Property?.CombinationNumber, "bundle to item re-conversion").toEqual(finalItemProperty.CombinationNumber);
+		expect(itemRestored?.Property?.Effect, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Effect));
 	});
 });
