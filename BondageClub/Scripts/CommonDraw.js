@@ -478,7 +478,7 @@ function CommonDrawAppearanceBuild(
 			);
 
 			const getTransform = (/** @type {"TranslationX" | "TranslationY" | "ScaleX" | "ScaleY" | "Rotation"} */ propName, /** @type {number} */ defaultValue) => {
-				const layerName = layer.Name ?? asset.Name;
+				const layerName = layer.Name ?? "";
 				/** @type {ItemProperties} */
 				const props = item.Property ?? {};
 				const key = /** @type {const} */(`Layer${propName}`);

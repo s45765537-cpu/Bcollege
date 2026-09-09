@@ -552,7 +552,7 @@ var Layering = {
 	 * @param {Record<string, [number, number]>} constraints
 	 */
 	_CreateLayerFieldset(layer, propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints) {
-		const layerName = layer.Name ?? this.Asset.Name;
+		const layerName = layer.Name ?? "";
 		const isVisible = CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord);
 		return {
 			tag: "fieldset",
@@ -563,7 +563,7 @@ var Layering = {
 					tag: "div",
 					classList: ["layering-pair"],
 					children: [
-						{ tag: "label", classList: ["layering-pair-text", "layering-layer-name"], children: [layerName] },
+						{ tag: "label", classList: ["layering-pair-text", "layering-layer-name"], children: [layer.Name ?? this.Asset.Name] },
 						{
 							tag: "div",
 							classList: ["layering-inputs-container"],
@@ -726,6 +726,7 @@ var Layering = {
 
 	/**
 	 * Helper to build priority fieldset to avoid repetition
+	 * @param {boolean} isShowingHiddenLayers
 	 * @private
 	 */
 	_BuildLayerPriorityFieldset(isShowingHiddenLayers) {
@@ -750,13 +751,13 @@ var Layering = {
 									children: [layerGroupName],
 								},
 								.../** @type {HTMLOptionsUnion[]} */(layerList.map((layer) => {
-									const name = layer.Name ?? this.Asset.Name;
+									const name = layer.Name ?? "";
 									return {
 										tag: /** @type {const} */("div"),
 										classList: ["layering-pair"],
 										attributes: { hidden: !isShowingHiddenLayers && !CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) },
 										children: [
-											{ tag: /** @type {const} */("label"), attributes: { for: `layering-input-${layerGroupName}-${name}` }, classList: ["layering-pair-text"], children: [name] },
+											{ tag: /** @type {const} */("label"), attributes: { for: `layering-input-${layerGroupName}-${name}` }, classList: ["layering-pair-text"], children: [layer.Name ?? this.Asset.Name] },
 											{
 												tag: /** @type {const} */("input"),
 												attributes: { type: "number", value: this.OverridePriority?.[name] ?? layer.Priority, id: `layering-input-${layerGroupName}-${name}`, inputmode: "numeric" },
