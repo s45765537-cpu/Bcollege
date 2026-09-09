@@ -130,8 +130,6 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			return existingValue == null && typeof existingValue !== typeof v;
 		});
 
-		// Make sure that the `Lock` effect persists if the `Effect` array is reset
-		const hasLock = Item.Property.Effect?.includes("Lock") && Item.Asset.AllowLock;
 		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			Item.Property = Object.assign(Item.Property, newProps);
@@ -145,8 +143,6 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 
 		if (!update) {
 			return false;
-		} else if (hasLock) {
-			Item.Property.Effect = CommonArrayConcatDedupe(Item.Property.Effect ?? [], ["Lock"]);
 		}
 	} else {
 		const typeRecord = Object.fromEntries(Data.modules.map((mod, i) => {
@@ -154,7 +150,15 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			return /** @type {const} */([mod.Key, index ?? 0]);
 		}));
 		const currentModuleValues = ModularItemParseCurrent(Data, typeRecord);
-		Item.Property = ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty);
+		Item.Property = Object.assign(
+			Item.Property,
+			ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty),
+		);
+	}
+
+	// Make sure that the `Lock` effect persists if the `Effect` array is reset
+	if (Item.Property.LockedBy && Item.Asset.AllowLock) {
+		Item.Property.Effect = CommonArrayConcatDedupe(Item.Property.Effect ?? [], ["Lock"]);
 	}
 
 	if (Refresh) {

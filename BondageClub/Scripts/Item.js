@@ -163,11 +163,12 @@ let ItemPropertiesDummy = null;
 /**
  * Compress the passed item's properties in preparation for {@link ItemBundle} creation.
  * @param {Item} item The item whose properties are to be minimized
- * @param {null | { omit?: Iterable<keyof ItemProperties> }} options
+ * @param {null | { omit?: Iterable<keyof ItemProperties>, allowLocks?: boolean }} options
  * @returns {ItemPropertiesMinimized | undefined} The minimized item properties
  */
 function ItemPropertiesCompress(item, options=null) {
 	options ??= {};
+	const allowLocks = options.allowLocks ?? true;
 	const propertyOmit = new Set(options.omit ?? []);
 	if (!item?.Property) {
 		return undefined;
@@ -201,6 +202,24 @@ function ItemPropertiesCompress(item, options=null) {
 				if (!propertyOmit.has(key)) {
 					allowedProperties.add(key);
 				}
+			}
+		}
+	}
+
+	lockedBy: if (allowLocks && item.Property.LockedBy) {
+		const lockData = NoArchItemDataLookup[`ItemMisc${item.Property.LockedBy}`];
+		if (!lockData) {
+			break lockedBy;
+		}
+
+		Object.assign(baseline, lockData.baselineProperty ?? {});
+		allowedProperties.add("LockedBy");
+		allowedProperties.add("LockMemberNumber");
+		allowedProperties.add("LockMemberName");
+		allowedProperties.add("LockMessage");
+		for (const key of CommonKeys(lockData.baselineProperty ?? {})) {
+			if (!propertyOmit.has(key)) {
+				allowedProperties.add(key);
 			}
 		}
 	}
@@ -253,6 +272,9 @@ function ItemPropertiesDecompress(item, properties) {
 
 	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
 	Object.assign(item.Property, propertiesUnsanitized);
+	if (propertiesUnsanitized.LockedBy) {
+		CommonArrayConcatDedupe(item.Property.Effect ??= [], ["Lock"]);
+	}
 	if (item.Asset.Extended) {
 		if (propertiesUnsanitized.TypeRecord) {
 			ExtendedItemSetOptionByRecord(C, item, propertiesUnsanitized.TypeRecord, { push: false, refresh: false });
