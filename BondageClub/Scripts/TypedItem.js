@@ -601,8 +601,6 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 			return existingValue == null && typeof existingValue !== typeof v;
 		});
 
-		// Make sure that the `Lock` effect persists if the `Effect` array is reset
-		const hasLock = Item.Property.Effect?.includes("Lock") && Item.Asset.AllowLock;
 		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			Item.Property = Object.assign(Item.Property, newProps);
@@ -616,8 +614,6 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 
 		if (!update) {
 			return false;
-		} else if (hasLock) {
-			Item.Property.Effect = CommonArrayConcatDedupe(Item.Property.Effect ?? [], ["Lock"]);
 		}
 	} else {
 		// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
@@ -627,6 +623,11 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 			CommonCloneDeep(baselineProperty || {}),
 			CommonCloneDeep(option.Property),
 		);
+	}
+
+	// Make sure that the `Lock` effect persists if the `Effect` array is reset
+	if (Item.Property.LockedBy && Item.Asset.AllowLock) {
+		Item.Property.Effect = CommonArrayConcatDedupe(Item.Property.Effect ?? [], ["Lock"]);
 	}
 
 	if (Refresh) {
