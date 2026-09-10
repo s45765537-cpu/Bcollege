@@ -1527,25 +1527,12 @@ function WardrobeRenameSelectedOutfit(push = false) {
 }
 
 /**
- * Confirm and apply a wardrobe slot onto the current character.
+ * Apply a wardrobe slot onto the current character.
  * @param {number} slot
  * @returns {void} - Nothing
  */
 function WardrobeLoadOutfit(slot) {
 	if (!Wardrobe.selectedCharacter || slot < 0 || WardrobeIsSlotEmpty(slot)) return;
-
-	WardrobeSetActionPreview("Load", true, slot);
-	Wardrobe.previewLocked = true;
-	let confirmed = false;
-	try {
-		const mainCharacter = WardrobeGetMainPreviewCharacter();
-		if (mainCharacter) WardrobeDrawToCanvas(WardrobeID.mainCanvas, mainCharacter, 1);
-		confirmed = confirm(TextGet("LoadOutfitConfirm"));
-	} finally {
-		Wardrobe.previewLocked = false;
-		WardrobeSetActionPreview(null, true);
-	}
-	if (!confirmed) return;
 
 	WardrobeFastLoad(Wardrobe.selectedCharacter, slot, false, { ExcludeBodyparts: true });
 	if (WardrobeSelection !== -1) {
