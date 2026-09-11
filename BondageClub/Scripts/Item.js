@@ -276,9 +276,15 @@ function ItemPropertiesDecompress(item, properties) {
 
 	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
 	Object.assign(item.Property, propertiesUnsanitized);
+
 	if (propertiesUnsanitized.LockedBy) {
 		CommonArrayConcatDedupe(item.Property.Effect ??= [], ["Lock"]);
 	}
+
+	if (item.Craft?.Effects?.Painful) {
+		CommonArrayConcatDedupe(item.Property.Fetish ??= [], ["Masochism"]);
+	}
+
 	if (item.Asset.Extended) {
 		if (propertiesUnsanitized.TypeRecord) {
 			ExtendedItemSetOptionByRecord(C, item, propertiesUnsanitized.TypeRecord, { push: false, refresh: false });
