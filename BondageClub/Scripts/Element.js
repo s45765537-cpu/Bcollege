@@ -1364,9 +1364,9 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => void}
 	 */
-	_KeyDown: async function _KeyDown(ev) {
+	_KeyDown: function _KeyDown(ev) {
 		if (CommonKey.GetModifiers(ev)) {
 			return;
 		}
@@ -1389,9 +1389,9 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => void}
 	 */
-	_KeyUp: async function _KeyUp(ev) {
+	_KeyUp: function _KeyUp(ev) {
 		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
