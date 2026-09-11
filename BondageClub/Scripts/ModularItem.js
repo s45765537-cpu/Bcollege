@@ -896,23 +896,18 @@ function ModularItemGenerateValidationProperties(data) {
 	const asset = /** @type {Mutable<Asset>} */(data.asset);
 	const { modules } = data;
 	asset.Extended = true;
-	asset.AllowEffect = CommonIsArray(asset.AllowEffect) ? [...data.allowEffect, ...asset.AllowEffect] : [...data.allowEffect];
-	// @ts-ignore: ignore `readonly` while still building the asset
-	CommonArrayConcatDedupe(asset.AllowEffect, asset.Effect);
-	asset.AllowBlock = CommonIsArray(asset.Block) ? asset.Block.slice() : [];
-	asset.AllowHide = CommonIsArray(asset.Hide) ? asset.Hide.slice() : [];
-	asset.AllowHideItem = CommonIsArray(asset.HideItem) ? asset.HideItem.slice() : [];
+	const allowEffect = asset.AllowEffect = CommonIsArray(asset.AllowEffect) ? [...data.allowEffect, ...asset.AllowEffect] : [...data.allowEffect];
+	CommonArrayConcatDedupe(allowEffect, asset.Effect);
+	const allowBlock = asset.AllowBlock = CommonIsArray(asset.Block) ? asset.Block.slice() : [];
+	const allowHide = asset.AllowHide = CommonIsArray(asset.Hide) ? asset.Hide.slice() : [];
+	const allowHideItem = asset.AllowHideItem = CommonIsArray(asset.HideItem) ? asset.HideItem.slice() : [];
 	for (const module of modules) {
 		for (const {Property} of module.Options) {
 			if (Property) {
-				// @ts-ignore: ignore `readonly` while still building the asset
-				if (Property.Effect) CommonArrayConcatDedupe(asset.AllowEffect, Property.Effect);
-				// @ts-ignore: ignore `readonly` while still building the asset
-				if (Property.Block) CommonArrayConcatDedupe(asset.AllowBlock, Property.Block);
-				// @ts-ignore: ignore `readonly` while still building the asset
-				if (Property.Hide) CommonArrayConcatDedupe(asset.AllowHide, Property.Hide);
-				// @ts-ignore: ignore `readonly` while still building the asset
-				if (Property.HideItem) CommonArrayConcatDedupe(asset.AllowHideItem, Property.HideItem);
+				if (Property.Effect) CommonArrayConcatDedupe(allowEffect, Property.Effect);
+				if (Property.Block) CommonArrayConcatDedupe(allowBlock, Property.Block);
+				if (Property.Hide) CommonArrayConcatDedupe(allowHide, Property.Hide);
+				if (Property.HideItem) CommonArrayConcatDedupe(allowHideItem, Property.HideItem);
 				if (Property.Tint && Array.isArray(Property.Tint) && Property.Tint.length > 0) asset.AllowTint = true;
 			}
 		}

@@ -162,14 +162,13 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 
 	let item = newItem;
 	CommonAssign(sanitizedProperty, newProperty);
-	const propertyNames = Object.keys(sanitizedProperty);
+	const propertyNames = CommonKeys(sanitizedProperty);
 
 	// Strip out any invalid properties
 	for (const propertyName of propertyNames) {
 		if (!ValidationScriptableProperties.includes(propertyName)) {
 			console.error(`Stripping invalid scripted property: ${propertyName}`);
 			valid = false;
-			// @ts-ignore Strict-TS
 			delete sanitizedProperty[propertyName];
 		}
 	}
@@ -349,7 +348,6 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 			if (!previousKeys.includes(key)) {
 				console.error(`Invalid modification of property "${key}" for item ${warningSuffix}`);
 				valid = false;
-				// @ts-ignore Strict-TS
 				delete newProperty[key];
 			}
 		});

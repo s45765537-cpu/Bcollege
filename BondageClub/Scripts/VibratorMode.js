@@ -300,8 +300,7 @@ function VibratorModeCreateData(
 		asset,
 		parentOption,
 		name,
-		// @ts-ignore-error Strict-TS: Initialized further down below
-		options: /** @type {VibratingItemOption[]} */ (null),
+		options: /** @type {VibratingItemOption[]} */ ([]),
 		modeSet: modeSet,
 		functionPrefix: `Inventory${key}`,
 		dynamicAssetsFunctionPrefix: `Assets${asset.Group.Name}${asset.Name}`,

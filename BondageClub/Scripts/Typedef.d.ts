@@ -1397,10 +1397,10 @@ interface Asset {
 	readonly BodyCosplay: boolean;
 	readonly OverrideBlinking: boolean;
 	readonly DialogSortOverride?: DialogSortOrder;
-	readonly DynamicDescription: (C: Character) => string;
+	readonly DynamicDescription: (this: Asset, C: Character) => string;
 	readonly DynamicPreviewImage: (C: Character) => string;
 	readonly DynamicAllowInventoryAdd: (C: Character) => boolean;
-	readonly DynamicName: (C: Character) => AssetName;
+	readonly DynamicName: (this: Asset, C: Character) => AssetName;
 	readonly DynamicGroupName: AssetGroupName;
 	readonly DynamicActivity: (C: Character) => ActivityName | null | undefined;
 	readonly DynamicAudio: ((C: Character) => string) | null;

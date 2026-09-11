@@ -167,7 +167,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		HeightRatio: 1,
 		HasHiddenItems: false,
 		SavedColors: GetDefaultSavedColors(),
-		// @ts-ignore Strict-TS: not sure why this is null here
+		// @ts-ignore Strict-TS: properly initiated further down below
 		ActiveExpression: null,
 
 		PoseMapping: {},
@@ -2368,7 +2368,6 @@ function CharacterCheckHooks(C, IgnoreHooks) {
 			// Fancy logic is to use a different hook for when the character is focused
 			const layerVisibilityHook = () => {
 				const inDialog = (CurrentCharacter != null);
-				// @ts-ignore Strict-TS: Must always be called under CharacterLoadCanvas
 				C.AppearanceLayers = C.AppearanceLayers?.filter((Layer) => (
 					!Layer.Visibility ||
 					(Layer.Visibility == "Player" && C.IsPlayer()) ||
@@ -2589,7 +2588,7 @@ function CharacterValidateNickname(C, Nick, fromOwner = false) {
  * @param {string} [notes] - String containing the notes.  If undefined, existing notes will be erased.
  */
 function CharacterSetOwnersNotes(C, notes = undefined) {
-	if (C.Ownership !== null && typeof C.Ownership === "object" && C.Ownership.Notes !== notes && C.IsFullyOwnedByPlayer()) {
+	if (C.IsOnline() && CommonIsObject(C.Ownership) && C.Ownership.Notes !== notes && C.IsFullyOwnedByPlayer()) {
 		let Notes = undefined;
 		if (typeof notes === "string" && notes.length > 0) {
 			C.Ownership.Notes = notes.slice(0, OnlineProfileTextOwnersNotesMaxLen);
@@ -2598,7 +2597,6 @@ function CharacterSetOwnersNotes(C, notes = undefined) {
 			C.Ownership.Notes = undefined;
 		}
 
-		// @ts-ignore Strict-TS: Only OnlineCharacters have a MemberNumber
 		ServerSend("AccountOwnership", { MemberNumber: C.MemberNumber, Action: "UpdateNotes", Notes });
 	}
 }

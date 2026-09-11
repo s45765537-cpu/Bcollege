@@ -321,7 +321,7 @@ function LogLoad(NewLog) {
 			if (upgradePrefix) {
 
 				const ruleIDs = log.Name.substring(upgradePrefix.length).split("");
-				// @ts-ignore-error Forcing the types here because `ruleIDs` should only be letters from `AdvancedRulesBackCompat[upgradePrefix]`
+				// @ts-ignore Forcing the types here because `ruleIDs` should only be letters from `AdvancedRulesBackCompat[upgradePrefix]`
 				const updatedRule = ruleIDs.map(id => AdvancedRulesBackCompat[upgradePrefix][id]).filter(Boolean);
 
 				if (updatedRule) {

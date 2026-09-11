@@ -2346,7 +2346,6 @@ function DialogClick(event) {
 
 	// If the user clicked the Up button, move the character up to the top of the screen
 	if ((CurrentCharacter.HeightModifier < -90 || CurrentCharacter.HeightModifier > 30) && (CurrentCharacter.FocusGroup != null) && MouseIn(510, 50, 90, 90)) {
-		// @ts-ignore Strict-TS: CharacterAppearanceForceUpCharacter must change. Only online characters have member numbers
 		CharacterAppearanceForceUpCharacter = CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber ? -1 : CurrentCharacter.MemberNumber;
 		return;
 	}

@@ -2422,7 +2422,7 @@ var ElementMenu = {
 
 		// Find the outer-most menu in case we're dealing with nested menus
 		let grandParent = parent;
-		/** @type {null | HTMLElement} */
+		/** @type {null | Element} */
 		let grandParentCandidate = grandParent.closest("[role='menubar'], [role='menu']");
 		while (grandParentCandidate && grandParentCandidate !== grandParent) {
 			grandParent = grandParentCandidate;
@@ -2796,8 +2796,7 @@ function ElementCheckVisibility(el, options) {
 		options ??= {};
 		return el.checkVisibility({ ...options, checkVisibilityCSS: options.checkVisibilityCSS ?? true });
 	} else {
-		// @ts-expect-error: Element does not expose style but HTMLElement does
-		return (!el.style || el.style.display !== "none") && getComputedStyle(el).display !== "none";
+		return (el instanceof HTMLElement && el.style.display !== "none") && getComputedStyle(el).display !== "none";
 	}
 }
 
@@ -3297,8 +3296,7 @@ var ElementUnpackIDs = {
 	fromList: function fromList(list, options=null) {
 		options ??= {};
 		const root = ElementGetRoot(options.root ?? document);
-		// @ts-ignore cast to never and ignore as TS insists on being a huge pain in the ass when dealing with type predicates
-		const filter = options.filter ?? /** @type {never} */((i) => i != null);
+		const filter = options.filter ?? /** @type {(i: null | HTMLElement) => i is T} */((i) => i != null);
 		return list.map(id => root.getElementById(id)).filter(filter);
 	},
 

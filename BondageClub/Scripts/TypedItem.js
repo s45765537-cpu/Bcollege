@@ -277,10 +277,9 @@ function TypedItemGenerateAllowEffect({ asset, options, allowEffect }) {
  */
 function TypedItemGenerateAllowBlock({ asset, options }) {
 	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
-	mutableAsset.AllowBlock = Array.isArray(mutableAsset.Block) ? mutableAsset.Block.slice() : [];
+	const allowBlock = mutableAsset.AllowBlock = Array.isArray(mutableAsset.Block) ? mutableAsset.Block.slice() : [];
 	for (const option of options) {
-		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(mutableAsset.AllowBlock, option.Property.Block);
+		CommonArrayConcatDedupe(allowBlock, option.Property.Block);
 	}
 }
 
@@ -291,13 +290,11 @@ function TypedItemGenerateAllowBlock({ asset, options }) {
  */
 function TypedItemGenerateAllowHide({asset, options}) {
 	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
-	mutableAsset.AllowHide = Array.isArray(mutableAsset.Hide) ? mutableAsset.Hide.slice() : [];
-	mutableAsset.AllowHideItem = Array.isArray(mutableAsset.HideItem) ? mutableAsset.HideItem.slice() : [];
+	const allowHide = mutableAsset.AllowHide = Array.isArray(mutableAsset.Hide) ? mutableAsset.Hide.slice() : [];
+	const allowHideItem = mutableAsset.AllowHideItem = Array.isArray(mutableAsset.HideItem) ? mutableAsset.HideItem.slice() : [];
 	for (const option of options) {
-		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(mutableAsset.AllowHide, option.Property.Hide);
-		// @ts-ignore: ignore `readonly` while still building the asset
-		CommonArrayConcatDedupe(mutableAsset.AllowHideItem, option.Property.HideItem);
+		CommonArrayConcatDedupe(allowHide, option.Property.Hide);
+		CommonArrayConcatDedupe(allowHideItem, option.Property.HideItem);
 	}
 }
 
