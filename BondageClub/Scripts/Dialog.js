@@ -3097,8 +3097,7 @@ class DialogMenu {
 		const currentProp = CommonPick(/** @type {Partial<PropType>} */(this._initProperties ?? {}), this._initPropertyNames);
 		const newProp = CommonPick(properties, this._initPropertyNames);
 		for (const k of Object.keys(newProp)) {
-			// @ts-ignore Strict-TS: direct property access to initialize
-			newProp[k] ??= currentProp[k];
+			/** @type {Unknown<typeof newProp>} */(newProp)[k] ??= currentProp[k];
 		}
 
 		const root = document.getElementById(this.ids.root);

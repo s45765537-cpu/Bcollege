@@ -4001,6 +4001,9 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 
 // #endregion
 
+/** Take a type and convert all of its properties into `unknown` */
+type Unknown<T> = { [k in keyof T]: unknown };
+
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 /** The {@link Window} type with all non-function values removed (though they may still be optional) */

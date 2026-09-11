@@ -595,8 +595,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		/** @type {ItemProperties} */
 		const mutableProperties = {};
 		for (const propName of ExtendedItemInitPropertyIgnore) {
-			// @ts-expect-error
-			mutableProperties[propName] = newProps[propName] ?? baselineProperty?.[propName];
+			/** @type {Unknown<ItemProperties>} */(mutableProperties)[propName] = newProps[propName] ?? baselineProperty?.[propName];
 			delete newProps[propName];
 		}
 		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
@@ -618,8 +617,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		for (const [propName, propValue] of CommonEntries(mutableProperties)) {
 			// Be more lenient with the mutable property validation (e.g. layering) as their values are allowed to be manually modified by the user
 			if (Item.Property[propName] === undefined && propValue !== undefined) {
-				// @ts-expect-error
-				Item.Property[propName] = propValue;
+				/** @type {Unknown<ItemProperties>} */(Item.Property)[propName] = propValue;
 				update = true;
 			}
 		}
@@ -644,13 +642,11 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 				continue;
 			} else if (ExtendedItemInitPropertyIgnore.has(propName)) {
 				if (Item.Property[propName] === undefined) {
-					// @ts-expect-error
-					Item.Property[propName] = baselineValue;
+					/** @type {Unknown<ItemProperties>} */(Item.Property)[propName] = baselineValue;
 				}
 			} else {
 				if (typeof Item.Property[propName] !== typeof baselineValue) {
-					// @ts-expect-error
-					Item.Property[propName] = baselineValue;
+					/** @type {Unknown<ItemProperties>} */(Item.Property)[propName] = baselineValue;
 				}
 			}
 		}

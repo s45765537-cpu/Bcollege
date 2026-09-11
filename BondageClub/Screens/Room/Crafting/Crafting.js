@@ -2650,7 +2650,7 @@ var CraftingValidationRecord = {
 						}
 					}
 				} else if (typeof value === typeof baseline[key]) {
-					ret[key] = /** @type {never} */(value);
+					/** @type {Unknown<ItemProperties>} */(ret)[key] = value;
 				}
 			}
 			return ret;
@@ -2762,7 +2762,7 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 			if (Warn) {
 				console.error(`Invalid "Craft.${AttrName}" value for crafted item "${Name}":`, AttrValue);
 			}
-			Craft[AttrName] = /** @type {never} */(GetDefault(Craft, asset, checkPlayerInventory, partial));
+			/** @type {Unknown<CraftingItem>} */(Craft)[AttrName] = GetDefault(Craft, asset, checkPlayerInventory, partial);
 			StatusMap.set(AttrName, StatusCode);
 		} else {
 			StatusMap.set(AttrName, CraftingStatusType.OK);

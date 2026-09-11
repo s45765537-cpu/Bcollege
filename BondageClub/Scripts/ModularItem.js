@@ -146,8 +146,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		for (const [propName, propValue] of CommonEntries(mutableProperties)) {
 			// Be more lenient with the mutable property validation (e.g. layering) as their values are allowed to be manually modified by the user
 			if (Item.Property[propName] === undefined && propValue !== undefined) {
-				// @ts-expect-error
-				Item.Property[propName] = propValue;
+				/** @type {Unknown<ItemProperties>} */(Item.Property)[propName] = propValue;
 				update = true;
 			}
 		}
@@ -175,13 +174,11 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 				continue;
 			} else if (ExtendedItemInitPropertyIgnore.has(propName)) {
 				if (Item.Property[propName] === undefined) {
-					// @ts-expect-error
-					Item.Property[propName] = baselineValue;
+					/** @type {Unknown<ItemProperties>} */(Item.Property)[propName] = baselineValue;
 				}
 			} else {
 				if (typeof Item.Property[propName] !== typeof baselineValue) {
-					// @ts-expect-error
-					Item.Property[propName] = baselineValue;
+					/** @type {Unknown<ItemProperties>} */(Item.Property)[propName] = baselineValue;
 				}
 			}
 		}

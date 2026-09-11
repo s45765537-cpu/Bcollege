@@ -1811,10 +1811,9 @@ function InventoryShockExpression(C) {
 function InventoryExtractLockProperties(property) {
 	/** @type {ItemProperties} */
 	const lockProperties = {};
-	for (const key of Object.keys(property)) {
+	for (const key of CommonKeys(property)) {
 		if (ValidationAllLockProperties.includes(key)) {
-			// @ts-ignore
-			lockProperties[key] = CommonCloneDeep(property[key]);
+			/** @type {Unknown<ItemProperties>} */(lockProperties)[key] = CommonCloneDeep(property[key]);
 		}
 	}
 	return lockProperties;

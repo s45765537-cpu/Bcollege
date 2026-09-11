@@ -397,8 +397,7 @@ function PreferenceInitPlayer(C, data) {
 
 	for (const [prop, stringPrefBefore] of CommonEntries(PrefBefore))
 		if (JSON.stringify(C[prop]) !== stringPrefBefore)
-			// @ts-expect-error Comparing objects key by key
-			toUpdate[prop] = data[prop];
+			/** @type {Unknown<typeof toUpdate>} */(toUpdate)[prop] = data[prop];
 
 	if (CommonVersionUpdated && (toUpdate != null) && (toUpdate.OnlineSharedSettings != null))
 		toUpdate.OnlineSharedSettings.GameVersion = GameVersion;

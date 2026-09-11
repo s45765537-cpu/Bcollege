@@ -1092,7 +1092,7 @@ Layering.RegisterExitCallbacks(
 	{
 		screen: "Crafting",
 		callback: (_C, item) => {
-			Layering.PropertyNames.forEach(propName => CraftingSelectedItem.ItemProperty[propName] = /** @type {never} */(item.Property[propName]));
+			Layering.PropertyNames.forEach(propName => /** @type {Unknown<ItemProperties>} */(CraftingSelectedItem.ItemProperty)[propName] = item.Property[propName]);
 			CraftingModeSet("Name");
 		},
 	},

@@ -722,8 +722,7 @@ function WardrobeFastLoad(C, W, Update = false, Options = {}) {
 			item.Property ??= {};
 			for (const key of CommonKeys(w.Property)) {
 				if (key !== "Expression") {
-					// @ts-ignore Strict-TS
-					item.Property[key] = w.Property[key];
+					/** @type {Unknown<ItemProperties>} */(item.Property)[key] = w.Property[key];
 				}
 			}
 		}
