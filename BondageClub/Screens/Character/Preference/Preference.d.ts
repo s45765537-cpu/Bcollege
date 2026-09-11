@@ -17,7 +17,7 @@ interface PreferenceSubscreen {
 	exit?: () => boolean | Promise<boolean>;
 	unload?: () => void;
 	resize?: (onLoad: boolean) => void;
-	keyUp?: (event: KeyboardEvent) => void;
+	keyUp?: (event: KeyboardEvent) => boolean;
 }
 
 interface PreferenceDropdownOption {

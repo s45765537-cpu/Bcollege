@@ -315,7 +315,6 @@ function PreferenceResize(onLoad) {
 
 /** @type {KeyboardEventListener} */
 function PreferenceKeyUp(event) {
-	// @ts-ignore Strict-TS: TS, please stop pretending that `void` and `undefined` are distinct
 	return PreferenceSubscreen?.keyUp?.(event) ?? false;
 }
 
