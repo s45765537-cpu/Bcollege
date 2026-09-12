@@ -589,7 +589,7 @@ function StruggleMinigameStop() {
 
 	if (StruggleExpressionStore) {
 		// Clear ExpressionQueue
-		delete Player.ExpressionQueue;
+		Player.ExpressionQueue = [];
 
 		// Reset player expressions to default
 		CharacterResetFacialExpression(Player);

@@ -115,6 +115,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		Money: 0,
 		Inventory: [],
 		Appearance: [],
+		ExpressionQueue: [],
 		_Stage: "0",
 		get Stage() {
 			return this._Stage;

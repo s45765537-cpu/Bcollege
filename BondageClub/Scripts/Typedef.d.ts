@@ -1995,7 +1995,7 @@ interface Character {
 	AllowedInteractions: AllowedInteractions;
 	Ownership: Ownership | null;
 	Lovership: Lovership[];
-	ExpressionQueue?: ExpressionQueueItem[];
+	ExpressionQueue: ExpressionQueueItem[];
 	CanTalk: () => boolean;
 	CanWalk: () => boolean;
 	CanKneel: (minimumStatus?: PoseChangeStatus) => boolean;
