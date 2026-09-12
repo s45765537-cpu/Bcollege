@@ -1049,7 +1049,7 @@ function AssetAllActivities(family) {
  * Gets an activity asset by family and name
  * @param {IAssetFamily} family - The family to search in
  * @param {string} name - Name of activity to search for
- * @returns {Activity|null}
+ * @returns {Activity | null}
  */
 function AssetGetActivity(family, name) {
 	return AssetAllActivities(family).find(a => (a.Name === name)) ?? null;

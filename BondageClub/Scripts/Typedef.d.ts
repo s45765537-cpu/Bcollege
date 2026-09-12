@@ -1631,7 +1631,7 @@ interface InventoryRemoveOptions {
 	 */
 	removeItemOnRemove?: readonly RemoveOnItemRemove[];
 	/**
-	 * Whether to trigger a character refresh on a successful item removal.
+	 * Whether to trigger {@link CharacterRefresh} on a successful item removal.
 	 * @default true
 	 */
 	refresh?: boolean;
