@@ -180,7 +180,6 @@ function TimerInventoryRemoveSet(C, AssetGroup, Timer) {
  * @returns {void} - Nothing
  */
 function TimerExpressionQueuePush(C, ExpressionGroup, Timer, Expression = null) {
-	if (C.ExpressionQueue == null) C.ExpressionQueue = [];
 	const QueueItem = {
 		Time: Math.round(CurrentTime + Timer * 1000),
 		Group: ExpressionGroup,
