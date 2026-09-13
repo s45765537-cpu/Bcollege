@@ -1364,9 +1364,9 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => void}
 	 */
-	_KeyDown: async function _KeyDown(ev) {
+	_KeyDown: function _KeyDown(ev) {
 		if (CommonKey.GetModifiers(ev)) {
 			return;
 		}
@@ -1389,9 +1389,9 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => void}
 	 */
-	_KeyUp: async function _KeyUp(ev) {
+	_KeyUp: function _KeyUp(ev) {
 		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
@@ -2365,8 +2365,8 @@ var ElementMenu = {
 		];
 		const roleSelector = roles.map(i => `[role='${i}']:not([hidden])`).join(",");
 
-		/** @type {(el: Node) => el is Element} */
-		const nodeFilter = (el) => el instanceof HTMLButtonElement || (el instanceof Element && roles.includes(el.getAttribute("role") ?? ""));
+		/** @type {(el: Node) => el is HTMLElement} */
+		const nodeFilter = (el) => el instanceof HTMLButtonElement || (el instanceof HTMLElement && roles.includes(el.getAttribute("role") ?? ""));
 
 		for (const mutation of mutationList) {
 			const nodes = Array.from(mutation.addedNodes).filter(nodeFilter);
@@ -2387,8 +2387,7 @@ var ElementMenu = {
 					}
 				}
 				if (roles.includes(role)) {
-					// @ts-ignore
-					menuitem.addEventListener("keydown", (e) => { CommonPromiseCatch(ElementMenu._KeyDown(e)); });
+					menuitem.addEventListener("keydown", ElementMenu._KeyDown);
 					menuitem.setAttribute("tabindex", "-1");
 				}
 			}
@@ -2411,7 +2410,7 @@ var ElementMenu = {
 	 * @this {HTMLElement}
 	 * @param {KeyboardEvent} ev
 	 */
-	_KeyDown: async function _KeyDown(ev) {
+	_KeyDown: function _KeyDown(ev) {
 		if (ev.altKey || ev.metaKey || ev.ctrlKey) {
 			return;
 		}
