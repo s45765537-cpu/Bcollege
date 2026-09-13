@@ -1129,8 +1129,14 @@ function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, Hovering
 
 	// Draw the text or image
 	DrawTextFit(Label, Left + Width / 2, Top + (Height / 2) + 1, Width - 2 * buttonPadding, "black");
-	if ((Image != null) && (Image != "")) {
-		DrawImageEx(Image, MainCanvas, Left + buttonPadding, Top + buttonPadding, { Width: Width - 2 * buttonPadding, Height: Height - 2 * buttonPadding });
+	if (Image) {
+		const img = DrawGetImage(Image);
+		if (img.complete) {
+			const buttonRect = RectMakeRect(Left + buttonPadding, Top + buttonPadding, Width - 2 * buttonPadding, Height - 2 * buttonPadding);
+			const baseImageRect = RectMakeRect(Left + buttonPadding, Top + buttonPadding, img.width, img.height);
+			const [, imageRect] = RectFitIntoRect(baseImageRect, buttonRect, DrawingResizeMode.ShowFullOriginalRatio);
+			DrawImageEx(Image, MainCanvas, baseImageRect.x, baseImageRect.y, { Width: imageRect[2], Height: imageRect[3] });
+		}
 	}
 
 	// Draw the hovering text
