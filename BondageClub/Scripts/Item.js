@@ -169,7 +169,6 @@ let ItemPropertiesDummy = null;
 function ItemPropertiesCompress(item, options=null) {
 	options ??= {};
 	const allowLocks = options.allowLocks ?? true;
-	const propertyOmit = new Set(options.omit ?? []);
 	if (!item?.Property) {
 		return undefined;
 	}
@@ -199,11 +198,14 @@ function ItemPropertiesCompress(item, options=null) {
 			}
 			Object.assign(baseline, option.Property ?? {}, option.ParentData.baselineProperty ?? {});
 			for (const key of CommonKeys(option.ParentData.baselineProperty ?? {})) {
-				if (!propertyOmit.has(key)) {
-					allowedProperties.add(key);
-				}
+				allowedProperties.add(key);
 			}
 		}
+	}
+
+	if (item.Asset.AllowExpression) {
+		baseline.Expression = null;
+		allowedProperties.add("Expression");
 	}
 
 	lockedBy: if (allowLocks && item.Property.LockedBy) {
@@ -218,10 +220,12 @@ function ItemPropertiesCompress(item, options=null) {
 		allowedProperties.add("LockMemberName");
 		allowedProperties.add("LockMessage");
 		for (const key of CommonKeys(lockData.baselineProperty ?? {})) {
-			if (!propertyOmit.has(key)) {
-				allowedProperties.add(key);
-			}
+			allowedProperties.add(key);
 		}
+	}
+
+	for (const prop of options.omit ?? []) {
+		allowedProperties.delete(prop);
 	}
 
 	// Basic property validation is conducted later on via CraftingValidate
@@ -272,9 +276,15 @@ function ItemPropertiesDecompress(item, properties) {
 
 	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
 	Object.assign(item.Property, propertiesUnsanitized);
+
 	if (propertiesUnsanitized.LockedBy) {
 		CommonArrayConcatDedupe(item.Property.Effect ??= [], ["Lock"]);
 	}
+
+	if (item.Craft?.Effects?.Painful) {
+		CommonArrayConcatDedupe(item.Property.Fetish ??= [], ["Masochism"]);
+	}
+
 	if (item.Asset.Extended) {
 		if (propertiesUnsanitized.TypeRecord) {
 			ExtendedItemSetOptionByRecord(C, item, propertiesUnsanitized.TypeRecord, { push: false, refresh: false });
