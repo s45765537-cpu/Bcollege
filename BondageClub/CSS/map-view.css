@@ -8,6 +8,10 @@
 	width: fit-content !important; /* ElementPositionFixed sets height */
 }
 
+#chat-room-map-view-panel:not([data-is-admin="true"]) {
+	background-color: #00000000;
+}
+
 #chat-room-map-view-panel-search {
 	background: white;
 	border: var(--border-width) solid black;
@@ -15,6 +19,10 @@
 	display: flex;
 	gap: 0.25em;
 	width: 7.1em; /* input forces #chat-room-map-view-panel to grow when it shouldn't*/
+}
+
+#chat-room-map-view-panel:not([data-is-admin="true"]) #chat-room-map-view-panel-search {
+	display: none;
 }
 
 #chat-room-map-view-panel-search-input {
@@ -66,7 +74,7 @@
     max-height: 20em;*/
 	display: grid;
 	grid-auto-flow: column;
-	grid-template-rows: repeat(auto-fill, minmax(1.6em, 1fr));
+	grid-template-rows: repeat(auto-fit, 1.6em);
 	max-height: 20em;
 	gap: 0.15em;
 }

@@ -11,6 +11,7 @@ var ChatRoomMapViewObjectEntryID = 110;
 /** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType" | "Effect"} */
 var ChatRoomMapViewEditMode = "";
 var ChatRoomMapViewEditPath = "";
+var ChatRoomMapViewLastSearch = "";
 /** @type {"" | ChatRoomMapTileType | ChatRoomMapObjectType} */
 var ChatRoomMapViewEditSubMode = "";
 var ChatRoomMapViewEditStarted = false;
@@ -1071,6 +1072,7 @@ function ChatRoomMapViewActivate() {
 		tag: "div",
 		attributes: {
 			id: "chat-room-map-view-panel",
+			"data-is-admin": ChatRoomPlayerIsAdmin() ? "true" : undefined
 		},
 		children: [
 			// search
@@ -1191,7 +1193,9 @@ function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
  * @param {boolean} [selectionOnly]
  * @param {string} [search]
  */
-function ChatRoomMapViewReloadEditorPanel(selectionOnly=false, search) {
+function ChatRoomMapViewReloadEditorPanel(selectionOnly=false, search="") {
+	if (search != null) ChatRoomMapViewLastSearch = search;
+
 	document.getElementById("chat-room-map-view-panel-recent-items-grid")?.replaceChildren?.(...ChatRoomMapViewGetRecentItems());
 	document.getElementById("chat-room-map-view-panel-selection")?.replaceChildren?.(...ChatRoomMapViewGetSelection());
 	if (selectionOnly) return;
@@ -1216,8 +1220,17 @@ function ChatRoomMapViewReloadEditorPanel(selectionOnly=false, search) {
 }
 
 function ChatRoomMapViewGetButtons() {
-	if (!ChatRoomPlayerIsAdmin()) return [];
+	const zoomButtons = [
+		ChatMapRoomViewCreateCategoryButton(() => {
+			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange+1, ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
+		},"Icons/Plus.png", TextGet("EditorButtonTextZoomIn")),
 
+		ChatMapRoomViewCreateCategoryButton(() => {
+			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange-1,ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
+		}, "Icons/Minus.png", TextGet("EditorButtonTextZoomOut")),
+	];
+
+	if (!ChatRoomPlayerIsAdmin()) return zoomButtons;
 	const backButton = ChatMapRoomViewCreateCategoryButton(() => {
 		if (ChatRoomMapViewEditSubMode != "") {
 			ChatRoomMapViewEditSubMode = "";
@@ -1259,13 +1272,7 @@ function ChatRoomMapViewGetButtons() {
 	});
 
 	const buttons = [
-		ChatMapRoomViewCreateCategoryButton(() => {
-			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange+1, ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
-		},"Icons/Plus.png", TextGet("EditorButtonTextZoomIn")),
-
-		ChatMapRoomViewCreateCategoryButton(() => {
-			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange-1,ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
-		}, "Icons/Minus.png", TextGet("EditorButtonTextZoomOut")),
+		...zoomButtons,
 		ElementButton.Create(null, function () {
 			if (!ChatRoomPlayerIsAdmin()) return;
 			if (ChatRoomMapFogIsActive()) MapLookupData.mapData.Fog = false;
@@ -1655,7 +1662,7 @@ function ChatRoomMapViewCanStartWhisper(C) {
 function ChatRoomMapViewRoomUpdated() {
 	// If the chat room map is visible, we need to update the perception map
 	ChatRoomMapViewCalculatePerceptionMasks();
-
+	ChatRoomMapViewReloadEditorPanel(false, ChatRoomMapViewLastSearch);
 	ChatRoomMapManager.OnMapDataUpdated();
 }
 
