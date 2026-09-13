@@ -7,7 +7,7 @@ var AudioBackgroundMusic = new Audio();
 
 const AudioSupportedMusicFormats = [".mp3", ".mp4"];
 
-/** @type AudioEffect[] */
+/** @type {AudioEffect[]} */
 var AudioList = [
 	{ Name: "AirDoorClosing", File: "AirDoorClosing" },
 	{ Name: "AirDoorOpening", File: "AirDoorOpening" },
@@ -697,9 +697,12 @@ function AudioGetSoundFromAsset(character, groupName, assetName) {
  */
 function AudioGetFileName(sound) {
 	let audioEffect = AudioList.find(A => A.Name == sound);
-	if (!audioEffect) return null;
+	if (!audioEffect) {
+		console.error(`Unknown sound effect: ${sound}`);
+		return null;
+	}
 	if (Array.isArray(audioEffect.File)) {
-		return CommonRandomItemFromList("", audioEffect.File);
+		return CommonGetRandomItemFromList(audioEffect.File);
 	} else {
 		return audioEffect.File;
 	}
