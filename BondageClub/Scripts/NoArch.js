@@ -69,7 +69,13 @@ function NoArchCreateNoArchItemData(asset, {
 	AllowEffect,
 	Name,
 }, parentOption=null) {
-	DialogPrefix = DialogPrefix || {};
+	BaselineProperty ??= {};
+	DialogPrefix ??= {};
+	if (asset.RemoveTimer) {
+		// Really any number satisfying `<= CurrentTime` would do here; mostly need this for runtime data type checking
+		BaselineProperty.RemoveTimer ??= 0;
+	}
+
 	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : parentOption.Name}`;
 	return NoArchItemDataLookup[key] = {
