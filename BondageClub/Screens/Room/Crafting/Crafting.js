@@ -2330,6 +2330,14 @@ function CraftingItemListBuild() {
 }
 
 /**
+ * @param {CraftingPartialItem} craft
+ * @returns {craft is CraftingItem}
+ */
+function CraftingIsNonPartial(craft) {
+	return craft.Partial === false;
+}
+
+/**
  * A record with tools for validating {@link CraftingItem} properties.
  * @type {Record<keyof CraftingItem, CratingValidationStruct>}
  * @see {@link CratingValidationStruct}

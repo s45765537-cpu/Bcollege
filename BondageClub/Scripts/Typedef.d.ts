@@ -4647,7 +4647,10 @@ interface CraftingPartialItem {
 	Effects: Partial<Record<CraftingPropertyType, number>>;
 	/** Whether the crafted item should be private or not. */
 	Private: boolean;
-	/** Whether the craft belongs to an equipped item. A value of `false` implies that the object is a full {@link CraftingItem}. */
+	/**
+	 * Whether the craft belongs to an equipped item. A value of `false` implies that the object is a full {@link CraftingItem}.
+	 * @default undefined | true
+	 */
 	Partial?: boolean;
 }
 
@@ -5189,7 +5192,7 @@ interface ChatRoomMapDoodad {
 	Type: string;
 	ID: number;
 	Unique?: boolean;
-	Name?: string; 
+	Name?: string;
 }
 
 /** {@link ChatRoomMapViewIsChatRoomMapPhysicalElement }  */
