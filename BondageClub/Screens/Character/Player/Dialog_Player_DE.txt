@@ -6,7 +6,7 @@
 (Profil anschauen.)
 (Change your clothes.)
 (Kleidung ändern.)
-(Room administrator action.)
+(Room administrator actions.)
 (Raum administrieren.)
 ###_NPC
 (As a room administrator, you can take these actions.)

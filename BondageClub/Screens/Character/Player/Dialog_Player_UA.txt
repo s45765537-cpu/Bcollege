@@ -6,7 +6,7 @@
 (Переглянути свій профіль.)
 (Change your clothes.)
 (Змінити свій одяг.)
-(Room administrator action.)
+(Room administrator actions.)
 (Дії адміністратора кімнати.)
 ###_NPC
 (As a room administrator, you can take these actions.)

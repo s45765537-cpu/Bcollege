@@ -6,7 +6,7 @@
 (查看你的资料)
 (Change your clothes.)
 (更换你的衣服)
-(Room administrator action.)
+(Room administrator actions.)
 (房间管理员动作)
 ###_NPC
 (As a room administrator, you can take these actions.)

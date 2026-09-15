@@ -54,7 +54,7 @@ kauft einen Cappuccino von DialogCharacterName Servierplatte.
 (There's a variety of drinks.  Some are offered by the club and some are more expensive.)
 (Es gibt mehrere verschiedene Getränke. Einige werden vom Club angeboten, andere sind etwas teurer.)
 ###_PLAYER
-(Room administrator action.)
+(Room administrator actions.)
 (Raum-Administrator-Aktionen.)
 ###_NPC
 (As a room administrator, you can take these actions with DialogCharacterObject.)

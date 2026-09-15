@@ -4,7 +4,7 @@
 (Просмотрите свой профиль.)
 (Change your clothes.)
 (Переоденься.)
-(Room administrator action.)
+(Room administrator actions.)
 (Действие администратора комнаты.)
 (As a room administrator, you can take these actions.)
 (Как администратор комнаты вы можете совершать эти действия.)

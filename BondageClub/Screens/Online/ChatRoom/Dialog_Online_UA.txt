@@ -30,7 +30,7 @@
 ###_PLAYER
 (Use the laptop to steal data.)
 (Використати ноутбук для крадіжки даних.)
-(Room administrator action.)
+(Room administrator actions.)
 (Дії адміністратора кімнати.)
 ###_NPC
 (As a room administrator, you can take these actions with DialogCharacterObject.)
