@@ -2472,7 +2472,7 @@ Hardbinder
 坚固束缚
 Customize the look of the jacket
 设定拘束衣外观
-SourceCharacter wraps up DestinationCharacter in an asylum AssetName.
+SourceCharacter wraps up DestinationCharacter arms in an asylum AssetName.
 SourceCharacter将DestinationCharacter包裹在收容所样式的AssetName里。
 SourceCharacter wraps up DestinationCharacter arms in a classic AssetName.
 SourceCharacter将DestinationCharacter手臂包裹在标准外观的束缚里。

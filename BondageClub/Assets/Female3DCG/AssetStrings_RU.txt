@@ -2101,7 +2101,7 @@ Hardbinder
 Плотная
 Customize the look of the jacket
 Настройте внешний вид рубашки
-SourceCharacter wraps up DestinationCharacter in an asylum AssetName.
+SourceCharacter wraps up DestinationCharacter arms in an asylum AssetName.
 SourceCharacter использует на руки DestinationCharacter AssetName из психлечебницы.
 SourceCharacter wraps up DestinationCharacter arms in a classic AssetName.
 SourceCharacter использует на руки DestinationCharacter классическую AssetName.
