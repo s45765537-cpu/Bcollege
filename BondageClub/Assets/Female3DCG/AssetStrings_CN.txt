@@ -2172,7 +2172,7 @@ How tight do you want the strap linking the cuffs?
 你想要项圈手铐上连接的带子有多紧？
 SourceCharacter loosens the strap on DestinationCharacter collar cuffs.
 SourceCharacter放松了DestinationCharacter项圈手铐上的束带。
-SourceCharacter adjusts the strap normally on DestinationCharacter collar cuffs.
+SourceCharacter adjusts the strap on DestinationCharacter collar cuffs to normal.
 SourceCharacter普通地调整DestinationCharacter项圈手铐上的束带。
 SourceCharacter snugs the strap on DestinationCharacter collar cuffs.
 SourceCharacter调整DestinationCharacter项圈手铐上的束带，使它松垮。
@@ -2184,7 +2184,7 @@ How tight do you want the chain linking the cuffs?
 你想要连接铐的链条有多紧？
 SourceCharacter loosens the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter解松了DestinationCharacter金属项圈铐的链条。
-SourceCharacter adjusts the chain normally on DestinationCharacter metal collar cuffs.
+SourceCharacter adjusts the chain on DestinationCharacter metal collar cuffs to normal.
 SourceCharacter将DestinationCharacter金属项圈铐的链条调整为普通紧。
 SourceCharacter snugs the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter稍稍拉紧DestinationCharacter金属项圈铐上的链条。

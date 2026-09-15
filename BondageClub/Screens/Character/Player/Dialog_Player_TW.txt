@@ -1687,7 +1687,7 @@ How tight do you want the strap linking the cuffs?
 你想要項圈手銬上連接的帶子有多緊？
 SourceCharacter loosens the strap on DestinationCharacter collar cuffs.
 SourceCharacter放鬆了DestinationCharacter項圈手銬上的束帶。
-SourceCharacter adjusts the strap normally on DestinationCharacter collar cuffs.
+SourceCharacter adjusts the strap on DestinationCharacter collar cuffs to normal.
 SourceCharacter普通地調整DestinationCharacter項圈手銬上的束帶。
 SourceCharacter snugs the strap on DestinationCharacter collar cuffs.
 SourceCharacter調整DestinationCharacter項圈手銬上的束帶，使它鬆垮。

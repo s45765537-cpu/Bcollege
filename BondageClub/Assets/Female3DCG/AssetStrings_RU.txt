@@ -1806,7 +1806,7 @@ How tight do you want the strap linking the cuffs?
 Насколько плотно вы хотите, чтобы ремень соединял манжеты?
 SourceCharacter loosens the strap on DestinationCharacter collar cuffs.
 SourceCharacter ослабляет натяжение ремешка на манжетах к ошейнику DestinationCharacter.
-SourceCharacter adjusts the strap normally on DestinationCharacter collar cuffs.
+SourceCharacter adjusts the strap on DestinationCharacter collar cuffs to normal.
 SourceCharacter настраивате ремешок на манжетах на обычное натяжение к ошенику DestinationCharacter.
 SourceCharacter snugs the strap on DestinationCharacter collar cuffs.
 SourceCharacter плотно пристегивает ремешок манжетов к ошейнику DestinationCharacter.
@@ -1817,7 +1817,7 @@ How tight do you want the chain linking the cuffs?
 Насколько туго должна быть натянута цепочка, соединяющая манжеты?
 SourceCharacter loosens the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter ослабляет цепочку на металлических манжетах к ошейнику DestinationCharacter.
-SourceCharacter adjusts the chain normally on DestinationCharacter metal collar cuffs.
+SourceCharacter adjusts the chain on DestinationCharacter metal collar cuffs to normal.
 SourceCharacter регулирует цепочку на металлических манжетах с ошейником DestinationCharacter, создавая нормальное натяжение.
 SourceCharacter snugs the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter плотно притягивает цепочку на металлических манжетах к ошейнику DestinationCharacter.

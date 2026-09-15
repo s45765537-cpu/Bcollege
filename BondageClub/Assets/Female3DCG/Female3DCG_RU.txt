@@ -2097,7 +2097,7 @@ Straitjacket
 Смирительная рубашка
 Collar Cuffs
 Манжеты на ошейник
-Collar Metal Cuffs
+Metal Collar Cuffs
 Металлические манжеты с ошейником
 Leather Straitjacket
 Кожаная Смирительная Рубашка
