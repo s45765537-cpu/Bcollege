@@ -332,7 +332,7 @@ Current email does not match
 Текущая электронная почта не совпадает
 Invalid characters
 Недопустимые символы
-Show other characters meter
+Show other characters' meters
 Показать счетчик другим
 Affect your facial expressions
 Влияет на выражение лица

@@ -332,7 +332,7 @@ Current email does not match
 現在的信箱地址錯誤
 Invalid characters
 無效字元
-Show other characters meter
+Show other characters' meters
 顯示其他角色量表
 Affect your facial expressions
 影響你的臉部表情

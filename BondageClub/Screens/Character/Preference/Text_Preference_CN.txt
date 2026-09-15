@@ -330,7 +330,7 @@ Current email does not match
 现在的邮箱地址错误
 Invalid characters
 无效字符
-Show other characters meter
+Show other characters' meters
 显示其他角色量表
 Affect your facial expressions
 影响你的面部表情

@@ -102,7 +102,7 @@ Current email does not match
 Le courriel actuel ne correspond pas
 Invalid characters
 Caractères invalides
-Show other characters meter
+Show other characters' meters
 Voir le compteur des autres
 Affect your facial expressions
 Affecte vos expressions faciales

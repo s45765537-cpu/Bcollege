@@ -350,8 +350,8 @@ Current email does not match
 Current email does not match
 Invalid characters
 Invalid characters
-Show other characters meter
-Show other characters meter
+Show other characters' meters
+Show other characters' meters
 Affect your facial expressions
 Affect your facial expressions
 Activation:
