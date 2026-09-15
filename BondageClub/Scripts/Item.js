@@ -286,11 +286,8 @@ function ItemPropertiesDecompress(item, properties) {
 	}
 
 	if (item.Asset.Extended) {
-		if (propertiesUnsanitized.TypeRecord) {
-			ExtendedItemSetOptionByRecord(C, item, propertiesUnsanitized.TypeRecord, { push: false, refresh: false });
-		} else {
-			ExtendedItemInit(C, item, false, false);
-		}
+		// Init will respect the `TypeRecord` values assigned further up above
+		ExtendedItemInit(C, item, false, false);
 	}
 	return item.Property;
 }
