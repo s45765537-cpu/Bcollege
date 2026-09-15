@@ -7246,47 +7246,47 @@ Chained to the floor
 拴在地板上
 SourceCharacter removes the suit collar from DestinationCharacterName neck.
 SourceCharacter将单手套服项圈从DestinationCharacterName脖子上取下。
-SourceCharacter buckles the suit collar from DestinationCharacterName neck.
+SourceCharacter buckles the suit collar on DestinationCharacterName neck.
 SourceCharacter将单手套服项圈从DestinationCharacterName扣在了脖子上。
-DestinationCharacterName binded arms are on TargetPronounObject left side.
+SourceCharacter binds DestinationCharacterName arms on the left side.
 DestinationCharacterName将TargetPronounObject的手臂绑在左侧。
-DestinationCharacterName binded arms are on TargetPronounObject right side.
+SourceCharacter binds DestinationCharacterName arms on the right side.
 DestinationCharacterName将TargetPronounObject的手臂绑在右侧。
-DestinationCharacterName binded arms are in normal position.
+SourceCharacter binds DestinationCharacterName arms on the back.
 DestinationCharacterName绑住的手臂处于正常位置。
 SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
 SourceCharacter使用安全带完全固定了DestinationCharacterName的手臂。
-SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
+SourceCharacter links DestinationCharacterName armbinder to TargetPronounObject feet with chains and cuffs.
 SourceCharacter使用链条和铐将DestinationCharacterName单手套与TargetPronounObject脚部连接起来。
-SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+SourceCharacter shortens the chain to force DestinationCharacterName to stand on TargetPronounObject knees.
 SourceCharacter缩短链条，强迫DestinationCharacterName跪下来。
 SourceCharacter removes the straps from DestinationCharacterName shoulders.
 SourceCharacter将DestinationCharacterName肩膀上的带子取下来。
-SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
+SourceCharacter adds harness straps around DestinationCharacterName shoulders.
 SourceCharacter在DestinationCharacterName肩部添加了一些安全带。
-SourceCharacter closes the DestinationCharacterName suit zipper.
+SourceCharacter closes DestinationCharacterName suit zipper.
 SourceCharacter拉上了DestinationCharacterName拉链。
-SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
+SourceCharacter opens DestinationCharacterName suit zipper and exposes TargetPronounObject genitals.
 SourceCharacter打开拉链，让DestinationCharacterName生殖器露出。
-SourceCharacter chooses a shorten suit model for DestinationCharacterName.
+SourceCharacter chooses a short suit model for DestinationCharacter.
 SourceCharacter为DestinationCharacterName选择了短款的单手套服。
-SourceCharacter chooses a long suit model for DestinationCharacterName.
+SourceCharacter chooses a long suit model for DestinationCharacter.
 SourceCharacter为DestinationCharacterName选择了长款的单手套服。
 SourceCharacter puts a belt under DestinationCharacterName knees.
 SourceCharacter在DestinationCharacterName膝盖下系了一条腰带。
-SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
+SourceCharacter completely binds DestinationCharacterName upper legs with more belts.
 SourceCharacter使用更多皮带将DestinationCharacterName 的大腿完全绑住。
-SourceCharacter removes the rubber skirt from DestinationCharacterName.
+SourceCharacter removes the rubber skirt from DestinationCharacter.
 SourceCharacter从DestinationCharacterName中移除橡胶裙。
-SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+SourceCharacter puts a short rubber skirt on DestinationCharacter.
 SourceCharacter在DestinationCharacterName中穿着一条短橡胶裙。
 SourceCharacter removes the single heel boot from DestinationCharacterName feet.
 SourceCharacter从DestinationCharacterName脚上取下单跟靴。
-SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
+SourceCharacter puts a single heel boot on DestinationCharacterName feet.
 SourceCharacter为DestinationCharacterName脚穿上单跟靴。
-SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
+SourceCharacter tightens DestinationCharacterName single heel boot with another belt.
 SourceCharacter用另一条腰带将DestinationCharacterName单跟靴紧身。
-SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+SourceCharacter chains DestinationCharacterName single heel boot to the ground.
 SourceCharacter将DestinationCharacterName单跟靴拴在地面上。
 Select Rubber Mask options
 选择橡胶面罩选项

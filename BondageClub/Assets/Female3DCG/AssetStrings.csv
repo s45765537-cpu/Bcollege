@@ -7703,27 +7703,27 @@ ItemArmsArmbinderSuitOptionh1,Loose heel boot
 ItemArmsArmbinderSuitOptionh2,Tight belts
 ItemArmsArmbinderSuitOptionh3,Chained to the floor
 ItemArmsArmbinderSuitSetc0,SourceCharacter removes the suit collar from DestinationCharacterName neck.
-ItemArmsArmbinderSuitSetc1,SourceCharacter buckles the suit collar from DestinationCharacterName neck.
-ItemArmsArmbinderSuitSetb0,DestinationCharacterName binded arms are on TargetPronounObject left side.
-ItemArmsArmbinderSuitSetb1,DestinationCharacterName binded arms are on TargetPronounObject right side.
-ItemArmsArmbinderSuitSetb2,DestinationCharacterName binded arms are in normal position.
+ItemArmsArmbinderSuitSetc1,SourceCharacter buckles the suit collar on DestinationCharacterName neck.
+ItemArmsArmbinderSuitSetb0,SourceCharacter binds DestinationCharacterName arms on their left side.
+ItemArmsArmbinderSuitSetb1,SourceCharacter binds DestinationCharacterName arms on their right side.
+ItemArmsArmbinderSuitSetb2,SourceCharacter binds DestinationCharacterName arms behind their back.
 ItemArmsArmbinderSuitSetb3,SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
-ItemArmsArmbinderSuitSetb4,SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
-ItemArmsArmbinderSuitSetb5,SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+ItemArmsArmbinderSuitSetb4,SourceCharacter links DestinationCharacterName armbinder to TargetPronounPossessive feet with chains and cuffs.
+ItemArmsArmbinderSuitSetb5,SourceCharacter shortens the chain to force DestinationCharacterName to TargetPronounPossessive knees.
 ItemArmsArmbinderSuitSetp0,SourceCharacter removes the straps from DestinationCharacterName shoulders.
-ItemArmsArmbinderSuitSetp1,SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
-ItemArmsArmbinderSuitSetz0,SourceCharacter closes the DestinationCharacterName suit zipper.
-ItemArmsArmbinderSuitSetz1,SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
-ItemArmsArmbinderSuitSetl0,SourceCharacter chooses a shorten suit model for DestinationCharacterName.
-ItemArmsArmbinderSuitSetl1,SourceCharacter chooses a long suit model for DestinationCharacterName.
+ItemArmsArmbinderSuitSetp1,SourceCharacter adds harness straps around DestinationCharacterName shoulders.
+ItemArmsArmbinderSuitSetz0,SourceCharacter closes DestinationCharacterName suit zipper.
+ItemArmsArmbinderSuitSetz1,SourceCharacter opens DestinationCharacterName suit zipper and exposes TargetPronounPossessive genitals.
+ItemArmsArmbinderSuitSetl0,SourceCharacter chooses a short suit model for DestinationCharacter.
+ItemArmsArmbinderSuitSetl1,SourceCharacter chooses a long suit model for DestinationCharacter.
 ItemArmsArmbinderSuitSetl2,SourceCharacter puts a belt under DestinationCharacterName knees.
-ItemArmsArmbinderSuitSetl3,SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
-ItemArmsArmbinderSuitSetk0,SourceCharacter removes the rubber skirt from DestinationCharacterName.
-ItemArmsArmbinderSuitSetk1,SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+ItemArmsArmbinderSuitSetl3,SourceCharacter completely binds DestinationCharacterName upper legs with more belts.
+ItemArmsArmbinderSuitSetk0,SourceCharacter removes the rubber skirt from DestinationCharacter.
+ItemArmsArmbinderSuitSetk1,SourceCharacter puts a short rubber skirt on DestinationCharacter.
 ItemArmsArmbinderSuitSeth0,SourceCharacter removes the single heel boot from DestinationCharacterName feet.
-ItemArmsArmbinderSuitSeth1,SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
-ItemArmsArmbinderSuitSeth2,SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
-ItemArmsArmbinderSuitSeth3,SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+ItemArmsArmbinderSuitSeth1,SourceCharacter puts a single heel boot on DestinationCharacterName feet.
+ItemArmsArmbinderSuitSeth2,SourceCharacter tightens DestinationCharacterName single heel boot with another belt.
+ItemArmsArmbinderSuitSeth3,SourceCharacter chains DestinationCharacterName single heel boot to the ground.
 ItemHoodRubberMaskSelectBase,Select Rubber Mask options
 ItemHoodRubberMaskModuleMode,Mask base
 ItemHoodRubberMaskSelectMode,Mask base menu

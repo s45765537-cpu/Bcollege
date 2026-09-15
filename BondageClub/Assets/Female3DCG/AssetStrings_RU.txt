@@ -7056,47 +7056,47 @@ Chained to the floor
 Прикованный к полу
 SourceCharacter removes the suit collar from DestinationCharacterName neck.
 SourceCharacter удаляет ошейник костюма с шеи DestinationCharacterName.
-SourceCharacter buckles the suit collar from DestinationCharacterName neck.
+SourceCharacter buckles the suit collar on DestinationCharacterName neck.
 SourceCharacter пристегивает ошейник костюма к шее DestinationCharacterName.
-DestinationCharacterName binded arms are on TargetPronounObject left side.
+SourceCharacter binds DestinationCharacterName arms on the left side.
 Связанные руки DestinationCharacterName находятся с TargetPronounObject левой стороне.
-DestinationCharacterName binded arms are on TargetPronounObject right side.
+SourceCharacter binds DestinationCharacterName arms on the right side.
 Связанные руки DestinationCharacterName находятся с TargetPronounObject правой стороне.
-DestinationCharacterName binded arms are in normal position.
+SourceCharacter binds DestinationCharacterName arms on the back.
 Связанные руки DestinationCharacterName находятся посредине спины.
 SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
 SourceCharacter полностью обездвиживает руки DestinationCharacterName ременной сбруей.
-SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
+SourceCharacter links DestinationCharacterName armbinder to TargetPronounObject feet with chains and cuffs.
 SourceCharacter соединяет армбиндер DestinationCharacterName с TargetPronounObject ногами с помощью цепи и манжет.
-SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+SourceCharacter shortens the chain to force DestinationCharacterName to stand on TargetPronounObject knees.
 SourceCharacter сокращает цепочку, чтобы заставить DestinationCharacterName встать на колени.
 SourceCharacter removes the straps from DestinationCharacterName shoulders.
 SourceCharacter снимает ремни с плеч DestinationCharacterName.
-SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
+SourceCharacter adds harness straps around DestinationCharacterName shoulders.
 SourceCharacter добавляет несколько ремней к плечам DestinationCharacterName.
-SourceCharacter closes the DestinationCharacterName suit zipper.
+SourceCharacter closes DestinationCharacterName suit zipper.
 SourceCharacter застегивает молнию на костюме DestinationCharacterName.
-SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
+SourceCharacter opens DestinationCharacterName suit zipper and exposes TargetPronounObject genitals.
 SourceCharacter расстегивает молнию костюма, и обнажаются гениталии DestinationCharacterName.
-SourceCharacter chooses a shorten suit model for DestinationCharacterName.
+SourceCharacter chooses a short suit model for DestinationCharacter.
 SourceCharacter выбирает укороченную модель костюма для DestinationCharacterName.
-SourceCharacter chooses a long suit model for DestinationCharacterName.
+SourceCharacter chooses a long suit model for DestinationCharacter.
 SourceCharacter выбирает модель длинного костюма для DestinationCharacterName.
 SourceCharacter puts a belt under DestinationCharacterName knees.
 SourceCharacter надевает ремень под коленями DestinationCharacterName.
-SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
+SourceCharacter completely binds DestinationCharacterName upper legs with more belts.
 SourceCharacter полностью связывает верхнюю часть ног DestinationCharacterName с помощью большего количества ремней.
-SourceCharacter removes the rubber skirt from DestinationCharacterName.
+SourceCharacter removes the rubber skirt from DestinationCharacter.
 SourceCharacter удаляет резиновую юбку с DestinationCharacterName.
-SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+SourceCharacter puts a short rubber skirt on DestinationCharacter.
 SourceCharacter надевает короткую резиновую юбку на DestinationCharacterName.
 SourceCharacter removes the single heel boot from DestinationCharacterName feet.
 SourceCharacter удаляет обувь на одинарном каблуке с ног DestinationCharacterName.
-SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
+SourceCharacter puts a single heel boot on DestinationCharacterName feet.
 SourceCharacter надевает обувь на одинарном каблуке на ноги DestinationCharacterName.
-SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
+SourceCharacter tightens DestinationCharacterName single heel boot with another belt.
 SourceCharacter туго затягивает реани на обуви с одинарный каблуком на DestinationCharacterName.
-SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+SourceCharacter chains DestinationCharacterName single heel boot to the ground.
 SourceCharacter приковывает обувь на одинарном каблуке DestinationCharacterName к полу.
 
 Rubber Mask cloth version main menu
