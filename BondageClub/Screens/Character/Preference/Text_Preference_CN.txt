@@ -690,9 +690,9 @@ Select the censorship to apply and the words to censor in both the chat and room
 选择在聊天和房间标签中应用的屏蔽词。
 Censorship:
 屏蔽方式：
-Replace the word by ***
+Replace the word with ***
 将这词替换为***
-Replace the phrase by ***
+Replace the phrase with ***
 将这句话替换为***
 Hide the phrase or room
 隐藏这句话或者房间

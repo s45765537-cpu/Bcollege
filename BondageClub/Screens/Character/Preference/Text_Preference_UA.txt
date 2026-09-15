@@ -708,10 +708,10 @@ Select the censorship to apply and the words to censor in both the chat and room
 Select the censorship to apply and the words to censor in both the chat and room labels.
 Censorship:
 Censorship:
-Replace the word by ***
-Replace the word by ***
-Replace the phrase by ***
-Replace the phrase by ***
+Replace the word with ***
+Replace the word with ***
+Replace the phrase with ***
+Replace the phrase with ***
 Hide the phrase or room
 Hide the phrase or room
 Censored words:

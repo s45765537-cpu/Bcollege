@@ -362,8 +362,8 @@ GenderHideTitles,Hide titles in settings for:
 CensorExit,Apply the censoring
 CensorTitle,Select the censorship to apply and the words to censor in both the chat and room labels.
 CensorLevel,Censorship:
-CensorLevel0,Replace the word by ***
-CensorLevel1,Replace the phrase by ***
+CensorLevel0,Replace the word with ***
+CensorLevel1,Replace the phrase with ***
 CensorLevel2,Hide the phrase or room
 CensorWord,Censored words:
 CensorAdd,Add

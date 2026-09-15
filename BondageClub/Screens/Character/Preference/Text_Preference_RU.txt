@@ -674,9 +674,9 @@ Select the censorship to apply and the words to censor in both the chat and room
 Выберите цензуру для применения и слова для цензуры как в чате, так и в метках комнат.
 Censorship:
 Цензура:
-Replace the word by ***
+Replace the word with ***
 Заменить слово на ***
-Replace the phrase by ***
+Replace the phrase with ***
 Заменить фразу на ***
 Hide the phrase or room
 Скрыть фразу или комнату
