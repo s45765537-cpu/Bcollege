@@ -16,7 +16,7 @@ New Character
 新建角色
 Connecting to server...
 正在連接伺服器...
-Waiting in queue on position: QUEUE_POS
+Waiting in queue in position: QUEUE_POS
 正在排隊，目前位置：QUEUE_POS
 Error loading character data
 讀取角色數據錯誤
