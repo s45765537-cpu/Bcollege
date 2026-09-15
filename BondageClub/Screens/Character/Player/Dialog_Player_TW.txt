@@ -188,7 +188,7 @@
 (This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
 (這會立即解開你身上的所有束縛並把你送回大廳。請僅在被困在束縛中，且沒有人能夠幫助的情況下使用它。你確定要使用嗎？)
 ###_PLAYER
-(Don't use Safeword.)
+(Don't use safeword.)
 (不要使用安全詞)
 (Yes, revert Character.)
 (是的，恢復角色)

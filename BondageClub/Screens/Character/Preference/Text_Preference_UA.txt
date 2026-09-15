@@ -320,10 +320,10 @@ Display all characters at maximum height
 Display all characters at maximum height
 Show AFK bubble if idle for 5 minutes
 Show AFK bubble if idle for 5 minutes
-Allow Safeword use (Cannot enable while bound)
-Allow Safeword use (Cannot enable while bound)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
 Allow others to alter your whole appearance
 Allow others to alter your whole appearance
 Prevent others from changing cosplay items

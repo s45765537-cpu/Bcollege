@@ -194,7 +194,7 @@
 (This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
 (Це негайно звільнить вас від УСІХ обмежень, які ви носите, і поверне вас до Головного лобі. Використовуйте це, лише якщо ви застрягли в обмеженнях і ніхто не може або не хоче вам допомогти. Ви впевнені в цьому?)
 ###_PLAYER
-(Don't use Safeword.)
+(Don't use safeword.)
 (Не використовувати стоп-слово.)
 (Yes, revert Character.)
 (Так, відкатити персонажа.)

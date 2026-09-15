@@ -3,9 +3,9 @@
 You cannot access your items
 du kannst deine Gegenstände gerade nicht erreichen
 SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
-SourceCharacter benutzt PronounPossessive Safeword möchte freigelassen werden. PronounSubject wird zu PronounPossessive Sicherheit aus dem Raum geführt.
+SourceCharacter benutzt PronounPossessive safeword möchte freigelassen werden. PronounSubject wird zu PronounPossessive Sicherheit aus dem Raum geführt.
 SourceCharacter used PronounPossessive safeword. Please check for PronounPossessive well-being.
-SourceCharacter benutzt PronounPossessive Safeword. Bitte kümmert euch um PronounPossessive Wohlbefinden.
+SourceCharacter benutzt PronounPossessive safeword. Bitte kümmert euch um PronounPossessive Wohlbefinden.
 SourceCharacter adds a NextAsset on DestinationCharacter FocusAssetGroup PrevAsset.
 SourceCharacter ergänzt ein NextAsset zu DestinationCharacter FocusAssetGroup PrevAsset.
 SourceCharacter changes the color of NextAsset on DestinationCharacter FocusAssetGroup.

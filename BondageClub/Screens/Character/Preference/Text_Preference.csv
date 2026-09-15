@@ -158,8 +158,8 @@ GeneralAnimationQualityText,Animation quality
 GeneralAnimationQualityHint,Reduce if inputs such as sliders are slow to respond
 ForceFullHeight,Display all characters at maximum height
 EnableAfkTimer,Show AFK bubble if idle for 5 minutes
-EnableSafeword,Allow Safeword use (Cannot enable while bound)
-ConfirmSafeword,(Click to confirm) Allow Safeword use (Cannot enable while bound)
+EnableSafeword,Allow safeword use (Cannot enable while bound)
+ConfirmSafeword,(Click to confirm) Allow safeword use (Cannot enable while bound)
 AllowFullWardrobeAccess,Allow others to alter your whole appearance
 BlockBodyCosplay,Prevent others from changing cosplay items
 ShowStatus,Show status bubble

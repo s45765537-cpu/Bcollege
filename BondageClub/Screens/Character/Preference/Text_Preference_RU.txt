@@ -302,9 +302,9 @@ Display all characters at maximum height
 Отображать всех персонажей в максимальном росте
 Show AFK bubble if idle for 5 minutes
 Показывать статус AFK, если бездействует в течение 5 минут.
-Allow Safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
 Разрешить использование безопасного слова (нельзя включить пока связана)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
 (Нажмите, чтобы подтвердить) Разрешить использование безопасного слова (невозможно включить пока связана)
 Allow others to alter your whole appearance
 Позволить другим изменить весь ваш внешний вид

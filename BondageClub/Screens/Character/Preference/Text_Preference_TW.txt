@@ -302,9 +302,9 @@ Display all characters at maximum height
 以最大身高顯示所有角色
 Show AFK bubble if idle for 5 minutes
 閒置5分鐘後顯示AFK氣泡
-Allow Safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
 允許使用安全詞(被束縛時不能更改)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
 (點擊以確定)允許使用安全詞(被束縛時不能更改)
 Allow others to alter your whole appearance
 允許其他玩家修改你所有外觀
