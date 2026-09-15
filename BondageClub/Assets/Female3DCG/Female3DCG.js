@@ -1006,6 +1006,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ChineseDress1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "ChineseDress1",
@@ -1015,6 +1016,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ChineseDress2",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "ChineseDress2",
@@ -1023,6 +1025,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Xmas2025",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Xmas2025",
@@ -1032,6 +1035,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CocktailDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "CocktailDress",
@@ -1041,6 +1045,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CorsetShirt",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "CorsetShirt",
@@ -1050,6 +1055,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CrimsonCloudsInkRhymeQipaoDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "CrimsonCloudsInkRhymeQipaoDress",
@@ -1059,6 +1065,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CrossStrapDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "CrossStrapDress",
@@ -1068,6 +1075,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "DressFur",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "DressFur",
@@ -1077,6 +1085,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "EveningGown",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "EveningGown",
@@ -1086,6 +1095,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FishnetTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "FishnetTop",
@@ -1095,6 +1105,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FlowerDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "FlowerDress",
@@ -1104,6 +1115,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuzzyDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "FuzzyDress",
@@ -1113,6 +1125,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GardenDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "GardenDress",
@@ -1122,6 +1135,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GrandMage",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "GrandMage",
@@ -1131,6 +1145,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "HeavyLeatherDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "HeavyLeatherDress",
@@ -1140,6 +1155,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Gown2Top",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Gown2Top",
@@ -1149,6 +1165,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Jacket",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Jacket",
@@ -1158,6 +1175,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LeatherBolero",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "LeatherBolero",
@@ -1167,6 +1185,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LeatherCropTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "LeatherCropTop",
@@ -1175,6 +1194,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LittleFormalShirt",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "LittleFormalShirt",
@@ -1184,6 +1204,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LolitaShortDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "LolitaShortDress",
@@ -1193,6 +1214,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Dress3",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Dress3",
@@ -1202,6 +1224,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LongQipaoDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "LongQipaoDress",
@@ -1211,6 +1234,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MeshTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "MeshTop",
@@ -1220,6 +1244,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MilitaryFatigue",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "MilitaryFatigue",
@@ -1229,6 +1254,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Dress2",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Dress2",
@@ -1238,6 +1264,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "NunRobes",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "NunRobes",
@@ -1247,6 +1274,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "OffTheShoulderTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "OffTheShoulderTop",
@@ -1256,6 +1284,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Gown1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Gown1",
@@ -1265,6 +1294,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "AdultBabyDress1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "AdultBabyDress1",
@@ -1274,6 +1304,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "RuffledDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "RuffledDress",
@@ -1283,6 +1314,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SeethroughTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "SeethroughTop",
@@ -1292,6 +1324,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "AdultBabyDress4",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "AdultBabyDress4",
@@ -1301,6 +1334,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Gown3",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Gown3",
@@ -1310,6 +1344,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ShoulderlessTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "ShoulderlessTop",
@@ -1319,6 +1354,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WeddingDress2",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "WeddingDress2",
@@ -1328,6 +1364,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SlaveRags",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "SlaveRags",
@@ -1337,6 +1374,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ComfyTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "ComfyTop",
@@ -1346,6 +1384,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SleevelessTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "SleevelessTop",
@@ -1355,6 +1394,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "StarryOceanEveningGown",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "StarryOceanEveningGown",
@@ -1364,6 +1404,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexHobbleDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "LatexHobbleDress",
@@ -1373,6 +1414,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "StudentOutfit1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "StudentOutfit1",
@@ -1382,6 +1424,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "StudentOutfit2",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "StudentOutfit2",
@@ -1391,6 +1434,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "StudentOutfit3",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "StudentOutfit3",
@@ -1400,6 +1444,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SummerDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "SummerDress",
@@ -1409,6 +1454,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "AdultBabyDress3",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "AdultBabyDress3",
@@ -1418,6 +1464,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Sweater1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Sweater1",
@@ -1427,6 +1474,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TShirt1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "TShirt1",
@@ -1436,6 +1484,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TeacherOutfit1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "TeacherOutfit1",
@@ -1445,6 +1494,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TennisShirt1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "TennisShirt1",
@@ -1454,6 +1504,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "BodyTowel1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "BodyTowel1",
@@ -1463,6 +1514,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MaidApron",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "MaidApron",
@@ -1472,6 +1524,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "VirginKiller1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "VirginKiller1",
@@ -1481,6 +1534,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WeddingDress1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "WeddingDress1",
@@ -1490,6 +1544,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WhiteDress",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "WhiteDress",
@@ -1499,6 +1554,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Yukata1",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "Yukata1",
@@ -1508,6 +1564,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "YuletideVelvetWarmth",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "YuletideVelvetWarmth",
@@ -1517,6 +1574,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CropTopShirt",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "CropTopShirt",
@@ -1526,6 +1584,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CheerleaderTop",
 				DynamicGroupName: "Cloth",
+				Random: false,
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "CheerleaderTop",
