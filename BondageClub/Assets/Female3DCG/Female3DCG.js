@@ -13193,6 +13193,35 @@ var AssetFemale3DCG = [
 				Hide: ["ItemNipplesPiercings"],
 			},
 			{
+				Name: "NippleTape",
+				InventoryID: 692,
+				Fetish: ["Tape"],
+				Top: {
+					AllFours: 235,
+				},
+				PoseMapping: {
+					Yoked: PoseType.DEFAULT,
+					AllFours: "AllFours",
+				},
+				DynamicGroupName: "ItemNipples",
+				Value: 10,
+				Hide: ["ItemNipplesPiercings"],
+			},
+			{
+				Name: "ChainTassles",
+				InventoryID: 688,
+				Top: {
+					AllFours: 215,
+				},
+				PoseMapping: {
+					Yoked: PoseType.DEFAULT,
+					AllFours: "AllFours",
+				},
+				Value: 45,
+				DynamicGroupName: "ItemNipples",
+				Hide: ["ItemNipplesPiercings"],
+			},
+			{
 				Name: "Plugsuit",
 				CopyConfig: {
 					GroupName: "Suit",
@@ -42353,15 +42382,6 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "ChainTassles",
-				InventoryID: 688,
-				Value: 45,
-				Time: 10,
-				Prerequisite: ["AccessBreast"],
-				Hide: ["ItemNipplesPiercings"],
-				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
-			},
-			{
 				Name: "TapedVibeEggs",
 				InventoryID: 690,
 				Audio: "DuctTape",
@@ -42390,18 +42410,6 @@ var AssetFemale3DCG = [
 					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
 				],
 				Extended: true,
-			},
-			{
-				Name: "NippleTape",
-				InventoryID: 692,
-				Audio: "DuctTape",
-				Fetish: ["Tape"],
-				Value: 10,
-				Time: 5,
-				CraftGroup: "DuctTape",
-				Prerequisite: ["AccessBreast"],
-				Hide: ["ItemNipplesPiercings"],
-				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
 			},
 			{
 				Name: "ChopStickNippleClamps",
@@ -42602,6 +42610,30 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "Bra",
 					AssetName: "KittyPasties",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "NippleTape",
+				Audio: "DuctTape",
+				Time: 5,
+				Prerequisite: ["AccessBreast"],
+				CraftGroup: "DuctTape",
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
+				CopyConfig: {
+					GroupName: "Bra",
+					AssetName: "NippleTape",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ChainTassles",
+				Time: 10,
+				Prerequisite: ["AccessBreast"],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 5 }],
+				CopyConfig: {
+					GroupName: "Bra",
+					AssetName: "ChainTassles",
 					BuyGroup: true,
 				},
 			},
