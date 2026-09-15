@@ -878,10 +878,10 @@ Hat,WitchHat,Enchantress Hat
 Hat,WitchHat1,Witch Hat
 Hat,JesterHat, Jester Hat
 Hat,GIBeret,GI beret
-Head,,Head
-Head,Default,Regular Ears
-Head,NoEars,Subtle Ears
-Head,SmallEars,Small Ears
+Head,,Body Ears
+Head,Default,Regular
+Head,NoEars,Subtle
+Head,SmallEars,Small
 Height,,Height
 Height,H0900,155 cm
 Height,H0910,157 cm
