@@ -686,7 +686,7 @@ function InventoryGet(C, AssetGroup) {
 * @param {null | Character} Source - The character that used the item (if any)
 * @param {Character} Target - The character on which the item is used
 * @param {AssetGroupItemName} GroupName - The name of the asset group to scan
-* @param {CraftingItem} Craft - The crafted properties to apply
+* @param {CraftingItem | CraftingPartialItem} Craft - The crafted properties to apply
 * @param {boolean} Refresh - TRUE if we must refresh the character
 * @param {boolean} PreConfigureItem - TRUE if the default, pre-configured item state of the crafted item must be (re-)applied
 * @param {boolean} CraftWarn - Whether a warning should logged whenever the crafting validation fails
@@ -696,7 +696,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	// Gets the item first
 	if ((Target == null) || (GroupName == null)) return;
 	let Item = InventoryGet(Target, GroupName);
-	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source?.IsPlayer())) return;
+	if ((Item == null) || !CraftingValidate(/** @type {CraftingItem} */(Craft), Item.Asset, CraftWarn, Source?.IsPlayer(), Craft.Partial ?? true)) return;
 
 	Item.Craft ??= Craft;
 	Item.Property ??= {};
@@ -715,21 +715,24 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	}
 
 	// Applies the color schema, separated by commas
-	Item.Color = /** @type {BCColor[]} */(Craft.Color.replace(" ", "").split(","));
+	if (CraftingIsNonPartial(Craft)) {
+		Item.Color = /** @type {BCColor[]} */(Craft.Color.replace(" ", "").split(","));
 
-	// Set extended item properties
-	ExtendedItemSetOptionByRecord(
-		Target, Item, Craft.TypeRecord,
-		{ push: false, refresh: false, C_Source: Source ?? undefined, properties: Craft.ItemProperty ?? undefined },
-	);
+		// Set extended item properties
+		ExtendedItemSetOptionByRecord(
+			Target, Item, Craft.TypeRecord,
+			{ push: false, refresh: false, C_Source: Source ?? undefined, properties: Craft.ItemProperty ?? undefined },
+		);
 
-	// Applies a lock to the item
-	if (Craft.Lock != "") {
-		InventoryLock(Target, Item, Craft.Lock, Source, false);
+		// Applies a lock to the item
+		if (Craft.Lock != "") {
+			InventoryLock(Target, Item, Craft.Lock, Source, false);
+		}
+
+		// Update the item's difficulty
+		Item.Difficulty += Craft.DifficultyFactor ?? 0;
 	}
 
-	// Update the item's difficulty
-	Item.Difficulty += Craft.DifficultyFactor ?? 0;
 	if (Item.Craft.Effects?.Decoy) {
 		Item.Difficulty = -50;
 	}
@@ -788,7 +791,7 @@ function InventoryCraftPropertyIs() {}
  * @param {null | ItemColor} [ItemColor] - The hex color of the item, can be undefined or "Default"
  * @param {null | number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
  * @param {null | number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
- * @param {null | CraftingItem} [Craft] - The crafting properties of the item
+ * @param {null | CraftingItem | CraftingPartialItem} [Craft] - The crafting properties of the item
  * @param {boolean} [Refresh] - Whether to refresh the character and push the changes to the server
  * @returns {Item | null} - Thew newly created item or `null` if the asset does not exist
  */
