@@ -8089,8 +8089,8 @@ ItemHandsFullMittensOptionr4,Harness belts
 ItemHandsFullMittensOptionr5,Armbinder mode
 ItemHandsFullMittensOptionr6,Ankle shackles combo
 ItemHandsFullMittensSetr0,SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
-ItemHandsFullMittensSetr1,SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose.
-ItemHandsFullMittensSetr2,SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
+ItemHandsFullMittensSetr1,SourceCharacter ties DestinationCharacterName mittens to the bar in yoke pose.
+ItemHandsFullMittensSetr2,SourceCharacter ties DestinationCharacterName mittens to the bar with hands up.
 ItemHandsFullMittensSetr3,SourceCharacter binds DestinationCharacterName arms as straitjacket style.
 ItemHandsFullMittensSetr4,SourceCharacter binds DestinationCharacterName hands in the back and put some harness belt on TargetPronounObject torso.
 ItemHandsFullMittensSetr5,SourceCharacter binds DestinationCharacterName arms as armbinder style.

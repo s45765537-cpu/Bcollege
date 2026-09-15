@@ -7628,9 +7628,9 @@ Ankle shackles combo
 脚镣组合
 SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
 SourceCharacter从DestinationCharacterName手套上移除了所有束缚配件。
-SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+SourceCharacter ties DestinationCharacterName mittens to the bar in yoke pose.
 SourceCharacter将DestinationCharacterName手套绑在了轭上。
-SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
+SourceCharacter ties DestinationCharacterName mittens to the bar with hands up.
 SourceCharacter将DestinationCharacterName手套绑在了杆上，并举起手。
 SourceCharacter binds DestinationCharacterName arms as straitjacket style.
 SourceCharacter将DestinationCharacterName的手臂绑成了拘束衣样式。
