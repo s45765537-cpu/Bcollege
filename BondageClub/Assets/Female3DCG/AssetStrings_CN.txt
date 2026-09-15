@@ -7648,7 +7648,7 @@ SourceCharacter takes it easy on the DestinationCharacterName and left the Under
 SourceCharacter对DestinationCharacterName手下留情，让膝下过夜束缚器绑得稍微松了一点。
 Real Deal
 认真对待
-SourceCharacter thighens the Under Knee Overnighter belts a lot on the DestinationCharacterName feet.
+SourceCharacter tightens the Under Knee Overnighter belts a lot on DestinationCharacterName feet.
 SourceCharacter将DestinationCharacterName的膝下过夜束缚器系得很紧。
 Feet Binders menu:
 脚部束缚菜单：
@@ -8742,7 +8742,7 @@ SourceCharacter exposes the Barrel corset over the DestinationCharacter body.
 SourceCharacter将桶式束身衣暴露在DestinationCharacter身体外面。
 SourceCharacter loosens the Barrel corset from the DestinationCharacter body.
 SourceCharacter松开了DestinationCharacter身体上的桶式束身衣。
-SourceCharacter thighens the Barrel corset on the DestinationCharacter body.
+SourceCharacter tightens the Barrel corset on the DestinationCharacter body.
 SourceCharacter收紧了DestinationCharacter身体上的桶式束身衣。
 SourceCharacter removes any neck corset addon from the DestinationCharacter neck.
 SourceCharacter从DestinationCharacter脖子上移除了任何项圈附件。
