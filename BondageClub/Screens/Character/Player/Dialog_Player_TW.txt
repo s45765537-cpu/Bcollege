@@ -1795,11 +1795,11 @@ SourceCharacter folds DestinationCharacter arms and wraps duct tape around them.
 SourceCharacter將DestinationCharacter手臂交叉在一起，並包裹上膠帶。
 Above head
 高過頭頂
-SourceCharacter shackles DestinationCharacter wrist in-front of TargetPronounPossessive body.
+SourceCharacter shackles DestinationCharacter wrists in-front of TargetPronounPossessive body.
 SourceCharacter將DestinationCharacter手腕鎖在身前。
-SourceCharacter shackles DestinationCharacter wrist behind TargetPronounPossessive back.
+SourceCharacter shackles DestinationCharacter wrists behind TargetPronounPossessive back.
 SourceCharacter將DestinationCharacter手腕鎖在身後。
-SourceCharacter shackles DestinationCharacter wrist above TargetPronounPossessive head.
+SourceCharacter shackles DestinationCharacter wrists above TargetPronounPossessive head.
 SourceCharacter將DestinationCharacter手腕鎖在頭頂上方。
 Select strap type
 選擇束帶類型

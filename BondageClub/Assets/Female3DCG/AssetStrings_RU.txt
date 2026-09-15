@@ -2317,11 +2317,11 @@ Shoulders Wrapped
 
 Above head
 Над головой
-SourceCharacter shackles DestinationCharacter wrist behind TargetPronounPossessive back.
+SourceCharacter shackles DestinationCharacter wrists behind TargetPronounPossessive back.
 SourceCharacter сковывает запястья DestinationCharacter за TargetPronounPossessive спиной
-SourceCharacter shackles DestinationCharacter wrist in-front of TargetPronounPossessive body.
+SourceCharacter shackles DestinationCharacter wrists in-front of TargetPronounPossessive body.
 SourceCharacter сковывает запястья DestinationCharacter перед TargetPronounPossessive телом.
-SourceCharacter shackles DestinationCharacter wrist above TargetPronounPossessive head.
+SourceCharacter shackles DestinationCharacter wrists above TargetPronounPossessive head.
 SourceCharacter сковывает запястья DestinationCharacter над TargetPronounPossessive головой.
 
 SourceCharacter uses the zipties on TargetCharacter bind TargetPronounObject on all fours.

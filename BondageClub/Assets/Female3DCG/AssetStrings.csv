@@ -3606,9 +3606,9 @@ ItemArmsWrappedBlanketShouldersWrapped,Shoulders Wrapped
 ItemArmsWristShacklesBehind,Behind back
 ItemArmsWristShacklesInFront,In-front of body
 ItemArmsWristShacklesOverhead,Above head
-ItemArmsWristShacklesSetBehind,SourceCharacter shackles DestinationCharacter wrist behind TargetPronounPossessive back.
-ItemArmsWristShacklesSetInFront,SourceCharacter shackles DestinationCharacter wrist in-front of TargetPronounPossessive body.
-ItemArmsWristShacklesSetOverhead,SourceCharacter shackles DestinationCharacter wrist above TargetPronounPossessive head.
+ItemArmsWristShacklesSetBehind,SourceCharacter shackles DestinationCharacter wrists behind TargetPronounPossessive back.
+ItemArmsWristShacklesSetInFront,SourceCharacter shackles DestinationCharacter wrists in-front of TargetPronounPossessive body.
+ItemArmsWristShacklesSetOverhead,SourceCharacter shackles DestinationCharacter wrists above TargetPronounPossessive head.
 ItemArmsZiptiesSetZipAllFours,SourceCharacter uses the zipties on TargetCharacter bind TargetPronounObject on all fours.
 ItemArmsZiptiesSetZipElbowWrist,SourceCharacter uses the zipties on TargetCharacter to bind TargetPronounPossessive elbows and wrists.
 ItemArmsZiptiesSetZipFull,SourceCharacter uses the zipties on TargetCharacter to fully bind TargetPronounPossessive elbows and wrists.

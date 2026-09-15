@@ -2678,11 +2678,11 @@ In-front of body
 在身体前面
 Above head
 高过头顶
-SourceCharacter shackles DestinationCharacter wrist behind TargetPronounPossessive back.
+SourceCharacter shackles DestinationCharacter wrists behind TargetPronounPossessive back.
 SourceCharacter将DestinationCharacter手腕锁在身后。
-SourceCharacter shackles DestinationCharacter wrist in-front of TargetPronounPossessive body.
+SourceCharacter shackles DestinationCharacter wrists in-front of TargetPronounPossessive body.
 SourceCharacter将DestinationCharacter手腕锁在身前。
-SourceCharacter shackles DestinationCharacter wrist above TargetPronounPossessive head.
+SourceCharacter shackles DestinationCharacter wrists above TargetPronounPossessive head.
 SourceCharacter将DestinationCharacter手腕锁在头顶上方。
 SourceCharacter uses the zipties on TargetCharacter bind TargetPronounObject on all fours.
 SourceCharacter使用扎带把TargetCharacter绑成四肢着地。
