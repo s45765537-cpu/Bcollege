@@ -103,7 +103,7 @@ Bracelet,MaidBracelet,Maid Bracelet
 Bracelet,SpikeBands,Spiked Wristbands
 Bracelet,Wristband,Wristbands
 Bracelet,WristWatch,Wrist Watch
-Cloth,,Cloth
+Cloth,,Upper Clothing
 Cloth,AdmiralTop,Admiral Top
 Cloth,AdultBabyDress1,Puffy Dress
 Cloth,AdultBabyDress2,Bows Dress
@@ -212,7 +212,7 @@ Cloth,CocktailDress,Cocktail Dress
 Cloth,MaidBikini,Maid Bikini
 Cloth,MilitaryFatigue,Military Fatigue
 Cloth,CropTopShirt,Crop Top Shirt
-ClothAccessory,,Cloth Accessory
+ClothAccessory,,Clothing Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
 ClothAccessory,BowAccessory,Bow - Front
@@ -258,7 +258,7 @@ ClothAccessory,VampiricCloak,Vampiric Cloak
 ClothAccessory,WitchShawl,Witch's Shawl
 ClothAccessory,XmasShortShawl,Short Christmas Shawl
 ClothAccessory,XmasLongShawl,Long Christmas Shawl
-ClothLower,,Cloth Lower
+ClothLower,,Lower Clothing
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
@@ -329,7 +329,7 @@ ClothLower,WoolenHighWaistSkirt,High Waist Skirt
 ClothLower,YogaPants,Yoga Pants - Basic
 ClothLower,DenimShorts,Denim Shorts
 ClothLower,MilitaryPants,Military Pants
-ClothOuter,,Cloth Outer
+ClothOuter,,Outerwear
 ClothOuter,LabCoat,Lab Coat
 ClothOuter,LeatherJacket,Leather Jacket
 ClothOuter,JacketHoodie,Jacket Hoodie
