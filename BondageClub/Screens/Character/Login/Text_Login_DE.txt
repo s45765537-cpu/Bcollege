@@ -14,8 +14,8 @@ New Character
 Neuer Charakter
 Connecting to server...
 Verbindung zum Server...
-Waiting in queue on position: QUEUE_POS
-Warten in der Queue on Position: QUEUE_POS
+Waiting in queue in position: QUEUE_POS
+Warten in der Queue in position: QUEUE_POS
 Error loading character data
 Fehler beim Laden der Charakter-Daten
 Disconnected from server. Retrying...

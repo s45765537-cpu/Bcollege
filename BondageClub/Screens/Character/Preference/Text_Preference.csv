@@ -158,8 +158,8 @@ GeneralAnimationQualityText,Animation quality
 GeneralAnimationQualityHint,Reduce if inputs such as sliders are slow to respond
 ForceFullHeight,Display all characters at maximum height
 EnableAfkTimer,Show AFK bubble if idle for 5 minutes
-EnableSafeword,Allow Safeword use (Cannot enable while bound)
-ConfirmSafeword,(Click to confirm) Allow Safeword use (Cannot enable while bound)
+EnableSafeword,Allow safeword use (Cannot enable while bound)
+ConfirmSafeword,(Click to confirm) Allow safeword use (Cannot enable while bound)
 AllowFullWardrobeAccess,Allow others to alter your whole appearance
 BlockBodyCosplay,Prevent others from changing cosplay items
 ShowStatus,Show status bubble
@@ -174,7 +174,7 @@ UpdateEmailLinked,"An email is linked, write it here to update it"
 UpdateEmailSuccess,Your email has been updated.
 UpdateEmailFailure,Current email does not match
 UpdateEmailInvalid,Invalid characters
-ArousalShowOtherMeter,Show other characters meter
+ArousalShowOtherMeter,Show other characters' meters
 ArousalAffectExpression,Affect your facial expressions
 ArousalActive,Activation:
 ArousalActiveInactive,Disable sexual activities
@@ -362,8 +362,8 @@ GenderHideTitles,Hide titles in settings for:
 CensorExit,Apply the censoring
 CensorTitle,Select the censorship to apply and the words to censor in both the chat and room labels.
 CensorLevel,Censorship:
-CensorLevel0,Replace the word by ***
-CensorLevel1,Replace the phrase by ***
+CensorLevel0,Replace the word with ***
+CensorLevel1,Replace the phrase with ***
 CensorLevel2,Hide the phrase or room
 CensorWord,Censored words:
 CensorAdd,Add

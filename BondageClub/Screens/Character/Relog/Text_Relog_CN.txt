@@ -14,7 +14,7 @@ Leave
 离开
 Validating name and password...
 正在验证用户名及密码...
-Waiting in queue on position: QUEUE_POS
+Waiting in queue in position: QUEUE_POS
 排队顺序：QUEUE_POS
 Invalid name or password
 无效的用户名或密码

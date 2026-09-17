@@ -320,10 +320,10 @@ Display all characters at maximum height
 Display all characters at maximum height
 Show AFK bubble if idle for 5 minutes
 Show AFK bubble if idle for 5 minutes
-Allow Safeword use (Cannot enable while bound)
-Allow Safeword use (Cannot enable while bound)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
 Allow others to alter your whole appearance
 Allow others to alter your whole appearance
 Prevent others from changing cosplay items
@@ -350,8 +350,8 @@ Current email does not match
 Current email does not match
 Invalid characters
 Invalid characters
-Show other characters meter
-Show other characters meter
+Show other characters' meters
+Show other characters' meters
 Affect your facial expressions
 Affect your facial expressions
 Activation:
@@ -708,10 +708,10 @@ Select the censorship to apply and the words to censor in both the chat and room
 Select the censorship to apply and the words to censor in both the chat and room labels.
 Censorship:
 Censorship:
-Replace the word by ***
-Replace the word by ***
-Replace the phrase by ***
-Replace the phrase by ***
+Replace the word with ***
+Replace the word with ***
+Replace the phrase with ***
+Replace the phrase with ***
 Hide the phrase or room
 Hide the phrase or room
 Censored words:

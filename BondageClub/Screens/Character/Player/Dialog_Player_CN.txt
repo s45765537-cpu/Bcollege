@@ -6,7 +6,7 @@
 (查看你的资料)
 (Change your clothes.)
 (更换你的衣服)
-(Room administrator action.)
+(Room administrator actions.)
 (房间管理员动作)
 ###_NPC
 (As a room administrator, you can take these actions.)
@@ -194,7 +194,7 @@
 (This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
 (这会立即解开你身上的所有束缚并把你送回大厅。请仅在被困在束缚中，且没有人能够帮助的情况下使用它。你确定要使用吗？)
 ###_PLAYER
-(Don't use Safeword.)
+(Don't use safeword.)
 (不要使用安全词)
 (Yes, revert Character.)
 (是的，恢复角色)

@@ -2456,9 +2456,9 @@ Opened
 打开
 Customize the look of the suit
 自定义宠物服外观
-SourceCharacter chose the classic look of the costume on DestinationCharacter.
+SourceCharacter chooses the classic look of the costume on DestinationCharacter.
 SourceCharacter将DestinationCharacter宠物服选择为标准外观。
-SourceCharacter close up DestinationCharacter suit.
+SourceCharacter closes up DestinationCharacter suit.
 SourceCharacter关上了DestinationCharacter宠物服。
 SourceCharacter opens DestinationCharacter suit and fully exposes her breasts and pussy.
 SourceCharacter打开了DestinationCharacter宠物服，完全露出她的胸和阴部。
@@ -2472,7 +2472,7 @@ Hardbinder
 坚固束缚
 Customize the look of the jacket
 设定拘束衣外观
-SourceCharacter wraps up DestinationCharacter in an asylum AssetName.
+SourceCharacter wraps up DestinationCharacter arms in an asylum AssetName.
 SourceCharacter将DestinationCharacter包裹在收容所样式的AssetName里。
 SourceCharacter wraps up DestinationCharacter arms in a classic AssetName.
 SourceCharacter将DestinationCharacter手臂包裹在标准外观的束缚里。
@@ -2678,11 +2678,11 @@ In-front of body
 在身体前面
 Above head
 高过头顶
-SourceCharacter shackles DestinationCharacter wrist behind TargetPronounPossessive back.
+SourceCharacter shackles DestinationCharacter wrists behind TargetPronounPossessive back.
 SourceCharacter将DestinationCharacter手腕锁在身后。
-SourceCharacter shackles DestinationCharacter wrist in-front of TargetPronounPossessive body.
+SourceCharacter shackles DestinationCharacter wrists in-front of TargetPronounPossessive body.
 SourceCharacter将DestinationCharacter手腕锁在身前。
-SourceCharacter shackles DestinationCharacter wrist above TargetPronounPossessive head.
+SourceCharacter shackles DestinationCharacter wrists above TargetPronounPossessive head.
 SourceCharacter将DestinationCharacter手腕锁在头顶上方。
 SourceCharacter uses the zipties on TargetCharacter bind TargetPronounObject on all fours.
 SourceCharacter使用扎带把TargetCharacter绑成四肢着地。
@@ -7628,9 +7628,9 @@ Ankle shackles combo
 脚镣组合
 SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
 SourceCharacter从DestinationCharacterName手套上移除了所有束缚配件。
-SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+SourceCharacter ties DestinationCharacterName mittens to the bar in yoke pose.
 SourceCharacter将DestinationCharacterName手套绑在了轭上。
-SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
+SourceCharacter ties DestinationCharacterName mittens to the bar with hands up.
 SourceCharacter将DestinationCharacterName手套绑在了杆上，并举起手。
 SourceCharacter binds DestinationCharacterName arms as straitjacket style.
 SourceCharacter将DestinationCharacterName的手臂绑成了拘束衣样式。
@@ -7648,7 +7648,7 @@ SourceCharacter takes it easy on the DestinationCharacterName and left the Under
 SourceCharacter对DestinationCharacterName手下留情，让膝下过夜束缚器绑得稍微松了一点。
 Real Deal
 认真对待
-SourceCharacter thighens the Under Knee Overnighter belts a lot on the DestinationCharacterName feet.
+SourceCharacter tightens the Under Knee Overnighter belts a lot on DestinationCharacterName feet.
 SourceCharacter将DestinationCharacterName的膝下过夜束缚器系得很紧。
 Feet Binders menu:
 脚部束缚菜单：
@@ -8742,7 +8742,7 @@ SourceCharacter exposes the Barrel corset over the DestinationCharacter body.
 SourceCharacter将桶式束身衣暴露在DestinationCharacter身体外面。
 SourceCharacter loosens the Barrel corset from the DestinationCharacter body.
 SourceCharacter松开了DestinationCharacter身体上的桶式束身衣。
-SourceCharacter thighens the Barrel corset on the DestinationCharacter body.
+SourceCharacter tightens the Barrel corset on the DestinationCharacter body.
 SourceCharacter收紧了DestinationCharacter身体上的桶式束身衣。
 SourceCharacter removes any neck corset addon from the DestinationCharacter neck.
 SourceCharacter从DestinationCharacter脖子上移除了任何项圈附件。

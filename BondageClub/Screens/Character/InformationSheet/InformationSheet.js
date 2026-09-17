@@ -130,7 +130,7 @@ function InformationSheetRun() {
 		currentY += spacing;
 
 		if (C.IsPlayer()) {
-			let moneyLine = TextGet("Money") + " " + C.Money.toString() + " $";
+			let moneyLine = TextGet("Money") + ` $${C.Money}`;
 			DrawTextFit(moneyLine, 550, currentY, 450, "Black", "Gray");
 			currentY += spacing;
 		}

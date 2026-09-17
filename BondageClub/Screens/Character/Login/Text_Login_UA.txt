@@ -14,7 +14,7 @@ New Character
 Новий персонаж
 Connecting to server...
 Підключення до сервера...
-Waiting in queue on position: QUEUE_POS
+Waiting in queue in position: QUEUE_POS
 Очікування в черзі на позиції: QUEUE_POS
 Error loading character data
 Помилка завантаження даних персонажа

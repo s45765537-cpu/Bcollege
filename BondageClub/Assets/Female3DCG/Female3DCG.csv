@@ -103,7 +103,7 @@ Bracelet,MaidBracelet,Maid Bracelet
 Bracelet,SpikeBands,Spiked Wristbands
 Bracelet,Wristband,Wristbands
 Bracelet,WristWatch,Wrist Watch
-Cloth,,Cloth
+Cloth,,Upper Clothing
 Cloth,AdmiralTop,Admiral Top
 Cloth,AdultBabyDress1,Puffy Dress
 Cloth,AdultBabyDress2,Bows Dress
@@ -212,7 +212,7 @@ Cloth,CocktailDress,Cocktail Dress
 Cloth,MaidBikini,Maid Bikini
 Cloth,MilitaryFatigue,Military Fatigue
 Cloth,CropTopShirt,Crop Top Shirt
-ClothAccessory,,Cloth Accessory
+ClothAccessory,,Clothing Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
 ClothAccessory,BowAccessory,Bow - Front
@@ -258,7 +258,7 @@ ClothAccessory,VampiricCloak,Vampiric Cloak
 ClothAccessory,WitchShawl,Witch's Shawl
 ClothAccessory,XmasShortShawl,Short Christmas Shawl
 ClothAccessory,XmasLongShawl,Long Christmas Shawl
-ClothLower,,Cloth Lower
+ClothLower,,Lower Clothing
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
@@ -329,7 +329,7 @@ ClothLower,WoolenHighWaistSkirt,High Waist Skirt
 ClothLower,YogaPants,Yoga Pants - Basic
 ClothLower,DenimShorts,Denim Shorts
 ClothLower,MilitaryPants,Military Pants
-ClothOuter,,Cloth Outer
+ClothOuter,,Outerwear
 ClothOuter,LabCoat,Lab Coat
 ClothOuter,LeatherJacket,Leather Jacket
 ClothOuter,JacketHoodie,Jacket Hoodie
@@ -346,7 +346,7 @@ Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,SteampunkCorsetTop1,Steampunk Corset
 Corset,TightCorset,Leather Tight Corset
 Corset,Underbust,Boned Underbust Corset
-Decals,,Decals
+Decals,,Decal
 Decals,DenOfSin,Den of Sin
 Decals,CRABS,CRABS
 Decals,AmberFam,Amber Family
@@ -878,10 +878,10 @@ Hat,WitchHat,Enchantress Hat
 Hat,WitchHat1,Witch Hat
 Hat,JesterHat, Jester Hat
 Hat,GIBeret,GI beret
-Head,,Head
-Head,Default,Regular Ears
-Head,NoEars,Subtle Ears
-Head,SmallEars,Small Ears
+Head,,Body Ears
+Head,Default,Regular
+Head,NoEars,Subtle
+Head,SmallEars,Small
 Height,,Height
 Height,H0900,155 cm
 Height,H0910,157 cm
@@ -1874,7 +1874,7 @@ Necklace,PearlNecklace2,Pearl Necklace 3
 Necklace,PlantNecklace,Plant Necklace
 Necklace,RosePendant,Rose Pendant
 Necklace,SatinScarf,Satin Scarf
-Nipples,,Nipples Style
+Nipples,,Nipple Style
 Nipples,Nipples1,Small
 Nipples,Nipples2,Large
 Nipples,Nipples3,Light

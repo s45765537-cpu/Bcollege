@@ -302,9 +302,9 @@ Display all characters at maximum height
 以最大身高顯示所有角色
 Show AFK bubble if idle for 5 minutes
 閒置5分鐘後顯示AFK氣泡
-Allow Safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
 允許使用安全詞(被束縛時不能更改)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
 (點擊以確定)允許使用安全詞(被束縛時不能更改)
 Allow others to alter your whole appearance
 允許其他玩家修改你所有外觀
@@ -332,7 +332,7 @@ Current email does not match
 現在的信箱地址錯誤
 Invalid characters
 無效字元
-Show other characters meter
+Show other characters' meters
 顯示其他角色量表
 Affect your facial expressions
 影響你的臉部表情
@@ -666,9 +666,9 @@ Select the censorship to apply and the words to censor in both the chat and room
 選擇在聊天和房間標籤中應用的屏蔽詞。
 Censorship:
 屏蔽方式：
-Replace the word by ***
+Replace the word with ***
 將這詞替換為***
-Replace the phrase by ***
+Replace the phrase with ***
 將這句話替換為***
 Hide the phrase or room
 隱藏這句話或者房間

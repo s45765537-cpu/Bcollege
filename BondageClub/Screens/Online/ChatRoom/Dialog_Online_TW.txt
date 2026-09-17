@@ -30,7 +30,7 @@
 ###_PLAYER
 (Use the laptop to steal data.)
 (使用筆記型電腦偷取資料)
-(Room administrator action.)
+(Room administrator actions.)
 (房管動作)
 ###_NPC
 (As a room administrator, you can take these actions with DialogCharacterObject.)

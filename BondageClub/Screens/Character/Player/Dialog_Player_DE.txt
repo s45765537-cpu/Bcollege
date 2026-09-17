@@ -6,7 +6,7 @@
 (Profil anschauen.)
 (Change your clothes.)
 (Kleidung ändern.)
-(Room administrator action.)
+(Room administrator actions.)
 (Raum administrieren.)
 ###_NPC
 (As a room administrator, you can take these actions.)
@@ -194,8 +194,8 @@
 (This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
 (This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
 ###_PLAYER
-(Don't use Safeword.)
-(Don't use Safeword.)
+(Don't use safeword.)
+(Don't use safeword.)
 (Yes, revert Character.)
 (Yes, revert Character.)
 (No, don't revert Character.)

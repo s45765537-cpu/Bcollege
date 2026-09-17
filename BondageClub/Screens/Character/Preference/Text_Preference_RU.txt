@@ -302,9 +302,9 @@ Display all characters at maximum height
 Отображать всех персонажей в максимальном росте
 Show AFK bubble if idle for 5 minutes
 Показывать статус AFK, если бездействует в течение 5 минут.
-Allow Safeword use (Cannot enable while bound)
+Allow safeword use (Cannot enable while bound)
 Разрешить использование безопасного слова (нельзя включить пока связана)
-(Click to confirm) Allow Safeword use (Cannot enable while bound)
+(Click to confirm) Allow safeword use (Cannot enable while bound)
 (Нажмите, чтобы подтвердить) Разрешить использование безопасного слова (невозможно включить пока связана)
 Allow others to alter your whole appearance
 Позволить другим изменить весь ваш внешний вид
@@ -332,7 +332,7 @@ Current email does not match
 Текущая электронная почта не совпадает
 Invalid characters
 Недопустимые символы
-Show other characters meter
+Show other characters' meters
 Показать счетчик другим
 Affect your facial expressions
 Влияет на выражение лица
@@ -674,9 +674,9 @@ Select the censorship to apply and the words to censor in both the chat and room
 Выберите цензуру для применения и слова для цензуры как в чате, так и в метках комнат.
 Censorship:
 Цензура:
-Replace the word by ***
+Replace the word with ***
 Заменить слово на ***
-Replace the phrase by ***
+Replace the phrase with ***
 Заменить фразу на ***
 Hide the phrase or room
 Скрыть фразу или комнату

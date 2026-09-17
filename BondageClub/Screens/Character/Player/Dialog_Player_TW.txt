@@ -6,7 +6,7 @@
 (查看你的資料)
 (Change your clothes.)
 (更換你的衣服)
-(Room administrator action.)
+(Room administrator actions.)
 (房間管理員動作)
 ###_NPC
 (As a room administrator, you can take these actions.)
@@ -188,7 +188,7 @@
 (This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
 (這會立即解開你身上的所有束縛並把你送回大廳。請僅在被困在束縛中，且沒有人能夠幫助的情況下使用它。你確定要使用嗎？)
 ###_PLAYER
-(Don't use Safeword.)
+(Don't use safeword.)
 (不要使用安全詞)
 (Yes, revert Character.)
 (是的，恢復角色)
@@ -1795,11 +1795,11 @@ SourceCharacter folds DestinationCharacter arms and wraps duct tape around them.
 SourceCharacter將DestinationCharacter手臂交叉在一起，並包裹上膠帶。
 Above head
 高過頭頂
-SourceCharacter shackles DestinationCharacter wrist in-front of TargetPronounPossessive body.
+SourceCharacter shackles DestinationCharacter wrists in-front of TargetPronounPossessive body.
 SourceCharacter將DestinationCharacter手腕鎖在身前。
-SourceCharacter shackles DestinationCharacter wrist behind TargetPronounPossessive back.
+SourceCharacter shackles DestinationCharacter wrists behind TargetPronounPossessive back.
 SourceCharacter將DestinationCharacter手腕鎖在身後。
-SourceCharacter shackles DestinationCharacter wrist above TargetPronounPossessive head.
+SourceCharacter shackles DestinationCharacter wrists above TargetPronounPossessive head.
 SourceCharacter將DestinationCharacter手腕鎖在頭頂上方。
 Select strap type
 選擇束帶類型

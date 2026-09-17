@@ -6,7 +6,7 @@ Password,Password:
 LogBackIn,Log back in
 Leave,Leave
 ValidatingNamePassword,Validating name and password...
-LoginQueueWait,Waiting in queue on position: QUEUE_POS
+LoginQueueWait,Waiting in queue in position: QUEUE_POS
 InvalidNamePassword,Invalid name or password
 ErrorDisconnectedFromServer,Disconnected from server. Retrying...
 ErrorDuplicatedLogin,Disconnected for duplicated login

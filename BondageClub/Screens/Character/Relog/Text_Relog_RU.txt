@@ -12,7 +12,7 @@ Leave
 Выйти
 Validating name and password...
 Проверка имени и пароля...
-Waiting in queue on position: QUEUE_POS
+Waiting in queue in position: QUEUE_POS
 Ожидание в очереди на позиции: QUEUE_POS
 Invalid name or password
 Неверное имя или пароль

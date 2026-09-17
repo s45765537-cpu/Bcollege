@@ -2,7 +2,7 @@ PlayerGagged,,,(You can use or remove items by selecting specific body regions o
 0,,,(You can use or remove items by selecting specific body regions on yourself.),,
 0,,(View your profile.),,DialogViewProfile(),
 0,,(Change your clothes.),,DialogChangeClothes(),DialogCanChangeClothes()
-0,30,(Room administrator action.),"(As a room administrator, you can take these actions.)",,DialogChatRoomPlayerIsAdmin()
+0,30,(Room administrator actions.),"(As a room administrator, you can take these actions.)",,DialogChatRoomPlayerIsAdmin()
 0,100,(Character actions.),(Possible character actions.),,DialogCanPerformCharacterAction()
 0,40,(Spend GGTS minutes.),(Select how to spend your minutes.),,DialogGGTSCanSpendMinutes()
 0,0,(View your current rules.),(Here are your currently active rules.),DialogViewOwnerRules(),DialogCanViewRules()
@@ -53,7 +53,7 @@ PlayerGagged,,,(You can use or remove items by selecting specific body regions o
 110,0,"(No, don't call the maids.)",(You can use or remove items by selecting specific body regions on yourself.),,
 120,121,(Revert Character.),(This will revert your character's clothes and restraints back to how they were when you entered the lobby. Use this if you were forced into restraints against your consent. Are you sure you want to revert your character?),,
 120,122,(Release Character.),(This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?),,
-120,0,(Don't use Safeword.),(You can use or remove items by selecting specific body regions on yourself.),,
+120,0,(Don't use safeword.),(You can use or remove items by selecting specific body regions on yourself.),,
 121,0,"(Yes, revert Character.)",(You can use or remove items by selecting specific body regions on yourself.),DialogChatRoomSafewordRevert(),
 121,0,"(No, don't revert Character.)",(You can use or remove items by selecting specific body regions on yourself.),,
 122,0,"(Yes, I want to be released.)",,DialogChatRoomSafewordRelease(),

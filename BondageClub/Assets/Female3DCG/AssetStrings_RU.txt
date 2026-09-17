@@ -2086,9 +2086,9 @@ Closed Up
 Застегнутый
 Customize the look of the suit
 Настройте внешний вид костюма
-SourceCharacter chose the classic look of the costume on DestinationCharacter.
+SourceCharacter chooses the classic look of the costume on DestinationCharacter.
 SourceCharacter выбрает классический вид костюма для DestinationCharacter.
-SourceCharacter close up DestinationCharacter suit.
+SourceCharacter closes up DestinationCharacter suit.
 SourceCharacter застегивает костюм DestinationCharacter.
 SourceCharacter opens DestinationCharacter suit and fully exposes her breasts and pussy.
 SourceCharacter растегивает костюм DestinationCharacter и полностью обнажает ее грудь и киску.
@@ -2101,7 +2101,7 @@ Hardbinder
 Плотная
 Customize the look of the jacket
 Настройте внешний вид рубашки
-SourceCharacter wraps up DestinationCharacter in an asylum AssetName.
+SourceCharacter wraps up DestinationCharacter arms in an asylum AssetName.
 SourceCharacter использует на руки DestinationCharacter AssetName из психлечебницы.
 SourceCharacter wraps up DestinationCharacter arms in a classic AssetName.
 SourceCharacter использует на руки DestinationCharacter классическую AssetName.
@@ -2317,11 +2317,11 @@ Shoulders Wrapped
 
 Above head
 Над головой
-SourceCharacter shackles DestinationCharacter wrist behind TargetPronounPossessive back.
+SourceCharacter shackles DestinationCharacter wrists behind TargetPronounPossessive back.
 SourceCharacter сковывает запястья DestinationCharacter за TargetPronounPossessive спиной
-SourceCharacter shackles DestinationCharacter wrist in-front of TargetPronounPossessive body.
+SourceCharacter shackles DestinationCharacter wrists in-front of TargetPronounPossessive body.
 SourceCharacter сковывает запястья DestinationCharacter перед TargetPronounPossessive телом.
-SourceCharacter shackles DestinationCharacter wrist above TargetPronounPossessive head.
+SourceCharacter shackles DestinationCharacter wrists above TargetPronounPossessive head.
 SourceCharacter сковывает запястья DestinationCharacter над TargetPronounPossessive головой.
 
 SourceCharacter uses the zipties on TargetCharacter bind TargetPronounObject on all fours.

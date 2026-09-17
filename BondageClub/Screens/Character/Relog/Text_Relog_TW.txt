@@ -12,7 +12,7 @@ Leave
 離開
 Validating name and password...
 正在驗證使用者名稱及密碼...
-Waiting in queue on position: QUEUE_POS
+Waiting in queue in position: QUEUE_POS
 排隊順序：QUEUE_POS
 Invalid name or password
 無效的使用者名稱或密碼
