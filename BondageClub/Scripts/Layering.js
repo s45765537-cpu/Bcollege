@@ -459,6 +459,24 @@ var Layering = {
 	},
 
 	/**
+	 * Insert soft hyphens between all upper- and lower cased letters, signaling them as valid word break points.
+	 * @private
+	 * @param {string} txt
+	 * @returns {string}
+	 */
+	_TextInsertBreakpoints(txt) {
+		const softHyphen = "\u00AD";
+		let ret = "";
+		for (const i of txt) {
+			if (i === i.toUpperCase() && ret) {
+				ret += softHyphen;
+			}
+			ret += i;
+		}
+		return ret;
+	},
+
+	/**
 	 * @private
 	 * @param {"Scale" | "Rotation" | "Translation"} propType
 	 * @param {("ScaleX" | "ScaleY" |"Rotation" | "TranslationX" | "TranslationY")[]} properties
@@ -481,7 +499,11 @@ var Layering = {
 					tag: /** @type {const} */("div"),
 					classList: ["layering-pair", "layering-asset-pair"],
 					children: [
-						{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [InterfaceTextGet(`Layering${propType}`)] },
+						{
+							tag: /** @type {const} */("label"),
+							classList: ["layering-pair-text"],
+							children: [InterfaceTextGet(`Layering${propType}`)],
+						},
 						{
 							tag: /** @type {const} */("div"),
 							classList: ["layering-inputs-group"],
@@ -563,7 +585,11 @@ var Layering = {
 					tag: "div",
 					classList: ["layering-pair"],
 					children: [
-						{ tag: "label", classList: ["layering-pair-text", "layering-layer-name"], children: [layer.Name ?? this.Asset.Name] },
+						{
+							tag: "label",
+							classList: ["layering-pair-text", "layering-layer-name"],
+							children: [Layering._TextInsertBreakpoints(layer.Name ?? this.Asset.Name)],
+						},
 						{
 							tag: "div",
 							classList: ["layering-inputs-container"],
@@ -682,7 +708,11 @@ var Layering = {
 								tag: /** @type {const} */("div"),
 								classList: ["layering-pair", "layering-asset-pair"],
 								children: [
-									{ tag: /** @type {const} */("label"), classList: ["layering-pair-text"], children: [InterfaceTextGet("LayeringPriority")] },
+									{
+										tag: /** @type {const} */("label"),
+										classList: ["layering-pair-text"],
+										children: [InterfaceTextGet("LayeringPriority")],
+									},
 									{
 										tag: /** @type {const} */("input"),
 										attributes: { type: "number", value: itemPriority, id: "layering-input-asset", inputmode: "numeric" },
@@ -757,7 +787,12 @@ var Layering = {
 										classList: ["layering-pair"],
 										attributes: { hidden: !isShowingHiddenLayers && !CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) },
 										children: [
-											{ tag: /** @type {const} */("label"), attributes: { for: `layering-input-${layerGroupName}-${name}` }, classList: ["layering-pair-text"], children: [layer.Name ?? this.Asset.Name] },
+											{
+												tag: /** @type {const} */("label"),
+												attributes: { for: `layering-input-${layerGroupName}-${name}` },
+												classList: ["layering-pair-text"],
+												children: [Layering._TextInsertBreakpoints(layer.Name ?? this.Asset.Name)],
+											},
 											{
 												tag: /** @type {const} */("input"),
 												attributes: { type: "number", value: this.OverridePriority?.[name] ?? layer.Priority, id: `layering-input-${layerGroupName}-${name}`, inputmode: "numeric" },
