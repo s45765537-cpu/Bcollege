@@ -9293,6 +9293,11 @@ ItemHandheldFoamRollRoll,Keep it as a roll
 ItemHandheldFoamRollMittens,Try it!
 ItemHandheldFoamRollSetRoll,SourceCharacter unwraps the foam tape from TargetPronounPossessive hands and returns this roll to DestinationCharacter to hold.
 ItemHandheldFoamRollSetMittens,SourceCharacter uses this foam roll to wrap DestinationCharacter hands.
+ItemHandheldToyHammerSelect,Select Bonk or No Bonk
+ItemHandheldToyHammerNoBonk!,No Bonk!
+ItemHandheldToyHammerSetNoBonk!,SourceCharacter turns DestinationCharacter AssetName from bonk into no bonk.
+ItemHandheldToyHammerBONK!,BONK!
+ItemHandheldToyHammerSetBONK!,SourceCharacter turns DestinationCharacter AssetName from no bonk into bonk.
 ClothLowerPVCHobbleSkirtSelectBase,PVC Hobble Dress main menu:
 ClothLowerPVCHobbleSkirtModuleLength,Length option
 ClothLowerPVCHobbleSkirtSelectLength,Select a skirt length:
