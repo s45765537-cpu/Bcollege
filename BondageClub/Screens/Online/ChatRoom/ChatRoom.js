@@ -1761,6 +1761,8 @@ function ChatRoomFocusCharacter(C, options=null) {
 	ChatRoomLovershipOption = null;
 	if (!C.IsPlayer()) ServerSend("ChatRoomAllowItem", { MemberNumber: C.MemberNumber });
 	if (C.IsOwnedByPlayer() || C.IsLoverOfPlayer()) ServerSend("ChatRoomChat", { Content: "RuleInfoGet", Type: "Hidden", Target: C.MemberNumber });
+	ChatRoomActiveView?.Deactivate();
+	ChatRoomActiveView = null;
 	CharacterSetCurrent(C, options);
 }
 
