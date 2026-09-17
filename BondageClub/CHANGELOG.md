@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-09-09
-* Last recorded PR: [#6638](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6638)
-* Last recorded commit hash: `4c767e11c1a05a95c6d9f1784a49bcf32c82f6d7`
+* Changelog last updated: 2026-09-16
+* Last recorded PR: [#6655](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6655)
+* Last recorded commit hash: `1bb83cc9778291cd2b06019978c0dfec4ce65308`
 
 ## [Generated]
 
@@ -33,6 +33,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * x3mmusic - add leather, padded leather and polished mittens for M char ([#6586](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6586))
 * x3mmusic - add clothes in cloth outer slot ([#6610](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6610))
 * x3mmusic - add HeavyLatexCorset as a clothing item ([#6606](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6606))
+* x3mmusic - add nipple tape and chain tassles to wardrobe ([#6642](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6642))
 * Zoe - Remade map editor UI and tile color variants ([#6557](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6557))
 * Zoe - Added catheters, baby powder marking and adjusted panties rendering priority ([#6540](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6540))
 * Sin - Adding 3 decals ([#6634](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6634))
@@ -53,6 +54,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Echo Import - Grilled Sausage
 * Ben987 - Echo Import - Folding Fan
 * Ben987 - Echo Import - Oil-Paper Umbrella
+* Ben987 - Remove New Cloth Outer Copied Items From Random Pool
 * Ben987 - Configure new Europe hosting
 * Ben987 - Add bondageeurope.com to production server list
 * Ben987 - Change Log + Credits
@@ -71,6 +73,10 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * x3mmusic - Gloves missing out on poses for echov2 body and some other things ([#6587](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6587))
 * x3mmusic - GlossyBodyStockings TapedHands pose mapping ([#6585](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6585))
 * x3mmusic - BondageBouquet and shackles werent a restraints ([#6584](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6584))
+* x3mmusic - Fix a typo in TechnoChastityCage cage type description ([#6654](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6654))
+* Zoe - Fix buttons not showing up properly when not admin ([#6650](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6650))
+* Sin - Update BlockLocationSharing variable to the much more sensible "Location" ([#6641](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6641))
+* Deep - wardrobe remove confirmation dialog when loading outfit ([#6643](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6643))
 * Rama - Fix broken layering variable usage ([#6579](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6579))
 * Rama - Delay screen function calls until the coloring subscreen has been fully loaded ([#6583](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6583))
 * Rama - Fix an issue wherein the wardrobe could crash due to invalid `Item.Color` structures ([#6589](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6589))
@@ -82,8 +88,16 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Fix an issue wherein toasts would get stuck on the screen ([#6601](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6601))
 * Rama - Fix an incorrect `InventoryDisallow()` character appearance assignment ([#6613](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6613))
 * Rama - Fix an issue wherein color picker saves in multi-layer items would not update when opening and closing ([#6590](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6590))
+* Rama - Fix the `ElementMenu` keydown listener failing to properly bind `this` ([#6646](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6646))
+* Rama - Fix the lock's `RemoveTimer` not being marked as an extended item baseline property ([#6645](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6645))
+* Rama - Ensure that expression properties are also hoisted over to the minimized item bundle properties ([#6640](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6640))
+* Rama - Allow `InventoryWear()` to take both full and partial crafts ([#6653](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6653))
+* Rama - Ensure that `ItemPropertiesDecompress` always performs a full extended item initialization ([#6655](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6655))
 * Estsanatlehi - Fix the validation still ripping out key state ([#6581](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6581))
 * Estsanatlehi - Fix some broken club card messages ([#6612](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6612))
+* Estsanatlehi - Calculate proper scaled bounds for buttons based on the sizes ([#6644](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6644))
+* Estsanatlehi - Make the appearance backup when opening the screen the first time ([#6658](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6658))
+* Estsanatlehi - Fix a bunch of typo/grammar errors ([#6656](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6656))
 
 ### [Technical]
 
@@ -114,6 +128,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Group up the underlying CharacterAppearanceAssets array for speed ([#6605](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6605))
 * Estsanatlehi - Overhaul the leash system ([#6602](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6602))
 * Estsanatlehi - Squash one last bug in the VR headset ([#6609](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6609))
+* Estsanatlehi - Move the expression queue initialization in CharacterCreate ([#6649](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6649))
+* Estsanatlehi - Log an error if an unknown sound effect is requested ([#6652](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6652))
 
 ## [R131]
 
