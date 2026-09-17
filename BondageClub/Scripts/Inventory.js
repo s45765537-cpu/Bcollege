@@ -788,10 +788,10 @@ function InventoryCraftPropertyIs() {}
  * @param {Character} C - The character that must wear the item
  * @param {string} AssetName - The name of the asset to wear
  * @param {AssetGroupName} AssetGroup - The name of the asset group to wear
- * @param {null | ItemColor} [ItemColor] - The hex color of the item, can be undefined or "Default"
+ * @param {null | Readonly<ItemColor>} [ItemColor] - The hex color of the item, can be undefined or "Default"
  * @param {null | number} [Difficulty] - The difficulty, on top of the base asset difficulty, to assign to the item
  * @param {null | number} [MemberNumber] - The member number of the character putting the item on - defaults to -1
- * @param {null | CraftingItem | CraftingPartialItem} [Craft] - The crafting properties of the item
+ * @param {null | Readonly<CraftingItem> | Readonly<CraftingPartialItem>} [Craft] - The crafting properties of the item
  * @param {boolean} [Refresh] - Whether to refresh the character and push the changes to the server
  * @returns {Item | null} - Thew newly created item or `null` if the asset does not exist
  */
@@ -816,7 +816,7 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor=null, Difficulty=null
 		// Restore the item color if it has been explicitly passed; keep using the `Craft.Color`-assigned color otherwise
 		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
 		const backupColor = item.Color;
-		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
+		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), CommonCloneDeep(Craft), false);
 		if (ItemColor !== "Default") {
 			item.Color = backupColor;
 		}
