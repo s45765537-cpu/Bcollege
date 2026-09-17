@@ -2146,14 +2146,14 @@ function CraftingConvertItemToSelected(Craft) {
 		DifficultyFactor: Craft.DifficultyFactor ?? 0,
 		Color: Craft.Color,
 		Private: Craft.Private,
-		TypeRecord: Craft.TypeRecord || null,
+		TypeRecord: Craft.TypeRecord ? { ...Craft.TypeRecord } : null,
 		Assets: CraftingAssets[Craft.Item] ?? [],
-		Effects: Craft.Effects,
+		Effects: { ...Craft.Effects },
 		get Asset() {
 			return this.Assets[0];
 		},
 		Lock: Craft.Lock && InventoryAvailable(Player, Craft.Lock, "ItemMisc") ? AssetGet(Player.AssetFamily, "ItemMisc", Craft.Lock) : null,
-		ItemProperty: Craft.ItemProperty ? Craft.ItemProperty : {},
+		ItemProperty: Craft.ItemProperty ? CommonCloneDeep(Craft.ItemProperty) : {},
 		get OverridePriority() {
 			return this.ItemProperty.OverridePriority;
 		},
