@@ -781,12 +781,10 @@ async function AppearanceLoad() {
 	DialogFocusItem = null;
 	CharacterAppearanceMode = "";
 	CharacterAppearanceOffset = 0;
-	if (!CharacterAppearanceSelection) CharacterAppearanceSelection = Player;
-	var C = CharacterAppearanceSelection;
+	const C = CharacterAppearanceSelection;
 	// Build the list of customizable groups for the selected character
 	CharacterAppearanceGroups = AssetGroup.filter(g => g.Family === C.AssetFamily && g.IsAppearance() && g.AllowCustomize);
 	CharacterAppearanceGroupedAssets = AssetGetAllAppearanceForCharacter(C);
-	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
 	AppearanceMenuBuild(C, null);
 	AppearanceUseCharacterInPreviewsSetting = Player.CharacterID !== "" ? Player.VisualSettings.UseCharacterInPreviews : false;
 }
@@ -1657,6 +1655,7 @@ function CharacterAppearanceCopy(FromC, ToC) {
  */
 function CharacterAppearanceLoadCharacter(C, resultCallback) {
 	CharacterAppearanceSelection = C;
+	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
 
 	CharacterAppearanceReturnScreen = CommonGetScreen();
 	if (!resultCallback) {

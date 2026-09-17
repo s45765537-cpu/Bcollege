@@ -2763,8 +2763,8 @@ function ChatRoomMapViewKeyDown(event) {
 
 	// Nothing to do if a character dialog is open
 	if (CurrentCharacter != null) return false;
-	if (document.activeElement === ElementWrap("InputChat") || document.activeElement ===
-ElementWrap("chat-room-map-view-panel-search-input")) return false;
+	if (document.activeElement === ElementWrap("InputChat")
+		|| document.activeElement === ElementWrap("chat-room-map-view-panel-search-input")) return false;
 
 	const move = CommonKeyMove(event);
 	if (!move) return false;

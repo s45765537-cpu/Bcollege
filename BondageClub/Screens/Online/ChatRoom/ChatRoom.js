@@ -1482,6 +1482,7 @@ async function ChatRoomLoad() {
 		ChatRoomHideIconState = ChatRoomHideIconStateType.SHOW_ALL;
 	}
 	ChatRoomMenuBuild();
+	ChatRoomRefreshActiveView();
 	ChatRoomCharacterViewInitialize = true;
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
@@ -1993,6 +1994,8 @@ function ChatRoomResize(load) {
  * @type {ScreenUnloadHandler}
  */
 function ChatRoomUnload() {
+	ChatRoomActiveView?.Deactivate?.();
+	ChatRoomActiveView = null;
 	ChatRoomHideElements();
 }
 
