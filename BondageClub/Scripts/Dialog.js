@@ -1673,8 +1673,20 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 		}
 	} else {
 		// First, we add anything that's currently equipped
-		if (CurItem)
-			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled, CurItem.Craft);
+		if (CurItem) {
+			const properties = CommonCloneDeep(CurItem.Property);
+			/** @type {undefined | CraftingItem} */
+			const craft = !CurItem.Craft ? undefined : {
+				...CurItem.Craft,
+				Partial: false,
+				Color: CurItem.Color.join(","),
+				Lock: CurItem.Property.LockedBy ?? "",
+				Item: CurItem.Asset.CraftGroup || CurItem.Asset.Name,
+				ItemProperty: properties,
+				TypeRecord: properties.TypeRecord ?? null,
+			}
+			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled, craft);
+		}
 
 		// Second, we add everything from the victim inventory
 		for (const I of C.Inventory)
