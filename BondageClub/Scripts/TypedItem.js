@@ -620,10 +620,15 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
 		const option = C.IsNpc() ? (options.find(o => o.NPCDefault) || options[0]) : options[0];
 		Item.Property = Object.assign(
-			Item.Property || {},
-			CommonCloneDeep(baselineProperty || {}),
+			Item.Property ?? {},
 			CommonCloneDeep(option.Property),
 		);
+		for (const [propName, baselineValue] of CommonEntries(baselineProperty ?? {})) {
+			if (baselineValue !== undefined && typeof Item.Property[propName] !== typeof baselineValue) {
+				// @ts-expect-error
+				Item.Property[propName] = CommonCloneDeep(baselineValue);
+			}
+		}
 	}
 
 	// Make sure that the `Lock` effect persists if the `Effect` array is reset

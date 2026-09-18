@@ -151,9 +151,15 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		}));
 		const currentModuleValues = ModularItemParseCurrent(Data, typeRecord);
 		Item.Property = Object.assign(
-			Item.Property,
-			ModularItemMergeModuleValues(Data, currentModuleValues, Data.baselineProperty),
+			Item.Property ?? {},
+			ModularItemMergeModuleValues(Data, currentModuleValues),
 		);
+		for (const [propName, baselineValue] of CommonEntries(Data.baselineProperty ?? {})) {
+			if (baselineValue !== undefined && typeof Item.Property[propName] !== typeof baselineValue) {
+				// @ts-expect-error
+				Item.Property[propName] = CommonCloneDeep(baselineValue);
+			}
+		}
 	}
 
 	// Make sure that the `Lock` effect persists if the `Effect` array is reset
