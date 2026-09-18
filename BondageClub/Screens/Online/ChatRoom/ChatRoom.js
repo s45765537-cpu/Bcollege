@@ -1761,6 +1761,8 @@ function ChatRoomFocusCharacter(C, options=null) {
 	ChatRoomLovershipOption = null;
 	if (!C.IsPlayer()) ServerSend("ChatRoomAllowItem", { MemberNumber: C.MemberNumber });
 	if (C.IsOwnedByPlayer() || C.IsLoverOfPlayer()) ServerSend("ChatRoomChat", { Content: "RuleInfoGet", Type: "Hidden", Target: C.MemberNumber });
+	ChatRoomActiveView?.Deactivate?.();
+	ChatRoomActiveView = null;
 	CharacterSetCurrent(C, options);
 }
 
@@ -2418,9 +2420,9 @@ function ChatRoomRun(time) {
 	DrawRect(0, 0, 2000, 1000, "Black");
 
 	// Draw the room characters or the map depending on the map type
-	ChatRoomActiveView.Run(time);
-	ChatRoomActiveView.Draw();
-	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
+	ChatRoomActiveView?.Run(time);
+	ChatRoomActiveView?.Draw();
+	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView?.DrawUi) ChatRoomActiveView.DrawUi();
 
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
@@ -2760,7 +2762,7 @@ function ChatRoomTopMenuSync() {
  * @returns {void} - Nothing
  */
 function ChatRoomMouseDown(event) {
-	if (ChatRoomActiveView.MouseDown) return ChatRoomActiveView.MouseDown(event);
+	if (ChatRoomActiveView?.MouseDown) return ChatRoomActiveView.MouseDown(event);
 }
 
 /**
@@ -2769,7 +2771,7 @@ function ChatRoomMouseDown(event) {
  * @returns {void} - Nothing
  */
 function ChatRoomMouseUp(event) {
-	if (ChatRoomActiveView.MouseUp) return ChatRoomActiveView.MouseUp(event);
+	if (ChatRoomActiveView?.MouseUp) return ChatRoomActiveView.MouseUp(event);
 }
 
 /**
@@ -2778,7 +2780,7 @@ function ChatRoomMouseUp(event) {
  * @returns {void} - Nothing
  */
 function ChatRoomMouseMove(event) {
-	if (ChatRoomActiveView.MouseMove) return ChatRoomActiveView.MouseMove(event);
+	if (ChatRoomActiveView?.MouseMove) return ChatRoomActiveView.MouseMove(event);
 }
 
 /**
@@ -2786,7 +2788,7 @@ function ChatRoomMouseMove(event) {
  * @type {MouseWheelEventListener}
  */
 function ChatRoomMouseWheel(event) {
-	if (ChatRoomActiveView.MouseWheel) return ChatRoomActiveView.MouseWheel(event);
+	if (ChatRoomActiveView?.MouseWheel) return ChatRoomActiveView.MouseWheel(event);
 }
 
 /**
@@ -3116,7 +3118,7 @@ function ChatRoomCanLeave() {
 	if (ChatRoomData.Game == "Prison" && PandoraPenitentiaryIsInmate(Player)) return false;
 	// GGTS game can forbid anyone to leave
 	if (ChatRoomData.Game == "GGTS" && ChatRoomIsLocked()) return false;
-	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
+	if (ChatRoomActiveView?.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
 	// Can leave if we're the room admin or on the whitelist
 	if (ChatRoomCharacterCanAccessRoom(Player)) return true;
 	// Cannot leave if the room is locked and there's an administrator inside
@@ -3260,7 +3262,7 @@ function ChatRoomCommonKeyDown(event) {
 function ChatRoomKeyDown(event) {
 	if (ChatRoomCommonKeyDown(event)) {
 		return true;
-	} else if (ChatRoomActiveView.KeyDown && ChatRoomActiveView.KeyDown(event)) {
+	} else if (ChatRoomActiveView?.KeyDown && ChatRoomActiveView.KeyDown(event)) {
 		return true;
 	}
 
@@ -3297,7 +3299,7 @@ function ChatRoomPaste(event) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomKeyUp(event) {
-	if (ChatRoomActiveView.KeyUp && ChatRoomActiveView.KeyUp(event)) {
+	if (ChatRoomActiveView?.KeyUp?.(event)) {
 		return true;
 	}
 	return false;
@@ -5126,7 +5128,7 @@ async function ChatRoomSync(data) {
 
 	ChatRoomRefreshActiveView();
 
-	ChatRoomActiveView.RoomUpdated?.();
+	ChatRoomActiveView?.RoomUpdated?.();
 }
 
 
@@ -5278,7 +5280,7 @@ function ChatRoomSyncRoomProperties(data) {
 
 	ChatRoomRefreshActiveView();
 
-	ChatRoomActiveView.RoomUpdated?.();
+	ChatRoomActiveView?.RoomUpdated?.();
 }
 
 /**
@@ -6685,7 +6687,7 @@ function ChatRoomSetLoadRules(C, Rule) {
  * @returns {void} - Nothing
  */
 function ChatRoomPhotoFullRoom() {
-	ChatRoomActiveView.Screenshot();
+	ChatRoomActiveView?.Screenshot();
 }
 
 /**
