@@ -1222,11 +1222,11 @@ function ChatRoomMapViewReloadEditorPanel(selectionOnly=false, search="") {
 function ChatRoomMapViewGetButtons() {
 	const zoomButtons = [
 		ChatMapRoomViewCreateCategoryButton(() => {
-			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange+1, ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
+			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange - 1, ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
 		},"Icons/Plus.png", TextGet("EditorButtonTextZoomIn")),
 
 		ChatMapRoomViewCreateCategoryButton(() => {
-			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange-1,ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
+			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange + 1,ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
 		}, "Icons/Minus.png", TextGet("EditorButtonTextZoomOut")),
 	];
 
@@ -2204,6 +2204,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		let TileID = MapLookupData?.Tile?.charCodeAt(Pos) ?? -1;
 		let TileData = null;
 		let TileImage = null;
+		/** @type {ChatRoomMapObject | null} */
 		let ObjectData = null;
 		let ObjectImage = null;
 
@@ -2243,19 +2244,19 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		// Draw the non blank object next
 		if (ObjectID > ChatRoomMapViewObjectStartID) {
 			const Obj = ChatRoomMapViewLookupTables.Object?.[ObjectID];
-			let shouldRender = true;
-			if (Obj?.Type == "WallDecoration") shouldRender = !ChatRoomMapViewTileIsHidden(X, Y + 1);
-			else if (Obj?.Style == "Blank") shouldRender = false;
-			else if (Obj != null && Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) shouldRender = false;
+			// No object to draw here
+			if (!Obj) continue;
 
-			if (shouldRender && Obj != null) {
-				let ImageName = Obj.Style;
-				if ((Obj.AssetName != null) || (Obj.OccupiedStyle != null)) {
-					let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
-					if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetGroup, Obj.AssetName)) break;
-					if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
-				}
-				if (Obj.BuildImageName != null) ImageName = Obj.BuildImageName(X, Y);
+			let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
+			let shouldRender = true;
+			if (Obj.Type == "WallDecoration") shouldRender = !ChatRoomMapViewTileIsHidden(X, Y + 1);
+			else if (Obj.Style == "Blank") shouldRender = false;
+			else if (Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) shouldRender = false;
+			else if (Char && Obj?.AssetGroup && Obj?.AssetName && InventoryIsWorn(Char, Obj.AssetGroup, Obj.AssetName)) shouldRender = false;
+
+			if (shouldRender) {
+				let ImageName = Obj.BuildImageName?.(X, Y) ?? Obj.Style;
+				if (Char && Obj.OccupiedStyle) ImageName = Obj.OccupiedStyle;
 				ObjectData = Obj;
 				ObjectImage = "Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png";
 
