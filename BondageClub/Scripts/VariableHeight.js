@@ -61,9 +61,9 @@ function VariableHeightRegister(asset, config, parentOption=null) {
 function VariableHeightGetDrawData(drawData) {
 	const itemsPerPage = 1;
 	if (!drawData) {
-		throw new Error("Missing vibrating item drawData");
+		throw new Error("Missing variable height item drawData");
 	} else if (drawData.elementData.length !== 1) {
-		throw new Error("Vibrating item drawData.elementData length must be equal to 1");
+		throw new Error("Variable height item drawData.elementData length must be equal to 1");
 	}
 	return ExtendedItemGetDrawData(drawData, { elementData: drawData.elementData, itemsPerPage });
 }
