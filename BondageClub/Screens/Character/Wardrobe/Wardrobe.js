@@ -86,7 +86,8 @@ const WardrobeID = Object.freeze({
 	save: "wardrobe-save",
 	delete: "wardrobe-delete",
 	rename: "wardrobe-rename",
-	search: "wardrobe-search",
+	search: "wardrobe-search-button",
+	searchInput: "wardrobe-search",
 	name: "wardrobe-name",
 	noMatches: "wardrobe-no-matches",
 	status: "wardrobe-status",
@@ -147,16 +148,18 @@ async function WardrobeLoad() {
 	CurrentDarkFactor = 0.5;
 	Wardrobe.appearanceBackup = CharacterAppearanceBackup;
 
-	const search = ElementCreateInput(WardrobeID.search, "search", "", 20);
+	const search = ElementCreateInput(WardrobeID.searchInput, "search", "", 20);
 	search.placeholder = TextGet("OutfitSearch");
 	search.setAttribute("aria-label", TextGet("OutfitSearch"));
 	search.setAttribute("autocomplete", "off");
+	search.setAttribute("hidden", true);
 	search.addEventListener("input", WardrobeSearchInput);
+	search.addEventListener("blur", () => WardrobeUpdateElements());
 
 	const status = ElementCreate({
 		tag: "span",
 		attributes: { id: WardrobeID.status },
-		children: [WardrobeGetStatusText()],
+		children: [WardrobeGetStatusText(), search],
 	});
 	const page = ElementCreate({ tag: "span", attributes: { id: WardrobeID.page } });
 
@@ -166,17 +169,18 @@ async function WardrobeLoad() {
 		menubarButtons: WardrobeCreateMenuButtons(),
 		parent: document.body,
 	});
-	const header = screen.querySelector(".screen-header");
-	const headerHGroup = header?.querySelector(".screen-hgroup");
-	if (header && headerHGroup) {
-		header.insertBefore(
+	const screenHeader = screen.querySelector(".screen-header");
+	const headerHGroup = screenHeader?.querySelector(".screen-hgroup");
+	if (screenHeader && headerHGroup) {
+		screenHeader.insertBefore(
 			ElementCreate({
 				tag: "div",
 				classList: ["wardrobe-header-controls"],
-				children: [search, page],
+				children: [page],
 			}),
 			headerHGroup,
 		);
+		headerHGroup.appendChild(search);
 	}
 	WardrobeLoadCharacters();
 	WardrobeCreateElements();
@@ -259,7 +263,19 @@ function WardrobeFitSlotLabels() {
  * @type {KeyboardEventListener}
  */
 function WardrobeKeyDown(event) {
-	return false;
+	if (WardrobeReorderMode !== "None") return false;
+	const search = /** @type {HTMLInputElement} */ (ElementWrap(WardrobeID.searchInput));
+	if (!search) return false;
+	if (document.activeElement === search) return false;
+	if (event.key.length === 0 || event.altKey || event.ctrlKey || event.metaKey) return false;
+
+	search.toggleAttribute("hidden", false);
+	search.focus();
+	search.value = event.key;
+	search.setSelectionRange(event.key.length, event.key.length);
+	WardrobeSetSearch(search.value);
+	WardrobeUpdateElements();
+	return true;
 }
 
 /**
@@ -955,6 +971,13 @@ function WardrobeCreateMenuButtons() {
 			image: WardrobeShowsCharacters() ? "Icons/Character.png" : "Icons/CharacterOff.png",
 			tooltip: TextGet("ShowCharacterPreviews"),
 		}),
+		ElementButton.Create(WardrobeID.search, () => {
+			const searchBar = ElementWrap(WardrobeID.searchInput);
+			if (!searchBar) return;
+			searchBar.toggleAttribute("hidden", false);
+			searchBar.focus();
+			WardrobeUpdateElements();
+		}, { image: "Icons/Search.png", tooltip: TextGet("Search") }),
 		ElementButton.Create(WardrobeID.reorder, () => WardrobeReorderModeSet(), { image: "Icons/Swap.png", tooltip: TextGet("ReorderSlots") }),
 		ElementButton.Create(WardrobeID.next, () => WardrobeChangePage(1), { image: "Icons/Next.png", tooltip: TextGet("NextPage") }),
 		ElementButton.Create(WardrobeID.previous, () => WardrobeChangePage(-1), { image: "Icons/Prev.png", tooltip: TextGet("PreviousPage") }),
@@ -1285,8 +1308,11 @@ function WardrobeUpdateElements(filteredSlots = WardrobeGetFilteredSlots()) {
 	ElementWrap(WardrobeID.rename)?.toggleAttribute("disabled", !hasSelection || selectionEmpty);
 	ElementWrap(WardrobeID.noMatches)?.toggleAttribute("hidden", filteredSlots.length > 0 || Wardrobe.search.trim().length === 0);
 
-	const search = /** @type {HTMLInputElement | null} */ (ElementWrap(WardrobeID.search));
+	const search = /** @type {HTMLInputElement | null} */ (ElementWrap(WardrobeID.searchInput));
 	search?.toggleAttribute("disabled", WardrobeReorderMode !== "None");
+	const isSearching = document.activeElement === search || (search?.value.length ?? 0) !== 0;
+	search?.toggleAttribute("hidden", !isSearching);
+	ElementWrap("wardrobe-screen-h1")?.toggleAttribute("hidden", isSearching);
 	ElementSetValue(search, Wardrobe.search);
 	ElementSetChecked(WardrobeID.excludeBodyparts, Wardrobe.excludeBodyparts);
 

@@ -45,6 +45,7 @@
 .screen .scroll-box,
 .screen > .screen-header,
 .screen > .screen-hgroup {
+	padding-left: var(--scrollbar-gutter);
 	padding-right: var(--scrollbar-gutter);
 }
 

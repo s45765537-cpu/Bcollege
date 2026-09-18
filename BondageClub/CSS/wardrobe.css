@@ -17,6 +17,7 @@
 }
 
 #wardrobe-screen-header .screen-hgroup {
+	direction: ltr;
 	display: block;
 	width: 100%;
 	min-width: 0;
@@ -26,10 +27,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	padding-left: var(--gap);
-	margin-left: var(--scrollbar-gutter);
 	text-align: left;
-	direction: ltr;
 }
 
 #wardrobe-screen-header .wardrobe-header-controls {
