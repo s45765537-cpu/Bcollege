@@ -1,4 +1,4 @@
-declare namespace ChatRoomMapManager {
+declare namespace MapManager {
 	interface EffectsCodec {
 		write(effectsFlat: ChatRoomMapEffect[][], writer: BitStringWriter): boolean;
 		read(

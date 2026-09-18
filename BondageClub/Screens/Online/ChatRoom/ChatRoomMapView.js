@@ -1069,7 +1069,7 @@ function ChatRoomMapViewLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewActivate() {
-	ChatRoomMapManager.OnViewActivate();
+	MapManager.OnViewActivate();
 	ChatRoomMapViewCalculatePerceptionMasks();
 	ChatRoomMapViewShowEditor();
 }
@@ -1678,7 +1678,7 @@ function ChatRoomMapViewRoomUpdated() {
 	// If the chat room map is visible, we need to update the perception map
 	ChatRoomMapViewCalculatePerceptionMasks();
 	ChatRoomMapViewReloadEditorPanel(false, ChatRoomMapViewLastSearch);
-	ChatRoomMapManager.OnMapDataUpdated();
+	MapManager.OnMapDataUpdated();
 }
 
 /**
@@ -2345,7 +2345,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 	for (let X = 0; X < ChatRoomMapViewWidth; X++) {
 		for (let Y = 0; Y < ChatRoomMapViewHeight; Y++) {
-			const tileEffects = ChatRoomMapManager.Map.getEffectsByXY(X, Y);
+			const tileEffects = MapManager.Map.getEffectsByXY(X, Y);
 			let MaxRange = Math.max(
 				Math.abs(X - PlayerX),
 				Math.abs(Y - PlayerY),
@@ -2773,7 +2773,7 @@ function ChatRoomMapViewUndo() {
 		let LastMap = ChatRoomMapViewEditBackup.pop();
 		if (LastMap == null) return;
 		MapLookupData.mapData = CommonCloneDeep(LastMap);
-		ChatRoomMapManager.Map.loadGlobalMapData();
+		MapManager.Map.loadGlobalMapData();
 		MapValidateCells();
 		ChatRoomMapViewCalculatePerceptionMasks();
 	}
@@ -2995,14 +2995,14 @@ function ChatRoomMapViewMouseMove() {
 		const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
 
 		for (let index of ChatRoomMapViewEditSelection) {
-			if (isBlank) ChatRoomMapManager.Map.clearEffectsByIndex(index);
-			else ChatRoomMapManager.Map.setEffectsByIndex(index, [effect]);
+			if (isBlank) MapManager.Map.clearEffectsByIndex(index);
+			else MapManager.Map.setEffectsByIndex(index, [effect]);
 		}
 		// Encode the changed map and write it to the global ChatRoomData.MapData.
 		// This is somewhat inefficient since we don't have to actually encode the string
 		// before we need to send it to the server, but it would suffice for now.
 		// See ChatRoomMapManager.Map.updateGlobalMapData documentation for more details.
-		ChatRoomMapManager.Map.updateGlobalMapData();
+		MapManager.Map.updateGlobalMapData();
 		MapValidateCells();
 	}
 
@@ -3045,7 +3045,7 @@ function ChatRoomMapViewCopy() {
 		return;
 	}
 
-	const mapString = ChatRoomMapManager.Map.exportString();
+	const mapString = MapManager.Map.exportString();
 	if (mapString === undefined) {
 		ChatRoomSendLocal(TextGet("MapCopyError"));
 		return;
@@ -3078,7 +3078,7 @@ function ChatRoomMapViewPaste(Param) {
 		return;
 	}
 
-	if (!ChatRoomMapManager.Map.importString(Param)) {
+	if (!MapManager.Map.importString(Param)) {
 		ToastManager.error(TextGet("MapPasteError"));
 		return;
 	}

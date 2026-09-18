@@ -71,14 +71,14 @@ var ChatRoomMapViewHeight = 40;
  * into a single BitString. This would allow us to have much greater compression and save
  * a lot of traffic.
  *
- * Later, all map data would be stored in {@link ChatRoomMapManager.Map} global value
+ * Later, all map data would be stored in {@link MapManager.Map} global value
  * instead of {@link ChatRoomData.MapData}. This is because we're no longer storing
  * the map data as simple strings which we can trivially serialize and send to the server.
- * Ideally, the outside code would use {@link ChatRoomMapManager} methods to obtain
+ * Ideally, the outside code would use {@link MapManager} methods to obtain
  * the encoded map data when needed (e.g. sending it to the server, or saving the map data
  * for room recreation, or exporting the room via a room code). Failing that,
  * we can continue the approach used in the initial version of this system: having the decoded
- * map data in {@link ChatRoomMapManager.Map} and maintain the encoded representation
+ * map data in {@link MapManager.Map} and maintain the encoded representation
  * of this map in {@link ChatRoomData.MapData}.
  *
  * After that we would have an avenue for encoding additional arbitrary data within each tile
@@ -92,10 +92,10 @@ var ChatRoomMapViewHeight = 40;
  * We expect to expose more public APIs in the future as the module matures.
  *
  * # General design choices
- * While being public, {@link ChatRoomMapManager.Map} preferably should be only
+ * While being public, {@link MapManager.Map} preferably should be only
  * accessed inside this file as it is an implementation detail of this module.
  * If the outside code requires to access something in this module, it's best
- * to provide a separate function in the {@link ChatRoomMapManager} namespace,
+ * to provide a separate function in the {@link MapManager} namespace,
  * or a global one.
  *
  * # Codecs general overview
@@ -131,7 +131,7 @@ var ChatRoomMapViewHeight = 40;
  * - In the worst case scenario (a map fully filled with all possible effects without repetitions),
  *   we would require slightly above 5.3 bits per tile after base64 encoding.
  */
-const ChatRoomMapManager = (function () {
+var MapManager = (function () {
 	/**
 	 * The class storing the game map data. Currently only stores the lighting effects.
 	 */
@@ -157,12 +157,12 @@ const ChatRoomMapManager = (function () {
 	}
 
 	/**
-	 * @type {Record<number, ChatRoomMapManager.EffectsCodec>}
+	 * @type {Record<number, MapManager.EffectsCodec>}
 	 */
 	const MapEffectsCodecs = {
 		0: (function () {
 			/**
-			 * @type {ChatRoomMapManager.MapEffectsCodecs_v0.ConstSettings}
+			 * @type {MapManager.MapEffectsCodecs_v0.ConstSettings}
 			 */
 			const constSettings = (function () {
 				const rleBitsEmpty = 8; // up to 257 repetitions
@@ -182,7 +182,7 @@ const ChatRoomMapManager = (function () {
 
 			/**
 			 * @param {ChatRoomMapEffect[]} effectsFlat
-			 * @returns {ChatRoomMapManager.MapEffectsCodecs_v0.DynamicSettings}
+			 * @returns {MapManager.MapEffectsCodecs_v0.DynamicSettings}
 			 */
 			function buildDynamicSettings(effectsFlat) {
 				const effectIds = [...new Set(effectsFlat.map((eff) => eff.ID))].sort();
@@ -232,7 +232,7 @@ const ChatRoomMapManager = (function () {
 			 * Calculates the remapped effect ID from the raw, non-shifted effect ID.
 			 * No error checks are done.
 			 * @param {number} effectId
-			 * @param {ChatRoomMapManager.MapEffectsCodecs_v0.DynamicSettings} settings
+			 * @param {MapManager.MapEffectsCodecs_v0.DynamicSettings} settings
 			 * @returns {number}
 			 */
 			function getRemappedId(effectId, settings) {
@@ -247,7 +247,7 @@ const ChatRoomMapManager = (function () {
 			 * Calculates the full effect ID from the remapped ID.
 			 * No error checks are done.
 			 * @param {number} remappedId
-			 * @param {ChatRoomMapManager.MapEffectsCodecs_v0.DynamicSettings} settings
+			 * @param {MapManager.MapEffectsCodecs_v0.DynamicSettings} settings
 			 * @returns {number}
 			 */
 			function getEffectId(remappedId, settings) {
@@ -325,7 +325,7 @@ const ChatRoomMapManager = (function () {
 			}
 
 			/**
-			 * @param {ChatRoomMapManager.MapEffectsCodecs_v0.DynamicSettings} settings
+			 * @param {MapManager.MapEffectsCodecs_v0.DynamicSettings} settings
 			 * @param {BitStringWriter} writer
 			 * @returns {void}
 			 */
@@ -340,7 +340,7 @@ const ChatRoomMapManager = (function () {
 
 			/**
 			 * @param {BitStringReader} reader
-			 * @returns {ChatRoomMapManager.MapEffectsCodecs_v0.DynamicSettings}
+			 * @returns {MapManager.MapEffectsCodecs_v0.DynamicSettings}
 			 */
 			function readDynamicSettings(reader) {
 				const baseIdBits = reader.readUnsigned(constSettings.bitLenBits);
@@ -550,7 +550,7 @@ const ChatRoomMapManager = (function () {
 	};
 
 	/**
-	 * @type {Record<number, ChatRoomMapManager.MapCodec<MapData>>}
+	 * @type {Record<number, MapManager.MapCodec<MapData>>}
 	 */
 	const MapDataCodecs = {
 		0: (function () {
@@ -858,7 +858,7 @@ const ChatRoomMapManager = (function () {
 	 * The class holding the map data and responsible for keeping it synchronized with the outside
 	 * global state, notably, ChatRoomData.MapData.
 	 */
-	class MapManager {
+	class Manager {
 		/**
 		 * @param {MapData} mapData
 		 */
@@ -1077,13 +1077,13 @@ const ChatRoomMapManager = (function () {
 		 */
 		exportString() {
 			return ExportMap({
-				LegacyMapData: MapLookupData.mapData,
+				LegacyMapData: ChatRoomData?.MapData,
 				MapData: this._mapData,
 			});
 		}
 
 		/**
-		 * Imports the map string that was exported earlier with {@link MapManager.exportString}
+		 * Imports the map string that was exported earlier with {@link Manager.exportString}
 		 * method.
 		 *
 		 * This method must be as much compatible as possible, recovering as much information
@@ -1098,6 +1098,7 @@ const ChatRoomMapManager = (function () {
 		 * `false` otherwise
 		 */
 		importString(mapString) {
+			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
 			const mapData = DecodeExportedMap(mapString);
 			// No data was decoded
 			if (
@@ -1108,7 +1109,7 @@ const ChatRoomMapManager = (function () {
 			}
 
 			if (mapData.LegacyMapData !== undefined) {
-				/** @type {ServerChatRoomData} */ (ChatRoomData).MapData = mapData.LegacyMapData;
+				ChatRoomData.MapData = mapData.LegacyMapData;
 				this.markDirtyTiles();
 				this.markDirtyObjects();
 			}
@@ -1136,14 +1137,15 @@ const ChatRoomMapManager = (function () {
 		 * there was an error and the global state remains unchanged.
 		 */
 		updateGlobalMapData() {
+			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
 			const newEffects = this._encodeEffects();
 			if (newEffects === undefined) {
 				return false;
 			}
-			if (newEffects === MapLookupData.mapData.Effects) {
+			if (newEffects === ChatRoomData?.MapData?.Effects) {
 				return true;
 			}
-			MapLookupData.Effect = newEffects;
+			ChatRoomData.MapData.Effects = newEffects;
 			this.markDirtyEffects(); // The effects have changed
 			return true;
 		}
@@ -1155,12 +1157,13 @@ const ChatRoomMapManager = (function () {
 		 * the global map data is invalid, no data is changed in this case.
 		 */
 		loadGlobalMapData() {
-			if (MapLookupData.Effect === undefined) {
+			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
+			if (ChatRoomData.MapData.Effects === undefined) {
 				this.removeAllEffects();
 				this.markCleanAll();
 				return true;
 			}
-			const newEffects = this._decodeEffects(MapLookupData.Effect);
+			const newEffects = this._decodeEffects(ChatRoomData.MapData.Effects);
 			if (newEffects === undefined) {
 				return false;
 			}
@@ -1240,17 +1243,17 @@ const ChatRoomMapManager = (function () {
 	let initialized = false;
 
 	return {
-		Map: new MapManager(new MapData()),
+		Map: new Manager(new MapData()),
 
 		/**
 		 * This function should be called each time the external code updates {@link ChatRoomData.MapData}.
 		 *
 		 * This function decodes the updated map data and replaces
-		 * the data stored in ${@link ChatRoomMapManager.Map} with the decoded map.
+		 * the data stored in ${@link Manager.Map} with the decoded map.
 		 * @returns {void}
 		 */
 		OnMapDataUpdated() {
-			ChatRoomMapManager.Map.loadGlobalMapData();
+			MapManager.Map.loadGlobalMapData();
 		},
 
 		/**
@@ -1260,12 +1263,15 @@ const ChatRoomMapManager = (function () {
 		 */
 		OnViewActivate() {
 			if (!initialized) {
-				ChatRoomMapManager.Map.loadGlobalMapData();
+				MapManager.Map.loadGlobalMapData();
 				initialized = true;
 			}
 		},
 	};
 })();
+
+/** @deprecated Use {@link MapManager} instead */
+var ChatRoomMapManager = MapManager;
 
 /*
  * Doodad / Element -> Doodad
