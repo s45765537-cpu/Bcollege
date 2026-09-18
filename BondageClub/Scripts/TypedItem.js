@@ -592,7 +592,13 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		// Check if all the expected properties are present; extra properties are ignored
 		const option = options[optionIndex];
 		const newProps = CommonCloneDeep(option.Property);
-		ExtendedItemInitPropertyIgnore.forEach(propName => delete newProps[propName]);
+		/** @type {ItemProperties} */
+		const mutableProperties = {};
+		for (const propName of ExtendedItemInitPropertyIgnore) {
+			// @ts-expect-error
+			mutableProperties[propName] = newProps[propName];
+			delete newProps[propName];
+		}
 		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
 			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
 			delete newProps.Intensity;
@@ -606,6 +612,14 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			Item.Property = Object.assign(Item.Property, newProps);
 			update = true;
+		}
+		for (const [propName, propValue] of CommonEntries(mutableProperties)) {
+			// Be more lenient with the mutable property validation (e.g. layering) as their values are allowed to be manually modified by the user
+			if (Item.Property[propName] === undefined && propValue !== undefined) {
+				// @ts-expect-error
+				Item.Property[propName] = propValue;
+				update = true;
+			}
 		}
 
 		if (baseLineProps.length > 0) {

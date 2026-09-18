@@ -124,7 +124,13 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		// Check if all the expected properties are present; extra properties are ignored
 		const currentModuleValues = ModularItemParseCurrent(Data, Item.Property.TypeRecord);
 		const newProps = ModularItemMergeModuleValues(Data, currentModuleValues);
-		ExtendedItemInitPropertyIgnore.forEach(propName => delete newProps[propName]);
+		/** @type {ItemProperties} */
+		const mutableProperties = {};
+		for (const propName of ExtendedItemInitPropertyIgnore) {
+			// @ts-expect-error
+			mutableProperties[propName] = newProps[propName];
+			delete newProps[propName];
+		}
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;
@@ -134,6 +140,14 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			Item.Property = Object.assign(Item.Property, newProps);
 			update = true;
+		}
+		for (const [propName, propValue] of CommonEntries(mutableProperties)) {
+			// Be more lenient with the mutable property validation (e.g. layering) as their values are allowed to be manually modified by the user
+			if (Item.Property[propName] === undefined && propValue !== undefined) {
+				// @ts-expect-error
+				Item.Property[propName] = propValue;
+				update = true;
+			}
 		}
 
 		if (baseLineProps.length > 0) {

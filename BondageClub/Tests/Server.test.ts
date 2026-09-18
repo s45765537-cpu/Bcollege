@@ -306,4 +306,26 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
 		expect(itemRestored?.Property?.OverrideHeight, "bundle to item re-conversion").toEqual(finalItemProperty.OverrideHeight);
 	});
+
+	const overridePriorityParam = testParam.variableHeight.map(({ asset, group, comment, ...rest }) => {
+		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
+	});
+	it.each(overridePriorityParam)("extended item with a mutable property: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
+		expect(itemRestored?.Property?.OverridePriority, "bundle to item re-conversion").toEqual(finalItemProperty.OverridePriority);
+	});
 });

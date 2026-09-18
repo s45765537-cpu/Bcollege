@@ -151,5 +151,99 @@
 				}
 			}
 		}
+	],
+	"overridePriority": [
+		{
+			"asset": "Cushion",
+			"group": "ItemDevices",
+			"comment": "OverridePriority (numeric - default)",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 1
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 }
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 1
+			}
+		},
+		{
+			"asset": "Cushion",
+			"group": "ItemDevices",
+			"comment": "OverridePriority (numeric - custom)",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 95
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 95
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 95
+			}
+		},
+		{
+			"asset": "SteelBelt",
+			"group": "Corset",
+			"comment": "OverridePriority (object - default)",
+			"__internal_comment": "TODO: optimize how `OverridePriority` is stored within item bundles",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 31,
+					"Lock": 31
+				}
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 31,
+					"Lock": 31
+				}
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 31,
+					"Lock": 31
+				}
+			}
+		},
+		{
+			"asset": "SteelBelt",
+			"group": "Corset",
+			"comment": "OverridePriority (object - custom)",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 94,
+					"Lock": 31
+				}
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 94,
+					"Lock": 31
+				}
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 94,
+					"Lock": 31
+				}
+			}
+		}
 	]
 }
