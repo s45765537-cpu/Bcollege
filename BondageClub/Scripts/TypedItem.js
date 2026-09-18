@@ -100,14 +100,11 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked, screenName
 				TypeRecord: { [screenName]: i },
 			},
 			ParentData: null, // Initialized later on in `TypedItemCreateTypedItemData`
+			ArchetypeData: null, // Also initialized later on in `TypedItemCreateTypedItemData`
 		};
 
 		if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
 			option.ChangeWhenLocked = changeWhenLocked;
-		}
-
-		if (protoOption.ArchetypeConfig) {
-			option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
 		}
 		return option;
 	});
@@ -213,8 +210,12 @@ function TypedItemCreateTypedItemData(asset, {
 		drawData: TypedItemGetDrawData(asset, DrawData, optionsParsed, { drawImage: DrawImages }),
 		allowEffect: Array.isArray(AllowEffect) ? AllowEffect : [],
 	};
-	for (const option of optionsParsed) {
+	for (const [i, option] of optionsParsed.entries()) {
 		option.ParentData = data;
+		const protoOption = Options[i];
+		if (protoOption.ArchetypeConfig) {
+			option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
+		}
 	}
 	return data;
 }

@@ -223,7 +223,8 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 					OptionType: "ModularItemOption",
 					ModuleName: protoMod.Name,
 					Index: i,
-					ParentData: null, // Initialized later on in `ModularItemCreateModularData`,
+					ParentData: null, // Initialized later on in `ModularItemCreateModularData`
+					ArchetypeData: null, // Also initialized later on in `ModularItemCreateModularData`
 					Property: {
 						...ExtendedItemParseProperties(asset, protoOption.Property ?? {}),
 						TypeRecord: { [protoMod.Key]: i },
@@ -232,10 +233,6 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 
 				if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
 					option.ChangeWhenLocked = changeWhenLocked;
-				}
-
-				if (protoOption.ArchetypeConfig) {
-					option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
 				}
 				return option;
 			}),
@@ -321,8 +318,12 @@ function ModularItemCreateModularData(asset, {
 			buttonDataOverride.drawImage = true;
 		}
 		mod.drawData = TypedItemGetDrawData(asset, Modules[i].DrawData, mod.Options, buttonDataOverride);
-		for (const option of mod.Options) {
+		for (const [j, option] of mod.Options.entries()) {
 			option.ParentData = data;
+			const protoOption = Modules[i].Options[j];
+			if (protoOption.ArchetypeConfig) {
+				option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
+			}
 		}
 	}
 
