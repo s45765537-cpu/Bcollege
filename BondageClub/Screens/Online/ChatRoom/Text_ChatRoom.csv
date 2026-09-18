@@ -158,6 +158,7 @@ ObjectTypeNameFloorNumber,Numbers
 ObjectTypeNameFloorLetter,Letters
 ObjectTypeNameFloorIcon,Icons
 ObjectTypeNameWallDecoration,Wall Decorations
+ObjectTypeNameWallPath,Doors
 ObjectTypeNameBanners,Banners
 ObjectTypeNameFloorFoamTiles,Foam Tiles
 ObjectTypeNameFunctional,Functional
