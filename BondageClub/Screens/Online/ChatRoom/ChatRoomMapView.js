@@ -2270,9 +2270,16 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			}
 		}
 
-
+		const leftMousePos = Left + ScreenX - EditWidth;
+		const topMousePos = Top + ScreenY - EditHeight;
+		const mouseInTile = MouseIn(leftMousePos, topMousePos, EditWidth + TileWidth, EditHeight + TileHeight);
+		const mouseOverButtons = ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)
+			|| MouseIn(860, 860, 60, 60)
+			|| MouseIn(790, 930, 60, 60)
+			|| MouseIn(860, 930, 60, 60)
+			|| MouseIn(930, 930, 60, 60);
 		// Keeps the tile as selected if the mouse is within selection
-		if (((ChatRoomMapViewEditMode == "Tile") || (ChatRoomMapViewEditMode == "Object") || (ChatRoomMapViewEditMode == "Effect")) && (Left + ScreenX - EditWidth <= MouseX) && (Left + ScreenX + TileWidth + EditWidth >= MouseX) && (Top + ScreenY - EditHeight <= MouseY) && (Top + ScreenY + TileHeight + EditHeight >= MouseY)) {
+		if ((ChatRoomMapViewEditMode === "Tile" || ChatRoomMapViewEditMode === "Object" || ChatRoomMapViewEditMode === "Effect") && mouseInTile && !mouseOverButtons) {
 			ChatRoomMapViewEditSelection.push(Pos);
 			DrawSelectionRect = true;
 		}
@@ -2900,7 +2907,6 @@ function ChatRoomMapViewClick() {
  */
 function ChatRoomMapViewMouseDown() {
 
-	// The walk buttons in the bottom right of the map
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
 	// In tile edit mode
