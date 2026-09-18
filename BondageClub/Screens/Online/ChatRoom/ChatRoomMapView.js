@@ -1222,11 +1222,11 @@ function ChatRoomMapViewReloadEditorPanel(selectionOnly=false, search="") {
 function ChatRoomMapViewGetButtons() {
 	const zoomButtons = [
 		ChatMapRoomViewCreateCategoryButton(() => {
-			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange+1, ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
+			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange - 1, ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
 		},"Icons/Plus.png", TextGet("EditorButtonTextZoomIn")),
 
 		ChatMapRoomViewCreateCategoryButton(() => {
-			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange-1,ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
+			ChatRoomMapViewPerceptionRange = CommonClamp(ChatRoomMapViewPerceptionRange + 1,ChatRoomMapViewPerceptionRangeMin, ChatRoomMapViewPerceptionRangeMax);
 		}, "Icons/Minus.png", TextGet("EditorButtonTextZoomOut")),
 	];
 
