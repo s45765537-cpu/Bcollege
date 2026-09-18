@@ -60,6 +60,21 @@ function TextItemGetDrawData(fieldNames, drawData) {
 }
 
 /**
+ * Walk up the extended item option graph and grab the first baseline property matching the provided key
+ * @param {TextItemNames} key
+ * @param {null | ExtendedItemOption} [parentOption]
+ * @returns {string}
+ */
+function TextItemGetBaseline(key, parentOption=null) {
+	const parentData = parentOption?.ParentData;
+	if (parentData) {
+		return parentData.baselineProperty?.[key] ?? TextItemGetBaseline(key, parentData.parentOption);
+	} else {
+		return "";
+	}
+}
+
+/**
  * Generates an asset's typed item data
  * @param {Asset} asset - The asset to generate modular item data for
  * @param {TextItemConfig} config - The item's extended item configuration
@@ -94,7 +109,7 @@ function TextItemCreateTextItemData(asset, {
 	const baselineProperty = BaselineProperty || {};
 	for (const i of textNames) {
 		if (typeof baselineProperty[i] !== "string") {
-			baselineProperty[i] = "";
+			baselineProperty[i] = TextItemGetBaseline(i, parentOption);
 		}
 	}
 
