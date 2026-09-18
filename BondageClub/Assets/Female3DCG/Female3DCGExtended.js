@@ -30,6 +30,18 @@ const ExtendedArchetype = /** @type {const} */ ({
  * @const
  */
 var AssetFemale3DCGExtended = {
+	ItemScript: {
+		// Mark as an extended item in order to declare its customizable baseline properties (important for `Item` -> `ItemBundle` conversion)
+		Script: {
+			Archetype: ExtendedArchetype.NOARCH,
+			BaselineProperty: {
+				Hide: [],
+				Block: [],
+				UnHide: [],
+				HideItem: [],
+			},
+		}, // Script
+	},
 	BodyUpper: {
 		// NOTE: Switch to the `MODULAR` archetype if we'd want to allow for the simultaneous use of multiple overlays
 		Small: {

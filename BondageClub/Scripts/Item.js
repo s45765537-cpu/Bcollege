@@ -252,12 +252,22 @@ function ItemPropertiesCompress(item, options=null) {
 				}
 				break;
 			}
-			default:
-				if (item.Property[key] !== baseline[key]) {
-					// @ts-expect-error
-					ret[key] = item.Property[key];
+			default: {
+				const propertyValue = item.Property[key];
+				const baselineValue = baseline[key];
+				if (CommonIsArray(baselineValue) && CommonIsArray(propertyValue)) {
+					// We're expecting (or demanding) that item property arrays behave like logical sets (i.e. unordered)
+					if (!CommonArraysEqual(baselineValue, propertyValue, true)) {
+						ret[key] = propertyValue;
+					}
+				} else {
+					if (baselineValue !== propertyValue) {
+						// @ts-expect-error
+						ret[key] = propertyValue;
+					}
 				}
 				break;
+			}
 		}
 	}
 	return Object.values(ret).every(i => i === undefined) ? undefined : ret;

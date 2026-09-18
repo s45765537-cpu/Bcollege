@@ -48,5 +48,24 @@
 			"LockMemberName": "The Mighty Kevin",
 			"Effect": ["Lock"]
 		}
+	},
+	"itemScript": {
+		"initialItemProperty": {
+			"Hide": ["ItemFeet", "BodyLower", "ItemLegs"],
+			"Block": [],
+			"UnHide": ["ItemPelvis"],
+			"HideItem": ["ClothLowerLatexSkirt1"]
+		},
+		"itemBundleProperty": {
+			"Hide": ["ItemFeet", "BodyLower", "ItemLegs"],
+			"UnHide": ["ItemPelvis"],
+			"HideItem": ["ClothLowerLatexSkirt1"]
+		},
+		"finalItemProperty": {
+			"Hide": ["BodyLower", "ItemFeet", "ItemLegs"],
+			"Block": [],
+			"UnHide": ["ItemPelvis"],
+			"HideItem": ["ClothLowerLatexSkirt1"]
+		}
 	}
 }
