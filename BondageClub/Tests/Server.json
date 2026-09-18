@@ -107,5 +107,171 @@
 				"Text3": ""
 			}
 		}
+	],
+	"effects": [
+		{
+			"asset": "CollarLeash",
+			"group": "ItemNeckRestraints",
+			"comment": "leashable item",
+			"initialItemProperty": {
+				"Effect": ["Bob", "IsLeashed"]
+			},
+			"itemBundleProperty": {
+				"IsLeashed": true
+			},
+			"finalItemProperty": {
+				"Effect": ["IsLeashed"]
+			}
+		}
+	],
+	"variableHeight": [
+		{
+			"asset": "Chains",
+			"group": "ItemArms",
+			"comment": "variable height item",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 8 },
+				"OverrideHeight": {
+					"HeightRatioProportion": 0.5,
+					"Height": -288
+				}
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 8 },
+				"OverrideHeight": {
+					"HeightRatioProportion": 0.5,
+					"Height": -288
+				}
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 8 },
+				"OverrideHeight": {
+					"HeightRatioProportion": 0.5,
+					"Height": -288
+				}
+			}
+		}
+	],
+	"overridePriority": [
+		{
+			"asset": "Cushion",
+			"group": "ItemDevices",
+			"comment": "OverridePriority (numeric - default)",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 1
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 }
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 1
+			}
+		},
+		{
+			"asset": "Cushion",
+			"group": "ItemDevices",
+			"comment": "OverridePriority (numeric - custom)",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 95
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 95
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": 95
+			}
+		},
+		{
+			"asset": "SteelBelt",
+			"group": "Corset",
+			"comment": "OverridePriority (object - default)",
+			"__internal_comment": "TODO: optimize how `OverridePriority` is stored within item bundles",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 31,
+					"Lock": 31
+				}
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 31,
+					"Lock": 31
+				}
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 31,
+					"Lock": 31
+				}
+			}
+		},
+		{
+			"asset": "SteelBelt",
+			"group": "Corset",
+			"comment": "OverridePriority (object - custom)",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 94,
+					"Lock": 31
+				}
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 94,
+					"Lock": 31
+				}
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 1 },
+				"OverridePriority": {
+					"Belt": 31,
+					"BDetail": 94,
+					"Lock": 31
+				}
+			}
+		}
+	],
+	"expression": [
+		{
+			"asset": "Blush",
+			"group": "Blush",
+			"comment": "expression group - custom",
+			"initialItemProperty": {
+				"Expression": "VeryHigh"
+			},
+			"itemBundleProperty": {
+				"Expression": "VeryHigh"
+			},
+			"finalItemProperty": {
+				"Expression": "VeryHigh"
+			}
+		},
+		{
+			"asset": "Blush",
+			"group": "Blush",
+			"comment": "expression group - default",
+			"initialItemProperty": {
+				"Expression": null
+			},
+			"itemBundleProperty": {},
+			"finalItemProperty": {
+				"Expression": null
+			}
+		}
 	]
 }

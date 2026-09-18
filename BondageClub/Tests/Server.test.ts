@@ -9,6 +9,7 @@ const asset = {
 	DefaultColor: ["Default", "Default"],
 	Group: {
 		Name: "ItemArms",
+		HasExpression(): this is AssetExpressionGroup { return false; },
 	},
 } satisfies ColorAssetMock;
 
@@ -261,5 +262,92 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.Text, "bundle to item re-conversion").toEqual(finalItemProperty.Text);
 		expect(itemRestored?.Property?.Text2, "bundle to item re-conversion").toEqual(finalItemProperty.Text2);
 		expect(itemRestored?.Property?.Text3, "bundle to item re-conversion").toEqual(finalItemProperty.Text3);
+	});
+
+
+	const effectsParam = testParam.effects.map(({ asset, group, comment, ...rest }) => {
+		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
+	});
+	it.each(effectsParam)("items with custom effects: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.Effect, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Effect));
+	});
+
+	const variableHeightParam = testParam.variableHeight.map(({ asset, group, comment, ...rest }) => {
+		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
+	});
+	it.each(variableHeightParam)("variable height extended item: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
+		expect(itemRestored?.Property?.OverrideHeight, "bundle to item re-conversion").toEqual(finalItemProperty.OverrideHeight);
+	});
+
+	const overridePriorityParam = testParam.variableHeight.map(({ asset, group, comment, ...rest }) => {
+		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
+	});
+	it.each(overridePriorityParam)("extended item with a mutable property: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
+		expect(itemRestored?.Property?.OverridePriority, "bundle to item re-conversion").toEqual(finalItemProperty.OverridePriority);
+	});
+
+	const expressionParam = testParam.variableHeight.map(({ asset, group, comment, ...rest }) => {
+		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
+	});
+	it.each(expressionParam)("expression item: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.Expression, "bundle to item re-conversion").toEqual(finalItemProperty.Expression);
 	});
 });
