@@ -48,5 +48,64 @@
 			"LockMemberName": "The Mighty Kevin",
 			"Effect": ["Lock"]
 		}
-	}
+	},
+	"itemScript": {
+		"initialItemProperty": {
+			"Hide": ["ItemFeet", "BodyLower", "ItemLegs"],
+			"Block": [],
+			"UnHide": ["ItemPelvis"],
+			"HideItem": ["ClothLowerLatexSkirt1"]
+		},
+		"itemBundleProperty": {
+			"Hide": ["ItemFeet", "BodyLower", "ItemLegs"],
+			"UnHide": ["ItemPelvis"],
+			"HideItem": ["ClothLowerLatexSkirt1"]
+		},
+		"finalItemProperty": {
+			"Hide": ["BodyLower", "ItemFeet", "ItemLegs"],
+			"Block": [],
+			"UnHide": ["ItemPelvis"],
+			"HideItem": ["ClothLowerLatexSkirt1"]
+		}
+	},
+	"baseline": [
+		{
+			"asset": "LatexCatsuit",
+			"group": "Suit",
+			"comment": "typed item",
+			"initialItemProperty": {
+				"Text": "",
+				"Text2": "#0000",
+				"Text3": "",
+				"Text4": ""
+			},
+			"itemBundleProperty": {
+				"Text": ""
+			},
+			"finalItemProperty": {
+				"Text": "",
+				"Text2": "#0000",
+				"Text3": ""
+			}
+		},
+		{
+			"asset": "PetPost",
+			"group": "ItemNeckRestraints",
+			"comment": "modular item",
+			"initialItemProperty": {
+				"Text": "Pet",
+				"Text2": "test",
+				"Text3": ""
+			},
+			"itemBundleProperty": {
+				"Text2": "test",
+				"Text3": ""
+			},
+			"finalItemProperty": {
+				"Text": "Pet",
+				"Text2": "test",
+				"Text3": ""
+			}
+		}
+	]
 }

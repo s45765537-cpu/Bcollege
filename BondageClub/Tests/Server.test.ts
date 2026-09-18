@@ -217,4 +217,49 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.CombinationNumber, "bundle to item re-conversion").toEqual(finalItemProperty.CombinationNumber);
 		expect(itemRestored?.Property?.Effect, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Effect));
 	});
+
+	it("script item", () => {
+		const { initialItemProperty, itemBundleProperty, finalItemProperty } = testParam.itemScript;
+		const asset: Asset = Game.AssetGet("Female3DCG", "ItemScript", "Script");
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.Hide, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Hide));
+		expect(itemRestored?.Property?.Block, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Block));
+		expect(itemRestored?.Property?.UnHide, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.UnHide));
+		expect(itemRestored?.Property?.HideItem, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.HideItem));
+	});
+
+	const baselineParam = testParam.baseline.map(({ asset, group, comment, ...rest }) => {
+		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
+	});
+	it.each(baselineParam)("extended item baseline without typerecord: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.Text, "bundle to item re-conversion").toEqual(finalItemProperty.Text);
+		expect(itemRestored?.Property?.Text2, "bundle to item re-conversion").toEqual(finalItemProperty.Text2);
+		expect(itemRestored?.Property?.Text3, "bundle to item re-conversion").toEqual(finalItemProperty.Text3);
+	});
 });

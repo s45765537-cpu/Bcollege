@@ -3957,11 +3957,8 @@ interface TextItemData extends ExtendedItemData<TextItemOption> {
 	font?: string;
 }
 
-// NOTE: Use the intersection operator to enforce that the it remains a `keyof ItemProperties` subtype
 /** Property keys of {@link ItemProperties} with text input fields */
-type TextItemNames = keyof ItemProperties & (
-	"Text" | "Text2" | "Text3"
-);
+type TextItemNames = Extract<keyof ItemProperties, "Text" | "Text2" | "Text3">;
 
 type TextItemRecord<T> = Partial<Record<TextItemNames, T>>;
 

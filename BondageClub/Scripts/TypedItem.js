@@ -100,14 +100,11 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked, screenName
 				TypeRecord: { [screenName]: i },
 			},
 			ParentData: null, // Initialized later on in `TypedItemCreateTypedItemData`
+			ArchetypeData: null, // Also initialized later on in `TypedItemCreateTypedItemData`
 		};
 
 		if (typeof changeWhenLocked === "boolean" && typeof option.ChangeWhenLocked !== "boolean") {
 			option.ChangeWhenLocked = changeWhenLocked;
-		}
-
-		if (protoOption.ArchetypeConfig) {
-			option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
 		}
 		return option;
 	});
@@ -213,8 +210,12 @@ function TypedItemCreateTypedItemData(asset, {
 		drawData: TypedItemGetDrawData(asset, DrawData, optionsParsed, { drawImage: DrawImages }),
 		allowEffect: Array.isArray(AllowEffect) ? AllowEffect : [],
 	};
-	for (const option of optionsParsed) {
+	for (const [i, option] of optionsParsed.entries()) {
 		option.ParentData = data;
+		const protoOption = Options[i];
+		if (protoOption.ArchetypeConfig) {
+			option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
+		}
 	}
 	return data;
 }
@@ -619,10 +620,15 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
 		const option = C.IsNpc() ? (options.find(o => o.NPCDefault) || options[0]) : options[0];
 		Item.Property = Object.assign(
-			Item.Property || {},
-			CommonCloneDeep(baselineProperty || {}),
+			Item.Property ?? {},
 			CommonCloneDeep(option.Property),
 		);
+		for (const [propName, baselineValue] of CommonEntries(baselineProperty ?? {})) {
+			if (baselineValue !== undefined && typeof Item.Property[propName] !== typeof baselineValue) {
+				// @ts-expect-error
+				Item.Property[propName] = CommonCloneDeep(baselineValue);
+			}
+		}
 	}
 
 	// Make sure that the `Lock` effect persists if the `Effect` array is reset
