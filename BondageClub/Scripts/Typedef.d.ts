@@ -4679,7 +4679,7 @@ interface CraftingItem extends CraftingPartialItem {
 	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
 	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
-	ItemProperty: ItemPropertiesMinimized | null;
+	ItemProperty: ItemProperties | null;
 	/**
 	 * A record for extended items mapping screen names to option indices.
 	 * @see {@link ItemProperties.TypeRecord}
