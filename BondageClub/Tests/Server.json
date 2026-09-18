@@ -245,5 +245,33 @@
 				}
 			}
 		}
+	],
+	"expression": [
+		{
+			"asset": "Blush",
+			"group": "Blush",
+			"comment": "expression group - custom",
+			"initialItemProperty": {
+				"Expression": "VeryHigh"
+			},
+			"itemBundleProperty": {
+				"Expression": "VeryHigh"
+			},
+			"finalItemProperty": {
+				"Expression": "VeryHigh"
+			}
+		},
+		{
+			"asset": "Blush",
+			"group": "Blush",
+			"comment": "expression group - default",
+			"initialItemProperty": {
+				"Expression": null
+			},
+			"itemBundleProperty": {},
+			"finalItemProperty": {
+				"Expression": null
+			}
+		}
 	]
 }

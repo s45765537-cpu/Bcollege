@@ -203,7 +203,7 @@ function ItemPropertiesCompress(item, options=null) {
 		}
 	}
 
-	if (item.Asset.AllowExpression) {
+	if (item.Asset.Group.HasExpression()) {
 		baseline.Expression = null;
 		allowedProperties.add("Expression");
 	}
