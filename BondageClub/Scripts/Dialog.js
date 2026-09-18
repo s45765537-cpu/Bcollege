@@ -1674,7 +1674,7 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 	} else {
 		// First, we add anything that's currently equipped
 		if (CurItem)
-			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled);
+			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled, CurItem.Craft);
 
 		// Second, we add everything from the victim inventory
 		for (const I of C.Inventory)
