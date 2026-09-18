@@ -208,6 +208,15 @@ function ItemPropertiesCompress(item, options=null) {
 		allowedProperties.add("Expression");
 	}
 
+	/** @type {EffectName[]} */
+	const allowedEffects = ["IsLeashed"];
+	for (const effect of allowedEffects) {
+		if (item.Asset.AllowEffect?.includes(effect)) {
+			allowedProperties.add("Effect");
+			break;
+		}
+	}
+
 	lockedBy: if (allowLocks && item.Property.LockedBy) {
 		const lockData = NoArchItemDataLookup[`ItemMisc${item.Property.LockedBy}`];
 		if (!lockData) {
@@ -252,6 +261,11 @@ function ItemPropertiesCompress(item, options=null) {
 				}
 				break;
 			}
+			case "Effect":
+				if (item.Asset.AllowEffect?.includes("IsLeashed") && item.Property.Effect?.includes("IsLeashed")) {
+					ret.IsLeashed = true;
+				}
+				break;
 			default: {
 				const propertyValue = item.Property[key];
 				const baselineValue = baseline[key];
@@ -287,8 +301,12 @@ function ItemPropertiesDecompress(item, properties) {
 	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
 	Object.assign(item.Property, propertiesUnsanitized);
 
+	// Unpack effect-related properties
 	if (propertiesUnsanitized.LockedBy) {
 		CommonArrayConcatDedupe(item.Property.Effect ??= [], ["Lock"]);
+	}
+	if ("IsLeashed" in propertiesUnsanitized && propertiesUnsanitized.IsLeashed) {
+		CommonArrayConcatDedupe(item.Property.Effect ??= [], ["IsLeashed"]);
 	}
 
 	if (item.Craft?.Effects?.Painful) {

@@ -3624,6 +3624,8 @@ type ItemPropertiesCompressdKeys = never; // TODO: Add property names
 
 /** Minimization format for {@link ItemProperties} */
 interface ItemPropertiesMinimized extends Omit<ItemProperties, ItemPropertiesCompressdKeys> {
+	/** Corresponds to the `"IsLeashed"` effect in {@link EffectName} */
+	IsLeashed?: boolean;
 }
 
 /** Base type for unparsed extended item properties */

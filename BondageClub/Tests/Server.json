@@ -107,5 +107,21 @@
 				"Text3": ""
 			}
 		}
+	],
+	"effects": [
+		{
+			"asset": "CollarLeash",
+			"group": "ItemNeckRestraints",
+			"comment": "leashable item",
+			"initialItemProperty": {
+				"Effect": ["Bob", "IsLeashed"]
+			},
+			"itemBundleProperty": {
+				"IsLeashed": true
+			},
+			"finalItemProperty": {
+				"Effect": ["IsLeashed"]
+			}
+		}
 	]
 }
