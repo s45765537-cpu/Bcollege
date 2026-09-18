@@ -123,5 +123,33 @@
 				"Effect": ["IsLeashed"]
 			}
 		}
+	],
+	"variableHeight": [
+		{
+			"asset": "Chains",
+			"group": "ItemArms",
+			"comment": "variable height item",
+			"initialItemProperty": {
+				"TypeRecord": { "typed": 8 },
+				"OverrideHeight": {
+					"HeightRatioProportion": 0.5,
+					"Height": -288
+				}
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "typed": 8 },
+				"OverrideHeight": {
+					"HeightRatioProportion": 0.5,
+					"Height": -288
+				}
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "typed": 8 },
+				"OverrideHeight": {
+					"HeightRatioProportion": 0.5,
+					"Height": -288
+				}
+			}
+		}
 	]
 }

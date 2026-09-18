@@ -385,7 +385,7 @@ function VariableHeightInit(Data, C, Item, Push, Refresh) {
 		return false;
 	}
 	if (Data.baselineProperty != null) {
-		ExtendedItemInitNoArch(C, Item, Data.baselineProperty, false);
+		ExtendedItemInitNoArch(C, Item, Data.baselineProperty, false, false);
 	}
 
 	currentHeight = Data.getHeight(Item.Property) ?? 1;
@@ -412,13 +412,13 @@ function VariableHeightConstructOptions(data, item) {
 		newOption: {
 			Name: "newOption",
 			OptionType: "VariableHeightOption",
-			Property: { OverrideHeight: /** @type {AssetOverrideHeight} */ (item.Property?.OverrideHeight) },
+			Property: { OverrideHeight: /** @type {AssetOverrideHeight} */ ({ ...item.Property.OverrideHeight }) },
 			ParentData: data,
 		},
 		previousOption: {
 			Name: "previousOption",
 			OptionType: "VariableHeightOption",
-			Property: { OverrideHeight: PropertyOriginalValue.get(ID) },
+			Property: { OverrideHeight: { ...PropertyOriginalValue.get(ID) } },
 			ParentData: data,
 		},
 	};

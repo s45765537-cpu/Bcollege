@@ -275,6 +275,7 @@ function ItemPropertiesCompress(item, options=null) {
 						ret[key] = propertyValue;
 					}
 				} else {
+					// TODO: Better handle objects here (e.g. the variable height `OverrideHeight` property; variable height in general could use a review)
 					if (baselineValue !== propertyValue) {
 						// @ts-expect-error
 						ret[key] = propertyValue;
