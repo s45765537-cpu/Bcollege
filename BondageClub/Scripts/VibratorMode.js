@@ -265,6 +265,9 @@ function VibratorModeCreateData(
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	DialogPrefix = DialogPrefix || {};
 
+	BaselineProperty ??= {};
+	BaselineProperty.State ??= VibratorModeState.DEFAULT;
+
 	const data = VibratorModeDataLookup[key] = {
 		archetype: ExtendedArchetype.VIBRATING,
 		key,
@@ -283,7 +286,7 @@ function VibratorModeCreateData(
 			option: DialogPrefix.Option || "VibeMode",
 		},
 		chatSetting: "default",
-		baselineProperty: CommonIsObject(BaselineProperty) ? BaselineProperty : null,
+		baselineProperty: BaselineProperty,
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
 		chatTags: Array.isArray(ChatTags) ? ChatTags : [
 			CommonChatTags.SOURCE_CHAR,
@@ -448,8 +451,8 @@ function VibratorModeUpdateStateBased(data, C, item, persistentData, transitions
 	item.Property ??= {};
 	var Arousal = C.ArousalSettings.Progress;
 	var TimeSinceLastChange = CommonTime() - (persistentData.LastChange ?? 0);
-	var OldState = item.Property.State || VibratorModeState.DEFAULT;
-	var OldIntensity = /** @type {VibratorIntensity} */ (item.Property.Intensity);
+	var OldState = item.Property.State ?? VibratorModeState.DEFAULT;
+	var OldIntensity = item.Property.Intensity ?? -1;
 
 	const NewStateAndIntensity = VibratorModeStateUpdate[OldState](
 		C,
