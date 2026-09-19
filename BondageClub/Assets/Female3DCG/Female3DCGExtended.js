@@ -19634,7 +19634,7 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: {
 				RemoveItem: false,
 				RemoveTimer: 0,
-			}
+			},
 		}, // TimerPadlock
 		PasswordPadlock: {
 			Archetype: ExtendedArchetype.NOARCH,
