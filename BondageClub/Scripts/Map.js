@@ -139,7 +139,7 @@ function MapCanSetCell(id, type, x, y) {
 			tile?.Type == "Wall" && !object?.CanPlaceOnWalls) return false;
 
 		const tileUnder = MapGetCell("Tile", x, y+1);
-		if (tileUnder?.Type == "Wall" && !object?.CanPlaceInWalls) return false;
+		if (tile?.Type == "Wall" && tileUnder?.Type == "Wall" && !object?.CanPlaceInWalls) return false;
 	}
 	if (type == "Tile") {
 		const tile = ChatRoomMapViewLookupTables[type]?.[id];
