@@ -126,6 +126,11 @@ const WardrobeID = Object.freeze({
 	 * @param {number} index
 	 * @returns {string}
 	 */
+	slotActions: (index) => `wardrobe-slot-actions-${index}`,
+	/**
+	 * @param {number} index
+	 * @returns {string}
+	 */
 	slotLoad: (index) => `wardrobe-slot-load-${index}`,
 });
 
@@ -1198,6 +1203,13 @@ function WardrobeCreateOutfitSlots() {
 			},
 		);
 
+		const actions = ElementCreate({
+			tag: "div",
+			attributes: { id: WardrobeID.slotActions(C), "screen-generated": CurrentScreen },
+			classList: ["wardrobe-slot-actions"],
+			parent: cell,
+		});
+
 		const loadPreview = WardrobeActionPreviewButtonOptions("Load", () => WardrobeGetVisibleSlot(C));
 		const loadLabel = TextGet("Load");
 		ElementButton.Create(
@@ -1218,7 +1230,7 @@ function WardrobeCreateOutfitSlots() {
 			{
 				button: {
 					...loadPreview.button,
-					parent: cell,
+					parent: actions,
 					classList: ["wardrobe-slot-load"],
 					attributes: {
 						hidden: true,
