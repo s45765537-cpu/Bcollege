@@ -38,7 +38,7 @@ function ChatAdminShowCreate() {
 
 /**
  * Show the room editor screen in update mode
- * @param {ChatRoomData} roomData
+ * @param {ServerChatRoomData} roomData
  */
 function ChatAdminShowEdit(roomData) {
 	/** @type {ChatRoomSettings} */

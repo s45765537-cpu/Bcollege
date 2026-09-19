@@ -868,7 +868,6 @@ type ChatRoomOwnershipEvent =
 	| "CanOfferEndTrial"
 	| "CanEndTrial";
 
-type ChatRoomData = ServerChatRoomData;
 // TODO: Review the partial nature of the `Custom` and `Space` fields
 type ChatRoomSettings = Prettify<
 	Omit<ServerChatRoomData, "Character" | "Custom" | "Space">

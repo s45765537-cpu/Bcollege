@@ -4187,7 +4187,7 @@ const ChatRoomMapManager = (function () {
 			}
 
 			if (mapData.LegacyMapData !== undefined) {
-				/** @type {ChatRoomData} */ (ChatRoomData).MapData = mapData.LegacyMapData;
+				/** @type {ServerChatRoomData} */ (ChatRoomData).MapData = mapData.LegacyMapData;
 				this.markDirtyTiles();
 				this.markDirtyObjects();
 			}
