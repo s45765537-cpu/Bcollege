@@ -159,7 +159,6 @@ function InventoryItemMiscTimerPasswordPadlockClickHook(data, originalFunction) 
 		DialogLeaveFocusItem();
 	} else if (MouseIn(1765, 591, 200, 64)) {
 		InventoryItemMiscPasswordPadlockHandleFirstSet(C, item);
-		DialogLeaveFocusItem();
 	}
 
 	if (!Player.CanInteract()) return;

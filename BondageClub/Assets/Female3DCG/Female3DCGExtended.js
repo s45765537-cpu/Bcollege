@@ -19631,6 +19631,10 @@ var AssetFemale3DCGExtended = {
 				Draw: InventoryItemMiscTimerPadlockDrawHook,
 				Click: InventoryItemMiscTimerPadlockClickHook,
 			},
+			BaselineProperty: {
+				RemoveItem: false,
+				RemoveTimer: 0,
+			},
 		}, // TimerPadlock
 		PasswordPadlock: {
 			Archetype: ExtendedArchetype.NOARCH,
@@ -19676,6 +19680,7 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: {
 				RemoveItem: false,
 				ShowTimer: true,
+				RemoveTimer: 0,
 				EnableRandomInput: false,
 				MemberNumberList: [],
 			},
@@ -19727,6 +19732,7 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: {
 				RemoveItem: false,
 				ShowTimer: true,
+				RemoveTimer: 0,
 				EnableRandomInput: false,
 				MemberNumberList: [],
 			},
@@ -19766,6 +19772,7 @@ var AssetFemale3DCGExtended = {
 				Hint: "Take a guess...",
 				LockSet: false,
 				RemoveItem: false,
+				RemoveTimer: 0,
 				ShowTimer: true,
 				EnableRandomInput: false,
 				MemberNumberList: [],

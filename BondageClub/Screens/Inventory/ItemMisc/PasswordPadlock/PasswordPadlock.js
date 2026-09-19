@@ -120,7 +120,6 @@ function InventoryItemMiscPasswordPadlockControlsClick(C, item) {
 			item.Property.RemoveOnUnlock = !item.Property.RemoveOnUnlock;
 		} else if (MouseIn(1360, 891, 250, 64)) {
 			InventoryItemMiscPasswordPadlockHandleFirstSet(C, item);
-			DialogLeaveFocusItem();
 		}
 	}
 }
@@ -152,7 +151,7 @@ function InventoryItemMiscPasswordPadlockHandleOpenClick(C, item) {
 }
 
 /**
- *
+ * Handle the first set and leave the UI if accepted
  * @param {Character} C
  * @param {Item} item
  */
@@ -196,7 +195,7 @@ function InventoryItemMiscPasswordPadlockIsSet(item) {
 }
 
 /**
- *
+ * Publish password changes to the chat room and leave the UI
  * @param {Character} C
  * @param {Item} item
  */

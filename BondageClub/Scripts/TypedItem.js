@@ -610,7 +610,9 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 
 		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
-			Item.Property = Object.assign(Item.Property, newProps);
+			for (const [k, v] of CommonEntries(newProps)) {
+				Item.Property[k] = CommonIsObject(Item.Property[k]) ? Object.assign(Item.Property[k], v) : v;
+			}
 			update = true;
 		}
 		for (const [propName, propValue] of CommonEntries(mutableProperties)) {

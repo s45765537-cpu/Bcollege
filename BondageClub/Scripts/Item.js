@@ -217,6 +217,8 @@ function ItemPropertiesCompress(item, options=null) {
 		}
 	}
 
+	/** @type {Set<keyof ItemProperties>} */
+	const lockProperties = new Set();
 	lockedBy: if (allowLocks && item.Property.LockedBy) {
 		const lockData = NoArchItemDataLookup[`ItemMisc${item.Property.LockedBy}`];
 		if (!lockData) {
@@ -228,8 +230,13 @@ function ItemPropertiesCompress(item, options=null) {
 		allowedProperties.add("LockMemberNumber");
 		allowedProperties.add("LockMemberName");
 		allowedProperties.add("LockMessage");
+		lockProperties.add("LockedBy");
+		lockProperties.add("LockMemberNumber");
+		lockProperties.add("LockMemberName");
+		lockProperties.add("LockMessage");
 		for (const key of CommonKeys(lockData.baselineProperty ?? {})) {
 			allowedProperties.add(key);
+			lockProperties.add(key);
 		}
 	}
 
@@ -269,6 +276,14 @@ function ItemPropertiesCompress(item, options=null) {
 			default: {
 				const propertyValue = item.Property[key];
 				const baselineValue = baseline[key];
+				if (lockProperties.has(key)) {
+					// FIXME: Ensure that `ExtendedItemInit()` also calls the lock's `Init()` function so that undefined values are re-initialized
+					// Currently it fails to do so due to locks not being their own item; piggy backing off of an actual item instead
+					// @ts-expect-error
+					ret[key] = propertyValue;
+					break;
+				}
+
 				if (CommonIsArray(baselineValue) && CommonIsArray(propertyValue)) {
 					// We're expecting (or demanding) that item property arrays behave like logical sets (i.e. unordered)
 					if (!CommonArraysEqual(baselineValue, propertyValue, true)) {

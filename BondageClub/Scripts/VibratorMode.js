@@ -94,7 +94,6 @@ var VibratorModeOptions = {
 			Name: "Random",
 			Property: {
 				Mode: VibratorMode.RANDOM,
-				Intensity: 0,
 				Effect: ["Egged"],
 			},
 		},
@@ -102,7 +101,6 @@ var VibratorModeOptions = {
 			Name: "Escalate",
 			Property: {
 				Mode: VibratorMode.ESCALATE,
-				Intensity: 0,
 				Effect: ["Egged", "Vibrating"],
 			},
 		},
@@ -110,7 +108,6 @@ var VibratorModeOptions = {
 			Name: "Tease",
 			Property: {
 				Mode: VibratorMode.TEASE,
-				Intensity: 0,
 				Effect: ["Egged"],
 			},
 		},
@@ -118,7 +115,6 @@ var VibratorModeOptions = {
 			Name: "Deny",
 			Property: {
 				Mode: VibratorMode.DENY,
-				Intensity: 0,
 				Effect: ["Egged", "Edged"],
 			},
 		},
@@ -126,7 +122,6 @@ var VibratorModeOptions = {
 			Name: "Edge",
 			Property: {
 				Mode: VibratorMode.EDGE,
-				Intensity: 0,
 				Effect: ["Egged", "Vibrating", "Edged"],
 			},
 		},
@@ -187,25 +182,55 @@ function VibratorModeRegister(asset, config, parentOption=null) {
  */
 function VibratorModeSetOption(data, C, item, newOption, previousOption, push=false) {
 	ExtendedItemSetOption(data, C, item, newOption, previousOption, false);
+	VibratorModeSetAdvancedProperties(item, newOption.Name, { reset: true });
+	CharacterRefresh(C, push, false);
+}
+
+/**
+ * Set the baseline intensity and effects of the given advanced vibrator mode
+ * @param {Item} item
+ * @param {VibratorMode} mode
+ * @param {null | { reset?: boolean }} [options]
+ * @returns {boolean} Whether an intensity change was triggered
+ */
+function VibratorModeSetAdvancedProperties(item, mode, options=null) {
+	const reset = options?.reset ?? false;
 	item.Property ??= {};
-	switch (newOption.Name) {
-		case "Random":
-			item.Property.Intensity = CommonRandomItemFromList(undefined, [-1, 0, 1, 2, 3]);
+	let changed = false;
+	switch (mode) {
+		case VibratorMode.RANDOM:
+			if (reset || !CommonIsInteger(item.Property.Intensity, -1, 3)) {
+				item.Property.Intensity = CommonGetRandomItemFromList([-1, 0, 1, 2, 3]);
+				changed = true;
+			}
 			item.Property.Effect = CommonArrayConcatDedupe(
 				item.Property.Effect ?? [],
 				(item.Property.Intensity ?? 0) >= 0 ? ["Egged", "Vibrating"] : ["Egged"],
 			);
 			break;
-		case "Tease":
-		case "Deny":
-			item.Property.Intensity = CommonRandomItemFromList(undefined, [0, 1, 2, 3]);
+		case VibratorMode.ESCALATE:
+			// No resetting here as there's nothing random about this state; only take care validating
+			if (!CommonIsInteger(item.Property.Intensity, 0, 3)) {
+				item.Property.Intensity = 0;
+				changed = true;
+			}
+			break;
+		case VibratorMode.TEASE:
+		case VibratorMode.DENY:
+			if (reset || !CommonIsInteger(item.Property.Intensity, 0, 3)) {
+				item.Property.Intensity = CommonGetRandomItemFromList([0, 1, 2, 3]);
+				changed = true;
+			}
 			item.Property.Effect = CommonArrayConcatDedupe(item.Property.Effect ?? [], ["Vibrating"]);
 			break;
-		case "Edge":
-			item.Property.Intensity = CommonRandomItemFromList(undefined, [0, 1]);
+		case VibratorMode.EDGE:
+			if (reset || !CommonIsInteger(item.Property.Intensity, 0, 1)) {
+				item.Property.Intensity = CommonGetRandomItemFromList([0, 1]);
+				changed = true;
+			}
 			break;
 	}
-	CharacterRefresh(C, push, false);
+	return changed;
 }
 
 /**
@@ -265,6 +290,10 @@ function VibratorModeCreateData(
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : name}`;
 	DialogPrefix = DialogPrefix || {};
 
+	BaselineProperty ??= {};
+	BaselineProperty.State ??= VibratorModeState.DEFAULT;
+	BaselineProperty.Intensity ??= -1;
+
 	const data = VibratorModeDataLookup[key] = {
 		archetype: ExtendedArchetype.VIBRATING,
 		key,
@@ -283,7 +312,7 @@ function VibratorModeCreateData(
 			option: DialogPrefix.Option || "VibeMode",
 		},
 		chatSetting: "default",
-		baselineProperty: CommonIsObject(BaselineProperty) ? BaselineProperty : null,
+		baselineProperty: BaselineProperty,
 		dictionary: Array.isArray(Dictionary) ? Dictionary : [],
 		chatTags: Array.isArray(ChatTags) ? ChatTags : [
 			CommonChatTags.SOURCE_CHAR,
@@ -299,8 +328,7 @@ function VibratorModeCreateData(
 
 /** @type {ExtendedItemHeaderCallback<VibratingItemData>} */
 function VibratorModeDialogPrefix(data, C, item) {
-	// @ts-ignore Strict-TS
-	return InterfaceTextGet(`Intensity${item.Property.Intensity}`);
+	return InterfaceTextGet(`Intensity${item.Property.Intensity ?? -1}`);
 }
 
 /**
@@ -365,6 +393,8 @@ function VibratorModeValidate(data, C, item, newOption, previousOption, permitEx
  */
 function VibratorModePublishAction(data, C, item, newOption, previousOption) {
 	const [newProperty, prevProperty, chatPrefix] = [newOption.Property, previousOption.Property, data.dialogPrefix.chat];
+	const newIntensity = newProperty.Intensity ?? -1;
+	const oldIntensity = prevProperty.Intensity ?? -1;
 	const chatData = {
 		C,
 		previousOption,
@@ -378,12 +408,12 @@ function VibratorModePublishAction(data, C, item, newOption, previousOption) {
 	const prevIsAdvanced = VibratorModesAdvanced.includes(previousOption.Name);
 	let message = (typeof chatPrefix === "function") ? chatPrefix(chatData) : chatPrefix;
 	if (!newIsAdvanced && !prevIsAdvanced) { // standard -> standard
-		const direction = newProperty.Intensity > prevProperty.Intensity ? "Increase" : "Decrease";
-		message += `${direction}To${newProperty.Intensity}`;
+		const direction = newIntensity > oldIntensity ? "Increase" : "Decrease";
+		message += `${direction}To${newIntensity}`;
 	} else if (newIsAdvanced) { // standard/advanced -> advanced
 		message += newOption.Name;
 	} else { // advanced -> standard
-		message += `IncreaseTo${newProperty.Intensity}`;
+		message += `IncreaseTo${newIntensity}`;
 	}
 	ChatRoomPublishCustomAction(message, false, dictionary.build());
 }
@@ -448,8 +478,8 @@ function VibratorModeUpdateStateBased(data, C, item, persistentData, transitions
 	item.Property ??= {};
 	var Arousal = C.ArousalSettings.Progress;
 	var TimeSinceLastChange = CommonTime() - (persistentData.LastChange ?? 0);
-	var OldState = item.Property.State || VibratorModeState.DEFAULT;
-	var OldIntensity = /** @type {VibratorIntensity} */ (item.Property.Intensity);
+	var OldState = item.Property.State ?? VibratorModeState.DEFAULT;
+	var OldIntensity = item.Property.Intensity ?? -1;
 
 	const NewStateAndIntensity = VibratorModeStateUpdate[OldState](
 		C,
@@ -767,7 +797,11 @@ function VibratorModePublish(data, C, item, oldIntensity, newIntensity) {
  * @returns {boolean} Whether properties were initialized or not
  */
 function VibratorModeInit(data, C, item, push=true, refresh=true) {
-	return TypedItemInit(data, C, item, push, refresh, "Mode");
+	const status = [
+		TypedItemInit(data, C, item, push, refresh, "Mode"),
+		VibratorModeSetAdvancedProperties(item, item.Property.Mode ?? VibratorMode.OFF),
+	];
+	return status.some(i => i);
 }
 
 /**

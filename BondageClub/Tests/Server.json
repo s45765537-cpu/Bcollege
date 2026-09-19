@@ -27,26 +27,62 @@
 			{ "asset": "MetalChastityBelt", "group": "ItemPelvis", "comment": "typed item" },
 			{ "asset": "HipHarness", "group": "ItemPelvis", "comment": "non-extended item" }
 		],
-		"initialItemProperty": {
-			"LockedBy": "CombinationPadlock",
-			"CombinationNumber": 9001,
-			"LockMemberNumber": 5,
-			"LockMemberName": "The Mighty Kevin",
-			"Effect": ["Lock"],
-			"Password": "I'm not a combination lock property"
-		},
-		"itemBundleProperty": {
-			"LockedBy": "CombinationPadlock",
-			"CombinationNumber": 9001,
-			"LockMemberNumber": 5,
-			"LockMemberName": "The Mighty Kevin"
-		},
-		"finalItemProperty": {
-			"LockedBy": "CombinationPadlock",
-			"CombinationNumber": 9001,
-			"LockMemberNumber": 5,
-			"LockMemberName": "The Mighty Kevin",
-			"Effect": ["Lock"]
+		"locks": {
+			"CombinationPadlock": {
+				"initialItemProperty": {
+					"LockedBy": "CombinationPadlock",
+					"CombinationNumber": 9001,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"],
+					"Password": "I'm not a combination lock property"
+				},
+				"itemBundleProperty": {
+					"LockedBy": "CombinationPadlock",
+					"CombinationNumber": 9001,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin"
+				},
+				"finalItemProperty": {
+					"LockedBy": "CombinationPadlock",
+					"CombinationNumber": 9001,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"]
+				}
+			},
+			"PasswordPadlock": {
+				"initialItemProperty": {
+					"LockedBy": "PasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"RemoveOnUnlock": false,
+					"Hint": "Take a guess...",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"],
+					"CombinationNumber": "I am not supposed to be here"
+				},
+				"itemBundleProperty": {
+					"LockedBy": "PasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"RemoveOnUnlock": false,
+					"Hint": "Take a guess...",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin"
+				},
+				"finalItemProperty": {
+					"LockedBy": "PasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"RemoveOnUnlock": false,
+					"Hint": "Take a guess...",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"]
+				}
+			}
 		}
 	},
 	"itemScript": {
@@ -268,10 +304,206 @@
 			"initialItemProperty": {
 				"Expression": null
 			},
-			"itemBundleProperty": {},
+			"itemBundleProperty": null,
 			"finalItemProperty": {
 				"Expression": null
 			}
 		}
-	]
+	],
+	"vibratingItem": {
+		"asset": "Sybian",
+		"group": "ItemDevices",
+		"modes": {
+			"Off": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 0 },
+					"Mode": "Off",
+					"Intensity": -1,
+					"Effect": ["Egged"]
+				},
+				"itemBundleProperty": null,
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 0 },
+					"Mode": "Off",
+					"Intensity": -1,
+					"Effect": ["Egged"],
+					"State": "Default"
+				}
+			},
+			"Low": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 1 },
+					"Mode": "Low",
+					"Intensity": 0,
+					"Effect": ["Egged", "Vibrating"]
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 1 },
+					"Intensity": 0
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 1 },
+					"Mode": "Low",
+					"Intensity": 0,
+					"Effect": ["Egged", "Vibrating"],
+					"State": "Default"
+				}
+			},
+			"Medium": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 2 },
+					"Mode": "Medium",
+					"Intensity": 1,
+					"Effect": ["Egged", "Vibrating"]
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 2 },
+					"Intensity": 1
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 2 },
+					"Mode": "Medium",
+					"Intensity": 1,
+					"Effect": ["Egged", "Vibrating"],
+					"State": "Default"
+				}
+			},
+			"High": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 3 },
+					"Mode": "High",
+					"Intensity": 2,
+					"Effect": ["Egged", "Vibrating"]
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 3 },
+					"Intensity": 2
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 3 },
+					"Mode": "High",
+					"Intensity": 2,
+					"Effect": ["Egged", "Vibrating"],
+					"State": "Default"
+				}
+			},
+			"Maximum": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 4 },
+					"Mode": "Maximum",
+					"Intensity": 3,
+					"Effect": ["Egged", "Vibrating"]
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 4 },
+					"Intensity": 3
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 4 },
+					"Mode": "Maximum",
+					"Intensity": 3,
+					"Effect": ["Egged", "Vibrating"],
+					"State": "Default"
+				}
+			},
+			"Random": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 5 },
+					"Mode": "Random",
+					"Intensity": -1,
+					"Effect": ["Egged"]
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 5 }
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 5 },
+					"Mode": "Random",
+					"Intensity": -1,
+					"Effect": ["Egged"],
+					"State": "Default"
+				}
+			},
+			"Escalate": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 6 },
+					"Mode": "Escalate",
+					"Intensity": 3,
+					"Effect": ["Egged", "Vibrating"]
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 6 },
+					"Intensity": 3
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 6 },
+					"Mode": "Escalate",
+					"Intensity": 3,
+					"Effect": ["Egged", "Vibrating"],
+					"State": "Default"
+				}
+			},
+			"Tease": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 7 },
+					"Mode": "Tease",
+					"Intensity": 1,
+					"Effect": ["Egged", "Vibrating"],
+					"State": "Orgasm"
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 7 },
+					"Intensity": 1,
+					"State": "Orgasm"
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 7 },
+					"Mode": "Tease",
+					"Intensity": 1,
+					"Effect": ["Egged"],
+					"State": "Orgasm"
+				}
+			},
+			"Deny": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 8 },
+					"Mode": "Deny",
+					"Intensity": 2,
+					"Effect": ["Egged", "Vibrating", "Edged"],
+					"State": "Deny"
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 8 },
+					"Intensity": 2,
+					"State": "Deny"
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 8 },
+					"Mode": "Deny",
+					"Intensity": 2,
+					"Effect": ["Egged", "Vibrating", "Edged"],
+					"State": "Deny"
+				}
+			},
+			"Edge": {
+				"initialItemProperty": {
+					"TypeRecord": { "vibrating": 9 },
+					"Mode": "Edge",
+					"Intensity": 1,
+					"Effect": ["Egged", "Vibrating", "Edged"]
+				},
+				"itemBundleProperty": {
+					"TypeRecord": { "vibrating": 9 },
+					"Intensity": 1
+				},
+				"finalItemProperty": {
+					"TypeRecord": { "vibrating": 9 },
+					"Mode": "Edge",
+					"Intensity": 1,
+					"Effect": ["Egged", "Vibrating", "Edged"],
+					"State": "Default"
+				}
+			}
+		}
+	}
 }
