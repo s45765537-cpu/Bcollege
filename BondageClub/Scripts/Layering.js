@@ -850,7 +850,7 @@ var Layering = {
 	 */
 	_GetDefaults() {
 		if (!this.Item.Property.TypeRecord) {
-			return undefined;
+			return {};
 		}
 
 		// Recreate the items default state (given a provided type record) and extract its default priority
