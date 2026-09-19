@@ -816,7 +816,7 @@ var PreferenceChatSettingsValidate = {
 var PreferenceVisualSettingsDefault = {
 	ForceFullHeight: false,
 	UseCharacterInPreviews: false,
-	ShowCharactersInWardrobe: true,
+	ShowCharactersInWardrobe: false,
 	MainHallBackground: undefined,
 	PrivateRoomBackground: undefined,
 };
