@@ -268,7 +268,7 @@
 			"initialItemProperty": {
 				"Expression": null
 			},
-			"itemBundleProperty": {},
+			"itemBundleProperty": null,
 			"finalItemProperty": {
 				"Expression": null
 			}

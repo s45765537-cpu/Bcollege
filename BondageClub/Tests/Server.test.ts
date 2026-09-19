@@ -327,10 +327,10 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
 		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
-		expect(itemRestored?.Property?.OverridePriority, "bundle to item re-conversion").toEqual(finalItemProperty.OverridePriority);
+		expect(itemRestored?.Property?.OverrideHeight, "bundle to item re-conversion").toEqual(finalItemProperty.OverrideHeight);
 	});
 
-	const expressionParam = testParam.variableHeight.map(({ asset, group, comment, ...rest }) => {
+	const expressionParam = testParam.expression.map(({ asset, group, comment, ...rest }) => {
 		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
 	});
 	it.each(expressionParam)("expression item: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
@@ -344,10 +344,11 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(bundle, "item to bundle conversion").toEqual({
 			Group: asset.Group.Name,
 			Name: asset.Name,
-			Property: itemBundleProperty,
+			Property: itemBundleProperty ?? undefined,
 		});
 
+		// TODO: Mark expression groups as extended with an explicit `Expression` baseline property; ensuring that it is always initialized
 		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
-		expect(itemRestored?.Property?.Expression, "bundle to item re-conversion").toEqual(finalItemProperty.Expression);
+		expect(itemRestored?.Property?.Expression, "bundle to item re-conversion").toEqual(finalItemProperty.Expression ?? undefined);
 	});
 });
