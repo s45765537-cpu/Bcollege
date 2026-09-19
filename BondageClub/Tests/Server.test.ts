@@ -358,4 +358,32 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
 		expect(itemRestored?.Property?.Expression, "bundle to item re-conversion").toEqual(finalItemProperty.Expression ?? undefined);
 	});
+
+	const vibratorModeParam = Object.entries(testParam.vibratingItem.modes).map(([mode, _data]) => {
+		const asset = testParam.vibratingItem.asset;
+		const group = testParam.vibratingItem.group;
+		const data = _data as Record<"initialItemProperty" | "itemBundleProperty" | "finalItemProperty", ItemProperties>;
+		return { name: `${group}/${asset} (${mode})`, assetParam: { asset, group }, ...data };
+	});
+	it.each(vibratorModeParam)("vibrating extended item: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item = { Asset: asset, Property: initialItemProperty };
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: asset.Group.Name,
+			Name: asset.Name,
+			Property: itemBundleProperty ?? undefined,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
+		expect(itemRestored?.Property?.Mode, "bundle to item re-conversion").toEqual(finalItemProperty.Mode);
+		expect(itemRestored?.Property?.Intensity, "bundle to item re-conversion").toEqual(finalItemProperty.Intensity);
+		expect(itemRestored?.Property?.Effect, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Effect ?? []));
+		expect(itemRestored?.Property?.State, "bundle to item re-conversion").toEqual(finalItemProperty.State);
+	});
 });
