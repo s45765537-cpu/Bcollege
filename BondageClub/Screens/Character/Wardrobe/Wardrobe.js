@@ -263,10 +263,10 @@ function WardrobeFitSlotLabels() {
  * @type {KeyboardEventListener}
  */
 function WardrobeKeyDown(event) {
-	if (WardrobeReorderMode !== "None") return false;
+	if (WardrobeReorderMode !== "None" || WardrobeSelection !== -1) return false;
 	const search = /** @type {HTMLInputElement} */ (ElementWrap(WardrobeID.searchInput));
 	if (!search) return false;
-	if (document.activeElement === search) return false;
+	if (document.activeElement !== document.body && document.activeElement !== document.getElementById("MainCanvas")) return false;
 	if (event.key.length === 0 || event.altKey || event.ctrlKey || event.metaKey) return false;
 
 	search.toggleAttribute("hidden", false);
