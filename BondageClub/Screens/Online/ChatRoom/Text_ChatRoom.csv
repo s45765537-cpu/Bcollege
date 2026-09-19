@@ -162,7 +162,6 @@ ObjectTypeNameWallPath,Doors
 ObjectTypeNameBanners,Banners
 ObjectTypeNameFloorFoamTiles,Foam Tiles
 ObjectTypeNameFunctional,Functional
-ObjectTypeNameDoor,Doors
 
 EffectTypeNameStaticLighting,Effects
 
