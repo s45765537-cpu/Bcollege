@@ -816,15 +816,13 @@ function DrawImageEx(
 	Canvas.globalCompositeOperation = BlendingMode;
 	Canvas.globalAlpha = Alpha;
 
-	const angleRad = (Rotation ?? 0) * (Math.PI / 180);  // Assumes Angle is in degrees
+	const angleRad = (Rotation ?? 0) * (Math.PI / 180);
+
 	const cosA = Math.cos(angleRad);
 	const sinA = Math.sin(angleRad);
 
-	// Performance benefits from combining transforms is usually minimal to none but in cases with multiple transforms it adds up
-	const scaleHoriz = Zoom * (Mirror ? -1 : 1);   // Scaling and horizontal mirroring
-	const scaleVert = Zoom * (Invert ? -1 : 1);    // Scaling and vertical inversion
-	//const translateX = X + (Mirror ? Width : 0);    // Translation in x
-	//const translateY = Y + (Invert ? Height : 0);   // Translation in y
+	const scaleHoriz = Zoom * (Mirror ? -1 : 1);
+	const scaleVert = Zoom * (Invert ? -1 : 1);
 
 	const a = scaleHoriz * cosA;
 	const b = scaleHoriz * sinA;
@@ -834,8 +832,9 @@ function DrawImageEx(
 	const centerX = Width / 2;
 	const centerY = Height / 2;
 
-	const translateX = X + (Mirror ? Width : 0) + centerX - (centerX * cosA - centerY * sinA) * (Mirror ? -1 : 1);
-	const translateY = Y + (Invert ? Height : 0) + centerY - (centerX * sinA + centerY * cosA) * (Invert ? -1 : 1);
+	// Keep the rectangle's center at its intended position.
+	const translateX = X + centerX - a * centerX - c * centerY;
+	const translateY = Y + centerY - b * centerX - d * centerY;
 
 	Canvas.transform(a, b, c, d, translateX, translateY);
 
