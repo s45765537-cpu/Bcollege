@@ -27,26 +27,62 @@
 			{ "asset": "MetalChastityBelt", "group": "ItemPelvis", "comment": "typed item" },
 			{ "asset": "HipHarness", "group": "ItemPelvis", "comment": "non-extended item" }
 		],
-		"initialItemProperty": {
-			"LockedBy": "CombinationPadlock",
-			"CombinationNumber": 9001,
-			"LockMemberNumber": 5,
-			"LockMemberName": "The Mighty Kevin",
-			"Effect": ["Lock"],
-			"Password": "I'm not a combination lock property"
-		},
-		"itemBundleProperty": {
-			"LockedBy": "CombinationPadlock",
-			"CombinationNumber": 9001,
-			"LockMemberNumber": 5,
-			"LockMemberName": "The Mighty Kevin"
-		},
-		"finalItemProperty": {
-			"LockedBy": "CombinationPadlock",
-			"CombinationNumber": 9001,
-			"LockMemberNumber": 5,
-			"LockMemberName": "The Mighty Kevin",
-			"Effect": ["Lock"]
+		"locks": {
+			"CombinationPadlock": {
+				"initialItemProperty": {
+					"LockedBy": "CombinationPadlock",
+					"CombinationNumber": 9001,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"],
+					"Password": "I'm not a combination lock property"
+				},
+				"itemBundleProperty": {
+					"LockedBy": "CombinationPadlock",
+					"CombinationNumber": 9001,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin"
+				},
+				"finalItemProperty": {
+					"LockedBy": "CombinationPadlock",
+					"CombinationNumber": 9001,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"]
+				}
+			},
+			"PasswordPadlock": {
+				"initialItemProperty": {
+					"LockedBy": "PasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"RemoveOnUnlock": false,
+					"Hint": "Take a guess...",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"],
+					"CombinationNumber": "I am not supposed to be here"
+				},
+				"itemBundleProperty": {
+					"LockedBy": "PasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"RemoveOnUnlock": false,
+					"Hint": "Take a guess...",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin"
+				},
+				"finalItemProperty": {
+					"LockedBy": "PasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"RemoveOnUnlock": false,
+					"Hint": "Take a guess...",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"]
+				}
+			}
 		}
 	},
 	"itemScript": {

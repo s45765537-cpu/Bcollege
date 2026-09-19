@@ -192,10 +192,13 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemType);
 	});
 
-	const lockParam = testParam.lock.assets.map(({ asset, group, comment }) => {
-		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...testParam.lock };
+	const lockParam = testParam.lock.assets.flatMap(({ asset, group, comment }) => {
+		return Object.entries(testParam.lock.locks).map(([lock, _data]) => {
+			const data = _data as Record<"initialItemProperty" | "itemBundleProperty" | "finalItemProperty", ItemProperties>;
+			return { name: `${lock} - ${group}/${asset} (${comment})`, assetParam: { asset, group }, ...data };
+		});
 	 });
-	it.each(lockParam)("locked item: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
+	it.each(lockParam)("lock item: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
 		const asset: Asset = Game.AssetGet("Female3DCG", assetParam.group, assetParam.asset);
 		expect(asset, "asset fetching").not.toBe(null);
 
@@ -216,7 +219,11 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.LockedBy, "bundle to item re-conversion").toEqual(finalItemProperty.LockedBy);
 		expect(itemRestored?.Property?.LockMemberNumber, "bundle to item re-conversion").toEqual(finalItemProperty.LockMemberNumber);
 		expect(itemRestored?.Property?.CombinationNumber, "bundle to item re-conversion").toEqual(finalItemProperty.CombinationNumber);
-		expect(itemRestored?.Property?.Effect, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Effect));
+		expect(itemRestored?.Property?.Effect, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Effect ?? []));
+		expect(itemRestored?.Property?.Password, "bundle to item re-conversion").toEqual(finalItemProperty.Password);
+		expect(itemRestored?.Property?.LockSet, "bundle to item re-conversion").toEqual(finalItemProperty.LockSet);
+		expect(itemRestored?.Property?.Hint, "bundle to item re-conversion").toEqual(finalItemProperty.Hint);
+		expect(itemRestored?.Property?.RemoveOnUnlock, "bundle to item re-conversion").toEqual(finalItemProperty.RemoveOnUnlock);
 	});
 
 	it("script item", () => {
