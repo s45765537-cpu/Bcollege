@@ -43870,8 +43870,6 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: "#70C0C0",
-				Hide: ["HandAccessoryLeft", "HandAccessoryRight"],
-				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -45735,8 +45733,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LatexSleevelessLeotard",
 				Extended: true,
 				SelfUnlock: false,
-				Hide: ["Cloth", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"],
-				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
+				Hide: ["ItemNipplesPiercings", "ItemVulvaPiercings"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -45779,8 +45776,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LatexSleevelessLeotard",
 				Extended: true,
 				SelfUnlock: false,
-				Hide: ["Cloth", "ItemNipplesPiercings", "ItemVulvaPiercings", "Corset"],
-				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
+				Hide: ["ItemNipplesPiercings", "ItemVulvaPiercings"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -45822,14 +45818,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#580505",
 				Extended: true,
 				SelfUnlock: false,
-				Hide: [
-					"Cloth",
-					"Bra",
-					"ItemNipplesPiercings",
-					"ItemVulvaPiercings",
-					"Corset",
-				],
-				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
+				Hide: ["ItemNipplesPiercings", "ItemVulvaPiercings"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaVibratingDildo",
@@ -69879,7 +69868,6 @@ var AssetFemale3DCG = [
 				Time: 10,
 				IsRestraint: false,
 				Prerequisite: ["AccessVulva", "NotChaste"],
-				Hide: ["Shoes", "ItemBoots", "ItemLegs", "ItemVulva"],
 				SetPose: ["KneelingSpread"],
 				Effect: [E.FillVulva, E.Freeze, E.Mounted],
 				Block: ["ItemPelvis", "ItemButt", "ItemVulva"],
