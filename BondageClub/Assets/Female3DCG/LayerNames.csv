@@ -2081,6 +2081,8 @@ ItemHandheldAnimeGirlWandDiamond,Big gem
 ItemHandheldAnimeGirlWandDetail1,Central ornament
 ItemHandheldAnimeGirlWandDetail2,Spheres
 ItemHandheldAnimeGirlWandSwitch,Power switch
+ItemHandheldBookCover,Cover
+ItemHandheldBookPaper,Paper
 ItemHandheldBunPlushBase1,Base
 ItemHandheldBunPlushBase2,Accent
 ItemHandheldCandyCaneBase,Base
@@ -2116,21 +2118,12 @@ ItemHandheldElectricGuitarB6,Borders
 ItemHandheldElectricGuitarB7,Tuners
 ItemHandheldElectricGuitarB8,Frets
 ItemHandheldElectricGuitarB9,B9
-ItemHandheldFoldingfanFanEdge,Fan Edge
-ItemHandheldFoldingfanFanSurface,Fan Surface
-ItemHandheldFoldingfanFoldingRibs,Folding Ribs
-ItemHandheldFoldingfanOpenRibs,Open Ribs
-ItemHandheldFoldingfanOpenRibsBack,Open Ribs Back
-ItemHandheldFoldingfanOpenShadow,Open Shadow
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
 ItemHandheldGiftBoxBox,Box
 ItemHandheldGiftBoxBoxReflection,Box Reflection
 ItemHandheldGiftBoxRibbon,Ribbon
 ItemHandheldGiftBoxRibbonReflection,Ribbon Reflection
-ItemHandheldGrilledSausageFlavor1,Five Spices
-ItemHandheldGrilledSausageFlavor2,Smoky Honey
-ItemHandheldGrilledSausageStick,Stick
 ItemHandheldKyosensuFan,Fan paper
 ItemHandheldKyosensuFan1,Fan paper 2nd color
 ItemHandheldKyosensuFan2,Fan paper 3rd color
@@ -2141,15 +2134,6 @@ ItemHandheldLaptopDot,Dot
 ItemHandheldLaptopMain,Main
 ItemHandheldMugFluids,Fluids
 ItemHandheldMugMug,Mug
-ItemHandheldOilpaperumbrellaUmbrellaBamboo,Umbrella Bamboo
-ItemHandheldOilpaperumbrellaUmbrellaCartoon,Umbrella Cartoon
-ItemHandheldOilpaperumbrellaUmbrellaDarkSide,Umbrella Dark Side
-ItemHandheldOilpaperumbrellaUmbrellaFlower1,Umbrella Flower 1
-ItemHandheldOilpaperumbrellaUmbrellaFlower2,Umbrella Flower 2
-ItemHandheldOilpaperumbrellaUmbrellaHandle,Umbrella Handle
-ItemHandheldOilpaperumbrellaUmbrellaLandscape,Umbrella Landscape
-ItemHandheldOilpaperumbrellaUmbrellaNoPattern,Umbrella No Pattern
-ItemHandheldOilpaperumbrellaUmbrellaRibs,Umbrella Ribs
 ItemHandheldPlushies,Plushies
 ItemHandheldPlushiesSelect,Choose a plushie
 ItemHandheldPlushiesSin,Sin
@@ -3816,7 +3800,7 @@ PantiesUntrainersThinWet,Wet
 PantiesUntrainersThinIndicator,Indicator
 PantiesRoyalDiaperBase,Base
 PantiesRoyalDiaperTabs,Tabs
-PantiesRoyalDiaperNone,Motiv
+PantiesRoyalDiaperMotiv,Motiv
 PantiesRoyalDiaperWet,Wet
 PantiesRoyalDiaperIndicator,Indicator
 AnkletRightLegFurAnkle,Fur Ankle
