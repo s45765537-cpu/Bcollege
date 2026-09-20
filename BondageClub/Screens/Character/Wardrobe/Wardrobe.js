@@ -270,17 +270,12 @@ function WardrobeFitSlotLabels() {
 function WardrobeKeyDown(event) {
 	if (WardrobeReorderMode !== "None" || WardrobeSelection !== -1) return false;
 	const search = /** @type {HTMLInputElement} */ (ElementWrap(WardrobeID.searchInput));
-	if (!search) return false;
-	if (document.activeElement !== document.body && document.activeElement !== document.getElementById("MainCanvas")) return false;
-	if (event.key.length === 0 || event.altKey || event.ctrlKey || event.metaKey) return false;
-
-	search.toggleAttribute("hidden", false);
-	search.focus();
-	search.value = event.key;
-	search.setSelectionRange(event.key.length, event.key.length);
-	WardrobeSetSearch(search.value);
-	WardrobeUpdateElements();
-	return true;
+	if (search && CommonKey.InputKeyDown(search, event, { allowCtrlA: true })) {
+		WardrobeSetSearch(search.value);
+		WardrobeUpdateElements();
+		return true;
+	}
+	return false;
 }
 
 /**
