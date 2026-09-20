@@ -52139,13 +52139,17 @@ var AssetFemale3DCG = [
 				InventoryID: 1402,
 				Random: false,
 				Value: 10,
-				Priority: 26,
+				Priority: 33,
 				Top: 0,
 				Left: 0,
 				ParentGroup: {},
-				DefaultColor: ["292933", "#FFFFFF"],
-				AllowActivity: ["RubItem", "SpankItem"],
-				Layer: [{ Name: "Cover" }, { Name: "Paper" }],
+				DefaultColor: ["Default", "#FFFFFF"],
+				AllowActivity: ["SpankItem", "RubItem"],
+				ActivityAudio: ["BrushSpank"],
+				Layer: [
+					{ Name: "Cover" }, 
+					{ Name: "Paper", Priority: 32 }
+				],
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "书",
