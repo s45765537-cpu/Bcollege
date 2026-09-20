@@ -1154,6 +1154,8 @@ async function ServerHandleLeashBeep(data) {
 	}
 
 	ChatRoomLeave();
+	await CommonSetScreen("Online", "ChatSearch");
+
 	retries = 5;
 	while (true) {
 		const result = await ServerRoomJoin(room.Name);
