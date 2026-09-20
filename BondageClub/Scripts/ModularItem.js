@@ -128,12 +128,12 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		const mutableProperties = {};
 		for (const propName of ExtendedItemInitPropertyIgnore) {
 			// @ts-expect-error
-			mutableProperties[propName] = newProps[propName];
+			mutableProperties[propName] = newProps[propName] ?? Data.baselineProperty?.[propName];
 			delete newProps[propName];
 		}
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
-			return existingValue == null && typeof existingValue !== typeof v;
+			return existingValue == null && typeof existingValue !== typeof v && !ExtendedItemInitPropertyIgnore.has(k);
 		});
 
 		let update = false;
@@ -171,9 +171,18 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			ModularItemMergeModuleValues(Data, currentModuleValues),
 		);
 		for (const [propName, baselineValue] of CommonEntries(Data.baselineProperty ?? {})) {
-			if (baselineValue !== undefined && typeof Item.Property[propName] !== typeof baselineValue) {
-				// @ts-expect-error
-				Item.Property[propName] = CommonCloneDeep(baselineValue);
+			if (baselineValue === undefined) {
+				continue;
+			} else if (ExtendedItemInitPropertyIgnore.has(propName)) {
+				if (Item.Property[propName] === undefined) {
+					// @ts-expect-error
+					Item.Property[propName] = baselineValue;
+				}
+			} else {
+				if (typeof Item.Property[propName] !== typeof baselineValue) {
+					// @ts-expect-error
+					Item.Property[propName] = baselineValue;
+				}
 			}
 		}
 	}

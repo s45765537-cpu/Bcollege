@@ -596,7 +596,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		const mutableProperties = {};
 		for (const propName of ExtendedItemInitPropertyIgnore) {
 			// @ts-expect-error
-			mutableProperties[propName] = newProps[propName];
+			mutableProperties[propName] = newProps[propName] ?? baselineProperty?.[propName];
 			delete newProps[propName];
 		}
 		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
@@ -605,7 +605,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		}
 		const baseLineProps = Object.entries(CommonCloneDeep(baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
-			return existingValue == null && typeof existingValue !== typeof v;
+			return existingValue == null && typeof existingValue !== typeof v && !ExtendedItemInitPropertyIgnore.has(k);
 		});
 
 		let update = false;
@@ -640,9 +640,18 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 			CommonCloneDeep(option.Property),
 		);
 		for (const [propName, baselineValue] of CommonEntries(baselineProperty ?? {})) {
-			if (baselineValue !== undefined && typeof Item.Property[propName] !== typeof baselineValue) {
-				// @ts-expect-error
-				Item.Property[propName] = CommonCloneDeep(baselineValue);
+			if (baselineValue === undefined) {
+				continue;
+			} else if (ExtendedItemInitPropertyIgnore.has(propName)) {
+				if (Item.Property[propName] === undefined) {
+					// @ts-expect-error
+					Item.Property[propName] = baselineValue;
+				}
+			} else {
+				if (typeof Item.Property[propName] !== typeof baselineValue) {
+					// @ts-expect-error
+					Item.Property[propName] = baselineValue;
+				}
 			}
 		}
 	}
