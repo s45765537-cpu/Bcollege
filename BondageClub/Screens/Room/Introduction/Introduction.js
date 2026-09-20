@@ -325,8 +325,8 @@ function IntroductionJobProgress(JobName, Param, UniqueMember) {
  * @returns {SafePromise<void>} - Nothing
  */
 async function IntroductionJobBouncerStart() {
-	if (!DailyJobOpponent) return;
 	await CommonSetScreen("Room", "DailyJob");
+	if (!DailyJobOpponent) return;
 	CharacterSetCurrent(DailyJobOpponent);
 	CharacterRelease(DailyJobOpponent);
 	DailyJobOpponent.CurrentDialog = DialogFind(IntroductionMaid, "JobKidnapIntro" + DailyJobOpponent.Stage.toString() + Math.floor(Math.random() * 4).toString());
@@ -337,8 +337,8 @@ async function IntroductionJobBouncerStart() {
  * @returns {SafePromise<void>} - Nothing
  */
 async function IntroductionJobPuppyStart() {
-	if (!DailyJobPuppyMistress) return;
 	await CommonSetScreen("Room", "DailyJob");
+	if (!DailyJobPuppyMistress) return;
 	CharacterSetCurrent(DailyJobPuppyMistress);
 	DailyJobPuppyMistress.CurrentDialog = DialogFind(IntroductionMaid, "JobPuppyIntro" + DailyJobPuppyMistress.Stage.toString() + Math.floor(Math.random() * 4).toString());
 }
