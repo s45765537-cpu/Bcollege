@@ -198,7 +198,7 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 	if (permissions.includes(ScriptPermissionLevel.SELF)) {
 		for (const propertyName of ValidationScriptableProperties) {
 			const propertyPermission = ValidationPropertyPermissions[propertyName];
-			if (sanitizedProperty[propertyName] != null && propertyPermission && !ValidationHasScriptPermission(C, propertyPermission, ScriptPermissionLevel.SELF)) {
+			if (sanitizedProperty[propertyName]?.length && propertyPermission && !ValidationHasScriptPermission(C, propertyPermission, ScriptPermissionLevel.SELF)) {
 				delete sanitizedProperty[propertyName];
 				valid = false;
 			}
