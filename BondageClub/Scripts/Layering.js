@@ -850,7 +850,7 @@ var Layering = {
 	 */
 	_GetDefaults() {
 		if (!this.Item.Property.TypeRecord) {
-			return undefined;
+			return {};
 		}
 
 		// Recreate the items default state (given a provided type record) and extract its default priority
@@ -1057,10 +1057,6 @@ var Layering = {
 	 */
 	Exit(reload=false) {
 		ElementRemove(this.ID.root);
-		ChatRoomCharacterItemUpdate(this.Character, this.Asset.Group.Name);
-		if (this.Character.IsPlayer()) {
-			ServerPlayerAppearanceSync();
-		}
 
 		if (!reload) {
 			this._ExitCallbacks.forEach(func => func(CurrentScreen, this.Character, this.Item));
@@ -1101,7 +1097,15 @@ Layering.RegisterExitCallbacks(
 		},
 	},
 	{
-		callback: () => DialogMenuMode === "layering" ? DialogChangeMode("items") : undefined,
+		callback: (C, item) => {
+			if (DialogMenuMode === "layering") {
+				DialogChangeMode("items");
+				ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
+				if (C.IsPlayer()) {
+					ServerPlayerAppearanceSync();
+				}
+			}
+		},
 	},
 	{
 		screen: "Shop2",
