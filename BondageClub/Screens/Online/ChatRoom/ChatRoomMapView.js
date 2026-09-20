@@ -1576,8 +1576,14 @@ function ChatRoomMapViewResize() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDeactivate() {
+	ChatRoomMapViewDestroyEditor();
+}
+
+function ChatRoomMapViewDestroyEditor() {
 	document.removeEventListener("blur", ChatRoomMapViewBlur);
-	ElementRemove("chat-room-map-view-panel");
+	if (ElementWrap("chat-room-map-view-panel")) {
+		ElementRemove("chat-room-map-view-panel");
+	}
 }
 
 /**
