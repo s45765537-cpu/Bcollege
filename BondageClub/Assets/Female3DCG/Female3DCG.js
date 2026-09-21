@@ -52311,10 +52311,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#FFFFFF"],
 				AllowActivity: ["SpankItem", "RubItem"],
 				ActivityAudio: ["BrushSpank"],
-				Layer: [
-					{ Name: "Cover" }, 
-					{ Name: "Paper", Priority: 32 }
-				],
+				Layer: [{ Name: "Cover" }, { Name: "Paper", Priority: 32 }],
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "书",
