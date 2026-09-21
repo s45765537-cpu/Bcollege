@@ -1067,6 +1067,11 @@ function ChatRoomMapViewLeave() {
 function ChatRoomMapViewActivate() {
 	ChatRoomMapManager.OnViewActivate();
 	ChatRoomMapViewCalculatePerceptionMasks();
+	ChatRoomMapViewShowEditor();
+}
+
+function ChatRoomMapViewShowEditor() {
+	if (ElementWrap("chat-room-map-view-panel")) return;
 
 	ElementCreate({
 		tag: "div",
@@ -2599,6 +2604,7 @@ function ChatRoomMapViewDraw() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDrawUi() {
+	ChatRoomMapViewShowEditor();
 
 	// Admins can grant themselves super powers (teleport, far hearing, etc.)
 	if (ChatRoomPlayerIsAdmin())
