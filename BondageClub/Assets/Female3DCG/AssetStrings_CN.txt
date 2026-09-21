@@ -1164,7 +1164,7 @@ Dildo item intensity: High
 假阳具物品强度：高
 Dildo item intensity: Maximum
 假阳具物品强度：最大
-SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the dildo plug from DestinationCharacter gag.
 SourceCharacter从DestinationCharacter口塞里拔出了假阳具塞子。
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter使用假阳具塞子塞住了DestinationCharacter嘴。
@@ -6260,7 +6260,7 @@ SourceCharacter attaches the Ornate ankle cuffs chain on DestinationCharacter an
 SourceCharacter将DestinationCharacter脚踝上的华丽脚铐上的锁链连在一起。
 SourceCharacter detaches the chain from DestinationCharacter Ornate ankle cuffs.
 SourceCharacter解开了DestinationCharacter华丽脚铐上的锁链。
-SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the plug from DestinationCharacter gag.
 SourceCharacter从DestinationCharacter口塞中拔出塞子。
 SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter把塞子塞进DestinationCharacter嘴。

@@ -934,7 +934,7 @@ Dildo item intensity: High
 Dildo item intensity: Maximum
 Интенсивность дилдо: Максимальная
 
-SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the dildo plug from DestinationCharacter gag.
 SourceCharacter вытаскивает DestinationCharacter пробку-дилдо из TargetPronounPossessive кляпа.
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter затыкает DestinationCharacter рот пробкой в виде дилдо.
@@ -5986,7 +5986,7 @@ SourceCharacter прикрепляет цепочку от богато укра
 SourceCharacter detaches the chain from DestinationCharacter Ornate ankle cuffs.
 SourceCharacter отсоединяет цепочку от богато украшенных нащиколотников DestinationCharacter.
 
-SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the plug from DestinationCharacter gag.
 SourceCharacter вытаскивает DestinationCharacter пробку из TargetPronounPossessive кляпа.
 SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter затыкает DestinationCharacter рот.

@@ -1202,7 +1202,7 @@ DildoIntensity0,Dildo item intensity: Low
 DildoIntensity1,Dildo item intensity: Medium
 DildoIntensity2,Dildo item intensity: High
 DildoIntensity3,Dildo item intensity: Maximum
-DildoPlugGagMouthSetOpen,SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
+DildoPlugGagMouthSetOpen,SourceCharacter pulls out the dildo plug from DestinationCharacter gag.
 DildoPlugGagMouthSetPlug,SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 DuctTapeMouthSetCover,SourceCharacter wraps many layers on DestinationCharacter mouth.
 DuctTapeMouthSetCrossed,SourceCharacter crosses two pieces of duct tape on DestinationCharacter mouth.
@@ -6892,7 +6892,7 @@ OrnateAnkleCuffsPoseNone,Detached
 OrnateAnkleCuffsRestrainChained,SourceCharacter attaches the Ornate ankle cuffs chain on DestinationCharacter ankles.
 OrnateAnkleCuffsRestrainClosed,SourceCharacter attaches the Ornate ankle cuffs chain on DestinationCharacter ankles.
 OrnateAnkleCuffsRestrainNone,SourceCharacter detaches the chain from DestinationCharacter Ornate ankle cuffs.
-OTNPlugGagMouthSetOpen,SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+OTNPlugGagMouthSetOpen,SourceCharacter pulls out the plug from DestinationCharacter gag.
 OTNPlugGagMouthSetPlug,SourceCharacter plugs up DestinationCharacter mouth.
 OTNPlugGagMouthTypeOpen,Open
 OTNPlugGagMouthTypePlug,Plugged
@@ -6979,7 +6979,7 @@ PlayerGagged,(You can use or remove items by selecting specific body regions on 
 PlayerOwnerCollarRelease,DestinationCharacterName owner releases TargetPronounObject from the slave collar.
 PlayerOwnerCollarWear,TargetCharacterName is given TargetPronounObject slave collar again.
 plug,plug
-PlugGagMouthSetOpen,SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+PlugGagMouthSetOpen,SourceCharacter pulls out the plug from DestinationCharacter gag.
 PlugGagMouthSetPlug,SourceCharacter plugs up DestinationCharacter mouth.
 PlugGagMouthTypeOpen,Open
 PlugGagMouthTypePlug,Plugged

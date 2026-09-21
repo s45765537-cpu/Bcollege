@@ -305,7 +305,7 @@ Open
 Libre
 SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter bouche DestinationCharacter.
-SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the plug from DestinationCharacter gag.
 SourceCharacter débouche DestinationCharacter.
 Select the type of blindfold
 Selecttionner le type de bandeau

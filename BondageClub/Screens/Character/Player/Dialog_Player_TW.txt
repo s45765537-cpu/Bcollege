@@ -1883,7 +1883,7 @@ Open
 打開
 SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter把塞子塞進DestinationCharacter嘴。
-SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the plug from DestinationCharacter gag.
 SourceCharacter從DestinationCharacter口塞中拔出塞子。
 SourceCharacter configures DestinationCharacter visor to be transparent.
 SourceCharacter將DestinationCharacter眼鏡設置為透明的。
@@ -2255,7 +2255,7 @@ DestinationCharacterName gag inflates into a large dildo that forces its way dow
 DestinationCharacterName口塞充氣變為大號的假陽具，強行深入她的喉嚨。
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter使用假陽具塞子塞住了DestinationCharacter嘴。
-SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the dildo plug from DestinationCharacter gag.
 SourceCharacter從DestinationCharacter口塞裡拔出了假陽具塞子。
 SourceCharacter loosens the gag on DestinationCharacter mouth.
 SourceCharacter放鬆了DestinationCharacter嘴上的口塞。
