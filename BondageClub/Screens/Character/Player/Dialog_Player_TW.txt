@@ -4529,15 +4529,15 @@ Shorts & Straps
 有短褲並添加系帶
 Change jacket text:
 改變拘束衣文字：
-SourceCharacter removes the shorts from DestinationCharacter AssetName
+SourceCharacter removes the shorts from DestinationCharacter AssetName.
 SourceCharacter從DestinationCharacterAssetName上移除了短褲
-SourceCharacter attaches shorts to DestinationCharacter AssetName
+SourceCharacter attaches shorts to DestinationCharacter AssetName.
 SourceCharacter將短褲附加到DestinationCharacterAssetName上
-SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName
+SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName.
 SourceCharacter從DestinationCharacterAssetName上移除了強化束帶
-SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName
+SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName.
 SourceCharacter在DestinationCharacterAssetName上添加了強化束帶，並添加了短褲
-SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps
+SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps.
 SourceCharacter在DestinationCharacterAssetName上添加了強化束帶
 Select Pole state
 選擇柱子狀態

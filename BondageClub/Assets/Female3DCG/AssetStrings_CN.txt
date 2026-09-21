@@ -2626,15 +2626,15 @@ No Shorts
 没有短裤
 Configure Jacket
 配置拘束衣
-SourceCharacter attaches shorts to DestinationCharacter AssetName
+SourceCharacter attaches shorts to DestinationCharacter AssetName.
 SourceCharacter将短裤附加到DestinationCharacterAssetName上
-SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName
+SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName.
 SourceCharacter在DestinationCharacterAssetName上添加了强化束带，并添加了短裤
-SourceCharacter removes the shorts from DestinationCharacter AssetName
+SourceCharacter removes the shorts from DestinationCharacter AssetName.
 SourceCharacter从DestinationCharacterAssetName上移除了短裤
-SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName
+SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName.
 SourceCharacter从DestinationCharacterAssetName上移除了强化束带
-SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps
+SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps.
 SourceCharacter在DestinationCharacterAssetName上添加了强化束带
 Shorts
 有短裤

@@ -2264,15 +2264,15 @@ No Shorts
 Без шорт
 Configure Jacket
 Настроить рубашку
-SourceCharacter attaches shorts to DestinationCharacter AssetName
+SourceCharacter attaches shorts to DestinationCharacter AssetName.
 SourceCharacter добавляет шорты к AssetName DestinationCharacter
-SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName
+SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName.
 SourceCharacter добавляет шорты и усиленные ремни к AssetName DestinationCharacter
-SourceCharacter removes the shorts from DestinationCharacter AssetName
+SourceCharacter removes the shorts from DestinationCharacter AssetName.
 SourceCharacter удаляет шорты с AssetName DestinationCharacter
-SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName
+SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName.
 SourceCharacter удаляет усиливающие ремни с AssetName DestinationCharacter
-SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps
+SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps.
 SourceCharacter укрепляет AssetName DestinationCharacter прочными ремнями
 Shorts
 Шорты
