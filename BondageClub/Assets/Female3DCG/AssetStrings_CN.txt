@@ -3726,11 +3726,11 @@ Select Left Sticker
 选择左边胶布
 Select Right Sticker
 选择右边胶布
-SourceCharacter changes the medical patches on DestinationCharacter eyes
+SourceCharacter changes the medical patches on DestinationCharacter eyes.
 SourceCharacter改变了DestinationCharacter双眼上的医用胶布
-SourceCharacter changes the sticker on DestinationCharacter left eye
+SourceCharacter changes the sticker on DestinationCharacter left eye.
 SourceCharacter改变了DestinationCharacter左眼上的医用胶布
-SourceCharacter changes the sticker on DestinationCharacter right eye
+SourceCharacter changes the sticker on DestinationCharacter right eye.
 SourceCharacter改变了DestinationCharacter右眼上的医用胶布
 SourceCharacter uses some ribbons on DestinationCharacter face.
 SourceCharacter在DestinationCharacter脸上缠了一些丝带。

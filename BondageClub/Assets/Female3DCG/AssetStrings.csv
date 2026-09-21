@@ -4483,9 +4483,9 @@ ItemHeadMedicalPatchSelectBase,Select Medical Patch Details
 ItemHeadMedicalPatchSelectEye,Select Eye
 ItemHeadMedicalPatchSelectLeftSticker,Select Left Sticker
 ItemHeadMedicalPatchSelectRightSticker,Select Right Sticker
-ItemHeadMedicalPatchSetEye,SourceCharacter changes the medical patches on DestinationCharacter eyes
-ItemHeadMedicalPatchSetLeftSticker,SourceCharacter changes the sticker on DestinationCharacter left eye
-ItemHeadMedicalPatchSetRightSticker,SourceCharacter changes the sticker on DestinationCharacter right eye
+ItemHeadMedicalPatchSetEye,SourceCharacter changes the medical patches on DestinationCharacter eyes.
+ItemHeadMedicalPatchSetLeftSticker,SourceCharacter changes the sticker on DestinationCharacter left eye.
+ItemHeadMedicalPatchSetRightSticker,SourceCharacter changes the sticker on DestinationCharacter right eye.
 ItemHeadRibbonsBasic,Basic
 ItemHeadRibbonsSetBasic,SourceCharacter uses some ribbons on DestinationCharacter face.
 ItemHeadRibbonsSetWrap,SourceCharacter uses some more ribbons on DestinationCharacter face.

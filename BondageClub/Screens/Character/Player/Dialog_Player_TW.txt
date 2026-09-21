@@ -5107,7 +5107,7 @@ Select Eye
 選擇眼睛
 Eye
 眼睛
-SourceCharacter changes the medical patches on DestinationCharacter eyes
+SourceCharacter changes the medical patches on DestinationCharacter eyes.
 SourceCharacter改變了DestinationCharacter雙眼上的醫用膠布
 Select Right Sticker
 選擇右邊膠布
@@ -5119,13 +5119,13 @@ Stripes
 條紋
 Teddy
 泰迪
-SourceCharacter changes the sticker on DestinationCharacter right eye
+SourceCharacter changes the sticker on DestinationCharacter right eye.
 SourceCharacter改變了DestinationCharacter右眼上的醫用膠布
 Select Left Sticker
 選擇左邊膠布
 Left Sticker
 左邊膠布
-SourceCharacter changes the sticker on DestinationCharacter left eye
+SourceCharacter changes the sticker on DestinationCharacter left eye.
 SourceCharacter改變了DestinationCharacter左眼上的醫用膠布
 Select Mask Details
 選擇面具細節

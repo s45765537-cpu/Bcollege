@@ -3266,11 +3266,11 @@ Select Left Sticker
 Выберите левый пластырь
 Select Right Sticker
 Выберите правый пластырь
-SourceCharacter changes the medical patches on DestinationCharacter eyes
+SourceCharacter changes the medical patches on DestinationCharacter eyes.
 SourceCharacter меняет медицинские пластыри на DestinationCharacter глазах.
-SourceCharacter changes the sticker on DestinationCharacter left eye
+SourceCharacter changes the sticker on DestinationCharacter left eye.
 SourceCharacter меняет пластырь на DestinationCharacter левом глазу
-SourceCharacter changes the sticker on DestinationCharacter right eye
+SourceCharacter changes the sticker on DestinationCharacter right eye.
 SourceCharacter меняет пластырь на DestinationCharacter правом глазу
 
 SourceCharacter uses some ribbons on DestinationCharacter face.
