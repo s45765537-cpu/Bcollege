@@ -4503,9 +4503,9 @@ NW-SE
 西北-東南
 SourceCharacter changes the text orientation of DestinationCharacterName AssetName
 SourceCharacter修改DestinationCharacterNameAssetName上的文本方向
-SourceCharacter removes the text from DestinationCharacterName AssetName
+SourceCharacter removes the text from DestinationCharacter AssetName
 SourceCharacter移除了DestinationCharacterNameAssetName上的文本
-SourceCharacter changes the text on DestinationCharacterName AssetName to read "NewText"
+SourceCharacter changes the text on DestinationCharacter AssetName to read "NewText"
 SourceCharacter修改DestinationCharacterNameAssetName上的文本為"NewText"
 Select Halo Type
 選擇光環類型

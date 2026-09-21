@@ -6834,9 +6834,9 @@ DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris start
 DestinationCharacterName跳蛋猛烈地颤动起来！
 DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris jumps up to maximum intensity!
 DestinationCharacterName跳蛋突然以最大强度振动起来！
-SourceCharacter changes the text on DestinationCharacterName AssetName to read "NewText"
+SourceCharacter changes the text on DestinationCharacter AssetName to read "NewText"
 SourceCharacter修改DestinationCharacterNameAssetName上的文本为"NewText"
-SourceCharacter removes the text from DestinationCharacterName AssetName
+SourceCharacter removes the text from DestinationCharacter AssetName
 SourceCharacter移除了DestinationCharacterNameAssetName上的文本
 Configure item text
 配置物品文本

@@ -7392,8 +7392,8 @@ TapedClitEggIncreaseTo0,DestinationCharacterName vibrating egg on TargetPronounP
 TapedClitEggIncreaseTo1,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris builds up to a moderate pace.
 TapedClitEggIncreaseTo2,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris starts buzzing strongly!
 TapedClitEggIncreaseTo3,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris jumps up to maximum intensity!
-TextItemChange,"SourceCharacter changes the text on DestinationCharacterName AssetName to read ""NewText"""
-TextItemRemove,SourceCharacter removes the text from DestinationCharacterName AssetName
+TextItemChange,"SourceCharacter changes the text on DestinationCharacter AssetName to read ""NewText""".
+TextItemRemove,SourceCharacter removes the text from DestinationCharacter AssetName.
 TextItemSelect,Configure item text
 tightens,tightens
 TimerAddRemoveUnknownTime,SourceCharacter changes the time on the padlock of DestinationCharacter FocusAssetGroup
