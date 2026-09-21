@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8"> <!-- Keep at the top! `charset` declarations _must_ be within the first 1024 bytes of the document -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
 	<meta http-equiv="cache-control" content="max-age=0" />
 	<meta http-equiv="cache-control" content="no-cache" />
 	<meta http-equiv="expires" content="0" />
@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="CSS/screen.css">
 	<link rel="stylesheet" href="CSS/button.css">
 	<link rel="stylesheet" href="CSS/Crafting.css">
+	<link rel="stylesheet" href="CSS/crafting-slot.css">
 	<link rel="stylesheet" href="CSS/FriendList.css">
 	<link rel="stylesheet" href="CSS/chat.css">
 	<link rel="stylesheet" href="CSS/fonts.css">
@@ -31,6 +32,7 @@
 	<link rel="stylesheet" href="CSS/Chess.css">
 	<link rel="stylesheet" href="CSS/toasts.css">
 	<link rel="stylesheet" href="CSS/login.css">
+	<link rel="stylesheet" href="CSS/creation.css">
 	<link rel="stylesheet" href="CSS/relog.css">
 	<link rel="stylesheet" href="CSS/utilities.css">
 	<link rel="stylesheet" href="CSS/ChatSearch.css">
@@ -38,12 +40,19 @@
 	<link rel="stylesheet" href="CSS/commands.css">
 	<link rel="stylesheet" href="CSS/preference.css">
 	<link rel="stylesheet" href="CSS/title.css">
+	<link rel="stylesheet" href="CSS/disclaimer.css">
+	<link rel="stylesheet" href="CSS/map-view.css">
+	<link rel="stylesheet" href="CSS/fullscreen.css">
+	<link rel="stylesheet" href="CSS/room-admin.css">
+	<link rel="stylesheet" href="CSS/wardrobe.css">
 	<script src="Scripts/lib/webgl/resources/m4.js"></script>
 	<script src="Scripts/lib/LZString.js"></script>
 	<script src="Scripts/lib/socket.io/socket.io.min.js"></script>
 	<script src="Scripts/lib/country-flag-emoji-polyfill/index.min.js"></script>
+	<script src="Scripts/BitString.js"></script>
 	<script async src="Scripts/lib/chess.min.js"></script>
 	<script async src="Scripts/lib/chessboard-4.3.9.min.js"></script>
+	<script src="Scripts/lib/bcmodsdk.min.js"></script>
 </head>
 
 <script src="Scripts/Game.js"></script>
@@ -78,6 +87,7 @@
 <script src="Scripts/Validation.js"></script>
 <script src="Scripts/Server.js"></script>
 <script src="Scripts/Element.js"></script>
+<script src="Scripts/Fullscreen.js"></script>
 <script src="Scripts/Translation.js"></script>
 <script src="Scripts/Activity.js"></script>
 <script src="Scripts/ExtendedItem.js"></script>
@@ -99,6 +109,8 @@
 <script src="Scripts/KeybindingDefaults.js"></script>
 <script src="Scripts/KeybindingManager.js"></script>
 <script src="Assets/Female3DCG/Female3DCG.js"></script>
+<script src="Scripts/Item.js"></script>
+<script src="Scripts/Map.js"></script>
 <script src="Screens/Inventory/Futuristic/Futuristic.js"></script>
 <script src="Screens/Inventory/ItemTorso/FuturisticHarness/FuturisticHarness.js"></script>
 <script src="Screens/Inventory/ItemNeckAccessories/CollarNameTag/CollarNameTag.js"></script>
@@ -128,6 +140,7 @@
 <script src="Screens/Inventory/ItemMisc/WoodenSign/WoodenSign.js"></script>
 <script src="Screens/Inventory/ItemHood/CanvasHood/CanvasHood.js"></script>
 <script src="Screens/Inventory/ItemPelvis/ObedienceBelt/ObedienceBelt.js"></script>
+<script src="Screens/Inventory/ItemVulva/TechnoChastityCage/TechnoChastityCage.js"></script>
 <script src="Screens/Inventory/ItemPelvis/ModularChastityBelt/ModularChastityBelt.js"></script>
 <script src="Screens/Inventory/ItemNeckAccessories/CustomCollarTag/CustomCollarTag.js"></script>
 <script src="Screens/Inventory/ItemNeckAccessories/ElectronicTag/ElectronicTag.js"></script>
@@ -237,6 +250,7 @@
 <script src="Screens/Room/PlatformIntro/PlatformIntro.js"></script>
 <script src="Screens/Room/PlatformProfile/PlatformProfile.js"></script>
 <script src="Screens/Room/Crafting/Crafting.js"></script>
+<script src="Screens/Room/Crafting/CraftingSlot.js"></script>
 <script src="Screens/Room/Crafting/CraftingJSON.js"></script>
 <script src="Screens/Room/ClubCardLounge/ClubCardLounge.js"></script>
 <script src="Screens/Room/Gambling/Gambling.js"></script>
