@@ -689,7 +689,7 @@ type AssetAttribute =
 	| "FuturisticRecolor" | "FuturisticRecolorDisplay" | "FuturisticLock"
 	| "PortalLinkLockable" | `PortalLinkChastity${string}` | `PortalLinkActivity${ActivityName}` | `PortalLinkTarget${AssetGroupItemName}`
 	| "Diaper" | `Diaper${AssetGenericSize}` | "IsNurseryOutfit" | "Pacifier"
-	| "PetSuit" | "ArcadeGaming"
+	| "PetSuit" | "ArcadeGaming" | "HandheldItem"
 	;
 
 type PosePrerequisite = `Can${AssetPoseName}`;
