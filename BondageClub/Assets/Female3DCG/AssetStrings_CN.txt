@@ -7500,19 +7500,19 @@ Full with a grided window
 带有网格窗口
 Wall's last brick
 城墙的最后一块砖
-SourceCharacter removes all front wall brick from DestinationCharacterName.
+SourceCharacter removes all front bricks from TargetCharacter.
 SourceCharacter从DestinationCharacterName中移除所有前墙砖。
-SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
+SourceCharacter builds a brick wall that reaches DestinationCharacter hips.
 SourceCharacter建造了一堵砖墙，到达DestinationCharacterName的臀部。
-SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
+SourceCharacter builds a brick wall that reaches DestinationCharacter chest.
 SourceCharacter建造了一堵砖墙，到达DestinationCharacterName的胸部。
-SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
+SourceCharacter builds a brick wall that reaches DestinationCharacter neck.
 SourceCharacter建造了一堵砖墙，到达DestinationCharacterName颈部。
-SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall except a single hole at DestinationCharacter eye height.
 SourceCharacter建造了一堵完整的砖墙，但在DestinationCharacterName的视线高度处有一个洞。
-SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall with a small grid at DestinationCharacter eye height.
 SourceCharacter建造了一堵完整的砖墙，并在DestinationCharacterName眼睛高度处放置一个小网格。
-SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall and puts the last brick at DestinationCharacter eye height.
 SourceCharacter建造了一堵完整的砖墙，并将最后一块砖放在DestinationCharacterName的眼睛高度。
 Customize your heels:
 定制你的高跟鞋：

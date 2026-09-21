@@ -7953,13 +7953,13 @@ ItemDevicesBrickWallNeck,Neck height
 ItemDevicesBrickWallFull,Full wall
 ItemDevicesBrickWallFullOpt,Full with a grided window
 ItemDevicesBrickWallLastBrick,Wall's last brick
-ItemDevicesBrickWallSetNone,SourceCharacter removes all front wall brick from DestinationCharacterName.
-ItemDevicesBrickWallSetLegs,SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
-ItemDevicesBrickWallSetChest,SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
-ItemDevicesBrickWallSetNeck,SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
-ItemDevicesBrickWallSetFull,SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
-ItemDevicesBrickWallSetFullOpt,SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
-ItemDevicesBrickWallSetLastBrick,SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+ItemDevicesBrickWallSetNone,SourceCharacter removes all front bricks from TargetCharacter.
+ItemDevicesBrickWallSetLegs,SourceCharacter builds a brick wall that reaches DestinationCharacter hips.
+ItemDevicesBrickWallSetChest,SourceCharacter builds a brick wall that reaches DestinationCharacter chest.
+ItemDevicesBrickWallSetNeck,SourceCharacter builds a brick wall that reaches DestinationCharacter neck.
+ItemDevicesBrickWallSetFull,SourceCharacter builds a full brick wall except a single hole at DestinationCharacter eye height.
+ItemDevicesBrickWallSetFullOpt,SourceCharacter builds a full brick wall with a small grid at DestinationCharacter eye height.
+ItemDevicesBrickWallSetLastBrick,SourceCharacter builds a full brick wall and puts the last brick at DestinationCharacter eye height.
 ShoesCustomHeelsSelectBase,Customize your heels:
 ShoesCustomHeelsModuleStrap1,Ankle straps
 ShoesCustomHeelsSelectStrap1,Ankle straps menu

@@ -7294,19 +7294,19 @@ Full with a grided window
 Полная стена с решеткой
 Wall's last brick
 Последний кирпич стены
-SourceCharacter removes all front wall brick from DestinationCharacterName.
+SourceCharacter removes all front bricks from TargetCharacter.
 SourceCharacter удаляет все кирпичи из передней стены DestinationCharacterName.
-SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
+SourceCharacter builds a brick wall that reaches DestinationCharacter hips.
 SourceCharacter возводит кирпичную стену до бедер DestinationCharacterName.
-SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
+SourceCharacter builds a brick wall that reaches DestinationCharacter chest.
 SourceCharacter возводит кирпичную стену до груди DestinationCharacterName.
-SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
+SourceCharacter builds a brick wall that reaches DestinationCharacter neck.
 SourceCharacter возводит кирпичную стену до шеи DestinationCharacterName.
-SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall except a single hole at DestinationCharacter eye height.
 SourceCharacter полностью возводит кирпичную стену, оставляя одно отверстие на высоте глаз DestinationCharacterName.
-SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall with a small grid at DestinationCharacter eye height.
 SourceCharacter полностью возводит кирпичную стену, оставляя небольшую решетку на высоте глаз DestinationCharacterName.
-SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall and puts the last brick at DestinationCharacter eye height.
 SourceCharacter полностью возводит кирпичную стену и кладет последний кирпич на высоте глаз DestinationCharacterName.
 
 Customize your heels:
