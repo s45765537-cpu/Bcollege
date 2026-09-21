@@ -1200,7 +1200,7 @@ function DialogGetAssetIcons(asset) {
 	if (asset.OwnerOnly) icons.push("OwnerOnly");
 	if (asset.LoverOnly) icons.push("LoverOnly");
 	if (asset.FamilyOnly) icons.push("FamilyOnly");
-	if (asset.AllowActivity && asset.AllowActivity.length > 0) icons.push("Handheld");
+	if (Array.isArray(asset.Attribute) && asset.Attribute.includes("HandheldItem")) icons.push("Handheld");
 	return icons;
 }
 
