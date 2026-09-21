@@ -4966,9 +4966,9 @@ Masked
 面具
 Select type
 选择类型
-SourceCharacter change gagged on DestinationCharacter gag.
+SourceCharacter put a gag on DestinationCharacter gag.
 SourceCharacter改变DestinationCharacter面罩为口塞。
-SourceCharacter change masked on DestinationCharacter gag.
+SourceCharacter put a mask on DestinationCharacter gag.
 SourceCharacter改变DestinationCharacter口塞为面罩。
 Auto-shock Sensitivity
 自动电击强度

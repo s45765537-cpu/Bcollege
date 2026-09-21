@@ -5599,8 +5599,8 @@ ItemMouthStitchesZigZag,Zig Zag
 ItemMouthTechnoGagGagged,Gagged
 ItemMouthTechnoGagMasked,Masked
 ItemMouthTechnoGagSelect,Select type
-ItemMouthTechnoGagSetGagged,SourceCharacter change gagged on DestinationCharacter gag.
-ItemMouthTechnoGagSetMasked,SourceCharacter change masked on DestinationCharacter gag.
+ItemMouthTechnoGagSetGagged,SourceCharacter put a gag on DestinationCharacter gag.
+ItemMouthTechnoGagSetMasked,SourceCharacter put a mask on DestinationCharacter gag.
 ItemNeckAccessoriesCollarAutoShockUnitModuleAutoPunish,Auto-shock Sensitivity
 ItemNeckAccessoriesCollarAutoShockUnitModuleShockLevel,Shock Intensity
 ItemNeckAccessoriesCollarAutoShockUnitOptions0,Low
