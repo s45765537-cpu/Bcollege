@@ -64,19 +64,19 @@ SourceCharacter использует веревку, чтобы связать �
 SourceCharacter uses rope to tie DestinationCharacter wrists together behind TargetPronounPossessive back.
 SourceCharacter использует веревку, чтобы связать запястья DestinationCharacter за TargetPronounPossessive спиной.
 
-SourceCharacter Action the webbing on TargetCharacter, forming a cocoon
+SourceCharacter Action the webbing on TargetCharacter, forming a cocoon.
 SourceCharacter обматывает TargetCharacter паутиной, формируя кокон.
-SourceCharacter wraps TargetCharacter in webbing, forming a hogtie
+SourceCharacter wraps TargetCharacter in webbing, forming a hogtie.
 SourceCharacter оборачивает TargetCharacter в паутину, придавая позу кабанчика.
-SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling
+SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling.
 SourceCharacter заматывает TargetCharacter паутиной в кокон и подвешивает TargetPronounObject к потолку.
-SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject
+SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject.
 SourceCharacter полностью обматывает TargetCharacter паутиной и подвешивает TargetPronounObject.
-SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject
+SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject.
 SourceCharacter связывает TargetCharacter кабанчиком с помощью паутины и подвешивает TargetPronounObject.
-SourceCharacter Action the webbing on TargetCharacter
+SourceCharacter Action the webbing on TargetCharacter, tangling them.
 SourceCharacter использует паутину на TargetCharacter
-SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped
+SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped.
 SourceCharacter использует паутину на TargetCharacter, полностью завернув в нее.
 
 Chain mittens
@@ -3325,9 +3325,9 @@ Blindfold
 Повязка на глаза
 Cocoon
 Кокон
-SourceCharacter creates a blindfold out of web for TargetCharacter
+SourceCharacter creates a blindfold out of web for TargetCharacter.
 SourceCharacter создает из паутины повязку на глаза для TargetCharacter
-SourceCharacter creates a cocoon out of web for TargetCharacter
+SourceCharacter creates a cocoon out of web for TargetCharacter.
 SourceCharacter создает кокон из паутины для TargetCharacter.
 
 Hood Cover

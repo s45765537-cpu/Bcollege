@@ -49,13 +49,13 @@ ArmsRopeSetTightBoxtie,SourceCharacter uses rope on TargetCharacter to do a tigh
 ArmsRopeSetWristElbowHarnessTie,SourceCharacter uses rope to tie DestinationCharacter wrists and elbows in a harness behind TargetPronounPossessive back.
 ArmsRopeSetWristElbowTie,SourceCharacter uses rope to tie DestinationCharacter wrists and elbows together behind TargetPronounPossessive back.
 ArmsRopeSetWristTie,SourceCharacter uses rope to tie DestinationCharacter wrists together behind TargetPronounPossessive back.
-ArmsWebSetCocooned,"SourceCharacter Action the webbing on TargetCharacter, forming a cocoon"
-ArmsWebSetHogtied,"SourceCharacter wraps TargetCharacter in webbing, forming a hogtie"
-ArmsWebSetKneelingSuspended,SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling
-ArmsWebSetSuspended,SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject
-ArmsWebSetSuspensionHogtied,SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject
-ArmsWebSetTangled,SourceCharacter Action the webbing on TargetCharacter
-ArmsWebSetWrapped,"SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped"
+ArmsWebSetCocooned,"SourceCharacter Action the webbing on TargetCharacter, forming a cocoon."
+ArmsWebSetHogtied,"SourceCharacter wraps TargetCharacter in webbing, forming a hogtie."
+ArmsWebSetKneelingSuspended,SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling.
+ArmsWebSetSuspended,SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject.
+ArmsWebSetSuspensionHogtied,SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject.
+ArmsWebSetTangled,"SourceCharacter Action the webbing on TargetCharacter, tangling them."
+ArmsWebSetWrapped,"SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped."
 AttachChain,Chain mittens
 AutoPunish,Auto-inflation sensitivity:
 AutoPunish,Sensitivity:
@@ -4521,8 +4521,8 @@ ItemHeadStitchesSetr2,SourceCharacter stitches DestinationCharacter right eye wi
 ItemHeadStitchesSetr3,SourceCharacter stitches DestinationCharacter right eye with crossed threads.
 ItemHeadWebBlindfoldBlindfold,Blindfold
 ItemHeadWebBlindfoldCocoon,Cocoon
-ItemHeadWebBlindfoldSetBlindfold,SourceCharacter creates a blindfold out of web for TargetCharacter
-ItemHeadWebBlindfoldSetCocoon,SourceCharacter creates a cocoon out of web for TargetCharacter
+ItemHeadWebBlindfoldSetBlindfold,SourceCharacter creates a blindfold out of web for TargetCharacter.
+ItemHeadWebBlindfoldSetCocoon,SourceCharacter creates a cocoon out of web for TargetCharacter.
 ItemHeadHypnoticVisorSelectBase,Select Hypnotic Visor Details
 ItemHeadHypnoticVisorSelectFrame,Select Hypnotic Visor Frame
 ItemHeadHypnoticVisorSelectPattern,Select Hypnotic Visor Pattern

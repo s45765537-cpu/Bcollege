@@ -74,19 +74,19 @@ SourceCharacter uses rope to tie DestinationCharacter wrists and elbows together
 SourceCharacter用绳子把DestinationCharacter手腕和手肘在TargetPronounObject的身后绑在一起。
 SourceCharacter uses rope to tie DestinationCharacter wrists together behind TargetPronounPossessive back.
 SourceCharacter用绳子把DestinationCharacter手腕在TargetPronounObject的身后绑在一起。
-SourceCharacter Action the webbing on TargetCharacter, forming a cocoon
+SourceCharacter Action the webbing on TargetCharacter, forming a cocoon.
 SourceCharacter用网把TargetCharacter包成了茧状
-SourceCharacter wraps TargetCharacter in webbing, forming a hogtie
+SourceCharacter wraps TargetCharacter in webbing, forming a hogtie.
 SourceCharacter用网把TargetCharacter包成了驷马
-SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling
+SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling.
 SourceCharacter用网把TargetCharacter包成了茧状，顺手把TargetPronounObject挂了起来
-SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject
+SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用网把TargetCharacter包成了一团，顺手把TargetPronounObject挂了起来
-SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject
+SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用网把TargetCharacter包成了驷马，顺手把TargetPronounObject挂了起来
-SourceCharacter Action the webbing on TargetCharacter
+SourceCharacter Action the webbing on TargetCharacter, tangling them.
 SourceCharacter用网把TargetCharacter包了起来
-SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped
+SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped.
 SourceCharacter用网把TargetCharacter包成了一团
 Chain mittens
 给手套加链子
@@ -3778,9 +3778,9 @@ Blindfold
 眼罩
 Cocoon
 茧
-SourceCharacter creates a blindfold out of web for TargetCharacter
+SourceCharacter creates a blindfold out of web for TargetCharacter.
 SourceCharacter用网给TargetCharacter织了一副眼罩
-SourceCharacter creates a cocoon out of web for TargetCharacter
+SourceCharacter creates a cocoon out of web for TargetCharacter.
 SourceCharacter把TargetCharacter的头完全裹在了茧里
 Select Hypnotic Visor Details
 选择催眠护目镜细节

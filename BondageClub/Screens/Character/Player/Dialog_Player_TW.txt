@@ -4127,19 +4127,19 @@ Suspension Cocooned
 繭狀懸掛
 Suspension Hogtied
 駟馬懸掛
-SourceCharacter Action the webbing on TargetCharacter
+SourceCharacter Action the webbing on TargetCharacter, tangling them.
 SourceCharacter用網把TargetCharacter包了起來
-SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped
+SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped.
 SourceCharacter用網把TargetCharacter包成了一團
-SourceCharacter Action the webbing on TargetCharacter, forming a cocoon
+SourceCharacter Action the webbing on TargetCharacter, forming a cocoon.
 SourceCharacter用網把TargetCharacter包成了繭狀
-SourceCharacter wraps TargetCharacter in webbing, forming a hogtie
+SourceCharacter wraps TargetCharacter in webbing, forming a hogtie.
 SourceCharacter用網把TargetCharacter包成了駟馬
-SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject
+SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用網把TargetCharacter包成了一團，順手把TargetPronounObject掛了起來
-SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling
+SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling.
 SourceCharacter用網把TargetCharacter包成了繭狀，順手把TargetPronounObject掛了起來
-SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject
+SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用網把TargetCharacter包成了駟馬，順手把TargetPronounObject掛了起來
 tightens
 捆緊
@@ -4147,9 +4147,9 @@ loosens
 放鬆
 Cocoon
 繭
-SourceCharacter creates a blindfold out of web for TargetCharacter
+SourceCharacter creates a blindfold out of web for TargetCharacter.
 SourceCharacter用網給TargetCharacter織了一副眼罩
-SourceCharacter creates a cocoon out of web for TargetCharacter
+SourceCharacter creates a cocoon out of web for TargetCharacter.
 SourceCharacter把TargetCharacter的頭完全裹在了繭裡
 Make the cutie comfortable.
 讓小可愛更舒服。
