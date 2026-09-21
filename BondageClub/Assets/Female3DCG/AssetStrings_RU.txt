@@ -2413,19 +2413,19 @@ Heels Type
 Варианты обуви
 Vibration Mode
 Режим вибрации
-SourceCharacter put a pair of Torment Shoes on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Shoes on DestinationCharacter feet.
 SourceCharacter надел на ноги DestinationCharacter пару пыточных туфель.
-SourceCharacter put a pair of Torment Boots on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Boots on DestinationCharacter feet.
 SourceCharacter надел на ноги DestinationCharacter пару пыточных сапог.
-SourceCharacter turned off the Torment Heels vibration feature on DestinationCharacter feet.
+SourceCharacter turns off the Torment Heels vibration feature on DestinationCharacter feet.
 SourceCharacter отключает функцию вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Low on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Low on DestinationCharacter feet.
 SourceCharacter включает низкий режим вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Mid on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Mid on DestinationCharacter feet.
 SourceCharacter включает средний режим вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Hi on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Hi on DestinationCharacter feet.
 SourceCharacter включает высокий режим вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Max on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Max on DestinationCharacter feet.
 SourceCharacter включает максимальный режим вибрации пыточной обуви на DestinationCharacter ногах.
 
 (You swing the crop on yourself a few times.  You can feel your breast and tummy becoming more sensitive.)

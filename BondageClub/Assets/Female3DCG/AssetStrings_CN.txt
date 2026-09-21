@@ -2768,19 +2768,19 @@ Heels Type
 高跟种类
 Vibration Mode
 振动模式
-SourceCharacter put a pair of Torment Shoes on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Shoes on DestinationCharacter feet.
 SourceCharacter给DestinationCharacter脚上穿上了折磨鞋子
-SourceCharacter put a pair of Torment Boots on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Boots on DestinationCharacter feet.
 SourceCharacter给DestinationCharacter脚上穿上了折磨靴子
-SourceCharacter turned off the Torment Heels vibration feature on DestinationCharacter feet.
+SourceCharacter turns off the Torment Heels vibration feature on DestinationCharacter feet.
 SourceCharacter关闭了DestinationCharacter脚上的折磨高跟鞋的振动功能
-SourceCharacter selected the Torment Heels vibration feature to Low on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Low on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：低
-SourceCharacter selected the Torment Heels vibration feature to Mid on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Mid on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：中
-SourceCharacter selected the Torment Heels vibration feature to Hi on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Hi on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：高
-SourceCharacter selected the Torment Heels vibration feature to Max on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Max on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：最大
 (You swing the crop on yourself a few times.  You can feel your breast and tummy becoming more sensitive.)
 （你用硬鞭打了自己几下。你感觉自己的胸部和小腹更加敏感了。）

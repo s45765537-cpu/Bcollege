@@ -3658,13 +3658,13 @@ ItemBootsTormentHeelsOptionv4,Full on
 ItemBootsTormentHeelsSelectBase,Torment heels options
 ItemBootsTormentHeelsSelectBoots,Heels Type
 ItemBootsTormentHeelsSelectVibration,Vibration Mode
-ItemBootsTormentHeelsSetb0,SourceCharacter put a pair of Torment Shoes on DestinationCharacter feet.
-ItemBootsTormentHeelsSetb1,SourceCharacter put a pair of Torment Boots on DestinationCharacter feet.
-ItemBootsTormentHeelsSetv0,SourceCharacter turned off the Torment Heels vibration feature on DestinationCharacter feet.
-ItemBootsTormentHeelsSetv1,SourceCharacter selected the Torment Heels vibration feature to Low on DestinationCharacter feet.
-ItemBootsTormentHeelsSetv2,SourceCharacter selected the Torment Heels vibration feature to Mid on DestinationCharacter feet.
-ItemBootsTormentHeelsSetv3,SourceCharacter selected the Torment Heels vibration feature to Hi on DestinationCharacter feet.
-ItemBootsTormentHeelsSetv4,SourceCharacter selected the Torment Heels vibration feature to Max on DestinationCharacter feet.
+ItemBootsTormentHeelsSetb0,SourceCharacter puts a pair of Torment Shoes on DestinationCharacter feet.
+ItemBootsTormentHeelsSetb1,SourceCharacter puts a pair of Torment Boots on DestinationCharacter feet.
+ItemBootsTormentHeelsSetv0,SourceCharacter turns off the Torment Heels vibration feature on DestinationCharacter feet.
+ItemBootsTormentHeelsSetv1,SourceCharacter sets the Torment Heels vibration feature to Low on DestinationCharacter feet.
+ItemBootsTormentHeelsSetv2,SourceCharacter sets the Torment Heels vibration feature to Mid on DestinationCharacter feet.
+ItemBootsTormentHeelsSetv3,SourceCharacter sets the Torment Heels vibration feature to Hi on DestinationCharacter feet.
+ItemBootsTormentHeelsSetv4,SourceCharacter sets the Torment Heels vibration feature to Max on DestinationCharacter feet.
 ItemBreastCrop,(You swing the crop on yourself a few times.  You can feel your breast and tummy becoming more sensitive.)
 ItemBreastForbiddenChastityBraHigh,High
 ItemBreastForbiddenChastityBraLow,Low
