@@ -4501,7 +4501,7 @@ SW-NE
 西南-東北
 NW-SE
 西北-東南
-SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+SourceCharacter changes the text orientation of DestinationCharacter AssetName.
 SourceCharacter修改DestinationCharacterNameAssetName上的文本方向
 SourceCharacter removes the text from DestinationCharacter AssetName
 SourceCharacter移除了DestinationCharacterNameAssetName上的文本

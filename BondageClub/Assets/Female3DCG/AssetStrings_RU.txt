@@ -2913,7 +2913,7 @@ NW-SE
 СЗ-ЮВ
 Select Text Orientation
 Выберите ориентацию текста
-SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+SourceCharacter changes the text orientation of DestinationCharacter AssetName.
 SourceCharacter изменяет ориентацию текста AssetName  DestinationCharacterName
 SW-NE
 ЮЗ-СВ

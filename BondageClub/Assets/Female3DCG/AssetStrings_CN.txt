@@ -3262,7 +3262,7 @@ NW-SE
 西北-东南
 Select Text Orientation
 选择文字方向
-SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+SourceCharacter changes the text orientation of DestinationCharacter AssetName.
 SourceCharacter修改DestinationCharacterNameAssetName上的文本方向
 SW-NE
 西南-东北

@@ -4060,8 +4060,8 @@ ItemDevicesVacbedSetNohair,SourceCharacter tucks DestinationCharacter hair into 
 ItemDevicesVacbedSetNormal,SourceCharacter reveals DestinationCharacter hair from the vacbed.
 ItemDevicesWoodenBoxNWSE,NW-SE
 ItemDevicesWoodenBoxSelect,Select Text Orientation
-ItemDevicesWoodenBoxSetNWSE,SourceCharacter changes the text orientation of DestinationCharacterName AssetName
-ItemDevicesWoodenBoxSetSWNE,SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+ItemDevicesWoodenBoxSetNWSE,SourceCharacter changes the text orientation of DestinationCharacter AssetName.
+ItemDevicesWoodenBoxSetSWNE,SourceCharacter changes the text orientation of DestinationCharacter AssetName.
 ItemDevicesWoodenBoxSWNE,SW-NE
 ItemDevicesWoodenRackModuleBotRestraints,Leg Restraints
 ItemDevicesWoodenRackModuleFrame,Frame
