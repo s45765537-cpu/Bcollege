@@ -8268,9 +8268,9 @@ Single layer
 单层
 Plus padded layer
 加厚垫层
-SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
+SourceCharacter removes the padded layer under DestinationCharacter Asylum Muzzle.
 SourceCharacter移除了DestinationCharacter收容所口罩下的垫层。
-SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+SourceCharacter adds a padded layer under DestinationCharacter Asylum Muzzle.
 SourceCharacter在DestinationCharacter收容所口罩下添加了垫层。
 Asylum Blindfold options:
 收容所眼罩选项：

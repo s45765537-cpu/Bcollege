@@ -8518,18 +8518,18 @@ GlassesRoundSunglassesOptionl1,Clear lenses
 ItemMouthAsylumMuzzleSelect,Asylum Muzzle options:
 ItemMouthAsylumMuzzleNormal,Single layer
 ItemMouthAsylumMuzzlePadded,Plus padded layer
-ItemMouthAsylumMuzzleSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
-ItemMouthAsylumMuzzleSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouthAsylumMuzzleSetNormal,SourceCharacter removes the padded layer under DestinationCharacter Asylum Muzzle.
+ItemMouthAsylumMuzzleSetPadded,SourceCharacter adds a padded layer under DestinationCharacter Asylum Muzzle.
 ItemMouth2AsylumMuzzleSelect,Asylum Muzzle options:
 ItemMouth2AsylumMuzzleNormal,Single layer
 ItemMouth2AsylumMuzzlePadded,Plus padded layer
-ItemMouth2AsylumMuzzleSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
-ItemMouth2AsylumMuzzleSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouth2AsylumMuzzleSetNormal,SourceCharacter removes the padded layer under DestinationCharacter Asylum Muzzle.
+ItemMouth2AsylumMuzzleSetPadded,SourceCharacter adds a padded layer under DestinationCharacter Asylum Muzzle.
 ItemMouth3AsylumMuzzleSelect,Asylum Muzzle options:
 ItemMouth3AsylumMuzzleNormal,Single layer
 ItemMouth3AsylumMuzzlePadded,Plus padded layer
-ItemMouth3AsylumMuzzleSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
-ItemMouth3AsylumMuzzleSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouth3AsylumMuzzleSetNormal,SourceCharacter removes the padded layer under DestinationCharacter Asylum Muzzle.
+ItemMouth3AsylumMuzzleSetPadded,SourceCharacter adds a padded layer under DestinationCharacter Asylum Muzzle.
 ItemHeadAsylumBlindfoldSelect,Asylum Blindfold options:
 ItemHeadAsylumBlindfoldNormal,Single layer
 ItemHeadAsylumBlindfoldPadded,Plus padded layer
