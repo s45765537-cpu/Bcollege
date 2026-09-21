@@ -7176,9 +7176,9 @@ No accessory
 无配件
 Accessory added
 添加配件
-SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ball gag to DestinationCharacter gag harness.
 SourceCharacter将口球连接到DestinationCharacter口球带上。
-SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ring gag to DestinationCharacter gag harness.
 SourceCharacter将环形口塞附加到DestinationCharacter口塞线束上。
 Ring Gag
 口塞环

@@ -6920,9 +6920,9 @@ With accessory
 With accessory over hair
 С аксессуаром поверх волос
 
-SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ball gag to DestinationCharacter gag harness.
 SourceCharacter прикрепляет кляп-шар к DestinationCharacter сбруе для кляпа.
-SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ring gag to DestinationCharacter gag harness.
 SourceCharacter прикрепляет кляп-кольцо к DestinationCharacter сбруе для кляпа.
 Ring Gag
 Кляп-Кольцо
