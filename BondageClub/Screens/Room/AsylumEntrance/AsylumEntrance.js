@@ -9,6 +9,11 @@ var AsylumEntranceEscapedPatient = /** @type {never} */ (null);
 var AsylumEntranceEscapedPatientWillBribe = false;
 var AsylumEntranceEscapedPatientWillJoin = false;
 
+/** Longest asylum commitment accepted on load. The game never commits anyone for
+ *  anywhere near this long; anything further out is treated as corrupt, as
+ *  CellLoad does for long cell timers. */
+var AsylumEntranceMaxCommitment = 7 * 24 * 60 * 60 * 1000;
+
 /**
  * Checks, if the player is able to leave the Asylum
  * @returns {boolean} - Returns true, if the player is able to leave, false otherwise
@@ -69,6 +74,10 @@ function AsylumHasEscaped() { return (LogValue("Escaped", "Asylum") ?? 0) >= Cur
  * @type {ScreenLoadHandler}
  */
 async function AsylumEntranceLoad() {
+	// Mirror CellLoad: discard commitments beyond anything the game creates
+	if ((LogValue("Committed", "Asylum") ?? 0) > CurrentTime + AsylumEntranceMaxCommitment)
+		LogDelete("Committed", "Asylum");
+
 	AsylumEntranceBackground = "AsylumEntrance";
 	if (!AsylumEntranceNurse) {
 		AsylumEntranceNurse = CharacterLoadNPC("NPC_AsylumEntrance_Nurse");
