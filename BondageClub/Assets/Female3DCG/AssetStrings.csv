@@ -4266,7 +4266,7 @@ ItemHandheldSmartphoneOptionc3,Dots
 ItemHandheldSmartphoneOptionc4,Hearts
 ItemHandheldSmartphoneSelectBase,Select Phone Option
 ItemHandheldSmartphoneSelectCase,Choose Your Case
-ItemHandheldSmartphoneSetCase,SourceCharacter changes the case on DestinationCharacterName phone.
+ItemHandheldSmartphoneSetCase,SourceCharacter changes the case on DestinationCharacter phone.
 ItemHandsElbowLengthMittensChained,Chain
 ItemHandsElbowLengthMittensSelect,Select options
 ItemHandsElbowLengthMittensSetChained,SourceCharacter attaches DestinationCharacter mittens to some chains.

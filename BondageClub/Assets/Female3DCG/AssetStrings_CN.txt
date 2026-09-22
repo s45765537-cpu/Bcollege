@@ -3404,7 +3404,7 @@ Select Phone Option
 选择手机选项
 Choose Your Case
 选择你的保护壳
-SourceCharacter changes the case on DestinationCharacterName phone.
+SourceCharacter changes the case on DestinationCharacter phone.
 SourceCharacter改变了DestinationCharacterName手机的保护壳。
 SourceCharacter attaches DestinationCharacter mittens to some chains.
 SourceCharacter将DestinationCharacter无指手套连接了一些链条。

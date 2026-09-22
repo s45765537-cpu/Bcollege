@@ -3021,7 +3021,7 @@ Select Phone Option
 Выберите вариант телефона
 Choose Your Case
 Выберите свой корпус
-SourceCharacter changes the case on DestinationCharacterName phone.
+SourceCharacter changes the case on DestinationCharacter phone.
 SourceCharacter меняет корпус на DestinationCharacterName телефоне.
 
 SourceCharacter attaches DestinationCharacter mittens to some chains.
