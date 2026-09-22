@@ -1318,7 +1318,7 @@ function FriendListPositionActionsMenu(wrapper, menu) {
 	left = Math.min(Math.max(margin, left), window.innerWidth - menuWidth - margin);
 	top = Math.min(Math.max(margin, top), window.innerHeight - menuHeight - margin);
 
-	Object.assign(menu.style, {
+	CommonAssign(menu.style, {
 		position: "fixed",
 		inset: "auto",
 		left: `${left}px`,

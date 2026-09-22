@@ -58,7 +58,10 @@ let ItemColorPickerIndices = [];
 const ItemColorPickerLayers = new Map();
 /** @type {ItemColorExitListener[]} */
 let ItemColorExitListeners = [];
-/** @type {string} */
+/**
+ * @deprecated See the `initial<X>` fields in {@link ItemColorState}
+ * @type {undefined | string}
+ */
 let ItemColorBackup;
 let ItemColorText = new TextCache("Screens/Character/ItemColor/ItemColor.csv");
 /**
@@ -395,8 +398,9 @@ function ItemColorExitClick() {
 			return ItemColorPickerCancel();
 		case ItemColorMode.DEFAULT:
 		default:
-			if (ItemColorBackup && ItemColorCharacter) {
-				Object.assign(ItemColorItem, AppearanceItemParse(ItemColorBackup));
+			if (ItemColorCharacter && ItemColorState) {
+				ItemColorItem.Color = [...ItemColorState.initialColors];
+				ItemColorItem.Property.Opacity = [...ItemColorState.initialOpacity];
 				CharacterLoadCanvas(ItemColorCharacter);
 			}
 			ItemColorFireExit(false);
@@ -417,7 +421,8 @@ function ItemColorSaveAndExit() {
  */
 function ItemColorCancelAndExit() {
 	if (ItemColorItem && ItemColorBackup && ItemColorCharacter) {
-		Object.assign(ItemColorItem, AppearanceItemParse(ItemColorBackup));
+		ItemColorItem.Color = [...ItemColorState.initialColors];
+		ItemColorItem.Property.Opacity = [...ItemColorState.initialOpacity];
 		CharacterLoadCanvas(ItemColorCharacter);
 	}
 	ItemColorFireExit(false);

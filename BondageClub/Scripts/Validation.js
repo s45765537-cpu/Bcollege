@@ -161,7 +161,7 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 	}
 
 	let item = newItem;
-	Object.assign(sanitizedProperty, newProperty);
+	CommonAssign(sanitizedProperty, newProperty);
 	const propertyNames = Object.keys(sanitizedProperty);
 
 	// Strip out any invalid properties
@@ -189,7 +189,7 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 			}
 			const scriptItem = InventoryItemCreate(C, "ItemScript", "Script");
 			if (scriptItem) {
-				item = Object.assign(scriptItem, {Property: sanitizedProperty});
+				item = CommonAssign(scriptItem, {Property: sanitizedProperty});
 			}
 		}
 	}
@@ -1329,7 +1329,7 @@ function ValidationApplyRecord(arg, C, validators, allowExtraKeys=false) {
 
 	if (allowExtraKeys) {
 		const extraKeys = CommonKeys(obj).filter(i => !(i in ret));
-		return Object.assign(ret, CommonPick(obj, extraKeys));
+		return CommonAssign(ret, CommonPick(obj, extraKeys));
 	} else {
 		return ret;
 	}

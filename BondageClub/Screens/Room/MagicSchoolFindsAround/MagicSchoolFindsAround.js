@@ -64,28 +64,28 @@ function MagicSchoolFindsAroundDressUpKitsune(C) {
 	const gloves = InventoryWear(C, "HaremGlove", "Gloves", ["Default", "#A2A2A2"], undefined, undefined, undefined, false);
 	if (gloves) {
 		gloves.Property ??= {};
-		Object.assign(gloves.Property, { OverridePriority: { Bands: 33, Fabric: 0 } });
+		CommonAssign(gloves.Property, { OverridePriority: { Bands: 33, Fabric: 0 } });
 	}
 
 	// HAND ACCESSORY
 	const rings = InventoryWear(C,"Rings","HandAccessoryRight", ["Default","Default","Default","Default","#A48537","Default","#707070","#00D307","#222222","#CC3333","#222222","#CC3333"], undefined, undefined, undefined, false);
 	if (rings) {
 		rings.Property ??= {};
-		Object.assign(rings.Property, { TypeRecord: { r: 1, t: 1 }, OverridePriority: 34 });
+		CommonAssign(rings.Property, { TypeRecord: { r: 1, t: 1 }, OverridePriority: 34 });
 	}
 
 	// MAIN CLOTH
 	const cloth = InventoryWear(C,"EveningGown","Cloth",["#681111", "Default", "Default", "#FFFFFF"],undefined,undefined,undefined,false);
 	if (cloth) {
 		cloth.Property ??= {};
-		Object.assign(cloth.Property, { Opacity: [0,1,0,0], OverridePriority: { Back: 0, Bottom: 0, Silk: 0 } });
+		CommonAssign(cloth.Property, { Opacity: [0,1,0,0], OverridePriority: { Back: 0, Bottom: 0, Silk: 0 } });
 	}
 
 	// GARTERS
 	const garters = InventoryWear(C,"ComboBelt","Garters",["#DD8B8B", "#AEAEAE", "#080808"],undefined,undefined,undefined,false);
 	if (garters) {
 		garters.Property ??= {};
-		Object.assign(garters.Property, { OverridePriority: { Belt: 17, Detail: 11 }, TypeRecord: { c: 1 } });
+		CommonAssign(garters.Property, { OverridePriority: { Belt: 17, Detail: 11 }, TypeRecord: { c: 1 } });
 	}
 
 	CharacterRefresh(C);
@@ -132,7 +132,7 @@ function MagicSchoolFindsAroundDressUpTheresa(C, outfit) {
 			const halo = InventoryWear(C, "Halo", "HairAccessory1", ["#FDF8EE", "#FFEB87", "#FFD800"], undefined, undefined, undefined, false);
 			if (halo) {
 				halo.Property ??= {};
-				Object.assign(halo.Property, { Opacity: 0.85});
+				CommonAssign(halo.Property, { Opacity: 0.85});
 			}
 			break;
 		}
@@ -168,7 +168,7 @@ function MagicSchoolFindsAroundDressUpTheresa(C, outfit) {
 			const jewel = InventoryWear(C, "JewelrySet", "Jewelry", ["#908B3A", "#908B3A", "#908B3A"], undefined, undefined, undefined, false);
 			if (jewel) {
 				jewel.Property ??= {};
-				Object.assign(jewel.Property, { TypeRecord: {e: 3, a: 3, n: 0, f: 0} });
+				CommonAssign(jewel.Property, { TypeRecord: {e: 3, a: 3, n: 0, f: 0} });
 			}
 		}
 	}

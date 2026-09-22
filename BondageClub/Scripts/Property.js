@@ -538,7 +538,7 @@ var PropertyLayerOrigin = {
 		const extendedOverride = extendedData?.[AssetOverride];
 		if (extendedData) {
 			if (extendedData[layerName]) {
-				Object.assign(ret, extendedData[layerName]);
+				CommonAssign(ret, extendedData[layerName]);
 			} else if (extendedOverride) {
 				CommonKeys(ret).forEach((poseName) => ret[poseName] += (extendedOverride[poseName] ?? 0));
 			}

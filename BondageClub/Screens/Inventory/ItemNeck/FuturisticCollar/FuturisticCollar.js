@@ -477,7 +477,7 @@ function InventoryItemNeckFuturisticCollarToggleRemotes(C, Item) {
 		var PreviousProperty = DialogFocusItem.Property;
 
 		// Create a new Property object based on the previous one
-		var NewProperty = Object.assign({}, PreviousProperty);
+		var NewProperty = { ...PreviousProperty };
 
 
 		NewProperty.Effect = [];

@@ -1932,7 +1932,7 @@ function DialogMenuButtonClick() {
 						DialogChangeMode("items");
 						if (save && (!CommonArraysEqual(colors, initialColors) || !CommonArraysEqual(opacity, initialOpacity))) {
 							if (C.IsPlayer()) ServerPlayerAppearanceSync();
-							ChatRoomPublishAction(C, "ActionChangeColor", Object.assign({}, Item, { Color: colors }), Item);
+							ChatRoomPublishAction(C, "ActionChangeColor", { ...Item, Color: colors }, Item);
 						}
 					});
 				}).catch(err => {
@@ -3569,14 +3569,23 @@ class _DialogItemMenu extends _DialogFocusMenu {
 
 		const equippedItem = InventoryGet(C, focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
-			const clickedItem = DialogInventory[i];
+			let clickedItem = DialogInventory[i];
 
 			// Tasks already performed during a full `options.resetDialogItems` operation
 			if (!options.resetDialogItems) {
 				const wasWorn = clickedItem.Worn;
 				const isWorn = !!(equippedItem && !DialogAllowItemClick(equippedItem, clickedItem));
 				if (isWorn) {
-					Object.assign(clickedItem, equippedItem);
+					/** @type {undefined | CraftingItem} */
+					const craft = !equippedItem.Craft ? undefined : {
+						...equippedItem.Craft,
+						Partial: false,
+						Color: equippedItem.Color.join(","),
+						Lock: equippedItem.Property?.LockedBy ?? "",
+						Item: equippedItem.Asset.Name,
+						ItemProperty: equippedItem.Property,
+					};
+					clickedItem = DialogInventory[i] = DialogInventoryCreateItem(C, equippedItem, true, undefined, craft);
 					button.toggleAttribute("hidden", false);
 				}
 				if (isWorn !== wasWorn) {

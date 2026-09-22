@@ -2549,7 +2549,7 @@ var CraftingValidationRecord = {
 			if (a.Archetype) {
 				const data = ExtendedItemGetData(a, a.Archetype);
 				if (data && data.baselineProperty) {
-					Object.assign(baseline, data.baselineProperty);
+					CommonAssign(baseline, data.baselineProperty);
 				}
 			}
 
@@ -2624,7 +2624,7 @@ var CraftingValidationRecord = {
 			if (a.Archetype) {
 				let data = ExtendedItemGetData(a, a.Archetype);
 				if (data && data.baselineProperty) {
-					Object.assign(baseline, data.baselineProperty);
+					CommonAssign(baseline, data.baselineProperty);
 				}
 			}
 

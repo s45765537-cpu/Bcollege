@@ -1460,7 +1460,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 		if (invalidProperties.length > 0) {
 			console.error("Ignoring unsanctioned/invalid item properties", invalidProperties.sort());
 		}
-		Object.assign((item.Property ??= {}), CommonPick(properties, propertyKeys));
+		CommonAssign((item.Property ??= {}), CommonPick(properties, propertyKeys));
 	}
 
 	if (refresh || refresh == null) {

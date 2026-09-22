@@ -124,7 +124,7 @@ const NoArch = {
 		for (const [name, value] of CommonEntries(baselineProperty)) {
 			if (item.Property[name] === undefined) {
 				update = true;
-				Object.assign(item.Property, { [name]: value });
+				CommonAssign(item.Property, { [name]: value });
 			}
 		}
 

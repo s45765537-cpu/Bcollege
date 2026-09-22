@@ -435,15 +435,16 @@ function ServerPlayerInventorySync() {
  * @returns {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} - The unpacked item permission data
  */
 function ServerPackItemPermissions(permissionItems) {
-	/** @type {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems">} */
+	/** @type {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} */
 	const data = {
 		BlockItems: {},
 		LimitedItems: {},
 		FavoriteItems: {},
+		HiddenItems: [],
 	};
 
 	/** @type {ServerAccountUpdateRequest["HiddenItems"]} */
-	const HiddenItems = [];
+	const HiddenItems = data.HiddenItems;
 
 	for (const [name, permission] of CommonEntries(permissionItems)) {
 		const [groupName, assetName] = /** @type {[AssetGroupName, string]} */(name.split("/"));
@@ -470,7 +471,7 @@ function ServerPackItemPermissions(permissionItems) {
 			data[typeField][groupName][assetName].push(type);
 		}
 	}
-	return Object.assign(data, { HiddenItems });
+	return data;
 }
 
 /**

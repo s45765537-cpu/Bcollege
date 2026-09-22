@@ -611,7 +611,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			for (const [k, v] of CommonEntries(newProps)) {
-				Item.Property[k] = CommonIsObject(Item.Property[k]) ? Object.assign(Item.Property[k], v) : v;
+				Item.Property[k] = CommonIsObject(Item.Property[k]) ? CommonAssign(Item.Property[k], v) : v;
 			}
 			update = true;
 		}
@@ -635,7 +635,7 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 	} else {
 		// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
 		const option = C.IsNpc() ? (options.find(o => o.NPCDefault) || options[0]) : options[0];
-		Item.Property = Object.assign(
+		Item.Property = CommonAssign(
 			Item.Property ?? {},
 			CommonCloneDeep(option.Property),
 		);
