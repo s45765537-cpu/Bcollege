@@ -2225,7 +2225,10 @@ function CraftingExitResetElements() {
 
 	// Clear all search inputs and undo their filtering
 	const searchInputs = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll(`#${CraftingID.leftPanel} input[type='search']`));
-	searchInputs.forEach((searchInp) => searchInp.value ||= "");
+	for (const searchInput of searchInputs) {
+		searchInput.value = "";
+		searchInput.dispatchEvent(new Event("input"));
+	}
 
 	const focusGroup = document.querySelector(`#${CraftingID.centerPanel} [role='radio'][aria-checked='true']`);
 	if (focusGroup) {
