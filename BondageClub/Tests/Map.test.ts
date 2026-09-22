@@ -44,34 +44,105 @@ Game.MapDataLoad();
 beforeEach(() => {
 	Game.ChatRoomData = {};
 	Game.ChatRoomData.MapData = Game.ChatRoomMapViewInitialize("Always");
+	Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData);
 });
 
-describe("MapCanSetCell", () => {
-	it("setting a cell out of bounds should fail", () => {
-		const stoneWall = 1030;
-		expect(Game.MapCanSetCell(stoneWall, "Tile", -1000, -1000)).toBe(false);
+describe("MapManager", () => {
+	const stoneWall = Game.MapDataGetTile(1030);
+	expect(stoneWall).not.toBe(null);
+
+	const roomEntry = Game.MapDataGetObject(110); // Unique
+	expect(roomEntry).not.toBe(null);
+
+	const blankObject = Game.MapDataGetObject(Game.ChatRoomMapViewObjectStartID);
+	expect(blankObject).not.toBe(null);
+
+	const table = Game.MapDataGetObject(140);
+	expect(table).not.toBe(null);
+
+	const blankEffect = Game.MapDataGetEffect(Game.ChatRoomMapViewEffectStartID);
+	expect(blankEffect).not.toBe(null);
+
+	const shadowMediumEffect = Game.MapDataGetEffect(12);
+	expect(shadowMediumEffect).not.toBe(null);
+
+	const tintBlueEffect = Game.MapDataGetEffect(15);
+	expect(tintBlueEffect).not.toBe(null);
+
+	describe("setTile", () => {
+		it('should set a tile (x,y)', () => {
+			expect(Game.MapManager.Map.setTile(10, 10, stoneWall)).toBe(true);
+			expect(Game.MapManager.Map.getTile(10, 10)).toEqual(stoneWall);
+		});
+
+		it('should set a tile (index)', () => {
+			expect(Game.MapManager.Map.setTile(40, stoneWall)).toBe(true);
+			expect(Game.MapManager.Map.getTile(40)).toEqual(stoneWall);
+		});
+
+		it('should fail to set tiles out of bound', () => {
+			expect(Game.MapManager.Map.setTile(-10, -10, stoneWall)).toBe(false);
+		});
 	});
 
-	it("setting a cell that doesn't exist should fail", () => {
-		const tile = 12130;
-		expect(Game.MapCanSetCell(tile, "Tile", 5, 5)).toBe(false);
-	});
-});
+	describe("canSetObject", () => {
+		it('should set an object (x,y)', () => {
+			expect(Game.MapManager.Map.canSetObject(10, 10, table)).toBe(true);
+		});
 
-describe("MapSetCell", () => {
-	it("placing unique cells should work", () => {
-		const entry = 110;
-		Game.MapSetCell(entry, "Object", 1, 1, true);
-		expect(Game.MapGetCellId("Object", 1, 1)).toEqual(entry);
-	});
-});
+		it('should set an object (index)', () => {
+			expect(Game.MapManager.Map.canSetObject(40, table)).toBe(true);
+		});
 
-describe("MapClearUniqueCells", () => {
-	it("unique cells should clear after a set", () => {
-		const entry = 110;
-		Game.MapSetCell(entry, "Object", 1, 1, true);
-		Game.MapSetCell(entry, "Object", 1, 2, true);
-		expect(Game.MapGetCellId("Object", 1, 1) != entry && Game.MapGetCellId("Object", 1, 2) == entry).toBe(true);
+		it('should fail to set objects out of bounds', () => {
+			expect(Game.MapManager.Map.canSetObject(-10, -10, table)).toBe(false);
+		});
+	});
+
+	describe("setObject", () => {
+		it('should set an object (x,y)', () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table)).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(table);
+		});
+
+		it('should set an object (index)', () => {
+			expect(Game.MapManager.Map.setObject(40, table)).toBe(true);
+			expect(Game.MapManager.Map.getObject(40)).toEqual(table);
+		});
+
+		it('should fail to set objects out of bounds', () => {
+			expect(Game.MapManager.Map.setObject(-10, -10, table)).toBe(false);
+		});
+
+		it('should keep unique objects unique', () => {
+			expect(Game.MapManager.Map.setObject(10, roomEntry)).toBe(true);
+			expect(Game.MapManager.Map.setObject(12, roomEntry)).toBe(true);
+			expect(Game.MapManager.Map.getObject(10)).toBe(blankObject);
+			expect(Game.MapManager.Map.getObject(12)).toBe(roomEntry);
+		});
+	});
+
+	describe("setEffects", () => {
+		it('should set effects (x,y)', () => {
+			expect(Game.MapManager.Map.setEffects(10, 10, [shadowMediumEffect, tintBlueEffect])).toBe(true);
+			expect(Game.MapManager.Map.getEffects(10, 10)).toEqual([shadowMediumEffect, tintBlueEffect]);
+		});
+
+		it('should set effects (index)', () => {
+			expect(Game.MapManager.Map.setEffects(40, [shadowMediumEffect, tintBlueEffect])).toBe(true);
+			expect(Game.MapManager.Map.getEffects(40)).toEqual([shadowMediumEffect, tintBlueEffect]);
+		});
+
+		it('should fail to set effects out of bounds', () => {
+			expect(Game.MapManager.Map.setEffects(-10, -10, table)).toBe(false);
+		});
+
+		it('should overwrite previous effects (index)', () => {
+			expect(Game.MapManager.Map.setEffects(40, [shadowMediumEffect])).toBe(true);
+			expect(Game.MapManager.Map.getEffects(40)).toEqual([shadowMediumEffect]);
+			expect(Game.MapManager.Map.setEffects(40, [tintBlueEffect])).toBe(true);
+			expect(Game.MapManager.Map.getEffects(40)).toEqual([tintBlueEffect]);
+		});
 	});
 });
 
@@ -104,8 +175,8 @@ describe("with a test map", () => {
 		(input, expected) => {
 			const [x, y] = input;
 			const [tileId, objectId] = expected;
-			expect(Game.MapGetCellId("Tile", x, y)).toBe(tileId);
-			expect(Game.MapGetCellId("Object", x, y)).toBe(objectId);
+			expect(Game.MapManager.Map.getTileId(x, y)).toBe(tileId);
+			expect(Game.MapManager.Map.getObjectId(x, y)).toBe(objectId);
 			// expect(Game.MapManager.Map.getTile(x, y)).toBe(expected);
 		}
 	);

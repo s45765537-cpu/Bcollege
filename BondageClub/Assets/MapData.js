@@ -319,8 +319,8 @@ const AssetsMapDataObjects = [
 		Type: "FloorDecorationExpanding",
 		Style: "CouchPinkPreview",
 		BuildImageName: function(X, Y) {
-			let LeftObject = MapGetCell("Object",X - 1, Y);
-			let RightObject = MapGetCell("Object",X + 1, Y);
+			let LeftObject = MapManager.Map.getObject(X - 1, Y);
+			let RightObject = MapManager.Map.getObject(X + 1, Y);
 			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "CouchPinkMiddle";
 			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "CouchPinkRight";
 			if ((RightObject != null) && (RightObject.ID == this.ID))return "CouchPinkLeft";
@@ -333,8 +333,8 @@ const AssetsMapDataObjects = [
 		Type: "FloorDecorationExpanding",
 		Style: "BedBluePreview",
 		BuildImageName: function(X, Y) {
-			let LeftObject = MapGetCell("Object",X - 1, Y);
-			let RightObject = MapGetCell("Object",X + 1, Y);
+			let LeftObject = MapManager.Map.getObject(X - 1, Y);
+			let RightObject = MapManager.Map.getObject(X + 1, Y);
 			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "BedBlueMiddle";
 			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "BedBlueRight";
 			if ((RightObject != null) && (RightObject.ID == this.ID)) return "BedBlueLeft";
@@ -348,8 +348,8 @@ const AssetsMapDataObjects = [
 		Type: "FloorDecorationExpanding",
 		Style: "BallPitPreview",
 		BuildImageName: function(X, Y) {
-			let LeftObject = MapGetCell("Object",X - 1, Y);
-			let RightObject = MapGetCell("Object",X + 1, Y);
+			let LeftObject = MapManager.Map.getObject(X - 1, Y);
+			let RightObject = MapManager.Map.getObject(X + 1, Y);
 			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "BallPitMiddle";
 			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "BallPitRight";
 			if ((RightObject != null) && (RightObject.ID == this.ID)) return "BallPitLeft";
@@ -365,8 +365,8 @@ const AssetsMapDataObjects = [
 		Type: "FloorDecorationExpanding",
 		Style: "VikingTablePreview",
 		BuildImageName: function(X, Y) {
-			let LeftObject = MapGetCell("Object",X - 1, Y);
-			let RightObject = MapGetCell("Object",X + 1, Y);
+			let LeftObject = MapManager.Map.getObject(X - 1, Y);
+			let RightObject = MapManager.Map.getObject(X + 1, Y);
 			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "VikingTableMiddle";
 			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "VikingTableRight";
 			if ((RightObject != null) && (RightObject.ID == this.ID)) return "VikingTableLeft";
@@ -384,7 +384,7 @@ const AssetsMapDataObjects = [
 		BuildImageName: function(X, Y) {
 			// Get the connections as True/False
 			let directions = ChatRoomMapViewGetConnectivityDirections(X, Y, (tX, tY) => {
-				const neighbor = MapGetCell("Object",tX, tY);
+				const neighbor = MapManager.Map.getObject(tX, tY);
 				// Connect if neighbor exists and has the exact same ID as this track
 				return neighbor != null && neighbor.ID === this.ID;
 			});
@@ -676,8 +676,8 @@ const AssetsMapDataObjects = [
 		Type: "FloorObstacle",
 		Style: "VelourRopeBarrier",
 		BuildImageName: function(x, y) {
-			let leftObjectId = MapGetCellId("Object",x - 1, y);
-			let rightObjectId = MapGetCellId("Object",x + 1, y);
+			let leftObjectId = MapManager.Map.getObjectId(x - 1, y);
+			let rightObjectId = MapManager.Map.getObjectId(x + 1, y);
 			if ((leftObjectId === this.ID) && ((rightObjectId === this.ID))) return "VelourRopeBarrierMiddle";
 			if ((leftObjectId === this.ID)) return "VelourRopeBarrierRight";
 			if ((rightObjectId === this.ID)) return "VelourRopeBarrierLeft";

@@ -4,8 +4,6 @@ const ChatRoomMapViewName = "Map";
 var ChatRoomMapViewPerceptionRange = 4;
 var ChatRoomMapViewPerceptionRangeMin = 1;
 var ChatRoomMapViewPerceptionRangeMax = 7;
-var ChatRoomMapViewObjectStartID = 100;
-var ChatRoomMapViewObjectEntryID = 110;
 /** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType" | "Effect"} */
 var ChatRoomMapViewEditMode = "";
 var ChatRoomMapViewEditPath = "";
@@ -69,8 +67,6 @@ document.addEventListener("blur", () => {
 	if (ChatRoomMapViewIsActive()) ChatRoomMapViewBlur();
 });
 
-const ChatRoomMapViewEffectStartID = 10;
-
 /**
  * Returns TRUE if the player is an admin and activated her super powers on the map
  * @returns {boolean} - TRUE if super powers are active
@@ -105,7 +101,7 @@ function ChatRoomMapViewInitialize(mode) {
  * @returns {ChatRoomMapData | null}
  */
 function ChatRoomMapViewInitializeCharacter(C) {
-	if (MapLookupData.mapData.Type !== "Always" && MapLookupData.mapData.Type !== "Hybrid") return null;
+	if (ChatRoomData?.MapData?.Type !== "Always" && ChatRoomData?.MapData?.Type !== "Hybrid") return null;
 	// We use LastMapData here in case it's a relog into the room
 	const oldData = C.MapData ??
 		(C.IsPlayer() && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData?.Name ?
@@ -369,8 +365,13 @@ function ChatRoomMapViewGetButtons() {
 		...zoomButtons,
 		ElementButton.Create(null, function () {
 			if (!ChatRoomPlayerIsAdmin()) return;
-			if (ChatRoomMapFogIsActive()) MapLookupData.mapData.Fog = false;
-			else delete MapLookupData.mapData.Fog;
+			if (ChatRoomMapFogIsActive()) {
+				if (ChatRoomData?.MapData) {
+					ChatRoomData.MapData.Fog = false;
+				}
+			} else {
+				delete ChatRoomData?.MapData?.Fog;
+			}
 			MapValidateCells();
 			this.querySelector(".button-image")?.setAttribute("src", `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`);
 		}, { image: `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`,
@@ -715,21 +716,22 @@ function ChatRoomMapViewRun(time) {
 function ChatRoomMapViewCanLeave() {
 
 	// Out of map mode and if player hasn't checked the immersion option, we allow leaving
-	if ((ChatRoomData == null) || (MapLookupData.mapData.Type === "Never") || !ChatRoomMapViewIsActive()) return true;
+	if ((ChatRoomData == null) || (ChatRoomData?.MapData?.Type === "Never") || !ChatRoomMapViewIsActive()) return true;
 	if ((Player.MapData == null) || (Player.MapData.Pos.X == null) || (Player.MapData.Pos.Y == null)) return true;
 	if ((Player.ImmersionSettings == null) || !Player.ImmersionSettings.ChatRoomMapLeaveOnExit) return true;
 
 	// Scan 2 tiles grid around the player, if there's an exit flag in it, we allow leaving
 	for (let X = Player.MapData.Pos.X - 2; X <= Player.MapData.Pos.X + 2; X++)
 		for (let Y = Player.MapData.Pos.Y - 2; Y <= Player.MapData.Pos.Y + 2; Y++) {
-			let Obj = MapGetCell("Object",X, Y);
+			let Obj = MapManager.Map.getObject(X, Y);
 			if ((Obj != null) && Obj.Exit) return true;
 		}
 
 	// If there's no exit at all, we always allow leaving
 	let ExitCount = 0;
+	// XXX: should move to MapManager because oof
 	for (let Obj of AssetsMapDataObjects)
-		if ((Obj.Exit === true) && ((MapLookupData.mapData.Objects?.indexOf(String.fromCharCode(Obj.ID)) ?? -1) >= 0))
+		if ((Obj.Exit === true) && ((ChatRoomData?.MapData?.Objects?.indexOf(String.fromCharCode(Obj.ID)) ?? -1) >= 0))
 			ExitCount++;
 	if (ExitCount == 0) return true;
 
@@ -840,8 +842,8 @@ function ChatRoomMapViewCalculatePerceptionMasks() {
 
 				// Calculate the y-position with the view line formular and get the tiles and objecs on the in-between position
 				const y = Math.round(slopeX * x + yIntercept);
-				let tileData = MapGetCell("Tile",x, y);
-				let objectData = MapGetCell("Object",x, y);
+				let tileData = MapManager.Map.getTile(x, y);
+				let objectData = MapManager.Map.getObject(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(tileData != null) {
 					ChatRoomMapViewVisibilityMask[i] &&= tileData.BlockVision ? false : true;
@@ -867,8 +869,8 @@ function ChatRoomMapViewCalculatePerceptionMasks() {
 
 				// Calculate the x-position with the view line formular and get the tiles and objecs on the in-between position
 				const x = Math.round(slopeY * y + xIntercept);
-				let tileData = MapGetCell("Tile",x, y);
-				let objectData = MapGetCell("Object",x, y);
+				let tileData = MapManager.Map.getTile(x, y);
+				let objectData = MapManager.Map.getObject(x, y);
 				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
 				if(tileData != null) {
 					ChatRoomMapViewVisibilityMask[i] &&= tileData.BlockVision ? false : true;
@@ -1004,7 +1006,7 @@ function ChatRoomMapViewFindWallEffectTile(CW, CE, SW, SC, SE) {
  */
 function ChatRoomMapViewIsWall(x, y) {
 	if ((x < 0) || (y < 0) || (x >= ChatRoomMapViewWidth) || (y >= ChatRoomMapViewHeight)) return true;
-	return MapGetCell("Tile",x,y)?.Type === "Wall";
+	return MapManager.Map.getTile(x,y)?.Type === "Wall";
 }
 
 /**
@@ -1028,10 +1030,10 @@ function ChatRoomMapViewGetConnectivityDirections(X, Y, Condition) {
  * @param {number} x - The X position on the map
  * @param {number} y - The Y position on the map
  * @returns {ChatRoomMapTile | null} - The object at the position
- * @deprecated since August 2026, use {@link MapGetCell}
+ * @deprecated since August 2026, use {@link MapManager.Map.getTile}
  */
 function ChatRoomMapViewGetTileAtPos(x, y) {
-	return MapGetCell("Tile", x, y);
+	return MapManager.Map.getTile(x, y);
 }
 
 /**
@@ -1039,10 +1041,10 @@ function ChatRoomMapViewGetTileAtPos(x, y) {
  * @param {number} x - The X position on the map
  * @param {number} y - The Y position on the map
  * @returns {ChatRoomMapObject | null} - The object at the position
- * @deprecated since August 2026, use {@link MapGetCell}
+ * @deprecated since August 2026, use {@link MapManager.Map.getObject}
  */
 function ChatRoomMapViewGetObjectAtPos(x, y) {
-	return MapGetCell("Object", x, y);
+	return MapManager.Map.getObject(x, y);
 }
 
 /**
@@ -1062,11 +1064,11 @@ function ChatRoomMapViewPositionIsBlocked(X, Y) {
 	else if (Player.MapData.Pos.Y > Y) dir = "North";
 	// We do objects first, and always respect their `CanEnter` return;
 	// this is so that an open door on a wall can let you pass
-	const O = MapGetCell("Object",X, Y);
+	const O = MapManager.Map.getObject(X, Y);
 	if (O && O.CanEnter) {
 		return !O.CanEnter(dir);
 	}
-	const T = MapGetCell("Tile",X, Y);
+	const T = MapManager.Map.getTile(X, Y);
 	if (T && T.CanEnter) {
 		return !T.CanEnter(dir);
 	}
@@ -1078,7 +1080,7 @@ function ChatRoomMapViewPositionIsBlocked(X, Y) {
  * @returns {boolean} - TRUE if fog of war is active
  */
 function ChatRoomMapFogIsActive() {
-	return ((ChatRoomData == null) || (MapLookupData.mapData.Fog == null) || (MapLookupData.mapData.Fog !== false));
+	return MapManager.Map.hasFogEnabled;
 }
 
 /**
@@ -1133,7 +1135,7 @@ function ChatRoomMapViewFloorWallEffect(X, Y) {
 	let SE = ChatRoomMapViewIsWall(X + 1, Y + 1);
 
 	// If here is halfWall
-	if (MapGetCell("Tile",X,Y)?.Style == "HalfWall"){
+	if (MapManager.Map.getTile(X,Y)?.Style == "HalfWall"){
 
 		//Finds the proper effect and returns it
 		if (!SW && SC && !SE) return 11;
@@ -1228,9 +1230,9 @@ function ChatRoomMapViewGetCharacterAtPos(X, Y) {
  * @returns {ChatRoomMapPos|null}
  */
 function ChatRoomMapViewGetEntryFlagPosition() {
-	if (ChatRoomData?.MapData == null || MapLookupData?.Object == null) return null;
+	if (!ChatRoomData?.MapData?.Objects) return null;
 
-	const index = MapLookupData.Object.indexOf(String.fromCharCode(ChatRoomMapViewObjectEntryID));
+	const index = ChatRoomData?.MapData?.Objects.indexOf(String.fromCharCode(ChatRoomMapViewObjectEntryID));
 	if (index < 0) return null;
 
 	return MapIndexToCoordinates(index);
@@ -1298,7 +1300,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		const TileCanvasX = Left + ScreenX;
 		const TileCanvasY = Top + ScreenY;
 		let FloorWallEffect = -1;
-		let TileID = MapLookupData?.Tile?.charCodeAt(Pos) ?? -1;
+		let TileID = MapManager.Map.getTileId(Pos) ?? -1; //ChatRoomData?.MapData?.Tiles?.charCodeAt(Pos) ?? -1;
 		let TileData = null;
 		let TileImage = null;
 		/** @type {ChatRoomMapObject | null} */
@@ -1334,7 +1336,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		}
 
 		// Finds the object and updates the fog data
-		let ObjectID = Fog ? ChatRoomMapViewObjectFog[Pos] : MapLookupData?.Object?.charCodeAt(Pos) ?? -1;
+		let ObjectID = Fog ? ChatRoomMapViewObjectFog[Pos] : MapManager.Map.getObjectId(Pos) ?? -1;
 		ChatRoomMapViewTileFog[Pos] = TileID;
 		ChatRoomMapViewObjectFog[Pos] = ObjectID;
 
@@ -1425,7 +1427,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 	for (let X = 0; X < ChatRoomMapViewWidth; X++) {
 		for (let Y = 0; Y < ChatRoomMapViewHeight; Y++) {
-			const tileEffects = MapManager.Map.getEffectsByXY(X, Y);
+			const tileEffects = MapManager.Map.getEffects(X, Y);
 			let MaxRange = Math.max(
 				Math.abs(X - PlayerX),
 				Math.abs(Y - PlayerY),
@@ -1603,8 +1605,8 @@ function ChatRoomMapViewMovementProcess() {
 	// After we moved, calculate the new perception masks
 	ChatRoomMapViewCalculatePerceptionMasks();
 	// Get the tile and object we entered
-	const newTile = MapGetCell("Tile",Player.MapData.Pos.X, Player.MapData.Pos.Y);
-	const newObject = MapGetCell("Object",Player.MapData.Pos.X, Player.MapData.Pos.Y);
+	const newTile = MapManager.Map.getTile(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+	const newObject = MapManager.Map.getObject(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 	// If the current tile or object have OnEnter functions, execute them
 	if(newTile && newTile.OnEnter) newTile.OnEnter();
 	if(newObject && newObject.OnEnter) newObject.OnEnter();
@@ -1796,7 +1798,7 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 	// Base movement speed first, water tiles are slower
 	let Speed = ChatRoomMapViewBaseMovementSpeed;
 
-	const Tile = MapGetCell("Tile",X, Y);
+	const Tile = MapManager.Map.getTile(X, Y);
 	// Slowed down if not under the MapSwim effect
 	if (Tile?.Type === "Water" && Tile?.Style !== "Lava" && !Player.HasEffect("MapSwim"))
 		Speed = Speed * 2.5;
@@ -1848,12 +1850,12 @@ function ChatRoomMapViewMove(D, Force = false) {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewUndo() {
-	if (!ChatRoomData || MapLookupData?.mapData == null) return;
+	if (!ChatRoomData?.MapData) return;
 	if (ChatRoomMapViewEditBackup.length > 0) {
 		let LastMap = ChatRoomMapViewEditBackup.pop();
 		if (LastMap == null) return;
-		MapLookupData.mapData = CommonCloneDeep(LastMap);
-		MapManager.Map.loadGlobalMapData();
+		ChatRoomData.MapData = CommonCloneDeep(LastMap); // XXX
+		MapManager.Map.loadGlobalMapData(ChatRoomData.MapData);
 		MapValidateCells();
 		ChatRoomMapViewCalculatePerceptionMasks();
 	}
@@ -2078,8 +2080,8 @@ function ChatRoomMapViewMouseMove(event) {
 
 	// Only in edit mode
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive() || !validMapData(ChatRoomData)) return;
-	if (!ChatRoomMapViewEditStarted || ChatRoomMapViewEditObject == null) return;
-	let Backup = CommonCloneDeep(MapLookupData.mapData);
+	if (!ChatRoomMapViewEditStarted) return;
+	let Backup = CommonCloneDeep(ChatRoomData?.MapData);
 
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
 	if (!pos) return;
@@ -2090,20 +2092,17 @@ function ChatRoomMapViewMouseMove(event) {
 		for (let radiusY = 0; radiusY <= range; radiusY++) {
 			const posX = pos.X + radiusX;
 			const posY = pos.Y + radiusY;
-			// In tile edit mode
-			if (ChatRoomMapViewEditMode == "Tile" || ChatRoomMapViewEditMode == "Object") {
-				if (MapIsCellValid(ChatRoomMapViewEditObject.ID, ChatRoomMapViewEditMode, posX, posY)) {
-					MapSetCell(ChatRoomMapViewEditObject.ID, ChatRoomMapViewEditMode, posX, posY);
-				}
+			if (ChatRoomMapViewEditMode == "Tile") {
+				MapManager.Map.setTile(posX, posY, /** @type {ChatRoomMapTile} */ (ChatRoomMapViewEditObject));
+			} else if (ChatRoomMapViewEditMode === "Object") {
+				MapManager.Map.setObject(posX, posY, /** @type {ChatRoomMapObject} */ (ChatRoomMapViewEditObject));
 			} else if (ChatRoomMapViewEditMode === "Effect") {
-				// lighting effect painting
-				const effect = MapDataEffects.get(ChatRoomMapViewEditObject.ID);
+				const effect = /** @type {ChatRoomMapEffect} */ (ChatRoomMapViewEditObject);
 				const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
-
 				if (isBlank) {
-					MapManager.Map.clearEffectsByXY(posX, posY);
+					MapManager.Map.setEffects(posX, posY, []);
 				} else {
-					MapManager.Map.setEffectsByXY(posX, posY, [effect]);
+					MapManager.Map.addEffect(posX, posY, effect);
 				}
 			}
 		}
@@ -2118,7 +2117,7 @@ function ChatRoomMapViewMouseMove(event) {
 	MapManager.Map.updateGlobalMapData();
 
 	// If the map was modified, we keep the previous version as backup so we can undo the changes
-	if (JSON.stringify(Backup) != JSON.stringify(MapLookupData.mapData)) {
+	if (JSON.stringify(Backup) != JSON.stringify(ChatRoomData?.MapData)) {
 		if (ChatRoomMapViewEditBackup.length > 100) ChatRoomMapViewEditBackup = ChatRoomMapViewEditBackup.slice(-100);
 		ChatRoomMapViewEditBackup.push(Backup);
 		// Update perception map after a change
@@ -2151,7 +2150,7 @@ function ChatRoomMapViewMouseWheel(Event) {
  */
 function ChatRoomMapViewCopy() {
 	// Make sure there's a valid map to copy first
-	if ((MapLookupData.mapData.Type == null) || (MapLookupData.mapData.Type === "Never")) {
+	if (ChatRoomData?.MapData?.Type == null || ChatRoomData?.MapData?.Type === "Never") {
 		ChatRoomSendLocal(TextGet("MapCopyError"));
 		return;
 	}

@@ -2,6 +2,21 @@
 
 var ChatRoomMapViewWidth = 40;
 var ChatRoomMapViewHeight = 40;
+var ChatRoomMapMaxLength = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
+var ChatRoomMapViewObjectStartID = 100;
+var ChatRoomMapViewEffectStartID = 10;
+var ChatRoomMapViewObjectEntryID = 110;
+
+/** @type {Map<number, ChatRoomMapTile>} */
+const MapDataTiles = new Map();
+/** @type {Map<number, ChatRoomMapObject>} */
+const MapDataObjects = new Map();
+/** @type {Map<number, ChatRoomMapEffect>} */
+const MapDataEffects = new Map();
+
+const MapDataTileTypes = new Set();
+const MapDataObjectTypes = new Set();
+const MapDataEffectTypes = new Set();
 
 /**
  * @namespace
@@ -133,18 +148,128 @@ var ChatRoomMapViewHeight = 40;
  */
 var MapManager = (function () {
 	/**
-	 * The class storing the game map data. Currently only stores the lighting effects.
+	 * The class storing the game map data.
 	 */
 	class MapData {
+		/** @type {string} */
+		tiles;
+		/** @type {string} */
+		objects;
+		/** @type {ChatRoomMapEffect[][]} */
+		effects;
+		/** @type {boolean} */
+		fogEnabled;
 		/**
-		 * @param {ChatRoomMapEffect[][]=} effects
+		 * @param {string} [objects]
+		 * @param {string} [tiles]
+		 * @param {ChatRoomMapEffect[][]} [effects]
 		 */
-		constructor(effects) {
-			const tilesLen = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
-			/**
-			 * @type {ChatRoomMapEffect[][]}
-			 */
-			this.effects = effects ?? Array.from({ length: tilesLen }, () => []);
+		constructor(objects, tiles, effects) {
+			this.tiles = String.fromCharCode(ChatRoomMapViewObjectStartID).repeat(ChatRoomMapMaxLength);
+			this.objects = String.fromCharCode(ChatRoomMapViewObjectStartID).repeat(ChatRoomMapMaxLength);
+			this.effects = effects ?? Array.from({ length: ChatRoomMapMaxLength }, () => []);
+			this.fogEnabled = false;
+		}
+
+		/**
+		 *
+		 * @param {ServerChatRoomMapData} data
+		 */
+		load(data) {
+			if (data.Effects) {
+				const newEffects = this.#_decodeEffects(data.Effects);
+				if (newEffects === undefined) {
+					return false;
+				}
+				this.effects = newEffects;
+			}
+			this.objects = data.Objects ?? "";
+			this.tiles = data.Tiles ?? "";
+			this.fogEnabled = data.Fog ?? false;
+			return true;
+		}
+
+		/**
+		 * @param {string | undefined} str
+		 * @returns {ChatRoomMapEffect[][] | undefined}
+		 */
+		#_decodeEffects(str) {
+			if (str == null || str === "") {
+				return undefined;
+			}
+
+			const reader = BitStringReader.fromBase64(str);
+			if (reader === undefined) {
+				console.error(
+					"MapManager._decodeEffects(): failed to decode map effects: invalid encoded string",
+				);
+				return undefined;
+			}
+
+			try {
+				const version = reader.readUnsigned(MAP_SYNC_VERSION_BIT_SIZE);
+				const codec = MapEffectsCodecs[version];
+				if (codec === undefined) {
+					console.error(
+						`MapManager._decodeEffects(): failed to decode map effects: unknown effects version ${version}`,
+					);
+					return undefined;
+				}
+
+				const tilesCount = ChatRoomMapMaxLength;
+				const effects = codec.read(reader, tilesCount);
+				if (effects === undefined) {
+					console.error(
+						`MapManager._decodeEffects(): failed to decode map effects (v. ${version}): failed to read effects.`,
+					);
+					return undefined;
+				}
+				return effects;
+			} catch (e) {
+				console.error(
+					`MapManager._decodeEffects(): failed to decode map effects: decoding error: ${e}`,
+				);
+				return undefined;
+			}
+		}
+
+		/**
+		 *
+		 * @param {ServerChatRoomMapData} data
+		 * @returns
+		 */
+		save(data) {
+			const newEffects = this.#_encodeEffects();
+			if (newEffects === undefined) {
+				return false;
+			}
+			if (newEffects !== data.Effects) {
+				data.Effects = newEffects;
+			}
+			data.Tiles = this.tiles;
+			data.Objects = this.objects;
+			return true;
+		}
+
+		/**
+		 * @returns {string | undefined}
+		 */
+		#_encodeEffects() {
+			const codec = MapEffectsCodecs[CURRENT_EFFECTS_CODEC_VERSION];
+			const writer = new BitStringWriter();
+
+			writer.writeUnsigned(
+				CURRENT_EFFECTS_CODEC_VERSION,
+				MAP_SYNC_VERSION_BIT_SIZE,
+			);
+			if (!codec.write(this.effects, writer)) {
+				console.error(
+					"MapManager._encodeEffects(): failed to encode map effects: write failed.",
+				);
+				return undefined;
+			}
+
+			return writer.toBase64();
 		}
 
 		/**
@@ -579,7 +704,7 @@ var MapManager = (function () {
 					return undefined;
 				}
 				const effects = effectsCodec.read(reader, requiredTilesCount);
-				return new MapData(effects);
+				return new MapData(undefined, undefined, effects); // XXX: hmm…
 			}
 
 			return {
@@ -753,7 +878,7 @@ var MapManager = (function () {
 				return err;
 			}
 
-			const tilesCount = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
+			const tilesCount = ChatRoomMapMaxLength;
 			const map = codec.read(reader, tilesCount);
 			return {
 				LegacyMapData: undefined,
@@ -858,19 +983,331 @@ var MapManager = (function () {
 	 */
 	class Manager {
 		/**
-		 * @param {MapData} mapData
+		 * @type {MapData}
 		 */
-		constructor(mapData) {
-			/**
-			 * @type {MapData}
-			 * @private
-			 */
-			this._mapData = mapData;
-			/**
-			 * @type {number}
-			 * @private
-			 */
-			this._dirtyFlags = 0;
+		#_mapData;
+
+		/**
+		 * @type {number}
+		 */
+		#_dirtyFlags;
+
+		constructor() {
+			this.#_mapData = new MapData();
+			this.#_dirtyFlags = 0;
+		}
+
+		/**
+		 * Internal type to carry around the tile X,Y into index unpacking
+		 * @template {readonly [number, ...unknown[]]} T
+		 * @typedef {T extends readonly [number, infer Y, ...infer Rest]
+		 *   ? Y extends number ? [number, ...Rest] : T
+		 *   : T} UnpackedIndex
+		 */
+
+		/**
+		 * Turns either `(index, ...args)` or `(x, y, ...args)` forms into `[index, ...args]`.
+		 * The second value is Y when it is a number; otherwise the first value is already an index.
+		 * @template {readonly [number, ...unknown[]]} T
+		 * @param {T} args
+		 * @returns {UnpackedIndex<T>}
+		 */
+		#unpackIndex(...args) {
+			if (typeof args[1] === "number") {
+				const [x, y, ...rest] = args;
+				return /** @type {UnpackedIndex<T>} */ (
+					/** @type {unknown} */ ([MapCoordinatesToIndex(x, y), ...rest])
+				);
+			}
+			return /** @type {UnpackedIndex<T>} */ (/** @type {unknown} */ (args));
+		}
+
+		/**
+		 * Get the tile ID at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @return {number | null}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @return {number | null}
+		 */
+		/**
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {number | null}
+		 */
+		getTileId(...args) {
+			const [index] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return null;
+			return this.#_mapData.tiles.charCodeAt(index);
+		}
+
+		/**
+		 * Get the tile at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @return {ChatRoomMapTile | null}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @return {ChatRoomMapTile | null}
+		 */
+		/**
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {ChatRoomMapTile | null}
+		 */
+		getTile(...args) {
+			const [index] = this.#unpackIndex(...args);
+			const id = this.getTileId(index);
+			return id !== null ? MapGetDoodad("Tile", id) : null;
+		}
+
+		/**
+		 * Set the tile at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @param {ChatRoomMapTile | null} tile
+		 * @return {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {ChatRoomMapTile | null} tile
+		 * @return {boolean}
+		 */
+		/**
+		 * @template {[index: number, tile: ChatRoomMapTile | null] | [x: number, y: number, tile: ChatRoomMapTile | null]} T
+		 * @param {T} args
+		 * @return {boolean}
+		 */
+		setTile(...args) {
+			let [index, tile] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+			if (!this.canSetTile(index, tile)) return false;
+			if (tile?.Unique) {
+				this.#clearUniqueTile(tile);
+			}
+			this.#_markDirty(DirtyFlags.TILES);
+			const tiles = this.#_mapData.tiles;
+			const tileId = tile?.ID ?? ChatRoomMapViewObjectStartID;
+
+			this.#_mapData.tiles = tiles.slice(0, index) + String.fromCharCode(tileId) + tiles.slice(index + 1);
+			return true;
+		}
+
+		/**
+		 * Check whether a tile can be placed at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @param {ChatRoomMapTile | null} tile
+		 * @return {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {ChatRoomMapTile | null} tile
+		 * @return {boolean}
+		 */
+		/**
+		 * @template {[index: number, tile: ChatRoomMapTile | null, range?: number] | [x: number, y: number, tile: ChatRoomMapTile | null]} T
+		 * @param {T} args
+		 * @return {boolean}
+		 */
+		canSetTile(...args) {
+			let [index, tile] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+
+			tile ??= MapDataGetTile(ChatRoomMapViewObjectStartID);
+			if (!tile) return false;
+
+			if (tile.Style === "Blank") return true;
+
+			return true;
+		}
+
+		/**
+		 * @param {ChatRoomMapTile} tile
+		 * @return {boolean}
+		 */
+		#clearUniqueTile(tile) {
+			if (!tile?.Unique) return false;
+			const tiles = this.#_mapData.tiles;
+			if (tiles == null) return false;
+
+			let cleared = false;
+			for (let index = 0; index < tiles.length; index++) {
+				if (tiles.charCodeAt(index) === tile.ID) {
+					this.#_markDirty(DirtyFlags.TILES);
+					this.#_mapData.tiles = tiles.slice(0, index) + String.fromCharCode(tile.ID) + tiles.slice(index + 1);
+					cleared = true;
+				}
+			}
+			return cleared;
+		}
+
+		/**
+		 * Get the object ID at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @return {number | null}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @return {number | null}
+		 */
+		/**
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {number | null}
+		 */
+		getObjectId(...args) {
+			const [index] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return null;
+			return this.#_mapData.objects.charCodeAt(index);
+		}
+
+		/**
+		 * Get the object at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @return {ChatRoomMapObject | null}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @return {ChatRoomMapObject | null}
+		 */
+		/**
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {ChatRoomMapObject | null}
+		 */
+		getObject(...args) {
+			const [index] = this.#unpackIndex(...args);
+			const id = this.getObjectId(index);
+			return id !== null ? MapGetDoodad("Object", id) : null;
+		}
+
+		/**
+		 * Set the object at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @param {ChatRoomMapObject | null} object
+		 * @return {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {ChatRoomMapObject | null} object
+		 * @return {boolean}
+		 */
+		/**
+		 * @template {[index: number, tile: ChatRoomMapObject | null] | [x: number, y: number, tile: ChatRoomMapObject | null]} T
+		 * @param {T} args
+		 * @return {boolean}
+		 */
+		setObject(...args) {
+			let [index, object] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+			if (!this.canSetObject(index, object)) return false;
+			if (object?.Unique) {
+				this.#clearUniqueObject(object);
+			}
+			this.#_markDirty(DirtyFlags.OBJECTS);
+			const objects = this.#_mapData.objects;
+			const objectId = object?.ID ?? ChatRoomMapViewObjectStartID;
+
+			this.#_mapData.objects = objects.slice(0, index) + String.fromCharCode(objectId) + objects.slice(index + 1);
+			return true;
+		}
+
+		/**
+		 * Can the given object be placed at the given coordinates
+		 * @overload
+		 * @param {number} index
+		 * @param {ChatRoomMapObject | null} object
+		 * @return {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {ChatRoomMapObject | null} object
+		 * @return {boolean}
+		 */
+		/**
+		 * @template {[index: number, tile: ChatRoomMapObject | null, range?: number] | [x: number, y: number, tile: ChatRoomMapObject | null]} T
+		 * @param {T} args
+		 * @return {boolean}
+		 */
+		canSetObject(...args) {
+			let [index, object] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+
+			object ??= MapDataGetObject(ChatRoomMapViewObjectStartID);
+			if (!object) return false;
+
+			if (object.Style === "Blank") return true;
+
+			const tile = this.getTile(index);
+			if (tile?.Type !== "Wall" && object.CanPlaceOnFloors === false) return false;
+			if (tile?.Type === "Wall" && !object.CanPlaceOnWalls) return false;
+
+			const belowCoord = MapIndexToCoordinates(index);
+			const tileBelow = this.getTile(belowCoord.X, belowCoord.Y + 1);
+			if (tile?.Type === "Wall" && tileBelow?.Type === "Wall" && !object.CanPlaceInWalls) return false;
+
+			return true;
+		}
+
+		/**
+		 *
+		 * @param {ChatRoomMapObject} object
+		 * @return {boolean}
+		 */
+		#clearUniqueObject(object) {
+			if (!object?.Unique) return false;
+			const objects = this.#_mapData.objects;
+
+			let cleared = false;
+			for (let index = 0; index < objects.length; index++) {
+				if (objects.charCodeAt(index) === object.ID) {
+					this.#_markDirty(DirtyFlags.OBJECTS);
+					this.#_mapData.objects = objects.slice(0, index) + String.fromCharCode(ChatRoomMapViewObjectStartID) + objects.slice(index + 1);
+					cleared = true;
+				}
+			}
+			return cleared;
+		}
+
+		/**
+		 * Get the current active effects array at a given coordinates.
+		 * @overload
+		 * @param {number} index
+		 * @return {ChatRoomMapEffect[]}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @return {ChatRoomMapEffect[]}
+		 */
+		/**
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {ChatRoomMapEffect[]}
+		 */
+		getEffects(...args) {
+			const [index] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return [];
+			return this.#_mapData.effects[index];
 		}
 
 		/**
@@ -878,18 +1315,77 @@ var MapManager = (function () {
 		 * @param {number} x
 		 * @param {number} y
 		 * @returns {ChatRoomMapEffect[]}
+		 * @deprecated Use {@link Manager.getEffects}
 		 */
 		getEffectsByXY(x, y) {
-			return this.getEffectsByIndex(MapCoordinatesToIndex(x, y));
+			return this.getEffects(x, y);
 		}
 
 		/**
 		 * Get the current active effects array at a given tile index.
 		 * @param {number} tileIndex the index of a map tile, as returned by MapCoordinatesToIndex.
 		 * @returns {ChatRoomMapEffect[]}
+		 * @deprecated Use {@link Manager.getEffects}
 		 */
 		getEffectsByIndex(tileIndex) {
-			return this._mapData.effects[tileIndex];
+			return this.getEffects(tileIndex);
+		}
+
+		/**
+		 * Add an active effects at given coordinates.
+		 * @overload
+		 * @param {number} index
+		 * @param {ChatRoomMapEffect} effect
+		 * @return {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {ChatRoomMapEffect} effect
+		 * @return {boolean}
+		 */
+		/**
+		 * @template {[index: number, effect: ChatRoomMapEffect] | [x: number, y: number, effect: ChatRoomMapEffect]} T
+		 * @param {T} args
+		 * @return {boolean}
+		 */
+		addEffect(...args) {
+			let [index, effect] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+
+			const effects = this.getEffects(index);
+			if (effects.find(e => e.ID === effect.ID)) return false;
+			effects.push(effect);
+			this.setEffects(index, effects);
+			return true;
+		}
+
+		/**
+		 * Sets the list of active effects at given coordinates.
+		 * @overload
+		 * @param {number} index
+		 * @param {ChatRoomMapEffect[]} effects
+		 * @return {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {ChatRoomMapEffect[]} effects
+		 * @return {boolean}
+		 */
+		/**
+		 * @template {[index: number, effects: ChatRoomMapEffect[]] | [x: number, y: number, effects: ChatRoomMapEffect[]]} T
+		 * @param {T} args
+		 * @return {boolean}
+		 */
+		setEffects(...args) {
+			let [index, effects] = this.#unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+			this.#_markDirty(DirtyFlags.EFFECTS);
+			this.#_mapData.effects[index] = [...effects];
+			return true;
 		}
 
 		/**
@@ -898,10 +1394,10 @@ var MapManager = (function () {
 		 * @param {number} y
 		 * @param {ChatRoomMapEffect[]} effects
 		 * @returns {void}
+		 * @deprecated Use {@link Manager.setEffects}
 		 */
 		setEffectsByXY(x, y, effects) {
-			this.markDirtyEffects();
-			this.setEffectsByIndex(MapCoordinatesToIndex(x, y), effects);
+			this.setEffects(x, y, effects);
 		}
 
 		/**
@@ -909,10 +1405,10 @@ var MapManager = (function () {
 		 * @param {number} tileIndex
 		 * @param {ChatRoomMapEffect[]} effects
 		 * @returns {void}
+		 * @deprecated Use {@link Manager.setEffects}
 		 */
 		setEffectsByIndex(tileIndex, effects) {
-			this.markDirtyEffects();
-			this._mapData.effects[tileIndex] = [...effects];
+			this.setEffects(tileIndex, effects);
 		}
 
 		/**
@@ -920,20 +1416,20 @@ var MapManager = (function () {
 		 * @param {number} x
 		 * @param {number} y
 		 * @returns {void}
+		 * @deprecated Use {@link Manager.setEffects}
 		 */
 		clearEffectsByXY(x, y) {
-			this.markDirtyEffects();
-			this.setEffectsByXY(x, y, []);
+			this.setEffects(x, y, []);
 		}
 
 		/**
 		 * Clears the list of active effects at a given tile index.
 		 * @param {number} tileIndex
 		 * @returns {void}
+		 * @deprecated Use {@link Manager.setEffects}
 		 */
 		clearEffectsByIndex(tileIndex) {
-			this.markDirtyEffects();
-			this.setEffectsByIndex(tileIndex, []);
+			this.setEffects(tileIndex, []);
 		}
 
 		/**
@@ -943,19 +1439,17 @@ var MapManager = (function () {
 		 * @return {ChatRoomMapEffect[][]}
 		 */
 		getAllEffects() {
-			return this._mapData.effects;
+			return this.#_mapData.effects;
 		}
 
 		/**
 		 * Replaces all current effects with the parsed effects array.
-		 * For efficiency does not copy the passed effects.
-		 * The users must not modify the passed effects array afterward.
 		 * @param {ChatRoomMapEffect[][]} effectsList
 		 * @returns {void}
 		 */
 		replaceAllEffects(effectsList) {
 			this.markDirtyEffects();
-			this._mapData.effects = effectsList;
+			this.#_mapData.effects = structuredClone(effectsList);
 		}
 
 		/**
@@ -963,16 +1457,19 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		removeAllEffects() {
-			this._mapData.removeAllEffects();
+			this.#_mapData.removeAllEffects();
+		}
+
+		get hasFogEnabled() {
+			return this.#_mapData.fogEnabled;
 		}
 
 		/**
 		 * Mark a specific part of the map data as dirty, that is, changed and not yet synchronized with the server.
 		 * @param {number} flag
-		 * @private
 		 */
-		_markDirty(flag) {
-			this._dirtyFlags = DirtyFlags.setFlag(this._dirtyFlags, flag);
+		#_markDirty(flag) {
+			this.#_dirtyFlags = DirtyFlags.setFlag(this.#_dirtyFlags, flag);
 		}
 
 		/**
@@ -980,8 +1477,8 @@ var MapManager = (function () {
 		 * @param {number} flag
 		 * @returns {void}
 		 */
-		_markClean(flag) {
-			this._dirtyFlags = DirtyFlags.clearFlag(this._dirtyFlags, flag);
+		#_markClean(flag) {
+			this.#_dirtyFlags = DirtyFlags.clearFlag(this.#_dirtyFlags, flag);
 		}
 
 		/**
@@ -989,7 +1486,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		markDirtyEffects() {
-			this._markDirty(DirtyFlags.EFFECTS);
+			this.#_markDirty(DirtyFlags.EFFECTS);
 		}
 
 		/**
@@ -997,7 +1494,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		markCleanEffects() {
-			this._markClean(DirtyFlags.EFFECTS);
+			this.#_markClean(DirtyFlags.EFFECTS);
 		}
 
 		/**
@@ -1006,7 +1503,7 @@ var MapManager = (function () {
 		 * @returns {boolean}
 		 */
 		isDirtyEffects() {
-			return DirtyFlags.hasFlag(this._dirtyFlags, DirtyFlags.EFFECTS);
+			return DirtyFlags.hasFlag(this.#_dirtyFlags, DirtyFlags.EFFECTS);
 		}
 
 		/**
@@ -1014,7 +1511,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		markDirtyTiles() {
-			this._markDirty(DirtyFlags.TILES);
+			this.#_markDirty(DirtyFlags.TILES);
 		}
 
 		/**
@@ -1022,7 +1519,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		markCleanTiles() {
-			this._markClean(DirtyFlags.TILES);
+			this.#_markClean(DirtyFlags.TILES);
 		}
 
 		/**
@@ -1031,7 +1528,7 @@ var MapManager = (function () {
 		 * @returns {boolean}
 		 */
 		isDirtyTiles() {
-			return DirtyFlags.hasFlag(this._dirtyFlags, DirtyFlags.TILES);
+			return DirtyFlags.hasFlag(this.#_dirtyFlags, DirtyFlags.TILES);
 		}
 
 		/**
@@ -1039,7 +1536,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		markDirtyObjects() {
-			this._markDirty(DirtyFlags.OBJECTS);
+			this.#_markDirty(DirtyFlags.OBJECTS);
 		}
 
 		/**
@@ -1047,7 +1544,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		markCleanObjects() {
-			this._markClean(DirtyFlags.OBJECTS);
+			this.#_markClean(DirtyFlags.OBJECTS);
 		}
 
 		/**
@@ -1056,7 +1553,7 @@ var MapManager = (function () {
 		 * @returns {boolean}
 		 */
 		isDirtyObjects() {
-			return DirtyFlags.hasFlag(this._dirtyFlags, DirtyFlags.OBJECTS);
+			return DirtyFlags.hasFlag(this.#_dirtyFlags, DirtyFlags.OBJECTS);
 		}
 
 		/**
@@ -1064,7 +1561,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		markCleanAll() {
-			this._dirtyFlags = 0;
+			this.#_dirtyFlags = 0;
 		}
 
 		/**
@@ -1076,7 +1573,7 @@ var MapManager = (function () {
 		exportString() {
 			return ExportMap({
 				LegacyMapData: ChatRoomData?.MapData,
-				MapData: this._mapData,
+				MapData: this.#_mapData,
 			});
 		}
 
@@ -1113,7 +1610,7 @@ var MapManager = (function () {
 			}
 
 			if (mapData.MapData !== undefined) {
-				this._mapData = mapData.MapData;
+				this.#_mapData = mapData.MapData;
 				this.updateGlobalMapData();  // Write the modern map data to global object
 				this.markDirtyEffects();
 			}
@@ -1136,112 +1633,30 @@ var MapManager = (function () {
 		 */
 		updateGlobalMapData() {
 			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
-			const newEffects = this._encodeEffects();
-			if (newEffects === undefined) {
-				return false;
-			}
-			if (newEffects === ChatRoomData?.MapData?.Effects) {
-				return true;
-			}
-			ChatRoomData.MapData.Effects = newEffects;
-			this.markDirtyEffects(); // The effects have changed
-			return true;
+			return this.#_mapData.save(ChatRoomData.MapData);
 		}
 
 		/**
 		 * Loads the data from {@link ChatRoomData.MapData} and replaces the current map data with the one
 		 * stored in it.
-		 * @return {boolean} `true` if the global map data was parsed successfully. `false` if
-		 * the global map data is invalid, no data is changed in this case.
+		 * @param {ServerChatRoomMapData | undefined} data
+		 * @return {boolean} `true` if the global map data was parsed successfully.
+		 * `false` if the global map data is invalid; no data is changed in this case.
 		 */
-		loadGlobalMapData() {
-			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
-			if (ChatRoomData.MapData.Effects === undefined) {
-				this.removeAllEffects();
+		loadGlobalMapData(data) {
+			if (!data) throw new Error("No map in current room");
+			const ret = this.#_mapData.load(data);
+			if (ret) {
 				this.markCleanAll();
-				return true;
 			}
-			const newEffects = this._decodeEffects(ChatRoomData.MapData.Effects);
-			if (newEffects === undefined) {
-				return false;
-			}
-			this.replaceAllEffects(newEffects);
-			this.markCleanAll();
-			return true;
-		}
-
-		/**
-		 * @returns {string | undefined}
-		 * @private
-		 */
-		_encodeEffects() {
-			const codec = MapEffectsCodecs[CURRENT_EFFECTS_CODEC_VERSION];
-			const writer = new BitStringWriter();
-
-			writer.writeUnsigned(
-				CURRENT_EFFECTS_CODEC_VERSION,
-				MAP_SYNC_VERSION_BIT_SIZE,
-			);
-			if (!codec.write(this.getAllEffects(), writer)) {
-				console.error(
-					"MapManager._encodeEffects(): failed to encode map effects: write failed.",
-				);
-				return undefined;
-			}
-
-			return writer.toBase64();
-		}
-
-		/**
-		 * @param {string | undefined} str
-		 * @returns {ChatRoomMapEffect[][] | undefined}
-		 * @private
-		 */
-		_decodeEffects(str) {
-			if (str == null || str === "") {
-				return undefined;
-			}
-
-			const reader = BitStringReader.fromBase64(str);
-			if (reader === undefined) {
-				console.error(
-					"MapManager._decodeEffects(): failed to decode map effects: invalid encoded string",
-				);
-				return undefined;
-			}
-
-			try {
-				const version = reader.readUnsigned(MAP_SYNC_VERSION_BIT_SIZE);
-				const codec = MapEffectsCodecs[version];
-				if (codec === undefined) {
-					console.error(
-						`MapManager._decodeEffects(): failed to decode map effects: unknown effects version ${version}`,
-					);
-					return undefined;
-				}
-
-				const tilesCount = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
-				const effects = codec.read(reader, tilesCount);
-				if (effects === undefined) {
-					console.error(
-						`MapManager._decodeEffects(): failed to decode map effects (v. ${version}): failed to read effects.`,
-					);
-					return undefined;
-				}
-				return effects;
-			} catch (e) {
-				console.error(
-					`MapManager._decodeEffects(): failed to decode map effects: decoding error: ${e}`,
-				);
-				return undefined;
-			}
+			return ret;
 		}
 	}
 
 	let initialized = false;
 
 	return {
-		Map: new Manager(new MapData()),
+		Map: new Manager(),
 
 		/**
 		 * This function should be called each time the external code updates {@link ChatRoomData.MapData}.
@@ -1251,7 +1666,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		OnMapDataUpdated() {
-			MapManager.Map.loadGlobalMapData();
+			MapManager.Map.loadGlobalMapData(ChatRoomData?.MapData);
 		},
 
 		/**
@@ -1261,7 +1676,7 @@ var MapManager = (function () {
 		 */
 		OnViewActivate() {
 			if (!initialized) {
-				MapManager.Map.loadGlobalMapData();
+				MapManager.Map.loadGlobalMapData(ChatRoomData?.MapData);
 				initialized = true;
 			}
 		},
@@ -1277,7 +1692,7 @@ const ChatRoomMapViewObjectDefaultValues = {
 		BuildImageName: function (X, Y) {
 			let name = this.Style;
 			if (this.OccupiedStyle != null && Player.X == X && Player.Y == Y) name = this.OccupiedStyle ?? "Blank";
-			if (MapGetCell("Tile", X, Y+1)?.Type == "Wall") return name + "Inset";
+			if (MapManager.Map.getTile(X, Y+1)?.Type === "Wall") return name + "Inset";
 			return name ?? "Blank";
 		}
 	},
@@ -1288,17 +1703,6 @@ const ChatRoomMapViewObjectDefaultValues = {
 
 /** @deprecated Duplicate IDs are checked on load */
 function ChatRoomMapViewCheckForDuplicateIds() {}
-
-/** @type {Map<number, ChatRoomMapTile>} */
-const MapDataTiles = new Map();
-/** @type {Map<number, ChatRoomMapObject>} */
-const MapDataObjects = new Map();
-/** @type {Map<number, ChatRoomMapEffect>} */
-const MapDataEffects = new Map();
-
-const MapDataTileTypes = new Set();
-const MapDataObjectTypes = new Set();
-const MapDataEffectTypes = new Set();
 
 /**
  * Load map tiles into the registry
@@ -1356,55 +1760,33 @@ function MapDataLoad() {
 
 /**
  * @param {number} tileId
- * @returns {ChatRoomMapTile | undefined}
+ * @returns {ChatRoomMapTile}
  */
 function MapDataGetTile(tileId) {
-	return MapDataTiles.get(tileId);
+	const tile = MapDataTiles.get(tileId);
+	if (!tile) throw new Error(`Unknown map tile ${tileId}`);
+	return tile;
 }
 
 /**
  * @param {number} objectId
- * @returns {ChatRoomMapObject | undefined}
+ * @returns {ChatRoomMapObject}
  */
 function MapDataGetObject(objectId) {
-	return MapDataObjects.get(objectId);
+	const object = MapDataObjects.get(objectId);
+	if (!object) throw new Error(`Unknown map object ${objectId}`);
+	return object;
 }
 
 /**
  * @param {number} effectId
- * @returns {ChatRoomMapEffect | undefined}
+ * @returns {ChatRoomMapEffect}
  */
 function MapDataGetEffect(effectId) {
-	return MapDataEffects.get(effectId);
+	const effect =  MapDataEffects.get(effectId);
+	if (!effect) throw new Error(`Unknown map effect ${effectId}`);
+	return effect;
 }
-
-/*
- * Doodad / Element -> Doodad
- * Active Object / Effect / Tile -> Cell
- */
-
-var MapLookupData = {
-	get mapData() {
-		if (ChatRoomData?.MapData == null) throw new Error("ChatRoomData.MapData is null");
-		return ChatRoomData.MapData;
-	},
-	set mapData(value) {
-		if (ChatRoomData == null) throw new Error("ChatRoomData.MapData is null");
-		ChatRoomData.MapData = value;
-	},
-	get Tile () {
-		return this.mapData.Tiles ?? "";},
-	set Tile (value) {
-		this.mapData.Tiles = value;},
-	get Object () {
-		return this.mapData.Objects ?? "";},
-	set Object (value) {
-		this.mapData.Objects = value;},
-	get Effect () {
-		return this.mapData.Effects ?? "";},
-	set Effect (value) {
-		this.mapData.Effects = value;},
-};
 
 /**
  * Gets coordinates in X and Y and returns the corresponding index number for the tile and object list
@@ -1413,6 +1795,9 @@ var MapLookupData = {
  * @returns {number} - Index number for the tile and object lists
  */
 function MapCoordinatesToIndex(x, y) {
+	if (!CommonIsInteger(x) || !CommonIsInteger(y)) {
+		throw new Error(`invalid map x,y value: ${String(x)}, ${String(y)}`);
+	}
 	return (y * ChatRoomMapViewWidth) + x;
 }
 
@@ -1422,6 +1807,9 @@ function MapCoordinatesToIndex(x, y) {
  * @returns {ChatRoomMapPos} - Object containing the resulting x and y coordinates.
  */
 function MapIndexToCoordinates(index) {
+	if (!CommonIsInteger(index)) {
+		throw new Error(`invalid map index value: ${String(index)}`);
+	}
 	return { X: index % ChatRoomMapViewWidth, Y: Math.floor(index / ChatRoomMapViewWidth) };
 }
 
@@ -1447,12 +1835,14 @@ function MapGetDoodad(type, id) {
  * @param {number} x - The X position of the tile
  * @param {number} y - The Y position of the tile
  * @returns {number | null}
+ * @deprecated Use {@link MapManager.Map.getObjectId}/{@link MapManager.Map.getTileId}
  */
 function MapGetCellId(type, x, y) {
-	let index = MapCoordinatesToIndex(x, y);
-	if (MapLookupData[type] == null) return null;
-	const id = MapLookupData[type].charCodeAt(index) ?? null;
-	return id;
+	switch (type) {
+		case "Tile": return MapManager.Map.getTileId(x, y);
+		case "Object": return MapManager.Map.getObjectId(x, y);
+		case "Effect": return null;
+	}
 }
 
 /**
@@ -1462,6 +1852,7 @@ function MapGetCellId(type, x, y) {
  * @param {number} x - The X position of the tile
  * @param {number} y - The Y position of the tile
  * @returns {MapDataLookupTable[T] | null}
+ * @deprecated Use {@link MapManager.Map.getObject}/{@link MapManager.Map.getTile}
  */
 function MapGetCell(type, x, y) {
 	const id = MapGetCellId(type, x, y);
@@ -1476,37 +1867,38 @@ function MapGetCell(type, x, y) {
  * @param {number} x - The X position of the tile
  * @param {number} y - The Y position of the tile
  * @param {boolean} refresh - Whether to refresh the map
- * @param {boolean} clearUnique - Whether to clear the unique tiles
  * @returns {boolean} - TRUE if the tile was set
  */
-function MapSetCell(id, type, x, y, refresh=false, clearUnique=true) {
-	const doodad = MapGetDoodad(type, id);
-	if (doodad?.Unique && clearUnique) MapClearUniqueCells(id, type);
-	const index = MapCoordinatesToIndex(x, y);
-	const data = MapLookupData[type];
-	if (data == null) return false;
-	MapLookupData[type] = data.slice(0, index) + String.fromCharCode(id) + data.slice(index + 1);
-	if (refresh) MapValidateCells();
-	return true;
+function MapSetCell(id, type, x, y, refresh=false) {
+	if (type === "Tile") {
+		return MapManager.Map.setTile(x, y, MapGetDoodad("Tile", id));
+	} else if (type === "Object") {
+		return MapManager.Map.setObject(x, y, MapGetDoodad("Object", id));
+	} else if (type === "Effect") {
+		const effect = MapGetDoodad("Effect", id);
+		if (!effect) return false;
+		const effects = MapManager.Map.getEffects(x, y);
+		const existingEffectPos = effects.findIndex(e => e.ID === effect.ID);
+		if (existingEffectPos !== -1) {
+			effects.splice(existingEffectPos, 1, effect);
+		} else {
+			effects.push(effect);
+		}
+		MapManager.Map.setEffects(x, y, effects);
+		return true;
+	}
+	return false;
 }
-
 
 /**
  * Clears the unique tiles
  * @param {number} id - The ID of the tile
  * @param {MapDataDoodadType} type - The type of the tile
  * @returns {boolean} - TRUE if the tile was cleared
+ * @deprecated
  */
 function MapClearUniqueCells(id, type) {
-	if (!MapGetDoodad(type, id)?.Unique) return false;
-	const data = MapLookupData[type];
-	if (data == null) return false;
-
-	for (let index = 0; index < data.length; index++) {
-		if (data.charCodeAt(index) === id) MapSetCell(ChatRoomMapViewObjectStartID, type, index % ChatRoomMapViewWidth, Math.floor(index / ChatRoomMapViewWidth), false, false);
-	}
-	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
-	return true;
+	return false;
 }
 
 /**
@@ -1516,36 +1908,23 @@ function MapClearUniqueCells(id, type) {
  * @param {number} x - The X position of the cell
  * @param {number} y - The Y position of the cell
  * @returns {boolean}
+ * @deprecated Use {@link MapManager.Map.canSetTile}/{@link MapManager.Map.canSetObject}.
  */
 function MapCanSetCell(id, type, x, y) {
-	if (x > ChatRoomMapViewWidth || y > ChatRoomMapViewHeight || x < 0 || y < 0) return false;
-	switch (type) {
-		case "Tile": {
-			const tile = MapDataTiles.get(id);
-			if (!tile) return false;
-			if (tile?.Style === "Blank") return true;
-			break;
-		}
-		case "Object": {
-			const object = MapDataObjects.get(id);
-			if (!object) return false;
-			if (object?.Style === "Blank") return true;
-
-			const tile = MapGetCell("Tile", x, y);
-			if (tile?.Type != "Wall" && object?.CanPlaceOnFloors == false ||
-				tile?.Type == "Wall" && !object?.CanPlaceOnWalls) return false;
-
-			const tileUnder = MapGetCell("Tile", x, y+1);
-			if (tile?.Type == "Wall" && tileUnder?.Type == "Wall" && !object?.CanPlaceInWalls) return false;
-			break;
-		}
-		case "Effect": {
-			const effect = MapDataEffects.get(id);
-			if (!effect) return false;
-			break;
-		}
+	if (type === "Tile") {
+		const tile = MapDataGetTile(id);
+		if (!tile) return false;
+		return MapManager.Map.canSetTile(x, y, tile);
+	} else if (type === "Object") {
+		const object = MapDataGetObject(id);
+		if (!object) return false;
+		return MapManager.Map.canSetObject(x, y, object);
+	} else if (type === "Effect") {
+		const effect = MapDataGetEffect(id);
+		if (!effect) return false;
+		return true;
 	}
-	return true;
+	return false;
 }
 
 /**
@@ -1555,6 +1934,7 @@ function MapCanSetCell(id, type, x, y) {
  * @param {number} x - The X position of the cell
  * @param {number} y - The Y position of the cell
  * @returns {boolean}
+ * @deprecated Use {@link MapManager.Map.canSetTile}/{@link MapManager.Map.canSetObject}.
  */
 function MapIsCellValid(id, type, x, y) {
 	if (!MapCanSetCell(id, type, x, y)) return false;
@@ -1566,12 +1946,13 @@ function MapIsCellValid(id, type, x, y) {
  * @returns {void} - Nothing
  */
 function MapValidateCells() {
+	// XXX: this method should go; validation should happen on map load and update only;
+	// doing it anytime there's a change somewhere is wasteful af
 	for (let index = 0; index < ChatRoomMapViewWidth * ChatRoomMapViewHeight; index++) {
-		const {X, Y} = MapIndexToCoordinates(index);
-
-		const objectId = MapGetCellId("Object", X, Y);
-		if (objectId && !MapIsCellValid(objectId, "Object", X, Y)) {
-			MapSetCell(ChatRoomMapViewObjectStartID, "Object", X, Y);
+		const object = MapManager.Map.getObject(index);
+		if (!object) continue;
+		if (!MapManager.Map.canSetObject(index, object)) {
+			MapManager.Map.setObject(index, null);
 		};
 	}
 
