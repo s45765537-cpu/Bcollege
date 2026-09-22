@@ -8518,9 +8518,9 @@ In Mouth
 在嘴里
 In Hand
 在手里
-SourceCharacter puts the cigarette in DestinationCharacterName mouth.
+SourceCharacter puts the cigarette in DestinationCharacter mouth.
 SourceCharacter将香烟放在了DestinationCharacterName嘴里。
-SourceCharacter keeps the cigarette in DestinationCharacterName hand.
+SourceCharacter keeps the cigarette in DestinationCharacter hand.
 SourceCharacter将香烟放在了DestinationCharacterName手里。
 Choose your Kyo-sensu paper art:
 选择你的京扇图案：

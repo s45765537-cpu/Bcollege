@@ -8787,8 +8787,8 @@ ItemHandheldPlushieSetDollMakerClub1,SourceCharacter places a cute Courtney plus
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
-ItemHandheldCigaretteSetInMouth,SourceCharacter puts the cigarette in DestinationCharacterName mouth.
-ItemHandheldCigaretteSetInHand,SourceCharacter keeps the cigarette in DestinationCharacterName hand.
+ItemHandheldCigaretteSetInMouth,SourceCharacter puts the cigarette in DestinationCharacter mouth.
+ItemHandheldCigaretteSetInHand,SourceCharacter keeps the cigarette in DestinationCharacter hand.
 ItemHandheldKyosensuSelect,Choose your Kyo-sensu paper art:
 ItemHandheldKyosensuType1,Cherry blossoms
 ItemHandheldKyosensuType2,Lightning bolt
