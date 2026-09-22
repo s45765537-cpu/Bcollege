@@ -2691,9 +2691,9 @@ var CraftingValidationRecord = {
 /**
  * @overload
  * @param {CraftingPartialItem} Craft
- * @param {Asset | null} [asset]
- * @param {boolean} [Warn]
- * @param {boolean} [checkPlayerInventory]
+ * @param {Asset | null | undefined} asset
+ * @param {boolean | undefined} Warn
+ * @param {boolean | undefined} checkPlayerInventory
  * @param {true} partial
  * @return {CraftingStatusType}
  *//**
