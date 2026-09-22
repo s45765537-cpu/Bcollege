@@ -4207,18 +4207,18 @@ ItemHandheldFoldingfanSelectOpenFan,Open or close the fan
 ItemHandheldFoldingfanSelectPattern,Select the fan pattern
 ItemHandheldFoldingfanSetn0,SourceCharacter closes TargetCharacter fan.
 ItemHandheldFoldingfanSetn1,SourceCharacter opens TargetCharacter fan.
-ItemHandheldFoldingfanSetp0,SourceCharacter gave TargetCharacter a plain fan.
-ItemHandheldFoldingfanSetp1,SourceCharacter gave TargetCharacter a plum fan.
-ItemHandheldFoldingfanSetp2,SourceCharacter gave TargetCharacter an orchid fan.
-ItemHandheldFoldingfanSetp3,SourceCharacter gave TargetCharacter a bamboo fan.
-ItemHandheldFoldingfanSetp4,SourceCharacter gave TargetCharacter a chrysanthemum fan.
-ItemHandheldFoldingfanSetp5,SourceCharacter gave TargetCharacter a scenery fan.
-ItemHandheldFoldingfanSetp6,SourceCharacter gave TargetCharacter a text fan.
+ItemHandheldFoldingfanSetp0,SourceCharacter gives TargetCharacter a plain fan.
+ItemHandheldFoldingfanSetp1,SourceCharacter gives TargetCharacter a plum fan.
+ItemHandheldFoldingfanSetp2,SourceCharacter gives TargetCharacter an orchid fan.
+ItemHandheldFoldingfanSetp3,SourceCharacter gives TargetCharacter a bamboo fan.
+ItemHandheldFoldingfanSetp4,SourceCharacter gives TargetCharacter a chrysanthemum fan.
+ItemHandheldFoldingfanSetp5,SourceCharacter gives TargetCharacter a scenery fan.
+ItemHandheldFoldingfanSetp6,SourceCharacter gives TargetCharacter a text fan.
 ItemHandheldGrilledSausageFiveSpiceJuicyFlavor,Five Spices
 ItemHandheldGrilledSausageSmokyHoneyFlavor,Smoky Honey
 ItemHandheldGrilledSausageSelect,Select Grilled Sausage Flavor
-ItemHandheldGrilledSausageSetFiveSpiceJuicyFlavor,SourceCharacter gave TargetCharacter a five spices sausage.
-ItemHandheldGrilledSausageSetSmokyHoneyFlavor,SourceCharacter gave TargetCharacter a smoky honey sausage.
+ItemHandheldGrilledSausageSetFiveSpiceJuicyFlavor,SourceCharacter gives TargetCharacter a five spices sausage.
+ItemHandheldGrilledSausageSetSmokyHoneyFlavor,SourceCharacter gives TargetCharacter a smoky honey sausage.
 ItemHandheldLaptopClosed,Closed
 ItemHandheldLaptopOpen,Open
 ItemHandheldLaptopSelect,Select the laptop style
@@ -4231,7 +4231,7 @@ ItemHandheldChocolateOptionp2,Golden ticket
 ItemHandheldChocolateOptionp3,Chocolate
 ItemHandheldChocolateSetp0,SourceCharacter makes DestinationCharacter AssetName show fully wrapped.
 ItemHandheldChocolateSetp1,SourceCharacter makes DestinationCharacter AssetName show aluminum foil inside the wrapping paper.
-ItemHandheldChocolateSetp2,SourceCharacter opened DestinationCharacter AssetName and found a gold ticket inside!
+ItemHandheldChocolateSetp2,SourceCharacter opens DestinationCharacter AssetName and finds a gold ticket inside!
 ItemHandheldChocolateSetp3,SourceCharacter reveals DestinationCharacter AssetName from the wrapping paper.
 ItemHandheldChocolateSelectBase,Change your bar type
 ItemHandheldChocolateSelectType,Chocolate bar type...
@@ -4247,12 +4247,12 @@ ItemHandheldOilpaperumbrellaFlower2,Flower 2
 ItemHandheldOilpaperumbrellaLandscape,Landscape
 ItemHandheldOilpaperumbrellaNoPattern,No Pattern
 ItemHandheldOilpaperumbrellaSelect,Select Pattern
-ItemHandheldOilpaperumbrellaSetBamboo,SourceCharacter gave TargetCharacter an AssetName with a bamboo pattern.
-ItemHandheldOilpaperumbrellaSetCartoon,SourceCharacter gave TargetCharacter an AssetName with a cartoon pattern.
-ItemHandheldOilpaperumbrellaSetFlower1,SourceCharacter gave TargetCharacter an AssetName with a flower pattern.
-ItemHandheldOilpaperumbrellaSetFlower2,SourceCharacter gave TargetCharacter an AssetName with a flower pattern.
-ItemHandheldOilpaperumbrellaSetLandscape,SourceCharacter gave TargetCharacter an AssetName with a landscape pattern.
-ItemHandheldOilpaperumbrellaSetNoPattern,SourceCharacter gave TargetCharacter an AssetName with no pattern.
+ItemHandheldOilpaperumbrellaSetBamboo,SourceCharacter gives TargetCharacter an AssetName with a bamboo pattern.
+ItemHandheldOilpaperumbrellaSetCartoon,SourceCharacter gives TargetCharacter an AssetName with a cartoon pattern.
+ItemHandheldOilpaperumbrellaSetFlower1,SourceCharacter gives TargetCharacter an AssetName with a flower pattern.
+ItemHandheldOilpaperumbrellaSetFlower2,SourceCharacter gives TargetCharacter an AssetName with a flower pattern.
+ItemHandheldOilpaperumbrellaSetLandscape,SourceCharacter gives TargetCharacter an AssetName with a landscape pattern.
+ItemHandheldOilpaperumbrellaSetNoPattern,SourceCharacter gives TargetCharacter an AssetName with no pattern.
 ItemHandheldR18BatonSelect,Select the penis style
 ItemHandheldR18Baton1,Penis
 ItemHandheldR18Baton2,Dildo
