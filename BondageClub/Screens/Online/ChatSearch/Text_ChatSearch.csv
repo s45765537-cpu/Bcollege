@@ -27,7 +27,7 @@ LeashBreakInvalidRoomData,The leash was broken because the joined room is invali
 LeashBreakGhostList,The leash was broken because you're ghosting the room owner
 LeashBreakTempHidden,The leash was broken because you've hidden the room
 LeashBreakTimeout,The leash has broken because of a timeout error
-FilterMode,Remove unwanted rooms
+FilterMode,Hide unwanted rooms
 TempHideOnClick,Filter on click
 GhostPlayerOnClick,Ghost player on click
 ShowHiddenRooms,Show hidden rooms

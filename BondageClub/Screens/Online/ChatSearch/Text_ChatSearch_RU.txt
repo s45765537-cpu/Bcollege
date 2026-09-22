@@ -32,7 +32,7 @@ Entering the room...
 Входим в комнату...
 Duplicate join request
 Дублировать запрос на присоединение
-Remove unwanted rooms
+Hide unwanted rooms
 Удалить ненужные комнаты
 Temp Hide on click
 Временное скрытие по клику
