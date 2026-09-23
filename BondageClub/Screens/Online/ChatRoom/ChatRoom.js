@@ -4465,7 +4465,7 @@ function ChatRoomMessageRunExtractors(data, sender) {
 		let extracted = extractor(data, sender);
 
 		if (extracted.metadata && typeof extracted.metadata === "object")
-			Object.assign(metadata, extracted.metadata);
+			CommonAssign(metadata, extracted.metadata);
 		if (extracted.substitutions && Array.isArray(extracted.substitutions))
 			substitutions = substitutions.concat(extracted.substitutions);
 	});

@@ -139,7 +139,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			for (const [k, v] of CommonEntries(newProps)) {
-				Item.Property[k] = CommonIsObject(Item.Property[k]) ? Object.assign(Item.Property[k], v) : v;
+				Item.Property[k] = CommonIsObject(Item.Property[k]) ? CommonAssign(Item.Property[k], v) : v;
 			}
 			update = true;
 		}
@@ -166,7 +166,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			return /** @type {const} */([mod.Key, index ?? 0]);
 		}));
 		const currentModuleValues = ModularItemParseCurrent(Data, typeRecord);
-		Item.Property = Object.assign(
+		Item.Property = CommonAssign(
 			Item.Property ?? {},
 			ModularItemMergeModuleValues(Data, currentModuleValues),
 		);
@@ -635,7 +635,7 @@ function ModularItemParseCurrent({ asset, modules }, typeRecord) {
 function ModularItemMergeModuleValues({ asset, modules }, moduleValues, BaselineProperty=null) {
 	const options = modules.map((module, i) => module.Options[moduleValues[i] || 0]);
 	const typeRecord = options.reduce(
-		(rec, option) => Object.assign(rec, option.Property.TypeRecord),
+		(rec, option) => CommonAssign(rec, option.Property.TypeRecord),
 		/** @type {TypeRecord} */({}),
 	);
 
@@ -701,7 +701,7 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 		}
 		if (valid) {
 			if (CommonIsObject(mergedProperty.OverridePriority)) {
-				Object.assign(mergedProperty.OverridePriority, Property.OverridePriority);
+				CommonAssign(mergedProperty.OverridePriority, Property.OverridePriority);
 			} else {
 				mergedProperty.OverridePriority = Property.OverridePriority;
 			}

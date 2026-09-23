@@ -135,7 +135,7 @@ function DailyJobSubSearchClick() {
 	if (MouseIn(IntroductionJobPosition.X - 100, IntroductionJobPosition.Y - 100, 200, 200))
 		IntroductionJobProgress("SubSearch", CurrentScreen);
 	if (IntroductionJobCount > 0 && MouseX <= 1900) {
-		Object.assign(IntroductionJobPosition, {
+		CommonAssign(IntroductionJobPosition, {
 			ClickX: MouseX,
 			ClickY: MouseY,
 			ClickScreen: CurrentScreen,

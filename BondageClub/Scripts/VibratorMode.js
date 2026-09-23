@@ -503,7 +503,7 @@ function VibratorModeUpdateStateBased(data, C, item, persistentData, transitions
 	const option = data.options.find(o => o.Name === persistentData.Mode) || VibratorModeOff;
 	ExtendedItemSetProperty(C, item, option.Property, { Mode: persistentData.Mode, TypeRecord: { ...option.Property.TypeRecord }, State, Intensity, Effect }, false);
 
-	Object.assign(persistentData, {
+	CommonAssign(persistentData, {
 		ChangeTime: CommonTime() + 5000,
 		LastChange: Intensity !== OldIntensity ? CommonTime() : persistentData.LastChange,
 	});

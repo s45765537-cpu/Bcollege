@@ -373,7 +373,7 @@ function ChatAdminClick() {
 	// Background selection button (admin only) and item block button (anyone)
 	if ((MouseIn(1300, 75, 600, 350) || MouseIn(1840, 450, 60, 60) && ChatAdminCanEdit() || MouseIn(1300, 550, 275, 60) || MouseIn(1300, 640, 275, 60))) {
 		// We save the current data so we can restore it when coming back from the subscreens
-		Object.assign(
+		CommonAssign(
 			adminData,
 			{
 				Name: ElementValue("InputName"),
@@ -617,7 +617,7 @@ function ChatEditorUpdateRoom() {
 	if (!UpdatedRoom) return;
 	if (UpdatedRoom.MapData.Type !== "Never") {
 		if (!(UpdatedRoom.MapData.Tiles && UpdatedRoom.MapData.Objects))
-			UpdatedRoom.MapData = Object.assign(ChatRoomMapViewInitialize(UpdatedRoom.MapData.Type), UpdatedRoom.MapData);
+			UpdatedRoom.MapData = CommonAssign(ChatRoomMapViewInitialize(UpdatedRoom.MapData.Type), UpdatedRoom.MapData);
 	}
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 	ChatAdminMessage = "UpdatingRoom";

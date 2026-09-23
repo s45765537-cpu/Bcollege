@@ -1991,7 +1991,7 @@ function PlatformCreateCharacter(CharacterName, StatusName, X, Fix = undefined, 
 	const template = PlatformTemplate.find(t => t.Name === CharacterName && t.Status === StatusName);
 	if (!template) return undefined;
 
-	const NewChar = /** @type {Platform.Character} */(Object.assign({}, template));
+	const NewChar = /** @type {Platform.Character} */({ ...template });
 
 	if (template.OnBind != null) NewChar.OnBind = template.OnBind;
 

@@ -934,7 +934,11 @@ for (const tile of ChatRoomMapViewTileList) {
 }
 //Build object list lookup
 for (const obj of ChatRoomMapViewObjectList) {
-	ChatRoomMapViewObjectLookup[obj.ID] = ChatRoomMapViewObjectDefaultValues[obj.Type] != null ? Object.assign({},ChatRoomMapViewObjectDefaultValues[obj.Type], obj) : obj;
+	if (ChatRoomMapViewObjectDefaultValues[obj.Type] != null) {
+		ChatRoomMapViewObjectLookup[obj.ID] = Object.assign({ ...ChatRoomMapViewObjectDefaultValues[obj.Type] }, obj);
+	} else {
+		ChatRoomMapViewObjectLookup[obj.ID] = obj;
+	}
 }
 for (const effect of ChatRoomMapViewEffectList) {
 	ChatRoomMapViewEffectLookup[effect.ID] = effect;

@@ -1342,4 +1342,4 @@ function Shop2Exit() {
 	}
 }
 
-Object.assign(Shop2.Elements, Shop2._GenerateAssetElements());
+CommonAssign(Shop2.Elements, Shop2._GenerateAssetElements());

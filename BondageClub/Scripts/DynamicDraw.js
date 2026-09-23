@@ -136,7 +136,7 @@ const DynamicDrawTextEffect = {
 
 /**
  * The default options that are used for dynamic text drawing.
- * @type {DynamicDrawOptions}
+ * @type {Optional<Required<DynamicDrawOptions>, "effect" | "width" | "strokeColor">}
  */
 const DynamicDrawTextDefaultOptions = {
 	fontSize: 30,
@@ -414,11 +414,11 @@ function DynamicDrawTextAndEffects(text, ctx, x, y, options) {
 /**
  * Parses a dynamic drawing options object, returning default values for properties that aren't defined.
  * @param {DynamicDrawOptions} [options] - The options object to parse
- * @returns {Required<DynamicDrawOptions>} - A complete options object, with default values where not specified
+ * @returns {typeof DynamicDrawTextDefaultOptions} - A complete options object, with default values where not specified
  */
 function DynamicDrawParseOptions(options) {
 	options = options || {};
-	return /** @type {Required<DynamicDrawOptions>} */ (Object.assign({}, DynamicDrawTextDefaultOptions, options));
+	return CommonAssign({ ...DynamicDrawTextDefaultOptions }, options);
 }
 
 /**

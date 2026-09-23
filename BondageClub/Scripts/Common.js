@@ -2837,3 +2837,14 @@ function CommonClipboardWrite(data, cb = undefined) {
 			}
 		});
 }
+
+/**
+ * A more type-safe version of {@link Object.assign}, demanding a type match of the target- and source object(s) instead of producing an intersection
+ * @template {{}} T
+ * @param {T} target
+ * @param  {(null | undefined | NoInfer<Partial<Readonly<T>>>)[]} src
+ * @returns {T}
+ */
+function CommonAssign(target, ...src) {
+	return Object.assign(target, ...src.filter(i => i != null));
+}

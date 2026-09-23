@@ -530,8 +530,8 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 	// Prepares the progress bar and timer
 	StruggleProgressCurrentMinigame = MiniGame;
 	StruggleProgress = 0;
-	StruggleProgressPrevItem = PrevItem ? Object.assign({}, PrevItem) : null;
-	StruggleProgressNextItem = NextItem ? Object.assign({}, NextItem) : null;
+	StruggleProgressPrevItem = PrevItem ? { ...PrevItem } : null;
+	StruggleProgressNextItem = NextItem ? { ...NextItem } : null;
 	StruggleProgressOperation = StruggleProgressGetOperation(C, StruggleProgressPrevItem, StruggleProgressNextItem);
 	StruggleProgressStruggleCount = 0;
 	StruggleExitFunction = Completion;

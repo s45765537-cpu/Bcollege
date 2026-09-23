@@ -332,7 +332,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	};
 
 	if (A.SetPose || A.AllowActivePose) {
-		Object.assign(A, AssetParsePosePrerequisite(A));
+		CommonAssign(A, AssetParsePosePrerequisite(A));
 	}
 
 	const layers = AssetDef.Layer ? [...AssetDef.Layer] : [{}];

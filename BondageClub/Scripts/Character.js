@@ -1642,7 +1642,7 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	// Ensure that any color and/or opacity changes that occur while one is wearing `ItemColorItem`
 	// are sanitized, ensuring that aforementioned properties are represented via their array-based variant
 	if (ItemColorItem && C.Appearance.includes(ItemColorItem)) {
-		ItemColorItem = Object.assign(
+		ItemColorItem = CommonAssign(
 			ItemColorItem,
 			{ Color: ItemColorSanitizeColor(ItemColorItem), Property: ItemColorSanitizeProperty(ItemColorItem) },
 		);

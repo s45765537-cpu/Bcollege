@@ -1742,8 +1742,8 @@ function DrawItemPreview(itemOrDialogItem, char, X, Y, options) {
 		Icons = item.Icons;
 	}
 
-	const Description = item.Craft && item.Craft.Name != "" ? item.Craft.Name : null;
-	options = Object.assign({}, options, { C: char, Icons, Vibrating, Description });
+	const Description = item.Craft && item.Craft.Name != "" ? item.Craft.Name : undefined;
+	options = { ...options, C: char, Icons, Vibrating, Description };
 	DrawAssetPreview(X, Y, item.Asset, options);
 }
 

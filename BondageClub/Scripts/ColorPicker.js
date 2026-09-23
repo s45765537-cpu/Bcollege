@@ -178,7 +178,7 @@ function GetDefaultSavedColors() {
 
 	var SavedColors = [];
 	for (let i = 0; i < ColorPickerNumSaved; i++) {
-		SavedColors[i] = Object.assign({}, DefaultSavedColors[i]);
+		SavedColors[i] = { ...DefaultSavedColors[i]};
 	}
 	return SavedColors;
 }
