@@ -5169,6 +5169,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Priority: 26,
 				Gender: "F",
+				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
 					Hogtied: "Hogtied",
 					AllFours: PoseType.HIDE,
@@ -11054,8 +11055,10 @@ var AssetFemale3DCG = [
 				InventoryID: 235,
 				Value: 60,
 				StyleOverride: ["EchoV2"],
+				Left: {
+					KneelingSpread: 195,
+				},
 				PoseMapping: {
-					KneelingSpread: "KneelingSpread",
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
@@ -11101,8 +11104,10 @@ var AssetFemale3DCG = [
 				InventoryID: 236,
 				Value: 60,
 				StyleOverride: ["EchoV2"],
+				Left: {
+					KneelingSpread: 195,
+				},
 				PoseMapping: {
-					KneelingSpread: "KneelingSpread",
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
@@ -35101,35 +35106,33 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				BuyGroup: "SturdyLeatherBelts",
 				SetPose: ["LegsClosed"],
+				StyleOverride: ["EchoV2"],
 				Extended: true,
 				AllowActivePose: ["Kneel"],
 				DefaultColor: ["#11161B", "#403E40", "#11161B", "#403E40"],
 				Layer: [
 					{
 						Name: "LowerBelt",
-						StyleOverride: ["EchoV2"],
 						ColorGroup: "Belts",
 					},
 					{
 						Name: "LowerMetal",
-						StyleOverride: ["EchoV2"],
 						ColorGroup: "Metal",
 					},
 					{
 						Name: "UpperBelt",
-						StyleOverride: ["EchoV2"],
 						ColorGroup: "Belts",
 						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "UpperMetal",
-						StyleOverride: ["EchoV2"],
 						ColorGroup: "Metal",
 						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Lock",
 						ParentGroup: "",
+						StyleOverride: [],
 						AllowColorize: false,
 						LockLayer: true,
 						CreateLayerTypes: ["typed"],
@@ -35239,8 +35242,13 @@ var AssetFemale3DCG = [
 					{
 						Name: "Chain",
 						ParentGroup: "",
+						PoseMapping: {
+							...AssetPoseMapping.ItemLegs,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: "KneelingSpread",
+							LegsClosed: PoseType.HIDE,
+						},
 						AllowTypes: { typed: 2 },
-						StyleOverride: ["EchoV2"],
 					},
 					{ Name: "Display", ParentGroup: "" },
 					{ Name: "Cuffs", StyleOverride: ["EchoV2"] },
@@ -35271,7 +35279,17 @@ var AssetFemale3DCG = [
 				Effect: [E.CuffedLegs],
 				Extended: true,
 				Layer: [
-					{ Name: "Chain", ParentGroup: "", AllowTypes: { typed: 2 } },
+					{
+						Name: "Chain",
+						ParentGroup: "",
+						PoseMapping: {
+							...AssetPoseMapping.ItemLegs,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: "KneelingSpread",
+							LegsClosed: PoseType.HIDE,
+						},
+						AllowTypes: { typed: 2 },
+					},
 					{ Name: "Cuffs" },
 					{ Name: "Gems" },
 				],
@@ -35493,6 +35511,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				RemoveTime: 20,
 				AllowLock: true,
+				DrawLocks: false,
 				DefaultColor: "#222222",
 				HideItem: [
 					"ItemFeetOrnateAnkleCuffs",
@@ -35527,6 +35546,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				RemoveTime: 20,
 				AllowLock: true,
+				DrawLocks: false,
 				DefaultColor: "#222222",
 				HideItem: [
 					"ItemFeetOrnateAnkleCuffs",
@@ -35590,6 +35610,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				RemoveTime: 15,
 				AllowLock: true,
+				DrawLocks: false,
 				BuyGroup: "Chains",
 				Audio: "ChainLong",
 				SetPose: ["LegsClosed"],
@@ -35667,12 +35688,8 @@ var AssetFemale3DCG = [
 					E.MapSwim,
 				],
 				PoseMapping: {
-					BackBoxTie: "BackBoxTie",
-					BackCuffs: "BackCuffs",
-					BackElbowTouch: "BackElbowTouch",
-					OverTheHead: "OverTheHead",
-					TapedHands: "TapedHands",
-					Yoked: "Yoked",
+					...AssetPoseMapping.ItemLegs,
+					Kneel: PoseType.HIDE,
 				},
 				Block: [
 					"ItemFeet",
