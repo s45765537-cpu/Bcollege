@@ -1,17 +1,16 @@
-// @ts-strict-ignore
 "use strict";
-/** @type {null | number[]} */
-var StruggleLockPickOrder = null;
-/** @type {null | boolean[]} */
-var StruggleLockPickSet = null;
-/** @type {null | boolean[]} */
-var StruggleLockPickSetFalse = null;
-/** @type {null | number[]} */
-var StruggleLockPickOffset = null;
-/** @type {null | number[]} */
-var StruggleLockPickOffsetTarget = null;
-/** @type {null | number[]} */
-var StruggleLockPickImpossiblePins = null;
+/** @type {number[]} */
+var StruggleLockPickOrder = [];
+/** @type {boolean[]} */
+var StruggleLockPickSet = [];
+/** @type {boolean[]} */
+var StruggleLockPickSetFalse = [];
+/** @type {number[]} */
+var StruggleLockPickOffset = [];
+/** @type {number[]} */
+var StruggleLockPickOffsetTarget = [];
+/** @type {number[]} */
+var StruggleLockPickImpossiblePins = [];
 var StruggleLockPickProgressSkill = 0;
 var StruggleLockPickProgressSkillLose = 0;
 var StruggleLockPickProgressChallenge = 0;
@@ -34,6 +33,7 @@ var StruggleProgressOperation = "...";
  * FIXME: the value is calculated by the minigame, but the skill is selected by Dialog when the minigame stops.
  */
 var StruggleProgressSkill = 0;
+/** @type {string | null} */
 var StruggleProgressLastKeyPress = null;
 /**
  * The difficulty of the struggle minigame.
@@ -107,12 +107,12 @@ var StruggleProgressNextItem = null;
 
 /**
  * A function called when the struggle minigame completes
- * @type {StruggleCompletionCallback}
+ * @type {StruggleCompletionCallback | null}
  */
 var StruggleExitFunction = null;
 
 // For flexibility
-/** @type {null | { X: number, Y: number, Size: number, Velocity: number }[]} */
+/** @type {{ X: number, Y: number, Size: number, Velocity: number }[]} */
 var StruggleProgressFlexCircles = [];
 var StruggleProgressFlexTimer = 0;
 var StruggleProgressFlexMaxX = 300;
@@ -243,21 +243,21 @@ function StruggleGetSkillRatioText(C, skillType) {
 /**
  * Gets the correct label for the current operation (struggling, removing, swaping, adding, etc.)
  * @param {Character} C - The character who acts
- * @param {Item} PrevItem - The first item that's part of the action
- * @param {Item} NextItem - The second item that's part of the action
+ * @param {Item | null} PrevItem - The first item that's part of the action
+ * @param {Item | null} NextItem - The second item that's part of the action
  * @returns {string} - The appropriate dialog option
  */
 function StruggleProgressGetOperation(C, PrevItem, NextItem) {
 	if ((PrevItem != null) && (NextItem != null)) return InterfaceTextGet("Swapping");
 	if ((C.IsPlayer()) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return StruggleGetSkillRatioText(Player, "Evasion");
-	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) return InterfaceTextGet("Struggling");
+	if (PrevItem && InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) return InterfaceTextGet("Struggling");
 	if ((PrevItem != null) && !Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Block", true)) return InterfaceTextGet("Struggling");
-	if (InventoryItemHasEffect(PrevItem, "Lock", true)) return InterfaceTextGet("Unlocking");
+	if (PrevItem && InventoryItemHasEffect(PrevItem, "Lock", true)) return InterfaceTextGet("Unlocking");
 	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Mounted", true)) return InterfaceTextGet("Dismounting");
 	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Enclose", true)) return InterfaceTextGet("Escaping");
 	if (PrevItem != null) return InterfaceTextGet("Removing");
 	if ((PrevItem == null) && (NextItem != null) && (SkillGetRatio(Player, "Bondage") != 1)) return StruggleGetSkillRatioText(Player, "Bondage");
-	if (InventoryItemHasEffect(NextItem, "Lock", true)) return InterfaceTextGet("Locking");
+	if (NextItem && InventoryItemHasEffect(NextItem, "Lock", true)) return InterfaceTextGet("Locking");
 	if ((PrevItem == null) && (NextItem != null)) return InterfaceTextGet("Adding");
 	return "...";
 }
@@ -284,7 +284,7 @@ function StruggleAllowLoosen() {
 function StruggleKeyDown(event) {
 	if (event.repeat || CommonKey.GetModifiers(event)) return false;
 
-	if (!StruggleMinigameIsRunning()) return false;
+	if (!StruggleMinigameIsRunning() || !StruggleProgressCurrentMinigame) return false;
 
 	if (event.key === "Escape") {
 		StruggleMinigameStop();
@@ -293,7 +293,7 @@ function StruggleKeyDown(event) {
 
 	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return false;
 
-	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("KeyDown", event);
+	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent?.("KeyDown", event);
 	return true;
 }
 
@@ -303,11 +303,11 @@ function StruggleKeyDown(event) {
  * @type {MouseEventListener}
  */
 function StruggleMouseDown(event) {
-	if (!StruggleMinigameIsRunning()) return;
+	if (!StruggleMinigameIsRunning() || !StruggleProgressCurrentMinigame) return;
 
 	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return;
 
-	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("MouseDown", event);
+	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent?.("MouseDown", event);
 }
 
 /**
@@ -316,11 +316,11 @@ function StruggleMouseDown(event) {
  * @returns {boolean} - Nothing
  */
 function StruggleMinigameClick() {
-	if (!StruggleMinigameIsRunning()) return false;
+	if (!StruggleMinigameIsRunning() || !StruggleProgressCurrentMinigame) return false;
 
 	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return false;
 
-	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("Click", null);
+	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent?.("Click", null);
 	return true;
 }
 
@@ -339,7 +339,7 @@ function StruggleMinigameDrawCommon(Offset) {
 		DrawItemPreview(StruggleProgressPrevItem, Player, 1200, 250 + Offset);
 		DrawItemPreview(StruggleProgressNextItem, Player, 1575, 250 + Offset);
 	} else {
-		let Item = StruggleProgressPrevItem != null ? StruggleProgressPrevItem : StruggleProgressNextItem;
+		let Item = /** @type {Item} */ (StruggleProgressPrevItem != null ? StruggleProgressPrevItem : StruggleProgressNextItem);
 		DrawItemPreview(Item, Player, 1387, 250 + Offset);
 	}
 
@@ -364,6 +364,7 @@ function StruggleMinigameCheckCancel(C) {
 	if (!interrupted) return false;
 
 	/** @type {StruggleCompletionData} */
+	// @ts-ignore Strict-TS: bit of a mess of whether prev, next or neither
 	const data = {
 		Progress: StruggleProgress,
 		PrevItem: StruggleProgressPrevItem,
@@ -395,7 +396,7 @@ function StruggleMinigameWasInterrupted(C) {
 
 	const PrevItem = StruggleProgressPrevItem;
 	const NextItem = StruggleProgressNextItem;
-	const CurrentItem = InventoryGet(C, PrevItem ? PrevItem.Asset.Group.Name : NextItem.Asset.Group.Name);
+	const CurrentItem = InventoryGet(C, PrevItem ? PrevItem.Asset.Group.Name : NextItem?.Asset.Group.Name);
 
 	// We were removing an item, and it's already gone
 	if (NextItem == null && !CurrentItem)
@@ -411,7 +412,7 @@ function StruggleMinigameWasInterrupted(C) {
 		return true;
 
 	// A new item blocked access
-	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name))
+	if (C.FocusGroup && InventoryGroupIsBlocked(C, C.FocusGroup.Name))
 		return true;
 
 	// The item we're applying is now disallowed
@@ -429,7 +430,8 @@ function StruggleMinigameWasInterrupted(C) {
 			return true;
 
 		// The lock is gone from the item
-		if (PrevItem != null && !InventoryItemIsPickable(InventoryGet(C, PrevItem.Asset.Group.Name)))
+		const newPrevItem = PrevItem ? InventoryGet(C, PrevItem.Asset.Group.Name) : null;
+		if (PrevItem && newPrevItem && !InventoryItemIsPickable(newPrevItem))
 			return true;
 
 		// We lost access to a lockpick (likely the one we were lent broke)
@@ -462,7 +464,7 @@ function StruggleMinigameHandleExpression(Decrease) {
 		}
 
 		// Each click accelerates ExpressionQueue timers 1 second.
-		for (const item of Player.ExpressionQueue) {
+		for (const item of Player.ExpressionQueue ?? []) {
 			item.Time += -1000;
 		}
 	}
@@ -479,6 +481,7 @@ function StruggleProgressCheckEnd(C) {
 		return false;
 
 	/** @type {StruggleCompletionData} */
+	// @ts-ignore Strict-TS: bit of a mess of whether prev, next or neither
 	const data = {
 		PrevItem: StruggleProgressPrevItem,
 		NextItem: StruggleProgressNextItem,
@@ -642,8 +645,8 @@ Game description: Mash A and D until you get out
  * if the escapee is bound in a way.
  *
  * @param {Character} C - The character who tries to struggle
- * @param {Item} PrevItem - The item, the character wants to struggle out of
- * @param {Item} [NextItem] - The item that should substitute the first one
+ * @param {Item | null} PrevItem - The item, the character wants to struggle out of
+ * @param {Item | null} [NextItem] - The item that should substitute the first one
  * @returns {void} - Nothing
  */
 function StruggleStrengthSetup(C, PrevItem, NextItem) {
@@ -651,7 +654,7 @@ function StruggleStrengthSetup(C, PrevItem, NextItem) {
 	StruggleProgressAuto = StruggleDiff.auto;  // S: -9 is floor level to always give a false hope
 	StruggleProgressSkill = StruggleDiff.timer;
 	StruggleProgressChallenge = StruggleDiff.difficulty * -1;
-	StruggleProgressLastKeyPress = 0;
+	StruggleProgressLastKeyPress = "";
 }
 
 /**
@@ -695,30 +698,38 @@ function StruggleStrengthDraw(C) {
 /**
  * Handle events for the Strength minigame
  *
- * @param {"MouseDown"|"Click"|"KeyDown"} EventType
- * @returns {boolean}
+ * @type {StruggleEventListener}
  */
-function StruggleStrengthHandleEvent(EventType, event) {
+function StruggleStrengthHandleEvent(...args) {
+	const [EventType, event] = args;
 
 	// Minigame is not running
-	if (StruggleProgress < 0) return;
+	if (StruggleProgress < 0) return false;
 
 	if (EventType === "KeyDown") {
 		if (CommonKeyMove(event) === "West" || CommonKeyMove(event) === "East") {
 			StruggleStrengthProcess((StruggleProgressLastKeyPress == event.key));
 			StruggleProgressLastKeyPress = event.key;
+			return true;
 		}
 	} else if (EventType === "MouseDown") {
 
 		// Only mobile users get to click, otherwise it's too easy.
-		if (CommonIsMobile) StruggleStrengthProcess();
+		if (CommonIsMobile) {
+			StruggleStrengthProcess();
+			return true;
+		}
 
 	} else if (EventType === "Click") {
 
 		// If we must enter the loosen mini-game
-		if (MouseIn(1300, 880, 400, 65) && StruggleAllowLoosen()) StruggleLoosenSetup();
+		if (MouseIn(1300, 880, 400, 65) && StruggleAllowLoosen()) {
+			StruggleLoosenSetup();
+			return true;
+		}
 
 	}
+	return false;
 }
 
 /**
@@ -769,13 +780,15 @@ function StruggleStrengthGetDifficulty(C, PrevItem, NextItem) {
 	}
 	if ((!C.IsPlayer()) || ((C.IsPlayer()) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
 	if (Player.IsEnclose() || Player.IsMounted()) S = S - 2; // A little harder if there's an enclosing or mounting item
-	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 4; // Harder to struggle from a locked item
+	if (PrevItem && InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 4; // Harder to struggle from a locked item
 
 	// When struggling to remove or swap an item while being blocked from interacting
 	if ((C.IsPlayer()) && !C.CanInteract() && (PrevItem != null)) {
 		if (!InventoryItemHasEffect(PrevItem, "Block", true)) S = S - 4; // Non-blocking items become harder to struggle out when already blocked
-		if ((PrevItem.Asset.Group.Name != "ItemArms") && InventoryItemHasEffect(InventoryGet(C, "ItemArms"), "Block", true)) S = S - 4; // Harder If we don't target the arms while arms are restrained
-		if ((PrevItem.Asset.Group.Name != "ItemHands") && InventoryItemHasEffect(InventoryGet(C, "ItemHands"), "Block", true)) S = S - 4; // Harder If we don't target the hands while hands are restrained
+		const armsItem = InventoryGet(C, "ItemArms");
+		if ((PrevItem.Asset.Group.Name != "ItemArms") && armsItem && InventoryItemHasEffect(armsItem, "Block", true)) S = S - 4; // Harder If we don't target the arms while arms are restrained
+		const handsItem = InventoryGet(C, "ItemHands");
+		if ((PrevItem.Asset.Group.Name != "ItemHands") && handsItem && InventoryItemHasEffect(handsItem, "Block", true)) S = S - 4; // Harder If we don't target the hands while hands are restrained
 		if ((PrevItem.Asset.Group.Name != "ItemMouth") && (PrevItem.Asset.Group.Name != "ItemMouth2") && (PrevItem.Asset.Group.Name != "ItemMouth3") && (PrevItem.Asset.Group.Name != "ItemHead") && (PrevItem.Asset.Group.Name != "ItemHood") && !C.CanTalk()) S = S - 2; // A little harder if we don't target the head while gagged
 		if ((ChatRoomStruggleAssistTimer >= CurrentTime) && (ChatRoomStruggleAssistBonus >= 1) && (ChatRoomStruggleAssistBonus <= 6)) S = S + ChatRoomStruggleAssistBonus; // If assisted by another player, the player can get a bonus to struggle out
 	}
@@ -818,7 +831,8 @@ function StruggleLoosenDraw(C) {
 	DrawImage("Screens/MiniGame/ChestLockpick/Lockpick.png", 1500 - 35 + Math.sin(StruggleLoosenAngle) * 260, 450 - 35 + Math.cos(StruggleLoosenAngle) * 260);
 
 	// Draw the number of spins left and game instructions
-	DrawText(StruggleProgressPrevItem.Asset.Description, 1500, 70, "White", "Black");
+	const item = /** @type {Item} */ (StruggleProgressPrevItem);
+	DrawText(item.Asset.Description, 1500, 70, "White", "Black");
 	MainCanvas.font = CommonGetFont(300);
 	DrawText(StruggleProgressStruggleCount.toString(), 1500, 470, "White", "Black");
 	MainCanvas.font = CommonGetFont(36);
@@ -845,11 +859,10 @@ function StruggleLoosenSetup() {
 
 /**
  * Handle events for the loosen minigame
- * @param {"MouseDown"|"Click"|"KeyDown"} EventType
- * @param {KeyboardEvent} event
- * @returns {boolean}
+ * @type {StruggleEventListener}
  */
-function StruggleLoosenHandleEvent(EventType, event) {
+function StruggleLoosenHandleEvent(...args) {
+	const [EventType, event] = args;
 
 	// When clicking in the mini-game, we check if it was close enough to the hole for a success
 	if (EventType === "MouseDown" || (EventType === "KeyDown" && event.code === "Space")) {
@@ -902,8 +915,8 @@ Game description:
  * First the challenge level is calculated based on the base item difficulty, the skill of the rigger and the escapee and modified, if
  * the escapee is bound in a way. Also blushing and drooling, as well as playing a sound is handled in this function.
  * @param {Character} C - The character who tries to struggle
- * @param {Item} PrevItem - The item, the character wants to struggle out of
- * @param {Item} [NextItem] - The item that should substitute the first one
+ * @param {Item | null} PrevItem - The item, the character wants to struggle out of
+ * @param {Item | null} [NextItem] - The item that should substitute the first one
  * @returns {void} - Nothing
  */
 function StruggleFlexibilitySetup(C, PrevItem, NextItem) {
@@ -917,7 +930,7 @@ function StruggleFlexibilitySetup(C, PrevItem, NextItem) {
 	}
 	if ((!C.IsPlayer()) || ((C.IsPlayer()) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
 	if (Player.IsEnclose() || Player.IsMounted()) S = S - 4; // Harder if there's an enclosing or mounting item
-	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 2; // Locking the item has less effect on flexibility escapes
+	if (PrevItem && InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 2; // Locking the item has less effect on flexibility escapes
 
 	// When struggling to remove or swap an item while being blocked from interacting
 	if ((C.IsPlayer()) && !C.CanInteract() && (PrevItem != null)) {
@@ -927,10 +940,14 @@ function StruggleFlexibilitySetup(C, PrevItem, NextItem) {
 			if (PrevItem.Asset.Fetish.includes("Latex")) S = S + 1; // Latex items are flexible
 			if (PrevItem.Asset.Fetish.includes("Nylon")) S = S + 2; // Nylon items are very flexible
 		}
-		if ((PrevItem.Asset.Group.Name != "ItemArms") && InventoryItemHasEffect(InventoryGet(C, "ItemArms"), "Block", true)) S = S - 4; // Harder If we don't target the arms while arms are restrained
-		if ((PrevItem.Asset.Group.Name != "ItemLegs") && InventoryItemHasEffect(InventoryGet(C, "ItemLegs"), "Block", true)) S = S - 4; // Harder If we don't target the legs while arms are restrained
-		if ((PrevItem.Asset.Group.Name != "ItemHands") && InventoryItemHasEffect(InventoryGet(C, "ItemHands"), "Block", true)) S = S - 1; // Harder If we don't target the hands while hands are restrained
-		if ((PrevItem.Asset.Group.Name != "ItemFeet") && InventoryItemHasEffect(InventoryGet(C, "ItemFeet"), "Block", true)) S = S - 2; // Harder if you can't split your feet apart
+		const armsItem = InventoryGet(C, "ItemArms");
+		if ((PrevItem.Asset.Group.Name != "ItemArms") && armsItem && InventoryItemHasEffect(armsItem, "Block", true)) S = S - 4; // Harder If we don't target the arms while arms are restrained
+		const legsItem = InventoryGet(C, "ItemLegs");
+		if ((PrevItem.Asset.Group.Name != "ItemLegs") && legsItem && InventoryItemHasEffect(legsItem, "Block", true)) S = S - 4; // Harder If we don't target the legs while arms are restrained
+		const handsItem = InventoryGet(C, "ItemHands");
+		if ((PrevItem.Asset.Group.Name != "ItemHands") && handsItem && InventoryItemHasEffect(handsItem, "Block", true)) S = S - 1; // Harder If we don't target the hands while hands are restrained
+		const feetItem = InventoryGet(C, "ItemFeet");
+		if ((PrevItem.Asset.Group.Name != "ItemFeet") && feetItem && InventoryItemHasEffect(feetItem, "Block", true)) S = S - 2; // Harder if you can't split your feet apart
 
 		if ((PrevItem.Asset.Group.Name == "ItemMouth") || (PrevItem.Asset.Group.Name == "ItemMouth2") || (PrevItem.Asset.Group.Name == "ItemMouth3") || (PrevItem.Asset.Group.Name == "ItemNeck") || (PrevItem.Asset.Group.Name == "ItemHood")) S = S - 4; // The head is not very flexible
 
@@ -1043,9 +1060,9 @@ function StruggleFlexibilityCheck() {
 /**
  * Handle events for the Flexibility minigame
  *
- * @param {"MouseDown"|"Click"|"KeyDown"} EventType
+ * @type {StruggleEventListener}
  */
-function StruggleFlexibilityHandleEvent(EventType, event) {
+function StruggleFlexibilityHandleEvent(EventType, _event) {
 
 	// Minigame is not running
 	if (StruggleProgress < 0) {
@@ -1115,8 +1132,8 @@ Game description:
  * First the challenge level is calculated based on the base item difficulty, the skill of the rigger and the escapee and modified, if
  * the escapee is bound in a way. Also blushing and drooling, as well as playing a sound is handled in this function.
  * @param {Character} C - The character who tries to struggle
- * @param {Item} PrevItem - The item, the character wants to struggle out of
- * @param {Item} [NextItem] - The item that should substitute the first one
+ * @param {Item | null} PrevItem - The item, the character wants to struggle out of
+ * @param {Item | null} [NextItem] - The item that should substitute the first one
  * @returns {void} - Nothing
  */
 function StruggleDexteritySetup(C, PrevItem, NextItem) {
@@ -1130,7 +1147,7 @@ function StruggleDexteritySetup(C, PrevItem, NextItem) {
 	}
 	if ((!C.IsPlayer()) || ((C.IsPlayer()) && (PrevItem == null))) S = S + SkillGetLevel(Player, "Bondage"); // Adds the bondage skill if no previous item or playing with another player
 	if (Player.IsEnclose() || Player.IsMounted()) S = S - 1; // A little harder if there's an enclosing or mounting item
-	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 12; // Very hard to struggle from a locked item
+	if (PrevItem && InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) S = S - 12; // Very hard to struggle from a locked item
 
 	// When struggling to remove or swap an item while being blocked from interacting
 	if ((C.IsPlayer()) && !C.CanInteract() && (PrevItem != null)) {
@@ -1142,12 +1159,17 @@ function StruggleDexteritySetup(C, PrevItem, NextItem) {
 
 		var blockedAreas = 0;
 
-		if (InventoryItemHasEffect(InventoryGet(C, "ItemArms"), "Block", true) || InventoryGroupIsBlocked(Player, "ItemArms")) {S = S - 2; blockedAreas += 1;} // Harder if arms are blocked
-		if (InventoryItemHasEffect(InventoryGet(C, "ItemLegs"), "Block", true) || InventoryGroupIsBlocked(Player, "ItemLegs")) blockedAreas += 1;
-		if (InventoryItemHasEffect(InventoryGet(C, "ItemHands"), "Block", true) || InventoryGroupIsBlocked(Player, "ItemHands")) blockedAreas += 1;
+		const armsItem = InventoryGet(C, "ItemArms");
+		if (armsItem && InventoryItemHasEffect(armsItem, "Block", true) || InventoryGroupIsBlocked(Player, "ItemArms")) {S = S - 2; blockedAreas += 1;} // Harder if arms are blocked
+		const legsItem = InventoryGet(C, "ItemLegs");
+		if (legsItem && InventoryItemHasEffect(legsItem, "Block", true) || InventoryGroupIsBlocked(Player, "ItemLegs")) blockedAreas += 1;
+		const handsItem = InventoryGet(C, "ItemHands");
+		if (handsItem && InventoryItemHasEffect(handsItem, "Block", true) || InventoryGroupIsBlocked(Player, "ItemHands")) blockedAreas += 1;
 		if (!C.CanTalk()) blockedAreas += 1;
-		if (InventoryItemHasEffect(InventoryGet(C, "ItemFeet"), "Block", true) || InventoryGroupIsBlocked(Player, "ItemFeet")) blockedAreas += 1;
-		if (InventoryItemHasEffect(InventoryGet(C, "ItemBoots"), "Block", true) || InventoryGroupIsBlocked(Player, "ItemBoots")) blockedAreas += 1;
+		const feetItem = InventoryGet(C, "ItemFeet");
+		if (feetItem && InventoryItemHasEffect(feetItem, "Block", true) || InventoryGroupIsBlocked(Player, "ItemFeet")) blockedAreas += 1;
+		const bootsItem = InventoryGet(C, "ItemBoots");
+		if (bootsItem && InventoryItemHasEffect(bootsItem, "Block", true) || InventoryGroupIsBlocked(Player, "ItemBoots")) blockedAreas += 1;
 
 		if (blockedAreas >= 1) S = S - 1; // Little bit harder if only one area is blocked, but you can still manipulate using other parts...
 		if (blockedAreas >= 2) S = S - 2; // But wait, it gets harder...
@@ -1227,10 +1249,9 @@ function StruggleDexterityDraw(C) {
 /**
  * Handle events for the Dexterity minigame
  *
- * @param {"MouseDown"|"Click"|"KeyDown"} EventType
- * @returns {boolean}
+ * @type {StruggleEventListener}
  */
-function StruggleDexterityHandleEvent(EventType, event) {
+function StruggleDexterityHandleEvent(EventType, _event) {
 
 	// Minigame is not running
 	if (StruggleProgress < 0) {
@@ -1293,10 +1314,9 @@ Only applies to locks at the moment
 
 /**
  * Handles events for the LockPicking minigame
- * @param {"MouseDown"|"Click"|"KeyDown"} EventType
- * @returns {boolean} - Nothing
+ * @type {StruggleEventListener}
  */
-function StruggleLockPickHandleEvent(EventType, event) {
+function StruggleLockPickHandleEvent(EventType, _event) {
 	if (EventType === "Click") {
 		StruggleLockPickProcess();
 		return true;
@@ -1318,7 +1338,7 @@ function StruggleLockPickProcess() {
 	var current_pins = StruggleLockPickSet.filter(x => x==true).length;
 	var false_set_chance = 0.75 - 0.15 * skill/10;
 	var unset_false_set_chance = 0.1 + 0.2 * skill/10;
-	if (current_pins < StruggleLockPickSet.length && LogValue("FailedLockPick", "LockPick") < CurrentTime)
+	if (current_pins < StruggleLockPickSet.length && (LogValue("FailedLockPick", "LockPick") ?? 0) < CurrentTime)
 		for (let P = 0; P < StruggleLockPickSet.length; P++) {
 			if (!StruggleLockPickSet[P]) {
 				var XX = X - PinWidth/2 + (0.5-StruggleLockPickSet.length/2 + P) * PinSpacing;
@@ -1414,8 +1434,9 @@ function StruggleLockPickDraw(C) {
 
 
 	DrawText(InterfaceTextGet("LockpickTriesRemaining") + (StruggleLockPickProgressMaxTries - StruggleLockPickProgressCurrentTries), X, 212, "white");
-	if (LogValue("FailedLockPick", "LockPick") > CurrentTime)
-		DrawText(InterfaceTextGet("LockpickFailedTimeout") + TimerToString(LogValue("FailedLockPick", "LockPick") - CurrentTime), X, 262, "red");
+	const lastFail = LogValue("FailedLockPick", "LockPick") ?? 0;
+	if (lastFail > CurrentTime)
+		DrawText(InterfaceTextGet("LockpickFailedTimeout") + TimerToString(lastFail - CurrentTime), X, 262, "red");
 	else {
 		if (StruggleLockPickProgressCurrentTries >= StruggleLockPickProgressMaxTries && StruggleLockPickSuccessTime == 0) {
 			if (StruggleLockPickFailTime > 0) {
@@ -1477,6 +1498,7 @@ function StruggleLockPickDraw(C) {
 		StruggleLockPickSuccessTime = 0;
 
 		/** @type {StruggleCompletionData} */
+		// @ts-ignore Strict-TS: bit of a mess of whether prev, next or neither
 		const data = {
 			Progress: 100,
 			PrevItem: StruggleProgressPrevItem,
@@ -1571,14 +1593,14 @@ function StruggleLockPickProgressGetOperation(C, Item) {
  * Starts the dialog progress bar for picking a lock
  * First the challenge level is calculated based on the base lock difficulty, the skill of the rigger and the escapee
  * @param {Character} C - The character who tries to struggle
- * @param {Item} Item - The item, the character wants to unlock
+ * @param {Item | null} Item - The item, the character wants to unlock
  * @returns {void} - Nothing
  */
 function StruggleLockPickSetup(C, Item) {
 	StruggleLockPickArousalText = "";
 	StruggleLockPickArousalTick = 0;
 
-	var lock = InventoryGetLock(Item);
+	var lock = Item && InventoryGetLock(Item);
 	var LockRating = 1;
 	var LockPickingImpossible = false;
 	if (Item != null && lock) {
@@ -1607,14 +1629,15 @@ function StruggleLockPickSetup(C, Item) {
 				LockPickingImpossible = true;
 			} // Impossible if the item is such that it can't be picked alone (e.g yokes or elbow cuffs)
 			else {
-				if (InventoryItemHasEffect(InventoryGet(Player, "ItemArms"), "Block", true)) {
+				const armsItem = InventoryGet(Player, "ItemArms");
+				if (armsItem && InventoryItemHasEffect(armsItem, "Block", true)) {
 					if (Item.Asset.Group.Name != "ItemArms" && Item.Asset.Group.Name != "ItemHands")
 						S = S - 50; // MUST target arms item or hands item if your arrms are bound
 					else
 						S = S - 2; // Harder If arms are restrained
 				}
-
-				if (InventoryItemHasEffect(InventoryGet(Player, "ItemHands"), "Block", true)) {
+				const itemHands = InventoryGet(Player, "ItemHands");
+				if (itemHands && InventoryItemHasEffect(itemHands, "Block", true)) {
 					if (!LogQuery("KeyDeposit", "Cell") && DialogHasKey(Player, Item))// If you have keys, its just a matter of getting the keys into the lock~
 						S = S - 4;
 					else // Otherwise it's not possible to pick a lock. Too much dexterity required
@@ -1629,8 +1652,10 @@ function StruggleLockPickSetup(C, Item) {
 				}
 
 				if (!C.CanTalk()) S = S - 1; // A little harder while gagged, but it wont make it impossible
-				if (InventoryItemHasEffect(InventoryGet(Player, "ItemLegs"), "Block", true)) S = S - 1; // A little harder while legs bound, but it wont make it impossible
-				if (InventoryItemHasEffect(InventoryGet(Player, "ItemFeet"), "Block", true)) S = S - 1; // A little harder while legs bound, but it wont make it impossible
+				const legsItem = InventoryGet(Player, "ItemLegs");
+				if (legsItem && InventoryItemHasEffect(legsItem, "Block", true)) S = S - 1; // A little harder while legs bound, but it wont make it impossible
+				const feetItem = InventoryGet(Player, "ItemFeet");
+				if (feetItem && InventoryItemHasEffect(feetItem, "Block", true)) S = S - 1; // A little harder while legs bound, but it wont make it impossible
 				if (InventoryGroupIsBlocked(Player, "ItemFeet")) S = S - 1; // A little harder while wearing something like a legbinder as well
 				if (Player.IsBlind()) S = S - 1; // harder while blind
 				if (Player.GetDeafLevel() > 0) S = S - Math.ceil(Player.GetDeafLevel()/2); // harder while deaf
@@ -1722,15 +1747,25 @@ function StruggleLockPickSetup(C, Item) {
 
 /**
  * Starts the online chat room struggle progress
+ * @param {Item} item
  * @returns {void} - Nothing
  */
-function StruggleChatRoomStart() {
-	ChatRoomPublishAction(Player, "ChatRoomStruggleStart", DialogStrugglePrevItem, null);
-	let Diff = StruggleStrengthGetDifficulty(Player, DialogStrugglePrevItem, null);
+function StruggleChatRoomStart(item) {
+	ChatRoomPublishAction(Player, "ChatRoomStruggleStart", item, null);
+	let Diff = StruggleStrengthGetDifficulty(Player, item, null);
 	if (Diff.timer < 0) Diff.timer = 0;
 	Diff.timer = Diff.timer + 10;
+
+	/**
+	 * @param {AssetExpressionGroup["Name"]} group
+	 * @returns {ExpressionName | undefined}
+	 */
+	const getExpressionFromGroup = (group) => {
+		return [group].map(g => InventoryGet(Player, g)).map(i => i?.Property.Expression).filter(Boolean)[0] ?? null;
+	};
+
 	ChatRoomStruggleData = {
-		Item: {...DialogStrugglePrevItem},
+		Item: { ...item },
 		Progress: 0,
 		LoosenMode: false,
 		AllowLoosen: false,
@@ -1739,10 +1774,10 @@ function StruggleChatRoomStart() {
 		Start: CommonTime(),
 		LastRun: CommonTime(),
 		NextAnim: CommonTime() + 1000 + Math.floor(Math.random() * 3000),
-		StartExpressionEyes : InventoryGetItemProperty(InventoryGet(Player, "Eyes"), "Expression"),
-		StartExpressionBlush : InventoryGetItemProperty(InventoryGet(Player, "Blush"), "Expression"),
-		StartExpressionMouth : InventoryGetItemProperty(InventoryGet(Player, "Mouth"), "Expression"),
-		StartExpressionEyebrows : InventoryGetItemProperty(InventoryGet(Player, "Eyebrows"), "Expression"),
+		StartExpressionEyes: getExpressionFromGroup("Eyes"),
+		StartExpressionBlush: getExpressionFromGroup("Blush"),
+		StartExpressionMouth: getExpressionFromGroup("Mouth"),
+		StartExpressionEyebrows: getExpressionFromGroup("Eyebrows"),
 	};
 	DialogLeave();
 }
@@ -1752,6 +1787,7 @@ function StruggleChatRoomStart() {
  * @returns {void} - Nothing
  */
 function StruggleChatRoomLoosenStart() {
+	if (!ChatRoomStruggleData) return;
 	ChatRoomStruggleData.LoosenMode = true;
 	ChatRoomStruggleData.Progress = 0;
 	ChatRoomStruggleData.AllowLoosen = false;
@@ -1764,6 +1800,7 @@ function StruggleChatRoomLoosenStart() {
  * @returns {void} - Nothing
  */
 function StruggleChatRoomLoosenComplete() {
+	if (!ChatRoomStruggleData) return;
 	ChatRoomPublishAction(Player, "ChatRoomStruggleLoosenComplete" + Math.floor(Math.random() * 5).toString(), ChatRoomStruggleData.Item, null);
 	ChatRoomStruggleData.Difficulty++;
 	ChatRoomStruggleData.LoosenMode = false;
@@ -1778,7 +1815,7 @@ function StruggleChatRoomLoosenComplete() {
  * @returns {void} - Nothing
  */
 function StruggleChatRoomEndAmination() {
-	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions && (ChatRoomStruggleData != null)) {
+	if (Player.OnlineSharedSettings.ItemsAffectExpressions && ChatRoomStruggleData) {
 		CharacterSetFacialExpression(Player, "Eyes", ChatRoomStruggleData.StartExpressionEyes);
 		CharacterSetFacialExpression(Player, "Blush", ChatRoomStruggleData.StartExpressionBlush);
 		CharacterSetFacialExpression(Player, "Mouth", ChatRoomStruggleData.StartExpressionMouth);
@@ -1792,6 +1829,7 @@ function StruggleChatRoomEndAmination() {
  * @returns {void} - Nothing
  */
 function StruggleChatRoomStop() {
+	if (!ChatRoomStruggleData) return;
 	ChatRoomPublishAction(Player, "ChatRoomStruggleGiveUp", ChatRoomStruggleData.Item, null);
 	StruggleChatRoomEndAmination();
 }
@@ -1801,6 +1839,7 @@ function StruggleChatRoomStop() {
  * @returns {void} - Nothing
  */
 function StruggleChatRoomInterrupt() {
+	if (!ChatRoomStruggleData) return;
 	ChatRoomPublishAction(Player, "ChatRoomStruggleInterrupt", ChatRoomStruggleData.Item, null);
 	StruggleChatRoomEndAmination();
 }
@@ -1810,6 +1849,7 @@ function StruggleChatRoomInterrupt() {
  * @returns {void} - Nothing
  */
 function StruggleChatRoomSuccess() {
+	if (!ChatRoomStruggleData) return;
 	if (DialogStrugglePrevItem != null) {
 		ChatRoomPublishAction(Player, "ChatRoomStruggleSuccess", ChatRoomStruggleData.Item, null);
 		InventoryRemove(Player, ChatRoomStruggleData.Item.Asset.Group.Name);

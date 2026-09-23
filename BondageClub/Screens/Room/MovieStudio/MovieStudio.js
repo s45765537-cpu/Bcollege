@@ -1,26 +1,25 @@
-// @ts-strict-ignore
 "use strict";
 var MovieStudioBackground = "MovieStudio";
-/** @type {null | NPCCharacter} */
-var MovieStudioDirector = null;
+/** @type {NPCCharacter} */
+var MovieStudioDirector = /** @type {never} */ (null);
 /** @type {"" | "OpenHouse" | "Interview"} */
 var MovieStudioCurrentMovie = "";
 var MovieStudioCurrentScene = 0;
 /** @type {"" | "Journalist" | "Maid" | "Mistress" | "Wife"} */
 var MovieStudioCurrentRole = "";
-/** @type {null | NPCCharacter} */
-var MovieStudioActor1 = null;
-/** @type {null | NPCCharacter} */
-var MovieStudioActor2 = null;
-/** @type {null | number} */
-var MovieStudioTimer = null;
+/** @type {NPCCharacter} */
+var MovieStudioActor1 = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var MovieStudioActor2 = /** @type {never} */ (null);
+/** @type {number} */
+var MovieStudioTimer = 0;
 var MovieStudioMeter = 0;
 var MovieStudioDecay = 0;
 /** @type {string[]} */
 var MovieStudioActivity = [];
 var MovieStudioMoney = 0;
-/** @type {null | Item[]} */
-var MovieStudioOriginalClothes = null;
+/** @type {Item[]} */
+var MovieStudioOriginalClothes = [];
 /** @type {"" | "Interview" | "OpenHouse"} */
 var MovieStudioDailyMovie = "";
 
@@ -40,19 +39,19 @@ function MovieStudioCanGetCamera() { return (!InventoryAvailable(Player, "Camera
  * Returns TRUE if the player can receive the gavel as payment
  * @returns {boolean} - TRUE if the player can get the item
  */
-function MovieStudioCanGetGavel() { return (!InventoryAvailable(Player, "Gavel", "ItemHandheld") && (MovieStudioCurrentRole == "Mistress") && (MovieStudioActor1.TrialDone)); }
+function MovieStudioCanGetGavel() { return !InventoryAvailable(Player, "Gavel", "ItemHandheld") && MovieStudioCurrentRole == "Mistress" && !!MovieStudioActor1.TrialDone; }
 
 /**
  * Returns TRUE if the player can receive the long duster as payment
  * @returns {boolean} - TRUE if the player can get the item
  */
-function MovieStudioCanGetLongDuster() { return (!InventoryAvailable(Player, "LongDuster", "ItemHandheld") && (MovieStudioCurrentRole == "Maid") && (MovieStudioActor1.CanGetLongDuster)); }
+function MovieStudioCanGetLongDuster() { return !InventoryAvailable(Player, "LongDuster", "ItemHandheld") && MovieStudioCurrentRole == "Maid" && !!MovieStudioActor1.CanGetLongDuster; }
 
 /**
  * Returns TRUE if the player can receive the for sale sign as payment
  * @returns {boolean} - TRUE if the player can get the item
  */
-function MovieStudioCanGetForSaleSign() { return (!InventoryAvailable(Player, "ForSaleSign", "ItemHandheld") && MovieStudioActor1.CanGetForSaleSign); }
+function MovieStudioCanGetForSaleSign() { return !InventoryAvailable(Player, "ForSaleSign", "ItemHandheld") && !!MovieStudioActor1.CanGetForSaleSign; }
 
 /**
  * Returns TRUE if the daily movie is of the current type
@@ -65,7 +64,7 @@ function MovieStudioDailyMovieIs(Type) { return MovieStudioDailyMovie == Type; }
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained
  */
-function MovieStudioCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
+function MovieStudioCanPlayClubCard() { return (!Player.IsRestrained() && !!CurrentCharacter && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
 /**
  * When the player fails the movie, we jump back to the director
@@ -108,7 +107,10 @@ function MovieStudioProcessDecay() {
 		if ((MovieStudioCurrentMovie == "Interview") && (MovieStudioCurrentScene == 1)) {
 			MovieStudioMoney = MovieStudioMoney + Math.floor(MovieStudioMeter / 10);
 			MovieStudioProgress(MovieStudioCurrentMovie, 2, "");
-			MovieStudioActor1 = null;
+			if (MovieStudioActor1) {
+				CharacterDelete(MovieStudioActor1);
+				MovieStudioActor1 = /** @type {never} */ (null);
+			}
 			MovieStudioActor1 = CharacterLoadNPC("NPC_MovieStudio_Interview_Maid");
 			MovieStudioActor1.CurrentDialog = TextGet("InterviewMaidIntro" + (InventoryIsWorn(Player, "ItemDevices", "X-Cross") ? "Cross" : "NoCross") + Math.floor(Math.random() * 2).toString());
 			MovieStudioActor1.Stage = "0";
@@ -119,7 +121,10 @@ function MovieStudioProcessDecay() {
 		if ((MovieStudioCurrentMovie == "Interview") && (MovieStudioCurrentScene == 2) && (MovieStudioCurrentRole == "Journalist")) {
 			MovieStudioMoney = MovieStudioMoney + Math.floor(MovieStudioMeter / 10);
 			MovieStudioProgress(MovieStudioCurrentMovie, 3, "");
-			MovieStudioActor2 = null;
+			if (MovieStudioActor2) {
+				CharacterDelete(MovieStudioActor2);
+				MovieStudioActor2 = /** @type {never} */ (null);
+			}
 			MovieStudioActor2 = CharacterLoadNPC("NPC_MovieStudio_Interview_Mistress");
 			MovieStudioActor2.CurrentDialog = TextGet("InterviewMistressIntro" + Math.floor(Math.random() * 4).toString());
 			MovieStudioActor2.Stage = "0";
@@ -130,7 +135,10 @@ function MovieStudioProcessDecay() {
 		if ((MovieStudioCurrentMovie == "Interview") && (MovieStudioCurrentScene == 2) && (MovieStudioCurrentRole == "Maid")) {
 			MovieStudioMoney = MovieStudioMoney + Math.floor(MovieStudioMeter / 10);
 			MovieStudioProgress(MovieStudioCurrentMovie, 3, "");
-			MovieStudioActor1 = null;
+			if (MovieStudioActor1) {
+				CharacterDelete(MovieStudioActor1);
+				MovieStudioActor1 = /** @type {never} */ (null);
+			}
 			MovieStudioActor1 = CharacterLoadNPC("NPC_MovieStudio_Interview_Mistress");
 			MovieStudioActor1.CurrentDialog = TextGet("InterviewMistressIntro" + Math.floor(Math.random() * 4).toString());
 			MovieStudioActor1.Stage = "2000";
@@ -151,7 +159,10 @@ function MovieStudioProcessDecay() {
 		if ((MovieStudioCurrentMovie == "OpenHouse") && (MovieStudioCurrentScene == 1)) {
 			MovieStudioMoney = MovieStudioMoney + Math.floor(MovieStudioMeter / 10);
 			MovieStudioProgress(MovieStudioCurrentMovie, 2, "");
-			MovieStudioActor2 = null;
+			if (MovieStudioActor2) {
+				CharacterDelete(MovieStudioActor2);
+				MovieStudioActor2 = /** @type {never} */ (null);
+			}
 			MovieStudioActor2 = CharacterLoadNPC("NPC_MovieStudio_OpenHouse_Client");
 			CharacterSetCurrent(MovieStudioActor2);
 			if (!Player.IsNaked()) { MovieStudioActor2.CurrentDialog = TextGet("OpenHouseActTwoIntroActor1Naked"); MovieStudioActor2.Stage = "1600"; }
@@ -183,7 +194,7 @@ function MovieStudioProcessDecay() {
 async function MovieStudioLoad() {
 	let Day = Math.floor(CurrentTime / (24 * 60 * 60 * 1000));
 	MovieStudioDailyMovie = (Day % 2 == 0) ? "Interview" : "OpenHouse";
-	if (MovieStudioOriginalClothes == null) MovieStudioOriginalClothes = Player.Appearance.slice(0);
+	if (MovieStudioOriginalClothes.length === 0) MovieStudioOriginalClothes = Player.Appearance.slice(0);
 	if (MovieStudioDirector == null) {
 		MovieStudioDirector = CharacterLoadNPC("NPC_MovieStudio_Director");
 		InventoryWear(MovieStudioDirector, "Beret1", "Hat");
@@ -258,7 +269,7 @@ function MovieStudioRun() {
 function MovieStudioClick() {
 	if ((MovieStudioCurrentMovie == "") && MouseIn(500, 0, 500, 1000)) CharacterSetCurrent(Player);
 	if ((MovieStudioCurrentMovie == "") && MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(MovieStudioDirector);
-	if ((MovieStudioCurrentMovie == "") && MouseIn(1885, 25, 90, 90) && Player.CanWalk()) { MovieStudioOriginalClothes = null; CommonSetScreen("Room", "MainHall"); }
+	if ((MovieStudioCurrentMovie == "") && MouseIn(1885, 25, 90, 90) && Player.CanWalk()) { MovieStudioOriginalClothes = []; CommonSetScreen("Room", "MainHall"); }
 	if ((MovieStudioCurrentMovie == "") && MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
 	if ((MovieStudioCurrentMovie == "Interview") && (MovieStudioCurrentScene == 1) && MouseIn(250, 0, 500, 1000) && !InventoryIsWorn(Player, "ItemDevices", "X-Cross")) CharacterSetCurrent(MovieStudioActor1);
 	if ((MovieStudioCurrentMovie == "Interview") && (MovieStudioCurrentScene == 1) && MouseIn(1250, 0, 500, 1000)) CharacterSetCurrent(MovieStudioActor2);
@@ -357,7 +368,10 @@ function MovieStudioProgress(Movie, Scene, Role) {
 		MovieStudioActor1.AllowItem = false;
 		CharacterRelease(MovieStudioActor1);
 		PoseSetActive(MovieStudioActor1, null, true);
-		MovieStudioActor2 = null;
+		if (MovieStudioActor2) {
+			CharacterDelete(MovieStudioActor2);
+			MovieStudioActor2 = /** @type {never} */ (null);
+		}
 		MovieStudioActor2 = CharacterLoadNPC("NPC_MovieStudio_Interview_XCross");
 		MovieStudioActor2.FixedImage = "Screens/Room/MovieStudio/XCross.png";
 		MovieStudioActor2.Stage = "0";
@@ -413,8 +427,10 @@ function MovieStudioProgress(Movie, Scene, Role) {
 		InventoryWear(C, "LeatherAnkleCuffs", "ItemFeet");
 		if (Math.random() >= 0.5) InventoryWear(C, "X-Cross", "ItemDevices");
 		else {
-			var Cuffs = InventoryGet(C, "ItemArms");
-			TypedItemSetOptionByName(C, Cuffs, "Wrist");
+			const cuffs = InventoryGet(C, "ItemArms");
+			if (cuffs) {
+				TypedItemSetOptionByName(C, cuffs, "Wrist");
+			}
 			PoseSetActive(C, "Kneel", true);
 		}
 	}
@@ -440,6 +456,7 @@ function MovieStudioProgress(Movie, Scene, Role) {
  * @returns {void} - Nothing
  */
 function MovieStudioDoActivity(Activity) {
+	if (!CurrentCharacter) return;
 
 	// Each activity takes 30 seconds, we check the number of times it was done and if it was done on the last time
 	MovieStudioTimer = MovieStudioTimer - 30000;
@@ -455,7 +472,7 @@ function MovieStudioDoActivity(Activity) {
 	if ((Count == 1) && !LastCount) MovieStudioChangeMeter(10);
 	if (Count <= 1) CharacterSetFacialExpression(Player, "Blush", "Low", 5);
 	if (Count >= 3) MovieStudioChangeMeter(-10);
-	if (Count >= 4) CurrentCharacter.CurrentDialog = TextGet("OtherActivity" + Math.floor(Math.random() * 4).toString());
+	if (Count >= 4 && CurrentCharacter) CurrentCharacter.CurrentDialog = TextGet("OtherActivity" + Math.floor(Math.random() * 4).toString());
 	MovieStudioActivity.push(Activity);
 
 	// Some activities will dress/restrain the player or another actor
@@ -473,8 +490,10 @@ function MovieStudioDoActivity(Activity) {
 		InventoryWear(Player, "DusterGag", "ItemMouth");
 		InventoryRemove(Player, "ItemFeet");
 		InventoryRemove(Player, "ItemDevices");
-		let Cuffs = InventoryGet(Player, "ItemArms");
-		TypedItemSetOptionByName(Player, Cuffs, "Wrist");
+		const cuffs = InventoryGet(Player, "ItemArms");
+		if (cuffs) {
+			TypedItemSetOptionByName(Player, cuffs, "Wrist");
+		}
 		CharacterRefresh(Player);
 		MovieStudioActor2.FixedImage = "Screens/Room/MovieStudio/XCross.png";
 		MovieStudioActor2.Stage = "20";
@@ -486,8 +505,10 @@ function MovieStudioDoActivity(Activity) {
 		InventoryWear(Player, "LeatherLegCuffs", "ItemLegs");
 		InventoryWear(Player, "LeatherAnkleCuffs", "ItemFeet");
 		InventoryRemove(Player, "ItemDevices");
-		let Cuffs = InventoryGet(Player, "ItemArms");
-		TypedItemSetOptionByName(Player, Cuffs, "Wrist");
+		const cuffs = InventoryGet(Player, "ItemArms");
+		if (cuffs) {
+			TypedItemSetOptionByName(Player, cuffs, "Wrist");
+		}
 		PoseSetActive(Player, "Kneel", true);
 		MovieStudioActor2.FixedImage = "Screens/Room/MovieStudio/XCross.png";
 	}
@@ -496,13 +517,17 @@ function MovieStudioDoActivity(Activity) {
 		InventoryWear(Player, "LeatherLegCuffs", "ItemLegs");
 		InventoryWear(Player, "LeatherAnkleCuffs", "ItemFeet");
 		InventoryRemove(Player, "ItemDevices");
-		let Cuffs = InventoryGet(Player, "ItemArms");
-		TypedItemSetOptionByName(Player, Cuffs, "Wrist");
+		const cuffs = InventoryGet(Player, "ItemArms");
+		if (cuffs) {
+			TypedItemSetOptionByName(Player, cuffs, "Wrist");
+		}
 		CharacterRefresh(Player);
 	}
 	if (Activity == "InterviewMaidTighten") {
-		let Cuffs = InventoryGet(Player, "ItemArms");
-		TypedItemSetOptionByName(Player, Cuffs, "Elbow");
+		const cuffs = InventoryGet(Player, "ItemArms");
+		if (cuffs) {
+			TypedItemSetOptionByName(Player, cuffs, "Elbow");
+		}
 		CharacterRefresh(Player);
 	}
 	if ((Activity == "InterviewMaidOral1") || (Activity == "InterviewMaidOral2") || (Activity == "InterviewMaidOral3") || (Activity == "InterviewMaidOral4") || (Activity == "InterviewMaidOral5")) {
@@ -521,8 +546,10 @@ function MovieStudioDoActivity(Activity) {
 		InventoryWear(MovieStudioActor1, "LeatherCuffs", "ItemArms");
 		InventoryWear(MovieStudioActor1, "LeatherLegCuffs", "ItemLegs");
 		InventoryWear(MovieStudioActor1, "LeatherAnkleCuffs", "ItemFeet");
-		let Cuffs = InventoryGet(MovieStudioActor1, "ItemArms");
-		TypedItemSetOptionByName(MovieStudioActor1, Cuffs, "Wrist");
+		const cuffs = InventoryGet(MovieStudioActor1, "ItemArms");
+		if (cuffs) {
+			TypedItemSetOptionByName(MovieStudioActor1, cuffs, "Wrist");
+		}
 		CharacterRefresh(MovieStudioActor1);
 	}
 	if (Activity == "InterviewMaidBreast") { InventoryWear(MovieStudioActor1, "MaidOutfit2", "Cloth"); InventoryRemove(MovieStudioActor1, "Bra"); }
@@ -872,7 +899,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(MovieStudioActor1, "Blush", "Medium", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes", "Dazed", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes2", "Dazed", 8);
-		if (MovieStudioActor1.KissCount == null) MovieStudioActor1.KissCount = 0;
+		MovieStudioActor1.KissCount ??= 0;
 		MovieStudioActor1.KissCount++;
 		if (MovieStudioActor1.KissCount <= 2) MovieStudioAlterParameter("Actor1", "Affection", 1);
 	}
@@ -880,7 +907,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(MovieStudioActor1, "Blush", "Medium", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes", "Lewd", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes2", "Lewd", 8);
-		if (MovieStudioActor1.MasturbateCount == null) MovieStudioActor1.MasturbateCount = 0;
+		MovieStudioActor1.MasturbateCount ??= 0;
 		MovieStudioActor1.MasturbateCount++;
 		if (MovieStudioActor1.MasturbateCount <= 2) MovieStudioAlterParameter("Actor1", "Affection", 1);
 		if (MovieStudioActor1.MasturbateCount == 3) {
@@ -1107,18 +1134,22 @@ function MovieStudioDoActivity(Activity) {
 	}
 	if (Activity == "OpenHouseGirlfriendInKennel") {
 		const item = InventoryWear(MovieStudioActor1, "Kennel", "ItemDevices");
-		ExtendedItemSetOptionByRecord(MovieStudioActor1, item, { d: 1 });
-		CharacterSetFacialExpression(MovieStudioActor1, "Blush", "ShortBreath", 8);
-		CharacterSetFacialExpression(MovieStudioActor1, "Eyes", "Angry", 8);
-		CharacterSetFacialExpression(MovieStudioActor1, "Eyes2", "Angry", 8);
+		if (item) {
+			ExtendedItemSetOptionByRecord(MovieStudioActor1, item, { d: 1 });
+			CharacterSetFacialExpression(MovieStudioActor1, "Blush", "ShortBreath", 8);
+			CharacterSetFacialExpression(MovieStudioActor1, "Eyes", "Angry", 8);
+			CharacterSetFacialExpression(MovieStudioActor1, "Eyes2", "Angry", 8);
+		}
 	}
 	if (Activity == "OpenHouseGirlfriendOutKennel") InventoryRemove(MovieStudioActor1, "ItemDevices");
 	if (Activity == "OpenHouseClientInKennel") {
 		const item = InventoryWear(MovieStudioActor2, "Kennel", "ItemDevices");
-		ExtendedItemSetOptionByRecord(MovieStudioActor2, item, { d: 1 });
-		CharacterSetFacialExpression(MovieStudioActor2, "Blush", "ShortBreath", 8);
-		CharacterSetFacialExpression(MovieStudioActor2, "Eyes", "Angry", 8);
-		CharacterSetFacialExpression(MovieStudioActor2, "Eyes2", "Angry", 8);
+		if (item) {
+			ExtendedItemSetOptionByRecord(MovieStudioActor2, item, { d: 1 });
+			CharacterSetFacialExpression(MovieStudioActor2, "Blush", "ShortBreath", 8);
+			CharacterSetFacialExpression(MovieStudioActor2, "Eyes", "Angry", 8);
+			CharacterSetFacialExpression(MovieStudioActor2, "Eyes2", "Angry", 8);
+		}
 	}
 	if (Activity == "OpenHouseClientOutKennel") InventoryRemove(MovieStudioActor2, "ItemDevices");
 	if (Activity == "OpenHouseGirlfriendGag") InventoryWearRandom(MovieStudioActor1, "ItemMouth3");
@@ -1129,6 +1160,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(MovieStudioActor1, "Blush", "Medium", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes", "Horny", 8);
 		CharacterSetFacialExpression(MovieStudioActor1, "Eyes2", "Horny", 8);
+		MovieStudioActor1.MasturbateCount ??= 0;
 		if (Activity == "OpenHouseGirlfriendEggSlow") MovieStudioActor1.MasturbateCount = MovieStudioActor1.MasturbateCount + 1;
 		if (Activity == "OpenHouseGirlfriendEggFast") MovieStudioActor1.MasturbateCount = MovieStudioActor1.MasturbateCount + 2;
 		if (Activity == "OpenHouseGirlfriendEggMax") MovieStudioActor1.MasturbateCount = MovieStudioActor1.MasturbateCount + 3;
@@ -1144,6 +1176,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(MovieStudioActor2, "Blush", "Medium", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes", "Horny", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes2", "Horny", 8);
+		MovieStudioActor2.MasturbateCount ??= 0;
 		if (Activity == "OpenHouseClientEggSlow") MovieStudioActor2.MasturbateCount = MovieStudioActor2.MasturbateCount + 1;
 		if (Activity == "OpenHouseClientEggFast") MovieStudioActor2.MasturbateCount = MovieStudioActor2.MasturbateCount + 2;
 		if (Activity == "OpenHouseClientEggMax") MovieStudioActor2.MasturbateCount = MovieStudioActor2.MasturbateCount + 3;
@@ -1220,6 +1253,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(Player, "Blush", "Medium", 8);
 		CharacterSetFacialExpression(Player, "Eyes", "Horny", 8);
 		CharacterSetFacialExpression(Player, "Eyes2", "Horny", 8);
+		MovieStudioActor1.MasturbateCount ??= 0;
 		MovieStudioActor1.MasturbateCount++;
 		if (MovieStudioActor1.MasturbateCount == 3) {
 			MovieStudioActor1.Stage = "1510";
@@ -1231,6 +1265,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(Player, "Blush", "High", 8);
 		CharacterSetFacialExpression(Player, "Eyes", "Surprised", 8);
 		CharacterSetFacialExpression(Player, "Eyes2", "Surprised", 8);
+		MovieStudioActor1.MasturbateCount ??= 0;
 		MovieStudioActor1.MasturbateCount++;
 		if (MovieStudioActor1.MasturbateCount == 3) {
 			MovieStudioActor1.Stage = "1510";
@@ -1252,6 +1287,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(MovieStudioActor2, "Blush", "Medium", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes", "Horny", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes2", "Horny", 8);
+		MovieStudioActor2.MasturbateCount ??= 0;
 		MovieStudioActor2.MasturbateCount++;
 		if (MovieStudioActor2.MasturbateCount == 3) {
 			MovieStudioActor2.Stage = "1510";
@@ -1263,6 +1299,7 @@ function MovieStudioDoActivity(Activity) {
 		CharacterSetFacialExpression(MovieStudioActor2, "Blush", "High", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes", "Surprised", 8);
 		CharacterSetFacialExpression(MovieStudioActor2, "Eyes2", "Surprised", 8);
+		MovieStudioActor2.MasturbateCount ??= 0;
 		MovieStudioActor2.MasturbateCount++;
 		if (MovieStudioActor2.MasturbateCount == 3) {
 			MovieStudioActor2.Stage = "1510";
@@ -1303,10 +1340,14 @@ function MovieStudioAlterParameter(Name, Param, Value) {
 	if (Name == "Actor1") Actor = MovieStudioActor1;
 	if (Name == "Actor2") Actor = MovieStudioActor2;
 	if (Actor == null) return;
-	if ((Param == "Domination") && (Actor.Domination == null)) Actor.Domination = 0;
-	if (Param == "Domination") Actor.Domination += Value;
-	if ((Param == "Affection") && (Actor.Affection == null)) Actor.Affection = 0;
-	if (Param == "Affection") Actor.Affection += Value;
+	if (Param == "Domination") {
+		Actor.Domination ??= 0;
+		Actor.Domination += Value;
+	}
+	if (Param == "Affection") {
+		Actor.Affection ??= 0;
+		Actor.Affection += Value;
+	}
 }
 
 /**
@@ -1333,6 +1374,7 @@ function MovieStudioParameterValueBetween(Name, Param, FromValue, ToValue) {
  * @returns {boolean} - Returns TRUE if the activity can be done
  */
 function MovieStudioCanDoActivity(Activity) {
+	if (!CurrentCharacter) return false;
 	if (Activity == "InterviewTakePicture") return InventoryIsWorn(Player, "ClothAccessory", "Camera1");
 	if (Activity == "InterviewOpenFirstDrawer") return (InventoryGet(Player, "Cloth") != null);
 	if (Activity == "InterviewOpenSecondDrawer") return (InventoryGet(Player, "Cloth") == null);
@@ -1371,7 +1413,7 @@ function MovieStudioCanDoActivity(Activity) {
 	if (Activity == "InterviewMaidCleanForMistress") return (InventoryIsWorn(Player, "ItemHandheld", "FeatherDuster") || InventoryIsWorn(Player, "ItemHandheld", "LongDuster") || InventoryIsWorn(Player, "ItemMouth", "DusterGag"));
 	if (Activity == "InterviewMaidCleanForMistressPerfect") return ((Player.InterviewCleanCount != null) && (Player.InterviewCleanCount >= 3));
 	if (Activity == "InterviewMaidReleaseJournalist") return (!MovieStudioActor2.CanInteract());
-	if (Activity == "InterviewMaidReturnFavor") return (MovieStudioActor2.OweFavor);
+	if (Activity == "InterviewMaidReturnFavor") return (!!MovieStudioActor2.OweFavor);
 	if (Activity == "OpenHouseWearVendorClothes") return (!MovieStudioActor1.ClothesTaken);
 	if (Activity == "OpenHouseWearDogCollar") return (InventoryGet(Player, "ItemNeck") == null);
 	if (Activity == "OpenHouseClientRestrainActor1") return ((InventoryGet(MovieStudioActor1, "ItemArms") == null) || (InventoryGet(MovieStudioActor1, "ItemMouth3") == null));
@@ -1447,5 +1489,5 @@ function MovieStudioClubCardStart() {
 async function MovieStudioClubCardEnd() {
 	await CommonSetScreen("Room", "MovieStudio");
 	CharacterSetCurrent(MovieStudioDirector);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	MovieStudioDirector.CurrentDialog = DialogFind(MovieStudioDirector, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

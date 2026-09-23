@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 var ChatRoomCharacterViewInitialize = true;
@@ -102,7 +101,7 @@ function ChatRoomCharacterViewShowMapButton() {
 
 /**
  * Called when character is clicked
- * @param {Character} C The target character
+ * @param {OnlineCharacter} C The target character
  * @param {number} CharX Character's X position on canvas
  * @param {number} CharY Character's Y position on canvas
  * @param {number} Zoom Room zoom
@@ -242,7 +241,7 @@ function ChatRoomCharacterViewDraw() {
 	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, _space, roomZoom) => {
 
 		// Draw the background every five characters, this fixes clipping errors
-		if (charIdx % charsPerRow === 0) {
+		if (backgroundURL && charIdx % charsPerRow === 0) {
 			const Y = charCount <= charsPerRow ? viewHeight * (1 - roomZoom) / 2 : 0;
 			const bgRect = RectMakeRect(0, Y + charIdx * 100, viewWidth, viewHeight * roomZoom);
 			DrawRoomBackground(backgroundURL, bgRect, opts);
@@ -291,8 +290,11 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 		weight = 0;
 	}
 
+	/** @param {number} current */
 	const zoomFrameStep = (current) => (current * weight + ((charCount >= 3 ? Space / 400 : 1))) / (weight + 1);
+	/** @param {number} current */
 	const slideUpperFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.min(charCount, charsPerRow))/(weight + 1);
+	/** @param {number} current */
 	const slideLowerFrameStep = (current) => (current * weight + 500 - 0.5 * Space * Math.max(1, charCount - charsPerRow))/(weight + 1);
 
 	let zoom = ChatRoomCharacterViewZoom;
@@ -349,7 +351,7 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 
 /**
  * Draws any overlays on top of character
- * @param {Character} C The target character
+ * @param {OnlineCharacter} C The target character
  * @param {number} CharX Character's X position on canvas
  * @param {number} CharY Character's Y position on canvas
  * @param {number} Zoom Room zoom
@@ -392,7 +394,9 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 	}
 
 	// Draws the red prison timer for Pandora prisoners and green timer for guards
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(C)) DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, "#FF8080", "Black");
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsGuard(C)) DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, "#80FF80", "Black");
-
+	if (ChatRoomGetGame() === "Prison") {
+		const time = C.Game?.Prison?.Timer ?? CurrentTime;
+		const color = PandoraPenitentiaryIsInmate(C) ? "#FF8080" : PandoraPenitentiaryIsGuard(C) ? "#80FF80" : "";
+		DrawText(TimerToString(time - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, color, "Black");
+	}
 }

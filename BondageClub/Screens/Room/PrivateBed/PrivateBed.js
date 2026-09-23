@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 "use strict";
 var PrivateBedBackground = "Private";
-/** @type {Character[]} */
+/** @type {(Character & Required<PrivateBedCharacter>)[]} */
 var PrivateBedCharacter = [];
 /** @type {ActivityName} */
 var PrivateBedActivity = "Caress";
@@ -45,13 +44,14 @@ async function PrivateBedLoad() {
 	PoseSetActive(Player, null, true);
 	PrivateBedBackground = PrivateBackground;
 	PrivateBedCharacter = [];
+	// @ts-expect-error
 	PrivateBedCharacter.push(Player);
 
 	// Adds all NPCs that were supposed to join in bed
 	for (let C of PrivateCharacter)
-		if ((C.PrivateBed != null) && (C.PrivateBed == true))
-			if (PrivateBedCharacter.length <= 4)
-				PrivateBedCharacter.push(C);
+		if (C.PrivateBed && PrivateBedCharacter.length <= 4)
+			// @ts-expect-error
+			PrivateBedCharacter.push(C);
 
 	// Resets the activity timer
 	for (let C of PrivateBedCharacter)
@@ -76,8 +76,8 @@ async function PrivateBedLoad() {
 			C.PrivateBedAppearance = CharacterAppearanceStringify(C);
 			if (C.CanInteract()) {
 				CharacterNaked(C);
-				if (Math.random() > 0.5) InventoryWear(C, CommonRandomItemFromList(null,  ["Bandeau1", "BondageBra1", "HarnessBra1", "CorsetBikini1", "CuteBikini1", "SexyBikini1", "FishnetBikini1", "FrameBra1", "FrameBra2", "FullLatexBra", "HeartTop", "LatexBra1", "LeatherBreastBinder", "LeatherStrapBra1", "HarnessBra2", "SexyBikini2", "SexyBikiniBra1", "OuvertPerl1", "Ribbons", "Bustier1", "SexyBeachBra1", "StarHarnessBra", "Bra10"]), "Bra", "Default");
-				if (Math.random() > 0.7) InventoryWear(C, CommonRandomItemFromList(null,  ["Stockings1", "Stockings2", "Pantyhose2", "Stockings4", "Socks6", "LatexSocks1", "Pantyhose1"]), "Socks", "Default");
+				if (Math.random() > 0.5) InventoryWear(C, CommonGetRandomItemFromList(["Bandeau1", "BondageBra1", "HarnessBra1", "CorsetBikini1", "CuteBikini1", "SexyBikini1", "FishnetBikini1", "FrameBra1", "FrameBra2", "FullLatexBra", "HeartTop", "LatexBra1", "LeatherBreastBinder", "LeatherStrapBra1", "HarnessBra2", "SexyBikini2", "SexyBikiniBra1", "OuvertPerl1", "Ribbons", "Bustier1", "SexyBeachBra1", "StarHarnessBra", "Bra10"]), "Bra", "Default");
+				if (Math.random() > 0.7) InventoryWear(C, CommonGetRandomItemFromList(["Stockings1", "Stockings2", "Pantyhose2", "Stockings4", "Socks6", "LatexSocks1", "Pantyhose1"]), "Socks", "Default");
 			}
 		}
 
@@ -85,14 +85,14 @@ async function PrivateBedLoad() {
 
 /**
  * Draws a private bedroom character.
- * @param {Character} C - The character to draw.
+ * @param {Character & Required<PrivateBedCharacter>} C - The character to draw.
  * @returns {void} - Nothing.
  */
 function PrivateBedDrawCharacter(C) {
 	if (C.PrivateBedMoveTimer == null) C.PrivateBedMoveTimer = 0;
 	if (C.PrivateBedMoveTimer < CommonTime()) {
-		PoseSetActive(C, CommonRandomItemFromList(undefined, ["OverTheHead", "Yoked", "BackBoxTie", null, null, null]));
-		PoseSetActive(C, CommonRandomItemFromList(null, ["BaseLower", "LegsClosed"]));
+		PoseSetActive(C, CommonGetRandomItemFromList(["OverTheHead", "Yoked", "BackBoxTie", null, null, null]));
+		PoseSetActive(C, CommonGetRandomItemFromList(["BaseLower", "LegsClosed"]));
 		C.PrivateBedMoveTimer = CommonTime() + 10000 + Math.round(Math.random() * 20000);
 	}
 	if (C.IsNpc() && (C.PrivateBedActivityTimer < CommonTime())) PrivateBedNPCActivity(C);
@@ -134,6 +134,7 @@ function PrivateBedRun() {
 	DrawButton(1890, 20, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	if (Player.CanChangeOwnClothes()) DrawButton(1890, 130, 90, 90, "", "White", "Icons/Dress.png", TextGet("Dress"));
 	DrawButton(1890, 240, 90, 90, "", "White", "Icons/Character.png", TextGet("Character"));
+	Player.PrivateBedActivityTimer ??= 0;
 	if (Player.PrivateBedActivityTimer > CommonTime()) {
 		DrawText(ActivityDictionaryText("Activity" + PrivateBedActivity), 430, 120, "White", "Black");
 		let Progress = 100 - (Player.PrivateBedActivityTimer - CommonTime()) / (PrivateBedActivityDelay / 100);
@@ -222,8 +223,9 @@ function PrivateBedActivityStart(Source, Target, Group, Activity) {
 	PrivateBedLog.push(Text);
 
 	// If the player uses that activity on an NPC, it can raise the love between them
-	if (Source.IsPlayer() && Target.IsNpc() && (Target.Love <= Math.random() * 100))
-		if ((Target.Love < 60) || (Target.IsOwner()) || (Target.IsOwnedByPlayer()) || Target.IsLoverOfPlayer())
+	const targetLove = Target.Love ?? 0;
+	if (Source.IsPlayer() && Target.IsNpc() && targetLove <= Math.random() * 100)
+		if (targetLove < 60 || Target.IsOwner() || Target.IsOwnedByPlayer() || Target.IsLoverOfPlayer())
 			NPCLoveChange(Target, 1);
 
 	// Flag the activity as done
@@ -260,11 +262,14 @@ function PrivateBedGroupActivityIsValid(Source, Target, Group, Activity) {
 function PrivateBedNPCActivity(Source) {
 
 	// Selects a random target in the room
-	let Target = CommonRandomItemFromList(null, PrivateBedCharacter);
+	let Target = CommonGetRandomItemFromList(PrivateBedCharacter);
 
 	// Selects a random activity (high max progress activities like masturbation will occur more often when arousal progress is high)
 	let ActivityList = [];
-	let MinMaxProgress = ((Target.ArousalSettings != null) && (Target.ArousalSettings.Progress != null) && (Target.ArousalSettings.Progress >= Math.random() * 120)) ? Target.ArousalSettings.Progress : 0;
+	let MinMaxProgress = Target.ArousalSettings.Progress >= Math.random() * 120 ?
+		Target.ArousalSettings.Progress
+		: 0;
+	const sourceLove = Source.Love ?? 0;
 	for (let A of ActivityFemale3DCG)
 		if ((A.MaxProgress != null) && (A.MaxProgress >= MinMaxProgress) && !A.Name.includes("Item") && !A.Name.includes("Reverse") && !A.Name.includes("Inject") && !A.Name.includes("Penetrate") && !A.Name.includes("Penis") && !A.Name.includes("Pussy")) {
 			if ((A.Name.includes("Gag")) && !Source.IsGagged()) continue; // No gagged activities if ungagged
@@ -275,12 +280,12 @@ function PrivateBedNPCActivity(Source) {
 			if ((A.Name == "MoanGagGroan") && (NPCTraitGet(Source, "Peaceful") <= 0)) continue; // Only peaceful NPCs will groan
 			if ((A.Name == "MoanGagAngry") && (NPCTraitGet(Source, "Dominant") <= 0)) continue; // Only dominant NPCs will get angry
 			if ((A.Name == "Nibble") && (NPCTraitGet(Source, "Submissive") <= 0)) continue; // Only submissive NPCs will nibble
-			if ((A.Name == "GagKiss") && (Source.Love < 25)) continue; // Gag kisses will only happen if love is positive
-			if ((A.Name == "Kiss") && (Source.Love < 25)) continue; // Gag kisses will only happen if love is positive
-			if ((A.Name == "Suck") && (Source.Love < 50)) continue; // Sucks will only happen if love is positive
-			if ((A.Name == "FrenchKiss") && (Source.Love < 75)) continue; // French kisses will only happen if love is positive
+			if ((A.Name == "GagKiss") && (sourceLove < 25)) continue; // Gag kisses will only happen if love is positive
+			if ((A.Name == "Kiss") && (sourceLove < 25)) continue; // Gag kisses will only happen if love is positive
+			if ((A.Name == "Suck") && (sourceLove < 50)) continue; // Sucks will only happen if love is positive
+			if ((A.Name == "FrenchKiss") && (sourceLove < 75)) continue; // French kisses will only happen if love is positive
 			if ((A.Name == "FrenchKiss") && !Source.IsLoverOfCharacter(Target)) continue; // French kisses will only happen if source and target are lovers
-			if ((A.Name == "PoliteKiss") && (Source.Love < 0)) continue; // Polite kisses will only happen if love is positive
+			if ((A.Name == "PoliteKiss") && (sourceLove < 0)) continue; // Polite kisses will only happen if love is positive
 			if ((A.Name == "PoliteKiss") && (NPCTraitGet(Source, "Polite") <= 0)) continue; // Only polite NPCs will do polite kisses
 			if ((A.Name == "Lick") && (NPCTraitGet(Source, "Horny") <= 0)) continue; // Only horny NPCs will lick
 			if ((A.Name == "Bite") && (NPCTraitGet(Source, "Violent") <= 0)) continue; // Only violent NPCs will bite
@@ -302,9 +307,10 @@ function PrivateBedNPCActivity(Source) {
 			if ((A.Name == "Wiggle") && (NPCTraitGet(Source, "Playful") < 0)) continue; // Only playful NPCs will wiggle
 			ActivityList.push(A.Name);
 		}
-	let Activity = AssetGetActivity(Target.AssetFamily, CommonRandomItemFromList(null, ActivityList));
-	let ActivityPussy = AssetGetActivity(Target.AssetFamily, Activity.Name + "Pussy");
-	let ActivityPenis = AssetGetActivity(Target.AssetFamily, Activity.Name + "Penis");
+	let Activity = AssetGetActivity(Target.AssetFamily, CommonGetRandomItemFromList(ActivityList));
+	let ActivityPussy = AssetGetActivity(Target.AssetFamily, Activity?.Name + "Pussy");
+	let ActivityPenis = AssetGetActivity(Target.AssetFamily, Activity?.Name + "Penis");
+	if (!Activity) return;
 
 	// Selects a random location on the body from available locations
 	/** @type {AssetGroup[]} */
@@ -318,7 +324,7 @@ function PrivateBedNPCActivity(Source) {
 			GroupList.push(G);
 	}
 	if (GroupList.length == 0) return;
-	let Group = CommonRandomItemFromList(null, GroupList);
+	let Group = CommonGetRandomItemFromList(GroupList);
 	if (!Group.IsItem()) return;
 
 	// Launches the activity
@@ -352,6 +358,7 @@ function PrivateBedClick() {
 	if (MouseIn(1890, 240, 90, 90)) { PrivateBedActivityMustRefresh = true; CharacterSetCurrent(Player); }
 
 	// Cannot do more than 1 action each X seconds
+	Player.PrivateBedActivityTimer ??= 0;
 	if (Player.PrivateBedActivityTimer > CommonTime()) return;
 
 	// Activity buttons on the left side

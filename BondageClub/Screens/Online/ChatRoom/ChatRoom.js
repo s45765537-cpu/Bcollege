@@ -72,7 +72,7 @@ var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
 var ChatRoomStruggleAssistTimer = 0;
-/** @type {StruggleOnlineData} */
+/** @type {StruggleOnlineData | null} */
 var ChatRoomStruggleData = null;
 /**
  * The timer started when a slowed player attempts to leave

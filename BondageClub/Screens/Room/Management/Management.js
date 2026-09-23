@@ -1,14 +1,13 @@
-// @ts-strict-ignore
 "use strict";
 var ManagementBackground = "Management";
-/** @type {null | NPCCharacter} */
-var ManagementMistress = null;
-/** @type {null | NPCCharacter} */
-var ManagementSub = null;
+/** @type {NPCCharacter} */
+var ManagementMistress = /** @type {never} */ (null);
+/** @type {NPCCharacter} */
+var ManagementSub = /** @type {never} */ (null);
 var ManagementMistressAngryCount = 0;
 var ManagementMistressReleaseTimer = 0;
-/** @type {null | Item[]} */
-var ManagementPlayerAppearance = null;
+/** @type {Item[]} */
+var ManagementPlayerAppearance = [];
 var ManagementMistressAllowPlay = false;
 var ManagementCanReleaseChastity = true;
 var ManagementEmpty = false;
@@ -29,7 +28,7 @@ var ManagementTimer = 0;
  * Checks if the player is helpless (maids disabled) or not.
  * @returns {boolean} - Returns true if the player still has time remaining after asking the maids to stop helping
  */
-function ManagementIsMaidsDisabled() { var expire = LogValue("MaidsDisabled", "Maid") - CurrentTime ; return (expire > 0 ); }
+function ManagementIsMaidsDisabled() { return MaidQuartersIsMaidsDisabled(); }
 /**
  * Checks if the player has a special title such as maid, mistress, kidnapper, etc.
  * @returns {boolean} - TRUE if the player has a special title.
@@ -44,7 +43,7 @@ function ManagementSarahUnlockQuest() { return (SarahUnlockQuest); }
  * Checks if the player is Sarah's owner.
  * @returns {boolean} - TRUE if the player is Sarah's owner.
  */
-function ManagementIsSarahOwner() { return (SarahUnlockQuest && Sarah.IsOwnedByPlayer()); }
+function ManagementIsSarahOwner() { return !!Sarah && SarahUnlockQuest && Sarah.IsOwnedByPlayer(); }
 /**
  * Checks if the mistress has been angered for a given amount of times.
  * @param {number} InCount - Number of times the mistress has to have been angered.
@@ -110,8 +109,10 @@ function ManagementOwnerRefused() { return ((CommonTime() >= ManagementMistressR
 /**
  * Helper function to check a group's unlockability.
  * @param {AssetGroupItemName} groupName - The name of the group to unlock
+ * @returns {boolean}
  */
 function ManagementCanUnlockGroup(groupName) {
+	/** @type {Partial<Record<AssetGroupItemName, EffectName>>} */
 	const chasteEffectForGroup = {
 		ItemBreast: "BreastChaste",
 		ItemNipplesPiercings: "BreastChaste",
@@ -121,11 +122,12 @@ function ManagementCanUnlockGroup(groupName) {
 	};
 
 	const effect = chasteEffectForGroup[groupName];
-	const isChaste = effect && InventoryItemHasEffect(InventoryGet(Player, groupName), effect);
+	const item = InventoryGet(Player, groupName);
+	const isChaste = effect && item && InventoryItemHasEffect(item, effect);
 	const isBlocked = InventoryGroupIsBlocked(Player, groupName);
-	const isOwnerItem = InventoryOwnerOnlyItem(InventoryGet(Player, groupName)) && Player.IsOwned();
+	const isOwnerItem = item && InventoryOwnerOnlyItem(item) && Player.IsOwned();
 
-	return isChaste && !isBlocked && !isOwnerItem;
+	return !!isChaste && !isBlocked && !isOwnerItem;
 }
 /**
  * Checks if the mistress can remove the player's chastity bra
@@ -256,17 +258,17 @@ function ManagementIsClubSlave() { return (InventoryIsWorn(Player, "ItemNeck", "
  * Checks if the player can start a regular chat with a club slave.
  * @returns {boolean} - TRUE if the player can start a regular
  */
-function ManagementCanStartClubSlaveTalk() { return (!InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar") && (ManagementRandomGirlArchetype === "") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function ManagementCanStartClubSlaveTalk() { return (!InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar") && (ManagementRandomGirlArchetype === "") && Player.CanTalk() && !!CurrentCharacter && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player can start a chat with a bunny club slave.
  * @returns {boolean} - TRUE if the player can start a regular
  */
-function ManagementCanStartBunnyTalk() { return (!InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar") && (ManagementRandomGirlArchetype === "Bunny") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function ManagementCanStartBunnyTalk() { return (!InventoryIsWorn(Player, "ItemNeck", "ClubSlaveCollar") && (ManagementRandomGirlArchetype === "Bunny") && Player.CanTalk() && !!CurrentCharacter && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player is wearing a slave collar.
  * @returns {boolean} - TRUE if the player is wearing a slave collar.
  */
-function ManagementWearingSlaveCollar() { return ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "SlaveCollar")); }
+function ManagementWearingSlaveCollar() { return InventoryIsWorn(Player, "ItemNeck", "SlaveCollar"); }
 /**
  * Checks if a NPC can be transfered to the player's private room.
  * @returns {boolean} - TRUE if the player owns a private room, has space for an extra NPC and is not locked out of her room.
@@ -346,12 +348,12 @@ function ManagementKneelingCompleteContract() { return (!LogQuery("ClubSlave", "
  * Checks if the player can kiss the current NPC.
  * @returns {boolean} - TRUE if both the NPC and the player can talk.
  */
-function ManagementCanKiss() { return (Player.CanTalk() && CurrentCharacter.CanTalk()); }
+function ManagementCanKiss() { return (Player.CanTalk() && !!CurrentCharacter && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player can masturbate the current NPC.
  * @returns {boolean} - TRUE if the NPC is not chaste and the player can interact.
  */
-function ManagementCanMasturbate() { return (Player.CanInteract() && !CurrentCharacter.IsVulvaChaste()); }
+function ManagementCanMasturbate() { return (Player.CanInteract() && !!CurrentCharacter && !CurrentCharacter.IsVulvaChaste()); }
 /**
  * Checks if the player can play with the management submissive NPC.
  * @returns {boolean} - TRUE if the player's dominant reputation is below 23 and the player is not wearing a locked restraint.
@@ -480,11 +482,13 @@ function ManagementPlayerArmbinder(ChangeRep) {
  */
 function ManagementPlayerRandomRestrain() {
 	CharacterFullRandomRestrain(Player, "LOT");
-	if (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis"))) {
+	let item = InventoryGet(Player, "ItemPelvis");
+	if (item && !InventoryOwnerOnlyItem(item)) {
 		InventoryWear(Player, "MetalChastityBelt", "ItemPelvis");
 		InventoryLock(Player, "ItemPelvis", "MistressPadlock", ManagementMistress);
 	}
-	if (!InventoryOwnerOnlyItem(InventoryGet(Player, "ItemBreast"))) {
+	item = InventoryGet(Player, "ItemBreast");
+	if (item && !InventoryOwnerOnlyItem(item)) {
 		InventoryWear(Player, "MetalChastityBra", "ItemBreast");
 		InventoryLock(Player, "ItemBreast", "MistressPadlock", ManagementMistress);
 	}
@@ -608,7 +612,7 @@ function ManagementSendMistressToPrivateRoom(RepChange) {
 	ReputationProgress("Dominant", RepChange);
 	ManagementEmpty = true;
 	ManagementMistress.Name = ManagementMistress.Name.replace(TextGet("Mistress") + " ", "");
-	PrivateAddCharacter(ManagementMistress, "Mistress", null);
+	PrivateAddCharacter(ManagementMistress, "Mistress");
 	DialogLeave();
 }
 
@@ -650,7 +654,10 @@ function ManagementClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	CharacterDelete(ManagementRandomGirl, false);
+	if (ManagementRandomGirl) {
+		CharacterDelete(ManagementRandomGirl, false);
+		ManagementRandomGirl = null;
+	}
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	CharacterSetCurrent(ManagementRandomGirl);
 	ManagementRandomGirl.AllowItem = false;
@@ -682,7 +689,10 @@ function ManagementFindClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	CharacterDelete(ManagementRandomGirl, false);
+	if (ManagementRandomGirl) {
+		CharacterDelete(ManagementRandomGirl, false);
+		ManagementRandomGirl = null;
+	}
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	ManagementRandomGirl.AllowItem = !ManagementIsClubSlave();
 	CharacterNaked(ManagementRandomGirl);
@@ -721,6 +731,7 @@ function ManagementFindClubSlaveRandomIntro() {
  * @returns {void} - Nothing.
  */
 function ManagementRandomActivityStart(A) {
+	if (!ManagementRandomGirl) return;
 	ManagementRandomActivity = A;
 	ManagementRandomGirl.CurrentDialog = DialogFind(ManagementRandomGirl, "Activity" + A + "Intro");
 	ManagementRandomGirl.Stage = "Activity" + A;
@@ -731,6 +742,7 @@ function ManagementRandomActivityStart(A) {
  * @returns {void} - Nothing.
  */
 function ManagementClubSlaveRandomActivityLaunch() {
+	if (!ManagementRandomGirl) return;
 
 	// After 4 activities, there's more and more chances that it will stop
 	ManagementRandomActivityCount++;
@@ -790,7 +802,9 @@ function ManagementClubSlaveTransferToRoom() {
 	ManagementClubSlaveRandomActivityEnd(2);
 	InventoryRemove(Player, "ItemFeet");
 	CommonSetScreen("Room", "Private");
-	PrivateAddCharacter(ManagementRandomGirl, ManagementRandomGirlArchetype);
+	if (ManagementRandomGirl) {
+		PrivateAddCharacter(ManagementRandomGirl, ManagementRandomGirlArchetype);
+	}
 }
 
 /**
@@ -859,6 +873,7 @@ function ManagementActivityStruggleRestrain() {
  * @returns {void} - Nothing.
  */
 function ManagementActivityStruggleStart() {
+	if (!ManagementRandomGirl) return;
 	ManagementTimer = CurrentTime + 60000;
 	DialogLeave();
 	EmptyBackground = "MainHall";
@@ -875,8 +890,10 @@ function ManagementActivityStruggleStart() {
  */
 function ManagementStartQuiz() {
 	var Q = (Math.floor(Math.random() * 20)).toString();
-	CurrentCharacter.Stage = "QuizAnswer" + Q;
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "QuizQuestion" + Q);
+	const char = CurrentCharacter;
+	if (!char) return;
+	char.Stage = "QuizAnswer" + Q;
+	char.CurrentDialog = DialogFind(char, "QuizQuestion" + Q);
 }
 
 /**
@@ -932,6 +949,7 @@ function ManagementClubSlaveActiviy(ActivityType, RepChange) {
  * @returns {void} - Nothing.
  */
 function ManagementClubSlaveVisitRoom() {
+	if (!ManagementRandomGirl) return;
 	if ((ManagementRandomTalkCount >= 2) && (ManagementRandomActivityCount >= 2) && ManagementVisitRoom && ManagementRandomGirl.CanTalk()) {
 		CommonSetScreen("Room", "Private");
 		PrivateAddCharacter(ManagementRandomGirl, (ManagementRandomGirlArchetype === "Bunny") ? "Bunny" : "Submissive");
@@ -948,9 +966,11 @@ function ManagementClubSlaveVisitRoom() {
  * @returns {void} - Nothing.
  */
 function ManagementChangeSlaveCollarType(NewType) {
-	var Collar = InventoryGet(Player, "ItemNeck");
-	var TypeProperties = InventoryItemNeckSlaveCollarTypes.find(T => T.Name == NewType) || InventoryItemNeckSlaveCollarTypes[0];
-	Collar.Property = CommonCloneDeep(TypeProperties.Property);
+	const collar = InventoryGet(Player, "ItemNeck");
+	if (collar) {
+		const TypeProperties = InventoryItemNeckSlaveCollarTypes.find(T => T.Name == NewType) ?? InventoryItemNeckSlaveCollarTypes[0];
+		collar.Property = CommonCloneDeep(TypeProperties.Property);
+	}
 	CharacterRefresh(Player);
 	CharacterChangeMoney(Player, -30);
 }
