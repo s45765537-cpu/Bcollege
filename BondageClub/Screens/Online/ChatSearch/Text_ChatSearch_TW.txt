@@ -26,7 +26,7 @@ Entering the room...
 正在進入房間...
 Duplicate join request
 重複的加入請求
-Remove unwanted rooms
+Hide unwanted rooms
 移除不需要的房間
 Temp Hide on click
 臨時隱藏點擊的房間

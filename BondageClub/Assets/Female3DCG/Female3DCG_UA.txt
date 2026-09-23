@@ -1050,7 +1050,7 @@ Chains
 Ланцюги
 Collar Cuffs
 Манжети для рук з ошийником
-Collar Metal Cuffs
+Metal Collar Cuffs
 Металеві манжети на ошийнику
 Duct Tape
 Скотч

@@ -74,19 +74,19 @@ SourceCharacter uses rope to tie DestinationCharacter wrists and elbows together
 SourceCharacter用绳子把DestinationCharacter手腕和手肘在TargetPronounObject的身后绑在一起。
 SourceCharacter uses rope to tie DestinationCharacter wrists together behind TargetPronounPossessive back.
 SourceCharacter用绳子把DestinationCharacter手腕在TargetPronounObject的身后绑在一起。
-SourceCharacter Action the webbing on TargetCharacter, forming a cocoon
+SourceCharacter Action the webbing on TargetCharacter, forming a cocoon.
 SourceCharacter用网把TargetCharacter包成了茧状
-SourceCharacter wraps TargetCharacter in webbing, forming a hogtie
+SourceCharacter wraps TargetCharacter in webbing, forming a hogtie.
 SourceCharacter用网把TargetCharacter包成了驷马
-SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling
+SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling.
 SourceCharacter用网把TargetCharacter包成了茧状，顺手把TargetPronounObject挂了起来
-SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject
+SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用网把TargetCharacter包成了一团，顺手把TargetPronounObject挂了起来
-SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject
+SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用网把TargetCharacter包成了驷马，顺手把TargetPronounObject挂了起来
-SourceCharacter Action the webbing on TargetCharacter
+SourceCharacter Action the webbing on TargetCharacter, tangling them.
 SourceCharacter用网把TargetCharacter包了起来
-SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped
+SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped.
 SourceCharacter用网把TargetCharacter包成了一团
 Chain mittens
 给手套加链子
@@ -1164,7 +1164,7 @@ Dildo item intensity: High
 假阳具物品强度：高
 Dildo item intensity: Maximum
 假阳具物品强度：最大
-SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the dildo plug from DestinationCharacter gag.
 SourceCharacter从DestinationCharacter口塞里拔出了假阳具塞子。
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter使用假阳具塞子塞住了DestinationCharacter嘴。
@@ -2172,7 +2172,7 @@ How tight do you want the strap linking the cuffs?
 你想要项圈手铐上连接的带子有多紧？
 SourceCharacter loosens the strap on DestinationCharacter collar cuffs.
 SourceCharacter放松了DestinationCharacter项圈手铐上的束带。
-SourceCharacter adjusts the strap normally on DestinationCharacter collar cuffs.
+SourceCharacter adjusts the strap on DestinationCharacter collar cuffs to normal.
 SourceCharacter普通地调整DestinationCharacter项圈手铐上的束带。
 SourceCharacter snugs the strap on DestinationCharacter collar cuffs.
 SourceCharacter调整DestinationCharacter项圈手铐上的束带，使它松垮。
@@ -2184,7 +2184,7 @@ How tight do you want the chain linking the cuffs?
 你想要连接铐的链条有多紧？
 SourceCharacter loosens the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter解松了DestinationCharacter金属项圈铐的链条。
-SourceCharacter adjusts the chain normally on DestinationCharacter metal collar cuffs.
+SourceCharacter adjusts the chain on DestinationCharacter metal collar cuffs to normal.
 SourceCharacter将DestinationCharacter金属项圈铐的链条调整为普通紧。
 SourceCharacter snugs the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter稍稍拉紧DestinationCharacter金属项圈铐上的链条。
@@ -2626,15 +2626,15 @@ No Shorts
 没有短裤
 Configure Jacket
 配置拘束衣
-SourceCharacter attaches shorts to DestinationCharacter AssetName
+SourceCharacter attaches shorts to DestinationCharacter AssetName.
 SourceCharacter将短裤附加到DestinationCharacterAssetName上
-SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName
+SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName.
 SourceCharacter在DestinationCharacterAssetName上添加了强化束带，并添加了短裤
-SourceCharacter removes the shorts from DestinationCharacter AssetName
+SourceCharacter removes the shorts from DestinationCharacter AssetName.
 SourceCharacter从DestinationCharacterAssetName上移除了短裤
-SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName
+SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName.
 SourceCharacter从DestinationCharacterAssetName上移除了强化束带
-SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps
+SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps.
 SourceCharacter在DestinationCharacterAssetName上添加了强化束带
 Shorts
 有短裤
@@ -2768,19 +2768,19 @@ Heels Type
 高跟种类
 Vibration Mode
 振动模式
-SourceCharacter put a pair of Torment Shoes on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Shoes on DestinationCharacter feet.
 SourceCharacter给DestinationCharacter脚上穿上了折磨鞋子
-SourceCharacter put a pair of Torment Boots on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Boots on DestinationCharacter feet.
 SourceCharacter给DestinationCharacter脚上穿上了折磨靴子
-SourceCharacter turned off the Torment Heels vibration feature on DestinationCharacter feet.
+SourceCharacter turns off the Torment Heels vibration feature on DestinationCharacter feet.
 SourceCharacter关闭了DestinationCharacter脚上的折磨高跟鞋的振动功能
-SourceCharacter selected the Torment Heels vibration feature to Low on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Low on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：低
-SourceCharacter selected the Torment Heels vibration feature to Mid on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Mid on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：中
-SourceCharacter selected the Torment Heels vibration feature to Hi on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Hi on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：高
-SourceCharacter selected the Torment Heels vibration feature to Max on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Max on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：最大
 (You swing the crop on yourself a few times.  You can feel your breast and tummy becoming more sensitive.)
 （你用硬鞭打了自己几下。你感觉自己的胸部和小腹更加敏感了。）
@@ -3262,7 +3262,7 @@ NW-SE
 西北-东南
 Select Text Orientation
 选择文字方向
-SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+SourceCharacter changes the text orientation of DestinationCharacter AssetName.
 SourceCharacter修改DestinationCharacterNameAssetName上的文本方向
 SW-NE
 西南-东北
@@ -3404,7 +3404,7 @@ Select Phone Option
 选择手机选项
 Choose Your Case
 选择你的保护壳
-SourceCharacter changes the case on DestinationCharacterName phone.
+SourceCharacter changes the case on DestinationCharacter phone.
 SourceCharacter改变了DestinationCharacterName手机的保护壳。
 SourceCharacter attaches DestinationCharacter mittens to some chains.
 SourceCharacter将DestinationCharacter无指手套连接了一些链条。
@@ -3726,11 +3726,11 @@ Select Left Sticker
 选择左边胶布
 Select Right Sticker
 选择右边胶布
-SourceCharacter changes the medical patches on DestinationCharacter eyes
+SourceCharacter changes the medical patches on DestinationCharacter eyes.
 SourceCharacter改变了DestinationCharacter双眼上的医用胶布
-SourceCharacter changes the sticker on DestinationCharacter left eye
+SourceCharacter changes the sticker on DestinationCharacter left eye.
 SourceCharacter改变了DestinationCharacter左眼上的医用胶布
-SourceCharacter changes the sticker on DestinationCharacter right eye
+SourceCharacter changes the sticker on DestinationCharacter right eye.
 SourceCharacter改变了DestinationCharacter右眼上的医用胶布
 SourceCharacter uses some ribbons on DestinationCharacter face.
 SourceCharacter在DestinationCharacter脸上缠了一些丝带。
@@ -3778,9 +3778,9 @@ Blindfold
 眼罩
 Cocoon
 茧
-SourceCharacter creates a blindfold out of web for TargetCharacter
+SourceCharacter creates a blindfold out of web for TargetCharacter.
 SourceCharacter用网给TargetCharacter织了一副眼罩
-SourceCharacter creates a cocoon out of web for TargetCharacter
+SourceCharacter creates a cocoon out of web for TargetCharacter.
 SourceCharacter把TargetCharacter的头完全裹在了茧里
 Select Hypnotic Visor Details
 选择催眠护目镜细节
@@ -4966,9 +4966,9 @@ Masked
 面具
 Select type
 选择类型
-SourceCharacter change gagged on DestinationCharacter gag.
+SourceCharacter put a gag on DestinationCharacter gag.
 SourceCharacter改变DestinationCharacter面罩为口塞。
-SourceCharacter change masked on DestinationCharacter gag.
+SourceCharacter put a mask on DestinationCharacter gag.
 SourceCharacter改变DestinationCharacter口塞为面罩。
 Auto-shock Sensitivity
 自动电击强度
@@ -6260,7 +6260,7 @@ SourceCharacter attaches the Ornate ankle cuffs chain on DestinationCharacter an
 SourceCharacter将DestinationCharacter脚踝上的华丽脚铐上的锁链连在一起。
 SourceCharacter detaches the chain from DestinationCharacter Ornate ankle cuffs.
 SourceCharacter解开了DestinationCharacter华丽脚铐上的锁链。
-SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the plug from DestinationCharacter gag.
 SourceCharacter从DestinationCharacter口塞中拔出塞子。
 SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter把塞子塞进DestinationCharacter嘴。
@@ -6834,9 +6834,9 @@ DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris start
 DestinationCharacterName跳蛋猛烈地颤动起来！
 DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris jumps up to maximum intensity!
 DestinationCharacterName跳蛋突然以最大强度振动起来！
-SourceCharacter changes the text on DestinationCharacterName AssetName to read "NewText"
+SourceCharacter changes the text on DestinationCharacter AssetName to read "NewText"
 SourceCharacter修改DestinationCharacterNameAssetName上的文本为"NewText"
-SourceCharacter removes the text from DestinationCharacterName AssetName
+SourceCharacter removes the text from DestinationCharacter AssetName
 SourceCharacter移除了DestinationCharacterNameAssetName上的文本
 Configure item text
 配置物品文本
@@ -7176,9 +7176,9 @@ No accessory
 无配件
 Accessory added
 添加配件
-SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ball gag to DestinationCharacter gag harness.
 SourceCharacter将口球连接到DestinationCharacter口球带上。
-SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ring gag to DestinationCharacter gag harness.
 SourceCharacter将环形口塞附加到DestinationCharacter口塞线束上。
 Ring Gag
 口塞环
@@ -7246,47 +7246,47 @@ Chained to the floor
 拴在地板上
 SourceCharacter removes the suit collar from DestinationCharacterName neck.
 SourceCharacter将单手套服项圈从DestinationCharacterName脖子上取下。
-SourceCharacter buckles the suit collar from DestinationCharacterName neck.
+SourceCharacter buckles the suit collar on DestinationCharacterName neck.
 SourceCharacter将单手套服项圈从DestinationCharacterName扣在了脖子上。
-DestinationCharacterName binded arms are on TargetPronounObject left side.
+SourceCharacter binds DestinationCharacterName arms on the left side.
 DestinationCharacterName将TargetPronounObject的手臂绑在左侧。
-DestinationCharacterName binded arms are on TargetPronounObject right side.
+SourceCharacter binds DestinationCharacterName arms on the right side.
 DestinationCharacterName将TargetPronounObject的手臂绑在右侧。
-DestinationCharacterName binded arms are in normal position.
+SourceCharacter binds DestinationCharacterName arms on the back.
 DestinationCharacterName绑住的手臂处于正常位置。
 SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
 SourceCharacter使用安全带完全固定了DestinationCharacterName的手臂。
-SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
+SourceCharacter links DestinationCharacterName armbinder to TargetPronounObject feet with chains and cuffs.
 SourceCharacter使用链条和铐将DestinationCharacterName单手套与TargetPronounObject脚部连接起来。
-SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+SourceCharacter shortens the chain to force DestinationCharacterName to stand on TargetPronounObject knees.
 SourceCharacter缩短链条，强迫DestinationCharacterName跪下来。
 SourceCharacter removes the straps from DestinationCharacterName shoulders.
 SourceCharacter将DestinationCharacterName肩膀上的带子取下来。
-SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
+SourceCharacter adds harness straps around DestinationCharacterName shoulders.
 SourceCharacter在DestinationCharacterName肩部添加了一些安全带。
-SourceCharacter closes the DestinationCharacterName suit zipper.
+SourceCharacter closes DestinationCharacterName suit zipper.
 SourceCharacter拉上了DestinationCharacterName拉链。
-SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
+SourceCharacter opens DestinationCharacterName suit zipper and exposes TargetPronounObject genitals.
 SourceCharacter打开拉链，让DestinationCharacterName生殖器露出。
-SourceCharacter chooses a shorten suit model for DestinationCharacterName.
+SourceCharacter chooses a short suit model for DestinationCharacter.
 SourceCharacter为DestinationCharacterName选择了短款的单手套服。
-SourceCharacter chooses a long suit model for DestinationCharacterName.
+SourceCharacter chooses a long suit model for DestinationCharacter.
 SourceCharacter为DestinationCharacterName选择了长款的单手套服。
 SourceCharacter puts a belt under DestinationCharacterName knees.
 SourceCharacter在DestinationCharacterName膝盖下系了一条腰带。
-SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
+SourceCharacter completely binds DestinationCharacterName upper legs with more belts.
 SourceCharacter使用更多皮带将DestinationCharacterName 的大腿完全绑住。
-SourceCharacter removes the rubber skirt from DestinationCharacterName.
+SourceCharacter removes the rubber skirt from DestinationCharacter.
 SourceCharacter从DestinationCharacterName中移除橡胶裙。
-SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+SourceCharacter puts a short rubber skirt on DestinationCharacter.
 SourceCharacter在DestinationCharacterName中穿着一条短橡胶裙。
 SourceCharacter removes the single heel boot from DestinationCharacterName feet.
 SourceCharacter从DestinationCharacterName脚上取下单跟靴。
-SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
+SourceCharacter puts a single heel boot on DestinationCharacterName feet.
 SourceCharacter为DestinationCharacterName脚穿上单跟靴。
-SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
+SourceCharacter tightens DestinationCharacterName single heel boot with another belt.
 SourceCharacter用另一条腰带将DestinationCharacterName单跟靴紧身。
-SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+SourceCharacter chains DestinationCharacterName single heel boot to the ground.
 SourceCharacter将DestinationCharacterName单跟靴拴在地面上。
 Select Rubber Mask options
 选择橡胶面罩选项
@@ -7500,19 +7500,19 @@ Full with a grided window
 带有网格窗口
 Wall's last brick
 城墙的最后一块砖
-SourceCharacter removes all front wall brick from DestinationCharacterName.
+SourceCharacter removes all front bricks from TargetCharacter.
 SourceCharacter从DestinationCharacterName中移除所有前墙砖。
-SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
+SourceCharacter builds a brick wall that reaches DestinationCharacter hips.
 SourceCharacter建造了一堵砖墙，到达DestinationCharacterName的臀部。
-SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
+SourceCharacter builds a brick wall that reaches DestinationCharacter chest.
 SourceCharacter建造了一堵砖墙，到达DestinationCharacterName的胸部。
-SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
+SourceCharacter builds a brick wall that reaches DestinationCharacter neck.
 SourceCharacter建造了一堵砖墙，到达DestinationCharacterName颈部。
-SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall except a single hole at DestinationCharacter eye height.
 SourceCharacter建造了一堵完整的砖墙，但在DestinationCharacterName的视线高度处有一个洞。
-SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall with a small grid at DestinationCharacter eye height.
 SourceCharacter建造了一堵完整的砖墙，并在DestinationCharacterName眼睛高度处放置一个小网格。
-SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall and puts the last brick at DestinationCharacter eye height.
 SourceCharacter建造了一堵完整的砖墙，并将最后一块砖放在DestinationCharacterName的眼睛高度。
 Customize your heels:
 定制你的高跟鞋：
@@ -8268,9 +8268,9 @@ Single layer
 单层
 Plus padded layer
 加厚垫层
-SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
+SourceCharacter removes the padded layer under DestinationCharacter Asylum Muzzle.
 SourceCharacter移除了DestinationCharacter收容所口罩下的垫层。
-SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+SourceCharacter adds a padded layer under DestinationCharacter Asylum Muzzle.
 SourceCharacter在DestinationCharacter收容所口罩下添加了垫层。
 Asylum Blindfold options:
 收容所眼罩选项：
@@ -8518,9 +8518,9 @@ In Mouth
 在嘴里
 In Hand
 在手里
-SourceCharacter puts the cigarette in DestinationCharacterName mouth.
+SourceCharacter puts the cigarette in DestinationCharacter mouth.
 SourceCharacter将香烟放在了DestinationCharacterName嘴里。
-SourceCharacter keeps the cigarette in DestinationCharacterName hand.
+SourceCharacter keeps the cigarette in DestinationCharacter hand.
 SourceCharacter将香烟放在了DestinationCharacterName手里。
 Choose your Kyo-sensu paper art:
 选择你的京扇图案：

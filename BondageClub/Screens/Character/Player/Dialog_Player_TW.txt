@@ -1687,7 +1687,7 @@ How tight do you want the strap linking the cuffs?
 你想要項圈手銬上連接的帶子有多緊？
 SourceCharacter loosens the strap on DestinationCharacter collar cuffs.
 SourceCharacter放鬆了DestinationCharacter項圈手銬上的束帶。
-SourceCharacter adjusts the strap normally on DestinationCharacter collar cuffs.
+SourceCharacter adjusts the strap on DestinationCharacter collar cuffs to normal.
 SourceCharacter普通地調整DestinationCharacter項圈手銬上的束帶。
 SourceCharacter snugs the strap on DestinationCharacter collar cuffs.
 SourceCharacter調整DestinationCharacter項圈手銬上的束帶，使它鬆垮。
@@ -1883,7 +1883,7 @@ Open
 打開
 SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter把塞子塞進DestinationCharacter嘴。
-SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the plug from DestinationCharacter gag.
 SourceCharacter從DestinationCharacter口塞中拔出塞子。
 SourceCharacter configures DestinationCharacter visor to be transparent.
 SourceCharacter將DestinationCharacter眼鏡設置為透明的。
@@ -2255,7 +2255,7 @@ DestinationCharacterName gag inflates into a large dildo that forces its way dow
 DestinationCharacterName口塞充氣變為大號的假陽具，強行深入她的喉嚨。
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter使用假陽具塞子塞住了DestinationCharacter嘴。
-SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the dildo plug from DestinationCharacter gag.
 SourceCharacter從DestinationCharacter口塞裡拔出了假陽具塞子。
 SourceCharacter loosens the gag on DestinationCharacter mouth.
 SourceCharacter放鬆了DestinationCharacter嘴上的口塞。
@@ -4127,19 +4127,19 @@ Suspension Cocooned
 繭狀懸掛
 Suspension Hogtied
 駟馬懸掛
-SourceCharacter Action the webbing on TargetCharacter
+SourceCharacter Action the webbing on TargetCharacter, tangling them.
 SourceCharacter用網把TargetCharacter包了起來
-SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped
+SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped.
 SourceCharacter用網把TargetCharacter包成了一團
-SourceCharacter Action the webbing on TargetCharacter, forming a cocoon
+SourceCharacter Action the webbing on TargetCharacter, forming a cocoon.
 SourceCharacter用網把TargetCharacter包成了繭狀
-SourceCharacter wraps TargetCharacter in webbing, forming a hogtie
+SourceCharacter wraps TargetCharacter in webbing, forming a hogtie.
 SourceCharacter用網把TargetCharacter包成了駟馬
-SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject
+SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用網把TargetCharacter包成了一團，順手把TargetPronounObject掛了起來
-SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling
+SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling.
 SourceCharacter用網把TargetCharacter包成了繭狀，順手把TargetPronounObject掛了起來
-SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject
+SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject.
 SourceCharacter用網把TargetCharacter包成了駟馬，順手把TargetPronounObject掛了起來
 tightens
 捆緊
@@ -4147,9 +4147,9 @@ loosens
 放鬆
 Cocoon
 繭
-SourceCharacter creates a blindfold out of web for TargetCharacter
+SourceCharacter creates a blindfold out of web for TargetCharacter.
 SourceCharacter用網給TargetCharacter織了一副眼罩
-SourceCharacter creates a cocoon out of web for TargetCharacter
+SourceCharacter creates a cocoon out of web for TargetCharacter.
 SourceCharacter把TargetCharacter的頭完全裹在了繭裡
 Make the cutie comfortable.
 讓小可愛更舒服。
@@ -4501,11 +4501,11 @@ SW-NE
 西南-東北
 NW-SE
 西北-東南
-SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+SourceCharacter changes the text orientation of DestinationCharacter AssetName.
 SourceCharacter修改DestinationCharacterNameAssetName上的文本方向
-SourceCharacter removes the text from DestinationCharacterName AssetName
+SourceCharacter removes the text from DestinationCharacter AssetName
 SourceCharacter移除了DestinationCharacterNameAssetName上的文本
-SourceCharacter changes the text on DestinationCharacterName AssetName to read "NewText"
+SourceCharacter changes the text on DestinationCharacter AssetName to read "NewText"
 SourceCharacter修改DestinationCharacterNameAssetName上的文本為"NewText"
 Select Halo Type
 選擇光環類型
@@ -4529,15 +4529,15 @@ Shorts & Straps
 有短褲並添加系帶
 Change jacket text:
 改變拘束衣文字：
-SourceCharacter removes the shorts from DestinationCharacter AssetName
+SourceCharacter removes the shorts from DestinationCharacter AssetName.
 SourceCharacter從DestinationCharacterAssetName上移除了短褲
-SourceCharacter attaches shorts to DestinationCharacter AssetName
+SourceCharacter attaches shorts to DestinationCharacter AssetName.
 SourceCharacter將短褲附加到DestinationCharacterAssetName上
-SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName
+SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName.
 SourceCharacter從DestinationCharacterAssetName上移除了強化束帶
-SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName
+SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName.
 SourceCharacter在DestinationCharacterAssetName上添加了強化束帶，並添加了短褲
-SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps
+SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps.
 SourceCharacter在DestinationCharacterAssetName上添加了強化束帶
 Select Pole state
 選擇柱子狀態
@@ -5107,7 +5107,7 @@ Select Eye
 選擇眼睛
 Eye
 眼睛
-SourceCharacter changes the medical patches on DestinationCharacter eyes
+SourceCharacter changes the medical patches on DestinationCharacter eyes.
 SourceCharacter改變了DestinationCharacter雙眼上的醫用膠布
 Select Right Sticker
 選擇右邊膠布
@@ -5119,13 +5119,13 @@ Stripes
 條紋
 Teddy
 泰迪
-SourceCharacter changes the sticker on DestinationCharacter right eye
+SourceCharacter changes the sticker on DestinationCharacter right eye.
 SourceCharacter改變了DestinationCharacter右眼上的醫用膠布
 Select Left Sticker
 選擇左邊膠布
 Left Sticker
 左邊膠布
-SourceCharacter changes the sticker on DestinationCharacter left eye
+SourceCharacter changes the sticker on DestinationCharacter left eye.
 SourceCharacter改變了DestinationCharacter左眼上的醫用膠布
 Select Mask Details
 選擇面具細節

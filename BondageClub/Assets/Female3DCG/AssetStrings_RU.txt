@@ -64,19 +64,19 @@ SourceCharacter использует веревку, чтобы связать �
 SourceCharacter uses rope to tie DestinationCharacter wrists together behind TargetPronounPossessive back.
 SourceCharacter использует веревку, чтобы связать запястья DestinationCharacter за TargetPronounPossessive спиной.
 
-SourceCharacter Action the webbing on TargetCharacter, forming a cocoon
+SourceCharacter Action the webbing on TargetCharacter, forming a cocoon.
 SourceCharacter обматывает TargetCharacter паутиной, формируя кокон.
-SourceCharacter wraps TargetCharacter in webbing, forming a hogtie
+SourceCharacter wraps TargetCharacter in webbing, forming a hogtie.
 SourceCharacter оборачивает TargetCharacter в паутину, придавая позу кабанчика.
-SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling
+SourceCharacter cocoons TargetCharacter in webbing and hangs TargetPronounObject from the ceiling.
 SourceCharacter заматывает TargetCharacter паутиной в кокон и подвешивает TargetPronounObject к потолку.
-SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject
+SourceCharacter fully wraps TargetCharacter in webbing and uses it to suspend TargetPronounObject.
 SourceCharacter полностью обматывает TargetCharacter паутиной и подвешивает TargetPronounObject.
-SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject
+SourceCharacter hogties TargetCharacter with the webbing and uses it to suspend TargetPronounObject.
 SourceCharacter связывает TargetCharacter кабанчиком с помощью паутины и подвешивает TargetPronounObject.
-SourceCharacter Action the webbing on TargetCharacter
+SourceCharacter Action the webbing on TargetCharacter, tangling them.
 SourceCharacter использует паутину на TargetCharacter
-SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped
+SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped.
 SourceCharacter использует паутину на TargetCharacter, полностью завернув в нее.
 
 Chain mittens
@@ -934,7 +934,7 @@ Dildo item intensity: High
 Dildo item intensity: Maximum
 Интенсивность дилдо: Максимальная
 
-SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the dildo plug from DestinationCharacter gag.
 SourceCharacter вытаскивает DestinationCharacter пробку-дилдо из TargetPronounPossessive кляпа.
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter затыкает DestinationCharacter рот пробкой в виде дилдо.
@@ -1806,7 +1806,7 @@ How tight do you want the strap linking the cuffs?
 Насколько плотно вы хотите, чтобы ремень соединял манжеты?
 SourceCharacter loosens the strap on DestinationCharacter collar cuffs.
 SourceCharacter ослабляет натяжение ремешка на манжетах к ошейнику DestinationCharacter.
-SourceCharacter adjusts the strap normally on DestinationCharacter collar cuffs.
+SourceCharacter adjusts the strap on DestinationCharacter collar cuffs to normal.
 SourceCharacter настраивате ремешок на манжетах на обычное натяжение к ошенику DestinationCharacter.
 SourceCharacter snugs the strap on DestinationCharacter collar cuffs.
 SourceCharacter плотно пристегивает ремешок манжетов к ошейнику DestinationCharacter.
@@ -1817,7 +1817,7 @@ How tight do you want the chain linking the cuffs?
 Насколько туго должна быть натянута цепочка, соединяющая манжеты?
 SourceCharacter loosens the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter ослабляет цепочку на металлических манжетах к ошейнику DestinationCharacter.
-SourceCharacter adjusts the chain normally on DestinationCharacter metal collar cuffs.
+SourceCharacter adjusts the chain on DestinationCharacter metal collar cuffs to normal.
 SourceCharacter регулирует цепочку на металлических манжетах с ошейником DestinationCharacter, создавая нормальное натяжение.
 SourceCharacter snugs the chain on DestinationCharacter metal collar cuffs.
 SourceCharacter плотно притягивает цепочку на металлических манжетах к ошейнику DestinationCharacter.
@@ -2264,15 +2264,15 @@ No Shorts
 Без шорт
 Configure Jacket
 Настроить рубашку
-SourceCharacter attaches shorts to DestinationCharacter AssetName
+SourceCharacter attaches shorts to DestinationCharacter AssetName.
 SourceCharacter добавляет шорты к AssetName DestinationCharacter
-SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName
+SourceCharacter attaches shorts and reinforcing straps to DestinationCharacter AssetName.
 SourceCharacter добавляет шорты и усиленные ремни к AssetName DestinationCharacter
-SourceCharacter removes the shorts from DestinationCharacter AssetName
+SourceCharacter removes the shorts from DestinationCharacter AssetName.
 SourceCharacter удаляет шорты с AssetName DestinationCharacter
-SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName
+SourceCharacter removes the reinforcing straps from DestinationCharacter AssetName.
 SourceCharacter удаляет усиливающие ремни с AssetName DestinationCharacter
-SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps
+SourceCharacter reinforces DestinationCharacter AssetName with sturdy straps.
 SourceCharacter укрепляет AssetName DestinationCharacter прочными ремнями
 Shorts
 Шорты
@@ -2413,19 +2413,19 @@ Heels Type
 Варианты обуви
 Vibration Mode
 Режим вибрации
-SourceCharacter put a pair of Torment Shoes on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Shoes on DestinationCharacter feet.
 SourceCharacter надел на ноги DestinationCharacter пару пыточных туфель.
-SourceCharacter put a pair of Torment Boots on DestinationCharacter feet.
+SourceCharacter puts a pair of Torment Boots on DestinationCharacter feet.
 SourceCharacter надел на ноги DestinationCharacter пару пыточных сапог.
-SourceCharacter turned off the Torment Heels vibration feature on DestinationCharacter feet.
+SourceCharacter turns off the Torment Heels vibration feature on DestinationCharacter feet.
 SourceCharacter отключает функцию вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Low on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Low on DestinationCharacter feet.
 SourceCharacter включает низкий режим вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Mid on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Mid on DestinationCharacter feet.
 SourceCharacter включает средний режим вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Hi on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Hi on DestinationCharacter feet.
 SourceCharacter включает высокий режим вибрации пыточной обуви на DestinationCharacter ногах.
-SourceCharacter selected the Torment Heels vibration feature to Max on DestinationCharacter feet.
+SourceCharacter sets the Torment Heels vibration feature to Max on DestinationCharacter feet.
 SourceCharacter включает максимальный режим вибрации пыточной обуви на DestinationCharacter ногах.
 
 (You swing the crop on yourself a few times.  You can feel your breast and tummy becoming more sensitive.)
@@ -2913,7 +2913,7 @@ NW-SE
 СЗ-ЮВ
 Select Text Orientation
 Выберите ориентацию текста
-SourceCharacter changes the text orientation of DestinationCharacterName AssetName
+SourceCharacter changes the text orientation of DestinationCharacter AssetName.
 SourceCharacter изменяет ориентацию текста AssetName  DestinationCharacterName
 SW-NE
 ЮЗ-СВ
@@ -3021,7 +3021,7 @@ Select Phone Option
 Выберите вариант телефона
 Choose Your Case
 Выберите свой корпус
-SourceCharacter changes the case on DestinationCharacterName phone.
+SourceCharacter changes the case on DestinationCharacter phone.
 SourceCharacter меняет корпус на DestinationCharacterName телефоне.
 
 SourceCharacter attaches DestinationCharacter mittens to some chains.
@@ -3266,11 +3266,11 @@ Select Left Sticker
 Выберите левый пластырь
 Select Right Sticker
 Выберите правый пластырь
-SourceCharacter changes the medical patches on DestinationCharacter eyes
+SourceCharacter changes the medical patches on DestinationCharacter eyes.
 SourceCharacter меняет медицинские пластыри на DestinationCharacter глазах.
-SourceCharacter changes the sticker on DestinationCharacter left eye
+SourceCharacter changes the sticker on DestinationCharacter left eye.
 SourceCharacter меняет пластырь на DestinationCharacter левом глазу
-SourceCharacter changes the sticker on DestinationCharacter right eye
+SourceCharacter changes the sticker on DestinationCharacter right eye.
 SourceCharacter меняет пластырь на DestinationCharacter правом глазу
 
 SourceCharacter uses some ribbons on DestinationCharacter face.
@@ -3325,9 +3325,9 @@ Blindfold
 Повязка на глаза
 Cocoon
 Кокон
-SourceCharacter creates a blindfold out of web for TargetCharacter
+SourceCharacter creates a blindfold out of web for TargetCharacter.
 SourceCharacter создает из паутины повязку на глаза для TargetCharacter
-SourceCharacter creates a cocoon out of web for TargetCharacter
+SourceCharacter creates a cocoon out of web for TargetCharacter.
 SourceCharacter создает кокон из паутины для TargetCharacter.
 
 Hood Cover
@@ -4440,9 +4440,9 @@ Gagged
 Кляп
 Masked
 Маска
-SourceCharacter change gagged on DestinationCharacter gag.
+SourceCharacter put a gag on DestinationCharacter gag.
 SourceCharacter оставляет просто шар на DestinationCharacter кляпе.
-SourceCharacter change masked on DestinationCharacter gag.
+SourceCharacter put a mask on DestinationCharacter gag.
 SourceCharacter присоеденяет маску к DestinationCharacter кляпу.
 
 Auto-shock Sensitivity
@@ -5986,7 +5986,7 @@ SourceCharacter прикрепляет цепочку от богато укра
 SourceCharacter detaches the chain from DestinationCharacter Ornate ankle cuffs.
 SourceCharacter отсоединяет цепочку от богато украшенных нащиколотников DestinationCharacter.
 
-SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
+SourceCharacter pulls out the plug from DestinationCharacter gag.
 SourceCharacter вытаскивает DestinationCharacter пробку из TargetPronounPossessive кляпа.
 SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter затыкает DestinationCharacter рот.
@@ -6626,10 +6626,10 @@ DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris start
 DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris jumps up to maximum intensity!
 Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе подпрыгивает до максимальной интенсивности!
 
-SourceCharacter changes the text on DestinationCharacterName AssetName to read "NewText"
+SourceCharacter changes the text on DestinationCharacter AssetName to read "NewText"
 SourceCharacter меняет текст в DestinationCharacterName AssetName на "NewText"
 
-SourceCharacter removes the text from DestinationCharacterName AssetName
+SourceCharacter removes the text from DestinationCharacter AssetName
 SourceCharacter удаляет текст с AssetName DestinationCharacterName.
 
 tightens
@@ -6920,9 +6920,9 @@ With accessory
 With accessory over hair
 С аксессуаром поверх волос
 
-SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ball gag to DestinationCharacter gag harness.
 SourceCharacter прикрепляет кляп-шар к DestinationCharacter сбруе для кляпа.
-SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+SourceCharacter attaches a ring gag to DestinationCharacter gag harness.
 SourceCharacter прикрепляет кляп-кольцо к DestinationCharacter сбруе для кляпа.
 Ring Gag
 Кляп-Кольцо
@@ -7056,47 +7056,47 @@ Chained to the floor
 Прикованный к полу
 SourceCharacter removes the suit collar from DestinationCharacterName neck.
 SourceCharacter удаляет ошейник костюма с шеи DestinationCharacterName.
-SourceCharacter buckles the suit collar from DestinationCharacterName neck.
+SourceCharacter buckles the suit collar on DestinationCharacterName neck.
 SourceCharacter пристегивает ошейник костюма к шее DestinationCharacterName.
-DestinationCharacterName binded arms are on TargetPronounObject left side.
+SourceCharacter binds DestinationCharacterName arms on the left side.
 Связанные руки DestinationCharacterName находятся с TargetPronounObject левой стороне.
-DestinationCharacterName binded arms are on TargetPronounObject right side.
+SourceCharacter binds DestinationCharacterName arms on the right side.
 Связанные руки DestinationCharacterName находятся с TargetPronounObject правой стороне.
-DestinationCharacterName binded arms are in normal position.
+SourceCharacter binds DestinationCharacterName arms on the back.
 Связанные руки DestinationCharacterName находятся посредине спины.
 SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
 SourceCharacter полностью обездвиживает руки DestinationCharacterName ременной сбруей.
-SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
+SourceCharacter links DestinationCharacterName armbinder to TargetPronounObject feet with chains and cuffs.
 SourceCharacter соединяет армбиндер DestinationCharacterName с TargetPronounObject ногами с помощью цепи и манжет.
-SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+SourceCharacter shortens the chain to force DestinationCharacterName to stand on TargetPronounObject knees.
 SourceCharacter сокращает цепочку, чтобы заставить DestinationCharacterName встать на колени.
 SourceCharacter removes the straps from DestinationCharacterName shoulders.
 SourceCharacter снимает ремни с плеч DestinationCharacterName.
-SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
+SourceCharacter adds harness straps around DestinationCharacterName shoulders.
 SourceCharacter добавляет несколько ремней к плечам DestinationCharacterName.
-SourceCharacter closes the DestinationCharacterName suit zipper.
+SourceCharacter closes DestinationCharacterName suit zipper.
 SourceCharacter застегивает молнию на костюме DestinationCharacterName.
-SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
+SourceCharacter opens DestinationCharacterName suit zipper and exposes TargetPronounObject genitals.
 SourceCharacter расстегивает молнию костюма, и обнажаются гениталии DestinationCharacterName.
-SourceCharacter chooses a shorten suit model for DestinationCharacterName.
+SourceCharacter chooses a short suit model for DestinationCharacter.
 SourceCharacter выбирает укороченную модель костюма для DestinationCharacterName.
-SourceCharacter chooses a long suit model for DestinationCharacterName.
+SourceCharacter chooses a long suit model for DestinationCharacter.
 SourceCharacter выбирает модель длинного костюма для DestinationCharacterName.
 SourceCharacter puts a belt under DestinationCharacterName knees.
 SourceCharacter надевает ремень под коленями DestinationCharacterName.
-SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
+SourceCharacter completely binds DestinationCharacterName upper legs with more belts.
 SourceCharacter полностью связывает верхнюю часть ног DestinationCharacterName с помощью большего количества ремней.
-SourceCharacter removes the rubber skirt from DestinationCharacterName.
+SourceCharacter removes the rubber skirt from DestinationCharacter.
 SourceCharacter удаляет резиновую юбку с DestinationCharacterName.
-SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+SourceCharacter puts a short rubber skirt on DestinationCharacter.
 SourceCharacter надевает короткую резиновую юбку на DestinationCharacterName.
 SourceCharacter removes the single heel boot from DestinationCharacterName feet.
 SourceCharacter удаляет обувь на одинарном каблуке с ног DestinationCharacterName.
-SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
+SourceCharacter puts a single heel boot on DestinationCharacterName feet.
 SourceCharacter надевает обувь на одинарном каблуке на ноги DestinationCharacterName.
-SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
+SourceCharacter tightens DestinationCharacterName single heel boot with another belt.
 SourceCharacter туго затягивает реани на обуви с одинарный каблуком на DestinationCharacterName.
-SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+SourceCharacter chains DestinationCharacterName single heel boot to the ground.
 SourceCharacter приковывает обувь на одинарном каблуке DestinationCharacterName к полу.
 
 Rubber Mask cloth version main menu
@@ -7294,19 +7294,19 @@ Full with a grided window
 Полная стена с решеткой
 Wall's last brick
 Последний кирпич стены
-SourceCharacter removes all front wall brick from DestinationCharacterName.
+SourceCharacter removes all front bricks from TargetCharacter.
 SourceCharacter удаляет все кирпичи из передней стены DestinationCharacterName.
-SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
+SourceCharacter builds a brick wall that reaches DestinationCharacter hips.
 SourceCharacter возводит кирпичную стену до бедер DestinationCharacterName.
-SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
+SourceCharacter builds a brick wall that reaches DestinationCharacter chest.
 SourceCharacter возводит кирпичную стену до груди DestinationCharacterName.
-SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
+SourceCharacter builds a brick wall that reaches DestinationCharacter neck.
 SourceCharacter возводит кирпичную стену до шеи DestinationCharacterName.
-SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall except a single hole at DestinationCharacter eye height.
 SourceCharacter полностью возводит кирпичную стену, оставляя одно отверстие на высоте глаз DestinationCharacterName.
-SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall with a small grid at DestinationCharacter eye height.
 SourceCharacter полностью возводит кирпичную стену, оставляя небольшую решетку на высоте глаз DestinationCharacterName.
-SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+SourceCharacter builds a full brick wall and puts the last brick at DestinationCharacter eye height.
 SourceCharacter полностью возводит кирпичную стену и кладет последний кирпич на высоте глаз DestinationCharacterName.
 
 Customize your heels:

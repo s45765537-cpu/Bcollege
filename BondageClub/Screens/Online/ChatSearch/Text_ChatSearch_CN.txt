@@ -30,7 +30,7 @@ Entering the room...
 正在进入房间...
 Duplicate join request
 重复的加入请求
-Remove unwanted rooms
+Hide unwanted rooms
 移除不需要的房间
 Temp Hide on click
 临时隐藏点击的房间
