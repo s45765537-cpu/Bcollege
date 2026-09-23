@@ -3193,7 +3193,7 @@ interface AssetOverrideHeight {
  * Either a single number that will cause all of the asset's layer to
  * inherit that priority, or a more precise specifier keyed by layer name.
  */
-type AssetLayerOverridePriority = Partial<Record<LayerName | "", number>> | number;
+type AssetLayerOverridePriority = Partial<Record<LayerName, number>> | number;
 
 /**
  * Base properties of extended items derived from their respective {@link Asset} definition.
@@ -3609,15 +3609,15 @@ interface ItemPropertiesCustom {
 }
 
 interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, ItemPropertiesCustom {
-	LayerTranslationX?: Partial<Record<LayerName | "", number>>;
+	LayerTranslationX?: Partial<Record<LayerName, number>>;
 	/** Translation Y */
-	LayerTranslationY?: Partial<Record<LayerName | "", number>>;
+	LayerTranslationY?: Partial<Record<LayerName, number>>;
 	/** Scale X */
-	LayerScaleX?: Partial<Record<LayerName | "", number>>;
+	LayerScaleX?: Partial<Record<LayerName, number>>;
 	/** Scale Y */
-	LayerScaleY?: Partial<Record<LayerName | "", number>>;
+	LayerScaleY?: Partial<Record<LayerName, number>>;
 	/** Rotation */
-	LayerRotation?: Partial<Record<LayerName | "", number>>;
+	LayerRotation?: Partial<Record<LayerName, number>>;
 }
 
 /** Properties in {@link ItemPropertiesMinimized} with a minimization format distinct from their representation {@link ItemProperties} */
@@ -4439,9 +4439,9 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	Opacity: number;
 	Property: ItemProperties;
 	A: Asset;
-	G: "" | AssetName;
+	G: AssetName;
 	AG: AssetGroup;
-	L: "" | LayerName;
+	L: LayerName;
 	Pose: AssetPoseName | NullPoseType;
 	LayerType: string;
 	BlinkExpression: string;
@@ -4463,7 +4463,7 @@ interface DynamicBeforeDrawOverrides {
 	X?: number;
 	Y?: number;
 	LayerType?: string;
-	L?: "" | LayerName;
+	L?: LayerName;
 	AlphaMasks?: RectTuple[];
 	Pose?: AssetPoseName | NullPoseType;
 }
