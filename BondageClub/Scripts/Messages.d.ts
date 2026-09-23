@@ -1111,7 +1111,7 @@ interface ServerCharacterArousalResponse {
 
 interface ServerCharacterItemUpdate extends Omit<ServerItemBundle, "Name"> {
 	Target: number;
-	Name: AssetName | string;
+	Name: AssetName;
 }
 
 interface ServerChatRoomSyncItemResponse {
