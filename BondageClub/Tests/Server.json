@@ -48,6 +48,7 @@
 					"CombinationNumber": 9001,
 					"LockMemberNumber": 5,
 					"LockMemberName": "The Mighty Kevin",
+					"LockMessage": "",
 					"Effect": ["Lock"]
 				}
 			},
@@ -67,8 +68,6 @@
 					"LockedBy": "PasswordPadlock",
 					"Password": "test123",
 					"LockSet": true,
-					"RemoveOnUnlock": false,
-					"Hint": "Take a guess...",
 					"LockMemberNumber": 5,
 					"LockMemberName": "The Mighty Kevin"
 				},
@@ -80,7 +79,67 @@
 					"Hint": "Take a guess...",
 					"LockMemberNumber": 5,
 					"LockMemberName": "The Mighty Kevin",
+					"LockMessage": "",
 					"Effect": ["Lock"]
+				}
+			},
+			"TimerPasswordPadlock": {
+				"initialItemProperty": {
+					"LockedBy": "TimerPasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"Hint": "Take a guess...",
+					"RemoveItem": false,
+					"RemoveTimer": 999,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"],
+					"CombinationNumber": "I am not supposed to be here",
+					"MemberNumberList": [55, 5]
+				},
+				"itemBundleProperty": {
+					"LockedBy": "TimerPasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"RemoveTimer": 999,
+					"MemberNumberList": [55, 5]
+				},
+				"finalItemProperty": {
+					"LockedBy": "TimerPasswordPadlock",
+					"Password": "test123",
+					"LockSet": true,
+					"Hint": "Take a guess...",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"LockMessage": "",
+					"Effect": ["Lock"],
+					"ShowTimer": true,
+					"EnableRandomInput": false,
+					"RemoveTimer": 999,
+					"MemberNumberList": [5, 55]
+				}
+			},
+			"HighSecurityPadlock": {
+				"initialItemProperty": {
+					"LockedBy": "HighSecurityPadlock",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"]
+				},
+				"itemBundleProperty": {
+					"LockedBy": "HighSecurityPadlock",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin"
+				},
+				"finalItemProperty": {
+					"LockedBy": "HighSecurityPadlock",
+					"LockMemberNumber": 5,
+					"LockMemberName": "The Mighty Kevin",
+					"Effect": ["Lock"],
+					"MemberNumberListKeys": "5",
+					"LockMessage": ""
 				}
 			}
 		}

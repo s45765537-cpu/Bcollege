@@ -135,6 +135,13 @@ const NoArch = {
 			}
 		}
 
+		if (item.Property.LockedBy && item.Asset.AllowLock) {
+			if (!item.Property.Effect?.includes("Lock")) {
+				update = true;
+				CommonArrayConcatDedupe(item.Property.Effect ??= [], ["Lock"]);
+			}
+		}
+
 		if (update) {
 			if (refresh) {
 				CharacterRefresh(C, push, false);
