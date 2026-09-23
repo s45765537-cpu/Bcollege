@@ -64,10 +64,10 @@ var KeybindingManager = {
 		NumpadEnter: "Enter",
 		NumpadDecimal: "Num .",
 
-		ArrowLeft: "Left",
-		ArrowRight: "Right",
-		ArrowUp: "Up",
-		ArrowDown: "Down",
+		ArrowLeft: "Left Arrow",
+		ArrowRight: "Right Arrow",
+		ArrowUp: "Up Arrow",
+		ArrowDown: "Down Arrow",
 
 		Tab: "Tab",
 		Escape: "Esc",
@@ -495,7 +495,7 @@ class KeybindManager {
 			if (!keyCombo) {
 				return { actionId, keyCombo: "null" };
 			}
-			const keyString = "key" in keyCombo && keyCombo?.key ? KeybindingManager.ASCIIKeyboardMap[keyCombo.key] : ("char" in keyCombo ? keyCombo.char : undefined);
+			const keyString = "key" in keyCombo && keyCombo?.key ? keyCombo.key : ("char" in keyCombo ? keyCombo.char : undefined);
 			return {
 				actionId,
 				keyCombo: keyString + ' ' + (keyCombo.modifiers ? [...keyCombo.modifiers].map(mod => KeybindingManager.ModifierSymbols[mod]).join('') : '')
@@ -539,7 +539,6 @@ class KeybindManager {
 						.filter((mod) => mod !== undefined)
 				);
 
-				const isCode = (key in KeybindingManager.ASCIIKeyboardMap);
 
 				const code = /** @type {Keybindings.KeyCode} */ (key);
 
@@ -548,8 +547,8 @@ class KeybindManager {
 
 					/** @type {Keybindings.KeyCombo} */
 					const keyCombo = isUnbound ? { key: null, char: null, modifiers: modifiers } : {
-						key: isCode ? code : null,
-						char: isCode ? null : key,
+						key: code ? code : null,
+						char: code ? null : key,
 						modifiers: modifiers,
 					};
 
@@ -558,8 +557,8 @@ class KeybindManager {
 					this._registerUninitializedKeybinding({
 						id: kb.actionId,
 						keyCombo: isUnbound ? { key: null, char: null, modifiers: modifiers } : {
-							key: isCode ? code : null,
-							char: isCode ? null : key,
+							key: code ? code : null,
+							char: code ? null : key,
 							modifiers: modifiers
 						},
 					});
