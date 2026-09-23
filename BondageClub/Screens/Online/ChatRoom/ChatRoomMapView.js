@@ -348,6 +348,8 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 570, Type: "FloorDecorationParty", Style: "BeachTowelStripe" },
 	{ ID: 580, Type: "FloorDecorationParty", Style: "Speaker", Top: -1.2, Height: 1.85 },
 	{ ID: 590, Type: "FloorDecorationParty", Style: "Presents", Top: 0.25, Height: 0.50 },
+	{ ID: 595, Type: "FloorDecorationParty", Style: "Pumpkin", Top: 0.25, Left: 0.25, Height: 0.5, Width: 0.5 },
+
 
 	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
