@@ -886,6 +886,7 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 	const groupAssets = Asset.filter(a =>
 		a.Group.Family === C.AssetFamily &&
 		a.Group.Name === GroupName &&
+		(AllowedAssets || a.Random) &&
 		CharacterAppearanceGenderAllowed(a) &&
 		(!MustOwn || InventoryAvailable(C, a.Name, a.Group.Name)));
 	const AssetList = AllowedAssets ? AllowedAssets.map(assetName => groupAssets.find(a => a.Name === assetName)).filter(Boolean) : groupAssets;
