@@ -203,11 +203,6 @@ function ItemPropertiesCompress(item, options=null) {
 		}
 	}
 
-	if (item.Asset.Group.HasExpression()) {
-		baseline.Expression = null;
-		allowedProperties.add("Expression");
-	}
-
 	/** @type {EffectName[]} */
 	const allowedEffects = ["IsLeashed"];
 	for (const effect of allowedEffects) {

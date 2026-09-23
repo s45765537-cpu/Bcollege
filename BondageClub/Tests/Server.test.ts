@@ -356,7 +356,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 		// TODO: Mark expression groups as extended with an explicit `Expression` baseline property; ensuring that it is always initialized
 		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
-		expect(itemRestored?.Property?.Expression, "bundle to item re-conversion").toEqual(finalItemProperty.Expression ?? undefined);
+		expect(itemRestored?.Property?.Expression, "bundle to item re-conversion").toEqual(finalItemProperty.Expression);
 	});
 
 	const vibratorModeParam = Object.entries(testParam.vibratingItem.modes).map(([mode, _data]) => {
