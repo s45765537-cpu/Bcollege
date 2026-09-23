@@ -226,14 +226,6 @@ function ItemPropertiesCompress(item, options=null) {
 		}
 
 		CommonAssign(baseline, lockData.baselineProperty ?? {});
-		allowedProperties.add("LockedBy");
-		allowedProperties.add("LockMemberNumber");
-		allowedProperties.add("LockMemberName");
-		allowedProperties.add("LockMessage");
-		lockProperties.add("LockedBy");
-		lockProperties.add("LockMemberNumber");
-		lockProperties.add("LockMemberName");
-		lockProperties.add("LockMessage");
 		for (const key of CommonKeys(lockData.baselineProperty ?? {})) {
 			allowedProperties.add(key);
 			lockProperties.add(key);
