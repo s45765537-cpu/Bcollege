@@ -86,8 +86,8 @@ function TextLoad(TextGroup) {
 
 /**
  * Cache the Module and TextGroup for later use, speeds up first use
- * @param {string} Module
- * @param {string} TextGroup
+ * @param {ModuleType} Module
+ * @param {ScreenName} TextGroup
  * @returns {TextCache}  - The Module + TextGroup's correpsonding text cache
  */
 function TextPrefetch(Module, TextGroup) {

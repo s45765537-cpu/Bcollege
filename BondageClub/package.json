@@ -34,6 +34,7 @@
 		"files:case": "cd Tools/Node && node --unhandled-rejections=strict FileCase",
 		"files:sortcsv": "cd Tools/Node && node --unhandled-rejections=strict SortCSV",
 		"files:csvtypescript": "cd Tools/Node && node --unhandled-rejections=strict CSVTypescript && cd ../../.. && tsc -p BondageClub/Tools/Node/tsconfig-csvtypescript.json",
+		"files:csvtypescript:unstable": "cd Tools/Node && node --unhandled-rejections=strict CSVTypescript -l && cd ../../.. && tsc -p BondageClub/Tools/Node/tsconfig-csvtypescript.json",
 		"test": "jest"
 	},
 	"repository": {
@@ -63,6 +64,7 @@
 		"@types/gulp-cache": "^0.4.9",
 		"@types/gulp-filter": "^3.0.39",
 		"@types/gulp-imagemin": "^8.0.6",
+		"@types/gulp-match": "^1.1.6",
 		"@types/gulp-size": "^4.0.3",
 		"@types/imagemin-jpegtran": "^5.0.4",
 		"@types/jest": "^30.0.0",

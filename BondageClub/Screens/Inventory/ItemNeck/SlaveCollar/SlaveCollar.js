@@ -3,7 +3,7 @@ var InventoryItemNeckSlaveCollarColorMode = false;
 var InventoryItemNeckSlaveCollarOffset = 0;
 
 // Defines all the slave collar models
-/** @type {{ Name: string, Property: ItemProperties & { TypeRecord: TypeRecord }, Image: string }[]} */
+/** @type {{ Name: string, Property: ItemProperties & { TypeRecord: TypeRecord }, Image: AssetName }[]} */
 var InventoryItemNeckSlaveCollarTypes = [
 	{
 		Name: "",

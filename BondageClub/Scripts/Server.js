@@ -431,7 +431,7 @@ function ServerPlayerInventorySync() {
 
 /**
  * Unpack the all item permissions into the quartet of blocked, limited, favorited and hidden item object
- * @param {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} permissionItems - The packed item permission data
+ * @param {Partial<Record<`${AssetGroupName}/${AssetName}`, ItemPermissions>>} permissionItems - The packed item permission data
  * @returns {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} - The unpacked item permission data
  */
 function ServerPackItemPermissions(permissionItems) {
@@ -447,7 +447,7 @@ function ServerPackItemPermissions(permissionItems) {
 	const HiddenItems = data.HiddenItems;
 
 	for (const [name, permission] of CommonEntries(permissionItems)) {
-		const [groupName, assetName] = /** @type {[AssetGroupName, string]} */(name.split("/"));
+		const [groupName, assetName] = /** @type {[AssetGroupName, AssetName]} */(name.split("/"));
 
 		if (permission.Hidden) {
 			HiddenItems.push({ Name: assetName, Group: groupName });
@@ -478,16 +478,16 @@ function ServerPackItemPermissions(permissionItems) {
  * Unpack the quartet of blocked, limited, favorited and hidden item permissions into a single object
  * @param {Pick<Partial<ServerAccountDataSynced>, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} data - The item permission data as received from the server
  * @param {boolean} onExtreme - If the expected difficulty is Extreme
- * @returns {{ permissions: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>; shouldSync: boolean }} - The packed item permission data
+ * @returns {{ permissions: Partial<Record<`${AssetGroupName}/${AssetName}`, ItemPermissions>>; shouldSync: boolean }} - The packed item permission data
  */
 function ServerUnPackItemPermissions(data, onExtreme) {
-	/** @type {{permissions: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>; shouldSync: boolean }} */
+	/** @type {{permissions: Partial<Record<`${AssetGroupName}/${AssetName}`, ItemPermissions>>; shouldSync: boolean }} */
 	const ret = { permissions: {}, shouldSync: false };
 	if (!data) {
 		return ret;
 	}
 
-	/** @type {Set<string>} */
+	/** @type {Set<AssetName>} */
 	const limitedAssets = new Set(MainHallStrongLocks);
 	for (let [field, permissionObj] of CommonEntries(CommonPick(data, ["BlockItems", "LimitedItems", "FavoriteItems", "HiddenItems"]))) {
 		// Extreme never allows for hidden or blocked items (and only a tiny subset of limited items)

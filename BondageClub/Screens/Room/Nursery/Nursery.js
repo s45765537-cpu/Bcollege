@@ -41,11 +41,11 @@ const NurseryDiaperColors = [
 	"Default", "#808080", "#aa8080", "#80aa80", "#8080aa", "#8194ff",
 	"#80aaaa", "#aa80aa"
 ];
-/** @type {String[]} */
+/** @type {AssetName[]} */
 let NurseryDresses;
-/** @type {{Small: String[], Medium: String[], Large: String[]}} */
+/** @type {{Small: AssetName[], Medium: AssetName[], Large: AssetName[]}} */
 let NurseryDiapers;
-/** @type {{Normal: String[], Restrained: String[]}} */
+/** @type {{Normal: AssetName[], Restrained: AssetName[]}} */
 let NurseryPacifiers;
 /**
  * message about nursery gate
@@ -343,7 +343,7 @@ function NurseryNPCRestrained(CurrentNPC, restraintSet) {
 /** Random diaper selection
  * @param {Character} character
  * @param {keyof typeof NurseryDiapers} size
- * @returns {string}
+ * @returns {AssetName}
  */
 function NurseryRandomDiaper(character, size) {
 	const currentDiaper = InventoryGet(character, "Panties")?.Asset.Name;
@@ -352,7 +352,7 @@ function NurseryRandomDiaper(character, size) {
 
 /** Random dress selection
  * @param {Character} character
- * @returns {string}
+ * @returns {AssetName}
  */
 function NurseryRandomDress(character, itemPool) {
 	const currentDress = InventoryGet(character, "Cloth")?.Asset.Name;

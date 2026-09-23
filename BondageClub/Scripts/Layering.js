@@ -145,9 +145,9 @@ var Layering = {
 	/**
 	 * Update an item's property, optionally for a specific layer, and refresh the character.
 	 * @param {Item} item - The item to update.
-	 * @param {string} propName - The property name (e.g., "Rotation", "ScaleX").
-	 * @param {any} value - The new value.
-	 * @param {string} [layerName] - Optional layer name to update. If provided, updates layer-specific property.
+	 * @param {"Priority" | "TranslationX" | "TranslationX" | "ScaleX" | "ScaleY" | "Rotate"} propName - The property name (e.g., "Rotation", "ScaleX").
+	 * @param {number} value - The new value.
+	 * @param {LayerName} [layerName] - Optional layer name to update. If provided, updates layer-specific property.
 	 */
 	UpdateProperty(item, propName, value, layerName) {
 		if (!item.Property) item.Property = {};
@@ -233,7 +233,7 @@ var Layering = {
 
 	/**
 	 * @private
-	 * @param {string} name - The name of the layer
+	 * @param {LayerName | AssetName} name - The name of the layer
 	 * @param {number} priority - The stringified layer priority
 	 * @param {string} defaultPriority - The stringified default priority of the layer
 	 */
@@ -571,7 +571,7 @@ var Layering = {
 	 * @param {number} step
 	 * @param {number} defaultValue
 	 * @param {boolean} isShowingHiddenLayers
-	 * @param {Record<string, [number, number]>} constraints
+	 * @param {Record<string, [min: number, max: number]>} constraints
 	 */
 	_CreateLayerFieldset(layer, propType, properties, min, max, step, defaultValue, isShowingHiddenLayers, constraints) {
 		const layerName = layer.Name ?? "";
@@ -820,10 +820,10 @@ var Layering = {
 	 * Group all layers by their {@link AssetLayer.CopyLayerColor} properties
 	 * @private
 	 * @param {readonly AssetLayer[]} layers
-	 * @returns {Record<string, AssetLayer[]>}
+	 * @returns {Record<"" | LayerName, AssetLayer[]>}
 	 */
 	_GroupLayers(layers) {
-		/** @type {Record<string, AssetLayer[]>} */
+		/** @type {Record<"" | LayerName, AssetLayer[]>} */
 		const ret = {};
 		for (const layer of layers) {
 			const name = layer.CopyLayerColor ?? layer.Name ?? "";

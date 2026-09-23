@@ -10,7 +10,7 @@ var NPCWeddingGirlRight = /** @type {never} */ (null);
 /**
  * Puts a wedding dress on a specified character
  * @param {Character} C - The character that must wear the ring.
- * @param {string} Dress - The asset name of wedding dress to wear.
+ * @param {AssetName} Dress - The asset name of wedding dress to wear.
  * @returns {void} - Nothing.
  */
 function NPCWeddingDress(C, Dress) {

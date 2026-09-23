@@ -1127,17 +1127,18 @@ interface AssetGroup {
 	readonly AllowExpression?: readonly ExpressionName[];
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
-	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
+	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: AssetName; TypeRecord?: TypeRecord }>[];
 	readonly DrawingPriority: number;
 	readonly DrawingBlink: boolean;
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
+	// FIXME: Unused?
 	readonly Reposition?: {
-				Group?: string;
-				ShiftX?: number;
-				ShiftY?: number;
-		}[];
+		Group?: string;
+		ShiftX?: number;
+		ShiftY?: number;
+	}[];
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
@@ -1230,7 +1231,7 @@ interface AssetLayer {
 	readonly Asset: Asset;
 	readonly DrawingLeft: TopLeft.Data;
 	readonly DrawingTop: TopLeft.Data;
-	readonly HideAs?: Readonly<{ Group: AssetGroupName; Asset?: string }>;
+	readonly HideAs?: Readonly<{ Group: AssetGroupName; Asset?: AssetName }>;
 	/** That layer is drawing at a fixed Y position */
 	readonly FixedPosition?: boolean;
 	readonly HasImage: boolean;
@@ -1297,7 +1298,7 @@ interface ExpressionPair {
 
 type RemoveOnItemRemove = {
 	/** The optional name of the item within the to-be removed group. Ignored if an empty string is passed */
-	readonly Name: string;
+	readonly Name: AssetName;
 	/** The name of the to-be removed group */
 	readonly Group: AssetGroupName;
 	/** The optional type of the to-be removed item */
@@ -1310,13 +1311,13 @@ type RemoveOnItemRemove = {
  * See {@link AssetDefinition} in Female3DCG.d.ts for documentation.
  */
 interface Asset {
-	readonly Name: string;
+	readonly Name: AssetName;
 	readonly Description: string;
 	readonly Group: AssetGroup;
-	readonly ParentItem?: string;
+	readonly ParentItem?: AssetName;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
-	readonly NotVisibleOnScreen?: readonly string[];
+	readonly NotVisibleOnScreen?: readonly RoomName[];
 	readonly Wear: boolean;
 	readonly Activity: ActivityName | null;
 	readonly AllowActivity?: readonly ActivityName[];
@@ -1330,19 +1331,19 @@ interface Asset {
 	readonly Block?: readonly AssetGroupItemName[];
 	readonly Expose: readonly AssetGroupItemName[];
 	readonly Hide?: readonly AssetGroupName[];
-	readonly HideItem?: readonly string[];
-	readonly HideItemExclude: readonly string[];
+	readonly HideItem?: readonly AssetFullName[];
+	readonly HideItemExclude: readonly AssetFullName[];
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
 	// Only on BodyStyle
-	readonly DrawOffset?: {
-				Group?: AssetGroupName;
-				Asset?: string;
-				Layer?: string[];
-				X?: number;
-				Y?: number;
-		}[];
+	readonly DrawOffset?: readonly {
+		Group?: AssetGroupName;
+		Asset?: AssetName;
+		Layer?: LayerName[];
+		X?: number;
+		Y?: number;
+	}[];
 	readonly AllowActivePose?: readonly AssetPoseName[];
 	readonly Value: number;
 	readonly NeverSell: boolean;
@@ -1379,7 +1380,7 @@ interface Asset {
 	readonly AllowEffect?: readonly EffectName[];
 	readonly AllowBlock?: readonly AssetGroupItemName[];
 	readonly AllowHide?: readonly AssetGroupName[];
-	readonly AllowHideItem?: readonly string[];
+	readonly AllowHideItem?: readonly AssetFullName[];
 	readonly AllowTighten: boolean;
 	/**
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
@@ -1389,6 +1390,7 @@ interface Asset {
 	readonly Audio?: string;
 	readonly Category?: readonly AssetCategory[];
 	readonly Fetish?: readonly FetishName[];
+	/** See {@link BackgroundsList} */
 	readonly CustomBlindBackground?: string;
 	readonly ArousalZone: AssetGroupItemName;
 	readonly IsRestraint: boolean;
@@ -1398,7 +1400,7 @@ interface Asset {
 	readonly DynamicDescription: (C: Character) => string;
 	readonly DynamicPreviewImage: (C: Character) => string;
 	readonly DynamicAllowInventoryAdd: (C: Character) => boolean;
-	readonly DynamicName: (C: Character) => string;
+	readonly DynamicName: (C: Character) => AssetName;
 	readonly DynamicGroupName: AssetGroupName;
 	readonly DynamicActivity: (C: Character) => ActivityName | null | undefined;
 	readonly DynamicAudio: ((C: Character) => string) | null;
@@ -1413,7 +1415,7 @@ interface Asset {
 	readonly AllowLockType: null | Partial<Record<string, Set<number>>>;
 	/** @deprecated Removed without replacement: items _must_ support a "color all layers" button (to the extent that the item is colorable in the first place) */
 	readonly AllowColorizeAll?: never;
-	readonly AvailableLocations: readonly string[];
+	readonly AvailableLocations: readonly (RoomName | ServerChatRoomSpace)[];
 	readonly OverrideHeight?: Readonly<AssetOverrideHeight>;
 	readonly DrawLocks: boolean;
 	readonly AllowExpression?: readonly ExpressionName[];
@@ -1439,7 +1441,7 @@ interface Asset {
 /** See {@link CharacterAppearanceGetCurrentValue} */
 interface CharacterAppearanceValues {
 	/** See {@link Asset.Name} */
-	Name: string;
+	Name: AssetName;
 	/** See {@link Asset.Description} */
 	Description: string;
 	/** See {@link Asset.DefaultColor} and {@link Item.Color} */
@@ -1460,7 +1462,7 @@ type ItemBundle = ServerItemBundle;
 
 /** A tuple-based version of {@link ItemBundle} */
 type WardrobeItemBundle = [
-	Name: string,
+	Name: AssetName,
 	Group: AssetGroupName,
 	Color?: ItemColor,
 	Property?: ItemPropertiesMinimized,
@@ -1473,7 +1475,7 @@ interface ClipboardItemBundle {
 	/** The item's asset group name */
 	G: AssetGroupName;
 	/** The item's asset name */
-	A: string;
+	A: AssetName;
 	/** The item's color */
 	C: BCColor[];
 }
@@ -1590,7 +1592,7 @@ type InventoryIcon = (
 
 interface InventoryBundle {
 	Group: AssetGroupName;
-	Name: string
+	Name: AssetName;
 }
 
 type InventoryItem = InventoryBundle & Item;
@@ -1988,7 +1990,7 @@ interface Character {
 	BlinkFactor: number;
 	AllowItem: boolean;
 	/** A record with all asset- and type-specific permission settings */
-	PermissionItems: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>;
+	PermissionItems: Partial<Record<AssetFullPath, ItemPermissions>>;
 	HeightModifier: number;
 	MemberNumber?: number;
 	AllowedInteractions: AllowedInteractions;
@@ -2431,7 +2433,7 @@ interface PlayerCharacter extends OnlineCharacter {
 	ChatSearchFilterTerms: never;
 	GenderSettings: GenderSettingsType;
 	/** The list of items we got confiscated in the Prison */
-	ConfiscatedItems: { Group: AssetGroupName, Name: string }[];
+	ConfiscatedItems: { Group: AssetGroupName, Name: AssetName }[];
 	ExtensionSettings: ExtensionSettings;
 	ChatSearchSettings: ChatRoomSearchSettings;
 	RecentlyUsedMapElements: ChatRoomMapDoodad[];
@@ -3191,7 +3193,7 @@ interface AssetOverrideHeight {
  * Either a single number that will cause all of the asset's layer to
  * inherit that priority, or a more precise specifier keyed by layer name.
  */
-type AssetLayerOverridePriority = Record<string, number> | number;
+type AssetLayerOverridePriority = Partial<Record<LayerName | "", number>> | number;
 
 /**
  * Base properties of extended items derived from their respective {@link Asset} definition.
@@ -3248,12 +3250,12 @@ interface AssetDefinitionProperties {
 	 * Items that should be hidden by this item
 	 * @see {@link Asset.HideItem}
 	 */
-	HideItem?: string[];
+	HideItem?: AssetFullName[];
 	/**
 	 * Items that should not be hidden by this item
 	 * @see {@link Asset.HideItemExclude}
 	 */
-	HideItemExclude?: string[];
+	HideItemExclude?: AssetFullName[];
 	/**
 	 * Items groups that should be hidden by this item
 	 * @see {@link Asset.Hide}
@@ -3607,15 +3609,15 @@ interface ItemPropertiesCustom {
 }
 
 interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, ItemPropertiesCustom {
-	LayerTranslationX?: Record<string, number | undefined>;
+	LayerTranslationX?: Partial<Record<LayerName | "", number>>;
 	/** Translation Y */
-	LayerTranslationY?: Record<string, number | undefined>;
+	LayerTranslationY?: Partial<Record<LayerName | "", number>>;
 	/** Scale X */
-	LayerScaleX?: Record<string, number | undefined>;
+	LayerScaleX?: Partial<Record<LayerName | "", number>>;
 	/** Scale Y */
-	LayerScaleY?: Record<string, number | undefined>;
+	LayerScaleY?: Partial<Record<LayerName | "", number>>;
 	/** Rotation */
-	LayerRotation?: Record<string, number | undefined>;
+	LayerRotation?: Partial<Record<LayerName | "", number>>;
 }
 
 /** Properties in {@link ItemPropertiesMinimized} with a minimization format distinct from their representation {@link ItemProperties} */
@@ -4260,7 +4262,7 @@ type GGTSTask =
 
 // #region Audio
 
-type AudioSoundEffect = [string, number];
+type AudioSoundEffect = [sound: string, volume: number];
 
 interface AudioEffect {
 	/** The sound effect name */
@@ -4437,9 +4439,9 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	Opacity: number;
 	Property: ItemProperties;
 	A: Asset;
-	G: string;
+	G: "" | AssetName;
 	AG: AssetGroup;
-	L: string;
+	L: "" | LayerName;
 	Pose: AssetPoseName | NullPoseType;
 	LayerType: string;
 	BlinkExpression: string;
@@ -4461,7 +4463,7 @@ interface DynamicBeforeDrawOverrides {
 	X?: number;
 	Y?: number;
 	LayerType?: string;
-	L?: string;
+	L?: "" | LayerName;
 	AlphaMasks?: RectTuple[];
 	Pose?: AssetPoseName | NullPoseType;
 }
@@ -4663,7 +4665,7 @@ interface CraftingItem extends CraftingPartialItem {
 	/** The name of the lock or, if absent, an empty string. */
 	Lock: "" | AssetLockType;
 	/** The name of the item; see {@link Asset.Name}. */
-	Item: string;
+	Item: AssetName;
 	/**
 	 * The type of the crafted item; only relevant for extended items and should be an empty string otherwise.
 	 * @deprecated superseded by {@link CraftingItem.TypeRecord}. Old type strings can be convert to records via {@link ExtendedItemTypeToRecord}.
@@ -5223,7 +5225,7 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
 	AssetGroup?: AssetGroupItemName;
-	AssetName?: string;
+	AssetName?: AssetName;
 	IsVisible?: () => boolean;
 	BuildImageName?: (X: number, Y: number) => string;
 }

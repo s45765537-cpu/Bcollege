@@ -140,7 +140,7 @@ var AppearanceItem = {
 	/**
 	 * Construct an item from the passed group- and asset names
 	 * @param {AssetGroupName} groupName The asset's group name
-	 * @param {string} assetName The asset's name
+	 * @param {AssetName} assetName The asset's name
 	 * @param {null | Item.Options} options Further options
 	 * @returns {null | Item} The new item or `null` if no matching asset can be found
 	 */

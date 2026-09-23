@@ -41,7 +41,7 @@ const foo = {
 	ExtendedItemLoad: globalThis,
 	/** @type {{ [key in `Inventory${AssetGroupName}${string}Draw`]?: ExtendedItemCallbacks.Draw }} */
 	ExtendedItemDraw: globalThis,
-	/** @type {{ [key in `Inventor${AssetGroupName}${string}Click`]?: ExtendedItemCallbacks.Click }} */
+	/** @type {{ [key in `Inventory${AssetGroupName}${string}Click`]?: ExtendedItemCallbacks.Click }} */
 	ExtendedItemClick: globalThis,
 	/** @type {{ [key in `Inventory${AssetGroupName}${string}Exit`]?: ExtendedItemCallbacks.Exit }} */
 	ExtendedItemExit: globalThis,

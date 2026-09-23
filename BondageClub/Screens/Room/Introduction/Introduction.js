@@ -20,6 +20,7 @@ var IntroductionJobCount = 1;
 var IntroductionJobParam = null;
 /** @type {{ Active: boolean; X: number; Y: number } & ({} | { ClickScreen: string; ClickX: number; ClickY: number })} */
 var IntroductionJobPosition = { Active: false, X: 1000, Y: 1000 };
+/** @type {AssetLockType[]} */
 var IntroductionJobLockList = ["MetalPadlock", "IntricatePadlock", "TimerPadlock", "CombinationPadlock", "ExclusivePadlock"];
 /** @type {ModuleScreens["Room"][]} */
 var IntroductionJobSearchList = ["MaidQuarters", "LARP", "KidnapLeague", "SlaveMarket"];
@@ -300,7 +301,7 @@ function IntroductionJobGiveUp() {
  */
 function IntroductionJobLockType() {
 	if (!IntroductionJobParam) return;
-	var Item = AssetGet(Player.AssetFamily, "ItemMisc", IntroductionJobParam);
+	var Item = CommonIncludes(IntroductionJobLockList, IntroductionJobParam) ? AssetGet(Player.AssetFamily, "ItemMisc", IntroductionJobParam) : null;
 	if (Item != null) IntroductionMaid.CurrentDialog = DialogFind(IntroductionMaid, "JobLockType").replace("LockType", Item.Description);
 }
 

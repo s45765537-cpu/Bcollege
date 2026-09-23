@@ -29,6 +29,7 @@ var MainHallFirstFrame = true;
 /** @type {AssetLockType[]} */
 var MainHallStrongLocks = ["CombinationPadlock", "PasswordPadlock", "TimerPasswordPadlock", "HighSecurityPadlock"];
 
+/** @type {Partial<Record<AssetGroupName, AssetName>>[]} */
 var MainHallPunishmentList = [
 	{ItemMouth:"BallGag", ItemHead: "LeatherBlindfold", ItemHands: "DuctTape"},
 	{ItemMouth:"HarnessBallGag", ItemArms:"LeatherArmbinder",ItemLegs:"LegBinder",ItemPelvis:"PolishedChastityBelt",ItemBreast:"PolishedChastityBra",ItemVulva:"VibratingDildo",ItemBoots:"LockingHeels", ItemHead: "LeatherBlindfold", ItemHands: "LeatherMittens"},

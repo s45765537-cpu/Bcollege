@@ -241,7 +241,7 @@ const Shop2Consts = {
 	// NOTE: Initialized in `AssetLoadAll`
 	/**
 	 * A set with the group + asset names of all asset keys.
-	 * @type {Set<string>}
+	 * @type {Set<AssetFullName>}
 	 */
 	Keys: new Set(),
 

@@ -492,7 +492,7 @@ function gatherDuplicateOptionNames(options) {
  */
 function testModuleOptionLength(config) {
 	for (const { groupName, assetName, assetConfig } of flattenExtendedConfig(config)) {
-		switch (assetConfig.Archetype) {
+		switch (assetConfig?.Archetype) {
 			case "typed": {
 				testModuleOptionLengthTyped(groupName, assetName, assetConfig);
 				break;

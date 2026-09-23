@@ -68,6 +68,7 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 			let pose = CommonDrawResolveAssetPose(C, layer);
 
 			// If the layer belongs to a specific parent group, grab the group's current asset name to use it as a suffix
+			/** @type {"" | AssetName} */
 			let parentAssetName = "";
 			const parentGroupName =
 				pose ? layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT] : layer.ParentGroup[PoseType.DEFAULT];
@@ -235,6 +236,7 @@ function CommonDrawAppearanceBuild(
 		let pose = CommonDrawResolveAssetPose(C, layer);
 
 		// If the layer belongs to a specific parent group, grab the group's current asset name to use it as a suffix
+		/** @type {"" | AssetName} */
 		let parentAssetName = "";
 		const parentGroupName =
 			pose ? layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT] : layer.ParentGroup[PoseType.DEFAULT];

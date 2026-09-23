@@ -416,6 +416,7 @@ function PrisonMaidHevyTorture() {
  * @param {Character} C
  */
 function PrisonDisableKey(C) {
+	/** @type {AssetName[]} */
 	const keys = ["MetalCuffsKey", "MetalPadlockKey"];
 
 	for (const keyName of keys) {

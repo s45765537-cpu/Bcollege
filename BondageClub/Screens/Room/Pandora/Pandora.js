@@ -37,6 +37,7 @@ var PandoraPenitentiaryCreateTimer = 0;
 var PandoraPenitentiaryActivityList = ["Bondage", "Cage", "Chastity", "Detain", "Gag", "Hogtie", "Hose", "Lock", "Naked", "Spank", "Ungag", "Release", "Shibari", "Uncage", "Unchaste", "Unlock"];
 var PandoraPenitentiaryActivityTimer = 0;
 var PandoraPenitentiarySafewordRooms = [];
+/** @type {AssetName[]} */
 var PandoraPenitentiaryCageList = ["WoodenBox", "SmallWoodenBox", "Cage", "LowCage", "PersonalCage", "TheDisplayFrame", "TheHangingFrame", "WoodenBoxOpenHead", "SmallWoodenBoxOpenHead", "Kennel", "TransportWoodenBox"];
 var PandoraPenitentiaryStartNewRoom = false;
 
@@ -1486,7 +1487,7 @@ function PandoraPenitentiaryActivityRun(Activity) {
 
 	// Cage - Puts the player in a random cage from ItemDevices group
 	if (Activity == "Cage") {
-		InventoryWear(Player, CommonRandomItemFromList(null, PandoraPenitentiaryCageList), "ItemDevices");
+		InventoryWear(Player, CommonGetRandomItemFromList(PandoraPenitentiaryCageList), "ItemDevices");
 		PandoraPenitentiaryItemDifficulty(Player, "ItemDevices", Level);
 	}
 

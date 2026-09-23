@@ -675,7 +675,7 @@ function AudioPlaySoundForAsset(character, asset) {
  *
  * @param {Character} character
  * @param {AssetGroupName} groupName
- * @param {string} assetName
+ * @param {AssetName} assetName
  * @returns {AudioSoundEffect | null}
  */
 function AudioGetSoundFromAsset(character, groupName, assetName) {

@@ -14,7 +14,7 @@ var PreferenceVisibilityCanBlock = true;
 var PreferenceVisibilityPreviewAsset;
 /** @deprecated See {@link PreferenceSubscreenVisibilityOnResetClick}. */
 var PreferenceVisibilityResetClicked = false;
-/** @type {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} */
+/** @type {Partial<Record<AssetFullPath, ItemPermissions>>} */
 var PreferenceVisibilityRecord = {};
 
 const PreferenceSubscreenVisibilityIDs = Object.freeze({
@@ -145,7 +145,7 @@ function PreferenceSubscreenVisibilityBuildLayout() {
 	const groupSelect = ElementCreateSearchableDropdown(
 		PreferenceSubscreenVisibilityIDs.groupSelect,
 		groupOptions,
-		(value) => PreferenceSubscreenVisibilityOnGroupChange(value),
+		(value) => PreferenceSubscreenVisibilityOnGroupChange(/** @type {AssetGroupName} */(value)),
 		{
 			value: groupOptions[PreferenceVisibilityGroupIndex]?.value,
 			placeholder: TextGet("VisibilityGroup"),
@@ -290,7 +290,7 @@ function PreferenceSubscreenVisibilityBuildLayout() {
 
 /**
  * Builds the dropdown options for the group selector.
- * @returns {{ value: string, label: string, group: string }[]}
+ * @returns {{ value: AssetGroupName, label: string, group: "Appearance" | "Item" | "Script" }[]}
  */
 function PreferenceSubscreenVisibilityGetGroupOptions() {
 	return PreferenceVisibilityGroupList.map(({ Group }) => ({
@@ -303,7 +303,7 @@ function PreferenceSubscreenVisibilityGetGroupOptions() {
 /**
  * Builds the dropdown options for the asset selector based on the currently selected group.
  * @param {number} groupIndex
- * @returns {{ value: string, label: string }[]}
+ * @returns {{ value: AssetName, label: string }[]}
  */
 function PreferenceSubscreenVisibilityGetAssetOptions(groupIndex) {
 	const group = PreferenceVisibilityGroupList[groupIndex];
@@ -316,7 +316,7 @@ function PreferenceSubscreenVisibilityGetAssetOptions(groupIndex) {
 
 /**
  * Handles selection changes on the group dropdown.
- * @param {string} value
+ * @param {AssetGroupName} value
  */
 function PreferenceSubscreenVisibilityOnGroupChange(value) {
 	const newIndex = PreferenceVisibilityGroupList.findIndex(g => g.Group.Name === value);
@@ -346,7 +346,7 @@ function PreferenceSubscreenVisibilityOnGroupChange(value) {
 
 /**
  * Handles selection changes on the asset dropdown.
- * @param {string} value
+ * @param {AssetName} value
  */
 function PreferenceSubscreenVisibilityOnAssetChange(value) {
 	const group = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex];
@@ -498,7 +498,7 @@ function PreferenceVisibilityBlockChange() {
 
 /**
  * Adds or removes the current item to/from the list based on the new state of the corresponding checkbox
- * @param {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} permissionRecord - The record to add or remove the item from
+ * @param {Partial<Record<AssetFullPath, ItemPermissions>>} permissionRecord - The record to add or remove the item from
  * @param {boolean} CheckSetting - The new true/false setting of the checkbox
  * @param {"Hidden" | "Block"} Type
  */

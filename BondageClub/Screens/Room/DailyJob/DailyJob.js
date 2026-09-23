@@ -77,7 +77,7 @@ async function DailyJobLoad() {
 			if (!DailyJobDojoTeacher) {
 				DailyJobDojoTeacher = CharacterLoadNPC("NPC_DailyJob_DojoTeacher");
 				CharacterNaked(DailyJobDojoTeacher);
-				InventoryWear(DailyJobDojoTeacher, "ChineseDress" + (Math.floor(Math.random() * 2) + 1).toString(), "Cloth");
+				InventoryWear(DailyJobDojoTeacher, CommonGetRandomItemFromList(["ChineseDress1", "ChineseDress2"]), "Cloth");
 				InventoryWear(DailyJobDojoTeacher, "Ribbons4", "HairAccessory1");
 			}
 			break;

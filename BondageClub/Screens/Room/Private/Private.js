@@ -25,6 +25,7 @@ var PrivateNextLoveYou = 0;
 var PrivateLoverActivity = null;
 /** @type {PrivateActivityType[]} */
 var PrivateLoverActivityList = ["Skip1", "Skip2", "Kiss", "FrenchKiss", "Caress", "Rub", "MasturbateHand", "MasturbateTongue", "MasturbatePlayer", "MasturbateSelf", "Underwear", "Naked", "EggInsert", "LockBelt", "UnlockBelt", "EggSpeedUp", "EggSpeedDown", "Bed", "LoverLock", "LoverUnlock"];
+/** @type {AssetName[]} */
 var PrivateBeltList = ["LeatherChastityBelt", "SleekLeatherChastityBelt", "StuddedChastityBelt", "MetalChastityBelt", "PolishedChastityBelt", "OrnateChastityBelt", "SteelChastityPanties"];
 var PrivateEntryEvent = true;
 var PrivateClubCardVictoryMode = false;

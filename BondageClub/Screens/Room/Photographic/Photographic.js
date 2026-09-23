@@ -104,7 +104,7 @@ function PhotographicAppearanceAvailable(C, Group) {
 }
 
 /**
- * @param {string} Asset
+ * @param {AssetName} Asset
  * @param {AssetGroupName} Group
  * @deprecated
  */
@@ -124,7 +124,7 @@ function PhotographicPlayerRelease() {
 }
 
 /**
- * @param {string} Asset
+ * @param {AssetName} Asset
  * @param {AssetGroupName} Group
  * @deprecated
  */

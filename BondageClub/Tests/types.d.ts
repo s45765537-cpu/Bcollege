@@ -7,7 +7,7 @@ type ColorAssetMock = (
 );
 
 type AssetName = string;
-type AssetString = `${AssetGroupName}/${AssetName}`;
+type AssetString = AssetFullPath;
 
 interface AccountCreationData {
 	InputCharacter: string;
