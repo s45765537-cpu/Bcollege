@@ -1059,7 +1059,7 @@ function ServerSendBeepMessage(target, msg, options) {
  * @param {string} message
  * @param {number} duration
  * @param {object} [options]
- * @param {(this: HTMLDivElement, event: MouseEvent) => void} [options.onClick]
+ * @param {(this: HTMLDivElement, event: PointerEvent) => void} [options.onClick]
  * @param {number} [options.memberNumber]
  * @param {string} [options.memberName]
  * @param {string} [options.chatRoomName]

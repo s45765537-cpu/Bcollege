@@ -58,7 +58,7 @@ LabelDelete,Delete
 LabelReorder,Reorder
 LabelSelectCraft,Select crafting mode
 LabelSlot,Edit
-Layering,Change item layering
+Layering,Change item positioning
 ModeAcceptDelete,Delete Mode:{br}{click} or {shift} + {click} on the to-be deleted crafting slot(s) and then click this button to confirm their {permanent} deletion
 ModeAcceptReorder,"Reorder Mode:{br}{click} or {shift} + {click} on the to-be moved crafting slot(s), drag-and-drop them to their desired position and then click this button to confirm their movement"
 ModeAcceptSlot,"Edit Mode:{br}{click} on a crafting slot to modify a craft or, when empty, to create a new one"

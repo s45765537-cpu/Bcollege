@@ -1066,7 +1066,7 @@ var CraftingEventListeners = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+	 * @type {(this: HTMLButtonElement, ev: PointerEvent) => void}
 	 */
 	_ClickGroup: function _ClickGroup(ev) {
 		const groupName = /** @type {AssetGroupItemName} */(this.name);
@@ -1088,7 +1088,7 @@ var CraftingEventListeners = {
 			);
 
 			// Make sure that the asset panel is open and scroll to the top
-			document.querySelector(`#${CraftingID.assetButton}[aria-checked="false"]`)?.dispatchEvent(new MouseEvent("click"));
+			document.querySelector(`#${CraftingID.assetButton}[aria-checked="false"]`)?.dispatchEvent(new PointerEvent("click"));
 			assetList.scrollTo({ top: 0 });
 		} else {
 			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(TextGet("SelectItem"));
@@ -2225,11 +2225,14 @@ function CraftingExitResetElements() {
 
 	// Clear all search inputs and undo their filtering
 	const searchInputs = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll(`#${CraftingID.leftPanel} input[type='search']`));
-	searchInputs.forEach((searchInp) => searchInp.value ||= "");
+	for (const searchInput of searchInputs) {
+		searchInput.value = "";
+		searchInput.dispatchEvent(new Event("input"));
+	}
 
 	const focusGroup = document.querySelector(`#${CraftingID.centerPanel} [role='radio'][aria-checked='true']`);
 	if (focusGroup) {
-		focusGroup.dispatchEvent(new MouseEvent("click"));
+		focusGroup.dispatchEvent(new PointerEvent("click"));
 		document.querySelectorAll(`#${CraftingID.assetGrid} [data-hidden-group]`).forEach(e => e.toggleAttribute("data-hidden-group", false));
 	}
 
@@ -2268,8 +2271,8 @@ function CraftingExit(allowPanelClose=true) {
 			const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
 			const activeGroup = document.querySelector(`#${CraftingID.centerPanel} [aria-checked='true']`);
 			if ((activePanel || activeGroup) && allowPanelClose) {
-				activePanel?.dispatchEvent(new MouseEvent("click"));
-				activeGroup?.dispatchEvent(new MouseEvent("click"));
+				activePanel?.dispatchEvent(new PointerEvent("click"));
+				activeGroup?.dispatchEvent(new PointerEvent("click"));
 			} else {
 				CraftingExitResetElements();
 				CraftingUnload();
@@ -2691,9 +2694,9 @@ var CraftingValidationRecord = {
 /**
  * @overload
  * @param {CraftingPartialItem} Craft
- * @param {Asset | null} [asset]
- * @param {boolean} [Warn]
- * @param {boolean} [checkPlayerInventory]
+ * @param {Asset | null | undefined} asset
+ * @param {boolean | undefined} Warn
+ * @param {boolean | undefined} checkPlayerInventory
  * @param {true} partial
  * @return {CraftingStatusType}
  *//**

@@ -1575,7 +1575,7 @@ var ElementButton = {
 	 * Click event listener for spin buttons.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/spinbutton_role
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+	 * @type {(this: HTMLButtonElement, ev: PointerEvent) => void}
 	 */
 	_ClickSpin: function _ClickSpin(ev) {
 		const min = Number.parseInt(this.getAttribute("aria-valuemin") ?? "", 10);

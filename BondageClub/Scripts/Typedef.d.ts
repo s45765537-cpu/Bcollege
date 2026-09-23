@@ -217,7 +217,7 @@ declare namespace ElementButton {
 		/** Whether the button should be disabled or not */
 		disabled?: boolean;
 		/** A click event listener to-be fired when a button is disabled via `aria-disabled: "true"`. */
-		clickDisabled?: (this: HTMLButtonElement, event: MouseEvent) => any;
+		clickDisabled?: (this: HTMLButtonElement, event: PointerEvent) => any;
 		/**
 		 * Enabled buttons with a `checkbox` or `radio` role can normally not be clicked if the `aria-required: "true"` is set.
 		 * Setting this option to `true` disables that behavior, clicking an already enabled button thus firing its click events once again rather than aborting.
@@ -499,7 +499,7 @@ declare namespace DialogMenu {
 		 * @param properties The {@link InitProperties} associated with the specific dialog menu
 		 * @param equippedItem The equipped item in question (if any)
 		 */
-		click: (button: HTMLButtonElement, ev: MouseEvent, properties: T, equippedItem?: Item | null) => any;
+		click: (button: HTMLButtonElement, ev: PointerEvent, properties: T, equippedItem?: Item | null) => any;
 		/** An object mapping labels to custom validation functions for button clicks. */
 		validate?: Record<string, MenuButtonValidator<T>>;
 	}
@@ -5083,7 +5083,7 @@ interface NotificationData {
 interface NotificationBeep {
 	Message: string;
 	Duration: number;
-	ClickHandler?: (event: MouseEvent) => void;
+	ClickHandler?: (event: PointerEvent) => void;
 	Silent?: boolean;
 	/** Internal use; timer that is set when the beep first appears on screen */
 	Timer?: number;
