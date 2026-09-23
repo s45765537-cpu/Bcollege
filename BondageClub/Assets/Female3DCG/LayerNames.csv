@@ -2215,6 +2215,13 @@ ItemHandheldWipesPackage,Package
 ItemHandheldWipesInlet,Inlet
 ItemHandheldWipesText,Text
 ItemHandheldMiniDollsHaruhi,Doll
+ItemHandheldToyHammerHandle,Handle
+ItemHandheldToyHammerHammer,Hammer
+ItemHandheldToyHammerHandleReflection,Handle Reflection
+ItemHandheldToyHammerHammerReflection,Hammer Reflection
+ItemHandheldToyHammerBubbleEdge,Bubble Edge
+ItemHandheldToyHammerInnerBubble,Inner Bubble
+ItemHandheldToyHammerBonk!,Bonk!
 ItemHandsBalletBootsMittensRight,Right hand
 ItemHandsBalletBootsMittensSRight,Right shine
 ItemHandsBalletBootsMittensLeft,Left hand
