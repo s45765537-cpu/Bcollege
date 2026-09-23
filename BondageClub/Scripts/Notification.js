@@ -177,14 +177,16 @@ var NotificationAudioTypeList = [];
  */
 function NotificationLoad() {
 	// Create the list of event handlers
-	// @ts-ignore: record values are initialized in subsequent `NotificationEventHandlerSetup` ca;;s
-	NotificationEventHandlers = {};
-	NotificationEventHandlerSetup(NotificationEventType.CHATMESSAGE, Player.NotificationSettings.ChatMessage);
-	NotificationEventHandlerSetup(NotificationEventType.CHATJOIN, Player.NotificationSettings.ChatJoin);
-	NotificationEventHandlerSetup(NotificationEventType.BEEP, Player.NotificationSettings.Beeps);
-	NotificationEventHandlerSetup(NotificationEventType.DISCONNECT, Player.NotificationSettings.Disconnect);
-	NotificationEventHandlerSetup(NotificationEventType.TEST, Player.NotificationSettings.Test);
-	NotificationEventHandlerSetup(NotificationEventType.LARP, Player.NotificationSettings.Larp);
+	/** @type {[type: NotificationEventType, setting: NotificationSetting][]} */
+	const eventPairs = [
+		[NotificationEventType.CHATMESSAGE, Player.NotificationSettings.ChatMessage],
+		[NotificationEventType.CHATJOIN, Player.NotificationSettings.ChatJoin],
+		[NotificationEventType.BEEP, Player.NotificationSettings.Beeps],
+		[NotificationEventType.DISCONNECT, Player.NotificationSettings.Disconnect],
+		[NotificationEventType.TEST, Player.NotificationSettings.Test],
+		[NotificationEventType.LARP, Player.NotificationSettings.Larp],
+	];
+	NotificationEventHandlers = CommonFromEntries(eventPairs.map(([k, v]) => [k, new NotificationEventHandler(k, v)]));
 
 	// Create the alert and audio type lists for the Preferences screen
 	NotificationAlertTypeList = Object.values(NotificationAlertType);

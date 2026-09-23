@@ -71,6 +71,7 @@ const MAX_KNOWN_AXIS = 4;
  * Default button name to gamepad button index mapping
  *
  * The player's calibrated config will be read from their preferences.
+ * @satisfies {Record<ControllerButton, number>}
  */
 const ControllerButtonMapping = {
 	[ControllerButton.A]: 0,
@@ -96,6 +97,7 @@ const ControllerButtonMapping = {
  * Default axis name to gamepad axis index mapping
  *
  * The player's calibrated config will be read from their preferences.
+ * @satisfies {Record<ControllerAxis, number>}
  */
 const ControllerAxisMapping = {
 	[ControllerAxis.StickLV]: 1,
@@ -122,6 +124,7 @@ var ControllerDeadZone = 0.01;
  * At which stage of the calibration we are
  *
  * -1 means we're not calibrating
+ * @type {-1 | ControllerButton}
  */
 var ControllerCalibrationStage = -1;
 
@@ -402,8 +405,7 @@ function ControllerProcessButton(buttons) {
 
 	handleButton(ControllerButton.A, () => {
 		if (!ControllerDPadAsAxisWorkaround) return;
-		// @ts-ignore Strict-TS: Trigger a fake click event
-		CommonClick(null);
+		CommonClick(new PointerEvent("click"));
 	});
 	handleButton(ControllerButton.B, () => {
 		const fakeEvent = new KeyboardEvent("Escape", { code: "Escape" });
@@ -470,7 +472,7 @@ function ControllerStartCalibration(type) {
  */
 function ControllerCalibrationNextStage(skip = false) {
 	const isAxis = ControllerCalibrationStage >= ControllerCalibrationAxisOffset;
-	const stage = isAxis ? ControllerCalibrationStage - ControllerCalibrationAxisOffset : ControllerCalibrationStage;
+	const stage = /** @type {ControllerButton | ControllerAxis} */(isAxis ? ControllerCalibrationStage - ControllerCalibrationAxisOffset : ControllerCalibrationStage);
 
 	if (skip) {
 		// We're skipping, unset the value for that input
@@ -478,7 +480,6 @@ function ControllerCalibrationNextStage(skip = false) {
 			// @ts-ignore Strict-TS: the initialization above and the check below should ensure we stay in bounds
 			ControllerAxisMapping[stage] = -1;
 		} else {
-			// @ts-ignore Strict-TS: the initialization above and the check below should ensure we stay in bounds
 			ControllerButtonMapping[stage] = -1;
 		}
 	}

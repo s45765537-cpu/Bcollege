@@ -8,7 +8,6 @@
 var MapLookupData = {
 	get mapData() {
 		if (ChatRoomData?.MapData == null) throw new Error("ChatRoomData.MapData is null");
-		// @ts-ignore this cannot be null because error is thrown
 		return ChatRoomData.MapData;
 	},
 	set mapData(value) {

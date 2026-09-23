@@ -277,17 +277,17 @@ function PreferenceInitPlayer(C, data) {
 	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);
 	C.AudioSettings = ValidationApplyRecord(data.AudioSettings, C, PreferenceAudioSettingsValidate);
 
-	// @ts-ignore: Just backward-compat cleanup
+	// @ts-expect-error: Just backward-compat cleanup
 	delete data.ChatSettings?.AutoBanBlackList;
-	// @ts-ignore: Just backward-compat cleanup
+	// @ts-expect-error: Just backward-compat cleanup
 	delete data.ChatSettings?.AutoBanGhostList;
-	// @ts-ignore: Just backward-compat cleanup
+	// @ts-expect-error: Just backward-compat cleanup
 	delete data.ChatSettings?.SearchFriendsFirst;
-	// @ts-ignore: Just backward-compat cleanup
+	// @ts-expect-error: Just backward-compat cleanup
 	delete data.ChatSettings?.DisableAnimations;
-	// @ts-ignore: Just backward-compat cleanup
+	// @ts-expect-error: Just backward-compat cleanup
 	delete data.ChatSettings?.SearchShowsFullRooms;
-	// @ts-ignore: Just backward-compat cleanup
+	// @ts-expect-error: Just backward-compat cleanup
 	delete data.OnlineSettings?.EnableWardrobeIcon;
 	C.ChatSettings = ValidationApplyRecord(data.ChatSettings, C, PreferenceChatSettingsValidate);
 
@@ -311,7 +311,8 @@ function PreferenceInitPlayer(C, data) {
 		};
 		ControllerLoadMapping(buttonsMapping, axisMapping);
 		// Delete the old mapping
-		const oldKeys = [
+
+		const oldKeys = /** @type {never[]} */([
 			"ControllerA",
 			"ControllerB",
 			"ControllerX",
@@ -324,9 +325,8 @@ function PreferenceInitPlayer(C, data) {
 			"ControllerDPadDown",
 			"ControllerDPadLeft",
 			"ControllerDPadRight",
-		];
+		]);
 		for (const old of oldKeys) {
-			// @ts-ignore Strict-TS: key-based access to delete old properties
 			delete data.ControllerSettings[old];
 		}
 		// @ts-expect-error we don't have all the buttons
@@ -397,8 +397,7 @@ function PreferenceInitPlayer(C, data) {
 
 	for (const [prop, stringPrefBefore] of CommonEntries(PrefBefore))
 		if (JSON.stringify(C[prop]) !== stringPrefBefore)
-			// @ts-expect-error Comparing objects key by key
-			toUpdate[prop] = data[prop];
+			/** @type {Unknown<typeof toUpdate>} */(toUpdate)[prop] = data[prop];
 
 	if (CommonVersionUpdated && (toUpdate != null) && (toUpdate.OnlineSharedSettings != null))
 		toUpdate.OnlineSharedSettings.GameVersion = GameVersion;

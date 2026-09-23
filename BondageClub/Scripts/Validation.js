@@ -162,14 +162,13 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 
 	let item = newItem;
 	CommonAssign(sanitizedProperty, newProperty);
-	const propertyNames = Object.keys(sanitizedProperty);
+	const propertyNames = CommonKeys(sanitizedProperty);
 
 	// Strip out any invalid properties
 	for (const propertyName of propertyNames) {
 		if (!ValidationScriptableProperties.includes(propertyName)) {
 			console.error(`Stripping invalid scripted property: ${propertyName}`);
 			valid = false;
-			// @ts-ignore Strict-TS
 			delete sanitizedProperty[propertyName];
 		}
 	}
@@ -185,7 +184,7 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 		} else {
 			// Otherwise if there were unpermitted property modifications, revert them
 			for (const propertyName of unpermittedPropertyModifications) {
-				sanitizedProperty[propertyName] = /** @type {never} */(previousProperty[propertyName]);
+				/** @type {Unknown<ItemProperties>} */(sanitizedProperty)[propertyName] = previousProperty[propertyName];
 			}
 			const scriptItem = InventoryItemCreate(C, "ItemScript", "Script");
 			if (scriptItem) {
@@ -349,7 +348,6 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 			if (!previousKeys.includes(key)) {
 				console.error(`Invalid modification of property "${key}" for item ${warningSuffix}`);
 				valid = false;
-				// @ts-ignore Strict-TS
 				delete newProperty[key];
 			}
 		});
@@ -512,8 +510,7 @@ function ValidationRollbackInvalidLockProperties(sourceProperty, targetProperty,
  */
 function ValidationCloneLock(sourceProperty, targetProperty) {
 	for (const key of ValidationAllLockProperties) {
-		// @ts-ignore TS-Strict
-		targetProperty[key] = sourceProperty[key];
+		/** @type {Unknown<ItemProperties>} */(targetProperty)[key] = sourceProperty[key];
 	}
 }
 
@@ -527,8 +524,7 @@ function ValidationCloneLock(sourceProperty, targetProperty) {
  */
 function ValidationCopyProperty(sourceProperty, targetProperty, key) {
 	if (sourceProperty[key] != null && !CommonDeepEqual(targetProperty[key], sourceProperty[key])) {
-		// @ts-ignore TS-Strict
-		targetProperty[key] = sourceProperty[key];
+		/** @type {Unknown<ItemProperties>} */(targetProperty)[key] = sourceProperty[key];
 		return true;
 	}
 	return false;
@@ -989,13 +985,13 @@ function ValidationSanitizeAllowedPropertyArray(C, item, propertyName, allowProp
 	const allowProperty = item.Asset[allowPropertyName] || [];
 
 	// Any entry must be included in the allow list to be permitted
-	property[propertyName] = /** @type {never} */(propertyValue.filter((i) => {
+	/** @type {Unknown<ItemProperties>} */(property)[propertyName] = propertyValue.filter((i) => {
 		if (!assetProperty.includes(i) && !allowProperty.includes(i)) {
 			console.error(`Filtering out invalid ${propertyName} entry on ${item.Asset.Name}:`, propertyValue);
 			changed = true;
 			return false;
 		} else return true;
-	}));
+	});
 	return changed;
 }
 
@@ -1038,8 +1034,7 @@ function ValidationSanitizeStringArray(property, key) {
 	const value = property[key];
 	let changed = false;
 	if (Array.isArray(value)) {
-		// @ts-ignore TS-Strict
-		property[key] = value.filter(str => {
+		/** @type {Unknown<ItemProperties>} */(property)[key] = value.filter(str => {
 			if (typeof str !== "string") {
 				console.error(`Filtering out invalid ${key} entry:`, str);
 				changed = true;

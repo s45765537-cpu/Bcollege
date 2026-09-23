@@ -52,11 +52,10 @@ function GLDrawLoad(_evt, force2d = false) {
 	// Find a GL version that works
 	const glOpts = GLDrawGetOptions();
 	let gl = null;
-	for (const glVersion of ["webgl2", "webgl"]) {
+	for (const glVersion of /** @type {const} */(["webgl2", "webgl"])) {
 		gl = GLDrawCanvas.getContext(glVersion, glOpts);
 		if (gl) {
 			// Found, save the version
-			/* @ts-ignore */
 			GLVersion = glVersion;
 			break;
 		}

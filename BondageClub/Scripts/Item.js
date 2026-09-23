@@ -279,8 +279,7 @@ function ItemPropertiesCompress(item, options=null) {
 				if (lockProperties.has(key)) {
 					// FIXME: Ensure that `ExtendedItemInit()` also calls the lock's `Init()` function so that undefined values are re-initialized
 					// Currently it fails to do so due to locks not being their own item; piggy backing off of an actual item instead
-					// @ts-expect-error
-					ret[key] = propertyValue;
+					/** @type {Unknown<typeof ret>} */(ret)[key] = propertyValue;
 					break;
 				}
 
@@ -292,8 +291,7 @@ function ItemPropertiesCompress(item, options=null) {
 				} else {
 					// TODO: Better handle objects here (e.g. the variable height `OverrideHeight` property; variable height in general could use a review)
 					if (baselineValue !== propertyValue) {
-						// @ts-expect-error
-						ret[key] = propertyValue;
+						/** @type {Unknown<typeof ret>} */(ret)[key] = propertyValue;
 					}
 				}
 				break;

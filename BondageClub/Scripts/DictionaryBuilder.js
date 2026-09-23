@@ -47,9 +47,8 @@ class DictionaryBuilder {
 	 * @returns {this}
 	 */
 	sourceCharacter(character) {
-		if (!this._condition) return this;
+		if (!this._condition || !(character.IsOnline() || character.IsPlayer())) return this;
 		/** @type {SourceCharacterDictionaryEntry} */
-		// @ts-ignore Strict-TS: Character doesn't have a MemberNumber
 		const entry = { SourceCharacter: character.MemberNumber };
 		if (character.IsPlayer() && ChatRoomMapViewHasSuperPowers() && ChatRoomMapViewIsActive()) {
 			entry.HasSuperPowers = true;
@@ -83,10 +82,9 @@ class DictionaryBuilder {
 	 * @returns {this}
 	 */
 	targetCharacter(character, index) {
-		if (!this._condition) return this;
+		if (!this._condition || !(character.IsOnline() || character.IsPlayer())) return this;
 
 		/** @type {TargetCharacterDictionaryEntry} */
-		// @ts-ignore Strict-TS: Character doesn't have a MemberNumber
 		const entry = {TargetCharacter: character.MemberNumber};
 		if (this._targetIndex) {
 			entry.Index = this._targetIndex;

@@ -719,13 +719,10 @@ function WardrobeFastLoad(C, W, Update = false, Options = {}) {
 
 		const item = CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0);
 		if (item && w.Property) {
-			item.Property ??= {};
-			for (const key of CommonKeys(w.Property)) {
-				if (key !== "Expression") {
-					// @ts-ignore Strict-TS
-					item.Property[key] = w.Property[key];
-				}
-			}
+			// TODO: Add a property blacklist to `ItemPropertiesDecompress()`
+			const expression = item.Property.Expression;
+			item.Property = ItemPropertiesDecompress(item, w.Property);
+			item.Property.Expression = expression;
 		}
 	}
 

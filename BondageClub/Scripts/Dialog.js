@@ -2346,7 +2346,6 @@ function DialogClick(event) {
 
 	// If the user clicked the Up button, move the character up to the top of the screen
 	if ((CurrentCharacter.HeightModifier < -90 || CurrentCharacter.HeightModifier > 30) && (CurrentCharacter.FocusGroup != null) && MouseIn(510, 50, 90, 90)) {
-		// @ts-ignore Strict-TS: CharacterAppearanceForceUpCharacter must change. Only online characters have member numbers
 		CharacterAppearanceForceUpCharacter = CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber ? -1 : CurrentCharacter.MemberNumber;
 		return;
 	}
@@ -3097,8 +3096,7 @@ class DialogMenu {
 		const currentProp = CommonPick(/** @type {Partial<PropType>} */(this._initProperties ?? {}), this._initPropertyNames);
 		const newProp = CommonPick(properties, this._initPropertyNames);
 		for (const k of Object.keys(newProp)) {
-			// @ts-ignore Strict-TS: direct property access to initialize
-			newProp[k] ??= currentProp[k];
+			/** @type {Unknown<typeof newProp>} */(newProp)[k] ??= currentProp[k];
 		}
 
 		const root = document.getElementById(this.ids.root);
