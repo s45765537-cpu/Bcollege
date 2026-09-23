@@ -56,6 +56,7 @@ var AudioList = [
 	{ Name: "Shocks", File: "Shocks" },
 	{ Name: "SmackCrop", File: ["SmackCrop1", "SmackCrop2", "SmackCrop3"] },
 	{ Name: "Squeak", File: "SqueakToy" },
+	{ Name: "SqueakyToy", File: "SqueakyToy" },
 	{ Name: "Whip1", File: "SmackWhip1" },
 	{ Name: "Whip2", File: "SmackWhip2" },
 	{ Name: "Sybian", File: "Sybian" },
@@ -675,7 +676,7 @@ function AudioPlaySoundForAsset(character, asset) {
  *
  * @param {Character} character
  * @param {AssetGroupName} groupName
- * @param {AssetName} assetName
+ * @param {string} assetName
  * @returns {AudioSoundEffect | null}
  */
 function AudioGetSoundFromAsset(character, groupName, assetName) {
