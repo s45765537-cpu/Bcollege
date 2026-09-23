@@ -6024,6 +6024,7 @@ var AssetFemale3DCGExtended = {
 				Header: "SlaveCollarSelectType",
 			},
 			ScriptHooks: {
+				Init: InventoryItemNeckSlaveCollarInitHook,
 				Load: InventoryItemNeckSlaveCollarLoadHook,
 				Draw: InventoryItemNeckSlaveCollarDrawHook,
 				Click: InventoryItemNeckSlaveCollarClickHook,

@@ -1275,6 +1275,7 @@ const ExtendedItemGatherOptions = (function () {
 		const archetype = data.archetype;
 		switch (archetype) {
 			case ExtendedArchetype.NOARCH: {
+				typeKeySet.delete("noarch");
 				newOptions.push({
 					Name: "NewOption",
 					OptionType: "NoArchItemOption",
