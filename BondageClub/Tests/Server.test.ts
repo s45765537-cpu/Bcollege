@@ -100,11 +100,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 				Name: "Bob",
 				Description: "I am a description",
 				Effects: {},
-				Color: "Default",
-				Lock: "",
-				Item: "Foo",
 				Private: false,
-				ItemProperty: { Difficulty: 5 },
 			},
 		});
 	});

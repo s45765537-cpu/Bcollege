@@ -778,6 +778,12 @@ function ServerBundledItemFromAppearanceItem(item) {
 		outputColor = inputColor;
 	}
 
+	/** @type {undefined | CraftingPartialItem} */
+	let craft = undefined;
+	if (item.Craft) {
+		craft = CommonPick(item.Craft, ["Name", "MemberName", "MemberNumber", "Description", "Effects", "Private"]);
+	}
+
 	const property = ItemPropertiesCompress(item);
 	return {
 		Group: item.Asset.Group.Name,
@@ -785,7 +791,7 @@ function ServerBundledItemFromAppearanceItem(item) {
 		Difficulty: !item.Difficulty ? undefined : item.Difficulty,
 		Color: outputColor,
 		Property: Object.keys(property ?? {}).length > 0 ? property : undefined,
-		Craft: item.Craft,
+		Craft: craft,
 	};
 }
 
