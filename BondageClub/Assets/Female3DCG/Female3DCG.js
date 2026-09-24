@@ -42989,6 +42989,25 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "ShortStraightPiercings",
+				InventoryID: 1409,
+				Fetish: ["Metal"],
+				Value: 6,
+				Difficulty: 10,
+				Time: 15,
+				AllowLock: true,
+				Prerequisite: ["AccessBreast", "AccessBreastSuitZip"],
+				ExpressionTrigger: [
+					{ Name: "Closed", Group: "Eyes", Timer: 5 },
+					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "短穿环",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",
