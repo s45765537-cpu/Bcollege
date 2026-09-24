@@ -254,10 +254,6 @@ function ItemPropertiesCompress(item, options=null) {
 					if (v) {
 						allDefault = false;
 						typeRecord[k] = v;
-					} else {
-						// TODO: Remove this `else` branch once R132 is live and rely on absent values implictly being 0
-						// This is needed due to `ModularItemInit()` failing to handle partial typerecords prior to this commit (<= R131)
-						typeRecord[k] = v;
 					}
 				}
 				if (!allDefault) {
