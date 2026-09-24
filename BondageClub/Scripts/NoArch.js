@@ -76,6 +76,13 @@ function NoArchCreateNoArchItemData(asset, {
 		BaselineProperty.RemoveTimer ??= 0;
 	}
 
+	if (asset.IsLock) {
+		BaselineProperty.LockedBy ??= /** @type {AssetLockType} */(asset.Name);
+		BaselineProperty.LockMemberNumber ??= -1;
+		BaselineProperty.LockMemberName ??= "";
+		BaselineProperty.LockMessage ??= "";
+	}
+
 	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}${parentOption == null ? "" : parentOption.Name}`;
 	return NoArchItemDataLookup[key] = {
@@ -125,6 +132,13 @@ const NoArch = {
 			if (item.Property[name] === undefined) {
 				update = true;
 				CommonAssign(item.Property, { [name]: value });
+			}
+		}
+
+		if (item.Property.LockedBy && item.Asset.AllowLock) {
+			if (!item.Property.Effect?.includes("Lock")) {
+				update = true;
+				CommonArrayConcatDedupe(item.Property.Effect ??= [], ["Lock"]);
 			}
 		}
 

@@ -15,6 +15,7 @@ const asset = {
 
 beforeAll(async () => {
 	const ret = await Game.loadAll();
+	Game._ItemPropertiesR134Compression = true;
 	extendedAsset = Game.AssetGet("Female3DCG", "ItemPelvis", "ModularChastityBelt");
 	if (!extendedAsset) {
 		throw new Error(`Failed to retrieve asset "ItemPelvis/ModularChastityBelt"`);
@@ -222,8 +223,14 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.Effect, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.Effect ?? []));
 		expect(itemRestored?.Property?.Password, "bundle to item re-conversion").toEqual(finalItemProperty.Password);
 		expect(itemRestored?.Property?.LockSet, "bundle to item re-conversion").toEqual(finalItemProperty.LockSet);
+		expect(itemRestored?.Property?.LockMessage, "bundle to item re-conversion").toEqual(finalItemProperty.LockMessage);
 		expect(itemRestored?.Property?.Hint, "bundle to item re-conversion").toEqual(finalItemProperty.Hint);
 		expect(itemRestored?.Property?.RemoveOnUnlock, "bundle to item re-conversion").toEqual(finalItemProperty.RemoveOnUnlock);
+		expect(itemRestored?.Property?.ShowTimer, "bundle to item re-conversion").toEqual(finalItemProperty.ShowTimer);
+		expect(itemRestored?.Property?.RemoveTimer, "bundle to item re-conversion").toEqual(finalItemProperty.RemoveTimer);
+		expect(itemRestored?.Property?.MemberNumberListKeys, "bundle to item re-conversion").toEqual(finalItemProperty.MemberNumberListKeys);
+		expect(itemRestored?.Property?.EnableRandomInput, "bundle to item re-conversion").toEqual(finalItemProperty.EnableRandomInput);
+		expect(itemRestored?.Property?.MemberNumberList, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.MemberNumberList ?? []));
 	});
 
 	it("script item", () => {
