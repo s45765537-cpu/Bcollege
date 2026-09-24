@@ -373,7 +373,13 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 
 	// Initialize the extended item data of archetypical items
 	if (ExtendedConfig) {
-		const assetBaseConfig = AssetFindExtendedConfig(ExtendedConfig, A.Group.Name, A.Name);
+		let assetBaseConfig = AssetFindExtendedConfig(ExtendedConfig, A.Group.Name, A.Name);
+		if (A.Group.HasExpression()) {
+			// Automatically convert expression groups to extended items, utilizing its baseline properties for `Expression`
+			A.Extended = true;
+			assetBaseConfig ??= { Archetype: ExtendedArchetype.NOARCH };
+			(assetBaseConfig.BaselineProperty ??= {}).Expression ??= null;
+		}
 		if (assetBaseConfig != null) {
 			try {
 				AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
