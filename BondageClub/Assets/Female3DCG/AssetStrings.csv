@@ -9440,6 +9440,19 @@ ItemMouthBallGag2Sets1,SourceCharacter changes the strap to a harness on Destina
 ItemMouthBallGag2Setb0,SourceCharacter changes the ball to a regular sized one on DestinationCharacter gag.
 ItemMouthBallGag2Setb1,SourceCharacter changes the ball to a large sized one on DestinationCharacter gag.
 ItemMouthBallGag2Setb2,SourceCharacter changes the ball to a XL sized one on DestinationCharacter gag.
+ItemNoseExpandingNoseHookA,Single
+ItemNoseExpandingNoseHookB,Single Exp.
+ItemNoseExpandingNoseHookC,Double
+ItemNoseExpandingNoseHookD,Double Exp.
+ItemNoseExpandingNoseHookE,Triple
+ItemNoseExpandingNoseHookF,Triple Exp.
+ItemNoseExpandingNoseHookSelect,Select the expanded nose hook style
+ItemNoseExpandingNoseHookSetA,SourceCharacter uses a single hook on DestinationCharacter nose.
+ItemNoseExpandingNoseHookSetB,SourceCharacter uses a single expanded hook on DestinationCharacter nose.
+ItemNoseExpandingNoseHookSetC,SourceCharacter uses a double hook on DestinationCharacter nose.
+ItemNoseExpandingNoseHookSetD,SourceCharacter uses a double expanded hook on DestinationCharacter nose.
+ItemNoseExpandingNoseHookSetE,SourceCharacter uses a triple hook on DestinationCharacter nose.
+ItemNoseExpandingNoseHookSetF,SourceCharacter uses a triple expanded hook on DestinationCharacter nose.
 ItemNoseNoseShackleModuleShackle,Shackle
 ItemNoseNoseShackleModuleAttachment,Attachment
 ItemNoseNoseShackleOptions0,Single Bar

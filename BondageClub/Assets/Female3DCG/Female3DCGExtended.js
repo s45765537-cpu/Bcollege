@@ -23542,6 +23542,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // NoseShackle
+		ExpandingNoseHook: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{ Name: "A" },
+				{ Name: "B" },
+				{ Name: "C" },
+				{ Name: "D" },
+				{ Name: "E" },
+				{ Name: "F" },
+			],
+		}, // ExpandingNoseHook
 	}, // ItemNose
 	Wings: {
 		SteampunkWings: {
