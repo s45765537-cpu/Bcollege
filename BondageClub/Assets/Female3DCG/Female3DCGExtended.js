@@ -10803,6 +10803,57 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // TransparentLatexHood
+		LatexHood: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Modules: [
+				{
+					Name: "Vision",
+					DrawImages: false,
+					Key: "l",
+					Options: [
+						{},
+						{
+							Property: {
+								Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe],
+							},
+						},
+					],
+				},
+				{
+					Name: "FrontHair",
+					DrawImages: false,
+					Key: "F",
+					Options: [{}, { Property: { Hide: ["HairFront"] } }],
+				},
+				{
+					Name: "BackHair",
+					DrawImages: false,
+					Key: "B",
+					Options: [{}, { Property: { Hide: ["HairBack"] } }],
+				},
+				{
+					Name: "HairAccEars",
+					DrawImages: false,
+					Key: "AC",
+					Options: [
+						{},
+						{
+							Property: {
+								Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3"],
+							},
+						},
+					],
+				},
+				{
+					Name: "Position",
+					DrawImages: false,
+					Key: "P",
+					Options: [{}, { Property: { OverridePriority: 12 } }],
+				},
+			],
+		}, // LatexHood
 	}, // ItemHood
 	Jewelry: {
 		NavelBar1: {

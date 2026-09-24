@@ -68338,6 +68338,36 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "LatexHood",
+				InventoryID: 1407,
+				Value: 18,
+				Gender: "F",
+				Top: 0,
+				Left: 0,
+				Difficulty: 6,
+				Time: 15,
+				AllowLock: true,
+				AllowTighten: true,
+				Audio: "BalloonStretch",
+				Fetish: ["Latex", "Masochism"],
+				Block: [],
+				Alpha: [
+					{
+						Group: ["Head"],
+						Masks: [
+							[194, 162, 24, 32],
+							[282, 162, 24, 32],
+						],
+						AllowTypes: { AC: 0 },
+					},
+				],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					OriginalName: "乳胶头套",
+					License: "CC BY-SA-NC 4.0",
+				},
+			},
 		],
 		Color: [
 			"Default",

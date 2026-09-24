@@ -4910,6 +4910,37 @@ ItemHoodLatexHabitSelect,Choose Fit
 ItemHoodLatexHabitSetLoose,SourceCharacter loosens DestinationCharacter latex habit.
 ItemHoodLatexHabitSetTight,SourceCharacter tightens DestinationCharacter latex habit.
 ItemHoodLatexHabitTight,Tight
+ItemHoodLatexHoodSelectBase,Configure the latex hood
+ItemHoodLatexHoodModuleVision,Vision
+ItemHoodLatexHoodModuleFrontHair,Front Hair
+ItemHoodLatexHoodModuleBackHair,Back Hair
+ItemHoodLatexHoodModuleHairAccEars,Acc. & Ears
+ItemHoodLatexHoodModulePosition,Position
+ItemHoodLatexHoodSelectVision,Allow or block vision
+ItemHoodLatexHoodOptionl0,Allow
+ItemHoodLatexHoodOptionl1,Block
+ItemHoodLatexHoodSelectFrontHair,Show or hide front hair
+ItemHoodLatexHoodOptionF0,Show
+ItemHoodLatexHoodOptionF1,Hide
+ItemHoodLatexHoodSelectBackHair,Show or hide back hair
+ItemHoodLatexHoodOptionB0,Show
+ItemHoodLatexHoodOptionB1,Hide
+ItemHoodLatexHoodSelectHairAccEars,Show or hide accessories & ears
+ItemHoodLatexHoodOptionAC0,Show
+ItemHoodLatexHoodOptionAC1,Hide
+ItemHoodLatexHoodSelectPosition,Wearing position
+ItemHoodLatexHoodOptionP0,Default
+ItemHoodLatexHoodOptionP1,Back
+ItemHoodLatexHoodSetl0,SourceCharacter changes DestinationCharacter latex hood to allow vision.
+ItemHoodLatexHoodSetl1,SourceCharacter changes DestinationCharacter latex hood to block vision.
+ItemHoodLatexHoodSetF0,SourceCharacter changes DestinationCharacter latex hood to show front hair.
+ItemHoodLatexHoodSetF1,SourceCharacter changes DestinationCharacter latex hood to hide front hair.
+ItemHoodLatexHoodSetB0,SourceCharacter changes DestinationCharacter latex hood to show back hair.
+ItemHoodLatexHoodSetB1,SourceCharacter changes DestinationCharacter latex hood to hide back hair.
+ItemHoodLatexHoodSetAC0,SourceCharacter changes DestinationCharacter latex hood to show ears and accessories.
+ItemHoodLatexHoodSetAC1,SourceCharacter changes DestinationCharacter latex hood to hide ears and accessories.
+ItemHoodLatexHoodSetP0,SourceCharacter changes DestinationCharacter latex hood wearing position.
+ItemHoodLatexHoodSetP1,SourceCharacter changes DestinationCharacter latex hood wearing position.
 ItemHoodOldGasMaskModuleAddons,Attachments
 ItemHoodOldGasMaskModuleLenses,Blinding Lenses
 ItemHoodOldGasMaskOptiona0,No attachment
