@@ -16,8 +16,8 @@ var IntroductionJobList = ["DomPuppy", "DomLock", "DomKidnap", "DomTrainer", "Su
 /** @type {IntroductionJobType | null} */
 var IntroductionJobCurrent = null;
 var IntroductionJobCount = 1;
-/** @type {null | string} */
-var IntroductionJobParam = null;
+/** @type {undefined | string} */
+var IntroductionJobParam = undefined;
 /** @type {{ Active: boolean; X: number; Y: number } & ({} | { ClickScreen: string; ClickX: number; ClickY: number })} */
 var IntroductionJobPosition = { Active: false, X: 1000, Y: 1000 };
 /** @type {AssetLockType[]} */
@@ -271,8 +271,8 @@ function IntroductionJobAnyAvailable() {
  */
 function IntroductionJobStart(JobName, JobCount) {
 	IntroductionJobCurrent = JobName;
-	IntroductionJobCount = parseInt(JobCount);
-	IntroductionJobParam = null;
+	IntroductionJobCount = JobCount;
+	IntroductionJobParam = undefined;
 	if (JobName == "DomLock") {
 		var Day = Math.floor(CurrentTime / (24 * 60 * 60 * 1000));
 		IntroductionJobParam = IntroductionJobLockList[Day % IntroductionJobLockList.length];
@@ -312,7 +312,7 @@ function IntroductionJobLockType() {
  * @param {boolean} [UniqueMember] - If the member number should be unique.
  * @returns {void} - Nothing
  */
-function IntroductionJobProgress(JobName, Param, UniqueMember) {
+function IntroductionJobProgress(JobName, Param = undefined, UniqueMember = false) {
 	if (UniqueMember && CurrentScreen !== "ChatRoom") return;
 	if (IntroductionJobCurrent === JobName && IntroductionJobParam === Param) {
 		if (UniqueMember && (!CurrentCharacter || CurrentCharacter.IsPlayer() || CurrentCharacter.MemberNumber !== undefined && IntroductionJobMember.indexOf(CurrentCharacter.MemberNumber) >= 0)) return;
