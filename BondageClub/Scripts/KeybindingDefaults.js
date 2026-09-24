@@ -332,7 +332,7 @@ var KeybindingDefaults = {
 			},
 			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
 			categoryId: 'chat',
-			readonly: true,
+			readonly: false,
 			defaultKeyCombo: {
 				key: 'PageUp',
 			}
@@ -345,7 +345,7 @@ var KeybindingDefaults = {
 			},
 			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
 			categoryId: 'chat',
-			readonly: true,
+			readonly: false,
 			defaultKeyCombo: {
 				key: 'PageDown',
 			}
