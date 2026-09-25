@@ -1,52 +1,56 @@
-﻿Select your appearance
+SelectYourAppearance
 Виберіть свій зовнішній вигляд
-Select TargetCharacterName's appearance
+SelectSomeoneAppearance
 Виберіть зовнішній вигляд гравця TargetCharacterName
-You must pick an item of type:
+MustPickItem
 Ви повинні вибрати елемент типу:
-Set wardrobe character name:
+WardrobeNameInfo
 Встановити ім'я персонажа гардеробу:
-Invalid name for character.
+WardrobeNameError
 Недійсне ім'я персонажа.
-Reset character
+ResetClothes
 Скинути персонажа
-Randomize clothes
+WearRandom
 Рандомізувати одяг
-Randomize character
+Random
 Рандомізувати персонажа
-Strip clothes
+Naked
 Роздягтися
-Show character in previews
+Character
 Показати персонажа у попередньому перегляді
-Strip item
+StripItem
 Зняти
-Reorder Items
+Swap
 Змінити порядок
 Next
 Наступна
-Previous
+Prev
 Попередня
-Cancel changes
+Cancel
 Скасувати зміни
-Accept changes
+Accept
 Прийняти зміни
 Wardrobe
 Гардероб
-Wardrobe can be bought in your private room.
+WardrobeDisabled
 Гардероб можна купити в особистій кімнаті.
-Edit item permissions
+PermissionMode
 Редагувати дозволи для предметів
-Use this item
+Use
 Використати предмет
-Unable to use due to player permissions
+UseDisabled
 Неможливо використати через дозволи гравця
-Select a color
+Reset
+Скинути персонажа
+ColorChange
 Вибрати колір
-Unable to change color due to player permissions
+ColorChangeDisabled
 Неможливо змінити колір через дозволи гравця
-Select colors
+ColorChangeMulti
 Вибрати кольори
-blocked by owner
+ColorChangeMultiDisabled
+Неможливо змінити колір через дозволи гравця
+OwnerBlock
 заблоковано власником
-Change item layering
+Layering
 Налаштувати шари предмету

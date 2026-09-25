@@ -1,176 +1,182 @@
-Select your displayed name and title
+SelectTitle
 Wähle deinen Namen und Titel aus
-Current title: TITLE
+CurrentTitle
 Aktueller Titel: TITLE
-Nickname (letters and spaces)
-Nickname (Buchstaben und Leerzeichen)
-Nickname locked by your owner
+NicknameLocked
 Nickname gesperrt durch deinen Besitzer
-Nickname is too long (max. 20 characters)
+NicknameTooLong
 Nickname ist zu lang (max. 20 Zeichen)
-Nickname contains invalid characters
+NicknameInvalidChars
 Nickname enthält ungültige Zeichen
-None
+TitleNone
 Nichts
-Mistress
+TitleMistress
 Herrin
+TitleMaster
 Master
-Master
-Club Slave
+TitleClubSlave
 Clubsklavin
-Head Maid
+TitleHeadMaid
 Hausdame
-Maid
+TitleMaid
 Hausmädchen
-Bondage Maid
+TitleBondageMaid
 Bondage-Hausmädchen
-Master Kidnapper
+TitleMasterKidnapper
 Meister Entführerin
-Kidnapper
+TitleKidnapper
 Entführerin
-Patient
+TitlePatient
 Patientin
-Permanent Patient
+TitlePermanentPatient
 Dauerhafte Patientin
-Escaped Patient
+TitleEscapedPatient
 Entlaufene Patientin
-Nurse
+TitleNurse
 Krankenschwester
-Doctor
+TitleDoctor
 Doktor
+TitleLadyLuck
 Lady Luck
-Lady Luck
+TitleLordFortune
 Lord Fortune
-Lord Fortune
+TitlePatron
 Patron
-Patron
-College Student
+TitleCollegeStudent
 College-Studentin
+TitleNawashi
 Nawashi
-Nawashi
+TitleHoudini
 Houdini
-Houdini
-Superheroine
+TitleAnimeGirl
 Superheldin
-Superhero
+TitleAnimeBoy
 Superheld
-Foal
+TitlePonyFoal
 Fohlen
-Farm Horse
+TitlePonyFarm
 Ackergaul
-Cold Blood Horse
+TitlePonyCold
 Kaltblutpferd
-Warm Blood Horse
+TitlePonyWarm
 Warmblutpferd
-Hot Blood Horse
+TitlePonyHot
 Heißblutpferd
-Wild Mustang
+TitlePonyWild
 Wilder Mustang
-Shining Unicorn
+TitlePonyUnicorn
 Glänzendes Einhorn
-Flying Pegasus
+TitlePonyPegasus
 Fliegender Pegasus
-Majestic Alicorn
+TitlePonyAlicorn
 Majestätischer Alicorn
+TitleInfilrationMole
 Mole
-Mole
+TitleInfilrationInfiltrator
 Infiltrator
-Infiltrator
+TitleInfilrationAgent
 Agent
-Agent
-Operative
+TitleInfilrationOperative
 Geheimagent
-Superspy
+TitleInfilrationSuperspy
 Superspion
-Wizard
+TitleMagicSchoolWizard
 Zauberer
+TitleMagicSchoolMagus
 Magus
-Magus
-Magician
+TitleMagicSchoolMagician
 Magier
-Sorcerer
+TitleMagicSchoolSorcerer
 Hexer
-Sage
+TitleMagicSchoolSage
 Weiser
-Oracle
+TitleMagicSchoolOracle
 Orakel
-Witch
+TitleMagicSchoolWitch
 Hexe
-Warlock
+TitleMagicSchoolWarlock
 Hexenmeister
-Little One
+TitleLittleOne
 Kleine
+TitleBaby
 Baby
-Baby
-Diaper Lover
+TitleDL
 Windel Liebhaber
+TitleBondageBaby
 Bondage Baby
-Bondage Baby
-Duchess
+TitleDuchess
 Herzogin
-Duke
+TitleDuke
 Herzog
-Switch
+TitleSwitch
 Wechsler
-Princess
+TitlePrincess
 Prinzessin
-Prince
+TitlePrince
 Prinz
+TitleMissy
 Missy
-Missy
+TitleSissy
 Sissy
-Sissy
+TitleTomboy
 Tomboy
-Tomboy
+TitleFemboy
 Femboy
-Femboy
-Pet
+TitlePet
 Haustier
-Brat
+TitleBrat
 Balg
-Kitten
+TitleKitten
 Kätzchen
-Puppy
+TitlePuppy
 Welpe
-Foxy
+TitleFoxy
 Fuchs
-Bunny
+TitleBunny
 Häschen
-Doll
+TitleDoll
 Puppe
-Demon
+TitleDemon
 dämonin
-Angel
+TitleAngel
 Engel
+TitleAlien
 Alien
-Alien
+TitleSuccubus
 Succubus
-Succubus
+TitleIncubus
 Incubus
-Incubus
+TitleGoodGirl
 Good Girl
-Good Girl
+TitleGoodSlaveGirl
 Good Slave Girl
-Good Slave Girl
+TitleGoodBoy
 Good Boy
-Good Boy
+TitleGoodSlaveBoy
 Good Slave Boy
-Good Slave Boy
+TitleGoodSlave
 Good Slave
-Good Slave
-Drone
+TitleDrone
 Drohne
+TitleMistree
 Mistree
-Mistree
+TitleGoodOne
 Good One
-Good One
+TitleLiege
 Liege
-Liege
+TitleConcubus
 Concubus
-Concubus
-Majesty
+TitleMajesty
 Majestät
-Captain
+TitleCaptain
 Kapitän
+TitleAdmiral
 Admiral
-Admiral
+TitleMaiestas
+Zauberer
+TitleVincula
+Magier
+TitleAmplector
+Weiser
+TitleCorporis
+Hexe

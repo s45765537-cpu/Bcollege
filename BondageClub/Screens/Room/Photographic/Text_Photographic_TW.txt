@@ -1,6 +1,6 @@
-Select the item to use
+SelectItemUse
 選擇要使用的項目
-There are no items for this category.
+EmptyCategory
 此類別沒有項目。
-Can I use anything else to you?
+MoreItem
 我可以用別的東西給你嗎？

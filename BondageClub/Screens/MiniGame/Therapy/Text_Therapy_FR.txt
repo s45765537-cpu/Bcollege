@@ -1,18 +1,16 @@
-﻿Starts in
-Commence dans
-Hit the therapy circles when they appear.
+Intro1
 Tappez les cercles de thérapie quand ils apparaissent.
-Don't miss or you'll stress your patient.
+Intro2
 Ne les manquez pas ou vous agiterez votre patient.
 Progress
 Le progrès
 Stress
 Stress
-Perfect!  The therapy was a complete success.
+Perfect
 Parfait! La thérapie a été un succès complet.
-You did it!  The therapy was a success.
+Victory
 Vous l'avez eu! La thérapie a été un succès.
-The patient breaks and the therapy fails.
+Defeat
 Le patient panique et la thérapie échoue.
-Click on yourself to continue.
+ClickContinue
 Cliquez sur vous-même pour continuer.

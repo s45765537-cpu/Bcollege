@@ -1,30 +1,30 @@
-Magic Battle Configuration
+Title
 魔法战斗配置
-A room administrator can start the battle if two houses or more are represented.
+StartConditionHouse
 当两个或者更多的结社出场时，房间管理员能够开启战斗。
-A room administrator can start the battle if two players or more are present.
+StartConditionFreeForAll
 当两个或者更多的玩家出场时，房间管理员能够开启战斗。
-A magic battle is already in progress.
+RunningGame
 已经有一个正在进行的魔法战斗。
-Teaming:
+TeamType
 组队：
-By houses
+House
 按结社分队
-Free for all
+FreeForAll
 自由战斗
-Start the battle
+StartGame
 开始战斗
-Stop the battle
+StopGame
 结束战斗
-Not playing
+PlayTypeNotPlaying
 不参与
-Playing as Independent
+PlayTypeIndependent
 以独立身份参与
-Representing House Maiestas
+PlayTypeHouseMaiestas
 代表麦斯塔威法社参与
-Representing House Vincula
+PlayTypeHouseVincula
 代表温库拉束限社参与
-Representing House Amplector
+PlayTypeHouseAmplector
 代表安派托怀围社参与
-Representing House Corporis
+PlayTypeHouseCorporis
 代表科泼里躯形社参与

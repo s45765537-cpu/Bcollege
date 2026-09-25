@@ -4,17 +4,17 @@ Normal
 一般
 Hard
 困难
-Press a key to start
+Start
 按一个键以开始
-Tap to start
+StartMobile
 触碰以开始
-Difficulty:
+Difficulty
 难度：
-Perfect!  You didn't lose a drop.
+Perfect
 完美！你一滴都没掉。
-You did it!  Your customers are satisfied.
+Victory
 你做到了！你的顾客很满意。
-You failed, you've spilled your drinks.
+Defeat
 你失败了。你打翻了饮料。
-Click on yourself to continue.
+ClickContinue
 点击你自己以继续。

@@ -1,72 +1,78 @@
-Room Name
+RoomName
 Raumname
-Language
+RoomLanguage
 Sprache
-Description
+RoomDescription
 Beschreibung
-Ban List
+RoomBanList
 Bannliste
-Administrator List
+RoomAdminList
 Administratorliste
+RoomWhitelist
 Whitelist
-Whitelist
-Private
-Privat
-Locked
-Abgeschlossen
-Need exact name, admin, or whitelist to find it
-Benötigt genauen Namen, Admin oder Whitelist, um es zu finden
-Only admins and whitelisted members can enter or leave
-Nur Admins und Mitglieder auf der Whitelist können den Bereich betreten oder verlassen.
-Size (2-20)
+RoomSize
 Größe (2-20)
-Member numbers separated by commas (ex: 123, ...)
+MemberNumbersFormatPlaceholder
 Mitgliedsnummer, getrennt durch Kommas (Bsp: 123, ...)
-Use the above buttons to quickadd to the respective lists
+QuickaddExplanation
 Benutzen Sie die obigen Schaltflächen, um schnell zu den jeweiligen Listen hinzuzufügen
+QuickaddAdminHeader
 Quick Add
-Quick Add
-Owner
+QuickaddAdminOwner
 Eigentümer
-Lovers
+QuickaddAdminLovers
 Liebhaber
-Friends
+QuickaddWhitelistHeader
+Quick Add
+QuickaddWhitelistOwner
+Eigentümer
+QuickaddWhitelistLovers
+Liebhaber
+QuickaddWhitelistFriends
 Freunde
-Quick Ban
+QuickaddWhitelistWhitelist
+Whitelist
+QuickaddBanHeader
 Quick Bann
-Blacklist
+QuickaddBanBlacklist
 Blackliste
-Ghostlist
+QuickaddBanGhostlist
 Geistliste
-Room settings can only be updated by administrators
+AdminOnly
 Raum-Einstellungen können nur von Administratoren bearbeitet werden
 Background
 Hintergrund
-Visibility
+VisibilityModeHeader
 Sichtbarkeit
-Access
-Zugang
-Public
+VisibilityModePUBLIC
 Öffentlich
-Admin + Whitelist
+VisibilityModeADMIN_WHITELIST
 Verwaltung + Whitelist
-Admin
+VisibilityModeADMIN
 Verwaltung
-Unlisted
+VisibilityModeUNLISTED
 Ungelistet
-Import room code
+AccessModeHeader
+Zugang
+AccessModePUBLIC
+Öffentlich
+AccessModeADMIN_WHITELIST
+Verwaltung + Whitelist
+AccessModeADMIN
+Verwaltung
+UploadTooltip
 Raumcode importieren
-Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+UploadPrompt
 Bitte fügen Sie den Raumcode ein. Das Importieren von Raumcodes überschreibt bestehende Einstellungen. Sind Sie sicher?
-Failed to parse the passed room code (incomplete? invalid? outdated?)
+UploadInvalidCode
 Fehler beim Parsen des übergebenen Raumcodes (unvollständig? ungültig? veraltet?)
-Successfully imported room code
+UploadSuccess
 Raumcode erfolgreich importiert
-Export room code
+DownloadTooltip
 Raumcode exportieren
-Failed to copy room code to clipboard
+DownloadFailed
 Fehler beim Kopieren des Raumcodes in die Zwischenablage
-Room code copied to clipboard
+DownloadSuccess
 Raumcode in die Zwischenablage kopiert
 Create
 Erstellen
@@ -76,57 +82,45 @@ Exit
 Verlassen
 Cancel
 Abbrechen
-Updating the chat room...
+UpdatingRoom
 Chatraum wird aktualisiert...
-This room name is already taken
+ResponseRoomAlreadyExist
 Dieser Raumname ist bereits vergeben
-Account error, please try to relog
+ResponseAccountError
 Accountfehler, bitter erneut einloggen
-Invalid chat room data detected
+ResponseInvalidRoomData
 Ungültige Chatraum-Daten erkannt
-Room created, joining it...
+ResponseChatRoomCreated
 Raum wurde erstellt, wird beigetreten...
-Block Categories
+BlockCategory
 Kategorien sperren
-Customization
+RoomCustomization
 Einstellungen
-Don't use maps
-Karten nicht benutzen
-Allow on and off
-Wechseln erlauben
-Only use maps
-Nur die Karte benutzen
-Never use the map exploration
-Die Karte niemals benutzen
-Hybrid map, can go on and off
-Hybride Karte, kann an und ausgeschaltet werden
-Only use the map, no regular chat
-Nur die Karte nutzen, kein normaler Chat
-No Game
-Keine Spiele
-Club Card
-Club Card
-LARP
-LARP
-Magic Battle
-Magischer Kampf
-GGTS
-GGTS
-Pandora
-Pandora
-(Click anywhere to return)
+ReturnMenu
 (Klicke irgendwo um zurückzukehren)
-English
-Englisch
-French
-Französisch
-Spanish
+MapNever
+Karten nicht benutzen
+MapNeverTooltip
+Die Karte niemals benutzen
+MapHybrid
+Wechseln erlauben
+MapHybridTooltip
+Hybride Karte, kann an und ausgeschaltet werden
+MapAlways
+Nur die Karte benutzen
+MapAlwaysTooltip
+Nur die Karte nutzen, kein normaler Chat
+Game
+Keine Spiele
+GameClubCard
+Club Card
+GameLARP
+LARP
+GameMagicBattle
+Magischer Kampf
+GameGGTS
+GGTS
+GamePrison
+Pandora
+LanguageES
 Spanisch
-German
-Deutsch
-Ukrainian
-Ukrainisch
-Chinese
-Chinesisch
-Russian
-Russisch

@@ -4,15 +4,13 @@ Normal
 Moyen
 Hard
 Difficile
-Starts in
-Débute dans
-Difficulty:
+Difficulty
 Difficulté:
-Perfect!  You didn't lose a drop.
+Perfect
 Parfait! Vous n'avez pas gaspillé une goutte.
-You did it!  Your customers are satisfied.
+Victory
 Vous avez réussi! Vos clients sont satisfaits.
-You failed, you've spilled your drinks.
+Defeat
 C'est raté, vous avez fait un dégât.
-Click on yourself to continue.
+ClickContinue
 Appuyez sur vous-même pour continuer.

@@ -1,38 +1,38 @@
-Perks allocated:
+Perks
 Выделенные перки:
-You cannot change you perks while in mission
+CannotChange
 Вы не можете изменить свои перки во время миссии
-Strength: +2 Brute force in Pandora's Box
+Strength
 Сила: +2 Грубой силы в Ящике Пандоры
-Charisma: +2 Domination in Pandora's Box
+Charisma
 Харизма: +2 Доминирования в Ящике Пандоры
-Agility: +2 Sneakiness in Pandora's Box
+Agility
 Ловкость: +2 к скрытности в Ящике Пандоры.
-Resilience: +5 willpower in Pandora's Box
+Resilience
 Стойкость: +5 к силе воли в Ящике Пандоры.
-Endurance: +5 willpower in Pandora's Box
+Endurance
 Выносливость: +5 к силе воли в Ящике Пандоры.
-Investigation: Easier to find hidden objects
+Investigation
 Расследование: легче найти спрятанные предметы
-Running: Skip one fight freely, lose willpower
+Running
 Бег: свободно пропустить один бой, потерять силу воли
-Mapping: 1 less room to complete mission
+Mapping
 Картографирование: на 1 комнату меньше для завершения миссии.
-Forgery: Fake papers for entrance maid
+Forgery
 Подделка: поддельные документы для горничной
-Begging: Less prison time if the mission fails
+Begging
 Попрошайничество: меньше тюремного срока в случае провала миссии.
-Bribery: Pay less to bribe members or guards
+Bribery
 Взяточничество: платите меньше взяткам членам или охранникам
-Negotiation: More money when successful
+Negotiation
 Переговоры: больше денег в случае успеха
-Recruiter: Easier to recruit members
+Recruiter
 Рекрутер: легче нанимать участников
-Recovery: Heal faster in prison and after fights
+Recovery
 Восстановление: Быстрее восстанавливайтесь в тюрьме и после боев.
-Cartographer: Map the return path in yellow
+Cartographer
 Картограф: обозначьте обратный путь желтым цветом.
-Lockpicker: One less turn to lockpick
+Lockpicker
 Взломщик: на один ход меньше на взлом.
-Detector: Shows the number of chests left
+Detector
 Детектор: показывает количество оставшихся сундуков

@@ -1,6 +1,6 @@
-Main Hall
+Exit
 Главный зал
-Your Profile
+Profile
 Твой профиль
-Select your Perks
+Perks
 Выберите свои перки

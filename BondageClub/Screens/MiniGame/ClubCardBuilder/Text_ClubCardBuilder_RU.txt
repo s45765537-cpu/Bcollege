@@ -1,26 +1,24 @@
-Exit the deck builder
+Exit
 Выйти из конструктора колод
-Select the deck to modify
+SelectDeck
 Выберите колоду для изменения
-Deck #
+DeckNumber
 Колода #
 Clear
 Очистить
 Default
 По умолчанию
-Select the cards to put in deck #
-Выберите карты для добавления в колоду #
-Click on a card to zoom it
+ClickCard
 Нажмите на карту, чтобы увеличить ее
-Undo changes
+UndoChanges
 Отменить изменения
-Save your deck
+SaveChanges
 Сохраните свою колоду
-Next 30 cards
+NextCards
 Следующие 30 карт
-Previous 30 cards
+PreviousCards
 Предыдущие 30 карт
-Unselect all cards
+ClearHover
 Отменить выбор всех карт
-Reset to default deck
+DefaultHover
 Сбросить колоду по умолчанию

@@ -1,62 +1,72 @@
-Room Name
+RoomName
 Название Комнаты
-Language
+RoomLanguage
 Язык
-Description
+RoomDescription
 Описание
-Ban List
+RoomBanList
 бан-лист
-Whitelist
-Белый список
-Administrator List
+RoomAdminList
 Список Администраторов
-Size (2-20)
+RoomWhitelist
+Белый список
+RoomSize
 Размер (2-20)
-Member numbers separated by commas (ex: 123, ...)
+MemberNumbersFormatPlaceholder
 Номера членов, разделенные запятыми (Например: 123, ...)
-Use the above buttons to quickadd to the respective lists
+QuickaddExplanation
 Используйте указанные выше кнопки для быстрого добавления в соответствующие списки
-Blacklist
-черный список
-Ghostlist
-список призраков
-Owner
+QuickaddAdminOwner
 Хозяина
-Lovers
+QuickaddAdminLovers
 Возлюбленных
-Friends
+QuickaddWhitelistOwner
+Хозяина
+QuickaddWhitelistLovers
+Возлюбленных
+QuickaddWhitelistFriends
 Друзья
-Room settings can only be updated by administrators
+QuickaddWhitelistWhitelist
+Белый список
+QuickaddBanBlacklist
+черный список
+QuickaddBanGhostlist
+список призраков
+AdminOnly
 Параметры комнаты могут быть обновлены только администраторами
-(Click anywhere to return)
-(Нажмите в любом месте, чтобы вернуться)
 Background
 Фон
-Visibility
+VisibilityModeHeader
 Видимость
-Access
-Доступ
-Public
+VisibilityModePUBLIC
 Общественность
-Admin + Whitelist
+VisibilityModeADMIN_WHITELIST
 Администратор + белый список
-Admin
+VisibilityModeADMIN
 Администратор
-Unlisted
+VisibilityModeUNLISTED
 Без списка
-Import room code
+AccessModeHeader
+Доступ
+AccessModePUBLIC
+Общественность
+AccessModeADMIN_WHITELIST
+Администратор + белый список
+AccessModeADMIN
+Администратор
+UploadTooltip
 Импортировать код комнаты
-Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+UploadPrompt
 Вставьте код комнаты. Импорт кодов комнат перезапишет существующие настройки. Вы уверены?
-Failed to parse the passed room code (incomplete? invalid? outdated?)
+UploadInvalidCode
 Не удалось разобрать переданный код комнаты (неполный? недействительный? устаревший?)
-Successfully imported room code
+UploadSuccess
 Код комнаты успешно импортирован
-Export room code
+DownloadTooltip
 Экспортировать код комнаты
-Failed to copy room code to clipboard
+DownloadFailed
 Не удалось скопировать код комнаты в буфер обмена
-Room code copied to clipboard
+DownloadSuccess
 Код комнаты скопирован в буфер обмена
 Create
 Создать
@@ -66,35 +76,27 @@ Exit
 Выход
 Cancel
 Отменить
-Updating the chat room...
+UpdatingRoom
 Обновление чата комнаты...
-This room name is already taken
+ResponseRoomAlreadyExist
 Это название комнаты уже занято
-Account error, please try to relog
+ResponseAccountError
 Ошибка учетной записи, пожалуйста, попробуйте перерегистрироватся
-Invalid chat room data detected
+ResponseInvalidRoomData
 Обнаружены недопустимые данные чата комнаты
-Room created, joining it...
+ResponseChatRoomCreated
 Комната создана, присоединяюсь к ней...
-Block Categories
+BlockCategory
 Блокировать категории
-No Game
+ReturnMenu
+(Нажмите в любом месте, чтобы вернуться)
+Game
 Нет игры
+GameLARP
 LARP
-LARP
-Magic Battle
+GameMagicBattle
 Магическая битва
+GameGGTS
 GGTS
-GGTS
-English
-English
-French
-Français
-Spanish
+LanguageES
 Española
-German
-Deutsch
-Chinese
-中国人
-Russian
-Русский

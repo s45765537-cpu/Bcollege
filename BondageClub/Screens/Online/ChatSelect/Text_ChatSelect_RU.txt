@@ -1,16 +1,14 @@
-Exit Chatrooms
+Exit
 Выйти из чатов
-Bondage Club Classic
+FemaleOnlyChat
 Бондаж Клуб Классический
-No Male Aspects (He/him, Flat Chests, & Male Genitalia disabled)
+FemaleOnlyChatDescription1
 Нет мужских аспектов (он/его, плоская грудь и мужские гениталии отключены)
-
-
-Bondage Club Expanded
+MixedChat
 Бондаж Клуб Расширеный
-No Aspects Blocked (Males and Females allowed)
+MixedChatDescription1
 Аспекты не заблокированы (разрешены мужчины и женщины)
-Bondage Club Men's Lounge
+MaleOnlyChat
 Бондаж-клуб, мужской салон
-No Female Aspects (She/Her, Breasts, & Female Genitalia disabled)
+MaleOnlyChatDescription1
 Нет женских аспектов (она/ее, грудь и женские гениталии отключены)

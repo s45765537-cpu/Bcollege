@@ -1,88 +1,88 @@
-Exit the deck builder
+Exit
 退出套牌构筑
-Select the deck to modify
+SelectDeck
 选择要编辑的套牌
-Deck #
+DeckNumber
 套牌#
-Rename
+RenameDeck
 更改名称
-Enter a new name for this deck
+RenameThisDeck
 为这个牌组输入新的名称
 Clear
 清空
 Default
 默认
-Select the cards for
+SelectCards
 选择卡牌放入套牌:
-Click on a card to zoom it
+ClickCard
 点击卡牌放大
-Undo changes
+UndoChanges
 取消改变
-Save your deck
+SaveChanges
 保存你的卡牌
-Next 30 cards
+NextCards
 后30张牌
-Previous 30 cards
+PreviousCards
 前30张牌
-Unselect all cards
+ClearHover
 取消选择所有卡牌
-Reset to default deck
+DefaultHover
 重置为默认套牌
-All Cards
+GroupAll
 所有卡牌
-Event Cards
+GroupEvent
 事件卡牌
-Ungrouped
+GroupNoGroup
 无分组
-Liability
+GroupLiability
 闹事者
-Staff
+GroupStaff
 工作人员
-Police
+GroupPolice
 警察
-Criminal
+GroupCriminal
 罪犯
-Fetishist
+GroupFetishist
 恋物癖者
-Porn Actress
+GroupPornActress
 色情演员
-Maid
+GroupMaid
 女仆
-Asylum Patient
+GroupAsylumPatient
 收容所病人
-Asylum Nurse
+GroupAsylumNurse
 收容所护士
-Dominant
+GroupDominant
 支配者
-Mistress
+GroupMistress
 女主人
-ABDL Baby
+GroupABDLBaby
 ABDL宝宝
-ABDL Mommy
+GroupABDLMommy
 ABDL妈咪
-College Student
+GroupCollegeStudent
 大学学生
-College Teacher
+GroupCollegeTeacher
 大学老师
-Shibari
+GroupShibari
 绳艺
-Knot
+GroupKnot
 绳结
-Pet
+GroupPet
 宠物
-Owner
+GroupOwner
 主人
-Online Player
+GroupPlayer
 在线玩家
-Reward Cards
+GroupReward
 奖励卡牌
-Change sleeve
+ChangeCardBack
 更改套牌保护套
-Change card game background
+ChangeCardBackGround
 更改卡牌游戏背景
-Save selected sleeve
+SaveCardBack
 保存所选套牌保护套
-Next 30 sleeves
+NextCardBacks
 下一组30张套牌保护套
-Previous 30 sleeves
+PreviousCardBacks
 上一组30张套牌保护套

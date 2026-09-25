@@ -1,8 +1,8 @@
-Select your move
+SelectMove
 选择你的招式
-Opponent moves
+OpponentMove
 对手的招式
-Brute Force
+BruteForce
 蛮力
 Domination
 支配
@@ -14,153 +14,153 @@ Surrender
 投降
 Passive
 被动
-lost
+Lost
 失去了
-willpower
+Willpower
 意志
-didn't lose any willpower
+NoLost
 没有失去意志
-has the upper hand
+UpperHand
 获得了优势
-Upper hand moves:
+UpperHandMove
 优势招式：
-Sudden Death
+SuddenDeath
 突然死亡
 Cancel
 取消
 Wins
 获胜
-Remove her clothes
+Cloth
 移除她的衣服
-Use a collar item
+ItemNeck
 使用项圈道具
-Tie her feet
+ItemFeet
 使用脚部道具
-Use a gag
+ItemMouth
 使用口塞道具
-Dress back up
+UndoCloth
 穿上衣服
-Remove your collar
+UndoItemNeck
 移除你的项圈
-Release your legs
+UndoItemFeet
 释放你的腿
-Remove your gag
+UndoItemMouth
 移除你的口塞
-Have mercy
+Mercy
 这次放过她
-Select the item to use on her
+SelectItemToUse
 选择要对她使用的道具
-(Using the upper hand, she forcefully removes your clothes.)
+UpperHandCloth
 （她凭借着优势强行脱下了你的衣服。）
-(She produces a collar and force it around your neck.)
+UpperHandItemNeck
 （她拿出一个项圈，强行装在了你的脖子上。）
-(She quickly uses her advantage to restrain your feet.)
+UpperHandItemFeet
 （她敏捷地借助优势限制了你的脚。）
-(She uses her advantage to silence you with a gag.)
+UpperHandItemMouth
 （她利用优势用口塞堵住了你的嘴。）
-(She uses her advantage on you to dress back up.)
+UpperHandUndoCloth
 （她利用优势穿回了衣服。）
-(Using her advantage, she removes her collar.)
+UpperHandUndoItemNeck
 （她利用优势移除了她的项圈。）
-(She uses the opportunity to release her feet.)
+UpperHandUndoItemFeet
 （她用这个机会释放了她的脚。）
-(She's able to remove her gag while she has the upper hand.)
+UpperHandUndoItemMouth
 （她趁着优势的时机移除了她的口塞。）
-(She looks at your current situation and gives you some mercy.)
+UpperHandMercy
 （她看了看局势，决定放过你。）
-(You try to get a good grip on her, but she fights back and pushes you away.)
+PlayerBruteForceOpponentBruteForceAction
 （你试着抓住她，但是她打了回来，将你推开。）
-Fight for real, girl!
+PlayerBruteForceOpponentBruteForcePlayer
 要打就要动真格的，姑娘！
-Is that really the best you can do?
+PlayerBruteForceOpponentBruteForceOpponent
 你就这点能耐吗？
-(She smirks and gives you a pompous look as you pinch her nipples and stun her with the pain.)
+PlayerBruteForceOpponentDominationAction
 （你捏她的乳头，将她击晕在痛苦之中。她露出得意的笑，用浮夸的眼神看着你。）
-Learn to enjoy the pain.
+PlayerBruteForceOpponentDominationPlayer
 学着享受痛苦吧。
-Ow!  That really hurts.
+PlayerBruteForceOpponentDominationOpponent
 啊！真疼。
-(You charge her like a bull.  She dodges the charge and trips you onto the floor.)
+PlayerBruteForceOpponentSneakinessAction
 （你像一头公牛一样冲向她。她躲开了你的进攻，将你绊倒在地。）
-That's how you fight bitch?
+PlayerBruteForceOpponentSneakinessPlayer
 你就是这么打架的吗，死婊子？
-I hope you enjoyed your trip. Don't forget to send a postcard!
+PlayerBruteForceOpponentSneakinessOpponent
 这狗啃泥啃得够香吧！
-(She recovers as you knee kick her on the stomach, causing her to lose her breath.)
+PlayerBruteForceOpponentMeditationAction
 （她试着休整一下，而你用膝盖踢向了她的肚子。她喘不过气来了。）
-You take a break, you suffer.
+PlayerBruteForceOpponentMeditationPlayer
 你要是休息就要做好被打的准备。
-(She catches her breath slowly.)
+PlayerBruteForceOpponentMeditationOpponent
 （她慢慢恢复了呼吸。）
-(You smirk and point at the ground, but she grabs your arm and twists it.)
+PlayerDominationOpponentBruteForceAction
 （你露出得意的笑，手指向地面，但她抓住了你的手臂，钳制了你。）
-Ouch!  Why don't you surrender?
+PlayerDominationOpponentBruteForcePlayer
 哎呦！为什么你不投降？
-You're feeling smart now?
+PlayerDominationOpponentBruteForceOpponent
 你以为你很聪明吗？
-(You both argue on who should kneel for the other, but nobody gives in.)
+PlayerDominationOpponentDominationAction
 （二人都在争论谁应该为谁跪下，但两人都没有服输。）
-On your knees girl!
+PlayerDominationOpponentDominationPlayer
 跪下，姑娘！
-No!  You get on your knees!
+PlayerDominationOpponentDominationOpponent
 不，是你该跪下！
-(She tries to tickle you, but gets stunned by your presence and kneels for you.)
+PlayerDominationOpponentSneakinessAction
 （她试图抓住你，但是被你的存在镇压到，并向你跪下。）
-This is your place: on your knees.
+PlayerDominationOpponentSneakinessPlayer
 你这样的人，站都不应该站着。
-Well that trick did not work.
+PlayerDominationOpponentSneakinessOpponent
 哼，你这招不好使。
-(She tries to relax, but get hypnotized and paralyzed by your glaring look.)
+PlayerDominationOpponentMeditationAction
 （她试着休息，但是被你的尖锐眼神麻痹了。）
-Girl, you know you belong to me.
+PlayerDominationOpponentMeditationPlayer
 姑娘，你知道你属于我。
-(She nods slowly and meditates.)
+PlayerDominationOpponentMeditationOpponent
 （她慢慢点头，继续冥想。）
-(She tries to punch you hard, but you grab her arm using judo and throw her on the floor.)
+PlayerSneakinessOpponentBruteForceAction
 （她试着用拳头用力打你，但是你用柔道抓住了她的胳膊，将她摔倒在地。）
-You're so predictable.
+PlayerSneakinessOpponentBruteForcePlayer
 你这是什么招式？
-Just you wait!
+PlayerSneakinessOpponentBruteForceOpponent
 就等着看好戏吧！
-(You try to make her trip, but she intimidates you with her menacing look.)
+PlayerSneakinessOpponentDominationAction
 （你试着绊倒她，但是她来势汹汹的眼神吓到了你。）
-(You tremble and try to look away.)
+PlayerSneakinessOpponentDominationPlayer
 （你瑟瑟发抖，试着看别的地方。）
-I'll never bow down for you.
+PlayerSneakinessOpponentDominationOpponent
 我是不会向你认输的！
-(You grab each other and try to make the other fall down, but you both tumble down to the ground.)
+PlayerSneakinessOpponentSneakinessAction
 （你们同时抓住对方并让对方绊倒。两人都摔倒在地。）
-Ugly move, Bruce Lea.
+PlayerSneakinessOpponentSneakinessPlayer
 这招够阴，盗版李小龙。
-You suck, Jackie Shauna.
+PlayerSneakinessOpponentSneakinessOpponent
 你也不咋地，山寨成龙。
-(You flash your sexy body at her, as she's trying to meditate.)
+PlayerSneakinessOpponentMeditationAction
 （她试图冥想，而你向她展示你性感的身躯。）
-You want this body, don't you?
+PlayerSneakinessOpponentMeditationPlayer
 这身材你很想要吧，不是吗？
-Focus girl!  It's hard to focus.
+PlayerSneakinessOpponentMeditationOpponent
 专心，要专心！你搞的我很难静下心啊！
-(You try to recover as she pulls your hair and gains the upper hand.)
+PlayerMeditationOpponentBruteForceAction
 （你试图休整，而她抓住了你的头发，把你制服。）
-Unfair!  Can't I have a break?
+PlayerMeditationOpponentBruteForcePlayer
 这不公平！我就不能歇一下吗？
-If you can't focus, I will crush you.
+PlayerMeditationOpponentBruteForceOpponent
 你要是不能专心打，我就会打回去。
-(She snaps her fingers and points at the ground.  You kneel and rest at the same time.)
+PlayerMeditationOpponentDominationAction
 （她打了个响指，指向地面。你跪下，趁机休息。）
-Yes Miss.  Of course Miss.
+PlayerMeditationOpponentDominationPlayer
 是的主人，好的主人。
-Good girl, soon you'll be my slave.
+PlayerMeditationOpponentDominationOpponent
 乖女孩，你马上就会成为我的奴隶了。
-(You meditate as she moves quickly behind you to tickle you.)
+PlayerMeditationOpponentSneakinessAction
 （你准备冥想，而她闪到你身后挠你痒痒。）
-Eeeeahahaha!  Let me relax!
+PlayerMeditationOpponentSneakinessPlayer
 啊哈哈哈！让我休息！
-Laugh some more girl.
+PlayerMeditationOpponentSneakinessOpponent
 姑娘，好好笑一笑吧。
-(You both take a short break to regain some strength and catch your breath.)
+PlayerMeditationOpponentMeditationAction
 （你们同时停下来休息，准备再战。）
-This is not over yet.
+PlayerMeditationOpponentMeditationPlayer
 这还没完，你等着。
-You're better than I thought.
+PlayerMeditationOpponentMeditationOpponent
 你比我想象的还要强一点。

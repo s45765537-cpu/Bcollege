@@ -1,10 +1,10 @@
-Remaining Time:
+RemainingTime
 Verbleibende Zeit:
-Punishment Time:
+IsolationTime
 Strafzeit:
-Asylum Entrance
+Entrance
 Anstaltseingang
-Your Profile
+Profile
 Dein Profil
-Sleep (Log Off)
+Sleep
 Schlafen (Ausloggen)

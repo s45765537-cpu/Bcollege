@@ -4,11 +4,11 @@ Save
 Speichern
 Return
 Zurück
-Save or load your favorite appearance
+SelectAppareance
 Speichere oder lade deine Erscheinung
-Reorder Slots
+ReorderSlots
 Slots neu anordnen
-Click to select slots to move
+ReorderSelect
 Klicke, um Slots zum Verschieben auszuwählen
-Click on slots to place selections
+ReorderPlace
 Klicke, um Slots zu platzieren

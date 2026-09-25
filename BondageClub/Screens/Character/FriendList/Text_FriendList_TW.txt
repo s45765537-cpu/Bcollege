@@ -1,30 +1,26 @@
-Online friends
+OnlineFriends
 在線好友
-All friends
+AllFriends
 全部好友
-Beep history
+Beeps
 好友私聊歷史
-Member number
+MemberNumber
 會員編號
-Chat room
+ChatRoomName
 聊天室
-Friend type
-好友類型
-Send a beep
+ActionFriends
 發送好友私聊
-Delete a friend
-刪除好友
 Refresh
 刷新
-Room name: included
+ToggleRoomOn
 房間名：包含
-Room name: excluded
+ToggleRoomOff
 房間名：不含
-Owner
+TypeOwner
 主人
-Lover
+TypeLover
 戀人
-Submissive
+TypeSubmissive
 服從者
-Friend
+TypeFriend
 朋友

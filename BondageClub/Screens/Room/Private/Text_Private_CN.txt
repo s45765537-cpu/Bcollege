@@ -1,36 +1,36 @@
-On rental for a day
+RentalDay
 租用一天
-At the asylum for a day
+AsylumDay
 在收容所呆了一天
-Being interrogated
+Brainwash3Day
 正在被审问
-Is in your bed
+InBed
 在你的床上
-An orgasm is coming!
+OrgasmComing
 高潮即将来临!
-Resist!
+OrgasmResist
 抵抗!
-Try to resist
+OrgasmTryResist
 尝试抵抗
-Surrender
+OrgasmSurrender
 投降
-Recovering from an orgasm...
+OrgasmRecovering
 从高潮中恢复...
-Return to the main hall
+Exit
 回到大厅
-Kneel / Stand
+Kneel
 跪下/站立
-Private room vendor
+Shop
 私人房间销售员
-Change your clothes
+Dress
 更换你的衣服
-Your wardrobe
+Wardrobe
 你的衣柜
-Lay on your bed
+Bed
 躺在你的床上
-Next four friends
+Next
 后四个朋友
- Select main hall background
+MainHallBackground
 选择主厅背景
- Select private room background
+PrivateRoomBackground
 选择私人房间背景

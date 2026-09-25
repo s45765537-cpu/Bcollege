@@ -1,52 +1,52 @@
-LARP Battle Team Selection
+Title
 体感对战队伍选择
-Select your class:
+SelectClass
 选择你的职业：
-Select your team:
+SelectTeam
 选择你的队伍
-Level (progress %):
+LevelProgress
 等级(进度%):
-Matron
+ClassMatron
 女警卫
-Seducer
+ClassSeducer
 诱惑者
-Trickster
+ClassTrickster
 诡术师
-Servant
+ClassServant
 仆从
-Artist
+ClassArtist
 艺术家
-Protector
+ClassProtector
 护卫者
-Not playing
+ColorNone
 不参与
-Red
+ColorRed
 红
-Green
+ColorGreen
 绿
-Blue
+ColorBlue
 蓝
-Yellow
+ColorYellow
 黄
-Cyan
+ColorCyan
 青
-Purple
+ColorPurple
 紫
-Orange
+ColorOrange
 橙
-White
+ColorWhite
 白
-Gray
+ColorGray
 灰
-Black
+ColorBlack
 黑
-A room administrator can start the game if two teams or more are selected.
+StartCondition
 当有两个或更多的队伍被选择时，房间管理员能够开启游戏。
-The LARP game is running, you cannot change your class or team.
+RunningGame
 体感对战游戏正在进行，你不能改变你的职业和队伍。
-Start the game
+StartGame
 开始游戏
-20 seconds turns
+TimerDelay20
 每人的回合20秒
-60 seconds turns
+TimerDelay60
 每人的回合60秒

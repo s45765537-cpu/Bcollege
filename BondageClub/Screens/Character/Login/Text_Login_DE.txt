@@ -1,50 +1,50 @@
-﻿Welcome to the Bondage Club
+Welcome
 Willkommen im Bondage-Club
-Enter your name and password
+EnterNamePassword
 Gib deinen Namen und dein Passwort ein
-Account Name
+AccountName
 Account-Name
 Password
 Passwort
 Login
 Anmelden
-Or create a new character
+CreateNewCharacter
 Oder erstelle einen neuen Charakter
-New Character
+NewCharacter
 Neuer Charakter
-Connecting to server...
+ConnectingToServer
 Verbindung zum Server...
-Waiting in queue in position: QUEUE_POS
+LoginQueueWait
 Warten in der Queue in position: QUEUE_POS
-Error loading character data
+ErrorLoadingCharacterData
 Fehler beim Laden der Charakter-Daten
-Disconnected from server. Retrying...
+ErrorDisconnectedFromServer
 Nicht mit dem Server verbunden. Vorgang wird wiederholt...
-Disconnected for duplicated login
+ErrorDuplicatedLogin
 Verbindung für Doppel-Login abgebrochen
-Unable to connect to server. Retrying...
+ErrorUnableToConnect
 Verbindung zum Server konnte nicht hergestellt werden.
-Connection rejected: your connection has been rate limited.
+ErrorRateLimited
 Verbindung abgelehnt: Die Anzahl deiner Verbindungen wurde begrenzt.
-Validating name and password...
+ValidatingNamePassword
 Name und Passwort werden überprüft...
-Error:
+Error
 Fehler:
-Invalid name or password
+InvalidNamePassword
 Name oder Passwort ungültig
-Select Cheats
+Cheats
 Cheats auswählen
-Reset Password
+PasswordReset
 Passwort vergessen?
-Thank you
+ThankYou
 Danke
-Developers
+CreditTypeDevelopers
 Entwickler
-Translators
+CreditTypeTranslators
 Übersetzer
-Support
+CreditTypeSupport
 Unterstützer
-Sponsors
+CreditTypePatrons
 Sponsoren
-And a huge thanks to the fans!
+CreditTypeFans
 Und ein großes Danke an die Fans!

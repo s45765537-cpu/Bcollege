@@ -1,330 +1,326 @@
-Abandoned Building
+AbandonedBuilding
 Заброшенное здание
-Abandoned Side Room
+AbandonedSideRoom
 Заброшенная комната
-Alchemist Office
+AlchemistOffice
 Офис алхимика
-Ancient Ruins
+AncientRuins
 Древние руины
-Bedroom
+AsylumBedroom
 Спальня
-Entrance
+AsylumEntrance
 Вход
-GGTS Computer Room
+AsylumGGTSRoom
 Серверная GGTS 
-Meeting
+AsylumMeeting
 Комната для встреч
-Therapy
+AsylumTherapy
 Манипуляционная
-Back Alley
+BackAlley
 Дальний переулок
-Balcony Night
+BalconyNight
 Балкон ночью
-Bar Restaurant
+BarRestaurant
 Бар-ресторан
-BDSM Room Blue
+BDSMRoomBlue
 Синяя БДСМ-комната
-BDSM Room Purple
+BDSMRoomPurple
 Фиолетовая БДСМ-комната
-BDSM Room Red
+BDSMRoomRed
 Красная БДСМ-комната
 Beach
 Пляж
-Beach Promenade Café
+BeachCafe
 Открытое пляжное кафе
-Beach Hotel 1
+BeachHotel1
 Пляжный отель
-Beach Hotel 2
+BeachHotel2
 Пляжный отель
-Beach Sunset
+BeachSunset
 Закат на пляже
-Bondage Bedchamber
+Bedroom
+Спальня
+BondageBedChamber
 Бондажная спальня
 Boudoir
 Будуар
-Shop Dressing Rooms
+BoutiqueBack
 Гардеробная магазина
-Boutique Shop
+BoutiqueMain
 Бутик-магазин
-Captain Cabin
+CaptainCabin
 Каюта капитана
-Fancy Castle
+Castle
 Изысканный замок
 Cellar
 Подвал
-Ceremony Venue
+CeremonialVenue
 Место проведения церемоний
-Chill Room
+ChillRoom
 Комната отдыха
-College Classroom
-Учебный класс колледжа
-Tennis Court
+CollegeTennis
 Теннисный корт
-Theater
+CollegeTheater
 Театр
 Confessions
 Камера дознания
-Cosy Chalet
+CosyChalet
 Уютное шале
-Cozy Living Room
+CozyLivingRoom
 Уютная гостиная
-Creepy Basement
+CreepyBasement
 Жуткий подвал
-Deep Forest
+DeepForest
 Глухой лес
 Desert
 Пустыня
-Desolate Village
+DesolateVillage
 Заброшенная деревня
-Dining Room
+DiningRoom
 Столовая
 Dungeon
 Подземелье
-Ruined Dungeon
+DungeonRuin
 Разрушенное подземелье
-Dystopian City
+DystopianCity
 Антиутопический город
-Egyptian Exhibit
+EgyptianExhibit
 Египетская выставка
-Egyptian Tomb
+EgyptianTomb
 Египетская гробница
-Empty Warehouse
+EmptyWarehouse
 Пустой склад
-Forest Cave
+ForestCave
 Лесная пещера
-Forest Path
+ForestPath
 Лесная тропа
-Public Garden
+Garden1
 Сад
 Gymnasium
 Спортзал
-Entrance to Heaven
+HeavenEntrance
 Вход в Рай
-Entrance to Hell
+HellEntrance
 Вход в Ад
-Horse Stable
+HorseStable
 Конюшня
-Hotel Bedroom
+HotelBedroom
 Спальня отеля
-Hotel Bedroom 2
+HotelBedroom2
 Спальня отеля 2
-Empty Basement 1
+HouseBasement1
 Пустой подвал 1
-Empty Basement 2
+HouseBasement2
 Пустой подвал 2
-Empty Basement 3
+HouseBasement3
 Пустой подвал 3
-Studio Living Room
+HouseInterior1
 Студия-гостиная
-Wooden Living Room
+HouseInterior2
 Деревянная гостиная
-Appartment Living Room
+HouseInterior3
 Квартира-гостиная
-Hypnotic Spiral 2
+HypnoSpiral2
 Гипнотическая спираль 2
+HypnoticSpiral
 Hypnotic Spiral
-Hypnotic Spiral
-Indoor Pool
+IndoorPool
 Крытый бассейн
 Industrial
 Промышленная зона
-Infiltration Bunker
+Infiltration
 Инфильтрационный бункер
 Introduction
 Вход в гостиницу
-Jungle Temple
+JungleTemple
 Храм в джунглях
 Kennels
 Питомники
-Kidnappers League
+KidnapLeague
 Лига похитителей
-Kitchen 1
-Кухня 1
-Kitchen 2
-Кухня 2
-Latex Room
+LatexRoom
 Латексная комната
-Leather Chamber
+LeatherChamber
 Кожаная комната
-Lingerie Shop
+LingerieShop
 Магазин дамского белья
-Locker Room
+LockerRoom
 Раздевалка
-Lost Wages Casino
+LostVages
 Игорный зал казино
-Maid Café
+MaidCafe
 Кафе "Горничная"
-Maid Quarters
+MaidQuarters
 Помещенье для прислуги
-Main Hall
+MainHall
 Главный холл
-Club Management
+Management
 Управляющая Клубом
-Medina Market
+MedinaMarket
 Рынок Медины
-Middletown School
+MiddletownSchool
 Среднегородская школа
-Movie Studio
+MovieStudio
 Киностудия
-Nightclub
+NightClub
 Ночной клуб
 Nursery
 Детская
-Luxury Office
+Office1
 Роскошный офис
-Open Office
+Office2
 Офиссный зал
-Old Farm
+OldFarm
 Старая ферма
 Onsen
 Горячие источники
-Outdoor Pool
+OutdoorPool
 Открытый бассейн
-Luxury Pool
+OutdoorPool2
 Роскошный бассейн
-Outside Cells
+OutsideCells
 Корридор возле камер
-Padded Cell
+PaddedCell
 Мягкая камера
-Padded Cell 2
+PaddedCell2
 Мягкая камера 2
-Park Day
+ParkDay
 Парк днем
-Park Night
+ParkNight
 Парк ночью
-Park Winter
+ParkWinter
 Парк зимой
-Party Basement
+PartyBasement
 Вечеринка в подвале
-Pirate Island
+PirateIsland
 Пиратский остров
-Pirate Island Night
+PirateIslandNight
 Пиратский остров ночью
-Pool Bottom
+PoolBottom
 Дно бассейна
-Prison Hall
+PrisonHall
 Тюремный корридор
-Private Room
+Private
 Личная комната
-Public Bath
+PublicBath
 Общественная купальня
-Rainy Forest Path Day
+RainyForestPathDay
 Лесная дорога днем во время дождя
-Rainy Forest Path Night
+RainyForstPathNight
 Лесная дорога ночью во время дождя
-Rainy Street Day
+RainyStreetDay
 Улица днем во время дождя
-Rainy Street Night
+RainyStreetNight
 Улица ночью во время дождя
 Ranch
 Ранчо
-Research Lab
+ResearchPrep
 Исследовательская лаборатория
-Restaurant 1
+ResearchProgress
+Исследовательская лаборатория
+Restaurant1
 Ресторан 1
-Restaurant 2
+Restaurant2
 Ресторан 2
-Rooftop Party
+RooftopParty
 Вечеринка на крыше
-Rusty Saloon
+RustySaloon
 Старый салун
-School Hallway
+SchoolHallway
 Школьный коридор
-School Hospital
+SchoolHospital
 Школьная больница
-Abandoned School
+SchoolRuins
 Заброшенная школа
-Sci Fi Cell
+SciFiCell
 Научно-фантастическая камера
-Sci Fi Outdoors
+SciFiOutdoors
 Научная фантастика на улице
-Red Sci-Fi Room
+SciFiRed
 Красная научно-фантастическая комната
-Secret Chamber
+SecretChamber
 Тайная комната
-Sheikh Private Room
+SheikhPrivate
 Личная комната шейха
-Sheikh Tent
+SheikhTent
 Шатер шейха
-Shibari Dojo
+Shibari
 Шибари Додзё
-Ship's Deck
+ShipDeck
 Корабельная палуба
-Ship Wreck
+Shipwreck
 Кораблекрушение
-Slippery Classroom
+SlipperyClassroom
 Хулиганистый класс
-Slum Apartment
+SlumApartment
 Квартира в трущобах
-Slum Cellar
+SlumCellar
 Подвал в трущебах
-Slum Ruins
+SlumRuins
 Трущебы
-Snowy Chalet Day
+SnowyChaletDay
 Зимнее шале днем
-Snowy Chalet Night
+SnowyChaletNight
 Зимнее шале ночью
-Snowy Deep Forest
+SnowyDeepForest
 Глухой лес зимой
-Snowy Forest Path Day
+SnowyForestPathDay
 Зимняя лесная тропа днем
-Snowy Forest Path Night
+SnowyForestPathNight
 Зимняя лесная тропа ночью
-Snowy Lake Night
+SnowyLakeNight
 Снежное озеро ночью
-Snowy Street
+SnowyStreet
 Зимняя улица
-Snowy Street Day 1
+SnowyStreetDay1
 Зимняя улица днем 1
-Snowy Street Day 2
+SnowyStreetDay2
 Зимняя улица днем 2
-Snowy Street Night
+SnowyStreetNight2
 Зимняя улица ночью
-Snowy Town 1
+SnowyTown1
 Зимний городок 1
-Snowy Town 2
+SnowyTown2
 Зимний городок 2
-Space Station Captain Bedroom
+SpaceCaptainBedroom
 Спальня капитана космической станции
-Spooky Forest
+SpookyForest
 Жуткий лес
-Street Night
-Улица ночью
-Sun Temple
+SunTemple
 Храм Солнца
-Virtual World
+SynthWave
 Виртуальный мир
-Throne Room
+ThroneRoom
 Тронный зал
-Tiled Bathroom
+TiledBathroom
 Ванная комната
-Underwater One
+UnderwaterOne
 Подводный мир
-Vault Corridor
+VaultCorridor
 Коридор хранилища
-Wagon Circle
+Wagons
 Круг из фургонов
-Wedding Arch
+WeddingArch
 Свадебная арка
-Wedding Beach
+WeddingBeach
 Свадьба на пляже
-Wedding Room
+WeddingRoom
 Свадебный зал
-Western Street
+WesternStreet
 Улица Дикого Запада
-Witch Wood
+WitchWood
 Ведьмин лес
-Wooden Cabin
+WoodenCabin
 Деревянный домик
-Ring
+WrestlingRing
 Ринг
-Christmas Day Lounge
+XmasDay
 Рождественская гостиная днем
-Christmas Eve Lounge
+XmasEve
 Рождественская гостиная ночью
-Yacht Chill Room
+Yacht1
 Комната отдыха на яхте
-Yacht Main Hall
+Yacht2
 Кают-компания на яхте
-Yacht Deck
+Yacht3
 Палуба яхты

@@ -1,12 +1,12 @@
-﻿Trial Training
+Toyhorse
 Formation d'essai
 Treadmill
 Tapis roulant
-Horse Carriage
+Carriage
 Calèche
-You wait in an isolation stable
+InStable
 Vous attendez dans une écurie d'isolement
-Try to hide the dice.
+HideDice
 Essayer de cacher les dés.
-You have successfully hidden the dice
+SuccessHide
 Vous avez réussi à cacher les dés

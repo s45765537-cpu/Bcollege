@@ -1,6 +1,6 @@
-﻿Select the item to use
+SelectItemUse
 Sélectionnez l'objet à utiliser
-There are no items for this category.
+EmptyCategory
 Il n'y a pas d'objets pour cette catégorie.
-Can I use anything else to you?
+MoreItem
 Puis-je utiliser autre chose pour vous?

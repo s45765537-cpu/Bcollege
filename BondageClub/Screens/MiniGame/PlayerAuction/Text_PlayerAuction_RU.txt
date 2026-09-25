@@ -1,28 +1,28 @@
-Current bid:
+CurrentBid
 Текущая ставка:
-Highest bidder:
+HighestBidder
 Самая высокая ставка:
-I bid
+IBid
 я предлагаю
 Nobody
 Никто
-First
+Customer0
 Первый
-Second
+Customer1
 Второй
-Third
+Customer2
 Третий
 Plead
 Умолять
-Do I hear
+DoIHear
 Я слышу
-Going once!
+GoingOnce
 Идем один раз!
-Going twice!
+GoingTwice
 Идем дважды!
-Sold!
+Sold
 Продано!
-Silence!
+Silence
 Тишина!
 Return
 Возвращаться

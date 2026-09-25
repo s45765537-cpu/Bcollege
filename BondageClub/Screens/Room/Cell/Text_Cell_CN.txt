@@ -1,20 +1,20 @@
-Lock timer: 
+Timer
 定时：
-minutes
+Minutes
 分钟
-Leave the cell
+Leave
 离开牢房
-Character profile
+Profile
 角色资料
-Add 5 minutes
+AddTime
 增加5分钟
-Remove 5 minutes
+RemoveTime
 减少5分钟
-Lock yourself
+Lock
 锁上自己
-Opens in
+OpensIn
 剩余时间
-Kneel / Stand
+Kneel
 跪下/站立
-Key deposit
+KeyDeposit
 钥匙保管

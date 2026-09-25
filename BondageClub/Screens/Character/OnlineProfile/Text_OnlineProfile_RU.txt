@@ -1,10 +1,10 @@
-﻿Enter your online description (MAXLEN characters maximum)
+EnterDescription
 Введите описание в Интернете (MAXLEN максимум символов)
-CharacterName's online description
+ViewDescription
 Имя персонажа Описание в интернете
-Exit profile
+Leave
 Выйти из профиля
-Accept changes
+LeaveSave
 Принять изменения
-Cancel changes
+LeaveNoSave
 Отменить изменения

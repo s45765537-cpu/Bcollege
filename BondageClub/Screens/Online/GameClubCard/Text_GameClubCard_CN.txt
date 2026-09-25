@@ -1,26 +1,26 @@
-Online Club Card Configuration
+Title
 在线俱乐部卡牌配置
-Your player slot:
+SelectPlayerSlot
 你的玩家位置：
-Not playing
+PlayerSlot0
 不玩
-First player
+PlayerSlot1
 第一玩家
-Second player
+PlayerSlot2
 第二玩家
-A room administrator can start the game when two players are selected.
+StartCondition
 房间管理员能在两个玩家被选定后开启游戏。
-The Club Card game is running, you cannot change settings.
+RunningGame
 俱乐部卡牌游戏正在运行，你不能改变设置。
-Start the game
+StartGame
 开始游戏
-Join the game
+JoinGame
 加入游戏
-Cannot join the game, the room administrator isn't in it.
+CannotJoinDetails
 无法加入游戏，房间管理员不在其中。
-Reset Game
+ResetGame
 重置游戏
-Club Card Animation
+IsAnimation
 俱乐部卡牌动画
-Auto Spectate
+AutoSpectate
 自动观战

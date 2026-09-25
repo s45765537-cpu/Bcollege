@@ -1,20 +1,20 @@
-Lock timer: 
+Timer
 Timer: 
-minutes
+Minutes
 Minuten
-Leave the cell
+Leave
 Zelle verlassen
-Character profile
+Profile
 Charakter-Profil
-Add 5 minutes
+AddTime
 5 Minuten hinzufügen
-Remove 5 minutes
+RemoveTime
 5 Minuten abziehen
-Lock yourself
+Lock
 Dich einschließen
-Opens in
+OpensIn
 Öffnet in
-Kneel / Stand
+Kneel
 Hinknien / Aufstehen
-Key deposit
+KeyDeposit
 Schlüsseldepot

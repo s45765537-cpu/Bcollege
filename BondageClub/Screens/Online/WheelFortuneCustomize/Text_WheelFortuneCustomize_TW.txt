@@ -1,130 +1,130 @@
-Configure the options on your lucky wheel
+Title
 配置你的幸運輪盤的選項
-Next options
+Next
 下一個選項
-Check all
+CheckAll
 選擇全部
-Check none
+CheckNone
 全不選擇
-Reset to default
+Default
 設置為默認
-Save and exit
+Save
 保存並退出
-Cancel and exit
+Cancel
 取消並退出
-Gagged
+OptionA
 戴上口塞
-Gagged for 5 minutes
+OptionB
 戴上口塞5分鐘
-Gagged for 15 minutes
+OptionC
 戴上口塞15分鐘
-Gagged for 60 minutes
+OptionD
 戴上口塞60分鐘
-Gagged for 4 hours
+OptionE
 戴上口塞4小時
-Blindfolded
+OptionF
 蒙眼
-Blindfolded for 5 minutes
+OptionG
 蒙眼5分鐘
-Blindfolded for 15 minutes
+OptionH
 蒙眼15分鐘
-Blindfolded for 60 minutes
+OptionI
 蒙眼60分鐘
-Blindfolded for 4 hours
+OptionJ
 蒙眼4小時
-Arms bound
+OptionK
 束縛手臂
-Arms bound for 5 minutes
+OptionL
 束縛手臂5分鐘
-Arms bound for 15 minutes
+OptionM
 束縛手臂15分鐘
-Arms bound for 60 minutes
+OptionN
 束縛手臂60分鐘
-Arms bound for 4 hours
+OptionO
 束縛手臂4小時
-Legs bound
+OptionP
 束縛雙腿
-Legs bound for 5 minutes
+OptionQ
 束縛雙腿5分鐘
-Legs bound for 15 minutes
+OptionR
 束縛雙腿15分鐘
-Legs bound for 60 minutes
+OptionS
 束縛雙腿60分鐘
-Legs bound for 4 hours
+OptionT
 束縛雙腿4小時
-Full bondage
+OptionU
 完全束縛
-Full bondage for 5 minutes
+OptionV
 完全束縛5分鐘
-Full bondage for 15 minutes
+OptionW
 完全束縛15分鐘
-Full bondage for 60 minutes
+OptionX
 完全束縛60分鐘
-Full bondage for 4 hours
+OptionY
 完全束縛4小時
-Encased
+Optiona
 裝箱
-Encased for 5 minutes
+Optionb
 裝箱5分鐘
-Encased for 15 minutes
+Optionc
 裝箱15分鐘
-Encased for 60 minutes
+Optiond
 裝箱60分鐘
-Encased for 4 hours
+Optione
 裝箱4小時
-No wardrobe for 5 minutes
+Optionf
 禁止衣櫃5分鐘
-No wardrobe for 15 minutes
+Optiong
 禁止衣櫃15分鐘
-No wardrobe for 60 minutes
+Optionh
 禁止衣櫃60分鐘
-No wardrobe for 4 hours
+Optioni
 禁止衣櫃4小時
-Isolation cell for 5 minutes
+Optionj
 禁閉室5分鐘
-Isolation cell for 15 minutes
+Optionk
 禁閉室15分鐘
-Isolation cell for 30 minutes
+Optionl
 禁閉室30分鐘
-Isolation cell for 60 minutes
+Optionm
 禁閉室60分鐘
-Hogtie bondage
+Option$
 駟馬束縛
-Shibari bondage
+Option!
 繩藝束縛
-Futuristic bondage
+Option&
 未來束縛
-Maid outfit
+Option@
 女僕裝
-ABDL outfit
+Option#
 ABDL裝
-Slave outfit
+Option+
 奴隸裝
-New clothes
+Option-
 新衣服
-Underwear
+Option(
 內衣
-Naked
+Option)
 赤裸
-Others should cheer for you
+Option0
 其他人為你歡呼
-Others should pat your head
+Option1
 其他人摸摸你的頭
-Others should hug you
+Option2
 其他人擁抱你
-Others should tickle you
+Option3
 其他人撓撓你
-Others should kiss you
+Option4
 其他人親吻你
-Others should pinch you
+Option5
 其他人掐你
-Others should spank you
+Option6
 其他人拍打你
-Others should caress you
+Option7
 其他人撫摸你
-Others should grope you
+Option8
 其他人撫弄你
-Others should masturbate you
+Option9
 其他人撫慰你
-Spin again twice
+Option²
 再轉兩次

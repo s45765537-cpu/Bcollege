@@ -1,70 +1,70 @@
-Leave Pandora's Box
+PathExit
 离开潘多拉魔盒
-Go upstairs
+PathStairsUp
 上楼
-Go downstairs
+PathStairsDown
 下楼
-Search the room
+PathSearch
 搜索房间
-Rest to recover with time
+PathRest
 休息并等待回复
-Paint the room
+PathPaint
 涂鸦房间
-Stop searching
+SearchStop
 停止搜索
-Stop resting
+RestStop
 停止休息
-You already found the TargetName.  Get out now.
+AlreadyFound
 你已经找到了TargetName。赶紧走吧。
-You found the TargetName.  Get out while you can.
+FoundItem
 你找到了TargetName。赶紧趁机走吧。
-You found the Pandora's Box Club Card.
+FoundPandoraBoxClubCard
 你找到了潘多拉魔盒俱乐部卡牌。
-You first need to find some paint.
+NoPaint
 你首先需要找到一些油漆。
-This room is already painted.
+AlreadyPainted
 此房间已经被了涂油漆。
-The room must be empty.
+RoomEmptyToPaint
 房间必须是空的。
-Go north (W)
+DirectionNorth
 向北走（W）
-Go south (S)
+DirectionSouth
 向南走（S）
-Go east (D)
+DirectionEast
 向东走（D）
-Go west (A)
+DirectionWest
 向西走（A）
-underground
+LevelNameUnderground
 地下
-ground
+LevelNameGround
 地面
-second
+LevelNameSecond
 二楼
-north
+FirstDirectionNorth
 北
-south
+FirstDirectionSouth
 南
-west
+FirstDirectionWest
 西
-east
+FirstDirectionEast
 东
-(The lights turn on and you're quickly spotted.  Dominatrixes confiscate your goods and drag you to a cell.)  I'll teach you a lesson little burglar.
+CatBurglarPunishment
 （灯亮起来，你很快就被发现了。女王夺走了你的财物，把你拽进一间牢房。）小偷，我会给你上一课的。
-Work:
+ReverseMaidProgress
 工作：
+Graffiti0
 FTW
-FTW
-The Box Sucks
+Graffiti1
 魔盒烂透了
-The Bondage Club Rules
+Graffiti2
 束缚俱乐部支配着
-Eat my shorts
+Graffiti3
 吃我的内裤
+Graffiti4
 BC > PB
-BC > PB
+Graffiti5
 REDRUM
-REDRUM
-Get out!
+Graffiti6
 快滚！
-BDSM 4 EVER
+Graffiti7
 永远的BDSM

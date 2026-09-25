@@ -6,11 +6,9 @@ Default
 Стандартный
 Many
 Много
-Next page
+Next
 Следующая страница
-Whole Item
+WholeItem
 Весь предмет
 All
 Все
-undefined
-неопределенный

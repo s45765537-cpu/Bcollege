@@ -1,18 +1,18 @@
-Apply to forbidden words
+Exit
 Применить к запрещенным словам
-If your submissive uses a forbidden word, she will get a consequence.
+Title
 Если ваш сабмиссив использует запрещенное слово, она получит наказание.
-Consequence:
+Consequence
 Последствие:
-Block the text from being sent
+ConsequenceBlock
 Заблокировать отправку текста
-Silence her for 5 minutes
+ConsequenceMute5
 Заставить ее замолчать на 5 минут
-Silence her for 15 minutes
+ConsequenceMute15
 Заставьте ее замолчать на 15 минут.
-Silence her for 30 minutes
+ConsequenceMute30
 Заставить ее замолчать на 30 минут
-Forbidden word:
+Word
 Запрещенное слово:
 Add
 Добавить

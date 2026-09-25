@@ -1,28 +1,28 @@
-Current bid:
+CurrentBid
 當前出價：
-Highest bidder:
+HighestBidder
 最高出價者：
-I bid
+IBid
 我出
 Bid
 出價
 You
 你
-Someone else
+SomeoneElse
 其他人
 Nobody
 沒有人
-Your money:
+YourMoney
 你的錢款：
-Give up
+GiveUp
 放棄
 Return
 返回
-Do I hear
+DoIHear
 我聽到了
-Going once!
+GoingOnce
 確認一次！
-Going twice!
+GoingTwice
 確認二次！
-Sold!
+Sold
 成交！

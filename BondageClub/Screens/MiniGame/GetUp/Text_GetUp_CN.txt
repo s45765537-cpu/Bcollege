@@ -1,8 +1,8 @@
-Click to lean right. Try to stay in the middle!
+GetUpObjective
 点击以向右靠。试着保持在中间！
-Click to start.
+GetUpStart
 点击以开始。
-You did it!
+GetUpPass
 你做到了！
-You lost your balance!
+GetUpFail
 你失去了平衡！

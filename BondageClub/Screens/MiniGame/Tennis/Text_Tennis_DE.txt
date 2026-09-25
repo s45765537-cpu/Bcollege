@@ -1,16 +1,16 @@
-Click to start.
+Start
 Klicke zum starten.
-Send the tennis ball past your opponent.
+Intro1
 Schicke den Tennisball an deiner Gegnerin vorbei.
-Don't let the ball slip through your side.
+Intro2
 Lass den Ball nicht auf deiner Seite durch.
+Point0
 0
-0
+Point1
 15
-15
+Point2
 30
-30
-40
+Point3
 40
 Deuce
 Einstand
@@ -18,11 +18,11 @@ Advantage
 Vorteil
 Winner
 Siegerin
-Victory!  Perfect game.
+Perfect
 Gewonnen! Perfektes Spiel.
-You won the game.
+Victory
 Du hast das Spiel gewonnen.
-You lost the game.
+Defeat
 Du hast das Spiel verloren.
-Click on yourself to continue.
+ClickContinue
 Klicke dich an, um fortzufahren.

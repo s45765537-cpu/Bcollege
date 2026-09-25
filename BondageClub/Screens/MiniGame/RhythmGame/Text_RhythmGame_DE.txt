@@ -1,6 +1,6 @@
-Audience Patience Level
+AudiencePatienceLevel
 Toleranz des Publikums
-Accuracy
+Acc
 Genauigkeit
-Bonus
+Score
 Bonus

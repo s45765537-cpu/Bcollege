@@ -1,8 +1,8 @@
-Click anywhere when the lockpick circle crosses the hole.
+Intro1
 Щелкните в любом месте, когда круг отмычки пересекает отверстие.
-You unlocked the chest.
+Victory
 Вы открыли сундук.
-You failed to unlock the chest.
+Defeat
 Вы не смогли открыть сундук.
-Click here to continue.
+ClickContinue
 Нажмите здесь для продолжения.

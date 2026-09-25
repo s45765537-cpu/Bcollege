@@ -1,2 +1,2 @@
-Sorry miss. You don't have enough money for that right now.
+NotEnoughMoney
 Entschuldige Miss, sie haben dafür nicht genug Geld.

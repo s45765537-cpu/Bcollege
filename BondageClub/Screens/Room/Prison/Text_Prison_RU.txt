@@ -1,4 +1,4 @@
-﻿(You are under lock and key.)
+LockKey
 (Ты находишься под замком.)
-(You have to guard the room.)
+Watch
 (Ты должна охранять комнату.)

@@ -1,6 +1,6 @@
-Return to the Club
+Exit
 返回俱乐部
-Your Profile
+Profile
 个人档案
-Build your decks
+Build
 构建你的套牌

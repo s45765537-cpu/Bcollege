@@ -1,68 +1,68 @@
-Leave Pandora's Box
+PathExit
 Покинуть ящик Пандоры
-Go upstairs
+PathStairsUp
 Идти наверх
-Go downstairs
+PathStairsDown
 Спуститься вниз
-Search the room
+PathSearch
 Обыскать комнату
-Rest to recover with time
+PathRest
 Отдыхайте, чтобы со временем восстановиться
-Paint the room
+PathPaint
 Покрасить комнату
-Stop searching
+SearchStop
 Остановить поиск
-Stop resting
+RestStop
 Перестать отдыхать
-You already found the TargetName.  Get out now.
+AlreadyFound
 Вы уже нашли TargetName. Уберайтесь немедленно.
-You found the TargetName.  Get out while you can.
+FoundItem
 Вы нашли TargetName. Убирайся, пока можешь.
-You first need to find some paint.
+NoPaint
 Сначала нужно найти краску.
-This room is already painted.
+AlreadyPainted
 Эта комната уже окрашена.
-The room must be empty.
+RoomEmptyToPaint
 Комната должна быть пустой.
-Go north (W)
+DirectionNorth
 Идите на север (W/Ц)
-Go south (S)
+DirectionSouth
 Иди на юг (S/Ы)
-Go east (D)
+DirectionEast
 Идти на восток (D/В)
-Go west (A)
+DirectionWest
 Идти на запад(A/Ф)
-underground
+LevelNameUnderground
 подземный
-ground
+LevelNameGround
 земля
-second
+LevelNameSecond
 второй
-north
+FirstDirectionNorth
 север
-south
+FirstDirectionSouth
 юг
-west
+FirstDirectionWest
 запад
-east
+FirstDirectionEast
 восток
-(The lights turn on and you're quickly spotted.  Dominatrixes confiscate your goods and drag you to a cell.)  I'll teach you a lesson little burglar.
+CatBurglarPunishment
 (Включается свет, и вас быстро замечают. Доминатриксы конфискуют ваши вещи и тащат вас в камеру.) Я преподам тебе урок, маленькая грабительница.
-Work:
+ReverseMaidProgress
 Работа:
+Graffiti0
 FTW
-FTW
-The Box Sucks
+Graffiti1
 Коробка-отстой
-The Bondage Club Rules
+Graffiti2
 Правила Клуба Бондажа
-Eat my shorts
+Graffiti3
 Съешь мои шорты
+Graffiti4
 BC > PB
-BC > PB
-REDRUM
+Graffiti5
 РЕДРУМ
-Get out!
+Graffiti6
 Убирайся!
-BDSM 4 EVER
+Graffiti7
 BDSM 4 EVER

@@ -1,8 +1,8 @@
-Click anywhere when the lockpick circle crosses the hole.
+Intro1
 当开锁器的圆圈和锁上的洞重合时点击任意位置。
-You unlocked the chest.
+Victory
 你解锁了箱子。
-You failed to unlock the chest.
+Defeat
 你没能解锁箱子。
-Click here to continue.
+ClickContinue
 点击此处继续。

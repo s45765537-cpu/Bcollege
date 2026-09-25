@@ -1,2042 +1,2598 @@
-Kiss
+ActivityKiss
 Kuss
-French Kiss
+ActivityFrenchKiss
 Zungenkuss
-Polite Kiss
+ActivityPoliteKiss
 Höflicher Kuss
-Gagged Kiss
+ActivityGaggedKiss
 Knebelkuss
-Lick
+ActivityLick
 Lecken
-Suck
+ActivitySuck
 Saugen
-Nibble
+ActivityNibble
 Knabbern
-Bite
+ActivityBite
 Beissen
-Sexy Whisper
+ActivityWhisper
 Sexy Flüstern
-Tickle
+ActivityTickle
 Kitzeln
-Caress
+ActivityCaress
 Streicheln
-Pet
+ActivityPet
 Tätscheln
-Cuddle
+ActivityCuddle
 Kuscheln
-Body Rub
+ActivityRub
 Körper reiben
-Hands Massage
+ActivityMassageHands
 Hände massieren
-Feet Massage
+ActivityMassageFeet
 Füsse massieren
-Polish
+ActivityPolish
 Polieren
-Grope
+ActivityGrope
 Grabschen
-Pinch
+ActivityPinch
 Kneifen
-Spank
+ActivitySpank
 Spanken
-Slap
+ActivitySlap
 Klatschen
-Take Care
+ActivityTakeCare
 Kümmern
-Pull
+ActivityPull
 Ziehen
-Choke
+ActivityChoke
 Würgen
-Tongue Masturbation
+ActivityMasturbateTongue
 Intim lecken
+ActivityMasturbateHand
 Hand Masturbation
-Hand Masturbation
-Fist Masturbation
+ActivityMasturbateFist
 Faust Masturbation
-Foot Masturbation
+ActivityMasturbateFoot
 Fuß Masturbation
-Masturbate
+ActivityMasturbateItem
 Masturbieren
-Slow Penetration
+ActivityPenetrateSlow
 Langsam penetrieren
-Fast Penetration
+ActivityPenetrateFast
 Schnell penetrieren
-Hand Gag
+ActivityHandGag
 Mund zu halten
-Rest Head
+ActivityRestHead
 Kopf anlehnen
-Rub
+ActivitySpankItem
+Spanken
+ActivityTickleItem
+Kitzeln
+ActivityRubItem
 Reiben
-Roll
+ActivityRollItem
 Rollen
-Pour
+ActivityPourItem
 Giessen
-Shock
+ActivityShockItem
 Schocken
-Inject
+ActivityInject
 Injezieren
-Moan into Gag
+ActivityMoanGag
 In Knebel stöhnen
-Whimper into Gag
+ActivityMoanGagWhimper
 In Knebel wimmern
-Shout into Gag
+ActivityMoanGagAngry
 In Knebel schreien
-Groan into Gag
+ActivityMoanGagGroan
 In Knebel jammern
-Talk into Gag
+ActivityMoanGagTalk
 In Knebel reden
-Giggle into gag
+ActivityMoanGagGiggle
 In Knebel kichern
-Kiss on Gag
+ActivityGagKiss
 Auf Knebel küssen
-Wiggle
+ActivityWiggle
 Zappeln
-Nod
+ActivityNod
 Nicken
-Sit
+ActivitySit
 Sitzen
-Struggle (arms)
+ActivityStruggleArms
 Herauswinden (Arme)
-Struggle (legs)
+ActivityStruggleLegs
 Herauswinden (Beine)
-Step
+ActivityStep
 Steigen
-Kick
+ActivityKick
 Treten
-Sisters Hug
+ActivitySistersHug
 Schwesterliche Umarmung
-Brothers Handshake
+ActivityBrothersHandshake
 Brüderlicher Handschlag
-Siblings Cheek Kiss
+ActivitySiblingsCheekKiss
 Geschwisterlicher Wangenkuss
-Sip
+ActivitySipItem
 Schlürfen
-Eat
+ActivityEatItem
 Essen
-Scratch
+ActivityScratch
 Kratzen
-Throw Item
+ActivityThrowItem
 Werfen
-SourceCharacter is tormented by the vibrations, struggling to keep PronounPossessive cool.
+ActivitySuckPenetrateItem
+Saugen
+OrgasmFailResist0
 SourceCharacter wird von den Vibrationen gequält und hat Mühe, sich zu beherschen.
-SourceCharacter struggles against the intense vibrations, hardly able to control PronounPossessiveself.
+OrgasmFailResist1
 SourceCharacter kämpft gegen die starken Vibrationen und kann sich kaum kontrollieren.
-SourceCharacter resists the stimulation until it finally cuts off abruptly.
+OrgasmFailResist2
 SourceCharacter widersetzt sich der Stimulation, bis diese schliesslich abrupt endet.
-SourceCharacter vibrators stop abruptly, leaving PronounPossessive trembling yet still just as aroused as before.
+OrgasmFailTimeout0
 SourceCharacter Vibrationen stoppen abrupt und lassen PronounPossessive genauso erregt wie zuvor zittern.
-SourceCharacter moans and trembles, holding back only because the vibrators abruptly stopped.
+OrgasmFailTimeout1
 SourceCharacter stöhnt und zittert und kann sich nur zurückhalten, weil die Vibratoren abrupt aufhören.
-SourceCharacter twists and turns trying to hold back, vindicated by an abrupt end to PronounPossessive torment.
+OrgasmFailTimeout2
 SourceCharacter windet sich wegen dem abruptem Ende der Qualen hin und her.
-SourceCharacter closes PronounPossessive eyes and tries to let PronounSelf go, clinging to the edge until it abruptly stops and leaves PronounPossessive feeling empty.
+OrgasmFailSurrender0
 SourceCharacter schliesst die Augen und versucht loszulassen, kommt jedoch nicht über den gewissen Punkt bevor das Gefühl endet.
-SourceCharacter moans and silently screams as the vibrators almost bring PronounPossessive to the edge before stopping.
+OrgasmFailSurrender1
 SourceCharacter stöhnt und schreit leise, während die Vibratoren PronounPossessive fast an den Rand bringen, bevor sie aufhören.
-SourceCharacter trembles with pleasure until the teasing comes to an abrupt end, feeling just as aroused as before.
+OrgasmFailSurrender2
 SourceCharacter zittert vor Vergnügen, bis das Befriedigen abrupt endet und fühlt sich genauso erregt wie zuvor.
-SourceCharacter trembles and moans loudly, getting a powerful orgasm.
+Orgasm0
 SourceCharacter zittert und stöhnt laut und bekommt einen heftigen Orgasmus.
-SourceCharacter thrashes and loses all control, getting an intense orgasm.
+Orgasm1
 SourceCharacter verliert jegliche Kontrolle und bekommt einen intensiven Orgasmus.
-SourceCharacter screams silently and rocks PronounPossessive hips, getting a wonderful orgasm.
+Orgasm2
 SourceCharacter schreit leise, wiegt die Hüften und bekommt einen wunderbaren Orgasmus.
-With intense pleasure, SourceCharacter gets a shattering orgasm.
+Orgasm3
 Mit intensiver Lust bekommt SourceCharacter einen wahnsinns Orgasmus.
-SourceCharacter closes PronounPossessive eyes and lets PronounSelf go, getting a lovely orgasm.
+Orgasm4
 SourceCharacter schließt die Augen, lässt los und bekommt einen schönen Orgasmus.
-SourceCharacter cannot resist the pleasure and succumbs to a great orgasm.
+Orgasm5
 SourceCharacter kann dem Vergnügen nicht widerstehen und erliegt einem großartigen Orgasmus.
-Trembling and moaning rapidly, SourceCharacter gets a fierce orgasm.
+Orgasm6
 Unter Stöhnen und schnellem Zittern bekommt SourceCharacter einen heftigen Orgasmus.
-SourceCharacter explodes in pleasure, getting a massive orgasm.
+Orgasm7
 SourceCharacter explodiert vor Vergnügen und bekommt einen gewaltigen Orgasmus.
-SourceCharacter's body cringes and becomes rigid, getting a long and solid orgasm.
+Orgasm8
 Der Körper von SourceCharacter zuckt zusammen und spannt sich an, was zu einem langen und starkem Orgasmus führt.
-SourceCharacter goes berserk with pleasure, giving PronounObject two back-to-back orgasms.
+Orgasm9
 SourceCharacter wird vor Vergnügen verrückt. Das Vergnügen ruft zwei aufeinanderfolgende Orgasmen hervor.
-Using all of PronounPossessive strength, SourceCharacter is able to resist PronounPossessive building orgasm.
+OrgasmResist0
 Mit aller Stärke ist SourceCharacter in der Lage, einem Orgasmus zu widerstehen.
-SourceCharacter fights really hard against PronounPossessive orgasm and is able to resist it.
+OrgasmResist1
 SourceCharacter kämpft wirklich hart gegen den Orgasmus an und kann ihm widerstehen.
-While panting and moaning, SourceCharacter is able to resist PronounPossessive orgasm.
+OrgasmResist2
 Unter keuchen und stöhnen, kann SourceCharacter dem Orgasmus widerstehen.
-SourceCharacter fights off PronounPossessive coming orgasm, PronounPossessive willpower is greater than PronounPossessive urges.
+OrgasmResist3
 SourceCharacter widersteht dem bevorstehenden Orgasmus. Die Willenskraft ist größer als die Geilheit.
-SourceCharacter concentrates hard and is able to calm down PronounPossessive upcoming orgasm.
+OrgasmResist4
 SourceCharacter konzentriert sich stark und kann den bevorstehenden Orgasmus unterdrücken.
-SourceCharacter screams silently and fights hard to finally control PronounPossessive orgasm.
+OrgasmResist5
 SourceCharacter schreit leise und kämpft hart darum, den Orgasmus zu kontrollieren.
-Even while trembling without much control, SourceCharacter can resist PronounPossessive orgasm.
+OrgasmResist6
 Obwohl SourceCharacter ohne große Kontrolle zittert, kann PronounPossessive dem Orgasmus widerstehen.
-SourceCharacter's body jerks in all directions, but she manages to fight off PronounPossessive orgasm.
+OrgasmResist7
 SourceCharacter's Körper zuckt in alle Richtungen, schafft es aber den Orgasmus zu kontrollieren.
-SourceCharacter meditates and takes deep breathes, resisting PronounPossessive building orgasm.
+OrgasmResist8
 SourceCharacter meditiert und atmet tief durch, um sich dem Aufbau eines Orgasmus zu widersetzt
-By pure luck or some miracle, SourceCharacter is able to combat PronounPossessive orgasm.
+OrgasmResist9
 Durch reines Glück oder ein Wunder ist SourceCharacter in der Lage, den Orgasmus zu unterdrücken.
-Bite Arm
+Label-ChatOther-ItemArms-Bite
 Arme beissen
-Caress Arms
+Label-ChatOther-ItemArms-Caress
 Arme streicheln
-Rub Gag on Arm
+Label-ChatOther-ItemArms-Cuddle
+Kuscheln
+Label-ChatOther-ItemArms-GaggedKiss
 Knebel an Arm reiben
-Grab Arm
+Label-ChatOther-ItemArms-Grope
 Arm greifen
-Inject Arms
+Label-ChatOther-ItemArms-Inject
 Arm injezieren
-Kiss Arm
+Label-ChatOther-ItemArms-Kiss
 Arm küssen
-Lick Arm
+Label-ChatOther-ItemArms-Lick
 Arm lecken
-Massage Arms
+Label-ChatOther-ItemArms-MassageHands
 Arm massieren
-Nibble Arm
+Label-ChatOther-ItemArms-Nibble
 Am Arm knabbern
-Pinch Upper Arm
+Label-ChatOther-ItemArms-Pinch
 Oberarm kneifen
-Pour on Arm
+Label-ChatOther-ItemArms-PourItem
 über Arm gießen
-Roll over Arm
+Label-ChatOther-ItemArms-RollItem
 über Arm rollen
-Rub on Arm
+Label-ChatOther-ItemArms-RubItem
 An Arm reiben
-Shock Arm
+Label-ChatOther-ItemArms-Scratch
+Kratzen
+Label-ChatOther-ItemArms-ShockItem
 Arm schocken
-Spank Arm
+Label-ChatOther-ItemArms-Spank
 Arm spanken
-Tickle Arms
+Label-ChatOther-ItemArms-SpankItem
+Arm spanken
+Label-ChatOther-ItemArms-Tickle
 Arme kitzeln
-Tickle Arm
+Label-ChatOther-ItemArms-TickleItem
 Arm kitzeln
-Bite Foot
+Label-ChatOther-ItemArms-SistersHug
+Schwesterliche Umarmung
+Label-ChatOther-ItemBoots-Bite
 Füsse beißen
-Caress Feet
+Label-ChatOther-ItemBoots-Caress
 Füsse streicheln
-Touch Foot with Gag
+Label-ChatOther-ItemBoots-GaggedKiss
 Fuss mit Knebel berühren
-Kick Foot
+Label-ChatOther-ItemBoots-Kick
 Fuss treten
-Kiss Foot
+Label-ChatOther-ItemBoots-Kiss
 Fuss küssen
-Lick Feet
+Label-ChatOther-ItemBoots-Lick
 Füsse lecken
-Play with Feet
+Label-ChatOther-ItemBoots-MassageFeet
 Mit den Füssen spielen
-Massage Feet
+Label-ChatOther-ItemBoots-MassageHands
 Füsse massieren
-Nibble Feet
+Label-ChatOther-ItemBoots-Nibble
 Füse knabbern
-Polite Kiss on Foot
+Label-ChatOther-ItemBoots-PoliteKiss
 Höflicher Kuss auf Füsse
-Pour on Feet
+Label-ChatOther-ItemBoots-PourItem
 Auf Füsse giessen
-Roll over Feet
+Label-ChatOther-ItemBoots-RollItem
 über füße rollen
-Rub on Feet
+Label-ChatOther-ItemBoots-RubItem
 An Füssen reiben
-Shock Feet
+Label-ChatOther-ItemBoots-Scratch
+Kratzen
+Label-ChatOther-ItemBoots-ShockItem
 Füsse shocken
-Spank Sole
+Label-ChatOther-ItemBoots-Spank
 Fusssohle spanken
-Spank Feet
+Label-ChatOther-ItemBoots-SpankItem
 Füse spanken
-Suck Big Toe
+Label-ChatOther-ItemBoots-Suck
 Großen Zeh saugen
-Polish Toenails
+Label-ChatOther-ItemBoots-TakeCare
 Zehnenägel polieren
-Tickle Sole
+Label-ChatOther-ItemBoots-Tickle
 Fussohle kitzeln
-Tickle Feet
+Label-ChatOther-ItemBoots-TickleItem
 Füsse kitzeln
-Bite Breast
+Label-ChatOther-ItemBreast-Bite
 Brüste beissen
-Caress Breast
+Label-ChatOther-ItemBreast-Caress
 Brüste streicheln
-Press Gag on Breast
+Label-ChatOther-ItemBreast-GaggedKiss
 Knebel gegen Brust drücken
-Grope Breast
+Label-ChatOther-ItemBreast-Grope
 Brüste grabschen
-Inject Breasts
+Label-ChatOther-ItemBreast-Inject
 Brüste injezierene
-Kiss Breast
+Label-ChatOther-ItemBreast-Kiss
 Brüste küssen
-Lick Breast
+Label-ChatOther-ItemBreast-Lick
 Brüste lecken
-Masturbate Breast
+Label-ChatOther-ItemBreast-MasturbateHand
 Brüste fingern
-Pour on Breast
+Label-ChatOther-ItemBreast-MasturbateItem
+Brüste fingern
+Label-ChatOther-ItemBreast-PourItem
 Auf Brüste gießen
-Rest Head on Breast
+Label-ChatOther-ItemBreast-RestHead
 Kopf an Brüste lehnen
-Roll over Breast
+Label-ChatOther-ItemBreast-RollItem
 über Brüste rollen
-Rub on Breast
+Label-ChatOther-ItemBreast-RubItem
 An Brüste reiben
-Shock Breast
+Label-ChatOther-ItemBreast-Scratch
+Kratzen
+Label-ChatOther-ItemBreast-ShockItem
 Brüste schocken
-Slap Breast
+Label-ChatOther-ItemBreast-Slap
 Brüste schlagen
-Spank Breast
+Label-ChatOther-ItemBreast-SpankItem
 Brüste spanken
-Step on Breast
+Label-ChatOther-ItemBreast-Step
 Auf Brüste stehen
-Tickle Breast
+Label-ChatOther-ItemBreast-Tickle
 Brüste kitzeln
-Throw
+Label-ChatOther-ItemBreast-TickleItem
+Brüste kitzeln
+Label-ChatOther-ItemBreast-ThrowItem
 Werfen
-Bite Butt
+Label-ChatOther-ItemButt-Bite
 Hintern beissen
-Caress Butt
+Label-ChatOther-ItemButt-Caress
 Hintern streicheln
-Rub Gag on Butt
+Label-ChatOther-ItemButt-GaggedKiss
 Knebel an Hintern reiben
-Grope Butt
+Label-ChatOther-ItemButt-Grope
 Hintern grabschen
-Inject Butt
+Label-ChatOther-ItemButt-Inject
 Hintern injezieren
-Kick Butt
+Label-ChatOther-ItemButt-Kick
 Arsch treten
-Kiss Butt
+Label-ChatOther-ItemButt-Kiss
 Hintern küssen
-Fist Ass
+Label-ChatOther-ItemButt-MasturbateFist
 Po fisten
-Finger Ass
+Label-ChatOther-ItemButt-MasturbateHand
 Po fingern
-Masturbate Butt
+Label-ChatOther-ItemButt-MasturbateItem
 Po masturbieren
-Tongue Masturbate Ass
+Label-ChatOther-ItemButt-MasturbateTongue
 Po mit Zunge masturbieren
-Pour on Butt
+Label-ChatOther-ItemButt-PenetrateFast
+Schnell penetrieren
+Label-ChatOther-ItemButt-PenetrateSlow
+Langsam penetrieren
+Label-ChatOther-ItemButt-PourItem
 über Po giessen
-Roll over Butt
+Label-ChatOther-ItemButt-RollItem
 über Hintern rollen
-Rub on Butt
+Label-ChatOther-ItemButt-RubItem
 An Po reiben
-Shock Butt
+Label-ChatOther-ItemButt-Scratch
+Kratzen
+Label-ChatOther-ItemButt-ShockItem
 Hintern shocken
-Spank Butt
+Label-ChatOther-ItemButt-Spank
 Hintern spanken
-Press Foot in Ass
+Label-ChatOther-ItemButt-SpankItem
+Hintern spanken
+Label-ChatOther-ItemButt-Step
 Fuss in Arsch pressen
-Tickle Butt
+Label-ChatOther-ItemButt-TickleItem
 Hintern kitzeln
-Bite Ear
+Label-ChatOther-ItemEars-Bite
 Ohr beißen
-Caress Ear
+Label-ChatOther-ItemEars-Caress
 Ohr streicheln
-Gag Kiss on Ear
+Label-ChatOther-ItemEars-GaggedKiss
 Mit Knebel Ohr küssen
-Kiss Ear
+Label-ChatOther-ItemEars-Kiss
 Ohr küssen
-Lick Ear
+Label-ChatOther-ItemEars-Lick
 Ohr lecken
-Nibble Ear
+Label-ChatOther-ItemEars-Nibble
 Ohr knabbern
-Pinch Ear
+Label-ChatOther-ItemEars-Pinch
 Ohr kneifen
-Roll over Ear
+Label-ChatOther-ItemEars-RollItem
 über Ohr rollen
-Rub on Ear
+Label-ChatOther-ItemEars-RubItem
 An Ohr reiben
-Tickle Ear
+Label-ChatOther-ItemEars-Scratch
+Kratzen
+Label-ChatOther-ItemEars-TickleItem
 Ohr kitzeln
-Whisper in Ear
+Label-ChatOther-ItemEars-Whisper
 In Ohr flüstern
-Bite Leg
+Label-ChatOther-ItemFeet-Bite
 Bein beissen
-Caress Leg
+Label-ChatOther-ItemFeet-Caress
 Bein streicheln
-Touch Leg with Gag
+Label-ChatOther-ItemFeet-GaggedKiss
 Bein mit Knebel berühren
-Grope Leg
+Label-ChatOther-ItemFeet-Grope
 Bein grabschen
-Inject Legs
+Label-ChatOther-ItemFeet-Inject
 Bein injezieren
-Kick Legs
+Label-ChatOther-ItemFeet-Kick
 Bein treten
-Kiss Leg
+Label-ChatOther-ItemFeet-Kiss
 Bein küssen
-Lick Leg
+Label-ChatOther-ItemFeet-Lick
 Bein lecken
-Massage Leg
+Label-ChatOther-ItemFeet-MassageHands
 Bein massieren
-Masturbate Leg
+Label-ChatOther-ItemFeet-MasturbateItem
 Bein masturbieren
-Nibble Leg
+Label-ChatOther-ItemFeet-Nibble
 Bein knabbern
-Pour on Leg
+Label-ChatOther-ItemFeet-PourItem
 über Bein gießen
-Roll over Leg
+Label-ChatOther-ItemFeet-RollItem
 über Bein rollen
-Rub on Leg
+Label-ChatOther-ItemFeet-RubItem
 An Bein reiben
-Shock Leg
+Label-ChatOther-ItemFeet-Scratch
+Kratzen
+Label-ChatOther-ItemFeet-ShockItem
 Bein shocken
-Spank Leg
+Label-ChatOther-ItemFeet-Spank
 Bein spanken
-Spank Legs
+Label-ChatOther-ItemFeet-SpankItem
 Beine spanken
-Tickle Leg
+Label-ChatOther-ItemFeet-Tickle
 Bein kitzeln
-Caress Glans
+Label-ChatOther-ItemFeet-TickleItem
+Bein kitzeln
+Label-ChatOther-ItemFeet-ThrowItem
+Werfen
+Label-ChatOther-ItemGlans-Caress
 Eier streicheln
-Gag Kiss Glans
+Label-ChatOther-ItemGlans-GaggedKiss
 Eier mit Knebel küssen
-Inject Glans
+Label-ChatOther-ItemGlans-Inject
 Eier injezieren
-Kick Glans
+Label-ChatOther-ItemGlans-Kick
 Eier treten
-Kiss Glans
+Label-ChatOther-ItemGlans-Kiss
 Eier küssen
-Lick Glans
+Label-ChatOther-ItemGlans-Lick
 Eier lecken
-Foot Masturbate Glans
+Label-ChatOther-ItemGlans-MasturbateFoot
 Eier mit Füßen masturbieren
-Masturbate Glans
+Label-ChatOther-ItemGlans-MasturbateHand
 Eier masturbieren
-Device on Glans
+Label-ChatOther-ItemGlans-MasturbateItem
 An Eiern benutzen
-Tongue Masturbate Glans
+Label-ChatOther-ItemGlans-MasturbateTongue
 Eier mit Zunge masturbieren
-Nibble Glans
+Label-ChatOther-ItemGlans-Nibble
 Eier knabbern
-Rub on Glans
+Label-ChatOther-ItemGlans-RubItem
 An Eier reiben
-Shock Glans
+Label-ChatOther-ItemGlans-ShockItem
 Eier schocken
-Slap Glans
+Label-ChatOther-ItemGlans-Slap
 Eier schlagen
-Spank Glans
+Label-ChatOther-ItemGlans-SpankItem
 Eier spanken
-Tickle Glans
+Label-ChatOther-ItemGlans-TickleItem
 Eier kitzeln
-Bite Hand
+Label-ChatOther-ItemHands-Bite
 Hand beißen
-Caress Hand
+Label-ChatOther-ItemHands-Caress
 Hand streicheln
-Touch Hand with Gag
+Label-ChatOther-ItemHands-GaggedKiss
 Hand mit Knebel berühren
-Kiss Hand
+Label-ChatOther-ItemHands-Kiss
 Hand küssen
-Lick Hand
+Label-ChatOther-ItemHands-Lick
 Hand lecken
-Nibble Hand
+Label-ChatOther-ItemHands-Nibble
 Hand knabbern
-Polite Kiss on Hand
+Label-ChatOther-ItemHands-PoliteKiss
 Höflicher Handkuss
-Spank Hand
+Label-ChatOther-ItemHands-Scratch
+Kratzen
+Label-ChatOther-ItemHands-Spank
 Hand spanken
-Spank Hands
+Label-ChatOther-ItemHands-SpankItem
 Hände spanken
-Suck Fingers
+Label-ChatOther-ItemHands-Suck
 Finger saugen
-Polish Nails
+Label-ChatOther-ItemHands-TakeCare
 Nägel polieren
-Bite Hair
-Haare beißen
-Caress Face
-Gesicht streicheln
-Gag Kiss Forehead
-Mit Knebel Strin küssen
-Kiss Forehead
-Stirn küssen
-Pet Head
-Kopf tätscheln
-Pull Hair
-Haare ziehen
-Rub Breast on Face
-Brüste an Gesicht reiben
-Slap Face
-Gesicht schlagen
-Rub Foot on Face
-Füsse an Gesicht reiben
-Brush Hair
+Label-ChatOther-ItemHands-BrothersHandshake
+Brüderlicher Handschlag
+Label-ChatOther-ItemHead-BrushItem
 Haare kämmen
-Rub on Head
+Label-ChatOther-ItemHead-Bite
+Haare beißen
+Label-ChatOther-ItemHead-Caress
+Gesicht streicheln
+Label-ChatOther-ItemHead-GaggedKiss
+Mit Knebel Strin küssen
+Label-ChatOther-ItemHead-Kiss
+Stirn küssen
+Label-ChatOther-ItemHead-Pet
+Kopf tätscheln
+Label-ChatOther-ItemHead-Pull
+Haare ziehen
+Label-ChatOther-ItemHead-Rub
+Brüste an Gesicht reiben
+Label-ChatOther-ItemHead-Scratch
+Kratzen
+Label-ChatOther-ItemHead-Slap
+Gesicht schlagen
+Label-ChatOther-ItemHead-Step
+Füsse an Gesicht reiben
+Label-ChatOther-ItemHead-TakeCare
+Haare kämmen
+Label-ChatOther-ItemHead-ThrowItem
+Werfen
+Label-ChatOther-ItemHood-RubItem
 An Kopf reiben
-Tickle Head
+Label-ChatOther-ItemHood-TickleItem
 Kof kitzeln
-Bite Thigh
+Label-ChatOther-ItemLegs-Bite
 Schenkel beissen
-Caress Thighs
+Label-ChatOther-ItemLegs-Caress
 Schenkel streicheln
-Rub Gag on Thighs
+Label-ChatOther-ItemLegs-GaggedKiss
 Knebel an Schenkel reiben
-Grope Thigh
+Label-ChatOther-ItemLegs-Grope
 Schenkel grabschen
-Kick Thigh
+Label-ChatOther-ItemLegs-Inject
+Bein injezieren
+Label-ChatOther-ItemLegs-Kick
 Schenkel treten
-Kiss Thigh
+Label-ChatOther-ItemLegs-Kiss
 Schenkel küssen
-Lick Thigh
+Label-ChatOther-ItemLegs-Lick
 Schenkel lecken
-Massage Thighs
+Label-ChatOther-ItemLegs-MassageHands
 Schenkel massieren
-Masturbate Thigh
+Label-ChatOther-ItemLegs-MasturbateItem
 Schenkel masturbieren
-Nibble Thighs
+Label-ChatOther-ItemLegs-Nibble
 Schenkel knabbern
-Pour on Thigh
+Label-ChatOther-ItemLegs-PourItem
 über Schenkel gießen
-Rest Head in Lap
+Label-ChatOther-ItemLegs-RestHead
 Kopf in Schoss legen
-Roll over Thigh
+Label-ChatOther-ItemLegs-RollItem
 über Schenkel rollen
-Rub on Thigh
+Label-ChatOther-ItemLegs-RubItem
 An Schenkel reiben
-Shock Thigh
+Label-ChatOther-ItemLegs-Scratch
+Kratzen
+Label-ChatOther-ItemLegs-ShockItem
 Schenkel schocken
-Sit in Lap
+Label-ChatOther-ItemLegs-Sit
 In Schoss sitzen
-Spank Thighs
+Label-ChatOther-ItemLegs-Spank
 Schenkel spanken
-Tickle Thighs
+Label-ChatOther-ItemLegs-SpankItem
+Beine spanken
+Label-ChatOther-ItemLegs-Tickle
 Schenkel kitzeln
-Tickle Thigh
+Label-ChatOther-ItemLegs-TickleItem
 Schenkel kitzeln
-Bite Lips
+Label-ChatOther-ItemMouth-Bite
 Lippen beissen
-Clean Mouth
+Label-ChatOther-ItemMouth-Clean
 Mund säubern
-Gag Kiss on Cheek
+Label-ChatOther-ItemMouth-EatItem
+Essen
+Label-ChatOther-ItemMouth-FrenchKiss
+Zungenkuss
+Label-ChatOther-ItemMouth-GaggedKiss
 Wange mit Knebel küssen
-Clamp Hand over Mouth
+Label-ChatOther-ItemMouth-GagKiss
+Auf Knebel küssen
+Label-ChatOther-ItemMouth-HandGag
 Mund mit Hand zu halten
-Kiss Lips
+Label-ChatOther-ItemMouth-Kiss
 Lippen küssen
-Lick Lips
+Label-ChatOther-ItemMouth-Lick
 Lippen lecken
-Nibble Lips
+Label-ChatOther-ItemMouth-Nibble
 Lippen knabbern
-Kiss on Cheek
+Label-ChatOther-ItemMouth-PenetrateFast
+Schnell penetrieren
+Label-ChatOther-ItemMouth-PenetrateSlow
+Langsam penetrieren
+Label-ChatOther-ItemMouth-PoliteKiss
 Wangenkuss
-Roll over Mouth
+Label-ChatOther-ItemMouth-RollItem
 über mund rollen
-Rub on Mouth
+Label-ChatOther-ItemMouth-RubItem
 An Mund reiben
-Take a sip
+Label-ChatOther-ItemMouth-Scratch
+Kratzen
+Label-ChatOther-ItemMouth-SipItem
 Schluck nehmen
-Tickle Mouth
+Label-ChatOther-ItemMouth-TickleItem
 Mund kitzeln
-Take in Ass
+Label-ChatOther-ItemMouth-ThrowItem
+Werfen
+Label-ChatOther-ItemMouth-ReversePenetrateAss
 In Hintern
-Take in Pussy
+Label-ChatOther-ItemMouth-ReversePenetratePussy
 In Pussy
-Take in Mouth
+Label-ChatOther-ItemMouth-ReverseSuckItem
 In Mund
-Bite Neck
+Label-ChatOther-ItemMouth-SiblingsCheekKiss
+Geschwisterlicher Wangenkuss
+Label-ChatOther-ItemNeck-Bite
 Nacken beissen
-Caress Neck
+Label-ChatOther-ItemNeck-Caress
 Nacken streicheln
-Choke Neck
+Label-ChatOther-ItemNeck-Choke
 Hals würgen
-Touch Neck with Gag
+Label-ChatOther-ItemNeck-GaggedKiss
 Hals mit Knebel berühren
-Inject Neck
+Label-ChatOther-ItemNeck-Inject
 Hals injezieren
-Kiss Neck
+Label-ChatOther-ItemNeck-Kiss
 Hals küssen
-Lick Neck
+Label-ChatOther-ItemNeck-Lick
 Hals lecken
-Massage Neck
+Label-ChatOther-ItemNeck-MassageHands
 Nacken massieren
-Nibble Neck
+Label-ChatOther-ItemNeck-Nibble
 Nacken knabbern
-Roll over Neck
+Label-ChatOther-ItemNeck-RollItem
 über Hals rollen
-Rub on Neck
+Label-ChatOther-ItemNeck-RubItem
 An Hals reiben
-Shock Neck
+Label-ChatOther-ItemNeck-Scratch
+Kratzen
+Label-ChatOther-ItemNeck-ShockItem
 Hals schocken
-Gently Foot on Neck
+Label-ChatOther-ItemNeck-Step
 Vorsichtig Füsse an Hals
-Tickle Neck
+Label-ChatOther-ItemNeck-Tickle
 Hals kitzeln
-Bite Nipple
+Label-ChatOther-ItemNeck-TickleItem
+Hals kitzeln
+Label-ChatOther-ItemNipples-Bite
 Nippel beissen
-Caress Nipples
+Label-ChatOther-ItemNipples-Caress
 Nippel streicheln
-Press Gag on Nipple
+Label-ChatOther-ItemNipples-GaggedKiss
 Knebel an Nippel drücken
-Kiss Nipple
+Label-ChatOther-ItemNipples-Kiss
 Nippel küssen
-Lick Nipple
+Label-ChatOther-ItemNipples-Lick
 Nippel lecken
-Masturbate Nipple
+Label-ChatOther-ItemNipples-MasturbateItem
 Nippel masturbieren
-Nibble Nipple
+Label-ChatOther-ItemNipples-Nibble
 Nippel knabbern
-Pinch Nipple
+Label-ChatOther-ItemNipples-Pinch
 Nippel kneifen
-Pour on Nipple
+Label-ChatOther-ItemNipples-PourItem
 über Nippel giessen
-Pull Nipples
+Label-ChatOther-ItemNipples-Pull
 Nippel ziehen
-Roll over Nipple
+Label-ChatOther-ItemNipples-RollItem
 über Nippel rollen
-Rub on Nipple
+Label-ChatOther-ItemNipples-RubItem
 Nippel reiben
-Shock Nipple
+Label-ChatOther-ItemNipples-Scratch
+Kratzen
+Label-ChatOther-ItemNipples-ShockItem
 Nippel schocken
-Spank Nipples
+Label-ChatOther-ItemNipples-SpankItem
 Nippel spanken
-Suck Nipple
+Label-ChatOther-ItemNipples-Suck
 Nippel saugen
-Tickle Nipple
+Label-ChatOther-ItemNipples-TickleItem
 Nippel kitzelnn
-Bite Nose
+Label-ChatOther-ItemNose-Bite
 Nase beissen
-Caress Nose
+Label-ChatOther-ItemNose-Caress
 Nase streicheln
-Pinch Nostrils Shut
+Label-ChatOther-ItemNose-Choke
 Nasenflügel zukneifen
-Nose-nuzzle
+Label-ChatOther-ItemNose-Cuddle
 Näseln
-Bump Gag on Nose
+Label-ChatOther-ItemNose-GaggedKiss
 Knebel an Nase stubsen
-Kiss Nose
+Label-ChatOther-ItemNose-Kiss
 Nase küssen
-Lick Nose
+Label-ChatOther-ItemNose-Lick
 Nase lecken
-Nibble Nose
+Label-ChatOther-ItemNose-Nibble
 Nase knabbern
-Boop Nose
+Label-ChatOther-ItemNose-Pet
 Nase stubsen
-Pinch Nose
+Label-ChatOther-ItemNose-Pinch
 Nase kneifen
-Pull Nose
+Label-ChatOther-ItemNose-Pull
 Nase ziehen
-Rub Nose
+Label-ChatOther-ItemNose-Rub
 Nase reiben
-Rub on Nose
+Label-ChatOther-ItemNose-RubItem
 Am Mase reiben
-Force to Smell Feet
+Label-ChatOther-ItemNose-Scratch
+Kratzen
+Label-ChatOther-ItemNose-Step
 Fussgeruch aufzwingen
-Tickle Nose
+Label-ChatOther-ItemNose-TickleItem
 Nase kitzeln
-Caress Tummy
+Label-ChatOther-ItemPelvis-Caress
 Bauch streicheln
-Gag Kiss Tummy
+Label-ChatOther-ItemPelvis-GaggedKiss
 Bauch mit Knebel küssen
-Grope Tummy
+Label-ChatOther-ItemPelvis-Grope
 Bauch grabschen
-Kiss Tummy
+Label-ChatOther-ItemPelvis-Kiss
 Bauch küssen
-Lick Tummy
+Label-ChatOther-ItemPelvis-Lick
 Bauch lecken
-Massage Tummy
+Label-ChatOther-ItemPelvis-MassageHands
 Bacuh massieren
-Masturbate Tummy
+Label-ChatOther-ItemPelvis-MasturbateItem
 Bauch masturbieren
-Nibble Tummy
+Label-ChatOther-ItemPelvis-Nibble
 Bacuh knabbern
-Pinch Tummy
+Label-ChatOther-ItemPelvis-Pinch
 Bacuh kneifen
-Pour on Tummy
+Label-ChatOther-ItemPelvis-PourItem
 Auf Bauch gießen
-Roll over Tummy
+Label-ChatOther-ItemPelvis-RollItem
 über Bauch rollen
-Rub on Tummy
+Label-ChatOther-ItemPelvis-RubItem
 An Bacuh reiben
-Shock Tummy
+Label-ChatOther-ItemPelvis-Scratch
+Kratzen
+Label-ChatOther-ItemPelvis-ShockItem
 Bacuh schocken
-Spank Tummy
+Label-ChatOther-ItemPelvis-Spank
 Bach spanken
-Press Foot on Chest
+Label-ChatOther-ItemPelvis-SpankItem
+Bach spanken
+Label-ChatOther-ItemPelvis-Step
 Fuss auf Brust pressen
-Tickle Tummy
+Label-ChatOther-ItemPelvis-Tickle
 Bauch kitzeln
-Caress Penis
+Label-ChatOther-ItemPelvis-TickleItem
+Bauch kitzeln
+Label-ChatOther-ItemPenis-ReversePenetrateAss
+In Hintern
+Label-ChatOther-ItemPenis-Caress
 Penis streicheln
-Take in Penis
+Label-ChatOther-ItemPenis-ReversePenetratePussy
 In Penis
-Push Gag in Penis
+Label-ChatOther-ItemPenis-GaggedKiss
 Knebel gegen Penis drücken
-Kick Penis
+Label-ChatOther-ItemPenis-Kick
 Penis treten
-Kiss Penis
+Label-ChatOther-ItemPenis-Kiss
 Penis küssen
-Lick Penis
+Label-ChatOther-ItemPenis-Lick
 Penis lecken
-Foot Masturbate Penis
+Label-ChatOther-ItemPenis-MasturbateFoot
 Penis mit Füssen masturbieren
-Masturbate Penis
+Label-ChatOther-ItemPenis-MasturbateHand
 Penis masturbieren
-Device on Penis
+Label-ChatOther-ItemPenis-MasturbateItem
 Mit Penis benutzen
-Tongue Masturbate Penis
+Label-ChatOther-ItemPenis-MasturbateTongue
 Penis zungenmasturbieren
-Nibble Penis
+Label-ChatOther-ItemPenis-Nibble
 Penis knabbern
-Rub on Penis
+Label-ChatOther-ItemPenis-PenetrateFast
+Schnell penetrieren
+Label-ChatOther-ItemPenis-PenetrateSlow
+Langsam penetrieren
+Label-ChatOther-ItemPenis-RubItem
 An Penis reiben
-Shock Penis
+Label-ChatOther-ItemPenis-ShockItem
 Penis schicken
-Slap Penis
+Label-ChatOther-ItemPenis-Slap
 Penis schlagen
-Spank Penis
+Label-ChatOther-ItemPenis-SpankItem
 Penis spanken
-Suck On
+Label-ChatOther-ItemPenis-ReverseSuckItem
 Saugen an
-Tickle Penis
+Label-ChatOther-ItemPenis-TickleItem
 Penis kitzeln
-Bite Back
+Label-ChatOther-ItemPenis-SuckPenetrateItem
+Saugen an
+Label-ChatOther-ItemTorso-Bite
 Rücken beissen
-Caress Back
+Label-ChatOther-ItemTorso-Caress
 Rücken streicheln
-Gag Kiss Back
+Label-ChatOther-ItemTorso-GaggedKiss
 Rücken mit Knebel küssen
-Kiss Back
+Label-ChatOther-ItemTorso-Kiss
 Rüclen küssen
-Lick Back
+Label-ChatOther-ItemTorso-Lick
 Rücken lecken
-Foot Massage Back
+Label-ChatOther-ItemTorso-MassageFeet
 Rücken mit Füßen massieren
-Massage Back
+Label-ChatOther-ItemTorso-MassageHands
 Rückem massieren
-Nibble Ribs
+Label-ChatOther-ItemTorso-Nibble
 Rippen knabbern
-Pour on Back
+Label-ChatOther-ItemTorso-PourItem
 über Rücken giessen
-Roll over Back
+Label-ChatOther-ItemTorso-RollItem
 über Rücken rollen
-Rub Bodies
+Label-ChatOther-ItemTorso-Rub
 Körper reiben
-Rub on Back
+Label-ChatOther-ItemTorso-RubItem
 An Rücken reiben
-Shock Back
+Label-ChatOther-ItemTorso-Scratch
+Kratzen
+Label-ChatOther-ItemTorso-ShockItem
 Rücken schocken
-Spank Back
+Label-ChatOther-ItemTorso-Spank
 Rüücken spanken
-Rest Feet on Back
+Label-ChatOther-ItemTorso-SpankItem
+Rüücken spanken
+Label-ChatOther-ItemTorso-Step
 Füße auf Rücken ablegen
-Tickle Ribs
+Label-ChatOther-ItemTorso-Tickle
 Rippen kitzeln
-Tickle Back
+Label-ChatOther-ItemTorso-TickleItem
 Rücken kitzeln
-Throw on Back
+Label-ChatOther-ItemTorso-ThrowItem
 Auf Rücken werfen
-Caress Pussy
+Label-ChatOther-ItemVulva-ReversePenetrateAss
+In Hintern
+Label-ChatOther-ItemVulva-Caress
 Pussy streicheln
-Push Gag in Pussy
+Label-ChatOther-ItemVulva-ReversePenetratePussy
+In Pussy
+Label-ChatOther-ItemVulva-GaggedKiss
 Knebel in Pussy schieben
-Kick Pussy
+Label-ChatOther-ItemVulva-Kick
 Pussy treten
-Kiss Pussy Lips
+Label-ChatOther-ItemVulva-Kiss
 Schamlippen küssen
-Lick Pussy Lips
+Label-ChatOther-ItemVulva-Lick
 Schamlippen lecken
-Fist Pussy
+Label-ChatOther-ItemVulva-MasturbateFist
 Pussy fisten
-Foot Masturbate Pussy
+Label-ChatOther-ItemVulva-MasturbateFoot
 Pussy mit Füssen masturbieren
-Finger Pussy
+Label-ChatOther-ItemVulva-MasturbateHand
 Pussy fingern
-Device on Pussy
+Label-ChatOther-ItemVulva-MasturbateItem
 An Pussy benutzen
-Tongue Masturbate Pussy
+Label-ChatOther-ItemVulva-MasturbateTongue
 Pussy zungenmasturbieren
-Nibble Pussy Lips
+Label-ChatOther-ItemVulva-Nibble
 Schamlippen knabbern
-Rub on Vulva
+Label-ChatOther-ItemVulva-PenetrateFast
+Schnell penetrieren
+Label-ChatOther-ItemVulva-PenetrateSlow
+Langsam penetrieren
+Label-ChatOther-ItemVulva-RubItem
 An Vulva reiben
-Shock Vulva
+Label-ChatOther-ItemVulva-Scratch
+Kratzen
+Label-ChatOther-ItemVulva-ShockItem
 Vulva schocken
-Slap Pussy Lips
+Label-ChatOther-ItemVulva-Slap
 Schamlippen schlagen
-Spank Pussy
+Label-ChatOther-ItemVulva-SpankItem
 Pussy spanken
-Tickle Vulva
+Label-ChatOther-ItemVulva-SuckPenetrateItem
+Saugen an
+Label-ChatOther-ItemVulva-ReverseSuckItem
+Saugen an
+Label-ChatOther-ItemVulva-TickleItem
 Vulva kitzeln
-Caress Clitoris
+Label-ChatOther-ItemVulvaPiercings-Caress
 Clitoris streicheln
-Gag Kiss Clitoris
+Label-ChatOther-ItemVulvaPiercings-GaggedKiss
 Clitoris mit Knebel küssen
-Inject Clitoris
+Label-ChatOther-ItemVulvaPiercings-Inject
 Clitoris injezieren
-Kick Clitoris
+Label-ChatOther-ItemVulvaPiercings-Kick
 Clitoris treten
-Kiss Clitoris
+Label-ChatOther-ItemVulvaPiercings-Kiss
 Clitorisküssen
-Lick Clitoris
+Label-ChatOther-ItemVulvaPiercings-Lick
 Clitoris lecken
-Foot Masturbate Clitoris
+Label-ChatOther-ItemVulvaPiercings-MasturbateFoot
 Clitoris mit Füssen masturbieren
-Finger Clitoris
+Label-ChatOther-ItemVulvaPiercings-MasturbateHand
 Clitoris fingern
-Device on Clitoris
+Label-ChatOther-ItemVulvaPiercings-MasturbateItem
 An Clitoris benutzen
-Tongue Masturbate Clitoris
+Label-ChatOther-ItemVulvaPiercings-MasturbateTongue
 Clitoris mit Zunge masturbieren
-Nibble Clitoris
+Label-ChatOther-ItemVulvaPiercings-Nibble
 Clitoris knabbern
-Rub on Clitoris
+Label-ChatOther-ItemVulvaPiercings-RubItem
 An Clitoris reiben
-Shock Clitoris
+Label-ChatOther-ItemVulvaPiercings-ShockItem
 Clitoris schocken
-Slap Clitoris
+Label-ChatOther-ItemVulvaPiercings-Slap
 Clitoris schlagen
-Spank Clitoris
+Label-ChatOther-ItemVulvaPiercings-SpankItem
 Clitoris spanken
-Tickle Clitoris
+Label-ChatOther-ItemVulvaPiercings-TickleItem
 Clitoris kitzeln
-Struggle against Binds
+Label-ChatSelf-ItemArms-Bite
+Arme beissen
+Label-ChatSelf-ItemArms-Caress
+Arme streicheln
+Label-ChatSelf-ItemArms-Inject
+Arm injezieren
+Label-ChatSelf-ItemArms-Kiss
+Arm küssen
+Label-ChatSelf-ItemArms-Lick
+Arm lecken
+Label-ChatSelf-ItemArms-MassageHands
+Arm massieren
+Label-ChatSelf-ItemArms-Nibble
+Am Arm knabbern
+Label-ChatSelf-ItemArms-Pinch
+Oberarm kneifen
+Label-ChatSelf-ItemArms-PourItem
+über Arm gießen
+Label-ChatSelf-ItemArms-RollItem
+über Arm rollen
+Label-ChatSelf-ItemArms-RubItem
+An Arm reiben
+Label-ChatSelf-ItemArms-Scratch
+Kratzen
+Label-ChatSelf-ItemArms-ShockItem
+Arm schocken
+Label-ChatSelf-ItemArms-Spank
+Arm spanken
+Label-ChatSelf-ItemArms-SpankItem
+Arm spanken
+Label-ChatSelf-ItemArms-StruggleArms
 Gegen Fesseln wehren
-Wiggle Shoulders
+Label-ChatSelf-ItemArms-Tickle
+Arm kitzeln
+Label-ChatSelf-ItemArms-TickleItem
+Arm kitzeln
+Label-ChatSelf-ItemArms-Wiggle
 Schultern entspannen
-Wiggle Feet
-Füsse entspannen
-Spank Breasts
-Brüste spanken
-Shake Breasts
-Brüste schütteln
-Wiggle Butt
-Hintern wackeln
-Wiggle Ears
-Ohren wackeln
-Caress Legs
+Label-ChatSelf-ItemBoots-Bite
+Füsse beißen
+Label-ChatSelf-ItemBoots-Caress
 Füsse streicheln
-Massage Legs
+Label-ChatSelf-ItemBoots-Kiss
+Fuss küssen
+Label-ChatSelf-ItemBoots-Lick
+Füsse lecken
+Label-ChatSelf-ItemBoots-MassageHands
 Füsse massieren
-Wiggle Legs
+Label-ChatSelf-ItemBoots-Nibble
+Füse knabbern
+Label-ChatSelf-ItemBoots-PoliteKiss
+Höflicher Kuss auf Füsse
+Label-ChatSelf-ItemBoots-PourItem
+Auf Füsse giessen
+Label-ChatSelf-ItemBoots-RollItem
+über füße rollen
+Label-ChatSelf-ItemBoots-RubItem
+An Füssen reiben
+Label-ChatSelf-ItemBoots-Scratch
+Kratzen
+Label-ChatSelf-ItemBoots-ShockItem
+Füsse shocken
+Label-ChatSelf-ItemBoots-Spank
+Füse spanken
+Label-ChatSelf-ItemBoots-SpankItem
+Füse spanken
+Label-ChatSelf-ItemBoots-Suck
+Großen Zeh saugen
+Label-ChatSelf-ItemBoots-TakeCare
+Zehnenägel polieren
+Label-ChatSelf-ItemBoots-Tickle
+Füsse kitzeln
+Label-ChatSelf-ItemBoots-TickleItem
+Füsse kitzeln
+Label-ChatSelf-ItemBoots-Wiggle
+Füsse entspannen
+Label-ChatSelf-ItemBreast-Caress
+Brüste streicheln
+Label-ChatSelf-ItemBreast-Grope
+Brüste grabschen
+Label-ChatSelf-ItemBreast-Inject
+Brüste injezierene
+Label-ChatSelf-ItemBreast-Kiss
+Brüste küssen
+Label-ChatSelf-ItemBreast-Lick
+Brüste lecken
+Label-ChatSelf-ItemBreast-MasturbateHand
+Brüste fingern
+Label-ChatSelf-ItemBreast-MasturbateItem
+Brüste fingern
+Label-ChatSelf-ItemBreast-PourItem
+Auf Brüste gießen
+Label-ChatSelf-ItemBreast-RollItem
+über Brüste rollen
+Label-ChatSelf-ItemBreast-RubItem
+An Brüste reiben
+Label-ChatSelf-ItemBreast-Scratch
+Kratzen
+Label-ChatSelf-ItemBreast-ShockItem
+Brüste schocken
+Label-ChatSelf-ItemBreast-Slap
+Brüste schlagen
+Label-ChatSelf-ItemBreast-SpankItem
+Brüste spanken
+Label-ChatSelf-ItemBreast-Tickle
+Brüste kitzeln
+Label-ChatSelf-ItemBreast-TickleItem
+Brüste kitzeln
+Label-ChatSelf-ItemBreast-ThrowItem
+Werfen
+Label-ChatSelf-ItemBreast-Wiggle
+Brüste schütteln
+Label-ChatSelf-ItemButt-Caress
+Hintern streicheln
+Label-ChatSelf-ItemButt-Grope
+Hintern grabschen
+Label-ChatSelf-ItemButt-Inject
+Hintern injezieren
+Label-ChatSelf-ItemButt-MasturbateFist
+Po fisten
+Label-ChatSelf-ItemButt-MasturbateHand
+Po fingern
+Label-ChatSelf-ItemButt-MasturbateItem
+Po masturbieren
+Label-ChatSelf-ItemButt-PourItem
+über Po giessen
+Label-ChatSelf-ItemButt-RollItem
+über Hintern rollen
+Label-ChatSelf-ItemButt-RubItem
+An Po reiben
+Label-ChatSelf-ItemButt-Scratch
+Kratzen
+Label-ChatSelf-ItemButt-ShockItem
+Hintern shocken
+Label-ChatSelf-ItemButt-Spank
+Hintern spanken
+Label-ChatSelf-ItemButt-SpankItem
+Hintern spanken
+Label-ChatSelf-ItemButt-TickleItem
+Hintern kitzeln
+Label-ChatSelf-ItemButt-Wiggle
+Hintern wackeln
+Label-ChatSelf-ItemEars-Caress
+Ohr streicheln
+Label-ChatSelf-ItemEars-Pinch
+Ohr kneifen
+Label-ChatSelf-ItemEars-RollItem
+über Ohr rollen
+Label-ChatSelf-ItemEars-RubItem
+An Ohr reiben
+Label-ChatSelf-ItemEars-Scratch
+Kratzen
+Label-ChatSelf-ItemEars-TickleItem
+Ohr kitzeln
+Label-ChatSelf-ItemEars-Wiggle
+Ohren wackeln
+Label-ChatSelf-ItemFeet-Bite
+Bein beissen
+Label-ChatSelf-ItemFeet-Caress
+Füsse streicheln
+Label-ChatSelf-ItemFeet-Inject
+Bein injezieren
+Label-ChatSelf-ItemFeet-MassageHands
+Füsse massieren
+Label-ChatSelf-ItemFeet-MasturbateItem
+Bein masturbieren
+Label-ChatSelf-ItemFeet-PourItem
+über Bein gießen
+Label-ChatSelf-ItemFeet-RollItem
+über Bein rollen
+Label-ChatSelf-ItemFeet-RubItem
+An Bein reiben
+Label-ChatSelf-ItemFeet-Scratch
+Kratzen
+Label-ChatSelf-ItemFeet-ShockItem
+Bein shocken
+Label-ChatSelf-ItemFeet-Spank
+Bein spanken
+Label-ChatSelf-ItemFeet-SpankItem
+Bein spanken
+Label-ChatSelf-ItemFeet-Tickle
+Füsse kitzeln
+Label-ChatSelf-ItemFeet-TickleItem
+Bein kitzeln
+Label-ChatSelf-ItemFeet-ThrowItem
+Werfen
+Label-ChatSelf-ItemFeet-Wiggle
 Füsse wackeln
-Rub Hands Together
+Label-ChatSelf-ItemGlans-Caress
+Eier streicheln
+Label-ChatSelf-ItemGlans-Inject
+Eier injezieren
+Label-ChatSelf-ItemGlans-MasturbateHand
+Eier masturbieren
+Label-ChatSelf-ItemGlans-MasturbateItem
+Eier masturbieren
+Label-ChatSelf-ItemGlans-RubItem
+An Eier reiben
+Label-ChatSelf-ItemGlans-ShockItem
+Eier schocken
+Label-ChatSelf-ItemGlans-Slap
+Eier schlagen
+Label-ChatSelf-ItemGlans-SpankItem
+Eier spanken
+Label-ChatSelf-ItemGlans-TickleItem
+Eier kitzeln
+Label-ChatSelf-ItemHands-Bite
+Hand beißen
+Label-ChatSelf-ItemHands-Caress
 Hände reiben
-Lick Back of Hand
+Label-ChatSelf-ItemHands-Kiss
+Hand küssen
+Label-ChatSelf-ItemHands-Lick
 Handrücken lecken
-Small Kiss on Hand
+Label-ChatSelf-ItemHands-Nibble
+Hand knabbern
+Label-ChatSelf-ItemHands-PoliteKiss
 Kleiner Handkuss
-Spank Hand with the Other
+Label-ChatSelf-ItemHands-Scratch
+Kratzen
+Label-ChatSelf-ItemHands-Spank
 Hand mit der anderen spanken
-Wiggle Fingers
+Label-ChatSelf-ItemHands-SpankItem
+Hände spanken
+Label-ChatSelf-ItemHands-Suck
+Finger saugen
+Label-ChatSelf-ItemHands-TakeCare
+Nägel polieren
+Label-ChatSelf-ItemHands-Wiggle
 Finger wackeln
-Shake Head
+Label-ChatSelf-ItemHead-BrushItem
+Haare kämmen
+Label-ChatSelf-ItemHead-Caress
+Gesicht streicheln
+Label-ChatSelf-ItemHead-Nod
+Nicken
+Label-ChatSelf-ItemHead-Pet
+Kopf tätscheln
+Label-ChatSelf-ItemHead-Pull
+Haare ziehen
+Label-ChatSelf-ItemHead-Scratch
+Kratzen
+Label-ChatSelf-ItemHead-Slap
+Gesicht schlagen
+Label-ChatSelf-ItemHead-TakeCare
+Haare kämmen
+Label-ChatSelf-ItemHead-ThrowItem
+Werfen
+Label-ChatSelf-ItemHead-Wiggle
 Kopf schütteln
-Spank Thigh
+Label-ChatSelf-ItemHood-RubItem
+An Kopf reiben
+Label-ChatSelf-ItemHood-TickleItem
+Kof kitzeln
+Label-ChatSelf-ItemLegs-Bite
+Schenkel beissen
+Label-ChatSelf-ItemLegs-Caress
+Schenkel streicheln
+Label-ChatSelf-ItemLegs-Inject
+Bein injezieren
+Label-ChatSelf-ItemLegs-MassageHands
+Schenkel massieren
+Label-ChatSelf-ItemLegs-MasturbateItem
+Schenkel masturbieren
+Label-ChatSelf-ItemLegs-PourItem
+über Schenkel gießen
+Label-ChatSelf-ItemLegs-RollItem
+über Schenkel rollen
+Label-ChatSelf-ItemLegs-RubItem
+An Schenkel reiben
+Label-ChatSelf-ItemLegs-Scratch
+Kratzen
+Label-ChatSelf-ItemLegs-ShockItem
+Schenkel schocken
+Label-ChatSelf-ItemLegs-Spank
 Schenkel spanken
-Thrash in Bondage
+Label-ChatSelf-ItemLegs-SpankItem
+Bein spanken
+Label-ChatSelf-ItemLegs-StruggleLegs
 Gegen Fesseln wehren
-Rub Thighs Together
+Label-ChatSelf-ItemLegs-Tickle
+Schenkel kitzeln
+Label-ChatSelf-ItemLegs-TickleItem
+Schenkel kitzeln
+Label-ChatSelf-ItemLegs-Wiggle
 Schenkel aneinander reiben
-Moan
+Label-ChatSelf-ItemMouth-Bite
+Lippen beissen
+Label-ChatSelf-ItemMouth-Clean
+Mund säubern
+Label-ChatSelf-ItemMouth-EatItem
+Essen
+Label-ChatSelf-ItemMouth-HandGag
+Mund mit Hand zu halten
+Label-ChatSelf-ItemMouth-Lick
+Lippen lecken
+Label-ChatSelf-ItemMouth-MoanGag
 Stöhnen
-Scream Furiously
+Label-ChatSelf-ItemMouth-MoanGagAngry
 Fürvhterlich schreien
-Giggle
+Label-ChatSelf-ItemMouth-MoanGagGiggle
 Kichern
-Groan Desperately
+Label-ChatSelf-ItemMouth-MoanGagGroan
 Verzweifelt jammern
-Mumble Incoherently
+Label-ChatSelf-ItemMouth-MoanGagTalk
 Unverständlich murmeln
-Whimper Pleadingly
+Label-ChatSelf-ItemMouth-MoanGagWhimper
 Flehend wimmern
-Choke Self
+Label-ChatSelf-ItemMouth-Nibble
+Lippen knabbern
+Label-ChatSelf-ItemMouth-RollItem
+über mund rollen
+Label-ChatSelf-ItemMouth-RubItem
+An Mund reiben
+Label-ChatSelf-ItemMouth-Scratch
+Kratzen
+Label-ChatSelf-ItemMouth-SipItem
+Schluck nehmen
+Label-ChatSelf-ItemMouth-TickleItem
+Mund kitzeln
+Label-ChatSelf-ItemMouth-ThrowItem
+Werfen
+Label-ChatSelf-ItemNeck-Caress
+Nacken streicheln
+Label-ChatSelf-ItemNeck-Choke
 Selbst würgen
-Caress Nipple
+Label-ChatSelf-ItemNeck-Inject
+Hals injezieren
+Label-ChatSelf-ItemNeck-MassageHands
+Nacken massieren
+Label-ChatSelf-ItemNeck-RollItem
+über Hals rollen
+Label-ChatSelf-ItemNeck-RubItem
+An Hals reiben
+Label-ChatSelf-ItemNeck-Scratch
+Kratzen
+Label-ChatSelf-ItemNeck-ShockItem
+Hals schocken
+Label-ChatSelf-ItemNeck-Tickle
+Hals kitzeln
+Label-ChatSelf-ItemNeck-TickleItem
+Hals kitzeln
+Label-ChatSelf-ItemNipples-Caress
 Nippel streicheln
-Wiggle Nose
+Label-ChatSelf-ItemNipples-Kiss
+Nippel küssen
+Label-ChatSelf-ItemNipples-Lick
+Nippel lecken
+Label-ChatSelf-ItemNipples-MasturbateItem
+Nippel masturbieren
+Label-ChatSelf-ItemNipples-Nibble
+Nippel knabbern
+Label-ChatSelf-ItemNipples-Pinch
+Nippel kneifen
+Label-ChatSelf-ItemNipples-PourItem
+über Nippel giessen
+Label-ChatSelf-ItemNipples-Pull
+Nippel ziehen
+Label-ChatSelf-ItemNipples-RollItem
+über Nippel rollen
+Label-ChatSelf-ItemNipples-RubItem
+Nippel reiben
+Label-ChatSelf-ItemNipples-Scratch
+Kratzen
+Label-ChatSelf-ItemNipples-ShockItem
+Nippel schocken
+Label-ChatSelf-ItemNipples-SpankItem
+Nippel spanken
+Label-ChatSelf-ItemNipples-Suck
+Nippel saugen
+Label-ChatSelf-ItemNipples-TickleItem
+Nippel kitzelnn
+Label-ChatSelf-ItemNose-Caress
+Nase streicheln
+Label-ChatSelf-ItemNose-Choke
+Nasenflügel zukneifen
+Label-ChatSelf-ItemNose-Pet
+Nase stubsen
+Label-ChatSelf-ItemNose-Pinch
+Nase kneifen
+Label-ChatSelf-ItemNose-Pull
+Nase ziehen
+Label-ChatSelf-ItemNose-Rub
+Nase reiben
+Label-ChatSelf-ItemNose-RubItem
+Am Mase reiben
+Label-ChatSelf-ItemNose-Scratch
+Kratzen
+Label-ChatSelf-ItemNose-TickleItem
+Nase kitzeln
+Label-ChatSelf-ItemNose-Wiggle
 Nase rümpfen
-Wiggle Hips
+Label-ChatSelf-ItemPelvis-Caress
+Bauch streicheln
+Label-ChatSelf-ItemPelvis-MassageHands
+Bacuh massieren
+Label-ChatSelf-ItemPelvis-MasturbateItem
+Bauch masturbieren
+Label-ChatSelf-ItemPelvis-Pinch
+Bacuh kneifen
+Label-ChatSelf-ItemPelvis-PourItem
+Auf Bauch gießen
+Label-ChatSelf-ItemPelvis-RollItem
+über Bauch rollen
+Label-ChatSelf-ItemPelvis-RubItem
+An Bacuh reiben
+Label-ChatSelf-ItemPelvis-Scratch
+Kratzen
+Label-ChatSelf-ItemPelvis-ShockItem
+Bacuh schocken
+Label-ChatSelf-ItemPelvis-Spank
+Bach spanken
+Label-ChatSelf-ItemPelvis-SpankItem
+Bach spanken
+Label-ChatSelf-ItemPelvis-Tickle
+Bauch kitzeln
+Label-ChatSelf-ItemPelvis-TickleItem
+Bauch kitzeln
+Label-ChatSelf-ItemPelvis-Wiggle
 Mit Hüften wackeln
-Fist Penis
+Label-ChatSelf-ItemPenis-Caress
+Penis streicheln
+Label-ChatSelf-ItemPenis-MasturbateFist
 Penis fisten
-Caress Ribs
+Label-ChatSelf-ItemPenis-MasturbateHand
+Penis masturbieren
+Label-ChatSelf-ItemPenis-MasturbateItem
+Penis masturbieren
+Label-ChatSelf-ItemPenis-RubItem
+An Penis reiben
+Label-ChatSelf-ItemPenis-ShockItem
+Penis schicken
+Label-ChatSelf-ItemPenis-Slap
+Penis schlagen
+Label-ChatSelf-ItemPenis-SpankItem
+Penis spanken
+Label-ChatSelf-ItemPenis-TickleItem
+Penis kitzeln
+Label-ChatSelf-ItemTorso-Caress
 Rippen streicheln
-Spank Ribs
+Label-ChatSelf-ItemTorso-MassageHands
+Rückem massieren
+Label-ChatSelf-ItemTorso-PourItem
+über Rücken giessen
+Label-ChatSelf-ItemTorso-RollItem
+über Rücken rollen
+Label-ChatSelf-ItemTorso-RubItem
+An Rücken reiben
+Label-ChatSelf-ItemTorso-Scratch
+Kratzen
+Label-ChatSelf-ItemTorso-ShockItem
+Rücken schocken
+Label-ChatSelf-ItemTorso-Spank
 Rippen spanken
-Wiggle Body
+Label-ChatSelf-ItemTorso-SpankItem
+Rippen spanken
+Label-ChatSelf-ItemTorso-Tickle
+Rippen kitzeln
+Label-ChatSelf-ItemTorso-TickleItem
+Rücken kitzeln
+Label-ChatSelf-ItemTorso-Wiggle
 Körper wackeln
-Masturbate Pussy
+Label-ChatSelf-ItemTorso-ThrowItem
+Werfen
+Label-ChatSelf-ItemVulva-Caress
+Pussy streicheln
+Label-ChatSelf-ItemVulva-MasturbateFist
+Pussy fisten
+Label-ChatSelf-ItemVulva-MasturbateHand
 Pussy masturbieren
-Masturbate Vulva
+Label-ChatSelf-ItemVulva-MasturbateItem
 Vulvy masturbieren
-Slap Pussy
+Label-ChatSelf-ItemVulva-RubItem
+An Vulva reiben
+Label-ChatSelf-ItemVulva-Scratch
+Kratzen
+Label-ChatSelf-ItemVulva-ShockItem
+Vulva schocken
+Label-ChatSelf-ItemVulva-Slap
 Pussy schlagen
-Masturbate Clitoris
+Label-ChatSelf-ItemVulva-SpankItem
+Pussy spanken
+Label-ChatSelf-ItemVulva-TickleItem
+Vulva kitzeln
+Label-ChatSelf-ItemVulvaPiercings-Caress
+Clitoris streicheln
+Label-ChatSelf-ItemVulvaPiercings-Inject
+Clitoris injezieren
+Label-ChatSelf-ItemVulvaPiercings-MasturbateHand
 Clitoris masturbieren
-SourceCharacter bites TargetCharacter's arm.
+Label-ChatSelf-ItemVulvaPiercings-MasturbateItem
+Clitoris masturbieren
+Label-ChatSelf-ItemVulvaPiercings-RubItem
+An Clitoris reiben
+Label-ChatSelf-ItemVulvaPiercings-ShockItem
+Clitoris schocken
+Label-ChatSelf-ItemVulvaPiercings-Slap
+Clitoris schlagen
+Label-ChatSelf-ItemVulvaPiercings-SpankItem
+Clitoris spanken
+Label-ChatSelf-ItemVulvaPiercings-TickleItem
+Clitoris kitzeln
+ChatOther-ItemArms-Bite
 SourceCharacter beisst TargetCharacter's Arm.
-SourceCharacter caresses TargetCharacter's arms.
+ChatOther-ItemArms-Caress
 SourceCharacter streichelt TargetCharacter's Arme.
-SourceCharacter cuddles with TargetCharacter.
+ChatOther-ItemArms-Cuddle
 SourceCharacter kuschelt mit TargetCharacter.
-SourceCharacter rubs PronounPossessive gag on TargetCharacter's arm.
+ChatOther-ItemArms-GaggedKiss
 SourceCharacter reibt PronounPossessive Knebel an TargetCharacter's Arm.
-SourceCharacter grabs TargetCharacter's arm firmly.
+ChatOther-ItemArms-Grope
 SourceCharacter greift TargetCharacter's Arm fest.
-SourceCharacter injects TargetCharacter's arm.
+ChatOther-ItemArms-Inject
 SourceCharacter injiziert TargetCharacter's Arm.
-SourceCharacter kisses TargetCharacter's arm.
+ChatOther-ItemArms-Kiss
 SourceCharacter küsst TargetCharacter's Arm.
-SourceCharacter licks TargetCharacter's arm.
+ChatOther-ItemArms-Lick
 SourceCharacter leckt TargetCharacter's Arm.
-SourceCharacter massages TargetCharacter's arms.
+ChatOther-ItemArms-MassageHands
 SourceCharacter massiert TargetCharacter's Arme.
-SourceCharacter nibbles TargetCharacter's arm.
+ChatOther-ItemArms-Nibble
 SourceCharacter knabbert an TargetCharacter's Arm.
-SourceCharacter pinches TargetCharacter's upper arm.
+ChatOther-ItemArms-Pinch
 SourceCharacter kneift TargetCharacter's Oberarm.
-SourceCharacter pours ActivityAsset onto TargetCharacter's arm.
+ChatOther-ItemArms-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Arm.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's arm.
+ChatOther-ItemArms-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Arm.
-SourceCharacter rubs TargetCharacter's arm with PronounPossessive ActivityAsset.
+ChatOther-ItemArms-RubItem
 SourceCharacter reibt TargetCharacter's Arm mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's arm.
+ChatOther-ItemArms-Scratch
 SourceCharacter kratzt über TargetCharacter's Arm.
-SourceCharacter shocks TargetCharacter's arm with PronounPossessive ActivityAsset.
+ChatOther-ItemArms-ShockItem
 SourceCharacter schockt TargetCharacter's Arm mt PronounPossessive ActivityAsset.
-SourceCharacter spanks TargetCharacter's arm.
+ChatOther-ItemArms-Spank
 SourceCharacter spankt TargetCharacter's Arm.
-SourceCharacter hits TargetCharacter's arm with PronounPossessive ActivityAsset.
+ChatOther-ItemArms-SpankItem
 SourceCharacter schlägt TargetCharacter's Arm mit PronounPossessive ActivityAsset.
-SourceCharacter tickles TargetCharacter's arms.
+ChatOther-ItemArms-Tickle
 SourceCharacter kitzelt TargetCharacter's Arme.
-SourceCharacter tickles TargetCharacter's arm with PronounPossessive ActivityAsset.
+ChatOther-ItemArms-TickleItem
 SourceCharacter kitzelt TargetCharacter's Arm mit PronounPossessive ActivityAsset.
-SourceCharacter shares a warm sisterly hug with TargetCharacter.
+ChatOther-ItemArms-SistersHug
 SourceCharacter umarmt TargetCharacter warm und herzlich.
-SourceCharacter bites TargetCharacter's foot.
+ChatOther-ItemBoots-Bite
 SourceCharacter beisst TargetCharacter's Fuss.
-SourceCharacter caresses TargetCharacter's feet.
+ChatOther-ItemBoots-Caress
 SourceCharacter streichelt TargetCharacter's Füsse.
-SourceCharacter touches TargetCharacter's feet with PronounPossessive gag.
+ChatOther-ItemBoots-GaggedKiss
 SourceCharacter berührt TargetCharacter's Füsse mit PronounPossessive Knebel.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive foot.
+ChatOther-ItemBoots-Kick
 SourceCharacter tritt TargetCharacter auf TargetPronounPossessive Fuss.
-SourceCharacter kisses TargetCharacter's foot.
+ChatOther-ItemBoots-Kiss
 SourceCharacter küsst TargetCharacter's Fuss.
-SourceCharacter licks TargetCharacter's foot.
+ChatOther-ItemBoots-Lick
 SourceCharacter leckt TargetCharacter's Fuss.
-SourceCharacter plays with TargetCharacter's feet using PronounPossessive own feet.
+ChatOther-ItemBoots-MassageFeet
 SourceCharacter spielt mit TargetCharacter's Füssen und benutzt dafür PronounPossessive eigenen Füsse.
-SourceCharacter massages TargetCharacter's foot.
+ChatOther-ItemBoots-MassageHands
 SourceCharacter massiert TargetCharacter's Fuss.
-SourceCharacter nibbles TargetCharacter's foot.
+ChatOther-ItemBoots-Nibble
 SourceCharacter knabbert an TargetCharacter's Fuss.
-SourceCharacter gives a small and polite kiss on TargetCharacter's foot.
+ChatOther-ItemBoots-PoliteKiss
 SourceCharacter küsst schnell und höflich TargetCharacter's Fuss.
-SourceCharacter pours ActivityAsset onto TargetCharacter's feet.
+ChatOther-ItemBoots-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Füsse.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's feet.
+ChatOther-ItemBoots-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Füsse.
-SourceCharacter rubs TargetCharacter's feet with PronounPossessive ActivityAsset.
+ChatOther-ItemBoots-RubItem
 SourceCharacter reibt TargetCharacter's Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's feet.
+ChatOther-ItemBoots-Scratch
 SourceCharacter kratzt über TargetCharacter's Füsse.
-SourceCharacter shocks TargetCharacter's feet with PronounPossessive ActivityAsset.
+ChatOther-ItemBoots-ShockItem
 SourceCharacter shockt TargetCharacter's Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter spanks TargetCharacter's foot sole.
+ChatOther-ItemBoots-Spank
 SourceCharacter spankt TargetCharacter's Fusssohle.
-SourceCharacter hits TargetCharacter's feet with PronounPossessive ActivityAsset.
+ChatOther-ItemBoots-SpankItem
 SourceCharacter schlägt TargetCharacter's Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter sucks on TargetCharacter's big toe.
+ChatOther-ItemBoots-Suck
 SourceCharacter saugt an TargetCharacter's grossem Zeh.
-SourceCharacter cleans and polishes TargetCharacter's toenails.
+ChatOther-ItemBoots-TakeCare
 SourceCharacter säubert und poliert TargetCharacter's Zehennägel.
-SourceCharacter tickles TargetCharacter's foot sole.
+ChatOther-ItemBoots-Tickle
 SourceCharacter kitzelt TargetCharacter's Fusssohle.
-SourceCharacter tickles TargetCharacter's feet with PronounPossessive ActivityAsset.
+ChatOther-ItemBoots-TickleItem
 SourceCharacter kitzelt TargetCharacter's Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's breast.
+ChatOther-ItemBreast-Bite
 SourceCharacter beisst TargetCharacter's Brüste.
-SourceCharacter caresses TargetCharacter's breast.
+ChatOther-ItemBreast-Caress
 SourceCharacter streichelt TargetCharacter's Brüste.
-SourceCharacter presses PronounPossessive gag to TargetCharacter's breast.
+ChatOther-ItemBreast-GaggedKiss
 SourceCharacter presst PronounPossessive Knebel gegen TargetCharacter's Brust.
-SourceCharacter gropes TargetCharacter's breast.
+ChatOther-ItemBreast-Grope
 SourceCharacter grabscht an TargetCharacter's Brust.
-SourceCharacter injects TargetCharacter's breast.
+ChatOther-ItemBreast-Inject
 SourceCharacter injeziert TargetCharacter's Brust.
-SourceCharacter kisses TargetCharacter's breast.
+ChatOther-ItemBreast-Kiss
 SourceCharacter küsst TargetCharacter's Brust.
-SourceCharacter licks TargetCharacter's breast.
+ChatOther-ItemBreast-Lick
 SourceCharacter leckt TargetCharacter's Brüste.
-SourceCharacter masturbates TargetCharacter's breast.
+ChatOther-ItemBreast-MasturbateHand
 SourceCharacter masturbiert TargetCharacter's Brüste.
-SourceCharacter masturbates TargetCharacter's breast with PronounPossessive ActivityAsset.
+ChatOther-ItemBreast-MasturbateItem
 SourceCharacter masturbiert TargetCharacter's Brust mit PronounPossessive ActivityAsset.
-SourceCharacter pours ActivityAsset onto TargetCharacter's breast.
+ChatOther-ItemBreast-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Brust.
-SourceCharacter rests PronounPossessive head on TargetCharacter's breasts.
+ChatOther-ItemBreast-RestHead
 SourceCharacter lehnt PronounPossessive Kopf gegen TargetCharacter's Brüste.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's breast.
+ChatOther-ItemBreast-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Brust.
-SourceCharacter rubs TargetCharacter's breast with PronounPossessive ActivityAsset.
+ChatOther-ItemBreast-RubItem
 SourceCharacter reibt TargetCharacter's Brust mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's breast.
+ChatOther-ItemBreast-Scratch
 SourceCharacter kratzt über TargetCharacter's Brust.
-SourceCharacter shocks TargetCharacter's breast with PronounPossessive ActivityAsset.
+ChatOther-ItemBreast-ShockItem
 SourceCharacter shockt TargetCharacter's Brust mit PronounPossessive ActivityAsset.
-SourceCharacter slaps TargetCharacter's breast.
+ChatOther-ItemBreast-Slap
 SourceCharacter schlägt TargetCharacter's Brust.
-SourceCharacter hits TargetCharacter's breast with PronounPossessive ActivityAsset.
+ChatOther-ItemBreast-SpankItem
 SourceCharacter schlägt TargetCharacter's Brust mit PronounPossessive ActivityAsset.
-SourceCharacter steps on TargetCharacter's breast.
+ChatOther-ItemBreast-Step
 SourceCharacter steigt auf TargetCharacter's Brust.
-SourceCharacter tickles TargetCharacter's breast.
+ChatOther-ItemBreast-Tickle
 SourceCharacter kitzelt TargetCharacter's Brust.
-SourceCharacter tickles TargetCharacter's breast with PronounPossessive ActivityAsset.
+ChatOther-ItemBreast-TickleItem
 SourceCharacter kitzelt TargetCharacter's Brust mit PronounPossessive ActivityAsset.
-SourceCharacter throws ActivityAsset on TargetCharacter's breasts.
+ChatOther-ItemBreast-ThrowItem
 SourceCharacter wirft ActivityAsset gegen TargetCharacter's Brüste.
-SourceCharacter bites TargetCharacter's butt.
+ChatOther-ItemButt-Bite
 SourceCharacter beisst TargetCharacter's Hintern.
-SourceCharacter caresses TargetCharacter's butt.
+ChatOther-ItemButt-Caress
 SourceCharacter streichelt TargetCharacter's Hintern.
-SourceCharacter rubs PronounPossessive gag on TargetCharacter's butt.
+ChatOther-ItemButt-GaggedKiss
 SourceCharacter reibt PronounPossessive Knebel an TargetCharacter's Hintern.
-SourceCharacter gropes TargetCharacter's butt.
+ChatOther-ItemButt-Grope
 SourceCharacter grabscht TargetCharacter's Hintern.
-SourceCharacter injects TargetCharacter's butt.
+ChatOther-ItemButt-Inject
 SourceCharacter injeziert TargetCharacter's Hintern.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive butt.
+ChatOther-ItemButt-Kick
 SourceCharacter tritt TargetCharacter in TargetPronounPossessive Hintern.
-SourceCharacter kisses TargetCharacter's butt.
+ChatOther-ItemButt-Kiss
 SourceCharacter küsst TargetCharacter's Hintern.
-SourceCharacter uses PronounPossessive fist to masturbate TargetCharacter's ass.
+ChatOther-ItemButt-MasturbateFist
 SourceCharacter benutzt PronounPossessive Faust um  TargetCharacter anal zu masturbieren.
-SourceCharacter uses PronounPossessive fingers to masturbate TargetCharacter's ass.
+ChatOther-ItemButt-MasturbateHand
 SourceCharacter benutzt PronounPossessive Finger um TargetCharacter anal zu masturbieren.
-SourceCharacter masturbates TargetCharacter's butt with PronounPossessive ActivityAsset.
+ChatOther-ItemButt-MasturbateItem
 SourceCharacter masturbiert TargetCharacter's Po mit PronounPossessive ActivityAsset.
-SourceCharacter uses PronounPossessive tongue to masturbate TargetCharacter's ass.
+ChatOther-ItemButt-MasturbateTongue
 SourceCharacter benutzt PronounPossessive Zunge um TargetCharacter's Poo zu masturbieren.
-SourceCharacter roughly penetrates TargetCharacter's butt with PronounPossessive ActivityAsset.
+ChatOther-ItemButt-PenetrateFast
 SourceCharacter penetriert TargetCharacter's Hintern sehr rau mit PronounPossessive ActivityAsset.
-SourceCharacter slowly penetrates TargetCharacter's butt with PronounPossessive ActivityAsset.
+ChatOther-ItemButt-PenetrateSlow
 SourceCharacter penetriert TargetCharacter's Hintern langsam mit PronounPossessive ActivityAsset.
-SourceCharacter pours ActivityAsset onto TargetCharacter's butt.
+ChatOther-ItemButt-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Hintern.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's butt.
+ChatOther-ItemButt-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Hintern.
-SourceCharacter rubs TargetCharacter's butt with PronounPossessive ActivityAsset.
+ChatOther-ItemButt-RubItem
 SourceCharacter reibt TargetCharacter's Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's butt.
+ChatOther-ItemButt-Scratch
 SourceCharacter kratzt über TargetCharacter's Hintern.
-SourceCharacter shocks TargetCharacter's butt with PronounPossessive ActivityAsset.
+ChatOther-ItemButt-ShockItem
 SourceCharacter schockt TargetCharacter's Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter spanks TargetCharacter's butt.
+ChatOther-ItemButt-Spank
 SourceCharacter spankt TargetCharacter's Hintern.
-SourceCharacter hits TargetCharacter's butt with PronounPossessive ActivityAsset.
+ChatOther-ItemButt-SpankItem
 SourceCharacter schlägt TarrgetCharacter's Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter presses PronounPossessive foot into TargetCharacter's ass.
+ChatOther-ItemButt-Step
 SourceCharacter presst PronounPossessive Fuss in TargetCharacter's Hintern.
-SourceCharacter tickles TargetCharacter's butt with PronounPossessive ActivityAsset.
+ChatOther-ItemButt-TickleItem
 SourceCharacter kitzelt TargetCharacter's Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's ear.
+ChatOther-ItemEars-Bite
 SourceCharacter beisst TargetCharacter's Ohr.
-SourceCharacter caresses TargetCharacter's ear.
+ChatOther-ItemEars-Caress
 SourceCharacter streichelt TargetCharacter's Ohr.
-SourceCharacter gives a gagged kiss on TargetCharacter's ear.
+ChatOther-ItemEars-GaggedKiss
 SourceCharacter gibt einen geknebelten Kuss auf TargetCharacter's Ohr.
-SourceCharacter kisses TargetCharacter's ear.
+ChatOther-ItemEars-Kiss
 SourceCharacter küsst TargetCharacter's Ohr.
-SourceCharacter licks TargetCharacter's ear.
+ChatOther-ItemEars-Lick
 SourceCharacter leckt TargetCharacter's Ohr.
-SourceCharacter nibbles TargetCharacter's ear.
+ChatOther-ItemEars-Nibble
 SourceCharacter knabbert an TargetCharacter's Ohr.
-SourceCharacter pinches TargetCharacter's ear.
+ChatOther-ItemEars-Pinch
 SourceCharacter kneift TargetCharacter's Ohr.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's ear.
+ChatOther-ItemEars-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Ohr.
-SourceCharacter rubs TargetCharacter's ear with PronounPossessive ActivityAsset.
+ChatOther-ItemEars-RubItem
 SourceCharacter reibt TargetCharacter's Ohr mit PronounPossessive ActivityAsset.
-SourceCharacter scratches TargetCharacter's ears.
+ChatOther-ItemEars-Scratch
 SourceCharacter kratzt an TargetCharacter's Ohr.
-SourceCharacter tickles TargetCharacter's ear with PronounPossessive ActivityAsset.
+ChatOther-ItemEars-TickleItem
 SourceCharacter kitzelt TargetCharacter's Ohr mit PronounPossessive ActivityAsset.
-SourceCharacter whispers slowly in TargetCharacter's ear.
+ChatOther-ItemEars-Whisper
 SourceCharacter flüstert langsam in TargetCharacter's Ohr.
-SourceCharacter bites TargetCharacter's leg.
+ChatOther-ItemFeet-Bite
 SourceCharacter beisst TargetCharacter's Bein.
-SourceCharacter caresses TargetCharacter's leg.
+ChatOther-ItemFeet-Caress
 SourceCharacter streichelt TargetCharacter's Bein.
-SourceCharacter touches PronounPossessive gag to TargetCharacter's leg.
+ChatOther-ItemFeet-GaggedKiss
 SourceCharacter berührt PronounPossessive Knebel an TargetCharacter's Bein.
-SourceCharacter gropes TargetCharacter's leg.
+ChatOther-ItemFeet-Grope
 SourceCharacter grabscht TargetCharacter's Bein.
-SourceCharacter injects TargetCharacter's leg.
+ChatOther-ItemFeet-Inject
 SourceCharacter injeziert TargetCharacter's Bein.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive leg.
+ChatOther-ItemFeet-Kick
 SourceCharacter tritt TargetCharacter gegen TargetPronounPossessive Bein.
-SourceCharacter kisses TargetCharacter's leg.
+ChatOther-ItemFeet-Kiss
 SourceCharacter küsst TargetCharacter's Bein.
-SourceCharacter licks TargetCharacter's leg.
+ChatOther-ItemFeet-Lick
 SourceCharacter leckt TargetCharacter's Bein.
-SourceCharacter massages TargetCharacter's leg.
+ChatOther-ItemFeet-MassageHands
 SourceCharacter massiert TargetCharacter's Bein.
-SourceCharacter masturbates TargetCharacter's leg with PronounPossessive ActivityAsset.
+ChatOther-ItemFeet-MasturbateItem
 SourceCharacter masturbiert TargetCharacter's Bein mit PronounPossessive ActivityAsset.
-SourceCharacter nibbles TargetCharacter's leg.
+ChatOther-ItemFeet-Nibble
 SourceCharacter knabbert an TargetCharacter's Bein.
-SourceCharacter pours ActivityAsset onto TargetCharacter's leg.
+ChatOther-ItemFeet-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Bein.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's leg.
+ChatOther-ItemFeet-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's leg.
-SourceCharacter rubs TargetCharacter's leg with PronounPossessive ActivityAsset.
+ChatOther-ItemFeet-RubItem
 SourceCharacter reibt TargetCharacter's Bein mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's leg.
+ChatOther-ItemFeet-Scratch
 SourceCharacter kratzt an TargetCharacter's Bein.
-SourceCharacter shocks TargetCharacter's leg with PronounPossessive ActivityAsset.
+ChatOther-ItemFeet-ShockItem
 SourceCharacter shockt TargetCharacter's Bein mit PronounPossessive ActivityAsset.
-SourceCharacter spanks TargetCharacter's leg.
+ChatOther-ItemFeet-Spank
 SourceCharacter spankt TargetCharacter's Bein.
-SourceCharacter tickles TargetCharacter's leg.
+ChatOther-ItemFeet-SpankItem
+SourceCharacter schlägt TargetCharacter's Füsse mit PronounPossessive ActivityAsset.
+ChatOther-ItemFeet-Tickle
 SourceCharacter kitzelt TargetCharacter's Bein.
-SourceCharacter tickles TargetCharacter's leg with PronounPossessive ActivityAsset.
+ChatOther-ItemFeet-TickleItem
 SourceCharacter kitzelt TargetCharacter's Bein mit PronounPossessive ActivityAsset.
-SourceCharacter throws ActivityAsset at TargetCharacter's feet.
+ChatOther-ItemFeet-ThrowItem
 SourceCharacter wirft ActivityAsset gegen TargetCharacter's Bein.
-SourceCharacter caresses TargetCharacter's glans with PronounPossessive fingers.
+ChatOther-ItemGlans-Caress
 SourceCharacter streichelt TargetCharacter's Eier mit PronounPossessive Fingern.
-SourceCharacter gags kiss TargetCharacter's glans.
+ChatOther-ItemGlans-GaggedKiss
 SourceCharacter gibt einen geknebelten Kiss auf TargetCharacter's Eier.
-SourceCharacter injects TargetCharacter's glans.
+ChatOther-ItemGlans-Inject
 SourceCharacter injeziert TargetCharacter's Eier.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive glans.
+ChatOther-ItemGlans-Kick
 SourceCharacter tritt TargetCharacter in TargetPronounPossessive Eier.
-SourceCharacter kisses TargetCharacter's glans.
+ChatOther-ItemGlans-Kiss
 SourceCharacter küsst TargetCharacter's Eier.
-SourceCharacter licks TargetCharacter's glans.
+ChatOther-ItemGlans-Lick
 SourceCharacter leckt TargetCharacter's Eier.
-SourceCharacter masturbates TargetCharacter's glans with PronounPossessive foot.
+ChatOther-ItemGlans-MasturbateFoot
 SourceCharacter masturbiert TargetCharacter's Eier mit PronounPossessive Fuss.
-SourceCharacter masturbates TargetCharacter's glans with PronounPossessive fingers.
+ChatOther-ItemGlans-MasturbateHand
 SourceCharacter masturbiert TargetCharacter's Eier mit PronounPossessive Fingern.
-SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's glans.
+ChatOther-ItemGlans-MasturbateItem
 SourceCharacter benutzt PronounPossessive ActivityAsset um TargetCharacter's Eier zu masturbieren.
-SourceCharacter masturbates TargetCharacter's glans with PronounPossessive tongue.
+ChatOther-ItemGlans-MasturbateTongue
 SourceCharacter masturbiert TargetCharacter's Eier mit PronounPossessive Zunge.
-SourceCharacter nibbles TargetCharacter's glans.
+ChatOther-ItemGlans-Nibble
 SourceCharacter knabbert an TargetCharacter's Eier.
-SourceCharacter rubs TargetCharacter's glans with PronounPossessive ActivityAsset.
+ChatOther-ItemGlans-RubItem
 SourceCharacter reibt TargetCharacter's Eier mit PronounPossessive ActivityAsset.
-SourceCharacter shocks TargetCharacter's glans with PronounPossessive ActivityAsset.
+ChatOther-ItemGlans-ShockItem
 SourceCharacter shockt TargetCharacter's Eier mit PronounPossessive ActivityAsset.
-SourceCharacter slaps TargetCharacter's glans.
+ChatOther-ItemGlans-Slap
 SourceCharacter schlägt TargetCharacter's Eier.
-SourceCharacter hits TargetCharacter's glans with PronounPossessive ActivityAsset.
+ChatOther-ItemGlans-SpankItem
 SourceCharacter schlägt TargetCharacter's Eier mit PronounPossessive ActivityAsset.
-SourceCharacter tickles TargetCharacter's glans with PronounPossessive ActivityAsset.
+ChatOther-ItemGlans-TickleItem
 SourceCharacter kitzelt TargetCharacter's Eier mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's hand.
+ChatOther-ItemHands-Bite
 SourceCharacter beisst TargetCharacter's Hand.
-SourceCharacter caresses TargetCharacter's hand.
+ChatOther-ItemHands-Caress
 SourceCharacter steichelt TargetCharacter's Hand.
-SourceCharacter touches PronounPossessive gag to TargetCharacter's hand.
+ChatOther-ItemHands-GaggedKiss
 SourceCharacter berührt PronounPossessive Knebel an TargetCharacter's Hand.
-SourceCharacter kisses TargetCharacter's hand.
+ChatOther-ItemHands-Kiss
 SourceCharacter küsst TargetCharacter's Hand.
-SourceCharacter licks TargetCharacter's hand.
+ChatOther-ItemHands-Lick
 SourceCharacter leckt TargetCharacter's Hand.
-SourceCharacter nibbles TargetCharacter's hand.
+ChatOther-ItemHands-Nibble
 SourceCharacter knabbert an TargetCharacter's Hand.
-SourceCharacter politely kisses TargetCharacter's hand.
+ChatOther-ItemHands-PoliteKiss
 SourceCharacter küsst TargetCharacter's Hand höflich.
-SourceCharacter scratches over TargetCharacter's hands.
+ChatOther-ItemHands-Scratch
 SourceCharacter kratzt über TargetCharacter's Hands.
-SourceCharacter spanks TargetCharacter's hand.
+ChatOther-ItemHands-Spank
 SourceCharacter spankt TargetCharacter's Hand.
-SourceCharacter sucks on TargetCharacter's fingers.
+ChatOther-ItemHands-Suck
 SourceCharacter saugt an TargetCharacter's Fingern.
-SourceCharacter cleans and polishes TargetCharacter's nails.
+ChatOther-ItemHands-TakeCare
 SourceCharacter säubert und poliert TargetCharacter's Fingernägel.
-SourceCharacter does PronounPossessive secret brothers handshake with TargetCharacter.
+ChatOther-ItemHands-BrothersHandshake
 SourceCharacter macht seinen geheimen brüderlichen Handschlag with TargetCharacter.
-SourceCharacter bites TargetCharacter's hair.
+ChatOther-ItemHead-Bite
 SourceCharacter beisst TargetCharacter's Haare.
-SourceCharacter caresses TargetCharacter's face.
-SourceCharacter steichelt TargetCharacter's Gesicht.
-SourceCharacter gives a gagged kiss on TargetCharacter's forehead.
-SourceCharacter gibt einen geknbebelten Kuss auf TargetCharacter's Stirn.
-SourceCharacter kisses TargetCharacter on the forehead.
-SourceCharacter küsst TargetCharacter auf die Stirn.
-SourceCharacter gently pets TargetCharacter's head.
-SourceCharacter tätschelt TargetCharacter's Kopf höflich.
-SourceCharacter pulls on TargetCharacter's hair.
-SourceCharacter zieht an TargetCharacter's Haaren.
-SourceCharacter rubs PronounPossessive breast against TargetCharacter's face.
-SourceCharacter reibt PronounPossessive Brust an TargetCharacter's Gesicht.
-SourceCharacter scratches over TargetCharacter's head.
-SourceCharacter kratzt über TargetCharacter's Kopf.
-SourceCharacter slaps TargetCharacter's face.
-SourceCharacter ohrfeigt TargetCharacter's Gesicht.
-SourceCharacter rubs PronounPossessive foot on TargetCharacter's face.
-SourceCharacter reibt PronounPossessive Fuss an TargetCharacter's Gesicht.
-SourceCharacter brushes TargetCharacter's hair.
+ChatOther-ItemHead-BrushItem
 SourceCharacter kämmt TargetCharacter's Haare.
-SourceCharacter throws ActivityAsset on TargetCharacter's face.
+ChatOther-ItemHead-Caress
+SourceCharacter steichelt TargetCharacter's Gesicht.
+ChatOther-ItemHead-GaggedKiss
+SourceCharacter gibt einen geknbebelten Kuss auf TargetCharacter's Stirn.
+ChatOther-ItemHead-Kiss
+SourceCharacter küsst TargetCharacter auf die Stirn.
+ChatOther-ItemHead-Pet
+SourceCharacter tätschelt TargetCharacter's Kopf höflich.
+ChatOther-ItemHead-Pull
+SourceCharacter zieht an TargetCharacter's Haaren.
+ChatOther-ItemHead-Rub
+SourceCharacter reibt PronounPossessive Brust an TargetCharacter's Gesicht.
+ChatOther-ItemHead-Scratch
+SourceCharacter kratzt über TargetCharacter's Kopf.
+ChatOther-ItemHead-Slap
+SourceCharacter ohrfeigt TargetCharacter's Gesicht.
+ChatOther-ItemHead-Step
+SourceCharacter reibt PronounPossessive Fuss an TargetCharacter's Gesicht.
+ChatOther-ItemHead-TakeCare
+SourceCharacter kämmt TargetCharacter's Haare.
+ChatOther-ItemHead-ThrowItem
 SourceCharacter wirft ActivityAsset in TargetCharacter's Gesicht.
-SourceCharacter rubs TargetCharacter's head with PronounPossessive ActivityAsset.
+ChatOther-ItemHood-RubItem
 SourceCharacter reibt TargetCharacter's Kopf mit PronounPossessive ActivityAsset.
-SourceCharacter tickles TargetCharacter's head with PronounPossessive ActivityAsset.
+ChatOther-ItemHood-TickleItem
 SourceCharacter kitzelt TargetCharacter's Kopf mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's thigh.
+ChatOther-ItemLegs-Bite
 SourceCharacter beisst TargetCharacter's Schenkel.
-SourceCharacter caresses TargetCharacter's thigh.
+ChatOther-ItemLegs-Caress
 SourceCharacter streichelt TargetCharacter's Schenkel.
-SourceCharacter rubs PronounPossessive gag on TargetCharacter's thigh.
+ChatOther-ItemLegs-GaggedKiss
 SourceCharacter reibt PronounPossessive Knebel an TargetCharacter's Schenkel.
-SourceCharacter gropes TargetCharacter's thigh.
+ChatOther-ItemLegs-Grope
 SourceCharacter grabscht TargetCharacter's Schenkel.
-SourceCharacter injects TargetCharacter's thigh.
+ChatOther-ItemLegs-Inject
 SourceCharacter injeziert TargetCharacter's Schenkel.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive thigh.
+ChatOther-ItemLegs-Kick
 SourceCharacter tritt TargetCharacter gegen TargetPronounPossessive Schenkel.
-SourceCharacter kisses TargetCharacter's thigh.
+ChatOther-ItemLegs-Kiss
 SourceCharacter küsst TargetCharacter's Schenkel.
-SourceCharacter licks TargetCharacter's thigh.
+ChatOther-ItemLegs-Lick
 SourceCharacter leckt TargetCharacter's Schenkel.
-SourceCharacter massages TargetCharacter's thigh.
+ChatOther-ItemLegs-MassageHands
 SourceCharacter massiert TargetCharacter's Schenkel.
-SourceCharacter masturbates TargetCharacter's thigh with PronounPossessive ActivityAsset.
+ChatOther-ItemLegs-MasturbateItem
 SourceCharacter masturbiert TargetCharacter's Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter nibbles TargetCharacter's thigh.
+ChatOther-ItemLegs-Nibble
 SourceCharacter knabbert an TargetCharacter's Schenkel.
-SourceCharacter pours ActivityAsset onto TargetCharacter's thigh.
+ChatOther-ItemLegs-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Schenkel.
-SourceCharacter rests PronounPossessive head in TargetCharacter's lap.
+ChatOther-ItemLegs-RestHead
 SourceCharacter legt PronounPossessive Kopf in TargetCharacter's Schoss.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's thigh.
+ChatOther-ItemLegs-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Schenkel.
-SourceCharacter rubs TargetCharacter's thigh with PronounPossessive ActivityAsset.
+ChatOther-ItemLegs-RubItem
 SourceCharacter reibt TargetCharacter's Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's thigh.
+ChatOther-ItemLegs-Scratch
 SourceCharacter kratzt über TargetCharacter's Schenkel.
-SourceCharacter shocks TargetCharacter's thigh with PronounPossessive ActivityAsset.
+ChatOther-ItemLegs-ShockItem
 SourceCharacter shockt TargetCharacter's Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter sits in TargetCharacter's lap.
+ChatOther-ItemLegs-Sit
 SourceCharacter sitzt in TargetCharacter's Schoss.
-SourceCharacter spanks TargetCharacter's thigh.
+ChatOther-ItemLegs-Spank
 SourceCharacter spankt TargetCharacter's Schenkel.
-SourceCharacter hits TargetCharacter's thigh with PronounPossessive ActivityAsset.
+ChatOther-ItemLegs-SpankItem
 SourceCharacter schlägt TargetCharacter's Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter tickles TargetCharacter's thigh.
+ChatOther-ItemLegs-Tickle
 SourceCharacter kitzelt TargetCharacter's Schenkel.
-SourceCharacter tickles TargetCharacter's thigh with PronounPossessive ActivityAsset.
+ChatOther-ItemLegs-TickleItem
 SourceCharacter kitzelt TargetCharacter's Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's lips.
+ChatOther-ItemMouth-Bite
 SourceCharacter beisst TargetCharacter's Lippen.
-SourceCharacter caresses and cleans TargetCharacter's mouth.
+ChatOther-ItemMouth-Clean
 SourceCharacter streichelt und säubert TargetCharacter's Mund.
-SourceCharacter puts some ActivityAsset into TargetCharacter's mouth.
+ChatOther-ItemMouth-EatItem
 SourceCharacter platziert ein bisschen ActivityAsset in TargetCharacter's Mund.
-SourceCharacter shares a long French kiss with TargetCharacter.
+ChatOther-ItemMouth-FrenchKiss
 SourceCharacter teilt einen intensiven Zungenkuss mit TargetCharacter.
-SourceCharacter gives a gagged kiss on TargetCharacter's cheek.
+ChatOther-ItemMouth-GaggedKiss
 SourceCharacter gibt einen geknebelten Kuss auf TargetCharacter's Wange.
-SourceCharacter gives TargetCharacter a kiss on TargetPronounPossessive gag.
+ChatOther-ItemMouth-GagKiss
 SourceCharacter gibt TargetCharacter einen Kuss auf TargetPronounPossessive Knebel.
-SourceCharacter clamps PronounPossessive hand over TargetCharacter's mouth.
+ChatOther-ItemMouth-HandGag
 SourceCharacter drückt PronounPossessive Hand auf TargetCharacter's Mund.
-SourceCharacter kisses TargetCharacter's lips.
+ChatOther-ItemMouth-Kiss
 SourceCharacter küsst TargetCharacter's Lippen.
-SourceCharacter licks TargetCharacter's lips.
+ChatOther-ItemMouth-Lick
 SourceCharacter leckt TargetCharacter's Lippen.
-SourceCharacter nibbles TargetCharacter's lips.
+ChatOther-ItemMouth-Nibble
 SourceCharacter knabbert an TargetCharacter's Lippen.
-SourceCharacter roughly penetrates TargetCharacter's mouth with PronounPossessive ActivityAsset.
+ChatOther-ItemMouth-PenetrateFast
 SourceCharacter penetriert TargetCharacter's Mund rau mit PronounPossessive ActivityAsset.
-SourceCharacter slowly penetrates TargetCharacter's mouth with PronounPossessive ActivityAsset.
+ChatOther-ItemMouth-PenetrateSlow
 SourceCharacter penetriert TargetCharacter's Mund langsam mit PronounPossessive ActivityAsset.
-SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive ass.
+ChatOther-ItemMouth-ReversePenetrateAss
 SourceCharacter fickt TargetCharacter's ActivityAsset mit PronounPossessive Arsch.
-SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive pussy.
+ChatOther-ItemMouth-ReversePenetratePussy
 SourceCharacter fickt TargetCharacter's ActivityAsset mit PronounPossessive Pussy.
-SourceCharacter sucks on TargetCharacter's ActivityAsset.
+ChatOther-ItemMouth-ReverseSuckItem
 SourceCharacter saugt an TargetCharacter's ActivityAsset.
-SourceCharacter gives a friendly kiss on TargetCharacter's cheek.
+ChatOther-ItemMouth-PoliteKiss
 SourceCharacter gibt einen freundlichen Kuss auf TargetCharacter's Wange.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's mouth.
+ChatOther-ItemMouth-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Mund.
-SourceCharacter rubs TargetCharacter's mouth with PronounPossessive ActivityAsset.
+ChatOther-ItemMouth-RubItem
 SourceCharacter reibt TargetCharacter's Mund mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's lips.
+ChatOther-ItemMouth-Scratch
 SourceCharacter kratzt über TargetCharacter's Lippen.
-SourceCharacter gives TargetCharacter a sip from PronounPossessive ActivityAsset.
+ChatOther-ItemMouth-SipItem
 SourceCharacter gibt TargetCharacter einen Schluck von PronounPossessive ActivityAsset.
-SourceCharacter tickles TargetCharacter's mouth with PronounPossessive ActivityAsset.
+ChatOther-ItemMouth-TickleItem
 SourceCharacter kitzelt TargetCharacter's Mund mit PronounPossessive ActivityAsset.
-SourceCharacter throws ActivityAsset into TargetCharacter's mouth.
+ChatOther-ItemMouth-ThrowItem
 SourceCharacter wirft ActivityAsset in TargetCharacter's Mund.
-SourceCharacter shares a kind sibling cheek kiss with TargetCharacter.
+ChatOther-ItemMouth-SiblingsCheekKiss
 SourceCharacter teilt einen geschwisterlichen Kuss with TargetCharacter.
-SourceCharacter bites TargetCharacter's neck.
+ChatOther-ItemNeck-Bite
 SourceCharacter beisst TargetCharacter's Hals.
-SourceCharacter caresses TargetCharacter's neck.
+ChatOther-ItemNeck-Caress
 SourceCharacter streichelt TargetCharacter's Nacken.
-SourceCharacter chokes TargetCharacter's neck.
+ChatOther-ItemNeck-Choke
 SourceCharacter würgt TargetCharacter's Hals.
-SourceCharacter touches PronounPossessive gag to TargetCharacter's neck.
+ChatOther-ItemNeck-GaggedKiss
 SourceCharacter berührt PronounPossessive Knebel an TargetCharacter's Hals.
-SourceCharacter injects TargetCharacter's neck.
+ChatOther-ItemNeck-Inject
 SourceCharacter injeziert TargetCharacter's Hals.
-SourceCharacter kisses TargetCharacter's neck.
+ChatOther-ItemNeck-Kiss
 SourceCharacter küsst TargetCharacter's Hals.
-SourceCharacter licks TargetCharacter's neck.
+ChatOther-ItemNeck-Lick
 SourceCharacter leckt TargetCharacter's Hals.
-SourceCharacter massages TargetCharacter's neck.
+ChatOther-ItemNeck-MassageHands
 SourceCharacter massiert TargetCharacter's Nacken.
-SourceCharacter nibbles TargetCharacter's neck.
+ChatOther-ItemNeck-Nibble
 SourceCharacter knabbert an TargetCharacter's Hals.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's neck.
+ChatOther-ItemNeck-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Nacken.
-SourceCharacter rubs TargetCharacter's neck with PronounPossessive ActivityAsset.
+ChatOther-ItemNeck-RubItem
 SourceCharacter reibt TargetCharacter's hals mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's neck.
+ChatOther-ItemNeck-Scratch
 SourceCharacter kratzt über TargetCharacter's Hals.
-SourceCharacter shocks TargetCharacter's neck with PronounPossessive ActivityAsset.
+ChatOther-ItemNeck-ShockItem
 SourceCharacter shockt TargetCharacter's Hals mit PronounPossessive ActivityAsset.
-SourceCharacter gently places PronounPossessive foot over TargetCharacter's neck.
+ChatOther-ItemNeck-Step
 SourceCharacter platziert PronounPossessive Fuss höflich auf TargetCharacter's Nacken.
-SourceCharacter tickles TargetCharacter's neck.
+ChatOther-ItemNeck-Tickle
 SourceCharacter kitzelt TargetCharacter's Hals.
-SourceCharacter tickles TargetCharacter's neck with PronounPossessive ActivityAsset.
+ChatOther-ItemNeck-TickleItem
 SourceCharacter kitzelt TargetCharacter's Hals mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's nipple.
+ChatOther-ItemNipples-Bite
 SourceCharacter beisst TargetCharacter's Nippel.
-SourceCharacter caresses TargetCharacter's nipples.
+ChatOther-ItemNipples-Caress
 SourceCharacter streichelt TargetCharacter's Nippel.
-SourceCharacter presses PronounPossessive gag to TargetCharacter's nipple.
+ChatOther-ItemNipples-GaggedKiss
 SourceCharacter presst PronounPossessive Knebel gegen TargetCharacter's Nippel.
-SourceCharacter kisses TargetCharacter's nipple.
+ChatOther-ItemNipples-Kiss
 SourceCharacter küsst TargetCharacter's Nippel.
-SourceCharacter licks TargetCharacter's nipple.
+ChatOther-ItemNipples-Lick
 SourceCharacter leckt TargetCharacter's Nippel.
-SourceCharacter masturbates TargetCharacter's nipple with PronounPossessive ActivityAsset.
+ChatOther-ItemNipples-MasturbateItem
 SourceCharacter masturbiert TargetCharacter's Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter nibbles on TargetCharacter's nipple.
+ChatOther-ItemNipples-Nibble
 SourceCharacter knabbert an TargetCharacter's Nippeln.
-SourceCharacter pinches TargetCharacter's nipple.
+ChatOther-ItemNipples-Pinch
 SourceCharacter kneift TargetCharacter's Nippel.
-SourceCharacter pours ActivityAsset onto TargetCharacter's nipple.
+ChatOther-ItemNipples-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Nippel.
-SourceCharacter pulls TargetCharacter's nipples.
+ChatOther-ItemNipples-Pull
 SourceCharacter zieht an TargetCharacter's Nippeln.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's nipple.
+ChatOther-ItemNipples-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Nippel.
-SourceCharacter rubs TargetCharacter's nipple with PronounPossessive ActivityAsset.
+ChatOther-ItemNipples-RubItem
 SourceCharacter reibt TargetCharacter's Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's nipples.
+ChatOther-ItemNipples-Scratch
 SourceCharacter kratzt über TargetCharacter's Nippel.
-SourceCharacter shocks TargetCharacter's nipple with PronounPossessive ActivityAsset.
+ChatOther-ItemNipples-ShockItem
 SourceCharacter shockt TargetCharacter's Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter hits TargetCharacter's nipple with PronounPossessive ActivityAsset.
+ChatOther-ItemNipples-SpankItem
 SourceCharacter schlägt TargetCharacter's Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter sucks on TargetCharacter's nipple.
+ChatOther-ItemNipples-Suck
 SourceCharacter saugt an TargetCharacter's Nippel.
-SourceCharacter tickles TargetCharacter's nipple with PronounPossessive ActivityAsset.
+ChatOther-ItemNipples-TickleItem
 SourceCharacter kitzelt TargetCharacter's Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's nose.
+ChatOther-ItemNose-Bite
 SourceCharacter beisst TargetCharacter's Nase.
-SourceCharacter caresses TargetCharacter's nose.
+ChatOther-ItemNose-Caress
 SourceCharacter streicehlt TargetCharacter's Nase.
-SourceCharacter pinches TargetCharacter's nostrils closed.
+ChatOther-ItemNose-Choke
 SourceCharacter kneift TargetCharacter's Nasenflügel zu.
-SourceCharacter nose-nuzzles with TargetCharacter.
+ChatOther-ItemNose-Cuddle
 SourceCharacter näselt mit TargetCharacter.
-SourceCharacter bumps PronounPossessive gag on TargetCharacter's nose.
+ChatOther-ItemNose-GaggedKiss
 SourceCharacter stubst PronounPossessive Knebel gegen TargetCharacter's Nase.
-SourceCharacter kisses TargetCharacter's nose.
+ChatOther-ItemNose-Kiss
 SourceCharacter küsst TargetCharacter's Nase.
-SourceCharacter licks TargetCharacter's nose.
+ChatOther-ItemNose-Lick
 SourceCharacter leckt TargetCharacter's Nase.
-SourceCharacter nibbles TargetCharacter's nose.
+ChatOther-ItemNose-Nibble
 SourceCharacter knabbert an TargetCharacter's Nase.
-SourceCharacter boops TargetCharacter's nose.
+ChatOther-ItemNose-Pet
 SourceCharacter stubst TargetCharacter's Nase.
-SourceCharacter pinches TargetCharacter's nose.
+ChatOther-ItemNose-Pinch
 SourceCharacter kneift TargetCharacter's Nase.
-SourceCharacter pulls TargetCharacter's nose.
+ChatOther-ItemNose-Pull
 SourceCharacter zieht an TargetCharacter's Nase.
-SourceCharacter rubs TargetCharacter's nose.
+ChatOther-ItemNose-Rub
 SourceCharacter reibt TargetCharacter's Nase.
-SourceCharacter rubs TargetCharacter's nose with PronounPossessive ActivityAsset.
+ChatOther-ItemNose-RubItem
 SourceCharacter reibt TargetCharacter's Nase mit PronounPossessive ActivityAsset.
-SourceCharacter scratches TargetCharacter's nose.
+ChatOther-ItemNose-Scratch
 SourceCharacter kratzt TargetCharacter's Nase.
-SourceCharacter makes TargetCharacter smell PronounPossessive feet.
+ChatOther-ItemNose-Step
 SourceCharacter lässt TargetCharacter PronounPossessive Füsse riechen.
-SourceCharacter tickles TargetCharacter's nose with PronounPossessive ActivityAsset.
+ChatOther-ItemNose-TickleItem
 SourceCharacter kitzelt TargetCharacter's Nase mit PronounPossessive ActivityAsset.
-SourceCharacter caresses TargetCharacter's tummy.
+ChatOther-ItemPelvis-Caress
 SourceCharacter streichelt TargetCharacter's Bauch.
-SourceCharacter gives a gagged kiss on TargetCharacter's tummy.
+ChatOther-ItemPelvis-GaggedKiss
 SourceCharacter gibt einen geknebelten Kuss auf TargetCharacter's Bauch.
-SourceCharacter gropes TargetCharacter's tummy.
+ChatOther-ItemPelvis-Grope
 SourceCharacter grabscht TargetCharacter's Bauch.
-SourceCharacter kisses TargetCharacter's tummy.
+ChatOther-ItemPelvis-Kiss
 SourceCharacter küsst TargetCharacter's Bauch.
-SourceCharacter licks TargetCharacter's tummy.
+ChatOther-ItemPelvis-Lick
 SourceCharacter leckt TargetCharacter's Bauch.
-SourceCharacter massages TargetCharacter's tummy.
+ChatOther-ItemPelvis-MassageHands
 SourceCharacter massiert TargetCharacter's Bauch.
-SourceCharacter masturbates TargetCharacter's tummy with PronounPossessive ActivityAsset.
+ChatOther-ItemPelvis-MasturbateItem
 SourceCharacter masturbiert TargetCharacter's Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter nibbles TargetCharacter's tummy.
+ChatOther-ItemPelvis-Nibble
 SourceCharacter knabbert an TargetCharacter's Bauch.
-SourceCharacter pinches TargetCharacter's tummy.
+ChatOther-ItemPelvis-Pinch
 SourceCharacter kneift TargetCharacter's Bauch.
-SourceCharacter pours ActivityAsset onto TargetCharacter's tummy.
+ChatOther-ItemPelvis-PourItem
 SourceCharacter giesst ActivityAsset über TargetCharacter's Bauch.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's tummy.
+ChatOther-ItemPelvis-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Bauch.
-SourceCharacter rubs TargetCharacter's tummy with PronounPossessive ActivityAsset.
+ChatOther-ItemPelvis-RubItem
 SourceCharacter reibt TargetCharacter's Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's pelvis.
+ChatOther-ItemPelvis-Scratch
 SourceCharacter kratzt über TargetCharacter's Becken.
-SourceCharacter shocks TargetCharacter's tummy with PronounPossessive ActivityAsset.
+ChatOther-ItemPelvis-ShockItem
 SourceCharacter shockt TargetCharacter's Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter spanks TargetCharacter's tummy.
+ChatOther-ItemPelvis-Spank
 SourceCharacter spankt TargetCharacter's Bauch.
-SourceCharacter hits TargetCharacter's tummy with PronounPossessive ActivityAsset.
+ChatOther-ItemPelvis-SpankItem
 SourceCharacter schlägt TargetCharacter's Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter presses PronounPossessive foot into TargetCharacter's chest.
+ChatOther-ItemPelvis-Step
 SourceCharacter presst PronounPossessive Fuss gegen TargetCharacter's Brust.
-SourceCharacter tickles TargetCharacter's tummy.
+ChatOther-ItemPelvis-Tickle
 SourceCharacter kitzelt TargetCharacter's Bauch.
-SourceCharacter tickles TargetCharacter's tummy with PronounPossessive ActivityAsset.
+ChatOther-ItemPelvis-TickleItem
 SourceCharacter kitzelt TargetCharacter's Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter caresses TargetCharacter's penis base with PronounPossessive fingers.
+ChatOther-ItemPenis-ReversePenetrateAss
+SourceCharacter fickt TargetCharacter's ActivityAsset mit PronounPossessive Arsch.
+ChatOther-ItemPenis-Caress
 SourceCharacter streichelt TargetCharacter's Penis mit PronounPossessive Fingern.
-SourceCharacter fucks TargetCharacter's ActivityAsset with PronounPossessive penis.
+ChatOther-ItemPenis-ReversePenetratePussy
 SourceCharacter fickt TargetCharacter's ActivityAsset mit PronounPossessive Penis.
-SourceCharacter presses PronounPossessive gag into TargetCharacter's penis base.
+ChatOther-ItemPenis-GaggedKiss
 SourceCharacter presst PronounPossessive Knebel gegen TargetCharacter's Penis.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive penis.
+ChatOther-ItemPenis-Kick
 SourceCharacter tritt TargetCharacter gegen TargetPronounPossessive Penis.
-SourceCharacter kisses TargetCharacter's penis base.
+ChatOther-ItemPenis-Kiss
 SourceCharacter küsst TargetCharacter's Penis.
-SourceCharacter licks TargetCharacter's penis base.
+ChatOther-ItemPenis-Lick
 SourceCharacter leckt TargetCharacter's Penis.
-SourceCharacter masturbates TargetCharacter's penis with PronounPossessive foot.
+ChatOther-ItemPenis-MasturbateFoot
 SourceCharacter masturbiert TargetCharacter's Penis mit PronounPossessive Fuss.
-SourceCharacter masturbates TargetCharacter's penis with PronounPossessive fingers.
+ChatOther-ItemPenis-MasturbateHand
 SourceCharacter masturbiert TargetCharacter's Penis mit PronounPossessive Fingern.
-SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's penis.
+ChatOther-ItemPenis-MasturbateItem
 SourceCharacter neutzt PronounPossessive ActivityAsset um TargetCharacter's Penis zu masturbieren.
-SourceCharacter masturbates TargetCharacter's penis with PronounPossessive tongue.
+ChatOther-ItemPenis-MasturbateTongue
 SourceCharacter masturbiert TargetCharacter's Penis mit PronounPossessive Zunge.
-SourceCharacter nibbles TargetCharacter's penis.
+ChatOther-ItemPenis-Nibble
 SourceCharacter knabbert an TargetCharacter's Penis.
-SourceCharacter rubs TargetCharacter's penis with PronounPossessive ActivityAsset.
+ChatOther-ItemPenis-RubItem
 SourceCharacter reibt TargetCharacter's Penis mit PronounPossessive ActivityAsset.
-SourceCharacter shocks TargetCharacter's penis with PronounPossessive ActivityAsset.
+ChatOther-ItemPenis-ShockItem
 SourceCharacter shockt TargetCharacter's Penis mit PronounPossessive ActivityAsset.
-SourceCharacter slaps TargetCharacter's penis.
+ChatOther-ItemPenis-Slap
 SourceCharacter schlägt TargetCharacter's Penis mit der flachen Hand.
-SourceCharacter hits TargetCharacter's penis with PronounPossessive ActivityAsset.
+ChatOther-ItemPenis-SpankItem
 SourceCharacter schlägt TargetCharacter's Penis mit PronounPossessive ActivityAsset.
-SourceCharacter eagerly sucks TargetCharacter's ActivityAsset.
+ChatOther-ItemPenis-ReverseSuckItem
 SourceCharacter saugt eifrig an TargetCharacter's ActivityAsset.
-SourceCharacter tickles TargetCharacter's penis with PronounPossessive ActivityAsset.
+ChatOther-ItemPenis-TickleItem
 SourceCharacter kitzelt TargetCharacter's Penis mit PronounPossessive ActivityAsset.
-SourceCharacter bites TargetCharacter's back.
+ChatOther-ItemPenis-SuckPenetrateItem
+SourceCharacter saugt an TargetCharacter's ActivityAsset.
+ChatOther-ItemTorso-Bite
 SourceCharacter beisst TargetCharacter's Rücken.
-SourceCharacter caresses TargetCharacter's back.
+ChatOther-ItemTorso-Caress
 SourceCharacter streichelt TargetCharacter's Rücken.
-SourceCharacter gives a gagged kiss on TargetCharacter's back.
+ChatOther-ItemTorso-GaggedKiss
 SourceCharacter gibt einen geknebelten Kuss auf TargetCharacter's Rücken.
-SourceCharacter kisses TargetCharacter's back.
+ChatOther-ItemTorso-Kiss
 SourceCharacter küsst TargetCharacter's Rücken.
-SourceCharacter licks TargetCharacter's back.
+ChatOther-ItemTorso-Lick
 SourceCharacter leckt TargetCharacter's Rücken.
-SourceCharacter massages TargetCharacter's back with PronounPossessive feet.
+ChatOther-ItemTorso-MassageFeet
 SourceCharacter massiert TargetCharacter's Rücken mit PronounPossessive Füssen.
-SourceCharacter massages TargetCharacter's back with PronounPossessive hands.
+ChatOther-ItemTorso-MassageHands
 SourceCharacter massiert TargetCharacter's Rücken mit PronounPossessive Händen.
-SourceCharacter nibbles TargetCharacter's ribs.
+ChatOther-ItemTorso-Nibble
 SourceCharacter knabbert an TargetCharacter's Rippen.
-SourceCharacter pours ActivityAsset onto TargetCharacter's back.
+ChatOther-ItemTorso-PourItem
 SourceCharacter gießt ActivityAsset über TargetCharacter's Rücken.
-SourceCharacter rolls a ActivityAsset over TargetCharacter's back.
+ChatOther-ItemTorso-RollItem
 SourceCharacter rollt ein ActivityAsset über TargetCharacter's Rücken.
-SourceCharacter rubs PronounPossessive body against TargetCharacter's body.
+ChatOther-ItemTorso-Rub
 SourceCharacter reibt PronounPossessive Körper an TargetCharacter's Körper.
-SourceCharacter rubs TargetCharacter's back with PronounPossessive ActivityAsset.
+ChatOther-ItemTorso-RubItem
 SourceCharacter reibt TargetCharacter's Rücken mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's back.
+ChatOther-ItemTorso-Scratch
 SourceCharacter kratzt über TargetCharacter's Rücken.
-SourceCharacter shocks TargetCharacter's back with PronounPossessive ActivityAsset.
+ChatOther-ItemTorso-ShockItem
 SourceCharacter shockt TargetCharacter's Rücken mit PronounPossessive ActivityAsset.
-SourceCharacter spanks TargetCharacter's back.
+ChatOther-ItemTorso-Spank
 SourceCharacter spankt TargetCharacter's Rücken.
-SourceCharacter hits TargetCharacter's back with PronounPossessive ActivityAsset.
+ChatOther-ItemTorso-SpankItem
 SourceCharacter schlägt TargetCharacter's Rücken mit PronounPossessive ActivityAsset.
-SourceCharacter rests PronounPossessive feet on TargetCharacter's back.
+ChatOther-ItemTorso-Step
 SourceCharacter legt PronounPossessive Füsse auf TargetCharacter's Rücken.
-SourceCharacter tickles TargetCharacter's ribs.
+ChatOther-ItemTorso-Tickle
 SourceCharacter kitzelt TargetCharacter's Rippen.
-SourceCharacter tickles TargetCharacter's back with PronounPossessive ActivityAsset.
+ChatOther-ItemTorso-TickleItem
 SourceCharacter kitzelt TargetCharacter's Rücken mit PronounPossessive ActivityAsset.
-SourceCharacter throws ActivityAsset on TargetCharacter's back.
+ChatOther-ItemTorso-ThrowItem
 SourceCharacter wirft ActivityAsset gegen TargetCharacter's Rücken.
-SourceCharacter caresses TargetCharacter's pussy with PronounPossessive fingers.
+ChatOther-ItemVulva-ReversePenetrateAss
+SourceCharacter fickt TargetCharacter's ActivityAsset mit PronounPossessive Arsch.
+ChatOther-ItemVulva-Caress
 SourceCharacter streichelt TargetCharacter's Pussy mit PronounPossessive Fingern.
-SourceCharacter pushes PronounPossessive gag into TargetCharacter's vagina.
+ChatOther-ItemVulva-ReversePenetratePussy
+SourceCharacter fickt TargetCharacter's ActivityAsset mit PronounPossessive Pussy.
+ChatOther-ItemVulva-GaggedKiss
 SourceCharacter drückt PronounPossessive Knebel in TargetCharacter's Vagina.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive pussy.
+ChatOther-ItemVulva-Kick
 SourceCharacter tritt TargetCharacter in TargetPronounPossessive Pussy.
-SourceCharacter kisses TargetCharacter's pussy lips.
+ChatOther-ItemVulva-Kiss
 SourceCharacter küsst TargetCharacter's Schamlippen.
-SourceCharacter licks TargetCharacter's pussy lips.
+ChatOther-ItemVulva-Lick
 SourceCharacter leckt TargetCharacter's Schamlippen.
-SourceCharacter masturbates TargetCharacter's vagina with PronounPossessive full fist.
+ChatOther-ItemVulva-MasturbateFist
 SourceCharacter masturbiert TargetCharacter's Vagina mit PronounPossessive ganzen Faust.
-SourceCharacter masturbates TargetCharacter's pussy with PronounPossessive foot.
+ChatOther-ItemVulva-MasturbateFoot
 SourceCharacter masturbiert TargetCharacter's Pussy mit PronounPossessive Fuss.
-SourceCharacter masturbates TargetCharacter's pussy with PronounPossessive fingers.
+ChatOther-ItemVulva-MasturbateHand
 SourceCharacter masturbiert TargetCharacter's Pussy mit PronounPossessive Fingern.
-SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's pussy lips.
+ChatOther-ItemVulva-MasturbateItem
 SourceCharacter benutzt PronounPossessive ActivityAsset um TargetCharacter's Schamlippen zu masturbieren.
-SourceCharacter masturbates TargetCharacter's pussy with PronounPossessive tongue.
+ChatOther-ItemVulva-MasturbateTongue
 SourceCharacter masturbiert TargetCharacter's Pussy mit PronounPossessive Zunge.
-SourceCharacter nibbles TargetCharacter's pussy lips.
+ChatOther-ItemVulva-Nibble
 SourceCharacter knabbert an TargetCharacter's Schamlippen.
-SourceCharacter roughly penetrates TargetCharacter's vagina with PronounPossessive ActivityAsset.
+ChatOther-ItemVulva-PenetrateFast
 SourceCharacter penetriert TargetCharacter's Vagina hart mit PronounPossessive ActivityAsset.
-SourceCharacter slowly penetrates TargetCharacter's vagina with PronounPossessive ActivityAsset.
+ChatOther-ItemVulva-PenetrateSlow
 SourceCharacter penetriert TargetCharacter's Vagina langsam mit PronounPossessive ActivityAsset.
-SourceCharacter rubs TargetCharacter's vulva with PronounPossessive ActivityAsset.
+ChatOther-ItemVulva-RubItem
 SourceCharacter reibt TargetCharacter's Vulva mit PronounPossessive ActivityAsset.
-SourceCharacter scratches over TargetCharacter's vulva.
+ChatOther-ItemVulva-Scratch
 SourceCharacter kratzt über TargetCharacter's Vulva.
-SourceCharacter shocks TargetCharacter's vulva with PronounPossessive ActivityAsset.
+ChatOther-ItemVulva-ShockItem
 SourceCharacter shockt TargetCharacter's Vulva mit PronounPossessive ActivityAsset.
-SourceCharacter slaps TargetCharacter's pussy lips.
+ChatOther-ItemVulva-Slap
 SourceCharacter schlägt TargetCharacter's Schamlippen.
-SourceCharacter hits TargetCharacter's pussy with PronounPossessive ActivityAsset.
+ChatOther-ItemVulva-SpankItem
 SourceCharacter schlägt TargetCharacter's Pussy mit PronounPossessive ActivityAsset.
-SourceCharacter tickles TargetCharacter's vulva with PronounPossessive ActivityAsset.
+ChatOther-ItemVulva-SuckPenetrateItem
+SourceCharacter saugt an TargetCharacter's ActivityAsset.
+ChatOther-ItemVulva-ReverseSuckItem
+SourceCharacter saugt eifrig an TargetCharacter's ActivityAsset.
+ChatOther-ItemVulva-TickleItem
 SourceCharacter kitzelt TargetCharacter's Vulva mit PronounPossessive ActivityAsset.
-SourceCharacter caresses TargetCharacter's clitoris with PronounPossessive fingers.
+ChatOther-ItemVulvaPiercings-Caress
 SourceCharacter streichelt TargetCharacter's Clitoris mit PronounPossessive Fingern.
-SourceCharacter gags kiss TargetCharacter's clitoris.
+ChatOther-ItemVulvaPiercings-GaggedKiss
 SourceCharacter küsst TargetCharacter's Clitoris mit PronounPossessive Knebel.
-SourceCharacter injects TargetCharacter's clitoris.
+ChatOther-ItemVulvaPiercings-Inject
 SourceCharacter injeziert TargetCharacter's Clitoris.
-SourceCharacter kicks TargetCharacter on TargetPronounPossessive clitoris.
+ChatOther-ItemVulvaPiercings-Kick
 SourceCharacter tritt TargetCharacter in TargetPronounPossessive Clitoris.
-SourceCharacter kisses TargetCharacter's clitoris.
+ChatOther-ItemVulvaPiercings-Kiss
 SourceCharacter küsst TargetCharacter's Clitoris.
-SourceCharacter licks TargetCharacter's clitoris.
+ChatOther-ItemVulvaPiercings-Lick
 SourceCharacter leckt TargetCharacter's Clitoris.
-SourceCharacter masturbates TargetCharacter's clitoris with PronounPossessive foot.
+ChatOther-ItemVulvaPiercings-MasturbateFoot
 SourceCharacter masturbiert TargetCharacter's Clitoris mit PronounPossessive Fuss.
-SourceCharacter masturbates TargetCharacter's clitoris with PronounPossessive fingers.
+ChatOther-ItemVulvaPiercings-MasturbateHand
 SourceCharacter masturbiert TargetCharacter's Clitoris mit PronounPossessive Fingern.
-SourceCharacter uses PronounPossessive ActivityAsset to masturbate TargetCharacter's clitoris.
+ChatOther-ItemVulvaPiercings-MasturbateItem
 SourceCharacter benutzt PronounPossessive ActivityAsset um TargetCharacter's Clitoris zu masturbieren.
-SourceCharacter masturbates TargetCharacter's clitoris with PronounPossessive tongue.
+ChatOther-ItemVulvaPiercings-MasturbateTongue
 SourceCharacter masturbiert TargetCharacter's Clitoris mit PronounPossessive Zunge.
-SourceCharacter nibbles TargetCharacter's clitoris.
+ChatOther-ItemVulvaPiercings-Nibble
 SourceCharacter knabbert an TargetCharacter's Clitoris.
-SourceCharacter rubs TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+ChatOther-ItemVulvaPiercings-RubItem
 SourceCharacter reibt TargetCharacter's Clitoris mit PronounPossessive ActivityAsset.
-SourceCharacter shocks TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+ChatOther-ItemVulvaPiercings-ShockItem
 SourceCharacter shockt TargetCharacter's Clitoris mit PronounPossessive ActivityAsset.
-SourceCharacter slaps TargetCharacter's clitoris.
+ChatOther-ItemVulvaPiercings-Slap
 SourceCharacter schlägt TargetCharacter's Clitoris.
-SourceCharacter hits TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+ChatOther-ItemVulvaPiercings-SpankItem
 SourceCharacter schlägt TargetCharacter's Clitoris mit PronounPossessive ActivityAsset.
-SourceCharacter tickles TargetCharacter's clitoris with PronounPossessive ActivityAsset.
+ChatOther-ItemVulvaPiercings-TickleItem
 SourceCharacter kitzelt TargetCharacter's clitoris mit PronounPossessive ActivityAsset.
-SourceCharacter bites PronounPossessive arm.
+ChatSelf-ItemArms-Bite
 SourceCharacter beisst PronounPossessive Arm.
-SourceCharacter caresses PronounPossessive arms.
+ChatSelf-ItemArms-Caress
 SourceCharacter streichelt PronounPossessive Arme.
-SourceCharacter injects PronounPossessive arm.
+ChatSelf-ItemArms-Inject
 SourceCharacter injeziert PronounPossessive Arm.
-SourceCharacter kisses PronounPossessive own arm.
+ChatSelf-ItemArms-Kiss
 SourceCharacter küsst PronounPossessive eigene Arm.
-SourceCharacter licks PronounPossessive own arm.
+ChatSelf-ItemArms-Lick
 SourceCharacter leckt an PronounPossessive eigenen Arm.
-SourceCharacter massages PronounPossessive arms.
+ChatSelf-ItemArms-MassageHands
 SourceCharacter massiert PronounPossessive Arm.
-SourceCharacter nibbles PronounPossessive own arm.
+ChatSelf-ItemArms-Nibble
 SourceCharacter knabbert an PronounPossessive eigenen Arm.
-SourceCharacter pinches PronounPossessive upper arm.
+ChatSelf-ItemArms-Pinch
 SourceCharacter kneift PronounPossessive Oberarm.
-SourceCharacter pours ActivityAsset onto PronounPossessive own arm.
+ChatSelf-ItemArms-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigenen Arm.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own arm.
+ChatSelf-ItemArms-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Arm.
-SourceCharacter rubs PronounPossessive own arm with PronounPossessive ActivityAsset.
+ChatSelf-ItemArms-RubItem
 SourceCharacter reibt PronounPossessive eigenen Arm mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive arm.
+ChatSelf-ItemArms-Scratch
 SourceCharacter kratzt PronounPossessive Arm.
-SourceCharacter shocks PronounPossessive own arm with PronounPossessive ActivityAsset.
+ChatSelf-ItemArms-ShockItem
 SourceCharacter shockt PronounPossessive eigenen Arm mit PronounPossessive ActivityAsset.
-SourceCharacter spanks PronounPossessive own arm.
+ChatSelf-ItemArms-Spank
 SourceCharacter spankt PronounPossessive eigenen Arm.
-SourceCharacter hits PronounPossessive arm with PronounPossessive ActivityAsset.
+ChatSelf-ItemArms-SpankItem
 SourceCharacter schlägt PronounPossessive Arm mit PronounPossessive ActivityAsset.
-SourceCharacter struggles against PronounPossessive bindings.
+ChatSelf-ItemArms-StruggleArms
 SourceCharacter wehrt sich gegen PronounPossessive Fesseln.
-SourceCharacter tickles PronounPossessive arms.
+ChatSelf-ItemArms-Tickle
 SourceCharacter kitzelt PronounPossessive Arme.
-SourceCharacter tickles PronounPossessive own arm with PronounPossessive ActivityAsset.
+ChatSelf-ItemArms-TickleItem
 SourceCharacter kitzelt PronounPossessive own Arm mit PronounPossessive ActivityAsset.
-SourceCharacter wiggles PronounPossessive shoulders.
+ChatSelf-ItemArms-Wiggle
 SourceCharacter wackelt mit PronounPossessive Schultern.
-SourceCharacter bites PronounPossessive foot.
+ChatSelf-ItemBoots-Bite
 SourceCharacter beisst PronounPossessive Fuss.
-SourceCharacter caresses PronounPossessive feet.
+ChatSelf-ItemBoots-Caress
 SourceCharacter streichelt PronounPossessive Füsse.
-SourceCharacter kisses PronounPossessive foot.
+ChatSelf-ItemBoots-Kiss
 SourceCharacter küsst PronounPossessive Fuss.
-SourceCharacter licks PronounPossessive own feet.
+ChatSelf-ItemBoots-Lick
 SourceCharacter leckt PronounPossessive eigenen Füse.
-SourceCharacter massages PronounPossessive feet.
+ChatSelf-ItemBoots-MassageHands
 SourceCharacter massiert PronounPossessive Füsse.
-SourceCharacter nibbles PronounPossessive own foot.
+ChatSelf-ItemBoots-Nibble
 SourceCharacter knabbert an PronounPossessive eigenen Fuss.
-SourceCharacter gives a small kiss on PronounPossessive foot.
+ChatSelf-ItemBoots-PoliteKiss
 SourceCharacter gibt einen kleinen Kuss auf PronounPossessive Fuss.
-SourceCharacter pours ActivityAsset onto PronounPossessive own feet.
+ChatSelf-ItemBoots-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigenen Füsse.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own feet.
+ChatSelf-ItemBoots-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Füsse.
-SourceCharacter rubs PronounPossessive own feet with PronounPossessive ActivityAsset.
+ChatSelf-ItemBoots-RubItem
 SourceCharacter reibt PronounPossessive eigenen Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive foot.
+ChatSelf-ItemBoots-Scratch
 SourceCharacter kratzt PronounPossessive Fuss.
-SourceCharacter shocks PronounPossessive own feet with PronounPossessive ActivityAsset.
+ChatSelf-ItemBoots-ShockItem
 SourceCharacter shockt PronounPossessive eigenen Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter spanks PronounPossessive own feet.
+ChatSelf-ItemBoots-Spank
 SourceCharacter spankt PronounPossessive eigenen Füsse.
-SourceCharacter hits PronounPossessive feet with PronounPossessive ActivityAsset.
+ChatSelf-ItemBoots-SpankItem
 SourceCharacter schlägt PronounPossessive Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter sucks on PronounPossessive big toe.
+ChatSelf-ItemBoots-Suck
 SourceCharacter saucgt an PronounPossessive großen Zeh.
-SourceCharacter cleans and polishes PronounPossessive toenails.
+ChatSelf-ItemBoots-TakeCare
 SourceCharacter säubert und poliert PronounPossessive Zehennägel.
-SourceCharacter tickles PronounPossessive own feet.
+ChatSelf-ItemBoots-Tickle
 SourceCharacter kitzelt PronounPossessive eigenen Füsse.
-SourceCharacter tickles PronounPossessive own feet with PronounPossessive ActivityAsset.
+ChatSelf-ItemBoots-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Füsse mit PronounPossessive ActivityAsset.
-SourceCharacter wiggles PronounPossessive feet.
+ChatSelf-ItemBoots-Wiggle
 SourceCharacter wackelt mit PronounPossessive Füsse.
-SourceCharacter caresses PronounPossessive own breast.
+ChatSelf-ItemBreast-Caress
 SourceCharacter streichelt PronounPossessive eigenen Brüste.
-SourceCharacter gropes PronounPossessive own breast.
+ChatSelf-ItemBreast-Grope
 SourceCharacter grabscht PronounPossessive eigenen Brüste.
-SourceCharacter injects PronounPossessive breast.
+ChatSelf-ItemBreast-Inject
 SourceCharacter injeziert PronounPossessive Brüste.
-SourceCharacter kisses PronounPossessive own breast.
+ChatSelf-ItemBreast-Kiss
 SourceCharacter küsst PronounPossessive own Brüste.
-SourceCharacter licks PronounPossessive own breast.
+ChatSelf-ItemBreast-Lick
 SourceCharacter leckt PronounPossessive eigenen Brüste.
-SourceCharacter masturbates PronounPossessive own breast.
+ChatSelf-ItemBreast-MasturbateHand
 SourceCharacter masturbiert PronounPossessive eigenen Brüste.
-SourceCharacter masturbates PronounPossessive own breast with PronounPossessive ActivityAsset.
+ChatSelf-ItemBreast-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigenen Brüste mit PronounPossessive ActivityAsset.
-SourceCharacter pours ActivityAsset onto PronounPossessive own breast.
+ChatSelf-ItemBreast-PourItem
 SourceCharacter giesst ActivityAsset auf PronounPossessive eigenen Brüste.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own breast.
+ChatSelf-ItemBreast-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Brüste.
-SourceCharacter rubs PronounPossessive own breast with PronounPossessive ActivityAsset.
+ChatSelf-ItemBreast-RubItem
 SourceCharacter reibt PronounPossessive eigenen Brüste mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive breast.
+ChatSelf-ItemBreast-Scratch
 SourceCharacter kratzt PronounPossessive Brust.
-SourceCharacter shocks PronounPossessive own breast with PronounPossessive ActivityAsset.
+ChatSelf-ItemBreast-ShockItem
 SourceCharacter shockt PronounPossessive eigene Brust mit PronounPossessive ActivityAsset.
-SourceCharacter slaps PronounPossessive own breast.
+ChatSelf-ItemBreast-Slap
 SourceCharacter schlägt PronounPossessive eigene Brust.
-SourceCharacter hits PronounPossessive breast with PronounPossessive ActivityAsset.
+ChatSelf-ItemBreast-SpankItem
 SourceCharacter schlägt PronounPossessive Brust mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own breast.
+ChatSelf-ItemBreast-Tickle
 SourceCharacter kitzelt PronounPossessive eigene Brust.
-SourceCharacter tickles PronounPossessive own breast with PronounPossessive ActivityAsset.
+ChatSelf-ItemBreast-TickleItem
 SourceCharacter kitzelt PronounPossessive eigene Brust mit PronounPossessive ActivityAsset.
-SourceCharacter throws ActivityAsset on PronounPossessive own breast.
+ChatSelf-ItemBreast-ThrowItem
 SourceCharacter wirft ActivityAsset auf PronounPossessive eigene Brust.
-SourceCharacter shakes PronounPossessive breasts around.
+ChatSelf-ItemBreast-Wiggle
 SourceCharacter schüttelt PronounPossessive Brüste umher.
-SourceCharacter caresses PronounPossessive butt.
+ChatSelf-ItemButt-Caress
 SourceCharacter streichelt PronounPossessive Hintern.
-SourceCharacter gropes PronounPossessive butt.
+ChatSelf-ItemButt-Grope
 SourceCharacter grabscht PronounPossessive Hintern.
-SourceCharacter injects PronounPossessive butt.
+ChatSelf-ItemButt-Inject
 SourceCharacter injeziert PronounPossessive Hintern.
-SourceCharacter fists and masturbates PronounPossessive ass.
+ChatSelf-ItemButt-MasturbateFist
 SourceCharacter fistet und masturbiert PronounPossessive Arsch.
-SourceCharacter fingers and masturbates PronounPossessive ass.
+ChatSelf-ItemButt-MasturbateHand
 SourceCharacter fingert und masturbiert PronounPossessive Po.
-SourceCharacter masturbates PronounPossessive own butt with PronounPossessive ActivityAsset.
+ChatSelf-ItemButt-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigenen Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter pours ActivityAsset onto PronounPossessive own butt.
+ChatSelf-ItemButt-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigenen Hintern.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own butt.
+ChatSelf-ItemButt-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Hintern.
-SourceCharacter rubs PronounPossessive own butt with PronounPossessive ActivityAsset.
+ChatSelf-ItemButt-RubItem
 SourceCharacter reibt PronounPossessive eigenen Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive butt.
+ChatSelf-ItemButt-Scratch
 SourceCharacter kratzt PronounPossessive Hintern.
-SourceCharacter shocks PronounPossessive own butt with PronounPossessive ActivityAsset.
+ChatSelf-ItemButt-ShockItem
 SourceCharacter schockt PronounPossessive eigenen Hitern mit PronounPossessive ActivityAsset.
-SourceCharacter spanks PronounSelf on the butt.
+ChatSelf-ItemButt-Spank
 SourceCharacter spankt sich selbst auf den Hintern.
-SourceCharacter hits PronounPossessive butt with PronounPossessive ActivityAsset.
+ChatSelf-ItemButt-SpankItem
 SourceCharacter schlägt PronounPossessive Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own butt with PronounPossessive ActivityAsset.
+ChatSelf-ItemButt-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Hintern mit PronounPossessive ActivityAsset.
-SourceCharacter wiggles PronounPossessive butt.
+ChatSelf-ItemButt-Wiggle
 SourceCharacter wackelt mit PronounPossessive Hintern.
-SourceCharacter caresses PronounPossessive ear.
+ChatSelf-ItemEars-Caress
 SourceCharacter streichelt PronounPossessive Ohr.
-SourceCharacter pinches PronounPossessive ear.
+ChatSelf-ItemEars-Pinch
 SourceCharacter kneift PronounPossessive Ohr.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own ear.
+ChatSelf-ItemEars-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenes Ohr.
-SourceCharacter rubs PronounPossessive own ear with PronounPossessive ActivityAsset.
+ChatSelf-ItemEars-RubItem
 SourceCharacter reibt PronounPossessive eigenes Ohr mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive ear.
+ChatSelf-ItemEars-Scratch
 SourceCharacter kratzt PronounPossessive Ohr.
-SourceCharacter tickles PronounPossessive own ear with PronounPossessive ActivityAsset.
+ChatSelf-ItemEars-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenes Ohr mit PronounPossessive ActivityAsset.
-SourceCharacter wiggles PronounPossessive ears.
+ChatSelf-ItemEars-Wiggle
 SourceCharacter wackelt mit PronounPossessive Ohren.
-SourceCharacter bites PronounPossessive leg.
+ChatSelf-ItemFeet-Bite
 SourceCharacter beisst PronounPossessive Beimn.
-SourceCharacter caresses PronounPossessive legs.
+ChatSelf-ItemFeet-Caress
 SourceCharacter streichelt PronounPossessive Bein.
-SourceCharacter injects PronounPossessive leg.
+ChatSelf-ItemFeet-Inject
 SourceCharacter injeziert PronounPossessive Bein.
-SourceCharacter massages PronounPossessive legs.
+ChatSelf-ItemFeet-MassageHands
 SourceCharacter massiert PronounPossessive Bein.
-SourceCharacter masturbates PronounPossessive own leg with PronounPossessive ActivityAsset.
+ChatSelf-ItemFeet-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigenes Bein mit PronounPossessive ActivityAsset.
-SourceCharacter pours ActivityAsset onto PronounPossessive own leg.
+ChatSelf-ItemFeet-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigenes Bein.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own leg.
+ChatSelf-ItemFeet-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenes Bein.
-SourceCharacter rubs PronounPossessive own leg with PronounPossessive ActivityAsset.
+ChatSelf-ItemFeet-RubItem
 SourceCharacter reibt PronounPossessive eigenes Bein mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive leg.
+ChatSelf-ItemFeet-Scratch
 SourceCharacter kratzt PronounPossessive Bein.
-SourceCharacter shocks PronounPossessive own leg with PronounPossessive ActivityAsset.
+ChatSelf-ItemFeet-ShockItem
 SourceCharacter schockt PronounPossessive eigenes Bein mit PronounPossessive ActivityAsset.
-SourceCharacter spanks PronounPossessive own leg.
+ChatSelf-ItemFeet-Spank
 SourceCharacter spankt PronounPossessive eigenes Bein.
-SourceCharacter hits PronounPossessive leg with PronounPossessive ActivityAsset.
+ChatSelf-ItemFeet-SpankItem
 SourceCharacter schlägt PronounPossessive Bein mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive legs.
+ChatSelf-ItemFeet-Tickle
 SourceCharacter kitzelt PronounPossessive Bein.
-SourceCharacter tickles PronounPossessive own leg with PronounPossessive ActivityAsset.
+ChatSelf-ItemFeet-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenes Bein mit PronounPossessive ActivityAsset.
-SourceCharacter throws ActivityAsset at PronounPossessive own feet.
+ChatSelf-ItemFeet-ThrowItem
 SourceCharacter wirft ActivityAsset auf PronounPossessive eigenen Füsse.
-SourceCharacter wiggles PronounPossessive legs.
+ChatSelf-ItemFeet-Wiggle
 SourceCharacter wackelt mit PronounPossessive Füssen.
-SourceCharacter caresses PronounPossessive glans.
+ChatSelf-ItemGlans-Caress
 SourceCharacter streichelt PronounPossessive Eier.
-SourceCharacter injects PronounPossessive glans.
+ChatSelf-ItemGlans-Inject
 SourceCharacter injeziert PronounPossessive Eier.
-SourceCharacter masturbates PronounPossessive glans.
+ChatSelf-ItemGlans-MasturbateHand
 SourceCharacter masturbiert PronounPossessive Eier.
-SourceCharacter masturbates PronounPossessive own glans with PronounPossessive ActivityAsset.
+ChatSelf-ItemGlans-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigenen Eier mit PronounPossessive ActivityAsset.
-SourceCharacter rubs PronounPossessive own glans with PronounPossessive ActivityAsset.
+ChatSelf-ItemGlans-RubItem
 SourceCharacter reibt PronounPossessive eigenen Eier mit PronounPossessive ActivityAsset.
-SourceCharacter shocks PronounPossessive own glans with PronounPossessive ActivityAsset.
+ChatSelf-ItemGlans-ShockItem
 SourceCharacter shockt PronounPossessive eigenen Eier mit PronounPossessive ActivityAsset.
-SourceCharacter slaps PronounPossessive glans.
+ChatSelf-ItemGlans-Slap
 SourceCharacter schlägt PronounPossessive Eier.
-SourceCharacter hits PronounPossessive glans with PronounPossessive ActivityAsset.
+ChatSelf-ItemGlans-SpankItem
 SourceCharacter schlägt PronounPossessive Eier mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own glans with PronounPossessive ActivityAsset.
+ChatSelf-ItemGlans-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Eier mit PronounPossessive ActivityAsset.
-SourceCharacter bites PronounPossessive hand.
+ChatSelf-ItemHands-Bite
 SourceCharacter beisst PronounPossessive Hand.
-SourceCharacter rubs PronounPossessive hands together.
+ChatSelf-ItemHands-Caress
 SourceCharacter reibst PronounPossessive Hände aneinander.
-SourceCharacter kisses PronounPossessive own hand.
+ChatSelf-ItemHands-Kiss
 SourceCharacter küsst PronounPossessive eigene Hand.
-SourceCharacter licks the back of PronounPossessive hand.
+ChatSelf-ItemHands-Lick
 SourceCharacter leckt PronounPossessive eigenen Handrücken.
-SourceCharacter nibbles PronounPossessive own hand.
+ChatSelf-ItemHands-Nibble
 SourceCharacter knabbert an PronounPossessive eigenen Hand.
-SourceCharacter gives a small kiss on PronounPossessive hand.
+ChatSelf-ItemHands-PoliteKiss
 SourceCharacter gibt einen kleinen Kuss auf PronounPossessive Hand.
-SourceCharacter scratches PronounPossessive hand.
+ChatSelf-ItemHands-Scratch
 SourceCharacter kratzt PronounPossessive Hand.
-SourceCharacter spanks PronounPossessive first hand with the second one.
+ChatSelf-ItemHands-Spank
 SourceCharacter spankt PronounPossessive eine Hand mit der anderen.
-SourceCharacter sucks on PronounPossessive fingers.
+ChatSelf-ItemHands-Suck
 SourceCharacter saugt an PronounPossessive Fingern.
-SourceCharacter cleans and polishes PronounPossessive nails.
+ChatSelf-ItemHands-TakeCare
 SourceCharacter säubert und poliert PronounPossessive Fingernägel.
-SourceCharacter wiggles PronounPossessive fingers
+ChatSelf-ItemHands-Wiggle
 SourceCharacter wackelt mit PronounPossessive Fingern
-SourceCharacter caresses PronounPossessive face.
-SourceCharacter streichelt PronounPossessive Gesicht.
-SourceCharacter nods.
-SourceCharacter nickt.
-SourceCharacter pets PronounSelf on the head.
-SourceCharacter tätschelt sich selbst den Kopf.
-SourceCharacter pulls on PronounPossessive own hair.
-SourceCharacter zieht an PronounPossessive eigenen Haar.
-SourceCharacter scratches PronounPossessive head.
-SourceCharacter kratzt PronounPossessive Kopf.
-SourceCharacter slaps PronounSelf on the face.
-SourceCharacter ohrfeigt sich selbst ins Gesicht.
-SourceCharacter brushes PronounPossessive hair.
+ChatSelf-ItemHead-BrushItem
 SourceCharacter kämmt PronounPossessive Haar.
-SourceCharacter throws ActivityAsset on PronounPossessive own head.
+ChatSelf-ItemHead-Caress
+SourceCharacter streichelt PronounPossessive Gesicht.
+ChatSelf-ItemHead-Nod
+SourceCharacter nickt.
+ChatSelf-ItemHead-Pet
+SourceCharacter tätschelt sich selbst den Kopf.
+ChatSelf-ItemHead-Pull
+SourceCharacter zieht an PronounPossessive eigenen Haar.
+ChatSelf-ItemHead-Scratch
+SourceCharacter kratzt PronounPossessive Kopf.
+ChatSelf-ItemHead-Slap
+SourceCharacter ohrfeigt sich selbst ins Gesicht.
+ChatSelf-ItemHead-TakeCare
+SourceCharacter kämmt PronounPossessive Haar.
+ChatSelf-ItemHead-ThrowItem
 SourceCharacter wirft ActivityAsset gegen PronounPossessive eigenen Kopf.
-SourceCharacter shakes PronounPossessive head.
+ChatSelf-ItemHead-Wiggle
 SourceCharacter schüttelt PronounPossessive Kopf.
-SourceCharacter rubs PronounPossessive own head with PronounPossessive ActivityAsset.
+ChatSelf-ItemHood-RubItem
 SourceCharacter reibt PronounPossessive eigenen Kopf mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own head with PronounPossessive ActivityAsset.
+ChatSelf-ItemHood-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Kopf mit PronounPossessive ActivityAsset.
-SourceCharacter bites PronounPossessive thigh.
+ChatSelf-ItemLegs-Bite
 SourceCharacter beisst PronounPossessive Schenkel.
-SourceCharacter caresses PronounPossessive thighs.
+ChatSelf-ItemLegs-Caress
 SourceCharacter streichelt PronounPossessive Schenkel.
-SourceCharacter injects PronounPossessive thigh.
+ChatSelf-ItemLegs-Inject
 SourceCharacter injeziert PronounPossessive Schenkel.
-SourceCharacter massages PronounPossessive thighs.
+ChatSelf-ItemLegs-MassageHands
 SourceCharacter massiert PronounPossessive Schenkel.
-SourceCharacter masturbates PronounPossessive own thigh with PronounPossessive ActivityAsset.
+ChatSelf-ItemLegs-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigene Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter pours ActivityAsset onto PronounPossessive own thigh.
+ChatSelf-ItemLegs-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigene Schenkel.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own thigh.
+ChatSelf-ItemLegs-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigene Schenkel.
-SourceCharacter rubs PronounPossessive own thigh with PronounPossessive ActivityAsset.
+ChatSelf-ItemLegs-RubItem
 SourceCharacter reibt PronounPossessive eigenen Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive legs.
+ChatSelf-ItemLegs-Scratch
 SourceCharacter kratzt PronounPossessive Beine.
-SourceCharacter shocks PronounPossessive own thigh with PronounPossessive ActivityAsset.
+ChatSelf-ItemLegs-ShockItem
 SourceCharacter schockt PronounPossessive eigenen Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter spanks PronounPossessive own thigh.
+ChatSelf-ItemLegs-Spank
 SourceCharacter spankt PronounPossessive eigenen Schenkel.
-SourceCharacter hits PronounPossessive thigh with PronounPossessive ActivityAsset.
+ChatSelf-ItemLegs-SpankItem
 SourceCharacter schlägt PronounPossessive Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter thrashes around in PronounPossessive bindings.
+ChatSelf-ItemLegs-StruggleLegs
 SourceCharacter windet sich in PronounPossessive Fesseln.
-SourceCharacter tickles PronounPossessive thighs.
+ChatSelf-ItemLegs-Tickle
 SourceCharacter kitzelt PronounPossessive Schenkel.
-SourceCharacter tickles PronounPossessive own thigh with PronounPossessive ActivityAsset.
+ChatSelf-ItemLegs-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Schenkel mit PronounPossessive ActivityAsset.
-SourceCharacter rubs PronounPossessive thighs together.
+ChatSelf-ItemLegs-Wiggle
 SourceCharacter reibt PronounPossessive Schenkel aneinander.
-SourceCharacter bites PronounPossessive lips.
+ChatSelf-ItemMouth-Bite
 SourceCharacter beisst PronounPossessive Lippen.
-SourceCharacter caresses and wipes PronounPossessive mouth clean.
+ChatSelf-ItemMouth-Clean
 SourceCharacter streichelt und wischt PronounPossessive Mund sauber.
-SourceCharacter eats some ActivityAsset.
+ChatSelf-ItemMouth-EatItem
 SourceCharacter isst etwas ActivityAsset.
-SourceCharacter clamps PronounPossessive hand over PronounPossessive mouth.
+ChatSelf-ItemMouth-HandGag
 SourceCharacter hält PronounPossessive Hand auf PronounPossessive Mund.
-SourceCharacter licks PronounPossessive lips.
+ChatSelf-ItemMouth-Lick
 SourceCharacter leckt PronounPossessive Lippen.
-SourceCharacter moans into PronounPossessive gag.
+ChatSelf-ItemMouth-MoanGag
 SourceCharacter stöhnt in PronounPossessive Knebel.
-SourceCharacter screams furiously into PronounPossessive gag.
+ChatSelf-ItemMouth-MoanGagAngry
 SourceCharacter schreit fürchterlich in PronounPossessive Knebel.
-SourceCharacter giggles into PronounPossessive gag.
+ChatSelf-ItemMouth-MoanGagGiggle
 SourceCharacter kichert in PronounPossessive Knebel.
-SourceCharacter groans desperately into PronounPossessive gag.
+ChatSelf-ItemMouth-MoanGagGroan
 SourceCharacter jammert verszweifelt in PronounPossessive Knebel.
-SourceCharacter mumbles incoherently into PronounPossessive gag.
+ChatSelf-ItemMouth-MoanGagTalk
 SourceCharacter grummelt unverständlich in PronounPossessive Knebel.
-SourceCharacter whimpers pleadingly into PronounPossessive gag.
+ChatSelf-ItemMouth-MoanGagWhimper
 SourceCharacter wimmert flehend in PronounPossessive Knebel.
-SourceCharacter nibbles PronounPossessive lips.
+ChatSelf-ItemMouth-Nibble
 SourceCharacter knabbert an PronounPossessive Lippen.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own mouth.
+ChatSelf-ItemMouth-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Mund.
-SourceCharacter rubs PronounPossessive own mouth with PronounPossessive ActivityAsset.
+ChatSelf-ItemMouth-RubItem
 SourceCharacter reibt PronounPossessive eigenen Mund mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive mouth.
+ChatSelf-ItemMouth-Scratch
 SourceCharacter kratzt PronounPossessive Mund.
-SourceCharacter takes a sip from PronounPossessive ActivityAsset.
+ChatSelf-ItemMouth-SipItem
 SourceCharacter nimmt einen Schluck von PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own mouth with PronounPossessive ActivityAsset.
+ChatSelf-ItemMouth-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Mund mit PronounPossessive ActivityAsset.
-SourceCharacter throws ActivityAsset into PronounPossessive own mouth.
+ChatSelf-ItemMouth-ThrowItem
 SourceCharacter wirft ActivityAsset in PronounPossessive eigenen Mund.
-SourceCharacter caresses PronounPossessive neck.
+ChatSelf-ItemNeck-Caress
 SourceCharacter streichelt PronounPossessive Nacken.
-SourceCharacter chokes PronounSelf.
+ChatSelf-ItemNeck-Choke
 SourceCharacter würgt sich selbst.
-SourceCharacter injects PronounPossessive neck.
+ChatSelf-ItemNeck-Inject
 SourceCharacter injeziert PronounPossessive Hals.
-SourceCharacter massages PronounPossessive neck.
+ChatSelf-ItemNeck-MassageHands
 SourceCharacter massiert PronounPossessive Nacken.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own neck.
+ChatSelf-ItemNeck-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Hals.
-SourceCharacter rubs PronounPossessive own neck with PronounPossessive ActivityAsset.
+ChatSelf-ItemNeck-RubItem
 SourceCharacter reibt PronounPossessive eigenen Hals mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive neck.
+ChatSelf-ItemNeck-Scratch
 SourceCharacter kratzt PronounPossessive Hals.
-SourceCharacter shocks PronounPossessive own neck with PronounPossessive ActivityAsset.
+ChatSelf-ItemNeck-ShockItem
 SourceCharacter schockt PronounPossessive eigenen Hals mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive neck.
+ChatSelf-ItemNeck-Tickle
 SourceCharacter kitzelt PronounPossessive Hals.
-SourceCharacter tickles PronounPossessive own neck with PronounPossessive ActivityAsset.
+ChatSelf-ItemNeck-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Hals mit PronounPossessive ActivityAsset.
-SourceCharacter caresses PronounPossessive nipples.
+ChatSelf-ItemNipples-Caress
 SourceCharacter streichelt PronounPossessive Nippel.
-SourceCharacter kisses PronounPossessive own nipple.
+ChatSelf-ItemNipples-Kiss
 SourceCharacter küsst PronounPossessive eigenen Nippel.
-SourceCharacter licks PronounPossessive own nipple.
+ChatSelf-ItemNipples-Lick
 SourceCharacter leckt PronounPossessive eigenen Nippel.
-SourceCharacter masturbates PronounPossessive own nipple with PronounPossessive ActivityAsset.
+ChatSelf-ItemNipples-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigenen Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter nibbles PronounPossessive own nipple.
+ChatSelf-ItemNipples-Nibble
 SourceCharacter knabbert an PronounPossessive eigenen Nippeln.
-SourceCharacter pinches PronounPossessive own nipple.
+ChatSelf-ItemNipples-Pinch
 SourceCharacter kneift PronounPossessive eigenen Nippel.
-SourceCharacter pours ActivityAsset onto PronounPossessive own nipple.
+ChatSelf-ItemNipples-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigenen Nippel.
-SourceCharacter pulls PronounPossessive nipples.
+ChatSelf-ItemNipples-Pull
 SourceCharacter zeiht an PronounPossessive Nippeln.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own nipple.
+ChatSelf-ItemNipples-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Nippel.
-SourceCharacter rubs PronounPossessive own nipple with PronounPossessive ActivityAsset.
+ChatSelf-ItemNipples-RubItem
 SourceCharacter reibt PronounPossessive eigenen Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive nipples.
+ChatSelf-ItemNipples-Scratch
 SourceCharacter kratzt PronounPossessive Nippel.
-SourceCharacter shocks PronounPossessive own nipple with PronounPossessive ActivityAsset.
+ChatSelf-ItemNipples-ShockItem
 SourceCharacter schockt PronounPossessive eigenen Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter hits PronounPossessive own nipple with PronounPossessive ActivityAsset.
+ChatSelf-ItemNipples-SpankItem
 SourceCharacter schlägt PronounPossessive eigenen Nippel PronounPossessive ActivityAsset.
-SourceCharacter sucks on PronounPossessive own nipple.
+ChatSelf-ItemNipples-Suck
 SourceCharacter saugt an PronounPossessive eigenen Nippel.
-SourceCharacter tickles PronounPossessive own nipple with PronounPossessive ActivityAsset.
+ChatSelf-ItemNipples-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Nippel mit PronounPossessive ActivityAsset.
-SourceCharacter caresses PronounPossessive nose.
+ChatSelf-ItemNose-Caress
 SourceCharacter streichelt PronounPossessive Nase.
-SourceCharacter pinches PronounPossessive nostrils closed.
+ChatSelf-ItemNose-Choke
 SourceCharacter kneift PronounPossessive Nasenflügel zu.
-SourceCharacter boops PronounPossessive nose.
+ChatSelf-ItemNose-Pet
 SourceCharacter stubst PronounPossessive Nase.
-SourceCharacter pinches PronounPossessive nose.
+ChatSelf-ItemNose-Pinch
 SourceCharacter kneift PronounPossessive Nase.
-SourceCharacter pulls PronounPossessive nose.
+ChatSelf-ItemNose-Pull
 SourceCharacter zieht an PronounPossessive Nase.
-SourceCharacter rubs PronounPossessive nose.
+ChatSelf-ItemNose-Rub
 SourceCharacter reibt PronounPossessive Nase.
-SourceCharacter rubs PronounPossessive own nose with PronounPossessive ActivityAsset.
+ChatSelf-ItemNose-RubItem
 SourceCharacter reibt PronounPossessive eigene Nase mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive nose.
+ChatSelf-ItemNose-Scratch
 SourceCharacter kratzt PronounPossessive Nase.
-SourceCharacter tickles PronounPossessive own nose with PronounPossessive ActivityAsset.
+ChatSelf-ItemNose-TickleItem
 SourceCharacter kitzelt PronounPossessive eigene nase mit PronounPossessive ActivityAsset.
-SourceCharacter wiggles PronounPossessive nose.
+ChatSelf-ItemNose-Wiggle
 SourceCharacter wackelt mit PronounPossessive Nase.
-SourceCharacter caresses PronounPossessive tummy.
+ChatSelf-ItemPelvis-Caress
 SourceCharacter streichelt PronounPossessive Bauch.
-SourceCharacter massages PronounPossessive tummy.
+ChatSelf-ItemPelvis-MassageHands
 SourceCharacter massiertPronounPossessive Bauch.
-SourceCharacter masturbates PronounPossessive own tummy with PronounPossessive ActivityAsset.
+ChatSelf-ItemPelvis-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigenen Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter pinches PronounPossessive own tummy.
+ChatSelf-ItemPelvis-Pinch
 SourceCharacter kneift PronounPossessive eigenen Bauch.
-SourceCharacter pours ActivityAsset onto PronounPossessive own tummy.
+ChatSelf-ItemPelvis-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigenen Bauch.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own tummy.
+ChatSelf-ItemPelvis-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Bauch.
-SourceCharacter rubs PronounPossessive own tummy with PronounPossessive ActivityAsset.
+ChatSelf-ItemPelvis-RubItem
 SourceCharacter reibt PronounPossessive eigenen Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive pelvis.
+ChatSelf-ItemPelvis-Scratch
 SourceCharacter kratzt PronounPossessive Becken.
-SourceCharacter shocks PronounPossessive own tummy with PronounPossessive ActivityAsset.
+ChatSelf-ItemPelvis-ShockItem
 SourceCharacter schockt PronounPossessive eigenen Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter spanks PronounPossessive own tummy.
+ChatSelf-ItemPelvis-Spank
 SourceCharacter spankt PronounPossessive eigenen Bauch.
-SourceCharacter hits PronounPossessive tummy with PronounPossessive ActivityAsset.
+ChatSelf-ItemPelvis-SpankItem
 SourceCharacter schlägt PronounPossessive Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own tummy.
+ChatSelf-ItemPelvis-Tickle
 SourceCharacter kitzelt PronounPossessive eigenen Bauch.
-SourceCharacter tickles PronounPossessive own tummy with PronounPossessive ActivityAsset.
+ChatSelf-ItemPelvis-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Bauch mit PronounPossessive ActivityAsset.
-SourceCharacter wiggles PronounPossessive hips.
+ChatSelf-ItemPelvis-Wiggle
 SourceCharacter wackelt mit PronounPossessive Hüfte.
-SourceCharacter caresses PronounPossessive penis.
+ChatSelf-ItemPenis-Caress
 SourceCharacter streichelt PronounPossessive Penis.
-SourceCharacter fists and masturbates PronounPossessive penis.
+ChatSelf-ItemPenis-MasturbateFist
 SourceCharacter fistet und masturbiert PronounPossessive Penis.
-SourceCharacter masturbates PronounPossessive penis.
+ChatSelf-ItemPenis-MasturbateHand
 SourceCharacter masturbiert PronounPossessive Penis.
-SourceCharacter masturbates PronounPossessive penis with PronounPossessive ActivityAsset.
+ChatSelf-ItemPenis-MasturbateItem
 SourceCharacter masturbiert PronounPossessive Penit mit PronounPossessive ActivityAsset.
-SourceCharacter rubs PronounPossessive penis with PronounPossessive ActivityAsset.
+ChatSelf-ItemPenis-RubItem
 SourceCharacter reibt PronounPossessive Penis mit PronounPossessive ActivityAsset.
-SourceCharacter shocks PronounPossessive penis with PronounPossessive ActivityAsset.
+ChatSelf-ItemPenis-ShockItem
 SourceCharacter schockt PronounPossessive Penis mit PronounPossessive ActivityAsset.
-SourceCharacter slaps PronounPossessive penis.
+ChatSelf-ItemPenis-Slap
 SourceCharacter schlägt PronounPossessive Penis.
-SourceCharacter hits PronounPossessive penis with PronounPossessive ActivityAsset.
+ChatSelf-ItemPenis-SpankItem
 SourceCharacter schlägt PronounPossessive Penis mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive penis with PronounPossessive ActivityAsset.
+ChatSelf-ItemPenis-TickleItem
 SourceCharacter kitzelt PronounPossessive Penis mit PronounPossessive ActivityAsset.
-SourceCharacter caresses PronounPossessive ribs.
+ChatSelf-ItemTorso-Caress
 SourceCharacter streichelt PronounPossessive Rippen.
-SourceCharacter massages PronounPossessive back.
+ChatSelf-ItemTorso-MassageHands
 SourceCharacter massiert PronounPossessive Rücken.
-SourceCharacter pours ActivityAsset onto PronounPossessive own back.
+ChatSelf-ItemTorso-PourItem
 SourceCharacter giesst ActivityAsset über PronounPossessive eigenen Rücken.
-SourceCharacter rolls a ActivityAsset over PronounPossessive own back.
+ChatSelf-ItemTorso-RollItem
 SourceCharacter rollt ein ActivityAsset über PronounPossessive eigenen Rücken.
-SourceCharacter rubs PronounPossessive own back with PronounPossessive ActivityAsset.
+ChatSelf-ItemTorso-RubItem
 SourceCharacter reibt PronounPossessive eigenen Rücken mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive back.
+ChatSelf-ItemTorso-Scratch
 SourceCharacter kratzt PronounPossessive Rücken.
-SourceCharacter shocks PronounPossessive own back with PronounPossessive ActivityAsset.
+ChatSelf-ItemTorso-ShockItem
 SourceCharacter schockt PronounPossessive eigenen Rücken mit PronounPossessive ActivityAsset.
-SourceCharacter spanks PronounPossessive own ribs.
+ChatSelf-ItemTorso-Spank
 SourceCharacter spankt PronounPossessive eigene Rippen.
-SourceCharacter hits PronounPossessive ribs with PronounPossessive ActivityAsset.
+ChatSelf-ItemTorso-SpankItem
 SourceCharacter schlägt PronounPossessive Rippen mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own ribs.
+ChatSelf-ItemTorso-Tickle
 SourceCharacter kitzelt PronounPossessive eigenen Rippen.
-SourceCharacter tickles PronounPossessive own back with PronounPossessive ActivityAsset.
+ChatSelf-ItemTorso-TickleItem
 SourceCharacter kitzelt PronounPossessive eigenen Rücken mit PronounPossessive ActivityAsset.
-SourceCharacter wiggles PronounPossessive body.
+ChatSelf-ItemTorso-Wiggle
 SourceCharacter wackelt mit PronounPossessive Körper.
-SourceCharacter throws ActivityAsset on PronounPossessive back.
+ChatSelf-ItemTorso-ThrowItem
 SourceCharacter wirft ActivityAsset auf PronounPossessive Rücken.
-SourceCharacter caresses PronounPossessive pussy.
+ChatSelf-ItemVulva-Caress
 SourceCharacter streichelt PronounPossessive Pussy.
-SourceCharacter fists and masturbates PronounPossessive pussy.
+ChatSelf-ItemVulva-MasturbateFist
 SourceCharacter fistet und masturbiert PronounPossessive Pussy.
-SourceCharacter masturbates PronounPossessive pussy.
+ChatSelf-ItemVulva-MasturbateHand
 SourceCharacter masturbiert PronounPossessive Pussy.
-SourceCharacter masturbates PronounPossessive own vulva with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulva-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigene Vulva mit PronounPossessive ActivityAsset.
-SourceCharacter rubs PronounPossessive own vulva with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulva-RubItem
 SourceCharacter reibt PronounPossessive eigene Vilva mit PronounPossessive ActivityAsset.
-SourceCharacter scratches PronounPossessive vulva.
+ChatSelf-ItemVulva-Scratch
 SourceCharacter kratzt PronounPossessive Vulva.
-SourceCharacter shocks PronounPossessive own vulva with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulva-ShockItem
 SourceCharacter schockt PronounPossessive eigene Vulva mit PronounPossessive ActivityAsset.
-SourceCharacter slaps PronounPossessive pussy.
+ChatSelf-ItemVulva-Slap
 SourceCharacter schlägt PronounPossessive Pussy.
-SourceCharacter hits PronounPossessive pussy with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulva-SpankItem
 SourceCharacter schlägt PronounPossessive Pussy mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own vulva with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulva-TickleItem
 SourceCharacter kitzelt PronounPossessive eigene Vulva mit PronounPossessive ActivityAsset.
-SourceCharacter caresses PronounPossessive clitoris.
+ChatSelf-ItemVulvaPiercings-Caress
 SourceCharacter streichelt PronounPossessive Clitoris.
-SourceCharacter injects PronounPossessive clitoris.
+ChatSelf-ItemVulvaPiercings-Inject
 SourceCharacter injeziert PronounPossessive Clitoris.
-SourceCharacter masturbates PronounPossessive clitoris.
+ChatSelf-ItemVulvaPiercings-MasturbateHand
 SourceCharacter masturbiert PronounPossessive Clitoris.
-SourceCharacter masturbates PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulvaPiercings-MasturbateItem
 SourceCharacter masturbiert PronounPossessive eigene Clitoris with PronounPossessive ActivityAsset.
-SourceCharacter rubs PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulvaPiercings-RubItem
 SourceCharacter reibt PronounPossessive eigene Clitoris mit PronounPossessive ActivityAsset.
-SourceCharacter shocks PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulvaPiercings-ShockItem
 SourceCharacter schockt PronounPossessive eigene Clitors with PronounPossessive ActivityAsset.
-SourceCharacter slaps PronounPossessive clitoris.
+ChatSelf-ItemVulvaPiercings-Slap
 SourceCharacter schlägt PronounPossessive Clitoris.
-SourceCharacter hits PronounPossessive clitoris with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulvaPiercings-SpankItem
 SourceCharacter schlägt PronounPossessive Clitoris mit PronounPossessive ActivityAsset.
-SourceCharacter tickles PronounPossessive own clitoris with PronounPossessive ActivityAsset.
+ChatSelf-ItemVulvaPiercings-TickleItem
 SourceCharacter kitzelt PronounPossessive eigene Clitoris mit PronounPossessive ActivityAsset.

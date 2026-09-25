@@ -1,322 +1,158 @@
-Name:
+Name
 Ім'я:
-Nickname:
+Nickname
 Псевдонім:
-Title:
+Title
 Титул:
+Pronouns
+Займенники:
+MemberNumber
+Номер члена:
+NoMemberNumber
+-‎
+Relationships
+- Відношення -
+Lover
+Коханий(на):
+Owner
+Власник:
 None
 Жодного
-Mistress
-Господиня
-Master
-Господар
-Club Slave
-Клубний раб
-Head Maid
-Головна покоївка
-Maid
-Покоївка
-Bondage Maid
-Бондаж покоївка
-Master Kidnapper
-Майстер-викрадач
-Kidnapper
-Викрадач
-Patient
-Пацієнт
-Permanent Patient
-Постійний пацієнт
-Escaped Patient
-Пацієнт-утікач
-Nurse
-Медсестра
-Doctor
-Лікар
-Lady Luck
-Пані Удача
-Lord Fortune
-Пан Фортуна
-Patron
-Меценат
-College Student
-Студент коледжу
-Nawashi
-Наваші
-Houdini
-Гудіні
-Foal
-Лоша
-Farm Horse
-Фермерський кінь
-Cold Blood Horse
-Холоднокровний кінь
-Warm Blood Horse
-Теплокровний кінь
-Hot Blood Horse
-Гарячокровний кінь
-Wild Mustang
-Дикий мустанг
-Shining Unicorn
-Сяючий єдиноріг
-Flying Pegasus
-Летючий пегас
-Majestic Alicorn
-Величний Алікорн
-Mole
-Кріт
-Infiltrator
-Інфільтратор
-Agent
-Агент
-Operative
-Сищик
-Superspy
-Супершпигун
-Wizard
-Чаклун
-Magus
-Волхв
-Magician
-Чарівник
-Sorcerer
-Чарівник
-Sage
-Мудрець
-Oracle
-Оракул
-Witch
-Відьма
-Warlock
-Чорнокнижник
-Little One
-Крихітка
-Baby
-Маля
-Diaper Lover
-Любитель підгузків
-Bondage Baby
-Бондаж-дитина
-Duchess
-Герцогиня
-Duke
-Герцог
-Switch
-Світч
-Princess
-Принцеса
-Prince
-Принц
-Missy
-Міссі
-Sissy
-Сіссі
-Tomboy
-Томбой
-Femboy
-Фембой
-Pet
-Домашня тваринка
-Brat
-Шибеник
-Kitten
-Кошеня
-Puppy
-Цуценя
-Foxy
-Лисеня
-Bunny
-Кроленя
-Doll
-Лялька
-Demon
-Демон
-Angel
-Ангел
-Alien
-Прибулець
-Succubus
-Суккуб
-Incubus
-Інкуб
-Good Girl
-Гарна дівчинка
-Good Slave Girl
-Гарна дівчинка-рабиня
-Good Boy
-Гарний хлопчик
-Good Slave Boy
-Гарний хлопчик-раб
-Good Slave
-Гарний раб
-Drone
-Дрон
-Mistree
-Містрі
-Good One
-Хороший
-Liege
-Сеньйор
-Concubus
-Конкуб
-Majesty
-Величність
-Captain
-Капітан
-Admiral
-Адмірал
-Dominatrix
-Домінатрікс
-Pronouns:
-Займенники:
-Member Number:
-Номер члена:
--
--‎
-- Relationships -
-- Відношення -
-Lover:
-Коханий(на):
-Owner:
-Власник:
-GGTS
+OwnerGGTS
 GGTS‎
-Money:
+Money
 Гроші:
-Member for
+MemberFor
 Член протягом
-Bondage Club Birthday! 
+Birthday
 Клубний день народження!
-Friends for
+FriendsFor
 Друзі протягом
-On trial for
-На випробувальному періоді протягом
-Collared for
-У власності протягом
-Dating for
-Зустрічаються протягом
-Engaged for
-Обручені протягом
-Married for
-Одружені протягом
-day(s)
+Days
 днів
 Unknown
 Невідомо
-- Reputation -
+Reputation
 - Репутація -
-Dungeoneer:
+ReputationNone
+Жодного
+ReputationGamingPositive
 Дослідник підземелля:
-Dominant:
+ReputationDominantPositive
 Домінант:
-Submissive:
+ReputationDominantNegative
 Сабмісив:
-Maid Sorority:
+ReputationMaidPositive
 Товариство покоївок:
-Kidnappers League:
+ReputationKidnapPositive
 Ліга викрадачів:
-Asylum Nurse:
+ReputationAsylumPositive
 Медсестра дурки:
-Asylum Patient:
+ReputationAsylumNegative
 Пацієнт дурки:
-LARP Battles:
+ReputationLARPPositive
 Битви LARP:
-Gambling Hall:
+ReputationGamblingPositive
 Гральний зал:
-ABDL:
+ReputationABDLPositive
 ABDL:‎
-House Maiestas:
+ReputationHouseMaiestasPositive
 Дім Маєстас:
-House Vincula:
+ReputationHouseVinculaPositive
 Дім Вінкула:
-House Amplector:
+ReputationHouseAmplectorPositive
 Дім Амплектор:
-House Corporis:
+ReputationHouseCorporisPositive
 Дім Корпорис:
-difficulty
+DifficultyTitle
 складність
- - Can change again in NumberOfDays day(s)
+DifficultyDaysTillCanChange
  - Можна змінити через NumberOfDays днів
-Roleplay
+DifficultyLevel0
 Рольова
-Regular
+DifficultyLevel1
 Звичайна
-Hardcore
+DifficultyLevel2
 Хардкорна
-Extreme
+DifficultyLevel3
 Екстремальна
-- Skills -
+Skill
 - Навички -
-Bondage:
+SkillNone
+Жодного
+SkillBondage
 Бондаж:
-Self-bondage:
+SkillSelfBondage
 Селф-бондаж:
-Lockpicking:
+SkillLockPicking
 Злом:
-Evasion:
+SkillEvasion
 Вилаз:
-Willpower:
+SkillWillpower
 Сила волі:
-Infiltration:
+SkillInfiltration
 Інфільтрація:
-Dressage:
+SkillDressage
 Виїздка:
-ABSVAL for DURATION
+SkillModifier
 ABSVAL на DURATION
-- Traits -
+Trait
 - Риси -
-Spend more time with her to know her traits
+TraitUnknown
 Проведіть з ними більше часу щоб дізнатися їхні риси
-Violent:
+TraitDominant
+Домінант:
+TraitSubmissive
+Сабмісив:
+TraitViolent
 Жорстокість:
-Peaceful:
+TraitPeaceful
 Мирність:
-Horny:
+TraitHorny
 Гарячість:
-Frigid:
+TraitFrigid
 Байдужість:
-Rude:
+TraitRude
 Грубість:
-Polite:
+TraitPolite
 Ввічливість:
-Wise:
+TraitWise
 Мудрість:
-Dumb:
+TraitDumb
 Тупість:
-Serious:
+TraitSerious
 Серйозність:
-Playful:
+TraitPlayful
 Грайливість:
-Relation:
+Relationship
 Відношення:
-(Perfect)
+RelationshipPerfect
 (Ідеальне)
-(Great)
+RelationshipGreat
 (Чудове)
-(Good)
+RelationshipGood
 (Хороше)
-(Fair)
+RelationshipFair
 (Справедливе)
-(Neutral)
+RelationshipNeutral
 (Нейтральне)
-(Poor)
+RelationshipPoor
 (Кепське)
-(Bad)
+RelationshipBad
 (Погане)
-(Horrible)
+RelationshipHorrible
 (Жахливе)
-(Atrocious)
+RelationshipAtrocious
 (Мерзенне)
-Permission:
-Дозволи:
-Everyone, no exceptions
+AllowedInteraction0
 Всі, без виключення
-Everyone, except blacklist
+AllowedInteraction1
 Всі, окрім чорного списку
-Owner, Lovers, whitelist & Dominants
+AllowedInteraction2
 Власник, кохані, білий список та домінанти
-Owner, Lovers and whitelist only
+AllowedInteraction3
 Тільки власник, кохані та білий список
-Owner and Lovers only
+AllowedInteraction4
 Тільки власник та кохані
-Owner only
+AllowedInteraction5
 Тільки власник

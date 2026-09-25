@@ -1,6 +1,6 @@
-Click to lean right. Try to stay in the middle!
+GetUpObjective
 Нажмите, чтобы наклониться вправо. Старайтесь оставаться посередине!
-You did it!
+GetUpPass
 Ты сделала это!
-You lost your balance!
+GetUpFail
 Вы потеряли равновесие!

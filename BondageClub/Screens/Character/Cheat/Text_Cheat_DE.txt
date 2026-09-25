@@ -1,30 +1,30 @@
-Gain reputation at double the rate
+DoubleReputation
 Doppelt so schnell an Rang gewinnen
-Gain skills at double the rate
+DoubleSkill
 Skills doppelt so schnell erlernen
-Gain double amount of money
+DoubleMoney
 Doppelte Menge Geld erhalten
-Speed up the time to use any item
+DoubleItemSpeed
 Das Benutzen von Items beschleunigen
-Prevent random kidnappings
+BlockRandomKidnap
 Zufalls-Kidnapper verhindern
-Skip the D/s trial periods
+SkipTrialPeriod
 D/s-Probezeiten überspringen
-Automatically show NPC traits
+AutoShowTraits
 NPC-Merkmale automatisch anzeigen
-No love decay for NPC over time
+NoLoveDecay
 NPC-Zuneigung nicht verfallen lassen
-Cannot lose Mistress status
+CantLoseMistress
 Mistress Status kann nicht verloren gehen
-Get college outfit for free
+FreeCollegeOutfit
 Bekomme das College Outfit
-Hit "C" in mini-games for bonus
+MiniGameBonus
 Drücke "C" in Minigames für den Bonus
-Free NPC dress up
+FreeNPCDress
 NPC Kleidung umsonst ändern
-Change Domme/sub NPC trait
+ChangeNPCTrait
 Ändere die Domme/sub NPC Eigenschaft
-Double GGTS time progress
+DoubleGGTSTime
 Doppelter GGTS Zeitfortschritt
-Double Bondage Brawl Experience
+DoubleBrawlExperience
 Doppelte Bondage Brawl Erfahrung

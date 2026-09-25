@@ -1,22 +1,22 @@
-You've disconnected from the server.
+Disconnected
 Vous êtes déconnecté du serveur.
-Enter your password to log back in.
+EnterPassword
 Entrez votre mot de passe pour vous reconnecter.
-Account name:
+Account
 Nom de compte:
-Password:
+Password
 Mot de passe:
-Log back in
+LogBackIn
 Reconnecter
 Leave
 Abandonner
-Validating name and password...
+ValidatingNamePassword
 Validation du nom et du mot de passe...
-Invalid name or password
+InvalidNamePassword
 Nom ou mot de passe invalide
-Disconnected from server. Retrying...
+ErrorDisconnectedFromServer
 Déconnecté du serveur. Nouvelle tentative...
-Unable to connect to server. Retrying...
+ErrorUnableToConnect
 Incapable de se connecter au serveur. Nouvelle tentative...
-Enter your name and password
+EnterNamePassword
 Entrez votre nom et votre mot de passe

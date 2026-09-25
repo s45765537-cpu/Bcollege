@@ -1,30 +1,30 @@
-Magic Battle Configuration
+Title
 Конфигурация магической битвы
-A room administrator can start the battle if two houses or more are represented.
+StartConditionHouse
 Администратор комнаты может начать битву, если представлено два дома и более.
-A room administrator can start the battle if two players or more are present.
+StartConditionFreeForAll
 Администратор комнаты может начать битву при наличии двух игроков и более.
-A magic battle is already in progress.
+RunningGame
 Магическая битва уже идет.
-Teaming:
+TeamType
 Команда:
-By houses
+House
 По домам
-Free for all
+FreeForAll
 Свободно для всех
-Start the battle
+StartGame
 Начать битву
-Stop the battle
+StopGame
 Остановить битву
-Not playing
+PlayTypeNotPlaying
 Не играет
-Playing as Independent
+PlayTypeIndependent
 Играть за Независимого
-Representing House Maiestas
+PlayTypeHouseMaiestas
 Представляя Дом Майестас
-Representing House Vincula
+PlayTypeHouseVincula
 Представляя Дом Винкула
-Representing House Amplector
+PlayTypeHouseAmplector
 Представляя Дом Амплектор
-Representing House Corporis
+PlayTypeHouseCorporis
 Представляя Дом Корпорис

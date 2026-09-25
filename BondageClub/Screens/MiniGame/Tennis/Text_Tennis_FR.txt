@@ -1,16 +1,14 @@
-﻿Starts in
-Commence dans
-Send the tennis ball past your opponent.
+Intro1
 Envoyez la balle de tennis derrière votre adversaire. //
-Don't let the ball slip through your side.
+Intro2
 Ne laissez pas la balle passer derrière vous.
+Point0
 0
-0
+Point1
 15
-15
+Point2
 30
-30
-40
+Point3
 40
 Deuce
 Deuce
@@ -18,11 +16,11 @@ Advantage
 Avantage
 Winner
 Gagnant
-Victory!  Perfect game.
+Perfect
 Victoire! Jeu parfait.
-You won the game.
+Victory
 Vous avez gagné le match.
-You lost the game.
+Defeat
 Vous avez perdu le match.
-Click on yourself to continue.
+ClickContinue
 Cliquez sur vous-même pour continuer.

@@ -1,52 +1,52 @@
-LARP Battle Team Selection
+Title
 體感對戰隊伍選擇
-Select your class:
+SelectClass
 選擇你的職業：
-Select your team:
+SelectTeam
 選擇你的隊伍
-Level (progress %):
+LevelProgress
 等級(進度%):
-Matron
+ClassMatron
 女警衛
-Seducer
+ClassSeducer
 誘惑者
-Trickster
+ClassTrickster
 詭術師
-Servant
+ClassServant
 僕從
-Artist
+ClassArtist
 藝術家
-Protector
+ClassProtector
 護衛者
-Not playing
+ColorNone
 不參與
-Red
+ColorRed
 紅
-Green
+ColorGreen
 綠
-Blue
+ColorBlue
 藍
-Yellow
+ColorYellow
 黃
-Cyan
+ColorCyan
 青
-Purple
+ColorPurple
 紫
-Orange
+ColorOrange
 橙
-White
+ColorWhite
 白
-Gray
+ColorGray
 灰
-Black
+ColorBlack
 黑
-A room administrator can start the game if two teams or more are selected.
+StartCondition
 當有兩個或更多的隊伍被選擇時，房間管理員能夠開啟遊戲。
-The LARP game is running, you cannot change your class or team.
+RunningGame
 體感對戰遊戲正在進行，你不能改變你的職業和隊伍。
-Start the game
+StartGame
 開始遊戲
-20 seconds turns
+TimerDelay20
 每人的回合20秒
-60 seconds turns
+TimerDelay60
 每人的回合60秒

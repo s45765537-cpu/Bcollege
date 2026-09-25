@@ -1,18 +1,18 @@
-﻿Return to the Club
+Exit
 Вернуться в Клуб
-Your Profile
+Profile
 Ваш профиль
-Change Clothes
+Dress
 Переодеться
-Tennis Court
+Tennis
 Теннисный корт
-College Cafeteria
+Cafeteria
 Кафетерий колледжа
-College Theater
+Theater
 Театр колледжа
-Chess Club
+Chess
 Шахматный клуб
-Detention Room
+Detention
 Комната наказаний
-Teacher Lounge (Require a key)
+Teacher
 Учительская (требуется ключ)

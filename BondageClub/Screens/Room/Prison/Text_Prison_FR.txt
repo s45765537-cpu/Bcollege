@@ -1,4 +1,4 @@
-﻿(You are under lock and key.)
+LockKey
 (Vous êtes sous clé.)
-(You have to guard the room.)
+Watch
 (Vous devez surveiller la chambre.)

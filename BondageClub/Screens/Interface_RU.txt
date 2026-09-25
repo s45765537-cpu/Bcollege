@@ -1,830 +1,834 @@
-'s,
-ы
-You cannot access your items
+AccessBlocked
 Вы не можете получить доступ к своим предметам
-SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
+ActionActivateSafewordRelease
 SourceCharacter использует PronounPossessive безопасное слово и хочет быть освобожденым. PronounSubject выводится из комнаты в целях PronounPossessive безопасности.
-SourceCharacter used PronounPossessive safeword. Please check for PronounPossessive well-being.
+ActionActivateSafewordRevert
 SourceCharacter использует PronounPossessive безопасное слово. Пожалуста убедитесь в PronounPossessive безопасности.
-SourceCharacter adds a NextAsset on DestinationCharacter FocusAssetGroup PrevAsset.
+ActionAddLock
 SourceCharacter добавляет NextAsset к DestinationCharacter FocusAssetGroup PrevAsset.
-SourceCharacter changes the color of NextAsset on DestinationCharacter FocusAssetGroup.
+ActionChangeColor
 SourceCharacter изменяет цвет NextAsset на DestinationCharacter FocusAssetGroup.
-SourceCharacter flips a coin. The result is: CoinResult.
+ActionCoin
 SourceCharacter подбрасывает монету. Результат: CoinResult.
-SourceCharacter rolls DiceType. The result is: DiceResult.
+ActionDice
 SourceCharacter бросает DiceType. Результат: DiceResult.
-SourceCharacter hops off the PrevAsset.
+ActionDismount
 SourceCharacter спрыгивает с PrevAsset.
-SourceCharacter escapes from the PrevAsset.
+ActionEscape
 SourceCharacter освобождается из PrevAsset.
-TargetCharacterName gives a sealed envelope to TargetPronounPossessive owner.
+ActionGiveEnvelopeToOwner
 TargetCharacterName передает запечатанный конверт владельцу TargetPronounPossessive.
-TargetCharacterName gets grabbed by two maids and locked in a timer cell, following TargetPronounPossessive owner's commands.
+ActionGrabbedForCell
 TargetCharacterName схватили две горничные и заперли в камере таймера, следуя командам владельца TargetPronounPossessive.
-TargetCharacterName gets grabbed by two nurses wearing futuristic gear and locked in the Asylum for GGTS, following TargetPronounPossessive owner's commands.
+ActionGrabbedForGGTS
 TargetCharacterName схватили две медсестры в футуристическом снаряжении и заперли в психушке для GGTS, следуя командам владельца TargetPronounPossessive.
-TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for TargetPronounPossessive owner.
+ActionGrabbedToServeDrinks
 TargetCharacterName хватают две горничные и сопровождают в помещения для прислуги, чтобы подавать напитки владельцу TargetPronounPossessive.
-SourceCharacter was interrupted while trying to use a NextAsset on TargetCharacter.
+ActionInterruptedAdd
 SourceCharacter прервали при попытке использовать NextAsset на TargetCharacter.
-SourceCharacter was interrupted while going for the PrevAsset on TargetCharacter.
+ActionInterruptedRemove
 SourceCharacter прервали во время попытки использовать PrevAsset на TargetCharacter.
-SourceCharacter was interrupted while swapping a PrevAsset for a NextAsset on TargetCharacter.
+ActionInterruptedSwap
 SourceCharacter прервали при замене PrevAsset на NextAsset для TargetCharacter.
-SourceCharacter locks a NextAsset on DestinationCharacter FocusAssetGroup.
+ActionLock
 SourceCharacter запирает NextAsset на FocusAssetGroup DestinationCharacter.
-SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
+ActionLoosenLittle
 SourceCharacter немного ослабляет PrevAsset на FocusAssetGroup DestinationCharacter.
-SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
+ActionLoosenLot
 SourceCharacter сильно ослабляет PrevAsset на FocusAssetGroup DestinationCharacter.
-SourceCharacter struggles and loosens the PrevAsset на FocusAssetGroup DestinationCharacter.
+ActionLoosenStruggle
 SourceCharacter борется и ослабляет PrevAsset в DestinationCharacter FocusAssetGroup.
-SourceCharacter picks the lock on DestinationCharacter PrevAsset.
+ActionPick
 SourceCharacter взламывает блокировку PrevAsset DestinationCharacter.
-SourceCharacter removes the PrevAsset from DestinationCharacter FocusAssetGroup.
+ActionRemove
 SourceCharacter удаляет PrevAsset с FocusAssetGroup DestinationCharacter.
-SourceCharacter slips out of TargetPronounPossessive PrevAsset.
+ActionStruggle
 SourceCharacter выскальзывает из TargetPronounPossessive PrevAsset.
-SourceCharacter swaps a PrevAsset for a NextAsset on DestinationCharacter FocusAssetGroup.
+ActionSwap
 SourceCharacter заменяет PrevAsset на NextAsset на FocusAssetGroup DestinationCharacter.
-SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
+ActionTightenLittle
 SourceCharacter немного затягивает PrevAsset на FocusAssetGroup DestinationCharacter.
-SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
+ActionTightenLot
 SourceCharacter сильно затягивает PrevAsset на FocusAssetGroup DestinationCharacter.
-SourceCharacter unlocks the PrevAsset on DestinationCharacter FocusAssetGroup.
+ActionUnlock
 SourceCharacter отпирает PrevAsset на FocusAssetGroup DestinationCharacter.
-SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter FocusAssetGroup.
+ActionUnlockAndRemove
 SourceCharacter отпирает и удаляет PrevAsset с FocusAssetGroup DestinationCharacter.
-SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
+ActionUse
 SourceCharacter использует NextAsset на FocusAssetGroup DestinationCharacter.
-Adding...
+Adding
 Добавление...
-Add
+AddTimerTime
 Добавить
-dd TimerTime minutes to the Timer
+AddTimerTimeMinutes
 Добавить TimerTime минут к таймеру
-Tighten / Loosen
+AdjustTightness
 Затянуть/ Ослабить
-Option already set
+AlreadySet
 Опция уже установлена
 Beep
 Звуковой сигнал
-Beep from
+BeepFrom
 Звуковой сигнал от
-Beep from your owner in your private room
+BeepFromOwner
 Звуковой сигнал от вашего владельца в личной комнате
-(Mail)
+BeepWithMail
 (Почта)
-With Message
+BeepWithMessage
 С сообщением
-Toggle closed eyes blindness
+BlindToggleFacialExpressions
 Переключить слепоту с закрытыми глазами
-Blocked in this room.
+BlockedByRoom
 Заблокирован в этой комнате.
 Brightness
 Яркость
 Cancel
 Отмена
-Cannot use on yourself.
+CannotUseOnSelf
 Нельзя использовать на себе.
-Cannot change while locked
+CantChangeWhileLocked
 Невозможно изменить, пока заперт
-Challenge:
+Challenge
 Испытание:
-Type /help for a list of commands
+ChatRoomHelp
 Введите /help для получения списка команд.
-You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
+ChatRoomLeashNotFriend
 Вас нет в списке друзей этого участника; попросите TargetPronounObject добавить вас в друзья, прежде чем накинуть поводок на TargetPronounObject.
-<i>Asylum</i>
-<i>Психушка</i>
-Choose struggling method...
+ChooseStruggleMethod
 Выберите метод борьбы...
-Struggle in chat room
+ChatRoomStruggleButton
 Борьба в чате комнаты
-SourceCharacter struggles to remove PronounPossessive PrevAsset
+ChatRoomStruggleStart
 SourceCharacter изо всех сил пытается освободиться от PronounPossessive PrevAsset
-SourceCharacter gives up struggling out of PronounPossessive PrevAsset
+ChatRoomStruggleGiveUp
 SourceCharacter отказывается от борьбы с PronounPossessive PrevAsset
-SourceCharacter struggles out of PronounPossessive PrevAsset
+ChatRoomStruggleSuccess
 SourceCharacter борется с PronounPossessive PrevAsset
-SourceCharacter is slowly struggling out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete0
 SourceCharacter медленно освобождается от PronounPossessive PrevAsset
-SourceCharacter is making progress while struggling on PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete1
 SourceCharacter добивается прогресса, борясь с PronounPossessive PrevAsset
-SourceCharacter struggles skillfully to remove PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete2
 SourceCharacter умело пытается удалить PronounPossessive PrevAsset
-SourceCharacter gradually struggles out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete3
 SourceCharacter постепенно вырывается из PronounPossessive PrevAsset
-SourceCharacter methodically works to struggle out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete4
 SourceCharacter методично работает над борьбой с PronounPossessive PrevAsset
-Clear active poses
+ClearActivePoses
 Очистите активные позы
-Clear facial expressions
+ClearFacialExpressions
 Очистите мимику лица
-Save color to currently selected slot
+ColorSave
 Сохранить цвет в текущий выбранный слот
-Use this color
+ColorSelect
 Используйте этот цвет
-Confirm
+ConfirmDelete
 Подтвердить
-Return to the item menu
+CraftingCancel
 Вернуться в меню предметов
-Crafted item properties.
+CraftedItemProperties
 Свойства созданного предмета.
-Description: CraftDescription
+CraftingDescription
 Описание: CraftDescription
-Crafter: MemberName (MemberNumber)
+CraftingMember
 Создатель: MemberName (MemberNumber)
-Name: CraftName
+CraftingName
 Имя: CraftName
-Effects: CraftProperty
+CraftingProperty
 Свойство: CraftProperty
-Current Mode:
+CurrentMode
 Текущий режим:
-Decoding the lock...
+Decoding
 Расшифровка замка...
 Delete
 Удалить
-Glans
+Add
+Добавить
+DialogGroupNameItemGlans
 Головка
-Penis
+DialogGroupNameItemPenis
 Пенис
-Sexual activities
+DialogMenuActivity
 Сексуальная активность
-Default color
+DialogMenuCancel
+Отмена
+DialogMenuColorSelect
+Используйте этот цвет
+DialogMenuColorCancel
 Цвет по умолчанию
-Change item color
+DialogMenuColorChange
 Изменить цвет элемента
-Change expression color
+DialogMenuColorExpressionChange
 Изменить цвет выражения
-Select default color
+DialogMenuColorDefault
 Выбрать цвет по умолчанию
-Unable to change color due to player permissions
+DialogMenuColorPickDisabled
 Невозможно изменить цвет из-за разрешений игрока.
-Crafted properties
+DialogMenuCrafting
 Созданные свойства
-Dismount
+DialogMenuDismount
 Слезть
-Escape from the item
+DialogMenuEscape
 Освобождение от предмета
-Back to character
+DialogMenuExit
 Вернуться к персонажу
-GGTS controls this item
+DialogMenuGGTSControl
 GGTS контролируетэтот предмет
-Inspect the lock
+DialogMenuInspectLock
 Осмотрите замок
-Unable to inspect due to player permissions
+DialogMenuInspectLockDisabled
 Невозможно проверить из-за разрешений игрока
-Change item layering
+DialogMenuLayering
 Изменение слоев элементов
-Use a lock
+DialogMenuLock
 Используйте замок
-Unable to lock item due to player permissions
+DialogMenuLockDisabled
 Невозможно запереть элемент из-за разрешений игрока
-Lock related actions
+DialogMenuLockMenu
 Заблокировать связанные действия
-View next items
+DialogMenuDown
 Посмотреть следующие предметы
-Exit permission mode
+DialogMenuNormalMode
 Выйти из режима разрешений
-Edit item permissions
+DialogMenuPermissionMode
 Изменение разрешений предмета
-Try to pick the lock
+DialogMenuPickLock
 Попробуйте взломать замок
-Unable to pick the lock
+DialogMenuPickLockDisabled
 Невозможно взломать замок
-Cannot reach lock
+DialogMenuPickLockInaccessibleDisabled
 Невозможно добраться до замка
-Try to pick the lock (jammed)
+DialogMenuPickLockJammed
 Попробуйте взломать замок (заклинило)
-Unable to pick without lockpicks
+DialogMenuPickLockNoPicksDisabled
 Без отмычек невозможно взломать
-Unable to pick the lock due to player permissions
+DialogMenuPickLockPermissionsDisabled
 Невозможно взломать замок из-за разрешений игрока
-View previous items
+DialogMenuUp
 Посмотреть предыдущие предметы
-Use your remote
+DialogMenuRemote
 Используйте свой пульт
-Unable to use due to player permissions
+DialogMenuRemoteDisabled
 Невозможно использовать из-за разрешений игрока.
-Your hands must be free to use remotes
+DialogMenuRemoteDisabledForCannotInteract
 Ваши руки должны быть свободны для использования пультов
-You do not have access to this item
+DialogMenuRemoteDisabledForNoAccess
 У вас нет доступа к этому предмету
-You have not bought a lover's remote yet.
+DialogMenuRemoteDisabledForNoLoversRemote
 Вы еще не купили пульт возлюбленного.
-You have not bought a remote yet.
+DialogMenuRemoteDisabledForNoRemote
 Вы еще не купили пульт.
-Your owner is preventing you from using remotes.
+DialogMenuRemoteDisabledForNoRemoteOwnerRuleActive
 Ваш владелец запрещает вам использовать пульты.
-Using remotes on this item has been blocked
+DialogMenuRemoteDisabledForRemotesBlocked
 Использование пультов на этом предмете заблокировано
-Remove the item
+DialogMenuRemove
 Удалить предмет
-Try to struggle out
+DialogMenuStruggle
 Попробуйте бороться
-Unlock the item
+DialogMenuTightenLoosen
+Затянуть/ Ослабить
+DialogMenuUnlock
 Разблокировать предмет
-Use this item
+DialogMenuUse
 Используйте этот предмет
-Dismounting...
+DialogMenuUseDisabled
+Невозможно использовать из-за разрешений игрока.
+Dismounting
 Слезает...
-Enable random input of time from everyone else
+EnableRandomInput
 Включить случайный ввод времени от всех остальных
-Escaping...
+Escaping
 Освобождается...
-Unavailable while crafting
+ExtendedItemNoCraftingScreen
 Недоступно во время крафта
-Blocked due to item permissions
+ExtendedItemNoItemPermission
 Заблокировано из-за разрешений для предмета
-Remove locks before changing
+ExtendedItemUnlockBeforeChange
 Перед заменой снимите замки
-Facial expression
+FacialExpression
 Выражение лица
-Hacking the item...
+Hacking
 Взлом предмета...
-hours
+Hours
 часы
-in the Asylum
+InAsylum
 в психушке
-in room
+InRoom
 в комнате
-Intensity:
+Intensity
 Интенсивность:
-Item intensity: Disabled
+Intensity-1
 Интенсивность предмета: Отключено
-Item intensity: Low
+Intensity0
 Интенсивность предмета: Низкая
-Item intensity: Medium
+Intensity1
 Интенсивность предмета: Средняя
-Item intensity: High
+Intensity2
 Интенсивность предмета: Высокая
-Item intensity: Maximum
+Intensity3
 Интенсивность предмета: Максимальная
-Configure {asset} priority
-Настроить общий приоритет
-Exit
+LayeringExit
 Выход
-Hide hidden layers
+LayeringHide
 Скрыть скрытые слои
-Layer priority
-Настройка приоритета уровня
-Item configuration locked
+LayeringLock
 Конфигурация предмета заблокирована
-Reset layering
+LayeringReset
 Сбросить наложение слоев
-Show hidden layers
+LayeringShow
 Показать скрытые слои
-Locking...
+Locking
 Запирается...
-Member number on lock:
+LockMemberNumber
 Номер участника на замке:
-Another item is blocking access to this lock
+LockZoneBlocked
 Другой предмет блокирует доступ к этому замку
-Your hands are shaky and you lose some tension by accident!
+LockPickArousal
 Ваши руки дрожат, и вы случайно теряете концентрацию!
-,SourceCharacter jammed a lock on DestinationCharacterName and broke PronounPossessive lockpick!
+LockPickBreak
 SourceCharacter заклинилинивает замок на DestinationCharacterName и ломает PronounPossessive отмычку!
-You jammed the lock.
+LockpickFailed
 Вы заклинили замок.
-You are too tired to continue. Time remaining:
+LockpickFailedTimeout
 Вы слишком устали, чтобы продолжать. Время жля отдыха:
-Click the pins in the correct order to open the lock!
+LockpickIntro
 Нажмите на штифты в правильном порядке, чтобы открыть замок!
-Clicking the wrong pin may falsely set it.
+LockpickIntro2
 Нажатие на неверный штиф может привести к его ошибочной установке.
-It will fall back after clicking other pins.
+LockpickIntro3
 Он упадет после нажатия на другие штифы.
-Failing or quitting will break your lockpick for 1 minute
+LockpickJammed
 В случае неудачи или выхода из игры ваша отмычка сломается на 1 минуту.
-Remaining tries:
+LockpickTriesRemaining
 Оставшиеся попытки:
-Loosen...
+Loosen
 Ослобляется...
-Click or press space when the circles are aligned
+LoosenClick
 Кликните или нажмите пробел, когда круги совпадут.
-...A little
+LoosenLittle
 ...Немного
-...A lot
+LoosenLot
 ...Сильно
-You can struggle to loosen this restraint
+LoosenPossible
 Вы изо всех сил пытаетесь ослабить это ограничение
-Maximum:
+MaximumTightness
 Максимум:
-Minimum:
+MinimumTightness
 Минимум:
-minutes
+Minutes
 минут
-View next expressions
+NextExpressions
 Посмотреть следующие выражения
-View next page
+NextPage
 Посмотреть следующую страницу
-You have no items in this category
+NoItems
 У вас нет предметов в этой категории
-Joined Room
+NotificationTitleBeep
+Звуковой сигнал
+NotificationTitleChatJoin
 Присоедениться к комнате
-Chat Message
+NotificationTitleChatMessage
 Сообщение в чате
-Disconnected
+NotificationTitleDisconnect
 Отключение
-from ChatRoomName
+NotificationTitleFromRoom
 из ChatRoomName
-LARP - Your turn
+NotificationTitleLarp
 LARP - Ваш ход
-Test Notification
+NotificationTitleTest
 Тестовое уведомление
-Change Opacity
+OpacityLabel
 Изменить непрозрачность
-Option needs to be bought
+OptionNeedsToBeBought
 Опцию нужно покупать
 Page
 Страница
-Picking the lock...
+Picking
 Взлом замка...
-Pose
+PoseMenu
 Поза
-Must have an arm/torso/pelvis item to use ceiling tethers.
+PrerequisiteAddItemsToUse
 Для использования потолочных ремней необходимо иметь предмет для рук/туловища/таза.
-Cannot change to the AllFours pose.
+PrerequisiteCannotAllFours
 Невозможно перейти в позу AllFours.
-Cannot change to the BackBoxTie pose.
+PrerequisiteCannotBackBoxTie
 Невозможно перейти в позу BackBoxTie.
-Cannot change to the BackCuffs pose.
+PrerequisiteCannotBackCuffs
 Невозможно перейти в позу BackCuffs.
-Cannot change to the BackElbowTouch pose.
+PrerequisiteCannotBackElbowTouch
 Невозможно перейти в позу BackElbowTouch.
-Cannot change to the BaseLower pose.
+PrerequisiteCannotBaseLower
 Невозможно перейти в позу BaseLower.
-Cannot change to the BaseUpper pose.
+PrerequisiteCannotBaseUpper
 Невозможно перейти в позу BaseUpper.
-Remove the suit first.
+PrerequisiteCannotBeSuited
 Сначала снимите костюм.
-Cannot be used over the applied gags.
+PrerequisiteCannotBeUsedOverGag
 Не может быть использован поверх наложенных кляпов.
-Cannot be used over the applied hood.
+PrerequisiteCannotBeUsedOverHood
 Нельзя использовать поверх надетого капюшона.
-Cannot be used over the applied mask.
+PrerequisiteCannotBeUsedOverMask
 Нельзя использовать поверх наложенной маски.
-Cannot be used when mounted.
+PrerequisiteCannotBeUsedWhenMounted
 Невозможно использовать в установленном виде.
-Cannot be used while yoked.
+PrerequisiteCannotBeUsedWhenYoked
 Нельзя использовать, пока находится в ярме.
-Cannot be used while serving drinks.
+PrerequisiteCannotBeUsedWhileServingDrinks
 Нельзя использовать при подаче напитков.
-Cannot be used while the legs are spread.
+PrerequisiteCannotBeUsedWithFeetSpreader
 Нельзя использовать, когда ноги раздвинуты.
-Remove the wand first.
+PrerequisiteCannotHaveWand
 Сначала уберите вибропалочку.
-Cannot change to the Hogtied pose.
+PrerequisiteCannotHogtied
 Невозможно перейти в позу Hogtied.
-Cannot change to the Kneel pose.
+PrerequisiteCannotKneel
 Невозможно перейти в позу Kneel.
-Cannot change to the KneelingSpread pose.
+PrerequisiteCannotKneelingSpread
 Невозможно перейти в позу KneelingSpread.
-Cannot change to the LegsClosed pose.
+PrerequisiteCannotLegsClosed
 Невозможно перейти в позу LegsClosedи.
-Cannot change to the LegsOpen pose.
-Невозможно перейти в позу LegsOpenи.
-Cannot change to the OverTheHead pose.
+PrerequisiteCannotOverTheHead
 Невозможно перейти в позу OverTheHead.
-Cannot use this option when wearing the item
+PrerequisiteCannotSelfSelect
 Невозможно использовать эту опцию при ношении предмета.
-Cannot change to the Spread pose.
+PrerequisiteCannotSpread
 Невозможно перейти в позу Spread.
-You'll need help to get out
+PrerequisiteCannotStruggle
 Вам понадобится помощь, чтобы выбраться
-Cannot change to the Suspension pose.
+PrerequisiteCannotSuspension
 Невозможно перейти в позу Suspension.
-Cannot change to the TapedHands pose.
+PrerequisiteCannotTapedHands
 Невозможно перейти в позу TapedHands.
-Cannot change to the Yoked pose.
+PrerequisiteCannotYoked
 Невозможно перейти в позу Yoked.
-Cannot close on shaft.
+PrerequisiteCantCloseOnShaft
 Невозможно закрыть дышло.
-Must be able to kneel.
+PrerequisiteMustBeAbleToKneel
 Должна быть возможность опуститься на колени.
-Must be wearing a set of arm cuffs first.
+PrerequisiteMustBeArmCuffedFirst
 Сначала необходимо надеть манжеты на руки.
-Must be wearing a set of ankle cuffs first.
+PrerequisiteMustBeFeetCuffedFirst
 Сначала необходимо надеть манжеты на лодыжки.
-Must be on a bed to attach addons to.
+PrerequisiteMustBeOnBed
 Чтобы прикрепить дополнения, нужно находиться на кровати.
-Requires a closed gag.
+PrerequisiteMustBeUsedOverGag
 Требуется запертый кляп.
-A collar must be fitted first to attach accessories to.
+PrerequisiteMustCollaredFirst
 Сначала необходимо надеть ошейник, к которому можно прикрепить аксессуары.
-Must free arms first.
+PrerequisiteMustFreeArmsFirst
 Сначала нужно освободить руки.
-Must empty butt first.
+PrerequisiteMustFreeButtFirst
 Сначала надо очистить задницу.
-Must remove clitoris piercings first
+PrerequisiteMustFreeClitFirst
 Сначала нужно удалить пирсинг клитора
-Must free feet first.
+PrerequisiteMustFreeFeetFirst
 Сначала необходимо освободить ступни.
-Must free hands first.
+PrerequisiteMustFreeHandsFirst
 Сначала необходимо освободить руки.
-Must free legs first.
+PrerequisiteMustFreeLegsFirst
 Сначала необходимо освободить ноги.
-Must empty vulva first.
+PrerequisiteMustFreeVulvaFirst
 Сначала необходимо опорожнить вульву.
-Must have female upper body.
+PrerequisiteMustHaveBreasts
 Должна быть женская верхняя часть тела.
-Must have male upper body.
+PrerequisiteMustHaveFlatChest
 Должна быть мужская верхняя часть тела.
-Must have full penis access first.
+PrerequisiteMustHaveFullPenisAccess
 Сначала нужно получить полный доступ к пенису.
-Must have male genitalia.
+PrerequisiteMustHavePenis
 Должны быть мужские гениталии.
-Must have female genitalia.
+PrerequisiteMustHaveVagina
 Должны быть женские гениталии.
-Must not have a forced erection.
+PrerequisiteMustNotHaveForcedErection
 Не должно быть эрекции.
-Must remove chastity cage first.
+PrerequisiteMustRemoveChastityCage
 Сначала нужно снять клетку целомудрия.
-Must stand up first.
+PrerequisiteMustStandUpFirst
 Сначала нужно встать.
-TargetPronounSubject must be wearing a baby harness to chain the mittens.
+PrerequisiteNeedHarness
 TargetPronounSubject чтобы пристегнуть варежки, необходимо использовать детскую упряжь.
-You need some padlocks to do this.
+PrerequisiteNeedPadlock
 Для этого вам понадобится несколько замков.
-You need a padlock key to do this.
+PrerequisiteNeedPadlockKey
 Для этого вам понадобится ключ от замка.
-Requires a chest harness.
+PrerequisiteNeedsChestHarness
 Требуется грудная сбруя.
-Requires a hip harness.
+PrerequisiteNeedsHipHarness
 Требуется набедренная сбруя.
-Requires round piercings on nipples.
+PrerequisiteNeedsNippleRings
 Требуется круглый пирсинг на сосках.
-Unchain mittens.
+PrerequisiteRemoveChain
 Развязать варежки.
-Remove the chain first.
+PrerequisiteRemoveChainForItem
 Сначала снимите цепь.
-Must remove chastity first.
+PrerequisiteRemoveChastityFirst
 Сначала нужно снять пояс целомудрия.
-Remove some clothes first.
+PrerequisiteRemoveClothesForItem
 Сначала снимите часть одежды.
-Must remove face mask first.
+PrerequisiteRemoveFaceMaskFirst
 Сначала необходимо снять маску с лица.
-Remove some restraints first.
+PrerequisiteRemoveRestraintsFirst
 Сначала снимите некоторые ограничения.
-Must remove shackles first.
+PrerequisiteRemoveShacklesFirst
 Сначала нужно снять кандалы.
-Remove the suspension first.
+PrerequisiteRemoveSuspensionForItem
 Сначала снимите подвесы.
-Unzip the suit first.
+PrerequisiteUnZipSuitForItem
 Сначала расстегните молнии на костюме.
+PrettyArrayJoin
 ,
-,
-, and
+PrettyArrayJoinFinal
 , и
-View previous expressions
+PrevExpressions
 Просмотр предыдущих выражений
-Allowed Limited Item
+PreviewIconAllowedLimited
 Разрешенный ограниченный предмет
-Heavily blinds
+PreviewIconBlindHeavy
 Сильное ослепление
-Lightly blinds
+PreviewIconBlindLight
 Легкое ослепление
-Blinds
+PreviewIconBlindNormal
 Ослепление
-Buygroup member
+PreviewIconBuyGroup
 Buygroup учасник
-Heavily deafens
+PreviewIconDeafHeavy
 Сильное оглушение
-Lightly deafens
+PreviewIconDeafLight
 Слабое оглушение
-Deafens
+PreviewIconDeafNormal
 Оглушение
-Extended item
+PreviewIconExtended
 Расширенный элемент
-D/s Family only
+PreviewIconFamilyOnly
 Только семья Д/С
-Favorite
+PreviewIconFavorite
 Избранное
-Favorite (theirs & yours)
+PreviewIconFavoriteBoth
 Избранное(их и ваше)
-Favorite (yours)
+PreviewIconFavoritePlayer
 Избранное (ваше)
-PreviewIconGagHeavy,Heavily gags
-Сильное затыкание
-Lightly gags
+PreviewIconGagLight
 Лекгое затыкание
-Gags
+PreviewIconGagNormal
 Затыкание
-Totally gags
+PreviewIconGagTotal
 Полное затыкание
-Held
+PreviewIconHandheld
 Держать
-Locked
+PreviewIconLocked
 Заблокировано
-Lovers only
+PreviewIconLoverOnly
 Только возлюбленные
-Owner only
+PreviewIconOwnerOnly
 Только владелец
-Locked with a AssetName
+PreviewIconPadlock
 Заблокировано с помощью AssetName
-Automatically locks
+PreviewIconUnlocked
 Автоматически блокируется
-View previous page
+PrevPage
 Посмотреть предыдущую страницу
 Private
 Приватная
-<i>Private room</i>
-<i>Приватная комната</i>
-Click here to speed up the progress
+ProgressClick
 Нажмите здесь, чтобы ускорить прогресс
-Click when the player reaches the buckle to progress
+ProgressDex
 Нажмите, когда игрок достигнет пряжки, для прогресса.
-Click the ropes before they hit the ground to progress
+ProgressFlex
 Щелкайте по веревкам, прежде чем они упадут на землю, для прогресса.
-Alternate keys A (Q on AZERTY) and D to speed up
+ProgressKeys
 Альтернативные клавиши A (Q на AZERTY) и D для ускорения.
-Alternate keys A and S or X and Y on a controller
+ProgressKeysController
 Альтернативные клавиши A и S или X и Y на контроллере
-him
+PronounObjectHeHim
 ему
-her
+PronounObjectSheHer
 ей/ее
-them
+PronounObjectTheyThem
 им
-his
+PronounPossessiveHeHim
 его
-their
+PronounPossessiveSheHer
+ей/ее
+PronounPossessiveTheyThem
 их
-himself
+PronounSelfHeHim
 он сам
-herself
+PronounSelfSheHer
 она сама
-themself
+PronounSelfTheyThem
 они сами
-he
+PronounSubjectHeHim
 он
-she
+PronounSubjectSheHer
 она
-they
+PronounSubjectTheyThem
 они
-Received at
+ReceivedBeep
 Получено в
-Remove item when the lock timer runs out
+RemoveItemWithTimer
 Удалить предмет, когда таймер блокировки истечет
-Removing...
+Removing
 Удаление...
-Need Bondage ReqLevel
+RequireBondageLevel
 Нужен требуемый уровень бондажа
-Requires self-bondage ReqLevel.
+RequireSelfBondage
 Требуется самобондаж ReqLevel.
-Active Rules
-Активные правила
-Cannot change:
+RulesMenuBlockChange
 Невозможно изменить:
-Blocked: Family keys
+RulesMenuBlockFamilyKey
 Заблокировано: семейные ключи
-Blocked: Normal keys
+RulesMenuBlockKey
 Заблокирован: Обычные ключи
-Your owner cannot use lover locks on you
+RulesMenuBlockLoverLockOwner
 Ваш владелец не может использовать на вас замки возлюбленных
-No lover locks on yourself
+RulesMenuBlockLoverLockSelf
 Ни один возлябленный не запирает сам/а себя
-Cannot change your nickname
+RulesMenuBlockNickname
 Невозмржно сменить никнейм
-No owner locks on yourself
+RulesMenuBlockOwnerLockSelf
 Ни один владелец не запирает сам/а себя
-Blocked: Remotes on anyone
+RulesMenuBlockRemote
 Заблокировано: пульты для всех
-Blocked: Remotes on yourself
+RulesMenuBlockRemoteSelf
 Заблокировано: пульты на себе
-No whispers around your owner
+RulesMenuBlockWhisper
 Никакого шепота рядом с вашим владельцем
-No active rules
+RulesMenuEmpty
 Нет активных правил
-Slave collar unlocked
+RulesMenuReleasedCollar
 Рабский ошейник разблокирован
-Save/Load Expressions
+SavedExpressions
 Сохранить/загрузить выражения
-(Empty)
+SavedExpressionsEmpty
 (Пусто)
-Load
+SavedExpressionsLoad
 Загрузить
-Save
+SavedExpressionsSave
 Сохранить
-Select an activity to use on the GroupName.
+SelectActivityGroup
 Выберите действие, которое будет использоваться для GroupName.
-No activity available on the GroupName.
+SelectActivityNone
 Нет действий для GroupName.
-Select an item to use on the GroupName.
+SelectItemGroup
 Выберите предмет для использования в GroupName.
-Select a lock to use on the GroupName.
+SelectLock
 Выбирите замок, который будет использоваться для GroupName.
-This looks like its locked by a AssetName.
+SelectLocked
 Похоже, он заблокирован AssetName.
-This looks like its locked by something.
+SelectLockedUnknown
 Похоже, он чем-то заблокирован.
-Sent at
+SentBeep
 Отправлено в
-TargetCharacterName was banned by SourceCharacter.
+ServerBan
 TargetCharacterName был забанен SourceCharacter.
-TargetCharacterName was demoted from administration by SourceCharacter.
+ServerDemoteAdmin
 TargetCharacterName был/а снят/а с должности администратора SourceCharacter.
-SourceCharacter disconnected.
+ServerDisconnect
 SourceCharacter отключается.
-SourceCharacter entered.
+ServerEnter
 SourceCharacter входит в комнату.
-SourceCharacter called the maids to escort TargetCharacterName out of the room.
+ServerKick
 SourceCharacter позвал/а горничных, чтобы они вывели TargetCharacterName из комнаты.
-SourceCharacter left.
+ServerLeave
 SourceCharacter покидает комнату.
-The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are starting a 7 days minimum period as lovers.
+ServerMessageBeginDating
 Клуб Бондажа рад сообщить, что SourceCharacter и TargetCharacter начинают минимальный период в 7 дней в качестве возлюбленных.
-The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are now engaged and are starting a 7 days minimum period as fiancées.
+ServerMessageBeginEngagement
 Клуб Бондажа рад сообщить, что SourceCharacter и TargetCharacter теперь помолвлены и начинают минимальный 7-дневный период в качестве новобрачных.
-The Bondage Club is proud to announce that SourceCharacter and TargetCharacter are now married. Long may it last.
+ServerMessageBeginWedding
 Клуб Бондажа с гордостью сообщает, что SourceCharacter и TargetCharacter теперь супруги. Долгие лета молодым!
-The Bondage Club announces that SourceCharacter released TargetCharacter from PronounPossessive ownership.
+ServerMessageEndOwnership
 Клуб Bondage объявляет, что SourceCharacter освободил TargetCharacter от PronounPossessive владения.
-The Bondage Club announces that SourceCharacter canceled the trial ownership of TargetCharacter.
+ServerMessageEndOwnershipTrial
 Клуб Bondage объявляет, что SourceCharacter отменил пробный период владением TargetCharacter.
-The Bondage Club is proud to announce that SourceCharacter is now fully collared. PronounPossessive fate is in PronounPossessive owners hands.
+ServerMessageEndTrial
 Клуб Бондажа с гордостью сообщает, что SourceCharacter теперь в постоянном ошейнике. Судьба PronounPossessive находится в руках PronounPossessive владельца.
-Saying a forbidden word is blocked by your owner.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsBlocked
 Произнесение запрещенного слова заблокировано вашим владельцем.  Вы можете использовать /forbiddenwords, чтобы просмотреть эти слова.
-You said a forbidden word and will be silenced for 15 minutes.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsMute15
 Вы произнесли запретное слово и вас заставят замолчать на 15 минут.  Вы можете использовать /forbiddenwords, чтобы просмотреть эти слова.
-You said a forbidden word and will be silenced for 30 minutes.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsMute30
 Вы произнесли запретное слово и вас заставят замолчать на 30 минут.  Вы можете использовать /forbiddenwords, чтобы просмотреть эти слова.
-You said a forbidden word and will be silenced for 5 minutes.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsMute5
 Вы произнесли запретное слово и вас заставят замолчать на 5 минут.  Вы можете использовать /forbiddenwords, чтобы просмотреть эти слова.
-Your lover is now allowing your owner to use lovers locks on you.
+ServerMessageLoverRuleOwnerLoverLockAllow
 Ваш возлюбленный/ая теперь позволяет вашему владельцу использовать на вас замки возлюбленных.
-Your lover is now preventing your owner from using lovers locks on you.
+ServerMessageLoverRuleOwnerLoverLockBlock
 Ваш возлюбленный/ая теперь не позволяет вашему владельцу использовать на вас замки возлюбленных.
-Your lover is now allowing you to use lovers locks on yourself.
+ServerMessageLoverRuleSelfLoverLockAllow
 Ваш возлюбленный/ая теперь позволяет вам использовать замки возлюбленных на себе.
-Your lover is now preventing you from using lovers locks on yourself.
+ServerMessageLoverRuleSelfLoverLockBlock
 Ваш возлюбленный/ая теперь не позволяет вам использовать замки возлюбленных на себе.
-SourceCharacter is asking you to be PronounPossessive lover.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOfferBeginDating
 SourceCharacter просит вас стать PronounPossessive возлюбленным/ой.  Нажмите на PronounObject и управляйте своими отношениями, чтобы принять это, или не делайте ничего, чтобы отказаться.
-SourceCharacter is asking you to become PronounPossessive fiancée.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOfferBeginEngagement
 SourceCharacter просит вас стать PronounPossessive женихом/невестой.  Нажмите на PronounObject и управляйте своими отношениями, чтобы принять это, или не делайте ничего, чтобы отказаться.
-SourceCharacter is proposing you to become PronounPossessive wife.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOfferBeginWedding
 SourceCharacter предлагает вам стать PronounPossessive женой/мужем.  Нажмите на PronounObject и управляйте своими отношениями, чтобы принять это, или не делайте ничего, чтобы отказаться.
-SourceCharacter has prepared a great collaring ceremony.  A maid brings a slave collar, which PronounPossessive submissive must consent to wear.
+ServerMessageOfferEndTrial
 SourceCharacter подготовил/а великолепную церемонию ошейника.  Горничная приносит рабский ошейник, который должен надеть сабмиссив.
-SourceCharacter is offering you to start a trial period as PronounPossessive submissive.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOfferStartTrial
 SourceCharacter предлагает вам начать пробный период в качестве PronounPossessive сабмиссива.  Нажмите на PronounObject и управляйте своими отношениями, чтобы принять это, или не делайте ничего, чтобы отказаться.
-Your owner is now allowing you to access others when they're there.
+ServerMessageOwnerRuleAccessOtherAllow
 Ваш владелец теперь позволяет вам получать доступ к другим пользователям, когда он/а здесь.
-Your owner is now preventing you from accessing others when they're there.
+ServerMessageOwnerRuleAccessOtherBlock
 Ваш владелец теперь не позволяет вам получать доступ к другим людям, когда он/а здесь.
-Your owner is now allowing you to access yourself when they're there.
+ServerMessageOwnerRuleAccessSelfAllow
 Ваш владелец теперь позволяет вам получить доступ к себе, когда он/а здесь.
-Your owner is now preventing you from accessing yourself when they're there.
+ServerMessageOwnerRuleAccessSelfBlock
 Ваш владелец теперь не позволяет вам получить доступ к себе, когда он/а здесь.
-Your owner has changed the appearance zones you can modify.
+ServerMessageOwnerRuleBlockAppearance
 Ваш владелец изменил/а зоны внешнего вида, которые вы можете изменять.
-Your owner has changed the item zones you can access.
+ServerMessageOwnerRuleBlockItemGroup
 Ваш владелец изменил/а зоны предметов, к которым вы можете получить доступ.
-Your owner has changed the Bondage Club areas you can access.
+ServerMessageOwnerRuleBlockScreen
 Ваш владелец изменил/а доступные вам зоны в Клубе Бондажа.
-Your owner is now allowing you to access your wardrobe and change clothes.
+ServerMessageOwnerRuleChangeAllow
 Ваш владелец теперь позволяет вам получить доступ к вашему гардеробу и переодеваться.
-Your owner has blocked your wardrobe access.  You won't be able to change clothes until that rule is revoked.
+ServerMessageOwnerRuleChangeBlock
 Ваш хозяин заблокировал/а доступ к вашему гардеробу.  Вы не сможете переодеваться, пока это правило не будет отменено.
-Your owner has blocked your wardrobe access for a day.  You won't be able to change clothes.
+ServerMessageOwnerRuleChangeBlock1Day
 Ваш владелец заблокировал/а доступ к вашему гардеробу на сутки.  Вы не сможете переодеться.
-Your owner has blocked your wardrobe access for an hour.  You won't be able to change clothes.
+ServerMessageOwnerRuleChangeBlock1Hour
 Ваш хозяин заблокировал/а доступ к вашему гардеробу на час.  Вы не сможете переодеться.
-Your owner has blocked your wardrobe access for a week.  You won't be able to change clothes.
+ServerMessageOwnerRuleChangeBlock1Week
 Ваш владелец заблокировал/а доступ к вашему гардеробу на неделю.  Вы не сможете переодеться.
-Your owner is now allowing you to change your pose when they're there.
+ServerMessageOwnerRuleChangePoseAllow
 Ваш владелец теперь позволяет вам менять позу, когда он/а рядом.
-Your owner is now preventing you from changing your pose when they're there.
+ServerMessageOwnerRuleChangePoseBlock
 Ваш владелец теперь не позволяет вам менять позу, когда он/а рядом.
-Your owner released you from the slave collar.
+ServerMessageOwnerRuleCollarRelease
 Ваш владелец освобождает вас от рабского ошейника.
-Your owner has locked the slave collar on your neck.
+ServerMessageOwnerRuleCollarWear
 Ваш владелец застегивает рабский ошейник на вашей шее.
-Your owner is now allowing you to emote when they're there.
+ServerMessageOwnerRuleEmoteAllow
 Ваш владелец теперь позволяет вам выражать эмоции, когда он/а рядом.
-Your owner is now preventing you from emoting when they're there.
+ServerMessageOwnerRuleEmoteBlock
 Ваш владелец теперь не позволяет вам выражать эмоции, когда он/а рядом.
-Your owner has changed your list of forbidden words.  You can use /forbiddenwords to review the words.
+ServerMessageOwnerRuleForbiddenWords
 Ваш владелец изменил список запрещенных слов.  Вы можете использовать /forbiddenwords, чтобы просмотреть эти слова.
-Your owner requires you to spin the Wheel of Fortune.
+ServerMessageOwnerRuleForceWheelFortune
 Ваш владелец требует, чтобы вы покрутили Колесо Фортуны.
-Your owner is now allowing you to have keys.  You can buy keys from the club shop.
+ServerMessageOwnerRuleKeyAllow
 Ваш владелец теперь позволяет вам иметь ключи.  Ключи можно купить в клубном магазине.
-Your owner is now allowing you to use family keys.
+ServerMessageOwnerRuleKeyAllowFamily
 Ваш владелец теперь позволяет вам использовать семейные ключи.
-Your owner is now preventing you from getting new keys.  The club shop will not sell keys to you anymore.
+ServerMessageOwnerRuleKeyBlock
 Ваш владелец теперь не разрешает вам получить новые ключи.  Клубный магазин больше не будет продавать вам ключи.
-Your owner is now preventing you from using family keys.
+ServerMessageOwnerRuleKeyBlockFamily
 Ваш владелец теперь не позволяет вам использовать семейные ключи.
-Your owner has confiscated your keys.  All your regular keys are lost.
+ServerMessageOwnerRuleKeyConfiscate
 Ваш владелец конфисковал/а ваши ключи.  Все ваши обычные ключи потеряны.
-Your owner has changed your nickname.
+ServerMessageOwnerRuleNicknameNew
 Ваш владелец изменил/а ваш никнейм.
-Your owner is now allowing you to change your nickname.
+ServerMessageOwnerRuleNicknameAllow
 Ваш владелец теперь позволяет вам изменить свой никнейм.
-Your owner is now preventing you from changing your nickname.
+ServerMessageOwnerRuleNicknameBlock
 Ваш владелец теперь не позволяет вам изменить свой никнейм.
-Your owner is now allowing you to have remotes.  You can buy remotes from the club shop.
+ServerMessageOwnerRuleRemoteAllow
 Ваш владелец теперь позволяет вам иметь пульты.  Приобрести пульты можно в клубном магазине.
-Your owner is now allowing you to use remotes on yourself.
+ServerMessageOwnerRuleRemoteAllowSelf
 Ваш владелец теперь позволяет вам использовать пульты на себе.
-Your owner is now preventing you from getting new remotes.  The club shop will not sell remotes to you anymore.
+ServerMessageOwnerRuleRemoteBlock
 Ваш владелец теперь не позволяет вам приобретать новые пульты.  Клубный магазин больше не будет продавать вам пульты.
-Your owner is now preventing you from using remotes on yourself.
+ServerMessageOwnerRuleRemoteBlockSelf
 Ваш владелец теперь запрещает вам использовать пульты на себе.
-Your owner has confiscated your remotes.  All your remotes are lost.
+ServerMessageOwnerRuleRemoteConfiscate
 Ваш владелец конфисковал/а ваши пульты.  Все ваши пульты потеряны.
-Your owner is now allowing to using owner locks on yourself.
+ServerMessageOwnerRuleSelfOwnerLockAllow
 Ваш владелец теперь позволяет вам использовать замки владельца на себе.
-Your owner is now preventing you from using owner locks on yourself.
+ServerMessageOwnerRuleSelfOwnerLockBlock
 Ваш владелец теперь не позволяет вам использовать на себе замки владельца.
-Your owner is now allowing you to talk publicly when they're there.
+ServerMessageOwnerRuleTalkAllow
 Ваш владелец теперь позволяет вам говорить публично, когда он/а рядом.
-Your owner is now preventing you from talking publicly when they're there.
+ServerMessageOwnerRuleTalkBlock
 Ваш владелец теперь не позволяет вам публично говорить, когда он/а рядом.
-Your owner is now allowing you to whisper to other members when they're there.
+ServerMessageOwnerRuleWhisperAllow
 Ваш владелец теперь позволяет вам шептаться с другими участниками, когда он/а рядом.
-Your owner is now preventing you from whispering to other members when they're there.
+ServerMessageOwnerRuleWhisperBlock
 Ваш владелец теперь не позволяет вам шептаться с другими участниками, когда он/а рядом.
-Your owner has released you.  You're free from all ownership.
+ServerMessageReleaseByOwner
 Ваш хозяин освободил/а вас.  Вы свободны как птица.
-The member number is invalid or you do not own this submissive.
+ServerMessageReleaseFail
 Номер участника недействителен, или вы не являетесь владельцем этого сабмиссива.
-Your submissive is now fully released from your ownership.
+ServerMessageReleaseSuccess
 Ваш сабмиссив теперь полностью освобожден от вашего владения.
-The Bondage Club is pleased to announce that SourceCharacter is starting a 7 days minimum trial period as a submissive.
+ServerMessageStartTrial
 Клуб Бондажа рад сообщить, что SourceCharacter начинает минимальный 7-дневный испытательный период в качестве сабмиссива.
-TargetCharacterName was moved to the left by SourceCharacter.
+ServerMoveLeft
 TargetCharacterName переместили влево с помощью SourceCharacter.
-TargetCharacterName was moved to the right by SourceCharacter.
+ServerMoveRight
 TargetCharacterName переместили вправо с помощью SourceCharacter.
-TargetCharacterName was promoted to administrator by SourceCharacter.
+ServerPromoteAdmin
 TargetCharacterName был/а повышен/а до администратора  SourceCharacter.
-TargetCharacterName was added to the room whitelist by SourceCharacter.
-TargetCharacterName был добавлен в белый список комнат SourceCharacter.
-TargetCharacterName was removed from the room whitelist by SourceCharacter.
+ServerRoomUnwhitelist
 TargetCharacterName был удален из белого списка комнат SourceCharacter.
-SourceCharacter shuffles the position of everyone in the room randomly.
+ServerRoomWhitelist
+TargetCharacterName был добавлен в белый список комнат SourceCharacter.
+ServerShuffle
 SourceCharacter случайным образом меняет положение всех в комнате.
-SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
+ServerSwap
 SourceCharacter поменял/а местами TargetCharacterName и DestinationCharacterName1 местами.
-SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
+ServerUpdateRoom
 SourceCharacter обновил/а комнату. Название: ChatRoomName. Лимит: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
-Show all zones
+ShowAllZones
 Показать все зоны
-Show the time remaining/being added
+ShowItemWithTimerRemaining
 Показать оставшееся/добавленное время
 Someone
 Кто-то
-Try to unfasten
+StruggleDexterity
 Попробуйте отстегнуть
-Try to squeeze out
+StruggleFlexibility
 Попробуй выдавить
-Impossible to escape!
+StruggleImpossible
 Невозможно освободиться!
-Use brute force
+StruggleStrength
 Используйте грубую силу
-Struggling...
+Struggling
 Боремся...
-Swapping...
+Swapping
 Меняем...
-Tighten...
+Tighten
 Затягиваем...
-You can tighten or loosen this item
+TightenLittle
+...Немного
+TightenLoosenTitle
 Вы можете затянуть или ослабить этот элемент
+TightenLot
+...Сильно
 tightens
 затягивает
-Tightness:
+Tightness
 Затянуто:
-Try to loosen the item
+TryLoosen
 Попробуйте ослабить предмет
-Time left:
+TimerLeft
 Оставшееся время:
 Unlocked
 Открытая
-Unlocking...
+Unlocking
 Отпираем...
-Using none of your skill...
+Using0
 Используя весь свой навык...
-Using 25% of your skill...
+Using25
 Используя 25% своего навыка...
-Using 50% of your skill...
+Using50
 Используя 50% своего навыка...
-Using 75% of your skill...
+Using75
 Используя 75% своего навыка...
-Wink/Blink
+WinkFacialExpressions
 Моргать
-The item will be removed when the lock timer runs out
+WillRemoveItemWithTimer
 Предмет будет удален, когда истечет таймер блокировки
-The item will stay when the lock timer runs out
+WontRemoveItemWithTimer
 Элемент останется, когда таймер блокировки закончится
-This zone is out of reach from another item
+ZoneBlocked
 Эта зона недосягаема для другого предмета
-Your owner doesn't allow you to access that zone
+ZoneBlockedOwner
 Ваш владелец не разрешает вам доступ к этой зоне
-You're too far to reach DialogCharacterObject body and items.
+ZoneBlockedRange
 Вы слишком далеко, чтобы добраться до тела и предметов DialogCharacterObject.
+CommaDelimiter
+,

@@ -1,6 +1,6 @@
-Main Hall
+Exit
 大厅
-Your Profile
+Profile
 个人档案
-Select your Perks
+Perks
 选择特技

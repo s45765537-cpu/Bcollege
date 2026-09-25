@@ -1,10 +1,10 @@
-Enter your online description (MAXLEN characters maximum)
+EnterDescription
 输入你的在线描述（限MAXLEN字符）
-CharacterName's online description
+ViewDescription
 CharacterName的在线描述
-Exit profile
+Leave
 退出档案
-Accept changes
+LeaveSave
 接受改动
-Cancel changes
+LeaveNoSave
 取消改动

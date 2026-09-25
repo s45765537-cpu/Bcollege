@@ -1,10 +1,10 @@
-﻿Remaining Time:
+RemainingTime
 Оставшееся Время:
-Punishment Time:
+IsolationTime
 Время наказания:
-Asylum Entrance
+Entrance
 Вход в Психушку
-Your Profile
+Profile
 Ваш Профиль
-Sleep (Log Off)
+Sleep
 Спать (выйти)

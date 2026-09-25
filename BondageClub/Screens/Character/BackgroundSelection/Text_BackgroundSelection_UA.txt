@@ -1,12 +1,12 @@
 Accept
 Прийняти
-Previous
+Prev
 Попередній
 Next
 Наступний
 Cancel
 Скасувати
-Selection: SelectedBackground
+Selection
 Вибір: SelectedBackground
-Filter: Filtered / Total
+Filter
 Фільтр: Filtered / Total

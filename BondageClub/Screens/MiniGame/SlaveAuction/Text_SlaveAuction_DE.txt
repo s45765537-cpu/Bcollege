@@ -1,28 +1,28 @@
-Current bid:
+CurrentBid
 Aktuelles Gebot:
-Highest bidder:
+HighestBidder
 Höchstbieter:
-I bid
+IBid
 Ich biete
 Bid
 Bieten
 You
 Du
-Someone else
+SomeoneElse
 Jemand Anderes
 Nobody
 Niemand
-Your money:
+YourMoney
 Dein Geld:
-Give up
+GiveUp
 Aufgeben
 Return
 Zurück
-Do I hear
+DoIHear
 Bietet jemand
-Going once!
+GoingOnce
 Zum Ersten!
-Going twice!
+GoingTwice
 Zum Zweiten!
-Sold!
+Sold
 Verkauft!

@@ -1,66 +1,66 @@
-(Two maids grab you and escort you to their quarters.  Another maid addresses you.)  Your owner sent you here to work.
+ActionGrabbedToServeDrinksIntro
 （兩個女僕把你架出了房間來到了宿舍,並且給你換了衣服）你的主人把你送來了這裡工作
-Talk to everyone
+PublicChat
 和所有人說話
-Whisper to
+WhisperTo
 悄悄話
-Keep only 20 messages
+MenuCut
 只保留最後20條消息
-Your character profile
+MenuProfile
 你的角色檔案
-Room administration
+MenuRoomAdmin
 房間管理
-Kneel down / Stand up
+MenuKneel
 跪下/站起
-Show / hide character icons
+MenuIcons
 顯示/隱藏角色圖示
-Take a picture
+MenuCamera
 拍照
-Dress your character
+MenuDress
 更換服裝
-Leave this chat room
+MenuExit
 離開房間
-Stop leaving
+MenuCancel
 放棄離開
-Game options
+MenuGameOption
 遊戲選項
-An orgasm is coming!
+OrgasmComing
 高潮即將來臨!
-Resist!
+OrgasmResist
 抵抗!
-Try to resist
+OrgasmTryResist
 嘗試抵抗
-Surrender
+OrgasmSurrender
 投降
-Recovering from an orgasm...
+OrgasmRecovering
 從高潮中恢復...
-<strong>Help: KeyWord</strong>
+CommandHelp
 <strong>幫助: 關鍵字</strong>
-command: no such command
+CommandNoSuchCommand
 command:沒有該命令
-command: prerequisite check failed
+CommandPrerequisiteFailed
 command:發送前檢查失敗
-HELP IS MISSING
+CommandHelpMissing
 幫助不見啦!!!
-Friendlist:
+CommandFriendlist
 好友列表:
-Ghostlist:
+CommandGhostlist
 忽視列表:
-Whitelist:
+CommandWhitelist
 白名單:
-Blacklist:
+CommandBlacklist
 黑名單:
-(Two nurses wearing futuristic gear grab you and carry you to the Asylum.  Another nurse is waiting for you there.)  Welcome.  Don't be scared.
+GGTSIntro
 （兩個穿著未來裝備的護士抓住你，把你帶到收容所。另一名護士在那裡等著你）歡迎，不要害怕
-Talking is forbidden when your owner is present.
+OwnerPresenceBlockTalk
 當你的主人在場時，禁止說話
-Emoting is forbidden when your owner is present.
+OwnerPresenceBlockEmote
 當你的主人在場時，禁止發送心裡話
-Whispering to others is forbidden when your owner is present.
+OwnerPresenceBlockWhisper
 當你的主人在場時，禁止對其他人發送悄悄話
-Changing pose is forbidden when your owner is present.
+OwnerPresenceBlockChangePose
 當你的主人在場時，禁止改變姿勢
-Accessing yourself is forbidden when your owner is present.
+OwnerPresenceBlockAccessSelf
 當你的主人在場時，禁止接觸自己
-Accessing others is forbidden when your owner is present.
+OwnerPresenceBlockAccessOther
 當你的主人在場時，禁止接觸他人

@@ -1,66 +1,72 @@
-Room Name
+RoomName
 Назва кімнати
-Language
+RoomLanguage
 Мова
-Description
+RoomDescription
 Опис
-Ban List
+RoomBanList
 Список банів
-Whitelist
-Білий список
-Administrator List
+RoomAdminList
 Список адмінів
-Never use the map exploration
-Ніколи не використовувати режим карти
-Hybrid map, can go on and off
-Гібрид (карта та звичайний режим)
-Only use the map, no regular chat
-Використовувати лише режим карти
-Size (2-20)
+RoomWhitelist
+Білий список
+RoomSize
 Розмір (2-20)
-Member numbers separated by commas (ex: 123, ...)
+MemberNumbersFormatPlaceholder
 Номери учасників, розділені комами (пр: 123, ...)
-Use the above buttons to quickadd to the respective lists
+QuickaddExplanation
 Використовуйте вищевказані кнопки для швидкого додавання до відповідних списків
-Blacklist
-чорний список
-Ghostlist
-список привидів
-Owner
+QuickaddAdminOwner
 власника
-Lovers
+QuickaddAdminLovers
 коханих
-Friends
+QuickaddWhitelistOwner
+власника
+QuickaddWhitelistLovers
+коханих
+QuickaddWhitelistFriends
 Друзі
-Room settings can only be updated by administrators
+QuickaddWhitelistWhitelist
+Білий список
+QuickaddBanBlacklist
+чорний список
+QuickaddBanGhostlist
+список привидів
+AdminOnly
 Налаштування кімнати можуть оновлювати лише адміністратори
 Background
 Задній фон
-Visibility
+VisibilityModeHeader
 Видимість
-Access
-Доступ
-Public
+VisibilityModePUBLIC
 Громадськість
-Admin + Whitelist
+VisibilityModeADMIN_WHITELIST
 Адміністратор + Білий список
-Admin
+VisibilityModeADMIN
 Адміністратор
-Unlisted
+VisibilityModeUNLISTED
 Не внесено до списку
-Import room code
+AccessModeHeader
+Доступ
+AccessModePUBLIC
+Громадськість
+AccessModeADMIN_WHITELIST
+Адміністратор + Білий список
+AccessModeADMIN
+Адміністратор
+UploadTooltip
 Імпортувати код кімнати
-Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+UploadPrompt
 Будь ласка, вставте код кімнати. Імпорт кодів кімнат призведе до перезапису існуючих налаштувань. Ви впевнені?
-Failed to parse the passed room code (incomplete? invalid? outdated?)
+UploadInvalidCode
 Не вдалося розпізнати наданий код кімнати (неповний? недійсний? застарілий?)
-Successfully imported room code
+UploadSuccess
 Код кімнати успішно імпортовано
-Export room code
+DownloadTooltip
 Експортувати код кімнати
-Failed to copy room code to clipboard
+DownloadFailed
 Не вдалося скопіювати код кімнати в буфер обміну
-Room code copied to clipboard
+DownloadSuccess
 Код кімнати скопійовано в буфер обміну
 Create
 Створити
@@ -70,47 +76,41 @@ Exit
 Вийти
 Cancel
 Скасувати
-Updating the chat room...
+UpdatingRoom
 Оновлюємо кімнату...
-This room name is already taken
+ResponseRoomAlreadyExist
 Назва кімнати вже зайнята
-Account error, please try to relog
+ResponseAccountError
 Помилка акаунту, спробуйте перезайти
-Invalid chat room data detected
+ResponseInvalidRoomData
 Виявлено недійсні дані кімнати
-Block Categories
+BlockCategory
 Заблокувати категорії
-Customization
+RoomCustomization
 Налаштування
-Don't use maps
-Не використовувати карти
-Allow on and off
-Дозволини перекатися
-Only use maps
-Використовувати лише карти
-No Game
-Без гри
-Club Card
-Клубні карти
-LARP
-LARP‎
-Magic Battle
-Магічна битва
-GGTS
-GGTS‎
-(Click anywhere to return)
+ReturnMenu
 (Натисніть будь-де, щоб повернутися)
-English
-Англійська
-French
-Французька
-Spanish
+MapNever
+Не використовувати карти
+MapNeverTooltip
+Ніколи не використовувати режим карти
+MapHybrid
+Дозволини перекатися
+MapHybridTooltip
+Гібрид (карта та звичайний режим)
+MapAlways
+Використовувати лише карти
+MapAlwaysTooltip
+Використовувати лише режим карти
+Game
+Без гри
+GameClubCard
+Клубні карти
+GameLARP
+LARP‎
+GameMagicBattle
+Магічна битва
+GameGGTS
+GGTS‎
+LanguageES
 Іспанська
-German
-Німецька
-Ukrainian
-Українська
-Chinese
-Китайська
-Russian
-Російська

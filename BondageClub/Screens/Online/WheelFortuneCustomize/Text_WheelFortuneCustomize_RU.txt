@@ -1,134 +1,134 @@
-Configure the options on your lucky wheel
+Title
 Настройте параметры колеса удачи
-Next options
+Next
 Следующие параметры
-Check all
+CheckAll
 Включить все
-Check none
+CheckNone
 Отключить все
-Reset to default
+Default
 Восстановить по умолчанию
-Save and exit
+Save
 Сохранить и выйти
-Cancel and exit
+Cancel
 Отменить и выйти
-Gagged
+OptionA
 Кляп
-Gagged for 5 minutes
+OptionB
 Кляп на 5 минут
-Gagged for 15 minutes
+OptionC
 Кляп на 15 минут
-Gagged for 60 minutes
+OptionD
 Кляп на 60 минут
-Gagged for 4 hours
+OptionE
 Кляп на 4 часа
-Blindfolded
+OptionF
 Завязанные глаза
-Blindfolded for 5 minutes
+OptionG
 Завязанные глаза на 5 минут
-Blindfolded for 15 minutes
+OptionH
 Завязанные глаза на 15 минут
-Blindfolded for 60 minutes
+OptionI
 Завязанные глаза на 60 минут
-Blindfolded for 4 hours
+OptionJ
 Завязанные глаза на 4 часа
-Arms bound
+OptionK
 Связанные руки
-Arms bound for 5 minutes
+OptionL
 Связанные руки на 5 минут
-Arms bound for 15 minutes
+OptionM
 Связанные руки на 15 минут
-Arms bound for 60 minutes
+OptionN
 Связанные руки на 60 минут
-Arms bound for 4 hours
+OptionO
 Связанные руки на 4 часа
-Legs bound
+OptionP
 Связанные ноги
-Legs bound for 5 minutes
+OptionQ
 Связанные ноги на 5 минут
-Legs bound for 15 minutes
+OptionR
 Связанные ноги на 15 минут
-Legs bound for 60 minutes
+OptionS
 Связанные ноги на 60 минут
-Legs bound for 4 hours
+OptionT
 Связанные ноги на 4 часа
-Full bondage
+OptionU
 Полный бондаж
-Full bondage for 5 minutes
+OptionV
 Полный бондаж на 5 минут
-Full bondage for 15 minutes
+OptionW
 Полный бондаж на 15 минут
-Full bondage for 60 minutes
+OptionX
 Полный бондаж на 60 минут
-Full bondage for 4 hours
+OptionY
 Полный бондаж на 4 часа
-Encased
+Optiona
 Заточение
-Encased for 5 minutes
+Optionb
 Заточение на 5 минут
-Encased for 15 minutes
+Optionc
 Заточение на 15 минут
-Encased for 60 minutes
+Optiond
 Заточение на 60 минут
-Encased for 4 hours
+Optione
 Заточение на 4 часа
-No wardrobe for 5 minutes
+Optionf
 Без гардероба 5 минут
-No wardrobe for 15 minutes
+Optiong
 Без гардероба 15 минут
-No wardrobe for 60 minutes
+Optionh
 Без гардероба 60 минут
-No wardrobe for 4 hours
+Optioni
 Без гардероба на 4 часа
-Isolation cell for 5 minutes
+Optionj
 Изолятор на 5 минут
-Isolation cell for 15 minutes
+Optionk
 Изолятор на 15 минут
-Isolation cell for 30 minutes
+Optionl
 Изолятор на 30 минут
-Isolation cell for 60 minutes
+Optionm
 Изолятор на 60 минут
-Hogtie bondage
+Option$
 Бондаж кабанчиком
-Shibari bondage
+Option!
 Шибари бондаж
-Futuristic bondage
+Option&
 Футуристический бондаж
-Pet bondage
+Option[
 Бондаж питомца
-Web bondage
+Option]
 Бондаж паутиной
-Maid outfit
+Option@
 Наряд горничной
-ABDL outfit
+Option#
 Наряд ABDL
-Slave outfit
+Option+
 Наряд рабыни
-New clothes
+Option-
 Новая одежда
-Underwear
+Option(
 Нижнее белье
-Naked
+Option)
 Голая/Голый
-Others should cheer for you
+Option0
 Другие должны похвалить тебя
-Others should pat your head
+Option1
 Другие должны погладить тебя по голове
-Others should hug you
+Option2
 Другие должны обнять тебя
-Others should tickle you
+Option3
 Другие должны пощекотать вас
-Others should kiss you
+Option4
 Другие должны поцеловать тебя
-Others should pinch you
+Option5
 Другие должны ущипнуть тебя
-Others should spank you
+Option6
 Другие должны отшлепать тебя
-Others should caress you
+Option7
 Другие должны поласкать тебя
-Others should grope you
+Option8
 Другие должны облапать тебя
-Others should masturbate you
+Option9
 Другие должны помастурбировать тебя
-Spin again twice
+Option²
 Снова вращай дважды

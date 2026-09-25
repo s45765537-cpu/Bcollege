@@ -1,26 +1,24 @@
-Select your options & opponents below or challenge a new girl to unlock her.
+IntroTitle
 Выберите свои варианты и противников ниже или бросьте вызов новой девушке, чтобы разблокировать ее.
-Return to the main hall
+Exit
 Вернитесь в главный холл
-Challenge a new girl
+Challenge
 Бросьте вызов новой девушке
-Start a custom game
+Custom
 Начать пользовательскую игру
-View yourself
+ShowPlayer
 Показать себя
-Texas Hold'em
+RulesTexasHoldem
 Техасский Холдем
-Two Cards
+RulesTwoCards
 Две карты
-Visit the artis
+VisitArtist
 Посетите художника
-None
+FamilyNone
 Никто
-Private Friends
+FamilyFriend
 Личные друзья
-Картинки
-Иллюстрации
-Real Models
+FamilyModel
 Реальные модели
 Chip
 Фишка
@@ -34,37 +32,37 @@ Fold
 Пас
 Watch
 Смотреть
-won
+Win
 выиграла
-won the game!
+WinGame
 выиграла игру!
-You won $MoneyAmount and unlocked OpponentName.  You can challenge another girl.
+WinChallenge
 Вы выиграли $MoneyAmount и разблокировали OpponentName. Вы можете бросить вызов другой девушке.
-Finish this game
+EndGame
 Закончить эту игру
-Ante:
+Ante
 Вслепую:
-Split pot
+SplitPot
 Разделить банк
-Pot:
+Pot
 Банк:
-High card
+HandHighestCards
 Старшая карта
-One pair
+HandOnePair
 Одна пара
-Two pairs
+HandTwoPairs
 Две пары
-Three of a kind
+HandThreeOfAKind
 Три карты
-Straight
+HandStraight
 Стрит
-Flush
+HandFlush
 Флеш
-Full house
+HandFullHouse
 Фулл хаус
-Four of a kind
+HandFourOfAKind
 Каре
-Straight flush
+HandStraightFlush
 Стрит флеш
-Royal flush
+HandRoyalFlush
 Роял флеш

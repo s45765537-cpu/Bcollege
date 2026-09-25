@@ -1,28 +1,28 @@
-﻿Current bid:
+CurrentBid
 Текущая ставка:
-Highest bidder:
+HighestBidder
 Предложивший наивысшую цену:
-I bid
+IBid
 Я ставлю
 Bid
 Ставка
 You
 Ты
-Someone else
+SomeoneElse
 Кто-то другой
 Nobody
 Никто
-Your money:
+YourMoney
 Твои деньги:
-Give up
+GiveUp
 Сдаться
 Return
 Возвращать
-Do I hear
+DoIHear
 Я слышу
-Going once!
+GoingOnce
 Едем один раз!
-Going twice!
+GoingTwice
 Дважды!
-Sold!
+Sold
 Продано!

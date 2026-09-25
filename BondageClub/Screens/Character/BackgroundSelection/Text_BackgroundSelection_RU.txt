@@ -1,12 +1,12 @@
 Accept
 Принять
-Previous
+Prev
 Предыдущий
 Next
 Следующий
 Cancel
 Отменить
-Selection: SelectedBackground
+Selection
 Выбор: SelectedBackground
-Filter: Filtered / Total
+Filter
 Фильтр: Filtered / Total

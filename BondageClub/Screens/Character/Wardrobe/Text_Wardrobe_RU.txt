@@ -1,8 +1,8 @@
-﻿Load
+Load
 Загрузить
 Save
 Сохранить
 Return
 Вернуться
-Save or load your favorite appearance
+SelectAppareance
 Твоя любимая внешность

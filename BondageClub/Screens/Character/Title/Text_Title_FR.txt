@@ -1,78 +1,78 @@
-﻿Select your displayed title
+SelectTitle
 Sélectionnez votre titre à affiché
-None
+TitleNone
 Aucun
-Mistress
+TitleMistress
 Maîtresse
-Club Slave
+TitleClubSlave
 Esclave du Club
-Head Maid
+TitleHeadMaid
 Maîtresse Servante
-Maid
+TitleMaid
 Servante
-Bondage Maid
+TitleBondageMaid
 Servante de Bondage
-Master Kidnapper
+TitleMasterKidnapper
 Ace du Kidnapping
-Kidnapper
+TitleKidnapper
 Kidnappeuse
-Patient
+TitlePatient
 Patiente
-Permanent Patient
+TitlePermanentPatient
 Patiente permanente
-Escaped Patient
+TitleEscapedPatient
 Patiente évadée
-Nurse
+TitleNurse
 Infirmière
-Doctor
+TitleDoctor
 Médecin
-College Student
-Étudiante
-Foal
-Poulain
-Farm Horse
-Cheval de Ferme
-Cold Blood Horse
-Cheval à Sang-froid
-Warm Blood Horse
-Cheval à Sang-tiède
-Hot Blood Horse
-Cheval à Sang-chaud
-Wild Mustang
-Mustang Sauvage
-Shining Unicorn
-Licorne Scintillante
-Flying Pegasus
-Pégase Volant
-Lady Luck
+TitleLadyLuck
 Dame Chance
-Patron
+TitlePatron
 Patronne
-Majestic Alicorn
+TitleCollegeStudent
+Étudiante
+TitlePonyFoal
+Poulain
+TitlePonyFarm
+Cheval de Ferme
+TitlePonyCold
+Cheval à Sang-froid
+TitlePonyWarm
+Cheval à Sang-tiède
+TitlePonyHot
+Cheval à Sang-chaud
+TitlePonyWild
+Mustang Sauvage
+TitlePonyUnicorn
+Licorne Scintillante
+TitlePonyPegasus
+Pégase Volant
+TitlePonyAlicorn
 Alicorne Majestieuse
-Little One
+TitleLittleOne
 Petiotte
-Baby
+TitleBaby
 Bébé
-Diaper Lover
+TitleDL
 Porteur de Couche
-Bondage Baby
+TitleBondageBaby
 Bébé attaché
-Duchess
+TitleDuchess
 Duchesse
-Kitten
+TitleKitten
 Chaton
-Puppy
+TitlePuppy
 Chiot
-Foxy
+TitleFoxy
 Renarde
-Bunny
+TitleBunny
 Lapine
-Doll
+TitleDoll
 Poupée
-Demon
+TitleDemon
 Démon
-Angel
+TitleAngel
 Ange
-Succubus
+TitleSuccubus
 Succube

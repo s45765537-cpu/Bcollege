@@ -1,6 +1,6 @@
-Main Hall
+Leave
 Hall principal
-Your Profile
 Profile
-LARP Battles
+Profile
+Battle
 Batailles LARP

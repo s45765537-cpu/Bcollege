@@ -1,586 +1,586 @@
-Kiss
+ActivityKiss
 Embrasser
+ActivityFrenchKiss
 French Kiss
-French Kiss
-Polite Kiss
+ActivityPoliteKiss
 Baiser poli
-Lick
+ActivityLick
 Lécher
-Suck
+ActivitySuck
 Sucer
-Nibble
+ActivityNibble
 Mordiller
-Bite
+ActivityBite
 Mordre
-Sexy Whisper
+ActivityWhisper
 Chuchotement
-Tickle
+ActivityTickle
 Chatouiller
-Caress
+ActivityCaress
 Caresser
-Pet
+ActivityPet
 Chouchouter
-Cuddle
+ActivityCuddle
 Caliner
-Body Rub
+ActivityRub
 Frotter le corps
-Hands Massage
+ActivityMassageHands
 Massage à mains
-Feet Massage
+ActivityMassageFeet
 Massage avec pieds
-Polish
+ActivityPolish
 Polir
-Grope
+ActivityGrope
 Tâtonner
-Pinch
+ActivityPinch
 Pincer
-Spank
+ActivitySpank
 Fesser
-Slap
+ActivitySlap
 Gifler
-Take Care
+ActivityTakeCare
 Prendre soin
-Pull
+ActivityPull
 Tirer
-Choke
+ActivityChoke
 Étrangler
-Tongue Masturbation
+ActivityMasturbateTongue
 Masturbation avec langue
-Hand Masturbation
+ActivityMasturbateHand
 Masturbation avec mains
-Fist Masturbation
+ActivityMasturbateFist
 Masturbation avec poing
-Foot Masturbation
+ActivityMasturbateFoot
 Masturbation avec pied
-Item Masturbation
-Masturbation avec objet
-Slow Penetration
+ActivityPenetrateSlow
 Pénétration lente
-Fast Penetration
+ActivityPenetrateFast
 Pénétration rapide
-Hand Gag
+ActivityHandGag
 Bâilloner à main
-Item Spank
-Fessée avec objet
-Item Tickle
-Chatouillement avec objet
-Item Rub
-Frottement avec objet
-Item Roll
-Roulement avec objet
-Item Pour
-Versement avec objet
-Item Shock
-Choc avec objet
-SourceCharacter trembles and moans loudly, getting a powerful orgasm.
+ActivitySpankItem
+Fesser
+ActivityTickleItem
+Chatouiller
+ActivitySuckPenetrateItem
+Sucer
+Orgasm0
 SourceCharacter tremble et gémit bruyamment, obtenant un orgasme puissant.
-SourceCharacter thrashes and loses all control, getting an intense orgasm.
+Orgasm1
 SourceCharacter se débat et perd le contrôle, obtenant un orgasme intense.
-SourceCharacter screams silently and rocks her hips, getting a wonderful orgasm.
+Orgasm2
 SourceCharacter hurle silencieusement et berce ses hanches, obtenant un orgasme merveilleux.
-With intense pleasure, SourceCharacter gets a shattering orgasm.
+Orgasm3
 Avec un plaisir intense, SourceCharacter obtient un orgasme fracassant.
-SourceCharacter closes her eyes and lets PronounSelf go, getting a lovely orgasm.
+Orgasm4
 SourceCharacter ferme les yeux et se laisse aller, obtenant un bel orgasme.
-SourceCharacter cannot resist the pleasure and succumbs to a great orgasm.
+Orgasm5
 SourceCharacter ne peut pas résister au plaisir et succombe à un grand orgasme.
-Trembling and moaning rapidly, SourceCharacter gets a fierce orgasm.
+Orgasm6
 Tremblant et gémissant rapidement, SourceCharacter obtient un orgasme féroce.
-SourceCharacter squirts lots of liquid from her vagina, getting a wet orgasm.
-SourceCharacter gicle beaucoup de liquide de son vagin, obtenant un orgasme.
-SourceCharacter's body cringes and becomes rigid, getting a long and solid orgasm.
+Orgasm8
 Le corps de SourceCharacter se contracte et devient rigide, obtenant un orgasme long et solide.
-SourceCharacter goes berserk with pleasure, giving her two back-to-back orgasms.
+Orgasm9
 SourceCharacter devient fou de plaisir, recevant deux orgasmes consécutifs.
-Using all of her strengths, SourceCharacter is able to resist her building orgasm.
+OrgasmResist0
 En utilisant toutes ses forces, SourceCharacter est capable de résister à son orgasme.
-SourceCharacter fights really hard against her orgasm and is able to resist it.
+OrgasmResist1
 SourceCharacter se bat très fort contre son orgasme et est capable de résister.
-While panting and moaning, SourceCharacter is able to resist her orgasm.
+OrgasmResist2
 En haletant et en gémissant, SourceCharacter est capable de résister à son orgasme.
-SourceCharacter fights off her coming orgasm, her willpower is greater than her urges.
+OrgasmResist3
 SourceCharacter combat son orgasme, sa volonté est plus grande que ses pulsions.
-SourceCharacter concentrates hard and is able to calm down her upcoming orgasm.
+OrgasmResist4
 SourceCharacter hurle silencieusement et se bat dur pour finalement contrôler son orgasme.
-SourceCharacter screams silently and fights hard to finally control her orgasm.
+OrgasmResist5
 SourceCharacter hurle silencieusement et se bat difficilement pour finalement contrôler son orgasme.
-Even while trembling without much control, SourceCharacter can resist her orgasm.
+OrgasmResist6
 Même en tremblant sans beaucoup de contrôle, SourceCharacter a su résister à son orgasme.
-SourceCharacter's body jerks in all directions, but she manages to fight off her orgasm.
+OrgasmResist7
 Le corps de SourceCharacter secoue dans toutes les directions, mais elle parvient à combattre son orgasme.
-SourceCharacter meditates and takes deep breathes, resisting her building orgasm.
+OrgasmResist8
 SourceCharacter médite et prend de grandes respirations, résistant à son orgasme.
-By pure luck or some miracle, SourceCharacter is able to combat her orgasm.
+OrgasmResist9
 Par pure chance ou par miracle, SourceCharacter est capable de combattre son orgasme.
-SourceCharacter kisses her foot.
-SourceCharacter embrasse son pied.
-SourceCharacter gives a small kiss on her foot.
-SourceCharacter donne un petit baiser sur son pied.
-SourceCharacter licks her own feet.
-SourceCharacter lèche ses propres pieds.
-SourceCharacter sucks on her big toe.
-SourceCharacter suce son gros orteil.
-SourceCharacter nibbles her own foot.
-SourceCharacter mordille son propre pied.
-SourceCharacter tickles her own feet.
-SourceCharacter chatouille ses propres pieds.
-SourceCharacter massages her feet.
-SourceCharacter masse ses pieds.
-SourceCharacter cleans and polishes her toenails.
-SourceCharacter nettoie et polit ses ongles.
-SourceCharacter bites her foot.
-SourceCharacter mord son pied.
-SourceCharacter bites TargetCharacter's foot.
-SourceCharacter mord le pied de TargetCharacter.
-SourceCharacter kisses TargetCharacter's foot.
-SourceCharacter embrasse le pied de TargetCharacter.
-SourceCharacter gives a small and polite kiss on TargetCharacter's foot.
-SourceCharacter donne un petit baiser poli sur le pied de TargetCharacter.
-SourceCharacter licks TargetCharacter's foot.
-SourceCharacter lèche le pied de TargetCharacter.
-SourceCharacter sucks on TargetCharacter's big toe.
-SourceCharacter suce le gros orteil de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's foot.
-SourceCharacter grignote le pied de TargetCharacter.
-SourceCharacter tickles TargetCharacter's foot sole.
-SourceCharacter chatouille le pied de TargetCharacter.
-SourceCharacter spanks TargetCharacter's foot sole.
-SourceCharacter fesse le pied de TargetCharacter.
-SourceCharacter massages TargetCharacter's foot.
-SourceCharacter masse le pied de TargetCharacter.
-SourceCharacter plays with TargetCharacter's feet using her own feet.
-SourceCharacter joue avec les pieds de TargetCharacter en utilisant ses propres pieds.
-SourceCharacter cleans and polishes TargetCharacter's toenails.
-SourceCharacter nettoie et polit les ongles des pieds de TargetCharacter.
-SourceCharacter tickles her legs.
-SourceCharacter chatouille ses jambes.
-SourceCharacter spanks her own leg.
-SourceCharacter fesse sa propre jambe.
-SourceCharacter caresses her legs.
-SourceCharacter caresse ses jambes.
-SourceCharacter massages her legs.
-SourceCharacter masse ses jambes.
-SourceCharacter bites her leg.
-SourceCharacter mord sa jambe.
-SourceCharacter bites TargetCharacter's leg.
-SourceCharacter mord la jambe de TargetCharacter.
-SourceCharacter kisses TargetCharacter's leg.
-SourceCharacter embrasse la jambe de TargetCharacter.
-SourceCharacter licks TargetCharacter's leg.
-SourceCharacter lèche la jambe de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's leg.
-SourceCharacter grignote la jambe de TargetCharacter.
-SourceCharacter tickles TargetCharacter's leg.
-SourceCharacter chatouille la jambe de TargetCharacter.
-SourceCharacter spanks TargetCharacter's leg.
-SourceCharacter donne une fessée à la jambe de TargetCharacter.
-SourceCharacter caresses TargetCharacter's leg.
-SourceCharacter caresse la jambe de TargetCharacter.
-SourceCharacter massages TargetCharacter's leg.
-SourceCharacter masse la jambe de TargetCharacter.
-SourceCharacter gropes TargetCharacter's leg.
-SourceCharacter tâtonne la jambe de TargetCharacter.
-SourceCharacter tickles her thighs.
-SourceCharacter chatouille ses cuisses.
-SourceCharacter spanks her own thigh.
-SourceCharacter donne une fessée à sa propre cuisse.
-SourceCharacter caresses her thighs.
-SourceCharacter caresse ses cuisses.
-SourceCharacter massages her thighs.
-SourceCharacter masse ses cuisses.
-SourceCharacter bites her thigh.
-SourceCharacter mord sa cuisse.
-SourceCharacter bites TargetCharacter's thigh.
-SourceCharacter mord la cuisse de TargetCharacter.
-SourceCharacter kisses TargetCharacter's thigh.
-SourceCharacter embrasse la cuisse de TargetCharacter.
-SourceCharacter licks TargetCharacter's thigh.
-SourceCharacter lèche la cuisse de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's thigh.
-SourceCharacter grignote la cuisse de TargetCharacter.
-SourceCharacter tickles TargetCharacter's thigh.
-SourceCharacter chatouille la cuisse de TargetCharacter.
-SourceCharacter spanks TargetCharacter's thigh.
-SourceCharacter donne une fessée à la cuisse de TargetCharacter.
-SourceCharacter caresses TargetCharacter's thigh.
-SourceCharacter caresse la cuisse de TargetCharacter.
-SourceCharacter massages TargetCharacter's thigh.
-SourceCharacter masse la cuisse de TargetCharacter.
-SourceCharacter gropes TargetCharacter's thigh.
-SourceCharacter tâtonne la cuisse de TargetCharacter.
-SourceCharacter masturbates her pussy.
-SourceCharacter se masturbe la chatte.
-SourceCharacter caresses her pussy.
-SourceCharacter caresse sa chatte.
-SourceCharacter masturbates TargetCharacter's pussy with her fingers.
-SourceCharacter masturbe la chatte de TargetCharacter avec ses doigts.
-SourceCharacter masturbates TargetCharacter's vagina with her full fist.
-SourceCharacter masturbe le vagin de TargetCharacter avec son poing plein.
-SourceCharacter masturbates TargetCharacter's pussy with her foot.
-SourceCharacter masturbe la chatte de TargetCharacter avec son pied.
-SourceCharacter masturbates TargetCharacter's pussy with her tongue.
-SourceCharacter masturbe la chatte de TargetCharacter avec sa langue.
-SourceCharacter caresses TargetCharacter's pussy with her fingers.
-SourceCharacter caresse la chatte de TargetCharacter avec ses doigts.
-SourceCharacter slaps TargetCharacter's pussy lips.
-SourceCharacter gifle les lèvres de la chatte de TargetCharacter.
-SourceCharacter kisses TargetCharacter's pussy lips.
-SourceCharacter embrasse les lèvres de la chatte de TargetCharacter.
-SourceCharacter licks TargetCharacter's pussy lips.
-SourceCharacter lèche les lèvres de la chatte de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's pussy lips.
-SourceCharacter grignote les lèvres de la chatte de TargetCharacter.
-She uses the device to masturbate the clitoris.
-Elle utilise l'appareil pour masturber le clitoris.
-SourceCharacter penetrates TargetCharacter's vagina at a slow pace.
-SourceCharacter pénètre lentement le vagin de TargetCharacter.
-SourceCharacter penetrates TargetCharacter's vagina at a fast pace.
-SourceCharacter pénètre le vagin de TargetCharacter à un rythme rapide.
-SourceCharacter fingers and masturbates her ass.
-SourceCharacter se doigte et se masturbe le cul.
-SourceCharacter spanks PronounSelf on the butt.
-SourceCharacter se donne une fessée sur les fesses.
-SourceCharacter caresses her butt.
-SourceCharacter caresse ses fesses.
-SourceCharacter gropes her butt.
-SourceCharacter caresse ses fesses.
-SourceCharacter bites TargetCharacter's butt.
-SourceCharacter mord les fesses de TargetCharacter.
-SourceCharacter kisses TargetCharacter's butt.
-SourceCharacter embrasse les fesses de TargetCharacter.
-SourceCharacter uses her fingers to masturbate TargetCharacter's ass.
-SourceCharacter utilise ses doigts pour masturber le cul de TargetCharacter.
-SourceCharacter uses her fist to masturbate TargetCharacter's ass.
-SourceCharacter utilise son poing pour masturber le cul de TargetCharacter.
-SourceCharacter uses her tongue to masturbate TargetCharacter's ass.
-SourceCharacter utilise sa langue pour masturber le cul de TargetCharacter.
-SourceCharacter spanks TargetCharacter's butt.
-SourceCharacter donne une fessée aux fesses de TargetCharacter.
-SourceCharacter caresses TargetCharacter's butt.
-SourceCharacter caresse les fesses de TargetCharacter.
-SourceCharacter gropes TargetCharacter's butt.
-SourceCharacter tâtonne les fesses de TargetCharacter.
-SourceCharacter penetrates TargetCharacter's butt at a slow pace.
-SourceCharacter pénètre les fesses de TargetCharacter à un rythme lent.
-SourceCharacter penetrates TargetCharacter's butt at a fast pace.
-SourceCharacter pénètre les fesses de TargetCharacter à un rythme rapide.
-SourceCharacter tickles her own tummy.
-SourceCharacter chatouille son propre ventre.
-SourceCharacter spanks her own tummy.
-SourceCharacter fesse son propre ventre.
-SourceCharacter caresses her tummy.
-SourceCharacter caresse son ventre.
-SourceCharacter pinches her own tummy.
-SourceCharacter se pince le ventre.
-SourceCharacter massages her tummy.
-SourceCharacter masse son ventre.
-SourceCharacter kisses TargetCharacter's tummy.
-SourceCharacter embrasse le ventre de TargetCharacter.
-SourceCharacter licks TargetCharacter's tummy.
-SourceCharacter lèche le ventre de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's tummy.
-SourceCharacter grignote le ventre de TargetCharacter.
-SourceCharacter tickles TargetCharacter's tummy.
-SourceCharacter chatouille le ventre de TargetCharacter.
-SourceCharacter spanks TargetCharacter's tummy.
-SourceCharacter donne une fessée au ventre de TargetCharacter.
-SourceCharacter caresses TargetCharacter's tummy.
-SourceCharacter caresse le ventre de TargetCharacter.
-SourceCharacter pinches TargetCharacter's tummy.
-SourceCharacter pince le ventre de TargetCharacter.
-SourceCharacter massages TargetCharacter's tummy.
-SourceCharacter masse le ventre de TargetCharacter.
-SourceCharacter gropes TargetCharacter's tummy.
-SourceCharacter tâtonne le ventre de TargetCharacter.
-SourceCharacter tickles her own ribs.
-SourceCharacter chatouille ses propres côtes.
-SourceCharacter spanks her own ribs.
-SourceCharacter fesse ses propres côtes.
-SourceCharacter caresses her ribs.
-SourceCharacter caresse ses côtes.
-SourceCharacter massages her back.
-SourceCharacter se masse le dos.
-SourceCharacter bites TargetCharacter's back.
-SourceCharacter mord le dos de TargetCharacter.
-SourceCharacter kisses TargetCharacter's back.
-SourceCharacter embrasse le dos de TargetCharacter.
-SourceCharacter licks TargetCharacter's back.
-SourceCharacter lèche le dos de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's ribs.
-SourceCharacter mordille les côtes de TargetCharacter.
-SourceCharacter tickles TargetCharacter's ribs.
-SourceCharacter chatouille les côtes de TargetCharacter.
-SourceCharacter spanks TargetCharacter's back.
-SourceCharacter fesse le dos de TargetCharacter.
-SourceCharacter caresses TargetCharacter's back.
-SourceCharacter caresse le dos de TargetCharacter.
-SourceCharacter massages TargetCharacter's back with her hands.
-SourceCharacter masse le dos de TargetCharacter avec ses mains.
-SourceCharacter massages TargetCharacter's back with her feet.
-SourceCharacter masse le dos de TargetCharacter avec ses pieds.
-SourceCharacter rubs her body against TargetCharacter's body.
-SourceCharacter frotte son corps contre le corps de TargetCharacter.
-SourceCharacter kisses her own nipple.
-SourceCharacter embrasse son propre mamelon.
-SourceCharacter licks her own nipple.
-SourceCharacter lèche son propre mamelon.
-SourceCharacter sucks on her own nipple.
-SourceCharacter suce son propre mamelon.
-SourceCharacter nibbles her own nipple.
-SourceCharacter mordille son propre mamelon.
-SourceCharacter pinches her own nipple.
-SourceCharacter pince son propre mamelon.
-SourceCharacter caresses her nipples.
-SourceCharacter caresse ses mamelons.
-SourceCharacter pulls her nipples.
-SourceCharacter tire ses mamelons.
-SourceCharacter bites TargetCharacter's nipple.
-SourceCharacter mord le mamelon de TargetCharacter.
-SourceCharacter pulls TargetCharacter's nipples.
-SourceCharacter tire les mamelons de TargetCharacter.
-SourceCharacter kisses TargetCharacter's nipple.
-SourceCharacter embrasse le mamelon de TargetCharacter.
-SourceCharacter licks TargetCharacter's nipple.
-SourceCharacter lèche le mamelon de TargetCharacter.
-SourceCharacter sucks on TargetCharacter's nipple.
-SourceCharacter suce le mamelon de TargetCharacter.
-SourceCharacter nibbles on TargetCharacter's nipple.
-SourceCharacter grignote le mamelon de TargetCharacter.
-SourceCharacter pinches TargetCharacter's nipple.
-SourceCharacter pince le mamelon de TargetCharacter.
-SourceCharacter caresses TargetCharacter's nipples.
-SourceCharacter caresse les mamelons de TargetCharacter.
-SourceCharacter kisses her own breast.
-SourceCharacter embrasse sa propre poitrine.
-SourceCharacter licks her own breast.
-SourceCharacter lèche sa propre poitrine.
-SourceCharacter tickles her own breast.
-SourceCharacter chatouille sa propre poitrine.
-SourceCharacter slaps her own breast.
-SourceCharacter gifle sa propre poitrine.
-SourceCharacter caresses her own breast.
-SourceCharacter caresse sa propre poitrine.
-SourceCharacter masturbates her own breast.
-SourceCharacter masturbe sa propre poitrine.
-SourceCharacter gropes her own breast.
-SourceCharacter tâtonne sa propre poitrine.
-SourceCharacter bites TargetCharacter's breast.
-SourceCharacter mord le sein de TargetCharacter.
-SourceCharacter kisses TargetCharacter's breast.
-SourceCharacter embrasse la poitrine de TargetCharacter.
-SourceCharacter licks TargetCharacter's breast.
-SourceCharacter lèche la poitrine de TargetCharacter.
-SourceCharacter tickles TargetCharacter's breast.
-SourceCharacter chatouille la poitrine de TargetCharacter.
-SourceCharacter slaps TargetCharacter's breast.
-SourceCharacter gifle la poitrine de TargetCharacter.
-SourceCharacter caresses TargetCharacter's breast.
-SourceCharacter caresse la poitrine de TargetCharacter.
-SourceCharacter masturbates TargetCharacter's breast.
-SourceCharacter masturbe la poitrine de TargetCharacter.
-SourceCharacter gropes TargetCharacter's breast.
-SourceCharacter tâtonne la poitrine de TargetCharacter.
-SourceCharacter kisses her own arm.
-SourceCharacter embrasse son propre bras.
-SourceCharacter licks her own arm.
-SourceCharacter lèche son propre bras.
-SourceCharacter nibbles her own arm.
-SourceCharacter mordille son propre bras.
-SourceCharacter tickles her arms.
-SourceCharacter chatouille ses bras.
-SourceCharacter spanks her own arm.
-SourceCharacter donne une fessée à son propre bras.
-SourceCharacter pinches her upper arm.
-SourceCharacter se pince le bras.
-SourceCharacter caresses her arms.
-SourceCharacter caresse ses bras.
-SourceCharacter massages her arms.
-SourceCharacter masse ses bras.
-SourceCharacter bites her arm.
-SourceCharacter mord son bras.
-SourceCharacter bites TargetCharacter's arm.
+Label-ChatOther-ItemArms-Cuddle
+Caliner
+Label-ChatOther-ItemButt-PenetrateFast
+Pénétration rapide
+Label-ChatOther-ItemButt-PenetrateSlow
+Pénétration lente
+Label-ChatOther-ItemMouth-FrenchKiss
+French Kiss
+Label-ChatOther-ItemMouth-PenetrateFast
+Pénétration rapide
+Label-ChatOther-ItemMouth-PenetrateSlow
+Pénétration lente
+Label-ChatOther-ItemPenis-PenetrateFast
+Pénétration rapide
+Label-ChatOther-ItemPenis-PenetrateSlow
+Pénétration lente
+Label-ChatOther-ItemVulva-PenetrateFast
+Pénétration rapide
+Label-ChatOther-ItemVulva-PenetrateSlow
+Pénétration lente
+ChatOther-ItemArms-Bite
 SourceCharacter mord le bras de TargetCharacter.
-SourceCharacter kisses TargetCharacter's arm.
-SourceCharacter embrasse le bras de TargetCharacter.
-SourceCharacter licks TargetCharacter's arm.
-SourceCharacter lèche le bras de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's arm.
-SourceCharacter mordille le bras de TargetCharacter.
-SourceCharacter tickles TargetCharacter's arms.
-SourceCharacter chatouille les bras de TargetCharacter.
-SourceCharacter spanks TargetCharacter's arm.
-SourceCharacter donne une fessée au bras de TargetCharacter.
-SourceCharacter pinches TargetCharacter's upper arm.
-SourceCharacter pince le haut du bras de TargetCharacter.
-SourceCharacter caresses TargetCharacter's arms.
+ChatOther-ItemArms-Caress
 SourceCharacter caresse les bras de TargetCharacter.
-SourceCharacter massages TargetCharacter's arms.
-SourceCharacter masse les bras de TargetCharacter.
-SourceCharacter grabs TargetCharacter's arm firmly.
-SourceCharacter saisit fermement le bras de TargetCharacter.
-SourceCharacter cuddles with TargetCharacter.
+ChatOther-ItemArms-Cuddle
 SourceCharacter câline TargetCharacter.
-SourceCharacter kisses her own hand.
-SourceCharacter embrasse sa propre main.
-SourceCharacter gives a small kiss on her hand.
-SourceCharacter donne un petit baiser sur sa main.
-SourceCharacter licks the back of her hand.
-SourceCharacter lèche le dos de sa main.
-SourceCharacter sucks on her fingers.
-SourceCharacter suce ses doigts.
-SourceCharacter nibbles her own hand.
-SourceCharacter mordille sa propre main.
-SourceCharacter spanks her first hand with the second one.
-SourceCharacter donne une fessée à sa première main avec la seconde.
-SourceCharacter rubs her hands together.
-SourceCharacter frotte ses mains l'une contre l'autre.
-SourceCharacter cleans and polishes her nails.
-SourceCharacter nettoie et polit ses ongles.
-SourceCharacter bites her hand.
-SourceCharacter mord sa main.
-SourceCharacter bites TargetCharacter's hand.
-SourceCharacter mord la main de TargetCharacter.
-SourceCharacter kisses TargetCharacter's hand.
-SourceCharacter embrasse la main de TargetCharacter.
-SourceCharacter politely kisses TargetCharacter's hand.
-SourceCharacter embrasse poliment la main de TargetCharacter.
-SourceCharacter licks TargetCharacter's hand.
-SourceCharacter lèche la main de TargetCharacter.
-SourceCharacter sucks on TargetCharacter's fingers.
-SourceCharacter suce les doigts de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's hand.
-SourceCharacter grignote la main de TargetCharacter.
-SourceCharacter spanks TargetCharacter's hand.
-SourceCharacter donne une fessée à la main de TargetCharacter.
-SourceCharacter caresses TargetCharacter's hand.
-SourceCharacter caresse la main de TargetCharacter.
-SourceCharacter cleans and polishes TargetCharacter's nails.
-SourceCharacter nettoie et polit les ongles de TargetCharacter.
-SourceCharacter caresses her neck.
-SourceCharacter caresse son cou.
-SourceCharacter massages her neck.
-SourceCharacter masse son cou.
-SourceCharacter chokes PronounSelf.
-SourceCharacter s'étouffe elle-même.
-SourceCharacter bites TargetCharacter's neck.
-SourceCharacter mord le cou de TargetCharacter.
-SourceCharacter kisses TargetCharacter's neck.
-SourceCharacter embrasse le cou de TargetCharacter.
-SourceCharacter licks TargetCharacter's neck.
-SourceCharacter lèche le cou de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's neck.
-SourceCharacter grignote le cou de TargetCharacter.
-SourceCharacter caresses TargetCharacter's neck.
-SourceCharacter caresse le cou de TargetCharacter.
-SourceCharacter massages TargetCharacter's neck.
-SourceCharacter masse le cou de TargetCharacter.
-SourceCharacter chokes TargetCharacter's neck.
-SourceCharacter serre le cou de TargetCharacter pour l'étouffer.
-SourceCharacter licks her lips.
-SourceCharacter lèche ses lèvres.
-SourceCharacter nibbles her lips.
-SourceCharacter mordille ses lèvres.
-SourceCharacter caresses and wipes her mouth clean.
-SourceCharacter caresse et essuie sa bouche.
-SourceCharacter bites her lips.
-SourceCharacter mord ses lèvres.
-SourceCharacter clamps her hand over her mouth.
-SourceCharacter serre sa main sur sa bouche.
-SourceCharacter bites TargetCharacter's lips.
-SourceCharacter mord les lèvres de TargetCharacter.
-SourceCharacter kisses TargetCharacter's lips.
-SourceCharacter embrasse les lèvres de TargetCharacter.
-SourceCharacter shares a long French kiss with TargetCharacter.
-SourceCharacter partage un long baiser avec TargetCharacter.
-SourceCharacter gives a friendly kiss on TargetCharacter's cheek.
-SourceCharacter donne un baiser amical sur la joue de TargetCharacter.
-SourceCharacter licks TargetCharacter's lips.
-SourceCharacter lèche les lèvres de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's lips.
-SourceCharacter mordille les lèvres de TargetCharacter.
-SourceCharacter caresses and cleans TargetCharacter's mouth.
-SourceCharacter caresse et nettoie la bouche de TargetCharacter.
-SourceCharacter clamps her hand over TargetCharacter's mouth.
-SourceCharacter serre sa main sur la bouche de TargetCharacter.
-SourceCharacter penetrates TargetCharacter's mouth at a slow pace.
-SourceCharacter pénètre lentement la bouche de TargetCharacter.
-SourceCharacter penetrates TargetCharacter's mouth at a fast pace.
-SourceCharacter pénètre la bouche de TargetCharacter à un rythme rapide.
-SourceCharacter slaps PronounSelf on the face.
-SourceCharacter se gifle le visage.
-SourceCharacter caresses her face.
-SourceCharacter caresse son visage.
-SourceCharacter brushes her hair.
-SourceCharacter brosse ses cheveux.
-SourceCharacter pulls on her own hair.
-SourceCharacter tire sur ses propres cheveux.
-SourceCharacter pets PronounSelf on the head.
-SourceCharacter se caresse la tête.
-SourceCharacter kisses TargetCharacter on the forehead.
-SourceCharacter embrasse TargetCharacter sur le front.
-SourceCharacter slaps TargetCharacter's face.
-SourceCharacter gifle le visage de TargetCharacter.
-SourceCharacter caresses TargetCharacter's face.
-SourceCharacter caresse le visage de TargetCharacter.
-SourceCharacter brushes TargetCharacter's hair.
-SourceCharacter brosse les cheveux de TargetCharacter.
-SourceCharacter pulls on TargetCharacter's hair.
-SourceCharacter tire sur les cheveux de TargetCharacter.
-SourceCharacter gently pets TargetCharacter's head.
-SourceCharacter caresse doucement la tête de TargetCharacter.
-SourceCharacter rubs her breast against TargetCharacter's face.
-SourceCharacter frotte sa poitrine contre le visage de TargetCharacter.
-SourceCharacter bites TargetCharacter's hair.
-SourceCharacter mord les cheveux de TargetCharacter.
-SourceCharacter nose-nuzzles with TargetCharacter.
-SourceCharacter frotte son nez contre le nez de TargetCharacter.
-SourceCharacter boops TargetCharacter's nose.
-SourceCharacter pese sur le nez de TargetCharacter.
-SourceCharacter kisses TargetCharacter's nose.
-SourceCharacter donne un baiser sur le nez de TargetCharacter.
-SourceCharacter pinches TargetCharacter's nose.
-SourceCharacter pince le nez de TargetCharacter.
-SourceCharacter caresses TargetCharacter's nose.
-SourceCharacter caresse le nez de TargetCharacter.
-SourceCharacter pulls TargetCharacter's nose.
-SourceCharacter tire le nez de TargetCharacter.
-SourceCharacter rubs TargetCharacter's nose.
-SourceCharacter frotte le nez de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's nose.
-SourceCharacter mordille le nez de TargetCharacter.
-SourceCharacter bites TargetCharacter's nose.
-SourceCharacter mord le nez de TargetCharacter.
-SourceCharacter pinches  TargetCharacter's nostrils closed.
-SourceCharacter pince les narines de TargetCharacter.
-SourceCharacter licks  TargetCharacter's nose.
-SourceCharacter lèche le nez de TargetCharacter.
-SourceCharacter pinches her nose.
-SourceCharacter se pince le nez.
-SourceCharacter caresses her nose.
-SourceCharacter caresse son nez.
-SourceCharacter boops her nose.
-SourceCharacter pese sur son nez.
-SourceCharacter pulls her nose.
-SourceCharacter tire son nez.
-SourceCharacter rubs her nose.
-SourceCharacter se frotte le nez.
-SourceCharacter pinches  her nostrils closed.
-SourceCharacter se pince les narines.
-SourceCharacter pinches her ear.
-SourceCharacter se pince l'oreille.
-SourceCharacter caresses her ear.
-SourceCharacter caresse son oreille.
-SourceCharacter bites TargetCharacter's ear.
+ChatOther-ItemArms-Grope
+SourceCharacter saisit fermement le bras de TargetCharacter.
+ChatOther-ItemArms-Kiss
+SourceCharacter embrasse le bras de TargetCharacter.
+ChatOther-ItemArms-Lick
+SourceCharacter lèche le bras de TargetCharacter.
+ChatOther-ItemArms-MassageHands
+SourceCharacter masse les bras de TargetCharacter.
+ChatOther-ItemArms-Nibble
+SourceCharacter mordille le bras de TargetCharacter.
+ChatOther-ItemArms-Pinch
+SourceCharacter pince le haut du bras de TargetCharacter.
+ChatOther-ItemArms-Spank
+SourceCharacter donne une fessée au bras de TargetCharacter.
+ChatOther-ItemArms-Tickle
+SourceCharacter chatouille les bras de TargetCharacter.
+ChatOther-ItemBoots-Bite
+SourceCharacter mord le pied de TargetCharacter.
+ChatOther-ItemBoots-Kiss
+SourceCharacter embrasse le pied de TargetCharacter.
+ChatOther-ItemBoots-Lick
+SourceCharacter lèche le pied de TargetCharacter.
+ChatOther-ItemBoots-MassageFeet
+SourceCharacter joue avec les pieds de TargetCharacter en utilisant ses propres pieds.
+ChatOther-ItemBoots-MassageHands
+SourceCharacter masse le pied de TargetCharacter.
+ChatOther-ItemBoots-Nibble
+SourceCharacter grignote le pied de TargetCharacter.
+ChatOther-ItemBoots-PoliteKiss
+SourceCharacter donne un petit baiser poli sur le pied de TargetCharacter.
+ChatOther-ItemBoots-Spank
+SourceCharacter fesse le pied de TargetCharacter.
+ChatOther-ItemBoots-Suck
+SourceCharacter suce le gros orteil de TargetCharacter.
+ChatOther-ItemBoots-TakeCare
+SourceCharacter nettoie et polit les ongles des pieds de TargetCharacter.
+ChatOther-ItemBoots-Tickle
+SourceCharacter chatouille le pied de TargetCharacter.
+ChatOther-ItemBreast-Bite
+SourceCharacter mord le sein de TargetCharacter.
+ChatOther-ItemBreast-Caress
+SourceCharacter caresse la poitrine de TargetCharacter.
+ChatOther-ItemBreast-Grope
+SourceCharacter tâtonne la poitrine de TargetCharacter.
+ChatOther-ItemBreast-Kiss
+SourceCharacter embrasse la poitrine de TargetCharacter.
+ChatOther-ItemBreast-Lick
+SourceCharacter lèche la poitrine de TargetCharacter.
+ChatOther-ItemBreast-MasturbateHand
+SourceCharacter masturbe la poitrine de TargetCharacter.
+ChatOther-ItemBreast-Slap
+SourceCharacter gifle la poitrine de TargetCharacter.
+ChatOther-ItemBreast-Tickle
+SourceCharacter chatouille la poitrine de TargetCharacter.
+ChatOther-ItemButt-Bite
+SourceCharacter mord les fesses de TargetCharacter.
+ChatOther-ItemButt-Caress
+SourceCharacter caresse les fesses de TargetCharacter.
+ChatOther-ItemButt-Grope
+SourceCharacter tâtonne les fesses de TargetCharacter.
+ChatOther-ItemButt-Kiss
+SourceCharacter embrasse les fesses de TargetCharacter.
+ChatOther-ItemButt-MasturbateFist
+SourceCharacter utilise son poing pour masturber le cul de TargetCharacter.
+ChatOther-ItemButt-MasturbateHand
+SourceCharacter utilise ses doigts pour masturber le cul de TargetCharacter.
+ChatOther-ItemButt-MasturbateTongue
+SourceCharacter utilise sa langue pour masturber le cul de TargetCharacter.
+ChatOther-ItemButt-Spank
+SourceCharacter donne une fessée aux fesses de TargetCharacter.
+ChatOther-ItemEars-Bite
 SourceCharacter mord l'oreille de TargetCharacter.
-SourceCharacter kisses TargetCharacter's ear.
-SourceCharacter embrasse l'oreille de TargetCharacter.
-SourceCharacter licks TargetCharacter's ear.
-SourceCharacter lèche l'oreille de TargetCharacter.
-SourceCharacter nibbles TargetCharacter's ear.
-SourceCharacter mordille l'oreille de TargetCharacter.
-SourceCharacter pinches TargetCharacter's ear.
-SourceCharacter pince l'oreille de TargetCharacter.
-SourceCharacter caresses TargetCharacter's ear.
+ChatOther-ItemEars-Caress
 SourceCharacter caresse l'oreille de TargetCharacter.
-SourceCharacter whispers slowly in TargetCharacter's ear.
+ChatOther-ItemEars-Kiss
+SourceCharacter embrasse l'oreille de TargetCharacter.
+ChatOther-ItemEars-Lick
+SourceCharacter lèche l'oreille de TargetCharacter.
+ChatOther-ItemEars-Nibble
+SourceCharacter mordille l'oreille de TargetCharacter.
+ChatOther-ItemEars-Pinch
+SourceCharacter pince l'oreille de TargetCharacter.
+ChatOther-ItemEars-Whisper
 SourceCharacter chuchote lentement dans l'oreille de TargetCharacter.
+ChatOther-ItemFeet-Bite
+SourceCharacter mord la jambe de TargetCharacter.
+ChatOther-ItemFeet-Caress
+SourceCharacter caresse la jambe de TargetCharacter.
+ChatOther-ItemFeet-Grope
+SourceCharacter tâtonne la jambe de TargetCharacter.
+ChatOther-ItemFeet-Kiss
+SourceCharacter embrasse la jambe de TargetCharacter.
+ChatOther-ItemFeet-Lick
+SourceCharacter lèche la jambe de TargetCharacter.
+ChatOther-ItemFeet-MassageHands
+SourceCharacter masse la jambe de TargetCharacter.
+ChatOther-ItemFeet-Nibble
+SourceCharacter grignote la jambe de TargetCharacter.
+ChatOther-ItemFeet-Spank
+SourceCharacter donne une fessée à la jambe de TargetCharacter.
+ChatOther-ItemFeet-Tickle
+SourceCharacter chatouille la jambe de TargetCharacter.
+ChatOther-ItemHands-Bite
+SourceCharacter mord la main de TargetCharacter.
+ChatOther-ItemHands-Caress
+SourceCharacter caresse la main de TargetCharacter.
+ChatOther-ItemHands-Kiss
+SourceCharacter embrasse la main de TargetCharacter.
+ChatOther-ItemHands-Lick
+SourceCharacter lèche la main de TargetCharacter.
+ChatOther-ItemHands-Nibble
+SourceCharacter grignote la main de TargetCharacter.
+ChatOther-ItemHands-PoliteKiss
+SourceCharacter embrasse poliment la main de TargetCharacter.
+ChatOther-ItemHands-Spank
+SourceCharacter donne une fessée à la main de TargetCharacter.
+ChatOther-ItemHands-Suck
+SourceCharacter suce les doigts de TargetCharacter.
+ChatOther-ItemHands-TakeCare
+SourceCharacter nettoie et polit les ongles de TargetCharacter.
+ChatOther-ItemHead-Bite
+SourceCharacter mord les cheveux de TargetCharacter.
+ChatOther-ItemHead-BrushItem
+SourceCharacter brosse les cheveux de TargetCharacter.
+ChatOther-ItemHead-Caress
+SourceCharacter caresse le visage de TargetCharacter.
+ChatOther-ItemHead-Kiss
+SourceCharacter embrasse TargetCharacter sur le front.
+ChatOther-ItemHead-Pet
+SourceCharacter caresse doucement la tête de TargetCharacter.
+ChatOther-ItemHead-Pull
+SourceCharacter tire sur les cheveux de TargetCharacter.
+ChatOther-ItemHead-Rub
+SourceCharacter frotte sa poitrine contre le visage de TargetCharacter.
+ChatOther-ItemHead-Slap
+SourceCharacter gifle le visage de TargetCharacter.
+ChatOther-ItemHead-TakeCare
+SourceCharacter brosse les cheveux de TargetCharacter.
+ChatOther-ItemLegs-Bite
+SourceCharacter mord la cuisse de TargetCharacter.
+ChatOther-ItemLegs-Caress
+SourceCharacter caresse la cuisse de TargetCharacter.
+ChatOther-ItemLegs-Grope
+SourceCharacter tâtonne la cuisse de TargetCharacter.
+ChatOther-ItemLegs-Kiss
+SourceCharacter embrasse la cuisse de TargetCharacter.
+ChatOther-ItemLegs-Lick
+SourceCharacter lèche la cuisse de TargetCharacter.
+ChatOther-ItemLegs-MassageHands
+SourceCharacter masse la cuisse de TargetCharacter.
+ChatOther-ItemLegs-Nibble
+SourceCharacter grignote la cuisse de TargetCharacter.
+ChatOther-ItemLegs-Spank
+SourceCharacter donne une fessée à la cuisse de TargetCharacter.
+ChatOther-ItemLegs-Tickle
+SourceCharacter chatouille la cuisse de TargetCharacter.
+ChatOther-ItemMouth-Bite
+SourceCharacter mord les lèvres de TargetCharacter.
+ChatOther-ItemMouth-Clean
+SourceCharacter caresse et nettoie la bouche de TargetCharacter.
+ChatOther-ItemMouth-FrenchKiss
+SourceCharacter partage un long baiser avec TargetCharacter.
+ChatOther-ItemMouth-HandGag
+SourceCharacter serre sa main sur la bouche de TargetCharacter.
+ChatOther-ItemMouth-Kiss
+SourceCharacter embrasse les lèvres de TargetCharacter.
+ChatOther-ItemMouth-Lick
+SourceCharacter lèche les lèvres de TargetCharacter.
+ChatOther-ItemMouth-Nibble
+SourceCharacter mordille les lèvres de TargetCharacter.
+ChatOther-ItemMouth-PoliteKiss
+SourceCharacter donne un baiser amical sur la joue de TargetCharacter.
+ChatOther-ItemNeck-Bite
+SourceCharacter mord le cou de TargetCharacter.
+ChatOther-ItemNeck-Caress
+SourceCharacter caresse le cou de TargetCharacter.
+ChatOther-ItemNeck-Choke
+SourceCharacter serre le cou de TargetCharacter pour l'étouffer.
+ChatOther-ItemNeck-Kiss
+SourceCharacter embrasse le cou de TargetCharacter.
+ChatOther-ItemNeck-Lick
+SourceCharacter lèche le cou de TargetCharacter.
+ChatOther-ItemNeck-MassageHands
+SourceCharacter masse le cou de TargetCharacter.
+ChatOther-ItemNeck-Nibble
+SourceCharacter grignote le cou de TargetCharacter.
+ChatOther-ItemNipples-Bite
+SourceCharacter mord le mamelon de TargetCharacter.
+ChatOther-ItemNipples-Caress
+SourceCharacter caresse les mamelons de TargetCharacter.
+ChatOther-ItemNipples-Kiss
+SourceCharacter embrasse le mamelon de TargetCharacter.
+ChatOther-ItemNipples-Lick
+SourceCharacter lèche le mamelon de TargetCharacter.
+ChatOther-ItemNipples-Nibble
+SourceCharacter grignote le mamelon de TargetCharacter.
+ChatOther-ItemNipples-Pinch
+SourceCharacter pince le mamelon de TargetCharacter.
+ChatOther-ItemNipples-Pull
+SourceCharacter tire les mamelons de TargetCharacter.
+ChatOther-ItemNipples-Suck
+SourceCharacter suce le mamelon de TargetCharacter.
+ChatOther-ItemNose-Bite
+SourceCharacter mord le nez de TargetCharacter.
+ChatOther-ItemNose-Caress
+SourceCharacter caresse le nez de TargetCharacter.
+ChatOther-ItemNose-Choke
+SourceCharacter pince les narines de TargetCharacter.
+ChatOther-ItemNose-Cuddle
+SourceCharacter frotte son nez contre le nez de TargetCharacter.
+ChatOther-ItemNose-Kiss
+SourceCharacter donne un baiser sur le nez de TargetCharacter.
+ChatOther-ItemNose-Lick
+SourceCharacter lèche le nez de TargetCharacter.
+ChatOther-ItemNose-Nibble
+SourceCharacter mordille le nez de TargetCharacter.
+ChatOther-ItemNose-Pet
+SourceCharacter pese sur le nez de TargetCharacter.
+ChatOther-ItemNose-Pinch
+SourceCharacter pince le nez de TargetCharacter.
+ChatOther-ItemNose-Pull
+SourceCharacter tire le nez de TargetCharacter.
+ChatOther-ItemNose-Rub
+SourceCharacter frotte le nez de TargetCharacter.
+ChatOther-ItemPelvis-Caress
+SourceCharacter caresse le ventre de TargetCharacter.
+ChatOther-ItemPelvis-Grope
+SourceCharacter tâtonne le ventre de TargetCharacter.
+ChatOther-ItemPelvis-Kiss
+SourceCharacter embrasse le ventre de TargetCharacter.
+ChatOther-ItemPelvis-Lick
+SourceCharacter lèche le ventre de TargetCharacter.
+ChatOther-ItemPelvis-MassageHands
+SourceCharacter masse le ventre de TargetCharacter.
+ChatOther-ItemPelvis-Nibble
+SourceCharacter grignote le ventre de TargetCharacter.
+ChatOther-ItemPelvis-Pinch
+SourceCharacter pince le ventre de TargetCharacter.
+ChatOther-ItemPelvis-Spank
+SourceCharacter donne une fessée au ventre de TargetCharacter.
+ChatOther-ItemPelvis-Tickle
+SourceCharacter chatouille le ventre de TargetCharacter.
+ChatOther-ItemTorso-Bite
+SourceCharacter mord le dos de TargetCharacter.
+ChatOther-ItemTorso-Caress
+SourceCharacter caresse le dos de TargetCharacter.
+ChatOther-ItemTorso-Kiss
+SourceCharacter embrasse le dos de TargetCharacter.
+ChatOther-ItemTorso-Lick
+SourceCharacter lèche le dos de TargetCharacter.
+ChatOther-ItemTorso-MassageFeet
+SourceCharacter masse le dos de TargetCharacter avec ses pieds.
+ChatOther-ItemTorso-MassageHands
+SourceCharacter masse le dos de TargetCharacter avec ses mains.
+ChatOther-ItemTorso-Nibble
+SourceCharacter mordille les côtes de TargetCharacter.
+ChatOther-ItemTorso-Rub
+SourceCharacter frotte son corps contre le corps de TargetCharacter.
+ChatOther-ItemTorso-Spank
+SourceCharacter fesse le dos de TargetCharacter.
+ChatOther-ItemTorso-Tickle
+SourceCharacter chatouille les côtes de TargetCharacter.
+ChatOther-ItemVulva-Caress
+SourceCharacter caresse la chatte de TargetCharacter avec ses doigts.
+ChatOther-ItemVulva-Kiss
+SourceCharacter embrasse les lèvres de la chatte de TargetCharacter.
+ChatOther-ItemVulva-Lick
+SourceCharacter lèche les lèvres de la chatte de TargetCharacter.
+ChatOther-ItemVulva-MasturbateFist
+SourceCharacter masturbe le vagin de TargetCharacter avec son poing plein.
+ChatOther-ItemVulva-MasturbateFoot
+SourceCharacter masturbe la chatte de TargetCharacter avec son pied.
+ChatOther-ItemVulva-MasturbateHand
+SourceCharacter masturbe la chatte de TargetCharacter avec ses doigts.
+ChatOther-ItemVulva-MasturbateTongue
+SourceCharacter masturbe la chatte de TargetCharacter avec sa langue.
+ChatOther-ItemVulva-Nibble
+SourceCharacter grignote les lèvres de la chatte de TargetCharacter.
+ChatOther-ItemVulva-Slap
+SourceCharacter gifle les lèvres de la chatte de TargetCharacter.
+ChatSelf-ItemArms-Bite
+SourceCharacter mord son bras.
+ChatSelf-ItemArms-Caress
+SourceCharacter caresse ses bras.
+ChatSelf-ItemArms-Kiss
+SourceCharacter embrasse son propre bras.
+ChatSelf-ItemArms-Lick
+SourceCharacter lèche son propre bras.
+ChatSelf-ItemArms-MassageHands
+SourceCharacter masse ses bras.
+ChatSelf-ItemArms-Nibble
+SourceCharacter mordille son propre bras.
+ChatSelf-ItemArms-Pinch
+SourceCharacter se pince le bras.
+ChatSelf-ItemArms-Spank
+SourceCharacter donne une fessée à son propre bras.
+ChatSelf-ItemArms-Tickle
+SourceCharacter chatouille ses bras.
+ChatSelf-ItemBoots-Bite
+SourceCharacter mord son pied.
+ChatSelf-ItemBoots-Kiss
+SourceCharacter embrasse son pied.
+ChatSelf-ItemBoots-Lick
+SourceCharacter lèche ses propres pieds.
+ChatSelf-ItemBoots-MassageHands
+SourceCharacter masse ses pieds.
+ChatSelf-ItemBoots-Nibble
+SourceCharacter mordille son propre pied.
+ChatSelf-ItemBoots-PoliteKiss
+SourceCharacter donne un petit baiser sur son pied.
+ChatSelf-ItemBoots-Suck
+SourceCharacter suce son gros orteil.
+ChatSelf-ItemBoots-TakeCare
+SourceCharacter nettoie et polit ses ongles.
+ChatSelf-ItemBoots-Tickle
+SourceCharacter chatouille ses propres pieds.
+ChatSelf-ItemBreast-Caress
+SourceCharacter caresse sa propre poitrine.
+ChatSelf-ItemBreast-Grope
+SourceCharacter tâtonne sa propre poitrine.
+ChatSelf-ItemBreast-Kiss
+SourceCharacter embrasse sa propre poitrine.
+ChatSelf-ItemBreast-Lick
+SourceCharacter lèche sa propre poitrine.
+ChatSelf-ItemBreast-MasturbateHand
+SourceCharacter masturbe sa propre poitrine.
+ChatSelf-ItemBreast-Slap
+SourceCharacter gifle sa propre poitrine.
+ChatSelf-ItemBreast-Tickle
+SourceCharacter chatouille sa propre poitrine.
+ChatSelf-ItemButt-Caress
+SourceCharacter caresse ses fesses.
+ChatSelf-ItemButt-Grope
+SourceCharacter caresse ses fesses.
+ChatSelf-ItemButt-MasturbateHand
+SourceCharacter se doigte et se masturbe le cul.
+ChatSelf-ItemButt-Spank
+SourceCharacter se donne une fessée sur les fesses.
+ChatSelf-ItemEars-Caress
+SourceCharacter caresse son oreille.
+ChatSelf-ItemEars-Pinch
+SourceCharacter se pince l'oreille.
+ChatSelf-ItemFeet-Bite
+SourceCharacter mord sa jambe.
+ChatSelf-ItemFeet-Caress
+SourceCharacter caresse ses jambes.
+ChatSelf-ItemFeet-MassageHands
+SourceCharacter masse ses jambes.
+ChatSelf-ItemFeet-Spank
+SourceCharacter fesse sa propre jambe.
+ChatSelf-ItemFeet-Tickle
+SourceCharacter chatouille ses jambes.
+ChatSelf-ItemHands-Bite
+SourceCharacter mord sa main.
+ChatSelf-ItemHands-Caress
+SourceCharacter frotte ses mains l'une contre l'autre.
+ChatSelf-ItemHands-Kiss
+SourceCharacter embrasse sa propre main.
+ChatSelf-ItemHands-Lick
+SourceCharacter lèche le dos de sa main.
+ChatSelf-ItemHands-Nibble
+SourceCharacter mordille sa propre main.
+ChatSelf-ItemHands-PoliteKiss
+SourceCharacter donne un petit baiser sur sa main.
+ChatSelf-ItemHands-Spank
+SourceCharacter donne une fessée à sa première main avec la seconde.
+ChatSelf-ItemHands-Suck
+SourceCharacter suce ses doigts.
+ChatSelf-ItemHands-TakeCare
+SourceCharacter nettoie et polit ses ongles.
+ChatSelf-ItemHead-BrushItem
+SourceCharacter brosse ses cheveux.
+ChatSelf-ItemHead-Caress
+SourceCharacter caresse son visage.
+ChatSelf-ItemHead-Pet
+SourceCharacter se caresse la tête.
+ChatSelf-ItemHead-Pull
+SourceCharacter tire sur ses propres cheveux.
+ChatSelf-ItemHead-Slap
+SourceCharacter se gifle le visage.
+ChatSelf-ItemHead-TakeCare
+SourceCharacter brosse ses cheveux.
+ChatSelf-ItemLegs-Bite
+SourceCharacter mord sa cuisse.
+ChatSelf-ItemLegs-Caress
+SourceCharacter caresse ses cuisses.
+ChatSelf-ItemLegs-MassageHands
+SourceCharacter masse ses cuisses.
+ChatSelf-ItemLegs-Spank
+SourceCharacter donne une fessée à sa propre cuisse.
+ChatSelf-ItemLegs-Tickle
+SourceCharacter chatouille ses cuisses.
+ChatSelf-ItemMouth-Bite
+SourceCharacter mord ses lèvres.
+ChatSelf-ItemMouth-Clean
+SourceCharacter caresse et essuie sa bouche.
+ChatSelf-ItemMouth-HandGag
+SourceCharacter serre sa main sur sa bouche.
+ChatSelf-ItemMouth-Lick
+SourceCharacter lèche ses lèvres.
+ChatSelf-ItemMouth-Nibble
+SourceCharacter mordille ses lèvres.
+ChatSelf-ItemNeck-Caress
+SourceCharacter caresse son cou.
+ChatSelf-ItemNeck-Choke
+SourceCharacter s'étouffe elle-même.
+ChatSelf-ItemNeck-MassageHands
+SourceCharacter masse son cou.
+ChatSelf-ItemNipples-Caress
+SourceCharacter caresse ses mamelons.
+ChatSelf-ItemNipples-Kiss
+SourceCharacter embrasse son propre mamelon.
+ChatSelf-ItemNipples-Lick
+SourceCharacter lèche son propre mamelon.
+ChatSelf-ItemNipples-Nibble
+SourceCharacter mordille son propre mamelon.
+ChatSelf-ItemNipples-Pinch
+SourceCharacter pince son propre mamelon.
+ChatSelf-ItemNipples-Pull
+SourceCharacter tire ses mamelons.
+ChatSelf-ItemNipples-Suck
+SourceCharacter suce son propre mamelon.
+ChatSelf-ItemNose-Caress
+SourceCharacter caresse son nez.
+ChatSelf-ItemNose-Choke
+SourceCharacter se pince les narines.
+ChatSelf-ItemNose-Pet
+SourceCharacter pese sur son nez.
+ChatSelf-ItemNose-Pinch
+SourceCharacter se pince le nez.
+ChatSelf-ItemNose-Pull
+SourceCharacter tire son nez.
+ChatSelf-ItemNose-Rub
+SourceCharacter se frotte le nez.
+ChatSelf-ItemPelvis-Caress
+SourceCharacter caresse son ventre.
+ChatSelf-ItemPelvis-MassageHands
+SourceCharacter masse son ventre.
+ChatSelf-ItemPelvis-Pinch
+SourceCharacter se pince le ventre.
+ChatSelf-ItemPelvis-Spank
+SourceCharacter fesse son propre ventre.
+ChatSelf-ItemPelvis-Tickle
+SourceCharacter chatouille son propre ventre.
+ChatSelf-ItemTorso-Caress
+SourceCharacter caresse ses côtes.
+ChatSelf-ItemTorso-MassageHands
+SourceCharacter se masse le dos.
+ChatSelf-ItemTorso-Spank
+SourceCharacter fesse ses propres côtes.
+ChatSelf-ItemTorso-Tickle
+SourceCharacter chatouille ses propres côtes.
+ChatSelf-ItemVulva-Caress
+SourceCharacter caresse sa chatte.
+ChatSelf-ItemVulva-MasturbateHand
+SourceCharacter se masturbe la chatte.

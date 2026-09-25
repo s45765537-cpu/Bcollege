@@ -1,824 +1,834 @@
 's
 ‎
-You cannot access your items
+AccessBlocked
 Ви не можете отримати доступ до своїх речей
-SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
+ActionActivateSafewordRelease
 SourceCharacter використали PronounPossessive стоп-слово і хочуть, щоб їх звільнили. PronounSubject виводяться з кімнати для PronounPossessive безпеки.
-SourceCharacter used PronounPossessive safeword. Please check for PronounPossessive well-being.
+ActionActivateSafewordRevert
 SourceCharacter використали PronounPossessive safeword. Please check for PronounPossessive well-being.
-SourceCharacter adds a NextAsset on DestinationCharacter FocusAssetGroup PrevAsset.
+ActionAddLock
 SourceCharacter додає NextAsset на FocusAssetGroup гравця DestinationCharacter PrevAsset.
-SourceCharacter changes the color of NextAsset on DestinationCharacter FocusAssetGroup.
+ActionChangeColor
 SourceCharacter міняє колір предмету <NextAsset | FocusAssetGroup> гравця DestinationCharacter.
-SourceCharacter flips a coin. The result is: CoinResult.
+ActionCoin
 SourceCharacter кидає монетку. Результат: CoinResult.
-SourceCharacter rolls DiceType. The result is: DiceResult.
+ActionDice
 SourceCharacter кидає кубик (DiceType). Результат: DiceResult.
+ActionDismount
 SourceCharacter hops off the PrevAsset.
-SourceCharacter hops off the PrevAsset.
-SourceCharacter escapes from the PrevAsset.
+ActionEscape
 SourceCharacter вибирається з PrevAsset.
+ActionGiveEnvelopeToOwner
 TargetCharacterName gives a sealed envelope to TargetPronounPossessive owner.
-TargetCharacterName gives a sealed envelope to TargetPronounPossessive owner.
+ActionGrabbedForCell
 TargetCharacterName gets grabbed by two maids and locked in a timer cell, following TargetPronounPossessive owner's commands.
-TargetCharacterName gets grabbed by two maids and locked in a timer cell, following TargetPronounPossessive owner's commands.
+ActionGrabbedForGGTS
 TargetCharacterName gets grabbed by two nurses wearing futuristic gear and locked in the Asylum for GGTS, following TargetPronounPossessive owner's commands.
-TargetCharacterName gets grabbed by two nurses wearing futuristic gear and locked in the Asylum for GGTS, following TargetPronounPossessive owner's commands.
+ActionGrabbedToServeDrinks
 TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for TargetPronounPossessive owner.
-TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for TargetPronounPossessive owner.
+ActionInterruptedAdd
 SourceCharacter was interrupted while trying to use a NextAsset on TargetCharacter.
-SourceCharacter was interrupted while trying to use a NextAsset on TargetCharacter.
+ActionInterruptedRemove
 SourceCharacter was interrupted while going for the PrevAsset on TargetCharacter.
-SourceCharacter was interrupted while going for the PrevAsset on TargetCharacter.
+ActionInterruptedSwap
 SourceCharacter was interrupted while swapping a PrevAsset for a NextAsset on TargetCharacter.
-SourceCharacter was interrupted while swapping a PrevAsset for a NextAsset on TargetCharacter.
-SourceCharacter locks a NextAsset on DestinationCharacter FocusAssetGroup.
+ActionLock
 SourceCharacter замикає предмет <NextAsset | FocusAssetGroup> гравця DestinationCharacter.
+ActionLoosenLittle
 SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
+ActionLoosenLot
 SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
+ActionLoosenStruggle
 SourceCharacter struggles and loosens the PrevAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter struggles and loosens the PrevAsset on DestinationCharacter FocusAssetGroup.
+ActionPick
 SourceCharacter picks the lock on DestinationCharacter PrevAsset.
-SourceCharacter picks the lock on DestinationCharacter PrevAsset.
+ActionRemove
 SourceCharacter removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-SourceCharacter removes the PrevAsset from DestinationCharacter FocusAssetGroup.
+ActionStruggle
 SourceCharacter slips out of TargetPronounPossessive PrevAsset.
-SourceCharacter slips out of TargetPronounPossessive PrevAsset.
+ActionSwap
 SourceCharacter swaps a PrevAsset for a NextAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter swaps a PrevAsset for a NextAsset on DestinationCharacter FocusAssetGroup.
+ActionTightenLittle
 SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
+ActionTightenLot
 SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
+ActionUnlock
 SourceCharacter unlocks the PrevAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter unlocks the PrevAsset on DestinationCharacter FocusAssetGroup.
+ActionUnlockAndRemove
 SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter FocusAssetGroup.
+ActionUse
 SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
+Adding
 Adding...
-Adding...
+AddTimerTime
 Add
-Add
+AddTimerTimeMinutes
 Add TimerTime minutes to the Timer
-Add TimerTime minutes to the Timer
+AdjustTightness
 Tighten / Loosen
-Tighten / Loosen
-Option already set
+AlreadySet
 Option already set
 Beep
 Гудок
-Beep from
+BeepFrom
 Гудок від
-Beep from your owner in your private room
+BeepFromOwner
 Гудок від Вашого власника в Вашій приватній кімнаті
-(Mail)
+BeepWithMail
 (Пошта)
+BeepWithMessage
 With Message
-With Message
+BlindToggleFacialExpressions
 Toggle closed eyes blindness
-Toggle closed eyes blindness
-Blocked in this room.
+BlockedByRoom
 Blocked in this room.
 Brightness
 Brightness
 Cancel
 Cancel
+CannotUseOnSelf
 Cannot use on yourself.
-Cannot use on yourself.
+CantChangeWhileLocked
 Cannot change while locked
-Cannot change while locked
+Challenge
 Challenge:
-Challenge:
+ChatRoomHelp
 Type /help for a list of commands
-Type /help for a list of commands
+ChatRoomLeashNotFriend
 You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
-You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
-<i>Asylum</i>
-<i>Дурка</i>
+ChooseStruggleMethod
 Choose struggling method...
-Choose struggling method...
+ChatRoomStruggleButton
 Struggle in chat room
-Struggle in chat room
+ChatRoomStruggleStart
 SourceCharacter struggles to remove PronounPossessive PrevAsset
-SourceCharacter struggles to remove PronounPossessive PrevAsset
+ChatRoomStruggleGiveUp
 SourceCharacter gives up struggling out of PronounPossessive PrevAsset
-SourceCharacter gives up struggling out of PronounPossessive PrevAsset
+ChatRoomStruggleSuccess
 SourceCharacter struggles out of PronounPossessive PrevAsset
-SourceCharacter struggles out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete0
 SourceCharacter is slowly struggling out of PronounPossessive PrevAsset
-SourceCharacter is slowly struggling out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete1
 SourceCharacter is making progress while struggling on PronounPossessive PrevAsset
-SourceCharacter is making progress while struggling on PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete2
 SourceCharacter struggles skillfully to remove PronounPossessive PrevAsset
-SourceCharacter struggles skillfully to remove PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete3
 SourceCharacter gradually struggles out of PronounPossessive PrevAsset
-SourceCharacter gradually struggles out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete4
 SourceCharacter methodically works to struggle out of PronounPossessive PrevAsset
-SourceCharacter methodically works to struggle out of PronounPossessive PrevAsset
+ClearActivePoses
 Clear active poses
-Clear active poses
+ClearFacialExpressions
 Clear facial expressions
-Clear facial expressions
+ColorSave
 Save color to currently selected slot
-Save color to currently selected slot
+ColorSelect
 Use this color
-Use this color
-Confirm
+ConfirmDelete
 Підтвердити
+CraftingCancel
 Return to the item menu
-Return to the item menu
-Crafted item properties.
+CraftedItemProperties
 Властивості створеного предмета.
-Description: CraftDescription
+CraftingDescription
 Опис: CraftDescription
-Crafter: MemberName (MemberNumber)
+CraftingMember
 Автор: MemberName (MemberNumber)
-Name: CraftName
+CraftingName
 Назва: CraftName
-Effects: CraftProperty
+CraftingProperty
 Властивість: CraftProperty
-Current Mode:
+CurrentMode
 Поточний режим:
-Decoding the lock...
+Decoding
 Розшифровка замка...
 Delete
 Видалити
-Glans
+Add
+Add
+DialogGroupNameItemGlans
 Головка
-Penis
+DialogGroupNameItemPenis
 Пеніс
-Sexual activities
+DialogMenuActivity
 Сексуальні дії
-Default color
+DialogMenuCancel
+Cancel
+DialogMenuColorSelect
+Use this color
+DialogMenuColorCancel
 Колір за замовчуванням
+DialogMenuColorChange
 Change item color
-Change item color
+DialogMenuColorExpressionChange
 Change expression color
-Change expression color
+DialogMenuColorDefault
 Select default color
-Select default color
+DialogMenuColorPickDisabled
 Unable to change color due to player permissions
-Unable to change color due to player permissions
-Crafted properties
+DialogMenuCrafting
 Створені властивості
+DialogMenuDismount
 Dismount
-Dismount
+DialogMenuEscape
 Escape from the item
-Escape from the item
+DialogMenuExit
 Back to character
-Back to character
+DialogMenuGGTSControl
 GGTS controls this item
-GGTS controls this item
-Inspect the lock
+DialogMenuInspectLock
 Оглянути замок
+DialogMenuInspectLockDisabled
 Unable to inspect due to player permissions
-Unable to inspect due to player permissions
+DialogMenuLayering
 Change item layering
-Change item layering
-Use a lock
+DialogMenuLock
 Використати замок
+DialogMenuLockDisabled
 Unable to lock item due to player permissions
-Unable to lock item due to player permissions
+DialogMenuLockMenu
 Lock related actions
-Lock related actions
+DialogMenuDown
 View next items
-View next items
+DialogMenuNormalMode
 Exit permission mode
-Exit permission mode
+DialogMenuPermissionMode
 Edit item permissions
-Edit item permissions
+DialogMenuPickLock
 Try to pick the lock
-Try to pick the lock
+DialogMenuPickLockDisabled
 Unable to pick the lock
-Unable to pick the lock
+DialogMenuPickLockInaccessibleDisabled
 Cannot reach lock
-Cannot reach lock
+DialogMenuPickLockJammed
 Try to pick the lock (jammed)
-Try to pick the lock (jammed)
+DialogMenuPickLockNoPicksDisabled
 Unable to pick without lockpicks
-Unable to pick without lockpicks
+DialogMenuPickLockPermissionsDisabled
 Unable to pick the lock due to player permissions
-Unable to pick the lock due to player permissions
+DialogMenuUp
 View previous items
-View previous items
-Use your remote
+DialogMenuRemote
 Використати пульт
+DialogMenuRemoteDisabled
 Unable to use due to player permissions
-Unable to use due to player permissions
+DialogMenuRemoteDisabledForCannotInteract
 Your hands must be free to use remotes
-Your hands must be free to use remotes
+DialogMenuRemoteDisabledForNoAccess
 You do not have access to this item
-You do not have access to this item
+DialogMenuRemoteDisabledForNoLoversRemote
 You have not bought a lover's remote yet.
-You have not bought a lover's remote yet.
+DialogMenuRemoteDisabledForNoRemote
 You have not bought a remote yet.
-You have not bought a remote yet.
+DialogMenuRemoteDisabledForNoRemoteOwnerRuleActive
 Your owner is preventing you from using remotes.
-Your owner is preventing you from using remotes.
+DialogMenuRemoteDisabledForRemotesBlocked
 Using remotes on this item has been blocked
-Using remotes on this item has been blocked
-Remove the item
+DialogMenuRemove
 Прибрати предмет
+DialogMenuStruggle
 Try to struggle out
-Try to struggle out
+DialogMenuTightenLoosen
+Tighten / Loosen
+DialogMenuUnlock
 Unlock the item
-Unlock the item
+DialogMenuUse
 Use this item
-Use this item
+DialogMenuUseDisabled
+Unable to use due to player permissions
+Dismounting
 Dismounting...
-Dismounting...
+EnableRandomInput
 Enable random input of time from everyone else
-Enable random input of time from everyone else
+Escaping
 Escaping...
-Escaping...
+ExtendedItemNoCraftingScreen
 Unavailable while crafting
-Unavailable while crafting
+ExtendedItemNoItemPermission
 Blocked due to item permissions
-Blocked due to item permissions
+ExtendedItemUnlockBeforeChange
 Remove locks before changing
-Remove locks before changing
+FacialExpression
 Facial expression
-Facial expression
+Hacking
 Hacking the item...
-Hacking the item...
-hours
+Hours
 годин
+InAsylum
 in the Asylum
-in the Asylum
+InRoom
 in room
-in room
+Intensity
 Intensity:
-Intensity:
+Intensity-1
 Item intensity: Disabled
-Item intensity: Disabled
+Intensity0
 Item intensity: Low
-Item intensity: Low
+Intensity1
 Item intensity: Medium
-Item intensity: Medium
+Intensity2
 Item intensity: High
-Item intensity: High
+Intensity3
 Item intensity: Maximum
-Item intensity: Maximum
-Configure {asset} priority
-Configure {asset} priority
-Exit
+LayeringExit
 Вихід
-Layer priority
-Layer priority
+LayeringLock
 Item configuration locked
-Item configuration locked
+LayeringReset
 Reset layering
-Reset layering
+Locking
 Locking...
-Locking...
+LockMemberNumber
 Member number on lock:
-Member number on lock:
+LockZoneBlocked
 Another item is blocking access to this lock
-Another item is blocking access to this lock
+LockPickArousal
 Your hands are shaky and you lose some tension by accident!
-Your hands are shaky and you lose some tension by accident!
+LockPickBreak
 DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
-DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
+LockpickFailed
 You jammed the lock.
-You jammed the lock.
+LockpickFailedTimeout
 You are too tired to continue. Time remaining:
-You are too tired to continue. Time remaining:
+LockpickIntro
 Click the pins in the correct order to open the lock!
-Click the pins in the correct order to open the lock!
+LockpickIntro2
 Clicking the wrong pin may falsely set it.
-Clicking the wrong pin may falsely set it.
+LockpickIntro3
 It will fall back after clicking other pins.
-It will fall back after clicking other pins.
+LockpickJammed
 Failing or quitting will break your lockpick for 1 minute
-Failing or quitting will break your lockpick for 1 minute
+LockpickTriesRemaining
 Remaining tries:
-Remaining tries:
+Loosen
 Loosen...
-Loosen...
+LoosenClick
 Click or press space when the circles are aligned
-Click or press space when the circles are aligned
+LoosenLittle
 ...A little
-...A little
+LoosenLot
 ...A lot
-...A lot
+LoosenPossible
 You can struggle to loosen this restraint
-You can struggle to loosen this restraint
+MaximumTightness
 Maximum:
-Maximum:
+MinimumTightness
 Minimum:
-Minimum:
+Minutes
 minutes
-minutes
+NextExpressions
 View next expressions
-View next expressions
+NextPage
 View next page
-View next page
+NoItems
 You have no items in this category
-You have no items in this category
+NotificationTitleBeep
+Гудок
+NotificationTitleChatJoin
 Joined Room
-Joined Room
+NotificationTitleChatMessage
 Chat Message
-Chat Message
+NotificationTitleDisconnect
 Disconnected
-Disconnected
- from ChatRoomName
+NotificationTitleFromRoom
 from ChatRoomName
+NotificationTitleLarp
 LARP - Your turn
-LARP - Your turn
+NotificationTitleTest
 Test Notification
-Test Notification
+OpacityLabel
 Change Opacity
-Change Opacity
-Option needs to be bought
+OptionNeedsToBeBought
 Option needs to be bought
 Page
 Сторінка
+Picking
 Picking the lock...
-Picking the lock...
-Pose
+PoseMenu
 Поза
+PrerequisiteAddItemsToUse
 Must have an arm/torso/pelvis item to use ceiling tethers.
-Must have an arm/torso/pelvis item to use ceiling tethers.
+PrerequisiteCannotAllFours
 Cannot change to the AllFours pose.
-Cannot change to the AllFours pose.
+PrerequisiteCannotBackBoxTie
 Cannot change to the BackBoxTie pose.
-Cannot change to the BackBoxTie pose.
+PrerequisiteCannotBackCuffs
 Cannot change to the BackCuffs pose.
-Cannot change to the BackCuffs pose.
+PrerequisiteCannotBackElbowTouch
 Cannot change to the BackElbowTouch pose.
-Cannot change to the BackElbowTouch pose.
+PrerequisiteCannotBaseLower
 Cannot change to the BaseLower pose.
-Cannot change to the BaseLower pose.
+PrerequisiteCannotBaseUpper
 Cannot change to the BaseUpper pose.
-Cannot change to the BaseUpper pose.
+PrerequisiteCannotBeSuited
 Remove the suit first.
-Remove the suit first.
+PrerequisiteCannotBeUsedOverGag
 Cannot be used over the applied gags.
-Cannot be used over the applied gags.
+PrerequisiteCannotBeUsedOverHood
 Cannot be used over the applied hood.
-Cannot be used over the applied hood.
+PrerequisiteCannotBeUsedOverMask
 Cannot be used over the applied mask.
-Cannot be used over the applied mask.
+PrerequisiteCannotBeUsedWhenMounted
 Cannot be used when mounted.
-Cannot be used when mounted.
+PrerequisiteCannotBeUsedWhenYoked
 Cannot be used while yoked.
-Cannot be used while yoked.
+PrerequisiteCannotBeUsedWhileServingDrinks
 Cannot be used while serving drinks.
-Cannot be used while serving drinks.
+PrerequisiteCannotBeUsedWithFeetSpreader
 Cannot be used while the legs are spread.
-Cannot be used while the legs are spread.
+PrerequisiteCannotHaveWand
 Remove the wand first.
-Remove the wand first.
+PrerequisiteCannotHogtied
 Cannot change to the Hogtied pose.
-Cannot change to the Hogtied pose.
+PrerequisiteCannotKneel
 Cannot change to the Kneel pose.
-Cannot change to the Kneel pose.
+PrerequisiteCannotKneelingSpread
 Cannot change to the KneelingSpread pose.
-Cannot change to the KneelingSpread pose.
+PrerequisiteCannotLegsClosed
 Cannot change to the LegsClosed pose.
-Cannot change to the LegsClosed pose.
-Cannot change to the LegsOpen pose.
-Cannot change to the LegsOpen pose.
+PrerequisiteCannotOverTheHead
 Cannot change to the OverTheHead pose.
-Cannot change to the OverTheHead pose.
+PrerequisiteCannotSelfSelect
 Cannot use this option when wearing the item
-Cannot use this option when wearing the item
+PrerequisiteCannotSpread
 Cannot change to the Spread pose.
-Cannot change to the Spread pose.
+PrerequisiteCannotStruggle
 You'll need help to get out
-You'll need help to get out
+PrerequisiteCannotSuspension
 Cannot change to the Suspension pose.
-Cannot change to the Suspension pose.
+PrerequisiteCannotTapedHands
 Cannot change to the TapedHands pose.
-Cannot change to the TapedHands pose.
+PrerequisiteCannotYoked
 Cannot change to the Yoked pose.
-Cannot change to the Yoked pose.
+PrerequisiteCantCloseOnShaft
 Cannot close on shaft.
-Cannot close on shaft.
+PrerequisiteMustBeAbleToKneel
 Must be able to kneel.
-Must be able to kneel.
+PrerequisiteMustBeArmCuffedFirst
 Must be wearing a set of arm cuffs first.
-Must be wearing a set of arm cuffs first.
+PrerequisiteMustBeFeetCuffedFirst
 Must be wearing a set of ankle cuffs first.
-Must be wearing a set of ankle cuffs first.
+PrerequisiteMustBeOnBed
 Must be on a bed to attach addons to.
-Must be on a bed to attach addons to.
+PrerequisiteMustBeUsedOverGag
 Requires a closed gag.
-Requires a closed gag.
+PrerequisiteMustCollaredFirst
 A collar must be fitted first to attach accessories to.
-A collar must be fitted first to attach accessories to.
+PrerequisiteMustFreeArmsFirst
 Must free arms first.
-Must free arms first.
+PrerequisiteMustFreeButtFirst
 Must empty butt first.
-Must empty butt first.
+PrerequisiteMustFreeClitFirst
 Must remove clitoris piercings first
-Must remove clitoris piercings first
+PrerequisiteMustFreeFeetFirst
 Must free feet first.
-Must free feet first.
+PrerequisiteMustFreeHandsFirst
 Must free hands first.
-Must free hands first.
+PrerequisiteMustFreeLegsFirst
 Must free legs first.
-Must free legs first.
+PrerequisiteMustFreeVulvaFirst
 Must empty vulva first.
-Must empty vulva first.
+PrerequisiteMustHaveBreasts
 Must have female upper body.
-Must have female upper body.
+PrerequisiteMustHaveFlatChest
 Must have male upper body.
-Must have male upper body.
+PrerequisiteMustHaveFullPenisAccess
 Must have full penis access first.
-Must have full penis access first.
+PrerequisiteMustHavePenis
 Must have male genitalia.
-Must have male genitalia.
+PrerequisiteMustHaveVagina
 Must have female genitalia.
-Must have female genitalia.
+PrerequisiteMustNotHaveForcedErection
 Must not have a forced erection.
-Must not have a forced erection.
+PrerequisiteMustRemoveChastityCage
 Must remove chastity cage first.
-Must remove chastity cage first.
+PrerequisiteMustStandUpFirst
 Must stand up first.
-Must stand up first.
+PrerequisiteNeedHarness
 TargetPronounSubject must be wearing a baby harness to chain the mittens.
-TargetPronounSubject must be wearing a baby harness to chain the mittens.
+PrerequisiteNeedPadlock
 You need some padlocks to do this.
-You need some padlocks to do this.
+PrerequisiteNeedPadlockKey
 You need a padlock key to do this.
-You need a padlock key to do this.
+PrerequisiteNeedsHipHarness
 Requires a harness.
-Requires a harness.
+PrerequisiteNeedsNippleRings
 Requires round piercings on nipples.
-Requires round piercings on nipples.
+PrerequisiteRemoveChain
 Unchain mittens.
-Unchain mittens.
+PrerequisiteRemoveChainForItem
 Remove the chain first.
-Remove the chain first.
+PrerequisiteRemoveChastityFirst
 Must remove chastity first.
-Must remove chastity first.
+PrerequisiteRemoveClothesForItem
 Remove some clothes first.
-Remove some clothes first.
+PrerequisiteRemoveFaceMaskFirst
 Must remove face mask first.
-Must remove face mask first.
+PrerequisiteRemoveRestraintsFirst
 Remove some restraints first.
-Remove some restraints first.
+PrerequisiteRemoveShacklesFirst
 Must remove shackles first.
-Must remove shackles first.
+PrerequisiteRemoveSuspensionForItem
 Remove the suspension first.
-Remove the suspension first.
+PrerequisiteUnZipSuitForItem
 Unzip the suit first.
-Unzip the suit first.
-,
+PrettyArrayJoin
 ,‎
-, and
+PrettyArrayJoinFinal
 , і
+PrevExpressions
 View previous expressions
-View previous expressions
+PreviewIconAllowedLimited
 Allowed Limited Item
-Allowed Limited Item
+PreviewIconBlindHeavy
 Heavily blinds
-Heavily blinds
+PreviewIconBlindLight
 Lightly blinds
-Lightly blinds
+PreviewIconBlindNormal
 Blinds
-Blinds
+PreviewIconBuyGroup
 Buygroup member
-Buygroup member
+PreviewIconDeafHeavy
 Heavily deafens
-Heavily deafens
+PreviewIconDeafLight
 Lightly deafens
-Lightly deafens
+PreviewIconDeafNormal
 Deafens
-Deafens
+PreviewIconExtended
 Extended item
-Extended item
+PreviewIconFamilyOnly
 D/s Family only
-D/s Family only
+PreviewIconFavorite
 Favorite
-Favorite
+PreviewIconFavoriteBoth
 Favorite (theirs & yours)
-Favorite (theirs & yours)
+PreviewIconFavoritePlayer
 Favorite (yours)
-Favorite (yours)
+PreviewIconGagHeavy
 Heavily gags
-Heavily gags
+PreviewIconGagLight
 Lightly gags
-Lightly gags
+PreviewIconGagNormal
 Gags
-Gags
+PreviewIconGagTotal
 Totally gags
-Totally gags
+PreviewIconHandheld
 Held
-Held
+PreviewIconLocked
 Locked
-Locked
+PreviewIconLoverOnly
 Lovers only
-Lovers only
+PreviewIconOwnerOnly
 Owner only
-Owner only
+PreviewIconPadlock
 Locked with a AssetName
-Locked with a AssetName
+PreviewIconUnlocked
 Automatically locks
-Automatically locks
-View previous page
+PrevPage
 View previous page
 Private
 Private
-<i>Private</i>
+PrivateRoom
 <i>Приватна кімната</i>
+ProgressClick
 Click here to speed up the progress
-Click here to speed up the progress
+ProgressDex
 Click when the player reaches the buckle to progress
-Click when the player reaches the buckle to progress
+ProgressFlex
 Click the ropes before they hit the ground to progress
-Click the ropes before they hit the ground to progress
+ProgressKeys
 Alternate keys A (Q on AZERTY) and D to speed up
-Alternate keys A (Q on AZERTY) and D to speed up
+ProgressKeysController
 Alternate keys A and S or X and Y on a controller
-Alternate keys A and S or X and Y on a controller
-him
+PronounObjectHeHim
 його
-her
+PronounObjectSheHer
 її
-them
+PronounObjectTheyThem
 вони
-his
+PronounPossessiveHeHim
 його
-their
-їх
-himself
-його
-herself
+PronounPossessiveSheHer
 її
-themself
+PronounPossessiveTheyThem
 їх
-he
+PronounSelfHeHim
+його
+PronounSelfSheHer
+її
+PronounSelfTheyThem
+їх
+PronounSubjectHeHim
 він
-she
+PronounSubjectSheHer
 вона
-they
+PronounSubjectTheyThem
 вони
+ReceivedBeep
 Received at
-Received at
+RemoveItemWithTimer
 Remove item when the lock timer runs out
-Remove item when the lock timer runs out
-Removing...
+Removing
 Зняття...
+RequireBondageLevel
 Need Bondage ReqLevel
-Need Bondage ReqLevel
-Requires self-bondage ReqLevel.
+RequireSelfBondage
 Потребує селф-бондаж ReqLevel.
-Active Rules
-Активні правила
+RulesMenuBlockChange
 Cannot change:
-Cannot change:
+RulesMenuBlockFamilyKey
 Blocked: Family keys
-Blocked: Family keys
+RulesMenuBlockKey
 Blocked: Normal keys
-Blocked: Normal keys
+RulesMenuBlockLoverLockOwner
 Your owner cannot use lover locks on you
-Your owner cannot use lover locks on you
+RulesMenuBlockLoverLockSelf
 No lover locks on yourself
-No lover locks on yourself
+RulesMenuBlockNickname
 Cannot change your nickname
-Cannot change your nickname
+RulesMenuBlockOwnerLockSelf
 No owner locks on yourself
-No owner locks on yourself
+RulesMenuBlockRemote
 Blocked: Remotes on anyone
-Blocked: Remotes on anyone
+RulesMenuBlockRemoteSelf
 Blocked: Remotes on yourself
-Blocked: Remotes on yourself
+RulesMenuBlockWhisper
 No whispers around your owner
-No whispers around your owner
+RulesMenuEmpty
 No active rules
-No active rules
+RulesMenuReleasedCollar
 Slave collar unlocked
-Slave collar unlocked
+SavedExpressions
 Save/Load Expressions
-Save/Load Expressions
+SavedExpressionsEmpty
 (Empty)
-(Empty)
-Load
+SavedExpressionsLoad
 Завантажити
-Save
+SavedExpressionsSave
 Зберегти
+SelectActivityGroup
 Select an activity to use on the GroupName.
-Select an activity to use on the GroupName.
+SelectActivityNone
 No activity available on the GroupName.
-No activity available on the GroupName.
+SelectItemGroup
 Select an item to use on the GroupName.
-Select an item to use on the GroupName.
+SelectLock
 Select a lock to use on the GroupName.
-Select a lock to use on the GroupName.
+SelectLocked
 This looks like its locked by a AssetName.
-This looks like its locked by a AssetName.
+SelectLockedUnknown
 This looks like its locked by something.
-This looks like its locked by something.
+SentBeep
 Sent at
-Sent at
+ServerBan
 TargetCharacterName was banned by SourceCharacter.
-TargetCharacterName was banned by SourceCharacter.
+ServerDemoteAdmin
 TargetCharacterName was demoted from administration by SourceCharacter.
-TargetCharacterName was demoted from administration by SourceCharacter.
-SourceCharacter disconnected.
+ServerDisconnect
 Гравця SourceCharacter відключено.
-SourceCharacter entered.
+ServerEnter
 Гравець SourceCharacter увійшов.
+ServerKick
 SourceCharacter called the maids to escort TargetCharacterName out of the room.
-SourceCharacter called the maids to escort TargetCharacterName out of the room.
-SourceCharacter left.
+ServerLeave
 Гравець SourceCharacter вийшов.
+ServerMessageBeginDating
 The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are starting a 7 days minimum period as lovers.
-The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are starting a 7 days minimum period as lovers.
+ServerMessageBeginEngagement
 The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are now engaged and are starting a 7 days minimum period as fiancées.
-The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are now engaged and are starting a 7 days minimum period as fiancées.
+ServerMessageBeginWedding
 The Bondage Club is proud to announce that SourceCharacter and TargetCharacter are now married. Long may it last.
-The Bondage Club is proud to announce that SourceCharacter and TargetCharacter are now married. Long may it last.
+ServerMessageEndOwnership
 The Bondage Club announces that SourceCharacter released TargetCharacter from PronounPossessive ownership.
-The Bondage Club announces that SourceCharacter released TargetCharacter from PronounPossessive ownership.
+ServerMessageEndOwnershipTrial
 The Bondage Club announces that SourceCharacter canceled the trial ownership of TargetCharacter.
-The Bondage Club announces that SourceCharacter canceled the trial ownership of TargetCharacter.
+ServerMessageEndTrial
 The Bondage Club is proud to announce that SourceCharacter is now fully collared. PronounPossessive fate is in PronounPossessive owners hands.
-The Bondage Club is proud to announce that SourceCharacter is now fully collared. PronounPossessive fate is in PronounPossessive owners hands.
+ServerMessageForbiddenWordsBlocked
 Saying a forbidden word is blocked by your owner.  You can use /forbiddenwords to review the words.
-Saying a forbidden word is blocked by your owner.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsMute15
 You said a forbidden word and will be silenced for 15 minutes.  You can use /forbiddenwords to review the words.
-You said a forbidden word and will be silenced for 15 minutes.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsMute30
 You said a forbidden word and will be silenced for 30 minutes.  You can use /forbiddenwords to review the words.
-You said a forbidden word and will be silenced for 30 minutes.  You can use /forbiddenwords to review the words.
+ServerMessageForbiddenWordsMute5
 You said a forbidden word and will be silenced for 5 minutes.  You can use /forbiddenwords to review the words.
-You said a forbidden word and will be silenced for 5 minutes.  You can use /forbiddenwords to review the words.
+ServerMessageLoverRuleOwnerLoverLockAllow
 Your lover is now allowing your owner to use lovers locks on you.
-Your lover is now allowing your owner to use lovers locks on you.
+ServerMessageLoverRuleOwnerLoverLockBlock
 Your lover is now preventing your owner from using lovers locks on you.
-Your lover is now preventing your owner from using lovers locks on you.
+ServerMessageLoverRuleSelfLoverLockAllow
 Your lover is now allowing you to use lovers locks on yourself.
-Your lover is now allowing you to use lovers locks on yourself.
+ServerMessageLoverRuleSelfLoverLockBlock
 Your lover is now preventing you from using lovers locks on yourself.
-Your lover is now preventing you from using lovers locks on yourself.
+ServerMessageOfferBeginDating
 SourceCharacter is asking you to be PronounPossessive lover.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter is asking you to be PronounPossessive lover.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOfferBeginEngagement
 SourceCharacter is asking you to become PronounPossessive fiancée.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter is asking you to become PronounPossessive fiancée.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOfferBeginWedding
 SourceCharacter is proposing you to become PronounPossessive wife.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter is proposing you to become PronounPossessive wife.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOfferEndTrial
 SourceCharacter has prepared a great collaring ceremony.  A maid brings a slave collar, which PronounPossessive submissive must consent to wear.
-SourceCharacter has prepared a great collaring ceremony.  A maid brings a slave collar, which PronounPossessive submissive must consent to wear.
+ServerMessageOfferStartTrial
 SourceCharacter is offering you to start a trial period as PronounPossessive submissive.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter is offering you to start a trial period as PronounPossessive submissive.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
+ServerMessageOwnerRuleAccessOtherAllow
 Your owner is now allowing you to access others when they're there.
-Your owner is now allowing you to access others when they're there.
+ServerMessageOwnerRuleAccessOtherBlock
 Your owner is now preventing you from accessing others when they're there.
-Your owner is now preventing you from accessing others when they're there.
+ServerMessageOwnerRuleAccessSelfAllow
 Your owner is now allowing you to access yourself when they're there.
-Your owner is now allowing you to access yourself when they're there.
+ServerMessageOwnerRuleAccessSelfBlock
 Your owner is now preventing you from accessing yourself when they're there.
-Your owner is now preventing you from accessing yourself when they're there.
+ServerMessageOwnerRuleBlockAppearance
 Your owner has changed the appearance zones you can modify.
-Your owner has changed the appearance zones you can modify.
+ServerMessageOwnerRuleBlockItemGroup
 Your owner has changed the item zones you can access.
-Your owner has changed the item zones you can access.
+ServerMessageOwnerRuleBlockScreen
 Your owner has changed the Bondage Club areas you can access.
-Your owner has changed the Bondage Club areas you can access.
+ServerMessageOwnerRuleChangeAllow
 Your owner is now allowing you to access your wardrobe and change clothes.
-Your owner is now allowing you to access your wardrobe and change clothes.
+ServerMessageOwnerRuleChangeBlock
 Your owner has blocked your wardrobe access.  You won't be able to change clothes until that rule is revoked.
-Your owner has blocked your wardrobe access.  You won't be able to change clothes until that rule is revoked.
+ServerMessageOwnerRuleChangeBlock1Day
 Your owner has blocked your wardrobe access for a day.  You won't be able to change clothes.
-Your owner has blocked your wardrobe access for a day.  You won't be able to change clothes.
+ServerMessageOwnerRuleChangeBlock1Hour
 Your owner has blocked your wardrobe access for an hour.  You won't be able to change clothes.
-Your owner has blocked your wardrobe access for an hour.  You won't be able to change clothes.
+ServerMessageOwnerRuleChangeBlock1Week
 Your owner has blocked your wardrobe access for a week.  You won't be able to change clothes.
-Your owner has blocked your wardrobe access for a week.  You won't be able to change clothes.
+ServerMessageOwnerRuleChangePoseAllow
 Your owner is now allowing you to change your pose when they're there.
-Your owner is now allowing you to change your pose when they're there.
+ServerMessageOwnerRuleChangePoseBlock
 Your owner is now preventing you from changing your pose when they're there.
-Your owner is now preventing you from changing your pose when they're there.
+ServerMessageOwnerRuleCollarRelease
 Your owner released you from the slave collar.
-Your owner released you from the slave collar.
+ServerMessageOwnerRuleCollarWear
 Your owner has locked the slave collar on your neck.
-Your owner has locked the slave collar on your neck.
+ServerMessageOwnerRuleEmoteAllow
 Your owner is now allowing you to emote when they're there.
-Your owner is now allowing you to emote when they're there.
+ServerMessageOwnerRuleEmoteBlock
 Your owner is now preventing you from emoting when they're there.
-Your owner is now preventing you from emoting when they're there.
+ServerMessageOwnerRuleForbiddenWords
 Your owner has changed your list of forbidden words.  You can use /forbiddenwords to review the words.
-Your owner has changed your list of forbidden words.  You can use /forbiddenwords to review the words.
+ServerMessageOwnerRuleForceWheelFortune
 Your owner requires you to spin the Wheel of Fortune.
-Your owner requires you to spin the Wheel of Fortune.
+ServerMessageOwnerRuleKeyAllow
 Your owner is now allowing you to have keys.  You can buy keys from the club shop.
-Your owner is now allowing you to have keys.  You can buy keys from the club shop.
+ServerMessageOwnerRuleKeyAllowFamily
 Your owner is now allowing you to use family keys.
-Your owner is now allowing you to use family keys.
+ServerMessageOwnerRuleKeyBlock
 Your owner is now preventing you from getting new keys.  The club shop will not sell keys to you anymore.
-Your owner is now preventing you from getting new keys.  The club shop will not sell keys to you anymore.
+ServerMessageOwnerRuleKeyBlockFamily
 Your owner is now preventing you from using family keys.
-Your owner is now preventing you from using family keys.
+ServerMessageOwnerRuleKeyConfiscate
 Your owner has confiscated your keys.  All your regular keys are lost.
-Your owner has confiscated your keys.  All your regular keys are lost.
-Your owner has changed your nickname.
+ServerMessageOwnerRuleNicknameNew
 Ваший власник змінив Ваший псевдонім.
+ServerMessageOwnerRuleNicknameAllow
 Your owner is now allowing you to change your nickname.
-Your owner is now allowing you to change your nickname.
+ServerMessageOwnerRuleNicknameBlock
 Your owner is now preventing you from changing your nickname.
-Your owner is now preventing you from changing your nickname.
+ServerMessageOwnerRuleRemoteAllow
 Your owner is now allowing you to have remotes.  You can buy remotes from the club shop.
-Your owner is now allowing you to have remotes.  You can buy remotes from the club shop.
+ServerMessageOwnerRuleRemoteAllowSelf
 Your owner is now allowing you to use remotes on yourself.
-Your owner is now allowing you to use remotes on yourself.
+ServerMessageOwnerRuleRemoteBlock
 Your owner is now preventing you from getting new remotes.  The club shop will not sell remotes to you anymore.
-Your owner is now preventing you from getting new remotes.  The club shop will not sell remotes to you anymore.
+ServerMessageOwnerRuleRemoteBlockSelf
 Your owner is now preventing you from using remotes on yourself.
-Your owner is now preventing you from using remotes on yourself.
+ServerMessageOwnerRuleRemoteConfiscate
 Your owner has confiscated your remotes.  All your remotes are lost.
-Your owner has confiscated your remotes.  All your remotes are lost.
+ServerMessageOwnerRuleSelfOwnerLockAllow
 Your owner is now allowing to using owner locks on yourself.
-Your owner is now allowing to using owner locks on yourself.
+ServerMessageOwnerRuleSelfOwnerLockBlock
 Your owner is now preventing you from using owner locks on yourself.
-Your owner is now preventing you from using owner locks on yourself.
+ServerMessageOwnerRuleTalkAllow
 Your owner is now allowing you to talk publicly when they're there.
-Your owner is now allowing you to talk publicly when they're there.
+ServerMessageOwnerRuleTalkBlock
 Your owner is now preventing you from talking publicly when they're there.
-Your owner is now preventing you from talking publicly when they're there.
+ServerMessageOwnerRuleWhisperAllow
 Your owner is now allowing you to whisper to other members when they're there.
-Your owner is now allowing you to whisper to other members when they're there.
+ServerMessageOwnerRuleWhisperBlock
 Your owner is now preventing you from whispering to other members when they're there.
-Your owner is now preventing you from whispering to other members when they're there.
+ServerMessageReleaseByOwner
 Your owner has released you.  You're free from all ownership.
-Your owner has released you.  You're free from all ownership.
+ServerMessageReleaseFail
 The member number is invalid or you do not own this submissive.
-The member number is invalid or you do not own this submissive.
+ServerMessageReleaseSuccess
 Your submissive is now fully released from your ownership.
-Your submissive is now fully released from your ownership.
+ServerMessageStartTrial
 The Bondage Club is pleased to announce that SourceCharacter is starting a 7 days minimum trial period as a submissive.
-The Bondage Club is pleased to announce that SourceCharacter is starting a 7 days minimum trial period as a submissive.
-TargetCharacterName was moved to the left by SourceCharacter.
+ServerMoveLeft
 Гравця TargetCharacterName було переміщено вліво гравцем SourceCharacter.
-TargetCharacterName was moved to the right by SourceCharacter.
+ServerMoveRight
 Гравця TargetCharacterName було переміщено вправо гравцем SourceCharacter.
-TargetCharacterName was promoted to administrator by SourceCharacter.
+ServerPromoteAdmin
 Гравця TargetCharacterName було проголошено адміністратором гравцем SourceCharacter.
-TargetCharacterName was added to the room whitelist by SourceCharacter.
-TargetCharacterName було додано до білого списку кімнат за допомогою SourceCharacter.
-TargetCharacterName was removed from the room whitelist by SourceCharacter.
+ServerRoomUnwhitelist
 TargetCharacterName було вилучено з білого списку кімнати за допомогою SourceCharacter.
+ServerRoomWhitelist
+TargetCharacterName було додано до білого списку кімнат за допомогою SourceCharacter.
+ServerShuffle
 SourceCharacter shuffles the position of everyone in the room randomly.
-SourceCharacter shuffles the position of everyone in the room randomly.
+ServerSwap
 SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
-SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
-SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
+ServerUpdateRoom
 Гравець SourceCharacter оновив кімнату. Назва: ChatRoomName. Ліміт: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
-Show all zones
+ShowAllZones
 Показати всі зони
-Show the time remaining/being added
+ShowItemWithTimerRemaining
 Show the time remaining/being added
 Someone
 Хтось
-Try to unfasten
+StruggleDexterity
 Спробувати відстібнути
-Try to squeeze out
+StruggleFlexibility
 Спробувати витиснутись
-Impossible to escape!
+StruggleImpossible
 Неможливо вибратись!
-Use brute force
+StruggleStrength
 Використовувати грубу силу
-Struggling...
+Struggling
 Вибираємось...
-Swapping...
+Swapping
 Міняємо...
-Tighten...
+Tighten
 Затягуємо...
+TightenLittle
+...A little
+TightenLoosenTitle
 You can tighten or loosen this item
-You can tighten or loosen this item
+TightenLot
+...A lot
 tightens
 tightens
+Tightness
 Tightness:
-Tightness:
+TryLoosen
 Try to loosen the item
-Try to loosen the item
-Time left:
+TimerLeft
 Time left:
 Unlocked
 Unlocked
+Unlocking
 Unlocking...
-Unlocking...
+Using0
 Using none of your skill...
-Using none of your skill...
+Using25
 Using 25% of your skill...
-Using 25% of your skill...
+Using50
 Using 50% of your skill...
-Using 50% of your skill...
+Using75
 Using 75% of your skill...
-Using 75% of your skill...
+WinkFacialExpressions
 Wink/Blink
-Wink/Blink
+WillRemoveItemWithTimer
 The item will be removed when the lock timer runs out
-The item will be removed when the lock timer runs out
+WontRemoveItemWithTimer
 The item will stay when the lock timer runs out
-The item will stay when the lock timer runs out
+ZoneBlocked
 This zone is out of reach from another item
-This zone is out of reach from another item
+ZoneBlockedOwner
 Your owner doesn't allow you to access that zone
-Your owner doesn't allow you to access that zone
+ZoneBlockedRange
 You're too far to reach DialogCharacterObject body and items.
-You're too far to reach DialogCharacterObject body and items.
+CommaDelimiter
+,‎

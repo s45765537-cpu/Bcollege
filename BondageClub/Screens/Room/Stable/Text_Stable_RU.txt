@@ -1,12 +1,12 @@
-﻿Trial Training
+Toyhorse
 Тренировка
 Treadmill
 Беговая дорожка
-Horse Carriage
+Carriage
 Конный Экипаж
-You wait in an isolation stable
+InStable
 Ты ждешь в отдельном стойле
-Try to hide the dice.
+HideDice
 Попробуй спрятать кости.
-You have successfully hidden the dice
+SuccessHide
 Вы успешно спрятали кости

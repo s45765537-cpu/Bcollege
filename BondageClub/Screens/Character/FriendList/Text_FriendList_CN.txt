@@ -1,58 +1,56 @@
-Online friends
+OnlineFriends
 在线好友
-All friends
+AllFriends
 全部好友
-Beep history
+Beeps
 好友私聊历史
-Name
+MemberName
 名字
-Nickname
+MemberNickname
 昵称
-Member number
+MemberNumber
 会员编号
-Chat room
+ChatRoomName
 聊天室
-Room type
+ChatRoomType
 房间类型
-Relation type
+RelationType
 关系类型
-Send a Beep
+ActionFriends
 发送好友私聊
-Read a Beep
+ActionRead
 阅读好友私聊
-Delete a Friend
-删除好友
-Toggle 30 sec auto-refresh
+AutoRefresh
 开关30秒自动刷新
 Refresh
 刷新
-Reset sorting
+ResetSorting
 重置排序
 Exit
 退出
-Previous mode
+PrevMode
 上一个模式
-Next mode
+NextMode
 下一个模式
-Room name: included
+ToggleRoomOn
 房间名：包含
-Room name: excluded
+ToggleRoomOff
 房间名：不含
-Owner
+TypeOwner
 主人
-Lover
+TypeLover
 恋人
-Submissive
+TypeSubmissive
 服从者
-Friend
+TypeFriend
 朋友
-Female-only room
+TypeFemale
 仅限女性房间
-Male-only room
+TypeMale
 仅限男性房间
-Mixed male/female room
+TypeMixed
 混合男性/女性房间
-Asylum room
+TypeAsylum
 收容所房间
-Private room
+TypePrivate
 私人房间

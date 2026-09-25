@@ -1,10 +1,10 @@
-Remaining Time:
+RemainingTime
 剩余时间：
-Punishment Time:
+IsolationTime
 剩余惩罚时间：
-Asylum Entrance
+Entrance
 收容所入口
-Your Profile
+Profile
 个人档案
-Sleep (Log Off)
+Sleep
 睡觉（退出）

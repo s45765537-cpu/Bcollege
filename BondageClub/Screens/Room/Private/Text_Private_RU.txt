@@ -1,32 +1,32 @@
-﻿On rental for a day
+RentalDay
 На прокат на сутки
-At the asylum for a day
+AsylumDay
 В психлечебнице на один день
-An orgasm is coming!
+OrgasmComing
 Приближается оргазм!
-Resist!
+OrgasmResist
 Сопротивляйся!
-Try to resist
+OrgasmTryResist
 Попробуй сопротивляться
-Surrender
+OrgasmSurrender
 Сдаться
-Recovering from an orgasm...
+OrgasmRecovering
 Восстанавливается после оргазма...
-Return to the main hall
+Exit
 Вернуться в главный холл
-Kneel / Stand
+Kneel
 Опуститься на колени/Встать
-Private room vendor
+Shop
 Ангент приватных комнат
-Change your clothes
+Dress
 Переодеться
-Your wardrobe
+Wardrobe
 Твой гардероб
-Lay on your bed
+Bed
 Ложись на свою кровать
-Next four friends
+Next
 Следующие четыре друга
-Select main hall background
+MainHallBackground
 Выбери фон главного холла
-Select private room background
+PrivateRoomBackground
 Выбери фон приватной комнаты

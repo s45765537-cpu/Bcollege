@@ -1,276 +1,148 @@
-﻿Name:
+Name
 Имя:
-Nickname:
+Nickname
 Псевдоним:
-Title:
+Title
 Титул:
+Pronouns
+Местоимения:
+MemberNumber
+Номер Участника:
+Relationships
+- Отношения -
+Lover
+Возлюбленная:
+Owner
+Хозяйка:
 None
 Никто
-Mistress
-Госпожа
-Dominatrix
-Доминатрикс
-Club Slave
-Клубная Рабыня
-Head Maid
-Главная Горничная
-Maid
-Горничная
-Bondage Maid
-Бондаж Горничная
-Master Kidnapper
-Мастер-Похититель
-Kidnapper
-Похититель
-Patient
-Пациент
-Permanent Patient
-Постоянный Пациент
-Escaped Patient
-Сбежавший Пациент
-Nurse
-Медсестра
-Doctor
-Доктор
-Lady Luck
-Леди Удача
-Patron
-Покровитель
-College Student
-Студент колледжа
-Nawashi
-Веревочный художник
-Houdini
-Гудини
-Foal
-Жеребенок
-Farm Horse
-Фермерская лошадь
-Cold Blood Horse
-Хладнокровная Лошадь
-Warm Blood Horse
-Обычная Лошадь
-Hot Blood Horse
-Горячая Лошадь
-Wild Mustang
-Дикий Мустанг
-Shining Unicorn
-Сияющий Единорог
-Flying Pegasus
-Летающий Пегас
-Majestic Alicorn
-Величественный Аликорн
-Mole
-Крот
-Infiltrator
-Лазутчик
-Agent
-Агент
-Operative
-Оперативник
-Superspy
-Супер шпион
-Wizard
-Волшебник
-Magus
-Маг
-Magician
-Фокусник
-Sorcerer
-Колдун
-Sage
-Мудрец
-Oracle
-Оракул
-Witch
-Ведьма
-Warlock
-Чернокнижник
-Little One
-Малыш
-Baby
-Младенец
-Diaper Lover
-Любитель Подгузников
-Bondage Baby
-Связанный Ребёнок
-Duchess
-Герцогиня
-Switch
-Свитч
-Kitten
-Котёнок
-Puppy
-Щенок
-Foxy
-Лис
-Bunny
-Кролик
-Doll
-Кукла
-Demon
-Демон
-Angel
-Ангел
-Succubus
-Суккуб
-Good Girl
-Хорошая Девочка
-Good Slave Girl
-Хорошая Девочка-Рабыня
-Good Slave
-Хороший раб
-Drone
-Дрон
-Pronouns:
-Местоимения:
-Member Number:
-Номер Участника:
-- Relationships -
-- Отношения -
-Lover:
-Возлюбленная:
-Owner:
-Хозяйка:
+OwnerGGTS
 GGTS
-GGTS
-Money:
+Money
 Деньги:
-Member for
+MemberFor
 Член в течении:
-Bondage Club Birthday!
+Birthday
 День рождения Бондаж-Клуба!
-Friends for
+FriendsFor
 Друзья в течении:
-On trial for
-На испытательном периоде:
-Collared for
-Ошейник в течении:
-Lover for
-Возлюбленная в течении:
-Dating for
-Встречаетесь в течении:
-Engaged for
-Помолвлен/а в течении:
-Married for
-Женат/а в течении:
-day(s)
+Days
 дней
 Unknown
 Неизвестно
-- Reputation -
+Reputation
 - Репутация -
-Dungeoneer:
+ReputationNone
+Никто
+ReputationGamingPositive
 Подземелье:
-Dominant:
+ReputationDominantPositive
 Доминантность:
-Submissive:
+ReputationDominantNegative
 Покорность:
-Maid Sorority:
+ReputationMaidPositive
 Горничная:
-Kidnappers League:
+ReputationKidnapPositive
 Лига Похитителей :
-Asylum Nurse:
+ReputationAsylumPositive
 Медсестра Психушки:
-Asylum Patient:
+ReputationAsylumNegative
 Пациент Психушки:
-LARP Battles:
+ReputationLARPPositive
 LARP Битвы:
-Gambling Hall:
+ReputationGamblingPositive
 Игорный зал:
-ABDL:
+ReputationABDLPositive
 Подгузники:
-House Maiestas:
+ReputationHouseMaiestasPositive
 Дом Майестас:
-House Vincula:
+ReputationHouseVinculaPositive
 Дом Винкула:
-House Amplector:
+ReputationHouseAmplectorPositive
 Дом Амплектор:
-House Corporis:
+ReputationHouseCorporisPositive
 Дом Корпорис:
-Roleplay
+DifficultyLevel0
 Ролевая
-Regular
+DifficultyLevel1
 Обычная
-Hardcore
+DifficultyLevel2
 Хардкорная
-Extreme
+DifficultyLevel3
 Экстрим
-- Skills -
+Skill
 - Навыки -
-Bondage:
+SkillNone
+Никто
+SkillBondage
 Бондаж:
-Self-bondage:
+SkillSelfBondage
 Самобондаж:
-Lock-Picking:
-Взламывание замков:
-Evasion:
+SkillEvasion
 Побег:
-Willpower:
+SkillWillpower
 Сила воли:
-Infiltration:
+SkillInfiltration
 Проникновение:
-Dressage:
+SkillDressage
 Выездка:
-Skills modifier:
-Модификатор:
-Time left:
-Времени осталось:
-- Traits -
+Trait
 - Черты -
-Spend more time with her to know her traits
+TraitUnknown
 Проводите с ней больше времени, чтобы узнать ее черты
-Violent:
+TraitDominant
+Доминантность:
+TraitSubmissive
+Покорность:
+TraitViolent
 Вспыльчивая:
-Peaceful:
+TraitPeaceful
 Тихая:
-Horny:
+TraitHorny
 Похотливая:
-Frigid:
+TraitFrigid
 Фригидная:
-Rude:
+TraitRude
 Грубый:
-Polite:
+TraitPolite
 Вежливая:
-Wise:
+TraitWise
 Мудрая:
-Dumb:
+TraitDumb
 Тупая:
-Serious:
+TraitSerious
 Серьезная:
-Playful:
+TraitPlayful
 Игривая:
-Relation:
+Relationship
 Отношение:
-(Perfect)
+RelationshipPerfect
 (Идеальное)
-(Great)
+RelationshipGreat
 (Отличное)
-(Good)
+RelationshipGood
 (Хорошие)
-(Fair)
+RelationshipFair
 (Честное)
-(Neutral)
+RelationshipNeutral
 (Нейтральное)
-(Poor)
+RelationshipPoor
 (Жалкое)
-(Bad)
+RelationshipBad
 (Плохое)
-(Horrible)
+RelationshipHorrible
 (Ужасное)
-(Atrocious)
+RelationshipAtrocious
 (Жестокое)
-Permission:
-Разрешены элементы:
-Everyone, no exceptions
+AllowedInteraction0
 Все, без исключений
-Everyone, except blacklist
+AllowedInteraction1
 Все, кроме черного списка
-Owner, Lovers, whitelist & Dominants
+AllowedInteraction2
 Хозяйка, Возлюбленная, Белый Лист & Доминанты
-Owner, Lovers and whitelist only
+AllowedInteraction3
 Только Хозяйка, Возлюбленная и Белый Лист
-Owner and Lovers only
+AllowedInteraction4
 Только Хозяйка и Возлюбленная
-Owner only
+AllowedInteraction5
 Только Хозяйка
