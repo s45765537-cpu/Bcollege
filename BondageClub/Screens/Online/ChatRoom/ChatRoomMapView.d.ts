@@ -37,3 +37,11 @@ declare namespace MapManager {
 		}
 	}
 }
+
+interface MapDataLookupTable {
+	Tile: ChatRoomMapTile;
+	Object: ChatRoomMapObject;
+	Effect: ChatRoomMapEffect;
+}
+
+type MapDataDoodadType = keyof MapDataLookupTable;

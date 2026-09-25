@@ -34,13 +34,16 @@ Game.load("../Scripts/BitString.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoom.js");
 Game.load("../Screens/Online/ChatRoom/ChatRoomMapView.js");
 
-
-
+Game.load("../Assets/MapData.js");
 Game.load("../Scripts/Map.js");
-Game.ChatRoomData = {};
+
+Game.MapDataLoad();
+
 beforeEach(() => {
+	Game.ChatRoomData = {};
 	Game.ChatRoomData.MapData = Game.ChatRoomMapViewInitialize("Always");
 });
+
 describe("MapCanSetCell", () => {
 	it("setting a cell out of bounds should fail", () => {
 		const stoneWall = 1030;

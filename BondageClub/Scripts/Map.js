@@ -347,7 +347,7 @@ var MapManager = (function () {
 				const shiftedIdBits = reader.readUnsigned(constSettings.bitLenBits);
 				const remappedIdBits = reader.readUnsigned(constSettings.bitLenBits);
 				const effectIdMin = reader.readUnsigned(baseIdBits);
-				const effectIdsShifted = readArray(shiftedIdBits, reader, ChatRoomMapViewEffectList.length);
+				const effectIdsShifted = readArray(shiftedIdBits, reader, MapDataEffects.size);
 				const effectsLength = readArrayLength(reader);
 				/**
 				 * @type {Map<number, number>}
@@ -425,7 +425,7 @@ var MapManager = (function () {
 			function write(effectsFlat, writer) {
 				// Default to the blank effect in case of zero-elements list
 				const effectsFlatSingle = effectsFlat.map(
-					(x) => x[0] ?? ChatRoomMapViewEffectList[0],
+					(x) => x[0] ?? MapDataEffects.get(ChatRoomMapViewEffectStartID),
 				);
 
 				const settings = buildDynamicSettings(effectsFlatSingle);
@@ -507,9 +507,7 @@ var MapManager = (function () {
 							if (effectId === ChatRoomMapViewEffectStartID) {
 								effect = undefined;
 							} else {
-								effect = ChatRoomMapViewEffectList.find(
-									(e) => e.ID === effectId,
-								);
+								effect = MapDataEffects.get(effectId);
 							}
 							if (effect) {
 								effectsCache.set(effectId, effect);
@@ -1273,6 +1271,113 @@ var MapManager = (function () {
 /** @deprecated Use {@link MapManager} instead */
 var ChatRoomMapManager = MapManager;
 
+/** @type {Partial<Record<ChatRoomMapObject["Type"], Partial<Omit<ChatRoomMapObject, "ID">>>>} */
+const ChatRoomMapViewObjectDefaultValues = {
+	"WallPath": { CanPlaceInWalls: true, CanPlaceOnWalls: true, CanPlaceOnFloors: false,
+		BuildImageName: function (X, Y) {
+			let name = this.Style;
+			if (this.OccupiedStyle != null && Player.X == X && Player.Y == Y) name = this.OccupiedStyle ?? "Blank";
+			if (MapGetCell("Tile", X, Y+1)?.Type == "Wall") return name + "Inset";
+			return name ?? "Blank";
+		}
+	},
+	"WallDecoration": { CanPlaceOnWalls: true, CanPlaceOnFloors: false },
+	"Banners": { CanPlaceOnWalls: true, CanPlaceOnFloors: false }
+};
+
+
+/** @deprecated Duplicate IDs are checked on load */
+function ChatRoomMapViewCheckForDuplicateIds() {}
+
+/** @type {Map<number, ChatRoomMapTile>} */
+const MapDataTiles = new Map();
+/** @type {Map<number, ChatRoomMapObject>} */
+const MapDataObjects = new Map();
+/** @type {Map<number, ChatRoomMapEffect>} */
+const MapDataEffects = new Map();
+
+const MapDataTileTypes = new Set();
+const MapDataObjectTypes = new Set();
+const MapDataEffectTypes = new Set();
+
+/**
+ * Load map tiles into the registry
+ * @param {ChatRoomMapTile[]} tiles
+ */
+function MapDataLoadTiles(tiles) {
+	for (const tile of tiles) {
+		if (MapDataTiles.has(tile.ID)) {
+			console.error("Duplicate map tile ID: " + tile.ID);
+			continue;
+		}
+		MapDataTiles.set(tile.ID, tile);
+		MapDataTileTypes.add(tile.Type);
+	}
+}
+
+/**
+ * Load map objects into the registry
+ * @param {ChatRoomMapObject[]} object
+ */
+function MapDataLoadObjects(object) {
+	for (const obj of object) {
+		if (MapDataObjects.has(obj.ID)) {
+			console.error("Duplicate map object ID: " + obj.ID);
+			continue;
+		}
+		MapDataObjects.set(obj.ID, ChatRoomMapViewObjectDefaultValues[obj.Type] != null ? Object.assign({},ChatRoomMapViewObjectDefaultValues[obj.Type], obj) : obj);
+		MapDataObjectTypes.add(obj.Type);
+	}
+}
+
+/**
+ * Load map effects into the registry
+ * @param {ChatRoomMapEffect[]} effects
+ */
+function MapDataLoadEffects(effects) {
+	for (const effect of effects) {
+		if (MapDataObjects.has(effect.ID)) {
+			console.error("Duplicate map effect ID: " + effect.ID);
+			continue;
+		}
+		MapDataEffects.set(effect.ID, effect);
+		MapDataEffectTypes.add(effect.Type);
+	}
+}
+
+/**
+ * Load the base map data into the registry
+ */
+function MapDataLoad() {
+	MapDataLoadTiles(AssetsMapDataTiles);
+	MapDataLoadObjects(AssetsMapDataObjects);
+	MapDataLoadEffects(AssetsMapDataEffects);
+}
+
+/**
+ * @param {number} tileId
+ * @returns {ChatRoomMapTile | undefined}
+ */
+function MapDataGetTile(tileId) {
+	return MapDataTiles.get(tileId);
+}
+
+/**
+ * @param {number} objectId
+ * @returns {ChatRoomMapObject | undefined}
+ */
+function MapDataGetObject(objectId) {
+	return MapDataObjects.get(objectId);
+}
+
+/**
+ * @param {number} effectId
+ * @returns {ChatRoomMapEffect | undefined}
+ */
+function MapDataGetEffect(effectId) {
+	return MapDataEffects.get(effectId);
+}
+
 /*
  * Doodad / Element -> Doodad
  * Active Object / Effect / Tile -> Cell
@@ -1321,8 +1426,23 @@ function MapIndexToCoordinates(index) {
 }
 
 /**
+ * @template {MapDataDoodadType} T
+ * @param {T} type
+ * @param {number} id
+ * @return {MapDataLookupTable[T] | null}
+ */
+function MapGetDoodad(type, id) {
+	switch (type) {
+		case "Tile": return /** @type {MapDataLookupTable[T] | null} */ (MapDataTiles.get(id) ?? null);
+		case "Object": return /** @type {MapDataLookupTable[T] | null} */ (MapDataObjects.get(id) ?? null);
+		case "Effect": return /** @type {MapDataLookupTable[T] | null} */ (MapDataEffects.get(id) ?? null);
+	}
+	return null;
+}
+
+/**
  * Gets the effect / object / tile on the map
- * @template {keyof typeof ChatRoomMapViewLookupTables} T
+ * @template {MapDataDoodadType} T
  * @param {T} type - The type of the tile
  * @param {number} x - The X position of the tile
  * @param {number} y - The Y position of the tile
@@ -1337,23 +1457,22 @@ function MapGetCellId(type, x, y) {
 
 /**
  * Gets the effect / object / tile on the map
- * @template {keyof typeof ChatRoomMapViewLookupTables} T
+ * @template {MapDataDoodadType} T
  * @param {T} type - The type of the tile
  * @param {number} x - The X position of the tile
  * @param {number} y - The Y position of the tile
- * @returns {NonNullable<typeof ChatRoomMapViewLookupTables[T][number]> | null}
+ * @returns {MapDataLookupTable[T] | null}
  */
 function MapGetCell(type, x, y) {
 	const id = MapGetCellId(type, x, y);
 	if (id == null) return null;
-	const item = ChatRoomMapViewLookupTables[type]?.[id] ?? null;
-	return item;
+	return MapGetDoodad(type, id);
 }
 
 /**
  * Sets the tile of the map
  * @param {number} id - The ID of the tile
- * @param {keyof ChatRoomMapViewLookupTables} type - The type of the tile
+ * @param {MapDataDoodadType} type - The type of the tile
  * @param {number} x - The X position of the tile
  * @param {number} y - The Y position of the tile
  * @param {boolean} refresh - Whether to refresh the map
@@ -1361,7 +1480,7 @@ function MapGetCell(type, x, y) {
  * @returns {boolean} - TRUE if the tile was set
  */
 function MapSetCell(id, type, x, y, refresh=false, clearUnique=true) {
-	const doodad = ChatRoomMapViewLookupTables[type]?.[id];
+	const doodad = MapGetDoodad(type, id);
 	if (doodad?.Unique && clearUnique) MapClearUniqueCells(id, type);
 	const index = MapCoordinatesToIndex(x, y);
 	const data = MapLookupData[type];
@@ -1375,11 +1494,11 @@ function MapSetCell(id, type, x, y, refresh=false, clearUnique=true) {
 /**
  * Clears the unique tiles
  * @param {number} id - The ID of the tile
- * @param {keyof ChatRoomMapViewLookupTables} type - The type of the tile
+ * @param {MapDataDoodadType} type - The type of the tile
  * @returns {boolean} - TRUE if the tile was cleared
  */
 function MapClearUniqueCells(id, type) {
-	if (!ChatRoomMapViewLookupTables[type]?.[id]?.Unique) return false;
+	if (!MapGetDoodad(type, id)?.Unique) return false;
 	const data = MapLookupData[type];
 	if (data == null) return false;
 
@@ -1393,29 +1512,38 @@ function MapClearUniqueCells(id, type) {
 /**
  * Checks if the cell can be set
  * @param {number} id - The ID of the doodad
- * @param {keyof ChatRoomMapViewLookupTables} type - The type of the doodad
+ * @param {MapDataDoodadType} type - The type of the doodad
  * @param {number} x - The X position of the cell
  * @param {number} y - The Y position of the cell
  * @returns {boolean}
  */
 function MapCanSetCell(id, type, x, y) {
 	if (x > ChatRoomMapViewWidth || y > ChatRoomMapViewHeight || x < 0 || y < 0) return false;
-	const doodad = ChatRoomMapViewLookupTables[type]?.[id];
-	if (doodad == null) return false;
-	if (type == "Object") {
-		const object = ChatRoomMapViewLookupTables[type]?.[id];
-		if (object?.Style === "Blank") return true;
+	switch (type) {
+		case "Tile": {
+			const tile = MapDataTiles.get(id);
+			if (!tile) return false;
+			if (tile?.Style === "Blank") return true;
+			break;
+		}
+		case "Object": {
+			const object = MapDataObjects.get(id);
+			if (!object) return false;
+			if (object?.Style === "Blank") return true;
 
-		const tile = MapGetCell("Tile", x, y);
-		if (tile?.Type != "Wall" && object?.CanPlaceOnFloors == false ||
-			tile?.Type == "Wall" && !object?.CanPlaceOnWalls) return false;
+			const tile = MapGetCell("Tile", x, y);
+			if (tile?.Type != "Wall" && object?.CanPlaceOnFloors == false ||
+				tile?.Type == "Wall" && !object?.CanPlaceOnWalls) return false;
 
-		const tileUnder = MapGetCell("Tile", x, y+1);
-		if (tile?.Type == "Wall" && tileUnder?.Type == "Wall" && !object?.CanPlaceInWalls) return false;
-	}
-	if (type == "Tile") {
-		const tile = ChatRoomMapViewLookupTables[type]?.[id];
-		if (tile?.Style === "Blank") return true;
+			const tileUnder = MapGetCell("Tile", x, y+1);
+			if (tile?.Type == "Wall" && tileUnder?.Type == "Wall" && !object?.CanPlaceInWalls) return false;
+			break;
+		}
+		case "Effect": {
+			const effect = MapDataEffects.get(id);
+			if (!effect) return false;
+			break;
+		}
 	}
 	return true;
 }
@@ -1423,7 +1551,7 @@ function MapCanSetCell(id, type, x, y) {
 /**
  * Checks if the cell is still valid
  * @param {number} id - The ID of the doodad
- * @param {keyof ChatRoomMapViewLookupTables} type - The type of the doodad
+ * @param {MapDataDoodadType} type - The type of the doodad
  * @param {number} x - The X position of the cell
  * @param {number} y - The Y position of the cell
  * @returns {boolean}

@@ -5231,7 +5231,7 @@ interface ChatRoomMapDoodad {
 	Name?: string;
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapPhysicalElement }  */
+/** {@link ChatRoomMapViewIsChatRoomMapPhysicalElement}  */
 interface ChatRoomMapPhysicalElement extends ChatRoomMapDoodad {
 	Style: string;
 	Rotation?: number;
@@ -5267,7 +5267,7 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 }
 
 /** {@link ChatRoomMapViewIsChatRoomMapEffect }  */
-interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad{
+interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Type: "StaticLighting";
 	TypeId: 1,
 	/**
