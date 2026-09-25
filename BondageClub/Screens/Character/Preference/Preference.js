@@ -695,6 +695,7 @@ var PreferenceOnlineSharedSettingsDefault = {
 		Hide: { permission: 0 },
 		Block: { permission: 0 },
 	},
+	LockTimerLimit: "LockTimerLimitDefault"
 };
 
 /**
@@ -740,6 +741,9 @@ var PreferenceOnlineSharedSettingsValidate = {
 				permission: CommonIsInteger(arg.Block?.permission, 0, maxScriptPermission) ? arg.Block.permission : 0,
 			},
 		};
+	},
+	LockTimerLimit: (arg, C) => {
+		return PreferenceSettingsLockTimerLimitList.includes(arg) ? arg : PreferenceOnlineSettingsDefault.LockTimerLimit;
 	},
 };
 
@@ -1009,6 +1013,7 @@ var PreferenceOnlineSettingsDefault = {
 	DefaultChatRoomBackground: "CosyChalet",
 	// @ts-expect-error Deprecated
 	SearchShowsFullRooms: undefined,
+	LockTimerLimit: "LockTimerLimitDefault"
 };
 
 /**
@@ -1030,6 +1035,7 @@ var PreferenceOnlineSettingsValidate = {
 	DefaultChatRoomBackground: (arg, C) => {
 		return typeof arg === "string" ? arg : PreferenceOnlineSettingsDefault.DefaultChatRoomBackground;
 	},
+	LockTimerLimit: ServerValidation.isItem(PreferenceSettingsLockTimerLimitList, PreferenceOnlineSettingsDefault.LockTimerLimit),
 };
 
 /**

@@ -190,7 +190,9 @@ function InventoryItemMiscTimerPadlockAdd(C, item, lockItem, TimeToAddSeconds, D
 		(property.MemberNumberList ??= []).push(Player.MemberNumber);
 	}
 	if (lockItem.Asset.RemoveTimer > 0) {
-		property.RemoveTimer = Math.round(Math.min((property.RemoveTimer ?? 0) + (TimeToAddSeconds * 1000), CurrentTime + (lockItem.Asset.MaxTimer * 1000)));
+		const maxTime = C.GetLockTimerLimit() ?? lockItem.Asset.MaxTimer;
+
+		property.RemoveTimer = Math.round(Math.min((property.RemoveTimer ?? 0) + (TimeToAddSeconds * 1000), CurrentTime + (maxTime * 1000)));
 	}
 	if (CurrentScreen === "ChatRoom") {
 		const secondsAdded = ((property.RemoveTimer ?? 0) - TimerBefore) / 1000;

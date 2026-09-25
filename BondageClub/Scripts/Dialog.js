@@ -1684,7 +1684,7 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 				Item: CurItem.Asset.CraftGroup || CurItem.Asset.Name,
 				ItemProperty: properties,
 				TypeRecord: properties.TypeRecord ?? null,
-			}
+			};
 			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled, craft);
 		}
 
