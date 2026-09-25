@@ -889,7 +889,7 @@ function ChatRoomMapViewCalculatePerceptionMasks() {
  */
 function ChatRoomMapViewGetSightRange() {
 	if (ChatRoomMapViewHasSuperPowers()) return ChatRoomMapViewPerceptionRangeMax;
-	return ChatRoomMapViewPerceptionRangeMax - Player.GetBlindLevel() * 2;
+	return Math.max(ChatRoomMapViewPerceptionRangeMax - Player.GetBlindLevel() * 2, 1);
 }
 
 /**
@@ -897,7 +897,7 @@ function ChatRoomMapViewGetSightRange() {
  * @returns {number} - The number of tiles
  */
 function ChatRoomMapViewGetHearingRange() {
-	return ChatRoomMapViewPerceptionRangeMax - Player.GetDeafLevel();
+	return Math.max(ChatRoomMapViewPerceptionRangeMax - Player.GetDeafLevel(), 0);
 }
 
 /**
@@ -1257,8 +1257,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	let TileHeight = Height / ((ChatRoomMapViewPerceptionRange * 2) + 1);
 	let EditWidth = (ChatRoomMapViewEditRange - 1) * TileWidth;
 	let EditHeight = (ChatRoomMapViewEditRange - 1) * TileHeight;
-	let MaxVisibleRange = ChatRoomMapViewGetSightRange();
-	if (MaxVisibleRange < 1) MaxVisibleRange = 1;
+	const MaxVisibleRange = ChatRoomMapViewGetSightRange();
 	let CharacterUnderCursor = null;
 	let FogActive = ChatRoomMapFogIsActive();
 
