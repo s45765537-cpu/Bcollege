@@ -1268,7 +1268,7 @@ function CharacterLoadSimple(CharacterID) {
 
 /**
  * Sets up an online character
- * @param {Character} Char - Online character to set up
+ * @param {OnlineCharacter} Char - Online character to set up
  * @param {ServerAccountDataSynced} data - Character data received
  * @param {number} SourceMemberNumber - Source number of the refresh
  */
