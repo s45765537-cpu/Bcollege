@@ -719,7 +719,6 @@ function ActivityExpression(C, Progress) {
 		Eyebrows: null,
 		Fluids: null,
 		Eyes: null,
-		Eyes2: null,
 		Pussy: null,
 	};
 
@@ -755,7 +754,8 @@ function ActivityExpression(C, Progress) {
 	/** @type {Partial<Record<AssetGroupName, ExpressionName>>} */
 	const expressionsSuperType = expressions;
 	for (const item of C.Appearance) {
-		const expression = expressionsSuperType[item.Asset.Group.Name];
+		const groupName = item.Asset.Group.Name === "Eyes2" ? "Eyes" : item.Asset.Group.Name;
+		const expression = expressionsSuperType[groupName];
 		if (expression !== undefined && item.Property.Expression !== expression) {
 			item.Property.Expression = expression;
 			refresh = true;
