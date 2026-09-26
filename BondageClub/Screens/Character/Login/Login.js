@@ -711,22 +711,6 @@ function LoginPerformAppearanceFixups(Appearance) {
 }
 
 /**
- * Perform the crafting fixups needed
- * @param {readonly (CraftingItem | null)[]} Crafting - The server-provided, uncompressed crafting data
- */
-function LoginPerformCraftingFixups(Crafting) {
-	if (!Crafting || !CommonIsArray(Crafting)) return;
-
-	for (const fixup of LoginInventoryFixups) {
-		// Move crafts over to the new name
-		for (const craft of Crafting) {
-			if (!craft || craft.Item !== fixup.Old.Name) continue;
-			craft.Item = /** @type {AssetName} */(fixup.New.Name);
-		}
-	}
-}
-
-/**
  * Make sure the slave collar is equipped or unequipped based on the owner
  * @returns {void} Nothing
  */
@@ -1169,9 +1153,6 @@ function LoginSetupPlayer(C) {
 	Player.Infiltration = C.Infiltration;
 	LoginDifficulty(false);
 
-	// Loads the crafting data
-	const CraftingDecompressed = CraftingDecompressServerData(C.Crafting);
-
 	// Loads the inventory data
 	if (typeof C.InventoryData === "string" && C.InventoryData !== "") {
 		// We keep track of that to be able to tell if there's been changes in the inventory
@@ -1180,7 +1161,6 @@ function LoginSetupPlayer(C) {
 	const loadedInventory = InventoryLoad(C.Inventory ?? "", C.InventoryData ?? "");
 	LoginPerformInventoryFixups(loadedInventory);
 	const fixedUp = LoginPerformAppearanceFixups(C.Appearance ?? []);
-	LoginPerformCraftingFixups(CraftingDecompressed);
 	InventoryAddMany(Player, loadedInventory, false);
 	ServerPlayerInventorySync();
 	const updated = ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance ?? [], C.MemberNumber);
@@ -1225,7 +1205,7 @@ function LoginSetupPlayer(C) {
 	LoginValideBuyGroups();
 	PrisonRestoreConfiscatedItems();
 	AsylumGGTSSAddItems();
-	CraftingLoadServer(CraftingDecompressed); // Only run this _after_ `Player.Inventory` is fully ready
+	CraftingLoadServer(C.Crafting); // Only run this _after_ `Player.Inventory` is fully ready
 
 	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 	CharacterAppearanceValidate(Player);
