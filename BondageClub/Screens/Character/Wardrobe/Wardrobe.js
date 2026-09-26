@@ -279,6 +279,17 @@ function WardrobeKeyDown(event) {
 }
 
 /**
+ * @type {ClipboardEventListener}
+ */
+function WardrobePaste(event) {
+	if (WardrobeReorderMode !== "None" || WardrobeSelection !== -1) return;
+	const search = /** @type {HTMLInputElement} */ (ElementWrap(WardrobeID.searchInput));
+	if (search) {
+		CommonKey.InputPaste(search, event);
+	}
+}
+
+/**
  * Exits the wardorbe screen and sends the player back to her private room
  * @type {ScreenExitHandler}
  */
