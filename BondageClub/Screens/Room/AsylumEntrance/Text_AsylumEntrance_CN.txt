@@ -1,20 +1,20 @@
-Leave the Asylum
+Exit
 离开收容所
-Your Profile
+Profile
 你的档案
-Asylum Chat Rooms
+ChatRoom
 收容所聊天室
-Your Bedroom
+Bedroom
 你的卧室
-Meeting Space
+Meeting
 会议室
-Therapy Room
+Therapy
 理疗室
-Remaining Time:
+RemainingTime
 剩余时间
-Punishment Time:
+IsolationTime
 剩余惩罚时间
-Good Girl Training System
+GGTS
 乖女孩训练系统（GGTS)
-Forced GGTS
+ForceGGTS
 强制GGTS

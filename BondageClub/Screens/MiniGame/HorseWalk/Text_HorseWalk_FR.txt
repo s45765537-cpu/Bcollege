@@ -1,14 +1,14 @@
-Move to the Carrots ($CARROTS) and avoid the crops ($CROPS)
+HorseWalkCarrotSpots
 Allez prendre les carotte ($CARROTS) en évitant les cravaches ($CROPS)
-Congratulations!  (Carrots: $CARROTS, crops: $CROPS)
+CarrotVictory
 Félicitations!  (Carottes: $CARROTS, Cravaches: $CROPS)
-Sorry, you've failed.  (Carrots: $CARROTS, crops: $CROPS)
+CarrotDefeat
 Dommage, c'est raté.  (Carottes: $CARROTS, Cravaches: $CROPS)
-Jump over the Hurdles. Win: ($HURDLEWIN), Failed: ($HURDLEFAIL)
+HorseWalkHurdleSpots
 Sautez par-dessus les obstacles. Réussi: ($HURDLEWIN), Manqué: ($HURDLEFAIL)
-Congratulations!  (Win: $HURDLEWIN, Failed: $HURDLEFAIL)
+HurdleVictory
 Félicitations!  (Réussi: $HURDLEWIN, Manqué: $HURDLEFAIL)
-Sorry, you've failed.  (Win: $HURDLEWIN, Failed: $HURDLEFAIL)
+HurdleDefeat
 Dommage, c'est raté.  (Réussi: $HURDLEWIN, Manqué: $HURDLEFAIL)
-Whip the ponies ($PONY), not the trainer ($TRAINER).
+HorseWalkHitSpots
 Essuyez les poneys ($PONY) et non l'entraineur ($TRAINER).

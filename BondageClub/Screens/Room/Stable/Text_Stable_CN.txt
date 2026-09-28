@@ -1,12 +1,12 @@
-Trial Training
+Toyhorse
 试训
 Treadmill
 跑步机
-Horse Carriage
+Carriage
 马车
-You wait in an isolation stable
+InStable
 你在隔离马厩里等待
-Try to hide the dice.
+HideDice
 尝试隐藏骰子。
-You have successfully hidden the dice
+SuccessHide
 你成功隐藏了骰子

@@ -1,34 +1,26 @@
-Enter your account & character information
+EnterAccountCharacterInfo
 Введіть інформацію про Ваший обліковий запис та персонажа
-Character name (letters & spaces)
-Ім'я персонажа (літери та пробіли)
-Account name (letters & numbers)
-Ім'я облікового запису (літери та цифри)
-Account password (letters & numbers)
-Пароль облікового запису (літери та цифри)
-Confirm password (letters & numbers)
-Підтвердіть пароль
-Email (optional, to recover password)
+EmailDesc
 Електронна пошта (необов'язково, для відновлення паролю)
-Create your account
+CreateAccount
 Стровити акаунт
-Your account already exists?
+AccountAlreadyExists
 Вже маєте акаунт?
 Login
 Увійти
-Creating your character...
+CreatingCharacter
 Створення Вашого персонажу...
-Error:
+Error
 Помилка:
-Invalid character, account name, password or email
+InvalidData
 Хибні ім'я облікогово запису або персонажа, пароль або електронна пошта
-Both passwords do not match
+BothPasswordDoNotMatch
 Паролі не співпадають
-Import Bondage College data
+ImportBondageCollege
 Імпортувати данні з Бондаж Коледжу
-Invalid server answer, it could be outdated.
+InvalidServerAnswer
 Хибна відповідь серверу, сервер може бути застарілим.
-Your character name, account name and password cannot be more than 20 characters long.
+InfoTooLong
 Ім'я облікогово запису, персонажа або пароль не можуть бути довже ніж 20 символів.
-Your character name is permanent and cannot be changed. You can set a nickname later.
+CharacterNamePermanent
 Ім'я персонажа є постійним і не може бути змінене. Пізніше ви зможете встановити псевдонім.

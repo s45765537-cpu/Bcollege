@@ -1,18 +1,16 @@
-﻿Easy
+Easy
 Легко
 Normal
 Нормально
 Hard
 Трудно
-Starts in
-Начинается в
-Difficulty:
+Difficulty
 Сложность:
-Perfect!  You didn't lose a drop.
+Perfect
 Отлично!  Ты не потеряла ни капли.
-You did it!  Your customers are satisfied.
+Victory
 Ты сделала это!  Твои клиенты довольны.
-You failed, you've spilled your drinks.
+Defeat
 Ты потерпела неудачу, ты пролила свои напитки.
-Click on yourself to continue.
+ClickContinue
 Нажми на себя, чтобы продолжить.

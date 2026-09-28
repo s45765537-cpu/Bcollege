@@ -1,10 +1,10 @@
-Enter your online description (MAXLEN characters maximum)
+EnterDescription
 Gib deine Online-Beschreibung ein (maximal MAXLEN Zeichen)
-CharacterName's online description
+ViewDescription
 CharacterNames Online-Beschreibung
-Exit profile
+Leave
 Profil verlassen
-Accept changes
+LeaveSave
 Änderung speichern
-Cancel changes
+LeaveNoSave
 Änderungen verwerfen

@@ -1,2 +1,2 @@
-Sorry miss. You don't have enough money for that right now.
+NotEnoughMoney
 Извините, мисс. У вас сейчас недостаточно денег для этого.

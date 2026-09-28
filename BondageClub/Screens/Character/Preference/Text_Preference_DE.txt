@@ -1,30 +1,24 @@
-- Preferences -
+Preferences
 - Einstellungen -
-Character label color:
+CharacterLabelColor
 Namenszug-Farbe:
-Item permission:
-Item-Berechtigung:
-Everyone, no exceptions
+AllowedInteraction0
 Alle, ohne Ausnahme
-Everyone, except blacklist
+AllowedInteraction1
 Alle, außer Blacklist
-Owner, Lover, whitelist & Dominants
+AllowedInteraction2
 Besitzer, Whitelist & Dominante
-Owner, Lover and whitelist only
+AllowedInteraction3
 Nur Besitzer und Whitelist
-Owner only
+AllowedInteraction5
 Nur Besitzer
-Put a valid hex #red-green-blue color
+ErrorInvalidColor
 Bitte gültige #rot-grün-blau Hex-Farbe eingeben
-- Chat display settings -
-- Chatanzeigeoptionen -
-Color theme:
-Farbschema:
 Light
 Hell
 Dark
 Dunkel
-Enter/Leave message style:
+EnterLeaveStyle
 Beitritt/Verlassen-Nachrichten:
 Normal
 Normal
@@ -32,19 +26,29 @@ Smaller
 Kleiner
 Hidden
 Verbergen
-Display member numbers:
+DisplayMemberNumbers
 Mitglieder-IDs anzeigen:
 Always
 Immer
 Never
 Nie
-On Mouseover
+OnMouseover
 Bei Mouseover
-Display timestamps
+DisplayTimestamps
 Zeitstempel anzeigen
-Color names
+ColorNames
 Namen färben
-Color actions
+ColorActions
 Handlungen färben
-Color emotes
+ColorEmotes
 Emotes färben
+RoomCustomizationLevel0
+Nie
+RoomCustomizationLevel3
+Immer
+SensDepLight
+Hell
+ShowFullscreenButtonon
+Immer
+ShowFullscreenButtonoff
+Nie

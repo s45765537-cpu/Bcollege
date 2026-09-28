@@ -1,12 +1,12 @@
 Accept
 接受
-Previous
+Prev
 向前
 Next
 向後
 Cancel
 取消
-Selection: SelectedBackground
+Selection
 選擇：選擇背景
-Filter: Filtered / Total
+Filter
 過濾：過濾/全部

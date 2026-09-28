@@ -1,14 +1,14 @@
-﻿On rental for a day
+RentalDay
 En location pour une journée
-At the asylum for a day
+AsylumDay
 À l'asile pendant une journée
-An orgasm is coming!
+OrgasmComing
 Un orgasme arrive!
-Resist!
+OrgasmResist
 Résistez!
-Try to resist
+OrgasmTryResist
 Essayer de résister
-Surrender
+OrgasmSurrender
 Abandonner
-Recovering from an orgasm...
+OrgasmRecovering
 Récupération après un orgasme ...

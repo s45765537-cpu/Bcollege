@@ -1,42 +1,42 @@
-Magic Battle
+MagicBattle
 Магическая битва
-Select your spell.
+SelectSpell
 Выберите свое заклинание.
-You are victorious.
+Won
 Вы победили.
-You were defeated.
+Lost
 Вы потерпели поражение.
-End the battle.
+EndBattle
 Конец битвы.
-Pallium Exuere
+Spell0Name
 Паллиум Экзюэр
-Animatus Funem
+Spell1Name
 Аниматус Фунем
-Funem Tensis
+Spell2Name
 Фунем Тенсис
-Oratio Angustos
+Spell3Name
 Орацио Ангустос
-Animatus Ferrum
+Spell4Name
 Аниматус Феррум
-Ferrum Tensis
+Spell5Name
 Феррум Тенсис
-Nuda Caro
+Spell6Name
 Нуда Каро
-Stricta Lorum
+Spell7Name
 Стрикта Лорум
-Cloth Stripping
+Spell0Hover
 Раздевание одежды
-Animate Rope
+Spell1Hover
 Анимированная веревка
-Rope Tightening
+Spell2Hover
 Затяжка веревки
-Block Speech
+Spell3Hover
 Блокировать речь
-Animate Chain
+Spell4Hover
 Анимированная цепочка
-Chain Tightening
+Spell5Hover
 Затяжка цепи
-Full Stripping
+Spell6Hover
 Полное раздевание
-Magic Armbinder
+Spell7Hover
 Волшебный армбиндер

@@ -1,18 +1,18 @@
-Return to the Club
+Exit
 Zurück zum Club
-Your Profile
+Profile
 Dein Profil
-Change Clothes
+Dress
 Kleidung wechseln
-Tennis Court
+Tennis
 Tennisplatz
-College Cafeteria
+Cafeteria
 College-Cafeteria
-College Theater
+Theater
 College-Theater
-Chess Club
+Chess
 Schach Club
-Detention Room
+Detention
 Nachsitz-Raum
-Teacher Lounge (Require a key)
+Teacher
 Lehrerzimmer (benötigt einen Schlüssel)

@@ -1,14 +1,14 @@
-Leave the Asylum
+Exit
 Anstalt verlassen
-Your Profile
+Profile
 Dein Profil
-Asylum Chat Rooms
+ChatRoom
 Anstalt-Chaträume
-Your Bedroom
+Bedroom
 Dein Schlafzimmer
-Meeting Space
+Meeting
 Gemeinschaftsraum
-Therapy Room
+Therapy
 Therapie-Raum
-Remaining Time:
+RemainingTime
 Verbleibende Zeit:

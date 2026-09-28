@@ -6,9 +6,9 @@ Default
 默認
 Many
 複數
-Next page
+Next
 下一頁
-Whole Item
+WholeItem
 物品整體
 All
 所有

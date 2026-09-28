@@ -1,9 +1,8 @@
-Tap to navigate the rope between the other ropes.  Starts in StartTimer seconds.
+Intro
 Нажмите, чтобы провести веревку между другими веревками. Запускается в секундах StartTimer.
-Perfect!  You've escaped on the first try.  Click on yourself to continue.
+Perfect
 Идеальный! Вы сбежали с первой попытки. Нажмите на себя, чтобы продолжить.
-Congrats!  You were able to escape.  Click on yourself to continue.
+Victory
 Поздравляю! Вы смогли сбежать. Нажмите на себя, чтобы продолжить.
-Sorry, you've failed to escape.  Click on yourself to continue.
+Defeat
 Извините, вам не удалось сбежать. Нажмите на себя, чтобы продолжить.
-

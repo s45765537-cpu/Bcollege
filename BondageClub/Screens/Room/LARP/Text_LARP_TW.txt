@@ -1,6 +1,6 @@
-Main Hall
+Leave
 大廳
-Your Profile
+Profile
 你的檔案
-LARP Battles
+Battle
 LARP 戰鬥

@@ -1,30 +1,26 @@
-Online friends
+OnlineFriends
 Друзі в мережі
-All friends
+AllFriends
 Всі друзі
-Beep history
+Beeps
 Історія повідомлень
-Member number
+MemberNumber
 Номер учасника
-Chat room
+ChatRoomName
 Кімната
-Friend type
-Тип друга
-Send a beep
+ActionFriends
 Надіслати повідомлення
-Delete a friend
-Видалити
 Refresh
 Оновити
-Room name: included
+ToggleRoomOn
 Назва кімнати: включена
-Room name: excluded
+ToggleRoomOff
 Назва кімнати: виключена
-Owner
+TypeOwner
 Власник
-Lover
+TypeLover
 Коханий/Кохана
-Submissive
+TypeSubmissive
 Сабмісив
-Friend
+TypeFriend
 Друг

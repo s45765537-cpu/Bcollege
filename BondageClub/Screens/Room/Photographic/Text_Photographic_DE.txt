@@ -1,6 +1,6 @@
-Select the item to use
+SelectItemUse
 Wähle das zu verwendende Item
-There are no items for this category.
+EmptyCategory
 Es gibt keine Items in dieser Kategorie.
-Can I use anything else to you?
+MoreItem
 Darf ich noch etwas an dir benutzen?

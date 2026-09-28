@@ -1,18 +1,18 @@
-Can I interest you in anything else?
+MoreShopping
 Kann ich dich noch für etwas anderes begeistern?
-Select or search for an item to buy.
+SelectItemBuy
 Wähle oder suche, was du kaufen möchtest.
-Select the item to sell it for half price.
+SelectItemSell
 Wähle das, was du für den halben Preis verkaufen möchtest.
-There are no items to sell for this category.
+EmptyCategory
 In dieser Kategorie steht nichts zum Verkauf.
-You already own this item.
+AlreadyOwned
 Das besitzt du bereits.
-You don't have enough money.
+NotEnoughMoney
 Du hast nicht genug Geld.
-Sorry, I cannot sell you keys.
+CannotSellKey
 Tut mir leid, ich darf dir keine Schlüssel verkaufen.
-Sorry, I cannot sell you remotes.
+CannotSellRemote
 Tut mir leid, ich darf dir keine Fernbedingung verkaufen.
-Thank you!  Anything else?
+ThankYou
 Danke! Darf es sonst noch etwas sein?

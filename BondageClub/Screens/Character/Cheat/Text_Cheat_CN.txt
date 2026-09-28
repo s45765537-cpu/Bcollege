@@ -1,30 +1,30 @@
-Gain reputation at double the rate
+DoubleReputation
 获得双倍声望
-Gain skills at double the rate
+DoubleSkill
 获得双倍技能熟练度
-Gain double amount of money
+DoubleMoney
 获得双倍金钱
-Speed up the time to use any item
+DoubleItemSpeed
 加快物品使用速度
-Prevent random kidnappings
+BlockRandomKidnap
 阻止随机绑架
-Skip the D/s trial periods
+SkipTrialPeriod
 跳过D/s尝试阶段
-Automatically show NPC traits
+AutoShowTraits
 自动显示NPC特点
-No love decay for NPC over time
+NoLoveDecay
 NPC关系不会随时间衰退
-Cannot lose Mistress status
+CantLoseMistress
 不会失去女主人状态
-Get college outfit for free
+FreeCollegeOutfit
 免费获得学院校服
-Hit "C" in mini-games for bonus
+MiniGameBonus
 在各种小游戏中按C键获得奖励
-Free NPC dress up
+FreeNPCDress
 免费NPC换衣
-Change Domme/sub NPC trait
+ChangeNPCTrait
 更换NPC的S/M特点
-Double GGTS time progress
+DoubleGGTSTime
 双倍GGTS时间进度
-Double Bondage Brawl Experience
+DoubleBrawlExperience
 双倍束缚格斗经验

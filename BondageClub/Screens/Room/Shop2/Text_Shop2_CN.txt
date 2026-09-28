@@ -1,70 +1,70 @@
-View previous items
+PagePrev
 查看之前的物品
-View next items
+PageNext
 查看后面的物品
 Exit
 退出
-Clothes
+ClothesModeClothes
 衣服
-Underwear
+ClothesModeUnderwear
 内衣
-Cosplay
+ClothesModeCosplay
 角色扮演
-Nude
+ClothesModeNude
 裸体
-Use item
+ExtendedItemButton
 使用物品
-Change item color
+Color
 改变物品颜色
-Shop mode: Preview
+BuyModePreview
 商店模式：试用
-Shop mode: Sell
+BuyModeSell
 商店模式：卖出
-Shop mode: Buy
+BuyModeBuy
 商店模式：购买
-Filter by item name
+InputSearch
 按物品名称筛选
-Filter by item group
+GroupSelectHeader
 按物品组筛选
-Show item group filter
+GroupSelectCollapse
 展开物品组过滤器
-Select All
+GroupSelectAll
 全选
-Select None
+GroupSelectNone
 全不选
-Change item layering
+LayeringButton
 改变物品分层
-male-only
+MaleOnly
 只看男性
-female-only
+FemaleOnly
 只看女性
-Preview items: Page 0
+ItemHeader00
 试用物品：第0页
-Buy items: Page 0
+ItemHeader01
 购买物品：第0页
-Sell items: Page 0
+ItemHeader02
 卖出物品：第0页
-Preview female-only items: Page 0
+ItemHeader10
 试用女性物品：第0页
-Buy female-only items: Page 0
+ItemHeader11
 购买女性物品：第0页
-Sell female-only items: Page 0
+ItemHeader12
 卖出女性物品：第0页
-Preview male-only items: Page 0
+ItemHeader20
 试用男性物品：第0页
-Buy male-only items: Page 0
+ItemHeader21
 购买男性物品：第0页
-Sell male-only items: Page 0
+ItemHeader22
 卖出男性物品：第0页
-Body & Clothing
+AssetGroupCategoryAppearance
 身体 & 衣服
-Toys & Restraints
+AssetGroupCategoryItem
 玩具 & 束缚
-Misc
+AssetGroupCategoryScript
 杂项
-Select pose
+PoseSelectHeader
 选择姿势
-Show pose menu
+PoseSelectCollapse
 展开姿势菜单
-Reset pose
+PoseSelectReset
 重置姿势

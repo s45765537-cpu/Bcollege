@@ -1,10 +1,10 @@
-Enter your online description (MAXLEN characters maximum)
+EnterDescription
 Введіть свій онлайн-опис (максимум MAXLEN символів)
-CharacterName's online description
+ViewDescription
 Онлайн-опис гравця CharacterName
-Exit profile
+Leave
 Вийти з профілю
-Accept changes
+LeaveSave
 Прийняти зміни
-Cancel changes
+LeaveNoSave
 Скасувати зміни

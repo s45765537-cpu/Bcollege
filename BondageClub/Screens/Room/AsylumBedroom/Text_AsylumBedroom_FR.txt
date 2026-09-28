@@ -1,8 +1,8 @@
-﻿Remaining Time:
+RemainingTime
 Temps Restant:
-Asylum Entrance
+Entrance
 Entrée de l'Asile
-Your Profile
+Profile
 Votre Profile
-Sleep (Log Off)
+Sleep
 Dormir (Déconnexion)

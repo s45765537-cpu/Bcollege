@@ -1,30 +1,30 @@
-﻿Gain reputation at double the rate
+DoubleReputation
 Здобувайте репутацію вдвічі швидше
-Gain skills at double the rate
+DoubleSkill
 Здобувайте навички вдвічі швидше
-Gain double amount of money
+DoubleMoney
 Здобувайте гроші вдвічі більше
-Speed up the time to use any item
+DoubleItemSpeed
 Прискорити час використання будь-якого предмета
-Prevent random kidnappings
+BlockRandomKidnap
 Запобігти випадковим викраденням
-Skip the D/s trial periods
+SkipTrialPeriod
 Пропустити пробні періоди D/s
-Automatically show NPC traits
+AutoShowTraits
 Автоматично показувати риси NPC
-No love decay for NPC over time
+NoLoveDecay
 Немає розпаду любові до NPC з часом
-Cannot lose Mistress status
+CantLoseMistress
 Не можна втратити статус Господарки
-Get college outfit for free
+FreeCollegeOutfit
 Отримати одяг коледжу безкоштовно
-Hit "C" in mini-games for bonus
+MiniGameBonus
 Натисніть "C" у міні-іграх, щоб отримати бонус
-Free NPC dress up
+FreeNPCDress
 Безкоштовне переодягання NPC
-Change Domme/sub NPC trait
+ChangeNPCTrait
 Зміна рис NPC (Домінування/Підпорядкування)
-Double GGTS time progress
+DoubleGGTSTime
 Подвійний прогрес часу в GGTS
-Double Bondage Brawl Experience
+DoubleBrawlExperience
 Подвійний досвід Bondage Brawl

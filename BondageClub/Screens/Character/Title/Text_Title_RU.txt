@@ -1,168 +1,174 @@
-Select your displayed name and title
+SelectTitle
 Выберите отображаемое имя и титул
-Current title: TITLE
+CurrentTitle
 Текущий титул: ТИТУЛ
-Nickname (letters and spaces)
-Псевдоним (буквы и пробелы)
-Nickname locked by your owner
+NicknameLocked
 Псевдоним заблокирован вашей Хозяйкой
-Nickname is too long (max. 20 characters)
+NicknameTooLong
 Псевдоним слишком длинный (не более 20 символов)
-Nickname contains invalid characters
+NicknameInvalidChars
 Псевдоним содержит недопустимые символы
-None
+TitleNone
 Нет
-Mistress
+TitleMistress
 Госпожа
-Club Slave
+TitleClubSlave
 Клубная рабыня
-Head Maid
+TitleHeadMaid
 Главная горничная
-Maid
+TitleMaid
 Горничная
-Bondage Maid
+TitleBondageMaid
 Бондаж Горничная
-Master Kidnapper
+TitleMasterKidnapper
 Мастер-похититель
-Kidnapper
+TitleKidnapper
 Похититель
-Patient
+TitlePatient
 Пациент
-Permanent Patient
+TitlePermanentPatient
 Постоянный пациент
-Escaped Patient
+TitleEscapedPatient
 Сбежавший пациент
-Nurse
+TitleNurse
 Медсестра
-Doctor
+TitleDoctor
 Доктор
-Lady Luck
+TitleLadyLuck
 Леди Удача
-Patron
+TitlePatron
 Покровитель
-College Student
+TitleCollegeStudent
 Студент колледжа
-Nawashi
+TitleNawashi
 Веревочный художник
-Houdini
+TitleHoudini
 Гудини
-Superheroine
+TitleAnimeGirl
 Супергероиня
-Superhero
+TitleAnimeBoy
 Супергерой
-Foal
+TitlePonyFoal
 Жеребенок
-Farm Horse
+TitlePonyFarm
 Фермерская лошадь
-Cold Blood Horse
+TitlePonyCold
 Хладнокровная Лошадь
-Warm Blood Horse
+TitlePonyWarm
 Обычная Лошадь
-Hot Blood Horse
+TitlePonyHot
 Горячая Лошадь
-Wild Mustang
+TitlePonyWild
 Дикий Мустанг
-Shining Unicorn
+TitlePonyUnicorn
 Сияющий Единорог
-Flying Pegasus
+TitlePonyPegasus
 Летающий Пегас
-Majestic Alicorn
+TitlePonyAlicorn
 Величественный Аликорн
-Mole
+TitleInfilrationMole
 Крот
-Infiltrator
+TitleInfilrationInfiltrator
 Лазутчик
-Agent
+TitleInfilrationAgent
 Агент
-Operative
+TitleInfilrationOperative
 Оперативник
-Superspy
+TitleInfilrationSuperspy
 Супер шпион
-Wizard
+TitleMagicSchoolWizard
 Волшебник
-Magus
+TitleMagicSchoolMagus
 Маг
-Magician
+TitleMagicSchoolMagician
 Фокусник
-Sorcerer
+TitleMagicSchoolSorcerer
 Колдун
-Sage
+TitleMagicSchoolSage
 Мудрец
-Oracle
+TitleMagicSchoolOracle
 Оракул
-Witch
+TitleMagicSchoolWitch
 Ведьма
-Warlock
+TitleMagicSchoolWarlock
 Чернокнижник
-Little One
+TitleLittleOne
 Малыш
-Baby
+TitleBaby
 Младенец
-Diaper Lover
+TitleDL
 Любитель Подгузников
-Bondage Baby
+TitleBondageBaby
 Связанный Ребёнок
-Duchess
+TitleDuchess
 Герцогиня
-Switch
+TitleSwitch
 Свитч
-Princess
+TitlePrincess
 Принцесса
-Prince
+TitlePrince
 Принц
-Missy
+TitleMissy
 Мисси
-Sissy
+TitleSissy
 Сисси
-Tomboy
+TitleTomboy
 Томбой
-Femboy
+TitleFemboy
 Фембой
-Pet
+TitlePet
 Питомец
-Brat
+TitleBrat
 Сопляк
-Kitten
+TitleKitten
 Котёнок
-Puppy
+TitlePuppy
 Щенок
-Foxy
+TitleFoxy
 Лис
-Bunny
+TitleBunny
 Кролик
-Doll
+TitleDoll
 Кукла
-Demon
+TitleDemon
 Демон
-Angel
+TitleAngel
 Ангел
-Alien
+TitleAlien
 Чужак
-Succubus
+TitleSuccubus
 Суккуб
-Incubus
+TitleIncubus
 Инкуб
-Good Girl
+TitleGoodGirl
 Хорошая Девочка
-Good Boy
-Хороший Мальчик
-Good Slave Girl
+TitleGoodSlaveGirl
 Хорошая Девочка-Рабыня
-Good Slave Boy
+TitleGoodBoy
+Хороший Мальчик
+TitleGoodSlaveBoy
 Хороший Мальчик-Раб
-Good Slave
+TitleGoodSlave
 Хороший Раб
-Drone
+TitleDrone
 Дрон
-Good One
+TitleGoodOne
 Хороший Вариант
-Liege
+TitleLiege
 Сеньор
-Concubus
+TitleConcubus
 Сожитель
-Majesty
+TitleMajesty
 Величество
-Captain
+TitleCaptain
 Капитан
-Admiral
+TitleAdmiral
 Адмирал
+TitleMaiestas
+Волшебник
+TitleVincula
+Фокусник
+TitleAmplector
+Мудрец
+TitleCorporis
+Ведьма

@@ -1,16 +1,16 @@
-Accept the changes
+Accept
 接受这些改变
-Cancel the changes
+Cancel
 取消这些改变
-You can change or lock your submissive nickname.
+Title1
 您可以更改或锁定您的顺从者昵称。
-A locked nickname can only be changed by you.
+Title2
 被锁定的昵称只能由你自己更改。
-Real Name:
+RealName
 真名：
-Current Nickname:
+CurrentNickname
 当前昵称：
-New Nickname:
+NewNickname
 新昵称：
-Lock her nickname
+Lock
 锁定她的昵称

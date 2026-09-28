@@ -1,192 +1,112 @@
-Check all
+CheckAll
 Отметить все
-Check none
+CheckNone
 Убрать отметки
-Apply the advanced rule
+Exit
 Применить расширенное правило
-Check the Bondage Club areas that your submissive won't be able to enter.
+BlockScreenTitle
 Отметьте области Бондаж-клуба, в которые ваш сабмиссив не сможет войти.
-Check the appearance zones that your submissive won't be able to change by herself.
+BlockAppearanceTitle
 Отметьте зоны внешности, которые ваша сабмиссив не сможет изменить самостоятельно.
-Check the item zones that your submissive won't be able to access on herself.
+BlockItemGroupTitle
 Отметьте зоны предметов, к которым ваш сабмиссив не сможет получить доступ на себе.
-Club Shop
-Клубный магазин
-Private Room
-Приватная комната
-Introduction Class
-Ознакомительный класс
-Maid Quarters
-Комната для прислуги
-Kidnappers League
-Лига Похитителей
-Shibari Dojo
-Шибари Додзе
-Explore the Club
-Исследуйте Клуб
-Look for Trouble
-Ищите неприятности
-Slave Market
-Рынок рабынь
-Timer Cell
-Таймер клетки
-LARP Battles
-LARP Битвы
-Visit the College
-Посетить колледж
-Asylum
-Психушка
-Bondage Poker
-Бондаж покер
-Infiltration
-Проникновение
-Movie Studio
-Киностудия
-Magic School
-Магическая школа
-Bondage Brawl
-Бондаж драка
-Item Crafting
-Создание предметов
-Gambling
-Играть в азартные игры
-Prison
-Тюрьма
-Photographic
-Фотостудия
-Stable
-Конюшня
-Houdini's Theater
-Театр Гудини
-The Nursery
-Детская
-Cafe
-Кафе
-Arcade
-Аркада
-Cloth
-Верх
-Cloth Accessory
-Аксессуар для верха
-Necklace
-Для шеи
-Suit (Upper)
-Верхний костюм
-Bottom
-Низ
-Suit (Lower)
-Нижний костюм
-Bra
-Бюстгальтер
-Corset
-Корсет
-Panties
-Трусики
-Socks
-Носки
-Right Anklet
-Правый ножной браслет
-Left Anklet
-Левый ножной браслет
-Garters
-Подвязки
-Shoes
-Обувь
-Hat
-Головной убор
-Hair Accessory
-Аксессуар для волос
-Hair Accessory (All)
-Аксессуары для волос (Все)
-Ears
-Уши
-Gloves
-Перчатки
-Left Hand Rings
-Кольца для левой руки
-Right Hand Rings
-Кольца для правой руки
-Bracelet
-Браслет
-Glasses
-Очки
-Mask
-Маска
-Tail Strap
-Ремень с хвостом
-Wings
-Крылья
-Height
-Рост
-Upper Body
-Верхняя часть тела
-Lower Body
-Нижняя часть тела
-Front Hair
-Передние волосы
-Back Hair
-Волосы сзади
-Left Eye
-Левый глаз
-Right Eye
-Правый глаз
-Mouth
-Рот
-Nipples
-Соски
-Pussy
-Киска
-Feet & Toes
+BlockItemGroupItemBoots
 Ступни и пальцы ног
-Lower Legs
+BlockItemGroupItemFeet
 Лодыжки
-Upper Legs
+BlockItemGroupItemLegs
 Бедра
-Pussy & Vagina
+BlockItemGroupItemVulva
 Киска и влагалище
-Clitoris
+BlockItemGroupItemVulvaPiercings
 Клитор
-Butt / Anal
+BlockItemGroupItemButt
 Задница / Анал
-Pelvis & Belly
+BlockItemGroupItemPelvis
 Таз и живот
-Torso (Left)
+BlockItemGroupItemTorso
 Торс (слева)
-Torso (Right)
+BlockItemGroupItemTorso2
 Торс (справа)
-Nipples
+BlockItemGroupItemNipples
 Соски
-Nipples Piercings
+BlockItemGroupItemNipplesPiercings
 Пирсинг в соски
-Breast
+BlockItemGroupItemBreast
 Грудь
-Hands
+BlockItemGroupItemHands
 Кисти
-Arms & Shoulders
+BlockItemGroupItemArms
 Руки и плечи
-Neck
+BlockItemGroupItemNeck
 Шея
-Neck Accessories
+BlockItemGroupItemNeckAccessories
 Аксессуары для шеи
-Neck Restraints
+BlockItemGroupItemNeckRestraints
 Ограничители для шеи
-Mouth (Left)
+BlockItemGroupItemMouth
 Рот (слева)
-Mouth (Center)
+BlockItemGroupItemMouth2
 Рот (в центре)
-Mouth (Right)
+BlockItemGroupItemMouth3
 Рот (справа)
-Nose
+BlockItemGroupItemNose
 Нос
-Ears
+BlockItemGroupItemEars
 Уши
-Head
+BlockItemGroupItemHead
 Голова
-Hood
+BlockItemGroupItemHood
 Капюшоны
-Misc (Top Left)
-Разное (вверху слева)
-Device (Bottom Left & Right)
-Девайсы (внизу слева и справа)
-Addon (Top Right)
-Дополнительно (вверху справа)
+BlockScreenShop
+Клубный магазин
+BlockScreenPrivate
+Приватная комната
+BlockScreenIntroduction
+Ознакомительный класс
+BlockScreenMaidQuarters
+Комната для прислуги
+BlockScreenKidnapLeague
+Лига Похитителей
+BlockScreenShibariDojo
+Шибари Додзе
+BlockScreenSarah
+Исследуйте Клуб
+BlockScreenTrouble
+Ищите неприятности
+BlockScreenSlaveMarket
+Рынок рабынь
+BlockScreenCell
+Таймер клетки
+BlockScreenLARPBattle
+LARP Битвы
+BlockScreenAsylum
+Психушка
+BlockScreenPoker
+Бондаж покер
+BlockScreenInfiltration
+Проникновение
+BlockScreenMovieStudio
+Киностудия
+BlockScreenMagicSchool
+Магическая школа
+BlockScreenPlatform
+Бондаж драка
+BlockScreenCrafting
+Создание предметов
+BlockScreenGambling
+Играть в азартные игры
+BlockScreenPrison
+Тюрьма
+BlockScreenPhotographic
+Фотостудия
+BlockScreenStable
+Конюшня
+BlockScreenMagic
+Театр Гудини
+BlockScreenNursery
+Детская
+BlockScreenCafe
+Кафе
+BlockScreenArcade
+Аркада

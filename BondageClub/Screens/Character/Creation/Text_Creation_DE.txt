@@ -1,34 +1,26 @@
-Enter your account & character information
+EnterAccountCharacterInfo
 Gib deine Account- und Charakterinformationen ein
-Character name (letters & spaces)
-Charaktername (Buchstaben & Leerzeichen)
-Account name (letters & numbers)
-Account-Name (Buchstaben & Ziffern)
-Account password (letters & numbers)
-Account-Passwort (Buchstaben & Ziffern)
-Confirm password (letters & numbers)
-Passwort bestätigen (Buchstaben & Ziffern)
-Email (optional, to recover password)
+EmailDesc
 E-Mail (Optional, für die Passwortwiederherstellung)
-Create your account
+CreateAccount
 Account erstellen
-Your account already exists?
+AccountAlreadyExists
 Existiert dein Account bereits?
 Login
 Anmelden
-Creating your character...
+CreatingCharacter
 Dein Charakter wird erstellt...
-Error:
+Error
 Fehler:
-Invalid character, account name, password or email
+InvalidData
 Charakter, Account-Name, Passwort oder E-Mail ungültig
-Both passwords do not match
+BothPasswordDoNotMatch
 Die Passwörter stimmen nicht überein
-Import Bondage College data
+ImportBondageCollege
 Daten aus Bondage College importieren
-Invalid server answer, it could be outdated.
+InvalidServerAnswer
 Ungültige Server-Antwort, eventuell veraltet.
-Your character name, account name and password cannot be more than 20 characters long.
+InfoTooLong
 Dein Charaktername, Account und Passwort kann nicht länger als 20 Zeichen sein. 
-Your character name is permanent and cannot be changed. You can set a nickname later.
+CharacterNamePermanent
 Dein Charaktername ist dauerhaft und kann nicht geändert werden. Du kannst später einen Spitznamen festlegen.

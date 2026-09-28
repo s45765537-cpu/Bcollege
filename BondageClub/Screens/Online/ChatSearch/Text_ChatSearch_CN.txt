@@ -1,98 +1,92 @@
-No chat room found.  You can create a new one.
+NoChatRoomFound
 没有找到聊天室，你可以新建一个
-Search for a room
+SearchRoom
 通过名称搜索一个房间
-Clear filter
+ClearFilter
 清除过滤器
-Create your room
+CreateRoom
 创建房间
-Apply filter
+ApplyFilter
 应用过滤器
- Load filtering
+LoadFilter
 加载过滤
-Friends in room:
+FriendsInRoom
 在房内的好友:
-This room is already full
+ResponseRoomFull
 房间已满
-This room is locked
+ResponseRoomLocked
 房间上锁
-You're banned from this room
+ResponseRoomBanned
 你被该房间封禁
-You've been kicked out
+ResponseRoomKicked
 你被踢出了房间
-Room doesn't exist anymore
+ResponseCannotFindRoom
 房间已消失
-Account Error
+ResponseAccountError
 账号错误
-Invalid Room Data
+ResponseInvalidRoomData
 无效的房间数据
-Entering the room...
+ResponseJoinedRoom
 正在进入房间...
-Duplicate join request
+ResponseAlreadyInRoom
 重复的加入请求
-Hide unwanted rooms
+FilterMode
 移除不需要的房间
-Temp Hide on click
-临时隐藏点击的房间
-Ghost player on click
+GhostPlayerOnClick
 幽灵玩家为点击的房间
-Show hidden rooms
+ShowHiddenRooms
 显示隐藏的房间
-Return to room view
+NormalMode
 返回房间界面
-Return to previous view
+NormalFilterMode
 返回上一视图
-Filtered because:
+FilteredBecause
 过滤原因：
-Contains filtered word
+FilterReasonWord
 包含过滤单词
-Temp Hidden
-临时隐藏
-Creator on ghostlist
+FilterReasonGhostList
 幽灵名单上的创造者
-Filter out terms (comma-separated)
+FilterExcludeTerms
 排除词条（逗号分隔）
 Help
 帮助
-Close help
+CloseHelp
 关闭帮助
-In filter mode you can remove rooms you do not wish to see.
+HelpText1
 在过滤模式下，您可以移除不希望看到的房间。
-A room will be hidden if it meets one or more of the following criteria: it is not in your selected language, it contains a filtered out word, it has been Temp Hidden (see below), or its creator is ghostlisted.
+HelpText2
 如果房间符合以下一个或多个条件，则该房间将被隐藏：它不是您选择的语言，它包含一个过滤掉的单词，它已被临时隐藏（请参见下文），或者它的创建者在幽灵列表中。
-The Language filter allows to view only rooms in a particular language. Other filters can be used to remove objectionable content from your view.
-语言过滤器仅允许以特定语言查看房间。其他过滤器可用于从视图中删除不良内容。
-Use "Filter out terms" to hide all rooms containing those words. Note this only checks the room name, not the description.
+HelpText3
 使用“过滤条件”隐藏包含词语的所有房间。注意：这只检查房间名称，不检查描述。
-Click on a room in this view to instantly Temp Hide that one room (until next login) and/or ghostlist the player who made the room (saved permanently until you remove them from ghostlist). Use the buttons at bottom right to select which action to take.
+HelpText4
 单击此视图中的某个房间可立即临时隐藏该房间（直到下次登录）和/或 将创建该房间的玩家列入幽灵列表（永久保存，直到您将其从幽灵列表中删除）。使用右下角的按钮选择要采取的操作。
-Use "Show hidden rooms" to show all the normally hidden rooms in case you want to unhide a particular room. Note that rooms hidden because of the language setting will not show here, but all other hidden rooms will.
+HelpText5
 如果要取消隐藏特定房间，请使用“显示隐藏房间”显示所有通常隐藏的房间。请注意，此处不会显示由于语言设置而隐藏的房间，但所有其他隐藏房间都会显示。
-Clicking a hidden room will unhide it. If the room is just Temp Hidden it will be unhidden instantly. Otherwise you will be asked to confirm if you want to unghostlist the creator and/or remove some filter words to allow the room to be shown.
+HelpText6
 单击隐藏的房间将取消隐藏。如果房间只是临时隐藏，它将立即被取消隐藏。否则，将要求您确认是否要取消列出幽灵列表的创建者和/或删除一些过滤词以显示房间。
-In order to unhide "{RoomLabel}" you are also about to:
+UnhideConfirmRoom
 为了取消隐藏"{RoomLabel}"，您还需要：
-Remove "{MemberLabel}" from your ghostlist
+UnhideConfirmMember
 从您的幽灵列表中移除 "{MemberLabel}"
-Remove "{WordsLabel}" from your filtered words
+UnhideConfirmWords
 从您的过滤词中移除 "{WordsLabel}"
-Are you sure you want to do this?
+UnhideConfirmEnd
 你确定要这样做吗？
-Cancel
+UnhideCancel
 取消
-Do it
+UnhideConfirm
 是的
-Refresh rooms
+RefreshRooms
 刷新房间
-Leave room search
+Exit
 离开房间搜索
-Friends
+FriendList
 好友
-Next page
+Next
 下一页
-Previous page
+Prev
 上一页
-Lobby:
+Lobby
 大厅：
 Mixed
 混合
@@ -102,105 +96,105 @@ Male
 男性
 Asylum
 收容所
-Block:
+Block
 屏蔽:
 ABDL
 尿布癖 (ABDL)
-Player Leashing
+Leashing
 牵走玩家
-Sci-Fi
+SciFi
 科幻
-Photographs
+Photos
 拍照
-Arousal Activities
+Arousal
 性活动
 Fantasy
 奇幻风
-Game:
+GameLabel
 游戏:
-Club Card
+GameClubCard
 俱乐部卡牌
-LARP
+GameLARP
 体感对战
-Magic Battle
+GameMagicBattle
 魔法对战
+GameGGTS
 GGTS
-GGTS
-Pandora
+GamePrison
 潘多拉
-All Games
+GameAllRooms
 所有游戏
-All languages
+Language
 所有语言
-Spanish
+LanguageES
 西班牙语
-Map Rooms
+MapRooms
 地图房间
-Hybrid Rooms
+HybridRooms
 混合房间
-Normal Rooms
+NormalRooms
 普通房间
-All Rooms
+AllRooms
 所有房间
-Any Lobby
+AnyLobby
 任何大厅
-Any Language
+AnyLanguage
 任何语言
-No Game
+NoGame
 无游戏
 Search
 搜索
-Search description:
+SearchDescription
 搜索描述:
-Show locked rooms:
+ShowLockedRooms
 显示锁定的房间：
-Show full rooms:
+ShowFullRooms
 显示满员的房间：
-Room Type:
+RoomType
 房间类型：
-Search Menu
+SearchMenuButton
 搜索菜单
-Show Room Page
+ShowRoomPage
 显示房间页面
-Join Room
+JoinRoom
 加入房间
-Admin Only
+AdminAccess
 仅管理员
-Whitelist Only
+WhitelistAccess
 仅白名单
-Try to Join
+RoomUnavailable
 尝试加入
-ABDL items are not allowed in this room.
+ABDLBlockDescription
 此房间不允许尿布癖物品。
-Fantasy items are not allowed in this room.
+FantasyBlockDescription
 此房间不允许奇幻物品。
-Photographs are not allowed in this room.
+PhotosBlockDescription
 此房间不允许拍照。
-Arousal activities are not allowed in this room.
+ArousalBlockDescription
 此房间不允许性活动。
-Sci-Fi items are not allowed in this room.
+SciFiBlockDescription
 此房间不允许科幻物品。
-Player Leashing is not allowed in this room.
+LeashingBlockDescription
 此房间不允许牵走玩家。
-Only female characters are allowed in this room.
+SpaceDescription
 此房间仅允许女性角色。
-Only male characters are allowed in this room.
+MSpaceDescription
 此房间仅允许男性角色。
-Mixed gender characters are allowed in this room.
+XSpaceDescription
 此房间允许混合性别角色。
-LARP game is active in this room.
+LARPRoomGameDescription
 此房间正在进行体感对战游戏。
-Magic Battle is active in this room.
+MagicBattleRoomGameDescription
 此房间正在进行魔法对战游戏。
-GGTS is active in this room.
+GGTSRoomGameDescription
 此房间正在进行GGTS游戏。
-Pandora is active in this room.
+PrisonRoomGameDescription
 此房间正在进行潘多拉活动。
-The main language of this room is %LANGUAGE%.
+LanguageDescription
 此房间的主要语言是 %LANGUAGE%。
-This room is always a map.
+AlwaysMapDescription
 此房间始终是地图房间。
-This room allows both maps and normal rooms.
+HybridMapDescription
 此房间允许地图房间和普通房间。
-This room is just a normal room.
+NeverMapDescription
 此房间只是一个普通房间。

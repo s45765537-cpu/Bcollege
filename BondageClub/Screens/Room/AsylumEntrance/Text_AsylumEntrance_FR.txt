@@ -1,14 +1,14 @@
-﻿Leave the Asylum
+Exit
 Quittez l'Asile
-Your Profile
+Profile
 Votre Profile
-Asylum Chat Rooms
+ChatRoom
 Salons de l'asile
-Your Bedroom
+Bedroom
 Votre Chambre
-Meeting Space
+Meeting
 Espace de Rencontre
-Therapy Room
+Therapy
 Salle de Thérapie
-Remaining Time:
+RemainingTime
 Temps Restant:

@@ -1,20 +1,20 @@
-﻿Lock timer: 
+Timer
 Таймер блокировки: 
-minutes
+Minutes
 минут
-Leave the cell
+Leave
 Покинь камеру
-Character profile
+Profile
 Профиль персонажа
-Add 5 minutes
+AddTime
 Добавь 5 минут
-Remove 5 minutes
+RemoveTime
 Удалить 5 минут
-Lock yourself
+Lock
 Запереться
-Opens in
+OpensIn
 Открыть через
-Kneel / Stand
+Kneel
 На колени / Встать
-Key deposit
+KeyDeposit
 Депозит ключей

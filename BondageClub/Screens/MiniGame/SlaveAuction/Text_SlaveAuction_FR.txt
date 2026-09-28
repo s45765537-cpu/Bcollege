@@ -1,28 +1,28 @@
-Current bid:
+CurrentBid
 Offre courante:
-Highest bidder:
+HighestBidder
 Meilleure offre:
-I bid
+IBid
 J'offre
 Bid
 Offre
 You
 Vous
-Someone else
+SomeoneElse
 Quelqu'un d'autre
 Nobody
 Personne
-Your money:
+YourMoney
 Votre monnaie:
-Give up
+GiveUp
 Abandonner
 Return
 Retourner
-Do I hear
+DoIHear
 Est-ce que j'entends
-Going once!
+GoingOnce
 Une fois!
-Going twice!
+GoingTwice
 Deux fois!
-Sold!
+Sold
 Vendue!

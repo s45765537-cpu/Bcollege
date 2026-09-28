@@ -1,4 +1,4 @@
-(You are under lock and key.)
+LockKey
 （你被锁住了。）
-(You have to guard the room.)
+Watch
 （你需要守卫房间。）

@@ -1,18 +1,18 @@
-RansomCharacterName is in our hands.
+Ransom0
 RansomCharacterName в наших руках.
-Don't try anything or she will get hurt.
+Ransom1
 Ничего не предпринимай, иначе ей будет больно.
-She will work as a slave for our customers.
+Ransom2
 Она будет работать рабыней для наших клиентов.
-When her debt is paid, she will be freed.
+Ransom3
 Когда ее долг будет выплачен, она будет освобождена.
-You can also pay $100 to release her now.
+Ransom4
 Вы также можете заплатить 100 долларов, чтобы освободить ее сейчас.
-Pandora's Box
+Ransom5
 Ящик Пандоры
-Put the ransom away
+Exit
 Убери выкуп подальше
-Inquire with infiltration
+Infiltration
 Запрашивайте с помощью инфильтрации
-Hello Comrade!  Is there something troubling you?
+InfiltrationIntro
 Привет, товарищ!  Вас что-то беспокоит?

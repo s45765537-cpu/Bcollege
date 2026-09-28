@@ -1,172 +1,178 @@
-Select your displayed name and title
+SelectTitle
 Оберіть Ваші відображувані ім'я та титул
-Current title: TITLE
+CurrentTitle
 Поточний титул: TITLE
-Nickname (letters and spaces)
-Псевдонім
-Nickname locked by your owner
+NicknameLocked
 Псевдонім заблоковано Вашим власником
-Nickname is too long (max. 20 characters)
+NicknameTooLong
 Псевдонім занадто довгий (макс. 20 знаків)
-Nickname contains invalid characters
+NicknameInvalidChars
 Псевдонім містить недопустимі знаки
-None
+TitleNone
 Жодного
-Mistress
+TitleMistress
 Господиня
-Master
+TitleMaster
 Господар
-Club Slave
+TitleClubSlave
 Клубний раб
-Head Maid
+TitleHeadMaid
 Головна покоївка
-Maid
+TitleMaid
 Покоївка
-Bondage Maid
+TitleBondageMaid
 Бондаж покоївка
-Master Kidnapper
+TitleMasterKidnapper
 Майстер-викрадач
-Kidnapper
+TitleKidnapper
 Викрадач
-Patient
+TitlePatient
 Пацієнт
-Permanent Patient
+TitlePermanentPatient
 Постійний пацієнт
-Escaped Patient
+TitleEscapedPatient
 Пацієнт-утікач
-Nurse
+TitleNurse
 Медсестра
-Doctor
+TitleDoctor
 Лікар
-Lady Luck
+TitleLadyLuck
 Пані Удача
-Lord Fortune
+TitleLordFortune
 Пан Фортуна
-Patron
+TitlePatron
 Меценат
-College Student
+TitleCollegeStudent
 Студент коледжу
-Nawashi
+TitleNawashi
 Наваші
-Houdini
+TitleHoudini
 Гудіні
-Foal
+TitlePonyFoal
 Лоша
-Farm Horse
+TitlePonyFarm
 Фермерський кінь
-Cold Blood Horse
+TitlePonyCold
 Холоднокровний кінь
-Warm Blood Horse
+TitlePonyWarm
 Теплокровний кінь
-Hot Blood Horse
+TitlePonyHot
 Гарячокровний кінь
-Wild Mustang
+TitlePonyWild
 Дикий мустанг
-Shining Unicorn
+TitlePonyUnicorn
 Сяючий єдиноріг
-Flying Pegasus
+TitlePonyPegasus
 Летючий пегас
-Majestic Alicorn
+TitlePonyAlicorn
 Величний Алікорн
-Mole
+TitleInfilrationMole
 Кріт
-Infiltrator
+TitleInfilrationInfiltrator
 Інфільтратор
-Agent
+TitleInfilrationAgent
 Агент
-Operative
+TitleInfilrationOperative
 Сищик
-Superspy
+TitleInfilrationSuperspy
 Супершпигун
-Wizard
+TitleMagicSchoolWizard
 Чаклун
-Magus
+TitleMagicSchoolMagus
 Волхв
-Magician
+TitleMagicSchoolMagician
 Чарівник
-Sorcerer
+TitleMagicSchoolSorcerer
 Чарівник
-Sage
+TitleMagicSchoolSage
 Мудрець
-Oracle
+TitleMagicSchoolOracle
 Оракул
-Witch
+TitleMagicSchoolWitch
 Відьма
-Warlock
+TitleMagicSchoolWarlock
 Чорнокнижник
-Little One
+TitleLittleOne
 Крихітка
-Baby
+TitleBaby
 Маля
-Diaper Lover
+TitleDL
 Любитель підгузків
-Bondage Baby
+TitleBondageBaby
 Бондаж-дитина
-Duchess
+TitleDuchess
 Герцогиня
-Duke
+TitleDuke
 Герцог
-Switch
+TitleSwitch
 Світч
-Princess
+TitlePrincess
 Принцеса
-Prince
+TitlePrince
 Принц
-Missy
+TitleMissy
 Міссі
-Sissy
+TitleSissy
 Сіссі
-Tomboy
+TitleTomboy
 Томбой
-Femboy
+TitleFemboy
 Фембой
-Pet
+TitlePet
 Домашня тваринка
-Brat
+TitleBrat
 Шибеник
-Kitten
+TitleKitten
 Кошеня
-Puppy
+TitlePuppy
 Цуценя
-Foxy
+TitleFoxy
 Лисеня
-Bunny
+TitleBunny
 Кроленя
-Doll
+TitleDoll
 Лялька
-Demon
+TitleDemon
 Демон
-Angel
+TitleAngel
 Ангел
-Alien
+TitleAlien
 Прибулець
-Succubus
+TitleSuccubus
 Суккуб
-Incubus
+TitleIncubus
 Інкуб
-Good Girl
+TitleGoodGirl
 Гарна дівчинка
-Good Slave Girl
+TitleGoodSlaveGirl
 Гарна дівчинка-рабиня
-Good Boy
+TitleGoodBoy
 Гарний хлопчик
-Good Slave Boy
+TitleGoodSlaveBoy
 Гарний хлопчик-раб
-Good Slave
+TitleGoodSlave
 Гарний раб
-Drone
+TitleDrone
 Дрон
-Mistree
+TitleMistree
 Містрі
-Good One
+TitleGoodOne
 Хороший
-Liege
+TitleLiege
 Сеньйор
-Concubus
+TitleConcubus
 Конкуб
-Majesty
+TitleMajesty
 Величність
-Captain
+TitleCaptain
 Капітан
-Admiral
+TitleAdmiral
 Адмірал
+TitleMaiestas
+Чаклун
+TitleVincula
+Чарівник
+TitleAmplector
+Мудрець
+TitleCorporis
+Відьма

@@ -1,4 +1,4 @@
-Main Hall
+Exit
 返回大厅
-Your Profile
+Profile
 个人档案

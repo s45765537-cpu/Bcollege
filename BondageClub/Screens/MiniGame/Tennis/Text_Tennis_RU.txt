@@ -1,16 +1,14 @@
-﻿Starts in
-Начинается через
-Send the tennis ball past your opponent.
+Intro1
 Отправить теннисный мяч мимо твоей противницы.
-Don't let the ball slip through your side.
+Intro2
 Не позволяй мячу проскользнуть через твою сторону.
+Point0
 0
-0
+Point1
 15
-15
+Point2
 30
-30
-40
+Point3
 40
 Deuce
 Двойка
@@ -18,11 +16,11 @@ Advantage
 Преимущество
 Winner
 Победительница
-Victory!  Perfect game.
+Perfect
 Победа!  Идеальная игра.
-You won the game.
+Victory
 Ты выиграла игру.
-You lost the game.
+Defeat
 Ты проиграла игру.
-Click on yourself to continue.
+ClickContinue
 Нажми на себя, чтобы продолжить.

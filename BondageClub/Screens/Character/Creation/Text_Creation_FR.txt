@@ -1,32 +1,24 @@
-Enter your account & character information
+EnterAccountCharacterInfo
 Entrer l'information de votre compte & personnage
-Character name (letters & spaces)
-Nom du personnage (lettres & espaces)
-Account name (letters & numbers)
-Nom de compte (lettres & chiffres)
-Account password (letters & numbers)
-Mot de passe (lettres & chiffres)
-Confirm password (letters & numbers)
-Confirmer mot de passe (lettres & chiffres)
-Email (optional, to recover password)
+EmailDesc
 Courriel (optionnel, pour récupérer le mot de passe)
-Create your account
+CreateAccount
 Créer votre compte
-Your account already exists?
+AccountAlreadyExists
 Votre compte existe déjà?
 Login
 Connection
-Creating your character...
+CreatingCharacter
 Personnage en création...
-Error:
+Error
 Erreur:
-Invalid character, account name, password or email
+InvalidData
 Personnage invalide, nom de compte, mot de passe ou courriel
-Both passwords do not match
+BothPasswordDoNotMatch
 Différents mots de passe
-Import Bondage College data
+ImportBondageCollege
 Importer vos données de Bondage College
-Invalid server answer, it could be outdated.
+InvalidServerAnswer
 Réponse au serveur invalide, il pourrait avoir une nouvelle version.
-Your character name is permanent and cannot be changed. You can set a nickname later.
+CharacterNamePermanent
 Le nom de votre personnage est permanent et ne peut pas être modifié. Vous pourrez définir un surnom plus tard.

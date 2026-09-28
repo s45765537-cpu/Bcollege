@@ -1,6 +1,6 @@
-Main Hall
+Leave
 Главный зал
-Your Profile
+Profile
 Твой профиль
-LARP Battles
+Battle
 Сражения LARP

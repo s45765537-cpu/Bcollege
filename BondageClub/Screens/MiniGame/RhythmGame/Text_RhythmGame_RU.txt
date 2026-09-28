@@ -1,6 +1,6 @@
-﻿Audience Patience Level
+AudiencePatienceLevel
 Уровень Терпения Аудитории 
-Accuracy
+Acc
 Точность
-Bonus
+Score
 Бонус

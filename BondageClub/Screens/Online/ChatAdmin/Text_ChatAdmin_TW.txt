@@ -1,60 +1,72 @@
-Room Name
+RoomName
 房間名
-Language
+RoomLanguage
 語言
-Description
+RoomDescription
 描述
-Ban List
+RoomBanList
 封禁列表
-Whitelist
-白名單
-Administrator List
+RoomAdminList
 房管列表
-Size (2-20)
+RoomWhitelist
+白名單
+RoomSize
 大小 (2-20)
-Member numbers separated by commas (ex: 123, ...)
+MemberNumbersFormatPlaceholder
 逗號分隔的用戶號 (如: 123, ...)
-Use the above buttons to quickadd to the respective lists
+QuickaddExplanation
 使用上述按鈕快速新增至相關清單
-Blacklist
-黑名單成員
-Ghostlist
-忽視列表成員
-Owner
+QuickaddAdminOwner
 主人
-Lovers
+QuickaddAdminLovers
 戀人
-Friends
+QuickaddWhitelistOwner
+主人
+QuickaddWhitelistLovers
+戀人
+QuickaddWhitelistFriends
 朋友們
-Room settings can only be updated by administrators
+QuickaddWhitelistWhitelist
+白名單
+QuickaddBanBlacklist
+黑名單成員
+QuickaddBanGhostlist
+忽視列表成員
+AdminOnly
 房間選項僅能被房管修改
 Background
 背景
-Visibility
+VisibilityModeHeader
 能見度
-Access
-存取
-Public
+VisibilityModePUBLIC
 公眾
-Admin + Whitelist
+VisibilityModeADMIN_WHITELIST
 管理 + 白名單
-Admin
+VisibilityModeADMIN
 管理員
-Unlisted
+VisibilityModeUNLISTED
 未列名
-Import room code
+AccessModeHeader
+存取
+AccessModePUBLIC
+公眾
+AccessModeADMIN_WHITELIST
+管理 + 白名單
+AccessModeADMIN
+管理員
+UploadTooltip
 匯入房間代碼
-Please paste the room code. Importing room codes will overwrite existing settings. Are you sure?
+UploadPrompt
 請貼上房間代碼。匯入房間代碼將會覆寫現有設定。確定嗎？
-Failed to parse the passed room code (incomplete? invalid? outdated?)
+UploadInvalidCode
 無法解析傳入的房間代碼（不完整？無效？過時？）
-Successfully imported room code
+UploadSuccess
 成功匯入房間代碼
-Export room code
+DownloadTooltip
 匯出房間代碼
-Failed to copy room code to clipboard
+DownloadFailed
 無法將房間代碼複製到剪貼簿
-Room code copied to clipboard
+DownloadSuccess
 房間代碼已複製到剪貼簿
 Create
 創建
@@ -64,37 +76,27 @@ Exit
 退出
 Cancel
 取消
-Updating the chat room...
+UpdatingRoom
 更新聊天室...
-This room name is already taken
+ResponseRoomAlreadyExist
 該房間名已被占用
-Account error, please try to relog
+ResponseAccountError
 帳號錯誤,請重新登入
-Invalid chat room data detected
+ResponseInvalidRoomData
 無效的聊天室數據
-Room created, joining it...
+ResponseChatRoomCreated
 房間已創建，正在加入...
-Block Categories
+BlockCategory
 屏蔽性癖
-No Game
-無遊戲
-LARP
-體感對戰
-Magic Battle
-魔法對戰
-GGTS
-GGTS
-(Click anywhere to return)
+ReturnMenu
 (點擊任意位置返回)
-English
-英語
-French
-法語
-Spanish
+Game
+無遊戲
+GameLARP
+體感對戰
+GameMagicBattle
+魔法對戰
+GameGGTS
+GGTS
+LanguageES
 西班牙語
-German
-德語
-Chinese
-中文
-Russian
-俄語

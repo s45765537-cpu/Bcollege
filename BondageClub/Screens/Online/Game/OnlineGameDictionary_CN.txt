@@ -1,184 +1,182 @@
-Select the item to use
+LARPItemSelect
 选择要使用的物品
-Next
+LARPItemNext
 下一个
-Cancel
+LARPItemCancel
 取消
-Red
+LARPTeamRed
 红
-Green
+LARPTeamGreen
 绿
-Blue
+LARPTeamBlue
 蓝
-Yellow
+LARPTeamYellow
 黄
-Cyan
+LARPTeamCyan
 青
-Purple
+LARPTeamPurple
 紫
-Orange
+LARPTeamOrange
 橙
-White
+LARPTeamWhite
 白
-Gray
+LARPTeamGray
 灰
-Black
+LARPTeamBlack
 黑
+LARPTimerNA
 0
-0
-The game is over!  TeamName team wins.  Enjoy your spoils of war.
+LARPEndGame
 游戏结束！TeamName队胜利。享用你们的战利品吧！
-TargetName (TargetNumber) plays first and starts the game.
+LARPTurnStart
 TargetName(TargetNumber)最先行动，并开始了游戏。
-The turn is skipped.  TargetName (TargetNumber) plays.
+LARPTurnSkip
 这个回合跳过，TargetName(TargetNumber)行动。
-TargetName (TargetNumber) plays.
+LARPTurnNext
 TargetName(TargetNumber)行动。
-Back to characters
+LARPBackToCharacters
 回到角色。
-Pass your turn
+LARPOptionPass
 跳过回合
-SourceName (SourceNumber) does nothing and passes her turn.
+LARPOptionPassSuccess
 SourceName(SourceNumber)什么也没有做，并跳过了回合。
-Strip her (OptionOdds %)
-脱她的衣服(OptionOdds %)
-SourceName (SourceNumber) successfully strips TargetName (TargetNumber).  [ActionOdds >= ActionRNG]
+LARPOptionStripSuccess
 SourceName(SourceNumber)成功脱掉了TargetName(TargetNumber)的衣服。[ActionOdds >= ActionRNG]
-SourceName (SourceNumber) fails to strip TargetName (TargetNumber).  [ActionOdds < ActionRNG]
+LARPOptionStripFail
 SourceName(SourceNumber)未能脱掉TargetName(TargetNumber)的衣服。[ActionOdds < ActionRNG]
-Restrain arms (OptionOdds %)
+LARPOptionRestrainArms
 束缚手臂(OptionOdds %)
-SourceName (SourceNumber) successfully restrains TargetName (TargetNumber) arms using: ItemDesc.  [ActionOdds >= ActionRNG]
+LARPOptionRestrainArmsSuccess
 SourceName(SourceNumber)成功使用ItemDesc束缚了TargetName(TargetNumber)的双臂。[ActionOdds >= ActionRNG]
-SourceName (SourceNumber) fails to restrain TargetName (TargetNumber) arms using: ItemDesc.  [ActionOdds < ActionRNG]
+LARPOptionRestrainArmsFail
 SourceName(SourceNumber)未能使用ItemDesc束缚住TargetName(TargetNumber)的双臂。[ActionOdds < ActionRNG]
-Restrain legs (OptionOdds %)
+LARPOptionRestrainLegs
 束缚双腿(OptionOdds %)
-SourceName (SourceNumber) successfully restrains TargetName (TargetNumber) legs using: ItemDesc.  [ActionOdds >= ActionRNG]
+LARPOptionRestrainLegsSuccess
 SourceName(SourceNumber)成功使用ItemDesc束缚了TargetName(TargetNumber)的双腿。[ActionOdds >= ActionRNG]
-SourceName (SourceNumber) fails to restrain TargetName (TargetNumber) legs using: ItemDesc.  [ActionOdds < ActionRNG]
+LARPOptionRestrainLegsFail
 SourceName(SourceNumber)未能使用ItemDesc束缚住TargetName(TargetNumber)的双腿。[ActionOdds < ActionRNG]
-Gag her (OptionOdds %)
-给她戴口塞(OptionOdds %)
-SourceName (SourceNumber) successfully gags TargetName (TargetNumber) using: ItemDesc.  [ActionOdds >= ActionRNG]
+LARPOptionRestrainMouthSuccess
 SourceName(SourceNumber)成功使用ItemDesc塞住了TargetName(TargetNumber)的嘴。[ActionOdds >= ActionRNG]
-SourceName (SourceNumber) fails to gag TargetName (TargetNumber) using: ItemDesc.  [ActionOdds < ActionRNG]
+LARPOptionRestrainMouthFail
 SourceName(SourceNumber)未能使用ItemDesc塞住TargetName(TargetNumber)的嘴。[ActionOdds < ActionRNG]
-Tighten (OptionOdds %)
+LARPOptionTighten
 束紧(OptionOdds %)
-SourceName (SourceNumber) tightens TargetName (TargetNumber) bondage, resetting her struggle progress.
+LARPOptionTightenSuccess
 SourceName(SourceNumber)收紧了TargetName(TargetNumber)的束缚，重置了她的挣扎进度。
-Struggle (OptionOdds %)
+LARPOptionStruggle
 挣扎(OptionOdds %)
-TargetName (TargetNumber) struggles out successfully and frees her arms.  [ActionOdds >= ActionRNG]
+LARPOptionStruggleSuccess
 SourceName(SourceNumber)成功挣脱，解放了她的双臂。[ActionOdds >= ActionRNG]
-TargetName (TargetNumber) tries to struggle out but fails.  [ActionOdds < ActionRNG]
+LARPOptionStruggleFail
 SourceName(SourceNumber)尝试挣脱，但是失败了。[ActionOdds < ActionRNG]
-Charge (OptionOdds %)
+LARPOptionCharge
 鼓舞(OptionOdds %)
-SourceName (SourceNumber) charges with her team, giving a 25% offensive bonus for a full cycle.
+LARPOptionChargeSuccess
 SourceName(SourceNumber)鼓舞她的队伍，在一整轮内，提供25%的攻击加成。
-Control (OptionOdds %)
+LARPOptionControl
 掌控(OptionOdds %)
-SourceName (SourceNumber) controls the room, preventing everyone from using special abilities for a full cycle.
+LARPOptionControlSuccess
 SourceName(SourceNumber)掌控房间，在一整轮内，阻止任何人使用特殊能力。
-Detain (OptionOdds %)
+LARPOptionDetain
 扣押(OptionOdds %)
-SourceName (SourceNumber) detains TargetName (TargetNumber) and restrains her arms using: ItemDesc.
+LARPOptionDetainSuccess
 SourceName(SourceNumber)使用ItemDesc扣押了TargetName(TargetNumber)并束缚了她的手臂。
-Expose (OptionOdds %)
+LARPOptionExpose
 暴露(OptionOdds %)
-SourceName (SourceNumber) exposes TargetName (TargetNumber) and removes her clothes.
+LARPOptionExposeSuccess
 SourceName(SourceNumber)暴露了TargetName(TargetNumber)并脱掉了她的衣服。
-Inspire (OptionOdds %)
+LARPOptionInspire
 启发(OptionOdds %)
-SourceName (SourceNumber) inspires TargetName (TargetNumber), allowing her to use her special abilities again.
+LARPOptionInspireSuccess
 SourceName(SourceNumber)启发了TargetName(TargetNumber)，让她能够再次使用特殊能力。
-Seduce (OptionOdds %)
+LARPOptionSeduce
 诱惑(OptionOdds %)
-SourceName (SourceNumber) seduces TargetName (TargetNumber), preventing her from acting in her next turn.
+LARPOptionSeduceSuccess
 SourceName(SourceNumber)诱惑了TargetName(TargetNumber)，她在下个回合无法行动。
-Confuse (OptionOdds %)
+LARPOptionConfuse
 迷惑(OptionOdds %)
-SourceName (SourceNumber) confuses TargetName (TargetNumber), preventing her from using special abilities for a full cycle.
+LARPOptionConfuseSuccess
 SourceName(SourceNumber)迷惑了TargetName(TargetNumber)，在一整轮内，她无法使用特殊能力。
-Hide (OptionOdds %)
+LARPOptionHide
 躲藏(OptionOdds %)
-SourceName (SourceNumber) hides in a corner, no opponent can target her until her next turn.
+LARPOptionHideSuccess
 SourceName(SourceNumber)躲在了角落里，直到她的下个回合，敌人不能以她为目标。
-Immobilize (OptionOdds %)
+LARPOptionImmobilize
 固定(OptionOdds %)
-SourceName (SourceNumber) immobilize TargetName (TargetNumber) and restrains her legs using: ItemDesc.
+LARPOptionImmobilizeSuccess
 SourceName(SourceNumber)使用ItemDesc固定了TargetName(TargetNumber)并束缚了她的双腿。
-Cheer (OptionOdds %)
+LARPOptionCheer
 庆贺(OptionOdds %)
-SourceName (SourceNumber) cheers for TargetName (TargetNumber), giving her a 25% offensive and defensive bonus for a full cycle.
+LARPOptionCheerSuccess
 SourceName(SourceNumber)向TargetName(TargetNumber)庆贺，在一整轮内，向她提供25%的攻击和防御加成。
-Costume (OptionOdds %)
+LARPOptionCostume
 装扮(OptionOdds %)
-SourceName (SourceNumber) costumes TargetName (TargetNumber) using: ItemDesc.
+LARPOptionCostumeSuccess
 SourceName(SourceNumber)使用ItemDesc装扮了TargetName(TargetNumber)。
-Evasion (OptionOdds %)
+LARPOptionEvasion
 逃脱(OptionOdds %)
-SourceName (SourceNumber) uses her evasion abilities to remove her restraint.
+LARPOptionEvasionSuccess
 SourceName(SourceNumber)使用她的逃脱能力从束缚中逃脱出来。
-Rescue (OptionOdds %)
+LARPOptionRescue
 解救(OptionOdds %)
-SourceName (SourceNumber) rescues TargetName (TargetNumber).  Removing her restraint.
+LARPOptionRescueSuccess
 SourceName(SourceNumber)解救了TargetName(TargetNumber)。并移除了她的束缚。
-Silence (OptionOdds %)
+LARPOptionSilence
 沉默(OptionOdds %)
-SourceName (SourceNumber) silences TargetName (TargetNumber) and gag her using: ItemDesc.
+LARPOptionSilenceSuccess
 SourceName(SourceNumber)使用ItemDesc让TargetName(TargetNumber)沉默，并塞住了她的嘴。
-Ungag (OptionOdds %)
+LARPOptionUngag
 解开口塞(OptionOdds %)
-SourceName (SourceNumber) ungags TargetName (TargetNumber).
+LARPOptionUngagSuccess
 SourceName(SourceNumber)解开了TargetName(TargetNumber)的口塞。
-Cover (OptionOdds %)
+LARPOptionCover
 掩护(OptionOdds %)
-SourceName (SourceNumber) covers TargetName (TargetNumber), no opponent can target her for a full cycle.
+LARPOptionCoverSuccess
 SourceName(SourceNumber)掩护TargetName(TargetNumber)，在一整轮内，敌人不能以她为目标。
-Dress (OptionOdds %)
+LARPOptionDress
 着装(OptionOdds %)
-SourceName (SourceNumber) dresses back using: ItemDesc.
+LARPOptionDressSuccess
 SourceName(SourceNumber)使用ItemDesc穿回衣服。
-Support (OptionOdds %)
+LARPOptionSupport
 支援(OptionOdds %)
-SourceName (SourceNumber) supports her team, giving a 25% defensive bonus for a full cycle.
+LARPOptionSupportSuccess
 SourceName(SourceNumber)支援她的队伍，在一整轮内，提供25%的防御加成。
-A free for all magic battle has begun.  To win, gag all other magicians using your spells.  Select your first target.
+MagicBattleGameStartFreeForAll
 一场自由对战的魔法对战开始了。要取得胜利，使用你的咒语封住所有其他魔法师的嘴。选择你的第一个目标吧。
-A team magic battle has begun.  To win, gag all magicians from other houses using your spells.  Select your first target.
+MagicBattleGameStartHouse
 一场组队的魔法对战开始了。要取得胜利，使用你的咒语封住所有其他学院的魔法师的嘴。选择你的第一个目标吧。
-Administrator SourceName (SourceNumber) ended the magic battle manually.
+MagicBattleGameStop
 管理员SourceName(SourceNumber)手动结束了魔法对战。
-The turn is over, pick your next target.
+MagicBattleTurnNext
 这个回合结束了，选择你的下个目标。
-Pallium Exuere
+MagicBattleTimerNA
+0
+MagicBattleSpell0Name
 除你外衣
-Animatus Funem
+MagicBattleSpell1Name
 绳索舞动
-Funem Tensis
+MagicBattleSpell2Name
 绳索紧束
-Oratio Angustos
+MagicBattleSpell3Name
 言语闭塞
-Animatus Ferrum
+MagicBattleSpell4Name
 锁链舞动
-Ferrum Tensis
+MagicBattleSpell5Name
 锁链紧束
-Nuda Caro
+MagicBattleSpell6Name
 赤裸肉身
-Stricta Lorum
+MagicBattleSpell7Name
 交手紧缚
-SourceName (SourceNumber) successfully cast SpellDesc on TargetName (TargetNumber) in SpellTime seconds.
+MagicBattleSpellSuccess
 SourceName(SourceNumber)成功对TargetName(TargetNumber)施放了SpellDesc，用时SpellTime秒。
-SourceName (SourceNumber) fails to cast SpellDesc on TargetName (TargetNumber) in SpellTime seconds.
+MagicBattleSpellFail
 SourceName(SourceNumber)未能对TargetName(TargetNumber)施放SpellDesc，用时SpellTime秒。
-Nobody was able to cast a spell successfully.
+MagicBattleNoWinner
 没有人成功施放咒语。
-Two spells were cast at the same time
+MagicBattleTieRound
 两个咒语同时施放出来
-SpellDesc from SourceName (SourceNumber) affects TargetName (TargetNumber).
+MagicBattleRoundWinner
 SourceName(SourceNumber)施放的SpellDesc影响了TargetName(TargetNumber)。
-The battle is over!  Enjoy your spoils of war.
+MagicBattleGameOver
 战斗结束了！享受你们的战利品吧。

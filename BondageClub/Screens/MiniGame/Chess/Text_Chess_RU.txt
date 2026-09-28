@@ -1,16 +1,16 @@
-Check!
+Check
 Шах!
-Checkmate!
+Checkmate
 Мат!
 Draw
 Ничья
 Stalemate
 Тупиковая ситуация
-Threefold Repetition
+ThreefoldRepetition
 Трехкратное повторение
 Victory
 Победа
-Click on yourself to end.
+ClickEnd
 Нажмите на себя, чтобы закончить.
 Concede
 Признать поражение

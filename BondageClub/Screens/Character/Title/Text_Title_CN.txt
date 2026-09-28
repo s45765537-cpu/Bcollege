@@ -1,176 +1,182 @@
-Select your displayed name and title
+SelectTitle
 选择你的显示名称与称号
-Current title: TITLE
+CurrentTitle
 当前称号：TITLE
-Nickname (letters and spaces)
-昵称（字母与空格）
-Nickname locked by your owner
+NicknameLocked
 昵称被你的主人锁定
-Nickname is too long (max. 20 characters)
+NicknameTooLong
 昵称过长（最大20字符）
-Nickname contains invalid characters
+NicknameInvalidChars
 昵称中包含不可用字符
-None
+TitleNone
 无
-Mistress
+TitleMistress
 女主人
-Master
+TitleMaster
 男主人
-Club Slave
+TitleClubSlave
 俱乐部奴隶
-Head Maid
+TitleHeadMaid
 女仆长
-Maid
+TitleMaid
 女仆
-Bondage Maid
+TitleBondageMaid
 束缚女仆
-Master Kidnapper
+TitleMasterKidnapper
 绑架大师
-Kidnapper
+TitleKidnapper
 绑匪
-Patient
+TitlePatient
 患者
-Permanent Patient
+TitlePermanentPatient
 永久患者
-Escaped Patient
+TitleEscapedPatient
 出逃患者
-Nurse
+TitleNurse
 护士
-Doctor
+TitleDoctor
 医生
-Lady Luck
+TitleLadyLuck
 幸运女士
-Lord Fortune
+TitleLordFortune
 幸运领主
-Patron
+TitlePatron
 赞助者
-College Student
+TitleCollegeStudent
 学生
-Nawashi
+TitleNawashi
 绳师
-Houdini
+TitleHoudini
 逃脱大师
-Superheroine
+TitleAnimeGirl
 超级女英雄
-Superhero
+TitleAnimeBoy
 超级英雄
-Foal
+TitlePonyFoal
 母马
-Farm Horse
+TitlePonyFarm
 农场马
-Cold Blood Horse
+TitlePonyCold
 冷血马
-Warm Blood Horse
+TitlePonyWarm
 温血马
-Hot Blood Horse
+TitlePonyHot
 热血马
-Wild Mustang
+TitlePonyWild
 野马
-Shining Unicorn
+TitlePonyUnicorn
 闪耀独角兽
-Flying Pegasus
+TitlePonyPegasus
 翱翔天马
-Majestic Alicorn
+TitlePonyAlicorn
 威严神驹
-Mole
+TitleInfilrationMole
 间谍
-Infiltrator
+TitleInfilrationInfiltrator
 渗透者
-Agent
+TitleInfilrationAgent
 探员
-Operative
+TitleInfilrationOperative
 密探
-Superspy
+TitleInfilrationSuperspy
 超级间谍
-Wizard
+TitleMagicSchoolWizard
 法师
-Magus
+TitleMagicSchoolMagus
 魔战士
-Magician
+TitleMagicSchoolMagician
 魔术师
-Sorcerer
+TitleMagicSchoolSorcerer
 术士
-Sage
+TitleMagicSchoolSage
 贤者
-Oracle
+TitleMagicSchoolOracle
 先知
-Witch
+TitleMagicSchoolWitch
 女巫
-Warlock
+TitleMagicSchoolWarlock
 邪术师
-Little One
+TitleLittleOne
 小不点
-Baby
+TitleBaby
 小宝贝
-Diaper Lover
+TitleDL
 纸尿裤爱好者
-Bondage Baby
+TitleBondageBaby
 被缚宝贝
-Duchess
+TitleDuchess
 女公爵
-Duke
+TitleDuke
 公爵
-Switch
+TitleSwitch
 转换者(Switch)
-Princess
+TitlePrincess
 公主
-Prince
+TitlePrince
 王子
-Missy
+TitleMissy
 丫头
-Sissy
+TitleSissy
 娘炮
-Tomboy
+TitleTomboy
 假小子
-Femboy
+TitleFemboy
 男娘
-Pet
+TitlePet
 宠物
-Brat
+TitleBrat
 调皮鬼
-Kitten
+TitleKitten
 猫咪
-Puppy
+TitlePuppy
 狗狗
-Foxy
+TitleFoxy
 狐狸
-Bunny
+TitleBunny
 兔兔
-Doll
+TitleDoll
 玩偶
-Demon
+TitleDemon
 恶魔
-Angel
+TitleAngel
 天使
-Alien
+TitleAlien
 外星人
-Succubus
+TitleSuccubus
 魅魔
-Incubus
+TitleIncubus
 梦魔
-Good Girl
+TitleGoodGirl
 乖女孩
-Good Slave Girl
+TitleGoodSlaveGirl
 乖女奴
-Good Boy
+TitleGoodBoy
 乖男孩
-Good Slave Boy
+TitleGoodSlaveBoy
 乖男奴
-Good Slave
+TitleGoodSlave
 乖奴隶
-Drone
+TitleDrone
 仆从机
-Mistree
+TitleMistree
 机械师
-Good One
+TitleGoodOne
 妙人
-Liege
+TitleLiege
 领主
-Concubus
+TitleConcubus
 魅精
-Majesty
+TitleMajesty
 陛下
-Captain
+TitleCaptain
 船长
-Admiral
+TitleAdmiral
 海军上校
+TitleMaiestas
+法师
+TitleVincula
+魔术师
+TitleAmplector
+贤者
+TitleCorporis
+女巫

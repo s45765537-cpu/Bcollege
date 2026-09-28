@@ -6,9 +6,9 @@ Default
 За замовчуванням
 Many
 Багато
-Next page
+Next
 Наступна сторінка
-Whole Item
+WholeItem
 Увесь предмет
 All
 Всі

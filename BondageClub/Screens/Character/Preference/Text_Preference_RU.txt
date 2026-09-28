@@ -1,160 +1,152 @@
-﻿- Preferences -
+Preferences
 - Настройки -
-- General Preferences -
+GeneralPreferences
 - Общие настройки -
-- Multiplayer Difficulty Preferences -
+DifficultyPreferences
 - Настройки сложности многопользовательской игры -
-- Restriction Preferences -
+RestrictionPreferences
 - Настройки ограничений -
-- Chat Preferences -
+ChatPreferences
 - Настройки чата -
-- Audio Preferences -
+AudioPreferences
 - Настройки звука -
-- Arousal Meter & Sexual Activities Preferences -
+ArousalPreferences
 - Настройки сексуальной активности и шкалы возбуждения -
-- Security Preferences -
+SecurityPreferences
 - Настройки безопасности -
-- Item Preferences -
+VisibilityPreferences
 - Настройки предмета -
-- Graphical Preferences -
+GraphicsPreferences
 - Графические настройки -
-- Online Preferences -
+OnlinePreferences
 - Онлайн-настройки -
-- Immersion Preferences -
+ImmersionPreferences
 - Настройки погружения -
-- Controller Preferences -
+ControllerPreferences
 - Настройки контроллера -
-- Notification Preferences -
+NotificationsPreferences
 - Настройки уведомлений -
-- Gender Preferences -
+GenderPreferences
 - Гендерные настройки -
-- Script Permission Preferences -
+ScriptsPreferences
 - Настройки разрешений для скриптов -
-- Extensions Preferences -
+ExtensionsPreferences
 - Настройки расширений -
-
-General
+HomepageGeneral
 Общие
-Difficulty
+HomepageDifficulty
 Сложность
-Restriction
+HomepageRestriction
 Ограничение
-Chat
+HomepageChat
 Чат
-Censored Words
+HomepageCensoredWords
 Цензурированные слова
-Audio
+HomepageAudio
 Аудио
-Arousal
+HomepageArousal
 Возбуждение
-Security
+HomepageSecurity
 Безопасность
-Item Visibility
+HomepageVisibility
 Видимость предмета
-Online
+HomepageOnline
 Онлайн
-Immersion
+HomepageImmersion
 Погружение
-Graphics
+HomepageGraphics
 Графика
-Controller
+HomepageController
 Контроллер
-Notifications
+HomepageNotifications
 Уведомления
-Gender
+HomepageGender
 Пол
-Scripts
+HomepageScripts
 Скрипты
-Extensions
+HomepageExtensions
 Расширения
-
-The difficulty mode enforces BDSM restrictions in multi-player only.  Click for details.
+DifficultyTitle
 Режим сложности применяет ограничения БДСМ только в многопользовательской игре. Нажми для деталей.
-Roleplay
+DifficultyLevel0
 Ролевые игры
-Roleplay - This mode is fully open to customise your experience.
+DifficultyLevel0Title
 Ролевая игра — этот режим полностью открыт для настройки вашего опыта.
-It allows you to choose which restrictions or mechanisms to ignore.\nYou can select this mode any time, but you won't be able\nto select the Hardcore or Extreme mode for seven days.
+DifficultyLevel0Text
 Это позволяет вам выбирать, какие ограничения или механизмы игнорировать.\nВы можете выбрать этот режим в любое время, \nно вы не сможете выбрать режим "Хардкор" или "Экстрим" в течение семи дней.
-
-Regular
+DifficultyLevel1
 Обычный
-Regular - This default mode enforces the basic rules and restrictions.
+DifficultyLevel1Title
 Обычный — в этом режиме применяются основные правила и ограничения.
-It's made to restrict you and keep you safe at the same time.\nLots of options can be configured under this mode.\nYou can select this mode any time, but you won't be able\nto select the Hardcore or Extreme mode for seven days.
+DifficultyLevel1Text
 Он создан для того, чтобы ограничивать вас и одновременно обеспечивать безопасность.\nВ этом режиме можно настроить множество опций.\nВы можете выбрать этот режим в любое время, \nно вы не сможете выбрать режим "Хардкор" или "Экстрим" в течение семи дней.
-
-Hardcore
+DifficultyLevel2
 Хардкор
-Hardcore - This mode is geared for players wanting to be helpless.
+DifficultyLevel2Title
 Хардкор — этот режим предназначен для игроков, которые хотят быть беспомощными.
-No rescue maid will come, and no NPC will help you out.\nNo safeword can be used, you must find help from players.\nYou must be a member for at least seven days to select this mode.\nYou cannot select this if you've changed mode in the last seven days.
+DifficultyLevel2Text
 Ни одна горничная не придет, ни один НПС не поможет вам.\nНельзя использовать безопасное слово, вы должны найти помощь у игроков.\nЧтобы выбрать этот режим, вы должны быть членом клуба не менее семи дней.\nВы не можете выбрать этот пункт, если вы меняли режим в течение последних семи дней.
-
-Extreme
+DifficultyLevel3
 Экстрим
-Extreme - This mode is built for players wanting to be full slaves.
+DifficultyLevel3Title
 Экстрим — этот режим создан для игроков, желающих быть полными рабами.
-No rescue maid will come, and no NPC will help you out.\nNo safeword can be used and you cannot leave your owner.\nAll immersion settings are maxed, and you cannot block any item.\nYou cannot select this if you've changed mode in the last seven days.
+DifficultyLevel3Text
 Ни одна горничная не придет, ни один НПС не поможет вам.\nНельзя использовать безопасное слово, и вы не можете покинуть своего владельца.\nВсе настройки погружения максимальны, и вы не можете заблокировать ни один предмет.\nВы не можете выбрать этот режим, если вы меняли режим в течение последних семи дней.
-
-Easy mode - Restrictions and game mechanisms\ncan be ignored with toggles.  For pure roleplayers.
+DifficultyLevel0Label
 Легкий режим - Ограничения и игровые механизмы могут быть\nпроигнорированы с помощью переключателей. Для ролевиков.
-Normal mode - Basic restrictions are enforced,\nmany options to protect you.  For most players.
+DifficultyLevel1Label
 Обычный режим - соблюдаются основные ограничения,\nмного опций для вашей защиты.  Для большинства игроков.
-Hard mode - No rescue maids, no safeword and no\nhelp from any NPC.  For players that want trouble. 
+DifficultyLevel2Label
 Жесткий режим - нет горничных-спасателей, нет безопасного слова\n и нет помощи от любого НПС.  Для игроков, которые хотят неприятностей.
-Slavery mode - No maids, no safeword, no NPC help,\nno blocked items, cannot leave owner.  Fully helpless.
+DifficultyLevel3Label
 Режим рабства - нет горничных, нет безопасного слова, нет помощи \nНПС,нет заблокированных предметов, нельзя покинуть владельца. \nПолная беспомощность.
-You're already playing on that difficulty mode.
+DifficultyAlreadyPlayingOn
 Вы уже играете на этом уровне сложности.
-You need to wait NumberOfHours hours before you can activate this mode.
+DifficultyWaitSevenDays
 Вам нужно подождать NumberOfHours часов, прежде чем вы сможете включить этот режим.
-I accept the consequences and want to use this mode.
+DifficultyIAccept
 Я понимаю последствия и хочу использовать этот режим.
-Go
+DifficultyChangeMode
 Перейти
-You can configure game restrictions to bypass in the multi-player environment.
+RestrictionAccess
 Вы можете настроить ограничения игры для обхода в многопользовательской среде.
-Players using the Roleplay difficulty can configure multi-player restrictions to bypass.
+RestrictionNoAccess
 Игроки, использующие уровень сложности «Ролевая игра», могут обойти ограничения многопользовательской игры.
-Bypass the struggling mini-game.
+RestrictionBypassStruggle
 Обойти мини-игру борьбы с ограничениями.
-Cannot be slowed down from leaving a room.
+RestrictionSlowImmunity
 Нельзя замедлить выход из комнаты.
-Skip punishment when calling maids from chat room.
+RestrictionBypassNPCPunishments
 Пропустить наказание при вызове горничных из чата.
-Don't garble online chat and whispers when gagged.
+RestrictionNoSpeechGarble
 Не искажать разговор в онлайн-чате, если вам заткнули рот.
-Character label color:
+CharacterLabelColor
 Цвет ника персонажа:
-Item permission:
-Разрешение на предмет:
-Everyone, no exceptions
+AllowedInteraction0
 Все, без исключений
-Everyone, except blacklist
+AllowedInteraction1
 Все, кроме черного списка
-Owner, Lover, whitelist & Dominants
+AllowedInteraction2
 Хозяйка, возлюбленная, белый список и доминанты
-Owner, Lover and whitelist only
+AllowedInteraction3
 Только Хозяйка, возлюбленная и белый список
-Owner and Lover only
+AllowedInteraction4
 Только Хозяйка и возлюбленная
-Owner only
+AllowedInteraction5
 Только Хозяйка
-Put a valid hex #red-green-blue color
+ErrorInvalidColor
 Поместите допустимый шестнадцатеричный цвет #красный-зеленый-синий
-Theme:
+ColorTheme
 Тема:
 Light
 Светлая
 Dark
 Темная
-Light 2
+Light2
 Светлая 2
-Dark 2
+Dark2
 Темная 2
-Enter/Leave message style:
+EnterLeaveStyle
 Стиль сообщений:
 Normal
 Обычный
@@ -162,552 +154,553 @@ Smaller
 Меньше
 Hidden
 Скрытый
-Font size:
-Размер шрифта:
-Display member numbers:
+DisplayMemberNumbers
 Показать № участников:
 Always
 Всегда
-Disabled by default
-Отключено по умолчанию
-Enabled by default
-Включено по умолчанию
 Never
 Никогда
-On Mouseover
+OnMouseover
 При наведении мыши
-Font size
-Размер шрифта
+FontSize
+Размер шрифта:
 Small
 Маленький
 Medium
 Средний
 Large
 Большой
-Display timestamps
+DisplayTimestamps
 Отображение временных меток
-Color names
+ColorNames
 Названия цвета
-Color actions
+ColorActions
 Цветные действия
-Color emotes
+ColorEmotes
 Цветные эмоции
-Color activities
+ColorActivities
 Цветные активности
-Shrink all messages except dialogue
+ShrinkNonDialogue
 Уменьшить все сообщения, кроме диалога
-Show sexual activities & orgasms
+ShowActivities
 Показать сексуальные действия и оргазмы
-Use : as alias for /me and *
+MuStylePoses
 Использовать : как псевдоним для /me и *
-Ban blacklist when creating a room
+AutoBanBlackList
 Запретить блэклист при создании комнат
-Ban ghostlist when creating a room
+AutoBanGhostList
 Запретить призраков при создании комнат
-Order rooms by number of friends
+SearchFriendsFirst
 Упорядочить комнаты по количеству друзей
-Disable scripted assets on others
+DisableAnimations
 Отключить заскриптованные активы на других
-Show all automatic messages
+ShowAutomaticMessages
 Показать все автоматические сообщения
-Preserve whitespace in messages
+PreserveWhitespace
 Сохранять пробелы в сообщениях
-Show help on first enter
+ShowChatRoomHelp
 Показать справку при первом входе
-Show beep notifications in chat
+ShowBeepChat
 Показывать звуковые уведомления в чате
-Preserve chat logs between rooms
+PreserveChat
 Сохранять журналы чатов между комнатами
-Auto-close OOC messages
-Автоматическое закрытие сообщений OOC
-Audio volume
+Volume
 Громкость звука
-Music volume
+MusicVolume
 Громкость музыки
-Audio alarm for beeps
+AudioPlayBeeps
 Звуковая сигнализация для гудков
-Play item sounds in chatrooms
+AudioPlayItem
 Звуки предметов воспроизведения в чатах
-Only play item sounds if you're involved
+AudioPlayItemPlayerOnly
 Воспроизведение звуков предметов только в том случае, если вы участвуете
-Allow audio alerts for notifications
+AudioNotifications
 Разрешить звуковые оповещения для уведомлений
-Lock this menu while bound
+ImmersionLockSetting
 Заблокировать это меню пока связана
-Return to chatrooms on relog
+ReturnToChatRoom
 Вернуться в чат-комнату при повторном входе
-Auto-remake rooms
+ReturnToChatRoomAdmin
 Авто-переворот комнаты
-Hide others' messages
+SenseDepMessages
 Скрыть чужие сообщения
-All immersion settings are maxed out under the Extreme difficulty mode
+ImmersionLocked
 Все настройки погружения максимальны в режиме экстремальной сложности.
-Prevent OOC & whispers while gagged
-Предотвратить OOC и шепот, когда заткнут рот
-Hide non-adjacent players while partially blind
+BlindAdjacent
 Скрыть не соседних игроков, пока частично слепа
-Events while plugged or vibed
+StimulationEvents
 События когда вы с пробкой или под вибрацией
-Garble chat room names and descriptions while blind
+ChatRoomMuffle
 Искажать названия и описания комнат чата, пока вы слепы
-Room customization:
+RoomCustomizationLabel
 Персонализация комнаты:
-Sensory deprivation setting
+RoomCustomizationLevel0
+Никогда
+RoomCustomizationLevel1
+Отключено по умолчанию
+RoomCustomizationLevel2
+Включено по умолчанию
+RoomCustomizationLevel3
+Всегда
+SensDepSetting
 Настройки сенсорной депривации
-Hide names
+SensDepLight
+Светлая
+SensDepNames
 Скрыть имена
-Heavy
+SensDepTotal
 Тяжело
-Total
+SensDepExtreme
 Полностью
-Flash after blindness
+DoBlindFlash
 Вспышка после слепоты
-Zoom chatrooms smoothly
+SmoothZoom
 Zoom чатов плавно
-Center players in chatrooms
+CenterChatrooms
 Центр игроков в чатах
-Players can drag you to rooms when leashed
+AllowPlayerLeashing
 Игроки могут тащить вас в комнаты на поводке
-Maids come automatically when restrained
+DisableAutoMaid
 Горничные приходят автоматически, когда вы в ограничениях
-Locks on you can't be picked
+DisablePickingLocksOnSelf
 Замки на вас не могут быть взломаны
-Disable examining when blind
+BlindDisableExamine
 Отключить осмотр вслепую
-Keep all restraints when relogging
+DisableAutoRemoveLogin
 Сохраняйте все ограничения при повторном входе в систему
-Cannot enter single-player rooms when restrained
+OfflineLockedRestrained
 Не может войти в комнаты для одного игрока, будучи связанным
-Block advanced vibrator modes (edge, random, etc)
+ArousalDisableAdvancedVibes
 Блокировать расширенные режимы вибратора (граничный, случайный и т. д.)
-Safewords and help from NPCs are disabled on Hardcore or Extreme
+GeneralHardcoreWarning
 Стоп-слова и помощь от NPC отключены на Хардкор или Экстрим.
-Items can affect your facial expression
+ItemsAffectExpressions
 Предметы могут повлиять на ваше выражение лица
-Max
+GeneralAnimationQuality0
 Максимально
-High
+GeneralAnimationQuality50
 Высоко
-Low
+GeneralAnimationQuality100
+Средний
+GeneralAnimationQuality200
 Низко
-Lower
+GeneralAnimationQuality2000
 Ниже
-Lowest
+GeneralAnimationQuality10000
 Самый низкий
-Animation quality
+GeneralAnimationQualityText
 Качество анимации
-Reduce if inputs such as sliders are slow to respond
+GeneralAnimationQualityHint
 Уменьшите, если элементы ввода, такие как ползунки, реагируют медленно
-Display all characters at maximum height
+ForceFullHeight
 Отображать всех персонажей в максимальном росте
-Show AFK bubble if idle for 5 minutes
+EnableAfkTimer
 Показывать статус AFK, если бездействует в течение 5 минут.
-Allow safeword use (Cannot enable while bound)
+EnableSafeword
 Разрешить использование безопасного слова (нельзя включить пока связана)
-(Click to confirm) Allow safeword use (Cannot enable while bound)
+ConfirmSafeword
 (Нажмите, чтобы подтвердить) Разрешить использование безопасного слова (невозможно включить пока связана)
-Allow others to alter your whole appearance
+AllowFullWardrobeAccess
 Позволить другим изменить весь ваш внешний вид
-Prevent others from changing cosplay items
+BlockBodyCosplay
 Запретить другим изменять элементы косплея
-Show status bubble
+ShowStatus
 Показать всплывающее окно статуса
-Send your status
+SendStatus
 Отправить свой статус
-Linking an email will allow password recovery
+UpdateEmailDescription
 Привязка электронной почты позволит восстановить пароль
-Update Email
+UpdateEmail
 Обновить электронную почту
-Current email:
+UpdateEmailOld
 Текущий email:
-New email:
+UpdateEmailNew
 Новый email:
-No email saved, write here to add one
+UpdateEmailEmpty
 Электронная почта не сохранена, напишите здесь, чтобы добавить ее
-An email is linked, write it here to update it
+UpdateEmailLinked
 Электронная почта привязана, напишите здесь, чтобы обновить ее
-Your email has been updated.
+UpdateEmailSuccess
 Ваша электронная почта была обновлена.
-Current email does not match
+UpdateEmailFailure
 Текущая электронная почта не совпадает
-Invalid characters
+UpdateEmailInvalid
 Недопустимые символы
-Show other characters' meters
+ArousalShowOtherMeter
 Показать счетчик другим
-Affect your facial expressions
+ArousalAffectExpression
 Влияет на выражение лица
-Activation:
+ArousalActive
 Активация:
-Disable sexual activities
+ArousalActiveInactive
 Отключить сексуальные действия
-Allow without a meter
+ArousalActiveNoMeter
 Разрешить без счетчика
-Allow with a manual meter
+ArousalActiveManual
 Разрешить с ручным счетчиком
-Allow with a hybrid meter
+ArousalActiveHybrid
 Разрешить с гибридным счетчиком
-Allow with a locked meter
+ArousalActiveAutomatic
 Разрешить с заблокированным счетчиком
-Arousal meter visuals
+VFX
 Визуальные эффекты измерителя возбуждения
-Bare meter
+VFXInactive
 Полоска счетчика
-Solid glow
+VFXSolid
 Сплошное свечение
-Temporary animation
+VFXAnimatedTemp
 Временная анимация
-Constant animation
+VFXAnimated
 Постоянная анимация
-Vibrator screen filters
+VFXVibrator
 Сетчатые фильтры вибратора
-None
+VFXVibratorInactive
 Нет
-Flickering glow
+VFXVibratorSolid
+Сплошное свечение
+VFXVibratorAnimated
 Мерцающее свечение
-Arousal screen filter
+VFXFilter
 Сетчатый фильтр возбуждения
-Strong gradient
+VFXFilterHeavy
 Сильный градиент
-Solid color filter
+VFXFilterMedium
 Сплошной цветной фильтр
-Solid filter at high arousal
+VFXFilterLight
 Сплошной фильтр при сильном возбуждении
-Meter visibility:
+VFXFilterNone
+Нет
+ArousalVisible
 Видимость счетчика:
-Show arousal to everyone
+ArousalVisibleAll
 Показать возбуждение всем
-Show if they have access
+ArousalVisibleAccess
 Показать, есть ли у них доступ
-Show to yourself only
+ArousalVisibleSelf
 Покажи только себе
-Fetish preferences:
+ArousalFetish
 Фетиш предпочтения:
-Being restrained
+ArousalFetishBondage
 Быть сдержанной
-Being gagged
+ArousalFetishGagged
 Быть заткнутой кляпом
-Being blind
+ArousalFetishBlindness
 Быть слепой
-Being deaf
+ArousalFetishDeafness
 Быть глухой
-Being chaste
+ArousalFetishChastity
 Быть целомудренной
-Being naked
+ArousalFetishExhibitionist
 Быть голой
-Masochism
+ArousalFetishMasochism
 Мазохизм
-Sadism
+ArousalFetishSadism
 Садизм
-Rope
+ArousalFetishRope
 Веревка
-Latex
+ArousalFetishLatex
 Латекс
-Leather
+ArousalFetishLeather
 Кожа
-Metal
+ArousalFetishMetal
 Металл
-Tape
+ArousalFetishTape
 Лента
-Nylon
+ArousalFetishNylon
 Нейлон
-Lingerie
+ArousalFetishLingerie
 женское белье
-Pony
+ArousalFetishPony
 Пони
+ArousalFetishABDL
 ABDL
-ABDL
-Pet play
+ArousalFetishPet
 Игра с питомцем
-Forniphilia (human furniture)
+ArousalFetishForniphilia
 Форнифилия (человеческая мебель)
-Hate it
+ArousalFetishLove0
 Ненавидеть это
-Doesn't like it
+ArousalFetishLove1
 Не нравится
-Neutral on it
+ArousalFetishLove2
 Нейтральна к этому
-Like it
+ArousalFetishLove3
 Нравится это
-Adore it
+ArousalFetishLove4
 Обожаю это
-Activity preferences:
+ArousalActivity
 Настройки активности:
-Done on yourself:
+ArousalActivityLoveSelf
 Сделано на себе:
-Doing it to others:
+ArousalActivityLoveOther
 Делать это другим:
-Forbid/Block it
+ArousalActivityLove0
 Запретить/заблокировать
-Click on yourself to set your erogenous zones
+ArousalActivityLove1
+Не нравится
+ArousalActivityLove2
+Нейтральна к этому
+ArousalActivityLove3
+Нравится это
+ArousalActivityLove4
+Обожаю это
+ArousalSelectErogenousZones
 Нажмите на себя, чтобы установить свои эрогенные зоны
-Configure this zone to be erogenous or not
+ArousalConfigureErogenousZones
 Настройте эту зону на эрогенную или нет
-Block all activities on this zone
+ArousalZoneLove0
 Блокировать все действия в этой зоне
-Dislike this zone, it's a turn-off
+ArousalZoneLove1
 Не нравится эта зона, она отключение
-This zone isn't special for you
+ArousalZoneLove2
 Эта зона не является для вас особенной
-Like this zone, it turns you on
+ArousalZoneLove3
 Эта зона, она тебя заводит.
-Love this zone, it's a big turn-on
+ArousalZoneLove4
 Люблю эту зону, это здорово возбуждает.
-This zone can give you an orgasm
+ArousalAllowOrgasm
 Эта зона может дать вам оргазм
-Feet & Toes
+ArousalZoneItemBoots
 Ступни и пальцы ног
-Lower Legs
+ArousalZoneItemFeet
 Лодыжки
-Upper Legs
+ArousalZoneItemLegs
 Верхние части ног
-Pussy & Vagina
+ArousalZoneItemVulva
 Киска и влагалище
-Clitoris
+ArousalZoneItemVulvaPiercings
 Клитор
-Butt / Anal
+ArousalZoneItemButt
 Задница / Анал
-Pelvis & Belly
+ArousalZoneItemPelvis
 Таз и живот
-Torso & Ribs
+ArousalZoneItemTorso
 Туловище и ребра
-Nipples
+ArousalZoneItemNipples
 Соски
-Breast
+ArousalZoneItemBreast
 Грудь
-Arms & Shoulders
+ArousalZoneItemArms
 Руки и плечи
-Hands
+ArousalZoneItemHands
 Кисти
-Neck
+ArousalZoneItemNeck
 Шея
-Mouth & Lips
+ArousalZoneItemMouth
 Рот и губы
-Head & Hair
+ArousalZoneItemHead
 Голова и волосы
-Nose
+ArousalZoneItemNose
 Нос
-Ears
+ArousalZoneItemEars
 Уши
-Head
+ArousalZoneItemHood
 Голова
-Speech stuttering:
+ArousalStutter
 Заикание речи:
-Never stutter
+ArousalStutterNone
 Никогда не заикайся
-When you're aroused
+ArousalStutterArousal
 Когда ты возбужден
-When you're vibrated
+ArousalStutterVibration
 Когда вы вибрируете
-Aroused & vibrated
+ArousalStutterAll
 Возбужденный и вибрирующий
-Group:
+VisibilityGroup
 Группа:
-Asset:
+VisibilityAsset
 Объект:
-Hide
+VisibilityCheckboxHide
 Скрывать
-Block
+VisibilityCheckboxBlock
 Блокировать
-This icon will appear beside a character that's wearing a hidden item
+VisibilityWarning
 Этот значок появится рядом с персонажем, который носит спрятанный предмет.
-Reset All
+VisibilityReset
 Сбросить все
-This will reset all items to be visible. Click again to confirm and exit.
-Это сбросит все элементы, чтобы они были видны. Нажмите еще раз для подтверждения и выхода.
-All items are forced visible under the Extreme difficulty mode
+VisibilityLocked
 Все предметы принудительно отображаются в режиме экстремальной сложности.
-Accept changes
+LeaveSave
 Принять изменения
-Cancel changes
+LeaveNoSave
 Отменить изменения
-Game font
+GraphicsFont
 Шрифт игры
-Fallback fonts will be used if your chosen font is unsupported on your device.
+GraphicsFontDisclaimer
 Резервные шрифты будут использоваться, если выбранный вами шрифт не поддерживается на вашем устройстве.
 Arial
 Arial
-Times New Roman
+TimesNewRoman
 Times New Roman
 Papyrus
 Papyrus
-Comic Sans
+ComicSans
 Comic Sans
 Impact
 Impact
 Verdana
 Verdana
+HelveticaNeue
 Helvetica Neue
-Helvetica Neue
-Century Gothic
+CenturyGothic
 Century Gothic
 Georgia
 Georgia
-Courier New
+CourierNew
 Courier New
 Copperplate
 Copperplate
-Flip the room vertically when upside-down
+GraphicsInvertRoom
 Перевернуть комнату по вертикали в перевернутом положении
-Flash the screen for certain effects
+GraphicsStimulationFlash
 Вспышка экрана для определенных эффектов
-Enable antialiasing
+GraphicsAntialiasing
 Включить сглаживание
-For this browser, if supported
+GraphicsSupportHint
 Для этого браузера, если поддерживается
-Not running on WebGL, cannot edit rendering configurations.
+GraphicsNoWebGL
 Не запускать на WebGL, нельзя редактировать конфигурации рендеринга.
-Preferred power consumption mode
+GraphicsPowerMode
 Предпочтительный режим энергопотребления
-Low consumption, slower rendering
+PowerModelow-power
 Низкое потребление, более медленный рендеринг
-Default
+PowerModedefault
 По умолчанию
-High consumption, faster rendering
+PowerModehigh-performance
 Высокое потребление, более быстрый рендеринг
 Sensitivity
 Чувствительность
-Controller Active
+ControllerActive
 Активный контроллер
-Map Buttons
+MapButtons
 Кнопки карты
-Map Sticks
+MapSticks
 Картографические палочки
-move left stick up
+MoveLeftStickUp
 переместить левый стик вверх
-move left stick right
+MoveLeftStickRight
 двигай левый джойстик вправо
-Press A
-Нажми A
-Press B
-Нажми B
-Press X
-Нажми X
-Press Y
-Нажми Y
-Press Up on Dpad
+PressUpOnDpad
 Нажмите вверх на Dpad
-Press Down on Dpad
+PressDownOnDpad
 Нажмите вниз на Dpad
-Press Left on Dpad
+PressLeftOnDpad
 Нажмите влево на Dpad
-Press Right on Dpad
+PressRightOnDpad
 Нажмите вправо на Dpad
-Dead Zone
+DeadZone
 Мертвая зона
-Off
+NotificationsAlertType0
 Выключить
-(1) in title
+NotificationsAlertType1
 (1) в заголовке
-Popup
+NotificationsAlertType2
 Всплывающее
-(1) in icon
+NotificationsAlertType3
 (1) в иконке
-Raise notifications for missed events:
+NotificationsExplanation
 Поднимите уведомления о пропущенных событиях:
-: Play a sound for only
+NotificationsAudioExplanation1
 : воспроизведение звука только
-the first occurrence of an event
+NotificationsAudioExplanation2
 первое появление события
-Only:
+NotificationsOnly
 Только:
-Beeps
+NotificationsBeeps
 Звуковые сигналы
-Messages in chat rooms
+NotificationsChatMessage
 Сообщения в чатах
-Normal Messages
+NotificationsChatMessageNormal
 Обычные сообщения
-Whispers
+NotificationsChatMessageWhisper
 Шепот
-Items/Activities
+NotificationsChatMessageActivity
 Предметы/Действия
-Name Mentioned
+NotificationsChatMessageMention
 Упомянутое имя
-Players entering chat rooms
+NotificationsChatJoin
 Игроки, заходящие в чаты
-Self
-Я
-Owner
+NotificationsChatJoinOwner
 Хозяйка
-Lovers
+NotificationsChatJoinLovers
 Возлюбленные
-Friends
+NotificationsChatJoinFriendlist
 Друзья
-Whitelist
-Белый список
-Public
-Все остальные
-Owned Subs
+NotificationsChatJoinSubs
 Собственные сабы
-Disconnect from the game
+NotificationsDisconnect
 Отключиться от игры
-Your turn in a LARP game
+NotificationsLarp
 Ваш ход в игре LARP
-Raise a test notification
+NotificationsTestRaise
 Поднимите тестовое уведомление
-Clear raised notifications
+NotificationsTestReset
 Очистить всплывающие уведомления
-Hello there!
+NotificationsTestMessage
 Привет!
 Page
 Страница
-Allow item tint effects
+AllowTints
 Разрешить эффекты оттенка предмета
-Can only leave a map near an entry or exit
+ChatRoomMapLeaveOnExit
 Карту можно покинуть только возле входа или выхода
-Allow item blur effects
+AllowBlur
 Разрешить эффекты размытия предмета
-Turn off if experiencing frame rate drops
+AllowBlurHint
 Отключите при снижении частоты кадров
-Females
+GenderFemales
 Женщина
-Males
+GenderMales
 Мужчина
-Automatically enter the chatroom area for:
+GenderAutoJoinSearch
 Автоматически входить в зону чата для:
-Hide shop items exclusively for:
+GenderHideShopItems
 Скрыть товары в магазине исключительно для:
-Hide titles in settings for:
+GenderHideTitles
 Скрыть заголовки в настройках для:
-Apply the censoring
+CensorExit
 Применение цензуры
-Select the censorship to apply and the words to censor in both the chat and room labels.
+CensorTitle
 Выберите цензуру для применения и слова для цензуры как в чате, так и в метках комнат.
-Censorship:
+CensorLevel
 Цензура:
-Replace the word with ***
+CensorLevel0
 Заменить слово на ***
-Replace the phrase with ***
+CensorLevel1
 Заменить фразу на ***
-Hide the phrase or room
+CensorLevel2
 Скрыть фразу или комнату
-Censored words:
+CensorWord
 Цензурирован. слова:
-Add
+CensorAdd
 Добавить
-WARNING!
+ScriptsWarningTitle
 ВНИМАНИЕ!
-Changing the settings on this page can allow people to modify your items and appearance using scripts in ways that are not possible in the core game. If you don't want this, or if you don't know what you're doing, don't touch these settings!
+ScriptsWarning
 Изменение настроек на этой странице может позволить людям изменять ваши предметы и внешний вид с помощью скриптов способами, которые невозможны в основной игре. Если вы этого не хотите, или если вы не знаете, что делаете, не прикасайтесь к этим настройкам!
-I Accept
+ScriptsWarningAccept
 Я принимаю
-Specify who can modify your worn items using scripts, and what they're allowed to do.
+ScriptsExplanation
 Укажите, кто может изменять ваши носимые предметы с помощью сценариев и что им разрешено делать.
-Specify who can modify your worn items using scripts, and what they're allowed to do."
-To reduce issues and maintain a baseline level of visual coherence, the Bondage Club enforces a series of restrictions which prevents people from modifying your items in ways that might cause clipping or graphical issues.\nThis screen allows you to configure bypasses of those restrictions for certain people.\nWhile it enables more elaborate behaviors of items, be aware that it can cause severe visual glitches, including invisible items or characters, and that setting permissions to 'Public' gives everyone the ability to modify that feature, even trolls. Please use this with caution.\nUnwanted script effects can be removed at any time by disabling all permissions for that effect (including 'Self').\nTo find out more about the properties that you can assign permissions for and what each might do and the associated risks, click the '?' icon next to each one.
-Чтобы уменьшить количество проблем и поддерживать базовый уровень визуальной согласованности, Bondage Club содержит ряд мер, которые не позволяют людям изменять ваши предметы таким образом, чтобы это могло вызвать проблемы с движением или графикой. На этом экране вы можете разрешить определенным людям обходить эти ограничения с помощью пользовательских скриптов или аддонов. Это может обеспечить более высокую степень визуальной настройки для предметов, но имейте в виду, что это также может открыть дверь для серьезных визуальных сбоев, включая невидимые предметы или персонажей, поэтому используйте эти параметры на свой страх и риск. Чтобы узнать больше о свойствах, для которых можно назначить разрешения, и о том, что каждый из них может делать, а также о связанных с ним рисках, щелкните значок '?' рядом с каждым из них. Имейте в виду, что установка разрешений для общедоступных означает, что любой сможет изменить эту функцию, даже тролли, поэтому, пожалуйста, используйте это с осторожностью. Помните, что вы можете удалить нежелательные эффекты скрипта в любое время, удалив все разрешения для этого эффекта (включая «Я»).
-Permits scripts to override the default item-hiding behaviour of Bondage Club. This can enhance your game by allowing item combinations that wouldn't normally be possible, or by allowing items to be hidden to achieve a particular look that doesn't necessarily reflect exactly what you're wearing. However, it can also be used to create severe visual glitches, including making items or even your whole character invisible. Use with caution!
-Разрешает сценариям переопределять поведение скрытия предметов по умолчанию в Bondage Club. Это может улучшить вашу игру, позволяя комбинировать предметы, которые обычно были бы невозможны, или позволяя скрывать предметы для достижения определенного вида, который не обязательно точно отражает то, что вы носите. Однако его также можно использовать для создания серьезных визуальных сбоев, включая невидимость предметов или даже всего вашего персонажа. Используйте с осторожностью!
-Permits scripts to override the default item-blocking behaviour of Bondage Club. This is the functionality that prevents you from equipping items on others, or can prevent sexual activities on blocked zones. Allowing scripts to add custom blocking behaviour can allow for additional restriction, preventing players from removing worn items or adding new ones in a given slot, but can also result in items that you can't remove yourself without the help of a script (or by removing this permission).
-Разрешает сценариям переопределять поведение блокировки предметов по умолчанию в Bondage Club. Это функция, которая не позволяет вам надевать предметы на других или может предотвратить сексуальные действия в заблокированных зонах. Разрешение сценариям добавлять настраиваемое поведение блокировки может разрешить дополнительные ограничения, запрещающие игрокам удалять изношенные предметы или добавлять новые в заданный слот, но также может привести к тому, что предметы, которые вы не сможете удалить самостоятельно без помощи сценария (или с помощью удаление этого разрешения).
-FPS Limit
-Лимит FPS
-Unfocused FPS limit
-Несфокусированный лимит FPS
-Unlimited
-Неограниченный
-Your owner can change or lock your nickname
-Ваш владелец может изменить или заблокировать ваш ник
-Show ungarbled contents of messages if available
-Показывать неискаженное содержимое сообщений, если это доступно.
-Display FPS Counter
-Отображение счетчика FPS
+ScriptsPermissionLevelSelf
+Я
+ScriptsPermissionLevelOwner
+Хозяйка
+ScriptsPermissionLevelLovers
+Возлюбленные
+ScriptsPermissionLevelFriends
+Друзья
+ScriptsPermissionLevelWhitelist
+Белый список
+ScriptsPermissionLevelPublic
+Все остальные
+ScriptsPermissionPropertyHide
+Скрывать
+ScriptsPermissionPropertyBlock
+Блокировать
+ShowFullscreenButtonon
+Всегда
+ShowFullscreenButtonoff
+Никогда
+OOCAutoClose
+Автоматическое закрытие сообщений OOC

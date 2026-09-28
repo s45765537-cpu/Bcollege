@@ -1,6 +1,6 @@
-Audience Patience Level
+AudiencePatienceLevel
 Niveau de Patience de l'Audience
-Accuracy
+Acc
 Précision
-Bonus
+Score
 Bonus

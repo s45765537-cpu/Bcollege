@@ -1,168 +1,164 @@
-Select your move
+SelectMove
 Выбери свое действие
-Opponent moves
+OpponentMove
 Действие пртивника
-Brute Force
+BruteForce
 Грубая сила
 Domination
 Доминирование
 Sneakiness
 Подлость
-Manipulation
-Манипуляция
 Surrender
 Сдаться
 Passive
 Пассивно
-lost
+Lost
 растеряться
-willpower
+Willpower
 сила воли
-didn't lose any willpower
+NoLost
 не теряет никакой силы воли
-has the upper hand
+UpperHand
 имеет преимущество
-Upper hand moves:
+UpperHandMove
 Действие рукой:
-Sudden Death
+SuddenDeath
 внезапная смерть
 Cancel
 Отменить
 Wins
 Выигрывает
-Remove her clothes
+Cloth
 Сними с нее одежду
-Use a collar item
+ItemNeck
 Используй ошейник
-Tie her feet
+ItemFeet
 Используй предмет на стопы
-Use a gag
+ItemMouth
 Используй кляп
-Dress back up
+UndoCloth
 Одевайся обратно
-Remove your collar
+UndoItemNeck
 Сними ошейник
-Release your legs
+UndoItemFeet
 Освободи ноги.
-Remove your gag
+UndoItemMouth
 Сними кляп
-Have mercy
+Mercy
 Помилуйте меня.
-Select the item to use on her
+SelectItemToUse
 Выбери элемент для использования на ней
-(Using the upper hand, she forcefully removes your clothes.)
+UpperHandCloth
 (Используя руки, она с силой снимает с тебя одежду.)
-(She produces a collar and force it around your neck.)
+UpperHandItemNeck
 (Она достает ошейник и надевает его тебе на шею.)
-(She quickly uses her advantage to restrain your feet.)
+UpperHandItemFeet
 (Она быстро использует свое преимущество, чтобы связать твои ступни.)
-(She uses her advantage to silence you with a gag.)
+UpperHandItemMouth
 (Она использует свое преимущество, чтобы заткнуть тебе рот кляпом.)
-(She uses her advantage on you to dress back up.)
+UpperHandUndoCloth
 (Она использует свое преимущество на тебе, чтобы одеться снова.)
-(Using her advantage, she removes her collar.)
+UpperHandUndoItemNeck
 (Пользуясь своим преимуществом, она снимает ошейник.)
-(She uses the opportunity to release her feet.)
+UpperHandUndoItemFeet
 (Она использует эту возможность, чтобы освободить ступни.)
-(She's able to remove her gag while she has the upper hand.)
+UpperHandUndoItemMouth
 (Она используетс свое преимущество, что бы снять кляп.)
-(She looks at your current situation and gives you some mercy.)
+UpperHandMercy
 (Она смотрит на твою нынешнюю ситуацию и проявляет милосердие.)
-(You try to get a good grip on her, but she fights back and pushes you away.)
+PlayerBruteForceOpponentBruteForceAction
 (Ты пытаешься ухватить ее покрепче, но она сопротивляется и отталкивает тебя.)
-Fight for real, girl!
+PlayerBruteForceOpponentBruteForcePlayer
 Сражайся по-настоящему, детка!
-Is that really the best you can do?
+PlayerBruteForceOpponentBruteForceOpponent
 Это действительно лучшее, что ты можешь сделать?
-(She smirks and gives you a pompous look as you pinch her nipples and stun her with the pain.)
+PlayerBruteForceOpponentDominationAction
 (Она ухмыляется и напыщенно смотрит на тебя, когда ты щипаешь ее соски и оглушаешь ее болью.)
-Learn to enjoy the pain.
+PlayerBruteForceOpponentDominationPlayer
 Научись наслаждаться болью.
-Ow!  That really hurts.
+PlayerBruteForceOpponentDominationOpponent
 Ай!  Очень больно.
-(You charge her like a bull.  She dodges the charge and trips you onto the floor.)
+PlayerBruteForceOpponentSneakinessAction
 (Ты набрасываешься на нее, как бык.  Она уклоняется от удара и опрокидывает тебя на пол.)
-That's how you fight bitch?
+PlayerBruteForceOpponentSneakinessPlayer
 Вот как ты дерешься, шлюха?
-I hope you enjoyed your trip. Don't forget to send a postcard!
+PlayerBruteForceOpponentSneakinessOpponent
 Надеюсь, тебе понравится твое путешествие. Не забудь отправить открытку!
-(She recovers as you knee kick her on the stomach, causing her to lose her breath.)
+PlayerBruteForceOpponentMeditationAction
 (Она приходит в себя, когда вы бьете ее коленом в живот, из-за чего у нее перехватывает дыхание.)
-You take a break, you suffer.
+PlayerBruteForceOpponentMeditationPlayer
 Вы делаете перерыв, вы страдаете.
-(She catches her breath slowly.)
+PlayerBruteForceOpponentMeditationOpponent
 (Она медленно переводит дыхание.)
-(You smirk and point at the ground, but she grabs your arm and twists it.)
+PlayerDominationOpponentBruteForceAction
 (Вы ухмыляетесь и указываете на землю, но она хватает вас за руку и выкручивает ее.)
-Ouch!  Why don't you surrender?
+PlayerDominationOpponentBruteForcePlayer
 Ой! Почему бы тебе не сдаться?
-You're feeling smart now?
+PlayerDominationOpponentBruteForceOpponent
 Теперь ты чувствуешь себя умным?
-(You both argue on who should kneel for the other, but nobody gives in.)
+PlayerDominationOpponentDominationAction
 (Вы оба спорите о том, кто должен преклонить колени перед другим, но никто не уступает.)
-On your knees girl!
+PlayerDominationOpponentDominationPlayer
 На колени, девочка!
-No!  You get on your knees!
+PlayerDominationOpponentDominationOpponent
 Нет! Ты встань на колени!
-(She tries to tickle you, but gets stunned by your presence and kneels for you.)
+PlayerDominationOpponentSneakinessAction
 (Она пытается вас пощекотать, но ошеломлена вашим присутствием и становится перед вами на колени.)
-This is your place: on your knees.
+PlayerDominationOpponentSneakinessPlayer
 Это твое место: на коленях.
-Well that trick did not work.
+PlayerDominationOpponentSneakinessOpponent
 Что ж, этот трюк не сработал.
-(She tries to relax, but get hypnotized and paralyzed by your glaring look.)
+PlayerDominationOpponentMeditationAction
 (Она пытается расслабиться, но загипнотизирована и парализована вашим взглядом.)
-Girl, you know you belong to me.
+PlayerDominationOpponentMeditationPlayer
 Девочка, ты знаешь, что ты принадлежишь мне.
-(She nods slowly and meditates.)
+PlayerDominationOpponentMeditationOpponent
 (Она медленно кивает и размышляет.)
-(She tries to punch you hard, but you grab her arm using judo and throw her on the floor.)
+PlayerSneakinessOpponentBruteForceAction
 (Она пытается сильно ударить вас, но вы хватаете ее за руку, используя технику дзюдо, и швыряете ее на пол.)
-You're so predictable.
+PlayerSneakinessOpponentBruteForcePlayer
 Ты такой предсказуемый.
-Just you wait!
+PlayerSneakinessOpponentBruteForceOpponent
 Только ты подожди!
-(You try to make her trip, but she intimidates you with her menacing look.)
+PlayerSneakinessOpponentDominationAction
 (Вы пытаетесь заставить ее отправиться в путь, но она пугает вас своим угрожающим видом.)
-(You tremble and try to look away.)
+PlayerSneakinessOpponentDominationPlayer
 (Вы дрожите и пытаетесь отвести взгляд.)
-I'll never bow down for you.
+PlayerSneakinessOpponentDominationOpponent
 Я никогда не преклонюсь перед тобой.
-(You grab each other and try to make the other fall down, but you both tumble down to the ground.)
+PlayerSneakinessOpponentSneakinessAction
 (Вы хватаете друг друга и пытаетесь заставить другого упасть, но вы оба падаете на землю.)
-Ugly move, Bruce Lea.
+PlayerSneakinessOpponentSneakinessPlayer
 Некрасивый поступок, Брюс Ли.
-You suck, Jackie Shauna.
+PlayerSneakinessOpponentSneakinessOpponent
 Ты отстой, Джеки Шона.
-(You flash your sexy body at her, as she's trying to meditate.)
+PlayerSneakinessOpponentMeditationAction
 (Вы показываете ей свое сексуальное тело, пока она пытается медитировать.)
-You want this body, don't you?
+PlayerSneakinessOpponentMeditationPlayer
 Ты хочешь это тело, не так ли?
-Focus girl!  It's hard to focus.
+PlayerSneakinessOpponentMeditationOpponent
 Сосредоточьтесь, девочка! Трудно сосредоточиться.
-(You try to recover as she pulls your hair and gains the upper hand.)
+PlayerMeditationOpponentBruteForceAction
 (Вы пытаетесь прийти в себя, когда она тянет вас за волосы и берет верх.)
-Unfair!  Can't I have a break?
+PlayerMeditationOpponentBruteForcePlayer
 Несправедливо! Нельзя ли мне сделать перерыв?
-If you can't focus, I will crush you.
+PlayerMeditationOpponentBruteForceOpponent
 Если ты не сможешь сосредоточиться, я раздавлю тебя.
-(She snaps her fingers and points at the ground.  You kneel and rest at the same time.)
+PlayerMeditationOpponentDominationAction
 (Она щелкает пальцами и указывает на землю. Вы одновременно встаете на колени и отдыхаете.)
-Yes Miss.  Of course Miss.
+PlayerMeditationOpponentDominationPlayer
 Да, мисс. Конечно, мисс.
-Good girl, soon you'll be my slave.
+PlayerMeditationOpponentDominationOpponent
 Хорошая девочка, скоро ты будешь моей рабыней.
-(You meditate as she moves quickly behind you to tickle you.)
+PlayerMeditationOpponentSneakinessAction
 (Вы медитируете, пока она быстро движется позади вас, чтобы пощекотать вас.)
-Eeeeahahaha!  Let me relax!
+PlayerMeditationOpponentSneakinessPlayer
 Эээээхахаха! Позвольте мне расслабиться!
-Laugh some more girl.
+PlayerMeditationOpponentSneakinessOpponent
 Смейтесь еще, девочка.
-(You both take a short break to regain some strength and catch your breath.)
+PlayerMeditationOpponentMeditationAction
 (Вы оба делаете небольшой перерыв, чтобы восстановить силы и отдышаться.)
-This is not over yet.
+PlayerMeditationOpponentMeditationPlayer
 Это еще не конец.
-You're better than I thought.
+PlayerMeditationOpponentMeditationOpponent
 Ты лучше, чем я думал.
-undefined
-неопределенный

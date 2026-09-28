@@ -1,32 +1,24 @@
-Enter your account & character information
+EnterAccountCharacterInfo
 Введите свою учетную запись и информацию о персонаже
-Character name (letters & spaces)
-Имя персонажа (буквы и пробелы)
-Account name (letters & numbers)
-Имя учетной записи (буквы и цифры)
-Account password (letters & numbers)
-Пароль учетной записи (буквы и цифры)
-Confirm password (letters & numbers)
-Подтвердите пароль (буквы и цифры)
-Email (optional, to recover password)
+EmailDesc
 Электронная почта (необязательно, чтобы восстановить пароль)
-Create your account
+CreateAccount
 Создайте свой аккаунт
-Your account already exists?
+AccountAlreadyExists
 Ваша учетная запись уже существует?
 Login
 Авторизоваться
-Creating your character...
+CreatingCharacter
 Создание вашего персонажа...
-Error:
+Error
 Ошибка:
-Invalid character, account name, password or email
+InvalidData
 Недопустимый символ, имя учетной записи, пароль или адрес электронной почты
-Both passwords do not match
+BothPasswordDoNotMatch
 Оба пароля не совпадают
-Import Bondage College data
+ImportBondageCollege
 Импорт данных Бондаж Колледжа
-Invalid server answer, it could be outdated.
+InvalidServerAnswer
 Неверный ответ сервера, он может быть устаревшим.
-Your character name is permanent and cannot be changed. You can set a nickname later.
+CharacterNamePermanent
 Имя персонажа постоянное и не может быть изменено. Позже вы сможете задать прозвище.

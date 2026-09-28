@@ -1,344 +1,340 @@
-Abandoned Building
+AbandonedBuilding
 Verlassenes Gebäude
-Abandoned Side Room
+AbandonedSideRoom
 Verlassener Nebenraum
-Alchemist Office
+AlchemistOffice
 Alchemisten Schreibzimmer
-Ancient Ruins
+AncientRuins
 Antike Ruine
-Bedroom
+AsylumBedroom
 Schlafzimmer
-Entrance
+AsylumEntrance
 Eingangshalle
-GGTS Computer Room
+AsylumGGTSRoom
 GGTS Computer Raum
-Meeting
+AsylumMeeting
 Meeting Raum
-Therapy
+AsylumTherapy
 Therapy Zimmer
-Back Alley
+BackAlley
 Hintergasse
-Balcony Night
+BalconyNight
 Nächtlicher Balko
+BarRestaurant
 Bar Restaurant
-Bar Restaurant
-BDSM Room Blue
+BDSMRoomBlue
 Blauer BDSM Room
-BDSM Room Purple
+BDSMRoomPurple
 Violetter BDSM Room
-BDSM Room Red
+BDSMRoomRed
 Roter BDSM Room
 Beach
 Strand
-Beach Promenade Café
+BeachCafe
 Strandpromenaden Café
-Beach Hotel 1
+BeachHotel1
 Strand Hotel 1
-Beach Hotel 2
+BeachHotel2
 Strand Hotel 2
-Beach Sunset
+BeachSunset
 Strand mit Sonnenuntergang
-Bondage Bedchamber
+Bedroom
+Schlafzimmer
+BondageBedChamber
 Bondage Schlafzimmer
 Boudoir
 Boudoir
-Shop Dressing Rooms
+BoutiqueBack
 Umkleidekabine
-Boutique Shop
+BoutiqueMain
 Boutique
-Captain Cabin
+CaptainCabin
 Kapitänskajüte
-Fancy Castle
+Castle
 Schönes Schloss
 Cellar
 Keller
-Ceremony Venue
+CeremonialVenue
 Zeremonieller Veranstaltungsort
-Chill Room
+ChillRoom
 Ruheraum
-College Classroom
-College Klassenraum
-Tennis Court
+CollegeTennis
 Tennisplatz
-Theater
+CollegeTheater
 Theater
 Confessions
 Beichtstuhl
-Cosy Chalet
+CosyChalet
 Gemütliches Chalet
-Cozy Living Room
+CozyLivingRoom
 Gemütliches Wohnzimmer
-Creepy Basement
+CreepyBasement
 Unheimlicher Keller
-Deep Forest
+DeepForest
 Dunkler Wald
 Desert
 Wüste
-Desolate Village
+DesolateVillage
 Ruinendorf
-Dining Room
+DiningRoom
 Esszimmer
 Dungeon
 Kerker
-Ruined Dungeon
+DungeonRuin
 Ruinen Stadt
-Dystopian City
+DystopianCity
 Dystopische Metropole
-Egyptian Exhibit
+EgyptianExhibit
 Ägyptische Ausstellung
-Egyptian Tomb
+EgyptianTomb
 Ägyptisches Grag
-Empty Warehouse
+EmptyWarehouse
 Ägyptisches Lager
-Forest Cave
+ForestCave
 Waldhöhle
-Forest Path
+ForestPath
 Waldweg
-Public Garden
+Garden1
 Garten
 Gymnasium
 Gymnasium
-Entrance to Heaven
+HeavenEntrance
 Eingang zum Himmel
-Entrance to Hell
+HellEntrance
 Eingang zur Hölle
-Horse Stable
+HorseStable
 Pferdestall
-Hotel Bedroom
+HotelBedroom
 Hotel Schlafzimmer
-Hotel Bedroom 2
+HotelBedroom2
 Hotel Schlafzimmer2
-Empty Basement 1
+HouseBasement1
 Leerer Keller 1
-Empty Basement 2
+HouseBasement2
 Leerer Keller 2
-Empty Basement 3
+HouseBasement3
 Leerer Keller 3
-Studio Living Room
+HouseInterior1
 Studio-Wohnzimmer
-Wooden Living Room
+HouseInterior2
 Hölzernes Wohnzimmer
-Appartment Living Room
+HouseInterior3
 Apartment Wohnzimmer
-Hypnotic Spiral 2
+HypnoSpiral2
 Hypnotische Spirale 2
-Hypnotic Spiral
+HypnoticSpiral
 Hypnotische Spirale
-Indoor Pool
+IndoorPool
 Schwimmhalle
 Industrial
 Industie
-Infiltration Bunker
+Infiltration
 Infiltration Bunker
 Introduction
 Einführungsraum
-Jungle Temple
+JungleTemple
 Dschungel Tempel
 Kennels
 Zwinger
-Kidnappers League
+KidnapLeague
 Kidnapper Liga
-Kitchen 1
-Küche 1
-Kitchen 2
-Küche 2
-Latex Room
+LatexRoom
 Latex Zimmer
-Leather Chamber
+LeatherChamber
 Leather Kammer
-Lingerie Shop
+LingerieShop
 Dessous Geschäft
-Locker Room
+LockerRoom
 Umkleideraum
-Lost Wages Casino
+LostVages
 Casino
-Maid Café
+MaidCafe
 Personalcafé
-Maid Quarters
+MaidQuarters
 Personalzimmer
-Main Hall
+MainHall
 Haupthalle
+Management
 Club Management
-Club Management
-Medina Market
+MedinaMarket
 Medina Markt
-Middletown School
+MiddletownSchool
 Kleinstadtschule
-Movie Studio
+MovieStudio
 Filmstudio
-Nightclub
+NightClub
 Nachtclub
 Nursery
 Kinderzimmer
-Luxury Office
+Office1
 Luxus Büro
-Open Office
+Office2
 Offenes Büro
-Old Farm
+OldFarm
 Alter Bauernhof
 Onsen
 Heiße Quelle
+OutdoorPool
 Outdoor Pool
-Outdoor Pool
-Luxury Pool
+OutdoorPool2
 Luxus Pool
-Outside Cells
+OutsideCells
 Gefängnisflur
-Padded Cell
+PaddedCell
 Gummizelle
-Padded Cell 2
+PaddedCell2
 Gummizelle 2
-Pandora Cell A
+PandoraCell0
 Pandora Zelle A
-Pandora Cell B
+PandoraCell1
 Pandora Zelle B
-Pandora Cell C
+PandoraCell2
 Pandora Zelle C
-Pandora Cell D
+PandoraCell3
 Pandora Zelle D
-Pandora Cell E
+PandoraCell4
 Pandora Zelle E
-Pandora Cell F
+PandoraCell5
 Pandora Zelle F
-Pandora Cell G
+PandoraCell6
 Pandora Zelle G
-Park Day
+ParkDay
 Park Tag
-Park Night
+ParkNight
 Park Nacht
-Park Winter
+ParkWinter
 Winterlicher Park
-Party Basement
+PartyBasement
 Partykeller
-Pirate Island
+PirateIsland
 Pirateninsel
-Pirate Island Night
+PirateIslandNight
 Nächtliche Pirateninsel
-Pool Bottom
+PoolBottom
 Schwimmbad
-Prison Hall
+PrisonHall
 Gefängnishalle
-Private Room
+Private
 Privat Zimmer
-Public Bath
+PublicBath
 Öffentliches Bad
-Rainy Forest Path Day
+RainyForestPathDay
 Waldpfad, regnerisch, Tag
-Rainy Forest Path Night
+RainyForstPathNight
 Waldpfad, regnerisch, Nacht
-Rainy Street Day
+RainyStreetDay
 Straße, regnerisch, Tag
-Rainy Street Night
+RainyStreetNight
 Straße, regnerisch, Nacht
 Ranch
 Bauernhof
-Research Lab
+ResearchPrep
 Forschungslabor
+ResearchProgress
+Forschungslabor
+Restaurant1
 Restaurant 1
-Restaurant 1
+Restaurant2
 Restaurant 2
-Restaurant 2
-Rooftop Party
+RooftopParty
 Dachparty
-Rusty Saloon
+RustySaloon
 Western Saloon
-School Hallway
+SchoolHallway
 Schulflur
-School Hospital
+SchoolHospital
 Schulkrankenzimmer
-Abandoned School
+SchoolRuins
 Verlasene Schule
-Sci Fi Cell
+SciFiCell
 Sci-Fi Zelle
-Sci Fi Outdoors
+SciFiOutdoors
 Sci-Fi Landschaft
-Red Sci-Fi Room
+SciFiRed
 Roter Sci-Fi Raum
-Secret Chamber
+SecretChamber
 Geheimzimmer
-Sheikh Private Room
+SheikhPrivate
 Scheichs Privatraum
-Sheikh Tent
+SheikhTent
 Scheichs Zelt
+Shibari
 Shibari Dojo
-Shibari Dojo
-Ship's Deck
+ShipDeck
 Schiffsdeck
-Ship Wreck
+Shipwreck
 Schiffswrack
-Slippery Classroom
+SlipperyClassroom
 Rutschiges Klassenzimmer
+SlumApartment
 Slum Apartment
-Slum Apartment
-Slum Cellar
+SlumCellar
 Slum Keller
-Slum Ruins
+SlumRuins
 Slum Ruinen
-Snowy Chalet Day
+SnowyChaletDay
 Chalet, Winter, Tag
-Snowy Chalet Night
+SnowyChaletNight
 Chalet, Winter Nacht
-Snowy Deep Forest
+SnowyDeepForest
 Dunkler winterlicher Wald
-Snowy Forest Path Day
+SnowyForestPathDay
 Verschneiter Waldweg, Tag
-Snowy Forest Path Night
+SnowyForestPathNight
 Verschneiter Waldweg, Nacht
-Snowy Lake Night
+SnowyLakeNight
 Winterlicher See, Nacht
-Snowy Street
+SnowyStreet
 Winterliche Straße
-Snowy Street Day 1
+SnowyStreetDay1
 Winterliche Straße, Tag 1
-Snowy Street Day 2
+SnowyStreetDay2
 Winterliche Straße, Tag 2
-Snowy Street Night
+SnowyStreetNight2
 Winterliche Straße, Nacht
-Snowy Town 1
+SnowyTown1
 Winterlicher Ort 1
-Snowy Town 2
+SnowyTown2
 Winterlicher Ort 2
-Space Station Captain Bedroom
+SpaceCaptainBedroom
 Space Station Kapitän Schlafzimmer
-Spooky Forest
+SpookyForest
 Spukwald
-Street Night
-Nächtliche Straße
-Sun Temple
+SunTemple
 Sonnentempel
-Virtual World
+SynthWave
 Virtuale Welt
-Throne Room
+ThroneRoom
 Thronsaal
-Tiled Bathroom
+TiledBathroom
 Gefliestes Badezimmer
-Underwater One
+UnderwaterOne
 Unterwasserwelt
-Vault Corridor
+VaultCorridor
 Stahlgewölbe
-Wagon Circle
+Wagons
 Wagenburg
-Wedding Arch
+WeddingArch
 Hochzeitsbogen
-Wedding Beach
+WeddingBeach
 Hochzeitsstrand
-Wedding Room
+WeddingRoom
 Hochzeitszimmer
-Western Street
+WesternStreet
 Western Straße
-Witch Wood
+WitchWood
 Hexenwald
-Wooden Cabin
+WoodenCabin
 Blockhaus
+WrestlingRing
 Ring
-Ring
-Christmas Day Lounge
+XmasDay
 Weihnachtslounge, Tag
-Christmas Eve Lounge
+XmasEve
 Weihnachtslounge, NAcht
-Yacht Chill Room
+Yacht1
 Yatch, Ruheraum
-Yacht Main Hall
+Yacht2
 Yatch, Haupthalle
-Yacht Deck
+Yacht3
 Yatch, Deck

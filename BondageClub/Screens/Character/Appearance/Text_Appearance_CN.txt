@@ -1,56 +1,60 @@
-Select your appearance
+SelectYourAppearance
 选择你的外貌
- Select TargetCharacterName's appearance
+SelectSomeoneAppearance
 选择TargetCharacterName的外貌
-You must pick an item of type:
+MustPickItem
 你必须选择该类别的物品：
-Set wardrobe character name:
+WardrobeNameInfo
 设置衣柜角色名：
-Invalid name for character.
+WardrobeNameError
 角色名无效
-Reset character
+ResetClothes
 重置角色
-Randomize clothes
+WearRandom
 随机服装
-Randomize character
+Random
 随机角色
-Strip clothes
+Naked
 脱下衣物
-Copy to clipboard
+Copy
 复制到剪贴板
-Import from clipboard
+Paste
 从剪贴板导入
-Show character in previews
+Character
 在预览中显示角色
-Strip item
+StripItem
 脱下物品
-Reorder Items
+Swap
 排列物品
 Next
 下一页
-Previous
+Prev
 前一页
-Cancel changes
+Cancel
 取消改动
-Accept changes
+Accept
 确认改动
 Wardrobe
 衣柜
-Wardrobe can be bought in your private room.
+WardrobeDisabled
 衣柜可以在私人房间中购买
-Edit item permissions
+PermissionMode
 编辑物品权限许可
-Use this item
+Use
 使用该物品
-Unable to use due to player permissions
+UseDisabled
 因权限设定无法使用
-Select a color
+Reset
+重置角色
+ColorChange
 选择一种颜色
-Unable to change color due to player permissions
+ColorChangeDisabled
 因权限设定无法修改颜色
-Select colors
+ColorChangeMulti
 选择颜色
-blocked by owner
+ColorChangeMultiDisabled
+因权限设定无法修改颜色
+OwnerBlock
 被主人屏蔽
-Change item layering
+Layering
 更改物品分层

@@ -4,17 +4,17 @@ Normal
 Normal
 Hard
 Schwierig
-Press a key to start
+Start
 Drücke einen Knopf zum starten
-Tap to start
+StartMobile
 Drücke zum starten
-Difficulty:
+Difficulty
 Schwierigkeitsgrad:
-Perfect!  You didn't lose a drop.
+Perfect
 Perfekt! Du hast keinen Tropfen verschüttet.
-You did it!  Your customers are satisfied.
+Victory
 Geschafft! Deine Kunden sind zufrieden.
-You failed, you've spilled your drinks.
+Defeat
 Du hast verloren und deine Getränke verschüttet.
-Click on yourself to continue.
+ClickContinue
 Klicke dich an, um fortzufahren.

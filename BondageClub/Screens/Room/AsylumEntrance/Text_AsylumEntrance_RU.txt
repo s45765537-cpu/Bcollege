@@ -1,20 +1,20 @@
-﻿Leave the Asylum
+Exit
 Покинь Психушку
-Your Profile
+Profile
 Ваш Профиль
-Asylum Chat Rooms
+ChatRoom
 Чаты Психушки 
-Your Bedroom
+Bedroom
 Ваша Спальня
-Meeting Space
+Meeting
 Конференц-Зал
-Therapy Room
+Therapy
 Терапевтический Кабинет
-Remaining Time:
+RemainingTime
 Оставшееся Время:
-Punishment Time:
+IsolationTime
 Время наказания:
-Good Girl Training System
+GGTS
 Система тренировок хорошей девочки
-Forced GGTS
+ForceGGTS
 Принудительный GGTS

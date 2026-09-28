@@ -1,32 +1,32 @@
-(Two maids grab you and escort you to their quarters.  Another maid addresses you.)  Your owner sent you here to work.
+ActionGrabbedToServeDrinksIntro
 (Deux servantes vous attrapent pour vous escorter dans leurs quartiers. Une autre s'adresse à vous.)  Votre patronne vous a envoyé ici pour travailler.
-Talk to everyone
+PublicChat
 Parler à tous
-Whisper to
+WhisperTo
 Chuchoter à
-Keep only 20 messages
+MenuCut
 Garder seulement 20 messages
-Your character profile
+MenuProfile
 Votre profile de personnage
-Room administration
+MenuRoomAdmin
 Administration de la salle
-Kneel down / Stand up
+MenuKneel
 S'agenouiller / Se lever
-Dress your character
+MenuDress
 Apparence
-Leave this chat room
+MenuExit
 Quitter cette salle
-Game options
-Options du jeu
-An orgasm is coming!
-Un orgasme arrive!
-Resist!
-Résistez!
-Try to resist
-Essayer de résister
-Surrender
-Abandonner
-Recovering from an orgasm...
-Récupération après un orgasme ...
-Stop leaving
+MenuCancel
 Annuler la sortie
+MenuGameOption
+Options du jeu
+OrgasmComing
+Un orgasme arrive!
+OrgasmResist
+Résistez!
+OrgasmTryResist
+Essayer de résister
+OrgasmSurrender
+Abandonner
+OrgasmRecovering
+Récupération après un orgasme ...

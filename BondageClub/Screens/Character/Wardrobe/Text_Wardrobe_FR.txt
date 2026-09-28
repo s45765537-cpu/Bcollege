@@ -4,5 +4,5 @@ Save
 Sauvegarder
 Return
 Retour
-Save or load your favorite appearance
+SelectAppareance
 Chargez ou sauvegardez vos apparences favorites

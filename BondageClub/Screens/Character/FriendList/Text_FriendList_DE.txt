@@ -1,46 +1,44 @@
-Online friends
+OnlineFriends
 Freunde online
-All friends
+AllFriends
 Alle Freunde
-Beep history
+Beeps
 Biep-Verlauf
+MemberName
 Name
-Name
+MemberNickname
 Nickname
-Nickname
-Member number
+MemberNumber
 Mitgliedsnummer
-Chat room
+ChatRoomName
 Chatraum
-Relation type
+RelationType
 Beziehungstyp
-Send a Beep
+ActionFriends
 Sende ein Piep
-Read a Beep
+ActionRead
 Lese ein Piep
-Delete a Friend
-Lösche eine Freundschaft
-Toggle 30 sec auto-refresh
+AutoRefresh
 Automatische 30 sec Aktuallisierung 
 Refresh
 Akualisieren
-Reset sorting
+ResetSorting
 Sortierung zurücksetzen
 Exit
 Zurück
-Previous mode
+PrevMode
 Vorherige Ansicht
-Next mode
+NextMode
 Nächste Ansicht
-Room name: included
+ToggleRoomOn
 Raumname: anzeigen
-Room name: excluded
+ToggleRoomOff
 Raumname: ausblenden
-Owner
+TypeOwner
 Eigentümer
-Lover
+TypeLover
 Liebhaber
-Submissive
+TypeSubmissive
 Sub
-Friend
+TypeFriend
 Freund

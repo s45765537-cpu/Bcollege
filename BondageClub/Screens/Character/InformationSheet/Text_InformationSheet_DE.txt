@@ -1,326 +1,158 @@
+Name
 Name:
-Name:
+Nickname
 Nickname:
-Nickname:
-Title:
+Title
 Titel:
+Pronouns
+Pronomen:
+MemberNumber
+Mitgliedsnummer:
+NoMemberNumber
+-
+Relationships
+- Beziehungen -
+Lover
+Liebhaberin:
+Owner
+Besitzerin:
 None
 Nichts
-Mistress
-Herrin
-Master
-Master
-Club Slave
-Clubsklavin
-Head Maid
-Hausdame
-Maid
-Hausmädchen
-Bondage Maid
-Bondage-Hausmädchen
-Master Kidnapper
-Meister Entführerin
-Kidnapper
-Entführerin
-Patient
-Patientin
-Permanent Patient
-Dauerhafte Patientin
-Escaped Patient
-Entlaufene Patientin
-Nurse
-Krankenschwester
-Doctor
-Doktor
-Lady Luck
-Lady Luck
-Lord Fortune
-Lord Fortune
-Patron
-Patron
-College Student
-College-Studentin
-Nawashi
-Nawashi
-Houdini
-Houdini
-Superheroine
-Superheroine
-Superhero
-Superheld
-Foal
-Fohlen
-Farm Horse
-Ackergaul
-Cold Blood Horse
-Kaltblutpferd
-Warm Blood Horse
-Warmblutpferd
-Hot Blood Horse
-Heißblutpferd
-Wild Mustang
-Wilder Mustang
-Shining Unicorn
-Strahlendes Einhorn
-Flying Pegasus
-Fliegender Pegasus
-Majestic Alicorn
-Majestätischer Alicorn
-Mole
-Mole
-Infiltrator
-Infiltrator
-Agent
-Agent
-Operative
-Geheimagent
-Superspy
-Superspion
-Wizard
-Zauberer
-Magus
-Magus
-Magician
-Magier
-Sorcerer
-Hexer
-Sage
-Weiser
-Oracle
-Orakel
-Witch
-Hexe
-Warlock
-Hexenmeister
-Little One
-Kleine
-Baby
-Baby
-Diaper Lover
-Windel Liebhaber
-Bondage Baby
-Bondage Baby
-Duchess
-Herzogin
-Duke
-Herzog
-Switch
-Wechsler
-Princess
-Prinzessin
-Prince
-Prinz
-Missy
-Missy
-Sissy
-Sissy
-Tomboy
-Tomboy
-Femboy
-Femboy
-Pet
-Haustier
-Brat
-freches Balg
-Kitten
-Kätzchen
-Puppy
-Welpe
-Foxy
-Fuchs
-Bunny
-Häschen
-Doll
-Puppe
-Demon
-Dämonin
-Angel
-Engel
-Alien
-Alien
-Succubus
-Succubus
-Incubus
-Incubus
-Good Girl
-Good Girl
-Good Slave Girl
-Good Slave Girl
-Good Boy
-Good Boy
-Good Slave Boy
-Good Slave Boy
-Good Slave
-Good Slave
-Drone
-Drohne
-Mistree
-Mistress
-Good One
-Good One
-Liege
-Liege
-Concubus
-Concubus
-Majesty
-Majestät
-Captain
-Kapitän
-Admiral
-Admiral
-Dominatrix
-Dominatrix
-Pronouns:
-Pronomen:
-Member Number:
-Mitgliedsnummer:
--
--
-- Relationships -
-- Beziehungen -
-Lover:
-Liebhaberin:
-Owner:
-Besitzerin:
+OwnerGGTS
 GGTS
-GGTS
-Money:
+Money
 Geld:
-Member for
+MemberFor
 Mitglied seit
-Bondage Club Birthday! 
+Birthday
 Bondage Club Geburtstag!
-Friends for
+FriendsFor
 Freunde seit
-On trial for
-Auf Probezeit seit
-Collared for
-Trägt Halsband seit
-Dating for
-Dating seit
-Engaged for
-Verlobt seit
-Married for
-Verheiratet seit
-day(s)
+Days
 Tag(en)
 Unknown
 Unbekannt
-- Reputation -
+Reputation
 - Rang -
+ReputationNone
+Nichts
+ReputationGamingPositive
 Dungeoneer:
-Dungeoneer:
+ReputationDominantPositive
 Dominant:
-Dominant:
-Submissive:
+ReputationDominantNegative
 Unterwürfig:
-Maid Sorority:
+ReputationMaidPositive
 Hausmädchen:
-Kidnappers League:
+ReputationKidnapPositive
 Kidnapper-Liga:
-Asylum Nurse:
+ReputationAsylumPositive
 Anstalts-Schwester:
-Asylum Patient:
+ReputationAsylumNegative
 Anstalts-Patientin:
-LARP Battles:
+ReputationLARPPositive
 LARP Kämpfe:
-Gambling Hall:
+ReputationGamblingPositive
 Spielhalle:
+ReputationABDLPositive
 ABDL:
-ABDL:
-House Maiestas:
+ReputationHouseMaiestasPositive
 Haus Maiestas:
-House Vincula:
+ReputationHouseVinculaPositive
 Haus Vincula:
-House Amplector:
+ReputationHouseAmplectorPositive
 Haus Amplector:
-House Corporis:
+ReputationHouseCorporisPositive
 Haus Corporis:
-difficulty
+DifficultyTitle
 Schwierigkeit
- - Can change again in NumberOfDays day(s)
+DifficultyDaysTillCanChange
  - Kann nach NumberOfDays day(s) geändert werden
-Roleplay
+DifficultyLevel0
 Rollenspiel
-Regular
+DifficultyLevel1
 Regulär
+DifficultyLevel2
 Hardcore
-Hardcore
+DifficultyLevel3
 Extreme
-Extreme
-- Skills -
+Skill
 - Fähigkeiten -
+SkillNone
+Nichts
+SkillBondage
 Bondage:
-Bondage:
-Self-bondage:
+SkillSelfBondage
 Selbstbondage:
-Lockpicking:
+SkillLockPicking
 Schlösserknacken:
-Evasion:
+SkillEvasion
 Entfesselung:
-Willpower:
+SkillWillpower
 Willenskraft:
+SkillInfiltration
 Infiltration:
-Infiltration:
-Dressage:
+SkillDressage
 Dressur:
+SkillModifier
 ABSVAL for DURATION
-ABSVAL for DURATION
-- Traits -
+Trait
 - Merkmale -
-Spend more time with her to know her traits
+TraitUnknown
 Verbringe mehr Zeit mit ihr, um sie besser kennenzulernen
-Violent:
+TraitDominant
+Dominant:
+TraitSubmissive
+Unterwürfig:
+TraitViolent
 Brutal:
-Peaceful:
+TraitPeaceful
 Friedlich:
-Horny:
+TraitHorny
 Scharf:
-Frigid:
+TraitFrigid
 Frigide:
-Rude:
+TraitRude
 Unhöflich:
-Polite:
+TraitPolite
 Höflich:
-Wise:
+TraitWise
 Weise:
-Dumb:
+TraitDumb
 Dumm:
-Serious:
+TraitSerious
 Ernst:
-Playful:
+TraitPlayful
 Verspielt:
-Relation:
+Relationship
 Beziehung:
-(Perfect)
+RelationshipPerfect
 (Perfekt)
-(Great)
+RelationshipGreat
 (Klasse)
-(Good)
+RelationshipGood
 (Gut)
-(Fair)
+RelationshipFair
 (In Ordnung)
+RelationshipNeutral
 (Neutral)
-(Neutral)
-(Poor)
+RelationshipPoor
 (Dürftig)
-(Bad)
+RelationshipBad
 (Schlecht)
-(Horrible)
+RelationshipHorrible
 (Schrecklich)
-(Atrocious)
+RelationshipAtrocious
 (Entsetzlich)
-Permission:
-Genehmigung:
-Everyone, no exceptions
+AllowedInteraction0
 Alle, ohne Ausnahme
-Everyone, except blacklist
+AllowedInteraction1
 Alle, außer Blacklist
-Owner, Lovers, whitelist & Dominants
+AllowedInteraction2
 Besitzer, Liebhaber, Whitelist & Dominante
-Owner, Lovers and whitelist only
+AllowedInteraction3
 Nur Besitzer, Liebhaber und Whitelist
-Owner and Lovers only
+AllowedInteraction4
 Nur Besitzer und Liebhaber
-Owner only
+AllowedInteraction5
 Nur Besitzer

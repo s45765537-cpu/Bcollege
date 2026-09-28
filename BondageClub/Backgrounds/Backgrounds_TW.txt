@@ -1,3 +1,5 @@
+AsylumBedroom
+臥室
 Beach
 海灘
 Bedroom
@@ -12,7 +14,7 @@ Desert
 沙漠
 Dungeon
 地牢
-Public Garden
+Garden1
 花園
 Gymnasium
 體育館
@@ -22,15 +24,11 @@ Introduction
 介紹處
 Kennels
 養犬場
-Kitchen 1
-廚房 1
-Kitchen 2
-廚房 2
 Nursery
 育嬰室
 Onsen
 溫泉
-Private Room
+Private
 私人
 Ranch
 牧場

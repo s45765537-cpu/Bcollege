@@ -1,202 +1,114 @@
-Check all
+CheckAll
 Позначити все
-Check none
+CheckNone
 Прибрати позначки
-Apply the advanced rule
+Exit
 Застосувати просунуте правило
-Check the Bondage Club areas that your submissive won't be able to enter.
+BlockScreenTitle
 Позначте зони Бондаж Клубу в які ваший сабмісив не зможе ввійти.
-Check the appearance zones that your submissive won't be able to change by herself.
+BlockAppearanceTitle
 Позначте зони зовнішнього вигляду які ваший сабмісив не зможе змінити.
-Check the item zones that your submissive won't be able to access on herself.
+BlockItemGroupTitle
 Позначте зони предметів до яких ваший сабмісив не буде мати доступу.
-Club Shop
+BlockItemGroupItemBoots
+Feet & Toes
+BlockItemGroupItemFeet
+Lower Legs
+BlockItemGroupItemLegs
+Upper Legs
+BlockItemGroupItemVulva
+Pussy & Vagina
+BlockItemGroupItemVulvaPiercings
+Clitoris
+BlockItemGroupItemButt
+Butt / Anal
+BlockItemGroupItemPelvis
+Pelvis & Belly
+BlockItemGroupItemTorso
+Torso (Left)
+BlockItemGroupItemTorso2
+Torso (Right)
+BlockItemGroupItemNipples
+Nipples
+BlockItemGroupItemNipplesPiercings
+Nipples Piercings
+BlockItemGroupItemBreast
+Breast
+BlockItemGroupItemHands
+Hands
+BlockItemGroupItemArms
+Arms & Shoulders
+BlockItemGroupItemNeck
+Neck
+BlockItemGroupItemNeckAccessories
+Neck Accessories
+BlockItemGroupItemNeckRestraints
+Neck Restraints
+BlockItemGroupItemMouth
+Mouth (Left)
+BlockItemGroupItemMouth2
+Mouth (Center)
+BlockItemGroupItemMouth3
+Mouth (Right)
+BlockItemGroupItemNose
+Nose
+BlockItemGroupItemEars
+Ears
+BlockItemGroupItemHead
+Head
+BlockItemGroupItemHood
+Hood
+BlockScreenShop
 Магазин Клубу
-Private Room
+BlockScreenPrivate
 Приватна кімната
-Introduction Class
+BlockScreenIntroduction
 Вступний клас
-Maid Quarters
+BlockScreenMaidQuarters
 Приміщення покоївок
-Kidnappers League
+BlockScreenKidnapLeague
 Ліга викрадачів
-Shibari Dojo
+BlockScreenShibariDojo
 Шибарі Доджо
-Explore the Club
+BlockScreenSarah
 Дослідження клубу
-Look for Trouble
+BlockScreenTrouble
 Пошук пригод
-Slave Market
+BlockScreenSlaveMarket
 Ринок рабів
-Timer Cell
+BlockScreenCell
 Камера з таймером
-LARP Battles
+BlockScreenLARPBattle
 Битви LARP
-Visit the College
-Відвідати коледж
-Asylum
+BlockScreenAsylum
 Психіатрична лікарня
-Bondage Poker
+BlockScreenPoker
 Бондаж Покер
-Infiltration
+BlockScreenInfiltration
 Проникнення
-Movie Studio
+BlockScreenMovieStudio
 Кіно-Студія
-Magic School
+BlockScreenMagicSchool
 Школа магії
-Bondage Brawl
+BlockScreenPlatform
 Бондажна бійка
-Item Crafting
+BlockScreenCrafting
 Створення предметів
-Club Card Lounge
-Кімната Клуб-карт
-Gambling
+BlockScreenGambling
 Азартні ігри
-Prison
+BlockScreenPrison
 В'язниця
-Photographic
+BlockScreenPhotographic
 Фото-студія
-Stable
+BlockScreenStable
 Стайня
-Houdini's Theater
+BlockScreenMagic
 Театр Гудіні
-The Nursery
+BlockScreenNursery
 Дитячі ясла
-Cafe
+BlockScreenCafe
 Кафе
-Arcade
+BlockScreenArcade
 Аркада
-Cloth
-Cloth
-Cloth Accessory
-Cloth Accessory
-Necklace
-Necklace
-Suit (Upper)
-Suit (Upper)
-Bottom
-Bottom
-Suit (Lower)
-Suit (Lower)
-Bra
-Bra
-Corset
-Corset
-Panties
-Panties
-Socks
-Socks
-Right Sock
-Right Sock
-Left Sock
-Left Sock
-Right Anklet
-Right Anklet
-Left Anklet
-Left Anklet
-Garters
-Garters
-Shoes
-Shoes
-Hat
-Hat
-Hair Accessory
-Hair Accessory
-Hair Accessory (All)
-Hair Accessory (All)
-Ears
-Ears
-Gloves
-Gloves
-Left Hand Rings
-Left Hand Rings
-Right Hand Rings
-Right Hand Rings
-Bracelet
-Bracelet
-Glasses
-Glasses
-Jewelry
-Jewelry
-Mask
-Mask
-Tail Strap
-Tail Strap
-Wings
-Wings
-Height
-Height
-Upper Body
-Upper Body
-Lower Body
-Lower Body
-Front Hair
-Front Hair
-Facial Hair
-Facial Hair
-Back Hair
-Back Hair
-Eyebrow
-Eyebrow
-Left Eye
-Left Eye
-Right Eye
-Right Eye
-Mouth
-Mouth
-Nipples
-Nipples
-Pussy/Penis
-Pussy/Penis
-Pronoun
-Pronoun
-Feet & Toes
-Feet & Toes
-Lower Legs
-Lower Legs
-Upper Legs
-Upper Legs
-Pussy & Vagina
-Pussy & Vagina
-Clitoris
-Clitoris
-Butt / Anal
-Butt / Anal
-Pelvis & Belly
-Pelvis & Belly
-Torso (Left)
-Torso (Left)
-Torso (Right)
-Torso (Right)
-Nipples Piercings
-Nipples Piercings
-Breast
-Breast
-Hands
-Hands
-Arms & Shoulders
-Arms & Shoulders
-Neck
-Neck
-Neck Accessories
-Neck Accessories
-Neck Restraints
-Neck Restraints
-Mouth (Left)
-Mouth (Left)
-Mouth (Center)
-Mouth (Center)
-Mouth (Right)
-Mouth (Right)
-Nose
-Nose
-Head
-Head
-Hood
-Hood
-Misc (Top Left)
-Misc (Top Left)
-Device (Bottom Left & Right)
-Device (Bottom Left & Right)
-Addon (Top Right)
-Addon (Top Right)
+BlockScreenClubCard
+Кімната Клуб-карт

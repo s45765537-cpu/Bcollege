@@ -1,16 +1,16 @@
-﻿Return to the Club
+Exit
 Retourner au Club
-Your Profile
+Profile
 Votre Profile
-Change Clothes
+Dress
 Changer de vêtements
-Tennis Court
+Tennis
 Terrain de tennis
-College Cafeteria
+Cafeteria
 Cafétéria du Collège
-College Theater
+Theater
 Théâtre du Collège
-Detention Room
+Detention
 Salle de Détention
-Teacher Lounge (Require a key)
+Teacher
 Salon des Enseignants (Nécessite une clé)

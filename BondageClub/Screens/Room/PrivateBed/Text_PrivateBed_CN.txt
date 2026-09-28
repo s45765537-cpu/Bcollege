@@ -1,18 +1,18 @@
-Return to your room
+Exit
 返回你的房间
-Change your clothes
+Dress
 更换你的衣服
-Your items & profile
+Character
 你的物品和资料
-An orgasm is coming!
+OrgasmComing
 高潮即将来临!
-Resist!
+OrgasmResist
 抵抗!
-Try to resist
+OrgasmTryResist
 尝试抵抗
-Surrender
+OrgasmSurrender
 投降
-Recovering from an orgasm...
+OrgasmRecovering
 从高潮中恢复...
-Your owner forbids you from leaving too quickly.
+CannotLeave
 你的主人禁止你太快离开。

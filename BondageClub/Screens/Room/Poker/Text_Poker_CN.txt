@@ -1,26 +1,26 @@
-Select your options & opponents below or challenge a new girl to unlock her.
+IntroTitle
 在下面选择游戏模式和对手，或者挑战一名新的女孩以解锁她。
-Return to the main hall
+Exit
 返回大厅
-Challenge a new girl
+Challenge
 挑战新的女孩
-Start a custom game
+Custom
 开始自定义游戏
-View yourself
+ShowPlayer
 显示你自己
-Texas Hold'em
+RulesTexasHoldem
 德州扑克
-Two Cards
+RulesTwoCards
 两张牌
-Visit the artist
+VisitArtist
 访问艺术家页面
-None
+FamilyNone
 无
-Private Friends
+FamilyFriend
 私人朋友
-Illustrations
+FamilyIllustration
 插画
-Real Models
+FamilyModel
 真人模特
 Chip
 筹码
@@ -34,37 +34,37 @@ Fold
 弃牌
 Watch
 观看
-won
+Win
 获胜
-won the game!
+WinGame
 赢得了牌局！
-You won $MoneyAmount and unlocked OpponentName.  You can challenge another girl.
+WinChallenge
 你赢得了 $MoneyAmount 并解锁了 OpponentName。你现在可以挑战新的女孩。
-Finish this game
+EndGame
 结束游戏
-Ante:
+Ante
 底注：
-Split pot
+SplitPot
 平分彩池
-Pot:
+Pot
 彩池：
-High card
+HandHighestCards
 散牌
-One pair
+HandOnePair
 一对
-Two pairs
+HandTwoPairs
 两对
-Three of a kind
+HandThreeOfAKind
 三条
-Straight
+HandStraight
 顺子
-Flush
+HandFlush
 同花
-Full house
+HandFullHouse
 葫芦
-Four of a kind
+HandFourOfAKind
 四条
-Straight flush
+HandStraightFlush
 同花顺
-Royal flush
+HandRoyalFlush
 皇家同花顺

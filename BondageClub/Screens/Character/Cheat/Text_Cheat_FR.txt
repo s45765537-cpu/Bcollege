@@ -1,16 +1,16 @@
-Gain reputation at double the rate
+DoubleReputation
 Augmenter la réputation à taux-double
-Gain skills at double the rate
+DoubleSkill
 Augmenter les compétences à taux-double
-Gain double amount of money
+DoubleMoney
 Doubler l'argent gagné
-Speed up the time to use any item
+DoubleItemSpeed
 Augmenter la vitesse d'utilisation des objets
-Prevent random kidnappings
+BlockRandomKidnap
 Prévenir les kidnappings aléatoires
-Skip the D/s trial periods
+SkipTrialPeriod
 Sauter les périodes d'essai D/s
-Automatically show NPC traits
+AutoShowTraits
 Voir les caractéristiques des NPCs automatiquement
-No love decay for NPC over time
+NoLoveDecay
 Le niveau d'attirance des NPCs ne descend pas avec le temps

@@ -1,46 +1,50 @@
-﻿Select your appearance
+SelectYourAppearance
 Выберите свой внешний вид
-Select TargetCharacterName's appearance
+SelectSomeoneAppearance
 Выберите внешний вид имени целевого персонажа
-You must pick an item of type:
+MustPickItem
 Вы должны выбрать элемент типа:
-Set wardrobe character name:
+WardrobeNameInfo
 Установить имя персонажа гардероба:
-Invalid name for character.
+WardrobeNameError
 Неверное имя для персонажа.
-Reset character
+ResetClothes
 Сбросить персонажа
-Randomize clothes
+WearRandom
 Случайная одежда
-Randomize character
+Random
 Случайный персонаж
-Strip clothes
+Naked
 Раздеться
-Show character in previews
+Character
 Показывать персонажа в превью
-Strip item
+StripItem
 Снять
 Next
 Следующий
-Previous
+Prev
 Предыдущий
-Cancel changes
+Cancel
 Отменить изменения
-Accept changes
+Accept
 Принять изменения
 Wardrobe
 Гардероб
-Wardrobe can be bought in your private room.
+WardrobeDisabled
 Гардероб можно купить в вашей приватной комнате.
-Edit item permissions
+PermissionMode
 Редактировать права доступа к предметам 
-Use this item
+Use
 Использовать предмет
-Unable to use due to player permissions
+UseDisabled
 Невозможно использовать из-за разрешений игрока
-Select a color
+Reset
+Сбросить персонажа
+ColorChange
 Выбрать цвет
-Select colors
+ColorChangeDisabled
+Невозможно изменить цвет из-за разрешений игрока
+ColorChangeMulti
 Выбрать цвета
-Unable to change color due to player permissions
+ColorChangeMultiDisabled
 Невозможно изменить цвет из-за разрешений игрока

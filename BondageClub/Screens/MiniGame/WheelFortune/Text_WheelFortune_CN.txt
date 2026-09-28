@@ -1,150 +1,150 @@
-Use your mouse or finger to grab and spin the wheel
+Title
 使用你的鼠标或者手指来转动轮盘
-Your owner requires you to spin the Wheel of Fortune
+Forced
 你的主人要求你转动命运之轮
-Hold your breath
+Wait
 屏住呼吸
-Invalid empty fortune wheel; at least one option required
+Invalid
 无效的空命运之轮；至少需要一个选项
-Empty wheel
+Empty
 空轮盘
-Roleplay mode
+Roleplay
 角色扮演模式
-Roleplay mode isn't available on hardcore or extreme difficulty
+NoRoleplay
 角色扮演模式对于硬核和极限难度不可使用
-Customize your wheel
+Customize
 定制你的轮盘
-View wheel customization
+CustomizeView
 查看轮盘配置
-Random Spin
+Random
 随机转动
-Don't spin the wheel
+Exit
 不要转动轮盘
-spins CharacterName Wheel of Fortune
+Spin
 转动CharacterName的命运之轮
-spins CharacterName roleplay Wheel of Fortune
+SpinRoleplay
 转动CharacterName的角色扮演命运之轮
-Wheel of Fortune lands on:
+Result
 命运之轮停在了：
-roleplay Wheel of Fortune lands on:
+ResultRoleplay
 角色扮演命运之轮停在了：
-Gagged
+OptionA
 戴上口塞
-Gagged for 5 minutes
+OptionB
 戴上口塞5分钟
-Gagged for 15 minutes
+OptionC
 戴上口塞15分钟
-Gagged for 60 minutes
+OptionD
 戴上口塞60分钟
-Gagged for 4 hours
+OptionE
 戴上口塞4小时
-Blindfolded
+OptionF
 蒙眼
-Blindfolded for 5 minutes
+OptionG
 蒙眼5分钟
-Blindfolded for 15 minutes
+OptionH
 蒙眼15分钟
-Blindfolded for 60 minutes
+OptionI
 蒙眼60分钟
-Blindfolded for 4 hours
+OptionJ
 蒙眼4小时
-Arms bound
+OptionK
 束缚手臂
-Arms bound for 5 minutes
+OptionL
 束缚手臂5分钟
-Arms bound for 15 minutes
+OptionM
 束缚手臂15分钟
-Arms bound for 60 minutes
+OptionN
 束缚手臂60分钟
-Arms bound for 4 hours
+OptionO
 束缚手臂4小时
-Legs bound
+OptionP
 束缚双腿
-Legs bound for 5 minutes
+OptionQ
 束缚双腿5分钟
-Legs bound for 15 minutes
+OptionR
 束缚双腿15分钟
-Legs bound for 60 minutes
+OptionS
 束缚双腿60分钟
-Legs bound for 4 hours
+OptionT
 束缚双腿4小时
-Full bondage
+OptionU
 完全束缚
-Full bondage for 5 minutes
+OptionV
 完全束缚5分钟
-Full bondage for 15 minutes
+OptionW
 完全束缚15分钟
-Full bondage for 60 minutes
+OptionX
 完全束缚60分钟
-Full bondage for 4 hours
+OptionY
 完全束缚4小时
-Encased
+Optiona
 装箱
-Encased for 5 minutes
+Optionb
 装箱5分钟
-Encased for 15 minutes
+Optionc
 装箱15分钟
-Encased for 60 minutes
+Optiond
 装箱60分钟
-Encased for 4 hours
+Optione
 装箱4小时
-No wardrobe for 5 minutes
+Optionf
 禁止衣柜5分钟
-No wardrobe for 15 minutes
+Optiong
 禁止衣柜15分钟
-No wardrobe for 60 minutes
+Optionh
 禁止衣柜60分钟
-No wardrobe for 4 hours
+Optioni
 禁止衣柜4小时
-Isolation cell for 5 minutes
+Optionj
 禁闭室5分钟
-Isolation cell for 15 minutes
+Optionk
 禁闭室15分钟
-Isolation cell for 30 minutes
+Optionl
 禁闭室30分钟
-Isolation cell for 60 minutes
+Optionm
 禁闭室60分钟
-Hogtie bondage
+Option$
 驷马束缚
-Shibari bondage
+Option!
 绳艺束缚
-Futuristic bondage
+Option&
 未来束缚
-Pet bondage
+Option[
 宠物束缚
-Web bondage
+Option]
 蛛网束缚
-Maid outfit
+Option@
 女仆装
-ABDL outfit
+Option#
 ABDL装
-Slave outfit
+Option+
 奴隶装
-New clothes
+Option-
 新衣服
-Underwear
+Option(
 内衣
-Naked
+Option)
 赤裸
-Others should cheer for you
+Option0
 其他人为你欢呼
-Others should pat your head
+Option1
 其他人摸摸你的头
-Others should hug you
+Option2
 其他人拥抱你
-Others should tickle you
+Option3
 其他人挠挠你
-Others should kiss you
+Option4
 其他人亲吻你
-Others should pinch you
+Option5
 其他人掐你
-Others should spank you
+Option6
 其他人拍打你
-Others should caress you
+Option7
 其他人抚摸你
-Others should grope you
+Option8
 其他人抚弄你
-Others should masturbate you
+Option9
 其他人抚慰你
-Spin again twice
+Option²
 再转两次

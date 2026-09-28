@@ -323,33 +323,30 @@ class TextCache {
 	 * @returns {Promise<string[][]>} - A promise resolving to an array of string arrays corresponding to lines in the CSV file with the
 	 * values translated to the current game language
 	 */
-	translate(lines) {
+	async translate(lines) {
 		this.language = TranslationLanguage;
 		const lang = (TranslationLanguage || "").trim().toUpperCase();
-		if (!lang || lang === "EN") return Promise.resolve(lines);
+		if (!lang || lang === "EN") return lines;
 
 		const translationPath = this.path.replace(/\/([^/]+)\.csv$/, `/$1_${lang}.txt`);
 		if (!TranslationAvailable(translationPath)) {
 			this.log(`translate: no translation available: ${translationPath}`);
-			return Promise.resolve(lines);
+			return lines;
 		}
 
 		if (TranslationCache[translationPath]) {
 			this.log(`translate: using cache`);
-			return Promise.resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
-		} else {
-			this.log(`translate: fetching translation from ${translationPath}`);
-			return CommonFetch(translationPath)
-				.then(async (response) => {
-					if (response.status === 200) {
-						this.log(`translate: parsing translation`);
-						const text = await response.text();
-						TranslationCache[translationPath] = TranslationParseTXT(text);
-						return this.buildTranslations(lines, TranslationCache[translationPath]);
-					}
-					return lines;
-				});
+			return this.buildTranslations(lines, TranslationCache[translationPath]);
 		}
+		this.log(`translate: fetching translation from ${translationPath}`);
+		const response = await CommonFetch(translationPath);
+		if (response.status === 200) {
+			this.log(`translate: parsing translation`);
+			const text = await response.text();
+			TranslationCache[translationPath] = TranslationParseTXT(text);
+			return this.buildTranslations(lines, TranslationCache[translationPath]);
+		}
+		return lines;
 	}
 
 	/**
@@ -361,6 +358,6 @@ class TextCache {
 	 */
 	buildTranslations(lines, translations) {
 		this.log(`buildTranslations`);
-		return lines.map(line => ([line[0], TranslationString(line[1], translations)]));
+		return lines.map(line => ([line[0], TranslationString(line[0], translations)]));
 	}
 }

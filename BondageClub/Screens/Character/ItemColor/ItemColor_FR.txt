@@ -6,9 +6,9 @@ Default
 Défaut
 Many
 Plusieurs
-Next page
+Next
 Prochaine page
-Whole Item
+WholeItem
 Tout l'objet
 All
 Tout
