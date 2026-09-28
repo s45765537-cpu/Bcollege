@@ -151,49 +151,64 @@ var MapManager = (function () {
 	 * The class storing the game map data.
 	 */
 	class MapData {
-		/** @type {string} */
+		/** @type {ChatRoomMapTile[]} */
 		tiles;
-		/** @type {string} */
+		/** @type {ChatRoomMapObject[]} */
 		objects;
 		/** @type {ChatRoomMapEffect[][]} */
 		effects;
 		/** @type {boolean} */
 		fogEnabled;
+
 		/**
-		 * @param {string} [objects]
-		 * @param {string} [tiles]
+		 * @param {number} width
+		 * @param {number} height
+		 * @param {ChatRoomMapTile[]} [tiles]
+		 * @param {ChatRoomMapObject[]} [objects]
 		 * @param {ChatRoomMapEffect[][]} [effects]
 		 */
-		constructor(objects, tiles, effects) {
-			this.tiles = String.fromCharCode(ChatRoomMapViewObjectStartID).repeat(ChatRoomMapMaxLength);
-			this.objects = String.fromCharCode(ChatRoomMapViewObjectStartID).repeat(ChatRoomMapMaxLength);
-			this.effects = effects ?? Array.from({ length: ChatRoomMapMaxLength }, () => []);
+		constructor(width, height, tiles, objects, effects) {
+			const length = width * height;
+			const tile = MapDataGetTile(ChatRoomMapViewObjectStartID);
+			const object = MapDataGetObject(ChatRoomMapViewObjectStartID);
+			const effect = MapDataGetEffect(ChatRoomMapViewEffectStartID);
+			this.tiles = tiles ?? Array.from({ length }).fill(tile);
+			this.objects = objects ?? Array.from({ length }).fill(object);
+			this.effects = effects ?? Array.from({ length }, () => [effect]);
 			this.fogEnabled = false;
 		}
 
 		/**
 		 *
 		 * @param {ServerChatRoomMapData} data
+		 * @return {MapData | undefined}
 		 */
-		load(data) {
-			if (data.Effects) {
-				const newEffects = this.#_decodeEffects(data.Effects);
-				if (newEffects === undefined) {
-					return false;
-				}
-				this.effects = newEffects;
+		static load(data) {
+			const length = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
+			const effect = MapDataGetEffect(ChatRoomMapViewEffectStartID);
+			/** @type {ChatRoomMapEffect[][] | undefined} */
+			const effects = data.Effects ? this.#_decodeEffects(data.Effects) : Array.from({ length }, () => [effect]);
+			if (!effects) {
+				return undefined;
 			}
-			this.objects = data.Objects ?? "";
-			this.tiles = data.Tiles ?? "";
-			this.fogEnabled = data.Fog ?? false;
-			return true;
+			let objects = [];
+			let tiles = [];
+			for (let index = 0; index < length; index++) {
+				const tile = MapDataGetTile(data.Tiles?.charCodeAt(index) ?? ChatRoomMapViewObjectStartID);
+				if (tile) tiles.push(tile);
+				const object = MapDataGetObject(data.Objects?.charCodeAt(index) ?? ChatRoomMapViewObjectStartID);
+				if (object) objects.push(object);
+			}
+			const map = new MapData(ChatRoomMapViewWidth, ChatRoomMapViewHeight, tiles, objects, effects);
+			map.fogEnabled = data.Fog ?? false;
+			return map;
 		}
 
 		/**
 		 * @param {string | undefined} str
 		 * @returns {ChatRoomMapEffect[][] | undefined}
 		 */
-		#_decodeEffects(str) {
+		static #_decodeEffects(str) {
 			if (str == null || str === "") {
 				return undefined;
 			}
@@ -236,7 +251,7 @@ var MapManager = (function () {
 		/**
 		 *
 		 * @param {ServerChatRoomMapData} data
-		 * @returns
+		 * @returns {boolean}
 		 */
 		save(data) {
 			const newEffects = this.#_encodeEffects();
@@ -246,8 +261,8 @@ var MapManager = (function () {
 			if (newEffects !== data.Effects) {
 				data.Effects = newEffects;
 			}
-			data.Tiles = this.tiles;
-			data.Objects = this.objects;
+			data.Tiles = this.tiles.map(t => t ? String.fromCharCode(t.ID) : ChatRoomMapViewObjectStartID).join("");
+			data.Objects = this.objects.map(o => o ? String.fromCharCode(o.ID) : ChatRoomMapViewObjectStartID).join("");
 			return true;
 		}
 
@@ -704,7 +719,9 @@ var MapManager = (function () {
 					return undefined;
 				}
 				const effects = effectsCodec.read(reader, requiredTilesCount);
-				return new MapData(undefined, undefined, effects); // XXX: hmm…
+				const mapData = new MapData(ChatRoomMapViewWidth, ChatRoomMapViewHeight);
+				mapData.effects = effects ?? [];
+				return mapData;
 			}
 
 			return {
@@ -723,7 +740,7 @@ var MapManager = (function () {
 	 * Decodes the string that was generated with the `/mapcopy` command.
 	 * Should support every map that was generated on any prior version.
 	 * @param {string} s
-	 * @returns {{LegacyMapData: ServerChatRoomMapData | undefined, MapData: MapData | undefined}} the decoded map data.
+	 * @returns {MapData | undefined} the decoded map data.
 	 * Both `LegacyMapData` and `Map` fields being `undefined` indicates a decoding failure.
 	 */
 	function DecodeExportedMap(s) {
@@ -746,16 +763,13 @@ var MapManager = (function () {
 		}
 
 		console.error("Impossible exported map string value");
-		return {
-			LegacyMapData: undefined,
-			MapData: undefined,
-		};
+		return undefined;
 	}
 
 	/**
 	 * Decodes the exported map string made by clients prior to the Effects update.
 	 * @param {string} s
-	 * @returns {{LegacyMapData: ServerChatRoomMapData | undefined, MapData: undefined}} the decoded map data.
+	 * @returns {MapData | undefined} the decoded map data.
 	 */
 	function decodeLegacyExportedMap(s) {
 		/**
@@ -774,19 +788,14 @@ var MapManager = (function () {
 			DecompressedData = null;
 		}
 
-		const err = {
-			LegacyMapData: undefined,
-			MapData: undefined,
-		};
-
 		// If we failed to decompress
 		if (DecompressedData === null) {
-			return err;
+			return undefined;
 		}
 
 		// Tries to get the map data object
-		/** @type {ServerChatRoomMapData | null} */
-		let mapData = null;
+		/** @type {MapData | undefined} */
+		let mapData;
 		try {
 			const data = JSON.parse(DecompressedData);
 			if (
@@ -796,17 +805,14 @@ var MapManager = (function () {
 				!("Type" in data) ||
 				!isMapType(data.Type)
 			) {
-				return err;
+				return undefined;
 			}
-			mapData = /** @type {ServerChatRoomMapData} */ (data);
+			mapData = MapData.load(/** @type {ServerChatRoomMapData} */ (data));
 		} catch {
-			return err;
+			return undefined;
 		}
 
-		return {
-			LegacyMapData: mapData,
-			MapData: undefined,
-		};
+		return mapData;
 	}
 
 	/**
@@ -822,42 +828,38 @@ var MapManager = (function () {
 	 * allowing the old versions to read the map data exported in new ones.
 	 * @param {string} s
 	 * @param {number} versionTagIdx the index of version tag character (@) in {@link s}.
-	 * @returns {{LegacyMapData: ServerChatRoomMapData | undefined, MapData: MapData | undefined}} the decoded map data.
+	 * @returns {MapData | undefined} the decoded map data.
 	 */
 	function decodeCombinedExportedMap(s, versionTagIdx) {
 		const legacyPart = s.slice(0, versionTagIdx);
 		const effectsPart = s.slice(versionTagIdx);
 
 		const legacyMap = decodeLegacyExportedMap(legacyPart);
-		if (legacyMap.LegacyMapData === undefined) {
+		if (legacyMap === undefined) {
 			// The legacy map data is invalid, so we don't need to bother decoding the
 			// effects either. We won't get a proper map anyway.
 			return legacyMap;
 		}
 
 		const modernMap = decodeModernExportedMap(effectsPart);
-		return {
-			LegacyMapData: legacyMap.LegacyMapData,
-			MapData: modernMap.MapData,
-		};
+		if (modernMap) {
+			legacyMap.effects = modernMap.effects;
+		}
+		return legacyMap;
 	}
 
 	/**
 	 * Decodes the base64-encoded {@link MapData}.
 	 * @param {string} s the exported map string. Must start with the version tag character (@).
-	 * @returns {{LegacyMapData: ServerChatRoomMapData | undefined, MapData: MapData | undefined}} the decoded map data.
+	 * @returns {MapData | undefined} the decoded map data.
 	 */
 	function decodeModernExportedMap(s) {
-		const err = {
-			LegacyMapData: undefined,
-			MapData: undefined,
-		};
 
 		if (s[0] !== MAP_EXPORT_VERSION_TAG) {
 			console.error(
 				"Invalid modern exported map: missing MAP_EXPORT_VERSION_TAG in the beginning.",
 			);
-			return err;
+			return undefined;
 		}
 
 		try {
@@ -866,7 +868,7 @@ var MapManager = (function () {
 				console.error(
 					"Error decoding modern exported map; invalid encoded string",
 				);
-				return err;
+				return undefined;
 			}
 			const version = reader.readUnsigned(MAP_SYNC_VERSION_BIT_SIZE);
 			const codec = MapDataCodecs[version];
@@ -875,18 +877,15 @@ var MapManager = (function () {
 					"Error decoding modern exported map; unknown version",
 					version,
 				);
-				return err;
+				return undefined;
 			}
 
 			const tilesCount = ChatRoomMapMaxLength;
 			const map = codec.read(reader, tilesCount);
-			return {
-				LegacyMapData: undefined,
-				MapData: map,
-			};
+			return map;
 		} catch (e) {
 			console.error("Error decoding modern exported map:", e);
-			return err;
+			return undefined;
 		}
 	}
 
@@ -983,7 +982,7 @@ var MapManager = (function () {
 	 */
 	class Manager {
 		/**
-		 * @type {MapData}
+		 * @type {MapData | undefined}
 		 */
 		#_mapData;
 
@@ -993,7 +992,6 @@ var MapManager = (function () {
 		#_dirtyFlags;
 
 		constructor() {
-			this.#_mapData = new MapData();
 			this.#_dirtyFlags = 0;
 		}
 
@@ -1039,9 +1037,10 @@ var MapManager = (function () {
 		 * @return {number | null}
 		 */
 		getTileId(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			const [index] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return null;
-			return this.#_mapData.tiles.charCodeAt(index);
+			return this.#_mapData.tiles[index].ID;
 		}
 
 		/**
@@ -1086,6 +1085,7 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		setTile(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			let [index, tile] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 			if (!this.canSetTile(index, tile)) return false;
@@ -1093,10 +1093,9 @@ var MapManager = (function () {
 				this.#clearUniqueTile(tile);
 			}
 			this.#_markDirty(DirtyFlags.TILES);
-			const tiles = this.#_mapData.tiles;
-			const tileId = tile?.ID ?? ChatRoomMapViewObjectStartID;
+			tile ??= MapDataGetTile(ChatRoomMapViewObjectStartID);
 
-			this.#_mapData.tiles = tiles.slice(0, index) + String.fromCharCode(tileId) + tiles.slice(index + 1);
+			this.#_mapData.tiles[index] = tile;
 			return true;
 		}
 
@@ -1120,6 +1119,7 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		canSetTile(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			let [index, tile] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
@@ -1136,18 +1136,19 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		#clearUniqueTile(tile) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			if (!tile?.Unique) return false;
 			const tiles = this.#_mapData.tiles;
 			if (tiles == null) return false;
 
 			let cleared = false;
 			for (let index = 0; index < tiles.length; index++) {
-				if (tiles.charCodeAt(index) === tile.ID) {
-					this.#_markDirty(DirtyFlags.TILES);
-					this.#_mapData.tiles = tiles.slice(0, index) + String.fromCharCode(tile.ID) + tiles.slice(index + 1);
-					cleared = true;
-				}
+				if (tiles[index].ID !== tile.ID) continue;
+
+				this.#_mapData.tiles[index] = MapDataGetTile(ChatRoomMapViewObjectStartID);
+				cleared = true;
 			}
+
 			return cleared;
 		}
 
@@ -1168,9 +1169,10 @@ var MapManager = (function () {
 		 * @return {number | null}
 		 */
 		getObjectId(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			const [index] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return null;
-			return this.#_mapData.objects.charCodeAt(index);
+			return this.#_mapData.objects[index].ID;
 		}
 
 		/**
@@ -1215,6 +1217,7 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		setObject(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			let [index, object] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 			if (!this.canSetObject(index, object)) return false;
@@ -1222,10 +1225,7 @@ var MapManager = (function () {
 				this.#clearUniqueObject(object);
 			}
 			this.#_markDirty(DirtyFlags.OBJECTS);
-			const objects = this.#_mapData.objects;
-			const objectId = object?.ID ?? ChatRoomMapViewObjectStartID;
-
-			this.#_mapData.objects = objects.slice(0, index) + String.fromCharCode(objectId) + objects.slice(index + 1);
+			this.#_mapData.objects[index] = object ?? MapDataGetObject(ChatRoomMapViewObjectStartID);
 			return true;
 		}
 
@@ -1249,6 +1249,7 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		canSetObject(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			let [index, object] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
@@ -1274,16 +1275,16 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		#clearUniqueObject(object) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			if (!object?.Unique) return false;
 			const objects = this.#_mapData.objects;
 
 			let cleared = false;
 			for (let index = 0; index < objects.length; index++) {
-				if (objects.charCodeAt(index) === object.ID) {
-					this.#_markDirty(DirtyFlags.OBJECTS);
-					this.#_mapData.objects = objects.slice(0, index) + String.fromCharCode(ChatRoomMapViewObjectStartID) + objects.slice(index + 1);
-					cleared = true;
-				}
+				if (objects[index].ID !== object.ID) continue;
+
+				this.#_mapData.objects[index] = MapDataGetObject(ChatRoomMapViewObjectStartID);
+				cleared = true;
 			}
 			return cleared;
 		}
@@ -1305,6 +1306,7 @@ var MapManager = (function () {
 		 * @return {ChatRoomMapEffect[]}
 		 */
 		getEffects(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			const [index] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return [];
 			return this.#_mapData.effects[index];
@@ -1351,6 +1353,7 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		addEffect(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			let [index, effect] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
@@ -1381,6 +1384,7 @@ var MapManager = (function () {
 		 * @return {boolean}
 		 */
 		setEffects(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			let [index, effects] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 			this.#_markDirty(DirtyFlags.EFFECTS);
@@ -1439,6 +1443,7 @@ var MapManager = (function () {
 		 * @return {ChatRoomMapEffect[][]}
 		 */
 		getAllEffects() {
+			if (!this.#_mapData) throw Error("No map loaded");
 			return this.#_mapData.effects;
 		}
 
@@ -1448,6 +1453,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		replaceAllEffects(effectsList) {
+			if (!this.#_mapData) throw Error("No map loaded");
 			this.markDirtyEffects();
 			this.#_mapData.effects = structuredClone(effectsList);
 		}
@@ -1457,10 +1463,12 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		removeAllEffects() {
+			if (!this.#_mapData) throw Error("No map loaded");
 			this.#_mapData.removeAllEffects();
 		}
 
 		get hasFogEnabled() {
+			if (!this.#_mapData) throw Error("No map loaded");
 			return this.#_mapData.fogEnabled;
 		}
 
@@ -1596,24 +1604,22 @@ var MapManager = (function () {
 			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
 			const mapData = DecodeExportedMap(mapString);
 			// No data was decoded
-			if (
-				mapData.LegacyMapData === undefined &&
-				mapData.MapData === undefined
-			) {
+			if (mapData === undefined) {
 				return false;
 			}
 
-			if (mapData.LegacyMapData !== undefined) {
-				ChatRoomData.MapData = mapData.LegacyMapData;
-				this.markDirtyTiles();
-				this.markDirtyObjects();
-			}
+			this.#_mapData = mapData;
+			this.markDirtyTiles();
+			this.markDirtyObjects();
+			this.markDirtyEffects();
+			this.#_mapData.save(ChatRoomData.MapData);
 
-			if (mapData.MapData !== undefined) {
-				this.#_mapData = mapData.MapData;
-				this.updateGlobalMapData();  // Write the modern map data to global object
-				this.markDirtyEffects();
-			}
+			// XXX
+			// if (mapData.MapData !== undefined) {
+			// 	this.#_mapData = mapData.MapData;
+			// 	this.updateGlobalMapData();  // Write the modern map data to global object
+			// 	this.markDirtyEffects();
+			// }
 
 			return true;
 		}
@@ -1632,6 +1638,7 @@ var MapManager = (function () {
 		 * there was an error and the global state remains unchanged.
 		 */
 		updateGlobalMapData() {
+			if (!this.#_mapData) throw Error("No map loaded");
 			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
 			return this.#_mapData.save(ChatRoomData.MapData);
 		}
@@ -1645,11 +1652,12 @@ var MapManager = (function () {
 		 */
 		loadGlobalMapData(data) {
 			if (!data) throw new Error("No map in current room");
-			const ret = this.#_mapData.load(data);
-			if (ret) {
+			const map = MapData.load(data);
+			if (map) {
+				this.#_mapData = map;
 				this.markCleanAll();
 			}
-			return ret;
+			return !!map;
 		}
 	}
 
