@@ -15,7 +15,10 @@ var ChatRoomMapViewEditSubMode = "";
 var ChatRoomMapViewEditStarted = false;
 /** @type {null | ChatRoomMapDoodad} */
 var ChatRoomMapViewEditObject = null;
-/** @type {number[]} */
+/**
+ * @type {number[]}
+ * @deprecated Use {@link ChatRoomMapViewPixelToTileCoordinates} and {@link ChatRoomMapViewEditRange}
+ */
 var ChatRoomMapViewEditSelection = [];
 var ChatRoomMapViewEditRange = 1;
 var ChatRoomMapViewMaxEditRange = 5;
@@ -1262,7 +1265,6 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	let FogActive = ChatRoomMapFogIsActive();
 
 	// Clears the tile and character selection
-	ChatRoomMapViewEditSelection = [];
 	ChatRoomMapViewFocusedCharacter = null;
 
 	// Prepares the fog if needed
@@ -1279,7 +1281,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	for (let Pos = 0; Pos < ChatRoomMapViewWidth * ChatRoomMapViewHeight; Pos++) {
 
 		// Find the X & Y position of the grid
-		const { X, Y }= MapIndexToCoordinates(Pos);
+		const { X, Y } = MapIndexToCoordinates(Pos);
 
 		// Only process if the X & Y are within the visible sight range
 		let MaxRange = Math.max(Math.abs(X - PlayerX), Math.abs(Y - PlayerY));
@@ -1296,7 +1298,6 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		const TileCanvasX = Left + ScreenX;
 		const TileCanvasY = Top + ScreenY;
 		let FloorWallEffect = -1;
-		let DrawSelectionRect = false;
 		let TileID = MapLookupData?.Tile?.charCodeAt(Pos) ?? -1;
 		let TileData = null;
 		let TileImage = null;
@@ -1374,11 +1375,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			|| MouseIn(790, 930, 60, 60)
 			|| MouseIn(860, 930, 60, 60)
 			|| MouseIn(930, 930, 60, 60);
+
 		// Keeps the tile as selected if the mouse is within selection
-		if ((ChatRoomMapViewEditMode === "Tile" || ChatRoomMapViewEditMode === "Object" || ChatRoomMapViewEditMode === "Effect") && mouseInTile && !mouseOverButtons) {
-			ChatRoomMapViewEditSelection.push(Pos);
-			DrawSelectionRect = true;
-		}
+		const DrawSelectionRect = ((ChatRoomMapViewEditMode === "Tile" || ChatRoomMapViewEditMode === "Object" || ChatRoomMapViewEditMode === "Effect") && mouseInTile && !mouseOverButtons);
 
 		// For each characters in the chat room (don't draw when there's fog)
 		if (!Fog) {
@@ -2048,6 +2047,30 @@ function validMapData(data) {
 }
 
 /**
+ * Convert a pixel coordinate into a tile
+ * @param {number} pixelX
+ * @param {number} pixelY
+ * @returns {{ X: number, Y: number } | null}
+ */
+function ChatRoomMapViewPixelToTileCoordinates(pixelX, pixelY) {
+	const [Left, Top, Width, Height] = [0, 0, 1000, 1000]; // From ChatRoomMapViewDrawGrid
+
+	const TileWidth = Width / ((ChatRoomMapViewPerceptionRange * 2) + 1);
+	const TileHeight = Height / ((ChatRoomMapViewPerceptionRange * 2) + 1);
+	const { X: PlayerX = 0, Y: PlayerY = 0 } = Player.MapData?.Pos ?? {};
+
+	const ScreenX = pixelX - Left;
+	const ScreenY = pixelY - Top;
+	if (ScreenX < 0 || ScreenX >= Width || ScreenY < 0 || ScreenY >= Height) return null;
+
+	// ScreenY's centering term is TileWidth, matching the draw loop.
+	const X = Math.floor(ScreenX / TileWidth) - ChatRoomMapViewPerceptionRange + PlayerX;
+	const Y = Math.floor((ScreenY - ChatRoomMapViewPerceptionRange * TileWidth) / TileHeight) + PlayerY;
+
+	return { X, Y };
+}
+
+/**
  * Mouse move event is used to draw on screen
  * @type {MouseEventListener}
  */
@@ -2058,34 +2081,41 @@ function ChatRoomMapViewMouseMove(event) {
 	if (!ChatRoomMapViewEditStarted || ChatRoomMapViewEditObject == null) return;
 	let Backup = CommonCloneDeep(MapLookupData.mapData);
 
-	// In tile edit mode
-	if (ChatRoomMapViewEditMode == "Tile" || ChatRoomMapViewEditMode == "Object") {
-		for (let index of ChatRoomMapViewEditSelection) {
-			const { X, Y }= MapIndexToCoordinates(index);
+	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
+	if (!pos) return;
 
-			if (MapIsCellValid(ChatRoomMapViewEditObject.ID, ChatRoomMapViewEditMode, X, Y)) {
-				MapSetCell(ChatRoomMapViewEditObject.ID, ChatRoomMapViewEditMode, X, Y);
+	const range = ChatRoomMapViewEditRange - 1;
+
+	for (let radiusX = 0; radiusX <= range; radiusX++) {
+		for (let radiusY = 0; radiusY <= range; radiusY++) {
+			const posX = pos.X + radiusX;
+			const posY = pos.Y + radiusY;
+			// In tile edit mode
+			if (ChatRoomMapViewEditMode == "Tile" || ChatRoomMapViewEditMode == "Object") {
+				if (MapIsCellValid(ChatRoomMapViewEditObject.ID, ChatRoomMapViewEditMode, posX, posY)) {
+					MapSetCell(ChatRoomMapViewEditObject.ID, ChatRoomMapViewEditMode, posX, posY);
+				}
+			} else if (ChatRoomMapViewEditMode === "Effect") {
+				// lighting effect painting
+				const effect = MapDataEffects.get(ChatRoomMapViewEditObject.ID);
+				const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
+
+				if (isBlank) {
+					MapManager.Map.clearEffectsByXY(posX, posY);
+				} else {
+					MapManager.Map.setEffectsByXY(posX, posY, [effect]);
+				}
 			}
 		}
-		MapValidateCells();
 	}
 
-	// lighting effect painting
-	if (ChatRoomMapViewEditMode === "Effect") {
-		const effect = MapDataEffects.get(ChatRoomMapViewEditObject.ID);
-		const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
+	MapValidateCells();
 
-		for (let index of ChatRoomMapViewEditSelection) {
-			if (isBlank) MapManager.Map.clearEffectsByIndex(index);
-			else MapManager.Map.setEffectsByIndex(index, [effect]);
-		}
-		// Encode the changed map and write it to the global ChatRoomData.MapData.
-		// This is somewhat inefficient since we don't have to actually encode the string
-		// before we need to send it to the server, but it would suffice for now.
-		// See ChatRoomMapManager.Map.updateGlobalMapData documentation for more details.
-		MapManager.Map.updateGlobalMapData();
-		MapValidateCells();
-	}
+	// Encode the changed map and write it to the global ChatRoomData.MapData.
+	// This is somewhat inefficient since we don't have to actually encode the string
+	// before we need to send it to the server, but it would suffice for now.
+	// See ChatRoomMapManager.Map.updateGlobalMapData documentation for more details.
+	MapManager.Map.updateGlobalMapData();
 
 	// If the map was modified, we keep the previous version as backup so we can undo the changes
 	if (JSON.stringify(Backup) != JSON.stringify(MapLookupData.mapData)) {
