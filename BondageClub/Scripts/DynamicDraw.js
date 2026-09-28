@@ -81,7 +81,7 @@ const DynamicDrawTextRegex = /^[\p{L}\p{N}\x20-\x7e]*$/u;
  * Note that this only drives the browser's native form-validity UI; the authoritative check is always {@link DynamicDrawTextRegex}.
  * @type {string}
  */
-const DynamicDrawTextInputPattern = "[\\p{L}\\p{N}_ ~!$#%*+]*";
+const DynamicDrawTextInputPattern = DynamicDrawTextRegex.source;
 
 /**
  * An array of ASCII printable characters whose widths are pre-measured for each font (used internally for arc text
