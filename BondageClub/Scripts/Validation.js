@@ -948,7 +948,9 @@ function ValidationSanitizeLock(C, item) {
 	if (lock.Asset.RemoveTimer > 0 && typeof property.RemoveTimer === "number") {
 		// Ensure the lock's remove timer doesn't exceed the maximum for that lock type
 		if (property.RemoveTimer - ValidationRemoveTimerToleranceMs > CurrentTime + lock.Asset.MaxTimer * 1000) {
-			property.RemoveTimer = Math.round(CurrentTime + lock.Asset.MaxTimer * 1000);
+			const maxTime = C.GetLockTimerLimit() ?? lock.Asset.MaxTimer;
+
+			property.RemoveTimer = Math.round(CurrentTime + maxTime * 1000);
 			changed = true;
 		}
 	} else if (property.RemoveTimer != null) {

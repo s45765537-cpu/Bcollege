@@ -784,6 +784,23 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			const pronouns = pronounItem ? pronounItem.Asset.Name : "SheHer";
 			return /** @type {CharacterPronouns} */(pronouns);
 		},
+		GetLockTimerLimit: function () {
+			if (this.IsOnline()) {
+				switch (this.OnlineSharedSettings.LockTimerLimit) {
+					case "LockTimerLimitDay":
+						return 1*24*60*60;
+					case "LockTimerLimitWeek":
+						return 7*24*60*60;
+					case "LockTimerLimitMonth":
+						return 30*24*60*60;
+					case "LockTimerLimitYear":
+						return 365*24*60*60;
+					case "LockTimerLimitDecade":
+						return 10*365*24*60*60;
+				}
+			}
+			return null;
+		},
 		HasPenis: function () {
 			return InventoryIsItemInList(this, "Pussy", ["Penis"]);
 		},

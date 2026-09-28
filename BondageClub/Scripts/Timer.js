@@ -24,14 +24,37 @@ function TimerGetTime() {
  * @returns {string} - The time string in the DD:HH:MM:SS format (Days and hours not displayed if it contains none)
  */
 function TimerToString(T) {
-	var D = Math.floor(T / 86400000).toString();
-	var H = Math.floor((T % 86400000) / 3600000).toString();
-	var M = Math.floor((T % 3600000) / 60000).toString();
-	var S = Math.floor((T % 60000) / 1000).toString();
-	if (S.length == 1) S = "0" + S;
-	if (M.length == 1) M = "0" + M;
-	if (H.length == 1) H = "0" + H;
-	return ((D != "0") ? D + ":" : "") + (((D != "0") || (H != "00")) ? H + ":" : "") + M + ":" + S;
+	const MS_PER_SEC = 1000;
+	const MS_PER_MIN = 60 * MS_PER_SEC;
+	const MS_PER_HOUR = 60 * MS_PER_MIN;
+	const MS_PER_DAY = 24 * MS_PER_HOUR;
+	const MS_PER_YEAR = 365 * MS_PER_DAY;
+
+	const years = Math.floor(T / MS_PER_YEAR);
+	const days = Math.floor((T % MS_PER_YEAR) / MS_PER_DAY);
+	const hours = Math.floor((T % MS_PER_DAY) / MS_PER_HOUR);
+	const minutes = Math.floor((T % MS_PER_HOUR) / MS_PER_MIN);
+	const seconds = Math.floor((T % MS_PER_MIN) / MS_PER_SEC);
+
+	/** @param {number} num */
+	const pad = (num) => num.toString().padStart(2, "0");
+
+	const parts = [];
+
+	if (years > 0) parts.push(`${years}y`);
+	if (years > 0 || days > 0) parts.push(`${days}d`);
+
+	if (parts.length > 0 || hours > 0) {
+		parts.push(pad(hours));
+	}
+
+	parts.push(pad(minutes));
+	parts.push(pad(seconds));
+
+	// Join time units (e.g., "1y 45d 08:05:09" or "02:15:30")
+	return parts.length > 3
+		? `${parts.slice(0, -3).join(" ")} ${parts.slice(-3).join(":")}`
+		: parts.join(":");
 }
 
 /**

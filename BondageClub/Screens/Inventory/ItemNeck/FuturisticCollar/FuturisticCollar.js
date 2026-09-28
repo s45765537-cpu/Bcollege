@@ -278,12 +278,14 @@ function InventoryItemNeckFuturisticCollarLockdown(C, LockType) {
 		if (LockItem.Asset.Name == "TimerPasswordPadlock" || LockItem.Asset.Name == "MistressTimerPadlock" || LockItem.Asset.Name == "LoversTimerPadlock" || LockItem.Asset.Name == "OwnerTimerPadlock") {
 			const timer = CommonParseInt(ElementValue("FutureCollarTimeField"));
 			if (timer !== null && timer > 0) {
-				if (item.Property.RemoveItem == null) item.Property.RemoveItem = false;
-				if (item.Property.ShowTimer == null) item.Property.ShowTimer = true;
-				if (item.Property.EnableRandomInput == null) item.Property.EnableRandomInput = false;
-				if (item.Property.MemberNumberList == null) item.Property.MemberNumberList = [];
-				const maxTimer = LockItem.Asset.MaxTimer ? LockItem.Asset.MaxTimer / 60 : 5;
-				item.Property.RemoveTimer = CurrentTime + 60000 * Math.max(1, Math.min(maxTimer, timer));
+				item.Property.RemoveItem ??= false;
+				item.Property.ShowTimer ??= true;
+				item.Property.EnableRandomInput ??= false;
+				item.Property.MemberNumberList ??= [];
+
+				const maxTimerMinutes = (C.GetLockTimerLimit() ?? LockItem.Asset.MaxTimer ?? 300) / 60;
+				const durationMinutes = Math.max(1, Math.min(maxTimerMinutes, timer));
+				item.Property.RemoveTimer = CurrentTime + durationMinutes * 60000;
 			}
 		}
 

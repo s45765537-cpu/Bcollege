@@ -116,6 +116,7 @@ interface ArousalSettingsType {
 // #region Immersion
 
 type ImmersionSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
+type LockTimerLimitName = "LockTimerLimitDefault" | "LockTimerLimitDay" | "LockTimerLimitWeek" | "LockTimerLimitMonth" | "LockTimerLimitYear" | "LockTimerLimitDecade";
 
 // #endregion
 

@@ -2147,6 +2147,13 @@ interface Character {
 	HeightRatioProportion?: number;
 	GetGenders: () => AssetGender[];
 	GetPronouns: () => CharacterPronouns;
+	/**
+	 * The duration a timer lock is allowed to be set to.
+	 * null = default value
+	 * number = seconds
+	 * infinite = unlimited
+	 */
+	GetLockTimerLimit: () => null | number;
 	HasPenis: () => boolean;
 	HasVagina: () => boolean;
 	IsFlatChested: () => boolean;
@@ -2249,6 +2256,7 @@ interface CharacterOnlineSharedSettings {
 	ItemsAffectExpressions: boolean;
 	ScriptPermissions: ScriptPermissions;
 	WheelFortune: string;
+	LockTimerLimit: LockTimerLimitName
 }
 
 type NicknameStatus = "NicknameTooLong" | "NicknameTooShort" | "NicknameInvalidChars" | "NicknameLocked";
@@ -2630,6 +2638,7 @@ interface PlayerOnlineSettings {
 	ShowRoomCustomization: ChatRoomCustomizationType;
 	FriendListAutoRefresh: boolean;
 	DefaultChatRoomBackground: string;
+	LockTimerLimit: LockTimerLimitName
 }
 
 /** Pandora Player extension */

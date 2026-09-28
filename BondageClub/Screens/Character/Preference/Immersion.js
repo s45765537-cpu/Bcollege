@@ -2,6 +2,8 @@
 
 /** @type {ImmersionSensDepName[]} */
 var PreferenceSettingsSensDepList = ["SensDepLight", "Normal", "SensDepNames", "SensDepTotal", "SensDepExtreme"];
+/** @type {LockTimerLimitName[]} */
+var PreferenceSettingsLockTimerLimitList = ["LockTimerLimitDefault", "LockTimerLimitDay", "LockTimerLimitWeek", "LockTimerLimitMonth", "LockTimerLimitYear", "LockTimerLimitDecade"];
 
 /** @type {{label: string, check: () => boolean, click: (value: boolean) => void, disabled?: (disableButtons: boolean) => boolean}[]} */
 const PreferenceSubscreenImmersionCheckboxes = [
@@ -110,15 +112,35 @@ function PreferenceSubscreenImmersionLoad() {
 		}
 	);
 
-	const options = PreferenceSettingsSensDepList.map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({ attributes: { value: e, label: TextGet(e), selected: e === Player.GameplaySettings.SensDepChatLog } }));
+	const sensDepOptions = PreferenceSettingsSensDepList.map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({ attributes: { value: e, label: TextGet(e), selected: e === Player.GameplaySettings.SensDepChatLog } }));
 
-	const sensDepDropdown = ElementDropdown.CreateLabelled(`SensDepSetting-dropdown`, options, TextGet("SensDepSetting"),
+	const sensDepDropdown = ElementDropdown.CreateLabelled(`SensDepSetting-dropdown`, sensDepOptions, TextGet("SensDepSetting"),
 		function () {
 			const value = /** @type {ImmersionSensDepName} */ (this.value);
 			if (!value) return;
 			if (!PreferenceSettingsSensDepList.includes(value)) return;
 			Player.GameplaySettings.SensDepChatLog = value;
 			if (Player.GameplaySettings.SensDepChatLog === "SensDepExtreme") ChatRoomSetTarget(-1);
+			PreferenceSubscreenImmersionCheckStates(disableButtons);
+		},
+		{
+			disabled: disableButtons
+		},
+		{
+			container: {
+				classList: ["preference-settings-dropdown"],
+			}
+		}
+	);
+
+	const lockTimerLimitOptions = PreferenceSettingsLockTimerLimitList.map((e) => /** @type {Omit<HTMLOptions<"option">, "tag">} */({ attributes: { value: e, label: TextGet(e), selected: e === Player.OnlineSharedSettings.LockTimerLimit } }));
+
+	const lockTimerLimitDropdown = ElementDropdown.CreateLabelled(`LockTimerLimitSetting-dropdown`, lockTimerLimitOptions, TextGet("LockTimerLimitSetting"),
+		function () {
+			const value = /** @type {LockTimerLimitName} */ (this.value);
+			if (!value) return;
+			if (!PreferenceSettingsLockTimerLimitList.includes(value)) return;
+			Player.OnlineSharedSettings.LockTimerLimit = value;
 			PreferenceSubscreenImmersionCheckStates(disableButtons);
 		},
 		{
@@ -167,6 +189,7 @@ function PreferenceSubscreenImmersionLoad() {
 				},
 				children: [
 					sensDepDropdown,
+					lockTimerLimitDropdown,
 					...otherCheckboxes
 				],
 			}
@@ -211,6 +234,12 @@ function PreferenceSubscreenImmersionCheckStates(disableButtons) {
 
 	if (sensDepDropdown) {
 		sensDepDropdown.toggleAttribute("disabled", disableButtons);
+	}
+
+	const lockTimerLimitDropdown = /** @type {HTMLSelectElement} */ (ElementWrap(`LockTimerLimitSetting-dropdown`));
+
+	if (lockTimerLimitDropdown) {
+		lockTimerLimitDropdown.toggleAttribute("disabled", disableButtons);
 	}
 
 	PreferenceSubscreenImmersionCheckboxes.forEach((checkbox) => {
