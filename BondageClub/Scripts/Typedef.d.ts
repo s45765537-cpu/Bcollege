@@ -672,11 +672,12 @@ type AssetLockType =
 	"TimerPasswordPadlock"
 	;
 
-type CraftingPropertyType =
+type CraftingPropertyType = (
 	"Normal" | "Large" | "Small" | "Thick" | "Thin" | "Secure" | "Loose" | "Decoy" |
 	"Malleable" | "Rigid" | "Simple" | "Puzzling" | "Painful" | "Comfy" | "Strong" |
-	"Flexible" | "Nimble" | "Arousing" | "Dull" | "Edging" | "Heavy" | "Light"
-	;
+	"Flexible" | "Nimble" | "Arousing" | "Dull" | "Edging" | "Heavy" | "Light" |
+	"Deaf" | "Audible"
+);
 
 type AssetGenericSize = "Small" | "Medium" | "Large";
 type AssetAttribute =

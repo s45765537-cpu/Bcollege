@@ -24,6 +24,8 @@ DescriptionSmall,Easier to understand gagged speech.
 DescriptionStrong,Cannot use brute force to struggle out.
 DescriptionThick,Harder to see through.
 DescriptionThin,Easier to see through.
+DescriptionDeaf,Harder to hear through.
+DescriptionAudible,Easier to hear through.
 Destroy,Destroy an item
 Download,Export crafting code
 DownloadSuccess,Crafting code pasted to clipboard
@@ -72,9 +74,11 @@ NoLock,No lock
 OpenColorpicker,Open Colorpicker
 Page,Page
 Previous,Previous
+PropertyAudible,Sound amplifying
 PropertyArousing,Arousing
 PropertyComfy,Comfy
 PropertyDecoy,Decoy
+PropertyDeaf,Deafening
 PropertyDull,Dull
 PropertyEdging,Edging
 PropertyFlexible,Flexible
