@@ -1209,19 +1209,6 @@ function DialogGetAssetIcons(asset) {
  * @namespace
  */
 const DialogEffectIcons = /** @type {const} */({
-	/** @type {Partial<Record<InventoryIcon, readonly EffectName[]>>} */
-	Table: {
-		"GagLight": ["GagVeryLight", "GagLight", "GagEasy"],
-		"GagNormal": ["GagNormal", "GagMedium"],
-		"GagHeavy": ["GagHeavy", "GagVeryHeavy"],
-		"GagTotal": ["GagTotal", "GagTotal2", "GagTotal3", "GagTotal4"],
-		"DeafLight": ["DeafLight"],
-		"DeafNormal": ["DeafNormal", "DeafHeavy"],
-		"DeafHeavy": ["DeafTotal"],
-		"BlindLight": ["BlindLight"],
-		"BlindNormal": ["BlindNormal", "BlindHeavy"],
-		"BlindHeavy": ["BlindTotal"],
-	},
 	/**
 	 * Return icons for each "interesting" effect on the item.
 	 * @param {Item} item
@@ -1247,7 +1234,7 @@ const DialogEffectIcons = /** @type {const} */({
 			const icon = (
 				DialogEffectIcons._GetGagIcon(effect, craftEffect)
 				|| DialogEffectIcons._GetBlindIcon(effect, craftEffect)
-				|| DialogEffectIcons._GetDeafIcon(effect)
+				|| DialogEffectIcons._GetDeafIcon(effect, craftEffect)
 			);
 			if (icon) {
 				icons.push(icon);
@@ -1259,8 +1246,8 @@ const DialogEffectIcons = /** @type {const} */({
 	/** @type {(effect: EffectName, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon} */
 	_GetGagIcon(effect, craftEffect) {
 		let level = SpeechGagLevelLookup[/** @type {GagEffectName} */(effect)];
-		if (typeof level === "undefined") return null;
-		if (typeof craftEffect === "undefined") return DialogEffectIcons._GagLevelToIcon(level);
+		if (level === undefined) return null;
+		if (craftEffect === undefined) return DialogEffectIcons._GagLevelToIcon(level);
 
 		level -= 2 * (craftEffect?.Small ?? 0);
 		level += 2 * (craftEffect?.Large ?? 0);
@@ -1269,18 +1256,34 @@ const DialogEffectIcons = /** @type {const} */({
 	/** @type {(effect: EffectName, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon} */
 	_GetBlindIcon(effect, craftEffect) {
 		let level = CharacterBlindLevels.get(/** @type {BlindEffectName} */(effect));
-		if (typeof level === "undefined") return null;
-		if (typeof craftEffect === "undefined") return DialogEffectIcons._BlindLevelToIcon(level);
+		if (level === undefined) return null;
+		if (craftEffect === undefined) return DialogEffectIcons._BlindLevelToIcon(level);
 
-		level -= 2 * (craftEffect?.Thin ?? 0);
-		level += 2 * (craftEffect?.Thick ?? 0);
+		level -= (craftEffect?.Thin ?? 0);
+		level += (craftEffect?.Thick ?? 0);
 		return DialogEffectIcons._BlindLevelToIcon(level);
 	},
-	/** @type {(effect: EffectName) => undefined | InventoryIcon} */
-	_GetDeafIcon(effect) {
-		/** @type {InventoryIcon[]} */
-		const keys = ["DeafLight", "DeafNormal", "DeafHeavy"];
-		return keys.find(k => DialogEffectIcons.Table[k]?.includes(effect));
+	/** @type {(effect: EffectName, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon} */
+	_GetDeafIcon(effect, craftEffect) {
+		let level = CharacterDeafLevels.get(/** @type {DeafEffectName} */(effect));
+		if (level === undefined) return null;
+		if (craftEffect === undefined) return DialogEffectIcons._DeafLevelToIcon(level);
+
+		level -= (craftEffect?.Audible ?? 0);
+		level += (craftEffect?.Deaf ?? 0);
+		return DialogEffectIcons._DeafLevelToIcon(level);
+	},
+	/** @type {(level: number) => undefined | InventoryIcon} */
+	_DeafLevelToIcon(level) {
+		if (level < (CharacterDeafLevels.get("DeafLight") ?? 0)) {
+			return null;
+		} else if (level < (CharacterDeafLevels.get("DeafNormal") ?? 0)) {
+			return "DeafLight";
+		} else if (level < (CharacterDeafLevels.get("DeafTotal") ?? 0)) {
+			return "DeafNormal"; // NOTE: DeafNormal and -Heavy share the `DeafNormal.png` icon
+		} else {
+			return "DeafHeavy";
+		}
 	},
 	/** @type {(level?: number) => null | InventoryIcon} */
 	_GagLevelToIcon: function (level) {

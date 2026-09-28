@@ -84,6 +84,8 @@ const CraftingPropertyMap = new Map([
 	["Edging", function(Item) { return CraftingItemHasEffect(Item, ["Egged", "Vibrating", "Chaste", "CanEdge", "BreastChaste"]); }],
 	["Heavy", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 	["Light", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
+	["Deaf", function(Item) { return CraftingItemHasEffect(Item, [...CharacterDeafLevels.keys()]); }],
+	["Audible", function(Item) { return CraftingItemHasEffect(Item, [...CharacterDeafLevels.keys()]); }],
 ]);
 const CraftingEffectsDefaultMaximumStack = 2;
 const CraftingEffectsDefaultMaximumEffects = 2;
@@ -202,7 +204,20 @@ const CraftingEffectsPrerequisite = {
 			return !!craft.Effects.Flexible || !!craft.Effects.Strong;
 		},
 	},
+	Deaf: {
+		max: 1,
+		isDisabled(craft) {
+			return !!craft.Effects.Audible;
+		},
+	},
+	Audible: {
+		max: 1,
+		isDisabled(craft) {
+			return !!craft.Effects.Deaf;
+		},
+	}
 };
+
 /**
  * Checks if a {@link CraftingItem["Effects"]} prerequisite is met
  * @param {CraftingItemSelected | CraftingItem} craft

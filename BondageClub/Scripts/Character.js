@@ -620,6 +620,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		GetDeafLevel: function () {
 			let deafLevel = 0;
 			for (const item of this.Appearance) {
+				if (item.Craft?.Effects.Deaf) {
+					deafLevel += 1;
+				} else if (item.Craft?.Effects.Audible) {
+					deafLevel -= 1;
+				}
 				for (const [effect, level] of CharacterDeafLevels.entries()) {
 					if (InventoryItemHasEffect(item, effect)) {
 						deafLevel += level;
@@ -627,7 +632,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					}
 				}
 			}
-			return deafLevel;
+			return CommonClamp(deafLevel, 0, Infinity);
 		},
 		CanPickLocks: function () {
 			const CanAccessLockpicks = (this.CanInteract() || this.CanWalk()) && InventoryAvailable(this, "Lockpicks", "ItemMisc");
