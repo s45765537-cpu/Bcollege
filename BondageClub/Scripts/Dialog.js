@@ -1433,13 +1433,8 @@ function DialogMenuButtonBuild(C) {
 		const LockBlockedOrLimited = InventoryBlockedOrLimited(C, Lock) || ItemBlockedOrLimited;
 
 		if (
-			Item != null
-			&& !IsGroupBlocked
+			!IsGroupBlocked
 			&& DialogCanUnlock(C, Item)
-			&& (
-				(!Player.IsBlind() && (!C.IsPlayer() || C.CanInteract()))
-				|| (C.IsPlayer() && !Player.CanInteract() && InventoryItemHasEffect(Item, "Block", true))
-			)
 		) {
 			DialogMenuButton.push("Unlock");
 		}
