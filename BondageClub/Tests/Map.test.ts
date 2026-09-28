@@ -41,6 +41,9 @@ Game.load("../Scripts/Map.js");
 
 Game.MapDataLoad();
 
+Game.Player = {};
+Game.Player.MapData = null;
+
 beforeEach(() => {
 	Game.ChatRoomData = {};
 	Game.ChatRoomData.MapData = Game.ChatRoomMapViewInitialize("Always");

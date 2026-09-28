@@ -40,14 +40,18 @@ var ChatRoomMapViewMovement = null;
 /** @type {ChatRoomMapType[]} */
 var ChatRoomMapViewTypeList = ["Never", "Hybrid", "Always"];
 var ChatRoomMapViewUpdatePlayerTime = 500;
-const ChatRoomMapViewPerceptionRaycastOffset = 0.4999;
 const ChatRoomMapViewWhisperRange = 1;
 const ChatRoomMapViewInteractionRange = 1;
 const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
 
-/** @type {boolean[]} */
+/** @type {boolean[]}
+ * @deprecated Use {@link MapManager.Map.isTileVisible()}
+*/
 var ChatRoomMapViewVisibilityMask = [];
-/** @type {boolean[]} */
+/**
+ * @type {boolean[]}
+ * @deprecated Use {@link MapManager.Map.isTileHearable()}
+ */
 var ChatRoomMapViewAudibilityMask = [];
 /** @type {Uint16Array | null} */
 var ChatRoomMapViewTileFog = null;
@@ -151,7 +155,6 @@ function ChatRoomMapViewLeave() {
  */
 function ChatRoomMapViewActivate() {
 	MapManager.OnViewActivate();
-	ChatRoomMapViewCalculatePerceptionMasks();
 	ChatRoomMapViewShowEditor();
 }
 
@@ -763,7 +766,6 @@ function ChatRoomMapViewCanStartWhisper(C) {
  */
 function ChatRoomMapViewRoomUpdated() {
 	// If the chat room map is visible, we need to update the perception map
-	ChatRoomMapViewCalculatePerceptionMasks();
 	ChatRoomMapViewReloadEditorPanel(false, ChatRoomMapViewLastSearch);
 	MapManager.OnMapDataUpdated();
 }
@@ -791,101 +793,11 @@ function ChatRoomMapViewCoordinatesToIndex(x, y) {
 
 /**
  * Calculates the visibility mask and audibility mask for the map
+ * @deprecated Use {@link MapManager.Map.updatePlayerPerception()}
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewCalculatePerceptionMasks() {
-
-	// The player has never opened the map, ignore
-	if (!Player.MapData) return;
-
-	// When in edit mode or with active super powers, always show everything
-	if (ChatRoomMapViewHasSuperPowers()) {
-		ChatRoomMapViewVisibilityMask.fill(true);
-		ChatRoomMapViewAudibilityMask.fill(true);
-		return;
-	}
-
-	const mapLength = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
-	const sightRange = ChatRoomMapViewGetSightRange();
-	const hearingRange = ChatRoomMapViewGetHearingRange();
-
-	for(let i=0; i<mapLength; i++) {
-		const {X, Y} = MapIndexToCoordinates(i);
-		// Calculate the view line between player as f(x) = slopeX * x + yIntercept and f(y) = slopeY * y + xIntercept
-		let dirX = 0;
-		if(Player.MapData.Pos.X < X) { dirX = 1; }
-		else if(Player.MapData.Pos.X > X) { dirX = -1; }
-		let dirY = 0;
-		if(Player.MapData.Pos.Y < Y) { dirY = 1; }
-		else if(Player.MapData.Pos.Y > Y) { dirY = -1; }
-
-		const posTileCorner = { x: X + (dirX * ChatRoomMapViewPerceptionRaycastOffset), y: Y - (dirY * ChatRoomMapViewPerceptionRaycastOffset) };
-		const slopeX = (posTileCorner.y - Player.MapData.Pos.Y) / (posTileCorner.x - Player.MapData.Pos.X);
-		const slopeY = (posTileCorner.x - Player.MapData.Pos.X) / (posTileCorner.y - Player.MapData.Pos.Y);
-		const yIntercept = Player.MapData.Pos.Y - (slopeX * Player.MapData.Pos.X);
-		const xIntercept = Player.MapData.Pos.X - (slopeY * Player.MapData.Pos.Y);
-
-		// Initialize this entry of visibility and audibility map with sight and hearing range
-		const distance = Math.max(Math.abs(Player.MapData.Pos.X - X), Math.abs(Player.MapData.Pos.Y - Y));
-		ChatRoomMapViewVisibilityMask[i] = sightRange >= distance;
-		ChatRoomMapViewAudibilityMask[i] = hearingRange >= distance;
-
-		// Calculate obstacles in horizontality if horizontal slope is not too steep
-		if(slopeX != Infinity && dirX != 0)
-		{
-			// Iterate over every x-position between player and target tile
-			for(let x=Player.MapData.Pos.X+dirX; x!=X && x!=X+dirX; x+=dirX) {
-				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
-				if(ChatRoomMapViewVisibilityMask[i] == false && ChatRoomMapViewAudibilityMask[i] == false) {
-					break;
-				}
-
-				// Calculate the y-position with the view line formular and get the tiles and objecs on the in-between position
-				const y = Math.round(slopeX * x + yIntercept);
-				let tileData = MapManager.Map.getTile(x, y);
-				let objectData = MapManager.Map.getObject(x, y);
-				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
-				if(tileData != null) {
-					ChatRoomMapViewVisibilityMask[i] &&= tileData.BlockVision ? false : true;
-					ChatRoomMapViewAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
-				}
-				// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
-				if(objectData != null) {
-					ChatRoomMapViewVisibilityMask[i] &&= objectData.BlockVision ? false : true;
-					ChatRoomMapViewAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
-				}
-
-			}
-		}
-		// Calculate obstacles in verticality if vertical slope is not too steep
-		if(slopeY != Infinity && dirY != 0)
-		{
-			// Iterate over every y-position between player and target tile
-			for(let y=Player.MapData.Pos.Y+dirY; y!=Y && y!=Y+dirY; y+=dirY) {
-				// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
-				if(ChatRoomMapViewVisibilityMask[i] == false && ChatRoomMapViewAudibilityMask[i] == false) {
-					break;
-				}
-
-				// Calculate the x-position with the view line formular and get the tiles and objecs on the in-between position
-				const x = Math.round(slopeY * y + xIntercept);
-				let tileData = MapManager.Map.getTile(x, y);
-				let objectData = MapManager.Map.getObject(x, y);
-				// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
-				if(tileData != null) {
-					ChatRoomMapViewVisibilityMask[i] &&= tileData.BlockVision ? false : true;
-					ChatRoomMapViewAudibilityMask[i] &&= tileData.BlockHearing ? false : true;
-				}
-				// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
-				if(objectData != null) {
-					ChatRoomMapViewVisibilityMask[i] &&= objectData.BlockVision ? false : true;
-					ChatRoomMapViewAudibilityMask[i] &&= objectData.BlockHearing ? false : true;
-				}
-
-			}
-		}
-
-	}
+	MapManager.Map.updatePlayerPerception();
 }
 
 /**
@@ -913,8 +825,7 @@ function ChatRoomMapViewGetHearingRange() {
 function ChatRoomMapViewCharacterIsVisible(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData?.Pos) return false;
-	const PlayerTileId = MapCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
-	return ChatRoomMapViewVisibilityMask[PlayerTileId];
+	return MapManager.Map.isTileVisible(C.MapData.Pos.X, C.MapData.Pos.Y);
 }
 
 /**
@@ -925,8 +836,7 @@ function ChatRoomMapViewCharacterIsVisible(C) {
 function ChatRoomMapViewCharacterIsHearable(C) {
 	if (!C?.MapData) return false;
 	if (!Player?.MapData?.Pos) return false;
-	const PlayerTileId = MapCoordinatesToIndex(C.MapData.Pos.X, C.MapData.Pos.Y);
-	return ChatRoomMapViewAudibilityMask[PlayerTileId];
+	return MapManager.Map.isTileHearable(C.MapData.Pos.X, C.MapData.Pos.Y);
 }
 
 /**
@@ -1090,7 +1000,7 @@ function ChatRoomMapFogIsActive() {
  * @returns {boolean} - TRUE if the tile is hidden
  */
 function ChatRoomMapViewTileIsHidden(X, Y) {
-	return !ChatRoomMapViewVisibilityMask[MapCoordinatesToIndex(X, Y)] && (ChatRoomMapViewTileFog?.[X + Y * ChatRoomMapViewWidth] == 0);
+	return !MapManager.Map.isTileVisible(X, Y) && (ChatRoomMapViewTileFog?.[X + Y * ChatRoomMapViewWidth] == 0);
 }
 
 /**
@@ -1309,7 +1219,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 		// Out of sight, we draw the fog
 		let Fog = false;
-		if (FogActive && !ChatRoomMapViewVisibilityMask[Pos]) {
+		if (FogActive && !MapManager.Map.isTileVisible(Pos)) {
 			if (ChatRoomMapViewTileFog[Pos] == 0) {
 				DrawImageResize("Screens/Online/ChatRoom/MapTile/Fog/Full.png", Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 				continue;
@@ -1502,7 +1412,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			if ((ScreenX < 0) || (ScreenX >= Width) || (ScreenY < 0) || (ScreenY >= Height)) continue;
 
 			// Out of sight and with known data, we draw the half fog effect
-			if (!ChatRoomMapViewVisibilityMask[Pos])
+			if (!MapManager.Map.isTileVisible(Pos))
 				if (ChatRoomMapViewTileFog[Pos] > 0)
 					DrawImageResize("Screens/Online/ChatRoom/MapTile/Fog/Half.png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		}
@@ -1603,7 +1513,7 @@ function ChatRoomMapViewMovementProcess() {
 	ChatRoomMapViewUpdatePlayerFlag(ChatRoomMapViewMovement.TimeStart - ChatRoomMapViewMovement.TimeEnd);
 	ChatRoomMapViewMovement = null;
 	// After we moved, calculate the new perception masks
-	ChatRoomMapViewCalculatePerceptionMasks();
+	MapManager.Map.updatePlayerPerception();
 	// Get the tile and object we entered
 	const newTile = MapManager.Map.getTile(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 	const newObject = MapManager.Map.getObject(Player.MapData.Pos.X, Player.MapData.Pos.Y);
@@ -1926,7 +1836,7 @@ function ChatRoomMapViewClick() {
 	// Toggle the superpowers on and off
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapViewSuperPowersActive = !ChatRoomMapViewSuperPowersActive;
-		ChatRoomMapViewCalculatePerceptionMasks();
+		MapManager.Map.updatePlayerPerception();
 		return;
 	}
 
@@ -2120,8 +2030,6 @@ function ChatRoomMapViewMouseMove(event) {
 	if (JSON.stringify(Backup) != JSON.stringify(ChatRoomData?.MapData)) {
 		if (ChatRoomMapViewEditBackup.length > 100) ChatRoomMapViewEditBackup = ChatRoomMapViewEditBackup.slice(-100);
 		ChatRoomMapViewEditBackup.push(Backup);
-		// Update perception map after a change
-		ChatRoomMapViewCalculatePerceptionMasks();
 	}
 }
 
@@ -2194,7 +2102,6 @@ function ChatRoomMapViewPaste(Param) {
 	}
 
 	MapValidateCells();
-	ChatRoomMapViewCalculatePerceptionMasks();
 	ToastManager.info(TextGet("MapPasteDone"));
 }
 

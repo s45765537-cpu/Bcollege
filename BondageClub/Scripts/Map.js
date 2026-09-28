@@ -1613,6 +1613,7 @@ var MapManager = (function () {
 			this.markDirtyObjects();
 			this.markDirtyEffects();
 			this.#_mapData.save(ChatRoomData.MapData);
+			this.updatePlayerPerception();
 
 			// XXX
 			// if (mapData.MapData !== undefined) {
@@ -1622,6 +1623,149 @@ var MapManager = (function () {
 			// }
 
 			return true;
+		}
+
+		/** @type {boolean[]} */
+		sightMask = [];
+		/** @type {boolean[]} */
+		hearingMask = [];
+
+		/**
+		 * Whether the given tile is visible to the player
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @returns {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} index
+		 * @returns {boolean}
+		 */
+		/**
+		 * Whether the given tile is visible to the player
+		 * @param {number} xOrIndex
+		 * @param {number} [y]
+		 * @returns {boolean}
+		 */
+		isTileVisible(xOrIndex, y) {
+			const index = y !== undefined ? MapCoordinatesToIndex(xOrIndex, y) : xOrIndex;
+			return this.sightMask[index];
+		}
+
+		/**
+		 * Whether the given tile is visible to the player
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @returns {boolean}
+		 */
+		/**
+		 * @overload
+		 * @param {number} index
+		 * @returns {boolean}
+		 */
+		/**
+		 * Whether the given tile is visible to the player
+		 * @param {number} xOrIndex
+		 * @param {number} [y]
+		 * @returns {boolean}
+		 */
+		isTileHearable(xOrIndex, y) {
+			const index = y !== undefined ? MapCoordinatesToIndex(xOrIndex, y) : xOrIndex;
+			return this.hearingMask[index];
+		}
+
+		/**
+		 * Updates the map tiles' visibility & hearability based on the player's position
+		 * @returns {void}
+		 */
+		updatePlayerPerception() {
+			// The player has never opened the map, ignore
+			if (!Player.MapData) return;
+
+			// When in edit mode or with active super powers, always show everything
+			if (ChatRoomMapViewHasSuperPowers()) {
+				this.sightMask.fill(true);
+				this.hearingMask.fill(true);
+				return;
+			}
+
+			const mapLength = ChatRoomMapViewWidth * ChatRoomMapViewHeight;
+			const sightRange = ChatRoomMapViewGetSightRange();
+			const hearingRange = ChatRoomMapViewGetHearingRange();
+			const raycastOffset = 0.4999;
+
+			for (let i = 0; i < mapLength; i++) {
+				const {X, Y} = MapIndexToCoordinates(i);
+				// Calculate the view line between player as f(x) = slopeX * x + yIntercept and f(y) = slopeY * y + xIntercept
+				const dirX = Math.sign(X - Player.MapData.Pos.X);
+				const dirY = Math.sign(Y - Player.MapData.Pos.Y);
+
+				const posTileCorner = { x: X + (dirX * raycastOffset), y: Y - (dirY * raycastOffset) };
+				const slopeX = (posTileCorner.y - Player.MapData.Pos.Y) / (posTileCorner.x - Player.MapData.Pos.X);
+				const slopeY = (posTileCorner.x - Player.MapData.Pos.X) / (posTileCorner.y - Player.MapData.Pos.Y);
+				const yIntercept = Player.MapData.Pos.Y - (slopeX * Player.MapData.Pos.X);
+				const xIntercept = Player.MapData.Pos.X - (slopeY * Player.MapData.Pos.Y);
+
+				// Initialize this entry of visibility and audibility map with sight and hearing range
+				const distance = Math.max(Math.abs(Player.MapData.Pos.X - X), Math.abs(Player.MapData.Pos.Y - Y));
+				this.sightMask[i] = sightRange >= distance;
+				this.hearingMask[i] = hearingRange >= distance;
+
+				// Calculate obstacles in horizontality if horizontal slope is not too steep
+				if (slopeX != Infinity && dirX !== 0) {
+					// Iterate over every x-position between player and target tile
+					for (let x = Player.MapData.Pos.X + dirX; x != X && x != X + dirX; x += dirX) {
+						// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
+						if (!this.sightMask[i] && !this.hearingMask[i]) {
+							break;
+						}
+
+						// Calculate the y-position with the view line formular and get the tiles and objecs on the in-between position
+						const y = Math.round(slopeX * x + yIntercept);
+						let tileData = MapManager.Map.getTile(x, y);
+						let objectData = MapManager.Map.getObject(x, y);
+						// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
+						if (tileData) {
+							this.sightMask[i] &&= tileData.BlockVision ? false : true;
+							this.hearingMask[i] &&= tileData.BlockHearing ? false : true;
+						}
+						// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
+						if (objectData) {
+							this.sightMask[i] &&= objectData.BlockVision ? false : true;
+							this.hearingMask[i] &&= objectData.BlockHearing ? false : true;
+						}
+
+					}
+				}
+				// Calculate obstacles in verticality if vertical slope is not too steep
+				if (slopeY != Infinity && dirY != 0) {
+					// Iterate over every y-position between player and target tile
+					for (let y = Player.MapData.Pos.Y + dirY; y != Y && y != Y + dirY; y += dirY) {
+						// If both, visibility and audibility masks already are set to false for this tile, we don't need to continue
+						if (!this.sightMask[i] && !this.hearingMask[i]) {
+							break;
+						}
+
+						// Calculate the x-position with the view line formular and get the tiles and objecs on the in-between position
+						const x = Math.round(slopeY * y + xIntercept);
+						let tileData = MapManager.Map.getTile(x, y);
+						let objectData = MapManager.Map.getObject(x, y);
+						// If tile data exists, apply the blockvision and blockhearing flags to visibility and audibility map
+						if (tileData != null) {
+							this.sightMask[i] &&= tileData.BlockVision ? false : true;
+							this.hearingMask[i] &&= tileData.BlockHearing ? false : true;
+						}
+						// If object data exists, apply the blockvision and blockhearing flags to visibility and audibility map
+						if (objectData != null) {
+							this.sightMask[i] &&= objectData.BlockVision ? false : true;
+							this.hearingMask[i] &&= objectData.BlockHearing ? false : true;
+						}
+
+					}
+				}
+			}
 		}
 
 		/**
@@ -1640,7 +1784,9 @@ var MapManager = (function () {
 		updateGlobalMapData() {
 			if (!this.#_mapData) throw Error("No map loaded");
 			if (!ChatRoomData?.MapData) throw new Error("No map in current room");
-			return this.#_mapData.save(ChatRoomData.MapData);
+			const ret = this.#_mapData.save(ChatRoomData.MapData);
+			this.updatePlayerPerception();
+			return ret;
 		}
 
 		/**
@@ -1656,6 +1802,7 @@ var MapManager = (function () {
 			if (map) {
 				this.#_mapData = map;
 				this.markCleanAll();
+				this.updatePlayerPerception();
 			}
 			return !!map;
 		}
