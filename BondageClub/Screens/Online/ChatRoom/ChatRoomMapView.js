@@ -2000,9 +2000,9 @@ function ChatRoomMapViewClick() {
 
 /**
  * Mouse down event is used to draw on screen and handle the tiles buttons
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
-function ChatRoomMapViewMouseDown() {
+function ChatRoomMapViewMouseDown(event) {
 
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
@@ -2013,7 +2013,7 @@ function ChatRoomMapViewMouseDown() {
 
 		// Enter the drawing mode
 		ChatRoomMapViewEditStarted = true;
-		ChatRoomMapViewMouseMove();
+		ChatRoomMapViewMouseMove(event);
 		return;
 
 	// In object edit mode
@@ -2023,7 +2023,7 @@ function ChatRoomMapViewMouseDown() {
 
 		// Enter the drawing mode
 		ChatRoomMapViewEditStarted = true;
-		ChatRoomMapViewMouseMove();
+		ChatRoomMapViewMouseMove(event);
 		return;
 
 	} else if ((ChatRoomMapViewEditMode === "Effect") && MouseIn(0, 0, 1000, 1000)) {
@@ -2031,7 +2031,7 @@ function ChatRoomMapViewMouseDown() {
 		if (MouseIn(10, 10, 60, 60)) { return; }
 		// If we aren't clicking a button, we are painting the map!
 		ChatRoomMapViewEditStarted = true;
-		ChatRoomMapViewMouseMove();
+		ChatRoomMapViewMouseMove(event);
 		return;
 
 	}
@@ -2049,9 +2049,9 @@ function validMapData(data) {
 
 /**
  * Mouse move event is used to draw on screen
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
-function ChatRoomMapViewMouseMove() {
+function ChatRoomMapViewMouseMove(event) {
 
 	// Only in edit mode
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive() || !validMapData(ChatRoomData)) return;
