@@ -92,6 +92,24 @@ var InventoryItemNeckSlaveCollarTypes = [
 	}
 ];
 
+/** @type {ExtendedItemScriptHookCallbacks.Init<NoArchItemData>} */
+function InventoryItemNeckSlaveCollarInitHook(data, originalFunction, C, item, push, refresh) {
+	item.Property ??= {};
+	const idx = item.Property.TypeRecord?.noarch ?? -1;
+	const option = InventoryItemNeckSlaveCollarTypes[idx];
+	let ret = false;
+	if (option) {
+		ret = false;
+		CommonAssign(item.Property, CommonCloneDeep(option.Property));
+	} else {
+		ret = true;
+		CommonAssign(item.Property, CommonCloneDeep(InventoryItemNeckSlaveCollarTypes[0].Property));
+	}
+	if (refresh) CharacterRefresh(C, push, false);
+	if (push) ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
+	return ret;
+}
+
 /** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
 function InventoryItemNeckSlaveCollarLoadHook(data, originalFunction) {
 	originalFunction();
@@ -188,7 +206,7 @@ function InventoryItemNeckSlaveCollarClickHook(data, originalFunction) {
  */
 function InventoryItemNeckSlaveCollarSetType(C, item, NewType) {
 	const Type = InventoryItemNeckSlaveCollarTypes[NewType] ?? InventoryItemNeckSlaveCollarTypes[0];
-	item.Property = Type.Property;
+	item.Property = CommonCloneDeep(Type.Property);
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.destinationCharacter(C)

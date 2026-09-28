@@ -564,5 +564,37 @@
 				}
 			}
 		}
-	}
+	},
+	"slaveCollar": [
+		{
+			"asset": "SlaveCollar",
+			"group": "ItemNeck",
+			"comment": "default",
+			"initialItemProperty": {
+				"TypeRecord": { "noarch": 0 }
+			},
+			"itemBundleProperty": null,
+			"finalItemProperty": {
+				"TypeRecord": { "noarch": 0 }
+			}
+		},
+		{
+			"asset": "SlaveCollar",
+			"group": "ItemNeck",
+			"comment": "custom",
+			"initialItemProperty": {
+				"TypeRecord": { "noarch": 1 },
+				"Effect": ["FixedHead"],
+				"Block": []
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "noarch": 1 }
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "noarch": 1 },
+				"Effect": ["FixedHead"],
+				"Block": []
+			}
+		}
+	]
 }
