@@ -65,11 +65,6 @@ var KeybindingDefaults = {
 			id: 'isChatRoomChatNOTFocused',
 			prerequisite: () => document.activeElement !== ElementWrap('InputChat'),
 			showInUI: true
-		},
-		{
-			id: 'noModifiers',
-			prerequisite: (event) => !CommonKey.GetModifiers(event),
-			showInUI: false
 		}
 	],
 
@@ -288,7 +283,7 @@ var KeybindingDefaults = {
 
 				return false;
 			},
-			contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
 			categoryId: 'chat',
 			readonly: true,
 			defaultKeyCombo: {
@@ -335,9 +330,9 @@ var KeybindingDefaults = {
 				ChatRoomScrollHistory(true);
 				return true;
 			},
-			contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
 			categoryId: 'chat',
-			readonly: true,
+			readonly: false,
 			defaultKeyCombo: {
 				key: 'PageUp',
 			}
@@ -348,9 +343,9 @@ var KeybindingDefaults = {
 				ChatRoomScrollHistory(false);
 				return true;
 			},
-			contextIds: ['isInChatRoom', 'isChatRoomChatFocused', 'noModifiers'],
+			contextIds: ['isInChatRoom', 'isChatRoomChatFocused'],
 			categoryId: 'chat',
-			readonly: true,
+			readonly: false,
 			defaultKeyCombo: {
 				key: 'PageDown',
 			}
@@ -370,7 +365,7 @@ var KeybindingDefaults = {
 
 				return false;
 			},
-			contextIds: ['isOnChatRoomScreen', 'noModifiers'],
+			contextIds: ['isOnChatRoomScreen'],
 			categoryId: 'chat',
 			readonly: true,
 			defaultKeyCombo: {
