@@ -2159,7 +2159,8 @@ function CharacterHasItemWithAttribute(C, Attribute) {
  */
 function CharacterItemsForActivity(C, Activity) {
 	return C.Appearance.filter(item => {
-		return InventoryGetItemProperty(item, "AllowActivity")?.includes(Activity);
+		return Activity === "GagItem" && item.Asset.Group.Name.startsWith("ItemMouth")
+			|| InventoryGetItemProperty(item, "AllowActivity")?.includes(Activity);
 	});
 }
 

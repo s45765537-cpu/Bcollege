@@ -139,7 +139,7 @@ describe("ServerAccountDataSyncedValidate", () => {
 	it("validates arousal settings", () => {
 		expect(Game.ServerAccountDataSyncedValidate.ArousalSettings({})).toMatchObject({
 			Active: "Hybrid",
-			Activity: "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+			Activity: "z".repeat(Game.ActivityFemale3DCG.length),
 			AffectExpression: true,
 			AffectStutter: "All",
 			ChangeTime: 0,

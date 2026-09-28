@@ -380,7 +380,7 @@ function ActivityCanBeDone(C, Activity, Group) {
  * Calculates the effect of an activity performed on a zone
  * @param {Character} S - The character performing the activity
  * @param {Character} C - The character on which the activity is performed
- * @param {ActivityName | Activity} A - The activity performed
+ * @param {ActivityName | ItemActivity} A - The activity performed
  * @param {AssetGroupItemName} Z - The group/zone name where the activity was performed
  * @param {number} [Count=1] - If the activity is done repeatedly, this defines the number of times, the activity is done.
  * If you don't want an activity to modify arousal, set this parameter to '0'
@@ -390,12 +390,19 @@ function ActivityCanBeDone(C, Activity, Group) {
 function ActivityEffect(S, C, A, Z, Count, Asset) {
 
 	// Converts from activity name to the activity object
-	const act = typeof A === "string" ? AssetGetActivity(C.AssetFamily, A) : A;
-	if (!act) return;
+	/** @type {ItemActivity} */
+	let itemActivity;
+	let activity = null;
+	if (typeof A === "string") {
+		activity = AssetGetActivity(C.AssetFamily, A);
+		if (!activity) return;
+		itemActivity = { Activity: activity, Group: Z };
+	} else itemActivity = A;
+	activity = itemActivity.Activity;
 	Count = CommonClamp(Count ?? 1, 1, Infinity);
 
 	// Calculates the next progress factor
-	var Factor = (PreferenceGetActivityFactor(C, act.Name, (C.IsPlayer())) * 5) - 10; // Check how much the character likes the activity, from -10 to +10
+	var Factor = (PreferenceGetActivityFactor(C, activity.Name, (C.IsPlayer())) * 5) - 10; // Check how much the character likes the activity, from -10 to +10
 	Factor = Factor + (PreferenceGetZoneFactor(C, Z) * 5) - 10; // The zone used also adds from -10 to +10
 	Factor = Factor + Math.floor((Math.random() * 8)); // Random 0 to 7 bonus
 	if ((C.ID != S.ID) && (((!C.IsPlayer()) && C.IsLoverOfPlayer()) || ((C.IsPlayer()) && S.IsLoverOfPlayer()))) Factor = Factor + Math.floor((Math.random() * 8)); // Another random 0 to 7 bonus if the target is the player's lover
@@ -403,12 +410,14 @@ function ActivityEffect(S, C, A, Z, Count, Asset) {
 	Factor = Factor + Math.round(Factor * (Count - 1) / 3); // if the action is done repeatedly, we apply a multiplication factor based on the count
 
 	// Grab the relevant expression from either the asset or the activity
-	const expression = Asset?.ActivityExpression?.[act.Name] ?? act.ActivityExpression;
+	const expression = Asset?.ActivityExpression?.[activity.Name] ?? activity.ActivityExpression;
 	if (Array.isArray(expression))
 		InventoryExpressionTriggerApply(C, expression);
 
-	ActivitySetArousalTimer(C, act, Z, Factor);
-
+	ActivitySetArousalTimer(C, activity, Z, Factor);
+	//if (S.IsPlayer()) return;
+	if (C.IsNpc()) return;
+	ActivityRunLogic(S, C, Z, itemActivity);
 }
 
 /**
@@ -835,6 +844,7 @@ function ActivityRunSelf(Source, Target, Activity, Group, Asset) {
 		Factor = Factor + Math.floor((Math.random() * 8)); // Random 0 to 7 bonus
 		if (Target.IsLoverOfPlayer()) Factor = Factor + Math.floor((Math.random() * 8)); // Another random 0 to 7 bonus if the target is the player's lover
 		ActivitySetArousalTimer(Player, Activity, "ActivityOnOther", Factor, Asset);
+		//ActivityRunLogic(Player, Target, Group, { Activity: Activity, Item: InventoryGet(Target, Group.Name), Group: Group.Name });
 	}
 }
 
@@ -864,13 +874,12 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 	ActivityLog(`${actor.Name} on ${acted.Name}: triggering activity on group ${targetGroup.Name}`, ItemActivity);
 	const Activity = ItemActivity.Activity;
 	const UsedAsset = ItemActivity && ItemActivity.Item ? ItemActivity.Item.Asset : null;
-
 	let group = ActivityGetGroupOrMirror(acted.AssetFamily, targetGroup.Name);
 	if (!group) return;
 	// If the player does the activity on herself or an NPC, we calculate the result right away
 	if ((acted.ArousalSettings.Active == "Hybrid") || (acted.ArousalSettings.Active == "Automatic"))
 		if (acted.IsPlayer() || acted.IsNpc())
-			ActivityEffect(actor, acted, Activity, group.Name, 0, UsedAsset);
+			ActivityEffect(actor, acted, ItemActivity, group.Name, 0, UsedAsset);
 
 	if (acted.IsPlayer()) {
 		if (Activity.MakeSound) {
@@ -880,7 +889,6 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 	if (actor.IsPlayer()) {
 		PropertyPunishActivityCache.add(Activity.Name);
 	}
-
 	// If the player does the activity on someone else, we calculate the progress for the player right away
 	ActivityRunSelf(actor, acted, Activity, group, UsedAsset);
 
@@ -905,6 +913,31 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
 			ChatRoomStimulationMessage(Activity.StimulationAction);
 		}
 	}
+}
+
+/**
+ * Runs the logic for a given activity
+ * @param {Character} actor - Character which is performing the activity
+ * @param {Character} acted - Character on which the activity was triggered
+ * @param {AssetGroupItemName | AssetGroupName} targetGroup - The group targetted by the activity
+ * @param {ItemActivity} ItemActivity - The activity performed, with its optional item used
+ */
+function ActivityRunLogic(actor, acted, targetGroup, ItemActivity) {
+	const activityItem = ItemActivity.Item;
+	console.log(targetGroup);
+	switch (ItemActivity.Activity.Name) {
+		case "SpitOutGag":
+			if (!activityItem) return;
+			if (InventoryItemHasEffect(activityItem, "Lock", true) && !DialogCanUnlock(actor, activityItem)) return;
+			if (activityItem.Asset?.Name === "PacifierClip") {
+				ExtendedItemSetOptionByRecord(acted, activityItem, { typed: 1 }, {refresh: true, push: true});
+				return;
+			}
+			InventoryRemove(acted, activityItem.Asset.Group.Name, true);
+			ChatRoomCharacterItemUpdate(acted, activityItem.Asset.Group.Name);
+			break;
+	}
+
 }
 
 /**

@@ -1501,10 +1501,31 @@ type ActivityNameBasic = "Bite" | "Brush" | "Caress" | "Choke" | "Clean" | "Cudd
 	"PenetrateSlow" | "Pet" | "Pinch" | "PoliteKiss" | "Pull" |
 	"RestHead" | "Rub" | "Scratch" | "Sit" | "Slap" | "Spank" | "Step" | "StruggleArms" | "StruggleLegs" |
 	"Suck" | "SuckPenetrateItem" | "DeepThroat" | "TakeCare" | "Tickle" | "Whisper" | "Wiggle" |
-	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab"
+	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab" | "SpitOutGag"
 ;
 
-type ActivityNameItem = "Inject" | "MasturbateItem" | "PenetrateItem" | "ChewItem" | "PourItem" | "RollItem" | "RubItem" | "BrushItem" | "ShockItem" | "SipItem" | "SpankItem" | "SqueezeItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
+type ActivityNameItem =
+	| "PowderItem"
+	| "ShakeItem"
+	| "SpitItem"
+	| "Inject"
+	| "MasturbateItem"
+	| "PenetrateItem"
+	| "ChewItem"
+	| "PourItem"
+	| "RollItem"
+	| "RubItem"
+	| "BrushItem"
+	| "ShockItem"
+	| "SipItem"
+	| "SpankItem"
+	| "SqueezeItem"
+	| "TickleItem"
+	| "EatItem"
+	| "Scratch"
+	| "ThrowItem"
+	| "GagItem"
+;
 
 type ActivityName = ActivityNameBasic | ActivityNameItem;
 
@@ -1610,7 +1631,7 @@ interface InventoryRemoveOptions {
 	 */
 	removeItemOnRemove?: readonly RemoveOnItemRemove[];
 	/**
-	 * Whether to trigger a character refresh on a successful item removal.
+	 * Whether to trigger {@link CharacterRefresh} on a successful item removal.
 	 * @default true
 	 */
 	refresh?: boolean;
