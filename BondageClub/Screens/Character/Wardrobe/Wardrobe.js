@@ -271,11 +271,20 @@ function WardrobeKeyDown(event) {
 	if (WardrobeReorderMode !== "None" || WardrobeSelection !== -1) return false;
 	const search = /** @type {HTMLInputElement} */ (ElementWrap(WardrobeID.searchInput));
 	if (search && CommonKey.InputKeyDown(search, event, { allowCtrlA: true })) {
-		WardrobeSetSearch(search.value);
-		WardrobeUpdateElements();
 		return true;
 	}
 	return false;
+}
+
+/**
+ * @type {ClipboardEventListener}
+ */
+function WardrobePaste(event) {
+	if (WardrobeReorderMode !== "None" || WardrobeSelection !== -1) return;
+	const search = /** @type {HTMLInputElement} */ (ElementWrap(WardrobeID.searchInput));
+	if (search) {
+		CommonKey.InputPaste(search, event);
+	}
 }
 
 /**
