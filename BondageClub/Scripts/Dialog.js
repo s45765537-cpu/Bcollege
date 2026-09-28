@@ -1259,8 +1259,8 @@ const DialogEffectIcons = /** @type {const} */({
 		if (level === undefined) return null;
 		if (craftEffect === undefined) return DialogEffectIcons._BlindLevelToIcon(level);
 
-		level -= 2 * (craftEffect?.Thin ?? 0);
-		level += 2 * (craftEffect?.Thick ?? 0);
+		level -= (craftEffect?.Thin ?? 0);
+		level += (craftEffect?.Thick ?? 0);
 		return DialogEffectIcons._BlindLevelToIcon(level);
 	},
 	/** @type {(effect: EffectName, craftEffect?: Partial<Record<CraftingPropertyType, number>>) => null | InventoryIcon} */
