@@ -575,7 +575,7 @@ function GamblingFoxController(FoxState) {
 		}
 	} else if (FoxState == "player_fox_win") {
 		GamblingSecondSub.AllowItem = false;
-		GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+		GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(GamblingMoneyBet));
 		CharacterChangeMoney(Player, GamblingMoneyBet);
 		ReputationProgress("Gambling", 2);
 		GamblingPlayerDiceStack = [];
@@ -592,7 +592,7 @@ function GamblingFoxController(FoxState) {
 	} else if (FoxState == "player_hunter_win") {
 		InventoryWearRandom(GamblingSecondSub, "ItemArms");
 		GamblingSecondSub.AllowItem = true;
-		GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+		GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(GamblingMoneyBet));
 		CharacterChangeMoney(Player, GamblingMoneyBet);
 		ReputationProgress("Gambling", 1);
 		GamblingPlayerDiceStack = [];
@@ -687,7 +687,7 @@ function GamblingStreetRoissyController(StreetRoissyState) {
 			Player.Appearance = GamblingAppearancePlayer.slice();
 			CharacterRefresh(Player);
 			GamblingSecondSub.AllowItem = true;
-			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(GamblingMoneyBet));
 			CharacterChangeMoney(Player, GamblingMoneyBet);
 			GamblingStreetRoissyController ("end");
 		} else {
@@ -698,7 +698,7 @@ function GamblingStreetRoissyController(StreetRoissyState) {
 		GamblingSecondSub.Stage = "0";
 		if (GamblingStripTied(Player, GamblingNpcSubState)) {
 			CharacterRelease(GamblingSecondSub);
-			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(-GamblingMoneyBet));
 			GamblingSecondSub.Appearance = GamblingAppearanceSecond.slice();
 			CharacterRefresh(GamblingSecondSub);
 			GamblingSecondSub.AllowItem = false;
@@ -768,7 +768,7 @@ function GamblingDaredSixController(DaredSixState) {
 			CharacterRefresh(Player);
 			GamblingSecondSub.AllowItem = true;
 			GamblingSecondSub.Stage = "330";
-			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(GamblingMoneyBet));
 			GamblingMoneyBet = 0;
 			ReputationProgress("Gambling", 3);
 			GamblingShowMoney = false;
@@ -785,7 +785,7 @@ function GamblingDaredSixController(DaredSixState) {
 			CharacterRefresh(GamblingSecondSub);
 			GamblingSecondSub.AllowItem = false;
 			GamblingSecondSub.Stage = "340";
-			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", GamblingMoneyBet.toString());
+			GamblingSecondSub.CurrentDialog = GamblingSecondSub.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(-GamblingMoneyBet));
 			GamblingMoneyBet = 0;
 			GamblingShowMoney = false;
 		} else {

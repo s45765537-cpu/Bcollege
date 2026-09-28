@@ -63,23 +63,23 @@ ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part
 90,Guard3,I will infiltrate the current cells.,"Go now comrade!  (In mixed online chat rooms, search for rooms that begins with ""Pandora"" to enter an active cell.)",,"PenitentiaryRoleIs(""G"")"
 90,,Can I dress up as a guard?,You certainly can comrade.  (She helps you to dress up.),GuardDressUp(),"PenitentiaryRoleIs(""G"")"
 90,0,Let's talk about something else.,"Good, we have no time to waste.",,
-Inmate1,Inmate2,5 minutes.,Easy enough.  I will arrange a 5 minutes sentence for you.  Here's $5 for the trouble.  Bring lots of information.,"PreparePenitentiary(5, 5, ""I"")",
-Inmate1,Inmate2,15 minutes.,Alright.  I will arrange a 15 minutes sentence for you.  Here's $10 for the trouble.  Bring lots of information.,"PreparePenitentiary(15, 10, ""I"")",
-Inmate1,Inmate2,30 minutes.,Very well.  I will arrange a 30 minutes sentence for you.  Here's $15 for the trouble.  Bring lots of information.,"PreparePenitentiary(30, 15, ""I"")",
-Inmate1,Inmate2,1 hour.,Good.  I will arrange a 1 hour sentence for you.  Here's $25 for the trouble.  Bring lots of information.,"PreparePenitentiary(60, 25, ""I"")","DialogSkillGreater(""Infiltration"", 1)"
-Inmate1,Inmate2,4 hours.,Impressive.  I will arrange a 4 hours sentence for you.  Here's $40 for the trouble.  Bring lots of information.,"PreparePenitentiary(240, 40, ""I"")","DialogSkillGreater(""Infiltration"", 3)"
-Inmate1,Inmate2,12 hours.,Excellent!  I will arrange a 12 hours sentence for you.  Here's $60 for the trouble.  Bring lots of information.,"PreparePenitentiary(720, 60, ""I"")","DialogSkillGreater(""Infiltration"", 5)"
-Inmate1,Inmate2,24 hours.,Wow!  I will arrange a 24 hours sentence for you.  Here's $80 for the trouble.  Bring lots of information.,"PreparePenitentiary(1440, 80, ""I"")","DialogSkillGreater(""Infiltration"", 7)"
+Inmate1,Inmate2,5 minutes.,Easy enough.  I will arrange a 5 minutes sentence for you.  Here's ${money=5} for the trouble.  Bring lots of information.,"PreparePenitentiary(5, 5, ""I"")",
+Inmate1,Inmate2,15 minutes.,Alright.  I will arrange a 15 minutes sentence for you.  Here's ${money=10} for the trouble.  Bring lots of information.,"PreparePenitentiary(15, 10, ""I"")",
+Inmate1,Inmate2,30 minutes.,Very well.  I will arrange a 30 minutes sentence for you.  Here's ${money=15} for the trouble.  Bring lots of information.,"PreparePenitentiary(30, 15, ""I"")",
+Inmate1,Inmate2,1 hour.,Good.  I will arrange a 1 hour sentence for you.  Here's ${money=25} for the trouble.  Bring lots of information.,"PreparePenitentiary(60, 25, ""I"")","DialogSkillGreater(""Infiltration"", 1)"
+Inmate1,Inmate2,4 hours.,Impressive.  I will arrange a 4 hours sentence for you.  Here's ${money=40} for the trouble.  Bring lots of information.,"PreparePenitentiary(240, 40, ""I"")","DialogSkillGreater(""Infiltration"", 3)"
+Inmate1,Inmate2,12 hours.,Excellent!  I will arrange a 12 hours sentence for you.  Here's ${money=60} for the trouble.  Bring lots of information.,"PreparePenitentiary(720, 60, ""I"")","DialogSkillGreater(""Infiltration"", 5)"
+Inmate1,Inmate2,24 hours.,Wow!  I will arrange a 24 hours sentence for you.  Here's ${money=80} for the trouble.  Bring lots of information.,"PreparePenitentiary(1440, 80, ""I"")","DialogSkillGreater(""Infiltration"", 7)"
 Inmate1,0,Let me think about it first.,"Think quickly, the clock is ticking.",,
 Inmate2,0,Let's go!  (Get locked up.),,StartPenitentiary(),
 Inmate2,0,Wait!  I've changed my mind.,(She grumbles)  You're wasting my time comrade.,,
-Guard1,Guard2,15 minutes.,Easy enough.  I will prepare a 15 minutes guard shift for you.  Here's $5 for the trouble.  Bring lots of information.,"PreparePenitentiary(15, 5, ""G"")",
-Guard1,Guard2,30 minutes.,Alright.  I will prepare a 30 minutes guard shift for you.  Here's $8 for the trouble.  Bring lots of information.,"PreparePenitentiary(30, 8, ""G"")",
-Guard1,Guard2,1 hour.,Very well.  I will prepare a 1 hour guard shift for you.  Here's $12 for the trouble.  Bring lots of information.,"PreparePenitentiary(60, 12, ""G"")",
-Guard1,Guard2,4 hours.,Good.  I will prepare a 4 hours guard shift for you.  Here's $20 for the trouble.  Bring lots of information.,"PreparePenitentiary(240, 20, ""G"")","DialogSkillGreater(""Infiltration"", 1)"
-Guard1,Guard2,8 hours.,Impressive.  I will prepare a 8 hours guard shift for you.  Here's $30 for the trouble.  Bring lots of information.,"PreparePenitentiary(480, 25, ""G"")","DialogSkillGreater(""Infiltration"", 3)"
-Guard1,Guard2,12 hours.,Excellent!  I will prepare a 12 hours guard shift for you.  Here's $30 for the trouble.  Bring lots of information.,"PreparePenitentiary(720, 30, ""G"")","DialogSkillGreater(""Infiltration"", 5)"
-Guard1,Guard2,24 hours.,Wow!  I will prepare a 24 hours guard shift for you.  Here's $40 for the trouble.  Bring lots of information.,"PreparePenitentiary(1440, 40, ""G"")","DialogSkillGreater(""Infiltration"", 7)"
+Guard1,Guard2,15 minutes.,Easy enough.  I will prepare a 15 minutes guard shift for you.  Here's ${money=5} for the trouble.  Bring lots of information.,"PreparePenitentiary(15, 5, ""G"")",
+Guard1,Guard2,30 minutes.,Alright.  I will prepare a 30 minutes guard shift for you.  Here's ${money=8} for the trouble.  Bring lots of information.,"PreparePenitentiary(30, 8, ""G"")",
+Guard1,Guard2,1 hour.,Very well.  I will prepare a 1 hour guard shift for you.  Here's ${money=12} for the trouble.  Bring lots of information.,"PreparePenitentiary(60, 12, ""G"")",
+Guard1,Guard2,4 hours.,Good.  I will prepare a 4 hours guard shift for you.  Here's ${money=20} for the trouble.  Bring lots of information.,"PreparePenitentiary(240, 20, ""G"")","DialogSkillGreater(""Infiltration"", 1)"
+Guard1,Guard2,8 hours.,Impressive.  I will prepare a 8 hours guard shift for you.  Here's ${money=25} for the trouble.  Bring lots of information.,"PreparePenitentiary(480, 25, ""G"")","DialogSkillGreater(""Infiltration"", 3)"
+Guard1,Guard2,12 hours.,Excellent!  I will prepare a 12 hours guard shift for you.  Here's ${money=30} for the trouble.  Bring lots of information.,"PreparePenitentiary(720, 30, ""G"")","DialogSkillGreater(""Infiltration"", 5)"
+Guard1,Guard2,24 hours.,Wow!  I will prepare a 24 hours guard shift for you.  Here's ${money=40} for the trouble.  Bring lots of information.,"PreparePenitentiary(1440, 40, ""G"")","DialogSkillGreater(""Infiltration"", 7)"
 Guard1,0,Let me think about it first.,"Think quickly, the clock is ticking.",,
 Guard2,,What can I do as a prison guard?,"Guards have lots of power, let me explain... (The /pandora command can be used to do activities with inmates, use /help to get the list.)",,
 Guard2,0,I will create a new prison cell right now.,,"StartPenitentiary(""New"")",
@@ -174,13 +174,13 @@ Ransom10,,I don't want anything.,You make us proud comrade.  (She salutes you.) 
 100,110,My friend was kidnapped.,Sorry about that.  Pandora's Box has been causing lots of trouble lately.  Is there a ransom to pay?,,
 100,0,I don't need anything.  (Leave her.),,DialogLeave(),
 110,120,I'm not paying.  I'll go free her.,That's what I wanted to hear comrade!  The Bondage Club will support you for that mission.  Are you ready for your disguise?,,
-110,180,"Yes, the ransom amount is $100.",(She nods.)  That's the usual price.  Will you pay to free her?,,
+110,180,"Yes, the ransom amount is ${money=-100}.",(She nods.)  That's the usual price.  Will you pay to free her?,,
 110,,For how long they will keep her?,It depends on the guards and Dominatrixes.  Most victims are usually kept for a week.,,
 110,0,Let's drop this.  (Leave her.),,DialogLeave(),
 120,Ready,It's time to change.  (Find a disguise.),(You pick a random disguise together.)  Your friend is waiting for you.  Are you ready to go?,StartNPCRescue(),
 120,0,I'll do it later.,"Very well, you know where to find me when you're ready.  (She salutes you.)",DialogLeave(),
 180,190,I don't have enough money.,I understand comrade.  It's a big sum and it might be used to finance more kidnappings.  Let me know if you get the funds.,,
-180,190,I'll pay right now.  (Give her $100.),(She takes the money and arranges her liberation.)  Your friend should be back in a few minutes comrade.,RansomFriend(),DialogMoneyGreater(100)
+180,190,I'll pay right now.  (Give her ${money=-100}.),(She takes the money and arranges her liberation.)  Your friend should be back in a few minutes comrade.,RansomFriend(),DialogMoneyGreater(100)
 180,190,I don't know yet.,"Think about it, comrade.  It's a big sum and it might be used to finance more kidnappings.",,
 190,0,Thanks.  Take care.  (Leave her.),,DialogLeave(),
 Brainwash0,,What happens to her?,"We will break her for Pandora's secrets. By the end of it, she will be your willing slave and forget all about Pandora's Box.",,

@@ -277,8 +277,8 @@ type RectTuple = [X: number, Y: number, W: number, H: number];
 /** A 4-tuple with X & Y coordinates and, optionally, width and height */
 type PartialRectTuple = [X: number, Y: number, W?: number, H?: number];
 
-type CommonSubstituteReplacer = (match: string, offset: number, replacement: string, string: string) => string;
-type CommonSubtituteSubstitution = [tag: string, substitution: string, replacer?: CommonSubstituteReplacer];
+type CommonSubstituteReplacer = (match: string, offset: number, replacement: string, string: string, groups?: Partial<Record<string, string>>) => string;
+type CommonSubtituteSubstitution = [tag: string | RegExp, substitution: string, replacer?: CommonSubstituteReplacer];
 
 interface CommonGenerateGridParameters {
 	/** Starting X coordinate of the grid */

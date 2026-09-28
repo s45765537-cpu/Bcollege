@@ -461,7 +461,7 @@ function MaidQuartersMiniGamePay() {
 	if (MiniGameDifficultyMode == "Normal") M = M * 1.5;
 	if (MiniGameDifficultyMode == "Hard") M = M * 2;
 	const maid = MaidQuartersGetMaid();
-	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", M.toString());
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(M));
 	CharacterChangeMoney(Player, M);
 	IntroductionJobProgress("SubMaid");
 }
@@ -473,7 +473,7 @@ function MaidQuartersMiniGamePay() {
 function MaidQuartersMiniGamePayAdvanced() {
 	ReputationProgress("Maid", 4);
 	const maid = MaidQuartersGetMaid();
-	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", MiniGameAdvancedPayment.toString());
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(MiniGameAdvancedPayment));
 	CharacterChangeMoney(Player, MiniGameAdvancedPayment);
 	IntroductionJobProgress("SubMaid");
 }
@@ -487,7 +487,7 @@ function MaidQuartersRescuePay() {
 	ReputationProgress("Maid", 4);
 	let M = 15 + Math.floor(Math.random() * 11);
 	const maid = MaidQuartersGetMaid();
-	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", M.toString());
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(M));
 	CharacterChangeMoney(Player, M);
 	IntroductionJobProgress("SubMaid");
 	DialogTheresaGiveEssence(1);
@@ -654,7 +654,7 @@ function MaidQuartersOnlineDrinkPick(MemberNumber, DrinkValue) {
 function MaidQuartersOnlineDrinkPay() {
 	let M = 15 + Math.floor(MaidQuartersOnlineDrinkValue * 0.4);
 	const maid = MaidQuartersGetMaid();
-	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", M.toString());
+	maid.CurrentDialog = maid.CurrentDialog.replace("REPLACEMONEY", CharacterMoneyFormat(M));
 	if (!MaidQuartersOnlineDrinkFromOwner) CharacterChangeMoney(Player, M);
 	else ChatRoomMoneyForOwner = M;
 	ReputationProgress("Maid", 4);

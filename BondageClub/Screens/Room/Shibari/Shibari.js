@@ -292,7 +292,7 @@ function ShibariCompleteRescue() {
  */
 function ShibariCalculateTrainingPrice(SkillType) {
 	ShibariTrainingPrice = ShibariTrainingPriceList[SkillGetLevelReal(Player, SkillType)];
-	ShibariTeacher.CurrentDialog = ShibariTeacher.CurrentDialog.replace("MoneyAmount", ShibariTrainingPrice.toString());
+	ShibariTeacher.CurrentDialog = ShibariTeacher.CurrentDialog.replace("MoneyAmount", CharacterMoneyFormat(-ShibariTrainingPrice));
 }
 
 /**

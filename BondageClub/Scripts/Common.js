@@ -1341,18 +1341,15 @@ function CommonStringSubstitute(msg, substitutions) {
 	 *
 	 * @param {CommonSubstituteReplacer | undefined} replacer
 	 * @param {string} replacement
-	 * @returns {(match: string, offset: number, string: string) => string}
+	 * @returns {(substring: string, ...args: any[]) => string}
 	 */
 	function makeReplacer(replacer, replacement) {
-		if (typeof replacer === "function")
-			return (match, offset, string) => replacer(match, offset, replacement, string);
-		return () => replacement;
+		return typeof replacer === "function" ? CommonStringReplacer(replacer) : () => replacement;
 	}
 
-	substitutions = substitutions.sort((a, b) => b[0].length - a[0].length);
 	for (const [tag, subst, replacer] of substitutions) {
 		let repl = makeReplacer(replacer, subst);
-		msg = msg.replace(new RegExp(tag, "g"), repl);
+		msg = msg.replace(typeof tag === "string" ? new RegExp(tag, "g") : tag, repl);
 	}
 	return msg;
 }
@@ -2847,4 +2844,23 @@ function CommonClipboardWrite(data, cb = undefined) {
  */
 function CommonAssign(target, ...src) {
 	return Object.assign(target, ...src.filter(i => i != null));
+}
+
+/**
+ * A decorator for converting the variadic parameter of {@link String.replace} functions into a string (_i.e._ the first element)
+ * @param {CommonSubstituteReplacer} func
+ * @returns {(match: string, ...args: any[]) => string}
+ */
+function CommonStringReplacer(func) {
+	// from:
+	// (match: string, ...p: string[], offfset: number, string: string, groups?: Partial<Record<string, string>>) => string
+	// to:
+	// (match: string, offfset: number, p_0: string, string: string, groups?: Partial<Record<string, string>>) => string
+	return function (match, ...args) {
+		const iMax = args.length - 1;
+		if (!(typeof args[iMax] === "object" || args[iMax] === undefined)) {
+			args.push(undefined); // Add a value for the `groups` parameter if absent
+		}
+		return func(match, args[iMax - 2], args[0], args[iMax - 1], args[iMax]);
+	};
 }

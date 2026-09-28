@@ -30,14 +30,14 @@ PlayerGagged,,,(You don't have access to use or remove items on DialogCharacterO
 10,,(Give DialogCharacterObject the money envelope.),,GiveMoneyForOwner(),CanGiveMoneyForOwner()
 RelationshipSubmenu,0,(Offer DialogCharacterObject a trial period to become your submissive.),(The request was sent.  DialogCharacterSubject must accept for the trial period to start.),"SendOwnershipRequest(""Propose"")","OwnershipOptionIs(""CanOfferStartTrial"")"
 RelationshipSubmenu,0,(Accept a trial period to become DialogCharacterPossessive submissive.),,"SendOwnershipRequest(""Accept"")","OwnershipOptionIs(""CanStartTrial"")"
-RelationshipSubmenu,11,(Offer DialogCharacterObject to end the trial and be fully collared.),(There's a $100 fee to prepare the ceremony and get DialogCharacterObject a slave collar.  Will you pay now?),,"OwnershipOptionIs(""CanOfferEndTrial"")"
+RelationshipSubmenu,11,(Offer DialogCharacterObject to end the trial and be fully collared.),(There's a ${money=-100} fee to prepare the ceremony and get DialogCharacterObject a slave collar.  Will you pay now?),,"OwnershipOptionIs(""CanOfferEndTrial"")"
 RelationshipSubmenu,0,(Accept DialogCharacterObject collar and begin the ceremony.),,"SendOwnershipRequest(""Accept"")","OwnershipOptionIs(""CanEndTrial"")"
 RelationshipSubmenu,0,(Ask DialogCharacterObject to be your girlfriend.),(The request has been sent.  DialogCharacterSubject must accept it to start dating you.),"SendLovershipRequest(""Propose"")","LovershipOptionIs(""CanOfferBeginDating"")"
 RelationshipSubmenu,0,(Accept to be DialogCharacterPossessive girlfriend.),,"SendLovershipRequest(""Accept"")","LovershipOptionIs(""CanBeginDating"")"
 RelationshipSubmenu,0,(Offer DialogCharacterObject to become your fiancée.),(The request has been sent.  DialogCharacterSubject must accept it to become your fiancée.),"SendLovershipRequest(""Propose"")","LovershipOptionIs(""CanOfferBeginEngagement"")"
 RelationshipSubmenu,0,(Accept DialogCharacterObject proposal of engagement.),,"SendLovershipRequest(""Accept"")","LovershipOptionIs(""CanBeginEngagement"")"
-RelationshipSubmenu,12,(Offer DialogCharacterObject to marry each other.),(There's a $100 fee asked of both sides for the wedding.  Will you pay now?),,"LovershipOptionIs(""CanOfferBeginWedding"")"
-RelationshipSubmenu,13,(Accept DialogCharacterObject proposal and become DialogCharacterPossessive wife.),(There's a $100 fee asked of both sides for the wedding.  Will you pay now?),,"LovershipOptionIs(""CanBeginWedding"")"
+RelationshipSubmenu,12,(Offer DialogCharacterObject to marry each other.),(There's a ${money=-100} fee asked of both sides for the wedding.  Will you pay now?),,"LovershipOptionIs(""CanOfferBeginWedding"")"
+RelationshipSubmenu,13,(Accept DialogCharacterObject proposal and become DialogCharacterPossessive wife.),(There's a ${money=-100} fee asked of both sides for the wedding.  Will you pay now?),,"LovershipOptionIs(""CanBeginWedding"")"
 RelationshipSubmenu,ReleaseSubmissiveConfirm,(Release DialogCharacterObject from the slave bond.),(Are you sure you want to release DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!),,IsOwnedByPlayer()
 RelationshipSubmenu,ReleaseLoverConfirm,(Tell DialogCharacterObject you want to break up.),(Are you sure you want to break up with DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!),,IsLoverOfPlayer()
 RelationshipSubmenu,10,(Back),"(You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)",,
@@ -46,11 +46,11 @@ ReleaseSubmissiveConfirm,,"(Yes, I want to permanently break the ownership!)",(T
 ReleaseSubmissiveConfirm,0,(Cancel),(Main menu),,
 ReleaseLoverConfirm,0,"(Yes, I want to break up with DialogCharacterObject.)",(Your love relation is now over.),"SendLovershipRequest(""Break"")",
 ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
-11,0,(Pay $100 for the collaring ceremony.),"(You pay and prepare the ceremony.  A maid brings a slave collar, DialogCharacterSubject must accept it to complete the collaring.)","SendOwnershipRequest(""Propose"")",DialogMoneyGreater(100)
+11,0,(Pay ${money=-100} for the collaring ceremony.),"(You pay and prepare the ceremony.  A maid brings a slave collar, DialogCharacterSubject must accept it to complete the collaring.)","SendOwnershipRequest(""Propose"")",DialogMoneyGreater(100)
 11,0,(Refuse to pay.),(Main menu),,
-12,0,(Pay $100 for the wedding.),(You pay and ask DialogCharacterObject to marry you. You wait for DialogCharacterPossessive answer.),"SendLovershipRequest(""Propose"")",DialogMoneyGreater(100)
+12,0,(Pay ${money=-100} for the wedding.),(You pay and ask DialogCharacterObject to marry you. You wait for DialogCharacterPossessive answer.),"SendLovershipRequest(""Propose"")",DialogMoneyGreater(100)
 12,0,(Refuse to pay.),(Main menu),,
-13,0,(Pay $100 for the wedding.),,"SendLovershipRequest(""Accept"")",DialogMoneyGreater(100)
+13,0,(Pay ${money=-100} for the wedding.),,"SendLovershipRequest(""Accept"")",DialogMoneyGreater(100)
 13,0,(Refuse to pay.),(Main menu),,
 10,0,(Back to main menu.),(Main menu.),,
 20,21,(Look at free drinks.),(Free drinks menu.),,
@@ -64,23 +64,23 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 21,0,(Get a free glass of wine.),,"DrinkPick(""FreeWine"", 0)",
 21,20,(Back to drink options.),(Drink options.),,
 21,0,(Back to main menu.),(Main menu.),,
-22,0,(Get a $5 Virgin Mojito.),,"DrinkPick(""VirginMojito"", 5)",DialogMoneyGreater(5)
-22,0,(Get a $5 Margarita.),,"DrinkPick(""Margarita"", 5)",DialogMoneyGreater(5)
-22,0,(Get a $5 glass of Whiskey.),,"DrinkPick(""Whiskey"", 5)",DialogMoneyGreater(5)
-22,0,(Get a $5 glass of Champagne.),,"DrinkPick(""Champagne"", 5)",DialogMoneyGreater(5)
+22,0,(Get a ${money=-5} Virgin Mojito.),,"DrinkPick(""VirginMojito"", 5)",DialogMoneyGreater(5)
+22,0,(Get a ${money=-5} Margarita.),,"DrinkPick(""Margarita"", 5)",DialogMoneyGreater(5)
+22,0,(Get a ${money=-5} glass of Whiskey.),,"DrinkPick(""Whiskey"", 5)",DialogMoneyGreater(5)
+22,0,(Get a ${money=-5} glass of Champagne.),,"DrinkPick(""Champagne"", 5)",DialogMoneyGreater(5)
 22,20,(Back to drink options.),(Drink options.),,
 22,0,(Back to main menu.),(Main menu.),,
-23,0,(Get a $10 jug of Sicilian Lemonade for everyone.),,"DrinkPick(""LemonadeJug"", 10)",DialogMoneyGreater(10)
-23,0,(Get a $10 round of shooters for everyone.),,"DrinkPick(""RoundShooters"", 10)",DialogMoneyGreater(10)
-23,0,(Get a $10 jug of Sex on the Beach for everyone.),,"DrinkPick(""SexOnTheBeachJug"", 10)",DialogMoneyGreater(10)
-23,0,(Get a $10 beer pitcher for everyone.),,"DrinkPick(""BeerPitcher"", 10)",DialogMoneyGreater(10)
+23,0,(Get a ${money=-10} jug of Sicilian Lemonade for everyone.),,"DrinkPick(""LemonadeJug"", 10)",DialogMoneyGreater(10)
+23,0,(Get a ${money=-10} round of shooters for everyone.),,"DrinkPick(""RoundShooters"", 10)",DialogMoneyGreater(10)
+23,0,(Get a ${money=-10} jug of Sex on the Beach for everyone.),,"DrinkPick(""SexOnTheBeachJug"", 10)",DialogMoneyGreater(10)
+23,0,(Get a ${money=-10} beer pitcher for everyone.),,"DrinkPick(""BeerPitcher"", 10)",DialogMoneyGreater(10)
 23,20,(Back to drink options.),(Drink options.),,
 23,0,(Back to main menu.),(Main menu.),,
 24,0,(Get a free tea.),,"DrinkPick(""FreeTea"", 0)",
 24,0,(Get a free coffee.),,"DrinkPick(""FreeCoffee"", 0)",
-24,0,(Get a $5 hot chocolate.),,"DrinkPick(""HotChocolate"", 5)",DialogMoneyGreater(5)
-24,0,(Get a $5 espresso.),,"DrinkPick(""Espresso"", 5)",DialogMoneyGreater(5)
-24,0,(Get a $5 cappuccino.),,"DrinkPick(""Cappuccino"", 5)",DialogMoneyGreater(5)
+24,0,(Get a ${money=-5} hot chocolate.),,"DrinkPick(""HotChocolate"", 5)",DialogMoneyGreater(5)
+24,0,(Get a ${money=-5} espresso.),,"DrinkPick(""Espresso"", 5)",DialogMoneyGreater(5)
+24,0,(Get a ${money=-5} cappuccino.),,"DrinkPick(""Cappuccino"", 5)",DialogMoneyGreater(5)
 24,20,(Back to drink options.),(Drink options.),,
 24,0,(Back to main menu.),(Main menu.),,
 30,0,(Call the maids to escort DialogCharacterObject out of the room.),,"AdminAction(""Kick"")",

@@ -643,7 +643,7 @@ function ChatRoomReceiveSuitcaseMoney() {
 	let money = Math.max(1, Math.ceil(15 * Math.min(1, Math.max(0, (CommonTime() - KidnapLeagueOnlineBountyTargetStartedTime)/KidnapLeagueSearchFinishDuration))));
 	CharacterChangeMoney(Player, money);
 	const Dictionary = new DictionaryBuilder()
-		.text("MONEYAMOUNT", Math.ceil(money).toString())
+		.text("MONEYAMOUNT", CharacterMoneyFormat(money))
 		.build();
 
 	ChatRoomMessage({ Content: "OnlineBountySuitcaseFinish", Type: "Action", Dictionary: Dictionary, Sender: Player.MemberNumber });

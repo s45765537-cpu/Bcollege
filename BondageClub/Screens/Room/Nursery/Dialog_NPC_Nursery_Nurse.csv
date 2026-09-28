@@ -27,7 +27,7 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 0,,"Hello, I'm DialogPlayerName.  Pleased to meet you.","Pleased to meet you too.  I'm DialogCharacterName, I'm one of the nurses.",DialogRemove(),"DialogReputationLess(""ABDL"", 9)"
 0,5,What is this place?,"This is the nursery, set up as a safe environment for adult babies in need of some motherly compassion, fun and discipline.",,
 0,10,May I join the nursery?,"Of course, we are always welcoming good little boys and girls.  You are aware of what the nursery's requirements are from those in its care?",,"DialogReputationLess(""ABDL"", 0)"
-0,20,I'm ready to join the nursery again.,"Wonderful, have you remembered the $10 fee for diapers?",IsClothingInappropriate(),"DialogReputationGreater(""ABDL"", 1)"
+0,20,I'm ready to join the nursery again.,"Wonderful, have you remembered the ${money=-10} fee for diapers?",IsClothingInappropriate(),"DialogReputationGreater(""ABDL"", 1)"
 0,3,Who runs this nursery?,Nurses like me look after the adult babies.  We are supervised by the nursery's matrons.,,
 0,,I can't stay to chat.  (Leave her.),,DialogLeave(),
 012345,,(Money.),,DialogChangeMoney(200),
@@ -45,8 +45,8 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 5,,"Intriguing, do tell me more.","Club members can join in with our other adult babies, play in the nursery and be looked after by the nurses.",,
 5,,Is this place just for people with that fetish?,We will also provide a time out discipline service for trouble makers. We could also prep or provide full care for slaves and failed kidnappers.,,
 5,0,I want to talk about something else.,What can I help you with?,,
-10,25,Yes.,"Good.  That will be $10 and you need to sign this form, then I will help you into your first diaper.",,
-10,12,No.,The primary requirement is diapers.  Clean diapers are mandatory on entry.  We can provide a fresh diaper for each visit.  They cost $10 a time.,,
+10,25,Yes.,"Good.  That will be ${money=-10} and you need to sign this form, then I will help you into your first diaper.",,
+10,12,No.,The primary requirement is diapers.  Clean diapers are mandatory on entry.  We can provide a fresh diaper for each visit.  They cost ${money=-10} a time.,,
 10,0,I don't want to join.,Make up your mind. Or do you need someone to help make those difficult decisions for you?,,
 12,14,"Okay, what else is there?","We don't allow big girl clothes to hide diapers either.  You can wear only diapers, but we also have a super selection of lovely dresses you can try on.",,
 12,,Why the fee?,This place is not cheap to run.  The price is both for the diapers as well as covering other running costs.,,
@@ -62,20 +62,20 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 16,,What if I want to play rough?,"We encourage you to play with each other, but play nicely or you will feel the sting of a hairbrush on your tooshie.",,
 16,,I'll cry if I want to.,"Of course, and we will do our best to comfort those in distress. But we don't allow riotous behaviour that upsets others.",,
 16,,What about bondage?,"That is fine as long you are all playing happy, although some items are hardly suitable for use in here.  The nursery has some more... appropriate restraints.",,
-18,25,"I would like to join now, pwease.","Wonderful.  That will be $10 and you will need to sign this form. Then I will help you into your first diaper.",,"DialogReputationLess(""ABDL"", 0)"
-18,20,Thanks for reminding me.,You're welcome.  Have you remembered the $10 fee for diapers?,,"DialogReputationGreater(""ABDL"", 1)"
+18,25,"I would like to join now, pwease.","Wonderful.  That will be ${money=-10} and you will need to sign this form. Then I will help you into your first diaper.",,"DialogReputationLess(""ABDL"", 0)"
+18,20,Thanks for reminding me.,You're welcome.  Have you remembered the ${money=-10} fee for diapers?,,"DialogReputationGreater(""ABDL"", 1)"
 18,,Is there an issue with the rest of the club?,"Not really, but don't expect people to take you seriously while you are wearing a diaper or an adorable baby dress.",,
 18,0,Actually I don't want to join now.,I am sorry to hear that.  Do let me know if your mind.,,
-20,60,Yes here it is. (Pay $10.),Thank you.  Now let’s get you changed.  (She takes you to one side and swiftly removes all of your clothes.),PlayerUndress(-10),DialogMoneyGreater(10)
+20,60,Yes here it is. (Pay ${money=-10}.),Thank you.  Now let’s get you changed.  (She takes you to one side and swiftly removes all of your clothes.),PlayerUndress(-10),DialogMoneyGreater(10)
 20,100,I am already diapered and ready to enter.,"(She checks you over and feels your diaper.)  Okay, you are nice and clean.  Welcome back to the nursery.",PlayerAdmitted(),PlayerReadyDiapered()
 20,0,I don't have enough money.,"Sorry to hear that, but we can't run this place for free. Do come back later once you have earned some more.",,!DialogMoneyGreater(10)
 20,,Could I provide my own diapers and outfit?,"Yes, you can come in wearing your own diapers. But they must be clean and you can't wear clothes that prevent us from easily checking them.",,
 20,0,I'm not paying for this.,"That is a shame, but we can't run this place for free.  If you change your mind we are always very welcome.",,
 20,0,"Sorry, maybe another time.",Just let me know when you are ready.,,
-20,12,What were the nursery requirements again?,The primary requirement is diapers.  Clean diapers are mandatory on entry.  We can provide fresh diapers.  They cost $10 a time.,,
-25,60,(Sign the form and pay $10.),Thank you.  Now let’s get you changed.  (She takes you to one side and swiftly removes all your clothes.),PlayerUndress(-10),DialogMoneyGreater(10)
-25,0,I can't afford this right now.,That is a pity.  There are plenty of ways to make money in the club.  I'm sure you could earn $10 in no time at all.,,!DialogMoneyGreater(10)
-25,,What is the $10 charge for?,"This place is not cheap to run.  The price for a diaper also covers other running costs, such as outfit hire.",,
+20,12,What were the nursery requirements again?,The primary requirement is diapers.  Clean diapers are mandatory on entry.  We can provide fresh diapers.  They cost ${money=-10} a time.,,
+25,60,(Sign the form and pay ${money=-10}.),Thank you.  Now let’s get you changed.  (She takes you to one side and swiftly removes all your clothes.),PlayerUndress(-10),DialogMoneyGreater(10)
+25,0,I can't afford this right now.,That is a pity.  There are plenty of ways to make money in the club.  I'm sure you could earn ${money=-10} in no time at all.,,!DialogMoneyGreater(10)
+25,,What is the ${money=-10} charge for?,"This place is not cheap to run.  The price for a diaper also covers other running costs, such as outfit hire.",,
 25,,What is this form for?,"It's just a formal agreement that during your stay we will care for you, and in return you will abide by the rules of the nursery.",,
 25,,Do I have to sign this?,"Yes, it is the backbone of the caring structure we provide.",,
 25,,(Skim read the small print.),(...right to remain silent...   ...power of attorney...   ...any methods of discipline deemed necessary...),,
@@ -106,7 +106,7 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 100,,(Cry and mumble into your pacifier.),"I'm sorry, I didn’t understand that.  Try again now.  (She removes the device from your mouth.)","DialogRemoveItem(""ItemMouth"")",!Player.CanTalk()
 100,,Do I really have to wear this diaper?,Oh course you do. You are a baby in the nursery now.  (She reaches between you legs and checks the diaper.),,
 100,130,I don't want to wear this dress.,"That is a pity, you look beautiful in it.  Do you want try on another of our gorgeous dresses instead?",,PlayerWearingBabyDress()
-100,140,Can I wear a dress again?,"You certainly can, but you will need to pay for the laundry, which is $5.  We can't have our babies wearing dirty dresses.",,!PlayerWearingBabyDress()
+100,140,Can I wear a dress again?,"You certainly can, but you will need to pay for the laundry, which is ${money=-5}.  We can't have our babies wearing dirty dresses.",,!PlayerWearingBabyDress()
 100,110,Can I have some restraints please?,Baby DialogPlayerName have you been naughty?  We won't tolerate inappropriate behaviour from any of our babies here.,,!Player.IsRestrained()
 100,120,It's kind of fun to regress.,"I'm sure it is.  If you really want to regress properly, I can fix you up some special milk that will help you forget how to do things.",,PlayerCanRegress()
 100,0,I would like to leave the nursery now.,It's been lovely having you here.  (She helps you change and disposes of the diaper.),PlayerRedressed(),
@@ -132,27 +132,27 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 128,100,(Burp quietly.),"Good girl, you will feel better after that.  (She lets go of you and that warm cozy fuzzy feeling starts to diminish.)",,
 128,100,(Belch loudly.),"Oh my, that wasn't very lady like.  (She lets go of you and that warm cozy fuzzy feeling starts to diminish.)",,
 128,,Is this necessary?  I feel fine.,Of course it is. You are bound to have some trapped bubbles after swallowing all that warm milk.,DialogRemove(),
-130,132,Can I try a different dress?,"You may, but you will have to pay $5 for the extra laundry.",,
-130,134,Do you have this style of dress in another color?,"Yes.  The nursery has quite a stock of dresses in many lovely colors, but you will have to pay $5 for the extra laundry.",,
+130,132,Can I try a different dress?,"You may, but you will have to pay ${money=-5} for the extra laundry.",,
+130,134,Do you have this style of dress in another color?,"Yes.  The nursery has quite a stock of dresses in many lovely colors, but you will have to pay ${money=-5} for the extra laundry.",,
 130,136,I just want to wear my birthday suit.,I suppose you may.  Do you want me to put that dress on for washing?,,
 130,,Can I choose the dress style and color please?,"Sorry, that would be a very big decision for an ickle baby to make. I'm sure I can pick out something delightful for you to wear.",,
 130,100,I will continue wearing this dress.,That is alright. You do look very pretty in it.,,
-132,133,Okay. (Pay $5),"Great, I think you will look absolutely adorable in this dress.  (She changes your dress, fussing over you and making it sit just right.)",PlayerChangeDress(),DialogMoneyGreater(5)
+132,133,Okay. (Pay ${money=-5}),"Great, I think you will look absolutely adorable in this dress.  (She changes your dress, fussing over you and making it sit just right.)",PlayerChangeDress(),DialogMoneyGreater(5)
 132,100,I don't have enough money.,"Sorry honey. You will have to come back later when you have some pocket money to spend.",,!DialogMoneyGreater(5)
 132,100,I will stay like this.,You already look adorable as you are.,,
 133,100,"Eeeee, thish ish perfecth. Thanw you.",You are simply adorable and are very welcome baby DialogPlayerName.,PlayerCuteReply(),
 133,100,Thank you.,You're welcome.,,
 133,100,"This will do, I suppose.",It suits you just fine. Try it for a while and I am sure you will grow to love it.,,
-133,134,"I like this dress, but can I have it in another color?","Of course you may, but that dress will have to be laundered. You will have to pay an extra $5.",,
-133,132,"Hmmm, I want to try on another dress.","Of course you may, but that dress will have to be laundered. You will have to pay an extra $5.",,
+133,134,"I like this dress, but can I have it in another color?","Of course you may, but that dress will have to be laundered. You will have to pay an extra ${money=-5}.",,
+133,132,"Hmmm, I want to try on another dress.","Of course you may, but that dress will have to be laundered. You will have to pay an extra ${money=-5}.",,
 133,100,Actually I want to wear the previous dress instead.,"Too late now, that one has already gone to the laundry.",,
-134,135,Okay. (Pay $5),"Great, I think you will look absolutely adorable in this dress.  (She changes your dress, fussing over you and making it sit just right.)",PlayerChangeDressColor(),DialogMoneyGreater(5)
+134,135,Okay. (Pay ${money=-5}),"Great, I think you will look absolutely adorable in this dress.  (She changes your dress, fussing over you and making it sit just right.)",PlayerChangeDressColor(),DialogMoneyGreater(5)
 134,100,I don't have enough money.,"Sorry honey. You will have to come back later when you have some pocket money to spend.",,!DialogMoneyGreater(5)
 134,100,I will stay like this.,You already look adorable as you are.,,
 135,100,"Eeeee, thish ish perfecth. Thanw you.",You are simply adorable and are very welcome baby DialogPlayerName.,PlayerCuteReply(),
 135,100,Thank you.,You're welcome.,,
 135,100,"This will do, I suppose.",It suits you just fine.  Try it for a while and I am sure you will grow to love it.,,
-135,134,"Hmmm, I want to try this dress in another color.","Of course you may, but that dress will have to be laundered. You will have to pay an extra $5.",,
+135,134,"Hmmm, I want to try this dress in another color.","Of course you may, but that dress will have to be laundered. You will have to pay an extra ${money=-5}.",,
 135,100,Actually I want to wear the previous dress instead.,"Too late now, that one has already gone to the laundry.",,
 136,137,Okay.,Come here then. (She unbuttons and removes your dress.),PlayerRemoveDress(),
 136,100,I will stay like this.,You already look adorable as you are.,,
@@ -160,7 +160,7 @@ ItemPelvisCrop,,,(She grumbles as you strike her butt with the crop.)  A maid's 
 137,100,Thank you.,You're welcome.,,
 137,100,"This will do, I suppose.",It will have to.  I have already sent that dress off for washing.  You're now almost as naked and vulnerable as the day you were born.,,
 137,100,Actually I want to wear my dress again.,"Too late now, that one has already gone to the laundry.",,
-140,133,Okay. (Pay $5),"Great, I think you will look absolutely adorable in this dress.  (She takes a fresh dress and puts it on you, making it sit just right.)",PlayerChangeDress(),DialogMoneyGreater(5)
+140,133,Okay. (Pay ${money=-5}),"Great, I think you will look absolutely adorable in this dress.  (She takes a fresh dress and puts it on you, making it sit just right.)",PlayerChangeDress(),DialogMoneyGreater(5)
 140,100,I don't have enough money.,"Sorry honey. You will have to come back later when you have some pocket money to spend.",,!DialogMoneyGreater(5)
 140,100,I will stay like this.,You already look adorable as you are.,,
 200,,,"I've been very disappointed by your recent behavior. You can stay like that until you are ready to apologize.",,

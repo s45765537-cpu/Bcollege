@@ -209,7 +209,7 @@ function AssetParseName(name, errMsgSuffix) {
  * @param {AssetDefinition} AssetDef
  * @param {ExtendedItemMainConfig} ExtendedConfig
  * @param {AssetGroupDefinition} GroupDef
- * @returns {void} - Nothing
+ * @returns {Asset} - The created asset
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 	if (!GroupDef) {
@@ -428,6 +428,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 			A.WearTime = 0;
 			break;
 	}
+	return A;
 }
 
 /**
@@ -997,12 +998,17 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 	}
 
 	// Pass three: finally parse the asset/group defs
+	let totalAssetValue = 0;
 	for (const groupDef of Groups) {
 		const G = AssetGroupAdd(Family, groupDef);
 		for (const assetDef of Object.values(assetDefsParsed[G.Name])) {
-			AssetAdd(G, assetDef, ExtendedConfig, groupDef);
+			const asset = AssetAdd(G, assetDef, ExtendedConfig, groupDef);
+			totalAssetValue += asset.Value < 0 ? 0 : asset.Value;
 		}
 	}
+
+	// Add wage inflation for single player jobs as the total value of all assets exceeds $50,000
+	CharacterMoneyFactor = Math.max(1.0, totalAssetValue / 50_000);
 
 	CommonPromiseCatch(AssetLoadDescription(Family));
 }

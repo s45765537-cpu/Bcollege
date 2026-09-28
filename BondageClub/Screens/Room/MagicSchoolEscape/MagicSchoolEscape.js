@@ -123,7 +123,7 @@ async function MagicSchoolEscapeSpellEnd() {
 	CharacterSetCurrent(MagicSchoolEscapeInstructor);
 	let Money = Math.round((1 / MagicSchoolEscapeSeconds) * 750);
 	CharacterChangeMoney(Player, Money);
-	MagicSchoolEscapeInstructor.CurrentDialog = DialogFind(MagicSchoolEscapeInstructor, "EscapeSuccess").replace("MoneyAmount", Money.toString());
+	MagicSchoolEscapeInstructor.CurrentDialog = DialogFind(MagicSchoolEscapeInstructor, "EscapeSuccess").replace("MoneyAmount", CharacterMoneyFormat(Money));
 	return;
 }
 
