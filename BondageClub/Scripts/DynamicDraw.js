@@ -66,7 +66,7 @@
  *
  * This is an *allowlist* (not a blocklist): it accepts Unicode letters (`\p{L}`) and numbers (`\p{N}`) so that scripts such
  * as Chinese, Japanese, Korean, Cyrillic, Greek and accented (precomposed) Latin can be drawn, plus the legacy ASCII
- * punctuation set (`_ ~!$#%*+` and the space). Because it is an allowlist, every other Unicode category is rejected by
+ * character range (`[\x20-\x7e]`). Because it is an allowlist, every other Unicode category is rejected by
  * construction - in particular control characters (`\p{Cc}`), format characters (`\p{Cf}`, which covers bidirectional
  * overrides such as U+202E and zero-width/invisible characters), private-use and surrogate code points, separators other
  * than the literal space, symbols/emoji, and combining marks (`\p{M}`, the source of "Zalgo" rendering overflow). Keeping
@@ -74,14 +74,14 @@
  * odd rendering or visual spoofing when drawn onto a canvas.
  * @type {RegExp}
  */
-const DynamicDrawTextRegex = /^[\p{L}\p{N}_ ~!$#%*+]*$/u;
+const DynamicDrawTextRegex = /^[\p{L}\p{N}\x20-\x7e]*$/u;
 
 /**
  * A regex pattern that can be attached to HTML input elements to check for validity - matches the {@link DynamicDrawTextRegex}.
  * Note that this only drives the browser's native form-validity UI; the authoritative check is always {@link DynamicDrawTextRegex}.
  * @type {string}
  */
-const DynamicDrawTextInputPattern = "[\\p{L}\\p{N}_ ~!$#%*+]*";
+const DynamicDrawTextInputPattern = DynamicDrawTextRegex.source;
 
 /**
  * An array of ASCII printable characters whose widths are pre-measured for each font (used internally for arc text
@@ -89,7 +89,7 @@ const DynamicDrawTextInputPattern = "[\\p{L}\\p{N}_ ~!$#%*+]*";
  * by {@link DynamicDrawGetCharWeight}.
  * @type {string[]}
  */
-const DynamicDrawMeasuredCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_- ~!$#%*+".split("");
+const DynamicDrawMeasuredCharacters = CommonRange(32, 126).map(i => String.fromCharCode(i));
 
 /**
  * A padding multiplier for text when drawn in an arc. The extra padding helps ensure that the bottoms of characters don't collide
