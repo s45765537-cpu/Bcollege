@@ -389,6 +389,8 @@ Decals,ZamStickII,The Zam Sticker II
 Decals,BellFlower,Bell Flower
 Decals,VelvetBunny,Velvet Bunny Cabaret
 Decals,LMF,LMF Ride or Die
+Decals,CTSimplified, Cybertech (simplified)
+Decals,BFPin, Bellflower Consortium (pin)
 Emoticon,,Emoticon
 Emoticon,Emoticon,Emoticon
 Eyebrows,,Eyebrows
@@ -1144,6 +1146,7 @@ ItemDevices,GiftBox,Gift Box
 ItemDevices,XFrame,X-Frame
 ItemDevices,Stroller,Stroller
 ItemDevices,BirdCage,Bird Cage
+ItemDevices,CardBoardBox,Cardboard Box
 ItemEars,,Ears
 ItemEars,BluetoothEarbuds,Bluetooth Earbuds
 ItemEars,FuturisticEarphones,Futuristic Earphones

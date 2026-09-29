@@ -693,6 +693,8 @@ CorsetTightCorsetCorset,Corset
 CorsetLatexCorset1Base,Base
 CorsetLatexCorset1Lock,Lock
 CorsetTightCorsetButtons,Buttons
+DecalsCTSimplified1,Outline
+DecalsCTSimplified2,Color
 EyebrowsEyebrows2EyebrowBarRight,Piercings
 EyebrowsEyebrows2Main,Eyebrow
 Eyes2Eyes141,Eyeball
@@ -2010,6 +2012,10 @@ ItemDevicesStrollerSeat,Seat
 ItemDevicesStrollerHarness,Harness
 ItemDevicesStrollerTray,Tray
 ItemDevicesStrollerHood,Hood
+ItemDevicesCardBoardBoxback,Inside
+ItemDevicesCardBoardBoxfrontClosed,Outside
+ItemDevicesCardBoardBoxtape,Tape
+ItemDevicesCardBoardBoxtext,Text
 ItemEarsCTHeadsetearHighlight,Hightlights
 ItemEarsCTHeadsetcushions,Cushions
 ItemEarsCTHeadsetears,Earphones
@@ -2489,6 +2495,7 @@ ItemHoodCybertechMaskhypno2,Hypno pattern 2
 ItemHoodCybertechMasktube,Tube
 ItemHoodCybertechMaskcanteen,Canteen
 ItemHoodCybertechMaskliquid,Liquid
+ItemHoodCybertechMaskCTlogo,Logo
 ItemHoodOpenMouthPlugHoodHood,Hood
 ItemHoodOpenMouthPlugHoodLenses,Lenses
 ItemHoodOpenMouthPlugHoodPlug,Plug
@@ -3671,6 +3678,7 @@ MaskCybertechMaskhypno1,Hypno visor 1
 MaskCybertechMaskhypno2,Hypno visor 2
 MaskCybertechMasktube,Tube
 MaskCybertechMaskcanteen,Canteen
+MaskCybertechMaskCTlogo,Logo
 ItemHoodCybertechMaskliquid,Liquid
 MaskFaceVeilFabric,Fabric
 MaskFaceVeilString,String
