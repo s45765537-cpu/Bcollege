@@ -231,7 +231,7 @@ type ServerChatRoomData = {
 	BlockCategory: ServerChatRoomBlockCategory[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
-	MapData?: ServerChatRoomMapData;
+	MapData?: ServerChatRoomMapData; // Please use MapManager to access this
 	Custom?: ServerChatRoomCustomData;
 	Character: ServerAccountDataSynced[];
 }

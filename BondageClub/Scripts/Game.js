@@ -34,6 +34,7 @@ async function GameStart(isNode=false) {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
+	MapDataLoad();
 	await AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();

@@ -682,7 +682,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			const newPos = ServerAccountDataSyncedValidate.MapData.Pos(pos, this);
 			this.MapData ??= { Pos: newPos, PrivateState: {}};
 			this.MapData.Pos = newPos;
-			ChatRoomMapViewCalculatePerceptionMasks();
+			MapManager.Map.updatePlayerPerception();
 			ChatRoomMapViewUpdatePlayerFlag();
 		},
 		HasMapState(name) {
