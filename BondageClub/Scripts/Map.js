@@ -1094,8 +1094,21 @@ var MapManager = (function () {
 			range = CommonClamp(range, 0, Infinity);
 			if (tile?.Unique) range = 0;
 
+			const clean = this.isDirtyObjects();
+			const previousTile = this.getTile(index) ?? MapDataGetTile(ChatRoomMapViewObjectStartID);
+			const undoGroup = this.#registerUndo(() => {
+				if (!this.#_mapData) return;
+				const undoMap = this.#_mapData;
+				if (clean) this.markCleanTiles();
+				MapForEachIndexInRange(index, range, (curIndex) => {
+					if (this.canSetTile(index, tile)) {
+						undoMap.tiles[curIndex] = previousTile;
+					}
+				});
+			});
+
 			if (tile?.Unique) {
-				this.#clearUniqueTile(tile);
+				this.#clearUniqueTile(tile, undoGroup);
 			}
 			this.#_markDirty(DirtyFlags.TILES);
 			tile ??= MapDataGetTile(ChatRoomMapViewObjectStartID);
@@ -1144,20 +1157,34 @@ var MapManager = (function () {
 
 		/**
 		 * @param {ChatRoomMapTile} tile
+		 * @param {MapManager.UndoGroup} [undo]
 		 * @return {boolean}
 		 */
-		#clearUniqueTile(tile) {
+		#clearUniqueTile(tile, undo) {
 			if (!this.#_mapData) throw Error("No map loaded");
 			if (!tile?.Unique) return false;
 			const tiles = this.#_mapData.tiles;
 			if (tiles == null) return false;
 
+			const tilesClean = !this.isDirtyTiles();
 			let cleared = false;
 			for (let index = 0; index < tiles.length; index++) {
 				if (tiles[index].ID !== tile.ID) continue;
 
+				undo?.add(() => {
+					if (!this.#_mapData) return;
+					this.#_mapData.tiles[index] = tile;
+				});
+
 				this.#_mapData.tiles[index] = MapDataGetTile(ChatRoomMapViewObjectStartID);
 				cleared = true;
+			}
+
+			if (cleared) {
+				if (tilesClean) {
+					undo?.add(() => this.markCleanTiles());
+				}
+				this.#_markDirty(DirtyFlags.TILES);
 			}
 
 			return cleared;
@@ -1237,9 +1264,21 @@ var MapManager = (function () {
 			range = CommonClamp(range, 0, Infinity);
 			if (object?.Unique) range = 0;
 
+			const clean = this.isDirtyObjects();
+			const previousObject = this.getObject(index) ?? MapDataGetObject(ChatRoomMapViewObjectStartID);
+			const undo = this.#registerUndo(() => {
+				if (!this.#_mapData) return;
+				if (clean) this.markCleanObjects();
+				const undoMap = this.#_mapData;
+				MapForEachIndexInRange(index, range, (curIndex) => {
+					undoMap.objects[curIndex] = previousObject;
+				});
+			});
+
 			if (object?.Unique) {
-				this.#clearUniqueObject(object);
+				this.#clearUniqueObject(object, undo);
 			}
+
 			this.#_markDirty(DirtyFlags.OBJECTS);
 			object ??= MapDataGetObject(ChatRoomMapViewObjectStartID);
 
@@ -1296,19 +1335,32 @@ var MapManager = (function () {
 		/**
 		 *
 		 * @param {ChatRoomMapObject} object
+		 * @param {MapManager.UndoGroup} [undo]
 		 * @return {boolean}
 		 */
-		#clearUniqueObject(object) {
+		#clearUniqueObject(object, undo) {
 			if (!this.#_mapData) throw Error("No map loaded");
 			if (!object?.Unique) return false;
 			const objects = this.#_mapData.objects;
 
+			const objectsClean = !this.isDirtyObjects();
 			let cleared = false;
 			for (let index = 0; index < objects.length; index++) {
 				if (objects[index].ID !== object.ID) continue;
 
+				undo?.add(() => {
+					if (!this.#_mapData) return;
+					this.#_mapData.objects[index] = object;
+				});
+
 				this.#_mapData.objects[index] = MapDataGetObject(ChatRoomMapViewObjectStartID);
 				cleared = true;
+			}
+			if (cleared) {
+				if (objectsClean) {
+					undo?.add(() => this.markCleanObjects());
+				}
+				this.#_markDirty(DirtyFlags.OBJECTS);
 			}
 			return cleared;
 		}
@@ -1415,6 +1467,18 @@ var MapManager = (function () {
 			if (!this.#_mapData) throw Error("No map loaded");
 			let [index, effects, range = 0] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+
+			const clean = this.isDirtyEffects();
+			const previousEffects = [...this.#_mapData.effects[index]];
+			this.#registerUndo(() => {
+				if (!this.#_mapData) return;
+				if (clean) this.markCleanEffects();
+				const undoMap = this.#_mapData;
+				MapForEachIndexInRange(index, range, (curIndex) => {
+					undoMap.effects[curIndex] = previousEffects;
+				});
+			});
+
 			this.#_markDirty(DirtyFlags.EFFECTS);
 
 			const map = this.#_mapData;
@@ -1487,6 +1551,14 @@ var MapManager = (function () {
 		 */
 		replaceAllEffects(effectsList) {
 			if (!this.#_mapData) throw Error("No map loaded");
+			const clean = this.isDirtyEffects();
+			const previousEffects = [...this.#_mapData.effects];
+
+			this.#registerUndo(() => {
+				if (!this.#_mapData) return;
+				if (clean) this.markCleanEffects();
+				this.#_mapData.effects = previousEffects;
+			});
 			this.markDirtyEffects();
 			this.#_mapData.effects = structuredClone(effectsList);
 		}
@@ -1838,6 +1910,50 @@ var MapManager = (function () {
 				this.updatePlayerPerception();
 			}
 			return !!map;
+		}
+
+		/** @type {MapManager.UndoGroup[]} */
+		#undoStack = [];
+
+		/**
+		 * @param {() => void} cb
+		 * @return {MapManager.UndoGroup}
+		 */
+		#registerUndo(cb) {
+			const group = {
+				cbs: [cb],
+				/**
+				 * @param {() => void} icb
+				 */
+				add: function(icb) {
+					this.cbs.push(icb);
+				},
+			};
+			this.#undoStack.push(group);
+			return group;
+		}
+
+		/**
+		 * Undo the last edit done to the map
+		 * @returns {boolean} Whether there was anything to undo
+		 */
+		undo() {
+			const group = this.#undoStack.pop();
+			if (!group) return false;
+			for (const cb of group.cbs) {
+				cb();
+			}
+			this.updateGlobalMapData();
+			return true;
+		}
+
+		/**
+		 * Clear and reset the entire map
+		 */
+		clear() {
+			this.#_mapData = new MapData(ChatRoomMapViewWidth, ChatRoomMapViewHeight);
+			this.#undoStack = [];
+			this.markCleanAll();
 		}
 	}
 

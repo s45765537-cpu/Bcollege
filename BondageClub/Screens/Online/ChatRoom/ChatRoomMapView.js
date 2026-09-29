@@ -20,7 +20,10 @@ var ChatRoomMapViewEditObject = null;
 var ChatRoomMapViewEditSelection = [];
 var ChatRoomMapViewEditRange = 1;
 var ChatRoomMapViewMaxEditRange = 5;
-/** @type {ServerChatRoomMapData[]} */
+/**
+ * @type {ServerChatRoomMapData[]}
+ * @deprecated Handled internally by {@link MapManager}.
+ */
 var ChatRoomMapViewEditBackup = [];
 /** @type {null | number} */
 var ChatRoomMapViewUpdateRoomNext = null;
@@ -1761,14 +1764,8 @@ function ChatRoomMapViewMove(D, Force = false) {
  */
 function ChatRoomMapViewUndo() {
 	if (!ChatRoomData?.MapData) return;
-	if (ChatRoomMapViewEditBackup.length > 0) {
-		let LastMap = ChatRoomMapViewEditBackup.pop();
-		if (LastMap == null) return;
-		ChatRoomData.MapData = CommonCloneDeep(LastMap); // XXX
-		MapManager.Map.loadGlobalMapData(ChatRoomData.MapData);
-		MapValidateCells();
-		ChatRoomMapViewCalculatePerceptionMasks();
-	}
+	MapManager.Map.undo();
+	ChatRoomMapViewCalculatePerceptionMasks();
 }
 
 /**
@@ -1991,7 +1988,6 @@ function ChatRoomMapViewMouseMove(event) {
 	// Only in edit mode
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive() || !validMapData(ChatRoomData)) return;
 	if (!ChatRoomMapViewEditStarted) return;
-	let Backup = CommonCloneDeep(ChatRoomData?.MapData);
 
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
 	if (!pos) return;
@@ -2019,12 +2015,6 @@ function ChatRoomMapViewMouseMove(event) {
 	// before we need to send it to the server, but it would suffice for now.
 	// See ChatRoomMapManager.Map.updateGlobalMapData documentation for more details.
 	MapManager.Map.updateGlobalMapData();
-
-	// If the map was modified, we keep the previous version as backup so we can undo the changes
-	if (JSON.stringify(Backup) != JSON.stringify(ChatRoomData?.MapData)) {
-		if (ChatRoomMapViewEditBackup.length > 100) ChatRoomMapViewEditBackup = ChatRoomMapViewEditBackup.slice(-100);
-		ChatRoomMapViewEditBackup.push(Backup);
-	}
 }
 
 /**

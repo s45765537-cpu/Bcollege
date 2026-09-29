@@ -50,6 +50,10 @@ beforeEach(() => {
 	Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData);
 });
 
+afterEach(() => {
+	Game.MapManager.Map.clear();
+});
+
 describe("MapManager", () => {
 	const blankTile = Game.MapDataGetTile(Game.ChatRoomMapViewObjectStartID);
 	expect(blankTile).not.toBe(null);
@@ -196,6 +200,94 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.getEffects(40)).toEqual([shadowMediumEffect]);
 			expect(Game.MapManager.Map.setEffects(40, [tintBlueEffect])).toBe(true);
 			expect(Game.MapManager.Map.getEffects(40)).toEqual([tintBlueEffect]);
+		});
+	});
+
+	describe("undo", () => {
+		it("should return false if there's nothing to undo", () => {
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
+		it("should return true if there's something to undo", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table)).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+		});
+
+		it("can undo setTile", () => {
+			expect(Game.MapManager.Map.setTile(10, 10, stoneWall)).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getTile(10, 10)).toEqual(blankTile);
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
+		it("can undo setTile with a range", () => {
+			expect(Game.MapManager.Map.setTile(10, 10, stoneWall, 1)).toBe(true);
+			expect(Game.MapManager.Map.getTile(10, 10)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.getTile(11, 10)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.getTile(10, 11)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.getTile(11, 11)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getTile(10, 10)).toEqual(blankTile);
+			expect(Game.MapManager.Map.getTile(11, 10)).toEqual(blankTile);
+			expect(Game.MapManager.Map.getTile(10, 11)).toEqual(blankTile);
+			expect(Game.MapManager.Map.getTile(11, 11)).toEqual(blankTile);
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
+		it("can undo setObject", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table)).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(blankObject);
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
+		it("can undo setObject with a range", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table, 1)).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(table);
+			expect(Game.MapManager.Map.getObject(11, 10)).toEqual(table);
+			expect(Game.MapManager.Map.getObject(10, 11)).toEqual(table);
+			expect(Game.MapManager.Map.getObject(11, 11)).toEqual(table);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(11, 10)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(10, 11)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(11, 11)).toEqual(blankObject);
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
+		it("can undo setObject for an unique object", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table)).toBe(true);
+			expect(Game.MapManager.Map.setObject(10, 10, roomEntry)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 20, roomEntry)).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObject(20, 20)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(roomEntry);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(table);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(blankObject);
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
+		it("can undo setEffect", () => {
+			expect(Game.MapManager.Map.setEffects(10, 10, [shadowMediumEffect])).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getEffects(10, 10)).toEqual([blankEffect]);
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
+		it("can undo setEffect with a range", () => {
+			expect(Game.MapManager.Map.setEffects(10, 10, [shadowMediumEffect], 1)).toBe(true);
+			expect(Game.MapManager.Map.getEffects(10, 10)).toEqual([shadowMediumEffect]);
+			expect(Game.MapManager.Map.getEffects(11, 10)).toEqual([shadowMediumEffect]);
+			expect(Game.MapManager.Map.getEffects(10, 11)).toEqual([shadowMediumEffect]);
+			expect(Game.MapManager.Map.getEffects(11, 11)).toEqual([shadowMediumEffect]);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getEffects(10, 10)).toEqual([blankEffect]);
+			expect(Game.MapManager.Map.getEffects(11, 10)).toEqual([blankEffect]);
+			expect(Game.MapManager.Map.getEffects(10, 11)).toEqual([blankEffect]);
+			expect(Game.MapManager.Map.getEffects(11, 11)).toEqual([blankEffect]);
+			expect(Game.MapManager.Map.undo()).toBe(false);
 		});
 	});
 });

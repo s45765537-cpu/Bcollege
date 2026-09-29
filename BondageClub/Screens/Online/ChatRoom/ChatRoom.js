@@ -3229,7 +3229,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomMapViewTileFog = null;
 	ChatRoomMapViewObjectFog = null;
 	ChatRoomMapViewEditMode = "";
-	ChatRoomMapViewEditBackup = [];
+	MapManager.Map.clear();
 	ChatRoomRefreshActiveView();
 	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();

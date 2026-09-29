@@ -36,6 +36,11 @@ declare namespace MapManager {
 			remapIdToEffectIdShifted: Map<number, number>;
 		}
 	}
+
+	type UndoGroup = {
+		cbs: (() => void)[];
+		add(cb: () => void): void;
+	}
 }
 
 interface MapDataLookupTable {
