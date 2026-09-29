@@ -420,6 +420,13 @@ function FriendListKeyDown(event) {
 
 /** @type {ScreenUnloadHandler} */
 function FriendListUnload() {
+	const beepMenu = document.getElementById(FriendListIDs.beepList);
+	if (beepMenu) {
+		FriendListBeepMenuClose();
+		return;
+	}
+	ElementRemove(FriendListIDs.root);
+	FriendListModeIndex = 0;
 }
 
 /**
@@ -427,12 +434,6 @@ function FriendListUnload() {
  * @return {SafePromise<void>}
  */
 async function FriendListExit() {
-	const beepMenu = document.getElementById(FriendListIDs.beepList);
-	if (beepMenu) {
-		FriendListBeepMenuClose();
-		return;
-	}
-	ElementRemove(FriendListIDs.root);
 	let screenPromise;
 	if (FriendListReturn != null && FriendListReturn.Screen != "FriendList") {
 		if (FriendListReturn?.Screen === "ChatRoom" && FriendListReturn?.hasScrolledChat) {
@@ -444,7 +445,6 @@ async function FriendListExit() {
 		screenPromise = CommonSetScreen("Character", "InformationSheet");
 	}
 	FriendListReturn = null;
-	FriendListModeIndex = 0;
 	return screenPromise;
 }
 //#endregion
