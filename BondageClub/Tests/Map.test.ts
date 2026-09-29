@@ -51,6 +51,9 @@ beforeEach(() => {
 });
 
 describe("MapManager", () => {
+	const blankTile = Game.MapDataGetTile(Game.ChatRoomMapViewObjectStartID);
+	expect(blankTile).not.toBe(null);
+
 	const stoneWall = Game.MapDataGetTile(1030);
 	expect(stoneWall).not.toBe(null);
 
@@ -83,6 +86,22 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.getTile(40)).toEqual(stoneWall);
 		});
 
+		it('should set a tile in a range', () => {
+			expect(Game.MapManager.Map.setTile(10, 10, stoneWall, 1)).toBe(true);
+			expect(Game.MapManager.Map.getTile(10, 10)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.getTile(10, 11)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.getTile(11, 10)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.getTile(11, 11)).toEqual(stoneWall);
+		});
+
+		it('should consider a negative range 0', () => {
+			expect(Game.MapManager.Map.setTile(10, 10, stoneWall, -1)).toBe(true);
+			expect(Game.MapManager.Map.getTile(10, 10)).toEqual(stoneWall);
+			expect(Game.MapManager.Map.getTile(10, 11)).toEqual(blankTile);
+			expect(Game.MapManager.Map.getTile(11, 10)).toEqual(blankTile);
+			expect(Game.MapManager.Map.getTile(11, 11)).toEqual(blankTile);
+		});
+
 		it('should fail to set tiles out of bound', () => {
 			expect(Game.MapManager.Map.setTile(-10, -10, stoneWall)).toBe(false);
 		});
@@ -113,6 +132,22 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.getObject(40)).toEqual(table);
 		});
 
+		it('should set an object in a range', () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table, 1)).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(table);
+			expect(Game.MapManager.Map.getObject(10, 11)).toEqual(table);
+			expect(Game.MapManager.Map.getObject(11, 10)).toEqual(table);
+			expect(Game.MapManager.Map.getObject(11, 11)).toEqual(table);
+		});
+
+		it('should consider a negative range 0', () => {
+			expect(Game.MapManager.Map.setObject(10, 10, table, -1)).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(table);
+			expect(Game.MapManager.Map.getObject(10, 11)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(11, 10)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(11, 11)).toEqual(blankObject);
+		});
+
 		it('should fail to set objects out of bounds', () => {
 			expect(Game.MapManager.Map.setObject(-10, -10, table)).toBe(false);
 		});
@@ -122,6 +157,14 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.setObject(12, roomEntry)).toBe(true);
 			expect(Game.MapManager.Map.getObject(10)).toBe(blankObject);
 			expect(Game.MapManager.Map.getObject(12)).toBe(roomEntry);
+		});
+
+		it('should ignore range for unique objects', () => {
+			expect(Game.MapManager.Map.setObject(10, 10, roomEntry, 1)).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(roomEntry);
+			expect(Game.MapManager.Map.getObject(10, 11)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(11, 10)).toEqual(blankObject);
+			expect(Game.MapManager.Map.getObject(11, 11)).toEqual(blankObject);
 		});
 	});
 
@@ -138,6 +181,14 @@ describe("MapManager", () => {
 
 		it('should fail to set effects out of bounds', () => {
 			expect(Game.MapManager.Map.setEffects(-10, -10, table)).toBe(false);
+		});
+
+		it('should set effects in a range', () => {
+			expect(Game.MapManager.Map.setEffects(10, 10, [shadowMediumEffect, tintBlueEffect], 1)).toBe(true);
+			expect(Game.MapManager.Map.getEffects(10, 10)).toEqual([shadowMediumEffect, tintBlueEffect]);
+			expect(Game.MapManager.Map.getEffects(10, 11)).toEqual([shadowMediumEffect, tintBlueEffect]);
+			expect(Game.MapManager.Map.getEffects(11, 10)).toEqual([shadowMediumEffect, tintBlueEffect]);
+			expect(Game.MapManager.Map.getEffects(11, 11)).toEqual([shadowMediumEffect, tintBlueEffect]);
 		});
 
 		it('should overwrite previous effects (index)', () => {

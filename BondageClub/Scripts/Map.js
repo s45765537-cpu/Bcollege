@@ -1070,6 +1070,7 @@ var MapManager = (function () {
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapTile | null} tile
+		 * @param {number} [range=0]
 		 * @return {boolean}
 		 */
 		/**
@@ -1077,25 +1078,35 @@ var MapManager = (function () {
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapTile | null} tile
+		 * @param {number} [range=0]
 		 * @return {boolean}
 		 */
 		/**
-		 * @template {[index: number, tile: ChatRoomMapTile | null] | [x: number, y: number, tile: ChatRoomMapTile | null]} T
+		 * @template {[index: number, tile: ChatRoomMapTile | null, range?: number] | [x: number, y: number, tile: ChatRoomMapTile | null, range?: number]} T
 		 * @param {T} args
 		 * @return {boolean}
 		 */
 		setTile(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, tile] = this.#unpackIndex(...args);
+			let [index, tile, range = 0] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
-			if (!this.canSetTile(index, tile)) return false;
+
+			range = CommonClamp(range, 0, Infinity);
+			if (tile?.Unique) range = 0;
+
 			if (tile?.Unique) {
 				this.#clearUniqueTile(tile);
 			}
 			this.#_markDirty(DirtyFlags.TILES);
 			tile ??= MapDataGetTile(ChatRoomMapViewObjectStartID);
 
-			this.#_mapData.tiles[index] = tile;
+			const map = this.#_mapData;
+			MapForEachIndexInRange(index, range, (curIndex) => {
+				if (this.canSetTile(index, tile)) {
+					map.tiles[curIndex] = tile;
+				}
+			});
+
 			return true;
 		}
 
@@ -1202,6 +1213,7 @@ var MapManager = (function () {
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapObject | null} object
+		 * @param {number} [range]
 		 * @return {boolean}
 		 */
 		/**
@@ -1209,23 +1221,35 @@ var MapManager = (function () {
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapObject | null} object
+		 * @param {number} [range]
 		 * @return {boolean}
 		 */
 		/**
-		 * @template {[index: number, tile: ChatRoomMapObject | null] | [x: number, y: number, tile: ChatRoomMapObject | null]} T
+		 * @template {[index: number, tile: ChatRoomMapObject | null, range?: number] | [x: number, y: number, tile: ChatRoomMapObject | null, range?: number]} T
 		 * @param {T} args
 		 * @return {boolean}
 		 */
 		setObject(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, object] = this.#unpackIndex(...args);
+			let [index, object, range = 0] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
-			if (!this.canSetObject(index, object)) return false;
+
+			range = CommonClamp(range, 0, Infinity);
+			if (object?.Unique) range = 0;
+
 			if (object?.Unique) {
 				this.#clearUniqueObject(object);
 			}
 			this.#_markDirty(DirtyFlags.OBJECTS);
-			this.#_mapData.objects[index] = object ?? MapDataGetObject(ChatRoomMapViewObjectStartID);
+			object ??= MapDataGetObject(ChatRoomMapViewObjectStartID);
+
+			const map = this.#_mapData;
+			MapForEachIndexInRange(index, range, (curIndex) => {
+				if (this.canSetObject(index, object)) {
+					map.objects[curIndex] = object;
+				}
+			});
+
 			return true;
 		}
 
@@ -1338,6 +1362,7 @@ var MapManager = (function () {
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapEffect} effect
+		 * @param {number} [range]
 		 * @return {boolean}
 		 */
 		/**
@@ -1345,22 +1370,23 @@ var MapManager = (function () {
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapEffect} effect
+		 * @param {number} [range]
 		 * @return {boolean}
 		 */
 		/**
-		 * @template {[index: number, effect: ChatRoomMapEffect] | [x: number, y: number, effect: ChatRoomMapEffect]} T
+		 * @template {[index: number, effect: ChatRoomMapEffect, range?: number] | [x: number, y: number, effect: ChatRoomMapEffect, range?: number]} T
 		 * @param {T} args
 		 * @return {boolean}
 		 */
 		addEffect(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, effect] = this.#unpackIndex(...args);
+			let [index, effect, range = 0] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
 			const effects = this.getEffects(index);
 			if (effects.find(e => e.ID === effect.ID)) return false;
 			effects.push(effect);
-			this.setEffects(index, effects);
+			this.setEffects(index, effects, range);
 			return true;
 		}
 
@@ -1369,6 +1395,7 @@ var MapManager = (function () {
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapEffect[]} effects
+		 * @param {number} [range]
 		 * @return {boolean}
 		 */
 		/**
@@ -1376,19 +1403,25 @@ var MapManager = (function () {
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapEffect[]} effects
+		 * @param {number} [range]
 		 * @return {boolean}
 		 */
 		/**
-		 * @template {[index: number, effects: ChatRoomMapEffect[]] | [x: number, y: number, effects: ChatRoomMapEffect[]]} T
+		 * @template {[index: number, effects: ChatRoomMapEffect[], range?: number] | [x: number, y: number, effects: ChatRoomMapEffect[], range?: number]} T
 		 * @param {T} args
 		 * @return {boolean}
 		 */
 		setEffects(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, effects] = this.#unpackIndex(...args);
+			let [index, effects, range = 0] = this.#unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 			this.#_markDirty(DirtyFlags.EFFECTS);
-			this.#_mapData.effects[index] = [...effects];
+
+			const map = this.#_mapData;
+			MapForEachIndexInRange(index, range, (curIndex) => {
+				map.effects[curIndex] = [...effects];
+			});
+
 			return true;
 		}
 
@@ -1966,6 +1999,36 @@ function MapIndexToCoordinates(index) {
 		throw new Error(`invalid map index value: ${String(index)}`);
 	}
 	return { X: index % ChatRoomMapViewWidth, Y: Math.floor(index / ChatRoomMapViewWidth) };
+}
+
+/**
+ * Visit each tile in the square from (x, y) through (x + range, y + range), inclusive.
+ * @param {number} x
+ * @param {number} y
+ * @param {number} range
+ * @param {(x: number, y: number) => void} cb
+ */
+function MapForEachXYInRange(x, y, range, cb) {
+	for (let radiusY = 0; radiusY <= range; radiusY++) {
+		for (let radiusX = 0; radiusX <= range; radiusX++) {
+			cb(x + radiusX, y + radiusY);
+		}
+	}
+}
+
+/**
+ * Index-based form of {@link MapForEachXYInRange}.
+ * @param {number} index
+ * @param {number} range
+ * @param {(index: number) => void} cb
+ */
+function MapForEachIndexInRange(index, range, cb) {
+	for (let radiusY = 0; radiusY <= range; radiusY++) {
+		const rowIndex = index + radiusY * ChatRoomMapViewWidth;
+		for (let radiusX = 0; radiusX <= range; radiusX++) {
+			cb(rowIndex + radiusX);
+		}
+	}
 }
 
 /**

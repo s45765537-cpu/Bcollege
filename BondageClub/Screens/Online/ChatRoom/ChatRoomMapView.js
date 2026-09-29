@@ -1998,23 +1998,17 @@ function ChatRoomMapViewMouseMove(event) {
 
 	const range = ChatRoomMapViewEditRange - 1;
 
-	for (let radiusX = 0; radiusX <= range; radiusX++) {
-		for (let radiusY = 0; radiusY <= range; radiusY++) {
-			const posX = pos.X + radiusX;
-			const posY = pos.Y + radiusY;
-			if (ChatRoomMapViewEditMode == "Tile") {
-				MapManager.Map.setTile(posX, posY, /** @type {ChatRoomMapTile} */ (ChatRoomMapViewEditObject));
-			} else if (ChatRoomMapViewEditMode === "Object") {
-				MapManager.Map.setObject(posX, posY, /** @type {ChatRoomMapObject} */ (ChatRoomMapViewEditObject));
-			} else if (ChatRoomMapViewEditMode === "Effect") {
-				const effect = /** @type {ChatRoomMapEffect} */ (ChatRoomMapViewEditObject);
-				const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
-				if (isBlank) {
-					MapManager.Map.setEffects(posX, posY, []);
-				} else {
-					MapManager.Map.addEffect(posX, posY, effect);
-				}
-			}
+	if (ChatRoomMapViewEditMode == "Tile") {
+		MapManager.Map.setTile(pos.X, pos.Y, /** @type {ChatRoomMapTile} */ (ChatRoomMapViewEditObject), range);
+	} else if (ChatRoomMapViewEditMode === "Object") {
+		MapManager.Map.setObject(pos.X, pos.Y, /** @type {ChatRoomMapObject} */ (ChatRoomMapViewEditObject), range);
+	} else if (ChatRoomMapViewEditMode === "Effect") {
+		const effect = /** @type {ChatRoomMapEffect} */ (ChatRoomMapViewEditObject);
+		const isBlank = effect == null || effect.ID === ChatRoomMapViewEffectStartID;
+		if (isBlank) {
+			MapManager.Map.setEffects(pos.X, pos.Y, [], range);
+		} else {
+			MapManager.Map.addEffect(pos.X, pos.Y, effect, range);
 		}
 	}
 
