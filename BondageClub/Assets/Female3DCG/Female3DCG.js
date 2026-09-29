@@ -43055,7 +43055,14 @@ var AssetFemale3DCG = [
 				],
 				ParentGroup: "BodyUpper",
 				PoseMapping: { AllFours: "AllFours" },
-				Layer: [{ Name: "d" }, { Name: "g" }],
+				Layer: [
+					{ Name: "d" },
+					{
+						Name: "g",
+						BlendingMode: "screen",
+						AllowColorize: false,
+					},
+				],
 				Attribution: {
 					Author: "Echo (SugarChain)",
 					OriginalName: "贯穿穿刺",
@@ -64223,7 +64230,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				AllowLock: true,
 				AllowTighten: true,
-				DrawLocks: true,
+				DrawLocks: false,
 				Fetish: ["Leather", "Metal"],
 				Layer: [
 					{
@@ -68481,6 +68488,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				AllowLock: true,
 				AllowTighten: true,
+				DrawLocks: false,
 				Audio: "BalloonStretch",
 				Fetish: ["Latex", "Masochism"],
 				Block: [],
@@ -76922,7 +76930,12 @@ var ActivityFemale3DCG = [
 		Name: "GagKiss",
 		ActivityID: 7,
 		MaxProgress: 55,
-		Prerequisite: ["ZoneAccessible", "UseMouth", "TargetMouthBlocked", "TargetNeeds-GagItem"],
+		Prerequisite: [
+			"ZoneAccessible",
+			"UseMouth",
+			"TargetMouthBlocked",
+			"TargetNeeds-GagItem",
+		],
 		Target: ["ItemMouth"],
 	},
 	{
