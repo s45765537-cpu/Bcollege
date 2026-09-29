@@ -1957,8 +1957,6 @@ var MapManager = (function () {
 		}
 	}
 
-	let initialized = false;
-
 	return {
 		Map: new Manager(),
 
@@ -1970,7 +1968,7 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		OnMapDataUpdated() {
-			MapManager.Map.loadGlobalMapData(ChatRoomData?.MapData);
+			this.Map.loadGlobalMapData(ChatRoomData?.MapData);
 		},
 
 		/**
@@ -1979,10 +1977,8 @@ var MapManager = (function () {
 		 * @returns {void}
 		 */
 		OnViewActivate() {
-			if (!initialized) {
-				MapManager.Map.loadGlobalMapData(ChatRoomData?.MapData);
-				initialized = true;
-			}
+			this.Map.clear();
+			this.Map.loadGlobalMapData(ChatRoomData?.MapData);
 		},
 	};
 })();
