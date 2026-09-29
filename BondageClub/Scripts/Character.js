@@ -282,7 +282,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				}
 			}
 			if (!eyesOnly) {
-				const effects = CharacterGetEffects(this, ["ItemHead", "ItemHood", "ItemNeck", "ItemDevices"], true);
+				const effects = CharacterGetEffects(this, [], true);
 				/** @type {Map<EffectName, number>} */
 				const blindLevels = CharacterBlindLevels;
 				blindLevel += effects.reduce((Start, EffectName) => Start + (blindLevels.get(EffectName) ?? 0), 0);

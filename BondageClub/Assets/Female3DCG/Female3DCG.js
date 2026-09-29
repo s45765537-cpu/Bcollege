@@ -76922,7 +76922,12 @@ var ActivityFemale3DCG = [
 		Name: "GagKiss",
 		ActivityID: 7,
 		MaxProgress: 55,
-		Prerequisite: ["ZoneAccessible", "UseMouth", "TargetMouthBlocked", "TargetNeeds-GagItem"],
+		Prerequisite: [
+			"ZoneAccessible",
+			"UseMouth",
+			"TargetMouthBlocked",
+			"TargetNeeds-GagItem",
+		],
 		Target: ["ItemMouth"],
 	},
 	{
