@@ -4734,7 +4734,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 					CommonKeys(this.facialExpressions).sort().map(group => ElementButton.Create(
 						`${ids.menuLeft}-${group}`,
 						this.eventListeners._expressionRadioGroupClick,
-						{ role: "menuitemradio", image: `Assets/Female3DCG/${group}/Icon.png` },
+						{ role: "menuitemradio", image: `Icons/Expressions/${group}/Default.png` },
 						{ button: {
 							classList: ["dialog-menubar-button"],
 							attributes: {
@@ -4796,7 +4796,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 					{
 						clickDisabled: this.eventListeners._ClickDisabledButton,
 						role: "radio",
-						image: `Assets/Female3DCG/${group}/${name ? name + "/Icon" : "Icon"}.png`,
+						image: `Icons/Expressions/${group}/${name || "Default"}.png`,
 						allowRequiredClick: true,
 					},
 					{ button: {
