@@ -169,7 +169,7 @@ let ItemPropertiesDummy = null;
 var _ItemPropertiesR134Compression = false;
 
 /**
- * Compress the passed item's properties in preparation for {@link ItemBundle} creation.
+ * Copy and compress the passed item's properties in preparation for {@link ItemBundle} creation.
  * @param {Item} item The item whose properties are to be minimized
  * @param {null | { omit?: Iterable<keyof ItemProperties>, allowLocks?: boolean }} options
  * @returns {ItemPropertiesMinimized | undefined} The minimized item properties
@@ -245,12 +245,15 @@ function ItemPropertiesCompress(item, options=null) {
 	/** @type {ItemPropertiesMinimized} */
 	const ret = {};
 	for (const key of allowedProperties) {
+		if (item.Property[key] === undefined) {
+			continue;
+		}
 		switch (key) {
 			case "TypeRecord": {
 				let allDefault = true;
 				/** @type {TypeRecord} */
 				const typeRecord = {};
-				for (const [k, v] of Object.entries(item.Property[key] ?? {})) {
+				for (const [k, v] of Object.entries(item.Property[key])) {
 					if (v) {
 						allDefault = false;
 						typeRecord[k] = v;
@@ -267,7 +270,7 @@ function ItemPropertiesCompress(item, options=null) {
 				}
 				break;
 			default: {
-				const propertyValue = item.Property[key];
+				const propertyValue = CommonCloneDeep(item.Property[key]);
 				const baselineValue = baseline[key];
 				if (!_ItemPropertiesR134Compression && lockProperties.has(key)) {
 					// FIXME: Ensure that `ExtendedItemInit()` also calls the lock's `Init()` function so that undefined values are re-initialized
