@@ -295,15 +295,15 @@ function ItemPropertiesCompress(item, options=null) {
 }
 
 /**
- * Decompress the passed item budle properties in preparation for {@link Item} creation.
+ * Copy and decompress the passed item budle properties in preparation for {@link Item} creation.
  * @param {Item} item The final item in which the properties will end up
- * @param {undefined | ItemPropertiesMinimized} properties The minimized item properties
+ * @param {undefined | Readonly<ItemPropertiesMinimized>} properties The minimized item properties
  * @returns {ItemProperties} The maximized item properties
  */
 function ItemPropertiesDecompress(item, properties) {
 	// For the sake of potential backwards compatibility issues both minimized and maximized properties must be handled
 	/** @type {ItemPropertiesMinimized | ItemProperties} */
-	const propertiesUnsanitized = properties ?? {};
+	const propertiesUnsanitized = CommonCloneDeep(properties ?? {});
 
 	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
 	CommonAssign(item.Property, propertiesUnsanitized);
