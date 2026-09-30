@@ -2007,12 +2007,10 @@ function CraftingDeserialize(craftString) {
 
 /**
  * Deserialize and unpack the crafting data from the server.
- * @param {string | undefined | (null | CraftingItem)[]} Data The serialized crafting data or already-decompressed crafting item list
+ * @param {string | undefined} Data The serialized crafting data or already-decompressed crafting item list
  * @returns {(null | CraftingItem)[]}
  */
 function CraftingDecompressServerData(Data) {
-	// Arrays are returned right away, only strings can be parsed
-	if (Array.isArray(Data)) return Data;
 	if (typeof Data !== "string") return [];
 
 	// Decompress the data
@@ -2033,7 +2031,7 @@ function CraftingDecompressServerData(Data) {
 
 /**
  * Loads the server packet and creates the crafting array for the player
- * @param {string | (null | CraftingItem)[]} Packet - The packet or already-decompressed crafting item list
+ * @param {string | undefined} Packet - The packet or already-decompressed crafting item list
  * @returns {void} - Nothing
  */
 function CraftingLoadServer(Packet) {
@@ -2431,11 +2429,15 @@ var CraftingValidationRecord = {
 			}
 		},
 		GetDefault: (c, a, checkPlayerInventory=false) => {
+			/** @type {AssetName | undefined} */
+			let ret = undefined;
 			if (checkPlayerInventory) {
-				return Asset.find((i) => i.Name === c.Item)?.Name ?? a?.Name ?? null;
+				ret = Asset.find((i) => i.Name === c.Item)?.Name ?? a?.Name;
 			} else {
-				return a?.Name ?? null;
+				ret = a?.Name;
 			}
+			ret ??= LoginInventoryFixups.find(fixup => c.Item === fixup.Old.Name)?.New.Name;
+			return ret;
 		},
 		StatusCode: CraftingStatusType.CRITICAL_ERROR,
 	},

@@ -1718,8 +1718,7 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 
 		// Sixth. we add all crafted items from the character that matches that slot
 		if (!C.IsPlayer() && !C.IsNpc()) {
-			const Crafting = CraftingDecompressServerData(C.Crafting);
-			for (const Craft of Crafting) {
+			for (const Craft of C.Crafting) {
 				if (Craft == null || Craft.Private) {
 					continue;
 				}
