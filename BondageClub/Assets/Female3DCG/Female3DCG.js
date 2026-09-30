@@ -52540,7 +52540,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Book",
-				InventoryID: 1405,
+				InventoryID: 1412,
 				Random: false,
 				Value: 10,
 				Priority: 26,
@@ -69732,7 +69732,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BirdCage",
-				InventoryID: 1393,
+				InventoryID: 1413,
 				Top: -40,
 				Left: 79,
 				Priority: 58,
