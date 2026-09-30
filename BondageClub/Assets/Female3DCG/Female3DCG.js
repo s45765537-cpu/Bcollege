@@ -9799,9 +9799,6 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "Socks",
 				Left: 125,
 				Top: 400,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
-				StyleOverride: ["EchoV2"],
 				CopyConfig: {
 					GroupName: "Socks",
 					AssetName: "Pantyhose1",
@@ -9810,12 +9807,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Pantyhose2",
-				InventoryID: 243,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
-				BuyGroup: "Pantyhose2",
-				Fetish: ["Nylon"],
-				Value: 10,
 				Left: 125,
 				Top: 400,
 				DynamicGroupName: "Socks",
@@ -9828,12 +9819,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Stockings1",
-				Fetish: ["Nylon"],
 				Left: 125,
 				Top: 400,
 				BuyGroup: "Stockings1",
 				DynamicGroupName: "Socks",
-				StyleOverride: ["EchoV2"],
 				CopyConfig: {
 					GroupName: "Socks",
 					AssetName: "Stockings1",
@@ -9842,12 +9831,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Stockings2",
-				Fetish: ["Nylon"],
 				Left: 125,
 				Top: 400,
 				BuyGroup: "Stockings2",
 				DynamicGroupName: "Socks",
-				StyleOverride: ["EchoV2"],
 				CopyConfig: {
 					GroupName: "Socks",
 					AssetName: "Stockings2",
@@ -9856,14 +9843,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Stockings3",
-				InventoryID: 244,
-				Fetish: ["Nylon"],
-				Value: 10,
 				Left: 125,
 				Top: 400,
 				BuyGroup: "Stockings3",
 				DynamicGroupName: "Socks",
-				StyleOverride: ["EchoV2"],
 				CopyConfig: {
 					GroupName: "Socks",
 					AssetName: "Stockings3",
@@ -9872,14 +9855,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Stockings4",
-				InventoryID: 245,
-				Fetish: ["Nylon"],
-				Value: 10,
 				Left: 125,
 				Top: 400,
 				BuyGroup: "Stockings4",
 				DynamicGroupName: "Socks",
-				StyleOverride: ["EchoV2"],
 				CopyConfig: {
 					GroupName: "Socks",
 					AssetName: "Stockings4",
@@ -15468,6 +15447,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Socks,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 			},
 			{
@@ -15476,6 +15456,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Socks,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 			},
 			{
@@ -15484,6 +15465,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Socks,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 			},
 			{ Name: "Socks3", StyleOverride: ["EchoV2"] },
@@ -15521,6 +15503,7 @@ var AssetFemale3DCG = [
 				Name: "Pantyhose1",
 				InventoryID: 242,
 				StyleOverride: ["EchoV2"],
+				Gender: "F",
 				Prerequisite: ["HasVagina"],
 				Fetish: ["Nylon"],
 				Value: 10,
@@ -15539,7 +15522,13 @@ var AssetFemale3DCG = [
 				Fetish: ["Nylon"],
 				Value: 25,
 				BuyGroup: "Socks6",
-				Layer: [{ Name: "Sock" }, { Name: "Frill" }],
+				Layer: [
+					{ Name: "Sock" },
+					{
+						Name: "Frill",
+						PoseMapping: { ...AssetPoseMapping.Socks, Hogtied: PoseType.HIDE },
+					},
+				],
 			},
 			{
 				Name: "SocksFur",
@@ -15552,7 +15541,17 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 				},
 				BuyGroup: "SocksFur",
-				Layer: [{ Name: "Fabric", StyleOverride: ["EchoV2"] }, { Name: "Fur" }],
+				Layer: [
+					{ Name: "Fabric", StyleOverride: ["EchoV2"] },
+					{
+						Name: "Fur",
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Hogtied: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "SocksStriped1",
@@ -15578,6 +15577,10 @@ var AssetFemale3DCG = [
 				Name: "FootlessSocks1",
 				InventoryID: 344,
 				Value: 15,
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 				StyleOverride: ["EchoV2"],
 				BuyGroup: "FootlessSocks1",
 			},
