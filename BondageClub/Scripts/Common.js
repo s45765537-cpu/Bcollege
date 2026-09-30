@@ -1344,7 +1344,7 @@ function CommonStringSubstitute(msg, substitutions) {
 	 * @returns {(substring: string, ...args: any[]) => string}
 	 */
 	function makeReplacer(replacer, replacement) {
-		return typeof replacer === "function" ? CommonStringReplacer(replacer) : () => replacement;
+		return typeof replacer === "function" ? CommonStringReplacer(replacer, replacement) : () => replacement;
 	}
 
 	for (const [tag, subst, replacer] of substitutions) {
@@ -2847,20 +2847,21 @@ function CommonAssign(target, ...src) {
 }
 
 /**
- * A decorator for converting the variadic parameter of {@link String.replace} functions into a string (_i.e._ the first element)
+ * A decorator for converting the variadic parameter of {@link String.replace} functions into something more sensible
  * @param {CommonSubstituteReplacer} func
+ * @param {string} replacement
  * @returns {(match: string, ...args: any[]) => string}
  */
-function CommonStringReplacer(func) {
+function CommonStringReplacer(func, replacement) {
 	// from:
 	// (match: string, ...p: string[], offfset: number, string: string, groups?: Partial<Record<string, string>>) => string
 	// to:
-	// (match: string, offfset: number, p_0: string, string: string, groups?: Partial<Record<string, string>>) => string
+	// (match: string, offfset: number, replacement: string, string: string, groups?: Partial<Record<string, string>>) => string
 	return function (match, ...args) {
-		const iMax = args.length - 1;
-		if (!(typeof args[iMax] === "object" || args[iMax] === undefined)) {
-			args.push(undefined); // Add a value for the `groups` parameter if absent
+		const { offsetIndex, offset } = CommonFindMap(args, (offset, offsetIndex) => typeof offset === "number" ? { offset, offsetIndex } : undefined) ?? {};
+		if (offsetIndex === undefined || offset === undefined) {
+			return match; // the "uhoh" branch
 		}
-		return func(match, args[iMax - 2], args[0], args[iMax - 1], args[iMax]);
+		return func(match, offset, replacement, args[offsetIndex + 1], args[offsetIndex + 2]);
 	};
 }

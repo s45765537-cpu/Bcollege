@@ -6993,7 +6993,7 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
  * @returns {CommonSubtituteSubstitution[]} - The replacement pronoun text for keywords in the original message
  */
 function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
-	/** @type {(match: string, offset: number, repl: string, string: string) => string} */
+	/** @type {CommonSubstituteReplacer} */
 	function replacer(match, offset, repl, string) {
 		// We matched at the start of the string, easy
 		if (offset === 0 || offset === 1 && string[0] === "(") return CommonStringTitlecase(repl);
