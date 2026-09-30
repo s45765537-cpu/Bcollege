@@ -1163,6 +1163,7 @@ interface AssetAppearanceGroup extends AssetGroup {
 	readonly Category: "Appearance";
 	readonly Name: AssetGroupBodyName;
 	readonly IsRestraint: false;
+	readonly Effect: readonly Exclude<EffectName, GagEffectName | BlindEffectName | DeafEffectName | BlurEffectName>[];
 }
 
 /** An AssetGroup subtype for the `Item` {@link AssetGroup.Category} */
