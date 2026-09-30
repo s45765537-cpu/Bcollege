@@ -35,7 +35,9 @@ async function GameStart(isNode=false) {
 	DrawLoad();
 	AssetLoadAll();
 	MapDataLoad();
-	await AssetInventoryIDValidate();
+	if (!isNode) {
+		await AssetInventoryIDValidate();
+	}
 	CommandsLoad();
 	ControllerStart();
 	await TextPrefetchFile(InterfaceStringsPath).loadedPromise;
