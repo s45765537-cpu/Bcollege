@@ -1751,9 +1751,12 @@ function CommonObjectIsSubset(subRec, superRec) {
 
 /**
  * Returns the object with keys and values reversed
- * @param {object} obj
+ * @template {{}} T
+ * @param {T} obj
+ * @returns {{ [k in keyof T as T[k]]: k }}
  */
 function CommonObjectFlip(obj) {
+	// @ts-expect-error
 	return Object.keys(obj).reduce((ret, key) => {
 		ret[/** @type {Record<string, any>} */ (obj)[key]] = key;
 		return ret;
