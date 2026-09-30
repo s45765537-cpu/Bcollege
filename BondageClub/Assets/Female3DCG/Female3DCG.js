@@ -6506,6 +6506,16 @@ var AssetFemale3DCG = [
 			{ Name: "BellFlower", Left: 200, Top: 270 },
 			{ Name: "VelvetBunny", Left: 183, Top: 270 },
 			{ Name: "LMF", Left: 195, Top: 255 },
+			{ Name: "BFPin", Left: 274, Top: 264 },
+			{ Name: "CTSimplified", 
+				Left: 200, 
+				Top: 270,
+				DefaultColor: ["#000000","#F0F0F0"],
+				Layer: [
+					{ Name: "1" },
+					{ Name: "2" },
+				],
+			},
 		],
 	},
 	// #endregion
@@ -64575,6 +64585,7 @@ var AssetFemale3DCG = [
 					"#A1A1A1",
 					"#363636",
 					"#6490C6",
+					"#E900FF",
 				],
 				Hide: ["Glasses", "ItemMouth", "ItemMouth2", "ItemMouth3"],
 				Layer: [
@@ -64637,6 +64648,20 @@ var AssetFemale3DCG = [
 						Name: "liquid",
 						AllowTypes: { c: 1 },
 					},
+					{
+						Name: "baseCap",
+						AllowTypes: { fc: [1,2] },
+						CopyLayerColor: "attachmentPoint",
+					},
+					{
+						Name: "CTlogo",
+						AllowTypes: { fc: 1 },
+					},
+					{
+						Name: "BFlogo",
+						AllowTypes: { fc: 2 },
+						CopyLayerColor: "CTlogo",
+					}
 				],
 				Extended: true,
 			},
@@ -74391,6 +74416,68 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 			},
+			{
+				Name: "CardBoardBox",
+				InventoryID: 1411,
+				Random: false,
+				Value: 10,
+				Top: {
+					[PoseType.DEFAULT]: 430,
+					Kneel: 180,
+					KneelingSpread: 180,
+					AllFours: -130,
+				},
+				Left: 100,
+				Difficulty: 0,
+				SelfBondage: 0,
+				Time: 20,
+				RemoveTime: 5,
+				Extended: true,
+				DefaultColor: [
+					"#6E4D3A",
+					"#A0774F",
+					"#59595F",
+					"#050505",
+				],
+				Layer: [
+					{ 
+						Name: "back",
+						Priority: 1, 
+					},
+					{ 
+						Name: "frontClosed",
+						AllowTypes: { h: 0 },
+						Priority: 62,
+					},
+					{ 
+						Name: "frontOpen", 
+						CopyLayerColor: "frontClosed",
+						AllowTypes: { h: 1 },
+						Priority: 62,
+					},
+					{ 
+						Name: "flapsOpen", 
+						CopyLayerColor: "back",
+						AllowTypes: { t: 0 },
+						Priority: 62,
+					},
+					{ 
+						Name: "flapsClosed", 
+						CopyLayerColor: "frontClosed",
+						AllowTypes: { t: [ 1, 2 ]},
+						Priority: 62,
+					},
+					{ 
+						Name: "tape",
+						AllowTypes: { t: 2 },
+						Priority: 62,
+					},
+					{ Name: "text", 
+						HasImage: false, 
+						Priority: 62, 
+					},
+				]
+			}
 		],
 		Color: [
 			"Default",

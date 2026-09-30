@@ -4174,6 +4174,27 @@ ItemDevicesXFrameSetc0,SourceCharacter removes the extra chains on DestinationCh
 ItemDevicesXFrameSetc1,SourceCharacter attaches extra chains on DestinationCharacter X-Frame.
 ItemDevicesXFrameSets0,SourceCharacter cleans DestinationCharacter X-Frame from stains.
 ItemDevicesXFrameSets1,SourceCharacter stains DestinationCharacter X-Frame.
+ItemDevicesCardBoardBoxModuleHandleHole,Handle hole
+ItemDevicesCardBoardBoxModuleOpenTop,Flaps
+ItemDevicesCardBoardBoxModuleTxt,Text
+ItemDevicesCardBoardBoxSelectBase,Configure the box.
+ItemDevicesCardBoardBoxSelectHandleHole,Toggle the handle hole on the box.
+ItemDevicesCardBoardBoxSelectOpenTop,Select the box tabs' position.
+ItemDevicesCardBoardBoxSelectTxt,Write something on the box.
+ItemDevicesCardBoardBoxOptionh0,No hole
+ItemDevicesCardBoardBoxOptionh1,Handle on
+ItemDevicesCardBoardBoxOptiont0,Open
+ItemDevicesCardBoardBoxOptiont1,Closed
+ItemDevicesCardBoardBoxOptiont2,Taped down
+ItemDevicesCardBoardBoxOptionx0,Nothing written
+ItemDevicesCardBoardBoxOptionx1,Text
+ItemDevicesCardBoardBoxSeth0,SoureCharacter plugs the handle hole on DestinationCharacter box.
+ItemDevicesCardBoardBoxSeth1,SourceCharacter opens the handle hole on DestinationCharacter box.
+ItemDevicesCardBoardBoxSett0,SourceCharacter opens DestinationCharacter box.
+ItemDevicesCardBoardBoxSett1,SourceCharacter closes DestinationCharacter box up.
+ItemDevicesCardBoardBoxSett2,SourceCharacter tapes DestinationCharacter box shut.
+ItemDevicesCardBoardBoxSetx0,SourceCharacter erases everything written down on DestinationCharacter box.
+ItemDevicesCardBoardBoxSetx1,SourceCharacter writes something down on DestinationCharacter box.
 ItemFeetSteelAnkleCuffsChained,Chain Attached
 ItemFeetSteelAnkleCuffsClosed,Attached
 ItemFeetSteelAnkleCuffsNone,Detached
@@ -4962,11 +4983,13 @@ ItemHoodCybertechMaskModuleVisor,Visor
 ItemHoodCybertechMaskModuleCanteen,Canteen
 ItemHoodCybertechMaskModuleLayering,Position
 ItemHoodCybertechMaskModuleAttachments,Attachments
+ItemHoodCybertechMaskModulefrontCap,Front attachment
 ItemHoodCybertechMaskSelectBase,Select mask configuration.
 ItemHoodCybertechMaskSelectVisor,Select visor type.
 ItemHoodCybertechMaskSelectCanteen,Select canteen attachment.
 ItemHoodCybertechMaskSelectLayering,Select mask position.
 ItemHoodCybertechMaskSelectAttachments,Select attachment point add-ons.
+ItemHoodCybertechMaskSelectfrontCap,Select a cap for the front attachment point.
 ItemHoodCybertechMaskSetv0,SourceCharacter switches DestinationCharacter visor out for a see-through one.
 ItemHoodCybertechMaskSetv1,SourceCharacter switches DestinationCharacter visor out for a tinted one.
 ItemHoodCybertechMaskSetv2,SourceCharacter switches the hypnotic program on DestinationCharacter visor on.
@@ -4987,6 +5010,12 @@ ItemHoodCybertechMaskSetat2,SourceCharacter attaches breathing tubes onto Destin
 ItemHoodCybertechMaskOptionat0,None
 ItemHoodCybertechMaskOptionat1,Filter
 ItemHoodCybertechMaskOptionat2,Tubes
+ItemHoodCybertechMaskSetfc0,SourceCharacter removes DestinationCharacter front cap.
+ItemHoodCybertechMaskSetfc1,SourceCharacter adds a Cybertech Corporation cap to DestinationCharacter mask.
+ItemHoodCybertechMaskSetfc2,SourceCharacter adds a Bellflower Consortium cap to DestinationCharacter mask.
+ItemHoodCybertechMaskOptionfc0,None
+ItemHoodCybertechMaskOptionfc1,Cybertech
+ItemHoodCybertechMaskOptionfc2,Bellflower
 ItemHoodOpenFaceHoodSetHideBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenFaceHoodSetShowBackHair,SourceCharacter changes the style of DestinationCharacter hood.
 ItemHoodOpenMouthPlugHoodModuleFakeMouth,Fake Mouth
@@ -7961,11 +7990,13 @@ MaskCybertechMaskModuleVisor,Visor
 MaskCybertechMaskModuleCanteen,Canteen
 MaskCybertechMaskModuleLayering,Position
 MaskCybertechMaskModuleAttachments,Attachments
+MaskCybertechMaskModulefrontCap,Front attachment
 MaskCybertechMaskSelectBase,Select mask configuration.
 MaskCybertechMaskSelectVisor,Select visor type.
 MaskCybertechMaskSelectCanteen,Select canteen attachment.
 MaskCybertechMaskSelectLayering,Select mask position.
 MaskCybertechMaskSelectAttachments,Select attachment point add-ons.
+MaskCybertechMaskSelectfrontCap,Select a cap for the front attachment point.
 MaskCybertechMaskOptionv0,See-through
 MaskCybertechMaskOptionv1,Tinted
 MaskCybertechMaskOptionv2,Hypnosis Program
@@ -7976,6 +8007,9 @@ MaskCybertechMaskOptionl1,Over hair
 MaskCybertechMaskOptionat0,None
 MaskCybertechMaskOptionat1,Filter
 MaskCybertechMaskOptionat2,Tubes
+MaskCybertechMaskOptionfc0,None
+MaskCybertechMaskOptionfc1,Cybertech
+MaskCybertechMaskOptionfc2,Bellflower
 ItemDevicesBrickWallSelect,Build and choose the brick wall's height:
 ItemDevicesBrickWallNone,No brick
 ItemDevicesBrickWallLegs,Up to the hips
