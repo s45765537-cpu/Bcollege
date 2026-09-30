@@ -15346,6 +15346,57 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // BarrelCorset
+		Movableglasscabinet: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "GlassType",
+					Key: "t",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+				{
+					Name: "BreastGlassDoor",
+					Key: "up",
+					DrawImages: false,
+					Options: [
+						{
+							Property: {
+								Block: [
+									"ItemHands",
+									"ItemHandheld",
+									"ItemArms",
+									"ItemBreast",
+									"ItemTorso2",
+									"ItemNipples",
+									"ItemNipplesPiercings",
+								],
+							},
+						},
+						{},
+					],
+				},
+				{
+					Name: "AbdominalGlassDoor",
+					Key: "down",
+					DrawImages: false,
+					Options: [
+						{
+							Property: {
+								Block: ["ItemPelvis", "ItemButt", "ItemVulva", "ItemVulvaPiercings"],
+							},
+						},
+						{},
+					],
+				},
+			],
+		}, // Movableglasscabinet
 	}, // ItemTorso
 	ItemTorso2: {
 		LockingSwimsuit: {
