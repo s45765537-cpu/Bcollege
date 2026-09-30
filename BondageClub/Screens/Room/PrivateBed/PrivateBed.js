@@ -160,7 +160,7 @@ function PrivateBedRun() {
 			let Y = 20 + Math.floor(A / 9) * 91;
 			DrawRect(X, Y, 90, 90, (MouseIn(X, Y, 90, 90) && !CommonIsMobile) ? "Cyan" : ((PrivateBedActivityList[A] == PrivateBedActivity) ? "#AAFFAA" : "White"));
 			DrawEmptyRect(X, Y, 91, 91, "Black", 2);
-			DrawImageResize("Assets/Female3DCG/Activity/" + PrivateBedActivityList[A] + ".png", X + 2, Y + 2, 87, 87);
+			DrawImageResize("Icons/Activity/" + PrivateBedActivityList[A] + ".png", X + 2, Y + 2, 87, 87);
 			if (MouseIn(X, Y, 90, 90)) DrawButtonHover(X, Y, 90, 90, ActivityDictionaryText("Activity" + PrivateBedActivityList[A]));
 		}
 
