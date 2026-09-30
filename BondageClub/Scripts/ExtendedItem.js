@@ -227,6 +227,25 @@ function ExtendedItemInit(C, Item, Push=true, Refresh=true) {
 }
 
 /**
+ * Initialize the subscreen properties of the passed extended item option (if any)
+ * @param {ExtendedItemOptionUnion} option - The extended item option
+ * @param {Item} item - The item in question
+ * @param {Character} C - The character that has the item equiped
+ * @param {boolean} [push] - Whether to push to changes to the server
+ * @param {boolean} [refresh] - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
+ * @returns {boolean} Whether properties were updated or not
+ */
+function ExtendedItemInitSubscreen(option, item, C, push=false, refresh=false) {
+	if (option.ArchetypeData) {
+		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
+		const args = [C, item, push, refresh];
+		return CommonCallFunctionByName(`${option.ArchetypeData.functionPrefix}Init`, ...args) ?? false;
+	} else {
+		return false;
+	}
+}
+
+/**
  * Helper init function for extended items without an archetype.
  * Note that on the long term this function should ideally be removed in favor of adding appropriate archetypes.
  * @param {Item} Item - The item in question
