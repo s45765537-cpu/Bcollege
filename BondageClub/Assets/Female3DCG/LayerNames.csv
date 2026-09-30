@@ -3533,6 +3533,17 @@ ItemTorsoMovableglasscabinetTransparentGlassTop,Upper
 ItemTorsoNavelBar1Chain,Chain
 ItemTorsoNavelBar1Jewel,Jewel
 ItemTorsoNavelBar1Main,Bar
+ItemTorsoRestraintSetArms,Arms
+ItemTorsoRestraintSetBodysuit,Bodysuit
+ItemTorsoRestraintSetChain,Chain
+ItemTorsoRestraintSetLatexSuit,Latex Suit
+ItemTorsoRestraintSetLowerBody1,Lower Body
+ItemTorsoRestraintSetLowerBody2,Lower Body
+ItemTorsoRestraintSetLowerBodyStrap,Lower Body Strap
+ItemTorsoRestraintSetSheerBodysuit,Sheer Bodysuit
+ItemTorsoRestraintSetUpperBody1,Upper Body
+ItemTorsoRestraintSetUpperBody2,Upper Body
+ItemTorsoRestraintSetUpperBodyStrap,Upper Body Strap
 ItemTorsoSteelBeltBelt,Belt
 ItemTorsoSteelBeltBDetail,Belt locks
 ItemTorsoSteelBeltLock,Padlocks

@@ -13399,15 +13399,15 @@ var AssetFemale3DCGExtended = {
 					Name: "OpenTop",
 					Key: "t",
 					Options: [
-						{}, 
+						{},
 						{
 							Property: {
 								SetPose: ["AllFours"],
 								AllowActivePose: ["Hogtied"],
 								Effect: [E.BlindLight, E.Enclose],
 							},
-						}, 
-						{ 
+						},
+						{
 							Property: {
 								SetPose: ["AllFours"],
 								AllowActivePose: ["Hogtied"],
@@ -13415,7 +13415,7 @@ var AssetFemale3DCGExtended = {
 								Effect: [E.BlindLight, E.BlockWardrobe, E.Freeze, E.Enclose],
 							},
 						},
-					]
+					],
 				},
 				{
 					Name: "Txt",
@@ -13435,7 +13435,7 @@ var AssetFemale3DCGExtended = {
 						},
 					],
 				},
-			]
+			],
 		}, //CardBoardBox
 	}, // ItemDevices
 	ItemBoots: {
@@ -15389,7 +15389,12 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{
 							Property: {
-								Block: ["ItemPelvis", "ItemButt", "ItemVulva", "ItemVulvaPiercings"],
+								Block: [
+									"ItemPelvis",
+									"ItemButt",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+								],
 							},
 						},
 						{},
@@ -15397,6 +15402,18 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Movableglasscabinet
+		RestraintSet: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.ASSET_NAME],
+			DrawImages: false,
+			Options: [
+				{ Name: "No" },
+				{ Name: "LatexSuit" },
+				{ Name: "SheerBodysuit" },
+				{ Name: "Bodysuit" },
+			],
+		}, // RestraintSet
 	}, // ItemTorso
 	ItemTorso2: {
 		LockingSwimsuit: {

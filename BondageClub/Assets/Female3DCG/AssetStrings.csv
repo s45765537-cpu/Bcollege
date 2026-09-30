@@ -6357,6 +6357,15 @@ ItemTorsoNavelBar1Setc1,SourceCharacter adds a single chain to DestinationCharac
 ItemTorsoNavelBar1Setc2,SourceCharacter adds a waist chain to DestinationCharacter navel bar.
 ItemTorsoNavelBar1Setj0,SourceCharacter removes the jewel from DestinationCharacter navel bar.
 ItemTorsoNavelBar1Setj1,SourceCharacter adds a jewel to DestinationCharacter navel bar.
+ItemTorsoRestraintSetBodysuit,Nylon
+ItemTorsoRestraintSetLatexSuit,Latex
+ItemTorsoRestraintSetNo,None
+ItemTorsoRestraintSetSelect,Arms fabric configuration
+ItemTorsoRestraintSetSheerBodysuit,Sheer
+ItemTorsoRestraintSetSetNo,SourceCharacter sets DestinationCharacter's AssetName to no arms fabric.
+ItemTorsoRestraintSetSetSheerBodysuit,SourceCharacter sets DestinationCharacter's AssetName to sheer arms fabric.
+ItemTorsoRestraintSetSetLatexSuit,SourceCharacter sets DestinationCharacter's AssetName to latex arms fabric.
+ItemTorsoRestraintSetSetBodysuit,SourceCharacter sets DestinationCharacter's AssetName to nylon arms fabric.
 ItemTorsoThinLeatherStrapsCrotch,Crotch Strap
 ItemTorsoThinLeatherStrapsHarness,Harness
 ItemTorsoThinLeatherStrapsSelect,Select strap bondage.
