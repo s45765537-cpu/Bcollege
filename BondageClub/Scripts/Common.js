@@ -2868,3 +2868,25 @@ function CommonStringReplacer(func, replacement) {
 		return func(match, offset, replacement, args[offsetIndex + 1], args[offsetIndex + 2]);
 	};
 }
+
+/**
+ * A {@link Math.max} variant that demands at least one parameter and respects the (literal) number type
+ * @template {number} T
+ * @param {T} arg0
+ * @param  {T[]} args
+ * @returns {T}
+ */
+function CommonMax(arg0, ...args) {
+	return /** @type {T} */(Math.max(arg0, ...args));
+}
+
+/**
+ * A {@link Math.min} variant that demands at least one parameter and respects the (literal) number type
+ * @template {number} T
+ * @param {T} arg0
+ * @param  {T[]} args
+ * @returns {T}
+ */
+function CommonMin(arg0, ...args) {
+	return /** @type {T} */(Math.min(arg0, ...args));
+}
