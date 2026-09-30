@@ -630,10 +630,9 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 	} else {
 		// Always pick the first option unless NPCs are involved (in which case `NPCDefault` must be respected)
 		const option = C.IsNpc() ? (options.find(o => o.NPCDefault) || options[0]) : options[0];
-		Item.Property = CommonAssign(
-			Item.Property ?? {},
-			CommonCloneDeep(option.Property),
-		);
+		const newProperty = CommonCloneDeep(option.Property);
+		newProperty.TypeRecord = CommonAssign(Item.Property.TypeRecord ?? {}, newProperty.TypeRecord);
+		Item.Property = CommonAssign(Item.Property, newProperty);
 		for (const [propName, baselineValue] of CommonEntries(baselineProperty ?? {})) {
 			if (baselineValue === undefined) {
 				continue;

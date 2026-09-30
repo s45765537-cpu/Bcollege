@@ -160,15 +160,15 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			return false;
 		}
 	} else {
-		const typeRecord = Object.fromEntries(Data.modules.map((mod, i) => {
-			const index = (validSubTypes[i] && !permissionBlocked[i]) ? Item.Property.TypeRecord[mod.Key] : 0;
-			return /** @type {const} */([mod.Key, index ?? 0]);
-		}));
-		const currentModuleValues = ModularItemParseCurrent(Data, typeRecord);
-		Item.Property = CommonAssign(
-			Item.Property ?? {},
-			ModularItemMergeModuleValues(Data, currentModuleValues),
+		const typeRecord = CommonAssign(
+			Item.Property.TypeRecord ?? {},
+			Object.fromEntries(Data.modules.map((mod, i) => {
+				const index = (validSubTypes[i] && !permissionBlocked[i]) ? Item.Property.TypeRecord[mod.Key] : 0;
+				return /** @type {const} */([mod.Key, index ?? 0]);
+			})),
 		);
+		const newProperties = ModularItemMergeModuleValues(Data, ModularItemParseCurrent(Data, typeRecord));
+		Item.Property = CommonAssign(Item.Property, newProperties, { TypeRecord: typeRecord });
 		for (const [propName, baselineValue] of CommonEntries(Data.baselineProperty ?? {})) {
 			if (baselineValue === undefined) {
 				continue;
