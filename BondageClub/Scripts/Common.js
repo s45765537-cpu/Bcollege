@@ -2858,7 +2858,10 @@ function CommonStringReplacer(func, replacement) {
 	// to:
 	// (match: string, offfset: number, replacement: string, string: string, groups?: Partial<Record<string, string>>) => string
 	return function (match, ...args) {
-		const { offsetIndex, offset } = CommonFindMap(args, (offset, offsetIndex) => typeof offset === "number" ? { offset, offsetIndex } : undefined) ?? {};
+		const { offsetIndex, offset } = CommonFindMap(
+			args,
+			(value, i) => typeof value === "number" ? { offset: value, offsetIndex: i } : undefined,
+		) ?? {};
 		if (offsetIndex === undefined || offset === undefined) {
 			return match; // the "uhoh" branch
 		}

@@ -56,6 +56,7 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemPelvis/FuturisticTrainingBelt/FuturisticTrainingBelt.js",
 	"Screens/Inventory/ItemDevices/KabeshiriWall/KabeshiriWall.js",
 	"Screens/Inventory/ItemDevices/FuckMachine/FuckMachine.js",
+	"Screens/Inventory/ItemDevices/CardBoardBox/CardBoardBox.js",
 	"Screens/Inventory/ItemBreast/ForbiddenChastityBra/ForbiddenChastityBra.js",
 	"Screens/Inventory/Suit/LatexCatsuit/LatexCatsuit.js",
 	"Screens/Inventory/ItemNeck/FuturisticCollar/FuturisticCollar.js",
