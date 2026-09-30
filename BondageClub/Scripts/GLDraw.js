@@ -192,6 +192,9 @@ function GLDrawResetCanvas(force2d = false) {
 		GLDrawCanvas?.GL?.deleteTexture(texture);
 	});
 	GLDrawCanvas?.GL?.maskCache?.clear();
+	if (GLDrawScratchTexture) {
+		GLDrawCanvas?.GL?.deleteTexture(GLDrawScratchTexture);
+	}
 	GLDrawCanvas = null;
 
 	// Reload canvas, possibly falling back to 2d mode
@@ -449,8 +452,8 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
 }
 
 /**
- * Draws an image from a given url to a WebGLRenderingContext
- * @param {string} url - URL of the image to render
+ * Draws an image to a WebGLRenderingContext
+ * @param {DrawSource} source - The image to render, or the URL to load it from
  * @param {WebGL2RenderingContext} gl - The context we're drawing with
  * @param {number} dstX - Position of the image on the X axis
  * @param {number} dstY - Position of the image on the Y axis
@@ -458,10 +461,13 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
  * @param {number} [offsetX=0] - Additional offset to add to the X axis (for blinking)
  * @returns {void} - Nothing
  */
-function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
+function GLDrawImage(source, gl, dstX, dstY, options, offsetX = 0) {
 	let { HexColor: color, FullAlpha: fullAlpha = false, AlphaMasks: alphaMasks, Alpha: opacity, Invert, Mirror, BlendingMode: blendingMode, TextureAlphaMask: texMasks } = options ?? {};
 	opacity = typeof opacity === "number" ? opacity : 1;
-	const tex = GLDrawLoadImage(gl, url);
+	const tex = typeof source === "string"
+		? GLDrawLoadImage(gl, source)
+		: GLDrawLoadTransient(gl, source);
+	if (!tex) return;
 	const mask = GLDrawLoadMask(gl, tex.width, tex.height, dstX, dstY, alphaMasks);
 	const textureMask = GLDrawLoadTextureAlphaMask(gl, tex.width, tex.height, dstX, dstY, texMasks);
 
@@ -608,11 +614,7 @@ function GLChooseProgram(gl, color, fullAlpha, blendingMode) {
  * @param {readonly TextureAlphaMask[]} [texMasks] - A list of mask layers to apply to the asset
  */
 function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
-	const TempCanvasName = Img.getAttribute("name") ?? "";
-	if (!ImageCache.has(TempCanvasName)) {
-		ImageCache.set(TempCanvasName, Img, { unloadCallback: GLDrawUnloadImage });
-	}
-	GLDrawImage(TempCanvasName, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks }, blinkOffset);
+	GLDrawImage(Img, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks }, blinkOffset);
 }
 
 /**
@@ -620,43 +622,69 @@ function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
  * @param {CachedImage<GLImageMetadata>} image
  */
 function GLDrawUnloadImage(image) {
-	if (image.userData.textureInfo && image.userData.textureInfo.texture)
+	if (image.userData.textureInfo?.texture)
 		GLDrawCanvas?.GL?.deleteTexture(image.userData.textureInfo.texture);
 
 	delete image.userData.textureInfo;
 }
 
 /**
+ * Creates a texture with the parameters every image texture uses
+ * @param {WebGL2RenderingContext} gl - WebGL context
+ * @returns {WebGLTexture}
+ */
+function GLDrawCreateTexture(gl) {
+	const texture = gl.createTexture();
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	return texture;
+}
+
+/**
  * Loads image texture data
  * @param {WebGL2RenderingContext} gl - WebGL context
  * @param {string} url - URL of the image
- * @returns {WebGLTextureData} - The texture info of a given image
+ * @returns {WebGLTextureData | null} - The texture info of a given image, or null if it has nothing to draw yet
  */
 function GLDrawLoadImage(gl, url) {
 	const image = ImageCache.get(url, { unloadCallback: GLDrawUnloadImage });
-	let textureInfo = image.userData.textureInfo;
+	const known = image.userData.textureInfo;
+	if (known) return known;
 
-	if (!textureInfo) {
-		textureInfo = { width: 1, height: 1, texture: gl.createTexture() };
+	if (!image.isLoaded()) return null;
 
-		gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-		if (image.isLoaded()) {
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.element);
-			textureInfo.width = image.element.width;
-			textureInfo.height = image.element.height;
-			image.userData.textureInfo = textureInfo;
-		} else  {
-			// Use a temporary 1-by-1 transparent pixel
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
-		}
-		return textureInfo;
-	}
-
+	const textureInfo = { width: image.bitmap.width, height: image.bitmap.height, texture: GLDrawCreateTexture(gl) };
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.bitmap);
+	image.userData.textureInfo = textureInfo;
 	return textureInfo;
+}
+
+/**
+ * Temporary scratch texture.
+ *
+ * Used for stuff that's being dynamically drawn, like canvas for animations.
+ *
+ * @type {WebGLTexture | undefined}
+ */
+let GLDrawScratchTexture;
+
+/**
+ * Uploads an image source into the scratch texture
+ * @param {WebGL2RenderingContext} gl - WebGL context
+ * @param {Exclude<DrawSource, string>} source - The source to upload
+ * @returns {WebGLTextureData | null} - The texture info for that source, or null if it has nothing to draw yet
+ */
+function GLDrawLoadTransient(gl, source) {
+	if (source instanceof HTMLImageElement && (!source.complete || source.naturalWidth === 0))
+		return null;
+
+	if (!GLDrawScratchTexture)
+		GLDrawScratchTexture = GLDrawCreateTexture(gl);
+	gl.bindTexture(gl.TEXTURE_2D, GLDrawScratchTexture);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+	return { width: source.width, height: source.height, texture: GLDrawScratchTexture };
 }
 
 /**
@@ -767,12 +795,12 @@ function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, m
 		for (const layer of maskLayers) {
 			GLDrawLoadImage(gl, layer.Url);
 			const img = ImageCache.get(layer.Url);
-			if (!img.element || img.element?.width === 0 || img.element?.height === 0) {
+			if (!img || !img.isLoaded()) {
 				return GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight);
 			}
 
 			ctx.globalCompositeOperation = layer.Mode || "destination-in";
-			ctx.drawImage(img.element, layer.X - offsetX, layer.Y - offsetY, img.element.width, img.element.height);
+			ctx.drawImage(img.bitmap, layer.X - offsetX, layer.Y - offsetY, img.bitmap.width, img.bitmap.height);
 		}
 
 		mask = gl.createTexture();

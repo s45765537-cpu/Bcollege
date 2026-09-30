@@ -36,6 +36,14 @@ type MemoizedFunction<T extends AnyFunction> = T & {
 type SafePromise<T> = Promise<T>;
 
 // GL shim
+
+/**
+ * Something GLDrawImage/DrawImage can draw: either the URL of an image that goes
+ * through the ImageCache, or an already available image source that gets
+ * uploaded on the spot.
+*/
+type DrawSource = string | HTMLImageElement | HTMLCanvasElement | ImageBitmap;
+
 interface WebGLTextureData {
 	width: number,
 	height: number,
@@ -5439,5 +5447,12 @@ declare namespace CachedImage {
 		/** A callback that will be called when the image is removed from the cache. */
 		unloadCallback?: LifetimeCallback;
 	}
+}
+
+/**
+ * A cached image whose data is guaranteed to be available.
+ */
+interface LoadedCachedImage<ImageMetadata extends object> extends CachedImage<ImageMetadata> {
+	bitmap: ImageBitmap;
 }
 

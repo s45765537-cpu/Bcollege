@@ -5,8 +5,6 @@
  *
  * - UNCACHED (initial) -> LOADING
  * - LOADING -> LOADED (final)
- * - LOADING -> ERRORED (entering retry loop)
- * - ERRORED -> LOADING
  * - LOADING -> FAILED (final)
  *
  * @enum {string}
@@ -18,8 +16,6 @@ const CachedImageState = {
 	LOADING: 'loading',
 	/** Image is available in cache */
 	LOADED: 'loaded',
-	/** Image is being loaded, but experiencing an error and will be retried */
-	ERRORED: 'errored',
 	/** Image couldn't be cached */
 	FAILED: 'failed',
 };
@@ -47,22 +43,26 @@ class CachedImage {
 		this.url = url;
 		/** @type {CachedImageState} */
 		this.state = CachedImageState.UNCACHED;
-		/** @type {number} */
-		this.errorCount = 0;
-		/** @type {number | null} */
-		this.backoffTimer = null;
 		/** @type {CachedImage.LifetimeCallback | undefined} */
 		this.loadCallback = options?.loadCallback;
 		/** @type {CachedImage.LifetimeCallback | undefined} */
 		this.unloadCallback = options?.unloadCallback;
-		/** @type {HTMLImageElement | HTMLCanvasElement | null} */
-		this.element = null;
+		/**
+		 * The decoded pixels; `null` until decoding completes.
+		 * @type {ImageBitmap | null}
+		 */
+		this.bitmap = null;
 		/** @type {ImageMetadata} */
-		this.userData = {};
+		this.userData = /** @type {ImageMetadata} */ ({});
 		/** @type {number} */
 		this.lastUsed = 0;
-		/** @type {boolean} */
-		this.manual = false;
+		/**
+		 * Bumped on every unload so that in-flight asynchronous work knows its
+		 * result is no longer wanted.
+		 * @type {number}
+		 * @private
+		 */
+		this._generation = 0;
 	}
 
 	/**
@@ -72,23 +72,9 @@ class CachedImage {
 		// Ensure there's only one image load in progress
 		if (this.isLoading() || this.isDoneLoading()) return;
 
-		// Get a new image element to perform the loading for us
-		this.element = new Image();
-
-		// Set up listeners to keep track of the loading process
-		this.element.addEventListener("load", () => {
-			this.state = CachedImageState.LOADED;
-			this.cache._imageStateDidChange(this);
-		});
-
-		this.element.addEventListener("error", () => {
-			this.state = CachedImageState.ERRORED;
-			this.cache._imageStateDidChange(this);
-		});
-
-		// Start loading, reset error count
-		this.errorCount = 0;
-		this._refresh();
+		this.state = CachedImageState.LOADING;
+		// _load reports its outcome through the state, and never rejects
+		void this._load(this._generation);
 	}
 
 	/**
@@ -100,54 +86,61 @@ class CachedImage {
 		if (this.unloadCallback)
 			this.unloadCallback(this);
 
-		// Workaround to get Safari to free up canvas memory quicker
-		// https://pqina.nl/blog/total-canvas-memory-use-exceeds-the-maximum-limit/
-		const canvas = this.element;
-		if (canvas instanceof HTMLCanvasElement) {
-			canvas.width = 1;
-			canvas.height = 1;
-			const ctx = canvas.getContext('2d');
-			if (ctx) ctx.clearRect(0, 0, 1, 1);
+		// Anything still in flight for this entry must drop its result
+		this._generation += 1;
+
+		if (this.bitmap) {
+			this.bitmap.close();
+			this.bitmap = null;
 		}
 
-		if (this.backoffTimer)
-			clearTimeout(this.backoffTimer);
-
-		this.element = null;
-		this.userData = {};
+		this.userData = /** @type {ImageMetadata} */ ({});
 		this.state = CachedImageState.UNCACHED;
 	}
 
 	/**
-	 * Manually set the cached image to the given element.
-	 * @param {HTMLImageElement | HTMLCanvasElement} element - The element to set
+	 * Fetch the raw bytes of the image.
+	 *
+	 * @param {string} url - The URL to fetch
+	 * @returns {Promise<Blob>}
+	 * @private
 	 */
-	setElement(element) {
-		this.unload();
-		this.element = element;
-		this.errorCount = 0;
-		this.state = CachedImageState.LOADED;
-		this.manual = true;
-		this.cache._imageStateDidChange(this);
+	async _fetchBlob(url) {
+		const response = await CommonFetch(url);
+		if (!response.ok)
+			throw new Error(`HTTP ${response.status}`);
+		return response.blob();
 	}
 
 	/**
-	 * Refresh the given image.
+	 * Perform the actual load.
+	 *
+	 * @param {number} generation - The generation this load belongs to
+	 * @returns {Promise<void>}
+	 * @private
 	 */
-	_refresh() {
-		if ([CachedImageState.LOADING, CachedImageState.FAILED].includes(this.state)) return;
+	async _load(generation) {
+		try {
+			const blob = await this._fetchBlob(this.url);
+			if (generation !== this._generation) return;
 
-		this.unload();
-		if (this.element instanceof HTMLImageElement) {
-			this.state = CachedImageState.LOADING;
-			this.element.crossOrigin = "anonymous";
-			// On the third attempt, we try without the crossOrigin
-			// TODO: this needs to be looked at closer
-			if (this.errorCount == 2) this.element.crossOrigin = null;
-			this.element.src = this.url;
-		} else {
-			// Canvas element, mark it as failed so the purge yanks it,
-			// or it gets manually set by the drawing system.
+			// Keep the alpha channel straight, the same way an <img> upload
+			// would hand it to WebGL; the default would premultiply it and
+			// lose precision on translucent pixels.
+			const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none" });
+			if (generation !== this._generation) {
+				bitmap.close();
+				return;
+			}
+
+			this.bitmap = bitmap;
+			this.state = CachedImageState.LOADED;
+			this.cache._imageStateDidChange(this);
+		} catch (err) {
+			if (generation !== this._generation) return;
+
+			// Load failed. Display the error in the console and mark it as failed.
+			console.error("Failed to load image " + this.url, err);
 			this.state = CachedImageState.FAILED;
 			this.cache._imageStateDidChange(this);
 		}
@@ -162,7 +155,7 @@ class CachedImage {
 	/**
 	 * Is the image currently being loaded?
 	 */
-	isLoading() { return [CachedImageState.LOADING, CachedImageState.ERRORED].includes(this.state); }
+	isLoading() { return this.state == CachedImageState.LOADING; }
 
 	/**
 	 * Is the image loading complete (either succesfully or not)?
@@ -172,21 +165,34 @@ class CachedImage {
 	/**
 	 * Is the image experiencing problems loading?
 	 */
-	isFailing() { return [CachedImageState.FAILED, CachedImageState.ERRORED].includes(this.state); }
+	isFailing() { return this.state == CachedImageState.FAILED; }
 
 	/**
 	 * Is the image loaded and ready?
+	 *
+	 * When this is true, `bitmap` is available.
+	 * @returns {this is LoadedCachedImage<ImageMetadata>}
 	 */
 	isLoaded() { return this.state == CachedImageState.LOADED; }
 
-	/** Get the image's width */
-	get width() {
-		return this.isLoaded() && this.element ? this.element.width : 0;
+	get complete() {
+		return this.isLoaded();
 	}
 
-	/** Get the image's height */
+	/**
+	 * Get the image's width
+	 * @returns {number}
+	 */
+	get width() {
+		return this.isLoaded() ? this.bitmap.width : 0;
+	}
+
+	/**
+	 * Get the image's height
+	 * @returns {number}
+	 */
 	get height() {
-		return this.isLoaded() && this.element ? this.element.height : 0;
+		return this.isLoaded() ? this.bitmap.height : 0;
 	}
 }
 
@@ -206,8 +212,6 @@ class ImageCacheClass {
 	constructor() {
 		/** @type {Map<string, CachedImage<ImageMetadata>>} */
 		this.cache = new Map();
-		this.loadedCount = 0;
-		this.missingCount = 0;
 		this.lastPurge = 0;
 	}
 
@@ -244,34 +248,12 @@ class ImageCacheClass {
 	}
 
 	/**
-	 * Add a cached image to the cache.
-	 * @param {string} url - The URL of the image to store
-	 * @param {HTMLImageElement|HTMLCanvasElement} image - The element to use as the image
-	 * @param {CachedImage.Options} [options]
-	 * @returns CachedImage
-	 */
-	set(url, image, options = {}) {
-		let img = new CachedImage(this, url, options);
-		this.delete(url);
-
-		this.cache.set(url, img);
-		img.setElement(image);
-		return img;
-	}
-
-	/**
 	 * Remove a cached image by its URL.
 	 * @param {string} url - The URL of the image to delete
 	 */
 	delete(url) {
 		const known = this.cache.get(url);
 		if (!known) return;
-
-		// That's already in the cache, correct our counters depending on the state
-		if (known.isLoaded())
-			this.loadedCount -= 1;
-		else if (known.isFailing())
-			this.missingCount -= 1;
 
 		known.unload();
 		this.cache.delete(url);
@@ -293,9 +275,6 @@ class ImageCacheClass {
 			img.unload();
 		});
 		this.cache.clear();
-
-		this.loadedCount = 0;
-		this.missingCount = 0;
 	}
 
 	/**
@@ -308,43 +287,14 @@ class ImageCacheClass {
 		// pruned while their load is still in progress.
 		if (!this.cache.has(image.url)) return;
 
-		const RetryTimers = [1000, 10000, 30000, 60000, 120000, 300000];
 		if (image.isLoaded()) {
-			// That image had some failure before we finally succeeded, meaning
-			// it has been considered missing at some point.
-			if (image.errorCount > 0) {
-				this.missingCount -= 1;
-				image.errorCount = 0;
-			}
-
-			this.loadedCount += 1;
 			if (image.loadCallback)
 				image.loadCallback(image);
 
 			this._refreshCharactersForImage(image);
-		} else if (image.state == CachedImageState.ERRORED) {
-			// First reported failure, count it as a missing image
-			if (image.errorCount === 0)
-				this.missingCount += 1;
-			image.errorCount += 1;
-
-			// Attempt to refresh again, waiting increasingly longer in case it's
-			// a transient issue.
-			if (image.errorCount < RetryTimers.length) {
-				let backoff = RetryTimers[image.errorCount - 1];
-				if (!image.backoffTimer) {
-					console.warn("Error loading image, retrying after " + backoff + "ms: " + image.url);
-					image.backoffTimer = setTimeout(() => {
-						image.backoffTimer = null;
-						image._refresh();
-					}, backoff);
-				}
-			} else {
-				// Load failed. Display the error in the console and mark it as failed.
-				console.error("Failed to load image " + image.url);
-				image.state = CachedImageState.FAILED;
-				this._refreshCharactersForImage(image);
-			}
+		} else if (image.state == CachedImageState.FAILED) {
+			// CommonFetch already did the retrying, this is final
+			this._refreshCharactersForImage(image);
 		}
 	}
 
@@ -355,10 +305,10 @@ class ImageCacheClass {
 	 * @returns {void}
 	 */
 	_refreshCharactersForImage(img) {
-		if (!img || !img.isAsset() || img.manual || !(img.element instanceof HTMLImageElement)) return;
+		if (!img) return;
 
-		const url = new URL(img.element.src);
-		const path = url.pathname;
+		// Go through URL so a query string or hash doesn't stick to the file name
+		const path = new URL(img.url, location.href).pathname;
 		const parts = path.split("/");
 		let pathPos = parts.indexOf("Assets");
 		if (pathPos === -1) return;
@@ -397,8 +347,7 @@ class ImageCacheClass {
 		this.cache.forEach((image, url) => {
 			// Clear images experiencing problems, or that were loaded for longer
 			// than half a purge delay
-			if (image.state == CachedImageState.ERRORED
-				|| image.state == CachedImageState.FAILED
+			if (image.state == CachedImageState.FAILED
 				|| image.lastUsed && (image.lastUsed + (ImageCachePurgeDelay / 2)) < CommonTime()) {
 				this.delete(url);
 			}
@@ -409,16 +358,14 @@ class ImageCacheClass {
 	}
 
 	/**
-	 * Output some stats about the cache and recalculate our counts
+	 * Output some stats about the cache
 	 */
 	stats() {
 		/** @type {{ [key: string]: number}} */
-		let stats = { total: this.cache.size, loaded: 0, missing: 0, errored: 0 };
+		let stats = { total: this.cache.size, loaded: 0, missing: 0 };
 		this.cache.forEach((image) => {
 			// Clear errored images
-			if (image.state == CachedImageState.ERRORED) {
-				stats.missing += 1;
-			} else if (image.state == CachedImageState.FAILED) {
+			if (image.state == CachedImageState.FAILED) {
 				stats.missing += 1;
 			} else if (image.state == CachedImageState.LOADED) {
 				stats.loaded += 1;
@@ -428,9 +375,6 @@ class ImageCacheClass {
 			}
 		});
 
-		this.loadedCount = stats.loaded;
-		this.missingCount = stats.missing + stats.errored;
-
 		console.log(`Cache stats: ${[...Object.entries(stats)].map(e => e[0] + ": " + e[1]).join(", ")}`);
 	}
 
@@ -438,16 +382,6 @@ class ImageCacheClass {
 	 * Get the count of cached images.
 	 */
 	totalImages() { return this.cache.size; }
-
-	/**
-	 * Get the count of loaded images.
-	 */
-	loadedImages() { return this.loadedCount; }
-
-	/**
-	 * Get the count of missing images (failing or errored).
-	 */
-	missingImages() { return this.missingCount; }
 }
 
 const ImageCache = /** @type {ImageCacheClass<GLImageMetadata>} */ (new ImageCacheClass());

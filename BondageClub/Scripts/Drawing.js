@@ -128,14 +128,14 @@ function DrawLoad() {
 }
 
 /**
- * Returns the image file from cache or build it from the source
+ * Returns the image's pixels from cache, starting its load if needed.
+ *
  * @param {string} url - URL of the image
- * @returns {HTMLImageElement} - Image file
+ * @returns {ImageBitmap | undefined} - The image's pixels, or undefined while it isn't available
  */
 function DrawGetImage(url) {
 	const image = ImageCache.get(url);
-	// This is a lie, but I don't think the things caching canvas use this?
-	return /** @type {HTMLImageElement} */(image?.element);
+	return image.isLoaded() ? image.bitmap : undefined;
 }
 
 /**
@@ -483,7 +483,7 @@ function DrawClearAlphaMasks(Canvas, X, Y, AlphaMasks) {
 
 /**
  * Draws a zoomed image from a source to a specific canvas
- * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
+ * @param {DrawSource} Source - URL of image or image itself
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} SX - The X coordinate where to start clipping
  * @param {number} SY - The Y coordinate where to start clipping
@@ -507,7 +507,7 @@ function DrawImageZoomCanvas(Source, Canvas, SX, SY, SWidth, SHeight, X, Y, Widt
 
 /**
  * Draws a resized image from a source to the main canvas
- * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
+ * @param {DrawSource} Source - URL of image or image itself
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
  * @param {number} Width - Width of the image after being resized
@@ -521,7 +521,7 @@ function DrawImageResize(Source, X, Y, Width, Height, Options) {
 
 /**
  * Draws a zoomed image from a source to a specific canvas
- * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of the image
+ * @param {DrawSource} Source - URL of the image
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
@@ -534,7 +534,7 @@ function DrawImageCanvas(Source, Canvas, X, Y, Options) {
 
 /**
  * Draws a canvas to a specific canvas
- * @param {HTMLImageElement | HTMLCanvasElement} Img - Canvas to draw
+ * @param {Exclude<DrawSource, string>} Img - Canvas to draw
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
@@ -548,7 +548,7 @@ function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TextureAlphaMasks) {
 
 /**
  * Draws an image from a source on the main canvas
- * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
+ * @param {DrawSource} Source - URL of image or image itself
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
  * @param {boolean} [Invert] - Flips the image vertically
@@ -586,7 +586,7 @@ function DrawApplyTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
 
 		for(const tmask of TextureAlphaMasks) {
 			const img = DrawGetImage(tmask.Url);
-			if (img.complete) {
+			if (img) {
 				ctx.globalCompositeOperation = tmask.Mode || "destination-in";
 				ctx.drawImage(img, tmask.X - X, tmask.Y - Y);
 			} else {
@@ -607,7 +607,7 @@ function DrawApplyTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
 
 /**
  * Draws an image on canvas, applying all options
- * @param {string | HTMLImageElement | HTMLCanvasElement} Source - URL of image or image itself
+ * @param {DrawSource} Source - URL of image or image itself
  * @param {CanvasRenderingContext2D} Canvas - Canvas on which to draw the image
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
@@ -627,6 +627,7 @@ function DrawImageEx(
 
 	if (typeof Source === "string") {
 		Img = DrawGetImage(Source);
+		if (!Img) return false;
 	} else {
 		Img = Source;
 	}
@@ -1043,7 +1044,7 @@ function DrawButton(Left, Top, Width, Height, Label, Color, Image=null, Hovering
 	DrawTextFit(Label, Left + Width / 2, Top + (Height / 2) + 1, Width - 2 * buttonPadding, "black");
 	if (Image) {
 		const img = DrawGetImage(Image);
-		if (img.complete) {
+		if (img) {
 			const buttonRect = RectMakeRect(Left + buttonPadding, Top + buttonPadding, Width - 2 * buttonPadding, Height - 2 * buttonPadding);
 			const baseImageRect = RectMakeRect(Left + buttonPadding, Top + buttonPadding, img.width, img.height);
 			const [, imageRect] = RectFitIntoRect(baseImageRect, buttonRect, DrawingResizeMode.ShowFullOriginalRatio);
@@ -1339,7 +1340,7 @@ function DrawRoomBackground(URL, bounds, opts) {
 		}
 
 		// Draw the background and custom filter
-		const imageBounds = RectMakeRect(img.x, img.y, img.naturalWidth, img.naturalHeight);
+		const imageBounds = RectMakeRect(0, 0, img.width, img.height);
 		const [sourceRect, destRect] = RectFitIntoRect(imageBounds, bounds, sizeMode);
 
 		DrawImageZoomCanvas(URL, MainCanvas, ...sourceRect, ...destRect, inverted);
@@ -1834,7 +1835,7 @@ function DrawCharacterSegment(C, Left, Top, Width, Height) {
  * smaller in the original image. If it's less than 1, then the top edge will be smaller than in the original (like the
  * Star Wars title text transform).
  *
- * @param {HTMLCanvasElement | HTMLImageElement} image - The source image
+ * @param {Exclude<DrawSource, string>} image - The source image
  * @param {HTMLCanvasElement} targetCanvas - The target canvas to draw the transformed image onto
  * @param {number} topToBottomRatio - The ratio between the desired length of the top edge and the bottom edge of the
  * final image.
