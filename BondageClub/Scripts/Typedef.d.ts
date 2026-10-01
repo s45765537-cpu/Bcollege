@@ -42,6 +42,10 @@ interface WebGLTextureData {
 	texture: WebGLTexture,
 }
 
+interface GLImageMetadata {
+	textureInfo?: WebGLTextureData;
+}
+
 interface WebGL2RenderingContext {
 	program?: WebGLProgram;
 	programFull?: WebGLProgram;
@@ -2010,6 +2014,7 @@ interface Character {
 	Canvas: HTMLCanvasElement | null;
 	CanvasBlink: HTMLCanvasElement | null;
 	MustDraw: boolean;
+	DrawnAssets: Set<string>;
 	BlinkFactor: number;
 	AllowItem: boolean;
 	/** A record with all asset- and type-specific permission settings */
@@ -5418,3 +5423,21 @@ declare namespace Item {
 		property?: Readonly<ItemProperties>;
 	}
 }
+
+declare namespace CachedImage {
+	/**
+	 * A callback called when an image is loaded.
+	 */
+	type LifetimeCallback = (img: CachedImage<any>) => void;
+
+	/**
+	 * Options for a CachedImage.
+	 */
+	interface Options {
+		/** A callback that will be called when the load completes. */
+		loadCallback?: LifetimeCallback;
+		/** A callback that will be called when the image is removed from the cache. */
+		unloadCallback?: LifetimeCallback;
+	}
+}
+

@@ -29,10 +29,6 @@ var BlindFlash = false;
 var BlindFlashQueue = false;
 var DrawingBlindFlashTimer = 0;
 
-// A bank of all the chached images
-/** @type {Map<string, HTMLImageElement>} */
-const DrawCacheImage = new Map;
-
 // Last dark factor for blindflash
 var DrawLastDarkFactor = 0;
 
@@ -133,98 +129,13 @@ function DrawLoad() {
 
 /**
  * Returns the image file from cache or build it from the source
- * @param {string} Source - URL of the image
+ * @param {string} url - URL of the image
  * @returns {HTMLImageElement} - Image file
  */
-function DrawGetImage(Source) {
-	// Search in the cache to find the image and make sure this image is valid
-	let Img = DrawCacheImage.get(Source);
-	if (!Img) {
-		Img = new Image;
-		DrawCacheImage.set(Source, Img);
-		// Keep track of image load state
-		const IsAsset = (Source.indexOf("Assets") >= 0);
-		if (IsAsset) {
-			Img.addEventListener("load", function () {
-				DrawGetImageOnLoad(this);
-			});
-		}
-
-		Img.addEventListener("error", function () {
-			DrawGetImageOnError(this, IsAsset);
-		});
-
-		// For CORS access
-		Img.crossOrigin = "anonymous";
-		// Start loading
-		Img.src = Source;
-	}
-
-	// returns the final image
-	return Img;
-}
-
-/**
- * Reloads all character canvas once all images are loaded
- * @param {HTMLImageElement | null} img
- * @returns {void} - Nothing
- */
-function DrawGetImageOnLoad(img) {
-	DrawRefreshCharacterForImage(img);
-}
-
-/**
- *
- * @param {HTMLImageElement | null} img
- */
-function DrawRefreshCharacterForImage(img) {
-	if (!img) return;
-
-	const url = new URL(img.src);
-	const path = url.pathname;
-	const parts = path.split("/");
-	let pathPos = parts.indexOf("Assets");
-	if (pathPos === -1) return;
-
-	if (parts[++pathPos] !== "Female3DCG") return;
-
-	let groupName = parts[++pathPos];
-	if (groupName === "Override") {
-		// Overrides have two extra positions
-		pathPos += 2;
-		groupName = parts[pathPos];
-	}
-	let layerName = parts[++pathPos];
-	if (!layerName.endsWith(".png")) {
-		// This is a pose directory
-		layerName = parts[++pathPos];
-	}
-	const assetName = layerName.split("_")[0].replace(".png", "");
-	const wearing = Character.filter(c => c.Appearance.some(i => (i.Asset.Group.Name === groupName || i.Asset.DynamicGroupName === groupName) && i.Asset.Name === assetName ));
-	for (const char of wearing) {
-		char.MustDraw = true;
-	}
-}
-
-/**
- * Attempts to redownload an image if it previously failed to load
- * @param {HTMLImageElement & { errorcount?: number }} Img - Image tag that failed to load
- * @param {boolean} IsAsset - Whether or not the image is part of an asset
- * @returns {void} - Nothing
- */
-function DrawGetImageOnError(Img, IsAsset) {
-	if (Img.errorcount == null) Img.errorcount = 0;
-	Img.errorcount += 1;
-	if (Img.errorcount < 3) {
-		// eslint-disable-next-line no-self-assign
-		Img.src = Img.src;
-		// On the third attempt, we try without the crossOrigin
-		if (Img.errorcount == 2) Img.crossOrigin = null;
-	} else {
-		// Load failed. Display the error in the console and mark it as done.
-		console.log("Error loading image " + Img.src);
-		if (IsAsset) DrawRefreshCharacterForImage(null);
-	}
+function DrawGetImage(url) {
+	const image = ImageCache.get(url);
+	// This is a lie, but I don't think the things caching canvas use this?
+	return /** @type {HTMLImageElement} */(image?.element);
 }
 
 /**
@@ -1675,6 +1586,9 @@ function DrawProcess(time) {
 		DialogLeave();
 	}
 
+	// From time to time, ping the cache with the list of drawn assets for
+	// every shown character, so that it doesn't prune those.
+	CommonDrawWarmDrawnAssets();
 }
 
 /**
