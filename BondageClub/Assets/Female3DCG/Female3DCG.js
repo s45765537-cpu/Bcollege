@@ -36033,6 +36033,7 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["KneelingSpread"],
 				SetPose: ["KneelingSpread"],
 				ParentGroup: {},
+				PoseMapping: { KneelingSpread: PoseType.DEFAULT },
 				Layer: [
 					{ Name: "Bar" },
 					{ Name: "Belt", ParentGroup: "BodyLower" },
@@ -36059,6 +36060,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#505050", "#BBBBBB"],
 				Extended: false,
 				AllowLock: true,
+				DrawLocks: false,
 				AllowTighten: true,
 				SetPose: ["LegsClosed"],
 				Effect: [E.Slow, E.BlockWardrobe],
@@ -42220,6 +42222,11 @@ var AssetFemale3DCG = [
 				Effect: [E.Block, E.BlockWardrobe, E.Slow],
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				Priority: 62,
+				InheritPoseMappingFields: true,
+				PoseMapping: {
+					Hogtied: PoseType.DEFAULT,
+					AllFours: PoseType.DEFAULT,
+				},
 				Layer: [
 					{ Name: "Frame", ParentGroup: {} },
 					{ Name: "NeckPad", ParentGroup: {} },
@@ -42397,7 +42404,7 @@ var AssetFemale3DCG = [
 						ParentGroup: "BodyUpper",
 						PoseMapping: {
 							BackElbowTouch: "BackElbowTouch",
-							Hogtied: PoseType.DEFAULT,
+							Hogtied: PoseType.HIDE,
 						},
 					},
 					{
@@ -42455,7 +42462,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "BackTentacle",
-						CopyLayerColor: "触手",
+						AllowColorize: false,
 						Priority: 4,
 						Left: 220,
 						Top: 470,
@@ -42488,7 +42495,7 @@ var AssetFemale3DCG = [
 					{
 						AllowTypes: { d: [1, 2] },
 						Name: "TentacleSuitActivated",
-						CopyLayerColor: "触手服",
+						CopyLayerColor: "TentacleSuit",
 						ParentGroup: "BodyUpper",
 						PoseMapping: { Hogtied: PoseType.HIDE, AllFours: PoseType.HIDE },
 					},
