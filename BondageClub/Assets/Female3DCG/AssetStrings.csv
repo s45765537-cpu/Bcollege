@@ -5130,6 +5130,31 @@ ItemLegsShinyLegBinderSetAsylum,SourceCharacter wraps DestinationCharacter legs 
 ItemLegsShinyLegBinderSetBeltbinder,SourceCharacter belts up DestinationCharacter legs in a AssetName.
 ItemLegsShinyLegBinderSetClassic,SourceCharacter wraps DestinationCharacter legs in a classic AssetName.
 ItemLegsShinyLegBinderSetLaced,SourceCharacter laces up DestinationCharacter legs in a AssetName.
+ItemLegsShockDeviceSelectBase,Configure your shock device
+ItemLegsShockDeviceModuleAnalShockPlug,Anal Plug
+ItemLegsShockDeviceModuleVaginalShockPlug,Vaginal Plug
+ItemLegsShockDeviceModuleInnerThighPatch,Thigh Patch
+ItemLegsShockDeviceModuleLowerAbdomenPatch,Abdomen Patch
+ItemLegsShockDeviceSelectAnalShockPlug,Configure the anal shock plug
+ItemLegsShockDeviceSelectVaginalShockPlug,Configure the vaginal shock plug
+ItemLegsShockDeviceSelectInnerThighPatch,Configure the inner thigh patch
+ItemLegsShockDeviceSelectLowerAbdomenPatch,Configure the lower abdomen patch
+ItemLegsShockDeviceOptiona0,None
+ItemLegsShockDeviceOptiona1,Plug
+ItemLegsShockDeviceOptionp0,None
+ItemLegsShockDeviceOptionp1,Plug
+ItemLegsShockDeviceOptionu0,None
+ItemLegsShockDeviceOptionu1,Patch
+ItemLegsShockDeviceOptiond0,None
+ItemLegsShockDeviceOptiond1,Patch
+ItemLegsShockDeviceSeta0,SourceCharacter removes the anal plug from DestinationCharacter AssetName.
+ItemLegsShockDeviceSeta1,SourceCharacter inserts the anal plug from DestinationCharacter AssetName.
+ItemLegsShockDeviceSetp0,SourceCharacter removes the vaginal plug from DestinationCharacter AssetName.
+ItemLegsShockDeviceSetp1,SourceCharacter inserts the vaginal plug from DestinationCharacter AssetName.
+ItemLegsShockDeviceSetu0,SourceCharacter removes the inner thigh patch from DestinationCharacter AssetName.
+ItemLegsShockDeviceSetu1,SourceCharacter installs the inner thigh patch from DestinationCharacter AssetName.
+ItemLegsShockDeviceSetd0,SourceCharacter removes the lower abdomen patch from DestinationCharacter AssetName.
+ItemLegsShockDeviceSetd1,SourceCharacter installs the lower abdomen patch from DestinationCharacter AssetName.
 ItemLegsZiptiesSetZipFrogtie,SourceCharacter uses the zipties on TargetCharacter to frogtie TargetPronounObject.
 ItemLegsZiptiesSetZipLegFull,SourceCharacter uses the zipties on TargetCharacter to fully bind TargetPronounPossessive legs.
 ItemLegsZiptiesSetZipLegLight,SourceCharacter uses the zipties on TargetCharacter to lighty bind TargetPronounPossessive legs.

@@ -19280,6 +19280,62 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemLegsPawPaddedPetsuitLegsSet",
 			},
 		}, // PawPaddedPetsuitLegs
+		ShockDevice: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "AnalShockPlug",
+					Key: "a",
+					DrawImages: false,
+					Options: [
+						{},
+						{
+							Prerequisite: ["ButtEmpty"],
+							Property: {
+								Block: ["ItemButt"],
+								Effect: [E.IsPlugged],
+							},
+						},
+					],
+				},
+				{
+					Name: "VaginalShockPlug",
+					Key: "p",
+					DrawImages: false,
+					Options: [
+						{},
+						{
+							Prerequisite: ["VulvaEmpty"],
+							Property: {
+								Block: ["ItemVulva"],
+							},
+						},
+					],
+				},
+				{
+					Name: "InnerThighPatch",
+					Key: "u",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+				{
+					Name: "LowerAbdomenPatch",
+					Key: "d",
+					DrawImages: false,
+					Options: [{}, {}],
+				},
+			],
+			BaselineProperty: {
+				ShockLevel: 0,
+				ShowText: false,
+				NextShockTime: 0,
+			},
+		}, // ShockDevice
 	}, // ItemLegs
 	ItemFeet: {
 		SpreaderMetal: {
