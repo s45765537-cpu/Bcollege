@@ -229,9 +229,10 @@ function CharacterAppearanceMustHide(C, GroupName) {
  * Sets a full random set of items for a character. Only items that do not have the "Random" property set to false will be used.
  * @param {Character} C - The character to dress
  * @param {boolean} [ClothOnly=false] - Defines, if only clothes should be used
+ * @param {boolean} [refresh] - Whether the character should be refreshed.
  * @returns {void} - Nothing
  */
-function CharacterAppearanceFullRandom(C, ClothOnly=false) {
+function CharacterAppearanceFullRandom(C, ClothOnly=false, refresh=true) {
 
 	const allAssetsGroups = AssetGetAllAppearanceForCharacter(C);
 
@@ -305,12 +306,14 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 		/** @type {AssetName} */
 		const randomItem = CommonGetRandomItemFromList(["Santa1", "ReindeerBand"]);
 		if (randomItem) {
-			InventoryWear(C, randomItem, "Hat");
+			InventoryWear(C, randomItem, "Hat", undefined, undefined, undefined, undefined, false);
 		}
 	}
 
 	// Refreshes the character
-	CharacterRefresh(C, false);
+	if (refresh) {
+		CharacterRefresh(C, false);
+	}
 }
 
 /**
