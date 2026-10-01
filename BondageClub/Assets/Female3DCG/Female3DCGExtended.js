@@ -14156,6 +14156,44 @@ var AssetFemale3DCGExtended = {
 				CommonChatTags.ASSET_NAME,
 			],
 		}, // UsedCondom
+		MoreWiredVibrators: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "SelectVibratorSwitch",
+					DrawImages: false,
+					Key: "o",
+					Options: [
+						{
+							Property: { Intensity: -1, Effect: ["Egged"] },
+						},
+						{
+							Property: { Intensity: 0, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] },
+						},
+						{
+							Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] },
+						},
+					],
+				},
+				{
+					Name: "SelectVibratorQuantity",
+					DrawImages: false,
+					Key: "n",
+					Options: [{}, {}, {}, {}, {}],
+				},
+			],
+		}, // MoreWiredVibrators
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
