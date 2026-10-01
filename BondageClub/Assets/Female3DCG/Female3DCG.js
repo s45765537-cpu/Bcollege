@@ -58755,7 +58755,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CheekRetractor",
-				InventoryID: 1419,
+				InventoryID: 1420,
 				Value: 10,
 				Left: 220,
 				Top: 170,
