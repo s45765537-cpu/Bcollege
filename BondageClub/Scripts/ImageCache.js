@@ -1,6 +1,23 @@
 "use strict";
 
 /**
+ * The main BC image cache.
+ *
+ * Images requested through it will be saved to memory (as decoded ImageBitmaps)
+ * and backed by the browser Cache API (bc-images-v1 is the cache name).
+ *
+ * It bypasses the /R\d+/ version slug in the BC urls so that files can be
+ * kept around even if the URL changes every release; only their mtime matters.
+ *
+ * The stored images are also kept on disk: a hit is returned immediately, but
+ * will get revalidated and swapped in in the background; a 304 status keeps the
+ * entry; a 200 replaces it and the in-memory bitmap is rebuilt.
+ *
+ * When the Cache API isn't available, `browserCache` stays unset and fetches fall
+ * through to CommonFetch as usual.
+ */
+
+/**
  * What state is the image in.
  *
  * - UNCACHED (initial) -> LOADING
@@ -102,14 +119,34 @@ class CachedImage {
 	 * Fetch the raw bytes of the image.
 	 *
 	 * @param {string} url - The URL to fetch
+	 * @param {number} generation - The generation the fetch belongs to
 	 * @returns {Promise<Blob>}
 	 * @private
 	 */
-	async _fetchBlob(url) {
-		const response = await CommonFetch(url);
+	async _fetchBlob(url, generation) {
+		const store = this.cache.browserCache;
+		const response = store
+			? await store.fetch(url, {
+				onUpdate: (fresh) => void this._update(generation, fresh),
+			})
+			: await CommonFetch(url);
 		if (!response.ok)
 			throw new Error(`HTTP ${response.status}`);
 		return response.blob();
+	}
+
+	/**
+	 * Decode fetched bytes into a bitmap.
+	 *
+	 * @param {Blob} blob - The image bytes
+	 * @returns {Promise<ImageBitmap>}
+	 * @private
+	 */
+	_decode(blob) {
+		// Keep the alpha channel straight, the same way an <img> upload
+		// would hand it to WebGL; the default would premultiply it and
+		// lose precision on translucent pixels.
+		return createImageBitmap(blob, { premultiplyAlpha: "none" });
 	}
 
 	/**
@@ -121,13 +158,10 @@ class CachedImage {
 	 */
 	async _load(generation) {
 		try {
-			const blob = await this._fetchBlob(this.url);
+			const blob = await this._fetchBlob(this.url, generation);
 			if (generation !== this._generation) return;
 
-			// Keep the alpha channel straight, the same way an <img> upload
-			// would hand it to WebGL; the default would premultiply it and
-			// lose precision on translucent pixels.
-			const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none" });
+			const bitmap = await this._decode(blob);
 			if (generation !== this._generation) {
 				bitmap.close();
 				return;
@@ -143,6 +177,40 @@ class CachedImage {
 			console.error("Failed to load image " + this.url, err);
 			this.state = CachedImageState.FAILED;
 			this.cache._imageStateDidChange(this);
+		}
+	}
+
+	/**
+	 * Swap in a newer version of the image found by a background revalidation.
+	 *
+	 * Behaves like an unload immediately followed by a load, so that anything
+	 * derived from the old bitmap (GL textures, user data) is rebuilt.
+	 *
+	 * @param {number} generation - The generation of the load that got updated
+	 * @param {Response} response - The fresh response
+	 * @returns {Promise<void>}
+	 * @private
+	 */
+	async _update(generation, response) {
+		try {
+			const blob = await response.blob();
+			const bitmap = await this._decode(blob);
+			// The image has been unloaded, or is no longer the one we fetched
+			if (generation !== this._generation || !this.isLoaded()) {
+				bitmap.close();
+				return;
+			}
+
+			if (this.unloadCallback)
+				this.unloadCallback(this);
+			this.bitmap.close();
+
+			this.userData = /** @type {ImageMetadata} */ ({});
+			this.bitmap = bitmap;
+			this.cache._imageStateDidChange(this);
+		} catch (err) {
+			// The version we have is still perfectly usable
+			console.warn(`Failed to update image: ${this.url}`, err);
 		}
 	}
 
@@ -197,6 +265,178 @@ class CachedImage {
 }
 
 /**
+ * Persistent browser-level Cache store for images.
+ */
+class BrowserCache {
+	/**
+	 * @param {Cache} cache
+	 * @param {string} name
+	 * @private
+	 */
+	constructor(cache, name) {
+		if (!cache) throw new Error("BrowserCache requires an open Cache");
+		/**
+		 * Name of the Cache bucket. Bump only if what's stored in it
+		 * changes shape.
+		 * @type {string}
+		 */
+		this.name = name;
+		/**
+		 * The opened Cache.
+		 * @type {Cache}
+		 */
+		this.cache = cache;
+		/**
+		 * Matches the release directory at the start of a resource path, e.g. the
+		 * `/R123/` in `/R123/Game/Assets/...`.
+		 * @type {RegExp}
+		 * @private
+		 */
+		this._releasePattern = /^\/R\d+[^/]*\//;
+		/**
+		 * Keys that have been revalidated this session.
+		 * @type {Set<string>}
+		 * @private
+		 */
+		this._revalidated = new Set();
+	}
+
+	/**
+	 * Open the named bucket.
+	 * @returns {Promise<BrowserCache>}
+	 */
+	static async open() {
+		if (typeof caches === "undefined") throw new Error("Cache API unavailable");
+		const cacheName = "bc-images-v1";
+		return new BrowserCache(await caches.open(cacheName), cacheName);
+	}
+
+	/**
+	 * Compute the key an image URL is stored under.
+	 *
+	 * The R$VERSION directory, query string and fragment are dropped, so that the
+	 * same file can be reused across versions, assuming its mtime doesn't change.
+	 *
+	 * @param {string} url
+	 * @returns {string}
+	 */
+	key(url) {
+		const parsed = new URL(url, location.href);
+		parsed.pathname = parsed.pathname.replace(this._releasePattern, "/");
+		parsed.search = "";
+		parsed.hash = "";
+		return parsed.href;
+	}
+
+	/**
+	 * Can this response go in the store?
+	 *
+	 * Only complete, successful, readable responses are worth keeping. Opaque
+	 * ones have a status of 0, so they're excluded by the status check.
+	 *
+	 * @param {Response} response
+	 * @returns {boolean}
+	 * @private
+	 */
+	_isStorable(response) {
+		return response.status === 200;
+	}
+
+	/**
+	 * Store a response into the cache.
+	 *
+	 * @param {string} key The cache key of the resource
+	 * @param {Response} response - The response to store.
+	 * @returns {Promise<boolean>} Whether the response was stored.
+	 * @private
+	 */
+	async _put(key, response) {
+		// Ignore storage failures (quota, eviction) to not stop the fetch.
+		try {
+			await this.cache.put(key, response.clone());
+			return true;
+		} catch (err) {
+			console.warn(`Failed to cache image "${key}"`, err);
+			return false;
+		}
+	}
+
+	/**
+	 * Check with the server whether a stored image is still current.
+	 *
+	 * Runs at most once per key per session.
+	 *
+	 * @param {string} key - The cache key of the resource
+	 * @param {string} url - The URL to revalidate against
+	 * @param {Response} cached - The response we currently hold
+	 * @param {BrowserCache.FetchOptions} options
+	 * @returns {void}
+	 * @private
+	 */
+	_revalidate(key, url, cached, options) {
+		if (this._revalidated.has(key)) return;
+		this._revalidated.add(key);
+
+		/** @type {Record<string, string>} */
+		const headers = {};
+		const lastModified = cached.headers.get("Last-Modified");
+		if (lastModified) headers["If-Modified-Since"] = lastModified;
+		const etag = cached.headers.get("ETag");
+		if (etag) headers["If-None-Match"] = etag;
+
+		void (async () => {
+			try {
+				const response = await CommonFetch(new Request(url, { headers }));
+				if (response.status === 304) return;
+				if (!this._isStorable(response)) return;
+
+				if (await this._put(key, response)) {
+					options.onUpdate?.(response);
+				}
+			} catch (err) {
+				// The cached copy stays in use; we'll try again next session
+				console.warn(`Failed to revalidate image "${url}"`, err);
+			}
+		})();
+	}
+
+	/**
+	 * Fetch an image, through the persistent store when possible.
+	 *
+	 * @param {string} url - The URL of the image
+	 * @param {BrowserCache.FetchOptions} [options]
+	 * @returns {Promise<Response>}
+	 */
+	async fetch(url, options = {}) {
+		const key = this.key(url);
+		const cached = await this.cache.match(key);
+		if (cached) {
+			this._revalidate(key, url, cached, options);
+			return cached;
+		}
+
+		const response = await CommonFetch(url);
+		if (this._isStorable(response)) {
+			await this._put(key, response);
+			// No point revalidating what we just downloaded
+			this._revalidated.add(key);
+		}
+		return response;
+	}
+
+	/**
+	 * Throw the whole persistent store away and open a fresh bucket.
+	 * @returns {Promise<boolean>} Whether there was a store to delete
+	 */
+	async clear() {
+		this._revalidated.clear();
+		const deleted = await caches.delete(this.name);
+		this.cache = await caches.open(this.name);
+		return deleted;
+	}
+}
+
+/**
  * The delay between each cache purge event, in milliseconds.
  *
  * When the cache purges, this value is halved, and used to find any assets that
@@ -213,6 +453,26 @@ class ImageCacheClass {
 		/** @type {Map<string, CachedImage<ImageMetadata>>} */
 		this.cache = new Map();
 		this.lastPurge = 0;
+		/**
+		 * Persistent byte store, or null if the Cache API isn't usable.
+		 * @type {BrowserCache | null}
+		 */
+		this.browserCache = null;
+		void this._attachBrowserCache();
+	}
+
+	/**
+	 * Try to open the persistent store. Failures leave `browserCache` unset.
+	 * @returns {Promise<void>}
+	 * @private
+	 */
+	async _attachBrowserCache() {
+		try {
+			this.browserCache = await BrowserCache.open();
+		} catch (err) {
+			if (typeof caches !== "undefined")
+				console.warn("Persistent image cache unavailable", err);
+		}
 	}
 
 	/**

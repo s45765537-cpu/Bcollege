@@ -5456,3 +5456,12 @@ interface LoadedCachedImage<ImageMetadata extends object> extends CachedImage<Im
 	bitmap: ImageBitmap;
 }
 
+declare namespace BrowserCache {
+	interface FetchOptions {
+		/**
+		 * Called if a background revalidation finds a newer version of the resource.
+		 * The response is fresh and unconsumed.
+		 */
+		onUpdate?(response: Response): void;
+	}
+}
