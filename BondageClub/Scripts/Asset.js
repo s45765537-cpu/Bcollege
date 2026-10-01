@@ -11,6 +11,8 @@ var AssetGroup = [];
 var AssetMap = new Map();
 /** @type {Map<AssetGroupName, AssetGroup>} */
 var AssetGroupMap = new Map();
+/** @type {Map<string, Asset[]>} */
+var AssetBuyGroupMap = new Map();
 /** @type {Pose[]} */
 var Pose = [];
 /** A record mapping pose names to their respective {@link Pose}. */
@@ -427,6 +429,12 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 			A.SelfUnlock = true;
 			A.WearTime = 0;
 			break;
+	}
+
+	// Build the buygroup map
+	if (A.BuyGroup) {
+		const assets = CommonMapGetOrInsert(AssetBuyGroupMap, A.BuyGroup, []);
+		assets.push(A);
 	}
 	return A;
 }

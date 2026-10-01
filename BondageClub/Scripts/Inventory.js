@@ -239,6 +239,7 @@ function InventoryDataBuild(C) {
 * @param {Character} C - The character on which we should remove the item
 * @param {AssetName} Name - The name of the item to validate
 * @param {AssetGroupName} Group - The group name of the item to validate
+* @returns {boolean} Whether the given item is in the given character's inventory.
 */
 function InventoryAvailable(C, Name, Group) {
 	if (C.Inventory.find(i => i.Group === Group && i.Name === Name)) {
@@ -252,7 +253,7 @@ function InventoryAvailable(C, Name, Group) {
 	} else if (asset.Value === 0) {
 		return true;
 	} else if (asset.BuyGroup != null) {
-		return Asset.filter(a => a.BuyGroup === asset.BuyGroup).some(a => a.Value === 0);
+		return AssetBuyGroupMap.get(asset.BuyGroup)?.some(a => a.Value === 0) ?? false;
 	} else {
 		return false;
 	}
