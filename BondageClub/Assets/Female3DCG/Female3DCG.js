@@ -42462,7 +42462,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "BackTentacle",
-						AllowColorize: false,
+						CopyLayerColor: "InsertingTentacle",
 						Priority: 4,
 						Left: 220,
 						Top: 470,
