@@ -124,6 +124,14 @@ function ChatAdminCanEdit() {
 }
 
 /**
+ * Return whether the data in the editor can actually be committed
+ * @returns {boolean}
+ */
+function ChatAdminCanCommit() {
+	return ChatAdminCanEdit() && ChatAdminMessage !== "UpdatingRoom" && ChatAdminMessage !== "CreatingRoom";
+}
+
+/**
  * Loads the given room data and sets up the UI for it
  * @type {ScreenLoadHandler}
  */
@@ -228,9 +236,11 @@ function ChatAdminRun() {
 		return;
 	}
 
+	const disabledColor = "#ebebe4";
+
 	const canEdit = ChatAdminCanEdit();
 	// Grey button backgrounds if the player isn't an admin
-	const ButtonBackground = canEdit ? "White" : "#ebebe4";
+	const ButtonBackground = canEdit ? "White" : disabledColor;
 
 	// Draw the main controls
 	DrawText(TextGet(ChatAdminMessage), 675, 910, "Black", "Gray");
@@ -304,10 +314,13 @@ function ChatAdminRun() {
 		() => TextGet(`AccessMode${ChatAdminAccessModeLabels[(ChatAdminAccessModeIndex >= ChatAdminAccessModeLabels.length - 1) ? 0 : ChatAdminAccessModeIndex + 1]}`),
 		!canEdit);
 
+	const canCommit = ChatAdminCanCommit();
+	const commitBGColor = canCommit ? "White" : disabledColor;
+
 	// Save & Cancel/Exit buttons + help text
 	const commitLabel = ChatAdminMode === "create" ? TextGet("Create") : TextGet("Save");
-	DrawButton(1325, 840, 250, 65, commitLabel, ButtonBackground, null, null, !canEdit);
-	DrawButton(1625, 840, 250, 65, TextGet(canEdit ? "Cancel" : "Exit"), "White");
+	DrawButton(1325, 840, 250, 65, commitLabel, commitBGColor, null, null, !canCommit);
+	DrawButton(1625, 840, 250, 65, TextGet(canCommit ? "Cancel" : "Exit"), "White");
 }
 
 /**
@@ -458,8 +471,10 @@ function ChatAdminClick() {
 			return;
 		}
 
-		// Save button + quickban buttons
-		if (MouseIn(1325, 840, 250, 65)) ChatAdminCommit();
+		// Save button
+		if (MouseIn(1325, 840, 250, 65) && ChatAdminCanCommit()) ChatAdminCommit();
+
+		// Quickban buttons
 		if (MouseIn(125, 746, 340, 60)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
 		if (MouseIn(125, 816, 340, 60)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
 		if (MouseIn(505, 746, 165, 60)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
@@ -489,7 +504,7 @@ function ChatAdminCommit() {
 function ChatAdminKeyDown(event) {
 	if (event.repeat) return false;
 
-	if (CommonKey.IsPressed(event, "Enter")) {
+	if (CommonKey.IsPressed(event, "Enter") && ChatAdminCanCommit()) {
 		ChatAdminCommit();
 		return true;
 	}
