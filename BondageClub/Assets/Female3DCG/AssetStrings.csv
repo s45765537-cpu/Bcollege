@@ -6362,10 +6362,45 @@ ItemTorsoRestraintSetLatexSuit,Latex
 ItemTorsoRestraintSetNo,None
 ItemTorsoRestraintSetSelect,Arms fabric configuration
 ItemTorsoRestraintSetSheerBodysuit,Sheer
-ItemTorsoRestraintSetSetNo,SourceCharacter sets DestinationCharacter's AssetName to no arms fabric.
-ItemTorsoRestraintSetSetSheerBodysuit,SourceCharacter sets DestinationCharacter's AssetName to sheer arms fabric.
-ItemTorsoRestraintSetSetLatexSuit,SourceCharacter sets DestinationCharacter's AssetName to latex arms fabric.
-ItemTorsoRestraintSetSetBodysuit,SourceCharacter sets DestinationCharacter's AssetName to nylon arms fabric.
+ItemTorsoRestraintSetSetNo,SourceCharacter sets DestinationCharacter AssetName to no arms fabric.
+ItemTorsoRestraintSetSetSheerBodysuit,SourceCharacter sets DestinationCharacter AssetName to sheer arms fabric.
+ItemTorsoRestraintSetSetLatexSuit,SourceCharacter sets DestinationCharacter AssetName to latex arms fabric.
+ItemTorsoRestraintSetSetBodysuit,SourceCharacter sets DestinationCharacter AssetName to nylon arms fabric.
+ItemTorsoTentacleSuitSelectBase,Configure the tentacle suit
+ItemTorsoTentacleSuitSelectTopStatus,Configure the suit top
+ItemTorsoTentacleSuitSelectMouthCoverStatus,Configure the suit mouth cover
+ItemTorsoTentacleSuitSelectGloveStatus,Configure the suit arms
+ItemTorsoTentacleSuitSelectFootCoverStatus,Configure the suit legs
+ItemTorsoTentacleSuitSelectTentacleStatus,Configure the suit genitals
+ItemTorsoTentacleSuitModuleTentacleStatus,Genitals
+ItemTorsoTentacleSuitModuleTopStatus,Top
+ItemTorsoTentacleSuitModuleGloveStatus,Arms
+ItemTorsoTentacleSuitModuleMouthCoverStatus,Mouth
+ItemTorsoTentacleSuitModuleFootCoverStatus,Legs
+ItemTorsoTentacleSuitOptiond0,Expose
+ItemTorsoTentacleSuitOptiond1,Seal
+ItemTorsoTentacleSuitOptiond2,Tentacle
+ItemTorsoTentacleSuitOptions0,Hide
+ItemTorsoTentacleSuitOptions1,Display
+ItemTorsoTentacleSuitOptionh0,Hide
+ItemTorsoTentacleSuitOptionh1,Display
+ItemTorsoTentacleSuitOptionh2,Bind
+ItemTorsoTentacleSuitOptionm0,Hide
+ItemTorsoTentacleSuitOptionm1,Display
+ItemTorsoTentacleSuitOptionf0,Hide
+ItemTorsoTentacleSuitOptionf1,Display
+ItemTorsoTentacleSuitSetd0,SourceCharacter sets DestinationCharacter AssetName to expose the genitals.
+ItemTorsoTentacleSuitSetd1,SourceCharacter sets DestinationCharacter AssetName to seal the genitals.
+ItemTorsoTentacleSuitSetd2,SourceCharacter sets DestinationCharacter AssetName to plug the genitals with a tentacle.
+ItemTorsoTentacleSuitSets0,SourceCharacter sets DestinationCharacter AssetName to hide the top.
+ItemTorsoTentacleSuitSets1,SourceCharacter sets DestinationCharacter AssetName to display the top.
+ItemTorsoTentacleSuitSeth0,SourceCharacter sets DestinationCharacter AssetName to hide the arms.
+ItemTorsoTentacleSuitSeth1,SourceCharacter sets DestinationCharacter AssetName to display the arms.
+ItemTorsoTentacleSuitSeth2,SourceCharacter sets DestinationCharacter AssetName to bind the arms.
+ItemTorsoTentacleSuitSetm0,SourceCharacter sets DestinationCharacter AssetName to uncover the mouth.
+ItemTorsoTentacleSuitSetm1,SourceCharacter sets DestinationCharacter AssetName to cover the mouth.
+ItemTorsoTentacleSuitSetf0,SourceCharacter sets DestinationCharacter AssetName to hide the legs.
+ItemTorsoTentacleSuitSetf1,SourceCharacter sets DestinationCharacter AssetName to display the legs.
 ItemTorsoThinLeatherStrapsCrotch,Crotch Strap
 ItemTorsoThinLeatherStrapsHarness,Harness
 ItemTorsoThinLeatherStrapsSelect,Select strap bondage.

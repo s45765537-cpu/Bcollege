@@ -15405,7 +15405,11 @@ var AssetFemale3DCGExtended = {
 		RestraintSet: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChangeWhenLocked: false,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR, CommonChatTags.ASSET_NAME],
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
 			DrawImages: false,
 			Options: [
 				{ Name: "No" },
@@ -15414,6 +15418,85 @@ var AssetFemale3DCGExtended = {
 				{ Name: "Bodysuit" },
 			],
 		}, // RestraintSet
+		TentacleSuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			DrawImages: false,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.TARGET_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "TentacleStatus",
+					Key: "d",
+					Options: [
+						{
+							Property: {
+								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+							},
+						},
+						{},
+						{
+							HasSubscreen: true,
+							Prerequisite: [
+								"AccessVulva",
+								"VulvaEmpty",
+								"AccessButt",
+								"ButtEmpty",
+							],
+							Property: {
+								Effect: [E.VulvaShaft],
+								Block: ["ItemVulva", "ItemButt"],
+							},
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.VIBRATING,
+							},
+						},
+					],
+				},
+				{
+					Name: "TopStatus",
+					Key: "s",
+					Options: [{}, {}],
+				},
+				{
+					Name: "GloveStatus",
+					Key: "h",
+					Options: [
+						{},
+						{},
+						{
+							Property: {
+								Difficulty: 13,
+								SetPose: ["BackElbowTouch"],
+								Effect: [E.Block],
+								Block: ["ItemArms", "ItemHands"],
+							},
+						},
+					],
+				},
+				{
+					Name: "MouthCoverStatus",
+					Key: "m",
+					Options: [
+						{},
+						{
+							Property: {
+								Effect: [E.BlockMouth, E.GagLight],
+								Block: ["ItemMouth"],
+							},
+						},
+					],
+				},
+				{
+					Name: "FootCoverStatus",
+					Key: "f",
+					Options: [{}, { Property: { Effect: [E.Slow] } }],
+				},
+			],
+		}, // TentacleSuit
 	}, // ItemTorso
 	ItemTorso2: {
 		LockingSwimsuit: {
