@@ -5432,14 +5432,14 @@ declare namespace Item {
 	}
 }
 
-declare namespace CachedImage {
+declare namespace ImageCache {
 	/**
 	 * A callback called when an image is loaded.
 	 */
 	type LifetimeCallback = (img: CachedImage<any>) => void;
 
 	/**
-	 * Options for a CachedImage.
+	 * Options for an ImageCache.
 	 */
 	interface Options {
 		/** A callback that will be called when the load completes. */

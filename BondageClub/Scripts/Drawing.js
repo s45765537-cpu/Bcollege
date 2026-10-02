@@ -134,7 +134,7 @@ function DrawLoad() {
  * @returns {ImageBitmap | undefined} - The image's pixels, or undefined while it isn't available
  */
 function DrawGetImage(url) {
-	const image = ImageCache.get(url);
+	const image = DrawImageCache.get(url);
 	return image.isLoaded() ? image.bitmap : undefined;
 }
 

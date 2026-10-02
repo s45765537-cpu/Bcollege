@@ -31,7 +31,7 @@ function PlatformIntroRun() {
 				LastAnimCycle = C;
 				Total++;
 				let FileName = "Screens/Room/Platform/Character/" + Char.Name + "/" + Char.Status + "/" + Anim.Name + "/" + C.toString() + ".png";
-				let Obj = ImageCache.get(FileName);
+				let Obj = DrawImageCache.get(FileName);
 				if ((Obj != null) && (Obj.width > 0)) {
 					if (Count == PlatformIntroDrawAsset) DrawImageZoomCanvas(FileName, MainCanvas, 0, 0, Obj.width, Obj.height, -50, 0, 1000, 1000);
 					Count++;
@@ -47,7 +47,7 @@ function PlatformIntroRun() {
 					LastAnimCycle = C;
 					Total++;
 					let FileName = "Screens/Room/Platform/Character/" + Char.Name + "/" + Char.Status + "/" + Anim.Name + "Left/" + C.toString() + ".png";
-					let Obj = ImageCache.get(FileName);
+					let Obj = DrawImageCache.get(FileName);
 					if ((Obj != null) && (Obj.width != null) && (Obj.width > 0)) {
 						if (Count == PlatformIntroDrawAsset) DrawImageZoomCanvas(FileName, MainCanvas, 0, 0, Obj.width, Obj.height, -50, 0, 1000, 1000);
 						Count++;

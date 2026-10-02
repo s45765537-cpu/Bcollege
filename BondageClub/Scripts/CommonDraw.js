@@ -873,7 +873,12 @@ function CommonDrawMarkDrawnAsset(C, src) {
 function CommonDrawWarmDrawnAssets() {
 	DrawLastCharacters.forEach((C) => {
 		C.DrawnAssets.forEach((item) => {
-			ImageCache.get(item);
+			if (DrawImageCache.has(item)) {
+				DrawImageCache.get(item);
+			}
+			if (GLDrawImageCache.has(item)) {
+				GLDrawImageCache?.get(item);
+			}
 		});
 	});
 }

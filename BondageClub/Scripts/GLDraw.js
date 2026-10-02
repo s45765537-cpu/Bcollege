@@ -27,7 +27,8 @@ var GLDrawAlphaThreshold = 0.01;
 var GLDrawHalfAlphaLow = 0.8 / 256.0;
 var GLDrawHalfAlphaHigh = 1.2 / 256.0;
 
-window.addEventListener('load', GLDrawLoad);
+/** @type {ImageCache<GLImageMetadata>} */
+var GLDrawImageCache;
 
 /**
  * Setup WebGL rendering
@@ -64,6 +65,7 @@ function GLDrawLoad(_evt, force2d = false) {
 			console.error('WebGL: failed to initialize canvas');
 		}
 		GLVersion = "No WebGL";
+		GLDrawImageCache?.clear();
 		GLDrawCanvas.remove();
 		GLDrawCanvas = null;
 		return;
@@ -72,6 +74,8 @@ function GLDrawLoad(_evt, force2d = false) {
 	GLDrawCanvas.GL = /** @type {WebGL2RenderingContext} */ (gl);
 	GLDrawMakeGLProgram(GLDrawCanvas.GL);
 	GLDrawClearRect(GLDrawCanvas.GL, 0, 0, 1000, CanvasDrawHeight, 0);
+
+	GLDrawImageCache = new ImageCache("gldraw", BrowserStorageCache, { unloadCallback: GLDrawUnloadImage });
 
 	// Attach context listeners
 	GLDrawCanvas.addEventListener("webglcontextlost", GLDrawOnContextLost, false);
@@ -185,7 +189,7 @@ function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
 	GLDrawCanvas?.remove();
-	ImageCache.forEach((image, key) => {
+	GLDrawImageCache.forEach((image, key) => {
 		image.unload();
 	});
 	GLDrawCanvas?.GL?.maskCache?.forEach((texture) => {
@@ -649,7 +653,7 @@ function GLDrawCreateTexture(gl) {
  * @returns {WebGLTextureData | null} - The texture info of a given image, or null if it has nothing to draw yet
  */
 function GLDrawLoadImage(gl, url) {
-	const image = ImageCache.get(url, { unloadCallback: GLDrawUnloadImage });
+	const image = GLDrawImageCache.get(url);
 	const known = image.userData.textureInfo;
 	if (known) return known;
 
@@ -794,7 +798,7 @@ function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, m
 		// so a canvas ctx is used to combine them
 		for (const layer of maskLayers) {
 			GLDrawLoadImage(gl, layer.Url);
-			const img = ImageCache.get(layer.Url);
+			const img = GLDrawImageCache.get(layer.Url);
 			if (!img || !img.isLoaded()) {
 				return GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight);
 			}

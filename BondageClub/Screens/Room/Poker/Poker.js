@@ -82,7 +82,7 @@ function PokerDrawPlayer(P, X, Y) {
 
 			// If a valid image is loaded, we show it, we can move it a little to adjust the position on screen
 			if (P.Image != null) {
-				const img = ImageCache.get(P.Image);
+				const img = DrawImageCache.get(P.Image);
 				const W = img?.width ?? 300;
 				const H = img?.height ?? 440;
 				let Y2 = 0;

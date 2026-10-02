@@ -45,14 +45,13 @@ class CachedImage {
 	/**
 	 * Create a new cached image.
 	 *
-	 * @param {ImageCacheClass<ImageMetadata>} cache - The cache holding the image
+	 * @param {ImageCache<ImageMetadata>} cache - The cache holding the image
 	 * @param {string} url - The URL for the image to cache
-	 * @param {CachedImage.Options} [options]
 	 */
-	constructor(cache, url, options) {
+	constructor(cache, url) {
 		/**
 		 * Only used to inform the cache of loading progress
-		 * @type {ImageCacheClass<any>}
+		 * @type {ImageCache<any>}
 		 * @private
 		 */
 		this.cache = cache;
@@ -60,10 +59,6 @@ class CachedImage {
 		this.url = url;
 		/** @type {CachedImageState} */
 		this.state = CachedImageState.UNCACHED;
-		/** @type {CachedImage.LifetimeCallback | undefined} */
-		this.loadCallback = options?.loadCallback;
-		/** @type {CachedImage.LifetimeCallback | undefined} */
-		this.unloadCallback = options?.unloadCallback;
 		/**
 		 * The decoded pixels; `null` until decoding completes.
 		 * @type {ImageBitmap | null}
@@ -100,8 +95,7 @@ class CachedImage {
 	unload() {
 		if (this.state === CachedImageState.UNCACHED) return;
 
-		if (this.unloadCallback)
-			this.unloadCallback(this);
+		this.cache.imageDidUnload(this);
 
 		// Anything still in flight for this entry must drop its result
 		this._generation += 1;
@@ -201,8 +195,7 @@ class CachedImage {
 				return;
 			}
 
-			if (this.unloadCallback)
-				this.unloadCallback(this);
+			this.cache.imageDidUnload(this);
 			this.bitmap.close();
 
 			this.userData = /** @type {ImageMetadata} */ ({});
@@ -448,31 +441,23 @@ let ImageCachePurgeDelay = 60 * 60 * 1000;
  * The class responsible for loading and caching images
  * @template {object} ImageMetadata
  */
-class ImageCacheClass {
-	constructor() {
+class ImageCache {
+	/**
+	 * @param {string} name
+	 * @param {BrowserCache} browserCache
+	 * @param {ImageCache.Options} [options] Options to use for the image
+	 */
+	constructor(name, browserCache, options) {
 		/** @type {Map<string, CachedImage<ImageMetadata>>} */
 		this.cache = new Map();
+		this.name = name;
 		this.lastPurge = 0;
 		/**
 		 * Persistent byte store, or null if the Cache API isn't usable.
 		 * @type {BrowserCache | null}
 		 */
-		this.browserCache = null;
-		void this._attachBrowserCache();
-	}
-
-	/**
-	 * Try to open the persistent store. Failures leave `browserCache` unset.
-	 * @returns {Promise<void>}
-	 * @private
-	 */
-	async _attachBrowserCache() {
-		try {
-			this.browserCache = await BrowserCache.open();
-		} catch (err) {
-			if (typeof caches !== "undefined")
-				console.warn("Persistent image cache unavailable", err);
-		}
+		this.browserCache = browserCache;
+		this.imageOptions = options;
 	}
 
 	/**
@@ -488,13 +473,12 @@ class ImageCacheClass {
 	 * Get a cached image from the cache.
 	 *
 	 * @param {string} url - The URL of the image to lookup
-	 * @param {CachedImage.Options} [options] Options to use for the image
 	 * @returns {CachedImage<ImageMetadata>} The cached image
 	 */
-	get(url, options = {}) {
+	get(url) {
 		let image = this.cache.get(url);
 		if (!image) {
-			image = new CachedImage(this, url, options);
+			image = new CachedImage(this, url);
 			this.cache.set(url, image);
 		}
 
@@ -547,15 +531,28 @@ class ImageCacheClass {
 		// pruned while their load is still in progress.
 		if (!this.cache.has(image.url)) return;
 
-		if (image.isLoaded()) {
-			if (image.loadCallback)
-				image.loadCallback(image);
+		if (image.state == CachedImageState.LOADED) {
+			this.imageDidLoad(image);
 
 			this._refreshCharactersForImage(image);
 		} else if (image.state == CachedImageState.FAILED) {
 			// CommonFetch already did the retrying, this is final
 			this._refreshCharactersForImage(image);
 		}
+	}
+
+	/**
+	 * @param {CachedImage<ImageMetadata>} image - The image whose state changed
+	 */
+	imageDidLoad(image) {
+		this.imageOptions?.loadCallback?.(image);
+	}
+
+	/**
+	 * @param {CachedImage<ImageMetadata>} image - The image whose state changed
+	 */
+	imageDidUnload(image) {
+		this.imageOptions?.unloadCallback?.(image);
 	}
 
 	/**
@@ -612,7 +609,7 @@ class ImageCacheClass {
 				this.delete(url);
 			}
 		});
-		console.log(`Cache purged, ${startingTotal - this.totalImages()} images removed`);
+		console.log(`Cache ${this.name} purged, ${startingTotal - this.totalImages()} images removed`);
 		this.lastPurge = CurrentTime;
 		this.stats();
 	}
@@ -635,7 +632,7 @@ class ImageCacheClass {
 			}
 		});
 
-		console.log(`Cache stats: ${[...Object.entries(stats)].map(e => e[0] + ": " + e[1]).join(", ")}`);
+		console.log(`Cache ${this.name} stats: ${[...Object.entries(stats)].map(e => e[0] + ": " + e[1]).join(", ")}`);
 	}
 
 	/**
@@ -643,5 +640,3 @@ class ImageCacheClass {
 	 */
 	totalImages() { return this.cache.size; }
 }
-
-const ImageCache = /** @type {ImageCacheClass<GLImageMetadata>} */ (new ImageCacheClass());

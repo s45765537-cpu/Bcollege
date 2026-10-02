@@ -257,7 +257,8 @@ function TimerProcess() {
 		}
 	}
 
-	ImageCache.purge();
+	DrawImageCache.purge();
+	GLDrawImageCache?.purge();
 
 	// Arousal/Activity events only occur in allowed rooms
 	if (ActivityAllowed()) {

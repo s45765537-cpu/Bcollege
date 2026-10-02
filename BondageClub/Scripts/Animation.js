@@ -164,10 +164,10 @@ function AnimationPurge(C, IncludeAll) {
 	}
 
 	// Clear no longer needed cached canvases
-	ImageCache.forEach((img, key) => {
+	DrawImageCache.forEach((img, key) => {
 		let animationKey = C.CharacterID + "__";
 		if (key.startsWith(animationKey) && !PossibleCanvas.includes(key)) {
-			ImageCache.delete(key);
+			DrawImageCache.delete(key);
 		}
 	});
 
