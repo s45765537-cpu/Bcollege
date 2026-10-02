@@ -8962,6 +8962,18 @@ ItemHandheldPlushieOptionDollMakerClub0,None
 ItemHandheldPlushieSetDollMakerClub0,SourceCharacter removes a plushie from DestinationCharacter hands.
 ItemHandheldPlushieOptionDollMakerClub1,Courtney
 ItemHandheldPlushieSetDollMakerClub1,SourceCharacter places a cute Courtney plushie in DestinationCharacter hands.
+ItemHandheldPlushieModuleAybesSuite,Aybes Suite
+ItemHandheldPlushieSelectAybesSuite,AybesSuite
+ItemHandheldPlushieOptionAybesSuite0,None
+ItemHandheldPlushieSetAybesSuite0,SourceCharacter removes a plushie from DestinationCharacter hands.
+ItemHandheldPlushieOptionAybesSuite1,Aybes
+ItemHandheldPlushieSetAybesSuite1,SourceCharacter places a cute Aybes plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionAybesSuite2,Ash
+ItemHandheldPlushieSetAybesSuite2,SourceCharacter places a cute Ash plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionAybesSuite3,Domy
+ItemHandheldPlushieSetAybesSuite3,SourceCharacter places a cute Domy plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionAybesSuite4,Elaina
+ItemHandheldPlushieSetAybesSuite4,SourceCharacter places a cute Elaina plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
