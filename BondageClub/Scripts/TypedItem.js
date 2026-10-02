@@ -518,10 +518,11 @@ function TypedItemFindPreviousOption({ name, options }, item) {
  * @param {boolean} [push] - Whether or not appearance updates should be persisted (only applies if the character is the
  * player) - defaults to false.
  * @param {null | Character} [C_Source] - The character setting the new item option. If `null`, assume that it is _not_ the player character.
+ * @param {boolean} [refresh] - Whether the character's appearance should be refreshed.
  * @returns {string|undefined} - undefined or an empty string if the type was set correctly. Otherwise, returns a string
  * informing the player of the requirements that are not met.
  */
-function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=null) {
+function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=null, refresh=undefined) {
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
 
 	if (!item || item.Asset.Archetype !== ExtendedArchetype.TYPED) {
@@ -549,7 +550,7 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
 	if (requirementMessage) {
 		return requirementMessage;
 	} else {
-		ExtendedItemSetOption(data, C, item, newOption, previousOption, push);
+		ExtendedItemSetOption(data, C, item, newOption, previousOption, push, refresh);
 	}
 }
 

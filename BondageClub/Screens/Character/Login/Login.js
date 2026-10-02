@@ -116,9 +116,10 @@ function LoginDoNextThankYou() {
 	LoginThankYou = CommonRandomItemFromList(LoginThankYou, LoginThankYouList);
 	const char = /** @type {NPCCharacter} */ (LoginCharacter);
 	CharacterRelease(char, false);
-	CharacterAppearanceFullRandom(char);
+	CharacterAppearanceFullRandom(char, undefined, false);
 	if (InventoryGet(char, "ItemNeck") != null) InventoryRemove(char, "ItemNeck", false);
-	CharacterFullRandomRestrain(char);
+	CharacterFullRandomRestrain(char, undefined, false);
+	CharacterRefresh(char, false);
 	LoginThankYouNext = CommonTime() + 4000;
 }
 
