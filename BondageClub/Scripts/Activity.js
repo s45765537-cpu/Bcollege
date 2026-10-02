@@ -924,7 +924,6 @@ function ActivityRun(actor, acted, targetGroup, ItemActivity, sendMessage=true) 
  */
 function ActivityRunLogic(actor, acted, targetGroup, ItemActivity) {
 	const activityItem = ItemActivity.Item;
-	console.log(targetGroup);
 	switch (ItemActivity.Activity.Name) {
 		case "SpitOutGag":
 			if (!activityItem) return;

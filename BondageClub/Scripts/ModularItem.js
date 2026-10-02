@@ -113,6 +113,15 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		}
 	}
 
+	// Initialize subscreen(s) in a DFS manner
+	let update = false;
+	for (const mod of Data.modules) {
+		const option = mod.Options[Item.Property.TypeRecord[mod.Key]];
+		if (option) {
+			update = ExtendedItemInitSubscreen(option, Item, C, false, false) || update;
+		}
+	}
+
 	const validSubTypes = Data.modules.map(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined);
 	const permissionBlocked = Data.modules.map(m => InventoryIsPermissionBlocked(C, Item.Asset.Name, Item.Asset.Group.Name, `${m.Key}${Item.Property.TypeRecord[m.Key]}`));
 	validateType: if (validSubTypes.every(i => i) && !permissionBlocked.some(i => i)) {
@@ -127,8 +136,7 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		/** @type {ItemProperties} */
 		const mutableProperties = {};
 		for (const propName of ExtendedItemInitPropertyIgnore) {
-			// @ts-expect-error
-			mutableProperties[propName] = newProps[propName] ?? Data.baselineProperty?.[propName];
+			/** @type {Unknown<ItemProperties>} */(mutableProperties)[propName] = newProps[propName] ?? Data.baselineProperty?.[propName];
 			delete newProps[propName];
 		}
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
@@ -136,10 +144,15 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			return existingValue == null && typeof existingValue !== typeof v && !ExtendedItemInitPropertyIgnore.has(k);
 		});
 
-		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			for (const [k, v] of CommonEntries(newProps)) {
-				Item.Property[k] = CommonIsObject(Item.Property[k]) ? CommonAssign(Item.Property[k], v) : v;
+				if (CommonIsObject(Item.Property[k]) && CommonIsObject(v)) {
+					Item.Property[k] = CommonAssign(Item.Property[k], v);
+				} else if (Array.isArray(Item.Property[k]) && CommonIsArray(v)) {
+					Item.Property[k] = CommonArrayConcatDedupe(Item.Property[k], v);
+				} else {
+					Item.Property[k] = v;
+				}
 			}
 			update = true;
 		}
@@ -160,15 +173,15 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			return false;
 		}
 	} else {
-		const typeRecord = Object.fromEntries(Data.modules.map((mod, i) => {
-			const index = (validSubTypes[i] && !permissionBlocked[i]) ? Item.Property.TypeRecord[mod.Key] : 0;
-			return /** @type {const} */([mod.Key, index ?? 0]);
-		}));
-		const currentModuleValues = ModularItemParseCurrent(Data, typeRecord);
-		Item.Property = CommonAssign(
-			Item.Property ?? {},
-			ModularItemMergeModuleValues(Data, currentModuleValues),
+		const typeRecord = CommonAssign(
+			Item.Property.TypeRecord ?? {},
+			Object.fromEntries(Data.modules.map((mod, i) => {
+				const index = (validSubTypes[i] && !permissionBlocked[i]) ? Item.Property.TypeRecord[mod.Key] : 0;
+				return /** @type {const} */([mod.Key, index ?? 0]);
+			})),
 		);
+		const newProperties = ModularItemMergeModuleValues(Data, ModularItemParseCurrent(Data, typeRecord), Item.Property);
+		Item.Property = CommonAssign(Item.Property, newProperties, { TypeRecord: typeRecord });
 		for (const [propName, baselineValue] of CommonEntries(Data.baselineProperty ?? {})) {
 			if (baselineValue === undefined) {
 				continue;

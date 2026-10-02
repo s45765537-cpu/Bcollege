@@ -596,5 +596,21 @@
 				"Block": []
 			}
 		}
+	],
+	"subScreen": [
+		{
+			"asset": "FuturisticCrate",
+			"group": "ItemDevices",
+			"comment": "pleasure module",
+			"initialItemProperty": {
+				"TypeRecord": { "a": 0, "d": 1, "d1": 4, "h": 0, "l": 0, "t": 0 , "w": 0 }
+			},
+			"itemBundleProperty": {
+				"TypeRecord": { "d": 1, "d1": 4 }
+			},
+			"finalItemProperty": {
+				"TypeRecord": { "a": 0, "d": 1, "d1": 4, "h": 0, "l": 0, "t": 0 , "w": 0 }
+			}
+		}
 	]
 }

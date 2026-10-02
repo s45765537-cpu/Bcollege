@@ -100,7 +100,14 @@ beforeAll(async () => {
 beforeEach(async () => {
 	Game.ScreenFunctions?.Exit?.();
 	Game.ScreenFunctions?.Unload?.();
-	await Game.GameStart(true);
+	const consoleError = Game.console.error;
+	try {
+		// Silence `Duplicate map <x> ID` messages
+		Game.console.error = () => undefined;
+		await Game.GameStart(true);
+	} finally {
+		Game.error = consoleError;
+	}
 	return screen.set("Character", "Login");
 });
 
