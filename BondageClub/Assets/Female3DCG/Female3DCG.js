@@ -52446,6 +52446,22 @@ var AssetFemale3DCG = [
 						Name: "Courtney",
 						AllowTypes: { DollMakerClub: 1 },
 					},
+					{
+						Name: "Plushie_Aybes_the_chasted",
+						AllowTypes: { AybesSuite: 1 },
+					},
+					{
+						Name: "Plushie_Ash_the_cute",
+						AllowTypes: { AybesSuite: 2 },
+					},
+					{
+						Name: "Plushie_Domi_the_gremlin",
+						AllowTypes: { AybesSuite: 3 },
+					},
+					{
+						Name: "Plushie_puppygirl_Elaina",
+						AllowTypes: { AybesSuite: 4 },
+					},
 				],
 			},
 			{

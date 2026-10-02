@@ -24626,6 +24626,31 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "AybesSuite",
+					Key: "AybesSuite",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+					{}, // Aybes (1)
+					{}, // Ash (2)
+					{}, // Domy (3)
+					{}, // Elaina (4)
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Aybes_the_chasted.png" }, // Aybes 1
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Ash_the_cute.png" },      // Ash 2  
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Domi_the_gremlin.png" },  // Domi 3
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_puppygirl_Elaina.png",         // Elaina 4
+							},
+
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
