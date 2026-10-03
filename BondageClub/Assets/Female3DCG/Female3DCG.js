@@ -16175,6 +16175,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksRight,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
@@ -16184,6 +16185,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksRight,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
@@ -16193,6 +16195,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksRight,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
@@ -16251,7 +16254,16 @@ var AssetFemale3DCG = [
 				StyleOverride: ["EchoV2"],
 				BuyGroup: "Socks6",
 				Random: false,
-				Layer: [{ Name: "Sock" }, { Name: "Frill" }],
+				Layer: [
+					{ Name: "Sock" },
+					{
+						Name: "Frill",
+						PoseMapping: {
+							...AssetPoseMapping.SocksLeft,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "SocksFur",
@@ -16265,7 +16277,17 @@ var AssetFemale3DCG = [
 				},
 				BuyGroup: "SocksFur",
 				Random: false,
-				Layer: [{ Name: "Fabric", StyleOverride: ["EchoV2"] }, { Name: "Fur" }],
+				Layer: [
+					{ Name: "Fabric", StyleOverride: ["EchoV2"] },
+					{
+						Name: "Fur",
+						PoseMapping: {
+							...AssetPoseMapping.SocksLeft,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "SocksStriped1",
@@ -16294,6 +16316,7 @@ var AssetFemale3DCG = [
 				InventoryID: 344,
 				Value: 15,
 				StyleOverride: ["EchoV2"],
+				PoseMapping: { ...AssetPoseMapping.SocksLeft, Hogtied: PoseType.HIDE },
 				BuyGroup: "FootlessSocks1",
 				Random: false,
 			},
@@ -16303,6 +16326,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksRight,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
@@ -16450,6 +16474,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksLeft,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
@@ -16459,6 +16484,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksLeft,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
@@ -16468,6 +16494,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksLeft,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
@@ -16526,7 +16553,16 @@ var AssetFemale3DCG = [
 				Value: 25,
 				BuyGroup: "Socks6",
 				Random: false,
-				Layer: [{ Name: "Sock" }, { Name: "Frill" }],
+				Layer: [
+					{ Name: "Sock" },
+					{
+						Name: "Frill",
+						PoseMapping: {
+							...AssetPoseMapping.SocksLeft,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "SocksFur",
@@ -16540,7 +16576,17 @@ var AssetFemale3DCG = [
 				},
 				BuyGroup: "SocksFur",
 				Random: false,
-				Layer: [{ Name: "Fabric", StyleOverride: ["EchoV2"] }, { Name: "Fur" }],
+				Layer: [
+					{ Name: "Fabric", StyleOverride: ["EchoV2"] },
+					{
+						Name: "Fur",
+						PoseMapping: {
+							...AssetPoseMapping.SocksLeft,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
 			},
 			{
 				Name: "SocksStriped1",
@@ -16569,6 +16615,7 @@ var AssetFemale3DCG = [
 				InventoryID: 344,
 				Value: 15,
 				StyleOverride: ["EchoV2"],
+				PoseMapping: { ...AssetPoseMapping.SocksLeft, Hogtied: PoseType.HIDE },
 				BuyGroup: "FootlessSocks1",
 				Random: false,
 			},
@@ -16578,6 +16625,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.SocksLeft,
 					KneelingSpread: PoseType.HIDE,
+					Kneel: PoseType.HIDE,
 				},
 				Random: false,
 			},
