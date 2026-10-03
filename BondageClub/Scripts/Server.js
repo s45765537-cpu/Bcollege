@@ -1378,6 +1378,22 @@ var ServerValidation = {
 			};
 		};
 	},
+	/**
+	 * Private helper to validate object shapes
+	 * @template {object} T
+	 * @param {T} shape
+	 * @returns {(arg: T) => T}
+	 */
+	hasSameShape(shape) {
+		const keys1 = CommonFilterMap(CommonEntries(shape), ([k, v]) => v !== undefined ? k : undefined);
+		return (arg) => {
+			if (!CommonIsObject(arg)) {
+				return shape;
+			}
+			const keys2 = CommonFilterMap(CommonEntries(arg), ([k, v]) => v !== undefined ? k : undefined);
+			return CommonArraysEqual(keys1, keys2, true) ? arg : shape;
+		};
+	},
 };
 
 /**

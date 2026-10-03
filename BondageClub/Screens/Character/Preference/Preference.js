@@ -1089,25 +1089,14 @@ var PreferenceGenderSettingsDefault = {
 };
 
 /**
- * @template {object} T
- * @param {T} shape
- * @returns {(arg: T) => T}
- */
-const hasSameShape = (shape) => {
-	return (arg) => {
-		return CommonIsObject(arg) && CommonArraysEqual(CommonKeys(arg), CommonKeys(shape)) ? arg : shape;
-	};
-};
-
-/**
  * Namespace with functions for validating {@link GenderSettingsType} properties
  * @type {{ [k in keyof Required<GenderSettingsType>]: (arg: GenderSettingsType[k], C: Character) => GenderSettingsType[k] }}
  * @namespace
  */
 var PreferenceGenderSettingsValidate = {
-	AutoJoinSearch: hasSameShape(PreferenceGenderSettingsDefault.AutoJoinSearch),
-	HideShopItems: hasSameShape(PreferenceGenderSettingsDefault.HideShopItems),
-	HideTitles: hasSameShape(PreferenceGenderSettingsDefault.HideTitles),
+	AutoJoinSearch: ServerValidation.hasSameShape(PreferenceGenderSettingsDefault.AutoJoinSearch),
+	HideShopItems: ServerValidation.hasSameShape(PreferenceGenderSettingsDefault.HideShopItems),
+	HideTitles: ServerValidation.hasSameShape(PreferenceGenderSettingsDefault.HideTitles),
 };
 
 /**
