@@ -633,7 +633,7 @@ function WheelFortuneShibari() {
  */
 function WheelFortuneIsolationCell(Minutes) {
 	ChatRoomLeave();
-	LogAdd("Locked", "Cell", CurrentTime + Minutes * 60000);
+	LogAdd("Locked", "Cell", CurrentTime + Minutes * MS_PER_MIN);
 	CommonSetScreen("Room", "Cell");
 }
 
@@ -645,10 +645,10 @@ function WheelFortuneIsolationCell(Minutes) {
 function WheelFortuneBlockWardrobe(Minutes) {
 	let Time = LogValue("BlockChange", "Rule");
 	if (Time == null) Time = 0;
-	if (Time > CurrentTime + 240 * 60000) return;
+	if (Time > CurrentTime + 240 * MS_PER_MIN) return;
 	if (Time < CurrentTime) Time = CurrentTime;
-	Time = Time + Minutes * 60000;
-	if (Time > CurrentTime + 240 * 60000) Time = CurrentTime + 240 * 60000;
+	Time = Time + Minutes * MS_PER_MIN;
+	if (Time > CurrentTime + 240 * MS_PER_MIN) Time = CurrentTime + 240 * MS_PER_MIN;
 	LogAdd("BlockChange", "Rule", Time);
 }
 
@@ -667,8 +667,8 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 	let Item = InventoryGet(Player, Group);
 	if ((Item != null) && (InventoryGetLock(Item) != null)) {
 		if ((Item.Property?.RemoveTimer != null) && (Item.Property?.LockedBy === "TimerPasswordPadlock")) {
-			Item.Property.RemoveTimer = Item.Property.RemoveTimer + Minutes * 60000;
-			if (Item.Property.RemoveTimer > CurrentTime + 240 * 60000) Item.Property.RemoveTimer = CurrentTime + 240 * 60000;
+			Item.Property.RemoveTimer = Item.Property.RemoveTimer + Minutes * MS_PER_MIN;
+			if (Item.Property.RemoveTimer > CurrentTime + 240 * MS_PER_MIN) Item.Property.RemoveTimer = CurrentTime + 240 * MS_PER_MIN;
 			CharacterRefresh(Player);
 			ChatRoomCharacterUpdate(Player);
 		}
@@ -705,7 +705,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 	if ((Minutes != null) && (Minutes > 0) && Item?.Asset.AllowLock) {
 		InventoryLock(Player, Item, "TimerPasswordPadlock", null, false);
 		if (Item.Property == null) Item.Property = {};
-		Item.Property.RemoveTimer = CurrentTime + Minutes * 60000;
+		Item.Property.RemoveTimer = CurrentTime + Minutes * MS_PER_MIN;
 		Item.Property.RemoveItem = true;
 		Item.Property.LockSet = true;
 		Item.Property.Password = CommonRandomItemFromList("", WheelFortunePasswordChar) + CommonRandomItemFromList("", WheelFortunePasswordChar) + CommonRandomItemFromList("", WheelFortunePasswordChar) + CommonRandomItemFromList("", WheelFortunePasswordChar) + CommonRandomItemFromList("", WheelFortunePasswordChar) + CommonRandomItemFromList("", WheelFortunePasswordChar);

@@ -23,6 +23,13 @@ var CommonCSVCache = {};
 var CutsceneStage = 0;
 var CommonPhotoMode = false;
 
+const MS_PER_SEC = 1000;
+const MS_PER_MIN = 60 * MS_PER_SEC; // 60_000
+const MS_PER_HOUR = 60 * MS_PER_MIN; // 3_600_000
+const MS_PER_DAY = 24 * MS_PER_HOUR; // 86_400_000
+const MS_PER_WEEK = 7 * MS_PER_DAY; // 604_800_000
+const MS_PER_YEAR = 365 * MS_PER_DAY; // 31_536_000_000
+
 /**
  * An enum encapsulating possible chatroom message substitution tags. Character name substitution tags are interpreted
  * in chatrooms as follows (assuming the character name is Ben987):
@@ -2548,18 +2555,18 @@ function CommonGetDatePartsRange(end, start, options = {}) {
 
 		diff = end.valueOf() - mid.valueOf();
 	} else if (includeDays) {
-		d = Math.floor(diff / 86400000);
-		diff %= 86400000;
+		d = Math.floor(diff / MS_PER_DAY);
+		diff %= MS_PER_DAY;
 	}
 
 	if (includeHours) {
-		h = Math.floor(diff / 3600000);
-		diff %= 3600000;
+		h = Math.floor(diff / MS_PER_HOUR);
+		diff %= MS_PER_HOUR;
 	}
 
 	if (includeMinutes) {
-		min = Math.floor(diff / 60000);
-		diff %= 60000;
+		min = Math.floor(diff / MS_PER_MIN);
+		diff %= MS_PER_MIN;
 	}
 
 	const s = Math.floor(diff / 1000);

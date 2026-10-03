@@ -285,7 +285,7 @@ function InventoryItemNeckFuturisticCollarLockdown(C, LockType) {
 
 				const maxTimerMinutes = (C.GetLockTimerLimit() ?? LockItem.Asset.MaxTimer ?? 300) / 60;
 				const durationMinutes = Math.max(1, Math.min(maxTimerMinutes, timer));
-				item.Property.RemoveTimer = CurrentTime + durationMinutes * 60000;
+				item.Property.RemoveTimer = CurrentTime + durationMinutes * MS_PER_MIN;
 			}
 		}
 

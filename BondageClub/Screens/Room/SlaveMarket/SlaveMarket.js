@@ -197,7 +197,7 @@ function SlaveMarketAuctionPlayerStart() {
  */
 async function SlaveMarketPlayerAuctionEnd() {
 	CharacterRelease(Player);
-	LogAdd("Auctioned", "SlaveMarket", CurrentTime + 604800000);
+	LogAdd("Auctioned", "SlaveMarket", CurrentTime + MS_PER_WEEK);
 	CharacterChangeMoney(Player, (PlayerAuctionBidAmount / 2) + 5);
 	await CommonSetScreen("Room", "SlaveMarket");
 	SlaveMarketBuyer.AllowItem = false;

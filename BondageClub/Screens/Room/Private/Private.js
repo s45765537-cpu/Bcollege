@@ -303,7 +303,7 @@ function PrivateTrialCanCancel() { return Player.IsOwned() === "npc" && !Player.
  * Checks if the current NPC will forgive the player for refusing to play.
  * @returns {boolean} - TRUE if the NPC forgives the player.
  */
-function PrivateWillForgive() { return !!CurrentCharacter && NPCEventGet(CurrentCharacter, "RefusedActivity") < CurrentTime - 60000; }
+function PrivateWillForgive() { return !!CurrentCharacter && NPCEventGet(CurrentCharacter, "RefusedActivity") < CurrentTime - MS_PER_MIN; }
 /**
  * Checks if the player can ask to be uncollared.
  * @returns {boolean} - TRUE if the NPC will allow the player to be uncollared.
@@ -874,8 +874,8 @@ function PrivateNewCloth(C) {
 	// Validates and exits if needed
 	if (!C.CanInteract()) return; // No changing if bound
 	if (C.Cage) return; // No changing if caged
-	if (NPCEventGet(C, "PrivateRoomEntry") + 86400000 > CurrentTime) return; // No changing on first day
-	if (NPCEventGet(C, "NewCloth") + 86400000 > CurrentTime) return; // No chaning if changed in last 24 hours
+	if (NPCEventGet(C, "PrivateRoomEntry") + MS_PER_DAY > CurrentTime) return; // No changing on first day
+	if (NPCEventGet(C, "NewCloth") + MS_PER_DAY > CurrentTime) return; // No chaning if changed in last 24 hours
 	if (C.IsOwnedByPlayer()) return; // No changing if owned
 
 	// Strips the character
@@ -1471,7 +1471,7 @@ function PrivateAddCharacter(Template, Archetype, incomplete=false) {
 	if (!incomplete) NPCTraitDialog(C);
 	NPCSetupArousal(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
-	NPCEventAdd(C, "NextKidnap", CurrentTime + 86400000);
+	NPCEventAdd(C, "NextKidnap", CurrentTime + MS_PER_DAY);
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsRestrained() || !C.CanTalk());
 	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck")?.Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
 	if (!incomplete) ServerPrivateCharacterSync();
@@ -1603,7 +1603,7 @@ function PrivateLoverInRoom(L) {
 function PrivateRestrainPlayer() {
 	CharacterFullRandomRestrain(Player);
 	PrivateNPCInteraction(5);
-	PrivateReleaseTimer = CommonTime() + (Math.random() * 60000) + 60000;
+	PrivateReleaseTimer = CommonTime() + (Math.random() * MS_PER_MIN) + MS_PER_MIN;
 }
 
 /**
@@ -1638,7 +1638,7 @@ function PrivateRelationDecay() {
 			MustSave = true;
 
 			// To calculate the decay, we go up to 400 from room entry
-			let EntryDays = Math.floor((CurrentTime - NPCEventGet(C, "PrivateRoomEntry")) / 86400000);
+			let EntryDays = Math.floor((CurrentTime - NPCEventGet(C, "PrivateRoomEntry")) / MS_PER_DAY);
 			if (EntryDays < 0) EntryDays = 0;
 			if (EntryDays > 400) EntryDays = 400;
 
@@ -1693,7 +1693,7 @@ function PrivateStopTrial(ChangeRep) {
  */
 function PrivateShowTrialHours() {
 	if (!CurrentCharacter) return;
-	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("DialogHours", Math.ceil((NPCEventGet(CurrentCharacter, "EndSubTrial") - CurrentTime) / 3600000).toString());
+	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("DialogHours", Math.ceil((NPCEventGet(CurrentCharacter, "EndSubTrial") - CurrentTime) / MS_PER_HOUR).toString());
 }
 
 /**
@@ -1794,7 +1794,7 @@ function PrivateActivityRun(LoveFactor) {
 			InventoryRemove(Player, "ItemHead");
 			ShibariRandomBondage(Player, 3);
 			InventoryWearRandom(Player, "ItemMouth");
-			PrivateReleaseTimer = CommonTime() + (Math.random() * 60000) + 60000;
+			PrivateReleaseTimer = CommonTime() + (Math.random() * MS_PER_MIN) + MS_PER_MIN;
 			break;
 		case "PetGirl": // In PetGirl, the player gets gagged, bound & dressed as a puppy
 			InventoryRemove(Player, "ItemLegs");
@@ -1817,7 +1817,7 @@ function PrivateActivityRun(LoveFactor) {
 	}
 
 	// Some activities creates a release timer
-	if ((PrivateActivity == "Gag") || (PrivateActivity == "Restrain") || (PrivateActivity == "FullRestrain") || (PrivateActivity == "Locks")) PrivateReleaseTimer = CommonTime() + (Math.random() * 60000) + 60000;
+	if ((PrivateActivity == "Gag") || (PrivateActivity == "Restrain") || (PrivateActivity == "FullRestrain") || (PrivateActivity == "Locks")) PrivateReleaseTimer = CommonTime() + (Math.random() * MS_PER_MIN) + MS_PER_MIN;
 
 	// After running the activity a few times, we stop
 	if (PrivateActivityCount >= Math.floor(Math.random() * 4) + 2) {
@@ -1880,7 +1880,7 @@ function PrivateStartActivity() {
 				case "RandomClothes": if(Player.CanChangeOwnClothes()) break testLoop; break;
 				case "CollegeClothes": if(Player.CanChangeOwnClothes() && ((CurrentCharacter.Name == "Amanda") || (CurrentCharacter.Name == "Sarah") || (CurrentCharacter.Name == "Jennifer") || (CurrentCharacter.Name == "Sidney"))) break testLoop; break;
 				case "Shibari": if(Player.CanChangeOwnClothes() && (NPCTraitGet(CurrentCharacter, "Wise") >= 0)) break testLoop; break;
-				case "Gift": if((Player.Owner != "") && (CurrentCharacter.Love >= 90) && (CurrentTime >= NPCEventGet(CurrentCharacter, "LastGift") + 86400000)) break testLoop; break;
+				case "Gift": if((Player.Owner != "") && (CurrentCharacter.Love >= 90) && (CurrentTime >= NPCEventGet(CurrentCharacter, "LastGift") + MS_PER_DAY)) break testLoop; break;
 				case "PetGirl": if((InventoryGet(Player, "ItemArms") === null) && (NPCTraitGet(CurrentCharacter, "Peaceful") >= 0)) break testLoop; break;
 				case "Locks": if(InventoryHasLockableItems(Player)) break testLoop; break;
 				case "Bed": if((PrivateBedCount() == 1) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime) && (NPCTraitGet(CurrentCharacter, "Horny") >= 0) && PrivateBedActive() && (!Player.Cage)) break testLoop; break;
@@ -1911,7 +1911,7 @@ function PrivateStartActivity() {
  * @returns {void} - Nothing.
  */
 function PrivateBlockChange(Minutes) {
-	LogAdd("BlockChange", "Rule", CurrentTime + (Minutes * 60000));
+	LogAdd("BlockChange", "Rule", CurrentTime + (Minutes * MS_PER_MIN));
 	ServerPlayerAppearanceSync();
 }
 
@@ -2001,8 +2001,8 @@ function PrivateRunPunishment(LoveFactor) {
 		case "ConfiscateKey": InventoryConfiscateKey(); break;
 		case "ConfiscateCrop": InventoryDelete(Player, "Crop", "ItemHandheld"); break;
 		case "ConfiscateWhip": InventoryDelete(Player, "Whip", "ItemHandheld"); break;
-		case "SleepCage": LogAdd("SleepCage", "Rule", CurrentTime + 604800000); break;
-		case "LockOut": LogAdd("LockOutOfPrivateRoom", "Rule", CurrentTime + 3600000); DialogLeave(); CommonSetScreen("Room", "MainHall"); break;
+		case "SleepCage": LogAdd("SleepCage", "Rule", CurrentTime + MS_PER_WEEK); break;
+		case "LockOut": LogAdd("LockOutOfPrivateRoom", "Rule", CurrentTime + MS_PER_HOUR); DialogLeave(); CommonSetScreen("Room", "MainHall"); break;
 		case "Cell": DialogLeave(); CharacterFullRandomRestrain(Player, "ALL"); CellLock(5); break;
 		case "OwnerLocks": InventoryFullLock(Player, "OwnerPadlock"); break;
 		case "Asylum": DialogLeave(); CharacterRelease(Player); AsylumEntranceWearPatientClothes(Player); AsylumEntranceCommitPatient(900000, 1); CommonSetScreen("Room", "AsylumEntrance"); break;
@@ -2047,7 +2047,7 @@ function PrivatePlayerCollaring() {
 function PrivateStartDomTrial(TrialTime) {
 	if (!CurrentCharacter) return;
 	DialogChangeReputation("Dominant", TrialTime);
-	NPCEventAdd(CurrentCharacter, "EndDomTrial", CurrentTime + TrialTime * 86400000);
+	NPCEventAdd(CurrentCharacter, "EndDomTrial", CurrentTime + TrialTime * MS_PER_DAY);
 	NPCLoveChange(CurrentCharacter, TrialTime * 5);
 	ServerPrivateCharacterSync();
 }
@@ -2147,14 +2147,14 @@ function PrivateNPCInteraction(LoveFactor) {
  */
 function PrivateSlaveMarketStart(AuctionType) {
 	if (!CurrentCharacter) return;
-	if (AuctionType == "Rent") NPCEventAdd(CurrentCharacter, "SlaveMarketRent", CurrentTime + 86400000);
+	if (AuctionType == "Rent") NPCEventAdd(CurrentCharacter, "SlaveMarketRent", CurrentTime + MS_PER_DAY);
 	else InventoryRemove(CurrentCharacter, "ItemNeck");
 	CharacterRelease(CurrentCharacter);
 	CharacterNaked(CurrentCharacter);
 	PoseSetActive(CurrentCharacter, "Kneel", true);
 	NPCSlaveAuctionVendor = Player;
 	NPCSlaveAuctionSlave = /** @type {NPCCharacter} */ (CurrentCharacter);
-	NPCSlaveAuctionAmount = Math.floor((CurrentTime - NPCEventGet(CurrentCharacter, "NPCCollaring")) / 86400000);
+	NPCSlaveAuctionAmount = Math.floor((CurrentTime - NPCEventGet(CurrentCharacter, "NPCCollaring")) / MS_PER_DAY);
 	if (NPCSlaveAuctionAmount > 90) NPCSlaveAuctionAmount = 90;
 	if (NPCSlaveAuctionAmount < 0) NPCSlaveAuctionAmount = 0;
 	NPCSlaveAuctionAmount = Math.round((10 + NPCSlaveAuctionAmount) * (1 + Math.random()));
@@ -2188,7 +2188,7 @@ function PrivateSlaveImproveSend() {
 		N = N * -1;
 	}
 	NPCTraitSet(CurrentCharacter, PrivateSlaveImproveType, N);
-	NPCEventAdd(CurrentCharacter, "AsylumSent", CurrentTime + 86400000);
+	NPCEventAdd(CurrentCharacter, "AsylumSent", CurrentTime + MS_PER_DAY);
 	DialogLeave();
 }
 
@@ -2216,7 +2216,7 @@ function PrivateLoveYou() {
 	CurrentCharacter.Love ??= 0;
 	// Once every minute, it will raise the love meter a little
 	if (PrivateNextLoveYou < CurrentTime) {
-		PrivateNextLoveYou = CurrentTime + 60000;
+		PrivateNextLoveYou = CurrentTime + MS_PER_MIN;
 		NPCLoveChange(CurrentCharacter, Math.floor(Math.random() * 5) + 2);
 	}
 
@@ -2749,7 +2749,7 @@ function PrivateGiftGet(GiftType) {
 	}
 	ServerPlayerInventorySync();
 	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("GIFTNAME", Gift.Description);
-	NPCEventAdd(CurrentCharacter, "NextGift", Math.floor(CurrentTime + 86400000 + Math.random() * 432000000));
+	NPCEventAdd(CurrentCharacter, "NextGift", Math.floor(CurrentTime + MS_PER_DAY + Math.random() * 432000000));
 }
 
 /**

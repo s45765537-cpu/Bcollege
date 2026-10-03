@@ -3293,7 +3293,7 @@ function KinkyDungeonGameKeyUp(lastPress) {
 	let delta = CommonTime() - lastPress;
 
 	// Holding for a minute = fail
-	if (delta > 60000) return;
+	if (delta > MS_PER_MIN) return;
 	// tap = fail
 	if (delta < 250) return;
 

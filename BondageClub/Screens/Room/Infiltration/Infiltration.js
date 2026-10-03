@@ -202,7 +202,7 @@ function InfiltrationPrepareMission() {
 async function InfiltrationStartMission() {
 	PandoraWillpower = 20 + (SkillGetLevel(Player, "Willpower") * 2) + (InfiltrationPerksActive("Resilience") ? 5 : 0) + (InfiltrationPerksActive("Endurance") ? 5 : 0);
 	PandoraMaxWillpower = PandoraWillpower;
-	PandoraTimer = CommonTime() + 3600000;
+	PandoraTimer = CommonTime() + MS_PER_HOUR;
 	PandoraChestCount = 0;
 	PandoraMoney = 0;
 	PandoraPaint = false;
@@ -510,7 +510,7 @@ function InfiltrationDressMaid(Rep) {
 function InfiltrationPandoraPrisonerBrainwash() {
 	var C = InfiltrationPandoraPrisoner;
 	//Hide character for 1 day
-	NPCEventAdd(C, "NPCBrainwashing", CurrentTime + 86400000);
+	NPCEventAdd(C, "NPCBrainwashing", CurrentTime + MS_PER_DAY);
 	//Remove Pandora flag
 	C.FromPandora = false;
 	//Enslave to player

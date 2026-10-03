@@ -1124,7 +1124,7 @@ function PandoraPunishmentSentence(Minutes) {
  */
 function PandoraPunishmentStart() {
 	PandoraWillpower = 0;
-	Player.Infiltration.Punishment.Timer = CurrentTime + (Player.Infiltration.Punishment.Minutes * 60000);
+	Player.Infiltration.Punishment.Timer = CurrentTime + (Player.Infiltration.Punishment.Minutes * MS_PER_MIN);
 	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	DialogLeave();
 	CommonSetScreen("Room", "PandoraPrison");
@@ -1190,7 +1190,7 @@ async function PandoraPenitentiaryCreate() {
 		}
 	} else if (PandoraPenitentiaryIsInmate(Player)) {
 		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
-		PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
+		PandoraPenitentiaryActivityTimer = CommonTime() + MS_PER_MIN + Math.random() * 240000;
 
 		// The inmate first search for a prison that already exists
 		await ChatSearchStart(ChatRoomSpaceType.MIXED, ["Room", "Infiltration"], {
@@ -1322,7 +1322,7 @@ function PandoraPenitentiaryBuildActivityList(C) {
 function PandoraPenitentiaryActivityRun(Activity) {
 
 	// Sets the next random guard activity time
-	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
+	PandoraPenitentiaryActivityTimer = CommonTime() + MS_PER_MIN + Math.random() * 240000;
 
 	// The higher the level, the stronger the lock type to use
 	let Level = SkillGetLevel(Player, "Infiltration");
@@ -1458,7 +1458,7 @@ function PandoraPenitentiaryActivityRun(Activity) {
 	if (Activity == "Naked") {
 		CharacterReleaseNoLock(Player);
 		CharacterNaked(Player);
-		let Time = CurrentTime + 60000 * (Level + 2);
+		let Time = CurrentTime + MS_PER_MIN * (Level + 2);
 		if (Time > Player.Game.Prison.Timer) Time = Player.Game.Prison.Timer;
 		LogAdd("BlockChange", "Rule", Time);
 	}

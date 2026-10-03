@@ -294,8 +294,8 @@ function SarahClick() {
 
 // Increments the number of activities done with Sarah & Amanda for Amanda & Sophie to come in
 function SarahActivityRun() {
-	if (AmandaIntroTime > 0) AmandaIntroTime = AmandaIntroTime - 60000;
-	if (SophieIntroTime > 0) SophieIntroTime = SophieIntroTime - 60000;
+	if (AmandaIntroTime > 0) AmandaIntroTime = AmandaIntroTime - MS_PER_MIN;
+	if (SophieIntroTime > 0) SophieIntroTime = SophieIntroTime - MS_PER_MIN;
 	SarahLoadNewCharacter();
 }
 

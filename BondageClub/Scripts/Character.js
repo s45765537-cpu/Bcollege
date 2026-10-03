@@ -479,14 +479,14 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			switch (this.IsOwned()) {
 				case "online":
 					// this.IsOwned() makes it impossible
-					return Math.floor((CurrentTime - (this.Ownership?.Start ?? 0)) / 86400000);
+					return Math.floor((CurrentTime - (this.Ownership?.Start ?? 0)) / MS_PER_DAY);
 				case "player": {
 					let Time = NPCEventGet(/** @type {NPCCharacter} */(this), "NPCCollaring");
-					if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
+					if (Time > 0) return Math.floor((CurrentTime - Time) / MS_PER_DAY);
 					Time = NPCEventGet(/** @type {NPCCharacter} */(this), "EndDomTrial");
 					if (Time > 0) {
 						if (Time > CurrentTime)
-							return Math.ceil((Time - CurrentTime) / 86400000);
+							return Math.ceil((Time - CurrentTime) / MS_PER_DAY);
 						else
 							return 0;
 					}
@@ -495,11 +495,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				case "npc": {
 					for (const npc of PrivateCharacter) {
 						let Time = NPCEventGet(npc, "PlayerCollaring");
-						if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
+						if (Time > 0) return Math.floor((CurrentTime - Time) / MS_PER_DAY);
 						Time = NPCEventGet(npc, "EndSubTrial");
 						if (Time > 0) {
 							if (Time > CurrentTime)
-								return Math.ceil((Time - CurrentTime) / 86400000);
+								return Math.ceil((Time - CurrentTime) / MS_PER_DAY);
 							else
 								return 0;
 						}

@@ -674,6 +674,6 @@ function MaidQuartersNotFromOwner() {
  * @param {number} minutes
  */
 function MaidQuartersSetMaidsDisabled(minutes) {
-	var millis = minutes * 60000;
+	var millis = minutes * MS_PER_MIN;
 	LogAdd("MaidsDisabled", "Maid", CurrentTime + millis);
 }

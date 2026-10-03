@@ -281,7 +281,7 @@ function MovieStudioClick() {
 	if ((MovieStudioCurrentMovie == "OpenHouse") && (MovieStudioCurrentScene == 1) && MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(MovieStudioActor1);
 	if ((MovieStudioCurrentMovie == "OpenHouse") && (MovieStudioCurrentScene == 2) && MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(MovieStudioActor1);
 	if ((MovieStudioCurrentMovie == "OpenHouse") && (MovieStudioCurrentScene == 2) && MouseIn(1250, 0, 500, 1000)) CharacterSetCurrent(MovieStudioActor2);
-	if ((MovieStudioCurrentMovie != "") && MouseIn(1855, 25, 90, 90)) { MovieStudioChangeMeter(-20); MovieStudioTimer = MovieStudioTimer - 60000; }
+	if ((MovieStudioCurrentMovie != "") && MouseIn(1855, 25, 90, 90)) { MovieStudioChangeMeter(-20); MovieStudioTimer = MovieStudioTimer - MS_PER_MIN; }
 }
 
 /**

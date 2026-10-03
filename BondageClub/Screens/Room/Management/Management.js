@@ -230,13 +230,13 @@ function ManagementCanBreakDatingLoverOnline(L) { return ((Player.Lovership.leng
  * @param {number} L - Index of the potential lover
  * @returns {boolean} - TRUE if the they can get divorced
  */
-function ManagementCanBreakUpLoverOnline(L) { return ((Player.Lovership.length > L) && (Player.Lovership[L].Stage != null) && (Player.Lovership[L].Stage == 2) && (Player.Lovership[L].Start != null) && (Player.Lovership[L].Start + 604800000 < CurrentTime)); }
+function ManagementCanBreakUpLoverOnline(L) { return ((Player.Lovership.length > L) && (Player.Lovership[L].Stage != null) && (Player.Lovership[L].Stage == 2) && (Player.Lovership[L].Start != null) && (Player.Lovership[L].Start + MS_PER_WEEK < CurrentTime)); }
 /**
  * Checks if the player is not able to divorce the given online lover (The 1 week waiting period is not over)
  * @param {number} L - Index of the potential lover
  * @returns {boolean} - TRUE if the they cannot get divorced
  */
-function ManagementCannotBreakUpLoverOnline(L) { return ((Player.Lovership.length > L) && (Player.Lovership[L].Stage != null) && (Player.Lovership[L].Stage == 2) && (Player.Lovership[L].Start != null) && (Player.Lovership[L].Start + 604800000 >= CurrentTime)); }
+function ManagementCannotBreakUpLoverOnline(L) { return ((Player.Lovership.length > L) && (Player.Lovership[L].Stage != null) && (Player.Lovership[L].Stage == 2) && (Player.Lovership[L].Start != null) && (Player.Lovership[L].Start + MS_PER_WEEK >= CurrentTime)); }
 /**
  * Checks if the player can stop dating the given NPC lover (1 to 5)
  * @param {number} L - Index of the potential lover
@@ -283,22 +283,22 @@ function ManagementWontVisitRoom() { return (!ManagementVisitRoom && ManagementC
  * Checks if the player can become a club mistress.
  * @returns {boolean} - TRUE if the player is fully dominant, has been in the club for more than a month, is currently not restrained, is not kneeling, can currently change and is currently not a club mistress.
  */
-function ManagementCanBeClubMistress() { return ((ReputationGet("Dominant") >= 100) && ((Math.floor((CurrentTime - Player.Creation) / 86400000)) >= 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
+function ManagementCanBeClubMistress() { return ((ReputationGet("Dominant") >= 100) && ((Math.floor((CurrentTime - Player.Creation) / MS_PER_DAY)) >= 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
 /**
  * Checks if the player is not able to become a club mistress due to her reputation.
  * @returns {boolean} - TRUE if the player could be a club mistress, but has a dominant reputation between 50 and 99.
  */
-function ManagementCannotBeClubMistress() { return ((ReputationGet("Dominant") < 100) && (ReputationGet("Dominant") >= 50) && ((Math.floor((CurrentTime - Player.Creation) / 86400000)) >= 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
+function ManagementCannotBeClubMistress() { return ((ReputationGet("Dominant") < 100) && (ReputationGet("Dominant") >= 50) && ((Math.floor((CurrentTime - Player.Creation) / MS_PER_DAY)) >= 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
 /**
  * Checks if the player is not able to become a club mistress due to her reputation (by a large amount, which makes the mistress laugh.)
  * @returns {boolean} - TRUE if the player could be a club mistress, but has a dominant reputation below 50.
  */
-function ManagementCannotBeClubMistressLaugh() { return ((ReputationGet("Dominant") < 50) && ((Math.floor((CurrentTime - Player.Creation) / 86400000)) >= 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
+function ManagementCannotBeClubMistressLaugh() { return ((ReputationGet("Dominant") < 50) && ((Math.floor((CurrentTime - Player.Creation) / MS_PER_DAY)) >= 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
 /**
  * Checks if the player is not able to become a club mistress due to her short time in the club.
  * @returns {boolean} - TRUE if the player has been in the club for less than a month.
  */
-function ManagementCannotBeClubMistressTime() { return (((Math.floor((CurrentTime - Player.Creation) / 86400000)) < 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
+function ManagementCannotBeClubMistressTime() { return (((Math.floor((CurrentTime - Player.Creation) / MS_PER_DAY)) < 30) && !LogQuery("ClubMistress", "Management") && !Player.IsKneeling() && Player.CanChangeOwnClothes()); }
 /**
  * Checks if the player can receive her club mistress pay check.
  * @returns {boolean} - TRUE if the player is a club mistress and has not been paid this week.
@@ -625,8 +625,8 @@ function ManagementClubSlaveCollar(RepChange) {
 	ReputationProgress("Dominant", RepChange);
 	CharacterRelease(Player);
 	InventoryWear(Player, "ClubSlaveCollar", "ItemNeck");
-	LogAdd("ClubSlave", "Management", CurrentTime + 3600000);
-	LogAdd("BlockChange", "Rule", CurrentTime + 3600000);
+	LogAdd("ClubSlave", "Management", CurrentTime + MS_PER_HOUR);
+	LogAdd("BlockChange", "Rule", CurrentTime + MS_PER_HOUR);
 	TitleSet("ClubSlave");
 }
 
@@ -824,7 +824,7 @@ function ManagementGetMistressOutfit(Color) {
  */
 function ManagementPlayerMistressCutscene() {
 	LogAdd("ClubMistress", "Management");
-	LogAdd("MistressWasPaid", "Management", CurrentTime + 604800000);
+	LogAdd("MistressWasPaid", "Management", CurrentTime + MS_PER_WEEK);
 	DialogLeave();
 	ManagementMistress.Stage = "0";
 	CommonSetScreen("Cutscene", "PlayerMistress");
@@ -835,7 +835,7 @@ function ManagementPlayerMistressCutscene() {
  * @returns {void} - Nothing.
  */
 function ManagementMistressPay() {
-	LogAdd("MistressWasPaid", "Management", CurrentTime + 604800000);
+	LogAdd("MistressWasPaid", "Management", CurrentTime + MS_PER_WEEK);
 	CharacterChangeMoney(Player, 150);
 }
 
@@ -844,7 +844,7 @@ function ManagementMistressPay() {
  * @returns {void} - Nothing.
  */
 function ManagementMistressKicked() {
-	LogAdd("BlockChange", "Rule", CurrentTime + 3600000);
+	LogAdd("BlockChange", "Rule", CurrentTime + MS_PER_HOUR);
 	LogDelete("ClubMistress", "Management");
 	LoginMistressItems();
 	ReputationProgress("Dominant", -6);
@@ -874,7 +874,7 @@ function ManagementActivityStruggleRestrain() {
  */
 function ManagementActivityStruggleStart() {
 	if (!ManagementRandomGirl) return;
-	ManagementTimer = CurrentTime + 60000;
+	ManagementTimer = CurrentTime + MS_PER_MIN;
 	DialogLeave();
 	EmptyBackground = "MainHall";
 	EmptyCharacterOffset = 0;

@@ -1011,7 +1011,7 @@ function AsylumGGTSFindTaskTarget(T) {
 function AsylumGGTSNewTask() {
 	AsylumGGTSTask = null;
 	let Level = AsylumGGTSGetLevel(Player);
-	if (Level <= 1) AsylumGGTSTimer = Math.round(CommonTime() + 60000 * AsylumGGTSSpeed);
+	if (Level <= 1) AsylumGGTSTimer = Math.round(CommonTime() + MS_PER_MIN * AsylumGGTSSpeed);
 	if (Level == 2) AsylumGGTSTimer = Math.round(CommonTime() + 56000 * AsylumGGTSSpeed);
 	if (Level == 3) AsylumGGTSTimer = Math.round(CommonTime() + 52000 * AsylumGGTSSpeed);
 	if (Level == 4) AsylumGGTSTimer = Math.round(CommonTime() + 48000 * AsylumGGTSSpeed);
@@ -1038,7 +1038,7 @@ function AsylumGGTSNewTask() {
 	if ((Count >= 50) || (AsylumGGTSTask == null)) return;
 
 	// A task has been selected, set up timers and publish it as the requested task
-	if (AsylumGGTSTask == "NoTalking") AsylumGGTSTimer = Math.round(CommonTime() + 60000);
+	if (AsylumGGTSTask == "NoTalking") AsylumGGTSTimer = Math.round(CommonTime() + MS_PER_MIN);
 	AsylumGGTSTaskTarget = AsylumGGTSFindTaskTarget(AsylumGGTSTask);
 	AsylumGGTSMessage("Task" + AsylumGGTSTask, AsylumGGTSTaskTarget);
 	AsylumGGTSLastTask = AsylumGGTSTask;
@@ -1273,7 +1273,7 @@ function AsylumGGTSActivity(S, C, A, Z, Count) {
  * @returns {void} - Nothing
  */
 function AsylumGGTSPunishmentTime(Minute) {
-	let Time = Math.round(CurrentTime + parseInt(Minute) * 60000);
+	let Time = Math.round(CurrentTime + parseInt(Minute) * MS_PER_MIN);
 	const isolationTime = LogValue("Isolated", "Asylum") ?? 0;
 	if (isolationTime >= CurrentTime) Time = Time + Math.round(isolationTime - CurrentTime);
 	LogAdd("Isolated", "Asylum", Time);
@@ -1320,7 +1320,7 @@ function AsylumGGTSControlItem(C, Item) {
  * @param {number} Minute - The number of minutes to compare
  * @returns {boolean} - TRUE if the player has enough minutes
  */
-function AsylumGGTSHasMinutes(Minute) { return ((AsylumGGTSGetLevel(Player) >= 6) && (Math.floor(AsylumGGTSGetLevelTime(Player) / 60000) >= Minute)); }
+function AsylumGGTSHasMinutes(Minute) { return ((AsylumGGTSGetLevel(Player) >= 6) && (Math.floor(AsylumGGTSGetLevelTime(Player) / MS_PER_MIN) >= Minute)); }
 
 /**
  * At level 6, the player can spend GGTS minutes for various reasons
@@ -1330,7 +1330,7 @@ function AsylumGGTSHasMinutes(Minute) { return ((AsylumGGTSGetLevel(Player) >= 6
 function AsylumGGTSSpendMinute(Minute) {
 	if (Minute < 0) Minute = 0;
 	const time = AsylumGGTSGetLevelTime(Player);
-	AsylumGGTSSetLevelTime(Player, time - (Minute * 60000));
+	AsylumGGTSSetLevelTime(Player, time - (Minute * MS_PER_MIN));
 }
 
 /**
@@ -1458,7 +1458,7 @@ function AsylumGGTSOrgasmResist() {
  */
 async function AsylumGGTSLock(LockTime, Msg) {
 	AsylumGGTSUngag();
-	LogAdd("ForceGGTS", "Asylum", LockTime * 60000);
+	LogAdd("ForceGGTS", "Asylum", LockTime * MS_PER_MIN);
 	await CommonSetScreen("Room", "AsylumEntrance");
 	AsylumEntranceNurse.Stage = "300";
 	CharacterSetCurrent(AsylumEntranceNurse);
@@ -1643,7 +1643,7 @@ function AsylumGGTSDrawCharacter(C, X, Y, Zoom) {
 			if (Level >= 6) DrawRect(X + 52 * Zoom, Y + 862 * Zoom, 96 * Zoom, 36 * Zoom, "#FFD700");
 			else if (Progress >= 100) DrawRect(X + 50 * Zoom, Y + 860 * Zoom, 100 * Zoom, 40 * Zoom, "White");
 			else DrawProgressBar(X + 50 * Zoom, Y + 860 * Zoom, 100 * Zoom, 40 * Zoom, Progress);
-			if (Level >= 6) DrawText(Math.floor(C.Game.GGTS.Time / 60000).toString(), X + 100 * Zoom, Y + 881 * Zoom, "Black", "White");
+			if (Level >= 6) DrawText(Math.floor(C.Game.GGTS.Time / MS_PER_MIN).toString(), X + 100 * Zoom, Y + 881 * Zoom, "Black", "White");
 			else if (Progress >= 50) DrawText(Level.toString(), X + 100 * Zoom, Y + 881 * Zoom, "Black", "White");
 			else DrawText(Level.toString(), X + 101 * Zoom, Y + 882 * Zoom, "White", "Black");
 			if (C.Game.GGTS.Rule != null)

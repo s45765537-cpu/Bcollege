@@ -2522,7 +2522,7 @@ function ChatRoomStruggleSync() {
 
 	// Sync the controls; loosening allowed beyond 50% progress when difficulty permits
 	if ((Player.Status == null) || (Player.Status !== "Talk")) ChatRoomStatusUpdate("Struggle");
-	let Impossible = ((ChatRoomStruggleData.Difficulty < -6) && (ChatRoomStruggleData.Start + 60000 <= Time));
+	let Impossible = ((ChatRoomStruggleData.Difficulty < -6) && (ChatRoomStruggleData.Start + MS_PER_MIN <= Time));
 	if (!ChatRoomStruggleData.AllowLoosen && !ChatRoomStruggleData.LoosenMode)
 		ChatRoomStruggleData.AllowLoosen = ((ChatRoomStruggleData.Progress >= 50) && (ChatRoomStruggleData.Difficulty >= -9) && (ChatRoomStruggleData.Difficulty < 0) && (ChatRoomStruggleData.Item != null) && (ChatRoomStruggleData.Item.Asset != null) && (ChatRoomStruggleData.Item.Asset != null) && ChatRoomStruggleData.Item.Asset.AllowTighten && !InventoryItemHasEffect(ChatRoomStruggleData.Item, "Lock"));
 	let Text = "Struggling";
@@ -4148,7 +4148,7 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	if (data.Content.startsWith("StruggleAssist")) {
 		let A = parseInt(data.Content.substring("StruggleAssist".length));
 		if ((A >= 1) && (A <= 7)) {
-			ChatRoomStruggleAssistTimer = CurrentTime + 60000;
+			ChatRoomStruggleAssistTimer = CurrentTime + MS_PER_MIN;
 			ChatRoomStruggleAssistBonus = A;
 		}
 	}
@@ -6229,9 +6229,9 @@ function ChatRoomSetRule(data) {
 
 		// Wardrobe/changing rules
 		if (data.Content == "OwnerRuleChangeAllow") LogDelete("BlockChange", "OwnerRule");
-		if (data.Content == "OwnerRuleChangeBlock1Hour") LogAdd("BlockChange", "OwnerRule", CurrentTime + 3600000);
-		if (data.Content == "OwnerRuleChangeBlock1Day") LogAdd("BlockChange", "OwnerRule", CurrentTime + 86400000);
-		if (data.Content == "OwnerRuleChangeBlock1Week") LogAdd("BlockChange", "OwnerRule", CurrentTime + 604800000);
+		if (data.Content == "OwnerRuleChangeBlock1Hour") LogAdd("BlockChange", "OwnerRule", CurrentTime + MS_PER_HOUR);
+		if (data.Content == "OwnerRuleChangeBlock1Day") LogAdd("BlockChange", "OwnerRule", CurrentTime + MS_PER_DAY);
+		if (data.Content == "OwnerRuleChangeBlock1Week") LogAdd("BlockChange", "OwnerRule", CurrentTime + MS_PER_WEEK);
 		if (data.Content == "OwnerRuleChangeBlock") LogAdd("BlockChange", "OwnerRule", CurrentTime + 1000000000000);
 
 		// Owner presence rules
@@ -6460,7 +6460,7 @@ function ChatRoomPayQuest(questGiverNumber, paymentAmount) {
 function ChatRoomOnlineBountyHandleData(data, sender) {
 	if (data.finishTime && data.target == Player.MemberNumber) {
 		let senderChar = ChatRoomCharacter.find(c => c.MemberNumber == sender);
-		const remaining = Math.max(1, Math.ceil((data.finishTime - CommonTime()) / 60000));
+		const remaining = Math.max(1, Math.ceil((data.finishTime - CommonTime()) / MS_PER_MIN));
 		const content = ChatRoomCarryingBountyOpened(senderChar) ? "OnlineBountySuitcaseOngoingOpened" : "OnlineBountySuitcaseOngoing";
 		const dict = new DictionaryBuilder()
 			.sourceCharacter(senderChar)

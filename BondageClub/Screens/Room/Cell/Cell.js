@@ -14,7 +14,7 @@ async function CellLoad() {
 	CellKeyDepositStaff.AllowItem = false;
 	PoseSetActive(Player, null);
 	CellOpenTimer = LogValue("Locked", "Cell") ?? 0;
-	if (CellOpenTimer > CurrentTime + 3600000) {
+	if (CellOpenTimer > CurrentTime + MS_PER_HOUR) {
 		LogDelete("Locked", "Cell");
 		CellOpenTimer = 0;
 	}
@@ -60,7 +60,7 @@ function CellClick() {
  * @returns {void} - Nothing
  */
 function CellLock(LockTime) {
-	LogAdd("Locked", "Cell", CurrentTime + LockTime * 60000);
+	LogAdd("Locked", "Cell", CurrentTime + LockTime * MS_PER_MIN);
 	CommonSetScreen("Room", "Cell");
 }
 
@@ -70,5 +70,5 @@ function CellLock(LockTime) {
  * @returns {void} - Nothing
  */
 function CellDepositKeys(DepositTime) {
-	LogAdd("KeyDeposit", "Cell", CurrentTime + DepositTime * 3600000);
+	LogAdd("KeyDeposit", "Cell", CurrentTime + DepositTime * MS_PER_HOUR);
 }

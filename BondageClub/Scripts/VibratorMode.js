@@ -450,7 +450,7 @@ function VibratorModeScriptDraw(data, drawData) {
 
 	var PersistentData = drawData.PersistentData();
 	var ModeChanged = Item.Property.Mode !== PersistentData.Mode;
-	if (ModeChanged || typeof PersistentData.ChangeTime !== "number") PersistentData.ChangeTime = CommonTime() + 60000;
+	if (ModeChanged || typeof PersistentData.ChangeTime !== "number") PersistentData.ChangeTime = CommonTime() + MS_PER_MIN;
 	if (ModeChanged || typeof PersistentData.LastChange !== "number") PersistentData.LastChange = CommonTime();
 	if (ModeChanged) PersistentData.Mode = Item.Property.Mode;
 
@@ -542,7 +542,7 @@ const VibratorModeUpdate = {
 		);
 
 		// Next update in 1-3 minutes
-		const oneMinute = 60000;
+		const oneMinute = MS_PER_MIN;
 		persistentData.ChangeTime = Math.floor(CommonTime() + oneMinute + Math.random() * 2 * oneMinute);
 		VibratorModePublish(data, C, item, oldIntensity, newIntensity);
 	},
@@ -627,7 +627,7 @@ const VibratorModeUpdate = {
 			// If we've hit max intensity, no more changes needed
 			persistentData.ChangeTime = Infinity;
 		} else {
-			const oneMinute = 60000;
+			const oneMinute = MS_PER_MIN;
 			// Next update 1-2 minutes from now
 			persistentData.ChangeTime = Math.floor(CommonTime() + oneMinute + Math.random() * oneMinute);
 		}
@@ -651,7 +651,7 @@ const VibratorModeStateUpdate = {
 	 * @returns {StateAndIntensity} - The updated state and intensity of the vibrator
 	 */
 	Default: function (C, arousal, timeSinceLastChange, oldIntensity, transitionsFromDefault) {
-		const oneMinute = 60000;
+		const oneMinute = MS_PER_MIN;
 		/** @type {VibratorModeState} */
 		let state = VibratorModeState.DEFAULT;
 		let newIntensity = oldIntensity;
@@ -673,7 +673,7 @@ const VibratorModeStateUpdate = {
 	 * @returns {StateAndIntensity} - The updated state and intensity of the vibrator
 	 */
 	Deny: function (C, arousal, timeSinceLastChange, oldIntensity) {
-		const oneMinute = 60000;
+		const oneMinute = MS_PER_MIN;
 		/** @type {VibratorModeState} */
 		let state = VibratorModeState.DENY;
 		let newIntensity = oldIntensity;
@@ -707,7 +707,7 @@ const VibratorModeStateUpdate = {
 	 * @returns {StateAndIntensity} - The updated state and intensity of the vibrator
 	 */
 	Orgasm: function (C, arousal, timeSinceLastChange, oldIntensity) {
-		const OneMinute = 60000;
+		const OneMinute = MS_PER_MIN;
 		/** @type {VibratorModeState} */
 		let state = VibratorModeState.ORGASM;
 		let newIntensity = oldIntensity;
@@ -731,8 +731,8 @@ const VibratorModeStateUpdate = {
 	 * @returns {StateAndIntensity} - The updated state and intensity of the vibrator
 	 */
 	Rest: function(C, arousal, timeSinceLastChange, oldIntensity) {
-		const fiveMinutes = 5 * 60000;
-		const tenMinutes = 10 * 60000;
+		const fiveMinutes = 5 * MS_PER_MIN;
+		const tenMinutes = 10 * MS_PER_MIN;
 		/** @type {VibratorModeState} */
 		let state = VibratorModeState.REST;
 		/** @type {VibratorIntensity} */
