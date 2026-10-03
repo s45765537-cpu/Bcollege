@@ -1,5 +1,94 @@
 "use strict";
 
+/** @type {ChatColorThemeType[]} */
+var PreferenceChatColorThemeList = ["Light", "Dark", "Light2", "Dark2"];
+/** @type {ChatEnterLeaveType[]} */
+var PreferenceChatEnterLeaveList = ["Normal", "Smaller", "Hidden"];
+/** @type {ChatMemberNumbersType[]} */
+var PreferenceChatMemberNumbersList = ["Always", "Never", "OnMouseover"];
+/** @type {ChatFontSizeType[]} */
+var PreferenceChatFontSizeList = ["Small", "Medium", "Large"];
+
+var PreferenceSettingsSensitivityList = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var PreferenceSettingsSensitivityIndex = 13;
+var PreferenceSettingsDeadZoneList = [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+var PreferenceSettingsDeadZoneIndex = 1;
+var PreferenceCalibrationStage = 0;
+
+/** @type {ImmersionSensDepName[]} */
+var PreferenceSettingsSensDepList = ["SensDepLight", "Normal", "SensDepNames", "SensDepTotal", "SensDepExtreme"];
+/** @type {LockTimerLimitName[]} */
+var PreferenceSettingsLockTimerLimitList = ["LockTimerLimitDefault", "LockTimerLimitDay", "LockTimerLimitWeek", "LockTimerLimitMonth", "LockTimerLimitYear", "LockTimerLimitDecade"];
+
+/** @type {GraphicsVFXName[]} */
+var PreferenceSettingsVFXList = ["VFXInactive", "VFXSolid", "VFXAnimatedTemp", "VFXAnimated"];
+/** @deprecated */
+var PreferenceSettingsVFXIndex = 0;
+/** @type {GraphicsVFXVibratorName[]} */
+var PreferenceSettingsVFXVibratorList = ["VFXVibratorInactive", "VFXVibratorSolid", "VFXVibratorAnimated"];
+/** @deprecated */
+var PreferenceSettingsVFXVibratorIndex = 0;
+/** @type {GraphicsVFXFilterName[]} */
+var PreferenceSettingsVFXFilterList = ["VFXFilterNone", "VFXFilterLight", "VFXFilterMedium", "VFXFilterHeavy"];
+/** @deprecated */
+var PreferenceSettingsVFXFilterIndex = 0;
+/** @type {GraphicsFontName[]} */
+var PreferenceGraphicsFontList = ["Arial", "TimesNewRoman", "Papyrus", "ComicSans", "Impact", "HelveticaNeue", "Verdana", "CenturyGothic", "Georgia", "CourierNew", "Copperplate"];
+/** @type {WebGLPowerPreference[]} */
+var PreferenceGraphicsPowerModes = ["low-power", "default", "high-performance"];
+/** @deprecated */
+var PreferenceGraphicsFontIndex = 0;
+/** @deprecated @type {number} */
+var PreferenceGraphicsAnimationQualityIndex = -1;
+/** @deprecated @type {number} */
+var PreferenceGraphicsPowerModeIndex = -1;
+var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
+var PreferenceGraphicsFrameLimit = [0, 10, 15, 30, 60];
+/** @type {GraphicsShowFullscreenButton[]} */
+var PreferenceGraphicsFullscreenButtonList = ["on", "off", "on_when_mobile"];
+
+/** @type {ArousalActiveName[]} */
+var PreferenceArousalActiveList = ["Inactive", "NoMeter", "Manual", "Hybrid", "Automatic"];
+var PreferenceArousalActiveIndex = 0;
+/** @type {ArousalVisibleName[]} */
+var PreferenceArousalVisibleList = ["All", "Access", "Self"];
+var PreferenceArousalVisibleIndex = 0;
+/** @type {ArousalAffectStutterName[]} */
+var PreferenceArousalAffectStutterList = ["None", "Arousal", "Vibration", "All"];
+var PreferenceArousalAffectStutterIndex = 0;
+/**
+ * Initialized by {@link PreferenceSubscreenArousalLoad}
+ * @type {ActivityName[]}
+ */
+var PreferenceArousalActivityList;
+var PreferenceArousalActivityIndex = 0;
+/**
+ * @type {never}
+ * @deprecated
+ */
+var PreferenceArousalActivityFactorSelf;
+/**
+ * @type {never}
+ * @deprecated
+ */
+var PreferenceArousalActivityFactorOther;
+/**
+ * @type {never}
+ * @deprecated
+ */
+var PreferenceArousalZoneFactor;
+/**
+ * Initialized by {@link PreferenceSubscreenArousalLoad}
+ * @type {FetishName[]}
+ */
+var PreferenceArousalFetishList;
+var PreferenceArousalFetishIndex = 0;
+/**
+ * @type {never}
+ * @deprecated
+ */
+var PreferenceArousalFetishFactor;
+
 /**
  * Get the sensory deprivation setting for the player
  * @returns {boolean} - Return true if sensory deprivation is active, false otherwise

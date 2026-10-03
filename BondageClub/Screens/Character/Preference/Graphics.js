@@ -1,36 +1,10 @@
 "use strict";
 
-/** @type {GraphicsVFXName[]} */
-var PreferenceSettingsVFXList = ["VFXInactive", "VFXSolid", "VFXAnimatedTemp", "VFXAnimated"];
-/** @deprecated */
-var PreferenceSettingsVFXIndex = 0;
-/** @type {GraphicsVFXVibratorName[]} */
-var PreferenceSettingsVFXVibratorList = ["VFXVibratorInactive", "VFXVibratorSolid", "VFXVibratorAnimated"];
-/** @deprecated */
-var PreferenceSettingsVFXVibratorIndex = 0;
-/** @type {GraphicsVFXFilterName[]} */
-var PreferenceSettingsVFXFilterList = ["VFXFilterNone", "VFXFilterLight", "VFXFilterMedium", "VFXFilterHeavy"];
-/** @deprecated */
-var PreferenceSettingsVFXFilterIndex = 0;
-/** @type {GraphicsFontName[]} */
-var PreferenceGraphicsFontList = ["Arial", "TimesNewRoman", "Papyrus", "ComicSans", "Impact", "HelveticaNeue", "Verdana", "CenturyGothic", "Georgia", "CourierNew", "Copperplate"];
-/** @type {WebGLPowerPreference[]} */
-var PreferenceGraphicsPowerModes = ["low-power", "default", "high-performance"];
-/** @deprecated */
-var PreferenceGraphicsFontIndex = 0;
-/** @deprecated @type {number} */
-var PreferenceGraphicsAnimationQualityIndex = -1;
-/** @deprecated @type {number} */
-var PreferenceGraphicsPowerModeIndex = -1;
 /**
  * Tied to the screen's lifetime
  * @type {WebGLContextAttributes}
  */
 var PreferenceGraphicsWebGLOptions;
-var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
-var PreferenceGraphicsFrameLimit = [0, 10, 15, 30, 60];
-/** @type {GraphicsShowFullscreenButton[]} */
-var PreferenceGraphicsFullscreenButtonList = ["on", "off", "on_when_mobile"];
 
 const PreferenceSubscreenGraphicsIDs = Object.freeze({
 	grid: "preference-graphics-grid",

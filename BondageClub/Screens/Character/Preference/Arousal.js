@@ -1,35 +1,5 @@
 "use strict";
 
-/** @type {ArousalActiveName[]} */
-var PreferenceArousalActiveList = ["Inactive", "NoMeter", "Manual", "Hybrid", "Automatic"];
-var PreferenceArousalActiveIndex = 0;
-/** @type {ArousalVisibleName[]} */
-var PreferenceArousalVisibleList = ["All", "Access", "Self"];
-var PreferenceArousalVisibleIndex = 0;
-/** @type {ArousalAffectStutterName[]} */
-var PreferenceArousalAffectStutterList = ["None", "Arousal", "Vibration", "All"];
-var PreferenceArousalAffectStutterIndex = 0;
-/**
- * Initialized by {@link PreferenceSubscreenArousalLoad}
- * @type {ActivityName[]}
- */
-var PreferenceArousalActivityList;
-var PreferenceArousalActivityIndex = 0;
-/** @type {never} */
-var PreferenceArousalActivityFactorSelf;
-/** @type {never} */
-var PreferenceArousalActivityFactorOther;
-/** @type {never} */
-var PreferenceArousalZoneFactor;
-/**
- * Initialized by {@link PreferenceSubscreenArousalLoad}
- * @type {FetishName[]}
- */
-var PreferenceArousalFetishList;
-var PreferenceArousalFetishIndex = 0;
-/** @type {never} */
-var PreferenceArousalFetishFactor;
-
 function PreferenceSubscreenArousalLoad() {
 	CharacterAppearanceForceUpCharacter = Player.MemberNumber;
 	PreferenceArousalActiveIndex = (PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active) < 0) ? 0 : PreferenceArousalActiveList.indexOf(Player.ArousalSettings.Active);
