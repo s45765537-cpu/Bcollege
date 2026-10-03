@@ -401,31 +401,12 @@ function PreferencePageChangeClick(Left, Top, TotalPages) {
  * @param {number} Height - The height of the button
  * @param {readonly string[]} List - The preference list that the button should be associated with
  * @param {number} Index - The current preference index for the given preference list
+ * @deprecated use {@link DrawBackNextButton}
  * @returns {void} - Nothing
  */
 function PreferenceDrawBackNextButton(Left, Top, Width, Height, List, Index) {
 	DrawBackNextButton(Left, Top, Width, Height, TextGet(List[Index]), "White", "",
-		() => TextGet(List[PreferenceGetPreviousIndex(List, Index)]),
-		() => TextGet(List[PreferenceGetNextIndex(List, Index)]),
+		() => TextGet(List[CommonModulo(Index - 1, List.length)]),
+		() => TextGet(List[CommonModulo(Index + 1, List.length)]),
 	);
-}
-
-/**
- * Returns the index of the previous preference list item (and wraps back to the end of the list if currently at 0)
- * @param {readonly unknown[]} List - The preference list
- * @param {number} Index - The current preference index for the given list
- * @returns {number} - The index of the previous item in the array, or the last item in the array if currently at 0
- */
-function PreferenceGetPreviousIndex(List, Index) {
-	return (List.length + Index - 1) % List.length;
-}
-
-/**
- * Returns the index of the next preference list item (and wraps back to the start of the list if currently at the end)
- * @param {readonly unknown[]} List - The preference list
- * @param {number} Index - The current preference index for the given list
- * @returns {number} - The index of the next item in the array, or 0 if the array is currently at the last item
- */
-function PreferenceGetNextIndex(List, Index) {
-	return (Index + 1) % List.length;
 }
