@@ -254,6 +254,25 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.HideItem, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.HideItem));
 	});
 
+	it("should survive invalid property data", () => {
+		const bundle = {
+			"Group": "Bra",
+			"Name": "Bra9",
+			"Color": [
+				"#A37394"
+			],
+			"Property": "Temp"
+		};
+		const asset: Asset = Game.AssetGet("Female3DCG", bundle.Group, bundle.Name);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item: Item | null = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+		expect(Object.keys(item!)).toIncludeAllMembers(["Asset", "Color", "Difficulty", "Craft", "Property"]);
+		expect(item?.Asset).toEqual(asset);
+		expect(item?.Color).toEqual(bundle.Color);
+		expect(item?.Property).toEqual({});
+	})
+
 	const baselineParam = testParam.baseline.map(({ asset, group, comment, ...rest }) => {
 		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
 	});

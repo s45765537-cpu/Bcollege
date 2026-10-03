@@ -457,7 +457,11 @@ function ItemPropertiesIsSubset(subProperties, superProperties, asset, options=u
  * @returns {ItemProperties} The maximized item properties
  */
 function ItemPropertiesDecompress(item, properties, options=undefined) {
-	properties = CommonCloneDeep(properties ?? {});
+	properties ??= {};
+	if (!CommonIsObject(properties)) {
+		console.error(`Invalid property data for item: "${item.Asset.Group.Name}/${item.Asset.Name}"`, properties);
+		return item.Property;
+	}
 
 	const propertyList = CommonEntries(properties).map(([propName, propValue]) => {
 		/** @type {undefined | PropertyDataEntry<any>} */
