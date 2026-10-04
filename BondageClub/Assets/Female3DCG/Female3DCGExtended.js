@@ -13838,6 +13838,9 @@ var AssetFemale3DCGExtended = {
 				AccessMode: "",
 				ShowShrinkText: true,
 				ArousalLvl: "Horny",
+				LastShrinkWarningTime: 0,
+				NextShrinkTime: 0,
+				ShrinkCooldown: 0,
 				TriggerValues: CommonConvertArrayToString(
 					InventoryItemVulvaTechnoChastityCageVoiceTriggers,
 				),
