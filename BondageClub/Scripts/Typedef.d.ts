@@ -3525,11 +3525,6 @@ interface ItemPropertiesCustom {
 	OriginalSetting?: 0 | 1 | 2 | 3;
 	/** Whether gag's blinking light is on or off */
 	BlinkState?: boolean;
-	/**
-	 * An extended item option
-	 * @todo Investigate whether this property still actually exists
-	 */
-	Option?: ExtendedItemOption;
 
 	// #endregion
 
