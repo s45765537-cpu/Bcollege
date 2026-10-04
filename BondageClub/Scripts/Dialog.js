@@ -3524,7 +3524,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 					} else if (focusGroup.IsItem() && InventoryGroupIsBlocked(C, focusGroup.Name)) {
 						textContent = InterfaceTextGet("ZoneBlocked");
 						showIcon = true;
-					} else if (!Player.CanInteract()) {
+					} else if (!Player.CanInteract() || (!C.IsPlayer() && Player.IsEnclose())) {
 						textContent = InterfaceTextGet("AccessBlocked");
 						showIcon = true;
 					} else {
