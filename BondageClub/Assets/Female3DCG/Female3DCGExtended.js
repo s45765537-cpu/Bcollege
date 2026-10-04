@@ -20172,6 +20172,12 @@ var AssetFemale3DCGExtended = {
 				Chat: "MinidollsItemHandheldSet",
 			},
 		}, // Minidolls
+		BountySuitcaseEmpty: {
+			Archetype: ExtendedArchetype.NOARCH,
+			BaselineProperty: {
+				Iterations: 0,
+			},
+		}, //BountySuitcaseEmpty
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
