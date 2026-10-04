@@ -30,10 +30,10 @@ declare namespace ItemProperty {
 		/** Maximum value of numeric properties. Must be smaller than or equal to `2**15 - 1`. */
 		max?: number,
 		/**
-		 * The step size (_i.e._ resolution) of non-integer numeric properties.
-		 * Note that only step size of 0.01/resolutions of 100 are allowed here.
+		 * Whether the numeric value represents an integer
+		 * @default true
 		 */
-		stepSize?: 0.01,
+		isInteger?: boolean,
 		/** Default value of numeric properties */
 		defaultNumber?: number,
 	}
@@ -42,8 +42,8 @@ declare namespace ItemProperty {
 
 	/** Item property specific metadata keys */
 	export interface PropertyMetaData extends MetaDataTemplate<ItemProperties> {
-		LayerScaleX: Mandatory<MetaData, "min" | "max" | "defaultNumber" | "stepSize">;
-		LayerScaleY: Mandatory<MetaData, "min" | "max" | "defaultNumber" | "stepSize">;
+		LayerScaleX: Mandatory<MetaData, "min" | "max" | "defaultNumber" | "isInteger">;
+		LayerScaleY: Mandatory<MetaData, "min" | "max" | "defaultNumber" | "isInteger">;
 		LayerTranslationX: Mandatory<MetaData, "min" | "max"  | "defaultNumber">;
 		LayerTranslationY: Mandatory<MetaData, "min" | "max" | "defaultNumber">;
 		LayerRotation: Mandatory<MetaData, "min" | "max" | "defaultNumber">;

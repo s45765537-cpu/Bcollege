@@ -834,7 +834,8 @@ class PropertyDataEntry {
 	 */
 	compressNumberRecord(value, asset, defaults) {
 		defaults ??= {};
-		const { stepSize, defaultNumber: defaultCandidate } = this.metaData;
+		const { isInteger, defaultNumber: defaultCandidate } = this.metaData;
+		const stepSize = (isInteger ?? true) ? 1 : 0.01;
 		const valueCompressed = asset.Layer.map(layer => {
 			const layerValue = value[layer.Name ?? ""];
 			if (!CommonIsFinite(layerValue)) {
@@ -863,7 +864,8 @@ class PropertyDataEntry {
 	 * @returns {undefined | Partial<Record<LayerName | "", number>>} The decompressed entries
 	 */
 	decompressNumberRecord(value, asset) {
-		const { stepSize, min, max } = this.metaData;
+		const { isInteger, min, max } = this.metaData;
+		const stepSize = (isInteger ?? true) ? 1 : 0.01;
 		const ret = asset.Layer.map((layer, layerIndex) => {
 			const layerMappedValue = value.charCodeAt(layerIndex);
 			if (!layerMappedValue) {
@@ -1051,7 +1053,7 @@ var PropertyData = {
 		},
 	),
 	LayerScaleX: PropertyDataEntry.copyFrom("LayerRotation", "LayerScaleX",
-		{ metaData: { defaultNumber: 1.0, min: 0.01, max: 3.00, stepSize: 0.01 } },
+		{ metaData: { defaultNumber: 1.0, min: 0.01, max: 3.00, isInteger: false } },
 	),
 	LayerScaleY: PropertyDataEntry.copyFrom("LayerScaleX", "LayerScaleY"),
 	LayerTranslationX: PropertyDataEntry.copyFrom("LayerScaleX", "LayerTranslationX",
