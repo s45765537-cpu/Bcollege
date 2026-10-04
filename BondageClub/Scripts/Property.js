@@ -928,7 +928,7 @@ class PropertyDataEntry {
 	 * @param {readonly (readonly T[])[]} values
 	 * @returns {T[]}
 	 */
-	static mergeSetLikeArrays(values) {
+	static unionSetLikeArrays(values) {
 		return Array.from(new Set(values.flat()));
 	}
 	/**
@@ -950,7 +950,7 @@ class PropertyDataEntry {
 	 * @param {readonly Readonly<T>[]} values
 	 * @returns {T}
 	 */
-	static mergeShallowObjects(values) {
+	static unionShallowObjects(values) {
 		/** @type {Record<string, undefined | null | string | boolean | number>} */
 		const ret = {};
 		for (const value of values) {
@@ -985,7 +985,7 @@ var PropertyData = {
 	}),
 	Block: new PropertyDataEntry("Block", undefined, {
 		compare: PropertyDataEntry.compareSetLikeArrays,
-		union: PropertyDataEntry.mergeSetLikeArrays,
+		union: PropertyDataEntry.unionSetLikeArrays,
 	}),
 	BlockRemotes: undefined,
 	CombinationNumber: undefined,
@@ -997,7 +997,7 @@ var PropertyData = {
 	DrawingTop: undefined,
 	Effect: new PropertyDataEntry("Effect", undefined, {
 		compare: PropertyDataEntry.compareSetLikeArrays,
-		union: PropertyDataEntry.mergeSetLikeArrays,
+		union: PropertyDataEntry.unionSetLikeArrays,
 		compress(prop, { asset }) {
 			/** @type {Mandatory<ItemPropertiesMinimized, "Effect">} */
 			const ret = { Effect: /** @type {never} */(undefined) };
@@ -1030,7 +1030,7 @@ var PropertyData = {
 		{ defaultNumber: 0, min: -180, max: 180 },
 		{
 			compare: PropertyDataEntry.compareShallowObjects,
-			union: PropertyDataEntry.mergeShallowObjects,
+			union: PropertyDataEntry.unionShallowObjects,
 			compress(prop, { asset }, defaults) {
 				if (_ItemPropertiesR134Compression) {
 					const value = this.compressNumberRecord(prop, asset, defaults);
@@ -1067,7 +1067,7 @@ var PropertyData = {
 	LockedBy: undefined,
 	MemberNumberList: new PropertyDataEntry("MemberNumberList", undefined, {
 		compare: PropertyDataEntry.compareSetLikeArrays,
-		union: PropertyDataEntry.mergeSetLikeArrays,
+		union: PropertyDataEntry.unionSetLikeArrays,
 	}),
 	MemberNumberListKeys: undefined,
 	Mode: undefined,
@@ -1111,7 +1111,7 @@ var PropertyData = {
 						return i;
 					}
 				});
-				return PropertyDataEntry.mergeShallowObjects(propOjbects);
+				return PropertyDataEntry.unionShallowObjects(propOjbects);
 			},
 			compress(prop, { asset }, defaults) {
 				if (_ItemPropertiesR134Compression) {
@@ -1190,7 +1190,7 @@ var PropertyData = {
 			return entries.length ? { [this.name]: CommonFromEntries(entries) } : undefined;
 		},
 		compare: PropertyDataEntry.compareShallowObjects,
-		union: PropertyDataEntry.mergeShallowObjects,
+		union: PropertyDataEntry.unionShallowObjects,
 	}),
 	UnHide: PropertyDataEntry.copyFrom("Block", "UnHide"),
 };
