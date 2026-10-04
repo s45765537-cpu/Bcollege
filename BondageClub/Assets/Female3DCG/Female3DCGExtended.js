@@ -15411,7 +15411,6 @@ var AssetFemale3DCGExtended = {
 									"ItemHandheld",
 									"ItemArms",
 									"ItemBreast",
-									"ItemTorso2",
 									"ItemNipples",
 									"ItemNipplesPiercings",
 								],
@@ -15439,6 +15438,12 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
+			DialogPrefix: {
+				Chat: "ItemTorsoMovableglasscabinetSet",
+				Option: "ItemTorsoMovableglasscabinetOption",
+				Header: "ItemTorsoMovableglasscabinetSelect",
+				Module: "ItemTorsoMovableglasscabinetModule",
+			},
 		}, // Movableglasscabinet
 		RestraintSet: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -15455,6 +15460,11 @@ var AssetFemale3DCGExtended = {
 				{ Name: "SheerBodysuit" },
 				{ Name: "Bodysuit" },
 			],
+			DialogPrefix: {
+				Option: "ItemTorsoRestraintSet",
+				Header: "ItemTorsoRestraintSetSelect",
+				Chat: "ItemTorsoRestraintSetSet",
+			},
 		}, // RestraintSet
 		TentacleSuit: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -15470,12 +15480,12 @@ var AssetFemale3DCGExtended = {
 					Name: "TentacleStatus",
 					Key: "d",
 					Options: [
+						{},
 						{
 							Property: {
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 							},
 						},
-						{},
 						{
 							HasSubscreen: true,
 							Prerequisite: [
@@ -15534,9 +15544,27 @@ var AssetFemale3DCGExtended = {
 					Options: [{}, { Property: { Effect: [E.Slow] } }],
 				},
 			],
+			DialogPrefix: {
+				Chat: "ItemTorsoTentacleSuitSet",
+				Option: "ItemTorsoTentacleSuitOption",
+				Header: "ItemTorsoTentacleSuitSelect",
+				Module: "ItemTorsoTentacleSuitModule",
+			},
 		}, // TentacleSuit
 	}, // ItemTorso
 	ItemTorso2: {
+		TentacleSuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "TentacleSuit" },
+		}, // TentacleSuit
+		RestraintSet: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "RestraintSet" },
+		}, // RestraintSet
+		Movableglasscabinet: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "Movableglasscabinet" },
+		}, // Movableglasscabinet
 		LockingSwimsuit: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "LockingSwimsuit" },
@@ -16269,6 +16297,7 @@ var AssetFemale3DCGExtended = {
 		}, // PacifierClip
 		BallGag: {
 			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
 			Options: [
 				{
 					Name: "Normal",
@@ -16353,6 +16382,7 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // DuctTape
 		HarnessBallGag1: {
+			ChangeWhenLocked: false,
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
 				{
@@ -17643,6 +17673,7 @@ var AssetFemale3DCGExtended = {
 		BallGag2: {
 			Archetype: ExtendedArchetype.MODULAR,
 			DrawImages: false,
+			ChangeWhenLocked: false,
 			Modules: [
 				{
 					Name: "StrapType",
