@@ -1,14 +1,5 @@
 "use strict";
 
-/** @type {ChatColorThemeType[]} */
-var PreferenceChatColorThemeList = ["Light", "Dark", "Light2", "Dark2"];
-/** @type {ChatEnterLeaveType[]} */
-var PreferenceChatEnterLeaveList = ["Normal", "Smaller", "Hidden"];
-/** @type {ChatMemberNumbersType[]} */
-var PreferenceChatMemberNumbersList = ["Always", "Never", "OnMouseover"];
-/** @type {ChatFontSizeType[]} */
-var PreferenceChatFontSizeList = ["Small", "Medium", "Large"];
-
 /** @type {PreferenceCheckboxOption[]} */
 const PreferenceSubscreenChatCheckboxes = [
 	{ label: "ColorNames", check: () => Player.ChatSettings.ColorNames, click: () => Player.ChatSettings.ColorNames = !Player.ChatSettings.ColorNames },

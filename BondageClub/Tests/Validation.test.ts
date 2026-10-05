@@ -72,18 +72,10 @@ describe("ValidationSanitizeColor", () => {
 
 Game.load("../Screens/Character/Title/TitleDefault.js");
 Game.load("../Scripts/Character.js");
-// XXX: All that for arousal validation
-Game.load("../Screens/Character/Preference/Chat.js");
-Game.load("../Screens/Character/Preference/Controller.js");
-Game.load("../Screens/Character/Preference/Immersion.js");
-Game.DEFAULT_FRAMERATE = 60; // Not importing Game.js
-Game.load("../Screens/Character/Preference/Graphics.js");
 Game.load("../Scripts/Notification.js");
-Game.load("../Screens/Character/Preference/Arousal.js");
 Game.load("../Scripts/Asset.js");
 Game.load("../Scripts/Pose.js");
 Game.load("../Assets/Female3DCG/Female3DCG.js");
-Game.load("../Screens/Character/Preference/Preference.js");
 Game.load("../Scripts/Preference.js");
 Game.load("../Screens/Room/Crafting/Crafting.js");
 Game.load("../Scripts/BitString.js");

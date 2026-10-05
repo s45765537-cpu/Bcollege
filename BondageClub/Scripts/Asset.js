@@ -16,7 +16,7 @@ var AssetBuyGroupMap = new Map();
 /** @type {Pose[]} */
 var Pose = [];
 /** A record mapping pose names to their respective {@link Pose}. */
-const PoseRecord = /** @type {Record<AssetPoseName, Pose>} */({});
+var PoseRecord = /** @type {Record<AssetPoseName, Pose>} */({});
 /**
  * A record mapping pose categories to sorting priorities.
  *

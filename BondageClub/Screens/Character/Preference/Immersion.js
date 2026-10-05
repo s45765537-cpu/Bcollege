@@ -1,10 +1,5 @@
 "use strict";
 
-/** @type {ImmersionSensDepName[]} */
-var PreferenceSettingsSensDepList = ["SensDepLight", "Normal", "SensDepNames", "SensDepTotal", "SensDepExtreme"];
-/** @type {LockTimerLimitName[]} */
-var PreferenceSettingsLockTimerLimitList = ["LockTimerLimitDefault", "LockTimerLimitDay", "LockTimerLimitWeek", "LockTimerLimitMonth", "LockTimerLimitYear", "LockTimerLimitDecade"];
-
 /** @type {{label: string, check: () => boolean, click: (value: boolean) => void, disabled?: (disableButtons: boolean) => boolean}[]} */
 const PreferenceSubscreenImmersionCheckboxes = [
 	{

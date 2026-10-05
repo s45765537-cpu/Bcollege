@@ -7,6 +7,8 @@ let MainCanvas;
 const MainCanvasWidth = 2000;
 const MainCanvasHeight = 1000;
 
+const DEFAULT_FRAMERATE = 60;
+
 /**
  * Temporary GPU-based canvas
  * @type {CanvasRenderingContext2D}

@@ -12,19 +12,6 @@
  */
 
 /**
- * An enum encapsulating the available extended item archetypes
- * @satisfies {Record<Uppercase<ExtendedArchetype>, ExtendedArchetype>}
- */
-const ExtendedArchetype = /** @type {const} */ ({
-	MODULAR: "modular",
-	TYPED: "typed",
-	VIBRATING: "vibrating",
-	VARIABLEHEIGHT: "variableheight",
-	TEXT: "text",
-	NOARCH: "noarch",
-});
-
-/**
  * An object containing all extended item configurations.
  * @type {ExtendedItemMainConfig}
  * @const

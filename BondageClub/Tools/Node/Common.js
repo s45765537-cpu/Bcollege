@@ -92,6 +92,7 @@ export const NEEDED_FILES = [
 	"Scripts/Item.js",
 	"Assets/Female3DCG/Female3DCGExtended.js",
 	"Screens/Room/Shop2/Shop2.js",
+	"Scripts/Notification.js",
 	"Scripts/Preference.js",
 	"Scripts/Translation.js",
 	"Scripts/Text.js",

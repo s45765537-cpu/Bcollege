@@ -5,6 +5,19 @@
  */
 
 /**
+ * An enum encapsulating the available extended item archetypes
+ * @satisfies {Record<Uppercase<ExtendedArchetype>, ExtendedArchetype>}
+ */
+const ExtendedArchetype = /** @type {const} */ ({
+	MODULAR: "modular",
+	TYPED: "typed",
+	VIBRATING: "vibrating",
+	VARIABLEHEIGHT: "variableheight",
+	TEXT: "text",
+	NOARCH: "noarch",
+});
+
+/**
  * A lookup for the current pagination offset for all extended item options. Offsets are only recorded if the extended
  * item requires pagination. Example format:
  * ```json
