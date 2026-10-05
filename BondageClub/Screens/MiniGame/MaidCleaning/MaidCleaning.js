@@ -147,8 +147,8 @@ function MaidCleaningDoMove() {
 function MaidCleaningKeyDown(event) {
 	if (MiniGameCheatKeyDown(event)) {
 		MiniGameTimer = MiniGameTimer + 10000;
-		if (MiniGameTimer > CommonTime() + 60000) {
-			MiniGameTimer = CommonTime() + 60000;
+		if (MiniGameTimer > CommonTime() + MS_PER_MIN) {
+			MiniGameTimer = CommonTime() + MS_PER_MIN;
 		}
 		return true;
 	}
@@ -160,7 +160,7 @@ function MaidCleaningKeyDown(event) {
  */
 function MaidCleaningClick() {
 	if (!MiniGameStarted) {
-		MiniGameTimer = CommonTime() + 60000;
+		MiniGameTimer = CommonTime() + MS_PER_MIN;
 		MiniGameStarted = true;
 	}
 	if (CommonIsMobile) MaidCleaningDoMove();

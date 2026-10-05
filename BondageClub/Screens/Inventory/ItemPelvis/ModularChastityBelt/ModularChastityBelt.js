@@ -398,7 +398,7 @@ function InventoryItemPelvisModularChastityBeltPropertiesCheck(persistentData, i
 	if (typeof persistentData.OrgasmDetected !== "boolean") persistentData.OrgasmDetected = false;
 	if (typeof persistentData.ChatroomCheck !== "boolean") persistentData.ChatroomCheck = false;
 	if (typeof persistentData.SyncNeeded !== "boolean") persistentData.SyncNeeded = false;
-	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + 60000;
+	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + MS_PER_MIN;
 	if (typeof item.Property.NextShockTime !== "number") item.Property.NextShockTime = 0;
 }
 
@@ -430,12 +430,12 @@ function InventoryItemPelvisModularChastityBeltCooldownCheck(persistentData, ite
  * @param {Item} item
  */
 function InventoryItemPelvisModularChastityBeltNeedSync(persistentData, C, item) {
-	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + 60000;
+	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + MS_PER_MIN;
 
 	if (persistentData.SyncNeeded && CommonTime() > persistentData.SyncCooldown) {
 		//Reset flags
 		persistentData.SyncNeeded = false;
-		persistentData.SyncCooldown = CommonTime() + 60000;
+		persistentData.SyncCooldown = CommonTime() + MS_PER_MIN;
 
 		//Sync
 		ServerPlayerAppearanceSync();
@@ -450,7 +450,7 @@ function InventoryItemPelvisModularChastityBeltNeedSync(persistentData, C, item)
  * @param {ItemProperties} property
  */
 function InventoryItemPelvisModularChastityBeltOrgasmCheck(persistentData, C, property) {
-	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + 60000;
+	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + MS_PER_MIN;
 
 	if (C.ArousalSettings.OrgasmTimer > 0) {
 		//Player has orgasm imminent

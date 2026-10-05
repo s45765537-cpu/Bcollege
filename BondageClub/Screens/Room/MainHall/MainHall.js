@@ -86,26 +86,26 @@ function MainHallMaidsPlayingHardcore() { return (Player.GetDifficulty() >= 2); 
  * @returns {boolean} - Returns TRUE if the remaining duration fits within the time range
  */
 function MainHallMaidsDisabledMinutesLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire > 0 && expire < 600000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledHourLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 600000 && expire < 3600000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledDaysLeft1() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 3600000 && expire < 86400000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledDaysLeft2() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 86400000 && expire < 172800000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledDaysLeft3() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 172800000 && expire < 259200000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledDaysLeft4() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 259200000 && expire < 345600000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledDaysLeft5() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 345600000 && expire < 432000000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledDaysLeft6() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 432000000 && expire < 518400000 && Player.GetDifficulty() < 2); }
-function MainHallMaidsDisabledDaysLeft7() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 518400000 && expire < 604800000 && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledHourLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 600000 && expire < MS_PER_HOUR && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledDaysLeft1() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= MS_PER_HOUR && expire < MS_PER_DAY && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledDaysLeft2() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 1 * MS_PER_DAY && expire < 2 * MS_PER_DAY && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledDaysLeft3() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 2 * MS_PER_DAY && expire < 3 * MS_PER_DAY && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledDaysLeft4() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 3 * MS_PER_DAY && expire < 4 * MS_PER_DAY && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledDaysLeft5() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 4 * MS_PER_DAY && expire < 5 * MS_PER_DAY && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledDaysLeft6() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 5 * MS_PER_DAY && expire < 6 * MS_PER_DAY && Player.GetDifficulty() < 2); }
+function MainHallMaidsDisabledDaysLeft7() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire >= 6 * MS_PER_DAY && expire < MS_PER_WEEK && Player.GetDifficulty() < 2); }
 function MainHallMaidsDisabledBegForMore() { return (LogValue("MaidsDisabled", "Maid") ?? 0) > CurrentTime && Player.GetDifficulty() < 2; }
 
 /**
  * Checks for the dialog options to help the maid determine which dialog options she can give the player to extend the duration
  * @returns {boolean} - Returns TRUE if the remaining duration fits within the time range
  */
-function MainHallMaidsDisabledAtLeast30MinutesLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 1800000); }
-function MainHallMaidsDisabledAtLeast1HourLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 3600000); }
-function MainHallMaidsDisabledAtLeast12HourLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 43200000); }
-function MainHallMaidsDisabledAtLeastDaysLeft1() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 86400000); }
-function MainHallMaidsDisabledAtLeastDaysLeft3() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 259200000); }
-function MainHallMaidsDisabledAtLeastDaysLeft7() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 604800000); }
+function MainHallMaidsDisabledAtLeast30MinutesLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 30 * MS_PER_MIN); }
+function MainHallMaidsDisabledAtLeast1HourLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < MS_PER_HOUR); }
+function MainHallMaidsDisabledAtLeast12HourLeft() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 12 * MS_PER_HOUR); }
+function MainHallMaidsDisabledAtLeastDaysLeft1() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < MS_PER_DAY); }
+function MainHallMaidsDisabledAtLeastDaysLeft3() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < 3 * MS_PER_DAY); }
+function MainHallMaidsDisabledAtLeastDaysLeft7() { var expire = (LogValue("MaidsDisabled", "Maid") ?? 0) - CurrentTime; return (expire < MS_PER_WEEK); }
 
 /**
  * Checks if the dialog option to trick the maid is available
@@ -778,7 +778,7 @@ function MainHallMaidChangeCollarPlayer() {
  */
 function MainHallMaidPunishmentPlayer() {
 	CharacterNaked(Player);
-	LogAdd("BlockChange","Rule", CurrentTime + 3600000);
+	LogAdd("BlockChange","Rule", CurrentTime + MS_PER_HOUR);
 	if (ReputationGet("Dominant") > 10) ReputationProgress("Dominant", -10);
 	if (ReputationGet("Dominant") < -10) ReputationProgress("Dominant", 10);
 }
@@ -789,8 +789,8 @@ function MainHallMaidPunishmentPlayer() {
  */
 function MainHallResetClubSlave() {
 	CharacterNaked(Player);
-	LogAdd("ClubSlave", "Management", CurrentTime + 3600000);
-	LogAdd("BlockChange", "Rule", CurrentTime + 3600000);
+	LogAdd("ClubSlave", "Management", CurrentTime + MS_PER_HOUR);
+	LogAdd("BlockChange", "Rule", CurrentTime + MS_PER_HOUR);
 	TitleSet("ClubSlave");
 }
 
@@ -829,7 +829,7 @@ function MainHallMaidIntroductionDone() {
  * @param {number} minutes
  */
 function MainHallSetMaidsDisabled(minutes) {
-	var millis = minutes * 60000;
+	var millis = minutes * MS_PER_MIN;
 	LogAdd("MaidsDisabled", "Maid", CurrentTime + millis);
 }
 

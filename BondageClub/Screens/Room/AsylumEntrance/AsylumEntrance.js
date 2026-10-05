@@ -337,7 +337,7 @@ function AsylumEntrancePlayerNurseClothes(RepChange) {
  * @returns {void} - Nothing
  */
 function AsylumEntranceNurseBecomePatient() {
-	LogAdd("Escaped", "Asylum", CurrentTime + 86400000);
+	LogAdd("Escaped", "Asylum", CurrentTime + MS_PER_DAY);
 	MainHallRandomEventOdds = 0;
 	TitleSet("EscapedPatient");
 	LogDelete("Committed", "Asylum");
@@ -363,7 +363,7 @@ function AsylumEntranceNurseStrap(RepChange) {
  */
 function AsylumEntranceRecommit() {
 	DialogChangeReputation("Asylum", -3);
-	LogAdd("Committed", "Asylum", CurrentTime + 86400000);
+	LogAdd("Committed", "Asylum", CurrentTime + MS_PER_DAY);
 	LogDelete("Escaped", "Asylum");
 	TitleSet("None");
 	CharacterRelease(Player);
@@ -456,7 +456,7 @@ function AsylumEntranceKidnapNurseExit() {
  */
 function AsylumEntranceGoToAsylum() {
 	AsylumEntranceBackground = "AsylumEntrance";
-	LogAdd("Committed", "Asylum", CurrentTime + 86400000);
+	LogAdd("Committed", "Asylum", CurrentTime + MS_PER_DAY);
 	LogDelete("Escaped", "Asylum");
 	TitleSet("None");
 }

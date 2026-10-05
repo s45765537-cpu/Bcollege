@@ -155,7 +155,7 @@ function CafeConsumeSpeciiality() {
 		const bondageModifier = SkillGetModifier(Player, "Bondage");
 		const willpowerModifier = SkillGetModifier(Player, "Willpower");
 		const lockpickModifier = SkillGetModifier(Player, "LockPicking");
-		const SPECIAL_DRINK_DURATION = 3600000;
+		const SPECIAL_DRINK_DURATION = MS_PER_HOUR;
 
 		if (CafeAskedFor == "EnergyDrink") {
 			let success = SkillSetModifier(Player, "Evasion", evasionModifier + 1, SPECIAL_DRINK_DURATION);

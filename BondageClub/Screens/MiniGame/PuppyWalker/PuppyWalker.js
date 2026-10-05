@@ -103,7 +103,7 @@ function PuppyWalkerVerifyEnd() {
 		MiniGameVictory = false;
 		MiniGameEnded = true;
 	}
-	if (!MiniGameEnded && (MiniGameTimer >= 60000)) {
+	if (!MiniGameEnded && (MiniGameTimer >= MS_PER_MIN)) {
 		MiniGameVictory = true;
 		MiniGameEnded = true;
 	}

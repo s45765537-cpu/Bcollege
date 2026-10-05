@@ -177,10 +177,9 @@ function InformationSheetRun() {
 		// Shows the difficulty level
 		let difficultyLine = `${TextGet("DifficultyLevel" + C.GetDifficulty())} ${TextGet("DifficultyTitle")}`;
 		if (C.IsPlayer()) {
-			const MillisecondsPerDay = 86400000;
 			const DifficultyChangeMaxDelay = 7;
 			const LastChangeTime = typeof C.Difficulty?.LastChange === "number" ? C.Difficulty.LastChange : C.Creation;
-			const DaysSinceLastChange = Math.floor((CurrentTime - LastChangeTime) / MillisecondsPerDay);
+			const DaysSinceLastChange = Math.floor((CurrentTime - LastChangeTime) / MS_PER_DAY);
 			const RemainingDays = DaysSinceLastChange >= DifficultyChangeMaxDelay ? 0 : DifficultyChangeMaxDelay - DaysSinceLastChange;
 			difficultyLine += TextGet("DifficultyDaysTillCanChange").replace("NumberOfDays", RemainingDays.toString());
 		}
@@ -347,7 +346,7 @@ function InformationSheetRun() {
 		DrawText(TextGet("Trait"), 1000, 125, "Black", "Gray");
 
 		// After one week we show the traits, after two weeks we show the level
-		if (CurrentTime >= NPCEventGet(C, "PrivateRoomEntry") * CheatFactor("AutoShowTraits", 0) + 604800000) {
+		if (CurrentTime >= NPCEventGet(C, "PrivateRoomEntry") * CheatFactor("AutoShowTraits", 0) + MS_PER_WEEK) {
 			let Pos = 0;
 			for (const trait of C.Trait ?? []) {
 				DrawText(TextGet("Trait" + ((trait.Value > 0) ? trait.Name : NPCTraitReverse(trait.Name))) + " " + ((CurrentTime >= NPCEventGet(C, "PrivateRoomEntry") * CheatFactor("AutoShowTraits", 0) + 1209600000) ? Math.abs(trait.Value).toString() : "??"), 1000, 200 + Pos * 75, "Black", "Gray");

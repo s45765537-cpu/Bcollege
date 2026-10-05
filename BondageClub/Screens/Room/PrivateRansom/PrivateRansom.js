@@ -23,10 +23,10 @@ function PrivateRansomStart() {
 			// If we beat the odds, we kidnap that NPC for 1 week
 			if (Math.random() <= Odds) {
 				CharacterFullRandomRestrain(PrivateCharacter[C], "ALL");
-				NPCEventAdd(PrivateCharacter[C], "Kidnap", CurrentTime + 604800000);
+				NPCEventAdd(PrivateCharacter[C], "Kidnap", CurrentTime + MS_PER_WEEK);
 				NPCEventAdd(PrivateCharacter[C], "NextKidnap", CurrentTime + 1209600000);
 				KidnapDone = true;
-			} else NPCEventAdd(PrivateCharacter[C], "NextKidnap", CurrentTime + 86400000);
+			} else NPCEventAdd(PrivateCharacter[C], "NextKidnap", CurrentTime + MS_PER_DAY);
 
 		}
 

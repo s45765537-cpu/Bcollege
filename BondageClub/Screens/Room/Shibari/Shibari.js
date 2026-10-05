@@ -219,7 +219,7 @@ function ShibariStartTeacherBondage() {
  */
 function ShibariRestrainPlayer(Level) {
 	ShibariRandomBondage(Player, Level);
-	ShibariTeacherReleaseTimer = CommonTime() + 60000;
+	ShibariTeacherReleaseTimer = CommonTime() + MS_PER_MIN;
 }
 
 /**

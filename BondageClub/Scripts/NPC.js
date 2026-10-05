@@ -271,8 +271,8 @@ function NPCEventGet(C, EventName) {
  */
 function NPCLongEventDelay(C) {
 	var T = NPCTraitGet(C, "Serious");
-	if (T > 0) return 604800000;
-	if (T < 0) return 86400000;
+	if (T > 0) return MS_PER_WEEK;
+	if (T < 0) return MS_PER_DAY;
 	return 259200000;
 }
 
@@ -283,7 +283,7 @@ function NPCLongEventDelay(C) {
  */
 function NPCLongLoverEventDelay(C) {
 	var T = NPCTraitGet(C, "Horny");
-	if (T > 0) return 604800000;
+	if (T > 0) return MS_PER_WEEK;
 	if (T < 0) return 2419200000;
 	return 1209600000;
 }

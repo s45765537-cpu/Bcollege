@@ -24,12 +24,6 @@ function TimerGetTime() {
  * @returns {string} - The time string in the DD:HH:MM:SS format (Days and hours not displayed if it contains none)
  */
 function TimerToString(T) {
-	const MS_PER_SEC = 1000;
-	const MS_PER_MIN = 60 * MS_PER_SEC;
-	const MS_PER_HOUR = 60 * MS_PER_MIN;
-	const MS_PER_DAY = 24 * MS_PER_HOUR;
-	const MS_PER_YEAR = 365 * MS_PER_DAY;
-
 	const years = Math.floor(T / MS_PER_YEAR);
 	const days = Math.floor((T % MS_PER_YEAR) / MS_PER_DAY);
 	const hours = Math.floor((T % MS_PER_DAY) / MS_PER_HOUR);
@@ -75,9 +69,9 @@ function TimerHourToString(T) {
  * @returns {string} - The time string in "DD days HH hours MM minutes" format
  */
 function TimerToDaysHoursMinutesString(T) {
-	const D = Math.floor(T / 86400000);
-	const H = Math.floor((T % 86400000) / 3600000);
-	const M = Math.floor((T % 3600000) / 60000);
+	const D = Math.floor(T / MS_PER_DAY);
+	const H = Math.floor((T % MS_PER_DAY) / MS_PER_HOUR);
+	const M = Math.floor((T % MS_PER_HOUR) / MS_PER_MIN);
 	let R = "";
 	if (D > 0) {
 		R += D.toString() + " " + InterfaceTextGet(TimeUnits.DAYS.label);

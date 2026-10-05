@@ -380,7 +380,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			// If we must rebuild the canvas due to an animation
 			const charKey = AnimationGetDynamicDataName(C);
 			const lastRefresh = AnimationPersistentStorage[AnimationDataTypes.RefreshTime][charKey] ?? 0;
-			const refreshRate = AnimationPersistentStorage[AnimationDataTypes.RefreshRate][charKey] ?? 60000;
+			const refreshRate = AnimationPersistentStorage[AnimationDataTypes.RefreshRate][charKey] ?? MS_PER_MIN;
 			if (refreshRate + lastRefresh < CommonTime() && AnimationPersistentStorage[AnimationDataTypes.Rebuild][charKey]) {
 				CharacterRefresh(C, false, false);
 				AnimationPersistentStorage[AnimationDataTypes.Rebuild][charKey] = false;

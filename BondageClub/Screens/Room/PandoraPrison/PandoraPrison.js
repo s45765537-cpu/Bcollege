@@ -47,7 +47,7 @@ async function PandoraPrisonLoad() {
 function PandoraPrisonRun() {
 
 	// When time is up, a maid comes to escort the player out, validates that prison time cannot go over 1 hour
-	if (Player.Infiltration.Punishment.Timer > CurrentTime + 3600000) Player.Infiltration.Punishment.Timer = CurrentTime + 3600000;
+	if (Player.Infiltration.Punishment.Timer > CurrentTime + MS_PER_HOUR) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_HOUR;
 	if ((Player.Infiltration.Punishment.Timer < CurrentTime) && (CurrentCharacter == null) && !PandoraPrisonEscaped)
 		PandoraPrisonCharacter = PandoraPrisonMaid;
 
@@ -291,7 +291,7 @@ function PandoraPrisonBribeStart() {
  * @returns {boolean} - TRUE if bribing the guard is allowed
  */
 function PandoraPrisonBribeAllowed() {
-	return (PandoraPrisonBribeEnabled && (Player.Infiltration.Punishment.Timer > CurrentTime + 60000) && (Player.Money >= 10) && Player.CanTalk());
+	return (PandoraPrisonBribeEnabled && (Player.Infiltration.Punishment.Timer > CurrentTime + MS_PER_MIN) && (Player.Money >= 10) && Player.CanTalk());
 }
 
 /**
@@ -312,8 +312,8 @@ function PandoraPrisonHasPerk(Type) {
 function PandoraPrisonBribeProcess(Money, Minutes) {
 	if (Money != 0) CharacterChangeMoney(Player, Money * -1);
 	if (Minutes != 0) {
-		Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - (Minutes * 60000);
-		if (Player.Infiltration.Punishment.Timer < CurrentTime + 60000) Player.Infiltration.Punishment.Timer = CurrentTime + 60000;
+		Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - (Minutes * MS_PER_MIN);
+		if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
 		ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	}
 }
@@ -360,8 +360,8 @@ function PandoraPrisonPickTickle() {
 function PandoraPrisonPlayerSqueal(Minutes) {
 	Minutes = parseInt(Minutes);
 	if (Minutes > 0) {
-		Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - (Minutes * 60000);
-		if (Player.Infiltration.Punishment.Timer < CurrentTime + 60000) Player.Infiltration.Punishment.Timer = CurrentTime + 60000;
+		Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - (Minutes * MS_PER_MIN);
+		if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
 		ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	}
 }
@@ -439,7 +439,7 @@ function PandoraPrisonQuikieProcess(Factor) {
 			CharacterSetFacialExpression(PandoraPrisonCharacter, "Eyes", "Closed", 7);
 			CharacterSetFacialExpression(PandoraPrisonCharacter, "Eyes2", "Closed", 7);
 			Player.Infiltration.Punishment.Timer = Player.Infiltration.Punishment.Timer - 300000;
-			if (Player.Infiltration.Punishment.Timer < CurrentTime + 60000) Player.Infiltration.Punishment.Timer = CurrentTime + 60000;
+			if (Player.Infiltration.Punishment.Timer < CurrentTime + MS_PER_MIN) Player.Infiltration.Punishment.Timer = CurrentTime + MS_PER_MIN;
 			ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 			PandoraPrisonCharacter.CurrentDialog = DialogFind(PandoraPrisonCharacter, "QuickieOrgasm");
 			PandoraPrisonCharacter.Stage = "QuickieSuccess";

@@ -14,19 +14,19 @@ var FuturisticTrainingBeltRandomEdgeCycle = 150000; // 150s = 20% downtime at lo
 
 var FuturisticTrainingBeltRandomTeaseDurationMin = 30000; // 30 seconds
 var FuturisticTrainingBeltRandomTeaseDurationMax = 300000; // 5 minutes
-var FuturisticTrainingBeltRandomTeaseDurationCooldown = 60000; // 60 seconds
+var FuturisticTrainingBeltRandomTeaseDurationCooldown = MS_PER_MIN; // 60 seconds
 var FuturisticTrainingBeltRandomTeaseChance = 0.015; // Chance per second that this happens
 var FuturisticTrainingBeltRandomTeaseMaxChance = 0.1; // Chance that teasing will be maximum
 var FuturisticTrainingBeltRandomDenyChance = 0.01; // Chance per second we will deny the player
 var FuturisticTrainingBeltRandomDenyDuration = 30000;
 
-var FuturisticTrainingBeltRandomOrgasmDurationMin = 60000; // 1 minute
-var FuturisticTrainingBeltRandomOrgasmDurationMax = 3*60000; // 3 minutes
-var FuturisticTrainingBeltRandomOrgasmDurationCooldown = 60000; // 1 minute
+var FuturisticTrainingBeltRandomOrgasmDurationMin = MS_PER_MIN; // 1 minute
+var FuturisticTrainingBeltRandomOrgasmDurationMax = 3*MS_PER_MIN; // 3 minutes
+var FuturisticTrainingBeltRandomOrgasmDurationCooldown = MS_PER_MIN; // 1 minute
 var FuturisticTrainingBeltRandomOrgasmChance = 0.015; // Chance per second that this happens
 
-var FuturisticTrainingBeltPunishmentEdgeDuration = 5*60000; // 5 minutes edge
-var FuturisticTrainingBeltPunishmentVibeDuration = 5*60000; // 5 minutes constant orgasms
+var FuturisticTrainingBeltPunishmentEdgeDuration = 5*MS_PER_MIN; // 5 minutes edge
+var FuturisticTrainingBeltPunishmentVibeDuration = 5*MS_PER_MIN; // 5 minutes constant orgasms
 
 var FuturisticTrainingBeltConfigure = false;
 var FuturisticTrainingBeltPage = 0;

@@ -140,7 +140,7 @@ function PreferenceSubscreenDifficultyConfirm() {
 	if (PreferenceDifficultyLevel === Player.GetDifficulty()) return;
 
 	const LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
-	if ((PreferenceDifficultyLevel > 1) && (LastChange + 604800000 >= CurrentTime)) return;
+	if ((PreferenceDifficultyLevel > 1) && (LastChange + MS_PER_WEEK >= CurrentTime)) return;
 
 	Player.Difficulty = { LastChange: CurrentTime, Level: PreferenceDifficultyLevel };
 	ServerSend("AccountDifficulty", PreferenceDifficultyLevel);
@@ -204,7 +204,7 @@ function PreferenceSubscreenDifficultyUpdate() {
 			}
 		} else {
 			const lastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
-			const canChange = (PreferenceDifficultyLevel != null && PreferenceDifficultyLevel <= 1) || (lastChange + 604800000 < CurrentTime);
+			const canChange = (PreferenceDifficultyLevel != null && PreferenceDifficultyLevel <= 1) || (lastChange + MS_PER_WEEK < CurrentTime);
 
 			acceptPair?.toggleAttribute("hidden", !canChange);
 			changeButton?.toggleAttribute("hidden", !canChange);
@@ -252,7 +252,7 @@ function PreferenceSubscreenDifficultyUpdateStatusTimer() {
 	const statusElement = ElementWrap(PreferenceSubscreenDifficultyIDs.status);
 	if (!statusElement) return;
 
-	const formattedDuration = CommonFormatDurationRange(PreferenceDifficultyStatusTimerLastChange + 604800000, CurrentTime, {
+	const formattedDuration = CommonFormatDurationRange(PreferenceDifficultyStatusTimerLastChange + MS_PER_WEEK, CurrentTime, {
 		includeDays: true,
 		includeHours: true,
 		includeMinutes: true,
@@ -262,7 +262,7 @@ function PreferenceSubscreenDifficultyUpdateStatusTimer() {
 	const statusText = TextGet("DifficultyWaitSevenDays").replace("NumberOfHours", formattedDuration);
 	PreferenceSubscreenDifficultyUpdateStatus(statusText);
 
-	if (PreferenceDifficultyStatusTimerLastChange + 604800000 < CurrentTime) {
+	if (PreferenceDifficultyStatusTimerLastChange + MS_PER_WEEK < CurrentTime) {
 		PreferenceDifficultyStatusTimerActive = false;
 		PreferenceSubscreenDifficultyUpdate();
 	}
