@@ -52525,6 +52525,18 @@ var AssetFemale3DCG = [
 						Name: "Courtney",
 						AllowTypes: { DollMakerClub: 1 },
 					},
+					{
+						Name: "SlimeQueenSamantha",
+						AllowTypes: { VelvetBunnyCabaret: 1 },
+					},
+					{
+						Name: "Snow",
+						AllowTypes: { VelvetBunnyCabaret: 2 },
+					},
+					{
+						Name: "VelvetDana",
+						AllowTypes: { VelvetBunnyCabaret: 3 },
+					},
 				],
 			},
 			{
