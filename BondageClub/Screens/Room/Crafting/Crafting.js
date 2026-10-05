@@ -1853,7 +1853,22 @@ function CraftingUpdateFromItem(item) {
 	if (!CraftingSelectedItem || !item.Property) {
 		return;
 	}
-	CraftingSelectedItem.ItemProperty = ItemPropertiesCompress(item, { omit: CraftingPropertyExclude, allowLocks: false }) ?? {};
+
+	/** @type {(keyof ItemProperties)[]} */
+	const omit = [...CraftingPropertyExclude, "Effect"];
+	omit.push(
+		// @ts-expect-error
+		"LayerOverrides", // LSCG as of v0.8.17
+		"wceOverrideHide", // WCE as of v6.3.19
+	);
+
+	CraftingSelectedItem.ItemProperty = {};
+	const propNames = ItemPropertiesGetBundleProperties(item, { omit, allowLocks: false }).properties;
+	for (const name of propNames) {
+		/** @type {Unknown<ItemProperties>} */(CraftingSelectedItem.ItemProperty)[name] = item.Property[name];
+	}
+
+	// Move from `ItemProperty` to `TypeRecord`
 	CraftingSelectedItem.TypeRecord = CraftingSelectedItem.ItemProperty.TypeRecord ?? {};
 	delete CraftingSelectedItem.ItemProperty.TypeRecord;
 }
@@ -1924,6 +1939,14 @@ function CraftingModeSet(NewMode) {
  * @see {@link CraftingSaveServer}
  */
 function CraftingSerialize(craft) {
+	const asset = CraftingAssets[craft.Item]?.[0];
+	if (!asset) {
+		return "";
+	}
+
+	const item = AppearanceItem.fromAsset(asset, { property: craft.ItemProperty ?? {} });
+	const property = ItemPropertiesCompress(item, { omit: ["TypeRecord"] });
+
 	/** @type {string[]} */
 	const stringData = [
 		craft.Item,
@@ -1935,7 +1958,7 @@ function CraftingSerialize(craft) {
 		(craft.Private) ? "T" : "",
 		"", // Old field as used by the deprecated `Type` crafted craft property, DO NOT REMOVE!
 		"", // Old field as used by the deprecated `OverridePriority` crafted craft property, DO NOT REMOVE!
-		(craft.ItemProperty == null) ? "" : JSON.stringify(craft.ItemProperty),
+		(property == null) ? "" : JSON.stringify(property),
 		(craft.TypeRecord == null) ? "" : JSON.stringify(craft.TypeRecord),
 		(!craft.DifficultyFactor) ? "" : craft.DifficultyFactor.toString(),
 		(craft.Effects == null) ? "" : JSON.stringify(craft.Effects),
@@ -1980,7 +2003,17 @@ function CraftingDeserialize(craftString) {
 		Effects,
 	] = craftString.split(CraftingSerializeFieldSep);
 
-	/** @type {CraftingItem & { ItemProperty: ItemPropertiesMinimized }} */
+	const asset = CraftingAssets[Item]?.[0];
+	if (!asset) {
+		return null;
+	}
+
+	const property = ItemPropertiesDecompress(
+		AppearanceItem.fromAsset(asset),
+		/** @type {ItemPropertiesMinimized} */(CommonJSONParse(ItemProperty || "{}") ?? {}),
+		{ initExtendedItem: false },
+	);
+	/** @type {CraftingItem & { ItemProperty: ItemProperties }} */
 	const craft = {
 		Item,
 		Name,
@@ -1989,7 +2022,7 @@ function CraftingDeserialize(craftString) {
 		Property: /** @type {CraftingPropertyType} */(Property) || undefined,
 		Lock: /** @type {AssetLockType} */(Lock),
 		Private: Private === "T",
-		ItemProperty: ItemProperty ? /** @type {ItemPropertiesMinimized} */(CommonJSONParse(ItemProperty) ?? {}) : {},
+		ItemProperty: property,
 		Type: Type || undefined,
 		TypeRecord: TypeRecord ? /** @type {TypeRecord} */ (CommonJSONParse(TypeRecord)) : null,
 		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
@@ -2002,7 +2035,7 @@ function CraftingDeserialize(craftString) {
 		craft.ItemProperty.OverridePriority = priority;
 	}
 
-	return (craft.Item && craft.Name) ? craft : null;
+	return craft;
 }
 
 /**

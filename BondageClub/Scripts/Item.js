@@ -169,47 +169,19 @@ let ItemPropertiesDummy = null;
 var _ItemPropertiesR134Compression = false;
 
 /**
- * Copy and compress the passed item's properties in preparation for {@link ItemBundle} creation.
- * @param {Item} item The item whose properties are to be minimized
- * @param {null | { omit?: Iterable<keyof ItemProperties>, allowLocks?: boolean }} options
- * @returns {ItemPropertiesMinimized | undefined} The minimized item properties
+ * Copy and extract all {@link ItemBundle.Property} keys from the passed item, returning them in addition to all extended item options associated with the item's current state
+ * @param {Item} item The item whose properties are to be extracted
+ * @param {Object} [options]
+ * @param {Iterable<keyof ItemProperties>} [options.omit] Properties that should always be omitted
+ * @param {boolean} [options.allowLocks] Whether to return lock-specific options and properties if present
+ * @returns {{ properties: Set<keyof ItemProperties>, extendedOptions: ExtendedItemOptionUnion[] }} The filtered item property names and the matching extended item options
  */
-function ItemPropertiesCompress(item, options=null) {
+function ItemPropertiesGetBundleProperties(item, options=undefined) {
+	item.Property ??= {};
 	options ??= {};
-	const allowLocks = options.allowLocks ?? true;
-	if (!item?.Property) {
-		return undefined;
-	}
 
 	// Initialize it with the known set of (legal) fully user-customizable properties
 	const allowedProperties = new Set(ExtendedItemInitPropertyIgnore);
-	// FIXME: Temporary backwards compatiblity.
-	// Either port these properties over to BC or switch them out for a pre-existing BC equivalent.
-	// @ts-expect-error
-	allowedProperties.add("LayerOverrides"); // LSCG as of v0.8.17
-	// @ts-expect-error
-	allowedProperties.add("wceOverrideHide"); // WCE as of v6.3.19
-
-	/** @type {ItemProperties} */
-	const baseline = {};
-	if (item.Asset.Extended) {
-		for (const option of ExtendedItemGatherOptions(item)) {
-			switch (option.OptionType) {
-				case "VariableHeightOption":
-					allowedProperties.add("OverrideHeight");
-					break;
-				case "TypedItemOption":
-				case "ModularItemOption":
-				case "VibratingItemOption":
-					allowedProperties.add("TypeRecord");
-					break;
-			}
-			CommonAssign(baseline, option.Property ?? {}, option.ParentData.baselineProperty ?? {});
-			for (const key of CommonKeys(option.ParentData.baselineProperty ?? {})) {
-				allowedProperties.add(key);
-			}
-		}
-	}
 
 	/** @type {EffectName[]} */
 	const allowedEffects = ["IsLeashed"];
@@ -220,114 +192,305 @@ function ItemPropertiesCompress(item, options=null) {
 		}
 	}
 
-	/** @type {Set<keyof ItemProperties>} */
-	const lockProperties = new Set();
+	// FIXME: Temporary backwards compatiblity.
+	// Either port these properties over to BC or switch them out for a pre-existing BC equivalent.
+	// @ts-expect-error
+	allowedProperties.add("LayerOverrides"); // LSCG as of v0.8.17
+	// @ts-expect-error
+	allowedProperties.add("wceOverrideHide"); // WCE as of v6.3.19
+
+	const extendedOptions = item.Asset.Extended ? ExtendedItemGatherOptions(item) : [];
+	for (const option of extendedOptions) {
+		switch (option.OptionType) {
+			case "VariableHeightOption":
+				allowedProperties.add("OverrideHeight");
+				break;
+			case "TypedItemOption":
+			case "ModularItemOption":
+			case "VibratingItemOption":
+				allowedProperties.add("TypeRecord");
+				break;
+		}
+		for (const key of CommonKeys(option.ParentData.baselineProperty ?? {})) {
+			allowedProperties.add(key);
+		}
+	}
+
+	const allowLocks = options.allowLocks ?? true;
 	lockedBy: if (allowLocks && item.Property.LockedBy) {
 		const lockData = NoArchItemDataLookup[`ItemMisc${item.Property.LockedBy}`];
 		if (!lockData) {
 			break lockedBy;
 		}
-
-		CommonAssign(baseline, lockData.baselineProperty ?? {});
-		// Switch back to a lock-agnostic `LockedBy` baseline
-		baseline.LockedBy = undefined;
+		extendedOptions.push({ Name: "NewOption", OptionType: "NoArchItemOption", ParentData: lockData, Property: {} });
 		for (const key of CommonKeys(lockData.baselineProperty ?? {})) {
 			allowedProperties.add(key);
-			lockProperties.add(key);
 		}
 	}
 
-	for (const prop of options.omit ?? []) {
+	for (const prop of options?.omit ?? []) {
 		allowedProperties.delete(prop);
 	}
+
+	return { properties: allowedProperties, extendedOptions: extendedOptions };
+}
+
+/**
+ * Compress the passed item's properties in preparation for {@link ItemBundle} creation.
+ * @param {Item} item The item whose properties are to be minimized
+ * @param {Object} [options]
+ * @param {Iterable<keyof ItemProperties>} [options.omit] Properties that should always be omitted
+ * @param {boolean} [options.allowLocks] Whether to return lock-specific options and properties if present
+ * @returns {ItemPropertiesMinimized | undefined} The minimized item properties
+ */
+function ItemPropertiesCompress(item, options=undefined) {
+	if (!item.Property) {
+		return undefined;
+	}
+
+	const { properties: allowedProperties, extendedOptions } = ItemPropertiesGetBundleProperties(item, options);
+
+	/** @type {ItemProperties} */
+	const baseline = {};
+	for (const option of extendedOptions) {
+		CommonAssign(baseline, option.Property, option.ParentData.baselineProperty);
+	}
+	delete baseline.LockedBy;
 
 	// Basic property validation is conducted later on via CraftingValidate
 	/** @type {ItemPropertiesMinimized} */
 	const ret = {};
-	for (const key of allowedProperties) {
-		if (item.Property[key] === undefined) {
+	for (const propName of allowedProperties) {
+		if (item.Property[propName] === undefined) {
 			continue;
 		}
-		switch (key) {
-			case "TypeRecord": {
-				let allDefault = true;
-				/** @type {TypeRecord} */
-				const typeRecord = {};
-				for (const [k, v] of Object.entries(item.Property[key])) {
-					if (v) {
-						allDefault = false;
-						typeRecord[k] = v;
-					}
-				}
-				if (!allDefault) {
-					ret[key] = typeRecord;
-				}
-				break;
-			}
-			case "Effect":
-				if (item.Asset.AllowEffect?.includes("IsLeashed") && item.Property.Effect?.includes("IsLeashed")) {
-					ret.IsLeashed = true;
-				}
-				break;
-			default: {
-				const propertyValue = CommonCloneDeep(item.Property[key]);
-				const baselineValue = baseline[key];
-				if (!_ItemPropertiesR134Compression && lockProperties.has(key)) {
-					// FIXME: Ensure that `ExtendedItemInit()` also calls the lock's `Init()` function so that undefined values are re-initialized
-					// Currently it fails to do so due to locks not being their own item; piggy backing off of an actual item instead
-					/** @type {Unknown<typeof ret>} */(ret)[key] = propertyValue;
-					break;
-				}
+		const propValue = CommonCloneDeep(item.Property[propName]);
+		const baselineValue = baseline[propName];
 
-				if (CommonIsArray(baselineValue) && CommonIsArray(propertyValue)) {
-					// We're expecting (or demanding) that item property arrays behave like logical sets (i.e. unordered)
-					if (!CommonArraysEqual(baselineValue, propertyValue, true)) {
-						ret[key] = propertyValue;
-					}
-				} else {
-					// TODO: Better handle objects here (e.g. the variable height `OverrideHeight` property; variable height in general could use a review)
-					if (baselineValue !== propertyValue) {
-						/** @type {Unknown<typeof ret>} */(ret)[key] = propertyValue;
-					}
-				}
-				break;
-			}
+		/** @type {undefined | PropertyDataEntry<any>} */
+		const entry = PropertyData[propName];
+		if (entry?.compress) {
+			CommonAssign(ret, entry.compress(propValue, { asset: item.Asset }, baselineValue));
+		} else if (entry?.compare) {
+			/** @type {Unknown<ItemPropertiesMinimized>} */(ret)[propName] = entry.compare(propValue, baselineValue, { asset: item.Asset }) ? undefined : propValue;
+		} else {
+			/** @type {Unknown<ItemPropertiesMinimized>} */(ret)[propName] = propValue === baselineValue ? undefined : propValue;
 		}
 	}
 	return Object.values(ret).every(i => i === undefined) ? undefined : ret;
+}
+
+// TODO: Use this for the merging of modular item properties
+/**
+ * Merge the passed item properties into a single property set.
+ *
+ * By default, properties follow a "first non-nullish entry wins" approach if no property-specific merge function is available.
+ * @param {readonly ItemProperties[]} propertyList The list of to-be merged property objects
+ * @param {Asset} asset The asset
+ * @param {ItemProperties} [output] The object in which the merged properties will be stored and returned
+ * @returns {ItemProperties}
+ */
+function ItemPropertiesUnion(propertyList, asset, output=undefined) {
+	/** @type {ItemProperties} */
+	const ret = output ?? {};
+	for (const properties of propertyList) {
+		if (properties === output) {
+			// Don't bother going through the output twice if it happens to be included in `propertyList` as well
+			continue;
+		}
+		for (const [propName, propValue] of CommonEntries(properties)) {
+			/** @type {undefined | PropertyDataEntry<any>} */
+			const entry = PropertyData[propName];
+			const value = entry?.union([ret[propName], propValue], { asset }) ?? propValue;
+			if (value !== undefined) {
+				/** @type {Unknown<ItemProperties>} */(ret)[propName] = value;
+			}
+		}
+	}
+	return ret;
+}
+
+/**
+ * Subtract the passed item properties from each other into a single property set.
+ * @param {readonly ItemProperties[]} propertyList The list of to-be differenced property objects
+ * @param {Asset} asset The asset
+ * @param {ItemProperties} [output] The object in which the differenced properties will be stored and returned
+ * @returns {ItemProperties}
+ */
+function ItemPropertiesDifference(propertyList, asset, output=undefined) {
+	/** @type {ItemProperties} */
+	const ret = output ?? {};
+	for (const [propName, propValue] of CommonEntries(ret)) {
+		if (propValue === undefined) {
+			continue;
+		}
+
+		/** @type {undefined | PropertyDataEntry<any>} */
+		const entry = PropertyData[propName];
+		const propList = [propValue, ...propertyList.map(properties => properties[propName])];
+		if (entry) {
+			/** @type {Unknown<ItemProperties>} */(ret)[propName] = entry.difference(propList, { asset });
+		} else if (propList.filter(i => i != null).length >= 2) {
+			delete ret[propName];
+		}
+	}
+	return ret;
+}
+
+/**
+ * @param {ItemProperties} properties
+ * @param {Asset} asset The asset
+ * @param {Object} [options]
+ * @param {Character} [options.C] The character wearing/intended to wear the item
+ * @returns {ItemProperty.ValidationMultiOutput}
+ */
+function ItemPropertiesValidate(properties, asset, options=undefined) {
+	/** @satisfies {Record<ItemProperty.ValidationStatus, number>} */
+	const statusMapping = /** @type {const} */({
+		ok: 0,
+		error: 1,
+		criticalError: 2,
+	});
+
+	const { extendedOptions } = ItemPropertiesGetBundleProperties(AppearanceItem.fromAsset(asset, { property: properties }));
+	/** @type {ItemProperties} */
+	const defaults = {};
+	for (const option of extendedOptions) {
+		CommonAssign(defaults, option.Property, option.ParentData.baselineProperty);
+	}
+
+	/** @type {Omit<ItemProperty.ValidationMultiOutput, "status"> & { status: 0 | 1 | 2 }} */
+	const ret = {
+		value: {},
+		status: statusMapping.ok,
+		errorDescriptions: {},
+	};
+	for (const [propName, propValue] of CommonEntries(properties)) {
+		/** @type {undefined | PropertyDataEntry<any>} */
+		const entry = PropertyData[propName];
+		if (!entry) {
+			ret.status = statusMapping.criticalError;
+			ret.errorDescriptions[propName] = `Missing "${propName}" validator function`;
+			continue;
+		}
+
+		const output = entry.validate(propValue, { asset, C: options?.C }, defaults[propName]);
+		switch (output.status) {
+			case "ok":
+				/** @type {Unknown<ItemProperties>} */(ret.value)[propName] = output.value;
+				break;
+			case "error":
+				ret.status = CommonMax(ret.status, statusMapping[output.status]);
+				/** @type {Unknown<ItemProperties>} */(ret.value)[propName] = output.value;
+				ret.errorDescriptions[propName] = output.errorDescription;
+				break;
+			case "criticalError":
+				ret.status = statusMapping.criticalError;
+				ret.errorDescriptions[propName] = output.errorDescription;
+				break;
+		}
+	}
+	return { ...ret, status: CommonObjectFlip(statusMapping)[ret.status] };
+}
+
+/**
+ * Check whether all properties between the passed objects are equivalent
+ * @param {ItemProperties} properties1 The first property set
+ * @param {ItemProperties} properties2 The second property set
+ * @param {Asset} asset The asset
+ * @param {Object} [options]
+ * @param {boolean} [options.gatherNonEquivalancies] Whether to gather and return the names of all non-equivalent properties.
+ * The returned set will always be empty otherwise. Defaults to `false`.
+ * @param {boolean} [options.eqOrSubset] Whether to check whether the properties are either equivalent or form a (deep)
+ * subset of each other (see {@link ItemPropertiesIsSubset}). Defaults to `false`.
+ * @returns {{ result: boolean, nonEquivalencies: Set<keyof ItemProperties> }}
+ */
+function ItemPropertiesCompare(properties1, properties2, asset, options=undefined) {
+	options ??= {};
+
+	/** @type {{ result: boolean, nonEquivalencies: Set<keyof ItemProperties> }} */
+	const ret = { result: true, nonEquivalencies: new Set() };
+	const propNames = new Set([
+		...(CommonFilterMap(CommonEntries(properties1), (([k, v]) => v !== undefined ? k : undefined))),
+		...(CommonFilterMap(CommonEntries(properties2), (([k, v]) => v !== undefined ? k : undefined))),
+	]);
+	const comparisonFunc = options.eqOrSubset ? "isSubset" : "compare";
+	propLoop: for (const propName of propNames) {
+		const propValue1 = properties1[propName];
+		const propValue2 = properties2[propName];
+		/** @type {undefined | PropertyDataEntry<any>} */
+		const entry = PropertyData[propName];
+		const isEquiv = entry?.[comparisonFunc](propValue1, propValue2, { asset }) ?? propValue1 === propValue2;
+		if (!isEquiv) {
+			ret.result = false;
+			if (options.gatherNonEquivalancies) {
+				ret.nonEquivalencies.add(propName);
+			} else {
+				break propLoop;
+			}
+		}
+	}
+	return ret;
+}
+
+/**
+ * Check whether all properties between the passed objects are either equivalent or form a subset of each other (_i.e._ a non-proper subset)
+ * @param {ItemProperties} subProperties The (potential) property subset
+ * @param {ItemProperties} superProperties The (potential) property superset
+ * @param {Asset} asset The asset
+ * @param {Object} [options]
+ * @param {boolean} [options.gatherNonEquivalancies] Whether to gather and return the names of all non-equivalent properties.
+ * The returned set will always be empty otherwise. Defaults to `false`.
+ * @returns {{ result: boolean, nonEquivalencies: Set<keyof ItemProperties> }}
+ */
+function ItemPropertiesIsSubset(subProperties, superProperties, asset, options=undefined) {
+	options ??= {};
+	return ItemPropertiesCompare(subProperties, superProperties, asset, { ...options, eqOrSubset: true });
 }
 
 /**
  * Copy and decompress the passed item budle properties in preparation for {@link Item} creation.
  * @param {Item} item The final item in which the properties will end up
  * @param {undefined | Readonly<ItemPropertiesMinimized>} properties The minimized item properties
+ * @param {Object} [options]
+ * @param {boolean} [options.initExtendedItem] Whether to re-initialize any extended item options (including locks)
  * @returns {ItemProperties} The maximized item properties
  */
-function ItemPropertiesDecompress(item, properties) {
-	// For the sake of potential backwards compatibility issues both minimized and maximized properties must be handled
-	/** @type {ItemPropertiesMinimized | ItemProperties} */
-	const propertiesUnsanitized = CommonCloneDeep(properties ?? {});
-
-	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
-	CommonAssign(item.Property, propertiesUnsanitized);
-
-	// Unpack effect-related properties
-	if ("IsLeashed" in propertiesUnsanitized && propertiesUnsanitized.IsLeashed) {
-		CommonArrayConcatDedupe(item.Property.Effect ??= [], ["IsLeashed"]);
+function ItemPropertiesDecompress(item, properties, options=undefined) {
+	properties ??= {};
+	if (!CommonIsObject(properties)) {
+		console.error(`Invalid property data for item: "${item.Asset.Group.Name}/${item.Asset.Name}"`, properties);
+		return item.Property;
 	}
+
+	const propertyList = CommonEntries(properties).map(([propName, propValue]) => {
+		/** @type {undefined | PropertyDataEntry<any>} */
+		const entry = PropertyData[propName];
+		if (entry) {
+			return entry.decompress(propValue, { asset: item.Asset });
+		} else if (propValue !== undefined) {
+			return { [propName]: propValue };
+		} else {
+			return {};
+		}
+	});
+	item.Property = ItemPropertiesUnion(propertyList, item.Asset, item.Property);
 
 	if (item.Craft?.Effects?.Painful) {
 		CommonArrayConcatDedupe(item.Property.Fetish ??= [], ["Masochism"]);
 	}
 
-	if (item.Asset.Extended) {
-		// Init will respect the `TypeRecord` values assigned further up above
-		ExtendedItemInit(C, item, false, false);
-	} else if (propertiesUnsanitized.LockedBy) {
-		// Code branch already taken care of by `ExtendedItemInit` for extended items
-		/** @type {Parameters<ExtendedItemCallbacks.Init>} */
-		const args = [C, item, false, false];
-		CommonCallFunctionByNameWarn(`InventoryItemMisc${propertiesUnsanitized.LockedBy}Init`, ...args);
+	const C = ItemPropertiesDummy ??= CharacterLoadSimple("ItemBundleDummy");
+	if (options?.initExtendedItem ?? true) {
+		if (item.Asset.Extended) {
+			// Init will respect the `TypeRecord` values assigned further up above via `ItemPropertiesMerge()`
+			ExtendedItemInit(C, item, false, false);
+		} else if (properties.LockedBy) {
+			// Code branch already taken care of by `ExtendedItemInit` for extended items
+			/** @type {Parameters<ExtendedItemCallbacks.Init>} */
+			const args = [C, item, false, false];
+			CommonCallFunctionByNameWarn(`InventoryItemMisc${properties.LockedBy}Init`, ...args);
+		}
 	}
 	return item.Property;
 }

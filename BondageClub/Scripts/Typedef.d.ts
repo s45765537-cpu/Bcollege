@@ -3642,6 +3642,9 @@ interface ItemPropertiesCustom {
 	ArousalLvl?: ItemVulvaChastityCageExcitementLevel;
 
 	// #endregion
+
+	/** Unused within {@link ItemProperties}; see {@link ItemPropertiesMinimized} */
+	IsLeashed?: undefined;
 }
 
 interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, ItemPropertiesCustom {
@@ -3657,12 +3660,26 @@ interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, 
 }
 
 /** Properties in {@link ItemPropertiesMinimized} with a minimization format distinct from their representation {@link ItemProperties} */
-type ItemPropertiesCompressdKeys = never; // TODO: Add property names
+type ItemPropertiesCompressedKeys = Extract<keyof ItemProperties,
+	"LayerRotation"
+	| "LayerTranslationX"
+	| "LayerTranslationY"
+	| "LayerScaleX"
+	| "LayerScaleY"
+	| "OverridePriority"
+	| "IsLeashed"
+>;
 
 /** Minimization format for {@link ItemProperties} */
-interface ItemPropertiesMinimized extends Omit<ItemProperties, ItemPropertiesCompressdKeys> {
+interface ItemPropertiesMinimized extends Omit<ItemProperties, ItemPropertiesCompressedKeys> {
 	/** Corresponds to the `"IsLeashed"` effect in {@link EffectName} */
 	IsLeashed?: boolean;
+	LayerRotation?: string;
+	LayerTranslationX?: string;
+	LayerTranslationY?: string;
+	LayerScaleX?: string;
+	LayerScaleY?: string;
+	OverridePriority?: number | string;
 }
 
 /** Base type for unparsed extended item properties */
@@ -4040,7 +4057,11 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 /** Take a type and convert all of its properties into `unknown` */
 type Unknown<T> = { [k in keyof T]: unknown };
 
+/** Make all specified keys in the type optional */
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+/** Make all specified keys in the type non-optional */
+type Mandatory<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
 /** The {@link Window} type with all non-function values removed (though they may still be optional) */
 type WindowFunctions = { [k in keyof Window as NonNullable<Window[k]> extends AnyFunction ? k : never]: Window[k] };
@@ -4793,7 +4814,7 @@ interface CraftingItemSelected {
 	 * * {@link ItemProperties.OverridePriority} in either its record or number form.
 	 * * Properties as specified in {@link ExtendedItemData.baselineProperty}
 	 */
-	ItemProperty: ItemPropertiesMinimized;
+	ItemProperty: ItemProperties;
 	/** Get or set the `OverridePriority` property of {@link CraftingItemSelected.ItemProperty} */
 	get OverridePriority(): undefined | AssetLayerOverridePriority;
 	set OverridePriority(value: undefined | AssetLayerOverridePriority);

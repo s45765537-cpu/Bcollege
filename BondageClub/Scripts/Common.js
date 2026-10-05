@@ -1540,7 +1540,7 @@ function CommonIncludes(array, searchElement, fromIndex) {
  * @note The returned record is typed as being non-{@link Partial}, an assumption that may not hold in practice
  * @template {string} KT
  * @template VT
- * @param {Iterable<[key: KT, value: VT]>} iterable An iterable object that contains key-value entries for properties and methods
+ * @param {Iterable<readonly [key: KT, value: VT]>} iterable An iterable object that contains key-value entries for properties and methods
  * @returns {Record<KT, VT>} A record created from the passed key/value pairs
  */
 function CommonFromEntries(iterable) {
@@ -1758,9 +1758,12 @@ function CommonObjectIsSubset(subRec, superRec) {
 
 /**
  * Returns the object with keys and values reversed
- * @param {object} obj
+ * @template {{}} T
+ * @param {T} obj
+ * @returns {{ [k in keyof T as T[k]]: k }}
  */
 function CommonObjectFlip(obj) {
+	// @ts-expect-error
 	return Object.keys(obj).reduce((ret, key) => {
 		ret[/** @type {Record<string, any>} */ (obj)[key]] = key;
 		return ret;
@@ -2874,4 +2877,26 @@ function CommonStringReplacer(func, replacement) {
 		}
 		return func(match, offset, replacement, args[offsetIndex + 1], args[offsetIndex + 2]);
 	};
+}
+
+/**
+ * A {@link Math.max} variant that demands at least one parameter and respects the (literal) number type
+ * @template {number} T
+ * @param {T} arg0
+ * @param  {T[]} args
+ * @returns {T}
+ */
+function CommonMax(arg0, ...args) {
+	return /** @type {T} */(Math.max(arg0, ...args));
+}
+
+/**
+ * A {@link Math.min} variant that demands at least one parameter and respects the (literal) number type
+ * @template {number} T
+ * @param {T} arg0
+ * @param  {T[]} args
+ * @returns {T}
+ */
+function CommonMin(arg0, ...args) {
+	return /** @type {T} */(Math.min(arg0, ...args));
 }

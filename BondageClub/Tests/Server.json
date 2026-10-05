@@ -283,11 +283,10 @@
 		},
 		{
 			"asset": "SteelBelt",
-			"group": "Corset",
+			"group": "ItemTorso",
 			"comment": "OverridePriority (object - default)",
-			"__internal_comment": "TODO: optimize how `OverridePriority` is stored within item bundles",
 			"initialItemProperty": {
-				"TypeRecord": { "typed": 1 },
+				"TypeRecord": { "b": 1, "h": 0 },
 				"OverridePriority": {
 					"Belt": 31,
 					"BDetail": 31,
@@ -295,15 +294,10 @@
 				}
 			},
 			"itemBundleProperty": {
-				"TypeRecord": { "typed": 1 },
-				"OverridePriority": {
-					"Belt": 31,
-					"BDetail": 31,
-					"Lock": 31
-				}
+				"TypeRecord": { "b": 1 }
 			},
 			"finalItemProperty": {
-				"TypeRecord": { "typed": 1 },
+				"TypeRecord": { "b": 1, "h": 0 },
 				"OverridePriority": {
 					"Belt": 31,
 					"BDetail": 31,
@@ -313,10 +307,10 @@
 		},
 		{
 			"asset": "SteelBelt",
-			"group": "Corset",
+			"group": "ItemTorso",
 			"comment": "OverridePriority (object - custom)",
 			"initialItemProperty": {
-				"TypeRecord": { "typed": 1 },
+				"TypeRecord": { "b": 1, "h": 0 },
 				"OverridePriority": {
 					"Belt": 31,
 					"BDetail": 94,
@@ -324,15 +318,11 @@
 				}
 			},
 			"itemBundleProperty": {
-				"TypeRecord": { "typed": 1 },
-				"OverridePriority": {
-					"Belt": 31,
-					"BDetail": 94,
-					"Lock": 31
-				}
+				"TypeRecord": { "b": 1 },
+				"OverridePriority": "\u0000\u007e"
 			},
 			"finalItemProperty": {
-				"TypeRecord": { "typed": 1 },
+				"TypeRecord": { "b": 1, "h": 0 },
 				"OverridePriority": {
 					"Belt": 31,
 					"BDetail": 94,
@@ -612,5 +602,36 @@
 				"TypeRecord": { "a": 0, "d": 1, "d1": 4, "h": 0, "l": 0, "t": 0 , "w": 0 }
 			}
 		}
-	]
+	],
+	"translation_property": {
+		"initialItemProperty": {
+			"TranslationX": 15,
+			"TranslationY": 40,
+			"ScaleX": 0.5,
+			"ScaleY": 1.3,
+			"Rotation": 120,
+			"LayerTranslationX": { "foo": 33, "bar": null },
+			"LayerTranslationY": { "Layer1": 1000000, "Layer2": 0, "Layer3": 5, "Layer4": -5 },
+			"LayerScaleX": { "Layer1": 1, "Layer2": 1, "Layer3": 1, "Layer4": 1 },
+			"LayerScaleY": { "Layer3": 0.0625 }
+		},
+		"itemBundleProperty": {
+			"TranslationX": 15,
+			"TranslationY": 40,
+			"ScaleX": 0.5,
+			"ScaleY": 1.3,
+			"Rotation": 120,
+			"LayerTranslationY": "\u7fff\u0000\u0025\u8025",
+			"LayerScaleY": "\u0000\u0000\u0026"
+		},
+		"finalItemProperty": {
+			"TranslationX": 15,
+			"TranslationY": 40,
+			"ScaleX": 0.5,
+			"ScaleY": 1.3,
+			"Rotation": 120,
+			"LayerTranslationY": { "Layer1": 500, "Layer3": 5, "Layer4": -5 },
+			"LayerScaleY": { "Layer3": 0.06 }
+		}
+	}
 }

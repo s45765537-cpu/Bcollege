@@ -674,28 +674,24 @@ function LoginPerformAppearanceFixups(Appearance) {
 			}
 
 			const asset = AssetGet("Female3DCG", worn.Group, worn.Name);
-			let opt = null;
-			if (asset?.Archetype) {
+			if (asset?.Archetype && fixup.New.Option) {
+				worn.Property ??= {};
 				switch (asset.Archetype) {
 					case ExtendedArchetype.TYPED:
 						{
-							const opts = TypedItemGetOptions(worn.Group, worn.Name);
-							if (typeof fixup.New.Option === "undefined")
-								opt = opts?.[0];
-							else
-								opt = opts?.find(o => o.Name === fixup.New.Option);
-
-							if (!opt) {
+							const opts = TypedItemGetOptions(worn.Group, worn.Name) ?? [];
+							const optIndex = opts.findIndex(o => o.Name === fixup.New.Option);
+							if (optIndex === -1) {
 								console.error(`Unknown option ${fixup.New.Option}`);
 								continue;
+							} else {
+								const data = opts[optIndex].ParentData;
+								worn.Property.TypeRecord ??= {};
+								worn.Property.TypeRecord[data.name] = optIndex;
 							}
 						}
 						break;
 				}
-
-				// Replace old previous properties with the wanted ones
-				if (opt && opt.Property)
-					worn.Property = { ...opt.Property };
 			} else if (asset?.Extended) {
 				// Old-style extended item
 

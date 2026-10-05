@@ -15,6 +15,7 @@ const asset = {
 
 beforeAll(async () => {
 	const ret = await Game.loadAll();
+	// TODO: Remove as of R134Alpha
 	Game._ItemPropertiesR134Compression = true;
 	extendedAsset = Game.AssetGet("Female3DCG", "ItemPelvis", "ModularChastityBelt");
 	if (!extendedAsset) {
@@ -169,12 +170,14 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 		let bundle: ItemBundle;
 		let itemRestored: null | Item;
+		let itemRestoredDoubleDecompress: null | Item;
 		const consoleError = Game.console.error;
 		try {
 			// Silence `console.error()` calls due to expected invalid `TypeRecord` values
 			Game.console.error = () => undefined;
 			bundle = Game.ServerBundledItemFromAppearanceItem(item);
 			itemRestored = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+			itemRestoredDoubleDecompress = Game.ServerBundledItemFromAppearanceItem(item);
 		} finally {
 			Game.console.error = consoleError;
 		}
@@ -251,6 +254,25 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.HideItem, "bundle to item re-conversion").toEqual(expect.arrayContaining(finalItemProperty.HideItem));
 	});
 
+	it("should survive invalid property data", () => {
+		const bundle = {
+			"Group": "Bra",
+			"Name": "Bra9",
+			"Color": [
+				"#A37394"
+			],
+			"Property": "Temp"
+		};
+		const asset: Asset = Game.AssetGet("Female3DCG", bundle.Group, bundle.Name);
+		expect(asset, "asset fetching").not.toBe(null);
+
+		const item: Item | null = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+		expect(Object.keys(item!)).toIncludeAllMembers(["Asset", "Color", "Difficulty", "Craft", "Property"]);
+		expect(item?.Asset).toEqual(asset);
+		expect(item?.Color).toEqual(bundle.Color);
+		expect(item?.Property).toEqual({});
+	})
+
 	const baselineParam = testParam.baseline.map(({ asset, group, comment, ...rest }) => {
 		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
 	});
@@ -318,7 +340,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(itemRestored?.Property?.OverrideHeight, "bundle to item re-conversion").toEqual(finalItemProperty.OverrideHeight);
 	});
 
-	const overridePriorityParam = testParam.variableHeight.map(({ asset, group, comment, ...rest }) => {
+	const overridePriorityParam = testParam.overridePriority.map(({ asset, group, comment, ...rest }) => {
 		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };
 	});
 	it.each(overridePriorityParam)("extended item with a mutable property: $name", ({ initialItemProperty, itemBundleProperty, finalItemProperty, assetParam }) => {
@@ -337,7 +359,10 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
 		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
-		expect(itemRestored?.Property?.OverrideHeight, "bundle to item re-conversion").toEqual(finalItemProperty.OverrideHeight);
+		expect(itemRestored?.Property?.OverridePriority, "bundle to item re-conversion").toEqual(finalItemProperty.OverridePriority);
+		Game.ItemPropertiesDecompress(itemRestored, itemRestored?.Property);
+		expect(itemRestored?.Property?.TypeRecord, "item property accidental double decompression").toEqual(finalItemProperty.TypeRecord);
+		expect(itemRestored?.Property?.OverridePriority, "item property accidental double decompression").toEqual(finalItemProperty.OverridePriority);
 	});
 
 	const expressionParam = testParam.expression.map(({ asset, group, comment, ...rest }) => {
@@ -432,5 +457,28 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
 		expect(itemRestored?.Property?.TypeRecord, "bundle to item re-conversion").toEqual(finalItemProperty.TypeRecord);
+	});
+
+	it("non-extended item: translations properties", () => {
+		const { initialItemProperty, itemBundleProperty, finalItemProperty } = testParam.translation_property;
+		const item = {
+			Asset: Game.AssetGet("Female3DCG", "ClothLower", "Tutu"),
+			Property: initialItemProperty,
+		};
+		expect(item.Asset, "asset fetching").not.toBe(null);
+
+		const bundle: ItemBundle = Game.ServerBundledItemFromAppearanceItem(item);
+		const itemRestored: null | Item = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
+
+		expect(bundle, "item to bundle conversion").toEqual({
+			Group: "ClothLower",
+			Name: "Tutu",
+			Property: itemBundleProperty,
+		});
+
+		expect(itemRestored, "bundle to item re-conversion").not.toBe(null);
+		expect(itemRestored?.Property, "bundle to item re-conversion").toEqual(finalItemProperty);
+		Game.ItemPropertiesDecompress(itemRestored, itemRestored?.Property);
+		expect(itemRestored?.Property, "item property accidental double decompression").toEqual(finalItemProperty);
 	});
 });
