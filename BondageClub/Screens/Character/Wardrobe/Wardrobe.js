@@ -3,6 +3,7 @@ var WardrobeBackground = "Private";
 /** @type {(Character | null)[]} */
 var WardrobeCharacter = [];
 var WardrobeSelection = -1;
+/** @deprecated */
 var WardrobeOffset = 0;
 var WardrobeSize = 24;
 /** @type {WardrobeReorderType} */
@@ -17,7 +18,7 @@ var Wardrobe = {
 	previewColumns: 6,
 	previewRows: 2,
 	previewPerPage: () => Wardrobe.previewColumns * Wardrobe.previewRows,
-	labelColumns: 3,
+	labelColumns: 1,
 	labelRows: 8,
 	labelPerPage: () => Wardrobe.labelColumns * Wardrobe.labelRows,
 	search: "",
@@ -41,6 +42,9 @@ var Wardrobe = {
 	canvasCache: new Map(),
 	/** Bumped whenever a wardrobe preview appearance may have changed. */
 	drawGeneration: 0,
+	/** @type {number[]} */
+	slotQueue: [],
+	slotFrame: 0,
 	emptySlotImage: "Icons/NoWardrobe.png",
 	filledSlotImage: "Icons/Wardrobe.png",
 	/** @type {null | WardrobeActionPreview} */
@@ -70,18 +74,22 @@ var Wardrobe = {
 		height: 700,
 	},
 	/** Preview grid area to the right of the full-size character(s). */
-	grid: {
+	previewGrid: {
 		x: 500,
 		y: 100,
 		width: 1500,
 		height: 890,
 	},
+	/** Outfit names when previews are off: one column on the right. */
+	labelGrid: {
+		x: 1380,
+		y: 100,
+		width: 620,
+		height: 890,
+	},
 };
 const WardrobeID = Object.freeze({
 	screen: "wardrobe-screen",
-	previous: "wardrobe-previous",
-	next: "wardrobe-next",
-	page: "wardrobe-page",
 	load: "wardrobe-load",
 	save: "wardrobe-save",
 	delete: "wardrobe-delete",
@@ -101,7 +109,11 @@ const WardrobeID = Object.freeze({
 	sideCanvas: "wardrobe-side-canvas",
 	loadPreview: "wardrobe-load-preview",
 	savePreview: "wardrobe-save-preview",
+	slotArea: "wardrobe-slot-area",
 	slotGrid: "wardrobe-slot-grid",
+	paginate: "wardrobe-paginate",
+	paginatePrev: "wardrobe-paginate-prev",
+	paginateNext: "wardrobe-paginate-next",
 	/**
 	 * @param {number} index
 	 * @returns {string}
@@ -166,7 +178,6 @@ async function WardrobeLoad() {
 		attributes: { id: WardrobeID.status },
 		children: [WardrobeGetStatusText(), search],
 	});
-	const page = ElementCreate({ tag: "span", attributes: { id: WardrobeID.page } });
 
 	const screen = ElementDOMScreen.getTemplate(WardrobeID.screen, {
 		hgroupInHeader: true,
@@ -174,19 +185,7 @@ async function WardrobeLoad() {
 		menubarButtons: WardrobeCreateMenuButtons(),
 		parent: document.body,
 	});
-	const screenHeader = screen.querySelector(".screen-header");
-	const headerHGroup = screenHeader?.querySelector(".screen-hgroup");
-	if (screenHeader && headerHGroup) {
-		screenHeader.insertBefore(
-			ElementCreate({
-				tag: "div",
-				classList: ["wardrobe-header-controls"],
-				children: [page],
-			}),
-			headerHGroup,
-		);
-		headerHGroup.appendChild(search);
-	}
+	screen.querySelector(".screen-hgroup")?.appendChild(search);
 	WardrobeLoadCharacters();
 	WardrobeCreateElements();
 	WardrobeUpdateElements();
@@ -198,7 +197,7 @@ async function WardrobeLoad() {
  * @returns {void} - Nothing
  */
 function WardrobeRun() {
-	// Characters are ensured in WardrobeUpdateElements / overlay open — Run only blits.
+	// Scrollport characters are queued off the grid's scroll listener — Run only blits.
 	const mainCharacter = WardrobeGetMainPreviewCharacter();
 	if (mainCharacter) {
 		WardrobeDrawToCanvas(WardrobeID.mainCanvas, mainCharacter, 1);
@@ -214,7 +213,7 @@ function WardrobeRun() {
 	const slotsPerPage = WardrobeGetSlotsPerPage();
 	const { zoom } = WardrobeGetSlotCanvasSize();
 	for (let C = 0; C < slotsPerPage; C++) {
-		const slot = filteredSlots[C + WardrobeOffset];
+		const slot = filteredSlots[C];
 		if (slot == null || WardrobeIsSlotEmpty(slot)) continue;
 		const character = WardrobeCharacter[slot];
 		if (!character) continue;
@@ -235,9 +234,8 @@ function WardrobeClick() {
 function WardrobeResize() {
 	const { width, height, mainX, sideX } = Wardrobe.characterPreview;
 	ElementPositionFixed(WardrobeID.screen, 0, 0, 2000, 1000);
-	ElementPositionFixed(WardrobeID.mainCanvas, mainX, 0, width, height);
-	ElementPositionFixed(WardrobeID.sideCanvas, sideX, 0, width, height);
-	ElementPositionFixed(WardrobeID.noMatches, 500, 420, 1500, 60);
+	ElementPositionFixed(WardrobeID.mainCanvas, mainX, 100, width - 100, height - 200);
+	ElementPositionFixed(WardrobeID.sideCanvas, sideX, 100, width - 100, height - 200);
 	ElementPositionFixed(`checkbox-pair-${WardrobeID.excludeBodyparts}`, 70, 900, 450);
 
 	if (WardrobeSelection !== -1) {
@@ -245,30 +243,47 @@ function WardrobeResize() {
 		ElementPositionFixed(WardrobeID.previewOverlay, x, y, overlayW, overlayH);
 	}
 
-	const { x: X, y: Y, width: Width, height: Height } = Wardrobe.grid;
-	ElementPositionFixed(WardrobeID.slotGrid, X, Y, Width, Height);
+	const { x: X, y: Y, width: Width, height: Height } = WardrobeGetSlotGridRect();
+	ElementPositionFixed(WardrobeID.noMatches, X, 420, Width, 60);
+	ElementPositionFixed(WardrobeID.slotArea, X, Y, Width, Height);
 	WardrobeFitSlotLabels();
+	WardrobeScheduleVisibleCharacters();
 }
 
 /**
  * Shrink visible slot names so they fit their label box after a layout change.
+ * Fitting every slot in the mode-switch turn forces layout and holds the new grid off screen.
  * @returns {void} - Nothing
  */
 function WardrobeFitSlotLabels() {
-	const grid = ElementWrap(WardrobeID.slotGrid);
-	if (!grid || grid.hasAttribute("hidden")) return;
-	const names = /** @type {NodeListOf<HTMLElement>} */ (grid.querySelectorAll(".wardrobe-slot-button:not([hidden]) .wardrobe-slot-name"));
-	for (const name of names) {
-		name.style.fontSize = "";
-		ElementFitText(name);
-	}
+	requestAnimationFrame(() => {
+		const grid = ElementWrap(WardrobeID.slotGrid);
+		if (!grid || grid.hasAttribute("hidden")) return;
+		const names = /** @type {NodeListOf<HTMLElement>} */ (grid.querySelectorAll(".wardrobe-slot-button:not([hidden]) .wardrobe-slot-name"));
+		for (const name of names) {
+			name.style.fontSize = "";
+			ElementFitText(name);
+		}
+	});
 }
 
 /**
  * @type {KeyboardEventListener}
  */
 function WardrobeKeyDown(event) {
-	if (WardrobeReorderMode !== "None" || WardrobeSelection !== -1) return false;
+	if (WardrobeSelection !== -1) return false;
+
+	const grid = ElementWrap(WardrobeID.slotGrid);
+	if (grid
+		&& !grid.hasAttribute("hidden")
+		&& CommonKey.NavigationKeyDown(
+			grid,
+			event,
+			(el) => el.querySelector(".wardrobe-slot:not([hidden])")?.clientHeight ?? el.clientHeight / WardrobeGetGridDimensions().rows)) {
+		return true;
+	}
+
+	if (WardrobeReorderMode !== "None") return false;
 	const search = /** @type {HTMLInputElement} */ (ElementWrap(WardrobeID.searchInput));
 	if (search && CommonKey.InputKeyDown(search, event, { allowCtrlA: true })) {
 		return true;
@@ -305,14 +320,15 @@ function WardrobeExit() {
  * Unload the Wardrobe screen
  */
 function WardrobeUnload() {
+	cancelAnimationFrame(Wardrobe.slotFrame);
+	Wardrobe.slotFrame = 0;
+	Wardrobe.slotQueue = [];
 	ElementRemove(WardrobeID.screen);
 	WardrobeReorderModeSet("None");
 	WardrobeClearCharacters();
 	Wardrobe.selectedCharacter = /** @type {never} */ (null);
 	WardrobeTogglePreviewOverlay(-1);
 	WardrobeSetActionPreview(null, true);
-	// Always open the wardrobe on the first page
-	WardrobeOffset = 0;
 	Wardrobe.search = "";
 	WardrobeInvalidateFilteredSlots();
 }
@@ -512,7 +528,7 @@ function WardrobeActionPreviewButtonOptions(action, getSlot) {
  * @returns {number | null}
  */
 function WardrobeGetVisibleSlot(cellIndex) {
-	const slot = WardrobeGetFilteredSlots()[cellIndex + WardrobeOffset];
+	const slot = WardrobeGetFilteredSlots()[cellIndex];
 	return slot == null ? null : slot;
 }
 
@@ -548,13 +564,13 @@ function WardrobeFixLength() {
 }
 
 /**
- * Reset wardrobe preview characters. Characters are loaded lazily for the visible page.
+ * Reset wardrobe preview characters. Characters are loaded lazily for the visible outfits.
  * @returns {void} - Nothing
  */
 function WardrobeLoadCharacters() {
 	WardrobeClearCharacters();
 	WardrobeCharacter = new Array(WardrobeSize).fill(null);
-	WardrobeEnsureVisibleCharacters();
+	WardrobeScheduleVisibleCharacters();
 }
 
 /**
@@ -585,33 +601,79 @@ function WardrobeEnsureSlotCharacter(slot) {
 	return C;
 }
 
+/** @returns {void} */
+function WardrobeScheduleVisibleCharacters() {
+	if (Wardrobe.slotFrame) return;
+	Wardrobe.slotFrame = requestAnimationFrame(() => {
+		Wardrobe.slotFrame = 0;
+		WardrobeEnsureVisibleCharacters();
+	});
+}
+
 /**
- * Ensure preview characters exist for the current page (and selected overlay slot).
- * Releases off-page characters to keep memory bounded.
+ * Keep the scrollport (plus one buffer row) and the selected slot loaded. Delete every other preview.
+ * New slots are queued and built a few milliseconds per frame.
  * @param {number[]} [filteredSlots]
  * @returns {void} - Nothing
  */
 function WardrobeEnsureVisibleCharacters(filteredSlots = WardrobeGetFilteredSlots()) {
-	// Keep the current page loaded even while the overlay is open, so closing it does not rebuild previews.
-	const page = WardrobeShowsCharacters()
-		? filteredSlots.slice(WardrobeOffset, WardrobeOffset + WardrobeGetSlotsPerPage())
-		: [];
+	const grid = ElementWrap(WardrobeID.slotGrid);
+	const show = WardrobeShowsCharacters();
+	// Hidden or not laid out yet: leave the loaded set alone.
+	if (show && (!grid || grid.hasAttribute("hidden") || !grid.scrollHeight)) return;
+
+	/** @type {number[]} */
+	let viewport = [];
+	if (show && grid) {
+		let start = 0;
+		let end = 0;
+		// We're getting here our currently visible slots from the grid + 1 row above and below
+		if (filteredSlots.length) {
+			const columns = Wardrobe.previewColumns;
+			const rowStep = grid.scrollHeight / Math.ceil(filteredSlots.length / columns);
+			const firstRow = Math.max(0, Math.floor(grid.scrollTop / rowStep) - 1);
+			const lastRow = Math.ceil((grid.scrollTop + grid.clientHeight) / rowStep) + 1;
+			start = firstRow * columns;
+			end = Math.min(filteredSlots.length, lastRow * columns);
+			viewport = filteredSlots.slice(start, end);
+		}
+		const { width, height } = WardrobeGetSlotCanvasSize();
+		for (let cell = start; cell < end; cell++) {
+			const button = ElementWrap(WardrobeID.slotButton(cell));
+			if (!button || WardrobeIsSlotEmpty(filteredSlots[cell]) || button.querySelector("canvas")) continue;
+			ElementCreate({
+				tag: "canvas",
+				attributes: { id: WardrobeID.slotCanvas(cell), width: String(width), height: String(height), "aria-hidden": "true" },
+				classList: ["wardrobe-slot-canvas"],
+				parent: button,
+			});
+		}
+	}
+
 	const keep = new Set([
 		...(WardrobeSelection >= 0 ? [WardrobeSelection] : []),
-		...page,
+		...viewport.filter((slot) => !WardrobeIsSlotEmpty(slot)),
 	]);
-
-	for (const slot of keep) WardrobeEnsureSlotCharacter(slot);
-
 	let released = false;
 	for (let slot = 0; slot < WardrobeCharacter.length; slot++) {
 		if (keep.has(slot) || !WardrobeCharacter[slot]) continue;
-		CharacterDelete(/** @type {Character} */ (WardrobeCharacter[slot]));
+		CharacterDelete(/** @type {Character} */(WardrobeCharacter[slot]));
 		WardrobeCharacter[slot] = null;
 		released = true;
 	}
 	// Recreated slots reuse CharacterIDs; drop blit signatures so Run cannot skip stale pixels.
 	if (released) WardrobeInvalidateCanvasCache();
+
+	const pending = new Set(viewport.filter((slot) => !WardrobeCharacter[slot] && !WardrobeIsSlotEmpty(slot)));
+	Wardrobe.slotQueue = Wardrobe.slotQueue.filter((slot) => pending.delete(slot));
+	for (const slot of pending) Wardrobe.slotQueue.push(slot);
+
+	const budget = performance.now() + 8;
+	while (Wardrobe.slotQueue.length && performance.now() < budget) {
+		const slot = Wardrobe.slotQueue.shift();
+		if (slot != null) WardrobeEnsureSlotCharacter(slot);
+	}
+	if (Wardrobe.slotQueue.length) WardrobeScheduleVisibleCharacters();
 }
 
 /**
@@ -893,7 +955,7 @@ function WardrobePushAll() {
 function WardrobeShowsCharacters() { return Player.VisualSettings.ShowCharactersInWardrobe; }
 
 /** @returns {number} */
-function WardrobeGetSlotsPerPage() { return WardrobeShowsCharacters() ? Wardrobe.previewPerPage() : Wardrobe.labelPerPage(); }
+function WardrobeGetSlotsPerPage() { return WardrobeSize; }
 
 /**
  * Grid columns/rows for the current wardrobe display mode.
@@ -904,6 +966,14 @@ function WardrobeGetGridDimensions() {
 		return { columns: Wardrobe.previewColumns, rows: Wardrobe.previewRows };
 	}
 	return { columns: Wardrobe.labelColumns, rows: Wardrobe.labelRows };
+}
+
+/**
+ * Slot-grid rectangle for the current wardrobe display mode.
+ * @returns {{ x: number, y: number, width: number, height: number }}
+ */
+function WardrobeGetSlotGridRect() {
+	return WardrobeShowsCharacters() ? Wardrobe.previewGrid : Wardrobe.labelGrid;
 }
 
 /**
@@ -985,8 +1055,6 @@ function WardrobeCreateMenuButtons() {
 			WardrobeUpdateElements();
 		}, { image: "Icons/Search.png", tooltip: TextGet("Search") }),
 		ElementButton.Create(WardrobeID.reorder, () => WardrobeReorderModeSet(), { image: "Icons/Swap.png", tooltip: TextGet("ReorderSlots") }),
-		ElementButton.Create(WardrobeID.next, () => WardrobeChangePage(1), { image: "Icons/Next.png", tooltip: TextGet("NextPage") }),
-		ElementButton.Create(WardrobeID.previous, () => WardrobeChangePage(-1), { image: "Icons/Prev.png", tooltip: TextGet("PreviousPage") }),
 	];
 }
 
@@ -1117,6 +1185,55 @@ function WardrobeCreateElements() {
 
 	ElementCheckbox.CreateLabelled(WardrobeID.excludeBodyparts, TextGet("ExcludeBodyParts"), WardrobeExcludeBodypartsChange, null, { container: { parent: main } });
 
+	ElementCreate({
+		tag: "div",
+		attributes: { id: WardrobeID.slotArea, "screen-generated": CurrentScreen },
+		classList: ["HideOnPopup", "wardrobe-slot-area"],
+		children: [
+			ElementMenu.Create(
+				WardrobeID.paginate,
+				[
+					ElementButton.Create(
+						WardrobeID.paginatePrev,
+						() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" })),
+						{ image: "Icons/Up.png", tooltip: InterfaceTextGet("PrevPage") },
+						{
+							button: {
+								classList: ["wardrobe-paginate-button"],
+								attributes: {
+									"aria-keyshortcuts": "PageUp",
+									"aria-controls": WardrobeID.slotGrid,
+								},
+							}
+						},
+					),
+					ElementButton.Create(
+						WardrobeID.paginateNext,
+						() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" })),
+						{ image: "Icons/Down.png", tooltip: InterfaceTextGet("NextPage") },
+						{
+							button: {
+								classList: ["wardrobe-paginate-button"],
+								attributes: {
+									"aria-keyshortcuts": "PageDown",
+									"aria-controls": WardrobeID.slotGrid,
+								},
+							}
+						},
+					),
+				],
+				undefined,
+				{
+					menu: {
+						classList: ["wardrobe-paginate"],
+						attributes: { "aria-orientation": "vertical" },
+					}
+				},
+			)
+		],
+		parent: main,
+	});
+
 	WardrobeCreateOutfitSlots();
 }
 
@@ -1124,15 +1241,14 @@ function WardrobeCreateElements() {
  * @returns {void} - Nothing
  */
 function WardrobeCreateOutfitSlots() {
-	const main = ElementWrap(WardrobeID.screen)?.querySelector(".screen-main");
-	if (!main) return;
+	const area = ElementWrap(WardrobeID.slotArea);
+	if (!area) return;
 
 	const gridElm = ElementWrap(WardrobeID.slotGrid);
 	if (gridElm) gridElm.remove();
 
 	const showPreviews = WardrobeShowsCharacters();
 	const { columns, rows } = WardrobeGetGridDimensions();
-	const slotCanvasSize = WardrobeGetSlotCanvasSize();
 	const grid = ElementCreate({
 		tag: "div",
 		attributes: { id: WardrobeID.slotGrid, "screen-generated": CurrentScreen },
@@ -1140,31 +1256,21 @@ function WardrobeCreateOutfitSlots() {
 			"HideOnPopup",
 			"wardrobe-slot-grid",
 			showPreviews ? "wardrobe-slot-grid-preview" : "wardrobe-slot-grid-labels",
+			"scroll-box"
 		],
 		style: {
 			["grid-template-columns"]: `repeat(${columns}, 1fr)`,
-			["grid-template-rows"]: `repeat(${rows}, 1fr)`,
+			// One viewport row. Extra slots overflow and scroll instead of shrinking.
+			["--wardrobe-visible-rows"]: String(rows),
 		},
-		parent: main,
+		parent: area,
 	});
+	if (showPreviews) {
+		grid.addEventListener("scroll", () => WardrobeScheduleVisibleCharacters(), { passive: true });
+	}
 
 	const slotsPerPage = WardrobeGetSlotsPerPage();
 	for (let C = 0; C < slotsPerPage; C++) {
-		/** @type {(HTMLOptions<any> | HTMLElement)[]} */
-		const previewChildren = showPreviews ? [
-			ElementCreate({
-				tag: "canvas",
-				attributes: {
-					id: WardrobeID.slotCanvas(C),
-					width: String(slotCanvasSize.width),
-					height: String(slotCanvasSize.height),
-					"aria-hidden": "true",
-					hidden: true,
-				},
-				classList: ["wardrobe-slot-canvas"],
-			})
-		] : [];
-
 		const cell = ElementCreate({
 			tag: "div",
 			attributes: { id: WardrobeID.slotCell(C), "screen-generated": CurrentScreen },
@@ -1192,7 +1298,6 @@ function WardrobeCreateOutfitSlots() {
 				button: {
 					parent: cell,
 					classList: ["wardrobe-slot-button", showPreviews ? "wardrobe-slot-preview" : null],
-					children: previewChildren,
 				},
 				img: {
 					attributes: {
@@ -1285,7 +1390,6 @@ function WardrobeHandleSlotActivate(slot) {
 function WardrobeToggleCharacterPreviews() {
 	Player.VisualSettings.ShowCharactersInWardrobe = !Player.VisualSettings.ShowCharactersInWardrobe;
 	ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
-	WardrobeOffset = 0;
 	WardrobeLoadCharacters();
 	WardrobeCreateOutfitSlots();
 	WardrobeUpdateElements();
@@ -1300,20 +1404,14 @@ function WardrobeToggleCharacterPreviews() {
 function WardrobeUpdateElements(filteredSlots = WardrobeGetFilteredSlots()) {
 	const header = ElementWrap(WardrobeID.screen)?.querySelector(".screen-header");
 	const slotsPerPage = WardrobeGetSlotsPerPage();
-	const page = filteredSlots.length > 0 ? Math.floor(WardrobeOffset / slotsPerPage) + 1 : 0;
-	const pageCount = Math.ceil(filteredSlots.length / slotsPerPage);
 	ElementDOMScreen.setHeading(WardrobeID.status, WardrobeGetStatusText());
-	ElementSetText(WardrobeID.page, `Page ${page}/${pageCount}`);
 	header?.toggleAttribute("hidden", WardrobeSelection !== -1);
 
-	WardrobeEnsureVisibleCharacters(filteredSlots);
+	WardrobeScheduleVisibleCharacters();
 
 	const hasSelection = WardrobeSelection !== -1;
-	const hasMultiplePages = filteredSlots.length > slotsPerPage;
 	const selectionEmpty = hasSelection && WardrobeIsSlotEmpty(WardrobeSelection);
 
-	ElementWrap(WardrobeID.previous)?.toggleAttribute("disabled", !hasMultiplePages);
-	ElementWrap(WardrobeID.next)?.toggleAttribute("disabled", !hasMultiplePages);
 	ElementWrap(WardrobeID.load)?.toggleAttribute("disabled", !hasSelection || selectionEmpty);
 	ElementWrap(WardrobeID.save)?.toggleAttribute("disabled", !hasSelection);
 	ElementWrap(WardrobeID.delete)?.toggleAttribute("disabled", !hasSelection || selectionEmpty);
@@ -1336,11 +1434,12 @@ function WardrobeUpdateElements(filteredSlots = WardrobeGetFilteredSlots()) {
 
 	const gridHidden = WardrobeSelection !== -1;
 	const showPreviews = WardrobeShowsCharacters();
+	ElementWrap(WardrobeID.slotArea)?.toggleAttribute("hidden", gridHidden);
 	ElementWrap(WardrobeID.slotGrid)?.toggleAttribute("hidden", gridHidden);
 	WardrobeUpdateSidePreviewVisibility();
 
 	for (let C = 0; C < slotsPerPage; C++) {
-		const slot = filteredSlots[C + WardrobeOffset];
+		const slot = filteredSlots[C];
 		const cell = ElementWrap(WardrobeID.slotCell(C));
 		const button = ElementWrap(WardrobeID.slotButton(C));
 		if (!button) continue;
@@ -1397,6 +1496,7 @@ function WardrobeIsSlotEmpty(slot) {
  * @returns {string}
  */
 function WardrobeGetOutfitName(slot) {
+	if (WardrobeIsSlotEmpty(slot)) return TextGet("EmptyOutfitSlot");
 	return Player.WardrobeCharacterNames[slot] || TextGet("EmptyOutfitSlot");
 }
 
@@ -1453,12 +1553,10 @@ function WardrobeGetFilteredSlots() {
 
 /**
  * @param {string} search
- * @param {boolean} [resetOffset]
  * @returns {void} - Nothing
  */
-function WardrobeSetSearch(search, resetOffset = true) {
+function WardrobeSetSearch(search) {
 	Wardrobe.search = search;
-	if (resetOffset) WardrobeOffset = 0;
 	const filteredSlots = WardrobeGetFilteredSlots();
 	if (WardrobeSelection !== -1 && !filteredSlots.includes(WardrobeSelection)) {
 		WardrobeTogglePreviewOverlay(-1);
@@ -1495,28 +1593,10 @@ function WardrobeNameKeyDown(event) {
 }
 
 /**
- * @param {1 | -1} change
+ * @deprecated
  * @returns {void} - Nothing
  */
-function WardrobeChangePage(change) {
-	const filteredSlots = WardrobeGetFilteredSlots();
-	const slotsPerPage = WardrobeGetSlotsPerPage();
-
-	if (filteredSlots.length === 0) {
-		WardrobeOffset = 0;
-		return;
-	}
-
-	if (filteredSlots.length <= slotsPerPage) return;
-	const lastPageOffset = Math.floor((filteredSlots.length - 1) / slotsPerPage) * slotsPerPage;
-	WardrobeOffset += change * slotsPerPage;
-	if (WardrobeOffset < 0) {
-		WardrobeOffset = lastPageOffset;
-	} else if (WardrobeOffset > lastPageOffset) {
-		WardrobeOffset = 0;
-	}
-	WardrobeInvalidateCanvasCache();
-	WardrobeUpdateElements(filteredSlots);
+function WardrobeChangePage() {
 }
 
 /**
@@ -1561,7 +1641,7 @@ function WardrobeRenameSelectedOutfit(push = false) {
 
 	WardrobeSetCharacterName(WardrobeSelection, name, push);
 	ToastManager.success(TextGet("OutfitRenamed"));
-	WardrobeSetSearch(Wardrobe.search, false);
+	WardrobeSetSearch(Wardrobe.search);
 	return true;
 }
 
