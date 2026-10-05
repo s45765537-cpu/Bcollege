@@ -1503,7 +1503,7 @@ type ActivityNameBasic = "Bite" | "Brush" | "Caress" | "Choke" | "Clean" | "Cudd
 	"PenetrateSlow" | "Pet" | "Pinch" | "PoliteKiss" | "Pull" |
 	"RestHead" | "Rub" | "Scratch" | "Sit" | "Slap" | "Spank" | "Step" | "StruggleArms" | "StruggleLegs" |
 	"Suck" | "SuckPenetrateItem" | "DeepThroat" | "TakeCare" | "Tickle" | "Whisper" | "Wiggle" |
-	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab" | "SpitOutGag"
+	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "SiblingsHug" | "CollarGrab" | "SpitOutGag"
 ;
 
 type ActivityNameItem =
@@ -1537,7 +1537,7 @@ type ActivityPrerequisite =
 	`TargetNeeds-${ActivityNameItem}` |
 	"TargetCanUseTongue" | "TargetKneeling" | "TargetMouthBlocked" | "TargetMouthOpen" | "TargetZoneAccessible" | "TargetZoneNaked" |
 	"UseArms" | "UseFeet" | "UseHands" | "UseMouth" | "UseTongue" | "VulvaEmpty" | "ZoneAccessible" | "ZoneNaked" |
-	"Sisters" | "Brothers" | "SiblingsWithDifferentGender" | "Collared"
+	"Sisters" | "Brothers" | "SiblingsWithDifferentGender" | "SiblingsNeutral" | "Collared"
 ;
 
 interface Activity {

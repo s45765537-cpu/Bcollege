@@ -209,11 +209,16 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			if (!acting.HasPenis()) return true;
 			return !acting.IsVulvaChaste() && InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
 		case "Sisters":
-			return !acting.HasPenis() && !acted.HasPenis() && acting.IsSiblingOfCharacter(acted);
+			return acting.GetPronouns() === "SheHer" && acted.GetPronouns() === "SheHer" && acting.IsSiblingOfCharacter(acted);
 		case "Brothers":
-			return acting.HasPenis() && acted.HasPenis() && acting.IsSiblingOfCharacter(acted);
-		case "SiblingsWithDifferentGender":
-			return (acting.HasPenis() != acted.HasPenis()) && acting.IsSiblingOfCharacter(acted);
+			return acting.GetPronouns() === "HeHim" && acted.GetPronouns() === "HeHim" && acting.IsSiblingOfCharacter(acted);
+		case "SiblingsWithDifferentGender": {
+			const pronouns = [acting.GetPronouns(), acted.GetPronouns()];
+			return pronouns.includes("SheHer") && pronouns.includes("HeHim") && acting.IsSiblingOfCharacter(acted);
+		}
+		case "SiblingsNeutral":
+			// Whoever none of the gendered sibling activities fit
+			return [acting, acted].some((C) => !["SheHer", "HeHim"].includes(C.GetPronouns())) && acting.IsSiblingOfCharacter(acted);
 		case "Collared":
 			return acted.WearingCollar();
 		default:

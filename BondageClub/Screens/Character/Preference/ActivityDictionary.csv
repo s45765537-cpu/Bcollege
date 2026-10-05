@@ -64,6 +64,7 @@ ActivityKick,Kick
 ActivitySistersHug,Sisters Hug
 ActivityBrothersHandshake,Brothers Handshake
 ActivitySiblingsCheekKiss,Siblings Cheek Kiss
+ActivitySiblingsHug,Siblings Hug
 ActivitySipItem,Sip
 ActivityEatItem,Eat
 ActivityScratch,Scratch
@@ -121,6 +122,7 @@ Label-ChatOther-ItemArms-SpankItem,Spank Arm
 Label-ChatOther-ItemArms-PowderItem,Powder Arm
 Label-ChatOther-ItemArms-Tickle,Tickle Arms
 Label-ChatOther-ItemArms-TickleItem,Tickle Arm
+Label-ChatOther-ItemArms-SiblingsHug,Siblings Hug
 Label-ChatOther-ItemArms-SistersHug,Sisters Hug
 Label-ChatOther-ItemBoots-Bite,Bite Foot
 Label-ChatOther-ItemBoots-Caress,Caress Feet
@@ -771,6 +773,7 @@ ChatOther-ItemArms-SpankItem,SourceCharacter hits TargetCharacter's arm with Pro
 ChatOther-ItemArms-PowderItem,SourceCharacter powders TargetCharacter's arm with PronounPossessive ActivityAsset.
 ChatOther-ItemArms-Tickle,SourceCharacter tickles TargetCharacter's arms.
 ChatOther-ItemArms-TickleItem,SourceCharacter tickles TargetCharacter's arm with PronounPossessive ActivityAsset.
+ChatOther-ItemArms-SiblingsHug,SourceCharacter shares a warm sibling hug with TargetCharacter.
 ChatOther-ItemArms-SistersHug,SourceCharacter shares a warm sisterly hug with TargetCharacter.
 ChatOther-ItemBoots-Bite,SourceCharacter bites TargetCharacter's foot.
 ChatOther-ItemBoots-Caress,SourceCharacter caresses TargetCharacter's feet.

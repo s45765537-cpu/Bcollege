@@ -588,15 +588,10 @@ var PreferenceArousalSettingsDefault = {
  * Updates all of the validation "keys" based on the currently registered assets, groups, and activities
  */
 function PreferenceArousalUpdateValidation() {
-	const activities = AssetAllActivities("Female3DCG")
-		.filter(a => a.ActivityID != null)
-		.map(({ Name }) => ({ ...PreferenceActivityEnjoymentDefault, Name }))
-		.sort(({ Name: aName }, { Name: bName }) =>
-			// @ts-ignore Strict-TS: We're guaranteed to only have known activities
-			AssetGetActivity("Female3DCG", aName).ActivityID - AssetGetActivity("Female3DCG", bName).ActivityID);
-	PreferenceArousalSettingsDefault.Activity = activities
-		.map((act) => PreferenceArousalActivityToChar(act.Self, act.Other))
-		.join("");
+	// Indexed by ActivityID, which has holes, so size it to the highest ID rather than the activity count
+	const activityIDs = AssetAllActivities("Female3DCG").map((a) => a.ActivityID).filter((id) => CommonIsNonNegativeInteger(id));
+	PreferenceArousalSettingsDefault.Activity = PreferenceArousalActivityToChar(PreferenceActivityEnjoymentDefault.Self, PreferenceActivityEnjoymentDefault.Other)
+		.repeat(Math.max(-1, ...activityIDs) + 1);
 
 	// By default on new characters, all zones are of neutral preference and vulva/clit can trigger an orgasm
 	const zones = AssetGroup.map((group) =>
