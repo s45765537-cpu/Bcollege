@@ -42958,6 +42958,30 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "TentacleSuit",
+				CopyConfig: {
+					AssetName: "TentacleSuit",
+					GroupName: "ItemTorso",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RestraintSet",
+				CopyConfig: {
+					AssetName: "RestraintSet",
+					GroupName: "ItemTorso",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Movableglasscabinet",
+				CopyConfig: {
+					AssetName: "Movableglasscabinet",
+					GroupName: "ItemTorso",
+					BuyGroup: true,
+				},
+			},
 		],
 	},
 	// #endregion
