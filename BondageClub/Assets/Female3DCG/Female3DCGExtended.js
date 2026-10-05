@@ -13825,6 +13825,9 @@ var AssetFemale3DCGExtended = {
 				AccessMode: "",
 				ShowShrinkText: true,
 				ArousalLvl: "Horny",
+				LastShrinkWarningTime: 0,
+				NextShrinkTime: 0,
+				ShrinkCooldown: 0,
 				TriggerValues: CommonConvertArrayToString(
 					InventoryItemVulvaTechnoChastityCageVoiceTriggers,
 				),
@@ -20190,6 +20193,12 @@ var AssetFemale3DCGExtended = {
 				Chat: "MinidollsItemHandheldSet",
 			},
 		}, // Minidolls
+		BountySuitcaseEmpty: {
+			Archetype: ExtendedArchetype.NOARCH,
+			BaselineProperty: {
+				Iterations: 0,
+			},
+		}, //BountySuitcaseEmpty
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {

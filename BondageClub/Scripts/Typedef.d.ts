@@ -3416,10 +3416,6 @@ interface ItemPropertiesBase {
 	/** The vibrator's state; only relevant for advanced vibrator modes */
 	State?: VibratorModeState;
 
-	/** KD modules */
-	// FIXME: Note that, as far as I can see, it's only ever set, never read
-	Modules?: number[];
-
 	/** Transformation properties */
 	TranslationX?: number;
 	TranslationY?: number;
@@ -3525,11 +3521,6 @@ interface ItemPropertiesCustom {
 	OriginalSetting?: 0 | 1 | 2 | 3;
 	/** Whether gag's blinking light is on or off */
 	BlinkState?: boolean;
-	/**
-	 * An extended item option
-	 * @todo Investigate whether this property still actually exists
-	 */
-	Option?: ExtendedItemOption;
 
 	// #endregion
 
