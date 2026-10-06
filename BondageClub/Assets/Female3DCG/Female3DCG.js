@@ -14092,7 +14092,14 @@ var AssetFemale3DCG = [
 				Random: false,
 				EditOpacity: true,
 				Value: 30,
-				DefaultColor: ["#688599","#688599", "#808080", "#8c7384", "#BF3F97", "#C7A623"],
+				DefaultColor: [
+					"#688599",
+					"#688599",
+					"#808080",
+					"#8c7384",
+					"#BF3F97",
+					"#C7A623",
+				],
 				PoseMapping: {
 					...AssetPoseMapping.Panties,
 					Kneel: "Kneel",
@@ -14110,15 +14117,14 @@ var AssetFemale3DCG = [
 				Left: 49,
 				Top: 360,
 				Layer: [
-					{ Name: "Base",
-						ColorGroup: "Base"
-					 },
+					{ Name: "Base", ColorGroup: "Base" },
 					{
 						Name: "Background",
 						PoseMapping: {},
 						ColorGroup: "Base",
 						Priority: 6,
-					},{ Name: "CrotchPiece" },
+					},
+					{ Name: "CrotchPiece" },
 					{ Name: "WaistBand" },
 					{ Name: "Tape", ParentGroup: "" },
 					{
@@ -14156,7 +14162,14 @@ var AssetFemale3DCG = [
 				Random: false,
 				Value: 30,
 				Priority: 24,
-				DefaultColor: ["#9763A6", "#9763A6","#658AA6", "#997391", "#a916cc", "#C7A623"],
+				DefaultColor: [
+					"#9763A6",
+					"#9763A6",
+					"#658AA6",
+					"#997391",
+					"#a916cc",
+					"#C7A623",
+				],
 				PoseMapping: {
 					...AssetPoseMapping.Panties,
 					Kneel: "Kneel",
@@ -14185,7 +14198,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				EditOpacity: true,
 				Layer: [
-					{ Name: "Base",ColorGroup: "Base", AllowTypes: { typed: 0 } },
+					{ Name: "Base", ColorGroup: "Base", AllowTypes: { typed: 0 } },
 					{
 						Name: "Background",
 						ColorGroup: "Base",
@@ -14235,7 +14248,7 @@ var AssetFemale3DCG = [
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Latex"],
 				Attribute: ["GenitaliaCover", "Diaper", "DiaperLarge"],
-				DefaultColor: ["#9763A6", "#9763A6","#658AA6", "#C7A623"],
+				DefaultColor: ["#9763A6", "#9763A6", "#658AA6", "#C7A623"],
 				EditOpacity: true,
 				PoseMapping: {
 					...AssetPoseMapping.Panties,
