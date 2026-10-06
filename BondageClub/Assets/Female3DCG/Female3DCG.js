@@ -59229,7 +59229,7 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
-				Name: "BallGagMask",
+				Name: "BallGag",
 				CopyConfig: {
 					AssetName: "BallGag",
 					GroupName: "ItemMouth",
@@ -59237,7 +59237,7 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
-				Name: "BallGag",
+				Name: "BallGagMask",
 				CopyConfig: {
 					AssetName: "BallGagMask",
 					GroupName: "ItemMouth",
@@ -59261,7 +59261,7 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
-				Name: "StitchedMuzzleGag",
+				Name: "LatexBallMuzzleGag",
 				CopyConfig: {
 					AssetName: "LatexBallMuzzleGag",
 					GroupName: "ItemMouth",
@@ -60145,7 +60145,7 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
-				Name: "StitchedMuzzleGag",
+				Name: "LatexBallMuzzleGag",
 				CopyConfig: {
 					AssetName: "LatexBallMuzzleGag",
 					GroupName: "ItemMouth",
@@ -60382,7 +60382,7 @@ var AssetFemale3DCG = [
 					AssetName: "MouthFeatureGag",
 					BuyGroup: true,
 				},
-			}, // MouthFeatureGag
+			},
 			{
 				Name: "XmasStickerGag",
 				CopyConfig: {
