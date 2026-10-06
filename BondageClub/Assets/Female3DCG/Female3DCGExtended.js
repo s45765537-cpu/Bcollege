@@ -24662,6 +24662,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Slime Queen Samantha
 						{}, // Snow
 						{}, // Dana
+						{}, // Roxhuo
 					],
 					DrawData: {
 						elementData: [
@@ -24676,6 +24677,9 @@ var AssetFemale3DCGExtended = {
 							{
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushie_VelvetDana.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Roxhuo.png",
 							},
 						],
 					},
