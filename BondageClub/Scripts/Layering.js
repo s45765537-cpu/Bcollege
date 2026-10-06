@@ -692,7 +692,7 @@ var Layering = {
 				content = this._CreateTabContent("Translation", ["TranslationX", "TranslationY"], 0, 0, 1, 0, isShowingHiddenLayers, { TranslationY: [-20, 20] });
 			} else if (tabKey === 'scale') {
 				// Pussy/Penis uniform scale, 0.5 - 1.5 cap
-				content = this._CreateTabContent("Scale", ["ScaleX", "ScaleY"], 0.5, 1.5, 0.1, 1.0, isShowingHiddenLayers);
+				content = this._CreateTabContent("Scale", ["ScaleX", "ScaleY"], 0.5, 1.5, 0.01, 1.0, isShowingHiddenLayers);
 			} else {
 				return [ElementCreate({ tag: "h2", children: [InterfaceTextGet("LayeringTransformationDisabled")] })];
 			}
@@ -732,7 +732,7 @@ var Layering = {
 					this._BuildLayerPriorityFieldset(isShowingHiddenLayers),
 				],
 				translation: this._CreateTabContent("Translation", ["TranslationX", "TranslationY"], -500, 500, 1, 0, isShowingHiddenLayers),
-				scale: this._CreateTabContent("Scale", ["ScaleX", "ScaleY"], 0.1, 3.0, 0.1, 1.0, isShowingHiddenLayers),
+				scale: this._CreateTabContent("Scale", ["ScaleX", "ScaleY"], 0.1, 3.0, 0.01, 1.0, isShowingHiddenLayers),
 				rotate: this._CreateTabContent("Rotation", ["Rotation"], -180, 180, 1, 0, isShowingHiddenLayers),
 			};
 			content = tabMap[tabKey];
