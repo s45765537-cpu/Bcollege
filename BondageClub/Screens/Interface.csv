@@ -41,6 +41,7 @@ AppPasteBlocked,You cannot change your appearance.
 Beep,Beep
 BeepFrom,Beep from
 BeepFromOwner,Beep from your owner in your private room
+YourRoom,Your private room
 BeepWithMail,(Mail)
 BeepWithMessage,With Message
 BlindToggleFacialExpressions,Toggle closed eyes blindness
@@ -422,6 +423,13 @@ SelectLock,Select a lock to use on the GroupName.
 SelectLocked,This looks like its locked by a AssetName.
 SelectLockedUnknown,This looks like its locked by something.
 SentBeep,Sent at
+SendBeep,Send Beep
+ReceivedBeep,Received Beep
+Close,Close
+Reply,Reply
+Send,Send
+ToggleRoomOn,Toggle Room On
+ToggleRoomOff,Toggle Room Off
 ServerBeepUnknownName,Unknown ($target)
 ServerBan,TargetCharacterName was banned by SourceCharacter.
 ServerDemoteAdmin,TargetCharacterName was demoted from administration by SourceCharacter.

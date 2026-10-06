@@ -221,7 +221,7 @@ function TimerPrivateOwnerBeep() {
 			ServerShowBeep(InterfaceTextGet("BeepFromOwner"), 15000);
 			LogAdd("OwnerBeepActive", "PrivateRoom");
 			LogAdd("OwnerBeepTimer", "PrivateRoom", CurrentTime + 120000);
-			FriendListBeepLog.push({ MemberName: Player.OwnerName(), ChatRoomName: InterfaceTextGet("YourRoom"), Sent: false, Time: new Date(), Private: false });
+			FriendListBeepLog.push({ MemberName: Player.OwnerName(), ChatRoomName: InterfaceTextGet("YourRoom"), Sent: false, Read: false, Time: new Date(), Private: false });
 		}
 }
 

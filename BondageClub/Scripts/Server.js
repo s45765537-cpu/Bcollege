@@ -933,7 +933,7 @@ function ServerAccountBeep(data) {
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.MemberNumber != null) && (typeof data.MemberNumber === "number") && (data.MemberName != null) && (typeof data.MemberName === "string")) {
 		if (!data.BeepType || data.BeepType == "") {
 			if (typeof data.Message === "string") {
-				data.Message = data.Message.substr(0, 1000);
+				data.Message = FriendListBeepLimitMessageText(data.Message);
 			} else {
 				delete data.Message;
 			}
@@ -953,11 +953,15 @@ function ServerAccountBeep(data) {
 			 * @type {(txt: string) => string}
 			 */
 			const stripBCUtilCruft = (txt) => {
-				return txt?.split("\uf124")[0].trimEnd();
+				return txt?.split(FriendListBeepMetadataIndicator)[0].trimEnd();
 			};
 
-			if (!Player.ChatSettings.ShowBeepChat || (Player.ChatSettings.ShowBeepChat && !ChatRoomNotificationNewMessageVisible())) {
-				ServerShowBeep(data.Message ? stripBCUtilCruft(message) : title, 10000, {
+			const parsedMessage = data.Message ? FriendListBeepParseMessage(data.Message) : null;
+			const messageText = parsedMessage ? parsedMessage.text : null;
+			const isReaction = parsedMessage?.metadata?.messageType === "Reaction";
+
+			if (!isReaction && (!Player.ChatSettings.ShowBeepChat || (Player.ChatSettings.ShowBeepChat && !ChatRoomNotificationNewMessageVisible()))) {
+				ServerShowBeep(data.Message ? (messageText ?? stripBCUtilCruft(message)) : title, 10000, {
 					memberNumber: data.MemberNumber,
 					memberName: data.MemberName,
 					chatRoomName: data.ChatRoomName,
@@ -969,6 +973,11 @@ function ServerAccountBeep(data) {
 				}, data.Message ? title : null);
 			}
 
+			const incomingMsgId = parsedMessage?.metadata?.messageId;
+			const beepId = typeof incomingMsgId === "string" && incomingMsgId.length > 0
+				? incomingMsgId
+				: CommonGenerateUniqueID();
+
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
 				MemberName: data.MemberName,
@@ -976,11 +985,19 @@ function ServerAccountBeep(data) {
 				ChatRoomSpace: data.ChatRoomSpace,
 				Private: data.Private,
 				Sent: false,
+				Read: isReaction,
 				Time: new Date(),
-				Message: data.Message
+				Message: data.Message,
+				Id: beepId,
 			});
-			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
-			if (Player.ChatSettings.ShowBeepChat) {
+			if (CurrentScreen === "FriendList") {
+				ServerSend("AccountQuery", { Query: "OnlineFriends" });
+				const incomingChatKey = `member:${data.MemberNumber}`;
+				if (FriendListBeepChatKey !== null && FriendListBeepChatKey === incomingChatKey) {
+					FriendListBeepChat(FriendListBeepChatKey);
+				}
+			}
+			if (!isReaction && Player.ChatSettings.ShowBeepChat) {
 				// "Reply to beep" arrow
 				const replyLink = ElementButton.Create(
 					`beep-reply-${beepIdx}`, // or just leave to null for an ID auto assignment
@@ -998,7 +1015,7 @@ function ServerAccountBeep(data) {
 
 				let previewMsg = "";
 				if (data.Message) {
-					previewMsg = stripBCUtilCruft(data.Message);
+					previewMsg = messageText ?? stripBCUtilCruft(data.Message);
 					if (previewMsg.length > 150) {
 						previewMsg = previewMsg.substring(0, 150) + "…";
 					}
@@ -1038,17 +1055,75 @@ function ServerAccountBeep(data) {
  * @param {string} [msg] - The message to send to the target.
  * @param {object} [options] - Options for the beep message
  * @param {boolean} [options.includeRoom] - If set, we'll include the current room data we're in
+ * @param {"Reply"|"Reaction"} [options.messageType]
+ * @param {{ id: string, senderName: string, snippet: string }} [options.replyTo]
+ * @param {string} [options.reactionTo]
+ * @param {string} [options.reactionEmoji]
+ * @param {boolean} [options.reactionRemove]
  */
 function ServerSendBeepMessage(target, msg, options) {
 	if (!CommonIsNonNegativeInteger(target)) return;
+
+	options ??= {};
+
+	let messageToSend = msg ?? undefined;
+	if (typeof messageToSend === "string") {
+		const parsed = FriendListBeepParseMessage(messageToSend);
+		const baseText = parsed.text ?? "";
+		/** @type {BeepMessageMetadata} */
+		const metadata = CommonIsObject(parsed.metadata) ? { ...parsed.metadata } : {};
+
+		if (options.messageType === "Reaction") {
+			if (!options.reactionTo) return;
+			const emoji = (options.reactionEmoji ?? baseText).trim();
+			if (!emoji) return;
+			options.includeRoom = false;
+			metadata.messageType = "Reaction";
+			metadata.reactionTo = options.reactionTo;
+			metadata.reactionEmoji = emoji;
+			if (options.reactionRemove) metadata.reactionRemove = true;
+			metadata.messageId = CommonGenerateUniqueID();
+			messageToSend = BeepMessageAppendMetadata(emoji, metadata);
+		} else {
+			/** @type {BeepMessageType} */
+			let messageType = "Message";
+			if (options.messageType === "Reply") {
+				messageType = "Reply";
+				if (options.replyTo) metadata.replyTo = options.replyTo;
+			} else {
+				const trimmed = baseText.trimStart();
+				if (trimmed.startsWith("**")) {
+					messageType = "Action";
+				} else if (trimmed.startsWith("*")) {
+					messageType = "Emote";
+				}
+			}
+			if (Player?.LabelColor) {
+				metadata.messageColor = Player.LabelColor;
+			}
+			metadata.messageType = messageType;
+			metadata.messageId = CommonGenerateUniqueID();
+			messageToSend = BeepMessageAppendMetadata(baseText, metadata);
+		}
+		messageToSend = FriendListBeepLimitMessageText(messageToSend);
+	}
 
 	ServerSend("AccountBeep", {
 		MemberNumber: target,
 		BeepType: "",
 		IsSecret: !options?.includeRoom,
-		Message: msg ?? undefined
+		Message: messageToSend
 	});
 
+	/** @type {string | undefined} */
+	let pushedId;
+	if (typeof messageToSend === "string") {
+		const sendParsed = FriendListBeepParseMessage(messageToSend);
+		const mid = sendParsed.metadata?.messageId;
+		if (typeof mid === "string" && mid.length > 0) pushedId = mid;
+	}
+
+	if (options.messageType !== "Reaction") FriendListBeepMarkReadBeforeSend(target);
 	FriendListBeepLog.push({
 		MemberNumber: target,
 		MemberName: Player.FriendNames.get(target) ?? InterfaceTextGet(`ServerBeepUnknownName`).replace('$target', target.toString()),
@@ -1056,8 +1131,10 @@ function ServerSendBeepMessage(target, msg, options) {
 		ChatRoomSpace: options?.includeRoom ? ChatRoomData?.Space : undefined,
 		Sent: true,
 		Private: options?.includeRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
+		Read: true,
 		Time: new Date(),
-		Message: msg ?? undefined
+		Message: messageToSend,
+		...(pushedId ? { Id: pushedId } : {}),
 	});
 }
 
