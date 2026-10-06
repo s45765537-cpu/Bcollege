@@ -1017,11 +1017,17 @@ function ElementRemoveAttribute(ElementOrId, Name) {
 /**
  * Scrolls to the end of a specified element
  * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element to scroll down to the bottom of.
+ * @param {ScrollOptions} [options] - The behavior of the scroll. Defaults to 'instant'.
  * @returns {void} - Nothing
  */
-function ElementScrollToEnd(ElementOrId) {
+function ElementScrollToEnd(ElementOrId, options) {
 	const element = ElementWrap(ElementOrId);
-	if (element != null) element.scrollTop = element.scrollHeight;
+	if (element != null) {
+		element.scrollTo({
+			top: element.scrollHeight,
+			behavior: options?.behavior ?? 'instant',
+		});
+	}
 }
 
 /**

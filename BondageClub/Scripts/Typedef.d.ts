@@ -1049,21 +1049,6 @@ interface ChatRoomMessageHandler {
 
 //#endregion
 
-//#region FriendList
-
-interface IFriendListBeepLogMessage {
-	MemberNumber?: number; /* undefined for NPCs */
-	MemberName: string;
-	ChatRoomName?: string;
-	Private: boolean;
-	ChatRoomSpace?: ServerChatRoomSpace;
-	Sent: boolean;
-	Time: Date;
-	Message?: string;
-}
-
-//#endregion
-
 /**
  * Make all properties in T mutable.
  * Opposite of {@link Readonly}

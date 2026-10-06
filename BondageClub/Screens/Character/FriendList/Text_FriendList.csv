@@ -37,3 +37,15 @@ AddFriendsSuccess,Added friends numbers: $addedMembers.
 AddFriendsNoNewFriends,No new friends were added.
 ConfirmDelete,Are you sure you want to delete $memberName ($memberNumber)?
 Unknown,Unknown
+ScrollToBottom,Scroll to bottom
+IncludeRoom,Include room name
+NewMessages,New messages
+Reply,Reply
+Copy,Copy
+CopyDone,Message copied to clipboard
+CopyFailed,Failed to copy message to clipboard
+React,Add reaction
+ReplyTo,Reply to $memberName
+CancelReply,Cancel reply
+ReactionPickerTitle,Choose a reaction
+ReplyTapScroll,Jump to quoted message
