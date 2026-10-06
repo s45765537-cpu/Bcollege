@@ -52541,6 +52541,10 @@ var AssetFemale3DCG = [
 						Name: "Roxhuo",
 						AllowTypes: { VelvetBunnyCabaret: 4 },
 					},
+					{
+						Name: "Alice",
+						AllowTypes: { VelvetBunnyCabaret: 5 },
+					},
 				],
 			},
 			{

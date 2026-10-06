@@ -8975,6 +8975,8 @@ ItemHandheldPlushieOptionVelvetBunnyCabaret3,Dana
 ItemHandheldPlushieSetVelvetBunnyCabaret3,SourceCharacter places a cute Dana plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVelvetBunnyCabaret4,Roxhuo
 ItemHandheldPlushieSetVelvetBunnyCabaret4,SourceCharacter places a cute Roxhuo plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVelvetBunnyCabaret5,Alice
+ItemHandheldPlushieSetVelvetBunnyCabaret5,SourceCharacter places a cute Alice plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
