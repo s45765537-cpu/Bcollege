@@ -17314,37 +17314,37 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "BallGag",
 					Property: {
-						Effect: [E.BlockMouth],
+						Effect: [E.BlockMouth, E.GagMedium],
 					},
 				},
 				{
 					Name: "RingGag",
 					Property: {
-						Effect: [E.OpenMouth],
+						Effect: [E.OpenMouth, E.GagMedium],
 					},
 				},
 				{
 					Name: "WiffleGag",
 					Property: {
-						Effect: [E.BlockMouth],
+						Effect: [E.BlockMouth, E.GagMedium],
 					},
 				},
 				{
 					Name: "BitGag",
 					Property: {
-						Effect: [E.BlockMouth],
+						Effect: [E.BlockMouth, E.GagMedium],
 					},
 				},
 				{
 					Name: "LargeBallGag",
 					Property: {
-						Effect: [E.BlockMouth],
+						Effect: [E.BlockMouth, E.GagHeavy],
 					},
 				},
 				{
 					Name: "LargeRingGag",
 					Property: {
-						Effect: [E.OpenMouth],
+						Effect: [E.OpenMouth, E.GagHeavy],
 					},
 				},
 			],
