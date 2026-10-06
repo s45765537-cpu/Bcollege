@@ -8981,6 +8981,8 @@ ItemHandheldPlushieOptionVelvetBunnyCabaret6,Cali
 ItemHandheldPlushieSetVelvetBunnyCabaret6,SourceCharacter places a cute Cali plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVelvetBunnyCabaret7,Yvain
 ItemHandheldPlushieSetVelvetBunnyCabaret7,SourceCharacter places a cute Yvain plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVelvetBunnyCabaret8,Samantha
+ItemHandheldPlushieSetVelvetBunnyCabaret8,SourceCharacter places a cute Samantha plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
