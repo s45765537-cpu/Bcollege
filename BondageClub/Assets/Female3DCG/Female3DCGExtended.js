@@ -24701,6 +24701,23 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "SubbycatsPlace",
+					Key: "SubbycatsPlace",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Shadow
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Shadow.png",
+							},
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
