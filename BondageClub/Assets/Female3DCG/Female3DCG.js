@@ -52552,6 +52552,38 @@ var AssetFemale3DCG = [
 						Name: "Courtney",
 						AllowTypes: { DollMakerClub: 1 },
 					},
+					{
+						Name: "SlimeQueenSamantha",
+						AllowTypes: { VelvetBunnyCabaret: 1 },
+					},
+					{
+						Name: "Snow",
+						AllowTypes: { VelvetBunnyCabaret: 2 },
+					},
+					{
+						Name: "VelvetDana",
+						AllowTypes: { VelvetBunnyCabaret: 3 },
+					},
+					{
+						Name: "Roxhuo",
+						AllowTypes: { VelvetBunnyCabaret: 4 },
+					},
+					{
+						Name: "Alice",
+						AllowTypes: { VelvetBunnyCabaret: 5 },
+					},
+					{
+						Name: "Cali",
+						AllowTypes: { VelvetBunnyCabaret: 6 },
+					},
+					{
+						Name: "Yvain",
+						AllowTypes: { VelvetBunnyCabaret: 7 },
+					},
+					{
+						Name: "Samantha2",
+						AllowTypes: { VelvetBunnyCabaret: 8 },
+					},
 				],
 			},
 			{

@@ -24653,6 +24653,54 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "VelvetBunnyCabaret",
+					Key: "VelvetBunnyCabaret",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Slime Queen Samantha
+						{}, // Snow
+						{}, // Dana
+						{}, // Roxhuo
+						{}, // Alice
+						{}, // Cali
+						{}, // Yvain
+						{}, // Samantha
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_SlimeQueenSamantha.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Snow.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_VelvetDana.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Roxhuo.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Alice.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Cali.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Yvain.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Samantha2.png",
+							},
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
