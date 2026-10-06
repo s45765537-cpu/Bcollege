@@ -5287,6 +5287,7 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	AssetName?: AssetName;
 	IsVisible?: () => boolean;
 	BuildImageName?: (X: number, Y: number) => string;
+	OnClick?: (x: number, y: number) => void;
 }
 
 /** {@link ChatRoomMapViewIsChatRoomMapEffect }  */
@@ -5298,6 +5299,15 @@ interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	 */
 	Color: [r: number, g: number, b: number, a: number];
 }
+
+type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig
+
+interface ChatRoomMapSignObjectConfig {
+	Type: "Sign";
+	Text: string;
+}
+
+
 
 /**
  * A union of all effect types.

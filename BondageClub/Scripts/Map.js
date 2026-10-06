@@ -160,14 +160,18 @@ var MapManager = (function () {
 		/** @type {boolean} */
 		fogEnabled;
 
+		/** @type {Record<number,ChatRoomMapObjectConfig>} */
+		objectConfigs;
+
 		/**
 		 * @param {number} width
 		 * @param {number} height
 		 * @param {ChatRoomMapTile[]} [tiles]
 		 * @param {ChatRoomMapObject[]} [objects]
 		 * @param {ChatRoomMapEffect[][]} [effects]
+		 * @param {Record<number,ChatRoomMapObjectConfig>} [cellData]
 		 */
-		constructor(width, height, tiles, objects, effects) {
+		constructor(width, height, tiles, objects, effects, cellData) {
 			const length = width * height;
 			const tile = MapDataGetTile(ChatRoomMapViewObjectStartID);
 			const object = MapDataGetObject(ChatRoomMapViewObjectStartID);
@@ -175,6 +179,7 @@ var MapManager = (function () {
 			this.tiles = tiles ?? Array.from({ length }).fill(tile);
 			this.objects = objects ?? Array.from({ length }).fill(object);
 			this.effects = effects ?? Array.from({ length }, () => [effect]);
+			this.objectConfigs = cellData ?? {};
 			this.fogEnabled = false;
 		}
 
@@ -199,7 +204,8 @@ var MapManager = (function () {
 				const object = MapDataGetObject(data.Objects?.charCodeAt(index) ?? ChatRoomMapViewObjectStartID);
 				if (object) objects.push(object);
 			}
-			const map = new MapData(ChatRoomMapViewWidth, ChatRoomMapViewHeight, tiles, objects, effects);
+			const map = new MapData(ChatRoomMapViewWidth, ChatRoomMapViewHeight, tiles, objects, effects, data.CellData);
+
 			map.fogEnabled = data.Fog ?? false;
 			return map;
 		}
@@ -263,6 +269,7 @@ var MapManager = (function () {
 			}
 			data.Tiles = this.tiles.map(t => t ? String.fromCharCode(t.ID) : ChatRoomMapViewObjectStartID).join("");
 			data.Objects = this.objects.map(o => o ? String.fromCharCode(o.ID) : ChatRoomMapViewObjectStartID).join("");
+			data.CellData = this.objectConfigs;
 			return true;
 		}
 
@@ -939,6 +946,7 @@ var MapManager = (function () {
 		EFFECTS: 1 << 1,
 		TILES: 1 << 2,
 		OBJECTS: 1 << 3,
+		OBJECT_CONFIGS: 1 << 4,
 
 		/**
 		 * @param {number} n
@@ -972,7 +980,7 @@ var MapManager = (function () {
 		 * @return {number}
 		 */
 		all() {
-			return DirtyFlags.EFFECTS | DirtyFlags.OBJECTS | DirtyFlags.TILES;
+			return DirtyFlags.EFFECTS | DirtyFlags.OBJECTS | DirtyFlags.TILES | DirtyFlags.OBJECT_CONFIGS;
 		},
 	});
 
@@ -1010,7 +1018,7 @@ var MapManager = (function () {
 		 * @param {T} args
 		 * @returns {UnpackedIndex<T>}
 		 */
-		#unpackIndex(...args) {
+		unpackIndex(...args) {
 			if (typeof args[1] === "number") {
 				const [x, y, ...rest] = args;
 				return /** @type {UnpackedIndex<T>} */ (
@@ -1038,7 +1046,7 @@ var MapManager = (function () {
 		 */
 		getTileId(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			const [index] = this.#unpackIndex(...args);
+			const [index] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return null;
 			return this.#_mapData.tiles[index].ID;
 		}
@@ -1060,7 +1068,7 @@ var MapManager = (function () {
 		 * @return {ChatRoomMapTile | null}
 		 */
 		getTile(...args) {
-			const [index] = this.#unpackIndex(...args);
+			const [index] = this.unpackIndex(...args);
 			const id = this.getTileId(index);
 			return id !== null ? MapGetDoodad("Tile", id) : null;
 		}
@@ -1088,7 +1096,7 @@ var MapManager = (function () {
 		 */
 		setTile(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, tile, range = 0] = this.#unpackIndex(...args);
+			let [index, tile, range = 0] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
 			range = CommonClamp(range, 0, Infinity);
@@ -1144,7 +1152,7 @@ var MapManager = (function () {
 		 */
 		canSetTile(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, tile] = this.#unpackIndex(...args);
+			let [index, tile] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
 			tile ??= MapDataGetTile(ChatRoomMapViewObjectStartID);
@@ -1208,7 +1216,7 @@ var MapManager = (function () {
 		 */
 		getObjectId(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			const [index] = this.#unpackIndex(...args);
+			const [index] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return null;
 			return this.#_mapData.objects[index].ID;
 		}
@@ -1230,7 +1238,7 @@ var MapManager = (function () {
 		 * @return {ChatRoomMapObject | null}
 		 */
 		getObject(...args) {
-			const [index] = this.#unpackIndex(...args);
+			const [index] = this.unpackIndex(...args);
 			const id = this.getObjectId(index);
 			return id !== null ? MapGetDoodad("Object", id) : null;
 		}
@@ -1258,7 +1266,7 @@ var MapManager = (function () {
 		 */
 		setObject(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, object, range = 0] = this.#unpackIndex(...args);
+			let [index, object, range = 0] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
 			range = CommonClamp(range, 0, Infinity);
@@ -1313,7 +1321,7 @@ var MapManager = (function () {
 		 */
 		canSetObject(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, object] = this.#unpackIndex(...args);
+			let [index, object] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
 			object ??= MapDataGetObject(ChatRoomMapViewObjectStartID);
@@ -1330,6 +1338,22 @@ var MapManager = (function () {
 			if (tile?.Type === "Wall" && tileBelow?.Type === "Wall" && !object.CanPlaceInWalls) return false;
 
 			return true;
+		}
+
+
+		/**
+		 * Checks if the object config is valid
+		 * @param {number} index - The index of the object
+		 * @param {ChatRoomMapObjectConfig["Type"]} type - The type of config
+		 * @returns {boolean}
+		 */
+		isValidObjectConfig(index, type) {
+			const cell = MapManager.Map.getObject(index);
+			switch (type) {
+				case "Sign":
+					if (cell && ["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(cell.Style)) return true;
+					return false;
+			}
 		}
 
 		/**
@@ -1366,6 +1390,64 @@ var MapManager = (function () {
 		}
 
 		/**
+		 * Gets the config for an object at the given coordinates.
+		 * @overload
+		 * @param {number} index
+		 * @return {ChatRoomMapObjectConfig | null}
+		 */
+		/**
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @return {ChatRoomMapObjectConfig | null}
+		 */
+		/**
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {ChatRoomMapObjectConfig | null}
+		 */
+		getObjectConfig(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
+			const [index] = this.unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return null;
+			return this.#_mapData.objectConfigs?.[index];
+		}
+
+		/**
+		 * Sets the config for an object at the given coordinates.
+		 * @overload
+		 * @param {number} x
+		 * @param {number} y
+		 * @param {ChatRoomMapObjectConfig} [config]
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 */
+		/**
+		 * @overload
+		 * @param {number} index
+		 * @param {ChatRoomMapObjectConfig} [config]
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 */
+		/**
+		 * @param {[x: number, y: number, config?: ChatRoomMapObjectConfig] | [index: number, config?: ChatRoomMapObjectConfig]} args
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 */
+		setObjectConfig(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
+			const [index, config] = this.unpackIndex(...args);
+			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
+			this.#_mapData.objectConfigs ??= {};
+			if (config == null) {
+				delete this.#_mapData.objectConfigs[index];
+			} else {
+				this.#_mapData.objectConfigs[index] = config;
+			}
+			this.updateGlobalMapData();
+			if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
+			return true;
+		}
+
+
+		/**
 		 * Get the current active effects array at a given coordinates.
 		 * @overload
 		 * @param {number} index
@@ -1383,7 +1465,7 @@ var MapManager = (function () {
 		 */
 		getEffects(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			const [index] = this.#unpackIndex(...args);
+			const [index] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return [];
 			return this.#_mapData.effects[index];
 		}
@@ -1432,7 +1514,7 @@ var MapManager = (function () {
 		 */
 		addEffect(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, effect, range = 0] = this.#unpackIndex(...args);
+			let [index, effect, range = 0] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
 			const effects = this.getEffects(index);
@@ -1465,7 +1547,7 @@ var MapManager = (function () {
 		 */
 		setEffects(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			let [index, effects, range = 0] = this.#unpackIndex(...args);
+			let [index, effects, range = 0] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 
 			const clean = this.isDirtyEffects();
@@ -1670,6 +1752,30 @@ var MapManager = (function () {
 		}
 
 		/**
+		 * Marks the object configs as dirty, that is, changed and not yet synchronized with the server.
+		 * @returns {void}
+		 */
+		markDirtyObjectConfigs() {
+			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
+		}
+		/**
+		 * Marks the object configs as clean, that is, synchronized with the server.
+		 * @returns {void}
+		 */
+		markCleanObjectConfigs() {
+			this.#_markClean(DirtyFlags.OBJECT_CONFIGS);
+		}
+
+		/**
+		 * Checks whether the object configs are dirty, that is, whether it needs
+		 * to be synchronized with the server.
+		 * @returns {boolean}
+		 */
+		isDirtyObjectConfigs() {
+			return DirtyFlags.hasFlag(this.#_dirtyFlags, DirtyFlags.OBJECT_CONFIGS);
+		}
+
+		/**
 		 * Mark all data in the current map as clean.
 		 * @returns {void}
 		 */
@@ -1717,6 +1823,7 @@ var MapManager = (function () {
 			this.markDirtyTiles();
 			this.markDirtyObjects();
 			this.markDirtyEffects();
+			this.markDirtyObjectConfigs();
 			this.#_mapData.save(ChatRoomData.MapData);
 			this.updatePlayerPerception();
 
@@ -2159,6 +2266,20 @@ function MapGetDoodad(type, id) {
 }
 
 /**
+ * @param {number} x
+ * @param {number} y
+ */
+function MapCellClick(x, y) {
+	const objectId = MapManager.Map.getObjectId(x, y);
+	if (objectId != null) {
+		const object = MapGetDoodad("Object", objectId);
+		if (object?.OnClick) {
+			object.OnClick(x, y);
+		}
+	}
+}
+
+/**
  * Gets the effect / object / tile on the map
  * @template {MapDataDoodadType} T
  * @param {T} type - The type of the tile
@@ -2279,7 +2400,12 @@ function MapValidateCells() {
 	// XXX: this method should go; validation should happen on map load and update only;
 	// doing it anytime there's a change somewhere is wasteful af
 	for (let index = 0; index < ChatRoomMapViewWidth * ChatRoomMapViewHeight; index++) {
+		const objectData = MapManager.Map.getObjectConfig(index);
 		const object = MapManager.Map.getObject(index);
+		if (objectData?.Type === "Sign" && (!object || !["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(object.Style))) MapManager.Map.setObjectConfig(index, undefined);
+
+		if (ChatRoomMapViewSelectedObjectConfigType && index === ChatRoomMapViewSelectedObjectIndex && !MapManager.Map.isValidObjectConfig(index, ChatRoomMapViewSelectedObjectConfigType)) ChatRoomMapViewClearCellSelection();
+
 		if (!object) continue;
 		if (!MapManager.Map.canSetObject(index, object)) {
 			MapManager.Map.setObject(index, null);

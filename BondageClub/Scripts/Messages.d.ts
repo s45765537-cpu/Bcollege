@@ -242,6 +242,7 @@ interface ServerChatRoomMapData {
 	Tiles?: string;
 	Objects?: string;
 	Effects?: string;
+	CellData?: Record<number,ChatRoomMapObjectConfig> | undefined;
 }
 
 interface ServerChatRoomCustomData {
