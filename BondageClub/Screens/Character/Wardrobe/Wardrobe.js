@@ -109,9 +109,7 @@ const WardrobeID = Object.freeze({
 	sideCanvas: "wardrobe-side-canvas",
 	loadPreview: "wardrobe-load-preview",
 	savePreview: "wardrobe-save-preview",
-	slotArea: "wardrobe-slot-area",
 	slotGrid: "wardrobe-slot-grid",
-	paginate: "wardrobe-paginate",
 	paginatePrev: "wardrobe-paginate-prev",
 	paginateNext: "wardrobe-paginate-next",
 	/**
@@ -245,7 +243,7 @@ function WardrobeResize() {
 
 	const { x: X, y: Y, width: Width, height: Height } = WardrobeGetSlotGridRect();
 	ElementPositionFixed(WardrobeID.noMatches, X, 420, Width, 60);
-	ElementPositionFixed(WardrobeID.slotArea, X, Y, Width, Height);
+	ElementPositionFixed(WardrobeID.slotGrid, X, Y, Width, Height);
 	WardrobeFitSlotLabels();
 	WardrobeScheduleVisibleCharacters();
 }
@@ -1055,6 +1053,34 @@ function WardrobeCreateMenuButtons() {
 			WardrobeUpdateElements();
 		}, { image: "Icons/Search.png", tooltip: TextGet("Search") }),
 		ElementButton.Create(WardrobeID.reorder, () => WardrobeReorderModeSet(), { image: "Icons/Swap.png", tooltip: TextGet("ReorderSlots") }),
+		ElementButton.Create(
+			WardrobeID.paginateNext,
+			() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" })),
+			{ image: "Icons/Down.png", tooltip: InterfaceTextGet("NextPage") },
+			{
+				button: {
+					classList: ["wardrobe-paginate-button"],
+					attributes: {
+						"aria-keyshortcuts": "PageDown",
+						"aria-controls": WardrobeID.slotGrid,
+					},
+				}
+			},
+		),
+		ElementButton.Create(
+			WardrobeID.paginatePrev,
+			() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" })),
+			{ image: "Icons/Up.png", tooltip: InterfaceTextGet("PrevPage") },
+			{
+				button: {
+					classList: ["wardrobe-paginate-button"],
+					attributes: {
+						"aria-keyshortcuts": "PageUp",
+						"aria-controls": WardrobeID.slotGrid,
+					},
+				}
+			},
+		),
 	];
 }
 
@@ -1185,55 +1211,6 @@ function WardrobeCreateElements() {
 
 	ElementCheckbox.CreateLabelled(WardrobeID.excludeBodyparts, TextGet("ExcludeBodyParts"), WardrobeExcludeBodypartsChange, null, { container: { parent: main } });
 
-	ElementCreate({
-		tag: "div",
-		attributes: { id: WardrobeID.slotArea, "screen-generated": CurrentScreen },
-		classList: ["HideOnPopup", "wardrobe-slot-area"],
-		children: [
-			ElementMenu.Create(
-				WardrobeID.paginate,
-				[
-					ElementButton.Create(
-						WardrobeID.paginatePrev,
-						() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" })),
-						{ image: "Icons/Up.png", tooltip: InterfaceTextGet("PrevPage") },
-						{
-							button: {
-								classList: ["wardrobe-paginate-button"],
-								attributes: {
-									"aria-keyshortcuts": "PageUp",
-									"aria-controls": WardrobeID.slotGrid,
-								},
-							}
-						},
-					),
-					ElementButton.Create(
-						WardrobeID.paginateNext,
-						() => document.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" })),
-						{ image: "Icons/Down.png", tooltip: InterfaceTextGet("NextPage") },
-						{
-							button: {
-								classList: ["wardrobe-paginate-button"],
-								attributes: {
-									"aria-keyshortcuts": "PageDown",
-									"aria-controls": WardrobeID.slotGrid,
-								},
-							}
-						},
-					),
-				],
-				undefined,
-				{
-					menu: {
-						classList: ["wardrobe-paginate"],
-						attributes: { "aria-orientation": "vertical" },
-					}
-				},
-			)
-		],
-		parent: main,
-	});
-
 	WardrobeCreateOutfitSlots();
 }
 
@@ -1241,8 +1218,8 @@ function WardrobeCreateElements() {
  * @returns {void} - Nothing
  */
 function WardrobeCreateOutfitSlots() {
-	const area = ElementWrap(WardrobeID.slotArea);
-	if (!area) return;
+	const main = ElementWrap(WardrobeID.screen)?.querySelector(".screen-main");
+	if (!main) return;
 
 	const gridElm = ElementWrap(WardrobeID.slotGrid);
 	if (gridElm) gridElm.remove();
@@ -1263,7 +1240,7 @@ function WardrobeCreateOutfitSlots() {
 			// One viewport row. Extra slots overflow and scroll instead of shrinking.
 			["--wardrobe-visible-rows"]: String(rows),
 		},
-		parent: area,
+		parent: main,
 	});
 	if (showPreviews) {
 		grid.addEventListener("scroll", () => WardrobeScheduleVisibleCharacters(), { passive: true });
@@ -1434,7 +1411,6 @@ function WardrobeUpdateElements(filteredSlots = WardrobeGetFilteredSlots()) {
 
 	const gridHidden = WardrobeSelection !== -1;
 	const showPreviews = WardrobeShowsCharacters();
-	ElementWrap(WardrobeID.slotArea)?.toggleAttribute("hidden", gridHidden);
 	ElementWrap(WardrobeID.slotGrid)?.toggleAttribute("hidden", gridHidden);
 	WardrobeUpdateSidePreviewVisibility();
 

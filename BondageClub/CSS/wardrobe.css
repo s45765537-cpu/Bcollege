@@ -117,35 +117,10 @@
 	overflow: auto;
 }
 
-.wardrobe-slot-area {
-	display: grid;
-	box-sizing: border-box;
-	grid-template:
-		"wardrobe-paginate wardrobe-grid" minmax(0, 1fr)
-		/ var(--menu-button-size) minmax(0, 1fr);
-}
-
-.wardrobe-paginate {
-	grid-area: wardrobe-paginate;
-	align-self: end;
-	display: grid;
-	gap: var(--gap);
-	grid-template-rows: repeat(2, min-content);
-}
-
-.wardrobe-paginate-button {
-	height: var(--menu-button-size);
-	width: var(--menu-button-size);
-}
-
 #wardrobe-slot-grid {
 	display: grid;
-	grid-area: wardrobe-grid;
 	gap: var(--gap);
 	box-sizing: border-box;
-	height: 100%;
-	min-width: 0;
-	min-height: 0;
 	/* Match screen-header / menubar right inset */
 	padding-right: var(--scrollbar-gutter);
 	align-content: start;
