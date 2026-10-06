@@ -8977,6 +8977,10 @@ ItemHandheldPlushieOptionVelvetBunnyCabaret4,Roxhuo
 ItemHandheldPlushieSetVelvetBunnyCabaret4,SourceCharacter places a cute Roxhuo plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVelvetBunnyCabaret5,Alice
 ItemHandheldPlushieSetVelvetBunnyCabaret5,SourceCharacter places a cute Alice plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVelvetBunnyCabaret6,Cali
+ItemHandheldPlushieSetVelvetBunnyCabaret6,SourceCharacter places a cute Cali plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVelvetBunnyCabaret7,Yvain
+ItemHandheldPlushieSetVelvetBunnyCabaret7,SourceCharacter places a cute Yvain plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
