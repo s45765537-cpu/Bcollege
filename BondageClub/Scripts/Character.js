@@ -169,7 +169,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		SavedColors: GetDefaultSavedColors(),
 		// @ts-ignore Strict-TS: properly initiated further down below
 		ActiveExpression: null,
-
+		DrawnAssets: new Set(),
 		PoseMapping: {},
 		get Pose() {
 			return Object.values(this.PoseMapping);

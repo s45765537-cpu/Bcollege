@@ -15,6 +15,12 @@ var CommonVersionUpdated = false;
 /** @type {TouchList | null} */
 var CommonTouchList = null;
 
+/** @type {ImageCache<never>} */
+var DrawImageCache;
+
+/** @type {BrowserCache} */
+var BrowserStorageCache;
+
 /**
  * Start BC after the webpage has fully loaded
  * @param {boolean} isNode Whether BC is run through the browser or via Node (_i.e._ the testing suite)
@@ -31,6 +37,14 @@ async function GameStart(isNode=false) {
 	CommonIsMobile = CommonDetectMobile();
 	TranslationLoad();
 	DrawLoad();
+	try {
+		BrowserStorageCache = await BrowserCache.open();
+	} catch (err) {
+		if (typeof caches !== "undefined")
+			console.warn("Persistent image cache unavailable", err);
+	}
+	DrawImageCache = new ImageCache("draw", BrowserStorageCache);
+	GLDrawLoad(null, false);
 	AssetLoadAll();
 	MapDataLoad();
 	if (!isNode) {

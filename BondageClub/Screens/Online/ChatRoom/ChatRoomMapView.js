@@ -1237,12 +1237,14 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		// Draw the tile on the grid
 		if (TileData != null) {
 			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
-			const { Width: WidthScale = 1, Height: HeightScale = 1, Rotation, Left: TileLeft = 0, Top: TileTop = 0 } = TileData;
-			const width = Math.ceil(TileWidth * WidthScale);
-			const height = Math.ceil(TileHeight * HeightScale);
-			const x = Math.floor(TileCanvasX) + TileWidth * TileLeft;
-			const y = Math.floor(TileCanvasY) + TileHeight * TileTop;
-			DrawImageResize(TileImage, x, y, width, height, {Rotation});
+			if (TileImage) {
+				const { Width: WidthScale = 1, Height: HeightScale = 1, Rotation, Left: TileLeft = 0, Top: TileTop = 0 } = TileData;
+				const width = Math.ceil(TileWidth * WidthScale);
+				const height = Math.ceil(TileHeight * HeightScale);
+				const x = Math.floor(TileCanvasX) + TileWidth * TileLeft;
+				const y = Math.floor(TileCanvasY) + TileHeight * TileTop;
+				DrawImageResize(TileImage, x, y, width, height, {Rotation});
+			}
 
 			if (TileData.Type == "Wall") ChatRoomMapViewWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
 			else FloorWallEffect = ChatRoomMapViewFloorWallEffect(X, Y);

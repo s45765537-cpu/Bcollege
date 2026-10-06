@@ -676,12 +676,30 @@ function CharacterAppearanceBuildCanvas(C) {
 		CommonDrawAppearanceBuild(C, {
 			clearRect: (x, y, w, h) => DrawClearRect(getCanvasContext(C.Canvas), x, y, w, h),
 			clearRectBlink: (x, y, w, h) => DrawClearRect(getCanvasContext(C.CanvasBlink), x, y, w, h),
-			drawImage: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.Canvas), x, y, opts),
-			drawImageBlink: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.CanvasBlink), x, y, opts),
-			drawImageColorize: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.Canvas), x, y, opts),
-			drawImageColorizeBlink: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.CanvasBlink), x, y, opts),
-			drawCanvas: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, getCanvasContext(C.Canvas), x, y, alphaMasks ?? [], maskLayers ?? []),
-			drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, getCanvasContext(C.CanvasBlink), x, y, alphaMasks ?? [], maskLayers ?? []),
+			drawImage: (src, x, y, opts) => {
+				CommonDrawMarkDrawnAsset(C, src);
+				DrawImageCanvas(src, getCanvasContext(C.Canvas), x, y, opts);
+			},
+			drawImageBlink: (src, x, y, opts) => {
+				CommonDrawMarkDrawnAsset(C, src);
+				DrawImageCanvas(src, getCanvasContext(C.CanvasBlink), x, y, opts);
+			},
+			drawImageColorize: (src, x, y, opts) => {
+				CommonDrawMarkDrawnAsset(C, src);
+				DrawImageCanvas(src, getCanvasContext(C.Canvas), x, y, opts);
+			},
+			drawImageColorizeBlink: (src, x, y, opts) => {
+				CommonDrawMarkDrawnAsset(C, src);
+				DrawImageCanvas(src, getCanvasContext(C.CanvasBlink), x, y, opts);
+			},
+			drawCanvas: (Img, x, y, alphaMasks, maskLayers) => {
+				CommonDrawMarkDrawnAsset(C, Img);
+				DrawCanvas(Img, getCanvasContext(C.Canvas), x, y, alphaMasks ?? [], maskLayers ?? []);
+			},
+			drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => {
+				CommonDrawMarkDrawnAsset(C, Img);
+				DrawCanvas(Img, getCanvasContext(C.CanvasBlink), x, y, alphaMasks ?? [], maskLayers ?? []);
+			},
 		});
 	} else {
 		GLDrawAppearanceBuild(C);

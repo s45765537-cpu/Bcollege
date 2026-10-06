@@ -18,6 +18,7 @@ function CommonDrawCanvasPrepare(C) {
 	} else C.CanvasBlink.getContext("2d")?.clearRect(0, 0, 500, CanvasDrawHeight);
 
 	C.MustDraw = true;
+	C.DrawnAssets = new Set();
 }
 
 /**
@@ -846,4 +847,38 @@ function CommonDrawResolveAssetPose(C, Layer) {
 		});
 
 	return CommonDrawFindPose(C, PoseToMapping.Array(poses, "Layer.PoseMapping"));
+}
+
+/**
+ * A helper function used by the character drawing to track which resources it needed for a given character
+ * @param {Character} C
+ * @param {string | HTMLImageElement | HTMLCanvasElement} src
+ */
+function CommonDrawMarkDrawnAsset(C, src) {
+	let URL = null;
+	if (typeof src === "string") {
+		URL = src;
+	} else if (src instanceof HTMLImageElement) {
+		URL = src.src;
+	} else {
+		return;
+	}
+
+	C.DrawnAssets.add(URL);
+}
+
+/**
+ * A helper function that keeps drawn asset on a character in the cache
+ */
+function CommonDrawWarmDrawnAssets() {
+	DrawLastCharacters.forEach((C) => {
+		C.DrawnAssets.forEach((item) => {
+			if (DrawImageCache.has(item)) {
+				DrawImageCache.get(item);
+			}
+			if (GLDrawImageCache.has(item)) {
+				GLDrawImageCache?.get(item);
+			}
+		});
+	});
 }

@@ -36,10 +36,22 @@ type MemoizedFunction<T extends AnyFunction> = T & {
 type SafePromise<T> = Promise<T>;
 
 // GL shim
+
+/**
+ * Something GLDrawImage/DrawImage can draw: either the URL of an image that goes
+ * through the ImageCache, or an already available image source that gets
+ * uploaded on the spot.
+*/
+type DrawSource = string | HTMLImageElement | HTMLCanvasElement | ImageBitmap;
+
 interface WebGLTextureData {
 	width: number,
 	height: number,
 	texture: WebGLTexture,
+}
+
+interface GLImageMetadata {
+	textureInfo?: WebGLTextureData;
 }
 
 interface WebGL2RenderingContext {
@@ -1995,6 +2007,7 @@ interface Character {
 	Canvas: HTMLCanvasElement | null;
 	CanvasBlink: HTMLCanvasElement | null;
 	MustDraw: boolean;
+	DrawnAssets: Set<string>;
 	BlinkFactor: number;
 	AllowItem: boolean;
 	/** A record with all asset- and type-specific permission settings */
@@ -5401,5 +5414,39 @@ declare namespace Item {
 		difficulty?: number;
 		craft?: Readonly<CraftingPartialItem>;
 		property?: Readonly<ItemProperties>;
+	}
+}
+
+declare namespace ImageCache {
+	/**
+	 * A callback called when an image is loaded.
+	 */
+	type LifetimeCallback = (img: CachedImage<any>) => void;
+
+	/**
+	 * Options for an ImageCache.
+	 */
+	interface Options {
+		/** A callback that will be called when the load completes. */
+		loadCallback?: LifetimeCallback;
+		/** A callback that will be called when the image is removed from the cache. */
+		unloadCallback?: LifetimeCallback;
+	}
+}
+
+/**
+ * A cached image whose data is guaranteed to be available.
+ */
+interface LoadedCachedImage<ImageMetadata extends object> extends CachedImage<ImageMetadata> {
+	bitmap: ImageBitmap;
+}
+
+declare namespace BrowserCache {
+	interface FetchOptions {
+		/**
+		 * Called if a background revalidation finds a newer version of the resource.
+		 * The response is fresh and unconsumed.
+		 */
+		onUpdate?(response: Response): void;
 	}
 }

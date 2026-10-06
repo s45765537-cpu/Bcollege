@@ -1,8 +1,5 @@
 "use strict";
 
-/** @type {Map<string, HTMLImageElement>} */
-var GLDrawImageCache = new Map();
-
 /** @type {"webgl2"|"webgl"|"No WebGL"} */
 var GLVersion;
 
@@ -30,7 +27,8 @@ var GLDrawAlphaThreshold = 0.01;
 var GLDrawHalfAlphaLow = 0.8 / 256.0;
 var GLDrawHalfAlphaHigh = 1.2 / 256.0;
 
-window.addEventListener('load', GLDrawLoad);
+/** @type {ImageCache<GLImageMetadata>} */
+var GLDrawImageCache;
 
 /**
  * Setup WebGL rendering
@@ -67,6 +65,7 @@ function GLDrawLoad(_evt, force2d = false) {
 			console.error('WebGL: failed to initialize canvas');
 		}
 		GLVersion = "No WebGL";
+		GLDrawImageCache?.clear();
 		GLDrawCanvas.remove();
 		GLDrawCanvas = null;
 		return;
@@ -75,6 +74,8 @@ function GLDrawLoad(_evt, force2d = false) {
 	GLDrawCanvas.GL = /** @type {WebGL2RenderingContext} */ (gl);
 	GLDrawMakeGLProgram(GLDrawCanvas.GL);
 	GLDrawClearRect(GLDrawCanvas.GL, 0, 0, 1000, CanvasDrawHeight, 0);
+
+	GLDrawImageCache = new ImageCache("gldraw", BrowserStorageCache, { unloadCallback: GLDrawUnloadImage });
 
 	// Attach context listeners
 	GLDrawCanvas.addEventListener("webglcontextlost", GLDrawOnContextLost, false);
@@ -162,6 +163,21 @@ function GLDrawOnContextRestored() {
 }
 
 /**
+ * Debug helper to force a context lost event
+ */
+function GLDrawForceContextLoss() {
+	if (!GLDrawCanvas) return;
+	/* @ts-ignore */
+	let ext = GLDrawCanvas.GL.ext;
+	if (!ext) {
+		ext = GLDrawCanvas.GL?.getExtension("WEBGL_lose_context");
+		/* @ts-ignore */
+		GLDrawCanvas.GL.ext = ext;
+	}
+	ext.loseContext();
+}
+
+/**
  * Resets the GLDraw renderer
  *
  * This function removes the current canvas, removes cached textures from the
@@ -173,7 +189,16 @@ function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
 	GLDrawCanvas?.remove();
-	GLDrawImageCache.clear();
+	GLDrawImageCache.forEach((image, key) => {
+		image.unload();
+	});
+	GLDrawCanvas?.GL?.maskCache?.forEach((texture) => {
+		GLDrawCanvas?.GL?.deleteTexture(texture);
+	});
+	GLDrawCanvas?.GL?.maskCache?.clear();
+	if (GLDrawScratchTexture) {
+		GLDrawCanvas?.GL?.deleteTexture(GLDrawScratchTexture);
+	}
 	GLDrawCanvas = null;
 
 	// Reload canvas, possibly falling back to 2d mode
@@ -214,7 +239,6 @@ function GLDrawMakeGLProgram(gl) {
 	gl.programFull.u_color = gl.getUniformLocation(gl.programFull, "u_color");
 	gl.programHalf.u_color = gl.getUniformLocation(gl.programHalf, "u_color");
 
-	gl.textureCache = new Map();
 	gl.maskCache = new Map();
 }
 
@@ -432,8 +456,8 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
 }
 
 /**
- * Draws an image from a given url to a WebGLRenderingContext
- * @param {string} url - URL of the image to render
+ * Draws an image to a WebGLRenderingContext
+ * @param {DrawSource} source - The image to render, or the URL to load it from
  * @param {WebGL2RenderingContext} gl - The context we're drawing with
  * @param {number} dstX - Position of the image on the X axis
  * @param {number} dstY - Position of the image on the Y axis
@@ -441,10 +465,13 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
  * @param {number} [offsetX=0] - Additional offset to add to the X axis (for blinking)
  * @returns {void} - Nothing
  */
-function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
+function GLDrawImage(source, gl, dstX, dstY, options, offsetX = 0) {
 	let { HexColor: color, FullAlpha: fullAlpha = false, AlphaMasks: alphaMasks, Alpha: opacity, Invert, Mirror, BlendingMode: blendingMode, TextureAlphaMask: texMasks } = options ?? {};
 	opacity = typeof opacity === "number" ? opacity : 1;
-	const tex = GLDrawLoadImage(gl, url);
+	const tex = typeof source === "string"
+		? GLDrawLoadImage(gl, source)
+		: GLDrawLoadTransient(gl, source);
+	if (!tex) return;
 	const mask = GLDrawLoadMask(gl, tex.width, tex.height, dstX, dstY, alphaMasks);
 	const textureMask = GLDrawLoadTextureAlphaMask(gl, tex.width, tex.height, dstX, dstY, texMasks);
 
@@ -591,85 +618,77 @@ function GLChooseProgram(gl, color, fullAlpha, blendingMode) {
  * @param {readonly TextureAlphaMask[]} [texMasks] - A list of mask layers to apply to the asset
  */
 function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
-	const TempCanvasName = Img.getAttribute("name") ?? "";
-	gl.textureCache?.delete(TempCanvasName);
-	GLDrawImageCache.set(TempCanvasName, /** @type {HTMLImageElement} */(Img));
-	GLDrawImage(TempCanvasName, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks }, blinkOffset);
+	GLDrawImage(Img, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks }, blinkOffset);
 }
 
 /**
- * Sets texture info from image data
- * @param {WebGLRenderingContext} gl - WebGL context
- * @param {HTMLImageElement} Img - Image to get the data of
- * @param {WebGLTextureData} textureInfo - Texture information
- * @returns {void} - Nothing
+ * Helper used by the cache when an image is unloaded
+ * @param {CachedImage<GLImageMetadata>} image
  */
-function GLDrawBingImageToTextureInfo(gl, Img, textureInfo) {
-	textureInfo.width = Img.width;
-	textureInfo.height = Img.height;
-	gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
-	try {
-		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, Img);
-	} catch (error) {
-		if (error instanceof Error && error.name === "SecurityError") {
-			console.error(`Failed to draw image "${Img.src}":`, error);
-		} else {
-			throw error;
-		}
-	}
+function GLDrawUnloadImage(image) {
+	if (image.userData.textureInfo?.texture)
+		GLDrawCanvas?.GL?.deleteTexture(image.userData.textureInfo.texture);
+
+	delete image.userData.textureInfo;
+}
+
+/**
+ * Creates a texture with the parameters every image texture uses
+ * @param {WebGL2RenderingContext} gl - WebGL context
+ * @returns {WebGLTexture}
+ */
+function GLDrawCreateTexture(gl) {
+	const texture = gl.createTexture();
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+	return texture;
 }
 
 /**
  * Loads image texture data
  * @param {WebGL2RenderingContext} gl - WebGL context
  * @param {string} url - URL of the image
- * @returns {WebGLTextureData} - The texture info of a given image
+ * @returns {WebGLTextureData | null} - The texture info of a given image, or null if it has nothing to draw yet
  */
 function GLDrawLoadImage(gl, url) {
+	const image = GLDrawImageCache.get(url);
+	const known = image.userData.textureInfo;
+	if (known) return known;
 
-	let textureInfo = gl.textureCache?.get(url);
+	if (!image.isLoaded()) return null;
 
-	if (!textureInfo) {
-		const tex = gl.createTexture();
+	const textureInfo = { width: image.bitmap.width, height: image.bitmap.height, texture: GLDrawCreateTexture(gl) };
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.bitmap);
+	image.userData.textureInfo = textureInfo;
+	return textureInfo;
+}
 
-		gl.bindTexture(gl.TEXTURE_2D, tex);
-		/** @type {WebGLTextureData} */
-		const texInfo = { width: 1, height: 1, texture: tex, };
-		gl.textureCache?.set(url, texInfo);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+/**
+ * Temporary scratch texture.
+ *
+ * Used for stuff that's being dynamically drawn, like canvas for animations.
+ *
+ * @type {WebGLTexture | undefined}
+ */
+let GLDrawScratchTexture;
 
-		let Img = GLDrawImageCache.get(url);
+/**
+ * Uploads an image source into the scratch texture
+ * @param {WebGL2RenderingContext} gl - WebGL context
+ * @param {Exclude<DrawSource, string>} source - The source to upload
+ * @returns {WebGLTextureData | null} - The texture info for that source, or null if it has nothing to draw yet
+ */
+function GLDrawLoadTransient(gl, source) {
+	if (source instanceof HTMLImageElement && (!source.complete || source.naturalWidth === 0))
+		return null;
 
-		if (Img) {
-			GLDrawBingImageToTextureInfo(gl, Img, texInfo);
-		} else {
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
-			const tmpImg = new Image();
-			GLDrawImageCache.set(url, tmpImg);
-
-			tmpImg.addEventListener('load', function () {
-				GLDrawBingImageToTextureInfo(gl, tmpImg, texInfo);
-				DrawRefreshCharacterForImage(tmpImg);
-			});
-			tmpImg.addEventListener('error', function () {
-				if (tmpImg.errorcount == null) tmpImg.errorcount = 0;
-				tmpImg.errorcount += 1;
-				if (tmpImg.errorcount < 3) {
-					// eslint-disable-next-line no-self-assign
-					tmpImg.src = tmpImg.src;
-				} else {
-					console.log("Error loading image " + tmpImg.src);
-					DrawRefreshCharacterForImage(tmpImg);
-				}
-			});
-			tmpImg.src = url;
-		}
-		return texInfo;
-	} else {
-		return textureInfo;
-	}
+	if (!GLDrawScratchTexture)
+		GLDrawScratchTexture = GLDrawCreateTexture(gl);
+	gl.bindTexture(gl.TEXTURE_2D, GLDrawScratchTexture);
+	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+	return { width: source.width, height: source.height, texture: GLDrawScratchTexture };
 }
 
 /**
@@ -780,12 +799,12 @@ function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, m
 		for (const layer of maskLayers) {
 			GLDrawLoadImage(gl, layer.Url);
 			const img = GLDrawImageCache.get(layer.Url);
-			if (!img || img.width === 0 || img.height === 0) {
+			if (!img || !img.isLoaded()) {
 				return GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight);
 			}
 
 			ctx.globalCompositeOperation = layer.Mode || "destination-in";
-			ctx.drawImage(img, layer.X - offsetX, layer.Y - offsetY, img.width, img.height);
+			ctx.drawImage(img.bitmap, layer.X - offsetX, layer.Y - offsetY, img.bitmap.width, img.bitmap.height);
 		}
 
 		mask = gl.createTexture();
@@ -852,12 +871,30 @@ function GLDrawAppearanceBuild(C) {
 	CommonDrawAppearanceBuild(C, {
 		clearRect: (x, y, w, h) => GLDrawClearRect(gl, x, CanvasDrawHeight - y - h, w, h, 0),
 		clearRectBlink: (x, y, w, h) => GLDrawClearRect(gl, x, CanvasDrawHeight - y - h, w, h, blinkOffset),
-		drawImage: (src, x, y, opts) => GLDrawImage(src, gl, x, y, opts, 0),
-		drawImageBlink: (src, x, y, opts) => GLDrawImage(src, gl, x, y, opts, blinkOffset),
-		drawImageColorize: (src, x, y, opts) => GLDrawImage(src, gl, x, y, opts, 0),
-		drawImageColorizeBlink: (src, x, y, opts) => GLDrawImage(src, gl, x, y, opts, blinkOffset),
-		drawCanvas: (Img, x, y, alphaMasks, maskLayers) => GLDraw2DCanvas(gl, Img, x, y, 0, alphaMasks, maskLayers),
-		drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => GLDraw2DCanvas(gl, Img, x, y, blinkOffset, alphaMasks, maskLayers),
+		drawImage: (src, x, y, opts) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImage(src, gl, x, y, opts, 0);
+		},
+		drawImageBlink: (src, x, y, opts) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImage(src, gl, x, y, opts, blinkOffset);
+		},
+		drawImageColorize: (src, x, y, opts) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImage(src, gl, x, y, opts, 0);
+		},
+		drawImageColorizeBlink: (src, x, y, opts) => {
+			CommonDrawMarkDrawnAsset(C, src);
+			GLDrawImage(src, gl, x, y, opts, blinkOffset);
+		},
+		drawCanvas: (Img, x, y, alphaMasks, maskLayers) => {
+			CommonDrawMarkDrawnAsset(C, Img);
+			GLDraw2DCanvas(gl, Img, x, y, 0, alphaMasks, maskLayers);
+		},
+		drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => {
+			CommonDrawMarkDrawnAsset(C, Img);
+			GLDraw2DCanvas(gl, Img, x, y, blinkOffset, alphaMasks, maskLayers);
+		},
 	});
 	C.Canvas?.getContext("2d")?.drawImage(GLDrawCanvas, 0, 0);
 	C.CanvasBlink?.getContext("2d")?.drawImage(GLDrawCanvas, -blinkOffset, 0);

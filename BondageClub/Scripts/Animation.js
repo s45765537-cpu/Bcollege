@@ -164,9 +164,10 @@ function AnimationPurge(C, IncludeAll) {
 	}
 
 	// Clear no longer needed cached canvases
-	GLDrawImageCache.forEach((img, key) => {
-		if (key.startsWith(C.CharacterID + "__") && !PossibleCanvas.includes(key)) {
-			GLDrawImageCache.delete(key);
+	DrawImageCache.forEach((img, key) => {
+		let animationKey = C.CharacterID + "__";
+		if (key.startsWith(animationKey) && !PossibleCanvas.includes(key)) {
+			DrawImageCache.delete(key);
 		}
 	});
 

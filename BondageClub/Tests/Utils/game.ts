@@ -2,6 +2,8 @@ import path from "path";
 import fs from "fs";
 import vm from "vm";
 import { TextEncoder as NodeTextEncoder, TextDecoder as NodeTextDecoder } from "util";
+import { loadImage } from "canvas";
+import { Blob } from "node:buffer";
 
 class SocketMock {
 	private listeners: { [k in keyof ServerToClientEvents]?: ServerToClientEvents[k][] };
@@ -43,15 +45,23 @@ const postVMMocks = {
 		callback.call(obj, obj);
 	},
 	CommonFetch: async (request: RequestInfo | URL): Promise<Response> => {
-		const data = fs.readFileSync(`${request}`, "utf8");
+		const bytes = fs.readFileSync(`${request}`);
 		const obj = {
 			status: 200,
-			async text() { return data; },
+			statusText: "OK",
+			ok: true,
+			async text() { return bytes.toString("utf8"); },
+			async blob() { return new Blob([bytes]); },
 		} as Response;
 		return obj;
 	},
 	CommonGetServer: (): string => Game.ServerURL as string,
 	io: (url: string): SocketIO.Socket => new SocketMock() as never,
+	createImageBitmap: async (blob: Blob) => {
+		const image = await loadImage(Buffer.from(await blob.arrayBuffer())) as unknown as ImageBitmap;
+		image.close = () => {};
+		return image;
+	},
 };
 
 const _Game = {
@@ -73,6 +83,7 @@ const _Game = {
 	Node,
 	TextEncoder: NodeTextEncoder,
 	TextDecoder: NodeTextDecoder,
+	URL,
 	Worker: class {
 		constructor(scriptURL: string | URL, options: WorkerOptions) {
 		}
