@@ -78569,6 +78569,18 @@ var ActivityFemale3DCG = [
 		],
 	},
 	{
+		Name: "SiblingsHug",
+		ActivityID: 71,
+		MaxProgress: 30,
+		Prerequisite: ["SiblingsNeutral"],
+		Target: ["ItemArms"],
+		ActivityExpression: [
+			{ Group: "Blush", Name: "Low", Timer: 8 },
+			{ Group: "Eyebrows", Name: "Soft", Timer: 8 },
+			{ Group: "Eyes", Name: "Daydream", Timer: 8 },
+		],
+	},
+	{
 		Name: "BrushItem",
 		ActivityID: 62,
 		MaxProgress: 70,
