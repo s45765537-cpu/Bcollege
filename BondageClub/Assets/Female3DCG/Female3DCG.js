@@ -68471,7 +68471,6 @@ var AssetFemale3DCG = [
 				Time: 10,
 				IsRestraint: false,
 				Prerequisite: ["AccessVulva", "NotChaste"],
-				Hide: ["Shoes", "ItemBoots", "ItemLegs"],
 				SetPose: ["KneelingSpread"],
 				Effect: [E.FillVulva, E.Freeze, E.Mounted],
 				Block: ["ItemPelvis", "ItemButt", "ItemVulva"],
