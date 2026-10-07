@@ -275,6 +275,11 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 			blocked = "unavail";
 		}
 
+		// this doesnt allow penetrative handheld items from being used while acting is restrained
+		if (item.Asset.Group.Name === "ItemHandheld" && acting.IsRestrained()) {
+			return activities;
+		}
+
 		// FIXME: workaround for reverse activities because those are in a non-activity group
 
 		if (InventoryItemHasEffect(item, "UseRemote")) {
