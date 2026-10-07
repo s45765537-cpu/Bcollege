@@ -44,7 +44,7 @@ function AssetsItemDevicesKennelScriptDraw({ C, PersistentData, Item }) {
 
 /**
  * @param {Character} C
- * @returns {string}
+ * @returns {AudioEffectName}
  */
 function InventoryItemDevicesKennelGetAudio(C) {
 	let wasWorn = InventoryGet(C, "ItemDevices")?.Asset.Name === "Kennel";

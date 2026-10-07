@@ -1323,7 +1323,7 @@ interface Asset {
 	readonly Wear: boolean;
 	readonly Activity: ActivityName | null;
 	readonly AllowActivity?: readonly ActivityName[];
-	readonly ActivityAudio?: readonly string[];
+	readonly ActivityAudio?: readonly AudioEffectName[];
 	readonly ActivityExpression: Readonly<Partial<Record<ActivityName, readonly ExpressionTrigger[]>>>;
 	readonly AllowActivityOn: readonly AssetGroupItemName[];
 	readonly InventoryID?: number;
@@ -1389,7 +1389,7 @@ interface Asset {
 	 */
 	readonly DefaultColor: readonly BCColor[];
 	readonly EditOpacity: boolean;
-	readonly Audio?: string;
+	readonly Audio?: AudioEffectName;
 	readonly Category?: readonly AssetCategory[];
 	readonly Fetish?: readonly FetishName[];
 	/** See {@link BackgroundsList} */
@@ -1405,7 +1405,7 @@ interface Asset {
 	readonly DynamicName: (this: Asset, C: Character) => AssetName;
 	readonly DynamicGroupName: AssetGroupName;
 	readonly DynamicActivity: (C: Character) => ActivityName | null | undefined;
-	readonly DynamicAudio: ((C: Character) => string) | null;
+	readonly DynamicAudio: ((C: Character) => AudioEffectName) | null;
 	readonly AllowRemoveExclusive: boolean;
 	readonly InheritColor: null | AssetGroupName;
 	readonly DynamicBeforeDraw: boolean;
@@ -4323,11 +4323,118 @@ type GGTSTask =
 
 // #region Audio
 
-type AudioSoundEffect = [sound: string, volume: number];
+type AudioEffectName =
+	| "AirDoorClosing"
+	| "AirDoorOpening"
+	| "Bag"
+	| "BalloonRubbing"
+	| "BalloonStretch"
+	| "Beep"
+	| "BellMedium"
+	| "BellSmall"
+	| "Belt"
+	| "BrushHair"
+	| "BrushSpank"
+	| "Buckle"
+	| "CageClose"
+	| "CageEquip"
+	| "CageOpen"
+	| "CageStruggle"
+	| "ChainLong"
+	| "ClothKnot"
+	| "ClothSlip"
+	| "SciFiEffect"
+	| "SciFiPump"
+	| "SciFiConfigure"
+	| "SciFiBeeps"
+	| "ChainShort"
+	| "CuffsMetal"
+	| "EMLevitate"
+	| "EMDisable"
+	| "FanOpen"
+	| "Hallo"
+	| "FuturisticApply"
+	| "HoodedCloak"
+	| "HydraulicLock"
+	| "HydraulicUnlock"
+	| "Deflation"
+	| "DuctTape"
+	| "DuctTapeRoll"
+	| "DuctTapeRollShort"
+	| "Inflation"
+	| "MetalClose"
+	| "MetalCuffs"
+	| "LeatherStretching1"
+	| "LockLarge"
+	| "LockSmall"
+	| "RopeLong"
+	| "RopeShort"
+	| "Shocks"
+	| "SmackCrop"
+	| "Squeak"
+	| "SqueakyToy"
+	| "Whip1"
+	| "Whip2"
+	| "Sybian"
+	| "Unlock"
+	| "VibrationLong1"
+	| "VibrationLong2"
+	| "VibrationShort"
+	| "VibrationEdgeLow"
+	| "VibrationEdgeMedium"
+	| "VibrationEdgeHigh"
+	| "VibrationTeaseLow"
+	| "VibrationTeaseMedium"
+	| "VibrationMaximum"
+	| "VibrationCooldown"
+	| "Vibrator"
+	| "Wand"
+	| "WandBig"
+	| "WoodenCuffs"
+	| "ZipTie"
+	| "SpankSkin"
+	| "WhipCrack"
+	| "LeverShort"
+	| "Zipper1"
+	| "HighChair"
+	| "AdultBabyHarness"
+	| "BondageBouquet"
+	| "Cigarette"
+	| "Flogger"
+	| "LeatherCreak"
+	| "LeatherCreakWithMetal"
+	| "LeatherStretchingShort"
+	| "LeatherStretchingWithMetal"
+	| "PolyesterWoosh1"
+	| "PolyesterWoosh2"
+	| "PolyesterWooshWithMetal1"
+	| "PolyesterWooshWithMetal2"
+	| "PolyesterWooshWithMetal3"
+	| "Slime"
+	| "SofterCageClose"
+	| "LockerClose"
+	| "SoftCloth1"
+	| "SoftCloth2"
+	| "SoftClothWithMetal1"
+	| "SoftClothWithMetal2"
+	| "TightLeatherStretchWithMetalLong"
+	| "TightLeatherStretch"
+	| "PlasticRustle"
+	| "PlaceBowl"
+	| "MetalStraps"
+	| "MetalShut"
+	| "MetalClip"
+	| "SoftFurniture"
+	| "WoodFurniture"
+	| "PutDownPlastic"
+	| "EnemaFixture"
+;
+
+type AudioSoundEffect = [sound: AudioEffectName, volume: number];
 
 interface AudioEffect {
 	/** The sound effect name */
-	Name: string;
+	Name: AudioEffectName;
 
 	/** The sound file, or files to choose from randomly */
 	File: string | string[];
@@ -4341,7 +4448,7 @@ interface AudioChatAction {
 	IsAction: (data: ServerChatRoomMessage) => boolean;
 
 	/** Extracts the actual sound effect from the chat message */
-	GetSoundEffect: (data: ServerChatRoomMessage, metadata: IChatRoomMessageMetadata) => (AudioSoundEffect | string | null);
+	GetSoundEffect: (data: ServerChatRoomMessage, metadata: IChatRoomMessageMetadata) => (AudioSoundEffect | AudioEffectName | null);
 }
 
 // #endregion

@@ -568,7 +568,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	AllowActivity?: ActivityName[];
 
 	/** Array of sound effects for each one of the item's allowed activities */
-	ActivityAudio?: string[];
+	ActivityAudio?: AudioEffectName[];
 
 	/** The expression on the targeted character */
 	ActivityExpression?: Partial<Record<ActivityName, ExpressionTrigger[]>>;
@@ -701,7 +701,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 */
 	AllowTighten?: boolean;
 	DefaultColor?: ItemColor;
-	Audio?: string;
+	Audio?: AudioEffectName;
 
 	/** A list of categories. Used to prevent the asset to be used, per chatroom settings */
 	Category?: AssetCategory[];
@@ -720,7 +720,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	DynamicGroupName?: AssetGroupName;
 
 	DynamicActivity?: (C: Character) => ActivityName | null | undefined;
-	DynamicAudio?: (C: Character) => string;
+	DynamicAudio?: (C: Character) => AudioEffectName;
 
 	AllowRemoveExclusive?: boolean;
 
