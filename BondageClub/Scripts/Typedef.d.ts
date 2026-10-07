@@ -5381,12 +5381,12 @@ interface ChatRoomMapPhysicalElement extends ChatRoomMapDoodad {
 	CanPlaceInWalls?: boolean; // ex. Doors
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapTile }  */
+/** {@link ChatRoomMapViewIsChatRoomMapTile}  */
 interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapTileType;
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapObject }  */
+/** {@link ChatRoomMapViewIsChatRoomMapObject}  */
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
@@ -5397,7 +5397,7 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	OnClick?: (x: number, y: number) => void;
 }
 
-/** {@link ChatRoomMapViewIsChatRoomMapEffect }  */
+/** {@link ChatRoomMapViewIsChatRoomMapEffect}  */
 interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Type: "StaticLighting";
 	TypeId: 1,

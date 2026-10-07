@@ -476,8 +476,8 @@ function ChatRoomMapViewGetButtons() {
 
 	const editRangeButton = ElementButton.Create(null, function () {
 		ChatRoomMapViewEditRange = CommonParseInt(this.getAttribute("aria-valuenow") ?? "") ?? 1;
-		this.querySelector(".button-image")?.setAttribute("src",  `Screens/Online/ChatRoom/MapTile/Range/${ChatRoomMapViewEditRange.toString()}.png`);
-	}, { image: `Screens/Online/ChatRoom/MapTile/Range/${ChatRoomMapViewEditRange.toString()}.png`,
+		this.querySelector(".button-image")?.setAttribute("src",  `Icons/Range/${ChatRoomMapViewEditRange.toString()}.png`);
+	}, { image: `Icons/Range/${ChatRoomMapViewEditRange.toString()}.png`,
 		tooltip:  TextGet("EditorButtonTextEditRange"),
 		tooltipPosition: "right",
 	 }, {
@@ -558,7 +558,7 @@ function ChatRoomMapViewGetButtons() {
 						ChatRoomMapViewEditMode = "Object";
 						ChatRoomMapViewReloadEditorPanel();
 
-					}, "Screens/Online/ChatRoom/MapObject/Type/" + type + ".png", TextGet("ObjectTypeName" + type));
+					}, MapGetAssetUrl("Object") + "Type/" + type + ".png", TextGet("ObjectTypeName" + type));
 				}),
 				...buttons,
 			];
@@ -572,7 +572,7 @@ function ChatRoomMapViewGetButtons() {
 						ChatRoomMapViewEditMode = "Tile";
 						ChatRoomMapViewReloadEditorPanel();
 
-					}, "Screens/Online/ChatRoom/MapTile/Type/" + type + ".png", TextGet("TileTypeName" + type));
+					}, MapGetAssetUrl("Tile") + "Type/" + type + ".png", TextGet("TileTypeName" + type));
 				}),
 				...buttons,
 			];
@@ -695,13 +695,13 @@ function ChatRoomMapViewCreateMapElementItem(item, updateRecent=true, readOnly=f
 	let rotation = 0;
 	if (ChatRoomMapViewIsChatRoomMapObject(item)) {
 		type = "Object";
-		imageUrl = `Screens/Online/ChatRoom/Map${type}/${item.Type}/${item.Style}.png` ;
+		imageUrl = MapGetDoodadAssetUrl(item);
 		if (item.Rotation != null) rotation = item.Rotation;
 		if ((item.AssetName != null) && (item.AssetGroup != null) && !InventoryAvailable(Player, item.AssetName, item.AssetGroup)) isOwned = false;
 	} else if (ChatRoomMapViewIsChatRoomMapTile(item)) {
 		type = "Tile";
 		if (item.Rotation != null) rotation = item.Rotation;
-		imageUrl = `Screens/Online/ChatRoom/Map${type}/${item.Type}/${item.Style}.png` ;
+		imageUrl = MapGetDoodadAssetUrl(item);
 	} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
 		type = "Effect";
 		buttonStyle.Background = RgbaArrayToHTMLColor(item.Color);
@@ -1152,7 +1152,7 @@ function ChatRoomMapViewWallEffect(X, Y, ScreenX, ScreenY, TileWidth, TileHeight
 
 	// Finds the proper effect and draws it
 	let Effect = ChatRoomMapViewFindWallEffectTile(CW, CE, SW, SC, SE);
-	DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + Effect.toString() + ".png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
+	DrawImageResize(MapGetAssetUrl("Tile", "WallEffect", `${Effect}`), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 
 }
 
@@ -1349,7 +1349,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		let Fog = false;
 		if (FogActive && !MapManager.Map.isTileVisible(Pos)) {
 			if (ChatRoomMapViewTileFog[Pos] == 0) {
-				DrawImageResize("Screens/Online/ChatRoom/MapTile/Fog/Full.png", Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
+				DrawImageResize(MapGetAssetUrl("Tile", "Fog", "Full"), Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 				continue;
 			}
 			TileID = ChatRoomMapViewTileFog[Pos];
@@ -1360,8 +1360,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		TileData = MapDataTiles.get(TileID);
 
 		// Draw the tile on the grid
-		if (TileData != null) {
-			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
+		if (TileData) {
+			const url = MapGetDoodadAssetUrl(TileData);
+			TileImage = url ? DrawGetImage(url) : undefined;
 			if (TileImage) {
 				const { Width: WidthScale = 1, Height: HeightScale = 1, Rotation, Left: TileLeft = 0, Top: TileTop = 0 } = TileData;
 				const width = Math.ceil(TileWidth * WidthScale);
@@ -1397,7 +1398,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				let ImageName = Obj.BuildImageName?.(X, Y) ?? Obj.Style;
 				if (Char && Obj.OccupiedStyle) ImageName = Obj.OccupiedStyle;
 				ObjectData = Obj;
-				ObjectImage = "Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png";
+				ObjectImage = MapGetAssetUrl("Object", Obj.Type, ImageName);
 
 				DrawImageResize(ObjectImage,
 					Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)),
@@ -1460,7 +1461,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		}
 
 		// Draw the floor wall effect and rectancle if needed at the end
-		if (FloorWallEffect != -1) DrawImageResize("Screens/Online/ChatRoom/MapTile/WallEffect/" + FloorWallEffect.toString() + ".png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
+		if (FloorWallEffect != -1) DrawImageResize(MapGetAssetUrl("Tile", "WallEffect", `${FloorWallEffect}`), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		if (DrawSelectionRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
 
 	}
@@ -1544,7 +1545,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			// Out of sight and with known data, we draw the half fog effect
 			if (!MapManager.Map.isTileVisible(Pos))
 				if (ChatRoomMapViewTileFog[Pos] > 0)
-					DrawImageResize("Screens/Online/ChatRoom/MapTile/Fog/Half.png", Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
+					DrawImageResize(MapGetAssetUrl("Tile", "Fog", "Half"), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		}
 
 
