@@ -39,6 +39,7 @@ var AudioList = [
 	{ Name: "FanOpen", File: "Fan1" },
 	{ Name: "Hallo", File: "Hallo" },
 	{ Name: "FuturisticApply", File: "FuturisticApply" },
+	{ Name: "HoodedCloak", File: "HoodedCloak" },
 	{ Name: "HydraulicLock", File: "HydraulicLock" },
 	{ Name: "HydraulicUnlock", File: "HydraulicUnlock" },
 	{ Name: "Deflation", File: "Deflation" },
@@ -749,10 +750,11 @@ function AudioGetSoundFromChatMessage(data, metadata) {
  * Processes the sound for vibrators
  * @param {ServerChatRoomMessage} data - Represents the chat message received
  * @param {IChatRoomMessageMetadata} metadata - The metadata from the recieved message
- * @returns {[string, number] | null} - The name of the sound to play, followed by the noise modifier
+ * @returns {AudioSoundEffect | null} - The name of the sound to play, followed by the noise modifier
  */
 function AudioVibratorSounds(data, metadata) {
-	var Sound = "";
+	/** @type {AudioEffectName | undefined} */
+	let Sound;
 
 	var Level = parseInt(data.Content.substr(data.Content.length - 1));
 	if (isNaN(Level)) Level = 0;
@@ -798,13 +800,13 @@ function AudioVibratorSounds(data, metadata) {
 			break;
 	}
 
-	return [Sound, Level];
+	return Sound ? [Sound, Level] : null;
 }
 
 /**
  * Processes the sound for shocks
  * @param {ServerChatRoomMessage} data - Represents the chat message received
- * @returns {[string, number]} - The name of the sound to play, followed by the noise modifier
+ * @returns {AudioSoundEffect} - The name of the sound to play, followed by the noise modifier
  */
 function AudioShockSounds(data) {
 	let Modifier = parseInt(data.Content.slice(-1));
