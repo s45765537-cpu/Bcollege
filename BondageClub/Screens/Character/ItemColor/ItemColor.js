@@ -152,8 +152,8 @@ async function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorReset();
 	ItemColorBackup = AppearanceItemStringify(item);
 	ItemColorStateBuild(c, item, x, y, width, height);
-	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
-	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
+	ItemColorLayerNames = new TextCache(`Assets/LayerNames.csv`);
+	ItemColorGroupNames = new TextCache(`Assets/ColorGroups.csv`);
 
 	await ItemColorLayerNames.loadedPromise;
 	await ItemColorGroupNames.loadedPromise;

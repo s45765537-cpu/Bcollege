@@ -75,7 +75,7 @@ Game.load("../Scripts/Character.js");
 Game.load("../Scripts/Notification.js");
 Game.load("../Scripts/Asset.js");
 Game.load("../Scripts/Pose.js");
-Game.load("../Assets/Female3DCG/Female3DCG.js");
+Game.load("../Assets/Female3DCG.js");
 Game.load("../Scripts/Preference.js");
 Game.load("../Screens/Room/Crafting/Crafting.js");
 Game.load("../Scripts/BitString.js");
