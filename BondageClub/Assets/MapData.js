@@ -169,6 +169,7 @@ const AssetsMapDataTiles = [
 	{ ID: 1203, Type: "Wall", Style: "PipePurple", BlockVision: true, CanEnter: () => false, },
 	{ ID: 1204, Type: "Wall", Style: "SteelBlack", BlockVision: true, CanEnter: () => false, },
 	{ ID: 1205, Type: "Wall", Style: "SteelGary", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1227, Type: "Wall", Style: "SpiderWeb", BlockVision: true, CanEnter: () => false, },
 
 	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true, CanEnter: () => false, },
 	{ ID: 1500, Type: "Wall", Style: "WoodPine", BlockVision: true, CanEnter: () => false, },
@@ -263,6 +264,12 @@ const AssetsMapDataObjects = [
 	{ ID: 310, Type: "LivingRoom", Style: "JapaneseTable", Top: -0.1 },
 	{ ID: 320, Type: "FloorDecorationThemed", Style: "BanzaiTree", Top: -0.1 },
 	{ ID: 350, Type: "FloorDecorationThemed", Style: "MedicalDesk", Top: -0.15 },
+	{ ID: 360, Type: "FloorDecorationThemed", Style: "anvil", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
+	{ ID: 361, Type: "FloorDecorationThemed", Style: "grindstone", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
+	{ ID: 362, Type: "FloorDecorationThemed", Style: "furnace", Top: -0.5, Left: 0.05, Height: 1.5, Width: 0.9 },
+	{ ID: 363, Type: "FloorDecorationThemed", Style: "microwave", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
+	{ ID: 364, Type: "FloorDecorationThemed", Style: "stove", Top: 0.03, Left: 0.05, Height: 0.9, Width: 0.9 },
+	{ ID: 365, Type: "FloorDecorationThemed", Style: "fridge", Top: -0.5, Left: 0.05, Height: 1.5, Width: 0.9 },
 	{ ID: 370, Type: "Bathroom", Style: "Toilet", Top: -0.65, Left: 0.05, Height: 1.5, Width: 0.9 },
 	{ ID: 380, Type: "FloorDecorationThemed", Style: "DeskBlue" },
 	{ ID: 381, Type: "FloorDecorationThemed", Style: "DeskPurple" },
@@ -291,6 +298,7 @@ const AssetsMapDataObjects = [
 	{ ID: 580, Type: "FloorDecorationParty", Style: "Speaker", Top: -1.2, Height: 1.85 },
 	{ ID: 590, Type: "FloorDecorationParty", Style: "Presents", Top: 0.25, Height: 0.50 },
 	{ ID: 595, Type: "FloorDecorationParty", Style: "Pumpkin", Top: 0.25, Left: 0.25, Height: 0.5, Width: 0.5 },
+	{ ID: 596, Type: "FloorDecorationParty", Style: "JackOLantern", Top: 0.25, Left: 0, Height: 0.5, Width: 1 },
 
 	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
