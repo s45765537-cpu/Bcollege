@@ -15,9 +15,6 @@ var CommonVersionUpdated = false;
 /** @type {TouchList | null} */
 var CommonTouchList = null;
 
-/** @type {ImageCache<never>} */
-var DrawImageCache;
-
 /** @type {BrowserCache} */
 var BrowserStorageCache;
 
@@ -36,14 +33,13 @@ async function GameStart(isNode=false) {
 
 	CommonIsMobile = CommonDetectMobile();
 	TranslationLoad();
-	DrawLoad();
 	try {
 		BrowserStorageCache = await BrowserCache.open();
 	} catch (err) {
 		if (typeof caches !== "undefined")
 			console.warn("Persistent image cache unavailable", err);
 	}
-	DrawImageCache = new ImageCache("draw", BrowserStorageCache);
+	DrawLoad();
 	GLDrawLoad(null, false);
 	AssetLoadAll();
 	MapDataLoad();

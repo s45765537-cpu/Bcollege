@@ -44,14 +44,10 @@ type SafePromise<T> = Promise<T>;
 */
 type DrawSource = string | HTMLImageElement | HTMLCanvasElement | ImageBitmap;
 
-interface WebGLTextureData {
+interface GLDrawImageData {
 	width: number,
 	height: number,
 	texture: WebGLTexture,
-}
-
-interface GLImageMetadata {
-	textureInfo?: WebGLTextureData;
 }
 
 interface WebGL2RenderingContext {
@@ -60,7 +56,6 @@ interface WebGL2RenderingContext {
 	programHalf?: WebGLProgram;
 	programTexMask?: WebGLProgram;
 	programPreMultiplyAlpha?: WebGLProgram;
-	textureCache?: Map<string, WebGLTextureData>;
 	maskCache?: Map<string, WebGLTexture>;
 }
 
@@ -5536,26 +5531,21 @@ declare namespace Item {
 
 declare namespace ImageCache {
 	/**
-	 * A callback called when an image is loaded.
+	 * How an ImageCache turns bytes into a payload, and how it frees that payload.
 	 */
-	type LifetimeCallback = (img: CachedImage<any>) => void;
-
-	/**
-	 * Options for an ImageCache.
-	 */
-	interface Options {
-		/** A callback that will be called when the load completes. */
-		loadCallback?: LifetimeCallback;
-		/** A callback that will be called when the image is removed from the cache. */
-		unloadCallback?: LifetimeCallback;
+	interface Options<T> {
+		/** Decode fetched bytes into the in-memory payload. */
+		decode(blob: Blob): T | Promise<T>;
+		/** Release a payload that is no longer stored. */
+		dispose?(data: T): void;
 	}
 }
 
 /**
  * A cached image whose data is guaranteed to be available.
  */
-interface LoadedCachedImage<ImageMetadata extends object> extends CachedImage<ImageMetadata> {
-	bitmap: ImageBitmap;
+interface LoadedCachedImage<T> extends CachedImage<T> {
+	data: T;
 }
 
 declare namespace BrowserCache {

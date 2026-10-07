@@ -10,6 +10,12 @@ const MainCanvasHeight = 1000;
 const DEFAULT_FRAMERATE = 60;
 
 /**
+ * The global cache of images for Drawing.js
+ * @type {ImageCache<ImageBitmap>}
+ */
+var DrawImageCache;
+
+/**
  * Temporary GPU-based canvas
  * @type {CanvasRenderingContext2D}
  */
@@ -125,6 +131,11 @@ function DrawLoad() {
 	MainCanvas.font = CommonGetFont(36);
 	MainCanvas.textAlign = "center";
 	MainCanvas.textBaseline = "middle";
+
+	DrawImageCache = new ImageCache("draw", BrowserStorageCache, {
+		decode: blob => createImageBitmap(blob, { premultiplyAlpha: "none" }),
+		dispose: bitmap => bitmap.close(),
+	});
 }
 
 /**
@@ -135,7 +146,7 @@ function DrawLoad() {
  */
 function DrawGetImage(url) {
 	const image = DrawImageCache.get(url);
-	return image.isLoaded() ? image.bitmap : undefined;
+	return image.isLoaded() ? image.data : undefined;
 }
 
 /**

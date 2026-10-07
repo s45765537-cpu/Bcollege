@@ -27,7 +27,7 @@ var GLDrawAlphaThreshold = 0.01;
 var GLDrawHalfAlphaLow = 0.8 / 256.0;
 var GLDrawHalfAlphaHigh = 1.2 / 256.0;
 
-/** @type {ImageCache<GLImageMetadata>} */
+/** @type {ImageCache<GLDrawImageData>} */
 var GLDrawImageCache;
 
 /**
@@ -75,7 +75,10 @@ function GLDrawLoad(_evt, force2d = false) {
 	GLDrawMakeGLProgram(GLDrawCanvas.GL);
 	GLDrawClearRect(GLDrawCanvas.GL, 0, 0, 1000, CanvasDrawHeight, 0);
 
-	GLDrawImageCache = new ImageCache("gldraw", BrowserStorageCache, { unloadCallback: GLDrawUnloadImage });
+	GLDrawImageCache = new ImageCache("gldraw", BrowserStorageCache, {
+		decode: GLDrawDecodeImage,
+		dispose: GLDrawDisposeImage,
+	});
 
 	// Attach context listeners
 	GLDrawCanvas.addEventListener("webglcontextlost", GLDrawOnContextLost, false);
@@ -622,14 +625,36 @@ function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
 }
 
 /**
- * Helper used by the cache when an image is unloaded
- * @param {CachedImage<GLImageMetadata>} image
+ * Decode image bytes into a GL texture, then drop the bitmap.
+ * @param {Blob} blob
+ * @returns {Promise<GLDrawImageData>}
  */
-function GLDrawUnloadImage(image) {
-	if (image.userData.textureInfo?.texture)
-		GLDrawCanvas?.GL?.deleteTexture(image.userData.textureInfo.texture);
+async function GLDrawDecodeImage(blob) {
+	const gl = GLDrawCanvas?.GL;
+	if (!gl) throw new Error("WebGL context unavailable");
 
-	delete image.userData.textureInfo;
+	const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none" });
+	try {
+		const texture = GLDrawCreateTexture(gl);
+		try {
+			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bitmap);
+			return { width: bitmap.width, height: bitmap.height, texture };
+		} catch (err) {
+			gl.deleteTexture(texture);
+			throw err;
+		}
+	} finally {
+		bitmap.close();
+	}
+}
+
+/**
+ * Free a cached GL texture.
+ * @param {GLDrawImageData} data
+ */
+function GLDrawDisposeImage(data) {
+	if (data.texture)
+		GLDrawCanvas?.GL?.deleteTexture(data.texture);
 }
 
 /**
@@ -650,19 +675,11 @@ function GLDrawCreateTexture(gl) {
  * Loads image texture data
  * @param {WebGL2RenderingContext} gl - WebGL context
  * @param {string} url - URL of the image
- * @returns {WebGLTextureData | null} - The texture info of a given image, or null if it has nothing to draw yet
+ * @returns {GLDrawImageData | null} - The texture info of a given image, or null if it has nothing to draw yet
  */
 function GLDrawLoadImage(gl, url) {
 	const image = GLDrawImageCache.get(url);
-	const known = image.userData.textureInfo;
-	if (known) return known;
-
-	if (!image.isLoaded()) return null;
-
-	const textureInfo = { width: image.bitmap.width, height: image.bitmap.height, texture: GLDrawCreateTexture(gl) };
-	gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image.bitmap);
-	image.userData.textureInfo = textureInfo;
-	return textureInfo;
+	return image.isLoaded() ? image.data : null;
 }
 
 /**
@@ -678,7 +695,7 @@ let GLDrawScratchTexture;
  * Uploads an image source into the scratch texture
  * @param {WebGL2RenderingContext} gl - WebGL context
  * @param {Exclude<DrawSource, string>} source - The source to upload
- * @returns {WebGLTextureData | null} - The texture info for that source, or null if it has nothing to draw yet
+ * @returns {GLDrawImageData | null} - The texture info for that source, or null if it has nothing to draw yet
  */
 function GLDrawLoadTransient(gl, source) {
 	if (source instanceof HTMLImageElement && (!source.complete || source.naturalWidth === 0))
@@ -797,14 +814,13 @@ function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, m
 		// Combining textures is just too heavy for this scenario
 		// so a canvas ctx is used to combine them
 		for (const layer of maskLayers) {
-			GLDrawLoadImage(gl, layer.Url);
-			const img = GLDrawImageCache.get(layer.Url);
+			const img = DrawImageCache.get(layer.Url);
 			if (!img || !img.isLoaded()) {
 				return GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight);
 			}
 
 			ctx.globalCompositeOperation = layer.Mode || "destination-in";
-			ctx.drawImage(img.bitmap, layer.X - offsetX, layer.Y - offsetY, img.bitmap.width, img.bitmap.height);
+			ctx.drawImage(img.data, layer.X - offsetX, layer.Y - offsetY, img.data.width, img.data.height);
 		}
 
 		mask = gl.createTexture();
