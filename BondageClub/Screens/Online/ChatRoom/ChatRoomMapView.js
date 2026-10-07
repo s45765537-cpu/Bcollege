@@ -69,6 +69,16 @@ var ChatRoomMapViewKeysPressed = {
 var ChatRoomMapViewStartOfKeyPress = 0;
 /** @type {Map<number, Character>} */
 var ChatRoomMapViewCharacterMap = new Map();
+/** @type {null | HTMLElement} */
+var ChatRoomMapViewDialogMenu = null;
+/** @type {HTMLElement} */
+var ChatRoomMapViewPanel;
+/** @type {HTMLElement} */
+var ChatRoomMapViewPanelContainer;
+/** @type {null | number} */
+var ChatRoomMapViewSelectedObjectIndex = null;
+/** @type {ChatRoomMapObjectConfig["Type"] | null} */
+var ChatRoomMapViewSelectedObjectConfigType = null;
 
 document.addEventListener("blur", () => {
 	if (ChatRoomMapViewIsActive()) ChatRoomMapViewBlur();
@@ -100,6 +110,36 @@ function ChatRoomMapViewInitialize(mode) {
 		Objects: defaultMap,
 		Effects: undefined,
 	};
+}
+
+/**
+ * Get the tile ID at the given coordinates
+ * @overload
+ * @param {number} index
+ * @param {ChatRoomMapObjectConfig["Type"]} type
+ * @return {void}
+ */
+/**
+ * @overload
+ * @param {number} x
+ * @param {number} y
+ * @param {ChatRoomMapObjectConfig["Type"]} type
+ * @return {void}
+ */
+/**
+ * @param {[x: number, y: number, type: ChatRoomMapObjectConfig["Type"]] | [index: number, type: ChatRoomMapObjectConfig["Type"]] } args
+ * @return {void}
+ */
+function ChatRoomMapViewSetCellSelection(...args) {
+	const [index, type] = MapManager.Map.unpackIndex(...args);
+	ChatRoomMapViewSelectedObjectIndex = index;
+	ChatRoomMapViewSelectedObjectConfigType = type;
+}
+
+function ChatRoomMapViewClearCellSelection() {
+	ChatRoomMapViewSelectedObjectIndex = null;
+	ChatRoomMapViewSelectedObjectConfigType = null;
+	ChatRoomMapViewHideDialogMenu();
 }
 
 /**
@@ -158,28 +198,112 @@ function ChatRoomMapViewLeave() {
  */
 function ChatRoomMapViewActivate() {
 	MapManager.OnViewActivate();
+	ChatRoomMapViewCreateUI();
+}
+
+function ChatRoomMapViewCreateUI() {
+	if (!ElementWrap("chat-room-map-view-panel")) ChatRoomMapViewPanel = ElementCreate({
+		tag: "div",
+		attributes: { id: "chat-room-map-view-panel" },
+		parent: document.body,
+	});
+
+	if (!ElementWrap("chat-room-map-view-panel-container"))	ChatRoomMapViewPanelContainer = ElementCreate({
+		tag: "div",
+		attributes: { id: "chat-room-map-view-panel-container" },
+		parent: ChatRoomMapViewPanel,
+	});
+
 	ChatRoomMapViewShowEditor();
+	ChatRoomMapViewCreateDialogMenu();
+}
+
+function ChatRoomMapViewCreateDialogMenu() {
+	if (ElementWrap("chat-room-map-view-dialog-menu")) return;
+	ChatRoomMapViewDialogMenu = ElementCreate({
+		tag: "div",
+		classList: ["chat-room-map-view-dialog"],
+		attributes: { id: "chat-room-map-view-dialog-menu", hidden: "true" },
+		children: [
+			{
+				tag: "header",
+				classList: ["chat-room-map-view-dialog-header"],
+				children: [
+					{
+						tag: "div",
+						classList: ["chat-room-map-view-dialog-header-title"],
+						textContent: "Title"
+					},
+					ElementButton.Create(null, () => {
+						ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
+					},
+					{
+						tooltip: "Close",
+					},
+					{
+						button: {
+							classList: ["chat-room-map-view-dialog-header-close-button"],
+							children: [
+								"×"
+							]
+						}
+					}),
+				]
+			},
+			{
+				tag: "div",
+				classList: ["chat-room-map-view-dialog-content"],
+				children: [
+				]
+			},
+			{
+				tag: "footer",
+				classList: ["chat-room-map-view-dialog-footer"],
+				children: [
+				]
+			},
+		],
+		parent: ChatRoomMapViewPanelContainer,
+	});
+}
+
+/**
+ * @param {string} title
+ * @param {HTMLElement} content
+ * @param {HTMLElement} [footer]
+ */
+function ChatRoomMapViewShowDialogMenu(title, content, footer) {
+	if (ElementWrap("chat-room-map-view-dialog-menu")) ChatRoomMapViewCreateDialogMenu();
+	ChatRoomMapViewDialogMenu?.removeAttribute("hidden");
+	const titleElement = ChatRoomMapViewDialogMenu?.querySelector(".chat-room-map-view-dialog-header-title");
+	if (titleElement) titleElement.textContent = title;
+	ChatRoomMapViewDialogMenu?.querySelector(".chat-room-map-view-dialog-content")?.replaceChildren(content);
+	ChatRoomMapViewDialogMenu?.querySelector(".chat-room-map-view-dialog-footer")?.replaceChildren(footer ?? "");
+}
+
+function ChatRoomMapViewHideDialogMenu() {
+	ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
 }
 
 function ChatRoomMapViewShowEditor() {
-	if (ElementWrap("chat-room-map-view-panel")) return;
+	if (ElementWrap("chat-room-map-view-panel-editor")) return;
 
 	ElementCreate({
 		tag: "div",
 		attributes: {
-			id: "chat-room-map-view-panel",
+			id: "chat-room-map-view-panel-editor",
 			"data-is-admin": ChatRoomPlayerIsAdmin() ? "true" : undefined
 		},
 		children: [
 			// search
 			{
 				tag: "div",
-				attributes: { id: "chat-room-map-view-panel-search" },
+				attributes: { id: "chat-room-map-view-panel-editor-search" },
 				children: [
 					{
 						tag: "img",
 						attributes: {
-							id: "chat-room-map-view-panel-search-icon",
+							id: "chat-room-map-view-panel-editor-search-icon",
 							src: "Icons/Search.svg",
 							"aria-hidden": "true",
 						},
@@ -187,7 +311,7 @@ function ChatRoomMapViewShowEditor() {
 					{
 						tag: "input",
 						attributes: {
-							id: "chat-room-map-view-panel-search-input",
+							id: "chat-room-map-view-panel-editor-search-input",
 							type: "search",
 							autofocus: true,
 							autocomplete: "off",
@@ -204,32 +328,32 @@ function ChatRoomMapViewShowEditor() {
 			},
 			{
 				tag: "div",
-				attributes: { id: "chat-room-map-view-panel-content" },
+				attributes: { id: "chat-room-map-view-panel-editor-content" },
 				children: [
 					{
 						tag: "div",
-						attributes: { id: "chat-room-map-view-panel-buttons-list", role: "group" },
+						attributes: { id: "chat-room-map-view-panel-editor-buttons-list", role: "group" },
 						children: [],
 					},
 					{
 						tag: "div",
-						attributes: { id: "chat-room-map-view-panel-items"},
+						attributes: { id: "chat-room-map-view-panel-editor-items"},
 						children: [
-							ElementCreateRadioButtonGroup("chat-room-map-view-panel-items-grid",
+							ElementCreateRadioButtonGroup("chat-room-map-view-panel-editor-items-grid",
 								() => {},
 								"",
 								[]
 							),
 							{
 								"tag": "div",
-								"attributes": { id: "chat-room-map-view-panel-recent-items" },
+								"attributes": { id: "chat-room-map-view-panel-editor-recent-items" },
 								children: [
 									{
 										"tag": "div",
-										"attributes": { id: "chat-room-map-view-panel-recent-items-label"},
+										"attributes": { id: "chat-room-map-view-panel-editor-recent-items-label"},
 										children: [TextGet("ChatRoomMapViewRecentItemsLabel")]
 									},
-									ElementCreateRadioButtonGroup("chat-room-map-view-panel-recent-items-grid",
+									ElementCreateRadioButtonGroup("chat-room-map-view-panel-editor-recent-items-grid",
 										() => {},
 										"",
 										[]
@@ -238,7 +362,7 @@ function ChatRoomMapViewShowEditor() {
 							},
 							{
 								"tag": "div",
-								"attributes": { id: "chat-room-map-view-panel-selection"  },
+								"attributes": { id: "chat-room-map-view-panel-editor-selection"  },
 								children: []
 							}
 						]
@@ -247,7 +371,7 @@ function ChatRoomMapViewShowEditor() {
 				],
 			},
 		],
-		parent: document.body,
+		parent: ChatRoomMapViewPanelContainer,
 	});
 	ChatRoomMapViewReloadEditorPanel();
 	ChatRoomMapViewResize(true);
@@ -271,7 +395,7 @@ function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
 	} else if (ChatRoomMapViewIsChatRoomMapEffect(item)) {
 		ChatRoomMapViewEditSubMode = "";
 	}
-	document.getElementById("chat-room-map-view-panel-recent-items-grid")?.setAttribute("value", item.ID, );
+	document.getElementById("chat-room-map-view-panel-editor-recent-items-grid")?.setAttribute("value", item.ID, );
 	if (updateRecent) {
 		Player.RecentlyUsedMapElements = [
 			item,
@@ -281,7 +405,7 @@ function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
 		ChatRoomMapViewReloadEditorPanel(true);
 		return;
 	}
-	document.getElementById("chat-room-map-view-panel-selection")?.replaceChildren?.(...ChatRoomMapViewGetSelection());
+	document.getElementById("chat-room-map-view-panel-editor-selection")?.replaceChildren?.(...ChatRoomMapViewGetSelection());
 }
 
 /**
@@ -292,14 +416,14 @@ function ChatRoomMapViewSetSelection(item, type, updateRecent=true) {
 function ChatRoomMapViewReloadEditorPanel(selectionOnly=false, search="") {
 	if (search != null) ChatRoomMapViewLastSearch = search;
 
-	document.getElementById("chat-room-map-view-panel-recent-items-grid")?.replaceChildren?.(...ChatRoomMapViewGetRecentItems());
-	document.getElementById("chat-room-map-view-panel-selection")?.replaceChildren?.(...ChatRoomMapViewGetSelection());
+	document.getElementById("chat-room-map-view-panel-editor-recent-items-grid")?.replaceChildren?.(...ChatRoomMapViewGetRecentItems());
+	document.getElementById("chat-room-map-view-panel-editor-selection")?.replaceChildren?.(...ChatRoomMapViewGetSelection());
 	if (selectionOnly) return;
 
-	document.getElementById("chat-room-map-view-panel-items-grid")?.replaceChildren?.(...ChatRoomMapViewGetItems(search));
-	document.getElementById("chat-room-map-view-panel-buttons-list")?.replaceChildren?.(...ChatRoomMapViewGetButtons());
+	document.getElementById("chat-room-map-view-panel-editor-items-grid")?.replaceChildren?.(...ChatRoomMapViewGetItems(search));
+	document.getElementById("chat-room-map-view-panel-editor-buttons-list")?.replaceChildren?.(...ChatRoomMapViewGetButtons());
 
-	const panel = document.getElementById("chat-room-map-view-panel");
+	const panel = document.getElementById("chat-room-map-view-panel-editor");
 	if (panel == null) return;
 
 	if (ChatRoomMapViewEditMode !== "") {
@@ -669,7 +793,8 @@ function ChatRoomMapViewGetRecentItems() {
 
 /** @type {ScreenResizeHandler} */
 function ChatRoomMapViewResize() {
-	ElementPositionFixed("chat-room-map-view-panel", 0, 0, 300, 800);
+	if (ElementWrap("chat-room-map-view-panel-editor")) ElementPositionFixed("chat-room-map-view-panel-editor", 0, 0, 300, 800);
+	if (ElementWrap("chat-room-map-view-panel")) ElementPositionFixed("chat-room-map-view-panel", 0, 0, 1000, 1000);
 }
 
 /**
@@ -677,10 +802,10 @@ function ChatRoomMapViewResize() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDeactivate() {
-	ChatRoomMapViewDestroyEditor();
+	ChatRoomMapViewDestroyElements();
 }
 
-function ChatRoomMapViewDestroyEditor() {
+function ChatRoomMapViewDestroyElements() {
 	document.removeEventListener("blur", ChatRoomMapViewBlur);
 	if (ElementWrap("chat-room-map-view-panel")) {
 		ElementRemove("chat-room-map-view-panel");
@@ -1605,7 +1730,7 @@ function ChatRoomMapViewDraw() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDrawUi() {
-	ChatRoomMapViewShowEditor();
+	ChatRoomMapViewCreateUI();
 
 	// Admins can grant themselves super powers (teleport, far hearing, etc.)
 	if (ChatRoomPlayerIsAdmin())
@@ -1778,8 +1903,9 @@ function ChatRoomMapViewKeyDown(event) {
 
 	// Nothing to do if a character dialog is open
 	if (CurrentCharacter != null) return false;
-	if (document.activeElement === ElementWrap("InputChat")
-		|| document.activeElement === ElementWrap("chat-room-map-view-panel-search-input")) return false;
+	if (document.activeElement && (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName) ||
+		document.activeElement === ElementWrap("InputChat")
+		|| document.activeElement === ElementWrap("chat-room-map-view-panel-editor-search-input"))) return false;
 
 	const move = CommonKeyMove(event);
 	if (!move) return false;
@@ -1906,6 +2032,12 @@ function ChatRoomMapViewClick() {
 		ChatRoomFocusCharacter(ChatRoomMapViewFocusedCharacter);
 
 	}
+
+	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
+	if (!pos) return;
+
+	// If we are in edit mode, we can change the tile or object
+	MapCellClick(pos.X, pos.Y);
 }
 
 /**

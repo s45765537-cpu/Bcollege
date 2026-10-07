@@ -6,7 +6,7 @@
  * @param {number} frames
  * @param {number} duration - in ms
  * @param {boolean} reverse - TRUE for reverse, totalFramesCount to 1
- * @returns {(X: number, Y: number) => string}
+ * @returns {ChatRoomMapObject["BuildImageName"]}
  */
 function ChatRoomMapViewCreateAnimation(baseName, frames, duration = 2000, reverse = false, ) {
 	return function(X, Y) {
@@ -27,7 +27,7 @@ function ChatRoomMapViewCreateAnimation(baseName, frames, duration = 2000, rever
  * To prevent repeating the same logic, we create a function that returns a function
  * @param {ChatRoomMapDirection} direction
  * @param {number} speed - how fast to trigger, in ms
- * @returns {() => void}
+ * @returns {ChatRoomMapObject["OnEnter"]}
  */
 function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 	return function () {
@@ -36,6 +36,38 @@ function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 		setTimeout(function() {
 			if (Player.X == x && Player.Y == y) ChatRoomMapViewMove(direction, true);
 		}, speed);
+	};
+}
+
+/**
+ * To prevent repeating the same logic, we create a function that returns a function
+ * @param {string} name - Sign Name
+ * @returns {ChatRoomMapObject["OnClick"]}
+ */
+function ChatRoomMapViewCreateOnClickSignLogic(name) {
+	return (x, y) => {
+		ChatRoomMapViewSetCellSelection(x, y, "Sign");
+		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
+			{
+				tag: ChatRoomPlayerIsAdmin() ? "textarea" : "div",
+				classList: ["chat-room-map-view-dialog-content-text"],
+				attributes: {
+					maxlength: "150",
+					placeholder: "Type sign message here..."
+				},
+				children: [
+					MapManager.Map.getObjectConfig(x, y)?.Text || ""
+				],
+				eventListeners: {
+					"input": function() {
+						if (!ChatRoomPlayerIsAdmin()) return;
+						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						signData.Text = /** @type {HTMLTextAreaElement} */(this).value;
+						MapManager.Map.setObjectConfig(x, y, signData);
+					}
+				}
+			}
+		));
 	};
 }
 
@@ -155,6 +187,15 @@ const AssetsMapDataTiles = [
 	{ ID: 580, Type: "Floor", Style: "CheckerCarpetBrown" },
 	{ ID: 581, Type: "Floor", Style: "CheckerCarpetBlack" },
 
+	{ ID: 590, Type: "Floor", Style: "SlimeGreen"},
+	{ ID: 591, Type: "Floor", Style: "SlimePink" },
+	{ ID: 592, Type: "Floor", Style: "SlimeRed" },
+	{ ID: 593, Type: "Floor", Style: "SlimeBlue" },
+	{ ID: 594, Type: "Floor", Style: "HoneyOrange" },
+	{ ID: 595, Type: "Floor", Style: "HoneyRed" },
+	{ ID: 596, Type: "Floor", Style: "HoneyPurple" },
+	{ ID: 597, Type: "Floor", Style: "HoneyBlue" },
+
 	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true, CanEnter: () => false, },
 	{ ID: 1020, Type: "Wall", Style: "Japanese", BlockVision: true, CanEnter: () => false, },
 	{ ID: 1030, Type: "Wall", Style: "Stone", BlockVision: true, CanEnter: () => false, },
@@ -216,6 +257,16 @@ const AssetsMapDataTiles = [
 	{ ID: 1561, Type: "Wall", Style: "TilePink", BlockVision: true, CanEnter: () => false, },
 	{ ID: 1562, Type: "Wall", Style: "TileLightBlue", BlockVision: true, CanEnter: () => false, },
 	{ ID: 1563, Type: "Wall", Style: "TileBlack", BlockVision: true, CanEnter: () => false, },
+
+	{ ID: 1580, Type: "Wall", Style: "SlimeGreen", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1581, Type: "Wall", Style: "SlimePink", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1582, Type: "Wall", Style: "SlimeRed", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1583, Type: "Wall", Style: "SlimeBlue", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1584, Type: "Wall", Style: "HoneyOrange", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1585, Type: "Wall", Style: "HoneyRed", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1586, Type: "Wall", Style: "HoneyPurple", BlockVision: true, CanEnter: () => false, },
+	{ ID: 1587, Type: "Wall", Style: "HoneyBlue", BlockVision: true, CanEnter: () => false, },
+
 
 	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
@@ -655,7 +706,7 @@ const AssetsMapDataObjects = [
 	{ ID: 1401, Type: "ABDL", Style: "BluePotty", Top: 0, Height: 1, AssetName: "Potty", AssetGroup: "ItemDevices" },
 	{ ID: 1402, Type: "ABDL", Style: "ChangingTable", Top: -1, Height: 2, AssetName: "ChangingTable", AssetGroup: "ItemDevices" },
 
-	{ ID: 2000, Type: "FloorObstacle", Style: "Blank", CanEnter: () => false, },
+	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 2004, Type: "FloorObstacle", Style: "Stalagmite", Top: -0.125, Height: 1, CanEnter: () => false, },
 	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125, CanEnter: () => false, },
 	{ ID: 2006, Type: "FloorObstacle", Style: "GoldStones", Top: 0.10, Left: 0.25, Height: 0.5, Width: 0.5, CanEnter: () => false, },
@@ -796,6 +847,10 @@ const AssetsMapDataObjects = [
 		OnEnter: ChatRoomMapViewCreateOnEnterConveyorLogic("North", 200),
 		CanEnter: function(direction) { return direction !== "South"; }
 	},
+	{ ID: 3520, Type: "Functional", Style: "SignWood", OnClick: ChatRoomMapViewCreateOnClickSignLogic("Wooden Sign"),  Top: -0.25},
+	{ ID: 3521, Type: "Functional", Style: "SignWoodWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false,Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Wooden Sign")},
+	{ ID: 3522, Type: "Functional", Style: "SignMetal", OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign"),  Top: -0.25},
+	{ ID: 3523, Type: "Functional", Style: "SignMetalWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign")},
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },

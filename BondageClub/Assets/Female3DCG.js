@@ -44662,8 +44662,6 @@ var AssetFemale3DCG = [
 				Block: [
 					"ItemNipples",
 					"ItemNipplesPiercings",
-					"ItemVulva",
-					"ItemVulvaPiercings",
 					"ItemButt",
 					"ItemHands",
 					"ItemHandheld",
