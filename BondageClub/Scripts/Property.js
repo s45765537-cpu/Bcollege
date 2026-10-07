@@ -1038,8 +1038,8 @@ var PropertyData = {
 					const value = this.compressNumberRecord(prop, asset, defaults);
 					return value ? { [this.name]: value } : undefined;
 				} else {
-					// @ts-expect-error: Remove as of R134Alpha
-					return { [this.name]: value };
+					// Remove as of R134Alpha
+					return { [this.name]: /** @type {never} */(prop) };
 				}
 			},
 			decompress(prop, { asset }) {
@@ -1113,7 +1113,6 @@ var PropertyData = {
 				});
 				return PropertyDataEntry.unionShallowObjects(propOjbects);
 			},
-			// @ts-expect-error: Remove the `!_ItemPropertiesR134Compression` branch as of R134Alpha
 			compress(prop, { asset }, defaults) {
 				if (_ItemPropertiesR134Compression) {
 					/** @type {Partial<Record<LayerName, number>>} */
@@ -1126,7 +1125,8 @@ var PropertyData = {
 						return value ? { [this.name]: value } : undefined;
 					}
 				} else {
-					return { [this.name]: prop };
+					// Remove the `!_ItemPropertiesR134Compression` branch as of R134Alpha
+					return { [this.name]: /** @type {never} */(prop) };
 				}
 			},
 			decompress(prop, { asset }) {
