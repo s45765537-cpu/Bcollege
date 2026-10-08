@@ -1354,6 +1354,8 @@ function CommonStringSubstitute(msg, substitutions) {
 		return typeof replacer === "function" ? CommonStringReplacer(replacer, replacement) : () => replacement;
 	}
 
+	// XXX: this is a bit jank, because regexes don't obey a length like that
+	substitutions = substitutions.sort((a, b) => b[0].toString().length - a[0].toString().length);
 	for (const [tag, subst, replacer] of substitutions) {
 		let repl = makeReplacer(replacer, subst);
 		msg = msg.replace(typeof tag === "string" ? new RegExp(tag, "g") : tag, repl);
