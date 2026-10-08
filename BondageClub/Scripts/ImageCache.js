@@ -3,8 +3,9 @@
 /**
  * The main BC image cache.
  *
- * Images requested through it will be saved to memory and backed by the
- * browser's Cache API (bc-images-v1 is the cache name).
+ * Each instance stores a caller-chosen payload in memory (ImageBitmap for 2D,
+ * WebGLTextureData for GL) and is backed by the browser Cache API
+ * (bc-images-v1 is the cache name).
  *
  * It bypasses the /R\d+/ version slug in the BC urls so that files can be
  * kept around even if the URL changes every release; only their mtime matters.
@@ -14,7 +15,7 @@
  * entry; a 200 replaces it and the in-memory payload is rebuilt.
  *
  * When the Cache API isn't available, `browserCache` stays unset and fetches fall
- * through to {@link CommonFetch} as usual.
+ * through to CommonFetch as usual.
  */
 
 /**
@@ -26,7 +27,7 @@
  *
  * @enum {string}
  */
-const CachedImageState = {
+var CachedImageState = {
 	/** Image is known, but not yet cached */
 	UNCACHED: 'uncached',
 	/** Image is currently being loaded */
@@ -253,7 +254,7 @@ class CachedImage {
 	get height() {
 		return this.isLoaded() ? this.data.height : 0;
 	}
-}
+};
 
 /**
  * Persistent browser-level Cache store for images.
@@ -425,7 +426,7 @@ class BrowserCache {
 		this.cache = await caches.open(this.name);
 		return deleted;
 	}
-}
+};
 
 /**
  * The delay between each cache purge event, in milliseconds.
@@ -433,7 +434,7 @@ class BrowserCache {
  * When the cache purges, this value is halved, and used to find any assets that
  * haven't been used. Those are the ones that will be removed.
  */
-let ImageCachePurgeDelay = 1 * MS_PER_HOUR;
+var ImageCachePurgeDelay = 1 * MS_PER_HOUR;
 
 /**
  * The class responsible for loading and caching images
@@ -624,4 +625,9 @@ class ImageCache {
 	 * Get the count of cached images.
 	 */
 	totalImages() { return this.cache.size; }
-}
+};
+
+// Exported for tests
+var CachedImageClass = CachedImage;
+var BrowserCacheClass = BrowserCache;
+var ImageCacheClass = ImageCache;

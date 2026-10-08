@@ -5544,7 +5544,7 @@ declare namespace ImageCache {
 /**
  * A cached image whose data is guaranteed to be available.
  */
-interface LoadedCachedImage<T> extends CachedImage<T> {
+interface LoadedCachedImage<T extends { width: number, height: number }> extends CachedImage<T> {
 	data: T;
 }
 
