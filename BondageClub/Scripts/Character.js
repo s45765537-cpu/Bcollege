@@ -948,7 +948,7 @@ function CharacterGenerateRandomName() {
  *
  * See {@link CharacterDialogPatternSubstitutor} for key-specific substitution logic.
  */
-const CharacterDialogSubstitutionPattern = /\{(\s+)?(?<key>[a-zA-Z0-9_]+)(\s+)?(=(\s+)?(?<value>.+)(\s+)?)?\}/i;
+const CharacterDialogSubstitutionPattern = /\{(\s+)?(?<key>[a-zA-Z0-9_]+)(\s+)?(=(\s+)?(?<value>.+)(\s+)?)?\}/ig;
 
 /**
  * Substitute name and pronoun fields in dialog.
