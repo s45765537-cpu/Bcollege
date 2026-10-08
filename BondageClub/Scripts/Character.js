@@ -1640,6 +1640,11 @@ function CharacterDialogPatternSubstitutor(match, offset, replacement, string, _
 		case "money":
 			// Need some explicit underscore special casing in order to support it as numeric superator here
 			return CharacterMoneyFormat(Number(value.replaceAll("_", "")));
+		case "lover": {
+			const index = Number.parseInt(value, 10);
+			const lover = Player.Lovership[index];
+			return lover ? `${lover.Name} (${lover.MemberNumber ?? "NPC"})` : "";
+		}
 		default:
 			return "";
 	}
