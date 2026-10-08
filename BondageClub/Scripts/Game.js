@@ -141,6 +141,7 @@ function GameFallbackTimer() {
  * @param {number} Timestamp
  */
 function GameRun(Timestamp) {
+	Timestamp ??= 0; // Safety in case it's called from the console without an argument
 	try {
 		GameAnimationFrameId = null;
 
