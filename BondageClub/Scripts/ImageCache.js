@@ -450,7 +450,7 @@ class ImageCache {
 		/** @type {Map<string, CachedImage<T>>} */
 		this.cache = new Map();
 		this.name = name;
-		this.lastPurge = 0;
+		this.lastPurge = CurrentTime;
 		/**
 		 * Persistent byte store, or null if the Cache API isn't usable.
 		 * @type {BrowserCache | null}
