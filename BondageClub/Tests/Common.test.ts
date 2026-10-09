@@ -296,6 +296,18 @@ describe("CommonStringSubstitute", () => {
 			["AGE", "30"],
 		])).toBe("Bob is 30 years old.");
 	});
+
+	it("handles multiple overlapping placeholders", () => {
+		expect(Game.CommonStringSubstitute("NAMEFULL's nickname is NAME.", [
+			["NAME", "Bob"],
+			["NAMEFULL", "Robert Baker"],
+		])).toBe("Robert Baker's nickname is Bob.");
+
+		expect(Game.CommonStringSubstitute("NAMEFULL's nickname is NAME.", [
+			["NAMEFULL", "Robert Baker"],
+			["NAME", "Bob"],
+		])).toBe("Robert Baker's nickname is Bob.");
+	});
 });
 
 describe("CommonArrayJoinPretty", () => {
