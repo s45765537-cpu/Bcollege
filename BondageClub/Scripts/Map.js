@@ -2166,6 +2166,43 @@ function MapDataLoad() {
 }
 
 /**
+ * Get the URL for a given asset.
+ * @param {"Tile" | "Object"} doodadType
+ * @param {string} [type]
+ * @param {string} [style]
+ */
+function MapGetAssetUrl(doodadType, type, style) {
+	/** @type {Record<Exclude<MapDataDoodadType, "Effect">, string>} */
+	const mapping = {
+		Tile: "Tiles",
+		Object: "Objects",
+	};
+	const baseUrl = `Assets/Map/${mapping[doodadType]}/`;
+	if (type && style) {
+		return `${baseUrl}${type}/${style}.png`;
+	}
+	return baseUrl;
+}
+
+/**
+ * Get the asset URL for a given doodad.
+ * @param {ChatRoomMapDoodad} doodad
+ * @return {string | undefined}
+ */
+function MapGetDoodadAssetUrl(doodad) {
+	/** @type {MapDataDoodadType} */
+	let type;
+	if (ChatRoomMapViewIsChatRoomMapTile(doodad)) {
+		type = "Tile";
+	} else if (ChatRoomMapViewIsChatRoomMapObject(doodad)) {
+		type = "Object";
+	} else {
+		return undefined;
+	}
+	return type ? MapGetAssetUrl(type, doodad.Type, doodad.Style) : undefined;
+}
+
+/**
  * @param {number} tileId
  * @returns {ChatRoomMapTile}
  */
