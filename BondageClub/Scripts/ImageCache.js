@@ -3,15 +3,16 @@
 /**
  * The main BC image cache.
  *
- * Images requested through it will be saved to memory (as decoded ImageBitmaps)
- * and backed by the browser Cache API (bc-images-v1 is the cache name).
+ * Each instance stores a caller-chosen payload in memory (ImageBitmap for 2D,
+ * WebGLTextureData for GL) and is backed by the browser Cache API
+ * (bc-images-v1 is the cache name).
  *
  * It bypasses the /R\d+/ version slug in the BC urls so that files can be
  * kept around even if the URL changes every release; only their mtime matters.
  *
  * The stored images are also kept on disk: a hit is returned immediately, but
  * will get revalidated and swapped in in the background; a 304 status keeps the
- * entry; a 200 replaces it and the in-memory bitmap is rebuilt.
+ * entry; a 200 replaces it and the in-memory payload is rebuilt.
  *
  * When the Cache API isn't available, `browserCache` stays unset and fetches fall
  * through to CommonFetch as usual.
@@ -26,7 +27,7 @@
  *
  * @enum {string}
  */
-const CachedImageState = {
+var CachedImageState = {
 	/** Image is known, but not yet cached */
 	UNCACHED: 'uncached',
 	/** Image is currently being loaded */
@@ -39,19 +40,19 @@ const CachedImageState = {
 
 /**
  * Cached image data
- * @template {object} ImageMetadata
+ * @template {{ width: number, height: number }} T
  */
 class CachedImage {
 	/**
 	 * Create a new cached image.
 	 *
-	 * @param {ImageCache<ImageMetadata>} cache - The cache holding the image
+	 * @param {ImageCache<T>} cache - The cache holding the image
 	 * @param {string} url - The URL for the image to cache
 	 */
 	constructor(cache, url) {
 		/**
 		 * Only used to inform the cache of loading progress
-		 * @type {ImageCache<any>}
+		 * @type {ImageCache<T>}
 		 * @private
 		 */
 		this.cache = cache;
@@ -60,12 +61,10 @@ class CachedImage {
 		/** @type {CachedImageState} */
 		this.state = CachedImageState.UNCACHED;
 		/**
-		 * The decoded pixels; `null` until decoding completes.
-		 * @type {ImageBitmap | null}
+		 * The decoded payload; `null` until decoding completes.
+		 * @type {T | null}
 		 */
-		this.bitmap = null;
-		/** @type {ImageMetadata} */
-		this.userData = /** @type {ImageMetadata} */ ({});
+		this.data = null;
 		/** @type {number} */
 		this.lastUsed = 0;
 		/**
@@ -78,94 +77,36 @@ class CachedImage {
 	}
 
 	/**
-	 * Load the cached image if it's not already available
+	 * Load the cached image if it's not already available.
+	 *
+	 * Reports its outcome through the state, and never rejects.
 	 */
-	load() {
+	async _load() {
 		// Ensure there's only one image load in progress
 		if (this.isLoading() || this.isDoneLoading()) return;
 
 		this.state = CachedImageState.LOADING;
-		// _load reports its outcome through the state, and never rejects
-		void this._load(this._generation);
-	}
+		const generation = this._generation;
 
-	/**
-	 * Unload the image from the cache
-	 */
-	unload() {
-		if (this.state === CachedImageState.UNCACHED) return;
-
-		this.cache.imageDidUnload(this);
-
-		// Anything still in flight for this entry must drop its result
-		this._generation += 1;
-
-		if (this.bitmap) {
-			this.bitmap.close();
-			this.bitmap = null;
-		}
-
-		this.userData = /** @type {ImageMetadata} */ ({});
-		this.state = CachedImageState.UNCACHED;
-	}
-
-	/**
-	 * Fetch the raw bytes of the image.
-	 *
-	 * @param {string} url - The URL to fetch
-	 * @param {number} generation - The generation the fetch belongs to
-	 * @returns {Promise<Blob>}
-	 * @private
-	 */
-	async _fetchBlob(url, generation) {
-		const store = this.cache.browserCache;
-		const response = store
-			? await store.fetch(url, {
-				onUpdate: (fresh) => void this._update(generation, fresh),
-			})
-			: await CommonFetch(url);
-		if (!response.ok)
-			throw new Error(`HTTP ${response.status}`);
-		return response.blob();
-	}
-
-	/**
-	 * Decode fetched bytes into a bitmap.
-	 *
-	 * @param {Blob} blob - The image bytes
-	 * @returns {Promise<ImageBitmap>}
-	 * @private
-	 */
-	_decode(blob) {
-		// Keep the alpha channel straight, the same way an <img> upload
-		// would hand it to WebGL; the default would premultiply it and
-		// lose precision on translucent pixels.
-		return createImageBitmap(blob, { premultiplyAlpha: "none" });
-	}
-
-	/**
-	 * Perform the actual load.
-	 *
-	 * @param {number} generation - The generation this load belongs to
-	 * @returns {Promise<void>}
-	 * @private
-	 */
-	async _load(generation) {
 		try {
-			const blob = await this._fetchBlob(this.url, generation);
+			const blob = await this._fetch(generation);
 			if (generation !== this._generation) return;
 
-			const bitmap = await this._decode(blob);
-			if (generation !== this._generation) {
-				bitmap.close();
+			const data = await this._decode(blob, generation);
+			if (data == null) return;
+
+			// A background update already applied newer bytes
+			if (this.state !== CachedImageState.LOADING) {
+				this.cache._dispose?.(data);
 				return;
 			}
 
-			this.bitmap = bitmap;
+			this.data = data;
 			this.state = CachedImageState.LOADED;
 			this.cache._imageStateDidChange(this);
 		} catch (err) {
 			if (generation !== this._generation) return;
+			if (this.state !== CachedImageState.LOADING) return;
 
 			// Load failed. Display the error in the console and mark it as failed.
 			console.error("Failed to load image " + this.url, err);
@@ -175,10 +116,74 @@ class CachedImage {
 	}
 
 	/**
+	 * Unload the image from the cache
+	 */
+	unload() {
+		if (this.state === CachedImageState.UNCACHED) return;
+
+		// Anything still in flight for this entry must drop its result
+		this._generation += 1;
+
+		this._dispose();
+
+		this.state = CachedImageState.UNCACHED;
+	}
+
+	/**
+	 * Release the stored payload, if any.
+	 * @private
+	 */
+	_dispose() {
+		if (this.data) {
+			this.cache._dispose?.(this.data);
+			this.data = null;
+		}
+	}
+
+	/**
+	 * Fetch the raw bytes of the image.
+	 *
+	 * @param {number} generation - The generation the fetch belongs to
+	 * @returns {Promise<Blob>}
+	 * @private
+	 */
+	async _fetch(generation) {
+		const store = this.cache.browserCache;
+		const response = store
+			? await store.fetch(this.url, {
+				onUpdate: (fresh) => void this._update(generation, fresh),
+			})
+			: await CommonFetch(this.url);
+		if (!response.ok)
+			throw new Error(`HTTP ${response.status}`);
+		return response.blob();
+	}
+
+	/**
+	 * Decode fetched bytes into the cache's payload.
+	 *
+	 * If this entry was unloaded while decoding, the result is disposed and
+	 * `null` is returned.
+	 *
+	 * @param {Blob} blob - The image bytes
+	 * @param {number} generation - The generation the decode belongs to
+	 * @returns {Promise<T | null>}
+	 * @private
+	 */
+	async _decode(blob, generation) {
+		const data = await this.cache._decode(blob);
+		if (generation !== this._generation) {
+			this.cache._dispose?.(data);
+			return null;
+		}
+		return data;
+	}
+
+	/**
 	 * Swap in a newer version of the image found by a background revalidation.
 	 *
 	 * Behaves like an unload immediately followed by a load, so that anything
-	 * derived from the old bitmap (GL textures, user data) is rebuilt.
+	 * derived from the old payload is rebuilt.
 	 *
 	 * @param {number} generation - The generation of the load that got updated
 	 * @param {Response} response - The fresh response
@@ -188,18 +193,12 @@ class CachedImage {
 	async _update(generation, response) {
 		try {
 			const blob = await response.blob();
-			const bitmap = await this._decode(blob);
-			// The image has been unloaded, or is no longer the one we fetched
-			if (generation !== this._generation || !this.isLoaded()) {
-				bitmap.close();
-				return;
-			}
+			const data = await this._decode(blob, generation);
+			if (data == null) return;
 
-			this.cache.imageDidUnload(this);
-			this.bitmap.close();
-
-			this.userData = /** @type {ImageMetadata} */ ({});
-			this.bitmap = bitmap;
+			this._dispose();
+			this.data = data;
+			this.state = CachedImageState.LOADED;
 			this.cache._imageStateDidChange(this);
 		} catch (err) {
 			// The version we have is still perfectly usable
@@ -209,7 +208,7 @@ class CachedImage {
 
 	/**
 	 * Is the image an asset image?
-	 * @returns boolean
+	 * @returns {boolean}
 	 */
 	isAsset() { return (this.url.indexOf("Assets") >= 0); }
 
@@ -231,8 +230,8 @@ class CachedImage {
 	/**
 	 * Is the image loaded and ready?
 	 *
-	 * When this is true, `bitmap` is available.
-	 * @returns {this is LoadedCachedImage<ImageMetadata>}
+	 * When this is true, `data` is available.
+	 * @returns {this is LoadedCachedImage<T>}
 	 */
 	isLoaded() { return this.state == CachedImageState.LOADED; }
 
@@ -245,7 +244,7 @@ class CachedImage {
 	 * @returns {number}
 	 */
 	get width() {
-		return this.isLoaded() ? this.bitmap.width : 0;
+		return this.isLoaded() ? this.data.width : 0;
 	}
 
 	/**
@@ -253,9 +252,9 @@ class CachedImage {
 	 * @returns {number}
 	 */
 	get height() {
-		return this.isLoaded() ? this.bitmap.height : 0;
+		return this.isLoaded() ? this.data.height : 0;
 	}
-}
+};
 
 /**
  * Persistent browser-level Cache store for images.
@@ -427,7 +426,7 @@ class BrowserCache {
 		this.cache = await caches.open(this.name);
 		return deleted;
 	}
-}
+};
 
 /**
  * The delay between each cache purge event, in milliseconds.
@@ -435,29 +434,32 @@ class BrowserCache {
  * When the cache purges, this value is halved, and used to find any assets that
  * haven't been used. Those are the ones that will be removed.
  */
-let ImageCachePurgeDelay = 60 * 60 * 1000;
+var ImageCachePurgeDelay = 1 * MS_PER_HOUR;
 
 /**
  * The class responsible for loading and caching images
- * @template {object} ImageMetadata
+ * @template {{ width: number, height: number }} T
  */
 class ImageCache {
 	/**
 	 * @param {string} name
-	 * @param {BrowserCache} browserCache
-	 * @param {ImageCache.Options} [options] Options to use for the image
+	 * @param {BrowserCache | null} browserCache
+	 * @param {ImageCache.Options<T>} options How to turn bytes into a payload, and how to free it
 	 */
 	constructor(name, browserCache, options) {
-		/** @type {Map<string, CachedImage<ImageMetadata>>} */
+		/** @type {Map<string, CachedImage<T>>} */
 		this.cache = new Map();
 		this.name = name;
-		this.lastPurge = 0;
+		this.lastPurge = CurrentTime;
 		/**
 		 * Persistent byte store, or null if the Cache API isn't usable.
 		 * @type {BrowserCache | null}
 		 */
 		this.browserCache = browserCache;
-		this.imageOptions = options;
+		/** @type {(blob: Blob) => T | Promise<T>} */
+		this._decode = options.decode;
+		/** @type {((data: T) => void) | undefined} */
+		this._dispose = options.dispose;
 	}
 
 	/**
@@ -473,7 +475,7 @@ class ImageCache {
 	 * Get a cached image from the cache.
 	 *
 	 * @param {string} url - The URL of the image to lookup
-	 * @returns {CachedImage<ImageMetadata>} The cached image
+	 * @returns {CachedImage<T>} The cached image
 	 */
 	get(url) {
 		let image = this.cache.get(url);
@@ -485,7 +487,7 @@ class ImageCache {
 		image.lastUsed = CommonTime();
 
 		// start loading the image
-		image.load();
+		CommonPromiseCatch(image._load());
 
 		// returns the final image
 		return image;
@@ -505,7 +507,7 @@ class ImageCache {
 
 	/**
 	 * Iterate over all cached images
-	 * @param {(img: CachedImage<ImageMetadata>, key: string, map: Map<string, CachedImage<ImageMetadata>>) => void} callback - The callback to call on each (URL, image) pair
+	 * @param {(img: CachedImage<T>, key: string, map: Map<string, CachedImage<T>>) => void} callback - The callback to call on each (URL, image) pair
 	 */
 	forEach(callback) {
 		this.cache.forEach(callback);
@@ -524,7 +526,7 @@ class ImageCache {
 	/**
 	 * Private function called when an image state changes.
 	 *
-	 * @param {CachedImage<ImageMetadata>} image - The image whose state changed
+	 * @param {CachedImage<T>} image - The image whose state changed
 	 */
 	_imageStateDidChange(image) {
 		// Ignore images that aren't in the cache, which can happen if they get
@@ -532,8 +534,6 @@ class ImageCache {
 		if (!this.cache.has(image.url)) return;
 
 		if (image.state == CachedImageState.LOADED) {
-			this.imageDidLoad(image);
-
 			this._refreshCharactersForImage(image);
 		} else if (image.state == CachedImageState.FAILED) {
 			// CommonFetch already did the retrying, this is final
@@ -542,27 +542,13 @@ class ImageCache {
 	}
 
 	/**
-	 * @param {CachedImage<ImageMetadata>} image - The image whose state changed
-	 */
-	imageDidLoad(image) {
-		this.imageOptions?.loadCallback?.(image);
-	}
-
-	/**
-	 * @param {CachedImage<ImageMetadata>} image - The image whose state changed
-	 */
-	imageDidUnload(image) {
-		this.imageOptions?.unloadCallback?.(image);
-	}
-
-	/**
 	 * Given an image, refresh all characters that would be impacted by its load
 	 *
-	 * @param {CachedImage<ImageMetadata>} img
+	 * @param {CachedImage<T>} img
 	 * @returns {void}
 	 */
 	_refreshCharactersForImage(img) {
-		if (!img) return;
+		if (!img || !img.isAsset()) return;
 
 		// Go through URL so a query string or hash doesn't stick to the file name
 		const path = new URL(img.url, location.href).pathname;
@@ -639,4 +625,9 @@ class ImageCache {
 	 * Get the count of cached images.
 	 */
 	totalImages() { return this.cache.size; }
-}
+};
+
+// Exported for tests
+var CachedImageClass = CachedImage;
+var BrowserCacheClass = BrowserCache;
+var ImageCacheClass = ImageCache;

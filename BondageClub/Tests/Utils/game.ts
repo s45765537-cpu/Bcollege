@@ -64,8 +64,28 @@ const postVMMocks = {
 	},
 };
 
+// Defined as constants in Common.js
+const MS_PER_SEC = 1000;
+const MS_PER_MIN = 60 * MS_PER_SEC; // 60_000
+const MS_PER_HOUR = 60 * MS_PER_MIN; // 3_600_000
+const MS_PER_DAY = 24 * MS_PER_HOUR; // 86_400_000
+const MS_PER_WEEK = 7 * MS_PER_DAY; // 604_800_000
+const MS_PER_YEAR = 365 * MS_PER_DAY; // 31_536_000_000
+const FETCH_MAX_RETRIES = 10;
+
+const CONSTANTS = {
+	MS_PER_SEC,
+	MS_PER_MIN,
+	MS_PER_HOUR,
+	MS_PER_DAY,
+	MS_PER_WEEK,
+	MS_PER_YEAR,
+	FETCH_MAX_RETRIES,
+}
+
 const _Game = {
 	...global,
+	...CONSTANTS,
 	window: window,
 	document: document,
 	console: console,
