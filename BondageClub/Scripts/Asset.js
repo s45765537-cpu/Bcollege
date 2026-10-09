@@ -69,6 +69,12 @@ function AssetGroupAdd(Family, GroupDef) {
 	const AllowNone = typeof GroupDef.AllowNone === "boolean" ? GroupDef.AllowNone : true;
 	/** @type {BCColor[]} */
 	const ColorSchema = (GroupDef.Color == null) ? ["Default"] : GroupDef.Color;
+	const poseSource = GroupDef.ParentGroup ?? GroupDef.Group;
+	const BasePose = poseSource === "BodyUpper" ?
+	"BaseUpper" :
+	poseSource === "BodyLower" ?
+	"BaseLower" :
+	"";
 
 	/** @type {AssetGroup} */
 	var A = {
@@ -108,6 +114,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		ArousalZone: (typeof GroupDef.ArousalZone === "string" ? GroupDef.ArousalZone : undefined),
 		ExpressionPrerequisite: GroupDef.ExpressionPrerequisite || [],
 		HasPreviewImages: typeof GroupDef.HasPreviewImages === "boolean" ? GroupDef.HasPreviewImages : AllowNone,
+		BasePose: BasePose,
 		/** @type {() => this is AssetAppearanceGroup} */
 		IsAppearance() { return this.Category === "Appearance"; },
 		/** @type {() => this is AssetItemGroup} */
@@ -1183,6 +1190,24 @@ function AssetGroupGet(Family, Group) {
  */
 function AssetGroupIsHideable(group) {
 	return group.IsItem() || group.IsAppearance() && group.AllowNone;
+}
+
+/**
+ * Parse an asset-first migrated root folder segment (`AssetName-GroupName`).
+ * Asset names may contain hyphens, so the split is the rightmost suffix that names a real group.
+ * @param {string} rootSegment - The folder segment to parse
+ * @returns {{ assetName: string, groupName: AssetGroupName } | null} - The asset and group, or `null` when the segment is not a migrated root
+ */
+function AssetParseMigratedRoot(rootSegment) {
+	for (let i = rootSegment.length - 1; i > 0; i--) {
+		if (rootSegment[i] !== "-") continue;
+		const groupCandidate = rootSegment.slice(i + 1);
+		if (!AssetGroupGet("Female3DCG", /** @type {AssetGroupName} */ (groupCandidate))) continue;
+		const assetName = rootSegment.slice(0, i);
+		if (!assetName) return null;
+		return { assetName, groupName: /** @type {AssetGroupName} */ (groupCandidate) };
+	}
+	return null;
 }
 
 /**

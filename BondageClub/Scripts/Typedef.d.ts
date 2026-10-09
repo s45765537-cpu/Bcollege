@@ -1172,6 +1172,7 @@ interface AssetGroup {
 	readonly InheritColor: AssetGroupName | null;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
+	readonly BasePose: AssetPoseName | "";
 	// FIXME: Unused?
 	readonly Reposition?: {
 		Group?: string;
