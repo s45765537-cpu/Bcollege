@@ -944,11 +944,11 @@ function CharacterGenerateRandomName() {
 }
 
 /**
- * An expression representing `{foo=bar}`-type of patterns.
+ * An expression representing `{foo=bar}`-type and `{foo}`-type of patterns.
  *
  * See {@link CharacterDialogPatternSubstitutor} for key-specific substitution logic.
  */
-const CharacterDialogSubstitutionPattern = /\{(\s+)?(?<key>[a-zA-Z0-9_])(\s+)?=(\s+)?(?<value>.+)(\s+)?\}/i;
+const CharacterDialogSubstitutionPattern = /\{(\s+)?(?<key>[a-zA-Z0-9_]+)(\s+)?(=(\s+)?(?<value>.+)(\s+)?)?\}/ig;
 
 /**
  * Substitute name and pronoun fields in dialog.
@@ -1625,21 +1625,48 @@ var CharacterMoneyFactor = 1.0;
  */
 function CharacterDialogPatternSubstitutor(match, offset, replacement, string, _groups) {
 	const { key: keyUnparsed, value: valueUnparsed } = /** @type {{ key?: string, value?: string }} */(_groups ?? {});
-	if (!keyUnparsed || !valueUnparsed) {
+
+	if (!keyUnparsed) {
 		return "";
+	}
+	const key = keyUnparsed.toLowerCase();
+
+	// `{foo}`-type patterns
+	switch (key) {
+		case "owner": {
+			const name = Player.OwnerName();
+			switch (Player.IsOwned()) {
+				case "ggts":
+					return `${name} (GGTS)`;
+				case "npc":
+					return `${name} (NPC)`;
+				case "online":
+					return `${name} (${Player.OwnerNumber()})`;
+				default:
+					return "";
+			}
+		}
 	}
 
 	// Remove surrounding quotation marks
+	if (!valueUnparsed) {
+		return "";
+	}
 	const value = (
 		(valueUnparsed.startsWith("'") && valueUnparsed.endsWith("'"))
 		|| (valueUnparsed.startsWith('"') && valueUnparsed.endsWith('"'))
 	) ? valueUnparsed.slice(1, valueUnparsed.length - 1) : valueUnparsed;
-	const key = keyUnparsed.toLowerCase();
 
+	// `{foo=bar}`-type patterns
 	switch (key) {
 		case "money":
 			// Need some explicit underscore special casing in order to support it as numeric superator here
 			return CharacterMoneyFormat(Number(value.replaceAll("_", "")));
+		case "lover": {
+			const index = Number.parseInt(value, 10);
+			const lover = Player.Lovership[index];
+			return lover ? `${lover.Name} (${lover.MemberNumber ?? "NPC"})` : "";
+		}
 		default:
 			return "";
 	}

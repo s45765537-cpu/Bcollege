@@ -1358,7 +1358,7 @@ function CommonStringSubstitute(msg, substitutions) {
 	substitutions = substitutions.sort((a, b) => b[0].toString().length - a[0].toString().length);
 	for (const [tag, subst, replacer] of substitutions) {
 		let repl = makeReplacer(replacer, subst);
-		msg = msg.replace(typeof tag === "string" ? new RegExp(tag, "g") : tag, repl);
+		msg = msg.replaceAll(typeof tag === "string" ? new RegExp(tag, "g") : tag, repl);
 	}
 	return msg;
 }
