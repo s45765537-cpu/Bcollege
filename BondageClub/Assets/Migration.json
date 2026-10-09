@@ -1,0 +1,69 @@
+{
+	"version": 1,
+	"assets": {
+		"FlatSmall": {
+			"migratedAt": "2026-10-09T15:03:32.960Z",
+			"groups": [
+				"ArmsLeft",
+				"ArmsRight",
+				"BodyUpper",
+				"HandsLeft",
+				"HandsRight"
+			]
+		},
+		"FlatMedium": {
+			"migratedAt": "2026-10-09T15:03:32.960Z",
+			"groups": [
+				"ArmsLeft",
+				"ArmsRight",
+				"BodyUpper",
+				"HandsLeft",
+				"HandsRight"
+			]
+		},
+		"Small": {
+			"migratedAt": "2026-10-09T15:03:32.960Z",
+			"groups": [
+				"ArmsLeft",
+				"ArmsRight",
+				"BodyLower",
+				"BodyUpper",
+				"HandsLeft",
+				"HandsRight"
+			]
+		},
+		"Normal": {
+			"migratedAt": "2026-10-09T15:03:32.960Z",
+			"groups": [
+				"ArmsLeft",
+				"ArmsRight",
+				"BodyLower",
+				"BodyUpper",
+				"HandsLeft",
+				"HandsRight"
+			]
+		},
+		"Large": {
+			"migratedAt": "2026-10-09T15:03:32.960Z",
+			"groups": [
+				"ArmsLeft",
+				"ArmsRight",
+				"BodyLower",
+				"BodyUpper",
+				"HandsLeft",
+				"HandsRight"
+			]
+		},
+		"XLarge": {
+			"migratedAt": "2026-10-09T15:03:32.960Z",
+			"groups": [
+				"ArmsLeft",
+				"ArmsRight",
+				"BodyLower",
+				"BodyUpper",
+				"HandsLeft",
+				"HandsRight"
+			]
+		}
+	}
+}
