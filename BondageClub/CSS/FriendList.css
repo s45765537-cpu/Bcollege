@@ -399,7 +399,7 @@
 }
 
 .friend-list-beep-chat-send {
-	width: min(10dvh, 5dvw);
+	width: min(12dvh, 6dvw);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -552,8 +552,8 @@
 }
 
 .friend-list-beep-chat-toolbar-btn {
-	width: min(3.5dvh, 1.75rem);
-	height: min(3.5dvh, 1.75rem);
+	width: 1.15em;
+	height: 1.15em;
 }
 
 .friend-list-beep-chat-toolbar-btn:not([aria-disabled="true"]):hover {
@@ -763,8 +763,9 @@
 }
 
 .friend-list-beep-chat-close {
-	height: var(--icon-size);
-	width: var(--icon-size);
+	/* Match the .friend-list-beep-title font size */
+	height: min(86px, calc(1.1 * 1.15em));
+	width: min(86px, calc(1.1 * 1.15em));
 }
 
 .friend-list-beep-chat-input-row {
@@ -772,6 +773,10 @@
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
+}
+
+#friend-list-beep-chat-toggle-room-label {
+	user-select: none;
 }
 
 .friend-list-beep-chat-toggle .button-label {
@@ -859,6 +864,7 @@ span.friend-list-beep-unread sup {
 .friend-list-beep-chat-sender {
 	font-weight: bold;
 	text-shadow: 0.05em 0.05em #aaa;
+	user-select: all;
 }
 
 .friend-list-beep-title {
