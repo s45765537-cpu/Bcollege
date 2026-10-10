@@ -208,7 +208,10 @@ const E = /** @type {const} */ ({
 	HideRestraints: "HideRestraints",
 
 	// #region Locks
-	/** Marks the item as being some kind of lock. @todo not renamed because layers usually have that name */
+	/**
+	 * Marks the item as being some kind of lock.
+	 * @todo not renamed because layers usually have that name
+	 */
 	Lock: "Lock",
 	/** Disables the item from being lock-picked by its wearer. */
 	NotSelfPickable: "NotSelfPickable",
@@ -75174,7 +75177,8 @@ var AssetFemale3DCG = [
 ];
 
 // #region Poses
-/** 3D Custom Girl based pose
+/**
+ * 3D Custom Girl based pose
  * @type {Pose[]}
  */
 var PoseFemale3DCG = [

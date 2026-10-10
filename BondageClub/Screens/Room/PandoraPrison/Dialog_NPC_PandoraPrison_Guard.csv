@@ -50,7 +50,7 @@ IntroRestrained0,,,(A guard steps inside and looks at your bondage.)  Prisoner D
 10,20,(Listen to her.),"First thing first, I need to secure your restraints.  Don't give me a hard time.",,
 20,30,Can we negotiate?,"No, we cannot.  (She uses many restraints on you and smiles.)  Are you comfy, prisoner?","PlayerRestrain(""LOT"")",
 20,30,Don't even try!  (Give her a hard time.),"(She grumbles, works hard, and uses all her restraints on you.)  There!  Are you comfy, prisoner?","PlayerRestrain(""ALL"")",
-20,30,Very well Miss.  (Make it easy for her.),"Good girl.  (She smiles and uses a few restraints on you.)  Are you comfy, prisoner?","PlayerRestrain("""")",
+20,30,Very well Miss.  (Make it easy for her.),"Good girl.  (She smiles and uses a few restraints on you.)  Are you comfy, prisoner?","PlayerRestrain()",
 30,40,(Stay silent.),"Very well.  I need to go.  Enjoy your struggling, I'll be back later.",,
 30,40,(Nod yes.),"Excellent.  I need to go.  Enjoy your struggling, I'll be back later.",,
 30,40,(Shake your head no.),"Too bad.  I need to go.  Enjoy your struggling, I'll be back later.",,
@@ -92,7 +92,7 @@ ChangeBondageFight,,(Fight her.),,StartFight(),
 ChangeBondageFight,ChangeBondageRestrain,(Let her restrain you.),"(She grabs you and uses all her items on you.  Restraining you tight.)  So, who's the boss around here?","PlayerRestrain(""ALL"")",
 ChangeBondageStart,ChangeBondageRestrain,(Thrash and give her a hard time.),"(She struggles to restrain you but finally uses all her items on you.)  So, who's the boss around here?","PlayerRestrain(""ALL"")",
 ChangeBondageStart,ChangeBondageRestrain,(Make it a little harder to restrain you.),"(She grumbles and restrains you with many of her items.)  So, who's the boss around here?","PlayerRestrain(""LOT"")",
-ChangeBondageStart,ChangeBondageRestrain,(Let her restrain you.),"(She smirks and restrains you with some of her items.)  So, who's the boss around here?","PlayerRestrain("""")",
+ChangeBondageStart,ChangeBondageRestrain,(Let her restrain you.),"(She smirks and restrains you with some of her items.)  So, who's the boss around here?","PlayerRestrain()",
 ChangeBondageRestrain,ChangeBondageLeave,You're the boss.,"Damn right!  I'm leaving, prisoner DialogPlayerName.  I'll be back to check on you later.",,Player.CanTalk()
 ChangeBondageRestrain,ChangeBondageLeave,You'll never be my boss.,"I'm already your boss.  I'm leaving, prisoner DialogPlayerName.  Enjoy your bondage.",,Player.CanTalk()
 ChangeBondageRestrain,ChangeBondageLeave,(Grumble in your gag.),"I'm leaving, prisoner DialogPlayerName.  Enjoy your bondage.",,!Player.CanTalk()
@@ -116,7 +116,7 @@ Strip,StripFight,Try to strip me and I'll crush you!,(She raises her fists.)  Gi
 StripFight,,(Fight her.),,StartFight(),
 StripFight,StripLeave,(Let her strip you.),(She strips you down and restrains you extra tight.)  Aren't you pretty?  You can thank me later.,"PlayerStrip(""ALL"")",
 StripStart,StripLeave,(Let her strip you.),(She strips you down and restrains you with many items.)  Aren't you pretty?  You can thank me later.,"PlayerStrip(""LOT"")",
-StripStart,StripLeave,(Help her to strip you.),(You strip down as she restrains you with some items.)  Aren't you pretty?  You can thank me later.,"PlayerStrip("""")",
+StripStart,StripLeave,(Help her to strip you.),(You strip down as she restrains you with some items.)  Aren't you pretty?  You can thank me later.,"PlayerStrip()",
 StripStart,StripLeave,(Give her a hard time.),(She struggles to strip and restrain you firmly with lots of items.)  Aren't you pretty?  You can thank me later.,"PlayerStrip(""ALL"")",
 StripLeave,,You cannot leave me like that.,"I can and I will.  Enjoy the cold air, I'll be back later.  (She starts to walk away.)",DialogRemove(),Player.CanTalk()
 StripLeave,,(Struggle in your bondage.),"Enjoy the cold air, I'll be back later.  (She starts to walk away.)",DialogRemove(),!Player.CanTalk()

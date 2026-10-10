@@ -75,7 +75,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	constructor() {
 		/**
 		 * @private
-		 * @type {Map<keyof ServerAccountUpdateRequest, any>}
+		 * @type {Map<keyof ServerAccountUpdateRequest, unknown>}
 		 */
 		this.Queue = new Map;
 		/**
@@ -150,7 +150,8 @@ function ServerSetConnected(connected, errorMessage) {
 }
 
 /**
- * @private Use the {@link ServerIsLoggedIn} function instead.
+ * Use the {@link ServerIsLoggedIn} function instead.
+ * @private
  * @type {boolean}
  */
 let ServerIsLoggedIn_ = false;
@@ -219,7 +220,7 @@ function ServerInfo(data) {
  * Callback used when we are disconnected from the server, try to enter the reconnection mode (relog screen) if the
  * user was logged in
  * @param {ServerForceDisconnectMessage} [data] - Error to log
- * @param {boolean} [close=false] - close the transport
+ * @param {boolean} [close] - close the transport
  * @returns {void} - Nothing
  */
 function ServerDisconnect(data, close = false) {
@@ -302,7 +303,7 @@ function ServerHandleRelog(C) {
 var ServerPlayerChatRoom = {
 	/**
 	 * All registered callbacks representing distinct screens that must be checked in order to determine chatroom presence
-	 * @type {((module: ModuleType, screen: ScreenName) => boolean)[]}
+	 * @type {ScreenCheckCallback[]}
 	 */
 	callbacks: [],
 
@@ -678,7 +679,7 @@ function ServerAppearanceBundle(Appearance) {
  * @param {IAssetFamily} AssetFamily - Family of assets used for the appearance array
  * @param {AppearanceBundle} Bundle - Bundled appearance
  * @param {number} [SourceMemberNumber] - Member number of the user who triggered the change
- * @param {boolean} [AppearanceFull=false] - Whether or not the appearance should be assigned to an NPC's AppearanceFull
+ * @param {boolean} [AppearanceFull] - Whether or not the appearance should be assigned to an NPC's AppearanceFull
  * property
  * @returns {boolean} - Whether or not the appearance bundle update contained invalid items
  */
@@ -1426,7 +1427,7 @@ var ServerValidation = {
 	 * Private helper to quickly check strings
 	 * @param {number} maxLength
 	 * @param {string} defaultValue
-	 * @returns {(arg: any) => string}
+	 * @returns {(arg: unknown) => string}
 	 */
 	isString(maxLength, defaultValue) {
 		return (arg) => {
@@ -1437,12 +1438,12 @@ var ServerValidation = {
 	/**
 	 * Private helper to quickly check strings
 	 * @param {number} maxLength
-	 * @param {string|undefined} defaultValue
-	 * @returns {(arg: any) => string | undefined}
+	 * @param {string | undefined} defaultValue
+	 * @returns {(arg: unknown) => string | undefined}
 	 */
 	isStringOrUndefined(maxLength, defaultValue) {
 		return (arg) => {
-			return this.isString(maxLength, defaultValue)(arg) || typeof arg === "undefined" ? arg : defaultValue;
+			return this.isString(maxLength, defaultValue)(arg) || typeof arg === "undefined" ? /** @type {string | undefined } */ (arg) : defaultValue;
 		};
 	},
 
@@ -1718,7 +1719,7 @@ var ServerAccountDataSyncedValidate = {
 
 /**
  * @param {unknown} arg
- * @return {arg is ChatRoomMapData}
+ * @returns {arg is ChatRoomMapData}
  */
 function ServerIsMapData(arg) {
 	const data = /** @type {ChatRoomMapData} */ (arg);
@@ -1850,8 +1851,8 @@ class ServerJoinError extends ServerError {
  *
  * @template T
  * @param {number} timeout
- * @param {((resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void)} executor
- * @return {Promise<T>}
+ * @param {((resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: Error) => void) => void)} executor
+ * @returns {Promise<T>}
  */
 function ServerPromiseWithTimeout(timeout, executor) {
 	const work = new Promise(executor);
@@ -1869,7 +1870,7 @@ let ServerRoomSearchLastQuery = null;
  * Perform a search query against the server
  * @param {string} queryString
  * @param {Omit<ServerChatRoomSearchRequest, "Query">} options
- * @return {Promise<Result<ServerChatRoomSearchResultResponse, ServerError>>}
+ * @returns {Promise<Result<ServerChatRoomSearchResultResponse, ServerError>>}
  */
 async function ServerRoomSearch(queryString, options) {
 	/** @type {ServerChatRoomSearchRequest} */
@@ -1905,7 +1906,7 @@ let ServerRoomJoinLastQueryTime = 0;
 /**
  * Perform a join query against the server
  * @param {string} roomName
- * @return {Promise<Result<string, ServerError>>}
+ * @returns {Promise<Result<string, ServerError>>}
  */
 async function ServerRoomJoin(roomName) {
 	if (ServerRoomJoinLastQuery === roomName && ServerRoomJoinLastQueryTime + ServerDefaultTimeout > CommonTime()) {

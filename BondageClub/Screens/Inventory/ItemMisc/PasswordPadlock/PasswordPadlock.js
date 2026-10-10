@@ -58,7 +58,7 @@ function InventoryItemMiscPasswordPadlockDrawHook(data, originalFunction) {
  *
  * @param {Character} C
  * @param {Item} item
- * @returns
+ * @returns {void}
  */
 function InventoryItemMiscPasswordPadlockDrawControls(C, item) {
 	item.Property ??= {};
@@ -106,7 +106,7 @@ function InventoryItemMiscPasswordPadlockClickHook(data, originalFunction) {
  *
  * @param {Character} C
  * @param {Item} item
- * @returns
+ * @returns {void}
  */
 function InventoryItemMiscPasswordPadlockControlsClick(C, item) {
 	item.Property ??= {};

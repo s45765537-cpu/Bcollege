@@ -22,10 +22,10 @@ const PreferenceSubscreenScriptsIDs = Object.freeze({
 	table: "preference-scripts-table",
 	helpOverlay: "preference-scripts-help-overlay",
 	/**
-		 * @param {ScriptPermissionProperty} property
-		 * @param {ScriptPermissionLevel} permissionLevel
-		 * @returns {string}
-		 */
+	 * @param {ScriptPermissionProperty} property
+	 * @param {ScriptPermissionLevel} permissionLevel
+	 * @returns {string}
+	 */
 	scriptsCheckboxId: (property, permissionLevel) => `preference-scripts-checkbox-${property}-${permissionLevel}`,
 	/**
 	 * @param {ScriptPermissionProperty} property

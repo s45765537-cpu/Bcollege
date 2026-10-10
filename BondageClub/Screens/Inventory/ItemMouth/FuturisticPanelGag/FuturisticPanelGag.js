@@ -86,7 +86,7 @@ function InventoryItemMouthFuturisticPanelGagSetOptionHook(data, originalFunctio
  * @param {Item} Item - The item in question
  * @param {string} OptionName - The name of the newly choosen option within the `Gag` module
  * @param {boolean} Deflate - Whether the gag is deflated or not
- * @return {void} Nothing
+ * @returns {void} Nothing
  */
 function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, OptionName, Deflate) {
 	const Data = ExtendedItemGetData(Item.Asset, ExtendedArchetype.MODULAR);
@@ -171,7 +171,7 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, pr
  * @param {Character} C - The selected character
  * @param {Item} Item - The item in question
  * @param {boolean} Deflate - Whether this function is triggered by an automatic deflation or not
- * @return {void}
+ * @returns {void}
  */
 function InventoryItemMouthFuturisticPanelGagTrigger(data, C, Item, Deflate) {
 	const module = data.modules[0];

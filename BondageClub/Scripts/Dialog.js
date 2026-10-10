@@ -1,7 +1,8 @@
 // @ts-strict-ignore
 "use strict";
 
-/** The duration temporary status message show up for, in ms
+/**
+ * The duration temporary status message show up for, in ms
  * @type {number}
  */
 var DialogTextDefaultDuration = 5000;
@@ -437,11 +438,11 @@ function DialogCanInteract(C) { return DialogGetCharacter(C).CanInteract(); }
  * Sets a new pose for the given character
  * @param {"Player" | "CurrentCharacter"} C - The character whose pose should be altered.
  * Either the player (value: Player) or the current character (value: CurrentCharacter)
- * @param {null | AssetPoseName} [NewPose=null] - The new pose, the character should take.
+ * @param {null | AssetPoseName} [NewPose] - The new pose, the character should take.
  * Can be omitted to bring the character back to the standing position.
  * @returns {void} - Nothing
  */
-function DialogSetPose(C, NewPose) { PoseSetActive(DialogGetCharacter(C), NewPose || null, true); }
+function DialogSetPose(C, NewPose=null) { PoseSetActive(DialogGetCharacter(C), NewPose || null, true); }
 
 /**
  * Checks, whether a given skill of the player is greater or equal a given value
@@ -1325,7 +1326,7 @@ function DialogAlwaysAllowRestraint() {
  * Checks whether the player can use a remote on the given character and item
  * @param {Character} C - the character that the item is equipped on
  * @param {Item} Item - the item to check for remote usage against
- * @return {VibratorRemoteAvailability} - Returns the status of remote availability: Available, NoRemote, NoLoversRemote, RemotesBlocked, CannotInteract, NoAccess, InvalidItem
+ * @returns {VibratorRemoteAvailability} - Returns the status of remote availability: Available, NoRemote, NoLoversRemote, RemotesBlocked, CannotInteract, NoAccess, InvalidItem
  */
 function DialogCanUseRemoteState(C, Item) {
 	// Can't use remotes if there is no item, or if the item doesn't have the needed effects.
@@ -1388,7 +1389,7 @@ function DialogCanInspectLock(Item) {
  * Builds the possible dialog activity options based on the character settings
  * @param {Character} C - The character for which to build the activity dialog options
  * @param {boolean} reload - Perform a {@link DialogMenu.Reload} hard reset of the active `activities` mode
- * @return {void} - Nothing
+ * @returns {void} - Nothing
  */
 function DialogBuildActivities(C, reload=true) {
 	if (C.FocusGroup == null) {
@@ -1569,7 +1570,7 @@ function DialogInventorySort() {
  * @param {Character} C - The character whose inventory must be built
  * @param {CraftingItem} Craft - The crafting properties of the item
  * @param {Asset} A - The items asset
- * @returns {Boolean} - TRUE if we can use it
+ * @returns {boolean} - TRUE if we can use it
  */
 function DialogCanUseCraftedItem(C, Craft, A) {
 	// Validates the craft asset
@@ -1592,7 +1593,7 @@ function DialogCanUseCraftedItem(C, Craft, A) {
 /**
  * Returns TRUE if the player can use owner locks on the target character
  * @param {Character} target - The target to (potentially) lock
- * @returns {Boolean} - TRUE if the player can use owner locks on the target, FALSE otherwise
+ * @returns {boolean} - TRUE if the player can use owner locks on the target, FALSE otherwise
  */
 function DialogCanUseOwnerLockOn(target) {
 	return target.IsPlayer()
@@ -1603,7 +1604,7 @@ function DialogCanUseOwnerLockOn(target) {
 /**
  * Returns TRUE if the player can use lover locks on the target character
  * @param {Character} target - The target to (potentially) lock
- * @returns {Boolean} - TRUE if the player can use lover locks on the target, FALSE otherwise
+ * @returns {boolean} - TRUE if the player can use lover locks on the target, FALSE otherwise
  */
 function DialogCanUseLoverLockOn(target) {
 	return target.IsPlayer()
@@ -1616,7 +1617,7 @@ function DialogCanUseLoverLockOn(target) {
 /**
  * Returns TRUE if the player can use family locks on the target character
  * @param {Character} target - The target to (potentially) lock
- * @returns {Boolean} - TRUE if the player can use family locks on the target, FALSE otherwise
+ * @returns {boolean} - TRUE if the player can use family locks on the target, FALSE otherwise
  */
 function DialogCanUseFamilyLockOn(target) {
 	return target.IsPlayer()
@@ -1631,8 +1632,8 @@ function DialogCanUseFamilyLockOn(target) {
  * the player's inventory and the character's inventory for that group
  * @param {Character} C - The character whose inventory must be built
  * @param {AssetGroup} focusGroup - The group whose inventory to build
- * @param {boolean} [resetOffset=false] - The offset to be at, if specified.
- * @param {boolean} [locks=false] - If TRUE we build a list of locks instead.
+ * @param {boolean} [resetOffset] - The offset to be at, if specified.
+ * @param {boolean} [locks] - If TRUE we build a list of locks instead.
  * @param {boolean} reload - Perform a {@link DialogMenu.Reload} hard reset of the active `items`, `locking` or `permissions` mode
  * @returns {void} - Nothing
  */
@@ -2849,7 +2850,7 @@ class DialogMenu {
 		this.eventListeners = {
 			/**
 			 * @type {(this: HTMLButtonElement, ev: PointerEvent) => null | string}
-			 * @returns A status message if an _unexpected_ error is encountered and null otherwise
+			 * @returns {string | null} A status message if an _unexpected_ error is encountered and null otherwise
 			 */
 			_ClickButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
@@ -2872,7 +2873,7 @@ class DialogMenu {
 
 			/**
 			 * @type {(this: HTMLButtonElement, ev: PointerEvent) => null | string}
-			 * @returns A status message if an _expected_ error is encountered and null otherwise
+			 * @returns {string | null} A status message if an _expected_ error is encountered and null otherwise
 			 */
 			_ClickDisabledButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
@@ -3329,7 +3330,7 @@ class _DialogFocusMenu extends DialogMenu {
 
 			/**
 			 * @type {(this: HTMLButtonElement, ev: PointerEvent) => null | string}
-			 * @returns A status message if an _unexpected_ error is encountered and null otherwise
+			 * @returns {string | null} A status message if an _unexpected_ error is encountered and null otherwise
 			 */
 			_ClickButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
@@ -3352,7 +3353,7 @@ class _DialogFocusMenu extends DialogMenu {
 
 			/**
 			 * @type {(this: HTMLButtonElement, ev: PointerEvent) => null | string}
-			 * @returns A status message if an _expected_ error is encountered and null otherwise
+			 * @returns {string | null} A status message if an _expected_ error is encountered and null otherwise
 			 */
 			_ClickDisabledButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
@@ -5474,7 +5475,7 @@ function DialogFindPlayer(KeyWord) {
  * @param {string} KeyWord1 - The key word to search for
  * @param {string | null} [KeyWord2] - An optionally given second key word. is only looked for, if specified and the first
  * keyword was not found.
- * @param {boolean} [ReturnPrevious=true] - If specified, returns the previous dialog, if neither of the the two key words were found
+ * @param {boolean} [ReturnPrevious] - If specified, returns the previous dialog, if neither of the the two key words were found
  ns should be searched
  * @returns {string} - The name of a dialog. That can either be the one with the keyword or the previous dialog.
  * An empty string is returned, if neither keyword was found and no previous dialog was given.
@@ -5623,7 +5624,7 @@ var DialogFocusGroup = {
 
 /**
  * Load function for starting the Dialog subscreen.
- * @return {void}
+ * @returns {void}
  */
 function DialogLoad() {
 	if (CurrentCharacter == null) {

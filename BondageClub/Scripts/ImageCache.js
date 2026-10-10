@@ -595,6 +595,7 @@ class ImageCache {
 
 	/**
 	 * Purge all images errored or not used in the last half-purge delay
+	 * @param {boolean} force
 	 */
 	purge(force = false) {
 		// Only perform a purge if the last purge time makes sense, and its delta

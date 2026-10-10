@@ -120,13 +120,25 @@ var KeybindingManager = {
  * Handles registration, updates, serialization, and event handling.
  */
 class KeybindManager {
-	/** @private @type {Map<string, Keybindings.Keybinding>} */
+	/**
+	 * @type {Map<string, Keybindings.Keybinding>}
+	 * @private
+	 */
 	keybindings = new Map();
-	/** @private @type {Map<string, Keybindings.Category>} */
+	/**
+	 * @type {Map<string, Keybindings.Category>}
+	 * @private
+	 */
 	categories = new Map();
-	/** @private @type {Map<string, Keybindings.Context>} */
+	/**
+	 * @type {Map<string, Keybindings.Context>}
+	 * @private
+	 */
 	contexts = new Map();
-	/** @private @type {Map<string, Keybindings.UninitializedKeybinding>} */
+	/**
+	 * @type {Map<string, Keybindings.UninitializedKeybinding>}
+	 * @private
+	 */
 	uninitializedKeybindings = new Map();
 
 	/**
@@ -252,9 +264,9 @@ class KeybindManager {
 
 
 	/**
-	* @param {Keybindings.KeyCombo} combo
-	* @returns
-	*/
+	 * @param {Keybindings.KeyCombo} combo
+	 * @returns {boolean}
+	 */
 	_validateKeyCombo(combo) {
 		if (!combo) return false;
 		if ("key" in combo && "char" in combo) return false;
@@ -357,11 +369,9 @@ class KeybindManager {
 	 * Returns all keybindings.
 	 * Optionally includes uninitialized ones.
 	 *
-	 * @param {{}} [options]
 	 * @returns {Keybindings.Keybinding[]}
 	 */
-	getAllKeybindings(options) {
-		options ??= {};
+	getAllKeybindings() {
 
 		const keybindings = Array.from(this.keybindings.values());
 
@@ -581,7 +591,7 @@ class KeybindManager {
 	 *
 	 * @private
 	 * @param {Keybindings.Keybinding} keybinding
-	 * @return {Keybindings.Keybinding}
+	 * @returns {Keybindings.Keybinding}
 	 */
 	_finishUninitializedKeybinding(keybinding) {
 		const keybindingEntry = this.uninitializedKeybindings.get(keybinding.id);

@@ -312,7 +312,7 @@ function ControllerProcessAxis(axes) {
 	 *
 	 * @param {ControllerAxis} axisId
 	 * @param {(val: number) => void} handler
-	 * @returns
+	 * @returns {void}
 	 */
 	function handleAxis(axisId, handler) {
 		const padAxisId = ControllerAxisMapping[axisId];
@@ -345,7 +345,7 @@ function ControllerProcessAxis(axes) {
 /**
  * Returns TRUE if current screen is a game that handles the controller, sends the input to that screen
  * @param {readonly GamepadButton[]} buttons - The raw button data
- * @return {boolean}
+ * @returns {boolean}
  */
 function ControllerManagedByGame(buttons) {
 

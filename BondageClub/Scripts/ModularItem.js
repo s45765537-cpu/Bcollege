@@ -20,23 +20,23 @@
  *
  * All dialogue for modular items should be added to `Dialog_Player.csv`. To implement a modular item, you need the
  * following dialogue entries:
- * * "<GroupName><AssetName>SelectBase" - This is the text that will be displayed on the module selection screen (e.g.
+ * - "<GroupName><AssetName>SelectBase" - This is the text that will be displayed on the module selection screen (e.g.
  *   `ItemArmsHighSecurityStraitJacketSelectBase` - "Configure Straitjacket")
- * * For each module:
- *   * "<GroupName><AssetName>Select<ModuleName>" - This is the text that will be displayed on the module's subscreen
+ * - For each module:
+ *   - "<GroupName><AssetName>Select<ModuleName>" - This is the text that will be displayed on the module's subscreen
  *     (e.g. `ItemArmsHighSecurityStraitJacketSelectCrotch` - "Configure crotch panel")
- *   * "<GroupName><AssetName>Module<ModuleName>" - This is the text that will be used to describe the module (under
+ *   - "<GroupName><AssetName>Module<ModuleName>" - This is the text that will be used to describe the module (under
  *     the module's button) in the module selection screen (e.g. `ItemArmsHighSecurityStraitJacketModuleCrotch` -
  *     "Crotch Panel")
- * * For each option:
- *   * "<GroupName><AssetName>Option<ModuleKey><OptionNumber>" - This is the text that will be used to describe the
+ * - For each option:
+ *   - "<GroupName><AssetName>Option<ModuleKey><OptionNumber>" - This is the text that will be used to describe the
  *     option (under the option's button) in the module subscreen for the module containing that option (e.g.
  *     `ItemArmsHighSecurityStraitJacketOptionc0` - "No crotch panel")
- * * If the item's chat setting is configured to `PER_MODULE`, you will need a chatroom message for each module,
+ * - If the item's chat setting is configured to `PER_MODULE`, you will need a chatroom message for each module,
  *   which will be sent when that module changes. It should have the format "<GroupName><AssetName>Set<ModuleName>"
  *   (e.g. `ItemArmsHighSecurityStraitJacketSetCrotch` - "SourceCharacter changed the crotch panel on
  *   DestinationCharacter straitjacket")
- * * If the item's chat setting is configured to `PER_OPTION`, you will need a chatroom message for each option, which
+ * - If the item's chat setting is configured to `PER_OPTION`, you will need a chatroom message for each option, which
  *   will be sent when that option is selected. It should have the format
  *   "<GroupName><AssetName>Set<ModuleKey><OptionNumber>" (e.g. `ItemArmsHighSecurityStraitJacketSetc0` -
  *   "SourceCharacter removes the crotch panel from DestinationCharacter straitjacket")
@@ -44,13 +44,13 @@
 
 /**
  * The keyword used for the base menu on modular items
- * @const {string}
+ * @constant {string}
  */
 const ModularItemBase = "Base";
 
 /**
  * A lookup for the modular item configurations for each registered modular item
- * @const
+ * @constant
  * @type {Record<string, ModularItemData>}
  * @see {@link ModularItemData}
  */
@@ -69,7 +69,7 @@ const ModularItemChatSetting = /** @type {const} */ ({
 	PER_OPTION: "default",
 	/**
 	 * The item has one chatroom message per module.
- 	 * Messages for individual options within a module are all the same.
+	 * Messages for individual options within a module are all the same.
 	 */
 	PER_MODULE: "perModule",
 });
@@ -101,8 +101,8 @@ function ModularItemRegister(asset, config) {
 /**
  * Initialize the modular item properties
  * @param {ModularItemData} Data - The item's extended item data
- * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
+ * @param {Item} Item - The item in question
  * @param {boolean} Push - Whether to push to changes to the server
  * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were initialized or not

@@ -4,7 +4,7 @@ var ImportBondageCollegeData = false;
 /**
  * Import the inventory from the Bondage College. Items to import were saved in localstorage previously.
  * @param {Character} C - Character for which to import items to
- * @returns - Nothing
+ * @returns {void} - Nothing
  */
 function ImportBondageCollege(C) {
 

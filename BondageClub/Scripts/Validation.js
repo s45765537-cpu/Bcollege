@@ -127,7 +127,7 @@ function ValidationHasArrayPropertyBeenModified(oldArray, newArray) {
  * @param {Item|null} previousItem - The previous item in the group
  * @param {Item|null} newItem - The new item in the group
  * @param {AppearanceUpdateParameters} params - The appearance update parameters that apply to the diff
- * @return {ItemDiffResolution} - The diff resolution
+ * @returns {ItemDiffResolution} - The diff resolution
  */
 function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sourceMemberNumber}) {
 	let valid = true;
@@ -633,7 +633,7 @@ function ValidationCanRemoveItem(previousItem, params, isSwap) {
  * parameters.
  * @param {Item} item - The item to add or remove
  * @param {AppearanceUpdateParameters} params - The appearance update parameters that apply to the diff
- * @return {boolean} - TRUE if the item can be added or removed based on the appearance update parameters, FALSE
+ * @returns {boolean} - TRUE if the item can be added or removed based on the appearance update parameters, FALSE
  * otherwise
  */
 function ValidationCanAddOrRemoveItem(item, { C, fromOwner, fromLover, fromFamily }) {
@@ -1309,7 +1309,8 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
 
 /**
  * @template O
- * @template {{ [key: string]: (arg: any, C: O) => any }} T
+ * @template Arg
+ * @template {{ [key: string]: (arg: Arg, C: O) => Arg }} T
  * @param {unknown} arg The to-be validated record
  * @param {O} object An extra object to validate with. Passed to the validator as a 2nd argument
  * @param {T} validators A record of validation functions; one for each property in `arg`
@@ -1319,7 +1320,7 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
 function ValidationApplyRecord(arg, object, validators, allowExtraKeys=false) {
 	const properties = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */ (CommonIsObject(arg) ? arg : {});
 
-	const validated = /** @type {[string, any][]} */ (CommonEntries(validators).map(([name, validate]) => {
+	const validated = /** @type {[string, Arg][]} */ (CommonEntries(validators).map(([name, validate]) => {
 		const value = validate(properties[name], object);
 		return [name, value];
 	}));

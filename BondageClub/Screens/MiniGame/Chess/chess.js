@@ -35,7 +35,7 @@ function MiniGameChessStart(Depth, PlayerColor) {
 	 * Evaluates current chess board relative to player
 	 * @param {ChessPiece[][]} chessboard
 	 * @param {ChessPieceColor} color - Players color, either 'b' or 'w'
-	 * @return {number} board value relative to player
+	 * @returns {number} board value relative to player
 	 */
 	function evaluateBoard(chessboard, color) {
 		// Sets the value for each piece using standard piece value
@@ -66,13 +66,13 @@ function MiniGameChessStart(Depth, PlayerColor) {
 
 	/**
 	 * Calculates the best move using Minimax with Alpha Beta Pruning.
-	 * @param {Number} depth - How many moves ahead to evaluate
+	 * @param {number} depth - How many moves ahead to evaluate
 	 * @param {Chess} chessgame - The game to evaluate
 	 * @param {ChessPieceColor} playerColor - Players color, either 'b' or 'w'
-	 * @param {Number} alpha
-	 * @param {Number} beta
-	 * @param {Boolean} isMaximizingPlayer - If current turn is maximizing or minimizing player
-	 * @return {SafePromise<[number, string]>} The best move value, and the best move
+	 * @param {number} alpha
+	 * @param {number} beta
+	 * @param {boolean} isMaximizingPlayer - If current turn is maximizing or minimizing player
+	 * @returns {SafePromise<[number, string]>} The best move value, and the best move
 	 */
 	async function calcBestMove(
 		depth,

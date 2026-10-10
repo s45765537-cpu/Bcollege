@@ -121,7 +121,7 @@ var AudioList = [
  *
  * They get checked in the order they're defined, so be careful where you insert new entries.
  *
- * @type AudioChatAction[]
+ * @type {AudioChatAction[]}
  */
 var AudioActions = [
 	{

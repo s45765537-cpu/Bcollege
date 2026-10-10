@@ -200,8 +200,8 @@ async function FriendListLoad() {
 					},
 					eventListeners: {
 						/**
-						* @this {HTMLInputElement}
-						*/
+						 * @this {HTMLInputElement}
+						 */
 						input: function () {
 							FriendListSearchByProperties(this.value);
 						},
@@ -498,7 +498,7 @@ function FriendListUnload() {
 
 /**
  * @satisfies {ScreenExitHandler}
- * @return {SafePromise<void>}
+ * @returns {SafePromise<void>}
  */
 async function FriendListExit() {
 	const beepTextArea = /** @type {HTMLTextAreaElement} */(document.getElementById(FriendListIDs.beepTextArea));

@@ -14,7 +14,7 @@
 /**
  * An object containing all extended item configurations.
  * @type {ExtendedItemMainConfig}
- * @const
+ * @constant
  */
 var AssetFemale3DCGExtended = {
 	ItemScript: {

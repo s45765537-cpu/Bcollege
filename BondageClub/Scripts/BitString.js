@@ -208,7 +208,7 @@ class BitStringHelper {
 	/**
 	 * The maximum unsigned number which can fit into a given number of bits.
 	 * @param {number} bits
-	 * @return {number}
+	 * @returns {number}
 	 */
 	static maxUnsignedInBits(bits) {
 		return Math.pow(2, bits) - 1;
@@ -217,7 +217,7 @@ class BitStringHelper {
 	/**
 	 * The maximum signed number which can fit into a given number of bits.
 	 * @param {number} bits
-	 * @return {number}
+	 * @returns {number}
 	 */
 	static maxSignedInBits(bits) {
 		if (bits <= 1) {
@@ -229,7 +229,7 @@ class BitStringHelper {
 	/**
 	 * The minimum signed number which can fit into a given number of bits.
 	 * @param {number} bits
-	 * @return {number}
+	 * @returns {number}
 	 */
 	static minSignedInBits(bits) {
 		if (bits === 1) {

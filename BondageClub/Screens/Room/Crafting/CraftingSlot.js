@@ -377,7 +377,7 @@ var CraftingSlots = {
 		/**
 		 * Set the drop target marker
 		 * @type {(this: HTMLLIElement, ev: DragEvent) => void}
-		 * */
+		 */
 		dragenter: function(ev) {
 			const liRect = this.getBoundingClientRect();
 			const hoverDirection = ev.clientX <= (liRect.x + liRect.width / 2) ? "left" : "right";

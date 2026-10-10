@@ -9,7 +9,7 @@ var MaidDrinksCustomerRightTimer = -1;
 var MaidDrinksCustomerLeftVisible = false;
 var MaidDrinksCustomerRightVisible = false;
 var MaidDrinksMaxSequence = 1000;
-/** @type {{ Type: number, Time: number, FadeAt: number? }[]} */
+/** @type {{ Type: number, Time: number, FadeAt?: number }[]} */
 var MaidDrinksMove = [];
 var MaidDrinksLastMoveType = -1;
 var MaidDrinksLastMoveTypeTimer = -1;
@@ -30,7 +30,7 @@ function MaidDrinksGenerateMove(StartTime) {
 	while (Seq < MaidDrinksMaxSequence) {
 
 		// Create a new move to do at a random position
-		MaidDrinksMove[MaidDrinksMove.length] = { Type: Math.floor(Math.random() * 4), Time: CurTimer, FadeAt: null };
+		MaidDrinksMove[MaidDrinksMove.length] = { Type: Math.floor(Math.random() * 4), Time: CurTimer };
 		CurTimer = CurTimer + Math.floor(Math.random() * 800) + 400;
 		Seq++;
 

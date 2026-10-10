@@ -18,7 +18,8 @@ var CharacterAppearanceHeaderTextTime = 0;
  *
  * Must stay valid for as long as the screen is up.
  *
- * @type {string} */
+ * @type {string}
+ */
 var CharacterAppearanceBackup;
 /**
  * Backup of the current appearance; used when canceling out of loading a wardrobe outfit.
@@ -228,7 +229,7 @@ function CharacterAppearanceMustHide(C, GroupName) {
 /**
  * Sets a full random set of items for a character. Only items that do not have the "Random" property set to false will be used.
  * @param {Character} C - The character to dress
- * @param {boolean} [ClothOnly=false] - Defines, if only clothes should be used
+ * @param {boolean} [ClothOnly] - Defines, if only clothes should be used
  * @param {boolean} [refresh] - Whether the character should be refreshed.
  * @returns {void} - Nothing
  */
@@ -460,7 +461,7 @@ function CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord=null) {
  * Builds a filtered and sorted set of appearance layers, each representing a drawable layer of a character's current appearance. Layers
  * that will not be drawn (because their asset is not visible or they do not permit the current asset type) are filtered out at this stage.
  * @param {Character} C - The character to build the layers for
- * @return {Mutable<AssetLayer>[]} - A sorted set of (shallow copied) layers, sorted by layer drawing priority
+ * @returns {Mutable<AssetLayer>[]} - A sorted set of (shallow copied) layers, sorted by layer drawing priority
  */
 function CharacterAppearanceSortLayers(C) {
 	/** @type {Partial<Record<AssetGroupName, Alpha.Data[]>>} */
@@ -784,10 +785,10 @@ function CharacterAppearanceXOffset(C, HeightRatio) {
  * up at the 'ceiling'
  * @param {Character} C - The character to reposition
  * @param {number} HeightRatio - The character's height ratio
- * @param {boolean} [IgnoreUpButton=false] - Whether or not to ignore the up button status
+ * @param {boolean} [IgnoreUpButton] - Whether or not to ignore the up button status
  * @returns {number} - The amounnt to move the character along the Y co-ordinate
  */
-function CharacterAppearanceYOffset(C, HeightRatio, IgnoreUpButton) {
+function CharacterAppearanceYOffset(C, HeightRatio, IgnoreUpButton=false) {
 	let HeightModifier = C.HeightModifier;
 	if (!IgnoreUpButton && CharacterAppearanceForceUpCharacter == C.MemberNumber) {
 		HeightModifier = 0;
@@ -1148,9 +1149,9 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * @param {AssetGroupName} Group - The name of the corresponding groupr for the item
  * @param {Asset|null} ItemAsset - The asset collection of the item to be changed. Passing a `null` is equivalent to removing an item (see {@link InventoryRemove})
  * @param {null | Readonly<ItemColor>} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
- * @param {null | number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
+ * @param {null | number} [DifficultyFactor] - The difficulty, on top of the base asset difficulty, that should be assigned
  * to the item
- * @param {null | number} [ItemMemberNumber=-1] - The member number of the player adding the item - defaults to -1
+ * @param {null | number} [ItemMemberNumber] - The member number of the player adding the item - defaults to -1
  * @returns {Item | null} - Thew newly created item or `undefined` if the asset does not exist
  */
 function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, DifficultyFactor=null, ItemMemberNumber=null) {
@@ -1185,10 +1186,10 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor=null, Difficul
  * Cycle in the appearance assets to find the next item in a group
  * @param {Character} C - The character whose assets are used
  * @param {AssetGroupBodyName} Group - The name of the group to cycle
- * @param {boolean} [Forward=true] - Sets the direction of the cycling
+ * @param {boolean} [Forward] - Sets the direction of the cycling
  * @returns {Asset|null} - The next item to select, or null if there's none applicable
  */
-function CharacterAppearanceNextItem(C, Group, Forward) {
+function CharacterAppearanceNextItem(C, Group, Forward=true) {
 	const Current = InventoryGet(C, Group)?.Asset.Name;
 	const CAA = (CharacterAppearanceGroupedAssets.get(Group) ?? []).filter(a => a.Group.Name == Group && InventoryAllow(C, a, a.Prerequisite, false));
 	if (CAA.length == 0) return null;
@@ -1711,7 +1712,7 @@ function CharacterAppearanceStringify(C) {
 /**
  * Serialize items to JSON, breaking the cyclic link between Item, Asset & Group
  * by serializing that into a single string representing the link.
- * @param {readonly Item[] | Item | any} Item
+ * @param {(readonly Item[]) | Item | any} Item
  * @returns {string}
  */
 function AppearanceItemStringify(Item) {
@@ -1808,7 +1809,7 @@ function CharacterAppearanceResolveAppearance(BaseAppearance, PrevAppearance, Ne
  * @param {Item | undefined} BaseItem - The item before any changes were made
  * @param {Item | undefined} PrevItem - The first item change
  * @param {Item | undefined} NewItem - The second item change
- * @return {Item | null} - The item to keep
+ * @returns {Item | null} - The item to keep
  */
 function CharacterAppearanceResolveItem(BaseItem, PrevItem, NewItem) {
 	if (!BaseItem) {

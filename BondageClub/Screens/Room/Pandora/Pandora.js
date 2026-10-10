@@ -89,8 +89,8 @@ function PandoraDirectionAvailable(Direction) {
 
 /**
  * Draws the Pandora text data
- * @param {Number} Y - The Y position
- * @returns {boolean} - Whether the direction can be accessed
+ * @param {number} Y - The Y position
+ * @returns {void}
  */
 function PandoraDrawData(Y) {
 	if (InfiltrationMission == "CatBurglar") {
@@ -993,7 +993,7 @@ function PandoraRecruitBoost() {
 
 /**
  * Starts the player punishment process and jumps to the punishment Dominatrix
- * @param {Boolean} [FromKidnapper]
+ * @param {boolean} [FromKidnapper]
  * @param {string} [FixIntro]
  * @returns {void} - Nothing
  */
@@ -1575,7 +1575,7 @@ function PandoraPenitentiaryDoActivity(Activity) {
 /**
  * Called from chat room, processes hidden Pandora Prison messages
  * @param {Character} SenderCharacter - The character sending the message
- * @param {String} Interaction - The message sent
+ * @param {string} Interaction - The message sent
  * @returns {void} - Nothing to be used
  */
 function PandoraPenitentiaryHiddenMessage(SenderCharacter, Interaction) {

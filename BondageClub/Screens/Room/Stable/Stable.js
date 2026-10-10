@@ -180,7 +180,7 @@ async function StableTrialTrainerTrainingEnd() {
 
 /**
  * @param {StableFeeType} Fee
- * @returns
+ * @returns {number}
  */
 function StableFeeValue(Fee) {
 	switch (Fee) {
@@ -200,7 +200,7 @@ function StableFeeValue(Fee) {
 
 /**
  * @param {StableFeeType} Fee
- * @returns
+ * @returns {boolean}
  */
 function StableCanPayTheFee(Fee) {
 	let value = StableFeeValue(Fee);

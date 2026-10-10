@@ -3,6 +3,8 @@
 /**
  * Construct an array with X & Y coordinates for the name tag extended item menu.
  * @param {number} Count - The number of buttons
+ * @param {number} X
+ * @param {number} Y
  * @returns {ExtendedItemConfigDrawData<{}>} - The array with X & Y coordinates
  */
 function InventoryItemNeckAccessoriesCollarNameTagGetDrawData(Count, X=1000, Y=400) {

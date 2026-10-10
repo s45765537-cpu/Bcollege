@@ -26,7 +26,7 @@ const LogMaxStringLength = 100;
  * @param {LogNameType[T]} Name - The name of the log
  * @param {T} Group - The name of the log's group
  * @param {number|string[]} [Value] - Value for the log as the time in ms. Is undefined if the value is permanent
- * @param {boolean} [Push=true] - TRUE if we must push the log to the server
+ * @param {boolean} [Push] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
 function LogAdd(Name, Group, Value, Push=true) {
@@ -69,7 +69,7 @@ function LogAdd(Name, Group, Value, Push=true) {
  * @template {LogGroupType} T
  * @param {LogNameType[T] | null | undefined} Name - The name of the log. Pass null or undefined to delete the whole group.
  * @param {T} Group - The name of the log's group
- * @param {boolean} [Push=true] - TRUE if we must push the log to the server
+ * @param {boolean} [Push] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
 function LogDelete(Name, Group, Push) {
@@ -100,7 +100,7 @@ function LogDelete(Name, Group, Push) {
  * @template {LogGroupType} T
  * @param {LogNameType[T]} Name - The name of the log
  * @param {T} Group - The name of the log's group
- * @param {boolean} [Push=true] - TRUE if we must push the log to the server
+ * @param {boolean} [Push] - TRUE if we must push the log to the server
  * @returns {void} - Nothing
  */
 function LogDeleteStarting(Name, Group, Push) {
@@ -340,7 +340,7 @@ function LogLoad(NewLog) {
 
 		if (/** @type {string} */ (log.Name) === "JoinedStable") {
 			// Workaround for the swapped name and group for Stables
-			[log.Name, log.Group] = /** @type {any} */ ([log.Group, log.Name]);
+			[log.Name, log.Group] = /** @type {[LogNameType[LogGroupType], LogGroupType]} */ (/** @type {unknown} */ ([log.Group, log.Name]));
 			needsSync = true;
 		}
 		LogAdd(log.Name, log.Group, log.Value, false);

@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/valid-types */
 // Main variables
 "use strict";
 /** @type {PlayerCharacter} */
@@ -74,7 +75,7 @@ String.prototype.replaceAt=function(index, character) {
  * second item is the generic fallback font family (e.g. sans-serif, serif,
  * etc.)
  * @constant
- * @type {Record<String, [String[], String]>}
+ * @type {Record<GraphicsFontName, [candidates: string[], fallback: string]>}
  */
 const CommonFontStacks = {
 	Arial: [["Arial"], "sans-serif"],
@@ -252,7 +253,7 @@ async function CommonSleep(ms) {
  *
  * @param {() => boolean} func
  * @param {() => boolean} [cancelFunc]
- * @returns
+ * @returns {Promise<boolean>}
  */
 async function CommonWaitFor(func, cancelFunc = () => false) {
 	while (!func()) {
@@ -299,7 +300,7 @@ function CommonRequestRetryDelay(attempt) {
 
 /**
  * @param {string | null} value
- * @returns
+ * @returns {number | null}
  */
 function CommonRequestParseRetryAfter(value) {
 	if (!value) return null;
@@ -550,7 +551,7 @@ function CommonDynamicFunctionParams(FunctionName) {
  * @template {keyof WindowFunctions} T
  * @param {T} FunctionName - The name of the global function to call
  * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
- * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
+ * @returns {Window[T] extends undefined ? (undefined | ReturnType<Window[T]>) : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByName(FunctionName, ...args) {
 	const namespace = /** @type {typeof window} */(globalThis);
@@ -568,7 +569,7 @@ function CommonCallFunctionByName(FunctionName, ...args) {
  * @template {keyof WindowFunctions} T
  * @param {T} FunctionName - The name of the global function to call
  * @param {Parameters<Window[T]>} args - zero or more arguments to be passed to the function (optional)
- * @returns {Window[T] extends undefined ? undefined | ReturnType<Window[T]> : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
+ * @returns {Window[T] extends undefined ? (undefined | ReturnType<Window[T]>) : ReturnType<Window[T]>} - returns the result of the function call, or undefined if the function name isn't valid
  */
 function CommonCallFunctionByNameWarn(FunctionName, ...args) {
 	const namespace = /** @type {typeof window} */(globalThis);
@@ -712,12 +713,14 @@ function CommonTime() {
  * @param {string | undefined} Value
  * @param {{ allowAlpha?: boolean, schema: readonly BCColor[] }} options
  * @returns {Value is BCColor}
- *//**
+ */
+/**
  * @overload
  * @param {string | undefined} Value
  * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
  * @returns {Value is HexColor}
- *//**
+ */
+/**
  * Checks if a given value is a valid HEX color code (optionally with alpha channel)
  * @param {string | undefined} Value - Potential HEX color code
  * @param {null | { allowAlpha?: boolean, schema?: readonly BCColor[] }} [options]
@@ -911,9 +914,9 @@ function CommonColorsEqual(C1, C2) {
 /**
  * Checks whether two arrays are equal. The arrays are considered equal if they have the same length and contain the same items in the same
  * order, as determined by === comparison
- * @template {readonly *[]} T
+ * @template {readonly unknown[]} T
  * @param {T} a1 - The first array to compare
- * @param {readonly *[]} a2 - The second array to compare
+ * @param {readonly unknown[]} a2 - The second array to compare
  * @param {boolean} [ignoreOrder] - Whether to ignore item order when considering equality
  * @returns {a2 is T} - TRUE if both arrays have the same length and contain the same items in the same order, FALSE otherwise
  */
@@ -1005,8 +1008,8 @@ function CommonThrottle(func) {
  * @template {any[]} argsT
  * @template retT
  * @param {(...args: argsT) => retT} func - The function to limit calls of
- * @param {number} [minWait=0] - A lower bound for how long the wait interval can be, 0 by default
- * @param {number} [maxWait=1000] - An upper bound for how long the wait interval can be, 1 second by default
+ * @param {number} [minWait] - A lower bound for how long the wait interval can be, 0 by default
+ * @param {number} [maxWait] - An upper bound for how long the wait interval can be, 1 second by default
  * @returns {(...args: argsT) => retT} - A debounced or throttled version of the function
  */
 function CommonLimitFunction(func, minWait = 0, maxWait = 1000) {
@@ -1326,7 +1329,7 @@ function CommonNoop() {
 
 /**
  * Redirects the address to HTTPS for all production environments, returns the proper heroku server
- * @returns {String} - Returns the proper server to use in production or test
+ * @returns {string} - Returns the proper server to use in production or test
  */
 function CommonGetServer() {
 	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondageeurope") < 0) && (location.href.indexOf("bondage-europe") < 0) && (location.href.indexOf("bondage-asia") < 0)) return "https://bondage-club-server-test.herokuapp.com/";
@@ -1390,7 +1393,7 @@ function CommonStringTitlecase(str) {
  * Censors a string or words in that string based on the player preferences
  * @param {string} S - The string to censor
  * @param {Character & { ChatSettings: ChatSettingsType }} C
- * @returns {String} - The censored string
+ * @returns {string} - The censored string
  */
 function CommonCensor(S, C=Player) {
 
@@ -1444,8 +1447,8 @@ function CommonIsCharacter(value) {
  * @todo JSON serialization will break things like functions, Sets and Maps.
  * @template T
  * @param {T} obj
- * @param {null | ((this: any, key: string, value: any) => any)} [replacer]
  * @param {null | ((this: any, key: string, value: any) => any)} [reviver]
+ * @param {null | ((this: any, key: string, value: any) => any)} [replacer]
  * @returns {T}
  */
 function CommonCloneDeep(obj, reviver=null, replacer=null) {
@@ -1517,7 +1520,7 @@ function CommonKeys(obj) {
 
 /**
  * A {@link Object.entries} variant annotated to return respect literal key types
- * @template {{}} T
+ * @template {object} T
  * @param {T} obj A record with string-based keys
  * @returns {[keyof T, T[keyof T]][]} The key/value pairs in the passed record
  */
@@ -1635,7 +1638,7 @@ function CommonOmit(object, keys) {
 /**
  * Create a copy of the passed record with all specified keys removed
  * @template {keyof RecordType} KeyType
- * @template {{}} RecordType
+ * @template {object} RecordType
  * @param {RecordType} object - The to-be copied record
  * @param {Iterable<KeyType>} keys - The to-be removed keys from the record
  * @returns {Pick<RecordType, KeyType>}
@@ -1711,7 +1714,7 @@ function CommonCycle(value, array, dir) {
  * @param {string} TestURL - The URL to test
  * @param {readonly string[]} Extension - An array containing the valid extensions
  * @returns {boolean}
-*/
+ */
 function CommonURLHasExtension(TestURL, Extension) {
 	if ((TestURL == null) || (typeof TestURL !== "string") || (Extension == null) || !CommonIsArray(Extension)) return false;
 	try {
@@ -1779,7 +1782,7 @@ function CommonObjectIsSubset(subRec, superRec) {
 
 /**
  * Returns the object with keys and values reversed
- * @template {{}} T
+ * @template {object} T
  * @param {T} obj
  * @returns {{ [k in keyof T as T[k]]: k }}
  */
@@ -1814,6 +1817,8 @@ function CommonJSONParse(data) {
  *
  * These keybinds get documented in {@link KeybindingDefaults.DefaultKeybindings}
  * @param {KeyboardEvent} event
+ * @param {boolean} allowArrowKeys
+ * @param {boolean} checkModifiers
  * @returns {"North"|"South"|"West"|"East"|undefined}
  */
 function CommonKeyMove(event, allowArrowKeys = true, checkModifiers=true) {
@@ -2158,7 +2163,8 @@ function CommonStringPartitionReplace(string, replacers) {
 
 /**
  * Escapes any potential regex syntax characters in a string, and returns a new string that can be safely used as a literal pattern for the {@link RegExp} constructor.
- * @license MIT - Copyright (c) 2014-2025 Denis Pushkarev, core-js 3.40.0 - 2025.01.08
+ * @license MIT
+ * @copyright Copyright (c) 2014-2025 Denis Pushkarev, core-js 3.40.0 - 2025.01.08
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
  * @see https://github.com/zloirock/core-js/blob/v3.40.0/packages/core-js/modules/esnext.regexp.escape.js
  * @param S The string to escape.
@@ -2286,7 +2292,7 @@ function ScreenFileGetDialog(npcType, module, screen) {
  * @param {string} file
  * @param {ModuleType} [module]
  * @param {ScreenName | "Game"} [screen]
- * @returns
+ * @returns {string}
  */
 function ScreenFileGetPath(file, module, screen) {
 	if (!module) module = CurrentModule;
@@ -2620,7 +2626,7 @@ function CommonGetDateParts(ms, options = {}) {
  * Build and returns a range
  * @param {number} start If {@link end} is unspecified, then this will be the end of the range, and start will be set to 0
  * @param {number} [end] End value for the range, inclusive
- * @param {number} [step=1]
+ * @param {number} [step]
  * @returns {number[]}
  */
 function CommonRange(start, end, step = 1) {
@@ -2692,7 +2698,7 @@ function CommonFilterMap(array, predicateMapper, thisArg=null) {
  * @param {number} index
  * @param {string} value
  * @param {string} defaultValue
- * @returns
+ * @returns {string}
  */
 function CommonStringSplice(string, index, value, defaultValue) {
 	if (string.length < index) {
@@ -2768,19 +2774,19 @@ class Result {
 	 * Build a Result for a successful operation
 	 * @template T
 	 * @param {T} value
-	 * @returns
+	 * @returns {Result<T, never>}
 	 */
 	static success(value) {
-		return new Result(value, null);
+		return /** @type {Result<T, never>} */ (new Result(value, null));
 	}
 
 	/**
 	 * Build a Result for a failed operation
 	 * @param {Error} error
-	 * @returns
+	 * @returns {Result<never, Error>}
 	 */
 	static failure(error) {
-		return new Result(null, error);
+		return /** @type {Result<never, Error>} */ (new Result(null, error));
 	}
 
 	/**
@@ -2813,6 +2819,7 @@ class Result {
 class ClipboardError extends Error {
 	/**
 	 * @param {string} message
+	 * @param {object} options
 	 */
 	constructor(message, options = {}) {
 		super(message);
@@ -2823,7 +2830,7 @@ class ClipboardError extends Error {
 /**
  * Read text data from the browser's clipboard.
  *
- * @param {(result: Result<string | null, ClipboardError>) => void} cb}
+ * @param {(result: Result<string | null, ClipboardError>) => void} cb
  */
 function CommonClipboardRead(cb) {
 	navigator.clipboard.readText()

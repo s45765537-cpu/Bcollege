@@ -9,9 +9,11 @@ var AsylumEntranceEscapedPatient = /** @type {never} */ (null);
 var AsylumEntranceEscapedPatientWillBribe = false;
 var AsylumEntranceEscapedPatientWillJoin = false;
 
-/** Longest asylum commitment accepted on load. The game never commits anyone for
+/**
+ * Longest asylum commitment accepted on load. The game never commits anyone for
  *  anywhere near this long; anything further out is treated as corrupt, as
- *  CellLoad does for long cell timers. */
+ *  CellLoad does for long cell timers.
+ */
 var AsylumEntranceMaxCommitment = 7 * 24 * 60 * 60 * 1000;
 
 /**

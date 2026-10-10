@@ -354,7 +354,8 @@ function NurseryNPCRestrained(CurrentNPC, restraintSet) {
 	if (restraintSet >= 6) InventoryWear(CurrentNPC, "PaddedMittens", "ItemHands");
 }
 
-/** Random diaper selection
+/**
+ * Random diaper selection
  * @param {Character} character
  * @param {keyof typeof NurseryDiapers} size
  * @returns {AssetName}
@@ -374,7 +375,8 @@ function NurseryRandomDress(character) {
 	return CommonRandomItemFromList(currentDress, NurseryDresses);
 }
 
-/** Random selection for dress colors
+/**
+ * Random selection for dress colors
  * @param {Character} character
  * @param {BCColor[]} colors
  * @returns {BCColor}
@@ -418,8 +420,8 @@ function NurseryGetRegressionScore(character) {
 
 /**
  * When the player puts on diapers or has them put on
- * @param {number} [domChange];
- * @param {keyof typeof NurseryDiapers} [size];
+ * @param {number} [domChange]
+ * @param {keyof typeof NurseryDiapers} [size]
  */
 function NurseryPlayerGetsDiapered(domChange=0, size=undefined) {
 	ReputationProgress("Dominant", domChange);

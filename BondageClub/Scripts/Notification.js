@@ -209,7 +209,7 @@ function NotificationEventHandlerSetup(eventType, setting) {
 /**
  * Create a new notification
  * @param {NotificationEventType} eventType - The type of event that occurred
- * @param {NotificationData} [data={}] - Data relating to the event that can be passed into a popup
+ * @param {NotificationData} [data] - Data relating to the event that can be passed into a popup
  * @returns {void} - Nothing
  */
 function NotificationRaise(eventType, data = {}) {
@@ -240,10 +240,10 @@ function NotificationResetAll() {
 /**
  * Returns whether popup notifications are permitted
  * @param {NotificationEventType} eventType - The type of event that occurred
- * @param {NotificationData} [data={}] - Data relating to the event that can be passed into a popup
+ * @param {NotificationData} [data] - Data relating to the event that can be passed into a popup
  * @returns {boolean} - Whether popups can appear
  */
-function NotificationPopupsEnabled(eventType, data) {
+function NotificationPopupsEnabled(eventType, data = {}) {
 	if (!("Notification" in window)) {
 		return false;
 	} else if (Notification.permission === "granted") {

@@ -111,8 +111,9 @@ let RhythmGameImage = {
 		};
 		/**
 		 * @param {string} src
-		 * @returns
+		 * @returns {HTMLImageElement}
 		 */
+		// XXX: that's DrawLoadImage but with less caching
 		let loadImage = function(src){
 			let img = new Image();
 			img.src = src;
@@ -535,7 +536,7 @@ let RhythmGameScript = {
 	},
 	/**
 	 * @param {number} timeDiff
-	 * @returns
+	 * @returns {'early miss' | 'early great' | 'early perfect' | 'late perfect' | 'late great' | 'late miss' | undefined}
 	 */
 	judgeType : function (timeDiff) {
 		if(       RhythmGameScript.judge_great   <= timeDiff && timeDiff <=  RhythmGameScript.judge_miss    ) return 'early miss';

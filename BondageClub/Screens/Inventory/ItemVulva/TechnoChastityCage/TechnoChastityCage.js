@@ -179,7 +179,7 @@ function InventoryItemVulvaChastityCageVoiceControlClickSet(C, item) {
 /**
  * @param {Character} C
  * @param {Item} item
- * @returns
+ * @returns {void}
  */
 function InventoryItemVulvaTechnoChastityCageVoicePrevious(C, item) {
 	InventoryItemVulvaFuturisticVibratorSetAccessMode(C, item, InventoryItemVulvaFuturisticVibratorPreviousAccessMode(item.Property?.AccessMode ?? ""));
@@ -188,7 +188,7 @@ function InventoryItemVulvaTechnoChastityCageVoicePrevious(C, item) {
 /**
  * @param {Character} C
  * @param {Item} item
- * @returns
+ * @returns {void}
  */
 function InventoryItemVulvaTechnoChastityCageVoiceNext(C, item) {
 	InventoryItemVulvaFuturisticVibratorSetAccessMode(C, item, InventoryItemVulvaFuturisticVibratorNextAccessMode(item.Property?.AccessMode ?? ""));

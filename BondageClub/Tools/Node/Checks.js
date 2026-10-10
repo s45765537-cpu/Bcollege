@@ -60,7 +60,7 @@ function runCheck(name) {
 			? [npmExecPath, "run", "--silent", name]
 			: ["run", "--silent", name];
 
-		/** @type {(chunk: string) => any} */
+		/** @type {(chunk: string) => (number | undefined)} */
 		let onData = (chunk) => output.push(chunk);
 		/** @type {(code?: number) => void} */
 		let onClose = (code) => {

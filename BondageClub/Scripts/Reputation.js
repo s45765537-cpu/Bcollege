@@ -7,10 +7,10 @@ var ReputationValidReputations = ["Dominant", "Kidnap", "ABDL", "Gaming", "Maid"
  * Alters a given reputation value for the player
  * @param {ReputationType} RepType - The name/type of the reputation to alter
  * @param {number} RepValue - Reputation to add/subtract to the current reputation value.
- * @param {boolean} [Push=true] - Pushes the reputation to the server if TRUE
+ * @param {boolean} [Push] - Pushes the reputation to the server if TRUE
  * @returns {void} - Nothing
  */
-function ReputationChange(RepType, RepValue, Push) {
+function ReputationChange(RepType, RepValue, Push=true) {
 
 	if (ReputationValidReputations.includes(RepType)) {
 
@@ -48,7 +48,7 @@ function ReputationChange(RepType, RepValue, Push) {
 
 /**
  * Loads the reputation data from the server
- * @param {readonly Reputation[]|undefined} NewRep - The array of reputation-value pairs to load for the current player
+ * @param {readonly Reputation[]} [NewRep] - The array of reputation-value pairs to load for the current player
  * @returns {void} - Nothing
  */
 function ReputationLoad(NewRep) {
@@ -81,7 +81,7 @@ function ReputationLoad(NewRep) {
  * @param {Character | ReputationType} character - The character to get the reputation of
  * @param {ReputationType} [repType] - Type/name of the reputation to get the value of.
  * @returns {number} - Returns the value of the reputation. It can range from 100 to -100, and it defaults to 0 if the player never earned this type of reputation before.
-*/
+ */
 function ReputationGet(character, repType) {
 	if (typeof character === "string") {
 		repType = character;
@@ -106,12 +106,13 @@ function ReputationCharacterGet(character, repType) {
 /**
  * Alter the reputation progress by a factor. The higher the rep, the slower it gets, a reputation is easier to break than to build. Takes the cheater version factor into account.
  * @param {ReputationType} RepType - Type/name of the reputation
- * @param {number|string} Value - Value of the reputation change before the factor is applied
- * @return {void} - Nothing
+ * @param {number} Value - Value of the reputation change before the factor is applied
+ * @returns {void} - Nothing
  */
 function ReputationProgress(RepType, Value) {
-	var V = ReputationGet(RepType);
-	Value = parseInt(Value) * CheatFactor("DoubleReputation", 2);
+	if (Value === 0) return;
+	const V = ReputationGet(RepType);
+	Value = Value * CheatFactor("DoubleReputation", 2);
 	if (Value > 0) {
 		if ((V >= 70) && (V <= 100)) ReputationChange(RepType, Math.floor(Value / 3));
 		if ((V >= 30) && (V < 70)) ReputationChange(RepType, Math.floor(Value / 2));

@@ -699,7 +699,7 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * @param {number} I - The index of the layer within the asset
  * @param {AssetDefinition} AssetDef - The definition for the built asset
  * @param {AssetGroupDefinition} GroupDef - The definition for the built asset's group
- * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
+ * @returns {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
 function AssetMapLayer(Layer, A, I, AssetDef, GroupDef) {
 	const minOpacity = A.EditOpacity ? AssetParseOpacity(Layer.MinOpacity ?? AssetDef.MinOpacity ?? GroupDef.MinOpacity ?? 1, 0, 1) : 1;
@@ -867,7 +867,7 @@ function AssetParseAlpha(alphaDef, warningPrefix=null) {
  * @param {AssetLayerDefinition} Layer - The raw layer definition
  * @param {AssetDefinition} NewAsset - The raw asset definition
  * @param {number} I - The index of the layer within its asset
- * @return {Alpha.Data[]} - a list of alpha mask data for the layer
+ * @returns {Alpha.Data[]} - a list of alpha mask data for the layer
  */
 function AssetParseLayerAlpha(Layer, NewAsset, I) {
 	const Alpha = AssetParseAlpha(Layer.Alpha, "Layer.Alpha") ?? [];

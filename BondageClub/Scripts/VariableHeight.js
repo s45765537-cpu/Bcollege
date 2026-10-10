@@ -2,19 +2,19 @@
 
 /**
  * The name of vertical slider element
- * @const {string}
+ * @constant {string}
  */
 const VariableHeightSliderId = "VariableHeightSlider";
 
 /**
  * The name of the numerical percentage input element
- * @const {string}
+ * @constant {string}
  */
 const VariableHeightNumerId = "VariableHeightNumber";
 
 /**
  * A lookup for the variable height configurations for each registered variable height item
- * @const
+ * @constant
  * @type {Record<string, VariableHeightData>}
  */
 const VariableHeightDataLookup = {};
@@ -56,7 +56,7 @@ function VariableHeightRegister(asset, config, parentOption=null) {
 /**
  * Parse the passed variable height draw data as passed via the extended item config
  * @param {VariableHeightConfigDrawData} drawData - The to-be parsed draw data
- * @return {ExtendedItemDrawData<ElementMetaData.VariableHeight>} - The parsed draw data
+ * @returns {ExtendedItemDrawData<ElementMetaData.VariableHeight>} - The parsed draw data
  */
 function VariableHeightGetDrawData(drawData) {
 	const itemsPerPage = 1;
@@ -362,8 +362,8 @@ function VariableHeightSetOverrideHeight(property, height, maxHeight, minHeight)
 /**
  * Initialize the variable height item properties
  * @param {VariableHeightData} Data
- * @param {Item} Item - The item in question
  * @param {Character} C - The character that has the item equiped
+ * @param {Item} Item - The item in question
  * @param {boolean} Push - Whether to push to changes to the server
  * @param {boolean} Refresh - Whether to refresh the character. This should generally be `true`, with custom script hooks being a potential exception.
  * @returns {boolean} Whether properties were initialized or not

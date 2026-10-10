@@ -381,7 +381,7 @@ function PreferenceSubscreenGraphicsUnload() {
  * @param {string | null} id
  * @param {string} tooltip
  * @param {"left" | "right" | "top" | "bottom"} tooltipPosition
- * @returns
+ * @returns {HTMLButtonElement}
  */
 function GraphicsCreateHint(id, tooltip, tooltipPosition) {
 	return ElementButton.Create(id, null, {
