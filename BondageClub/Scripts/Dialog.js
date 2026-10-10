@@ -3912,7 +3912,14 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 	/** @type {DialogMenu<T, ItemActivity>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
 		IsBlocked: (C, clickedActivity, equippedItem) => {
-			return clickedActivity.Blocked === "blocked" ? InterfaceTextGet("ExtendedItemNoItemPermission") : null;
+			switch (clickedActivity.Blocked) {
+				case "blocked":
+					return InterfaceTextGet("ExtendedItemNoItemPermission");
+				case "unavail":
+					return InterfaceTextGet("ZoneBlocked");
+				default:
+					return null;
+			}
 		},
 	};
 
