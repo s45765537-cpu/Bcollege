@@ -3915,8 +3915,6 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 			switch (clickedActivity.Blocked) {
 				case "blocked":
 					return InterfaceTextGet("ExtendedItemNoItemPermission");
-				case "unavail":
-					return InterfaceTextGet("ZoneBlocked");
 				default:
 					return null;
 			}

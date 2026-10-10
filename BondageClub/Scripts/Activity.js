@@ -272,7 +272,7 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 		} else if (typeList.some((type) => InventoryBlockedOrLimited(acted, item, type))) {
 			blocked = "blocked";
 		} else if (InventoryGroupIsBlocked(useTargetItems ? acted : acting, /** @type {AssetGroupItemName} */(item.Asset.Group.Name))) {
-			blocked = "unavail";
+			return activities;
 		}
 
 		// this doesnt allow penetrative handheld items from being used while acting is restrained
