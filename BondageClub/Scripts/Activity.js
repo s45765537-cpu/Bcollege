@@ -271,7 +271,7 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 			blocked = "limited";
 		} else if (typeList.some((type) => InventoryBlockedOrLimited(acted, item, type))) {
 			blocked = "blocked";
-		} else if (InventoryGroupIsBlocked(acting, /** @type {AssetGroupItemName} */(item.Asset.Group.Name))) {
+		} else if (InventoryGroupIsBlocked(useTargetItems ? acted : acting, /** @type {AssetGroupItemName} */(item.Asset.Group.Name))) {
 			blocked = "unavail";
 		}
 
