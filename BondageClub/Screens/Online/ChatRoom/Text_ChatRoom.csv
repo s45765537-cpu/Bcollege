@@ -174,4 +174,7 @@ EditorButtonTextToggleFog,Toggle Fog
 EditorButtonTextEditTiles,Tiles
 EditorButtonTextEditObjects,Objects
 EditorButtonTextEditEffects,Effects
+EditorButtonTextEditColors,Colors
+EditorColorApply,Apply
+EditorColorReset,Reset
 EditorButtonTextBack,Back

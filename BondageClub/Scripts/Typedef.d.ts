@@ -5390,6 +5390,17 @@ interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	IsVisible?: () => boolean;
 	BuildImageName?: (X: number, Y: number) => string;
 	OnClick?: (x: number, y: number) => void;
+	/**
+	 * Recolorable layers of the object, drawn in order on top of each other.
+	 * Each layer is loaded from `<ImageName>_<Layer.Name>.png` and must be a grayscale image.
+	 * The plain `<ImageName>.png` is still required for older clients and the object palette.
+	 */
+	ColorLayers?: readonly ChatRoomMapColorLayer[];
+}
+
+interface ChatRoomMapColorLayer {
+	Name: string;
+	DefaultColor: HexColor;
 }
 
 /** {@link ChatRoomMapViewIsChatRoomMapEffect}  */
@@ -5402,11 +5413,17 @@ interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Color: [r: number, g: number, b: number, a: number];
 }
 
-type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig
+type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig | ChatRoomMapColorObjectConfig
 
 interface ChatRoomMapSignObjectConfig {
 	Type: "Sign";
 	Text: string;
+}
+
+interface ChatRoomMapColorObjectConfig {
+	Type: "Color";
+	/** One entry per {@link ChatRoomMapObject.ColorLayers} layer; `"Default"` uses the layer's default color */
+	Colors: (HexColor | "Default")[];
 }
 
 

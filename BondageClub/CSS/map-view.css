@@ -219,3 +219,27 @@ textarea.chat-room-map-view-dialog-content-text {
 	color: white;
 	width: 100%;
 }
+
+.chat-room-map-view-dialog-color-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3em;
+	width: 100%;
+}
+
+.chat-room-map-view-dialog-color-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.chat-room-map-view-dialog-color-buttons {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.3em;
+}
+
+.chat-room-map-view-dialog-color-button {
+	font-size: 0.7em;
+	padding: 0.2em 0.6em;
+}

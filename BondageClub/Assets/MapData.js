@@ -56,12 +56,12 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 					placeholder: "Type sign message here..."
 				},
 				children: [
-					MapManager.Map.getObjectConfig(x, y)?.Text || ""
+					MapGetSignConfig(x, y)?.Text || ""
 				],
 				eventListeners: {
 					"input": function() {
 						if (!ChatRoomPlayerIsAdmin()) return;
-						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						const signData = MapGetSignConfig(x, y) ?? { Type: "Sign", Text: "" };
 						signData.Text = /** @type {HTMLTextAreaElement} */(this).value;
 						MapManager.Map.setObjectConfig(x, y, signData);
 					}
@@ -289,7 +289,13 @@ const AssetsMapDataObjects = [
 	{ ID: 120, Type: "Bedroom", Style: "BedTeal", Top: -0.25, AssetName: "Bed", AssetGroup: "ItemDevices"},
 	{ ID: 130, Type: "LivingRoom", Style: "PillowPink" },
 	{ ID: 140, Type: "LivingRoom", Style: "TableBrown" },
-	{ ID: 150, Type: "LivingRoom", Style: "ThroneRed", Top: -1, Height: 2 },
+	{
+		ID: 150, Type: "LivingRoom", Style: "ThroneRed", Top: -1, Height: 2,
+		ColorLayers: [
+			{ Name: "Frame", DefaultColor: "#B89048" },
+			{ Name: "Cushion", DefaultColor: "#F7644C" },
+		],
+	},
 	{ ID: 151, Type: "LivingRoom", Style: "ChairWood", Top: -0.5, Height: 1.5 },
 	{ ID: 160, Type: "Functional", Style: "KeyBronze", OnEnter: function(){ Player.SetMapState("BronzeKey", true); }, IsVisible: function(){ return !Player.HasMapState("BronzeKey"); } },
 	{ ID: 162, Type: "Functional", Style: "KeySilver", OnEnter: function(){ Player.SetMapState("SilverKey", true); }, IsVisible: function(){ return !Player.HasMapState("SilverKey"); } },
@@ -385,6 +391,10 @@ const AssetsMapDataObjects = [
 			if ((RightObject != null) && (RightObject.ID == this.ID))return "CouchPinkLeft";
 			return "CouckPinkSmall";
 		},
+		ColorLayers: [
+			{ Name: "Fabric", DefaultColor: "#E55C76" },
+			{ Name: "Legs", DefaultColor: "#812622" },
+		],
 		Top: -0.35
 	},
 	{

@@ -1293,11 +1293,28 @@ var MapManager = (function () {
 			const map = this.#_mapData;
 			MapForEachIndexInRange(index, range, (curIndex) => {
 				if (this.canSetObject(index, object)) {
+					if (map.objects[curIndex]?.ID !== object.ID) this.#clearColorConfig(curIndex, undo);
 					map.objects[curIndex] = object;
 				}
 			});
 
 			return true;
+		}
+
+		/**
+		 * Removes the color config of a cell, as colors only apply to the object they were picked for.
+		 * @param {number} index
+		 * @param {MapManager.UndoGroup} [undo]
+		 */
+		#clearColorConfig(index, undo) {
+			const configs = this.#_mapData?.objectConfigs;
+			const config = configs?.[index];
+			if (!configs || config?.Type !== "Color") return;
+			delete configs[index];
+			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
+			undo?.add(() => {
+				configs[index] = config;
+			});
 		}
 
 		/**
@@ -1353,7 +1370,10 @@ var MapManager = (function () {
 				case "Sign":
 					if (cell && ["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(cell.Style)) return true;
 					return false;
+				case "Color":
+					return !!cell?.ColorLayers?.length;
 			}
+			return false;
 		}
 
 		/**
@@ -2430,6 +2450,48 @@ function MapIsCellValid(id, type, x, y) {
 }
 
 /**
+ * Gets the sign config of a cell, if any
+ * @param {number} x
+ * @param {number} y
+ * @returns {ChatRoomMapSignObjectConfig | null}
+ */
+function MapGetSignConfig(x, y) {
+	const config = MapManager.Map.getObjectConfig(x, y);
+	return config?.Type === "Sign" ? config : null;
+}
+
+/**
+ * Checks whether a color config matches the color layers of an object
+ * @param {unknown} config
+ * @param {ChatRoomMapObject | null} object
+ * @returns {config is ChatRoomMapColorObjectConfig}
+ */
+function MapIsValidColorConfig(config, object) {
+	if (!object?.ColorLayers?.length || !CommonIsObject(config)) return false;
+	const { Type, Colors } = /** @type {{ Type?: unknown, Colors?: unknown }} */ (config);
+	if (Type !== "Color" || !Array.isArray(Colors)) return false;
+	if (Colors.length !== object.ColorLayers.length) return false;
+	return Colors.every(/** @param {unknown} c */ c => c === "Default" || (typeof c === "string" && /^#[0-9a-f]{6}$/i.test(c)));
+}
+
+/**
+ * Gets the colors to draw each color layer of the object placed on a cell with.
+ * Invalid or missing configs fall back to the layers' default colors.
+ * @param {number} index
+ * @param {ChatRoomMapObject} object
+ * @returns {HexColor[]}
+ */
+function MapGetObjectLayerColors(index, object) {
+	const layers = object.ColorLayers ?? [];
+	const config = MapManager.Map.getObjectConfig(index);
+	const colors = MapIsValidColorConfig(config, object) ? config.Colors : [];
+	return layers.map((layer, i) => {
+		const color = colors[i];
+		return color && color !== "Default" ? color : layer.DefaultColor;
+	});
+}
+
+/**
  * Sets the next update flag for the room if it's not already set, the delay is 5 seconds
  * @returns {void} - Nothing
  */
@@ -2440,6 +2502,7 @@ function MapValidateCells() {
 		const objectData = MapManager.Map.getObjectConfig(index);
 		const object = MapManager.Map.getObject(index);
 		if (objectData?.Type === "Sign" && (!object || !["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(object.Style))) MapManager.Map.setObjectConfig(index, undefined);
+		if (objectData?.Type === "Color" && !MapIsValidColorConfig(objectData, object)) MapManager.Map.setObjectConfig(index, undefined);
 
 		if (ChatRoomMapViewSelectedObjectConfigType && index === ChatRoomMapViewSelectedObjectIndex && !MapManager.Map.isValidObjectConfig(index, ChatRoomMapViewSelectedObjectConfigType)) ChatRoomMapViewClearCellSelection();
 

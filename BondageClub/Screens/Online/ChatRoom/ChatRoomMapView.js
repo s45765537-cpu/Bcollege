@@ -4,7 +4,7 @@ const ChatRoomMapViewName = "Map";
 var ChatRoomMapViewPerceptionRange = 4;
 var ChatRoomMapViewPerceptionRangeMin = 1;
 var ChatRoomMapViewPerceptionRangeMax = 7;
-/** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType" | "Effect"} */
+/** @type {"" |  "Tile" | "Object" | "TileType" | "ObjectType" | "Effect" | "Color"} */
 var ChatRoomMapViewEditMode = "";
 var ChatRoomMapViewEditPath = "";
 var ChatRoomMapViewLastSearch = "";
@@ -285,6 +285,74 @@ function ChatRoomMapViewHideDialogMenu() {
 	ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
 }
 
+/**
+ * Opens the color dialog for the object on a cell, if it has color layers
+ * @param {number} x
+ * @param {number} y
+ * @returns {boolean} - TRUE if the dialog was opened
+ */
+function ChatRoomMapViewShowColorDialog(x, y) {
+	const index = MapCoordinatesToIndex(x, y);
+	const object = MapManager.Map.getObject(index);
+	const layers = object?.ColorLayers;
+	if (!object || !layers?.length) return false;
+
+	ChatRoomMapViewSetCellSelection(index, "Color");
+	const colors = MapGetObjectLayerColors(index, object);
+	const inputs = layers.map((layer, i) => /** @type {HTMLInputElement} */ (ElementCreate({
+		tag: "input",
+		attributes: { type: "color", value: colors[i].toLowerCase(), "aria-label": layer.Name },
+	})));
+
+	/** @type {(layerColors: readonly string[]) => void} */
+	const save = (layerColors) => {
+		if (!ChatRoomPlayerIsAdmin()) return;
+		/** @type {ChatRoomMapColorObjectConfig["Colors"]} */
+		const newColors = layers.map((layer, i) => {
+			const color = layerColors[i]?.toUpperCase();
+			return !color || color === layer.DefaultColor.toUpperCase() ? "Default" : /** @type {HexColor} */ (color);
+		});
+		const config = newColors.every(c => c === "Default") ? undefined : { Type: /** @type {const} */ ("Color"), Colors: newColors };
+		MapManager.Map.setObjectConfig(index, config);
+	};
+
+	const title = object.Name ?? CommonUncamelize(object.Style).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
+	ChatRoomMapViewShowDialogMenu(title, ElementCreate({
+		tag: "div",
+		classList: ["chat-room-map-view-dialog-color-list"],
+		children: layers.map((layer, i) => ({
+			tag: "label",
+			classList: ["chat-room-map-view-dialog-color-row"],
+			children: [layer.Name, inputs[i]],
+		})),
+	}), ElementCreate({
+		tag: "div",
+		classList: ["chat-room-map-view-dialog-color-buttons"],
+		children: [
+			{
+				tag: "button",
+				classList: ["chat-room-map-view-dialog-color-button"],
+				children: [TextGet("EditorColorReset")],
+				eventListeners: {
+					click: () => {
+						layers.forEach((layer, i) => inputs[i].value = layer.DefaultColor.toLowerCase());
+						save([]);
+					},
+				},
+			},
+			{
+				tag: "button",
+				classList: ["chat-room-map-view-dialog-color-button"],
+				children: [TextGet("EditorColorApply")],
+				eventListeners: {
+					click: () => save(inputs.map(input => input.value)),
+				},
+			},
+		],
+	}));
+	return true;
+}
+
 function ChatRoomMapViewShowEditor() {
 	if (ElementWrap("chat-room-map-view-panel-editor")) return;
 
@@ -462,6 +530,10 @@ function ChatRoomMapViewGetButtons() {
 			case "Tile":
 				ChatRoomMapViewEditMode = "TileType";
 				break;
+			case "Color":
+				if (ChatRoomMapViewSelectedObjectConfigType === "Color") ChatRoomMapViewClearCellSelection();
+				ChatRoomMapViewEditMode = "";
+				break;
 			case "ObjectType":
 			case "TileType":
 			case "Effect":
@@ -546,6 +618,19 @@ function ChatRoomMapViewGetButtons() {
 					ChatRoomMapViewEditObject = AssetsMapDataEffects[1];
 					ChatRoomMapViewReloadEditorPanel();
 				}, "Icons/Light.png", TextGet("EditorButtonTextEditEffects")),
+
+				ChatMapRoomViewCreateCategoryButton(() => {
+					if (!ChatRoomPlayerIsAdmin()) return;
+					ChatRoomMapViewEditMode = "Color";
+					ChatRoomMapViewEditSubMode = "";
+					ChatRoomMapViewEditObject = null;
+					ChatRoomMapViewReloadEditorPanel();
+				}, "Icons/ColorChange.png", TextGet("EditorButtonTextEditColors")),
+				...buttons,
+			];
+		case "Color":
+			return [
+				backButton,
 				...buttons,
 			];
 		case "ObjectType":
@@ -1276,6 +1361,49 @@ function ChatRoomMapViewGetEntryFlagPosition() {
 	return MapIndexToCoordinates(index);
 }
 
+/** @type {Map<string, HTMLCanvasElement>} */
+const ChatRoomMapViewColoredObjectCache = new Map();
+const ChatRoomMapViewColoredObjectCacheSize = 200;
+
+/**
+ * Gets the image of an object with its color layers tinted.
+ * Colorizing reads every pixel, so the composed images are cached.
+ * @param {ChatRoomMapObject} Obj - The object to draw
+ * @param {string} ImageName - The image name, as returned by the object's `BuildImageName`
+ * @param {readonly HexColor[]} Colors - One color per color layer
+ * @returns {string | HTMLCanvasElement} - The composed image, or the plain image URL while the layers are not available
+ */
+function ChatRoomMapViewGetColoredObjectImage(Obj, ImageName, Colors) {
+	const plainUrl = MapGetAssetUrl("Object", Obj.Type, ImageName);
+	if (!Obj.ColorLayers?.length) return plainUrl;
+
+	const key = `${plainUrl}|${Colors.join(",")}`;
+	const cached = ChatRoomMapViewColoredObjectCache.get(key);
+	if (cached) return cached;
+
+	/** @type {ImageBitmap[]} */
+	const images = [];
+	for (const layer of Obj.ColorLayers) {
+		const img = DrawGetImage(MapGetAssetUrl("Object", Obj.Type, `${ImageName}_${layer.Name}`));
+		if (!img) return plainUrl;
+		images.push(img);
+	}
+
+	const canvas = document.createElement("canvas");
+	canvas.width = images[0].width;
+	canvas.height = images[0].height;
+	const ctx = canvas.getContext("2d");
+	if (!ctx) return plainUrl;
+	images.forEach((img, i) => DrawImageEx(img, ctx, 0, 0, { HexColor: Colors[i], FullAlpha: true }));
+
+	if (ChatRoomMapViewColoredObjectCache.size >= ChatRoomMapViewColoredObjectCacheSize) {
+		const oldest = ChatRoomMapViewColoredObjectCache.keys().next().value;
+		if (oldest) ChatRoomMapViewColoredObjectCache.delete(oldest);
+	}
+	ChatRoomMapViewColoredObjectCache.set(key, canvas);
+	return canvas;
+}
+
 /**
  * Draw the map grid and character on screen
  * @param {number} Left - The X position on the screen
@@ -1398,7 +1526,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				let ImageName = Obj.BuildImageName?.(X, Y) ?? Obj.Style;
 				if (Char && Obj.OccupiedStyle) ImageName = Obj.OccupiedStyle;
 				ObjectData = Obj;
-				ObjectImage = MapGetAssetUrl("Object", Obj.Type, ImageName);
+				ObjectImage = Obj.ColorLayers
+					? ChatRoomMapViewGetColoredObjectImage(Obj, ImageName, MapGetObjectLayerColors(Pos, Obj))
+					: MapGetAssetUrl("Object", Obj.Type, ImageName);
 
 				DrawImageResize(ObjectImage,
 					Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)),
@@ -1989,7 +2119,7 @@ function ChatRoomMapViewClick() {
 	}
 
 	// When clicking on a character
-	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted) {
+	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && (ChatRoomMapViewEditMode != "Color") && !ChatRoomMapViewEditStarted) {
 
 		// Checks if the arousal meter is showing
 		let MeterShow = ChatRoomMapViewFocusedCharacter.IsPlayer();
@@ -2036,6 +2166,11 @@ function ChatRoomMapViewClick() {
 
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
 	if (!pos) return;
+
+	if (ChatRoomMapViewEditMode === "Color") {
+		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewShowColorDialog(pos.X, pos.Y);
+		return;
+	}
 
 	// If we are in edit mode, we can change the tile or object
 	MapCellClick(pos.X, pos.Y);
