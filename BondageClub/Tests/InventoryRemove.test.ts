@@ -1,5 +1,3 @@
-"use strict";
-
 import { character, Game} from "./Utils";
 
 import testAppearanceData from "./InventoryRemove.json";
@@ -10,7 +8,7 @@ let C: Character;
 let originalItems: ReadonlySet<AssetString>;
 
 beforeAll(async () => {
-    await Game.loadAll();
+	await Game.loadAll();
 
 	const group1: AssetItemGroup = Game.AssetGroupGet("Female3DCG", "ItemLegs");
 	if (!group1) { throw new Error("Missing group 'ItemLegs'"); }
@@ -32,12 +30,12 @@ beforeAll(async () => {
 });
 
 beforeEach(() => {
-    C = character.create("jest-InventoryItem");
-    originalItems = new Set(character.appearanceStringify(C.Appearance));
+	C = character.create("jest-InventoryItem");
+	originalItems = new Set(character.appearanceStringify(C.Appearance));
 });
 
 afterEach(() => {
-    character.destroy(C);
+	character.destroy(C);
 });
 
 function preUnequip({ items, actuallyRemovedGroups }: { items: ItemBundle[], actuallyRemovedGroups: AssetGroupName[] }) {
@@ -62,16 +60,16 @@ function postUnequip(removedItems: readonly Item[], expectedPeristingItems: Read
 describe("InventoryRemove", () => {
 	const param = Object.entries(appearances).map(([k, v]) => { return { name: k, ...v }; });
 
-    it.each(param)("InventoryRemove: $name", (data) => {
+	it.each(param)("InventoryRemove: $name", (data) => {
 		const { expectedPersistingItems, expectedRemovedItems } = preUnequip(data);
-        const removedItems: Item[] = Game.InventoryRemove(C, data.removalGroups);
+		const removedItems: Item[] = Game.InventoryRemove(C, data.removalGroups);
 		postUnequip(removedItems, expectedPersistingItems, expectedRemovedItems);
-    });
+	});
 
-    it.each(param)("InventoryRemoveItems: $name", (data) => {
+	it.each(param)("InventoryRemoveItems: $name", (data) => {
 		const { expectedPersistingItems, expectedRemovedItems } = preUnequip(data);
 		const removalItems = C.Appearance.filter(item => data.removalGroups.includes(item.Asset.Group.Name));
-        const removedItems: Item[] = Game.InventoryRemoveItems(C, removalItems);
+		const removedItems: Item[] = Game.InventoryRemoveItems(C, removalItems);
 		postUnequip(removedItems, expectedPersistingItems, expectedRemovedItems);
-    });
+	});
 });
