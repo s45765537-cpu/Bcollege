@@ -774,6 +774,10 @@
 	width: 100%;
 }
 
+#friend-list-beep-chat-toggle-room-label {
+    user-select: none;
+}
+
 .friend-list-beep-chat-toggle .button-label {
 	display: contents;
 }
