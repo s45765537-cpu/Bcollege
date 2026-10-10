@@ -264,7 +264,7 @@ function InventoryAvailable(C, Name, Group) {
  * @param {Character} C - The character on which we check for prerequisites
  * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
  * @param {null | Asset} asset - The asset (if any) for whom the prerequisite is checked
- * @returns {string} - The error tag, can be converted to an error message
+ * @returns {AssetPrerequisiteCheck} - The error tag, can be converted to an error message
  */
 function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 	switch (Prerequisite) {
