@@ -276,7 +276,7 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 		}
 
 		// this doesnt allow penetrative handheld items from being used while acting is restrained
-		if (item.Asset.Group.Name === "ItemHandheld" && acting.IsRestrained()) {
+		if (item.Asset.Group.Name === "ItemHandheld" && !ActivityCheckPrerequisite("UseHands", acting, acted, targetGroup)) {
 			return activities;
 		}
 
