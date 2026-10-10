@@ -863,6 +863,7 @@ span.friend-list-beep-unread sup {
 .friend-list-beep-chat-sender {
 	font-weight: bold;
 	text-shadow: 0.05em 0.05em #aaa;
+    user-select: all;
 }
 
 .friend-list-beep-title {
