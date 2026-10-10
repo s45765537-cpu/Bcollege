@@ -5426,6 +5426,12 @@ interface ChatRoomMapColorObjectConfig {
 	Colors: (HexColor | "Default")[];
 }
 
+/** A color format copied from a map object, which can be pasted on other objects with the same ID */
+interface ChatRoomMapColorFormat {
+	ObjectID: number;
+	Colors: ChatRoomMapColorObjectConfig["Colors"];
+}
+
 
 
 /**

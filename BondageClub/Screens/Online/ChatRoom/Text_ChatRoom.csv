@@ -177,4 +177,7 @@ EditorButtonTextEditEffects,Effects
 EditorButtonTextEditColors,Colors
 EditorColorApply,Apply
 EditorColorReset,Reset
+EditorColorPasteFormat,Paste format
+EditorColorStopPaste,Stop pasting
+EditorColorPasteTitle,Paste format:
 EditorButtonTextBack,Back

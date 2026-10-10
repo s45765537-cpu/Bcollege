@@ -229,12 +229,38 @@ textarea.chat-room-map-view-dialog-content-text {
 
 .chat-room-map-view-dialog-color-row {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
+	gap: 0.3em;
+}
+
+.chat-room-map-view-dialog-color-name {
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.chat-room-map-view-dialog-color-swatch {
+	width: 2em;
+	height: 1.4em;
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+.chat-room-map-view-dialog-color-hex {
+	width: 5.5em;
+	font-family: monospace;
+	text-transform: uppercase;
+}
+
+.chat-room-map-view-dialog-color-hex-invalid {
+	outline: 2px solid red;
 }
 
 .chat-room-map-view-dialog-color-buttons {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: flex-end;
 	gap: 0.3em;
 }

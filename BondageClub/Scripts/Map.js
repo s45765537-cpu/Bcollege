@@ -1438,24 +1438,36 @@ var MapManager = (function () {
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapObjectConfig} [config]
+		 * @param {{ undo?: boolean }} [options] - `undo` registers an undo step restoring the previous config
 		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
 		 */
 		/**
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapObjectConfig} [config]
+		 * @param {{ undo?: boolean }} [options] - `undo` registers an undo step restoring the previous config
 		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
 		 */
 		/**
-		 * @param {[x: number, y: number, config?: ChatRoomMapObjectConfig] | [index: number, config?: ChatRoomMapObjectConfig]} args
+		 * @param {[x: number, y: number, config?: ChatRoomMapObjectConfig, options?: { undo?: boolean }] | [index: number, config?: ChatRoomMapObjectConfig, options?: { undo?: boolean }]} args
 		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
 		 */
 		setObjectConfig(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			const [index, config] = this.unpackIndex(...args);
+			const [index, config, options] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
 			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
 			this.#_mapData.objectConfigs ??= {};
+			if (options?.undo) {
+				const previous = this.#_mapData.objectConfigs[index];
+				this.#registerUndo(() => {
+					const configs = this.#_mapData?.objectConfigs;
+					if (!configs) return;
+					if (previous == null) delete configs[index];
+					else configs[index] = previous;
+					this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
+				});
+			}
 			if (config == null) {
 				delete this.#_mapData.objectConfigs[index];
 			} else {
@@ -2472,6 +2484,16 @@ function MapIsValidColorConfig(config, object) {
 	if (Type !== "Color" || !Array.isArray(Colors)) return false;
 	if (Colors.length !== object.ColorLayers.length) return false;
 	return Colors.every(/** @param {unknown} c */ c => c === "Default" || (typeof c === "string" && /^#[0-9a-f]{6}$/i.test(c)));
+}
+
+/**
+ * Checks whether a copied color format can be pasted on an object
+ * @param {ChatRoomMapColorFormat | null} format
+ * @param {ChatRoomMapObject | null} object
+ * @returns {boolean}
+ */
+function MapCanPasteColorFormat(format, object) {
+	return !!format && !!object?.ColorLayers?.length && format.ObjectID === object.ID;
 }
 
 /**

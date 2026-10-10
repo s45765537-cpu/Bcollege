@@ -349,6 +349,32 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
 		});
 
+		it("should only paste a color format on the same object", () => {
+			const format = { ObjectID: throne.ID, Colors: ["#3050E0", "Default"] };
+			expect(Game.MapCanPasteColorFormat(format, throne)).toBe(true);
+			expect(Game.MapCanPasteColorFormat(format, couch)).toBe(false);
+			expect(Game.MapCanPasteColorFormat(format, table)).toBe(false);
+			expect(Game.MapCanPasteColorFormat(null, throne)).toBe(false);
+			expect(Game.MapCanPasteColorFormat({ ObjectID: table.ID, Colors: [] }, table)).toBe(false);
+		});
+
+		it("can undo setObjectConfig when requested", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig, { undo: true })).toBe(true);
+			const otherConfig = { Type: "Color", Colors: ["Default", "#112233"] };
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, otherConfig, { undo: true })).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(throne);
+		});
+
+		it("should not register an undo step for setObjectConfig by default", () => {
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(false);
+		});
+
 		it("should drop invalid color configs when validating cells", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0"] })).toBe(true);
