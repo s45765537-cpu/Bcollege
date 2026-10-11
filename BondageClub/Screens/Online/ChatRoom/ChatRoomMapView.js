@@ -1552,9 +1552,16 @@ function ChatRoomMapViewGetColoredObjectImage(Obj, ImageName, Colors) {
 	/** @type {ImageBitmap[]} */
 	const images = [];
 	for (const layer of Obj.ColorLayers) {
-		const img = DrawGetImage(MapGetAssetUrl("Object", Obj.Type, `${ImageName}_${layer.Name}`));
+		const img = DrawGetImage(layer.Source === "Base" ? plainUrl : MapGetAssetUrl("Object", Obj.Type, `${ImageName}_${layer.Name}`));
 		if (!img) return plainUrl;
 		images.push(img);
+	}
+	/** @type {ImageBitmap[]} */
+	const fixedImages = [];
+	for (const name of Obj.FixedColorLayers ?? []) {
+		const img = DrawGetImage(MapGetAssetUrl("Object", Obj.Type, `${ImageName}_${name}`));
+		if (!img) return plainUrl;
+		fixedImages.push(img);
 	}
 
 	const canvas = document.createElement("canvas");
@@ -1563,6 +1570,7 @@ function ChatRoomMapViewGetColoredObjectImage(Obj, ImageName, Colors) {
 	const ctx = canvas.getContext("2d");
 	if (!ctx) return plainUrl;
 	images.forEach((img, i) => DrawImageEx(img, ctx, 0, 0, { HexColor: Colors[i], FullAlpha: true }));
+	fixedImages.forEach(img => ctx.drawImage(img, 0, 0));
 
 	if (ChatRoomMapViewColoredObjectCache.size >= ChatRoomMapViewColoredObjectCacheSize) {
 		const oldest = ChatRoomMapViewColoredObjectCache.keys().next().value;

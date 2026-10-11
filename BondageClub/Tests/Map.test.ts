@@ -294,11 +294,29 @@ describe("MapManager", () => {
 	describe("color configs", () => {
 		const throne = Game.MapDataGetObject(150);
 		const couch = Game.MapDataGetObject(710);
+		const plainObject = Game.MapDataGetObject(151);
 		const colorConfig = { Type: "Color", Colors: ["#3050E0", "Default"] };
+
+		it("should define valid color layers in the map data", () => {
+			const range = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+			const colorableIDs = [
+				130, 140, 150, 165, 220, 389, 403, 511, 560, 570, 630, 640, 650, 710, 720, 730, 740, 750,
+				1010, 1020, 1030, 1050, 1090, 3075, 3076, 3121, 5014,
+				...range(1110, 1119), ...range(1201, 1226), ...range(1301, 1309),
+			];
+			for (const object of colorableIDs.map(id => Game.MapDataGetObject(id))) {
+				expect(object.ColorLayers?.length).toBeGreaterThan(0);
+				for (const layer of object.ColorLayers) {
+					expect(layer.DefaultColor).toMatch(/^#[0-9A-F]{6}$/i);
+				}
+				const names = [...object.ColorLayers.map(l => l.Name), ...(object.FixedColorLayers ?? [])];
+				expect(new Set(names).size).toBe(names.length);
+			}
+		});
 
 		it("should validate color configs against the object's layers", () => {
 			expect(Game.MapIsValidColorConfig(colorConfig, throne)).toBe(true);
-			expect(Game.MapIsValidColorConfig(colorConfig, table)).toBe(false);
+			expect(Game.MapIsValidColorConfig(colorConfig, plainObject)).toBe(false);
 			expect(Game.MapIsValidColorConfig({ Type: "Color", Colors: ["#3050E0"] }, throne)).toBe(false);
 			expect(Game.MapIsValidColorConfig({ Type: "Color", Colors: ["red", "Default"] }, throne)).toBe(false);
 			expect(Game.MapIsValidColorConfig({ Type: "Sign", Text: "" }, throne)).toBe(false);
@@ -353,9 +371,9 @@ describe("MapManager", () => {
 			const format = { ObjectID: throne.ID, Colors: ["#3050E0", "Default"] };
 			expect(Game.MapCanPasteColorFormat(format, throne)).toBe(true);
 			expect(Game.MapCanPasteColorFormat(format, couch)).toBe(false);
-			expect(Game.MapCanPasteColorFormat(format, table)).toBe(false);
+			expect(Game.MapCanPasteColorFormat(format, plainObject)).toBe(false);
 			expect(Game.MapCanPasteColorFormat(null, throne)).toBe(false);
-			expect(Game.MapCanPasteColorFormat({ ObjectID: table.ID, Colors: [] }, table)).toBe(false);
+			expect(Game.MapCanPasteColorFormat({ ObjectID: plainObject.ID, Colors: [] }, plainObject)).toBe(false);
 		});
 
 		it("can undo setObjectConfig when requested", () => {
