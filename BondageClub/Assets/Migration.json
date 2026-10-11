@@ -64,6 +64,24 @@
 				"HandsLeft",
 				"HandsRight"
 			]
+		},
+		"Full": {
+			"migratedAt": "2026-10-11T09:07:29.317Z",
+			"groups": [
+				"Mouth"
+			]
+		},
+		"Regular": {
+			"migratedAt": "2026-10-11T09:07:29.317Z",
+			"groups": [
+				"Mouth"
+			]
+		},
+		"Discreet": {
+			"migratedAt": "2026-10-11T09:07:29.317Z",
+			"groups": [
+				"Mouth"
+			]
 		}
 	}
 }
