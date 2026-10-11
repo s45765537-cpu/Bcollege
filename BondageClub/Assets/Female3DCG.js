@@ -1,4 +1,4 @@
-//f@ts-check
+//@ts-check
 "use strict";
 // *** Item value guidelines ***
 // First, check if there's a similar item and use that price.  If there isn't, use the real price in US dollars
