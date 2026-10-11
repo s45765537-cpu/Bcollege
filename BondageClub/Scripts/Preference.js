@@ -773,7 +773,6 @@ var PreferenceOnlineSharedSettingsDefault = {
 		Block: { permission: 0 },
 	},
 	LockTimerLimit: "LockTimerLimitDefault",
-	IsBot: false,
 };
 
 /**
@@ -822,9 +821,6 @@ var PreferenceOnlineSharedSettingsValidate = {
 	},
 	LockTimerLimit: (arg, C) => {
 		return PreferenceSettingsLockTimerLimitList.includes(arg) ? arg : PreferenceOnlineSettingsDefault.LockTimerLimit;
-	},
-	IsBot: (arg) => {
-		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.IsBot;
 	},
 };
 
