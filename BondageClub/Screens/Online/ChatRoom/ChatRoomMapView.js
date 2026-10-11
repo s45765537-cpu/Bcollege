@@ -1573,25 +1573,42 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	ChatRoomMapViewNameTags = [];
 	const Editing = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode);
 	MainCanvas.font = CommonGetFont(24);
-	if (!Editing) for (const Shared of SharedTiles) {
-		// Widest name at the bottom so the tags stack up like a little pyramid
-		const Tags = Shared.Stack.map(C => ({ C, Name: CharacterNickname(C), W: Math.min(TileWidth * 3, Math.max(80, MainCanvas.measureText(CharacterNickname(C)).width + 24)) }));
-		Tags.sort((A, B) => B.W - A.W);
-		let TagY = Shared.Y;
-		for (const T of Tags) {
-			const H = 36;
-			const TagX = CommonClamp(Shared.X - T.W / 2, Left, Left + Width - T.W);
-			TagY = Math.max(Top, TagY - H - 3);
-			const Hover = MouseIn(TagX, TagY, T.W, H);
+	if (!Editing) {
+		// Lay every tag out first: shared tiles right above each other would stack their names on top of
+		// one another, so a tag that would cover one already placed moves up, or to the side, until it's free
+		/** @type {{ C: Character, Name: string, X: number, Y: number, W: number, H: number, CharX: number, CharY: number }[]} */
+		const Placed = [];
+		/** @type {(X: number, Y: number, W: number, H: number) => boolean} */
+		const Overlaps = (X, Y, W, H) => Placed.some(P => (X < P.X + P.W) && (P.X < X + W) && (Y < P.Y + P.H) && (P.Y < Y + H));
+		for (const Shared of SharedTiles.sort((A, B) => A.Y - B.Y)) {
+			// Widest name at the bottom so the tags stack up like a little pyramid
+			const Tags = Shared.Stack.map(C => ({ C, Name: CharacterNickname(C), W: Math.min(TileWidth * 3, Math.max(80, MainCanvas.measureText(CharacterNickname(C)).width + 24)) }));
+			Tags.sort((A, B) => B.W - A.W);
+			let TagY = Shared.Y;
+			for (const T of Tags) {
+				const H = 36;
+				let TagX = CommonClamp(Shared.X - T.W / 2, Left, Left + Width - T.W);
+				TagY = TagY - H - 3;
+				let Tries = 0;
+				while ((Overlaps(TagX, Math.max(Top, TagY), T.W, H) || (TagY < Top)) && (Tries++ < 40)) {
+					if (TagY - H - 3 >= Top) TagY = TagY - H - 3;
+					else { TagY = Shared.Y - H - 3; TagX = CommonClamp(TagX + T.W + 6, Left, Left + Width - T.W); }
+				}
+				TagY = Math.max(Top, TagY);
+				Placed.push({ C: T.C, Name: T.Name, X: TagX, Y: TagY, W: T.W, H, CharX: Shared.CharX, CharY: Shared.CharY });
+			}
+		}
+		for (const T of Placed) {
+			const Hover = MouseIn(T.X, T.Y, T.W, T.H);
 			const Color = CommonIsColor(T.C.LabelColor) ? T.C.LabelColor : "White";
-			DrawRect(TagX, TagY, T.W, H, Hover ? "#505050E0" : "#000000B0");
-			DrawEmptyRect(TagX, TagY, T.W, H, T.C.IsPlayer() ? "Cyan" : Color, 2);
-			DrawTextFit(T.Name, TagX + T.W / 2, TagY + H / 2 + 1, T.W - 12, Color, "Black");
-			ChatRoomMapViewNameTags.push({ C: T.C, X: TagX, Y: TagY, W: T.W, H, CharX: Shared.CharX, CharY: Shared.CharY });
+			DrawRect(T.X, T.Y, T.W, T.H, Hover ? "#505050E0" : "#000000B0");
+			DrawEmptyRect(T.X, T.Y, T.W, T.H, T.C.IsPlayer() ? "Cyan" : Color, 2);
+			DrawTextFit(T.Name, T.X + T.W / 2, T.Y + T.H / 2 + 1, T.W - 12, Color, "Black");
+			ChatRoomMapViewNameTags.push({ C: T.C, X: T.X, Y: T.Y, W: T.W, H: T.H, CharX: T.CharX, CharY: T.CharY });
 			if (Hover) {
 				ChatRoomMapViewFocusedCharacter = T.C;
-				ChatRoomMapViewFocusedCharacterX = Shared.CharX;
-				ChatRoomMapViewFocusedCharacterY = Shared.CharY;
+				ChatRoomMapViewFocusedCharacterX = T.CharX;
+				ChatRoomMapViewFocusedCharacterY = T.CharY;
 				CharacterUnderCursor = null;
 			}
 		}
