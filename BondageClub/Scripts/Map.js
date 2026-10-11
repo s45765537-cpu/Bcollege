@@ -1272,6 +1272,14 @@ var MapManager = (function () {
 			range = CommonClamp(range, 0, Infinity);
 			if (object?.Unique) range = 0;
 
+			// Paired objects (teleport pads) only go down one at a time and there can't be more than two
+			if (object?.Pair) {
+				range = 0;
+				const id = object.ID;
+				const placed = this.#_mapData.objects.filter((o, i) => i !== index && o?.ID === id).length;
+				if (placed >= 2) return false;
+			}
+
 			const clean = this.isDirtyObjects();
 			const previousObject = this.getObject(index) ?? MapDataGetObject(ChatRoomMapViewObjectStartID);
 			const undo = this.#registerUndo(() => {

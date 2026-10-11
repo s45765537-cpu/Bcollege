@@ -40,6 +40,22 @@ function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 }
 
 /**
+ * Returns the OnEnter for a teleport pad, after a short delay the player is sent to the other pad with the same ID
+ * @param {number} id - The ID of the pad pair
+ * @returns {ChatRoomMapObject["OnEnter"]}
+ */
+function ChatRoomMapViewCreateOnEnterTeleportLogic(id) {
+	return function () {
+		const x = Player.X;
+		const y = Player.Y;
+		setTimeout(function() {
+			// Only if the player is still standing on the pad, walking off cancels it
+			if (Player.X == x && Player.Y == y && ChatRoomMapViewMovement == null) ChatRoomMapViewTeleportPad(id);
+		}, 400);
+	};
+}
+
+/**
  * To prevent repeating the same logic, we create a function that returns a function
  * @param {string} name - Sign Name
  * @returns {ChatRoomMapObject["OnClick"]}
@@ -859,6 +875,16 @@ const AssetsMapDataObjects = [
 	{ ID: 3521, Type: "Functional", Style: "SignWoodWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false,Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Wooden Sign")},
 	{ ID: 3522, Type: "Functional", Style: "SignMetal", OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign"),  Top: -0.25},
 	{ ID: 3523, Type: "Functional", Style: "SignMetalWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign")},
+
+	// Teleport pads, two of each color per map, stepping on one takes you to the other
+	{ ID: 3530, Type: "Functional", Style: "TeleportPadBlue", Name: "Teleport Pad Blue", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3530) },
+	{ ID: 3531, Type: "Functional", Style: "TeleportPadRed", Name: "Teleport Pad Red", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3531) },
+	{ ID: 3532, Type: "Functional", Style: "TeleportPadGreen", Name: "Teleport Pad Green", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3532) },
+	{ ID: 3533, Type: "Functional", Style: "TeleportPadYellow", Name: "Teleport Pad Yellow", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3533) },
+	{ ID: 3534, Type: "Functional", Style: "TeleportPadPurple", Name: "Teleport Pad Purple", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3534) },
+	{ ID: 3535, Type: "Functional", Style: "TeleportPadPink", Name: "Teleport Pad Pink", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3535) },
+	{ ID: 3536, Type: "Functional", Style: "TeleportPadOrange", Name: "Teleport Pad Orange", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3536) },
+	{ ID: 3537, Type: "Functional", Style: "TeleportPadCyan", Name: "Teleport Pad Cyan", Pair: true, Shared: true, OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(3537) },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },

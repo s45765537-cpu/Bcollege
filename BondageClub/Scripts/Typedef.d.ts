@@ -5385,6 +5385,10 @@ interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
+	/** Only two can be placed on a map, ex. teleport pads that link to each other */
+	Pair?: boolean;
+	/** Characters can stand on the same tile without being pushed off */
+	Shared?: boolean;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: AssetName;
 	IsVisible?: () => boolean;
