@@ -2251,7 +2251,9 @@ interface CharacterOnlineSharedSettings {
 	ItemsAffectExpressions: boolean;
 	ScriptPermissions: ScriptPermissions;
 	WheelFortune: string;
-	LockTimerLimit: LockTimerLimitName
+	LockTimerLimit: LockTimerLimitName;
+	/** Whether this character is an automated bot. Bots with this flag set do not count toward a room's player limit, provided the room has available BotSlots. */
+	IsBot?: boolean;
 }
 
 type NicknameStatus = "NicknameTooLong" | "NicknameTooShort" | "NicknameInvalidChars" | "NicknameLocked";
