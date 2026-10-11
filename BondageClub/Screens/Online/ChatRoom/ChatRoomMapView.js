@@ -1427,8 +1427,10 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				ObjectImage = MapGetAssetUrl("Object", Obj.Type, ImageName);
 				const color = Obj.BuildImageColor?.(X, Y);
 				let opacity = color?.length === 9 ? parseInt(color.slice(7), 16) / 255 : 1;
-				// Admins still see objects colored nearly invisible, outlined so they aren't taken for regular ones
-				const hiddenFromOthers = opacity < 0.3 && ChatRoomPlayerIsAdmin();
+				// While building, admins still see objects colored nearly invisible, circled so they aren't taken for regular ones
+				const building = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode)
+					|| (ChatRoomMapViewSelectedObjectIndex === X + Y * ChatRoomMapViewWidth && !ChatRoomMapViewDialogMenu?.hidden);
+				const hiddenFromOthers = opacity < 0.3 && building && ChatRoomPlayerIsAdmin();
 				if (hiddenFromOthers) opacity = 0.35;
 
 				DrawImageResize(color ? ChatRoomMapViewGetColoredImage(ObjectImage, CommonColorTrimAlpha(color)) : ObjectImage,
@@ -1438,7 +1440,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 					Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)),
 					{ Rotation: Obj.Rotation, Alpha: opacity }
 				);
-				if (hiddenFromOthers) DrawEmptyRect(Left + ScreenX + 2, Top + ScreenY + 2, TileWidth - 4, TileHeight - 4, "red", 2);
+				if (hiddenFromOthers) DrawCircle(Left + ScreenX + TileWidth / 2, Top + ScreenY + TileHeight / 2, TileWidth * 0.47, 1.5, "#FFFFFF80");
 			}
 		}
 
