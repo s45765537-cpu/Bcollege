@@ -1314,9 +1314,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	}
 	/** @type {{ stack: Character[], x: number, y: number, charX: number, charY: number }[]} */
 	const sharedTiles = [];
-	const padDestination = ChatRoomMapViewSelectedObjectConfigType === "Teleporter" && ChatRoomMapViewSelectedObjectIndex != null && !ChatRoomMapViewDialogMenu?.hidden
-		? MapManager.Map.getTeleporterDestination(ChatRoomMapViewSelectedObjectIndex)
-		: null;
+	// While a teleport pad's menu is open, the pad and where it sends to are outlined
+	const padMenuIndex = ChatRoomMapViewSelectedObjectConfigType === "Teleporter" && !ChatRoomMapViewDialogMenu?.hidden ? ChatRoomMapViewSelectedObjectIndex : null;
+	const padDestination = padMenuIndex != null ? MapManager.Map.getTeleporterDestination(padMenuIndex) : null;
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapViewCollision();
@@ -1506,6 +1506,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		// Draw the floor wall effect and rectancle if needed at the end
 		if (FloorWallEffect != -1) DrawImageResize(MapGetAssetUrl("Tile", "WallEffect", `${FloorWallEffect}`), Math.floor(ScreenX), Math.floor(ScreenY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 		if (DrawSelectionRect) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 3);
+		if (padMenuIndex === X + Y * ChatRoomMapViewWidth) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "white", 2);
 		if (padDestination?.X === X && padDestination?.Y === Y) DrawEmptyRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "cyan", 5);
 		if (ChatRoomMapViewTeleportPadPicking && MouseIn(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight)) DrawRect(Left + ScreenX, Top + ScreenY, TileWidth, TileHeight, "#00FFFF60");
 
