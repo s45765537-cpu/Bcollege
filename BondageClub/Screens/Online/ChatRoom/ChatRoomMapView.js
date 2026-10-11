@@ -83,6 +83,10 @@ var ChatRoomMapViewSelectedObjectConfigType = null;
 var ChatRoomMapViewColorTool = "Edit";
 /** @type {ChatRoomMapColorFormat | null} */
 var ChatRoomMapViewColorFormat = null;
+/** @type {null | (() => void)} - Restores the layer color when the open color picker is left without accepting */
+var ChatRoomMapViewColorPickerCancel = null;
+/** @type {null | { Index: number, Colors: HexColor[] }} - The colors shown on an object while its color dialog is being edited */
+var ChatRoomMapViewColorPreview = null;
 
 document.addEventListener("blur", () => {
 	if (ChatRoomMapViewIsActive()) ChatRoomMapViewBlur();
@@ -239,8 +243,7 @@ function ChatRoomMapViewCreateDialogMenu() {
 						textContent: "Title"
 					},
 					ElementButton.Create(null, () => {
-						ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
-						ChatRoomMapViewResetColorTool();
+						ChatRoomMapViewCloseDialogMenu();
 					},
 					{
 						tooltip: "Close",
@@ -278,6 +281,7 @@ function ChatRoomMapViewCreateDialogMenu() {
  * @param {HTMLElement} [footer]
  */
 function ChatRoomMapViewShowDialogMenu(title, content, footer) {
+	ChatRoomMapViewEndColorEditing();
 	if (ElementWrap("chat-room-map-view-dialog-menu")) ChatRoomMapViewCreateDialogMenu();
 	ChatRoomMapViewDialogMenu?.removeAttribute("hidden");
 	const titleElement = ChatRoomMapViewDialogMenu?.querySelector(".chat-room-map-view-dialog-header-title");
@@ -287,7 +291,26 @@ function ChatRoomMapViewShowDialogMenu(title, content, footer) {
 }
 
 function ChatRoomMapViewHideDialogMenu() {
+	ChatRoomMapViewEndColorEditing();
 	ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
+}
+
+/**
+ * Closes the dialog from its close button
+ * @returns {void}
+ */
+function ChatRoomMapViewCloseDialogMenu() {
+	ChatRoomMapViewClearCellSelection();
+	ChatRoomMapViewResetColorTool();
+}
+
+/**
+ * Closes the color picker and drops the colors previewed on the map
+ * @returns {void}
+ */
+function ChatRoomMapViewEndColorEditing() {
+	ChatRoomMapViewCloseColorPicker();
+	ChatRoomMapViewColorPreview = null;
 }
 
 /**
@@ -333,19 +356,84 @@ function ChatRoomMapViewParseHexColor(value) {
 }
 
 /**
- * Creates the color rows of the color dialog: a swatch opening the color wheel and a HEX field for each layer
+ * Opens the color picker used for clothes on one color layer
+ * @param {string} heading
+ * @param {ChatRoomMapColorLayer} layer
+ * @param {HexColor} original - The color of the layer when the picker opens, restored on Cancel
+ * @param {(color: HexColor, accepted?: boolean) => void} onPick - Called with the color being picked, with the original one on Cancel,
+ * and with `accepted` set when the picker is left with Accept
+ */
+function ChatRoomMapViewPickLayerColor(heading, layer, original, onPick) {
+	ChatRoomMapViewCloseColorPicker();
+	/** @type {(state: null | Pick<ItemColorExitState, "colors">) => null | HexColor} */
+	const toColor = (state) => {
+		const color = state?.colors[0];
+		if (color === "Default") return layer.DefaultColor;
+		return color ? ChatRoomMapViewParseHexColor(color) : null;
+	};
+	const cancel = () => onPick(original);
+	ChatRoomMapViewColorPickerCancel = cancel;
+	// A hidden picker keeps the `onInput` it was created with, so it is created anew for each layer
+	ColorPickerExit(true);
+	CommonPromiseCatch(
+		ColorPickerInit({
+			colorState: { colors: [original], defaultColors: [layer.DefaultColor], opacity: [1], editOpacity: false },
+			heading: `${heading} - ${layer.Name}`,
+			onInput: (fieldset) => {
+				const color = toColor(ColorPicker.getColor(fieldset.closest(".screen") ?? fieldset));
+				if (color && ChatRoomMapViewColorPickerCancel === cancel) onPick(color);
+			},
+			onExit: (state, save) => {
+				if (ChatRoomMapViewColorPickerCancel !== cancel) return;
+				ChatRoomMapViewColorPickerCancel = null;
+				const color = save ? toColor(state) : null;
+				onPick(color ?? original, !!color);
+			},
+		}).then(root => {
+			// The picker has no background of its own and its labels are white, so it gets a dark one over the chat log
+			root.style.backgroundColor = "#111";
+			root.style.color = "#EEE";
+		})
+	);
+}
+
+/**
+ * Closes the color picker of a color layer, if open
+ * @param {boolean} [keep=false] - Keep the color being picked instead of restoring the color the layer had before
+ * @returns {void}
+ */
+function ChatRoomMapViewCloseColorPicker(keep = false) {
+	const cancel = ChatRoomMapViewColorPickerCancel;
+	if (!cancel) return;
+	ChatRoomMapViewColorPickerCancel = null;
+	if (!keep) cancel();
+	ColorPickerExit(true);
+}
+
+/**
+ * Creates the color rows of the color dialog: a swatch opening the color picker and a HEX field for each layer
+ * @param {string} heading - The heading of the color picker
  * @param {readonly ChatRoomMapColorLayer[]} layers
  * @param {readonly HexColor[]} colors - The current color of each layer
  * @param {() => void} [onChange] - Called whenever a valid color is picked
+ * @param {() => void} [onCommit] - Called when a color is confirmed, with Accept in the color picker or by leaving the HEX field
  * @returns {{ element: HTMLElement, getColors: () => HexColor[], setColors: (colors: readonly HexColor[]) => void }}
  */
-function ChatRoomMapViewCreateColorRows(layers, colors, onChange) {
+function ChatRoomMapViewCreateColorRows(heading, layers, colors, onChange, onCommit) {
 	/** @type {HexColor[]} */
 	const current = [...colors];
-	const swatches = layers.map((layer, i) => /** @type {HTMLInputElement} */ (ElementCreate({
-		tag: "input",
+	const swatches = layers.map((layer, i) => /** @type {HTMLButtonElement} */ (ElementCreate({
+		tag: "button",
 		classList: ["chat-room-map-view-dialog-color-swatch"],
-		attributes: { type: "color", value: current[i].toLowerCase(), "aria-label": layer.Name },
+		attributes: { type: "button", "aria-label": layer.Name },
+		style: { "background-color": current[i] },
+		eventListeners: {
+			click: () => ChatRoomMapViewPickLayerColor(heading, layer, current[i], (color, accepted) => {
+				setColor(i, color);
+				onChange?.();
+				if (accepted) onCommit?.();
+			}),
+		},
 	})));
 	const hexFields = layers.map((layer, i) => /** @type {HTMLInputElement} */ (ElementCreate({
 		tag: "input",
@@ -356,27 +444,24 @@ function ChatRoomMapViewCreateColorRows(layers, colors, onChange) {
 	/** @type {(i: number, color: HexColor) => void} */
 	const setColor = (i, color) => {
 		current[i] = color;
-		swatches[i].value = color.toLowerCase();
+		swatches[i].style.backgroundColor = color;
 		hexFields[i].value = color;
 		hexFields[i].classList.remove("chat-room-map-view-dialog-color-hex-invalid");
 	};
 
 	layers.forEach((_, i) => {
-		swatches[i].addEventListener("input", () => {
-			const color = ChatRoomMapViewParseHexColor(swatches[i].value);
-			if (!color) return;
-			setColor(i, color);
-			onChange?.();
-		});
 		hexFields[i].addEventListener("input", () => {
 			const color = ChatRoomMapViewParseHexColor(hexFields[i].value);
 			hexFields[i].classList.toggle("chat-room-map-view-dialog-color-hex-invalid", !color);
 			if (!color) return;
 			current[i] = color;
-			swatches[i].value = color.toLowerCase();
+			swatches[i].style.backgroundColor = color;
 			onChange?.();
 		});
-		hexFields[i].addEventListener("change", () => setColor(i, current[i]));
+		hexFields[i].addEventListener("change", () => {
+			setColor(i, current[i]);
+			onCommit?.();
+		});
 	});
 
 	const element = ElementCreate({
@@ -429,27 +514,33 @@ function ChatRoomMapViewShowColorDialog(x, y) {
 	if (!object || !layers?.length) return false;
 
 	ChatRoomMapViewSetCellSelection(index, "Color");
-	const rows = ChatRoomMapViewCreateColorRows(layers, MapGetObjectLayerColors(index, object));
-
+	const title = ChatRoomMapViewGetObjectDisplayName(object);
 	/** @type {(colors: ChatRoomMapColorObjectConfig["Colors"]) => void} */
 	const save = (colors) => {
+		ChatRoomMapViewColorPreview = null;
 		if (!ChatRoomPlayerIsAdmin()) return;
+		const saved = ChatRoomMapViewToStoredColors(layers, MapGetObjectLayerColors(index, object));
+		if (colors.length === saved.length && colors.every((color, i) => color === saved[i])) return;
 		MapManager.Map.setObjectConfig(index, ChatRoomMapViewBuildColorConfig(colors), { undo: true });
 	};
+	const rows = ChatRoomMapViewCreateColorRows(title, layers, MapGetObjectLayerColors(index, object), () => {
+		ChatRoomMapViewColorPreview = { Index: index, Colors: rows.getColors() };
+	}, () => save(ChatRoomMapViewToStoredColors(layers, rows.getColors())));
 
-	ChatRoomMapViewShowDialogMenu(ChatRoomMapViewGetObjectDisplayName(object), rows.element, ElementCreate({
+	ChatRoomMapViewShowDialogMenu(title, rows.element, ElementCreate({
 		tag: "div",
 		classList: ["chat-room-map-view-dialog-color-buttons"],
 		children: [
 			ChatRoomMapViewCreateColorButton(TextGet("EditorColorPasteFormat"), () => {
+				ChatRoomMapViewCloseColorPicker(true);
 				ChatRoomMapViewColorFormat = { ObjectID: object.ID, Colors: ChatRoomMapViewToStoredColors(layers, rows.getColors()) };
 				ChatRoomMapViewStartColorPaste();
 			}),
 			ChatRoomMapViewCreateColorButton(TextGet("EditorColorReset"), () => {
+				ChatRoomMapViewCloseColorPicker(true);
 				rows.setColors(layers.map(layer => layer.DefaultColor));
-				save([]);
+				save(layers.map(() => "Default"));
 			}),
-			ChatRoomMapViewCreateColorButton(TextGet("EditorColorApply"), () => save(ChatRoomMapViewToStoredColors(layers, rows.getColors()))),
 		],
 	}));
 	return true;
@@ -474,11 +565,12 @@ function ChatRoomMapViewStartColorPaste() {
 		const color = format.Colors[i];
 		return color && color !== "Default" ? color : layer.DefaultColor;
 	});
-	const rows = ChatRoomMapViewCreateColorRows(layers, colors, () => {
+	const title = `${TextGet("EditorColorPasteTitle")} ${ChatRoomMapViewGetObjectDisplayName(object)}`;
+	const rows = ChatRoomMapViewCreateColorRows(title, layers, colors, () => {
 		format.Colors = ChatRoomMapViewToStoredColors(layers, rows.getColors());
 	});
 
-	ChatRoomMapViewShowDialogMenu(`${TextGet("EditorColorPasteTitle")} ${ChatRoomMapViewGetObjectDisplayName(object)}`, rows.element, ElementCreate({
+	ChatRoomMapViewShowDialogMenu(title, rows.element, ElementCreate({
 		tag: "div",
 		classList: ["chat-room-map-view-dialog-color-buttons"],
 		children: [
@@ -1060,6 +1152,7 @@ function ChatRoomMapViewDeactivate() {
 
 function ChatRoomMapViewDestroyElements() {
 	document.removeEventListener("blur", ChatRoomMapViewBlur);
+	ChatRoomMapViewEndColorEditing();
 	if (ElementWrap("chat-room-map-view-panel")) {
 		ElementRemove("chat-room-map-view-panel");
 	}
@@ -1754,8 +1847,11 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				let ImageName = Obj.BuildImageName?.(X, Y) ?? Obj.Style;
 				if (Char && Obj.OccupiedStyle) ImageName = Obj.OccupiedStyle;
 				ObjectData = Obj;
-				ObjectImage = Obj.ColorLayers && MapHasCustomColors(Pos, Obj)
-					? ChatRoomMapViewGetColoredObjectImage(Obj, ImageName, MapGetObjectLayerColors(Pos, Obj))
+				const PreviewColors = ChatRoomMapViewColorPreview?.Index === Pos && ChatRoomMapViewColorPreview.Colors.length === Obj.ColorLayers?.length
+					? ChatRoomMapViewColorPreview.Colors
+					: null;
+				ObjectImage = Obj.ColorLayers && (PreviewColors || MapHasCustomColors(Pos, Obj))
+					? ChatRoomMapViewGetColoredObjectImage(Obj, ImageName, PreviewColors ?? MapGetObjectLayerColors(Pos, Obj))
 					: MapGetAssetUrl("Object", Obj.Type, ImageName);
 
 				const ObjX = Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left));

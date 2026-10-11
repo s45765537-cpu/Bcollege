@@ -175,7 +175,6 @@ EditorButtonTextEditTiles,Tiles
 EditorButtonTextEditObjects,Objects
 EditorButtonTextEditEffects,Effects
 EditorButtonTextEditColors,Colors
-EditorColorApply,Apply
 EditorColorReset,Reset
 EditorColorPasteFormat,Paste format
 EditorColorStopPaste,Stop pasting

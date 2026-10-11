@@ -244,8 +244,13 @@ textarea.chat-room-map-view-dialog-content-text {
 	width: 2em;
 	height: 1.4em;
 	padding: 0;
-	border: none;
-	background: none;
+	border: 2px solid white;
+	outline: 1px solid black;
+	cursor: pointer;
+}
+
+.chat-room-map-view-dialog-color-swatch:hover {
+	border-color: cyan;
 }
 
 .chat-room-map-view-dialog-color-hex {
