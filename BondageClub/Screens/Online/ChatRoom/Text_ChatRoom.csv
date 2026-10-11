@@ -175,3 +175,14 @@ EditorButtonTextEditTiles,Tiles
 EditorButtonTextEditObjects,Objects
 EditorButtonTextEditEffects,Effects
 EditorButtonTextBack,Back
+TeleportPadTitle,Teleport Pad
+TeleportPadNoDestination,Doesn't send anywhere yet
+TeleportPadSendsTo,Sends to the outlined tile
+TeleportPadSendsBothWays,Sends to the outlined pad and back
+TeleportPadPick,Pick on the map
+TeleportPadPicking,Click the tile it should send to
+TeleportPadCancel,Cancel
+TeleportPadTwoWay,Two way
+TeleportPadRemove,Remove
+TeleportPadColor,Color
+TeleportPadInvalid,It can't send to itself or to a wall

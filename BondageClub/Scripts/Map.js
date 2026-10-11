@@ -1272,13 +1272,7 @@ var MapManager = (function () {
 			range = CommonClamp(range, 0, Infinity);
 			if (object?.Unique) range = 0;
 
-			// Two teleport pads at most per link
-			if (object?.Teleporter) {
-				range = 0;
-				const config = this.getObjectConfig(index);
-				const link = (config?.Type === "Teleporter") ? config.Link : object.Teleporter;
-				if (this.#countTeleporters(link, index) >= 2) return false;
-			}
+			if (object?.Teleporter) range = 0;
 
 			const clean = this.isDirtyObjects();
 			const previousObject = this.getObject(index) ?? MapDataGetObject(ChatRoomMapViewObjectStartID);
@@ -1305,7 +1299,42 @@ var MapManager = (function () {
 				}
 			});
 
+			if (object.Teleporter && !previousObject.Teleporter && this.getObjectId(index) === object.ID) {
+				this.#pairNewTeleporter(index);
+			}
+
 			return true;
+		}
+
+		/**
+		 * Points a teleport pad that was just placed and one still waiting for a pair at each other,
+		 * so placing two pads in a row links them both ways. A pad waits when it doesn't send anywhere
+		 * and no pad sends to it. A new pair gets a color no other pad has, when there's one left.
+		 * @param {number} index - The new pad
+		 */
+		#pairNewTeleporter(index) {
+			if (!this.#_mapData) throw Error("No map loaded");
+			if (this.getObjectConfig(index)) this.setObjectConfig(index, undefined);
+			const pads = [];
+			const targeted = new Set();
+			const usedColors = new Set();
+			for (let other = 0; other < this.#_mapData.objects.length; other++) {
+				if (other === index || !this.getObject(other)?.Teleporter) continue;
+				pads.push(other);
+				const destination = this.getTeleporterDestination(other);
+				if (destination) targeted.add(MapCoordinatesToIndex(destination.X, destination.Y));
+				const color = this.getTeleporterColor(other);
+				if (color) usedColors.add(color);
+			}
+			const waiting = pads.find(other => !this.getTeleporterDestination(other) && !targeted.has(other));
+			if (waiting == null) {
+				const colors = AssetsMapDataTeleportPadColors;
+				this.setTeleporterColor(index, colors.find(color => !usedColors.has(color)) ?? colors[pads.length % colors.length]);
+				return;
+			}
+			this.setTeleporterColor(index, this.getTeleporterColor(waiting) ?? AssetsMapDataTeleportPadColors[0]);
+			this.setTeleporterDestination(index, MapIndexToCoordinates(waiting));
+			this.setTeleporterDestination(waiting, MapIndexToCoordinates(index));
 		}
 
 		/**
@@ -1367,58 +1396,72 @@ var MapManager = (function () {
 		}
 
 		/**
-		 * Gets the link of the teleport pad at the given coordinates, the one set in its config or the one it starts with
+		 * Gets where the teleport pad at the given coordinates sends to
 		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {string | null} - null if there's no teleport pad there
-		 */
-		getTeleporterLink(...args) {
-			const [index] = this.unpackIndex(...args);
-			const object = this.getObject(index);
-			if (!object?.Teleporter) return null;
-			const config = this.getObjectConfig(index);
-			return (config?.Type === "Teleporter") ? config.Link : object.Teleporter;
-		}
-
-		/**
-		 * Changes the link of the teleport pad at the given coordinates, an empty link brings back the one it starts with
-		 * @param {[x: number, y: number, link: string] | [index: number, link: string]} args
-		 * @return {boolean} - false if there's no teleport pad there or if two other pads already use that link
-		 */
-		setTeleporterLink(...args) {
-			const [index, link] = this.unpackIndex(...args);
-			const object = this.getObject(index);
-			if (!object?.Teleporter) return false;
-			const newLink = link.trim() || object.Teleporter;
-			if (this.#countTeleporters(newLink, index) >= 2) return false;
-			this.setObjectConfig(index, (newLink === object.Teleporter) ? undefined : { Type: "Teleporter", Link: newLink });
-			return true;
-		}
-
-		/**
-		 * Gets where the teleport pad at the given coordinates sends to, the other pad with the same link
-		 * @param {[x: number, y: number] | [index: number]} args
-		 * @return {ChatRoomMapPos | null} - null if it's not a teleport pad or if it has no other pad
+		 * @return {ChatRoomMapPos | null} - null if it's not a teleport pad or it doesn't send anywhere yet
 		 */
 		getTeleporterDestination(...args) {
 			const [index] = this.unpackIndex(...args);
-			const link = this.getTeleporterLink(index);
-			if (link == null) return null;
-			for (let other = 0; other < ChatRoomMapViewWidth * ChatRoomMapViewHeight; other++)
-				if ((other !== index) && (this.getTeleporterLink(other) === link)) return MapIndexToCoordinates(other);
-			return null;
+			if (!this.getObject(index)?.Teleporter) return null;
+			const config = this.getObjectConfig(index);
+			if (config?.Type !== "Teleporter" || !config.Destination) return null;
+			// A copy, the player's position is changed in place when she walks
+			return { X: config.Destination.X, Y: config.Destination.Y };
 		}
 
 		/**
-		 * Counts the teleport pads using a link
-		 * @param {string} link
-		 * @param {number} exceptIndex - That cell isn't counted
-		 * @return {number}
+		 * Sets where the teleport pad at the given coordinates sends to
+		 * @param {[x: number, y: number, destination: ChatRoomMapPos | null] | [index: number, destination: ChatRoomMapPos | null]} args
+		 * @return {boolean} - false if it's not a teleport pad, or the destination is the pad itself, a wall or outside the map
 		 */
-		#countTeleporters(link, exceptIndex) {
-			let count = 0;
-			for (let index = 0; index < ChatRoomMapViewWidth * ChatRoomMapViewHeight; index++)
-				if ((index !== exceptIndex) && (this.getTeleporterLink(index) === link)) count++;
-			return count;
+		setTeleporterDestination(...args) {
+			const [index, destination] = this.unpackIndex(...args);
+			if (!this.getObject(index)?.Teleporter) return false;
+			const color = this.getTeleporterColor(index) ?? undefined;
+			if (!destination) return this.setObjectConfig(index, { Type: "Teleporter", Color: color });
+			const { X, Y } = destination;
+			if (X < 0 || Y < 0 || X >= ChatRoomMapViewWidth || Y >= ChatRoomMapViewHeight) return false;
+			if (MapCoordinatesToIndex(X, Y) === index || this.getTile(X, Y)?.Type === "Wall") return false;
+			return this.setObjectConfig(index, { Type: "Teleporter", Destination: { X, Y }, Color: color });
+		}
+
+		/**
+		 * Whether a teleport pad sends to the given coordinates
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {boolean}
+		 */
+		isTeleporterDestination(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
+			const [index] = this.unpackIndex(...args);
+			for (const [padIndex, config] of Object.entries(this.#_mapData.objectConfigs ?? {})) {
+				if (config.Type !== "Teleporter" || !config.Destination || !this.getObject(Number(padIndex))?.Teleporter) continue;
+				if (MapCoordinatesToIndex(config.Destination.X, config.Destination.Y) === index) return true;
+			}
+			return false;
+		}
+
+		/**
+		 * Gets the color of the teleport pad at the given coordinates, with its opacity when it's see-through
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {HexColor | null} - null if it's not a teleport pad or it has no color
+		 */
+		getTeleporterColor(...args) {
+			const [index] = this.unpackIndex(...args);
+			if (!this.getObject(index)?.Teleporter) return null;
+			const config = this.getObjectConfig(index);
+			return config?.Type === "Teleporter" ? config.Color ?? null : null;
+		}
+
+		/**
+		 * Sets the color of the teleport pad at the given coordinates
+		 * @param {[x: number, y: number, color: HexColor] | [index: number, color: HexColor]} args - The color, opacity included (#RRGGBBAA)
+		 * @return {boolean} - false if it's not a teleport pad or the color isn't a color
+		 */
+		setTeleporterColor(...args) {
+			const [index, color] = this.unpackIndex(...args);
+			if (!this.getObject(index)?.Teleporter || !CommonIsColor(color, { allowAlpha: true })) return false;
+			const destination = this.getTeleporterDestination(index) ?? undefined;
+			return this.setObjectConfig(index, { Type: "Teleporter", Destination: destination, Color: color });
 		}
 
 		/**

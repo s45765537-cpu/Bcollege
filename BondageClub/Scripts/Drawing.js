@@ -1927,6 +1927,16 @@ function RectScale(rect, wScale, hScale) {
 }
 
 /**
+ * Whether two rects overlap, touching edges don't count
+ * @param {Readonly<RectTuple>} a
+ * @param {Readonly<RectTuple>} b
+ * @returns {boolean}
+ */
+function RectOverlapsWithRect(a, b) {
+	return a[0] < b[0] + b[2] && b[0] < a[0] + a[2] && a[1] < b[1] + b[3] && b[1] < a[1] + a[3];
+}
+
+/**
  * Transform a rectangle to fit partially or wholly inside another. E.g. an image onto a background canvas
  * @param {Rect} sourceRect Source rectangle, to be resized and/or trimmed
  * @param {Rect} destRect Destination rectangle, the available space to contain the result

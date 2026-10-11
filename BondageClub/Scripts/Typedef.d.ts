@@ -5385,14 +5385,16 @@ interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
-	/** A teleport pad, the value is the link it starts with. Pads with the same link send to each other, two at most per link */
-	Teleporter?: string;
+	/** A teleport pad, its config holds where it sends to */
+	Teleporter?: boolean;
 	/** Characters can stand on the same tile without being pushed off */
 	Shared?: boolean;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: AssetName;
 	IsVisible?: () => boolean;
 	BuildImageName?: (X: number, Y: number) => string;
+	/** The color the object is drawn in, the way clothes are colored, opacity included (#RRGGBBAA) */
+	BuildImageColor?: (X: number, Y: number) => HexColor | null;
 	OnClick?: (x: number, y: number) => void;
 }
 
@@ -5413,10 +5415,10 @@ interface ChatRoomMapSignObjectConfig {
 	Text: string;
 }
 
-/** A teleport pad renamed from its default link */
 interface ChatRoomMapTeleporterObjectConfig {
 	Type: "Teleporter";
-	Link: string;
+	Destination?: ChatRoomMapPos;
+	Color?: HexColor;
 }
 
 
