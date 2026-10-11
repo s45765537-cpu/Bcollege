@@ -294,7 +294,20 @@ describe("MapManager", () => {
 	describe("teleport pads", () => {
 		const pad = Game.MapDataGetObject(3530);
 		const colors = ["#3C8CFF", "#FF4060", "#40D080", "#FFC830", "#A050FF", "#FF60C0", "#FF8A30", "#30E0E0"];
-		expect(pad?.Teleporter).toBe(true);
+		expect(pad?.DefaultObjectConfig).toEqual({ Type: "Teleporter", Shared: true });
+
+		it("should give a placed pad its default config", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Color: colors[0] });
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).not.toBe(pad.DefaultObjectConfig);
+		});
+
+		it("should keep the color and sharing when the destination is removed", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, null)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Color: colors[0] });
+		});
 
 		it("should send nowhere until it has a pair", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
@@ -352,7 +365,7 @@ describe("MapManager", () => {
 		it("should send one way to any floor tile", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
 			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: 30, Y: 2 })).toBe(true);
-			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Destination: { X: 30, Y: 2 }, Color: colors[0] });
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Destination: { X: 30, Y: 2 }, Color: colors[0] });
 			expect(Game.MapManager.Map.getTeleporterDestination(10, 10)).toEqual({ X: 30, Y: 2 });
 		});
 

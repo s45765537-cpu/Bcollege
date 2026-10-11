@@ -40,27 +40,32 @@ function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 }
 
 /**
- * When stepping on a teleport pad, after a short delay the player is sent to where it points
+ * Returns the OnEnter for a teleport pad: after the delay the player is sent to where it points
+ * @param {number} delay - How long the player stays on the pad first, in milliseconds
+ * @returns {ChatRoomMapObject["OnEnter"]}
  */
-function ChatRoomMapViewTeleportPadOnEnter() {
-	const x = Player.X;
-	const y = Player.Y;
-	setTimeout(function() {
-		// Walking off the pad cancels it
-		if (Player.X === x && Player.Y === y && ChatRoomMapViewMovement == null) ChatRoomMapViewTeleportPad();
-	}, 400);
+function ChatRoomMapViewCreateOnEnterTeleportLogic(delay) {
+	return function() {
+		const x = Player.X;
+		const y = Player.Y;
+		setTimeout(function() {
+			// Walking off the pad cancels it
+			if (Player.X === x && Player.Y === y && ChatRoomMapViewMovement == null) ChatRoomMapViewTeleportPad();
+		}, delay);
+	};
 }
 
 /**
- * Admins can click a teleport pad to see where it sends to, outlined on the map, and change it
- * @param {number} x
- * @param {number} y
+ * Returns the OnClick for a teleport pad: admins see where it sends to, outlined on the map, and change it
+ * @returns {ChatRoomMapObject["OnClick"]}
  */
-function ChatRoomMapViewTeleportPadOnClick(x, y) {
-	if (!ChatRoomPlayerIsAdmin()) return;
-	ChatRoomMapViewSetCellSelection(x, y, "Teleporter");
-	ChatRoomMapViewTeleportPadPicking = false;
-	ChatRoomMapViewShowTeleportPadMenu(x, y);
+function ChatRoomMapViewCreateOnClickTeleportLogic() {
+	return (x, y) => {
+		if (!ChatRoomPlayerIsAdmin()) return;
+		ChatRoomMapViewSetCellSelection(x, y, "Teleporter");
+		ChatRoomMapViewTeleportPadPicking = false;
+		ChatRoomMapViewShowTeleportPadMenu(x, y);
+	};
 }
 
 /**
@@ -71,7 +76,7 @@ function ChatRoomMapViewTeleportPadOnClick(x, y) {
  */
 function ChatRoomMapViewShowTeleportPadMenu(x, y, message) {
 	const destination = MapManager.Map.getTeleporterDestination(x, y);
-	const destinationIsPad = !!destination && !!MapManager.Map.getObject(destination.X, destination.Y)?.Teleporter;
+	const destinationIsPad = !!destination && MapManager.Map.getObject(destination.X, destination.Y)?.DefaultObjectConfig?.Type === "Teleporter";
 	const back = destination && MapManager.Map.getTeleporterDestination(destination.X, destination.Y);
 	const twoWay = back?.X === x && back?.Y === y;
 
@@ -83,17 +88,11 @@ function ChatRoomMapViewShowTeleportPadMenu(x, y, message) {
 		eventListeners: { click: onClick },
 	});
 	const buttons = [];
-	if (ChatRoomMapViewTeleportPadPicking) {
-		buttons.push(button(TextGet("TeleportPadCancel"), () => {
-			ChatRoomMapViewTeleportPadPicking = false;
-			ChatRoomMapViewShowTeleportPadMenu(x, y);
-		}));
-	} else {
-		buttons.push(button(TextGet("TeleportPadPick"), () => {
-			ChatRoomMapViewTeleportPadPicking = true;
-			ChatRoomMapViewShowTeleportPadMenu(x, y);
-		}));
-	}
+	const padPickingText = ChatRoomMapViewTeleportPadPicking ? "TeleportPadCancel" : "TeleportPadPick";
+	buttons.push(button(TextGet(padPickingText), () => {
+		ChatRoomMapViewTeleportPadPicking = !ChatRoomMapViewTeleportPadPicking;
+		ChatRoomMapViewShowTeleportPadMenu(x, y);
+	}));
 	if (!ChatRoomMapViewTeleportPadPicking && destination && destinationIsPad && !twoWay) {
 		buttons.push(button(TextGet("TeleportPadTwoWay"), () => {
 			MapManager.Map.setTeleporterDestination(destination.X, destination.Y, { X: x, Y: y });
@@ -1017,14 +1016,15 @@ const AssetsMapDataObjects = [
 	{ ID: 3522, Type: "Functional", Style: "SignMetal", OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign"),  Top: -0.25},
 	{ ID: 3523, Type: "Functional", Style: "SignMetalWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign")},
 
-	{ ID: 3530, Type: "Functional", Style: "TeleportPad", Name: "Teleport Pad", Teleporter: true, Shared: true,
+	{ ID: 3530, Type: "Functional", Style: "TeleportPad", Name: "Teleport Pad",
+		DefaultObjectConfig: { Type: "Teleporter", Shared: true },
 		BuildImageColor: (x, y) => {
 			const preview = ChatRoomMapViewTeleportPadPreview;
 			if (preview?.indexes.includes(MapCoordinatesToIndex(x, y))) return preview.color;
 			return MapManager.Map.getTeleporterColor(x, y);
 		},
-		OnEnter: ChatRoomMapViewTeleportPadOnEnter,
-		OnClick: ChatRoomMapViewTeleportPadOnClick,
+		OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(400),
+		OnClick: ChatRoomMapViewCreateOnClickTeleportLogic(),
 	},
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },

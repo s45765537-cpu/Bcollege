@@ -5385,10 +5385,8 @@ interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
-	/** A teleport pad, its config holds where it sends to */
-	Teleporter?: boolean;
-	/** Characters can stand on the same tile without being pushed off */
-	Shared?: boolean;
+	/** The config a cell gets when this object is placed there */
+	DefaultObjectConfig?: ChatRoomMapObjectConfig;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: AssetName;
 	IsVisible?: () => boolean;
@@ -5419,6 +5417,8 @@ interface ChatRoomMapTeleporterObjectConfig {
 	Type: "Teleporter";
 	Destination?: ChatRoomMapPos;
 	Color?: HexColor;
+	/** Characters can stand together on the pad and the tiles around it */
+	Shared?: boolean;
 }
 
 

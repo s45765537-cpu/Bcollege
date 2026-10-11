@@ -1740,7 +1740,8 @@ function ChatRoomMapViewTileIsShared(X, Y) {
 	for (let dX = -1; dX <= 1; dX++) {
 		for (let dY = -1; dY <= 1; dY++) {
 			if (X + dX < 0 || Y + dY < 0 || X + dX >= ChatRoomMapViewWidth || Y + dY >= ChatRoomMapViewHeight) continue;
-			if (MapManager.Map.getObject(X + dX, Y + dY)?.Shared || MapManager.Map.isTeleporterDestination(X + dX, Y + dY)) return true;
+			const config = MapManager.Map.getObjectConfig(X + dX, Y + dY);
+			if ((config?.Type === "Teleporter" && config.Shared) || MapManager.Map.isTeleporterDestination(X + dX, Y + dY)) return true;
 		}
 	}
 	return false;

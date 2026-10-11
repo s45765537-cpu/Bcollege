@@ -1272,7 +1272,7 @@ var MapManager = (function () {
 			range = CommonClamp(range, 0, Infinity);
 			if (object?.Unique) range = 0;
 
-			if (object?.Teleporter) range = 0;
+			if (object?.DefaultObjectConfig?.Type === "Teleporter") range = 0;
 
 			const clean = this.isDirtyObjects();
 			const previousObject = this.getObject(index) ?? MapDataGetObject(ChatRoomMapViewObjectStartID);
@@ -1299,8 +1299,10 @@ var MapManager = (function () {
 				}
 			});
 
-			if (object.Teleporter && !previousObject.Teleporter && this.getObjectId(index) === object.ID) {
-				this.#pairNewTeleporter(index);
+			// A newly placed object starts with its default config
+			if (object.DefaultObjectConfig && previousObject.ID !== object.ID && this.getObjectId(index) === object.ID) {
+				this.setObjectConfig(index, CommonCloneDeep(object.DefaultObjectConfig));
+				if (object.DefaultObjectConfig.Type === "Teleporter") this.#pairNewTeleporter(index);
 			}
 
 			return true;
@@ -1314,17 +1316,16 @@ var MapManager = (function () {
 		 */
 		#pairNewTeleporter(index) {
 			if (!this.#_mapData) throw Error("No map loaded");
-			if (this.getObjectConfig(index)) this.setObjectConfig(index, undefined);
 			const pads = [];
 			const targeted = new Set();
 			const usedColors = new Set();
-			for (let other = 0; other < this.#_mapData.objects.length; other++) {
-				if (other === index || !this.getObject(other)?.Teleporter) continue;
+			for (const key of Object.keys(this.#_mapData.objectConfigs ?? {})) {
+				const other = Number(key);
+				const config = this.#teleporterConfig(other);
+				if (other === index || !config) continue;
 				pads.push(other);
-				const destination = this.getTeleporterDestination(other);
-				if (destination) targeted.add(MapCoordinatesToIndex(destination.X, destination.Y));
-				const color = this.getTeleporterColor(other);
-				if (color) usedColors.add(color);
+				if (config.Destination) targeted.add(MapCoordinatesToIndex(config.Destination.X, config.Destination.Y));
+				if (config.Color) usedColors.add(config.Color);
 			}
 			const waiting = pads.find(other => !this.getTeleporterDestination(other) && !targeted.has(other));
 			if (waiting == null) {
@@ -1391,7 +1392,7 @@ var MapManager = (function () {
 					if (cell && ["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(cell.Style)) return true;
 					return false;
 				case "Teleporter":
-					return !!cell?.Teleporter;
+					return cell?.DefaultObjectConfig?.Type === "Teleporter";
 			}
 		}
 
@@ -1402,9 +1403,8 @@ var MapManager = (function () {
 		 */
 		getTeleporterDestination(...args) {
 			const [index] = this.unpackIndex(...args);
-			if (!this.getObject(index)?.Teleporter) return null;
-			const config = this.getObjectConfig(index);
-			if (config?.Type !== "Teleporter" || !config.Destination) return null;
+			const config = this.#teleporterConfig(index);
+			if (!config?.Destination) return null;
 			// A copy, the player's position is changed in place when she walks
 			return { X: config.Destination.X, Y: config.Destination.Y };
 		}
@@ -1416,13 +1416,28 @@ var MapManager = (function () {
 		 */
 		setTeleporterDestination(...args) {
 			const [index, destination] = this.unpackIndex(...args);
-			if (!this.getObject(index)?.Teleporter) return false;
-			const color = this.getTeleporterColor(index) ?? undefined;
-			if (!destination) return this.setObjectConfig(index, { Type: "Teleporter", Color: color });
+			const config = this.#teleporterConfig(index);
+			if (!config) return false;
+			if (!destination) {
+				const withoutDestination = { ...config };
+				delete withoutDestination.Destination;
+				return this.setObjectConfig(index, withoutDestination);
+			}
 			const { X, Y } = destination;
 			if (X < 0 || Y < 0 || X >= ChatRoomMapViewWidth || Y >= ChatRoomMapViewHeight) return false;
 			if (MapCoordinatesToIndex(X, Y) === index || this.getTile(X, Y)?.Type === "Wall") return false;
-			return this.setObjectConfig(index, { Type: "Teleporter", Destination: { X, Y }, Color: color });
+			return this.setObjectConfig(index, { ...config, Destination: { X, Y } });
+		}
+
+		/**
+		 * The config of the teleport pad at the given index
+		 * @param {number} index
+		 * @return {ChatRoomMapTeleporterObjectConfig | null} - null if there's no teleport pad there
+		 */
+		#teleporterConfig(index) {
+			if (this.getObject(index)?.DefaultObjectConfig?.Type !== "Teleporter") return null;
+			const config = this.getObjectConfig(index);
+			return config?.Type === "Teleporter" ? config : null;
 		}
 
 		/**
@@ -1433,9 +1448,9 @@ var MapManager = (function () {
 		isTeleporterDestination(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
 			const [index] = this.unpackIndex(...args);
-			for (const [padIndex, config] of Object.entries(this.#_mapData.objectConfigs ?? {})) {
-				if (config.Type !== "Teleporter" || !config.Destination || !this.getObject(Number(padIndex))?.Teleporter) continue;
-				if (MapCoordinatesToIndex(config.Destination.X, config.Destination.Y) === index) return true;
+			for (const key of Object.keys(this.#_mapData.objectConfigs ?? {})) {
+				const destination = this.#teleporterConfig(Number(key))?.Destination;
+				if (destination && MapCoordinatesToIndex(destination.X, destination.Y) === index) return true;
 			}
 			return false;
 		}
@@ -1447,9 +1462,7 @@ var MapManager = (function () {
 		 */
 		getTeleporterColor(...args) {
 			const [index] = this.unpackIndex(...args);
-			if (!this.getObject(index)?.Teleporter) return null;
-			const config = this.getObjectConfig(index);
-			return config?.Type === "Teleporter" ? config.Color ?? null : null;
+			return this.#teleporterConfig(index)?.Color ?? null;
 		}
 
 		/**
@@ -1459,9 +1472,9 @@ var MapManager = (function () {
 		 */
 		setTeleporterColor(...args) {
 			const [index, color] = this.unpackIndex(...args);
-			if (!this.getObject(index)?.Teleporter || !CommonIsColor(color, { allowAlpha: true })) return false;
-			const destination = this.getTeleporterDestination(index) ?? undefined;
-			return this.setObjectConfig(index, { Type: "Teleporter", Destination: destination, Color: color });
+			const config = this.#teleporterConfig(index);
+			if (!config || !CommonIsColor(color, { allowAlpha: true })) return false;
+			return this.setObjectConfig(index, { ...config, Color: color });
 		}
 
 		/**
@@ -2548,7 +2561,7 @@ function MapValidateCells() {
 		const objectData = MapManager.Map.getObjectConfig(index);
 		const object = MapManager.Map.getObject(index);
 		if (objectData?.Type === "Sign" && (!object || !["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(object.Style))) MapManager.Map.setObjectConfig(index, undefined);
-		if (objectData?.Type === "Teleporter" && !object?.Teleporter) MapManager.Map.setObjectConfig(index, undefined);
+		if (objectData?.Type === "Teleporter" && object?.DefaultObjectConfig?.Type !== "Teleporter") MapManager.Map.setObjectConfig(index, undefined);
 
 		if (ChatRoomMapViewSelectedObjectConfigType && index === ChatRoomMapViewSelectedObjectIndex && !MapManager.Map.isValidObjectConfig(index, ChatRoomMapViewSelectedObjectConfigType)) ChatRoomMapViewClearCellSelection();
 
