@@ -79,7 +79,7 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/ItemMisc/MistressPadlock/MistressPadlock.js",
 	"Screens/Inventory/ItemMisc/ExclusivePadlock/ExclusivePadlock.js",
 	"Screens/Inventory/ItemNeck/PetSuitShockCollar/PetSuitShockCollar.js",
-	"Screens/Inventory/Wings/SteampunkWings/SteampunkWings.js",
+	"Assets/PaperDoll/SteampunkWings-Wings/SteampunkWings.js",
 	"Screens/Inventory/ItemFeet/NylonRope/NylonRope.js",
 	"Screens/Inventory/ItemArms/NylonRope/NylonRope.js",
 	"Screens/Inventory/ItemFeet/HempRope/HempRope.js",
