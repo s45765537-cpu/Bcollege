@@ -72,13 +72,12 @@ function ChatRoomMapViewTeleportPadOnClick(x, y) {
 				value: MapManager.Map.getTeleporterLink(x, y) ?? "",
 			},
 			eventListeners: {
-				"input": function() {
-					const link = /** @type {HTMLInputElement} */(this).value;
-					footer.textContent = MapManager.Map.setTeleporterLink(x, y, link) ? hint : "Two pads already use that link";
-				},
+				// Only on enter or leaving the box, a half typed link could take another pair's place
 				"change": function() {
-					/** @type {HTMLInputElement} */(this).value = MapManager.Map.getTeleporterLink(x, y) ?? "";
-					footer.textContent = hint;
+					const input = /** @type {HTMLInputElement} */(this);
+					const link = input.value.trim();
+					footer.textContent = MapManager.Map.setTeleporterLink(x, y, link) ? hint : `Two pads already use "${link}"`;
+					input.value = MapManager.Map.getTeleporterLink(x, y) ?? "";
 				}
 			}
 		}
