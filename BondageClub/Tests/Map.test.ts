@@ -330,6 +330,17 @@ describe("MapManager", () => {
 			expect(Game.MapGetObjectLayerColors(index, throne)).toEqual(["#3050E0", throne.ColorLayers[1].DefaultColor]);
 		});
 
+		it("should only report custom colors for recolored objects", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			const index = Game.MapCoordinatesToIndex(10, 10);
+			expect(Game.MapHasCustomColors(index, throne)).toBe(false);
+			expect(Game.MapHasCustomColors(index, plainObject)).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(index, colorConfig)).toBe(true);
+			expect(Game.MapHasCustomColors(index, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(index, undefined)).toBe(true);
+			expect(Game.MapHasCustomColors(index, throne)).toBe(false);
+		});
+
 		it("should survive a save/load round trip", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);

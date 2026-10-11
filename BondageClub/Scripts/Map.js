@@ -2517,6 +2517,17 @@ function MapGetObjectLayerColors(index, object) {
 }
 
 /**
+ * Checks whether the object on a cell has been recolored, meaning it has a valid color config with at least one custom color
+ * @param {number} index
+ * @param {ChatRoomMapObject} object
+ * @returns {boolean}
+ */
+function MapHasCustomColors(index, object) {
+	const config = MapManager.Map.getObjectConfig(index);
+	return MapIsValidColorConfig(config, object) && config.Colors.some(c => c !== "Default");
+}
+
+/**
  * Sets the next update flag for the room if it's not already set, the delay is 5 seconds
  * @returns {void} - Nothing
  */

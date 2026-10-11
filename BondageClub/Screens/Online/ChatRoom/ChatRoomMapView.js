@@ -1754,7 +1754,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				let ImageName = Obj.BuildImageName?.(X, Y) ?? Obj.Style;
 				if (Char && Obj.OccupiedStyle) ImageName = Obj.OccupiedStyle;
 				ObjectData = Obj;
-				ObjectImage = Obj.ColorLayers
+				ObjectImage = Obj.ColorLayers && MapHasCustomColors(Pos, Obj)
 					? ChatRoomMapViewGetColoredObjectImage(Obj, ImageName, MapGetObjectLayerColors(Pos, Obj))
 					: MapGetAssetUrl("Object", Obj.Type, ImageName);
 
