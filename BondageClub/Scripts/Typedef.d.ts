@@ -5385,8 +5385,8 @@ interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
-	/** Only two can be placed on a map, ex. teleport pads that link to each other */
-	Pair?: boolean;
+	/** A teleport pad, the value is the link it starts with. Pads with the same link send to each other, two at most per link */
+	Teleporter?: string;
 	/** Characters can stand on the same tile without being pushed off */
 	Shared?: boolean;
 	AssetGroup?: AssetGroupItemName;
@@ -5406,11 +5406,17 @@ interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Color: [r: number, g: number, b: number, a: number];
 }
 
-type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig
+type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig | ChatRoomMapTeleporterObjectConfig
 
 interface ChatRoomMapSignObjectConfig {
 	Type: "Sign";
 	Text: string;
+}
+
+/** A teleport pad renamed from its default link */
+interface ChatRoomMapTeleporterObjectConfig {
+	Type: "Teleporter";
+	Link: string;
 }
 
 

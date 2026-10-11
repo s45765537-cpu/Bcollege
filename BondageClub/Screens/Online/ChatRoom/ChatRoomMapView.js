@@ -67,11 +67,9 @@ var ChatRoomMapViewKeysPressed = {
 	East: false,
 };
 var ChatRoomMapViewStartOfKeyPress = 0;
-/** @type {Map<number, Character>} */
+/** @type {Map<number, Character[]>} - The characters on each tile, the player first */
 var ChatRoomMapViewCharacterMap = new Map();
-/** @type {Map<number, Character[]>} - Every character standing on each tile, more than one only on shared tiles (teleport pads) */
-var ChatRoomMapViewCharacterStack = new Map();
-/** @type {{ C: Character, X: number, Y: number, W: number, H: number, CharX: number, CharY: number }[]} - The clickable name tags drawn over shared tiles */
+/** @type {{ C: Character, X: number, Y: number, W: number, H: number, CharX: number, CharY: number }[]} */
 var ChatRoomMapViewNameTags = [];
 /** @type {null | HTMLElement} */
 var ChatRoomMapViewDialogMenu = null;
@@ -1264,7 +1262,7 @@ function ChatRoomMapViewCollision() {
  */
 function ChatRoomMapViewGetCharacterAtPos(X, Y) {
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return null;
-	return ChatRoomMapViewCharacterMap.get(X + Y * ChatRoomMapViewWidth) ?? null;
+	return ChatRoomMapViewCharacterMap.get(X + Y * ChatRoomMapViewWidth)?.[0] ?? null;
 }
 
 /**
@@ -1291,16 +1289,13 @@ function ChatRoomMapViewGetEntryFlagPosition() {
 function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 	ChatRoomMapViewCharacterMap.clear();
-	ChatRoomMapViewCharacterStack.clear();
 	for(let C of ChatRoomCharacter) {
 		if (!C.MapData?.Pos) continue;
 		const Index = C.MapData.Pos.X + C.MapData.Pos.Y * ChatRoomMapViewWidth;
-		const Stack = ChatRoomMapViewCharacterStack.get(Index);
-		if (Stack) Stack.push(C);
-		else ChatRoomMapViewCharacterStack.set(Index, [C]);
-		// On a shared tile (teleport pads) the player stays the one drawn
-		if (ChatRoomMapViewCharacterMap.get(Index)?.IsPlayer()) continue;
-		ChatRoomMapViewCharacterMap.set(Index, C);
+		const Stack = ChatRoomMapViewCharacterMap.get(Index);
+		if (!Stack) ChatRoomMapViewCharacterMap.set(Index, [C]);
+		else if (C.IsPlayer()) Stack.unshift(C);
+		else Stack.push(C);
 	}
 	/** @type {{ Stack: Character[], X: number, Y: number, CharX: number, CharY: number }[]} */
 	const SharedTiles = [];
@@ -1442,9 +1437,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 				// Draws the character on the grid
 				DrawCharacter(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
-
-				// More than one character on that tile, their names get stacked above it
-				const Stack = ChatRoomMapViewCharacterStack.get(X + Y * ChatRoomMapViewWidth);
+				const Stack = ChatRoomMapViewCharacterMap.get(X + Y * ChatRoomMapViewWidth);
 				if (Stack && (Stack.length > 1)) SharedTiles.push({ Stack: Stack, X: Left + ScreenX + TileWidth / 2, Y: Top + ScreenY - (TileHeight * 0.85), CharX: Left + ScreenX + (TileWidth * 0.05), CharY: Top + ScreenY - (TileHeight * 0.85) });
 				DrawStatus(C, Left + ScreenX + (TileWidth * 0.05), Top + ScreenY - (TileHeight * 0.85), TileHeight * 1.8 / 1000);
 
@@ -1568,20 +1561,16 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 
 
-	// Characters sharing a tile get a pyramid of name tags over it, so each one can be picked, big enough to tap on mobile
-	// Not while editing the map, clicks place things then and characters can't be picked
+	// Name tags to pick each character sharing a tile, hidden while editing since clicks place doodads then
 	ChatRoomMapViewNameTags = [];
 	const Editing = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode);
 	MainCanvas.font = CommonGetFont(24);
 	if (!Editing) {
-		// Lay every tag out first: shared tiles right above each other would stack their names on top of
-		// one another, so a tag that would cover one already placed moves up, or to the side, until it's free
 		/** @type {{ C: Character, Name: string, X: number, Y: number, W: number, H: number, CharX: number, CharY: number }[]} */
 		const Placed = [];
 		/** @type {(X: number, Y: number, W: number, H: number) => boolean} */
 		const Overlaps = (X, Y, W, H) => Placed.some(P => (X < P.X + P.W) && (P.X < X + W) && (Y < P.Y + P.H) && (P.Y < Y + H));
 		for (const Shared of SharedTiles.sort((A, B) => A.Y - B.Y)) {
-			// Widest name at the bottom so the tags stack up like a little pyramid
 			const Tags = Shared.Stack.map(C => ({ C, Name: CharacterNickname(C), W: Math.min(TileWidth * 3, Math.max(80, MainCanvas.measureText(CharacterNickname(C)).width + 24)) }));
 			Tags.sort((A, B) => B.W - A.W);
 			let TagY = Shared.Y;
@@ -1589,6 +1578,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				const H = 36;
 				let TagX = CommonClamp(Shared.X - T.W / 2, Left, Left + Width - T.W);
 				TagY = TagY - H - 3;
+				// A tag covering one already placed moves up, or to the side when there's no room left above
 				let Tries = 0;
 				while ((Overlaps(TagX, Math.max(Top, TagY), T.W, H) || (TagY < Top)) && (Tries++ < 40)) {
 					if (TagY - H - 3 >= Top) TagY = TagY - H - 3;
@@ -1706,7 +1696,6 @@ function ChatRoomMapViewUpdateLastMapDataSync() {
 function ChatRoomMapViewTileIsShared(X, Y) {
 	for (let DX = -1; DX <= 1; DX++)
 		for (let DY = -1; DY <= 1; DY++) {
-			// The map is one long row of cells, so stay inside it or X - 1 wraps to the row above
 			if ((X + DX < 0) || (Y + DY < 0) || (X + DX >= ChatRoomMapViewWidth) || (Y + DY >= ChatRoomMapViewHeight)) continue;
 			if (MapManager.Map.getObject(X + DX, Y + DY)?.Shared) return true;
 		}
@@ -1714,22 +1703,16 @@ function ChatRoomMapViewTileIsShared(X, Y) {
 }
 
 /**
- * Sends the player to the other teleport pad with the same ID, if there's one on the map
- * Pads can be shared so it doesn't matter if someone is standing on the other one
- * @param {number} id - The object ID of the pad pair
+ * Sends the player from the teleport pad she's standing on to the other pad with the same link
  * @returns {boolean} - TRUE if the player was teleported
  */
-function ChatRoomMapViewTeleportPad(id) {
-	if ((Player.X < 0) || (Player.Y < 0) || !MapManager.Map) return false;
-	for (let Y = 0; Y < ChatRoomMapViewHeight; Y++)
-		for (let X = 0; X < ChatRoomMapViewWidth; X++) {
-			if ((X === Player.X) && (Y === Player.Y)) continue;
-			if (MapManager.Map.getObject(X, Y)?.ID !== id) continue;
-			ChatRoomMapViewMovement = null;
-			Player.Position = { X: X, Y: Y };
-			return true;
-		}
-	return false;
+function ChatRoomMapViewTeleportPad() {
+	if ((Player.X < 0) || (Player.Y < 0)) return false;
+	const Destination = MapManager.Map.getTeleporterDestination(Player.X, Player.Y);
+	if (!Destination) return false;
+	ChatRoomMapViewMovement = null;
+	Player.Position = Destination;
+	return true;
 }
 
 /**
@@ -2059,7 +2042,7 @@ function ChatRoomMapViewClick() {
 	// Out of chatroom, exit right away
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
-	// A click (or a tap, where there's no hover first) on a name tag focuses that character
+	// Taps don't hover first, so the name tags are checked on click too
 	const Tag = ChatRoomMapViewNameTags.find(T => MouseIn(T.X, T.Y, T.W, T.H));
 	if (Tag) {
 		ChatRoomMapViewFocusedCharacter = Tag.C;

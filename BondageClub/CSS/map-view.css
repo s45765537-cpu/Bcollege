@@ -213,7 +213,8 @@
 	display: none;
 }
 
-textarea.chat-room-map-view-dialog-content-text {
+textarea.chat-room-map-view-dialog-content-text,
+input.chat-room-map-view-dialog-content-text {
 	background: transparent;
 	border: none;
 	color: white;

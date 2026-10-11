@@ -1272,12 +1272,12 @@ var MapManager = (function () {
 			range = CommonClamp(range, 0, Infinity);
 			if (object?.Unique) range = 0;
 
-			// Paired objects (teleport pads) only go down one at a time and there can't be more than two
-			if (object?.Pair) {
+			// Two teleport pads at most per link
+			if (object?.Teleporter) {
 				range = 0;
-				const id = object.ID;
-				const placed = this.#_mapData.objects.filter((o, i) => i !== index && o?.ID === id).length;
-				if (placed >= 2) return false;
+				const config = this.getObjectConfig(index);
+				const link = (config?.Type === "Teleporter") ? config.Link : object.Teleporter;
+				if (this.#countTeleporters(link, index) >= 2) return false;
 			}
 
 			const clean = this.isDirtyObjects();
@@ -1361,7 +1361,64 @@ var MapManager = (function () {
 				case "Sign":
 					if (cell && ["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(cell.Style)) return true;
 					return false;
+				case "Teleporter":
+					return !!cell?.Teleporter;
 			}
+		}
+
+		/**
+		 * Gets the link of the teleport pad at the given coordinates, the one set in its config or the one it starts with
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {string | null} - null if there's no teleport pad there
+		 */
+		getTeleporterLink(...args) {
+			const [index] = this.unpackIndex(...args);
+			const object = this.getObject(index);
+			if (!object?.Teleporter) return null;
+			const config = this.getObjectConfig(index);
+			return (config?.Type === "Teleporter") ? config.Link : object.Teleporter;
+		}
+
+		/**
+		 * Changes the link of the teleport pad at the given coordinates, an empty link brings back the one it starts with
+		 * @param {[x: number, y: number, link: string] | [index: number, link: string]} args
+		 * @return {boolean} - false if there's no teleport pad there or if two other pads already use that link
+		 */
+		setTeleporterLink(...args) {
+			const [index, link] = this.unpackIndex(...args);
+			const object = this.getObject(index);
+			if (!object?.Teleporter) return false;
+			const newLink = link.trim() || object.Teleporter;
+			if (this.#countTeleporters(newLink, index) >= 2) return false;
+			this.setObjectConfig(index, (newLink === object.Teleporter) ? undefined : { Type: "Teleporter", Link: newLink });
+			return true;
+		}
+
+		/**
+		 * Gets where the teleport pad at the given coordinates sends to, the other pad with the same link
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {ChatRoomMapPos | null} - null if it's not a teleport pad or if it has no other pad
+		 */
+		getTeleporterDestination(...args) {
+			const [index] = this.unpackIndex(...args);
+			const link = this.getTeleporterLink(index);
+			if (link == null) return null;
+			for (let other = 0; other < ChatRoomMapViewWidth * ChatRoomMapViewHeight; other++)
+				if ((other !== index) && (this.getTeleporterLink(other) === link)) return MapIndexToCoordinates(other);
+			return null;
+		}
+
+		/**
+		 * Counts the teleport pads using a link
+		 * @param {string} link
+		 * @param {number} exceptIndex - That cell isn't counted
+		 * @return {number}
+		 */
+		#countTeleporters(link, exceptIndex) {
+			let count = 0;
+			for (let index = 0; index < ChatRoomMapViewWidth * ChatRoomMapViewHeight; index++)
+				if ((index !== exceptIndex) && (this.getTeleporterLink(index) === link)) count++;
+			return count;
 		}
 
 		/**
@@ -2448,6 +2505,7 @@ function MapValidateCells() {
 		const objectData = MapManager.Map.getObjectConfig(index);
 		const object = MapManager.Map.getObject(index);
 		if (objectData?.Type === "Sign" && (!object || !["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(object.Style))) MapManager.Map.setObjectConfig(index, undefined);
+		if (objectData?.Type === "Teleporter" && !object?.Teleporter) MapManager.Map.setObjectConfig(index, undefined);
 
 		if (ChatRoomMapViewSelectedObjectConfigType && index === ChatRoomMapViewSelectedObjectIndex && !MapManager.Map.isValidObjectConfig(index, ChatRoomMapViewSelectedObjectConfigType)) ChatRoomMapViewClearCellSelection();
 
