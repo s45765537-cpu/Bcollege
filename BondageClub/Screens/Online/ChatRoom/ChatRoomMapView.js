@@ -1426,12 +1426,11 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				ObjectData = Obj;
 				ObjectImage = MapGetAssetUrl("Object", Obj.Type, ImageName);
 				const color = Obj.BuildImageColor?.(X, Y);
-				let opacity = color?.length === 9 ? parseInt(color.slice(7), 16) / 255 : 1;
-				// While building, admins still see objects colored nearly invisible, circled so they aren't taken for regular ones
+				const opacity = color?.length === 9 ? parseInt(color.slice(7), 16) / 255 : 1;
+				// While building, admins get a faint circle around objects colored nearly invisible so they can find them
 				const building = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode)
 					|| (ChatRoomMapViewSelectedObjectIndex === X + Y * ChatRoomMapViewWidth && !ChatRoomMapViewDialogMenu?.hidden);
-				const hiddenFromOthers = opacity < 0.3 && building && ChatRoomPlayerIsAdmin();
-				if (hiddenFromOthers) opacity = 0.35;
+				const nearlyInvisible = opacity < 0.3 && building && ChatRoomPlayerIsAdmin();
 
 				DrawImageResize(color ? ChatRoomMapViewGetColoredImage(ObjectImage, CommonColorTrimAlpha(color)) : ObjectImage,
 					Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)),
@@ -1440,7 +1439,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 					Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)),
 					{ Rotation: Obj.Rotation, Alpha: opacity }
 				);
-				if (hiddenFromOthers) DrawCircle(Left + ScreenX + TileWidth / 2, Top + ScreenY + TileHeight / 2, TileWidth * 0.47, 1.5, "#FFFFFF80");
+				if (nearlyInvisible) DrawCircle(Left + ScreenX + TileWidth / 2, Top + ScreenY + TileHeight / 2, TileWidth * 0.47, 1.5, "#FFFFFF80");
 			}
 		}
 
