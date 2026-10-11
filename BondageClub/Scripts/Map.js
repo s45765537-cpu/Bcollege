@@ -2487,13 +2487,16 @@ function MapIsValidColorConfig(config, object) {
 }
 
 /**
- * Checks whether a copied color format can be pasted on an object
+ * Checks whether a copied color format can be pasted on an object.
+ * Objects sharing one `ColorLayers` definition (such as `MapColorLayersFill`) accept each other's formats.
  * @param {ChatRoomMapColorFormat | null} format
  * @param {ChatRoomMapObject | null} object
  * @returns {boolean}
  */
 function MapCanPasteColorFormat(format, object) {
-	return !!format && !!object?.ColorLayers?.length && format.ObjectID === object.ID;
+	if (!format || !object?.ColorLayers?.length) return false;
+	if (format.ObjectID === object.ID) return true;
+	return MapDataObjects.get(format.ObjectID)?.ColorLayers === object.ColorLayers;
 }
 
 /**

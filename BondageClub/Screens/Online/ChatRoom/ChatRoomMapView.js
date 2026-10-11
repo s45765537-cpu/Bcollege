@@ -498,7 +498,7 @@ function ChatRoomMapViewStopColorPaste() {
 }
 
 /**
- * Applies the copied color format to the object on a cell, if it is the same object the format was copied from
+ * Applies the copied color format to the object on a cell, if it is compatible with the object the format was copied from
  * @param {number} x
  * @param {number} y
  * @returns {boolean} - TRUE if the format was applied

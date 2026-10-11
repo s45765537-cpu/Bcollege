@@ -376,6 +376,15 @@ describe("MapManager", () => {
 			expect(Game.MapCanPasteColorFormat({ ObjectID: plainObject.ID, Colors: [] }, plainObject)).toBe(false);
 		});
 
+		it("should paste a color format between objects sharing color layers", () => {
+			const letterA = Game.MapDataGetObject(1201);
+			const letterFormat = { ObjectID: letterA.ID, Colors: ["#E04080"] };
+			expect(Game.MapCanPasteColorFormat(letterFormat, Game.MapDataGetObject(1116))).toBe(true);
+			expect(Game.MapCanPasteColorFormat(letterFormat, Game.MapDataGetObject(1301))).toBe(true);
+			expect(Game.MapCanPasteColorFormat(letterFormat, throne)).toBe(false);
+			expect(Game.MapCanPasteColorFormat({ ObjectID: throne.ID, Colors: ["#3050E0", "Default"] }, letterA)).toBe(false);
+		});
+
 		it("can undo setObjectConfig when requested", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig, { undo: true })).toBe(true);
