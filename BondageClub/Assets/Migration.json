@@ -82,6 +82,12 @@
 			"groups": [
 				"Mouth"
 			]
+		},
+		"Blush": {
+			"migratedAt": "2026-10-11T09:09:03.892Z",
+			"groups": [
+				"Blush"
+			]
 		}
 	}
 }
