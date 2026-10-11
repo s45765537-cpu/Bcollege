@@ -379,6 +379,7 @@ function ChatRoomMapViewPickLayerColor(heading, layer, original, onPick) {
 		ColorPickerInit({
 			colorState: { colors: [original], defaultColors: [layer.DefaultColor], opacity: [1], editOpacity: false },
 			heading: `${heading} - ${layer.Name}`,
+			shape: [ChatRoomDivRect[0], 0, 2000 - ChatRoomDivRect[0], 1000],
 			onInput: (fieldset) => {
 				const color = toColor(ColorPicker.getColor(fieldset.closest(".screen") ?? fieldset));
 				if (color && ChatRoomMapViewColorPickerCancel === cancel) onPick(color);
@@ -1139,6 +1140,7 @@ function ChatRoomMapViewGetRecentItems() {
 function ChatRoomMapViewResize() {
 	if (ElementWrap("chat-room-map-view-panel-editor")) ElementPositionFixed("chat-room-map-view-panel-editor", 0, 0, 300, 800);
 	if (ElementWrap("chat-room-map-view-panel")) ElementPositionFixed("chat-room-map-view-panel", 0, 0, 1000, 1000);
+	if (ChatRoomMapViewColorPickerCancel) ColorPickerResize(false);
 }
 
 /**
