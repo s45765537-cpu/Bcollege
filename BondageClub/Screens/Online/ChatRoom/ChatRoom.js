@@ -5057,6 +5057,8 @@ async function ChatRoomSync(data) {
 	const senderNumber = data.SourceMemberNumber;
 	delete data.SourceMemberNumber;
 
+	ServerChatRoomDataValidate.ApplyRoomProperties(data);
+
 	// Validate the actual chatroom properties
 	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
@@ -5237,6 +5239,8 @@ function ChatRoomSyncRoomProperties(data) {
 
 	// Split out the sender from the rest of the chatroom data
 	delete data.SourceMemberNumber;
+
+	ServerChatRoomDataValidate.ApplyRoomProperties(data);
 
 	if(ChatRoomValidateProperties(data) == false) // If the room data we received is invalid...
 	{

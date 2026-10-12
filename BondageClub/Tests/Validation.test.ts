@@ -223,3 +223,37 @@ describe("ServerAccountDataSyncedValidate", () => {
 		});
 	});
 });
+
+describe("ServerChatRoomDataValidate", () => {
+	it("coerces room text fields to safe strings", () => {
+		expect(Game.ServerChatRoomDataValidate.Name("My Room")).toBe("My Room");
+		expect(Game.ServerChatRoomDataValidate.Name({ tag: "img" })).toBe("");
+		expect(Game.ServerChatRoomDataValidate.Description("Hello")).toBe("Hello");
+		expect(Game.ServerChatRoomDataValidate.Description({ tag: "img", attributes: { onerror: "alert(1)" } })).toBe("");
+		expect(Game.ServerChatRoomDataValidate.Creator("Ada")).toBe("Ada");
+		expect(Game.ServerChatRoomDataValidate.Creator(null)).toBe("");
+	});
+
+	it("validates search results", () => {
+		const validated = Game.ServerChatRoomDataValidate.SearchResult({
+			Name: "Test",
+			Description: { tag: "img" },
+			Creator: "Host",
+			Language: "EN",
+			CreatorMemberNumber: 1,
+			Creation: 0,
+			MemberCount: 1,
+			MemberLimit: 10,
+			BlockCategory: [],
+			Game: "",
+			Friends: [{ Type: "Friend", MemberNumber: 2, MemberName: { x: 1 } }],
+			Space: "",
+			Visibility: ["All"],
+			Access: ["All"],
+			CanJoin: true,
+			MapType: "Never",
+		});
+		expect(validated.Description).toBe("");
+		expect(validated.Friends[0].MemberName).toBe("");
+	});
+});

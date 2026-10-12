@@ -1206,9 +1206,9 @@ function ChatSearchClickRoom(room) {
  * @param {number} index
  */
 function ChatSearchCreateGridRoom(room, index) {
-	const roomName = ChatSearchSanitizeRoomText(room.Name);
-	const roomCreator = ChatSearchSanitizeRoomText(room.Creator);
-	const roomDescription = ChatSearchSanitizeRoomText(room.Description);
+	const roomName = ServerChatRoomDataValidate.Name(room.Name);
+	const roomCreator = ServerChatRoomDataValidate.Creator(room.Creator);
+	const roomDescription = ServerChatRoomDataValidate.Description(room.Description);
 	const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
 	const tooltipElement = ChatSearchCreateGridRoomTooltip(room, index);
 
@@ -1477,9 +1477,9 @@ function ChatSearchShowRoomPage(room) {
 	if (ChatSearchDialogElement) {
 		ElementRemove(ChatSearchDialogElement);
 	}
-	const roomName = ChatSearchSanitizeRoomText(room.Name);
-	const roomCreator = ChatSearchSanitizeRoomText(room.Creator);
-	const roomDescription = ChatSearchSanitizeRoomText(room.Description);
+	const roomName = ServerChatRoomDataValidate.Name(room.Name);
+	const roomCreator = ServerChatRoomDataValidate.Creator(room.Creator);
+	const roomDescription = ServerChatRoomDataValidate.Description(room.Description);
 	const roomPageElements = [
 		ElementCreate({
 			tag: "h2",
@@ -1780,15 +1780,6 @@ function ChatSearchSendToast(type) {
 }
 
 /**
- * Coerces room text fields to plain strings so they are safe for {@link ElementCreate} children.
- * @param {unknown} value
- * @returns {string}
- */
-function ChatSearchSanitizeRoomText(value) {
-	return typeof value === "string" ? value : "";
-}
-
-/**
  * Censors the chat search result name and description based on the player preference
  * @param {ServerChatRoomSearchData} searchData - The (potentially) to-be censored search result
  * @returns {null | { DisplayName: string, Description: string }} - The censored name and description or, if fully censored, return `null` instead
@@ -1817,20 +1808,15 @@ function ChatSearchParseResponse(searchResults) {
 	const ret = [];
 	let i = 0;
 	for (const result of searchResults) {
-		const sanitized = {
-			...result,
-			Name: ChatSearchSanitizeRoomText(result.Name),
-			Description: ChatSearchSanitizeRoomText(result.Description).slice(0, ServerChatRoomDescriptionMaxLength),
-			Creator: ChatSearchSanitizeRoomText(result.Creator),
-		};
-		const censoredData = ChatSearchCensor(sanitized);
+		const validated = ServerChatRoomDataValidate.SearchResult(result);
+		const censoredData = ChatSearchCensor(validated);
 		if (censoredData === null) {
 			continue;
 		}
-		if (sanitized.MemberLimit < Player.ChatSearchSettings.RoomMinSize || sanitized.MemberLimit > Player.ChatSearchSettings.RoomMaxSize) {
+		if (validated.MemberLimit < Player.ChatSearchSettings.RoomMinSize || validated.MemberLimit > Player.ChatSearchSettings.RoomMaxSize) {
 			continue;
 		}
-		ret.push(/** @type {ChatRoomSearchResult} */({ ...sanitized, ...censoredData, Order: i }));
+		ret.push(/** @type {ChatRoomSearchResult} */({ ...validated, ...censoredData, Order: i }));
 		i++;
 	}
 	return ret;
