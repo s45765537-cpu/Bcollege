@@ -1447,12 +1447,29 @@ var ServerValidation = {
 	},
 
 	/**
-	 * Private helper to check arrays of member numbers (or similar integer IDs)
-	 * @param {number} [min]
-	 * @returns {(arg: unknown) => number[]}
+	 * Private helper to validate array of integers
+	 * @template T
+	 * @param {T[]} defaultValue - Default value if the array fails validation
+	 * @param {object} [options] - Options to use for validation
+	 * @param {number} [options.minInteger] - Minimum bound, inclusive, for the integers
+	 * @param {number} [options.maxInteger] - Maximum bound, inclusive, for the integers
+	 * @param {boolean} [options.strict] - Whether a number not in [minInteger, maxInteger] should fail validation;
+	 *   otherwise the integer will just be removed.
+	 * @param {boolean} [options.unique] - Ensure the array contains unique values
+	 * @returns {(array: T[]) => T[]}
 	 */
-	isArrayOfInts(min = 1) {
-		return (arg) => Array.isArray(arg) ? arg.filter((i) => CommonIsInteger(i, min)) : [];
+	isArrayOfIntegers(defaultValue, options = {}) {
+		const { minInteger = -Infinity, maxInteger = Infinity, strict = false, unique = false } = options;
+		return (array) => {
+			if (!Array.isArray(array)) return defaultValue;
+			if (unique) {
+				array = [...new Set(array).values()];
+			}
+			if (strict && !array.every((i) => CommonIsInteger(i, minInteger, maxInteger))) {
+				return defaultValue;
+			}
+			return array.filter((i) => CommonIsInteger(i, minInteger, maxInteger));
+		};
 	},
 
 	/**
@@ -1810,9 +1827,9 @@ var ServerChatRoomDataValidate = Object.assign(
 	Limit(arg) {
 		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
 	},
-	Admin: ServerValidation.isArrayOfInts(1),
-	Ban: ServerValidation.isArrayOfInts(1),
-	Whitelist: ServerValidation.isArrayOfInts(1),
+	Admin: ServerValidation.isArrayOfIntegers([], { minInteger: 1 }),
+	Ban: ServerValidation.isArrayOfIntegers([], { minInteger: 1 }),
+	Whitelist: ServerValidation.isArrayOfIntegers([], { minInteger: 1 }),
 	Visibility: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	Access: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	/**
