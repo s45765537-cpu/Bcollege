@@ -6594,9 +6594,8 @@ ItemVulvaTechnoChastityCageModuleArousal,Arousal Punishment
 ItemVulvaTechnoChastityCageSelectArousal,Set up punishment
 ItemVulvaTechnoChastityCageOptiona0,Off
 ItemVulvaTechnoChastityCageOptiona1,On
-ItemVulvaTechnoChastityCageSeta0,SourceCharacter set up arousal punishment of DestinationCharacter AssetName to high sensitivity.
-ItemVulvaTechnoChastityCageSeta1,SourceCharacter set up arousal punishment of DestinationCharacter AssetName to mid sensitivity.
-ItemVulvaTechnoChastityCageSeta2,SourceCharacter set up arousal punishment of DestinationCharacter AssetName to low sensitivity.
+ItemVulvaTechnoChastityCageSeta0,SourceCharacter turns off arousal punishment mode on DestinationCharacter AssetName.
+ItemVulvaTechnoChastityCageSeta1,SourceCharacter turns on arousal punishment mode on DestinationCharacter AssetName.
 ItemVulvaTechnoChastityCageWarning,DestinationCharacterName AssetName detects arousal and warns SourceCharacter to calm down within the next 5 minutes.
 ItemVulvaTechnoChastityCageShrink1,DestinationCharacterName AssetName shrinks itself to a type small.
 ItemVulvaTechnoChastityCageShrink2,DestinationCharacterName AssetName shrinks itself to a type nub.
