@@ -1206,9 +1206,9 @@ function ChatSearchClickRoom(room) {
  * @param {number} index
  */
 function ChatSearchCreateGridRoom(room, index) {
-	const roomName = ServerChatRoomDataValidate.Name(room.Name);
-	const roomCreator = ServerChatRoomDataValidate.Creator(room.Creator);
-	const roomDescription = ServerChatRoomDataValidate.Description(room.Description);
+	const roomName = ServerChatRoomSearchDataValidate.Name(room.Name);
+	const roomCreator = ServerChatRoomSearchDataValidate.Creator(room.Creator);
+	const roomDescription = ServerChatRoomSearchDataValidate.Description(room.Description);
 	const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
 	const tooltipElement = ChatSearchCreateGridRoomTooltip(room, index);
 
@@ -1477,9 +1477,9 @@ function ChatSearchShowRoomPage(room) {
 	if (ChatSearchDialogElement) {
 		ElementRemove(ChatSearchDialogElement);
 	}
-	const roomName = ServerChatRoomDataValidate.Name(room.Name);
-	const roomCreator = ServerChatRoomDataValidate.Creator(room.Creator);
-	const roomDescription = ServerChatRoomDataValidate.Description(room.Description);
+	const roomName = ServerChatRoomSearchDataValidate.Name(room.Name);
+	const roomCreator = ServerChatRoomSearchDataValidate.Creator(room.Creator);
+	const roomDescription = ServerChatRoomSearchDataValidate.Description(room.Description);
 	const roomPageElements = [
 		ElementCreate({
 			tag: "h2",
@@ -1808,7 +1808,7 @@ function ChatSearchParseResponse(searchResults) {
 	const ret = [];
 	let i = 0;
 	for (const result of searchResults) {
-		const validated = ServerChatRoomDataValidate.SearchResult(result);
+		const validated = ServerChatRoomSearchDataValidate.Result(result);
 		const censoredData = ChatSearchCensor(validated);
 		if (censoredData === null) {
 			continue;

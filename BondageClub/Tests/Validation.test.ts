@@ -230,12 +230,17 @@ describe("ServerChatRoomDataValidate", () => {
 		expect(Game.ServerChatRoomDataValidate.Name({ tag: "img" })).toBe("");
 		expect(Game.ServerChatRoomDataValidate.Description("Hello")).toBe("Hello");
 		expect(Game.ServerChatRoomDataValidate.Description({ tag: "img", attributes: { onerror: "alert(1)" } })).toBe("");
-		expect(Game.ServerChatRoomDataValidate.Creator("Ada")).toBe("Ada");
-		expect(Game.ServerChatRoomDataValidate.Creator(null)).toBe("");
+	});
+});
+
+describe("ServerChatRoomSearchDataValidate", () => {
+	it("coerces search text fields to safe strings", () => {
+		expect(Game.ServerChatRoomSearchDataValidate.Creator("Ada")).toBe("Ada");
+		expect(Game.ServerChatRoomSearchDataValidate.Creator(null)).toBe("");
 	});
 
 	it("validates search results", () => {
-		const validated = Game.ServerChatRoomDataValidate.SearchResult({
+		const validated = Game.ServerChatRoomSearchDataValidate.Result({
 			Name: "Test",
 			Description: { tag: "img" },
 			Creator: "Host",

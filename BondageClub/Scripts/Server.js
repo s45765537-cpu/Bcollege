@@ -1447,6 +1447,30 @@ var ServerValidation = {
 	},
 
 	/**
+	 * Private helper to check arrays of member numbers (or similar integer IDs)
+	 * @param {number} [min]
+	 * @returns {(arg: unknown) => number[]}
+	 */
+	isArrayOfInts(min = 1) {
+		return (arg) => Array.isArray(arg) ? arg.filter((i) => CommonIsInteger(i, min)) : [];
+	},
+
+	/**
+	 * Private helper to check arrays whose items must appear in a fixed list
+	 * @template T
+	 * @param {readonly T[]} list
+	 * @param {T[]} defaultIfEmpty
+	 * @returns {(arg: unknown) => T[]}
+	 */
+	isArrayOfItems(list, defaultIfEmpty) {
+		return (arg) => {
+			if (!Array.isArray(arg)) return defaultIfEmpty;
+			const values = arg.filter((r) => CommonIncludes(list, r));
+			return values.length > 0 ? values : defaultIfEmpty;
+		};
+	},
+
+	/**
 	 * Private helper to quickly check color codes
 	 * @param {boolean} allowAlpha
 	 * @param {HexColor | undefined} defaultValue
@@ -1747,11 +1771,16 @@ const ServerChatRoomSearchSettingsValidate = {
 	FilterTerms: ServerValidation.isString(200, ""),
 };
 
+/** @type {readonly ServerChatRoomRole[]} */
+const ServerChatRoomRoleList = ["All", "Admin", "Whitelist"];
+
 /**
- * Namespace with functions for validating {@link ServerChatRoomData} properties.
+ * Namespace with functions for validating {@link ServerChatRoomData} properties, converting them into their valid counterpart.
+ * @satisfies {{ [k in keyof ServerChatRoomData]?: (arg: unknown) => ServerChatRoomData[k] }}
  * @namespace
  */
-var ServerChatRoomDataValidate = {
+var ServerChatRoomDataValidate = Object.assign(
+	{
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Background: ServerValidation.isString(100, ""),
@@ -1778,46 +1807,14 @@ var ServerChatRoomDataValidate = {
 	 * @param {unknown} arg
 	 * @returns {number}
 	 */
-	/**
-	 * @param {unknown} arg
-	 * @returns {number}
-	 */
 	Limit(arg) {
 		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
 	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {number}
-	 */
-	MemberCount(arg) {
-		return CommonIsInteger(arg, 0, 20) ? /** @type {number} */ (arg) : 0;
-	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {number}
-	 */
-	MemberLimit(arg) {
-		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
-	},
-	Creator: ServerValidation.isString(20, ""),
-	/**
-	 * @param {unknown} arg
-	 * @returns {number[]}
-	 */
-	MemberNumberList(arg) {
-		return Array.isArray(arg) ? arg.filter((i) => CommonIsInteger(i, 1)) : [];
-	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {ServerChatRoomRole[]}
-	 */
-	RoleList(arg) {
-		/** @type {ServerChatRoomRole[]} */
-		const validRoles = ["All", "Admin", "Whitelist"];
-		if (!Array.isArray(arg)) return ["All"];
-		const roles = arg.filter((r) => CommonIncludes(validRoles, r));
-		return roles.length > 0 ? roles : ["All"];
-	},
+	Admin: ServerValidation.isArrayOfInts(1),
+	Ban: ServerValidation.isArrayOfInts(1),
+	Whitelist: ServerValidation.isArrayOfInts(1),
+	Visibility: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
+	Access: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	/**
 	 * @param {unknown} arg
 	 * @returns {ServerChatRoomBlockCategory[]}
@@ -1825,80 +1822,6 @@ var ServerChatRoomDataValidate = {
 	BlockCategory(arg) {
 		if (!Array.isArray(arg)) return [];
 		return /** @type {ServerChatRoomBlockCategory[]} */ (arg.filter((c) => typeof c === "string" && (typeof ChatBlockItemList === "undefined" || ChatBlockItemList.includes(c))));
-	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {AssetCategory[]}
-	 */
-	SearchBlockCategory(arg) {
-		return /** @type {AssetCategory[]} */ (ServerChatRoomDataValidate.BlockCategory(arg));
-	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {ServerFriendInfo[]}
-	 */
-	SearchFriends(arg) {
-		if (!Array.isArray(arg)) return [];
-		/** @type {ServerFriendInfo[]} */
-		const ret = [];
-		for (const friend of arg) {
-			if (!CommonIsObject(friend)) continue;
-			const Type = friend.Type === "Submissive" ? "Submissive" : friend.Type === "Friend" ? "Friend" : null;
-			if (Type == null) continue;
-			const MemberNumber = CommonIsInteger(friend.MemberNumber, 1) ? friend.MemberNumber : 0;
-			const MemberName = ServerValidation.isString(20, "")(friend.MemberName);
-			if (MemberNumber > 0) ret.push({ Type, MemberNumber, MemberName });
-		}
-		return ret;
-	},
-	/**
-	 * Validates fields used on {@link ServerChatRoomSearchData} entries.
-	 * @param {ServerChatRoomSearchData} result
-	 * @returns {ServerChatRoomSearchData}
-	 */
-	SearchResult(result) {
-		if (!CommonIsObject(result)) return /** @type {ServerChatRoomSearchData} */ ({});
-		return {
-			...result,
-			Name: ServerChatRoomDataValidate.Name(result.Name),
-			Description: ServerChatRoomDataValidate.Description(result.Description),
-			Creator: ServerChatRoomDataValidate.Creator(result.Creator),
-			Language: ServerChatRoomDataValidate.Language(result.Language),
-			Game: ServerChatRoomDataValidate.Game(result.Game),
-			Space: ServerChatRoomDataValidate.Space(result.Space),
-			MapType: ServerValidation.isString(20, "Never")(result.MapType),
-			MemberCount: ServerChatRoomDataValidate.MemberCount(result.MemberCount),
-			MemberLimit: ServerChatRoomDataValidate.MemberLimit(result.MemberLimit),
-			CreatorMemberNumber: CommonIsInteger(result.CreatorMemberNumber, 1) ? result.CreatorMemberNumber : 0,
-			Creation: CommonIsNumeric(result.Creation) ? result.Creation : 0,
-			CanJoin: ServerValidation.isBool(false)(result.CanJoin),
-			BlockCategory: ServerChatRoomDataValidate.SearchBlockCategory(result.BlockCategory),
-			Friends: ServerChatRoomDataValidate.SearchFriends(result.Friends),
-			Visibility: ServerChatRoomDataValidate.RoleList(result.Visibility),
-			Access: ServerChatRoomDataValidate.RoleList(result.Access),
-		};
-	},
-	/**
-	 * Coerces known {@link ServerChatRoomData} property fields on an incoming sync object (in place).
-	 * @param {Partial<ServerChatRoomData>} data
-	 * @returns {void}
-	 */
-	ApplyRoomProperties(data) {
-		if (!CommonIsObject(data)) return;
-		data.Name = ServerChatRoomDataValidate.Name(data.Name);
-		data.Description = ServerChatRoomDataValidate.Description(data.Description);
-		data.Background = ServerChatRoomDataValidate.Background(data.Background);
-		data.Game = ServerChatRoomDataValidate.Game(data.Game);
-		data.Space = ServerChatRoomDataValidate.Space(data.Space);
-		data.Language = ServerChatRoomDataValidate.Language(data.Language);
-		data.Limit = ServerChatRoomDataValidate.Limit(data.Limit);
-		data.Admin = ServerChatRoomDataValidate.MemberNumberList(data.Admin);
-		data.Ban = ServerChatRoomDataValidate.MemberNumberList(data.Ban);
-		data.Whitelist = ServerChatRoomDataValidate.MemberNumberList(data.Whitelist);
-		data.Visibility = ServerChatRoomDataValidate.RoleList(data.Visibility);
-		data.Access = ServerChatRoomDataValidate.RoleList(data.Access);
-		data.BlockCategory = ServerChatRoomDataValidate.BlockCategory(data.BlockCategory);
-		if (data.Custom != null) data.Custom = ServerChatRoomDataValidate.Custom(data.Custom);
 	},
 	/** @type {((arg: Partial<ServerChatRoomCustomData>) => ServerChatRoomCustomData) & { [k in keyof (Required<ServerChatRoomCustomData>)]: (arg: ServerChatRoomCustomData[k]) => ServerChatRoomCustomData[k] }} */
 	Custom: Object.assign(
@@ -1950,8 +1873,135 @@ var ServerChatRoomDataValidate = {
 			},
 			MusicStart: ServerValidation.isNumber(undefined),
 		}
-	)
-};
+	),
+	},
+	{
+		/**
+		 * Coerces known {@link ServerChatRoomData} property fields on an incoming sync object (in place).
+		 * @param {Partial<ServerChatRoomData>} data
+		 * @returns {void}
+		 */
+		ApplyRoomProperties(data) {
+			if (!CommonIsObject(data)) return;
+			data.Name = ServerChatRoomDataValidate.Name(data.Name);
+			data.Description = ServerChatRoomDataValidate.Description(data.Description);
+			data.Background = ServerChatRoomDataValidate.Background(data.Background);
+			data.Game = ServerChatRoomDataValidate.Game(data.Game);
+			data.Space = ServerChatRoomDataValidate.Space(data.Space);
+			data.Language = ServerChatRoomDataValidate.Language(data.Language);
+			data.Limit = ServerChatRoomDataValidate.Limit(data.Limit);
+			data.Admin = ServerChatRoomDataValidate.Admin(data.Admin);
+			data.Ban = ServerChatRoomDataValidate.Ban(data.Ban);
+			data.Whitelist = ServerChatRoomDataValidate.Whitelist(data.Whitelist);
+			data.Visibility = ServerChatRoomDataValidate.Visibility(data.Visibility);
+			data.Access = ServerChatRoomDataValidate.Access(data.Access);
+			data.BlockCategory = ServerChatRoomDataValidate.BlockCategory(data.BlockCategory);
+			if (data.Custom != null) data.Custom = ServerChatRoomDataValidate.Custom(data.Custom);
+		},
+	}
+);
+
+/**
+ * Namespace with functions for validating {@link ServerChatRoomSearchData} properties.
+ * @satisfies {{ [k in keyof ServerChatRoomSearchData]?: (arg: unknown) => ServerChatRoomSearchData[k] }}
+ * @namespace
+ */
+var ServerChatRoomSearchDataValidate = Object.assign(
+	{
+	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
+	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
+	Creator: ServerValidation.isString(20, ""),
+	Language: ServerValidation.isItem([...ServerChatRoomSupportedLanguages], "EN"),
+	/**
+	 * @param {unknown} arg
+	 * @returns {number}
+	 */
+	CreatorMemberNumber(arg) {
+		return CommonIsInteger(arg, 1) ? /** @type {number} */ (arg) : 0;
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {number}
+	 */
+	Creation(arg) {
+		return CommonIsNumeric(arg) ? /** @type {number} */ (arg) : 0;
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {number}
+	 */
+	MemberCount(arg) {
+		return CommonIsInteger(arg, 0, 20) ? /** @type {number} */ (arg) : 0;
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {number}
+	 */
+	MemberLimit(arg) {
+		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {AssetCategory[]}
+	 */
+	BlockCategory(arg) {
+		return /** @type {AssetCategory[]} */ (ServerChatRoomDataValidate.BlockCategory(arg));
+	},
+	Game: ServerChatRoomDataValidate.Game,
+	Space: ServerChatRoomDataValidate.Space,
+	Visibility: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
+	Access: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
+	MapType: ServerValidation.isString(20, "Never"),
+	CanJoin: ServerValidation.isBool(false),
+	/**
+	 * @param {unknown} arg
+	 * @returns {ServerFriendInfo[]}
+	 */
+	Friends(arg) {
+		if (!Array.isArray(arg)) return [];
+		/** @type {ServerFriendInfo[]} */
+		const ret = [];
+		for (const friend of arg) {
+			if (!CommonIsObject(friend)) continue;
+			const Type = friend.Type === "Submissive" ? "Submissive" : friend.Type === "Friend" ? "Friend" : null;
+			if (Type == null) continue;
+			const MemberNumber = CommonIsInteger(friend.MemberNumber, 1) ? friend.MemberNumber : 0;
+			const MemberName = ServerValidation.isString(20, "")(friend.MemberName);
+			if (MemberNumber > 0) ret.push({ Type, MemberNumber, MemberName });
+		}
+		return ret;
+	},
+	},
+	{
+		/**
+		 * Validates a {@link ServerChatRoomSearchData} entry from the server.
+		 * @param {ServerChatRoomSearchData} result
+		 * @returns {ServerChatRoomSearchData}
+		 */
+		Result(result) {
+			if (!CommonIsObject(result)) return /** @type {ServerChatRoomSearchData} */ ({});
+			return {
+				...result,
+				Name: ServerChatRoomSearchDataValidate.Name(result.Name),
+				Description: ServerChatRoomSearchDataValidate.Description(result.Description),
+				Creator: ServerChatRoomSearchDataValidate.Creator(result.Creator),
+				Language: ServerChatRoomSearchDataValidate.Language(result.Language),
+				Game: ServerChatRoomSearchDataValidate.Game(result.Game),
+				Space: ServerChatRoomSearchDataValidate.Space(result.Space),
+				MapType: ServerChatRoomSearchDataValidate.MapType(result.MapType),
+				MemberCount: ServerChatRoomSearchDataValidate.MemberCount(result.MemberCount),
+				MemberLimit: ServerChatRoomSearchDataValidate.MemberLimit(result.MemberLimit),
+				CreatorMemberNumber: ServerChatRoomSearchDataValidate.CreatorMemberNumber(result.CreatorMemberNumber),
+				Creation: ServerChatRoomSearchDataValidate.Creation(result.Creation),
+				CanJoin: ServerChatRoomSearchDataValidate.CanJoin(result.CanJoin),
+				BlockCategory: ServerChatRoomSearchDataValidate.BlockCategory(result.BlockCategory),
+				Friends: ServerChatRoomSearchDataValidate.Friends(result.Friends),
+				Visibility: ServerChatRoomSearchDataValidate.Visibility(result.Visibility),
+				Access: ServerChatRoomSearchDataValidate.Access(result.Access),
+			};
+		},
+	}
+);
 
 const ServerDefaultTimeout = 3000;
 
