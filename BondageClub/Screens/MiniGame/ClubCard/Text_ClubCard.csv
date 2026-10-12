@@ -202,7 +202,7 @@ Text Confused Maid,<F>I've tried three dusters but this toilet is still clogged.
 Title Curious Patient,Curious Patient
 Text Curious Patient,<F>Why are the walls padded?
 Title Part-Time Patient,Part-Time Patient
-Text Part-Time Patient,Draw Action: +1 Fame and -1 Money.
+Text Part-Time Patient,Draw Action: +1 Money and -1 Fame.
 Title Novice Nurse,Novice Nurse
 Text Novice Nurse,+1 Fame/turn per Patient ally (max +3).
 Title Commited Patient,Commited Patient
@@ -755,7 +755,7 @@ Title Latex Nurse,Latex Nurse
 Text Latex Nurse,"Enters: Select a member in hand to discard to summon a Vac-Bed Patient."
 Prerequisite Latex Nurse,Select a member from your hand.
 Title Exquisite Suit,Exquisite Suit
-Text Condom Suit,"Other Latex members can't leave."
+Text Condom Suit,"Other Latex members cannot be removed."
 Title Full Catsuit,Full Catsuit
 Text Full Catsuit,"Draw Action: +2/+2 (max 13/13), and opponent loses 1 Fame and Money."
 Title Goddess Gleam,Goddess Gleam
