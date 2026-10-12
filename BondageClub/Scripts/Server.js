@@ -1793,7 +1793,7 @@ var ServerChatRoomDataValidate = {
 	 */
 	Creator(arg) {
 		return ServerValidation.isString(21, "")(arg);
-	},
+	Creator: ServerValidation.isString(21, ""),
 	/**
 	 * @param {unknown} arg
 	 * @returns {number[]}
