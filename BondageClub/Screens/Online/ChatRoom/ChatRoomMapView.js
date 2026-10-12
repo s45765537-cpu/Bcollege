@@ -496,14 +496,7 @@ function ChatRoomMapViewGetButtons() {
 		...zoomButtons,
 		ElementButton.Create(null, function () {
 			if (!ChatRoomPlayerIsAdmin()) return;
-			if (ChatRoomMapFogIsActive()) {
-				if (ChatRoomData?.MapData) {
-					ChatRoomData.MapData.Fog = false;
-				}
-			} else {
-				delete ChatRoomData?.MapData?.Fog;
-			}
-			MapValidateCells();
+			MapManager.Map.hasFogEnabled = !MapManager.Map.hasFogEnabled;
 			this.querySelector(".button-image")?.setAttribute("src", `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`);
 		}, { image: `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`,
 			tooltip: TextGet("EditorButtonTextToggleFog"),
@@ -1563,11 +1556,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 /**
  * Sets the next update flag for the room if it's not already set, the delay is 5 seconds
  * @returns {void} - Nothing
- * @deprecated since August 2026, use {@link MapValidateCells}
+ * @deprecated since August 2026, {@link MapManager.Map.updateGlobalMapData} handles map updates
  */
-function ChatRoomMapViewUpdateFlag() {
-
-}
+function ChatRoomMapViewUpdateFlag() {}
 
 /**
  * Sets the next update flags for the player if it's not already set, the delay is 1 seconds for live data and 10 seconds for last map data
@@ -2144,8 +2135,6 @@ function ChatRoomMapViewMouseMove(event) {
 		}
 	}
 
-	MapValidateCells();
-
 	// Encode the changed map and write it to the global ChatRoomData.MapData.
 	// This is somewhat inefficient since we don't have to actually encode the string
 	// before we need to send it to the server, but it would suffice for now.
@@ -2221,7 +2210,6 @@ function ChatRoomMapViewPaste(Param) {
 		return;
 	}
 
-	MapValidateCells();
 	ToastManager.info(TextGet("MapPasteDone"));
 }
 

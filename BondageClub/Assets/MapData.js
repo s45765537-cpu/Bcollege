@@ -779,7 +779,7 @@ const AssetsMapDataObjects = [
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
-	{ ID: 3020, Type: "Bathroom", Style: "Mirror" },
+	{ ID: 3020, Type: "Bathroom", Style: "Mirror", CanPlaceOnWalls: true },
 	{ ID: 3021, Type: "Bathroom", Style: "BlueBathroomMat" },
 	{ ID: 3022, Type: "Bathroom", Style: "GreenBathroomMat" },
 	{ ID: 3023, Type: "Bathroom", Style: "PinkBathroomMat" },
