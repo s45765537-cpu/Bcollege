@@ -53,40 +53,40 @@ function MapSanitizeSignText(text) {
  * @returns {ChatRoomMapObject["OnClick"]}
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
-    return (x, y) => {
-        ChatRoomMapViewSetCellSelection(x, y, "Sign");
-        ChatRoomMapViewShowDialogMenu(name, ElementCreate(
-            ChatRoomPlayerIsAdmin() ?
-                {
-                    tag: "textarea",
-                    classList: ["chat-room-map-view-dialog-content-text"],
-                    attributes: {
-                        maxlength: "150",
-                        placeholder: "Type sign message here..."
-                    },
-                    children: [
-                        MapManager.Map.getObjectConfig(x, y)?.Text || ""
-                    ],
-                    eventListeners: {
-                        /**
-                         * @this {HTMLTextAreaElement}
-                         */
-                        "change": function() {
-                            const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
-                            signData.Text = this.value;
-                            MapManager.Map.setObjectConfig(x, y, signData);
-                        }
-                    }
-                }
-                : {
-                    tag: "div",
-                    classList: ["chat-room-map-view-dialog-content-text"],
-                    children: [
-                        MapManager.Map.getObjectConfig(x, y)?.Text || ""
-                    ],
-                }
-        ));
-    };
+	return (x, y) => {
+		ChatRoomMapViewSetCellSelection(x, y, "Sign");
+
+		const signText = MapSanitizeSignText(MapManager.Map.getObjectConfig(x, y)?.Text);
+		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
+			ChatRoomPlayerIsAdmin() ?
+			{
+				tag: "textarea",
+				classList: ["chat-room-map-view-dialog-content-text"],
+				attributes: {
+					maxlength: ChatRoomMapSignTextMaxLength.toString(),
+					placeholder: "Type sign message here..."
+				},
+				children: [signText],
+				eventListeners: {
+					/**
+					* @this {HTMLTextAreaElement}
+					*/
+					"change": function() {
+						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						signData.Text = MapSanitizeSignText(this.value);
+						MapManager.Map.setObjectConfig(x, y, signData);
+					}
+				}
+			}
+			: {
+				tag: "div",
+				classList: ["chat-room-map-view-dialog-content-text"],
+				children: [
+					MapManager.Map.getObjectConfig(x, y)?.Text || ""
+				],
+			}
+		));
+	};
 }
 
 /**
