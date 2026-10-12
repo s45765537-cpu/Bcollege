@@ -1772,9 +1772,7 @@ var ServerChatRoomDataValidate = {
 	 * @param {unknown} arg
 	 * @returns {number}
 	 */
-	Limit(arg) {
-		return CommonIsInteger(arg, 2, 20) ? arg : 10;
-	},
+	Limit: ServerValidation.isInt(2, 20, 10),
 	/**
 	 * @param {unknown} arg
 	 * @returns {number}
