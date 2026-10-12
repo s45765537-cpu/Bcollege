@@ -1416,7 +1416,9 @@ var ServerValidation = {
 	 */
 	isString(maxLength, defaultValue) {
 		return (arg) => {
-			return typeof arg === "string" && arg.length < maxLength ? arg : defaultValue;
+			if (typeof arg !== "string") return defaultValue;
+			arg = arg.trim();
+			return arg.length <= maxLength ? arg : defaultValue;
 		};
 	},
 
@@ -1429,6 +1431,18 @@ var ServerValidation = {
 	isStringOrUndefined(maxLength, defaultValue) {
 		return (arg) => {
 			return this.isString(maxLength, defaultValue)(arg) || typeof arg === "undefined" ? arg : defaultValue;
+		};
+	},
+
+	/**
+	 * Private helper to check strings against a regex
+	 * @param {RegExp} regex
+	 * @param {string} defaultValue
+	 * @returns {(arg: unknown) => string}
+	 */
+	stringMatchesRegex(regex, defaultValue) {
+		return (arg) => {
+			return typeof arg === "string" && regex.test(arg) ? arg : defaultValue;
 		};
 	},
 
@@ -1738,17 +1752,9 @@ const ServerChatRoomSearchSettingsValidate = {
  * @namespace
  */
 var ServerChatRoomDataValidate = {
-	/**
-	 * @param {unknown} arg
-	 * @returns {string}
-	 */
-	Name(arg) {
-		if (typeof arg !== "string") return "";
-		const name = arg.trim();
-		return ServerChatRoomNameRegex.test(name) ? name : "";
-	},
-	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength + 1, ""),
-	Background: ServerValidation.isString(101, ""),
+	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
+	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
+	Background: ServerValidation.isString(100, ""),
 	/**
 	 * @param {unknown} arg
 	 * @returns {ServerChatRoomGame}
@@ -1772,24 +1778,28 @@ var ServerChatRoomDataValidate = {
 	 * @param {unknown} arg
 	 * @returns {number}
 	 */
-	Limit: ServerValidation.isInt(2, 20, 10),
 	/**
 	 * @param {unknown} arg
 	 * @returns {number}
 	 */
-	MemberCount: ServerValidation.isInt(0, 20, 0),
+	Limit(arg) {
+		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
+	},
 	/**
 	 * @param {unknown} arg
 	 * @returns {number}
 	 */
-	MemberLimit: ServerValidation.isInt(2, 20, 0),
+	MemberCount(arg) {
+		return CommonIsInteger(arg, 0, 20) ? /** @type {number} */ (arg) : 0;
+	},
 	/**
 	 * @param {unknown} arg
-	 * @returns {string}
+	 * @returns {number}
 	 */
-	Creator(arg) {
-		return ServerValidation.isString(21, "")(arg);
-	Creator: ServerValidation.isString(21, ""),
+	MemberLimit(arg) {
+		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
+	},
+	Creator: ServerValidation.isString(20, ""),
 	/**
 	 * @param {unknown} arg
 	 * @returns {number[]}
@@ -1836,7 +1846,7 @@ var ServerChatRoomDataValidate = {
 			const Type = friend.Type === "Submissive" ? "Submissive" : friend.Type === "Friend" ? "Friend" : null;
 			if (Type == null) continue;
 			const MemberNumber = CommonIsInteger(friend.MemberNumber, 1) ? friend.MemberNumber : 0;
-			const MemberName = ServerValidation.isString(21, "")(friend.MemberName);
+			const MemberName = ServerValidation.isString(20, "")(friend.MemberName);
 			if (MemberNumber > 0) ret.push({ Type, MemberNumber, MemberName });
 		}
 		return ret;
@@ -1856,7 +1866,7 @@ var ServerChatRoomDataValidate = {
 			Language: ServerChatRoomDataValidate.Language(result.Language),
 			Game: ServerChatRoomDataValidate.Game(result.Game),
 			Space: ServerChatRoomDataValidate.Space(result.Space),
-			MapType: ServerValidation.isString(21, "Never")(result.MapType),
+			MapType: ServerValidation.isString(20, "Never")(result.MapType),
 			MemberCount: ServerChatRoomDataValidate.MemberCount(result.MemberCount),
 			MemberLimit: ServerChatRoomDataValidate.MemberLimit(result.MemberLimit),
 			CreatorMemberNumber: CommonIsInteger(result.CreatorMemberNumber, 1) ? result.CreatorMemberNumber : 0,
