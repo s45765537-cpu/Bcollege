@@ -1679,10 +1679,10 @@ var ServerAccountDataSyncedValidate = {
 		return ret;
 	},
 	WhiteList: (arg, C) => {
-		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
+		return ServerValidation.isArrayOfIntegers([], { minInteger: 0, unique: true })(arg);
 	},
 	BlackList: (arg, C) => {
-		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
+		return ServerValidation.isArrayOfIntegers([], { minInteger: 0, unique: true })(arg);
 	},
 	/**
 	 * Validate a ChatRoomMapData object
@@ -1732,7 +1732,7 @@ var ServerAccountDataSyncedValidate = {
 	 * @returns {ChatRoomSearchSettings}
 	 */
 	ChatSearchSettings: (arg, C) => {
-		return ValidationApplyRecord(arg, C, ServerChatRoomSearchSettingsValidate, false);
+		return ValidationApplyRecord(arg, undefined, ServerChatRoomSearchSettingsValidate, false);
 	},
 	WardrobeCharacterNames: (arg, C) => {
 		const names = new Array(WardrobeSize).fill(C.Name);
@@ -1772,7 +1772,7 @@ function ServerIsMapData(arg) {
 
 /**
  * Namespace with default values for {@link ChatRoomSearchSettings} properties.
- * @type {{ [k in keyof Required<ChatRoomSearchSettings>]: (arg: ChatRoomSearchSettings[k], C: Character) => ChatRoomSearchSettings[k] }}
+ * @type {{ [k in keyof Required<ChatRoomSearchSettings>]: (arg: ChatRoomSearchSettings[k], obj: never) => ChatRoomSearchSettings[k] }}
  * @namespace
  */
 const ServerChatRoomSearchSettingsValidate = {
@@ -1792,12 +1792,10 @@ const ServerChatRoomSearchSettingsValidate = {
 const ServerChatRoomRoleList = ["All", "Admin", "Whitelist"];
 
 /**
- * Namespace with functions for validating {@link ServerChatRoomData} properties, converting them into their valid counterpart.
- * @satisfies {{ [k in keyof ServerChatRoomData]?: (arg: unknown) => ServerChatRoomData[k] }}
- * @namespace
+ * Per-field validators for {@link ServerChatRoomData} (for {@link ValidationApplyRecord}).
+ * @satisfies {{ [k in keyof ServerChatRoomData]?: (arg: unknown, C: Character) => ServerChatRoomData[k] }}
  */
-var ServerChatRoomDataValidate = Object.assign(
-	{
+const ServerChatRoomDataValidateFields = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Background: ServerValidation.isString(100, ""),
@@ -1851,11 +1849,11 @@ var ServerChatRoomDataValidate = Object.assign(
 				 * @param {string} img
 				 * @returns
 				 */
-				ImageURL: ServerChatRoomDataValidate.Custom.ImageURL(arg.ImageURL),
-				SizeMode: ServerChatRoomDataValidate.Custom.SizeMode(arg.SizeMode),
-				ImageFilter: ServerChatRoomDataValidate.Custom.ImageFilter(arg.ImageFilter),
-				MusicURL: ServerChatRoomDataValidate.Custom.MusicURL(arg.MusicURL),
-				MusicStart: ServerChatRoomDataValidate.Custom.MusicStart(arg.MusicStart),
+				ImageURL: ServerChatRoomDataValidateFields.Custom.ImageURL(arg?.ImageURL),
+				SizeMode: ServerChatRoomDataValidateFields.Custom.SizeMode(arg?.SizeMode),
+				ImageFilter: ServerChatRoomDataValidateFields.Custom.ImageFilter(arg?.ImageFilter),
+				MusicURL: ServerChatRoomDataValidateFields.Custom.MusicURL(arg?.MusicURL),
+				MusicStart: ServerChatRoomDataValidateFields.Custom.MusicStart(arg?.MusicStart),
 			};
 			if (custom.ImageURL === undefined) delete custom.SizeMode;
 			if (custom.MusicURL === undefined) delete custom.MusicStart;
@@ -1891,40 +1889,29 @@ var ServerChatRoomDataValidate = Object.assign(
 			MusicStart: ServerValidation.isNumber(undefined),
 		}
 	),
-	},
-	{
-		/**
-		 * Coerces known {@link ServerChatRoomData} property fields on an incoming sync object (in place).
-		 * @param {Partial<ServerChatRoomData>} data
-		 * @returns {void}
-		 */
-		ApplyRoomProperties(data) {
-			if (!CommonIsObject(data)) return;
-			data.Name = ServerChatRoomDataValidate.Name(data.Name);
-			data.Description = ServerChatRoomDataValidate.Description(data.Description);
-			data.Background = ServerChatRoomDataValidate.Background(data.Background);
-			data.Game = ServerChatRoomDataValidate.Game(data.Game);
-			data.Space = ServerChatRoomDataValidate.Space(data.Space);
-			data.Language = ServerChatRoomDataValidate.Language(data.Language);
-			data.Limit = ServerChatRoomDataValidate.Limit(data.Limit);
-			data.Admin = ServerChatRoomDataValidate.Admin(data.Admin);
-			data.Ban = ServerChatRoomDataValidate.Ban(data.Ban);
-			data.Whitelist = ServerChatRoomDataValidate.Whitelist(data.Whitelist);
-			data.Visibility = ServerChatRoomDataValidate.Visibility(data.Visibility);
-			data.Access = ServerChatRoomDataValidate.Access(data.Access);
-			data.BlockCategory = ServerChatRoomDataValidate.BlockCategory(data.BlockCategory);
-			if (data.Custom != null) data.Custom = ServerChatRoomDataValidate.Custom(data.Custom);
-		},
-	}
-);
+};
 
 /**
- * Namespace with functions for validating {@link ServerChatRoomSearchData} properties.
- * @satisfies {{ [k in keyof ServerChatRoomSearchData]?: (arg: unknown) => ServerChatRoomSearchData[k] }}
+ * Namespace with functions for validating {@link ServerChatRoomData} properties, converting them into their valid counterpart.
  * @namespace
  */
-var ServerChatRoomSearchDataValidate = Object.assign(
-	{
+var ServerChatRoomDataValidate = Object.assign({}, ServerChatRoomDataValidateFields, {
+	/**
+	 * Coerces known {@link ServerChatRoomData} property fields on an incoming sync object (in place).
+	 * @param {Partial<ServerChatRoomData>} data
+	 * @returns {void}
+	 */
+	ApplyRoomProperties(data) {
+		if (!CommonIsObject(data)) return;
+		CommonAssign(data, ValidationApplyRecord(data, undefined, ServerChatRoomDataValidateFields, true));
+	},
+});
+
+/**
+ * Per-field validators for {@link ServerChatRoomSearchData} (for {@link ValidationApplyRecord}).
+ * @satisfies {{ [k in keyof ServerChatRoomSearchData]?: (arg: unknown, C: Character) => ServerChatRoomSearchData[k] }}
+ */
+const ServerChatRoomSearchDataValidateFields = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Creator: ServerValidation.isString(20, ""),
@@ -1962,10 +1949,10 @@ var ServerChatRoomSearchDataValidate = Object.assign(
 	 * @returns {AssetCategory[]}
 	 */
 	BlockCategory(arg) {
-		return /** @type {AssetCategory[]} */ (ServerChatRoomDataValidate.BlockCategory(arg));
+		return /** @type {AssetCategory[]} */ (ServerChatRoomDataValidateFields.BlockCategory(arg));
 	},
-	Game: ServerChatRoomDataValidate.Game,
-	Space: ServerChatRoomDataValidate.Space,
+	Game: ServerChatRoomDataValidateFields.Game,
+	Space: ServerChatRoomDataValidateFields.Space,
 	Visibility: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	Access: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	MapType: ServerValidation.isString(20, "Never"),
@@ -1988,37 +1975,10 @@ var ServerChatRoomSearchDataValidate = Object.assign(
 		}
 		return ret;
 	},
-	},
-	{
-		/**
-		 * Validates a {@link ServerChatRoomSearchData} entry from the server.
-		 * @param {ServerChatRoomSearchData} result
-		 * @returns {ServerChatRoomSearchData}
-		 */
-		Result(result) {
-			if (!CommonIsObject(result)) return /** @type {ServerChatRoomSearchData} */ ({});
-			return {
-				...result,
-				Name: ServerChatRoomSearchDataValidate.Name(result.Name),
-				Description: ServerChatRoomSearchDataValidate.Description(result.Description),
-				Creator: ServerChatRoomSearchDataValidate.Creator(result.Creator),
-				Language: ServerChatRoomSearchDataValidate.Language(result.Language),
-				Game: ServerChatRoomSearchDataValidate.Game(result.Game),
-				Space: ServerChatRoomSearchDataValidate.Space(result.Space),
-				MapType: ServerChatRoomSearchDataValidate.MapType(result.MapType),
-				MemberCount: ServerChatRoomSearchDataValidate.MemberCount(result.MemberCount),
-				MemberLimit: ServerChatRoomSearchDataValidate.MemberLimit(result.MemberLimit),
-				CreatorMemberNumber: ServerChatRoomSearchDataValidate.CreatorMemberNumber(result.CreatorMemberNumber),
-				Creation: ServerChatRoomSearchDataValidate.Creation(result.Creation),
-				CanJoin: ServerChatRoomSearchDataValidate.CanJoin(result.CanJoin),
-				BlockCategory: ServerChatRoomSearchDataValidate.BlockCategory(result.BlockCategory),
-				Friends: ServerChatRoomSearchDataValidate.Friends(result.Friends),
-				Visibility: ServerChatRoomSearchDataValidate.Visibility(result.Visibility),
-				Access: ServerChatRoomSearchDataValidate.Access(result.Access),
-			};
-		},
-	}
-);
+};
+
+/** @namespace */
+var ServerChatRoomSearchDataValidate = ServerChatRoomSearchDataValidateFields;
 
 const ServerDefaultTimeout = 3000;
 
@@ -2107,7 +2067,9 @@ async function ServerRoomSearch(queryString, options) {
 					resolve(Result.success([]));
 					return;
 				}
-				resolve(Result.success(data.map((row) => ServerChatRoomSearchDataValidate.Result(row))));
+				resolve(Result.success(data.map((row) => /** @type {ServerChatRoomSearchData} */ (
+					ValidationApplyRecord(row, undefined, ServerChatRoomSearchDataValidateFields, true)
+				))));
 			});
 
 			ServerSend("ChatRoomSearch", request);

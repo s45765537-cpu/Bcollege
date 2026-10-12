@@ -240,7 +240,7 @@ describe("ServerChatRoomSearchDataValidate", () => {
 	});
 
 	it("validates search results", () => {
-		const validated = Game.ServerChatRoomSearchDataValidate.Result({
+		const validated = Game.ValidationApplyRecord({
 			Name: "Test",
 			Description: { tag: "img" },
 			Creator: "Host",
@@ -257,7 +257,7 @@ describe("ServerChatRoomSearchDataValidate", () => {
 			Access: ["All"],
 			CanJoin: true,
 			MapType: "Never",
-		});
+		}, undefined, Game.ServerChatRoomSearchDataValidate, true);
 		expect(validated.Description).toBe("");
 		expect(validated.Friends[0].MemberName).toBe("");
 	});

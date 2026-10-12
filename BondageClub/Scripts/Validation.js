@@ -1308,25 +1308,26 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
 }
 
 /**
- * @template {{ [key: string]: (arg: any, C: Character) => any }} T
+ * @template O
+ * @template {{ [key: string]: (arg: any, object: O) => any }} T
  * @param {unknown} arg The to-be validated record
- * @param {Character} C The character in question
+ * @param {O} object An extra object to validate with. Passed to the validator as a 2nd argument
  * @param {T} validators A record of validation functions; one for each property in `arg`
  * @param {boolean} allowExtraKeys whether to allow extra key/value pairs in `arg` (absent from the `validators` record) to-be returned
  * @returns {{ [k in keyof T]: ReturnType<T[k]> }} The validated `arg`
  */
-function ValidationApplyRecord(arg, C, validators, allowExtraKeys=false) {
-	const obj = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */ (CommonIsObject(arg) ? arg : {});
+function ValidationApplyRecord(arg, object, validators, allowExtraKeys=false) {
+	const properties = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */ (CommonIsObject(arg) ? arg : {});
 
 	const validated = /** @type {[string, any][]} */ (CommonEntries(validators).map(([name, validate]) => {
-		const value = validate(obj[name], C);
+		const value = validate(properties[name], object);
 		return [name, value];
 	}));
 	const ret = /** @type {{ [k in keyof T]: ReturnType<T[k]> }} */(CommonFromEntries(validated));
 
 	if (allowExtraKeys) {
-		const extraKeys = CommonKeys(obj).filter(i => !(i in ret));
-		return CommonAssign(ret, CommonPick(obj, extraKeys));
+		const extraKeys = CommonKeys(properties).filter(i => !(i in ret));
+		return CommonAssign(ret, CommonPick(properties, extraKeys));
 	} else {
 		return ret;
 	}
