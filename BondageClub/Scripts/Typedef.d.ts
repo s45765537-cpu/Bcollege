@@ -1548,7 +1548,7 @@ interface Activity {
 	ActivityExpression?: ExpressionTrigger[];
 }
 
-type ItemActivityRestriction = "blocked" | "limited" | "unavail";
+type ItemActivityRestriction = "blocked" | "limited";
 
 interface ItemActivity {
 	/** The activity performed */
