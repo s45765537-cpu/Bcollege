@@ -1749,10 +1749,46 @@ var ServerChatRoomDataValidate = {
 	},
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength + 1, ""),
 	Background: ServerValidation.isString(101, ""),
-	Game: ServerValidation.isString(101, ""),
-	Space: ServerValidation.isString(101, ""),
+	/**
+	 * @param {unknown} arg
+	 * @returns {ServerChatRoomGame}
+	 */
+	Game(arg) {
+		/** @type {ServerChatRoomGame[]} */
+		const games = ["", "ClubCard", "LARP", "MagicBattle", "GGTS", "Prison"];
+		return CommonIncludes(games, arg) ? arg : "";
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {ServerChatRoomSpace}
+	 */
+	Space(arg) {
+		/** @type {ServerChatRoomSpace[]} */
+		const spaces = ["X", "", "M", "Asylum"];
+		return CommonIncludes(spaces, arg) ? arg : "";
+	},
 	Language: ServerValidation.isItem([...ServerChatRoomSupportedLanguages], "EN"),
-	Limit: ServerValidation.isInt(2, 20, 10),
+	/**
+	 * @param {unknown} arg
+	 * @returns {number}
+	 */
+	Limit(arg) {
+		return CommonIsInteger(arg, 2, 20) ? arg : 10;
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {number}
+	 */
+	MemberCount(arg) {
+		return CommonIsInteger(arg, 0, 20) ? arg : 0;
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {number}
+	 */
+	MemberLimit(arg) {
+		return CommonIsInteger(arg, 2, 20) ? arg : 10;
+	},
 	/**
 	 * @param {unknown} arg
 	 * @returns {string}
@@ -1772,8 +1808,10 @@ var ServerChatRoomDataValidate = {
 	 * @returns {ServerChatRoomRole[]}
 	 */
 	RoleList(arg) {
+		/** @type {ServerChatRoomRole[]} */
+		const validRoles = ["All", "Admin", "Whitelist"];
 		if (!Array.isArray(arg)) return ["All"];
-		const roles = arg.filter((r) => typeof r === "string");
+		const roles = arg.filter((r) => CommonIncludes(validRoles, r));
 		return roles.length > 0 ? roles : ["All"];
 	},
 	/**
@@ -1782,7 +1820,14 @@ var ServerChatRoomDataValidate = {
 	 */
 	BlockCategory(arg) {
 		if (!Array.isArray(arg)) return [];
-		return arg.filter((c) => typeof c === "string" && (typeof ChatBlockItemList === "undefined" || ChatBlockItemList.includes(c)));
+		return /** @type {ServerChatRoomBlockCategory[]} */ (arg.filter((c) => typeof c === "string" && (typeof ChatBlockItemList === "undefined" || ChatBlockItemList.includes(c))));
+	},
+	/**
+	 * @param {unknown} arg
+	 * @returns {AssetCategory[]}
+	 */
+	SearchBlockCategory(arg) {
+		return /** @type {AssetCategory[]} */ (ServerChatRoomDataValidate.BlockCategory(arg));
 	},
 	/**
 	 * @param {unknown} arg
@@ -1818,12 +1863,12 @@ var ServerChatRoomDataValidate = {
 			Game: ServerChatRoomDataValidate.Game(result.Game),
 			Space: ServerChatRoomDataValidate.Space(result.Space),
 			MapType: ServerValidation.isString(21, "Never")(result.MapType),
-			MemberCount: ServerValidation.isInt(0, 20, 0)(result.MemberCount),
-			MemberLimit: ServerValidation.isInt(2, 20, 10)(result.MemberLimit),
+			MemberCount: ServerChatRoomDataValidate.MemberCount(result.MemberCount),
+			MemberLimit: ServerChatRoomDataValidate.MemberLimit(result.MemberLimit),
 			CreatorMemberNumber: CommonIsInteger(result.CreatorMemberNumber, 1) ? result.CreatorMemberNumber : 0,
 			Creation: CommonIsNumeric(result.Creation) ? result.Creation : 0,
 			CanJoin: ServerValidation.isBool(false)(result.CanJoin),
-			BlockCategory: ServerChatRoomDataValidate.BlockCategory(result.BlockCategory),
+			BlockCategory: ServerChatRoomDataValidate.SearchBlockCategory(result.BlockCategory),
 			Friends: ServerChatRoomDataValidate.SearchFriends(result.Friends),
 			Visibility: ServerChatRoomDataValidate.RoleList(result.Visibility),
 			Access: ServerChatRoomDataValidate.RoleList(result.Access),
@@ -1831,7 +1876,7 @@ var ServerChatRoomDataValidate = {
 	},
 	/**
 	 * Coerces known {@link ServerChatRoomData} property fields on an incoming sync object (in place).
-	 * @param {Record<string, unknown>} data
+	 * @param {Partial<ServerChatRoomData>} data
 	 * @returns {void}
 	 */
 	ApplyRoomProperties(data) {
