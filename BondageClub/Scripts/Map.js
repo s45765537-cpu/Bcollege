@@ -2357,20 +2357,6 @@ function MapGetDoodad(type, id) {
 }
 
 /**
- * @param {number} x
- * @param {number} y
- */
-function MapCellClick(x, y) {
-	const objectId = MapManager.Map.getObjectId(x, y);
-	if (objectId != null) {
-		const object = MapGetDoodad("Object", objectId);
-		if (object?.OnClick) {
-			object.OnClick(x, y);
-		}
-	}
-}
-
-/**
  * Gets the effect / object / tile on the map
  * @template {MapDataDoodadType} T
  * @param {T} type - The type of the tile

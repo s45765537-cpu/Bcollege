@@ -78,8 +78,6 @@ var ChatRoomMapViewPanel;
 var ChatRoomMapViewPanelContainer;
 /** @type {null | number} */
 var ChatRoomMapViewSelectedObjectIndex = null;
-/** @type {ChatRoomMapObjectConfig["Type"] | null} */
-var ChatRoomMapViewSelectedObjectConfigType = null;
 
 document.addEventListener("blur", () => {
 	if (ChatRoomMapViewIsActive()) ChatRoomMapViewBlur();
@@ -111,36 +109,6 @@ function ChatRoomMapViewInitialize(mode) {
 		Objects: defaultMap,
 		Effects: undefined,
 	};
-}
-
-/**
- * Get the tile ID at the given coordinates
- * @overload
- * @param {number} index
- * @param {ChatRoomMapObjectConfig["Type"]} type
- * @return {void}
- */
-/**
- * @overload
- * @param {number} x
- * @param {number} y
- * @param {ChatRoomMapObjectConfig["Type"]} type
- * @return {void}
- */
-/**
- * @param {[x: number, y: number, type: ChatRoomMapObjectConfig["Type"]] | [index: number, type: ChatRoomMapObjectConfig["Type"]] } args
- * @return {void}
- */
-function ChatRoomMapViewSetCellSelection(...args) {
-	const [index, type] = MapManager.Map.unpackIndex(...args);
-	ChatRoomMapViewSelectedObjectIndex = index;
-	ChatRoomMapViewSelectedObjectConfigType = type;
-}
-
-function ChatRoomMapViewClearCellSelection() {
-	ChatRoomMapViewSelectedObjectIndex = null;
-	ChatRoomMapViewSelectedObjectConfigType = null;
-	ChatRoomMapViewHideDialogMenu();
 }
 
 /**
@@ -2027,10 +1995,31 @@ function ChatRoomMapViewClick() {
 	}
 
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
-	if (!pos) return;
+	if (!pos) {
+		ChatRoomMapViewSetSelectedTile(undefined);
+		return;
+	}
 
 	// If we are in edit mode, we can change the tile or object
-	MapCellClick(pos.X, pos.Y);
+	ChatRoomMapViewSetSelectedTile(pos);
+}
+
+/**
+ * @param {{ X: number, Y: number} | undefined} pos
+ */
+function ChatRoomMapViewSetSelectedTile(pos) {
+	ChatRoomMapViewHideDialogMenu();
+	if (!pos) {
+		ChatRoomMapViewSelectedObjectIndex = null;
+		return;
+	}
+	const objectId = MapManager.Map.getObjectId(pos.X, pos.Y);
+	const [index] = MapManager.Map.unpackIndex(pos.Y, pos.Y);
+	ChatRoomMapViewSelectedObjectIndex = index;
+	if (objectId) {
+		const object = MapGetDoodad("Object", objectId);
+		object?.OnClick?.(pos.X, pos.Y);
+	}
 }
 
 /**

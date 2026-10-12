@@ -54,8 +54,6 @@ function MapSanitizeSignText(text) {
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
 	return (x, y) => {
-		ChatRoomMapViewSetCellSelection(x, y, "Sign");
-
 		const signText = MapSanitizeSignText(MapManager.Map.getObjectConfig(x, y)?.Text);
 		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
 			ChatRoomPlayerIsAdmin() ?
