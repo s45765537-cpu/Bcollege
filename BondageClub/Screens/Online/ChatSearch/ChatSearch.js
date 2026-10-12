@@ -1206,9 +1206,6 @@ function ChatSearchClickRoom(room) {
  * @param {number} index
  */
 function ChatSearchCreateGridRoom(room, index) {
-	const roomName = ServerChatRoomSearchDataValidate.Name(room.Name);
-	const roomCreator = ServerChatRoomSearchDataValidate.Creator(room.Creator);
-	const roomDescription = ServerChatRoomSearchDataValidate.Description(room.Description);
 	const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
 	const tooltipElement = ChatSearchCreateGridRoomTooltip(room, index);
 
@@ -1264,13 +1261,13 @@ function ChatSearchCreateGridRoom(room, index) {
 				{
 					tag: "span",
 					classList: ["chat-search-room-name"],
-					children: [roomName]
+					children: [room.Name]
 				},
 				"-",
 				{
 					tag: "span",
 					classList: ["chat-search-room-creator"],
-					children: [roomCreator]
+					children: [room.Creator]
 				},
 				{
 					tag: "span",
@@ -1282,7 +1279,7 @@ function ChatSearchCreateGridRoom(room, index) {
 		{
 			tag: "p",
 			classList: ["chat-search-room-description"],
-			children: [roomDescription]
+			children: [room.Description]
 		},
 		ElementButton.Create(`chat-search-room-page-button-${room.Order}`, () => {
 			ChatSearchShowRoomPage(room);
@@ -1477,29 +1474,26 @@ function ChatSearchShowRoomPage(room) {
 	if (ChatSearchDialogElement) {
 		ElementRemove(ChatSearchDialogElement);
 	}
-	const roomName = ServerChatRoomSearchDataValidate.Name(room.Name);
-	const roomCreator = ServerChatRoomSearchDataValidate.Creator(room.Creator);
-	const roomDescription = ServerChatRoomSearchDataValidate.Description(room.Description);
 	const roomPageElements = [
 		ElementCreate({
 			tag: "h2",
 			classList: ["chat-search-room-page-title"],
 			children: [
-				roomName,
+				room.Name,
 			],
 		}),
 		ElementCreate({
 			tag: "p",
 			classList: ["chat-search-room-page-creator"],
 			children: [
-				`By ${roomCreator}`
+				`By ${room.Creator}`
 			],
 		}),
 		ElementCreate({
 			tag: "p",
 			classList: ["chat-search-room-page-description"],
 			children: [
-				roomDescription === "" ? "No description" : roomDescription,
+				room.Description === "" ? "No description" : room.Description,
 			],
 		}),
 		ElementCreate({
@@ -1808,15 +1802,14 @@ function ChatSearchParseResponse(searchResults) {
 	const ret = [];
 	let i = 0;
 	for (const result of searchResults) {
-		const validated = ServerChatRoomSearchDataValidate.Result(result);
-		const censoredData = ChatSearchCensor(validated);
+		const censoredData = ChatSearchCensor(result);
 		if (censoredData === null) {
 			continue;
 		}
-		if (validated.MemberLimit < Player.ChatSearchSettings.RoomMinSize || validated.MemberLimit > Player.ChatSearchSettings.RoomMaxSize) {
+		if (result.MemberLimit < Player.ChatSearchSettings.RoomMinSize || result.MemberLimit > Player.ChatSearchSettings.RoomMaxSize) {
 			continue;
 		}
-		ret.push(/** @type {ChatRoomSearchResult} */({ ...validated, ...censoredData, Order: i }));
+		ret.push(/** @type {ChatRoomSearchResult} */({ ...result, ...censoredData, Order: i }));
 		i++;
 	}
 	return ret;

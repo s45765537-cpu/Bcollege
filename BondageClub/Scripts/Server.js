@@ -2086,7 +2086,11 @@ async function ServerRoomSearch(queryString, options) {
 		return await ServerPromiseWithTimeout(ServerDefaultTimeout, (resolve) => {
 			ServerSocket.once("ChatRoomSearchResult", (data) => {
 				ServerRoomSearchLastQueryTime = 0;
-				resolve(Result.success(data));
+				if (!CommonIsArray(data)) {
+					resolve(Result.success([]));
+					return;
+				}
+				resolve(Result.success(data.map((row) => ServerChatRoomSearchDataValidate.Result(row))));
 			});
 
 			ServerSend("ChatRoomSearch", request);
