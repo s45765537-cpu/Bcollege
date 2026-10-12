@@ -1206,6 +1206,9 @@ function ChatSearchClickRoom(room) {
  * @param {number} index
  */
 function ChatSearchCreateGridRoom(room, index) {
+	const roomName = ChatSearchSanitizeRoomText(room.Name);
+	const roomCreator = ChatSearchSanitizeRoomText(room.Creator);
+	const roomDescription = ChatSearchSanitizeRoomText(room.Description);
 	const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
 	const tooltipElement = ChatSearchCreateGridRoomTooltip(room, index);
 
@@ -1261,13 +1264,13 @@ function ChatSearchCreateGridRoom(room, index) {
 				{
 					tag: "span",
 					classList: ["chat-search-room-name"],
-					children: [room.Name]
+					children: [roomName]
 				},
 				"-",
 				{
 					tag: "span",
 					classList: ["chat-search-room-creator"],
-					children: [`${room.Creator}`]
+					children: [roomCreator]
 				},
 				{
 					tag: "span",
@@ -1279,7 +1282,7 @@ function ChatSearchCreateGridRoom(room, index) {
 		{
 			tag: "p",
 			classList: ["chat-search-room-description"],
-			children: [room.Description]
+			children: [roomDescription]
 		},
 		ElementButton.Create(`chat-search-room-page-button-${room.Order}`, () => {
 			ChatSearchShowRoomPage(room);
@@ -1474,26 +1477,29 @@ function ChatSearchShowRoomPage(room) {
 	if (ChatSearchDialogElement) {
 		ElementRemove(ChatSearchDialogElement);
 	}
+	const roomName = ChatSearchSanitizeRoomText(room.Name);
+	const roomCreator = ChatSearchSanitizeRoomText(room.Creator);
+	const roomDescription = ChatSearchSanitizeRoomText(room.Description);
 	const roomPageElements = [
 		ElementCreate({
 			tag: "h2",
 			classList: ["chat-search-room-page-title"],
 			children: [
-				room.Name,
+				roomName,
 			],
 		}),
 		ElementCreate({
 			tag: "p",
 			classList: ["chat-search-room-page-creator"],
 			children: [
-				`By ${room.Creator}`
+				`By ${roomCreator}`
 			],
 		}),
 		ElementCreate({
 			tag: "p",
 			classList: ["chat-search-room-page-description"],
 			children: [
-				room.Description === "" ? "No description" : room.Description,
+				roomDescription === "" ? "No description" : roomDescription,
 			],
 		}),
 		ElementCreate({
