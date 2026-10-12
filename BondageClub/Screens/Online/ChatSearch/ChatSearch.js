@@ -1774,6 +1774,15 @@ function ChatSearchSendToast(type) {
 }
 
 /**
+ * Coerces room text fields to plain strings so they are safe for {@link ElementCreate} children.
+ * @param {unknown} value
+ * @returns {string}
+ */
+function ChatSearchSanitizeRoomText(value) {
+	return typeof value === "string" ? value : "";
+}
+
+/**
  * Censors the chat search result name and description based on the player preference
  * @param {ServerChatRoomSearchData} searchData - The (potentially) to-be censored search result
  * @returns {null | { DisplayName: string, Description: string }} - The censored name and description or, if fully censored, return `null` instead
@@ -1802,14 +1811,20 @@ function ChatSearchParseResponse(searchResults) {
 	const ret = [];
 	let i = 0;
 	for (const result of searchResults) {
-		const censoredData = ChatSearchCensor(result);
+		const sanitized = {
+			...result,
+			Name: ChatSearchSanitizeRoomText(result.Name),
+			Description: ChatSearchSanitizeRoomText(result.Description).slice(0, ServerChatRoomDescriptionMaxLength),
+			Creator: ChatSearchSanitizeRoomText(result.Creator),
+		};
+		const censoredData = ChatSearchCensor(sanitized);
 		if (censoredData === null) {
 			continue;
 		}
-		if (result.MemberLimit < Player.ChatSearchSettings.RoomMinSize || result.MemberLimit > Player.ChatSearchSettings.RoomMaxSize) {
+		if (sanitized.MemberLimit < Player.ChatSearchSettings.RoomMinSize || sanitized.MemberLimit > Player.ChatSearchSettings.RoomMaxSize) {
 			continue;
 		}
-		ret.push(/** @type {ChatRoomSearchResult} */({ ...result, ...censoredData, Order: i }));
+		ret.push(/** @type {ChatRoomSearchResult} */({ ...sanitized, ...censoredData, Order: i }));
 		i++;
 	}
 	return ret;
