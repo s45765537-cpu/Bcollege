@@ -73,6 +73,7 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
 						signData.Text = MapSanitizeSignText(this.value);
 						MapManager.Map.setObjectConfig(x, y, signData);
+						MapManager.Map.updateGlobalMapData();
 					}
 				}
 			}
