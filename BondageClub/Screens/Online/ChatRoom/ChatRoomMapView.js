@@ -46,6 +46,7 @@ var ChatRoomMapViewUpdatePlayerTime = 500;
 const ChatRoomMapViewWhisperRange = 1;
 const ChatRoomMapViewInteractionRange = 1;
 const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
+const ChatRoomMapSignTextMaxLength = 150;
 
 /** @type {boolean[]}
  * @deprecated Use {@link MapManager.Map.isTileVisible()}
