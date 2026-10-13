@@ -388,6 +388,7 @@ function ChatRoomMapViewPickLayerColor(heading, layer, original, onPick) {
 			onExit: (state, save) => {
 				if (ChatRoomMapViewColorPickerCancel !== cancel) return;
 				ChatRoomMapViewColorPickerCancel = null;
+				ChatRoomMapViewSetChatInputBlocked(false);
 				const color = save ? toColor(state) : null;
 				onPick(color ?? original, !!color);
 			},
@@ -395,8 +396,29 @@ function ChatRoomMapViewPickLayerColor(heading, layer, original, onPick) {
 			// The picker has no background of its own and its labels are white, so it gets a dark one over the chat log
 			root.style.backgroundColor = "#111";
 			root.style.color = "#EEE";
+			// Covering the chat must not leave InputChat focused, or typing still goes there
+			ChatRoomMapViewSetChatInputBlocked(true);
+			/** @type {null | HTMLInputElement} */
+			const output = root.querySelector('input[name="output"]');
+			output?.focus();
 		})
 	);
+}
+
+/**
+ * Disables the room chat input while the color picker covers it, so keystrokes do not go into chat
+ * @param {boolean} blocked
+ * @returns {void}
+ */
+function ChatRoomMapViewSetChatInputBlocked(blocked) {
+	const chatInput = /** @type {null | HTMLTextAreaElement} */ (document.getElementById("InputChat"));
+	if (!chatInput) return;
+	if (blocked) {
+		chatInput.blur();
+		chatInput.disabled = true;
+	} else {
+		chatInput.disabled = false;
+	}
 }
 
 /**
@@ -410,6 +432,7 @@ function ChatRoomMapViewCloseColorPicker(keep = false) {
 	ChatRoomMapViewColorPickerCancel = null;
 	if (!keep) cancel();
 	ColorPickerExit(true);
+	ChatRoomMapViewSetChatInputBlocked(false);
 }
 
 /**
