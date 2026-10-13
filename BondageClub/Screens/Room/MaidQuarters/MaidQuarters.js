@@ -270,12 +270,17 @@ async function MaidQuartersLoad() {
  * @param {boolean} [newMaid=false] Swap in a new maid
  */
 function MaidQuartersGetMaid(newMaid = false) {
+	let state;
 	if (newMaid && MaidQuartersMaid) {
+		state = [MaidQuartersMaid.Stage, MaidQuartersMaid.CurrentDialog];
 		CharacterDelete(MaidQuartersMaid);
 		MaidQuartersMaid = null;
 	}
 	if (!MaidQuartersMaid) {
 		MaidQuartersMaid = CharacterLoadNPC("NPC_MaidQuarters_Maid");
+		if (state !== undefined) {
+			[MaidQuartersMaid.Stage, MaidQuartersMaid.CurrentDialog] = state;
+		}
 	}
 	return MaidQuartersMaid;
 }

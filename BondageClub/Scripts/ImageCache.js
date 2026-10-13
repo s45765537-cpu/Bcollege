@@ -335,6 +335,17 @@ class BrowserCache {
 	}
 
 	/**
+	 * Check if a given URL can be cached.
+	 * @param {string} url
+	 * @returns {boolean}
+	 * @private
+	 */
+	_isCacheable(url) {
+		const protocol = new URL(url, location.href).protocol;
+		return protocol === "http:" || protocol === "https:";
+	}
+
+	/**
 	 * Store a response into the cache.
 	 *
 	 * @param {string} key The cache key of the resource
@@ -400,6 +411,9 @@ class BrowserCache {
 	 * @returns {Promise<Response>}
 	 */
 	async fetch(url, options = {}) {
+		if (!this._isCacheable(url))
+			return CommonFetch(url);
+
 		const key = this.key(url);
 		const cached = await this.cache.match(key);
 		if (cached) {

@@ -40,35 +40,53 @@ function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 }
 
 /**
+ * @param {unknown} text
+ * @returns {string}
+ */
+function MapSanitizeSignText(text) {
+	return typeof text === "string" ? text.slice(0, ChatRoomMapSignTextMaxLength) : "";
+}
+
+/**
  * To prevent repeating the same logic, we create a function that returns a function
  * @param {string} name - Sign Name
  * @returns {ChatRoomMapObject["OnClick"]}
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
-	return (x, y) => {
-		ChatRoomMapViewSetCellSelection(x, y, "Sign");
-		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
-			{
-				tag: ChatRoomPlayerIsAdmin() ? "textarea" : "div",
-				classList: ["chat-room-map-view-dialog-content-text"],
-				attributes: {
-					maxlength: "150",
-					placeholder: "Type sign message here..."
-				},
-				children: [
-					MapGetSignConfig(x, y)?.Text || ""
-				],
-				eventListeners: {
-					"input": function() {
-						if (!ChatRoomPlayerIsAdmin()) return;
-						const signData = MapGetSignConfig(x, y) ?? { Type: "Sign", Text: "" };
-						signData.Text = /** @type {HTMLTextAreaElement} */(this).value;
-						MapManager.Map.setObjectConfig(x, y, signData);
-					}
-				}
-			}
-		));
-	};
+    return (x, y) => {
+        ChatRoomMapViewSetCellSelection(x, y, "Sign");
+        ChatRoomMapViewShowDialogMenu(name, ElementCreate(
+            ChatRoomPlayerIsAdmin() ?
+                {
+                    tag: "textarea",
+                    classList: ["chat-room-map-view-dialog-content-text"],
+                    attributes: {
+                        maxlength: "150",
+                        placeholder: "Type sign message here..."
+                    },
+                    children: [
+                        MapGetSignConfig(x, y)?.Text || ""
+                    ],
+                    eventListeners: {
+                        /**
+                         * @this {HTMLTextAreaElement}
+                         */
+                        "change": function() {
+                            const signData = MapGetSignConfig(x, y) ?? { Type: "Sign", Text: "" };
+                            signData.Text = this.value;
+                            MapManager.Map.setObjectConfig(x, y, signData);
+                        }
+                    }
+                }
+                : {
+                    tag: "div",
+                    classList: ["chat-room-map-view-dialog-content-text"],
+                    children: [
+                        MapGetSignConfig(x, y)?.Text || ""
+                    ],
+                }
+        ));
+    };
 }
 
 /**

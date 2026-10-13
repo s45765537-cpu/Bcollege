@@ -271,12 +271,12 @@ function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activi
 			blocked = "limited";
 		} else if (typeList.some((type) => InventoryBlockedOrLimited(acted, item, type))) {
 			blocked = "blocked";
-		} else if (InventoryGroupIsBlocked(acting, /** @type {AssetGroupItemName} */(item.Asset.Group.Name))) {
-			blocked = "unavail";
+		} else if (InventoryGroupIsBlocked(useTargetItems ? acted : acting, /** @type {AssetGroupItemName} */(item.Asset.Group.Name))) {
+			return activities;
 		}
 
 		// this doesnt allow penetrative handheld items from being used while acting is restrained
-		if (item.Asset.Group.Name === "ItemHandheld" && acting.IsRestrained()) {
+		if (item.Asset.Group.Name === "ItemHandheld" && !ActivityCheckPrerequisite("UseHands", acting, acted, targetGroup)) {
 			return activities;
 		}
 

@@ -344,6 +344,7 @@ describe("MapManager", () => {
 		it("should survive a save/load round trip", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			Game.MapManager.Map.updateGlobalMapData();
 			const saved = JSON.parse(JSON.stringify(Game.ChatRoomData.MapData));
 			Game.MapManager.Map.clear();
 			expect(Game.MapManager.Map.loadGlobalMapData(saved)).toBe(true);
@@ -353,6 +354,7 @@ describe("MapManager", () => {
 		it("should survive an export/import round trip", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			Game.MapManager.Map.updateGlobalMapData();
 			const exported = Game.MapManager.Map.exportString();
 			Game.ChatRoomData.MapData = Game.ChatRoomMapViewInitialize("Always");
 			Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData);
@@ -396,11 +398,11 @@ describe("MapManager", () => {
 			expect(Game.MapCanPasteColorFormat({ ObjectID: throne.ID, Colors: ["#3050E0", "Default"] }, letterA)).toBe(false);
 		});
 
-		it("can undo setObjectConfig when requested", () => {
+		it("should undo each setObjectConfig as its own step", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
-			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig, { undo: true })).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
 			const otherConfig = { Type: "Color", Colors: ["Default", "#112233"] };
-			expect(Game.MapManager.Map.setObjectConfig(10, 10, otherConfig, { undo: true })).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, otherConfig)).toBe(true);
 			expect(Game.MapManager.Map.undo()).toBe(true);
 			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
 			expect(Game.MapManager.Map.undo()).toBe(true);
@@ -408,9 +410,21 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(throne);
 		});
 
-		it("should not register an undo step for setObjectConfig by default", () => {
-			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
-			expect(Game.MapManager.Map.undo()).toBe(false);
+		it("should keep only valid color configs when a map is loaded", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObject(11, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObject(12, 10, plainObject)).toBe(true);
+			Game.MapManager.Map.updateGlobalMapData();
+			const saved = JSON.parse(JSON.stringify(Game.ChatRoomData.MapData));
+			saved.CellData = {
+				[Game.MapCoordinatesToIndex(10, 10)]: colorConfig,
+				[Game.MapCoordinatesToIndex(11, 10)]: { Type: "Color", Colors: ["#3050E0", "<b>red</b>"] },
+				[Game.MapCoordinatesToIndex(12, 10)]: colorConfig,
+			};
+			expect(Game.MapManager.Map.loadGlobalMapData(saved)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+			expect(Game.MapManager.Map.getObjectConfig(11, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.getObjectConfig(12, 10)).toBeUndefined();
 		});
 
 		it("should drop invalid color configs when validating cells", () => {

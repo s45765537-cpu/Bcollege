@@ -46,6 +46,7 @@ var ChatRoomMapViewUpdatePlayerTime = 500;
 const ChatRoomMapViewWhisperRange = 1;
 const ChatRoomMapViewInteractionRange = 1;
 const ChatRoomMapViewRemoteRange = ChatRoomMapViewPerceptionRangeMax;
+const ChatRoomMapSignTextMaxLength = 150;
 
 /** @type {boolean[]}
  * @deprecated Use {@link MapManager.Map.isTileVisible()}
@@ -522,7 +523,7 @@ function ChatRoomMapViewShowColorDialog(x, y) {
 		if (!ChatRoomPlayerIsAdmin()) return;
 		const saved = ChatRoomMapViewToStoredColors(layers, MapGetObjectLayerColors(index, object));
 		if (colors.length === saved.length && colors.every((color, i) => color === saved[i])) return;
-		MapManager.Map.setObjectConfig(index, ChatRoomMapViewBuildColorConfig(colors), { undo: true });
+		ChatRoomMapViewSaveColorConfig(index, colors);
 	};
 	const rows = ChatRoomMapViewCreateColorRows(title, layers, MapGetObjectLayerColors(index, object), () => {
 		ChatRoomMapViewColorPreview = { Index: index, Colors: rows.getColors() };
@@ -601,7 +602,20 @@ function ChatRoomMapViewPasteColorFormat(x, y) {
 	const object = MapManager.Map.getObject(index);
 	const format = ChatRoomMapViewColorFormat;
 	if (!format || !MapCanPasteColorFormat(format, object) || !ChatRoomPlayerIsAdmin()) return false;
-	return MapManager.Map.setObjectConfig(index, ChatRoomMapViewBuildColorConfig(format.Colors), { undo: true });
+	return ChatRoomMapViewSaveColorConfig(index, format.Colors);
+}
+
+/**
+ * Saves the colors of the object on a cell as one undo step, and sends the changed map to the room
+ * @param {number} index
+ * @param {ChatRoomMapColorObjectConfig["Colors"]} colors
+ * @returns {boolean} - TRUE if the colors were saved
+ */
+function ChatRoomMapViewSaveColorConfig(index, colors) {
+	if (!MapManager.Map.setObjectConfig(index, ChatRoomMapViewBuildColorConfig(colors))) return false;
+	MapManager.Map.updateGlobalMapData();
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
+	return true;
 }
 
 /**
