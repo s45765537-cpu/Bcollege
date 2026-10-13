@@ -1795,7 +1795,7 @@ const ServerChatRoomRoleList = ["All", "Admin", "Whitelist"];
  * Per-field validators for {@link ServerChatRoomData} (for {@link ValidationApplyRecord}).
  * @satisfies {{ [k in keyof ServerChatRoomData]?: (arg: unknown, C: Character) => ServerChatRoomData[k] }}
  */
-const ServerChatRoomDataValidateFields = {
+const ServerChatRoomDataValidationRecord = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Background: ServerValidation.isString(100, ""),
