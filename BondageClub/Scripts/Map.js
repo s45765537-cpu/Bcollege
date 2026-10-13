@@ -2051,7 +2051,7 @@ var MapManager = (function () {
 			this.validateMap();
 			const ret = this.#_mapData.save(ChatRoomData.MapData);
 			this.updatePlayerPerception();
-			if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
+			ChatRoomMapViewScheduleMapUpdate();
 			return ret;
 		}
 

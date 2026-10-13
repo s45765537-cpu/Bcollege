@@ -1541,6 +1541,20 @@ function ChatRoomMapViewUpdatePlayerFlag(UpdateTimeOffset = 0) {
 }
 
 /**
+ * Schedule a map update to be sent to the server.
+ *
+ * The update will only happen once at the end of a 5s period.
+ * Do note that calling {@link MapManager.Map.updateGlobalMapData()} will also
+ * cause an update to be sent out, while making sure the data we're sending *is*
+ * the current map data.
+ *
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewScheduleMapUpdate() {
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
+}
+
+/**
  * Updates the room data if needed
  * @returns {void} - Nothing
  */
