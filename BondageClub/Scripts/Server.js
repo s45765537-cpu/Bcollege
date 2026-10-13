@@ -1903,7 +1903,7 @@ function ServerChatRoomDataValidate(data) {
  * Per-field validators for {@link ServerChatRoomSearchData} (for {@link ValidationApplyRecord}).
  * @satisfies {{ [k in keyof ServerChatRoomSearchData]?: (arg: unknown, C: Character) => ServerChatRoomSearchData[k] }}
  */
-const ServerChatRoomSearchDataValidateFields = {
+const ServerChatRoomDataValidationRecord = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Creator: ServerValidation.isString(20, ""),
