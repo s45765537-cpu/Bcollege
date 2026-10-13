@@ -1892,20 +1892,12 @@ const ServerChatRoomDataValidateFields = {
 };
 
 /**
- * Namespace with functions for validating {@link ServerChatRoomData} properties, converting them into their valid counterpart.
- * @namespace
+ * Validates a chatroom's data
+ * @param {unknown} data
  */
-var ServerChatRoomDataValidate = Object.assign({}, ServerChatRoomDataValidateFields, {
-	/**
-	 * Coerces known {@link ServerChatRoomData} property fields on an incoming sync object (in place).
-	 * @param {Partial<ServerChatRoomData>} data
-	 * @returns {void}
-	 */
-	ApplyRoomProperties(data) {
-		if (!CommonIsObject(data)) return;
-		CommonAssign(data, ValidationApplyRecord(data, undefined, ServerChatRoomDataValidateFields, true));
-	},
-});
+function ServerChatRoomDataValidate(data) {
+	return ValidationApplyRecord(data, undefined, ServerChatRoomDataValidationRecord, true);
+}
 
 /**
  * Per-field validators for {@link ServerChatRoomSearchData} (for {@link ValidationApplyRecord}).
