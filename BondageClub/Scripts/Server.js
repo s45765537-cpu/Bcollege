@@ -1969,8 +1969,13 @@ const ServerChatRoomDataValidationRecord = {
 	},
 };
 
-/** @namespace */
-var ServerChatRoomSearchDataValidate = ServerChatRoomSearchDataValidateFields;
+/**
+ * Validates search results
+ * @param {unknown} data
+ */
+function ServerChatRoomSearchDataValidate(data) {
+	return ValidationApplyRecord(data, undefined, ServerChatRoomDataValidationRecord, true);
+}
 
 const ServerDefaultTimeout = 3000;
 
