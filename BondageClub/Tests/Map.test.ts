@@ -427,9 +427,33 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.getObjectConfig(12, 10)).toBeUndefined();
 		});
 
-		it("should drop invalid color configs when validating cells", () => {
+		it("should reject invalid color configs on write", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
-			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0"] })).toBe(true);
+			expect(Game.MapManager.Map.setObject(11, 10, plainObject)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0"] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", "<b>red</b>"] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", /** @type {any} */ (1)] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", /** @type {any} */ (null)] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(11, 10, colorConfig)).toBe(false);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.getObjectConfig(11, 10)).toBeUndefined();
+		});
+
+		it("should store a clean copy of a valid color config", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			const injected = { Type: "Color" as const, Colors: ["#3050e0", "Default"] as const, Extra: "<script>" };
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, /** @type {any} */ (injected))).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Color", Colors: ["#3050E0", "Default"] });
+			injected.Colors = ["#FF0000", "Default"];
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Color", Colors: ["#3050E0", "Default"] });
+		});
+
+		it("should drop stale color configs when validating cells", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			const stale = Game.MapManager.Map.getObjectConfig(10, 10);
+			expect(stale?.Type).toBe("Color");
+			if (stale?.Type === "Color") stale.Colors = ["#3050E0"];
 			Game.MapValidateCells();
 			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
 		});

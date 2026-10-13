@@ -1454,26 +1454,34 @@ var MapManager = (function () {
 
 		/**
 		 * Sets the config for an object at the given coordinates.
+		 * Color configs are validated and stored as a clean copy; invalid ones are rejected.
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapObjectConfig} [config]
-		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds or the color config is invalid.
 		 */
 		/**
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapObjectConfig} [config]
-		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds or the color config is invalid.
 		 */
 		/**
 		 * @param {[x: number, y: number, config?: ChatRoomMapObjectConfig] | [index: number, config?: ChatRoomMapObjectConfig]} args
-		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds or the color config is invalid.
 		 */
 		setObjectConfig(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
 			const [index, config] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+
+			/** @type {ChatRoomMapObjectConfig | undefined} */
+			let next = config;
+			if (next != null && next.Type === "Color") {
+				if (!MapIsValidColorConfig(next, this.getObject(index))) return false;
+				next = { Type: "Color", Colors: next.Colors.map(c => c === "Default" ? "Default" : /** @type {HexColor} */ (c.toUpperCase())) };
+			}
 
 			const clean = this.isDirtyObjectConfigs();
 			const previousConfig = this.getObjectConfig(index);
@@ -1488,10 +1496,10 @@ var MapManager = (function () {
 			});
 
 			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
-			if (config == null) {
+			if (next == null) {
 				delete this.#_mapData.objectConfigs[index];
 			} else {
-				this.#_mapData.objectConfigs[index] = config;
+				this.#_mapData.objectConfigs[index] = next;
 			}
 			return true;
 		}
