@@ -226,21 +226,21 @@ describe("ServerAccountDataSyncedValidate", () => {
 
 describe("ServerChatRoomDataValidate", () => {
 	it("coerces room text fields to safe strings", () => {
-		expect(Game.ServerChatRoomDataValidate.Name("My Room")).toBe("My Room");
-		expect(Game.ServerChatRoomDataValidate.Name({ tag: "img" })).toBe("");
-		expect(Game.ServerChatRoomDataValidate.Description("Hello")).toBe("Hello");
-		expect(Game.ServerChatRoomDataValidate.Description({ tag: "img", attributes: { onerror: "alert(1)" } })).toBe("");
+		expect(Game.ServerChatRoomDataValidationRecord.Name("My Room")).toBe("My Room");
+		expect(Game.ServerChatRoomDataValidationRecord.Name({ tag: "img" })).toBe("");
+		expect(Game.ServerChatRoomDataValidationRecord.Description("Hello")).toBe("Hello");
+		expect(Game.ServerChatRoomDataValidationRecord.Description({ tag: "img", attributes: { onerror: "alert(1)" } })).toBe("");
 	});
 });
 
 describe("ServerChatRoomSearchDataValidate", () => {
 	it("coerces search text fields to safe strings", () => {
-		expect(Game.ServerChatRoomSearchDataValidate.Creator("Ada")).toBe("Ada");
-		expect(Game.ServerChatRoomSearchDataValidate.Creator(null)).toBe("");
+		expect(Game.ServerChatRoomSearchDataValidationRecord.Creator("Ada")).toBe("Ada");
+		expect(Game.ServerChatRoomSearchDataValidationRecord.Creator(null)).toBe("");
 	});
 
 	it("validates search results", () => {
-		const validated = Game.ValidationApplyRecord({
+		const validated = Game.ServerChatRoomSearchDataValidate({
 			Name: "Test",
 			Description: { tag: "img" },
 			Creator: "Host",
@@ -257,7 +257,7 @@ describe("ServerChatRoomSearchDataValidate", () => {
 			Access: ["All"],
 			CanJoin: true,
 			MapType: "Never",
-		}, undefined, Game.ServerChatRoomSearchDataValidate, true);
+		});
 		expect(validated.Description).toBe("");
 		expect(validated.Friends[0].MemberName).toBe("");
 	});

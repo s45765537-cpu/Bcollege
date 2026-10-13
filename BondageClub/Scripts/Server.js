@@ -1795,7 +1795,7 @@ const ServerChatRoomRoleList = ["All", "Admin", "Whitelist"];
  * Per-field validators for {@link ServerChatRoomData} (for {@link ValidationApplyRecord}).
  * @satisfies {{ [k in keyof ServerChatRoomData]?: (arg: unknown, C: Character) => ServerChatRoomData[k] }}
  */
-const ServerChatRoomDataValidationRecord = {
+var ServerChatRoomDataValidationRecord = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Background: ServerValidation.isString(100, ""),
@@ -1849,11 +1849,11 @@ const ServerChatRoomDataValidationRecord = {
 				 * @param {string} img
 				 * @returns
 				 */
-				ImageURL: ServerChatRoomDataValidateFields.Custom.ImageURL(arg?.ImageURL),
-				SizeMode: ServerChatRoomDataValidateFields.Custom.SizeMode(arg?.SizeMode),
-				ImageFilter: ServerChatRoomDataValidateFields.Custom.ImageFilter(arg?.ImageFilter),
-				MusicURL: ServerChatRoomDataValidateFields.Custom.MusicURL(arg?.MusicURL),
-				MusicStart: ServerChatRoomDataValidateFields.Custom.MusicStart(arg?.MusicStart),
+				ImageURL: ServerChatRoomDataValidationRecord.Custom.ImageURL(arg?.ImageURL),
+				SizeMode: ServerChatRoomDataValidationRecord.Custom.SizeMode(arg?.SizeMode),
+				ImageFilter: ServerChatRoomDataValidationRecord.Custom.ImageFilter(arg?.ImageFilter),
+				MusicURL: ServerChatRoomDataValidationRecord.Custom.MusicURL(arg?.MusicURL),
+				MusicStart: ServerChatRoomDataValidationRecord.Custom.MusicStart(arg?.MusicStart),
 			};
 			if (custom.ImageURL === undefined) delete custom.SizeMode;
 			if (custom.MusicURL === undefined) delete custom.MusicStart;
@@ -1903,7 +1903,7 @@ function ServerChatRoomDataValidate(data) {
  * Per-field validators for {@link ServerChatRoomSearchData} (for {@link ValidationApplyRecord}).
  * @satisfies {{ [k in keyof ServerChatRoomSearchData]?: (arg: unknown, C: Character) => ServerChatRoomSearchData[k] }}
  */
-const ServerChatRoomDataValidationRecord = {
+var ServerChatRoomSearchDataValidationRecord = {
 	Name: ServerValidation.stringMatchesRegex(ServerChatRoomNameRegex, ""),
 	Description: ServerValidation.isString(ServerChatRoomDescriptionMaxLength, ""),
 	Creator: ServerValidation.isString(20, ""),
@@ -1936,15 +1936,9 @@ const ServerChatRoomDataValidationRecord = {
 	MemberLimit(arg) {
 		return CommonIsInteger(arg, 2, 20) ? /** @type {number} */ (arg) : 10;
 	},
-	/**
-	 * @param {unknown} arg
-	 * @returns {AssetCategory[]}
-	 */
-	BlockCategory(arg) {
-		return /** @type {AssetCategory[]} */ (ServerChatRoomDataValidateFields.BlockCategory(arg));
-	},
-	Game: ServerChatRoomDataValidateFields.Game,
-	Space: ServerChatRoomDataValidateFields.Space,
+	BlockCategory: ServerChatRoomDataValidationRecord.BlockCategory,
+	Game: ServerChatRoomDataValidationRecord.Game,
+	Space: ServerChatRoomDataValidationRecord.Space,
 	Visibility: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	Access: ServerValidation.isArrayOfItems(ServerChatRoomRoleList, ["All"]),
 	MapType: ServerValidation.isString(20, "Never"),
@@ -1972,9 +1966,10 @@ const ServerChatRoomDataValidationRecord = {
 /**
  * Validates search results
  * @param {unknown} data
+ * @returns {ServerChatRoomSearchData}
  */
 function ServerChatRoomSearchDataValidate(data) {
-	return ValidationApplyRecord(data, undefined, ServerChatRoomDataValidationRecord, true);
+	return ValidationApplyRecord(data, undefined, ServerChatRoomSearchDataValidationRecord, true);
 }
 
 const ServerDefaultTimeout = 3000;
@@ -2064,9 +2059,10 @@ async function ServerRoomSearch(queryString, options) {
 					resolve(Result.success([]));
 					return;
 				}
-				resolve(Result.success(data.map((row) => /** @type {ServerChatRoomSearchData} */ (
-					ValidationApplyRecord(row, undefined, ServerChatRoomSearchDataValidateFields, true)
-				))));
+				data = data.map((row) =>
+					ValidationApplyRecord(row, undefined, ServerChatRoomSearchDataValidationRecord, true)
+				);
+				resolve(Result.success(data));
 			});
 
 			ServerSend("ChatRoomSearch", request);
