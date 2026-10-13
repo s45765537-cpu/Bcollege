@@ -1689,6 +1689,24 @@ function CommonModulo(value, divisor, min = 0) {
 }
 
 /**
+ * Cycle a value through an array
+ * @template T
+ * @template {NonNullable<T>} R
+ * @param {T} value
+ * @param {R[]} array
+ * @param {1 | -1} dir
+ * @returns {R}
+ */
+function CommonCycle(value, array, dir) {
+	if (value === undefined || value === null) return array[0];
+	const idx = array.findIndex(v => v === /** @type {R} */ (/** @type {unknown} */ (value)));
+	if (idx === -1) {
+		return array[0];
+	}
+	return array[CommonModulo(idx + dir, array.length)];
+}
+
+/**
  * Returns TRUE if the URL is valid, is from http or https or screens/ or backgrounds/ and has the required extension
  * @param {string} TestURL - The URL to test
  * @param {readonly string[]} Extension - An array containing the valid extensions

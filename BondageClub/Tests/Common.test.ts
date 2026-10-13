@@ -603,6 +603,45 @@ describe("CommonModulo", () => {
 	});
 });
 
+fdescribe("CommonCycle", () => {
+	const cycle = ["A", "B", "C"];
+	it("returns the first value in case of an invalid parameter", () => {
+		expect(Game.CommonCycle(null, cycle, true)).toBe("A");
+	});
+
+	it("cycles a value forward through an array", () => {
+		let value = "A";
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("A");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("A");
+	});
+
+	it("cycles a value backward through an array", () => {
+		let value = "A";
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("A");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("A");
+	});
+})
+
 describe("CommonObjectEqual", () => {
 	it("returns true for equal objects", () => {
 		expect(Game.CommonObjectEqual({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 })).toBe(true);
