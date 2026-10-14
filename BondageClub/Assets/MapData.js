@@ -96,12 +96,14 @@ function ChatRoomMapViewShowTeleportPadMenu(x, y, message) {
 	if (!ChatRoomMapViewTeleportPadPicking && destination && destinationIsPad && !twoWay) {
 		buttons.push(button(TextGet("TeleportPadTwoWay"), () => {
 			MapManager.Map.setTeleporterDestination(destination.X, destination.Y, { X: x, Y: y });
+			ChatRoomMapViewTeleportPadSave();
 			ChatRoomMapViewShowTeleportPadMenu(x, y);
 		}));
 	}
 	if (!ChatRoomMapViewTeleportPadPicking && destination) {
 		buttons.push(button(TextGet("TeleportPadRemove"), () => {
 			MapManager.Map.setTeleporterDestination(x, y, null);
+			ChatRoomMapViewTeleportPadSave();
 			ChatRoomMapViewShowTeleportPadMenu(x, y);
 		}));
 	}
@@ -167,6 +169,7 @@ function ChatRoomMapViewTeleportPadPickColor(x, y) {
 				if (save && color) {
 					MapManager.Map.setTeleporterColor(x, y, color);
 					if (partner) MapManager.Map.setTeleporterColor(partner.X, partner.Y, color);
+					ChatRoomMapViewTeleportPadSave();
 				}
 				ChatRoomMapViewShowTeleportPadMenu(x, y);
 			},
@@ -183,7 +186,24 @@ function ChatRoomMapViewTeleportPadPick(pos) {
 	if (ChatRoomMapViewSelectedObjectIndex == null) return;
 	const { X: x, Y: y } = MapIndexToCoordinates(ChatRoomMapViewSelectedObjectIndex);
 	const picked = MapManager.Map.setTeleporterDestination(x, y, pos);
+	if (picked) ChatRoomMapViewTeleportPadSave();
 	ChatRoomMapViewShowTeleportPadMenu(x, y, picked ? undefined : TextGet("TeleportPadInvalid"));
+}
+
+/**
+ * Writes a teleport pad change to the map and sends it to the room
+ */
+function ChatRoomMapViewTeleportPadSave() {
+	MapManager.Map.updateGlobalMapData();
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
+}
+
+/**
+ * @param {unknown} text
+ * @returns {string}
+ */
+function MapSanitizeSignText(text) {
+	return typeof text === "string" ? text.slice(0, ChatRoomMapSignTextMaxLength) : "";
 }
 
 /**
@@ -192,33 +212,43 @@ function ChatRoomMapViewTeleportPadPick(pos) {
  * @returns {ChatRoomMapObject["OnClick"]}
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
-	return (x, y) => {
-		ChatRoomMapViewSetCellSelection(x, y, "Sign");
-		const config = MapManager.Map.getObjectConfig(x, y);
-		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
-			{
-				tag: ChatRoomPlayerIsAdmin() ? "textarea" : "div",
-				classList: ["chat-room-map-view-dialog-content-text"],
-				attributes: {
-					maxlength: "150",
-					placeholder: "Type sign message here..."
-				},
-				children: [
-					config?.Type === "Sign" ? config.Text : ""
-				],
-				eventListeners: {
-					"input": function() {
-						if (!ChatRoomPlayerIsAdmin()) return;
-						const current = MapManager.Map.getObjectConfig(x, y);
-						/** @type {ChatRoomMapSignObjectConfig} */
-						const signData = current?.Type === "Sign" ? current : { Type: "Sign", Text: "" };
-						signData.Text = /** @type {HTMLTextAreaElement} */(this).value;
-						MapManager.Map.setObjectConfig(x, y, signData);
-					}
-				}
-			}
-		));
-	};
+    return (x, y) => {
+        ChatRoomMapViewSetCellSelection(x, y, "Sign");
+        const config = MapManager.Map.getObjectConfig(x, y);
+        ChatRoomMapViewShowDialogMenu(name, ElementCreate(
+            ChatRoomPlayerIsAdmin() ?
+                {
+                    tag: "textarea",
+                    classList: ["chat-room-map-view-dialog-content-text"],
+                    attributes: {
+                        maxlength: "150",
+                        placeholder: "Type sign message here..."
+                    },
+                    children: [
+                        config?.Type === "Sign" ? config.Text : ""
+                    ],
+                    eventListeners: {
+                        /**
+                         * @this {HTMLTextAreaElement}
+                         */
+                        "change": function() {
+                            const current = MapManager.Map.getObjectConfig(x, y);
+                            /** @type {ChatRoomMapSignObjectConfig} */
+                            const signData = current?.Type === "Sign" ? current : { Type: "Sign", Text: "" };
+                            signData.Text = this.value;
+                            MapManager.Map.setObjectConfig(x, y, signData);
+                        }
+                    }
+                }
+                : {
+                    tag: "div",
+                    classList: ["chat-room-map-view-dialog-content-text"],
+                    children: [
+                        config?.Type === "Sign" ? config.Text : ""
+                    ],
+                }
+        ));
+    };
 }
 
 /**

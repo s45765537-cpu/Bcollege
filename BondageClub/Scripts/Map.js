@@ -169,9 +169,9 @@ var MapManager = (function () {
 		 * @param {ChatRoomMapTile[]} [tiles]
 		 * @param {ChatRoomMapObject[]} [objects]
 		 * @param {ChatRoomMapEffect[][]} [effects]
-		 * @param {Record<number,ChatRoomMapObjectConfig>} [cellData]
+		 * @param {Record<number,ChatRoomMapObjectConfig>} [objectConfigs]
 		 */
-		constructor(width, height, tiles, objects, effects, cellData) {
+		constructor(width, height, tiles, objects, effects, objectConfigs) {
 			const length = width * height;
 			const tile = MapDataGetTile(ChatRoomMapViewObjectStartID);
 			const object = MapDataGetObject(ChatRoomMapViewObjectStartID);
@@ -179,10 +179,28 @@ var MapManager = (function () {
 			this.tiles = tiles ?? Array.from({ length }).fill(tile);
 			this.objects = objects ?? Array.from({ length }).fill(object);
 			this.effects = effects ?? Array.from({ length }, () => [effect]);
-			this.objectConfigs = cellData ?? {};
+			this.objectConfigs = this.#sanitizeObjectConfigs(objectConfigs ?? {});;
 			this.fogEnabled = false;
 		}
 
+		/**
+		 * Sanitizes the object configs to ensure they are valid and within bounds.
+		 * @param {Record<number, ChatRoomMapObjectConfig>} objectConfigs - The object configs to sanitize
+		 * @returns {Record<number, ChatRoomMapObjectConfig>} - The sanitized object configs
+		 */
+		#sanitizeObjectConfigs(objectConfigs) {
+			/** @type {Record<number, ChatRoomMapObjectConfig>} */
+			const ret = {};
+			if (!CommonIsObject(objectConfigs)) return ret;
+			for (const [key, config] of Object.entries(objectConfigs)) {
+				const index = Number.parseInt(key, 10);
+				if (!Number.isInteger(index) || index < 0 || index >= ChatRoomMapMaxLength) continue;
+				if (config?.Type === "Sign" && typeof config.Text === "string") {
+					ret[index] = { Type: "Sign", Text: config.Text.slice(0, ChatRoomMapMaxLength) };
+				}
+			}
+			return ret;
+		}
 		/**
 		 *
 		 * @param {ServerChatRoomMapData} data
@@ -1555,15 +1573,25 @@ var MapManager = (function () {
 			if (!this.#_mapData) throw Error("No map loaded");
 			const [index, config] = this.unpackIndex(...args);
 			if (index < 0 || index > ChatRoomMapMaxLength) return false;
+
+			const clean = this.isDirtyObjectConfigs();
+			const previousConfig = this.getObjectConfig(index);
+			this.#registerUndo(() => {
+				if (!this.#_mapData) return;
+				if (clean) this.markCleanObjectConfigs();
+				if (previousConfig) {
+					this.#_mapData.objectConfigs[index] = previousConfig;
+				} else {
+					delete this.#_mapData.objectConfigs[index];
+				}
+			});
+
 			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
-			this.#_mapData.objectConfigs ??= {};
 			if (config == null) {
 				delete this.#_mapData.objectConfigs[index];
 			} else {
 				this.#_mapData.objectConfigs[index] = config;
 			}
-			this.updateGlobalMapData();
-			if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
 			return true;
 		}
 
