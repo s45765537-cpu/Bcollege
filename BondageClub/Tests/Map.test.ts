@@ -425,6 +425,16 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.getTeleporterColor(1, 1)).toBe("#123456");
 		});
 
+		it("should keep pads paired and colored when the map is saved and loaded", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, pad)).toBe(true);
+			expect(Game.MapManager.Map.setObject(20, 15, pad)).toBe(true);
+			expect(Game.MapManager.Map.setTeleporterColor(10, 10, "#12345680")).toBe(true);
+			expect(Game.MapManager.Map.updateGlobalMapData()).toBe(true);
+			Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Teleporter", Shared: true, Color: "#12345680", Destination: { X: 20, Y: 15 } });
+			expect(Game.MapManager.Map.getTeleporterDestination(20, 15)).toEqual({ X: 10, Y: 10 });
+		});
+
 		it("should not set a destination on something that isn't a pad", () => {
 			expect(Game.MapManager.Map.setObject(10, 10, table)).toBe(true);
 			expect(Game.MapManager.Map.setTeleporterDestination(10, 10, { X: 3, Y: 3 })).toBe(false);

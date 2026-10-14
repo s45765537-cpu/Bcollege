@@ -197,6 +197,16 @@ var MapManager = (function () {
 				if (!Number.isInteger(index) || index < 0 || index >= ChatRoomMapMaxLength) continue;
 				if (config?.Type === "Sign" && typeof config.Text === "string") {
 					ret[index] = { Type: "Sign", Text: config.Text.slice(0, ChatRoomMapMaxLength) };
+				} else if (config?.Type === "Teleporter") {
+					/** @type {ChatRoomMapTeleporterObjectConfig} */
+					const pad = { Type: "Teleporter", Shared: true };
+					const destination = config.Destination;
+					if (destination && Number.isInteger(destination.X) && Number.isInteger(destination.Y)
+						&& destination.X >= 0 && destination.X < ChatRoomMapViewWidth && destination.Y >= 0 && destination.Y < ChatRoomMapViewHeight) {
+						pad.Destination = { X: destination.X, Y: destination.Y };
+					}
+					if (typeof config.Color === "string" && CommonIsColor(config.Color, { allowAlpha: true })) pad.Color = config.Color;
+					ret[index] = pad;
 				}
 			}
 			return ret;
