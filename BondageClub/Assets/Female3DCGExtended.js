@@ -13442,27 +13442,11 @@ var AssetFemale3DCGExtended = {
 					Key: "p",
 					Options: [
 						{}, // p0 - Sitting
-						{}, // p1 - Hopped off
+						{ Property: { DrawingLeft: { [AssetOverride]: -175 } } }, // p1 - Hopped off, beside her
 					],
 				},
-				{
-					Name: "Decal",
-					Key: "d",
-					Options: [
-						{}, // d0 - None
-						...InventoryItemDevicesBarStoolDecals().map(() => ({})),
-					],
-					DrawData: {
-						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
-							...InventoryItemDevicesBarStoolDecals().map((name) => ({
-								imagePath: `Assets/Female3DCG/Decals/Preview/${name}.png`,
-								label: () =>
-									AssetGet("Female3DCG", "Decals", name)?.Description ?? name,
-							})),
-						],
-					},
-				},
+				// d0 - None, d<n> - the n-th decal of the `Decals` group, read when the stool loads
+				InventoryItemDevicesBarStoolDecalModule,
 			],
 			ScriptHooks: {
 				AfterDraw: AssetsItemDevicesBarStoolAfterDrawHook,

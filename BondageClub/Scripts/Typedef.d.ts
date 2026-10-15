@@ -1402,8 +1402,6 @@ interface Asset {
 	readonly InheritColor: null | AssetGroupName;
 	readonly DynamicBeforeDraw: boolean;
 	readonly DynamicAfterDraw: boolean;
-	/** Whether the AfterDraw hook draws with the layer's {@link DynamicDrawingData.Transforms}, so the layering screen can allow transformations */
-	readonly DynamicAfterDrawTransforms: boolean;
 	readonly DynamicScriptDraw: boolean;
 	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	readonly CreateLayerTypes: readonly string[];
@@ -4620,8 +4618,8 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	drawCanvas: DrawCanvasCallback;
 	drawCanvasBlink: DrawCanvasCallback;
 	AlphaMasks: RectTuple[];
-	/** The layer's transformations (only passed to AfterDraw); see {@link Asset.DynamicAfterDrawTransforms} */
-	Transforms?: DrawTransforms;
+	/** The layer's transformations; {@link drawCanvas} and {@link drawCanvasBlink} already apply them */
+	Transforms: DrawTransforms;
 	PersistentData: () => T;
 }
 

@@ -726,8 +726,6 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 
 	DynamicBeforeDraw?: boolean;
 	DynamicAfterDraw?: boolean;
-	/** Whether the AfterDraw hook draws with the layer's transformations; see {@link Asset.DynamicAfterDrawTransforms} */
-	DynamicAfterDrawTransforms?: boolean;
 	DynamicScriptDraw?: boolean;
 	AllowLockType?: AssetLockType[];
 

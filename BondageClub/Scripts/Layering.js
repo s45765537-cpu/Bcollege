@@ -680,9 +680,8 @@ var Layering = {
 		const hideButton = document.getElementById(this.ID.hideButton);
 		const isShowingHiddenLayers = hideButton?.getAttribute("aria-checked") === "true";
 
-		// Block transformations for blacklisted groups or DynamicAfterDraw assets whose hook ignores them
-		const dynamicDrawBlocks = this.Asset.DynamicAfterDraw && !this.Asset.DynamicAfterDrawTransforms;
-		if ((this._IsBlacklisted(this.Asset.Group) || dynamicDrawBlocks) && tabKey !== 'priority') {
+		// Block transformations for blacklisted groups
+		if (this._IsBlacklisted(this.Asset.Group) && tabKey !== 'priority') {
 			return [ElementCreate({ tag: "h2", children: [InterfaceTextGet("LayeringTransformationDisabled")] })];
 		}
 

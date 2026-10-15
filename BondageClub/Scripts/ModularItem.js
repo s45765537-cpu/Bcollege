@@ -717,8 +717,8 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 			}
 		}
 	}
-	if (CommonIsObject(Property.DrawingTop)) { ModularItemMergeDrawingTopLeft(mergedProperty.DrawingTop, Property.DrawingTop, layerNames); }
-	if (CommonIsObject(Property.DrawingLeft)) { ModularItemMergeDrawingTopLeft(mergedProperty.DrawingLeft, Property.DrawingLeft, layerNames); }
+	if (CommonIsObject(Property.DrawingTop)) { mergedProperty.DrawingTop = ModularItemMergeDrawingTopLeft(mergedProperty.DrawingTop, Property.DrawingTop, layerNames); }
+	if (CommonIsObject(Property.DrawingLeft)) { mergedProperty.DrawingLeft = ModularItemMergeDrawingTopLeft(mergedProperty.DrawingLeft, Property.DrawingLeft, layerNames); }
 	if (typeof Property.HeightModifier === "number") mergedProperty.HeightModifier = (mergedProperty.HeightModifier || 0) + Property.HeightModifier;
 	if (Property.OverrideHeight) mergedProperty.OverrideHeight = ModularItemMergeOverrideHeight(mergedProperty.OverrideHeight, Property.OverrideHeight);
 	if (Asset.AllowTint && Property.Tint) mergedProperty.Tint = CommonArrayConcatDedupe(mergedProperty.Tint, Property.Tint);

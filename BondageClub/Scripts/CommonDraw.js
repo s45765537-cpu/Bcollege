@@ -319,6 +319,7 @@ function CommonDrawAppearanceBuild(
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
 		if (asset.DynamicBeforeDraw && !C.IsGhosted()) {
+			const transforms = CommonDrawResolveLayerTransforms(item, layer);
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
 				C,
@@ -336,9 +337,10 @@ function CommonDrawAppearanceBuild(
 				Pose: pose,
 				LayerType: layerType,
 				BlinkExpression: blinkExpressionSegment,
-				drawCanvas,
-				drawCanvasBlink,
+				drawCanvas: CommonDrawWithLayerTransforms(drawCanvas, transforms),
+				drawCanvasBlink: CommonDrawWithLayerTransforms(drawCanvasBlink, transforms),
 				AlphaMasks: masks ?? [],
+				Transforms: transforms,
 				PersistentData: () => AnimationPersistentDataGet(C, asset),
 			};
 			/** @type {DynamicBeforeDrawOverrides} */
@@ -534,6 +536,7 @@ function CommonDrawAppearanceBuild(
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
 		if (asset.DynamicAfterDraw && !C.IsGhosted()) {
+			const transforms = CommonDrawResolveLayerTransforms(item, layer);
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
 				C,
@@ -551,10 +554,10 @@ function CommonDrawAppearanceBuild(
 				Pose: pose,
 				LayerType: layerType,
 				BlinkExpression: blinkExpressionSegment,
-				drawCanvas,
-				drawCanvasBlink,
+				drawCanvas: CommonDrawWithLayerTransforms(drawCanvas, transforms),
+				drawCanvasBlink: CommonDrawWithLayerTransforms(drawCanvasBlink, transforms),
 				AlphaMasks: masks ?? [],
-				Transforms: CommonDrawResolveLayerTransforms(item, layer),
+				Transforms: transforms,
 				PersistentData: () => AnimationPersistentDataGet(C, asset),
 			};
 			CommonCallFunctionByNameWarn(
@@ -802,6 +805,19 @@ function CommonDrawResolveLayerTransforms(item, layer) {
 		ScaleY: getTransform("ScaleY", 1),
 		Rotation: getTransform("Rotation", 0),
 	};
+}
+
+/**
+ * Wraps a canvas drawing callback for the dynamic drawing hooks, so what they draw is moved, rotated and scaled
+ * like the layer's images (as set on the layering screen)
+ * @param {DrawCanvasCallback} drawCanvas
+ * @param {DrawTransforms} transforms - The layer's transformations
+ * @returns {DrawCanvasCallback}
+ */
+function CommonDrawWithLayerTransforms(drawCanvas, transforms) {
+	return (Img, x, y, alphaMasks, maskLayers) => drawCanvas(
+		Img, x + transforms.TranslationX, y + transforms.TranslationY, alphaMasks, maskLayers, transforms,
+	);
 }
 
 /**

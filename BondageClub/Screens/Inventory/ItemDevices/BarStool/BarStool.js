@@ -13,11 +13,8 @@ const InventoryItemDevicesBarStoolSeatTop = [
 	{ centerY: 41, width: 146, height: 81 },
 ];
 
-/**
- * The horizontal center of the stool, per seat position (`p0` sitting, `p1` hopped off), relative to the `Decal` layer
- * @type {readonly number[]}
- */
-const InventoryItemDevicesBarStoolCenterX = [250, 75];
+/** The horizontal center of the stool, relative to the `Decal` layer */
+const InventoryItemDevicesBarStoolCenterX = 250;
 
 /** The size of the stool's image layers; the decal is drawn on a canvas of that size so it transforms like them */
 const InventoryItemDevicesBarStoolLayerSize = /** @type {const} */ ([500, 445]);
@@ -25,16 +22,43 @@ const InventoryItemDevicesBarStoolLayerSize = /** @type {const} */ ([500, 445]);
 /**
  * The decals that can go on the seat: every single-image asset of the `Decals` group, so new decals show up
  * on the stool without any change here. Option `d0` is no decal, option `d<n>` the n-th decal of this list.
+ * Only available once the `Decals` group has loaded, which is before the stool's own group.
  * @returns {readonly AssetName[]}
  */
 function InventoryItemDevicesBarStoolDecals() {
 	if (!InventoryItemDevicesBarStoolDecalNames) {
-		const group = /** @type {AssetGroupDefinition.Appearance | undefined} */ (AssetFemale3DCG.find(g => g.Group === "Decals"));
-		InventoryItemDevicesBarStoolDecalNames = (group?.Asset ?? [])
-			.flatMap(asset => typeof asset === "object" && !asset.Layer && !asset.Extended ? [asset.Name] : []);
+		const group = AssetGroupGet("Female3DCG", "Decals");
+		if (!group) throw new Error("BarStool: the Decals group has not loaded yet");
+		InventoryItemDevicesBarStoolDecalNames = group.Asset
+			.filter(asset => asset.Layer.length === 1 && !asset.Layer[0].Name && !asset.Extended)
+			.map(asset => asset.Name);
 	}
 	return InventoryItemDevicesBarStoolDecalNames;
 }
+
+/**
+ * The stool's `Decal` module. Its options are only read when the stool loads (see {@link AssetBuildExtended}),
+ * after the decals they are made from.
+ * @type {ModularItemModuleConfig}
+ */
+const InventoryItemDevicesBarStoolDecalModule = {
+	Name: "Decal",
+	Key: "d",
+	get Options() {
+		return [{}, ...InventoryItemDevicesBarStoolDecals().map(() => ({}))];
+	},
+	get DrawData() {
+		return {
+			elementData: [
+				{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+				...InventoryItemDevicesBarStoolDecals().map((name) => ({
+					imagePath: `Assets/Female3DCG/Decals/Preview/${name}.png`,
+					label: () => AssetGet("Female3DCG", "Decals", name)?.Description ?? name,
+				})),
+			],
+		};
+	},
+};
 
 /**
  * Gets the decal on a bar stool
@@ -59,12 +83,8 @@ function InventoryItemDevicesBarStoolDecalImage(decal) {
  * Draws the decal on the top of the seat
  * @type {ExtendedItemScriptHookCallbacks.AfterDraw<ModularItemData>}
  */
-function AssetsItemDevicesBarStoolAfterDrawHook(data, originalFunction, { C, A, CA, X, Y, L, Property, Color, drawCanvas, drawCanvasBlink, AlphaMasks, Transforms }) {
+function AssetsItemDevicesBarStoolAfterDrawHook(data, originalFunction, { C, A, CA, X, Y, L, Property, Color, drawCanvas, drawCanvasBlink, AlphaMasks }) {
 	if (L !== "Decal") return;
-
-	// The seat hides when the character kneels or lies down, and the decal with it
-	const seat = Property.TypeRecord?.p ?? 0;
-	if (seat === 0 && !C.IsStanding()) return;
 
 	const decal = InventoryItemDevicesBarStoolGetDecal(CA);
 	const image = decal ? DrawGetImage(InventoryItemDevicesBarStoolDecalImage(decal)) : undefined;
@@ -81,18 +101,16 @@ function AssetsItemDevicesBarStoolAfterDrawHook(data, originalFunction, { C, A, 
 	const ctx = tempCanvas.getContext("2d");
 	if (!ctx) return;
 	ctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
-	DrawImageEx(image, ctx, InventoryItemDevicesBarStoolCenterX[seat] - width / 2, seatTop.centerY - height / 2, {
+	DrawImageEx(image, ctx, InventoryItemDevicesBarStoolCenterX - width / 2, seatTop.centerY - height / 2, {
 		Width: width,
 		Height: height,
 		HexColor: Color?.[0] === "#" ? /** @type {HexColor} */ (Color) : undefined,
 		FullAlpha: decal.Layer[0]?.FullAlpha ?? true,
 	});
 
-	// Drawn like the stool's image layers, transformations included
-	const x = X + (Transforms?.TranslationX ?? 0);
-	const y = Y + (Transforms?.TranslationY ?? 0);
-	drawCanvas(tempCanvas, x, y, AlphaMasks, undefined, Transforms);
-	drawCanvasBlink(tempCanvas, x, y, AlphaMasks, undefined, Transforms);
+	// The same size as the stool's image layers, so it moves, turns and scales with them
+	drawCanvas(tempCanvas, X, Y, AlphaMasks);
+	drawCanvasBlink(tempCanvas, X, Y, AlphaMasks);
 }
 
 /**
