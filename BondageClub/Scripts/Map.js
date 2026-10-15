@@ -198,7 +198,10 @@ var MapManager = (function () {
 				if (config?.Type === "Sign" && typeof config.Text === "string") {
 					ret[index] = { Type: "Sign", Text: config.Text.slice(0, ChatRoomMapMaxLength) };
 				} else if (MapIsValidColorConfig(config, this.objects[index] ?? null)) {
-					ret[index] = { Type: "Color", Colors: [...config.Colors] };
+					ret[index] = {
+						Type: "Color",
+						Colors: config.Colors.map(c => c === "Default" ? "Default" : /** @type {HexColor} */ (c.toUpperCase())),
+					};
 				}
 			}
 			return ret;
@@ -2515,7 +2518,7 @@ function MapIsValidColorConfig(config, object) {
 	const { Type, Colors } = /** @type {{ Type?: unknown, Colors?: unknown }} */ (config);
 	if (Type !== "Color" || !Array.isArray(Colors)) return false;
 	if (Colors.length !== object.ColorLayers.length) return false;
-	return Colors.every(/** @param {unknown} c */ c => c === "Default" || (typeof c === "string" && /^#[0-9a-f]{6}$/i.test(c)));
+	return Colors.every(/** @param {unknown} c */ c => c === "Default" || (typeof c === "string" && CommonIsColor(c) && c.length === 7));
 }
 
 /**

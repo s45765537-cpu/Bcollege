@@ -434,6 +434,7 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", "<b>red</b>"] })).toBe(false);
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", /** @type {any} */ (1)] })).toBe(false);
 			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", /** @type {any} */ (null)] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", "#ABC"] })).toBe(false);
 			expect(Game.MapManager.Map.setObjectConfig(11, 10, colorConfig)).toBe(false);
 			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
 			expect(Game.MapManager.Map.getObjectConfig(11, 10)).toBeUndefined();
