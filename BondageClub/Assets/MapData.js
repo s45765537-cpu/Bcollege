@@ -54,7 +54,8 @@ function MapSanitizeSignText(text) {
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
 	return (x, y) => {
-		const signText = MapSanitizeSignText(MapManager.Map.getObjectConfig(x, y)?.Text);
+		const config = MapManager.Map.getObjectConfig(x, y);
+		const signText = MapSanitizeSignText(config?.Type === "Sign" ? config.Text : "");
 		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
 			ChatRoomPlayerIsAdmin() ?
 			{
@@ -70,7 +71,8 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 					* @this {HTMLTextAreaElement}
 					*/
 					"change": function() {
-						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						const current = MapManager.Map.getObjectConfig(x, y);
+						const signData = current?.Type === "Sign" ? current : { Type: /** @type {const} */ ("Sign"), Text: "" };
 						signData.Text = MapSanitizeSignText(this.value);
 						MapManager.Map.setObjectConfig(x, y, signData);
 						MapManager.Map.updateGlobalMapData();
@@ -80,9 +82,7 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 			: {
 				tag: "div",
 				classList: ["chat-room-map-view-dialog-content-text"],
-				children: [
-					MapManager.Map.getObjectConfig(x, y)?.Text || ""
-				],
+				children: [signText],
 			}
 		));
 	};
