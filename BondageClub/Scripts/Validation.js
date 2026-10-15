@@ -1309,7 +1309,7 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
 
 /**
  * @template O
- * @template {{ [key: string]: (arg: any, object: O) => any }} T
+ * @template {{ [key: string]: (arg: any, C: O) => any }} T
  * @param {unknown} arg The to-be validated record
  * @param {O} object An extra object to validate with. Passed to the validator as a 2nd argument
  * @param {T} validators A record of validation functions; one for each property in `arg`

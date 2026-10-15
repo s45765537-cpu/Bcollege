@@ -34,6 +34,16 @@ let FriendListBeepChatInterlocutorName = "";
 const FriendListBeepMetadataIndicator = "\uf124";
 /** Server beep messages are capped at this length, including the metadata trailer. */
 const FriendListBeepMessageLimit = 1000;
+/**
+ * Resolves once every OnlineFriends query queued via {@link FriendListMarkNotReady} has been applied.
+ * Starts settled so opening a chat with no request does not wait.
+ * @type {{ promise: Promise<void>, resolve: (() => void) | null, pending: number }}
+ */
+var FriendListReady = {
+	promise: Promise.resolve(),
+	resolve: null,
+	pending: 0,
+};
 /** @type {Record<string, FriendListActionDefinition>} */
 var FriendListActionDefinitions = {
 	delete: {
@@ -1793,6 +1803,8 @@ async function FriendListShowBeep(i) {
 async function FriendListShowBeepChat(chatKey) {
 	FriendListModeIndex = 1;
 	await FriendListShow();
+	await FriendListReady.promise;
+	if (CurrentScreen !== "FriendList") return;
 	FriendListBeepChat(chatKey);
 }
 //#endregion !SECTION: BEEP
@@ -1816,7 +1828,11 @@ async function FriendListShowBeepChat(chatKey) {
  */
 function FriendListLoadFriendList(data) {
 	const friendList = /** @type {HTMLDivElement} */ (ElementWrap(FriendListIDs.friendList));
-	if (!friendList) return;
+	if (!friendList) {
+		ServerUpdateFriendList(data);
+		FriendListOnlineFriends = new Set(data.map((friend) => friend.MemberNumber));
+		return;
+	}
 
 	// Loads the header caption
 	const BeepCaption = InterfaceTextGet("Beep");
@@ -2261,6 +2277,44 @@ function FriendListLoadFriendList(data) {
 	FriendListSort(FriendListSortingMode, FriendListSortingDirection);
 	FriendListSearchByProperties(/** @type {HTMLInputElement} */(document.getElementById(FriendListIDs.searchInput))?.value);
 	ElementSetScrollPercentage(FriendListIDs.friendList, friendListScrollPercent, 'instant');
+}
+
+/**
+ * An OnlineFriends query was queued. Waiters of {@link FriendListReady} block until it is applied.
+ * Overlapping queries share one promise and resolve only after the last of them returns.
+ * @returns {void}
+ */
+function FriendListMarkNotReady() {
+	FriendListReady.pending++;
+	if (FriendListReady.resolve) return;
+	FriendListReady.promise = new Promise((resolve) => {
+		FriendListReady.resolve = resolve;
+	});
+}
+
+/**
+ * An OnlineFriends query result was applied. Resolves {@link FriendListReady.promise} when none remain in flight.
+ * @returns {void}
+ */
+function FriendListMarkReady() {
+	if (FriendListReady.pending === 0) return;
+	FriendListReady.pending--;
+	if (FriendListReady.pending > 0 || !FriendListReady.resolve) return;
+	const resolve = FriendListReady.resolve;
+	FriendListReady.resolve = null;
+	resolve();
+}
+
+/**
+ * Drops in-flight OnlineFriends waits. Those queries will not return after a disconnect.
+ * @returns {void}
+ */
+function FriendListResetReady() {
+	FriendListReady.pending = 0;
+	const resolve = FriendListReady.resolve;
+	FriendListReady.resolve = null;
+	FriendListReady.promise = Promise.resolve();
+	resolve?.();
 }
 
 /**

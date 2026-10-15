@@ -2392,30 +2392,35 @@ function CharacterGetTints(C) {
 		return [];
 	}
 	/** @type {RGBAColor[]} */
-	const tints = C.Tints.map(({Color, Strength, DefaultColor, Item}) => {
-		let colorIndex = 0;
-		if (typeof Color === "number") {
-			colorIndex = Color;
-			if (typeof Item.Color === "string") {
-				Color = Item.Color;
-			} else if (Array.isArray(Item.Color)) {
-				Color = Item.Color[Color] || "Default";
-			} else {
-				Color = "Default";
+	const tints = C.Tints.map(({ Color, Strength, DefaultColor, Item }) => {
+		/** @type {BCColor} */
+		let colorCandidate;
+		if (typeof Color === "string") {
+			colorCandidate = Color;
+		} else {
+			const colorIndex = Color;
+
+			// Plan A: grab the item's color at the specified index
+			colorCandidate = Item.Color[colorIndex] ?? "Default";
+
+			// Plan B: Plan A did not yield a hex color; grab the asset's default color instead
+			if (!colorCandidate.startsWith("#")) {
+				colorCandidate = Item.Asset.DefaultColor[colorIndex] ?? "Default";
+			}
+
+			// Plan C: Still no hex color; use the final fallback values
+			if (!colorCandidate.startsWith("#")) {
+				colorCandidate = DefaultColor ?? Item.Asset.DefaultTint ?? "Default";
 			}
 		}
-		if (Color === "Default") {
-			if (!Item.Asset.DefaultColor.every(i => i === Item.Asset.Group.DefaultColor)) {
-				Color = Item.Asset.DefaultColor[colorIndex];
-			} else if (typeof DefaultColor === "string") {
-				Color = DefaultColor;
-			} else if (typeof Item.Asset.DefaultTint === "string") {
-				Color = Item.Asset.DefaultTint;
-			}
+
+		// Plan D: abort if there's yet still no hex color
+		if (CommonIsColor(colorCandidate)) {
+			return { ...DrawHexToRGB(colorCandidate), a: CommonClamp(Strength, 0, 1) };
+		} else {
+			return undefined;
 		}
-		const {r, g, b} = DrawHexToRGB(Color);
-		return {r, g, b, a: Math.max(0, Math.min(Strength, 1))};
-	});
+	}).filter(i => i !== undefined);
 	return tints.filter(({a}) => a > 0);
 }
 

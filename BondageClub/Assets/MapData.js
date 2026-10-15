@@ -40,32 +40,49 @@ function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 }
 
 /**
+ * @param {unknown} text
+ * @returns {string}
+ */
+function MapSanitizeSignText(text) {
+	return typeof text === "string" ? text.slice(0, ChatRoomMapSignTextMaxLength) : "";
+}
+
+/**
  * To prevent repeating the same logic, we create a function that returns a function
  * @param {string} name - Sign Name
  * @returns {ChatRoomMapObject["OnClick"]}
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
 	return (x, y) => {
-		ChatRoomMapViewSetCellSelection(x, y, "Sign");
+		const signText = MapSanitizeSignText(MapManager.Map.getObjectConfig(x, y)?.Text);
 		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
+			ChatRoomPlayerIsAdmin() ?
 			{
-				tag: ChatRoomPlayerIsAdmin() ? "textarea" : "div",
+				tag: "textarea",
 				classList: ["chat-room-map-view-dialog-content-text"],
 				attributes: {
-					maxlength: "150",
+					maxlength: ChatRoomMapSignTextMaxLength.toString(),
 					placeholder: "Type sign message here..."
 				},
+				children: [signText],
+				eventListeners: {
+					/**
+					* @this {HTMLTextAreaElement}
+					*/
+					"change": function() {
+						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						signData.Text = MapSanitizeSignText(this.value);
+						MapManager.Map.setObjectConfig(x, y, signData);
+						MapManager.Map.updateGlobalMapData();
+					}
+				}
+			}
+			: {
+				tag: "div",
+				classList: ["chat-room-map-view-dialog-content-text"],
 				children: [
 					MapManager.Map.getObjectConfig(x, y)?.Text || ""
 				],
-				eventListeners: {
-					"input": function() {
-						if (!ChatRoomPlayerIsAdmin()) return;
-						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
-						signData.Text = /** @type {HTMLTextAreaElement} */(this).value;
-						MapManager.Map.setObjectConfig(x, y, signData);
-					}
-				}
 			}
 		));
 	};
@@ -761,7 +778,7 @@ const AssetsMapDataObjects = [
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
-	{ ID: 3020, Type: "Bathroom", Style: "Mirror" },
+	{ ID: 3020, Type: "Bathroom", Style: "Mirror", CanPlaceOnWalls: true },
 	{ ID: 3021, Type: "Bathroom", Style: "BlueBathroomMat" },
 	{ ID: 3022, Type: "Bathroom", Style: "GreenBathroomMat" },
 	{ ID: 3023, Type: "Bathroom", Style: "PinkBathroomMat" },
