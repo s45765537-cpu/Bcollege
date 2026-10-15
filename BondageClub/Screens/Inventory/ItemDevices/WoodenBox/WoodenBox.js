@@ -99,7 +99,7 @@ function AssetsItemDevicesWoodenBoxAfterDrawHook(
 			to = [width, 0];
 		}
 
-		const { r, g, b } = DrawHexToRGB(Color);
+		const { r, g, b } = CommonIsColor(Color) ? DrawHexToRGB(Color) : { r: 0, b: 0, g: 0 };
 		DynamicDrawTextFromTo(text, ctx, from, to, {
 			fontSize: 96,
 			fontFamily: data.font,
