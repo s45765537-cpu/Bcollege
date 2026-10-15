@@ -75,16 +75,17 @@ let DrawCacheTextureAlphaMasks = new Map();
 
 /**
  * Converts a hex color string to a RGB color
- * @param {string} color - Hex color to conver
+ * @param {HexColor} color - Hex color to convert
  * @returns {RGBColor} - RGB color
  */
 function DrawHexToRGB(color) {
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	color = color.replace(shorthandRegex, function (m, r, g, b) {
+	const colorParsed = color.replace(shorthandRegex, function (m, r, g, b) {
+		// RGB to RRGGBB
 		return r + r + g + g + b + b;
 	});
 
-	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(colorParsed);
 	return result ? {
 		r: parseInt(result[1], 16),
 		g: parseInt(result[2], 16),
@@ -1608,9 +1609,12 @@ function DrawProcess(time) {
  * @returns {boolean}
  */
 function DrawShowChatRoomCustomBackground() {
-	return CurrentModule === "Online"
+	return (
+		CurrentModule === "Online"
 		&& CurrentScreen === "ChatRoom"
-		&& (!CurrentCharacter || (!!ChatRoomData?.Custom?.ImageURL && DrawGetCustomBackground(Player) !== undefined));
+		&& (!CurrentCharacter || (!!ChatRoomData?.Custom?.ImageURL && DrawGetCustomBackground(Player) !== undefined))
+		&& Player.CustomBackground === undefined
+	);
 }
 
 /**

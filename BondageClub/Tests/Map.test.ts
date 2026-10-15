@@ -454,7 +454,7 @@ describe("MapManager", () => {
 			const stale = Game.MapManager.Map.getObjectConfig(10, 10);
 			expect(stale?.Type).toBe("Color");
 			if (stale?.Type === "Color") stale.Colors = ["#3050E0"];
-			Game.MapValidateCells();
+			Game.MapManager.Map.validateMap();
 			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
 		});
 	});

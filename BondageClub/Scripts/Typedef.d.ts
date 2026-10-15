@@ -1261,9 +1261,9 @@ interface AssetLayer {
 }
 
 interface TintDefinition {
-	Color: number | BCColor;
+	Color: number | HexColor;
 	Strength: number;
-	DefaultColor?: BCColor;
+	DefaultColor?: HexColor;
 }
 
 interface ResolvedTintDefinition extends TintDefinition {
@@ -1423,7 +1423,7 @@ interface Asset {
 	readonly PreviewIcons: readonly InventoryIcon[];
 	readonly Tint: readonly Readonly<TintDefinition>[];
 	readonly AllowTint: boolean;
-	readonly DefaultTint?: BCColor;
+	readonly DefaultTint?: HexColor;
 	readonly Gender?: AssetGender;
 	readonly CraftGroup: string;
 	readonly ExpressionPrerequisite?: readonly AssetPrerequisite[];

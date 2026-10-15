@@ -257,6 +257,8 @@ function ServerDisconnect(data, close = false) {
 	if (!document.hasFocus()) {
 		NotificationRaise(NotificationEventType.DISCONNECT);
 	}
+
+	FriendListResetReady();
 }
 
 
@@ -397,6 +399,11 @@ function ServerSendQueueProcess() {
 				if (["Chat", "Emote", "Whisper"].includes(data?.Type) && (CommonIsArray(data.Dictionary) || data.Dictionary === undefined)) {
 					data.Dictionary = data?.Dictionary ?? [];
 					data.Dictionary.push({ Tag: "MsgId", MsgId: CommonGenerateUniqueID() });
+				}
+			} else if (item.Message === "AccountQuery") {
+				const [data] = item.args;
+				if (data.Query === "OnlineFriends") {
+					FriendListMarkNotReady();
 				}
 			}
 			ServerSocket.emit(item.Message, ...item.args);
@@ -904,14 +911,22 @@ function ServerAccountQueryResult(data) {
 	if (!data || typeof data !== "object" || Array.isArray(data)) return;
 
 	const { Query, Result } = data;
-	if (typeof Query !== "string" || Result == null) return;
+	if (typeof Query !== "string" || Result == null) {
+		// A queued OnlineFriends query still has to release waiters if the payload is unusable.
+		if (Query === "OnlineFriends") FriendListMarkReady();
+		return;
+	}
 
 	switch (Query) {
 		case "OnlineFriends":
-			if (CurrentScreen === "FriendList") {
-				FriendListLoadFriendList(Result);
-			} else {
-				ServerUpdateFriendList(Result);
+			try {
+				if (CurrentScreen === "FriendList") {
+					FriendListLoadFriendList(Result);
+				} else {
+					ServerUpdateFriendList(Result);
+				}
+			} finally {
+				FriendListMarkReady();
 			}
 			break;
 		case "EmailStatus":

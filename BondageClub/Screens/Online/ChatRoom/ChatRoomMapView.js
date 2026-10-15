@@ -78,8 +78,6 @@ var ChatRoomMapViewPanel;
 var ChatRoomMapViewPanelContainer;
 /** @type {null | number} */
 var ChatRoomMapViewSelectedObjectIndex = null;
-/** @type {ChatRoomMapObjectConfig["Type"] | null} */
-var ChatRoomMapViewSelectedObjectConfigType = null;
 /** @type {"Edit" | "Paste"} */
 var ChatRoomMapViewColorTool = "Edit";
 /** @type {ChatRoomMapColorFormat | null} */
@@ -119,36 +117,6 @@ function ChatRoomMapViewInitialize(mode) {
 		Objects: defaultMap,
 		Effects: undefined,
 	};
-}
-
-/**
- * Get the tile ID at the given coordinates
- * @overload
- * @param {number} index
- * @param {ChatRoomMapObjectConfig["Type"]} type
- * @return {void}
- */
-/**
- * @overload
- * @param {number} x
- * @param {number} y
- * @param {ChatRoomMapObjectConfig["Type"]} type
- * @return {void}
- */
-/**
- * @param {[x: number, y: number, type: ChatRoomMapObjectConfig["Type"]] | [index: number, type: ChatRoomMapObjectConfig["Type"]] } args
- * @return {void}
- */
-function ChatRoomMapViewSetCellSelection(...args) {
-	const [index, type] = MapManager.Map.unpackIndex(...args);
-	ChatRoomMapViewSelectedObjectIndex = index;
-	ChatRoomMapViewSelectedObjectConfigType = type;
-}
-
-function ChatRoomMapViewClearCellSelection() {
-	ChatRoomMapViewSelectedObjectIndex = null;
-	ChatRoomMapViewSelectedObjectConfigType = null;
-	ChatRoomMapViewHideDialogMenu();
 }
 
 /**
@@ -301,7 +269,7 @@ function ChatRoomMapViewHideDialogMenu() {
  * @returns {void}
  */
 function ChatRoomMapViewCloseDialogMenu() {
-	ChatRoomMapViewClearCellSelection();
+	ChatRoomMapViewSetSelectedTile(undefined);
 	ChatRoomMapViewResetColorTool();
 }
 
@@ -538,7 +506,7 @@ function ChatRoomMapViewShowColorDialog(x, y) {
 	const layers = object?.ColorLayers;
 	if (!object || !layers?.length) return false;
 
-	ChatRoomMapViewSetCellSelection(index, "Color");
+	ChatRoomMapViewSelectedObjectIndex = index;
 	const title = ChatRoomMapViewGetObjectDisplayName(object);
 	/** @type {(colors: ChatRoomMapColorObjectConfig["Colors"]) => void} */
 	const save = (colors) => {
@@ -584,7 +552,6 @@ function ChatRoomMapViewStartColorPaste() {
 
 	ChatRoomMapViewColorTool = "Paste";
 	ChatRoomMapViewSelectedObjectIndex = null;
-	ChatRoomMapViewSelectedObjectConfigType = null;
 
 	const colors = layers.map((layer, i) => {
 		const color = format.Colors[i];
@@ -637,7 +604,6 @@ function ChatRoomMapViewPasteColorFormat(x, y) {
 function ChatRoomMapViewSaveColorConfig(index, colors) {
 	if (!MapManager.Map.setObjectConfig(index, ChatRoomMapViewBuildColorConfig(colors))) return false;
 	MapManager.Map.updateGlobalMapData();
-	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
 	return true;
 }
 
@@ -827,7 +793,7 @@ function ChatRoomMapViewGetButtons() {
 				ChatRoomMapViewEditMode = "TileType";
 				break;
 			case "Color":
-				if (ChatRoomMapViewColorTool === "Paste" || ChatRoomMapViewSelectedObjectConfigType === "Color") ChatRoomMapViewClearCellSelection();
+				if (ChatRoomMapViewColorTool === "Paste" || ChatRoomMapViewSelectedObjectIndex != null) ChatRoomMapViewSetSelectedTile(undefined);
 				ChatRoomMapViewResetColorTool();
 				ChatRoomMapViewEditMode = "";
 				break;
@@ -864,14 +830,7 @@ function ChatRoomMapViewGetButtons() {
 		...zoomButtons,
 		ElementButton.Create(null, function () {
 			if (!ChatRoomPlayerIsAdmin()) return;
-			if (ChatRoomMapFogIsActive()) {
-				if (ChatRoomData?.MapData) {
-					ChatRoomData.MapData.Fog = false;
-				}
-			} else {
-				delete ChatRoomData?.MapData?.Fog;
-			}
-			MapValidateCells();
+			MapManager.Map.hasFogEnabled = !MapManager.Map.hasFogEnabled;
 			this.querySelector(".button-image")?.setAttribute("src", `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`);
 		}, { image: `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`,
 			tooltip: TextGet("EditorButtonTextToggleFog"),
@@ -1722,7 +1681,7 @@ const ChatRoomMapViewObjectOutlineCache = new Map();
  * @returns {string}
  */
 function ChatRoomMapViewGetOutlineColor(Pos, Obj) {
-	if (ChatRoomMapViewSelectedObjectConfigType === "Color" && ChatRoomMapViewSelectedObjectIndex === Pos) return "cyan";
+	if (ChatRoomMapViewEditMode === "Color" && ChatRoomMapViewColorTool !== "Paste" && ChatRoomMapViewSelectedObjectIndex === Pos) return "cyan";
 	if (ChatRoomMapViewColorTool === "Paste" && MapCanPasteColorFormat(ChatRoomMapViewColorFormat, Obj)) return "gold";
 	return "white";
 }
@@ -2063,11 +2022,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 /**
  * Sets the next update flag for the room if it's not already set, the delay is 5 seconds
  * @returns {void} - Nothing
- * @deprecated since August 2026, use {@link MapValidateCells}
+ * @deprecated since August 2026, {@link MapManager.Map.updateGlobalMapData} handles map updates
  */
-function ChatRoomMapViewUpdateFlag() {
-
-}
+function ChatRoomMapViewUpdateFlag() {}
 
 /**
  * Sets the next update flags for the player if it's not already set, the delay is 1 seconds for live data and 10 seconds for last map data
@@ -2079,6 +2036,20 @@ function ChatRoomMapViewUpdatePlayerFlag(UpdateTimeOffset = 0) {
 		ChatRoomMapViewUpdatePlayerNext = CommonTime() + ChatRoomMapViewUpdatePlayerTime + UpdateTimeOffset;
 	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapViewUpdateLastMapDataNext == null))
 		ChatRoomMapViewUpdateLastMapDataNext = CommonTime() + 10000;
+}
+
+/**
+ * Schedule a map update to be sent to the server.
+ *
+ * The update will only happen once at the end of a 5s period.
+ * Do note that calling {@link MapManager.Map.updateGlobalMapData()} will also
+ * cause an update to be sent out, while making sure the data we're sending *is*
+ * the current map data.
+ *
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewScheduleMapUpdate() {
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
 }
 
 /**
@@ -2541,7 +2512,10 @@ function ChatRoomMapViewClick() {
 	}
 
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
-	if (!pos) return;
+	if (!pos) {
+		ChatRoomMapViewSetSelectedTile(undefined);
+		return;
+	}
 
 	if (ChatRoomMapViewEditMode === "Color") {
 		if (!ChatRoomPlayerIsAdmin()) return;
@@ -2551,7 +2525,25 @@ function ChatRoomMapViewClick() {
 	}
 
 	// If we are in edit mode, we can change the tile or object
-	MapCellClick(pos.X, pos.Y);
+	ChatRoomMapViewSetSelectedTile(pos);
+}
+
+/**
+ * @param {{ X: number, Y: number} | undefined} pos
+ */
+function ChatRoomMapViewSetSelectedTile(pos) {
+	ChatRoomMapViewHideDialogMenu();
+	if (!pos) {
+		ChatRoomMapViewSelectedObjectIndex = null;
+		return;
+	}
+	const objectId = MapManager.Map.getObjectId(pos.X, pos.Y);
+	const [index] = MapManager.Map.unpackIndex(pos.Y, pos.Y);
+	ChatRoomMapViewSelectedObjectIndex = index;
+	if (objectId) {
+		const object = MapGetDoodad("Object", objectId);
+		object?.OnClick?.(pos.X, pos.Y);
+	}
 }
 
 /**
@@ -2656,8 +2648,6 @@ function ChatRoomMapViewMouseMove(event) {
 		}
 	}
 
-	MapValidateCells();
-
 	// Encode the changed map and write it to the global ChatRoomData.MapData.
 	// This is somewhat inefficient since we don't have to actually encode the string
 	// before we need to send it to the server, but it would suffice for now.
@@ -2733,7 +2723,6 @@ function ChatRoomMapViewPaste(Param) {
 		return;
 	}
 
-	MapValidateCells();
 	ToastManager.info(TextGet("MapPasteDone"));
 }
 

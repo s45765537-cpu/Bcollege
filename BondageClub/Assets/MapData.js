@@ -53,40 +53,39 @@ function MapSanitizeSignText(text) {
  * @returns {ChatRoomMapObject["OnClick"]}
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
-    return (x, y) => {
-        ChatRoomMapViewSetCellSelection(x, y, "Sign");
-        ChatRoomMapViewShowDialogMenu(name, ElementCreate(
-            ChatRoomPlayerIsAdmin() ?
-                {
-                    tag: "textarea",
-                    classList: ["chat-room-map-view-dialog-content-text"],
-                    attributes: {
-                        maxlength: "150",
-                        placeholder: "Type sign message here..."
-                    },
-                    children: [
-                        MapGetSignConfig(x, y)?.Text || ""
-                    ],
-                    eventListeners: {
-                        /**
-                         * @this {HTMLTextAreaElement}
-                         */
-                        "change": function() {
-                            const signData = MapGetSignConfig(x, y) ?? { Type: "Sign", Text: "" };
-                            signData.Text = this.value;
-                            MapManager.Map.setObjectConfig(x, y, signData);
-                        }
-                    }
-                }
-                : {
-                    tag: "div",
-                    classList: ["chat-room-map-view-dialog-content-text"],
-                    children: [
-                        MapGetSignConfig(x, y)?.Text || ""
-                    ],
-                }
-        ));
-    };
+	return (x, y) => {
+		const signText = MapSanitizeSignText(MapManager.Map.getObjectConfig(x, y)?.Text);
+		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
+			ChatRoomPlayerIsAdmin() ?
+			{
+				tag: "textarea",
+				classList: ["chat-room-map-view-dialog-content-text"],
+				attributes: {
+					maxlength: ChatRoomMapSignTextMaxLength.toString(),
+					placeholder: "Type sign message here..."
+				},
+				children: [signText],
+				eventListeners: {
+					/**
+					* @this {HTMLTextAreaElement}
+					*/
+					"change": function() {
+						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						signData.Text = MapSanitizeSignText(this.value);
+						MapManager.Map.setObjectConfig(x, y, signData);
+						MapManager.Map.updateGlobalMapData();
+					}
+				}
+			}
+			: {
+				tag: "div",
+				classList: ["chat-room-map-view-dialog-content-text"],
+				children: [
+					MapManager.Map.getObjectConfig(x, y)?.Text || ""
+				],
+			}
+		));
+	};
 }
 
 /**
@@ -905,7 +904,7 @@ const AssetsMapDataObjects = [
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
-	{ ID: 3020, Type: "Bathroom", Style: "Mirror" },
+	{ ID: 3020, Type: "Bathroom", Style: "Mirror", CanPlaceOnWalls: true },
 	{ ID: 3021, Type: "Bathroom", Style: "BlueBathroomMat" },
 	{ ID: 3022, Type: "Bathroom", Style: "GreenBathroomMat" },
 	{ ID: 3023, Type: "Bathroom", Style: "PinkBathroomMat" },
