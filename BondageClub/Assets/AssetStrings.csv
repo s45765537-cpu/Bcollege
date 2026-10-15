@@ -4195,6 +4195,22 @@ ItemDevicesCardBoardBoxSett1,SourceCharacter closes DestinationCharacter box up.
 ItemDevicesCardBoardBoxSett2,SourceCharacter tapes DestinationCharacter box shut.
 ItemDevicesCardBoardBoxSetx0,SourceCharacter erases everything written down on DestinationCharacter box.
 ItemDevicesCardBoardBoxSetx1,SourceCharacter writes something down on DestinationCharacter box.
+ItemDevicesBarStoolSelectBase,Select an option
+ItemDevicesBarStoolModuleStyle,Style
+ItemDevicesBarStoolSelectStyle,Select the style
+ItemDevicesBarStoolOptions0,Modern
+ItemDevicesBarStoolOptions1,Dirty
+ItemDevicesBarStoolOptions2,Wooden
+ItemDevicesBarStoolSetStyle,SourceCharacter changes the style of DestinationCharacter bar stool.
+ItemDevicesBarStoolModuleSeat,Seat
+ItemDevicesBarStoolSelectSeat,Sit on the stool or hop off
+ItemDevicesBarStoolOptionp0,Sitting
+ItemDevicesBarStoolOptionp1,Hopped Off
+ItemDevicesBarStoolSetSeat,SourceCharacter moves DestinationCharacter bar stool.
+ItemDevicesBarStoolModuleDecal,Decal
+ItemDevicesBarStoolSelectDecal,Select a decal for the seat
+ItemDevicesBarStoolOptiond0,None
+ItemDevicesBarStoolSetDecal,SourceCharacter changes the decal on DestinationCharacter bar stool.
 ItemFeetSteelAnkleCuffsChained,Chain Attached
 ItemFeetSteelAnkleCuffsClosed,Attached
 ItemFeetSteelAnkleCuffsNone,Detached

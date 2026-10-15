@@ -619,9 +619,10 @@ function GLChooseProgram(gl, color, fullAlpha, blendingMode) {
  * @param {number} blinkOffset - Offset for the blink canvas
  * @param {readonly RectTuple[]} [alphaMasks] - A list of alpha masks to apply to the asset
  * @param {readonly TextureAlphaMask[]} [texMasks] - A list of mask layers to apply to the asset
+ * @param {DrawTransforms} [transforms] - The layer's transformations
  */
-function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
-	GLDrawImage(Img, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks }, blinkOffset);
+function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks, transforms) {
+	GLDrawImage(Img, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks, ...transforms }, blinkOffset);
 }
 
 /**
@@ -903,13 +904,13 @@ function GLDrawAppearanceBuild(C) {
 			CommonDrawMarkDrawnAsset(C, src);
 			GLDrawImage(src, gl, x, y, opts, blinkOffset);
 		},
-		drawCanvas: (Img, x, y, alphaMasks, maskLayers) => {
+		drawCanvas: (Img, x, y, alphaMasks, maskLayers, transforms) => {
 			CommonDrawMarkDrawnAsset(C, Img);
-			GLDraw2DCanvas(gl, Img, x, y, 0, alphaMasks, maskLayers);
+			GLDraw2DCanvas(gl, Img, x, y, 0, alphaMasks, maskLayers, transforms);
 		},
-		drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => {
+		drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers, transforms) => {
 			CommonDrawMarkDrawnAsset(C, Img);
-			GLDraw2DCanvas(gl, Img, x, y, blinkOffset, alphaMasks, maskLayers);
+			GLDraw2DCanvas(gl, Img, x, y, blinkOffset, alphaMasks, maskLayers, transforms);
 		},
 	});
 	C.Canvas?.getContext("2d")?.drawImage(GLDrawCanvas, 0, 0);

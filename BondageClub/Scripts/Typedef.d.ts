@@ -1402,6 +1402,8 @@ interface Asset {
 	readonly InheritColor: null | AssetGroupName;
 	readonly DynamicBeforeDraw: boolean;
 	readonly DynamicAfterDraw: boolean;
+	/** Whether the AfterDraw hook draws with the layer's {@link DynamicDrawingData.Transforms}, so the layering screen can allow transformations */
+	readonly DynamicAfterDrawTransforms: boolean;
 	readonly DynamicScriptDraw: boolean;
 	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	readonly CreateLayerTypes: readonly string[];
@@ -2735,11 +2737,16 @@ interface ElementMetaData {
 	icon?: ThumbIcon,
 	/** Whether an options shows up in the UI. Useful for options that are managed programmatically. */
 	hidden?: boolean,
+	/**
+	 * Gets the element's label, instead of looking up the option's dialog key.
+	 * For options named after something that has its own text, such as another asset.
+	 */
+	label?: () => string,
 }
 
 declare namespace ElementMetaData {
 	interface Typed { drawImage: boolean, hidden: boolean, imagePath: null | string }
-	interface Modular { drawImage: boolean, hidden: boolean, imagePath: null | string }
+	interface Modular { drawImage: boolean, hidden: boolean, imagePath: null | string, label?: () => string }
 	interface Vibrating  { drawImage: false, hidden: false, imagePath: null }
 	interface Text {}
 	interface VariableHeight { icon: ThumbIcon }
@@ -4516,7 +4523,11 @@ type DrawCanvasCallback = (
 	y: number,
 	alphaMasks?: RectTuple[],
 	maskLayers?: TextureAlphaMask[],
+	transforms?: DrawTransforms,
 ) => void;
+
+/** The layering screen's transformations of a layer */
+type DrawTransforms = Required<Pick<DrawOptions, "TranslationX" | "TranslationY" | "ScaleX" | "ScaleY" | "Rotation">>;
 
 /**
  * A callback function used to draw an image to a canvas
@@ -4609,6 +4620,8 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	drawCanvas: DrawCanvasCallback;
 	drawCanvasBlink: DrawCanvasCallback;
 	AlphaMasks: RectTuple[];
+	/** The layer's transformations (only passed to AfterDraw); see {@link Asset.DynamicAfterDrawTransforms} */
+	Transforms?: DrawTransforms;
 	PersistentData: () => T;
 }
 

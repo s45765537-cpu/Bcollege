@@ -387,8 +387,9 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 			DrawPreviewIcons(ExtendItemGetIcons(C, Asset, Type, Effect), x + 2, y);
 		}
 	}
+	const label = buttonData.label ? buttonData.label() : AssetTextGet(DialogPrefix + Option.Name);
 	DrawTextFit(
-		(IsFavorite && !buttonData.drawImage ? "★ " : "") + AssetTextGet(DialogPrefix + Option.Name),
+		(IsFavorite && !buttonData.drawImage ? "★ " : "") + label,
 		x + width / 2,
 		y + height - 25,
 		width, "black",

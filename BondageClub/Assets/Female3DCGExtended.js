@@ -13424,6 +13424,51 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //CardBoardBox
+		BarStool: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "s",
+					Options: [
+						{}, // s0 - Modern
+						{}, // s1 - Dirty
+						{}, // s2 - Wooden
+					],
+				},
+				{
+					Name: "Seat",
+					Key: "p",
+					Options: [
+						{}, // p0 - Sitting
+						{}, // p1 - Hopped off
+					],
+				},
+				{
+					Name: "Decal",
+					Key: "d",
+					Options: [
+						{}, // d0 - None
+						...InventoryItemDevicesBarStoolDecals().map(() => ({})),
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							...InventoryItemDevicesBarStoolDecals().map((name) => ({
+								imagePath: `Assets/Female3DCG/Decals/Preview/${name}.png`,
+								label: () =>
+									AssetGet("Female3DCG", "Decals", name)?.Description ?? name,
+							})),
+						],
+					},
+				},
+			],
+			ScriptHooks: {
+				AfterDraw: AssetsItemDevicesBarStoolAfterDrawHook,
+				ScriptDraw: AssetsItemDevicesBarStoolScriptDrawHook,
+			},
+		}, // BarStool
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

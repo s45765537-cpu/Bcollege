@@ -308,6 +308,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig, GroupDef) {
 		InheritColor: AssetDef.InheritColor || Group.InheritColor,
 		DynamicBeforeDraw: (typeof AssetDef.DynamicBeforeDraw === 'boolean') ? AssetDef.DynamicBeforeDraw : false,
 		DynamicAfterDraw: (typeof AssetDef.DynamicAfterDraw === 'boolean') ? AssetDef.DynamicAfterDraw : false,
+		DynamicAfterDrawTransforms: AssetDef.DynamicAfterDrawTransforms ?? false,
 		DynamicScriptDraw: (typeof AssetDef.DynamicScriptDraw === 'boolean') ? AssetDef.DynamicScriptDraw : false,
 		CreateLayerTypes: Array.isArray(AssetDef.CreateLayerTypes) ? AssetDef.CreateLayerTypes : [],
 		AllowLockType: null,

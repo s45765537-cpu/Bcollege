@@ -271,7 +271,8 @@ function testModularItemDialog(groupName, assetName, data, dialogSet) {
 	/** @type {(string | undefined)[]} */
 	const optionNames = [];
 	for (const module of data.modules) {
-		optionNames.push(...module.Options.map((o, i) => !o.HasSubscreen ? o.Name : undefined));
+		// Options with a subscreen or their own label (see `ElementMetaData.label`) have no dialog key
+		optionNames.push(...module.Options.map((o, i) => !o.HasSubscreen && !module.drawData.elementData[i]?.label ? o.Name : undefined));
 	}
 
 	/** @type {Set<string>} */
