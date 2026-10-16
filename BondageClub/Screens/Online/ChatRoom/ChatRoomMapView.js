@@ -74,6 +74,8 @@ var ChatRoomMapViewCharacterMap = new Map();
 var ChatRoomMapViewNameTags = [];
 /** TRUE while an admin picks where the selected teleport pad sends to */
 var ChatRoomMapViewTeleportPadPicking = false;
+/** @type {null | number} - The teleport pad whose menu is open */
+var ChatRoomMapViewTeleportPadIndex = null;
 /** @type {null | { indexes: number[], color: HexColor }} - The teleport pads shown in the color being picked for them */
 var ChatRoomMapViewTeleportPadPreview = null;
 /** @type {Map<string, HTMLCanvasElement>} - Map object images already colorized, by image and color */
@@ -86,8 +88,6 @@ var ChatRoomMapViewPanel;
 var ChatRoomMapViewPanelContainer;
 /** @type {null | number} */
 var ChatRoomMapViewSelectedObjectIndex = null;
-/** @type {ChatRoomMapObjectConfig["Type"] | null} */
-var ChatRoomMapViewSelectedObjectConfigType = null;
 
 document.addEventListener("blur", () => {
 	if (ChatRoomMapViewIsActive()) ChatRoomMapViewBlur();
@@ -119,37 +119,6 @@ function ChatRoomMapViewInitialize(mode) {
 		Objects: defaultMap,
 		Effects: undefined,
 	};
-}
-
-/**
- * Get the tile ID at the given coordinates
- * @overload
- * @param {number} index
- * @param {ChatRoomMapObjectConfig["Type"]} type
- * @return {void}
- */
-/**
- * @overload
- * @param {number} x
- * @param {number} y
- * @param {ChatRoomMapObjectConfig["Type"]} type
- * @return {void}
- */
-/**
- * @param {[x: number, y: number, type: ChatRoomMapObjectConfig["Type"]] | [index: number, type: ChatRoomMapObjectConfig["Type"]] } args
- * @return {void}
- */
-function ChatRoomMapViewSetCellSelection(...args) {
-	const [index, type] = MapManager.Map.unpackIndex(...args);
-	ChatRoomMapViewSelectedObjectIndex = index;
-	ChatRoomMapViewSelectedObjectConfigType = type;
-}
-
-function ChatRoomMapViewClearCellSelection() {
-	ChatRoomMapViewSelectedObjectIndex = null;
-	ChatRoomMapViewSelectedObjectConfigType = null;
-	ChatRoomMapViewTeleportPadPicking = false;
-	ChatRoomMapViewHideDialogMenu();
 }
 
 /**
@@ -245,7 +214,7 @@ function ChatRoomMapViewCreateDialogMenu() {
 						textContent: "Title"
 					},
 					ElementButton.Create(null, () => {
-						ChatRoomMapViewClearCellSelection();
+						ChatRoomMapViewHideDialogMenu();
 					},
 					{
 						tooltip: "Close",
@@ -293,6 +262,8 @@ function ChatRoomMapViewShowDialogMenu(title, content, footer) {
 
 function ChatRoomMapViewHideDialogMenu() {
 	ChatRoomMapViewDialogMenu?.setAttribute("hidden", "true");
+	ChatRoomMapViewTeleportPadIndex = null;
+	ChatRoomMapViewTeleportPadPicking = false;
 }
 
 function ChatRoomMapViewShowEditor() {
@@ -505,14 +476,7 @@ function ChatRoomMapViewGetButtons() {
 		...zoomButtons,
 		ElementButton.Create(null, function () {
 			if (!ChatRoomPlayerIsAdmin()) return;
-			if (ChatRoomMapFogIsActive()) {
-				if (ChatRoomData?.MapData) {
-					ChatRoomData.MapData.Fog = false;
-				}
-			} else {
-				delete ChatRoomData?.MapData?.Fog;
-			}
-			MapValidateCells();
+			MapManager.Map.hasFogEnabled = !MapManager.Map.hasFogEnabled;
 			this.querySelector(".button-image")?.setAttribute("src", `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`);
 		}, { image: `Icons/Fog${ChatRoomMapFogIsActive() ? "Active" : "Inactive"}.png`,
 			tooltip: TextGet("EditorButtonTextToggleFog"),
@@ -1316,7 +1280,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 	/** @type {{ stack: Character[], x: number, y: number, charX: number, charY: number }[]} */
 	const sharedTiles = [];
 	// While a teleport pad's menu is open, the pad and where it sends to are outlined
-	const padMenuIndex = ChatRoomMapViewSelectedObjectConfigType === "Teleporter" && !ChatRoomMapViewDialogMenu?.hidden ? ChatRoomMapViewSelectedObjectIndex : null;
+	const padMenuIndex = ChatRoomMapViewTeleportPadIndex != null && !ChatRoomMapViewDialogMenu?.hidden ? ChatRoomMapViewTeleportPadIndex : null;
 	const padDestination = padMenuIndex != null ? MapManager.Map.getTeleporterDestination(padMenuIndex) : null;
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
@@ -1430,7 +1394,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 				const opacity = color?.length === 9 ? parseInt(color.slice(7), 16) / 255 : 1;
 				// While building, admins get a faint circle around objects colored nearly invisible so they can find them
 				const building = ["Tile", "Object", "Effect"].includes(ChatRoomMapViewEditMode)
-					|| (ChatRoomMapViewSelectedObjectIndex === X + Y * ChatRoomMapViewWidth && !ChatRoomMapViewDialogMenu?.hidden);
+					|| (ChatRoomMapViewTeleportPadIndex === X + Y * ChatRoomMapViewWidth && !ChatRoomMapViewDialogMenu?.hidden);
 				const nearlyInvisible = opacity < 0.3 && building && ChatRoomPlayerIsAdmin();
 
 				DrawImageResize(color ? ChatRoomMapViewGetColoredImage(ObjectImage, CommonColorTrimAlpha(color)) : ObjectImage,
@@ -1660,11 +1624,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 /**
  * Sets the next update flag for the room if it's not already set, the delay is 5 seconds
  * @returns {void} - Nothing
- * @deprecated since August 2026, use {@link MapValidateCells}
+ * @deprecated since August 2026, {@link MapManager.Map.updateGlobalMapData} handles map updates
  */
-function ChatRoomMapViewUpdateFlag() {
-
-}
+function ChatRoomMapViewUpdateFlag() {}
 
 /**
  * Sets the next update flags for the player if it's not already set, the delay is 1 seconds for live data and 10 seconds for last map data
@@ -1676,6 +1638,20 @@ function ChatRoomMapViewUpdatePlayerFlag(UpdateTimeOffset = 0) {
 		ChatRoomMapViewUpdatePlayerNext = CommonTime() + ChatRoomMapViewUpdatePlayerTime + UpdateTimeOffset;
 	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && (ChatRoomMapViewUpdateLastMapDataNext == null))
 		ChatRoomMapViewUpdateLastMapDataNext = CommonTime() + 10000;
+}
+
+/**
+ * Schedule a map update to be sent to the server.
+ *
+ * The update will only happen once at the end of a 5s period.
+ * Do note that calling {@link MapManager.Map.updateGlobalMapData()} will also
+ * cause an update to be sent out, while making sure the data we're sending *is*
+ * the current map data.
+ *
+ * @returns {void} - Nothing
+ */
+function ChatRoomMapViewScheduleMapUpdate() {
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
 }
 
 /**
@@ -2112,7 +2088,7 @@ function ChatRoomMapViewClick() {
 	// Out of chatroom, exit right away
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
-	if (ChatRoomMapViewTeleportPadPicking && ChatRoomMapViewSelectedObjectConfigType === "Teleporter") {
+	if (ChatRoomMapViewTeleportPadPicking && ChatRoomMapViewTeleportPadIndex != null) {
 		const tile = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
 		if (tile) {
 			ChatRoomMapViewTeleportPadPick(tile);
@@ -2204,10 +2180,31 @@ function ChatRoomMapViewClick() {
 	}
 
 	const pos = ChatRoomMapViewPixelToTileCoordinates(MouseX, MouseY);
-	if (!pos) return;
+	if (!pos) {
+		ChatRoomMapViewSetSelectedTile(undefined);
+		return;
+	}
 
 	// If we are in edit mode, we can change the tile or object
-	MapCellClick(pos.X, pos.Y);
+	ChatRoomMapViewSetSelectedTile(pos);
+}
+
+/**
+ * @param {{ X: number, Y: number} | undefined} pos
+ */
+function ChatRoomMapViewSetSelectedTile(pos) {
+	ChatRoomMapViewHideDialogMenu();
+	if (!pos) {
+		ChatRoomMapViewSelectedObjectIndex = null;
+		return;
+	}
+	const objectId = MapManager.Map.getObjectId(pos.X, pos.Y);
+	const [index] = MapManager.Map.unpackIndex(pos.Y, pos.Y);
+	ChatRoomMapViewSelectedObjectIndex = index;
+	if (objectId) {
+		const object = MapGetDoodad("Object", objectId);
+		object?.OnClick?.(pos.X, pos.Y);
+	}
 }
 
 /**
@@ -2312,8 +2309,6 @@ function ChatRoomMapViewMouseMove(event) {
 		}
 	}
 
-	MapValidateCells();
-
 	// Encode the changed map and write it to the global ChatRoomData.MapData.
 	// This is somewhat inefficient since we don't have to actually encode the string
 	// before we need to send it to the server, but it would suffice for now.
@@ -2389,7 +2384,6 @@ function ChatRoomMapViewPaste(Param) {
 		return;
 	}
 
-	MapValidateCells();
 	ToastManager.info(TextGet("MapPasteDone"));
 }
 

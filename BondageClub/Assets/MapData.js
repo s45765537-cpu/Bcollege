@@ -62,7 +62,7 @@ function ChatRoomMapViewCreateOnEnterTeleportLogic(delay) {
 function ChatRoomMapViewCreateOnClickTeleportLogic() {
 	return (x, y) => {
 		if (!ChatRoomPlayerIsAdmin()) return;
-		ChatRoomMapViewSetCellSelection(x, y, "Teleporter");
+		ChatRoomMapViewTeleportPadIndex = x + y * ChatRoomMapViewWidth;
 		ChatRoomMapViewTeleportPadPicking = false;
 		ChatRoomMapViewShowTeleportPadMenu(x, y);
 	};
@@ -183,8 +183,8 @@ function ChatRoomMapViewTeleportPadPickColor(x, y) {
  */
 function ChatRoomMapViewTeleportPadPick(pos) {
 	ChatRoomMapViewTeleportPadPicking = false;
-	if (ChatRoomMapViewSelectedObjectIndex == null) return;
-	const { X: x, Y: y } = MapIndexToCoordinates(ChatRoomMapViewSelectedObjectIndex);
+	if (ChatRoomMapViewTeleportPadIndex == null) return;
+	const { X: x, Y: y } = MapIndexToCoordinates(ChatRoomMapViewTeleportPadIndex);
 	const picked = MapManager.Map.setTeleporterDestination(x, y, pos);
 	if (picked) ChatRoomMapViewTeleportPadSave();
 	ChatRoomMapViewShowTeleportPadMenu(x, y, picked ? undefined : TextGet("TeleportPadInvalid"));
@@ -212,43 +212,44 @@ function MapSanitizeSignText(text) {
  * @returns {ChatRoomMapObject["OnClick"]}
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
-    return (x, y) => {
-        ChatRoomMapViewSetCellSelection(x, y, "Sign");
-        const config = MapManager.Map.getObjectConfig(x, y);
-        ChatRoomMapViewShowDialogMenu(name, ElementCreate(
-            ChatRoomPlayerIsAdmin() ?
-                {
-                    tag: "textarea",
-                    classList: ["chat-room-map-view-dialog-content-text"],
-                    attributes: {
-                        maxlength: "150",
-                        placeholder: "Type sign message here..."
-                    },
-                    children: [
-                        config?.Type === "Sign" ? config.Text : ""
-                    ],
-                    eventListeners: {
-                        /**
-                         * @this {HTMLTextAreaElement}
-                         */
-                        "change": function() {
-                            const current = MapManager.Map.getObjectConfig(x, y);
-                            /** @type {ChatRoomMapSignObjectConfig} */
-                            const signData = current?.Type === "Sign" ? current : { Type: "Sign", Text: "" };
-                            signData.Text = this.value;
-                            MapManager.Map.setObjectConfig(x, y, signData);
-                        }
-                    }
-                }
-                : {
-                    tag: "div",
-                    classList: ["chat-room-map-view-dialog-content-text"],
-                    children: [
-                        config?.Type === "Sign" ? config.Text : ""
-                    ],
-                }
-        ));
-    };
+	return (x, y) => {
+		// Configs are signs or teleport pads; only a sign has text
+		const signConfig = () => {
+			const config = MapManager.Map.getObjectConfig(x, y);
+			return config?.Type === "Sign" ? config : null;
+		};
+		const signText = MapSanitizeSignText(signConfig()?.Text);
+		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
+			ChatRoomPlayerIsAdmin() ?
+			{
+				tag: "textarea",
+				classList: ["chat-room-map-view-dialog-content-text"],
+				attributes: {
+					maxlength: ChatRoomMapSignTextMaxLength.toString(),
+					placeholder: "Type sign message here..."
+				},
+				children: [signText],
+				eventListeners: {
+					/**
+					* @this {HTMLTextAreaElement}
+					*/
+					"change": function() {
+						const signData = signConfig() ?? { Type: "Sign", Text: "" };
+						signData.Text = MapSanitizeSignText(this.value);
+						MapManager.Map.setObjectConfig(x, y, signData);
+						MapManager.Map.updateGlobalMapData();
+					}
+				}
+			}
+			: {
+				tag: "div",
+				classList: ["chat-room-map-view-dialog-content-text"],
+				children: [
+					signConfig()?.Text || ""
+				],
+			}
+		));
+	};
 }
 
 /**
@@ -947,7 +948,7 @@ const AssetsMapDataObjects = [
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
-	{ ID: 3020, Type: "Bathroom", Style: "Mirror" },
+	{ ID: 3020, Type: "Bathroom", Style: "Mirror", CanPlaceOnWalls: true },
 	{ ID: 3021, Type: "Bathroom", Style: "BlueBathroomMat" },
 	{ ID: 3022, Type: "Bathroom", Style: "GreenBathroomMat" },
 	{ ID: 3023, Type: "Bathroom", Style: "PinkBathroomMat" },

@@ -915,7 +915,7 @@ var Layering = {
 	 * @private
 	 */
 	_ApplyTranslations() {
-		TextCache.buildAsync(`Assets/${this.Character.AssetFamily}/LayerNames.csv`).then((cache) => {
+		TextCache.buildAsync(`Assets/LayerNames.csv`).then((cache) => {
 			const headers = /** @type {NodeListOf<HTMLHeadingElement>} */(document.querySelectorAll("[data-layering-group]"));
 			headers.forEach(h => {
 				const key = `${this.Asset.DynamicGroupName}${this.Asset.Name}${h.dataset.layeringGroup}`;
@@ -928,7 +928,7 @@ var Layering = {
 
 	/** @type {ScreenLoadHandler} */
 	async Load() {
-		const cache = await TextCache.buildAsync(`Assets/${this.Character.AssetFamily}/LayerNames.csv`);
+		const cache = await TextCache.buildAsync(`Assets/LayerNames.csv`);
 
 		let root = document.getElementById(this.ID.root);
 		if (root != null) {
