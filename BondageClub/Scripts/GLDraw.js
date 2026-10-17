@@ -192,15 +192,14 @@ function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
 	GLDrawCanvas?.remove();
-	GLDrawImageCache?.forEach((image, key) => {
-		image.unload();
-	});
+	GLDrawImageCache?.clear();
 	GLDrawCanvas?.GL?.maskCache?.forEach((texture) => {
 		GLDrawCanvas?.GL?.deleteTexture(texture);
 	});
 	GLDrawCanvas?.GL?.maskCache?.clear();
 	if (GLDrawScratchTexture) {
 		GLDrawCanvas?.GL?.deleteTexture(GLDrawScratchTexture);
+		GLDrawScratchTexture = undefined;
 	}
 	GLDrawCanvas = null;
 
