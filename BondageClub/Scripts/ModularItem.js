@@ -699,8 +699,19 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	if (Property.AllowActivePose) mergedProperty.AllowActivePose = CommonArrayConcatDedupe(mergedProperty.AllowActivePose || [], Property.AllowActivePose);
 	if (Property.AllowActivity) CommonArrayConcatDedupe(mergedProperty.AllowActivity, Property.AllowActivity);
 	if (Property.Attribute) CommonArrayConcatDedupe(mergedProperty.Attribute, Property.Attribute);
-	if (typeof Property.OverridePriority === "number") mergedProperty.OverridePriority = Property.OverridePriority;
-	else if (CommonIsObject(Property.OverridePriority)) {
+	if (typeof Property.OverridePriority === "number") {
+		// Numeric priorities are whole-item defaults (for example DroneMask advanced layering).
+		// Per-layer custom layering is stored in the same field, so a number must not replace an
+		// existing map; unset layers still inherit the default.
+		if (CommonIsObject(mergedProperty.OverridePriority)) {
+			const priority = Property.OverridePriority;
+			for (const layerName of layerNames) {
+				mergedProperty.OverridePriority[layerName] ??= priority;
+			}
+		} else {
+			mergedProperty.OverridePriority = Property.OverridePriority;
+		}
+	} else if (CommonIsObject(Property.OverridePriority)) {
 		let valid = true;
 		for (const layerName of Object.keys(Property.OverridePriority)) {
 			if (!layerNames.has(layerName)) {
