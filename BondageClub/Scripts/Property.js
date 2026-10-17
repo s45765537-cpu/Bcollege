@@ -693,7 +693,8 @@ class PropertyDataEntry {
 	 * @returns {undefined | ItemProperties[T]} The merged property
 	 */
 	union(properties, itemData) {
-		const propNonNull = properties.filter(i => i !== undefined);
+		// TODO: Swap `!= null` for `!== undefined` once all the validation is hooked up
+		const propNonNull = properties.filter(i => i != null);
 		if (this._union === undefined || propNonNull.length === 0) {
 			return propNonNull[0];
 		} else {
