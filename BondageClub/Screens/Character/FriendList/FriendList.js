@@ -475,8 +475,9 @@ function FriendListKeyDown(event) {
 	const beepTextAreaHasFocus = beepTextArea && document.activeElement === beepTextArea;
 
 	if (beepTextAreaHasFocus) {
-		if (event.key === 'Enter' && CommonKey.IsPressed(event, "Enter", CommonKey.CTRL)) {
-			FriendListBeepMenuSend();
+		if (CommonIsMobile && CommonKey.IsPressed(event, "Enter") && !event.isComposing) {
+			if (!FriendListOnlineFriends.has(FriendListBeepTarget)) return false;
+			if (!event.repeat) FriendListBeepMenuSend();
 			return true;
 		}
 	}
