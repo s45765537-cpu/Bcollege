@@ -27,7 +27,7 @@ var GLDrawAlphaThreshold = 0.01;
 var GLDrawHalfAlphaLow = 0.8 / 256.0;
 var GLDrawHalfAlphaHigh = 1.2 / 256.0;
 
-/** @type {ImageCache<GLDrawImageData>} */
+/** @type {ImageCache<GLDrawImageData> | undefined} */
 var GLDrawImageCache;
 
 /**
@@ -192,7 +192,7 @@ function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
 	GLDrawCanvas?.remove();
-	GLDrawImageCache.forEach((image, key) => {
+	GLDrawImageCache?.forEach((image, key) => {
 		image.unload();
 	});
 	GLDrawCanvas?.GL?.maskCache?.forEach((texture) => {
@@ -678,8 +678,8 @@ function GLDrawCreateTexture(gl) {
  * @returns {GLDrawImageData | null} - The texture info of a given image, or null if it has nothing to draw yet
  */
 function GLDrawLoadImage(gl, url) {
-	const image = GLDrawImageCache.get(url);
-	return image.isLoaded() ? image.data : null;
+	const image = GLDrawImageCache?.get(url);
+	return image?.isLoaded() ? image.data : null;
 }
 
 /**
