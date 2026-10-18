@@ -990,7 +990,11 @@ var PropertyData = {
 		compare: PropertyDataEntry.compareSetLikeArrays,
 		union: PropertyDataEntry.unionSetLikeArrays,
 	}),
-	BlockRemotes: undefined,
+	BlockRemotes: new PropertyDataEntry("BlockRemotes", undefined, {
+		decompress(prop) {
+			return prop ? { BlockRemotes: prop, Effect: ["BlockRemotes"] } : { BlockRemotes: prop };
+		},
+	}),
 	CombinationNumber: undefined,
 	CustomBlindBackground: undefined,
 	DefaultColor: undefined,
