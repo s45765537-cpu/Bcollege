@@ -80,8 +80,9 @@ class CachedImage {
 	 * Load the cached image if it's not already available.
 	 *
 	 * Reports its outcome through the state, and never rejects.
+	 * @param {undefined | Error} errCause - An error object the be attached as cause for failed fetch responses. Used primarily for extending the traceback
 	 */
-	async _load() {
+	async _load(errCause=undefined) {
 		// Ensure there's only one image load in progress
 		if (this.isLoading() || this.isDoneLoading()) return;
 
@@ -89,7 +90,7 @@ class CachedImage {
 		const generation = this._generation;
 
 		try {
-			const blob = await this._fetch(generation);
+			const blob = await this._fetch(generation, errCause);
 			if (generation !== this._generation) return;
 
 			const data = await this._decode(blob, generation);
@@ -144,10 +145,11 @@ class CachedImage {
 	 * Fetch the raw bytes of the image.
 	 *
 	 * @param {number} generation - The generation the fetch belongs to
+	 * @param {undefined | Error} errCause - An error object the be attached as cause for failed fetch responses. Used primarily for extending the traceback
 	 * @returns {Promise<Blob>}
 	 * @private
 	 */
-	async _fetch(generation) {
+	async _fetch(generation, errCause=undefined) {
 		const store = this.cache.browserCache;
 		const response = store
 			? await store.fetch(this.url, {
@@ -155,7 +157,7 @@ class CachedImage {
 			})
 			: await CommonFetch(this.url);
 		if (!response.ok)
-			throw new Error(`HTTP ${response.status}`);
+			throw new Error(`HTTP ${response.status}`, { cause: errCause });
 		return response.blob();
 	}
 
@@ -501,7 +503,8 @@ class ImageCache {
 		image.lastUsed = CommonTime();
 
 		// start loading the image
-		CommonPromiseCatch(image._load());
+		// Pass along a _synchronously_ constructed error in order to have its traceback suplement any async tracebacks
+		CommonPromiseCatch(image._load(new Error()));
 
 		// returns the final image
 		return image;
