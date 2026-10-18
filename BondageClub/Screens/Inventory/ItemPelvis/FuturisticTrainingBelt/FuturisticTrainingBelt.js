@@ -225,7 +225,8 @@ function InventoryItemPelvisFuturisticTrainingBeltExitHook(data, originalFunctio
 			item.Property.PunishProhibitedSpeechWords = ElementValue("PunishProhibitedSpeechWords").split(',').map(_ => _.replace(/[\p{P}~+=^$|\\<>`\s]+/ugm, "")).join(',');
 		}
 
-		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, "FuturisticTrainingBeltSetGeneric");
+		CharacterRefresh(C, true, false);
+		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, "FuturisticTrainingBeltSetGeneric"); // Takes care of `ChatRoomCharacterItemUpdate()`
 	}
 
 	ElementRemove("PunishRequiredSpeechWord");
