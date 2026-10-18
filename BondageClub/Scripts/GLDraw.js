@@ -633,18 +633,22 @@ async function GLDrawDecodeImage(blob) {
 	const gl = GLDrawCanvas?.GL;
 	if (!gl) throw new Error("WebGL context unavailable");
 
-	const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none" });
+	/** @type {ImageBitmap | undefined} */
+	let bitmap = undefined;
+	/** @type {WebGLTexture | undefined} */
+	let texture = undefined;
 	try {
-		const texture = GLDrawCreateTexture(gl);
-		try {
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bitmap);
-			return { width: bitmap.width, height: bitmap.height, texture };
-		} catch (err) {
+		bitmap = await DrawDecodeImageBitmap(blob);
+		texture = GLDrawCreateTexture(gl);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bitmap);
+		return { width: bitmap.width, height: bitmap.height, texture };
+	} catch (e) {
+		if (texture) {
 			gl.deleteTexture(texture);
-			throw err;
 		}
+		throw e;
 	} finally {
-		bitmap.close();
+		bitmap?.close();
 	}
 }
 
