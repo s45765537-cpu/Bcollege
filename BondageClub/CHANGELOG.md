@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2026-10-09
-* Last recorded PR: [#6764](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6764)
-* Last recorded commit hash: `dbf3dd80b73e433dd81bc75c09dbfbcedc47ae05`
+* Changelog last updated: 2026-10-16
+* Last recorded PR: [#6792](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6792)
+* Last recorded commit hash: `8fdb95bde35462a4d671ad6fc43219b9658a5812`
 
 ## [Generated]
 
@@ -69,12 +69,16 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 * Likulisu - crafted item name and icons lost for the currently worn item in the item menu ([#6663](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6663))
 * superj - Fix chat room admin save behavior ([#6730](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6730))
+* Feldob66 - FIX: Correct Club Card card text ([#6767](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6767))
 * x3mmusic - gags in the ItemMouth slots shown as handheld items ([#6678](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6678))
 * x3mmusic - fix handheld penetrative items allowed activities while acting char is restrained ([#6753](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6753))
 * x3mmusic - fix some of the gags got lost in the merge ([#6754](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6754))
 * x3mmusic - fix GetBlindLevel ignored some item groups that have blind effects ([#6715](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6715))
 * x3mmusic - Fix players can still use restraints while being in kennel ([#6740](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6740))
+* x3mmusic - Fix techno chastity cage option text ([#6778](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6778))
 * Zoe - Fixed issue with placing map objects in corridors ([#6674](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6674))
+* Zoe - Added object config validation for signs. Feat. Freya ([#6779](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6779))
+* Deep - Fix a race condition marking interlocutor offline ([#6785](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6785))
 * Rama - Ensure that crafts are more thoroughly deep copied upon equipping or converting them ([#6659](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6659))
 * Rama - Prevent the layering labels from getting clipped ([#6660](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6660))
 * Rama - Fix issues with properties failing to survive `Item` -> `ItemBundle` conversion ([#6665](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6665))
@@ -88,6 +92,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Fix a handful of minor crafting-related issues ([#6695](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6695))
 * Rama - Fix another reference error ([#6752](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6752))
 * Rama - Fix a handful of extended item property related bugs ([#6742](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6742))
+* Rama - Fix VR headset backgrounds breaking in combination with custom room background URLs ([#6787](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6787))
+* Rama - Ensure that the screen tinting machinery more explicitly filters out non-hex code colors ([#6791](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6791))
+* Rama - Fix an invalid csv path ([#6792](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6792))
+* Rama - Minor misc changes to the friend list beep styling ([#6765](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6765))
+* Rama - Fix gag-based activities appearing multiple times ([#6769](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6769))
 * Estsanatlehi - Fix map editor lingering when opening a character dialog ([#6661](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6661))
 * Estsanatlehi - Deactivate the active view when opening the dialog ([#6664](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6664))
 * Estsanatlehi - Some "wearable" map objects break the rendering completely ([#6669](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6669))
@@ -105,6 +114,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - More grammar fixes ([#6692](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6692))
 * Estsanatlehi - Fix the Friendlist unloading not removing its UI in the right callback ([#6720](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6720))
 * Estsanatlehi - Fix asset problems ([#6721](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6721))
+* Estsanatlehi - Don't bother trying to cache non-http URLs ([#6773](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6773))
+* Estsanatlehi - Preserve the dialog state when recreating the maid ([#6777](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6777))
+* Estsanatlehi - Cleanup some of the new map APIs ([#6784](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6784))
 * Ben987 - Duplicated Inventory ID
 * Ben987 - Cheek Retractor ID
 * Ben987 - Bondage Brawl Loading in R132
@@ -361,7 +373,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Zoe - Added tests to ensure stability of BC ([#6373](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6373))
 * Deep - replace some `.call` calls ([#6486](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6486))
 * Deep - strictify 17 files ([#6468](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6468))
-* Rama - BETA: Mark the `DrawingTop` & `DrawingLeft` item properties as deprecated ([#6560](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6560))
+* Rama - Mark the `DrawingTop` & `DrawingLeft` item properties as deprecated ([#6560](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6560))
 * Rama - Stop VSCode from treating tab presses as spaces ([#6537](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6537))
 * Rama - Prepare testing functionality for more extensive `Character`- & `Item`-related tests ([#6536](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6536))
 * Rama - Update the extended item `dialogPrefix` tests with support for all archetypes ([#6535](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/6535))
