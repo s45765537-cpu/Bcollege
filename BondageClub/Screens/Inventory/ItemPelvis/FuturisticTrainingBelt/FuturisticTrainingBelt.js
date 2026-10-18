@@ -142,7 +142,13 @@ function InventoryItemPelvisFuturisticTrainingBeltClickHook(data, originalFuncti
 	if (!item) return;
 	item.Property ??= {};
 	let canViewMode = false;
-	if (MouseIn(1885, 25, 90, 90)) DialogLeaveFocusItem();
+
+	if (MouseIn(1885, 25, 90, 90)) {
+		 DialogLeaveFocusItem();
+	} else if (ExtendedItemTighten.Click(data, item, [1050, 220, 300, 65])) {
+		return;
+	}
+
 	if (!FuturisticAccessClick(data)) {
 		// Fallthrough as there's the mode change controls
 	} else {
@@ -225,7 +231,8 @@ function InventoryItemPelvisFuturisticTrainingBeltExitHook(data, originalFunctio
 			item.Property.PunishProhibitedSpeechWords = ElementValue("PunishProhibitedSpeechWords").split(',').map(_ => _.replace(/[\p{P}~+=^$|\\<>`\s]+/ugm, "")).join(',');
 		}
 
-		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, "FuturisticTrainingBeltSetGeneric");
+		CharacterRefresh(C, true, false);
+		InventoryItemPelvisFuturisticTrainingBeltPublishGeneric(C, "FuturisticTrainingBeltSetGeneric"); // Takes care of `ChatRoomCharacterItemUpdate()`
 	}
 
 	ElementRemove("PunishRequiredSpeechWord");
