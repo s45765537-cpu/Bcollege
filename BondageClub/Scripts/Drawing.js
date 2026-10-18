@@ -134,10 +134,51 @@ function DrawLoad() {
 	MainCanvas.textBaseline = "middle";
 
 	DrawImageCache = new ImageCache("draw", BrowserStorageCache, {
-		decode: blob => createImageBitmap(blob, { premultiplyAlpha: "none" }),
+		decode: (blob) => DrawDecodeImageBitmap(blob),
 		dispose: bitmap => bitmap.close(),
 	});
 }
+
+/**
+ * Decode image bytes into an ImageBitmap.
+ *
+ * `createImageBitmap` cannot decode SVG, and mods pass SVG icons in as
+ * `data:` URLs. Those are drawn to a canvas first, at the SVG's own pixel
+ * size, and the canvas is what becomes the bitmap.
+ *
+ * @param {Blob} blob
+ * @returns {Promise<ImageBitmap>}
+ */
+async function DrawDecodeImageBitmap(blob) {
+	const type = blob.type.split(";")[0].trim().toLowerCase();
+	if (type === "image/svg+xml") {
+		const url = URL.createObjectURL(blob);
+		try {
+			const image = new Image();
+			image.src = url;
+			await image.decode();
+
+			const width = image.naturalWidth;
+			const height = image.naturalHeight;
+			if (!width || !height)
+				throw new Error("SVG has no intrinsic size");
+
+			const canvas = document.createElement("canvas");
+			canvas.width = width;
+			canvas.height = height;
+			const ctx = canvas.getContext("2d");
+			if (!ctx)
+				throw new Error("2D canvas unavailable");
+			ctx.drawImage(image, 0, 0);
+			return await createImageBitmap(canvas, { premultiplyAlpha: "none" });
+		} finally {
+			URL.revokeObjectURL(url);
+		}
+	}
+
+	return createImageBitmap(blob, { premultiplyAlpha: "none" });
+}
+
 
 /**
  * Returns the image's pixels from cache, starting its load if needed.
