@@ -1181,8 +1181,18 @@ var PropertyData = {
 	Text2: undefined,
 	Text3: undefined,
 	Texts: undefined,
-	TimeSinceLastOrgasm: undefined,
-	TimeWorn: undefined,
+	TimeSinceLastOrgasm: new PropertyDataEntry("TimeSinceLastOrgasm", undefined, {
+		compress(prop) {
+			// Never compress
+			return { [this.name]: prop };
+		},
+	}),
+	TimeWorn: new PropertyDataEntry("TimeWorn", undefined, {
+		compress(prop) {
+			// Never compress
+			return { [this.name]: prop };
+		},
+	}),
 	Tint: undefined,
 	TranslationX: undefined,
 	TranslationY: undefined,
