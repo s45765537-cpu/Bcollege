@@ -9022,6 +9022,8 @@ ItemHandheldPlushieOptionSADollhouse6,Cholate
 ItemHandheldPlushieSetSADollhouse6,SourceCharacter places a cute Cholate plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionSADollhouse7,Silvia
 ItemHandheldPlushieSetSADollhouse7,SourceCharacter places a cute Silvia plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionSADollhouse8,Rouge
+ItemHandheldPlushieSetSADollhouse8,SourceCharacter places a cute Rouge plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleFoxworthManor,Foxworth Manor
 ItemHandheldPlushieSelectFoxworthManor,Foxworth Manor
 ItemHandheldPlushieFoxworthManorSelect,Choose the plushie:

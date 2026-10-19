@@ -52656,6 +52656,10 @@ var AssetFemale3DCG = [
 						AllowTypes: { SADollhouse: 7 },
 					},
 					{
+						Name: "Rouge",
+						AllowTypes: { SADollhouse: 8 },
+					},
+					{
 						Name: "Alice2",
 						AllowTypes: { FoxworthManor: 1 },
 					},
