@@ -95,7 +95,7 @@ function AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, ShockType,
 	if (!ServerPlayerIsInChatRoom()) {
 		if (!NoShock)
 			AudioPlayInstantSound("Audio/Shocks.mp3");
-			InventoryShockExpression(C);
+		InventoryShockExpression(C);
 	} else {
 		const Dictionary = new DictionaryBuilder()
 			.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)

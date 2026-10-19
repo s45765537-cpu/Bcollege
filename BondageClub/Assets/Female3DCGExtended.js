@@ -13814,8 +13814,12 @@ var AssetFemale3DCGExtended = {
 				TriggerCount: 0,
 				OrgasmCount: 0,
 				RuinedOrgasmCount: 0,
-				TimeWorn: CommonTime(),
-				TimeSinceLastOrgasm: CommonTime(),
+				get TimeWorn() {
+					return CommonTime();
+				},
+				get TimeSinceLastOrgasm() {
+					return CommonTime();
+				},
 				ShowText: true,
 				ShockLevel: 0,
 				PunishOrgasm: false,
@@ -21149,8 +21153,12 @@ var AssetFemale3DCGExtended = {
 				TriggerCount: 0,
 				OrgasmCount: 0,
 				RuinedOrgasmCount: 0,
-				TimeWorn: CommonTime(),
-				TimeSinceLastOrgasm: CommonTime(),
+				get TimeWorn() {
+					return CommonTime();
+				},
+				get TimeSinceLastOrgasm() {
+					return CommonTime();
+				},
 				ShowText: true,
 				ShockLevel: 0,
 				PunishOrgasm: false,
