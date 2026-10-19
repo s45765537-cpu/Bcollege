@@ -2625,7 +2625,8 @@ var CraftingValidationRecord = {
 				"LayerScaleY",
 				"LayerRotation",
 			]));
-			/** @type {null | (LayerName | AssetName)[]} */
+			// Must match Layering / Property / CommonDraw: unnamed layers key as ""
+			/** @type {null | string[]} */
 			let layers = null;
 			for (const [key, value] of CommonEntries(property)) {
 				if (value == null) {
@@ -2636,7 +2637,7 @@ var CraftingValidationRecord = {
 					if (Number.isInteger(value)) {
 						continue;
 					} else if (CommonIsObject(value)) {
-						layers ??= a.Layer.map(l => l.Name ?? a.Name);
+						layers ??= a.Layer.map(l => l.Name ?? "");
 						for (const [layerName, priority] of Object.entries(value)) {
 							if (!(layers.includes(layerName) && Number.isInteger(priority))) {
 								return false;
@@ -2653,7 +2654,7 @@ var CraftingValidationRecord = {
 					if (!CommonIsObject(value)) {
 						return false;
 					}
-					layers ??= a.Layer.map(l => l.Name ?? a.Name);
+					layers ??= a.Layer.map(l => l.Name ?? "");
 					for (const [layerName, i] of Object.entries(value)) {
 						if (!layers.includes(layerName)) {
 							return false;
@@ -2684,6 +2685,24 @@ var CraftingValidationRecord = {
 				}
 			}
 
+			/** @satisfies {Set<keyof ItemProperties>} */
+			const layeringScalar = new Set(/** @type {const} */([
+				"TranslationX",
+				"TranslationY",
+				"ScaleX",
+				"ScaleY",
+				"Rotation",
+			]));
+			/** @satisfies {Set<keyof ItemProperties>} */
+			const layeringObject = new Set(/** @type {const} */([
+				"LayerTranslationX",
+				"LayerTranslationY",
+				"LayerScaleX",
+				"LayerScaleY",
+				"LayerRotation",
+			]));
+			const layers = a.Layer.map(l => l.Name ?? "");
+
 			/** @type {ItemProperties} */
 			const ret = {};
 			for (const [key, value] of CommonEntries(property)) {
@@ -2693,11 +2712,23 @@ var CraftingValidationRecord = {
 					ret[key] = /** @type {any} */(value);
 				} else if (key === "OverridePriority" && CommonIsObject(value)) {
 					ret[key] = {};
-					const layers = a.Layer.map(l => l.Name);
 					for (const [layerName, priority] of Object.entries(value)) {
 						if (layers.includes(layerName) && Number.isInteger(priority)) {
 							ret[key][layerName] = priority;
 						}
+					}
+				} else if (layeringScalar.has(key) && Number.isFinite(value)) {
+					/** @type {Unknown<ItemProperties>} */(ret)[key] = value;
+				} else if (layeringObject.has(key) && CommonIsObject(value)) {
+					/** @type {Record<string, number>} */
+					const filtered = {};
+					for (const [layerName, i] of Object.entries(value)) {
+						if (layers.includes(layerName) && (i === undefined || Number.isFinite(i))) {
+							filtered[layerName] = i;
+						}
+					}
+					if (Object.keys(filtered).length > 0) {
+						/** @type {Unknown<ItemProperties>} */(ret)[key] = filtered;
 					}
 				} else if (typeof value === typeof baseline[key]) {
 					/** @type {Unknown<ItemProperties>} */(ret)[key] = value;
