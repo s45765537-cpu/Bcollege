@@ -9010,6 +9010,8 @@ ItemHandheldPlushieOptionSADollhouse5,Hana
 ItemHandheldPlushieSetSADollhouse5,SourceCharacter places a cute Hana plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionSADollhouse6,Cholate
 ItemHandheldPlushieSetSADollhouse6,SourceCharacter places a cute Cholate plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionSADollhouse7,Silvia
+ItemHandheldPlushieSetSADollhouse7,SourceCharacter places a cute Silvia plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand

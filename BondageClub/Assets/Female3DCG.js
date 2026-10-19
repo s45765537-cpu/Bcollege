@@ -52631,6 +52631,10 @@ var AssetFemale3DCG = [
 						Name: "Cholate",
 						AllowTypes: { SADollhouse: 6 },
 					},
+					{
+						Name: "Silvia",
+						AllowTypes: { SADollhouse: 7 },
+					},
 				],
 			},
 			{
