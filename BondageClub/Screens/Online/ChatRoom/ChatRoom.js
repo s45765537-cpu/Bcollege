@@ -56,18 +56,6 @@ var ChatRoomLovershipOption = null;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
-/**
- * @deprecated Use {@link ChatSearchGetSpace()}
- * @todo Remove after R121
- * @type {ServerChatRoomSpace}
- */
-var ChatRoomSpace = ChatRoomSpaceType.MIXED;
-/**
- * @deprecated Use {@link ChatRoomGetGame()}
- * @todo Remove after R121
- * @type {ServerChatRoomGame}
- */
-var ChatRoomGame;
 var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
@@ -3218,7 +3206,6 @@ function ChatRoomProcessSlowLeave() {
 function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomCustomizationClear();
 	OnlineGameReset();
-	ChatRoomGame = "";
 	ChatRoomSlowtimer = 0;
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
@@ -5113,7 +5100,6 @@ async function ChatRoomSync(data) {
 
 	// If there's a game running in that chatroom, save it and perform a reset
 	if (ChatRoomData.Game != null) {
-		ChatRoomGame = ChatRoomData.Game;
 		OnlineGameReset();
 	}
 
@@ -5264,10 +5250,6 @@ function ChatRoomSyncRoomProperties(data) {
 
 	if (ChatRoomSep.ActiveElem) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, roomData);
-	}
-
-	if (ChatRoomData.Game != null) {
-		ChatRoomGame = ChatRoomData.Game;
 	}
 
 	ChatRoomUpdateCustomization();

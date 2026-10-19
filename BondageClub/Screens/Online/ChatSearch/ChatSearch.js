@@ -117,9 +117,7 @@ async function ChatSearchStart(space, returnScreen, options) {
 		return;
 	}
 	ChatSearchSpace = space;
-	ChatRoomSpace = space;
 	ChatSearchGame = options?.Game ?? "";
-	ChatRoomGame = ChatSearchGame;
 	ChatSearchReturnScreen = returnScreen;
 	ChatSearchBackground = options?.Background ?? "Introduction";
 	ChatSearchBackgroundTagList = options?.BackgroundTagList ?? BackgroundsTagList;

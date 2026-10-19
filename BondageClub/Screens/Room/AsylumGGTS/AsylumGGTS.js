@@ -282,7 +282,6 @@ function AsylumGGTSQuit() {
  */
 function AsylumGGTSBuildPrivate() {
 	ChatSearchSpace = "Asylum";
-	ChatRoomSpace = "Asylum";
 	AsylumGGTSTimer = 0;
 	AsylumGGTSTask = null;
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
