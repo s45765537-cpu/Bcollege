@@ -1,3 +1,5 @@
+action:beep_send_message:desc,Sends the message in the beep chat.
+action:beep_send_message:name,Send Beep
 action:chat_autocomplete:desc,Tries to complete the message to a command or print help about it.
 action:chat_autocomplete:name,Auto Complete
 action:chat_focus_change:desc,Toggles the focus between the chat input and the main view.
@@ -62,11 +64,13 @@ action:navigation_pagedown:desc,Scroll down the focused element.
 action:navigation_pagedown:name,Scroll Down
 action:navigation_pageup:desc,Scroll up the focused element.
 action:navigation_pageup:name,Scroll Up
+category:beep,Beep
 category:chat,Chat
 category:chatroom,Chat Room
 category:maproom,Map Chat Room
 category:navigation,Navigation
 context:always,Always
+context:isBeepMessageFocused,Beep Message Focused
 context:isChatRoomCharacterMode,In Chat Room Character Mode
 context:isChatRoomChatFocused,Chat Focused
 context:isChatRoomChatNOTFocused,Chat Not Focused

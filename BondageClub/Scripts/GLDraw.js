@@ -27,7 +27,7 @@ var GLDrawAlphaThreshold = 0.01;
 var GLDrawHalfAlphaLow = 0.8 / 256.0;
 var GLDrawHalfAlphaHigh = 1.2 / 256.0;
 
-/** @type {ImageCache<GLDrawImageData>} */
+/** @type {ImageCache<GLDrawImageData> | undefined} */
 var GLDrawImageCache;
 
 /**
@@ -192,15 +192,14 @@ function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
 	GLDrawCanvas?.remove();
-	GLDrawImageCache.forEach((image, key) => {
-		image.unload();
-	});
+	GLDrawImageCache?.clear();
 	GLDrawCanvas?.GL?.maskCache?.forEach((texture) => {
 		GLDrawCanvas?.GL?.deleteTexture(texture);
 	});
 	GLDrawCanvas?.GL?.maskCache?.clear();
 	if (GLDrawScratchTexture) {
 		GLDrawCanvas?.GL?.deleteTexture(GLDrawScratchTexture);
+		GLDrawScratchTexture = undefined;
 	}
 	GLDrawCanvas = null;
 
@@ -633,18 +632,22 @@ async function GLDrawDecodeImage(blob) {
 	const gl = GLDrawCanvas?.GL;
 	if (!gl) throw new Error("WebGL context unavailable");
 
-	const bitmap = await createImageBitmap(blob, { premultiplyAlpha: "none" });
+	/** @type {ImageBitmap | undefined} */
+	let bitmap = undefined;
+	/** @type {WebGLTexture | undefined} */
+	let texture = undefined;
 	try {
-		const texture = GLDrawCreateTexture(gl);
-		try {
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bitmap);
-			return { width: bitmap.width, height: bitmap.height, texture };
-		} catch (err) {
+		bitmap = await DrawDecodeImageBitmap(blob);
+		texture = GLDrawCreateTexture(gl);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, bitmap);
+		return { width: bitmap.width, height: bitmap.height, texture };
+	} catch (e) {
+		if (texture) {
 			gl.deleteTexture(texture);
-			throw err;
 		}
+		throw e;
 	} finally {
-		bitmap.close();
+		bitmap?.close();
 	}
 }
 
@@ -678,8 +681,8 @@ function GLDrawCreateTexture(gl) {
  * @returns {GLDrawImageData | null} - The texture info of a given image, or null if it has nothing to draw yet
  */
 function GLDrawLoadImage(gl, url) {
-	const image = GLDrawImageCache.get(url);
-	return image.isLoaded() ? image.data : null;
+	const image = GLDrawImageCache?.get(url);
+	return image?.isLoaded() ? image.data : null;
 }
 
 /**

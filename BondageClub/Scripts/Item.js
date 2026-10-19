@@ -269,12 +269,10 @@ function ItemPropertiesCompress(item, options=undefined) {
 
 		/** @type {undefined | PropertyDataEntry<any>} */
 		const entry = PropertyData[propName];
-		if (entry?.compress) {
-			CommonAssign(ret, entry.compress(propValue, { asset: item.Asset }, baselineValue));
-		} else if (entry?.compare) {
-			/** @type {Unknown<ItemPropertiesMinimized>} */(ret)[propName] = entry.compare(propValue, baselineValue, { asset: item.Asset }) ? undefined : propValue;
-		} else {
+		if (!entry) {
 			/** @type {Unknown<ItemPropertiesMinimized>} */(ret)[propName] = propValue === baselineValue ? undefined : propValue;
+		} else {
+			CommonAssign(ret, entry.compress(propValue, { asset: item.Asset }, baselineValue));
 		}
 	}
 	return Object.values(ret).every(i => i === undefined) ? undefined : ret;

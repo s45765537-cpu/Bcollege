@@ -2169,6 +2169,12 @@ function CraftingRefreshPreview() {
  * @return {CraftingItem}
  * */
 function CraftingConvertSelectedToItem(item) {
+	for (const [k, v] of CommonEntries(item.Effects)) {
+		if (!v) {
+			delete item.Effects[k];
+		}
+	}
+
 	return {
 		Item: (item.Asset == null) ? "" : item.Asset.Name,
 		Lock: (item.Lock == null) ? "" : /**@type {AssetLockType}*/(item.Lock.Name),

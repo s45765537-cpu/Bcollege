@@ -876,7 +876,7 @@ function CommonDrawWarmDrawnAssets() {
 			if (DrawImageCache.has(item)) {
 				DrawImageCache.get(item);
 			}
-			if (GLDrawImageCache.has(item)) {
+			if (GLDrawImageCache?.has(item)) {
 				GLDrawImageCache?.get(item);
 			}
 		});
