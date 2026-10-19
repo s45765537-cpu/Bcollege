@@ -3406,6 +3406,7 @@ function ChatRoomGenerateChatRoomChatMessage(type, msg, replyId) {
 			Player.ChatSettings.OOCAutoClose
 			&& lastRange !== undefined
 			&& msg.charAt(lastRange.start + lastRange.length - 1) !== ")"
+			&& msg.charAt(lastRange.start + lastRange.length - 1) !== "）"//也找下（
 			&& lastRange.start + lastRange.length === msg.length
 			&& lastRange.length !== 1) {
 			msg += ")";
