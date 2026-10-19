@@ -24674,6 +24674,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Lisa Hem
 						{}, // Yu Fantôme
 						{}, // Clara
+						{}, // Evelia
 					],
 					DrawData: {
 						elementData: [
@@ -24726,6 +24727,9 @@ var AssetFemale3DCGExtended = {
 							},
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Clara.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Evelia.png",
 							},
 						],
 					},
