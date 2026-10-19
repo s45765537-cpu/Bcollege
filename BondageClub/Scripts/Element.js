@@ -14,15 +14,15 @@ var ElementGenerateID = (() => {
 
 /**
  * Handles the value of a HTML element. It sets the value of the element when the Value parameter is provided or it returns the value when the parameter is omitted
- * @param {string | null} ID - The id of the element for which we want to get/set the value.
+ * @param {ElementHelp.ElementOrId} elementOrId - The id of the element for which we want to get/set the value.
  * @param {string} [Value] - The value to give to the element (if applicable)
  * @returns {string} - The value of the element (When no value parameter was passed to the function)
  */
-function ElementValue(ID, Value) {
-	ID ??= ElementGenerateID();
-	const e = /** @type {HTMLInputElement} */(document.getElementById(ID));
+function ElementValue(elementOrId, Value) {
+	const e = /** @type {HTMLInputElement} */(ElementWrap(elementOrId));
+	const id = typeof elementOrId === "string" ? elementOrId : elementOrId.id;
 	if (!e) {
-		console.error("ElementValue called on a missing element: " + ID.toString());
+		console.error("ElementValue called on a missing element: " + id.toString());
 		return "";
 	}
 
@@ -36,16 +36,16 @@ function ElementValue(ID, Value) {
 
 /**
  * Handles the content of a HTML element. It sets the content of the element when the Content parameter is provided or it returns the value when the parameter is omitted
- * @param {string | null} ID - The id of the element for which we want to get/set the value.
+ * @param {ElementHelp.ElementOrId} elementOrId - The id of the element for which we want to get/set the value.
  * @param {string} [Content] - The content/inner HTML to give to the element (if applicable)
  * @returns {string} - The content of the element (When no Content parameter was passed to the function)
  * @deprecated Use {@link ElementClearContents} or {@link ElementCreate} instead.
  */
-function ElementContent(ID, Content) {
-	ID ??= ElementGenerateID();
-	const e = document.getElementById(ID);
+function ElementContent(elementOrId, Content) {
+	const e = ElementWrap(elementOrId);
+	const id = typeof elementOrId === "string" ? elementOrId : elementOrId.id;
 	if (!e) {
-		console.error("ElementContent called on a missing element: " + ID.toString());
+		console.error("ElementContent called on a missing element: " + id.toString());
 		return "";
 	}
 
@@ -59,10 +59,15 @@ function ElementContent(ID, Content) {
 
 /**
  * Clears the contents of an HTML element
- * @param {string} ID
+ * @param {ElementHelp.ElementOrId} elementOrId - The id of the element for which we want to clear the contents.
  */
-function ElementClearContents(ID) {
-	const e = ElementWrap(ID);
+function ElementClearContents(elementOrId) {
+	const e = ElementWrap(elementOrId);
+	const id = typeof elementOrId === "string" ? elementOrId : elementOrId.id;
+	if (!e) {
+		console.error("ElementClearContents called on a missing element: " + id.toString());
+		return;
+	}
 	if (!e) return;
 	e.replaceChildren();
 }
