@@ -115,7 +115,7 @@ function InventoryItemPelvisModularChastityBeltDrawVoiceControl(item, _offset)
 	// PAGE 1
 	//Create inputs
 	item.Property ??= {};
-	if (!item.Property.TriggerValues) item.Property.TriggerValues = CommonConvertArrayToString(InventoryItemPelvisModularChastityBeltVoiceTriggers);
+	if (!item.Property.TriggerValues) item.Property.TriggerValues = InventoryItemPelvisModularChastityBeltVoiceTriggers.join(",");
 	InventoryItemPelvisModularChastityBeltVoiceTriggerValues = item.Property.TriggerValues.split(',');
 	// Only create the inputs if the zone isn't blocked
 	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach((trigger, i) => {
@@ -248,7 +248,7 @@ function InventoryItemPelvisModularChastityBeltVoiceControlClickSet(C, item) {
 
 	InventoryItemPelvisModularChastityBeltVoiceTriggerValues = InventoryItemPelvisModularChastityBeltVoiceTriggerValuesTemp;
 
-	const temp = CommonConvertArrayToString(InventoryItemPelvisModularChastityBeltVoiceTriggerValues);
+	const temp = InventoryItemPelvisModularChastityBeltVoiceTriggerValues.join(",");
 
 	if (temp != "" && typeof temp === "string") {
 		item.Property ??= {};

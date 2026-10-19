@@ -747,7 +747,7 @@ function ChatRoomGiveHighSecurityKeysAll() {
 						if (list.indexOf(CurrentCharacter.MemberNumber) < 0)
 							list.push(CurrentCharacter.MemberNumber);
 						C.Appearance[A].Property.MemberNumberListKeys = "" +
-							CommonConvertArrayToString(list); // Convert to array and back; can only save strings on server
+							list.join(",");
 					}
 				}
 				C.Appearance[A].Property.LockMemberNumber = CurrentCharacter.MemberNumber;

@@ -888,15 +888,6 @@ function CommonStringShuffle(string) {
 function CommonGenerateUniqueID() {
 	return Math.random().toString(36).substring(2);
 }
-/**
- * Converts an array to a string separated by commas (equivalent of .join(","))
- * @param {readonly any[]} Arr - Array to convert to a joined string
- * @returns {string} - String of all the array items joined together
- * @deprecated - use .join(",");
- */
-function CommonConvertArrayToString(Arr) {
-	return Arr.join(",");
-}
 
 /**
  * Checks whether two item colors are equal. An item color may either be a string or an array of strings.

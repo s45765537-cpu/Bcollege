@@ -90,7 +90,7 @@ function InventoryItemVulvaTechnoChastityCageClickHook(data, OriginalFunction) {
 function InventoryItemVulvaChastityCageDrawVoiceControl(item, _offset) {
 	//Create inputs
 	item.Property ??= {};
-	if (!item.Property.TriggerValues) item.Property.TriggerValues = CommonConvertArrayToString(InventoryItemVulvaTechnoChastityCageVoiceTriggers);
+	if (!item.Property.TriggerValues) item.Property.TriggerValues = InventoryItemVulvaTechnoChastityCageVoiceTriggers.join(",");
 	InventoryItemVulvaTechnoChastityCageVoiceTriggerValues = item.Property.TriggerValues.split(',');
 	// Only create the inputs if the zone isn't blocked
 	InventoryItemVulvaTechnoChastityCageVoiceTriggers.forEach((trigger, i) => {
@@ -160,7 +160,7 @@ function InventoryItemVulvaChastityCageVoiceControlClickSet(C, item) {
 
 	InventoryItemVulvaTechnoChastityCageVoiceTriggerValues = triggerValuesTemp;
 
-	const temp = CommonConvertArrayToString(InventoryItemVulvaTechnoChastityCageVoiceTriggerValues);
+	const temp = InventoryItemVulvaTechnoChastityCageVoiceTriggerValues.join(",");
 
 	if (temp != "" && typeof temp === "string") {
 		item.Property.TriggerValues = temp;

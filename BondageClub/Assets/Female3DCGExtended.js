@@ -13861,9 +13861,7 @@ var AssetFemale3DCGExtended = {
 				LastShrinkWarningTime: 0,
 				NextShrinkTime: 0,
 				ShrinkCooldown: 0,
-				TriggerValues: CommonConvertArrayToString(
-					InventoryItemVulvaTechnoChastityCageVoiceTriggers,
-				),
+				TriggerValues: InventoryItemVulvaTechnoChastityCageVoiceTriggers.join(","),
 			},
 			ScriptHooks: {
 				Click: InventoryItemVulvaTechnoChastityCageClickHook,
@@ -14114,9 +14112,7 @@ var AssetFemale3DCGExtended = {
 			},
 			BaselineProperty: {
 				AccessMode: "",
-				TriggerValues: CommonConvertArrayToString(
-					ItemVulvaFuturisticVibratorTriggers,
-				),
+				TriggerValues: ItemVulvaFuturisticVibratorTriggers.join(","),
 			},
 		}, // FuturisticVibrator
 		FullCasingCage: {
@@ -21195,9 +21191,7 @@ var AssetFemale3DCGExtended = {
 				PunishStruggle: false,
 				PunishStruggleOther: false,
 				AccessMode: "",
-				TriggerValues: CommonConvertArrayToString(
-					InventoryItemPelvisModularChastityBeltVoiceTriggers,
-				),
+				TriggerValues: InventoryItemPelvisModularChastityBeltVoiceTriggers.join(","),
 			},
 		}, // ModularChastityBelt
 		WaistLegHarness: {
