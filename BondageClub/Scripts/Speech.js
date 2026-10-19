@@ -312,17 +312,15 @@ function SpeechGetOOCRanges(Message) {
 	let endIndex = -1;
 	do
 	{
-		let Zh=false; //中文（的旗標
+		let Zh=false;
 
 		// Find the next opening bracket after the last closing bracket
 		startIndex = Message.indexOf("(", endIndex+1);
 
-		//也要找下中文的（
-		if (startIndex < 0)
-		{
+		// If no opening bracket ( was found，Find chinese （ bracket
+		if (startIndex < 0){
 			startIndex = Message.indexOf("（", endIndex + 1);
-			if (startIndex >= 0) //找到（了
-			{
+			if (startIndex >= 0) { // Found chinese （ bracket
 				Zh = true;
 			}
 		}
@@ -330,12 +328,11 @@ function SpeechGetOOCRanges(Message) {
 		// If no opening bracket was found, there is no more OOC section and we stop
 		if(startIndex < 0) { break; }
 
-		if (Zh) //根據Zh找結尾
-		{
+		// If chinese （ bracket was found , Find closing bracket ） for end
+		if (Zh) {
 			endIndex = Message.indexOf("）", startIndex);
 		}
-		else
-		{
+		else {
 			// Find the next closing bracket after the last opening bracket
 			endIndex = Message.indexOf(")", startIndex);
 		}
