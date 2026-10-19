@@ -8984,6 +8984,8 @@ ItemHandheldPlushieOptionVelvetBunnyCabaret8,Samantha
 ItemHandheldPlushieSetVelvetBunnyCabaret8,SourceCharacter places a cute Samantha plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVelvetBunnyCabaret9,Mini
 ItemHandheldPlushieSetVelvetBunnyCabaret9,SourceCharacter places a cute Mini plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVelvetBunnyCabaret10,Ruby
+ItemHandheldPlushieSetVelvetBunnyCabaret10,SourceCharacter places a cute Ruby plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleSubbycatsPlace,Subbycat's Place
 ItemHandheldPlushieSelectSubbycatsPlace,Subbycat's Place
 ItemHandheldPlushieSubbycatsPlaceSelect,Choose the plushie:

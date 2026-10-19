@@ -52600,6 +52600,10 @@ var AssetFemale3DCG = [
 						AllowTypes: { VelvetBunnyCabaret: 9 },
 					},
 					{
+						Name: "Ruby",
+						AllowTypes: { VelvetBunnyCabaret: 10 },
+					},
+					{
 						Name: "Shadow",
 						AllowTypes: { SubbycatsPlace: 1 },
 					},
