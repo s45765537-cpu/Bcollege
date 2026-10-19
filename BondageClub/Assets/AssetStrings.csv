@@ -8986,6 +8986,8 @@ ItemHandheldPlushieOptionVelvetBunnyCabaret9,Mini
 ItemHandheldPlushieSetVelvetBunnyCabaret9,SourceCharacter places a cute Mini plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionVelvetBunnyCabaret10,Ruby
 ItemHandheldPlushieSetVelvetBunnyCabaret10,SourceCharacter places a cute Ruby plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionVelvetBunnyCabaret11,Viper
+ItemHandheldPlushieSetVelvetBunnyCabaret11,SourceCharacter places a cute Viper plushie in DestinationCharacter hands.
 ItemHandheldPlushieModuleSubbycatsPlace,Subbycat's Place
 ItemHandheldPlushieSelectSubbycatsPlace,Subbycat's Place
 ItemHandheldPlushieSubbycatsPlaceSelect,Choose the plushie:
