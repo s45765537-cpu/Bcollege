@@ -52607,6 +52607,30 @@ var AssetFemale3DCG = [
 						Name: "Shadow",
 						AllowTypes: { SubbycatsPlace: 1 },
 					},
+					{
+						Name: "Alex2",
+						AllowTypes: { SADollhouse: 1 },
+					},
+					{
+						Name: "Yeani",
+						AllowTypes: { SADollhouse: 2 },
+					},
+					{
+						Name: "Coconut",
+						AllowTypes: { SADollhouse: 3 },
+					},
+					{
+						Name: "Vvavv",
+						AllowTypes: { SADollhouse: 4 },
+					},
+					{
+						Name: "Hana",
+						AllowTypes: { SADollhouse: 5 },
+					},
+					{
+						Name: "Cholate",
+						AllowTypes: { SADollhouse: 6 },
+					},
 				],
 			},
 			{

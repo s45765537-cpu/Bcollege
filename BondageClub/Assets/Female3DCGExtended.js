@@ -24726,6 +24726,43 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "SADollhouse",
+					Key: "SADollhouse",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Alex
+						{}, // Yeani
+						{}, // Coconut
+						{}, // Vvavv
+						{}, // Hana
+						{}, // Cholate
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Alex2.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Yeani.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Coconut.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Vvavv.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Hana.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Cholate.png",
+							},
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
