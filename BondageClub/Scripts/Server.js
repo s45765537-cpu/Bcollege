@@ -271,7 +271,6 @@ function ServerDisconnect(data, close = false) {
 function ServerHandleRelog(C) {
 	if (!RelogData) return false;
 	Player.CharacterID = C.ID.toString();
-	Player.OnlineID = C.ID.toString();
 	CurrentCharacter = RelogData.Character;
 
 	// In relog mode, we jump back to the previous screen, keeping the current game flow

@@ -1012,7 +1012,6 @@ function LoginSetupPlayer(C) {
 	Player.WardrobeCharacterNames = ServerAccountDataSyncedValidate.WardrobeCharacterNames(C.WardrobeCharacterNames, Player);
 	WardrobeFixLength();
 	Player.CharacterID = C.ID.toString();
-	Player.OnlineID = C.ID.toString();
 	Player.MemberNumber = C.MemberNumber;
 	Player.Difficulty = ServerAccountDataSyncedValidate.Difficulty(C.Difficulty, Player);
 	const { permissions, shouldSync } = ServerUnPackItemPermissions(C, Player.Difficulty.Level >= 3);
