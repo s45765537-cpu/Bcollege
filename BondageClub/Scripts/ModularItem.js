@@ -721,10 +721,13 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 			}
 		}
 		if (valid) {
-			mergedProperty.OverridePriority ??= {};
-			for (const [k, v] of CommonEntries(Property.OverridePriority)) {
-				// First come; first served
-				mergedProperty.OverridePriority[k] ??= v;
+			if (CommonIsObject(mergedProperty.OverridePriority)) {
+				for (const [k, v] of CommonEntries(Property.OverridePriority)) {
+					// First come; first served
+					mergedProperty.OverridePriority[k] ??= v;
+				}
+			} else {
+				mergedProperty.OverridePriority = Property.OverridePriority;
 			}
 		}
 	}
