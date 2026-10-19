@@ -3899,7 +3899,7 @@ interface AppearanceUpdateParameters {
  * A map containing appearance item diffs, keyed according to the item group. Used to compare and validate before/after
  * for appearance items.
  */
-type AppearanceDiffMap = Partial<Record<AssetGroupName, [before: Item, after: Item]>>
+type AppearanceDiffMap = Partial<Record<AssetGroupName, [before: Item | null, after: Item | null]>>;
 
 /**
  * A wrapper object containing the results of a diff resolution. This includes the final item that the diff resolved to

@@ -1128,12 +1128,12 @@ function ValidationResolveCyclicBlocks(appearance, diffMap) {
 			if (diffMap[group]) {
 				const [prev, next] = diffMap[group];
 				if (!!prev !== !!next) return true;
-				if (!CommonDeepEqual(prev.Asset.Block, next.Asset.Block)) return true;
-				const prevPropBlock = prev.Property && prev.Property.Block;
-				const nextPropBlock = next.Property && next.Property.Block;
+				if (!CommonDeepEqual(prev?.Asset.Block, next?.Asset.Block)) return true;
+				const prevPropBlock = prev?.Property.Block;
+				const nextPropBlock = next?.Property.Block;
 				if (!CommonDeepEqual(prevPropBlock, nextPropBlock)) return true;
-				const prevEnclose = InventoryItemHasEffect(prev, "Enclose");
-				const nextEnclose = InventoryItemHasEffect(next, "Enclose");
+				const prevEnclose = prev && InventoryItemHasEffect(prev, "Enclose");
+				const nextEnclose = next && InventoryItemHasEffect(next, "Enclose");
 				if (prevEnclose !== nextEnclose) return true;
 			}
 			nonModifiedGroups.push(group);
