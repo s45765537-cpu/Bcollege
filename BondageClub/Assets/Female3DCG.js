@@ -52608,6 +52608,14 @@ var AssetFemale3DCG = [
 						AllowTypes: { VelvetBunnyCabaret: 11 },
 					},
 					{
+						Name: "Ayato",
+						AllowTypes: { VelvetBunnyCabaret: 12 },
+					},
+					{
+						Name: "LisaHem",
+						AllowTypes: { VelvetBunnyCabaret: 13 },
+					},
+					{
 						Name: "Shadow",
 						AllowTypes: { SubbycatsPlace: 1 },
 					},
