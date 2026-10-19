@@ -555,7 +555,7 @@ function AsylumGGTSTaskDone(C, T) {
 function AsylumGGTSCanRemove(C, Group) {
 	let Item = InventoryGet(C, Group);
 	if ((Item == null) || (Item.Asset == null) || (Item.Asset.Name == null)) return false;
-	if ((Item.Asset.Name.substr(0, 10) != "Futuristic") && (Item.Asset.Name != "FuckMachine")) return false;
+	if ((!Item.Asset.Name.startsWith("Futuristic")) && (Item.Asset.Name != "FuckMachine")) return false;
 	if (InventoryOwnerOnlyItem(Item)) return false;
 	return true;
 }
@@ -621,7 +621,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "UnlockRoom") && (!ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
 	if ((T == "RestrainLegs") && InventoryIsWorn(C, "ItemDevices", "FuckMachine")) return false; // Cannot restrain own legs if wearing the fuck machine
-	if ((T.substr(0, 4) == "Item") && (T.length >= 15) && T != "ItemFuckMachineIntensity" && !C.CanInteract()) return false; // To use an item, must be able to interact
+	if ((T.startsWith("Item") && (T.length >= 15) && T != "ItemFuckMachineIntensity" && !C.CanInteract())) return false; // To use an item, must be able to interact
 	if ((T == "ItemHandsFuturisticMittens") && ((InventoryGet(C, "ItemHands") != null) || InventoryGroupIsBlocked(C, "ItemHands"))) return false;
 	if ((T == "ItemHeadFuturisticMask") && ((InventoryGet(C, "ItemHead") != null) || InventoryGroupIsBlocked(C, "ItemHead"))) return false;
 	if ((T == "ItemEarsFuturisticEarphones") && ((InventoryGet(C, "ItemEars") != null) || InventoryGroupIsBlocked(C, "ItemEars"))) return false;

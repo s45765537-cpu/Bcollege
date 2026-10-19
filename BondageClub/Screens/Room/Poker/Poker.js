@@ -181,19 +181,23 @@ function PokerGetText(P, Tag) {
 		if (Tag != null) {
 			for (const key in T.cache) {
 				const line = T.cache[key] ?? "";
-				if (line.substr(0, Tag.length + 6) == Tag + "-Alt" + P.Alternate.toString() + "=")
-					Texts.push(line.substr(Tag.length + 6, 500));
+				const prefix = `${Tag}-Alt${P.Alternate}=`;
+				if (line.startsWith(prefix))
+					Texts.push(line.slice(prefix.length));
 			}
 		} else {
 			// Without a tag, we find all values within the player progress
 			let Progress = PokerGetProgress(P);
 			for (const key in T.cache) {
 				const line = T.cache[key] ?? "";
-				if (line.substr(8, 10) == "Chat-Alt" + P.Alternate.toString() + "=") {
-					let From = CommonParseInt(line.substr(0, 3));
-					let To = CommonParseInt(line.substr(4, 3));
+				const prefix = `Chat-Alt${P.Alternate}=`;
+
+				if (line.startsWith(prefix, 8)) {
+					const From = CommonParseInt(line.slice(0, 3));
+					const To = CommonParseInt(line.slice(4, 7));
+
 					if (From !== null && To !== null && Progress >= From && Progress <= To)
-						Texts.push(line.substr(18, 500));
+						Texts.push(line.slice(prefix.length + 8, prefix.length + 508));
 				}
 			}
 
@@ -204,19 +208,23 @@ function PokerGetText(P, Tag) {
 	if (Tag != null) {
 		for (const key in T.cache) {
 			const line = T.cache[key] ?? "";
-			if (line.substr(0, Tag.length + 1) == Tag + "=")
-				Texts.push(line.substr(Tag.length + 1, 500));
+			const prefix = `${Tag}=`;
+			if (line.startsWith(prefix))
+				Texts.push(line.slice(prefix.length));
 		}
 	} else {
 		// Without a tag, we find all values within the player progress
 		let Progress = PokerGetProgress(P);
 		for (const key in T.cache) {
 			const line = T.cache[key] ?? "";
-			if (line.substr(8, 5) == "Chat=") {
-				let From = CommonParseInt(line.substr(0, 3));
-				let To = CommonParseInt(line.substr(4, 3));
+			const prefix = `Chat=`;
+
+			if (line.startsWith(prefix, 8)) {
+				const From = CommonParseInt(line.slice(0, 3));
+				const To = CommonParseInt(line.slice(4, 7));
+
 				if (From !== null && To !== null && Progress >= From && Progress <= To)
-					Texts.push(line.substr(13, 500));
+					Texts.push(line.slice(8 + prefix.length, 8 + prefix.length + 500));
 			}
 		}
 	}
@@ -269,22 +277,28 @@ function PokerGetImage(P) {
 			if ((PokerPlayerCount == 2) && (PokerMode != "")) {
 				for (const key in P.Data.cache) {
 					const line = P.Data.cache[key] ?? "";
-					if (line.substr(8, 19) == "OpponentLarge-Alt" + P.Alternate.toString() + "=") {
-						let From = CommonParseInt(line.substr(0, 3));
-						let To = CommonParseInt(line.substr(4, 3));
+					const prefix = `OpponentLarge-Alt${P.Alternate}=`;
+
+					if (line.startsWith(prefix, 8)) {
+						const From = CommonParseInt(line.slice(0, 3));
+						const To = CommonParseInt(line.slice(4, 7));
+
 						if (From !== null && To !== null && Progress >= From && Progress <= To)
-							Images.push(line.substr(27, 100));
+							Images.push(line.slice(8 + prefix.length, 8 + prefix.length + 100));
 					}
 				}
 			}
 			if (Images.length == 0) {
 				for (const key in P.Data.cache) {
 					const line = P.Data.cache[key] ?? "";
-					if (line.substr(8, 14) == "Opponent-Alt" + P.Alternate.toString() + "=") {
-						let From = CommonParseInt(line.substr(0, 3));
-						let To = CommonParseInt(line.substr(4, 3));
+					const prefix = `Opponent-Alt${P.Alternate}=`;
+
+					if (line.startsWith(prefix, 8)) {
+						const From = CommonParseInt(line.slice(0, 3));
+						const To = CommonParseInt(line.slice(4, 7));
+
 						if (From !== null && To !== null && Progress >= From && Progress <= To)
-							Images.push(line.substr(22, 100));
+							Images.push(line.slice(8 + prefix.length, 8 + prefix.length + 100));
 					}
 				}
 			}
@@ -294,29 +308,35 @@ function PokerGetImage(P) {
 		if ((PokerPlayerCount == 2) && (PokerMode != "")) {
 			for (const key in P.Data.cache) {
 				const line = P.Data.cache[key] ?? "";
-				if (line.substr(8, 14) == "OpponentLarge=") {
-					let From = CommonParseInt(line.substr(0, 3));
-					let To = CommonParseInt(line.substr(4, 3));
+				const prefix = `OpponentLarge=`;
+
+				if (line.startsWith(prefix, 8)) {
+					const From = CommonParseInt(line.slice(0, 3));
+					const To = CommonParseInt(line.slice(4, 7));
+
 					if (From !== null && To !== null && Progress >= From && Progress <= To)
-						Images.push(line.substr(22, 100));
+						Images.push(line.slice(8 + prefix.length, 8 + prefix.length + 100));
 				}
 			}
 		}
 		if (Images.length == 0) {
 			for (const key in P.Data.cache) {
 				const line = P.Data.cache[key] ?? "";
-				if (line.substr(8, 9) == "Opponent=") {
-					let From = CommonParseInt(line.substr(0, 3));
-					let To = CommonParseInt(line.substr(4, 3));
+				const prefix = `Opponent=`;
+
+				if (line.startsWith(prefix, 8)) {
+					const From = CommonParseInt(line.slice(0, 3));
+					const To = CommonParseInt(line.slice(4, 7));
+
 					if (From !== null && To !== null && Progress >= From && Progress <= To)
-						Images.push(line.substr(17, 100));
+						Images.push(line.slice(8 + prefix.length, 8 + prefix.length + 100));
 				}
 			}
 		}
 
 		// If an image was found
 		if (Images.length > 0)
-			P.Image = "Screens/Room/Poker/" + CommonRandomItemFromList("", Images);
+			P.Image = `Screens/Room/Poker/${CommonRandomItemFromList("", Images)}`;
 
 	}
 

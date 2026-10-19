@@ -4157,7 +4157,7 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		}
 	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
-		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
+		let A = parseInt(data.Content.substring("MaidDrinkPick".length));
 		if ((A == 0) || (A == 5) || (A == 10)) MaidQuartersOnlineDrinkPick(data.Sender, A);
 	}
 	else if (data.Content.startsWith("PayQuest")) {
@@ -5786,7 +5786,7 @@ function ChatRoomAdminChatAction(ActionType, Argument) {
  */
 function ChatRoomCurrentTime() {
 	var D = new Date();
-	return ("0" + D.getHours()).substr(-2) + ":" + ("0" + D.getMinutes()).substr(-2);
+	return `${D.getHours().toString().padStart(2, "0")}:${D.getMinutes().toString().padStart(2, "0")}`;
 }
 
 /**

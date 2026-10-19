@@ -1029,7 +1029,7 @@ const DrawingGetTextSize = CommonMemoize(
 
 		// Cuts the text if it would go over the box
 		while (Text.length > 0) {
-			Text = Text.substr(1);
+			Text = Text.substring(1);
 			const metrics = MainCanvas.measureText(Text);
 			if (metrics.width <= Width)
 				return [Text, S];

@@ -12,7 +12,7 @@ var InfiltrationPerksList = ["Strength", "Charisma", "Agility", "Resilience", "E
 function InfiltrationPerksActive(PerkName) {
 	let Index = InfiltrationPerksList.indexOf(PerkName);
 	if (Index < 0) return false;
-	return (Player.Infiltration.Perks.substr(Index, 1) == "1");
+	return (Player.Infiltration.Perks.substring(Index, Index + 1) == "1");
 }
 
 /**

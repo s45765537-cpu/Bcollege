@@ -245,8 +245,8 @@ function IntroductionJobDone() {
  */
 function IntroductionJobAvailable(JobName) {
 	if (LogQuery("DailyJobDone", "Introduction")) return false;
-	if ((JobName.substr(0, 3) == "Dom") && (ReputationGet("Dominant") <= -50)) return false;
-	if ((JobName.substr(0, 3) == "Sub") && (ReputationGet("Dominant") >= 50)) return false;
+	if ((JobName.startsWith("Dom")) && (ReputationGet("Dominant") <= -50)) return false;
+	if ((JobName.startsWith("Sub")) && (ReputationGet("Dominant") >= 50)) return false;
 	var Day = Math.floor(CurrentTime / (24 * 60 * 60 * 1000));
 	if (Day % (IntroductionJobList.length / 2) != IntroductionJobList.indexOf(JobName) % (IntroductionJobList.length / 2)) return false;
 	return true;
