@@ -19,7 +19,7 @@ var ElementGenerateID = (() => {
  * @returns {string} - The value of the element (When no value parameter was passed to the function)
  */
 function ElementValue(elementOrId, Value) {
-	const e = /** @type {HTMLInputElement} */(ElementWrap(elementOrId));
+	const e = /** @type {HTMLInputElement | HTMLSelectElement} */(ElementWrap(elementOrId));
 	const id = typeof elementOrId === "string" ? elementOrId : elementOrId.id;
 	if (!e) {
 		console.error("ElementValue called on a missing element: " + id.toString());
@@ -28,6 +28,15 @@ function ElementValue(elementOrId, Value) {
 
 	if (Value == null)
 		return e.value.trim();
+
+	if (e instanceof HTMLSelectElement) {
+		const opts = Array.from(e.options).find(o => o.value === Value);
+		if (opts) {
+			e.value = opts.value;
+			e.dispatchEvent(new Event("change"));
+			return "";
+		}
+	}
 
 	e.value = Value;
 	e.dispatchEvent(new InputEvent("input"));
@@ -3271,6 +3280,108 @@ var ElementDOMScreen = {
 		const headingArray = CommonIsArray(heading) ? heading : [heading];
 		elem.querySelector(`h1`)?.replaceChildren(...headingArray);
 	}
+};
+
+/**
+ * Namespace for `<input type="text">`, `<input type="number">`, `<input type="password">`, and `<textarea>`.
+ * @namespace
+ */
+var ElementInput = {
+	/**
+	 * DOM tag for each supported control.
+	 * Textarea is the only non-input; extend {@link ElementInput.TagFor} when that changes.
+	 * @private
+	 * @type {Readonly<{ [T in ElementInput.KnownType]: ElementInput.TagFor<T> }>}
+	 */
+	_tags: Object.freeze({
+		text: "input",
+		number: "input",
+		password: "input",
+		textarea: "textarea",
+	}),
+
+	/**
+	 * @overload
+	 * @param {string | null} [id]
+	 * @param {null | ElementInput.TextOptions | ElementInput.NumberOptions} [options]
+	 * @param {null | Partial<Omit<HTMLOptions<"input">, "tag">>} [htmlOptions]
+	 * @returns {HTMLInputElement}
+	 */
+	/**
+	 * @overload
+	 * @param {string | null} [id]
+	 * @param {ElementInput.TextAreaOptions} options
+	 * @param {null | Partial<Omit<HTMLOptions<"textarea">, "tag">>} [htmlOptions]
+	 * @returns {HTMLTextAreaElement}
+	 */
+	/**
+	 * @overload
+	 * @param {string | null} [id]
+	 * @param {ElementInput.SharedOptions} options
+	 * @param {null | Partial<Omit<HTMLOptions<any>, "tag">>} [htmlOptions]
+	 * @returns {HTMLInputElement | HTMLTextAreaElement}
+	 */
+	/**
+	 * Create a text, number, password, or textarea control.
+	 *
+	 * The control is left detached unless a parent is passed. `htmlOptions.input` is applied on top of `options`:
+	 * its attributes and event listeners replace the matching high-level values, including the number blur/wheel listeners.
+	 * Password controls default `spellcheck` to `"false"`.
+	 * @param {string | null} [id] - The control's id. Generated when nullish.
+	 * @param {null | ElementInput.Options} [options] - High-level options for the to-be created control..
+	 * @param {null | Partial<Omit<HTMLOptions<"input" | "textarea">, "tag">>} [htmlOptions] - Additional low-level {@link ElementCreate} options to-be applied to the control..
+	 * @returns {HTMLInputElement | HTMLTextAreaElement}
+	 */
+	Create(id, options, htmlOptions) {
+		id ??= ElementGenerateID();
+		const existing = ElementWrap(id);
+		if (existing) {
+			console.error(`Element "${id}" already exists`);
+			return /** @type {HTMLInputElement | HTMLTextAreaElement} */ (existing);
+		}
+
+		options ??= {};
+		htmlOptions ??= {};
+		const type = options.type ?? "text";
+		/** @type {NonNullable<HTMLOptions<"input">["attributes"]>} */
+		const attributes = {
+			id,
+			type,
+			["screen-generated"]: CurrentScreen,
+			...(htmlOptions.attributes ?? {}),
+		};
+		const classList = ["element-input", `element-input-${type}`, "HideOnPopup", ...(htmlOptions.classList ?? [])];
+
+		if (type === "textarea") {
+			return ElementCreate({
+				...htmlOptions,
+				tag: ElementInput._tags[type],
+				attributes,
+				classList,
+				eventListeners: htmlOptions.eventListeners,
+				children: [
+					htmlOptions.attributes?.value == null ? null : String(htmlOptions.attributes?.value),
+					...(htmlOptions.children ?? []),
+				],
+			});
+		}
+
+		/** @type {NonNullable<HTMLOptions<"input">["eventListeners"]>} */
+		const eventListeners = { ...(htmlOptions.eventListeners ?? {}) };
+		if (type === "number") {
+			eventListeners.blur ??= ElementNumberInputBlur;
+			eventListeners.wheel ??= ElementNumberInputWheel;
+			attributes.inputMode ??= "numeric";
+		}
+
+		return ElementCreate({
+			...htmlOptions,
+			tag: ElementInput._tags[type],
+			attributes,
+			classList,
+			eventListeners,
+		});
+	},
 };
 
 /**
