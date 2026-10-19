@@ -9037,6 +9037,8 @@ ItemHandheldPlushieOptionFoxworthManor4,Serena
 ItemHandheldPlushieSetFoxworthManor4,SourceCharacter places a cute Serena plushie in DestinationCharacter hands.
 ItemHandheldPlushieOptionFoxworthManor5,Elli
 ItemHandheldPlushieSetFoxworthManor5,SourceCharacter places a cute Elli plushie in DestinationCharacter hands.
+ItemHandheldPlushieOptionFoxworthManor6,Dahlia
+ItemHandheldPlushieSetFoxworthManor6,SourceCharacter places a cute Dahlia plushie in DestinationCharacter hands.
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand
