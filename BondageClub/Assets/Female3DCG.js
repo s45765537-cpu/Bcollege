@@ -52655,6 +52655,22 @@ var AssetFemale3DCG = [
 						Name: "Silvia",
 						AllowTypes: { SADollhouse: 7 },
 					},
+					{
+						Name: "Alice2",
+						AllowTypes: { FoxworthManor: 1 },
+					},
+					{
+						Name: "Misao",
+						AllowTypes: { FoxworthManor: 2 },
+					},
+					{
+						Name: "Yvette",
+						AllowTypes: { FoxworthManor: 3 },
+					},
+					{
+						Name: "Serena",
+						AllowTypes: { FoxworthManor: 4 },
+					},
 				],
 			},
 			{

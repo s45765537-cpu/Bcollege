@@ -24788,6 +24788,35 @@ var AssetFemale3DCGExtended = {
 						],
 					},
 				},
+				{
+					Name: "FoxworthManor",
+					Key: "FoxworthManor",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Alice
+						{}, // Misao
+						{}, // Yvette
+						{}, // Serena
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Alice2.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Misao.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Yvette.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Serena.png",
+							},
+						],
+					},
+				},
 			],
 			ScriptHooks: {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
