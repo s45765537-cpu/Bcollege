@@ -1,28 +1,16 @@
 "use strict";
 var ChatAdminBackground = "Sheet";
 var ChatAdminMessage = "";
+/** @deprecated */
 var ChatAdminBackgroundIndex = 0;
+/** @deprecated */
 var ChatAdminPreviewBackgroundMode = false;
 /** @type {ServerChatRoomGame[]} */
 var ChatAdminGameList = ["", "ClubCard", "LARP", "MagicBattle", "GGTS"];
-/**
- * @deprecated
- * @type {ServerChatRoomLanguage[]}
- */
-var ChatAdminLanguageList = ServerChatRoomSupportedLanguages;
 /** @type {null | string[]} */
 var ChatAdminBackgroundList = null;
 /** @type {ServerChatRoomLanguage} */
 var ChatAdminDefaultLanguage = "EN";
-
-// For the Visibility & Access UI elements
-// TODO: Figure out a better way to handle this
-var ChatAdminVisibilityModeLabels = CommonKeys(ChatRoomVisibilityMode);
-var ChatAdminVisibilityModeValues = ChatAdminVisibilityModeLabels.map((key) => ChatRoomVisibilityMode[key]);
-var ChatAdminVisibilityModeIndex = 0;
-var ChatAdminAccessModeLabels = CommonKeys(ChatRoomAccessMode);
-var ChatAdminAccessModeValues = ChatAdminAccessModeLabels.map((key) => ChatRoomAccessMode[key]);
-var ChatAdminAccessModeIndex = 0;
 
 /** @type {ChatRoomAdminSettings | null} */
 var ChatAdminData = null;
@@ -41,69 +29,12 @@ async function ChatAdminLoad() {
 		adminData.Background = Player.OnlineSettings.DefaultChatRoomBackground;
 	}
 	ChatAdminBackgroundList = BackgroundsGenerateList(ChatSearchBackgroundTagList);
-
-	// We have to reload the index here because we might be coming back from the background selection screen
-	ChatAdminBackgroundIndex = ChatAdminBackgroundList.indexOf(adminData.Background);
-	if (ChatAdminBackgroundIndex < 0) ChatAdminBackgroundIndex = 0;
-	adminData.Background = ChatAdminBackgroundList[ChatAdminBackgroundIndex];
-
-	// We have to reload the Visibility & Access mode indices to cover the case where it was changed by someone else or not through the UI
-	// Note that we are using .findIndex() and .sort().join(',') (hacky way to compare string arrays) because we're looking for an [] in an [][].
-	ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === adminData.Visibility.sort().join(','));
-	if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = 0;
-	ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === adminData.Access.sort().join(','));
-	if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
-
-	// Sets the chat room language
-	if (adminData.Language == null) adminData.Language = ServerChatRoomSupportedLanguages[0];
-	if (!ServerChatRoomSupportedLanguages.includes(adminData.Language)) adminData.Language = ServerChatRoomSupportedLanguages[0];
-
-	// Prepares the controls to edit a room
-	const nameInput = ElementCreateInput("InputName", "text", adminData.Name, "20");
-	nameInput.setAttribute("autocomplete", "off");
-	nameInput.setAttribute("pattern", "^[\x20-\x7E]+$");
-	const sizeInput = ElementCreateInput("InputSize", "number", adminData.Limit.toString());
-	sizeInput.setAttribute("min", "2");
-	sizeInput.setAttribute("max", "20");
-	sizeInput.setAttribute("autocomplete", "off");
-	const descInput = ElementCreateTextArea("InputDescription");
-	descInput.setAttribute("maxLength", ServerChatRoomDescriptionMaxLength);
-	descInput.setAttribute("autocomplete", "off");
-	descInput.setAttribute("placeholder", TextGet("InputDescriptionPlaceholder"));
-	ElementValue("InputDescription", adminData.Description);
-	const adminListInput = ElementCreateTextArea("InputAdminList");
-	adminListInput.setAttribute("maxLength", 2000);
-	adminListInput.setAttribute("autocomplete", "off");
-	adminListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
-	ElementValue("InputAdminList", adminData.Admin.join(","));
-	const whitelistInput = ElementCreateTextArea("InputWhitelist");
-	whitelistInput.setAttribute("maxLength", 2000);
-	whitelistInput.setAttribute("autocomplete", "off");
-	whitelistInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
-	ElementValue("InputWhitelist", adminData.Whitelist.join(","));
-	const banListInput = ElementCreateTextArea("InputBanList");
-	banListInput.setAttribute("maxLength", 2000);
-	banListInput.setAttribute("autocomplete", "off");
-	banListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
-	ElementValue("InputBanList", adminData.Ban.join(","));
-
-	// If the player isn't an admin, we disable the inputs
-	if (!ChatAdminCanEdit()) {
-		nameInput.setAttribute("disabled", "disabled");
-		descInput.setAttribute("disabled", "disabled");
-
-		// We also garble them if possible
-		ElementValue("InputName", ChatSearchMuffle(adminData.Name));
-		ElementValue("InputDescription", ChatSearchMuffle(adminData.Description));
-
-		adminListInput.setAttribute("disabled", "disabled");
-		whitelistInput.setAttribute("disabled", "disabled");
-		banListInput.setAttribute("disabled", "disabled");
-		sizeInput.setAttribute("disabled", "disabled");
-		ChatAdminMessage = "AdminOnly";
-	} else {
-		ChatAdminMessage = "QuickaddExplanation";
+	if (!ChatAdminBackgroundList.includes(adminData.Background)) {
+		adminData.Background = ChatAdminBackgroundList[0];
 	}
+
+	if (adminData.Language == null || !ServerChatRoomSupportedLanguages.includes(adminData.Language)) adminData.Language = ServerChatRoomSupportedLanguages[0];
+
 	TextPrefetch("Online", "ChatBlockItem");
 }
 
@@ -111,101 +42,6 @@ async function ChatAdminLoad() {
  * Handles drawing the editor screen
  */
 function ChatAdminRun() {
-	const adminData = ChatAdminData;
-	const backgroundList = ChatAdminBackgroundList;
-	if (!adminData || !backgroundList) {
-		return;
-	} else if (ChatAdminPreviewBackgroundMode) {
-		ChatAdminBackground = adminData.Background;
-		DrawButton(40, 40, 260, 60, TextGet("ReturnMenu"), "White");
-		return;
-	}
-
-	const disabledColor = "#ebebe4";
-
-	const canEdit = ChatAdminCanEdit();
-	// Grey button backgrounds if the player isn't an admin
-	const ButtonBackground = canEdit ? "White" : disabledColor;
-
-	// Draw the main controls
-	DrawText(TextGet(ChatAdminMessage), 675, 910, "Black", "Gray");
-	DrawText(TextGet("RoomName"), 250, 105, "Black", "Gray");
-	ElementPosition("InputName", 780, 100, 750);
-	DrawText(TextGet("RoomLanguage"), 250, 190, "Black", "Gray");
-	// FIXME: technically the `TextGet` is only needed for the "All language" cases,
-	// but we also support Spanish as a room language which isn't actually in the translation files
-	const languageLabel = TranslationGetLanguageName(adminData.Language, true) || TextGet("Language" + adminData.Language);
-	const languageBGColor = canEdit && MouseIn(405, 157, 300, 60) ? "Cyan" : ButtonBackground;
-	DrawButton(405, 157, 300, 60, languageLabel, languageBGColor, null, null, !ChatRoomPlayerIsAdmin());
-	DrawText(TextGet("RoomSize"), 850, 190, "Black", "Gray");
-	ElementPosition("InputSize", 1064, 185, 180);
-	DrawText(TextGet("RoomDescription"), 675, 250, "Black", "Gray");
-	ElementPosition("InputDescription", 675, 355, 1100, 170);
-	DrawText(TextGet("RoomAdminList"), 295, 475, "Black", "Gray");
-	ElementPosition("InputAdminList", 295, 615, 340, 240);
-	DrawText(TextGet("RoomWhitelist"), 675, 475, "Black", "Gray");
-	ElementPosition("InputWhitelist", 675, 615, 340, 240);
-	DrawText(TextGet("RoomBanList"), 1055, 475, "Black", "Gray");
-	ElementPosition("InputBanList", 1055, 615, 340, 240);
-	DrawButton(125, 746, 340, 60, TextGet("QuickaddAdminOwner"), ButtonBackground, null, null, !canEdit);
-	DrawButton(125, 816, 340, 60, TextGet("QuickaddAdminLovers"), ButtonBackground, null, null, !canEdit);
-	DrawButton(505, 746, 165, 60, TextGet("QuickaddWhitelistOwner"), ButtonBackground, null, null, !canEdit);
-	DrawButton(680, 746, 165, 60, TextGet("QuickaddWhitelistLovers"), ButtonBackground, null, null, !canEdit);
-	DrawButton(505, 816, 165, 60, TextGet("QuickaddWhitelistFriends"), ButtonBackground, null, null, !canEdit);
-	DrawButton(680, 816, 165, 60, TextGet("QuickaddWhitelistWhitelist"), ButtonBackground, null, null, !canEdit);
-	DrawButton(885, 746, 340, 60, TextGet("QuickaddBanBlacklist"), ButtonBackground, null, null, !canEdit);
-	DrawButton(885, 816, 340, 60, TextGet("QuickaddBanGhostlist"), ButtonBackground, null, null, !canEdit);
-
-	// Import & export buttons
-	DrawButton(1174, 76, 48, 48, "", ButtonBackground, undefined, undefined, !canEdit);
-	DrawButton(1174, 160, 48, 48, "", "White");
-	// We draw the icons separately to allow for resizing.
-	DrawImageResize("Icons/Upload.png", 1176, 78, 44, 44);
-	DrawImageResize("Icons/Download.png", 1176, 162, 44, 44);
-	// We also draw the tooltips separately to prevent conflicting with adjacent DOM elements (which take render priority over canvas)
-	if (!CommonIsMobile && !CommonPhotoMode) {
-		if (MouseIn(1174, 76, 48, 48)) // Upload (Import)
-			DrawHoverElements.push(() => DrawButtonHover(1247, 20, 48, 48, TextGet("UploadTooltip")));
-		if (MouseIn(1174, 160, 48, 48)) // Download (Export)
-			DrawHoverElements.push(() => DrawButtonHover(1247, 218, 48, 48, TextGet("DownloadTooltip")));
-	}
-
-	// Background selection, block button and game selection
-	DrawImageResize("Backgrounds/" + adminData.Background + ".jpg", 1300, 75, 600, 350);
-	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(adminData.Background), ButtonBackground, null,
-		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? backgroundList[backgroundList.length - 1] : backgroundList[ChatAdminBackgroundIndex - 1]),
-		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= backgroundList.length - 1) ? backgroundList[0] : backgroundList[ChatAdminBackgroundIndex + 1]),
-		!canEdit);
-	DrawButton(1840, 450, 60, 60, "", ButtonBackground, "Icons/Preference.png", null, !canEdit);
-	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
-	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + adminData.Game), ButtonBackground, null, () => "", () => "");
-	DrawButton(1300, 640, 275, 60, TextGet("RoomCustomization"), (adminData.Custom == null) ? "White" : "#B0FFB0");
-	DrawBackNextButton(1625, 640, 275, 60, TextGet("Map" + adminData.MapData.Type), ButtonBackground, null, () => "", () => "", !canEdit);
-	if (MouseIn(1625, 640, 275, 60)) {
-		DrawHoverElements.push(() => {
-			DrawButtonHover(1625, 630, 275, 60, TextGet(`Map${adminData.MapData.Type}Tooltip`));
-		});
-	}
-
-	// Visibility and access mode text & selections
-	DrawText(TextGet("VisibilityModeHeader"), 1438, 733, "Black", "Gray");
-	DrawBackNextButton(1300, 755, 275, 60, TextGet(`VisibilityMode${ChatAdminVisibilityModeLabels[ChatAdminVisibilityModeIndex]}`), ButtonBackground, null,
-		() => TextGet(`VisibilityMode${ChatAdminVisibilityModeLabels[(ChatAdminVisibilityModeIndex == 0) ? ChatAdminVisibilityModeLabels.length - 1 : ChatAdminVisibilityModeIndex - 1]}`),
-		() => TextGet(`VisibilityMode${ChatAdminVisibilityModeLabels[(ChatAdminVisibilityModeIndex >= ChatAdminVisibilityModeLabels.length - 1) ? 0 : ChatAdminVisibilityModeIndex + 1]}`),
-		!canEdit);
-	DrawText(TextGet("AccessModeHeader"), 1763, 733, "Black", "Gray");
-	DrawBackNextButton(1625, 755, 275, 60, TextGet(`AccessMode${ChatAdminAccessModeLabels[ChatAdminAccessModeIndex]}`), ButtonBackground, null,
-		() => TextGet(`AccessMode${ChatAdminAccessModeLabels[(ChatAdminAccessModeIndex == 0) ? ChatAdminAccessModeLabels.length - 1 : ChatAdminAccessModeIndex - 1]}`),
-		() => TextGet(`AccessMode${ChatAdminAccessModeLabels[(ChatAdminAccessModeIndex >= ChatAdminAccessModeLabels.length - 1) ? 0 : ChatAdminAccessModeIndex + 1]}`),
-		!canEdit);
-
-	const canCommit = ChatAdminCanCommit();
-	const commitBGColor = canCommit ? "White" : disabledColor;
-
-	// Save & Cancel/Exit buttons + help text
-	const commitLabel = ChatAdminMode === "create" ? TextGet("Create") : TextGet("Save");
-	DrawButton(1325, 840, 250, 65, commitLabel, commitBGColor, null, null, !canCommit);
-	DrawButton(1625, 840, 250, 65, TextGet(canCommit ? "Cancel" : "Exit"), "White");
 }
 
 /**
@@ -213,162 +49,6 @@ function ChatAdminRun() {
  * @returns {void} - Nothing
  */
 function ChatAdminClick() {
-	const adminData = ChatAdminData;
-	if (!adminData || !ChatAdminBackgroundList) {
-		return;
-	}
-
-	// Background preview mode
-	if (ChatAdminPreviewBackgroundMode || MouseIn(1300, 75, 600, 350)) {
-		ChatAdminPreviewBackgroundMode = !ChatAdminPreviewBackgroundMode;
-		ChatAdminBackground = "Sheet";
-		ElementToggleGeneratedElements("ChatAdmin", !ChatAdminPreviewBackgroundMode);
-		return;
-	}
-
-	// When the user cancels/exits
-	if (MouseIn(1625, 840, 250, 65)) {
-		ChatAdminExit();
-		return;
-	}
-
-	// Import & export buttons
-	if (MouseIn(1174, 76, 48, 48)) { // Upload (Import)
-		if (!ChatAdminCanEdit()) return;
-
-		const code = prompt(TextGet("UploadPrompt"))?.trim();
-		if (code == null) return; // User cancelled the prompt
-		if (!code) {
-			ChatAdminMessage = "UploadInvalidCode";
-			return;
-		}
-
-		const decompressedJSON = LZString.decompressFromBase64(code);
-		if (!decompressedJSON) {
-			ChatAdminMessage = "UploadInvalidCode";
-			return;
-		}
-		const data = CommonJSONParse(decompressedJSON);
-		if (!data || !ChatEditorValidateAdminSettings(data)) {
-			ChatAdminMessage = "UploadInvalidCode";
-			return;
-		}
-
-		ChatEditorAdminSettingsImport(data);
-		ChatAdminMessage = "UploadSuccess";
-	} else if (MouseIn(1174, 160, 48, 48)) { // Download (Export)
-		const code = LZString.compressToBase64(JSON.stringify(ChatEditorGetAdminSettings()));
-		CommonClipboardWrite(code, (res) => {
-			if (res.ok) {
-				ChatAdminMessage = "DownloadSuccess";
-			} else {
-				ChatAdminMessage = "DownloadFailed";
-			}
-		});
-		return;
-	}
-
-	// Background selection button (admin only) and item block button (anyone)
-	if ((MouseIn(1300, 75, 600, 350) || MouseIn(1840, 450, 60, 60) && ChatAdminCanEdit() || MouseIn(1300, 550, 275, 60) || MouseIn(1300, 640, 275, 60))) {
-		// We save the current data so we can restore it when coming back from the subscreens
-		CommonAssign(
-			adminData,
-			{
-				Name: ElementValue("InputName"),
-				Description: ElementValue("InputDescription"),
-				Limit: parseInt(ElementValue("InputSize"), 10),
-				Admin: CommonConvertStringToArray(ElementValue("InputAdminList")),
-				Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist")),
-				Ban: CommonConvertStringToArray(ElementValue("InputBanList")),
-			},
-		);
-		if (MouseIn(1300, 640, 275, 60)) {
-			CommonSetScreen("Online", "ChatAdminRoomCustomization");
-			return;
-		} else if (MouseIn(1300, 550, 275, 60)) {
-			ChatBlockItemEditable = ChatAdminCanEdit();
-			ChatBlockItemReturnScreen = CommonGetScreen();
-			ChatBlockItemCategory = adminData.BlockCategory;
-			CommonSetScreen("Online", "ChatBlockItem");
-			return;
-		} else {
-			BackgroundSelectionMake(ChatSearchBackgroundTagList, adminData.Background, (Name, setBackground) => {
-				if (setBackground) adminData.Background = Name;
-				CommonSetScreen("Online", "ChatAdmin");
-			});
-			return;
-		}
-	}
-
-	// All other controls are for administrators only
-	if (ChatAdminCanEdit()) {
-		// When we select a new background
-		if (MouseIn(1300, 450, 500, 60)) {
-			ChatAdminBackgroundIndex += ((MouseX < 1550) ? -1 : 1);
-			if (ChatAdminBackgroundIndex >= ChatAdminBackgroundList.length) ChatAdminBackgroundIndex = 0;
-			if (ChatAdminBackgroundIndex < 0) ChatAdminBackgroundIndex = ChatAdminBackgroundList.length - 1;
-			adminData.Background = ChatAdminBackgroundList[ChatAdminBackgroundIndex];
-			return;
-		}
-
-		// When we select a new game type
-		if (MouseIn(1625, 550, 275, 60)) {
-			let Index = ChatAdminGameList.indexOf(adminData.Game);
-			Index = Index + ((MouseX < 1763) ? -1 : 1);
-			if (Index < 0) Index = ChatAdminGameList.length - 1;
-			if (Index >= ChatAdminGameList.length) Index = 0;
-			adminData.Game = ChatAdminGameList[Index];
-			return;
-		}
-
-		// When we select a new map type
-		if (MouseIn(1625, 640, 275, 60)) {
-			let Index = ChatRoomMapViewTypeList.indexOf(adminData.MapData.Type);
-			Index = Index + ((MouseX < 1763) ? -1 : 1);
-			if (Index < 0) Index = ChatRoomMapViewTypeList.length - 1;
-			if (Index >= ChatRoomMapViewTypeList.length) Index = 0;
-			adminData.MapData.Type = ChatRoomMapViewTypeList[Index];
-			return;
-		}
-
-		if (MouseIn(405, 157, 300, 60)) {
-			let Pos = ServerChatRoomSupportedLanguages.indexOf(adminData.Language) + 1;
-			if (Pos >= ServerChatRoomSupportedLanguages.length) Pos = 0;
-			adminData.Language = ServerChatRoomSupportedLanguages[Pos];
-			return;
-		}
-
-		// When we select a new visibility mode
-		if (MouseIn(1300, 755, 275, 60)) {
-			ChatAdminVisibilityModeIndex += ((MouseX < 1438) ? -1 : 1);
-			if (ChatAdminVisibilityModeIndex >= ChatAdminVisibilityModeValues.length) ChatAdminVisibilityModeIndex = 0;
-			if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.length - 1;
-			adminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
-			return;
-		}
-
-		// When we select a new access mode
-		if (MouseIn(1625, 755, 275, 60)) {
-			ChatAdminAccessModeIndex += ((MouseX < 1763) ? -1 : 1);
-			if (ChatAdminAccessModeIndex >= ChatAdminAccessModeValues.length) ChatAdminAccessModeIndex = 0;
-			if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = ChatAdminAccessModeValues.length - 1;
-			adminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
-			return;
-		}
-
-		// Save button
-		if (MouseIn(1325, 840, 250, 65) && ChatAdminCanCommit()) ChatAdminCommit();
-
-		// Quickban buttons
-		if (MouseIn(125, 746, 340, 60)) ElementValue("InputAdminList", ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputAdminList").trim())).join(","));
-		if (MouseIn(125, 816, 340, 60)) ElementValue("InputAdminList", ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputAdminList").trim())).join(","));
-		if (MouseIn(505, 746, 165, 60)) ElementValue("InputWhitelist", ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim())).join(","));
-		if (MouseIn(680, 746, 165, 60)) ElementValue("InputWhitelist", ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim())).join(","));
-		if (MouseIn(505, 816, 165, 60)) ElementValue("InputWhitelist", ChatRoomConcatenateWhitelist(["Friends"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim())).join(","));
-		if (MouseIn(680, 816, 165, 60)) ElementValue("InputWhitelist", ChatRoomConcatenateWhitelist(["Whitelist"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim())).join(","));
-		if (MouseIn(885, 746, 340, 60)) ElementValue("InputBanList", ChatRoomConcatenateBanList(["BlackList"], CommonConvertStringToArray(ElementValue("InputBanList").trim())).join(","));
-		if (MouseIn(885, 816, 340, 60)) ElementValue("InputBanList", ChatRoomConcatenateBanList(["GhostList"], CommonConvertStringToArray(ElementValue("InputBanList").trim())).join(","));
-	}
 }
 
 /**
@@ -405,12 +85,6 @@ function ChatAdminExit() {
  * @type {ScreenUnloadHandler}
  */
 function ChatAdminUnload() {
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
 }
 
 /**
@@ -535,6 +209,7 @@ function ChatEditorValidateAdminSettings(settings) {
 	if (typeof settings !== "object" || settings === null) return false;
 	const s = /** @type {ChatRoomAdminSettings} */ (settings);
 	const isMemberNumber = (/** @type {unknown} */ n) => typeof n === "number" && Number.isInteger(n) && n > 0;
+	const visibility = CommonEntries(ChatRoomVisibilityMode).map(entry => entry[1]);
 	/* eslint-disable indent */
 	return typeof s.Name === "string" && /^[\x20-\x7E]+$/.test(s.Name)
 		&& typeof s.Language === "string" && ServerChatRoomSupportedLanguages.includes(s.Language)
@@ -546,11 +221,11 @@ function ChatEditorValidateAdminSettings(settings) {
 		&& Array.isArray(s.Ban) && s.Ban.every(isMemberNumber)
 		&& Array.isArray(s.BlockCategory) && s.BlockCategory.every(cat => ChatBlockItemList.includes(cat))
 		&& typeof s.Game === "string" && ChatAdminGameList.includes(s.Game)
-		&& Array.isArray(s.Visibility) && ChatAdminVisibilityModeValues.some(v =>
+		&& Array.isArray(s.Visibility) && visibility.some(v =>
 			v.length === s.Visibility.length &&
 			v.every(role => s.Visibility.includes(role))
 		)
-		&& Array.isArray(s.Access) && ChatAdminAccessModeValues.some(v =>
+		&& Array.isArray(s.Access) && visibility.some(v =>
 			v.length === s.Access.length &&
 			v.every(role => s.Access.includes(role))
 		)
@@ -587,15 +262,6 @@ function ChatEditorAdminSettingsImport(settings) {
 	ChatAdminData.Game = settings.Game;
 	ChatAdminData.MapData = settings.MapData;
 	ChatAdminData.Custom = settings.Custom;
-
-	ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex(elem => elem.length === settings.Visibility.length && elem.every(role => settings.Visibility.includes(role)));
-	ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex(elem => elem.length === settings.Access.length && elem.every(role => settings.Access.includes(role)));
-	// This shouldn't happen due to validation, but just in case...
-	if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = 0;
-	if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
-
-	ChatAdminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
-	ChatAdminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
 }
 
 /**
