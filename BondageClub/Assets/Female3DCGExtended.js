@@ -15470,12 +15470,12 @@ var AssetFemale3DCGExtended = {
 					Name: "TentacleStatus",
 					Key: "d",
 					Options: [
-						{},
 						{
 							Property: {
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 							},
 						},
+						{},
 						{
 							HasSubscreen: true,
 							Prerequisite: [
