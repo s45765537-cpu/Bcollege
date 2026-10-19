@@ -503,7 +503,7 @@ function ChatRoomIsLoverOfPlayer() { return ((CurrentCharacter != null) && Curre
  * Checks if the current character can serve drinks.
  * @returns {boolean} - TRUE if the character is a maid and is free.
  */
-function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && CurrentCharacter.CanWalk() && (ReputationCharacterGet(CurrentCharacter, "Maid") > 0) && CurrentCharacter.CanTalk()); }
+function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && CurrentCharacter.CanWalk() && (ReputationGet(CurrentCharacter, "Maid") > 0) && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player can give a money envelope to her owner
  * @returns {boolean} - TRUE if the current character is the owner of the player, and the player has the envelope
@@ -2409,7 +2409,6 @@ function ChatRoomRun(time) {
 	AsylumGGTSProcess();
 	PandoraPenitentiaryRun();
 	ChatRoomUpdateOnlineBounty();
-	ChatRoomCustomizationRun();
 	ChatRoomMenuBuild();
 
 	// Draws the chat room controls
