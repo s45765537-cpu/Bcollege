@@ -24798,6 +24798,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Misao
 						{}, // Yvette
 						{}, // Serena
+						{}, // Elli
 					],
 					DrawData: {
 						elementData: [
@@ -24813,6 +24814,9 @@ var AssetFemale3DCGExtended = {
 							},
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Serena.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Elli.png",
 							},
 						],
 					},
