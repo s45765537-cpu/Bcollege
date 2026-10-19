@@ -169,7 +169,7 @@ function randomSeeding(seed) {
  * @returns {boolean} - true if is Chinese character, false otherwise.
  */
 function isChineseCharacter(character) {
-	if (TranslationLanguage !== 'CN') return false;
+	if (TranslationLanguage !== 'CN' && TranslationLanguage !== 'TW') return false;
 
 	return chineseRegex.test(character);
 }
