@@ -6514,6 +6514,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#000000", "#F0F0F0"],
 				Layer: [{ Name: "1" }, { Name: "2" }],
 			},
+			{ Name: "SADollhouse", Left: 178, Top: 268 },
 		],
 	},
 	// #endregion
