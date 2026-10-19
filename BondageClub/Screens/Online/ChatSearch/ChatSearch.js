@@ -666,7 +666,7 @@ async function ChatSearchLoad() {
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
 						ElementCreateSettingsLabel(TextGet("GameLabel"), "chat-search-search-menu-room-game-dropdown"),
-						ElementCreateDropdown(
+						ElementDropdown.Create(
 							"chat-search-search-menu-room-game-dropdown",
 							[
 								...[...ChatAdminGameList, "Prison"].map(game => (
@@ -695,7 +695,7 @@ async function ChatSearchLoad() {
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
 						ElementCreateSettingsLabel("Language", "chat-search-search-menu-room-language-dropdown"),
-						ElementCreateDropdown(
+						ElementDropdown.Create(
 							"chat-search-search-menu-room-language-dropdown",
 							[
 								.../** @type {ServerChatRoomLanguage[]} */([...ServerChatRoomSupportedLanguages, ""]).map(lang => (

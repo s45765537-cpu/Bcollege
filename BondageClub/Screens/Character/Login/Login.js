@@ -364,7 +364,7 @@ async function LoginLoad() {
 			},
 		};
 	});
-	const languageDropdown = ElementCreateDropdown(LoginIDs.language, languages, function(event) {
+	const languageDropdown = ElementDropdown.Create(LoginIDs.language, languages, function(event) {
 		TranslationSwitchLanguage(/** @type {"" | "TW" | ServerChatRoomLanguage} */(this.value) || "EN");
 		TextLoad();
 		ActivityDictionaryLoad();

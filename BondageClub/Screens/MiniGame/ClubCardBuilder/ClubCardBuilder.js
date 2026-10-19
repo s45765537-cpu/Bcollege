@@ -81,11 +81,11 @@ let ClubCardBuilderReturnToChatroom = false;
  */
 function ClubCardBuilderLoadDeck(Deck) {
 	// create the editor's elements
-	ElementCreateDropdown("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), function () {
+	ElementDropdown.Create("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), function () {
 		ClubCardBuilderSelectedTag = /** @type {ClubCardTag} */ (this.value);
 		ClubCardBuilderFilterLoad();
 	});
-	ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), function () {
+	ElementDropdown.Create("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), function () {
 		ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDecksList[/** @type {ClubCardDefaultDecks} */ (this.value)]?.slice();
 	});
 	ElementCreateSearchInput(

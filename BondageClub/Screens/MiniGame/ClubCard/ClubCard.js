@@ -6832,7 +6832,7 @@ async function ClubCardLoad() {
 
 	ClubCardCreatePopup("DECK");
 	if (ClubCardPopup?.Mode == "DECK") {
-		ElementCreateDropdown("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), function () {
+		ElementDropdown.Create("DefaultDecksDropdown", Object.keys(ClubCardBuilderDefaultDecksList), function () {
 			ClubCardDefaultSelection = /** @type {ClubCardDefaultDecks} */ (this.value);
 		});
 	}

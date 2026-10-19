@@ -861,7 +861,7 @@ var CraftingSlots = {
 				tag: "div",
 				attributes: { role: "group" },
 				children: [
-					ElementCreateDropdown(
+					ElementDropdown.Create(
 						null,
 						dropdownOptions,
 						CraftingSlots.eventListeners.changeModeSelect,
