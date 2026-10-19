@@ -24672,6 +24672,8 @@ var AssetFemale3DCGExtended = {
 						{}, // Viper
 						{}, // Ayato
 						{}, // Lisa Hem
+						{}, // Yu Fantôme
+						{}, // Clara
 					],
 					DrawData: {
 						elementData: [
@@ -24717,6 +24719,13 @@ var AssetFemale3DCGExtended = {
 							},
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_LisaHem.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_YuFantome.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Clara.png",
 							},
 						],
 					},
