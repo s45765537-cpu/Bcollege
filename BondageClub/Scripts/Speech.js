@@ -169,7 +169,7 @@ function randomSeeding(seed) {
  * @returns {boolean} - true if is Chinese character, false otherwise.
  */
 function isChineseCharacter(character) {
-	if (TranslationLanguage !== 'CN') return false;
+	if (TranslationLanguage !== 'CN' && TranslationLanguage !== 'TW') return false;
 
 	return chineseRegex.test(character);
 }
@@ -312,13 +312,30 @@ function SpeechGetOOCRanges(Message) {
 	let endIndex = -1;
 	do
 	{
+		let Zh=false;
+
 		// Find the next opening bracket after the last closing bracket
 		startIndex = Message.indexOf("(", endIndex+1);
+
+		// If no opening bracket ( was found，Find chinese （ bracket
+		if (startIndex < 0){
+			startIndex = Message.indexOf("（", endIndex + 1);
+			if (startIndex >= 0) { // Found chinese （ bracket
+				Zh = true;
+			}
+		}
+
 		// If no opening bracket was found, there is no more OOC section and we stop
 		if(startIndex < 0) { break; }
 
-		// Find the next closing bracket after the last opening bracket
-		endIndex = Message.indexOf(")", startIndex);
+		// If chinese （ bracket was found , Find closing bracket ） for end
+		if (Zh) {
+			endIndex = Message.indexOf("）", startIndex);
+		}
+		else {
+			// Find the next closing bracket after the last opening bracket
+			endIndex = Message.indexOf(")", startIndex);
+		}
 		// If no closing bracket was found, we use the last character of the string as end index
 		if(endIndex < 0) { endIndex = Message.length - 1; }
 
