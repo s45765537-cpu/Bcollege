@@ -17,6 +17,22 @@ var ChatAdminData = null;
 /** @type {"create" | "update" | null} */
 var ChatAdminMode = null;
 
+const ChatAdminID = Object.freeze({
+	screen: "chat-admin-screen",
+	accept: "chat-admin-accept",
+	cancel: "chat-admin-cancel",
+	roomImport: "chat-admin-room-import",
+	roomExport: "chat-admin-room-export",
+	search: "chat-admin-search-button",
+	searchInput: "chat-admin-search",
+	nameInput: "chat-admin-input-name",
+	descriptionInput: "chat-admin-input-description",
+	sizeInput: "chat-admin-input-size",
+	adminListInput: "chat-admin-input-admin-list",
+	whitelistInput: "chat-admin-input-whitelist",
+	banListInput: "chat-admin-input-ban-list",
+});
+
 /**
  * Loads the given room data and sets up the UI for it
  * @type {ScreenLoadHandler}
@@ -34,6 +50,53 @@ async function ChatAdminLoad() {
 	}
 
 	if (adminData.Language == null || !ServerChatRoomSupportedLanguages.includes(adminData.Language)) adminData.Language = ServerChatRoomSupportedLanguages[0];
+
+	const canCommit = ChatAdminCanCommit();
+
+	ElementDOMScreen.getTemplate(ChatAdminID.screen,
+		{
+			hgroupInHeader: true,
+			menubarButtons: [
+				ElementButton.Create(
+					ChatAdminID.cancel,
+					() => ChatAdminExit(),
+					{
+						image: "Icons/Cancel.png",
+						tooltip: TextGet(canCommit ? "Cancel" : "Exit")
+					}
+				),
+				ElementButton.Create(
+					ChatAdminID.accept,
+					() => { if (canCommit) ChatAdminCommit(); },
+					{
+						image: "Icons/Accept.png",
+						disabled: !canCommit,
+						tooltip: ChatAdminMode === "create" ? TextGet("Create") : TextGet("Save"),
+					}
+				),
+				ElementButton.Create(
+					ChatAdminID.roomImport,
+					() => ChatAdminImport(),
+					{
+						image: "Icons/Upload.png",
+						tooltip: TextGet("UploadTooltip"),
+						disabled: !canCommit,
+					}
+				),
+				ElementButton.Create(
+					ChatAdminID.roomExport,
+					() => ChatAdminExport(),
+					{
+						image: "Icons/Download.png",
+						tooltip: TextGet("DownloadTooltip"),
+					}
+				),
+			],
+			parent: document.body,
+		}
+	);
+	ElementWrap(`${ChatAdminID.screen}-aside-r`)?.classList.add("scroll-box");
+
 
 	TextPrefetch("Online", "ChatBlockItem");
 }
@@ -65,6 +128,10 @@ function ChatAdminKeyDown(event) {
 	return false;
 }
 
+function ChatAdminResize() {
+	ElementPositionFixed(ChatAdminID.screen, 50, 50, 1900, 900);
+}
+
 /**
  * Handles exiting from the editor screen, removes the inputs and resets the state of the variables
  * @type {ScreenExitHandler}
@@ -85,6 +152,41 @@ function ChatAdminExit() {
  * @type {ScreenUnloadHandler}
  */
 function ChatAdminUnload() {
+	ElementRemove(ChatAdminID.screen);
+}
+
+function ChatAdminImport() {
+	if (!ChatAdminCanEdit()) return;
+
+	CommonClipboardRead((res) => {
+		try {
+			if (!res.ok) {
+				throw new Error();
+			}
+
+			const data = CommonJSONParse(LZString.decompressFromBase64(res.value ?? "") ?? "");
+			if (!data || !ChatEditorValidateAdminSettings(data)) {
+				throw new Error();
+			}
+
+			ChatEditorAdminSettingsImport(data);
+			ToastManager.success(TextGet("UploadSuccess"));
+		} catch (error) {
+			console.error(error);
+			ToastManager.error(TextGet("UploadInvalidCode"));
+		}
+	});
+}
+
+function ChatAdminExport() {
+	const code = LZString.compressToBase64(JSON.stringify(ChatEditorGetAdminSettings()));
+	CommonClipboardWrite(code, (res) => {
+		if (res.ok) {
+			ToastManager.success(TextGet("DownloadSuccess"));
+		} else {
+			ToastManager.error(TextGet("DownloadFailed"));
+		}
+	});
 }
 
 /**
@@ -185,6 +287,7 @@ function ChatAdminCanEdit() {
  * Handles accepting the room editor
  */
 function ChatAdminCommit() {
+	if (!ChatAdminCanEdit()) return;
 	if (ChatAdminMode === "update") {
 		ChatEditorUpdateRoom();
 	} else {
@@ -272,11 +375,11 @@ function ChatEditorGetAdminSettings() {
 	if (!ChatAdminData) return;
 
 	return {
-		Name: ElementValue("InputName").trim(),
+		Name: ElementValue("InputName").trim() || "Penis",
 		Language: ChatAdminData.Language,
 		Description: ElementValue("InputDescription").trim(),
 		Background: ChatAdminData.Background,
-		Limit: parseInt(ElementValue("InputSize"), 10),
+		Limit: parseInt(ElementValue("InputSize"), 10) || 10,
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
 		Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist").trim()),
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
