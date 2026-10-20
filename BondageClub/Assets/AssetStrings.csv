@@ -8006,7 +8006,7 @@ ItemHoodRubberMaskSetl4,SourceCharacter chooses a serious vampire lip expression
 ItemHoodRubberMaskSetl5,SourceCharacter chooses a open mouth vampire expression in DestinationCharacter mask.
 ItemHoodRubberMaskSeta0,SourceCharacter removes any rubber mask gag from DestinationCharacter mouth.
 ItemHoodRubberMaskSeta1,SourceCharacter gags DestinationCharacter with a single piece of duct tape.
-ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacter totally locking TargetPronounObject mouth with the Horror Gag.
+ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacter totally locking TargetPronounPossessive mouth with the Horror Gag.
 MaskRubberMaskSelectBase,Select Rubber Mask options
 MaskRubberMaskModuleWig,Hair and Wig
 MaskRubberMaskSelectWig,Hair and wig menu
