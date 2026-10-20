@@ -8553,13 +8553,13 @@ ItemDevicesExclusiveWaitressOptionr23,Ashtray
 ItemDevicesExclusiveWaitressSetc0,SourceCharacter exposes DestinationCharacter legs opening the EW's hatch.
 ItemDevicesExclusiveWaitressSetc1,SourceCharacter closes the EW's with window glass leaving DestinationCharacter legs visible.
 ItemDevicesExclusiveWaitressSetc2,SourceCharacter closes the EW's with metal hatch. DestinationCharacter legs aren't visible anymore.
-ItemDevicesExclusiveWaitressSetb0,SourceCharacter removes the EW's sunshade behind DestinationCharacter.
-ItemDevicesExclusiveWaitressSetb1,SourceCharacter installs the EW's sunshade behind DestinationCharacter.
-ItemDevicesExclusiveWaitressSetf0,SourceCharacter allows DestinationCharacter operate EW device in the autonomous mode (LED ON).
-ItemDevicesExclusiveWaitressSetf1,SourceCharacter set EW device in follow mode. Now DestinationCharacter can be leashed and dragged anywhere (LED ON).
+ItemDevicesExclusiveWaitressSetb0,SourceCharacter removes the EW's sunshade behind TargetCharacter.
+ItemDevicesExclusiveWaitressSetb1,SourceCharacter installs the EW's sunshade behind TargetCharacter.
+ItemDevicesExclusiveWaitressSetf0,SourceCharacter allows TargetCharacter to operate EW device in the autonomous mode (LED ON).
+ItemDevicesExclusiveWaitressSetf1,SourceCharacter sets EW device in follow mode. Now TargetCharacter can be leashed and dragged anywhere (LED ON).
 ItemDevicesExclusiveWaitressSetf2,SourceCharacter disables the EW's levitate system. TargetCharacter is grounded now (LED ON).
-ItemDevicesExclusiveWaitressSetf3,SourceCharacter allows DestinationCharacter operate EW device in the autonomous mode (LED OFF).
-ItemDevicesExclusiveWaitressSetf4,SourceCharacter set EW device in follow mode. Now DestinationCharacter can be leashed and dragged anywhere (LED OFF).
+ItemDevicesExclusiveWaitressSetf3,SourceCharacter allows TargetCharacter to operate EW device in the autonomous mode (LED OFF).
+ItemDevicesExclusiveWaitressSetf4,SourceCharacter sets EW device in follow mode. Now TargetCharacter can be leashed and dragged anywhere (LED OFF).
 ItemDevicesExclusiveWaitressSetf5,SourceCharacter disables the EW's levitate system. TargetCharacter is grounded now (LED OFF).
 ItemDevicesExclusiveWaitressSetl0,TargetCharacterName is clearing the table on TargetPronounPossessive right side.
 ItemDevicesExclusiveWaitressSetl1,TargetCharacterName puts a menu on the table on TargetPronounPossessive right side.
