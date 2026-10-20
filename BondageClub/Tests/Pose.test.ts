@@ -1,5 +1,3 @@
-"use strict";
-
 import { Game } from "./Utils";
 
 Game.load("../Scripts/Character.js");
