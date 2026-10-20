@@ -36,12 +36,12 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook(Data, Original
 	if (!C || !item) return;
 	if (Data.currentModule !== ModularItemBase) return;
 	item.Property ??= {};
-	if (MouseIn(1175, 768, 64, 64) && !ExtendedItemPermissionMode) {
+	if (MouseIn(1175, 743, 64, 64) && !ExtendedItemPermissionMode) {
 		const property = item.Property;
 		ExtendedItemCustomClickAndPush(C, item, "ShowText", () => property.ShowText = !property.ShowText);
-	} else if (MouseIn(1635, 700, 225, 55)) {
+	} else if (MouseIn(1635, 675, 225, 55)) {
 		ExtendedItemCustomClick("ResetShockCount", InventoryItemNeckAccessoriesCollarShockUnitResetCount);
-	} else if (MouseIn(1635, 775, 225, 55)) {
+	} else if (MouseIn(1635, 750, 225, 55)) {
 		ExtendedItemCustomClick("TriggerShock", () => PropertyShockPublishAction(C, item));
 	}
 }

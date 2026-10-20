@@ -179,7 +179,7 @@ function InventoryItemMiscCombinationPadlockClickHook(data, originalFunction) {
 		} else { DialogExtendedMessage = "CombinationError"; }
 	}
 	// Changes the code
-	else if (MouseIn(1600, 871, 350, 64)) {
+	else if (MouseIn(1600, 851, 350, 64)) {
 		// Succeeds to change
 		if (ElementValue("CombinationNumber") == DialogFocusSourceItem?.Property?.CombinationNumber) {
 			var NewCode = ElementValue("NewCombinationNumber");

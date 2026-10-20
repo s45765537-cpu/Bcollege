@@ -123,7 +123,7 @@ function SecurityEmailUpdate(data) {
 		ElementValue(PreferenceSubscreenSecurityIDs.emailOld, "");
 		ToastManager.success(text);
 	} else {
-		ToastManager.success(text);
+		ToastManager.error(text);
 	}
 }
 

@@ -3511,7 +3511,7 @@ function ChatRoomSendEmote(msg) {
 		const chance = parseInt(match[2] ? match[2] : 50);
 		const random = parseInt(Math.random() * 100);
 
-		const attemptSucceeded = random <= chance;
+		const attemptSucceeded = random < chance;
 		msg += attemptSucceeded ? ": ✔" : ": ❌";
 		msg += " (" + chance + "%)";
 	} else {
@@ -3870,7 +3870,7 @@ var ChatRoomMessageHandlers = [
 				}
 			}
 
-			if (intensity !== null && metadata.TargetCharacter.IsPlayer()) {
+			if (intensity !== null && metadata.TargetCharacter?.IsPlayer()) {
 				const duration = (Math.random() + intensity) * 500;
 				DrawFlashScreen("#FFFFFF", duration, 500);
 			}
