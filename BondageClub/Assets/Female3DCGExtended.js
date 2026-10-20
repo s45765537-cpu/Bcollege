@@ -13424,6 +13424,35 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //CardBoardBox
+		BarStool: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "s",
+					Options: [
+						{}, // s0 - Modern
+						{}, // s1 - Dirty
+						{}, // s2 - Wooden
+					],
+				},
+				{
+					Name: "Seat",
+					Key: "p",
+					Options: [
+						{}, // p0 - Sitting
+						{ Property: { DrawingLeft: { [AssetOverride]: -175 } } }, // p1 - Hopped off, beside her
+					],
+				},
+				// d0 - None, d<n> - the n-th decal of the `Decals` group, read when the stool loads
+				InventoryItemDevicesBarStoolDecalModule,
+			],
+			ScriptHooks: {
+				AfterDraw: AssetsItemDevicesBarStoolAfterDrawHook,
+				ScriptDraw: AssetsItemDevicesBarStoolScriptDrawHook,
+			},
+		}, // BarStool
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
