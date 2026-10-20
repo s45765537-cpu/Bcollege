@@ -52854,8 +52854,12 @@ var AssetFemale3DCG = [
 						AllowTypes: { MansionValentine: 7 },
 					},
 					{
-						Name: "AlenaBrenhines",
+						Name: "KaedeValentine",
 						AllowTypes: { MansionValentine: 8 },
+					},
+					{
+						Name: "AlenaBrenhines",
+						AllowTypes: { MansionValentine: 9 },
 					},
 				],
 			},

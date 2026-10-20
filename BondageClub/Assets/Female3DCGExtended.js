@@ -24883,6 +24883,7 @@ var AssetFemale3DCGExtended = {
 						{}, // Audriana Valentine
 						{}, // Xiaohuahuo Valentine
 						{}, // Lucy Valentine
+						{}, // Kaede Valentine
 						{}, // Alena Brenhines
 					],
 					DrawData: {
@@ -24915,6 +24916,10 @@ var AssetFemale3DCGExtended = {
 							{
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushie_LucyValentine.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_KaedeValentine.png",
 							},
 							{
 								imagePath:
