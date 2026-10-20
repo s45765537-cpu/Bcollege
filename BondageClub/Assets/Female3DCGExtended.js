@@ -24675,6 +24675,14 @@ var AssetFemale3DCGExtended = {
 						{}, // Cali
 						{}, // Yvain
 						{}, // Samantha
+						{}, // Mini
+						{}, // Ruby
+						{}, // Viper
+						{}, // Ayato
+						{}, // Lisa Hem
+						{}, // Yu Fantôme
+						{}, // Clara
+						{}, // Evelia
 					],
 					DrawData: {
 						elementData: [
@@ -24706,6 +24714,31 @@ var AssetFemale3DCGExtended = {
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushie_Samantha2.png",
 							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mini.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Ruby.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Viper.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Ayato.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_LisaHem.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_YuFantome.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Clara.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Evelia.png",
+							},
 						],
 					},
 				},
@@ -24722,6 +24755,88 @@ var AssetFemale3DCGExtended = {
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Shadow.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "SADollhouse",
+					Key: "SADollhouse",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Alex
+						{}, // Yeani
+						{}, // Coconut
+						{}, // Vvavv
+						{}, // Hana
+						{}, // Cholate
+						{}, // Silvia
+						{}, // Rouge
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Alex2.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Yeani.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Coconut.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Vvavv.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Hana.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Cholate.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Silvia.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Rouge.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "FoxworthManor",
+					Key: "FoxworthManor",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Alice
+						{}, // Misao
+						{}, // Yvette
+						{}, // Serena
+						{}, // Elli
+						{}, // Dahlia
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Alice2.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Misao.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Yvette.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Serena.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Elli.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Dahlia.png",
 							},
 						],
 					},

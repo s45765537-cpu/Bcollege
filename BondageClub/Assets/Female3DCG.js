@@ -52609,8 +52609,96 @@ var AssetFemale3DCG = [
 						AllowTypes: { VelvetBunnyCabaret: 8 },
 					},
 					{
+						Name: "Mini",
+						AllowTypes: { VelvetBunnyCabaret: 9 },
+					},
+					{
+						Name: "Ruby",
+						AllowTypes: { VelvetBunnyCabaret: 10 },
+					},
+					{
+						Name: "Viper",
+						AllowTypes: { VelvetBunnyCabaret: 11 },
+					},
+					{
+						Name: "Ayato",
+						AllowTypes: { VelvetBunnyCabaret: 12 },
+					},
+					{
+						Name: "LisaHem",
+						AllowTypes: { VelvetBunnyCabaret: 13 },
+					},
+					{
+						Name: "YuFantome",
+						AllowTypes: { VelvetBunnyCabaret: 14 },
+					},
+					{
+						Name: "Clara",
+						AllowTypes: { VelvetBunnyCabaret: 15 },
+					},
+					{
+						Name: "Evelia",
+						AllowTypes: { VelvetBunnyCabaret: 16 },
+					},
+					{
 						Name: "Shadow",
 						AllowTypes: { SubbycatsPlace: 1 },
+					},
+					{
+						Name: "Alex2",
+						AllowTypes: { SADollhouse: 1 },
+					},
+					{
+						Name: "Yeani",
+						AllowTypes: { SADollhouse: 2 },
+					},
+					{
+						Name: "Coconut",
+						AllowTypes: { SADollhouse: 3 },
+					},
+					{
+						Name: "Vvavv",
+						AllowTypes: { SADollhouse: 4 },
+					},
+					{
+						Name: "Hana",
+						AllowTypes: { SADollhouse: 5 },
+					},
+					{
+						Name: "Cholate",
+						AllowTypes: { SADollhouse: 6 },
+					},
+					{
+						Name: "Silvia",
+						AllowTypes: { SADollhouse: 7 },
+					},
+					{
+						Name: "Rouge",
+						AllowTypes: { SADollhouse: 8 },
+					},
+					{
+						Name: "Alice2",
+						AllowTypes: { FoxworthManor: 1 },
+					},
+					{
+						Name: "Misao",
+						AllowTypes: { FoxworthManor: 2 },
+					},
+					{
+						Name: "Yvette",
+						AllowTypes: { FoxworthManor: 3 },
+					},
+					{
+						Name: "Serena",
+						AllowTypes: { FoxworthManor: 4 },
+					},
+					{
+						Name: "Elli",
+						AllowTypes: { FoxworthManor: 5 },
+					},
+					{
+						Name: "Dahlia",
+						AllowTypes: { FoxworthManor: 6 },
 					},
 				],
 			},
