@@ -273,7 +273,7 @@ function stripDiacriticsFromCharacter(character, gagEffect, capitalize) {
 		case 'û':
 		case 'ù':
 		case 'ü':
-			return 'u';
+			return capitalize ? "U" : "u";
 		case 'ñ':
 			if (gagEffect >= 5) {
 				return capitalize ? "M" : "m";
@@ -292,12 +292,12 @@ function stripDiacriticsFromCharacter(character, gagEffect, capitalize) {
 }
 
 /**
- * check if the character is one of the following: áàãâéèêíìîõóòôúùûñç
+ * check if the character is one of the following: áàãâéèêëíìîïõóòôúùûüñç
  * @param {string} character - The character needs to be checked.
  * @returns {boolean} - true if is one of the above, otherwise false.
  */
 function isAccentedOrLatinCharacter(character) {
-	return 'áàãâéèêíìîõóòôúùûñç'.includes(character);
+	return 'áàãâéèêëíìîïõóòôúùûüñç'.includes(character);
 }
 
 /**
