@@ -1430,7 +1430,7 @@ var ServerValidation = {
 	 */
 	isString(maxLength, defaultValue) {
 		return (arg) => {
-			return typeof arg === "string" && arg.length < maxLength ? arg : defaultValue;
+			return typeof arg === "string" && arg.length <= maxLength ? arg : defaultValue;
 		};
 	},
 
