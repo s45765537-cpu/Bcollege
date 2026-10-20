@@ -901,7 +901,7 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 
 	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty);
 	if (Extend) {
-		item = InventoryRandomExtend(C, GroupName, undefined, false, false);
+		InventoryRandomExtend(C, GroupName, undefined, false, false);
 	}
 
 	if (Refresh) {
