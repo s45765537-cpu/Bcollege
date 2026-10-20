@@ -25,9 +25,9 @@
 		"assets:posemapping": "cd Tools/Node && node --unhandled-rejections=strict PoseMapping",
 		"scripts:lint": "eslint --cache --cache-location .cache/eslint \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
 		"scripts:lint:fix": "eslint --cache --cache-location .cache/eslint --fix \"Scripts/**/*.js\" \"Screens/**/*.js\" \"Tools/**/*.js\" \"Backgrounds/Backgrounds.js\"",
-		"scripts:typecheck": "run-p -cs --aggregate-output scripts:typecheck:tsc scripts:typecheck:strict",
-		"scripts:typecheck:tsc": "tsc -p tsconfig.json",
-		"scripts:typecheck:strict": "cross-env CI=1 tsc-strict -p tsconfig.json",
+		"scripts:typecheck": "run-p -cs --aggregate-output scripts:typecheck:bc scripts:typecheck:kd",
+		"scripts:typecheck:bc": "tsc -p tsconfig.json",
+		"scripts:typecheck:kd": "tsc -p Screens/MiniGame/KinkyDungeon/tsconfig.json",
 		"scripts:typecheck-expensive": "tsc -p Tools/Node/tsconfig-typecheckexpensive.json",
 		"styles:prettier": "prettier --check --print-width 120 CSS/",
 		"styles:prettier:fix": "prettier --write --print-width 120 CSS/",
@@ -78,7 +78,6 @@
 		"ansi-colors": "^4.1.1",
 		"canvas": "^3.1.0",
 		"cheerio": "^1.0.0-rc.3",
-		"cross-env": "^10.1.0",
 		"eslint": "^9.39.4",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-compat": "^6.0.2",
@@ -112,8 +111,7 @@
 		"table": "^6.7.3",
 		"through2": "^4.0.2",
 		"typescript": "^6.0.3",
-		"typescript-eslint": "^8.60.1",
-		"typescript-strict-plugin": "^2.4.4"
+		"typescript-eslint": "^8.60.1"
 	},
 	"dependencies": {
 		"csv-writer": "^1.6.0",

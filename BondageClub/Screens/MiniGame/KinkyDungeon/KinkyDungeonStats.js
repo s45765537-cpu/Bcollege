@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+// @ts-check
 "use strict";
 // Player entity
 let KinkyDungeonPlayerEntity = null; // The current player entity

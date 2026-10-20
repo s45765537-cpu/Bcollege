@@ -8,13 +8,8 @@
 		"incremental": true,
 		"tsBuildInfoFile": ".cache/tsc-main.tsbuildinfo",
 		"types": [],
-		"strict": false,
-		"skipLibCheck": true,
-		"plugins": [
-			{
-				"name": "typescript-strict-plugin"
-			},
-		],
+		"strict": true,
+		"skipLibCheck": true
 	},
 	"include": ["Scripts/**/*", "Screens/**/*", "Assets/**/*", "Backgrounds/**/*.js"],
 	"exclude": [
@@ -22,6 +17,7 @@
 		"Scripts/MessagesPatch.d.ts",
 		"Scripts/DeclarationsExpensive.d.ts",
 		"node_modules/**/*",
-		"Tools/Node/csvtypescript_tmp_output"
-	],
+		"Tools/Node/csvtypescript_tmp_output",
+		"Screens/MiniGame/KinkyDungeon"
+	]
 }

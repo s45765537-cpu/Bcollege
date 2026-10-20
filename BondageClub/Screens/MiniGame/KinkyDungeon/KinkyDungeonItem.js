@@ -1,4 +1,4 @@
-// @ts-strict-ignore
+// @ts-check
 "use strict";
 let KinkyDungeonGroundItems = []; // Tracking all items on the ground
 

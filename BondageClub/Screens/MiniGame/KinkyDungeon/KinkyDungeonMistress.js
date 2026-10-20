@@ -1,3 +1,4 @@
+// @ts-check
 "use strict";
 
 let Ally = "ally";

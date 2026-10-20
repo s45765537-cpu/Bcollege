@@ -9,12 +9,7 @@
 		"strict": false,
 		"skipLibCheck": true,
 		"incremental": true,
-		"tsBuildInfoFile": "../../.cache/tsc-csvtypescript.tsbuildinfo",
-		"plugins": [
-			{
-				"name": "typescript-strict-plugin"
-			},
-		],
+		"tsBuildInfoFile": "../../.cache/tsc-csvtypescript.tsbuildinfo"
 	},
 	"include": [
 		"../../Scripts/**/*",
@@ -27,6 +22,7 @@
 		"../../Scripts/lib/**/*.js",
 		"../../Scripts/MessagesPatch.d.ts",
 		"../../Scripts/DeclarationsExpensive.d.ts",
-		"../../Scripts/DeclarationsStatic.d.ts"
+		"../../Scripts/DeclarationsStatic.d.ts",
+		"../../Screens/MiniGame/KinkyDungeonPublic.d.ts"
 	]
 }
