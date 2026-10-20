@@ -2803,6 +2803,7 @@ class Result {
 		if (this.ok) {
 			return this.value;
 		} else {
+			// eslint-disable-next-line @typescript-eslint/only-throw-error
 			throw this.error;
 		}
 	}

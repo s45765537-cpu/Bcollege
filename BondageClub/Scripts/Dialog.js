@@ -969,7 +969,6 @@ function DialogMenuBack() {
 			break;
 
 		default:
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			console.trace(`Unknown menu mode "${DialogMenuMode}, resetting`);
 			DialogLeave();
 			break;

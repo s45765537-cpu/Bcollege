@@ -166,7 +166,6 @@ function ItemParseTopLeft(value, propName=null) {
 		} else if (CommonIsObject(protoConfig)) {
 			config = protoConfig;
 		} else {
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			throw new TypeError(`Invalid ${propName ?? "Top or Left"} value for layer "${layerName}": ${protoConfig}`);
 		}
 		return [layerName, config];
