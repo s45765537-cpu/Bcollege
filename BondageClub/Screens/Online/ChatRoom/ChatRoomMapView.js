@@ -581,7 +581,6 @@ function ChatMapRoomViewCreateCategoryButton(callback, image, tooltip) {
  * @returns {Element[]}
  */
 function ChatRoomMapViewGetItems(search) {
-	// Use MapData* registries (includes type defaults like CanPlaceOnWalls), not raw AssetsMapData*.
 	if (search) { // can't search / didn't bother for effects because they have no name like "red" or "yellow tint"
 		let items = [...MapDataTiles.values(), ...MapDataObjects.values(), ...MapDataEffects.values()];
 		if (ChatRoomMapViewEditSubMode != "") {
