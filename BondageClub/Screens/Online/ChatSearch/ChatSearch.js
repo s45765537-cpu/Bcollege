@@ -1965,7 +1965,7 @@ async function ChatSearchQuery(Query) {
  */
 function ChatSearchQuerySort() {
 	// Send full rooms to the back of the list and save the order of creation.
-	ChatSearchResult.sort((R1, R2) => R1.MemberCount >= R1.MemberLimit ? 1 : (R2.MemberCount >= R2.MemberLimit ? -1 : (R1.Order - R2.Order)));
+	ChatSearchResult.sort((R1, R2) => Number(R1.MemberCount >= R1.MemberLimit) - Number(R2.MemberCount >= R2.MemberLimit) || R1.Order - R2.Order);
 
 	// Friendlist option overrides basic order, but keeps full rooms at the back for each number of each different total of friends.
 	if (Player.OnlineSettings.SearchFriendsFirst) {
