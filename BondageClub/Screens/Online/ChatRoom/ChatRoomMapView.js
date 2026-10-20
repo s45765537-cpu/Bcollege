@@ -582,7 +582,7 @@ function ChatMapRoomViewCreateCategoryButton(callback, image, tooltip) {
  */
 function ChatRoomMapViewGetItems(search) {
 	if (search) { // can't search / didn't bother for effects because they have no name like "red" or "yellow tint"
-		let items = [...AssetsMapDataTiles, ...AssetsMapDataObjects, ...AssetsMapDataEffects];
+		let items = [...MapDataTiles.values(), ...MapDataObjects.values(), ...MapDataEffects.values()];
 		if (ChatRoomMapViewEditSubMode != "") {
 			items = items.filter((item) => item.Type == ChatRoomMapViewEditSubMode);
 		}
@@ -601,15 +601,15 @@ function ChatRoomMapViewGetItems(search) {
 	switch (ChatRoomMapViewEditMode) {
 		case "Tile":
 		case "TileType": {
-			const items = AssetsMapDataTiles.filter((tile) => tile.Type == ChatRoomMapViewEditSubMode);
+			const items = [...MapDataTiles.values()].filter((tile) => tile.Type == ChatRoomMapViewEditSubMode);
 			return [...items].map((item) => ChatRoomMapViewCreateMapElementItem(item));
 		}
 		case "Object": {
-			const items = AssetsMapDataObjects.filter((object) => object.Type == ChatRoomMapViewEditSubMode);
+			const items = [...MapDataObjects.values()].filter((object) => object.Type == ChatRoomMapViewEditSubMode);
 			return [...items].map((item) => ChatRoomMapViewCreateMapElementItem(item));
 		}
 		case "Effect":
-			return AssetsMapDataEffects.map((item) => ChatRoomMapViewCreateMapElementItem(item));
+			return [...MapDataEffects.values()].map((item) => ChatRoomMapViewCreateMapElementItem(item));
 		default:
 			return [];
 	}
