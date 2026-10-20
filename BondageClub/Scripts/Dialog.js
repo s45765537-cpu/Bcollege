@@ -2378,7 +2378,7 @@ function DialogClick(event) {
 			TightenLoosenItemClick(CurrentCharacter, DialogTightenLoosenItem);
 		return;
 	} else if (DialogMenuMode === "colorItem" || DialogMenuMode === "colorExpression") {
-		if (MouseIn(1300, 25, 675, 950) && FocusItem) {
+		if (MouseIn(1090, 15, 885, 970) && FocusItem) {
 			ItemColorClick(C, C.FocusGroup.Name, 1090, 15, 885, 970);
 			return;
 		}
