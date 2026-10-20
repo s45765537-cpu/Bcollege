@@ -3550,11 +3550,11 @@ ItemArmsTentaclesSetOverTheHead,SourceCharacter uses the tentacles to hold Desti
 ItemArmsThinLeatherStrapsBoxtie,Boxtie
 ItemArmsThinLeatherStrapsHogtie,Hogtie
 ItemArmsThinLeatherStrapsSelect,Select strap bondage.
-ItemArmsThinLeatherStrapsSetBoxtie,SourceCharacter uses the straps on DestinationCharacter to do a boxtie harness.
-ItemArmsThinLeatherStrapsSetHogtie,SourceCharacter uses the straps on DestinationCharacter to do a hogtie harness.
-ItemArmsThinLeatherStrapsSetWrist,SourceCharacter uses the straps on DestinationCharacter to do a wrist strap.
-ItemArmsThinLeatherStrapsSetWristElbow,SourceCharacter uses the straps on DestinationCharacter to do a wrist and elbow straps.
-ItemArmsThinLeatherStrapsSetWristElbowHarness,SourceCharacter uses the straps on DestinationCharacter to do a wrist and elbow harness.
+ItemArmsThinLeatherStrapsSetBoxtie,SourceCharacter uses the straps on TargetCharacter to do a boxtie harness.
+ItemArmsThinLeatherStrapsSetHogtie,SourceCharacter uses the straps on TargetCharacter to do a hogtie harness.
+ItemArmsThinLeatherStrapsSetWrist,SourceCharacter uses the straps on TargetCharacter to do a wrist strap.
+ItemArmsThinLeatherStrapsSetWristElbow,SourceCharacter uses the straps on TargetCharacter to do a wrist and elbow straps.
+ItemArmsThinLeatherStrapsSetWristElbowHarness,SourceCharacter uses the straps on TargetCharacter to do a wrist and elbow harness.
 ItemArmsThinLeatherStrapsWrist,Wrist Tie
 ItemArmsThinLeatherStrapsWristElbow,Wrist And Elbow Tie
 ItemArmsThinLeatherStrapsWristElbowHarness,Wrist And Elbow Harness Tie
@@ -3593,7 +3593,7 @@ ItemArmsWoodenCuffsHogtied,Hogtied.
 ItemArmsWoodenCuffsSetHandsBack,SourceCharacter uses wooden cuffs to lock DestinationCharacter hands behind TargetPronounPossessive back.
 ItemArmsWoodenCuffsSetHandsFront,SourceCharacter uses wooden cuffs to lock DestinationCharacter hands in front.
 ItemArmsWoodenCuffsSetHandsHead,SourceCharacter uses wooden cuffs to lock DestinationCharacter hands next to TargetPronounPossessive head.
-ItemArmsWoodenCuffsSetHogtied,SourceCharacter uses wooden cuffs to lock DestinationCharacter in a rigid hogtie.
+ItemArmsWoodenCuffsSetHogtied,SourceCharacter uses wooden cuffs to lock TargetCharacter in a rigid hogtie.
 ItemArmsWrappedBlanketFeetWrapped,Feet Wrapped
 ItemArmsWrappedBlanketFullWrapped,Fully Wrapped
 ItemArmsWrappedBlanketNormalWrapped,Normal
@@ -6219,8 +6219,8 @@ ItemPelvisModularChastityBeltSeto0,SourceCharacter deactivates orgasm prevention
 ItemPelvisModularChastityBeltSeto1,SourceCharacter sets orgasm prevention system on DestinationCharacter AssetName to edging mode.
 ItemPelvisModularChastityBeltSeto2,SourceCharacter sets orgasm prevention system on DestinationCharacter AssetName to denial mode.
 ItemPelvisModularChastityBeltSetp0,DestinationCharacterName AssetName plug(s) deflate completely.
-ItemPelvisModularChastityBeltSetp1,DestinationCharacterName AssetName plug(s) are slightly inflated and are teasing DestinationCharacter with every move.
-ItemPelvisModularChastityBeltSetp2,DestinationCharacterName AssetName plug(s) are inflated and are heavily teasing DestinationCharacter with every move.
+ItemPelvisModularChastityBeltSetp1,DestinationCharacterName AssetName plug(s) are slightly inflated and are teasing TargetCharacter with every move.
+ItemPelvisModularChastityBeltSetp2,DestinationCharacterName AssetName plug(s) are inflated and are heavily teasing TargetCharacter with every move.
 ItemPelvisModularChastityBeltSetp3,DestinationCharacterName AssetName plug(s) are bloated and make DestinationCharacter every move a chore.
 ItemPelvisModularChastityBeltSetp4,DestinationCharacterName AssetName plug(s) are almost bursting and make DestinationCharacter movement almost impossible.
 ItemPelvisModularChastityBeltSets0,SourceCharacter sets DestinationCharacter AssetName turns off automatic shocks.
@@ -6332,9 +6332,9 @@ ItemTorso2NavelBar1Setj1,SourceCharacter adds a jewel to DestinationCharacter na
 ItemTorso2ThinLeatherStrapsCrotch,Crotch Strap
 ItemTorso2ThinLeatherStrapsHarness,Harness
 ItemTorso2ThinLeatherStrapsSelect,Select strap bondage.
-ItemTorso2ThinLeatherStrapsSetCrotch,SourceCharacter uses the straps on DestinationCharacter to create a crotch strap.
-ItemTorso2ThinLeatherStrapsSetHarness,SourceCharacter uses the straps on DestinationCharacter to create a harness.
-ItemTorso2ThinLeatherStrapsSetWaist,SourceCharacter uses the straps on DestinationCharacter to create a waist strap.
+ItemTorso2ThinLeatherStrapsSetCrotch,SourceCharacter uses the straps on TargetCharacter to create a crotch strap.
+ItemTorso2ThinLeatherStrapsSetHarness,SourceCharacter uses the straps on TargetCharacter to create a harness.
+ItemTorso2ThinLeatherStrapsSetWaist,SourceCharacter uses the straps on TargetCharacter to create a waist strap.
 ItemTorso2ThinLeatherStrapsWaist,Waist Strap
 ItemTorsoFuturisticHarnessFull,Full
 ItemTorsoFuturisticHarnessLower,Lower
@@ -6429,9 +6429,9 @@ ItemTorsoTentacleSuitSetf1,SourceCharacter sets DestinationCharacter AssetName t
 ItemTorsoThinLeatherStrapsCrotch,Crotch Strap
 ItemTorsoThinLeatherStrapsHarness,Harness
 ItemTorsoThinLeatherStrapsSelect,Select strap bondage.
-ItemTorsoThinLeatherStrapsSetCrotch,SourceCharacter uses the straps on DestinationCharacter to create a crotch strap.
-ItemTorsoThinLeatherStrapsSetHarness,SourceCharacter uses the straps on DestinationCharacter to create a harness.
-ItemTorsoThinLeatherStrapsSetWaist,SourceCharacter uses the straps on DestinationCharacter to create a waist strap.
+ItemTorsoThinLeatherStrapsSetCrotch,SourceCharacter uses the straps on TargetCharacter to create a crotch strap.
+ItemTorsoThinLeatherStrapsSetHarness,SourceCharacter uses the straps on TargetCharacter to create a harness.
+ItemTorsoThinLeatherStrapsSetWaist,SourceCharacter uses the straps on TargetCharacter to create a waist strap.
 ItemTorsoThinLeatherStrapsWaist,Waist Strap
 ItemVulvaClitAndDildoVibratorbeltDecreased0,DestinationCharacterName vibrating dildo stops vibrating.
 ItemVulvaClitAndDildoVibratorbeltDecreased1,DestinationCharacterName vibrating dildo slows down into a light tease.
@@ -7140,8 +7140,8 @@ PelvisRopeSetKikkouHip,SourceCharacter uses the rope on TargetCharacter to do a 
 PelvisRopeSetOverPanties,SourceCharacter uses the rope on TargetCharacter to do a crotch rope tie over TargetPronounPossessive panties.
 PelvisRopeSetSwissSeat,SourceCharacter uses the rope on TargetCharacter to do a swiss seat style rope tie.
 PersonalCageHeightLowered,Go down
-PersonalCageHeightSetLowered,SourceCharacter returns DestinationCharacterName to the floor.
-PersonalCageHeightSetSuspended,SourceCharacter pulls the level and DestinationCharacterName is lifted.
+PersonalCageHeightSetLowered,SourceCharacter returns TargetCharacterName to the floor.
+PersonalCageHeightSetSuspended,SourceCharacter pulls the level and TargetCharacterName is lifted.
 PersonalCageHeightSuspended,Go up
 PetPostText,Save text
 PetSuitShockCollarPunishActivity,Forbidden Aggression
@@ -7881,7 +7881,7 @@ ItemArmsArmbinderSuitSetb1,SourceCharacter binds DestinationCharacterName arms o
 ItemArmsArmbinderSuitSetb2,SourceCharacter binds DestinationCharacterName arms behind their back.
 ItemArmsArmbinderSuitSetb3,SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
 ItemArmsArmbinderSuitSetb4,SourceCharacter links DestinationCharacterName armbinder to TargetPronounPossessive feet with chains and cuffs.
-ItemArmsArmbinderSuitSetb5,SourceCharacter shortens the chain to force DestinationCharacterName to TargetPronounPossessive knees.
+ItemArmsArmbinderSuitSetb5,SourceCharacter shortens the chain to force TargetCharacterName to TargetPronounPossessive knees.
 ItemArmsArmbinderSuitSetp0,SourceCharacter removes the straps from DestinationCharacterName shoulders.
 ItemArmsArmbinderSuitSetp1,SourceCharacter adds harness straps around DestinationCharacterName shoulders.
 ItemArmsArmbinderSuitSetz0,SourceCharacter closes DestinationCharacterName suit zipper.
@@ -8005,7 +8005,7 @@ ItemHoodRubberMaskSetl3,SourceCharacter chooses a normal vampire lip expression 
 ItemHoodRubberMaskSetl4,SourceCharacter chooses a serious vampire lip expression in DestinationCharacter mask.
 ItemHoodRubberMaskSetl5,SourceCharacter chooses a open mouth vampire expression in DestinationCharacter mask.
 ItemHoodRubberMaskSeta0,SourceCharacter removes any rubber mask gag from DestinationCharacter mouth.
-ItemHoodRubberMaskSeta1,SourceCharacter gags DestinationCharacter with a single piece of duct tape.
+ItemHoodRubberMaskSeta1,SourceCharacter gags TargetCharacter with a single piece of duct tape.
 ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacter totally locking TargetPronounPossessive mouth with the Horror Gag.
 MaskRubberMaskSelectBase,Select Rubber Mask options
 MaskRubberMaskModuleWig,Hair and Wig
@@ -8294,7 +8294,7 @@ ItemFeetHeelBindersSetr2,SourceCharacter tightens the chain around DestinationCh
 ItemFeetHeelBindersSetr3,SourceCharacter links DestinationCharacterName ankle cuffs with a short leather strap.
 ItemFeetHeelBindersSetr4,SourceCharacter links DestinationCharacterName ankle cuffs with a metal bar.
 ItemFeetHeelBindersSetr5,SourceCharacter spreads the DestinationCharacterName legs with a spread bar.
-ItemFeetHeelBindersSetr6,SourceCharacter suspends the spread bar and DestinationCharacterName is suspended upside down.
+ItemFeetHeelBindersSetr6,SourceCharacter suspends the spread bar and TargetCharacterName is suspended upside down.
 ItemFeetHeelBindersSetr7,SourceCharacter chained the spread bar to the floor and DestinationCharacterName feet are stuck in place.
 ItemArmsBedMetalCuffsLeft,Left
 ItemArmsBedMetalCuffsRight,Right
@@ -9076,7 +9076,7 @@ ItemTorsoSteelBeltOptionh2,Hands cuffed on back
 ItemTorsoSteelBeltOptionh3,Strict mode
 ItemTorsoSteelBeltSetb0,SourceCharacter put the Steel belt under DestinationCharacter clothes.
 ItemTorsoSteelBeltSetb1,SourceCharacter put the Steel belt over DestinationCharacter clothes.
-ItemTorsoSteelBeltSeth0,SourceCharacter unlocks DestinationCharacter from the Steel Belt handcuffs.
+ItemTorsoSteelBeltSeth0,SourceCharacter unlocks TargetCharacter from the Steel Belt handcuffs.
 ItemTorsoSteelBeltSeth1,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms.
 ItemTorsoSteelBeltSeth2,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
 ItemTorsoSteelBeltSeth3,SourceCharacter puts a pair of strict handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
@@ -9093,7 +9093,7 @@ ItemTorso2SteelBeltOptionh2,Hands cuffed on back
 ItemTorso2SteelBeltOptionh3,Strict mode
 ItemTorso2SteelBeltSetb0,SourceCharacter put the Steel belt under DestinationCharacter clothes.
 ItemTorso2SteelBeltSetb1,SourceCharacter put the Steel belt over DestinationCharacter clothes.
-ItemTorso2SteelBeltSeth0,SourceCharacter unlocks DestinationCharacter from the Steel Belt handcuffs.
+ItemTorso2SteelBeltSeth0,SourceCharacter unlocks TargetCharacter from the Steel Belt handcuffs.
 ItemTorso2SteelBeltSeth1,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms.
 ItemTorso2SteelBeltSeth2,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
 ItemTorso2SteelBeltSeth3,SourceCharacter puts a pair of strict handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
@@ -9110,7 +9110,7 @@ ItemArmsSteelBeltOptionh2,Hands cuffed on back
 ItemArmsSteelBeltOptionh3,Strict mode
 ItemArmsSteelBeltSetb0,SourceCharacter put the Steel belt under DestinationCharacter clothes.
 ItemArmsSteelBeltSetb1,SourceCharacter put the Steel belt over DestinationCharacter clothes.
-ItemArmsSteelBeltSeth0,SourceCharacter unlocks DestinationCharacter from the Steel Belt handcuffs.
+ItemArmsSteelBeltSeth0,SourceCharacter unlocks TargetCharacter from the Steel Belt handcuffs.
 ItemArmsSteelBeltSeth1,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms.
 ItemArmsSteelBeltSeth2,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
 ItemArmsSteelBeltSeth3,SourceCharacter puts a pair of strict handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
