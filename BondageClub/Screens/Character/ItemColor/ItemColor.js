@@ -369,7 +369,7 @@ function ItemColorClickDefault(x, y, width, shape) {
 				if (MouseXIn(x, groupButtonWidth / 2)) {
 					// Previous layer button
 					ItemColorPreviousLayer(colorGroup);
-				} else if (MouseXIn(x + groupButtonWidth / 2, x + groupButtonWidth)) {
+				} else if (MouseXIn(x + groupButtonWidth / 2, groupButtonWidth / 2)) {
 					// Next layer button
 					ItemColorNextLayer(colorGroup);
 				}
