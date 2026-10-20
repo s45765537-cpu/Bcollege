@@ -43,7 +43,7 @@ function PreferenceSubscreenControllerRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenControllerClick() {
-	if (MouseIn(1815, 178, 90, 90)) ControllerCalibrationNextStage(true);
+	if (ControllerIsCalibrating() && MouseIn(1815, 178, 90, 90)) ControllerCalibrationNextStage(true);
 
 	if (!ControllerIsCalibrating()) {
 
@@ -60,11 +60,11 @@ function PreferenceSubscreenControllerClick() {
 			ControllerDeadZone = Player.ControllerSettings.ControllerDeadZone;
 		}
 
-		if (MouseIn(590, 400, 310, 90)) {
+		if (MouseIn(500, 380, 400, 90)) {
 			ControllerStartCalibration("buttons");
 		}
 
-		if (MouseIn(590, 500, 310, 90)) {
+		if (MouseIn(500, 480, 400, 90)) {
 			ControllerStartCalibration("axis");
 		}
 
