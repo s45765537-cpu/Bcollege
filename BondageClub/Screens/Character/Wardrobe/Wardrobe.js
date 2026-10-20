@@ -272,13 +272,16 @@ function WardrobeKeyDown(event) {
 	if (WardrobeSelection !== -1) return false;
 
 	const grid = ElementWrap(WardrobeID.slotGrid);
-	if (grid
-		&& !grid.hasAttribute("hidden")
-		&& CommonKey.NavigationKeyDown(
-			grid,
-			event,
-			(el) => el.querySelector(".wardrobe-slot:not([hidden])")?.clientHeight ?? el.clientHeight / WardrobeGetGridDimensions().rows)) {
-		return true;
+	if (grid && !grid.hasAttribute("hidden")) {
+		const prevTop = grid.scrollTop;
+		const rowHeight = () => grid.querySelector(".wardrobe-slot:not([hidden])")?.clientHeight ?? grid.clientHeight / WardrobeGetGridDimensions().rows;
+		if (CommonKey.NavigationKeyDown(grid, event, rowHeight)) {
+			if (Math.abs(grid.scrollTop - prevTop) < rowHeight() / 2) {
+				if (event.key === "PageDown") grid.scrollTop = 0;
+				else if (event.key === "PageUp") grid.scrollTop = grid.scrollHeight;
+			}
+			return true;
+		}
 	}
 
 	if (WardrobeReorderMode !== "None") return false;
