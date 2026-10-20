@@ -545,14 +545,14 @@ function WardrobeLoadCharacterNames() { }
 function WardrobeFixLength() {
 	let Push = false;
 	if (Player.Wardrobe.length > WardrobeSize) {
-		Player.Wardrobe = Player.Wardrobe.slice(0, WardrobeSize - 1);
+		Player.Wardrobe = Player.Wardrobe.slice(0, WardrobeSize);
 		Push = true;
 	}
 	while (Player.Wardrobe.length < WardrobeSize) {
 		Player.Wardrobe.push(null);
 		Push = true;
 	}
-	while (Player.WardrobeCharacterNames.length <= WardrobeSize) {
+	while (Player.WardrobeCharacterNames.length < WardrobeSize) {
 		Player.WardrobeCharacterNames.push(Player.Name);
 		Push = true;
 	}
