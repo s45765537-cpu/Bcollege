@@ -536,7 +536,7 @@ function PokerClick() {
 	}
 
 	// If we must challenge a new opponent, we select it and click on the start game button
-	if (MouseIn(1885, 145, 90, 90) && (PokerMode == "")) {
+	if (MouseIn(1885, 140, 90, 90) && (PokerMode == "")) {
 		PokerPlayer[1] = { Type: "None", Family: "None", Name: "None", Chip: 100 };
 		PokerPlayer[2] = PokerNextChallenge();
 		PokerPlayer[3] = { Type: "None", Family: "None", Name: "None", Chip: 100 };

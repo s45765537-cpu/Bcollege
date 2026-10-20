@@ -697,7 +697,7 @@ function ValidationSanitizeProperties(C, item) {
 	}
 
 	// Sanitize various properties
-	changed = ValidationSanitizeEffects(C, item);
+	changed = ValidationSanitizeEffects(C, item) || changed;
 	changed = ValidationSanitizeColor(item) || changed;
 	changed = ValidationSanitizeAllowedPropertyArray(C, item, "Block", "AllowBlock") || changed;
 	changed = ValidationSanitizeAllowedPropertyArray(C, item, "Hide", "AllowHide") || changed;

@@ -273,7 +273,7 @@ function stripDiacriticsFromCharacter(character, gagEffect, capitalize) {
 		case 'û':
 		case 'ù':
 		case 'ü':
-			return 'u';
+			return capitalize ? "U" : "u";
 		case 'ñ':
 			if (gagEffect >= 5) {
 				return capitalize ? "M" : "m";
@@ -292,12 +292,12 @@ function stripDiacriticsFromCharacter(character, gagEffect, capitalize) {
 }
 
 /**
- * check if the character is one of the following: áàãâéèêíìîõóòôúùûñç
+ * check if the character is one of the following: áàãâéèêëíìîïõóòôúùûüñç
  * @param {string} character - The character needs to be checked.
  * @returns {boolean} - true if is one of the above, otherwise false.
  */
 function isAccentedOrLatinCharacter(character) {
-	return 'áàãâéèêíìîõóòôúùûñç'.includes(character);
+	return 'áàãâéèêëíìîïõóòôúùûüñç'.includes(character);
 }
 
 /**
@@ -672,7 +672,7 @@ function SpeechTransformStutter(text, intensity) {
 		inOOC = SpeechIndexInOocRange(L, oocRanges);
 
 		// If we are not between brackets and at the start of a word, there's a chance to stutter that word
-		if (!inOOC && inWord >= 0 && (char.match(/[[a-zа-яё]/i))) {
+		if (!inOOC && inWord >= 0 && (char.match(/[a-zа-яё]/i))) {
 
 			// Generate a pseudo-random number using a seed, so that the same text always stutters the same way
 			let R = Math.sin(seed++) * 10000;

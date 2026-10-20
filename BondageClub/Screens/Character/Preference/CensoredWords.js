@@ -32,9 +32,9 @@ function PreferenceSubscreenCensoredWordsLoad() {
 	ElementDropdown.CreateLabelled(
 		"CensoredWordsLevel",
 		[
-			{ attributes: { value: "0", label: TextGet("CensorLevel0") } },
-			{ attributes: { value: "1", label: TextGet("CensorLevel1") } },
-			{ attributes: { value: "2", label: TextGet("CensorLevel2") } },
+			{ attributes: { value: "0", label: TextGet("CensorLevel0"), selected: Player.ChatSettings.CensoredWordsLevel === 0 } },
+			{ attributes: { value: "1", label: TextGet("CensorLevel1"), selected: Player.ChatSettings.CensoredWordsLevel === 1 } },
+			{ attributes: { value: "2", label: TextGet("CensorLevel2"), selected: Player.ChatSettings.CensoredWordsLevel === 2 } },
 		],
 		TextGet("CensorLevel"),
 		function (ev) {

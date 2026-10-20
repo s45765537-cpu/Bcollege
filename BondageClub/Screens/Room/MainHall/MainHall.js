@@ -8,7 +8,7 @@ var MainHallRandomEventOdds = 0;
 /** @type {NPCCharacter} */
 var MainHallMaid = /** @type {never} */ (null);
 /** The max number of known tips */
-var MainHallMaxTip = 36;
+var MainHallMaxTip = 38;
 /** The index of the current tip */
 var MainHallTip = 0;
 /** The max delay to wait before changing the current tip */

@@ -88,6 +88,8 @@ function InventoryItemNeckPetSuitShockCollarResetCount() {
 
 	if (item.Property.ShowText) {
 		ChatRoomPublishCustomAction("ShockCountReset", false, Dictionary);
+	} else {
+		ChatRoomCharacterItemUpdate(C, item.Asset.Group.Name);
 	}
 }
 

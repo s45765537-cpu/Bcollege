@@ -1465,7 +1465,7 @@ function AppearanceMenuClick(C) {
 							if (res.ok && res.value) {
 								CharacterAppearancePaste(C, res.value, false);
 							} else if (res.err) {
-								ToastManager.error(res.errorAsDOM(TextGet("AppPasteError")));
+								ToastManager.error(res.errorAsDOM(InterfaceTextGet("AppPasteError")));
 							}
 						});
 					}
@@ -1891,9 +1891,9 @@ function CharacterAppearanceCopyToClipboard(C) {
 	S = LZString.compressToBase64(S);
 	CommonClipboardWrite(S, (res) => {
 		if (res.err) {
-			ToastManager.error(res.errorAsDOM(TextGet("AppCopyError")));
+			ToastManager.error(res.errorAsDOM(InterfaceTextGet("AppCopyError")));
 		} else {
-			ToastManager.success(TextGet("AppCopyDone"));
+			ToastManager.success(InterfaceTextGet("AppCopyDone"));
 		}
 	});
 }
