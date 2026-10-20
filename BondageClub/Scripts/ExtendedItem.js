@@ -677,8 +677,7 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 		return InterfaceTextGet("CantChangeWhileLocked");
 	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true, newOption.Property?.AllowActivePose)) {
 		// Otherwise use the standard prerequisite check
-		// @ts-ignore TS-Strict: DialogMenuMode being null issue
-		const statusID = DialogMenuMapping[DialogMenuMode]?.ids.status;
+		const statusID = DialogGetMenu(DialogMenuMode)?.ids.status;
 		if (statusID) {
 			// No idea what's going on there… Are we setting that at one point?
 			return (document.getElementById(statusID)?.textContent ?? "error");
@@ -913,8 +912,10 @@ function ExtendedItemCustomClick(Name, Callback, Worn=false, ChangeWhenLocked=tr
 	} else {
 		// Check if the option is blocked/limited/etc.
 		// TODO: Add a proper archetype rather than relying on `ParentData == null`
-		const newOption = /** @type {ExtendedItemOption} */ (/** @type {unknown} */ ({ OptionType: "ExtendedItemOption", Name: Name, ParentData: null, ChangeWhenLocked }));
-		const previousOption = /** @type {ExtendedItemOption} */ (/** @type {unknown} */ ({ OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: null, ChangeWhenLocked }));
+		/** @type {ExtendedItemOption} */
+		const newOption = { OptionType: "ExtendedItemOption", Name: Name, ParentData: /** @type {never} */(null), ChangeWhenLocked };
+		/** @type {ExtendedItemOption} */
+		const previousOption = { OptionType: "ExtendedItemOption", Name: `${Name}Previous`, ParentData: /** @type {never} */(null), ChangeWhenLocked };
 		const requirementMessage = ExtendedItemRequirementCheckMessage(null, C, item, newOption, previousOption);
 		if (requirementMessage) {
 			DialogExtendedMessage = requirementMessage;

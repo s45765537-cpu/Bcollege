@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -555,8 +554,11 @@ function DialogPrerequisite(dialog) {
 	if (match) {
 		const [, neg, target, method] = match;
 		const obj = target === "Player" ? Player : CurrentCharacter;
+		// eslint-disable-next-line jsdoc/valid-types
+		const booleanMethod = /** @type {keyof { [k in keyof Character as Character[k] extends () => boolean ? k : never]: Character[k] }} */(method);
+		const fn = obj?.[booleanMethod];
 
-		if (typeof obj[method] !== "function") {
+		if (typeof fn !== "function") {
 			console.error(
 				`DialogPrerequisite: Method '${method}' not found on ${target}`,
 				{ prereq, dialog }
@@ -564,7 +566,7 @@ function DialogPrerequisite(dialog) {
 			return false;
 		}
 
-		const result = obj[method]();
+		const result = fn();
 		return neg ? !result : result;
 	}
 
@@ -584,8 +586,9 @@ function DialogPrerequisite(dialog) {
 	const key = (negated ? prereq.slice(1) : prereq).trim();
 	const globalKey = CurrentScreen + key;
 
-	if (globalKey in window) {
-		const value = !!window[globalKey];
+	const namespace = /** @type {Record<string, unknown>} */ (/** @type {unknown} */ (window));
+	if (globalKey in namespace) {
+		const value = !!namespace[globalKey];
 		return negated ? !value : value;
 	}
 
@@ -1033,7 +1036,7 @@ function DialogLeaveFocusItem(allowModeChange=true) {
 		}
 
 		const screenCallback = DialogLeaveFocusItemHandlers.DialogFocusItem[CurrentScreen];
-		if (screenCallback) {
+		if (screenCallback && item) {
 			screenCallback(item);
 		} else if (allowModeChange) {
 			DialogChangeMode("items");
@@ -1273,7 +1276,7 @@ const DialogEffectIcons = /** @type {const} */({
 		level += (craftEffect?.Deaf ?? 0);
 		return DialogEffectIcons._DeafLevelToIcon(level);
 	},
-	/** @type {(level: number) => undefined | InventoryIcon} */
+	/** @type {(level: number) => null | InventoryIcon} */
 	_DeafLevelToIcon(level) {
 		if (level < (CharacterDeafLevels.get("DeafLight") ?? 0)) {
 			return null;
@@ -1717,7 +1720,7 @@ function DialogInventoryBuild(C, focusGroup, resetOffset=false, locks=false, rel
 		}
 
 		// Sixth. we add all crafted items from the character that matches that slot
-		if (!C.IsPlayer() && !C.IsNpc()) {
+		if (C.IsOnline()) {
 			for (const Craft of C.Crafting) {
 				if (Craft == null || Craft.Private) {
 					continue;
@@ -1779,7 +1782,7 @@ function DialogFacialExpressionsLoad(Slot) {
 		CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression ?? null);
 		Player.ActiveExpression.setWithoutReload(e.Group, e.CurrentExpression ?? null);
 	});
-	if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.IsPlayer()) {
+	if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C?.IsPlayer()) {
 		CommonPromiseCatch(DialogSelfMenuMapping.Expression.Reload());
 	}
 }
@@ -2146,7 +2149,7 @@ function DialogChangeMode(mode, reset=false) {
 	// DialogExpressionPreviousMode.mode with "colorExpression" itself, which later causes
 	// DialogMenuBack()/DialogChangeFocusToGroup() to re-enter "colorExpression" and call
 	// ItemColorCancelAndExit() recursively (stack overflow on exit).
-	if (mode === "colorExpression" && DialogMenuMode !== "colorExpression") {
+	if (mode === "colorExpression" && DialogMenuMode && DialogMenuMode !== "colorExpression" && C.FocusGroup) {
 		DialogExpressionPreviousMode = { mode: DialogMenuMode, group: C.FocusGroup };
 	}
 
@@ -2158,7 +2161,7 @@ function DialogChangeMode(mode, reset=false) {
 				ColorPickerUnload();
 				break;
 			default:
-				DialogMenuMapping[DialogMenuMode]?.Unload();
+				DialogGetMenu(DialogMenuMode)?.Unload();
 				break;
 		}
 		DialogMenuMode = mode;
@@ -2343,7 +2346,10 @@ function DialogClick(event) {
 
 	// If the user clicked the Up button, move the character up to the top of the screen
 	if ((CurrentCharacter.HeightModifier < -90 || CurrentCharacter.HeightModifier > 30) && (CurrentCharacter.FocusGroup != null) && MouseIn(510, 50, 90, 90)) {
-		CharacterAppearanceForceUpCharacter = CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber ? -1 : CurrentCharacter.MemberNumber;
+		const memberNumber = CurrentCharacter.MemberNumber;
+		if (memberNumber != null) {
+			CharacterAppearanceForceUpCharacter = CharacterAppearanceForceUpCharacter == memberNumber ? -1 : memberNumber;
+		}
 		return;
 	}
 
@@ -2364,7 +2370,7 @@ function DialogClick(event) {
 					DialogMenuButtonBuild(C);
 				}
 			}
-			if ((CurrentScreen === "ChatRoom") && MouseIn(1300, 880, 400, 65)) StruggleChatRoomStart(DialogStrugglePrevItem);
+			if ((CurrentScreen === "ChatRoom") && DialogStrugglePrevItem && MouseIn(1300, 880, 400, 65)) StruggleChatRoomStart(DialogStrugglePrevItem);
 		}
 		return;
 	}
@@ -2384,7 +2390,7 @@ function DialogClick(event) {
 		}
 	}
 
-	DialogMenuMapping[DialogMenuMode]?.Click(event);
+	DialogGetMenu(DialogMenuMode)?.Click(event);
 }
 
 /** @type {ScreenResizeHandler} */
@@ -2397,11 +2403,11 @@ function DialogResize(load) {
 			ColorPickerResize(load);
 			break;
 		default:
-			DialogMenuMapping[DialogMenuMode]?.Resize(load);
+			DialogGetMenu(DialogMenuMode)?.Resize(load);
 			break;
 	}
 
-	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Resize(load);
+	DialogGetSelfMenu(DialogSelfMenuSelected)?.Resize(load);
 }
 
 /**
@@ -2447,7 +2453,7 @@ function DialogGetCharacterZone(C, Zone, X, Y, Zoom, HeightRatio) {
  */
 function DialogFindNextSubMenu() {
 	const options = DialogSelfMenuOptions.filter(i => DialogSelfMenuMapping[i]?.IsAvailable(Player));
-	const currentIndex = options.indexOf(DialogSelfMenuSelected);
+	const currentIndex = DialogSelfMenuSelected ? options.indexOf(DialogSelfMenuSelected) : -1;
 	const newMenuName = currentIndex === -1 ? options[0] : options[(1 + currentIndex) % options.length];
 	DialogSelfMenuMapping[newMenuName]?.Init({ C: Player });
 }
@@ -2502,7 +2508,7 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
  * @returns {void} - Nothing
  */
 function DialogSetStatus(status, timer=0, replace, id) {
-	id ??= DialogMenuMapping[DialogMenuMode]?.ids.status;
+	id ??= DialogGetMenu(DialogMenuMode)?.ids.status;
 	const elem = id ? document.getElementById(id) : null;
 	if (!elem) {
 		return;
@@ -2553,7 +2559,7 @@ function DialogStatusTimerHandler(elem) {
 
 /** Clears the current status message. */
 function DialogStatusClear() {
-	const id = DialogMenuMapping[DialogMenuMode]?.ids.status;
+	const id = DialogGetMenu(DialogMenuMode)?.ids.status;
 	if (!id) {
 		return;
 	}
@@ -2582,7 +2588,10 @@ function DialogExtendItem(Item, SourceItem) {
 	DialogFocusItem = Item;
 	DialogFocusSourceItem = SourceItem ?? null;
 	DialogFocusItemName = Item.Asset.Group.Name + Item.Asset.Name;
-	ExtendedItemInit(C, Item.Asset.IsLock ? SourceItem : Item, false, true);
+	const extendedItem = Item.Asset.IsLock ? SourceItem : Item;
+	if (extendedItem) {
+		ExtendedItemInit(C, extendedItem, false, true);
+	}
 	CommonDynamicFunction("Inventory" + Item.Asset.Group.Name + Item.Asset.Name + "Load()");
 }
 
@@ -2702,7 +2711,7 @@ class DialogMenu {
 	 * @readonly
 	 * @type {Readonly<Record<string, string> & { root: string, status?: string, grid?: string, paginate?: string, icon?: string, menubar?: string }>}
 	 */
-	ids;
+	ids = /** @type {never} */ (undefined);
 
 	/**
 	 * A list of all init property names as supported by this class.
@@ -2711,7 +2720,7 @@ class DialogMenu {
 	 * @abstract
 	 * @type {readonly (keyof PropType)[]}
 	 */
-	_initPropertyNames;
+	_initPropertyNames = /** @type {never} */ (undefined);
 
 	/**
 	 * An object for storing all of this classes init properties.
@@ -2744,7 +2753,7 @@ class DialogMenu {
 	 * @readonly
 	 * @type {Record<string, DialogMenu<string, ClickedObj>["GetClickStatus"]>}
 	 */
-	clickStatusCallbacks;
+	clickStatusCallbacks = /** @type {never} */ (undefined);
 
 	/**
 	 * See {@link DialogMenu.shape}
@@ -2764,7 +2773,7 @@ class DialogMenu {
 	set shape(value) {
 		if (value == null) {
 			this._shape = null;
-		} else if (value != null && !CommonArraysEqual(this._shape, value)) {
+		} else if (!this._shape || !CommonArraysEqual(this._shape, value)) {
 			this._shape = value;
 			this.Resize(false);
 		}
@@ -2783,7 +2792,7 @@ class DialogMenu {
 	 * Get or set the currently selected character.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new character is assigned.
-	 * @type {PropType["C"]}
+	 * @type {null | PropType["C"]}
 	 */
 	get C() {
 		return this._initProperties?.C ?? null;
@@ -2795,9 +2804,9 @@ class DialogMenu {
 
 		const elem = document.getElementById(this.ids.root);
 		if (value == null) {
-			this._initProperties.C = null;
+			this._initProperties.C = /** @type {never} */ (null);
 			elem?.removeAttribute("data-character-id");
-		} else if (this.C.ID !== value.ID) {
+		} else if (this.C?.ID !== value.ID) {
 			this._initProperties.C = value;
 			elem?.setAttribute("data-character-id", value.ID);
 			CommonPromiseCatch(this.Reload(null, { reset: true }));
@@ -2853,7 +2862,7 @@ class DialogMenu {
 			 */
 			_ClickButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
-				if (clickedObj === undefined || !dialogMenu.C) {
+				if (clickedObj === null || !dialogMenu.C) {
 					event.stopImmediatePropagation();
 					return "Internal error";
 				}
@@ -2964,15 +2973,21 @@ class DialogMenu {
 			return;
 		}
 
+		const character = this.C;
+		if (!character) {
+			this.Exit();
+			return;
+		}
+
 		const root = this._Load();
 		root.setAttribute("id", this.ids.root);
 		root.setAttribute("screen-generated", CurrentScreen);
-		root.setAttribute("data-character-id", this.C.ID);
+		root.setAttribute("data-character-id", character.ID);
 		root.setAttribute("data-mode", this.mode);
 		root.classList.add("HideOnPopup", "dialog-root");
 		if (!root.parentElement) { document.body.append(root); }
 		root.toggleAttribute("hidden", false);
-		DialogMenuButtonBuild(this.C);
+		DialogMenuButtonBuild(character);
 
 		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar realignment
 		const shape = this.shape;
@@ -2980,7 +2995,7 @@ class DialogMenu {
 		CommonPromiseCatch(
 			this.Reload(null, { reset: true, resetScrollbar: false })
 				.then((status) => {
-					if (status) {
+					if (status && shape) {
 						ElementPositionFixed(root, ...shape);
 						const checkedButton = buttonGrid?.querySelector(`[aria-checked='true']`);
 						if (checkedButton) {
@@ -3092,8 +3107,8 @@ class DialogMenu {
 	_ReloadValidate(properties) {
 		const currentProp = CommonPick(/** @type {Partial<PropType>} */(this._initProperties ?? {}), this._initPropertyNames);
 		const newProp = CommonPick(properties, this._initPropertyNames);
-		for (const k of Object.keys(newProp)) {
-			/** @type {Unknown<typeof newProp>} */(newProp)[k] ??= currentProp[k];
+		for (const k of CommonKeys(newProp)) {
+			newProp[k] ??= currentProp[k];
 		}
 
 		const root = document.getElementById(this.ids.root);
@@ -3106,24 +3121,30 @@ class DialogMenu {
 			);
 			return { status: false };
 		} else {
-			return { status: true, param: { root, textCache, newProperties: newProp, oldProperties: currentProp } };
+			const newProperties = /** @type {PropType} */ (/** @type {unknown} */ (newProp));
+			const oldProperties = /** @type {PropType} */ (/** @type {unknown} */ (currentProp));
+			return { status: true, param: { root, textCache, newProperties, oldProperties } };
 		}
 	}
 
 	/**
 	 * See {@link DialogMenu.Reload}
-	 * @param {DialogMenu.ReloadParam} param
+	 * @param {DialogMenu.ReloadParam<PropType>} param
 	 * @param {DialogMenu.ReloadOptions} options
 	 * @returns {boolean}
 	 */
 	_Reload(param, options) {
 		const { root, newProperties, oldProperties } = param;
+		const initProperties = this._initProperties;
+		if (!initProperties) {
+			return false;
+		}
 
 		// Check if any class-level properties have to be updated
 		for (const key of this._initPropertyNames) {
 			if (newProperties[key] !== oldProperties[key]) {
 				options.reset ??= true;
-				this._initProperties[key] = newProperties[key];
+				initProperties[key] = newProperties[key];
 			}
 		}
 		options.resetScrollbar ??= options.reset;
@@ -3309,9 +3330,9 @@ class _DialogFocusMenu extends DialogMenu {
 
 		const elem = document.getElementById(this.ids.root);
 		if (value == null) {
-			this._initProperties.focusGroup = null;
+			this._initProperties.focusGroup = /** @type {never} */ (null);
 			elem?.removeAttribute("data-group");
-		} else if (this.focusGroup.Name !== value.Name) {
+		} else if (this.focusGroup?.Name !== value.Name) {
 			this._initProperties.focusGroup = value;
 			elem?.setAttribute("data-group", value.Name);
 			CommonPromiseCatch(this.Reload(null, { reset: true }));
@@ -3386,7 +3407,10 @@ class _DialogFocusMenu extends DialogMenu {
 	/** @type {DialogMenu["Load"]} */
 	async Load() {
 		await super.Load();
-		document.getElementById(this.ids.root)?.setAttribute("data-group", this.focusGroup.Name);
+		const focusGroup = this.focusGroup;
+		if (focusGroup) {
+			document.getElementById(this.ids.root)?.setAttribute("data-group", focusGroup.Name);
+		}
 		return;
 	}
 }
@@ -3463,7 +3487,10 @@ class _DialogItemMenu extends _DialogFocusMenu {
 	};
 
 	_Load() {
-		DialogBuildActivities(this.C, false);
+		const C = this.C;
+		if (C) {
+			DialogBuildActivities(C, false);
+		}
 
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
@@ -3504,8 +3531,8 @@ class _DialogItemMenu extends _DialogFocusMenu {
 			switch (this.mode) {
 				case "locked": {
 					const item = InventoryGet(C, focusGroup.Name);
-					const lock = InventoryGetLock(item);
-					if (!lock || !DialogCanInspectLock(item)){
+					const lock = item && InventoryGetLock(item);
+					if (!item || !lock || !DialogCanInspectLock(item)){
 						textContent = InterfaceTextGet("SelectLockedUnknown");
 					} else {
 						asset = lock.Asset;
@@ -4107,10 +4134,14 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 			])?.iconGrid,
 		].filter(Boolean).forEach(e => icon.append(e));
 
+		const craft = item.Craft;
 		const [name, crafter, property, description, private_] = [ids.name, ids.crafter, ids.property, ids.description, ids.private].map(i => document.getElementById(i));
-		name.textContent = InterfaceTextGet("CraftingName").replace("CraftName", item.Craft.Name);
-		crafter.textContent = InterfaceTextGet("CraftingMember").replace("MemberName", item.Craft.MemberName).replace("MemberNumber", item.Craft.MemberNumber.toString());
-		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
+		if (!craft || !name || !crafter || !property || !description || !private_) {
+			return;
+		}
+		name.textContent = InterfaceTextGet("CraftingName").replace("CraftName", craft.Name);
+		crafter.textContent = InterfaceTextGet("CraftingMember").replace("MemberName", craft.MemberName ?? "").replace("MemberNumber", craft.MemberNumber?.toString() ?? "");
+		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(craft.Private.toString()));
 		CommonPromiseCatch(
 			TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise
 				.then(textCache => {
@@ -4118,7 +4149,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
 						ElementCreate({
 							tag: "ul",
-							children: Object.entries(item.Craft.Effects ?? {}).map(([propertyKey, propertyValue]) => {
+							children: Object.entries(craft.Effects ?? {}).map(([propertyKey, propertyValue]) => {
 								if (!propertyValue) {
 									return null;
 								}
@@ -4141,7 +4172,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 
 		description.replaceChildren(
 			InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-			...CraftingDescription.DecodeToHTML(item.Craft.Description),
+			...CraftingDescription.DecodeToHTML(craft.Description),
 		);
 	}
 
@@ -4208,7 +4239,10 @@ class _DialogDialogMenu extends DialogMenu {
 
 	/** @type {DialogMenu["Draw"]} */
 	Draw() {
-		NPCInteraction(this.C);
+		const C = this.C;
+		if (C && C.IsNpc()) {
+			NPCInteraction(C);
+		}
 	}
 
 	_Load() {
@@ -4236,7 +4270,7 @@ class _DialogDialogMenu extends DialogMenu {
 		});
 	}
 
-	/** @type {ScreenFunctions["Exit"]} */
+	/** @type {ScreenExitHandler} */
 	Exit() {
 		super.Exit();
 	}
@@ -4265,7 +4299,7 @@ class _DialogDialogMenu extends DialogMenu {
 					{ label: " ", labelPosition: "center" },
 					{ button: {
 						attributes: { "screen-generated": undefined },
-						dataAttributes: { index: i, group: dialog.Group },
+						dataAttributes: { index: i, group: dialog.Group ?? undefined },
 						classList: ["dialog-grid-button", "dialog-dialog-button"],
 					}},
 				)),
@@ -4281,7 +4315,7 @@ class _DialogDialogMenu extends DialogMenu {
 			const unload = !(dialog.Stage === C.Stage && dialog.Option !== null && DialogPrerequisite(dialog));
 			button.toggleAttribute("hidden", unload);
 			if (!unload) {
-				button.querySelector(".button-label")?.replaceChildren(SpeechTransformDialog(Player, dialog.Option));
+				button.querySelector(".button-label")?.replaceChildren(SpeechTransformDialog(Player, dialog.Option ?? ""));
 			}
 		}
 	}
@@ -4328,12 +4362,12 @@ class _DialogDialogMenu extends DialogMenu {
 		// manually performing any reloads/status updates
 
 		// If the player is gagged, the answer will always be the same
-		C._CurrentDialog = Player.CanTalk() ? clickedDialog.Result : DialogFind(C, "PlayerGagged");
+		C._CurrentDialog = Player.CanTalk() ? (clickedDialog.Result ?? "") : DialogFind(C, "PlayerGagged");
 		C.ClickedOption = clickedDialog.Option;
 
 		// A dialog option can change the conversation stage, show text or launch a custom function
-		if ((Player.CanTalk() && C.CanTalk()) || SpeechFullEmote(clickedDialog.Option)) {
-			C._CurrentDialog = clickedDialog.Result;
+		if ((Player.CanTalk() && C.CanTalk()) || (clickedDialog.Option != null && SpeechFullEmote(clickedDialog.Option))) {
+			C._CurrentDialog = clickedDialog.Result ?? "";
 			if (clickedDialog.NextStage !== null) {
 				C._Stage = clickedDialog.NextStage;
 				CommonPromiseCatch(this.Reload());
@@ -4367,14 +4401,14 @@ class _DialogSelfMenu extends DialogMenu {
 
 	/**
 	 * An object mapping button {@link HTMLButtonElement.name}s to their respective click + validation functions
-	 * @satisfies {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>}
+	 * @type {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>}
 	 */
-	menubarEventListeners;
+	menubarEventListeners = {};
 
 	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["Init"]} */
 	Init(parameters, style) {
 		if (DialogSelfMenuSelected !== this.mode) {
-			DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
+			DialogGetSelfMenu(DialogSelfMenuSelected)?.Unload();
 			DialogSelfMenuSelected = this.mode;
 		}
 		const ret = super.Init(parameters, style);
@@ -4402,7 +4436,12 @@ class _DialogSelfMenu extends DialogMenu {
 
 			/** @type {(this: HTMLButtonElement, ev: PointerEvent) => void} */
 			_ClickMenuButton(ev) {
-				const param = CommonPick(dialogMenu._initProperties, dialogMenu._initPropertyNames);
+				const initProperties = dialogMenu._initProperties;
+				if (!initProperties) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+				const param = CommonPick(initProperties, dialogMenu._initPropertyNames);
 				if (Object.values(param).some(i => i == null)) {
 					ev.stopImmediatePropagation();
 					return;
@@ -4430,7 +4469,12 @@ class _DialogSelfMenu extends DialogMenu {
 
 			/** @type {(this: HTMLButtonElement, ev: PointerEvent) => void} */
 			_ClickDisabledMenuButton(ev) {
-				const param = CommonPick(dialogMenu._initProperties, dialogMenu._initPropertyNames);
+				const initProperties = dialogMenu._initProperties;
+				if (!initProperties) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+				const param = CommonPick(initProperties, dialogMenu._initPropertyNames);
 				if (Object.values(param).some(i => i == null)) {
 					ev.stopImmediatePropagation();
 					return;
@@ -4518,7 +4562,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 	clickStatusCallbacks = {
 		CharacterIsExpressionAllowed: (C, clickedItem, equippedItem) => {
 			const status = !!equippedItem && CharacterIsExpressionDisallowed(C, equippedItem, clickedItem.Expression);
-			return status ? InterfaceTextGet(`Prerequisite${status}`).replace("{Expression}", clickedItem.Expression) : null;
+			return status ? InterfaceTextGet(`Prerequisite${status}`).replace("{Expression}", clickedItem.Expression ?? "") : null;
 		},
 	};
 
@@ -4538,10 +4582,9 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		if (!this._facialExpressions) {
 			/** @type {Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>} */
 			const expressions = {};
-			for (const { Name, AllowExpression } of AssetGroup) {
-				if (!AllowExpression || Name === "Eyes2") {
-					continue;
-				}
+			for (const group of AssetGroup) {
+				if (!group.HasExpression() || group.Name === "Eyes2") continue;
+				const { Name, AllowExpression } = group;
 				expressions[Name] = AllowExpression.includes(null) ? AllowExpression : [null, ...AllowExpression];
 			}
 			return this._facialExpressions = expressions;
@@ -4625,7 +4668,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
 			blindness: {
 				click(button) {
-					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
+					const level = Number.parseInt(button.getAttribute("aria-valuenow") ?? "", 10);
 					DialogFacialExpressionsSelectedBlindnessLevel = level;
 					ElementButton.SetImage(button, `Icons/BlindToggle${level}.png`);
 				},
@@ -5217,7 +5260,9 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 	Exit() {
 		super.Exit();
 		for (const C of this.expressionPreviews) {
-			CharacterDelete(C, false);
+			if (C) {
+				CharacterDelete(C, false);
+			}
 		}
 	}
 
@@ -5298,7 +5343,7 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu<string, number>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
-		const slot = Number.parseInt(button.closest("li")?.getAttribute("data-index"), 10);
+		const slot = Number.parseInt(button.closest("li")?.getAttribute("data-index") ?? "", 10);
 		return Number.isNaN(slot) ? null : slot;
 	}
 
@@ -5459,6 +5504,28 @@ var DialogSelfMenuMapping = /** @type {const} */({
 });
 
 /**
+ * @param {null | DialogMenuMode} mode
+ * @returns {undefined | DialogMenu<DialogMenuMode>}
+ */
+function DialogGetMenu(mode) {
+	if (!mode) {
+		return;
+	}
+	return /** @type {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */ (DialogMenuMapping)[mode];
+}
+
+/**
+ * @param {null | DialogSelfMenuName} mode
+ * @returns {undefined | _DialogSelfMenu}
+ */
+function DialogGetSelfMenu(mode) {
+	if (!mode) {
+		return;
+	}
+	return DialogSelfMenuMapping[mode];
+}
+
+/**
  * Searches in the dialog for a specific stage keyword and returns that dialog option if we find it, error otherwise
  * @param {string} KeyWord - The key word to search for
  * @returns {string}
@@ -5482,11 +5549,11 @@ function DialogFindPlayer(KeyWord) {
 function DialogFind(C, KeyWord1, KeyWord2, ReturnPrevious = true) {
 	for (let D = 0; D < C.Dialog.length; D++)
 		if (C.Dialog[D].Stage == KeyWord1)
-			return C.Dialog[D].Result.trim();
+			return C.Dialog[D].Result?.trim() ?? "";
 	if (KeyWord2 != null)
 		for (let D = 0; D < C.Dialog.length; D++)
 			if (C.Dialog[D].Stage == KeyWord2)
-				return C.Dialog[D].Result.trim();
+				return C.Dialog[D].Result?.trim() ?? "";
 	return ((ReturnPrevious == null) || ReturnPrevious) ? C.CurrentDialog : "";
 }
 
@@ -5743,8 +5810,8 @@ function DialogDraw() {
 	// Draw a repositioning button if some zones are offscreen
 	DialogDrawRepositionButton();
 
-	DialogMenuMapping[DialogMenuMode]?.Draw();
-	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Draw();
+	DialogGetMenu(DialogMenuMode)?.Draw();
+	DialogGetSelfMenu(DialogSelfMenuSelected)?.Draw();
 }
 
 /**
@@ -5866,6 +5933,7 @@ function DialogStruggleStart(C, Action, PrevItem, NextItem) {
  * @type {StruggleCompletionCallback}
  */
 function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Attempts, Interrupted, Auto }) {
+	if (!DialogStruggleAction) return;
 	const Success = Progress >= 100;
 	if (Interrupted) {
 		// Handle the minigame having been interrupted by showing a message in chat
@@ -5911,7 +5979,11 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		}
 
 		// Removes the item & associated items if needed, then wears the new one
-		InventoryRemove(C, C.FocusGroup.Name, false);
+		const group = NextItem?.Asset.Group ?? PrevItem?.Asset.Group;
+		if (!group) {
+			return;
+		}
+		InventoryRemove(C, group.Name, false);
 		/** @type {null | Item} */
 		let nextWornItem = null;
 		if (NextItem != null) {
@@ -5920,7 +5992,7 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 			if ((NextItem.Craft != null) && CommonIsColor(NextItem.Craft.Color))
 				Color = NextItem.Craft.Color;
 
-			nextWornItem = InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, false) ?? undefined;
+			nextWornItem = InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, false);
 		}
 
 		CharacterRefresh(C, true, true);
@@ -5948,7 +6020,9 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		// Update the dialog state
 		if (C.IsNpc()) {
 			// For NPCs, we need to show their reaction and never leave the dialog abruptly
-			C.CurrentDialog = DialogFind(C, (nextWornItem == null ? "Remove" + PrevItem.Asset.Name : nextWornItem.Asset.Name), (nextWornItem == null ? "Remove" : "") + C.FocusGroup.Name);
+			const line = nextWornItem == null ? "Remove" + (PrevItem?.Asset.Name ?? "") : nextWornItem.Asset.Name;
+			const action = nextWornItem == null ? "Remove" : "";
+			C.CurrentDialog = DialogFind(C, line, action + group.Name);
 			DialogLeaveItemMenu();
 		} else if (nextWornItem === null) {
 			// Removing an item, we move back to the menu
@@ -5987,7 +6061,7 @@ function DialogKeyDown(event) {
 			DialogMenuBack();
 			return true;
 		} else {
-			return DialogMenuMapping[DialogMenuMode]?.KeyDown(event) ?? false;
+			return DialogGetMenu(DialogMenuMode)?.KeyDown(event) ?? false;
 		}
 	}
 	return false;
@@ -6019,7 +6093,7 @@ function DialogHideNPC(npc) {
  * @returns {void} - Nothing
  */
 function DialogRevealNPC(npc) {
-	npc.Name = npc.SavedName;
+	npc.Name = npc.SavedName ?? "";
 	delete npc.SavedName;
 	delete npc.FixedImage;
 }
