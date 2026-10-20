@@ -1763,7 +1763,7 @@ function InventoryIsAllowedLimited(C, item, type) {
 function InventoryIsKey(Item) {
 	if ((Item == null) || (Item.Asset == null) || (Item.Asset.Effect == null)) return false;
 	for (let E = 0; E < Item.Asset.Effect.length; E++)
-		if (Item.Asset.Effect[E].substr(0, 7) == "Unlock")
+		if (Item.Asset.Effect[E].startsWith("Unlock"))
 			return true;
 	return false;
 }
