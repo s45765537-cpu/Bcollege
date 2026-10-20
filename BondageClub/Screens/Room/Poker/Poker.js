@@ -336,7 +336,7 @@ function PokerGetImage(P) {
 
 		// If an image was found
 		if (Images.length > 0)
-			P.Image = `Screens/Room/Poker/${CommonRandomItemFromList("", Images)}`;
+			P.Image = `Screens/Room/Poker/${CommonGetRandomItemFromList(Images)}`;
 
 	}
 
