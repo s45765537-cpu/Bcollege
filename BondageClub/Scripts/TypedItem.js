@@ -682,20 +682,22 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
  * @returns {void} Nothing
  */
 function TypedItemDraw(data) {
-	const { options, name, drawData, dialogPrefix } = data;
+	const { asset, options, name, drawData, dialogPrefix } = data;
+	const item = asset.IsLock ? DialogFocusSourceItem : DialogFocusItem;
+	if (!item) return;
 	NoArch.Draw(data);
 	if (ExtendedItemSubscreen && data.parentOption == null) {
 		return;
 	}
 
 	const ItemOptionsOffset = ExtendedItemGetOffset();
-	const CurrentOption = options[DialogFocusItem.Property.TypeRecord[name]] || options[0];
+	const CurrentOption = options[item.Property.TypeRecord[name]] || options[0];
 
 	// Draw the possible variants and their requirements, arranged based on the number per page
 	const elementData = drawData.elementData.slice(ItemOptionsOffset, ItemOptionsOffset + drawData.itemsPerPage);
 	elementData.forEach((buttonData, i) => {
 		i += ItemOptionsOffset;
-		ExtendedItemDrawButton(options[i], CurrentOption, dialogPrefix.option, buttonData);
+		ExtendedItemDrawButton(options[i], CurrentOption, dialogPrefix.option, buttonData, item);
 	});
 
 	// Permission mode toggle

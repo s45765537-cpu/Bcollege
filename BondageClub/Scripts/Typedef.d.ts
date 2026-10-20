@@ -2921,10 +2921,10 @@ interface ExtendedItemScriptHookStruct<
 	DataType extends ExtendedItemData<any>,
 	OptionType extends ExtendedItemOption
 > {
-	init: ExtendedItemScriptHookCallbacks.Init<DataType>,
-	load: ExtendedItemScriptHookCallbacks.Load<DataType>,
-	draw: ExtendedItemScriptHookCallbacks.Draw<DataType>,
-	click: ExtendedItemScriptHookCallbacks.Click<DataType>,
+	init: null | ExtendedItemScriptHookCallbacks.Init<DataType>,
+	load: null | ExtendedItemScriptHookCallbacks.Load<DataType>,
+	draw: null | ExtendedItemScriptHookCallbacks.Draw<DataType>,
+	click: null | ExtendedItemScriptHookCallbacks.Click<DataType>,
 	exit: null | ExtendedItemScriptHookCallbacks.Exit<DataType>,
 	validate: null | ExtendedItemScriptHookCallbacks.Validate<DataType, OptionType>,
 	publishAction: null | ExtendedItemScriptHookCallbacks.PublishAction<DataType, OptionType>,

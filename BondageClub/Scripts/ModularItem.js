@@ -429,12 +429,14 @@ function ModularItemDrawCommon(
 	data,
 	{ paginate, pageCount, elementData, itemsPerPage },
 ) {
+	const item = data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem;
+	if (!item) return;
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Draw`);
+		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix(item)}${ExtendedItemSubscreen}Draw`);
 		return;
 	}
 
-	ExtendedItemDrawHeader();
+	ExtendedItemDrawHeader(item);
 	DrawText(DialogExtendedMessage, 1500, 375, "#fff", "808080");
 
 	// Permission mode toggle
@@ -449,7 +451,7 @@ function ModularItemDrawCommon(
 	const page = buttonDefinitions.slice(pageStart, pageStart + itemsPerPage);
 
 	for (const [i, [option, currentOption, prefix]] of page.entries()) {
-		ExtendedItemDrawButton(option, currentOption, prefix, elementData[i + pageStart]);
+		ExtendedItemDrawButton(option, currentOption, prefix, elementData[i + pageStart], item);
 	}
 
 	if (paginate) {
@@ -554,8 +556,10 @@ function ModularItemClickModule(module, data) {
  * @returns {void} - Nothing
  */
 function ModularItemClickCommon(data, { paginate, elementData, itemsPerPage }, exitCallback, itemCallback, paginateCallback, pageNumber) {
+	const item = data.asset.IsLock ? DialogFocusSourceItem : DialogFocusItem;
+	if (!item) return;
 	if (ExtendedItemSubscreen) {
-		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix()}${ExtendedItemSubscreen}Click`);
+		CommonCallFunctionByNameWarn(`${ExtendedItemFunctionPrefix(item)}${ExtendedItemSubscreen}Click`);
 		return;
 	}
 
@@ -587,7 +591,7 @@ function ModularItemClickCommon(data, { paginate, elementData, itemsPerPage }, e
 	}
 
 	// If the assets allows tightening / loosening
-	if (ExtendedItemTighten.Click(data, DialogFocusItem, [1050, 220, 300, 65])) {
+	if (ExtendedItemTighten.Click(data, item, [1050, 220, 300, 65])) {
 		return;
 	}
 }
