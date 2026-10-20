@@ -5523,15 +5523,15 @@ ItemArmsThinLeatherStrapsHogtie
 ItemArmsThinLeatherStrapsSelect
 Выберите ременной бондаж.
 ItemArmsThinLeatherStrapsSetBoxtie
-SourceCharacter использует ремни на DestinationCharacter для создания коробочной сбруи.
+SourceCharacter использует ремни на TargetCharacter для создания коробочной сбруи.
 ItemArmsThinLeatherStrapsSetHogtie
-SourceCharacter использует ремни на DestinationCharacter, чтбы связать TargetPronounPossessive кабанчиком.
+SourceCharacter использует ремни на TargetCharacter, чтбы связать TargetPronounPossessive кабанчиком.
 ItemArmsThinLeatherStrapsSetWrist
-SourceCharacter использует ремешок на DestinationCharacter, связывая им запястья.
+SourceCharacter использует ремешок на TargetCharacter, связывая им запястья.
 ItemArmsThinLeatherStrapsSetWristElbow
-SourceCharacter использует ремни на DestinationCharacter, связывая ими запястья и локти.
+SourceCharacter использует ремни на TargetCharacter, связывая ими запястья и локти.
 ItemArmsThinLeatherStrapsSetWristElbowHarness
-SourceCharacter использует ремни на DestinationCharacter для создания сбруи на запястьях и локтях.
+SourceCharacter использует ремни на TargetCharacter для создания сбруи на запястьях и локтях.
 ItemArmsThinLeatherStrapsWrist
 Обвязка запястей
 ItemArmsThinLeatherStrapsWristElbow
@@ -5607,7 +5607,7 @@ SourceCharacter использует деревянные манжеты, что
 ItemArmsWoodenCuffsSetHandsHead
 SourceCharacter использует деревянные манжеты, чтобы зафиксировать руки DestinationCharacter рядом с TargetPronounPossessive головой.
 ItemArmsWoodenCuffsSetHogtied
-SourceCharacter использует деревянные манжеты, чтобы зафиксировать DestinationCharacter в связке кабанчиком.
+SourceCharacter использует деревянные манжеты, чтобы зафиксировать TargetCharacter в связке кабанчиком.
 ItemArmsWrappedBlanketFeetWrapped
 Ступни обернуты
 ItemArmsWrappedBlanketFullWrapped
@@ -9977,9 +9977,9 @@ SourceCharacter устанавливает систему предотвраще
 ItemPelvisModularChastityBeltSetp0
 Пробка(и) DestinationCharacterName AssetName полностью сдувается.
 ItemPelvisModularChastityBeltSetp1
-Пробка DestinationCharacterName AssetName слегка надута и дразнят DestinationCharacter с каждым движением.
+Пробка DestinationCharacterName AssetName слегка надута и дразнят TargetCharacter с каждым движением.
 ItemPelvisModularChastityBeltSetp2
-Пробка(и) DestinationCharacterName AssetName надувается и сильно дразнят DestinationCharacter с каждым движением.
+Пробка(и) DestinationCharacterName AssetName надувается и сильно дразнят TargetCharacter с каждым движением.
 ItemPelvisModularChastityBeltSetp3
 Пробка(и) DestinationCharacterName AssetName раздута и превращает каждое движение DestinationCharacter в тяжелую работу.
 ItemPelvisModularChastityBeltSetp4
@@ -10199,11 +10199,11 @@ ItemTorso2ThinLeatherStrapsHarness
 ItemTorso2ThinLeatherStrapsSelect
 Выберите ременной бондаж.
 ItemTorso2ThinLeatherStrapsSetCrotch
-SourceCharacter использует ремни на DestinationCharacter для создания паховой обвязки.
+SourceCharacter использует ремни на TargetCharacter для создания паховой обвязки.
 ItemTorso2ThinLeatherStrapsSetHarness
-SourceCharacter использует ремни на DestinationCharacter для создания упряжи.
+SourceCharacter использует ремни на TargetCharacter для создания упряжи.
 ItemTorso2ThinLeatherStrapsSetWaist
-SourceCharacter использует ремни на DestinationCharacter для создания поясной обвязки.
+SourceCharacter использует ремни на TargetCharacter для создания поясной обвязки.
 ItemTorso2ThinLeatherStrapsWaist
 Ремень вкоруг пояса
 ItemTorsoFuturisticHarnessFull
@@ -10265,11 +10265,11 @@ ItemTorsoThinLeatherStrapsHarness
 ItemTorsoThinLeatherStrapsSelect
 Выберите ременной бондаж.
 ItemTorsoThinLeatherStrapsSetCrotch
-SourceCharacter использует ремни на DestinationCharacter для создания паховой обвязки.
+SourceCharacter использует ремни на TargetCharacter для создания паховой обвязки.
 ItemTorsoThinLeatherStrapsSetHarness
-SourceCharacter использует ремни на DestinationCharacter для создания упряжи.
+SourceCharacter использует ремни на TargetCharacter для создания упряжи.
 ItemTorsoThinLeatherStrapsSetWaist
-SourceCharacter использует ремни на DestinationCharacter для создания поясной обвязки.
+SourceCharacter использует ремни на TargetCharacter для создания поясной обвязки.
 ItemTorsoThinLeatherStrapsWaist
 Ремень вкоруг пояса
 ItemVulvaClitAndDildoVibratorbeltDecreased0
