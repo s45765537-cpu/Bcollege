@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 
 /**
@@ -99,7 +98,7 @@ function TypedItemBuildOptions(protoOptions, asset, changeWhenLocked, screenName
 				...ExtendedItemParseProperties(asset, protoOption.Property ?? {}),
 				TypeRecord: { [screenName]: i },
 			},
-			ParentData: null, // Initialized later on in `TypedItemCreateTypedItemData`
+			ParentData: /** @type {never} */ (null), // Initialized later on in `TypedItemCreateTypedItemData`
 			ArchetypeData: null, // Also initialized later on in `TypedItemCreateTypedItemData`
 		};
 
@@ -181,7 +180,8 @@ function TypedItemCreateTypedItemData(asset, {
 	const name = Name != null ? Name : (parentOption == null ? ExtendedArchetype.TYPED : parentOption.Name);
 	/** @type {`${AssetGroupName}${string}`} */
 	const key = `${asset.Group.Name}${asset.Name}`;
-	const optionsParsed = TypedItemBuildOptions(Options, asset, ChangeWhenLocked, name);
+	const optionConfigs = Options ?? [];
+	const optionsParsed = TypedItemBuildOptions(optionConfigs, asset, ChangeWhenLocked, name);
 	DialogPrefix = DialogPrefix || {};
 
 	const data = TypedItemDataLookup[key] = {
@@ -212,7 +212,7 @@ function TypedItemCreateTypedItemData(asset, {
 	};
 	for (const [i, option] of optionsParsed.entries()) {
 		option.ParentData = data;
-		const protoOption = Options[i];
+		const protoOption = optionConfigs[i];
 		if (protoOption.ArchetypeConfig) {
 			option.ArchetypeData = AssetBuildExtended(asset, protoOption.ArchetypeConfig, AssetFemale3DCGExtended, option);
 		}
@@ -279,7 +279,7 @@ function TypedItemGenerateAllowBlock({ asset, options }) {
 	const mutableAsset = /** @type {Mutable<Asset>} */(asset);
 	const allowBlock = mutableAsset.AllowBlock = Array.isArray(mutableAsset.Block) ? mutableAsset.Block.slice() : [];
 	for (const option of options) {
-		CommonArrayConcatDedupe(allowBlock, option.Property.Block);
+		CommonArrayConcatDedupe(allowBlock, option.Property.Block ?? []);
 	}
 }
 
@@ -293,8 +293,8 @@ function TypedItemGenerateAllowHide({asset, options}) {
 	const allowHide = mutableAsset.AllowHide = Array.isArray(mutableAsset.Hide) ? mutableAsset.Hide.slice() : [];
 	const allowHideItem = mutableAsset.AllowHideItem = Array.isArray(mutableAsset.HideItem) ? mutableAsset.HideItem.slice() : [];
 	for (const option of options) {
-		CommonArrayConcatDedupe(allowHide, option.Property.Hide);
-		CommonArrayConcatDedupe(allowHideItem, option.Property.HideItem);
+		CommonArrayConcatDedupe(allowHide, option.Property.Hide ?? []);
+		CommonArrayConcatDedupe(allowHideItem, option.Property.HideItem ?? []);
 	}
 }
 
@@ -322,7 +322,7 @@ function TypedItemGenerateAllowTint({ asset, options }) {
  * @returns {void} - Nothing
  */
 function TypedItemGenerateAllowLockType({ name, asset, options }) {
-	const allowLockType = asset.AllowLockType || {};
+	const allowLockType = /** @type {Record<string, Set<number>>} */ ({ ...(asset.AllowLockType ?? {}) });
 	let allowAll = true;
 	allowLockType[name] = new Set();
 	for (const [i, option] of CommonEnumerate(options)) {
@@ -393,7 +393,7 @@ function TypedItemGetOptionNames(groupName, assetName) {
  */
 function TypedItemGetOption(groupName, assetName, optionName) {
 	const options = TypedItemGetOptions(groupName, assetName);
-	return options ? options.find(option => option.Name === optionName) : null;
+	return options?.find(option => option.Name === optionName) ?? null;
 }
 
 /**
@@ -418,8 +418,11 @@ function TypedItemValidateOption(data, C, item, option, previousOption, permitEx
 			break;
 		case "TypedItemOption":
 		case "VibratingItemOption": {
-			const optionIndex = option.Property.TypeRecord[data.name];
-			PermissionFailure = optionIndex !== 0 && InventoryBlockedOrLimited(C, item, `${data.name}${optionIndex}`);
+			const typeRecord = option.Property?.TypeRecord;
+			if (data && typeRecord) {
+				const optionIndex = typeRecord[data.name];
+				PermissionFailure = optionIndex !== 0 && InventoryBlockedOrLimited(C, item, `${data.name}${optionIndex}`);
+			}
 			break;
 		}
 		case "ExtendedItemOption":
@@ -502,13 +505,14 @@ function TypedItemSetOptionByName(C, itemOrGroupName, optionName, push=false, C_
 /**
  * Finds the currently set option on the given typed item
  * @template {TypedItemOption | VibratingItemOption} T
- * @param {ExtendedItemData<T> & { options: T[] }} data
+ * @param {{ name: string, options: T[] }} data
  * @param {Item} item - The equipped item
  * @returns {T} - The option which is currently applied to the item, or the first item in the options
  * array if no type is set.
  */
 function TypedItemFindPreviousOption({ name, options }, item) {
-	return options[item.Property.TypeRecord[name]] || options[0];
+	const typeIndex = item.Property.TypeRecord?.[name] ?? 0;
+	return options[typeIndex] || options[0];
 }
 
 /**
@@ -543,7 +547,7 @@ function TypedItemSetRandomOption(C, itemOrGroupName, push = false, C_Source=nul
 		return;
 	}
 
-	const newOption = CommonRandomItemFromList(null, availableOptions);
+	const newOption = CommonGetRandomItemFromList(availableOptions);
 	const previousOption = TypedItemFindPreviousOption(data, item);
 	const validationCallback = C_Source && C_Source.IsPlayer() ? ExtendedItemRequirementCheckMessage : TypedItemValidateOption;
 	const requirementMessage = validationCallback(data, C, item, newOption, previousOption);
@@ -576,7 +580,9 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		}
 	}
 
-	const optionIndex = Item.Property.TypeRecord[name];
+	/** @type {TypeRecord} */
+	const typeRecord = Item.Property.TypeRecord ?? {};
+	const optionIndex = typeRecord[name];
 	const option = options[optionIndex];
 
 	// Initialize subscreen(s) in a DFS manner
@@ -593,30 +599,35 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		}
 
 		// Check if all the expected properties are present; extra properties are ignored
-		const newProps = CommonCloneDeep(option.Property);
+		const newProps = CommonCloneDeep(/** @type {ItemProperties} */(option.Property ?? {}));
 		/** @type {ItemProperties} */
 		const mutableProperties = {};
+		const baseline = /** @type {Partial<ItemProperties> | null} */ (baselineProperty);
 		for (const propName of ExtendedItemInitPropertyIgnore) {
-			/** @type {Unknown<ItemProperties>} */(mutableProperties)[propName] = newProps[propName] ?? baselineProperty?.[propName];
+			/** @type {Unknown<ItemProperties>} */(mutableProperties)[propName] = newProps[propName] ?? baseline?.[propName];
 			delete newProps[propName];
 		}
 		if (CommonIncludes(VibratorModesAdvanced, option.Name)) {
 			// The intensity is dynamically managed by the `SetOption` hook for advanced vibrator modes
 			delete newProps.Intensity;
 		}
-		const baseLineProps = Object.entries(CommonCloneDeep(baselineProperty || {})).filter(([k, v]) => {
+		const baseLineProps = CommonEntries(/** @type {ItemProperties} */ (CommonCloneDeep(baselineProperty || {}))).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v && !ExtendedItemInitPropertyIgnore.has(k);
 		});
 
-		if (!CommonDeepIsSubset(newProps, Item.Property)) {
-			for (const [k, v] of CommonEntries(newProps)) {
-				if (CommonIsObject(Item.Property[k]) && CommonIsObject(v)) {
-					Item.Property[k] = CommonAssign(Item.Property[k], v);
-				} else if (Array.isArray(Item.Property[k]) && CommonIsArray(v)) {
-					Item.Property[k] = CommonArrayConcatDedupe(Item.Property[k], v);
+		// `delete` narrows `newProps` to `never`, and a failed subset check does the same to its argument.
+		const remainingProps = /** @type {ItemProperties} */ (newProps);
+		const remainingEntries = CommonEntries(remainingProps);
+		if (!CommonDeepIsSubset(remainingProps, Item.Property)) {
+			for (const [k, v] of remainingEntries) {
+				const current = Item.Property[k];
+				if (CommonIsObject(current) && CommonIsObject(v)) {
+					/** @type {Unknown<ItemProperties>} */(Item.Property)[k] = CommonAssign(current, v);
+				} else if (Array.isArray(current) && CommonIsArray(v)) {
+					/** @type {Unknown<ItemProperties>} */(Item.Property)[k] = CommonArrayConcatDedupe(/** @type {unknown[]} */ (current), /** @type {readonly unknown[]} */ (v));
 				} else {
-					Item.Property[k] = v;
+					/** @type {Unknown<ItemProperties>} */(Item.Property)[k] = v;
 				}
 			}
 			update = true;
@@ -630,7 +641,9 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 		}
 
 		if (baseLineProps.length > 0) {
-			baseLineProps.forEach(([k, v]) => Item.Property[k] = v);
+			baseLineProps.forEach(([k, v]) => {
+				PropertyAssign(Item.Property, k, v);
+			});
 			update = true;
 		}
 
@@ -691,7 +704,7 @@ function TypedItemDraw(data) {
 	}
 
 	const ItemOptionsOffset = ExtendedItemGetOffset();
-	const CurrentOption = options[item.Property.TypeRecord[name]] || options[0];
+	const CurrentOption = options[item.Property.TypeRecord?.[name] ?? 0] || options[0];
 
 	// Draw the possible variants and their requirements, arranged based on the number per page
 	const elementData = drawData.elementData.slice(ItemOptionsOffset, ItemOptionsOffset + drawData.itemsPerPage);
@@ -714,6 +727,12 @@ function TypedItemDraw(data) {
  * @returns {void} Nothing
  */
 function TypedItemClick(data) {
+	const item = DialogFocusItem;
+	const C = CharacterGetCurrent();
+	if (!C || !item) {
+		return;
+	}
+
 	if (
 		NoArch.Click(data)
 		|| (ExtendedItemSubscreen && data.parentOption == null)
@@ -731,19 +750,22 @@ function TypedItemClick(data) {
 	}
 
 	// If the assets allows tightening / loosening
-	if (ExtendedItemTighten.Click(data, DialogFocusItem, [1050, 220, 300, 65])) {
+	if (ExtendedItemTighten.Click(data, item, [1050, 220, 300, 65])) {
 		return;
 	}
 
 	// Options
-	const C = CharacterGetCurrent();
 	const ItemOptionsOffset = ExtendedItemGetOffset();
 	const positions = data.drawData.elementData.slice(ItemOptionsOffset, ItemOptionsOffset + data.drawData.itemsPerPage);
 	positions.forEach(({ position, hidden }, i) => {
 		i += ItemOptionsOffset;
-		const Option = data.options[i];
-		if (!hidden && MouseIn(...position)) {
-			TypedItemHandleOptionClick(data, C, Option);
+		if (hidden || !MouseIn(...position)) {
+			return;
+		}
+		if (data.archetype === ExtendedArchetype.VIBRATING) {
+			TypedItemHandleOptionClick(data, C, data.options[i]);
+		} else {
+			TypedItemHandleOptionClick(data, C, data.options[i]);
 		}
 	});
 }
@@ -757,18 +779,25 @@ function TypedItemClick(data) {
  * @returns {void} Nothing
  */
 function TypedItemHandleOptionClick(data, C, Option) {
+	const item = DialogFocusItem;
+	const wornTypeRecord = item?.Property.TypeRecord;
+	if (!item || !wornTypeRecord) {
+		return;
+	}
+
+	const optionIndex = Option.Property.TypeRecord[data.name];
 	if (ExtendedItemPermissionMode) {
-		const IsFirst = Option.Property.TypeRecord[data.name] === 0;
-		const Worn = C.IsPlayer() && DialogFocusItem.Property.TypeRecord[data.name] == Option.Property.TypeRecord[data.name];
-		InventoryTogglePermission(DialogFocusItem, `${data.name}${Option.Property.TypeRecord[data.name]}`, Worn || IsFirst);
+		const IsFirst = optionIndex === 0;
+		const Worn = C.IsPlayer() && wornTypeRecord[data.name] == optionIndex;
+		InventoryTogglePermission(item, `${data.name}${optionIndex}`, Worn || IsFirst);
 	} else {
-		if (DialogFocusItem.Property.TypeRecord[data.name] === Option.Property.TypeRecord[data.name] && !Option.HasSubscreen) {
+		if (wornTypeRecord[data.name] === optionIndex && !Option.HasSubscreen) {
 			return;
 		}
 
-		const CurrentOption = data.options[DialogFocusItem.Property.TypeRecord[data.name]] || data.options[0];
+		const CurrentOption = data.options[wornTypeRecord[data.name]] || data.options[0];
 		// use the unmemoized function to ensure we make a final check to the requirements
-		const RequirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, Option, CurrentOption);
+		const RequirementMessage = ExtendedItemRequirementCheckMessage(data, C, item, Option, CurrentOption);
 		if (RequirementMessage) {
 			DialogExtendedMessage = RequirementMessage;
 		} else {
@@ -786,10 +815,15 @@ function TypedItemHandleOptionClick(data, C, Option) {
  * @returns {void} Nothing
  */
 function TypedItemSetType(data, C, newOption) {
-	const IsCloth = DialogFocusItem.Asset.Group.Clothing;
-	const previousOption = TypedItemFindPreviousOption(data, DialogFocusItem);
+	const item = DialogFocusItem;
+	if (!item) {
+		return;
+	}
 
-	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, DialogFocusItem, newOption, previousOption);
+	const IsCloth = item.Asset.Group.Clothing;
+	const previousOption = TypedItemFindPreviousOption(data, item);
+
+	const requirementMessage = ExtendedItemRequirementCheckMessage(data, C, item, newOption, previousOption);
 	if (requirementMessage) {
 		DialogExtendedMessage = requirementMessage;
 		return;
@@ -797,13 +831,13 @@ function TypedItemSetType(data, C, newOption) {
 
 	// Do not sync appearance while in the wardrobe
 	/** @type {Parameters<ExtendedItemCallbacks.SetOption<TypedItemOption | VibratingItemOption>>} */
-	const optionArgs = [C, DialogFocusItem, newOption, previousOption, !IsCloth, true];
+	const optionArgs = [C, item, newOption, previousOption, !IsCloth, true];
 	CommonCallFunctionByNameWarn(`${data.functionPrefix}SetOption`, ...optionArgs);
 	if (data.archetype === ExtendedArchetype.VIBRATING) {
 		if (typeof data.dialogPrefix.header === "string") {
 			DialogExtendedMessage = AssetTextGet(data.dialogPrefix.header);
 		} else if (typeof data.dialogPrefix.header === "function") {
-			DialogExtendedMessage = data.dialogPrefix.header(data, CharacterGetCurrent(), DialogFocusItem);
+			DialogExtendedMessage = data.dialogPrefix.header(data, C, item);
 		} else {
 			DialogExtendedMessage = "";
 		}
@@ -815,7 +849,7 @@ function TypedItemSetType(data, C, newOption) {
 		if (CurrentScreen === "ChatRoom") {
 			// If we're in a chatroom, call the item's publish function to publish a message to the chatroom
 			/** @type {Parameters<ExtendedItemCallbacks.PublishAction<T>>} */
-			const args = [C, DialogFocusItem, newOption, previousOption];
+			const args = [C, item, newOption, previousOption];
 			CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen || ""}PublishAction`, ...args);
 		} else if (!C.IsPlayer()) {
 			CommonCallFunctionByName(`${data.functionPrefix}${ExtendedItemSubscreen || ""}NpcDialog`, C, newOption, previousOption);

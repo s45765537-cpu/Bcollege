@@ -803,9 +803,10 @@ function ExtendItemGetIcons(C, Asset, Type=undefined, Effects=undefined) {
 
 /**
  * Creates an asset's extended item NPC dialog function
+ * @template {ExtendedItemOption} [OptionType=ExtendedItemOption]
  * @param {Asset} Asset - The asset for the typed item
  * @param {string} FunctionPrefix - The prefix of the new `NpcDialog` function
- * @param {string | ExtendedItemNPCCallback<ExtendedItemOption>} NpcPrefix - A dialog prefix or a function for creating one
+ * @param {string | ExtendedItemNPCCallback<OptionType>} NpcPrefix - A dialog prefix or a function for creating one
  * @returns {void} - Nothing
  */
 function ExtendedItemCreateNpcDialogFunction(Asset, FunctionPrefix, NpcPrefix) {
@@ -1466,7 +1467,7 @@ function ExtendedItemParseOptions(option, asset) {
  * @param {null | TypeRecord} typeRecord - The archetypical items type record. If `null` only apply `options.properties`
  * @param {object} [options]
  * @param {boolean} [options.push] - Whether to push the item changes to the server
- * @param {Character} [options.C_Source] - The character updating the item (if any)
+ * @param {null | Character} [options.C_Source] - The character updating the item (if any)
  * @param {boolean} [options.refresh] - Whether to refresh the character after setting the item properties
  * @param {ItemProperties} [options.properties] - Extra item properties to be set on the item, the allowed list of properties being defined by {@link ExtendedItemData.baselineProperty}
  * @returns {void}
