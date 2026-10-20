@@ -290,6 +290,175 @@ describe("MapManager", () => {
 			expect(Game.MapManager.Map.undo()).toBe(false);
 		});
 	});
+
+	describe("color configs", () => {
+		const throne = Game.MapDataGetObject(150);
+		const couch = Game.MapDataGetObject(710);
+		const plainObject = Game.MapDataGetObject(151);
+		const colorConfig = { Type: "Color", Colors: ["#3050E0", "Default"] };
+
+		it("should define valid color layers in the map data", () => {
+			const range = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+			const colorableIDs = [
+				130, 140, 150, 165, 220, 389, 403, 511, 560, 570, 630, 640, 650, 710, 720, 730, 740, 750,
+				1010, 1020, 1030, 1050, 1090, 3075, 3076, 3121, 5014,
+				...range(1110, 1119), ...range(1201, 1226), ...range(1301, 1309),
+			];
+			for (const object of colorableIDs.map(id => Game.MapDataGetObject(id))) {
+				expect(object.ColorLayers?.length).toBeGreaterThan(0);
+				for (const layer of object.ColorLayers) {
+					expect(layer.DefaultColor).toMatch(/^#[0-9A-F]{6}$/i);
+				}
+				const names = [...object.ColorLayers.map(l => l.Name), ...(object.FixedColorLayers ?? [])];
+				expect(new Set(names).size).toBe(names.length);
+			}
+		});
+
+		it("should validate color configs against the object's layers", () => {
+			expect(Game.MapIsValidColorConfig(colorConfig, throne)).toBe(true);
+			expect(Game.MapIsValidColorConfig(colorConfig, plainObject)).toBe(false);
+			expect(Game.MapIsValidColorConfig({ Type: "Color", Colors: ["#3050E0"] }, throne)).toBe(false);
+			expect(Game.MapIsValidColorConfig({ Type: "Color", Colors: ["red", "Default"] }, throne)).toBe(false);
+			expect(Game.MapIsValidColorConfig({ Type: "Sign", Text: "" }, throne)).toBe(false);
+		});
+
+		it("should resolve layer colors with defaults", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			const index = Game.MapCoordinatesToIndex(10, 10);
+			expect(Game.MapGetObjectLayerColors(index, throne)).toEqual(throne.ColorLayers.map(l => l.DefaultColor));
+			expect(Game.MapManager.Map.setObjectConfig(index, colorConfig)).toBe(true);
+			expect(Game.MapGetObjectLayerColors(index, throne)).toEqual(["#3050E0", throne.ColorLayers[1].DefaultColor]);
+		});
+
+		it("should only report custom colors for recolored objects", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			const index = Game.MapCoordinatesToIndex(10, 10);
+			expect(Game.MapHasCustomColors(index, throne)).toBe(false);
+			expect(Game.MapHasCustomColors(index, plainObject)).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(index, colorConfig)).toBe(true);
+			expect(Game.MapHasCustomColors(index, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(index, undefined)).toBe(true);
+			expect(Game.MapHasCustomColors(index, throne)).toBe(false);
+		});
+
+		it("should survive a save/load round trip", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			Game.MapManager.Map.updateGlobalMapData();
+			const saved = JSON.parse(JSON.stringify(Game.ChatRoomData.MapData));
+			Game.MapManager.Map.clear();
+			expect(Game.MapManager.Map.loadGlobalMapData(saved)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+		});
+
+		it("should survive an export/import round trip", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			Game.MapManager.Map.updateGlobalMapData();
+			const exported = Game.MapManager.Map.exportString();
+			Game.ChatRoomData.MapData = Game.ChatRoomMapViewInitialize("Always");
+			Game.MapManager.Map.loadGlobalMapData(Game.ChatRoomData.MapData);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.importString(exported)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+		});
+
+		it("should clear the colors when the object is replaced, and restore them on undo", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			expect(Game.MapManager.Map.setObject(10, 10, couch)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(throne);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+		});
+
+		it("should keep the colors when the same object is placed again", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+		});
+
+		it("should only paste a color format on the same object", () => {
+			const format = { ObjectID: throne.ID, Colors: ["#3050E0", "Default"] };
+			expect(Game.MapCanPasteColorFormat(format, throne)).toBe(true);
+			expect(Game.MapCanPasteColorFormat(format, couch)).toBe(false);
+			expect(Game.MapCanPasteColorFormat(format, plainObject)).toBe(false);
+			expect(Game.MapCanPasteColorFormat(null, throne)).toBe(false);
+			expect(Game.MapCanPasteColorFormat({ ObjectID: plainObject.ID, Colors: [] }, plainObject)).toBe(false);
+		});
+
+		it("should paste a color format between objects sharing color layers", () => {
+			const letterA = Game.MapDataGetObject(1201);
+			const letterFormat = { ObjectID: letterA.ID, Colors: ["#E04080"] };
+			expect(Game.MapCanPasteColorFormat(letterFormat, Game.MapDataGetObject(1116))).toBe(true);
+			expect(Game.MapCanPasteColorFormat(letterFormat, Game.MapDataGetObject(1301))).toBe(true);
+			expect(Game.MapCanPasteColorFormat(letterFormat, throne)).toBe(false);
+			expect(Game.MapCanPasteColorFormat({ ObjectID: throne.ID, Colors: ["#3050E0", "Default"] }, letterA)).toBe(false);
+		});
+
+		it("should undo each setObjectConfig as its own step", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			const otherConfig = { Type: "Color", Colors: ["Default", "#112233"] };
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, otherConfig)).toBe(true);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+			expect(Game.MapManager.Map.undo()).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.getObject(10, 10)).toEqual(throne);
+		});
+
+		it("should keep only valid color configs when a map is loaded", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObject(11, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObject(12, 10, plainObject)).toBe(true);
+			Game.MapManager.Map.updateGlobalMapData();
+			const saved = JSON.parse(JSON.stringify(Game.ChatRoomData.MapData));
+			saved.CellData = {
+				[Game.MapCoordinatesToIndex(10, 10)]: colorConfig,
+				[Game.MapCoordinatesToIndex(11, 10)]: { Type: "Color", Colors: ["#3050E0", "<b>red</b>"] },
+				[Game.MapCoordinatesToIndex(12, 10)]: colorConfig,
+			};
+			expect(Game.MapManager.Map.loadGlobalMapData(saved)).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual(colorConfig);
+			expect(Game.MapManager.Map.getObjectConfig(11, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.getObjectConfig(12, 10)).toBeUndefined();
+		});
+
+		it("should reject invalid color configs on write", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObject(11, 10, plainObject)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0"] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", "<b>red</b>"] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", /** @type {any} */ (1)] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", /** @type {any} */ (null)] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, { Type: "Color", Colors: ["#3050E0", "#ABC"] })).toBe(false);
+			expect(Game.MapManager.Map.setObjectConfig(11, 10, colorConfig)).toBe(false);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+			expect(Game.MapManager.Map.getObjectConfig(11, 10)).toBeUndefined();
+		});
+
+		it("should store a clean copy of a valid color config", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			const injected = { Type: "Color" as const, Colors: ["#3050e0", "Default"] as const, Extra: "<script>" };
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, /** @type {any} */ (injected))).toBe(true);
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Color", Colors: ["#3050E0", "Default"] });
+			injected.Colors = ["#FF0000", "Default"];
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toEqual({ Type: "Color", Colors: ["#3050E0", "Default"] });
+		});
+
+		it("should drop stale color configs when validating cells", () => {
+			expect(Game.MapManager.Map.setObject(10, 10, throne)).toBe(true);
+			expect(Game.MapManager.Map.setObjectConfig(10, 10, colorConfig)).toBe(true);
+			const stale = Game.MapManager.Map.getObjectConfig(10, 10);
+			expect(stale?.Type).toBe("Color");
+			if (stale?.Type === "Color") stale.Colors = ["#3050E0"];
+			Game.MapManager.Map.validateMap();
+			expect(Game.MapManager.Map.getObjectConfig(10, 10)).toBeUndefined();
+		});
+	});
 });
 
 describe("with a test map", () => {

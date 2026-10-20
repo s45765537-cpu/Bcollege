@@ -197,6 +197,11 @@ var MapManager = (function () {
 				if (!Number.isInteger(index) || index < 0 || index >= ChatRoomMapMaxLength) continue;
 				if (config?.Type === "Sign" && typeof config.Text === "string") {
 					ret[index] = { Type: "Sign", Text: config.Text.slice(0, ChatRoomMapMaxLength) };
+				} else if (MapIsValidColorConfig(config, this.objects[index] ?? null)) {
+					ret[index] = {
+						Type: "Color",
+						Colors: config.Colors.map(c => c === "Default" ? "Default" : /** @type {HexColor} */ (c.toUpperCase())),
+					};
 				}
 			}
 			return ret;
@@ -1316,11 +1321,28 @@ var MapManager = (function () {
 			const map = this.#_mapData;
 			MapForEachIndexInRange(index, range, (curIndex) => {
 				if (this.canSetObject(index, object)) {
+					if (map.objects[curIndex]?.ID !== object.ID) this.#clearColorConfig(curIndex, undo);
 					map.objects[curIndex] = object;
 				}
 			});
 
 			return true;
+		}
+
+		/**
+		 * Removes the color config of a cell, as colors only apply to the object they were picked for.
+		 * @param {number} index
+		 * @param {MapManager.UndoGroup} [undo]
+		 */
+		#clearColorConfig(index, undo) {
+			const configs = this.#_mapData?.objectConfigs;
+			const config = configs?.[index];
+			if (!configs || config?.Type !== "Color") return;
+			delete configs[index];
+			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
+			undo?.add(() => {
+				configs[index] = config;
+			});
 		}
 
 		/**
@@ -1375,7 +1397,10 @@ var MapManager = (function () {
 				case "Sign":
 					if (cell && ["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(cell.Style)) return true;
 					return false;
+				case "Color":
+					return !!cell?.ColorLayers?.length;
 			}
+			return false;
 		}
 
 		/**
@@ -1436,26 +1461,34 @@ var MapManager = (function () {
 
 		/**
 		 * Sets the config for an object at the given coordinates.
+		 * Color configs are validated and stored as a clean copy; invalid ones are rejected.
 		 * @overload
 		 * @param {number} x
 		 * @param {number} y
 		 * @param {ChatRoomMapObjectConfig} [config]
-		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds or the color config is invalid.
 		 */
 		/**
 		 * @overload
 		 * @param {number} index
 		 * @param {ChatRoomMapObjectConfig} [config]
-		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds or the color config is invalid.
 		 */
 		/**
 		 * @param {[x: number, y: number, config?: ChatRoomMapObjectConfig] | [index: number, config?: ChatRoomMapObjectConfig]} args
-		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds.
+		 * @returns {boolean} true if the cell config was set, false if the coordinates are out of bounds or the color config is invalid.
 		 */
 		setObjectConfig(...args) {
 			if (!this.#_mapData) throw Error("No map loaded");
 			const [index, config] = this.unpackIndex(...args);
 			if (index < 0 || index >= ChatRoomMapMaxLength) return false;
+
+			/** @type {ChatRoomMapObjectConfig | undefined} */
+			let next = config;
+			if (next != null && next.Type === "Color") {
+				if (!MapIsValidColorConfig(next, this.getObject(index))) return false;
+				next = { Type: "Color", Colors: next.Colors.map(c => c === "Default" ? "Default" : /** @type {HexColor} */ (c.toUpperCase())) };
+			}
 
 			const clean = this.isDirtyObjectConfigs();
 			const previousConfig = this.getObjectConfig(index);
@@ -1470,10 +1503,10 @@ var MapManager = (function () {
 			});
 
 			this.#_markDirty(DirtyFlags.OBJECT_CONFIGS);
-			if (config == null) {
+			if (next == null) {
 				delete this.#_mapData.objectConfigs[index];
 			} else {
-				this.#_mapData.objectConfigs[index] = config;
+				this.#_mapData.objectConfigs[index] = next;
 			}
 			return true;
 		}
@@ -2023,6 +2056,11 @@ var MapManager = (function () {
 							this.setObjectConfig(index, undefined);
 						}
 						break;
+					case "Color":
+						if (!MapIsValidColorConfig(objectData, object)) {
+							this.setObjectConfig(index, undefined);
+						}
+						break;
 				}
 
 				if (!object) continue;
@@ -2467,6 +2505,61 @@ function MapCanSetCell(id, type, x, y) {
 function MapIsCellValid(id, type, x, y) {
 	if (!MapCanSetCell(id, type, x, y)) return false;
 	return true;
+}
+
+/**
+ * Checks whether a color config matches the color layers of an object
+ * @param {unknown} config
+ * @param {ChatRoomMapObject | null} object
+ * @returns {config is ChatRoomMapColorObjectConfig}
+ */
+function MapIsValidColorConfig(config, object) {
+	if (!object?.ColorLayers?.length || !CommonIsObject(config)) return false;
+	const { Type, Colors } = /** @type {{ Type?: unknown, Colors?: unknown }} */ (config);
+	if (Type !== "Color" || !Array.isArray(Colors)) return false;
+	if (Colors.length !== object.ColorLayers.length) return false;
+	return Colors.every(/** @param {unknown} c */ c => c === "Default" || (typeof c === "string" && CommonIsColor(c) && c.length === 7));
+}
+
+/**
+ * Checks whether a copied color format can be pasted on an object.
+ * Objects sharing one `ColorLayers` definition (such as `MapColorLayersFill`) accept each other's formats.
+ * @param {ChatRoomMapColorFormat | null} format
+ * @param {ChatRoomMapObject | null} object
+ * @returns {boolean}
+ */
+function MapCanPasteColorFormat(format, object) {
+	if (!format || !object?.ColorLayers?.length) return false;
+	if (format.ObjectID === object.ID) return true;
+	return MapDataObjects.get(format.ObjectID)?.ColorLayers === object.ColorLayers;
+}
+
+/**
+ * Gets the colors to draw each color layer of the object placed on a cell with.
+ * Invalid or missing configs fall back to the layers' default colors.
+ * @param {number} index
+ * @param {ChatRoomMapObject} object
+ * @returns {HexColor[]}
+ */
+function MapGetObjectLayerColors(index, object) {
+	const layers = object.ColorLayers ?? [];
+	const config = MapManager.Map.getObjectConfig(index);
+	const colors = MapIsValidColorConfig(config, object) ? config.Colors : [];
+	return layers.map((layer, i) => {
+		const color = colors[i];
+		return color && color !== "Default" ? color : layer.DefaultColor;
+	});
+}
+
+/**
+ * Checks whether the object on a cell has been recolored, meaning it has a valid color config with at least one custom color
+ * @param {number} index
+ * @param {ChatRoomMapObject} object
+ * @returns {boolean}
+ */
+function MapHasCustomColors(index, object) {
+	const config = MapManager.Map.getObjectConfig(index);
+	return MapIsValidColorConfig(config, object) && config.Colors.some(c => c !== "Default");
 }
 
 /**

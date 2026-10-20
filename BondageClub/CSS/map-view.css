@@ -219,3 +219,58 @@ textarea.chat-room-map-view-dialog-content-text {
 	color: white;
 	width: 100%;
 }
+
+.chat-room-map-view-dialog-color-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3em;
+	width: 100%;
+}
+
+.chat-room-map-view-dialog-color-row {
+	display: flex;
+	align-items: center;
+	gap: 0.3em;
+}
+
+.chat-room-map-view-dialog-color-name {
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.chat-room-map-view-dialog-color-swatch {
+	width: 2em;
+	height: 1.4em;
+	padding: 0;
+	border: 2px solid white;
+	outline: 1px solid black;
+	cursor: pointer;
+}
+
+.chat-room-map-view-dialog-color-swatch:hover {
+	border-color: cyan;
+}
+
+.chat-room-map-view-dialog-color-hex {
+	width: 5.5em;
+	font-family: monospace;
+	text-transform: uppercase;
+}
+
+.chat-room-map-view-dialog-color-hex-invalid {
+	outline: 2px solid red;
+}
+
+.chat-room-map-view-dialog-color-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 0.3em;
+}
+
+.chat-room-map-view-dialog-color-button {
+	font-size: 0.7em;
+	padding: 0.2em 0.6em;
+}
