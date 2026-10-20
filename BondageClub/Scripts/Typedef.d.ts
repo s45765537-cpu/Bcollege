@@ -5396,10 +5396,14 @@ interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
+	/** The config a cell gets when this object is placed there */
+	DefaultObjectConfig?: ChatRoomMapObjectConfig;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: AssetName;
 	IsVisible?: () => boolean;
 	BuildImageName?: (X: number, Y: number) => string;
+	/** The color the object is drawn in, the way clothes are colored, opacity included (#RRGGBBAA) */
+	BuildImageColor?: (X: number, Y: number) => HexColor | null;
 	OnClick?: (x: number, y: number) => void;
 }
 
@@ -5413,11 +5417,19 @@ interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Color: [r: number, g: number, b: number, a: number];
 }
 
-type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig
+type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig | ChatRoomMapTeleporterObjectConfig
 
 interface ChatRoomMapSignObjectConfig {
 	Type: "Sign";
 	Text: string;
+}
+
+interface ChatRoomMapTeleporterObjectConfig {
+	Type: "Teleporter";
+	Destination?: ChatRoomMapPos;
+	Color?: HexColor;
+	/** Characters can stand together on the pad and the tiles around it */
+	Shared?: boolean;
 }
 
 
