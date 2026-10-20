@@ -2625,7 +2625,7 @@ function CommonGetDateParts(ms, options = {}) {
  */
 function CommonRange(start, end, step = 1) {
 	if (end == null) [start, end] = [0, start];
-	const n = Math.max(Math.ceil((end - start) / step), 0);
+	const n = Math.max(Math.ceil((end - start + 1) / step), 0);
 	return Array.from({ length: n }, (_, i) => start + i * step);
 }
 
