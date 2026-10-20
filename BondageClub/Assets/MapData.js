@@ -40,6 +40,165 @@ function ChatRoomMapViewCreateOnEnterConveyorLogic(direction, speed) {
 }
 
 /**
+ * Returns the OnEnter for a teleport pad: after the delay the player is sent to where it points
+ * @param {number} delay - How long the player stays on the pad first, in milliseconds
+ * @returns {ChatRoomMapObject["OnEnter"]}
+ */
+function ChatRoomMapViewCreateOnEnterTeleportLogic(delay) {
+	return function() {
+		const x = Player.X;
+		const y = Player.Y;
+		setTimeout(function() {
+			// Walking off the pad cancels it
+			if (Player.X === x && Player.Y === y && ChatRoomMapViewMovement == null) ChatRoomMapViewTeleportPad();
+		}, delay);
+	};
+}
+
+/**
+ * Returns the OnClick for a teleport pad: admins see where it sends to, outlined on the map, and change it
+ * @returns {ChatRoomMapObject["OnClick"]}
+ */
+function ChatRoomMapViewCreateOnClickTeleportLogic() {
+	return (x, y) => {
+		if (!ChatRoomPlayerIsAdmin()) return;
+		ChatRoomMapViewTeleportPadIndex = x + y * ChatRoomMapViewWidth;
+		ChatRoomMapViewTeleportPadPicking = false;
+		ChatRoomMapViewShowTeleportPadMenu(x, y);
+	};
+}
+
+/**
+ * Shows where a teleport pad sends to, with buttons to change it
+ * @param {number} x
+ * @param {number} y
+ * @param {string} [message] - Shown in the footer
+ */
+function ChatRoomMapViewShowTeleportPadMenu(x, y, message) {
+	const destination = MapManager.Map.getTeleporterDestination(x, y);
+	const destinationIsPad = !!destination && MapManager.Map.getObject(destination.X, destination.Y)?.DefaultObjectConfig?.Type === "Teleporter";
+	const back = destination && MapManager.Map.getTeleporterDestination(destination.X, destination.Y);
+	const twoWay = back?.X === x && back?.Y === y;
+
+	/** @type {(label: string, onClick: () => void) => HTMLButtonElement} */
+	const button = (label, onClick) => ElementCreate({
+		tag: "button",
+		classList: ["chat-room-map-view-dialog-button"],
+		children: [label],
+		eventListeners: { click: onClick },
+	});
+	const buttons = [];
+	const padPickingText = ChatRoomMapViewTeleportPadPicking ? "TeleportPadCancel" : "TeleportPadPick";
+	buttons.push(button(TextGet(padPickingText), () => {
+		ChatRoomMapViewTeleportPadPicking = !ChatRoomMapViewTeleportPadPicking;
+		ChatRoomMapViewShowTeleportPadMenu(x, y);
+	}));
+	if (!ChatRoomMapViewTeleportPadPicking && destination && destinationIsPad && !twoWay) {
+		buttons.push(button(TextGet("TeleportPadTwoWay"), () => {
+			MapManager.Map.setTeleporterDestination(destination.X, destination.Y, { X: x, Y: y });
+			ChatRoomMapViewTeleportPadSave();
+			ChatRoomMapViewShowTeleportPadMenu(x, y);
+		}));
+	}
+	if (!ChatRoomMapViewTeleportPadPicking && destination) {
+		buttons.push(button(TextGet("TeleportPadRemove"), () => {
+			MapManager.Map.setTeleporterDestination(x, y, null);
+			ChatRoomMapViewTeleportPadSave();
+			ChatRoomMapViewShowTeleportPadMenu(x, y);
+		}));
+	}
+
+	if (!ChatRoomMapViewTeleportPadPicking) {
+		const colorButton = button(TextGet("TeleportPadColor"), () => ChatRoomMapViewTeleportPadPickColor(x, y));
+		colorButton.prepend(ElementCreate({
+			tag: "span",
+			classList: ["chat-room-map-view-dialog-color"],
+			style: { "background-color": MapManager.Map.getTeleporterColor(x, y) ?? undefined },
+		}));
+		buttons.push(colorButton);
+	}
+
+	let text = TextGet("TeleportPadNoDestination");
+	if (twoWay) text = TextGet("TeleportPadSendsBothWays");
+	else if (destination) text = TextGet("TeleportPadSendsTo");
+
+	ChatRoomMapViewShowDialogMenu(TextGet("TeleportPadTitle"), ElementCreate({
+		tag: "div",
+		classList: ["chat-room-map-view-dialog-teleport-pad"],
+		children: [
+			{ tag: "div", children: [text] },
+			{ tag: "div", classList: ["chat-room-map-view-dialog-buttons"], children: buttons },
+		],
+	}), ElementCreate({ tag: "div", children: [message ?? (ChatRoomMapViewTeleportPadPicking ? TextGet("TeleportPadPicking") : "")] }));
+}
+
+/**
+ * Opens the color picker used for clothes on a teleport pad, a two way partner gets the same color
+ * @param {number} x
+ * @param {number} y
+ */
+function ChatRoomMapViewTeleportPadPickColor(x, y) {
+	const original = MapManager.Map.getTeleporterColor(x, y) ?? AssetsMapDataTeleportPadColors[0];
+	const destination = MapManager.Map.getTeleporterDestination(x, y);
+	const back = destination && MapManager.Map.getTeleporterDestination(destination.X, destination.Y);
+	const partner = back?.X === x && back?.Y === y ? destination : null;
+	const originalOpacity = original.length === 9 ? parseInt(original.slice(7), 16) / 255 : 1;
+	/** @type {(state: null | Pick<ItemColorExitState, "colors" | "opacity">) => null | HexColor} */
+	const toColor = (state) => {
+		const color = state?.colors[0];
+		if (!CommonIsColor(color)) return null;
+		const alpha = Math.round(CommonClamp(state?.opacity[0] ?? 1, 0, 1) * 255);
+		return alpha < 255 ? /** @type {HexColor} */ (color + alpha.toString(16).padStart(2, "0").toUpperCase()) : color;
+	};
+	// The pads show the color being picked, it's only kept on Accept
+	ChatRoomMapViewTeleportPadPreview = {
+		indexes: [MapCoordinatesToIndex(x, y), ...(partner ? [MapCoordinatesToIndex(partner.X, partner.Y)] : [])],
+		color: original,
+	};
+	CommonPromiseCatch(
+		ColorPickerInit({
+			colorState: { colors: [CommonColorTrimAlpha(original)], defaultColors: [CommonColorTrimAlpha(original)], opacity: [originalOpacity], editOpacity: true },
+			heading: TextGet("TeleportPadTitle"),
+			onInput: (fieldset) => {
+				const color = toColor(ColorPicker.getColor(fieldset.closest(".screen") ?? fieldset));
+				if (color && ChatRoomMapViewTeleportPadPreview) ChatRoomMapViewTeleportPadPreview.color = color;
+			},
+			onExit: (state, save) => {
+				const color = toColor(state);
+				ChatRoomMapViewTeleportPadPreview = null;
+				if (save && color) {
+					MapManager.Map.setTeleporterColor(x, y, color);
+					if (partner) MapManager.Map.setTeleporterColor(partner.X, partner.Y, color);
+					ChatRoomMapViewTeleportPadSave();
+				}
+				ChatRoomMapViewShowTeleportPadMenu(x, y);
+			},
+		})
+	);
+}
+
+/**
+ * Sets where the selected teleport pad sends to, from the tile clicked after "Pick on the map"
+ * @param {ChatRoomMapPos} pos - The tile clicked
+ */
+function ChatRoomMapViewTeleportPadPick(pos) {
+	ChatRoomMapViewTeleportPadPicking = false;
+	if (ChatRoomMapViewTeleportPadIndex == null) return;
+	const { X: x, Y: y } = MapIndexToCoordinates(ChatRoomMapViewTeleportPadIndex);
+	const picked = MapManager.Map.setTeleporterDestination(x, y, pos);
+	if (picked) ChatRoomMapViewTeleportPadSave();
+	ChatRoomMapViewShowTeleportPadMenu(x, y, picked ? undefined : TextGet("TeleportPadInvalid"));
+}
+
+/**
+ * Writes a teleport pad change to the map and sends it to the room
+ */
+function ChatRoomMapViewTeleportPadSave() {
+	MapManager.Map.updateGlobalMapData();
+	if (ChatRoomMapViewUpdateRoomNext == null) ChatRoomMapViewUpdateRoomNext = CommonTime() + 5000;
+}
+
+/**
  * @param {unknown} text
  * @returns {string}
  */
@@ -54,7 +213,12 @@ function MapSanitizeSignText(text) {
  */
 function ChatRoomMapViewCreateOnClickSignLogic(name) {
 	return (x, y) => {
-		const signText = MapSanitizeSignText(MapManager.Map.getObjectConfig(x, y)?.Text);
+		// Configs are signs or teleport pads; only a sign has text
+		const signConfig = () => {
+			const config = MapManager.Map.getObjectConfig(x, y);
+			return config?.Type === "Sign" ? config : null;
+		};
+		const signText = MapSanitizeSignText(signConfig()?.Text);
 		ChatRoomMapViewShowDialogMenu(name, ElementCreate(
 			ChatRoomPlayerIsAdmin() ?
 			{
@@ -70,7 +234,7 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 					* @this {HTMLTextAreaElement}
 					*/
 					"change": function() {
-						const signData = MapManager.Map.getObjectConfig(x, y) ?? { Type: "Sign", Text: "" };
+						const signData = signConfig() ?? { Type: "Sign", Text: "" };
 						signData.Text = MapSanitizeSignText(this.value);
 						MapManager.Map.setObjectConfig(x, y, signData);
 						MapManager.Map.updateGlobalMapData();
@@ -81,12 +245,18 @@ function ChatRoomMapViewCreateOnClickSignLogic(name) {
 				tag: "div",
 				classList: ["chat-room-map-view-dialog-content-text"],
 				children: [
-					MapManager.Map.getObjectConfig(x, y)?.Text || ""
+					signConfig()?.Text || ""
 				],
 			}
 		));
 	};
 }
+
+/**
+ * The colors new pairs of teleport pads start with, any color can be picked afterwards
+ * @type {readonly HexColor[]}
+ */
+const AssetsMapDataTeleportPadColors = ["#3C8CFF", "#FF4060", "#40D080", "#FFC830", "#A050FF", "#FF60C0", "#FF8A30", "#30E0E0"];
 
 /**
  * A list of predefined lighting effects. May be replaced with a color picker in the future.
@@ -876,6 +1046,17 @@ const AssetsMapDataObjects = [
 	{ ID: 3521, Type: "Functional", Style: "SignWoodWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false,Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Wooden Sign")},
 	{ ID: 3522, Type: "Functional", Style: "SignMetal", OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign"),  Top: -0.25},
 	{ ID: 3523, Type: "Functional", Style: "SignMetalWall", CanPlaceOnWalls: true, CanPlaceOnFloors: false, Top: 0.1, OnClick: ChatRoomMapViewCreateOnClickSignLogic("Metal Sign")},
+
+	{ ID: 3530, Type: "Functional", Style: "TeleportPad", Name: "Teleport Pad",
+		DefaultObjectConfig: { Type: "Teleporter", Shared: true },
+		BuildImageColor: (x, y) => {
+			const preview = ChatRoomMapViewTeleportPadPreview;
+			if (preview?.indexes.includes(MapCoordinatesToIndex(x, y))) return preview.color;
+			return MapManager.Map.getTeleporterColor(x, y);
+		},
+		OnEnter: ChatRoomMapViewCreateOnEnterTeleportLogic(400),
+		OnClick: ChatRoomMapViewCreateOnClickTeleportLogic(),
+	},
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },

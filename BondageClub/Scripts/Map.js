@@ -197,6 +197,16 @@ var MapManager = (function () {
 				if (!Number.isInteger(index) || index < 0 || index >= ChatRoomMapMaxLength) continue;
 				if (config?.Type === "Sign" && typeof config.Text === "string") {
 					ret[index] = { Type: "Sign", Text: config.Text.slice(0, ChatRoomMapMaxLength) };
+				} else if (config?.Type === "Teleporter") {
+					/** @type {ChatRoomMapTeleporterObjectConfig} */
+					const pad = { Type: "Teleporter", Shared: true };
+					const destination = config.Destination;
+					if (destination && Number.isInteger(destination.X) && Number.isInteger(destination.Y)
+						&& destination.X >= 0 && destination.X < ChatRoomMapViewWidth && destination.Y >= 0 && destination.Y < ChatRoomMapViewHeight) {
+						pad.Destination = { X: destination.X, Y: destination.Y };
+					}
+					if (typeof config.Color === "string" && CommonIsColor(config.Color, { allowAlpha: true })) pad.Color = config.Color;
+					ret[index] = pad;
 				}
 			}
 			return ret;
@@ -1295,6 +1305,8 @@ var MapManager = (function () {
 			range = CommonClamp(range, 0, Infinity);
 			if (object?.Unique) range = 0;
 
+			if (object?.DefaultObjectConfig?.Type === "Teleporter") range = 0;
+
 			const clean = this.isDirtyObjects();
 			const previousObject = this.getObject(index) ?? MapDataGetObject(ChatRoomMapViewObjectStartID);
 			const undo = this.#registerUndo(() => {
@@ -1320,7 +1332,43 @@ var MapManager = (function () {
 				}
 			});
 
+			// A newly placed object starts with its default config
+			if (object.DefaultObjectConfig && previousObject.ID !== object.ID && this.getObjectId(index) === object.ID) {
+				this.setObjectConfig(index, CommonCloneDeep(object.DefaultObjectConfig));
+				if (object.DefaultObjectConfig.Type === "Teleporter") this.#pairNewTeleporter(index);
+			}
+
 			return true;
+		}
+
+		/**
+		 * Points a teleport pad that was just placed and one still waiting for a pair at each other,
+		 * so placing two pads in a row links them both ways. A pad waits when it doesn't send anywhere
+		 * and no pad sends to it. A new pair gets a color no other pad has, when there's one left.
+		 * @param {number} index - The new pad
+		 */
+		#pairNewTeleporter(index) {
+			if (!this.#_mapData) throw Error("No map loaded");
+			const pads = [];
+			const targeted = new Set();
+			const usedColors = new Set();
+			for (const key of Object.keys(this.#_mapData.objectConfigs ?? {})) {
+				const other = Number(key);
+				const config = this.#teleporterConfig(other);
+				if (other === index || !config) continue;
+				pads.push(other);
+				if (config.Destination) targeted.add(MapCoordinatesToIndex(config.Destination.X, config.Destination.Y));
+				if (config.Color) usedColors.add(config.Color);
+			}
+			const waiting = pads.find(other => !this.getTeleporterDestination(other) && !targeted.has(other));
+			if (waiting == null) {
+				const colors = AssetsMapDataTeleportPadColors;
+				this.setTeleporterColor(index, colors.find(color => !usedColors.has(color)) ?? colors[pads.length % colors.length]);
+				return;
+			}
+			this.setTeleporterColor(index, this.getTeleporterColor(waiting) ?? AssetsMapDataTeleportPadColors[0]);
+			this.setTeleporterDestination(index, MapIndexToCoordinates(waiting));
+			this.setTeleporterDestination(waiting, MapIndexToCoordinates(index));
 		}
 
 		/**
@@ -1375,7 +1423,90 @@ var MapManager = (function () {
 				case "Sign":
 					if (cell && ["SignWood", "SignWoodWall", "SignMetal", "SignMetalWall"].includes(cell.Style)) return true;
 					return false;
+				case "Teleporter":
+					return cell?.DefaultObjectConfig?.Type === "Teleporter";
 			}
+		}
+
+		/**
+		 * Gets where the teleport pad at the given coordinates sends to
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {ChatRoomMapPos | null} - null if it's not a teleport pad or it doesn't send anywhere yet
+		 */
+		getTeleporterDestination(...args) {
+			const [index] = this.unpackIndex(...args);
+			const config = this.#teleporterConfig(index);
+			if (!config?.Destination) return null;
+			// A copy, the player's position is changed in place when she walks
+			return { X: config.Destination.X, Y: config.Destination.Y };
+		}
+
+		/**
+		 * Sets where the teleport pad at the given coordinates sends to
+		 * @param {[x: number, y: number, destination: ChatRoomMapPos | null] | [index: number, destination: ChatRoomMapPos | null]} args
+		 * @return {boolean} - false if it's not a teleport pad, or the destination is the pad itself, a wall or outside the map
+		 */
+		setTeleporterDestination(...args) {
+			const [index, destination] = this.unpackIndex(...args);
+			const config = this.#teleporterConfig(index);
+			if (!config) return false;
+			if (!destination) {
+				const withoutDestination = { ...config };
+				delete withoutDestination.Destination;
+				return this.setObjectConfig(index, withoutDestination);
+			}
+			const { X, Y } = destination;
+			if (X < 0 || Y < 0 || X >= ChatRoomMapViewWidth || Y >= ChatRoomMapViewHeight) return false;
+			if (MapCoordinatesToIndex(X, Y) === index || this.getTile(X, Y)?.Type === "Wall") return false;
+			return this.setObjectConfig(index, { ...config, Destination: { X, Y } });
+		}
+
+		/**
+		 * The config of the teleport pad at the given index
+		 * @param {number} index
+		 * @return {ChatRoomMapTeleporterObjectConfig | null} - null if there's no teleport pad there
+		 */
+		#teleporterConfig(index) {
+			if (this.getObject(index)?.DefaultObjectConfig?.Type !== "Teleporter") return null;
+			const config = this.getObjectConfig(index);
+			return config?.Type === "Teleporter" ? config : null;
+		}
+
+		/**
+		 * Whether a teleport pad sends to the given coordinates
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {boolean}
+		 */
+		isTeleporterDestination(...args) {
+			if (!this.#_mapData) throw Error("No map loaded");
+			const [index] = this.unpackIndex(...args);
+			for (const key of Object.keys(this.#_mapData.objectConfigs ?? {})) {
+				const destination = this.#teleporterConfig(Number(key))?.Destination;
+				if (destination && MapCoordinatesToIndex(destination.X, destination.Y) === index) return true;
+			}
+			return false;
+		}
+
+		/**
+		 * Gets the color of the teleport pad at the given coordinates, with its opacity when it's see-through
+		 * @param {[x: number, y: number] | [index: number]} args
+		 * @return {HexColor | null} - null if it's not a teleport pad or it has no color
+		 */
+		getTeleporterColor(...args) {
+			const [index] = this.unpackIndex(...args);
+			return this.#teleporterConfig(index)?.Color ?? null;
+		}
+
+		/**
+		 * Sets the color of the teleport pad at the given coordinates
+		 * @param {[x: number, y: number, color: HexColor] | [index: number, color: HexColor]} args - The color, opacity included (#RRGGBBAA)
+		 * @return {boolean} - false if it's not a teleport pad or the color isn't a color
+		 */
+		setTeleporterColor(...args) {
+			const [index, color] = this.unpackIndex(...args);
+			const config = this.#teleporterConfig(index);
+			if (!config || !CommonIsColor(color, { allowAlpha: true })) return false;
+			return this.setObjectConfig(index, { ...config, Color: color });
 		}
 
 		/**
@@ -2023,7 +2154,14 @@ var MapManager = (function () {
 							this.setObjectConfig(index, undefined);
 						}
 						break;
+					case "Teleporter":
+						if (!object || !this.isValidObjectConfig(index, "Teleporter")) {
+							this.setObjectConfig(index, undefined);
+						}
+						break;
 				}
+				// The pad whose menu is open is gone: its menu goes too
+				if (index === ChatRoomMapViewTeleportPadIndex && this.getObjectConfig(index)?.Type !== "Teleporter") ChatRoomMapViewHideDialogMenu();
 
 				if (!object) continue;
 				if (!this.canSetObject(index, object)) {
