@@ -1,4 +1,3 @@
-"use strict";
 import { Game } from "./Utils";
 
 // Mock out all the stuff that's required before ChatRoom.js can load
@@ -477,4 +476,4 @@ describe("with a test map", () => {
 			// expect(Game.MapManager.Map.getTile(x, y)).toBe(expected);
 		}
 	);
-})
+});

@@ -147,7 +147,7 @@ export default defineConfig([
 		},
 	},
 	{
-		files: ["Tests/**/*.js"],
+		files: ["Tests/**/*.ts"],
 
 		extends: [
 			...compat.extends("plugin:compat/recommended"),
@@ -170,6 +170,7 @@ export default defineConfig([
 			...customRules,
 			"@typescript-eslint/no-require-imports": "off",
 			...typedOnlyRules,
+			"strict": ["error", "never"],
 		},
 	},
 	{

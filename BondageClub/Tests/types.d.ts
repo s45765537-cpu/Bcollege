@@ -23,7 +23,7 @@ class BrowserCache {
 	name: string;
 	cache: Cache;
 	private _releasePattern: RegExpstring;
-	private _revalidated: Set<string>
+	private _revalidated: Set<string>;
 	private new (cache: Cache, name: string);
 	static async open(): Promise<BrowserCache>;
 	key(url: string): string;

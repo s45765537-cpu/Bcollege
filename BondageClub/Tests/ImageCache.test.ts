@@ -48,6 +48,7 @@ beforeEach(() => {
 	Game.CommonTime = jest.fn(() => now);
 	Game.CurrentTime = now;
 	Game.Character = [];
+	// eslint-disable-next-line no-global-assign
 	createImageBitmap = jest.fn(async () => makeBitmap());
 	Game.createImageBitmap = createImageBitmap;
 
