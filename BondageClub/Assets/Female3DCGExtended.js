@@ -13861,7 +13861,8 @@ var AssetFemale3DCGExtended = {
 				LastShrinkWarningTime: 0,
 				NextShrinkTime: 0,
 				ShrinkCooldown: 0,
-				TriggerValues: InventoryItemVulvaTechnoChastityCageVoiceTriggers.join(","),
+				TriggerValues:
+					InventoryItemVulvaTechnoChastityCageVoiceTriggers.join(","),
 			},
 			ScriptHooks: {
 				Click: InventoryItemVulvaTechnoChastityCageClickHook,
@@ -21191,7 +21192,8 @@ var AssetFemale3DCGExtended = {
 				PunishStruggle: false,
 				PunishStruggleOther: false,
 				AccessMode: "",
-				TriggerValues: InventoryItemPelvisModularChastityBeltVoiceTriggers.join(","),
+				TriggerValues:
+					InventoryItemPelvisModularChastityBeltVoiceTriggers.join(","),
 			},
 		}, // ModularChastityBelt
 		WaistLegHarness: {

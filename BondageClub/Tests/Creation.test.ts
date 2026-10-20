@@ -78,7 +78,7 @@ const statusResponsesCallbacks: Record<AccountCreationStatus, (creationData: Req
 			Name: creationData.InputCharacter,
 			AccountName: creationData.InputName,
 			MemberNumber: 99,
-			OnlineID: "foo",
+			CharacterID: "foo",
 		});
 	},
 	async invalid_field(creationData) {

@@ -1432,8 +1432,8 @@ var ServerValidation = {
 	isString(maxLength, defaultValue) {
 		return (arg) => {
 			if (typeof arg !== "string") return defaultValue;
-			arg = arg.trim();
-			return arg.length <= maxLength ? arg : defaultValue;
+			const str = arg.trim();
+			return str.length <= maxLength ? str : defaultValue;
 		};
 	},
 
