@@ -672,7 +672,7 @@ function SpeechTransformStutter(text, intensity) {
 		inOOC = SpeechIndexInOocRange(L, oocRanges);
 
 		// If we are not between brackets and at the start of a word, there's a chance to stutter that word
-		if (!inOOC && inWord >= 0 && (char.match(/[[a-zа-яё]/i))) {
+		if (!inOOC && inWord >= 0 && (char.match(/[a-zа-яё]/i))) {
 
 			// Generate a pseudo-random number using a seed, so that the same text always stutters the same way
 			let R = Math.sin(seed++) * 10000;
