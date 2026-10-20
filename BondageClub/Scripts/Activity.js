@@ -755,7 +755,7 @@ function ActivityExpression(C, Progress) {
 	if ((Progress == 80) || (Progress == 90)) expressions.Eyebrows = "Soft";
 
 	// Drool can activate at a few stages
-	if ((Progress == 40) || (C.ArousalSettings.Progress == 70)) expressions.Fluids = "DroolLow";
+	if ((Progress == 40) || (Progress == 70)) expressions.Fluids = "DroolLow";
 	if (Progress == 100) expressions.Fluids = "DroolMedium";
 
 	// Eyes can activate at a few stages
