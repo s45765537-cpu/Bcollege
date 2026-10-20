@@ -58,16 +58,21 @@ const ModularItemDataLookup = {};
 
 /**
  * An enum encapsulating the possible chatroom message settings for modular items
- * - PER_MODULE - The item has one chatroom message per module (messages for individual options within a module are all
- * the same)
- * - PER_OPTION - The item has one chatroom message per option (for finer granularity - each individual option within a
- * module can have its own chatroom message)
- * @type {Record<"PER_MODULE"|"PER_OPTION", ModularItemChatSetting>}
+ * @satisfies {Record<"PER_MODULE"|"PER_OPTION", ModularItemChatSetting>}
  */
-const ModularItemChatSetting = {
+const ModularItemChatSetting = /** @type {const} */ ({
+	/**
+	 * The item has one chatroom message per option.
+	 * For finer granularity - each individual option within a module can have its own chatroom message.
+	 * @default
+	 */
 	PER_OPTION: "default",
+	/**
+	 * The item has one chatroom message per module.
+ 	 * Messages for individual options within a module are all the same.
+	 */
 	PER_MODULE: "perModule",
-};
+});
 
 /**
  * Registers a modular extended item. This automatically creates the item's load, draw and click functions.
@@ -721,15 +726,18 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 			}
 		}
 		if (valid) {
-			mergedProperty.OverridePriority ??= {};
-			for (const [k, v] of CommonEntries(Property.OverridePriority)) {
-				// First come; first served
-				mergedProperty.OverridePriority[k] ??= v;
+			if (CommonIsObject(mergedProperty.OverridePriority)) {
+				for (const [k, v] of CommonEntries(Property.OverridePriority)) {
+					// First come; first served
+					mergedProperty.OverridePriority[k] ??= v;
+				}
+			} else {
+				mergedProperty.OverridePriority = Property.OverridePriority;
 			}
 		}
 	}
-	if (CommonIsObject(Property.DrawingTop)) { ModularItemMergeDrawingTopLeft(mergedProperty.DrawingTop, Property.DrawingTop, layerNames); }
-	if (CommonIsObject(Property.DrawingLeft)) { ModularItemMergeDrawingTopLeft(mergedProperty.DrawingLeft, Property.DrawingLeft, layerNames); }
+	if (CommonIsObject(Property.DrawingTop)) { mergedProperty.DrawingTop = ModularItemMergeDrawingTopLeft(mergedProperty.DrawingTop, Property.DrawingTop, layerNames); }
+	if (CommonIsObject(Property.DrawingLeft)) { mergedProperty.DrawingLeft = ModularItemMergeDrawingTopLeft(mergedProperty.DrawingLeft, Property.DrawingLeft, layerNames); }
 	if (typeof Property.HeightModifier === "number") mergedProperty.HeightModifier = (mergedProperty.HeightModifier || 0) + Property.HeightModifier;
 	if (Property.OverrideHeight) mergedProperty.OverrideHeight = ModularItemMergeOverrideHeight(mergedProperty.OverrideHeight, Property.OverrideHeight);
 	if (Asset.AllowTint && Property.Tint) mergedProperty.Tint = CommonArrayConcatDedupe(mergedProperty.Tint, Property.Tint);

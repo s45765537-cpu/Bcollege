@@ -42,6 +42,7 @@ export const NEEDED_FILES = [
 	"Screens/Inventory/FaceMarkings/FaceWritings/FaceWritings.js",
 	"Screens/Inventory/ItemDevices/DollBox/DollBox.js",
 	"Screens/Inventory/ItemDevices/PetBowl/PetBowl.js",
+	"Screens/Inventory/ItemDevices/BarStool/BarStool.js",
 	"Screens/Inventory/ItemHead/DroneMask/DroneMask.js",
 	"Screens/Inventory/ItemHandheld/Plushies/Plushies.js",
 	"Screens/Inventory/ItemMisc/WoodenSign/WoodenSign.js",

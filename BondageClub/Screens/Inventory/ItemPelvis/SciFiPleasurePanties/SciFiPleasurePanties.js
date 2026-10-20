@@ -26,7 +26,7 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 		MainCanvas.restore();
 
 		// Display the ShowText checkbox
-		ExtendedItemDrawCheckbox("ShowText", 1175, 743, !!item.Property.ShowText, { changeWhenLocked: false });
+		ExtendedItemDrawCheckbox("ShowText", 1175, 818, !!item.Property.ShowText, { changeWhenLocked: false });
 		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button

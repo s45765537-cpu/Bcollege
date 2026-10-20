@@ -25,7 +25,7 @@ class SocketMock {
 
 	mockResponse<T extends keyof ServerToClientEvents>(ev: T, ...args: Parameters<ServerToClientEvents[T]>) {
 		// @ts-expect-error
-		this.listeners[ev]?.forEach(func => func(...args))
+		this.listeners[ev]?.forEach(func => func(...args));
 	}
 }
 
@@ -45,6 +45,7 @@ const postVMMocks = {
 		callback.call(obj, obj);
 	},
 	CommonFetch: async (request: RequestInfo | URL): Promise<Response> => {
+		if (typeof request !== "string") throw Error("not implemented");
 		const bytes = fs.readFileSync(`${request}`);
 		const obj = {
 			status: 200,
@@ -81,7 +82,7 @@ const CONSTANTS = {
 	MS_PER_WEEK,
 	MS_PER_YEAR,
 	FETCH_MAX_RETRIES,
-}
+};
 
 const _Game = {
 	...global,

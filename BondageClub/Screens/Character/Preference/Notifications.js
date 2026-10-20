@@ -12,6 +12,7 @@ function PreferenceSubscreenNotificationsLoad() {
 	PreferenceNotificationsCheckSetting(NS.ChatJoin);
 	PreferenceNotificationsCheckSetting(NS.Disconnect);
 	PreferenceNotificationsCheckSetting(NS.Test);
+	PreferenceNotificationsCheckSetting(NS.Larp);
 }
 
 /**

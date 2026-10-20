@@ -175,7 +175,7 @@ const TextItem = {
 				item.Property[field] = baselineProperty[field];
 				changed = true;
 			} else if (textProperty.length > (length ?? 0)) {
-				item.Property[field] = textProperty.slice(0, textProperty.length);
+				item.Property[field] = textProperty.slice(0, length ?? 0);
 				changed = true;
 			}
 		}

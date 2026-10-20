@@ -58,8 +58,6 @@ BraSexyBikini1Main,Main
 BraSexyBikini1Sides,Sides
 BraLeatherVestSuitLeather,Leather
 BraLeatherVestSuitSilk,Silk
-BraStuddedHarnessHarness,Harness
-BraStuddedHarnessMetal,Metal
 BraOrnateMetalBraBra,Bra
 BraOrnateMetalBraMetal,Metal
 BraOrnateMetalBraShine,Shine
@@ -1517,6 +1515,23 @@ ItemArmsChains,Chains
 ItemArmsChainsSuspension,Suspension Chain
 ItemArmsFullLatexSuitBase,Straps
 ItemArmsFullLatexSuitLatex,Suit
+ItemArmsFullLatexSuitLock,Lock
+ItemArmsInflatableStraightLeotard,Leotard
+ItemArmsInflatableStraightLeotardLock,Lock
+ItemArmsLatexBoxtieLeotardLatex,Latex
+ItemArmsLatexBoxtieLeotardHighlights,Highlights
+ItemArmsLatexBoxtieLeotardLock,Lock
+ItemArmsLatexButterflyLeotardLatex,Latex
+ItemArmsLatexButterflyLeotardHighlights,Highlights
+ItemArmsLatexButterflyLeotardLock,Lock
+ItemArmsMermaidSuitLatex,Suit
+ItemArmsMermaidSuitLock,Lock
+ItemArmsSeamlessStraitDress,Dress
+ItemArmsSeamlessStraitDressLock,Lock
+ItemArmsSeamlessStraitDressOpen,Dress
+ItemArmsSeamlessStraitDressOpenLock,Lock
+ItemArmsSleepSac,SleepSac
+ItemArmsSleepSacLock,Lock
 ItemArmsFuturisticArmbinderBand,Band
 ItemArmsFuturisticArmbinderBinder,Binder
 ItemArmsFuturisticArmbinderDisplay,Display
@@ -1604,8 +1619,10 @@ ItemArmsSmoothLeatherArmbinder1LacesLeft,Laces
 ItemArmsSmoothLeatherArmbinder1SeamsLeft,Seams
 ItemArmsStraitDressBelts,Straps
 ItemArmsStraitDressLatex,Dress
+ItemArmsStraitDressLock,Lock
 ItemArmsStraitDressOpenBelts,Straps
 ItemArmsStraitDressOpenLatex,Dress
+ItemArmsStraitDressOpenLock,Lock
 ItemArmsStraitLeotardGloves,Gloves
 ItemArmsStraitLeotardLower,Lower Half
 ItemArmsStraitLeotardUpper,Upper Half
@@ -2021,6 +2038,20 @@ ItemDevicesCardBoardBoxback,Inside
 ItemDevicesCardBoardBoxfrontClosed,Outside
 ItemDevicesCardBoardBoxtape,Tape
 ItemDevicesCardBoardBoxtext,Text
+ItemDevicesBarStoolModernCushion,Cushion
+ItemDevicesBarStoolModernRim,Rim
+ItemDevicesBarStoolModernPole,Pole
+ItemDevicesBarStoolModernFootRing,Foot Ring
+ItemDevicesBarStoolModernBase,Base
+ItemDevicesBarStoolDirtySeat,Seat
+ItemDevicesBarStoolDirtyTape,Duct Tape
+ItemDevicesBarStoolDirtyBand,Band
+ItemDevicesBarStoolDirtyLegs,Legs
+ItemDevicesBarStoolDirtyFootRing,Foot Ring
+ItemDevicesBarStoolWoodenSeat,Seat
+ItemDevicesBarStoolWoodenLegs,Legs
+ItemDevicesBarStoolWoodenFootBar,Foot Bar
+ItemDevicesBarStoolDecal,Decal
 ItemEarsCTHeadsetearHighlight,Hightlights
 ItemEarsCTHeadsetcushions,Cushions
 ItemEarsCTHeadsetears,Earphones
@@ -2085,6 +2116,12 @@ ItemFeetSturdyLeatherBeltsUpperMetal,Upper Belt
 ItemFeetTentaclesInner,Inner
 ItemFeetTentaclesOuter,Outer
 ItemFeetTentaclesSucker,Suckers
+ItemFeetIrish8Cuffs,Cuffs
+ItemFeetIrish8CuffsLock,Lock
+ItemFeetSpreaderMetal,Spreader
+ItemFeetSpreaderMetalLock,Lock
+ItemFeetSpreaderVibratingDildoBarDildoBar,DildoBar
+ItemFeetSpreaderVibratingDildoBarLock,Lock
 ItemHandheldAnimeGirlWandMain,Body
 ItemHandheldAnimeGirlWandVib,Wand side
 ItemHandheldAnimeGirlWandTop,Staff side
@@ -2358,6 +2395,7 @@ ItemHoodCanvasHoodHood,Canvas
 ItemHoodCanvasHoodText,Text
 ItemHoodCollarHoodCollar,Collar
 ItemHoodCollarHoodHood,Hood
+ItemHoodCollarHoodLock,Lock
 ItemHoodCorsetHoodLace,Lacing
 ItemHoodCorsetHoodLatex,Latex
 ItemHoodCorsetHoodLines,Outline
@@ -2556,6 +2594,8 @@ ItemHoodVacHoodRebreather,Rebreather Bag
 ItemHoodVacHoodRebreather,Rebreather Bag
 ItemHoodVacHoodTube,Breathing Tube
 ItemHoodVacHoodTube,Breathing Tube
+ItemHoodAccentHood,Hood
+ItemHoodAccentHoodLock,Lock
 ItemLegsFrogtieMetalCuffsChain,Chain
 ItemLegsFrogtieMetalCuffsMarks,Marks
 ItemLegsFuturisticLegCuffsChain,Chain
@@ -3490,6 +3530,10 @@ ItemPelvisUntrainersThinMiddle,Middle
 ItemPelvisUntrainersThinTabs,Tabs
 ItemPelvisUntrainersThinWet,Wet
 ItemPelvisUntrainersThinIndicator,Indicator
+ItemPelvisDiaperHarness,Harness
+ItemPelvisDiaperHarnessLock,Lock
+ItemPelvisHarnessPanties1,Harness
+ItemPelvisHarnessPanties1Lock,Lock
 ItemTorso2ClassicLatexCorsetBelt,Belt
 ItemTorso2ClassicLatexCorsetBuckles,Buckles
 ItemTorso2ClassicLatexCorsetCorset,Corset
@@ -3566,6 +3610,7 @@ ItemTorsoRestraintSetSheerBodysuit,Sheer Bodysuit
 ItemTorsoRestraintSetUpperBody1,Upper Body
 ItemTorsoRestraintSetUpperBody2,Upper Body
 ItemTorsoRestraintSetUpperBodyStrap,Upper Body Strap
+ItemTorsoRestraintSetLock,Lock
 ItemTorsoSteelBeltBelt,Belt
 ItemTorsoSteelBeltBDetail,Belt locks
 ItemTorsoSteelBeltLock,Padlocks
@@ -3573,6 +3618,7 @@ ItemTorsoSteelBeltHandcuffs,Fist Handcuffs
 ItemTorsoSteelBeltHandcuffs2,Arm Handcuffs
 ItemTorsoStuddedHarnessHarness,Harness
 ItemTorsoStuddedHarnessMetal,Metal
+ItemTorsoStuddedHarnessLock,Lock
 ItemTorsoTentacleSuitBreastCover,Top
 ItemTorsoTentacleSuitGloves,Arms
 ItemTorsoTentacleSuitInsertingTentacle,Tentacle
@@ -3595,6 +3641,10 @@ ItemTorsoNylonRopeHarnessRightThigh,Unity Right Thigh
 ItemTorsoNylonRopeHarnessLeftThigh,Unity Left Thigh
 ItemTorsoNylonRopeHarnessRight,Unity Right Side
 ItemTorsoNylonRopeHarnessLeft,Unity Left Side
+ItemTorsoLeatherHarness,Harness
+ItemTorsoLeatherHarnessLock,Lock
+ItemTorsoLeatherStrapHarness,Harness
+ItemTorsoLeatherStrapHarnessLock,Lock
 ItemVulvaBasicCockringCockRing,Cock Ring
 ItemVulvaBasicCockringPenis,Penis
 ItemVulvaLockingCockringBase,Base Ring
@@ -4070,7 +4120,6 @@ SocksNetSocksWaistline,Waistline
 SocksStripedSocksSocks,Socks
 SocksStripedSocksStripes,Stripes
 SocksYuletideVelvetWarmthSock,Sock
-SocksYuletideVelvetWarmthSock,Fuzz
 SocksRippedPantyhoseBaseUpper,Upper
 SocksRippedPantyhoseBaseLower,Lower
 SocksLeftGradientPantyhoseLower,Lower

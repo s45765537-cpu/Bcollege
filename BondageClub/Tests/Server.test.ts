@@ -3,7 +3,7 @@ import { Game } from "./Utils";
 import testParam from "./Server.json";
 
 let extendedAsset: Asset;
-const asset = {
+const fooAsset = {
 	Name: "Foo",
 	get ColorableLayerCount() { return this.DefaultColor.length; },
 	DefaultColor: ["Default", "Default"],
@@ -27,7 +27,7 @@ beforeAll(async () => {
 describe("ServerBundledItemFromAppearanceItem", () => {
 	it("non-default difficulty", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Difficulty: 5,
 			Color: ["Default", "Default"],
 			Property: {},
@@ -41,7 +41,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("nullish difficulty", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Difficulty: null,
 			Color: ["Default", "Default"],
 		};
@@ -67,7 +67,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("nullish property", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Color: ["Default", "Default"],
 			Property: null,
 		};
@@ -80,7 +80,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("non-default craft", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Difficulty: 0,
 			Color: ["Default", "Default"],
 			Property: {},
@@ -109,7 +109,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("non-default color: array-based", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Difficulty: 0,
 			Color: ["#001122", "Default"],
 			Property: {},
@@ -123,7 +123,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("non-default color: string-based (backwards compatibility)", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Difficulty: 0,
 			Color: "#001122",
 			Property: {},
@@ -137,7 +137,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("default color: string-based (backwards compatibility)", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Difficulty: 0,
 			Color: "Default",
 			Property: {},
@@ -150,7 +150,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 	it("default color: undefined (backwards compatibility)", () => {
 		const item = {
-			Asset: asset,
+			Asset: fooAsset,
 			Difficulty: 0,
 			Color: undefined,
 			Property: {},
@@ -170,14 +170,12 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 
 		let bundle: ItemBundle;
 		let itemRestored: null | Item;
-		let itemRestoredDoubleDecompress: null | Item;
 		const consoleError = Game.console.error;
 		try {
 			// Silence `console.error()` calls due to expected invalid `TypeRecord` values
 			Game.console.error = () => undefined;
 			bundle = Game.ServerBundledItemFromAppearanceItem(item);
 			itemRestored = Game.ServerBundledItemToAppearanceItem("Female3DCG", bundle);
-			itemRestoredDoubleDecompress = Game.ServerBundledItemFromAppearanceItem(item);
 		} finally {
 			Game.console.error = consoleError;
 		}
@@ -271,7 +269,7 @@ describe("ServerBundledItemFromAppearanceItem", () => {
 		expect(item?.Asset).toEqual(asset);
 		expect(item?.Color).toEqual(bundle.Color);
 		expect(item?.Property).toEqual({});
-	})
+	});
 
 	const baselineParam = testParam.baseline.map(({ asset, group, comment, ...rest }) => {
 		return { name: `${group}/${asset} (${comment})`, assetParam: { asset, group }, ...rest };

@@ -692,13 +692,13 @@ function CharacterAppearanceBuildCanvas(C) {
 				CommonDrawMarkDrawnAsset(C, src);
 				DrawImageCanvas(src, getCanvasContext(C.CanvasBlink), x, y, opts);
 			},
-			drawCanvas: (Img, x, y, alphaMasks, maskLayers) => {
+			drawCanvas: (Img, x, y, alphaMasks, maskLayers, transforms) => {
 				CommonDrawMarkDrawnAsset(C, Img);
-				DrawCanvas(Img, getCanvasContext(C.Canvas), x, y, alphaMasks ?? [], maskLayers ?? []);
+				DrawCanvas(Img, getCanvasContext(C.Canvas), x, y, alphaMasks ?? [], maskLayers ?? [], transforms);
 			},
-			drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => {
+			drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers, transforms) => {
 				CommonDrawMarkDrawnAsset(C, Img);
-				DrawCanvas(Img, getCanvasContext(C.CanvasBlink), x, y, alphaMasks ?? [], maskLayers ?? []);
+				DrawCanvas(Img, getCanvasContext(C.CanvasBlink), x, y, alphaMasks ?? [], maskLayers ?? [], transforms);
 			},
 		});
 	} else {
@@ -1465,7 +1465,7 @@ function AppearanceMenuClick(C) {
 							if (res.ok && res.value) {
 								CharacterAppearancePaste(C, res.value, false);
 							} else if (res.err) {
-								ToastManager.error(res.errorAsDOM(TextGet("AppPasteError")));
+								ToastManager.error(res.errorAsDOM(InterfaceTextGet("AppPasteError")));
 							}
 						});
 					}
@@ -1891,9 +1891,9 @@ function CharacterAppearanceCopyToClipboard(C) {
 	S = LZString.compressToBase64(S);
 	CommonClipboardWrite(S, (res) => {
 		if (res.err) {
-			ToastManager.error(res.errorAsDOM(TextGet("AppCopyError")));
+			ToastManager.error(res.errorAsDOM(InterfaceTextGet("AppCopyError")));
 		} else {
-			ToastManager.success(TextGet("AppCopyDone"));
+			ToastManager.success(InterfaceTextGet("AppCopyDone"));
 		}
 	});
 }

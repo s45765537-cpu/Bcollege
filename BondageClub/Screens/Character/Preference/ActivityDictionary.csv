@@ -73,7 +73,7 @@ ActivityCollarGrab,Grab Collar
 ActivityDeepThroat,Deep Throat
 ActivitySuckPenetrateItem,Suck
 OrgasmFailResist0,"SourceCharacter is tormented by the vibrations, struggling to keep PronounPossessive cool."
-OrgasmFailResist1,"SourceCharacter struggles against the intense vibrations, hardly able to control PronounPossessiveself."
+OrgasmFailResist1,"SourceCharacter struggles against the intense vibrations, hardly able to control PronounSelf."
 OrgasmFailResist2,SourceCharacter resists the stimulation until it finally cuts off abruptly.
 OrgasmFailTimeout0,"SourceCharacter vibrators stop abruptly, leaving PronounPossessive trembling yet still just as aroused as before."
 OrgasmFailTimeout1,"SourceCharacter moans and trembles, holding back only because the vibrators abruptly stopped."
@@ -408,6 +408,7 @@ Label-ChatOther-ItemPenis-Nibble,Nibble Penis
 Label-ChatOther-ItemPenis-PenetrateFast,Fast Penetration
 Label-ChatOther-ItemPenis-PenetrateSlow,Slow Penetration
 Label-ChatOther-ItemPenis-RubItem,Rub on Penis
+Label-ChatOther-ItemPenis-Scratch,Scratch
 Label-ChatOther-ItemPenis-ShockItem,Shock Penis
 Label-ChatOther-ItemPenis-Slap,Slap Penis
 Label-ChatOther-ItemPenis-SpankItem,Spank Penis
@@ -712,6 +713,7 @@ Label-ChatSelf-ItemPenis-MasturbateFist,Fist Penis
 Label-ChatSelf-ItemPenis-MasturbateHand,Masturbate Penis
 Label-ChatSelf-ItemPenis-MasturbateItem,Masturbate Penis
 Label-ChatSelf-ItemPenis-RubItem,Rub on Penis
+Label-ChatSelf-ItemPenis-Scratch,Scratch
 Label-ChatSelf-ItemPenis-ShockItem,Shock Penis
 Label-ChatSelf-ItemPenis-Slap,Slap Penis
 Label-ChatSelf-ItemPenis-SpankItem,Spank Penis
@@ -1054,6 +1056,7 @@ ChatOther-ItemPenis-MasturbateItem,SourceCharacter uses PronounPossessive Activi
 ChatOther-ItemPenis-MasturbateTongue,SourceCharacter masturbates TargetCharacter's penis with PronounPossessive tongue.
 ChatOther-ItemPenis-Nibble,SourceCharacter nibbles TargetCharacter's penis.
 ChatOther-ItemPenis-RubItem,SourceCharacter rubs TargetCharacter's penis with PronounPossessive ActivityAsset.
+ChatOther-ItemPenis-Scratch,SourceCharacter scratches over TargetCharacter's penis.
 ChatOther-ItemPenis-ShockItem,SourceCharacter shocks TargetCharacter's penis with PronounPossessive ActivityAsset.
 ChatOther-ItemPenis-Slap,SourceCharacter slaps TargetCharacter's penis.
 ChatOther-ItemPenis-SpankItem,SourceCharacter hits TargetCharacter's penis with PronounPossessive ActivityAsset.
@@ -1355,6 +1358,7 @@ ChatSelf-ItemPenis-MasturbateFist,SourceCharacter fists and masturbates PronounP
 ChatSelf-ItemPenis-MasturbateHand,SourceCharacter masturbates PronounPossessive penis.
 ChatSelf-ItemPenis-MasturbateItem,SourceCharacter masturbates PronounPossessive penis with PronounPossessive ActivityAsset.
 ChatSelf-ItemPenis-RubItem,SourceCharacter rubs PronounPossessive penis with PronounPossessive ActivityAsset.
+ChatSelf-ItemPenis-Scratch,SourceCharacter scratches PronounPossessive penis.
 ChatSelf-ItemPenis-ShockItem,SourceCharacter shocks PronounPossessive penis with PronounPossessive ActivityAsset.
 ChatSelf-ItemPenis-Slap,SourceCharacter slaps PronounPossessive penis.
 ChatSelf-ItemPenis-SpankItem,SourceCharacter hits PronounPossessive penis with PronounPossessive ActivityAsset.

@@ -2735,11 +2735,16 @@ interface ElementMetaData {
 	icon?: ThumbIcon,
 	/** Whether an options shows up in the UI. Useful for options that are managed programmatically. */
 	hidden?: boolean,
+	/**
+	 * Gets the element's label, instead of looking up the option's dialog key.
+	 * For options named after something that has its own text, such as another asset.
+	 */
+	label?: () => string,
 }
 
 declare namespace ElementMetaData {
 	interface Typed { drawImage: boolean, hidden: boolean, imagePath: null | string }
-	interface Modular { drawImage: boolean, hidden: boolean, imagePath: null | string }
+	interface Modular { drawImage: boolean, hidden: boolean, imagePath: null | string, label?: () => string }
 	interface Vibrating  { drawImage: false, hidden: false, imagePath: null }
 	interface Text {}
 	interface VariableHeight { icon: ThumbIcon }
@@ -4516,7 +4521,11 @@ type DrawCanvasCallback = (
 	y: number,
 	alphaMasks?: RectTuple[],
 	maskLayers?: TextureAlphaMask[],
+	transforms?: DrawTransforms,
 ) => void;
+
+/** The layering screen's transformations of a layer */
+type DrawTransforms = Required<Pick<DrawOptions, "TranslationX" | "TranslationY" | "ScaleX" | "ScaleY" | "Rotation">>;
 
 /**
  * A callback function used to draw an image to a canvas
@@ -4609,6 +4618,8 @@ interface DynamicDrawingData<T extends AnimationPersistentData = AnimationPersis
 	drawCanvas: DrawCanvasCallback;
 	drawCanvasBlink: DrawCanvasCallback;
 	AlphaMasks: RectTuple[];
+	/** The layer's transformations; {@link drawCanvas} and {@link drawCanvasBlink} already apply them */
+	Transforms: DrawTransforms;
 	PersistentData: () => T;
 }
 
@@ -5385,10 +5396,14 @@ interface ChatRoomMapTile extends ChatRoomMapPhysicalElement {
 interface ChatRoomMapObject extends ChatRoomMapPhysicalElement {
 	Type: ChatRoomMapObjectType;
 	Exit?: boolean;
+	/** The config a cell gets when this object is placed there */
+	DefaultObjectConfig?: ChatRoomMapObjectConfig;
 	AssetGroup?: AssetGroupItemName;
 	AssetName?: AssetName;
 	IsVisible?: () => boolean;
 	BuildImageName?: (X: number, Y: number) => string;
+	/** The color the object is drawn in, the way clothes are colored, opacity included (#RRGGBBAA) */
+	BuildImageColor?: (X: number, Y: number) => HexColor | null;
 	OnClick?: (x: number, y: number) => void;
 }
 
@@ -5402,11 +5417,19 @@ interface ChatRoomMapEffectStaticLighting extends ChatRoomMapDoodad {
 	Color: [r: number, g: number, b: number, a: number];
 }
 
-type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig
+type ChatRoomMapObjectConfig = ChatRoomMapSignObjectConfig | ChatRoomMapTeleporterObjectConfig
 
 interface ChatRoomMapSignObjectConfig {
 	Type: "Sign";
 	Text: string;
+}
+
+interface ChatRoomMapTeleporterObjectConfig {
+	Type: "Teleporter";
+	Destination?: ChatRoomMapPos;
+	Color?: HexColor;
+	/** Characters can stand together on the pad and the tiles around it */
+	Shared?: boolean;
 }
 
 

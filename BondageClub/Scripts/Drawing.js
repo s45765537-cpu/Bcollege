@@ -593,10 +593,11 @@ function DrawImageCanvas(Source, Canvas, X, Y, Options) {
  * @param {number} Y - Position of the image on the Y axis
  * @param {readonly RectTuple[]} AlphaMasks - A list of alpha masks to apply to the asset
  * @param {readonly TextureAlphaMask[]} TextureAlphaMasks - A list of mask layers to apply to the asset
+ * @param {DrawTransforms} [Transforms] - The layer's transformations
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TextureAlphaMasks) {
-	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks, TextureAlphaMask: TextureAlphaMasks });
+function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TextureAlphaMasks, Transforms) {
+	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks, TextureAlphaMask: TextureAlphaMasks, ...Transforms });
 }
 
 /**
@@ -1969,6 +1970,16 @@ function RectOffset(rect, dX, dY) {
  */
 function RectScale(rect, wScale, hScale) {
 	return RectMakeRect(rect.x, rect.y, rect.w * wScale, rect.h * hScale);
+}
+
+/**
+ * Whether two rects overlap, touching edges don't count
+ * @param {Readonly<RectTuple>} a
+ * @param {Readonly<RectTuple>} b
+ * @returns {boolean}
+ */
+function RectOverlapsWithRect(a, b) {
+	return a[0] < b[0] + b[2] && b[0] < a[0] + a[2] && a[1] < b[1] + b[3] && b[1] < a[1] + a[3];
 }
 
 /**
