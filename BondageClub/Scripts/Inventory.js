@@ -1592,7 +1592,7 @@ function InventoryIsWorn(C, group, assetName) {
 	const names = !Array.isArray(assetName) ? [assetName] : assetName;
 	const allowsNone = names.includes("None");
 	const wearsAny = C.Appearance.some(i => i.Asset.Group.Name === group && names.some(a => i.Asset.Name === a));
-	return wearsAny || allowsNone && !wearsAny;
+	return wearsAny || allowsNone && !C.Appearance.some(i => i.Asset.Group.Name === group);
 }
 
 /**
