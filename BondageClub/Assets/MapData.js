@@ -451,7 +451,7 @@ const AssetsMapDataObjects = [
 		Top: -0.25,
 		Height: 1.25,
 		Transparency: 1,
-		TransparencyCutoutHeight: 0.96
+		TransparencyCutoutHeight: 0
 	},
 	{
 		ID: 750,
