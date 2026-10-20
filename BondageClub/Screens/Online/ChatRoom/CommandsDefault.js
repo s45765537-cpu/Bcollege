@@ -80,7 +80,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to friend list",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsFriend).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !c.IsFriend()).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
@@ -94,7 +94,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of the player to request friendship with",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsFriend).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !c.IsFriend()).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
@@ -122,7 +122,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to ghost list",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsGhosted).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !c.IsGhosted()).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
@@ -150,7 +150,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to whitelist",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsWhitelisted).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !c.IsWhitelisted()).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
@@ -178,7 +178,7 @@ const CommonCommands = [
 			id: "member-number",
 			name: "Member number",
 			description: "Member number of player to add to blacklist",
-			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer && !c.IsBlacklisted).map(c => c.MemberNumber.toString()),
+			suggestions: () => ChatRoomCharacter.filter(c => !c.IsPlayer() && !c.IsBlacklisted()).map(c => c.MemberNumber.toString()),
 		}]
 	},
 	{
