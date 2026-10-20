@@ -590,7 +590,57 @@ describe("CommonModulo", () => {
 	it("works with non-integer divisor", () => {
 		expect(Game.CommonModulo(8.25, 0.5)).toBe(0.25);
 	});
+
+	it("can cycle between divisor and min", () => {
+		let val = 1;
+		expect(Game.CommonModulo(++val, 3, 1)).toBe(2);
+		expect(Game.CommonModulo(++val, 3, 1)).toBe(3);
+		expect(Game.CommonModulo(++val, 3, 1)).toBe(1);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(3);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(2);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(1);
+		expect(Game.CommonModulo(--val, 3, 1)).toBe(3);
+	});
 });
+
+fdescribe("CommonCycle", () => {
+	const cycle = ["A", "B", "C"];
+	it("returns the first value in case of an invalid parameter", () => {
+		expect(Game.CommonCycle(null, cycle, true)).toBe("A");
+	});
+
+	it("cycles a value forward through an array", () => {
+		let value = "A";
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("A");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, 1);
+		expect(value).toBe("A");
+	});
+
+	it("cycles a value backward through an array", () => {
+		let value = "A";
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("A");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("C");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("B");
+		value = Game.CommonCycle(value, cycle, -1);
+		expect(value).toBe("A");
+	});
+})
 
 describe("CommonObjectEqual", () => {
 	it("returns true for equal objects", () => {

@@ -1682,9 +1682,28 @@ function CommonClamp(value, min, max) {
  *
  * @param {number} value
  * @param {number} divisor
+ * @param {number} [min]
  */
-function CommonModulo(value, divisor) {
-	return Math.abs((divisor + value) % divisor);
+function CommonModulo(value, divisor, min = 0) {
+	return Math.abs((divisor + value - min) % divisor) + min;
+}
+
+/**
+ * Cycle a value through an array
+ * @template T
+ * @template {NonNullable<T>} R
+ * @param {T} value
+ * @param {R[]} array
+ * @param {1 | -1} dir
+ * @returns {R}
+ */
+function CommonCycle(value, array, dir) {
+	if (value === undefined || value === null) return array[0];
+	const idx = array.findIndex(v => v === /** @type {R} */ (/** @type {unknown} */ (value)));
+	if (idx === -1) {
+		return array[0];
+	}
+	return array[CommonModulo(idx + dir, array.length)];
 }
 
 /**
