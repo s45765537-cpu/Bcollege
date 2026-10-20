@@ -113,7 +113,7 @@ function ItemColorSanitizeProperty(item) {
 	item.Property ??= {};
 	const opacity = item.Property?.Opacity;
 	if (CommonIsFinite(opacity)) {
-		if (item.Asset.Layer.some(l => CommonClamp(opacity, l.MinOpacity, l.MaxOpacity) === opacity)) {
+		if (item.Asset.Layer.every(l => CommonClamp(opacity, l.MinOpacity, l.MaxOpacity) === opacity)) {
 			// The value fits in all of our layers min/max, use that
 			layerOpacities.fill(opacity);
 		} else {
