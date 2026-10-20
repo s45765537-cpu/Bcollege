@@ -593,10 +593,11 @@ function DrawImageCanvas(Source, Canvas, X, Y, Options) {
  * @param {number} Y - Position of the image on the Y axis
  * @param {readonly RectTuple[]} AlphaMasks - A list of alpha masks to apply to the asset
  * @param {readonly TextureAlphaMask[]} TextureAlphaMasks - A list of mask layers to apply to the asset
+ * @param {DrawTransforms} [Transforms] - The layer's transformations
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TextureAlphaMasks) {
-	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks, TextureAlphaMask: TextureAlphaMasks });
+function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TextureAlphaMasks, Transforms) {
+	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks, TextureAlphaMask: TextureAlphaMasks, ...Transforms });
 }
 
 /**
