@@ -140,15 +140,15 @@ function InventoryItemNeckFuturisticCollarClickHook(data, originalFunction) {
 	 * @type {0 | 1 | 2 | 3}
 	 */
 	let CollarAction = 0;
-
+	const canUnlock = !InventoryItemHasEffect(item, "Lock", true) || DialogCanUnlock(C, item);
 	if ((MouseX >= 1885) && (MouseX <= 1975) && (MouseY >= 25) && (MouseY <= 110)) {
 		DialogLeaveFocusItem();
 	} else if (FuturisticCollarPage == 0) {
-		     if (MouseIn(1125, 395, 64, 64) && DialogCanUnlock(C, item)) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Collar");
-		else if (MouseIn(1125, 495, 64, 64) && DialogCanUnlock(C, item)) InventoryItemNeckFuturisticCollarToggleRemotes(C, item);
-		else if (MouseIn(1125, 595, 64, 64) && DialogCanUnlock(C, item)) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Chastity");
-		else if (MouseIn(1125, 695, 64, 64) && DialogCanUnlock(C, item)) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Arm");
-		else if (MouseIn(1125, 795, 64, 64) && DialogCanUnlock(C, item)) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Leg");
+		if (MouseIn(1125, 395, 64, 64) && canUnlock) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Collar");
+		else if (MouseIn(1125, 495, 64, 64) && canUnlock) InventoryItemNeckFuturisticCollarToggleRemotes(C, item);
+		else if (MouseIn(1125, 595, 64, 64) && canUnlock) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Chastity");
+		else if (MouseIn(1125, 695, 64, 64) && canUnlock) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Arm");
+		else if (MouseIn(1125, 795, 64, 64) && canUnlock) InventoryItemNeckFuturisticCollarTogglePermission(C, item, "Leg");
 	} else if (FuturisticCollarPage == 1 || FuturisticCollarPage == 2) {
 		var FuturisticCollarItems = InventoryItemNeckFuturisticCollarGetItems(C);
 		var FuturisticCollarItemsUnlockable = InventoryItemNeckFuturisticCollarGetItems(C, true);
@@ -183,7 +183,7 @@ function InventoryItemNeckFuturisticCollarClickHook(data, originalFunction) {
 			}
 		}
 		if (MouseIn(1400, 850, 200, 55) && FuturisticCollarItemsUnlockable.length > 0) { InventoryItemNeckFuturisticCollarUnlock(C); CollarAction = 2;}
-		if (MouseIn(1400, 910, 200, 55) && FuturisticCollarItems.length > 0 && DialogCanUnlock(C, item)) {
+		if (MouseIn(1400, 910, 200, 55) && FuturisticCollarItems.length > 0 && canUnlock) {
 			InventoryItemNeckFuturisticCollarColor(C, item); CollarAction = 3;
 		}
 	}

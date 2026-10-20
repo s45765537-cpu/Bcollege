@@ -843,7 +843,7 @@ function ValidationSanitizeLock(C, item) {
 
 	// Remove any invalid lock member number
 	const lockNumber = property.LockMemberNumber;
-	if (lockNumber !== undefined && !CommonIsInteger(lockNumber, 0)) {
+	if (lockNumber !== undefined && !CommonIsInteger(lockNumber, -1)) {
 		console.error("Removing invalid lock member number:", lockNumber);
 		delete property.LockMemberNumber;
 		changed = true;
