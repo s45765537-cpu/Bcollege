@@ -776,7 +776,7 @@ async function ChatSearchLoad() {
 			{
 				tag: "ul",
 				classList: ["chat-search-filter-help-screen-content"],
-				children: CommonRange(1, 6).map(n => ({
+				children: CommonRange(1, 7).map(n => ({
 					tag: "li",
 					children: [TextGet(`HelpText${n}`)],
 				})),
